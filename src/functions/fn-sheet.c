@@ -11,6 +11,8 @@
 #include "func.h"
 #include "selection.h"
 
+/***************************************************************************/
+
 static char *help_selection = {
 	N_("@FUNCTION=SELECTION\n"
 	   "@SYNTAX=SELECTION(permit_intersection)\n"
@@ -23,6 +25,8 @@ static char *help_selection = {
 	   "a distict set of regions is returned, however, there may be more of them than "
 	   "the user initially specified."
 
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -90,6 +94,8 @@ gnumeric_selection (FunctionEvalInfo *ei, Value *argv [])
 	}
 	return res;
 }
+
+/***************************************************************************/
 
 void sheet_functions_init()
 {

@@ -15,14 +15,19 @@
 #include "format.h"
 #include "number-match.h"
 
+
+/***************************************************************************/
+
 static char *help_char = {
 	N_("@FUNCTION=CHAR\n"
 	   "@SYNTAX=CHAR(x)\n"
 
 	   "@DESCRIPTION="
-	   "Returns the ASCII character represented by the number @x."
+	   "CHAR returns the ASCII character represented by the number @x."
 	   "\n"
-
+	   "@EXAMPLES=\n"
+	   "CHAR(65) equals A.\n"
+	   "\n"
 	   "@SEEALSO=CODE")
 };
 
@@ -37,14 +42,18 @@ gnumeric_char (FunctionEvalInfo *ei, Value **argv)
 	return value_new_string (result);
 }
 
+/***************************************************************************/
+
 static char *help_code = {
 	N_("@FUNCTION=CODE\n"
 	   "@SYNTAX=CODE(char)\n"
 
 	   "@DESCRIPTION="
-	   "Returns the ASCII number for the character @char."
+	   "CODE returns the ASCII number for the character @char."
 	   "\n"
-
+	   "@EXAMPLES=\n"
+	   "CODE(\"A\") equals 65.\n"
+	   "\n"
 	   "@SEEALSO=CHAR")
 };
 
@@ -60,15 +69,20 @@ gnumeric_code (FunctionEvalInfo *ei, Value **argv)
 	return value_new_int (c);
 }
 
+/***************************************************************************/
+
 static char *help_exact = {
 	N_("@FUNCTION=EXACT\n"
 	   "@SYNTAX=EXACT(string1, string2)\n"
 
 	   "@DESCRIPTION="
-	   "Returns true if @string1 is exactly equal to @string2 "
+	   "EXACT returns true if @string1 is exactly equal to @string2 "
 	   "(this routine is case sensitive)."
 	   "\n"
-
+	   "@EXAMPLES=\n"
+	   "EXACT(\"key\",\"key\") equals TRUE.\n"
+	   "EXACT(\"key\",\"Key\") equals FALSE.\n"
+	   "\n"
 	   "@SEEALSO=LEN")  /* FIXME: DELTA, LEN, SEARCH */
 };
 
@@ -82,14 +96,18 @@ gnumeric_exact (FunctionEvalInfo *ei, Value **argv)
 				       argv [1]->v.str->str) == 0);
 }
 
+/***************************************************************************/
+
 static char *help_len = {
 	N_("@FUNCTION=LEN\n"
 	   "@SYNTAX=LEN(string)\n"
 
 	   "@DESCRIPTION="
-	   "Returns the length in characters of the string @string."
+	   "LEN returns the length in characters of the string @string."
 	   "\n"
-
+	   "@EXAMPLES=\n"
+	   "len(\"Helsinki\") equals 8.\n"
+	   "\n"
 	   "@SEEALSO=CHAR, CODE")
 };
 
@@ -102,13 +120,18 @@ gnumeric_len (FunctionEvalInfo *ei, Value **argv)
 	return value_new_int (strlen (argv [0]->v.str->str));
 }
 
+/***************************************************************************/
+
 static char *help_left = {
 	N_("@FUNCTION=LEFT\n"
 	   "@SYNTAX=LEFT(text[,num_chars])\n"
 
 	   "@DESCRIPTION="
-	   "Returns the leftmost @num_chars characters or the left "
+	   "LEFT returns the leftmost @num_chars characters or the left "
 	   "character if @num_chars is not specified."
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "LEFT(\"Directory\",3) equals \"Dir\".\n"
 	   "\n"
 	   "@SEEALSO=MID, RIGHT")
 };
@@ -135,12 +158,17 @@ gnumeric_left (FunctionEvalInfo *ei, Value **argv)
 	return v;
 }
 
+/***************************************************************************/
+
 static char *help_lower = {
 	N_("@FUNCTION=LOWER\n"
 	   "@SYNTAX=LOWER(text)\n"
 
 	   "@DESCRIPTION="
-	   "Returns a lower-case version of the string in @text"
+	   "LOWER returns a lower-case version of the string in @text"
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "LOWER(\"J. F. Kennedy\") equals \"j. f. kennedy\".\n"
 	   "\n"
 	   "@SEEALSO=UPPER")
 };
@@ -164,15 +192,19 @@ gnumeric_lower (FunctionEvalInfo *ei, Value **argv)
 	return v;
 }
 
+/***************************************************************************/
+
 static char *help_mid = {
 	N_("@FUNCTION=MID\n"
 	   "@SYNTAX=MID(string, position, length)\n"
 
 	   "@DESCRIPTION="
-	   "Returns a substring from @string starting at @position for "
+	   "MID returns a substring from @string starting at @position for "
 	   "@length characters."
 	   "\n"
-
+	   "@EXAMPLES=\n"
+	   "MID(\"testing\",2,3) equals \"est\".\n"
+	   "\n"
 	   "@SEEALSO=LEFT, RIGHT")
 };
 
@@ -207,13 +239,19 @@ gnumeric_mid  (FunctionEvalInfo *ei, Value **argv)
 	return v;
 }
 
+/***************************************************************************/
+
 static char *help_right = {
 	N_("@FUNCTION=RIGHT\n"
 	   "@SYNTAX=RIGHT(text[,num_chars])\n"
 
 	   "@DESCRIPTION="
-	   "Returns the rightmost @num_chars characters or the right "
+	   "RIGHT returns the rightmost @num_chars characters or the right "
 	   "character if @num_chars is not specified."
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "RIGHT(\"end\") equals \"d\".\n"
+	   "RIGHT(\"end\",2) equals \"nd\".\n"
 	   "\n"
 	   "@SEEALSO=MID, LEFT")
 };
@@ -244,12 +282,17 @@ gnumeric_right (FunctionEvalInfo *ei, Value **argv)
 	return v;
 }
 
+/***************************************************************************/
+
 static char *help_upper = {
 	N_("@FUNCTION=UPPER\n"
 	   "@SYNTAX=UPPER(text)\n"
 
 	   "@DESCRIPTION="
-	   "Returns a upper-case version of the string in @text."
+	   "UPPER returns a upper-case version of the string in @text."
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "UPPER(\"canceled\") equals \"CANCELED\".\n"
 	   "\n"
 	   "@SEEALSO=LOWER")
 };
@@ -274,11 +317,16 @@ gnumeric_upper (FunctionEvalInfo *ei, Value **argv)
 	return v;
 }
 
+/***************************************************************************/
+
 static char *help_concatenate = {
 	N_("@FUNCTION=CONCATENATE\n"
 	   "@SYNTAX=CONCATENATE(string1[,string2...])\n"
 	   "@DESCRIPTION="
-	   "Returns up appended strings."
+	   "CONCATENATE returns up appended strings."
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "CONCATENATE(\"aa\",\"bb\") equals \"aabb\".\n"
 	   "\n"
 	   "@SEEALSO=LEFT, MID, RIGHT")
 };
@@ -290,7 +338,8 @@ gnumeric_concatenate (FunctionEvalInfo *ei, GList *l)
 	char *s, *p, *tmp;
 
 	if (l==NULL)
-		return value_new_error (&ei->pos, _("Invalid number of arguments"));
+		return value_new_error (&ei->pos,
+					_("Invalid number of arguments"));
 
 	s = g_new(gchar, 1);
 	*s = '\0';
@@ -298,7 +347,8 @@ gnumeric_concatenate (FunctionEvalInfo *ei, GList *l)
 		(v=eval_expr(ei, l->data)) != NULL) {
 /*
 		if (v->type != VALUE_STRING) {
-			return value_new_error (&ei->pos, _("Invalid argument"));
+			return value_new_error (&ei->pos,
+			_("Invalid argument"));
 			value_release (v);
 			return NULL;
 		}
@@ -319,11 +369,16 @@ gnumeric_concatenate (FunctionEvalInfo *ei, GList *l)
 	return v;
 }
 
+/***************************************************************************/
+
 static char *help_rept = {
 	N_("@FUNCTION=REPT\n"
 	   "@SYNTAX=REPT(string,num)\n"
 	   "@DESCRIPTION="
-	   "Returns @num repetitions of @string."
+	   "REPT returns @num repetitions of @string."
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "REPT(\".\",3) equals \"...\".\n"
 	   "\n"
 	   "@SEEALSO=CONCATENATE")
 };
@@ -354,14 +409,18 @@ gnumeric_rept (FunctionEvalInfo *ei, Value **argv)
 	return v;
 }
 
+/***************************************************************************/
+
 static char *help_clean = {
 	N_("@FUNCTION=CLEAN\n"
 	   "@SYNTAX=CLEAN(string)\n"
 
 	   "@DESCRIPTION="
-	   "Cleans the string from any non-printable characters."
+	   "CLEAN cleans the string from any non-printable characters."
 	   "\n"
-
+	   "@EXAMPLES=\n"
+	   "CLEAN(\"one\"&char(7)) equals \"one\".\n"
+	   "\n"
 	   "@SEEALSO=")
 };
 
@@ -390,13 +449,18 @@ gnumeric_clean  (FunctionEvalInfo *ei, Value **argv)
 	return res;
 }
 
+/***************************************************************************/
+
 static char *help_find = {
 	N_("@FUNCTION=FIND\n"
 	   "@SYNTAX=FIND(string1,string2[,start])\n"
 	   "@DESCRIPTION="
-	   "Returns position of @string1 in @string2 (case-sesitive), "
+	   "FIND returns position of @string1 in @string2 (case-sesitive), "
 	   "searching only from character @start onwards (assumed 1 if "
 	   "omitted)."
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "FIND(\"ac\",\"Jack\") equals 2.\n"
 	   "\n"
 	   "@SEEALSO=EXACT, LEN, MID, SEARCH")
 };
@@ -424,14 +488,19 @@ gnumeric_find (FunctionEvalInfo *ei, Value **argv)
 	return value_new_int (count + p - s);
 }
 
+/***************************************************************************/
+
 static char *help_fixed = {
 	N_("@FUNCTION=FIXED\n"
 	   "@SYNTAX=FIXED(num, [decimals, no_commas])\n"
 
 	   "@DESCRIPTION="
-	   "Returns @num as a formatted string with @decimals numbers "
+	   "FIXED returns @num as a formatted string with @decimals numbers "
 	   "after the decimal point, omitting commas if requested by "
 	   "@no_commas."
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "FIXED(1234.567,2) equals \"1,234.57\".\n"
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -526,21 +595,26 @@ gnumeric_fixed (FunctionEvalInfo *ei, Value **argv)
 	return v;
 }
 
-/*
- * proper could be a LOT nicer
- * (e.g. "US Of A" -> "US of A", "Cent'S Worth" -> "Cent's Worth")
- * but this is how Excel does it
- */
+/***************************************************************************/
+
 static char *help_proper = {
 	N_("@FUNCTION=PROPER\n"
 	   "@SYNTAX=PROPER(string)\n"
 
 	   "@DESCRIPTION="
-	   "Returns @string with initial of each word capitalised."
+	   "PROPER returns @string with initial of each word capitalised."
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "PROPER(\"j. f. kennedy\") equals \"J. F. Kennedy\".\n"
 	   "\n"
 	   "@SEEALSO=LOWER, UPPER")
 };
 
+/*
+ * proper could be a LOT nicer
+ * (e.g. "US Of A" -> "US of A", "Cent'S Worth" -> "Cent's Worth")
+ * but this is how Excel does it
+ */
 static Value *
 gnumeric_proper (FunctionEvalInfo *ei, Value **argv)
 {
@@ -570,11 +644,17 @@ gnumeric_proper (FunctionEvalInfo *ei, Value **argv)
 	return v;
 }
 
+/***************************************************************************/
+
 static char *help_replace = {
 	N_("@FUNCTION=REPLACE\n"
 	   "@SYNTAX=REPLACE(old,start,num,new)\n"
 	   "@DESCRIPTION="
-	   "Returns @old with @new replacing @num characters from @start."
+	   "REPLACE returns @old with @new replacing @num characters from "
+	   "@start."
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "REPLACE(\"testing\",2,3,\"*****\") equals \"t*****ing\".\n"
 	   "\n"
 	   "@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM")
 };
@@ -619,14 +699,18 @@ gnumeric_replace (FunctionEvalInfo *ei, Value **argv)
 	return v;
 }
 
-/*****************************************************************/
+/***************************************************************************/
 
 static char *help_t = {
 	N_("@FUNCTION=T\n"
 	   "@SYNTAX=T(value)\n"
 	   "@DESCRIPTION="
-	   "Returns @value if and only if it is text, otherwise a blank "
+	   "T returns @value if and only if it is text, otherwise a blank "
 	   "string.\n"
+	   "@EXAMPLES=\n"
+	   "T(\"text\") equals \"text\".\n"
+	   "T(64) returns an empty cell.\n"
+	   "\n"
 	   "@SEEALSO=CELL, N, VALUE")
 };
 
@@ -639,13 +723,17 @@ gnumeric_t (FunctionEvalInfo *ei, Value **argv)
 		return value_new_string ("");
 }
 
-/*****************************************************************/
+/***************************************************************************/
 
 static char *help_text = {
 	N_("@FUNCTION=TEXT\n"
 	   "@SYNTAX=TEXT(value,format_text)\n"
 	   "@DESCRIPTION="
-	   "Returns @value as a string with the specified format."
+	   "TEXT returns @value as a string with the specified format."
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "TEXT(3.223,\"$0.00\") equals \"$3.22\".\n"
+	   "TEXT(date(1999,4,15),\"mmmm, dd, yy\") equals \"April, 15, 99\".\n"
 	   "\n"
 	   "@SEEALSO=DOLLAR")
 };
@@ -692,13 +780,16 @@ gnumeric_text (FunctionEvalInfo *ei, Value **args)
 }
 
 
-/*****************************************************************/
+/***************************************************************************/
 
 static char *help_trim = {
 	N_("@FUNCTION=TRIM\n"
 	   "@SYNTAX=TRIM(text)\n"
 	   "@DESCRIPTION="
-	   "Returns @text with only single spaces between words."
+	   "TRIM returns @text with only single spaces between words."
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "TRIM(\"  a bbb  cc\") equals \"a bbb cc\".\n"
 	   "\n"
 	   "@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE")
 };
@@ -739,11 +830,16 @@ gnumeric_trim (FunctionEvalInfo *ei, Value **argv)
 	return v;
 }
 
+/***************************************************************************/
+
 static char *help_value = {
 	N_("@FUNCTION=VALUE\n"
 	   "@SYNTAX=VALUE(text)\n"
 	   "@DESCRIPTION="
-	   "Returns numeric value of @text."
+	   "VALUE returns numeric value of @text."
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "VALUE(\"$1,000\") equals 1000.\n"
 	   "\n"
 	   "@SEEALSO=DOLLAR, FIXED, TEXT")
 };
@@ -780,6 +876,22 @@ gnumeric_value (FunctionEvalInfo *ei, Value **argv)
 			return value_new_error (&ei->pos, gnumeric_err_VALUE);
 	}
 }
+
+/***************************************************************************/
+
+static char *help_substitute = {
+	N_("@FUNCTION=SUBSTITUTE\n"
+	   "@SYNTAX=SUBSTITUTE(text, old, new [,num])\n"
+	   "@DESCRIPTION="
+	   "Replaces @old with @new in @text.  Substitutions are only "
+	   "applied to instance @num of @old in @text, otherwise every "
+	   "one is changed."
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "SUBSTITUTE(\"testing\",\"test\",\"wait\") equals \"waiting\".\n"
+	   "\n"
+	   "@SEEALSO=REPLACE, TRIM")
+};
 
 struct subs_string {
 	gchar *str;
@@ -819,17 +931,6 @@ subs_string_free (struct subs_string *s)
 	g_free (s->str);
 	g_free (s);
 }
-
-static char *help_substitute = {
-	N_("@FUNCTION=SUBSTITUTE\n"
-	   "@SYNTAX=SUBSTITUTE(text, old, new [,num])\n"
-	   "@DESCRIPTION="
-	   "Replaces @old with @new in @text.  Substitutions are only "
-	   "applied to instance @num of @old in @text, otherwise every "
-	   "one is changed."
-	   "\n"
-	   "@SEEALSO=REPLACE, TRIM")
-};
 
 static Value *
 gnumeric_substitute (FunctionEvalInfo *ei, Value **argv)
@@ -891,11 +992,16 @@ gnumeric_substitute (FunctionEvalInfo *ei, Value **argv)
 	return v;
 }
 
+/***************************************************************************/
+
 static char *help_dollar = {
 	N_("@FUNCTION=DOLLAR\n"
 	   "@SYNTAX=DOLLAR(num,[decimals])\n"
 	   "@DESCRIPTION="
 	   "Returns @num formatted as currency."
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "DOLLAR(12345) equals \"$12,345.00\".\n"
 	   "\n"
 	   "@SEEALSO=FIXED, TEXT, VALUE")
 };
@@ -956,11 +1062,13 @@ gnumeric_dollar (FunctionEvalInfo *ei, Value **argv)
 	return v;
 }
 
+/***************************************************************************/
+
 static char *help_search = {
 	N_("@FUNCTION=SEARCH\n"
 	   "@SYNTAX=SEARCH(text,within[,start_num])\n"
 	   "@DESCRIPTION="
-	   "Returns the location of a character or text string within "
+	   "SEARCH returns the location of a character or text string within "
 	   "another string.  @text is the string or character to be searched. "
 	   "@within is the string in which you want to search.  @start_num "
 	   "is the start position of the search in @within.  If @start_num "
@@ -977,6 +1085,10 @@ static char *help_search = {
 	   "If @start_num is less than one or it is greater than the length "
 	   "of @within, SEARCH returns #VALUE! error. "
 	   "\n"
+	   "@EXAMPLES=\n"
+	   "SEARCH(\"c\",\"Cancel\") equals 1.\n"
+	   "SEARCH(\"c\",\"Cancel\",2) equals 4.\n"
+	   "\n"
 	   "@SEEALSO=FIND")
 };
 
@@ -985,7 +1097,6 @@ typedef struct {
         int      min_skip;
         gboolean wildcard_prefix;
 } string_search_t;
-
 
 static int
 wildcards_and_question_marks(gchar *find_str, int *qmarks, int *wildcard)
@@ -1176,6 +1287,8 @@ match_again:
 
 	return value_new_error (&ei->pos, gnumeric_err_VALUE);
 }
+
+/***************************************************************************/
 
 void
 string_functions_init ()

@@ -136,10 +136,11 @@ static char *help_bin2dec = {
 	   "@SYNTAX=BIN2DEC(x)\n"
 
 	   "@DESCRIPTION="
-	   "The BIN2DEC function converts a binary number "
+	   "BIN2DEC function converts a binary number "
 	   "in string or number to its decimal equivalent."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "BIN2DEC(101) equals 5.\n"
 	   "\n"
 	   "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX")
 };
@@ -157,13 +158,14 @@ static char *help_bin2oct = {
 	   "@SYNTAX=BIN2OCT(number[,places])\n"
 
 	   "@DESCRIPTION="
-	   "The BIN2OCT function converts a binary number to an octal number. "
+	   "BIN2OCT function converts a binary number to an octal number. "
 	   "@places is an optional field, specifying to zero pad to that "
 	   "number of spaces."
 	   "\n"
 	   "If @places is too small or negative #NUM! error is returned."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "BIN2OCT(110111) equals 67.\n"
 	   "\n"
 	   "@SEEALSO=OCT2BIN, BIN2DEC, BIN2HEX")
 };
@@ -181,13 +183,14 @@ static char *help_bin2hex = {
 	   "@SYNTAX=BIN2HEX(number[,places])\n"
 
 	   "@DESCRIPTION="
-	   "The BIN2HEX function converts a binary number to a "
+	   "BIN2HEX function converts a binary number to a "
 	   "hexadecimal number.  @places is an optional field, specifying "
 	   "to zero pad to that number of spaces."
 	   "\n"
 	   "If @places is too small or negative #NUM! error is returned."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "BIN2HEX(100111) equals 27.\n"
 	   "\n"
 	   "@SEEALSO=HEX2BIN, BIN2OCT, BIN2DEC")
 };
@@ -205,13 +208,14 @@ static char *help_dec2bin = {
 	   "@SYNTAX=DEC2BIN(number[,places])\n"
 
 	   "@DESCRIPTION="
-	   "The DEC2BIN function converts a decimal number to a binary number. "
+	   "DEC2BIN function converts a decimal number to a binary number. "
 	   "@places is an optional field, specifying to zero pad to that "
 	   "number of spaces."
 	   "\n"
 	   "If @places is too small or negative #NUM! error is returned."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "DEC2BIN(42) equals 101010.\n"
 	   "\n"
 	   "@SEEALSO=BIN2DEC, DEC2OCT, DEC2HEX")
 };
@@ -229,13 +233,14 @@ static char *help_dec2oct = {
 	   "@SYNTAX=DEC2OCT(number[,places])\n"
 
 	   "@DESCRIPTION="
-	   "The DEC2OCT function converts a decimal number to an octal number. "
+	   "DEC2OCT function converts a decimal number to an octal number. "
 	   "@places is an optional field, specifying to zero pad to that "
 	   "number of spaces."
 	   "\n"
 	   "If @places is too small or negative #NUM! error is returned."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "DEC2OCT(42) equals 52.\n"
 	   "\n"
 	   "@SEEALSO=OCT2DEC, DEC2BIN, DEC2HEX")
 };
@@ -253,13 +258,14 @@ static char *help_dec2hex = {
 	   "@SYNTAX=DEC2HEX(number[,places])\n"
 
 	   "@DESCRIPTION="
-	   "The DEC2HEX function converts a decimal number to a hexadecimal number. "
-	   "@places is an optional field, specifying to zero pad to that "
-	   "number of spaces."
+	   "DEC2HEX function converts a decimal number to a hexadecimal "
+	   "number. @places is an optional field, specifying to zero pad "
+	   "to that number of spaces."
 	   "\n"
 	   "If @places is too small or negative #NUM! error is returned."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "DEC2HEX(42) equals 2A.\n"
 	   "\n"
 	   "@SEEALSO=HEX2DEC, DEC2BIN, DEC2OCT")
 };
@@ -277,10 +283,11 @@ static char *help_oct2dec = {
 	   "@SYNTAX=OCT2DEC(x)\n"
 
 	   "@DESCRIPTION="
-	   "The OCT2DEC function converts an octal number "
+	   "OCT2DEC function converts an octal number "
 	   "in a string or number to its decimal equivalent."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "OCT2DEC(\"124\") equals 84.\n"
 	   "\n"
 	   "@SEEALSO=DEC2OCT, OCT2BIN, OCT2HEX")
 };
@@ -305,6 +312,7 @@ static char *help_oct2bin = {
 	   "If @places is too small or negative #NUM! error is returned."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "OCT2BIN(\"213\") equals 10001011.\n"
 	   "\n"
 	   "@SEEALSO=BIN2OCT, OCT2DEC, OCT2HEX")
 };
@@ -329,6 +337,7 @@ static char *help_oct2hex = {
 	   "If @places is too small or negative #NUM! error is returned."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "OCT2HEX(132) equals 5A.\n"
 	   "\n"
 	   "@SEEALSO=HEX2OCT, OCT2BIN, OCT2DEC")
 };
@@ -353,6 +362,7 @@ static char *help_hex2bin = {
 	   "If @places is too small or negative #NUM! error is returned."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "HEX2BIN(\"2A\") equals 101010.\n"
 	   "\n"
 	   "@SEEALSO=BIN2HEX, HEX2OCT, HEX2DEC")
 };
@@ -377,6 +387,7 @@ static char *help_hex2oct = {
 	   "If @places is too small or negative #NUM! error is returned."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "HEX2OCT(\"2A\") equals 52.\n"
 	   "\n"
 	   "@SEEALSO=OCT2HEX, HEX2BIN, HEX2DEC")
 };
@@ -398,6 +409,7 @@ static char *help_hex2dec = {
 	   "to its decimal equivalent."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "HEX2DEC(\"2A\") equals 42.\n"
 	   "\n"
 	   "@SEEALSO=DEC2HEX, HEX2BIN, HEX2OCT")
 };
@@ -415,7 +427,7 @@ static char *help_besseli = {
 	   "@SYNTAX=BESSELI(x,y)\n"
 
 	   "@DESCRIPTION="
-	   "The BESSELI function returns the Neumann, Weber or Bessel "
+	   "BESSELI function returns the Neumann, Weber or Bessel "
 	   "function. "
 	   "@x is where the function is evaluated. "
 	   "@y is the order of the bessel function, if non-integer it is "
@@ -426,6 +438,7 @@ static char *help_besseli = {
 	   "If @y < 0 a #NUM! error is returned." 
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "BESSELI(0.7,3) equals 0.007367374.\n"
 	   "\n"
 	   "@SEEALSO=BESSELJ,BESSELK,BESSELY")
 };
@@ -466,6 +479,7 @@ static char *help_besselk = {
 	   "if y < 0 a #NUM! error is returned." 
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "BESSELK(3,9) equals 397.95880.\n"
 	   "\n"
 	   "@SEEALSO=BESSELI,BESSELJ,BESSELY")
 };
@@ -504,6 +518,7 @@ static char *help_besselj = {
 	   "If @y < 0 a #NUM! error is returned." 
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "BESSELJ(0.89,3) equals 0.013974004.\n"
 	   "\n"
 	   "@SEEALSO=BESSELJ,BESSELK,BESSELY")
 };
@@ -535,11 +550,11 @@ static char *help_bessely = {
 	   "@y is the order of the bessel function, if non-integer it is "
 	   "truncated."
 	   "\n"
-
 	   "if x or n are not numeric a #VALUE! error is returned."
 	   "if n < 0 a #NUM! error is returned." 
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "BESSELY(4,2) equals 0.215903595.\n"
 	   "\n"
 	   "@SEEALSO=BESSELJ,BESSELK,BESSELY")
 };
@@ -613,6 +628,7 @@ static char *help_complex = {
 	   "error. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "COMPLEX(1,-1) equals 1-i.\n"
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -649,6 +665,7 @@ static char *help_imaginary = {
 	   "number."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "IMAGINARY(\"132-j\") equals -1.\n"
 	   "\n"
 	   "@SEEALSO=IMREAL")
 };
@@ -677,6 +694,7 @@ static char *help_imreal = {
 	   "IMREAL returns the real coefficient of a complex number."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "imreal(\"132-j\") equals 132.\n"
 	   "\n"
 	   "@SEEALSO=IMAGINARY")
 };
@@ -706,6 +724,7 @@ static char *help_imabs = {
 	   "IMABS returns the absolute value of a complex number."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "IMABS(\"2-j\") equals 2.23606798.\n"
 	   "\n"
 	   "@SEEALSO=IMAGINARY,IMREAL")
 };
@@ -735,6 +754,7 @@ static char *help_imconjugate = {
 	   "IMCONJUGATE returns the complex conjugate of a complex number."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "IMCONJUGATE(\"1-j\") equals 1+j.\n"
 	   "\n"
 	   "@SEEALSO=IMAGINARY,IMREAL")
 };
@@ -764,6 +784,7 @@ static char *help_imcos = {
 	   "IMCOS returns the cosine of a complex number."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "IMCOS(\"1+j\") equals 0.833730-0.988898j.\n"
 	   "\n"
 	   "@SEEALSO=IMSIN,IMTAN")
 };
@@ -816,6 +837,7 @@ static char *help_imexp = {
 	   "IMEXP returns the exponential of a complex number."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "IMEXP(\"2-j\") equals 3.992324-6.217676j.\n"
 	   "\n"
 	   "@SEEALSO=IMLN")
 };
@@ -842,6 +864,7 @@ static char *help_imargument = {
 	   "IMARGUMENT returns the argument theta of a complex number."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "IMARGUMENT(\"2-j\") equals -0.463647609.\n"
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -864,12 +887,14 @@ static char *help_imln = {
 	N_("@FUNCTION=IMLN\n"
 	   "@SYNTAX=IMLN(inumber)\n"
 	   "@DESCRIPTION="
-	   "IMLN returns the natural logarithm of a complex number. (The result "
-	   "will have an imaginary part between -pi an +pi.  The natural "
-	   "logarithm is not uniquely defined on complex numbers.  You may need "
-	   "to add or subtract an even multiple of pi to the imaginary part.)"
+	   "IMLN returns the natural logarithm of a complex number. (The "
+	   "result will have an imaginary part between -pi an +pi.  The "
+	   "natural logarithm is not uniquely defined on complex numbers. "
+	   "You may need to add or subtract an even multiple of pi to the "
+	   "imaginary part.)"
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "IMLN(\"3-j\") equals 1.15129-0.32175j.\n"
 	   "\n"
 	   "@SEEALSO=IMEXP,IMLOG2,IMLOG10")
 };
@@ -896,6 +921,7 @@ static char *help_imlog2 = {
 	   "IMLOG2 returns the logarithm of a complex number in base 2."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "IMLOG2(\"3-j\") equals 1.66096-0.46419j.\n"
 	   "\n"
 	   "@SEEALSO=IMLN,IMLOG10")
 };
@@ -924,6 +950,7 @@ static char *help_imlog10 = {
 	   "IMLOG10 returns the logarithm of a complex number in base 10."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "IMLOG10(\"3-j\") equals 0.5-0.13973j.\n"
 	   "\n"
 	   "@SEEALSO=IMLN,IMLOG2")
 };
@@ -954,6 +981,7 @@ static char *help_impower = {
 	   "power to which you want to raise the complex number."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "IMPOWER(\"4-j\",2) equals 15-8j.\n"
 	   "\n"
 	   "@SEEALSO=IMSQRT")
 };
@@ -986,6 +1014,7 @@ static char *help_imdiv = {
 	   "IMDIV returns the quotient of two complex numbers."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "IMDIV(\"2-j\",\"2+j\") equals 0.6-0.8j.\n"
 	   "\n"
 	   "@SEEALSO=IMPRODUCT")
 };
@@ -1018,6 +1047,7 @@ static char *help_imsin = {
 	   "IMSIN returns the sine of a complex number."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "IMSIN(\"1+j\") equals 1.29846+0.63496j.\n"
 	   "\n"
 	   "@SEEALSO=IMCOS,IMTAN")
 };
@@ -1044,6 +1074,7 @@ static char *help_imsqrt = {
 	   "IMSQRT returns the square root of a complex number."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "IMSQRT(\"1+j\") equals 1.09868+0.4550899j.\n"
 	   "\n"
 	   "@SEEALSO=IMPOWER")
 };
@@ -1070,6 +1101,7 @@ static char *help_imsub = {
 	   "IMSUB returns the difference of two complex numbers."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "IMSUB(\"3-j\",\"2+j\") equals 1-2j.\n"
 	   "\n"
 	   "@SEEALSO=IMSUM")
 };
@@ -1099,6 +1131,7 @@ static char *help_improduct = {
 	   "IMPRODUCT returns the product of given complex numbers."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "IMPRODUCT(\"2-j\",\"4-2j\") equals 6-8j.\n"
 	   "\n"
 	   "@SEEALSO=IMDIV")
 };
@@ -1167,6 +1200,7 @@ static char *help_imsum = {
 	   "IMSUM returns the sum of two complex numbers."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "IMSUM(\"2-4j\",\"9-j\") equals 11-5j.\n"
 	   "\n"
 	   "@SEEALSO=IMSUB")
 };
@@ -1283,6 +1317,9 @@ static char *help_convert = {
 	   "#NUM! error. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "CONVERT(3,\"lbm\",\"g\") equals 1360.7769.\n"
+	   "CONVERT(5.8,\"m\",\"in\") equals 228.3465.\n"
+	   "CONVERT(7.9,\"cal\",\"J\") equals 33.07567.\n"
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -1588,15 +1625,17 @@ static char *help_erf = {
 	   "@SYNTAX=ERF(lower limit[,upper_limit])\n"
 
 	   "@DESCRIPTION="
-	   "The ERF function returns the integral of the error function "
+	   "ERF function returns the integral of the error function "
 	   "between the limits.  If the @upper_limit ommitted ERF returns "
 	   "the integral between zero and the @lower_limit."
 	   "\n"
-	   "If either @lower_limit or @upper_limit are not numeric a #VALUE! error is "
-	   "returned.  "
-	   "If either @lower_limit or @upper_limit are < 0 a #NUM! error is returned."
+	   "If either @lower_limit or @upper_limit are not numeric a "
+	   "#VALUE! error is returned.  "
+	   "If either @lower_limit or @upper_limit are < 0 a #NUM! error "
+	   "is returned."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "ERF(0.4) equals 0.428392355.\n"
 	   "\n"
 	   "@SEEALSO=ERFC")
 };
@@ -1659,7 +1698,7 @@ static char *help_delta = {
 	   "@SYNTAX=DELTA(x[,y])\n"
 
 	   "@DESCRIPTION="
-	   "The DELTA function test for numerical equivilance of two "
+	   "DELTA function test for numerical equivilance of two "
 	   "arguments returning 1 in equality "
 	   "@y is optional, and defaults to 0."
 	   "\n"
@@ -1667,6 +1706,7 @@ static char *help_delta = {
 	   "If either argument is non-numeric returns a #VALUE! error."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "DELTA(42.99,43) equals 0.\n"
 	   "\n"
 	   "@SEEALSO=EXACT,GESTEP")
 };
@@ -1718,10 +1758,10 @@ static char *help_gestep = {
 	   "The GESTEP function test for if @x is >= @y, returning 1 if it "
 	   "is so, and 0 otherwise @y is optional, and defaults to 0."
 	   "\n"
-
 	   "If either argument is non-numeric returns a #VALUE! error."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "GESTEP(5,4) equals 1.\n"
 	   "\n"
 	   "@SEEALSO=DELTA")
 };

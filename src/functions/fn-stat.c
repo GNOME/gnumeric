@@ -434,6 +434,7 @@ static char *help_negbinomdist = {
 	   "If @p < 0 or @p > 1 NEGBINOMDIST returns #NUM! error."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "NEGBINOMDIST(2,5,0.55) equals 0.152872629.\n"
 	   "\n"
 	   "@SEEALSO=BINOMDIST,COMBIN,FACT,HYPGEOMDIST,PERMUT")
 };
@@ -458,19 +459,17 @@ gnumeric_negbinomdist (FunctionEvalInfo *ei, Value **argv)
 /***************************************************************************/
 
 static char *help_normsdist = {
-       N_("@FUNCTION=NORMSDIST\n"
-          "@SYNTAX=NORMSDIST(x)\n"
+        N_("@FUNCTION=NORMSDIST\n"
+           "@SYNTAX=NORMSDIST(x)\n"
 
-          "@DESCRIPTION="
-          "The NORMSDIST function returns the standard normal cumulative "
-	  "distribution. @x is the value for which you want the distribution."
-          "\n"
-          "Performing this function on a string or empty cell simply does "
-	  "nothing."
-          "\n"
+           "@DESCRIPTION="
+           "The NORMSDIST function returns the standard normal cumulative "
+	   "distribution. @x is the value for which you want the distribution."
+           "\n"
 	   "@EXAMPLES=\n"
+	   "NORMSDIST(2) equals 0.977249868.\n"
 	   "\n"
-          "@SEEALSO=NOMRDIST")
+           "@SEEALSO=NOMRDIST")
 };
 
 static Value *
@@ -486,19 +485,20 @@ gnumeric_normsdist (FunctionEvalInfo *ei, Value **argv)
 /***************************************************************************/
 
 static char *help_normsinv = {
-       N_("@FUNCTION=NORMSINV\n"
-          "@SYNTAX=NORMSINV(p)\n"
+        N_("@FUNCTION=NORMSINV\n"
+           "@SYNTAX=NORMSINV(p)\n"
 
-          "@DESCRIPTION="
-          "The NORMSINV function returns the inverse of the standard normal "
-	  "cumulative distribution. @p is the given probability corresponding "
-	  "to the normal distribution."
-          "\n"
-	  "If @p < 0 or @p > 1 NORMSINV returns #NUM! error. "
-	  "\n"
-	   "@EXAMPLES=\n"
+           "@DESCRIPTION="
+           "NORMSINV function returns the inverse of the standard normal "
+	   "cumulative distribution. @p is the given probability "
+	   "corresponding to the normal distribution."
+           "\n"
+	   "If @p < 0 or @p > 1 NORMSINV returns #NUM! error. "
 	   "\n"
-          "@SEEALSO=NORMDIST,NORMINV,NORMSDIST,STANDARDIZE,ZTEST")
+	   "@EXAMPLES=\n"
+	   "NORMSINV(0.2) equals -0.841621234.\n"
+	   "\n"
+           "@SEEALSO=NORMDIST,NORMINV,NORMSDIST,STANDARDIZE,ZTEST")
 };
 
 
@@ -517,24 +517,23 @@ gnumeric_normsinv (FunctionEvalInfo *ei, Value **argv)
 /***************************************************************************/
 
 static char *help_lognormdist = {
-       N_("@FUNCTION=LOGNORMDIST\n"
-          "@SYNTAX=LOGNORMDIST(x,mean,stdev)\n"
+        N_("@FUNCTION=LOGNORMDIST\n"
+           "@SYNTAX=LOGNORMDIST(x,mean,stdev)\n"
 
-          "@DESCRIPTION="
-          "The LOGNORMDIST function returns the lognormal distribution. "
-	  "@x is the value for which you want the distribution, @mean is "
-	  "the mean of the distribution, and @stdev is the standard deviation "
-	  "of the distribution. "
-          "\n"
-          "Performing this function on a string or empty cell simply does "
-	  "nothing. "
-          "If @stdev = 0 LOGNORMDIST returns #DIV/0! error. "
-	  "If @x <= 0, @mean < 0 or @stdev < 0 LOGNORMDIST returns #NUM! "
-	  "error. "
-          "\n"
+           "@DESCRIPTION="
+           "The LOGNORMDIST function returns the lognormal distribution. "
+	   "@x is the value for which you want the distribution, @mean is "
+	   "the mean of the distribution, and @stdev is the standard "
+	   "deviation of the distribution. "
+           "\n"
+           "If @stdev = 0 LOGNORMDIST returns #DIV/0! error. "
+	   "If @x <= 0, @mean < 0 or @stdev < 0 LOGNORMDIST returns #NUM! "
+	   "error. "
+           "\n"
 	   "@EXAMPLES=\n"
+	   "LOGNORMDIST(3,1,2) equals 0.519662338.\n"
 	   "\n"
-          "@SEEALSO=NORMDIST")
+           "@SEEALSO=NORMDIST")
 };
 
 static Value *
@@ -558,21 +557,22 @@ gnumeric_lognormdist (FunctionEvalInfo *ei, Value **argv)
 /***************************************************************************/
 
 static char *help_loginv = {
-       N_("@FUNCTION=LOGINV\n"
-          "@SYNTAX=LOGINV(p,mean,stdev)\n"
+        N_("@FUNCTION=LOGINV\n"
+           "@SYNTAX=LOGINV(p,mean,stdev)\n"
 
-          "@DESCRIPTION="
-          "The LOGINV function returns the inverse of the lognormal "
-	  "cumulative distribution. @p is the given probability corresponding "
-	  "to the normal distribution, @mean is the arithmetic mean of the "
-	  "distribution, and @stdev is the standard deviation of the "
-	  "distribution."
-          "\n"
-	  "If @p < 0 or @p > 1 or @stdev <= 0 LOGINV returns #NUM! error. "
-	  "\n"
+           "@DESCRIPTION="
+           "The LOGINV function returns the inverse of the lognormal "
+	   "cumulative distribution. @p is the given probability "
+	   "corresponding to the normal distribution, @mean is the "
+	   "arithmetic mean of the distribution, and @stdev is the "
+	   "standard deviation of the distribution."
+           "\n"
+	   "If @p < 0 or @p > 1 or @stdev <= 0 LOGINV returns #NUM! error. "
+ 	   "\n"
 	   "@EXAMPLES=\n"
+	   "LOGINV(0.5,2,3) equals 7.389056099.\n"
 	   "\n"
-          "@SEEALSO=EXP,LN,LOG,LOG10,LOGNORMDIST")
+           "@SEEALSO=EXP,LN,LOG,LOG10,LOGNORMDIST")
 };
 
 static Value *
@@ -593,18 +593,19 @@ gnumeric_loginv (FunctionEvalInfo *ei, Value **argv)
 /***************************************************************************/
 
 static char *help_fisherinv = {
-       N_("@FUNCTION=FISHERINV\n"
-          "@SYNTAX=FISHERINV(x)\n"
+        N_("@FUNCTION=FISHERINV\n"
+           "@SYNTAX=FISHERINV(x)\n"
 
-          "@DESCRIPTION="
-          "The FISHERINV function returns the inverse of the Fisher "
-	  "transformation at @x. "
-          "\n"
-          "If @x is non-number FISHERINV returns #VALUE! error."
-          "\n"
+           "@DESCRIPTION="
+           "FISHERINV function returns the inverse of the Fisher "
+	   "transformation at @x. "
+           "\n"
+           "If @x is non-number FISHERINV returns #VALUE! error."
+           "\n"
 	   "@EXAMPLES=\n"
+	   "FISHERINV(2) equals 0.96402758.\n"
 	   "\n"
-          "@SEEALSO=FISHER")
+           "@SEEALSO=FISHER")
 };
 
 static Value *
@@ -1004,6 +1005,7 @@ static char *help_expondist = {
 	   "does nothing."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "EXPONDIST(2,4,0) equals 0.001341851.\n"
 	   "\n"
 	   "@SEEALSO=POISSON")
 };
@@ -1038,13 +1040,14 @@ static char *help_gammaln = {
 	   "@SYNTAX=GAMMALN(x)\n"
 
 	   "@DESCRIPTION="
-	   "The GAMMALN function returns the natural logarithm of the "
+	   "GAMMALN function returns the natural logarithm of the "
 	   "gamma function."
 	   "\n"
 	   "If @x is non-number then GAMMALN returns #VALUE! error. "
 	   "If @x <= 0 then GAMMALN returns #NUM! error."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "GAMMALN(23) equals 48.471181352.\n"
 	   "\n"
 	   "@SEEALSO=POISSON")
 };
@@ -1081,6 +1084,7 @@ static char *help_gammadist = {
 	   "If @alpha <= 0 or @beta <= 0, GAMMADIST returns #NUM! error."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "GAMMADIST(1,2,3,0) equals 0.07961459.\n"
 	   "\n"
 	   "@SEEALSO=GAMMAINV")
 };
@@ -1108,19 +1112,20 @@ gnumeric_gammadist (FunctionEvalInfo *ei, Value **argv)
 /***************************************************************************/
 
 static char *help_gammainv = {
-       N_("@FUNCTION=GAMMAINV\n"
-          "@SYNTAX=GAMMAINV(p,alpha,beta)\n"
+        N_("@FUNCTION=GAMMAINV\n"
+           "@SYNTAX=GAMMAINV(p,alpha,beta)\n"
 
-          "@DESCRIPTION="
-          "The GAMMAINV function returns the inverse of the cumulative "
-	  "gamma distribution."
-          "\n"
-	  "If @p < 0 or @p > 1 GAMMAINV returns #NUM! error. "
-	  "If @alpha <= 0 or @beta <= 0 GAMMAINV returns #NUM! error. "
-	  "\n"
-	   "@EXAMPLES=\n"
+           "@DESCRIPTION="
+           "GAMMAINV function returns the inverse of the cumulative "
+	   "gamma distribution."
+           "\n"
+	   "If @p < 0 or @p > 1 GAMMAINV returns #NUM! error. "
+	   "If @alpha <= 0 or @beta <= 0 GAMMAINV returns #NUM! error. "
 	   "\n"
-          "@SEEALSO=GAMMADIST")
+	   "@EXAMPLES=\n"
+	   "GAMMAINV(0.34,2,4) equals 4.829093908.\n"
+	   "\n"
+           "@SEEALSO=GAMMADIST")
 };
 
 static Value *
@@ -1154,6 +1159,7 @@ static char *help_chidist = {
 	   "If @dof < 1 CHIDIST returns #NUM! error."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "CHIDIST(5.3,2) equals 0.070651213.\n"
 	   "\n"
 	   "@SEEALSO=CHIINV,CHITEST")
 };
@@ -1176,18 +1182,19 @@ gnumeric_chidist (FunctionEvalInfo *ei, Value **argv)
 /***************************************************************************/
 
 static char *help_chiinv = {
-       N_("@FUNCTION=CHIINV\n"
-          "@SYNTAX=CHIINV(p,dof)\n"
+        N_("@FUNCTION=CHIINV\n"
+           "@SYNTAX=CHIINV(p,dof)\n"
 
-          "@DESCRIPTION="
-          "The CHIINV function returns the inverse of the one-tailed "
-	  "probability of the chi-squared distribution."
-          "\n"
-	  "If @p < 0 or @p > 1 or @dof < 1 CHIINV returns #NUM! error. "
-	  "\n"
-	   "@EXAMPLES=\n"
+           "@DESCRIPTION="
+           "The CHIINV function returns the inverse of the one-tailed "
+	   "probability of the chi-squared distribution."
+           "\n"
+	   "If @p < 0 or @p > 1 or @dof < 1 CHIINV returns #NUM! error. "
 	   "\n"
-          "@SEEALSO=CHIDIST,CHITEST")
+	   "@EXAMPLES=\n"
+	   "CHIINV(0.98,7) equals 1.564293004.\n"
+	   "\n"
+           "@SEEALSO=CHIDIST,CHITEST")
 };
 
 static Value *
@@ -1365,6 +1372,7 @@ static char *help_betadist = {
 	   "If @a >= @b BETADIST returns #NUM! error."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "BETADIST(0.12,2,3) equals 0.07319808.\n"
 	   "\n"
 	   "@SEEALSO=BETAINV")
 };
@@ -1409,6 +1417,7 @@ static char *help_betainv = {
 	   "If @a >= @b BETAINV returns #NUM! error."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "BETAINV(0.45,1.6,1) equals 0.607096629.\n"
 	   "\n"
 	   "@SEEALSO=BETADIST")
 };
@@ -1451,6 +1460,7 @@ static char *help_tdist = {
 	   "If @tails is neither 1 or 2 TDIST returns #NUM! error."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "TDIST(2,5,1) equals 0.050969739.\n"
 	   "\n"
 	   "@SEEALSO=TINV,TTEST")
 };
@@ -1477,18 +1487,19 @@ gnumeric_tdist (FunctionEvalInfo *ei, Value **argv)
 /***************************************************************************/
 
 static char *help_tinv = {
-       N_("@FUNCTION=TINV\n"
-          "@SYNTAX=TINV(p,dof)\n"
+        N_("@FUNCTION=TINV\n"
+           "@SYNTAX=TINV(p,dof)\n"
 
-          "@DESCRIPTION="
-          "The TINV function returns the inverse of the two-tailed Student's "
-	  "t-distribution."
-          "\n"
-	  "If @p < 0 or @p > 1 or @dof < 1 TINV returns #NUM! error. "
-	  "\n"
-	   "@EXAMPLES=\n"
+           "@DESCRIPTION="
+           "The TINV function returns the inverse of the two-tailed Student's "
+	   "t-distribution."
+           "\n"
+	   "If @p < 0 or @p > 1 or @dof < 1 TINV returns #NUM! error. "
 	   "\n"
-          "@SEEALSO=TDIST,TTEST")
+	   "@EXAMPLES=\n"
+	   "TINV(0.4,32) equals 0.852998454.\n"
+	   "\n"
+           "@SEEALSO=TDIST,TTEST")
 };
 
 static Value *
@@ -1521,6 +1532,7 @@ static char *help_fdist = {
 	   "If @dof1 < 1 or @dof2 < 1, FDIST returns #NUM! error."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "FDIST(2,5,5) equals 0.232511319.\n"
 	   "\n"
 	   "@SEEALSO=FINV")
 };
@@ -1544,19 +1556,20 @@ gnumeric_fdist (FunctionEvalInfo *ei, Value **argv)
 /***************************************************************************/
 
 static char *help_finv = {
-       N_("@FUNCTION=FINV\n"
-          "@SYNTAX=TINV(p,dof)\n"
+        N_("@FUNCTION=FINV\n"
+           "@SYNTAX=TINV(p,dof)\n"
 
-          "@DESCRIPTION="
-          "The FINV function returns the inverse of the F probability "
-	  "distribution."
-          "\n"
-	  "If @p < 0 or @p > 1 FINV returns #NUM! error. "
-	  "If @dof1 < 1 or @dof2 < 1 FINV returns #NUM! error."
-	  "\n"
-	   "@EXAMPLES=\n"
+           "@DESCRIPTION="
+           "The FINV function returns the inverse of the F probability "
+	   "distribution."
+           "\n"
+	   "If @p < 0 or @p > 1 FINV returns #NUM! error. "
+	   "If @dof1 < 1 or @dof2 < 1 FINV returns #NUM! error."
 	   "\n"
-          "@SEEALSO=FDIST")
+	   "@EXAMPLES=\n"
+	   "FINV(0.2,2,4) equals 2.472135955.\n"
+	   "\n"
+           "@SEEALSO=FDIST")
 };
 
 static Value *
@@ -1596,6 +1609,7 @@ static char *help_binomdist = {
 	   "If @p < 0 or @p > 1 BINOMDIST returns #NUM! error."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "BINOMDIST(3,5,0.8,0) equals 0.2048.\n"
 	   "\n"
 	   "@SEEALSO=POISSON")
 };
@@ -1624,23 +1638,24 @@ gnumeric_binomdist (FunctionEvalInfo *ei, Value **argv)
 /***************************************************************************/
 
 static char *help_critbinom = {
-       N_("@FUNCTION=CRITBINOM\n"
-          "@SYNTAX=CRITBINOM(trials,p,alpha)\n"
+        N_("@FUNCTION=CRITBINOM\n"
+           "@SYNTAX=CRITBINOM(trials,p,alpha)\n"
 
-          "@DESCRIPTION="
-          "The CRITBINOM function returns the smallest value for which the"
-          "cumulative is creater than or equal to a given value. "
-          "@n is the number of trials, @p is the probability of success in "
-          "trials, and @alpha is the criterion value. "
-          "\n"
-          "If @trials is a non-integer it is truncated. "
-          "If @trials < 0 CRITBINOM returns #NUM! error. "
-          "If @p < 0 or @p > 1 CRITBINOM returns #NUM! error. "
-          "If @alpha < 0 or @alpha > 1 CRITBINOM returns #NUM! error. "
-          "\n"
+           "@DESCRIPTION="
+           "The CRITBINOM function returns the smallest value for which the"
+           "cumulative is creater than or equal to a given value. "
+           "@n is the number of trials, @p is the probability of success in "
+           "trials, and @alpha is the criterion value. "
+           "\n"
+           "If @trials is a non-integer it is truncated. "
+           "If @trials < 0 CRITBINOM returns #NUM! error. "
+           "If @p < 0 or @p > 1 CRITBINOM returns #NUM! error. "
+           "If @alpha < 0 or @alpha > 1 CRITBINOM returns #NUM! error. "
+           "\n"
 	   "@EXAMPLES=\n"
+	   "CRITBINOM(10,0.5,0.75) equals 6.\n"
 	   "\n"
-          "@SEEALSO=BINOMDIST")
+           "@SEEALSO=BINOMDIST")
 };
 
 static Value *
@@ -1674,6 +1689,7 @@ static char *help_permut = {
 	   "If @n < @k PERMUT returns #NUM! error."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "PERMUT(7,3) equals 210.\n"
 	   "\n"
 	   "@SEEALSO=COMBIN")
 };
@@ -1709,6 +1725,7 @@ static char *help_hypgeomdist = {
 	   "If @x > @M or @n > @N HYPGEOMDIST returns #NUM! error."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "HYPGEOMDIST(1,2,3,10) equals 0.4666667.\n"
 	   "\n"
 	   "@SEEALSO=BINOMDIST,POISSON")
 };
@@ -1746,6 +1763,7 @@ static char *help_confidence = {
 	   "If @size is 0 CONFIDENCE returns #DIV/0! error."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "CONFIDENCE(0.05,1,33) equals 0.341185936.\n"
 	   "\n"
 	   "@SEEALSO=AVERAGE")
 };
@@ -1778,11 +1796,13 @@ static char *help_standardize = {
 	   "@DESCRIPTION="
 	   "The STANDARDIZE function returns a normalized value. "
 	   "@x is the number to be normalized, @mean is the mean of the "
-	   "distribution, @stdev is the standard deviation of the distribution."
+	   "distribution, @stdev is the standard deviation of the "
+	   "distribution."
 	   "\n"
 	   "If stddev is 0 STANDARDIZE returns #DIV/0! error."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "STANDARDIZE(3,2,4) equals 0.25.\n"
 	   "\n"
 	   "@SEEALSO=AVERAGE")
 };
@@ -1820,6 +1840,7 @@ static char *help_weibull = {
            "If @alpha <= 0 or @beta <= 0 WEIBULL returns #NUM! error. "
            "\n"
 	   "@EXAMPLES=\n"
+	   "WEIBULL(3,2,4,0) equals 0.213668559.\n"
 	   "\n"
            "@SEEALSO=POISSON")
 };
@@ -1862,6 +1883,7 @@ static char *help_normdist = {
            "If @stdev is 0 NORMDIST returns #DIV/0! error. "
            "\n"
 	   "@EXAMPLES=\n"
+	   "NORMDIST(2,1,2,0) equals 0.176032663.\n"
 	   "\n"
            "@SEEALSO=POISSON")
 };
@@ -1894,21 +1916,22 @@ gnumeric_normdist (FunctionEvalInfo *ei, Value **argv)
 /***************************************************************************/
 
 static char *help_norminv = {
-       N_("@FUNCTION=NORMINV\n"
-          "@SYNTAX=NORMINV(p,mean,stdev)\n"
+        N_("@FUNCTION=NORMINV\n"
+           "@SYNTAX=NORMINV(p,mean,stdev)\n"
 
-          "@DESCRIPTION="
-          "The NORMINV function returns the inverse of the normal "
-	  "cumulative distribution. @p is the given probability corresponding "
-	  "to the normal distribution, @mean is the arithmetic mean of the "
-	  "distribution, and @stdev is the standard deviation of the "
-	  "distribution."
-          "\n"
-	  "If @p < 0 or @p > 1 or @stdev <= 0 NORMINV returns #NUM! error. "
-	  "\n"
-	   "@EXAMPLES=\n"
+           "@DESCRIPTION="
+           "The NORMINV function returns the inverse of the normal "
+	   "cumulative distribution. @p is the given probability "
+	   "corresponding to the normal distribution, @mean is the "
+	   "arithmetic mean of the distribution, and @stdev is the "
+	   "standard deviation of the distribution."
+           "\n"
+	   "If @p < 0 or @p > 1 or @stdev <= 0 NORMINV returns #NUM! error. "
 	   "\n"
-          "@SEEALSO=NORMDIST,NORMSDIST,NORMSINV,STANDARDIZE,ZTEST")
+	   "@EXAMPLES=\n"
+	   "NORMINV(0.76,2,3) equals 4.118907689.\n"
+	   "\n"
+           "@SEEALSO=NORMDIST,NORMSDIST,NORMSINV,STANDARDIZE,ZTEST")
 };
 
 static Value *
@@ -2062,6 +2085,7 @@ static char *help_fisher = {
            "If @x <= -1 or @x >= 1 FISHER returns #NUM! error"
            "\n"
 	   "@EXAMPLES=\n"
+	   "FISHER(0.332) equals 0.345074339.\n"
 	   "\n"
            "@SEEALSO=SKEW")
 };
@@ -2099,6 +2123,7 @@ static char *help_poisson = {
 	   "If @mean <= 0 POISSON returns the #NUM! error."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "POISSON(3,6,0) equals 0.089235078.\n"
 	   "\n"
 	   "@SEEALSO=NORMDIST, WEIBULL")
 };

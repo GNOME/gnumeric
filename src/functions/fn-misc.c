@@ -33,6 +33,7 @@ gnumeric_check_for_err (FunctionEvalInfo *eval_info, GList *expr_node_list,
 	return NULL;
 }
 
+/***************************************************************************/
 
 static char *help_iserror = {
 	N_("@FUNCTION=ISERROR\n"
@@ -41,7 +42,8 @@ static char *help_iserror = {
 	   "@DESCRIPTION="
 	   "Returns a TRUE value if the expression has an error\n"
 	   "\n"
-
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=ERROR")
 };
 
@@ -60,6 +62,7 @@ gnumeric_iserror (FunctionEvalInfo *eval_info, GList *expr_node_list)
 		return value_new_bool (FALSE);
 }
 
+/***************************************************************************/
 
 static char *help_isna = {
 	N_("@FUNCTION=ISNA\n"
@@ -67,6 +70,8 @@ static char *help_isna = {
 
 	   "@DESCRIPTION="
 	   "ISNA returns TRUE if the value is the #N/A error value. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -90,6 +95,7 @@ gnumeric_isna (FunctionEvalInfo *eval_info, GList *expr_node_list)
 	return value_new_bool (b);
 }
 
+/***************************************************************************/
 
 static char *help_iserr = {
 	N_("@FUNCTION=ISERR\n"
@@ -97,6 +103,8 @@ static char *help_iserr = {
 
 	   "@DESCRIPTION="
 	   "ISERR returns TRUE if the value is any error value except #N/A. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -116,6 +124,7 @@ gnumeric_iserr (FunctionEvalInfo *eval_info, GList *expr_node_list)
 	return value_new_bool (b);
 }
 
+/***************************************************************************/
 
 static char *help_error_type = {
 	N_("@FUNCTION=ERROR.TYPE\n"
@@ -124,7 +133,8 @@ static char *help_error_type = {
 	   "@DESCRIPTION="
 	   "FIXME"
 	   "\n"
-
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=ISERROR")
 };
 
@@ -164,6 +174,7 @@ gnumeric_error_type (FunctionEvalInfo *eval_info, GList *expr_node_list)
 	return value_new_int (retval);
 }
 
+/***************************************************************************/
 
 static char *help_na = {
 	N_("@FUNCTION=NA\n"
@@ -171,6 +182,8 @@ static char *help_na = {
 
 	   "@DESCRIPTION="
 	   "NA returns the error value #N/A. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -181,6 +194,8 @@ gnumeric_na (FunctionEvalInfo *eval_info, Value **argv)
 	return value_new_error (&eval_info->pos, gnumeric_err_NA);
 }
 
+/***************************************************************************/
+
 static char *help_error = {
 	N_("@FUNCTION=ERROR\n"
 	   "@SYNTAX=ERROR(text)\n"
@@ -188,7 +203,8 @@ static char *help_error = {
 	   "@DESCRIPTION="
 	   "Return the specified error\n"
 	   "\n"
-
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=ISERROR")
 };
 
@@ -200,6 +216,8 @@ gnumeric_error (FunctionEvalInfo *eval_info, Value *argv[])
 
 	return value_new_error (&eval_info->pos, argv [0]->v.str->str);
 }
+
+/***************************************************************************/
 
 void misc_functions_init()
 {

@@ -12,6 +12,8 @@
 #include "func.h"
 
 
+/***************************************************************************/
+
 static char *help_address = {
 	N_("@FUNCTION=ADDRESS\n"
 	   "@SYNTAX=ADDRESS(row_num,col_num[,abs_num,a1,text])\n"
@@ -126,6 +128,8 @@ gnumeric_address (FunctionEvalInfo *ei, Value **args)
 	return v;
 }
 
+/***************************************************************************/
+
 static char *help_choose = {
 	N_("@FUNCTION=CHOOSE\n"
 	   "@SYNTAX=CHOOSE(index[,value1][,value2]...)\n"
@@ -174,6 +178,8 @@ gnumeric_choose (FunctionEvalInfo *ei, GList *l)
 	}
 	return value_new_error (&ei->pos, gnumeric_err_VALUE);
 }
+
+/***************************************************************************/
 
 static char *help_vlookup = {
 	N_("@FUNCTION=VLOOKUP\n"
@@ -328,6 +334,8 @@ gnumeric_vlookup (FunctionEvalInfo *ei, Value **args)
 	return NULL;
 }
 
+/***************************************************************************/
+
 static char *help_hlookup = {
 	N_("@FUNCTION=HLOOKUP\n"
 	   "@SYNTAX=HLOOKUP(value,range,row,[approximate])\n"
@@ -410,6 +418,8 @@ gnumeric_hlookup (FunctionEvalInfo *ei, Value **args)
 
 	return NULL;
 }
+
+/***************************************************************************/
 
 static char *help_lookup = {
 	N_("@FUNCTION=LOOKUP\n"
@@ -506,6 +516,8 @@ gnumeric_lookup (FunctionEvalInfo *ei, Value **args)
 	}
 }
 
+/***************************************************************************/
+
 static char *help_indirect = {
 	N_("@FUNCTION=INDIRECT\n"
 	   "@SYNTAX=INDIRECT(ref_text, [format])\n"
@@ -563,6 +575,8 @@ gnumeric_indirect (FunctionEvalInfo *ei, Value **args)
 		return value_duplicate (cell->value);
 }
 
+/***************************************************************************/
+
 static char *help_column = {
 	N_("@FUNCTION=COLUMN\n"
 	   "@SYNTAX=COLUMN([reference])\n"
@@ -614,6 +628,8 @@ gnumeric_column (FunctionEvalInfo *ei, GList *nodes)
 	return value_new_error (&ei->pos, gnumeric_err_VALUE);
 }
 
+/***************************************************************************/
+
 static char *help_columns = {
 	N_("@FUNCTION=COLUMNS\n"
 	   "@SYNTAX=COLUMNS(reference)\n"
@@ -636,6 +652,8 @@ gnumeric_columns (FunctionEvalInfo *ei, Value **args)
 {
 	return value_new_int (value_area_get_width (&ei->pos, args [0]));
 }
+
+/***************************************************************************/
 
 static char *help_offset = {
 	N_("@FUNCTION=OFFSET\n"
@@ -698,6 +716,8 @@ gnumeric_offset (FunctionEvalInfo *ei, Value **args)
 	return value_new_cellrange (&a, &b);
 }
 
+/***************************************************************************/
+
 static char *help_row = {
 	N_("@FUNCTION=ROW\n"
 	   "@SYNTAX=ROW([reference])\n"
@@ -749,6 +769,8 @@ gnumeric_row (FunctionEvalInfo *ei, GList *nodes)
 	return value_new_error (&ei->pos, gnumeric_err_VALUE);
 }
 
+/***************************************************************************/
+
 static char *help_rows = {
 	N_("@FUNCTION=ROWS\n"
 	   "@SYNTAX=ROWS(reference)\n"
@@ -772,7 +794,7 @@ gnumeric_rows (FunctionEvalInfo *ei, Value **args)
 	return value_new_int (value_area_get_height (&ei->pos, args [0]));
 }
 
-/*****************************************************************************************/
+/***************************************************************************/
 
 static char *help_hyperlink = {
 	N_("@FUNCTION=HYPERLINK\n"
@@ -797,7 +819,7 @@ gnumeric_hyperlink (FunctionEvalInfo *ei, Value **args)
 	return value_duplicate (v);
 }
 
-/*****************************************************************************************/
+/***************************************************************************/
 
 void lookup_functions_init()
 {

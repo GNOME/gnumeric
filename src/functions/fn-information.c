@@ -62,6 +62,7 @@ get_value_class (FunctionEvalInfo *ei, ExprTree *expr)
 	return res;
 }
 
+/***************************************************************************/
 
 static char *help_cell = {
 	N_("@FUNCTION=CELL\n"
@@ -208,6 +209,7 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 	return value_new_error (&ei->pos, _("Unknown info_type"));
 }
 
+/***************************************************************************/
 
 static char *help_countblank = {
         N_("@FUNCTION=COUNTBLANK\n"
@@ -245,6 +247,8 @@ gnumeric_countblank (FunctionEvalInfo *ei, Value **args)
 
 	return value_new_int (count);
 }
+
+/***************************************************************************/
 
 static char *help_info = {
 	N_("@FUNCTION=INFO\n"
@@ -320,6 +324,7 @@ gnumeric_info (FunctionEvalInfo *ei, Value **argv)
 	return value_new_error (&ei->pos, _("Unknown info_type"));
 }
 
+/***************************************************************************/
 
 static char *help_isblank = {
 	N_("@FUNCTION=ISBLANK\n"
@@ -365,6 +370,7 @@ gnumeric_isblank (FunctionEvalInfo *ei, GList *expr_node_list)
 	return value_new_bool (result);
 }
 
+/***************************************************************************/
 
 static char *help_iseven = {
 	N_("@FUNCTION=ISEVEN\n"
@@ -384,6 +390,7 @@ gnumeric_iseven (FunctionEvalInfo *ei, Value **argv)
 	return value_new_bool (!(value_get_as_int (argv[0]) & 1));
 }
 
+/***************************************************************************/
 
 static char *help_islogical = {
 	N_("@FUNCTION=ISLOGICAL\n"
@@ -410,6 +417,7 @@ gnumeric_islogical (FunctionEvalInfo *ei, GList *expr_node_list)
 	return value_new_bool (cl == VALUE_CLASS_BOOL);
 }
 
+/***************************************************************************/
 
 static char *help_isnontext = {
 	N_("@FUNCTION=ISNONTEXT\n"
@@ -433,6 +441,7 @@ gnumeric_isnontext (FunctionEvalInfo *ei, GList *expr_node_list)
 			       != VALUE_CLASS_TEXT);
 }
 
+/***************************************************************************/
 
 static char *help_isnumber = {
 	N_("@FUNCTION=ISNUMBER\n"
@@ -456,6 +465,7 @@ gnumeric_isnumber (FunctionEvalInfo *ei, GList *expr_node_list)
 			       == VALUE_CLASS_NUMBER);
 }
 
+/***************************************************************************/
 
 static char *help_isodd = {
 	N_("@FUNCTION=ISODD\n"
@@ -475,6 +485,7 @@ gnumeric_isodd (FunctionEvalInfo *ei, Value **argv)
 	return value_new_bool (value_get_as_int (argv[0]) & 1);
 }
 
+/***************************************************************************/
 
 static char *help_isref = {
 	N_("@FUNCTION=ISREF\n"
@@ -503,6 +514,7 @@ gnumeric_isref (FunctionEvalInfo *ei, GList *expr_node_list)
 	return value_new_bool (t->oper == OPER_VAR);
 }
 
+/***************************************************************************/
 
 static char *help_istext = {
 	N_("@FUNCTION=ISTEXT\n"
@@ -526,6 +538,7 @@ gnumeric_istext (FunctionEvalInfo *ei, GList *expr_node_list)
 			       == VALUE_CLASS_TEXT);
 }
 
+/***************************************************************************/
 
 static char *help_n = {
 	N_("@FUNCTION=N\n"
@@ -563,6 +576,7 @@ gnumeric_n (FunctionEvalInfo *ei, Value **argv)
 		return value_new_float (0);
 }
 
+/***************************************************************************/
 
 static char *help_type = {
 	N_("@FUNCTION=TYPE\n"
@@ -585,6 +599,7 @@ gnumeric_type (FunctionEvalInfo *ei, GList *expr_node_list)
 	return value_new_int (get_value_class (ei, expr_node_list->data));
 }
 
+/***************************************************************************/
 
 void information_functions_init()
 {

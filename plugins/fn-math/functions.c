@@ -359,10 +359,12 @@ static char *help_asinh = {
 	   "@SYNTAX=ASINH(x)\n"
 
 	   "@DESCRIPTION="
-	   "The ASINH  function  calculates  the inverse hyperbolic "
-	   " sine of @x; that is the value whose hyperbolic sine is @x. "
+	   "ASINH function calculates the inverse hyperbolic sine of @x; "
+	   "that is the value whose hyperbolic sine is @x. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "ASINH(0.5) equals 0.481212."
+	   "ASINH(1.0) equals 0.881374."
 	   "\n"
 	   "@SEEALSO=ASIN, ACOSH, SIN, COS, DEGREES, RADIANS")
 };
@@ -402,12 +404,14 @@ static char *help_atanh = {
 	   "@SYNTAX=ATANH(x)\n"
 
 	   "@DESCRIPTION="
-	   "The  ATANH  function  calculates  the inverse hyperbolic "
-	   "tangent of @x; that is the value whose  hyperbolic  tangent "
-	   "is  @x.   If  the  absolute value of @x is greater than 1.0, "
-	   " ATANH returns an error of 'atanh: domain error'      "
+	   "ATANH function calculates the inverse hyperbolic tangent "
+	   "of @x; that is the value whose hyperbolic tangent is @x. "
+	   "If the absolute value of @x is greater than 1.0, ATANH "
+	   "returns NUM! error. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "ATANH(0.5) equals 0.549306."
+	   "ATANH(0.8) equals 1.098612."
 	   "\n"
 	   "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS")
 };
@@ -431,13 +435,15 @@ static char *help_atan2 = {
 	   "@SYNTAX=ATAN2(b1,b2)\n"
 
 	   "@DESCRIPTION="
-	   "The ATAN2 function calculates the arc tangent of the two "
-	   "variables @b1 and @b2.  It is similar to calculating  the  arc "
-	   "tangent  of @b2 / @b1, except that the signs of both arguments "
+	   "ATAN2 function calculates the arc tangent of the two "
+	   "variables @b1 and @b2.  It is similar to calculating the arc "
+	   "tangent of @b2 / @b1, except that the signs of both arguments "
 	   "are used to determine the quadrant of the result. "
 	   "The result is in radians."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "ATAN2(0.5,1.0) equals 1.107149."
+	   "ATAN2(-0.5,2.0) equals 1.815775."
 	   "\n"
 	   "@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS")
 };
@@ -459,6 +465,9 @@ static char *help_ceil = {
 	   "integer.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "CEIL(0.4) equals 1."
+	   "CEIL(-1.1) equals -1."
+	   "CEIL(-2.9) equals -2."
 	   "\n"
 	   "@SEEALSO=ABS, FLOOR, INT")
 };
@@ -480,6 +489,12 @@ static char *help_countif = {
 	   "that meet the given @criteria. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "23, 27, 28, 33, and 39.  Then\n"
+	   "COUNTIF(A1:A5,\"<=28\") equals 3.\n"
+	   "COUNTIF(A1:A5,\"<28\") equals 2.\n"
+	   "COUNTIF(A1:A5,\"28\") equals 1.\n"
+	   "COUNTIF(A1:A5,\">28\") equals 2.\n"
 	   "\n"
 	   "@SEEALSO=COUNT,SUMIF")
 };
@@ -553,6 +568,13 @@ static char *help_sumif = {
 	   "in @range meet the given @criteria. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "23, 27, 28, 33, and 39.  Then\n"
+	   "SUMIF(A1:A5,\"<=28\") equals 78.\n"
+	   "SUMIF(A1:A5,\"<28\") equals 50.\n"
+	   "In addition, if the cells B1, B2, ..., B5 hold numbers "
+	   "5, 3, 2, 6, and 7 then:\n"
+	   "SUMIF(A1:A5,\"<=27\",B1:B5) equals 8.\n"
 	   "\n"
 	   "@SEEALSO=COUNTIF, SUM")
 };
@@ -606,7 +628,6 @@ callback_function_sumif (Sheet *sheet, int col, int row,
 	return NULL;
 }
 
-
 static Value *
 gnumeric_sumif (FunctionEvalInfo *ei, Value **argv)
 {
@@ -642,7 +663,7 @@ gnumeric_sumif (FunctionEvalInfo *ei, Value **argv)
 	        items.actual_range = FALSE;
 
 	ret = sheet_cell_foreach_range (
-		eval_sheet (range->v.cell_range.cell_a.sheet, ei->pos.sheet),
+		eval_sheet (ei->pos.sheet, ei->pos.sheet),
 		TRUE,
 		range->v.cell_range.cell_a.col,
 		range->v.cell_range.cell_a.row,
@@ -673,7 +694,7 @@ gnumeric_sumif (FunctionEvalInfo *ei, Value **argv)
 	      items.current = items.list;
 	      items.sum = items.total_num = 0;
  	      ret = sheet_cell_foreach_range (
-		      eval_sheet (actual_range->v.cell_range.cell_a.sheet, ei->pos.sheet),
+		      eval_sheet (ei->pos.sheet, ei->pos.sheet),
 		      TRUE,
 		      actual_range->v.cell_range.cell_a.col,
 		      actual_range->v.cell_range.cell_a.row,
@@ -695,14 +716,18 @@ static char *help_ceiling = {
 	N_("@FUNCTION=CEILING\n"
 	   "@SYNTAX=CEILING(x,significance)\n"
 
-	   "@DESCRIPTION=The CEILING function rounds @x up to the nearest "
-	   "multiple of significance. "
+	   "@DESCRIPTION="
+	   "CEILING function rounds @x up to the nearest multiple of "
+	   "significance. "
 	   "\n"
-
-	   "If @x or @significance is non-numeric CEILING returns #VALUE! error. "
-	   "If @x and @significance have different signs CEILING returns #NUM! error. "
+	   "If @x or @significance is non-numeric CEILING returns "
+	   "#VALUE! error. "
+	   "If @x and @significance have different signs CEILING returns "
+	   "#NUM! error. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "CEILING(2.43,1) equals 3."
+	   "CEILING(123.123,3) equals 126."
 	   "\n"
 	   "@SEEALSO=CEIL")
 };
@@ -732,11 +757,12 @@ static char *help_cos = {
 	   "@SYNTAX=COS(x)\n"
 
 	   "@DESCRIPTION="
-	   "The  COS  function  returns  the cosine of @x, where @x is "
-           "given in radians.  "
-	   "\n"
+	   "COS function returns the cosine of @x, where @x is given "
+           "in radians. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "COS(0.5) equals 0.877583.\n"
+	   "COS(1) equals 0.540302.\n"
 	   "\n"
 	   "@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES")
 };
@@ -754,11 +780,13 @@ static char *help_cosh = {
 	   "@SYNTAX=COSH(x)\n"
 
 	   "@DESCRIPTION="
-	   "The COSH  function  returns the hyperbolic cosine of @x, "
-	   " which is defined mathematically as (exp(@x) + exp(-@x)) / 2.   "
-	   " @x is in radians. "
+	   "COSH function returns the hyperbolic cosine of @x, which "
+	   "is defined mathematically as (exp(@x) + exp(-@x)) / 2.   "
+	   "@x is in radians. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "COSH(0.5) equals 1.127626."
+	   "COSH(1) equals 1.543081."
 	   "\n"
 	   "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP")
 };
@@ -776,10 +804,10 @@ static char *help_degrees = {
 	   "@SYNTAX=DEGREES(x)\n"
 
 	   "@DESCRIPTION="
-	   "Computes the number of degrees equivalent to "
-	   "@x radians."
+	   "DEGREES computes the number of degrees equivalent to @x radians."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "DEGREES(2.5) equals 143.2394.\n"
 	   "\n"
 	   "@SEEALSO=RADIANS, PI")
 };
@@ -797,10 +825,11 @@ static char *help_exp = {
 	   "@SYNTAX=EXP(x)\n"
 
 	   "@DESCRIPTION="
-	   "Computes the value of e (the base of natural logarithmns) raised "
-	   "to the power of @x. "
+	   "EXP computes the value of e (the base of natural logarithmns) "
+	   "raised to the power of @x. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "EXP(2) equals 7.389056.\n"
 	   "\n"
 	   "@SEEALSO=LOG, LOG2, LOG10")
 };
@@ -811,14 +840,6 @@ gnumeric_exp (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (exp (value_get_as_float (argv [0])));
 }
 
-float_t
-fact (int n)
-{
-	if (n == 0)
-		return 1;
-	return (n * fact (n - 1));
-}
-
 /***************************************************************************/
 
 static char *help_fact = {
@@ -826,12 +847,22 @@ static char *help_fact = {
 	   "@SYNTAX=FACT(x)\n"
 
 	   "@DESCRIPTION="
-	   "Computes the factorial of @x. ie, @x!"
+	   "FACT computes the factorial of @x. ie, @x!"
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "FACT(3) equals 6.\n"
+	   "FACT(9) equals 362880.\n"
 	   "\n"
 	   "@SEEALSO=")
 };
+
+float_t
+fact (int n)
+{
+	if (n == 0)
+		return 1;
+	return (n * fact (n - 1));
+}
 
 static Value *
 gnumeric_fact (FunctionEvalInfo *ei, Value **argv)
@@ -864,12 +895,14 @@ static char *help_combin = {
 	   "@SYNTAX=COMBIN(n,k)\n"
 
 	   "@DESCRIPTION="
-	   "Computes the number of combinations."
+	   "COMBIN computes the number of combinations. "
 	   "\n"
 	   "Performing this function on a non-integer or a negative number "
-           "returns an error. Also if @n is less than @k returns an error."
+           "returns an error.  Also if @n is less than @k returns an error."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "COMBIN(8,6) equals 28.\n"
+	   "COMBIN(6,2) equals 15.\n"
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -910,10 +943,13 @@ static char *help_floor = {
 	N_("@FUNCTION=FLOOR\n"
 	   "@SYNTAX=FLOOR(x,significance)\n"
 
-	   "@DESCRIPTION=The FLOOR function rounds @x down to the next nearest "
-	   "multiple of @significance.  @significance defaults to 1."
+	   "@DESCRIPTION="
+	   "FLOOR function rounds @x down to the next nearest multiple "
+	   "of @significance.  @significance defaults to 1."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "FLOOR(0.5) equals 0.\n"
+	   "FLOOR(5,2) equals 4.\n"
 	   "\n"
 	   "@SEEALSO=CEIL, ABS, INT")
 };
@@ -940,15 +976,17 @@ gnumeric_floor (FunctionEvalInfo *ei, Value **argv)
 
 static char *help_int = {
 	N_("@FUNCTION=INT\n"
-	   "@SYNTAX=INT(b1, b2, ...)\n"
+	   "@SYNTAX=INT(a)\n"
 
 	   "@DESCRIPTION="
-	   "The INT function round @b1 now to the nearest int. "
-	   "Where 'nearest' implies being closer to zero. "
-	   "Equivalent to FLOOR(b1) for @b1 >= 0, and CEIL(b1) "
-	   "for @b1 < 0. "
+	   "INT function rounds @a now to the nearest integer "
+	   "where `nearest' implies being closer to zero. "
+	   "INT is equivalent to FLOOR(a) for @a >= 0, and CEIL(a) "
+	   "for @a < 0. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "INT(7.2) equals 7.\n"
+	   "INT(-5.5) equals -6.\n"
 	   "\n"
 	   "@SEEALSO=FLOOR, CEIL, ABS")
 };
@@ -956,11 +994,6 @@ static char *help_int = {
 static Value *
 gnumeric_int (FunctionEvalInfo *ei, Value **argv)
 {
-	float_t t;
-
-	/* FIXME: What about strings and empty cells?  */
-	t = value_get_as_float (argv [0]);
-
 	return value_new_float (floor (value_get_as_float (argv [0])));
 }
 
@@ -971,10 +1004,12 @@ static char *help_log = {
 	   "@SYNTAX=LOG(x[,base])\n"
 
 	   "@DESCRIPTION="
-	   "Computes the logarithm of @x in the given base @base.  If no @base is "
-	   "given LOG returns the logarithm in base 10. "
+	   "LOG computes the logarithm of @x in the given base @base.  "
+	   "If no @base is given LOG returns the logarithm in base 10. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "LOG(2) equals 0.30103.\n"
+	   "LOG(8192,2) equals 13.\n"
 	   "\n"
 	   "@SEEALSO=LN, LOG2, LOG10")
 };
@@ -1005,8 +1040,10 @@ static char *help_ln = {
 
 	   "@DESCRIPTION="
 	   "LN returns the natural logarithm of @x. "
+	   "If @x <= 0, LN returns #NUM! error. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "LN(7) equals 1.94591.\n"
 	   "\n"
 	   "@SEEALSO=EXP, LOG2, LOG10")
 };
@@ -1019,7 +1056,7 @@ gnumeric_ln (FunctionEvalInfo *ei, Value **argv)
 	t = value_get_as_float (argv [0]);
 
 	if (t <= 0.0)
-		return value_new_error (&ei->pos, gnumeric_err_VALUE);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	return value_new_float (log (t));
 }
@@ -1031,9 +1068,11 @@ static char *help_power = {
 	   "@SYNTAX=POWER(x,y)\n"
 
 	   "@DESCRIPTION="
-	   "Returns the value of @x raised to the power @y."
+	   "POWER returns the value of @x raised to the power @y."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "POWER(2,7) equals 128.\n"
+	   "POWER(3,3.141) equals 31.523749.\n"
 	   "\n"
 	   "@SEEALSO=EXP")
 };
@@ -1061,8 +1100,10 @@ static char *help_log2 = {
 
 	   "@DESCRIPTION="
 	   "Computes the base-2 logarithm  of @x. "
+	   "If @x <= 0, LOG2 returns #NUM! error. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "LOG2(1024) equals 10.\n"
 	   "\n"
 	   "@SEEALSO=EXP, LOG10, LOG")
 };
@@ -1074,7 +1115,7 @@ gnumeric_log2 (FunctionEvalInfo *ei, Value **argv)
 
 	t = value_get_as_float (argv [0]);
 	if (t <= 0.0)
-		return value_new_error (&ei->pos, _("log2: domain error"));
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	return value_new_float (log (t) / M_LN2);
 }
@@ -1086,9 +1127,11 @@ static char *help_log10 = {
 	   "@SYNTAX=LOG10(x)\n"
 
 	   "@DESCRIPTION="
-	   "Computes the base-10 logarithm  of @x. "
+	   "Computes the base-10 logarithm of @x. "
+	   "If @x <= 0, LOG10 returns #NUM! error. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "LOG10(7) equals 0.845098.\n"
 	   "\n"
 	   "@SEEALSO=EXP, LOG2, LOG")
 };
@@ -1100,7 +1143,7 @@ gnumeric_log10 (FunctionEvalInfo *ei, Value **argv)
 
 	t = value_get_as_float (argv [0]);
 	if (t <= 0.0)
-		return value_new_error (&ei->pos, _("log10: domain error"));
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	return value_new_float (log10 (t));
 }
@@ -1112,12 +1155,13 @@ static char *help_mod = {
 	   "@SYNTAX=MOD(number,divisor)\n"
 
 	   "@DESCRIPTION="
-	   "Implements modulo arithmetic. "
-	   "Returns the remainder when @divisor is divided into @number."
+	   "MOD function returns the remainder when @divisor is divided "
+	   "into @number. "
 	   "\n"
-	   "Returns #DIV/0! if divisor is zero.\n"
+	   "MOD returns #DIV/0! if divisor is zero.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "MOD(23,7) equals 2.\n"
 	   "\n"
 	   "@SEEALSO=INT,FLOOR,CEIL")
 };
@@ -1154,10 +1198,10 @@ static char *help_radians = {
 	   "@SYNTAX=RADIANS(x)\n"
 
 	   "@DESCRIPTION="
-	   "Computes the number of radians equivalent to  "
-	   "@x degrees. "
+	   "RADIANS computes the number of radians equivalent to @x degrees. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "RADIANS(180) equals 3.14159.\n"
 	   "\n"
 	   "@SEEALSO=PI,DEGREES")
 };
@@ -1175,11 +1219,13 @@ static char *help_rand = {
 	   "@SYNTAX=RAND()\n"
 
 	   "@DESCRIPTION="
-	   "Returns a random number greater than or equal to 0 and less than 1."
+	   "RAND returns a random number between zero and one ([0..1]). "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "RAND() returns a random number greater than zero but less "
+	   "than one.\n"
 	   "\n"
-	   "@SEEALSO=")
+	   "@SEEALSO=RANDBETWEEN")
 };
 
 static Value *
@@ -1195,10 +1241,11 @@ static char *help_sin = {
 	   "@SYNTAX=SIN(x)\n"
 
 	   "@DESCRIPTION="
-	   "The SIN function returns the sine of @x, where @x is given "
+	   "SIN function returns the sine of @x, where @x is given "
            "in radians."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "SIN(0.5) equals 0.479426.\n"
 	   "\n"
 	   "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES")
 };
@@ -1216,10 +1263,11 @@ static char *help_sinh = {
 	   "@SYNTAX=SINH(x)\n"
 
 	   "@DESCRIPTION="
-	   "The SINH function returns the hyperbolic sine of @x, "
+	   "SINH function returns the hyperbolic sine of @x, "
 	   "which is defined mathematically as (exp(@x) - exp(-@x)) / 2."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "SINH(0.5) equals 0.521095.\n"
 	   "\n"
 	   "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP")
 };
@@ -1237,11 +1285,12 @@ static char *help_sqrt = {
 	   "@SYNTAX=SQRT(x)\n"
 
 	   "@DESCRIPTION="
-	   "The SQRT function returns the square root of @x."
+	   "SQRT function returns the square root of @x."
 	   "\n"
-	   "If @x is negative returns #NUM!. "
+	   "If @x is negative, SQRT returns #NUM! error. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "SQRT(2) equals 1.4142136.\n"
 	   "\n"
 	   "@SEEALSO=POW")
 };
@@ -1263,10 +1312,13 @@ static char *help_sum = {
 	   "@SYNTAX=SUM(value1, value2, ...)\n"
 
 	   "@DESCRIPTION="
-	   "Computes the sum of all the values and cells referenced in the "
-	   "argument list. "
+	   "SUM computes the sum of all the values and cells referenced "
+	   "in the argument list. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "11, 15, 17, 21, and 43.  Then\n"
+	   "SUM(A1:A5) equals 107.\n"
 	   "\n"
 	   "@SEEALSO=AVERAGE, COUNT")
 };
@@ -1288,14 +1340,16 @@ static char *help_suma = {
 	   "@SYNTAX=SUMA(value1, value2, ...)\n"
 
 	   "@DESCRIPTION="
-	   "Computes the sum of all the values and cells referenced in the "
-	   "argument list.  Numbers, text and logical values are included "
-	   "in the calculation too.  If the cell contains text or the "
-	   "argument evaluates to FALSE, it is counted as value zero (0). "
+	   "SUMA computes the sum of all the values and cells referenced "
+	   "in the argument list.  Numbers, text and logical values are "
+	   "included in the calculation too.  If the cell contains text or "
+	   "the argument evaluates to FALSE, it is counted as value zero (0). "
 	   "If the argument evaluates to TRUE, it is counted as one (1). "
-	   "Note that empty cells are not counted."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "11, 15, 17, 21, and 43.  Then\n"
+	   "SUMA(A1:A5) equals 107.\n"
 	   "\n"
 	   "@SEEALSO=AVERAGE, SUM, COUNT")
 };
@@ -1321,6 +1375,9 @@ static char *help_sumsq = {
 	   "cells referenced in the argument list. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "11, 15, 17, 21, and 43.  Then\n"
+	   "SUMSQ(A1:A5) equals 2925.\n"
 	   "\n"
 	   "@SEEALSO=SUM, COUNT")
 };
@@ -1347,6 +1404,7 @@ static char *help_multinomial = {
 	   "values to the product of factorials. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "MULTINOMIAL(2,3,4) equals 1260.\n"
 	   "\n"
 	   "@SEEALSO=SUM")
 };
@@ -1405,6 +1463,7 @@ static char *help_product = {
 	   "referenced in the argument list. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "PRODUCT(2,5,9) equals 90.\n"
 	   "\n"
 	   "@SEEALSO=SUM, COUNT")
 };
@@ -1426,10 +1485,11 @@ static char *help_tan = {
 	   "@SYNTAX=TAN(x)\n"
 
 	   "@DESCRIPTION="
-	   "The TAN function  returns the tangent of @x, where @x is "
+	   "TAN function returns the tangent of @x, where @x is "
 	   "given in radians."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "TAN(3) equals -0.1425465.\n"
 	   "\n"
 	   "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS")
 };
@@ -1451,6 +1511,7 @@ static char *help_tanh = {
 	   " which is defined mathematically as sinh(@x) / cosh(@x). "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "TANH(2) equals 0.96402758.\n"
 	   "\n"
 	   "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS")
 };
@@ -1467,14 +1528,15 @@ static char *help_pi = {
 	N_("@FUNCTION=PI\n"
 	   "@SYNTAX=PI()\n"
 
-	   "@DESCRIPTION=The PI functions returns the value of Pi "
-	   "as defined by M_PI."
+	   "@DESCRIPTION="
+	   "PI functions returns the value of Pi. "
 	   "\n"
 	   "This function is called with no arguments."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "PI() equals 3.141593.\n"
 	   "\n"
-	   "@SEEALSO=")
+	   "@SEEALSO=SQRTPI")
 };
 
 static Value *
@@ -1489,13 +1551,16 @@ static char *help_trunc = {
 	N_("@FUNCTION=TRUNC\n"
 	   "@SYNTAX=TRUNC(number[,digits])\n"
 
-	   "@DESCRIPTION=The TRUNC function returns the value of @number "
-	   "truncated to the number of digits specified.  If @digits is omitted "
-	   "then @digits defaults to zero."
+	   "@DESCRIPTION="
+	   "TRUNC function returns the value of @number "
+	   "truncated to the number of digits specified. "
+	   "If @digits is omitted then @digits defaults to zero."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "TRUNC(3.12) equals 3.\n"
+	   "TRUNC(4.15,1) equals 4.1.\n"
 	   "\n"
-	   "@SEEALSO=")
+	   "@SEEALSO=INT")
 };
 
 static Value *
@@ -1523,10 +1588,12 @@ static char *help_even = {
 	N_("@FUNCTION=EVEN\n"
 	   "@SYNTAX=EVEN(number)\n"
 
-	   "@DESCRIPTION=EVEN function returns the number rounded up to the "
+	   "@DESCRIPTION="
+	   "EVEN function returns the number rounded up to the "
 	   "nearest even integer. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "EVEN(5.4) equals 6.\n"
 	   "\n"
 	   "@SEEALSO=ODD")
 };
@@ -1558,10 +1625,12 @@ static char *help_odd = {
 	N_("@FUNCTION=ODD\n"
 	   "@SYNTAX=ODD(number)\n"
 
-	   "@DESCRIPTION=ODD function returns the @number rounded up to the "
+	   "@DESCRIPTION="
+	   "ODD function returns the @number rounded up to the "
 	   "nearest odd integer. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "ODD(4.4) equals 5.\n"
 	   "\n"
 	   "@SEEALSO=EVEN")
 };
@@ -1593,13 +1662,15 @@ static char *help_factdouble = {
 	N_("@FUNCTION=FACTDOUBLE\n"
 	   "@SYNTAX=FACTDOUBLE(number)\n"
 
-	   "@DESCRIPTION=FACTDOUBLE function returns the double factorial "
+	   "@DESCRIPTION="
+	   "FACTDOUBLE function returns the double factorial "
 	   "of a @number. "
 	   "\n"
 	   "If @number is not an integer, it is truncated. "
 	   "If @number is negative FACTDOUBLE returns #NUM! error. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "FACTDOUBLE(5) equals 15.\n"
 	   "\n"
 	   "@SEEALSO=FACT")
 };
@@ -1628,10 +1699,12 @@ static char *help_quotient = {
 	N_("@FUNCTION=QUOTIENT\n"
 	   "@SYNTAX=QUOTIENT(num,den)\n"
 
-	   "@DESCRIPTION=QUOTIENT function returns the integer portion "
+	   "@DESCRIPTION="
+	   "QUOTIENT function returns the integer portion "
 	   "of a division. @num is the divided and @den is the divisor. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "QUOTIENT(23,5) equals 4.\n"
 	   "\n"
 	   "@SEEALSO=MOD")
 };
@@ -1653,10 +1726,14 @@ static char *help_sign = {
 	N_("@FUNCTION=SIGN\n"
 	   "@SYNTAX=SIGN(number)\n"
 
-	   "@DESCRIPTION=SIGN function returns 1 if the @number is positive, "
+	   "@DESCRIPTION="
+	   "SIGN function returns 1 if the @number is positive, "
 	   "zero if the @number is 0, and -1 if the @number is negative. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "SIGN(3) equals 1.\n"
+	   "SIGN(-3) equals -1.\n"
+	   "SIGN(0) equals 0.\n"
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -1682,10 +1759,12 @@ static char *help_sqrtpi = {
 	N_("@FUNCTION=SQRTPI\n"
 	   "@SYNTAX=SQRTPI(number)\n"
 
-	   "@DESCRIPTION=SQRTPI function returns the square root of a @number "
+	   "@DESCRIPTION="
+	   "SQRTPI function returns the square root of a @number "
 	   "multiplied by pi. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "SQRTPI(2) equals 2.506628275.\n"
 	   "\n"
 	   "@SEEALSO=PI")
 };
@@ -1708,12 +1787,14 @@ static char *help_randbetween = {
 	N_("@FUNCTION=RANDBETWEEN\n"
 	   "@SYNTAX=RANDBETWEEN(bottom,top)\n"
 
-	   "@DESCRIPTION=RANDBETWEEN function returns a random integer number "
+	   "@DESCRIPTION="
+	   "RANDBETWEEN function returns a random integer number "
 	   "between @bottom and @top.\n"
 	   "If @bottom or @top is non-integer, they are truncated. "
 	   "If @bottom > @top, RANDBETWEEN returns #NUM! error.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "RANDBETWEEN(3,7).\n"
 	   "\n"
 	   "@SEEALSO=RAND")
 };
@@ -1752,8 +1833,12 @@ static char *help_rounddown = {
 	   "of the decimal point. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "ROUNDDOWN(5.5) equals 5.\n"
+	   "ROUNDDOWN(-3.3) equals -4.\n"
+	   "ROUNDDOWN(1501.15,1) equals 1501.1.\n"
+	   "ROUNDDOWN(1501.15,-2) equals 1500.0.\n"
 	   "\n"
-	   "@SEEALSO=ROUNDUP")
+	   "@SEEALSO=ROUND,ROUNDUP")
 };
 
 static Value *
@@ -1794,6 +1879,10 @@ static char *help_round = {
 	   "of the decimal point. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "ROUND(5.5) equals 6.\n"
+	   "ROUND(-3.3) equals -3.\n"
+	   "ROUND(1501.15,1) equals 1501.2.\n"
+	   "ROUND(1501.15,-2) equals 1500.0.\n"
 	   "\n"
 	   "@SEEALSO=ROUNDDOWN,ROUNDUP")
 };
@@ -1833,8 +1922,12 @@ static char *help_roundup = {
 	   "of the decimal point. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "ROUNDUP(5.5) equals 6.\n"
+	   "ROUNDUP(-3.3) equals -3.\n"
+	   "ROUNDUP(1501.15,1) equals 1501.2.\n"
+	   "ROUNDUP(1501.15,-2) equals 1600.0.\n"
 	   "\n"
-	   "@SEEALSO=ROUNDDOWN")
+	   "@SEEALSO=ROUND,ROUNDDOWN")
 };
 
 static Value *
@@ -1866,12 +1959,13 @@ static char *help_mround = {
 	   "MROUND function rounds a given number to the desired multiple. "
 	   "@number is the number you want rounded and @multiple is the "
 	   "the multiple to which you want to round the number. "
-	   "For example, MROUND(1.7, 0.2) equals 1.8. "
 	   "\n"
 	   "If @number and @multiple have different sign, MROUND "
 	   "returns #NUM! error. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "MROUND(1.7,0.2) equals 1.8.\n"
+	   "MROUND(321.123,0.12) equals 321.12.\n"
 	   "\n"
 	   "@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP")
 };
@@ -1925,6 +2019,11 @@ static char *help_roman = {
 	   "#VALUE! error. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "ROMAN(999) equals CMXCIX.\n"
+	   "ROMAN(999,1) equals LMVLIV.\n"
+	   "ROMAN(999,2) equals XMIX.\n"
+	   "ROMAN(999,3) equals VMIV.\n"
+	   "ROMAN(999,4) equals IM.\n"
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -2186,8 +2285,12 @@ static char *help_sumx2my2 = {
 	   "SUMX2MY2 returns #N/A! error. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "11, 15, 17, 21, and 43 and the cells B1, B2, ..., B5 hold "
+	   "numbers 13, 22, 31, 33, and 39.  Then\n"
+	   "SUMX2MY2(A1:A5,B1:B5) equals -1299.\n"
 	   "\n"
-	   "@SEEALSO=SUMSQ")
+	   "@SEEALSO=SUMSQ,SUMX2PY2")
 };
 
 static Value *
@@ -2207,7 +2310,7 @@ gnumeric_sumx2my2 (FunctionEvalInfo *ei, Value **argv)
 
         if (values_x->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
-			eval_sheet (values_x->v.cell_range.cell_a.sheet, ei->pos.sheet),
+			eval_sheet (ei->pos.sheet, ei->pos.sheet),
 			TRUE,
 			values_x->v.cell_range.cell_a.col,
 			values_x->v.cell_range.cell_a.row,
@@ -2219,11 +2322,12 @@ gnumeric_sumx2my2 (FunctionEvalInfo *ei, Value **argv)
 		if (ret != NULL)
 		        return value_new_error (&ei->pos, gnumeric_err_VALUE);
 	} else
-		return value_new_error (&ei->pos, _("Array version not implemented!"));
+		return value_new_error (&ei->pos,
+					_("Array version not implemented!"));
 
         if (values_y->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
-			eval_sheet (values_y->v.cell_range.cell_a.sheet, ei->pos.sheet), TRUE,
+			eval_sheet (ei->pos.sheet, ei->pos.sheet), TRUE,
 			values_y->v.cell_range.cell_a.col,
 			values_y->v.cell_range.cell_a.row,
 			values_y->v.cell_range.cell_b.col,
@@ -2233,7 +2337,8 @@ gnumeric_sumx2my2 (FunctionEvalInfo *ei, Value **argv)
 		if (ret != NULL)
 		        return value_new_error (&ei->pos, gnumeric_err_VALUE);
 	} else
-		return value_new_error (&ei->pos, _("Array version not implemented!"));
+		return value_new_error (&ei->pos,
+					_("Array version not implemented!"));
 
 	if (items_x.num != items_y.num)
 		return value_new_error (&ei->pos, gnumeric_err_NA);
@@ -2278,8 +2383,12 @@ static char *help_sumx2py2 = {
 	   "SUMX2PY2 returns #N/A! error. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "11, 15, 17, 21, and 43 and the cells B1, B2, ..., B5 hold "
+	   "numbers 13, 22, 31, 33, and 39.  Then\n"
+	   "SUMX2PY2(A1:A5,B1:B5) equals 7149.\n"
 	   "\n"
-	   "@SEEALSO=SUMSQ")
+	   "@SEEALSO=SUMSQ,SUMX2MY2")
 };
 
 static Value *
@@ -2299,7 +2408,7 @@ gnumeric_sumx2py2 (FunctionEvalInfo *ei, Value **argv)
 
         if (values_x->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
-			eval_sheet (values_x->v.cell_range.cell_a.sheet, ei->pos.sheet),
+			eval_sheet (ei->pos.sheet, ei->pos.sheet),
 			TRUE,
 			values_x->v.cell_range.cell_a.col,
 			values_x->v.cell_range.cell_a.row,
@@ -2310,11 +2419,12 @@ gnumeric_sumx2py2 (FunctionEvalInfo *ei, Value **argv)
 		if (ret != NULL)
 		        return value_new_error (&ei->pos, gnumeric_err_VALUE);
 	} else
-		return value_new_error (&ei->pos, _("Array version not implemented!"));
+		return value_new_error (&ei->pos,
+					_("Array version not implemented!"));
 
         if (values_y->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
-			eval_sheet (values_y->v.cell_range.cell_a.sheet, ei->pos.sheet), TRUE,
+			eval_sheet (ei->pos.sheet, ei->pos.sheet), TRUE,
 			values_y->v.cell_range.cell_a.col,
 			values_y->v.cell_range.cell_a.row,
 			values_y->v.cell_range.cell_b.col,
@@ -2324,7 +2434,8 @@ gnumeric_sumx2py2 (FunctionEvalInfo *ei, Value **argv)
 		if (ret != NULL)
 		        return value_new_error (&ei->pos, gnumeric_err_VALUE);
 	} else
-		return value_new_error (&ei->pos, _("Array version not implemented!"));
+		return value_new_error (&ei->pos,
+					_("Array version not implemented!"));
 
 	if (items_x.num != items_y.num)
 		return value_new_error (&ei->pos, gnumeric_err_NA);
@@ -2367,8 +2478,12 @@ static char *help_sumxmy2 = {
 	   "SUMXMY2 returns #N/A! error. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "11, 15, 17, 21, and 43 and the cells B1, B2, ..., B5 hold "
+	   "numbers 13, 22, 31, 33, and 39.  Then\n"
+	   "SUMXMY2(A1:A5,B1:B5) equals 409.\n"
 	   "\n"
-	   "@SEEALSO=SUMSQ")
+	   "@SEEALSO=SUMSQ,SUMX2MY2,SUMX2PY2")
 };
 
 static Value *
@@ -2388,7 +2503,7 @@ gnumeric_sumxmy2 (FunctionEvalInfo *ei, Value **argv)
 
         if (values_x->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
-			eval_sheet (values_x->v.cell_range.cell_a.sheet, ei->pos.sheet), TRUE,
+			eval_sheet (ei->pos.sheet, ei->pos.sheet), TRUE,
 			values_x->v.cell_range.cell_a.col,
 			values_x->v.cell_range.cell_a.row,
 			values_x->v.cell_range.cell_b.col,
@@ -2398,11 +2513,12 @@ gnumeric_sumxmy2 (FunctionEvalInfo *ei, Value **argv)
 		if (ret != NULL)
 		        return value_new_error (&ei->pos, gnumeric_err_VALUE);
 	} else
-		return value_new_error (&ei->pos, _("Array version not implemented!"));
+		return value_new_error (&ei->pos,
+					_("Array version not implemented!"));
 
         if (values_y->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
-			eval_sheet (values_y->v.cell_range.cell_a.sheet, ei->pos.sheet), TRUE,
+			eval_sheet (ei->pos.sheet, ei->pos.sheet), TRUE,
 			values_y->v.cell_range.cell_a.col,
 			values_y->v.cell_range.cell_a.row,
 			values_y->v.cell_range.cell_b.col,
@@ -2412,7 +2528,8 @@ gnumeric_sumxmy2 (FunctionEvalInfo *ei, Value **argv)
 		if (ret != NULL)
 		        return value_new_error (&ei->pos, gnumeric_err_VALUE);
 	} else
-		return value_new_error (&ei->pos, _("Array version not implemented!"));
+		return value_new_error (&ei->pos,
+					_("Array version not implemented!"));
 
 	if (items_x.num != items_y.num)
 	        return value_new_error (&ei->pos, gnumeric_err_NA);
@@ -2462,6 +2579,13 @@ static char *help_subtotal = {
 	   "11   VARP\n"
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "23, 27, 28, 33, and 39.  Then\n"
+	   "SUBTOTAL(1,A1:A5) equals 30.\n"
+	   "SUBTOTAL(6,A1:A5) equals 22378356.\n"
+	   "SUBTOTAL(7,A1:A5) equals 6.164414003.\n"
+	   "SUBTOTAL(9,A1:A5) equals 150.\n"
+	   "SUBTOTAL(11,A1:A5) equals 30.4.\n"
 	   "\n"
 	   "@SEEALSO=COUNT,SUM")
 };
@@ -2537,6 +2661,9 @@ static char *help_seriessum = {
 	   "of @x is multiplied. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "1.23, 2.32, 2.98, 3.42, and 4.33.  Then\n"
+	   "SERIESSUM(3,1,2.23,A1:A5) equals 251416.43018.\n"
 	   "\n"
 	   "@SEEALSO=COUNT,SUM")
 };
@@ -2683,7 +2810,8 @@ gnumeric_transpose (FunctionEvalInfo *ei, Value **argv)
 		res->v.array.vals [r] = g_new (Value *, cols);
 		for (c = 0; c < cols; ++c)
 			res->v.array.vals[r][c] = 
-			    value_duplicate(value_area_get_x_y (ep, matrix, c, r));
+			    value_duplicate(value_area_get_x_y (ep, matrix,
+								c, r));
 	}
 
 	return res;
@@ -3075,6 +3203,10 @@ static char *help_sumproduct = {
 	   "SUMPRODUCT returns #VALUE! error. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "11, 15, 17, 21, and 43 and the cells B1, B2, ..., B5 hold "
+	   "numbers 13, 22, 31, 33, and 39.  Then\n"
+	   "SUMPRODUCT(A1:A5,B1:B5) equals 3370.\n"
 	   "\n"
 	   "@SEEALSO=SUM,PRODUCT")
 };
@@ -3146,7 +3278,7 @@ gnumeric_sumproduct (FunctionEvalInfo *ei, GList *expr_node_list)
 	}
 
 	sum = 0;
-	for (current = p.components; current != NULL ; current = current->next){
+	for (current=p.components; current != NULL ; current = current->next) {
 	        gpointer p = current->data;
 	        sum += *((float_t *) p);
 		g_free(current->data);

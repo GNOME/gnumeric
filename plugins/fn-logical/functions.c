@@ -11,11 +11,14 @@
 #include "func.h"
 
 
+/***************************************************************************/
+
 static char *help_and = {
 	N_("@FUNCTION=AND\n"
 	   "@SYNTAX=AND(b1, b2, ...)\n"
 
-	   "@DESCRIPTION=Implements the logical AND function: the result is TRUE "
+	   "@DESCRIPTION="
+	   "Implements the logical AND function: the result is TRUE "
 	   "if all of the expression evaluates to TRUE, otherwise it returns "
 	   "FALSE.\n"
 
@@ -26,6 +29,8 @@ static char *help_and = {
 	   "If the values contain strings or empty cells those values are "
 	   "ignored.  If no logical values are provided, then the error '#VALUE!' "
 	   "is returned. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=OR, NOT")
 };
@@ -62,14 +67,18 @@ gnumeric_and (FunctionEvalInfo *ei, GList *nodes)
 	return value_new_bool (result);
 }
 
+/***************************************************************************/
+
 static char *help_not = {
 	N_("@FUNCTION=NOT\n"
 	   "@SYNTAX=NOT(number)\n"
 
 	   "@DESCRIPTION="
 	   "Implements the logical NOT function: the result is TRUE if the "
-	   "@number is zero;  otherwise the result is FALSE.\n\n"
-
+	   "@number is zero;  otherwise the result is FALSE.\n"
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=AND, OR")
 };
 
@@ -81,6 +90,8 @@ gnumeric_not (FunctionEvalInfo *ei, Value **argv)
 		return value_new_error (&ei->pos, _("Type Mismatch"));
 	return value_new_bool (!val);
 }
+
+/***************************************************************************/
 
 static char *help_or = {
 	N_("@FUNCTION=OR\n"
@@ -95,6 +106,8 @@ static char *help_or = {
 	   "If the values contain strings or empty cells those values are "
 	   "ignored.  If no logical values are provided, then the error '#VALUE!'"
 	   "is returned."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=AND, NOT")
 };
@@ -131,6 +144,8 @@ gnumeric_or (FunctionEvalInfo *ei, GList *nodes)
 	return value_new_bool (result);
 }
 
+/***************************************************************************/
+
 static char *help_if = {
 	N_("@FUNCTION=IF\n"
 	   "@SYNTAX=IF(condition[,if-true,if-false])\n"
@@ -141,6 +156,8 @@ static char *help_if = {
 	   "the result of the IF expression is the @if-true expression, otherwise "
 	   "IF evaluates to the value of @if-false. "
 	   "If ommitted @if-true defaults to TRUE and @if-false to FALSE."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -187,13 +204,22 @@ gnumeric_if (FunctionEvalInfo *ei, GList *expr_node_list)
 	return eval_expr (ei, expr);
 }
 
+/***************************************************************************/
+
 void logical_functions_init()
 {
 	FunctionCategory *cat = function_get_category (_("Logical"));
 
-	function_add_nodes (cat,"and",     0,      "",          &help_and, gnumeric_and);
-	function_add_nodes (cat,"if",      0,      "logical_test,value_if_true,value_if_false", &help_if,
-			    gnumeric_if);
-	function_add_args  (cat,"not",     "f",    "number",    &help_not, gnumeric_not);
-	function_add_nodes (cat,"or",      0,      "",          &help_or,  gnumeric_or);
+	function_add_nodes (cat,"and",     0,
+			    "",
+			    &help_and, gnumeric_and);
+	function_add_nodes (cat,"if",      0,
+			    "logical_test,value_if_true,value_if_false",
+			    &help_if,  gnumeric_if);
+	function_add_args  (cat,"not",     "f",
+			    "number",
+			    &help_not, gnumeric_not);
+	function_add_nodes (cat,"or",      0,
+			    "",
+			    &help_or,  gnumeric_or);
 }

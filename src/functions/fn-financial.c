@@ -1143,6 +1143,8 @@ gnumeric_tbillyield (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (res);
 }
 
+/***************************************************************************/
+
 static char *help_rate = {
 	N_("@FUNCTION=RATE\n"
 	   "@SYNTAX=RATE(nper,pmt,pv[,fv,type,guess])\n"
@@ -1244,6 +1246,8 @@ gnumeric_rate (FunctionEvalInfo *ei, Value **argv)
 		return value_new_error (&ei->pos, gnumeric_err_NUM);
 }
 
+/***************************************************************************/
+
 static char *help_pv = {
 	N_("@FUNCTION=PV\n"
 	   "@SYNTAX=PV(rate,nper,pmt,fv,type)\n"
@@ -1277,6 +1281,8 @@ gnumeric_pv (FunctionEvalInfo *ei, Value **argv)
         return value_new_float ( ( (-1.0) * fv - pmt *
 				   ( 1.0 + rate * type ) * fvifa ) / pvif );
 }
+
+/***************************************************************************/
 
 static char *help_npv = {
 	N_("@FUNCTION=NPV\n"
@@ -1328,6 +1334,8 @@ gnumeric_npv (FunctionEvalInfo *ei, GList *nodes)
 
 	return (v != NULL) ? v : value_new_float (p.sum);
 }
+
+/***************************************************************************/
 
 static char *help_xnpv = {
 	N_("@FUNCTION=XNPV\n"
@@ -1384,6 +1392,8 @@ gnumeric_xnpv (FunctionEvalInfo *ei, Value **argv)
 	return result;
 }
 
+/***************************************************************************/
+
 static char *help_fv = {
 	N_("@FUNCTION=FV\n"
 	   "@SYNTAX=FV(rate,nper,pmt,pv,type)\n"
@@ -1413,6 +1423,8 @@ gnumeric_fv (FunctionEvalInfo *ei, Value **argv)
         return value_new_float (-1.0 * ((pv * pvif) + pmt *
 					(1.0 + rate * type) * fvifa));
 }
+
+/***************************************************************************/
 
 static char *help_pmt = {
 	N_("@FUNCTION=PMT\n"
@@ -1444,6 +1456,8 @@ gnumeric_pmt (FunctionEvalInfo *ei, Value **argv)
 
         return value_new_float (calculate_pmt (rate, nper, pv, fv, type));
 }
+
+/***************************************************************************/
 
 static char *help_ipmt = {
 	N_("@FUNCTION=IPMT\n"
@@ -1496,6 +1510,8 @@ gnumeric_ipmt (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (-calculate_principal (pv, pmt, rate, per-1) *
 				rate);
 }
+
+/***************************************************************************/
 
 static char *help_ppmt = {
 	N_("@FUNCTION=PPMT\n"
@@ -1550,6 +1566,8 @@ gnumeric_ppmt (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (pmt - ipmt);
 }
 
+/***************************************************************************/
+
 static char *help_nper = {
 	N_("@FUNCTION=NPER\n"
 	   "@SYNTAX=NPER(rate,pmt,pv,fv,type)\n"
@@ -1582,6 +1600,8 @@ gnumeric_nper (FunctionEvalInfo *ei, Value **argv)
 
         return value_new_float (log (tmp) / log (1.0 + rate));
 }
+
+/***************************************************************************/
 
 static char *help_duration = {
 	N_("@FUNCTION=DURATION\n"
@@ -1617,6 +1637,8 @@ gnumeric_duration (FunctionEvalInfo *ei, Value **argv)
         return value_new_float (log (fv / pv) / log (1.0 + rate));
 
 }
+
+/***************************************************************************/
 
 static char *help_fvschedule = {
 	N_("@FUNCTION=FVSCHEDULE\n"
@@ -1654,6 +1676,7 @@ out:
 
 }
 
+/***************************************************************************/
 
 void finance_functions_init()
 {
