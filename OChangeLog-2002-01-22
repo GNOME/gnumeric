@@ -1,3 +1,13 @@
+2001-05-15  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_stop_range_selection) : delete.
+
+	* src/commands.c (cmd_paste_copy) : call splits_region to check for
+	  partial arrays and merged regions.
+
+	* src/sheet.c (cb_set_cell_content) : Use the bounding box.
+	(sheet_range_set_text) : set the bounding box.
+
 2001-05-15  Jon K Hellan  <hellan@acm.org>
  
  	* src/workbook-control.h: Define menu state enums for print setup,

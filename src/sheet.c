@@ -1247,17 +1247,36 @@ typedef struct {
 	StyleFormat *format;
 	Value      *val;
 	ExprTree   *expr;
+	Range	    expr_bound;
 } closure_set_cell_value;
 
 static Value *
 cb_set_cell_content (Sheet *sheet, int col, int row, Cell *cell,
 		     closure_set_cell_value *info)
 {
+	ExprTree *expr = info->expr;
 	if (cell == NULL)
 		cell = sheet_cell_new (sheet, col, row);
-	if (info->expr != NULL)
-		cell_set_expr (cell, info->expr, info->format);
-	else
+	if (expr != NULL) {
+		if (!range_contains (&info->expr_bound, col, row)) {
+			ExprRewriteInfo rwinfo;
+
+			rwinfo.type = EXPR_REWRITE_RELOCATE;
+			rwinfo.u.relocate.pos.eval.col =
+			rwinfo.u.relocate.origin.start.col =
+			rwinfo.u.relocate.origin.end.col = col;
+			rwinfo.u.relocate.pos.eval.row =
+			rwinfo.u.relocate.origin.start.row =
+			rwinfo.u.relocate.origin.end.row = row;
+			rwinfo.u.relocate.pos.sheet =
+			rwinfo.u.relocate.origin_sheet =
+			rwinfo.u.relocate.target_sheet = sheet;
+			rwinfo.u.relocate.col_offset =
+			rwinfo.u.relocate.row_offset = 0;
+			expr = expr_rewrite (expr, &rwinfo);
+		}
+		cell_set_expr (cell, expr, info->format);
+	} else
 		cell_set_value (cell, value_duplicate (info->val),
 				info->format);
 	return NULL;
@@ -1296,6 +1315,10 @@ sheet_range_set_text (EvalPos const *pos, Range const *r, char const *str)
 	closure.format = parse_text_value_or_expr (pos, str,
 		&closure.val, &closure.expr,
 		NULL /* TODO : Use edit_pos format ?? */);
+
+	if (NULL != closure.expr)
+		expr_tree_boundingbox (closure.expr,
+			range_init_full_sheet (&closure.expr_bound));
 
 	/* Store the parsed result creating any cells necessary */
 	sheet_foreach_cell_in_range (pos->sheet, FALSE,
@@ -3940,15 +3963,6 @@ sheet_row_set_default_size_pixels (Sheet *sheet, int height_pixels)
 }
 
 /****************************************************************************/
-
-void
-sheet_stop_range_selection (Sheet *sheet, gboolean clear_string)
-{
-	g_return_if_fail (IS_SHEET (sheet));
-
-	SHEET_FOREACH_CONTROL (sheet, control,
-		scg_rangesel_stop (control, clear_string););
-}
 
 void
 sheet_scrollbar_config (Sheet const *sheet)

@@ -2562,6 +2562,13 @@ cmd_paste_copy (WorkbookControl *wbc,
 		return TRUE;
 	}
 
+	/* Check array subdivision & merged regions */
+	if (sheet_range_splits_region (pt->sheet, &me->dst.range,
+				       NULL, wbc, me->parent.cmd_descriptor)) {
+		gtk_object_destroy (GTK_OBJECT (me));
+		return TRUE;
+	}
+
 	/* Register the command object */
 	return command_push_undo (wbc, obj);
 }
