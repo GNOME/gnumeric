@@ -1,3 +1,7 @@
+2003-10-21  Jody Goldberg <jody@gnome.org>
+
+	* function-select.glade (</) : editable ??
+
 2003-10-13  Morten Welinder  <terra@gnome.org>
 
 	* dialog-stf-preview.c (stf_preview_set_lines): Take extra
