@@ -1038,10 +1038,11 @@ walk_boundaries (Sheet const *sheet, Range const * const bound,
 	ColRowInfo const *cri;
 	int const step = forward ? 1 : -1;
 	CellPos pos = sheet->edit_pos_real;
-	Range const *merge = sheet_merge_is_corner (sheet, &sheet->edit_pos);
+	Range const *merge;
 
 	*res = pos;
 loop :
+	merge = sheet_merge_contains_pos (sheet, &pos);
 	if (horizontal) {
 		if (merge != NULL)
 			pos.col = (forward) ? merge->end.col : merge->start.col;

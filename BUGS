@@ -11,7 +11,6 @@ Release Critical
     - problems drawing animatedd cursor intersecting col/row 0
     - strange rubber banding when creating a new sheet object.
     - non of the sheet object control points are receiving events.
-    - Vulsan's #58641
     - Add an idle handler at start up to check for availablity of
       evo and guppi.  They should only be enabled if they are available.
     - non-bonobo frozen menu accelerator

@@ -42,7 +42,7 @@ to features that already work.
 
 * Data Analysis Tools
 
-   + Finish `Anova: Two-Factor With Replication' and `Histogram' tools
+   + Finish `Histogram' tools
    + Implement `Patterned distribution' for `Random Number Generation'
    + Implement new tools:
      - `Exponential Smoothing'
