@@ -209,7 +209,7 @@
 
 	  <widget>
 	    <class>GtkEntry</class>
-	    <name>entry1</name>
+	    <name>ftest_entry1</name>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
 	    <text_visible>True</text_visible>
@@ -233,7 +233,7 @@
 
 	  <widget>
 	    <class>GtkEntry</class>
-	    <name>entry2</name>
+	    <name>ftest_entry2</name>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
 	    <text_visible>True</text_visible>
@@ -257,7 +257,7 @@
 
 	  <widget>
 	    <class>GtkEntry</class>
-	    <name>entry3</name>
+	    <name>ftest_entry3</name>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
 	    <text_visible>True</text_visible>
@@ -281,7 +281,7 @@
 
 	  <widget>
 	    <class>GtkCheckButton</class>
-	    <name>checkbutton1</name>
+	    <name>ftest_checkbutton</name>
 	    <can_focus>True</can_focus>
 	    <label>Labels in First Row</label>
 	    <active>False</active>
@@ -405,12 +405,12 @@
 
 	  <widget>
 	    <class>GtkRadioButton</class>
-	    <name>radiobutton3</name>
+	    <name>ftest_radiobutton5</name>
 	    <can_focus>True</can_focus>
 	    <label>Output Range: </label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
-	    <group>output</group>
+	    <group>ftest_output</group>
 	    <child>
 	      <left_attach>0</left_attach>
 	      <right_attach>1</right_attach>
@@ -429,12 +429,12 @@
 
 	  <widget>
 	    <class>GtkRadioButton</class>
-	    <name>radiobutton2</name>
+	    <name>ftest_radiobutton4</name>
 	    <can_focus>True</can_focus>
 	    <label>New Workbook</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
-	    <group>output</group>
+	    <group>ftest_output</group>
 	    <child>
 	      <left_attach>0</left_attach>
 	      <right_attach>1</right_attach>
@@ -453,13 +453,13 @@
 
 	  <widget>
 	    <class>GtkRadioButton</class>
-	    <name>radiobutton1</name>
+	    <name>ftest_radiobutton3</name>
 	    <has_default>True</has_default>
 	    <can_focus>True</can_focus>
 	    <label>New Sheet     </label>
 	    <active>True</active>
 	    <draw_indicator>True</draw_indicator>
-	    <group>output</group>
+	    <group>ftest_output</group>
 	    <child>
 	      <left_attach>0</left_attach>
 	      <right_attach>1</right_attach>
@@ -478,7 +478,7 @@
 
 	  <widget>
 	    <class>GtkEntry</class>
-	    <name>entry4</name>
+	    <name>ftest_entry4</name>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
 	    <text_visible>True</text_visible>
@@ -625,7 +625,7 @@
 
 	    <widget>
 	      <class>GtkEntry</class>
-	      <name>entry5</name>
+	      <name>corr_entry1</name>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
 	      <text_visible>True</text_visible>
@@ -659,12 +659,12 @@
 
 	      <widget>
 		<class>GtkRadioButton</class>
-		<name>radiobutton5</name>
+		<name>corr_radiobutton1</name>
 		<can_focus>True</can_focus>
 		<label>Columns</label>
 		<active>True</active>
 		<draw_indicator>True</draw_indicator>
-		<group>group</group>
+		<group>corr_group</group>
 		<child>
 		  <padding>0</padding>
 		  <expand>False</expand>
@@ -674,12 +674,12 @@
 
 	      <widget>
 		<class>GtkRadioButton</class>
-		<name>radiobutton6</name>
+		<name>corr_radiobutton2</name>
 		<can_focus>True</can_focus>
 		<label>Rows</label>
 		<active>False</active>
 		<draw_indicator>True</draw_indicator>
-		<group>group</group>
+		<group>corr_group</group>
 		<child>
 		  <padding>0</padding>
 		  <expand>False</expand>
@@ -691,7 +691,7 @@
 
 	  <widget>
 	    <class>GtkCheckButton</class>
-	    <name>checkbutton1</name>
+	    <name>corr_checkbutton</name>
 	    <can_focus>True</can_focus>
 	    <label>Labels</label>
 	    <active>False</active>
@@ -728,12 +728,12 @@
 
 	  <widget>
 	    <class>GtkRadioButton</class>
-	    <name>radiobutton3</name>
+	    <name>corr_radiobutton5</name>
 	    <can_focus>True</can_focus>
 	    <label>Output Range: </label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
-	    <group>output</group>
+	    <group>corr_output</group>
 	    <child>
 	      <left_attach>0</left_attach>
 	      <right_attach>1</right_attach>
@@ -752,12 +752,12 @@
 
 	  <widget>
 	    <class>GtkRadioButton</class>
-	    <name>radiobutton2</name>
+	    <name>corr_radiobutton4</name>
 	    <can_focus>True</can_focus>
 	    <label>New Workbook</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
-	    <group>output</group>
+	    <group>corr_output</group>
 	    <child>
 	      <left_attach>0</left_attach>
 	      <right_attach>1</right_attach>
@@ -776,13 +776,13 @@
 
 	  <widget>
 	    <class>GtkRadioButton</class>
-	    <name>radiobutton1</name>
+	    <name>corr_radiobutton3</name>
 	    <has_default>True</has_default>
 	    <can_focus>True</can_focus>
 	    <label>New Sheet     </label>
 	    <active>True</active>
 	    <draw_indicator>True</draw_indicator>
-	    <group>output</group>
+	    <group>corr_output</group>
 	    <child>
 	      <left_attach>0</left_attach>
 	      <right_attach>1</right_attach>
@@ -801,7 +801,7 @@
 
 	  <widget>
 	    <class>GtkEntry</class>
-	    <name>entry4</name>
+	    <name>corr_entry2</name>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
 	    <text_visible>True</text_visible>
@@ -948,7 +948,7 @@
 
 	    <widget>
 	      <class>GtkEntry</class>
-	      <name>entry5</name>
+	      <name>cov_entry1</name>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
 	      <text_visible>True</text_visible>
@@ -982,12 +982,12 @@
 
 	      <widget>
 		<class>GtkRadioButton</class>
-		<name>radiobutton5</name>
+		<name>cov_radiobutton1</name>
 		<can_focus>True</can_focus>
 		<label>Columns</label>
 		<active>True</active>
 		<draw_indicator>True</draw_indicator>
-		<group>group</group>
+		<group>cov_group</group>
 		<child>
 		  <padding>0</padding>
 		  <expand>False</expand>
@@ -997,12 +997,12 @@
 
 	      <widget>
 		<class>GtkRadioButton</class>
-		<name>radiobutton6</name>
+		<name>cov_radiobutton2</name>
 		<can_focus>True</can_focus>
 		<label>Rows</label>
 		<active>False</active>
 		<draw_indicator>True</draw_indicator>
-		<group>group</group>
+		<group>cov_group</group>
 		<child>
 		  <padding>0</padding>
 		  <expand>False</expand>
@@ -1014,7 +1014,7 @@
 
 	  <widget>
 	    <class>GtkCheckButton</class>
-	    <name>checkbutton1</name>
+	    <name>cov_checkbutton</name>
 	    <can_focus>True</can_focus>
 	    <label>Labels</label>
 	    <active>False</active>
@@ -1051,12 +1051,12 @@
 
 	  <widget>
 	    <class>GtkRadioButton</class>
-	    <name>radiobutton3</name>
+	    <name>cov_radiobutton5</name>
 	    <can_focus>True</can_focus>
 	    <label>Output Range: </label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
-	    <group>output</group>
+	    <group>cov_output</group>
 	    <child>
 	      <left_attach>0</left_attach>
 	      <right_attach>1</right_attach>
@@ -1075,12 +1075,12 @@
 
 	  <widget>
 	    <class>GtkRadioButton</class>
-	    <name>radiobutton2</name>
+	    <name>cov_radiobutton4</name>
 	    <can_focus>True</can_focus>
 	    <label>New Workbook</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
-	    <group>output</group>
+	    <group>cov_output</group>
 	    <child>
 	      <left_attach>0</left_attach>
 	      <right_attach>1</right_attach>
@@ -1099,13 +1099,13 @@
 
 	  <widget>
 	    <class>GtkRadioButton</class>
-	    <name>radiobutton1</name>
+	    <name>cov_radiobutton3</name>
 	    <has_default>True</has_default>
 	    <can_focus>True</can_focus>
 	    <label>New Sheet     </label>
 	    <active>True</active>
 	    <draw_indicator>True</draw_indicator>
-	    <group>output</group>
+	    <group>cov_output</group>
 	    <child>
 	      <left_attach>0</left_attach>
 	      <right_attach>1</right_attach>
@@ -1124,7 +1124,7 @@
 
 	  <widget>
 	    <class>GtkEntry</class>
-	    <name>entry4</name>
+	    <name>cov_entry2</name>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
 	    <text_visible>True</text_visible>
@@ -1271,7 +1271,7 @@
 
 	    <widget>
 	      <class>GtkEntry</class>
-	      <name>entry5</name>
+	      <name>rank_entry1</name>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
 	      <text_visible>True</text_visible>
@@ -1305,12 +1305,12 @@
 
 	      <widget>
 		<class>GtkRadioButton</class>
-		<name>radiobutton5</name>
+		<name>rank_radiobutton1</name>
 		<can_focus>True</can_focus>
 		<label>Columns</label>
 		<active>True</active>
 		<draw_indicator>True</draw_indicator>
-		<group>group</group>
+		<group>rank_group</group>
 		<child>
 		  <padding>0</padding>
 		  <expand>False</expand>
@@ -1320,12 +1320,12 @@
 
 	      <widget>
 		<class>GtkRadioButton</class>
-		<name>radiobutton6</name>
+		<name>rank_radiobutton2</name>
 		<can_focus>True</can_focus>
 		<label>Rows</label>
 		<active>False</active>
 		<draw_indicator>True</draw_indicator>
-		<group>group</group>
+		<group>rank_group</group>
 		<child>
 		  <padding>0</padding>
 		  <expand>False</expand>
@@ -1337,7 +1337,7 @@
 
 	  <widget>
 	    <class>GtkCheckButton</class>
-	    <name>checkbutton1</name>
+	    <name>rank_checkbutton</name>
 	    <can_focus>True</can_focus>
 	    <label>Labels</label>
 	    <active>False</active>
@@ -1374,12 +1374,12 @@
 
 	  <widget>
 	    <class>GtkRadioButton</class>
-	    <name>radiobutton3</name>
+	    <name>rank_radiobutton5</name>
 	    <can_focus>True</can_focus>
 	    <label>Output Range: </label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
-	    <group>output</group>
+	    <group>rank_output</group>
 	    <child>
 	      <left_attach>0</left_attach>
 	      <right_attach>1</right_attach>
@@ -1398,12 +1398,12 @@
 
 	  <widget>
 	    <class>GtkRadioButton</class>
-	    <name>radiobutton2</name>
+	    <name>rank_radiobutton4</name>
 	    <can_focus>True</can_focus>
 	    <label>New Workbook</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
-	    <group>output</group>
+	    <group>rank_output</group>
 	    <child>
 	      <left_attach>0</left_attach>
 	      <right_attach>1</right_attach>
@@ -1422,13 +1422,13 @@
 
 	  <widget>
 	    <class>GtkRadioButton</class>
-	    <name>radiobutton1</name>
+	    <name>rank_radiobutton3</name>
 	    <has_default>True</has_default>
 	    <can_focus>True</can_focus>
 	    <label>New Sheet     </label>
 	    <active>True</active>
 	    <draw_indicator>True</draw_indicator>
-	    <group>output</group>
+	    <group>rank_output</group>
 	    <child>
 	      <left_attach>0</left_attach>
 	      <right_attach>1</right_attach>
@@ -1447,7 +1447,7 @@
 
 	  <widget>
 	    <class>GtkEntry</class>
-	    <name>entry4</name>
+	    <name>rank_entry2</name>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
 	    <text_visible>True</text_visible>

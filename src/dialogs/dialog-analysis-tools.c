@@ -161,11 +161,13 @@ rows_toggled(GtkWidget *widget, int *group)
 }
 
 static int
-set_output_option_signals (GladeXML *gui, data_analysis_output_t *dao)
+set_output_option_signals (GladeXML *gui, data_analysis_output_t *dao, char *n)
 {
 	GtkWidget *radiobutton;
+	char      buf[256];
 
-	radiobutton = glade_xml_get_widget (gui, "radiobutton1");
+	sprintf(buf, "%s_radiobutton3", n);
+	radiobutton = glade_xml_get_widget (gui, buf);
 	if (!radiobutton) {
                 printf ("Corrupt file analysis-tools.glade\n");
                 return 1;
@@ -173,7 +175,8 @@ set_output_option_signals (GladeXML *gui, data_analysis_output_t *dao)
 	gtk_signal_connect (GTK_OBJECT (radiobutton),   "toggled",
 			    GTK_SIGNAL_FUNC (new_sheet_toggled),
 			    &dao->type);	
-	radiobutton = glade_xml_get_widget (gui, "radiobutton2");
+	sprintf(buf, "%s_radiobutton4", n);
+	radiobutton = glade_xml_get_widget (gui, buf);
 	if (!radiobutton) {
                 printf ("Corrupt file analysis-tools.glade\n");
                 return 1;
@@ -181,7 +184,8 @@ set_output_option_signals (GladeXML *gui, data_analysis_output_t *dao)
 	gtk_signal_connect (GTK_OBJECT (radiobutton),   "toggled",
 			    GTK_SIGNAL_FUNC (new_workbook_toggled),
 			    &dao->type);	
-	radiobutton = glade_xml_get_widget (gui, "radiobutton3");
+	sprintf(buf, "%s_radiobutton5", n);
+	radiobutton = glade_xml_get_widget (gui, buf);
 	if (!radiobutton) {
                 printf ("Corrupt file analysis-tools.glade\n");
                 return 1;
@@ -194,11 +198,13 @@ set_output_option_signals (GladeXML *gui, data_analysis_output_t *dao)
 }
 
 static int
-set_group_option_signals (GladeXML *gui, int *group)
+set_group_option_signals (GladeXML *gui, int *group, char *n)
 {
 	GtkWidget *radiobutton;
+	char      buf[256];
 
-	radiobutton = glade_xml_get_widget (gui, "radiobutton5");
+	sprintf(buf, "%s_radiobutton1", n);
+	radiobutton = glade_xml_get_widget (gui, buf);
 	if (!radiobutton) {
                 printf ("Corrupt file analysis-tools.glade\n");
                 return 1;
@@ -206,7 +212,8 @@ set_group_option_signals (GladeXML *gui, int *group)
 	gtk_signal_connect (GTK_OBJECT (radiobutton),   "toggled",
 			    GTK_SIGNAL_FUNC (columns_toggled),
 			    group);	
-	radiobutton = glade_xml_get_widget (gui, "radiobutton6");
+	sprintf(buf, "%s_radiobutton2", n);
+	radiobutton = glade_xml_get_widget (gui, buf);
 	if (!radiobutton) {
                 printf ("Corrupt file analysis-tools.glade\n");
                 return 1;
@@ -561,16 +568,16 @@ dialog_correlation_tool (Workbook *wb, Sheet *sheet)
 	group    = 0;
 
 	dialog = glade_xml_get_widget (gui, "Correlation");
-        range_entry = glade_xml_get_widget (gui, "entry5");
-	checkbutton = glade_xml_get_widget (gui, "checkbutton1");
-	output_range_entry = glade_xml_get_widget (gui, "entry4");
+        range_entry = glade_xml_get_widget (gui, "corr_entry1");
+	checkbutton = glade_xml_get_widget (gui, "corr_checkbutton");
+	output_range_entry = glade_xml_get_widget (gui, "corr_entry2");
 
         if (!dialog || !range_entry || !output_range_entry || !checkbutton) {
                 printf ("Corrupt file analysis-tools.glade\n");
                 return;
         }
-	if (set_group_option_signals (gui, &group) ||
-	    set_output_option_signals (gui, &dao))
+	if (set_group_option_signals (gui, &group, "corr") ||
+	    set_output_option_signals (gui, &dao, "corr"))
 	        return;
 
 	gtk_signal_connect (GTK_OBJECT (checkbutton), "toggled",
@@ -656,16 +663,16 @@ dialog_covariance_tool (Workbook *wb, Sheet *sheet)
 	group    = 0;
 
 	dialog = glade_xml_get_widget (gui, "Covariance");
-        range_entry = glade_xml_get_widget (gui, "entry5");
-	checkbutton = glade_xml_get_widget (gui, "checkbutton1");
-	output_range_entry = glade_xml_get_widget (gui, "entry4");
+        range_entry = glade_xml_get_widget (gui, "cov_entry1");
+	checkbutton = glade_xml_get_widget (gui, "cov_checkbutton");
+	output_range_entry = glade_xml_get_widget (gui, "cov_entry2");
 
         if (!dialog || !range_entry || !output_range_entry || !checkbutton) {
                 printf ("Corrupt file analysis-tools.glade\n");
                 return;
         }
-	if (set_group_option_signals (gui, &group) ||
-	    set_output_option_signals (gui, &dao))
+	if (set_group_option_signals (gui, &group, "cov") ||
+	    set_output_option_signals (gui, &dao, "cov"))
 	        return;
 
 	gtk_signal_connect (GTK_OBJECT (checkbutton), "toggled",
@@ -1403,18 +1410,18 @@ dialog_ftest_tool (Workbook *wb, Sheet *sheet)
 	dao.type = NewSheetOutput;
 
 	dialog = glade_xml_get_widget (gui, "FTest");
-        range1_entry = glade_xml_get_widget (gui, "entry1");
-        range2_entry = glade_xml_get_widget (gui, "entry2");
-	alpha_entry = glade_xml_get_widget (gui, "entry3");
-	checkbutton = glade_xml_get_widget (gui, "checkbutton1");
-	output_range_entry = glade_xml_get_widget (gui, "entry4");
+        range1_entry = glade_xml_get_widget (gui, "ftest_entry1");
+        range2_entry = glade_xml_get_widget (gui, "ftest_entry2");
+	alpha_entry = glade_xml_get_widget (gui, "ftest_entry3");
+	checkbutton = glade_xml_get_widget (gui, "ftest_checkbutton");
+	output_range_entry = glade_xml_get_widget (gui, "ftest_entry4");
 
         if (!dialog || !range1_entry || !range2_entry || 
 	    !output_range_entry || !checkbutton) {
                 printf ("Corrupt file analysis-tools.glade\n");
                 return;
         }
-	if (set_output_option_signals (gui, &dao))
+	if (set_output_option_signals (gui, &dao, "ftest"))
 	        return;
 
 	gtk_entry_set_text (GTK_ENTRY (alpha_entry), "0.95");
@@ -2114,16 +2121,16 @@ dialog_ranking_tool (Workbook *wb, Sheet *sheet)
 	group    = 0;
 
 	dialog = glade_xml_get_widget (gui, "RankAndPercentile");
-        range_entry = glade_xml_get_widget (gui, "entry5");
-	checkbutton = glade_xml_get_widget (gui, "checkbutton1");
-	output_range_entry = glade_xml_get_widget (gui, "entry4");
+        range_entry = glade_xml_get_widget (gui, "rank_entry1");
+	checkbutton = glade_xml_get_widget (gui, "rank_checkbutton");
+	output_range_entry = glade_xml_get_widget (gui, "rank_entry2");
 
         if (!dialog || !range_entry || !output_range_entry || !checkbutton) {
-                printf ("Corrupt file analysis-tools.glade\n");
+                printf ("Corrupt file `analysis-tools.glade'\n");
                 return;
         }
-	if (set_group_option_signals (gui, &group) ||
-	    set_output_option_signals (gui, &dao))
+	if (set_group_option_signals (gui, &group,  "rank") ||
+	    set_output_option_signals (gui, &dao, "rank"))
 	        return;
 
 	gtk_signal_connect (GTK_OBJECT (checkbutton), "toggled",
