@@ -78,6 +78,7 @@
 #include "pixmaps/16_show_detail.xpm"
 #include "pixmaps/16_hide_detail.xpm"
 
+#include "pixmaps/24_save.xpm"
 #include "pixmaps/24_cut.xpm"
 #include "pixmaps/24_copy.xpm"
 #include "pixmaps/24_paste.xpm"
@@ -177,6 +178,7 @@ application_init (void)
 		{ 24, 24, "Gnumeric_CommentDelete", i24_delete_comment_xpm },
 		{ 24, 24, "Gnumeric_CommentEdit", i24_edit_comment_xpm },
 #endif
+		{ 24, 24, "Gnumeric_Save", i24_save_xpm },
 		{ 24, 24, "Gnumeric_Cut", i24_cut_xpm },
 		{ 24, 24, "Gnumeric_Copy", i24_copy_xpm },
 		{ 24, 24, "Gnumeric_Paste", i24_paste_xpm },

@@ -541,7 +541,7 @@
 	    verb="FileOpen"/>
 
 	<toolitem name="Save"
-	    pixtype="stock" pixname="Save"
+	    pixtype="stock" pixname="Gnumeric_Save"
 	    _label="Save"
 	    _tip="Save the current workbook"
 	    verb="FileSave"/>

@@ -1,6 +1,6 @@
 /* XPM */
 static char * i16_save_xpm[] = {
-"16 16 79 1",
+"16 16 80 1",
 " 	c None",
 ".	c #000000",
 "+	c #F7F9FE",
@@ -77,9 +77,10 @@ static char * i16_save_xpm[] = {
 "I	c #868686",
 "J	c #6E6E6E",
 "K	c #7A7A7A",
-"L	c #00001B",
-"M	c #788899",
-"N	c #0B3A58",
+"L	c #21395B",
+"M	c #2F5370",
+"N	c #788899",
+"O	c #0B3A58",
 " .............. ",
 ".+@#$$$$$$%$&**.",
 ".=-;>>>>>>>,'-).",
@@ -94,5 +95,5 @@ static char * i16_save_xpm[] = {
 ".!-^11ij(1klmn:.",
 ".!o_1pqr11stru:.",
 ".vw_pxyz1ABCrD:.",
-" .EFG,HHIJKL.MN.",
-"  .  ......  .. "};
+" .EFG,HHIJKLMNO.",
+"  ............. "};

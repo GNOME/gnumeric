@@ -2897,7 +2897,7 @@ static GnomeUIInfo workbook_standard_toolbar [] = {
 		cb_file_open, GNOME_STOCK_PIXMAP_OPEN),
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Save"), N_("Saves the workbook"),
-		cb_file_save, GNOME_STOCK_PIXMAP_SAVE),
+		cb_file_save, "Gnumeric_Save"),
 
 	GNOMEUIINFO_SEPARATOR,
 

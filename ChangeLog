@@ -1,3 +1,11 @@
+2001-10-05  Jody Goldberg <jgoldberg@home.com>
+
+	* src/application.c (application_init) : Add a matching save icon for
+	  the toolbar.
+
+	* src/workbook-control-gui.c (workbook_standard_toolbar) : Use it.
+	* src/GNOME_Gnumeric.xml : and here.
+
 2001-10-04  Jody Goldberg <jgoldberg@home.com>
 
 	* src/analysis-tools.c (get_data) : teeny tiny fixups.  use
