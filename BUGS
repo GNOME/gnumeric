@@ -230,7 +230,6 @@ Possibly Post 1.2 Targets
 - input message				(Stored)
 - load/save of external references
 - all the merged cell singleton bugs
-- fill->series
 
 Probably Post 1.2 Targets
 -------------------------
@@ -269,6 +268,7 @@ Misc stuff that should be fixed
     - Sheet object configuration changes.
     - Sheet object creation
     - Workbook attr changes
+    - Fill->series
 
 - Evaluate mathfunc.c's use of gamma and lgamma.  We use the libc lgamma
   (probably ok) and have gamma(x)=exp(lgamma(x)) (questionable).
