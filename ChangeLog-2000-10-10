@@ -1,3 +1,15 @@
+2000-04-21  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_row_get_distance_{pixels,pts}) : Optimize this
+	  to directly access the segmented arrays so that we can skip empty
+	  blocks.
+
+2000-04-21  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_find_boundary_{horizontal,vertical}) : Rename
+	  some variables for clarity and add some trivial optimizations to
+	  recognize when we are jumping to/from the far edge.
+
 2000-04-20  Jody Goldberg <jgoldberg@home.com>
 
 	* src/dialogs/dialog-cell-format.c (draw_format_preview) : Don't

@@ -43,6 +43,7 @@
 /* The size, mask, and shift must be kept in sync */
 #define COLROW_SEGMENT_SIZE	0x80
 #define COLROW_SUB_INDEX(i)	((i) & 0x7f)
+#define COLROW_SEGMENT_END(i)	((i) | 0x7f)
 #define COLROW_SEGMENT_INDEX(i)	((i) >> 7)
 #define COLROW_GET_SEGMENT(seg_array, i) \
 	(g_ptr_array_index ((seg_array)->info, COLROW_SEGMENT_INDEX(i)))
@@ -1468,7 +1469,7 @@ int
 sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int row,
 				int count, gboolean jump_to_boundaries)
 {
-	gboolean find_first = cell_is_blank (sheet_cell_get (sheet, start_col, row));
+	gboolean find_nonblank = cell_is_blank (sheet_cell_get (sheet, start_col, row));
 	int new_col = start_col, prev_col = start_col;
 	gboolean keep_looking = FALSE;
 	int iterations = 0;
@@ -1488,16 +1489,21 @@ sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int row,
 		if (new_col >= SHEET_MAX_COLS)
 			return SHEET_MAX_COLS-1;
 		if (jump_to_boundaries) {
-			keep_looking = (cell_is_blank (sheet_cell_get (sheet, new_col, row)) == find_first);
+			if (new_col > sheet->cols.max_used) {
+				if (count > 0)
+					return SHEET_MAX_COLS-1;
+				new_col = sheet->cols.max_used;
+			}
+			keep_looking = (cell_is_blank (sheet_cell_get (sheet, new_col, row)) == find_nonblank);
 			if (keep_looking)
 				prev_col = new_col;
-			else if (!find_first) {
+			else if (!find_nonblank) {
 				/*
 				 * Handle special case where we are on the last
 				 * non-null cell
 				 */
 				if (iterations == 1)
-					keep_looking = find_first = TRUE;
+					keep_looking = find_nonblank = TRUE;
 				else
 					new_col = prev_col;
 			}
@@ -1531,7 +1537,7 @@ int
 sheet_find_boundary_vertical (Sheet *sheet, int col, int start_row,
 			      int count, gboolean jump_to_boundaries)
 {
-	gboolean find_first = cell_is_blank (sheet_cell_get (sheet, col, start_row));
+	gboolean find_nonblank = cell_is_blank (sheet_cell_get (sheet, col, start_row));
 	int new_row = start_row, prev_row = start_row;
 	gboolean keep_looking = FALSE;
 	int iterations = 0;
@@ -1550,16 +1556,22 @@ sheet_find_boundary_vertical (Sheet *sheet, int col, int start_row,
 		if (new_row > SHEET_MAX_ROWS-1)
 			return SHEET_MAX_ROWS-1;
 		if (jump_to_boundaries) {
-			keep_looking = (cell_is_blank (sheet_cell_get (sheet, col, new_row)) == find_first);
+			if (new_row > sheet->rows.max_used) {
+				if (count > 0)
+					return SHEET_MAX_ROWS-1;
+				new_row = sheet->rows.max_used;
+			}
+
+			keep_looking = (cell_is_blank (sheet_cell_get (sheet, col, new_row)) == find_nonblank);
 			if (keep_looking)
 				prev_row = new_row;
-			else if (!find_first) {
+			else if (!find_nonblank) {
 				/*
 				 * Handle special case where we are on the last
 				 * non-null cell
 				 */ 
 				if (iterations == 1)
-					keep_looking = find_first = TRUE;
+					keep_looking = find_nonblank = TRUE;
 				else
 					new_row = prev_row;
 			}
@@ -3395,6 +3407,7 @@ sheet_col_set_default_size_pts (Sheet *sheet, double width_pts)
 int
 sheet_row_get_distance_pixels (Sheet const *sheet, int from, int to)
 {
+	int const default_size = sheet->rows.default_style.size_pixels;
 	int i, pixels = 0;
 	int sign = 1;
 
@@ -3408,11 +3421,30 @@ sheet_row_get_distance_pixels (Sheet const *sheet, int from, int to)
 		sign = -1;
 	}
 
-	/* Do not use sheet_foreach_colrow, it ignores empties */
+	g_return_val_if_fail (from >= 0, 1.);
+	g_return_val_if_fail (to <= SHEET_MAX_ROWS, 1.);
+
+	/* Do not use sheet_foreach_colrow, it ignores empties.
+	 * Optimize this so that long jumps are not quite so horrific
+	 * for performance.
+	 */
 	for (i = from ; i < to ; ++i) {
-		ColRowInfo const *ri = sheet_row_get_info (sheet, i);
-		if (ri->visible)
-			pixels += ri->size_pixels;
+		ColRowInfo const * const * const segment =
+			COLROW_GET_SEGMENT(&(sheet->rows), i);
+
+		if (segment != NULL) {
+			ColRowInfo const *ri = segment[COLROW_SUB_INDEX(i)];
+			if (ri == NULL)
+				pixels += default_size;
+			else if (ri->visible)
+				pixels += ri->size_pixels;
+		} else {
+			int segment_end = COLROW_SEGMENT_END(i)+1;
+			if (segment_end > to)
+				segment_end = to;
+			pixels += default_size * (segment_end - i);
+			i = segment_end-1;
+		}
 	}
 
 	return pixels*sign;
@@ -3427,9 +3459,10 @@ sheet_row_get_distance_pixels (Sheet const *sheet, int from, int to)
 double
 sheet_row_get_distance_pts (Sheet const *sheet, int from, int to)
 {
-	double units = 0;
+	double const default_size = sheet->rows.default_style.size_pts;
+	double pts;
 	int i;
-	int sign = 1;
+	double sign = 1.;
 
 	g_assert (sheet != NULL);
 
@@ -3438,17 +3471,36 @@ sheet_row_get_distance_pts (Sheet const *sheet, int from, int to)
 		int const tmp = to;
 		to = from;
 		from = tmp;
-		sign = -1;
+		sign = -1.;
 	}
 
-	/* Do not use sheet_foreach_colrow, it ignores empties */
+	g_return_val_if_fail (from >= 0, 1.);
+	g_return_val_if_fail (to <= SHEET_MAX_ROWS, 1.);
+
+	/* Do not use sheet_foreach_colrow, it ignores empties.
+	 * Optimize this so that long jumps are not quite so horrific
+	 * for performance.
+	 */
 	for (i = from ; i < to ; ++i) {
-		ColRowInfo const *ri = sheet_row_get_info (sheet, i);
-		if (ri->visible)
-			units += ri->size_pts;
+		ColRowInfo const * const * const segment =
+			COLROW_GET_SEGMENT(&(sheet->rows), i);
+
+		if (segment != NULL) {
+			ColRowInfo const *ri = segment[COLROW_SUB_INDEX(i)];
+			if (ri == NULL)
+				pts += default_size;
+			else if (ri->visible)
+				pts += ri->size_pts;
+		} else {
+			int segment_end = COLROW_SEGMENT_END(i)+1;
+			if (segment_end > to)
+				segment_end = to;
+			pts += default_size * (segment_end - i);
+			i = segment_end-1;
+		}
 	}
-	
-	return units*sign;
+
+	return pts*sign;
 }
 
 /**
