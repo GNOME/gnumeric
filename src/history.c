@@ -24,7 +24,7 @@ history_item_label (gchar const *filename, int accel_number)
 
 	/* Remove .gnumeric, if present.  */
 	tmp = strstr (basename, ".gnumeric");
-	if (tmp[9] == 0)
+	if (tmp && tmp[9] == 0)
 		tmp[0] = 0;
 
 	menuname = g_filename_to_utf8 (basename, -1, NULL, NULL, NULL);
