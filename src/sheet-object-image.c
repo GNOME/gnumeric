@@ -277,8 +277,8 @@ sheet_object_image_update_bounds (SheetObject *so, GObject *view_obj)
 }
 
 static gboolean
-sheet_object_image_read_xml (SheetObject *so,
-			       XmlParseContext const *ctxt, xmlNodePtr tree)
+sheet_object_image_read_xml_dom (SheetObject *so, char const *typename,
+				 XmlParseContext const *ctxt, xmlNodePtr tree)
 {
 	SheetObjectImage *soi;
 
@@ -289,8 +289,8 @@ sheet_object_image_read_xml (SheetObject *so,
 }
 
 static gboolean
-sheet_object_image_write_xml (SheetObject const *so,
-				XmlParseContext const *ctxt, xmlNodePtr tree)
+sheet_object_image_write_xml_dom (SheetObject const *so,
+				  XmlParseContext const *ctxt, xmlNodePtr tree)
 {
 	SheetObjectImage *soi;
 
@@ -362,15 +362,15 @@ sheet_object_image_class_init (GObjectClass *object_class)
 
 	/* SheetObject class method overrides */
 	sheet_object_class = SHEET_OBJECT_CLASS (object_class);
-	sheet_object_class->new_view	  = sheet_object_image_new_view;
-	sheet_object_class->update_view_bounds = sheet_object_image_update_bounds;
-	sheet_object_class->read_xml	  = sheet_object_image_read_xml;
-	sheet_object_class->write_xml	  = sheet_object_image_write_xml;
-	sheet_object_class->clone         = sheet_object_image_clone;
-	sheet_object_class->user_config   = NULL;
-	sheet_object_class->print         = sheet_object_image_print;
+	sheet_object_class->new_view	  	= sheet_object_image_new_view;
+	sheet_object_class->update_view_bounds	= sheet_object_image_update_bounds;
+	sheet_object_class->read_xml_dom	= sheet_object_image_read_xml_dom;
+	sheet_object_class->write_xml_dom	= sheet_object_image_write_xml_dom;
+	sheet_object_class->clone		= sheet_object_image_clone;
+	sheet_object_class->user_config		= NULL;
+	sheet_object_class->print		= sheet_object_image_print;
+	sheet_object_class->default_size	= sheet_object_image_default_size;
 	sheet_object_class->rubber_band_directly = TRUE;
-	sheet_object_class->default_size  = sheet_object_image_default_size;
 }
 
 static void

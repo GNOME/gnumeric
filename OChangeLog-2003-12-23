@@ -4,6 +4,11 @@
 	* src/sheet-object.c (sheet_object_read_xml) : patch one direction.
 	  new can now load old.  We'll need more work to get back to using old
 	  name.
+	(sheet_object_class_init) : init new xml_export_name member to NULL.
+	(sheet_object_write_xml) : use it here.
+	* src/sheet-object-cell-comment.c (cell_comment_class_init) : Use it
+	  here to keep exporting comments as CellComment rather than the newly
+	  renamed class.
 
 2003-12-02  Morten Welinder  <terra@gnome.org>
 

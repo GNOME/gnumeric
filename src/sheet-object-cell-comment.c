@@ -31,6 +31,7 @@
 #include "sheet-control-gui-priv.h"
 #include "dialogs.h"
 #include "gui-util.h"
+#include "xml-io.h"
 
 #include <libxml/globals.h>
 #include <gsf/gsf-impl-utils.h>
@@ -211,8 +212,8 @@ cell_comment_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 }
 
 static gboolean
-cell_comment_read_xml (SheetObject *so,
-		       XmlParseContext const *ctxt, xmlNodePtr	tree)
+cell_comment_read_xml_dom (SheetObject *so, char const *typename,
+			   XmlParseContext const *ctxt, xmlNodePtr	tree)
 {
 	GnmComment *cc = CELL_COMMENT (so);
 	xmlChar *author = xmlGetProp (tree, (xmlChar *)"Author");
@@ -231,8 +232,8 @@ cell_comment_read_xml (SheetObject *so,
 }
 
 static gboolean
-cell_comment_write_xml (SheetObject const *so,
-			XmlParseContext const *ctxt, xmlNodePtr tree)
+cell_comment_write_xml_dom (SheetObject const *so, XmlParseContext const *ctxt,
+			    xmlNodePtr tree)
 {
 	GnmComment const *cc = CELL_COMMENT (so);
 	xml_node_set_cstr (tree, "Author", cc->author);
@@ -276,11 +277,12 @@ cell_comment_class_init (GObjectClass *object_class)
 
 	/* SheetObject class method overrides */
 	sheet_object_class->update_view_bounds = &cell_comment_update_bounds;
-	sheet_object_class->new_view	  = &cell_comment_new_view;
-	sheet_object_class->read_xml      = &cell_comment_read_xml;
-	sheet_object_class->write_xml     = &cell_comment_write_xml;
-	sheet_object_class->print         = &cell_comment_print;
-	sheet_object_class->clone         = &cell_comment_clone;
+	sheet_object_class->new_view		= &cell_comment_new_view;
+	sheet_object_class->read_xml_dom	= &cell_comment_read_xml_dom;
+	sheet_object_class->write_xml_dom	= &cell_comment_write_xml_dom;
+	sheet_object_class->print		= &cell_comment_print;
+	sheet_object_class->clone		= &cell_comment_clone;
+	sheet_object_class->xml_export_name = "CellComment";
 }
 
 GSF_CLASS (GnmComment, cell_comment,

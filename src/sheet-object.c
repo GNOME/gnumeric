@@ -282,6 +282,7 @@ sheet_object_class_init (GObjectClass *klass)
 	sheet_object_class->user_config          = NULL;
 	sheet_object_class->rubber_band_directly = FALSE;
 	sheet_object_class->default_size	 = so_default_size;
+	sheet_object_class->xml_export_name 	 = NULL;
 }
 
 GSF_CLASS (SheetObject, sheet_object,
@@ -500,128 +501,6 @@ sheet_object_print (SheetObject const *so, GnomePrintContext *ctx,
 {
 	if (SO_CLASS (so)->print)
 		SO_CLASS (so)->print (so, ctx, width, height);
-}
-
-SheetObject *
-sheet_object_read_xml (XmlParseContext const *ctxt, xmlNodePtr tree)
-{
-	SheetObject *so;
-	char *tmp;
-	int tmp_int;
-	GObject *obj;
-
-	/* Old crufty IO */
-	if (!strcmp (tree->name, "Rectangle")){
-		so = sheet_object_box_new (FALSE);
-	} else if (!strcmp (tree->name, "Ellipse")){
-		so = sheet_object_box_new (TRUE);
-	} else if (!strcmp (tree->name, "Arrow")){
-		so = sheet_object_line_new (TRUE);
-	} else if (!strcmp (tree->name, "Line")){
-		so = sheet_object_line_new (FALSE);
-	} else if (!strcmp (tree->name, "CellComment")){
-		so = g_object_new (cell_comment_get_type (), NULL);
-
-	/* Graphs changed names */
-	} else if (!strcmp (tree->name, "GnmGraph")){
-		so = sheet_object_graph_new (FALSE);
-
-	} else {
-		GType type = g_type_from_name ((gchar *)tree->name);
-		if (type == 0) {
-			char *str = g_strdup_printf (_("Unsupported object type '%s'"),
-						     tree->name);
-			gnm_io_warning_unsupported_feature (ctxt->io_context, str);
-			g_free (str);
-			return NULL;
-		}
-
-		obj = g_object_new (type, NULL);
-		if (obj == NULL)
-			return NULL;
-
-		so = SHEET_OBJECT (obj);
-	}
-
-	if (SO_CLASS (so)->read_xml &&
-	    SO_CLASS (so)->read_xml (so, ctxt, tree)) {
-		g_object_unref (G_OBJECT (so));
-		return NULL;
-	}
-
-	tmp = (char *) xmlGetProp (tree, (xmlChar *)"ObjectBound");
-	if (tmp != NULL) {
-		GnmRange r;
-		if (parse_range (tmp, &r))
-			so->anchor.cell_bound = r;
-		xmlFree (tmp);
-	}
-
-	tmp =  (char *) xmlGetProp (tree, (xmlChar *)"ObjectOffset");
-	if (tmp != NULL) {
-		sscanf (tmp, "%g %g %g %g",
-			so->anchor.offset +0, so->anchor.offset +1,
-			so->anchor.offset +2, so->anchor.offset +3);
-		xmlFree (tmp);
-	}
-
-	tmp = (char *) xmlGetProp (tree, (xmlChar *)"ObjectAnchorType");
-	if (tmp != NULL) {
-		int i[4], count;
-		sscanf (tmp, "%d %d %d %d", i+0, i+1, i+2, i+3);
-
-		for (count = 4; count-- > 0 ; )
-			so->anchor.type[count] = i[count];
-		xmlFree (tmp);
-	}
-
-	if (xml_node_get_int (tree, "Direction", &tmp_int))
-		so->anchor.direction = tmp_int;
-	else
-		so->anchor.direction = SO_DIR_UNKNOWN;
-
-	sheet_object_set_sheet (so, ctxt->sheet);
-	g_object_unref (G_OBJECT (so));
-	return so;
-}
-
-xmlNodePtr
-sheet_object_write_xml (SheetObject const *so, XmlParseContext const *ctxt)
-{
-	GObject *obj;
-	xmlNodePtr tree;
-	char buffer[4*(DBL_DIG+10)];
-
-	g_return_val_if_fail (IS_SHEET_OBJECT (so), NULL);
-	obj = G_OBJECT (so);
-
-	if (SO_CLASS (so)->write_xml == NULL)
-		return NULL;
-
-	tree = xmlNewDocNode (ctxt->doc, ctxt->ns,
-			      (xmlChar *)g_type_name (G_OBJECT_TYPE (obj)), NULL);
-
-	if (tree == NULL)
-		return NULL;
-
-	if (SO_CLASS (so)->write_xml (so, ctxt, tree)) {
-		xmlUnlinkNode (tree);
-		xmlFreeNode (tree);
-		return NULL;
-	}
-
-	xml_node_set_cstr (tree, "ObjectBound", range_name (&so->anchor.cell_bound));
-	snprintf (buffer, sizeof (buffer), "%.*g %.*g %.*g %.*g",
-		  DBL_DIG, so->anchor.offset [0], DBL_DIG, so->anchor.offset [1],
-		  DBL_DIG, so->anchor.offset [2], DBL_DIG, so->anchor.offset [3]);
-	xml_node_set_cstr (tree, "ObjectOffset", buffer);
-	snprintf (buffer, sizeof (buffer), "%d %d %d %d",
-		  so->anchor.type [0], so->anchor.type [1],
-		  so->anchor.type [2], so->anchor.type [3]);
-	xml_node_set_cstr (tree, "ObjectAnchorType", buffer);
-	xml_node_set_int (tree, "Direction", so->anchor.direction);
-
-	return tree;
 }
 
 GnmRange const *

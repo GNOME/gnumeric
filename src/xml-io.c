@@ -20,8 +20,10 @@
 #include "sheet.h"
 #include "sheet-view.h"
 #include "sheet-style.h"
-#include "sheet-object.h"
+#include "sheet-object-impl.h"
 #include "sheet-object-cell-comment.h"
+#include "sheet-object-graphic.h"
+#include "sheet-object-graph.h"
 #include "str.h"
 #include "solver.h"
 #include "scenarios.h"
@@ -2693,6 +2695,134 @@ xml_write_scenarios (XmlParseContext *ctxt, GList const *scenarios)
 	return cur;
 }
 
+static SheetObject *
+xml_read_sheet_object (XmlParseContext const *ctxt, xmlNodePtr tree)
+{
+	char *tmp;
+	int tmp_int;
+	GObject *obj;
+	SheetObject *so;
+	SheetObjectClass *klass = SHEET_OBJECT_CLASS (G_OBJECT_GET_CLASS(so));
+
+	/* Old crufty IO */
+	if (!strcmp (tree->name, "Rectangle"))
+		so = sheet_object_box_new (FALSE);
+	else if (!strcmp (tree->name, "Ellipse"))
+		so = sheet_object_box_new (TRUE);
+	else if (!strcmp (tree->name, "Arrow"))
+		so = sheet_object_line_new (TRUE);
+	else if (!strcmp (tree->name, "Line"))
+		so = sheet_object_line_new (FALSE);
+
+	/* Class renamed between 1.0.x and 1.2.x */
+	else if (!strcmp (tree->name, "GnmGraph"))
+		so = sheet_object_graph_new (FALSE);
+
+	/* Class renamed in 1.2.2 */
+	else if (!strcmp (tree->name, "CellComment"))
+		so = g_object_new (cell_comment_get_type (), NULL);
+
+	else {
+		GType type = g_type_from_name ((gchar *)tree->name);
+		if (type == 0) {
+			char *str = g_strdup_printf (_("Unsupported object type '%s'"),
+						     tree->name);
+			gnm_io_warning_unsupported_feature (ctxt->io_context, str);
+			g_free (str);
+			return NULL;
+		}
+
+		obj = g_object_new (type, NULL);
+		if (obj == NULL)
+			return NULL;
+
+		so = SHEET_OBJECT (obj);
+	}
+
+	if (klass->read_xml_dom &&
+	    (klass->read_xml_dom) (so, tree->name, ctxt, tree)) {
+		g_object_unref (G_OBJECT (so));
+		return NULL;
+	}
+
+	tmp = (char *) xmlGetProp (tree, (xmlChar *)"ObjectBound");
+	if (tmp != NULL) {
+		GnmRange r;
+		if (parse_range (tmp, &r))
+			so->anchor.cell_bound = r;
+		xmlFree (tmp);
+	}
+
+	tmp =  (char *) xmlGetProp (tree, (xmlChar *)"ObjectOffset");
+	if (tmp != NULL) {
+		sscanf (tmp, "%g %g %g %g",
+			so->anchor.offset +0, so->anchor.offset +1,
+			so->anchor.offset +2, so->anchor.offset +3);
+		xmlFree (tmp);
+	}
+
+	tmp = (char *) xmlGetProp (tree, (xmlChar *)"ObjectAnchorType");
+	if (tmp != NULL) {
+		int i[4], count;
+		sscanf (tmp, "%d %d %d %d", i+0, i+1, i+2, i+3);
+
+		for (count = 4; count-- > 0 ; )
+			so->anchor.type[count] = i[count];
+		xmlFree (tmp);
+	}
+
+	if (xml_node_get_int (tree, "Direction", &tmp_int))
+		so->anchor.direction = tmp_int;
+	else
+		so->anchor.direction = SO_DIR_UNKNOWN;
+
+	sheet_object_set_sheet (so, ctxt->sheet);
+	g_object_unref (G_OBJECT (so));
+	return so;
+}
+
+static xmlNodePtr
+xml_write_sheet_object (XmlParseContext const *ctxt, SheetObject const *so)
+{
+	xmlNodePtr tree;
+	char buffer[4*(DBL_DIG+10)];
+	char const *type_name;
+	SheetObjectClass *klass = SHEET_OBJECT_CLASS (G_OBJECT_GET_CLASS(so));
+
+	g_return_val_if_fail (klass != NULL, NULL);
+
+	if (klass->write_xml_dom == NULL)
+		return NULL;
+
+	/* A hook so that things can sometimes change names */
+	type_name = klass->xml_export_name;
+	if (type_name == NULL)
+		type_name = G_OBJECT_TYPE_NAME (so);
+	tree = xmlNewDocNode (ctxt->doc, ctxt->ns, (xmlChar *)type_name, NULL);
+
+	if (tree == NULL)
+		return NULL;
+
+	if (klass->write_xml_dom (so, ctxt, tree)) {
+		xmlUnlinkNode (tree);
+		xmlFreeNode (tree);
+		return NULL;
+	}
+
+	xml_node_set_cstr (tree, "ObjectBound", range_name (&so->anchor.cell_bound));
+	snprintf (buffer, sizeof (buffer), "%.*g %.*g %.*g %.*g",
+		  DBL_DIG, so->anchor.offset [0], DBL_DIG, so->anchor.offset [1],
+		  DBL_DIG, so->anchor.offset [2], DBL_DIG, so->anchor.offset [3]);
+	xml_node_set_cstr (tree, "ObjectOffset", buffer);
+	snprintf (buffer, sizeof (buffer), "%d %d %d %d",
+		  so->anchor.type [0], so->anchor.type [1],
+		  so->anchor.type [2], so->anchor.type [3]);
+	xml_node_set_cstr (tree, "ObjectAnchorType", buffer);
+	xml_node_set_int (tree, "Direction", so->anchor.direction);
+
+	return tree;
+}
+
 /*
  *
  */
@@ -2830,7 +2960,7 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet const *sheet)
 						  CC2XML ("Objects"), NULL);
 		GList *l = sheet->sheet_objects;
 		while (l) {
-			child = sheet_object_write_xml (l->data, ctxt);
+			child = xml_write_sheet_object (ctxt, l->data);
 			if (child)
 				xmlAddChild (objects, child);
 			l = l->next;
@@ -3095,7 +3225,7 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 		xmlNodePtr object = child->xmlChildrenNode;
 		for (; object != NULL ; object = object->next)
 			if (!xmlIsBlankNode (object))
-				sheet_object_read_xml (ctxt, object);
+				xml_read_sheet_object (ctxt, object);
 	}
 
 	child = e_xml_get_child_by_name (tree, CC2XML ("Cells"));

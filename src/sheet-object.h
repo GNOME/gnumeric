@@ -3,8 +3,6 @@
 #define GNUMERIC_SHEET_OBJECT_H
 
 #include "gnumeric.h"
-#include "xml-io.h"
-
 #include <libgnomeprint/gnome-print.h>
 
 typedef enum {
@@ -51,10 +49,6 @@ gboolean      sheet_object_clear_sheet	 (SheetObject *so);
 gboolean      sheet_object_set_sheet	 (SheetObject *so, Sheet *sheet);
 Sheet	     *sheet_object_get_sheet	 (SheetObject const *so);
 
-SheetObject  *sheet_object_read_xml	 (XmlParseContext const *ctxt,
-					  xmlNodePtr tree);
-xmlNodePtr    sheet_object_write_xml	 (SheetObject const *so,
-					  XmlParseContext const *ctxt);
 void          sheet_object_print	 (SheetObject const *so,
 					  GnomePrintContext *ctx,
 					  double width, double height);

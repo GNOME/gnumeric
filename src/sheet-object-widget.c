@@ -44,6 +44,7 @@
 #include "mathfunc.h"
 #include "gnumeric-expr-entry.h"
 #include "dialogs.h"
+#include "xml-io.h"
 #include "dialogs/help.h"
 #include "widgets/gnumeric-combo-text.h"
 
@@ -72,24 +73,24 @@
 #define SOW_CLASS(so)	 	     (SHEET_OBJECT_WIDGET_CLASS (G_OBJECT_GET_CLASS(so)))
 
 #define SOW_MAKE_TYPE(n1, n2, fn_config, fn_set_sheet, fn_clear_sheet,	\
-		      fn_clone, fn_write_xml, fn_read_xml)		\
+		      fn_clone, fn_write_dom, fn_read_dom)		\
 static void								\
 sheet_widget_ ## n1 ## _class_init (GObjectClass *object_class)		\
 {									\
 	SheetObjectWidgetClass *sow_class = SHEET_OBJECT_WIDGET_CLASS (object_class); \
-	SheetObjectClass *so_class = SHEET_OBJECT_CLASS (object_class);	\
-	sow_class->create_widget = & sheet_widget_ ## n1 ## _create_widget; \
-	so_class->user_config = fn_config;				\
-	so_class->assign_to_sheet = fn_set_sheet;			\
-	so_class->remove_from_sheet = fn_clear_sheet;			\
-	so_class->clone = fn_clone;					\
-	so_class->write_xml = fn_write_xml;				\
-	so_class->read_xml = fn_read_xml;				\
-	object_class->finalize = & sheet_widget_ ## n1 ## _finalize;	\
-}									\
-GSF_CLASS (SheetWidget ## n2, sheet_widget_ ## n1,			\
-	   &sheet_widget_ ## n1 ## _class_init,				\
-	   &sheet_widget_ ## n1 ## _init,				\
+	SheetObjectClass *so_class = SHEET_OBJECT_CLASS (object_class);		\
+	object_class->finalize		= &sheet_widget_ ## n1 ## _finalize;	\
+	so_class->user_config		= fn_config;				\
+	so_class->assign_to_sheet	= fn_set_sheet;				\
+	so_class->remove_from_sheet	= fn_clear_sheet;			\
+	so_class->clone			= fn_clone;				\
+	so_class->write_xml_dom		= fn_write_dom;				\
+	so_class->read_xml_dom		= fn_read_dom;				\
+	sow_class->create_widget     	= &sheet_widget_ ## n1 ## _create_widget;	\
+}										\
+GSF_CLASS (SheetWidget ## n2, sheet_widget_ ## n1,				\
+	   &sheet_widget_ ## n1 ## _class_init,					\
+	   &sheet_widget_ ## n1 ## _init,					\
 	   SHEET_OBJECT_WIDGET_TYPE);
 
 typedef SheetObject SheetObjectWidget;
@@ -227,9 +228,9 @@ sheet_widget_frame_clone (SheetObject const *src_swf, Sheet *new_sheet)
 }
 
 static gboolean
-sheet_widget_frame_write_xml (SheetObject const *so,
-			      XmlParseContext const *context,
-			      xmlNodePtr tree)
+sheet_widget_frame_write_xml_dom (SheetObject const 	*so,
+				  XmlParseContext const *context,
+				  xmlNodePtr tree)
 {
 	SheetWidgetFrame *swf = SHEET_WIDGET_FRAME (so);
 
@@ -239,9 +240,9 @@ sheet_widget_frame_write_xml (SheetObject const *so,
 }
 
 static gboolean
-sheet_widget_frame_read_xml (SheetObject *so,
-			     XmlParseContext const *context,
-			     xmlNodePtr tree)
+sheet_widget_frame_read_xml_dom (SheetObject *so, char const *typename,
+				 XmlParseContext const *context,
+				 xmlNodePtr tree)
 {
 	SheetWidgetFrame *swf = SHEET_WIDGET_FRAME (so);
 	gchar *label = (gchar *)xmlGetProp (tree, (xmlChar *)"Label");
@@ -399,8 +400,8 @@ SOW_MAKE_TYPE (frame, Frame,
 	       NULL,
 	       NULL,
 	       &sheet_widget_frame_clone,
-	       &sheet_widget_frame_write_xml,
-	       &sheet_widget_frame_read_xml)
+	       &sheet_widget_frame_write_xml_dom,
+	       &sheet_widget_frame_read_xml_dom)
 
 /****************************************************************************/
 #define SHEET_WIDGET_BUTTON_TYPE     (sheet_widget_button_get_type ())
@@ -452,9 +453,9 @@ sheet_widget_button_clone (SheetObject const *src_swb, Sheet *new_sheet)
 }
 
 static gboolean
-sheet_widget_button_write_xml (SheetObject const *so,
-			       XmlParseContext const *context,
-			       xmlNodePtr tree)
+sheet_widget_button_write_xml_dom (SheetObject const	 *so,
+				   XmlParseContext const *context,
+				   xmlNodePtr tree)
 {
 	SheetWidgetButton *swb = SHEET_WIDGET_BUTTON (so);
 
@@ -464,9 +465,9 @@ sheet_widget_button_write_xml (SheetObject const *so,
 }
 
 static gboolean
-sheet_widget_button_read_xml (SheetObject *so,
-			      XmlParseContext const *context,
-			      xmlNodePtr tree)
+sheet_widget_button_read_xml_dom (SheetObject *so, char const *typename,
+				  XmlParseContext const *context,
+				  xmlNodePtr tree)
 {
 	SheetWidgetButton *swb = SHEET_WIDGET_BUTTON (so);
 	gchar *label = (gchar *)xmlGetProp (tree, (xmlChar *)"Label");
@@ -503,8 +504,8 @@ SOW_MAKE_TYPE (button, Button,
 	       NULL,
 	       NULL,
 	       &sheet_widget_button_clone,
-	       &sheet_widget_button_write_xml,
-	       &sheet_widget_button_read_xml)
+	       &sheet_widget_button_write_xml_dom,
+	       &sheet_widget_button_read_xml_dom)
 
 /****************************************************************************/
 #define SHEET_WIDGET_ADJUSTMENT_TYPE    (sheet_widget_adjustment_get_type())
@@ -862,9 +863,9 @@ sheet_widget_adjustment_clear_sheet (SheetObject *so)
 }
 
 static gboolean
-sheet_widget_adjustment_write_xml (SheetObject const *so,
-				 XmlParseContext const *context,
-				 xmlNodePtr tree)
+sheet_widget_adjustment_write_xml_dom (SheetObject const     *so,
+				       XmlParseContext const *context,
+				       xmlNodePtr tree)
 {
 	SheetWidgetAdjustment *swa = SHEET_WIDGET_ADJUSTMENT (so);
 
@@ -885,9 +886,9 @@ sheet_widget_adjustment_write_xml (SheetObject const *so,
 }
 
 static gboolean
-sheet_widget_adjustment_read_xml (SheetObject *so,
-				 XmlParseContext const *context,
-				 xmlNodePtr tree)
+sheet_widget_adjustment_read_xml_dom (SheetObject *so, char const *typename,
+				      XmlParseContext const *context,
+				      xmlNodePtr tree)
 {
 	SheetWidgetAdjustment *swa = SHEET_WIDGET_ADJUSTMENT (so);
 	double tmp;
@@ -958,8 +959,8 @@ SOW_MAKE_TYPE (adjustment, Adjustment,
 	       &sheet_widget_adjustment_set_sheet,
 	       &sheet_widget_adjustment_clear_sheet,
 	       &sheet_widget_adjustment_clone,
-	       &sheet_widget_adjustment_write_xml,
-	       &sheet_widget_adjustment_read_xml)
+	       &sheet_widget_adjustment_write_xml_dom,
+	       &sheet_widget_adjustment_read_xml_dom)
 
 /****************************************************************************/
 #define SHEET_WIDGET_SCROLLBAR_TYPE	(sheet_widget_scrollbar_get_type ())
@@ -1433,9 +1434,9 @@ sheet_widget_checkbox_clear_sheet (SheetObject *so)
 }
 
 static gboolean
-sheet_widget_checkbox_write_xml (SheetObject const *so,
-				 XmlParseContext const *context,
-				 xmlNodePtr tree)
+sheet_widget_checkbox_write_xml_dom (SheetObject const 	   *so,
+				     XmlParseContext const *context,
+				     xmlNodePtr tree)
 {
 	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (so);
 
@@ -1453,9 +1454,9 @@ sheet_widget_checkbox_write_xml (SheetObject const *so,
 }
 
 static gboolean
-sheet_widget_checkbox_read_xml (SheetObject *so,
-				XmlParseContext const *context,
-				xmlNodePtr tree)
+sheet_widget_checkbox_read_xml_dom (SheetObject *so, char const *typename,
+				    XmlParseContext const *context,
+				    xmlNodePtr tree)
 {
 	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (so);
 	gchar *label = (gchar *)xmlGetProp (tree, (xmlChar *)"Label");
@@ -1523,8 +1524,8 @@ SOW_MAKE_TYPE (checkbox, Checkbox,
 	       &sheet_widget_checkbox_set_sheet,
 	       &sheet_widget_checkbox_clear_sheet,
 	       &sheet_widget_checkbox_clone,
-	       &sheet_widget_checkbox_write_xml,
-	       &sheet_widget_checkbox_read_xml)
+	       &sheet_widget_checkbox_write_xml_dom,
+	       &sheet_widget_checkbox_read_xml_dom)
 
 /****************************************************************************/
 #define SHEET_WIDGET_RADIO_BUTTON_TYPE	(sheet_widget_radio_button_get_type ())
@@ -1656,8 +1657,8 @@ sheet_widget_radio_button_set_label (SheetObject *so, char const *str)
 
 SOW_MAKE_TYPE (radio_button, RadioButton,
 	       NULL,
-	       sheet_widget_radio_button_set_sheet,
-	       sheet_widget_radio_button_clear_sheet,
+	       &sheet_widget_radio_button_set_sheet,
+	       &sheet_widget_radio_button_clear_sheet,
 	       NULL,
 	       NULL,
 	       NULL)
@@ -1751,8 +1752,8 @@ sheet_widget_list_clear_sheet (SheetObject *so)
 
 SOW_MAKE_TYPE (list, List,
 	       NULL,
-	       sheet_widget_list_set_sheet,
-	       sheet_widget_list_clear_sheet,
+	       &sheet_widget_list_set_sheet,
+	       &sheet_widget_list_clear_sheet,
 	       NULL,
 	       NULL,
 	       NULL)
@@ -1889,8 +1890,8 @@ sheet_widget_combo_clear_sheet (SheetObject *so)
 
 SOW_MAKE_TYPE (combo, Combo,
 	       NULL,
-	       sheet_widget_combo_set_sheet,
-	       sheet_widget_combo_clear_sheet,
+	       &sheet_widget_combo_set_sheet,
+	       &sheet_widget_combo_clear_sheet,
 	       NULL,
 	       NULL,
 	       NULL)

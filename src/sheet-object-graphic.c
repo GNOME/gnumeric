@@ -20,6 +20,7 @@
 #include "sheet-object-impl.h"
 #include "workbook-edit.h"
 #include "dialogs/help.h"
+#include "xml-io.h"
 
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtklabel.h>
@@ -214,8 +215,9 @@ sheet_object_graphic_update_bounds (SheetObject *so, GObject *view_obj)
 }
 
 static gboolean
-sheet_object_graphic_read_xml (SheetObject *so,
-			       XmlParseContext const *ctxt, xmlNodePtr tree)
+sheet_object_graphic_read_xml_dom (SheetObject *so, char const *typename,
+				   XmlParseContext const *ctxt,
+				   xmlNodePtr tree)
 {
 	SheetObjectGraphic *sog;
 	double width, a, b, c;
@@ -242,8 +244,9 @@ sheet_object_graphic_read_xml (SheetObject *so,
 }
 
 static gboolean
-sheet_object_graphic_write_xml (SheetObject const *so,
-				XmlParseContext const *ctxt, xmlNodePtr tree)
+sheet_object_graphic_write_xml_dom (SheetObject const *so,
+				    XmlParseContext const *ctxt,
+				    xmlNodePtr tree)
 {
 	SheetObjectGraphic *sog;
 
@@ -614,13 +617,13 @@ sheet_object_graphic_class_init (GObjectClass *object_class)
 	object_class->finalize = sheet_object_graphic_finalize;
 
 	/* SheetObject class method overrides */
-	so_class->new_view	= sheet_object_graphic_new_view;
-	so_class->update_view_bounds = sheet_object_graphic_update_bounds;
-	so_class->read_xml	= sheet_object_graphic_read_xml;
-	so_class->write_xml	= sheet_object_graphic_write_xml;
-	so_class->clone         = sheet_object_graphic_clone;
-	so_class->user_config   = sheet_object_graphic_user_config;
-	so_class->print         = sheet_object_graphic_print;
+	so_class->new_view		= sheet_object_graphic_new_view;
+	so_class->update_view_bounds	= sheet_object_graphic_update_bounds;
+	so_class->read_xml_dom		= sheet_object_graphic_read_xml_dom;
+	so_class->write_xml_dom		= sheet_object_graphic_write_xml_dom;
+	so_class->clone			= sheet_object_graphic_clone;
+	so_class->user_config		= sheet_object_graphic_user_config;
+	so_class->print			= sheet_object_graphic_print;
 	so_class->rubber_band_directly = TRUE;
 
 	sog_class->get_graphic = NULL;
@@ -778,8 +781,9 @@ sheet_object_filled_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 }
 
 static gboolean
-sheet_object_filled_read_xml (SheetObject *so,
-			      XmlParseContext const *ctxt, xmlNodePtr tree)
+sheet_object_filled_read_xml_dom (SheetObject *so, char const *typename,
+				  XmlParseContext const *ctxt,
+				  xmlNodePtr tree)
 {
 	SheetObjectFilled *sof;
 
@@ -789,12 +793,13 @@ sheet_object_filled_read_xml (SheetObject *so,
 	gnm_so_filled_set_outline_color (so,
 		xml_node_get_color (tree, "OutlineColor"));
 
-	return sheet_object_graphic_read_xml (so, ctxt, tree);
+	return sheet_object_graphic_read_xml_dom (so, typename, ctxt, tree);
 }
 
 static gboolean
-sheet_object_filled_write_xml (SheetObject const *so,
-			       XmlParseContext const *ctxt, xmlNodePtr tree)
+sheet_object_filled_write_xml_dom (SheetObject const *so,
+				   XmlParseContext const *ctxt,
+				   xmlNodePtr tree)
 {
 	SheetObjectFilled *sof;
 
@@ -804,7 +809,7 @@ sheet_object_filled_write_xml (SheetObject const *so,
 	if (sof->outline_color)
 		xml_node_set_color (tree, "OutlineColor", sof->outline_color);
 
-	return sheet_object_graphic_write_xml (so, ctxt, tree);
+	return sheet_object_graphic_write_xml_dom (so, ctxt, tree);
 }
 
 static SheetObject *
@@ -1131,8 +1136,8 @@ sheet_object_filled_class_init (GObjectClass *object_class)
 	sheet_object_class = SHEET_OBJECT_CLASS (object_class);
 	sheet_object_class->new_view	  = sheet_object_filled_new_view;
 	sheet_object_class->update_view_bounds = sheet_object_filled_update_bounds;
-	sheet_object_class->read_xml	  = sheet_object_filled_read_xml;
-	sheet_object_class->write_xml	  = sheet_object_filled_write_xml;
+	sheet_object_class->read_xml_dom  = sheet_object_filled_read_xml_dom;
+	sheet_object_class->write_xml_dom = sheet_object_filled_write_xml_dom;
 	sheet_object_class->clone         = sheet_object_filled_clone;
 	sheet_object_class->user_config   = sheet_object_filled_user_config;
 	sheet_object_class->print         = sheet_object_filled_print;
@@ -1241,8 +1246,8 @@ sheet_object_polygon_update_bounds (SheetObject *so, GObject *view_obj)
 }
 
 static gboolean
-sheet_object_polygon_read_xml (SheetObject *so,
-			       XmlParseContext const *ctxt, xmlNodePtr tree)
+sheet_object_polygon_read_xml_dom (SheetObject *so, char const *typename,
+				   XmlParseContext const *ctxt, xmlNodePtr tree)
 {
 	SheetObjectPolygon *sop;
 
@@ -1253,8 +1258,8 @@ sheet_object_polygon_read_xml (SheetObject *so,
 }
 
 static gboolean
-sheet_object_polygon_write_xml (SheetObject const *so,
-				XmlParseContext const *ctxt, xmlNodePtr tree)
+sheet_object_polygon_write_xml_dom (SheetObject const *so,
+				    XmlParseContext const *ctxt, xmlNodePtr tree)
 {
 	SheetObjectPolygon *sop;
 
@@ -1301,8 +1306,8 @@ sheet_object_polygon_class_init (GObjectClass *object_class)
 	sheet_object_class = SHEET_OBJECT_CLASS (object_class);
 	sheet_object_class->new_view	  = sheet_object_polygon_new_view;
 	sheet_object_class->update_view_bounds = sheet_object_polygon_update_bounds;
-	sheet_object_class->read_xml	  = sheet_object_polygon_read_xml;
-	sheet_object_class->write_xml	  = sheet_object_polygon_write_xml;
+	sheet_object_class->read_xml_dom  = sheet_object_polygon_read_xml_dom;
+	sheet_object_class->write_xml_dom = sheet_object_polygon_write_xml_dom;
 	sheet_object_class->clone         = sheet_object_polygon_clone;
 	sheet_object_class->user_config   = NULL;
 	sheet_object_class->print         = sheet_object_polygon_print;
@@ -1518,9 +1523,9 @@ sheet_object_text_update_bounds (SheetObject *so, GObject *view)
 }
 
 static gboolean
-sheet_object_text_read_xml (SheetObject *so,
-			     XmlParseContext const *context,
-			     xmlNodePtr tree)
+sheet_object_text_read_xml_dom (SheetObject *so, char const *typename,
+				XmlParseContext const *context,
+				xmlNodePtr tree)
 {
 	SheetObjectText *sot = SHEET_OBJECT_TEXT (so);
 	gchar *label = (gchar *)xmlGetProp (tree, (xmlChar *)"Label");
@@ -1537,9 +1542,9 @@ sheet_object_text_read_xml (SheetObject *so,
 }
 
 static gboolean
-sheet_object_text_write_xml (SheetObject const *so,
-			      XmlParseContext const *context,
-			      xmlNodePtr tree)
+sheet_object_text_write_xml_dom (SheetObject const *so,
+				 XmlParseContext const *context,
+				 xmlNodePtr tree)
 {
 	SheetObjectText *sot = SHEET_OBJECT_TEXT (so);
 
@@ -1581,11 +1586,11 @@ sheet_object_text_class_init (GObjectClass *object_class)
 
 	/* SheetObject class method overrides */
 	so_class = SHEET_OBJECT_CLASS (object_class);
-	so_class->new_view	= sheet_object_text_new_view;
-	so_class->update_view_bounds = sheet_object_text_update_bounds;
-	so_class->read_xml	= sheet_object_text_read_xml;
-	so_class->write_xml	= sheet_object_text_write_xml;
-	so_class->clone         = sheet_object_text_clone;
+	so_class->new_view		= sheet_object_text_new_view;
+	so_class->update_view_bounds	= sheet_object_text_update_bounds;
+	so_class->read_xml_dom		= sheet_object_text_read_xml_dom;
+	so_class->write_xml_dom		= sheet_object_text_write_xml_dom;
+	so_class->clone			= sheet_object_text_clone;
 	/* so_class->user_config   = NULL; inherit from parent */
 	/* so_class->print         = NULL; inherit from parent */
 	so_class->rubber_band_directly = FALSE;

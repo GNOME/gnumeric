@@ -34,6 +34,7 @@
 #include "workbook-edit.h"
 #include "commands.h"
 #include "application.h"
+#include "xml-io.h"
 
 #include <goffice/graph/gog-graph.h>
 #include <goffice/graph/gog-object.h>
@@ -250,8 +251,8 @@ sheet_object_graph_update_bounds (SheetObject *so, GObject *view_obj)
 }
 
 static gboolean
-sheet_object_graph_read_xml (SheetObject *so,
-			     XmlParseContext const *ctxt, xmlNodePtr tree)
+sheet_object_graph_read_xml_dom (SheetObject *so, char const *typename,
+				 XmlParseContext const *ctxt, xmlNodePtr tree)
 {
 	xmlNodePtr child = e_xml_get_child_by_name (tree, "GogObject");
 
@@ -264,8 +265,8 @@ sheet_object_graph_read_xml (SheetObject *so,
 }
 
 static gboolean
-sheet_object_graph_write_xml (SheetObject const *so,
-			      XmlParseContext const *ctxt, xmlNode *parent)
+sheet_object_graph_write_xml_dom (SheetObject const *so,
+				  XmlParseContext const *ctxt, xmlNode *parent)
 {
 	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
 	xmlNode *res = gog_object_write_xml (GOG_OBJECT (sog->graph), ctxt->doc);
@@ -398,8 +399,8 @@ sheet_object_graph_class_init (GObjectClass *klass)
 	so_class->new_view	     = sheet_object_graph_new_view;
 	so_class->populate_menu	     = sheet_object_graph_populate_menu;
 	so_class->update_view_bounds = sheet_object_graph_update_bounds;
-	so_class->read_xml	     = sheet_object_graph_read_xml;
-	so_class->write_xml	     = sheet_object_graph_write_xml;
+	so_class->read_xml_dom	     = sheet_object_graph_read_xml_dom;
+	so_class->write_xml_dom	     = sheet_object_graph_write_xml_dom;
 	so_class->clone              = sheet_object_graph_clone;
 	so_class->user_config        = sheet_object_graph_user_config;
 	so_class->assign_to_sheet    = sheet_object_graph_set_sheet;
