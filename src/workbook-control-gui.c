@@ -2867,11 +2867,13 @@ cb_data_text_to_columns (GtkWidget *widget, WorkbookControlGUI *wbcg)
 			     COMMAND_CONTEXT (wbcg));
 }
 
+#ifdef ENABLE_PIVOTS
 static void
 cb_data_pivottable (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	dialog_pivottable (wbcg);
 }
+#endif
 
 static void
 cb_data_consolidate (GtkWidget *widget, WorkbookControlGUI *wbcg)
@@ -3835,7 +3837,7 @@ static GnomeUIInfo workbook_menu_data [] = {
 		cb_data_consolidate),
 
 	GNOMEUIINFO_SUBTREE(N_("_Group and Outline"),   workbook_menu_data_outline),
-#if 0
+#ifdef ENABLE_PIVOTS
 	GNOMEUIINFO_ITEM_STOCK (N_("_PivotTable..."),
 		N_("Create a pivot table."),
 		cb_data_pivottable, "Gnumeric_PivotTable"),
@@ -4077,7 +4079,9 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("DataOutlineGroup", cb_data_group),
 	BONOBO_UI_UNSAFE_VERB ("DataOutlineUngroup", cb_data_ungroup),
 
+#ifdef ENABLE_PIVOTS
 	BONOBO_UI_UNSAFE_VERB ("PivotTable", cb_data_pivottable),
+#endif
 
 	BONOBO_UI_UNSAFE_VERB ("AutoSum", cb_autosum),
 	BONOBO_UI_UNSAFE_VERB ("FunctionGuru", cb_formula_guru),
