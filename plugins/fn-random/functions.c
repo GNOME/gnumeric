@@ -751,6 +751,35 @@ gnumeric_randlevy (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (random_levy_skew (c, alpha, beta));
 }
 
+/***************************************************************************/
+
+static const char *help_randexppow = {
+        N_("@FUNCTION=RANDEXPPOW\n"
+           "@SYNTAX=RANDEXPPOW(a,b)\n"
+
+           "@DESCRIPTION="
+           "RANDLEVY returns a random variate from the exponential power "
+	   "distribution with scale parameter @a and exponent @b. The "
+	   "distribution is, p(x) dx = {1 over 2 a Gamma(1+1/b)} exp(-|x/a|^b) "
+	   "dx, for x >= 0. For b = 1 this reduces to the Laplace distribution. "
+	   "For b = 2 it has the same form as a gaussian distribution, but "
+	   "with a = sqrt{2} sigma. "
+           "\n"
+           "@EXAMPLES=\n"
+           "RANDEXPPOW(0.5,0.1).\n"
+           "\n"
+           "@SEEALSO=RAND")
+};
+
+static Value *
+gnumeric_randexppow (FunctionEvalInfo *ei, Value **argv)
+{
+	gnum_float a = value_get_as_float (argv[0]);
+	gnum_float b = value_get_as_float (argv[1]);
+
+	return value_new_float (random_exppow (a, b));
+}
+
 
 /***************************************************************************/
 
@@ -771,6 +800,8 @@ const ModulePluginFunctionInfo random_functions[] = {
 	  gnumeric_randchisq, NULL, NULL, NULL },
         { "randexp", "f", N_("b"),         &help_randexp,
 	  gnumeric_randexp, NULL, NULL, NULL },
+        { "randexppow", "ff", N_("a,b"),         &help_randexppow,
+	  gnumeric_randexppow, NULL, NULL, NULL },
         { "randfdist", "ff", N_("nu1,nu2"),      &help_randfdist,
 	  gnumeric_randfdist, NULL, NULL, NULL },
         { "randgamma", "ff", N_("a,b"),    &help_randgamma,
@@ -809,32 +840,3 @@ const ModulePluginFunctionInfo random_functions[] = {
 	  gnumeric_randweibull, NULL, NULL, NULL },
         {NULL}
 };
-
-#if 0
-
-/* FIXME: Should be merged into the above.  */
-static const struct {
-	const char *func;
-	AutoFormatTypes typ;
-} af_info[] = {
-	{ NULL, AF_UNKNOWN }
-};
-
-void
-plugin_init (void)
-{
-	int i;
-	for (i = 0; af_info[i].func; i++)
-		auto_format_function_result_by_name (af_info[i].func,
-						     af_info[i].typ);
-}
-
-void
-plugin_cleanup (void)
-{
-	int i;
-	for (i = 0; af_info[i].func; i++)
-		auto_format_function_result_remove (af_info[i].func);
-}
-
-#endif

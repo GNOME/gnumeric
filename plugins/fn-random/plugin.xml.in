@@ -19,6 +19,7 @@
 				<function name="randcauchy"/>
 				<function name="randchisq"/>
 				<function name="randexp"/>
+				<function name="randexppow"/>
 				<function name="randfdist"/>
 				<function name="randgamma"/>
 				<function name="randgaussian"/>
