@@ -1,3 +1,7 @@
+2003-02-10  Morten Welinder  <terra@diku.dk>
+
+	* src/xml-io.c (xml_read_cell_copy): Fix 104669.
+
 2003-02-09  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* schemas/gnumeric-dialogs.schemas.in,

@@ -2966,11 +2966,13 @@ xml_read_cell_copy (XmlParseContext *ctxt, xmlNodePtr tree,
 		else {
 			Value *val;
 			GnmExpr const *expr;
+			GnmDateConventions const *date_conv =
+				ctxt->wb ? workbook_date_conv (ctxt->wb) : NULL;
 
 			parse_text_value_or_expr (&pp,
 						  CXML2C (content),
 						  &val, &expr, value_fmt,
-						  workbook_date_conv (ctxt->wb));
+						  date_conv);
 
 			if (val != NULL) {	/* String was a value */
 				value_release (cell->value);
