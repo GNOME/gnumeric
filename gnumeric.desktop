@@ -2,10 +2,12 @@
 Name=Gnumeric spreadsheet
 Name[fr]=Tableur Gnumeric
 Name[pt]=Gnumeric
+Name[no]=Gnumeric regneark
 Comment=Spreadsheet
 Comment[es]=Hoja de cálculo
 Comment[fr]=Tableur Gnumeric
 Comment[pt]=Folha de cálculo Gnumeric
+Comment[no]=Regnearkprogram
 Exec=gnumeric
 Icon=
 Terminal=0
