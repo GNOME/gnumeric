@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.71\n"
-"POT-Creation-Date: 2003-06-07 01:49-0400\n"
+"POT-Creation-Date: 2003-06-07 13:25-0400\n"
 "PO-Revision-Date: 2002-06-22 16:07+0200\n"
 "Last-Translator: Softcatala <tradgnome@softcatala.org>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"

@@ -737,6 +737,8 @@ unlink_cellrange_dep (Dependent *dep, CellPos const *pos,
 static DependentFlags
 link_expr_dep (Dependent *dep, CellPos const *pos, GnmExpr const *tree)
 {
+	g_return_val_if_fail (tree != NULL, DEPENDENT_NO_FLAG);
+
 	switch (tree->any.oper) {
 	case GNM_EXPR_OP_ANY_BINARY:
 		return  link_expr_dep (dep, pos, tree->binary.value_a) |

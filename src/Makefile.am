@@ -358,7 +358,7 @@ gnm-marshalers.c : gnm-marshalers.list $(GLIB_GENMARSHAL)
 	cat $@.tmp >>$@
 	rm -f $@.tmp
 
-gnumeric-paths.h: gnumeric-paths.h.in
+gnumeric-paths.h: gnumeric-paths.h.in Makefile
 	sed								\
 	  -e 's!@''gnumeric_prefix''@!$(gnumeric_prefix)!'		\
 	  -e 's!@''gnumeric_sysconfdir''@!$(gnumeric_sysconfdir)!'	\
