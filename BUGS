@@ -44,3 +44,5 @@ Widget polishing
 - gtk-combo-text
     : a value entered directly in the edit field does not handle selection in
       the list correctly
+    : The mouse over effect is incorrect when the popup is closed and reopened.
+

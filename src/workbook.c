@@ -788,6 +788,7 @@ insert_sheet_cmd (GtkWidget *unused, Workbook *wb)
 	g_free (name);
 
 	workbook_attach_sheet (wb, sheet);
+	sheet_set_dirty (sheet, TRUE);
 }
 
 static void
@@ -2899,6 +2900,9 @@ workbook_attach_sheet (Workbook *wb, Sheet *sheet)
 	gtk_widget_show_all (t);
 	gtk_object_set_data (GTK_OBJECT (t), "sheet", sheet);
 
+	/* FIXME : The bonobo case does not seem to have a notebook ? */
+	g_return_if_fail (wb->notebook != NULL);
+
 	sheet_label = editable_label_new (sheet->name);
 	/*
 	 * NB. this is so we can use editable_label_set_text since
@@ -3399,6 +3403,7 @@ workbook_move_sheet (Sheet *sheet, int direction)
 		    gtk_notebook_get_nth_page (nb, source);
 
 		gtk_notebook_reorder_child (nb, w, dest);
+		sheet_set_dirty (sheet, TRUE);
 	}
 }
 

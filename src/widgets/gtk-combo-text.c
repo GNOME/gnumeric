@@ -81,7 +81,6 @@ gtk_combo_text_select_item (GtkComboText *ct, int elem)
  * this.
  *
  * TODO : Add autoscroll
- * TODO : Cancel the popup when 'Escape' is pressed.
  */
 static gboolean
 cb_enter (GtkWidget *w, GdkEventCrossing *event,

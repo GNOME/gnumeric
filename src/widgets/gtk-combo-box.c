@@ -173,7 +173,6 @@ gtk_combo_box_popup_hide_unconditional (GtkComboBox *combo_box)
        	gtk_signal_handler_unblock_by_func (GTK_OBJECT (arrow),
 					    GTK_SIGNAL_FUNC (gtk_combo_toggle_pressed),
 					    combo_box);
-
 }
 
 /**

@@ -1,3 +1,13 @@
+2000-04-07  Jody Goldberg <jgoldberg@home.com>
+
+	* src/embeddable-grid.h (GridViewClass) : Fix typo, did this ever work ?
+
+	* src/workbook.c (workbook_move_sheet) : Mark the book as dirty when a
+	  sheet moved.
+	(insert_sheet_cmd) : Mark book as dirty when sheet is added.
+	(workbook_attach_sheet) : Add a precondition to avoid failing in the
+	  bonobo case.
+
 2000-04-07  Morten Welinder  <terra@diku.dk>
 
 	* src/collect.h (CollectFlags): Get rid of COLLECT_IGNORE_POSITIVE

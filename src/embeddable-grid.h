@@ -69,7 +69,7 @@ struct _GridView {
 };
 
 typedef struct {
-	BonoboView parent_class;
+	BonoboViewClass parent_class;
 } GridViewClass;
 
 GtkType         grid_view_get_type           (void);
