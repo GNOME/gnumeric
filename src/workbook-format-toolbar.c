@@ -16,6 +16,7 @@
 #include "global-gnome-font.h"
 #include "widgets/widget-color-combo.h"
 #include "widgets/gnumeric-toolbar.h"
+#include "widgets/widget-pixmap-combo.h"
 #include "workbook-private.h"
 #include "workbook.h"
 #include "application.h"
@@ -368,6 +369,79 @@ workbook_format_toolbar_orient (GtkToolbar *toolbar,
 	}
 }
 
+
+/****************************************************************************/
+/* Border combo box */
+#include "pixmaps/border_all.xpm"
+#include "pixmaps/border_bottom.xpm"
+#include "pixmaps/border_double_bottom.xpm"
+#include "pixmaps/border_left.xpm"
+#include "pixmaps/border_none.xpm"
+#include "pixmaps/border_outside.xpm"
+#include "pixmaps/border_right.xpm"
+#include "pixmaps/border_thick_bottom.xpm"
+#include "pixmaps/border_thick_outside.xpm"
+#include "pixmaps/border_top_n_bottom.xpm"
+#include "pixmaps/border_top_n_double_bottom.xpm"
+#include "pixmaps/border_top_n_thick_bottom.xpm"
+
+static PixmapComboElement border_combo_info[] =
+{
+    { N_("Left"), border_left,		11 },
+    { N_("Clear Borders"), border_none,	12 },
+    { N_("Right"), border_right,	13 },
+
+    { N_("All Borders"), border_all,			21 },
+    { N_("Outside Borders"), border_outside,		22 },
+    { N_("Thick Outside Borders"), border_thick_outside,23 },
+
+    { N_("Bottom"), border_bottom,			31 },
+    { N_("Double Bottom"), border_double_bottom,	32 },
+    { N_("Thick Bottom"), border_thick_bottom,		33 },
+
+    { N_("Top and Bottom"), border_top_n_bottom,		41 },
+    { N_("Top and Double Bottom"), border_top_n_double_bottom,	42 },
+    { N_("Top and Thick Bottom"), border_top_n_thick_bottom,	43 },
+
+    { NULL, NULL}
+};
+
+static void
+cb_border_changed (PixmapCombo *pixmap_combo, int index, Workbook *wb)
+{
+	Sheet  *sheet = wb->current_sheet;
+
+	switch (index) {
+	case 11 : /* left */
+	case 12 : /* none */
+	case 13 : /* right */
+
+	case 21 : /* all */
+	case 22 : /* outside */
+	case 23 : /* thick_outside */
+
+	case 31 : /* bottom */
+	case 32 : /* double_bottom */
+	case 33 : /* thick_bottom */
+
+	case 41 : /* top_n_bottom */
+	case 42 : /* top_n_double_bottom */
+	case 43 : /* top_n_thick_bottom */
+		break;
+
+	default :
+		g_warning ("Unknown border preset selected (%d)", index);
+		return;
+	}
+
+	g_warning ("Finish the border toolbar");
+#if 0
+	printf ("%s %d\n", sheet->name, index);
+	cmd_format (workbook_command_context_gui (wb),
+		    sheet, mstyle, NULL);
+#endif
+}
+
 GtkWidget *
 workbook_create_format_toolbar (Workbook *wb)
 {
@@ -439,6 +513,13 @@ workbook_create_format_toolbar (Workbook *wb)
 	/*
 	 * Create the combo boxes
 	 */
+	wb->priv->border_combo = pixmap_combo_new (border_combo_info, 3, 4);
+	pixmap_combo_select_pixmap (PIXMAP_COMBO (wb->priv->border_combo), 1);
+	gtk_widget_show (wb->priv->border_combo);
+	gtk_signal_connect (GTK_OBJECT (wb->priv->border_combo), "changed",
+			    GTK_SIGNAL_FUNC (cb_border_changed), wb);
+	disable_focus (wb->priv->border_combo, NULL);
+
 	wb->priv->back_combo = color_combo_new (bucket_xpm, _("Clear"));
 	color_combo_select_color (COLOR_COMBO (wb->priv->back_combo), 0);
 	gtk_widget_show (wb->priv->back_combo);
@@ -454,6 +535,10 @@ workbook_create_format_toolbar (Workbook *wb)
 
 	gtk_toolbar_append_space (GTK_TOOLBAR (toolbar));
 	
+	gtk_toolbar_append_widget (
+		GTK_TOOLBAR (toolbar),
+		wb->priv->border_combo, _("Borders"), NULL);
+
 	gtk_toolbar_append_widget (
 		GTK_TOOLBAR (toolbar),
 		wb->priv->back_combo, _("Background"), NULL);

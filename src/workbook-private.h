@@ -37,9 +37,9 @@ struct _WorkbookPrivate {
 	GtkWidget *zoom_entry;
 
 	/*
-	 * ColorCombos for the foreground and background
+	 * Combos for the foreground, background, and borders
 	 */
-	GtkWidget *fore_combo, *back_combo;
+	GtkWidget *fore_combo, *back_combo, *border_combo;
 
 	const char *current_font_name;
 
