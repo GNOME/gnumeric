@@ -40,8 +40,9 @@ void
 global_gnome_font_init (void)
 {
 	int n_families, i;
+	PangoContext *context = gdk_pango_context_get ();
 
-	pango_context_list_families (gdk_pango_context_get (),
+	pango_context_list_families (context,
 		&pango_families, &n_families);
 	qsort (pango_families, n_families, sizeof (*pango_families),
 	       compare_family_pointers_by_name);
@@ -61,6 +62,8 @@ global_gnome_font_init (void)
 			gnumeric_point_size_list,
 			g_strdup (buffer));
 	}
+
+	g_object_unref (G_OBJECT (context));
 }
 
 void

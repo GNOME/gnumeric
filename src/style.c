@@ -1,9 +1,10 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * Style.c: Style resource management
  *
  * Author:
  *  Miguel de Icaza (miguel@gnu.org)
- *  (C) 1998-2001 Miguel de Icaza
+ *  (C) 1998-2002 Miguel de Icaza
  */
 #include <gnumeric-config.h>
 #include "gnumeric.h"
@@ -56,6 +57,7 @@ style_font_new_simple (char const *font_name, double size_pts, double scale,
 	if (font) {
 		font->ref_count++;
 	} else {
+		PangoFontDescription *desc;
 		if (g_hash_table_lookup (style_font_negative_hash, &key))
 			return NULL;
 
@@ -68,17 +70,18 @@ style_font_new_simple (char const *font_name, double size_pts, double scale,
 		/* One reference for the cache, one for the caller. */
 		font->ref_count = 2;
 
-		font->pango.desc = pango_font_description_new ();
-		pango_font_description_set_family (font->pango.desc, font_name);
-		pango_font_description_set_weight (font->pango.desc,
+		font->pango.context = gdk_pango_context_get ();
+		desc = pango_context_get_font_description (font->pango.context);
+		pango_font_description_set_family (desc, font_name);
+		pango_font_description_set_weight (desc,
 			bold ? PANGO_WEIGHT_BOLD : PANGO_WEIGHT_NORMAL);
-		pango_font_description_set_style (font->pango.desc,
+		pango_font_description_set_style (desc,
 			italic ? PANGO_STYLE_ITALIC : PANGO_STYLE_NORMAL);
-		pango_font_description_set_size (font->pango.desc,
+		pango_font_description_set_size (desc,
 			size_pts*scale * PANGO_SCALE);
 
-		font->pango.font = pango_context_load_font (gdk_pango_context_get (),
-			font->pango.desc);
+		font->pango.font = pango_context_load_font (font->pango.context,
+							    desc);
 		if (font->pango.font == NULL) {
 			g_hash_table_insert (style_font_negative_hash,
 					     font, font);
@@ -88,7 +91,7 @@ style_font_new_simple (char const *font_name, double size_pts, double scale,
 			gtk_get_default_language ());
 
 		/* Worst case scenario */
-		font->gdk_font = gdk_font_from_description (font->pango.desc);
+		font->gdk_font = gdk_font_from_description (desc);
 		if (font->gdk_font == NULL)
 			/* xgettext:
 			 * The name of the default font for this locale.
@@ -110,7 +113,7 @@ style_font_new_simple (char const *font_name, double size_pts, double scale,
 #warning FIXME
 		font->approx_width.pts = font->approx_width.pixels;
 #if 0
-		    font->font
+		font->font
 			? gnome_font_get_width_string (font->font, "4444444444") / 10.
 			: 1.;
 #endif
@@ -212,17 +215,17 @@ style_font_unref (StyleFont *sf)
 	if (sf->ref_count != 0)
 		return;
 
-	if (sf->pango.desc != NULL) {
-		pango_font_description_free (sf->pango.desc);
-		sf->pango.desc = NULL;
+	if (sf->pango.context != NULL) {
+		g_object_unref (G_OBJECT (sf->pango.context));
+		sf->pango.context = NULL;
 	}
 	if (sf->pango.font != NULL) {
 		g_object_unref (G_OBJECT (sf->pango.font));
 		sf->pango.font = NULL;
-		if (sf->pango.metrics != NULL) {
-			pango_font_metrics_unref (sf->pango.metrics);
-			sf->pango.metrics = NULL;
-		}
+	}
+	if (sf->pango.metrics != NULL) {
+		pango_font_metrics_unref (sf->pango.metrics);
+		sf->pango.metrics = NULL;
 	}
 	if (sf->gdk_font != NULL) {
 		gdk_font_unref (sf->gdk_font);

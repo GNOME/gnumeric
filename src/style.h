@@ -49,9 +49,9 @@ struct _StyleFont {
 		float pts;
 	} approx_width;
 	struct {
-		PangoFont	  	*font;
-		PangoFontDescription	*desc;
+		PangoContext		*context;
 		PangoFontMetrics	*metrics;
+		PangoFont	  	*font;
 	} pango;
 
 	GdkFont	*gdk_font;
