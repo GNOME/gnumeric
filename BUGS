@@ -138,7 +138,7 @@ Pending Patches
     25.12) plugins/guile                                        (DONE 20030110 MW)
     25.13) plugins/html                                         (DONE 20030110 MW)
     25.14) plugins/lotus-123                                    (DONE 20030110 MW)
-    25.15) plugins/mps                  ---NOT SAFE---
+    25.15) plugins/mps                ---PROBABLY SAFE---
     25.16) plugins/numtheory                                    (DONE 20030110 MW)
     25.17) plugins/oleo                                         (DONE 20030408 MW)
     25.18) plugins/openoffice                                   (DONE 20030408 MW)
