@@ -745,8 +745,8 @@ cb_format_entry (GtkEditable *w, FormatState *state)
 		state->format.spec = g_strdup (tmp);
 		mstyle_set_format (state->result, state->format.spec);
 		fmt_dialog_changed (state);
+		draw_format_preview (state);
 	}
-	draw_format_preview (state);
 }
 
 static void
