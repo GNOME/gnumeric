@@ -358,7 +358,7 @@ EXTRA_DIST = GNOME_Gnumeric.xml GNOME_Gnumeric_Component.xml	\
 	    gnm-marshalers.list	                        	\
 	    main-application.c normal-args.c corba-args.c	\
 	    main-component.c					\
-	    $(GNUMERIC_BONOBO)
+	    $(GNUMERIC_BONOBO) README.gnm_float
 
 #number_match_SOURCES = number-match.c  formats.c dates.c number-match-test.c
 

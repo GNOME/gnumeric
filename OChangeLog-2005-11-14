@@ -1,5 +1,9 @@
 2002-12-05  Jody Goldberg <jody@gnome.org>
 
+	* src/Makefile.am (EXTRA_DIST) : add README.gnm_float
+
+2002-12-05  Jody Goldberg <jody@gnome.org>
+
 	* src/style-color.c (gnumeric_color_init) : swap green to yellow
 
 	* src/gui-util.c (gnumeric_create_tooltip) : use gs_yellow.
