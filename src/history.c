@@ -43,14 +43,13 @@ file_history_cmd (GtkWidget *widget, Workbook *wb)
 #else
 
 static void
-file_history_cmd (BonoboUIHandler *uih, Workbook *wb, const char *path)
+file_history_cmd (BonoboUIComponent *uic, Workbook *wb, const char *path)
 {
 	char *filename, *fullpath;
 	Workbook *new_wb;
 
 	fullpath = g_strdup_printf ("%s/%s", "/menu/File/FileHistory", path);
-	filename = bonobo_ui_component_get_prop (BONOBO_UI_COMPONENT (uih),
-						 fullpath, "descr", NULL);
+	filename = bonobo_ui_component_get_prop (uic, fullpath, "descr", NULL);
 	g_free (fullpath);
 
 	new_wb = workbook_read (workbook_command_context_gui (wb), filename);

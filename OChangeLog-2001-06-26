@@ -1,3 +1,9 @@
+2000-10-11  Jon K Hellan  <hellan@acm.org>
+
+	* src/history.c (file_history_cmd): Removed yet another vestige of
+	the old Bonobo UI Handler code: Changed `BonoboUIHandler *uih' to
+	`BonoboUIComponent *uic.
+
 2000-10-11  Martin Baulig  <baulig@suse.de>
 
 	Removed the last bits of the old Bonobo UI Handler code.
