@@ -1,3 +1,8 @@
+1999-12-29  Jody Goldberg <jgoldberg@home.com>
+
+	* csv-io.c (csv_parse_sheet) : Minor adjustment to the previous
+	  enhancement.
+
 1999-12-28  Stephane Alnet <stephane@u-picardie.fr>
 
 	* csv-io.c (csv_parse_sheet): Small fix to handle CRLF files. 

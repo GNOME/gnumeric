@@ -54,6 +54,10 @@ csv_parse_field (FileSource_t *src)
 				return NULL;
 			}
 
+			/* \r\n is a single embedded newline, ignore the \r */
+			if (cur [1] == '\r' && cur [2] == '\n')
+				++cur;
+
 			g_string_append_c (res, cur[1]);
 			cur += 2;
 		} else {
@@ -107,10 +111,11 @@ csv_parse_sheet (FileSource_t *src)
 				g_free (field);
 			} else
 				return FALSE;
-
-			if (src->cur [0] == '\r' && src->cur [1] == '\n')
-				src->cur++;
 		}
+
+		/* \r\n is a single end of line, ignore the \r */
+		if (src->cur [0] == '\r' && src->cur [1] == '\n')
+			src->cur++;
 	}
 	return TRUE;
 }
@@ -236,6 +241,9 @@ csv_write_workbook (Workbook *wb, const char *filename)
 					goto out;
 			}
 			
+			/* TODO TODO TODO : Add a flag to optionally 
+			 * produce \r\n pairs.
+			 */
 			fputc ('\n', f);
 		}
 
