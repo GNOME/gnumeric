@@ -104,8 +104,8 @@ cb_attr_dialog_dialog_destroy (GtkObject *w, AttrState *state)
 {
 	GnomePropertyBox *box = state->dialog;
 
-	gtk_signal_disconnect (GTK_OBJECT (box->notebook),
-			       state->page_signal);
+	g_signal_handler_disconnect (GTK_OBJECT (box->notebook),
+		state->page_signal);
 	g_object_unref (G_OBJECT (state->gui));
 	g_free (state);
 

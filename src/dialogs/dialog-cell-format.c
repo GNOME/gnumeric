@@ -232,7 +232,7 @@ cb_page_select (GtkNotebook *notebook, GtkNotebookPage *page,
 static void
 cb_notebook_destroy (GtkObject *obj, gpointer page_sig_ptr)
 {
-	gtk_signal_disconnect (obj, GPOINTER_TO_UINT (page_sig_ptr));
+	g_signal_handler_disconnect (obj, GPOINTER_TO_UINT (page_sig_ptr));
 }
 
 /*
@@ -2092,8 +2092,8 @@ static void
 cb_validation_sensitivity (GtkMenuShell *ignored, FormatState *state)
 {
 	gboolean has_operators = FALSE;
-	const char *msg0 = "";
-	const char *msg1 = "";
+	char const *msg0 = "";
+	char const *msg1 = "";
 	ValidationType const type = gnumeric_option_menu_get_selected_index (
 		state->validation.constraint_type);
 

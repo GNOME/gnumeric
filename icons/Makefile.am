@@ -1,5 +1,10 @@
 iconsdir = $(datadir)/pixmaps/gnumeric
 
+appicondir = $(datadir)/pixmaps
+appicon_DATA = gnome-gnumeric.png \
+               gnome-application-x-gnumeric.png \
+               gnome-application-x-xls.png
+
 icons_DATA = \
 	orient-horizontal.png	\
 	orient-vertical.png	\

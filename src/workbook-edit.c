@@ -47,8 +47,8 @@ wbcg_auto_complete_destroy (WorkbookControlGUI *wbcg)
 	}
 
 	if (wbcg->edit_line.signal_changed >= 0) {
-		gtk_signal_disconnect (GTK_OBJECT (wbcg_get_entry (wbcg)),
-				       wbcg->edit_line.signal_changed);
+		g_signal_handler_disconnect (GTK_OBJECT (wbcg_get_entry (wbcg)),
+			wbcg->edit_line.signal_changed);
 		wbcg->edit_line.signal_changed = -1;
 	}
 

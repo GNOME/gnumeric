@@ -7,11 +7,6 @@ change_logs = ChangeLog \
 	OChangeLog-2000-02-23 OChangeLog-2000-10-10  \
 	OChangeLog-2001-06-26
 
-appicondir = $(datadir)/pixmaps
-appicon_DATA = gnome-gnumeric.png \
-               gnome-application-x-gnumeric.png \
-               gnome-application-x-xls.png
-
 Applicationsdir = $(datadir)/applications/
 Applications_in_files = gnumeric.desktop.in
 Applications_DATA = gnumeric.desktop
@@ -54,9 +49,3 @@ dist-hook: gnumeric.spec
 	mkdir $(distdir)/samples
 	cp $(srcdir)/samples/*gnumeric $(distdir)/samples	
 	cp gnumeric.spec $(distdir)
-
-
-
-
-
-
