@@ -287,24 +287,32 @@ read_workbook (Workbook *wb, GsfInput *input)
 			if (r->len >= 15) {
 				int col = gnumeric_get_le_uint16 (r->data + 1);
 				int row = gnumeric_get_le_uint16 (r->data + 3);
-				guint16 const magic = gnumeric_get_le_uint16 (r->data + 11) & 0x7ff8;
 				int len = gnumeric_get_le_int16 (r->data + 13);
 				GnmExpr const *expr;
 
 				fmt = r->data[0];
 
+#if DEBUG
 				puts (cell_coord_name (col, row));
 				gsf_mem_dump (r->data+5,8);
+#endif
 				if (r->len < (15+len))
 					break;
 
 				expr = lotus_parse_formula (sheet, col, row,
 					r->data + 15, len);
 				v = NULL;
-				if (0x7ff0 == (gnumeric_get_le_uint16 (r->data + 11) & 0x7ff8) &&
-				    LOTUS_STRING == record_peek_next (r)) {
-					record_next (r);
-					v = value_new_string (r->data + 5);
+				if (0x7ff0 == (gnumeric_get_le_uint16 (r->data + 11) & 0x7ff8)) {
+					/* I can not find normative definition
+					 * for when this is an error, an when
+					 * a string, so we cheat, and peek
+					 * at the next record.
+					 */
+					if (LOTUS_STRING == record_peek_next (r)) {
+						record_next (r);
+						v = value_new_string (r->data + 5);
+					} else
+						v = value_new_error (NULL,  gnumeric_err_VALUE);
 				} else
 					v = value_new_float (gnumeric_get_le_double (r->data + 5));
 				cell = sheet_cell_fetch (sheet, col, row),
