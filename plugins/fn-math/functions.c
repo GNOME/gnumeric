@@ -165,25 +165,6 @@ static char *help_abs = {
 	   "<seealso>CEIL, FLOOR</seealso>")
 };
 
-static char *help_or = {
-	N_("<function>OR</function>"
-	   "<syntax>OR(b1, b2, ...)</syntax>n"
-
-	   "<description>Implements the logical OR function: the result is TRUE "
-	   "if any of the expression evaluates to TRUE, otherwise it returns "
-	   "FALSE.<p>"
-
-	   "b1, trough bN are expressions that should evaluate to TRUE or FALSE."
-	   "If an integer or floating point value is provided zero is considered "
-	   "FALSE and anything else is TRUE.<p>"
-	   
-	   "If the values contain strings or empty cells those values are "
-	   "ignored.  If no logical values are provided, then the error '#VALUE!' "
-	   "is returned. "
-	   "</description>"
-	   "<seealso>AND</seealso>")
-};
-
 static char *help_and = {
 	N_("<function>AND</function>"
 	   "<syntax>AND(b1, b2, ...)</syntax>n"
