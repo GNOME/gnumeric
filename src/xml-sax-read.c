@@ -1365,6 +1365,20 @@ xml_sax_orientation_end (GsfXMLIn *gsf_state, xmlChar const **attrs)
 	}
 }
 
+static void
+xml_sax_paper_end (GsfXMLIn *gsf_state, xmlChar const **attrs)
+{
+	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
+	char const *content = state->base.content->str;
+
+	g_assert(state->sheet->print_info != NULL);
+	g_assert(state->sheet->print_info->print_config != NULL);
+
+	gnome_print_config_set(state->sheet->print_info->print_config,
+		(guchar *)GNOME_PRINT_KEY_PAPER_SIZE, (guchar *)content);
+}
+
+
 /****************************************************************************/
 
 #define GNM	0
@@ -1440,7 +1454,7 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", FALSE, TRUE, FALSE, &xml_sax_w
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_HEADER,	    GNM, "Footer",	FALSE, NULL, NULL),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_FOOTER,	    GNM, "Header",	FALSE, NULL, NULL),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_ORDER,	    GNM, "order",	TRUE,  NULL, NULL),
-	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_PAPER,	    GNM, "paper",	TRUE,  NULL, NULL),
+	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_PAPER,	    GNM, "paper",	TRUE,  NULL, &xml_sax_paper_end),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_ORIENT,	    GNM, "orientation",	TRUE,  NULL, &xml_sax_orientation_end),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_ONLY_STYLE, GNM, "even_if_only_styles", TRUE, NULL, NULL),
 
