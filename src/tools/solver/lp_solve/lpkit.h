@@ -21,6 +21,9 @@
  * 02111-1307, USA.
  */
 
+#ifndef __SOLVER_LPKIT_H__
+#define __SOLVER_LPKIT_H__
+
 #include <glib.h>
 #include "numbers.h"
 #include "solver.h"
@@ -372,4 +375,6 @@ void       lp_solve_unscale_columns (lprec *lp);
 void       btran (lprec *lp, gnum_float *row);
 void       invert (lprec *lp);
 void       presolve (lprec *lp);
+
+#endif
 

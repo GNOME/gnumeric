@@ -1,3 +1,9 @@
+2002-03-29  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* lpkit.h: Added #ifndef.
+
+	* lpkit.c (write_MPS): removed.
+
 2002-03-25  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.2
