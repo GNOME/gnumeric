@@ -1,5 +1,11 @@
 2001-09-27  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet-object-graphic.c (sheet_object_filled_print) : fix the
+	  color mapping.  This should really be a convenience routine.
+	* src/sheet-object-graphic.c (sheet_object_graphic_print) : ditto.
+
+2001-09-27  Jody Goldberg <jgoldberg@home.com>
+
 	* src/sheet-object-graphic.c (sheet_object_graphic_fill_color_set) :
 	  Use StyleColors and make public.
 	(sheet_object_graphic_destroy) : unref the fill colour.
