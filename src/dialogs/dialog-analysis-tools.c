@@ -21,21 +21,21 @@
 #include "tools.h"
 #include "ranges.h"
 
-static void dialog_correlation_tool         (Workbook *wb, Sheet *sheet);
-static void dialog_covariance_tool          (Workbook *wb, Sheet *sheet);
-static void dialog_descriptive_stat_tool    (Workbook *wb, Sheet *sheet);
-static void dialog_ztest_tool               (Workbook *wb, Sheet *sheet);
-static void dialog_ranking_tool      	    (Workbook *wb, Sheet *sheet);
-static void dialog_sampling_tool     	    (Workbook *wb, Sheet *sheet);
-static void dialog_ttest_paired_tool 	    (Workbook *wb, Sheet *sheet);
-static void dialog_ttest_eq_tool     	    (Workbook *wb, Sheet *sheet);
-static void dialog_ttest_neq_tool    	    (Workbook *wb, Sheet *sheet);
-static void dialog_ftest_tool        	    (Workbook *wb, Sheet *sheet);
-static void dialog_average_tool      	    (Workbook *wb, Sheet *sheet);
-static void dialog_random_tool       	    (Workbook *wb, Sheet *sheet);
-static void dialog_regression_tool   	    (Workbook *wb, Sheet *sheet);
-static void dialog_anova_single_factor_tool (Workbook *wb, Sheet *sheet);
-static void dialog_anova_two_factor_without_r_tool(Workbook *wb, Sheet *sheet);
+static int dialog_correlation_tool         (Workbook *wb, Sheet *sheet);
+static int dialog_covariance_tool          (Workbook *wb, Sheet *sheet);
+static int dialog_descriptive_stat_tool    (Workbook *wb, Sheet *sheet);
+static int dialog_ztest_tool               (Workbook *wb, Sheet *sheet);
+static int dialog_ranking_tool      	    (Workbook *wb, Sheet *sheet);
+static int dialog_sampling_tool     	    (Workbook *wb, Sheet *sheet);
+static int dialog_ttest_paired_tool 	    (Workbook *wb, Sheet *sheet);
+static int dialog_ttest_eq_tool     	    (Workbook *wb, Sheet *sheet);
+static int dialog_ttest_neq_tool    	    (Workbook *wb, Sheet *sheet);
+static int dialog_ftest_tool        	    (Workbook *wb, Sheet *sheet);
+static int dialog_average_tool      	    (Workbook *wb, Sheet *sheet);
+static int dialog_random_tool       	    (Workbook *wb, Sheet *sheet);
+static int dialog_regression_tool   	    (Workbook *wb, Sheet *sheet);
+static int dialog_anova_single_factor_tool (Workbook *wb, Sheet *sheet);
+static int dialog_anova_two_factor_without_r_tool(Workbook *wb, Sheet *sheet);
 
 
 static descriptive_stat_tool_t ds;
@@ -44,7 +44,7 @@ static random_distribution_t   distribution = DiscreteDistribution;
 
 
 
-typedef void (*tool_fun_ptr_t)(Workbook *wb, Sheet *sheet);
+typedef int (*tool_fun_ptr_t)(Workbook *wb, Sheet *sheet);
 
 typedef struct {
         char *col1;
@@ -525,7 +525,12 @@ add_groupped_by(GtkWidget *box)
 }
 
 
-static void
+/*************************************************************************
+ *
+ * Dialogs for the tools.
+ */
+
+static int
 dialog_correlation_tool (Workbook *wb, Sheet *sheet)
 {
         GladeXML  *gui;
@@ -545,7 +550,7 @@ dialog_correlation_tool (Workbook *wb, Sheet *sheet)
 
         if (!gui) {
                 printf ("Could not find analysis-tools.glade\n");
-                return;
+                return 0;
         }
 
 	dao.type = NewSheetOutput;
@@ -558,11 +563,11 @@ dialog_correlation_tool (Workbook *wb, Sheet *sheet)
 
         if (!dialog || !range_entry || !output_range_entry || !checkbutton) {
                 printf ("Corrupt file analysis-tools.glade\n");
-                return;
+                return 0;
         }
 	if (set_group_option_signals (gui, &group, "corr") ||
 	    set_output_option_signals (gui, &dao, "corr"))
-	        return;
+	        return 0;
 
 	gtk_signal_connect (GTK_OBJECT (checkbutton), "toggled",
 			    GTK_SIGNAL_FUNC (checkbutton_toggled), &labels);
@@ -574,12 +579,12 @@ correlation_dialog_loop:
 	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
 	if (selection == -1) {
 	        gtk_object_unref (GTK_OBJECT (gui));
-		return;
+		return 1;
 	}
 	
 	if (selection != 0) {
 		gtk_object_destroy (GTK_OBJECT (dialog));
-		return;
+		return 1;
 	}
 
 	text = gtk_entry_get_text (GTK_ENTRY (range_entry));
@@ -618,9 +623,11 @@ correlation_dialog_loop:
 
 	gtk_object_destroy (GTK_OBJECT (dialog));
 	gtk_object_unref (GTK_OBJECT (gui));
+
+	return 0;
 }
 
-static void
+static int
 dialog_covariance_tool (Workbook *wb, Sheet *sheet)
 {
         GladeXML  *gui;
@@ -640,7 +647,7 @@ dialog_covariance_tool (Workbook *wb, Sheet *sheet)
 
         if (!gui) {
                 printf ("Could not find analysis-tools.glade\n");
-                return;
+                return 0;
         }
 
 	dao.type = NewSheetOutput;
@@ -653,11 +660,11 @@ dialog_covariance_tool (Workbook *wb, Sheet *sheet)
 
         if (!dialog || !range_entry || !output_range_entry || !checkbutton) {
                 printf ("Corrupt file analysis-tools.glade\n");
-                return;
+                return 0;
         }
 	if (set_group_option_signals (gui, &group, "cov") ||
 	    set_output_option_signals (gui, &dao, "cov"))
-	        return;
+	        return 0;
 
 	gtk_signal_connect (GTK_OBJECT (checkbutton), "toggled",
 			    GTK_SIGNAL_FUNC (checkbutton_toggled), &labels);
@@ -669,12 +676,12 @@ dialog_loop:
 	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
 	if (selection == -1) {
 	        gtk_object_unref (GTK_OBJECT (gui));
-		return;
+		return 1;
 	}
 	
 	if (selection != 0) {
 		gtk_object_destroy (GTK_OBJECT (dialog));
-		return;
+		return 1;
 	}
 
 	text = gtk_entry_get_text (GTK_ENTRY (range_entry));
@@ -713,10 +720,12 @@ dialog_loop:
 
 	gtk_object_destroy (GTK_OBJECT (dialog));
 	gtk_object_unref (GTK_OBJECT (gui));
+
+	return 0;
 }
 
 
-static void
+static int
 dialog_sampling_tool (Workbook *wb, Sheet *sheet)
 {
         static GtkWidget *dialog, *box, *sampling_box, *sampling_label;
@@ -792,11 +801,11 @@ sampling_dialog_loop:
 
 	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
 	if (selection == -1)
-		return;
+		return 1;
 	
 	if (selection != 0) {
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
-		return;
+		return 1;
 	}
 
 	text = gtk_entry_get_text (GTK_ENTRY (range_entry));
@@ -824,9 +833,11 @@ sampling_dialog_loop:
 
 	workbook_focus_sheet(sheet);
  	gnome_dialog_close (GNOME_DIALOG (dialog));
+
+	return 0;
 }
 
-static void
+static int
 dialog_descriptive_stat_tool (Workbook *wb, Sheet *sheet)
 {
         static GtkWidget *dialog, *box;
@@ -882,11 +893,11 @@ stat_dialog_loop:
 
 	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
 	if (selection == -1)
-		return;
+		return 1;
 	
 	if (selection != 0) {
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
-		return;
+		return 1;
 	}
 
 	i = gtk_radio_group_get_selected (group_ops);
@@ -922,9 +933,11 @@ stat_dialog_loop:
 
 	workbook_focus_sheet(sheet);
  	gnome_dialog_close (GNOME_DIALOG (dialog));
+
+	return 0;
 }
 
-static void
+static int
 dialog_ztest_tool (Workbook *wb, Sheet *sheet)
 {
         static GtkWidget *dialog, *box;
@@ -988,11 +1001,11 @@ ztest_dialog_loop:
 
 	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
 	if (selection == -1)
-		return;
+		return 1;
 	
 	if (selection != 0) {
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
-		return;
+		return 1;
 	}
 
 	output = gtk_radio_group_get_selected (output_ops);
@@ -1042,9 +1055,11 @@ ztest_dialog_loop:
 
 	workbook_focus_sheet(sheet);
  	gnome_dialog_close (GNOME_DIALOG (dialog));
+
+	return 0;
 }
 
-static void
+static int
 dialog_ttest_paired_tool (Workbook *wb, Sheet *sheet)
 {
         GladeXML  *gui;
@@ -1067,7 +1082,7 @@ dialog_ttest_paired_tool (Workbook *wb, Sheet *sheet)
 
         if (!gui) {
                 printf ("Could not find analysis-tools.glade\n");
-                return;
+                return 0;
         }
 
 	dao.type = NewSheetOutput;
@@ -1083,10 +1098,10 @@ dialog_ttest_paired_tool (Workbook *wb, Sheet *sheet)
         if (!dialog || !range1_entry || !range2_entry || !alpha_entry ||
 	    !mean_diff_entry || !output_range_entry || !checkbutton) {
                 printf ("Corrupt file analysis-tools.glade\n");
-                return;
+                return 0;
         }
 	if (set_output_option_signals (gui, &dao, "ttest1"))
-	        return;
+	        return 0;
 
 	gtk_entry_set_text (GTK_ENTRY (mean_diff_entry), "0");
 	gtk_entry_set_text (GTK_ENTRY (alpha_entry), "0.95");
@@ -1102,12 +1117,12 @@ dialog_loop:
 	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
 	if (selection == -1) {
 	        gtk_object_unref (GTK_OBJECT (gui));
-		return;
+		return 1;
 	}
 	
 	if (selection != 0) {
 		gtk_object_destroy (GTK_OBJECT (dialog));
-		return;
+		return 1;
 	}
 
 	text = gtk_entry_get_text (GTK_ENTRY (range1_entry));
@@ -1164,9 +1179,11 @@ dialog_loop:
 
 	gtk_object_destroy (GTK_OBJECT (dialog));
 	gtk_object_unref (GTK_OBJECT (gui));
+
+	return 0;
 }
 
-static void
+static int
 dialog_ttest_eq_tool (Workbook *wb, Sheet *sheet)
 {
         GladeXML  *gui;
@@ -1189,7 +1206,7 @@ dialog_ttest_eq_tool (Workbook *wb, Sheet *sheet)
 
         if (!gui) {
                 printf ("Could not find analysis-tools.glade\n");
-                return;
+                return 0;
         }
 
 	dao.type = NewSheetOutput;
@@ -1205,10 +1222,10 @@ dialog_ttest_eq_tool (Workbook *wb, Sheet *sheet)
         if (!dialog || !range1_entry || !range2_entry || !alpha_entry ||
 	    !mean_diff_entry || !output_range_entry || !checkbutton) {
                 printf ("Corrupt file analysis-tools.glade\n");
-                return;
+                return 0;
         }
 	if (set_output_option_signals (gui, &dao, "ttest2"))
-	        return;
+	        return 0;
 
 	gtk_entry_set_text (GTK_ENTRY (mean_diff_entry), "0");
 	gtk_entry_set_text (GTK_ENTRY (alpha_entry), "0.95");
@@ -1224,12 +1241,12 @@ dialog_loop:
 	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
 	if (selection == -1) {
 	        gtk_object_unref (GTK_OBJECT (gui));
-		return;
+		return 1;
 	}
 	
 	if (selection != 0) {
 		gtk_object_destroy (GTK_OBJECT (dialog));
-		return;
+		return 1;
 	}
 
 	text = gtk_entry_get_text (GTK_ENTRY (range1_entry));
@@ -1286,9 +1303,11 @@ dialog_loop:
 
 	gtk_object_destroy (GTK_OBJECT (dialog));
 	gtk_object_unref (GTK_OBJECT (gui));
+
+	return 0;
 }
 
-static void
+static int
 dialog_ttest_neq_tool (Workbook *wb, Sheet *sheet)
 {
         GladeXML  *gui;
@@ -1311,7 +1330,7 @@ dialog_ttest_neq_tool (Workbook *wb, Sheet *sheet)
 
         if (!gui) {
                 printf ("Could not find analysis-tools.glade\n");
-                return;
+                return 0;
         }
 
 	dao.type = NewSheetOutput;
@@ -1327,10 +1346,10 @@ dialog_ttest_neq_tool (Workbook *wb, Sheet *sheet)
         if (!dialog || !range1_entry || !range2_entry || !alpha_entry ||
 	    !mean_diff_entry || !output_range_entry || !checkbutton) {
                 printf ("Corrupt file analysis-tools.glade\n");
-                return;
+                return 0;
         }
 	if (set_output_option_signals (gui, &dao, "ttest3"))
-	        return;
+	        return 0;
 
 	gtk_entry_set_text (GTK_ENTRY (mean_diff_entry), "0");
 	gtk_entry_set_text (GTK_ENTRY (alpha_entry), "0.95");
@@ -1346,12 +1365,12 @@ dialog_loop:
 	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
 	if (selection == -1) {
 	        gtk_object_unref (GTK_OBJECT (gui));
-		return;
+		return 1;
 	}
 	
 	if (selection != 0) {
 		gtk_object_destroy (GTK_OBJECT (dialog));
-		return;
+		return 1;
 	}
 
 	text = gtk_entry_get_text (GTK_ENTRY (range1_entry));
@@ -1408,9 +1427,11 @@ dialog_loop:
 
 	gtk_object_destroy (GTK_OBJECT (dialog));
 	gtk_object_unref (GTK_OBJECT (gui));
+
+	return 0;
 }
 
-static void
+static int
 dialog_ftest_tool (Workbook *wb, Sheet *sheet)
 {
         GladeXML  *gui;
@@ -1432,7 +1453,7 @@ dialog_ftest_tool (Workbook *wb, Sheet *sheet)
 
         if (!gui) {
                 printf ("Could not find analysis-tools.glade\n");
-                return;
+                return 0;
         }
 
 	dao.type = NewSheetOutput;
@@ -1447,10 +1468,10 @@ dialog_ftest_tool (Workbook *wb, Sheet *sheet)
         if (!dialog || !range1_entry || !range2_entry || 
 	    !output_range_entry || !checkbutton) {
                 printf ("Corrupt file analysis-tools.glade\n");
-                return;
+                return 0;
         }
 	if (set_output_option_signals (gui, &dao, "ftest"))
-	        return;
+	        return 0;
 
 	gtk_entry_set_text (GTK_ENTRY (alpha_entry), "0.95");
 
@@ -1465,12 +1486,12 @@ ftest_dialog_loop:
 	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
 	if (selection == -1) {
 	        gtk_object_unref (GTK_OBJECT (gui));
-		return;
+		return 1;
 	}
 	
 	if (selection != 0) {
 		gtk_object_destroy (GTK_OBJECT (dialog));
-		return;
+		return 1;
 	}
 
 	text = gtk_entry_get_text (GTK_ENTRY (range1_entry));
@@ -1523,6 +1544,8 @@ ftest_dialog_loop:
 
 	gtk_object_destroy (GTK_OBJECT (dialog));
 	gtk_object_unref (GTK_OBJECT (gui));
+
+	return 0;
 }
 
 
@@ -1589,7 +1612,7 @@ distribution_callback (GtkWidget *widget, random_tool_callback_t *p)
 	}
 }
 
-static void
+static int
 dialog_random_tool (Workbook *wb, Sheet *sheet)
 {
         static GtkWidget *dialog, *box, *param_box, *distribution_combo;
@@ -1820,11 +1843,11 @@ random_dialog_loop:
 
 	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
 	if (selection == -1)
-		return;
+		return 1;
 	
 	if (selection != 0) {
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
-		return;
+		return 1;
 	}
 
 	output = gtk_radio_group_get_selected (output_ops);
@@ -1897,9 +1920,11 @@ random_dialog_loop:
 
 	workbook_focus_sheet(sheet);
  	gnome_dialog_close (GNOME_DIALOG (dialog));
+
+	return 0;
 }
 
-static void
+static int
 dialog_regression_tool (Workbook *wb, Sheet *sheet)
 {
         static GtkWidget *dialog, *box, *vbox;
@@ -1958,11 +1983,11 @@ dialog_loop:
 
 	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
 	if (selection == -1)
-		return;
+		return 1;
 	
 	if (selection != 0) {
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
-		return;
+		return 1;
 	}
 
 	output = gtk_radio_group_get_selected (output_ops);
@@ -2028,11 +2053,13 @@ dialog_loop:
 	g_free (range_inputxs);
 	workbook_focus_sheet(sheet);
  	gnome_dialog_close (GNOME_DIALOG (dialog));
+
+	return 0;
 }
 
 
 
-static void
+static int
 dialog_average_tool (Workbook *wb, Sheet *sheet)
 {
         GladeXML  *gui;
@@ -2056,7 +2083,7 @@ dialog_average_tool (Workbook *wb, Sheet *sheet)
 
         if (!gui) {
                 printf ("Could not find analysis-tools.glade\n");
-                return;
+                return 0;
         }
 
 	dao.type = NewSheetOutput;
@@ -2071,10 +2098,10 @@ dialog_average_tool (Workbook *wb, Sheet *sheet)
         if (!dialog || !range_entry || !output_range_entry || !checkbutton ||
 	    !interval_entry || !checkbutton2) {
                 printf ("Corrupt file analysis-tools.glade\n");
-                return;
+                return 0;
         }
 	if (set_output_option_signals (gui, &dao, "ma"))
-	        return;
+	        return 0;
 
 	gtk_signal_connect (GTK_OBJECT (checkbutton), "toggled",
 			    GTK_SIGNAL_FUNC (checkbutton_toggled), &labels);
@@ -2090,12 +2117,12 @@ dialog_loop:
 	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
 	if (selection == -1) {
 	        gtk_object_unref (GTK_OBJECT (gui));
-		return;
+		return 1;
 	}
 	
 	if (selection != 0) {
 		gtk_object_destroy (GTK_OBJECT (dialog));
-		return;
+		return 1;
 	}
 
 	text = gtk_entry_get_text (GTK_ENTRY (range_entry));
@@ -2138,10 +2165,12 @@ dialog_loop:
 
 	gtk_object_destroy (GTK_OBJECT (dialog));
 	gtk_object_unref (GTK_OBJECT (gui));
+
+	return 0;
 }
 
 
-static void
+static int
 dialog_ranking_tool (Workbook *wb, Sheet *sheet)
 {
         GladeXML  *gui;
@@ -2161,7 +2190,7 @@ dialog_ranking_tool (Workbook *wb, Sheet *sheet)
 
         if (!gui) {
                 printf ("Could not find analysis-tools.glade\n");
-                return;
+                return 0;
         }
 
 	dao.type = NewSheetOutput;
@@ -2174,11 +2203,11 @@ dialog_ranking_tool (Workbook *wb, Sheet *sheet)
 
         if (!dialog || !range_entry || !output_range_entry || !checkbutton) {
                 printf ("Corrupt file `analysis-tools.glade'\n");
-                return;
+                return 0;
         }
 	if (set_group_option_signals (gui, &group,  "rank") ||
 	    set_output_option_signals (gui, &dao, "rank"))
-	        return;
+	        return 0;
 
 	gtk_signal_connect (GTK_OBJECT (checkbutton), "toggled",
 			    GTK_SIGNAL_FUNC (checkbutton_toggled), &labels);
@@ -2190,12 +2219,12 @@ dialog_loop:
 	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
 	if (selection == -1) {
 	        gtk_object_unref (GTK_OBJECT (gui));
-		return;
+		return 1;
 	}
 	
 	if (selection != 0) {
 		gtk_object_destroy (GTK_OBJECT (dialog));
-		return;
+		return 1;
 	}
 
 	text = gtk_entry_get_text (GTK_ENTRY (range_entry));
@@ -2234,10 +2263,12 @@ dialog_loop:
 
 	gtk_object_destroy (GTK_OBJECT (dialog));
 	gtk_object_unref (GTK_OBJECT (gui));
+
+	return 0;
 }
 
 
-static void
+static int
 dialog_anova_single_factor_tool (Workbook *wb, Sheet *sheet)
 {
         GladeXML  *gui;
@@ -2259,7 +2290,7 @@ dialog_anova_single_factor_tool (Workbook *wb, Sheet *sheet)
 
         if (!gui) {
                 printf ("Could not find analysis-tools.glade\n");
-                return;
+                return 0;
         }
 
 	dao.type = NewSheetOutput;
@@ -2274,11 +2305,11 @@ dialog_anova_single_factor_tool (Workbook *wb, Sheet *sheet)
         if (!dialog || !range_entry || !output_range_entry || !checkbutton ||
 	    !alpha_entry) {
                 printf ("Corrupt file analysis-tools.glade\n");
-                return;
+                return 0;
         }
 	if (set_group_option_signals (gui, &group, "anova1") ||
 	    set_output_option_signals (gui, &dao, "anova1"))
-	        return;
+	        return 0;
 
 	gtk_signal_connect (GTK_OBJECT (checkbutton), "toggled",
 			    GTK_SIGNAL_FUNC (checkbutton_toggled), &labels);
@@ -2291,12 +2322,12 @@ dialog_loop:
 	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
 	if (selection == -1) {
 	        gtk_object_unref (GTK_OBJECT (gui));
-		return;
+		return 1;
 	}
 	
 	if (selection != 0) {
 		gtk_object_destroy (GTK_OBJECT (dialog));
-		return;
+		return 1;
 	}
 
 	text = gtk_entry_get_text (GTK_ENTRY (range_entry));
@@ -2338,10 +2369,12 @@ dialog_loop:
 
 	gtk_object_destroy (GTK_OBJECT (dialog));
 	gtk_object_unref (GTK_OBJECT (gui));
+
+	return 0;
 }
 
 
-static void
+static int
 dialog_anova_two_factor_without_r_tool (Workbook *wb, Sheet *sheet)
 {
         GladeXML  *gui;
@@ -2363,7 +2396,7 @@ dialog_anova_two_factor_without_r_tool (Workbook *wb, Sheet *sheet)
 
         if (!gui) {
                 printf ("Could not find analysis-tools.glade\n");
-                return;
+                return 0;
         }
 
 	dao.type = NewSheetOutput;
@@ -2377,10 +2410,10 @@ dialog_anova_two_factor_without_r_tool (Workbook *wb, Sheet *sheet)
         if (!dialog || !range_entry || !output_range_entry || !checkbutton ||
 	    !alpha_entry) {
                 printf ("Corrupt file analysis-tools.glade\n");
-                return;
+                return 0;
         }
 	if (set_output_option_signals (gui, &dao, "anova2"))
-	        return;
+	        return 0;
 
 	gtk_signal_connect (GTK_OBJECT (checkbutton), "toggled",
 			    GTK_SIGNAL_FUNC (checkbutton_toggled), &labels);
@@ -2393,12 +2426,12 @@ dialog_loop:
 	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
 	if (selection == -1) {
 	        gtk_object_unref (GTK_OBJECT (gui));
-		return;
+		return 1;
 	}
 	
 	if (selection != 0) {
 		gtk_object_destroy (GTK_OBJECT (dialog));
-		return;
+		return 1;
 	}
 
 	text = gtk_entry_get_text (GTK_ENTRY (range_entry));
@@ -2440,6 +2473,8 @@ dialog_loop:
 
 	gtk_object_destroy (GTK_OBJECT (dialog));
 	gtk_object_unref (GTK_OBJECT (gui));
+
+	return 0;
 }
 
 
@@ -2460,6 +2495,7 @@ dialog_data_analysis (Workbook *wb, Sheet *sheet)
 
 	int       i, selection;
 
+ dialog_loop:
 	gui = glade_xml_new (GNUMERIC_GLADEDIR "/analysis-tools.glade", NULL);
 
         if (!gui) {
@@ -2486,15 +2522,16 @@ dialog_data_analysis (Workbook *wb, Sheet *sheet)
 
 	/* Run the dialog */
 	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
+	gtk_object_destroy (GTK_OBJECT (dialog));
 	gtk_object_unref (GTK_OBJECT (gui));
 	
 	if (selection == -1)
 		return;
 	
-	gnome_dialog_close (GNOME_DIALOG (dialog));
-
 	if (selection == 0) {
 	        g_return_if_fail (tools[selected_row].fun != NULL);
-		tools[selected_row].fun(wb, sheet);
+		selection = tools[selected_row].fun(wb, sheet);
+		if (selection == 1)
+		        goto dialog_loop;
 	}
 }

@@ -1,4 +1,9 @@
-2000-02-20  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+2000-02-19  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/dialogs/dialog-analysis-tools.c: Made the cancel operation
+	of a tool to return the tool selection.
+	
+2000-02-19  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/dialogs/analysis-tools.glade,
 	src/dialogs/dialog-analysis-tools.c: Implemented Glade dialogs for
