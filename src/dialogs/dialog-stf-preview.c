@@ -468,6 +468,9 @@ stf_preview_format_line (RenderData_t *renderdata, GList *data, int colcount)
  * This will render a preview on the canvas.
  *
  * returns : nothing
+ *
+ * NOTE: This will destroy the list and its contents.
+ *
  **/
 void
 stf_preview_render (RenderData_t *renderdata, GList *list, int rowcount, int colcount)
@@ -475,7 +478,6 @@ stf_preview_render (RenderData_t *renderdata, GList *list, int rowcount, int col
 	GnomeCanvasRect *centerrect;
 	GList *iterator;
 	GList *captions;
-	GArray *dummy;
 	int i;
 	double ypos = 0.0;
 
@@ -483,11 +485,13 @@ stf_preview_render (RenderData_t *renderdata, GList *list, int rowcount, int col
 	g_return_if_fail (renderdata->canvas != NULL);
 	g_return_if_fail (list != NULL);
 
-	if (renderdata->group != NULL)
+	if (renderdata->group != NULL) {
 		gtk_object_destroy (GTK_OBJECT (renderdata->group));
+		renderdata->group = NULL;
+	}
 
 	if (rowcount < 1)
-		return;
+		goto done;
 
 	/*
 	 * Don't display more then the maximum amount of columns
@@ -553,11 +557,12 @@ stf_preview_render (RenderData_t *renderdata, GList *list, int rowcount, int col
 
 	/* Swap the actual column widths with the set columnwidths */
 	if (renderdata->formatted) {
-		dummy                 = renderdata->temp;
+		GArray *dummy         = renderdata->temp;
 		renderdata->temp      = renderdata->colwidths;
 		renderdata->colwidths = dummy;
 	}
 
+ done:
 	/* Free all the data */
 	iterator = list;
 	while (iterator) {
@@ -567,7 +572,8 @@ stf_preview_render (RenderData_t *renderdata, GList *list, int rowcount, int col
 			g_free ((char *) subiterator->data);
 			subiterator = g_list_next (subiterator);
 		}
-		g_list_free (subiterator);
+
+		g_list_free (iterator->data);
 		iterator = g_list_next (iterator);
 	}
 	g_list_free (list);
