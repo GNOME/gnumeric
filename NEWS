@@ -8,6 +8,8 @@ Jody:
 
 Morten:
 	* Fix entry in #decimals spinbutton for cell formats.
+	* Fix pretty-print (and thus saving) problem with ranges like
+	  $B$1:$B1.
 
 --------------------------------------------------------------------------
 Gnumeric 1.2.6

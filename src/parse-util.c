@@ -331,7 +331,10 @@ rangeref_as_string (GString *target, GnmExprConventions const *conv,
 			g_string_append_c (target, '$');
 		row_name_internal (target, r.start.row);
 
-		if (r.start.col != r.end.col || r.start.row != r.end.row) {
+		if (r.start.col != r.end.col ||
+		    ref->a.col_relative != ref->b.col_relative ||
+		    r.start.row != r.end.row ||
+		    ref->a.row_relative != ref->b.row_relative) {
 			g_string_append_c (target, ':');
 			if (!ref->b.col_relative)
 				g_string_append_c (target, '$');
