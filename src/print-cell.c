@@ -354,9 +354,16 @@ print_cell_text (GnomePrintContext *context, Cell *cell, double base_x, double b
 static void
 print_cell (GnomePrintContext *context, Cell *cell, double x, double y)
 {
+	GdkColor *fore;
+	
 	g_assert (cell != NULL);
 
+	gnome_print_setrgbcolor (context, 0, 0, 0);
 	print_cell_border (context, cell, x, y);
+
+	fore = &cell->style->fore_color->color;
+	
+	gnome_print_setrgbcolor (context, fore->red, fore->green, fore->blue);
 
 	print_cell_text (context, cell,
 			 x + cell->col->margin_a,

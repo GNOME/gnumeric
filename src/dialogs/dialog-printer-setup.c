@@ -109,7 +109,7 @@ add_unit (GtkWidget *menu, int i, void (*convert)(GtkWidget *, UnitInfo *), void
 {
 	GtkWidget *item;
 
-	item = gtk_menu_item_new_with_label (unit_name_get_short_name (i));
+	item = gtk_menu_item_new_with_label (_(unit_name_get_short_name (i)));
 	gtk_widget_show (item);
 	gtk_menu_append (GTK_MENU (menu), item);
 
@@ -484,47 +484,6 @@ do_fetch_page_info (dialog_print_info_t *dpi)
 }
 
 static void
-save_margin (const char *prefix, PrintUnit *p)
-{
-	char *x = g_strconcat (prefix, "_units");
-	
-	gnome_config_set_float (prefix, p->points);
-	gnome_config_set_string (x, unit_name_get_name (p->desired_display));
-	g_free (x);
-}
-
-static void
-do_save_settings (dialog_print_info_t *dpi)
-{
-	gnome_config_push_prefix ("/Gnumeric/Print/");
-
-	gnome_config_set_bool ("vertical_print", dpi->pi->orientation == PRINT_ORIENT_VERTICAL);
-	gnome_config_set_bool ("do_scale_percent", dpi->pi->scaling.type == PERCENTAGE);
-	gnome_config_set_float ("scale_percent", dpi->pi->scaling.percentage);
-	gnome_config_set_float ("scale_width", dpi->pi->scaling.dim.cols);
-	gnome_config_set_float ("scale_height", dpi->pi->scaling.dim.rows);
-	gnome_config_set_string ("paper", gnome_paper_name (dpi->pi->paper));
-
-	save_margin ("margin_top", &dpi->pi->margins.top);
-	save_margin ("margin_bottom", &dpi->pi->margins.bottom);
-	save_margin ("margin_left", &dpi->pi->margins.left);
-	save_margin ("margin_right", &dpi->pi->margins.right);
-	save_margin ("margin_header", &dpi->pi->margins.header);
-	save_margin ("margin_footer", &dpi->pi->margins.footer);
-
-	gnome_config_set_bool ("center_horizontally", dpi->pi->center_horizontally);
-	gnome_config_set_bool ("center_vertically", dpi->pi->center_vertically);
-
-	gnome_config_set_bool ("print_divisions", dpi->pi->print_line_divisions);
-	gnome_config_set_bool ("print_black_and_white", dpi->pi->print_black_and_white);
-	gnome_config_set_bool ("print_titles", dpi->pi->print_titles);
-	gnome_config_set_bool ("order_right", dpi->pi->print_order);
-	
-	gnome_config_pop_prefix ();
-	gnome_config_sync ();
-}
-
-static void
 dialog_print_info_destroy (dialog_print_info_t *dpi)
 {
 	gtk_object_unref (GTK_OBJECT (dpi->gui));
@@ -556,10 +515,7 @@ dialog_printer_setup (Workbook *wb)
 		do_fetch_hf (dpi);
 		do_fetch_page_info (dpi);
 
-		/*
-		 * Hack perhaps?  Store the defaults
-		 */
-		do_save_settings (dpi);
+		print_info_save (dpi->pi);
 	}
 
 	if (v != -1)

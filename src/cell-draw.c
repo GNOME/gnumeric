@@ -144,6 +144,13 @@ cell_draw (Cell *cell, SheetView *sv, GdkGC *gc, GdkDrawable *drawable, int x1, 
 
 	text = cell->text->str;
 	
+	/*
+	 * To draw the background of the cell, we need to
+	 * change the gc's drawing color before calling the
+	 * gdk_draw_rectangle function
+	 */
+	gdk_gc_set_foreground (gc, &(style->back_color->color));
+
 	if (do_multi_line){
 		GList *lines, *l;
 		int cell_pixel_height = ROW_INTERNAL_HEIGHT (cell->row);
@@ -158,6 +165,14 @@ cell_draw (Cell *cell, SheetView *sv, GdkGC *gc, GdkDrawable *drawable, int x1, 
 		rect.width = cell->col->pixels  + 1;
 		gdk_gc_set_clip_rectangle (gc, &rect);
 		
+		gdk_draw_rectangle (drawable, gc, TRUE,
+                                    rect.x, rect.y, rect.width, rect.height);
+
+		if (cell->render_color)
+			gdk_gc_set_foreground (gc, &cell->render_color->color);
+		else
+			gdk_gc_set_foreground (gc, &(style->fore_color->color));
+
 		switch (style->valign){
 		case VALIGN_TOP:
 			y_offset = 0;
@@ -245,8 +260,14 @@ cell_draw (Cell *cell, SheetView *sv, GdkGC *gc, GdkDrawable *drawable, int x1, 
 		
 		/* Set the clip rectangle */
 		gdk_gc_set_clip_rectangle (gc, &rect);
-		gdk_draw_rectangle (drawable, white_gc, TRUE,
-				    rect.x, rect.y, rect.width, rect.height);
+
+		gdk_draw_rectangle (drawable, gc, TRUE,
+                                    rect.x, rect.y, rect.width, rect.height);
+		
+		if (cell->render_color)
+			gdk_gc_set_foreground (gc, &cell->render_color->color);
+		else
+			gdk_gc_set_foreground (gc, &(style->fore_color->color));
 
 		len = 0;
 		switch (halign){

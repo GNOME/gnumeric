@@ -1,3 +1,19 @@
+1999-06-11  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/cell-draw.c (cell_draw): Move the foreground setting routine
+	here and handle single-line and multiline coloring properly.
+
+	* src/print-info.c (unit_name_to_unit): New routine, returns the
+	UniName from the string name.
+
+	* src/dialog-printer-setup.c (dialog_printer_setup): Use
+	print_info_save and kill the do_save_settings routine for the
+	cleaner print_info routine.
+
+	* src/print-info.c (print_info_new): Now loads the default
+	settings from the saved configuration.
+	(print_info_save): Saves the print information to the gnome_config.
+
 1999-06-08  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/utils.c (str_trim_spaces): Moved str_trim_spaces ere. 

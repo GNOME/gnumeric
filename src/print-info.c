@@ -61,6 +61,45 @@ print_unit_new (UnitName unit, double value)
 	return u;
 }
 
+static void
+load_margin (const char *str, PrintUnit *p, char *def)
+{
+	char *pts_units = g_strconcat (str, "_units=centimeter", NULL);
+	char *pts = g_strconcat (str, "=", def, NULL);
+	char *s;
+	
+	p->points = gnome_config_get_float (pts);
+	s = gnome_config_get_string (pts_units);
+	p->desired_display = unit_name_to_unit (s);
+	g_free (pts_units);
+	g_free (pts);
+	g_free (s);
+}
+
+static PrintHF *
+load_hf (const char *type, const char *a, const char *b, const char *c)
+{
+	PrintHF *format;
+	char *code_a = g_strconcat (type, "_left=", a, NULL);
+	char *code_b = g_strconcat (type, "_middle=", b, NULL);
+	char *code_c = g_strconcat (type, "_right=", c, NULL);
+
+	format = g_new (PrintHF, 1);
+
+	format->left_format = gnome_config_get_string (code_a);
+	format->middle_format = gnome_config_get_string (code_b);
+	format->right_format = gnome_config_get_string (code_c);
+
+	g_free (code_a);
+	g_free (code_b);
+	g_free (code_c);
+
+	return format;
+}
+
+#define CENTIMETER_IN_POINTS      "28.346457"
+#define HALF_CENTIMETER_IN_POINTS "14.1732285"
+
 /**
  * print_info_new:
  *
@@ -74,33 +113,94 @@ print_info_new (void)
 	
 	pi = g_new0 (PrintInformation, 1);
 
+	gnome_config_push_prefix ("/Gnumeric/Print");
+	
 	/* Orientation */
-	pi->orientation = PRINT_ORIENT_VERTICAL;
+	if (gnome_config_get_bool ("vertical_print=false"))
+		pi->orientation = PRINT_ORIENT_HORIZONTAL;
+	else
+		pi->orientation = PRINT_ORIENT_VERTICAL;
 
 	/* Scaling */
-	pi->scaling.type = PERCENTAGE;
-	pi->scaling.percentage = 100.0;
+	if (gnome_config_get_bool ("do_scale_percent=true"))
+		pi->scaling.type = PERCENTAGE;
+	else
+		pi->scaling.type = SIZE_FIT;
+	pi->scaling.percentage = gnome_config_get_float ("scale_percent=100");
+	pi->scaling.dim.cols = gnome_config_get_int ("scale_width=1");
+	pi->scaling.dim.rows = gnome_config_get_int ("scale_height=1");
 
 	/* Margins */
-	pi->margins.top    = print_unit_new (UNIT_CENTIMETER, 1);
-	pi->margins.bottom = print_unit_new (UNIT_CENTIMETER, 1);
-	pi->margins.left   = print_unit_new (UNIT_CENTIMETER, 1);
-	pi->margins.right  = print_unit_new (UNIT_CENTIMETER, 1);
-	pi->margins.header = print_unit_new (UNIT_CENTIMETER, 0.5);
-	pi->margins.footer = print_unit_new (UNIT_CENTIMETER, 0.5);
+	load_margin ("margin_top", &pi->margins.top,       CENTIMETER_IN_POINTS);
+	load_margin ("margin_bottom", &pi->margins.bottom, CENTIMETER_IN_POINTS);
+	load_margin ("margin_left", &pi->margins.left,     CENTIMETER_IN_POINTS);
+	load_margin ("margin_right", &pi->margins.right,   CENTIMETER_IN_POINTS);
+	load_margin ("margin_header", &pi->margins.header, HALF_CENTIMETER_IN_POINTS);
+	load_margin ("margin_footer", &pi->margins.footer, HALF_CENTIMETER_IN_POINTS);
 
-	pi->header = print_hf_new (NULL, _("Sheet &[NUM]"), NULL);
-	pi->footer = print_hf_new (NULL, _("Page &[NUM]"), NULL);
+	pi->header = load_hf ("header", "", _("Sheet &[NUM]"), "");
+	pi->footer = load_hf ("footer", "", _("Page &[NUM]"), "");
 
-	s = gnome_config_get_string ("/Gnumeric/Print/paper=none");
+	s = gnome_config_get_string ("paper=none");
 	if (strcmp (s, "none") != 0)
 		pi->paper = gnome_paper_with_name (s);
 
 	if (pi->paper == NULL)
 		pi->paper = gnome_paper_with_name (gnome_paper_name_default ());
 	g_free (s);
-	
+
+	pi->center_horizontally   = gnome_config_get_bool ("center_horizontally");
+	pi->center_vertically     = gnome_config_get_bool ("center_vertically");
+	pi->print_line_divisions  = gnome_config_get_bool ("print_divisions");
+	pi->print_black_and_white = gnome_config_get_bool ("print_black_and_white");
+	pi->print_titles          = gnome_config_get_bool ("print_titles");
+	pi->print_order           = gnome_config_get_bool ("order_right");
+
+	gnome_config_pop_prefix ();
+	gnome_config_sync ();
+
 	return pi;
+}
+
+static void
+save_margin (const char *prefix, PrintUnit *p)
+{
+	char *x = g_strconcat (prefix, "_units");
+	
+	gnome_config_set_float (prefix, p->points);
+	gnome_config_set_string (x, unit_name_get_name (p->desired_display));
+	g_free (x);
+}
+
+void
+print_info_save (PrintInformation *pi)
+{
+	gnome_config_push_prefix ("/Gnumeric/Print/");
+
+	gnome_config_set_bool ("vertical_print", pi->orientation == PRINT_ORIENT_VERTICAL);
+	gnome_config_set_bool ("do_scale_percent", pi->scaling.type == PERCENTAGE);
+	gnome_config_set_float ("scale_percent", pi->scaling.percentage);
+	gnome_config_set_int ("scale_width", pi->scaling.dim.cols);
+	gnome_config_set_int ("scale_height", pi->scaling.dim.rows);
+	gnome_config_set_string ("paper", gnome_paper_name (pi->paper));
+
+	save_margin ("margin_top", &pi->margins.top);
+	save_margin ("margin_bottom", &pi->margins.bottom);
+	save_margin ("margin_left", &pi->margins.left);
+	save_margin ("margin_right", &pi->margins.right);
+	save_margin ("margin_header", &pi->margins.header);
+	save_margin ("margin_footer", &pi->margins.footer);
+
+	gnome_config_set_bool ("center_horizontally", pi->center_horizontally);
+	gnome_config_set_bool ("center_vertically", pi->center_vertically);
+
+	gnome_config_set_bool ("print_divisions", pi->print_line_divisions);
+	gnome_config_set_bool ("print_black_and_white", pi->print_black_and_white);
+	gnome_config_set_bool ("print_titles", pi->print_titles);
+	gnome_config_set_bool ("order_right", pi->print_order);
+	
+	gnome_config_pop_prefix ();
+	gnome_config_sync ();
 }
 
 static struct {
@@ -152,3 +252,16 @@ unit_convert (double value, UnitName source, UnitName target)
 	return (units [source].factor * value) / units [target].factor;
 }
  
+UnitName
+unit_name_to_unit (const char *s)
+{
+	int i;
+
+	for (i = 0; units [i].short_name != NULL; i++){
+		if (strcmp (s, units [i].full_name) == 0)
+			return (UnitName) i;
+	}
+
+	return UNIT_POINTS;
+}
+
