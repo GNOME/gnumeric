@@ -1,5 +1,9 @@
 2003-08-09 Adrian Custer <acuster@nature.berkeley.edu>
 
+	* Add link id's for filters
+
+2003-08-09 Adrian Custer <acuster@nature.berkeley.edu>
+
 	* Add analysis-scenarios.xml
 	* Split analysis-goalseek.xml from analysis-solver.xml
 	* Fix erros.
