@@ -183,7 +183,7 @@ gnumeric_sheet_move_cursor (GnumericSheet *gsheet, int col, int row)
 	g_return_if_fail (gsheet != NULL);
 	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
 
-	move_cursor (gsheet, col, row, 1);
+	move_cursor (gsheet, col, row, TRUE);
 }
 
 void

@@ -371,7 +371,7 @@ value_is_error (char const * const str, int *offset)
 {
 	int i = sizeof(gnumeric_error_data)/sizeof(struct gnumeric_error_info);
 
-	g_return_value_if_error (str != NULL, NULL);
+	g_return_val_if_fail (str != NULL, NULL);
 
 	while (--i >= 0) {
 		int const len = gnumeric_error_data[i].len;
