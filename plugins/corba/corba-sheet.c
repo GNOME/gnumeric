@@ -47,6 +47,16 @@ typedef struct {
 	POA_GNOME_Gnumeric_Sheet__epv epv;
 } CorbaSheetClass;
 
+struct _SheetControlCORBA {
+	SheetControl base;
+
+	CorbaSheet *servant;
+};
+
+typedef struct {
+	SheetControlClass   base;
+} SheetControlCORBAClass;
+
 static GType csheet_get_type   (void);
 
 static Sheet *
@@ -93,7 +103,14 @@ csheet_set_index (PortableServer_Servant servant,
 static void
 csheet_dispose (GObject *obj)
 {
-	/* FIXME : do we need to unref the container ? */
+	CorbaSheet *cs = CORBA_SHEET (obj);
+	SheetControlCORBA *scc = cs->container;
+
+	if (scc != NULL) {
+		cs->container = NULL;
+		scc->servant = NULL; /* break loop */
+		g_object_unref (G_OBJECT(scc));
+	}
 }
 
 static void
@@ -122,25 +139,17 @@ BONOBO_TYPE_FUNC_FULL (CorbaSheet,
 
 /*************************************************************************/
 
-struct _SheetControlCORBA {
-	SheetControl base;
-
-	CorbaSheet *servant;
-};
-
-typedef struct {
-	SheetControlClass   base;
-} SheetControlCORBAClass;
-
 static void
 scc_finalize (GObject *obj)
 {
 	GObjectClass *parent_class;
 	SheetControlCORBA *scc = SHEET_CONTROL_CORBA (obj);
+	CorbaSheet *cs = scc->servant;
 
-	if (scc->servant != NULL) {
-		bonobo_object_unref (BONOBO_OBJECT (scc->servant));
+	if (cs != NULL) {
 		scc->servant = NULL;
+		cs->container = NULL; /* break loop */
+		bonobo_object_unref (BONOBO_OBJECT (cs));
 	}
 
 	parent_class = g_type_class_peek (SHEET_CONTROL_TYPE);

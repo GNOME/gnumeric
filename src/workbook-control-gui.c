@@ -3057,7 +3057,7 @@ static GnomeUIInfo workbook_menu_edit [] = {
 	{ GNOME_APP_UI_ITEM, N_("_Goto cell..."),
 		  N_("Jump to a specified cell"),
 		  cb_edit_goto,
-		  NULL, NULL, 0, 0, GDK_F5, 0 },
+		  GNOME_APP_PIXMAP_STOCK, GTK_STOCK_JUMP_TO, 0, 0, GDK_F5, 0 },
 
 	{ GNOME_APP_UI_ITEM, N_("Recalculate"),
 		  N_("Recalculate the spreadsheet"),

@@ -1,5 +1,15 @@
 2002-09-20  Jody Goldberg <jody@gnome.org>
 
+	* configure.in : extend the tests for graphing libraries.
+	  Enable the corba plugin if the tools are in place.
+
+2002-09-20  Jody Goldberg <jody@gnome.org>
+
+	* src/GNOME_Gnumeric.xml : Use the stock jump-to icon
+	* src/workbook-control-gui.c : ditto
+
+2002-09-20  Jody Goldberg <jody@gnome.org>
+
 	* src/plugin-util.c (gnumeric_mmap_error_info) : delete.
 
 	* src/plugin-service.c (plugin_service_general_activate) : init error.

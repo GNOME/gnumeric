@@ -290,6 +290,7 @@
 	    <menuitem name="EditGoto" verb=""
 		_label="_Goto cell..."
 		_tip="Jump to a specified cell"
+		pixtype="stock" pixname="gtk-jump-to"
 		accel="F5"/>
 
 	    <menuitem name="EditRecalc" verb=""

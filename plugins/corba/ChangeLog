@@ -1,5 +1,10 @@
 2002-09-20  Jody Goldberg <jody@gnome.org>
 
+	* corba-sheet.c : some final life cycle tweaks before moving on the
+	  workbook.
+
+2002-09-20  Jody Goldberg <jody@gnome.org>
+
 	* corba-sheet.c : rework yet again to use a 2 object system.
 	  1) SheetControl
 	  2) BonoboObject based wrapper for idl interface.

@@ -50,27 +50,47 @@ gal-2.0		>= 0.0.6
 libgnome-2.0	>= 1.105.0
 libgnomeui-2.0	>= 1.106.0
 libgnomeprint-2.0 < 1.120.0
-libgnomeprint-2.0 >= 1.116.1
+libgnomeprint-2.0 >= 1.116.0
 libgnomeprintui-2.0 < 1.120.0
-libgnomeprintui-2.0 >= 1.116.1
+libgnomeprintui-2.0 >= 1.116.0
 "
-try_graphs=false
+try_graphs=auto
 graph_msg="disabled by default"
 AC_ARG_WITH(graphs,
 	[--{with,without}-graphs      ],
-	if test "x$withval" = xyes -o "x$withval" = xguppi -o "x$withval" = xGuppi -o "x$withval" = xGUPPI; then
-		try_graphs=guppi
-		graph_msg=Guppi
-	fi
-	if test "x$withval" = xgtkextra -o "x$withval" = xGtkExtra -o "x$withval" = xGTKEXTRA; then
+	if test "x$withval" = xyes ; then 
+		try_graphs=auto
+	elif test "x$withval" = xgtkextra -o "x$withval" = xGtkExtra -o "x$withval" = xGTKEXTRA; then
 		try_graphs=gtkextra
-		graph_msg=GtkExtra-2
+	elif test "x$withval" = xguppi -o "x$withval" = xGuppi -o "x$withval" = xGUPPI; then
+		try_graphs=guppi
 	fi
 )
-if test "$try_graphs" = "guppi"; then
-    gnumeric_reqs="$gnumeric_reqs libguppi-2 >= 0.50.0"
-elif test "$try_graphs" = "gtkextra"; then
-    gnumeric_reqs="$gnumeric_reqs gtkextra-2.0 >= 1.1.0"
+if test "x$try_graphs" = "xgtkextra" -o "x$try_graphs" = "xauto" ; then
+	PKG_CHECK_MODULES(LIBGTKEXTRA, [gtkextra-2.0 >= 1.1.0],
+		[found_gtkextra="yes"],
+		[found_gtkextra="no"])
+	if test "x$found_gtkextra" = "xyes"; then
+		gnumeric_reqs="$gnumeric_reqs gtkextra-2.0 >= 1.1.0"
+		graph_msg=GtkExtra-2
+		try_graphs=gtkextra # in case we were auto
+	elif test "x$try_graphs" = "xgtkextra"; then
+		graph_msg="GtkExtra not found"
+	fi
+fi
+if test "x$try_graphs" = "xguppi" -o "x$try_graphs" = "xauto" ; then
+	PKG_CHECK_MODULES(LIBGUPPI, [libguppi-2 >= 0.50.0],
+		[found_guppi="yes"],
+		[found_guppi="no"])
+	if test "x$found_guppi" = "xyes"; then
+		gnumeric_reqs="$gnumeric_reqs libguppi-2 >= 0.50.0"
+		graph_msg=Guppi
+		try_graphs=guppi # in case we were auto
+	elif test "x$try_graphs" = "xguppi"; then
+		graph_msg="Guppi not found"
+	else
+		graph_msg="Neither GtkExtra nor Guppi was found"
+	fi
 fi
 
 dnl **************
@@ -580,12 +600,6 @@ if test "x$pygtk_msg" = "xyes"; then
 	AC_DEFINE(WITH_PYGTK)
 fi
 
-dnl *************
-dnl Corba support
-dnl *************
-AM_CONDITIONAL(WITH_CORBA, false)
-
-
 dnl **************************************************
 dnl * Config defaults (Must be after bonobo)
 dnl **************************************************
@@ -654,25 +668,23 @@ if test x"$evolution" = "xyes" ; then
     AC_DEFINE(ENABLE_EVOLUTION)
 fi
 
-dnl ******************************
-dnl Check for Applix SHELF
-dnl ******************************
-dnl try_applix_shelf=false
-dnl applix_shelf=
-dnl applix_shelf_msg=no
-dnl have_applix_shelf=false
-dnl AC_ARG_WITH(applix_shelf,
-dnl	[--{with,without}-shelf   Compile with Applix SHELF support or without it],
-dnl	if test "x$withval" = xyes; then
-dnl		try_applix_shelf=true
-dnl	fi
-dnl)
+dnl *************
+dnl Corba support
+dnl *************
+with_corba=false
+PKG_CHECK_MODULES(CORBA_LIBS,  [ORBit-2.0 >= 2.4.2
+				libbonobo-2.0 >= 2.0.0
+				bonobo-activation-2.0 >= 1.0.2
+				],[with_corba=true])
 
-ORBIT="`$PKG_CONFIG --variable=orbit_idl ORBit-2.0`"
-BONOBO_IDL_DIR="`$PKG_CONFIG --variable=idldir libbonobo-2.0`"
-BONOBO_ACTIVATION_IDL_DIR="`$PKG_CONFIG --variable=idldir bonobo-activation-2.0`"
-ORBIT_IDL="${ORBIT} -I${BONOBO_IDL_DIR} -I${BONOBO_ACTIVATION_IDL_DIR}"
-AC_SUBST(ORBIT_IDL)
+AM_CONDITIONAL(WITH_CORBA, $with_corba)
+if test "x$with_corba" = "xtrue" ; then
+	ORBIT="`$PKG_CONFIG --variable=orbit_idl ORBit-2.0`"
+	BONOBO_IDL_DIR="`$PKG_CONFIG --variable=idldir libbonobo-2.0`"
+	BONOBO_ACTIVATION_IDL_DIR="`$PKG_CONFIG --variable=idldir bonobo-activation-2.0`"
+	ORBIT_IDL="${ORBIT} -I${BONOBO_IDL_DIR} -I${BONOBO_ACTIVATION_IDL_DIR}"
+	AC_SUBST(ORBIT_IDL)
+fi
 
 dnl ====================================
 dnl = Test whether jw is installed
