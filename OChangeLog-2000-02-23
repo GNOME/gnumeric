@@ -1,3 +1,10 @@
+1998-08-15  Chris Lahey  <clahey@umich.edu>
+
+	* src/format.c: Merged format_text and format_date into
+	format_number.  
+	Added parsing of am/pm.
+	Added a short format description.
+
 1998-08-15  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/item-cursor.c (item_cursor_drag_event): Make the drag cursor

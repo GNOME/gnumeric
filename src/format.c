@@ -16,14 +16,31 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
+#include <config.h>
 #include <glib.h>
 #include <stdio.h>
 #include <math.h>
 #include <string.h>
 #include <gnome.h>
 #include <time.h>
-gchar *format_text( gchar *format, gdouble number );
-gchar *format_time( gchar *format, const time_t timec );
+gchar *format_number( gdouble number, gchar *format );
+/*
+   The returned string is newly allocated.
+
+   Current format is an optional date specification followed by an
+   optional number specification.
+
+   A date specification is an arbitrary sequence of characters (other
+   than '#', '0', '?', or '.') which is copied to the output.  The
+   standard date fields are substituted for.  If it ever finds an a or
+   a p it lists dates in 12 hour time, otherwise, it lists dates in 24
+   hour time.
+
+   A number specification is as described in the relavent portions of
+   the excel formatting information.  Commas can currently only appear
+   at the end of the number specification.  Fractions are not yet
+   supported.  
+*/
 
 gchar *day_short[] =
 {
@@ -82,20 +99,28 @@ gchar *month_long[] =
 void
 test()
 {
-  int timec = 1220000000;
-  printf( "%s|\n", format_text( "??0000.00?", 12.3456789 ) );
-  printf( "%s|\n", format_text( "??0000.00?", 12.3 ) );
-  printf( "%s|\n", format_text( "??0000.00?", 12345.6789 ) );
-  printf( "%s|\n", format_text( "???????.00", 0.123456789 ) );
-  printf( "%s|\n", format_text( "???0.000??#,,", 12200000 ) );
-  printf( "%s|\n", format_time( "hh:mm:ss", timec ) );
-  printf( "%s|\n", format_time( "mmmm dd, yyyy", timec ) );
-  printf( "%s|\n", format_time( "mmm d, yy h:m:s", timec ) );
+  double timec = 36022.63582;
+  printf( "%s|\n", format_number( 12.3456789,  "??0000.00?" ) );
+  printf( "%s|\n", format_number( 12.3,        "??0000.00?" ) );
+  printf( "%s|\n", format_number( 12345.6789,  "??0000.00?" ) );
+  printf( "%s|\n", format_number( 0.123456789, "???????.00" ) );
+  printf( "%s|\n", format_number( 12200000,    "???0.000??#,," ) );
+  printf( "%s|\n", format_number( timec, "hh:mm:ss" ) );
+  printf( "%s|\n", format_number( timec, "mmmm dd, yyyy" ) );
+  printf( "%s|\n", format_number( timec, "mmm d, yy h:m:s" ) );
+  printf( "%s|\n", format_number( timec, "mmm d, yy h:m:s PM" ) );
+  timec += 2 / 24.0;
+  printf( "%s|\n", format_number( timec, "hh:mm:ss" ) );
+  printf( "%s|\n", format_number( timec, "mmmm dd, yyyy" ) );
+  printf( "%s|\n", format_number( timec, "mmm d, yy h:m:s" ) );
+  printf( "%s|\n", format_number( timec, "mmm d, yy h:m:s PM" ) );
 }
 
 int
-main( int argc, gchar *argv )
+main( int argc, gchar *argv[] )
 {
+  bindtextdomain(PACKAGE, GNOMELOCALEDIR);
+  textdomain(PACKAGE);
   test();
   return 0;
 }
@@ -116,170 +141,6 @@ static void do_roundup( GString *string )
     {
       string->str[i] ++;
     }
-}
-
-gchar *
-format_text( gchar *format, gdouble number )
-{
-  gint left_req = 0, right_req = 0;
-  gint left_spaces = 0, right_spaces = 0;
-  gint right_allowed = 0;
-  gint i = 0;
-  gdouble temp;
-  gboolean negative = FALSE;
-  GString *string = g_string_new( "" );
-#if 0
-  gint length;
-#endif
-  gchar *returnvalue;
-  gint zero_count;
-  gint nine_count;
-
-  for ( i = 0; format[i] == '#'; i++ )
-    /* Empty statement */;
-  for ( ; format[i] == '?'; i++ )
-    left_spaces ++;
-  for ( ; format[i] == '0'; i++ )
-    {
-      left_req ++;
-      left_spaces ++;
-    }
-  if ( format[i] == '.' )
-    {
-      i++;
-      for ( ; format[i] == '0'; i++ )
-	{
-	  right_req ++;
-	  right_allowed ++;
-	  right_spaces ++;
-	}
-      for ( ; format[i] == '?'; i++ )
-	{
-	  right_spaces ++;
-	  right_allowed ++;
-	}
-      for ( ; format[i] == '#'; i++ )
-	right_allowed ++;
-    }
-  for ( ; format[i] == ','; i++ )
-    number /= 1000.0;
-  if ( format[i] )
-    return NULL;
-  if ( number < 0.0 )
-    {
-      number = - number;
-      negative = TRUE;
-    }
-#if 0
-  length = ceil( log10( number ) );
-  if ( log10( number ) == ceil( log10( number ) ) )
-    length ++;
-  length = length > left_req ? length : left_req;
-  length += 1;
-  length += right_allowed;
-
-  g_string_maybe_expand( string, length );
-#endif
-  
-  for ( temp = number; temp >= 1.0; temp /= 10.0 )
-    {
-      gint digit = floor( temp );
-      digit %= 10;
-      g_string_prepend_c( string, digit + '0' );
-      if ( left_req > 0 )
-	left_req --;
-      if ( left_spaces > 0 )
-	left_spaces --;
-
-    }
-
-  for ( ; left_req > 0; left_req --, left_spaces -- )
-    {
-      g_string_prepend_c( string, '0' );
-    }
-
-  for ( ; left_spaces > 0; left_spaces -- )
-    {
-      g_string_prepend_c( string, ' ' );
-    }
-
-  if( negative )
-    g_string_prepend_c( string, '-' );
-
-  g_string_append_c( string, '.' );
-
-  temp = number - floor( number );
-
-  for ( ; right_req > 0; right_req --, right_allowed --, right_spaces -- )
-    {
-      gint digit;
-      temp *= 10.0;
-      digit = floor( temp );
-      temp -= floor( temp );
-      if ( right_allowed == 1 && floor( temp * 10.0 ) >= 5 )
-	{
-	  if ( digit < 9 )
-	    digit ++;
-	  else
-	    {
-	      digit = 0;
-	      do_roundup( string );
-	    }
-	}
-      g_string_append_c( string, digit + '0' );
-    }
-
-  zero_count = 0;
-  nine_count = 0;
-  
-  for ( ; right_allowed > 0; right_allowed -- )
-    {
-      gint digit;
-      temp *= 10.0;
-      digit = floor( temp );
-      temp -= floor( temp );
-      if ( right_allowed == 1 && floor( temp * 10.0 ) >= 5 )
-	{
-	  if ( digit < 9 )
-	    digit ++;
-	  else
-	    {
-	      digit = 0;
-	      right_spaces -= zero_count;
-	      zero_count = nine_count;
-	      right_spaces += zero_count;
-	      do_roundup( string );
-	    }
-	}
-      if ( digit == 0 )
-	zero_count ++;
-      else
-	{
-	  right_spaces -= zero_count + 1;
-	  zero_count = 0;
-	}
-      if ( digit == 9 )
-	nine_count ++;
-      else
-	nine_count = 0;
-      g_string_append_c( string, digit + '0' );
-    }
-
-
-  g_string_truncate( string, string->len - zero_count );
-
-  for ( ; right_spaces > 0; right_spaces -- )
-    {
-      g_string_append_c( string, ' ' );
-    }
-  
-  returnvalue = g_malloc0( string->len + 1);
-  strncpy( returnvalue, string->str, string->len );
-  returnvalue[string->len] = 0;
-
-  g_string_free( string, TRUE );
-  
-  return returnvalue;
 }
 
 /* Parses the year field at the beginning of the format.  Returns the
@@ -331,16 +192,16 @@ int append_month( GString *string, gchar *format, struct tm *time_split )
 
 /* Parses the hour field at the beginning of the format.  Returns the
    number of characters used. */
-int append_hour( GString *string, gchar *format, struct tm *time_split )
+int append_hour( GString *string, gchar *format, struct tm *time_split, int timeformat )
 {
   gchar temp[3];
   if ( format[ 1 ] != 'h' )
     {
-      sprintf( temp, "%d", time_split->tm_hour );
+      sprintf( temp, "%d", timeformat ? ( time_split->tm_hour % 12 ) : time_split->tm_hour );
       g_string_append( string, temp );
       return 1;
     }
-  sprintf( temp, "%02d", time_split->tm_hour );
+  sprintf( temp, "%02d", timeformat ? ( time_split->tm_hour % 12 ) : time_split->tm_hour );
   g_string_append( string, temp );
   return 2;
 }
@@ -403,16 +264,97 @@ int append_second( GString *string, gchar *format, struct tm *time_split )
   return 2;
 }
 
-gchar *format_time( gchar *format, const time_t timec )
+/* Parses the day part field at the beginning of the format.  Returns
+   the number of characters used. */
+int append_half( GString *string, gchar *format, struct tm *time_split )
 {
-  struct tm *time_split = localtime( &timec );
-  GString *string = g_string_new( "" );
-  int i;
-  int length = strlen( format );
-  gboolean minute_mode = FALSE;
-  gchar *returnvalue;
+  if ( time_split->tm_hour <= 11 )
+    {
+      if ( format[ 0 ] == 'a' || format[ 0 ] == 'p' )
+	g_string_append_c( string, 'a' );
+      else
+	g_string_append_c( string, 'A' );
+    }
+  else
+    {
+      if ( format[ 0 ] == 'a' || format[ 0 ] == 'p' )
+	g_string_append_c( string, 'p' );
+      else
+	g_string_append_c( string, 'P' );
+    }
+  
+  if ( format[ 1 ] == 'm' || format[ 1 ] == 'M' )
+    {
+      g_string_append_c( string, format[ 1 ] );
+      return 2;
+    }
+  else return 1;
+}
 
+typedef struct
+{
+  int decimal;
+  int timeformat;
+  int hasnumbers;
+} format_info;
+
+gchar *
+format_number( gdouble number, gchar *format )
+{
+  gint left_req = 0, right_req = 0;
+  gint left_spaces = 0, right_spaces = 0;
+  gint right_allowed = 0;
+  gint i = 0;
+  gdouble temp;
+  gboolean negative = FALSE;
+  GString *string = g_string_new( "" );
+  GString *number_string = g_string_new( "" );
+  gint length = strlen(format);
+  gchar *returnvalue;
+  gint zero_count;
+  gint nine_count;
+  format_info info;
+  gboolean minute_mode = FALSE;
+  gboolean done = FALSE;
+  gboolean any = FALSE;
+  gdouble date;
+  time_t timec;
+  struct tm *time_split;
+
+  date = number;
+  date -= 25569.0;
+  date *= 86400.0;
+
+  timec = date;
+
+  time_split = localtime( &timec );
+
+  info.decimal = length;
+  info.timeformat = 0;
+  info.hasnumbers = FALSE;
+  
   for ( i = 0; i < length; i++ )
+    {
+      switch ( format[i] )
+	{
+	case '.':
+	  info.decimal = i;
+	  break;
+	case 'a': /* Fall through */
+	case 'A': /* Fall through */
+	case 'p': /* Fall through */
+	case 'P':
+	  info.timeformat = 1;
+	  break;
+	case '0': /* Fall through */
+	case '#': /* Fall through */
+	case '?':
+	  info.hasnumbers = TRUE;
+	  break;
+	}
+    }
+
+  for ( i = 0; i < length && !done; i++ )
     {
       switch ( format[i] )
 	{
@@ -428,7 +370,7 @@ gchar *format_time( gchar *format, const time_t timec )
 	  minute_mode = FALSE;
 	  break;
 	case 'h':
-	  i += append_hour( string, format + i, time_split ) - 1;
+	  i += append_hour( string, format + i, time_split, info.timeformat ) - 1;
 	  minute_mode = TRUE;
 	  break;
 	case 'd':
@@ -439,17 +381,179 @@ gchar *format_time( gchar *format, const time_t timec )
 	  i += append_second( string, format + i, time_split ) - 1;
 	  minute_mode = FALSE;
 	  break;
+	case 'a':
+	case 'A':
+	case 'p':
+	case 'P':
+	  i += append_half( string, format + i, time_split ) - 1;
+	  minute_mode = FALSE;
+	  break;
+	case '0':
+	case '?':
+	case '#':
+	case '.':
+	  done = any = TRUE;
+	  break;
 	default:
 	  g_string_append_c( string, format[i] );
 	  break;
 	}
     }
+
+  if(any)
+    {
+      for ( ; format[i] == '#'; i++ )
+	{
+	}
+      for ( ; format[i] == '?'; i++ )
+	{
+	  left_spaces ++;
+	}
+      for ( ; format[i] == '0'; i++ )
+	{
+	  left_req ++;
+	  left_spaces ++;
+	}
+      if ( format[i] == '.' )
+	{
+	  i++;
+	  for ( ; format[i] == '0'; i++ )
+	    {
+	      right_req ++;
+	      right_allowed ++;
+	      right_spaces ++;
+	    }
+	  for ( ; format[i] == '?'; i++ )
+	    {
+	      right_spaces ++;
+	      right_allowed ++;
+	    }
+	  for ( ; format[i] == '#'; i++ )
+	    {
+	      right_allowed ++;
+	    }
+	}
+      for ( ; format[i] == ','; i++ )
+	{
+	  number /= 1000.0;
+	}
+      if ( format[i] )
+	return NULL;
+      if ( number < 0.0 )
+	{
+	  number = - number;
+	  negative = TRUE;
+	}
+#if 0
+      length = ceil( log10( number ) );
+      if ( log10( number ) == ceil( log10( number ) ) )
+	length ++;
+      length = length > left_req ? length : left_req;
+      length += 1;
+      length += right_allowed;
+      
+      g_string_maybe_expand( number_string, length );
+#endif
   
+      for ( temp = number; temp >= 1.0; temp /= 10.0 )
+	{
+	  gint digit = floor( temp );
+	  digit %= 10;
+	  g_string_prepend_c( number_string, digit + '0' );
+	  if ( left_req > 0 )
+	    left_req --;
+	  if ( left_spaces > 0 )
+	    left_spaces --;
+	  
+	}
+      
+      for ( ; left_req > 0; left_req --, left_spaces -- )
+	{
+	  g_string_prepend_c( number_string, '0' );
+	}
+
+      for ( ; left_spaces > 0; left_spaces -- )
+	{
+	  g_string_prepend_c( number_string, ' ' );
+	}
+
+      if( negative )
+	g_string_prepend_c( number_string, '-' );
+
+      g_string_append_c( number_string, '.' );
+
+      temp = number - floor( number );
+
+      for ( ; right_req > 0; right_req --, right_allowed --, right_spaces -- )
+	{
+	  gint digit;
+	  temp *= 10.0;
+	  digit = floor( temp );
+	  temp -= floor( temp );
+	  if ( right_allowed == 1 && floor( temp * 10.0 ) >= 5 )
+	    {
+	      if ( digit < 9 )
+		digit ++;
+	      else
+		{
+		  digit = 0;
+		  do_roundup( number_string );
+		}
+	    }
+	  g_string_append_c( number_string, digit + '0' );
+	}
+
+      zero_count = 0;
+      nine_count = 0;
+  
+      for ( ; right_allowed > 0; right_allowed -- )
+	{
+	  gint digit;
+	  temp *= 10.0;
+	  digit = floor( temp );
+	  temp -= floor( temp );
+	  if ( right_allowed == 1 && floor( temp * 10.0 ) >= 5 )
+	    {
+	      if ( digit < 9 )
+		digit ++;
+	      else
+		{
+		  digit = 0;
+		  right_spaces -= zero_count;
+		  zero_count = nine_count;
+		  right_spaces += zero_count;
+		  do_roundup( number_string );
+		}
+	    }
+	  if ( digit == 0 )
+	    zero_count ++;
+	  else
+	    {
+	      right_spaces -= zero_count + 1;
+	      zero_count = 0;
+	    }
+	  if ( digit == 9 )
+	    nine_count ++;
+	  else
+	    nine_count = 0;
+	  g_string_append_c( number_string, digit + '0' );
+	}
+
+      g_string_truncate( number_string, number_string->len - zero_count );
+
+      for ( ; right_spaces > 0; right_spaces -- )
+	{
+	  g_string_append_c( number_string, ' ' );
+	}
+      g_string_append( string, number_string->str );
+    }
   returnvalue = g_malloc0( string->len + 1);
   strncpy( returnvalue, string->str, string->len );
   returnvalue[string->len] = 0;
 
   g_string_free( string, TRUE );
+  g_string_free( number_string, TRUE );
   
   return returnvalue;
 }
+
