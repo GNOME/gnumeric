@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-01 22:00-0500\n"
-"PO-Revision-Date: 2004-10-30 15:35+0200\n"
+"POT-Creation-Date: 2004-11-03 03:18+0100\n"
+"PO-Revision-Date: 2004-11-03 13:32+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -17794,8 +17794,8 @@ msgstr "Omezení:"
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1057
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:379
 #: src/dialogs/dialog-define-names.c:496 src/dialogs/dialog-formula-guru.c:800
-#: src/dialogs/dialog-function-select.c:445
-#: src/dialogs/dialog-function-select.c:467 src/dialogs/dialog-scenarios.c:368
+#: src/dialogs/dialog-function-select.c:443
+#: src/dialogs/dialog-function-select.c:465 src/dialogs/dialog-scenarios.c:368
 #: src/dialogs/dialog-simulation.c:217 src/dialogs/dialog-zoom.c:198
 #: src/format-template.c:247 src/tools/solver/reports-write.c:79
 #: src/tools/solver/reports-write.c:101 src/tools/solver/reports-write.c:128
@@ -18610,7 +18610,7 @@ msgstr "Chyba při otevírání souboru Xbase."
 
 #: plugins/xbase/boot.c:175 src/commands.c:4906
 #: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:409
-#: src/dialogs/dialog-stf-export.c:443 src/dialogs/print.glade.h:21
+#: src/dialogs/dialog-stf-export.c:444 src/dialogs/print.glade.h:21
 #: src/print-info.c:391 src/workbook.c:1091 src/xml-io.c:3782
 msgid "Sheet"
 msgstr "List"
@@ -21479,19 +21479,19 @@ msgstr "Plné"
 
 #: src/cut-n-paste-code/goffice/utils/go-line.c:53
 msgid "Dash"
-msgstr ""
+msgstr "Čárka"
 
 #: src/cut-n-paste-code/goffice/utils/go-line.c:54
 msgid "Dot"
-msgstr ""
+msgstr "Tečka"
 
 #: src/cut-n-paste-code/goffice/utils/go-line.c:55
 msgid "Dash dot"
-msgstr ""
+msgstr "Čárka tečka"
 
 #: src/cut-n-paste-code/goffice/utils/go-line.c:56
 msgid "Dash dot dot"
-msgstr ""
+msgstr "Čárka tečka tečka"
 
 #. xgettext : this will appear as 'Automatic (patternname)'
 #. xgettext : this will appear as 'Automatic (shapename)'
@@ -23694,11 +23694,11 @@ msgstr "Funkce/Parametr"
 msgid "Could not create the formula guru."
 msgstr "Není možné vytvořit Guru vzorců."
 
-#: src/dialogs/dialog-function-select.c:212
+#: src/dialogs/dialog-function-select.c:210
 msgid "Recently Used"
 msgstr "Nedávno použité"
 
-#: src/dialogs/dialog-function-select.c:217
+#: src/dialogs/dialog-function-select.c:215
 msgid "All Functions (long list)"
 msgstr "Všechny funkce (dlouhý seznam)"
 
@@ -24585,20 +24585,20 @@ msgstr "Nelze vytvořit dialog Nástroje pro řešitele."
 msgid "Are you sure you want to cancel?"
 msgstr "Opravdu chcete zrušit?"
 
-#: src/dialogs/dialog-stf-export.c:437
+#: src/dialogs/dialog-stf-export.c:438
 msgid "Export"
 msgstr "Export"
 
-#: src/dialogs/dialog-stf-export.c:510
+#: src/dialogs/dialog-stf-export.c:511
 #: src/dialogs/dialog-stf-export.glade.h:39
 msgid "_Next"
 msgstr "_Následující"
 
-#: src/dialogs/dialog-stf-export.c:513
+#: src/dialogs/dialog-stf-export.c:514
 msgid "_Finish"
 msgstr "_Dokončit"
 
-#: src/dialogs/dialog-stf-export.c:572
+#: src/dialogs/dialog-stf-export.c:573
 msgid "This workbook does not contain any exportable content."
 msgstr "Tento sešit neobsahuje exportovatelný obsah."
 
@@ -24632,12 +24632,11 @@ msgstr "Zvolte formátování exportu:"
 
 #: src/dialogs/dialog-stf-export.glade.h:11
 msgid "Choose sheets to export and determine export ordering of the sheets:"
-msgstr ""
+msgstr "Zvolte listy, které exportovat, a určete pořadí exportovaných listů:"
 
 #: src/dialogs/dialog-stf-export.glade.h:12
-#, fuzzy
 msgid "Deselect all sheets for export."
-msgstr "Zvolte listy, které exportovat:"
+msgstr "Zrušit výběr všech listů pro export."
 
 #: src/dialogs/dialog-stf-export.glade.h:13
 msgid "Export as Text"
@@ -24647,19 +24646,19 @@ msgstr "Exportovat jako text"
 msgid ""
 "Lower the selected sheet in the list of to be exported sheets to be exported "
 "later."
-msgstr ""
+msgstr "Snížit vybraný list v seznamu exportovaných listů, aby byl exportován později."
 
 #: src/dialogs/dialog-stf-export.glade.h:15
 msgid ""
 "Move the selected sheet to the end of the list of to be exported exported "
 "sheets to be exported last."
-msgstr ""
+msgstr "Přesunout vybraný list na konec seznamu exportovaných listů, aby byl exportován poslední."
 
 #: src/dialogs/dialog-stf-export.glade.h:16
 msgid ""
 "Move the selected sheet to the top of the list of to be exported sheets to "
 "be exported first."
-msgstr ""
+msgstr "Přesunout vybraný list na začátek seznamu exportovaných listů, aby byl exportován první."
 
 #: src/dialogs/dialog-stf-export.glade.h:17
 msgid "Qu_oting:"
@@ -24673,7 +24672,7 @@ msgstr "Znak u_vozovek:"
 msgid ""
 "Raise the selected sheet in the list of to be exported sheets to be exported "
 "earlier."
-msgstr ""
+msgstr "Zvýšit vybraný list v seznamu exportovaných listů, aby byl exportován dříve."
 
 #: src/dialogs/dialog-stf-export.glade.h:20
 msgid "Select N_one"
@@ -24686,7 +24685,7 @@ msgstr "Vybr_at vše"
 
 #: src/dialogs/dialog-stf-export.glade.h:22
 msgid "Select all non-empty sheets for export."
-msgstr ""
+msgstr "Vybrat všechny neprázdné listy pro export."
 
 #: src/dialogs/dialog-stf-export.glade.h:23
 msgid ""
@@ -28790,19 +28789,19 @@ msgid "_Remove Hyperlink"
 msgstr "Odst_ranit hypertextový odkaz"
 
 #. This is somewhat cheesy and should use ngettext
-#: src/sheet-control-gui.c:1958
+#: src/sheet-control-gui.c:1972
 msgid "Duplicate Object"
 msgstr "Duplikovat objekt"
 
-#: src/sheet-control-gui.c:1958
+#: src/sheet-control-gui.c:1972
 msgid "Insert Object"
 msgstr "Vložit objekt"
 
-#: src/sheet-control-gui.c:1959
+#: src/sheet-control-gui.c:1973
 msgid "Move Object"
 msgstr "Přesunout objekt"
 
-#: src/sheet-control-gui.c:1959
+#: src/sheet-control-gui.c:1973
 msgid "Resize Object"
 msgstr "Změnit velikost objektu"
 
