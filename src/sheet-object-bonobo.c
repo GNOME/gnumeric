@@ -139,13 +139,14 @@ sheet_object_bonobo_load_from_file (SheetObjectBonobo *sob, const char *fname)
 		if (file) {
 			BonoboStream *stream;
 			
-			stream = bonobo_stream_fs_open (file, Bonobo_Storage_READ);
+			stream = bonobo_stream_open ("fs", file, Bonobo_Storage_READ, 0);
 			if (stream) {
 				Bonobo_PersistStream_load (
 					ps,
 					(Bonobo_Stream) bonobo_object_corba_objref (
 						BONOBO_OBJECT (stream)), "", &ev);
-			}
+			} else
+				g_warning ("Failed to open '%s'", file);
 		}
 		Bonobo_Unknown_unref ((Bonobo_Unknown) ps, &ev);
 		CORBA_Object_release (ps, &ev);
@@ -283,7 +284,7 @@ sheet_object_bonobo_construct (SheetObjectBonobo *sob, Sheet *sheet,
 		return NULL;
 	}
 
-	sob->client_site   = bonobo_client_site_new (sheet->workbook->priv->bonobo_container);
+	sob->client_site = bonobo_client_site_new (sheet->workbook->priv->bonobo_container);
 	
 	if (!bonobo_client_site_bind_embeddable (sob->client_site,
 						 sob->object_server)) {

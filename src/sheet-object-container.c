@@ -244,32 +244,36 @@ sheet_object_container_new_object (Sheet *sheet,
 
 	return SHEET_OBJECT (c);
 }
+
 SheetObject *
 sheet_object_container_new_file (Sheet *sheet, const char *fname)
 {
 	SheetObject *so = NULL;
-	const char *mime_type;
-	const char *mime_goad_id;
-	char *msg = NULL;
+	char        *msg;
+	char        *iid;
+	char        *required_ids [] = {
+		"IDL:Bonobo/Embeddable:1.0",
+		NULL
+	};
 
 	g_return_val_if_fail (sheet != NULL, NULL);
 
-	if (!(mime_type = gnome_mime_type (fname))) {
-		msg = g_strdup_printf ("unknown mime type for '%s'", (char *)fname);
+	iid = bonobo_directory_find_for_file (fname, required_ids, &msg);
+
+	if (!iid)
 		gnome_dialog_run_and_close (GNOME_DIALOG (gnome_error_dialog (msg)));
-	} else if (!(mime_goad_id = gnome_mime_get_value (mime_type, "bonobo-goad-id"))) {
-		msg = g_strdup_printf ("no mime mapping for '%s'", mime_type);
-		gnome_dialog_run_and_close (GNOME_DIALOG (gnome_error_dialog (msg)));
-	} else {
-		so = sheet_object_container_new_object (sheet, mime_goad_id);
+
+	else {
+		so = sheet_object_container_new_object (sheet, iid);
 		if (so == NULL) {
-			msg = g_strdup_printf ("can't create object for '%s'", mime_goad_id);
+			msg = g_strdup_printf (_("can't create object for '%s'"), iid);
 			gnome_dialog_run_and_close (GNOME_DIALOG (gnome_error_dialog (msg)));
 		} else
 			sheet_object_bonobo_load_from_file (SHEET_OBJECT_BONOBO (so), fname);
 	}
-	if (msg)
-		g_free (msg);
+
+	g_free (iid);
+	g_free (msg);
 
 	return so;
 }

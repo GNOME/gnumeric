@@ -225,19 +225,23 @@ gnumeric_bonobo_obj_read (xmlNodePtr   tree,
 
 static int
 gnumeric_bonobo_write_workbook (CommandContext *context, Workbook *wb,
-		       const char *filename)
+				const char *filename)
 {
 	int              size, ret;
 	xmlChar         *mem;
 	xmlDocPtr        xml;
 	XmlParseContext *ctxt;
 	BonoboStorage   *storage;
+	int              flags;
 
 	g_return_val_if_fail (wb != NULL, -1);
 	g_return_val_if_fail (filename != NULL, -1);
 
-	storage = bonobo_storage_open ("vfs", filename, BONOBO_SS_CREATE |
-				       BONOBO_SS_RDWR | BONOBO_SS_EXCL, 0);
+	flags = Bonobo_Storage_CREATE | Bonobo_Storage_READ |
+		Bonobo_Storage_WRITE | Bonobo_Storage_FAILIFEXIST;
+
+	storage = bonobo_storage_open ("vfs", filename, flags, 0);
+
 	if (!storage) {
 		char *msg = g_strdup_printf ("Can't open '%s'", filename);
 		gnumeric_error_save (context, msg);
@@ -411,7 +415,7 @@ gnumeric_bonobo_read_workbook (CommandContext *context, Workbook *wb,
 
 	g_return_val_if_fail (filename != NULL, -1);
 
-	storage = bonobo_storage_open ("vfs", filename, BONOBO_SS_READ, 0);
+	storage = bonobo_storage_open ("vfs", filename, Bonobo_Storage_READ, 0);
 	if (!storage) {
 		char *msg = g_strdup_printf ("Can't open '%s'", filename);
 		gnumeric_error_save (context, msg);
@@ -485,7 +489,6 @@ gnumeric_bonobo_io_probe (const char *filename)
 {
 	char *p;
 
-	g_warning ("Type detection hack for now");
 	if ((p = strrchr (filename, '.')) &&
 	    !g_strncasecmp (p + 1, "efs", 3))
 		return TRUE;

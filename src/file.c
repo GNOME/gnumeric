@@ -175,6 +175,25 @@ file_format_unregister_save (FileFormatSave save)
 	}
 }
 
+static int
+do_load_from (CommandContext *context, Workbook *wb,
+	      const char *filename)
+{
+	GList *l;
+
+	for (l = gnumeric_file_openers; l; l = l->next) {
+		FileOpener const * const fo = l->data;
+
+		if (fo->probe != NULL && (*fo->probe) (filename)) {
+			int result = (*fo->open) (context, wb, filename);
+			if (result == 0)
+				workbook_set_dirty (wb, FALSE);
+			return result;
+		}
+	}
+	return -1;
+}
+
 /**
  * workbook_load_from:
  * @workbook: A blank workbook to load into.
@@ -190,20 +209,14 @@ int
 workbook_load_from (CommandContext *context, Workbook *wb,
 		    const char *filename)
 {
-	GList *l;
+	int ret;
 
-	for (l = gnumeric_file_openers; l; l = l->next) {
-		FileOpener const * const fo = l->data;
+	ret = workbook_load_from (context, wb, filename);
+	
+	if (ret == -1)
+		gnumeric_error_read (context, NULL);
 
-		if (fo->probe != NULL && (*fo->probe) (filename)) {
-			int result = (*fo->open) (context, wb, filename);
-			if (result == 0)
-				workbook_set_dirty (wb, FALSE);
-			return result;
-		}
-	}
-	gnumeric_error_read (context, NULL);
-	return -1;
+	return ret;
 }
 
 /**
@@ -224,9 +237,9 @@ workbook_try_read (CommandContext *context, const char *filename)
 	g_return_val_if_fail (filename != NULL, NULL);
 
 	wb = workbook_new ();
-	result = workbook_load_from (context, wb, filename);
+	result = do_load_from (context, wb, filename);
 	if (result != 0) {
-		gtk_object_destroy   (GTK_OBJECT (wb));
+		gtk_object_destroy (GTK_OBJECT (wb));
 		wb = NULL;
 	}
 

@@ -1,3 +1,21 @@
+2000-10-19  Michael Meeks  <michael@helixcode.com>
+
+	* configure.in (gnumeric_executable): check for (CVS) Bonobo 0.24
+
+	* src/file.c (do_load_from): split from (workbook_load_from): upd.
+	(workbook_try_read): use do_load_from to kill (empty) message box.
+
+	* src/bonobo-io.c (gnumeric_bonobo_io_probe): remove annoying warning.
+
+	* src/sheet-object-container.c (sheet_object_container_new_file):
+	move this ugly code into bonobo and clean; make D&D components work again.
+
+	* src/bonobo-io.c (gnumeric_bonobo_write_workbook): update for HEAD
+	Bonobo.
+	(gnumeric_bonobo_read_workbook): ditto.
+
+	* src/sheet-object-bonobo.c (sheet_object_bonobo_load_from_file): upd.
+
 2000-10-18  Jody Goldberg <jgoldberg@home.com>
 
 	* src/format.c (format_value) : Only format doubles as ints if they
