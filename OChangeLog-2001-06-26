@@ -1,3 +1,11 @@
+2000-03-28  Jon K Hellan  <hellan@acm.org>
+
+	* src/print.c (print_footers): Dont't change footer points.
+
+	* src/xml-io.c (xml_arg_get): Silence format conversion warnings.
+
+	* src/dialogs/names.glade: Put the list inside a scrolled window.
+
 2000-03-28  Miguel de Icaza  <miguel@gnu.org>
 
 	* configure.in (GB_LIBS): Require Gtk 1.2.7 here too.

@@ -105,9 +105,9 @@ xml_arg_get (GtkArg *arg)
 	case GTK_TYPE_UINT:
 		return g_strdup_printf("%u", GTK_VALUE_UINT (*arg));
 	case GTK_TYPE_LONG:
-		return g_strdup_printf("%i", GTK_VALUE_LONG (*arg));
+		return g_strdup_printf("%l", GTK_VALUE_LONG (*arg));
 	case GTK_TYPE_ULONG:
-		return g_strdup_printf("%u", GTK_VALUE_ULONG (*arg));
+		return g_strdup_printf("%ul", GTK_VALUE_ULONG (*arg));
 	case GTK_TYPE_FLOAT:
 		return g_strdup_printf("%f", GTK_VALUE_FLOAT (*arg));
 	case GTK_TYPE_DOUBLE:

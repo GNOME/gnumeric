@@ -227,7 +227,7 @@ print_footers (PrintJobInfo *pj)
 	
 	gnome_print_setfont (pj->print_context, pj->decoration_font);
 
-	y = pm->footer.points = pm->bottom.points;
+	y = pm->bottom.points;
 	print_hf (pj, pj->pi->footer->left_format,   LEFT_HEADER, y);
 	print_hf (pj, pj->pi->footer->middle_format, MIDDLE_HEADER, y);
 	print_hf (pj, pj->pi->footer->right_format,  RIGHT_HEADER, y);
