@@ -26,6 +26,8 @@ struct _SheetPrivate {
 	gboolean	 recompute_spans;
 	gboolean	 resize_scrollbar;
 	CellPos		 reposition_objects;
+
+	guint            auto_expr_idle_id;
 };
 
 #endif /* GNUMERIC_SHEET_PRIVATE_H */

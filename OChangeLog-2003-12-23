@@ -7,6 +7,9 @@
 	(sheet_update_auto_expr_idle_func): New function (code moved from
 	sheet_update) updating "auto_expression" in idle loop.
 
+	* sheet-priv.h (struct _SheetPrivate): Added auto_expr_idle_id
+	field.
+
 2001-03-26  Morten Welinder  <terra@diku.dk>
 
 	* src/workbook.c (workbook_cells): New function, extracted from
