@@ -6,14 +6,6 @@ test -z "$srcdir" && srcdir=.
 
 PKG_NAME="Gnumeric"
 
-#!/bin/sh
-# Run this to generate all the initial makefiles, etc.
-
-srcdir=`dirname $0`
-test -z "$srcdir" && srcdir=.
-
-PKG_NAME="Gnumeric"
-
 (test -f $srcdir/configure.in \
   && test -d $srcdir/src \
   && test -f $srcdir/src/gnumeric.h) || {
