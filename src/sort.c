@@ -194,7 +194,7 @@ sort_range (Sheet *sheet, Range *range,
 						       start_row + lp2);
 			data [lp].cells[lp2] = cell;
 			if (cell)
-				sheet_cell_remove(sheet, cell, FALSE);
+				sheet_cell_remove_simple (sheet, cell);
 		}
 	}
 	sheet_redraw_cell_region (sheet, start_col, start_row,
