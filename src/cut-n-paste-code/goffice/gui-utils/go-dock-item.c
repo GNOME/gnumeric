@@ -120,8 +120,6 @@ static gint go_dock_item_delete_event   (GtkWidget         *widget,
 
 static guint        dock_item_signals[LAST_SIGNAL] = { 0 };
 
-static GObjectClass *parent_class = NULL;
-
 G_DEFINE_TYPE (GoDockItem, go_dock_item, GTK_TYPE_BIN)
 
 /* Helper functions.  */
@@ -132,6 +130,8 @@ check_guint_arg (GObject *object,
 		 guint *value_return)
 {
   GParamSpec *pspec;
+
+  g_return_val_if_fail (object != NULL, FALSE);
 
   pspec = g_object_class_find_property (G_OBJECT_GET_CLASS (object), name);
   if (pspec != NULL) {
@@ -154,6 +154,9 @@ get_preferred_width (GoDockItem *dock_item)
   guint preferred_width;
 
   child = GTK_BIN (dock_item)->child;
+
+  if (!child)
+    return 0;
 
   if (! check_guint_arg (G_OBJECT (child), "preferred_width", &preferred_width))
     {
@@ -179,6 +182,9 @@ get_preferred_height (GoDockItem *dock_item)
 
   child = GTK_BIN (dock_item)->child;
 
+  if (!child)
+    return 0;
+
   if (! check_guint_arg (G_OBJECT (child), "preferred_height", &preferred_height))
     {
       GtkRequisition child_requisition;
@@ -201,8 +207,6 @@ go_dock_item_class_init (GoDockItemClass *klass)
   GObjectClass *gobject_klass;
   GtkWidgetClass *widget_class;
   GtkContainerClass *container_class;
-
-  parent_class = g_type_class_peek_parent (klass);
 
   gobject_klass = (GObjectClass *) klass;
   gobject_klass = (GObjectClass *) klass;
@@ -423,7 +427,7 @@ go_dock_item_finalize (GObject *object)
   g_free (di->_priv);
   di->_priv = NULL;
 
-  G_OBJECT_CLASS (parent_class)-> finalize (object);
+  G_OBJECT_CLASS (go_dock_item_parent_class)-> finalize (object);
 }
 
 static void
@@ -582,7 +586,7 @@ go_dock_item_unrealize (GtkWidget *widget)
   gdk_window_destroy (di->float_window);
   di->float_window = NULL;
 
-  GTK_WIDGET_CLASS (parent_class)->unrealize (widget);
+  GTK_WIDGET_CLASS (go_dock_item_parent_class)->unrealize (widget);
 }
 
 static void
@@ -820,8 +824,8 @@ go_dock_item_expose (GtkWidget      *widget,
     {
       go_dock_item_paint (widget, event);
 
-      if (GTK_WIDGET_CLASS (parent_class)->expose_event)
-	      return GTK_WIDGET_CLASS (parent_class)->expose_event (widget, event);
+      if (GTK_WIDGET_CLASS (go_dock_item_parent_class)->expose_event)
+	      return GTK_WIDGET_CLASS (go_dock_item_parent_class)->expose_event (widget, event);
     }
 
   return FALSE;
@@ -957,7 +961,7 @@ go_dock_item_add (GtkContainer *container,
   dock_item = GO_DOCK_ITEM (container);
 
   gtk_widget_set_parent_window (widget, dock_item->bin_window);
-  GTK_CONTAINER_CLASS (parent_class)->add (container, widget);
+  GTK_CONTAINER_CLASS (go_dock_item_parent_class)->add (container, widget);
 
   pspec = g_object_class_find_property (G_OBJECT_GET_CLASS (widget),
 					"orientation");
@@ -1029,7 +1033,7 @@ go_dock_item_remove (GtkContainer *container,
   if (di->in_drag)
     go_dock_item_drag_end (di);
 
-  GTK_CONTAINER_CLASS (parent_class)->remove (container, widget);
+  GTK_CONTAINER_CLASS (go_dock_item_parent_class)->remove (container, widget);
 }
 
 static void

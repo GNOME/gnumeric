@@ -10,12 +10,12 @@
  * Copyright (C) 2002 Sun Microsystems, Inc.
  */
 
-#include <gnumeric-config.h>
+#include "gnumeric-config.h"
 #include <glib/gi18n.h>
+#include <string.h>
 #include <goffice/gui-utils/go-dock-item-grip.h>
 #include <goffice/gui-utils/go-dock-band.h>
 /* #include <goffice/gui-utils/go-a11y.h> */
-
 #include <glib-object.h>
 #include <atk/atkstateset.h>
 #include <gdk/gdkkeysyms.h>
@@ -305,7 +305,7 @@ go_dock_item_grip_key_press_event (GtkWidget   *widget,
       return TRUE;
     }
 
-  return GTK_WIDGET_CLASS (parent_class)->key_press_event (widget, event);
+  return GTK_WIDGET_CLASS (go_dock_item_grip_parent_class)->key_press_event (widget, event);
 }
 
 static void

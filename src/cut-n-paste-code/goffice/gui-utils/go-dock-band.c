@@ -126,8 +126,6 @@ static gboolean check_guint_arg               (GObject *object,
 					       const gchar *name,
 					       guint *value_return);
 
-static GObjectClass *parent_class = NULL;
-
 G_DEFINE_TYPE (GoDockBand, go_dock_band, GTK_TYPE_CONTAINER)
 
 static void
@@ -136,8 +134,6 @@ go_dock_band_class_init (GoDockBandClass *klass)
   GObjectClass *gobject_class;
   GtkWidgetClass *widget_class;
   GtkContainerClass *container_class;
-
-  parent_class = g_type_class_peek_parent (klass);
 
   gobject_class = (GObjectClass *) klass;
   widget_class = (GtkWidgetClass *) klass;
@@ -545,7 +541,7 @@ go_dock_band_map (GtkWidget *widget)
   g_return_if_fail(widget != NULL);
   g_return_if_fail(GO_IS_DOCK_BAND(widget));
 
-  GTK_WIDGET_CLASS (parent_class)->map (widget);
+  GTK_WIDGET_CLASS (go_dock_band_parent_class)->map (widget);
 
   for (lp = band->children; lp != NULL; lp = lp->next)
     {
@@ -566,7 +562,7 @@ go_dock_band_unmap (GtkWidget *widget)
   g_return_if_fail(widget != NULL);
   g_return_if_fail(GO_IS_DOCK_BAND(widget));
 
-  GTK_WIDGET_CLASS (parent_class)->unmap (widget);
+  GTK_WIDGET_CLASS (go_dock_band_parent_class)->unmap (widget);
 
   for (lp = band->children; lp != NULL; lp = lp->next)
     {
@@ -663,7 +659,7 @@ go_dock_band_finalize (GObject *object)
   g_free (self->_priv);
   self->_priv = NULL;
 
-  G_OBJECT_CLASS (parent_class)->finalize (object);
+  G_OBJECT_CLASS (go_dock_band_parent_class)->finalize (object);
 }
 
 
@@ -1921,8 +1917,8 @@ get_dock (GtkWidget *widget)
 
 gint
 _bonobo_dock_band_handle_key_nav (GoDockBand *band,
-				 GoDockItem *item,
-				 GdkEventKey    *event)
+				  GoDockItem *item,
+				  GdkEventKey    *event)
 {
   gboolean handled = FALSE;
 

@@ -24,17 +24,17 @@ libgoffice_gui_utils_la_SOURCES =	\
 	go-action-combo-stack.c 	\
 	go-action-combo-stack.h 	\
 	go-action-combo-text.c 		\
-	go-action-combo-text.h
-#	go-dock-band.c			\
-#	go-dock-band.h			\
-#	go-dock-item-grip.c		\
-#	go-dock-item-grip.h		\
-#	go-dock-item.c			\
-#	go-dock-item.h			\
-#	go-dock-layout.c		\
-#	go-dock-layout.h		\
-#	go-dock.c			\
-#	go-dock.h
+	go-action-combo-text.h		\
+	go-dock-band.c			\
+	go-dock-band.h			\
+	go-dock-item-grip.c		\
+	go-dock-item-grip.h		\
+	go-dock-item.c			\
+	go-dock-item.h			\
+	go-dock-layout.c		\
+	go-dock-layout.h		\
+	go-dock.c			\
+	go-dock.h
 
 go-marshalers.h : go-marshalers.list $(GLIB_GENMARSHAL)
 	$(GLIB_GENMARSHAL) $< --header --prefix=go_ > $@

@@ -25,7 +25,7 @@
   @NOTATION@
 */
 
-#include <gnumeric-config.h>
+#include "gnumeric-config.h"
 #include <glib/gi18n.h>
 #include <string.h>
 #include <gtk/gtk.h>
@@ -154,8 +154,6 @@ static guint dock_signals[LAST_SIGNAL] = { 0 };
 
 
 
-static GObjectClass *parent_class = NULL;
-
 G_DEFINE_TYPE (GoDock, go_dock, GTK_TYPE_CONTAINER);
 
 static void
@@ -165,8 +163,6 @@ go_dock_class_init (GoDockClass *class)
   GObjectClass *gobject_class;
   GtkWidgetClass *widget_class;
   GtkContainerClass *container_class;
-
-  parent_class = g_type_class_peek_parent (class);
 
   object_class = (GtkObjectClass *) class;
   gobject_class = (GObjectClass *) class;
@@ -489,7 +485,7 @@ go_dock_map (GtkWidget *widget)
   g_return_if_fail (widget != NULL);
   g_return_if_fail (GO_IS_DOCK(widget));
 
-  GTK_WIDGET_CLASS (parent_class)-> map, (widget);
+  GTK_WIDGET_CLASS (go_dock_parent_class)-> map, (widget);
 
   dock = GO_DOCK (widget);
 
@@ -522,7 +518,7 @@ go_dock_unmap (GtkWidget *widget)
 
   g_list_foreach (dock->floating_children, unmap_widget_foreach, NULL);
 
-  GTK_WIDGET_CLASS (parent_class)-> unmap (widget);
+  GTK_WIDGET_CLASS (go_dock_parent_class)-> unmap (widget);
 }
 
 
@@ -672,7 +668,7 @@ go_dock_finalize (GObject *object)
   g_free (self->_priv);
   self->_priv = NULL;
 
-  G_OBJECT_CLASS (parent_class)->finalize (object);
+  G_OBJECT_CLASS (go_dock_parent_class)->finalize (object);
 }
 
 
@@ -1653,9 +1649,9 @@ insert_into_band_list (GoDock     *dock,
 
 gint
 _bonobo_dock_handle_key_nav (GoDock     *dock,
-			    GoDockBand *band,
-			    GoDockItem *item,
-			    GdkEventKey    *event)
+			     GoDockBand *band,
+			     GoDockItem *item,
+			     GdkEventKey    *event)
 {
   GList   *entry;
   GList  **band_list;
