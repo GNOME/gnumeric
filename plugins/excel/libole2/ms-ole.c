@@ -172,31 +172,6 @@ get_block (MS_OLE_STREAM *s)
 		return END_OF_CHAIN;
 }
 
-static guint32
-get_offset (MS_OLE_STREAM *s)
-{
-	if (s->strtype==MS_OLE_SMALL_BLOCK)
-		return s->position%SB_BLOCK_SIZE;
-	else
-		return s->position%BB_BLOCK_SIZE;	
-}
-
-static void
-set_offset (MS_OLE_STREAM *s, guint32 offset)
-{
-	guint lp;
-	guint32 block=get_block(s);
-	g_assert (0);
-	if (!s || !s->blocks) return;
-	for (lp=0;lp<s->blocks->len;lp++)
-		if (ms_array_index (s->blocks, BBPtr, lp) == block) {
-			s->position = lp * (s->strtype==MS_OLE_SMALL_BLOCK?SB_BLOCK_SIZE:BB_BLOCK_SIZE) +
-				offset;
-			return;
-		}
-	printf ("Set block failed\n");
-}
-
 void
 dump (guint8 *ptr, guint32 len)
 {
@@ -217,8 +192,6 @@ dump (guint8 *ptr, guint32 len)
 		}
 		printf ("\n");
 	}
-#undef OFF
-#undef OK
 }
 	
 /* FIXME: This needs proper unicode support ! current support is a guess */
@@ -404,8 +377,7 @@ ms_ole_analyse (MS_OLE *f)
 
 	{
 		int lp;
-		for (lp=0;lp<BB_BLOCK_SIZE/PPS_BLOCK_SIZE;lp++)
-		{
+		for (lp=0;lp<BB_BLOCK_SIZE/PPS_BLOCK_SIZE;lp++) {
 			printf ("PPS %d type %d, prev %d next %d, dir %d\n", lp, PPS_GET_TYPE(f,lp),
 				PPS_GET_PREV(f,lp), PPS_GET_NEXT(f,lp), PPS_GET_DIR(f,lp));
 			dump (PPS_PTR(f, lp), PPS_BLOCK_SIZE);
@@ -645,7 +617,7 @@ dump_stream (MS_OLE_STREAM *s)
 		printf ("Big block : ");
 	else
 		printf ("Small block : ");
-	printf ("block %d, offset %d\n", get_block(s), get_offset(s));
+	printf ("position %d\n", s->position);
 }
 
 static void
@@ -692,6 +664,12 @@ extend_file (MS_OLE *f, int blocks)
 	printf ("After extend\n");
 	dump_allocation(f);
 #endif
+}
+
+static ms_ole_pos_t
+tell_pos (MS_OLE_STREAM *s)
+{
+	return s->position;
 }
 
 static guint32
@@ -1118,6 +1096,7 @@ ms_ole_write_bb (MS_OLE_STREAM *s, guint8 *ptr, guint32 length)
 	int     offset  = s->position%BB_BLOCK_SIZE;
 	guint32 blkidx  = s->position/BB_BLOCK_SIZE;
 	guint32 bytes   = length;
+	gint32  lengthen;
 	
 	while (bytes>0)
 	{
@@ -1135,8 +1114,6 @@ ms_ole_write_bb (MS_OLE_STREAM *s, guint8 *ptr, guint32 length)
 		
 		dest = GET_BB_START_PTR(s->file, block) + offset;
 
-/* FIXME this isn't right if we are writing having seeked backwards ! */
-		s->size+=cpylen;
 #if OLE_DEBUG > 0
 		printf ("Copy %d bytes to block %d\n", cpylen, block);
 #endif
@@ -1147,6 +1124,11 @@ ms_ole_write_bb (MS_OLE_STREAM *s, guint8 *ptr, guint32 length)
 		offset = 0;
 		blkidx++;
 	}
+
+	lengthen = s->position - s->size + length;
+	if (lengthen > 0)
+		s->size+=lengthen;
+
 	s->lseek (s, length, MS_OLE_SEEK_CUR);
 	return;
 }
@@ -1159,6 +1141,7 @@ ms_ole_write_sb (MS_OLE_STREAM *s, guint8 *ptr, guint32 length)
 	int     offset  = s->position%SB_BLOCK_SIZE;
 	guint32 blkidx  = s->position/SB_BLOCK_SIZE;
 	guint32 bytes   = length;
+	gint32  lengthen;
 	
 	while (bytes>0)
 	{
@@ -1178,12 +1161,15 @@ ms_ole_write_sb (MS_OLE_STREAM *s, guint8 *ptr, guint32 length)
 		dest = GET_SB_START_PTR(s->file, block) + offset;
 		
 		g_assert (cpylen>=0);
-		s->size+=cpylen;
-		
+
 		memcpy (dest, ptr, cpylen);
 		ptr   += cpylen;
 		bytes -= cpylen;
 
+		lengthen = s->position + length - bytes - s->size;
+		if (lengthen > 0)
+			s->size+=lengthen;
+		
 		/* Must be exactly filling the block */
 		if (s->size >= BB_THRESHOLD)
 		{
@@ -1198,6 +1184,7 @@ ms_ole_write_sb (MS_OLE_STREAM *s, guint8 *ptr, guint32 length)
 			s->read_copy = ms_ole_read_copy_bb;
 			s->read_ptr  = ms_ole_read_ptr_bb;
 			s->lseek     = ms_ole_lseek;
+			s->tell      = tell_pos;
 			s->write     = ms_ole_write_bb;
 
 			g_assert (s->size%SB_BLOCK_SIZE == 0);
@@ -1266,7 +1253,9 @@ ms_ole_stream_open (MS_OLE_DIRECTORY *d, char mode)
 		s->read_copy = ms_ole_read_copy_bb;
 		s->read_ptr  = ms_ole_read_ptr_bb;
 		s->lseek     = ms_ole_lseek;
+		s->tell      = tell_pos;
 		s->write     = ms_ole_write_bb;
+
 		s->blocks    = g_array_new (0,0,sizeof(BBPtr));
 		s->strtype   = MS_OLE_LARGE_BLOCK;
 		for (lp=0;lp<(s->size+BB_BLOCK_SIZE-1)/BB_BLOCK_SIZE;lp++)
@@ -1291,6 +1280,7 @@ ms_ole_stream_open (MS_OLE_DIRECTORY *d, char mode)
 		s->read_copy = ms_ole_read_copy_sb;
 		s->read_ptr  = ms_ole_read_ptr_sb;
 		s->lseek     = ms_ole_lseek;
+		s->tell      = tell_pos;
 		s->write     = ms_ole_write_sb;
 
 		if (s->size>0)
@@ -1366,9 +1356,11 @@ static void
 directory_setup (MS_OLE_DIRECTORY *d)
 {
 #if OLE_DEBUG > 1
-		printf ("Setup pps = %d\n", d->pps);
+	printf ("Setup pps = %d\n", d->pps);
 #endif
-	g_free (d->name);
+	if (d->name)
+		g_free (d->name);
+
 	d->name   = PPS_NAME(d->file, d->pps);
 	d->type   = PPS_GET_TYPE(d->file, d->pps);
 	d->length = PPS_GET_SIZE(d->file, d->pps);
@@ -1418,8 +1410,11 @@ ms_ole_directory_next (MS_OLE_DIRECTORY *d)
 
 	/* Go down the chain, ignoring the primary entry */
 	tmp = PPS_GET_NEXT(d->file, d->pps);
-	if (tmp == PPS_END_OF_CHAIN)
-		return 0;
+	if (tmp == PPS_END_OF_CHAIN) {
+		if (d->name)
+			g_free (d->name);
+		return 0; 
+	}
 
 #if OLE_DEBUG > 1
 		printf ("Forward trace\n");

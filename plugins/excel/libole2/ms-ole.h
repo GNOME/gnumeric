@@ -18,7 +18,6 @@ typedef struct _MS_OLE_HEADER    MS_OLE_HEADER;
 typedef struct _MS_OLE_STREAM    MS_OLE_STREAM;
 typedef struct _MS_OLE_DIRECTORY MS_OLE_DIRECTORY;
 
-
 struct _MS_OLE_HEADER
 {
 	/* sbd = Small Block Depot ( made up of BB's BTW ) */
@@ -85,39 +84,37 @@ extern void ms_ole_directory_unlink (MS_OLE_DIRECTORY *) ;
 extern void ms_ole_directory_destroy (MS_OLE_DIRECTORY *) ;
 
 typedef enum { MS_OLE_SEEK_SET, MS_OLE_SEEK_CUR } ms_ole_seek_t;
+#ifdef G_HAVE_GINT64
+        typedef guint32 ms_ole_pos_t;
+#else
+        typedef guint32 ms_ole_pos_t;
+#endif
 
 struct _MS_OLE_STREAM
 {
-	GArray *blocks;    /* A list of the blocks in the file if NULL: no file */
-#ifdef G_HAVE_GINT64
-	guint32 position;  /* Current offset into file. Points to the next byte to read */
-	guint32 size;
-#else
-	guint32 position;
-	guint32 size;
-#endif
+	GArray *blocks;        /* A list of the blocks in the file if NULL: no file */
+	ms_ole_pos_t position; /* Current offset into file. Points to the next byte to read */
+	ms_ole_pos_t size;
 	enum { MS_OLE_SMALL_BLOCK, MS_OLE_LARGE_BLOCK } strtype; /* Type of stream */
 
 	/**
 	 * Attempts to copy length bytes into *ptr, returns true if
 	 * successful, _does_ advance the stream pointer.
 	 **/
-	gboolean (*read_copy )(struct _MS_OLE_STREAM *, guint8 *ptr, guint32 length) ;
+	gboolean     (*read_copy )(MS_OLE_STREAM *, guint8 *ptr, guint32 length) ;
 	/**
 	 * Acertains whether there is a contiguous block length bytes,
-	 * if so returns a pointer to it, _does_ advance the stream pointer.
+	 * if so returns a pointer to it and _does_ advance the stream pointer.
+	 * otherwise returns NULL and does _not_ advance the stream pointer.
 	 **/
-	guint8*  (*read_ptr  )(struct _MS_OLE_STREAM *, guint32 length) ;
+	guint8*      (*read_ptr  )(MS_OLE_STREAM *, guint32 length) ;
+	void         (*lseek     )(MS_OLE_STREAM *, gint32 BYTES, ms_ole_seek_t type) ;
+	ms_ole_pos_t (*tell      )(MS_OLE_STREAM *);
 	/**
-	 * This function must be called to advance the stream pointer after
-	 * any read_ptr.
-	 **/
-	void     (*lseek     )(struct _MS_OLE_STREAM *, gint32 BYTES, ms_ole_seek_t type) ;
-	/**
-	 * This writes length bytes at *ptr to the stream, it _does_ advance
+	 * This writes length bytes at *ptr to the stream, and advances
 	 * the stream pointer.
 	 **/
-	void     (*write     )(struct _MS_OLE_STREAM *, guint8 *ptr, guint32 length) ;
+	void         (*write     )(MS_OLE_STREAM *, guint8 *ptr, guint32 length) ;
 
 	/**
 	 * PRIVATE

@@ -1,3 +1,18 @@
+1999-05-17  Michael Meeks  <michael@imaginator.com>
+
+	* ms-ole.c (dump_stream): Updated to use s->position.
+	(set_offset, get_offset): Culled ( dead ).
+	(dump): Removed spurious #undefs
+	(ms_ole_write_bb, ms_ole_write_sb): Fixed for mid-stream
+	writes.
+
+	* ms-ole.h (struct _MS_OLE_STREAM): Add tell method, and fix
+	broken comments.
+	Added ms_ole_pos_t typedef.
+	
+	* ms-ole.c (directory_setup): Add check.
+	(ms_ole_directory_next): Fix leak from Morten.
+
 1999-05-15  Michael Meeks  <michael@imaginator.com>
 
 	* ms-ole.c (ms_ole_create): Fixed stupid bug; created

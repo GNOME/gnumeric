@@ -50,6 +50,7 @@ struct _WORKBOOK {
 /**
  *  This function writes simple strings...
  *  FIXME: see S59D47.HTM for full description
+ *  it returns the length of the string.
  **/
 static void
 biff_put_text (BIFF_PUT *bp, char *txt, eBiff_version ver)
@@ -57,7 +58,7 @@ biff_put_text (BIFF_PUT *bp, char *txt, eBiff_version ver)
 #define BLK_LEN 16
 
 	guint8 data[BLK_LEN];
-	guint32 lpi, lpo, len ;
+	guint32 lpi, lpo, len, ans ;
 
 	g_return_if_fail (bp);
 	g_return_if_fail (txt);
@@ -67,10 +68,12 @@ biff_put_text (BIFF_PUT *bp, char *txt, eBiff_version ver)
 		data[0] = 0;
 		BIFF_SET_GUINT16(data+1, len);
 		ms_biff_put_var_write (bp, data, 3);
+		ans = len + 3;
 	} else { /* Byte length */
 		g_return_if_fail (len<256);
 		BIFF_SET_GUINT8(data, len);
 		ms_biff_put_var_write (bp, data, 1);
+		ans = len + 1;
 	}
 
 	/* An attempt at efficiency */
@@ -80,6 +83,7 @@ biff_put_text (BIFF_PUT *bp, char *txt, eBiff_version ver)
 			data[lpi]=*txt++;
 		ms_biff_put_var_write (bp, data, cpy);
 	}
+/* ans is the length but do we need it ? */
 #undef BLK_LEN
 }
 

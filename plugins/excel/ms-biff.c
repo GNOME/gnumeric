@@ -88,8 +88,10 @@ ms_bug_get_padding (guint16 opcode)
 		printf ("Unknown padding to fix bug on record 0x%x\n", opcode);
 		break;
 	}
+#if BIFF_DEBUG > 0
 	printf ("ms_bug_get_padding 0x%x = %d\n",
 		opcode, ans);
+#endif
 	return ans;
 }
 
@@ -303,12 +305,15 @@ ms_biff_query_destroy (BIFF_QUERY *bq)
 BIFF_PUT *
 ms_biff_put_new        (MS_OLE_STREAM *s)
 {
-	BIFF_PUT *bp = g_new (BIFF_PUT, 1);
+	BIFF_PUT *bp;
+	g_return_val_if_fail (s, 0);
+
+	bp = g_new (BIFF_PUT, 1);
 
 	bp->ms_op         = bp->ls_op = 0;
 	bp->length        = 0;
 	bp->length        = 0;
-	bp->streamPos     = 0;
+	bp->streamPos     = s->tell (s);
 	bp->num_merges    = 0;
 	bp->padding       = 0;
 	bp->data_malloced = 0;
@@ -338,7 +343,7 @@ ms_biff_put_len_next   (BIFF_PUT *bp, guint16 opcode, guint32 len)
 	bp->length     = len;
 	bp->padding    = 0;
 	bp->num_merges = 0;
-	bp->streamPos  = bp->pos->position;
+	bp->streamPos  = bp->pos->tell (bp->pos);
 	if (len > 0)
 		bp->data = g_new (guint8, len);
 	else
@@ -368,7 +373,7 @@ ms_biff_put_len_commit (BIFF_PUT *bp)
 
 	g_free (bp->data);
 	bp->data      = 0 ;
-	bp->streamPos = bp->pos->position;
+	bp->streamPos  = bp->pos->tell (bp->pos);
 }
 
 void
@@ -385,7 +390,7 @@ ms_biff_put_var_next   (BIFF_PUT *bp, guint16 opcode)
 	bp->num_merges = 0;
 	bp->length     = 0;
 	bp->data       = 0;
-	bp->streamPos  = bp->pos->position;
+	bp->streamPos  = bp->pos->tell (bp->pos);
 
 	BIFF_SET_GUINT16(data, opcode);
 	BIFF_SET_GUINT16(data+2,0xfaff); /* To be corrected later */
@@ -409,19 +414,21 @@ ms_biff_put_var_write  (BIFF_PUT *bp, guint8 *data, guint32 len)
 void
 ms_biff_put_var_commit (BIFF_PUT *bp)
 {
-	guint8  tmp[4];
+	guint8       tmp[4];
+	ms_ole_pos_t curpos;
 
 	g_return_if_fail (bp);
 	g_return_if_fail (bp->pos);
 	g_return_if_fail (!bp->len_fixed);
 	g_return_if_fail (!bp->data);
 
-	bp->pos->lseek (bp->pos, -4-bp->length, MS_OLE_SEEK_CUR);
+	curpos = bp->pos->tell (bp->pos);
+	bp->pos->lseek (bp->pos, bp->streamPos, MS_OLE_SEEK_SET);
 
 	BIFF_SET_GUINT16 (tmp, (bp->ms_op<<8) + bp->ls_op);
 	BIFF_SET_GUINT16 (tmp+2, bp->length);
 	bp->pos->write (bp->pos, tmp, 4);
 
-	bp->pos->lseek (bp->pos, 4+bp->length, MS_OLE_SEEK_CUR);
-	bp->streamPos  = bp->pos->position;
+	bp->pos->lseek (bp->pos, curpos, MS_OLE_SEEK_SET);
+	bp->streamPos  = curpos;
 }

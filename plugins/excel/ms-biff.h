@@ -79,15 +79,15 @@ extern void          ms_biff_query_destroy    (BIFF_QUERY *);
 
 typedef struct _BIFF_PUT
 {
-	guint8  ms_op;
-	guint8  ls_op;
-	guint32 length;        /* NB. can be extended by a continue opcode */
-	guint8  *data;
-	guint32 streamPos;
-	guint16 num_merges;
-	gint16  padding;
-	int     data_malloced;
-	int     len_fixed;
+	guint8         ms_op;
+	guint8         ls_op;
+	guint32        length; /* NB. can be extended by a continue opcode */
+	guint8        *data;
+	ms_ole_pos_t   streamPos;
+	guint16        num_merges;      
+	gint16         padding;
+	int            data_malloced;
+	int            len_fixed;
 	MS_OLE_STREAM *pos;
 } BIFF_PUT;
  
