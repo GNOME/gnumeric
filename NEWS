@@ -1,9 +1,3 @@
-Gnumeric 1.1.11
-
-Morten:
-	* Start handling invalid (== non-utf8) file names.
-
---------------------------------------------------------------------------
 Gnumeric 1.1.10
 
 Andreas:
@@ -35,6 +29,7 @@ Jody:
 	* Remove implicit conversion of unquoted strings that are not names
 	* Import named expressions, arrays and merged regions from OpenCalc
 	* More cleanup after the big parser rework
+	* Esoteric XL number formats #,,##0,,
 
 Morten:
 	* Port search center from gal's e-table to gtk's treeview.
@@ -42,6 +37,7 @@ Morten:
 	* Reduce the number of source places that need to be changed in
 	  order to get more than 256 columns and/or 65536 rows.
 	* Fix --geometry, I hope.
+	* Start handling invalid (== non-utf8) file names.
 
 dorami@bu.iij4u.or.jp:
 	* Add InputMethod support for better international key support

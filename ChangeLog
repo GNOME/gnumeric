@@ -1,3 +1,9 @@
+2002-10-08  Jody Goldberg <jody@gnome.org>
+
+	* src/format.c (do_render_number) : Use the scale factor.
+	(format_number) : init the scale factor when a fmt ends a section with
+	  a comma.
+
 2002-10-08  Morten Welinder  <terra@diku.dk>
 
 	* src/workbook-view.c (wb_view_new_from_file): Catch invalid file

@@ -47,6 +47,7 @@ char  *format_remove_decimal   (StyleFormat const *fmt);
 typedef struct {
 	int  right_optional, right_spaces, right_req, right_allowed;
 	int  left_spaces, left_req;
+	float scale;
 	gboolean rendered;
 	gboolean negative;
 	gboolean decimal_separator_seen;

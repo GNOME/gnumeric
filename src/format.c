@@ -780,7 +780,7 @@ do_render_number (gnum_float number, format_info_t *info, GString *result)
 		decimal_point);
 #endif
 
-	render_number (result, number, info);
+	render_number (result, info->scale * number, info);
 }
 
 /*
@@ -1005,6 +1005,7 @@ format_number (gnum_float number, int col_width, StyleFormatEntry const *entry)
 		number = -number;
 	}
 	info.has_fraction = entry->has_fraction;
+	info.scale = 1;
 
 	while (*format) {
 		int c = *format;
@@ -1064,14 +1065,19 @@ format_number (gnum_float number, int col_width, StyleFormatEntry const *entry)
 			break;
 		}
 
-		case ',': {
-			if (!can_render_number) {
-				char const sep = format_get_thousand ();
-				g_string_append_c (result, sep);
-			} else
+		case ',':
+			if (can_render_number) {
+				guchar const *tmp = format;
+				while (*++tmp == ',')
+					;
+				if (*tmp == '\0' || *tmp == '.' || *tmp == ';')
+					/* NOTE : format-tmp is NEGATIVE */
+					info.scale = gpow10 (3*(format-tmp));
 				info.group_thousands = TRUE;
+				format = tmp-1;
+			} else
+				g_string_append_c (result, format_get_thousand ());
 			break;
-		}
 
 		/* FIXME: this is a gross hack */
 		case 'E': case 'e': {
