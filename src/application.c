@@ -18,7 +18,6 @@
 
 #include "pixmaps/menu-print-preview.xpm"
 #include "pixmaps/print-preview.xpm"
-#include "pixmaps/sort-ascending.xpm"
 #include "pixmaps/sort-descending.xpm"
 #include "pixmaps/auto-sum.xpm"
 #include "pixmaps/equal-sign.xpm"
@@ -60,6 +59,7 @@
 #include "pixmaps/16_insert_shaped_object.xpm"
 #include "pixmaps/16_merge_cells.xpm"
 #include "pixmaps/16_split_cells.xpm"
+#include "pixmaps/16_sort_ascending.xpm"
 #include "pixmaps/16_unhide_column.xpm"
 #include "pixmaps/16_unhide_row.xpm"
 #include "pixmaps/16_group.xpm"
@@ -79,6 +79,7 @@
 #include "pixmaps/24_insert_shaped_object.xpm"
 #include "pixmaps/24_merge_cells.xpm"
 #include "pixmaps/24_split_cells.xpm"
+#include "pixmaps/24_sort_ascending.xpm"
 #include "pixmaps/24_unhide_column.xpm"
 #include "pixmaps/24_unhide_row.xpm"
 #include "pixmaps/24_group.xpm"
@@ -136,6 +137,7 @@ application_init (void)
 		{ 16, 16, "Menu_Gnumeric_RowUnhide", i16_unhide_row_xpm },
 		{ 16, 16, "Menu_Gnumeric_MergeCells", i16_merge_cells_xpm },
 		{ 16, 16, "Menu_Gnumeric_SplitCells", i16_split_cells_xpm },
+		{ 16, 16, "Menu_Gnumeric_SortAscending", i16_sort_ascending_xpm },
 		{ 16, 16, "Menu_Gnumeric_CenterAcrossSelection", i16_center_across_selection_xpm },
 		{ 16, 16, "Menu_Gnumeric_ShowDetail", i16_show_detail_xpm },
 		{ 16, 16, "Menu_Gnumeric_HideDetail", i16_hide_detail_xpm },
@@ -161,13 +163,13 @@ application_init (void)
 		{ 24, 24, "Gnumeric_RowUnhide", i24_unhide_row_xpm },
 		{ 24, 24, "Gnumeric_MergeCells", i24_merge_cells_xpm },
 		{ 24, 24, "Gnumeric_SplitCells", i24_split_cells_xpm },
+		{ 24, 24, "Gnumeric_SortAscending", i24_sort_ascending_xpm },
 		{ 24, 24, "Gnumeric_CenterAcrossSelection", i24_center_across_selection_xpm },
 		{ 24, 24, "Gnumeric_ShowDetail", i24_show_detail_xpm },
 		{ 24, 24, "Gnumeric_HideDetail", i24_hide_detail_xpm },
 		{ 24, 24, "Gnumeric_Group", i24_group_xpm },
 		{ 24, 24, "Gnumeric_Ungroup", i24_ungroup_xpm },
 
-		{ 24, 24, "Gnumeric_SortAscending", sort_ascending_xpm },
 		{ 24, 24, "Gnumeric_SortDescending", sort_descending_xpm },
 		{ 24, 24, "Gnumeric_AutoSum", auto_sum_xpm },
 		{ 24, 24, "Gnumeric_EqualSign", equal_sign_xpm },

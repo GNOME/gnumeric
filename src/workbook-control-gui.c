@@ -2386,7 +2386,7 @@ static GnomeUIInfo workbook_menu_data_outline [] = {
 static GnomeUIInfo workbook_menu_data [] = {
 	GNOMEUIINFO_ITEM_STOCK (N_("_Sort"),
 		N_("Sorts the selected region."),
-		cb_data_sort, "Gnumeric_SortAscending"),
+		cb_data_sort, "Menu_Gnumeric_SortAscending"),
 	GNOMEUIINFO_ITEM_NONE (N_("_Filter..."),
 		N_("Filter data with given criteria"),
 		cb_data_filter),

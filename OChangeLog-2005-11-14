@@ -1,4 +1,20 @@
 2001-05-04  Almer S. Tigelaar  <almer@gnome.org>
+ 
+ 	* src/GNOME_Gnumeric.xml: Correct InsertComment
+ 	pixmap, add pixmap for Sort and add separators
+ 	on the right places.
+ 
+ 	* src/pixmaps: Split sort ascending into 16x16 and
+ 	24x24 versions.
+ 
+ 	* src/application.c: Account for the split. This
+ 	will make the menu item show up with a correct
+ 	icon in Bonobo.
+
+	* src/workbook-control-gui.c: Idem. Use the 16x16
+	icon for the menu.
+ 	
+2001-05-04  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/commands.c (cmd_unmerge_cells): Correct minor typo.
 	(cmd_merge_cells): Idem.

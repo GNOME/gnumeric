@@ -299,7 +299,7 @@
 	    </submenu>
 
 	    <menuitem name="InsertComment" verb=""
-		pixtype="stock" pixname="Gnumeric_CommentAdd"
+		pixtype="stock" pixname="Gnumeric_CommentEdit"
 		_label="_Add / Modify comment..."
 		_tip="Edit the selected cell's comment"/>
 
@@ -440,12 +440,15 @@
 	<submenu name="Data" _label="_Data">
 
 	    <menuitem name="DataSort" verb=""
+		pixtype="stock" pixname="Gnumeric_SortAscending"
 		_label="_Sort..."
 		_tip="Sort the selected cells"/>
 
 	    <menuitem name="DataFilter" verb=""
 		_label="_Filter..."
 		_tip="Filter data with given criteria"/>
+
+	    <separator/>
 
 	    <submenu name="Outline" _label="_Group and Outline">
 
