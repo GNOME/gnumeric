@@ -180,7 +180,7 @@ stf_export_dialog_format_page_result (StfE_FormatPageData_t *data, StfExportOpti
 	stf_export_options_set_transliterate_mode (export_options, transliteratemode);
 
 	text = gtk_editable_get_chars (GTK_EDITABLE (data->format_quotechar->entry), 0, -1);
-	stf_export_options_set_quoting_char (export_options, text[0]);
+	stf_export_options_set_quoting_char (export_options, g_utf8_get_char (text));
 	g_free (text);
 
 	separator = '\0';

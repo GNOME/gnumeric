@@ -40,9 +40,9 @@ typedef struct
 	GSList             *sheet_list;           /* Sheets to export */
 
 	StfQuotingMode_t    quoting_mode;         /* When to quote */
-	char                quoting_char;         /* Quoting char */
+	gunichar            quoting_char;         /* Quoting char */
 
-	char const *		    charset;	  /* Desired charset */
+	char const *	    charset;		  /* Desired charset */
 	StfTransliterateMode_t transliterate_mode;/* How to handle strange chars */
 
 	StfEWriteFunc       write_func;           /* Write callback routine */
@@ -61,7 +61,7 @@ void                 stf_export_options_free (StfExportOptions_t *export_options
 void stf_export_options_set_terminator_type (StfExportOptions_t *export_options, StfTerminatorType_t terminator_type);
 void stf_export_options_set_cell_separator  (StfExportOptions_t *export_options, char cell_separator);
 void stf_export_options_set_quoting_mode    (StfExportOptions_t *export_options, StfQuotingMode_t quoting_mode);
-void stf_export_options_set_quoting_char    (StfExportOptions_t *export_options, char quoting_char);
+void stf_export_options_set_quoting_char    (StfExportOptions_t *export_options, gunichar quoting_char);
 void stf_export_options_set_charset 	    (StfExportOptions_t *export_options, char const * charset);
 void stf_export_options_set_transliterate_mode (StfExportOptions_t *export_options, StfTransliterateMode_t transliterate_mode);
 void stf_export_options_set_write_callback  (StfExportOptions_t *export_options, StfEWriteFunc write_func, gpointer data);

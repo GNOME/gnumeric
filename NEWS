@@ -18,6 +18,7 @@ Morten:
 	* Improve generation of binomial and negative-binomial random
 	  numbers.
 	* Fix stf dialog problem with WM close.
+	* Make stf export quoting UTF-8 safe.
 
 --------------------------------------------------------------------------
 

@@ -52,8 +52,8 @@ stf_export_options_new (void)
 	StfExportOptions_t *export_options = g_new (StfExportOptions_t, 1);
 
 	export_options->terminator_type   = TERMINATOR_TYPE_UNKNOWN;
-	export_options->cell_separator    = '\0';
-	export_options->quoting_char      = '\0';
+	export_options->cell_separator    = 0;
+	export_options->quoting_char      = 0;
 	export_options->sheet_list        = NULL;
 	export_options->quoting_mode      = QUOTING_MODE_UNKNOWN;
 	export_options->charset	  	  = NULL;
@@ -75,7 +75,7 @@ stf_export_options_free (StfExportOptions_t *export_options)
 {
 	if (export_options->sheet_list)
 		g_slist_free (export_options->sheet_list);
-	
+
 	g_free (export_options);
 }
 
@@ -154,10 +154,10 @@ stf_export_options_set_transliterate_mode (StfExportOptions_t *export_options, S
  * The quoting char can't be \0 !
  **/
 void
-stf_export_options_set_quoting_char (StfExportOptions_t *export_options, char quoting_char)
+stf_export_options_set_quoting_char (StfExportOptions_t *export_options, gunichar quoting_char)
 {
 	g_return_if_fail (export_options != NULL);
-	g_return_if_fail (quoting_char != '\0');
+	g_return_if_fail (quoting_char != 0);
 
 	export_options->quoting_char = quoting_char;
 }
@@ -175,7 +175,7 @@ stf_export_options_set_charset (StfExportOptions_t *export_options, char const *
 {
 	g_return_if_fail (export_options != NULL);
  	g_return_if_fail (charset != NULL);
-	
+
 	export_options->charset = charset;
 }
 void
@@ -262,15 +262,15 @@ stf_export_cell (StfExportOptions_t *export_options, Cell *cell)
 			if (!g_str_equal (export_options->charset, "UTF-8"))
 			{
 				char *use_charset;
-				
-				if (export_options->transliterate_mode == TRANSLITERATE_MODE_ESCAPE) 
-					use_charset = g_strdup 
+
+				if (export_options->transliterate_mode == TRANSLITERATE_MODE_ESCAPE)
+					use_charset = g_strdup
 						(export_options->charset);
 				else
-					use_charset = g_strconcat 
+					use_charset = g_strconcat
 						(export_options->charset, "//TRANSLIT", NULL);
-				
-				encoded_text = g_convert_with_fallback 
+
+				encoded_text = g_convert_with_fallback
 					(text,
 					 strlen (text),
 					 use_charset,
@@ -281,14 +281,14 @@ stf_export_cell (StfExportOptions_t *export_options, Cell *cell)
 					 &error);
 				if (error != NULL)
 				{
-					g_warning ("stf-export.c in %s charset : %s", 
+					g_warning ("stf-export.c in %s charset : %s",
 						   use_charset,
 						   error->message);
-					g_warning 
+					g_warning
 						("the following cell will be exported as UTF-8 :\n%s", s);
 					g_error_free (error);
 				}
-				else 
+				else
 				{
 					s = encoded_text;
 				}
@@ -297,32 +297,31 @@ stf_export_cell (StfExportOptions_t *export_options, Cell *cell)
 		}
 
 		if (export_options->quoting_mode == QUOTING_MODE_AUTO) {
-
 			if (strchr (s, export_options->cell_separator) ||
-			    strchr (s, export_options->quoting_char) ||
+			    g_utf8_strchr (s, -1, export_options->quoting_char) ||
 			    strchr (s, ' ') || strchr (s, '\t')) {
 				quoting = TRUE;
 			}
 		} else {
-
 			quoting = (export_options->quoting_mode == QUOTING_MODE_ALWAYS);
 		}
 
 		if (quoting)
-			g_string_append_c (res, export_options->quoting_char);
+			g_string_append_unichar (res, export_options->quoting_char);
 
 		while (*s) {
-			if (quoting && *s == export_options->quoting_char) {
-				g_string_append_c (res, export_options->quoting_char);
-				g_string_append_c (res, export_options->quoting_char);
+			gunichar c = g_utf8_get_char (s);
+			if (quoting && c == export_options->quoting_char) {
+				g_string_append_unichar (res, export_options->quoting_char);
+				g_string_append_unichar (res, export_options->quoting_char);
 			} else
-				g_string_append_c (res, *s);
+				g_string_append_unichar (res, c);
 
-			s++;
+			s = g_utf8_next_char (s);
 		}
 
 		if (quoting)
-			g_string_append_c (res, export_options->quoting_char);
+			g_string_append_unichar (res, export_options->quoting_char);
 
 		if (!export_options->write_func (res->str, export_options->write_data))
 			return FALSE;
@@ -355,9 +354,9 @@ stf_export_sheet (StfExportOptions_t *export_options, Sheet *sheet)
 	g_return_val_if_fail (export_options != NULL, FALSE);
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 	g_return_val_if_fail (export_options->terminator_type != TERMINATOR_TYPE_UNKNOWN, FALSE);
-	g_return_val_if_fail (export_options->cell_separator != '\0', FALSE);
+	g_return_val_if_fail (export_options->cell_separator != 0, FALSE);
 	g_return_val_if_fail (export_options->quoting_mode != QUOTING_MODE_UNKNOWN, FALSE);
-	g_return_val_if_fail (export_options->quoting_char != '\0', FALSE);
+	g_return_val_if_fail (export_options->quoting_char != 0, FALSE);
 	g_return_val_if_fail (export_options->write_func != NULL, FALSE);
 
 	separator = g_string_new (NULL);
@@ -455,17 +454,17 @@ stf_export (StfExportOptions_t *export_options)
  * Return value: TRUE iff //TRANSLIT is supported
  **/
 
-gboolean stf_export_can_transliterate (void) 
+gboolean stf_export_can_transliterate (void)
 {
      char const *text = "G\xc3\xbclzow";
      char *encoded_text = NULL;
      GError * error = NULL;
-		
+
      encoded_text = g_convert_with_fallback (text, strlen (text),
-					     "ASCII//TRANSLIT", "UTF-8", 
+					     "ASCII//TRANSLIT", "UTF-8",
 					     NULL, NULL, NULL, &error);
      g_free (encoded_text);
-     
+
      if (error == NULL)
 	  return TRUE;
 
