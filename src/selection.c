@@ -1090,6 +1090,17 @@ selection_foreach_range (Sheet *sheet,
 static gboolean
 cb_set_row_height(Sheet *sheet, ColRowInfo *info, void *height)
 {
+	/* TODO : Only do this for rows which have default or auto heights.
+	 *        Only shrink if there is nothing with a bigger font.
+	 *
+	 *        Bug 3364
+	 *
+	 * Solution.  We will need to maintain a flag in the ColRow struct
+	 * to distinguish between user selected size and auto selected size.
+	 *
+	 * We will also need to reuse the auto size code from double clicking
+	 * on the dividers.
+	 */
 	sheet_row_set_internal_height (sheet, info, *((double *)height));
 	return FALSE;
 }

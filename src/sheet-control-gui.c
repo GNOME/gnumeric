@@ -20,6 +20,11 @@
 #include "utils.h"
 #include "selection.h"
 
+/* Sizes for column/row headers */
+
+#define COLUMN_HEADER_HEIGHT 20
+#define ROW_HEADER_WIDTH 60
+
 static GtkTableClass *sheet_view_parent_class;
 
 void
@@ -137,6 +142,16 @@ sheet_view_set_zoom_factor (SheetView *sheet_view, double factor)
 	gnome_canvas_set_pixels_per_unit (GNOME_CANVAS (sheet_view->col_canvas), factor);
 	gnome_canvas_set_pixels_per_unit (GNOME_CANVAS (sheet_view->row_canvas), factor);
 	
+	gtk_widget_set_usize (GTK_WIDGET (sheet_view->col_canvas),
+			      -1, COLUMN_HEADER_HEIGHT * factor);
+	gnome_canvas_set_scroll_region (GNOME_CANVAS (sheet_view->col_canvas), 0, 0,
+					1000000*factor, COLUMN_HEADER_HEIGHT*factor);
+
+	gtk_widget_set_usize (GTK_WIDGET (sheet_view->row_canvas),
+			      ROW_HEADER_WIDTH * factor, -1);
+	gnome_canvas_set_scroll_region (GNOME_CANVAS (sheet_view->row_canvas), 0, 0,
+					ROW_HEADER_WIDTH*factor, 1200000*factor);
+
 	gnome_canvas_scroll_to (GNOME_CANVAS (sheet_view->sheet_view), 0, 0);
 	gnome_canvas_scroll_to (GNOME_CANVAS (sheet_view->col_canvas), 0, 0);
 	gnome_canvas_scroll_to (GNOME_CANVAS (sheet_view->row_canvas), 0, 0);
@@ -165,12 +180,12 @@ new_canvas_bar (SheetView *sheet_view, GtkOrientation o, GnomeCanvasItem **itemp
 	/* FIXME: need to set the correct scrolling regions.  This will do for now */
 
 	if (o == GTK_ORIENTATION_VERTICAL){
-		w = 60;
+		w = ROW_HEADER_WIDTH;
 		h = -1;
 		gnome_canvas_set_scroll_region (GNOME_CANVAS (canvas), 0, 0, w, 1200000);
 	} else {
 		w = -1;
-		h = 20;
+		h = COLUMN_HEADER_HEIGHT;
 		gnome_canvas_set_scroll_region (GNOME_CANVAS (canvas), 0, 0, 1000000, h);
 	}
 	gtk_widget_set_usize (canvas, w, h);

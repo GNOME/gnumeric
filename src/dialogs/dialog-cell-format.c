@@ -92,6 +92,7 @@ typedef struct
 	gboolean	  is_selected;
 	BorderLocations   index;
 	guint		  rgba;
+	gboolean	  is_set;
 } BorderPicker;
 
 typedef struct _FormatState
@@ -1139,11 +1140,19 @@ static struct
 };
 
 static MStyleBorder *
-border_get_mstyle (FormatState *state, BorderLocations loc)
+border_get_mstyle (FormatState const *state, BorderLocations const loc)
 {
-	StyleColor *color = style_color_new (0, 0, 0);
-	/* state->border.edge[loc].rgba; */ 
+	BorderPicker const * edge = & state->border.edge[loc];
+	int const r = (edge->rgba >> 24) & 0xff;
+	int const g = (edge->rgba >> 16) & 0xff;
+	int const b = (edge->rgba >>  8) & 0xff;
+	StyleColor *color =
+	    style_color_new ((r << 8)|r, (g << 8)|g, (b << 8)|b);
 		
+	/* Dont set borders that have not been changed */
+	if (!edge->is_set)
+		return NULL;
+
 	return border_fetch (state->border.edge[loc].pattern_index, color,
 			     border_get_orientation (loc + MSTYLE_BORDER_TOP));
 }
@@ -1157,6 +1166,7 @@ border_format_has_changed (FormatState *state, BorderPicker *edge)
 	int i;
 	gboolean changed = FALSE;
 
+	edge->is_set = TRUE;
 	if (edge->rgba != state->border.color.rgba) {
 		edge->rgba = state->border.color.rgba;
 
@@ -1414,11 +1424,11 @@ cb_border_color (GtkObject *obj, guint r, guint g, guint b, guint a,
 #undef V
 
 /*
- * Initialize the feilds of a BorderPicker, connect signals and
+ * Initialize the fields of a BorderPicker, connect signals and
  * hide if needed.
  */
 static void
-init_border_button (FormatState * state, BorderLocations const i,
+init_border_button (FormatState *state, BorderLocations const i,
 		    GtkWidget *button, gboolean const hide)
 {
 	g_return_if_fail (button != NULL);
@@ -1429,6 +1439,7 @@ init_border_button (FormatState * state, BorderLocations const i,
 	state->border.edge[i].state = state;
 	state->border.edge[i].index = i;
 	state->border.edge[i].button = GTK_TOGGLE_BUTTON (button);
+	state->border.edge[i].is_set = FALSE;
 
 	gtk_signal_connect (GTK_OBJECT (button), "toggled",
 			    GTK_SIGNAL_FUNC (cb_border_toggle),
@@ -1725,7 +1736,6 @@ dialog_cell_format (Workbook *wb, Sheet *sheet)
  *
  * Translation to/from an MStyle.
  * 	- border to
- * 	- border from
  *
  * Formats 
  * 	- regexps to recognize parameterized formats (ie percent 4 decimals)

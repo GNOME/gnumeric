@@ -968,7 +968,6 @@ None
 	  <class>GtkFrame</class>
 	  <name>frame13</name>
 	  <border_width>3</border_width>
-	  <width>114</width>
 	  <label>Color</label>
 	  <label_xalign>0</label_xalign>
 	  <shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
@@ -989,7 +988,6 @@ None
 	    <widget>
 	      <class>GtkVBox</class>
 	      <name>vbox19</name>
-	      <width>120</width>
 	      <homogeneous>False</homogeneous>
 	      <spacing>0</spacing>
 
@@ -1042,7 +1040,7 @@ None
 		  <use_alpha>False</use_alpha>
 		  <title>Pick a font color</title>
 		  <child>
-		    <padding>0</padding>
+		    <padding>4</padding>
 		    <expand>False</expand>
 		    <fill>False</fill>
 		  </child>

@@ -791,7 +791,7 @@ black_or_white_contrast (StyleColor const * contrast)
 	}
 #endif
 	/* guess the minimum hacked pseudo-luminosity */
-	if (guess < (0x20000)) {
+	if (guess < (0x18000)) {
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_color_debug > 1)
 			puts("Contrast is White");
@@ -1007,13 +1007,20 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 	mstyle_set_pattern (mstyle, xf->fill_pattern_idx);
 
 	/* Solid patterns seem to reverse the meaning */
-	if (xf->fill_pattern_idx == 1) {
+	if (xf->fill_pattern_idx == 1 && xf->pat_foregnd_col != 0) {
 		pattern_index	= xf->pat_backgnd_col;
 		back_index	= xf->pat_foregnd_col;
 	} else {
 		pattern_index	= xf->pat_foregnd_col;
 		back_index	= xf->pat_backgnd_col;
 	}
+
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_color_debug > 4) {
+		printf ("back = %d, pat = %d, font = %d, pat_style = %d\n",
+			pattern_index, back_index, font_index, xf->fill_pattern_idx);
+	}
+#endif
 
 	/* ICK : FIXME
 	 * There must be a cleaner way of doing this
@@ -1023,10 +1030,10 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 	if (font_index == 127)
 	{
 		/* The font is auto.  Lets look for info elsewhere */
-		if (back_index == 64 || back_index == 65)
+		if (back_index == 64 || back_index == 65 || back_index == 0)
 		{
 			/* Everything is auto default to black text/pattern on white */
-			if (pattern_index == 64 || pattern_index == 65)
+			if (pattern_index == 64 || pattern_index == 65 || pattern_index == 0)
 			{
 				back_color = style_color_new (0xffff, 0xffff, 0xffff);
 				font_color = pattern_color = style_color_new (0, 0, 0);
@@ -1049,7 +1056,7 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 			font_color = black_or_white_contrast (back_color);
 
 			/* Pattern is auto contrast it to back */
-			if (pattern_index == 64 || pattern_index == 65)
+			if (pattern_index == 64 || pattern_index == 65 || pattern_index == 0)
 				pattern_color = font_color;
 			else
 				pattern_color =
@@ -1062,10 +1069,10 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 		font_color = ms_excel_palette_get (sheet->wb->palette,
 						   font_index);
 
-		if (back_index == 64 || back_index == 65)
+		if (back_index == 64 || back_index == 65 || back_index == 0)
 		{
 			/* contrast back to font and pattern to back */
-			if (pattern_index == 64 || pattern_index == 65)
+			if (pattern_index == 64 || pattern_index == 65 || pattern_index == 0)
 			{
 				/* Contrast back to font, and pattern to back */
 				back_color = black_or_white_contrast (font_color);
@@ -1085,7 +1092,7 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 							   back_index);
 
 			/* Pattern is auto contrast it to back */
-			if (pattern_index == 64 || pattern_index == 65)
+			if (pattern_index == 64 || pattern_index == 65 || pattern_index == 0)
 				pattern_color = black_or_white_contrast (back_color);
 			else
 				pattern_color =
@@ -1129,7 +1136,10 @@ static void
 ms_excel_set_xf (ExcelSheet *sheet, int col, int row, guint16 xfidx)
 {
 	Range   range;
-	MStyle *mstyle = ms_excel_get_style_from_xf (sheet, xfidx);
+	MStyle *mstyle;
+
+	printf ("%s!%s%d : ", sheet->gnum_sheet->name, col_name(col), row+1);
+	mstyle = ms_excel_get_style_from_xf (sheet, xfidx);
 	if (mstyle == NULL)
 		return;
 

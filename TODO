@@ -161,9 +161,6 @@ Gnumeric Spread Sheet task list
 
   Borders:
 
-  - pattern selector needs tooltips, button like appearance, and
-    white backgrounds for the patterns.
-
   Font:
     Font selector needs to display whether bold / italic / font name
     is unique, and if so to show which it is.
@@ -228,6 +225,8 @@ Office 2000 and 'explorer' compatibility.
    we are taking ages.  In those cases, we could probably:
 
       1. Preallocate all cells.
+      2. Pre-parse formulas
+      3. Pre-render contents.
 
 * Rendering
 
@@ -242,3 +241,7 @@ Office 2000 and 'explorer' compatibility.
   * Rework dependencies to only supply one level of indirection.
   * Think about allowing a formula to specify that it does not depend on the
     contents of a reference, only the adress (ie the AREAS function)
+
+* Drawing
+  * Rework borders to agregate the lines and draw them after backgrounds
+  * Scale the fonts in item-bar by zoom factor.

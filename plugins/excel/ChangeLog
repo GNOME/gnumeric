@@ -1,3 +1,11 @@
+1999-11-06  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (black_or_white_contrast) : Revert to 50% as a
+	  contrast boundary (3*0x10000/2) ~= 0x1800
+
+	* ms-excel-read.c (ms_excel_get_style_from_xf) : Add more debug
+	  output, and support 0 as a contrast colour.
+
 1999-11-05  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (ms_excel_palette_get) : Split the contrast logic
