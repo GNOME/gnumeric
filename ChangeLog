@@ -1,3 +1,7 @@
+2003-09-10  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* README: Updated Debian package names.
+
 2003-09-10  Christian Neumair  <chris@gnome-de.org>
 
 	* src/sheet-object-graphic.c (sheet_object_graphic_user_config): Add

@@ -16,7 +16,7 @@ To report Gnumeric bugs, please visit bugzilla.gnome.org.
 Requirements
 ------------
 
-You need:                                Debian package name
+You need:				Debian package name
 	glib		>= 2.0.0	libglib2.0-dev
 	gtk+		>= 2.0.0	libgtk2.0-dev
 	libgnome	>= 2.0.0	libgnome2-dev
@@ -33,12 +33,12 @@ You need:                                Debian package name
 	NOTE : gnome-xml is also known as libxml
 
 Optionally:
-	python		>= 2.0
-	pygtk		>= 1.99.10
+	python		>= 2.0		python2.3-dev
+	pygtk		>= 1.99.10	python-gtk2-dev
 
 	The GDA plugin, for accessing databases
 	gda		>= 0.90.0	libgda2-dev
-	libgnomedb	>= 0.90.2	libgda2-dev
+	libgnomedb	>= 0.90.2	libgnomedb2-dev
 
 Currently disabled:
 	gb		== 0.0.17
