@@ -1,3 +1,7 @@
+1999-11-16  Jeff Garzik  <jgarzik@mandrakesoft.com>
+
+	* configure.in, plugins/Makefile.am, plugins/sylk:  new SYLK file import plug-in
+
 1999-11-15  Jody Goldberg <jgoldberg@home.com>
 
 	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet) : Delete

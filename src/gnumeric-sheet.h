@@ -18,7 +18,7 @@ typedef struct {
 	GtkWidget     *entry;
 	SheetView     *sheet_view;
 	
-	int           left_col, last_visible_col, last_full_col;
+	int           top_col, last_visible_col, last_full_col;
 	int           top_row, last_visible_row, last_full_row;
 
 	ItemGrid      *item_grid;
