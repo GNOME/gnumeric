@@ -6,7 +6,7 @@ INCLUDES = \
 gnumeric_plugin_sample_datasourcedir = $(gnumeric_plugindir)/sample_datasource
 xmldir = $(gnumeric_plugin_sample_datasourcedir)
 gnumeric_plugin_sample_datasource_LTLIBRARIES = sample_datasource.la
-sample_datasource_la_LDFLAGS = -module -avoid-version
+sample_datasource_la_LDFLAGS = -module $(GNUMERIC_PLUGIN_LDFLAGS)
 sample_datasource_la_SOURCES = sample_datasource.c
 
 xml_in_files = plugin.xml.in

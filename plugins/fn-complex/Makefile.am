@@ -6,7 +6,7 @@ INCLUDES = \
 gnumeric_plugin_fncomplexdir = $(gnumeric_plugindir)/fn-complex
 xmldir = $(gnumeric_plugin_fncomplexdir)
 gnumeric_plugin_fncomplex_LTLIBRARIES = plugin.la
-plugin_la_LDFLAGS = -module -avoid-version
+plugin_la_LDFLAGS = -module $(GNUMERIC_PLUGIN_LDFLAGS)
 plugin_la_SOURCES = functions.c gsl-complex.c gsl-complex.h
 
 xml_in_files = plugin.xml.in

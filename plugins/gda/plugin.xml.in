@@ -5,7 +5,7 @@
 		<_description>Database functions for retrieval of data from a database.</_description>
 	</information>
 	<loader type="Gnumeric_Builtin:module">
-		<attribute name="module_file" value="gdaif.la"/>
+		<attribute name="module_file" value="gdaif"/>
 	</loader>
 	<services>
 		<service type="function_group" id="gdaif">

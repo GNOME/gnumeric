@@ -6,7 +6,7 @@ INCLUDES = \
 gnumeric_plugin_exceldir = $(gnumeric_plugindir)/excel
 xmldir = $(gnumeric_plugin_exceldir)
 gnumeric_plugin_excel_LTLIBRARIES = excel.la
-excel_la_LDFLAGS = -module -avoid-version
+excel_la_LDFLAGS = -module $(GNUMERIC_PLUGIN_LDFLAGS)
 excel_la_SOURCES =		\
 	boot.c			\
 	boot.h			\

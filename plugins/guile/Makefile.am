@@ -9,7 +9,7 @@ INCLUDES = \
 gnumeric_plugin_guiledir = $(gnumeric_plugindir)/guile
 xmldir = $(gnumeric_plugin_guiledir)
 gnumeric_plugin_guile_LTLIBRARIES = guile.la
-guile_la_LDFLAGS = -module -avoid-version
+guile_la_LDFLAGS = -module $(GNUMERIC_PLUGIN_LDFLAGS)
 guile_la_SOURCES = smob-value.c guile-support.c plugin.c guile-support.h smob-value.h
 guile_la_LIBADD = $(GUILE_LIBS)
 

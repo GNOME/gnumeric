@@ -5,7 +5,7 @@
 		<_description>Open/Star Office spreadsheet</_description>
 	</information>
 	<loader type="Gnumeric_Builtin:module">
-		<attribute name="module_file" value="openoffice.la"/>
+		<attribute name="module_file" value="openoffice"/>
 	</loader>
 	<services>
 		<service type="file_opener" id="openoffice" priority="1" probe="FALSE">

@@ -6,7 +6,7 @@
 		<require_explicit_enabling/>
 	</information>
 	<loader type="Gnumeric_Builtin:module">
-		<attribute name="module_file" value="guile.la"/>
+		<attribute name="module_file" value="guile"/>
 	</loader>
 	<services>
 		<service type="general"></service>

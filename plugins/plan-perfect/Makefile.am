@@ -9,7 +9,7 @@ INCLUDES = \
 gnumeric_plugin_plan_perfectdir = $(gnumeric_plugindir)/plan_perfect
 xmldir = $(gnumeric_plugin_plan_perfectdir)
 gnumeric_plugin_plan_perfect_LTLIBRARIES = $(PP_LTLIBRARIES_TARGET)
-plan_perfect_la_LDFLAGS = -module -avoid-version
+plan_perfect_la_LDFLAGS = -module $(GNUMERIC_PLUGIN_LDFLAGS)
 plan_perfect_la_SOURCES = pln.h pln.c charset.c
 
 xml_in_files = plugin.xml.in

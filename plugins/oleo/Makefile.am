@@ -6,7 +6,7 @@ INCLUDES = \
 gnumeric_plugin_oleodir = $(gnumeric_plugindir)/oleo
 xmldir = $(gnumeric_plugin_oleodir)
 gnumeric_plugin_oleo_LTLIBRARIES = oleo.la
-oleo_la_LDFLAGS = -module -avoid-version
+oleo_la_LDFLAGS = -module $(GNUMERIC_PLUGIN_LDFLAGS)
 oleo_la_SOURCES = boot.c oleo.h oleo.c
 
 xml_in_files = plugin.xml.in

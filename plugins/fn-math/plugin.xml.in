@@ -5,7 +5,7 @@
 		<_description>Mathematical Functions</_description>
 	</information>
 	<loader type="Gnumeric_Builtin:module">
-		<attribute name="module_file" value="plugin.la"/>
+		<attribute name="module_file" value="plugin"/>
 	</loader>
 	<services>
 		<service type="function_group" id="math">

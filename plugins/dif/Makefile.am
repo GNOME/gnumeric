@@ -6,7 +6,7 @@ INCLUDES = \
 gnumeric_plugin_difdir = $(gnumeric_plugindir)/dif
 xmldir = $(gnumeric_plugin_difdir)
 gnumeric_plugin_dif_LTLIBRARIES = dif.la
-dif_la_LDFLAGS = -module -avoid-version
+dif_la_LDFLAGS = -module $(GNUMERIC_PLUGIN_LDFLAGS)
 dif_la_SOURCES = dif.c
 
 xml_in_files = plugin.xml.in

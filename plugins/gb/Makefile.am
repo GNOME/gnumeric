@@ -7,8 +7,7 @@ INCLUDES = \
 gnum_gbdir = $(gnumeric_plugindir)/gb
 xmldir = $(gnum_gbdir)
 gnum_gb_LTLIBRARIES = gnum_gb.la
-gnum_gb_la_LDFLAGS = -module -avoid-version
-
+gnum_gb_la_LDFLAGS = -module $(GNUMERIC_PLUGIN_LDFLAGS)
 gnum_gb_la_SOURCES =			\
 	common.c			\
 	common.h			\

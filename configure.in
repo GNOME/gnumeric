@@ -131,7 +131,11 @@ GNUMERIC_CFLAGS="$GNUMERIC_CFLAGS -I\$(top_srcdir)/src/cut-n-paste-code"
 AC_SUBST(GNUMERIC_LIBS)
 AC_SUBST(GNUMERIC_CFLAGS)
 
-# disable for in stable release, re-enable for development series
+dnl a hook for the win32 build to tweak
+GNUMERIC_PLUGIN_LDFLAGS="-avoid-version"
+AC_SUBST(GNUMERIC_PLUGIN_LDFLAGS)
+
+dnl disable for in stable release, re-enable for development series
 CFLAGS="$CFLAGS -DG_DISABLE_DEPRECATED"
 CFLAGS="$CFLAGS -DPANGO_DISABLE_DEPRECATED"
 if test "x$gnumeric_with_gtk" = "xtrue"; then

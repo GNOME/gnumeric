@@ -6,7 +6,7 @@ INCLUDES = \
 gnumeric_plugin_qprodir = $(gnumeric_plugindir)/qpro
 xmldir = $(gnumeric_plugin_qprodir)
 gnumeric_plugin_qpro_LTLIBRARIES = qpro.la
-qpro_la_LDFLAGS = -module -avoid-version
+qpro_la_LDFLAGS = -module $(GNUMERIC_PLUGIN_LDFLAGS)
 qpro_la_SOURCES =		\
 	qpro.h			\
 	qpro-read.c

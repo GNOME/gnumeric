@@ -6,7 +6,7 @@ INCLUDES = \
 gnumeric_plugin_lotusdir = $(gnumeric_plugindir)/lotus
 xmldir = $(gnumeric_plugin_lotusdir)
 gnumeric_plugin_lotus_LTLIBRARIES = lotus.la
-lotus_la_LDFLAGS = -module -avoid-version
+lotus_la_LDFLAGS = -module $(GNUMERIC_PLUGIN_LDFLAGS)
 lotus_la_SOURCES = \
 	boot.c			\
 	lotus-types.h		\

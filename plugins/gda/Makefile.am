@@ -8,7 +8,7 @@ INCLUDES = \
 gnumeric_plugin_gdaifdir = $(gnumeric_plugindir)/gdaif
 xmldir = $(gnumeric_plugin_gdaifdir)
 gnumeric_plugin_gdaif_LTLIBRARIES = gdaif.la
-gdaif_la_LDFLAGS = -module -avoid-version
+gdaif_la_LDFLAGS = -module $(GNUMERIC_PLUGIN_LDFLAGS)
 gdaif_la_SOURCES = plugin-gda.c
 gdaif_la_LIBADD = $(GDA_LIBS) $(GNOMEDB_LIBS)
 

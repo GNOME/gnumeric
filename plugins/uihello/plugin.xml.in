@@ -6,7 +6,7 @@
 		<require_explicit_enabling/>
 	</information>
 	<loader type="Gnumeric_Builtin:module">
-		<attribute name="module_file" value="plugin.la"/>
+		<attribute name="module_file" value="plugin"/>
 	</loader>
 	<services>
 		<service type="ui" id="hello" file="hello.xml">

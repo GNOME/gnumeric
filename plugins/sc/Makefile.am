@@ -6,7 +6,7 @@ INCLUDES = \
 gnumeric_plugin_scdir = $(gnumeric_plugindir)/sc
 xmldir = $(gnumeric_plugin_scdir)
 gnumeric_plugin_sc_LTLIBRARIES = sc.la
-sc_la_LDFLAGS = -module -avoid-version
+sc_la_LDFLAGS = -module $(GNUMERIC_PLUGIN_LDFLAGS)
 sc_la_SOURCES = sc.c
 
 xml_in_files = plugin.xml.in

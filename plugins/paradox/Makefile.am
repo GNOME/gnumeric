@@ -8,7 +8,7 @@ INCLUDES = \
 gnumeric_plugin_paradoxdir = $(gnumeric_plugindir)/paradox
 xmldir = $(gnumeric_plugin_paradoxdir)
 gnumeric_plugin_paradox_LTLIBRARIES = paradox.la
-paradox_la_LDFLAGS = -module -avoid-version
+paradox_la_LDFLAGS = -module $(GNUMERIC_PLUGIN_LDFLAGS)
 paradox_la_SOURCES = px.h paradox.c
 paradox_la_LIBADD = $(PARADOX_LIBS)
 

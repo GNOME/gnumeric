@@ -6,7 +6,7 @@ INCLUDES = \
 gnumeric_plugin_htmldir = $(gnumeric_plugindir)/html
 xmldir = $(gnumeric_plugin_htmldir)
 gnumeric_plugin_html_LTLIBRARIES = html.la
-html_la_LDFLAGS = -module -avoid-version
+html_la_LDFLAGS = -module $(GNUMERIC_PLUGIN_LDFLAGS)
 html_la_SOURCES = \
     boot.h boot.c \
     html.h html.c html_read.c \

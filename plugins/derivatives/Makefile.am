@@ -6,7 +6,7 @@ INCLUDES = \
 gnumeric_plugin_derivativesdir = $(gnumeric_plugindir)/derivatives
 xmldir = $(gnumeric_plugin_derivativesdir)
 gnumeric_plugin_derivatives_LTLIBRARIES = derivatives.la
-derivatives_la_LDFLAGS = -module -avoid-version
+derivatives_la_LDFLAGS = -module $(GNUMERIC_PLUGIN_LDFLAGS)
 derivatives_la_SOURCES = options.c
 
 xml_in_files = plugin.xml.in
