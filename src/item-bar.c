@@ -940,8 +940,7 @@ item_bar_event (FooCanvasItem *item, GdkEvent *e)
 		break;
 	}
 
-	case GDK_BUTTON_RELEASE:
-	{
+	case GDK_BUTTON_RELEASE: {
 		gboolean needs_ungrab = FALSE;
 
 		/* Ignore scroll wheel events */
@@ -953,6 +952,8 @@ item_bar_event (FooCanvasItem *item, GdkEvent *e)
 		if (ib->start_selection >= 0) {
 			needs_ungrab = TRUE;
 			ib->start_selection = -1;
+			gnm_expr_entry_signal_update (
+				wbcg_get_entry_logical (scg->wbcg), TRUE);
 		}
 		if (ib->colrow_being_resized >= 0) {
 			if (ib->has_resize_guides) {

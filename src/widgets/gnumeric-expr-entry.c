@@ -66,8 +66,9 @@ struct _GnmExprEntry {
 typedef struct _GnmExprEntryClass {
 	GtkHBoxClass base;
 
-	void (* update)  (GnmExprEntry *gee);
-	void (* changed) (GnmExprEntry *gee);
+	void (* update)   (GnmExprEntry *gee, gboolean user_requested_update);
+	void (* changed)  (GnmExprEntry *gee);
+	void (* activate) (GnmExprEntry *gee);
 } GnmExprEntryClass;
 
 /* Signals */
@@ -93,9 +94,7 @@ static GQuark signals [LAST_SIGNAL] = { 0 };
 static void     gee_rangesel_reset (GnmExprEntry *gee);
 static void     gee_rangesel_update_text (GnmExprEntry *gee);
 static void     gee_detach_scg (GnmExprEntry *gee);
-static gboolean gee_update_timeout (gpointer data);
 static void     gee_remove_update_timer (GnmExprEntry *range);
-static void     gee_reset_update_timer (GnmExprEntry *gee);
 static void     gee_notify_cursor_position (GObject *object, GParamSpec *pspec,
 					    GnmExprEntry *gee);
 
@@ -197,6 +196,7 @@ static void
 cb_entry_activate (G_GNUC_UNUSED GtkWidget *w, GObject *gee)
 {
 	g_signal_emit (G_OBJECT (gee), signals [ACTIVATE], 0);
+	gnm_expr_entry_signal_update (gee, TRUE);
 }
 
 static void
@@ -409,22 +409,21 @@ gee_class_init (GObjectClass *gobject_class)
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GnmExprEntryClass, update),
 		(GSignalAccumulator) NULL, NULL,
-		gnm__VOID__VOID,
+		gnm__VOID__BOOLEAN,
 		G_TYPE_NONE,
-		0, G_TYPE_NONE);
+		1, G_TYPE_BOOLEAN);
 	signals [CHANGED] = g_signal_new ("changed",
 		GNM_EXPR_ENTRY_TYPE,
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GnmExprEntryClass, changed),
 		(GSignalAccumulator) NULL, NULL,
 		gnm__VOID__VOID,
-		G_TYPE_NONE,
-		0, G_TYPE_NONE);
+		G_TYPE_NONE, 0);
 	signals[ACTIVATE] =
 		g_signal_new ("activate",
 		G_OBJECT_CLASS_TYPE (gobject_class),
 		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
-		G_STRUCT_OFFSET (GtkEntryClass, activate),
+		G_STRUCT_OFFSET (GnmExprEntryClass, activate),
 		(GSignalAccumulator) NULL, NULL,
 		gnm__VOID__VOID,
 		G_TYPE_NONE, 0);
@@ -723,26 +722,17 @@ gee_detach_scg (GnmExprEntry *gee)
 
 /***************************************************************************/
 
-/**
- * gnm_expr_entry_end_of_drag:
- * @gee :
- *
- * Signal the expression entry clients that a drag selection has just finished.
- * This is useful for knowing when to attempt to parse and update things that
- * depend on the modified expression without doing it in real time.
- **/
-void
-gnm_expr_entry_end_of_drag (GnmExprEntry *gee)
-{
-	g_signal_emit (G_OBJECT (gee), signals [UPDATE], 0);
-}
+typedef struct {
+	GnmExprEntry *gee;
+	gboolean user_requested;
+} GEETimerClosure;
 
 static gboolean
-gee_update_timeout (gpointer data)
+cb_gee_update_timeout (GEETimerClosure const *info)
 {
-	GnmExprEntry *gee = GNM_EXPR_ENTRY (data);
-	gee->update_timeout_id = 0;
-	g_signal_emit (G_OBJECT (gee), signals [UPDATE], 0);
+	info->gee->update_timeout_id = 0;
+	g_signal_emit (G_OBJECT (info->gee), signals [UPDATE], 0,
+		       info->user_requested);
 	return FALSE;
 }
 
@@ -754,15 +744,32 @@ gee_remove_update_timer (GnmExprEntry *range)
 		range->update_timeout_id = 0;
 	}
 }
-static void
-gee_reset_update_timer (GnmExprEntry *gee)
-{
-	gee_remove_update_timer (gee);
 
-	gee->update_timeout_id = g_timeout_add (300,
-		gee_update_timeout, gee);
+static void
+gee_reset_update_timer (GnmExprEntry *gee, gboolean user_requested)
+{
+	GEETimerClosure *dat = g_new (GEETimerClosure, 1);
+	gee_remove_update_timer (gee);
+	dat->gee = gee;
+	dat->user_requested = user_requested;
+	gee->update_timeout_id = g_timeout_add_full (G_PRIORITY_DEFAULT, 300,
+		(GSourceFunc) cb_gee_update_timeout, dat, g_free);
 }
 
+/**
+ * gnm_expr_entry_signal_update:
+ * @gee :
+ * @user_requested : is the update requested by the user (eg activation)
+ *
+ * Higher level operations know when they are logically complete and can notify
+ * ExperEntry clients.  eg button up after a drag selection indicates a logical
+ * end to the change and offers a good time to update.
+ **/
+void
+gnm_expr_entry_signal_update (GnmExprEntry *gee, gboolean user_requested)
+{
+	gee_reset_update_timer (gee, user_requested);
+}
 
 static void
 gee_notify_cursor_position (G_GNUC_UNUSED GObject *object,
@@ -838,7 +845,7 @@ gnm_expr_entry_thaw (GnmExprEntry *gee)
 		gee_rangesel_update_text (gee);
 		switch (gee->update_policy) {
 		case GTK_UPDATE_DELAYED :
-			gee_reset_update_timer (gee);
+			gee_reset_update_timer (gee, FALSE);
 			break;
 
 		default :
@@ -846,7 +853,7 @@ gnm_expr_entry_thaw (GnmExprEntry *gee)
 			if (gee->scg->rangesel.active)
 				break;
 		case GTK_UPDATE_CONTINUOUS:
-			g_signal_emit (G_OBJECT (gee), signals [UPDATE], 0);
+			g_signal_emit (G_OBJECT (gee), signals [UPDATE], 0, FALSE);
 		};
 	}
 }

@@ -467,6 +467,8 @@ scg_select_all (SheetControlGUI *scg)
 	if (rangesel) {
 		scg_rangesel_bound (scg,
 			0, 0, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
+		gnm_expr_entry_signal_update (
+			wbcg_get_entry_logical (scg->wbcg), TRUE);
 	} else if (!wbcg_edit_has_guru (scg->wbcg)) {
 		scg_mode_edit (SHEET_CONTROL (sc));
 		wbcg_edit_finish (scg->wbcg, FALSE);
@@ -2303,6 +2305,8 @@ scg_rangesel_move (SheetControlGUI *scg, int n, gboolean jump_to_bound,
 	else
 		scg_rangesel_start   (scg, tmp.col, tmp.row, tmp.col, tmp.row);
 	scg_make_cell_visible (scg, tmp.col, tmp.row, FALSE, TRUE);
+	gnm_expr_entry_signal_update (
+		wbcg_get_entry_logical (scg->wbcg), FALSE);
 }
 
 void
@@ -2330,6 +2334,8 @@ scg_rangesel_extend (SheetControlGUI *scg, int n,
 		scg_make_cell_visible (scg,
 			scg->rangesel.move_corner.col,
 			scg->rangesel.move_corner.row, FALSE, TRUE);
+		gnm_expr_entry_signal_update (
+			wbcg_get_entry_logical (scg->wbcg), FALSE);
 	} else
 		scg_rangesel_move (scg, n, jump_to_bound, horiz);
 }

@@ -71,6 +71,6 @@ void gnm_expr_entry_grab_focus (GnmExprEntry *e, gboolean select_all);
 gboolean gnm_expr_entry_editing_canceled (GnmExprEntry *e);
 
 /* private : for internal use */
-void gnm_expr_entry_end_of_drag	(GnmExprEntry *gee);
+void gnm_expr_entry_signal_update (GnmExprEntry *gee, gboolean user_requested);
 
 #endif /* GNUMERIC_EXPR_ENTRY_H */

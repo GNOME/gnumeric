@@ -1,3 +1,14 @@
+2003-04-22  Jody Goldberg <jody@gnome.org>
+
+	* src/gnm-marshalers.list : add NONE:BOOLEAN
+
+	* src/sheet-control-gui.c (scg_select_all) : pretend that we
+	  drag selected the range to fire an update signal even if the
+	  exprentry's update_policy is discontinuous.
+	(scg_rangesel_extend) : keyboard changes cause an update too.
+	(scg_rangesel_move) : ditto.
+	* src/item-bar.c (item_bar_event) : ditto.
+
 2003-04-22  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-clipboard.c (x_request_clipboard): Follow cut-and-paste

@@ -1,5 +1,12 @@
 2003-04-22  Jody Goldberg <jody@gnome.org>
 
+	* gnumeric-expr-entry.c (cb_entry_activate) : queue an update.
+	(gnm_expr_entry_signal_update) : queue the updates in an idle handler
+	  so that we can get some rudimentary motion compression for keyboard
+	  edits.
+
+2003-04-22  Jody Goldberg <jody@gnome.org>
+
 	* gnumeric-expr-entry.c : Tidy up the namespacing.
 	(gnm_expr_entry_new) : use the scg property which seems like a better
 	  match than wbcg, but continue to take a wbcg to keep life simple.

@@ -1138,7 +1138,8 @@ item_grid_event (FooCanvasItem *item, GdkEvent *event)
 		gnm_simple_canvas_ungrab (item, event->button.time);
 
 		if (selecting == ITEM_GRID_SELECTING_FORMULA_RANGE)
-			gnm_expr_entry_end_of_drag (wbcg_get_entry_logical (scg->wbcg));
+			gnm_expr_entry_signal_update (
+				wbcg_get_entry_logical (scg->wbcg), TRUE);
 
 		if (selecting == ITEM_GRID_SELECTING_CELL_RANGE) {
 			CellPos const *pos = sv_is_singleton_selected (sc_view (sc));
