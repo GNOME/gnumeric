@@ -251,28 +251,6 @@ fixed_context_menu (StfDialogData *pagedata, GdkEventButton *event,
 				    sensitivity_filter, event);
 }
 
-static void
-find_column (StfDialogData *pagedata, int x, int *pcol, int *dx)
-{
-	int colcount = stf_parse_options_fixed_splitpositions_count (pagedata->parseoptions);
-	int col;
-
-	/* Figure out what column we pressed in.  */
-	for (col = 0; col < colcount; col++) {
-		GtkTreeViewColumn *column =
-			stf_preview_get_column (pagedata->fixed.renderdata, col);
-		GtkWidget *w = GTK_BIN (column->button)->child;
-		if (x < w->allocation.x + w->allocation.width) {
-			*dx = x - w->allocation.x;
-			break;
-		}
-	}
-
-	*pcol = col;
-}
-
-
-
 static gint
 cb_treeview_button_press (GtkWidget *treeview,
 			  GdkEventButton *event,
@@ -280,14 +258,14 @@ cb_treeview_button_press (GtkWidget *treeview,
 {
 	if (event->type == GDK_2BUTTON_PRESS && event->button == 1) {
 		int dx, col;
-		find_column (pagedata, (int)event->x, &col, &dx);
+		stf_preview_find_column (pagedata->fixed.renderdata, (int)event->x, &col, &dx);
 		make_new_column (pagedata, col, dx, FALSE);
 		return TRUE;
 	}
 
 	if (event->type == GDK_BUTTON_PRESS && event->button == 3) {
 		int dx, col;
-		find_column (pagedata, (int)event->x, &col, &dx);
+		stf_preview_find_column (pagedata->fixed.renderdata, (int)event->x, &col, &dx);
 		fixed_context_menu (pagedata, event, col, dx);
 		return TRUE;
 	}

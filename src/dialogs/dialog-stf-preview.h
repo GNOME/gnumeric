@@ -61,4 +61,6 @@ void               stf_preview_colformats_add            (RenderData_t *renderda
 GtkTreeViewColumn *stf_preview_get_column                (RenderData_t *renderdata, int col);
 GtkCellRenderer   *stf_preview_get_cell_renderer         (RenderData_t *renderdata, int col);
 
+void               stf_preview_find_column               (RenderData_t *renderdata, int x, int *pcol, int *dx);
+
 #endif /* GNUMERIC_DIALOG_STF_PREVIEW_H */

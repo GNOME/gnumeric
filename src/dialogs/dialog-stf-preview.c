@@ -314,3 +314,26 @@ stf_preview_get_cell_renderer (RenderData_t *renderdata, int col)
 	}
 	return res;
 }
+
+void
+stf_preview_find_column (RenderData_t *renderdata, int x, int *pcol, int *dx)
+{
+	int col;
+
+	/* Figure out what column we pressed in.  */
+	for (col = 0; 1; col++) {
+		GtkWidget *w;
+		GtkTreeViewColumn *column =
+			stf_preview_get_column (renderdata, col);
+		if (!column)
+			break;
+		w = GTK_BIN (column->button)->child;
+		if (x < w->allocation.x + w->allocation.width) {
+			*dx = x - w->allocation.x;
+			break;
+		}
+	}
+
+	*pcol = col;
+	*dx = 0;
+}

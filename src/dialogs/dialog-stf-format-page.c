@@ -355,6 +355,27 @@ cb_col_event (GtkWidget *widget, GdkEvent *event, gpointer _col)
 	return FALSE;
 }
 
+static gint
+cb_treeview_button_press (GtkWidget *treeview,
+			  GdkEventButton *event,
+			  StfDialogData *pagedata)
+{
+	if (event->type == GDK_BUTTON_PRESS && event->button == 1) {
+		int dx, col;
+		stf_preview_find_column (pagedata->format.renderdata, (int)event->x, &col, &dx);
+		activate_column (pagedata, col);
+		return TRUE;
+	} else if (event->type == GDK_BUTTON_PRESS && event->button == 3) {
+		int dx, col;
+		stf_preview_find_column (pagedata->format.renderdata, (int)event->x, &col, &dx);
+		activate_column (pagedata, col);
+		format_context_menu (pagedata, event, col);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
 
 /**
  * format_page_update_preview
@@ -646,6 +667,11 @@ stf_dialog_format_page_init (GladeXML *gui, StfDialogData *pagedata)
 			  "changed",
 			  G_CALLBACK (format_page_trim_menu_changed), pagedata);
 	gtk_combo_box_set_active (GTK_COMBO_BOX (pagedata->format.format_trim), 0);
+
+	g_signal_connect (G_OBJECT (pagedata->format.renderdata->tree_view),
+			  "button_press_event",
+			  G_CALLBACK (cb_treeview_button_press),
+			  pagedata);
 
 	format_page_update_column_selection (pagedata);
 }

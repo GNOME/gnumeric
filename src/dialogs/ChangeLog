@@ -1,5 +1,12 @@
 2005-02-28  Morten Welinder  <terra@gnome.org>
 
+	* dialog-stf-format-page.c (cb_treeview_button_press): New
+	function allowing the use of mouse in the data area.
+
+	* dialog-stf-preview.c (stf_preview_find_column): New function.
+	* dialog-stf-fixed-page.c (cb_treeview_button_press): Use
+	stf_preview_find_column.
+
 	* dialog-stf-format-page.c (format_context_menu): Factor out from
 	cb_col_event.  Constify.
 

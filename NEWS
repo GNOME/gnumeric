@@ -34,6 +34,7 @@ Morten:
 	* Fix crash when using --quit.  Fix leak too.
 	* Fix rare crash on exit.
 	* Use unicode minus (U2212) for numbers.  [#168467]
+	* Improve format selection dialog for text import.
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.0
