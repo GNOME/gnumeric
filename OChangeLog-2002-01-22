@@ -1,5 +1,11 @@
 2001-10-27  Almer S. Tigelaar  <almer@gnome.org>
 
+	* src/GNOME_Gnumeric.xml: Tidy view menu.
+
+	* src/workbook-control-gui.c: Idem.
+
+2001-10-27  Almer S. Tigelaar  <almer@gnome.org>
+
 	* src/GNOME_Gnumeric.xml: Enable validate menu item.
 
 	* src/validation.[ch]: New, defines a container for

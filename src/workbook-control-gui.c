@@ -2629,18 +2629,21 @@ static GnomeUIInfo workbook_menu_edit [] = {
 /* View menu */
 
 static GnomeUIInfo workbook_menu_view [] = {
-	GNOMEUIINFO_ITEM_NONE (N_("_Zoom..."),
-		N_("Zoom the spreadsheet in or out"),
-		cb_view_zoom),
-	GNOMEUIINFO_ITEM_NONE (N_("_Freeze..."),
-		N_("Freeze the top left of the sheet"),
-		cb_view_freeze_panes),
 	GNOMEUIINFO_ITEM_NONE (N_("New _Shared"),
 		N_("Create a new shared view of the workbook"),
 		cb_view_new_shared),
 	GNOMEUIINFO_ITEM_NONE (N_("New _Unshared"),
 		N_("Create a new unshared view of the workbook"),
 		cb_view_new_unshared),
+
+	GNOMEUIINFO_SEPARATOR,
+	
+	GNOMEUIINFO_ITEM_NONE (N_("_Zoom..."),
+		N_("Zoom the spreadsheet in or out"),
+		cb_view_zoom),
+	GNOMEUIINFO_ITEM_NONE (N_("_Freeze..."),
+		N_("Freeze the top left of the sheet"),
+		cb_view_freeze_panes),
 	GNOMEUIINFO_END
 };
 
@@ -3018,11 +3021,11 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("EditSearchReplace", cb_edit_search_replace),
 	BONOBO_UI_UNSAFE_VERB ("EditGoto", cb_edit_goto),
 	BONOBO_UI_UNSAFE_VERB ("EditRecalc", cb_edit_recalc),
-
-	BONOBO_UI_UNSAFE_VERB ("ViewZoom", cb_view_zoom),
-	BONOBO_UI_UNSAFE_VERB ("ViewFreezeThawPanes", cb_view_freeze_panes),
+	
 	BONOBO_UI_UNSAFE_VERB ("ViewNewShared", cb_view_new_shared),
 	BONOBO_UI_UNSAFE_VERB ("ViewNewUnshared", cb_view_new_unshared),
+	BONOBO_UI_UNSAFE_VERB ("ViewZoom", cb_view_zoom),
+	BONOBO_UI_UNSAFE_VERB ("ViewFreezeThawPanes", cb_view_freeze_panes),
 
 	BONOBO_UI_UNSAFE_VERB ("InsertCurrentDate", cb_insert_current_date),
 	BONOBO_UI_UNSAFE_VERB ("InsertCurrentTime", cb_insert_current_time),
@@ -3780,7 +3783,7 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 	wbcg->menu_item_consolidate =
 		workbook_menu_data [4].widget;
 	wbcg->menu_item_freeze_panes =
-		workbook_menu_view [1].widget;
+		workbook_menu_view [3].widget;
 
 	wbcg->menu_item_sheet_display_formulas =
 		workbook_menu_format_sheet [2].widget;
