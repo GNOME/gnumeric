@@ -262,11 +262,17 @@ write_magic_interface (BiffPut *bp, MsBiffVersion ver)
 	}
 }
 
-/* FIXME: Not sure if name should be quoted or not */
+/*
+ * XL doesn't write externsheets as often as we do. The previous version of
+ * this function causes XL to crash when we exported a spreadsheet function
+ * which is not an XL builtin. This version is still wrong, but won't crash
+ * XL. 
+ */
 static void
 write_externsheets (BiffPut *bp, ExcelWorkbook *wb, ExcelSheet *ignore)
 {
 	guint32 num_sheets = wb->sheets->len;
+	guint32 externcount;
 	guint8 *data;
 	int lp;
 
@@ -275,13 +281,22 @@ write_externsheets (BiffPut *bp, ExcelWorkbook *wb, ExcelSheet *ignore)
 		return;
 	}
 
-	if (ignore) /* Strangely needed */
-		num_sheets--;
-
 	g_assert (num_sheets < 0xffff);
 
+	/* Kluge upon kluge, but the externcount will now match the number
+	 * of externsheets we store. */
+	for (lp = 0, externcount = 0; lp < num_sheets; lp++) {
+		ExcelSheet *sheet = g_ptr_array_index (wb->sheets, lp);
+
+		if (sheet != ignore)
+			externcount ++;
+	}
+
+	if (externcount == 0)
+		return;
+	
 	data = ms_biff_put_len_next (bp, BIFF_EXTERNCOUNT, 2);
-	MS_OLE_SET_GUINT16(data, num_sheets);
+	MS_OLE_SET_GUINT16(data, externcount);
 	ms_biff_put_commit (bp);
 
 	for (lp = 0; lp < num_sheets; lp++) {

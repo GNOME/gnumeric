@@ -1,3 +1,10 @@
+2000-11-19  Jon K Hellan  <hellan@acm.org>
+
+	* ms-excel-write.c (write_externsheets): Make EXTERNCOUNT be the
+	number of EXTERNSHEETS we actually store. This stops Excel from
+	crashing. See bug #32096. We still have to figure out what to
+	store as EXTERNSHEETS and when. What we're doing isn't right.
+
 2000-11-18  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.59
