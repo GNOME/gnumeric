@@ -1,5 +1,8 @@
 2002-03-17  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
+	* solver.c, reporst.c: Started adding allowable changes for
+	constraints in the sensitivity report.
+
 	* reports.c, solver.c, api.c: Implemented support for bool constraints.
 
 	* solver.c, api.c : Implemented the support for non-negativity

@@ -83,6 +83,9 @@ solver_results_init (const SolverParameters *sp)
 	res->variable_names    = g_new0 (gchar *,    sp->n_variables);
 	res->constraint_names  = g_new0 (gchar *,    sp->n_constraints);
 	res->shadow_prizes     = g_new0 (gnum_float, sp->n_total_constraints);
+	res->slack             = g_new0 (gnum_float, sp->n_total_constraints);
+	res->lhs               = g_new0 (gnum_float, sp->n_total_constraints);
+	res->rhs               = g_new0 (gnum_float, sp->n_total_constraints);
 	res->n_variables       = sp->n_variables;
 	res->n_constraints     = sp->n_constraints;
 	res->n_nonzeros_in_obj = 0;
@@ -96,6 +99,10 @@ solver_results_init (const SolverParameters *sp)
 	res->obj_coeff         = NULL;
 	res->constr_coeff      = NULL;
 	res->limits            = NULL;
+	res->constr_allowable_increase  =
+	        g_new0 (gnum_float, sp->n_total_constraints);
+	res->constr_allowable_decrease =
+	        g_new0 (gnum_float, sp->n_total_constraints);
 
 	return res;
 }
@@ -123,6 +130,11 @@ solver_results_free (SolverResults *res)
 		        g_free (res->constr_coeff[i]);
 	g_free (res->constr_coeff);
 	g_free (res->limits);
+	g_free (res->constr_allowable_increase);
+	g_free (res->constr_allowable_decrease);
+	g_free (res->slack);
+	g_free (res->lhs);
+	g_free (res->rhs);
 	g_free (res);
 }
 
@@ -645,16 +657,107 @@ calculate_limits (Sheet *sheet, SolverParameters *param, SolverResults *res)
 	}
 }
 
+/*
+ * Fetch the optimal variable values and store them into the input cells.
+ */
+static void
+set_optimal_values_to_sheet (SolverProgram *program, Sheet *sheet,
+			     SolverResults *res, gnum_float *store)
+{
+        int               i;
+	SolverLPAlgorithm *alg = &lp_algorithm[res->param->options.algorithm];
+	Cell              *cell;
+
+	for (i = 0; i < res->param->n_variables; i++) {
+	        store[i] = alg->get_obj_fn_var_fn (program, i);
+		cell = res->input_cells_array[i];
+		sheet_cell_set_value (cell, value_new_float (store[i]));
+	}
+	workbook_recalc (sheet->workbook);
+}
+
+gboolean
+solver_prepare_lp_reports (SolverProgram *program, SolverResults *res,
+			   Sheet *sheet)
+{
+	SolverParameters  *param = res->param;
+        Cell              *cell;
+	int               i;
+	SolverLPAlgorithm *alg = &lp_algorithm[param->options.algorithm];
+
+	/*
+	 * Set optimal values into the program.
+	 */
+	set_optimal_values_to_sheet (program, sheet, res,
+				     &res->optimal_values[0]);
+
+	/*
+	 * Fetch the target cell value from the sheet since it's
+	 * formula may have a constant increment or decrement.
+	 */
+	cell = sheet_cell_get (sheet, param->target_cell->pos.col,
+			       param->target_cell->pos.row);
+	res->value_of_obj_fn = value_get_as_float (cell->value);
+
+	/*
+	 * Initialize the limits structure.
+	 */
+	for (i = 0; i < param->n_variables; i++) {
+	        res->limits[i].lower_limit = res->limits[i].upper_limit =
+		        res->optimal_values[i];
+		res->limits[i].lower_result = 
+		        res->limits[i].upper_result =
+		        value_get_as_float (cell->value);
+	}
+
+	/*
+	 * Go through the constraints; save LHS, RHS, slack
+	 */
+	for (i = 0; i < param->n_total_constraints; i++) {
+	        SolverConstraint *c = get_solver_constraint (res, i);
+
+		res->shadow_prizes[i] = alg->get_shadow_prize_fn (program, i);
+		cell = sheet_cell_get (sheet, c->lhs.col, c->lhs.row);
+		res->lhs[i] = value_get_as_float (cell->value);
+		cell = sheet_cell_get (sheet, c->rhs.col, c->rhs.row);
+		res->rhs[i] = value_get_as_float (cell->value);
+		res->slack[i] = gnumabs (res->rhs[i] - res->lhs[i]);
+	}
+
+	if (param->options.limits_report && ! res->ilp_flag)
+	        calculate_limits (sheet, param, res);
+
+	/* Get allowable increase and decrease for constraints. */
+	if (param->options.sensitivity_report && ! res->ilp_flag) {
+		gnum_float *store = g_new (gnum_float, param->n_variables);
+	        for (i = 0; i < param->n_total_constraints; i++) {
+			SolverConstraint *c = res->constraints_array[i];
+
+			if (c->type == SolverINT || c->type == SolverBOOL)
+			        continue;
+
+			if (res->slack[i] < 0.0001 /* FIXME */) {
+			        res->constr_allowable_increase[i] = 0; /* FIXME */
+			}
+		}
+	}
+
+	return FALSE;
+}
+
 SolverResults *
 solver (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg)
 {
-	SolverParameters *param = sheet->solver_parameters;
+	SolverParameters  *param = sheet->solver_parameters;
+	SolverLPAlgorithm *alg;
 	SolverProgram     program;
-	SolverResults    *res;
-	Cell             *cell;
+	SolverResults     *res;
+	Cell              *cell;
 	int               i;
 	GTimeVal          start, end;
+	gnum_float        lhs, rhs;
 
+	alg = &lp_algorithm[param->options.algorithm];
 	if (check_program_definition_failures (sheet, param, &res, errmsg))
 	        return NULL;
 
@@ -665,46 +768,19 @@ solver (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg)
 	        return NULL;
 
 	g_get_current_time (&start);
-        res->status          = lp_algorithm[param->options.algorithm]
-	        .solve_fn (program);
+        res->status = alg->solve_fn (program);
 	g_get_current_time (&end);
 	res->time_real = end.tv_sec - start.tv_sec
 	        + (end.tv_usec - start.tv_usec) / (gnum_float) G_USEC_PER_SEC;
 
-	if (res->status == SolverOptimal) {
-	        res->value_of_obj_fn = lp_algorithm[param->options.algorithm]
-		        .get_obj_fn_value_fn (program);
-		for (i = 0; i < param->n_variables; i++) {
-		        res->optimal_values[i] =
-			        lp_algorithm[param->options.algorithm]
-			                 .get_obj_fn_var_fn (program, i);
-			cell = res->input_cells_array[i];
-			sheet_cell_set_value (cell, value_new_float
-					      (res->optimal_values[i]));
+	if (res->status == SolverOptimal)
+	        if (solver_prepare_lp_reports (program, res, sheet)) {
+		        alg->remove_fn (program);
+			return NULL;
 		}
 
-		/* Initialize the limits. */
-		cell = get_solver_target_cell (sheet);
-		cell_eval (cell);
-		for (i = 0; i < param->n_variables; i++) {
-		        res->limits[i].lower_limit =
-			        res->limits[i].upper_limit =
-			        res->optimal_values[i];
-			res->limits[i].lower_result = 
-			        res->limits[i].upper_result =
-			        value_get_as_float (cell->value);
-		}
+	alg->remove_fn (program);
 
-		for (i = 0; i < param->n_total_constraints; i++) {
-		        res->shadow_prizes[i] =
-			        lp_algorithm[param->options.algorithm]
-			                .get_shadow_prize_fn (program, i);
-		}
-		if (param->options.limits_report && ! res->ilp_flag)
-		        calculate_limits (sheet, param, res);
-	}
-
-	lp_algorithm[param->options.algorithm].remove_fn (program);
 	return res;
 }
 

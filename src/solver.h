@@ -154,6 +154,11 @@ typedef struct {
         gnum_float       *optimal_values;
         gnum_float       *original_values;
         gnum_float       *shadow_prizes;
+        gnum_float       *slack;
+        gnum_float       *lhs;
+        gnum_float       *rhs;
+        gnum_float       *constr_allowable_increase;
+        gnum_float       *constr_allowable_decrease;
         SolverStatus     status;
         gboolean         ilp_flag;   /* This is set if the problem has INT
 				      * constraints.  Some reports cannot

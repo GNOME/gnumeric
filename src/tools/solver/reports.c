@@ -171,9 +171,7 @@ solver_answer_report (WorkbookControl *wbc,
 	dao_set_cell_float (&dao, 3, 7, res->original_value_of_obj_fn);
 
 	/* Set `Final Value' field */
-	cell = sheet_cell_get (sheet, res->param->target_cell->pos.col,
-			       res->param->target_cell->pos.row);
-	dao_set_cell_value (&dao, 4, 7, value_duplicate (cell->value));
+	dao_set_cell_float (&dao, 4, 7, res->value_of_obj_fn);
 
 
 	/*
@@ -217,7 +215,6 @@ solver_answer_report (WorkbookControl *wbc,
 
 	for (i = 0; i < res->param->n_total_constraints; i++) {
 	        SolverConstraint *c = res->constraints_array[i];
-		gnum_float       lhs, rhs;
 
 		/* Set `Cell' column */
 		dao_set_cell (&dao, 1, 16 + vars + i,
@@ -228,10 +225,7 @@ solver_answer_report (WorkbookControl *wbc,
 			  find_name (sheet, c->lhs.col, c->lhs.row));
 
 		/* Set `Cell Value' column */
-		cell = sheet_cell_get (sheet, c->lhs.col, c->lhs.row);
-		lhs = value_get_as_float (cell->value);
-		dao_set_cell_value (&dao, 3, 16 + vars + i,
-				value_duplicate (cell->value));
+		dao_set_cell_float (&dao, 3, 16 + vars + i, res->lhs[i]);
 
 	        /* Set `Formula' column */
 	        dao_set_cell (&dao, 4, 16 + vars + i, c->str);
@@ -242,15 +236,13 @@ solver_answer_report (WorkbookControl *wbc,
 		}
 
 		/* Set `Status' column */
-		cell = sheet_cell_get (sheet, c->rhs.col, c->rhs.row);
-		rhs = value_get_as_float (cell->value);
-		if (gnumabs (lhs - rhs) < 0.001  /* FIXME */)
+		if (res->slack[i] < 0.001  /* FIXME */)
 		        dao_set_cell (&dao, 5, 16 + vars + i, _("Binding"));
 		else
 		        dao_set_cell (&dao, 5, 16 + vars + i, _("Not Binding"));
 
 		/* Set `Slack' column */
-		dao_set_cell_float (&dao, 6, 16 + vars + i, gnumabs (lhs - rhs));
+		dao_set_cell_float (&dao, 6, 16 + vars + i, res->slack [i]);
 	}
 
 	/*
@@ -381,17 +373,42 @@ solver_sensitivity_report (WorkbookControl *wbc,
 		/* Set `Final Value' column */
 		cell = sheet_cell_get (sheet, c->lhs.col, c->lhs.row);
 		dao_set_cell_value (&dao, 3, 12 + vars + i,
-				value_duplicate (cell->value));
+				    value_duplicate (cell->value));
 
 		/* Set `Shadow Price' */
 		dao_set_cell_value (&dao, 4, 12 + vars + i,
 				value_new_float (res->shadow_prizes[i]));
 
 		/* Set `Constraint R.H. Side' column */
-		cell = sheet_cell_get (sheet, c->rhs.col, c->rhs.row);
-		dao_set_cell_value (&dao, 5, 12 + vars + i,
-				value_duplicate (cell->value));
+		dao_set_cell_float (&dao, 5, 12 + vars + i, res->rhs[i]);
 
+		/* Set `Allowable Increase/Decrease' columns */
+		if (res->slack[i] < 0.001  /* FIXME */) {
+		  dao_set_cell_float (&dao, 6, 12 + vars + i,
+				      res->constr_allowable_increase[i]);
+		        /* FIXME */
+		} else {
+		        switch (c->type) {
+		        case SolverLE:
+			        dao_set_cell (&dao, 6, 12 + vars + i,
+					      _("Infinity"));
+			        dao_set_cell_float (&dao, 7, 12 + vars + i,
+						    res->slack[i]);
+				break;
+			case SolverGE:
+			        dao_set_cell_float (&dao, 6, 12 + vars + i,
+						    res->slack[i]);
+			        dao_set_cell (&dao, 7, 12 + vars + i,
+					      _("Infinity"));
+				break;
+			case SolverEQ:
+			        dao_set_cell_float (&dao, 6, 12 + vars + i, 0);
+			        dao_set_cell_float (&dao, 7, 12 + vars + i, 0);
+				break;
+			default:
+			        break;
+			}
+		}
 	}
 
 
@@ -485,7 +502,7 @@ solver_limits_report (WorkbookControl *wbc,
 	/* Set `Target Value' field */
         cell = sheet_cell_get (sheet, res->param->target_cell->pos.col,
                                res->param->target_cell->pos.row);
-        dao_set_cell_value (&dao, 3, 7, value_duplicate (cell->value));
+        dao_set_cell_float (&dao, 3, 7, res->value_of_obj_fn);
 
 
 	/*
@@ -904,9 +921,7 @@ solver_program_report (WorkbookControl *wbc,
 		}
 
 		/* Set RHS column. */
-		cell = sheet_cell_get (sheet, c->rhs.col, c->rhs.row);
-		dao_set_cell_value (&dao, col*3 + 2, row,
-				    value_duplicate (cell->value));
+		dao_set_cell_float (&dao, col*3 + 2, row, res->rhs[i]);
 		row++;
 	}
 
