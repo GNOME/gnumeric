@@ -692,10 +692,7 @@ compute_scale_fit_to (PrintJobInfo const *pj, Sheet const *sheet,
        gdouble scale;
 
        /* Work how much space the sheet requires. */
-       /* FIXME: Without doing end + 1 here a row or column is always missed.
-        * Find out why.
-        */
-       for (idx = start; idx <= end + 1; idx++) {
+       for (idx = start; idx <= end; idx++) {
                ColRowInfo const *info = (*get_info) (sheet, idx);
                if (info->visible) {
                        size_pts += info->size_pts;
