@@ -682,8 +682,10 @@ cb_scrollbar_config_ok_clicked (GtkWidget *button, ScrollbarConfigState *state)
 	GnmExpr const *expr = gnm_expr_entry_parse (state->expression,
 						    parse_pos_init (&pp, NULL, so->sheet, 0, 0),
 						    NULL, FALSE);
-	if (expr != NULL)
+	if (expr != NULL) {
 		dependent_set_expr (&state->swb->dep, expr);
+		gnm_expr_unref (expr);
+	}
 
 	gtk_widget_destroy (state->dialog);
 }
@@ -1125,8 +1127,10 @@ cb_checkbox_config_ok_clicked (GtkWidget *button, CheckboxConfigState *state)
 	GnmExpr const *expr = gnm_expr_entry_parse (state->expression,
 						    parse_pos_init (&pp, NULL, so->sheet, 0, 0),
 						    NULL, FALSE);
-	if (expr != NULL)
+	if (expr != NULL) {
 		dependent_set_expr (&state->swc->dep, expr);
+		gnm_expr_unref (expr);
+	}
 
 	gtk_widget_destroy (state->dialog);
 }
