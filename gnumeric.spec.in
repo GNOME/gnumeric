@@ -101,7 +101,7 @@ fi
 # This should go in a devel package...
 %{prefix}/share/idl/*.idl
 %config %{sysconfdir}/CORBA/servers/gnumeric.gnorba
-%doc HACKING AUTHORS ChangeLog NEWS README COPYING TODO
+%doc HACKING AUTHORS ChangeLog NEWS BUGS README COPYING TODO
 
 %changelog
 * Wed Sept 20 2000 Jody Goldberg <jgoldberg@home.com>
