@@ -1,3 +1,7 @@
+2001-03-08  Jody Goldberg <jgoldberg@home.com>
+
+	* xml2.c (xml2ParseMargin) : Make units case sensitive.
+
 2001-02-25  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* Makefile.am: Removed -DGNUMERIC_VERSION, the macro is already
