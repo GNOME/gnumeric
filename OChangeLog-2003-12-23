@@ -1,5 +1,10 @@
 2000-11-20  Morten Welinder  <terra@diku.dk>
 
+	* src/commands.c (cmd_resize_row_col_redo): Proper undo sizing.
+	(cmd_sort_redo): Ditto.
+	(cmd_hide_selection_rows_cols): Ditto.
+	(cmd_autofill_redo): Ditto.
+
 	* gnumeric.spec.in (gal): Require 0.2.99.
 
 	* configure.in (gal): Require 0.2.99 (and fix check).
