@@ -173,4 +173,6 @@ gboolean branch_and_bound (gnum_float *A, gnum_float *b, gnum_float *c, gnum_flo
 			   affscale_callback_fun_t fun, void *data,
 			   gnum_float *best);
 
+void stern_brocot (float val, int max_denom, int *res_num, int *res_denom);
+
 #endif

@@ -1,3 +1,26 @@
+2001-06-13  Jody Goldberg <jgoldberg@home.com>
+
+	* src/format.c (render_number) : improve rounding and cleanup.
+
+2001-06-12  Jody Goldberg <jgoldberg@home.com>
+
+	* src/cell.c (cell_cleanout) : call dirty here.
+	(cell_destroy) : not here.
+	(cell_set_text) : or here.
+	(cell_set_value) : or here.
+	(cell_set_expr_and_value) : or here.
+	(cell_set_expr_internal) : or here.
+
+2001-06-11  Jody Goldberg <jgoldberg@home.com>
+
+	* src/print.c (compute_group) : add more error checking to avoid
+	  possibility of infinite loop.
+
+	* src/print-info.c (print_info_new) : init num copies.
+
+	* src/mathfunc.c (stern_brocot) : move this here from
+	* format.c : here.
+
 2001-06-13  Morten Welinder  <terra@diku.dk>
 
 	* src/mathfunc.c (gnumeric_add_epsilon): Make non-static.

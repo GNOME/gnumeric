@@ -290,6 +290,23 @@ write_magic_interface (BiffPut *bp, MsBiffVersion ver)
 	}
 }
 
+/* See: S59DE3.HTM */
+static void
+write_setup (BiffPut *bp, ExcelSheet *sheet)
+{
+	guint8 * data = ms_biff_put_len_next (bp, BIFF_SETUP, 34);
+	MS_OLE_SET_GUINT32 (data +  0, 0x002c0000);
+	MS_OLE_SET_GUINT32 (data +  4, 0x00010001);
+	MS_OLE_SET_GUINT32 (data +  8, 0x00440001);
+	MS_OLE_SET_GUINT32 (data + 12, 0x0000002f);
+	MS_OLE_SET_GUINT32 (data + 16, 0x00000000);
+	MS_OLE_SET_GUINT32 (data + 20, 0x3fe00000);
+	MS_OLE_SET_GUINT32 (data + 24, 0x00000000);
+	MS_OLE_SET_GUINT32 (data + 28, 0x3fe00000);
+	MS_OLE_SET_GUINT16 (data + 32, excel_iconv_win_codepage());
+	ms_biff_put_commit (bp);
+}
+
 /*
  * XL doesn't write externsheets as often as we do. The previous version of
  * this function causes XL to crash when we exported a spreadsheet function
@@ -3038,6 +3055,29 @@ write_colinfo (BiffPut *bp, ExcelSheet *sheet,
 	ms_biff_put_commit (bp);
 }
 
+/* See: S59D76.HTM */
+static void
+write_dimension (BiffPut *bp, ExcelSheet *sheet)
+{
+	guint8 *data;
+	if (sheet->wb->ver >= MS_BIFF_V8) {
+		data = ms_biff_put_len_next (bp, 0x200 | BIFF_DIMENSIONS, 14);
+		MS_OLE_SET_GUINT32 (data +  0, 0);
+		MS_OLE_SET_GUINT32 (data +  4, sheet->maxy);
+		MS_OLE_SET_GUINT16 (data +  8, 0);
+		MS_OLE_SET_GUINT16 (data + 10, sheet->maxx);
+		MS_OLE_SET_GUINT16 (data + 12, 0x0000);
+	} else {
+		data = ms_biff_put_len_next (bp, BIFF_DIMENSIONS, 10);
+		MS_OLE_SET_GUINT16 (data +  0, 0);
+		MS_OLE_SET_GUINT16 (data +  2, sheet->maxy);
+		MS_OLE_SET_GUINT16 (data +  4, 0);
+		MS_OLE_SET_GUINT16 (data +  6, sheet->maxx);
+		MS_OLE_SET_GUINT16 (data +  8, 0x0000);
+	}
+	ms_biff_put_commit (bp);
+}
+
 /**
  * write_colinfos
  * @bp     BIFF buffer
@@ -3067,7 +3107,7 @@ write_colinfos (BiffPut *bp, ExcelSheet *sheet)
 }
 
 static void
-write_sheet_bools (BiffPut *bp, ExcelSheet *sheet)
+write_sheet_head (BiffPut *bp, ExcelSheet *sheet)
 {
 	guint8 *data;
 	PrintInformation *pi;
@@ -3164,44 +3204,12 @@ write_sheet_bools (BiffPut *bp, ExcelSheet *sheet)
 	margin_write (bp, BIFF_TOP_MARGIN,    &pi->margins.top);
 	margin_write (bp, BIFF_BOTTOM_MARGIN, &pi->margins.bottom);
 
-	/* See: S59DE3.HTM */
-	data = ms_biff_put_len_next (bp, BIFF_SETUP, 34);
-	MS_OLE_SET_GUINT32 (data +  0, 0x002c0000);
-	MS_OLE_SET_GUINT32 (data +  4, 0x00010001);
-	MS_OLE_SET_GUINT32 (data +  8, 0x00440001);
-	MS_OLE_SET_GUINT32 (data + 12, 0x0000002f);
-	MS_OLE_SET_GUINT32 (data + 16, 0x00000000);
-	MS_OLE_SET_GUINT32 (data + 20, 0x3fe00000);
-	MS_OLE_SET_GUINT32 (data + 24, 0x00000000);
-	MS_OLE_SET_GUINT32 (data + 28, 0x3fe00000);
-	MS_OLE_SET_GUINT16 (data + 32, excel_iconv_win_codepage());
-	ms_biff_put_commit (bp);
-
+	write_setup (bp, sheet);
 	write_externsheets (bp, sheet->wb, sheet);
-
 	ms_formula_write_pre_data (bp, sheet, EXCEL_EXTERNNAME, ver);
-
-	write_default_col_width (bp, sheet); /* Default column width */
-
-	write_colinfos (bp, sheet); /* Column infos */
-
-	/* See: S59D76.HTM */
-	if (ver >= MS_BIFF_V8) {
-		data = ms_biff_put_len_next (bp, BIFF_DIMENSIONS, 14);
-		MS_OLE_SET_GUINT32 (data +  0, 0);
-		MS_OLE_SET_GUINT32 (data +  4, sheet->maxy);
-		MS_OLE_SET_GUINT16 (data +  8, 0);
-		MS_OLE_SET_GUINT16 (data + 10, sheet->maxx);
-		MS_OLE_SET_GUINT16 (data + 12, 0x0000);
-	} else {
-		data = ms_biff_put_len_next (bp, (0x200 | BIFF_DIMENSIONS), 10);
-		MS_OLE_SET_GUINT16 (data +  0, 0);
-		MS_OLE_SET_GUINT16 (data +  2, sheet->maxy);
-		MS_OLE_SET_GUINT16 (data +  4, 0);
-		MS_OLE_SET_GUINT16 (data +  6, sheet->maxx);
-		MS_OLE_SET_GUINT16 (data +  8, 0x0000);
-	}
-	ms_biff_put_commit (bp);
+	write_default_col_width (bp, sheet);
+	write_colinfos (bp, sheet);
+	write_dimension (bp, sheet);
 }
 
 static void
@@ -3475,7 +3483,7 @@ write_sheet (IOContext *context, BiffPut *bp, ExcelSheet *sheet)
 	}
 	ms_biff_put_commit (bp);
 
-	write_sheet_bools (bp, sheet);
+	write_sheet_head (bp, sheet);
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_write_debug > 1)

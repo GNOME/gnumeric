@@ -3385,6 +3385,75 @@ ms_excel_read_guts (BiffQuery *q, ExcelSheet *sheet)
 			      MS_OLE_GET_GUINT16 (q->data+4));
 }
 
+/* See: S59DE3.HTM */
+static void
+ms_excel_read_setup (BiffQuery *q, ExcelSheet *sheet)
+{
+	PrintInformation *pi = sheet->gnum_sheet->print_info;
+	guint16  grbit;
+
+	g_return_if_fail (q->length == 34);
+
+	grbit = MS_OLE_GET_GUINT16 (q->data + 10);
+
+	pi->print_order = (grbit & 0x1)
+		? PRINT_ORDER_RIGHT_THEN_DOWN
+		: PRINT_ORDER_DOWN_THEN_RIGHT;
+
+	/* If the extra info is valid use it */
+	if ((grbit & 0x4) != 0x4) {
+		pi->n_copies = MS_OLE_GET_GUINT16 (q->data + 32);
+		/* 0x40 == orientation is set */
+		if ((grbit & 0x40) != 0x40) {
+			pi->orientation = (grbit & 0x2)
+				? PRINT_ORIENT_VERTICAL
+				: PRINT_ORIENT_HORIZONTAL;
+		}
+		pi->scaling.percentage = ((float)MS_OLE_GET_GUINT16 (q->data + 2)) / 100.;
+		if (pi->scaling.percentage < .01 || pi->scaling.percentage > 10.) {
+			pi->scaling.percentage = 1.;
+			g_warning ("clipping invalid print scaling to 100%%");
+		}
+
+#if 0
+		/* Useful somewhere ? */
+		printf ("Paper size %hu resolution %hu vert. res. %hu\n",
+			MS_OLE_GET_GUINT16 (q->data +  0),
+			MS_OLE_GET_GUINT16 (q->data + 12),
+			MS_OLE_GET_GUINT16 (q->data + 14));
+#endif
+	}
+
+	pi->print_black_and_white = (grbit & 0x8) == 0x8;
+	pi->print_as_draft        = (grbit & 0x10) == 0x10;
+	/* FIXME: print comments (grbit & 0x20) == 0x20 */
+
+#if 0
+	/* We probably can't map page->page accurately. */
+	if ((grbit & 0x80) == 0x80)
+		printf ("Starting page number %d\n",
+			MS_OLE_GET_GUINT16 (q->data +  4));
+#endif
+
+	/* We do not support SIZE_FIT yet */
+	pi->scaling.type = PERCENTAGE;
+#if 0
+	{
+		guint16  fw, fh;
+		fw = MS_OLE_GET_GUINT16 (q->data + 6);
+		fh = MS_OLE_GET_GUINT16 (q->data + 8);
+		if (fw > 0 && fh > 0) {
+			pi->scaling.type = SIZE_FIT;
+			pi->scaling.dim.cols = fw;
+			pi->scaling.dim.rows = fh;
+		}
+	}
+#endif
+
+	margin_read (&pi->margins.header, gnumeric_get_le_double (q->data + 16));
+	margin_read (&pi->margins.footer, gnumeric_get_le_double (q->data + 24));
+}
+
 /*
  * No documentation exists for this record, but this makes
  * sense given the other record formats.
@@ -3773,55 +3842,8 @@ ms_excel_read_sheet (IOContext *io_context, BiffQuery *q, ExcelWorkbook *wb,
 			}
 			break;
 
-		case BIFF_SETUP: /* See: S59DE3.HTM */
-			if (q->length == 34) {
-				guint16  grbit, fw, fh;
-				gboolean valid;
-
-				grbit = MS_OLE_GET_GUINT16 (q->data + 10);
-
-/*				if ((grbit & 0x80) == 0x80) -- We probably can't map page->page accurately.
-					printf ("Starting page number %d\n",
-					MS_OLE_GET_GUINT16 (q->data +  4));*/
-
-				valid = (grbit & 0x4) != 0x4;
-				if (valid) {
-					if ((grbit & 0x40) != 0x40) {
-						if ((grbit & 0x2) == 0x2)
-							pi->orientation = PRINT_ORIENT_VERTICAL;
-						else
-							pi->orientation = PRINT_ORIENT_HORIZONTAL;
-					}
-					/* FIXME: use this information */
-/*					printf ("Paper size %d scale %d resolution %d vert. res. %d num copies %d\n",
-						MS_OLE_GET_GUINT16 (q->data +  0),
-						MS_OLE_GET_GUINT16 (q->data +  2),
-						MS_OLE_GET_GUINT16 (q->data + 12),
-						MS_OLE_GET_GUINT16 (q->data + 14),
-						MS_OLE_GET_GUINT16 (q->data + 32));*/
-				}
-
-				if ((grbit & 0x1) == 0x1)
-					pi->print_order = PRINT_ORDER_RIGHT_THEN_DOWN;
-				else
-					pi->print_order = PRINT_ORDER_DOWN_THEN_RIGHT;
-
-				pi->print_black_and_white = (grbit & 0x8) == 0x8;
-				pi->print_as_draft        = (grbit & 0x10) == 0x10;
-				/* FIXME: print comments (grbit & 0x20) == 0x20 */
-
-				fw = MS_OLE_GET_GUINT16 (q->data + 6);
-				fh = MS_OLE_GET_GUINT16 (q->data + 8);
-				if (fw > 0 && fh > 0) {
-					pi->scaling.type = SIZE_FIT;
-					pi->scaling.dim.cols = fw;
-					pi->scaling.dim.rows = fh;
-				}
-
-				margin_read (&pi->margins.header, gnumeric_get_le_double (q->data + 16));
-				margin_read (&pi->margins.footer, gnumeric_get_le_double (q->data + 24));
-			} else
-				g_warning ("Duff BIFF_SETUP");
+		case BIFF_SETUP:
+			ms_excel_read_setup (q, sheet);
 			break;
 
 		case BIFF_SCL:

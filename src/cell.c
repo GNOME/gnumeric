@@ -1,6 +1,6 @@
 /* vim: set sw=8: */
 /*
- * cell.c: Cell management of the Gnumeric spreadsheet.
+ * cell.c: Cell content and simple management.
  *
  * Author:
  *    Jody Goldberg 2000, 2001 (jgoldberg@home.com)
@@ -82,6 +82,7 @@ cell_cleanout (Cell *cell)
 	}
 
 	cell->base.flags &= ~(CELL_HAS_EXPRESSION|DEPENDENT_IN_RECALC_QUEUE|DEPENDENT_NEEDS_RECALC);
+	cell_dirty (cell);
 }
 
 /**
@@ -135,7 +136,6 @@ cell_destroy (Cell *cell)
 {
 	g_return_if_fail (cell != NULL);
 
-	cell_dirty (cell);
 	cell_cleanout (cell);
 	g_free (cell);
 }
@@ -350,7 +350,6 @@ cell_set_text (Cell *cell, char const *text)
 		if (format) style_format_unref (format);
 		expr_tree_unref (expr);
 	}
-	cell_dirty (cell);
 }
 
 /*
@@ -416,7 +415,6 @@ cell_set_value (Cell *cell, Value *v, StyleFormat *opt_fmt)
 	if (opt_fmt)
 		style_format_ref (opt_fmt);
 
-	cell_dirty (cell);
 	cell_cleanout (cell);
 
 	/* TODO : It would be nice to standardize on NULL == General */
@@ -452,7 +450,6 @@ cell_set_expr_and_value (Cell *cell, ExprTree *expr, Value *v,
 	if (opt_fmt != NULL)
 		style_format_ref (opt_fmt);
 
-	cell_dirty (cell);
 	cell_cleanout (cell);
 
 	cell->format = opt_fmt;
@@ -483,7 +480,6 @@ cell_set_expr_internal (Cell *cell, ExprTree *expr, StyleFormat *opt_fmt)
 	if (opt_fmt != NULL)
 		style_format_ref (opt_fmt);
 
-	cell_dirty (cell);
 	cell_cleanout (cell);
 
 	cell->format = opt_fmt;

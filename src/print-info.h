@@ -68,7 +68,8 @@ struct _PrintInformation {
 	PrintOrientation orientation;
 	PrintScaling     scaling;
 	PrintMargins     margins;
-
+	PrintRepeatRange repeat_top, repeat_left;
+	int	         n_copies;
 	unsigned int     center_vertically:1;
 	unsigned int     center_horizontally:1;
 
@@ -86,9 +87,7 @@ struct _PrintInformation {
 	PrintHF          *header;
 	PrintHF          *footer;
 
-	const GnomePaper *paper;
-
-	PrintRepeatRange  repeat_top, repeat_left;
+	GnomePaper const *paper;
 };
 
 typedef enum {
@@ -109,25 +108,24 @@ void              print_info_save        (PrintInformation *pi);
 void              print_info_free        (PrintInformation *pi);
 PrintInformation *print_info_copy        (PrintInformation *src_pi);
 
-PrintHF          *print_hf_new           (const char *left_side_format,
-					  const char *middle_format,
-				          const char *right_side_format);
+PrintHF          *print_hf_new           (char const *left,
+					  char const *middle,
+				          char const *right);
 void              print_hf_free          (PrintHF *print_hf);
-PrintHF          *print_hf_copy          (const PrintHF *source);
+PrintHF          *print_hf_copy          (PrintHF const *source);
 PrintHF          *print_hf_register      (PrintHF *hf);
-gboolean          print_hf_same          (const PrintHF *a,
-					  const PrintHF *b);
+gboolean          print_hf_same          (PrintHF const *a, PrintHF const *b);
 
-char             *hf_format_render       (const char *format,
+char             *hf_format_render       (char const *format,
 					  HFRenderInfo *info,
 					  HFRenderType render_type);
 HFRenderInfo     *hf_render_info_new     (void);
 void              hf_render_info_destroy (HFRenderInfo *hfi);
 
 
-const char *unit_name_get_short_name (UnitName name, gboolean translated);
-const char *unit_name_get_name       (UnitName name, gboolean translated);
-UnitName    unit_name_to_unit        (const char *s, gboolean translated);
+char const *unit_name_get_short_name (UnitName name, gboolean translated);
+char const *unit_name_get_name       (UnitName name, gboolean translated);
+UnitName    unit_name_to_unit        (char const *s, gboolean translated);
 double      print_unit_get_prefered  (PrintUnit *unit);
 double      unit_convert             (double value, UnitName source, UnitName target);
 

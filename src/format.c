@@ -684,6 +684,7 @@ typedef struct {
 	gboolean has_fraction;
 } format_info_t;
 
+static double beyond_precision;
 static void
 render_number (GString *result,
 	       gdouble number,
@@ -695,55 +696,48 @@ render_number (GString *result,
 	       char const *show_decimal,
 	       format_info_t const *info)
 {
-	static double beyond_precision = 0;
-	int zero_count;
-	double temp;
 	char thousands_sep;
-	int group = 0;
-	char num_buf [(DBL_MANT_DIG + DBL_MAX_EXP)*2 + 1];
-	char *num = num_buf + sizeof(num_buf) - 1;
-	int digit_count = 0;
-
-	if (!beyond_precision)
-		beyond_precision = gpow10 (DBL_DIG + 1);
-
-	if (!info->has_fraction && right_allowed >= 0) {
-		/* Change "rounding" into "truncating".  */
-		gdouble delta = 0.5;
-		int i;
-		for (i = 0; i < right_allowed; i++)
-			delta /= 10.0;
-		/* Note, that we assume number >= 0 here.  */
-		number += delta;
-	}
+	unsigned char num_buf [(DBL_MANT_DIG + DBL_MAX_EXP)*2 + 1];
+	unsigned char *num = num_buf + sizeof(num_buf) - 1;
+	double frac_part, int_part;
+	int group, zero_count, digit_count = 0;
 
 	thousands_sep = format_get_thousand ();
 
+	if (right_allowed >= 0 && !info->has_fraction) {
+		/* Change "rounding" into "truncating".   */
+		/* Note, that we assume number >= 0 here. */
+		gdouble delta = 5 * gpow10 (-right_allowed-1);
+		number += delta;
+	}
+	frac_part = modf (gnumeric_add_epsilon (number), &int_part);
+
 	*num = '\0';
-	temp = number;
-	for (; temp > beyond_precision ; temp /= 10., digit_count++) {
-		if (info->comma_separator_seen && ++group == 4) {
-			group = 1;
+	group = (info->comma_separator_seen) ? 3 : -1;
+	for (; int_part > beyond_precision ; int_part /= 10., digit_count++) {
+		if (group-- == 0) {
+			group = 2;
 			*(--num) = thousands_sep;
 		}
 		*(--num) = '0';
 	}
 
-	for (; temp >= 1. ; temp /= 10., digit_count++) {
-		double r = floor (temp);
+	for (; int_part >= 1. ; int_part /= 10., digit_count++) {
+		double r = floor (int_part);
 		int digit = r - floor (r / 10) * 10;
 
-		if (info->comma_separator_seen && ++group == 4) {
-			group = 1;
+		if (group-- == 0) {
+			group = 2;
 			*(--num) = thousands_sep;
 		}
 		*(--num) = digit + '0';
 	}
 
+	/* TODO : What ifthe only visible digits are zeros ? -0.00 looks bad */
 	if (info->negative && !info->supress_minus)
 		g_string_append_c (result, '-');
 	if (left_req > digit_count) {
-		for (left_spaces -= left_req ; left_spaces-- >= 0 ;)
+		for (left_spaces -= left_req ; left_spaces-- > 0 ;)
 			g_string_append_c (result, ' ');
 		for (left_req -= digit_count ; left_req-- > 0 ;)
 			g_string_append_c (result, '0');
@@ -756,37 +750,38 @@ render_number (GString *result,
 	else
 		g_string_append (result, show_decimal);
 
-	temp = number - floor (number);
-
-	for (; right_req > 0; right_req --, right_allowed --, right_spaces --) {
+	/* TODO : clip this a DBL_DIG */
+	/* TODO : What if is a fraction ? */
+	right_allowed -= right_req;
+	right_spaces  -= right_req;
+	while (right_req-- > 0) {
 		gint digit;
-		temp *= 10.0;
-		digit = (gint)temp;
-		temp -= digit;
+		frac_part *= 10.0;
+		digit = (gint)frac_part;
+		frac_part -= digit;
 		g_string_append_c (result, digit + '0');
 	}
 
 	zero_count = 0;
 
-	for (; right_allowed > 0; right_allowed --) {
+	while (right_allowed-- > 0) {
 		gint digit;
-		temp *= 10.0;
-		digit = (gint)temp;
-		temp -= digit;
+		frac_part *= 10.0;
+		digit = (gint)frac_part;
+		frac_part -= digit;
 
-		if (digit == 0)
-			zero_count ++;
-		else {
+		if (digit == 0) {
 			right_spaces -= zero_count + 1;
 			zero_count = 0;
-		}
+		} else
+			zero_count ++;
 
 		g_string_append_c (result, digit + '0');
 	}
 
 	g_string_truncate (result, result->len - zero_count);
 
-	for (; right_spaces > 0; right_spaces--)
+	while (right_spaces-- > 0)
 		g_string_append_c (result, ' ');
 }
 
@@ -1037,41 +1032,6 @@ format_add_decimal (StyleFormat const *fmt)
 }
 
 /*********************************************************************/
-
-static void
-stern_brocot (float val, int max_denom, int *res_num, int *res_denom)
-{
-	int an = 0, ad = 1;
-	int bn = 1, bd = 1;
-	int n, d;
-	float sp, delta;
-
-	while ((d = ad + bd) <= max_denom) {
-		sp = 1e-5 * d;	/* Quick and dirty,  do adaptive later */
-		n = an + bn;
-		delta = val * d - n;
-		if (delta > sp)
-		{
-			an = n;
-			ad = d;
-		} else if (delta < -sp)
-		{
-			bn = n;
-			bd = d;
-		} else {
-			*res_num = n;
-			*res_denom = d;
-			return;
-		}
-	}
-	if (bd > max_denom || fabs (val * ad - an) < fabs (val * bd - bn)) {
-		*res_num = an;
-		*res_denom = ad;
-	} else {
-		*res_num = bn;
-		*res_denom = bd;
-	}
-}
 
 static gchar *
 format_number (gdouble number, int col_width, StyleFormatEntry const *entry)
@@ -1690,7 +1650,9 @@ void
 number_format_init (void)
 {
 	style_format_hash = g_hash_table_new (g_str_hash, g_str_equal);
+	beyond_precision = gpow10 (DBL_DIG + 1);
 }
+
 void
 number_format_shutdown (void)
 {

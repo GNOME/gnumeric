@@ -970,7 +970,7 @@ workbook_sheet_index_get (Workbook const *wb, Sheet const * sheet)
 }
 
 Sheet *
-workbook_sheet_by_index (Workbook *wb, int i)
+workbook_sheet_by_index (Workbook const *wb, int i)
 {
 	g_return_val_if_fail (IS_WORKBOOK (wb), 0);
 	g_return_val_if_fail ((int)wb->sheets->len > i, 0);
@@ -987,7 +987,7 @@ workbook_sheet_by_index (Workbook *wb, int i)
  * was not found.
  */
 Sheet *
-workbook_sheet_by_name (Workbook *wb, const char *sheet_name)
+workbook_sheet_by_name (Workbook const *wb, char const *sheet_name)
 {
 	g_return_val_if_fail (wb != NULL, NULL);
 	g_return_val_if_fail (sheet_name != NULL, NULL);

@@ -73,11 +73,11 @@ void	    workbook_unref		 (Workbook *wb);
 GList      *workbook_sheets              (Workbook const *wb);
 int         workbook_sheet_count         (Workbook const *wb);
 int	    workbook_sheet_index_get	 (Workbook const *wb, Sheet const * sheet);
-Sheet      *workbook_sheet_by_index	 (Workbook *wb, int i);
-Sheet      *workbook_sheet_by_name       (Workbook *wb, const char *sheet_name);
-void        workbook_sheet_attach        (Workbook *, Sheet *new_sheet,
+Sheet      *workbook_sheet_by_index	 (Workbook const *wb, int i);
+Sheet      *workbook_sheet_by_name       (Workbook const *wb, char const *sheet_name);
+void        workbook_sheet_attach        (Workbook *wb, Sheet *new_sheet,
 					  Sheet const *insert_after);
-gboolean    workbook_sheet_detach        (Workbook *, Sheet *);
+gboolean    workbook_sheet_detach        (Workbook *wb, Sheet *sheet);
 Sheet	   *workbook_sheet_add		 (Workbook *wb,
 					  Sheet const *insert_after,
 					  gboolean make_dirty);

@@ -1,3 +1,11 @@
+2001-06-11  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-printer-setup.c (do_fetch_page) : use the scale info and
+	  round it correctly.
+	(do_setup_page) : ditto.
+
+	* print.glade : partially enable the print scaling.
+
 2001-06-08  Almer S. Tigelaar  <almer@gnome.org>
 
 	* dialog-consolidate.c (dialog_consolidate): Initialize

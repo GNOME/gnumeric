@@ -1,3 +1,13 @@
+2001-06-11  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-write.c (write_setup) : new routine.
+	(write_sheet_bools) : split out from here.
+
+	* ms-excel-read.c (ms_excel_read_sheet) : split the setup parser out
+	  of here into.
+	(ms_excel_read_setup) : here.  and modernize it.  Read the number of
+	  copies and the scaling if specified.
+
 2001-06-12  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* boot.c (excel_save): Set up io_progress before calling ms_excel_check_write
