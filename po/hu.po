@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.70\n"
 "POT-Creation-Date: 2003-07-09 16:04+0200\n"
-"PO-Revision-Date: 2003-07-09 15:56+0200\n"
+"PO-Revision-Date: 2003-07-10 10:38+0200\n"
 "Last-Translator: András Tímár <timar@gnome.hu>\n"
 "Language-Team: Hungarian <hu@gnome.hu>\n"
 "MIME-Version: 1.0\n"
@@ -14896,7 +14896,7 @@ msgstr "A megadott feltétel szerint szűri az adatokat"
 #: src/GNOME_Gnumeric.xml.h:95 src/dialogs/cell-format.glade.h:43
 #: src/dialogs/dialog-preferences.c:1360 src/workbook-format-toolbar.c:413
 msgid "Font"
-msgstr "Betűtípus"
+msgstr "Betűkészlet"
 
 #: src/GNOME_Gnumeric.xml.h:96 src/workbook-format-toolbar.c:413
 #: src/workbook-format-toolbar.c:882
@@ -15945,7 +15945,7 @@ msgstr "_Mintavételezés..."
 
 #: src/GNOME_Gnumeric.xml.h:322
 msgid "_Save"
-msgstr "_Mentés"
+msgstr "M_entés"
 
 #: src/GNOME_Gnumeric.xml.h:323 src/workbook-control-gui.c:3482
 msgid "_Select"
