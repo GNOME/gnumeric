@@ -1,3 +1,7 @@
+2004-01-28  Jean Brefort  <jean.brefort@ac-dijon.fr>
+
+	* plugins/excel/ms-chart.c: (scatter):add import of bubble plots
+
 2004-01-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/gnumeric-gconf.c (gnm_conf_init_essential): initialize new
