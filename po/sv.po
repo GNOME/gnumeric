@@ -31,8 +31,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-16 21:15-0500\n"
-"PO-Revision-Date: 2004-02-02 13:55+0900\n"
+"POT-Creation-Date: 2004-03-19 17:57+0900\n"
+"PO-Revision-Date: 2004-03-19 18:00+0900\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1170,7 +1170,7 @@ msgstr "Finansiella derivat"
 msgid "Functions related to financial derivatives"
 msgstr "Funktioner relaterade till finansiella derivat"
 
-#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5517
+#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5522
 #: plugins/mps/mps.c:549 src/xml-io.c:4136
 msgid "Reading file..."
 msgstr "Läser fil..."
@@ -1266,40 +1266,40 @@ msgstr "Oväntat attribut %s::%s == \"%s\"."
 msgid "XML document not well formed!"
 msgstr "XML-dokumentet är inte korrekt utformat!"
 
-#: plugins/excel/ms-excel-read.c:1043 src/value.c:60
+#: plugins/excel/ms-excel-read.c:1044 src/value.c:60
 msgid "#UNKNOWN!"
 msgstr "#OKÄND!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1134 plugins/excel/ms-excel-read.c:1145
+#: plugins/excel/ms-excel-read.c:1135 plugins/excel/ms-excel-read.c:1146
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:515
 #: src/dialogs/dialog-sheet-order.c:440 src/dialogs/dialog-sheet-order.c:444
 #, c-format
 msgid "Sheet%d"
 msgstr "Blad%d"
 
-#: plugins/excel/ms-excel-read.c:1148
+#: plugins/excel/ms-excel-read.c:1149
 #, c-format
 msgid "Macro%d"
 msgstr "Makro%d"
 
-#: plugins/excel/ms-excel-read.c:1151
+#: plugins/excel/ms-excel-read.c:1152
 #, c-format
 msgid "Chart%d"
 msgstr "Diagram%d"
 
-#: plugins/excel/ms-excel-read.c:1154
+#: plugins/excel/ms-excel-read.c:1155
 #, c-format
 msgid "Module%d"
 msgstr "Modul%d"
 
-#: plugins/excel/ms-excel-read.c:2951
+#: plugins/excel/ms-excel-read.c:2952
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Fel vid tolkning av namn \"%s\""
 
-#: plugins/excel/ms-excel-read.c:3007
+#: plugins/excel/ms-excel-read.c:3008
 #, c-format
 msgid ""
 "DDE links are not supported.\n"
@@ -1308,7 +1308,7 @@ msgstr ""
 "DDE-länkar stöds inte.\n"
 "Namn \"%s\" kommer förloras.\n"
 
-#: plugins/excel/ms-excel-read.c:3013
+#: plugins/excel/ms-excel-read.c:3014
 #, c-format
 msgid ""
 "OLE links are not supported.\n"
@@ -1317,15 +1317,15 @@ msgstr ""
 "OLE-länkar stöds inte.\n"
 "Namn \"%s\" kommer förloras.\n"
 
-#: plugins/excel/ms-excel-read.c:4877
+#: plugins/excel/ms-excel-read.c:4882
 msgid "external references"
 msgstr "externa referenser"
 
-#: plugins/excel/ms-excel-read.c:4902
+#: plugins/excel/ms-excel-read.c:4907
 msgid "No password supplied"
 msgstr "Inget lösenord givet"
 
-#: plugins/excel/ms-excel-read.c:5750
+#: plugins/excel/ms-excel-read.c:5755
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Kunde inte hitta en giltig MS Excel-arbetsbok"
 
@@ -1339,7 +1339,7 @@ msgstr ""
 "Vi har redan skrivit en längd för en sträng som blir avkortad på grund av "
 "kodningsproblem."
 
-#: plugins/excel/ms-excel-write.c:3806
+#: plugins/excel/ms-excel-write.c:3805
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
@@ -1348,7 +1348,7 @@ msgstr ""
 "Visst innehåll kommer förloras vid sparande som MS Excel (tm) 95. Den stöder "
 "endast %d rader och den här arbetsboken har %d"
 
-#: plugins/excel/ms-excel-write.c:3813
+#: plugins/excel/ms-excel-write.c:3812
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
@@ -1357,11 +1357,11 @@ msgstr ""
 "Visst innehåll kommer förloras vid sparande som MS Excel (tm). Den stöder "
 "endast %d rader och den här arbetsboken har %d"
 
-#: plugins/excel/ms-excel-write.c:4331
+#: plugins/excel/ms-excel-write.c:4330
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Kunde inte öppna ström \"Bok\" för skrivning\n"
 
-#: plugins/excel/ms-excel-write.c:4351
+#: plugins/excel/ms-excel-write.c:4350
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Kunde inte öppna ström \"Arbetsbok\" för skrivning\n"
 
@@ -4521,11 +4521,6 @@ msgstr ""
 "@SEEALSO=NETWORKDAYS"
 
 #. Path of the current directory or folder.
-#. Absolute A1-style reference, as text, prepended with "$A:"
-#. * for Lotus 1-2-3 release 3.x compatibility. Returns the cell
-#. * reference of the top and leftmost cell visible in the
-#. * window, based on the current scrolling position.
-#.
 #: plugins/fn-date/functions.c:900 plugins/fn-eng/functions.c:100
 #: plugins/fn-info/functions.c:1276 plugins/fn-info/functions.c:1292
 msgid "Unimplemented"
@@ -20339,9 +20334,9 @@ msgid "Autofitting columns %s"
 msgstr "Autopassar kolumner %s"
 
 #: src/commands.c:1936
-#, fuzzy, c-format
+#, c-format
 msgid "Autofitting rows %s"
-msgstr "Autopassar rad %s"
+msgstr "Autopassar rader %s"
 
 #: src/commands.c:1939
 #, c-format
@@ -20636,10 +20631,6 @@ msgstr "Blanda data"
 msgid "Text (%s) to Columns (%s)"
 msgstr "Text (%s) till kolumner (%s)"
 
-#. Fill in the header titles.
-#.
-#. * Fill in the titles.
-#.
 #. Fill in the header titles.
 #: src/commands.c:6280 src/dialogs/solver.glade.h:24
 #: src/tools/solver/reports-write.c:195 src/tools/solver/reports-write.c:356
@@ -21501,41 +21492,37 @@ msgid "Ring plotting engine"
 msgstr "Cirkeldiagramsritmotor"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:2
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "% of default size"
-msgstr "% av _normalstorlek"
+msgstr "% av normalstorlek"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:3
 msgid "3_d"
-msgstr ""
+msgstr "3_d"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:4
-#, fuzzy
 msgid "Dia_meter"
-msgstr "centimeter"
+msgstr "Dia_meter"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:5
-#, fuzzy
 msgid "Show _negative values"
-msgstr "Visa detaljer"
+msgstr "Visa _negativa värden"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:6
-#, fuzzy
 msgid "Sur_face"
-msgstr "Källområde"
+msgstr "Y_ta"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:7
 msgid "_Bubbles scaled to"
-msgstr ""
+msgstr "_Bubblor skalade till"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:8
 msgid "_Size reprented by:"
-msgstr ""
+msgstr "_Storlek representerat av:"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:9
-#, fuzzy
 msgid "_Vary colors by bubble"
-msgstr "Ändra _färg per segment"
+msgstr "_Ändra färg per bubbla"
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
@@ -23605,12 +23592,6 @@ msgstr "Arbetsboksnivå"
 
 #.
 #. * Fill in the labels of `Target Cell' section.
-#.
-#.
-#. * Fill in the labels of `Adjustable Cells' section.
-#.
-#.
-#. * Fill in the labels of `Constraints' section.
 #.
 #: src/dialogs/dialog-goto-cell.c:296 src/dialogs/dialog-search.c:398
 #: src/dialogs/tabulate.glade.h:2 src/tools/solver/reports-write.c:80
@@ -29406,9 +29387,6 @@ msgstr "Känslighetsrapport"
 #.
 #. * Fill in the labels of `Adjustable Cells' section.
 #.
-#.
-#. * Fill in the labels of `Constraints' section.
-#.
 #: src/tools/solver/reports-write.c:230 src/tools/solver/reports-write.c:276
 msgid "Final"
 msgstr "Slutgiltig"
@@ -29603,7 +29581,6 @@ msgid "OS"
 msgstr "OS"
 
 #. Set the `CPU Model'.
-#. Set the `CPU Mhz'.
 #: src/tools/solver/reports-write.c:676 src/tools/solver/reports-write.c:679
 #: src/tools/solver/reports-write.c:683
 msgid "Unknown"
