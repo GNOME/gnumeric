@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.62\n"
-"POT-Creation-Date: 2001-02-18 18:47+0900\n"
+"POT-Creation-Date: 2001-02-18 19:31+0900\n"
 "PO-Revision-Date: 2001-02-18 19:38-0500\n"
 "Last-Translator: Yukihiro Nakai <nakai@gnome.gr.jp>\n"
 "Language-Team: Japanese <translation@gnome.gr.jp>\n"
@@ -1166,7 +1166,7 @@ msgstr "セルの結合"
 #. Corrected below.
 #: src/commands.c:3173 src/dialogs/search-replace.glade.h:41
 msgid "Search and Replace"
-msgstr ""
+msgstr "探索と置換"
 
 #: src/corba-args.c:25
 msgid "Oaf options"
@@ -2706,7 +2706,7 @@ msgstr "正しい数字を分単位で入力してください。"
 
 #: src/dialogs/dialog-cell-comment.c:32
 msgid "Cell comment"
-msgstr "セルの注釈"
+msgstr "セルのコメント"
 
 #: src/dialogs/dialog-cell-format.c:412
 msgid ";[Red]"
@@ -2955,11 +2955,11 @@ msgstr "空白を無視する"
 
 #: src/dialogs/dialog-plugin-manager.c:184
 msgid "Error while activating plugin"
-msgstr ""
+msgstr "プラグインを有効にしているときにエラーが発生しました"
 
 #: src/dialogs/dialog-plugin-manager.c:213
 msgid "Error while deactivating plugin"
-msgstr ""
+msgstr "プラグインを無効にしているときにエラーが発生しました"
 
 #: src/dialogs/dialog-plugin-manager.c:226
 msgid "Plugin is still in use."
@@ -2967,11 +2967,11 @@ msgstr "プラグインはまだ使用中です。"
 
 #: src/dialogs/dialog-plugin-manager.c:242
 msgid "Errors while activating plugins"
-msgstr ""
+msgstr "プラグインを有効にしているときにエラーが発生しました"
 
 #: src/dialogs/dialog-plugin-manager.c:261
 msgid "Errors while deactivating plugins"
-msgstr ""
+msgstr "プラグインを無効にしているときにエラーが発生しました"
 
 #: src/dialogs/dialog-plugin-manager.c:514
 msgid "Plugin list"
@@ -2979,7 +2979,7 @@ msgstr "プラグイン"
 
 #: src/dialogs/dialog-plugin-manager.c:517
 msgid "Plugin details"
-msgstr ""
+msgstr "プラグインの詳細"
 
 #: src/dialogs/dialog-printer-setup.c:966
 msgid "Custom header configuration"
@@ -2991,7 +2991,7 @@ msgstr "カスタムフッタの配置"
 
 #: src/dialogs/dialog-search-replace.c:139
 msgid "You must select some cell types to search."
-msgstr ""
+msgstr "探索するセルのタイプを選択してください。"
 
 #: src/dialogs/dialog-sheet-order.c:145 src/workbook-control-gui.c:329
 #, c-format
@@ -3656,15 +3656,15 @@ msgstr "更新(_U)"
 
 #: src/dialogs/plugin-manager.glade.h:1
 msgid "Activate all plugins"
-msgstr ""
+msgstr "すべてのプラグインを有効にする"
 
 #: src/dialogs/plugin-manager.glade.h:2
 msgid "Activate new plugins by default"
-msgstr ""
+msgstr "新規プラグインをデフォルトで有効にする"
 
 #: src/dialogs/plugin-manager.glade.h:3
 msgid "Activate plugin"
-msgstr ""
+msgstr "プラグインを有効にする"
 
 #: src/dialogs/plugin-manager.glade.h:4
 msgid "Active plugins"
@@ -3724,7 +3724,7 @@ msgstr "ページの中心"
 #: src/dialogs/print.glade.h:4 src/gnumeric.xml.h:33
 #: src/workbook-control-gui.c:1888
 msgid "Co_mments"
-msgstr "注釈(_M)"
+msgstr "コメント(_M)"
 
 #: src/dialogs/print.glade.h:5
 msgid "Customize _footer"
@@ -3943,11 +3943,11 @@ msgstr "変更するセルが含むのは"
 
 #: src/dialogs/search-replace.glade.h:6 src/dialogs/summary.glade.h:3
 msgid "Comments"
-msgstr "注釈"
+msgstr "コメント"
 
 #: src/dialogs/search-replace.glade.h:7
 msgid "Create =ERROR(\"...\")"
-msgstr ""
+msgstr "=ERROR(\"...\")を作る"
 
 #: src/dialogs/search-replace.glade.h:8
 msgid "Current sheet"
@@ -4047,11 +4047,11 @@ msgstr ""
 
 #: src/dialogs/search-replace.glade.h:33
 msgid "Query"
-msgstr ""
+msgstr "クエリ"
 
 #: src/dialogs/search-replace.glade.h:34
 msgid "Query for replacement"
-msgstr ""
+msgstr "置換のクエリ"
 
 #: src/dialogs/search-replace.glade.h:36
 msgid "Regular expression"
@@ -4091,7 +4091,7 @@ msgstr "探索 for"
 
 #: src/dialogs/search-replace.glade.h:46
 msgid "Skip cells that that would result in errors"
-msgstr ""
+msgstr "エラーになるセルを飛ばす"
 
 #: src/dialogs/search-replace.glade.h:47
 msgid "Strings"
@@ -4099,7 +4099,7 @@ msgstr "文字列"
 
 #: src/dialogs/search-replace.glade.h:48
 msgid "The search text is a regular expression"
-msgstr ""
+msgstr "探索テキストは正規表現です"
 
 #: src/dialogs/search-replace.glade.h:49
 msgid "The search text is taken literal"
@@ -4287,7 +4287,7 @@ msgstr "任意の値"
 
 #: src/dialogs/validate.glade.h:2
 msgid "Apply these changes to other cells with the same settings"
-msgstr ""
+msgstr "これらの変更を同じ設定の他のセルにも適用する"
 
 #: src/dialogs/validate.glade.h:4
 msgid "Data Validation"
@@ -4376,11 +4376,11 @@ msgstr "設定(_S)"
 
 #: src/dialogs/validate.glade.h:25
 msgid "_Show error alert after invalid data is entered"
-msgstr ""
+msgstr "正しくない値が入力されたらエラー通知を表示する(_S)"
 
 #: src/dialogs/validate.glade.h:26
 msgid "_Show input message when cell is selected"
-msgstr ""
+msgstr "セルが選択されたら入力メッセージを表示する(_S)"
 
 #: src/dialogs/validate.glade.h:27
 msgid "_Title :"
@@ -5892,7 +5892,7 @@ msgstr "ファイル %s を作成できません\n"
 
 #: src/func.c:270
 msgid "Unknown Function"
-msgstr "未知の関数"
+msgstr "不明な関数"
 
 #: src/func.c:590
 msgid "Function does not exist"
@@ -6479,8 +6479,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=EOMONTH\n"
 "@SYNTAX=EOMONTH (開始日,月)\n"
-"@DESCRIPTION=@開始日から@月数だけ後の月の最終日のシリアル値を返しま"
-"す。\n"
+"@DESCRIPTION=@開始日から@月数だけ後の月の最終日のシリアル値を返します。\n"
 "@開始日あるいは@月に無効な値を指定すると、#NUM! エラーが返されます。\n"
 "@EXAMPLES=\n"
 "A1が12/21/00を含むときにEOMONTH(A1,0)=12/31/00, "
@@ -9271,8 +9270,8 @@ msgstr ""
 "@FUNCTION=ERROR.TYPE\n"
 "@SYNTAX=ERROR(value)\n"
 "@DESCRIPTION=ERROR.TYPE "
-"はエラー値に対応した数値を返します。エラー値に対する"
-"のエラー番号の対応は以下のとおりです。\n"
+"はエラー値に対応した数値を返します。エラー値に対するのエラー番号の対応は以下の"
+"とおりです。\n"
 "#DIV/0!    2\n"
 "#VALUE!    3\n"
 "#REF!      4\n"
@@ -13535,6 +13534,14 @@ msgid ""
 "\n"
 "@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE"
 msgstr ""
+"@FUNCTION=TRIM\n"
+"@SYNTAX=TRIM(text)\n"
+"@DESCRIPTION=TRIMはワードの間のスペースをそれぞれ一つにした@textを返します。\n"
+"@EXAMPLES=\n"
+"TRIM(\"  a bbb  cc\")は\"a bbb cc\"になります。\n"
+"\n"
+"@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE"
+
 
 #: src/functions/fn-string.c:880
 msgid ""
@@ -13639,7 +13646,7 @@ msgstr ""
 
 #: src/gui-file.c:105
 msgid "No sheets found"
-msgstr ""
+msgstr "シートが見つかりませんでした"
 
 #: src/gui-file.c:237
 msgid "File format:"
@@ -13897,7 +13904,7 @@ msgstr "ファイルを mmap できません。エラー: %s"
 #: src/plugin.c:257
 #, c-format
 msgid "Error while reading plugin information of type \"%s\"."
-msgstr ""
+msgstr "タイプ\"%s\"のプラグイン情報の読み込み中にエラーが発生しました。"
 
 #: src/plugin.c:266
 msgid "Plugin has no id."
@@ -13906,7 +13913,7 @@ msgstr "プラグインにIDがありません。"
 #: src/plugin.c:269
 #, c-format
 msgid "Required information for plugin with id=\"%s\" not found in file."
-msgstr ""
+msgstr "IDが\"%s\"のプラグインに要求された情報がファイルに見つかりませんでした。"
 
 #: src/plugin.c:273
 msgid "Unknown plugin name."
@@ -13922,6 +13929,7 @@ msgid "Can't read plugin #%d info."
 msgstr "プラグイン #%d 情報が読み込めません。"
 
 #: src/plugin.c:409
+#, c-format
 msgid "Errors occured while reading plugin informations from file \"%s\"."
 msgstr "ファイル\"%s\"からプラグイン情報の読み込み中にエラーが発生しました。"
 
@@ -13976,17 +13984,19 @@ msgid "Module file name not given."
 msgstr "モジュールファイル名が指定されていません。"
 
 #: src/plugin.c:1086
+#, c-format
 msgid "Function init_plugin inside \"%s\" returned error."
 msgstr "\"%s\"の中のinit_plugin関数がエラーを返しました。"
 
 #: src/plugin.c:1093
+#, c-format
 msgid "Unable to open module file \"%s\": %s"
 msgstr "モジュールファイル\"%s\"を開けません: %s"
 
 #: src/plugin.c:1098
+#, c-format
 msgid "Plugin version \"%s\" is different from application \"%s\"."
-msgstr ""
-"プラグインのバージョン\"%s\"がアプリケーション\"%s\"と異なります。"
+msgstr "プラグインのバージョン\"%s\"がアプリケーション\"%s\"と異なります。"
 
 #: src/plugin.c:1102
 #, c-format
@@ -14014,9 +14024,11 @@ msgstr ""
 
 #: src/plugin.c:1129
 msgid "Dynamic module loading is not supported in this system."
-msgstr "ダイナミックモジュールローディングはこのシステムでサポートされていません。"
+msgstr ""
+"ダイナミックモジュールローディングはこのシステムでサポートされていません。"
 
 #: src/plugin.c:1149
+#, c-format
 msgid "Unable to close module file \"%s\": %s"
 msgstr "モジュールファイルを閉じることができません\"%s\": %s"
 
@@ -14833,6 +14845,12 @@ msgid ""
 "\n"
 "The replace has been aborted and nothing has been changed."
 msgstr ""
+"セル%sで、現在のコンテンツ\n"
+"    %sが\n"
+"    %sに\n"
+"置換されましたが、正しくありません。\n"
+"\n"
+"置換は終了しましたが、何も変更されていません。"
 
 #. TODO : No need to check simplicty.  XL applies for each
 #. * non-discrete selected region, (use selection_apply)
@@ -14855,6 +14873,7 @@ msgid "Select an object to add"
 msgstr "追加するオブジェクトを選択"
 
 #: src/workbook-control-gui.c:1520
+#, c-format
 msgid "Unable to create object of type '%s'"
 msgstr "'タイプ%s'のオブジェクトを作成できません"
 
@@ -15024,11 +15043,11 @@ msgstr "選択(_S)"
 
 #: src/gnumeric.xml.h:168 src/workbook-control-gui.c:1979
 msgid "Search and Replace..."
-msgstr ""
+msgstr "探索と置換..."
 
 #: src/gnumeric.xml.h:169 src/workbook-control-gui.c:1980
 msgid "Search for some text and replace it with something else"
-msgstr ""
+msgstr "テキストを探索して別のものに置き換えます"
 
 #. Default <Ctrl-G> to be goto
 #: src/gnumeric.xml.h:223 src/workbook-control-gui.c:1984
@@ -15858,150 +15877,3 @@ msgstr "保存(_S)"
 #: src/gnumeric.xml.h:251
 msgid "_View"
 msgstr "表示(_V)"
-
-#~ msgid "Applix"
-#~ msgstr "Applix"
-
-#~ msgid "Imports version 4.[234] spreadsheets"
-#~ msgstr "バージョン 4.[234] のシートを読み込み"
-
-#~ msgid "Data Interchange Format (CSV) module"
-#~ msgstr "データ交換形式 (CSV) モジュール"
-
-#~ msgid ""
-#~ "Reads and writes information stored in the Data Interchange Format (*.dif)"
-#~ msgstr "データ交換形式(DIF)で保存された情報を読み書きする"
-
-#~ msgid "Gnome Basic"
-#~ msgstr "Gnome Basic"
-
-#~ msgid "Enables Gnome Basic support"
-#~ msgstr "Gnome Basic サポートを使用可能にする"
-
-#~ msgid ""
-#~ "Database functions for allowing the retrieval of data from a database"
-#~ msgstr "データベースからデータを取得するためのデータベース関数"
-
-#~ msgid "This plugin enables Guile(scheme) support in Gnumeric"
-#~ msgstr "このプラグインによりGnumericでGuile(scheme)サポートが可能になります"
-
-#~ msgid "HTML"
-#~ msgstr "HTML"
-
-#~ msgid "Import/Export of HTML, TeX, DVI, roff and pdf"
-#~ msgstr "HTML, TeX, DVI, roff, pdf のインポート/エクスポート"
-
-#~ msgid "Lotus 123"
-#~ msgstr "Lotus 123"
-
-#~ msgid "Imports Lotus 123 files"
-#~ msgstr "Lotus 123ファイルをインポート"
-
-#~ msgid ""
-#~ "Several basic utilities for prime numbers, pi, phi, sigma. It also hold some "
-#~ "simple bitwise operations"
-#~ msgstr ""
-#~ "素数に対するいくつかの基本的なユーティリティ(pi, phi, "
-#~ "sigma)。また、シンプルなビット単位操作関数もあります"
-
-#~ msgid "GNU Oleo"
-#~ msgstr "GNU Oleo"
-
-#~ msgid "Imports GNU Oleo documents"
-#~ msgstr "GNU Oleo 文書を読み込み"
-
-#~ msgid "Perl"
-#~ msgstr "Perl"
-
-#~ msgid "Enables the creation of functions in PERL"
-#~ msgstr "PERL の関数作成を使用可能にする"
-
-#~ msgid "Imports Plan Perfect Formatted Documents"
-#~ msgstr "Plan Perfect 形式 (PLN) の読み込み"
-
-#~ msgid "SC/XSpread "
-#~ msgstr "SC/XSpread "
-
-#~ msgid "Imports SC/XSpread files"
-#~ msgstr "SC/XSpreadファイルの読込み"
-
-#~ msgid "MultiPlan (SYLK)"
-#~ msgstr "MultiPlan (SYLK)"
-
-#~ msgid "Imports MultiPlan (SYLK) files"
-#~ msgstr "MultiPlan (SYLK) の読み込み"
-
-#~ msgid "XBase"
-#~ msgstr "XBase"
-
-#~ msgid "Imports XBase files"
-#~ msgstr "XBase ファイルを読み込みます"
-
-#~ msgid "EXPERIMENTAL XML"
-#~ msgstr "試用版 XML"
-
-#~ msgid "The next generation sax based xml I/O subsystem"
-#~ msgstr "次世代 sax は xml I/Oサブシステムをベースにしています"
-
-#~ msgid "_Merge Cells"
-#~ msgstr "セルを結合(_M)"
-
-#~ msgid "File name: %s"
-#~ msgstr "ファイル名: %s"
-
-#~ msgid "Size: %ld bytes"
-#~ msgstr "サイズ: %ld バイト"
-
-#~ msgid "Modified:"
-#~ msgstr "最終変更:"
-
-#~ msgid "%c"
-#~ msgstr "%c"
-
-#~ msgid "Modified: %s"
-#~ msgstr "最終変更: %s"
-
-#~ msgid "fixed"
-#~ msgstr "fixed"
-
-#~ msgid "Path:"
-#~ msgstr "パス:"
-
-#~ msgid "Missing quote"
-#~ msgstr "引用符に間違いがあります"
-
-#~ msgid "Impossible!"
-#~ msgstr "不可能です!"
-
-#~ msgid "Couldn't determine size or modification date for plugin \"%s\"."
-#~ msgstr "プラグイン\"%s\"のサイズあるいは修正日付を特定できませんでした。"
-
-#~ msgid ""
-#~ "Unable to open plugin '%s'\n"
-#~ "The plugin did not check it's version.\n"
-#~ "It is probably for a different version of Gnumeric than '%s'."
-#~ msgstr ""
-#~ "プラグイン '%s' を開けません。\n"
-#~ "プラグインはバージョンをチェックしませんでした。\n"
-#~ "おそらく Gnumeric のバージョン '%s' と違うバージョンです。"
-
-#~ msgid "Print pre_view"
-#~ msgstr "印刷プレビュー(_V)"
-
-#~ msgid "De_lete Sheet"
-#~ msgstr "シートを削除(_L)"
-
-#~ msgid "_Add\\modify comment..."
-#~ msgstr "注釈を追加/修正(_A)..."
-
-#~ msgid "C_lear..."
-#~ msgstr "消去(_L)..."
-
-#~ msgid "Import..."
-#~ msgstr "インポート..."
-
-#~ msgid "Paste _Special..."
-#~ msgstr "特別貼り付け(_S)..."
-
-#~ msgid "_Cells"
-#~ msgstr "セル(_C)"
