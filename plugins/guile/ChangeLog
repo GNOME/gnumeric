@@ -1,3 +1,12 @@
+2002-03-26  Jon K Hellan  <hellan@acm.org>
+
+	* plugin.c (scm_gnumeric_funcall): Free Value after it has been
+	cloned.
+
+	* smob-value.c (make_new_smob): Make the Value inside the smob a
+	clone of v.
+	(get_value_from_smob): Also clone when returning Value from smob.
+
 2002-03-24  Jon K Hellan  <hellan@acm.org>
 
 	* plugin.c (scm_register_function) constify help.

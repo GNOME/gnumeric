@@ -114,24 +114,26 @@ static SCM
 scm_gnumeric_funcall (SCM funcname, SCM arglist)
 {
 	int i, num_args;
-	Value **values;
+	Value **argvals;
+	Value *retval;
+	SCM retsmob;
 	CellRef cell_ref = { 0, 0, 0, 0 };
 
 	SCM_ASSERT (SCM_NIMP (funcname) && SCM_STRINGP (funcname), funcname, SCM_ARG1, "gnumeric-funcall");
 	SCM_ASSERT (SCM_NFALSEP (scm_list_p (arglist)), arglist, SCM_ARG2, "gnumeric-funcall");
 
 	num_args = scm_ilength (arglist);
-	values = g_new (Value *, num_args);
+	argvals = g_new (Value *, num_args);
 	for (i = 0; i < num_args; ++i) {
-		values[i] = scm_to_value (SCM_CAR (arglist));
+		argvals[i] = scm_to_value (SCM_CAR (arglist));
 		arglist = SCM_CDR (arglist);
 	}
 
-	return value_to_scm (function_call_with_values (eval_pos,
-							SCM_CHARS (funcname),
-							num_args,
-							values),
-			     cell_ref);
+	retval = function_call_with_values (eval_pos, SCM_CHARS (funcname),
+					    num_args,argvals);
+	retsmob = value_to_scm (retval, cell_ref);
+	value_release (retval);
+	return retsmob;
 }
 
 static Value*

@@ -40,30 +40,34 @@ typedef struct _SCM_Value
 	SCM update_func;
 } SCM_Value;
 
+/**
+ * The Value in the smob has to be a clone of v, since the original may be
+ * released in C-land, and there is no way to tell the Guile garbage
+ * collector.
+ */
 SCM
 make_new_smob (Value *v)
 {
 	SCM_Value *value;
 
 	value = (SCM_Value *) scm_must_malloc (sizeof (SCM_Value), "value");
-	value->v = v;
+	value->v = value_duplicate (v);
 	value->update_func = SCM_BOOL_F;
 
 	SCM_RETURN_NEWSMOB (value_tag, value);
 }
 
+/**
+ * We also have to clone the value in the smob before returning it to
+ * C-land, since the returned value may be released. There may be leaks, but
+ * freing memory twice is worse.
+ */
 Value *
 get_value_from_smob (SCM value_smob)
 {
-	Value *value;
 	SCM_Value *v = (SCM_Value *) SCM_CDR (value_smob);
 
-	value = g_new (Value, 1);
-
-	value = v->v;
-
-	return value;
-
+	return value_duplicate (v->v);
 }
 
 int
