@@ -163,10 +163,12 @@ typedef struct {
 typedef struct {
 	GodShape *main_shape;
 	GList *shapes; /* Of type GodShape */
+	ShapeDetails sp;
 } ShapeGroupParseState;
 
 typedef struct {
-	GList *shapes; /* Of type GodShape */
+	GodShape *root_shape;
+	GodShape *background;
 } DrawingParseState;
 
 typedef struct {
@@ -247,50 +249,151 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 #endif
 				gboolean is_complex = id & 0x8000;
 				guint32 opt_data = GSF_LE_GET_GUINT32 (data + i * 6 + 2);
+				guint32 color = (data[i * 6 + 3] << 16) | (data[i * 6 + 4] << 8) | data[i * 6 + 5];
 
 				id &= 0x3fff;
 				switch (id) {
 				case 128:
-					god_property_table_set_uint
+					god_property_table_set_int
 						(parse_state->prop_table,
 						 GOD_PROPERTY_LTXID,
 						 opt_data);
 					break;
 				case 129:
-					god_property_table_set_uint
+					god_property_table_set_length
 						(parse_state->prop_table,
 						 GOD_PROPERTY_DX_TEXT_LEFT,
-						 opt_data);
+						 GO_EMU_TO_UN(opt_data));
 					break;
 				case 130:
-					god_property_table_set_uint
+					god_property_table_set_length
 						(parse_state->prop_table,
 						 GOD_PROPERTY_DX_TEXT_TOP,
-						 opt_data);
+						 GO_EMU_TO_UN(opt_data));
 					break;
 				case 131:
-					god_property_table_set_uint
+					god_property_table_set_length
 						(parse_state->prop_table,
 						 GOD_PROPERTY_DX_TEXT_RIGHT,
-						 opt_data);
+						 GO_EMU_TO_UN(opt_data));
 					break;
 				case 132:
-					god_property_table_set_uint
+					god_property_table_set_length
 						(parse_state->prop_table,
 						 GOD_PROPERTY_DX_TEXT_BOTTOM,
-						 opt_data);
+						 GO_EMU_TO_UN(opt_data));
 					break;
+				case 133:
+					/*
+typedef enum
+   {
+   msowrapSquare,
+   msowrapByPoints,
+   msowrapNone,
+   msowrapTopBottom,
+   msowrapThrough,
+   } MSOWRAPMODE;
+					*/
+					break;
+				case 135:
+					/*
+typedef enum
+   {
+   msoanchorTop, 
+   msoanchorMiddle, 
+   msoanchorBottom, 
+   msoanchorTopCentered, 
+   msoanchorMiddleCentered, 
+   msoanchorBottomCentered,
+   msoanchorTopBaseline,
+   msoanchorBottomBaseline,
+   msoanchorTopCenteredBaseline,
+   msoanchorBottomCenteredBaseline
+   } MSOANCHOR;
+					*/
+					break;
+ 
 				case 260:
-					god_property_table_set_uint
+					god_property_table_set_int
 						(parse_state->prop_table,
 						 GOD_PROPERTY_BLIP_ID,
 						 opt_data - 1);
 					break;
 				case 384:
-					god_property_table_set_uint
+					god_property_table_set_int
 						(parse_state->prop_table,
 						 GOD_PROPERTY_FILL_TYPE,
 						 opt_data);
+					break;
+				case 385:
+					god_property_table_set_uint
+						(parse_state->prop_table,
+						 GOD_PROPERTY_FILL_COLOR,
+						 color);
+					break;
+				case 386:
+					god_property_table_set_int
+						(parse_state->prop_table,
+						 GOD_PROPERTY_FILL_ALPHA,
+						 opt_data);
+					break;
+				case 387:
+					god_property_table_set_uint
+						(parse_state->prop_table,
+						 GOD_PROPERTY_FILL_BACKGROUND,
+						 color);
+					break;
+				case 388:
+					god_property_table_set_int
+						(parse_state->prop_table,
+						 GOD_PROPERTY_FILL_BACKGROUND_ALPHA,
+						 opt_data);
+					break;
+				case 401:
+					god_property_table_set_int
+						(parse_state->prop_table,
+						 GOD_PROPERTY_FILL_RECT_LEFT,
+						 GO_EMU_TO_UN(opt_data));
+					break;
+				case 402:
+					god_property_table_set_int
+						(parse_state->prop_table,
+						 GOD_PROPERTY_FILL_RECT_TOP,
+						 GO_EMU_TO_UN(opt_data));
+					break;
+				case 403:
+					god_property_table_set_int
+						(parse_state->prop_table,
+						 GOD_PROPERTY_FILL_RECT_RIGHT,
+						 GO_EMU_TO_UN(opt_data));
+					break;
+				case 404:
+					god_property_table_set_int
+						(parse_state->prop_table,
+						 GOD_PROPERTY_FILL_RECT_BOTTOM,
+						 GO_EMU_TO_UN(opt_data));
+					break;
+				case 447:
+					god_property_table_set_flag
+						(parse_state->prop_table,
+						 GOD_PROPERTY_FILLED,
+						 opt_data & 0x00000010);
+					break;
+				case 448:
+					/* Line color */
+					break;
+				case 450:
+					/* Line background color */
+					break;
+				case 769:
+					/* Master shape */
+					break;
+				case 831:
+					god_property_table_set_flag
+						(parse_state->prop_table,
+						 GOD_PROPERTY_BACKGROUND,
+						 opt_data & 0x1);
+					break;
 				}
 				if (is_complex) {
 					complex_offset += opt_data;
@@ -403,18 +506,30 @@ start_container (GSList *stack, GsfInput *input, GError **err, gpointer user_dat
 }
 
 static void
-append_shape_on_stack (GSList *stack, GError **err, GodShape *shape)
+append_shape_on_stack (GSList *stack, GError **err, GodShape *shape, ShapeDetails *sp)
 {
 	if (STACK_SECOND->opcode == EscherSpgrContainer) {
 		ShapeGroupParseState *parent_state = STACK_SECOND->parse_state;
+		ERROR (!sp->is_patriarch &&
+		       !sp->is_background &&
+		       !sp->is_deleted, "Placement Error");
 		parent_state->shapes = g_list_prepend (parent_state->shapes,
 						       shape);
 		g_object_ref (shape);
 	} else if (STACK_SECOND->opcode == EscherDgContainer) {
 		DrawingParseState *parent_state = STACK_SECOND->parse_state;
-		parent_state->shapes = g_list_prepend (parent_state->shapes,
-						       shape);
-		g_object_ref (shape);
+		ERROR (sp->is_patriarch ||
+		       sp->is_background ||
+		       sp->is_deleted, "Placement Error");
+		if (sp->is_patriarch) {
+			ERROR (parent_state->root_shape == NULL, "Only one patriarch per drawing.");
+			parent_state->root_shape = shape;
+			g_object_ref (shape);
+		} else if (sp->is_background) {
+			ERROR (parent_state->background == NULL, "Only one background per drawing.");
+			parent_state->background = shape;
+			g_object_ref (shape);
+		}
 	}
 }
 
@@ -445,8 +560,9 @@ end_container (GSList *stack, GsfInput *input, GError **err, gpointer user_data)
 				ERROR (parent_state->main_shape == NULL, "Placement Error");
 				ERROR (STACK_SECOND->opcode == EscherSpgrContainer, "Placement Error");
 				parent_state->main_shape = shape;
+				parent_state->sp = parse_state->sp;
 			} else {
-				append_shape_on_stack (stack, err, shape);
+				append_shape_on_stack (stack, err, shape, &parse_state->sp);
 				g_object_unref (shape);
 			}
 		}
@@ -464,7 +580,7 @@ end_container (GSList *stack, GsfInput *input, GError **err, gpointer user_data)
 				g_object_unref (list->data);
 			}
 			g_list_free (parse_state->shapes);
-			append_shape_on_stack (stack, err, parse_state->main_shape);
+			append_shape_on_stack (stack, err, parse_state->main_shape, &parse_state->sp);
 			g_object_unref (parse_state->main_shape);
 			g_free (parse_state);
 		}
@@ -472,18 +588,12 @@ end_container (GSList *stack, GsfInput *input, GError **err, gpointer user_data)
 	case EscherDgContainer:
 		{
 			DrawingParseState *parse_state = STACK_TOP->parse_state;
-			GList *list;
-			GodShape *root_shape;
 
-			root_shape = god_drawing_get_root_shape (cb_data->drawing);
+			god_drawing_set_root_shape (cb_data->drawing, parse_state->root_shape);
+			god_drawing_set_background (cb_data->drawing, parse_state->background);
+			g_object_unref (parse_state->root_shape);
+			g_object_unref (parse_state->background);
 
-			parse_state->shapes = g_list_reverse (parse_state->shapes);
-			for (list = parse_state->shapes; list; list = list->next) {
-				god_shape_append_child (root_shape, 
-							list->data);
-				g_object_unref (list->data);
-			}
-			g_list_free (parse_state->shapes);
 			g_free (parse_state);
 		}
 		break;

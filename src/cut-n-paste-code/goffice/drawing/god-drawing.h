@@ -45,6 +45,11 @@ void             god_drawing_set_root_shape     (GodDrawing      *drawing,
 						 GodShape        *root_shape);
 
 /* Return value is reffed. */
+GodShape        *god_drawing_get_background     (GodDrawing      *drawing);
+void             god_drawing_set_background     (GodDrawing      *drawing,
+						 GodShape        *root_shape);
+
+/* Return value is reffed. */
 GodDrawingGroup *god_drawing_get_drawing_group  (GodDrawing      *drawing);
 void             god_drawing_set_drawing_group  (GodDrawing      *drawing,
 						 GodDrawingGroup *drawing_group);

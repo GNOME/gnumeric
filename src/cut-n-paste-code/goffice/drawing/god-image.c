@@ -56,6 +56,7 @@ ensure_pixbuf (GodImage *image)
 				g_object_ref (image->priv->pixbuf);
 			}
 		}
+		gdk_pixbuf_loader_close (loader, NULL);
 		g_object_unref (loader);
 	}
 }

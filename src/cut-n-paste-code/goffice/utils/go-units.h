@@ -30,25 +30,39 @@ G_BEGIN_DECLS
 /* This way inch, pt, and mm are all integer multipliers (in fact, a nanometer is.) */
 /* (Of course that is only true because we use the lobotomized pt size so that
    1inch is exactly 72pt.)  */
-#define UN_PER_IN 228600000
 #define PT_PER_IN 72
 #define CM_PER_IN 254
+#define EMU_PER_IN 914400
+
+#define UN_PER_IN 228600000
+#define UN_PER_EMU (UN_PER_IN/EMU_PER_IN)
+#define UN_PER_PT (UN_PER_IN/PT_PER_IN)
+#define UN_PER_CM (UN_PER_IN/CM_PER_IN)
 
 #define GO_IN_TO_UN(inch)	((inch)*UN_PER_IN)
 #define GO_IN_TO_PT(inch)	((inch)*PT_PER_IN)
 #define GO_IN_TO_CM(inch)	((inch)*CM_PER_IN/100)
+#define GO_IN_TO_EMU(inch)	((inch)*EMU_PER_IN)
 
-#define GO_UN_TO_IN(unit)	((unit)          /UN_PER_IN)
-#define GO_UN_TO_PT(unit)	((unit)*PT_PER_IN/UN_PER_IN)
-#define GO_UN_TO_CM(unit)	((unit)*CM_PER_IN/UN_PER_IN/100)
+#define GO_UN_TO_IN(unit)	((unit)/UN_PER_IN)
+#define GO_UN_TO_PT(unit)	((unit)/UN_PER_PT)
+#define GO_UN_TO_CM(unit)	((unit)/UN_PER_CM/100)
+#define GO_UN_TO_EMU(unit)	((unit)/UN_PER_EMU)
 
-#define GO_PT_TO_UN(pt)		((pt)*UN_PER_IN/PT_PER_IN)
-#define GO_PT_TO_IN(pt)		((pt)          /PT_PER_IN)
-#define GO_PT_TO_CM(pt)		((pt)*CM_PER_IN/PT_PER_IN/100)
+#define GO_PT_TO_UN(pt)		((pt)* UN_PER_PT)
+#define GO_PT_TO_IN(pt)		((pt)           /PT_PER_IN)
+#define GO_PT_TO_CM(pt)		((pt)* CM_PER_IN/PT_PER_IN/100)
+#define GO_PT_TO_EMU(pt)	((pt)*EMU_PER_IN/PT_PER_IN)
 
-#define GO_CM_TO_UN(cm)		((cm)*100*UN_PER_IN/CM_PER_IN)
+#define GO_CM_TO_UN(cm)		((cm)*100*UN_PER_CM)
 #define GO_CM_TO_IN(cm)		((cm)*100          /CM_PER_IN)
 #define GO_CM_TO_PT(cm)		((cm)*100*PT_PER_IN/CM_PER_IN)
+#define GO_CM_TO_EMU(cm)	((cm)*100*PT_PER_IN/EMU_PER_IN)
+
+#define GO_EMU_TO_UN(emu)	((emu)*UN_PER_EMU)
+#define GO_EMU_TO_IN(emu)	((emu)          /EMU_PER_IN)
+#define GO_EMU_TO_PT(emu)	((emu)*PT_PER_IN/EMU_PER_IN)
+#define GO_EMU_TO_CM(emu)	((emu)*CM_PER_IN/EMU_PER_IN/100)
 
 typedef gint64 go_unit_t;
 

@@ -60,14 +60,6 @@ ensure_prop_table (GodShape *shape)
 }
 
 static void
-ensure_anchor (GodShape *shape)
-{
-	if (shape->priv->anchor == NULL)
-		shape->priv->anchor =
-			god_anchor_new();
-}
-
-static void
 ensure_text_model (GodShape *shape)
 {
 	if (shape->priv->text_model == NULL)
@@ -175,8 +167,8 @@ god_shape_set_prop_table  (GodShape *shape,
 GodAnchor *
 god_shape_get_anchor  (GodShape *shape)
 {
-	ensure_anchor (shape);
-	g_object_ref (shape->priv->anchor);
+	if (shape->priv->anchor)
+		g_object_ref (shape->priv->anchor);
 	return shape->priv->anchor;
 }
 

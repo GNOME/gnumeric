@@ -117,6 +117,16 @@ god_property_table_set_int      (GodPropertyTable       *prop_table,
 }
 
 void
+god_property_table_set_length   (GodPropertyTable *prop_table,
+				 GodPropertyID     id,
+				 go_unit_t         val)
+{
+	GValue *value = g_value_new(G_TYPE_INT64);
+	g_value_set_int64 (value, val);
+	god_property_table_set (prop_table, id, value);
+}
+
+void
 god_property_table_set_pointer  (GodPropertyTable       *prop_table,
 				 GodPropertyID  id,
 				 gpointer            val)
@@ -134,6 +144,23 @@ god_property_table_set_array    (GodPropertyTable       *prop_table,
 	GValue *value = g_value_new(G_TYPE_POINTER);
 	g_value_set_pointer (value, val);
 	god_property_table_set (prop_table, id, value);
+}
+
+gboolean
+god_property_table_get_flag     (GodPropertyTable       *prop_table,
+				 GodPropertyID  id,
+				 gboolean             default_value)
+{
+	GValue *value;
+
+	g_return_val_if_fail (prop_table != NULL, default_value);
+	value = g_hash_table_lookup (prop_table->priv->attrs, id);
+	if (value == NULL)
+		return default_value;
+
+	g_return_val_if_fail (G_VALUE_HOLDS_BOOLEAN (value), default_value);
+
+	return g_value_get_boolean (value);
 }
 
 guint32
@@ -168,6 +195,23 @@ god_property_table_get_int      (GodPropertyTable       *prop_table,
 	g_return_val_if_fail (G_VALUE_HOLDS_INT (value), default_value);
 
 	return g_value_get_int (value);
+}
+
+go_unit_t
+god_property_table_get_length   (GodPropertyTable *prop_table,
+				 GodPropertyID     id,
+				 go_unit_t         default_value)
+{
+	GValue *value;
+
+	g_return_val_if_fail (prop_table != NULL, default_value);
+	value = g_hash_table_lookup (prop_table->priv->attrs, id);
+	if (value == NULL)
+		return default_value;
+
+	g_return_val_if_fail (G_VALUE_HOLDS_INT64 (value), default_value);
+
+	return g_value_get_int64 (value);
 }
 
 gpointer

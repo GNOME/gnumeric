@@ -30,7 +30,7 @@
 #include <libpresent/load-ppt.h>
 
 static void
-dump_text (char *text)
+dump_text (const char *text)
 {
 	char **texts = g_strsplit (text, "\xd", 0);
 	int i;
@@ -87,9 +87,17 @@ dump_drawing (GodDrawing *drawing)
 	if (drawing == NULL)
 		return;
 	shape = god_drawing_get_root_shape (drawing);
-	dump_shape (shape, 0);
-	if (shape)
+	if (shape) {
+		g_print ("Patriarch:\n");
+		dump_shape (shape, 0);
+			g_object_unref (shape);
+	}
+	shape = god_drawing_get_background (drawing);
+	if (shape) {
+		g_print ("Background:\n");
+		dump_shape (shape, 0);
 		g_object_unref (shape);
+	}
 }
 
 int

@@ -11,6 +11,8 @@ libgoffice_libpresent_la_SOURCES =		\
 	present-slide.h				\
 	present-text.c				\
 	present-text.h				\
+	present-view.c				\
+	present-view.h				\
 	ppt-types.h
 
 # prune this when the code moves

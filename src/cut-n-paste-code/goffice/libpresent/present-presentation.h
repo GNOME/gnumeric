@@ -17,6 +17,7 @@
 #include <glib.h>
 #include <libpresent/present-slide.h>
 #include <drawing/god-drawing-group.h>
+#include <drawing/god-anchor.h>
 
 G_BEGIN_DECLS
 
@@ -40,6 +41,7 @@ typedef struct {
 GType                present_presentation_get_type           (void);
 PresentPresentation *present_presentation_new                (void);
 
+/* Slide list functions */
 void                 present_presentation_append_slide       (PresentPresentation *presentation,
 							      PresentSlide        *slide);
 void                 present_presentation_insert_slide       (PresentPresentation *presentation,
@@ -59,6 +61,16 @@ PresentSlide        *present_presentation_get_slide          (PresentPresentatio
 GodDrawingGroup     *present_presentation_get_drawing_group  (PresentPresentation *presentation);
 void                 present_presentation_set_drawing_group  (PresentPresentation *presentation,
 							      GodDrawingGroup     *drawing_group);
+
+/* Return value is reffed. */
+GodAnchor           *present_presentation_get_extents        (PresentPresentation *presentation);
+void                 present_presentation_set_extents        (PresentPresentation *presentation,
+							      GodAnchor           *anchor);
+
+/* Return value is reffed. */
+GodAnchor           *present_presentation_get_notes_extents  (PresentPresentation *presentation);
+void                 present_presentation_set_notes_extents  (PresentPresentation *presentation,
+							      GodAnchor           *anchor);
 
 G_END_DECLS
 

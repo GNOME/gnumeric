@@ -31,16 +31,9 @@ static GObjectClass *parent_class;
 
 struct GodDrawingPrivate_ {
 	GodShape *root_shape;
+	GodShape *background;
 	GodDrawingGroup *drawing_group;
 };
-
-static void
-ensure_root_shape (GodDrawing *drawing)
-{
-	if (drawing->priv->root_shape == NULL)
-		drawing->priv->root_shape =
-			god_shape_new();
-}
 
 GodDrawing *
 god_drawing_new (void)
@@ -55,8 +48,8 @@ god_drawing_new (void)
 GodShape *
 god_drawing_get_root_shape  (GodDrawing *drawing)
 {
-	ensure_root_shape (drawing);
-	g_object_ref (drawing->priv->root_shape);
+	if (drawing->priv->root_shape)
+		g_object_ref (drawing->priv->root_shape);
 	return drawing->priv->root_shape;
 }
 
@@ -69,6 +62,25 @@ god_drawing_set_root_shape  (GodDrawing *drawing,
 	drawing->priv->root_shape = root_shape;
 	if (drawing->priv->root_shape)
 		g_object_ref (drawing->priv->root_shape);
+}
+
+GodShape *
+god_drawing_get_background  (GodDrawing *drawing)
+{
+	if (drawing->priv->background)
+		g_object_ref (drawing->priv->background);
+	return drawing->priv->background;
+}
+
+void
+god_drawing_set_background  (GodDrawing *drawing,
+			     GodShape *background)
+{
+	if (drawing->priv->background)
+		g_object_unref (drawing->priv->background);
+	drawing->priv->background = background;
+	if (drawing->priv->background)
+		g_object_ref (drawing->priv->background);
 }
 
 GodDrawingGroup *
@@ -108,6 +120,8 @@ god_drawing_dispose (GObject *object)
 
 	if (drawing->priv->root_shape)
 		g_object_unref (drawing->priv->root_shape);
+	if (drawing->priv->background)
+		g_object_unref (drawing->priv->background);
 	if (drawing->priv->drawing_group)
 		g_object_unref (drawing->priv->drawing_group);
 	g_free (drawing->priv);

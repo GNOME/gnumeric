@@ -41,7 +41,7 @@ static const GOMSParserRecordType types[] =
 {
 	/*	{	Unknown,			"Unknown",			FALSE,	FALSE,	NULL,	-1,	-1,	-1	}, */
 	{	Document,			"Document",			TRUE,	FALSE,	-1,	-1	},
-	{	DocumentAtom,			"DocumentAtom",			FALSE,	FALSE,	-1,	-1	},
+	{	DocumentAtom,			"DocumentAtom",			FALSE,	TRUE,	-1,	-1	},
 	{	EndDocument,			"EndDocument",			FALSE,	FALSE,	-1,	-1	},
 	{	Slide,				"Slide",			TRUE,	FALSE,	-1,	-1	},
 	{	SlideAtom,			"SlideAtom",			FALSE,	FALSE,	-1,	-1	},
@@ -206,6 +206,32 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 {
 	ParseUserData *parse_user_data = user_data;
 	switch (record->opcode) {
+	case DocumentAtom:
+		{
+			GodAnchor *anchor;
+			GoRect rect;
+
+			ERROR (stack && STACK_TOP->opcode == Document, "Placement Error");
+
+			ERROR (record->length == 40, "Incorrect DocumentAtom");
+
+			rect.top = 0;
+			rect.left = 0;
+			rect.right = GO_IN_TO_UN ((go_unit_t)GSF_LE_GET_GUINT32 (data)) / 576;
+			rect.bottom = GO_IN_TO_UN ((go_unit_t)GSF_LE_GET_GUINT32 (data + 4)) / 576;
+
+			anchor = god_anchor_new ();
+			god_anchor_set_rect (anchor, &rect);
+			present_presentation_set_extents (parse_user_data->presentation, anchor);
+
+			rect.right = GO_IN_TO_UN ((go_unit_t)GSF_LE_GET_GUINT32 (data + 8)) / 576;
+			rect.bottom = GO_IN_TO_UN ((go_unit_t)GSF_LE_GET_GUINT32 (data + 12)) / 576;
+
+			anchor = god_anchor_new ();
+			god_anchor_set_rect (anchor, &rect);
+			present_presentation_set_notes_extents (parse_user_data->presentation, anchor);
+		}
+		break;
 	case SlidePersistAtom:
 		{
 			SlideListWithTextParseState *parse_state;

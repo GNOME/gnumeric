@@ -34,6 +34,8 @@ static GObjectClass *parent_class;
 struct PresentPresentationPrivate_ {
 	GPtrArray *slides; /* Of type PresentSlide. */
 	GodDrawingGroup *drawing_group;
+	GodAnchor *extents;
+	GodAnchor *notes_extents;
 };
 
 static GPtrArray*
@@ -143,6 +145,44 @@ present_presentation_set_drawing_group (PresentPresentation  *presentation,
 		g_object_ref (presentation->priv->drawing_group);
 }
 
+GodAnchor *
+present_presentation_get_extents (PresentPresentation  *presentation)
+{
+	if (presentation->priv->extents)
+		g_object_ref (presentation->priv->extents);
+	return presentation->priv->extents;
+}
+
+void
+present_presentation_set_extents (PresentPresentation  *presentation,
+					GodAnchor *extents)
+{
+	if (presentation->priv->extents)
+		g_object_unref (presentation->priv->extents);
+	presentation->priv->extents = extents;
+	if (presentation->priv->extents)
+		g_object_ref (presentation->priv->extents);
+}
+
+GodAnchor *
+present_presentation_get_notes_extents (PresentPresentation  *presentation)
+{
+	if (presentation->priv->notes_extents)
+		g_object_ref (presentation->priv->notes_extents);
+	return presentation->priv->notes_extents;
+}
+
+void
+present_presentation_set_notes_extents (PresentPresentation  *presentation,
+					GodAnchor *notes_extents)
+{
+	if (presentation->priv->notes_extents)
+		g_object_unref (presentation->priv->notes_extents);
+	presentation->priv->notes_extents = notes_extents;
+	if (presentation->priv->notes_extents)
+		g_object_ref (presentation->priv->notes_extents);
+}
+
 static void
 present_presentation_init (GObject *object)
 {
@@ -165,6 +205,10 @@ present_presentation_dispose (GObject *object)
 	g_ptr_array_free (presentation->priv->slides, TRUE);
 	if (presentation->priv->drawing_group)
 		g_object_unref (presentation->priv->drawing_group);
+	if (presentation->priv->extents)
+		g_object_unref (presentation->priv->extents);
+	if (presentation->priv->notes_extents)
+		g_object_unref (presentation->priv->notes_extents);
 	g_free (presentation->priv);
 	presentation->priv = NULL;
 

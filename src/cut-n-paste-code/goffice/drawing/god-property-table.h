@@ -15,6 +15,7 @@
 
 #include <glib-object.h>
 #include <glib.h>
+#include <utils/go-units.h>
 
 G_BEGIN_DECLS
 
@@ -39,9 +40,10 @@ typedef struct {
 #define GOD_PROPERTY_FLIP_H	         "flip_h"
 #define GOD_PROPERTY_FLIP_V		 "flip_v"
 #define GOD_PROPERTY_FILLED		 "filled"
+#define GOD_PROPERTY_BACKGROUND		 "background"
 
 /* will be enums when we support multiple "arrow shapes */
-#define GOD_PROPERTY_ARROW_START		 "arrow_start"
+#define GOD_PROPERTY_ARROW_START	 "arrow_start"
 #define GOD_PROPERTY_ARROW_END		 "arrow_end"
 
 /* Integers & Enums */
@@ -68,18 +70,35 @@ typedef struct {
 #define GOD_PROPERTY_DX_TEXT_TOP          "dx_text_top"
 #define GOD_PROPERTY_DX_TEXT_RIGHT        "dx_text_right"
 #define GOD_PROPERTY_DX_TEXT_BOTTOM       "dx_text_bottom"
+#define GOD_PROPERTY_FILL_RECT_LEFT       "fill_rect_left"
+#define GOD_PROPERTY_FILL_RECT_TOP        "fill_rect_top"
+#define GOD_PROPERTY_FILL_RECT_RIGHT      "fill_rect_right"
+#define GOD_PROPERTY_FILL_RECT_BOTTOM     "fill_rect_bottom"
 
 /* Ptrs */
-#define GOD_PROPERTY_ANCHOR		 "anchor"
-#define GOD_PROPERTY_TEXT			 "text"
+#define GOD_PROPERTY_ANCHOR		  "anchor"
+#define GOD_PROPERTY_TEXT		  "text"
 
 /* GArrays */
-#define GOD_PROPERTY_POLYGON_COORDS	 "polygon_coords"
+#define GOD_PROPERTY_POLYGON_COORDS	  "polygon_coords"
 
 /* Expressions */
-#define GOD_PROPERTY_CHECKBOX_LINK	 "checkbox_link"
-#define GOD_PROPERTY_SCROLLBAR_LINK	 "scrollbar_link"
+#define GOD_PROPERTY_CHECKBOX_LINK	  "checkbox_link"
+#define GOD_PROPERTY_SCROLLBAR_LINK	  "scrollbar_link"
 
+
+typedef enum {
+	GOD_FILL_TYPE_SOLID,
+	GOD_FILL_TYPE_PATTERN,
+	GOD_FILL_TYPE_TEXTURE,
+	GOD_FILL_TYPE_PICTURE,
+	GOD_FILL_TYPE_SHADE,
+	GOD_FILL_TYPE_SHADE_CENTER,
+	GOD_FILL_TYPE_SHADE_SHAPE,
+	GOD_FILL_TYPE_SHADE_SCALE,
+	GOD_FILL_TYPE_SHADE_TITLE,
+	GOD_FILL_TYPE_SHADE_BACKGROUND
+} GodFillType;
 
 typedef const char *GodPropertyID;
 
@@ -102,6 +121,9 @@ void              god_property_table_set_uint     (GodPropertyTable *obj,
 void              god_property_table_set_int      (GodPropertyTable *obj,
 						   GodPropertyID     id,
 						   gint32            val);
+void              god_property_table_set_length   (GodPropertyTable *obj,
+						   GodPropertyID     id,
+						   go_unit_t         val);
 void              god_property_table_set_pointer  (GodPropertyTable *obj,
 						   GodPropertyID     id,
 						   gpointer          val);
@@ -111,13 +133,17 @@ void              god_property_table_set_array    (GodPropertyTable *obj,
 
 /* Get methods */
 gboolean          god_property_table_get_flag     (GodPropertyTable *obj,
-						   GodPropertyID     id);
+						   GodPropertyID     id,
+						   gboolean          default_value);
 guint32           god_property_table_get_uint     (GodPropertyTable *obj,
 						   GodPropertyID     id,
 						   guint32           default_value);
 gint32            god_property_table_get_int      (GodPropertyTable *obj,
 						   GodPropertyID     id,
 						   gint32            default_value);
+go_unit_t         god_property_table_get_length   (GodPropertyTable *obj,
+						   GodPropertyID     id,
+						   go_unit_t         default_value);
 gpointer          god_property_table_get_pointer  (GodPropertyTable *obj,
 						   GodPropertyID     id,
 						   gpointer          default_value);

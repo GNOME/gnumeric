@@ -1,3 +1,53 @@
+2004-03-26  Christopher James Lahey  <clahey@ximian.com>
+
+	* drawing/Makefile.am (libgoffice_drawing_la_SOURCES): Added
+	god-drawing-renderer-gdk.c, god-drawing-renderer-gdk.h,
+	god-drawing-view.c, and god-drawing-view.h.
+
+	* drawing/god-drawing-renderer-gdk.c,
+	drawing/god-drawing-renderer-gdk.h: New class.  Renders a drawing
+	to a gdk drawable.
+
+	* drawing/god-drawing-view.c, god-drawing-view.h: New class.
+	Widget to display a drawing.
+
+	* drawing/god-drawing.c, drawing/god-drawing.h: Added a background
+	shape.
+
+	* drawing/god-image.c: Call gdk_pixbuf_loader_close.
+
+	* drawing/god-property-table.c, drawing/god-property-table.h:
+	Added length type and fixed up flag type.  Added a bunch of types.
+
+	* drawing/god-shape.c: Allow a NULL anchor.
+
+	* libpresent/Makefile.am (libgoffice_libpresent_la_SOURCES): Added
+	present-view.c and present-view.h.
+
+	* libpresent/load-ppt.c: Handle the DocumentAtom.
+
+	* libpresent/present-presentation.c,
+	libpresent/present-presentation.h: Added extents and notes_extents
+	fields.
+
+	* libpresent/present-view.c, libpresent/present-view.h: New class.
+	Widget to display a presentation.
+
+	* ms-compat/god-image-ms.c: Added a bunch of EscherOPT fields.
+	Handle the patriarch and background shapes more cleanly.
+
+	* test/.cvsignore: Added test-view-ppt.
+
+	* test/Makefile.am (test_view_ppt_SOURCES): Added test-view-ppt.c.
+
+	* test/test-ppt.c: Handle the separate patriarch and background
+	shapes.
+
+	* test/test-view-ppt.c: New Class.  Tests present-view.c.
+
+	* utils/go-units.h: Added new unit EMU.  (360000 EMUs per
+	centimeter, 914400 EMUs per inch, 12700 EMUs per point.)
+
 2004-03-22  Christopher James Lahey  <clahey@ximian.com>
 
 	* drawing/Makefile.am (libgoffice_drawing_la_SOURCES): Added
