@@ -259,7 +259,7 @@ static char *help_expression = {
 	N_("@FUNCTION=EXPRESSION\n"
 	   "@SYNTAX=EXPRESSION(cell)\n"
 	   "@DESCRIPTION="
-	   "EXPRESSION returns expression in @cell as a string, or"
+	   "EXPRESSION returns expression in @cell as a string, or "
 	   "empty if the cell is not an expression.\n"
 	   "@EXAMPLES=\n"
 	   "in A1 EXPRESSION(A2) equals 'EXPRESSION(A3)'.\n"
