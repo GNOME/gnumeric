@@ -315,15 +315,12 @@ static GOActionComboPixmapsElement const halignment_combo_info[] = {
 	{ N_("Align left"),		GTK_STOCK_JUSTIFY_LEFT,		HALIGN_LEFT },
 	{ N_("Center horizontally"),	GTK_STOCK_JUSTIFY_CENTER,	HALIGN_CENTER },
 	{ N_("Align right"),		GTK_STOCK_JUSTIFY_RIGHT,	HALIGN_RIGHT },
-#if 0
-									HALIGN_GENERAL
-#endif
-	{ N_("Fill Horizontally"),	GTK_STOCK_JUSTIFY_FILL,		HALIGN_FILL },
-#if 0
-									HALIGN_JUSTIFY
-#endif
+	{ N_("Fill Horizontally"),	"Gnumeric_HAlignFill",		HALIGN_FILL },
+	{ N_("Justify Horizontally"),	GTK_STOCK_JUSTIFY_FILL,		HALIGN_JUSTIFY },
 	{ N_("Center horizontally across the selection"),
 					"Gnumeric_CenterAcrossSelection", HALIGN_CENTER_ACROSS_SELECTION },
+	{ N_("Align numbers right, and text left"),
+					"Gnumeric_HAlignGeneral",	HALIGN_GENERAL },
 	{ NULL, NULL }
 };
 static GOActionComboPixmapsElement const valignment_combo_info[] = {
