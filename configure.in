@@ -527,6 +527,18 @@ AC_SUBST(gnumeric_icondir)
 AC_SUBST(gnumeric_autoformatdir)
 AC_SUBST(gnumeric_bonobo_enabled)
 
+dnl ==============================================
+dnl Special GConf section  (stolen from libgnome)
+dnl ==============================================
+
+AC_PATH_PROG(GCONFTOOL, gconftool-2, no)
+
+if test x"$GCONFTOOL" = xno; then
+  AC_MSG_ERROR([gconftool-2 executable not found in your path - should be installed with GConf])
+fi
+
+AM_GCONF_SOURCE_2
+
 dnl ******************************
 dnl Check for Evolution
 dnl ******************************

@@ -1,5 +1,9 @@
 2002-03-27  Jody Goldberg <jody@gnome.org>
 
+	* configure.in : Include the necessary gconf setup to install schemas.
+
+2002-03-27  Jody Goldberg <jody@gnome.org>
+
 	* src/io-context.c (gnm_io_get_password) : new.
 	* src/command-context.c (cmd_context_get_password) : new.
 	* src/workbook-control-gui.c (wbcg_get_password) : new.

@@ -14,6 +14,7 @@ Release Critical
 - Printing dialogs are shot.
 - 3D reference fixes on sheet deletion
 - Modify Makefiles to install gconf schemas
+- iconv utf8 password -> usc4 before hashing
 
 1.2 Targets
 -----------
