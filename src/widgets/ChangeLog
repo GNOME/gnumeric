@@ -1,3 +1,16 @@
+2001-05-06  Jon K Hellan  <hellan@acm.org>
+
+	* gnumeric-expr-entry.c (range_really_changed): Remove.
+	(make_display_range): New function. Makes a range, possibly
+	expanded to contain full rows/columns.
+	(make_rangesel_text): Use make_display_range.
+	(gnumeric_expr_entry_set_rangesel_from_range): Return true if
+	displayed range is different from input range. Save the range
+	passed in without change. Use range_equal + sheet equality test
+	instead of range_really_changed.
+	(gnumeric_expr_entry_get_rangesel): Get range and/or sheet set in
+	widget.
+
 2001-05-04  Jon K Hellan  <hellan@acm.org>
 
 	* gnumeric-expr-entry.h: GnumericExprEntryPrivate is
