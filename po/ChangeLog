@@ -1,5 +1,14 @@
 2000-05-29  Kenneth Christiansen  <kenneth@gnu.org>
 
+        * da.po: update, fixed the missing recent
+          opened sheets menu, which jody pointed
+          out the course of.
+
+        * README: Put a notice to the translators, please
+          go read
+
+2000-05-29  Kenneth Christiansen  <kenneth@gnu.org>
+
         * da.po: update, Keld also fixed some string in this
 
 2000-05-29  Kenneth Christiansen  <kenneth@gnu.org>

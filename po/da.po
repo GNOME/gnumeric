@@ -14472,7 +14472,7 @@ msgstr "/Fil/"
 
 #: src/history.c:136 src/history.c:158
 msgid "File/Print preview"
-msgstr "Fil/udskrift frohåndsvisning"
+msgstr "Fil/Vis udskrift"
 
 #: src/history.c:204
 msgid "File/"
