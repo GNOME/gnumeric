@@ -27,23 +27,23 @@ msgstr "Вид граф╕ка"
 
 #: graph/sample.c:208
 msgid "Col/bar mode"
-msgstr ""
+msgstr "Вид стовпчика/рядка"
 
 #: graph/sample.c:209
 msgid "Direction mode"
-msgstr ""
+msgstr "Вид напрямку"
 
 #: graph/sample.c:210
 msgid "Line mode"
-msgstr ""
+msgstr "Вид лин╕╖"
 
 #: graph/sample.c:211
 msgid "Scatter mode"
-msgstr ""
+msgstr "Вид розс╕ювання"
 
 #: graph/sample.c:212
 msgid "Scatter connection"
-msgstr ""
+msgstr "З'╓днання розс╕ювання"
 
 #.
 #. * Add Sheet
@@ -57,28 +57,30 @@ msgstr "╤мпортовано %s"
 
 #: plugins/dif/dif.c:283
 msgid "DIF : Failed to load sheet"
-msgstr ""
+msgstr "DIF: Не вдалось завантажити аркуш"
 
 #: plugins/dif/dif.c:292 plugins/plan-perfect/pln.c:922
 msgid "Unable to mmap the file"
-msgstr ""
+msgstr "Не вдалось зробити мапу файлу в па'мят╕"
 
 #: plugins/dif/dif.c:418
 msgid "Data Interchange Format (*.dif) file format"
-msgstr ""
+msgstr "Формат файлу Data Interchange Format (*.dif)"
 
 #: plugins/dif/dif.c:421
 msgid "Data Interchange Format (*.dif)"
-msgstr ""
+msgstr "Data Interchange Format (*.dif)"
 
 #: plugins/dif/dif.c:425
 msgid "Data Interchange Format (CSV) module"
-msgstr ""
+msgstr "Модуль Data Interchange Format (CSV)"
 
 #: plugins/dif/dif.c:426
 msgid ""
 "Reads and writes information stored in the Data Interchange Format (*.dif)"
 msgstr ""
+"Зчитування та запис ╕нформац╕╖ збережено╖ в формат╕ Data Interchange Format "
+"(*.dif)"
 
 #: plugins/excel/boot.c:122
 msgid "Saving over old files disabled for safety"
@@ -106,7 +108,7 @@ msgstr "#НЕВ╤ДОМЕ!"
 
 #: plugins/excel/ms-excel-read.c:3510
 msgid "No book or workbook streams found."
-msgstr ""
+msgstr "Не знайдено пот╕к книги чи робочо╖ книги"
 
 #. All records after this are encrypted
 #: plugins/excel/ms-excel-read.c:3867
@@ -115,15 +117,15 @@ msgstr "Захищен╕ паролем книги ще не п╕дтримуються."
 
 #: plugins/excel/ms-excel-read.c:4039
 msgid "Unable to locate valid MS Excel workbook"
-msgstr ""
+msgstr "Не вдалось знайти робочу книгу MS Excel"
 
 #: plugins/excel/ms-excel-write.c:3374
 msgid "Too many rows for this format"
-msgstr ""
+msgstr "Надто багато рядк╕в для цього формату"
 
 #: plugins/excel/ms-excel-write.c:3454
 msgid "Can't open stream for writing\n"
-msgstr ""
+msgstr "Не вдалося в╕дкрити пот╕к для запису\n"
 
 #: plugins/excel/ms-formula-read.c:649
 msgid "Unknown Function"
@@ -187,11 +189,11 @@ msgstr "Вмика╓ п╕дтримку GNOME BASIC"
 
 #: plugins/gda/plugin-gda.c:259
 msgid "Database Access"
-msgstr ""
+msgstr "Доступ до баз даних"
 
 #: plugins/gda/plugin-gda.c:260
 msgid "Enables database access"
-msgstr ""
+msgstr "Дозволити доступ до баз даних"
 
 #: plugins/guile/plugin.c:281 src/func.c:433
 #: src/functions/fn-information.c:574 src/functions/fn-information.c:642
@@ -205,19 +207,19 @@ msgstr "Нев╕рна к╕льк╕сть аргумент╕в"
 #. FIXME : This looks like a leak (JEG 4/4/00)
 #: plugins/guile/plugin.c:286 plugins/guile/plugin.c:291
 msgid "First argument to SCM must be a Guile expression"
-msgstr ""
+msgstr "Перший аргумент для SCM мусить бути виразом Guile"
 
 #: plugins/guile/plugin.c:295
 msgid "Undefined scheme function"
-msgstr ""
+msgstr "Невизначена функц╕я scheme"
 
 #: plugins/guile/plugin.c:313
 msgid "Could not evaluate argument"
-msgstr ""
+msgstr "Не можливо виконати аргумент"
 
 #: plugins/guile/plugin.c:478
 msgid "Gnumeric has not been compiled with support for guile."
-msgstr ""
+msgstr "Gnumeric було скомп╕льовано без п╕дтримки Guile."
 
 #: plugins/guile/plugin.c:507
 msgid "Guile Plugin"
@@ -225,7 +227,7 @@ msgstr "Доповнення Guile"
 
 #: plugins/guile/plugin.c:508
 msgid "This plugin enables Guile(scheme) support in Gnumeric"
-msgstr ""
+msgstr "Це доповнення вмика╓ п╕дтримку Guile(scheme) в Gnumeric"
 
 #: plugins/html/boot.c:74
 msgid "HTML 3.2 file format (*.html)"
@@ -265,11 +267,11 @@ msgstr "Формат файлу EPS (*.eps)"
 
 #: plugins/html/boot.c:125
 msgid "HTML"
-msgstr ""
+msgstr "HTML"
 
 #: plugins/html/boot.c:126
 msgid "Import/Export of HTML, TeX, DVI, roff and pdf"
-msgstr ""
+msgstr "╤мпорт та експорт HTML, TeX, DVI, roff та pdf"
 
 #: plugins/html/html.c:409 plugins/lotus-123/lotus.c:224
 #: plugins/oleo/oleo.c:44 src/workbook.c:3295
@@ -299,6 +301,13 @@ msgid ""
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_SIGMA"
 msgstr ""
+"@FUNCTION=NT_PHI\n"
+"@SYNTAX=NT_PHI(n)\n"
+"@DESCRIPTION=Функц╕я NT_PHI вирахову╓ к╕льк╕сть ц╕лих менших чи р╕вних @n, "
+"як╕ ╓ простими в╕дносно @n.\n"
+"Ця функц╕я прийма╓ лише один аргумент.\n"
+"@EXAMPLES=\n"
+"@SEEALSO=NT_D, ITHPRIME, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:214
 msgid ""
@@ -1058,9 +1067,8 @@ msgid ""
 msgstr ""
 
 #: src/cmd-edit.c:318
-#, fuzzy
 msgid "Unable to paste into selection"
-msgstr "Не вдалось вставити"
+msgstr ""
 
 #: src/cmd-edit.c:355 src/workbook.c:1526
 msgid "Paste"
@@ -2434,9 +2442,8 @@ msgid "You should introduce a valid cell range in 'Input Range:'"
 msgstr "Необх╕дно ввести в╕рний д╕апазон ком╕рок у \"Д╕апазон вводу:\""
 
 #: src/dialogs/dialog-analysis-tools.c:516
-#, fuzzy
 msgid "Output options:"
-msgstr "_Параметри виводу"
+msgstr "Параметри виводу:"
 
 #: src/dialogs/dialog-analysis-tools.c:518
 msgid "New Sheet"
@@ -3235,9 +3242,8 @@ msgid "_Format :"
 msgstr "Формати: "
 
 #: src/dialogs/dialog-workbook-attr.c:165
-#, fuzzy
 msgid "Workbook Attributes"
-msgstr "Модиф╕кувати атрибути книги"
+msgstr "Атрибути книги"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -3673,19 +3679,19 @@ msgstr "Назва аркушу"
 
 #: src/dialogs/sheet-order.glade.h:9
 msgid "Move the currently selected sheet up one position"
-msgstr ""
+msgstr "Пересунути вибраний аркуш вижче на одну позиц╕ю"
 
 #: src/dialogs/sheet-order.glade.h:10
 msgid "Move the currently selected sheet down one position"
-msgstr ""
+msgstr "Пересунути вибраний аркуш нижче на одну позиц╕ю"
 
 #: src/dialogs/sheet-order.glade.h:11
 msgid "Delete the currently selected sheet"
-msgstr ""
+msgstr "Видалити вибраний аркуш"
 
 #: src/dialogs/sheet-order.glade.h:13
 msgid "Close this dialog"
-msgstr ""
+msgstr "Закрити цей д╕алог"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -3756,7 +3762,7 @@ msgstr ""
 
 #: src/dialogs/solver.glade.h:18 src/dialogs/solver.glade.h:23
 msgid "                         "
-msgstr ""
+msgstr "                         "
 
 #: src/dialogs/solver.glade.h:19
 msgid "Equal To:"
@@ -3788,7 +3794,7 @@ msgstr "Стерти"
 
 #: src/dialogs/solver.glade.h:28
 msgid "Solve"
-msgstr ""
+msgstr "Вир╕шити"
 
 #: src/dialogs/solver.glade.h:29
 msgid "Options..."
@@ -12640,7 +12646,7 @@ msgstr "Формат файлу Gnumeric"
 #: wizards/graphics/graphic-context.c:149
 #, c-format
 msgid "\"Series %d\""
-msgstr ""
+msgstr "\"Сер╕╖ %d\""
 
 #: wizards/graphics/graphic-type.c:25
 msgid "Clustered columns.  Compares values between categories"
@@ -12720,15 +12726,15 @@ msgstr ""
 
 #: wizards/graphics/graphic-type.c:290
 msgid "Bar"
-msgstr "Примокутник"
+msgstr "Рядок"
 
 #: wizards/graphics/graphic-type.c:291
 msgid "Lines"
-msgstr ""
+msgstr "Л╕н╕╖"
 
 #: wizards/graphics/graphic-type.c:292
 msgid "Scatter"
-msgstr ""
+msgstr "Розс╕ювання"
 
 #: wizards/graphics/graphic-type.c:293
 msgid "Areas"
@@ -12761,11 +12767,11 @@ msgstr "Завершити"
 
 #: wizards/graphics/graphics.glade.h:12
 msgid "_Graphic type:"
-msgstr ""
+msgstr "Тип граф╕ка:"
 
 #: wizards/graphics/graphics.glade.h:13
 msgid "Graphic subtype:"
-msgstr ""
+msgstr "П╕дтип граф╕ка:"
 
 #: wizards/graphics/graphics.glade.h:14
 msgid "label15"
@@ -12801,7 +12807,7 @@ msgstr "Д╕апазон даних:"
 
 #: wizards/graphics/graphics.glade.h:24
 msgid "Series in:"
-msgstr ""
+msgstr "Сер╕╖ в:"
 
 #: wizards/graphics/graphics.glade.h:25
 msgid "Data ranges"
@@ -12809,7 +12815,7 @@ msgstr "Д╕апазон даних"
 
 #: wizards/graphics/graphics.glade.h:26
 msgid "Serie:"
-msgstr ""
+msgstr "Сер╕я:"
 
 #: wizards/graphics/graphics.glade.h:27
 msgid "label27"
@@ -12825,11 +12831,11 @@ msgstr "Значення:"
 
 #: wizards/graphics/graphics.glade.h:32
 msgid "Labels for the _X axis:"
-msgstr ""
+msgstr "Позначки для ос╕ X:"
 
 #: wizards/graphics/graphics.glade.h:33
 msgid "Series"
-msgstr ""
+msgstr "Сер╕╖"
 
 #: wizards/graphics/graphics.glade.h:34
 msgid "Step2"
@@ -12849,11 +12855,11 @@ msgstr "Позначка ос╕ _Y:"
 
 #: wizards/graphics/graphics.glade.h:38
 msgid "_Second X axis values:"
-msgstr ""
+msgstr "Значення друго╖ ос╕ X:"
 
 #: wizards/graphics/graphics.glade.h:39
 msgid "S_econd Y axis values:"
-msgstr ""
+msgstr "Значення друго╖ ос╕ Y:"
 
 #: wizards/graphics/graphics.glade.h:40
 msgid "Titles"
@@ -12861,7 +12867,7 @@ msgstr "Заголовок"
 
 #: wizards/graphics/graphics.glade.h:41
 msgid "Principal Axis"
-msgstr ""
+msgstr "Головна в╕сь"
 
 #: wizards/graphics/graphics.glade.h:42
 msgid "_X axis"
@@ -12873,7 +12879,7 @@ msgstr "Категор╕я"
 
 #: wizards/graphics/graphics.glade.h:45
 msgid "_Scale"
-msgstr ""
+msgstr "Масштаб"
 
 #: wizards/graphics/graphics.glade.h:46
 msgid "_Y axis"
@@ -12893,11 +12899,11 @@ msgstr " В╕сь Y "
 
 #: wizards/graphics/graphics.glade.h:50
 msgid "_Main line divisions"
-msgstr ""
+msgstr "Розд╕лювач╕ головно╖ л╕н╕╖"
 
 #: wizards/graphics/graphics.glade.h:51
 msgid "_Secondary line divisions"
-msgstr ""
+msgstr "Розд╕лювач╕ вторинно╖ л╕н╕╖"
 
 #: wizards/graphics/graphics.glade.h:52
 msgid " Y axis "
@@ -12905,19 +12911,19 @@ msgstr " В╕сь X "
 
 #: wizards/graphics/graphics.glade.h:53
 msgid "M_ain line divisions"
-msgstr ""
+msgstr "Розд╕лювач╕ головно╖ л╕н╕╖"
 
 #: wizards/graphics/graphics.glade.h:54
 msgid "S_econdary line divisions"
-msgstr ""
+msgstr "Розд╕лювач╕ вторинно╖ л╕н╕╖"
 
 #: wizards/graphics/graphics.glade.h:55
 msgid "Division lines"
-msgstr ""
+msgstr "Розд╕лювальн╕ л╕н╕╖"
 
 #: wizards/graphics/graphics.glade.h:56
 msgid "_Show legend"
-msgstr ""
+msgstr "Показувати п╕дписи"
 
 #: wizards/graphics/graphics.glade.h:57
 msgid " Location "
@@ -12925,19 +12931,19 @@ msgstr " Розм╕щення "
 
 #: wizards/graphics/graphics.glade.h:58
 msgid "_Down"
-msgstr ""
+msgstr "Знизу"
 
 #: wizards/graphics/graphics.glade.h:59
 msgid "_Corner"
-msgstr ""
+msgstr "Вкутку"
 
 #: wizards/graphics/graphics.glade.h:60
 msgid "_Up"
-msgstr ""
+msgstr "Вгор╕"
 
 #: wizards/graphics/graphics.glade.h:63
 msgid "Legends"
-msgstr ""
+msgstr "П╕дписи"
 
 #: wizards/graphics/graphics.glade.h:64
 msgid "Step3"
@@ -12945,31 +12951,16 @@ msgstr "Крок3"
 
 #: wizards/graphics/main.c:86
 msgid "Step 1 of 3: Select graphic type"
-msgstr ""
+msgstr "Крок 1 з 3: Виб╕р типу граф╕ка"
 
 #: wizards/graphics/main.c:89
 msgid "Step 2 of 3: Select data ranges"
-msgstr ""
+msgstr "Крок 2 з 3: Виб╕р д╕апазону даних"
 
 #: wizards/graphics/main.c:92
 msgid "Step 3 of 3: Customize graphic"
-msgstr ""
+msgstr "Крок 3 з 3: Налаштування граф╕ки"
 
 #: wizards/graphics/main.c:175
 msgid "Unable to launch the graphics service"
-msgstr ""
-
-#~ msgid "label2"
-#~ msgstr "позначка2"
-
-#~ msgid "label3"
-#~ msgstr "прозначка3"
-
-#~ msgid "label8"
-#~ msgstr "позначка8"
-
-#~ msgid "label7"
-#~ msgstr "позначка7"
-
-#~ msgid "label9"
-#~ msgstr "позначка9"
+msgstr "Неможливо запустити граф╕чний серв╕с"
