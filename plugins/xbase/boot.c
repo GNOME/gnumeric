@@ -22,7 +22,6 @@
 #include "file.h"
 
 #include "xbase.h"
-#include "boot.h"
 #include "plugin.h"
 
 #if G_BYTE_ORDER == G_LITTLE_ENDIAN
