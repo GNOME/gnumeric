@@ -1,156 +1,229 @@
 # 
-# In Panama, Number formats are the same as in the US, so no
+# In México, Dominican Republic, Guatemala, Honduras, Panama, Peru
+# and El Salvador, Number formats are the same as in the US, so no
 # translation is required for them.
 # But the msgstr MUST be filled; otherwise it will default to es.po
-# which uses different format fro numbers.
-# on the other hand, strings that are the same here and in es.po can
+# which uses different, non US, format for numbers.
+# On the other hand, strings that are the same here and in es.po can
 # be left out.
 #
 
-#: src/formats.c:15
+#: src/fn-date.c:88
+msgid ""
+"@FUNCTION=NOW\n"
+"@SYNTAX=NOW ()\n"
+"@DESCRIPTION=Returns the serial number for the date and time at the"
+" time it is evaluated.\n"
+"Serial Numbers in Gnumeric are represented as follows:The integral part"
+" is the number of days since the 1st of January of 1900.  The decimal part"
+" represent the fraction of the day and is mapped into hour, minutes and"
+" seconds\n"
+"For example: .0 represents the beginning of the day, and 0.5 represents noon\n"
+"@SEEALSO=TODAY, NOW"
+msgstr "@FUNCTION=NOW\n"
+"@SYNTAX=NOW ()\n"
+"@DESCRIPTION=Devuelve el número de serie para el día y la hora a la"
+" cual la función es ejecutada.\n"
+"El Número de Serie en Gnumeric es representado de la siguiente manera:"
+" La parte entera representa la cantidad de días pasados desde el 1º de"
+" enero de 1900. La parte decimal representa la fracción del día y es"
+" convertido en horas, minutos y segundos\n"
+"Por ejemplo: .0 representa el principio del día, y 0.5 representa mediodía\n"
+"@SEEALSO=TODAY, NOW"
+
+#: src/formats.c:18
 msgid "0.00"
 msgstr "0.00"
 
-#: src/formats.c:16
+#: src/formats.c:19
 msgid "#,##0"
 msgstr "#,##0"
 
-#: src/formats.c:17
+#: src/formats.c:20
 msgid "#,##0.00"
 msgstr "#,##0.00"
 
-#: src/formats.c:18
+#: src/formats.c:21
 msgid "#,##0_);(#,##0)"
 msgstr "#,##0_);(#,##0)"
 
-#: src/formats.c:19
+#: src/formats.c:22
 msgid "#,##0_);[red](#,##0)"
 msgstr "#,##0_);[red](#,##0)"
 
-#: src/formats.c:20
+#: src/formats.c:23
 msgid "#,##0.00_);(#,##0.00)"
 msgstr "#,##0.00_);(#,##0.00)"
 
-#: src/formats.c:21
+#: src/formats.c:24
 msgid "#,##0.00_);[red](#,##0.00)"
 msgstr "#,##0.00_);[red](#,##0.00)"
 
-#: src/formats.c:22
+#: src/formats.c:25
 msgid "0.0"
 msgstr "0.0"
 
-#: src/formats.c:27
+#: src/formats.c:30
 msgid "_($*#,##0_);_($*(#,##0);_($*\"-\"_);_(@_)"
 msgstr "_($*#,##0_);_($*(#,##0);_($*\"-\"_);_(@_)"
 
-#: src/formats.c:28
+#: src/formats.c:31
 msgid "_(*$,$$0_);_(*(#,##0);_(*\"-\"_);_(@_)"
 msgstr "_(*$,$$0_);_(*(#,##0);_(*\"-\"_);_(@_)"
 
-#: src/formats.c:29
+#: src/formats.c:32
 msgid "_($*#,##0.00_);_($*(#,##0.00);_($*\"-\"??_);_(@_)"
 msgstr "_($*#,##0.00_);_($*(#,##0.00);_($*\"-\"??_);_(@_)"
 
-#: src/formats.c:30
+#: src/formats.c:33
 msgid "_(*#,##0.00_);_(*(#,##0.00);_(*\"-\"??_);_(@_)"
 msgstr "_(*#,##0.00_);_(*(#,##0.00);_(*\"-\"??_);_(@_)"
 
-#: src/formats.c:35
+#: src/formats.c:38
 msgid "m/d/yy"
 msgstr "d/m/yy"
 
-#: src/formats.c:36
+#: src/formats.c:39
 msgid "m/d/yyyy"
 msgstr "d/m/yyyy"
 
+#: src/formats.c:40
+msgid "d-mmm-yy"
+msgstr "d-mmm-yy"
+
 #: src/formats.c:41
+msgid "d-mmm-yyyy"
+msgstr "d-mmm-yyyy"
+
+#: src/formats.c:42
+msgid "d-mmm"
+msgstr "d-mmm"
+
+#: src/formats.c:43
+msgid "d-mm"
+msgstr "d-mm"
+
+#: src/formats.c:44
 msgid "mmm/d"
 msgstr "d/mmm"
 
-#: src/formats.c:42
+#: src/formats.c:45
 msgid "mm/d"
 msgstr "d/mm"
 
-#: src/formats.c:43
+#: src/formats.c:46
 msgid "mm/dd/yy"
 msgstr "dd/mm/yy"
 
-#: src/formats.c:44
+#: src/formats.c:47
 msgid "mm/dd/yyyy"
 msgstr "dd/mm/yyyy"
 
-#: src/formats.c:45
+#: src/formats.c:48
 msgid "mmm/dd/yy"
 msgstr "dd/mmm/yy"
 
-#: src/formats.c:46
+#: src/formats.c:49
 msgid "mmm/dd/yyyy"
 msgstr "dd/mmm/yyyy"
 
-#: src/formats.c:47
+#: src/formats.c:50
 msgid "mmm/ddd/yy"
 msgstr "ddd/mmm/yy"
 
-#: src/formats.c:48
+#: src/formats.c:51
 msgid "mmm/ddd/yyyy"
 msgstr "ddd/mmm/yyyy"
 
-#: src/formats.c:49
+#: src/formats.c:52
 msgid "mm/ddd/yy"
 msgstr "ddd/mm/yy"
 
-#: src/formats.c:50
+#: src/formats.c:53
 msgid "mm/ddd/yyyy"
 msgstr "ddd/mm/yyyy"
 
-#: src/formats.c:53 src/formats.c:63
+#: src/formats.c:54
+msgid "mmm-yy"
+msgstr "mmm-yy"
+
+#: src/formats.c:55
+msgid "mmm-yyyy"
+msgstr "mmm-yyyy"
+
+#: src/formats.c:56 src/formats.c:66
 msgid "m/d/yy h:mm"
 msgstr "d/m/yy h:mm"
 
-#: src/formats.c:54
+#: src/formats.c:57
 msgid "m/d/yyyy h:mm"
 msgstr "d/m/yyyy h:mm"
 
-#: src/formats.c:65
+#: src/formats.c:62
+msgid "h:mm AM/PM"
+msgstr "h:mm AM/PM"
+
+#: src/formats.c:63
+msgid "h:mm:ss AM/PM"
+msgstr "h:mm:ss AM/PM"
+
+#: src/formats.c:64
+msgid "h:mm"
+msgstr "h:mm"
+
+#: src/formats.c:68
 msgid "mm:ss.0"
 msgstr "mm:ss.0"
 
-#: src/formats.c:71
+#: src/formats.c:74
 msgid "0%"
 msgstr "0%"
 
-#: src/formats.c:72
+#: src/formats.c:75
 msgid "0.00%"
 msgstr "0.00%"
 
-#: src/formats.c:77
+#: src/formats.c:80
 msgid "# ?/?"
 msgstr "# ?/?"
 
-#: src/formats.c:78
+#: src/formats.c:81
 msgid "# ??/??"
 msgstr "# ??/??"
 
-#: src/formats.c:83
+#: src/formats.c:86
 msgid "0.00E+00"
 msgstr "0.00E+00"
 
-#: src/formats.c:84
+#: src/formats.c:87
 msgid "##0.0E+0"
 msgstr "##0.0E+0"
 
-#: src/formats.c:94
+#: src/formats.c:97
 msgid "$#,##0_);($#,##0)"
 msgstr "$#,##0_);($#,##0)"
 
-#: src/formats.c:95
+#: src/formats.c:98
 msgid "$#,##0_);[red]($#,##0)"
 msgstr "$#,##0_);[red]($#,##0)"
 
-#: src/formats.c:96
+#: src/formats.c:99
 msgid "$#,##0.00_);($#,##0.00)"
 msgstr "$#,##0.00_);($#,##0.00)"
 
-#: src/formats.c:97
+#: src/formats.c:100
 msgid "$#,##0.00_);[red]($#,##0.00)"
 msgstr "$#,##0.00_);[red]($#,##0.00)"
+
+#: src/number-match.c:149
+msgid "(([-+]?[0-9,])?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
+msgstr "(([-+]?[0-9,])?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
+
+#: src/workbook.c:579
+msgid ">mm/dd/yyyy"
+msgstr ">dd/mm/yyyy"
+
+#: src/workbook.c:594
+msgid ">hh:mm"
+msgstr ">hh:mm"
+
