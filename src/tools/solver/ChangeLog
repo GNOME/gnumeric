@@ -2,6 +2,7 @@
 
 	* solver.c (solver_results_free): Plugged a leak.
 	(solver): Plugged a leak.
+	(check_program_definition_failures): Remove list inverting.
 
 2002-03-08  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 

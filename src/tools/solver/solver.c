@@ -372,10 +372,6 @@ check_program_definition_failures (Sheet            *sheet,
 
 	param->n_variables = 0;
 
-	/* Reverse the order of the cells. */
-	param->input_cells = g_list_reverse (param->input_cells);
-	param->constraints = g_slist_reverse (param->constraints);
-
 	/*
 	 * Checks for the Target cell.
 	 */
