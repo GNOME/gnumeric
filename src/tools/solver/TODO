@@ -5,8 +5,6 @@ Critical bugs:
   * fix crash: INT constraints support
   * fix crash: MPS import when a model has already defined
   * fix bug: solver parameters when the sheet is duplicated
-  * check that the program is properly defined (e.g. no #DIV0, #NUM!, ...)
-    - a badly formulated program may still crash the spreadsheet
 
 Usability fixes:
   * add warnings if data in cells is going to be overwritten

@@ -306,7 +306,8 @@ lp_solver_init (Sheet *sheet, const SolverParameters *param, SolverResults *res,
 		if (! (target->value == NULL || VALUE_IS_EMPTY (target->value)
 		              || VALUE_IS_NUMBER (target->value))) {
 		          *errmsg = _("The LHS cells should contain formulas "
-				      "only.  Specify valid LHS entries.");
+				      "that yield proper numerical values.  "
+				      "Specify valid LHS entries.");
 			  solver_results_free (res);
 			  return NULL;
 		}
@@ -332,8 +333,9 @@ lp_solver_init (Sheet *sheet, const SolverParameters *param, SolverResults *res,
 		/* Check that RHS is a number type. */
 		if (! (target->value == NULL || VALUE_IS_EMPTY (target->value)
 		              || VALUE_IS_NUMBER (target->value))) {
-		          *errmsg = _("The RHS cells should contain numerical "
-				      "values only.  Specify valid RHS entries.");
+		          *errmsg = _("The RHS cells should contain proper "
+				      "numerical values only.  Specify valid "
+				      "RHS entries.");
 			  solver_results_free (res);
 			  return NULL;
 		}
