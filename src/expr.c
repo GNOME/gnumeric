@@ -2136,10 +2136,29 @@ expr_init (void)
 #endif
 }
 
+#if USE_EXPR_POOLS
+static void
+cb_expression_pool_leak (gpointer data, gpointer user)
+{
+	const GnmExpr *expr = data;
+	ParsePos pp;
+	char *s;
+
+	pp.eval.col = 0;
+	pp.eval.row = 0;
+	pp.sheet = NULL;
+	pp.wb = NULL;
+	s = gnm_expr_as_string (expr, &pp);
+	fprintf (stderr, "Leaking expression at %p: %s.\n", expr, s);
+	g_free (s);
+}
+#endif
+
 void
 expr_shutdown (void)
 {
 #if USE_EXPR_POOLS
+	gnm_mem_chunk_foreach_leak (expression_pool, cb_expression_pool_leak, NULL);
 	gnm_mem_chunk_destroy (expression_pool, FALSE);
 	expression_pool = NULL;
 #endif
