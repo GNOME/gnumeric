@@ -563,6 +563,7 @@ required_updates_for_style (GnmStyle *style)
 	    (mstyle_is_element_set (style, MSTYLE_FORMAT) ||
 	     mstyle_is_element_set (style, MSTYLE_INDENT) ||
 	     mstyle_is_element_set (style, MSTYLE_ALIGN_H) ||
+	     mstyle_is_element_set (style, MSTYLE_ALIGN_V) ||
 	     mstyle_is_element_set (style, MSTYLE_FONT_STRIKETHROUGH) ||
 	     mstyle_is_element_set (style, MSTYLE_FONT_UNDERLINE) ||
 	     mstyle_is_element_set (style, MSTYLE_COLOR_FORE));

@@ -35,8 +35,9 @@ Pending Patches
 ------------------------
 
 - Merge wbc_init_state and wbc_set_view
-- check edit line. Things shift by at least 1 pixel vertically when editing
-- When editing rich text the initial style == pos0, rather than end
+- When editing rich text the initial style == pos0, rather than end.  Works
+  when edit starts with F2, but fails when edit starts by clicking in the edit
+  line
 
 1) Format and number match rewrite
 2) Font handling

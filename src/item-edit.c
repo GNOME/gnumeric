@@ -125,62 +125,44 @@ static void
 item_edit_draw (FooCanvasItem *item, GdkDrawable *drawable,
 		GdkEventExpose *expose)
 {
-	GtkWidget *canvas   = GTK_WIDGET (item->canvas);
-	ItemEdit *ie = ITEM_EDIT (item);
-	Sheet	   const *sheet  = sc_sheet (SHEET_CONTROL (ie->scg));
-	ColRowInfo const *ci = sheet_col_get_info (sheet, ie->pos.col);
-	int const left_pos = ((int)item->x1) + ci->margin_a;
-	int top_pos, text_height, height;
-	int cursor_pos   = gtk_editable_get_position (GTK_EDITABLE (ie->entry));
-	char const *text = gtk_entry_get_text (ie->entry);
-	PangoRectangle	 pos;
+	ItemEdit  *ie		= ITEM_EDIT (item);
+	GtkWidget *canvas	= GTK_WIDGET (item->canvas);
+	ColRowInfo const *ci	= sheet_col_get_info (
+					sc_sheet (SHEET_CONTROL (ie->scg)),
+					ie->pos.col);
+	int const left_pos	= ((int)item->x1) + ci->margin_a;
+	int top_pos 	  	= (int)item->y1;
+	StyleVAlignFlags align;
 
 	if (ie->style == NULL)
 		return;
 
        	/* Draw the background (recall that gdk_draw_rectangle excludes far coords) */
-	gdk_draw_rectangle (
-		drawable, ie->fill_gc, TRUE,
+	gdk_draw_rectangle (drawable, ie->fill_gc, TRUE,
 		(int)item->x1, (int)item->y1,
 		(int)(item->x2 - item->x1), (int)(item->y2 - item->y1));
 
-	pango_layout_get_pixel_size (ie->layout, NULL, &text_height);
-	pango_layout_index_to_pos (ie->layout,
-		g_utf8_offset_to_pointer (text, cursor_pos) - text, &pos);
-
-	top_pos = ((int)item->y1) + 1; /* grid line */
-	height = (int)(item->y2 - item->y1) - 1;
-	switch (mstyle_get_align_v (ie->style)) {
-	default:
-		g_warning ("Unhandled cell vertical alignment.");
-
-	case VALIGN_JUSTIFY:
-	case VALIGN_TOP:
-		/*
-		 * top_pos == first pixel past margin
-		 * add font ascent
-		 */
-		break;
-
-	case VALIGN_CENTER:
-		top_pos += (height - text_height)/2;
-		break;
-
-	case VALIGN_BOTTOM:
-		/*
-		 * rect.y == first pixel past margin
-		 * add height == first pixel in lower margin
-		 * subtract font descent
-		 */
-		top_pos += (height - text_height);
-		break;
+	align = mstyle_get_align_v (ie->style);
+	if (align == VALIGN_CENTER || align == VALIGN_BOTTOM) {
+		int text_height, height = (int)(item->y2 - item->y1);
+		pango_layout_get_pixel_size (ie->layout, NULL, &text_height);
+		top_pos += (align == VALIGN_CENTER)
+			? (height - text_height + 1)/2
+			: (height - text_height + 1);
 	}
+
 	gdk_draw_layout (drawable, canvas->style->black_gc,
 		left_pos, top_pos, ie->layout);
-	if (ie->cursor_visible)
+	if (ie->cursor_visible) {
+		PangoRectangle pos;
+		char const *text = gtk_entry_get_text (ie->entry);
+		int cursor_pos = gtk_editable_get_position (GTK_EDITABLE (ie->entry));
+		pango_layout_index_to_pos (ie->layout,
+			g_utf8_offset_to_pointer (text, cursor_pos) - text, &pos);
 		gdk_draw_line (drawable, canvas->style->black_gc,
 			left_pos + PANGO_PIXELS (pos.x), top_pos + PANGO_PIXELS (pos.y),
 			left_pos + PANGO_PIXELS (pos.x), top_pos + PANGO_PIXELS (pos.y + pos.height) - 1);
+	}
 }
 
 static double
@@ -350,7 +332,7 @@ ie_layout (FooCanvasItem *item)
 
 	tmp = scg_colrow_distance_get (ie->scg, FALSE,
 				       ie->pos.row, end_row+1) - 2;
-	item->y2 = item->y1 + MAX (height, tmp);
+	item->y2 = item->y1 + MAX (height-1, tmp);
 }
 
 
@@ -380,7 +362,7 @@ item_edit_realize (FooCanvasItem *item)
 
 	ie->fill_gc = gdk_gc_new (GTK_WIDGET (item->canvas)->window);
 	if (!gnumeric_background_set_gc (ie->style, ie->fill_gc, item->canvas, FALSE))
-		gdk_gc_set_rgb_fg_color (ie->fill_gc, &gs_white);
+		gdk_gc_set_rgb_fg_color (ie->fill_gc, &gs_yellow);
 
 	ie->layout = gtk_widget_create_pango_layout (GTK_WIDGET (item->canvas), NULL);
 }
