@@ -1,5 +1,9 @@
 2003-04-18  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
+	* dialog-solver.c (solver_add_scenario): Fixed the
+	scenario_add_new call.  Fix a memory leak.
+	(cb_dialog_solve_clicked): Read the scenario name entry.
+	
 	* scenario-manager.glade: Added Result cells entry.
 
 2003-04-16  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>

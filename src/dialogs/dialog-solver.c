@@ -42,6 +42,7 @@
 
 #include <glade/glade.h>
 #include <string.h>
+#include <scenarios.h>
 
 #define SOLVER_KEY            "solver-dialog"
 
@@ -842,16 +843,19 @@ solver_reporting (SolverState *state, SolverResults *res, gchar *errmsg)
 static void
 solver_add_scenario (SolverState *state, SolverResults *res, gchar *name)
 {
-	SolverOptions *opt = &res->param->options;
-	Value         *input_range;
-	const gchar   *comment = _("Optimal solution created by solver.\n");
+	SolverParameters *param = res->param;
+	Value            *input_range;
+	const gchar      *comment = _("Optimal solution created by solver.\n");
+	scenario_t       *scenario;
 
 	input_range = gnm_expr_entry_parse_as_value (state->change_cell_entry,
 						     state->sheet);
 
-	scenario_add_new (name, input_range,
-			  g_strdup (state->sheet->solver_parameters->input_entry_str),
-			  comment, state->sheet);
+	scenario_add_new (name, input_range, g_strdup (param->input_entry_str),
+			  g_strdup (comment), state->sheet, &scenario);
+	scenario_add (state->sheet, scenario);
+	if (input_range != NULL)
+		value_release (input_range);
 }
 
 /**
@@ -978,6 +982,10 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 		glade_xml_get_widget (state->gui, "program")));
 	param->options.program_report = program;
 
+	g_free (param->options.scenario_name);
+	param->options.scenario_name = g_strdup
+		(gtk_entry_get_text (GTK_ENTRY (state->scenario_name_entry)));
+
 	param->options.add_scenario = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui,
 							  "optimal_scenario")));
@@ -1034,6 +1042,7 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 		if (param->options.add_scenario)
 			solver_add_scenario (state, res,
 					     param->options.scenario_name);
+
 		solver_results_free (res);
 	} else
 		gnumeric_notice_nonmodal (GTK_WINDOW (state->dialog),
