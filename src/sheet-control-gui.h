@@ -1,6 +1,7 @@
 #ifndef GNUMERIC_SHEET_CONTROL_GUI_H
 #define GNUMERIC_SHEET_CONTROL_GUI_H
 
+#include "sheet-control-priv.h"
 #include "gui-gnumeric.h"
 #include <gtk/gtktable.h>
 
@@ -15,7 +16,7 @@ typedef gboolean (*SheetControlGUISlideHandler) (SheetControlGUI *scg, int col, 
 						 gpointer user_data);
 
 struct _SheetControlGUI {
-	GtkObject object;
+	SheetControl *sheet_control;
 	GtkTable  *table;
 
 	Sheet          		*sheet;
@@ -70,7 +71,7 @@ struct _SheetControlGUI {
 };
 
 typedef struct {
-	GtkObjectClass parent_class;
+	SheetControlClass parent_class;
 } SheetControlGUIClass;
 
 GtkType    sheet_control_gui_get_type (void);

@@ -14,6 +14,7 @@ typedef struct _WorkbookView	WorkbookView;
 typedef struct _WorkbookControl	WorkbookControl;
 
 typedef struct _Sheet		Sheet;
+typedef struct _SheetControl	SheetControl;
 typedef struct _SheetObject	SheetObject;
 typedef struct _Dependent	Dependent;
 typedef struct _Cell		Cell;

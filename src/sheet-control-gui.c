@@ -50,7 +50,7 @@
 #include <string.h>
 #include <gal/widgets/e-cursors.h>
 
-static GtkObjectClass *scg_parent_class;
+static SheetControlClass *scg_parent_class;
 
 void
 scg_redraw_all (SheetControlGUI *scg)
@@ -689,12 +689,12 @@ scg_class_init (SheetControlGUIClass *Class)
 	GtkObjectClass *object_class;
 
 	object_class = (GtkObjectClass *) Class;
-	scg_parent_class = gtk_type_class (gtk_object_get_type ());
+	scg_parent_class = gtk_type_class (sheet_control_get_type ());
 	object_class->destroy = scg_destroy;
 }
 
 GNUMERIC_MAKE_TYPE (sheet_control_gui, "SheetControlGUI", SheetControlGUI,
-		    scg_class_init, scg_init, gtk_object_get_type ())
+		    scg_class_init, scg_init, sheet_control_get_type ())
 
 void
 scg_unant (SheetControlGUI *scg)

@@ -1,3 +1,22 @@
+2001-05-26  Jon K Hellan  <hellan@acm.org>
+
+	* src/sheet-control-gui.[ch]: Derive from SheetControl rather than
+	GtkObject.
+
+	* src/gnumeric.h: Add incomplete def of SheetControl.
+
+	* src/Makefile.am: Add sheet-control.c, sheet-control.h,
+	sheet-control-priv.h
+
+	* src/sheet-control.c: New file. Stub base class for
+	SheetControlGUI. 
+
+	* src/sheet-control.h: Strip down even more from existing stub in
+	CVS. 
+
+	* src/sheet-control-priv.h: New file. Private header for
+	SheetControl.
+
 2001-05-26  Jody Goldberg <jgoldberg@home.com>
 
 	* src/format.c (format_number) : suppress minus for "\(" to match "("
