@@ -140,6 +140,7 @@ src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.c
 src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade
 src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c
 src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade
+src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-series-element-prefs.glade
 src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in
 src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in
 src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade
