@@ -5,7 +5,7 @@
  *    Michael Meeks (mmeeks@gnu.org)
  *    Jon K Hellan  (hellan@acm.org)
  *
- * (C) 1998, 1999 Michael Meeks, Jon K Hellan
+ * (C) 1998-2000 Michael Meeks, Jon K Hellan
  **/
 
 /**
@@ -1387,10 +1387,10 @@ put_mstyle (ExcelWorkbook *wb, MStyle *st)
 /**
  * Get ExcelCell record for cell position.
  **/
-static ExcelCell *
+inline static ExcelCell *
 excel_cell_get (ExcelSheet *sheet, int col, int row)
 {
-	return sheet->cells + row * sheet->maxx + col;
+	return *(sheet->cells + row) + col;
 }
 
 /**
@@ -3177,8 +3177,9 @@ write_sheet (BiffPut *bp, ExcelSheet *sheet)
 static void
 new_sheet (ExcelWorkbook *wb, Sheet *value)
 {
-	ExcelSheet     *sheet = g_new (ExcelSheet, 1);
+	ExcelSheet      *sheet = g_new (ExcelSheet, 1);
 	Range           extent;
+	ExcelCell       **p, **pmax;
 
 	g_return_if_fail (value);
 	g_return_if_fail (wb);
@@ -3196,14 +3197,21 @@ new_sheet (ExcelWorkbook *wb, Sheet *value)
 
 	ms_formula_cache_init (sheet);
 	sheet->cell_used_map = cell_used_map_new (sheet);
-	sheet->cells = g_new0 (ExcelCell, sheet->maxy * sheet->maxx);
+	
+	sheet->cells = g_new (ExcelCell *, sheet->maxy);
+	for (p = sheet->cells, pmax = p + sheet->maxy; p < pmax; p++)
+		*p = g_new0 (ExcelCell, sheet->maxx);
 }
 
 static void
 free_sheet (ExcelSheet *sheet)
 {
+	ExcelCell     **p, **pmax;
+
 	if (sheet) {
 		g_free (sheet->cell_used_map);
+		for (p = sheet->cells, pmax = p + sheet->maxy; p < pmax; p++)
+			g_free (*p);
 		g_free (sheet->cells);
 		g_array_free (sheet->dbcells, TRUE);
 		ms_formula_cache_shutdown (sheet);

@@ -1,3 +1,12 @@
+2000-01-14  Jon K Hellan  <hellan@acm.org>
+
+	* ms-excel-write.h: (ExcelWorkbook): Make
+	sheet->cells an array of arrays.
+
+	* ms-excel-write.c (excel_cell_get): Make inline.
+	(excel_cell_get, new_sheet, new_sheet, free_sheet): Make
+	sheet->cells an array of arrays.
+
 2000-01-13  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (ms_excel_read_workbook) : Move magic scale hack

@@ -72,7 +72,7 @@ struct _ExcelSheet {
 	guint32        maxy;
 	GHashTable    *formula_cache;
 	gpointer       cell_used_map;
-	ExcelCell     *cells;
+	ExcelCell    **cells;
 	double         base_char_width;
 };
 
