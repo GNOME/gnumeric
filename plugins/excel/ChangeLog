@@ -1,5 +1,10 @@
 1999-06-21  Morten Welinder  <terra@diku.dk>
 
+	* ms-excel-read.c (ms_excel_read_cell): Insert bools as values,
+ 	not constant expresssions.
+	(biff_get_text): Make a little more quiet.
+	(ms_excel_read_cell): Insert strings as values, not via text.
+
 	* ms-excel-read.c (ms_excel_read_cell): Handle errors and boolean
  	constants without going through text.  (In particular, this gets
  	errors right and prepares for a proper bool type.)

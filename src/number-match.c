@@ -538,10 +538,10 @@ extract_text (const char *str, const regmatch_t *mp)
  */
 static gboolean
 compute_value (const char *s, const regmatch_t *mp,
-	       GByteArray *array, double *v)
+	       GByteArray *array, float_t *v)
 {
 	const int len = array->len;
-	double number = 0.0;
+	float_t number = 0.0;
 	gchar *data = array->data;
 	gboolean percentify = FALSE;
 	gboolean is_number  = FALSE;
@@ -717,7 +717,7 @@ compute_value (const char *s, const regmatch_t *mp,
 #define NM 40
 
 gboolean
-format_match (const char *s, double *v, char **format)
+format_match (const char *s, float_t *v, char **format)
 {
 	GList *l;
 	regmatch_t mp [NM+1];

@@ -731,7 +731,7 @@ sheet_set_text (Sheet *sheet, int col, int row, const char *str)
 	 */
 	if (*text != '=') {
 		char *end, *format;
-		double v;
+		float_t v;
 
 		(void) strtod (text, &end);
 		if (end != text && *end == 0) {
@@ -739,24 +739,10 @@ sheet_set_text (Sheet *sheet, int col, int row, const char *str)
 			   that we would other wise actually set a "0" format
 			   for integers and that it would stick.  */
 		} else if (format_match (text, &v, &format)) {
-			StyleFormat *sf;
-			char *new_text;
-			Value *vf = value_new_float (v);
-
-			/* Render it */
-			sf = style_format_new (format);
-			new_text = format_value (sf, vf, NULL);
-			style_format_unref (sf);
-
-			/* Compare it */
-			if (strcasecmp (new_text, text) == 0){
-				if (!CELL_IS_FORMAT_SET (cell))
-					cell_set_format_simple (cell, format);
-				cell_set_value (cell, vf);
-				text_set = TRUE;
-			} else
-				value_release (vf);
-			g_free (new_text);
+			if (!CELL_IS_FORMAT_SET (cell))
+				cell_set_format_simple (cell, format);
+			cell_set_value (cell, value_new_float (v));
+			text_set = TRUE;
 		}
 	}
 

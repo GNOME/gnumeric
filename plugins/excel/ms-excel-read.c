@@ -115,6 +115,7 @@ biff_get_text (BYTE *pos, guint32 length, guint32* byte_length)
 	guint32 byte_len ;
 	gboolean header ;
 	gboolean high_byte ;
+	static gboolean high_byte_warned = FALSE;
 	gboolean ext_str ;
 	gboolean rich_str ;
 
@@ -139,8 +140,11 @@ biff_get_text (BYTE *pos, guint32 length, guint32* byte_length)
 		ptr = pos ;
 
 	/* A few friendly warnings */
-	if (high_byte)
+	if (high_byte && !high_byte_warned)
+	{
 		printf ("FIXME: unicode support unimplemented: truncating\n") ;
+		high_byte_warned = TRUE;
+	}
 	if (rich_str) /* The data for this appears after the string */
 	{
 		guint16 formatting_runs = BIFF_GETWORD(ptr) ;
@@ -2025,15 +2029,15 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 	}
 	case BIFF_LABELSST:
 	{
-		char *str;
 		guint32 idx = BIFF_GETLONG (q->data + 6) ;
 		
 		if (!sheet->wb->global_strings || idx >= sheet->wb->global_string_max)
 			printf ("string index 0x%x out of range\n", idx) ;
-		else
-		{
+		else {
+			const char *str;
 			str = sheet->wb->global_strings[idx] ;
-			ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q), str);
+			ms_excel_sheet_insert_val (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q),
+						   value_new_string (str));
 		}
                 break;
 	}
@@ -2062,14 +2066,20 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		}
 		case BIFF_BOOLERR: /* S59D5F.HTM */
 		{
-			ExprTree *e;
-			if (BIFF_GETBYTE(q->data + 7)) /* Error */
+			if (BIFF_GETBYTE(q->data + 7)) {
+				/* Error */
+				ExprTree *e;
 				e = expr_tree_new_error (biff_get_error_text (BIFF_GETBYTE(q->data + 6)));
-			else /* Boolean */
-				e = expr_tree_new_constant (value_new_bool (BIFF_GETBYTE(q->data + 6)));
-			ms_excel_sheet_insert_form (sheet, EX_GETXF (q), EX_GETCOL (q),
-						    EX_GETROW (q), e);
-			expr_tree_unref (e);
+				ms_excel_sheet_insert_form (sheet, EX_GETXF (q), EX_GETCOL (q),
+							    EX_GETROW (q), e);
+				expr_tree_unref (e);
+			} else {
+				/* Boolean */
+				Value *v;
+				v = value_new_bool (BIFF_GETBYTE(q->data + 6));
+				ms_excel_sheet_insert_val (sheet, EX_GETXF (q), EX_GETCOL (q),
+							   EX_GETROW (q), v);
+			}
 			break;
 		}
 		default:

@@ -23,11 +23,8 @@ get_serial_date (Value *v)
 		serial = value_get_as_float (v);
 	else {
 		char *format;
-		double dserial;
 
-		if (format_match (v->v.str->str, &dserial, &format)) {
-			serial = dserial;
-		} else
+		if (!format_match (v->v.str->str, &serial, &format))
 			serial = 0;
 	}
 	return floor (serial);
@@ -43,11 +40,8 @@ get_serial_time (Value *v)
 		serial = value_get_as_float (v);
 	else {
 		char *format;
-		double dserial;
 
-		if (format_match (v->v.str->str, &dserial, &format)) {
-			serial = dserial;
-		} else
+		if (!format_match (v->v.str->str, &serial, &format))
 			serial = 0;
 	}
 	return serial - floor (serial);

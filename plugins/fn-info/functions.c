@@ -465,7 +465,7 @@ gnumeric_n (struct FunctionDefinition *n,
 	    Value *argv [], char **error_string)
 {
 	const char *str;
-	double v;
+	float_t v;
 	char *format;
 
 	if (VALUE_IS_NUMBER (argv[0]))
