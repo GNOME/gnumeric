@@ -6,7 +6,6 @@
 
 #include "consolidate.h"
 #include "gnumeric.h"
-#include "format-template.h"
 #include "sort.h"
 
 void command_undo (WorkbookControl *wbc);
@@ -61,7 +60,8 @@ gboolean cmd_autofill		(WorkbookControl *wbc, Sheet *sheet,
 gboolean cmd_clear_selection	(WorkbookControl *wbc, Sheet *sheet,
 				 int clear_flags);
 
-gboolean cmd_autoformat         (WorkbookControl *wbc, Sheet *sheet, FormatTemplate *ft);
+gboolean cmd_autoformat         (WorkbookControl *wbc, Sheet *sheet,
+				 FormatTemplate const *ft);
 
 gboolean cmd_colrow_hide_selection (WorkbookControl *wbc, Sheet *sheet,
 				    gboolean is_cols, gboolean visible);

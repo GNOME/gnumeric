@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <gmr:FormatTemplate xmlns:gmr="http://www.gnome.org/gnumeric/format-template/v1">
   <gmr:Information author="Gnumeric Team" name="Ice" description="Financial style with cold border color" category="Financial"/>
-  <gmr:Information xml:lang="pl" author="Zespó³ Gnumerica" name="Lodowaty" description="Szablon finansowy o ch³odnych kolorach krawêdzi" category="Finansowe"/>
   <gmr:Members>
     <gmr:Member>
       <gmr:Row>

@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
 <gmr:FormatTemplateCategory xmlns:gmr="http://www.gnome.org/gnumeric/format-template-category/v1">
 <gmr:Information name="3D" description="3D"/>
-<gmr:Information xml:lang="pl" name="Trójwymiarowe" description="Szablony trójwymiarowe"/>
 </gmr:FormatTemplateCategory>

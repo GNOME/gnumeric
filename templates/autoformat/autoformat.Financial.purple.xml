@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <gmr:FormatTemplate xmlns:gmr="http://www.gnome.org/gnumeric/format-template/v1">
   <gmr:Information author="Gnumeric Team" name="Purple" description="Financial template with purple borders" category="Financial"/>
-  <gmr:Information xml:lang="pl" author="Zespó³ Gnumerica" name="Purpurowy" description="Szablon finansowy o purpurowych krawêdziach" category="Finansowe"/>
   <gmr:Members>
     <gmr:Member>
       <gmr:Row>

@@ -90,6 +90,7 @@ typedef struct _StyleColor	        StyleColor;
 typedef struct _StyleBorder	        StyleBorder;
 typedef struct _StyleRow	        StyleRow;
 typedef struct _StyleCondition          StyleCondition;
+typedef struct _FormatTemplate          FormatTemplate;
 
 typedef struct _Validation              Validation;
 

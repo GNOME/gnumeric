@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * format-template.c : implementation of the template handling system.
  *
@@ -24,14 +25,17 @@
 #include "format-template.h"
 
 #include "mstyle.h"
-#include "xml-io-autoft.h"
 #include "sheet.h"
 #include "sheet-style.h"
 #include "style-border.h"
 #include "command-context.h"
 #include "ranges.h"
+#include "xml-io.h"
+#include "plugin-util.h"	/* for gnumeric_fopen */
+#include <libxml/parser.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
+#include <gal/util/e-xml-utils.h>
 
 /******************************************************************************
  * Hash table related callbacks and functions
@@ -198,34 +202,6 @@ hash_table_insert (GHashTable *table, int row, int col, MStyle *mstyle)
 }
 
 /******************************************************************************
- * FormatColRowInfo - Construction
- ******************************************************************************/
-
-/**
- * format_col_row_info_make:
- * @offset: Desired offset
- * @offset_gravity: Gravity
- * @size: The size
- *
- * This function is simply an easy way to create a FormatColRowInfo
- * instantly
- *
- * Return value: The 3 arguments inside a FormatColRowInfo
- **/
-FormatColRowInfo
-format_col_row_info_make (int offset, int offset_gravity,
-			  int size)
-{
-	FormatColRowInfo new;
-
-	new.offset = offset;
-	new.offset_gravity = offset_gravity;
-	new.size = size;
-
-	return new;
-}
-
-/******************************************************************************
  * FormatTemplateMember - Getters/setters and creation
  ******************************************************************************/
 
@@ -243,8 +219,9 @@ format_template_member_new (void)
 
 	member = g_new (TemplateMember, 1);
 
-	format_template_member_set_row_info (member, format_col_row_info_make (0, 1, 1));
-	format_template_member_set_col_info (member, format_col_row_info_make (0, 1, 1));
+	member->col.offset	   = member->row.offset = 0;
+	member->col.offset_gravity = member->row.offset_gravity = 1;
+	member->col.size	   = member->row.size = 1;
 	member->direction = FREQ_DIRECTION_NONE;
 	member->repeat    = 0;
 	member->skip      = 0;
@@ -291,8 +268,10 @@ format_template_member_free (TemplateMember *member)
 {
 	g_return_if_fail (member != NULL);
 
-	if (member->mstyle)
+	if (member->mstyle) {
 		mstyle_unref (member->mstyle);
+		member->mstyle = NULL;
+	}
 
 	g_free (member);
 }
@@ -369,49 +348,7 @@ format_template_member_get_rect (TemplateMember *member, Range const *r)
  *        need to unref or ref mstyle's manually.
  */
 
-FormatColRowInfo
-format_template_member_get_row_info (TemplateMember *member)
-{
-	return member->row;
-}
-
-FormatColRowInfo
-format_template_member_get_col_info (TemplateMember *member)
-{
-	return member->col;
-}
-
-FreqDirection
-format_template_member_get_direction (TemplateMember *member)
-{
-	return member->direction;
-}
-
-int
-format_template_member_get_repeat (TemplateMember *member)
-{
-	return member->repeat;
-}
-
-int
-format_template_member_get_skip (TemplateMember *member)
-{
-	return member->skip;
-}
-
-int
-format_template_member_get_edge (TemplateMember *member)
-{
-	return member->edge;
-}
-
-MStyle *
-format_template_member_get_style (TemplateMember *member)
-{
-	return member->mstyle;
-}
-
-void
+static void
 format_template_member_set_row_info (TemplateMember *member, FormatColRowInfo row_info)
 {
 	g_return_if_fail (row_info.offset >= 0);
@@ -420,7 +357,7 @@ format_template_member_set_row_info (TemplateMember *member, FormatColRowInfo ro
 	member->row = row_info;
 }
 
-void
+static void
 format_template_member_set_col_info (TemplateMember *member, FormatColRowInfo col_info)
 {
 	g_return_if_fail (col_info.offset >= 0);
@@ -429,7 +366,7 @@ format_template_member_set_col_info (TemplateMember *member, FormatColRowInfo co
 	member->col = col_info;
 }
 
-void
+static void
 format_template_member_set_direction (TemplateMember *member, FreqDirection direction)
 {
 	g_return_if_fail (direction == FREQ_DIRECTION_NONE || direction == FREQ_DIRECTION_HORIZONTAL ||
@@ -438,7 +375,7 @@ format_template_member_set_direction (TemplateMember *member, FreqDirection dire
 	member->direction = direction;
 }
 
-void
+static void
 format_template_member_set_repeat (TemplateMember *member, int repeat)
 {
 	g_return_if_fail (repeat >= -1);
@@ -446,7 +383,7 @@ format_template_member_set_repeat (TemplateMember *member, int repeat)
 	member->repeat = repeat;
 }
 
-void
+static void
 format_template_member_set_skip (TemplateMember *member, int skip)
 {
 	g_return_if_fail (skip >= 0);
@@ -454,33 +391,12 @@ format_template_member_set_skip (TemplateMember *member, int skip)
 	member->skip = skip;
 }
 
-void
+static void
 format_template_member_set_edge (TemplateMember *member, int edge)
 {
 	g_return_if_fail (edge >= 0);
 
 	member->edge = edge;
-}
-
-void
-format_template_member_set_style (TemplateMember *member, MStyle *mstyle)
-{
-	MStyle *mstyle_default;
-	
-	g_return_if_fail (mstyle != NULL);
-
-	if (member->mstyle)
-		mstyle_unref (member->mstyle);
-
-	/*
-	 * We need to do some magic here. The problem is that the new
-	 * mstyle might not have _all_ elements set and we _do_ need it
-	 * to have all elements set. We therefore merge with the default
-	 * mstyle.
-	 */
-	mstyle_default = mstyle_new_default ();
-	member->mstyle = mstyle_copy_merge (mstyle_default, mstyle);
-	mstyle_unref (mstyle_default);
 }
 
 /******************************************************************************
@@ -489,32 +405,26 @@ format_template_member_set_style (TemplateMember *member, MStyle *mstyle)
 
 /**
  * format_template_new:
- * @context: a command context
  *
  * Create a new 'empty' FormatTemplate
  *
  * Return value: the new FormatTemplate
  **/
 FormatTemplate *
-format_template_new (CommandContext *context)
+format_template_new ()
 {
 	FormatTemplate *ft;
 
-	g_return_val_if_fail (context != NULL, NULL);
-
 	ft = g_new0 (FormatTemplate, 1);
 
-	ft->filename    = g_string_new ("");
-
-	ft->author      = g_string_new (g_get_real_name ());
-	ft->name        = g_string_new (_("Name"));
-	ft->description = g_string_new ("");
+	ft->filename    = g_strdup ("");
+	ft->author      = g_strdup (g_get_real_name ());
+	ft->name        = g_strdup (_("Name"));
+	ft->description = g_strdup ("");
 
 	ft->category = NULL;
 
 	ft->members = NULL;
-	ft->context = context;
-
 	ft->number    = TRUE;
 	ft->border    = TRUE;
 	ft->font      = TRUE;
@@ -531,32 +441,21 @@ format_template_new (CommandContext *context)
 
 /**
  * format_template_free:
- * @ft: FormatTemplate
- *
- * Free @ft
- *
  **/
 void
 format_template_free (FormatTemplate *ft)
 {
-	GSList *iterator;
+	GSList *ptr;
 
 	g_return_if_fail (ft != NULL);
 
-	g_string_free (ft->filename, TRUE);
+	g_free (ft->filename);
+	g_free (ft->author);
+	g_free (ft->name);
+	g_free (ft->description);
 
-	g_string_free (ft->author, TRUE);
-	g_string_free (ft->name, TRUE);
-	g_string_free (ft->description, TRUE);
-
-	iterator = ft->members;
-	while (iterator) {
-		TemplateMember *member = iterator->data;
-
-		format_template_member_free (member);
-
-		iterator = g_slist_next (iterator);
-	}
+	for (ptr = ft->members; ptr != NULL ; ptr = ptr->next)
+		format_template_member_free (ptr->data);
 	g_slist_free (ft->members);
 
 	ft->table = hash_table_destroy (ft->table);
@@ -576,26 +475,22 @@ FormatTemplate *
 format_template_clone (FormatTemplate *ft)
 {
 	FormatTemplate *clone;
-	GSList *iterator = NULL;
+	GSList *ptr = NULL;
 
 	g_return_val_if_fail (ft != NULL, NULL);
 
-	clone = format_template_new (ft->context);
+	clone = g_new0 (FormatTemplate, 1);
 
-	clone->filename    = g_string_new (ft->filename->str);
-	clone->author      = g_string_new (ft->author->str);
-	clone->name        = g_string_new (ft->name->str);
-	clone->description = g_string_new (ft->description->str);
+	clone->filename    = g_strdup (ft->filename);
+	clone->author      = g_strdup (ft->author);
+	clone->name        = g_strdup (ft->name);
+	clone->description = g_strdup (ft->description);
 
 	clone->category    = ft->category;
 
-	iterator = ft->members;
-	while (iterator) {
-		TemplateMember *member = format_template_member_clone ((TemplateMember *) iterator->data);
-
-		format_template_attach_member (clone, member);
-		iterator = g_slist_next (iterator);
-	}
+	for (ptr = ft->members; ptr != NULL ; ptr = ptr->next)
+		format_template_attach_member (clone,
+			format_template_member_clone (ptr->data));
 
 	clone->number    = ft->number;
 	clone->border    = ft->border;
@@ -610,6 +505,92 @@ format_template_clone (FormatTemplate *ft)
 	return clone;
 }
 
+static void
+xml_read_format_col_row_info (FormatColRowInfo *info, xmlNodePtr parent, xmlChar *type)
+{
+	xmlNode *tmp;
+
+	parent = e_xml_get_child_by_name (parent, type);
+	g_return_if_fail (parent != NULL);
+
+	tmp = e_xml_get_child_by_name (parent, (xmlChar *)"Placement");
+	g_return_if_fail (tmp != NULL);
+	xml_node_get_int  (tmp, "offset", &info->offset);
+	xml_node_get_int  (tmp, "offset_gravity", &info->offset_gravity);
+
+	tmp = e_xml_get_child_by_name (parent, (xmlChar *)"Dimensions");
+	g_return_if_fail (tmp != NULL);
+	xml_node_get_int (tmp, "size", &info->size);
+}
+
+static gboolean
+xml_read_format_template_member (XmlParseContext *ctxt, FormatTemplate *ft, xmlNodePtr tree)
+{
+	xmlNodePtr child;
+	TemplateMember *member;
+	int tmp;
+
+	g_return_val_if_fail (!strcmp (tree->name, "Member"), FALSE);
+	member = format_template_member_new ();
+	xml_read_format_col_row_info (&member->col, tree, (xmlChar *)"Col");
+	xml_read_format_col_row_info (&member->row, tree, (xmlChar *)"Row");
+
+	child = e_xml_get_child_by_name (tree, (xmlChar *)"Frequency");
+	g_return_val_if_fail (child != NULL, FALSE);
+
+	if (xml_node_get_int (child, "direction", &tmp))
+		format_template_member_set_direction (member, tmp);
+	if (xml_node_get_int (child, "repeat", &tmp))
+		format_template_member_set_repeat (member, tmp);
+	if (xml_node_get_int (child, "skip", &tmp))
+		format_template_member_set_skip (member, tmp);
+	if (xml_node_get_int (child, "edge", &tmp))
+		format_template_member_set_edge (member, tmp);
+
+
+	child = e_xml_get_child_by_name (tree, (xmlChar *)"Style");
+	g_return_val_if_fail (child != NULL, FALSE);
+	member->mstyle = xml_read_style (ctxt, child);
+
+	format_template_attach_member (ft, member);
+
+	return TRUE;
+}
+
+static gboolean
+xml_read_format_template_members (XmlParseContext *ctxt, FormatTemplate *ft, xmlNodePtr tree)
+{
+	xmlNode *child;
+
+	g_return_val_if_fail (!strcmp (tree->name, "FormatTemplate"), FALSE);
+
+	child = e_xml_get_child_by_name_by_lang_list (tree, "Information", NULL);
+	if (child) {
+		xmlChar *author = xml_node_get_cstr (child, "author");
+		xmlChar *name   = xml_node_get_cstr (child, "name");
+		xmlChar *descr  = xml_node_get_cstr (child, "description");
+
+		format_template_set_author (ft, (char const *)author);
+		format_template_set_name (ft,  (char const *)name);
+		format_template_set_description (ft,  (char const *)descr);
+
+		xmlFree (author);
+		xmlFree (name);
+		xmlFree (descr);
+	} else
+		return FALSE;
+
+	child = e_xml_get_child_by_name (tree, (xmlChar *)"Members");
+	if (child == NULL)
+		return FALSE;
+	for (child = child->xmlChildrenNode; child != NULL ; child = child->next)
+		if (!xmlIsBlankNode (child) &&
+		    !xml_read_format_template_member (ctxt, ft, child))
+			return FALSE;
+
+	return TRUE;
+}
+
 /**
  * format_template_new_from_file:
  * @context:
@@ -621,44 +602,165 @@ format_template_clone (FormatTemplate *ft)
  * Return value: a new FormatTemplate (or NULL on error)
  **/
 FormatTemplate *
-format_template_new_from_file (CommandContext *context, const char *filename)
+format_template_new_from_file (char const *filename, CommandContext *cc)
 {
-	FormatTemplate *ft;
+	FormatTemplate	*ft = NULL;
+	xmlDoc		*doc;
 
-	g_return_val_if_fail (context != NULL, NULL);
 	g_return_val_if_fail (filename != NULL, NULL);
 
 	if (!g_file_exists (filename))
 		return NULL;
 
-	ft = format_template_new (context);
-
-	g_string_free (ft->filename, TRUE);
-	ft->filename = g_string_new (filename);
-
-	if (gnumeric_xml_read_format_template (ft->context, ft, filename) != 0) {
-
-		format_template_free (ft);
+	doc = xmlParseFile (filename);
+	if (doc == NULL) {
+		gnumeric_error_read (cc,
+			_("Error while trying to load autoformat template"));
 		return NULL;
 	}
+	if (doc->xmlRootNode != NULL) {
+		xmlNs *ns = xmlSearchNsByHref (doc, doc->xmlRootNode,
+			(xmlChar *)"http://www.gnome.org/gnumeric/format-template/v1");
+		if (ns != NULL && !strcmp (doc->xmlRootNode->name, "FormatTemplate")) {
+			XmlParseContext *ctxt = xml_parse_ctx_new (doc, ns);
 
+			ft = format_template_new ();
+			if (xml_read_format_template_members (ctxt, ft, doc->xmlRootNode)) {
+				g_free (ft->filename);
+				ft->filename = g_strdup (filename);
+			} else {
+				format_template_free (ft);
+				ft = NULL;
+				gnumeric_error_read (cc,
+					_("Error while trying to build tree from autoformat template file"));
+			}
+
+			xml_parse_ctx_destroy (ctxt);
+		} else
+			gnumeric_error_read (cc,
+				_("Is not an autoformat template file"));
+	} else
+		gnumeric_error_read (cc,
+			_("Invalid xml file. Tree is empty ?"));
+
+	xmlFreeDoc (doc);
 	return ft;
+}
+
+static xmlNode *
+format_colrow_info_write_xml (FormatColRowInfo const *info,
+			      xmlNode *parent, xmlChar const *type,
+			      XmlParseContext *ctxt)
+{
+	xmlNode *tmp, *container;
+
+	container = xmlNewChild (parent, parent->ns, type, NULL);
+	tmp = xmlNewChild (container, container->ns, (xmlChar *)"Placement", NULL);
+	xml_node_set_int (tmp, "offset", info->offset);
+	xml_node_set_int (tmp, "offset_gravity", info->offset_gravity);
+
+	tmp = xmlNewChild (container, container->ns, (xmlChar *)"Dimensions", NULL);
+	xml_node_set_int (tmp, "size", info->size);
+
+	return container;
+}
+
+/*
+ * Create an XML subtree of doc equivalent to the given TemplateMember
+ */
+static xmlNodePtr
+xml_write_format_template_member (XmlParseContext *ctxt, TemplateMember *member)
+{
+	xmlNode *tmp, *member_node;
+
+	member_node = xmlNewDocNode (ctxt->doc, ctxt->ns, (xmlChar *)"Member", NULL);
+	if (member_node == NULL)
+		return NULL;
+
+	format_colrow_info_write_xml (&member->col, member_node, "Col", ctxt);
+	format_colrow_info_write_xml (&member->row, member_node, "Row", ctxt);
+
+	tmp = xmlNewChild (member_node, member_node->ns, (xmlChar *)"Frequency" , NULL);
+	xml_node_set_int (tmp, "direction", member->direction);
+	xml_node_set_int (tmp, "repeat", member->repeat);
+	xml_node_set_int (tmp, "skip", member->skip);
+	xml_node_set_int (tmp, "edge", member->edge);
+
+	xmlAddChild (member_node, xml_write_style (ctxt, member->mstyle));
+
+	return member_node;
+}
+
+static xmlNodePtr
+xml_write_format_template_members (XmlParseContext *ctxt, FormatTemplate const *ft)
+{
+	xmlNode *root, *child;
+	xmlNs   *ns;
+	GSList  *member;
+
+	root = xmlNewDocNode (ctxt->doc, NULL, (xmlChar *)"FormatTemplate", NULL);
+	if (root == NULL)
+		return NULL;
+
+	ns = xmlNewNs (root,
+		(xmlChar *)"http://www.gnome.org/gnumeric/format-template/v1",
+		(xmlChar *)"gmr");
+	xmlSetNs (root, ns);
+	ctxt->ns = ns;
+
+	child = xmlNewChild (root, ns, (xmlChar *)"Information", NULL);
+	xml_node_set_cstr (child, "author", ft->author);
+	xml_node_set_cstr (child, "name", ft->name);
+	xml_node_set_cstr (child, "description", ft->description);
+
+	child = xmlNewChild (root, ns, (xmlChar *)"Members", NULL);
+	for (member = ft->members ; member != NULL ; member = member->next)
+		xmlAddChild (child,
+			xml_write_format_template_member (ctxt, member->data));
+
+	return root;
 }
 
 /**
  * format_template_save_to_file:
  * @ft: a FormatTemplate
+ * @cc : where to report errors
  *
  * Saves template @ft to a filename set with format_template_set_filename
  *
- * Return value: 0 on success, or -1 on error.
+ * Return value: return TRUE on error.
  **/
-int
-format_template_save (FormatTemplate *ft)
+gboolean
+format_template_save (FormatTemplate const *ft, CommandContext *cc)
 {
+	FILE *file;
+	IOContext *io_context;
+	gboolean success = FALSE;
+
 	g_return_val_if_fail (ft != NULL, -1);
 
-	return gnumeric_xml_write_format_template (ft->context, ft, ft->filename->str);
+	io_context = gnumeric_io_context_new (cc);
+	file = gnumeric_fopen (io_context, ft->filename, "w");
+	if (file != NULL) {
+		xmlDoc *doc = xmlNewDoc ((xmlChar *)"1.0");
+		if (doc != NULL) {
+			XmlParseContext *ctxt = xml_parse_ctx_new (doc, NULL);
+			doc->xmlRootNode = xml_write_format_template_members (ctxt, ft);
+			xml_parse_ctx_destroy (ctxt);
+			xmlSetDocCompressMode (doc, 0);
+			xmlDocDump (file, doc);
+			xmlFreeDoc (doc);
+
+			success = TRUE;
+		} else
+			gnumeric_error_save (cc, "");
+
+		fclose (file);
+	}
+
+	g_object_unref (G_OBJECT (io_context));
+
+	return success;
 }
 
 /**
@@ -707,10 +809,9 @@ format_template_detach_member (FormatTemplate *ft, TemplateMember *member)
 gint
 format_template_compare_name (gconstpointer a, gconstpointer b)
 {
-	FormatTemplate *ft_a = (FormatTemplate *) a,
-	               *ft_b = (FormatTemplate *) b;
-
-	return strcmp (ft_a->name->str, ft_b->name->str);
+	FormatTemplate const *ft_a = (FormatTemplate const *) a;
+	FormatTemplate const *ft_b = (FormatTemplate const *) b;
+	return strcmp (ft_a->name, ft_b->name);
 }
 
 /******************************************************************************
@@ -827,15 +928,16 @@ typedef void (* PCalcCallback) (FormatTemplate *ft, Range *r, MStyle *mstyle, gp
  * format_template_range_check:
  * @ft: Format template
  * @r: Target range
- * @display_error: If TRUE will display an error message if @r is not appropriate for @ft.
+ * @optional_cc : if non-NULL display an error message if @r is not
+ * 			appropriate for @ft.
  *
  * Check whether range @r is big enough to apply format template @ft to it.
- * If this is not the case an error message WILL be displayed if @display_error is TRUE
  *
  * Return value: TRUE if @s is big enough, FALSE if not.
  **/
 static gboolean
-format_template_range_check (FormatTemplate *ft, Range const *r, gboolean display_error)
+format_template_range_check (FormatTemplate *ft, Range const *r,
+			     CommandContext *optional_cc)
 {
 	GSList *iterator;
 	int diff_col_high = -1;
@@ -865,38 +967,34 @@ format_template_range_check (FormatTemplate *ft, Range const *r, gboolean displa
 		iterator = g_slist_next (iterator);
 	}
 
-	if (invalid_range_seen && display_error) {
+	if (invalid_range_seen && optional_cc != NULL) {
 		int diff_row_high_ft = diff_row_high + range_height (r);
 		int diff_col_high_ft = diff_col_high + range_width (r);
 		char *errmsg;
 
-		if (diff_col_high > 0 && diff_row_high > 0) {
-			errmsg = g_strdup_printf (_("The target region is too small.  It should be at least %d rows by %d columns"),
-							  diff_row_high_ft, diff_col_high_ft);
-		} else if (diff_col_high > 0) {
-			errmsg = g_strdup_printf (_("The target region is too small.  It should be at least %d columns wide"),
-							  diff_col_high_ft);
-		} else if (diff_row_high > 0) {
-			errmsg = g_strdup_printf (_("The target region is too small.  It should be at least %d rows high"),
-							  diff_row_high_ft);
-		} else {
+		if (diff_col_high > 0 && diff_row_high > 0)
+			errmsg = g_strdup_printf (
+				_("The target region is too small.  It should be at least %d rows by %d columns"),
+				diff_row_high_ft, diff_col_high_ft);
+		else if (diff_col_high > 0)
+			errmsg = g_strdup_printf (
+				_("The target region is too small.  It should be at least %d columns wide"),
+				diff_col_high_ft);
+		else if (diff_row_high > 0)
+			errmsg = g_strdup_printf (
+				_("The target region is too small.  It should be at least %d rows high"),
+				diff_row_high_ft);
+		else {
 			errmsg = NULL;
-
 			g_warning ("Internal error while verifying ranges! (this should not happen!)");
 		}
 
-		if (errmsg)
-			gnumeric_error_system (ft->context, errmsg);
-
-		g_free (errmsg);
-
-		return FALSE;
-	} else if (invalid_range_seen) {
-
-		return FALSE;
+		if (errmsg != NULL) {
+			gnumeric_error_system (optional_cc, errmsg);
+			g_free (errmsg);
+		}
 	}
-
-	return TRUE;
+	return !invalid_range_seen;
 }
 
 /**
@@ -924,7 +1022,7 @@ format_template_calculate (FormatTemplate *ft, Range const *r, PCalcCallback pc,
 	iterator = ft->members;
 	while (iterator) {
 		TemplateMember *member = iterator->data;
-		MStyle *mstyle = format_template_member_get_style (member);
+		MStyle const *mstyle = member->mstyle;
 		Range range = format_template_member_get_rect (member, r);
 
 		if (member->direction == FREQ_DIRECTION_NONE)
@@ -1025,15 +1123,12 @@ format_template_recalc_hash (FormatTemplate *ft)
 
 	r = ft->dimension;
 
-	/*
-	 * If the range check fails then the template it simply too *huge*
+	/* If the range check fails then the template it simply too *huge*
 	 * so we don't display an error dialog.
 	 */
 	if (!format_template_range_check (ft, &r, FALSE)) {
-
-		g_warning ("Template %s is too large, hash can't be calculated", ft->name->str);
+		g_warning ("Template %s is too large, hash can't be calculated", ft->name);
 		g_hash_table_thaw (ft->table);
-
 		return;
 	}
 
@@ -1105,14 +1200,17 @@ cb_format_sheet_style (FormatTemplate *ft, Range *r, MStyle *mstyle, Sheet *shee
  * format_template_check_valid :
  * @ft :
  * @regions :
+ * @cc : where to report errors
  *
  * check to see if the @regions are able to contain the support template @ft.
  */
 gboolean
-format_template_check_valid (FormatTemplate *ft, GSList *regions)
+format_template_check_valid (FormatTemplate *ft, GSList *regions, CommandContext *cc)
 {
+	g_return_if_fail (cc != NULL);
+
 	for (; regions != NULL ; regions = regions->next)
-		if (!format_template_range_check (ft, regions->data, TRUE))
+		if (!format_template_range_check (ft, regions->data, cc))
 			return FALSE;
 
 	return TRUE;
@@ -1135,182 +1233,38 @@ format_template_apply_to_sheet_regions (FormatTemplate *ft, Sheet *sheet, GSList
 }
 
 /******************************************************************************
- * Getters and setters for FormatTemplate
- *
- * NOTE : The caller is always responsible for freeing
- *        return variables and variables passed to the functions.
+ * setters for FormatTemplate
  */
 
-char *
-format_template_get_filename (FormatTemplate *ft)
-{
-	g_return_val_if_fail (ft != NULL, NULL);
-
-	if (ft->filename)
-		return g_strdup (ft->filename->str);
-	else
-		return NULL;
-}
-
-char *
-format_template_get_name (FormatTemplate *ft)
-{
-	g_return_val_if_fail (ft != NULL, NULL);
-
-	if (ft->name)
-		return g_strdup (ft->name->str);
-	else
-		return NULL;
-}
-
-char *
-format_template_get_author (FormatTemplate *ft)
-{
-	g_return_val_if_fail (ft != NULL, NULL);
-
-	if (ft->author)
-		return g_strdup (ft->author->str);
-	else
-		return NULL;
-}
-
-char *
-format_template_get_description (FormatTemplate *ft)
-{
-	g_return_val_if_fail (ft != NULL, NULL);
-
-	if (ft->description)
-		return g_strdup (ft->description->str);
-	else
-		return NULL;
-}
-
-GSList *
-format_template_get_members (FormatTemplate *ft)
-{
-	g_return_val_if_fail (ft != NULL, NULL);
-
-	return ft->members;
-}
-
-FormatTemplateCategory *
-format_template_get_category (FormatTemplate *ft)
-{
-	g_return_val_if_fail (ft != NULL, NULL);
-
-	return ft->category;
-}
-
 void
-format_template_set_filename (FormatTemplate *ft, const char *filename)
-{
-	g_return_if_fail (ft != NULL);
-	g_return_if_fail (filename != NULL);
-
-	if (ft->filename)
-		g_string_free (ft->filename, TRUE);
-
-	ft->filename = g_string_new (filename);
-}
-
-void
-format_template_set_name (FormatTemplate *ft, const char *name)
+format_template_set_name (FormatTemplate *ft, char const *name)
 {
 	g_return_if_fail (ft != NULL);
 	g_return_if_fail (name != NULL);
 
 	if (ft->name)
-		g_string_free (ft->name, TRUE);
-
-	ft->name = g_string_new (name);
+		g_free (ft->name);
+	ft->name = g_strdup (name);
 }
 
 void
-format_template_set_author (FormatTemplate *ft, const char *author)
+format_template_set_author (FormatTemplate *ft, char const *author)
 {
 	g_return_if_fail (ft != NULL);
 	g_return_if_fail (author != NULL);
 
 	if (ft->author)
-		g_string_free (ft->author, TRUE);
-
-	ft->author = g_string_new (author);
+		g_free (ft->author);
+	ft->author = g_strdup (author);
 }
 
 void
-format_template_set_description (FormatTemplate *ft, const char *description)
+format_template_set_description (FormatTemplate *ft, char const *description)
 {
 	g_return_if_fail (ft != NULL);
 	g_return_if_fail (description != NULL);
 
 	if (ft->description)
-		g_string_free (ft->description, TRUE);
-
-	ft->description = g_string_new (description);
-}
-
-void
-format_template_set_category (FormatTemplate *ft, FormatTemplateCategory *category)
-{
-	g_return_if_fail (ft != NULL);
-	g_return_if_fail (category != NULL);
-
-	ft->category = category;
-}
-
-
-/**
- * format_template_set_filter:
- * @ft: a FormatTemplate
- * @number: Apply number settings?
- * @border: Apply borders?
- * @font: Apply font?
- * @patterns: Apply patterns?
- * @alignment: Apply alignment?
- *
- * Sets the types of elements to filter out of mstyles
- * returned by format_template_calculate_style and applied
- * when using format_template_apply_to_sheet_selection.
- * Every gboolean which is FALSE will be filtered out!
- **/
-void
-format_template_set_filter (FormatTemplate *ft,
-			    gboolean number, gboolean border,
-			    gboolean font,   gboolean patterns,
-			    gboolean alignment)
-{
-	g_return_if_fail (ft != NULL);
-
-	ft->number    = number;
-	ft->border    = border;
-	ft->font      = font;
-	ft->patterns  = patterns;
-	ft->alignment = alignment;
-
-	ft->invalidate_hash = TRUE;
-}
-
-/**
- * format_template_set_size:
- * @ft:
- * @x1:
- * @y1:
- * @x2:
- * @y2:
- *
- * This will set the size of the application area.
- * BIG FAT NOTE : You will need to pass the COORDINATES of top, left and
- * bottom, right. Not the dimensions.
- * So if you want to calculate for an area of 5 x 5, you pass :
- * x1 = 0, y1 = 0, x2 = 4, y2 = 4;
- **/
-void
-format_template_set_size (FormatTemplate *ft, int x1, int y1, int x2, int y2)
-{
-	ft->dimension.start.col = x1;
-	ft->dimension.start.row = y1;
-	ft->dimension.end.col = x2;
-	ft->dimension.end.row = y2;
-
-	ft->invalidate_hash = TRUE;
+		g_free (ft->description);
+	ft->description = g_strdup (description);
 }

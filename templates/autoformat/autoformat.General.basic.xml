@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <gmr:FormatTemplate xmlns:gmr="http://www.gnome.org/gnumeric/format-template/v1">
   <gmr:Information author="Gnumeric Team" name="Basic" description="A basic formal style" category="General"/>
-  <gmr:Information xml:lang="pl" author="Zespó³ Gnumerica" name="Prosty" description="Prosty formalny styl" category="Ogólne"/>
   <gmr:Members>
     <gmr:Member>
       <gmr:Row>

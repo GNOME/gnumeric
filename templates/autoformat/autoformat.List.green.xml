@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <gmr:FormatTemplate xmlns:gmr="http://www.gnome.org/gnumeric/format-template/v1">
   <gmr:Information author="Gnumeric Team" name="Green" description="A green list template" category="List"/>
-  <gmr:Information xml:lang="pl" author="Zespó³ Gnumerica" name="Zielony" description="Szablon listy w kolorze zielonym" category="Listy"/>
   <gmr:Members>
     <gmr:Member>
       <gmr:Row>

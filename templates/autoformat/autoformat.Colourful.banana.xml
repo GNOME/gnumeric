@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <gmr:FormatTemplate xmlns:gmr="http://www.gnome.org/gnumeric/format-template/v1">
   <gmr:Information author="Gnumeric Team" name="Banana" description="A banana coloured template" category="Colourful"/>
-  <gmr:Information xml:lang="pl" author="Zespó³ Gnumerica" name="Bananowy" description="Szablon w kolorze bananowym" category="Kolorowe"/>
   <gmr:Members>
     <gmr:Member>
       <gmr:Row>

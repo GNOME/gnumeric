@@ -185,7 +185,7 @@ static void cb_up   (GtkWidget *w, SheetManager *state) { move_cb (state, -1); }
 static void cb_down (GtkWidget *w, SheetManager *state) { move_cb (state,  1); }
 
 static void
-close_clicked_cb (GtkWidget *ignore, SheetManager *state)
+cb_close_clicked (GtkWidget *ignore, SheetManager *state)
 {
 	gtk_widget_destroy (GTK_WIDGET (state->dialog));
 }
@@ -230,7 +230,7 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 		GTK_SIGNAL_FUNC (cb_down), state);
 	gtk_signal_connect (GTK_OBJECT (state->close_btn),
 		"clicked",
-		GTK_SIGNAL_FUNC (close_clicked_cb), state);
+		GTK_SIGNAL_FUNC (cb_close_clicked), state);
 
 	/* a candidate for merging into attach guru */
 	gtk_signal_connect (GTK_OBJECT (state->dialog),

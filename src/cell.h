@@ -16,7 +16,7 @@ typedef enum {
 	CELL_IS_MERGED	    = 0x040000,
 
 	/* Cell is in the midst of a cyclic calculation */
-	CELL_BEING_ITERATED = 0x080000,
+	CELL_BEING_ITERATED = 0x080000,		/* TODO : move to dependent */
 
 	/* Cell content spans */
 	CELL_CONTENT_SPANS  = 0x100000
@@ -56,7 +56,7 @@ gboolean  cell_eval_content (Cell *cell);
  * Cell state checking
  */
 #define	    cell_needs_recalc(cell)	((cell)->base.flags & DEPENDENT_NEEDS_RECALC)
-#define	    cell_expr_is_linked(cell)	((cell)->base.flags & DEPENDENT_IN_EXPR_LIST)
+#define	    cell_expr_is_linked(cell)	((cell)->base.flags & DEPENDENT_IS_LINKED)
 #define	    cell_has_expr(cell)		((cell)->base.flags & CELL_HAS_EXPRESSION)
 #define	    cell_is_linked(cell)	((cell)->base.flags & CELL_IN_SHEET_LIST)
 #define	    cell_is_merged(cell)	((cell)->base.flags & CELL_IS_MERGED)

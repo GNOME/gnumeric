@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <gmr:FormatTemplate xmlns:gmr="http://www.gnome.org/gnumeric/format-template/v1">
   <gmr:Information author="Gnumeric Team" name="Simple" description="A simple template with classical look and feel" category="Classical"/>
-  <gmr:Information xml:lang="pl" author="Zespó³ Gnumerica" name="Prosty" description="Prosty szablon o klasycznym wygl±dzie" category="Klasyczne"/>
   <gmr:Members>
     <gmr:Member>
       <gmr:Row>

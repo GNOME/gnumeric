@@ -2867,10 +2867,10 @@ typedef struct {
 
 	Sheet          *sheet;
 
-	GSList         *selection;  /* Selections on the sheet */
+	GSList         *selection;   /* Selections on the sheet */
 	GSList         *old_styles;  /* Older styles, one style_list per selection range*/
 
-	FormatTemplate *ft;         /* Template that has been applied */
+	FormatTemplate const *ft;    /* Template that has been applied */
 } CmdAutoFormat;
 
 GNUMERIC_MAKE_COMMAND (CmdAutoFormat, cmd_autoformat);
@@ -2953,7 +2953,7 @@ cmd_autoformat_finalize (GObject *cmd)
  * Return value: TRUE if there was a problem
  **/
 gboolean
-cmd_autoformat (WorkbookControl *wbc, Sheet *sheet, FormatTemplate *ft)
+cmd_autoformat (WorkbookControl *wbc, Sheet *sheet, FormatTemplate const *ft)
 {
 	GObject *obj;
 	CmdAutoFormat *me;
@@ -2963,7 +2963,7 @@ cmd_autoformat (WorkbookControl *wbc, Sheet *sheet, FormatTemplate *ft)
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 
 	l = selection_get_ranges (sheet, FALSE); /* Regions may overlap */
-	if (!format_template_check_valid (ft, l)) {
+	if (!format_template_check_valid (ft, l, COMMAND_CONTEXT (wbc))) {
 		range_fragment_free (l);
 		return TRUE;
 	}

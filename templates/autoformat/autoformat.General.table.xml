@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <gmr:FormatTemplate xmlns:gmr="http://www.gnome.org/gnumeric/format-template/v1">
   <gmr:Information author="Gnumeric Team" name="Table" description="Very simple table template with the same border everywhere " category="General"/>
-  <gmr:Information xml:lang="pl" author="Zespó³ Gnumerica" name="Tabela" description="Prosty szablon tabeli ze wszystkimi krawêdziami o tym samym wygl±dzie" category="Ogólne"/>
   <gmr:Members>
     <gmr:Member>
       <gmr:Row>

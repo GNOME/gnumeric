@@ -29,7 +29,7 @@
             <child>
               <widget class="GtkButton" id="format_ok">
                 <property name="can_default">yes</property>
-                <property name="has_default">yes</property>
+                <!-- <property name="has_default">yes</property> libglade problem -->
                 <property name="can_focus">yes</property>
                 <property name="visible">yes</property>
                 <property name="label" translatable="yes">gtk-ok</property>
@@ -101,8 +101,6 @@
                                     <property name="always_show_toggle">yes</property>
                                     <property name="visible">yes</property>
 
-                                    <signal name="activate" handler="on_item2_activate" />
-
                                     <child>
                                       <widget class="GtkAccelLabel" id="convertwidget1">
                                         <property name="label" translatable="yes">Apply _Number Formats</property>
@@ -120,8 +118,6 @@
                                     <property name="active">yes</property>
                                     <property name="always_show_toggle">yes</property>
                                     <property name="visible">yes</property>
-
-                                    <signal name="activate" handler="on_item3_activate" />
 
                                     <child>
                                       <widget class="GtkAccelLabel" id="convertwidget2">
@@ -141,8 +137,6 @@
                                     <property name="always_show_toggle">yes</property>
                                     <property name="visible">yes</property>
 
-                                    <signal name="activate" handler="on_item4_activate" />
-
                                     <child>
                                       <widget class="GtkAccelLabel" id="convertwidget3">
                                         <property name="label" translatable="yes">Apply _Fonts</property>
@@ -161,8 +155,6 @@
                                     <property name="always_show_toggle">yes</property>
                                     <property name="visible">yes</property>
 
-                                    <signal name="activate" handler="on_item5_activate" />
-
                                     <child>
                                       <widget class="GtkAccelLabel" id="convertwidget4">
                                         <property name="label" translatable="yes">Apply _Patterns</property>
@@ -180,8 +172,6 @@
                                     <property name="active">yes</property>
                                     <property name="always_show_toggle">yes</property>
                                     <property name="visible">yes</property>
-
-                                    <signal name="activate" handler="on_item6_activate" />
 
                                     <child>
                                       <widget class="GtkAccelLabel" id="convertwidget5">
@@ -206,8 +196,6 @@
                                     <property name="active">no</property>
                                     <property name="always_show_toggle">yes</property>
                                     <property name="visible">yes</property>
-
-                                    <signal name="activate" handler="on_item8_activate" />
 
                                     <child>
                                       <widget class="GtkAccelLabel" id="convertwidget6">
@@ -236,9 +224,7 @@
 
                                 <child>
                                   <widget class="GtkImageMenuItem" id="format_new">
-                                    <property name="visible">yes</property>
-
-                                    <signal name="activate" handler="on_new1_activate" />
+                                    <property name="visible">no</property>
 
                                     <child internal-child="image">
                                       <widget class="GtkImage" id="convertwidget7">
@@ -261,9 +247,7 @@
 
                                 <child>
                                   <widget class="GtkMenuItem" id="format_edit">
-                                    <property name="visible">yes</property>
-
-                                    <signal name="activate" handler="on_edit1_activate" />
+                                    <property name="visible">no</property>
 
                                     <child>
                                       <widget class="GtkAccelLabel" id="convertwidget9">
@@ -280,8 +264,6 @@
                                 <child>
                                   <widget class="GtkMenuItem" id="format_remove_current">
                                     <property name="visible">yes</property>
-
-                                    <signal name="activate" handler="on_remove_current1_activate" />
 
                                     <child>
                                       <widget class="GtkAccelLabel" id="convertwidget10">

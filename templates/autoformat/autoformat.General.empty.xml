@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 <gmr:FormatTemplate xmlns:gmr="http://www.gnome.org/gnumeric/format-template/v1">
   <gmr:Information author="Gnumeric Team" name="Empty" description="A fully empty template" category="General"/>
-  <gmr:Information xml:lang="pl" author="Zespó³ Gnumerica" name="Pusty" description="Zupe³nie pusty szablon" category="Ogólne"/>
   <gmr:Members/>
 </gmr:FormatTemplate>

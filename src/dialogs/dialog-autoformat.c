@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * dialog-autoformat.c : implementation of the autoformat dialog
  *
@@ -47,29 +48,19 @@
 #include <math.h>
 #include <stdlib.h>
 
-#define GLADE_FILE "autoformat.glade"
-
-/*
- * Table to show for
+/* Table to show for
  * previews, please don't make this larger than 5x5
  */
 #define PREVIEW_ROWS 5
 #define PREVIEW_COLS 5
-
-/*
- * The number of previews
- */
 #define NUM_PREVIEWS 6
-
-/*
- * Col widths/row heights
- */
 #define DEFAULT_COL_WIDTH  42
 #define DEFAULT_ROW_HEIGHT 16
+
 /* Keep these strings very short.
    They are used as a sample data for a sheet, so you can put anything here
    ("One", "Two", "Three" for example) */
-static const char*
+static char const *
 demotable[PREVIEW_ROWS][PREVIEW_COLS] = {
 	{ N_(" ")    , N_("Jan"), N_("Feb"), N_("Mrt"), N_("Total") },
 	{ N_("North"),   N_("6"),  N_("13"),  N_("20"),    N_("39") },
@@ -81,6 +72,7 @@ demotable[PREVIEW_ROWS][PREVIEW_COLS] = {
 typedef struct {
 	Workbook           *wb;                              /* Workbook we are working on */
 	WorkbookControlGUI *wbcg;
+	GladeXML	   *gui;
 	PreviewGrid        *grid[NUM_PREVIEWS];              /* Previewgrid's */
 	GnomeCanvasRect    *rect[NUM_PREVIEWS];              /* Centering rectangles */
 	GnomeCanvasRect    *selrect;                         /* Selection rectangle */
@@ -89,12 +81,11 @@ typedef struct {
 	GList              *category_groups;                 /* List of groups of categories */
 
 	FormatTemplateCategoryGroup *current_category_group; /* Currently selected category group */
-	
+
 	int               preview_top;       /* Top index of the previewlist */
 	int               preview_index;     /* Selected canvas in previewlist */
 	gboolean          previews_locked;   /* If true, the preview_free and preview_load will not function */
 	gboolean          more_down;         /* If true, more was clicked and the button caption is now 'Less' */
-	gboolean          canceled;          /* True if the user pressed cancel */
 
 	/*
 	 * Gui elements
@@ -118,7 +109,7 @@ typedef struct {
 	GtkButton      *ok, *cancel;
 
 	GtkTooltips    *tooltips;
-} AutoFormatInfo;
+} AutoFormatState;
 
 /********************************************************************************
  * CALLBACKS FOR PREVIEW GRID
@@ -137,103 +128,76 @@ cb_get_cell_style (PreviewGrid *pg, int row, int col, FormatTemplate *ft)
 static Value *
 cb_get_cell_value (PreviewGrid *pg, int row, int col, gpointer data)
 {
-	Value *value;
-	const char *text;
+	char const *text;
+	char *endptr = NULL;
+	double tmp;
 
 	if (row >= PREVIEW_ROWS || col >= PREVIEW_COLS)
 		return NULL;
 
 	text = _(demotable[row][col]);
+	tmp = g_strtod (text, &endptr);
 
-       /*
-        * Determine if the text to display is a number.  If so,
-        * set the value as number for proper alignment
-        */
-       {
-               char *endptr = NULL;
-               double tmp;
-
-               tmp = g_strtod (text, &endptr);
-
-               /*
-                * String is only a valid number if *endptr equals \0
-                */
-               if (*endptr == '\0')
-                       value = value_new_float (tmp);
-               else
-                       value = value_new_string (text);
-       }
-
-       return value;
+	if (*endptr == '\0')
+	    return value_new_float (tmp);
+	return value_new_string (text);
 }
 
 /********************************************************************************
  * UTILITY FUNCTIONS
  ********************************************************************************/
 
-/**
- * templates_free:
- * @info: AutoFormatInfo
- *
- * This function will free all templates currently in memory
- * (previously loaded with templates_load)
- **/
 static void
-templates_free (AutoFormatInfo *info)
+templates_free (AutoFormatState *state)
 {
-	GSList *iterator;
+	GSList *ptr;
 
-	g_return_if_fail (info != NULL);
+	g_return_if_fail (state != NULL);
 
-	iterator = info->templates;
-
-	while (iterator) {
-		FormatTemplate *ft = iterator->data;
-
-		format_template_free (ft);
-
-		iterator = g_slist_next (iterator);
-	}
-	g_slist_free (info->templates);
-
-	info->templates = NULL;
+	for (ptr = state->templates; ptr != NULL ; ptr = ptr->next)
+		format_template_free (ptr->data);
+	g_slist_free (state->templates);
+	state->templates = NULL;
 }
 
 /**
  * templates_load:
- * @info: AutoFormatInfo
+ * @state: AutoFormatState
  *
  * This function will load the templates in the currently selected
- * category group (it looks at info->category_groups to determine the selection)
+ * category group (it looks at state->category_groups to determine the selection)
  *
  * Return value: TRUE if all went well, FALSE otherwise.
  **/
 static gboolean
-templates_load (AutoFormatInfo *info)
+templates_load (AutoFormatState *state)
 {
 	GSList *l;
 	gint n_templates;
 
-	g_assert (info != NULL);
+	g_assert (state != NULL);
 
-	if (info->category_groups == NULL)
+	if (state->category_groups == NULL)
 		return FALSE;
 
-	info->templates = category_group_get_templates_list (
-		info->current_category_group, COMMAND_CONTEXT (info->wbcg));
-	for (l = info->templates; l != NULL; l = l->next)
-		format_template_set_size ((FormatTemplate *) l->data, 0, 0,
-					  PREVIEW_COLS - 1, PREVIEW_ROWS - 1);
-	n_templates = g_slist_length (info->templates);
+	state->templates = category_group_get_templates_list (
+		state->current_category_group, COMMAND_CONTEXT (state->wbcg));
+	for (l = state->templates; l != NULL; l = l->next) {
+		FormatTemplate *ft = l->data;
+		range_init (&ft->dimension,
+			0, 0, PREVIEW_COLS - 1, PREVIEW_ROWS - 1);
+		ft->invalidate_hash = TRUE;
+	}
+	n_templates = g_slist_length (state->templates);
 
 	/*
 	 * We need to temporary lock the preview loading/freeing or
 	 * else our scrollbar will trigger an event (value_changed) and create the
 	 * previews. (which we don't want to happen at this moment)
 	 */
-	info->previews_locked = TRUE;
+	state->previews_locked = TRUE;
 	{
-		GtkAdjustment *adjustment = gtk_range_get_adjustment (GTK_RANGE (info->scroll));
+		GtkAdjustment *adjustment = gtk_range_get_adjustment (GTK_RANGE (state->scroll));
 
 		adjustment->value = 0;
 		adjustment->lower = 0;
@@ -244,87 +208,83 @@ templates_load (AutoFormatInfo *info)
 
 		gtk_adjustment_changed (adjustment);
 	}
-	info->previews_locked = FALSE;
+	state->previews_locked = FALSE;
 
 	/*
 	 * Hide the scrollbar when it's not needed
 	 */
 	if (n_templates > NUM_PREVIEWS)
-		gtk_widget_show (GTK_WIDGET (info->scroll));
+		gtk_widget_show (GTK_WIDGET (state->scroll));
 	else
-		gtk_widget_hide (GTK_WIDGET (info->scroll));
+		gtk_widget_hide (GTK_WIDGET (state->scroll));
 
 	return TRUE;
 }
 
 /**
  * previews_free:
- * @info: AutoFormatInfo
+ * @state: AutoFormatState
  *
  * This function will free all previews.
  **/
 static void
-previews_free (AutoFormatInfo *info)
+previews_free (AutoFormatState *state)
 {
 	int i;
 
-	if (info->previews_locked)
+	if (state->previews_locked)
 		return;
 
-	if (info->selrect)
-		gtk_object_destroy (GTK_OBJECT (info->selrect));
-	info->selrect = NULL;
-	
+	if (state->selrect)
+		gtk_object_destroy (GTK_OBJECT (state->selrect));
+	state->selrect = NULL;
+
 	for (i = 0; i < NUM_PREVIEWS; i++) {
-		if (info->grid[i]) {
-			gtk_layout_freeze (GTK_LAYOUT (info->canvas[i]));
-			
-			gtk_object_destroy (GTK_OBJECT (info->rect[i]));
-			gtk_object_destroy (GTK_OBJECT (info->grid[i]));
-			info->rect[i] = NULL;
-			info->grid[i] = NULL;
+		if (state->grid[i]) {
+			gtk_layout_freeze (GTK_LAYOUT (state->canvas[i]));
+
+			gtk_object_destroy (GTK_OBJECT (state->rect[i]));
+			gtk_object_destroy (GTK_OBJECT (state->grid[i]));
+			state->rect[i] = NULL;
+			state->grid[i] = NULL;
 		}
 	}
 }
 
 /**
  * previews_load:
- * @info: AutoFormatInfo
+ * @state: AutoFormatState
  * @topindex: The index of the template to be displayed in the upper left corner
  *
  * This function will create grids and rects for each canvas and associate
  * them with the right format templates.
- * NOTE : if info->preview_locked is TRUE this function will do nothing,
+ * NOTE : if state->preview_locked is TRUE this function will do nothing,
  *        this is handy in situation where signals can cause previews_load to be
  *        called before previews_free.
  **/
 static void
-previews_load (AutoFormatInfo *info, int topindex)
+previews_load (AutoFormatState *state, int topindex)
 {
 	GSList *iterator, *start;
 	int i, count = topindex;
 
-	g_return_if_fail (info != NULL);
+	g_return_if_fail (state != NULL);
 
-	if (info->previews_locked)
+	if (state->previews_locked)
 		return;
 
-	iterator = info->templates;
+	iterator = state->templates;
 	start = iterator;
 	while (iterator && count > 0) {
 		iterator = g_slist_next (iterator);
 		start = iterator;
-
 		count--;
 	}
 
 	for (i = 0; i < NUM_PREVIEWS; i++) {
 		if (start == NULL) {
-			/*
-			 * Hide the canvas and make sure label is empty and frame is invisible
-			 */
-			gtk_widget_hide (GTK_WIDGET (info->canvas[i]));
-			gtk_frame_set_shadow_type (info->frame[i], GTK_SHADOW_NONE);
+			gtk_widget_hide (GTK_WIDGET (state->canvas[i]));
+			gtk_frame_set_shadow_type (state->frame[i], GTK_SHADOW_NONE);
 		} else {
 			FormatTemplate *ft = start->data;
 
@@ -335,8 +295,8 @@ previews_load (AutoFormatInfo *info, int topindex)
 			 * the absolute bottom of the canvas's region. Look at src/dialogs/autoformat.glade for
 			 * the original canvas dimensions (look at the scrolledwindow that houses each canvas)
 			 */
-			info->rect[i] = GNOME_CANVAS_RECT (
-				gnome_canvas_item_new (gnome_canvas_root (info->canvas[i]),
+			state->rect[i] = GNOME_CANVAS_RECT (
+				gnome_canvas_item_new (gnome_canvas_root (state->canvas[i]),
 						       gnome_canvas_rect_get_type (),
 						       "x1", -4.5, "y1", -4.5,
 						       "x2", 215.5, "y2", 85.5,
@@ -345,26 +305,28 @@ previews_load (AutoFormatInfo *info, int topindex)
 						       NULL));
 
 			/* Setup grid */
-			gtk_layout_freeze (GTK_LAYOUT (info->canvas[i]));
-			info->grid[i] = PREVIEW_GRID (
-				gnome_canvas_item_new (gnome_canvas_root (info->canvas[i]),
+			gtk_layout_freeze (GTK_LAYOUT (state->canvas[i]));
+			state->grid[i] = PREVIEW_GRID (
+				gnome_canvas_item_new (gnome_canvas_root (state->canvas[i]),
 						       preview_grid_get_type (),
-						       "RenderGridlines", info->gridlines->active,
+						       "RenderGridlines", state->gridlines->active,
 						       "DefaultRowHeight", DEFAULT_ROW_HEIGHT,
 						       "DefaultColWidth", DEFAULT_COL_WIDTH,
 						       NULL));
 
-			gtk_signal_connect (GTK_OBJECT (info->grid[i]), "get_cell_style",
-					    GTK_SIGNAL_FUNC (cb_get_cell_style), ft);
-			gtk_signal_connect (GTK_OBJECT (info->grid[i]), "get_cell_value",
-					    GTK_SIGNAL_FUNC (cb_get_cell_value), ft);
+			g_signal_connect (G_OBJECT (state->grid[i]),
+				"get_cell_style",
+				G_CALLBACK (cb_get_cell_style), ft);
+			g_signal_connect (G_OBJECT (state->grid[i]),
+				"get_cell_value",
+				G_CALLBACK (cb_get_cell_value), ft);
 
 			/* Are we selected? Then draw a selection rectangle */
-			if (topindex + i == info->preview_index) {
-				g_return_if_fail (info->selrect == NULL);
-				
-				info->selrect = GNOME_CANVAS_RECT (
-					gnome_canvas_item_new (gnome_canvas_root (info->canvas[i]),
+			if (topindex + i == state->preview_index) {
+				g_return_if_fail (state->selrect == NULL);
+
+				state->selrect = GNOME_CANVAS_RECT (
+					gnome_canvas_item_new (gnome_canvas_root (state->canvas[i]),
 							       gnome_canvas_rect_get_type (),
 							       "x1", -7.0, "y1", -2.5,
 							       "x2", 219.0, "y2", 84.5,
@@ -372,410 +334,224 @@ previews_load (AutoFormatInfo *info, int topindex)
 							       "outline_color", "red",
 							       "fill_color", NULL,
 							       NULL));
-				gtk_frame_set_shadow_type (info->frame[i], GTK_SHADOW_IN);
+				gtk_frame_set_shadow_type (state->frame[i], GTK_SHADOW_IN);
 			} else
-				gtk_frame_set_shadow_type (info->frame[i], GTK_SHADOW_OUT);
-			
-			gnome_canvas_set_scroll_region (info->canvas[i], 0, 0,
-							PREVIEW_COLS * DEFAULT_COL_WIDTH,
-							PREVIEW_ROWS * DEFAULT_ROW_HEIGHT);
+				gtk_frame_set_shadow_type (state->frame[i], GTK_SHADOW_OUT);
 
-			{
-				char *name = format_template_get_name (ft);
+			gnome_canvas_set_scroll_region (state->canvas[i], 0, 0,
+				PREVIEW_COLS * DEFAULT_COL_WIDTH,
+				PREVIEW_ROWS * DEFAULT_ROW_HEIGHT);
 
-				gtk_tooltips_set_tip (info->tooltips,
-						      GTK_WIDGET (info->canvas[i]),
-						      name, "");
-				g_free (name);
-			}
-			
-			/*
-			 * Make sure the canvas is visible
-			 */
-			gtk_widget_show (GTK_WIDGET (info->canvas[i]));
+			gtk_tooltips_set_tip (state->tooltips,
+				GTK_WIDGET (state->canvas[i]),
+				ft->name, "");
+
+			gtk_widget_show (GTK_WIDGET (state->canvas[i]));
 			start = g_slist_next (start);
 		}
 	}
 
-	info->preview_top = topindex;
+	state->preview_top = topindex;
 
 	for (i = 0; i < NUM_PREVIEWS; i++)
-		gtk_layout_thaw (GTK_LAYOUT (info->canvas[i]));
+		gtk_layout_thaw (GTK_LAYOUT (state->canvas[i]));
 }
 
 /********************************************************************************
  * SIGNAL HANDLERS
  ********************************************************************************/
 
-/**
- * cb_ok_clicked:
- * @button:
- * @data:
- *
- * Called-back when user presses the OK button,
- * throws us out of the gtk main loop.
- **/
 static void
-cb_ok_clicked (GtkButton *button, AutoFormatInfo *info)
+cb_ok_clicked (GtkButton *button, AutoFormatState *state)
 {
-	info->canceled = FALSE;
-	gtk_main_quit ();
+	if (state->selected_template) {
+		WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
+		Sheet *sheet = wb_control_cur_sheet (wbc);
+
+		cmd_autoformat (wbc, sheet,
+			format_template_clone (state->selected_template));
+	}
+	gtk_widget_destroy (GTK_WIDGET (state->dialog));
 }
 
-/**
- * cb_cancel_clicked:
- * @button:
- * @data:
- *
- * Called-back when user presses the CANCEL button
- * throws us out of the gtk main loop and sets the canceled
- * indicator.
- **/
 static void
-cb_cancel_clicked (GtkButton *button, AutoFormatInfo *info)
+cb_cancel_clicked (GtkButton *button, AutoFormatState *state)
 {
-	info->canceled = TRUE;
-	gtk_main_quit ();
+	gtk_widget_destroy (GTK_WIDGET (state->dialog));
 }
 
-/**
- * cb_dialog_close:
- * @dialog:
- * @info:
- *
- * This callback does exacly the same as cb_cancel_clicked. It
- * is attached to dialogs close handler, (when the user presses
- * the close button in the window frame or in the window menu)
- *
- * Return value: always TRUE indicating that we have closed the dialog.
- **/
-static int
-cb_dialog_close (GtkDialog *dialog, AutoFormatInfo *info)
+static void
+cb_autoformat_destroy (GtkWidget *ignored, AutoFormatState *state)
 {
-	info->canceled = TRUE;
-	gtk_main_quit ();
+	wbcg_edit_detach_guru (state->wbcg);
 
-	return TRUE;
+	previews_free (state);
+	templates_free (state);
+	gtk_object_unref (GTK_OBJECT (state->tooltips));
+	category_group_list_free (state->category_groups);
+	g_object_unref (G_OBJECT (state->gui));
+	state->gui = NULL;
+	g_free (state);
 }
 
-/**
- * cb_new_activated:
- * @button:
- * @info:
- *
- * Invoked when the new menu item is clicked, this will pop-up the
- * edit dialog and allow the user to create a new format template
- * on the fly :-)
- **/
 static void
-cb_new_activated (GtkMenuItem *item, AutoFormatInfo *info)
-{
-	g_warning ("Not implemented yet");
-}
-
-/**
- * cb_edit_activated:
- * @button:
- * @info:
- *
- * Called when the edit menu item is pressed, this will pop-up
- * the edit dialog which allows the user to edit the currently
- * selected template.
- **/
-static void
-cb_edit_activated (GtkMenuItem *item, AutoFormatInfo *info)
-{
-	g_warning ("Not implemented yet");
-
-	/*
-	dialog_autoformat_edit (info->wb, info->selected_template);
-	format_template_save (info->selected_template);
-	*/
-}
-
-/**
- * cb_remove_current_activated:
- * @button:
- * @info:
- *
- * This pops up a dialog asking the user if he/she wants to
- * remove the currently selected template.
- **/
-static void
-cb_remove_current_activated (GtkMenuItem *item, AutoFormatInfo *info)
+cb_remove_current_activated (GtkMenuItem *item, AutoFormatState *state)
 {
 	GtkWidget *dialog;
 	GtkWidget *no_button;
 	gint ret;
-	gchar *question;
+	gchar *msg;
 
-	question = g_strdup_printf (_("Are you sure you want to remove the template '%s' ?"), info->selected_template->name->str);
-
-	dialog = gnome_question_dialog_parented (question, NULL,NULL, GTK_WINDOW (info->dialog));
+	msg = g_strdup_printf (_("Are you sure you want to remove the template '%s' ?"),
+		state->selected_template->name);
+	dialog = gnome_question_dialog_parented (msg, NULL,NULL, GTK_WINDOW (state->dialog));
+	g_free (msg);
 
 	no_button = g_list_last (GNOME_DIALOG (dialog)->buttons)->data;
 	gtk_widget_grab_focus (no_button);
 	ret = gnome_dialog_run (GNOME_DIALOG (dialog));
 
-	g_free (question);
-
 	if (ret == 0) {
-		if (unlink (info->selected_template->filename->str) != 0) {
-			GtkWidget *edialog;
-
-			edialog = gnome_error_dialog_parented (_("Could not remove template"),
-			                                       GTK_WINDOW (info->dialog));
+		if (unlink (state->selected_template->filename) != 0) {
+			GtkWidget *edialog = gnome_error_dialog_parented (
+				_("Could not remove template"),
+				GTK_WINDOW (state->dialog));
 			gnome_dialog_run (GNOME_DIALOG (edialog));
-		} else {
-			gtk_signal_emit_by_name (GTK_OBJECT (info->category->popwin), "hide", info);
-		}
+		} else
+			gtk_signal_emit_by_name (GTK_OBJECT (state->category->popwin), "hide", state);
 	}
 }
 
-/**
- * cb_scroll_value_changed:
- * @adjustment:
- * @info:
- *
- * Invoked when the scrollbar is slid, simply changes the topindex for the previews
- * and reloads the previews.
- **/
 static void
-cb_scroll_value_changed (GtkAdjustment *adjustment, AutoFormatInfo *info)
+cb_scroll_value_changed (GtkAdjustment *adjustment, AutoFormatState *state)
 {
-	int val;
-
-	previews_free (info);
-
-	val = rint (adjustment->value) * 2;
-
-	previews_load (info, val);
+	previews_free (state);
+	previews_load (state, rint (adjustment->value) * 2);
 }
 
-/**
- * cb_canvas_button_release:
- * @canvas:
- * @event:
- * @info:
- *
- * Handles a click on one of the six canvases.
- * It will change the GtkFrame surrounding the selected canvas
- * and update the Template Information too.
- *
- * Return value: TRUE on success or FALSE otherwise.
- **/
 static gboolean
-cb_canvas_button_release (GnomeCanvas *canvas, GdkEventButton *event, AutoFormatInfo *info)
+cb_canvas_button_press (GnomeCanvas *canvas, GdkEventButton *event, AutoFormatState *state)
 {
+	FormatTemplate *ft;
+	GSList *ptr;
 	int index = 0;
 
-	/*
-	 * Find out which canvas we are
-	 */
-	while (canvas != info->canvas[index] && index < NUM_PREVIEWS) {
-
+	while (canvas != state->canvas[index] && index < NUM_PREVIEWS)
 		index++;
-	}
 
-	if (index == NUM_PREVIEWS) {
-		g_warning ("Canvas click detected, but no associated index could be determined");
-		return FALSE;
-	}
+	g_return_val_if_fail (index < NUM_PREVIEWS, FALSE);
 
-	info->preview_index = info->preview_top + index;
+	state->preview_index = state->preview_top + index;
 
-	/*
-	 * Reload the previews
-	 */
-	previews_free (info);
-	previews_load (info, info->preview_top);
+	previews_free (state);
+	previews_load (state, state->preview_top);
 
-	/*
-	 * Set the template information
-	 */
-	{
-		FormatTemplate *ft;
-		GSList *iterator = info->templates;
-		int dummy;
-		char *name, *author, *descr;
-		FormatTemplateCategory *category;
+	for (ptr = state->templates, index = 0; ptr != NULL ;  ptr = ptr->next, index++)
+		if (index == state->preview_index)
+			break;
 
-		index = 0;
-		while (iterator != NULL) {
+	g_return_val_if_fail (ptr != NULL && ptr->data != NULL, FALSE);
 
-			if (index == info->preview_index)
-				break;
+	ft = ptr->data;
+	state->selected_template = ft;
+	gtk_entry_set_text (state->info_name, ft->name);
+	gtk_entry_set_text (state->info_author, ft->author);
+	gnumeric_textview_set_text (GTK_TEXT_VIEW (state->info_descr),
+		ft->description);
 
-			iterator = g_slist_next (iterator);
-			index++;
-		}
-
-		if (iterator == NULL || iterator->data == NULL) {
-
-			g_warning ("Error while trying to retrieve template information");
-			return FALSE;
-		}
-
-		ft = iterator->data;
-
-		name   = format_template_get_name (ft);
-		author = format_template_get_author (ft);
-		descr  = format_template_get_description (ft);
-		category  = format_template_get_category (ft);
-
-		gtk_entry_set_text (info->info_name, name);
-		gtk_entry_set_text (info->info_author, author);
-		gtk_entry_set_text (info->info_cat, category->name);
-		gtk_editable_delete_text (GTK_EDITABLE (info->info_descr), 0, -1);
-
-		dummy = 0;
-		gtk_editable_insert_text (GTK_EDITABLE (info->info_descr), descr,
-					  strlen (descr), &dummy);
-
-		g_free (name);
-		g_free (author);
-		g_free (descr);
-
-		gtk_widget_set_sensitive (GTK_WIDGET (info->remove_current), category->is_writable);
-
-		info->selected_template = ft;
-	}
+	gtk_entry_set_text (state->info_cat, ft->category->name);
+	gtk_widget_set_sensitive (GTK_WIDGET (state->remove_current),
+		ft->category->is_writable);
 
 	return TRUE;
 }
 
-/**
- * cb_apply_item_toggled:
- * @item:
- * @info:
- *
- * This callback is invoked when one of the (6) apply items is toggled.
- * It will change the filter for each FormatTemplate. This way certain elements
- * can be filtered out (like the background, border, etc..)
- **/
 static void
-cb_apply_item_toggled (GtkCheckMenuItem *item, AutoFormatInfo *info)
+cb_apply_item_toggled (GtkCheckMenuItem *item, AutoFormatState *state)
 {
-	GSList *iterator = info->templates;
+	GSList *ptr;
 	int i;
 
-	while (iterator) {
-		format_template_set_filter ((FormatTemplate *) iterator->data,
-					    info->number->active,
-					    info->border->active,
-					    info->font->active,
-					    info->patterns->active,
-					    info->alignment->active);
-
-		iterator = g_slist_next (iterator);
+	for (ptr = state->templates; ptr != NULL ; ptr = ptr->next) {
+		FormatTemplate *ft = ptr->data;
+		ft->number    = state->number->active;
+		ft->border    = state->border->active;
+		ft->font      = state->font->active;
+		ft->patterns  = state->patterns->active;
+		ft->alignment = state->alignment->active;
+		ft->invalidate_hash = TRUE;
 	}
 
 	for (i = 0; i < NUM_PREVIEWS; i++)
-		gnome_canvas_request_redraw (info->canvas[i], INT_MIN, INT_MIN,
-					     INT_MAX/2, INT_MAX/2);
+		gnome_canvas_request_redraw (state->canvas [i],
+			INT_MIN, INT_MIN, INT_MAX/2, INT_MAX/2);
 }
 
-/**
- * cb_category_popwin_hide:
- * @widget:
- * @info:
- *
- * Invoked when a category is selected in the category list, this will quickly load
- * all templates in the newly selected category, load the previews and select
- * the first one by default.
- * If there are no templates in the newly selected category the "OK", "Edit" and "Remove"
- * menu items will be disable and the Template Information cleared.
- **/
 static void
-cb_category_popwin_hide (GtkWidget *widget, AutoFormatInfo *info)
+cb_category_popwin_hide (GtkWidget *widget, AutoFormatState *state)
 {
-	info->current_category_group = category_group_list_find_category_by_name(
-	                               info->category_groups,
-	                               gtk_entry_get_text (GTK_ENTRY (info->category->entry)));
+	state->current_category_group = category_group_list_find_category_by_name(
+	                               state->category_groups,
+	                               gtk_entry_get_text (GTK_ENTRY (state->category->entry)));
 
-	previews_free (info);
-	templates_free (info);
+	previews_free (state);
+	templates_free (state);
 
-	if (templates_load (info) == FALSE) {
+	if (templates_load (state) == FALSE)
 		g_warning ("Error while loading templates!");
-	}
 
-	if (info->current_category_group->description != NULL) {
-		gtk_tooltips_set_tip (info->tooltips, GTK_WIDGET (info->category->entry), info->current_category_group->description, "");
+	gtk_tooltips_set_tip (state->tooltips, GTK_WIDGET (state->category->entry),
+		(state->current_category_group->description != NULL)
+			? state->current_category_group->description
+			: state->current_category_group->name,
+		"");
+
+	previews_load (state, 0);
+
+	cb_apply_item_toggled (NULL, state);
+
+	/* This is for the initial selection */
+	if (state->grid[0] != NULL) {
+		cb_canvas_button_press (state->canvas[0], NULL, state);
+
+		gtk_widget_set_sensitive (GTK_WIDGET (state->edit), TRUE);
+		gtk_widget_set_sensitive (GTK_WIDGET (state->ok), TRUE);
 	} else {
-		gtk_tooltips_set_tip (info->tooltips, GTK_WIDGET (info->category->entry), info->current_category_group->name, "");
+		state->selected_template = NULL;
+
+		gtk_widget_set_sensitive (GTK_WIDGET (state->edit), FALSE);
+		gtk_widget_set_sensitive (GTK_WIDGET (state->ok), FALSE);
+
+		/* Be sure to clear the template information */
+		gtk_entry_set_text (state->info_name, "");
+		gtk_entry_set_text (state->info_author, "");
+		gtk_entry_set_text (state->info_cat, "");
+		gtk_editable_delete_text (GTK_EDITABLE (state->info_descr), 0, -1);
 	}
 
-	previews_load (info, 0);
-
-	/*
-	 * Apply filter
-	 */
-	cb_apply_item_toggled (NULL, info);
-
-	/*
-	 * This is for the initial selection
-	 */
-	if (info->grid[0] != NULL) {
-		cb_canvas_button_release (info->canvas[0], NULL, info);
-
-		gtk_widget_set_sensitive (GTK_WIDGET (info->edit), TRUE);
-		gtk_widget_set_sensitive (GTK_WIDGET (info->ok), TRUE);
-	} else {
-		info->selected_template = NULL;
-
-		gtk_widget_set_sensitive (GTK_WIDGET (info->edit), FALSE);
-		gtk_widget_set_sensitive (GTK_WIDGET (info->ok), FALSE);
-
-		/*
-		 * Be sure to clear the template information
-		 */
-		gtk_entry_set_text (info->info_name, "");
-		gtk_entry_set_text (info->info_author, "");
-		gtk_entry_set_text (info->info_cat, "");
-		gtk_editable_delete_text (GTK_EDITABLE (info->info_descr), 0, -1);
-	}
-
-	/*
-	 * FIXME: REMOVE THIS WHEN YOU WANT NEW/EDIT/REMOVE TO WORK!!!!!!!
-	 */
-	gtk_widget_set_sensitive (GTK_WIDGET (info->edit), FALSE);
-	gtk_widget_set_sensitive (GTK_WIDGET (info->new), FALSE);
+	/* FIXME: REMOVE THIS WHEN YOU WANT NEW/EDIT/REMOVE TO WORK!!!!!!! */
+	gtk_widget_set_sensitive (GTK_WIDGET (state->edit), FALSE);
+	gtk_widget_set_sensitive (GTK_WIDGET (state->new), FALSE);
 }
 
 static void
-cb_gridlines_item_toggled (GtkCheckMenuItem *item, AutoFormatInfo *info)
+cb_gridlines_item_toggled (GtkCheckMenuItem *item, AutoFormatState *state)
 {
-	previews_free (info);
-	previews_load (info, info->preview_top);
+	previews_free (state);
+	previews_load (state, state->preview_top);
 }
 
 /********************************************************************************
  * MAIN
  ********************************************************************************/
 
-/**
- * setup_apply_item:
- * @info: AutoFormatInfo
- * @name: GtkCheckMenuItem
- *
- * Retrieve the CheckMenuItem @name from the glade file and
- * connect it's toggled signal handler to cb_apply_item_toggled.
- *
- * Return value: pointer to the gtkcheckmenuitem
- **/
 static GtkCheckMenuItem *
-setup_apply_item (GladeXML *gui, AutoFormatInfo *info, const char *name)
+setup_apply_item (GladeXML *gui, AutoFormatState *state, char const *name)
 {
-	GtkCheckMenuItem *item;
-
-	item = GTK_CHECK_MENU_ITEM (glade_xml_get_widget (gui, name));
-
-	gtk_signal_connect (GTK_OBJECT (item),
-			    "toggled",
-			    GTK_SIGNAL_FUNC (cb_apply_item_toggled),
-			    info);
-
+	GtkCheckMenuItem *item = GTK_CHECK_MENU_ITEM (glade_xml_get_widget (gui, name));
+	g_signal_connect (G_OBJECT (item),
+		"toggled",
+		G_CALLBACK (cb_apply_item_toggled), state);
 	return item;
 }
 
@@ -791,96 +567,86 @@ void
 dialog_autoformat (WorkbookControlGUI *wbcg)
 {
 	GladeXML *gui;
-	AutoFormatInfo *info;
+	AutoFormatState *state;
 	int i;
 
-	/*
-	 * Load gui from xml file
-	 */
-	gui = gnumeric_glade_xml_new (NULL, GLADE_FILE);
-	if (!gui) {
-		char *message;
+	gui = gnumeric_glade_xml_new (NULL, "autoformat.glade");
+	g_return_if_fail (gui != NULL);
 
-		message = g_strdup_printf (_("Missing %s file"), GLADE_FILE);
+	state = g_new0 (AutoFormatState, 1);
 
-		g_warning (message);
-
-		g_free (message);
-
-		return;
-	}
-
-	/*
-	 * Get widgets
-	 */
-	info = g_new0 (AutoFormatInfo, 1);
-
-	info->wb              = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-	info->wbcg            = wbcg;
-	info->templates       = NULL;
-	info->category_groups = NULL;
-	info->selrect         = NULL;
+	state->wb              = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->wbcg            = wbcg;
+	state->gui             = gui;
+	state->templates       = NULL;
+	state->category_groups = NULL;
+	state->selrect         = NULL;
 	for (i = 0; i < NUM_PREVIEWS; i++) {
-		info->grid[i] = NULL;
-		info->rect[i] = NULL;
+		state->grid[i] = NULL;
+		state->rect[i] = NULL;
 	}
 
-	info->current_category_group  = NULL;
-	info->preview_top       = 0;
-	info->preview_index     = -1;
-	info->previews_locked   = FALSE;
-	info->more_down         = FALSE;
-	info->selected_template = NULL;
-	info->tooltips          = gtk_tooltips_new ();
+	state->current_category_group  = NULL;
+	state->preview_top       = 0;
+	state->preview_index     = -1;
+	state->previews_locked   = FALSE;
+	state->more_down         = FALSE;
+	state->selected_template = NULL;
+	state->tooltips          = gtk_tooltips_new ();
+	gtk_object_ref  (GTK_OBJECT (state->tooltips));
+	gtk_object_sink (GTK_OBJECT (state->tooltips));
 
-	info->dialog     = GTK_DIALOG (glade_xml_get_widget (gui, "dialog"));
+	state->dialog     = GTK_DIALOG (glade_xml_get_widget (gui, "dialog"));
+	state->category   = GTK_COMBO (glade_xml_get_widget (gui, "format_category"));
+	state->scroll     = GTK_VSCROLLBAR (glade_xml_get_widget (gui, "format_scroll"));
+	state->gridlines  = GTK_CHECK_MENU_ITEM  (glade_xml_get_widget (gui, "format_gridlines"));
+	state->new            = GTK_MENU_ITEM (glade_xml_get_widget (gui, "format_new"));
+	state->edit           = GTK_MENU_ITEM (glade_xml_get_widget (gui, "format_edit"));
+	state->remove_current = GTK_MENU_ITEM (glade_xml_get_widget (gui, "format_remove_current"));
 
-	info->category   = GTK_COMBO (glade_xml_get_widget (gui, "format_category"));
+	state->info_name   = GTK_ENTRY (glade_xml_get_widget (gui, "format_info_name"));
+	state->info_author = GTK_ENTRY (glade_xml_get_widget (gui, "format_info_author"));
+	state->info_cat    = GTK_ENTRY (glade_xml_get_widget (gui, "format_info_cat"));
+	state->info_descr  = GTK_TEXT_VIEW (glade_xml_get_widget (gui, "format_info_descr"));
 
-	for (i = 1; i <= NUM_PREVIEWS; i++) {
+	state->ok     = GTK_BUTTON (glade_xml_get_widget (gui, "format_ok"));
+	state->cancel = GTK_BUTTON (glade_xml_get_widget (gui, "format_cancel"));
+
+ 	state->number      = setup_apply_item (gui, state, "format_number");
+	state->border      = setup_apply_item (gui, state, "format_border");
+	state->font        = setup_apply_item (gui, state, "format_font");
+	state->patterns    = setup_apply_item (gui, state, "format_patterns");
+	state->alignment   = setup_apply_item (gui, state, "format_alignment");
+
+	for (i = 0; i < NUM_PREVIEWS; i++) {
 		char *name;
 
-		name = g_strdup_printf ("format_canvas%d", i);
-		info->canvas[i - 1] = GNOME_CANVAS (glade_xml_get_widget (gui, name));
+		name = g_strdup_printf ("format_canvas%d", i+1);
+		state->canvas[i] = GNOME_CANVAS (glade_xml_get_widget (gui, name));
 		g_free (name);
 
-		name = g_strdup_printf ("format_frame%d", i);
-		info->frame[i - 1] = GTK_FRAME (glade_xml_get_widget (gui, name));
+		name = g_strdup_printf ("format_frame%d", i+1);
+		state->frame[i] = GTK_FRAME (glade_xml_get_widget (gui, name));
 		g_free (name);
+
+		g_signal_connect (G_OBJECT (state->canvas[i]),
+			"button-press-event",
+			G_CALLBACK (cb_canvas_button_press), state);
+
 	}
-	info->scroll     = GTK_VSCROLLBAR (glade_xml_get_widget (gui, "format_scroll"));
-	info->gridlines  = GTK_CHECK_MENU_ITEM  (glade_xml_get_widget (gui, "format_gridlines"));
 
-	info->new            = GTK_MENU_ITEM (glade_xml_get_widget (gui, "format_new"));
-	info->edit           = GTK_MENU_ITEM (glade_xml_get_widget (gui, "format_edit"));
-	info->remove_current = GTK_MENU_ITEM (glade_xml_get_widget (gui, "format_remove_current"));
-
-	info->info_name   = GTK_ENTRY (glade_xml_get_widget (gui, "format_info_name"));
-	info->info_author = GTK_ENTRY (glade_xml_get_widget (gui, "format_info_author"));
-	info->info_cat    = GTK_ENTRY (glade_xml_get_widget (gui, "format_info_cat"));
-	info->info_descr  = GTK_TEXT_VIEW (glade_xml_get_widget (gui, "format_info_descr"));
-
-	info->ok     = GTK_BUTTON (glade_xml_get_widget (gui, "format_ok"));
-	info->cancel = GTK_BUTTON (glade_xml_get_widget (gui, "format_cancel"));
-
-	/*
-	 * Retrieve apply items and connect
-	 * their signals
-	 */
-
- 	info->number      = setup_apply_item (gui, info, "format_number");
-	info->border      = setup_apply_item (gui, info, "format_border");
-	info->font        = setup_apply_item (gui, info, "format_font");
-	info->patterns    = setup_apply_item (gui, info, "format_patterns");
-	info->alignment   = setup_apply_item (gui, info, "format_alignment");
-
-	/*
-	 * Connect signals
-	 */
-	gtk_signal_connect (GTK_OBJECT (info->dialog),
-			    "close",
-			    GTK_SIGNAL_FUNC (cb_dialog_close),
-			    info);
+	g_signal_connect (G_OBJECT (GTK_RANGE (state->scroll)->adjustment),
+		"value_changed",
+		G_CALLBACK (cb_scroll_value_changed), state);
+	g_signal_connect (G_OBJECT (state->gridlines),
+		"toggled",
+		G_CALLBACK (cb_gridlines_item_toggled), state);
+	g_signal_connect (G_OBJECT (state->ok),
+		"clicked",
+		G_CALLBACK (cb_ok_clicked), state);
+	g_signal_connect (G_OBJECT (state->cancel),
+		"clicked",
+		G_CALLBACK (cb_cancel_clicked), state);
 
 	/*
 	 * FIXME: UGLY! This actually connects a signal to the window
@@ -888,122 +654,50 @@ dialog_autoformat (WorkbookControlGUI *wbcg)
 	 * not allowed (only entry and list are public) and may
 	 * very well break when gtkcombo's implementation changes
 	 */
-	gtk_signal_connect (GTK_OBJECT (info->category->popwin),
-			    "hide",
-			    GTK_SIGNAL_FUNC (cb_category_popwin_hide),
-			    info);
+	g_signal_connect (G_OBJECT (state->category->popwin),
+		"hide",
+		G_CALLBACK (cb_category_popwin_hide), state);
 
-	gtk_signal_connect (GTK_OBJECT (GTK_RANGE (info->scroll)->adjustment),
-			    "value_changed",
-			    GTK_SIGNAL_FUNC (cb_scroll_value_changed),
-			    info);
-
-	for (i = 0; i < NUM_PREVIEWS; i++) {
-		gtk_signal_connect (GTK_OBJECT (info->canvas[i]),
-				    "button-release-event",
-				    GTK_SIGNAL_FUNC (cb_canvas_button_release),
-				    info);
-	}
-
-	gtk_signal_connect (GTK_OBJECT (info->gridlines),
-			    "toggled",
-			    GTK_SIGNAL_FUNC (cb_gridlines_item_toggled),
-			    info);
-
-	gtk_signal_connect (GTK_OBJECT (info->new),
-			    "activate",
-			    GTK_SIGNAL_FUNC (cb_new_activated),
-			    info);
-	gtk_signal_connect (GTK_OBJECT (info->edit),
-			    "activate",
-			    GTK_SIGNAL_FUNC (cb_edit_activated),
-			    info);
-	gtk_signal_connect (GTK_OBJECT (info->remove_current),
-			    "activate",
-			    GTK_SIGNAL_FUNC (cb_remove_current_activated),
-			    info);
-
-	gtk_signal_connect (GTK_OBJECT (info->ok),
-			    "clicked",
-			    GTK_SIGNAL_FUNC (cb_ok_clicked),
-			    info);
-	gtk_signal_connect (GTK_OBJECT (info->cancel),
-			    "clicked",
-			    GTK_SIGNAL_FUNC (cb_cancel_clicked),
-			    info);
-
-	/*
-	 * Fill category list
-	 */
-	info->category_groups = category_group_list_get ();
-	if (info->category_groups == NULL) {
+	/* Fill category list */
+	state->category_groups = category_group_list_get ();
+	if (state->category_groups == NULL) {
 		GtkWidget *wdialog;
 
 		wdialog = gnome_warning_dialog_parented (
 		          _("An error occurred while reading the category list"),
-		          GTK_WINDOW (info->dialog));
+		          GTK_WINDOW (state->dialog));
 		gnome_dialog_run (GNOME_DIALOG (wdialog));
 	} else {
 		GList *names_list, *general_category_group_link;
 
-		names_list = category_group_list_get_names_list (info->category_groups);
-		gtk_combo_set_popdown_strings (info->category, names_list);
+		names_list = category_group_list_get_names_list (state->category_groups);
+		gtk_combo_set_popdown_strings (state->category, names_list);
 		/* This is a name of the "General" autoformat template category.
 		   Please use the same translation as in General.category XML file */
 		general_category_group_link = g_list_find_custom (names_list, _("General"), g_str_compare);
-		if (general_category_group_link == NULL) {
+		if (general_category_group_link == NULL)
 			general_category_group_link = g_list_find_custom (names_list, "General", g_str_compare);
-		}
+
 		if (general_category_group_link != NULL) {
 			gint general_category_group_index;
-			
+
 			general_category_group_index = g_list_position (names_list, general_category_group_link);
-			gtk_list_select_item (GTK_LIST (info->category->list), general_category_group_index);
-		} else {
+			gtk_list_select_item (GTK_LIST (state->category->list), general_category_group_index);
+		} else
 			g_warning ("General category not found");
-		}
+
 		e_free_string_list (names_list);
 
-		/*
-		 * Call callback the screen updates
-		 */
-		cb_category_popwin_hide (GTK_WIDGET (info->category), info);
+		cb_category_popwin_hide (GTK_WIDGET (state->category), state);
 	}
 
-	gtk_dialog_set_default_response (info->dialog, GTK_RESPONSE_OK);
+	gtk_dialog_set_default_response (state->dialog, GTK_RESPONSE_OK);
 
-	/*
-	 * Show the dialog and enter gtk main loop
-	 */
-	info->canceled = FALSE;
-
-	gnumeric_dialog_run (wbcg, info->dialog);
-
-	/*
-	 * If the user didn't cancel, record undo information and apply the autoformat
-	 * template to the current selection.
-	 * Observe that we pass a copy of the selected template to the undo function.
-	 */
-	if (!info->canceled && info->selected_template) {
-		WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-		Sheet *sheet = wb_control_cur_sheet (wbc);
-
-		cmd_autoformat (wbc, sheet,
-			format_template_clone (info->selected_template));
-	}
-
-	/*
-	 * Free templates, previews, etc..
-	 */
-	previews_free (info);
-	templates_free (info);
-
-	gtk_object_unref (GTK_OBJECT (info->tooltips));
-
-	category_group_list_free (info->category_groups);
-
-	gtk_widget_destroy (GTK_WIDGET (info->dialog));
-	g_object_unref (G_OBJECT (gui));
-
-	g_free (info);
+	/* a candidate for merging into attach guru */
+	g_signal_connect (G_OBJECT (state->dialog),
+		"destroy",
+		G_CALLBACK (cb_autoformat_destroy), state);
+	gnumeric_non_modal_dialog (state->wbcg, GTK_WINDOW (state->dialog));
+	wbcg_edit_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
+	gtk_widget_show_all (GTK_WIDGET (state->dialog));
 }
