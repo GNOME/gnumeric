@@ -1,5 +1,10 @@
 2003-05-05  Andreas Guelzow <aguelzow@taliesin.ca>
 
+	* src/charset.c (set_encodings_menu): handle unknown 
+	  locale encoding
+
+2003-05-05  Andreas Guelzow <aguelzow@taliesin.ca>
+
 	* src/bonobo-io.c (gnm_persist_stream_load): add argument
 	  to call of wb_view_new_from_input
 	

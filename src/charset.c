@@ -176,6 +176,11 @@ static void set_encodings_menu (CharmapChooser *data)
 			}
 			charset_trans++;
 		}
+		if (charset_trans->lgroup == LG_LAST) {
+				item = gtk_menu_item_new_with_label (locale_encoding);
+				gtk_widget_show (item);
+				gtk_menu_append (menu, item);			
+		}
 		gtk_option_menu_set_history (data->encodings, 0);
 	}
 }
