@@ -3,7 +3,13 @@
 	* plugins/excel/ms-formula.c (ms_excel_parse_formula):
 	case FORMULA_PTG_ATTR: Added 'Optimised SUM' functionality,
 	Generaly made output less verbose.
-
+	
+	* plugins/excel/ms-excel.c: BIFF_DBCELL, ignore it, its
+	not interesting.
+	(ms_excel_set_cell_xf, biff_format_data_lookup,
+	biff_format_data_destroy, ms_excel_workbook_new,
+	ms_excel_workbook_destroy): Implemented formatting.
+	
 1999-02-17  Michael Meeks <michael@imaginator.com>
 
 	* plugins/excel/ms-excel.c (biff_get_rk): moved RK number

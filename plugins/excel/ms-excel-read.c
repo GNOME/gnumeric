@@ -395,6 +395,84 @@ biff_font_data_destroy (gpointer key, BIFF_FONT_DATA *d, gpointer userdata)
 	return 1 ;
 }
 
+static char *
+biff_format_data_lookup (MS_EXCEL_WORKBOOK *wb, guint16 idx)
+{
+	char *low_formats[] =
+	{
+		"",
+		"0",
+		"0.00",
+		"#,##0",
+		"#,##0.00",
+		"($#,##0_);($#,##0)",
+		"($#,##0_);[Red]($#,##0)",
+		"($#,##0.00_);($#,##0.00)",
+		"($#,##0.00_);[Red]($#,##0.00)",
+		"0%",
+		"0.00%",
+		"0.00E+00",
+		"#",
+		"#",
+		"m/d/yy",
+		"d-mmm-yy",
+		"d-mmm",
+		"mmm-yy",
+		"h:mm",
+		"h:mm:ss",
+		"h:mm",
+		"h:mm:ss",
+		"m/d/yy"
+	} ;
+	char *high_formats[] =
+	{
+		"(#,##0_);(#,##0)",
+		"(#,##0_);[Red](#,##0)",
+		"(#,##0.00_);(#,##0.00)",
+		"(#,##0.00_);[Red](#,##0.00)",
+		"_(*",
+		"_($*",
+		"_(*",
+		"_($*",
+		"mm:ss",
+		"[h]:mm:ss",
+		"mm:ss.0",
+		"##0.0E+0",
+		"@"
+	} ;
+	char *ans ;
+	if (idx <= 0x16)
+		ans = low_formats[idx] ;
+	else if (idx < 0x25)
+	{
+		printf ("Foreign undocumented format\n") ;
+		ans = 0 ;
+	}
+	else if (idx <= 0x31)
+		ans = high_formats[idx-0x25] ;
+	else
+	{
+		BIFF_FORMAT_DATA *d = g_hash_table_lookup (wb->format_data,
+							   &idx) ;
+		if (!d)
+		{
+			printf ("Unknown format: 0x%x\n", idx) ;
+			ans = 0 ;
+		}
+		else
+			ans = d->name ;
+	}
+return ans ;
+}
+
+static gboolean 
+biff_format_data_destroy (gpointer key, BIFF_FORMAT_DATA *d, gpointer userdata)
+{
+	g_free (d->name) ;
+	g_free (d) ;
+	return 1 ;
+}
+
 static MS_EXCEL_PALETTE *
 ms_excel_palette_new (BIFF_QUERY * q)
 {
@@ -596,6 +674,16 @@ ms_excel_set_cell_xf (MS_EXCEL_SHEET * sheet, Cell * cell, guint16 xfidx)
  			tmp[lp] = get_style_color_from_idx
  				(sheet, xf->border_color[lp]);
  		cell_set_border (cell, xf->border_type, tmp);
+	}
+
+	if (xf->format_idx>0)
+	{
+		char *ans = biff_format_data_lookup (sheet->wb, xf->format_idx) ;
+		if (ans)
+		{
+/*			printf ("[%d, %d] Setting format to %d = '%s'\n", cell->col->pos, cell->row->pos, xf->format_idx, ans) ; */
+			cell_set_format (cell, ans) ;
+		}
 	}
 }
 
@@ -925,6 +1013,8 @@ ms_excel_workbook_new ()
 						  (GCompareFunc)biff_guint16_equal) ;
 	ans->XF_cell_records = g_hash_table_new ((GHashFunc)biff_guint16_hash,
 						 (GCompareFunc)biff_guint16_equal) ;
+	ans->format_data = g_hash_table_new ((GHashFunc)biff_guint16_hash,
+					     (GCompareFunc)biff_guint16_equal) ;
 	ans->palette = NULL;
 	ans->global_strings = NULL;
 	ans->global_string_max = 0;
@@ -1000,6 +1090,11 @@ ms_excel_workbook_destroy (MS_EXCEL_WORKBOOK * wb)
 
 	g_hash_table_foreach_remove (wb->font_data,
 				     (GHRFunc)biff_font_data_destroy,
+				     wb) ;
+	g_hash_table_destroy (wb->font_data) ;
+
+	g_hash_table_foreach_remove (wb->format_data,
+				     (GHRFunc)biff_format_data_destroy,
 				     wb) ;
 	g_hash_table_destroy (wb->font_data) ;
 
@@ -1150,6 +1245,9 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		g_free (txt) ;
 		break;
 	}
+	case BIFF_DBCELL: /* S59D6D.HTM */
+		/* Can be ignored on read side */
+		break ;
 	case BIFF_NUMBER:
 		{
 			char buf[65];
@@ -1559,6 +1657,30 @@ ms_excelReadWorkbook (MS_OLE * file)
 				} else {
 					printf ("ExternSheet : only BIFF8 supported so far...\n") ;
 				}
+				break ;
+			}
+			case BIFF_FORMAT: /* S59D8E.HTM */
+			{
+				BIFF_FORMAT_DATA *d = g_new(BIFF_FORMAT_DATA,1) ;
+/*				printf ("Format data 0x%x %d\n", q->ms_op, ver->version) ;
+				dump (q->data, q->length) ;*/
+				if (ver->version == eBiffV7) /* Totaly guessed */
+				{
+					d->idx = BIFF_GETWORD(q->data) ;
+					d->name = biff_get_text(q->data+3, BIFF_GETBYTE(q->data+2)) ;
+				}
+				else if (ver->version == eBiffV8)
+				{
+					d->idx = BIFF_GETWORD(q->data) ;
+					d->name = biff_get_text(q->data+4, BIFF_GETWORD(q->data+2)) ;
+				}
+				else /* FIXME: mythical old papyrus spec. */
+				{
+					d->name = biff_get_text(q->data+1, BIFF_GETBYTE(q->data)) ;
+					d->idx = g_hash_table_size (wb->format_data) + 0x32 ;
+				}
+/*				printf ("Format data : %d == '%s'\n", d->idx, d->name) ; */
+				g_hash_table_insert (wb->format_data, &d->idx, d) ;
 			}
 			case BIFF_EXTERNCOUNT: /* see S59D7D.HTM */
 				printf ("%d external references\n", BIFF_GETWORD(q->data)) ;

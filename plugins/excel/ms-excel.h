@@ -62,6 +62,11 @@ typedef struct _BIFF_EXTERNSHEET_DATA {
 	guint16 last_tab ;
 } BIFF_EXTERNSHEET_DATA ;
 
+typedef struct _BIFF_FORMAT_DATA {
+	guint16 idx ;
+	char *name ;
+} BIFF_FORMAT_DATA ;
+
 typedef struct _MS_EXCEL_WORKBOOK
 {
 	GHashTable *boundsheet_data_by_stream ;
@@ -69,6 +74,7 @@ typedef struct _MS_EXCEL_WORKBOOK
 	GHashTable *XF_cell_records ;
 	GHashTable *XF_style_records ;
 	GHashTable *font_data ;
+	GHashTable *format_data ;
   	GList *excel_sheets ;
 	BIFF_EXTERNSHEET_DATA *extern_sheets ;
 	guint16 num_extern_sheets ;
