@@ -143,9 +143,13 @@ src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c
 src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade
 src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in
 src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in
+src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade
 src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c
 src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in
 src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in
+src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c
+src/cut-n-paste-code/goffice/gui-utils/go-dock-item-grip.c
+src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c
 src/cut-n-paste-code/goffice/utils/go-marker.c
 src/cut-n-paste-code/goffice/utils/go-pattern.c
 src/dates.c
@@ -166,8 +170,8 @@ src/dialogs/colrow.glade
 src/dialogs/consolidate.glade
 src/dialogs/correlation.glade
 src/dialogs/covariance.glade
-src/dialogs/dao.glade
 src/dialogs/dao-gui-utils.c
+src/dialogs/dao.glade
 src/dialogs/delete-cells.glade
 src/dialogs/descriptive-stats.glade
 src/dialogs/dialog-about.c
@@ -319,6 +323,7 @@ src/sheet-object.c
 src/sheet-style.c
 src/sheet-view.c
 src/sheet.c
+src/ssconvert.c
 src/stf-export.c
 src/stf-parse.c
 src/stf.c
@@ -329,14 +334,16 @@ src/tools/fill-series.c
 src/tools/random-generator.c
 src/tools/scenarios.c
 src/tools/simulation.c
-src/tools/tabulate.c
 src/tools/solver/reports-write.c
 src/tools/solver/reports.c
 src/tools/solver/solver.c
+src/tools/tabulate.c
 src/validation.c
 src/value-sheet.c
 src/value.c
-src/widgets/color-palette.c
+src/wbc-bonobo.c
+src/wbc-gtk.c
+src/wbcg-actions.c
 src/widgets/gnm-dao.c
 src/widgets/gnumeric-cell-renderer-expr-entry.c
 src/widgets/gnumeric-cell-renderer-text.c
@@ -348,9 +355,6 @@ src/widgets/widget-charmap-selector.c
 src/widgets/widget-font-selector.c
 src/widgets/widget-format-selector.c
 src/widgets/widget-locale-selector.c
-src/wbc-bonobo.c
-src/wbc-gtk.c
-src/wbcg-actions.c
 src/workbook-cmd-format.c
 src/workbook-control-component.c
 src/workbook-control-gui.c
@@ -362,4 +366,3 @@ src/workbook-view.c
 src/workbook.c
 src/xml-io-autoft.c
 src/xml-io.c
-src/ssconvert.c

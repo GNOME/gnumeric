@@ -1,6 +1,8 @@
 2004-02-09  Robert Sedak  <robert.sedak@sk.htnet.hr>
 
 	* hr.po: Updated Croatian translation.
+        * POTFILES.in: Sync with source tree.
+        * POTFILES.skip: Sync with source tree.
 
 2004-02-08  Tomasz K³oczko <kloczek@pld.org.pl>
 
