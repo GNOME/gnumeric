@@ -36,6 +36,7 @@ Jukka:
 	  ODDLPRICE(), ODDLYIELD(), and YIELDMAT().
 	  Renamed Gnumeric's DURATION() as G_DURATION() and implemented
 	  DURATION() like in XL.
+	  Fixed YIELD().
 
 Morten:
 	* Improve the Applix importer.
