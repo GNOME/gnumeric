@@ -25,6 +25,7 @@
 #include "gui-util.h"
 #include "gui-validation.h"
 #include "selection.h"
+#include "str.h"
 #include "ranges.h"
 #include "cell.h"
 #include "expr.h"
@@ -34,6 +35,7 @@
 #include "position.h"
 #include "mstyle.h"
 #include "application.h"
+#include "validation.h"
 #include "workbook.h"
 #include "workbook-edit.h"
 #include "commands.h"
@@ -1987,7 +1989,7 @@ validation_entry_to_expr (Sheet *sheet, GnumericExprEntry *gee)
 }
 
 static void
-validation_style_condition_chain_rebuild (FormatState *state)
+validation_rebuild_validation (FormatState *state)
 {
 	StyleCondition *sc = NULL;
 	int constraint     = gnumeric_option_menu_get_selected_index (state->validation.constraint_type);
@@ -2049,7 +2051,22 @@ validation_style_condition_chain_rebuild (FormatState *state)
 		}
 	}
 
-	mstyle_set_validation (state->result, sc);
+	if (sc) {
+		Validation *v;
+		char       *title = gtk_editable_get_chars (GTK_EDITABLE (state->validation.error.title), 0, -1);
+		char       *msg   = gtk_editable_get_chars (GTK_EDITABLE (state->validation.error.msg), 0, -1);
+		int         vs    = gnumeric_option_menu_get_selected_index (state->validation.error.action);
+
+		v = validation_new (vs, title, msg, sc);
+		mstyle_set_validation (state->result, v);
+
+		g_free (msg);
+		g_free (title);
+	} else {
+		if (mstyle_is_element_set (state->result, MSTYLE_VALIDATION))
+			mstyle_unset_element (state->result, MSTYLE_VALIDATION);
+	}
+	
 	fmt_dialog_changed (state);
 }
 
@@ -2086,11 +2103,8 @@ cb_validation_error_action_deactivate (GtkMenuShell *shell, FormatState *state)
 		gtk_widget_show (GTK_WIDGET (state->validation.error.image));
 	} else
 		gtk_widget_hide (GTK_WIDGET (state->validation.error.image));
-
-	if (state->enable_edit) {
-		mstyle_set_validation_style (state->result, (ValidationStyle) index);
-		fmt_dialog_changed (state);
-	}
+	
+	validation_rebuild_validation (state);
 }
 
 static void
@@ -2127,8 +2141,8 @@ cb_validation_operator_deactivate (GtkMenuShell *shell, FormatState *state)
 	default :
 		g_warning ("Unknown operator index");
 	}
-
-	validation_style_condition_chain_rebuild (state);
+	
+	validation_rebuild_validation (state);
 }
 
 static void
@@ -2150,40 +2164,30 @@ cb_validation_constraint_type_deactivate (GtkMenuShell *shell, FormatState *stat
 	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.error.action), flag);
 	
 	cb_validation_error_action_deactivate (GTK_MENU_SHELL (gtk_option_menu_get_menu (state->validation.error.action)), state);
-	validation_style_condition_chain_rebuild (state);
 }
 
 static void
 cb_validation_bounds_changed (GtkEntry *entry, FormatState *state)
 {
-	validation_style_condition_chain_rebuild (state);
+	validation_rebuild_validation (state);
 }
 
 static void
 cb_validation_flags_changed (GtkToggleButton *button, FormatState *state)
 {
-	validation_style_condition_chain_rebuild (state);
+	validation_rebuild_validation (state);
 }
 
 static void
 cb_validation_error_title_msg (GtkWidget *widget, FormatState *state)
 {
-	if (state->enable_edit) {
-		char *title = gtk_editable_get_chars (GTK_EDITABLE (state->validation.error.title), 0, -1);
-		char *msg   = gtk_editable_get_chars (GTK_EDITABLE (state->validation.error.msg), 0, -1);
-
-		validation_mstyle_set_title_msg (state->result, title, msg);
-		fmt_dialog_changed (state);
-	
-		g_free (msg);
-		g_free (title);
-	}
+	validation_rebuild_validation (state);
 }
 
 static void
-fmt_dialog_init_from_style_condition (FormatState *state)
+fmt_dialog_init_validation_from_style_condition (FormatState *state, StyleCondition *condition)
 {
-	StyleCondition         *sci, *sc       = mstyle_get_validation (state->style);
+	StyleCondition         *sci, *sc       = condition;
 	gboolean                got_bound1     = FALSE;
 	gboolean                got_bound2     = FALSE;
 	gboolean                got_constraint = FALSE;
@@ -2329,30 +2333,24 @@ fmt_dialog_init_validation_page (FormatState *state)
 			    GTK_SIGNAL_FUNC (cb_validation_error_title_msg), state);
 
 	/* Initialize */
-	if (!mstyle_is_element_conflict (state->style, MSTYLE_VALIDATION))
-		fmt_dialog_init_from_style_condition (state);
-	if (!mstyle_is_element_conflict (state->style, MSTYLE_VALIDATION_STYLE)) {
+	if (mstyle_is_element_set (state->style, MSTYLE_VALIDATION) &&
+	    !mstyle_is_element_conflict (state->style, MSTYLE_VALIDATION)) {
+		Validation *v = mstyle_get_validation (state->style);
+		int dummy = 0;
+
 		/*
 		 * Maps directly onto the error style option menu
 		 */
-		gtk_option_menu_set_history (state->validation.error.action,
-					     mstyle_get_validation_style (state->style));
-	}
-	if (!mstyle_is_element_conflict (state->style, MSTYLE_VALIDATION_MSG)) {
-		char *title = validation_mstyle_get_title (state->style);
-		char *msg   = validation_mstyle_get_msg (state->style);
-		int   dummy  = 0;
-
-		if (title) {
-			gtk_entry_set_text (GTK_ENTRY (state->validation.error.title), title);
-			g_free (title);
-		}
+		gtk_option_menu_set_history (state->validation.error.action, v->vs);
 		
-		if (msg) {
+		if (v->title)
+			gtk_entry_set_text (GTK_ENTRY (state->validation.error.title), v->title->str);
+
+		if (v->msg)
 			gtk_editable_insert_text (GTK_EDITABLE (state->validation.error.msg),
-						  msg, strlen (msg), &dummy);
-			g_free (msg);
-		}
+						  v->msg->str, strlen (v->msg->str), &dummy);
+
+		fmt_dialog_init_validation_from_style_condition (state, v->sc);
 	}
 	
 	cb_validation_constraint_type_deactivate (GTK_MENU_SHELL (gtk_option_menu_get_menu (state->validation.constraint_type)), state);

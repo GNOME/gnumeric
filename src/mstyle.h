@@ -50,8 +50,6 @@ typedef enum _MStyleElementType {
 	        MSTYLE_CONTENT_HIDDEN,
 
 	        MSTYLE_VALIDATION,
-	        MSTYLE_VALIDATION_STYLE,
-	        MSTYLE_VALIDATION_MSG,
 	/* Delimiter */
 	MSTYLE_ELEMENT_MAX
 } MStyleElementType;
@@ -119,12 +117,8 @@ gboolean            mstyle_get_content_locked (const MStyle *st);
 void                mstyle_set_content_hidden (MStyle *st, gboolean f);
 gboolean            mstyle_get_content_hidden (const MStyle *st);
 
-void                mstyle_set_validation       (MStyle *st, StyleCondition *sc);
-StyleCondition     *mstyle_get_validation       (const MStyle *st);
-void                mstyle_set_validation_style (MStyle *st, ValidationStyle vs);
-ValidationStyle     mstyle_get_validation_style (const MStyle *st);
-void                mstyle_set_validation_msg   (MStyle *st, const char *msg);
-const char         *mstyle_get_validation_msg   (const MStyle *st);
+void                mstyle_set_validation       (MStyle *st, Validation *v);
+Validation         *mstyle_get_validation       (const MStyle *st);
 
 gboolean            mstyle_visible_in_blank(const MStyle *st);
 

@@ -212,6 +212,8 @@ GNUMERIC_BASE =					\
 	summary.h				\
 	symbol.h				\
 	symbol.c				\
+	validation.c				\
+	validation.h				\
 	value.c					\
 	value.h					\
 	value-sheet.c				\

@@ -88,6 +88,8 @@ typedef struct _StyleBorder	        StyleBorder;
 typedef struct _StyleRow	        StyleRow;
 typedef struct _StyleCondition          StyleCondition;
 
+typedef struct _Validation              Validation;
+
 typedef struct _GnmGraph		GnmGraph;
 typedef struct _GnmGraphVector		GnmGraphVector;
 

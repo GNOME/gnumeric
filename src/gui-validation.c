@@ -21,7 +21,9 @@
 #include <config.h>
 #include "gui-validation.h"
 #include "gnumeric.h"
+#include "str.h"
 #include "style-condition.h"
+#include "validation.h"
 #include "value.h"
 
 #include <libgnome/gnome-defs.h>
@@ -29,36 +31,16 @@
 #include <string.h>
 #include <locale.h>
 
-char *
-validation_mstyle_get_title (const MStyle *mstyle)
-{
-	const char *s;
-
-	g_return_val_if_fail (mstyle != NULL, NULL);
-	
-	if ((s = mstyle_get_validation_msg (mstyle))) {
-		const char *offset = strchr (s, '\n');
-
-		if (offset - s > 0)
-			return g_strndup (s, offset - s);
-		else
-			return NULL;
-	}
-	
-	return NULL;
-}
-
 static char *
-validation_generate_msg (const MStyle *mstyle)
+validation_generate_msg (StyleCondition *sc)
 {
-	StyleCondition *sc, *sci;
+	StyleCondition *sci;
 	GString *s;
 	char *t;
 
-	g_return_val_if_fail (mstyle != NULL, NULL);
+	g_return_val_if_fail (sc != NULL, NULL);
 	
-	s  = g_string_new (_("The value you enter :\n"));
-	sc = mstyle_get_validation (mstyle);
+	s = g_string_new (_("The value you enter :\n"));
 
 	/*
 	 * FIXME: Some things need to be done here once we implement
@@ -138,74 +120,27 @@ validation_generate_msg (const MStyle *mstyle)
 	return t;
 }
 
-char *
-validation_mstyle_get_msg (const MStyle *mstyle)
-{
-	const char *s;
-	char       *msg = NULL;
-
-	g_return_val_if_fail (mstyle != NULL, NULL);
-	
-	if ((s = mstyle_get_validation_msg (mstyle))) {
-		const char *offset = strchr (s, '\n');
-
-		if ((int) strlen (s) != offset - s + 1)
-			msg = g_strdup (offset + 1);
-	}
-	
-	return msg;
-}
-
-char *
-validation_mstyle_get_msg_subst (const MStyle *mstyle)
-{
-	char *msg = NULL;
-
-	msg = validation_mstyle_get_msg (mstyle);
-	if (msg)
-		return msg;
-	else
-		return validation_generate_msg (mstyle);
-}
-
-void
-validation_mstyle_set_title_msg (MStyle *mstyle, const char *title,
-				 const char *msg)
-{
-	GString *s;
-
-	g_return_if_fail (mstyle != NULL);
-
-	s = g_string_new ("");
-
-	if (title)
-		g_string_append (s, title);
-	g_string_append_c (s, '\n');
-	
-	if (msg)
-		g_string_append (s, msg);
-
-	mstyle_set_validation_msg (mstyle, strlen (s->str) > 1 ? s->str : NULL);
-	g_string_free (s, TRUE);
-}
-
 gboolean
-validation_get_accept (GtkWindow *parent, const MStyle *mstyle)
+validation_get_accept (GtkWindow *parent, Validation const *v)
 {
 	GnomeDialog *dialog;
-	char        *title = validation_mstyle_get_title     (mstyle);
-	char        *msg   = validation_mstyle_get_msg_subst (mstyle);
+	const char  *title    = v->title ? v->title->str : NULL;
+	const char  *msg      = v->msg ? v->msg->str : NULL;
+	char        *msg_auto = NULL;
 	int          ret;
 	gboolean     result = FALSE;
 
-	switch (mstyle_get_validation_style (mstyle)) {
+	if (!msg || strlen (msg) == 0)
+		msg_auto = validation_generate_msg (v->sc);
+	
+	switch (v->vs) {
 	case VALIDATION_STYLE_NONE :
 		result = TRUE;
 		break;
 	case VALIDATION_STYLE_STOP :
 		dialog = GNOME_DIALOG (
 			gnome_message_box_new (
-				msg, GNOME_MESSAGE_BOX_ERROR,
+				msg_auto ? msg_auto : msg, GNOME_MESSAGE_BOX_ERROR,
 				_("Ok"), NULL));
 		gnome_dialog_set_parent (dialog, parent);
 		if (title)
@@ -216,7 +151,7 @@ validation_get_accept (GtkWindow *parent, const MStyle *mstyle)
 	case VALIDATION_STYLE_WARNING :
 		dialog = GNOME_DIALOG (
 			gnome_message_box_new (
-				msg, GNOME_MESSAGE_BOX_WARNING,
+				msg_auto ? msg_auto : msg , GNOME_MESSAGE_BOX_WARNING,
 				_("Accept"), _("Discard"), NULL));
 		/* FIXME: This doesn't seem to have any effect */
 		gnome_dialog_set_default (dialog, 0);
@@ -233,7 +168,7 @@ validation_get_accept (GtkWindow *parent, const MStyle *mstyle)
 	case VALIDATION_STYLE_INFO :
 		dialog = GNOME_DIALOG (
 			gnome_message_box_new (
-				msg, GNOME_MESSAGE_BOX_INFO,
+				msg_auto ? msg_auto : msg, GNOME_MESSAGE_BOX_INFO,
 				_("Ok"), NULL));
 		gnome_dialog_set_parent (dialog, parent);
 		if (title)
@@ -246,10 +181,8 @@ validation_get_accept (GtkWindow *parent, const MStyle *mstyle)
 		result = FALSE;
 	}
 	
-	if (title)
-		g_free (title);
-	if (msg)
-		g_free (msg);
+	if (msg_auto)
+		g_free (msg_auto);
 	
 	return result;
 }

@@ -1,3 +1,63 @@
+2001-10-27  Almer S. Tigelaar  <almer@gnome.org>
+
+	* src/GNOME_Gnumeric.xml: Enable validate menu item.
+
+	* src/validation.[ch]: New, defines a container for
+	validation settings.
+	
+	* src/Makefile.am: Add new validation.[ch]
+
+	* src/gnumeric.h: Add validation declaration.
+
+	* src/gui-validation.[ch] (validation_mstyle_get_title): Burn.
+	(validation_generate_msg): Rework slightly to accept a stylecondition
+	instead of an mstyle.
+	(validation_mstyle_get_msg): Burn.
+	(validation_mstyle_get_msg_subst): Burn.
+	(validation_mstyle_set_title_msg): Burn.
+	(validation_get_accept): Request a validation instead of
+	an mstyle. Actually free the automatically generated message.
+
+	* src/mstyle.[ch]: Adjust mstyle_names to include hidden/locked.
+	(mstyle_hash): Remove validation style hashing.
+	(mstyle_element_dump): Don't dump validation message, dump validation
+	refcount instead.
+	(mstyle_element_equal): Remove comparing of style and message.
+	(mstyle_elements_equal): Don't give a mismatched types warning if
+	one of the elements is not set.
+	(mstyle_element_ref): Ref validation, remove reffing of msg.
+	(mstyle_element_unref): Idem for unref.
+	(mstyle_new_default): Don't initialize any validation related
+	element.
+	(mstyle_set_validation): Set a Validation instead of a StyleCondition.
+	(mstyle_get_validation): Idem for get.
+	(mstyle_set_validation_style): Burn.
+	(mstyle_get_validation_style): Burn.
+	(mstyle_set_validation_msg): Burn.
+	(mstyle_get_validation_msg): Burn.
+
+	* src/style-condition.c (style_condition_new_constraint): Initialize
+	from passed parameter!
+
+	* src/style-condition.h: Remove validation enum.
+
+	* src/workbook-control-gui.c (cb_data_validate): Enable.
+	(workbook_control_gui_init): Change index of consolidate
+	menu item.
+
+	* src/workbook-edit.c (wbcg_edit_validate) : Get the StyleCondition
+	from the validation. The validation element must be set on the mstyle.
+	Pass validation, not mstyle, to validation_get_accept.
+	(wbcg_edit_finish): Only call wbcg_edit_validate if the validation
+	element is set on the mstyle.
+
+	* src/xml-io.c (xml_write_style_condition_chain): Generates a
+	StyleConditionChain in XML format.
+	(xml_read_style_condition_chain): Turns an XML description of a
+	StyleConditionChain into a real StyleConditionChain.
+	(xml_write_style): Add validation support.
+	(xml_read_style): Idem.
+	
 2001-10-27  Jody Goldberg <jgoldberg@home.com>
 
 	* src/expr.c (cellref_relocate) : Only make the sheet local if the

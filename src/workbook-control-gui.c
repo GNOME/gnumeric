@@ -2198,14 +2198,12 @@ cb_data_filter (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	dialog_advanced_filter (wbcg);
 }
 
-#if 0
 static void
 cb_data_validate (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	dialog_cell_format (wbcg, wb_control_cur_sheet (wbc), FD_VALIDATION);	
 }
-#endif
 
 static void
 cb_data_consolidate (GtkWidget *widget, WorkbookControlGUI *wbcg)
@@ -2882,11 +2880,9 @@ static GnomeUIInfo workbook_menu_data [] = {
 	GNOMEUIINFO_ITEM_NONE (N_("_Filter..."),
 		N_("Filter data with given criteria"),
 		cb_data_filter),
-#if 0
 	GNOMEUIINFO_ITEM_NONE (N_("_Validate..."),
 		N_("Validate input with preset criteria"),
 		cb_data_validate),
-#endif
 	GNOMEUIINFO_ITEM_NONE (N_("_Consolidate..."),
 		N_("Consolidate regions using a function"),
 		cb_data_consolidate),
@@ -3078,9 +3074,7 @@ static BonoboUIVerb verbs [] = {
 
 	BONOBO_UI_UNSAFE_VERB ("DataSort", cb_data_sort),
 	BONOBO_UI_UNSAFE_VERB ("DataFilter", cb_data_filter),
-#if 0
 	BONOBO_UI_UNSAFE_VERB ("DataValidate", cb_data_validate),
-#endif
 	BONOBO_UI_UNSAFE_VERB ("DataConsolidate", cb_data_consolidate),
 
 	BONOBO_UI_UNSAFE_VERB ("DataOutlineHideDetail", cb_data_hide_detail),
@@ -3782,9 +3776,9 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 		workbook_menu_insert [3].widget;
 	wbcg->menu_item_define_name =
 		workbook_menu_names [0].widget;
-	/* FIXME: Once input validation is enabled change the [3] */
+
 	wbcg->menu_item_consolidate =
-		workbook_menu_data [3].widget;
+		workbook_menu_data [4].widget;
 	wbcg->menu_item_freeze_panes =
 		workbook_menu_view [1].widget;
 

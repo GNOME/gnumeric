@@ -1,3 +1,25 @@
+2001-10-27  Almer S. Tigelaar  <almer@gnome.org>
+
+	* dialog-cell-format.c (validation_style_condition_chain_rebuild): Rename
+	to validation_rebuild_validation.
+	(validation_rebuild_validation): Also set error style, title and message
+	on validation.
+	(cb_validation_error_action_deactivate): Don't set error style on
+	mstyle directly.
+	(cb_validation_operator_deactivate): Adjust for name change.
+	(cb_validation_constraint_type_deactivate): Don't rebuild chain from
+	here, cb_validation_error_action_deactivate will do this.
+	(cb_validation_bounds_changed): Adjust for name change.
+	(cb_validation_flags_changed): Idem.
+	(cb_validation_error_title_msg): Don't set title and message directly
+	on mstyle. Call validation_rebuild_validation instead.
+	(fmt_dialog_init_from_style_condition): Rename to
+	fmt_dialog_init_validation_from_style_condition.
+	(fmt_dialog_init_validation_from_style_condition): Use passed
+	stylecondition instead of re-fetching it from the mstyle.
+	(fmt_dialog_init_validation_page): Correctly initialize everything
+	from the new, single mstyle_validation element.
+	
 2001-10-26  Wayne Schuller  <k_wayne@linuxpower.org>
 
 	* dialog-printer-setup.c: (display_hf_preview), (header_changed),

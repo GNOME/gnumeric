@@ -26,6 +26,7 @@
 #include "gui-validation.h"
 #include "number-match.h"
 #include "parse-util.h"
+#include "validation.h"
 #include "value.h"
 #include "widgets/gnumeric-expr-entry.h"
 
@@ -136,33 +137,35 @@ static gboolean
 wbcg_edit_validate (WorkbookControlGUI *wbcg, MStyle const *mstyle,
 		    ExprTree const *tree, Value *val)
 {
+	Validation *v;
 	StyleCondition *sc;
 	Sheet *sheet;
 	gboolean result = TRUE;
 	
-	sc = mstyle_get_validation (mstyle);
+	v = mstyle_get_validation (mstyle);
+	g_return_val_if_fail (mstyle_is_element_set (mstyle, MSTYLE_VALIDATION), TRUE);
+	
+	sc = v->sc;
 	sheet = wbcg->editing_sheet;
 
 	if (sc) {
-		Value *v;
-		Cell *cell = sheet_cell_get (sheet, sheet->edit_pos.col, sheet->edit_pos.row);
+		Value *valt;
+		Cell  *cell = sheet_cell_get (sheet, sheet->edit_pos.col, sheet->edit_pos.row);
 		
 		if (!val) {
 			EvalPos ep;
-			v = expr_eval (tree,
-				eval_pos_init (&ep, sheet, &sheet->edit_pos),
-				0);
+			valt = expr_eval (tree, eval_pos_init (&ep, sheet, &sheet->edit_pos), 0);
 		} else
-			v = val;
+			valt = val;
 
-		g_return_val_if_fail (v != NULL, FALSE);
+		g_return_val_if_fail (valt != NULL, FALSE);
 
-		result = style_condition_eval (sc, v, cell ? cell->format : NULL);
+		result = style_condition_eval (sc, valt, cell ? cell->format : NULL);
 		if (!val)
-			value_release (v);
+			value_release (valt);
 
 		if (!result)
-			result = validation_get_accept (wbcg->toplevel, mstyle);
+			result = validation_get_accept (wbcg->toplevel, v);
 	}
 	
 	return result;
@@ -203,7 +206,7 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 		char const *txt = wbcg_edit_get_display_text (wbcg);
 		MStyle *mstyle = sheet_style_get (sheet, sheet->edit_pos.col, sheet->edit_pos.row);
 		ExprTree *expr = NULL;
-		gboolean is_valid;
+		gboolean is_valid = TRUE;
 
 		/* BE CAREFUL the standard fmts must not NOT include '@' */
 		Value *value = format_match (txt, mstyle_get_format (mstyle), NULL);
@@ -253,7 +256,8 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 				value = value_new_string (txt);
 		}
 
-		is_valid = wbcg_edit_validate (wbcg, mstyle, expr, value);
+		if (mstyle_is_element_set (mstyle, MSTYLE_VALIDATION))
+			is_valid = wbcg_edit_validate (wbcg, mstyle, expr, value);
 		if (value != NULL)
 			value_release (value);
 		if (expr != NULL)

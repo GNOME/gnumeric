@@ -114,7 +114,7 @@ style_condition_new_constraint (StyleConditionConstraint constraint)
 	sc->type      = SCT_CONSTRAINT;
 	sc->ref_count = 1;
 
-	sc->u.constraint = SCC_IS_INT;
+	sc->u.constraint = constraint;
 	
 	sc->next    = NULL;
 	sc->next_op = SCB_NONE;

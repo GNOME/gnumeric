@@ -1,18 +1,8 @@
-#ifndef GNUMERIC_STYLE_VALIDATION_H
-#define GNUMERIC_STYLE_VALIDATION_H
+#ifndef GNUMERIC_STYLE_CONDITION_H
+#define GNUMERIC_STYLE_CONDITION_H
 
 #include "eval.h"
 #include "gnumeric.h"
-
-/*
- * FIXME: Where do we put this?
- */
-typedef enum _ValidationStyle {
-	VALIDATION_STYLE_NONE,
-	VALIDATION_STYLE_STOP,
-	VALIDATION_STYLE_WARNING,
-	VALIDATION_STYLE_INFO
-} ValidationStyle;
 
 typedef enum {
 	SCT_EXPR        = 10,
@@ -86,4 +76,4 @@ StyleCondition *style_condition_chain (StyleCondition *dst, StyleConditionBool o
 				       StyleCondition *src);
 gboolean        style_condition_eval  (StyleCondition *sc, Value *val, StyleFormat *format);
 
-#endif /* GNUMERIC_STYLE_VALIDATION_H */
+#endif /* GNUMERIC_STYLE_CONDITION_H */

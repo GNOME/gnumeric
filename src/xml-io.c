@@ -16,12 +16,14 @@
 #include "sheet-style.h"
 #include "sheet-object.h"
 #include "sheet-object-cell-comment.h"
+#include "str.h"
 #include "print-info.h"
 #include "file.h"
 #include "expr.h"
 #include "expr-name.h"
 #include "cell.h"
 #include "value.h"
+#include "validation.h"
 #include "sheet-merge.h"
 #include "io-context.h"
 #include "command-context.h"
@@ -543,6 +545,152 @@ xml_read_style_border (XmlParseContext *ctxt, xmlNodePtr tree, MStyle *mstyle)
 	}
 }
 
+static xmlNodePtr
+xml_write_style_condition_chain (XmlParseContext *ctxt, StyleCondition *sc)
+{
+	xmlNodePtr cur;
+	StyleCondition *sci;
+	
+	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "StyleConditionChain", NULL);
+	for (sci = sc; sci != NULL; sci = sci->next) {
+		xmlNodePtr parent, ptr;
+
+		parent = xmlNewChild (cur, ctxt->ns, "StyleCondition", NULL);
+		xml_node_set_int (parent, "Type", sci->type);
+		xml_node_set_int (parent, "NextOperator", sci->next_op);
+		switch (sci->type) {
+		case SCT_EXPR :
+			ptr = xmlNewChild (parent, ctxt->ns, "Expr", NULL);
+			xml_node_set_int (ptr, "Operator", sci->u.expr.op);
+
+			if (sci->u.expr.dep.expression) {
+				Sheet *sheet = sci->u.expr.dep.sheet;
+				ParsePos pos, *pp;
+				char *val, *tstr;
+			
+				pp = parse_pos_init (&pos, sheet->workbook, sheet, 0, 0);
+				val = expr_tree_as_string (sci->u.expr.dep.expression, pp);
+				
+				tstr = xmlEncodeEntitiesReentrant (ctxt->doc, val);
+				xml_node_set_cstr (ptr, "Expression", val);
+				if (tstr) xmlFree (tstr);
+				g_free (val);
+			}
+			break;
+		case SCT_CONSTRAINT :
+			ptr = xmlNewChild (parent, ctxt->ns, "Constraint", NULL);
+			xml_node_set_int (ptr, "Value", sci->u.constraint);
+			break;
+		case SCT_FLAGS :
+			ptr = xmlNewChild (parent, ctxt->ns, "Flags", NULL);
+			xml_node_set_int (ptr, "Value", sci->u.flags);
+			break;
+		default :
+			g_warning ("Unknown StyleCondition Type");
+		}
+	}
+	
+	return cur;
+}
+
+static StyleCondition *
+xml_read_style_condition_chain (XmlParseContext *ctxt, xmlNodePtr tree)
+{
+	StyleCondition *scf = NULL;
+	StyleCondition *scl = NULL;
+	xmlNodePtr parent;
+	
+	if (strcmp (tree->name, "StyleConditionChain")){
+		fprintf (stderr,
+			 "xml_read_style_condition: invalid element type %s, 'StyleConditionChain' expected`\n",
+			 tree->name);
+	}
+	
+	parent = tree->xmlChildrenNode;
+	while (parent) {
+		StyleConditionBool next_op = 0;
+		StyleConditionType type = 0;
+		StyleCondition *sc = NULL;
+		xmlNodePtr child = parent->xmlChildrenNode;
+		
+		if (!parent->name || strcmp (parent->name, "StyleCondition"))
+			fprintf (stderr,
+				 "xml_read_style_condition: invalid element type %s, 'StyleCondition' expected`\n",
+				 parent->name);
+
+		xml_node_get_int (parent, "Type", (int*) &type);
+		xml_node_get_int (parent, "NextOperator", (int*) &next_op);
+		
+		switch (type) {
+		case SCT_EXPR :
+			if (child && child->name && !strcmp (child->name, "Expr")) {
+				ExprTree *expr = NULL;
+				ParsePos pos, *pp;
+				xmlChar *s;
+				int op;
+			
+				xml_node_get_int (child, "Operator", &op);
+				s = xml_node_get_cstr (child, "Expression");
+
+				if (s) {
+					pp = parse_pos_init (&pos, ctxt->wb,
+							     ctxt->sheet, 0, 0);
+					if ((expr = expr_parse_string (s, pp, NULL, NULL)) == NULL)
+						fprintf (stderr, "xml_read_style_condition: empty/invalid expression. condition damaged!\n");
+					xmlFree (s);
+				} else
+					g_warning ("StyleConditionExpression without Expression!");
+			
+				sc = style_condition_new_expr (ctxt->sheet, op, expr);
+				expr_tree_unref (expr);
+			} else
+				fprintf (stderr,
+					 "xml_read_style_condition: invalid element type %s, 'Expr' expected`\n",
+					 child->name);
+			break;
+		case SCT_CONSTRAINT :
+			if (child && child->name && !strcmp (child->name, "Constraint")) {
+				StyleConditionConstraint constraint;
+				
+				xml_node_get_int (child, "Value", (int *) &constraint);
+				sc = style_condition_new_constraint (constraint);
+			} else
+				fprintf (stderr,
+					 "xml_read_style_condition: invalid element type %s, 'Constraint' expected`\n",
+					 child->name);
+			break;
+		case SCT_FLAGS :
+			if (child && child->name && !strcmp (child->name, "Flags")) {
+				StyleConditionFlags flags;
+				
+				xml_node_get_int (child, "Value", (int *) &flags);
+				sc = style_condition_new_flags (flags);
+			} else
+				fprintf (stderr,
+					 "xml_read_style_condition: invalid element type %s, 'Flags' expected`\n",
+					 child->name);
+			break;
+		default :
+			g_warning ("Unknown StyleCondition type");
+		}
+
+		if (!sc) {
+			g_warning ("Broken StyleConditionChain!");
+			break;
+		}
+		
+		if (scl)
+			style_condition_chain (scl, next_op, sc);
+		else
+			scf = sc;
+		scl = sc;
+
+		parent = parent->next;
+	}
+	
+	return scf;
+}
+
 /*
  * Create an XML subtree of doc equivalent to the given Style.
  */
@@ -616,6 +764,30 @@ xml_write_style (XmlParseContext *ctxt,
 		if (mstyle_is_element_set (style, MSTYLE_FONT_STRIKETHROUGH))
 			xml_node_set_int (child, "StrikeThrough",
 					   mstyle_get_font_strike (style));
+	}
+
+	if (mstyle_is_element_set (style, MSTYLE_VALIDATION)) {
+		Validation *v = mstyle_get_validation (style);
+		xmlNodePtr xsc;
+		
+		child = xmlNewChild (cur, ctxt->ns, "Validation", NULL);
+		xml_node_set_int (child, "Style", v->vs);
+
+		if (v->title) {
+			tstr = xmlEncodeEntitiesReentrant (ctxt->doc, v->title->str);
+			xml_node_set_cstr (child, "Title", tstr);
+			if (tstr) xmlFree (tstr);
+		}
+
+		if (v->msg) {
+			tstr = xmlEncodeEntitiesReentrant (ctxt->doc, v->msg->str);
+			xml_node_set_cstr (child, "Message", tstr);
+			if (tstr) xmlFree (tstr);
+		}
+		
+		xsc = xml_write_style_condition_chain (ctxt, v->sc);
+		if (xsc)
+			xmlAddChild (child, xsc);
 	}
 
 	child = xml_write_style_border (ctxt, style);
@@ -1403,6 +1575,42 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 
 		} else if (!strcmp (child->name, "StyleBorder")) {
 			xml_read_style_border (ctxt, child, mstyle);
+		} else if (!strcmp (child->name, "Validation")) {
+			StyleCondition *sc;
+			ValidationStyle vs;
+			Validation *v;
+			xmlNodePtr ptr;
+			xmlChar *title;
+			xmlChar *msg;
+			
+			xml_node_get_int (child, "Style", (int *) &vs);
+
+			if (vs != VALIDATION_STYLE_NONE) {
+				title = xml_node_get_cstr (child, "Title");
+				if (strlen (title) < 1) {
+					xmlFree (title);
+					title = NULL;
+				}
+				msg = xml_node_get_cstr (child, "Message");
+				if (strlen (msg) < 1) {
+					xmlFree (msg);
+					msg = NULL;
+				}
+			} else {
+				title = NULL;
+				msg = NULL;
+			}
+
+      			if ((ptr = e_xml_get_child_by_name (child, "StyleConditionChain")) != NULL)
+				sc = xml_read_style_condition_chain (ctxt, ptr);
+			else
+				sc = NULL;
+
+			v = validation_new (vs, title, msg, sc);
+			mstyle_set_validation (mstyle, v);
+			
+			xmlFree (msg);
+			xmlFree (title);
 		} else {
 			fprintf (stderr, "xml_read_style: unknown type '%s'\n",
 				 child->name);
