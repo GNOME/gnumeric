@@ -1,3 +1,11 @@
+2000-06-08  Morten Welinder  <terra@diku.dk>
+
+	* src/commands.c (cmd_sort_undo): Take advantage of
+ 	sort_data_length and sort_permute_invert.
+
+	* src/sort.c (sort_data_length): Make public.
+	(sort_permute_invert): New function.
+
 2000-06-08  Jon K Hellan  <hellan@acm.org>
 
 	* src/workbook.c (change_displayed_zoom_cb): Set zoom using

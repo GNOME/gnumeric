@@ -40,7 +40,7 @@ sort_data_destroy (SortData *data)
 	g_free (data);
 }
 
-static int
+int
 sort_data_length (const SortData *data)
 {
 	if (data->top)
@@ -215,6 +215,19 @@ sort_permute_range (SortData *data, Range *range, int adj)
 	}
 }
 
+int *
+sort_permute_invert (const int *perm, int length)
+{
+	int i, *rperm;
+
+	rperm = g_new (int, length);
+	for (i = 0; i < length; i++)
+		rperm[perm[i]] = i;
+
+	return rperm;
+}
+
+
 #undef DEBUG_SORT
 
 static void
@@ -226,16 +239,14 @@ sort_permute (CommandContext *context, SortData *data, const int *perm, int leng
 	pt.sheet = data->sheet;
 	pt.paste_flags = PASTE_FORMATS | PASTE_FORMULAS	| PASTE_EXPR_RELOCATE;
 
-	rperm = g_new (int, length);
-	for (i = 0; i < length; i++)
-		rperm[perm[i]] = i;
-
 #ifdef DEBUG_SORT
 	fprintf (stderr, "Permutation:");
 	for (i = 0; i < length; i++)
 		fprintf (stderr, " %d", perm[i]);
 	fprintf (stderr, "\n");
 #endif
+
+	rperm = sort_permute_invert (perm, length);
 
 	for (i = 0; i < length; i++) {
 		Range range1, range2;

@@ -1522,26 +1522,11 @@ static gboolean
 cmd_sort_undo (GnumericCommand *cmd, CommandContext *context)
 {
 	CmdSort *me = CMD_SORT (cmd);
-	int length, i;
-	int *inv;
-	
 	g_return_val_if_fail (me != NULL, TRUE);
 
 	if (!me->inv) {
-		if (me->data->top) {
-			length = me->data->range->end.row - 
-				me->data->range->start.row + 1;
-		} else {
-			length = me->data->range->end.col - 
-				me->data->range->start.col + 1;
-		}
-
-		me->inv = g_new (int, length);
-		for (i=0; i <length; i++) {
-			me->inv[me->perm[i]] = i;
-		}
+		me->inv = sort_permute_invert (me->perm, sort_data_length (me->data));
 	}
-	
 	sort_position (context, me->data, me->inv);
 
 	sheet_set_dirty (me->data->sheet, TRUE);

@@ -26,4 +26,7 @@ void        sort_position (CommandContext *context, SortData *data, int *perm);
 
 int         *sort_contents (CommandContext *context, SortData *data);
 
+int         sort_data_length (const SortData *data);
+int         *sort_permute_invert (const int *perm, int length);
+
 #endif /* SORT_H */
