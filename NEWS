@@ -6,6 +6,9 @@ Jody:
 	http://bugzilla.gnome.org/show_bug.cgi?id=134627
 	* Display name of edit position after releasing Shift key
 
+Morten:
+	* Fix entry in #decimals spinbutton for cell formats.
+
 --------------------------------------------------------------------------
 Gnumeric 1.2.6
 

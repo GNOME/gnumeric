@@ -1,3 +1,8 @@
+2004-02-26  Morten Welinder  <terra@gnome.org>
+
+	* widget-format-selector.c (nfs_init): Backport
+	entry-in-spinbutton fix.
+
 2004-02-04  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.2.6

@@ -38,6 +38,7 @@
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkcellrenderertext.h>
 #include <gtk/gtkliststore.h>
+#include <gtk/gtkhbox.h>
 #include <gsf/gsf-impl-utils.h>
 
 #include <string.h>
@@ -261,6 +262,7 @@ fillin_negative_samples (NumberFormatSelector *nfs)
 	int i;
 	GtkTreeIter  iter;
 	GtkTreePath *path;
+	gboolean more;
 	SETUP_LOCALE_SWITCH;
 
 	g_return_if_fail (page == FMT_NUMBER || page == FMT_CURRENCY);
@@ -305,18 +307,22 @@ fillin_negative_samples (NumberFormatSelector *nfs)
 	} else
 		currency_a = currency_b = "";
 
-	gtk_list_store_clear (nfs->format.negative_types.model);
-
+	more = gtk_tree_model_get_iter_first (GTK_TREE_MODEL (nfs->format.negative_types.model), &iter);
 	for (i = 0 ; i < 4; i++) {
 		char *buf = g_strdup_printf (formats[i],
 					     currency_b, space_b, thousand_sep, decimal,
 					     decimals + n, space_a, currency_a);
-		gtk_list_store_append (nfs->format.negative_types.model, &iter);
+		if (!more)
+			gtk_list_store_append (nfs->format.negative_types.model, &iter);
 		gtk_list_store_set (nfs->format.negative_types.model, &iter,
-			0, i,
-			1, buf,
-			2, (i % 2) ? "red" : NULL,
-			-1);
+				    0, i,
+				    1, buf,
+				    2, (i % 2) ? "red" : NULL,
+				    -1);
+		if (more)
+			more = gtk_tree_model_iter_next (GTK_TREE_MODEL (nfs->format.negative_types.model),
+							 &iter);
+
 		g_free (buf);
 	}
 
@@ -335,12 +341,11 @@ fillin_negative_samples (NumberFormatSelector *nfs)
 }
 
 static void
-cb_decimals_changed (GtkEditable *editable, NumberFormatSelector *nfs)
+cb_decimals_changed (GtkSpinButton *spin, NumberFormatSelector *nfs)
 {
 	FormatFamily const page = nfs->format.current_type;
 
-	nfs->format.num_decimals =
-		gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (editable));
+	nfs->format.num_decimals = gtk_spin_button_get_value_as_int (spin);
 
 	if (page == FMT_NUMBER || page == FMT_CURRENCY)
 		fillin_negative_samples (nfs);
@@ -968,7 +973,7 @@ nfs_init (NumberFormatSelector *nfs)
 
 	/* Catch changes to the spin box */
 	g_signal_connect (G_OBJECT (nfs->format.widget[F_DECIMAL_SPIN]),
-			  "changed",
+			  "value_changed",
 			  G_CALLBACK (cb_decimals_changed), nfs);
 
 	/* Setup special handlers for : Numbers */
