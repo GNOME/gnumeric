@@ -1,19 +1,20 @@
 # Bulgarian translation for gnumeric.
 # Copyright (C) 2002 Free Software Foundation, Inc.
 # Borislav Aleksandrov <B.Aleksandrov@cnsys.bg>, 2002.
-#
+# Vladimir Petkov <vpetkov@i-space.org>, small updates for standartization, 2004
+# 
+# 
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric\n"
+"Project-Id-Version: gnumeric 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-06-23 00:40-0400\n"
-"PO-Revision-Date: 2002-07-16 18:32GMT\n"
-"Last-Translator: Borislav Aleksandrov <B.Aleksandrov@cnsys.bg>\n"
+"POT-Creation-Date: 2004-08-02 20:29+0200\n"
+"PO-Revision-Date: 2004-08-03 13:19+0300\n"
+"Last-Translator: Vladimir \"Kaladan\" Petkov <vpetkov@i-space.org>\n"
 "Language-Team: Bulgarian <dict@linux.zonebg.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 0.9.6\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: GNOME_Gnumeric.server.in.in.h:1
 msgid "Gnumeric Workbook"
@@ -32,9 +33,8 @@ msgid "Gnumeric Spreadsheet"
 msgstr "Електронна таблица Gnumeric"
 
 #: gnumeric.desktop.in.h:2
-#, fuzzy
 msgid "Spreadsheet"
-msgstr "Електронна таблица Gnumeric"
+msgstr "Електронна таблица"
 
 #: gnumeric.desktop.in.h:3
 msgid "The GNOME Spreadsheet"
@@ -81,7 +81,7 @@ msgstr "Версия на импорт 4.[234] електронни таблиц
 
 #: plugins/corba/plugin.xml.in.h:1
 msgid "CORBA Interface"
-msgstr ""
+msgstr "Интерфейс CORBA"
 
 #: plugins/corba/plugin.xml.in.h:2
 msgid "Provides a CORBA scripting interface"
@@ -696,9 +696,8 @@ msgstr ""
 #: plugins/derivatives/plugin.xml.in.h:1
 #: plugins/fn-financial/plugin.xml.in.h:1
 #: plugins/sample_datasource/plugin.xml.in.h:2
-#, fuzzy
 msgid "Finance"
-msgstr "Финансов"
+msgstr "Финансови"
 
 #: plugins/derivatives/plugin.xml.in.h:2
 msgid "Financial Derivatives"
@@ -711,7 +710,7 @@ msgstr "Функции отнасящи се до финансови произ�
 #: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5542
 #: plugins/mps/mps.c:549 src/xml-io.c:4136
 msgid "Reading file..."
-msgstr "Чета файл..."
+msgstr "Четене на файл..."
 
 #: plugins/dif/dif.c:180
 #, c-format
@@ -787,13 +786,12 @@ msgid "No Workbook or Book streams found."
 msgstr "Няма Работна книга или Книга потоци"
 
 #: plugins/excel/boot.c:232
-#, fuzzy
 msgid "Preparing to save..."
 msgstr "Подготовка за запазване..."
 
 #: plugins/excel/boot.c:244
 msgid "Saving file..."
-msgstr "Запазвам файл..."
+msgstr "Запазване на файл..."
 
 #: plugins/excel/excel-xml-read.c:85 plugins/xml_sax/xml-sax-read.c:270
 #, c-format
@@ -831,7 +829,7 @@ msgstr "Диаграма%d"
 #: plugins/excel/ms-excel-read.c:1155
 #, c-format
 msgid "Module%d"
-msgstr "Мофул%d"
+msgstr "Модул%d"
 
 #: plugins/excel/ms-excel-read.c:2952
 #, fuzzy, c-format
@@ -918,24 +916,21 @@ msgid "MS Excel (tm) (*.xls)"
 msgstr "MS Excel (tm) (*.xls)"
 
 #: plugins/excel/plugin.xml.in.h:4
-#, fuzzy
 msgid "MS Excel (tm) 5.0/95"
-msgstr "MS Excel (tm)"
+msgstr "MS·Excel (tm) 5.0/95"
 
 #: plugins/excel/plugin.xml.in.h:5
-#, fuzzy
 msgid "MS Excel (tm) 97/2000/XP"
-msgstr "MS Excel (tm) 97 формат на файл"
+msgstr "MS·Excel (tm) 97/2000/XP"
 
 #: plugins/excel/plugin.xml.in.h:6
 #, fuzzy
-msgid "MS Excel (tm) 97/2000/XP & 5.0/95"
+msgid "MS Excel (tm) 97/2000/XP &amp; 5.0/95"
 msgstr "MS Excel (tm) 97 формат на файл"
 
 #: plugins/excel/plugin.xml.in.h:7
-#, fuzzy
 msgid "MS Excel (tm) XML"
-msgstr "MS Excel (tm)"
+msgstr "MS·Excel (tm) XML"
 
 #: plugins/fn-complex/functions.c:80
 msgid ""
@@ -1007,7 +1002,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
-#: plugins/fn-complex/functions.c:185
+#: plugins/fn-complex/functions.c:182
 #, fuzzy
 msgid ""
 "@FUNCTION=IMREAL\n"
@@ -1032,7 +1027,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
-#: plugins/fn-complex/functions.c:218
+#: plugins/fn-complex/functions.c:215
 #, fuzzy
 msgid ""
 "@FUNCTION=IMCONJUGATE\n"
@@ -1058,7 +1053,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
-#: plugins/fn-complex/functions.c:252
+#: plugins/fn-complex/functions.c:246
 msgid ""
 "@FUNCTION=IMINV\n"
 "@SYNTAX=IMINV(inumber)\n"
@@ -1075,7 +1070,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-complex/functions.c:283
+#: plugins/fn-complex/functions.c:277
 #, fuzzy
 msgid ""
 "@FUNCTION=IMNEG\n"
@@ -1102,7 +1097,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
-#: plugins/fn-complex/functions.c:314
+#: plugins/fn-complex/functions.c:308
 #, fuzzy
 msgid ""
 "@FUNCTION=IMCOS\n"
@@ -1127,7 +1122,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
-#: plugins/fn-complex/functions.c:345
+#: plugins/fn-complex/functions.c:339
 #, fuzzy
 msgid ""
 "@FUNCTION=IMTAN\n"
@@ -1152,7 +1147,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
-#: plugins/fn-complex/functions.c:376
+#: plugins/fn-complex/functions.c:370
 #, fuzzy
 msgid ""
 "@FUNCTION=IMSEC\n"
@@ -1179,7 +1174,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
-#: plugins/fn-complex/functions.c:409
+#: plugins/fn-complex/functions.c:403
 #, fuzzy
 msgid ""
 "@FUNCTION=IMCSC\n"
@@ -1206,7 +1201,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
-#: plugins/fn-complex/functions.c:442
+#: plugins/fn-complex/functions.c:436
 #, fuzzy
 msgid ""
 "@FUNCTION=IMCOT\n"
@@ -1233,7 +1228,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
-#: plugins/fn-complex/functions.c:475
+#: plugins/fn-complex/functions.c:469
 #, fuzzy
 msgid ""
 "@FUNCTION=IMEXP\n"
@@ -1258,7 +1253,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
-#: plugins/fn-complex/functions.c:506
+#: plugins/fn-complex/functions.c:500
 #, fuzzy
 msgid ""
 "@FUNCTION=IMARGUMENT\n"
@@ -1286,7 +1281,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
-#: plugins/fn-complex/functions.c:538
+#: plugins/fn-complex/functions.c:532
 #, fuzzy
 msgid ""
 "@FUNCTION=IMLN\n"
@@ -1315,7 +1310,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
-#: plugins/fn-complex/functions.c:574
+#: plugins/fn-complex/functions.c:568
 #, fuzzy
 msgid ""
 "@FUNCTION=IMLOG2\n"
@@ -1340,7 +1335,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
-#: plugins/fn-complex/functions.c:606
+#: plugins/fn-complex/functions.c:600
 #, fuzzy
 msgid ""
 "@FUNCTION=IMLOG10\n"
@@ -1365,7 +1360,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
-#: plugins/fn-complex/functions.c:638
+#: plugins/fn-complex/functions.c:632
 msgid ""
 "@FUNCTION=IMPOWER\n"
 "@SYNTAX=IMPOWER(inumber1,inumber2)\n"
@@ -1383,7 +1378,7 @@ msgid ""
 "@SEEALSO=IMSQRT"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:677
+#: plugins/fn-complex/functions.c:671
 #, fuzzy
 msgid ""
 "@FUNCTION=IMDIV\n"
@@ -1409,7 +1404,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
-#: plugins/fn-complex/functions.c:714
+#: plugins/fn-complex/functions.c:708
 #, fuzzy
 msgid ""
 "@FUNCTION=IMSIN\n"
@@ -1434,7 +1429,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
-#: plugins/fn-complex/functions.c:744
+#: plugins/fn-complex/functions.c:738
 msgid ""
 "@FUNCTION=IMSINH\n"
 "@SYNTAX=IMSINH(inumber)\n"
@@ -1451,7 +1446,7 @@ msgid ""
 "@SEEALSO=IMCOSH,IMTANH"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:776
+#: plugins/fn-complex/functions.c:770
 msgid ""
 "@FUNCTION=IMCOSH\n"
 "@SYNTAX=IMCOSH(inumber)\n"
@@ -1468,7 +1463,7 @@ msgid ""
 "@SEEALSO=IMSINH,IMTANH"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:807
+#: plugins/fn-complex/functions.c:801
 #, fuzzy
 msgid ""
 "@FUNCTION=IMTANH\n"
@@ -1495,7 +1490,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
-#: plugins/fn-complex/functions.c:838
+#: plugins/fn-complex/functions.c:832
 #, fuzzy
 msgid ""
 "@FUNCTION=IMSECH\n"
@@ -1522,7 +1517,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
-#: plugins/fn-complex/functions.c:869
+#: plugins/fn-complex/functions.c:863
 msgid ""
 "@FUNCTION=IMCSCH\n"
 "@SYNTAX=IMCSCH(inumber)\n"
@@ -1539,7 +1534,7 @@ msgid ""
 "@SEEALSO=IMSECH,IMCOTH"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:900
+#: plugins/fn-complex/functions.c:894
 #, fuzzy
 msgid ""
 "@FUNCTION=IMCOTH\n"
@@ -1566,7 +1561,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
-#: plugins/fn-complex/functions.c:931
+#: plugins/fn-complex/functions.c:925
 msgid ""
 "@FUNCTION=IMARCSIN\n"
 "@SYNTAX=IMARCSIN(inumber)\n"
@@ -1583,7 +1578,7 @@ msgid ""
 "@SEEALSO=IMARCCOS,IMARCTAN"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:963
+#: plugins/fn-complex/functions.c:957
 msgid ""
 "@FUNCTION=IMARCCOS\n"
 "@SYNTAX=IMARCCOS(inumber)\n"
@@ -1600,7 +1595,7 @@ msgid ""
 "@SEEALSO=IMARCSIN,IMARCTAN"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:995
+#: plugins/fn-complex/functions.c:989
 #, fuzzy
 msgid ""
 "@FUNCTION=IMARCTAN\n"
@@ -1626,7 +1621,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
-#: plugins/fn-complex/functions.c:1027
+#: plugins/fn-complex/functions.c:1021
 #, fuzzy
 msgid ""
 "@FUNCTION=IMARCSEC\n"
@@ -1654,7 +1649,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
-#: plugins/fn-complex/functions.c:1058
+#: plugins/fn-complex/functions.c:1052
 #, fuzzy
 msgid ""
 "@FUNCTION=IMARCCSC\n"
@@ -1682,7 +1677,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
-#: plugins/fn-complex/functions.c:1089
+#: plugins/fn-complex/functions.c:1083
 #, fuzzy
 msgid ""
 "@FUNCTION=IMARCCOT\n"
@@ -1710,7 +1705,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
-#: plugins/fn-complex/functions.c:1120
+#: plugins/fn-complex/functions.c:1114
 msgid ""
 "@FUNCTION=IMARCSINH\n"
 "@SYNTAX=IMARCSINH(inumber)\n"
@@ -1727,7 +1722,7 @@ msgid ""
 "@SEEALSO=IMARCCOSH,IMARCTANH"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:1152
+#: plugins/fn-complex/functions.c:1146
 msgid ""
 "@FUNCTION=IMARCCOSH\n"
 "@SYNTAX=IMARCCOSH(inumber)\n"
@@ -1743,7 +1738,7 @@ msgid ""
 "@SEEALSO=IMARCSINH,IMARCTANH"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:1184
+#: plugins/fn-complex/functions.c:1178
 #, fuzzy
 msgid ""
 "@FUNCTION=IMARCTANH\n"
@@ -1770,7 +1765,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
-#: plugins/fn-complex/functions.c:1216
+#: plugins/fn-complex/functions.c:1210
 #, fuzzy
 msgid ""
 "@FUNCTION=IMARCSECH\n"
@@ -1798,7 +1793,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
-#: plugins/fn-complex/functions.c:1248
+#: plugins/fn-complex/functions.c:1242
 #, fuzzy
 msgid ""
 "@FUNCTION=IMARCCSCH\n"
@@ -1826,7 +1821,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
-#: plugins/fn-complex/functions.c:1279
+#: plugins/fn-complex/functions.c:1273
 #, fuzzy
 msgid ""
 "@FUNCTION=IMARCCOTH\n"
@@ -1854,7 +1849,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
-#: plugins/fn-complex/functions.c:1311
+#: plugins/fn-complex/functions.c:1305
 #, fuzzy
 msgid ""
 "@FUNCTION=IMSQRT\n"
@@ -1879,7 +1874,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
-#: plugins/fn-complex/functions.c:1342
+#: plugins/fn-complex/functions.c:1336
 #, fuzzy
 msgid ""
 "@FUNCTION=IMSUB\n"
@@ -1905,7 +1900,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
-#: plugins/fn-complex/functions.c:1376
+#: plugins/fn-complex/functions.c:1370
 #, fuzzy
 msgid ""
 "@FUNCTION=IMPRODUCT\n"
@@ -1931,7 +1926,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
-#: plugins/fn-complex/functions.c:1448
+#: plugins/fn-complex/functions.c:1442
 #, fuzzy
 msgid ""
 "@FUNCTION=IMSUM\n"
@@ -1957,18 +1952,19 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
-#: plugins/fn-complex/functions.c:1484
+#: plugins/fn-complex/functions.c:1478
 msgid "real,im,suffix"
 msgstr ""
 
+#: plugins/fn-complex/functions.c:1481 plugins/fn-complex/functions.c:1484
 #: plugins/fn-complex/functions.c:1487 plugins/fn-complex/functions.c:1490
-#: plugins/fn-complex/functions.c:1493 plugins/fn-complex/functions.c:1496
-#: plugins/fn-complex/functions.c:1499 plugins/fn-complex/functions.c:1505
-#: plugins/fn-complex/functions.c:1508 plugins/fn-complex/functions.c:1511
-#: plugins/fn-complex/functions.c:1514 plugins/fn-complex/functions.c:1520
-#: plugins/fn-complex/functions.c:1523 plugins/fn-complex/functions.c:1526
-#: plugins/fn-complex/functions.c:1536 plugins/fn-complex/functions.c:1539
-#: plugins/fn-complex/functions.c:1542 plugins/fn-complex/functions.c:1548
+#: plugins/fn-complex/functions.c:1493 plugins/fn-complex/functions.c:1499
+#: plugins/fn-complex/functions.c:1502 plugins/fn-complex/functions.c:1505
+#: plugins/fn-complex/functions.c:1508 plugins/fn-complex/functions.c:1514
+#: plugins/fn-complex/functions.c:1517 plugins/fn-complex/functions.c:1520
+#: plugins/fn-complex/functions.c:1530 plugins/fn-complex/functions.c:1533
+#: plugins/fn-complex/functions.c:1536 plugins/fn-complex/functions.c:1542
+#: plugins/fn-complex/functions.c:1545 plugins/fn-complex/functions.c:1548
 #: plugins/fn-complex/functions.c:1551 plugins/fn-complex/functions.c:1554
 #: plugins/fn-complex/functions.c:1557 plugins/fn-complex/functions.c:1560
 #: plugins/fn-complex/functions.c:1563 plugins/fn-complex/functions.c:1566
@@ -1978,14 +1974,13 @@ msgstr ""
 #: plugins/fn-complex/functions.c:1587 plugins/fn-complex/functions.c:1590
 #: plugins/fn-complex/functions.c:1593 plugins/fn-complex/functions.c:1596
 #: plugins/fn-complex/functions.c:1599 plugins/fn-complex/functions.c:1602
-#: plugins/fn-complex/functions.c:1605 plugins/fn-complex/functions.c:1608
 #, fuzzy
 msgid "inumber"
 msgstr "число"
 
-#: plugins/fn-complex/functions.c:1502 plugins/fn-complex/functions.c:1517
-#: plugins/fn-complex/functions.c:1529 plugins/fn-complex/functions.c:1532
-#: plugins/fn-complex/functions.c:1545
+#: plugins/fn-complex/functions.c:1496 plugins/fn-complex/functions.c:1511
+#: plugins/fn-complex/functions.c:1523 plugins/fn-complex/functions.c:1526
+#: plugins/fn-complex/functions.c:1539
 #, fuzzy
 msgid "inumber,inumber"
 msgstr "число,число"
@@ -8863,16 +8858,16 @@ msgstr "долу,горе"
 
 #: plugins/fn-random/functions.c:1109
 msgid "p,trials"
-msgstr ""
+msgstr "p,trials"
 
 #: plugins/fn-random/functions.c:1112 plugins/fn-random/functions.c:1148
 #: plugins/fn-random/functions.c:1157
 msgid "a"
-msgstr ""
+msgstr "a"
 
 #: plugins/fn-random/functions.c:1115 plugins/fn-random/functions.c:1181
 msgid "nu"
-msgstr ""
+msgstr "nu"
 
 #: plugins/fn-random/functions.c:1118
 #, fuzzy
@@ -8889,7 +8884,7 @@ msgstr ""
 
 #: plugins/fn-random/functions.c:1133 plugins/fn-random/functions.c:1178
 msgid "a,sigma"
-msgstr ""
+msgstr "a,sigma"
 
 #: plugins/fn-random/functions.c:1139
 #, fuzzy
@@ -8923,7 +8918,7 @@ msgstr "ламбда"
 
 #: plugins/fn-random/functions.c:1175
 msgid "sigma"
-msgstr ""
+msgstr "sigma"
 
 #: plugins/fn-random/functions.c:1190
 msgid "d1,d2,...,dN"
@@ -11738,12 +11733,12 @@ msgstr "Неизвестна GB грешка"
 #: plugins/gb/plugin.c:366
 #, c-format
 msgid "Error initializing gb '%s'"
-msgstr "Грешка при инициализиране на gb '%s'"
+msgstr "Грешка при инициализиране на gb \"%s\""
 
 #: plugins/gb/plugin.c:381
 #, c-format
 msgid "Error in project '%s'"
-msgstr "Грешка в проект '%s'"
+msgstr "Грешка в проект \"%s\""
 
 #: plugins/gb/plugin.xml.in.h:1
 msgid "Enables Gnome Basic support"
@@ -11841,7 +11836,7 @@ msgstr ""
 
 #: plugins/gnome-glossary/plugin.xml.in.h:1
 msgid "Gnome Glossary"
-msgstr "Речник на Гноме"
+msgstr "Речник на GNOME"
 
 #: plugins/gnome-glossary/plugin.xml.in.h:2
 msgid "Gnome Glossary PO file format"
@@ -11888,7 +11883,8 @@ msgid "HTML"
 msgstr "HTML"
 
 #: plugins/html/plugin.xml.in.h:2
-msgid "HTML & TeX"
+#, fuzzy
+msgid "HTML &amp; TeX"
 msgstr "HTML & TeX"
 
 #: plugins/html/plugin.xml.in.h:3
@@ -11930,7 +11926,7 @@ msgstr "Грешка при четене на работна книга на 'lo
 
 #: plugins/lotus-123/plugin.xml.in.h:1
 msgid "Imports Lotus 123 files"
-msgstr "Импорт на файлове от 'Lotus 123'"
+msgstr "Импортиране на файлове от \"Lotus 123\""
 
 #: plugins/lotus-123/plugin.xml.in.h:2
 msgid "Lotus 123"
@@ -12341,7 +12337,7 @@ msgstr "Python функции"
 
 #: plugins/py-func/plugin.xml.in.h:3
 msgid "Sample Python plugin providing some (useless) functions."
-msgstr "Прост 'plugin ' на Python обезпечаващ някой функции."
+msgstr "Прост \"plugin\" на Python обезпечаващ някой функции."
 
 #: plugins/python-loader/gnm-py-interpreter.c:258
 msgid "Default interpreter"
@@ -13212,7 +13208,7 @@ msgstr "Добавя група"
 
 #: src/GNOME_Gnumeric.xml.h:5 src/workbook-control-gui.c:3932
 msgid "Add or remove a filter"
-msgstr ""
+msgstr "Добавяне или премахване на филтър"
 
 #: src/GNOME_Gnumeric.xml.h:6 src/workbook-control-gui.c:3937
 msgid "Advanced _Filter..."
@@ -13239,7 +13235,7 @@ msgstr "Стрелка"
 
 #: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:3850
 msgid "Auto _Correct..."
-msgstr "Авто _Корекция..."
+msgstr "Автоматична _Поправка..."
 
 #: src/GNOME_Gnumeric.xml.h:12 src/workbook-control-gui.c:3437
 msgid "Auto_fill"
@@ -13266,7 +13262,7 @@ msgstr "Фон"
 #: src/GNOME_Gnumeric.xml.h:17 src/widgets/widget-font-selector.c:151
 #: src/workbook-format-toolbar.c:415
 msgid "Bold"
-msgstr "Удебелен"
+msgstr "Удебелено"
 
 #: src/GNOME_Gnumeric.xml.h:18 src/workbook-format-toolbar.c:804
 #: src/workbook-format-toolbar.c:873
@@ -13289,7 +13285,7 @@ msgstr "_Сортира..."
 
 #: src/GNOME_Gnumeric.xml.h:22 src/workbook-control-gui.c:3504
 msgid "C_lear"
-msgstr "И_зчиства"
+msgstr "И_зчистване"
 
 #: src/GNOME_Gnumeric.xml.h:23 src/workbook-control-gui.c:3723
 msgid "C_olumn"
@@ -13297,7 +13293,7 @@ msgstr "К_олона"
 
 #: src/GNOME_Gnumeric.xml.h:24 src/workbook-format-toolbar.c:442
 msgid "Center"
-msgstr "Център"
+msgstr "Центрирано"
 
 #: src/GNOME_Gnumeric.xml.h:25 src/workbook-format-toolbar.c:450
 #, fuzzy
@@ -13356,7 +13352,7 @@ msgstr "Изчиства формата, коментара, съдържани�
 
 #: src/GNOME_Gnumeric.xml.h:38
 msgid "Close the current file"
-msgstr "Затваря текущият файл"
+msgstr "Затваряне на текущия файл"
 
 #: src/GNOME_Gnumeric.xml.h:39 src/workbook-control-gui.c:3513
 #, fuzzy
@@ -13375,7 +13371,7 @@ msgstr "Ко_вариации"
 
 #: src/GNOME_Gnumeric.xml.h:42 src/workbook-control-gui.c:3888
 msgid "Collapse an outline group"
-msgstr "Свива всички групи"
+msgstr "Свиване на всички групи"
 
 #: src/GNOME_Gnumeric.xml.h:43 src/workbook-object-toolbar.c:171
 msgid "Combo Box"
@@ -13419,11 +13415,11 @@ msgstr "Консолидира областа на използване на ф�
 #: src/GNOME_Gnumeric.xml.h:51 src/sheet-view.c:313
 #: src/workbook-control-gui.c:4022
 msgid "Copy"
-msgstr "Копира"
+msgstr "Копиране"
 
 #: src/GNOME_Gnumeric.xml.h:52
 msgid "Copy the selection"
-msgstr "Копира избраното"
+msgstr "Копиране на избраното"
 
 #: src/GNOME_Gnumeric.xml.h:53 src/workbook-control-gui.c:4022
 #, fuzzy
@@ -13438,23 +13434,23 @@ msgstr "Ковариация"
 
 #: src/GNOME_Gnumeric.xml.h:55 src/workbook-object-toolbar.c:155
 msgid "Create a button"
-msgstr "Създава бутон"
+msgstr "Създаване на бутон"
 
 #: src/GNOME_Gnumeric.xml.h:56 src/workbook-object-toolbar.c:159
 msgid "Create a checkbox"
-msgstr "Създава checkbox"
+msgstr "Създаване на checkbox"
 
 #: src/GNOME_Gnumeric.xml.h:57 src/workbook-object-toolbar.c:171
 msgid "Create a combo box"
-msgstr "Създава комбо"
+msgstr "Създаване на комбо"
 
 #: src/GNOME_Gnumeric.xml.h:58 src/workbook-object-toolbar.c:150
 msgid "Create a frame"
-msgstr "Създава кадър"
+msgstr "Създаване на кадър"
 
 #: src/GNOME_Gnumeric.xml.h:59 src/workbook-object-toolbar.c:147
 msgid "Create a label"
-msgstr "Създава етикет"
+msgstr "Създаване на етикет"
 
 #: src/GNOME_Gnumeric.xml.h:60 src/workbook-object-toolbar.c:174
 #, fuzzy
@@ -13463,16 +13459,16 @@ msgstr "Създава линия"
 
 #: src/GNOME_Gnumeric.xml.h:61 src/workbook-object-toolbar.c:168
 msgid "Create a list"
-msgstr "Създава лист"
+msgstr "Създаване на лист"
 
 #: src/GNOME_Gnumeric.xml.h:62
 msgid "Create a new shared view of the workbook"
-msgstr "Създава нов поделяем преглед на работната книга"
+msgstr "Създаване на нов споделен изглед на работната книга"
 
 #: src/GNOME_Gnumeric.xml.h:63 src/workbook-control-gui.c:3344
 #: src/workbook-control-gui.c:3998
 msgid "Create a new workbook"
-msgstr "Създава нова работна книга"
+msgstr "Създаване на нова работна книга"
 
 #: src/GNOME_Gnumeric.xml.h:64 src/workbook-control-gui.c:3969
 #, fuzzy
@@ -13481,7 +13477,7 @@ msgstr "Създава етикет"
 
 #: src/GNOME_Gnumeric.xml.h:65 src/workbook-object-toolbar.c:164
 msgid "Create a radio button"
-msgstr "Създава радио бутон"
+msgstr "Създаване на радио бутон"
 
 #: src/GNOME_Gnumeric.xml.h:66 src/workbook-object-toolbar.c:180
 #, fuzzy
@@ -13490,7 +13486,7 @@ msgstr "Създава правоъгълен обект"
 
 #: src/GNOME_Gnumeric.xml.h:67 src/workbook-object-toolbar.c:187
 msgid "Create a scrollbar"
-msgstr "Създава лента за скролиране"
+msgstr "Създаване на лента за превъртане"
 
 #: src/GNOME_Gnumeric.xml.h:68 src/workbook-object-toolbar.c:193
 #, fuzzy
@@ -13514,7 +13510,7 @@ msgstr "Създаване на елипсовиден обект"
 
 #: src/GNOME_Gnumeric.xml.h:72 src/sheet-control-gui.c:1502
 msgid "Cu_t"
-msgstr "О_трязва"
+msgstr "Из_рязване"
 
 #. Default <Ctrl-;> (control semi-colon) to insert the current date
 #: src/GNOME_Gnumeric.xml.h:73 src/workbook-control-gui.c:3570
@@ -13529,11 +13525,11 @@ msgstr "Текущо _време"
 #: src/GNOME_Gnumeric.xml.h:75 src/sheet-view.c:338 src/sheet-view.c:341
 #: src/workbook-control-gui.c:4019
 msgid "Cut"
-msgstr "Отрязва"
+msgstr "Изрязва"
 
 #: src/GNOME_Gnumeric.xml.h:76
 msgid "Cut the selection"
-msgstr "Отрязва избраното"
+msgstr "Изрязване на избраното"
 
 #: src/GNOME_Gnumeric.xml.h:77 src/workbook-control-gui.c:4019
 #, fuzzy
@@ -13543,11 +13539,11 @@ msgstr "Отрязва избраното в буфера за обмен"
 #: src/GNOME_Gnumeric.xml.h:78 src/workbook-format-toolbar.c:401
 #: src/workbook-format-toolbar.c:481
 msgid "Decrease Indent"
-msgstr "Намалява отстъпа"
+msgstr "Намаляване на отстъпа"
 
 #: src/GNOME_Gnumeric.xml.h:79 src/workbook-format-toolbar.c:475
 msgid "Decrease Precision"
-msgstr "Намалява Точността"
+msgstr "Намаляване на Точността"
 
 #: src/GNOME_Gnumeric.xml.h:80 src/workbook-format-toolbar.c:475
 #, fuzzy
@@ -13556,15 +13552,15 @@ msgstr "Намалява на значещите десетични символ
 
 #: src/GNOME_Gnumeric.xml.h:81 src/workbook-control-gui.c:3684
 msgid "Display _Formulas"
-msgstr "Показва _Формулите"
+msgstr "Показване на _Формулите"
 
 #: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:3903
 msgid "Display _Outlines"
-msgstr "Показва Структура"
+msgstr "Показване на Структура"
 
 #: src/GNOME_Gnumeric.xml.h:83 src/workbook-control-gui.c:3685
 msgid "Display the value of a formula or the formula itself"
-msgstr "Показва стойността на формулата или самата формула"
+msgstr "Показване на стойността на формулата или самата формула"
 
 #: src/GNOME_Gnumeric.xml.h:84 src/workbook-control-gui.c:4053
 #, fuzzy
@@ -13573,19 +13569,19 @@ msgstr "Редактиране на функция в текуща клетка.
 
 #: src/GNOME_Gnumeric.xml.h:85 src/workbook-control-gui.c:3371
 msgid "Edit descriptive information"
-msgstr "Редактира описателна информация"
+msgstr "Редактиране на описателната информация"
 
 #: src/GNOME_Gnumeric.xml.h:86 src/workbook-control-gui.c:3585
 msgid "Edit sheet and workbook names"
-msgstr "Редактира имена на листа и работни книги"
+msgstr "Редактиране на имена на листа и работни книги"
 
 #: src/GNOME_Gnumeric.xml.h:87 src/workbook-control-gui.c:3731
 msgid "Edit the Gnumeric Preferences"
-msgstr "Редактира Предпочитанията на Gnumeric "
+msgstr "Редактиране настройките на Gnumeric"
 
 #: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:3514
 msgid "Edit the selected cell's comment"
-msgstr "Редактира коментара на избрана клетка"
+msgstr "Редактиране коментара на избрана клетка"
 
 #: src/GNOME_Gnumeric.xml.h:89 src/workbook-object-toolbar.c:183
 msgid "Ellipse"
@@ -13593,13 +13589,11 @@ msgstr "Елипса"
 
 #: src/GNOME_Gnumeric.xml.h:90 src/workbook-control-gui.c:3641
 msgid "Ensure columns are just wide enough to display content"
-msgstr ""
-"Убедете се, че колоните са достатъчно широки за да покажат съдържанието"
+msgstr "Убедете се, че колоните са достатъчно широки за да покажат съдържанието"
 
 #: src/GNOME_Gnumeric.xml.h:91 src/workbook-control-gui.c:3660
 msgid "Ensure rows are just tall enough to display content"
-msgstr ""
-"Убедете се, че редовете са достатъчно високи за да покажат съдържанието"
+msgstr "Убедете се, че редовете са достатъчно високи за да покажат съдържанието"
 
 #: src/GNOME_Gnumeric.xml.h:92
 msgid "Exponential smoothing"
@@ -13611,7 +13605,7 @@ msgstr "_Прогнозиране"
 
 #: src/GNOME_Gnumeric.xml.h:94 src/workbook-control-gui.c:3989
 msgid "F_ormat"
-msgstr "Форм_ат"
+msgstr "Форм_атиране"
 
 #: src/GNOME_Gnumeric.xml.h:95 src/workbook-control-gui.c:3447
 msgid "Fill according to a linear or exponential series"
@@ -13631,7 +13625,7 @@ msgstr "Шрифт"
 #: src/GNOME_Gnumeric.xml.h:98 src/workbook-format-toolbar.c:412
 #: src/workbook-format-toolbar.c:868
 msgid "Font selector"
-msgstr "Избирател на Шрифт"
+msgstr "Избор на шрифт"
 
 #: src/GNOME_Gnumeric.xml.h:99 src/workbook-format-toolbar.c:870
 #, fuzzy
@@ -13655,7 +13649,7 @@ msgstr "Анализ на Фурие"
 #: src/GNOME_Gnumeric.xml.h:103 src/sheet-object-widget.c:214
 #: src/workbook-object-toolbar.c:150
 msgid "Frame"
-msgstr "Кадър"
+msgstr "Рамка"
 
 #: src/GNOME_Gnumeric.xml.h:104 src/workbook-control-gui.c:1539
 #: src/workbook-control-gui.c:3561
@@ -13669,7 +13663,7 @@ msgstr "Функция"
 
 #: src/GNOME_Gnumeric.xml.h:106 src/workbook-control-gui.c:3450
 msgid "Generate random numbers of a selection of distributions"
-msgstr "Генерира случайни числа с избрани разпределения"
+msgstr "Генериране на случайни числа с избрани разпределения"
 
 #: src/GNOME_Gnumeric.xml.h:107 src/workbook-control-gui.c:3972
 #, fuzzy
@@ -13682,27 +13676,27 @@ msgstr "В_исочина..."
 
 #: src/GNOME_Gnumeric.xml.h:109 src/workbook-control-gui.c:3702
 msgid "Hide _Column Headers"
-msgstr "Скрива _Заглавията на Колони"
+msgstr "Скриване на _Заглавията на Колоните"
 
 #: src/GNOME_Gnumeric.xml.h:110 src/workbook-control-gui.c:3696
 msgid "Hide _Gridlines"
-msgstr "Скрива линиите на мрежата"
+msgstr "Скриване на линиите на мрежата"
 
 #: src/GNOME_Gnumeric.xml.h:111 src/workbook-control-gui.c:3708
 msgid "Hide _Row Headers"
-msgstr "Скрива Заглавията на _Редовете"
+msgstr "Скриване на Заглавията на _Редовете"
 
 #: src/GNOME_Gnumeric.xml.h:112 src/workbook-control-gui.c:3690
 msgid "Hide _Zeros"
-msgstr "Скрива _Нули"
+msgstr "Скриване на _Нулите"
 
 #: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:3644
 msgid "Hide the selected columns"
-msgstr "Скрива избраните колони"
+msgstr "Скриване на избраните колони"
 
 #: src/GNOME_Gnumeric.xml.h:114 src/workbook-control-gui.c:3663
 msgid "Hide the selected rows"
-msgstr "Скрива избраните редове"
+msgstr "Скриване на избраните редове"
 
 #: src/GNOME_Gnumeric.xml.h:115 src/workbook-control-gui.c:3626
 #, fuzzy
@@ -13727,11 +13721,11 @@ msgstr "Импорт на файл"
 #: src/GNOME_Gnumeric.xml.h:119 src/workbook-format-toolbar.c:380
 #: src/workbook-format-toolbar.c:484
 msgid "Increase Indent"
-msgstr "Увеличава отстъпа"
+msgstr "Увеличаване на отстъпа"
 
 #: src/GNOME_Gnumeric.xml.h:120 src/workbook-format-toolbar.c:472
 msgid "Increase Precision"
-msgstr "Увеличава Точността"
+msgstr "Увеличаване на Точността"
 
 #: src/GNOME_Gnumeric.xml.h:121 src/workbook-format-toolbar.c:472
 #, fuzzy
@@ -13740,11 +13734,11 @@ msgstr "Увеличава броя десетични знака за пока�
 
 #: src/GNOME_Gnumeric.xml.h:122
 msgid "Insert Component"
-msgstr "Вмъква Компонент"
+msgstr "Вмъкване на Компонент"
 
 #: src/GNOME_Gnumeric.xml.h:123
 msgid "Insert Shaped Component"
-msgstr "Вмъква 'Shaped' Компонент"
+msgstr "Вмъква \"Shaped\" Компонент"
 
 #: src/GNOME_Gnumeric.xml.h:124 src/workbook-control-gui.c:3627
 #: src/workbook-control-gui.c:4045
@@ -13754,52 +13748,52 @@ msgstr "_Премахва Текуща"
 
 #: src/GNOME_Gnumeric.xml.h:125 src/workbook-control-gui.c:3621
 msgid "Insert a function into the selected cell"
-msgstr "Вмъква функция в избраната клетка"
+msgstr "Вмъкване на функция в избраната клетка"
 
 #: src/GNOME_Gnumeric.xml.h:126 src/workbook-control-gui.c:3465
 #: src/workbook-control-gui.c:3607
 msgid "Insert a new sheet"
-msgstr "Вмъква нов лист"
+msgstr "Вмъкване на нов лист"
 
 #: src/GNOME_Gnumeric.xml.h:127
 msgid "Insert a shaped component into the spreadsheet"
-msgstr "Вмъква shaped компонент в таблицата"
+msgstr "Вмъкване на shaped компонент в таблицата"
 
 #: src/GNOME_Gnumeric.xml.h:128 src/workbook-control-gui.c:3617
 msgid "Insert an image"
-msgstr "Вмъква картинка"
+msgstr "Вмъкване на изображение"
 
 #: src/GNOME_Gnumeric.xml.h:129
 msgid "Insert an object into the spreadsheet"
-msgstr "Вмъква обект в таблицата"
+msgstr "Вмъкване на обект в таблицата"
 
 #: src/GNOME_Gnumeric.xml.h:130 src/workbook-control-gui.c:3598
 msgid "Insert new cells"
-msgstr "Вмъква нови клетки"
+msgstr "Вмъкване на нови клетки"
 
 #: src/GNOME_Gnumeric.xml.h:131 src/workbook-control-gui.c:3601
 msgid "Insert new columns"
-msgstr "Вмъква нови колони"
+msgstr "Вмъкване на нови колони"
 
 #: src/GNOME_Gnumeric.xml.h:132 src/workbook-control-gui.c:3604
 msgid "Insert new rows"
-msgstr "Вмъква нови редове"
+msgstr "Вмъкване на нови редове"
 
 #: src/GNOME_Gnumeric.xml.h:133 src/workbook-control-gui.c:3571
 msgid "Insert the current date into the selected cell(s)"
-msgstr "Вмъква текуща данна в избраната клетка(и)"
+msgstr "Вмъкване на текущата дата в избраната клетка(и)"
 
 #: src/GNOME_Gnumeric.xml.h:134 src/workbook-control-gui.c:3577
 msgid "Insert the current time into the selected cell(s)"
-msgstr "Вмъква текущото време в избраната клетка(и)"
+msgstr "Вмъкване на текущото време в избраната клетка(и)"
 
 #: src/GNOME_Gnumeric.xml.h:135
 msgid "Inserts a Bonobo object"
-msgstr "Вмъква обект на Bonobo "
+msgstr "Вмъкване на Bonobo обект"
 
 #: src/GNOME_Gnumeric.xml.h:136
 msgid "Inserts a Shaped Bonobo object"
-msgstr "Вмъква Shaped Bonobo обект"
+msgstr "Вмъкване на Shaped Bonobo обект"
 
 #: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:3477
 msgid "Irrevocably remove an entire sheet"
@@ -13808,7 +13802,7 @@ msgstr "Безвъзвратно изтриване на цялата табли
 #: src/GNOME_Gnumeric.xml.h:138 src/widgets/widget-font-selector.c:153
 #: src/workbook-format-toolbar.c:422
 msgid "Italic"
-msgstr "Italic"
+msgstr "Наклонено"
 
 #: src/GNOME_Gnumeric.xml.h:139 src/workbook-control-gui.c:3860
 msgid "Iteratively recalculate to find a target value"
@@ -13816,8 +13810,7 @@ msgstr "Интерактивно преизчисление за намиран�
 
 #: src/GNOME_Gnumeric.xml.h:140 src/workbook-control-gui.c:3864
 msgid "Iteratively recalculate with constraints to approach a target value"
-msgstr ""
-"Интерактивно преизчисление с ограничение за достигане на целевата стойност"
+msgstr "Интерактивно преизчисление с ограничение за достигане на целевата стойност"
 
 #: src/GNOME_Gnumeric.xml.h:141 src/workbook-control-gui.c:3538
 msgid "Jump to a specified cell"
@@ -13921,7 +13914,7 @@ msgstr "Еднофакторен дисперсионен анализ"
 
 #: src/GNOME_Gnumeric.xml.h:163 src/workbook-control-gui.c:4001
 msgid "Open"
-msgstr "Отваря"
+msgstr "Отваряне"
 
 #: src/GNOME_Gnumeric.xml.h:164 src/workbook-control-gui.c:4001
 #, fuzzy
@@ -13938,7 +13931,7 @@ msgstr "Структури в _Дясно"
 
 #: src/GNOME_Gnumeric.xml.h:167
 msgid "P_aste Special..."
-msgstr "_Поставя Специално..."
+msgstr "_Поставяне, специално..."
 
 #: src/GNOME_Gnumeric.xml.h:168 src/GNOME_Gnumeric_Component.xml.h:4
 #: src/workbook-control-gui.c:3354
@@ -13967,7 +13960,7 @@ msgstr "Поставя съдържанието на буфера за обме�
 
 #: src/GNOME_Gnumeric.xml.h:173 src/workbook-control-gui.c:3499
 msgid "Paste with optional filters and transformations"
-msgstr "Поставя с опционален филтър и трансформация"
+msgstr "Поставяне с опционален филтър и трансформация"
 
 #: src/GNOME_Gnumeric.xml.h:174 src/workbook-control-gui.c:3807
 msgid "Pearson Correlation"
@@ -13983,7 +13976,7 @@ msgstr "Периодични и случайни разпределения"
 
 #: src/GNOME_Gnumeric.xml.h:177 src/workbook-control-gui.c:3374
 msgid "Preferen_ces..."
-msgstr "_Свойства..."
+msgstr "_Настройки..."
 
 #: src/GNOME_Gnumeric.xml.h:178 src/dialogs/print.glade.h:14
 #: src/workbook-control-gui.c:4010
@@ -14014,23 +14007,20 @@ msgstr "Печат на работна книга"
 
 #: src/GNOME_Gnumeric.xml.h:184 src/GNOME_Gnumeric_Component.xml.h:8
 #: src/workbook-control-gui.c:3370
-#, fuzzy
 msgid "Proper_ties..."
 msgstr "_Настройки..."
 
 #: src/GNOME_Gnumeric.xml.h:185
-#, fuzzy
 msgid "Quit the application"
-msgstr "Относно това приложение"
+msgstr "Спиране на програмата"
 
 #: src/GNOME_Gnumeric.xml.h:186
 msgid "Radio Button"
 msgstr "Радио Бутон"
 
 #: src/GNOME_Gnumeric.xml.h:187
-#, fuzzy
 msgid "Ranks and _Percentiles..."
-msgstr "Ранг и Проценти"
+msgstr "Ранг и Проценти..."
 
 #: src/GNOME_Gnumeric.xml.h:188 src/workbook-control-gui.c:3825
 msgid "Ranks, placements and percentiles"
@@ -14038,17 +14028,16 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:189 src/workbook-control-gui.c:3480
 #: src/workbook-control-gui.c:3678
-#, fuzzy
 msgid "Re_name"
-msgstr "_Преименува..."
+msgstr "_Преименуване"
 
 #: src/GNOME_Gnumeric.xml.h:190 src/workbook-control-gui.c:3543
 msgid "Recalculate"
-msgstr "Преизчислява"
+msgstr "Преизчисляване"
 
 #: src/GNOME_Gnumeric.xml.h:191 src/workbook-control-gui.c:3544
 msgid "Recalculate the spreadsheet"
-msgstr "Преизчислява таблицата"
+msgstr "Преизчисляване на таблицата"
 
 #: src/GNOME_Gnumeric.xml.h:192 src/workbook-object-toolbar.c:180
 msgid "Rectangle"
@@ -14076,7 +14065,6 @@ msgid "Rename the current sheet"
 msgstr "Преименува текущия лист"
 
 #: src/GNOME_Gnumeric.xml.h:198 src/workbook-format-toolbar.c:446
-#, fuzzy
 msgid "Right Align"
 msgstr "Дясно подравняване"
 
@@ -14094,15 +14082,15 @@ msgstr "С_пециално"
 
 #: src/GNOME_Gnumeric.xml.h:202 src/workbook-control-gui.c:4004
 msgid "Save"
-msgstr "Запазва"
+msgstr "Запазване"
 
 #: src/GNOME_Gnumeric.xml.h:203
 msgid "Save _As..."
-msgstr "Запазва Като..."
+msgstr "Запазване Като..."
 
 #: src/GNOME_Gnumeric.xml.h:204 src/workbook-control-gui.c:4004
 msgid "Save the current workbook"
-msgstr "Запазва текущата работна книга"
+msgstr "Запазване на текущата работна книга"
 
 #: src/GNOME_Gnumeric.xml.h:205
 #, fuzzy
@@ -14110,9 +14098,8 @@ msgid "Save the current workbook with a different name"
 msgstr "Запазва текущият файл с различно име"
 
 #: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:3874
-#, fuzzy
 msgid "Sce_narios"
-msgstr "Разделители"
+msgstr "Сце_нарии"
 
 #: src/GNOME_Gnumeric.xml.h:207 src/workbook-object-toolbar.c:187
 msgid "Scrollbar"
@@ -14133,7 +14120,7 @@ msgstr "Търсене на някакъв текст и заменя с нещ�
 
 #: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:3525
 msgid "Search..."
-msgstr "Търси..."
+msgstr "Търсене..."
 
 #: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:3420
 msgid "Select Arra_y"
@@ -14186,9 +14173,8 @@ msgid "Select an entire row"
 msgstr "Избор на целия ред"
 
 #: src/GNOME_Gnumeric.xml.h:224 src/workbook-control-gui.c:3367
-#, fuzzy
 msgid "Sen_d To..."
-msgstr "Отиди на..."
+msgstr "Изпра_щане до..."
 
 #: src/GNOME_Gnumeric.xml.h:225 src/workbook-control-gui.c:3368
 #, fuzzy
@@ -14220,9 +14206,8 @@ msgid "Show all filtered and hidden rows"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:231 src/workbook-control-gui.c:3869
-#, fuzzy
 msgid "Si_mulation..."
-msgstr "Рапорт за Ограничения"
+msgstr "Симула_ция..."
 
 #: src/GNOME_Gnumeric.xml.h:232 src/workbook-object-toolbar.c:193
 #, fuzzy
@@ -14257,13 +14242,12 @@ msgstr ""
 "колона"
 
 #: src/GNOME_Gnumeric.xml.h:238
-#, fuzzy
 msgid "Spin Button"
-msgstr "Бутон"
+msgstr "Въртящ се бутон"
 
 #: src/GNOME_Gnumeric.xml.h:239 src/workbook-format-toolbar.c:457
 msgid "Split"
-msgstr "Разделя"
+msgstr "Разделяне"
 
 #: src/GNOME_Gnumeric.xml.h:240 src/workbook-format-toolbar.c:457
 msgid "Split merged ranges of cells"
@@ -14289,7 +14273,6 @@ msgid ""
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:245 src/workbook-format-toolbar.c:469
-#, fuzzy
 msgid "Thousands Separator"
 msgstr "Разделител на хилядни"
 
@@ -14335,7 +14318,7 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:256 src/workbook-format-toolbar.c:429
 msgid "Underline"
-msgstr "Подчертава"
+msgstr "Подчертаване"
 
 #: src/GNOME_Gnumeric.xml.h:257 src/workbook-control-gui.c:4286
 msgid "Undo the last action"
@@ -14375,23 +14358,20 @@ msgid "_ANOVA"
 msgstr "Дисперсионен анализ"
 
 #: src/GNOME_Gnumeric.xml.h:266
-#, fuzzy
 msgid "_About"
-msgstr "_Относно..."
+msgstr "_Относно"
 
 #: src/GNOME_Gnumeric.xml.h:267 src/workbook-control-gui.c:3746
-#, fuzzy
 msgid "_Add..."
-msgstr "_Добавя"
+msgstr "_Добавяне..."
 
 #: src/GNOME_Gnumeric.xml.h:268 src/workbook-control-gui.c:3387
 msgid "_All"
 msgstr "_Всичко"
 
 #: src/GNOME_Gnumeric.xml.h:269 src/workbook-control-gui.c:3468
-#, fuzzy
 msgid "_Append"
-msgstr "_Добавя"
+msgstr "_Прикачане"
 
 #: src/GNOME_Gnumeric.xml.h:270 src/workbook-control-gui.c:3853
 msgid "_Auto Save..."
@@ -14413,7 +14393,7 @@ msgstr "_Клетки..."
 
 #: src/GNOME_Gnumeric.xml.h:274
 msgid "_Close"
-msgstr "_Затваря"
+msgstr "_Затваряне"
 
 #: src/GNOME_Gnumeric.xml.h:275 src/dialogs/anova-one.glade.h:13
 #: src/dialogs/colrow.glade.h:2 src/dialogs/correlation.glade.h:9
@@ -14428,7 +14408,7 @@ msgstr "_Колони"
 
 #: src/GNOME_Gnumeric.xml.h:276 src/workbook-control-gui.c:3962
 msgid "_Consolidate..."
-msgstr "Консолидира..."
+msgstr "Консолидиране..."
 
 #: src/GNOME_Gnumeric.xml.h:277 src/workbook-control-gui.c:3396
 msgid "_Contents"
@@ -14437,17 +14417,16 @@ msgstr "_Съдържание"
 #: src/GNOME_Gnumeric.xml.h:278 src/item-cursor.c:1021
 #: src/sheet-control-gui.c:1504
 msgid "_Copy"
-msgstr "_Копира"
+msgstr "_Копиране"
 
 #: src/GNOME_Gnumeric.xml.h:279 src/workbook-control-gui.c:3806
-#, fuzzy
 msgid "_Correlation..."
-msgstr "_Корелация"
+msgstr "_Корелация..."
 
 #: src/GNOME_Gnumeric.xml.h:280 src/dialogs/pivottable.glade.h:8
 #: src/workbook-control-gui.c:3991
 msgid "_Data"
-msgstr "_Данни"
+msgstr "_Дата"
 
 #: src/GNOME_Gnumeric.xml.h:281 src/workbook-control-gui.c:3584
 msgid "_Define..."
@@ -14459,23 +14438,21 @@ msgid "_Delete..."
 msgstr "_Изтрива..."
 
 #: src/GNOME_Gnumeric.xml.h:283 src/workbook-control-gui.c:3812
-#, fuzzy
 msgid "_Descriptive Statistics..."
-msgstr "Дискриптивна Стати_стика"
+msgstr "Дискриптивна Стати_стика..."
 
 #: src/GNOME_Gnumeric.xml.h:284 src/dialogs/sheet-order.glade.h:2
 #: src/workbook-control-gui.c:3472
 msgid "_Duplicate"
-msgstr "_Дублира"
+msgstr "_Дублиране"
 
 #: src/GNOME_Gnumeric.xml.h:285 src/GNOME_Gnumeric_Component.xml.h:15
 msgid "_Edit"
-msgstr "_Редакция"
+msgstr "_Редактиране"
 
 #: src/GNOME_Gnumeric.xml.h:286 src/workbook-control-gui.c:3766
-#, fuzzy
 msgid "_Exponential Smoothing..."
-msgstr "Експоненциално изглаждане"
+msgstr "Експон_енциално изглаждане..."
 
 #: src/GNOME_Gnumeric.xml.h:287 src/GNOME_Gnumeric_Component.xml.h:16
 msgid "_File"
@@ -14484,7 +14461,7 @@ msgstr "_Файл"
 #: src/GNOME_Gnumeric.xml.h:288 src/dialogs/cell-format.glade.h:96
 #: src/workbook-control-gui.c:3523
 msgid "_Fill"
-msgstr "_Запълва"
+msgstr "_Запълване"
 
 #: src/GNOME_Gnumeric.xml.h:289 src/workbook-control-gui.c:3952
 msgid "_Filter"
@@ -14495,9 +14472,8 @@ msgid "_Formats"
 msgstr "_Формати"
 
 #: src/GNOME_Gnumeric.xml.h:291 src/workbook-control-gui.c:3818
-#, fuzzy
 msgid "_Fourier Analysis..."
-msgstr "Анализ на _Фурие"
+msgstr "Анализ на _Фурие..."
 
 #: src/GNOME_Gnumeric.xml.h:292 src/workbook-control-gui.c:1536
 #: src/workbook-control-gui.c:3560
@@ -14518,7 +14494,7 @@ msgstr "Цел на Т_ъсене..."
 
 #: src/GNOME_Gnumeric.xml.h:296 src/workbook-control-gui.c:3537
 msgid "_Goto cell..."
-msgstr "_Отива на клетка..."
+msgstr "_Отиване на клетка..."
 
 #: src/GNOME_Gnumeric.xml.h:297 src/workbook-control-gui.c:3966
 msgid "_Group and Outline"
@@ -14526,7 +14502,7 @@ msgstr "Група и Структура"
 
 #: src/GNOME_Gnumeric.xml.h:298 src/workbook-control-gui.c:3893
 msgid "_Group..."
-msgstr "_Групира..."
+msgstr "_Групиране..."
 
 #: src/GNOME_Gnumeric.xml.h:299 src/GNOME_Gnumeric_Component.xml.h:17
 msgid "_Help"
@@ -14536,25 +14512,24 @@ msgstr "_Помощ"
 #: src/sheet-control-gui.c:1555 src/workbook-control-gui.c:3643
 #: src/workbook-control-gui.c:3662
 msgid "_Hide"
-msgstr "_Скрива"
+msgstr "_Скриване"
 
 #: src/GNOME_Gnumeric.xml.h:301 src/workbook-control-gui.c:3887
 msgid "_Hide Detail"
-msgstr "_Скрива подробности"
+msgstr "_Скриване на подробностите"
 
 #: src/GNOME_Gnumeric.xml.h:302 src/workbook-control-gui.c:3821
-#, fuzzy
 msgid "_Histogram..."
-msgstr "_Хистограма"
+msgstr "_Хистограма..."
 
 #: src/GNOME_Gnumeric.xml.h:303 src/workbook-control-gui.c:3616
 msgid "_Image..."
-msgstr "_Картинка..."
+msgstr "_Изображение..."
 
 #: src/GNOME_Gnumeric.xml.h:304 src/dialogs/function-select.glade.h:6
 #: src/workbook-control-gui.c:3464 src/workbook-control-gui.c:3988
 msgid "_Insert"
-msgstr "_Вмъква"
+msgstr "_Вмъкване"
 
 #: src/GNOME_Gnumeric.xml.h:305 src/workbook-control-gui.c:3793
 msgid "_Known Variances or Large Sample: Z-Test..."
@@ -14566,14 +14541,12 @@ msgid "_Manage Sheets..."
 msgstr "_Управление на лист..."
 
 #: src/GNOME_Gnumeric.xml.h:307 src/workbook-control-gui.c:3440
-#, fuzzy
 msgid "_Merge..."
-msgstr "Обединява..."
+msgstr "О_бединяване..."
 
 #: src/GNOME_Gnumeric.xml.h:308 src/workbook-control-gui.c:3770
-#, fuzzy
 msgid "_Moving Average..."
-msgstr "Пълзящо средно"
+msgstr "Пълзящо средно..."
 
 #: src/GNOME_Gnumeric.xml.h:309 src/workbook-control-gui.c:3624
 msgid "_Name"
@@ -14584,22 +14557,20 @@ msgid "_New"
 msgstr "_Нов"
 
 #: src/GNOME_Gnumeric.xml.h:311 src/workbook-control-gui.c:3554
-#, fuzzy
 msgid "_New View..."
-msgstr "_Нова..."
+msgstr "_Нов Изглед..."
 
 #: src/GNOME_Gnumeric.xml.h:312
 msgid "_Object..."
 msgstr "_Обект..."
 
 #: src/GNOME_Gnumeric.xml.h:313 src/workbook-control-gui.c:3754
-#, fuzzy
 msgid "_One Factor..."
-msgstr "Едно_факторен"
+msgstr "Едно_факторен..."
 
 #: src/GNOME_Gnumeric.xml.h:314
 msgid "_Open..."
-msgstr "_Отваря..."
+msgstr "_Отваряне..."
 
 #: src/GNOME_Gnumeric.xml.h:315 src/workbook-control-gui.c:3779
 msgid "_Paired Samples: T-Test..."
@@ -14607,12 +14578,11 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:316 src/sheet-control-gui.c:1506
 msgid "_Paste"
-msgstr "_Поставя"
+msgstr "_Поставяне"
 
 #: src/GNOME_Gnumeric.xml.h:317 src/workbook-control-gui.c:3968
-#, fuzzy
 msgid "_PivotTable..."
-msgstr "_Печат..."
+msgstr "_Пивотна таблица..."
 
 #: src/GNOME_Gnumeric.xml.h:318 src/workbook-control-gui.c:3844
 msgid "_Plug-ins..."
@@ -14623,9 +14593,8 @@ msgid "_Print..."
 msgstr "_Печат..."
 
 #: src/GNOME_Gnumeric.xml.h:320
-#, fuzzy
 msgid "_Quit"
-msgstr "_Поставя:"
+msgstr "_Спиране на програмата"
 
 #: src/GNOME_Gnumeric.xml.h:321 src/workbook-control-gui.c:3449
 msgid "_Random Generator..."
@@ -14636,14 +14605,13 @@ msgid "_Redo"
 msgstr "Напред"
 
 #: src/GNOME_Gnumeric.xml.h:323 src/workbook-control-gui.c:3827
-#, fuzzy
 msgid "_Regression..."
-msgstr "Регресия"
+msgstr "Регресия..."
 
 #: src/GNOME_Gnumeric.xml.h:324 src/dialogs/autocorrect.glade.h:13
 #: src/dialogs/pivottable.glade.h:12 src/workbook-control-gui.c:3476
 msgid "_Remove"
-msgstr "_Премахва"
+msgstr "_Премахване"
 
 #: src/GNOME_Gnumeric.xml.h:325 src/dialogs/pivottable.glade.h:13
 #: src/workbook-control-gui.c:3724
@@ -14662,22 +14630,20 @@ msgid "_Rows"
 msgstr "_Редове"
 
 #: src/GNOME_Gnumeric.xml.h:327 src/workbook-control-gui.c:3830
-#, fuzzy
 msgid "_Sampling..."
-msgstr "Избор"
+msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:328
 msgid "_Save"
-msgstr "_Запазва"
+msgstr "_Запазване"
 
 #: src/GNOME_Gnumeric.xml.h:329 src/workbook-control-gui.c:3521
 msgid "_Select"
 msgstr "_Избор"
 
 #: src/GNOME_Gnumeric.xml.h:330 src/workbook-control-gui.c:3446
-#, fuzzy
 msgid "_Series..."
-msgstr "_Серии"
+msgstr "_Серии..."
 
 #: src/GNOME_Gnumeric.xml.h:331
 msgid "_Shaped Object"
@@ -14689,13 +14655,12 @@ msgid "_Sheet"
 msgstr "_Лист"
 
 #: src/GNOME_Gnumeric.xml.h:333 src/workbook-control-gui.c:3934
-#, fuzzy
 msgid "_Show All"
-msgstr "_Показва Подробности"
+msgstr "_Показване на всичко"
 
 #: src/GNOME_Gnumeric.xml.h:334 src/workbook-control-gui.c:3890
 msgid "_Show Detail"
-msgstr "_Показва Подробности"
+msgstr "_Показване на Подробности"
 
 #: src/GNOME_Gnumeric.xml.h:335 src/workbook-control-gui.c:3863
 msgid "_Solver..."
@@ -14703,7 +14668,7 @@ msgstr "_Решение..."
 
 #: src/GNOME_Gnumeric.xml.h:336 src/workbook-control-gui.c:3946
 msgid "_Sort..."
-msgstr "_Сортира..."
+msgstr "_Сортиране..."
 
 #: src/GNOME_Gnumeric.xml.h:337 src/workbook-control-gui.c:3668
 msgid "_Standard Height"
@@ -14718,9 +14683,8 @@ msgid "_Tabulate Dependency..."
 msgstr "_Табулира Зависимости..."
 
 #: src/GNOME_Gnumeric.xml.h:340 src/workbook-control-gui.c:3959
-#, fuzzy
 msgid "_Text to Columns..."
-msgstr "Автозапълване на Колони"
+msgstr "_Текст до колони"
 
 #: src/GNOME_Gnumeric.xml.h:341
 msgid "_Toolbars..."
@@ -14731,9 +14695,8 @@ msgid "_Tools"
 msgstr "_Инструменти"
 
 #: src/GNOME_Gnumeric.xml.h:343 src/workbook-control-gui.c:3757
-#, fuzzy
 msgid "_Two Factor..."
-msgstr "_Двуфакторен"
+msgstr "_Двуфакторен..."
 
 #: src/GNOME_Gnumeric.xml.h:344 src/workbook-control-gui.c:3836
 msgid "_Two Variances: FTest..."
@@ -14745,26 +14708,25 @@ msgstr "_Назад"
 
 #: src/GNOME_Gnumeric.xml.h:346 src/workbook-control-gui.c:3896
 msgid "_Ungroup..."
-msgstr "_Разгрупира..."
+msgstr "_Разгрупиране..."
 
 #: src/GNOME_Gnumeric.xml.h:347 src/sheet-control-gui.c:1549
 #: src/sheet-control-gui.c:1557 src/workbook-control-gui.c:3646
 #: src/workbook-control-gui.c:3665
 msgid "_Unhide"
-msgstr "_Разкрива"
+msgstr "_Разкриване"
 
 #: src/GNOME_Gnumeric.xml.h:348 src/workbook-control-gui.c:3953
 msgid "_Validate..."
-msgstr "_Проверява..."
+msgstr "_Проверяка..."
 
 #: src/GNOME_Gnumeric.xml.h:349
 msgid "_View"
 msgstr "_Преглед"
 
 #: src/GNOME_Gnumeric.xml.h:350 src/workbook-control-gui.c:3743
-#, fuzzy
 msgid "_View..."
-msgstr "_Нова..."
+msgstr "_Изглед"
 
 #: src/GNOME_Gnumeric.xml.h:351 src/workbook-control-gui.c:3637
 msgid "_Width..."
@@ -14785,14 +14747,13 @@ msgstr "Относно Електронна Таблица Gnumeric "
 
 #: src/GNOME_Gnumeric_Component.xml.h:2
 msgid "C_lear Cells"
-msgstr "Из_чиства Клетки"
+msgstr "Из_чистване на Клетки"
 
 #: src/GNOME_Gnumeric_Component.xml.h:3
 msgid "Cu_t Cells"
-msgstr "Отр_язва Клетки"
+msgstr "Из_рязване на Клетки"
 
 #: src/GNOME_Gnumeric_Component.xml.h:5
-#, fuzzy
 msgid "Print Previe_w..."
 msgstr "Преглед Преди _Печат..."
 
@@ -14806,20 +14767,20 @@ msgstr "Преглед на описателна информация"
 
 #: src/GNOME_Gnumeric_Component.xml.h:13
 msgid "_About Gnumeric"
-msgstr "_За Gnumeric"
+msgstr "_Относно Gnumeric"
 
 #: src/GNOME_Gnumeric_Component.xml.h:14
 msgid "_Copy Cells"
-msgstr "_Копира Клетки"
+msgstr "_Копиране на Клетки"
 
 #: src/GNOME_Gnumeric_Component.xml.h:18
 msgid "_Paste Cells"
-msgstr "_Поставя Клетки"
+msgstr "_Поставяне на Клетки"
 
 #: src/clipboard.c:302 src/clipboard.c:314 src/clipboard.c:325
 #: src/clipboard.c:333
 msgid "Unable to paste"
-msgstr "Немога да поставя"
+msgstr "Поставянето е неуспешно"
 
 #: src/clipboard.c:303
 msgid "Content can only be pasted by value or by link."
@@ -14868,22 +14829,22 @@ msgstr "Не мога да поставя върху избраното"
 #: src/cmd-edit.c:388
 #, c-format
 msgid "Shift rows %s"
-msgstr "Преметва редове %s"
+msgstr "Преместване на редове %s"
 
 #: src/cmd-edit.c:389
 #, c-format
 msgid "Shift row %s"
-msgstr "Преметва ред %s"
+msgstr "Преместване на ред %s"
 
 #: src/cmd-edit.c:426
 #, c-format
 msgid "Shift columns %s"
-msgstr "Премества колони %s"
+msgstr "Преместване на колони %s"
 
 #: src/cmd-edit.c:427
 #, c-format
 msgid "Shift column %s"
-msgstr "Премества колона %s"
+msgstr "Преместване на колона %s"
 
 #: src/command-context.c:89
 #, c-format
@@ -14927,56 +14888,56 @@ msgstr "Наберете \"%s%s\""
 
 #: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3201
 msgid "Delete Columns"
-msgstr "Изтрива Колони"
+msgstr "Изтриване на Колони"
 
 #: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3319
 msgid "Delete Rows"
-msgstr "Изтрива Редове"
+msgstr "Изтриване на Редове"
 
 #: src/commands.c:1388
 #, c-format
 msgid "Inserting %d columns before %s"
-msgstr "Вмъква %d колони преди %s"
+msgstr "Вмъкване на %d колони преди %s"
 
 #: src/commands.c:1389
 #, c-format
 msgid "Inserting %d column before %s"
-msgstr "Вмъква %d колона преди %s"
+msgstr "Вмъкване на %d колона преди %s"
 
 #: src/commands.c:1404
 #, c-format
 msgid "Inserting %d rows before %s"
-msgstr "Вмъква %d редове преди %s"
+msgstr "Вмъкване на %d редове преди %s"
 
 #: src/commands.c:1405
 #, c-format
 msgid "Inserting %d row before %s"
-msgstr "Вмъква %d ред преди %s"
+msgstr "Вмъкване на %d ред преди %s"
 
 #: src/commands.c:1416
 #, c-format
 msgid "Deleting columns %s"
-msgstr "Изтрива колони %s"
+msgstr "Изтриване на колони %s"
 
 #: src/commands.c:1417
 #, c-format
 msgid "Deleting column %s"
-msgstr "Изтрива колона %s"
+msgstr "Изтриване на колона %s"
 
 #: src/commands.c:1427
 #, c-format
 msgid "Deleting rows %s"
-msgstr "Изтрива редове %s"
+msgstr "Изтриване на редове %s"
 
 #: src/commands.c:1428
 #, c-format
 msgid "Deleting row %s"
-msgstr "Изтрива ред %s"
+msgstr "Изтриване на ред %s"
 
 #. Check for locked cells
 #: src/commands.c:1504 src/commands.c:1508 src/sheet.c:2815
 msgid "Clear"
-msgstr "Изчиства"
+msgstr "Изчистване"
 
 #: src/commands.c:1580
 msgid "contents"
@@ -14997,16 +14958,16 @@ msgstr "всичко"
 #: src/commands.c:1607
 #, c-format
 msgid "Clearing %s in %s"
-msgstr "Изчиства %s в %s"
+msgstr "Изчистване на %s в %s"
 
 #: src/commands.c:1681
 msgid "Changing Format"
-msgstr "Променя Формат"
+msgstr "Променяне на Формат"
 
 #: src/commands.c:1806
 #, c-format
 msgid "Changing format of %s"
-msgstr "Променя Формат на %s"
+msgstr "Променяне на Формата на %s"
 
 #: src/commands.c:1918
 #, c-format
@@ -15021,17 +14982,17 @@ msgstr "Автозапълване на ред %s"
 #: src/commands.c:1922
 #, c-format
 msgid "Setting width of column %s to %d pixels"
-msgstr "Задава ширина на колона  %s на %d пиксела"
+msgstr "Задаване на ширина на колона %s на %d пиксела"
 
 #: src/commands.c:1924
 #, c-format
 msgid "Setting height of row %s to %d pixels"
-msgstr "Задава височина на ред  %s на %d пиксела"
+msgstr "Задаване на височина на ред %s на %d пиксела"
 
 #: src/commands.c:1927
 #, c-format
 msgid "Setting width of column %s to default"
-msgstr "Задава ширина на колона  %s на подразбираща се"
+msgstr "Задаване на ширина на колона %s на подразбираща се"
 
 #: src/commands.c:1930
 #, c-format
@@ -15051,63 +15012,63 @@ msgstr "Автозапълване на ред %s"
 #: src/commands.c:1938
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
-msgstr "Задава ширина на колони  %s на %d пиксела"
+msgstr "Задаване на ширина на колони %s на %d пиксела"
 
 #: src/commands.c:1940
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
-msgstr "Задава височина на редове  %s на %d пиксела"
+msgstr "Задаване на височина на редове %s на %d пиксела"
 
 #: src/commands.c:1944
 #, c-format
 msgid "Setting width of columns %s to default"
-msgstr "Задава ширина на колони  %s на подразбиращи се"
+msgstr "Задаване на ширина на колони %s на подразбиращи се"
 
 #: src/commands.c:1946
 #, c-format
 msgid "Setting height of rows %s to default"
-msgstr "Задава височина на редове %s на подразбиращи се"
+msgstr "Задаване на височина на редове %s на подразбиращи се"
 
 #: src/commands.c:2013 src/dialogs/dialog-preferences.c:1504
 msgid "Sorting"
-msgstr "Сортира"
+msgstr "Сортиране"
 
 #: src/commands.c:2033
 #, c-format
 msgid "Sorting %s"
-msgstr "Сортира %s"
+msgstr "Сортиране на %s"
 
 #: src/commands.c:2165
 msgid "Unhide columns"
-msgstr "Разкрива колони"
+msgstr "Разкриване на колони"
 
 #: src/commands.c:2165
 msgid "Hide columns"
-msgstr "Скрива колони"
+msgstr "Скриване на колони"
 
 #: src/commands.c:2166
 msgid "Unhide rows"
-msgstr "Разкрива редове"
+msgstr "Разкриване на редове"
 
 #: src/commands.c:2166
 msgid "Hide rows"
-msgstr "Скрива редове"
+msgstr "Скриване на редове"
 
 #: src/commands.c:2249
 msgid "Expand columns"
-msgstr "Разширява колони"
+msgstr "Разширяване на колони"
 
 #: src/commands.c:2249
 msgid "Collapse columns"
-msgstr "Свива колони"
+msgstr "Свиване на колони"
 
 #: src/commands.c:2250
 msgid "Expand rows"
-msgstr "Разширява редове"
+msgstr "Разширяване на редове"
 
 #: src/commands.c:2250
 msgid "Collapse rows"
-msgstr "Свива редове"
+msgstr "Свиване на редове"
 
 #: src/commands.c:2277
 #, c-format
@@ -15138,27 +15099,27 @@ msgstr "Тези редове не са групирани, вие не може
 #: src/commands.c:2381
 #, c-format
 msgid "Group columns %s"
-msgstr "Групира колони %s"
+msgstr "Групиране на колони %s"
 
 #: src/commands.c:2381
 #, c-format
 msgid "Ungroup columns %s"
-msgstr "Разгрупира колони %s"
+msgstr "Разгрупиране на колони %s"
 
 #: src/commands.c:2383
 #, c-format
 msgid "Group rows %d:%d"
-msgstr "Групира редове %d:%d"
+msgstr "Групиране на редове %d:%d"
 
 #: src/commands.c:2383
 #, c-format
 msgid "Ungroup rows %d:%d"
-msgstr "Разгрупира редове %d:%d"
+msgstr "Разгрупиране на редове %d:%d"
 
 #: src/commands.c:2621
 #, c-format
 msgid "Moving %s"
-msgstr "Премества %s"
+msgstr "Преместване на %s"
 
 #: src/commands.c:2630 src/commands.c:2841
 msgid "is beyond sheet boundaries"
@@ -15168,7 +15129,7 @@ msgstr "е извън границите на листа"
 #: src/commands.c:2785
 #, c-format
 msgid "Pasting into %s"
-msgstr "Поставя в %s"
+msgstr "Поставяне в %s"
 
 #. Check arrays or merged regions in src or target regions
 #: src/commands.c:3018 src/commands.c:3019 src/workbook-control-gui.c:2344
@@ -15194,7 +15155,7 @@ msgstr "Разделя обединение %s"
 #: src/commands.c:3440
 #, c-format
 msgid "Merging %s"
-msgstr "Обединява %s"
+msgstr "Обединяване на %s"
 
 #. Corrected below.
 #: src/commands.c:3822 src/dialogs/search-replace.glade.h:24
@@ -15214,31 +15175,31 @@ msgstr "Задава подразбираща се височина на ред 
 #: src/commands.c:4037
 #, c-format
 msgid "Zoom %s to %.0f%%"
-msgstr "Мащаб  %s на %.0f%%"
+msgstr "Мащаб %s на %.0f%%"
 
 #: src/commands.c:4107
 msgid "Insert object"
-msgstr "Вмъква обект"
+msgstr "Вмъкване на обект"
 
 #: src/commands.c:4166
 msgid "Delete object"
-msgstr "Изтрива обект"
+msgstr "Изтриване на обект"
 
 #: src/commands.c:4247
 msgid "Resize object"
-msgstr "Променя големина на обект"
+msgstr "Промяна големината на обект"
 
 #: src/commands.c:4247
 msgid "Move object"
-msgstr "Премества обект"
+msgstr "Преместване на обект"
 
 #: src/commands.c:4808
 msgid "Reordering Sheets"
-msgstr "Реорганизира Листа"
+msgstr "Реорганизиране на Листа"
 
 #: src/commands.c:4811
 msgid "Renaming Sheets"
-msgstr "Преименува Листа"
+msgstr "Преименуване на Листа"
 
 #: src/commands.c:4814
 #, fuzzy, c-format
@@ -15247,21 +15208,19 @@ msgstr "Преименува Листа"
 
 #: src/commands.c:4818
 msgid "Changing Tab Colors"
-msgstr "Променя цвета на листата"
+msgstr "Промяна цвета на листата"
 
 #: src/commands.c:4821
 msgid "Changing Sheet Protection"
 msgstr "Промена Защитата на Лист"
 
 #: src/commands.c:4824
-#, fuzzy
 msgid "Delete sheets"
-msgstr "Изтрива клетки"
+msgstr "Изтрива листа"
 
 #: src/commands.c:4827
-#, fuzzy
 msgid "Delete a sheet"
-msgstr "Изтрива обект"
+msgstr "Изтриване на лист"
 
 #: src/commands.c:4830
 msgid "Reorganizing Sheets"
@@ -15270,12 +15229,12 @@ msgstr "Реорганизира Листа"
 #: src/commands.c:4980
 #, c-format
 msgid "Clearing comment of %s"
-msgstr "Изчиства коментар на %s"
+msgstr "Изчистване на коментар на %s"
 
 #: src/commands.c:4981
 #, c-format
 msgid "Setting comment of %s"
-msgstr "Задава коментар на %s"
+msgstr "Задаване на коментар на %s"
 
 #: src/commands.c:5361
 #, c-format
@@ -15288,11 +15247,11 @@ msgstr "Променя обобщена информация"
 
 #: src/commands.c:5554
 msgid "Raise object"
-msgstr "Издига обект"
+msgstr "Издигане на обект"
 
 #: src/commands.c:5557
 msgid "Lower object"
-msgstr "Снижава обект"
+msgstr "Снижаване на обект"
 
 #: src/commands.c:5560
 msgid "Raise object to top"
@@ -15313,14 +15272,13 @@ msgid "Page Setup For All Sheets"
 msgstr "Печат на Настриойките за Всички Листа"
 
 #: src/commands.c:5796
-#, fuzzy
 msgid "has a circular reference"
-msgstr "'%s' има цикличен указател"
+msgstr "има цикличен указател"
 
 #: src/commands.c:5819
-#, fuzzy, c-format
+#, c-format
 msgid "Define Name %s"
-msgstr "Задава Име"
+msgstr "Задаване на Име %s"
 
 #: src/commands.c:5822
 #, c-format
@@ -15329,7 +15287,7 @@ msgstr ""
 
 #: src/commands.c:5886
 msgid "Add scenario"
-msgstr ""
+msgstr "Добавяне на сценарий"
 
 #: src/commands.c:5961
 msgid "Scenario Show"
@@ -15363,9 +15321,9 @@ msgid "Goal Seek (%s)"
 msgstr "Търсене на Цел"
 
 #: src/commands.c:6512
-#, fuzzy, c-format
+#, c-format
 msgid "Duplicating %s"
-msgstr "_Дублира"
+msgstr "Дублиране на %s"
 
 #: src/commands.c:6592
 #, fuzzy
@@ -15388,65 +15346,53 @@ msgid "Data Consolidation"
 msgstr "Консолидиране на данни"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:1
-#, fuzzy
 msgid "<b>Major Ticks:</b>"
-msgstr "Шаблон"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:2
-#, fuzzy
 msgid "<b>Minor Ticks:</b>"
-msgstr "Шаблон"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:3
-#, fuzzy
 msgid "I_nside"
-msgstr "Вътре"
+msgstr "В_ътре"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:4
-#, fuzzy
 msgid "O_utside"
-msgstr "Контур"
+msgstr "_Отвън"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:5
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:572
-#, fuzzy
 msgid "_Cross"
-msgstr "_Затваря"
+msgstr "_Пресичане"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:6
-#, fuzzy
 msgid "_High"
-msgstr "В_исочина..."
+msgstr "В_исоко"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:7
-#, fuzzy
 msgid "_Inside"
-msgstr "Вътре"
+msgstr "Вът_ре"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:8
-#, fuzzy
 msgid "_Invert"
-msgstr "_Вмъква"
+msgstr "_Обръщане"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:9
-#, fuzzy
 msgid "_Low"
-msgstr "_Ред"
+msgstr "_Ниско"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:10
-#, fuzzy
 msgid "_Map:"
-msgstr "_Диаграма..."
+msgstr "_Диаграма:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:11
-#, fuzzy
 msgid "_Outside"
-msgstr "Контур"
+msgstr "_Отвън"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:12
-#, fuzzy
 msgid "_Show Labels"
-msgstr "_Етикети"
+msgstr "_Показване на Етикетите"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:568
 #: src/dialogs/solver.glade.h:14
@@ -15454,9 +15400,8 @@ msgid "M_in"
 msgstr "М_ин"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:569
-#, fuzzy
 msgid "M_ax"
-msgstr "Макс"
+msgstr "Максимално"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:570
 msgid "Ma_jor Ticks"
@@ -15467,9 +15412,8 @@ msgid "Mi_nor Ticks"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:649
-#, fuzzy
 msgid "Details"
-msgstr "Скрива Подробности"
+msgstr "Подробности"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:682
 #, fuzzy
@@ -15484,24 +15428,21 @@ msgstr "Фон"
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:704
 #: src/dialogs/dialog-stf.glade.h:21
 msgid "Format"
-msgstr "Формат"
+msgstr "Форматиране"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:190
-#, fuzzy
 msgid "Legend"
-msgstr "Изпраща"
+msgstr "Легенда"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:193
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:157
 #: src/cut-n-paste-code/goffice/graph/gog-legend.c:180
-#, fuzzy
 msgid "Title"
-msgstr "Заглавие:"
+msgstr "Заглавие"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:196
-#, fuzzy
 msgid "Grid"
-msgstr "Петък"
+msgstr "Мрежа"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:199
 msgid "X-Axis"
@@ -15516,41 +15457,36 @@ msgid "Z-Axis"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:211
-#, fuzzy
 msgid "Plot"
-msgstr "_Начертай"
+msgstr "Плот"
 
 #: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:249
 msgid "H"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:249
-#, fuzzy
 msgid "Height"
-msgstr "В_исочина..."
+msgstr "Височина"
 
 #: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:252
 msgid "W"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:252
-#, fuzzy
 msgid "Width"
-msgstr "_Височина:"
+msgstr "Ширина"
 
 #. default
 #. Cheat and assign a name here, graphs will not have parents until we
 #. * support graphs in graphs
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:115
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:212
-#, fuzzy
 msgid "Graph"
-msgstr "_Диаграма..."
+msgstr "Диаграма"
 
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:154
-#, fuzzy
 msgid "Chart"
-msgstr "Диаграма%d"
+msgstr "Диаграма"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1075
 #, fuzzy
@@ -15594,7 +15530,7 @@ msgstr ""
 #: src/dialogs/autocorrect.glade.h:12 src/dialogs/names.glade.h:6
 #: src/dialogs/solver.glade.h:26
 msgid "_Add"
-msgstr "_Добавя"
+msgstr "_Добавяне"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:3
 #: src/dialogs/autoformat.glade.h:20 src/dialogs/cell-format.glade.h:95
@@ -15602,24 +15538,21 @@ msgid "_Bottom"
 msgstr "_Долу"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:4
-#, fuzzy
 msgid "_Decrease"
-msgstr "Намаление"
+msgstr "_Намаление"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:5
 #: src/dialogs/names.glade.h:7 src/dialogs/solver.glade.h:30
 msgid "_Delete"
-msgstr "_Изтрива"
+msgstr "_Изтриване"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:6
-#, fuzzy
 msgid "_Increase"
-msgstr "Увеличение"
+msgstr "_Увеличение"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:7
-#, fuzzy
 msgid "_Order"
-msgstr "Рамка"
+msgstr "_Ред"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:8
 #: src/dialogs/autoformat.glade.h:24
@@ -15627,16 +15560,14 @@ msgid "_Top"
 msgstr "_Горе"
 
 #: src/cut-n-paste-code/goffice/graph/gog-label.c:107
-#, fuzzy
 msgid "_Text:"
-msgstr "Те_кст"
+msgstr "Те_кст:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-label.c:113
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:196
 #: src/dialogs/dialog-stf.glade.h:15
-#, fuzzy
 msgid "Data"
-msgstr "_Данни"
+msgstr "Данни"
 
 #: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:52
 #, fuzzy
@@ -15653,9 +15584,8 @@ msgid "Chart Theme"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-plot.c:182
-#, fuzzy
 msgid "Series"
-msgstr "_Серии"
+msgstr "Серии"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:1
 #, fuzzy
@@ -15663,9 +15593,8 @@ msgid "2 Color"
 msgstr "Цвят:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:2
-#, fuzzy
 msgid "<b>Fill</b>"
-msgstr "Предварителен преглед"
+msgstr "<b>Запълване</b>"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:3
 #: src/dialogs/cell-format.glade.h:17
@@ -15688,9 +15617,8 @@ msgid "Brightness"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:7
-#, fuzzy
 msgid "C_olor:"
-msgstr "Цвят:"
+msgstr "Ц_вят:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:8
 msgid "Fill from start color to a darker/lighter version of that color"
@@ -15701,14 +15629,12 @@ msgid "Fill from start color to end color"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:10
-#, fuzzy
 msgid "Gradient"
-msgstr "Печат"
+msgstr "Преливка"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:11
-#, fuzzy
 msgid "Image"
-msgstr "_Картинка..."
+msgstr "Изображение"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:12
 #: src/dialogs/cell-format.glade.h:60 src/dialogs/dialog-cell-format.c:85
@@ -15722,44 +15648,36 @@ msgid "Pattern"
 msgstr "Шаблон"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:14
-#, fuzzy
 msgid "Si_ze:"
-msgstr "Размер:"
+msgstr "Раз_мер:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:15
-#, fuzzy
 msgid "T_ype:"
 msgstr "_Тип:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:16
-#, fuzzy
 msgid "_Background:"
-msgstr "Фон"
+msgstr "Фон:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:17
-#, fuzzy
 msgid "_Direction:"
-msgstr "Директория"
+msgstr "_Посока:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:18
-#, fuzzy
 msgid "_End:"
-msgstr "Край"
+msgstr "_Край:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:19
-#, fuzzy
 msgid "_Fill color:"
-msgstr "_Цвят:"
+msgstr "_Цвят за запълване:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:20
-#, fuzzy
 msgid "_Fit:"
-msgstr "_Изпълва до:"
+msgstr "_Изпълване:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:21
-#, fuzzy
 msgid "_Foreground:"
-msgstr "Преден план"
+msgstr "Преден план:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:22
 #, fuzzy
@@ -15767,29 +15685,24 @@ msgid "_Outline color:"
 msgstr "Структури _Долу"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:23
-#, fuzzy
 msgid "_Pattern:"
-msgstr "Шаблон"
+msgstr "_Плочка:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:24
-#, fuzzy
 msgid "_Select..."
-msgstr "_Избор"
+msgstr "_Избор..."
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:25
-#, fuzzy
 msgid "_Shape:"
-msgstr "_Обсег:"
+msgstr "_Форма"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:26
-#, fuzzy
 msgid "_Size:"
-msgstr "Размер:"
+msgstr "_Размер:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:27
-#, fuzzy
 msgid "_Start:"
-msgstr "Състояние"
+msgstr "_Начало:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:28
 #: src/dialogs/solver.glade.h:42
@@ -15797,14 +15710,12 @@ msgid "_Type:"
 msgstr "_Тип:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:29
-#, fuzzy
 msgid "_brighter"
-msgstr "_Дясна"
+msgstr "_по-ярко"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:30
-#, fuzzy
 msgid "_darker"
-msgstr "масив"
+msgstr "по-тъмно"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:31
 msgid "pts"
@@ -15820,21 +15731,19 @@ msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:180
 #: src/widgets/preview-file-selection.c:167
-#, fuzzy, c-format
+#, c-format
 msgid "%d x %d"
-msgstr "%dR x %dC"
+msgstr "%d x %d"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:579
 #: src/workbook-control-gui.c:3155
-#, fuzzy
 msgid "Select an image"
-msgstr "Избор на цялата колона"
+msgstr "Избор на изображение"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:995
 #: src/dialogs/pivottable.glade.h:4
-#, fuzzy
 msgid "Style"
-msgstr "_Стил"
+msgstr "Стил"
 
 #. TODO : have a look at apple's themes
 #. An MS Excel-ish theme
@@ -15845,9 +15754,8 @@ msgstr "По подразбиране"
 
 #. Guppi
 #: src/cut-n-paste-code/goffice/graph/gog-theme.c:455
-#, fuzzy
 msgid "Guppi"
-msgstr "Групира"
+msgstr "Гупи"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:304
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:154
@@ -15898,48 +15806,40 @@ msgstr ""
 #. * 	PlotLine2
 #.
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:90
-#, fuzzy
 msgid "PlotLine"
-msgstr "_Начертай"
+msgstr ""
 
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotArea2
 #.
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:203
-#, fuzzy
 msgid "PlotArea"
-msgstr "_Начертай"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:1
-#, fuzzy
 msgid "3D Adjacent Bars"
-msgstr "Изтрива Колони"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:2
-#, fuzzy
 msgid "3D Adjacent Columns"
-msgstr "Изтрива Колони"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:3
-#, fuzzy
 msgid "3D Percentage Bars"
-msgstr "Про_центи"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:4
-#, fuzzy
 msgid "3D Percentage Columns"
-msgstr "Изтрива Колони"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:5
-#, fuzzy
 msgid "3D Stacked Bars"
-msgstr "Изтрива Колони"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:6
-#, fuzzy
 msgid "3D Stacked Columns"
-msgstr "Изтрива Колони"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:7
 #, fuzzy
@@ -15977,13 +15877,12 @@ msgid "Area plot."
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:15
-#, fuzzy
 msgid "Areas"
-msgstr "_Области"
+msgstr "Области"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:16
 msgid "Bar"
-msgstr ""
+msgstr "Лента"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:17
 msgid "Column"
@@ -15995,9 +15894,8 @@ msgid "Line plot."
 msgstr "Редове за импортиране"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:20
-#, fuzzy
 msgid "Lines"
-msgstr "Линия"
+msgstr "Линии"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:21
 msgid ""
@@ -16174,9 +16072,8 @@ msgstr ""
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:8
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:9
 #: src/dialogs/cell-format.glade.h:107
-#, fuzzy
 msgid "degrees"
-msgstr "_Изтрива"
+msgstr "градуси"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:103
 #, fuzzy
@@ -16336,12 +16233,12 @@ msgstr "_Начертай"
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:322
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:466
 msgid "X"
-msgstr ""
+msgstr "X"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:324
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:468
 msgid "Y"
-msgstr ""
+msgstr "Y"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:355
 #, fuzzy
@@ -16413,18 +16310,16 @@ msgid "XY Charts"
 msgstr "Диаграма%d"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:222
-#, fuzzy
 msgid "none"
-msgstr "Без"
+msgstr "без"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:223
 msgid "square"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:224
-#, fuzzy
 msgid "diamond"
-msgstr "_Средно:"
+msgstr "диаманд"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:225
 msgid "triangle down"
@@ -16445,24 +16340,20 @@ msgid "triangle left"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:229
-#, fuzzy
 msgid "circle"
-msgstr "фиксиран"
+msgstr "кръг"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:231
-#, fuzzy
 msgid "cross"
-msgstr "редове"
+msgstr "кръст"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:232
-#, fuzzy
 msgid "asterisk"
-msgstr "Поставя Указател"
+msgstr "звездичка"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:233
-#, fuzzy
 msgid "bar"
-msgstr "*Мрт"
+msgstr "лента"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:234
 msgid "half bar"
@@ -16850,7 +16741,7 @@ msgstr "_Само Уникални Записис"
 #: src/dialogs/variance-tests.glade.h:1 src/dialogs/view.glade.h:1
 #: src/dialogs/workbook-attr.glade.h:1
 msgid "*"
-msgstr ""
+msgstr "*"
 
 #: src/dialogs/anova-one.glade.h:2 src/dialogs/anova-two.glade.h:2
 #: src/dialogs/mean-tests.glade.h:3 src/dialogs/variance-tests.glade.h:2
@@ -16889,9 +16780,8 @@ msgstr "Групирани По:"
 #: src/dialogs/moving-averages.glade.h:10
 #: src/dialogs/random-generation.glade.h:7 src/dialogs/rank.glade.h:6
 #: src/dialogs/regression.glade.h:8 src/dialogs/sampling.glade.h:9
-#, fuzzy
 msgid "O_ptions"
-msgstr "Опции"
+msgstr "О_пции"
 
 #: src/dialogs/anova-one.glade.h:9 src/dialogs/anova-two.glade.h:10
 #: src/dialogs/consolidate.glade.h:17 src/dialogs/correlation.glade.h:6
@@ -16970,9 +16860,8 @@ msgstr "_Етикети"
 #: src/dialogs/random-generation.glade.h:14 src/dialogs/rank.glade.h:17
 #: src/dialogs/regression.glade.h:18 src/dialogs/sampling.glade.h:22
 #: src/dialogs/variance-tests.glade.h:15
-#, fuzzy
 msgid "_Output"
-msgstr "Изход"
+msgstr "И_зход"
 
 #: src/dialogs/anova-two.glade.h:3 src/dialogs/descriptive-stats.glade.h:4
 #: src/dialogs/random-generation.glade.h:2 src/dialogs/sampling.glade.h:2
@@ -17014,9 +16903,8 @@ msgid "Do _not correct:"
 msgstr "Не _коригира"
 
 #: src/dialogs/autocorrect.glade.h:8
-#, fuzzy
 msgid "First Letter"
-msgstr "_Първа буква"
+msgstr "Първа буква"
 
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
@@ -17033,7 +16921,7 @@ msgstr "_НАчални ГЛавни"
 
 #: src/dialogs/autocorrect.glade.h:11
 msgid "Re_place:"
-msgstr "За_меня"
+msgstr "За_мяна"
 
 #: src/dialogs/autocorrect.glade.h:14
 msgid "_Replace text when typed"
@@ -17041,7 +16929,7 @@ msgstr "Заменя тескт при въвеж_дане"
 
 #: src/dialogs/autocorrect.glade.h:15
 msgid "_With:"
-msgstr "_Височина:"
+msgstr "_С:"
 
 #: src/dialogs/autofilter-expression.glade.h:1
 #: src/dialogs/dialog-autoformat.c:75 src/dialogs/scenario-manager.glade.h:1
@@ -17060,22 +16948,20 @@ msgid "Show rows where:"
 msgstr "Стрелка"
 
 #: src/dialogs/autofilter-expression.glade.h:5
-#, fuzzy
 msgid "_And"
-msgstr "_Добавя"
+msgstr "_И"
 
 #: src/dialogs/autofilter-expression.glade.h:6
 msgid "_Or"
-msgstr ""
+msgstr "_Или"
 
 #: src/dialogs/autofilter-expression.glade.h:7
 msgid "begins with"
 msgstr ""
 
 #: src/dialogs/autofilter-expression.glade.h:8
-#, fuzzy
 msgid "contains"
-msgstr "съдържания"
+msgstr "съдържа"
 
 #: src/dialogs/autofilter-expression.glade.h:9
 msgid "does not begin with"
@@ -17096,9 +16982,8 @@ msgid "does not equal"
 msgstr ""
 
 #: src/dialogs/autofilter-expression.glade.h:13
-#, fuzzy
 msgid "ends with"
-msgstr "Фиксирана _ширина"
+msgstr "завършване с"
 
 #: src/dialogs/autofilter-expression.glade.h:14
 #, fuzzy
@@ -17132,14 +17017,12 @@ msgstr ""
 
 #: src/dialogs/autofilter-top10.glade.h:4
 #: src/widgets/widget-format-selector.c:82
-#, fuzzy
 msgid "Percentage"
-msgstr "_Проценти"
+msgstr "Проценти"
 
 #: src/dialogs/autofilter-top10.glade.h:5
-#, fuzzy
 msgid "Show:"
-msgstr "Сянка"
+msgstr "Показване:"
 
 #: src/dialogs/autofilter-top10.glade.h:6 src/dialogs/cell-format.glade.h:89
 msgid "Top"
@@ -17151,23 +17034,23 @@ msgstr "Кратко описание на шаблона"
 
 #: src/dialogs/autoformat.glade.h:3
 msgid "Apply _Alignment"
-msgstr "Използва _Подравняване"
+msgstr "Използване на _Подравняване"
 
 #: src/dialogs/autoformat.glade.h:4
 msgid "Apply _Borders"
-msgstr "И_зползва Рамки"
+msgstr "И_зползване на Рамки"
 
 #: src/dialogs/autoformat.glade.h:5
 msgid "Apply _Fonts"
-msgstr "Използва _Шрифтове"
+msgstr "Използване на _Шрифтове"
 
 #: src/dialogs/autoformat.glade.h:6
 msgid "Apply _Number Formats"
-msgstr "Използва _Числов формат"
+msgstr "Използване на _Числов формат"
 
 #: src/dialogs/autoformat.glade.h:7
 msgid "Apply _Patterns"
-msgstr "Използва _Образци"
+msgstr "Използване на _Образци"
 
 #: src/dialogs/autoformat.glade.h:8
 msgid "Author:"
@@ -17178,9 +17061,8 @@ msgid "Autoformat"
 msgstr "Автоформат"
 
 #: src/dialogs/autoformat.glade.h:10
-#, fuzzy
 msgid "C_ategory:"
-msgstr "Категория:"
+msgstr "Кате_гория:"
 
 #: src/dialogs/autoformat.glade.h:11
 msgid "Category:"
@@ -17208,9 +17090,8 @@ msgid "Preview"
 msgstr "Предварителен преглед"
 
 #: src/dialogs/autoformat.glade.h:17
-#, fuzzy
 msgid "Template Details"
-msgstr "Подробности за Шаб_лони"
+msgstr "Подробности за шаблоните"
 
 #: src/dialogs/autoformat.glade.h:18
 msgid "The category this template belongs to"
@@ -17230,16 +17111,15 @@ msgstr "_Дясна"
 
 #: src/dialogs/autoformat.glade.h:23
 msgid "_Show Gridlines"
-msgstr "Показва линиите на мрежа"
+msgstr "Показване на линиите на мрежата"
 
 #: src/dialogs/autosave.glade.h:2
 msgid "Auto Save"
-msgstr "Авоматично запазва"
+msgstr "Авоматично запазване"
 
 #: src/dialogs/autosave.glade.h:3
-#, fuzzy
 msgid "_Automatically save every"
-msgstr "_Автоматично запазва всеки"
+msgstr "_Автоматично запазване на всеки"
 
 #: src/dialogs/autosave.glade.h:4
 msgid "_Prompt Before Saving"
@@ -17255,63 +17135,53 @@ msgstr "Коментар на Клетка"
 
 #: src/dialogs/cell-format.glade.h:1
 msgid "    "
-msgstr ""
+msgstr "    "
 
 #: src/dialogs/cell-format.glade.h:13
-#, fuzzy
 msgid "<b>Background</b>"
-msgstr "Фон"
+msgstr "<b>Фон</b>"
 
 #: src/dialogs/cell-format.glade.h:14
-#, fuzzy
 msgid "<b>Control</b>"
-msgstr "Контрол"
+msgstr "<b>Контрол</b>"
 
 #: src/dialogs/cell-format.glade.h:15
-#, fuzzy
 msgid "<b>Error alerts</b>"
-msgstr "Предупреждение за Грешка"
+msgstr "<b>Предупреждения за грешка</b>"
 
 #: src/dialogs/cell-format.glade.h:16
-#, fuzzy
 msgid "<b>Horizontal alignment</b>"
-msgstr "Задава Хоризонтално Подравняване"
+msgstr "<b>Хоризонтално подравняване</b>"
 
 #: src/dialogs/cell-format.glade.h:18
-#, fuzzy
 msgid "<b>Orientation</b>"
-msgstr "Ориентация"
+msgstr "<b>Ориентация</b>"
 
 #: src/dialogs/cell-format.glade.h:19
-#, fuzzy
 msgid "<b>Pattern</b>"
-msgstr "Шаблон"
+msgstr "<b>Плочка</b>"
 
 #: src/dialogs/cell-format.glade.h:20
 msgid "<b>Sample</b>"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:21
-#, fuzzy
 msgid "<b>Style</b>"
-msgstr "Предварителен преглед"
+msgstr "<b>Стил</b>"
 
 #: src/dialogs/cell-format.glade.h:22
-#, fuzzy
 msgid "<b>Vertical alignment</b>"
-msgstr "Вертикално изравняване"
+msgstr "<b>Вертикално подравняване</b>"
 
 #: src/dialogs/cell-format.glade.h:23
 msgid "<span weight=\"bold\">Criteria</span>"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:24
-#, fuzzy
 msgid "A_ngle:"
-msgstr "_Управител:"
+msgstr "_Ъгъл:"
 
 #: src/dialogs/cell-format.glade.h:25
-#, fuzzy
 msgid "Ac_tion:"
 msgstr "_Действие:"
 
@@ -17320,9 +17190,8 @@ msgid "Alignment"
 msgstr "Подравняване"
 
 #: src/dialogs/cell-format.glade.h:27
-#, fuzzy
 msgid "Allo_w:"
-msgstr "_Позволява:"
+msgstr "_Позволяване:"
 
 #: src/dialogs/cell-format.glade.h:28
 #, fuzzy
@@ -17334,14 +17203,12 @@ msgid "Border"
 msgstr "Рамка"
 
 #: src/dialogs/cell-format.glade.h:33
-#, fuzzy
 msgid "Ce_nter"
-msgstr "Център"
+msgstr "Це_нтър"
 
 #: src/dialogs/cell-format.glade.h:34
-#, fuzzy
 msgid "Cen_ter"
-msgstr "Център"
+msgstr "Цен_тър"
 
 #: src/dialogs/cell-format.glade.h:35
 #, fuzzy
@@ -17353,9 +17220,8 @@ msgid "Color:"
 msgstr "Цвят:"
 
 #: src/dialogs/cell-format.glade.h:37
-#, fuzzy
 msgid "Con_dition:"
-msgstr "Условие:"
+msgstr "Ус_ловие:"
 
 #: src/dialogs/cell-format.glade.h:38 src/dialogs/dialog-stf-export.glade.h:17
 #: src/widgets/widget-format-selector.c:87
@@ -17375,9 +17241,8 @@ msgid "Format Cells"
 msgstr "Формат на Клетки"
 
 #: src/dialogs/cell-format.glade.h:46
-#, fuzzy
 msgid "Hi_de"
-msgstr "_Скрива"
+msgstr "_Скриване"
 
 #: src/dialogs/cell-format.glade.h:48
 msgid "I_n-cell dropdown"
@@ -17423,9 +17288,7 @@ msgstr "Ляво"
 
 #: src/dialogs/cell-format.glade.h:59
 msgid "Locking cells or hiding formulas only affects protected worksheets."
-msgstr ""
-"Заключване на клетки или скриване на формули имат ефект само при защитени "
-"работни листа."
+msgstr "Заключване на клетки или скриване на формули имат ефект само при защитени работни листа."
 
 #: src/dialogs/cell-format.glade.h:61
 msgid "None          (silently accept invalid input)"
@@ -17456,7 +17319,6 @@ msgid "Shrin_k to fit"
 msgstr "Разтяга п_о размера"
 
 #: src/dialogs/cell-format.glade.h:72
-#, fuzzy
 msgid "Stop            (never allow invalid input)"
 msgstr "Стоп           (никога не позволява грешен вход)"
 
@@ -17465,9 +17327,8 @@ msgid "Stri_kethrough"
 msgstr "_Зачертано"
 
 #: src/dialogs/cell-format.glade.h:74
-#, fuzzy
 msgid "Style:"
-msgstr "_Стил"
+msgstr "Стил:"
 
 #: src/dialogs/cell-format.glade.h:75
 msgid "Su_bscript"
@@ -17478,9 +17339,8 @@ msgid "Sup_erscript"
 msgstr "Горен _индекс"
 
 #: src/dialogs/cell-format.glade.h:77
-#, fuzzy
 msgid "T_op"
-msgstr "Горен"
+msgstr "Г_оре"
 
 #: src/dialogs/cell-format.glade.h:78
 msgid "Text length"
@@ -17491,14 +17351,12 @@ msgid "Time"
 msgstr "Време"
 
 #: src/dialogs/cell-format.glade.h:88
-#, fuzzy
 msgid "Titl_e:"
-msgstr "Заглавие:"
+msgstr "За_главие:"
 
 #: src/dialogs/cell-format.glade.h:90
-#, fuzzy
 msgid "Underline:"
-msgstr "_Подчертан:"
+msgstr "Подчертано:"
 
 #: src/dialogs/cell-format.glade.h:91
 msgid "Validation"
@@ -17518,27 +17376,24 @@ msgid "_General"
 msgstr "_Общи"
 
 #: src/dialogs/cell-format.glade.h:98
-#, fuzzy
 msgid "_Indent:"
-msgstr "_Отстъп"
+msgstr "_Отстъп:"
 
 #: src/dialogs/cell-format.glade.h:99
 msgid "_Justify"
-msgstr "_Нагласава"
+msgstr "_Нагласаване"
 
 #: src/dialogs/cell-format.glade.h:101
-#, fuzzy
 msgid "_Lock"
-msgstr "_Заключен"
+msgstr "_Заключено"
 
 #: src/dialogs/cell-format.glade.h:102
 msgid "_Message:"
 msgstr "_Съобщение:"
 
 #: src/dialogs/cell-format.glade.h:103
-#, fuzzy
 msgid "_Protect worksheet"
-msgstr "_Текущ лист"
+msgstr ""
 
 #: src/dialogs/cell-format.glade.h:105
 msgid "_Show input message when cell is selected"
@@ -17546,7 +17401,7 @@ msgstr "_Покзва входно съобщение при избора на �
 
 #: src/dialogs/cell-format.glade.h:106
 msgid "_Wrap text"
-msgstr "_Прехвърля текст"
+msgstr "_Прехвърляне на текст"
 
 #: src/dialogs/cell-format.glade.h:108
 msgid "min <= val <= max         (between)"
@@ -17595,14 +17450,12 @@ msgid "<span weight=\"bold\">Sort Specification</span>"
 msgstr ""
 
 #: src/dialogs/cell-sort.glade.h:3
-#, fuzzy
 msgid "Direction:"
-msgstr "Директория"
+msgstr "Посока:"
 
 #: src/dialogs/cell-sort.glade.h:4
-#, fuzzy
 msgid "Range:"
-msgstr "_Диапазон"
+msgstr "Диапазон:"
 
 #: src/dialogs/cell-sort.glade.h:5
 msgid "Sort range has a _header"
@@ -17610,7 +17463,7 @@ msgstr ""
 
 #: src/dialogs/cell-sort.glade.h:6
 msgid "Sort..."
-msgstr "Сортира..."
+msgstr "Сортиране..."
 
 #: src/dialogs/cell-sort.glade.h:7 src/dialogs/dialog-stf-export.glade.h:39
 msgid "_Preserves Formats"
@@ -17639,7 +17492,7 @@ msgstr "_Използва По подразбиране"
 
 #: src/dialogs/colrow.glade.h:1
 msgid "Group/Ungroup"
-msgstr "Групира/Разгрупира"
+msgstr "Групиране/Разгрупиране"
 
 #: src/dialogs/consolidate.glade.h:1
 msgid "AVERAGE"
@@ -17651,7 +17504,7 @@ msgstr ""
 
 #: src/dialogs/consolidate.glade.h:4
 msgid "C_opy labels"
-msgstr "К_опира етикети"
+msgstr "К_опиране на етикети"
 
 #: src/dialogs/consolidate.glade.h:6
 msgid "Clear the list of source areas"
@@ -17698,9 +17551,8 @@ msgid "STDEVP"
 msgstr ""
 
 #: src/dialogs/consolidate.glade.h:21
-#, fuzzy
 msgid "SUM"
-msgstr "ОБОБЩЕНИЕ"
+msgstr "SUM"
 
 #: src/dialogs/consolidate.glade.h:22
 msgid "The function to use when consolidating"
@@ -17736,7 +17588,7 @@ msgstr "_Функция:"
 
 #: src/dialogs/consolidate.glade.h:33
 msgid "_Put:"
-msgstr "_Поставя:"
+msgstr "_Поставяне:"
 
 #: src/dialogs/consolidate.glade.h:34
 #, fuzzy
@@ -17959,7 +17811,8 @@ msgstr "Готова за използване електронна таблиц
 #. Translate the following string with the names of all translators for this locale.
 #: src/dialogs/dialog-about.c:119
 msgid "This is an untranslated version of Gnumeric."
-msgstr "Това е преведено от Борислав Александров."
+msgstr "Борислав Александров\n"
+"Владимир Петков <vpetkov@i-space.org>"
 
 #: src/dialogs/dialog-about.c:125
 msgid "Gnumeric Home Page"
@@ -18294,9 +18147,8 @@ msgstr "Число"
 
 #: src/dialogs/dialog-cell-format.c:668 src/dialogs/dialog-stf-main-page.c:381
 #: src/widgets/widget-format-selector.c:85
-#, fuzzy
 msgid "Text"
-msgstr "Те_кст"
+msgstr "Текст"
 
 #: src/dialogs/dialog-cell-format.c:1787
 msgid "Source"
@@ -18493,18 +18345,16 @@ msgid "Not a range or name"
 msgstr ""
 
 #: src/dialogs/dialog-hyperlink.c:195
-#, fuzzy
 msgid "_Internal Link"
-msgstr "Вътрешна ГРЕШКА"
+msgstr "Вътрешна връзка"
 
 #: src/dialogs/dialog-hyperlink.c:197
 msgid "Jump to specific cells or named range in the current workbook"
 msgstr ""
 
 #: src/dialogs/dialog-hyperlink.c:201
-#, fuzzy
 msgid "_External Link"
-msgstr "Вътрешна ГРЕШКА"
+msgstr "Вътрешна връзка"
 
 #: src/dialogs/dialog-hyperlink.c:203
 msgid "Open an external file with the specified name"
@@ -18515,9 +18365,8 @@ msgid "Send _Email"
 msgstr ""
 
 #: src/dialogs/dialog-hyperlink.c:209
-#, fuzzy
 msgid "Prepare an email"
-msgstr "Създава етикет"
+msgstr "Създаване на ел. писмо"
 
 #: src/dialogs/dialog-hyperlink.c:211
 #, fuzzy
@@ -18529,19 +18378,16 @@ msgid "Browse to the specified URL"
 msgstr ""
 
 #: src/dialogs/dialog-hyperlink.c:284
-#, fuzzy
 msgid "Add Hyperlink"
-msgstr "_Премахва Текуща"
+msgstr "Добавяне на връзка"
 
 #: src/dialogs/dialog-hyperlink.c:286
-#, fuzzy
 msgid "Edit Hyperlink"
-msgstr "_Премахва Текуща"
+msgstr "Редактиране на връзка"
 
 #: src/dialogs/dialog-hyperlink.c:292 src/sheet-control-gui.c:1472
-#, fuzzy
 msgid "Remove Hyperlink"
-msgstr "_Премахва Текуща"
+msgstr "Премахване на връзка"
 
 #: src/dialogs/dialog-hyperlink.c:463
 #, fuzzy
@@ -18550,7 +18396,7 @@ msgstr "Не мога да създам диалог за 'Решавача'."
 
 #: src/dialogs/dialog-insert-cells.c:136 src/workbook-control-gui.c:645
 msgid "Insert"
-msgstr "Вмъква"
+msgstr "Вмъкване"
 
 #: src/dialogs/dialog-insert-cells.c:166
 msgid "Could not create the Insert Cell dialog."
@@ -18615,7 +18461,7 @@ msgstr "Формати"
 
 #: src/dialogs/dialog-paste-special.c:55
 msgid "Add"
-msgstr "Добавя"
+msgstr "Добавяне"
 
 #: src/dialogs/dialog-paste-special.c:56
 msgid "Subtract"
@@ -18705,9 +18551,8 @@ msgid "Error while activating plugin \"%s\"."
 msgstr "Грешка при активиране на plugins."
 
 #: src/dialogs/dialog-plugin-manager.c:688
-#, fuzzy
 msgid "Active"
-msgstr "активен"
+msgstr "Активен"
 
 #: src/dialogs/dialog-plugin-manager.c:693
 #, fuzzy
@@ -18744,14 +18589,12 @@ msgstr ""
 "Целите на тази страница са свързани със запазване и отваряне на файлове."
 
 #: src/dialogs/dialog-preferences.c:1501
-#, fuzzy
 msgid "Windows"
-msgstr "Скрива редове"
+msgstr "Прозорци"
 
 #: src/dialogs/dialog-preferences.c:1502
-#, fuzzy
 msgid "Files"
-msgstr "_Файл"
+msgstr "Файлове"
 
 #: src/dialogs/dialog-preferences.c:1503 src/workbook-control-gui.c:1576
 #: src/workbook-control-gui.c:4032 src/workbook-control-gui.c:4261
@@ -18759,14 +18602,12 @@ msgid "Undo"
 msgstr "Назад"
 
 #: src/dialogs/dialog-preferences.c:1505
-#, fuzzy
 msgid "Various"
 msgstr "Променливи"
 
 #: src/dialogs/dialog-preferences.c:1506
-#, fuzzy
 msgid "Internal"
-msgstr "Ин_тервал:"
+msgstr "Вътрешен"
 
 #: src/dialogs/dialog-preferences.c:1507
 #, fuzzy
@@ -18933,9 +18774,8 @@ msgid "_Sigma"
 msgstr ""
 
 #: src/dialogs/dialog-random-generator.c:140
-#, fuzzy
 msgid "Geometric"
-msgstr "Gnumeric"
+msgstr "Геометрични"
 
 #: src/dialogs/dialog-random-generator.c:142
 msgid "Gumbel (Type I)"
@@ -18996,9 +18836,8 @@ msgid "N_umber of Failures"
 msgstr "Брой Неуспехи"
 
 #: src/dialogs/dialog-random-generator.c:161
-#, fuzzy
 msgid "Pareto"
-msgstr "Цел"
+msgstr "Парето"
 
 #: src/dialogs/dialog-random-generator.c:163
 msgid "Poisson"
@@ -19049,8 +18888,7 @@ msgstr "Задава стандартна/подразбираща се висо
 msgid ""
 "Set row height of selection on <span style='italic' weight='bold'>%s</span>"
 msgstr ""
-"Задайте височина на клетка на избраното <span style='italic' weight='bold'>%"
-"s</span>"
+"Задайте височина на клетка на избраното <span style='italic' weight='bold'>%s</span>"
 
 #: src/dialogs/dialog-scenarios.c:129
 #, fuzzy
@@ -19085,9 +18923,8 @@ msgid "Could not create the Scenario Add dialog."
 msgstr "Не мога да създам диалог за 'Решавача'."
 
 #: src/dialogs/dialog-scenarios.c:228 src/dialogs/scenario-add.glade.h:5
-#, fuzzy
 msgid "_Changing cells:"
-msgstr "_Промяна на Клетки"
+msgstr "_Промяна на клетки:"
 
 #: src/dialogs/dialog-scenarios.c:243
 #, fuzzy
@@ -19247,14 +19084,12 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/dialog-simulation.c:430
-#, fuzzy
 msgid "_Inputs:"
-msgstr "_Вход"
+msgstr "_Вход:"
 
 #: src/dialogs/dialog-simulation.c:430
-#, fuzzy
 msgid "_Outputs:"
-msgstr "Изход"
+msgstr "Изход:"
 
 #: src/dialogs/dialog-simulation.c:431
 #, fuzzy
@@ -19286,8 +19121,7 @@ msgid ""
 "Solver found an optimal solution.  All constraints and optimality conditions "
 "are satisfied.\n"
 msgstr ""
-"Намерено е оптимално решение. Всички ограничения и условия за оптималност са "
-"изпълнени.\n"
+"Намерено е оптимално решение. Всички ограничения и условия за оптималност са изпълнени.\n"
 
 #: src/dialogs/dialog-solver.c:786
 msgid ""
@@ -19338,7 +19172,7 @@ msgstr "Целевата клетка трябва да съдържа форм�
 #: src/dialogs/dialog-solver.c:1026
 #, c-format
 msgid "Constraint `%s' is for a cell that is not an input cell."
-msgstr "Ограничение `%s'  за клетка която не е входна."
+msgstr "Ограничение \"%s\" за клетка която не е входна."
 
 #: src/dialogs/dialog-solver.c:1048
 msgid "No constraints defined for the problem."
@@ -19374,19 +19208,19 @@ msgstr "'"
 
 #: src/dialogs/dialog-stf-export.glade.h:4
 msgid "<- Remove"
-msgstr "<- Изтрива"
+msgstr "<- Изтриване"
 
 #: src/dialogs/dialog-stf-export.glade.h:5
 msgid "<- Remove all"
-msgstr "<- Изтрива всички"
+msgstr "<- Изтриване на всички"
 
 #: src/dialogs/dialog-stf-export.glade.h:6
 msgid "Add ->"
-msgstr "Добавя ->"
+msgstr "Добавяне ->"
 
 #: src/dialogs/dialog-stf-export.glade.h:7
 msgid "Add all ->"
-msgstr "Добава всички ->"
+msgstr "Добавяне на всички ->"
 
 #: src/dialogs/dialog-stf-export.glade.h:8
 msgid "Always"
@@ -19394,7 +19228,7 @@ msgstr "Винаги"
 
 #: src/dialogs/dialog-stf-export.glade.h:9
 msgid "Automatic (puts quotes where needed)"
-msgstr "Автоматично (поставя кавички където е необходимо)"
+msgstr "Автоматично (поставяне на кавички където е необходимо)"
 
 #: src/dialogs/dialog-stf-export.glade.h:10
 msgid "Available sheets"
@@ -19431,8 +19265,7 @@ msgid ""
 "used for terminating a line in the text file. Whether the quote character is "
 "placed around cells depends on the value chosen for quoting."
 msgstr ""
-"Настройка на формат за експорт. Край на ред е последователност от символи "
-"прекъсваща текстови ред."
+"Настройка на формат за експорт. Край на ред е последователност от символи прекъсваща текстови ред."
 
 #: src/dialogs/dialog-stf-export.glade.h:19
 #, fuzzy
@@ -19461,15 +19294,14 @@ msgstr "Никога"
 
 #: src/dialogs/dialog-stf-export.glade.h:25
 msgid "Pipe (|)"
-msgstr "Канал (|)"
+msgstr "Тръба (|)"
 
 #: src/dialogs/dialog-stf-export.glade.h:26
 msgid ""
 "Please select which sheets you want to export from the current workbook. "
 "They will be exported in the same order as in the export list."
 msgstr ""
-"Моля изберете кои листа вие желаете да експортирате от текущата работна "
-"книга. Те ще бъдат експортирани в същия ред като в списъка за експортиране."
+"Моля изберете кои листа вие желаете да експортирате от текущата работна книга. Те ще бъдат експортирани в същия ред като в списъка за експортиране."
 
 #: src/dialogs/dialog-stf-export.glade.h:27
 msgid "Quote character:"
@@ -19537,9 +19369,8 @@ msgid "Delete and Merge _Right"
 msgstr ""
 
 #: src/dialogs/dialog-stf-fixed-page.c:73
-#, fuzzy
 msgid "_Split"
-msgstr "Разделя"
+msgstr "_Разделяне"
 
 #: src/dialogs/dialog-stf-fixed-page.c:76
 #, fuzzy
@@ -19605,15 +19436,14 @@ msgstr ""
 #: src/dialogs/dialog-stf-main-page.c:394
 #, c-format
 msgid "Data (from %s)"
-msgstr "Данни (от  %s)"
+msgstr "Данни (от %s)"
 
 #: src/dialogs/dialog-stf.glade.h:4
 msgid ""
 "Actual processing will start at this line, any previous lines will be "
 "ignored."
 msgstr ""
-"Действителната обработка ще започне от този ред, предишните редове ще бъдат "
-"игнорирани."
+"Действителната обработка ще започне от този ред, предишните редове ще бъдат игнорирани."
 
 #: src/dialogs/dialog-stf.glade.h:5
 #, fuzzy
@@ -19672,17 +19502,15 @@ msgid ""
 "Each column in the text is separated by a 'separation' character, e.g. a "
 "semicolon."
 msgstr ""
-"Всяка колона в текста е разделена от символ 'разделител', напр. двуточие."
+"Всяка колона в текста е разделена от символ \"разделител\", напр. двуточие."
 
 #: src/dialogs/dialog-stf.glade.h:18
-#, fuzzy
 msgid "Encoding:"
-msgstr "Свързвам"
+msgstr "Кодиране:"
 
 #: src/dialogs/dialog-stf.glade.h:19
-#, fuzzy
 msgid "F_inish"
-msgstr "_Завърши"
+msgstr "_Завършване"
 
 #: src/dialogs/dialog-stf.glade.h:20
 #, fuzzy
@@ -19706,9 +19534,8 @@ msgid "Lines to import"
 msgstr "Редове за импортиране"
 
 #: src/dialogs/dialog-stf.glade.h:26
-#, fuzzy
 msgid "Main"
-msgstr "Мин"
+msgstr "Основно"
 
 #: src/dialogs/dialog-stf.glade.h:28
 msgid "Number of lines to import"
@@ -19741,8 +19568,7 @@ msgstr "Форматиране по колона"
 
 #: src/dialogs/dialog-stf.glade.h:35
 msgid "Processing ends at this line, any subsequent lines will be ignored."
-msgstr ""
-"Обработката завършва в този ред, другите последващи редове се игнорират."
+msgstr "Обработката завършва в този ред, другите последващи редове се игнорират."
 
 #: src/dialogs/dialog-stf.glade.h:36
 msgid "S_ee two separators as one"
@@ -19759,7 +19585,8 @@ msgstr "Разглежда два подходящи индикатори кат
 #: src/dialogs/dialog-stf.glade.h:39
 msgid ""
 "See two successive text indicators as one that does not terminate the cell."
-msgstr "Разглежда два подходящи индикатори като един непрекъсващ клетката."
+msgstr ""
+"Разглежда два подходящи индикатори като един непрекъсващ клетката."
 
 #: src/dialogs/dialog-stf.glade.h:40
 msgid "Semicolo_n (;)"
@@ -19825,7 +19652,7 @@ msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:53
 msgid "Trim:"
-msgstr "Подрежда:"
+msgstr "Подреждане:"
 
 #: src/dialogs/dialog-stf.glade.h:54
 msgid "_Adjacent text indicators escaped"
@@ -19838,7 +19665,7 @@ msgstr "Автоматично Разпознаване на Колони"
 
 #: src/dialogs/dialog-stf.glade.h:56
 msgid "_Clear"
-msgstr "_Изчиства"
+msgstr "_Изчистване"
 
 #: src/dialogs/dialog-stf.glade.h:57
 msgid "_Colon (:)"
@@ -19924,9 +19751,8 @@ msgid "Display \"%s\" could not be opened."
 msgstr ""
 
 #: src/dialogs/dialog-view.c:166
-#, fuzzy
 msgid "This screen"
-msgstr "Дискретно"
+msgstr "Този екран"
 
 #: src/dialogs/dialog-view.c:167
 #, c-format
@@ -19934,9 +19760,9 @@ msgid "Screen %d [This screen]"
 msgstr ""
 
 #: src/dialogs/dialog-view.c:168
-#, fuzzy, c-format
+#, c-format
 msgid "Screen %d"
-msgstr "Лист%d"
+msgstr "Екран %d"
 
 #: src/dialogs/dialog-zoom.glade.h:4
 #, no-c-format
@@ -19995,7 +19821,7 @@ msgstr "Експоненциално Изглаждане"
 
 #: src/dialogs/exp-smoothing.glade.h:12
 msgid "_Damping factor:"
-msgstr "_фактор на Забавяне:"
+msgstr "_Фактор на Забавяне:"
 
 #: src/dialogs/exp-smoothing.glade.h:20 src/dialogs/moving-averages.glade.h:20
 msgid "_Standard Errors"
@@ -20037,9 +19863,8 @@ msgid "Stop Value: "
 msgstr "_p Стойност:"
 
 #: src/dialogs/fill-series.glade.h:15
-#, fuzzy
 msgid "Type:"
-msgstr "_Тип:"
+msgstr "Тип:"
 
 #: src/dialogs/fill-series.glade.h:16
 msgid "_Date"
@@ -20061,7 +19886,6 @@ msgid "_Month"
 msgstr "*Пнд"
 
 #: src/dialogs/fill-series.glade.h:23
-#, fuzzy
 msgid "_Series"
 msgstr "_Серии"
 
@@ -20071,9 +19895,8 @@ msgid "_Weekday"
 msgstr "Сряда"
 
 #: src/dialogs/fill-series.glade.h:25
-#, fuzzy
 msgid "_Year"
-msgstr "И_зчиства"
+msgstr "_Година"
 
 #: src/dialogs/fill-series.glade.h:26
 #, fuzzy
@@ -20156,9 +19979,8 @@ msgid "Negative number _format:"
 msgstr "Отрицателно число:"
 
 #: src/dialogs/format-selector.glade.h:14
-#, fuzzy
 msgid "Preview:"
-msgstr "Предварителен преглед"
+msgstr "Предварителен преглед:"
 
 #: src/dialogs/format-selector.glade.h:15
 msgid "S_ymbol:"
@@ -20189,9 +20011,8 @@ msgid "I_nverse"
 msgstr "Ин_вертира"
 
 #: src/dialogs/function-select.glade.h:1
-#, fuzzy
 msgid "Category"
-msgstr "_Категории"
+msgstr "Категориия"
 
 #: src/dialogs/function-select.glade.h:4
 msgid "Function Selector"
@@ -20239,7 +20060,7 @@ msgstr "_По изменение на Клетка:"
 
 #: src/dialogs/goalseek.glade.h:11
 msgid "_Set Cell:"
-msgstr "_Задава Клетка:"
+msgstr "_Задаване на Клетка:"
 
 #: src/dialogs/goalseek.glade.h:12
 msgid "_To Value:"
@@ -20247,7 +20068,7 @@ msgstr "_На Стойност:"
 
 #: src/dialogs/goto.glade.h:1
 msgid "Go To..."
-msgstr "Отиди на..."
+msgstr "Отиване на..."
 
 #: src/dialogs/hf-config.glade.h:1
 msgid "Enter the format strings for each section:"
@@ -20369,14 +20190,12 @@ msgid "<small>Optional</small>"
 msgstr ""
 
 #: src/dialogs/hyperlink.glade.h:3
-#, fuzzy
 msgid "Email _Address:"
-msgstr "Адрес"
+msgstr "Ел. _Поща:"
 
 #: src/dialogs/hyperlink.glade.h:4
-#, fuzzy
 msgid "HyperLink"
-msgstr "_Премахва Текуща"
+msgstr "Хипервръзка"
 
 #: src/dialogs/hyperlink.glade.h:5
 #, fuzzy
@@ -20384,14 +20203,12 @@ msgid "Target _Range:"
 msgstr "Регион на Обединение:"
 
 #: src/dialogs/hyperlink.glade.h:6
-#, fuzzy
 msgid "_File:"
-msgstr "_Файл"
+msgstr "_Файл:"
 
 #: src/dialogs/hyperlink.glade.h:7
-#, fuzzy
 msgid "_Subject:"
-msgstr "Тема за"
+msgstr "_Тема:"
 
 #: src/dialogs/hyperlink.glade.h:8
 #, fuzzy
@@ -20417,7 +20234,7 @@ msgstr "Вмъква клетки"
 
 #: src/dialogs/insert-cells.glade.h:4
 msgid "Shift cells _down"
-msgstr "Премества клет_ките надолу"
+msgstr "Преместване на клет_ките надолу"
 
 #: src/dialogs/insert-cells.glade.h:5
 #, fuzzy
@@ -20426,7 +20243,7 @@ msgstr "Вмъква _колона(и)"
 
 #: src/dialogs/insert-cells.glade.h:6
 msgid "_Shift cells right"
-msgstr "Премест_ва клетките в дясно"
+msgstr "Премест_ване на клетките в дясно"
 
 #: src/dialogs/mean-tests.glade.h:6
 msgid "E_qual"
@@ -20473,7 +20290,7 @@ msgstr "Ал_фа ="
 
 #: src/dialogs/mean-tests.glade.h:21
 msgid "_Known"
-msgstr "_Известно"
+msgstr "_Известни"
 
 #: src/dialogs/mean-tests.glade.h:25
 msgid "_Paired"
@@ -20490,18 +20307,16 @@ msgid "_Populations"
 msgstr "_Опции"
 
 #: src/dialogs/mean-tests.glade.h:28 src/dialogs/variance-tests.glade.h:17
-#, fuzzy
 msgid "_Test"
-msgstr "Тест"
+msgstr "_Тест"
 
 #: src/dialogs/mean-tests.glade.h:29
 msgid "_Unequal"
 msgstr "Не_равни"
 
 #: src/dialogs/mean-tests.glade.h:30
-#, fuzzy
 msgid "_Unknown"
-msgstr "Неизвестен"
+msgstr "_Неизвестен"
 
 #: src/dialogs/mean-tests.glade.h:31
 #, fuzzy
@@ -20515,12 +20330,11 @@ msgstr "Регион на Обединение:"
 
 #: src/dialogs/merge.glade.h:2
 msgid "Merge..."
-msgstr "Обединява..."
+msgstr "Обединяване..."
 
 #: src/dialogs/merge.glade.h:3
-#, fuzzy
 msgid "_Merge"
-msgstr "Обединение"
+msgstr "_Сливане"
 
 #: src/dialogs/moving-averages.glade.h:2
 msgid "3"
@@ -20536,18 +20350,16 @@ msgid "Moving Average"
 msgstr "Пълзящо средно"
 
 #: src/dialogs/names.glade.h:2
-#, fuzzy
 msgid "Available Names"
-msgstr "Налични листа"
+msgstr "Налични имена"
 
 #: src/dialogs/names.glade.h:3
 msgid "Define names"
 msgstr "Дифинира имена"
 
 #: src/dialogs/names.glade.h:4
-#, fuzzy
 msgid "Definition"
-msgstr "_Назначение"
+msgstr "Дефиниция"
 
 #: src/dialogs/names.glade.h:5
 msgid "Workbook"
@@ -20567,7 +20379,7 @@ msgstr "_Обсег:"
 
 #: src/dialogs/names.glade.h:11
 msgid "_Update"
-msgstr "_Обновява"
+msgstr "_Обновяване"
 
 #: src/dialogs/pivottable.glade.h:1
 msgid "Layout"
@@ -20586,61 +20398,52 @@ msgid "Subtotal By"
 msgstr ""
 
 #: src/dialogs/pivottable.glade.h:6
-#, fuzzy
 msgid "_Add:"
-msgstr "_Добавя"
+msgstr "_Добавяне:"
 
 #: src/dialogs/pivottable.glade.h:7
-#, fuzzy
 msgid "_Column"
-msgstr "_Колони"
+msgstr "_Колона"
 
 #: src/dialogs/pivottable.glade.h:9
-#, fuzzy
 msgid "_Down"
-msgstr "_Известно"
+msgstr "_Надолу"
 
 #: src/dialogs/pivottable.glade.h:10
-#, fuzzy
 msgid "_Format"
-msgstr "_Формати"
+msgstr "_Форматиране"
 
 #: src/dialogs/pivottable.glade.h:11
-#, fuzzy
 msgid "_Page"
-msgstr "Страница"
+msgstr "_Страница"
 
 #: src/dialogs/pivottable.glade.h:14
-#, fuzzy
 msgid "_Up"
-msgstr "_Обновява"
+msgstr "_Нагоре"
 
 #: src/dialogs/plugin-manager.glade.h:2
 msgid "Activate _new plugins by default"
-msgstr "Активира нов _plugins по подразбиране"
+msgstr "Активиране на нови _plugin-и по подразбиране"
 
 #: src/dialogs/plugin-manager.glade.h:3
-#, fuzzy
 msgid "Directories"
-msgstr "_Директории"
+msgstr "Директории"
 
 #: src/dialogs/plugin-manager.glade.h:4
 msgid "Do _not activate this plugin next time I start Gnumeric"
 msgstr ""
 
 #: src/dialogs/plugin-manager.glade.h:5
-#, fuzzy
 msgid "Plugin Details"
-msgstr "Подробности за _Plugin "
+msgstr "Подробности за Plugin"
 
 #: src/dialogs/plugin-manager.glade.h:6
-#, fuzzy
 msgid "Plugin List"
-msgstr "Списък на _plugins"
+msgstr "Списък на plugin-и"
 
 #: src/dialogs/plugin-manager.glade.h:7
 msgid "Plugin Manager"
-msgstr "Мениджър на Plugin "
+msgstr "Мениджър на Plugin-и"
 
 #: src/dialogs/plugin-manager.glade.h:8
 #, fuzzy
@@ -20659,18 +20462,16 @@ msgstr ""
 "след престартиране на Gnumeric?"
 
 #: src/dialogs/plugin-manager.glade.h:10
-#, fuzzy
 msgid "_Activate All"
-msgstr "_Активира всички plugins"
+msgstr "_Активиране на всички"
 
 #: src/dialogs/plugin-manager.glade.h:11
-#, fuzzy
 msgid "_Deactivate All"
-msgstr "_Деактивира всички plugins"
+msgstr "_Деактивиране на всички"
 
 #: src/dialogs/preferences.glade.h:1
 msgid "Gnumeric Preferences"
-msgstr "Gnumeric Настройки"
+msgstr "Настройки на Gnumeric"
 
 #: src/dialogs/print.glade.h:2
 #, fuzzy, no-c-format
@@ -20765,7 +20566,7 @@ msgstr "_Долу, след това в дясно"
 
 #: src/dialogs/print.glade.h:28
 msgid "_Fit to:"
-msgstr "_Изпълва до:"
+msgstr "_Изпълване до:"
 
 #: src/dialogs/print.glade.h:29
 msgid "_Footer:"
@@ -20793,7 +20594,7 @@ msgstr "_Единици:"
 
 #: src/dialogs/print.glade.h:35
 msgid "_Vertically"
-msgstr "_Вртикално"
+msgstr "_Вертикално"
 
 #: src/dialogs/print.glade.h:36
 #, fuzzy
@@ -20905,14 +20706,12 @@ msgid "Add Scenario"
 msgstr ""
 
 #: src/dialogs/scenario-add.glade.h:3
-#, fuzzy
 msgid "Comment:"
-msgstr "Коментар"
+msgstr "Коментар:"
 
 #: src/dialogs/scenario-add.glade.h:4
-#, fuzzy
 msgid "Scenario name:"
-msgstr "Име на Серии"
+msgstr "Име на сценария:"
 
 #: src/dialogs/scenario-manager.glade.h:3
 #, fuzzy
@@ -20945,9 +20744,8 @@ msgid "Scenario Manager"
 msgstr "Мениджър на Plugin "
 
 #: src/dialogs/scenario-manager.glade.h:12
-#, fuzzy
 msgid "Show"
-msgstr "Сянка"
+msgstr "Показване"
 
 #: src/dialogs/scenario-manager.glade.h:13
 #: src/dialogs/workbook-attr.glade.h:13
@@ -21058,11 +20856,11 @@ msgstr "Търсене и замяна само в указаната облас
 
 #: src/dialogs/search-replace.glade.h:29 src/dialogs/search.glade.h:17
 msgid "Search column by column"
-msgstr "Търси колона по колона"
+msgstr "Търсене колона по колона"
 
 #: src/dialogs/search-replace.glade.h:30 src/dialogs/search.glade.h:21
 msgid "Search line by line"
-msgstr "Търси ред по ред"
+msgstr "Търсене ред по ред"
 
 #: src/dialogs/search-replace.glade.h:31
 msgid "Skip cells that that would result in errors"
@@ -21119,7 +20917,7 @@ msgstr "_Авария"
 
 #: src/dialogs/search-replace.glade.h:44 src/dialogs/search.glade.h:33
 msgid "_Ignore case"
-msgstr "_Игнорира малки/големи букви"
+msgstr "_Игнориране на малки/големи букви"
 
 #: src/dialogs/search-replace.glade.h:45
 msgid "_Location"
@@ -21159,7 +20957,7 @@ msgstr ""
 
 #: src/dialogs/search-replace.glade.h:54
 msgid "_Search for"
-msgstr "_Търси за"
+msgstr "_Търсене за"
 
 #: src/dialogs/search-replace.glade.h:55 src/dialogs/search.glade.h:40
 msgid "_Strings"
@@ -21171,7 +20969,7 @@ msgstr ""
 
 #: src/dialogs/search.glade.h:3
 msgid "Dismiss search center"
-msgstr "Отхвърля център за търсене"
+msgstr "Отхвърляне на центъра за търсене"
 
 #: src/dialogs/search.glade.h:5
 msgid "Find text within cell comments"
@@ -21199,9 +20997,8 @@ msgid "Match _whole words only"
 msgstr "Съвпадение _на цяла дума"
 
 #: src/dialogs/search.glade.h:11
-#, fuzzy
 msgid "Matches"
-msgstr "_Съвпадения"
+msgstr "Съвпадения"
 
 #: src/dialogs/search.glade.h:12
 msgid "Miscellaneous"
@@ -21213,19 +21010,19 @@ msgstr "Център за Търсене"
 
 #: src/dialogs/search.glade.h:16
 msgid "Search cells containing"
-msgstr "Търси клетки съдържащи"
+msgstr "Търсене на клетки съдържащи"
 
 #: src/dialogs/search.glade.h:18
 msgid "Search in all cells in the workbook"
-msgstr "Търси във сички клетки на работната книга"
+msgstr "Търсене във всички клетки на работната книга"
 
 #: src/dialogs/search.glade.h:19
 msgid "Search in current sheet only"
-msgstr "Търси само в текущия лист"
+msgstr "Търсене само в текущия лист"
 
 #: src/dialogs/search.glade.h:20
 msgid "Search in specified range only"
-msgstr "Търси в зададен обхват само"
+msgstr "Търсене в зададен обхват само"
 
 #: src/dialogs/search.glade.h:22
 msgid "Search text is"
@@ -21233,11 +21030,11 @@ msgstr "Търсеният текст е"
 
 #: src/dialogs/search.glade.h:23
 msgid "Show next match"
-msgstr "Показва следващи съвпадения"
+msgstr "Показване следващите съвпадения"
 
 #: src/dialogs/search.glade.h:24
 msgid "Show previous match"
-msgstr "Показва предишни съвпадения"
+msgstr "Показване на предишните съвпадения"
 
 #: src/dialogs/search.glade.h:25
 msgid "Start search"
@@ -21248,14 +21045,12 @@ msgid "_Range"
 msgstr "_Диапазон"
 
 #: src/dialogs/search.glade.h:37
-#, fuzzy
 msgid "_Results"
-msgstr "Резултат"
+msgstr "Резултатати"
 
 #: src/dialogs/search.glade.h:39
-#, fuzzy
 msgid "_Search for:"
-msgstr "_Търси за"
+msgstr "_Търсене за:"
 
 #: src/dialogs/sheet-order.glade.h:1
 msgid "Manage Sheets..."
@@ -21276,21 +21071,20 @@ msgid "Shuffle Method: "
 msgstr "Метод на Избор:"
 
 #: src/dialogs/shuffle.glade.h:4
-#, fuzzy
 msgid "_Area"
-msgstr "_Области"
+msgstr "_Област"
 
 #: src/dialogs/simulation.glade.h:1
-#, fuzzy
 msgid ""
 "   \n"
 "   <span weight=\"bold\">Rounds</span>"
-msgstr "Обобщена Информация за Документ"
+msgstr ""
+"   \n"
+"   <span·weight=\"bold\">Закръгляния</span>"
 
 #: src/dialogs/simulation.glade.h:3
-#, fuzzy
 msgid "   <span weight=\"bold\">Limits</span>"
-msgstr "Обобщена Информация за Документ"
+msgstr "   <span·weight=\"bold\">Ограничения</span>"
 
 #: src/dialogs/simulation.glade.h:5
 msgid "Find Max."
@@ -21362,9 +21156,8 @@ msgid "_Options"
 msgstr "_Опции"
 
 #: src/dialogs/simulation.glade.h:24
-#, fuzzy
 msgid "_Variables"
-msgstr "Променливи"
+msgstr "_Променливи"
 
 #: src/dialogs/so-arrow.glade.h:1
 msgid "Arrow Length:"
@@ -21407,9 +21200,8 @@ msgid "Checkbox Properties"
 msgstr "_Настройки"
 
 #: src/dialogs/so-checkbox.glade.h:3 src/dialogs/so-frame.glade.h:3
-#, fuzzy
 msgid "Label:"
-msgstr "Етикет"
+msgstr "Етикет:"
 
 #: src/dialogs/so-checkbox.glade.h:4 src/dialogs/so-scrollbar.glade.h:2
 #, fuzzy
@@ -21441,24 +21233,20 @@ msgid "Frame Properties"
 msgstr "_Настройки"
 
 #: src/dialogs/so-scrollbar.glade.h:1
-#, fuzzy
 msgid "Increment:"
-msgstr "Увеличение"
+msgstr "Увеличение:"
 
 #: src/dialogs/so-scrollbar.glade.h:3
-#, fuzzy
 msgid "Max:"
-msgstr "Ма_кс:"
+msgstr "Макс:"
 
 #: src/dialogs/so-scrollbar.glade.h:4
-#, fuzzy
 msgid "Min:"
-msgstr "М_ин:"
+msgstr "Мин:"
 
 #: src/dialogs/so-scrollbar.glade.h:5
-#, fuzzy
 msgid "Page:"
-msgstr "Страница"
+msgstr "Страница:"
 
 #: src/dialogs/so-scrollbar.glade.h:6
 #, fuzzy
@@ -21525,9 +21313,8 @@ msgid "Max Time (sec.):"
 msgstr "Макс. _Време (сек.)"
 
 #: src/dialogs/solver.glade.h:17
-#, fuzzy
 msgid "Model"
-msgstr "Режим"
+msgstr "Модел"
 
 #: src/dialogs/solver.glade.h:19
 msgid "P_rogram"
@@ -21538,7 +21325,6 @@ msgid "Parameters"
 msgstr "Параметри"
 
 #: src/dialogs/solver.glade.h:21
-#, fuzzy
 msgid "Reports"
 msgstr "Рапорти"
 
@@ -21578,7 +21364,7 @@ msgstr "_Лява Страна:"
 
 #: src/dialogs/solver.glade.h:33
 msgid "_Limits"
-msgstr "_Лимити"
+msgstr "_Ограничения"
 
 #: src/dialogs/solver.glade.h:34
 msgid "_Linear Model (LP/MILP)"
@@ -21606,12 +21392,11 @@ msgstr "_Чувствителност"
 
 #: src/dialogs/solver.glade.h:41
 msgid "_Set Target Cell:       "
-msgstr "_Задава Целева Клетка:      "
+msgstr "_Задаване на Целева Клетка:      "
 
 #: src/dialogs/summary.glade.h:2
-#, fuzzy
 msgid "<span weight=\"bold\">Document Summary Information</span>"
-msgstr "Обобщена Информация за Документ"
+msgstr "<span weight=\"bold\">Обобщена Информация за Документ</span>"
 
 #: src/dialogs/summary.glade.h:3
 msgid "C_omments:"
@@ -21622,9 +21407,8 @@ msgid "Com_pany:"
 msgstr "К_омпания:"
 
 #: src/dialogs/summary.glade.h:5
-#, fuzzy
 msgid "File:"
-msgstr "_Файл"
+msgstr "Файл:"
 
 #: src/dialogs/summary.glade.h:7
 msgid "_Author:"
@@ -21640,7 +21424,7 @@ msgstr "_Ключови думи:"
 
 #: src/dialogs/summary.glade.h:10
 msgid "_Manager:"
-msgstr "_Управител:"
+msgstr "_Ръководител:"
 
 #: src/dialogs/summary.glade.h:11
 msgid "_Title:"
@@ -21696,27 +21480,24 @@ msgid "Testing Equality of 2 Variances (F-Test)"
 msgstr "Проверка на Равенството на две променливи (F-Тест)"
 
 #: src/dialogs/view.glade.h:2
-#, fuzzy
 msgid "Create New View"
-msgstr "Създава линия"
+msgstr "Създаване на нов изглед"
 
 #: src/dialogs/view.glade.h:3
 msgid "Elsewhere"
 msgstr ""
 
 #: src/dialogs/view.glade.h:4
-#, fuzzy
 msgid "Location"
-msgstr "_Местоположение"
+msgstr "Местоположение"
 
 #: src/dialogs/view.glade.h:5
 msgid "New view will be opened on specified screen"
 msgstr ""
 
 #: src/dialogs/view.glade.h:6
-#, fuzzy
 msgid "Sharing"
-msgstr "Низ"
+msgstr "Споделяне"
 
 #: src/dialogs/view.glade.h:7
 msgid "Views will have separate cursor locations"
@@ -21742,14 +21523,12 @@ msgid "A_uto Complete Text in Cells"
 msgstr "_Автозавършване на Текст в Клетки"
 
 #: src/dialogs/workbook-attr.glade.h:3
-#, fuzzy
 msgid "A_utomatic"
-msgstr "Автоматично"
+msgstr "Авт_оматично"
 
 #: src/dialogs/workbook-attr.glade.h:4
-#, fuzzy
 msgid "Calculation"
-msgstr "Табулация"
+msgstr "Изчисление"
 
 #: src/dialogs/workbook-attr.glade.h:5
 #, fuzzy
@@ -21771,9 +21550,8 @@ msgid "Notebook _Tabs for Sheets"
 msgstr ""
 
 #: src/dialogs/workbook-attr.glade.h:9
-#, fuzzy
 msgid "Pa_ssword:"
-msgstr "Парола:"
+msgstr "Па_рола:"
 
 #: src/dialogs/workbook-attr.glade.h:11
 #, fuzzy
@@ -21806,14 +21584,13 @@ msgid "_Protect Workbook"
 msgstr "Но_ва Работна Книга"
 
 #: src/dialogs/workbook-attr.glade.h:18
-#, fuzzy
 msgid "_Vertical Scrollbar"
-msgstr "_Вертикално Скролиране"
+msgstr "_Вертикална лента за сктролиране"
 
 #: src/expr-name.c:354
 #, c-format
 msgid "'%s' has a circular reference"
-msgstr "'%s' има цикличен указател"
+msgstr "\"%s\" има цикличен указател"
 
 #: src/expr-name.c:377 src/expr-name.c:557
 #, fuzzy, c-format
@@ -21844,15 +21621,13 @@ msgstr "Неправилен файл шаблон: %s"
 
 #: src/file.c:481
 msgid "Saving over old files of this type is disabled for safety."
-msgstr ""
-"Запазването върху стари файлове за този тип е забранено поради безопасност."
+msgstr "Запазването върху стари файлове за този тип е забранено поради безопасност."
 
 #: src/file.c:483
 msgid ""
 "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
-"Вие може да изключите тази възможност като редактирате съответния plugin.xml "
-"файл."
+"Вие може да изключите тази възможност като редактирате съответния plugin.xml файл."
 
 #: src/format-template.c:468
 msgid "Error while trying to load autoformat template"
@@ -21867,9 +21642,8 @@ msgid "Is not an autoformat template file"
 msgstr "Не е файл шаблон за автоформат"
 
 #: src/format-template.c:494
-#, fuzzy
 msgid "Invalid xml file. Tree is empty?"
-msgstr "Грешен xml файл. Дървото е празно ?"
+msgstr "Грешен xml файл. Дървото е празно?"
 
 #: src/format-template.c:827
 #, c-format
@@ -21897,44 +21671,36 @@ msgid "FALSE"
 msgstr "ЛЪЖА"
 
 #: src/format.c:659
-#, fuzzy
 msgid "Black"
-msgstr "Допуск"
+msgstr "Черно"
 
 #: src/format.c:660
-#, fuzzy
 msgid "Blue"
-msgstr "син"
+msgstr "Синьо"
 
 #: src/format.c:661
-#, fuzzy
 msgid "Cyan"
-msgstr "циан"
+msgstr "Циан"
 
 #: src/format.c:662
-#, fuzzy
 msgid "Green"
-msgstr "зелен"
+msgstr "Зелено"
 
 #: src/format.c:663
-#, fuzzy
 msgid "Magenta"
-msgstr "пурпурен"
+msgstr "Пурпурно"
 
 #: src/format.c:664
-#, fuzzy
 msgid "Red"
-msgstr "Напред"
+msgstr "Червено"
 
 #: src/format.c:665
-#, fuzzy
 msgid "White"
-msgstr "бяло"
+msgstr "Бяло"
 
 #: src/format.c:666
-#, fuzzy
 msgid "Yellow"
-msgstr "жълто"
+msgstr "Жълто"
 
 #. Array of arrays ??
 #: src/format.c:2082
@@ -21951,43 +21717,36 @@ msgid "United Arab Emirates, Dirhams"
 msgstr ""
 
 #: src/formats.c:392
-#, fuzzy
 msgid "Afghanistan, Afghanis"
-msgstr "Афганистански авгани"
+msgstr "Афганистански, авгани"
 
 #: src/formats.c:393
-#, fuzzy
 msgid "Albania, Leke"
-msgstr "Албански лек"
+msgstr "Албански, лек"
 
 #: src/formats.c:394
 msgid "Armenia, Drams"
 msgstr ""
 
 #: src/formats.c:395
-#, fuzzy
 msgid "Netherlands Antilles, Guilders"
-msgstr "Антилиан гуилдер"
+msgstr "Холандски Антилиан, гуилдер"
 
 #: src/formats.c:396
-#, fuzzy
 msgid "Angola, Kwanza"
-msgstr "Анголска кванза"
+msgstr "Ангола, кванза"
 
 #: src/formats.c:397
-#, fuzzy
 msgid "Argentina, Pesos"
-msgstr "Аржентинско песо"
+msgstr "Аржентина, песо"
 
 #: src/formats.c:398
-#, fuzzy
 msgid "Australia, Dollars"
-msgstr "Австралийски долар"
+msgstr "Австралия, долар"
 
 #: src/formats.c:399
-#, fuzzy
 msgid "Aruba, Guilders"
-msgstr "Арубански гуилдер"
+msgstr "Арубания, гуилдер"
 
 #: src/formats.c:400
 msgid "Azerbaijan, Manats"
@@ -21998,79 +21757,64 @@ msgid "Bosnia and Herzegovina, Convertible Marka"
 msgstr ""
 
 #: src/formats.c:402
-#, fuzzy
 msgid "Barbados, Dollars"
-msgstr "Барбадоски долар"
+msgstr "Барбадос, долар"
 
 #: src/formats.c:403
-#, fuzzy
 msgid "Bangladesh, Taka"
-msgstr "Бангладешки така"
+msgstr "Бангладеш, така"
 
 #: src/formats.c:404
-#, fuzzy
 msgid "Bulgaria, Leva"
-msgstr "Български лев"
+msgstr "България, лев"
 
 #: src/formats.c:405
-#, fuzzy
 msgid "Bahrain, Dinars"
-msgstr "Бахрейнски динар"
+msgstr "Бахрейн, динар"
 
 #: src/formats.c:406
-#, fuzzy
 msgid "Burundi, Francs"
-msgstr "Бурундийски франк"
+msgstr "Бурунди, франк"
 
 #: src/formats.c:407
-#, fuzzy
 msgid "Bermuda, Dollars"
-msgstr "Бермудски долар"
+msgstr "Бермуди, долар"
 
 #: src/formats.c:408
-#, fuzzy
 msgid "Brunei Darussalam, Dollars"
-msgstr "Брунейски долар"
+msgstr "Бруней, долар"
 
 #: src/formats.c:409
-#, fuzzy
 msgid "Bolivia, Bolivianos"
-msgstr "Боливийско боливано"
+msgstr "Боливия, боливано"
 
 #: src/formats.c:410
-#, fuzzy
 msgid "Brazil, Brazil Real"
-msgstr "Бразилски реал"
+msgstr "Бразилия, реал"
 
 #: src/formats.c:411
-#, fuzzy
 msgid "Bahamas, Dollars"
-msgstr "бахамски долар"
+msgstr "Бахами, долар"
 
 #: src/formats.c:412
-#, fuzzy
 msgid "Bhutan, Ngultrum"
-msgstr "Бутански нгултрум"
+msgstr "Бутан, нгултрум"
 
 #: src/formats.c:413
-#, fuzzy
 msgid "Botswana, Pulas"
-msgstr "Ботсванска рула"
+msgstr "Ботсвана, пула"
 
 #: src/formats.c:414
-#, fuzzy
 msgid "Belarus, Rubles"
-msgstr "Беларуска рубла"
+msgstr "Беларус, рубла"
 
 #: src/formats.c:415
-#, fuzzy
 msgid "Belize, Dollars"
-msgstr "Билизки долар"
+msgstr "Билиз, долар"
 
 #: src/formats.c:416
-#, fuzzy
 msgid "Canada, Dollars"
-msgstr "Канадски долар"
+msgstr "Канада, долар"
 
 #: src/formats.c:417
 msgid "Congo/Kinshasa, Congolese Francs"
@@ -22081,95 +21825,80 @@ msgid "Switzerland, Francs"
 msgstr ""
 
 #: src/formats.c:419
-#, fuzzy
 msgid "Chile, Pesos"
-msgstr "Чилийско песо"
+msgstr "Чили, песо"
 
 #: src/formats.c:420
-#, fuzzy
 msgid "China, Yuan Renminbi"
-msgstr "Китайски юан"
+msgstr "Китай, юан"
 
 #: src/formats.c:421
-#, fuzzy
 msgid "Colombia, Pesos"
-msgstr "Колумбийско песо"
+msgstr "Колумбия, песо"
 
 #: src/formats.c:422
-#, fuzzy
 msgid "Costa Rica, Colones"
-msgstr "Коста Рика колон"
+msgstr "Коста Рика, колон"
 
 #: src/formats.c:423
-#, fuzzy
 msgid "Cuba, Pesos"
-msgstr "Кубинско песо"
+msgstr "Куба, песо"
 
 #: src/formats.c:424
-#, fuzzy
 msgid "Cape Verde, Escudos"
-msgstr "Капе Верде ескудо"
+msgstr "Капе Верде, ескудо"
 
 #: src/formats.c:425
-#, fuzzy
 msgid "Cyprus, Pounds"
-msgstr "Кипърски паунд"
+msgstr "Кипър, паунд"
 
 #: src/formats.c:426
-#, fuzzy
 msgid "Czech Republic, Koruny"
-msgstr "Чешка крона"
+msgstr "Чехия, крона"
 
 #: src/formats.c:427
-#, fuzzy
 msgid "Djibouti, Francs"
-msgstr "Джибутски франк"
+msgstr "Джибути, франк"
 
 #: src/formats.c:428
 msgid "Denmark, Kroner"
 msgstr ""
 
 #: src/formats.c:429
-#, fuzzy
 msgid "Dominican Republic, Pesos"
-msgstr "Доминиканско песо"
+msgstr "Доминиканска Република, песо"
 
 #: src/formats.c:430
-#, fuzzy
 msgid "Algeria, Algeria Dinars"
-msgstr "Алжирски динар"
+msgstr "Алжир, алжирски динар"
 
 #: src/formats.c:431
 msgid "Estonia, Krooni"
 msgstr ""
 
 #: src/formats.c:432
-#, fuzzy
 msgid "Egypt, Pounds"
-msgstr "Египетски паунд"
+msgstr "Египет, паунд"
 
 #: src/formats.c:433
 msgid "Eritrea, Nakfa"
 msgstr ""
 
 #: src/formats.c:434
-#, fuzzy
 msgid "Ethiopia, Birr"
-msgstr "Етиопски бир"
+msgstr "Етиопия, бир"
 
 #: src/formats.c:435
 msgid "Euro Member Countries, Euro"
 msgstr ""
 
 #: src/formats.c:436
-#, fuzzy
 msgid "Fiji, Dollars"
-msgstr "Футжи долар"
+msgstr "Фиджи, долар"
 
 #: src/formats.c:437
-#, fuzzy
 msgid "Falkland Islands (Malvinas), Pounds"
-msgstr "Фолкландски паунд"
+msgstr "Фолкландски оствори, паунд"
 
 #: src/formats.c:438
 msgid "United Kingdom, Pounds"
@@ -22180,122 +21909,100 @@ msgid "Georgia, Lari"
 msgstr ""
 
 #: src/formats.c:440
-#, fuzzy
 msgid "Guernsey, Pounds"
-msgstr "Судански паунд"
+msgstr "Судан, паунд"
 
 #: src/formats.c:441
-#, fuzzy
 msgid "Ghana, Cedis"
-msgstr "Ганийски цеди"
+msgstr "Гана, цеди"
 
 #: src/formats.c:442
-#, fuzzy
 msgid "Gibraltar, Pounds"
-msgstr "Гибралтарски паунд"
+msgstr "Гибралтар, паунд"
 
 #: src/formats.c:443
-#, fuzzy
 msgid "Gambia, Dalasi"
-msgstr "Гамбийски даласи"
+msgstr "Гамбия, даласи"
 
 #: src/formats.c:444
-#, fuzzy
 msgid "Guinea, Francs"
-msgstr "Гвинеийски франк"
+msgstr "Гвинея, франк"
 
 #: src/formats.c:445
-#, fuzzy
 msgid "Guatemala, Quetzales"
-msgstr "Гватемалски куетзал"
+msgstr "Гватемала, куетзал"
 
 #: src/formats.c:446
-#, fuzzy
 msgid "Guyana, Dollars"
-msgstr "Гвиански долар"
+msgstr "Гвиана, долар"
 
 #: src/formats.c:447
-#, fuzzy
 msgid "Hong Kong, Dollars"
-msgstr "Хонк Конгски долар"
+msgstr "Хонк Конг, долар"
 
 #: src/formats.c:448
-#, fuzzy
 msgid "Honduras, Lempiras"
-msgstr "Хондураска лемпира"
+msgstr "Хондурас, лемпира"
 
 #: src/formats.c:449
-#, fuzzy
 msgid "Croatia, Kuna"
-msgstr "Хърватска куна"
+msgstr "Хърватско, куна"
 
 #: src/formats.c:450
-#, fuzzy
 msgid "Haiti, Gourdes"
-msgstr "Хаитиански гоуребе"
+msgstr "Хаити, гоуребе"
 
 #: src/formats.c:451
-#, fuzzy
 msgid "Hungary, Forint"
-msgstr "Унгарски форинт"
+msgstr "Унгария, форинт"
 
 #: src/formats.c:452
-#, fuzzy
 msgid "Indonesia, Rupiahs"
-msgstr "Индонезийски рупии"
+msgstr "Индонезия, рупии"
 
 #: src/formats.c:453
-#, fuzzy
 msgid "Israel, New Shekels"
-msgstr "Израелски шекел"
+msgstr "Израел, шекел"
 
 #: src/formats.c:454
 msgid "Isle of Man, Pounds"
 msgstr ""
 
 #: src/formats.c:455
-#, fuzzy
 msgid "India, Rupees"
-msgstr "Индийски рупи"
+msgstr "Индия, рупия"
 
 #: src/formats.c:456
-#, fuzzy
 msgid "Iraq, Dinars"
-msgstr "Иракски динар"
+msgstr "Ирак, динар"
 
 #: src/formats.c:457
-#, fuzzy
 msgid "Iran, Rials"
-msgstr "Ирански риал"
+msgstr "Иран, риал"
 
 #: src/formats.c:458
-#, fuzzy
 msgid "Iceland, Kronur"
-msgstr "Исландска крона"
+msgstr "Исландия, крона"
 
 #: src/formats.c:459
 msgid "Jersey, Pounds"
 msgstr ""
 
 #: src/formats.c:460
-#, fuzzy
 msgid "Jamaica, Dollars"
-msgstr "Ямайски долар"
+msgstr "Ямайка, долар"
 
 #: src/formats.c:461
-#, fuzzy
 msgid "Jordan, Dinars"
-msgstr "Йордански динар"
+msgstr "Йордания, динар"
 
 #: src/formats.c:462
-#, fuzzy
 msgid "Japan, Yen"
-msgstr "Японска йена"
+msgstr "Япония, йена"
 
 #: src/formats.c:463
-#, fuzzy
 msgid "Kenya, Shillings"
-msgstr "Кенийски шилинг"
+msgstr "Кения, шилинг"
 
 #: src/formats.c:464
 msgid "Kyrgyzstan, Soms"
@@ -22306,9 +22013,8 @@ msgid "Cambodia, Riels"
 msgstr ""
 
 #: src/formats.c:466
-#, fuzzy
 msgid "Comoros, Francs"
-msgstr "Коморски франк"
+msgstr "Коморски, франк"
 
 #: src/formats.c:467
 msgid "Korea (North), Won"
@@ -22319,44 +22025,36 @@ msgid "Korea (South), Won"
 msgstr ""
 
 #: src/formats.c:469
-#, fuzzy
 msgid "Kuwait, Dinars"
-msgstr "Кувейтски динар"
+msgstr "Кувейт, динар"
 
 #: src/formats.c:470
-#, fuzzy
 msgid "Cayman Islands, Dollars"
-msgstr "каймански долар"
+msgstr "Каймански острови, долар"
 
 #: src/formats.c:471
-#, fuzzy
 msgid "Kazakstan, Tenge"
-msgstr "Пакистански рупи"
+msgstr "Казакстан, тенге"
 
 #: src/formats.c:472
-#, fuzzy
 msgid "Laos, Kips"
-msgstr "лаоски кип"
+msgstr "Лаос, кип"
 
 #: src/formats.c:473
-#, fuzzy
 msgid "Lebanon, Pounds"
-msgstr "Ливански паунд"
+msgstr "Ливан, паунд"
 
 #: src/formats.c:474
-#, fuzzy
 msgid "Sri Lanka, Rupees"
-msgstr "Шри Лански рупи"
+msgstr "Шри Ланска, рупии"
 
 #: src/formats.c:475
-#, fuzzy
 msgid "Liberia, Dollars"
-msgstr "Либерийски долар"
+msgstr "Либерия, долар"
 
 #: src/formats.c:476
-#, fuzzy
 msgid "Lesotho, Maloti"
-msgstr "Лесото лоти"
+msgstr "Лесото, малоти"
 
 #: src/formats.c:477
 msgid "Lithuania, Litai"
@@ -22367,184 +22065,152 @@ msgid "Latvia, Lati"
 msgstr ""
 
 #: src/formats.c:479
-#, fuzzy
 msgid "Libya, Dinars"
-msgstr "Либийски динар"
+msgstr "Либия, динар"
 
 #: src/formats.c:480
-#, fuzzy
 msgid "Morocco, Dirhams"
-msgstr "Марокански дирхам"
+msgstr "Мароко, дирхам"
 
 #: src/formats.c:481
-#, fuzzy
 msgid "Moldova, Lei"
-msgstr "Молдовска лея"
+msgstr "Молдова, лея"
 
 #: src/formats.c:482
-#, fuzzy
 msgid "Madagascar, Malagasy Francs"
-msgstr "Малагазийски франк"
+msgstr "Мадагаскар, малагазийски франк"
 
 #: src/formats.c:483
 msgid "Macedonia, Denars"
 msgstr ""
 
 #: src/formats.c:484
-#, fuzzy
 msgid "Myanmar (Burma), Kyats"
-msgstr "Майнмарски куати"
+msgstr "Майнмар, куати"
 
 #: src/formats.c:485
-#, fuzzy
 msgid "Mongolia, Tugriks"
-msgstr "Монголски тунгрик"
+msgstr "Монголия, тунгрик"
 
 #: src/formats.c:486
-#, fuzzy
 msgid "Macau, Patacas"
-msgstr "Макао патака"
+msgstr "Макао, патака"
 
 #: src/formats.c:487
-#, fuzzy
 msgid "Mauritania, Ouguiyas"
-msgstr "Мавритански оугуя"
+msgstr "Мавритания, оугуя"
 
 #: src/formats.c:488
-#, fuzzy
 msgid "Malta, Liri"
-msgstr "Малтийска лира"
+msgstr "Малта, лира"
 
 #: src/formats.c:489
-#, fuzzy
 msgid "Mauritius, Rupees"
-msgstr "Мавритски рупи"
+msgstr "Мавриций, рупи"
 
 #: src/formats.c:490
 msgid "Maldives (Maldive Islands), Rufiyaa"
 msgstr ""
 
 #: src/formats.c:491
-#, fuzzy
 msgid "Malawi, Kwachas"
-msgstr "Малависко квача"
+msgstr "Малави, квача"
 
 #: src/formats.c:492
-#, fuzzy
 msgid "Mexico, Pesos"
-msgstr "Мексиканско песо"
+msgstr "Мексико, песо"
 
 #: src/formats.c:493
-#, fuzzy
 msgid "Malaysia, Ringgits"
-msgstr "Малайзийски рингит"
+msgstr "Малайзия, рингит"
 
 #: src/formats.c:494
-#, fuzzy
 msgid "Mozambique, Meticais"
-msgstr "Мозамбикски метикал"
+msgstr "Мозамбик, метикал"
 
 #: src/formats.c:495
-#, fuzzy
 msgid "Namibia, Dollars"
-msgstr "Либерийски долар"
+msgstr "Намибия, долар"
 
 #: src/formats.c:496
-#, fuzzy
 msgid "Nigeria, Nairas"
-msgstr "Нигерийски ниар"
+msgstr "Нигерия, ниар"
 
 #: src/formats.c:497
-#, fuzzy
 msgid "Nicaragua, Gold Cordobas"
-msgstr "Никарагуански кордоба оро"
+msgstr "Никарагуа, златни кордоба"
 
 #: src/formats.c:498
-#, fuzzy
 msgid "Norway, Krone"
-msgstr "Норвежка крона"
+msgstr "Норвегия, крона"
 
 #: src/formats.c:499
-#, fuzzy
 msgid "Nepal, Nepal Rupees"
-msgstr "Непалски рупи"
+msgstr "Непал, рупи"
 
 #: src/formats.c:500
-#, fuzzy
 msgid "New Zealand, Dollars"
-msgstr "Новозеландски долар"
+msgstr "Нова Зеландия, долар"
 
 #: src/formats.c:501
 msgid "Oman, Rials"
 msgstr ""
 
 #: src/formats.c:502
-#, fuzzy
 msgid "Panama, Balboa"
-msgstr "Панамски балбоа"
+msgstr "Панама, балбоа"
 
 #: src/formats.c:503
 msgid "Peru, Nuevos Soles"
 msgstr ""
 
 #: src/formats.c:504
-#, fuzzy
 msgid "Papua New Guinea, Kina"
-msgstr "Кина на Папуа и Нова Гвинея"
+msgstr "Папуа и Нова Гвинея, кина"
 
 #: src/formats.c:505
-#, fuzzy
 msgid "Philippines, Pesos"
-msgstr "Филипинско песо"
+msgstr "Филипински острови, песо"
 
 #: src/formats.c:506
-#, fuzzy
 msgid "Pakistan, Rupees"
-msgstr "Пакистански рупи"
+msgstr "Пакистан, рупи"
 
 #: src/formats.c:507
 msgid "Poland, Zlotys"
 msgstr ""
 
 #: src/formats.c:508
-#, fuzzy
 msgid "Paraguay, Guarani"
-msgstr "Парагвайски гуарани"
+msgstr "Парагвай, гуарани"
 
 #: src/formats.c:509
-#, fuzzy
 msgid "Qatar, Rials"
-msgstr "Катарски реал"
+msgstr "Катар, реал"
 
 #: src/formats.c:510
-#, fuzzy
 msgid "Romania, Lei"
-msgstr "Румънска лея"
+msgstr "Румъния, леа"
 
 #: src/formats.c:511
-#, fuzzy
 msgid "Russia, Rubles"
-msgstr "Руска рубла"
+msgstr "Русия, рубла"
 
 #: src/formats.c:512
-#, fuzzy
 msgid "Rwanda, Rwanda Francs"
-msgstr "Руандийски франк"
+msgstr "Руанда, франк"
 
 #: src/formats.c:513
-#, fuzzy
 msgid "Saudi Arabia, Riyals"
-msgstr "Арабски риал"
+msgstr "Суадитска Арабия, риал"
 
 #: src/formats.c:514
-#, fuzzy
 msgid "Solomon Islands, Dollars"
-msgstr "Соломонски долар"
+msgstr "Соломонови острови, долар"
 
 #: src/formats.c:515
-#, fuzzy
 msgid "Seychelles, Rupees"
-msgstr "Сейшелски рупи"
+msgstr "Сейшелски острови, рупи"
 
 #: src/formats.c:516
 msgid "Sudan, Dinars"
@@ -22555,154 +22221,128 @@ msgid "Sweden, Kronor"
 msgstr ""
 
 #: src/formats.c:518
-#, fuzzy
 msgid "Singapore, Dollars"
-msgstr "Сингапурски долар"
+msgstr "Сингапур, долар"
 
 #: src/formats.c:519
-#, fuzzy
 msgid "Saint Helena, Pounds"
-msgstr "Св. Елена паунд"
+msgstr "Св. Елена, паунд"
 
 #: src/formats.c:520
-#, fuzzy
 msgid "Slovenia, Tolars"
-msgstr "Словенски толар"
+msgstr "Словения, толар"
 
 #: src/formats.c:521
-#, fuzzy
 msgid "Slovakia, Koruny"
-msgstr "Словенски толар"
+msgstr "Словакия, коруни"
 
 #: src/formats.c:522
-#, fuzzy
 msgid "Sierra Leone, Leones"
-msgstr "Сиера Леонски леоне"
+msgstr "Сиера Леоне, леоне"
 
 #: src/formats.c:523
-#, fuzzy
 msgid "Somalia, Shillings"
-msgstr "Сомалийски шилинг"
+msgstr "Сомалия, шилинг"
 
 #: src/formats.c:524
 msgid "Seborga, Luigini"
 msgstr ""
 
 #: src/formats.c:525
-#, fuzzy
 msgid "Suriname, Guilders"
-msgstr "Суринамски Гуйлдер"
+msgstr "Суринам, гуйлдер"
 
 #: src/formats.c:526
-#, fuzzy
 msgid "Sao Tome and Principe, Dobras"
-msgstr "Добра на Сан Томе и Принципи"
+msgstr "Сан Томе и Принципи, добра"
 
 #: src/formats.c:527
-#, fuzzy
 msgid "El Salvador, Colones"
-msgstr "Салвадорски колон"
+msgstr "Салвадор, колон"
 
 #: src/formats.c:528
-#, fuzzy
 msgid "Syria, Pounds"
-msgstr "Сирийски паунд"
+msgstr "Сирийя, паунд"
 
 #: src/formats.c:529
-#, fuzzy
 msgid "Swaziland, Emalangeni"
-msgstr "Свазиленски лилингжени"
+msgstr "Свазиленд, лилингжени"
 
 #: src/formats.c:530
-#, fuzzy
 msgid "Thailand, Baht"
-msgstr "Тайски бахти"
+msgstr "Тайланд, бахт"
 
 #: src/formats.c:531
-#, fuzzy
 msgid "Tajikistan, Rubles"
-msgstr "Пакистански рупи"
+msgstr "Таджикистан, рубла"
 
 #: src/formats.c:532
 msgid "Turkmenistan, Manats"
 msgstr ""
 
 #: src/formats.c:533
-#, fuzzy
 msgid "Tunisia, Dinars"
-msgstr "Тунизийски динар"
+msgstr "Тунис, динар"
 
 #: src/formats.c:534
-#, fuzzy
 msgid "Tonga, Pa'anga"
-msgstr "Тонганска панга"
+msgstr "Тонга, панга"
 
 #: src/formats.c:535
-#, fuzzy
 msgid "Turkey, Liras"
-msgstr "Турска лира"
+msgstr "Турция, лира"
 
 #: src/formats.c:536
-#, fuzzy
 msgid "Trinidad and Tobago, Dollars"
-msgstr "Долар на Тринидат и Тобаго"
+msgstr "Тринидат и Тобаго, долар"
 
 #: src/formats.c:537
 msgid "Tuvalu, Tuvalu Dollars"
 msgstr ""
 
 #: src/formats.c:538
-#, fuzzy
 msgid "Taiwan, New Dollars"
-msgstr "Нов Тайвански долар"
+msgstr "Тайван, нов долар"
 
 #: src/formats.c:539
-#, fuzzy
 msgid "Tanzania, Shillings"
-msgstr "Танзанийски шилинг"
+msgstr "Танзания, шилинг"
 
 #: src/formats.c:540
-#, fuzzy
 msgid "Ukraine, Hryvnia"
-msgstr "Украинска гривни"
+msgstr "Украийна, гривни"
 
 #: src/formats.c:541
-#, fuzzy
 msgid "Uganda, Shillings"
-msgstr "Угандийски шилинг"
+msgstr "Уганда, шилинг"
 
 #: src/formats.c:542
 msgid "United States of America, Dollars"
 msgstr ""
 
 #: src/formats.c:543
-#, fuzzy
 msgid "Uruguay, Pesos"
-msgstr "Уругвайско песо"
+msgstr "Уругвай, песо"
 
 #: src/formats.c:544
 msgid "Uzbekistan, Sums"
 msgstr ""
 
 #: src/formats.c:545
-#, fuzzy
 msgid "Venezuela, Bolivares"
-msgstr "Венецуелски боливар"
+msgstr "Венецуела, боливар"
 
 #: src/formats.c:546
-#, fuzzy
 msgid "Viet Nam, Dong"
-msgstr "Виетнамски донг"
+msgstr "Виетнам, донг"
 
 #: src/formats.c:547
-#, fuzzy
 msgid "Vanuatu, Vatu"
-msgstr "Ванути вану"
+msgstr "Ванути, вату"
 
 #: src/formats.c:548
-#, fuzzy
 msgid "Samoa, Tala"
-msgstr "Тала на Самоа"
+msgstr "Самоа, тала"
 
 #: src/formats.c:549
 msgid "Communaute Financiere Africaine BEAC, Francs"
@@ -22717,9 +22357,8 @@ msgid "Gold, Ounces"
 msgstr ""
 
 #: src/formats.c:552
-#, fuzzy
 msgid "East Caribbean Dollars"
-msgstr "Източно Караибски долар"
+msgstr "Източни Караиби, долар"
 
 #: src/formats.c:553
 msgid "International Monetary Fund (IMF) Special Drawing Rights"
@@ -22742,29 +22381,24 @@ msgid "Platinum, Ounces"
 msgstr ""
 
 #: src/formats.c:558
-#, fuzzy
 msgid "Yemen, Rials"
-msgstr "Йеменски риал"
+msgstr "Йемен, риал"
 
 #: src/formats.c:559
-#, fuzzy
 msgid "Yugoslavia, New Dinars"
-msgstr "Югославси динар"
+msgstr "Югославия, нов динар"
 
 #: src/formats.c:560
-#, fuzzy
 msgid "South Africa, Rand"
-msgstr "Южноафрикански ранд"
+msgstr "Южна Африка, ранд"
 
 #: src/formats.c:561
-#, fuzzy
 msgid "Zambia, Kwacha"
-msgstr "Замбийски квач"
+msgstr "Замбия, квач"
 
 #: src/formats.c:562
-#, fuzzy
 msgid "Zimbabwe, Zimbabwe Dollars"
-msgstr "Зимбабвийски долар"
+msgstr "Зимбабве, долар"
 
 #: src/func-builtin.c:34
 msgid ""
@@ -22889,9 +22523,8 @@ msgid "Format as alternative Number"
 msgstr "Формат като алтернативно число"
 
 #: src/gui-clipboard.c:121
-#, fuzzy
 msgid "clipboard"
-msgstr "Поставя буфера за обмен"
+msgstr "буфер за обмен"
 
 #: src/gui-file.c:74
 #, fuzzy
@@ -22900,16 +22533,15 @@ msgstr "Автоматично запълва текущото избрано"
 
 #: src/gui-file.c:184
 msgid "Load file"
-msgstr "Зарежда файл"
+msgstr "Зареждане на файл"
 
 #: src/gui-file.c:195
 msgid "Character _encoding:"
 msgstr ""
 
 #: src/gui-file.c:205
-#, fuzzy
 msgid "File _type:"
-msgstr "_Файл"
+msgstr "Тип файл:"
 
 #: src/gui-file.c:271
 #, c-format
@@ -22945,10 +22577,8 @@ msgid ""
 "different file format.\n"
 "Do you want to save only current sheet?"
 msgstr ""
-"Избраният формат на файл не поддържа запазването на множество листа в един "
-"файл.\n"
-"Ако искате да запазите всички листа, запазете ги в отделни файлове или "
-"изберете друг формат.\n"
+"Избраният формат на файл не поддържа запазването на множество листа в един файл.\n"
+"Ако искате да запазите всички листа, запазете ги в отделни файлове или изберете друг формат.\n"
 "Искате ли да запазите текущият лист?"
 
 #: src/gui-file.c:332
@@ -22977,7 +22607,7 @@ msgstr "Множество грешки\n"
 #: src/gui-util.c:808
 #, c-format
 msgid "Unable to open file '%s'"
-msgstr "Немога да отворя файл '%s'"
+msgstr "Немога да отворя файл \"%s\""
 
 #: src/gutils.c:389
 msgid ""
@@ -23037,43 +22667,43 @@ msgstr ""
 
 #: src/item-cursor.c:1018
 msgid "_Move"
-msgstr "_Премества"
+msgstr "_Преместване"
 
 #: src/item-cursor.c:1024
 msgid "Copy _Formats"
-msgstr "Копира _Формати"
+msgstr "Копиране на _Формати"
 
 #: src/item-cursor.c:1026
 msgid "Copy _Values"
-msgstr "Копира _Стойност"
+msgstr "Копиране на _Стойност"
 
 #: src/item-cursor.c:1031
 msgid "Shift _Down and Copy"
-msgstr "Придвижва _Надолу и Копира"
+msgstr "Придвижване _Надолу и Копиране"
 
 #: src/item-cursor.c:1033
 msgid "Shift _Right and Copy"
-msgstr "Придвижва в _Дясно и Копира"
+msgstr "Придвижване _Вдясно и Копиране"
 
 #: src/item-cursor.c:1035
 msgid "Shift Dow_n and Move"
-msgstr "Придвижва на Д_олу и Премества"
+msgstr "Придвижване на Д_олу и Преместване"
 
 #: src/item-cursor.c:1037
 msgid "Shift Righ_t and Move"
-msgstr "Придвижва в Дясно и Премества"
+msgstr "Придвижване Вдясно и Преместване"
 
 #: src/item-cursor.c:1042
 msgid "C_ancel"
-msgstr "П_рекъсва"
+msgstr "П_рекъсване"
 
 #: src/main-application.c:56
 msgid "Display Gnumeric's version"
-msgstr "Показва версията на Gnumeric"
+msgstr "Показване версията на Gnumeric"
 
 #: src/main-application.c:58
 msgid "Set the root library directory"
-msgstr "Задава кореновата директория на библиотеки"
+msgstr "Задаване на кореновата директория на библиотеки"
 
 #: src/main-application.c:60
 msgid "Adjust the root data directory"
@@ -23089,7 +22719,7 @@ msgstr "ФАЙЛ"
 
 #: src/main-application.c:68
 msgid "Enables some debugging functions"
-msgstr "Разрешава някой функции на дебъгера"
+msgstr "Разрешаване на някой функции на дебъгера"
 
 #: src/main-application.c:68 src/main-application.c:71
 #: src/main-application.c:73 src/main-application.c:75
@@ -23098,15 +22728,15 @@ msgstr "НИВО"
 
 #: src/main-application.c:71
 msgid "Enables some dependency related debugging functions"
-msgstr "Раязрешава някой функции на дебъг отнасящи се към независимостта"
+msgstr "Разрешаване на някой функции на дебъг отнасящи се към независимостта"
 
 #: src/main-application.c:73
 msgid "Enables some debugging functions for expression sharing"
-msgstr "Разрешава някой функции на дебъг."
+msgstr "Разрешаване на някой функции на дебъг."
 
 #: src/main-application.c:75
 msgid "Enables some print debugging behavior"
-msgstr "Разрешава печат на някой функции по дебъге"
+msgstr "Разрешаване на печат на някой функции по дебъг"
 
 #: src/main-application.c:78
 msgid "Specify the size and location of the initial window"
@@ -23122,8 +22752,7 @@ msgstr ""
 
 #: src/main-application.c:85
 msgid "Exit immediately after loading the selected books (useful for testing)."
-msgstr ""
-"Изход незабавно след зареждане на избраните книги (полезно за тестване)."
+msgstr "Изход, незабавно след зареждане на избраните книги (полезно за тестване)."
 
 #: src/main-application.c:115
 #, fuzzy
@@ -23156,9 +22785,9 @@ msgid ""
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 msgstr ""
-"gnumeric версия '%s'\n"
-"директория данни := '%s'\n"
-"директория библиотеки := '%s'\n"
+"gnumeric версия \"%s\"\n"
+"директория данни := \"%s\"\n"
+"директория библиотеки := \"%s\"\n"
 
 #: src/parser.y:344
 msgid "Constructed ranges use simple references"
@@ -23171,7 +22800,7 @@ msgstr ""
 #: src/parser.y:459
 #, c-format
 msgid "Unknown sheet '%s'"
-msgstr "Неизвестен лист '%s'"
+msgstr "Неизвестен лист \"%s\""
 
 #: src/parser.y:555
 #, fuzzy
@@ -23181,12 +22810,12 @@ msgstr "Неправилен израз"
 #: src/parser.y:588 src/parser.y:610
 #, c-format
 msgid "Name '%s' does not exist in sheet '%s'"
-msgstr "Име '%s' не съществува в лист '%s'"
+msgstr "Име \"%s\" не съществува в лист \"%s\""
 
 #: src/parser.y:667
 #, c-format
 msgid "Unknown workbook '%s'"
-msgstr "Неизвестна работна книга '%s'"
+msgstr "Неизвестна работна книга \"%s\""
 
 #: src/parser.y:763
 #, fuzzy
@@ -23235,7 +22864,7 @@ msgstr "Неправилен израз"
 #: src/parser.y:1336
 #, c-format
 msgid "Unexpected token %c"
-msgstr "Неочакван 'token' %c"
+msgstr "Неочакван \"token\" %c"
 
 #: src/plugin-loader-module.c:71
 msgid "Module file name not given."
@@ -23259,12 +22888,12 @@ msgstr "Файла не съдържа (\"plugin_file_struct\" символ)."
 
 #: src/plugin-loader-module.c:121
 msgid "File has a bad magic number."
-msgstr "Файла има грешен 'magic' номер."
+msgstr "Файла има грешен \"magic\" номер."
 
 #: src/plugin-loader-module.c:125
 #, c-format
 msgid "Plugin version \"%s\" is different from application \"%s\"."
-msgstr "Версия на 'Plugin' \"%s\" е различна от приложениета \"%s\"."
+msgstr "Версия на \"Plugin\" \"%s\" е различна от приложениета \"%s\"."
 
 #: src/plugin-loader-module.c:134
 msgid "Dynamic module loading is not supported in this system."
@@ -23500,7 +23129,7 @@ msgstr "Не е зададена програма за зареждане на p
 
 #: src/plugin.c:850
 msgid "Plugin has no id."
-msgstr "Plugin няма id."
+msgstr "Plugin-ът няма id."
 
 #: src/plugin.c:893
 #, c-format
@@ -23609,14 +23238,12 @@ msgid "&[DATE]"
 msgstr "&[DATE]"
 
 #: src/print-info.c:533
-#, fuzzy
 msgid "File Name"
-msgstr "Ново Име"
+msgstr "Име на файла"
 
 #: src/print-info.c:560
-#, fuzzy
 msgid "Path "
-msgstr "Поставя"
+msgstr "Път"
 
 #: src/print-info.c:568
 msgid "tab"
@@ -23631,14 +23258,12 @@ msgid "pages"
 msgstr "страници"
 
 #: src/print-info.c:573
-#, fuzzy
 msgid "file"
-msgstr "фиксиран"
+msgstr "файл"
 
 #: src/print-info.c:574
-#, fuzzy
 msgid "path"
-msgstr "Сламена"
+msgstr "път"
 
 #. Note: we cannot have spaces in page numbers.
 #: src/print.c:577
@@ -23715,9 +23340,8 @@ msgid "Do not save any"
 msgstr ""
 
 #: src/session.c:124 src/session.c:127
-#, fuzzy
 msgid "Do not save"
-msgstr "Не Затваряй"
+msgstr "Да не се записва"
 
 #: src/session.c:129
 #, fuzzy
@@ -23726,7 +23350,7 @@ msgstr "Не _коригира"
 
 #: src/sheet-control-gui.c:1508
 msgid "Paste _Special"
-msgstr "Специялно _Поставяне"
+msgstr "Специално _Поставяне"
 
 #. TODO : One day make the labels smarter.  Generate them to include
 #. * quantities.
@@ -23737,36 +23361,35 @@ msgstr "Специялно _Поставяне"
 #.
 #: src/sheet-control-gui.c:1520
 msgid "_Insert..."
-msgstr "_Вмъква..."
+msgstr "_Вмъкване..."
 
 #: src/sheet-control-gui.c:1524
 msgid "_Insert Column(s)"
-msgstr "_Вмъква Колона(и)"
+msgstr "_Вмъкване на Колона(и)"
 
 #: src/sheet-control-gui.c:1526
 msgid "_Delete Column(s)"
-msgstr "_Изтрива Колона(и)"
+msgstr "_Изтриване на Колона(и)"
 
 #: src/sheet-control-gui.c:1528
 msgid "_Insert Row(s)"
-msgstr "_Вмъква Ред(ове)"
+msgstr "_Вмъкване на Ред(ове)"
 
 #: src/sheet-control-gui.c:1530
 msgid "_Delete Row(s)"
-msgstr "_Изтрива Ред(ове)"
+msgstr "_Изтриване на Ред(ове)"
 
 #: src/sheet-control-gui.c:1533
 msgid "Clear Co_ntents"
-msgstr "Изчиства С_ъдържание"
+msgstr "Изчистване на С_ъдържание"
 
 #: src/sheet-control-gui.c:1535
-#, fuzzy
 msgid "Edit Co_mment..."
-msgstr "Ко_ментари"
+msgstr "Редактиране на Ко_ментар..."
 
 #: src/sheet-control-gui.c:1541
 msgid "_Format Cells..."
-msgstr "_Формат на Клетка..."
+msgstr "_Форматиране на Клетка..."
 
 #. Column specific (Note some labels duplicate row labels)
 #: src/sheet-control-gui.c:1545
@@ -23787,23 +23410,20 @@ msgid "Edit _Hyperlink"
 msgstr ""
 
 #: src/sheet-control-gui.c:1566
-#, fuzzy
 msgid "_Remove Hyperlink"
-msgstr "_Премахва Текуща"
+msgstr "_Премахване на хипервързката"
 
 #: src/sheet-filter.c:357
-#, fuzzy
 msgid "(All)"
-msgstr "Всичко"
+msgstr "(Всичко)"
 
 #: src/sheet-filter.c:362
 msgid "(Top 10...)"
 msgstr ""
 
 #: src/sheet-filter.c:369
-#, fuzzy
 msgid "(Custom...)"
-msgstr "Настройка"
+msgstr "(Ръчно...)"
 
 #: src/sheet-filter.c:413
 msgid "(Blanks...)"
@@ -23822,17 +23442,17 @@ msgstr "Вече има обединени области които се пре
 
 #: src/sheet-object-bonobo.c:243
 msgid "Open..."
-msgstr "Отваря..."
+msgstr "Отваряне..."
 
 #: src/sheet-object-container.c:178
 #, c-format
 msgid "can't create object for '%s'"
-msgstr "не мога да създам обект за '%s'"
+msgstr "не мога да създам обект за \"%s\""
 
 #: src/sheet-object-container.c:187
 #, c-format
 msgid "Could not load file: %s"
-msgstr "Не мога да заредя файл : %s"
+msgstr "Не мога да заредя файл: %s"
 
 #: src/sheet-object-graph.c:163
 msgid "Save graph as image"
@@ -23843,9 +23463,8 @@ msgid "Sorry, gnumeric can only save graphs as png images"
 msgstr ""
 
 #: src/sheet-object-graph.c:220
-#, fuzzy
 msgid "_Save as image"
-msgstr "Избор на цялата колона"
+msgstr "_Запазване като изображение"
 
 #: src/sheet-object-graphic.c:951 src/sheet-object-graphic.c:970
 msgid "Transparent"
@@ -23883,11 +23502,11 @@ msgstr "не мога да действам на формули на масив"
 
 #: src/sheet.c:3142
 msgid "Insert Columns"
-msgstr "Вмъква Колони"
+msgstr "Вмъкване на Колони"
 
 #: src/sheet.c:3260
 msgid "Insert Rows"
-msgstr "Вмъква Редове"
+msgstr "Вмъкване на Редове"
 
 #: src/stf-parse.c:58
 #, c-format
@@ -24213,7 +23832,7 @@ msgstr "Точка"
 
 #: src/tools/analysis-tools.c:2747
 msgid "Rank"
-msgstr "Ранк"
+msgstr "Ранг"
 
 #: src/tools/analysis-tools.c:2748
 msgid "Percentile"
@@ -24377,9 +23996,8 @@ msgid "New Workbook"
 msgstr "Нова Работна Книга"
 
 #: src/tools/dao.c:861
-#, fuzzy
 msgid "Gnumeric "
-msgstr "Gnumeric"
+msgstr "Gnumeric "
 
 #: src/tools/dao.c:867
 msgid "Worksheet:"
@@ -24665,7 +24283,7 @@ msgstr "Нисък"
 
 #: src/tools/solver/reports-write.c:407 src/tools/solver/reports-write.c:412
 msgid "Limit"
-msgstr "Лимит"
+msgstr "Ограничение"
 
 #: src/tools/solver/reports-write.c:410
 msgid "Upper"
@@ -24854,11 +24472,11 @@ msgstr "Приемаме, че всички променливи приемат 
 
 #: src/tools/solver/reports-write.c:915
 msgid "Minimize"
-msgstr "Минимизира"
+msgstr "Минимизиране"
 
 #: src/tools/solver/reports-write.c:918
 msgid "Maximize"
-msgstr "Максимизира"
+msgstr "Максимизиране"
 
 #: src/tools/solver/reports-write.c:921
 msgid "Equal to"
@@ -24878,8 +24496,7 @@ msgid ""
 "Model is too large for program report generation. Program report was not "
 "created."
 msgstr ""
-"Модела е твърде голям за програмата за рапорт на грешки. Рапорт няма да бъде "
-"създаден."
+"Моделът е твърде голям за програмата за рапорт на грешки. Рапорт няма да бъде създаден."
 
 #: src/tools/solver/solver.c:395
 msgid ""
@@ -24913,27 +24530,27 @@ msgstr "Клетка %s  не е разрешено да е празна"
 #: src/validation.c:166
 #, c-format
 msgid "'%s' is an error"
-msgstr "'%s' е грешно"
+msgstr "\"%s\" е грешно"
 
 #: src/validation.c:177
 #, c-format
 msgid "'%s' is not a valid date"
-msgstr "'%s' не е валидна дата"
+msgstr "\"%s\" не е валидна дата"
 
 #: src/validation.c:179
 #, c-format
 msgid "'%s' is not a valid time"
-msgstr "'%s' не е валидно време"
+msgstr "\"%s\" не е валидно време"
 
 #: src/validation.c:181
 #, c-format
 msgid "'%s' is not a number"
-msgstr "'%s' не е число"
+msgstr "\"%s\" не е число"
 
 #: src/validation.c:194
 #, c-format
 msgid "'%s' is not an integer"
-msgstr "'%s' не е цяло"
+msgstr "\"%s\" не е цяло"
 
 #: src/validation.c:290
 #, c-format
@@ -25018,9 +24635,8 @@ msgid "dark green #2"
 msgstr ""
 
 #: src/widgets/color-palette.c:531
-#, fuzzy
 msgid "navy"
-msgstr "Понеделник"
+msgstr "морско синьо"
 
 #: src/widgets/color-palette.c:532 src/widgets/color-palette.c:588
 msgid "dark blue"
@@ -25039,46 +24655,40 @@ msgid "dark red"
 msgstr ""
 
 #: src/widgets/color-palette.c:538
-#, fuzzy
 msgid "red-orange"
-msgstr "обхват"
+msgstr "червено-оранжево"
 
 #: src/widgets/color-palette.c:539
-#, fuzzy
 msgid "gold"
-msgstr "Удебелен"
+msgstr "златно"
 
 #: src/widgets/color-palette.c:540
 msgid "dark green"
 msgstr ""
 
 #: src/widgets/color-palette.c:541 src/widgets/color-palette.c:594
-#, fuzzy
 msgid "dull blue"
-msgstr "Стойност на Клетка"
+msgstr "тъмно синьо"
 
 #: src/widgets/color-palette.c:542 src/widgets/color-palette.c:595
-#, fuzzy
 msgid "blue"
-msgstr "син"
+msgstr "синьо"
 
 #: src/widgets/color-palette.c:543
 msgid "dull purple"
 msgstr ""
 
 #: src/widgets/color-palette.c:544
-#, fuzzy
 msgid "dark gray"
-msgstr "масив"
+msgstr "тъмно сиво"
 
 #: src/widgets/color-palette.c:547
 msgid "red"
 msgstr "червено"
 
 #: src/widgets/color-palette.c:548
-#, fuzzy
 msgid "orange"
-msgstr "обхват"
+msgstr "оранжево"
 
 #: src/widgets/color-palette.c:549
 #, fuzzy
@@ -25102,31 +24712,26 @@ msgid "purple"
 msgstr ""
 
 #: src/widgets/color-palette.c:554
-#, fuzzy
 msgid "gray"
-msgstr "Масив"
+msgstr "сиво"
 
 #: src/widgets/color-palette.c:557 src/widgets/color-palette.c:589
-#, fuzzy
 msgid "magenta"
-msgstr "пурпурен"
+msgstr "пурпурно"
 
 #: src/widgets/color-palette.c:558
 msgid "bright orange"
 msgstr ""
 
 #: src/widgets/color-palette.c:559 src/widgets/color-palette.c:590
-#, fuzzy
 msgid "yellow"
 msgstr "жълто"
 
 #: src/widgets/color-palette.c:560
-#, fuzzy
 msgid "green"
-msgstr "зелен"
+msgstr "зелено"
 
 #: src/widgets/color-palette.c:561 src/widgets/color-palette.c:591
-#, fuzzy
 msgid "cyan"
 msgstr "циан"
 
@@ -25143,9 +24748,8 @@ msgid "light gray"
 msgstr ""
 
 #: src/widgets/color-palette.c:567 src/widgets/color-palette.c:584
-#, fuzzy
 msgid "pink"
-msgstr "_Премахва Текуща"
+msgstr "розово"
 
 #: src/widgets/color-palette.c:568
 #, fuzzy
@@ -25175,7 +24779,6 @@ msgid "light purple"
 msgstr ""
 
 #: src/widgets/color-palette.c:574
-#, fuzzy
 msgid "white"
 msgstr "бяло"
 
@@ -25188,18 +24791,16 @@ msgid "dark purple"
 msgstr ""
 
 #: src/widgets/color-palette.c:585
-#, fuzzy
 msgid "sky blue"
-msgstr "По Стойност"
+msgstr "небесно синьо"
 
 #: src/widgets/gnumeric-expr-entry.c:1256
 msgid "Expecting a single range"
 msgstr "Очаква единичен обхват"
 
 #: src/widgets/gnumeric-optionmenu.c:199
-#, fuzzy
 msgid "Menu"
-msgstr "_Средно:"
+msgstr "Меню"
 
 #: src/widgets/gnumeric-optionmenu.c:200
 msgid "The menu of options"
@@ -25223,19 +24824,16 @@ msgid "Spacing around indicator"
 msgstr ""
 
 #: src/widgets/widget-charmap-selector.c:75
-#, fuzzy
 msgid "Arabic"
-msgstr "Област %i"
+msgstr "Арабски"
 
 #: src/widgets/widget-charmap-selector.c:76
-#, fuzzy
 msgid "Baltic"
-msgstr "Italic"
+msgstr "Балтийски"
 
 #: src/widgets/widget-charmap-selector.c:77
-#, fuzzy
 msgid "Central European"
-msgstr "По центъра на страница"
+msgstr "Централно европейски"
 
 #: src/widgets/widget-charmap-selector.c:78
 msgid "Chinese"
@@ -25246,54 +24844,45 @@ msgid "Cyrillic"
 msgstr ""
 
 #: src/widgets/widget-charmap-selector.c:80
-#, fuzzy
 msgid "Greek"
-msgstr "зелен"
+msgstr "Гръцки"
 
 #: src/widgets/widget-charmap-selector.c:81
 msgid "Hebrew"
 msgstr ""
 
 #: src/widgets/widget-charmap-selector.c:82
-#, fuzzy
 msgid "Indian"
-msgstr "_Средно:"
+msgstr "Индийски"
 
 #: src/widgets/widget-charmap-selector.c:83
-#, fuzzy
 msgid "Japanese"
-msgstr "Японска йена"
+msgstr "Японски"
 
 #: src/widgets/widget-charmap-selector.c:84
-#, fuzzy
 msgid "Korean"
-msgstr "Булева"
+msgstr "Корейски"
 
 #: src/widgets/widget-charmap-selector.c:85
-#, fuzzy
 msgid "Turkish"
-msgstr "Турска лира"
+msgstr "Турски"
 
 #: src/widgets/widget-charmap-selector.c:86
-#, fuzzy
 msgid "Unicode"
-msgstr "_Разкрива"
+msgstr "Уникод"
 
 #: src/widgets/widget-charmap-selector.c:87
-#, fuzzy
 msgid "Vietnamese"
-msgstr "Дифинира имена"
+msgstr "Виетнамски"
 
 #: src/widgets/widget-charmap-selector.c:88
-#, fuzzy
 msgid "Western"
-msgstr "Запад"
+msgstr "Западен"
 
 #: src/widgets/widget-charmap-selector.c:89
 #: src/widgets/widget-locale-selector.c:76
-#, fuzzy
 msgid "Other"
-msgstr "Октомври"
+msgstr "Друг"
 
 #: src/widgets/widget-charmap-selector.c:119
 msgid "Arabic (IBM-864)"
@@ -25625,9 +25214,8 @@ msgid "Western (Windows-1252)"
 msgstr ""
 
 #: src/widgets/widget-charmap-selector.c:419
-#, fuzzy
 msgid "Locale: "
-msgstr "Логични"
+msgstr "Локал: "
 
 #: src/widgets/widget-charmap-selector.c:458
 #, fuzzy
@@ -25643,9 +25231,8 @@ msgid "Bold italic"
 msgstr "Удебелен italic"
 
 #: src/widgets/widget-format-selector.c:78
-#, fuzzy
 msgid "Currency"
-msgstr "_Пари"
+msgstr "Пари"
 
 #: src/widgets/widget-format-selector.c:79
 #, fuzzy
@@ -25658,14 +25245,12 @@ msgid "Fraction"
 msgstr "Дробна"
 
 #: src/widgets/widget-format-selector.c:84
-#, fuzzy
 msgid "Scientific"
-msgstr "_Научно"
+msgstr "Научно"
 
 #: src/widgets/widget-format-selector.c:86
-#, fuzzy
 msgid "Special"
-msgstr "С_пециално"
+msgstr "Специално"
 
 #: src/widgets/widget-format-selector.c:960
 #, fuzzy
@@ -25673,19 +25258,16 @@ msgid "Negative Number Format"
 msgstr "Отрицателно число:"
 
 #: src/widgets/widget-format-selector.c:991
-#, fuzzy
 msgid "Number Formats"
-msgstr "Използва _Числов формат"
+msgstr "Числови формати"
 
 #: src/widgets/widget-locale-selector.c:69
-#, fuzzy
 msgid "Western Europe"
-msgstr "Запад"
+msgstr "Западна Европа"
 
 #: src/widgets/widget-locale-selector.c:70
-#, fuzzy
 msgid "Eastern Europe"
-msgstr "По центъра на страница"
+msgstr "Източна Европа"
 
 #: src/widgets/widget-locale-selector.c:71
 msgid "North America"
@@ -25696,19 +25278,16 @@ msgid "South & Central America"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:73
-#, fuzzy
 msgid "Asia"
-msgstr "Основни"
+msgstr "Азия"
 
 #: src/widgets/widget-locale-selector.c:74
-#, fuzzy
 msgid "Africa"
-msgstr "Област %i"
+msgstr "Африка"
 
 #: src/widgets/widget-locale-selector.c:75
-#, fuzzy
 msgid "Australia"
-msgstr "Австралийски долар"
+msgstr "Австралия"
 
 #.
 #. * The format here is "Country/Language (locale)" or just
@@ -25723,9 +25302,8 @@ msgid "United States/English (C)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:108
-#, fuzzy
 msgid "South Africa Afrikaans (af_ZA)"
-msgstr "Южноафрикански ранд"
+msgstr "Южна Африка, Африкаанс (af_ZA)"
 
 #: src/widgets/widget-locale-selector.c:109
 msgid "Ethiopia/Amharic (am_ET)"
@@ -25736,9 +25314,8 @@ msgid "United Arab Emirates (ar_AE)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:111
-#, fuzzy
 msgid "Bahrain (ar_BH)"
-msgstr "Бахрейнски динар"
+msgstr "Бахрейн (ar_BH)"
 
 #: src/widgets/widget-locale-selector.c:112
 msgid "Algeria (ar_DZ)"
@@ -25757,23 +25334,20 @@ msgid "Iraq (ar_IQ)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:116
-#, fuzzy
 msgid "Jordan (ar_JO)"
-msgstr "Йордански динар"
+msgstr "Йордан (ar_JO)"
 
 #: src/widgets/widget-locale-selector.c:117
-#, fuzzy
 msgid "Kuwait (ar_KW)"
-msgstr "Кувейтски динар"
+msgstr "Кувейт (ar_KW)"
 
 #: src/widgets/widget-locale-selector.c:118
 msgid "Lebanon (ar_LB)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:119
-#, fuzzy
 msgid "Libya (ar_LY)"
-msgstr "Либийски динар"
+msgstr "Либия (ar_LY)"
 
 #: src/widgets/widget-locale-selector.c:120
 msgid "Morocco (ar_MA)"
@@ -25788,9 +25362,8 @@ msgid "Qatar (ar_QA)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:123
-#, fuzzy
 msgid "Saudi Arabia (ar_SA)"
-msgstr "Арабски риал"
+msgstr "Суадитска Арабия (ar_SA)"
 
 #: src/widgets/widget-locale-selector.c:124
 msgid "Sudan (ar_SD)"
@@ -25801,9 +25374,8 @@ msgid "Syria (ar_SY)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:126
-#, fuzzy
 msgid "Tunisia (ar_TN)"
-msgstr "Тунизийски динар"
+msgstr "Тунис (ar_TN)"
 
 #: src/widgets/widget-locale-selector.c:127
 msgid "Yemen (ar_YE)"
@@ -25814,19 +25386,16 @@ msgid "Azerbaijan (az_AZ)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:129
-#, fuzzy
 msgid "Belarus (be_BY)"
-msgstr "Беларуска рубла"
+msgstr "Беларус (be_BY)"
 
 #: src/widgets/widget-locale-selector.c:130
-#, fuzzy
 msgid "Bulgaria (bg_BG)"
-msgstr "Български лев"
+msgstr "България (bg_BG)"
 
 #: src/widgets/widget-locale-selector.c:131
-#, fuzzy
 msgid "Bangladesh (bn_BD)"
-msgstr "Бангладешки така"
+msgstr "Бангладеш (bn_BD)"
 
 #: src/widgets/widget-locale-selector.c:132
 msgid "India/Bengali (bn_IN)"
@@ -25845,9 +25414,8 @@ msgid "Spain/Catalan (ca_ES)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:136
-#, fuzzy
 msgid "Czech Republic (cs_CZ)"
-msgstr "Чешка крона"
+msgstr "Чешка Република (cs_CZ)"
 
 #: src/widgets/widget-locale-selector.c:137
 msgid "Great Britain/Welsh (cy_GB)"
@@ -25874,9 +25442,8 @@ msgid "Germany (de_DE)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:143
-#, fuzzy
 msgid "Luxembourg/German (de_LU)"
-msgstr "Люксембургски франк"
+msgstr "Люксембург/Немски (de_LU)"
 
 #: src/widgets/widget-locale-selector.c:144
 msgid "Greece (el_GR)"
@@ -25911,14 +25478,12 @@ msgid "India/English (en_IN)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:152
-#, fuzzy
 msgid "New Zealand (en_NZ)"
-msgstr "Новозеландски долар"
+msgstr "Нова Зеландия (en_NZ)"
 
 #: src/widgets/widget-locale-selector.c:153
-#, fuzzy
 msgid "Philippines (en_PH)"
-msgstr "Филипинско песо"
+msgstr "Филипини (en_PH)"
 
 #: src/widgets/widget-locale-selector.c:154
 msgid "Singapore/English (en_SG)"
@@ -25929,9 +25494,8 @@ msgid "United States/English (en_US)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:156
-#, fuzzy
 msgid "South Africa/English (en_ZA)"
-msgstr "Южноафрикански ранд"
+msgstr "Южна Африка/Английски (en_ZA)"
 
 #: src/widgets/widget-locale-selector.c:157
 msgid "Zimbabwe (en_ZW)"
@@ -25942,57 +25506,48 @@ msgid "Esperanto (eo_EO)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:159
-#, fuzzy
 msgid "Argentina (es_AR)"
-msgstr "Аржентинско песо"
+msgstr "Аржентина (es_AR)"
 
 #: src/widgets/widget-locale-selector.c:160
 msgid "Bolivia (es_BO)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:161
-#, fuzzy
 msgid "Chile (es_CL)"
-msgstr "Чилийско песо"
+msgstr "Чили (es_CL)"
 
 #: src/widgets/widget-locale-selector.c:162
-#, fuzzy
 msgid "Colombia (es_CO)"
-msgstr "Колумбийско песо"
+msgstr "Колумбия (es_CO)"
 
 #: src/widgets/widget-locale-selector.c:163
-#, fuzzy
 msgid "Costa Rica (es_CR)"
-msgstr "Коста Рика колон"
+msgstr "Коста Рика (es_CR)"
 
 #: src/widgets/widget-locale-selector.c:164
-#, fuzzy
 msgid "Dominican Republic (es_DO)"
-msgstr "Доминиканско песо"
+msgstr "Доминиканска Република (es_DO)"
 
 #: src/widgets/widget-locale-selector.c:165
-#, fuzzy
 msgid "Ecuador (es_EC)"
-msgstr "Еквадорски сукре"
+msgstr "Еквадор (es_EC)"
 
 #: src/widgets/widget-locale-selector.c:166
 msgid "Spain (es_ES)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:167
-#, fuzzy
 msgid "Guatemala (es_GT)"
-msgstr "Гватемалски куетзал"
+msgstr "Гватемала (es_GT)"
 
 #: src/widgets/widget-locale-selector.c:168
-#, fuzzy
 msgid "Honduras (es_HN)"
-msgstr "Хондураска лемпира"
+msgstr "Хондурас (es_HN)"
 
 #: src/widgets/widget-locale-selector.c:169
-#, fuzzy
 msgid "Mexico (es_MX)"
-msgstr "Мексиканско песо"
+msgstr "Мексико (es_MX)"
 
 #: src/widgets/widget-locale-selector.c:170
 msgid "Nicaragua (es_NI)"
@@ -26015,23 +25570,20 @@ msgid "Paraguay (es_PY)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:175
-#, fuzzy
 msgid "El Salvador (es_SV)"
-msgstr "Салвадорски колон"
+msgstr "Салвадор (es_SV)"
 
 #: src/widgets/widget-locale-selector.c:176
 msgid "United States/Spanish (es_US)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:177
-#, fuzzy
 msgid "Uruguay (es_UY)"
-msgstr "Уругвайско песо"
+msgstr "Уругвай (es_UY)"
 
 #: src/widgets/widget-locale-selector.c:178
-#, fuzzy
 msgid "Venezuela (es_VE)"
-msgstr "Венецуелски боливар"
+msgstr "Венецуела (es_VE)"
 
 #: src/widgets/widget-locale-selector.c:179
 msgid "Estonia (et_EE)"
@@ -26106,9 +25658,8 @@ msgid "(i18n)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:197
-#, fuzzy
 msgid "Indonesia (id_ID)"
-msgstr "Индонезийски рупии"
+msgstr "Индонезия (id_ID)"
 
 #: src/widgets/widget-locale-selector.c:198
 msgid "Iceland (is_IS)"
@@ -26183,9 +25734,8 @@ msgid "Belgium/Flemish (nl_BE)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:216
-#, fuzzy
 msgid "The Netherlands (nl_NL)"
-msgstr "Холандски гулден"
+msgstr "Холандия (nl_NL)"
 
 #: src/widgets/widget-locale-selector.c:217
 msgid "Norway/Nynorsk (nn_NO)"
@@ -26228,24 +25778,20 @@ msgid "Norway/Saami (se_NO)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:227
-#, fuzzy
 msgid "Slovakia (sk_SK)"
-msgstr "Словенски толар"
+msgstr "Словкия (sk_SK)"
 
 #: src/widgets/widget-locale-selector.c:228
-#, fuzzy
 msgid "Slovenia (sl_SI)"
-msgstr "Словенски толар"
+msgstr "Словения (sl_SI)"
 
 #: src/widgets/widget-locale-selector.c:229
-#, fuzzy
 msgid "Albania (sq_AL)"
-msgstr "Албански лек"
+msgstr "Албания (sq_AL)"
 
 #: src/widgets/widget-locale-selector.c:230
-#, fuzzy
 msgid "Yugoslavia (sr_YU)"
-msgstr "Югославси динар"
+msgstr "Югославия (sr_YU)"
 
 #: src/widgets/widget-locale-selector.c:231
 msgid "Finland/Swedish (sv_FI)"
@@ -26264,14 +25810,12 @@ msgid "India/Telugu (te_IN)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:235
-#, fuzzy
 msgid "Tajikistan (tg_TJ)"
-msgstr "Пакистански рупи"
+msgstr "Таджикистан (tg_TJ)"
 
 #: src/widgets/widget-locale-selector.c:236
-#, fuzzy
 msgid "Thailand (th_TH)"
-msgstr "Тайски бахти"
+msgstr "Тайланд (th_TH)"
 
 #: src/widgets/widget-locale-selector.c:237
 msgid "Eritrea (ti_ER)"
@@ -26298,9 +25842,8 @@ msgid "Ukraine (uk_UA)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:243
-#, fuzzy
 msgid "Pakistan (ur_PK)"
-msgstr "Пакистански рупи"
+msgstr "Пакистан (ur_PK)"
 
 #: src/widgets/widget-locale-selector.c:244
 msgid "Uzbekistan (uz_UZ)"
@@ -26335,9 +25878,8 @@ msgid "Taiwan (zh_TW)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:452
-#, fuzzy
 msgid "Current Locale: "
-msgstr "Текуща Стойност:"
+msgstr "Текущ локал:"
 
 #: src/workbook-cmd-format.c:49
 msgid "Add Borders"
@@ -26356,23 +25898,20 @@ msgid "Manage sheets..."
 msgstr "Управление на листа..."
 
 #: src/workbook-control-gui.c:646
-#, fuzzy
 msgid "Append"
-msgstr "Изпраща"
+msgstr "Прикрепяне"
 
 #: src/workbook-control-gui.c:647
-#, fuzzy
 msgid "Duplicate"
-msgstr "_Дублира"
+msgstr "Дублиране"
 
 #: src/workbook-control-gui.c:648
 msgid "Remove"
 msgstr "Премахва"
 
 #: src/workbook-control-gui.c:649
-#, fuzzy
 msgid "Rename"
-msgstr "_Преименува..."
+msgstr "Преименуване"
 
 #.
 #. * xgettext:
@@ -26408,14 +25947,12 @@ msgid "Remove _Auto Filter"
 msgstr "Премахва граници"
 
 #: src/workbook-control-gui.c:1556
-#, fuzzy
 msgid "Remove a filter"
-msgstr "<- Изтрива всички"
+msgstr "Премахване на филтър"
 
 #: src/workbook-control-gui.c:1557
-#, fuzzy
 msgid "Add a filter"
-msgstr "Допълнителни Филтри"
+msgstr "Добавяне на филтър"
 
 #: src/workbook-control-gui.c:1577 src/workbook-control-gui.c:4035
 #: src/workbook-control-gui.c:4268
@@ -26436,9 +25973,8 @@ msgid "If you close without saving, changes will be discarded."
 msgstr ""
 
 #: src/workbook-control-gui.c:1782
-#, fuzzy
 msgid "Discard all"
-msgstr "Отхвърли Всичко"
+msgstr "Отхвърляне на всичко"
 
 #: src/workbook-control-gui.c:1784 src/workbook-control-gui.c:1793
 #: src/workbook-control-gui.c:1801
@@ -26446,19 +25982,16 @@ msgid "Discard"
 msgstr "Отхвърли"
 
 #: src/workbook-control-gui.c:1786
-#, fuzzy
 msgid "Save all"
-msgstr "Запази Всичко"
+msgstr "Запазване на всичко"
 
 #: src/workbook-control-gui.c:1788 src/workbook-control-gui.c:1795
-#, fuzzy
 msgid "Don't quit"
-msgstr "Не Напускай"
+msgstr "Да не се спира програмата"
 
 #: src/workbook-control-gui.c:1803
-#, fuzzy
 msgid "Don't close"
-msgstr "Не Затваряй"
+msgstr "Да не се затваря"
 
 #: src/workbook-control-gui.c:2252
 #, c-format
@@ -26490,21 +26023,19 @@ msgstr "Коментар в клетка %s!%s"
 #.
 #: src/workbook-control-gui.c:2529
 msgid "Insert rows"
-msgstr "Вмъква Редове"
+msgstr "Вмъкване на Редове"
 
 #: src/workbook-control-gui.c:2549
 msgid "Insert columns"
-msgstr "Вмъква Колони"
+msgstr "Вмъкване на Колони"
 
 #: src/workbook-control-gui.c:2943
-#, fuzzy
 msgid "Add Filter"
-msgstr "Допълнителни Филтри"
+msgstr "Добавяне на филтър"
 
 #: src/workbook-control-gui.c:2955
-#, fuzzy
 msgid "AutoFilter"
-msgstr "Допълнителни Филтри"
+msgstr "АвтоФилтър"
 
 #: src/workbook-control-gui.c:2955
 msgid "Requires more than 1 row"
@@ -26512,11 +26043,11 @@ msgstr ""
 
 #: src/workbook-control-gui.c:3012 src/workbook-control-gui.c:3031
 msgid "Show Detail"
-msgstr "Показва Подробности"
+msgstr "Показване на Подробности"
 
 #: src/workbook-control-gui.c:3012 src/workbook-control-gui.c:3031
 msgid "Hide Detail"
-msgstr "Скрива Подробности"
+msgstr "Скриване на Подробности"
 
 #: src/workbook-control-gui.c:3019
 msgid "can only be performed on an existing group"
@@ -26524,15 +26055,15 @@ msgstr "може само да бъде изпълнен за съществув
 
 #: src/workbook-control-gui.c:3077
 msgid "Group"
-msgstr "Групира"
+msgstr "Групиране"
 
 #: src/workbook-control-gui.c:3077
 msgid "Ungroup"
-msgstr "Разгрупира"
+msgstr "Разгрупиране"
 
 #: src/workbook-control-gui.c:3206
 msgid "Sort"
-msgstr "Сортира"
+msgstr "Сортиране"
 
 #: src/workbook-control-gui.c:3285
 msgid "Select an object to add"
@@ -26541,11 +26072,11 @@ msgstr "Избор на обект за добавяне"
 #: src/workbook-control-gui.c:3296
 #, c-format
 msgid "Unable to create object of type '%s'"
-msgstr "Не мога да създам обект от тип '%s'"
+msgstr "Не мога да създам обект от тип \"%s\""
 
 #: src/workbook-control-gui.c:3498
 msgid "P_aste special..."
-msgstr "_Специялно поставяне..."
+msgstr "_Специално поставяне..."
 
 #: src/workbook-control-gui.c:3555
 #, fuzzy
@@ -26561,9 +26092,8 @@ msgid "Use the current selection to create names"
 msgstr "Използва текущото избрано за създаване на имена"
 
 #: src/workbook-control-gui.c:3747
-#, fuzzy
 msgid "Add a new scenario"
-msgstr "Добавя нова колона"
+msgstr "Добавяне на нов сценрий"
 
 #: src/workbook-control-gui.c:3755
 #, fuzzy
@@ -26576,14 +26106,12 @@ msgid "Two Factor Analysis of Variance..."
 msgstr "Двуфакторен Дисперсионен Анализ"
 
 #: src/workbook-control-gui.c:3767
-#, fuzzy
 msgid "Exponential smoothing..."
-msgstr "Експоненциално изглаждане"
+msgstr "Експоненциално изглаждане..."
 
 #: src/workbook-control-gui.c:3771
-#, fuzzy
 msgid "Moving average..."
-msgstr "Пълзящо средно"
+msgstr "Пълзящо средно..."
 
 #: src/workbook-control-gui.c:3780
 #, fuzzy
@@ -26612,9 +26140,8 @@ msgid ""
 msgstr "Сравнява дисперсии на два избора"
 
 #: src/workbook-control-gui.c:3824
-#, fuzzy
 msgid "Ranks And _Percentiles..."
-msgstr "_Ранги И Проценти"
+msgstr "_Рангове и Проценти..."
 
 #: src/workbook-control-gui.c:3949
 msgid "Sh_uffle..."
@@ -26635,34 +26162,31 @@ msgstr "Напред в операцията"
 #: src/workbook-control-gui.c:5166
 #, c-format
 msgid "File \"%s\" has unknown format."
-msgstr "Файл \"%s\" има неизвестен формат."
+msgstr "Файлът \"%s\" има неизвестен формат."
 
 #: src/workbook-control-gui.c:5212
 msgid "Send"
-msgstr "Изпраща"
+msgstr "Изпращане"
 
 #: src/workbook-control-gui.c:5212
 msgid "Send the current file in email"
 msgstr "Изпраща текущият файл по поща"
 
 #: src/workbook-control-gui.c:5452 src/workbook-control-gui.c:5467
-#, fuzzy
 msgid "_Re-Edit"
-msgstr "Преправя"
+msgstr "Преправяне"
 
 #: src/workbook-control-gui.c:5453 src/workbook-control-gui.c:5458
-#, fuzzy
 msgid "_Discard"
-msgstr "Отхвърли"
+msgstr "_Отхвърляне"
 
 #: src/workbook-control-gui.c:5457 src/workbook-control-gui.c:5468
-#, fuzzy
 msgid "_Accept"
-msgstr "Приема"
+msgstr "_Приемане"
 
 #: src/workbook-control.c:233
 msgid "Define Name"
-msgstr "Задава Име"
+msgstr "Задаване на Име"
 
 #: src/workbook-control.c:253
 msgid "Address"
@@ -26675,39 +26199,39 @@ msgstr "%s!%s е заключен"
 
 #: src/workbook-edit.c:354
 msgid "Unprotect the workbook to enable editing."
-msgstr "Премахва защитата на работната книга за да разреши редактиране."
+msgstr "Премахване на защитата на работната книга за да разреши редактиране."
 
 #: src/workbook-edit.c:355
 msgid "Unprotect the sheet to enable editing."
-msgstr "Премахва защитата на лист за да разреши редактиране."
+msgstr "Премахване на защитата на лист за да разреши редактиране."
 
 #: src/workbook-format-toolbar.c:89
 msgid "Set Horizontal Alignment"
-msgstr "Задава Хоризонтално Подравняване"
+msgstr "Задаване на Хоризонтално Подравняване"
 
 #: src/workbook-format-toolbar.c:189
 msgid "Set Font Style"
-msgstr "Задава Стил на Шрифт"
+msgstr "Задаване на Стил на Шрифт"
 
 #: src/workbook-format-toolbar.c:255
 msgid "Set Font"
-msgstr "задава Шрифт"
+msgstr "Задаване на Шрифт"
 
 #: src/workbook-format-toolbar.c:290
 msgid "Set Font Size"
-msgstr "Задава Размер на Шрифт"
+msgstr "Задаване на Размер на Шрифта"
 
 #: src/workbook-format-toolbar.c:312
 msgid "Format as Money"
-msgstr "Формат като Пари"
+msgstr "Форматиране като Пари"
 
 #: src/workbook-format-toolbar.c:346
 msgid "Increase precision"
-msgstr "Увеличава точността"
+msgstr "Увеличаване на точността"
 
 #: src/workbook-format-toolbar.c:352
 msgid "Decrease precision"
-msgstr "Намалява точността"
+msgstr "Намаляване на точността"
 
 #: src/workbook-format-toolbar.c:358
 #, fuzzy
@@ -26716,11 +26240,11 @@ msgstr "Разделител на хилядни"
 
 #: src/workbook-format-toolbar.c:548
 msgid "Set Foreground Color"
-msgstr "Задава Цвят на Текст"
+msgstr "Задаване на Цвят на Текста"
 
 #: src/workbook-format-toolbar.c:582
 msgid "Set Background Color"
-msgstr "Задава Цвят на Фон"
+msgstr "Задаване на Фонов цвят"
 
 #: src/workbook-format-toolbar.c:631
 msgid "Clear Borders"
@@ -26760,7 +26284,7 @@ msgstr "Горна и Дебела Долна"
 
 #: src/workbook-format-toolbar.c:729
 msgid "Set Borders"
-msgstr "Задава Граници"
+msgstr "Задаване на Граници"
 
 #: src/workbook-object-toolbar.c:190
 #, fuzzy
