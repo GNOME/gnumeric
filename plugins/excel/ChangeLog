@@ -11,8 +11,9 @@
 
 2001-04-27  Chema Celorio  <chema@celorio.com>
 
-	* boot.c (excel_save): add a message explaining that you could set an env variable to
-	enable XL overwrite. This is not the optimal solution tho.
+	* boot.c (excel_save): add a message explaining that you could set
+ 	an env variable to enable XL overwrite. This is not the optimal
+ 	solution tho.
 
 2001-04-26  Jody Goldberg <jgoldberg@home.com>
 
@@ -1198,7 +1199,7 @@
 
 2000-01-17  Frank Chiulli  <fc-linux@home.com>
 
-	* ms-summary.c (ms_summary_write): Turn on writing out the 
+	* ms-summary.c (ms_summary_write): Turn on writing out the
 	  DocumentSummaryInformation stream.
 
 2000-01-17  Jody Goldberg <jgoldberg@home.com>
@@ -1290,7 +1291,7 @@
 	part of write_sheet, but changed for blocked row info.
 	(write_sheet): Move inner loop to write_block.
 	(new_sheet): Initialize sheet->cells to 0.
-	
+
 	* excel.h (ROW_BLOCK_MAX_LEN): Define.
 
 1999-12-21  Jon K Hellan  <hellan@acm.org>
@@ -1332,7 +1333,7 @@
 
 	* ms-excel-util.h: #include <sheet.h>
 	(EXCEL_DEFAULT_CHAR_WIDTH): Move here from ms-excel-read.h
-	(lookup_font_base_char_width): Declare it.	
+	(lookup_font_base_char_width): Declare it.
 
 	* ms-excel-util.c (lookup_font_base_char_width): New
 	function. Measure "base character width" of font. Previously in
@@ -1349,11 +1350,11 @@
 	(ms_excel_read_default_col_width): Ditto
 
 1999-12-14  Jon K Hellan  <hellan@acm.org>
- 
+
         * ms-excel-write.h (XF_MAGIC, PALETTE_ALSO_BLACK, FILL_MAGIC,
         BORDER_MAGIC): define
         (PALETTE_WHITE, PALETTE_BLACK): Fix typo, they were switched around.
- 
+
         * ms-excel-write.c (put_colors): Include border colors.
         (excel_font_new): Newline to conform to coding style.
         (fonts_get_font): New function. Get font, given index.
@@ -1363,18 +1364,18 @@
         (formats_free, write_format): Use it.
         (xf_get_mstyle): New function. Get mstyle, given index.
         (xf_free): Use it.
-        (halign_to_excel): 
+        (halign_to_excel):
         New function. Map horizontal alignment to Excel bitfield
-        (valign_to_excel): 
+        (valign_to_excel):
         New function. Map vertical alignment to Excel bitfield.
-        (orientation_to_excel): 
+        (orientation_to_excel):
         New function. Map text orientation to Excel bitfield.
-        (border_type_to_excel): 
+        (border_type_to_excel):
         New function. Map border type to Excel bitfield.
-        (fixup_fill_colors): 
+        (fixup_fill_colors):
         New function. Kluge fill foreground and background colors.
         (get_xf_differences): Fill out map of differences to parent style.
-        (log_xf_data): 
+        (log_xf_data):
         New function. Log XF data for a record about to be written. Pulled
         out of write_xf_record.
         (build_xf_data): New function. Build XF data for a style. Pulled
@@ -1386,16 +1387,16 @@
         mstyle. Simplify by moving out logging and marshaling. Make more
         complex by writing borders, alignment, wrap, rotation.
         (write_xf): Use xf_get_mstyle, build_xf_data, log_xf_data.
- 
+
         * ms-excel-util.h: Fix typo.
- 
+
         * ms-excel-xf.h: New file for BiffXFData struct def.
- 
+
         * ms-excel-read.c: Move BiffXFData struct def to
         ms-excel-xf.h. Include ms-excel-xf.h. Remove include "border.h" -
         ms-excel-xf.h includes it.
         (ms_excel_get_style_from_xf): Express some bewilderment.
- 
+
         * ms-excel-biff.h: Define enums for horizontal alignment, vertical
         alignment, text orientation, difference bits
 
@@ -1619,7 +1620,7 @@
 	default column width record. Previously in ms_excel_read_sheet.
 	(ms_excel_read_sheet): Move some code to
 	ms_excel_read_default_row_height and ms_excel_read_default_col_width.
-	
+
 1999-11-19  Michael Meeks  <mmeeks@gnu.org>
 
 	* boot.c (excel_probe): Check for the right streams, not just an
@@ -1648,7 +1649,7 @@
 
 	* ms-obj.h (type anchor_point): define it.
 	(type MSObj): Change type of anchor from int[4] to
-	anchor_point[4]. 
+	anchor_point[4].
 	Update signature of ms_parse_object_anchor.
 
 	* ms-excel-read.h (_ExcelSheet): Add base_char_width member.
@@ -1666,7 +1667,7 @@
 	heights here, but there seems to be no need.
 	(get_units_net_of_margins): New function. Subtract margins from a
 	point size.
-	(ms_excel_read_cell): 
+	(ms_excel_read_cell):
 	case BIFF_ROW: Specify height in points, not pixels.  Use
 	get_row_height_units and get_units_net_of_margins. Call
 	sheet_row_set_height_units rather than sheet_row_set_height.
@@ -1674,13 +1675,13 @@
 	column based on actual font. Use get_base_char_width and
 	get_units_net_of_margins. Call sheet_col_set_width_units rather
 	than sheet_col_set_width.
-	(ms_excel_read_sheet): 
+	(ms_excel_read_sheet):
 	case BIFF_DEFAULTROWHEIGHT: Handle it. Like BIFF_ROW, but use
-	sheet_row_set_internal_height on default style. 
+	sheet_row_set_internal_height on default style.
 	case BIFF_DEFCOLWIDTH: Handle it. Like BIFF_COLINFO, but use
-	sheet_col_set_internal_height on default style. 
+	sheet_col_set_internal_height on default style.
 
-	* ms-escher.c (_MSEscherHeader): 
+	* ms-escher.c (_MSEscherHeader):
 	Change type of anchor to anchor_point[4]
 
 1999-11-18  Michael Meeks  <mmeeks@gnu.org>
@@ -1718,7 +1719,7 @@
 
 1999-11-14  Frank Chiulli <fchiulli@home.com>
 
-	* ms-summary.c (set_summary_item) : Process all the sections in a 
+	* ms-summary.c (set_summary_item) : Process all the sections in a
 	  stream.  Pass the section's PropertySetID to sum_name_to_excel
 	  rather than the stream's.
 
@@ -1729,7 +1730,7 @@
 
 1999-11-09  Michael Meeks  <mmeeks@gnu.org>
 
-	* ms-excel-read.c (ms_excel_get_style_from_xf, biff_xf_map_border): 
+	* ms-excel-read.c (ms_excel_get_style_from_xf, biff_xf_map_border):
 	Update to new STYLE_BORDER enums.
 
 1999-11-08  Jody Goldberg <jgoldberg@home.com>
@@ -1745,16 +1746,16 @@
 	* ms-summary.c :  Added support for DocumentSummaryInformation stream.
 	  Added new field, ps_id (Property Set ID), to mapping_t structure and
 	  initialized excel_to_gnum_mapping[] appropriately.
-	  
+
 	* ms-summary.c (sum_name_to_excel) : New function to convert a summary
 	  name to a MsOleSummaryPID.
 
 	* ms-summary.c (read_summary_items) : Added new argument - psid (Property
 	  Set ID).  It also checks to see that the summary item is in current
-	  Summary stream as identified by psid.  Added support for additional 
+	  Summary stream as identified by psid.  Added support for additional
 	  summary types (boolean, short, time).
-	  
-	* ms-summary.c (ms_summary_read) : Reads DocumentSummaryInformation 
+
+	* ms-summary.c (ms_summary_read) : Reads DocumentSummaryInformation
 	  stream and summary items therein.
 
 	* ms-summary.c (set_summary_item) : Processes additional summary types
@@ -1762,7 +1763,7 @@
 
 	* ms-summary.c (ms_summary_write) : Now also writes out the
 	  DocumentSummaryInformation stream.
-	
+
 1999-11-07  Michael Meeks  <mmeeks@gnu.org>
 
 	* boot.c (excel_save): Invert sense of return value to reflect success.
@@ -1822,21 +1823,21 @@
 
 	* ms-excel-read.c (biff_get_text): tiny fix to debugging code
 	(biff_name_data_new): actually return the new data
-	(biff_name_data_get_name): Moved code that adds names to the 
+	(biff_name_data_get_name): Moved code that adds names to the
 	workbook to ms_excel_read_name()
-	(ms_excel_read_name): Add name definitions to workbook when 
+	(ms_excel_read_name): Add name definitions to workbook when
 	definition is read, rather than when used.
 	Formatting.
 
-	* ms-formula-write.c (write_ref): minor change to comply with 
+	* ms-formula-write.c (write_ref): minor change to comply with
   	  spec for references.
 	(write_node): Handle OPER_NAME.
 	Formatting.
-	
-	* ms-excel-write.c (write_names): New function.  Writes name 
+
+	* ms-excel-write.c (write_names): New function.  Writes name
 	  definitions.  Called from write_workbook().
 	Formatting.
-	
+
 	* ms-excel-write.h: Added names to struct _ExcelWorkbook
 
 1999-10-30  Michael Meeks  <mmeeks@gnu.org>
@@ -2048,7 +2049,7 @@
 	code. (biff_font_data_get_style_font): kill it.
 	(biff_font_data_new): remove setting up fd->style_font.
 	(biff_font_data_destroy): kill style_font bits.
-	
+
 1999-10-02  Jody Goldberg <jgoldberg@home.com>
 
 	* *.c : Ensure that we include config.h first.
@@ -2106,7 +2107,7 @@
 
 	* ole.c (decompress_vba): an idea.
 	(dump_vba_module): + hooks.
-	
+
 1999-09-25  Michael Meeks  <michael@nuclecu.unam.mx>
 
 	* ole.c (decompress_vba): remove unused + clean headers.
@@ -2198,7 +2199,7 @@
 	* ms-excel-write.c (write_sheet_bools): Added write.
 	(biff_put_text): constify. (new_sheet): clean debug.
 
-	* ms-formula-write.c (ms_formula_build_pre_data, ms_formula_write_pre_data): 
+	* ms-formula-write.c (ms_formula_build_pre_data, ms_formula_write_pre_data):
 	stub.
 
 	* ms-excel-write.c (write_workbook): Fix _loads_ of leaks.
@@ -2225,14 +2226,14 @@
 	add 'help' command. Break escher debug for now.
 
 	* Makefile.am: re-enabled 'ole'
-	
+
 	* ms-biff.h: removed all mention of quirks.
 
 	* ms-biff.c (ms_biff_query_copy): dangerous: removed, clean quirk stuff.
 
 1999-09-20  Jody Goldberg <jgoldberg@home.com>
 
-	* ms-obj.[ch]: Remove a few #if ENABLE_BONOBO checks 
+	* ms-obj.[ch]: Remove a few #if ENABLE_BONOBO checks
 	  and add an include for sheet-object.h. Improve debug
 	  info.
 
@@ -2299,16 +2300,16 @@
 	* ms-excel-read.c (ms_excel_workbook_get_sheet) : Make extern.
 
 1999-09-15  Frank Chiulli  <fchiulli@home.com>
-	
+
 	* plugins/excel/boot.c (excel_save): Add a call to ms_summary_write
 	(ms-summary.c) to write out the SummaryInformation stream.
 
 	* plugins/excel/ms-summary.h: Make ms_summary_write public.
-	
+
 	* plugins/excel/ms-summary.c (ms_summary_write, sum_name_to_excel,
-	set_summary_item): New routines to support writing the 
+	set_summary_item): New routines to support writing the
 	SummaryInformation stream.
-	
+
 1999-09-17  Michael Meeks  <michael@nuclecu.unam.mx>
 
 	* ole.c (main, do_draw, dump_escher): dump raw data.
@@ -2404,7 +2405,7 @@
 
 1999-08-20  Michael Meeks  <michael@ximian.com>
 
-	* ms-formula-write.c (get_formula_index): Added a comment about 
+	* ms-formula-write.c (get_formula_index): Added a comment about
 	Excel's add-in formula names.
 
 1999-08-17  Michael Meeks  <michael@ximian.com>
@@ -2601,7 +2602,7 @@
 	libole2/ms-ole.h, and renamed:
 		s/BIFF_GET_GUINT/MS_OLE_GET_GUINT/g
 		s/BIFF_SET_GUINT/MS_OLE_SET_GUINT/g
-	
+
 1999-07-14  Michael Meeks  <michael@edenproject.org>
 
 	* ms-summary.c: Big clean, quiet and sensible handling of
@@ -2617,8 +2618,8 @@
 	* ms-summary.[ch]: Created.
 
 	* boot.c (excel_load): Add summary hook.
-	Update comments 
-	
+	Update comments
+
 1999-07-13  Jody Goldberg  <jgoldberg@home.com>
 
 	* ms-excel-read.c (ms_excel_read_formula): Improve handling of failure
@@ -2678,7 +2679,7 @@
 	(MATCH) : correct the number of arguments.
 	(ms_excel_parse_formula) : The size of the array is stored at the end
 	  too.  This fixes formulas with multiple arrays.
-	
+
 	* *.[ch] make the data streams const while reading.
 
 1999-07-12  Jody Goldberg  <jgoldberg@home.com>
@@ -3032,7 +3033,7 @@
 
 	* ms-excel-read.c: Large bout of indenting / formatting
 	updates, sorry if you have patches ...
-	
+
 1999-07-02  Michael Meeks  <michael@edenproject.org>
 
 	* boot.c: Added 'main.h' to include debug symbol.
@@ -3057,13 +3058,13 @@
 	order of relative col/row bits. Implemented latter.
 	(write_ref): Implemented BiffV8 support.
 	(write_string): Added MISSARG support.
-	(write_area): Implemented BiffV8 support, and 
+	(write_area): Implemented BiffV8 support, and
 	3D area support.
 
 	* ms-formula-write.c (write_node): Split out
 	(write_ref): attempted to implement inter-sheet
 	references.
-	
+
 	* ms-excel-write.c (ms_excel_write_get_sheet_idx):
 	Created.
 
@@ -3264,7 +3265,7 @@
 
 	* ms-excel-read.c: Minor fiddles setting blank flag in some new
 	places, and types changed to gboolean.
-	
+
 	* ms-excel-read.h (_MS_EXCEL_SHEET): changed 'blank' to gboolean.
 
 1999-06-26  Miguel de Icaza  <miguel@nuclecu.unam.mx>
@@ -3313,7 +3314,7 @@
 	header.
 
 1999-06-21  Jody Goldberg  <jgoldberg@home.com>
- 
+
  	* biff-types.h : Move NAME from 218 -> 18, rename Chart biff types to
  	lower case to facilitate decls.
  	* ms-biff.[ch] (dump_biff) : export.
@@ -3326,7 +3327,7 @@
  	override those with only low bytes specified.
  	* Makefile.am : Add ms-chart.
  	* ms-chart.[ch] : New files.  No real functionality.  60% complete.
- 
+
 1999-06-17  Michael Meeks  <michael@edenproject.org>
 
 	* ms-formula-read.c (formula_func_data): Fixed up, should work
@@ -3352,7 +3353,7 @@
 
 	* ms-formula-read.c (formula_func_data): LOG, ROMAN, TRUNC, and
  	BETADIST made var args.
-	
+
 1999-06-17  Michael Meeks  <michael@edenproject.org>
 
 	* ms-formula-read.c (make_function): Added debug.
@@ -3362,11 +3363,11 @@
 
 	* ms-formula-read.c (formula_func_data): Fixed some
 	minor errors.
-	
+
 1999-06-16  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* ms-formula-read.c (formula_func_data): SUMIF made var args.
-	
+
 1999-06-15  Morten Welinder  <terra@diku.dk>
 
 	* ms-formula-read.c (ms_excel_parse_formula): Handle bools.  Plug
@@ -3382,7 +3383,7 @@
 
 	* ms-formula-read.c (formula_func_data): Repopulate using xlcall.h and
 	reading the docs for each function to deduce the number of args.
-	
+
 1999-06-14  Morten Welinder  <terra@diku.dk>
 
 	* ms-excel-read.c (biff_nasty_font_check_function): Load fontset,
@@ -3399,7 +3400,7 @@
 
 	* ms-formula-read.c (formula_func_data): LOG, ROMAN, and TRUNC
  	made var args.
-	
+
 1999-06-13  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* ms-formula-read.c (formula_func_data): PRODUCT, ROUNDDOWN,
@@ -3430,7 +3431,7 @@
 
 1999-06-12  Michael Meeks  <michael@edenproject.org>
 
-	* ms-excel-read.c (ms_excel_read_supporting_wb): 
+	* ms-excel-read.c (ms_excel_read_supporting_wb):
 	Renamed from _WB.
 	(ms_excel_read_name): Remove buggy names assert.
 
@@ -3621,7 +3622,7 @@
 	* ms-formula.[ch] -> ms-formual-read.[ch]
 
 	* All files incldes updated to obey above.
-	
+
 	* ms-biff.c (ms_biff_put_new): Implemented,
 	(ms_biff_put_destroy): Implemented.
 	Various other functions updated / fixed.
@@ -3741,7 +3742,7 @@
 	subdir. Added ms-biff.c.
 
 	* libole2/ Created, moved ole.c, ms-ole.[ch] there.
-	
+
 1999-05-08  Michael Meeks  <michael@ximian.com>
 
 	* ole.c (main): Large re-structure, split out into smaller
@@ -3828,7 +3829,7 @@
 	to PtrArray's for speed & elegance.
 
 1999-05-02  Michael Meeks  <michael@ximian.com>
-	
+
 	* ms-excel.c (ms_excel_read_sheet): Add check before
 	ms_excel_sheet_destroy.
 	(ms_excel_read_sheet): Cleaned debug, and made it nicer.
@@ -3871,11 +3872,11 @@
 Tue Apr 20 16:34:38 1999  Morten Welinder  <terra@diku.dk>
 
 	* ms-obj.c (ms_obj_read_obj): Initialise type.
-	
+
 1999-04-19  Morten Welinder  <terra@diku.dk>
 
 	* ms-excel.c (biff_get_rk): Fixed up mask on eIEEE.
-	
+
 1999-04-19  Michael Meeks  <michael@edenproject.org>
 
 	* ms-escher.c (read_DgContainer): Removed redundant
@@ -3889,7 +3890,7 @@ Tue Apr 20 16:34:38 1999  Morten Welinder  <terra@diku.dk>
 
 	* ole.c (syntax_error): Updated help.
 	(main): [old] added 'biffraw'
-	
+
 1999-04-19  Morten Welinder  <terra@diku.dk>
 
 	* ms-formula.c (ms_excel_parse_formula): Fix for
@@ -4037,7 +4038,7 @@ Tue Apr 20 16:34:38 1999  Morten Welinder  <terra@diku.dk>
 	* ms-escher.c (esh_header_next): Fixedup to use correct lengths.
 	Various major bits of work, started parsing the heirarchical
 	bitstream. Escher looks better than BIFF, 32bit clean seemingly.
-	
+
 	* ole.c: Copied in updates.
 	(dump_escher): Recursive dump of structures.
 
@@ -4055,7 +4056,7 @@ Tue Apr 20 16:34:38 1999  Morten Welinder  <terra@diku.dk>
 	Added 'draw' = search for drawings and dump section.
 
 	* README: Updated to doc. 'draw'
-	
+
 1999-04-12  Michael Meeks <michael@ximian.com>
 
 	* ms-objc.c/h renamed ms_obj_read_graphic to
@@ -4066,7 +4067,7 @@ Tue Apr 20 16:34:38 1999  Morten Welinder  <terra@diku.dk>
 
 	* ms-ole.c (ms_ole_stream_duplicate): Created, not too bad a hack
 	(ms_biff_query_data_to_stream): Nasty hack for ms-escher
-	
+
 1999-04-12  Michael Meeks <michael@ximian.com>
 
 	* ms-obj.c: Created to deal with the horrors of embedded graphic
@@ -4082,7 +4083,7 @@ Tue Apr 20 16:34:38 1999  Morten Welinder  <terra@diku.dk>
 	* Makefile.am: Add new files.
 
 	* ole.c: Nice header.
-	
+
 1999-04-12  Michael Meeks <michael@ximian.com>
 
 	* biff-types.h: Fleshed out.
@@ -4092,7 +4093,7 @@ Tue Apr 20 16:34:38 1999  Morten Welinder  <terra@diku.dk>
 	(ms_excel_read_sheet): Added BIFF_NOTE support.
 	(ms_excel_set_cell_xf): Fixed spurious debug, and made more
 	robust.
-	
+
 1999-04-12  Michael Meeks <michael@ximian.com>
 
 	* ms-excel.c: Various unneeded BIFF tags implemented for
@@ -4139,7 +4140,7 @@ Tue Apr 20 16:34:38 1999  Morten Welinder  <terra@diku.dk>
 	* ole.c: Added, basic OLE2/BIFF helper program
 
 	* Makefile.am: Updated to include ole.c
-	
+
 1999-04-06  Michael Meeks <michael@ximian.com>
 
 	* ms-formula.h: Add PTG_AREAN, PTG_REFN.
@@ -4154,7 +4155,7 @@ Tue Apr 20 16:34:38 1999  Morten Welinder  <terra@diku.dk>
 	(ms_excel_set_cell_xf): Set auto_return argument to 0 for
 	cell_set_alignment.
 	move cell_set_colors to last thing.
-	
+
 	* ms-excel.h: Update prototype.
 
 1999-04-05  Miguel de Icaza  <miguel@nuclecu.unam.mx>
@@ -4172,12 +4173,12 @@ Tue Apr 20 16:34:38 1999  Morten Welinder  <terra@diku.dk>
 	(ms_excel_sheet_destroy): Deal with hash table.
 	(ms_excel_sheet_shared_formula): Returns shared formula text
 	(ms_excel_set_cell_xf): Cleaned unused variables.
-	
+
 	* ms-excel.h: Added ms_excel_sheet_shared_formula prototype
-	
+
 	* ms-formula.c (ms_excel_fixup_array_formula): Removed.
 	(ms_excel_parse_formula): Sorted FORMULA_PTG_EXP.
-	
+
 	* ms-formula.h: Removed prototype.
 
 1999-04-02  Michael Meeks  <michael@ximian.com>
@@ -4193,10 +4194,10 @@ Tue Apr 20 16:34:38 1999  Morten Welinder  <terra@diku.dk>
 	* ms-excel.c (ms_excel_set_cell_xf): Made static for safety.
 	(ms_excelReadWorkbook): BIFF_SST: fixed up a few types.
 	(biff_get_text): Fixed types.
-	
+
 	* ms-excel.h: removed prototype for same.
 	fixed biff_get_text type.
-	
+
 1999-04-01  Michael Meeks  <michael@ximian.com>
 
 	* ms-excel.c (ms_excelReadWorkbook): Major string table fix
@@ -4216,7 +4217,7 @@ Tue Apr 20 16:34:38 1999  Morten Welinder  <terra@diku.dk>
 	(ms_excel_read_cell): COLINFO, fixed fatal bug in hidden column code.
 
 	* ms-formula.c (ms_excel_parse_formula): Removed debug.
-	
+
 1999-03-30  Michael Meeks  <michael@ximian.com>
 
 	* ms-formula.c (ms_excel_parse_formula): Rehashed function
@@ -4231,12 +4232,12 @@ Tue Apr 20 16:34:38 1999  Morten Welinder  <terra@diku.dk>
 1999-03-26  Michael Meeks  <michael@ximian.com>
 
 	* ms-formula.c: Removed duplicate for fn 0x65
-	
+
 1999-03-24  Thomas Meeks  <thomas@ximian.com>
 
 	* ms-formula.c: Added mappings for Address, Area, Hyperlink,
 	Offset, Column, Columns.
-	
+
 1999-03-12  Michael Meeks  <michael@ximian.com>
 
 	* ms-excel.c (biff_name_data_new, biff_name_data_get_name),
@@ -4245,16 +4246,16 @@ Tue Apr 20 16:34:38 1999  Morten Welinder  <terra@diku.dk>
 	(ms_excel_workbook_new, ms_excel_workbook_destroy):
 	Name table hashing functions.
 	(ms_excel_read_cell): Cleaned debug on BIFF_HEADER / FOOTER.
-	
+
 	* ms-formula.c (ms_excel_parse_formula): Large API change to
 	simplify several cases, and clean dirty code.
-	(make_function): Special 0xff case on functions. For use with 
+	(make_function): Special 0xff case on functions. For use with
 	external functions, the names of which come in via:
 	(_excel_parse_formula): FORMULA_PTG_NAME_X, hacked into
 	rough shape.
 
 	* ms-excel.c: All instances of ms_excel_parse_formula updated.
-	
+
 1999-03-11  Michael Meeks  <michael@ximian.com>
 
 	* ms-ole.c (ms_ole_destroy, ms_ole_new): Killed debug
@@ -4268,7 +4269,7 @@ Tue Apr 20 16:34:38 1999  Morten Welinder  <terra@diku.dk>
 
 	* ms-formula.c: Inserted all the statistics formulae from
 	5.0a into the translation table.
-	
+
 1999-03-09  Michael Meeks  <michael@ximian.com>
 
 	* ms-formula.c (ms_excel_parse_formula): Hacked out the
@@ -4319,5 +4320,5 @@ Tue Apr 20 16:34:38 1999  Morten Welinder  <terra@diku.dk>
 1998-12-28  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* boot.c (excel_init): New file, adds the excel booting
-	mechanism. 
+	mechanism.
 

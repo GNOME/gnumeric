@@ -209,7 +209,7 @@ Morten:
 	* Isolated floating-point-double reading code with endian-issues
 	  in one spot rather than in all file io plugins.
 
-Kenneth: 
+Kenneth:
         * Fixed and updated the i18n subsystem, so it how should work
           more smooth - I will consider this very close to finished.
 
@@ -317,7 +317,7 @@ Jody:
 	* Some translation bugs.
 
 Jon Kåre:
-	* Tooltips for combo boxes.        
+	* Tooltips for combo boxes.
 	* Synchronize list selection with entry field in combo boxes.
 	* Make  units in print setup dialog user selectable.
 	* More dialog polishing.
@@ -327,7 +327,7 @@ JPR:
 	* Sorting now detects headers when sorting
 
 Kenneth
-	* Added two perl scripts for translation help/maintainence. 
+	* Added two perl scripts for translation help/maintainence.
           Also added is a README.tools file, explaining how to use these.
 
 Michael:
@@ -481,7 +481,7 @@ Michael:
 
 Miguel:
 	* Charting work
-	* Wizard for charting 
+	* Wizard for charting
 	* Bug fixes.
 	* Visual cell references while editing.
 	* Implemented Gnumeric-side vectors for graphics support.
@@ -697,7 +697,7 @@ Daniel:
 
 Federico:
 	* Improved dragging and zooming behavior in the print preview.
-	* Added "open hand" and "closed hand" cursors for dragging the 
+	* Added "open hand" and "closed hand" cursors for dragging the
 	  print preview.
 
 Robert:
@@ -877,7 +877,7 @@ Miguel:
 	* Fixed locale setting and switching for file IO.
 	* Updated the CORBA interface for setting cell attributes.
 	* Killed some dead code.
-	* All IO code now takes an existing workbook to load information into, 
+	* All IO code now takes an existing workbook to load information into,
 	  rather than creating a new workbook and returning it.
 	* Scrolling sheet tabs.
 
@@ -947,7 +947,7 @@ Jody:
 	Display embedded newlines in multi-line-cells
 
 Michael
-        * More improved Excel writing code 
+        * More improved Excel writing code
 --------------------------------------------------------------------------
 
 Gnumeric 0.28
@@ -970,9 +970,9 @@ ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric
 
 	* Improved function wizard (not yet enabled) (Michael)
 
-	* 
+	*
 * New Tools
-	
+
 	* Started the implementation of Data Analysis tools (Jukka)
     	    - Implemented Correlation and Covariance tools
     	    - Implemented Descriptive Statistics Tool
@@ -983,7 +983,7 @@ ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric
     	    - Implemented F-Test Tool
     	    - Implemented Random Number Generation Tool with the following
     	      distributions: Discrete, Normal, and Uniform.
-    
+
 * New Functions
 
 	* Added the following functions (Jukka)
@@ -1047,7 +1047,7 @@ starting with this release, Gnumeric will be supported by
 International GNOME Support (http://www.gnome-support.com).
 
    Michael Meeks has redone the function definition code, it is much
-better and extensible than the code we had before.  
+better and extensible than the code we had before.
 
 * Getting it
 
@@ -1088,7 +1088,7 @@ Morten:
 Miguel
 	* Paste-Special/Transpose.
 	* Bug fixing.
-	
+
 Sean
 	* Implemented 'X-base' importing support (DBase, FoxPro etc.1)
 
@@ -1117,7 +1117,7 @@ Several translations updated: thanks to our translators
 
 And lots of bugs fixed.
 
-Thanks to all 
+Thanks to all
 Miguel.
 
 
@@ -1172,7 +1172,7 @@ in this new version, here is a list:
 	* Excel loader can even restore your selection :-) (Michael
 	  Meeks).
 
-	* A number of sanity checks from Morten Welinder.  
+	* A number of sanity checks from Morten Welinder.
 
 Miguel.
 
@@ -1195,17 +1195,17 @@ features.
 
 	* Should load properly workbooks with references to other
 	  sheets.
-	
+
 	* Starts up with a bigger size (Michael).
 
 	* Michael has begun a function wizard, it is disabled in this
 	  version by default.
 
-	* RAND() function. 
+	* RAND() function.
 
 	* Fixes for some cases of circular references (the other cases
 	  were fine), by Morten.
-	
+
 	* IF() now can take variable arguments (Michael).
 
 	* Updated documentation
@@ -1229,7 +1229,7 @@ Hello guys,
 features to be available ASAP to all of you :-).
 
 	1. Morten Welinder implemented a more accurrate algorithm for
-	   the variance functions.	
+	   the variance functions.
 
 	2. Michael Meeks send me lots of updates and changes to Gnumeric:
 
@@ -1247,7 +1247,7 @@ features to be available ASAP to all of you :-).
 	ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric
 
 Miguel.
-		
+
 
 
 
@@ -1258,7 +1258,7 @@ Hey Dudes!
 
 * New in this version:
 
-   * New infrastructure to simplify writing functions 
+   * New infrastructure to simplify writing functions
      with variable arguments (Michael Meeks).
 
      New token for ranges.
@@ -1272,12 +1272,12 @@ Hey Dudes!
 	* Michael Meeks wrote the spreadsheet lookup functions: COLUMN(),
 	  COLUMNS(), HLOOKUP(), ROW(), ROWS(), VLOOKLUP()
 
-	* Sean Atkinson improved SUBSTITUTE() and he implemented CONCATENATE(), REPT(), FIND(), 
+	* Sean Atkinson improved SUBSTITUTE() and he implemented CONCATENATE(), REPT(), FIND(),
 	  FIXED(), PROPER(), REPLACE(), T(), VALUE(), SUBSTITUTE(), DOLLAR()
 
 	* Jukka-Pekka wrote CEILING() and COMBIN().
 
-	* Jukka-Pekka wrote the statistical functions: 
+	* Jukka-Pekka wrote the statistical functions:
 	  BINOMDIST(), HARMEAN (), HYPEGEOMDIST(), AVEDEV(), CONFIDENCE(), CRITBINOM(),
 	  DEVSQ(), FISHER(), KURT(), NORMDIST(), PERMUT(), SKEW(), STANDARIZE(), WEIBULL(),
 	  FISHERINV(), NORMSDIST() and LOGNORMDIST(), CORREL(),
@@ -1285,7 +1285,7 @@ Hey Dudes!
 
 	* Michael Meekrs wrote POISSON(), DELTA(), GESTEP().
 
-	
+
     * Many bug fixes
 
 	* Daniel Veillard fixed the bug with saving cells that had the "&" inside.
@@ -1319,10 +1319,10 @@ Hello guys,
 
 	- Bug fix: Precedence fixes: when decoding the tree to render a text
 	  representation, I was not properly considering the case for
-	  same-priority but different meaning operations. 
+	  same-priority but different meaning operations.
 
 	  Should work now. (ie, it will correctly decode 1/(c4*d4)
-	  again. 
+	  again.
 
 	- New code: integer overflow/underflow detection code.  Now
 	  addition and substraction will be promoted to floating point
@@ -1443,7 +1443,7 @@ These are the new features in this version:
 	   strict C compilers (Digital C compiler in this case).
 
 	4. Now it recalcs cells when you have cleared values or
-	   removed cells (just a missing call to workbook_recalc was missing). 
+	   removed cells (just a missing call to workbook_recalc was missing).
 
 	5. Install/compile fixes from Raja Harinath.
 
@@ -1453,7 +1453,7 @@ These are the new features in this version:
 
 	8. Small display glitch fix.
 
-	9. Add type checking to functions that take a constant number of arguments. 	
+	9. Add type checking to functions that take a constant number of arguments.
 
 	10. Upper case format letters are now accepted.
 
@@ -1581,22 +1581,22 @@ Hello guys,
    The most important change in International Manatee is the fact that
 the documentation that Adrian Likins wrote is now integrated into the
 build system.  It gets installed and we feature a reference guide for
-the internal Gnumeric functions. 
+the internal Gnumeric functions.
 
    These are the features of International Manatee:
 
 	- Bruno enabled the coloring page for setting the foreground
-	  color. 
+	  color.
 
 	- The sheet label name works properly now (it no longer
-	  "slides"). 
+	  "slides").
 
 	- Correct behaviour of clicking in the presence of editing the
 	  sheet label name.
 
 	- Guile support now needs to be explicitly configure
 	  (--with-guile).
-	
+
 	- Fix crashing problems repoted when autofilling.
 
 	- Documentation is included in the tarball (You need DocBook
@@ -1604,13 +1604,13 @@ the internal Gnumeric functions.
 	  ugly, ugly, ugly stuff :-).  You can find Docbook here:
 
 		ftp://ftp.cygnus.com/pub/home/rosalia/docware.
-	
+
 	  A docbook tutorial is available in:
 
 		http://nis-www.lanl.gov/~rosalia/mydocs/docbook-intro.html
 
 	  The full docbook documentation can be downloaded for free
-	  from the Davenport site (I lost the url to this, but I am 
+	  from the Davenport site (I lost the url to this, but I am
 	  confident all of you documentation-savvy people are good
 	  at altavistaing things).
 
@@ -1636,8 +1636,8 @@ Hello guys,
 	  ='Regional sales'!C5*3
 
 	- New border code.  Getting ready to print the borders on the
-	  cells. 
-	
+	  cells.
+
 	- Menu hints are now available for every menu entry.
 
 	- Standarized the menus (Nat Friendman).
@@ -1665,7 +1665,7 @@ Hello guys,
 	  save/load).
 
 	- Fixed the memory leaks on the Excel plugin (Michael).
-	
+
 	- Provide better error checking for dates (Havoc Pennington)
 
 Enjoy,
@@ -1682,7 +1682,7 @@ version is available in:
 
    The highlights of this version are:
 
-	- A pluggable framework for file formats.  No need to hack the 
+	- A pluggable framework for file formats.  No need to hack the
 	  code to add your file loader anymore, routines are provided
 	  to register file loading and saving formats.
 
