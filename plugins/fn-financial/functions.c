@@ -3,10 +3,10 @@
  * fn-financial.c:  Built in financial functions and functions registration
  *
  * Authors:
- *  Jukka-Pekka Iivonen (jiivonen@hutcs.cs.hut.fi)
- *  Morten Welinder (terra@diku.dk)
- *  Vladimir Vuksan (vuksan@veus.hr)
- *  Andreas J. Guelzow (aguelzow@taliesin.ca)
+ *   Jukka-Pekka Iivonen (jiivonen@hutcs.cs.hut.fi)
+ *   Morten Welinder (terra@diku.dk)
+ *   Vladimir Vuksan (vuksan@veus.hr)
+ *   Andreas J. Guelzow (aguelzow@taliesin.ca)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@
 
 #include <parse-util.h>
 #include <cell.h>
-#include <goal-seek.h>
+#include <tools/goal-seek.h>
 #include <collect.h>
 #include <auto-format.h>
 #include <datetime.h>
@@ -39,6 +39,12 @@
 #include <limits.h>
 #include <string.h>
 #include <libgnome/gnome-i18n.h>
+
+#include "plugin.h"
+#include "plugin-util.h"
+#include "module-plugin-defs.h"
+
+GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 #define is_valid_basis(B) (B >= 0 && B <= 5)
 #define is_valid_freq(F) (F == 1 || F == 2 || F == 4)
@@ -3130,263 +3136,171 @@ gnumeric_vdb (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-void finance_functions_init (void);
+const ModulePluginFunctionInfo financial_functions[] = {
+	{ "accrint", "???fff|f", "issue,first_interest,settlement,rate,par,frequency[,basis]",
+	  &help_accrint, gnumeric_accrint, NULL, NULL, NULL },
+	{ "accrintm", "??f|ff", "issue,maturity,rate[,par,basis]",
+	  &help_accrintm, gnumeric_accrintm, NULL, NULL, NULL },
+	{ "amordegrc", "fffffff", "cost,purchase_date,first_period,salvage,period,rate,basis",
+	  &help_amordegrc, gnumeric_amordegrc, NULL, NULL, NULL },
+	{ "amorlinc", "fffffff", "cost,purchase_date,first_period,salvage,period,rate,basis",
+	  &help_amorlinc, gnumeric_amorlinc, NULL, NULL, NULL },
+	{ "coupdaybs", "fff|fb", "settlement,maturity,frequency[,basis,eom]",
+	  &help_coupdaybs, gnumeric_coupdaybs, NULL, NULL, NULL },
+	{ "coupdays", "fff|fb", "settlement,maturity,frequency[,basis,eom]",
+	  &help_coupdays, gnumeric_coupdays, NULL, NULL, NULL },
+	{ "coupdaysnc", "fff|fb", "settlement,maturity,frequency[,basis,eom]",
+	  &help_coupdaysnc, gnumeric_coupdaysnc, NULL, NULL, NULL },
+	{ "coupncd", "fff|fb", "settlement,maturity,frequency[,basis,eom]",
+	  &help_coupncd, gnumeric_coupncd, NULL, NULL, NULL },
+	{ "coupnum", "fff|fb", "settlement,maturity,frequency[,basis,eom]",
+	  &help_coupnum, gnumeric_coupnum, NULL, NULL, NULL },
+	{ "couppcd", "fff|fb", "settlement,maturity,frequency[,basis,eom]",
+	  &help_couppcd, gnumeric_couppcd, NULL, NULL, NULL },
+	{ "cumipmt", "ffffff", "rate,nper,pv,start_period,end_period,type",
+	  &help_cumipmt, gnumeric_cumipmt, NULL, NULL, NULL },
+	{ "cumprinc", "ffffff", "rate,nper,pv,start_period,end_period,type",
+	  &help_cumprinc, gnumeric_cumprinc, NULL, NULL, NULL },
+	{ "db", "ffff|f", "cost,salvage,life,period[,month]",
+	  &help_db, gnumeric_db, NULL, NULL, NULL },
+	{ "ddb", "ffff|f", "cost,salvage,life,period[,factor]",
+	  &help_ddb, gnumeric_ddb, NULL, NULL, NULL },
+	{ "disc", "??ff|f", "settlement,maturity,pr,redemption[,basis]",
+	  &help_disc, gnumeric_disc, NULL, NULL, NULL },
+	{ "dollarde", "ff", "fractional_dollar,fraction",
+	  &help_dollarde, gnumeric_dollarde, NULL, NULL, NULL },
+	{ "dollarfr", "ff", "decimal_dollar,fraction",
+	  &help_dollarfr, gnumeric_dollarfr, NULL, NULL, NULL },
+	{ "duration", "fff", "rate,pv,fv",
+	  &help_duration, gnumeric_duration, NULL, NULL, NULL },
+	{ "effect", "ff", "rate,nper",
+	  &help_effect,	  gnumeric_effect, NULL, NULL, NULL },
+	{ "euro", "s", "currency",
+	  &help_euro,	  gnumeric_euro, NULL, NULL, NULL },
+	{ "fv", "fff|ff", "rate,nper,pmt,pv,type",
+	  &help_fv,	  gnumeric_fv, NULL, NULL, NULL },
+	{ "fvschedule", "fA", "pv,schedule",
+	  &help_fvschedule, gnumeric_fvschedule, NULL, NULL },
+	{ "intrate", "??ff|f", "settlement,maturity,investment,redemption[,basis]",
+	  &help_intrate,  gnumeric_intrate, NULL, NULL, NULL },
+	{ "ipmt", "ffff|ff", "rate,per,nper,pv,fv,type",
+	  &help_ipmt,	  gnumeric_ipmt, NULL, NULL, NULL },
+	{ "irr", "A|f", "values[,guess]",
+	  &help_irr,	  gnumeric_irr, NULL, NULL, NULL },
+	{ "ispmt", "ffff", "rate,per,nper,pv",
+	  &help_ispmt,	gnumeric_ispmt, NULL, NULL, NULL },
+	{ "mduration", "fffff|f", "settlement,maturify,coupon,yield,frequency[,basis]",
+	  &help_mduration, gnumeric_mduration, NULL, NULL, NULL },
+	{ "mirr", "Aff", "values,finance_rate,reinvest_rate",
+	  &help_mirr,	  gnumeric_mirr, NULL, NULL, NULL },
+	{ "nominal", "ff", "rate,nper",
+	  &help_nominal,  gnumeric_nominal, NULL, NULL, NULL },
+	{ "nper", "fffff", "rate,pmt,pv,fv,type",
+	  &help_nper,	  gnumeric_nper, NULL, NULL, NULL },
+	{ "npv",	  0, "",
+	  &help_npv,	  NULL, gnumeric_npv, NULL, NULL },
+	{ "oddfprice", "????fffff", "settlement,maturity,issue,first_coupon,rate,yld,redemption,frequency,basis",
+	  &help_oddfprice,  gnumeric_oddfprice, NULL, NULL, NULL },
+	{ "oddfyield", "????fffff", "settlement,maturity,issue,first_coupon,rate,pr,redemption,frequency,basis",
+	  &help_oddfyield,  gnumeric_oddfyield, NULL, NULL, NULL },
+	{ "oddlprice", "???fffff", "settlement,maturity,last_interest,rate,yld,redemption,frequency,basis",
+	  &help_oddlprice,  gnumeric_oddlprice, NULL, NULL, NULL },
+	{ "oddlyield", "???fffff", "settlement,maturity,last_interest,rate,pr,redemption,frequency,basis",
+	  &help_oddlyield,  gnumeric_oddlyield, NULL, NULL, NULL },
+	{ "pmt", "fff|ff", "rate,nper,pv[,fv,type]",
+	  &help_pmt,	  gnumeric_pmt, NULL, NULL, NULL },
+	{ "ppmt", "ffff|ff", "rate,per,nper,pv[,fv,type]",
+	  &help_ppmt,	  gnumeric_ppmt, NULL, NULL, NULL },
+	{ "price", "??fff|ff", "settle,mat,rate,yield,redemption_price,frequency,basis",
+	  &help_price, gnumeric_price, NULL, NULL, NULL },
+	{ "pricedisc", "??ff|f", "settlement,maturity,discount,redemption[,basis]",
+	  &help_pricedisc,  gnumeric_pricedisc, NULL, NULL, NULL },
+	{ "pricemat", "???ff|f", "settlement,maturity,issue,rate,yield[,basis]",
+	  &help_pricemat,  gnumeric_pricemat, NULL, NULL, NULL },
+	{ "pv", "fff|ff", "rate,nper,pmt[,fv,type]",
+	  &help_pv,	  gnumeric_pv, NULL, NULL, NULL },
+	{ "rate", "fff|fff", "rate,nper,pmt,fv,type,guess",
+	  &help_rate,	  gnumeric_rate, NULL, NULL, NULL },
+	{ "received", "??ff|f", "settlement,maturity,investment,discount[,basis]",
+	  &help_received,  gnumeric_received, NULL, NULL, NULL },
+	{ "sln", "fff", "cost,salvagevalue,life",
+	  &help_sln,	  gnumeric_sln, NULL, NULL, NULL },
+	{ "syd", "ffff", "cost,salvagevalue,life,period",
+	  &help_syd,	  gnumeric_syd, NULL, NULL, NULL },
+	{ "tbilleq", "??f", "settlement,maturity,discount",
+	  &help_tbilleq,  gnumeric_tbilleq, NULL, NULL, NULL },
+	{ "tbillprice", "??f", "settlement,maturity,discount",
+	  &help_tbillprice, gnumeric_tbillprice, NULL, NULL, NULL },
+	{ "tbillyield", "??f", "settlement,maturity,pr",
+	  &help_tbillyield, gnumeric_tbillyield, NULL, NULL, NULL },
+	{ "vdb", "fffff|ff", "cost,salvage,life,start_period,end_period[,factor,switch]",
+	  &help_vdb, gnumeric_vdb, NULL, NULL, NULL },
+	{ "xirr", "AA|f", "values,dates[,guess]",
+	  &help_xirr,	  gnumeric_xirr, NULL, NULL, NULL },
+	{ "xnpv", "fAA", "rate,values,dates",
+	  &help_xnpv,	  gnumeric_xnpv, NULL, NULL, NULL },
+	{ "yield", "??fff|ff", "settle,mat,rate,price,redemption_price,frequency,basis",
+	  &help_yield, gnumeric_yield, NULL, NULL, NULL },
+	{ "yielddisc", "??fff", "settlement,maturity,pr,redemption,basis",
+	  &help_yielddisc,  gnumeric_yielddisc, NULL, NULL, NULL },
+	{ "yieldmat", "???fff", "settlement,maturity,issue,rate,pr,basis",
+	  &help_yieldmat,  gnumeric_yieldmat, NULL, NULL, NULL },
+        {NULL}
+};
+
+/* FIXME: Should be merged into the above.  */
+static const struct {
+	const char *func;
+	AutoFormatTypes typ;
+} af_info[] = {
+	{ "accrint", AF_MONETARY },
+	{ "accrintm", AF_MONETARY },
+	{ "amordegrc", AF_MONETARY },
+	{ "amorlinc", AF_MONETARY },
+	{ "coupncd", AF_DATE },
+	{ "couppcd", AF_DATE },
+	{ "cumipmt", AF_MONETARY },
+	{ "cumprinc", AF_MONETARY },
+	{ "db", AF_MONETARY },
+	{ "ddb", AF_MONETARY },
+	{ "dollarde", AF_MONETARY },
+	{ "effect", AF_PERCENT },
+	{ "fv", AF_MONETARY },
+	{ "fvschedule", AF_MONETARY },
+	{ "intrate", AF_PERCENT },
+	{ "ipmt", AF_MONETARY },
+	{ "irr", AF_PERCENT },
+	{ "ispmt", AF_MONETARY },
+	{ "mirr", AF_PERCENT },
+	{ "nominal", AF_PERCENT },
+	{ "npv", AF_MONETARY },
+	{ "pmt", AF_MONETARY },
+	{ "ppmt", AF_MONETARY },
+	{ "pv", AF_MONETARY },
+	{ "rate", AF_PERCENT },
+	{ "received", AF_MONETARY },
+	{ "sln", AF_MONETARY },
+	{ "syd", AF_MONETARY },
+	{ "tbillyield", AF_PERCENT },
+	{ "vdb", AF_MONETARY },
+	{ "xirr", AF_PERCENT },
+	{ "xnpv", AF_MONETARY },
+	{ "yield", AF_PERCENT },
+	{ NULL, AF_UNKNOWN }
+};
+
 void
-finance_functions_init (void)
+plugin_init (void)
 {
-	FunctionDefinition *def;
-	FunctionCategory *cat = function_get_category_with_translation
-	        ("Financial", _("Financial"));
+	int i;
+	for (i = 0; af_info[i].func; i++)
+		auto_format_function_result_by_name (af_info[i].func, af_info[i].typ);
+}
 
-	def = function_add_args	 (cat, "accrint", "???fff|f",
-				  "issue,first_interest,settlement,rate,par,"
-				  "frequency[,basis]",
-				  &help_accrint, gnumeric_accrint);
-	auto_format_function_result (def, AF_MONETARY);
-
-	def = function_add_args	 (cat, "accrintm", "??f|ff",
-				  "issue,maturity,rate[,par,basis]",
-				  &help_accrintm, gnumeric_accrintm);
-	auto_format_function_result (def, AF_MONETARY);
-
-	def = function_add_args	 (cat, "amordegrc", "fffffff",
-				  "cost,purchase_date,first_period,salvage,"
-				  "period,rate,basis",
-				  &help_amordegrc, gnumeric_amordegrc);
-	auto_format_function_result (def, AF_MONETARY);
-
-	def = function_add_args	 (cat, "amorlinc", "fffffff",
-				  "cost,purchase_date,first_period,salvage,"
-				  "period,rate,basis",
-				  &help_amorlinc, gnumeric_amorlinc);
-	auto_format_function_result (def, AF_MONETARY);
-
-	def = function_add_args	 (cat, "coupdaybs", "fff|fb",
-				  "settlement,maturity,frequency[,basis,eom]",
-				  &help_coupdaybs, gnumeric_coupdaybs);
-
-	def = function_add_args	 (cat, "coupdays", "fff|fb",
-				  "settlement,maturity,frequency[,basis,eom]",
-				  &help_coupdays, gnumeric_coupdays);
-
-	def = function_add_args	 (cat, "coupdaysnc", "fff|fb",
-				  "settlement,maturity,frequency[,basis,eom]",
-				  &help_coupdaysnc, gnumeric_coupdaysnc);
-
-	def = function_add_args	 (cat, "coupncd", "fff|fb",
-				  "settlement,maturity,frequency[,basis,eom]",
-				  &help_coupncd, gnumeric_coupncd);
-	auto_format_function_result (def, AF_DATE);
-
-	def = function_add_args	 (cat, "coupnum", "fff|fb",
-				  "settlement,maturity,frequency[,basis,eom]",
-				  &help_coupnum, gnumeric_coupnum);
-
-	def = function_add_args	 (cat, "couppcd", "fff|fb",
-				  "settlement,maturity,frequency[,basis,eom]",
-				  &help_couppcd, gnumeric_couppcd);
-	auto_format_function_result (def, AF_DATE);
-
-	def = function_add_args	 (cat, "cumipmt", "ffffff",
-				  "rate,nper,pv,start_period,end_period,type",
-				  &help_cumipmt, gnumeric_cumipmt);
-	auto_format_function_result (def, AF_MONETARY);
-
-	def = function_add_args	 (cat, "cumprinc", "ffffff",
-				  "rate,nper,pv,start_period,end_period,type",
-				  &help_cumprinc, gnumeric_cumprinc);
-	auto_format_function_result (def, AF_MONETARY);
-
-	def = function_add_args	 (cat, "db", "ffff|f",
-				  "cost,salvage,life,period[,month]",
-				  &help_db, gnumeric_db);
-	auto_format_function_result (def, AF_MONETARY);
-
-	def = function_add_args	 (cat, "ddb", "ffff|f",
-				  "cost,salvage,life,period[,factor]",
-				  &help_ddb, gnumeric_ddb);
-	auto_format_function_result (def, AF_MONETARY);
-
-	def = function_add_args  (cat, "disc", "??ff|f",
-				  "settlement,maturity,pr,redemption[,basis]",
-				  &help_disc, gnumeric_disc);
-
-	def = function_add_args	 (cat, "dollarde", "ff",
-				  "fractional_dollar,fraction",
-				  &help_dollarde, gnumeric_dollarde);
-	auto_format_function_result (def, AF_MONETARY);
-
-	def = function_add_args	 (cat, "dollarfr", "ff",
-				  "decimal_dollar,fraction",
-				  &help_dollarfr, gnumeric_dollarfr);
-
-	def = function_add_args	 (cat, "duration", "fff", "rate,pv,fv",
-				  &help_duration, gnumeric_duration);
-
-	def = function_add_args	 (cat, "effect",   "ff",    "rate,nper",
-				  &help_effect,	  gnumeric_effect);
-	auto_format_function_result (def, AF_PERCENT);
-
-	def = function_add_args	 (cat, "euro", "s", "currency",
-				  &help_euro,	  gnumeric_euro);
-
-	def = function_add_args	 (cat, "fv", "fff|ff", "rate,nper,pmt,pv,type",
-				  &help_fv,	  gnumeric_fv);
-	auto_format_function_result (def, AF_MONETARY);
-
-	def = function_add_args	 (cat, "fvschedule", "fA", "pv,schedule",
-				  &help_fvschedule, gnumeric_fvschedule);
-	auto_format_function_result (def, AF_MONETARY);
-
-	def = function_add_args	 (cat, "intrate", "??ff|f",
-				  "settlement,maturity,investment,redemption"
-				  "[,basis]",
-				  &help_intrate,  gnumeric_intrate);
-	auto_format_function_result (def, AF_PERCENT);
-
-	def = function_add_args	 (cat, "ipmt", "ffff|ff",
-				  "rate,per,nper,pv,fv,type",
-				  &help_ipmt,	  gnumeric_ipmt);
-	auto_format_function_result (def, AF_MONETARY);
-
-	def = function_add_args	 (cat, "irr", "A|f",
-				  "values[,guess]",
-				  &help_irr,	  gnumeric_irr);
-	auto_format_function_result (def, AF_PERCENT);
-
-	def = function_add_args	 (cat, "ispmt", "ffff",	   "rate,per,nper,pv",
-				  &help_ispmt,	gnumeric_ispmt);
-	auto_format_function_result (def, AF_MONETARY);
-
-	def = function_add_args	 (cat, "mduration", "fffff|f",
-				  "settlement,maturify,coupon,yield,"
-				  "frequency[,basis]",
-				  &help_mduration, gnumeric_mduration);
-
-	def = function_add_args	 (cat, "mirr", "Aff",
-				  "values,finance_rate,reinvest_rate",
-				  &help_mirr,	  gnumeric_mirr);
-	auto_format_function_result (def, AF_PERCENT);
-
-	def = function_add_args	 (cat, "nominal", "ff",	   "rate,nper",
-				  &help_nominal,  gnumeric_nominal);
-	auto_format_function_result (def, AF_PERCENT);
-
-	def = function_add_args	 (cat, "nper", "fffff", "rate,pmt,pv,fv,type",
-				  &help_nper,	  gnumeric_nper);
-
-	def = function_add_nodes (cat, "npv",	  0,	  "",
-				  &help_npv,	  gnumeric_npv);
-	auto_format_function_result (def, AF_MONETARY);
-
-	def = function_add_args  (cat, "oddfprice", "????fffff",
-				  "settlement,maturity,issue,first_coupon,"
-				  "rate,yld,redemption,frequency,basis",
-				  &help_oddfprice,  gnumeric_oddfprice);
-
-	def = function_add_args  (cat, "oddfyield", "????fffff",
-				  "settlement,maturity,issue,first_coupon,"
-				  "rate,pr,redemption,frequency,basis",
-				  &help_oddfyield,  gnumeric_oddfyield);
-
-	def = function_add_args  (cat, "oddlprice", "???fffff",
-				  "settlement,maturity,last_interest,rate,"
-				  "yld,redemption,frequency,basis",
-				  &help_oddlprice,  gnumeric_oddlprice);
-
-	def = function_add_args  (cat, "oddlyield", "???fffff",
-				  "settlement,maturity,last_interest,rate,"
-				  "pr,redemption,frequency,basis",
-				  &help_oddlyield,  gnumeric_oddlyield);
-
-	def = function_add_args	 (cat, "pmt", "fff|ff",
-				  "rate,nper,pv[,fv,type]",
-				  &help_pmt,	  gnumeric_pmt);
-	auto_format_function_result (def, AF_MONETARY);
-
-	def = function_add_args	 (cat, "ppmt", "ffff|ff",
-				  "rate,per,nper,pv[,fv,type]",
-				  &help_ppmt,	  gnumeric_ppmt);
-	auto_format_function_result (def, AF_MONETARY);
-
-	def = function_add_args  (cat, "price", "??fff|ff",
-				  "settle,mat,rate,yield,redemption_price,"
-				  "frequency,basis",
-				  &help_price, gnumeric_price);
-
-	def = function_add_args	 (cat, "pricedisc", "??ff|f",
-				  "settlement,maturity,discount,"
-				  "redemption[,basis]",
-				  &help_pricedisc,  gnumeric_pricedisc);
-
-	def = function_add_args	 (cat, "pricemat", "???ff|f",
-				  "settlement,maturity,issue,rate,"
-				  "yield[,basis]",
-				  &help_pricemat,  gnumeric_pricemat);
-
-	def = function_add_args	 (cat, "pv", "fff|ff",
-				  "rate,nper,pmt[,fv,type]",
-				  &help_pv,	  gnumeric_pv);
-	auto_format_function_result (def, AF_MONETARY);
-
-	def = function_add_args	 (cat, "rate", "fff|fff",
-				  "rate,nper,pmt,fv,type,guess",
-				  &help_rate,	  gnumeric_rate);
-	auto_format_function_result (def, AF_PERCENT);
-
-	def = function_add_args	 (cat, "received", "??ff|f",
-				  "settlement,maturity,investment,"
-				  "discount[,basis]",
-				  &help_received,  gnumeric_received);
-	auto_format_function_result (def, AF_MONETARY);
-
-	def = function_add_args	 (cat, "sln", "fff", "cost,salvagevalue,life",
-				  &help_sln,	  gnumeric_sln);
-	auto_format_function_result (def, AF_MONETARY);
-
-	def = function_add_args	 (cat, "syd", "ffff",
-				  "cost,salvagevalue,life,period",
-				  &help_syd,	  gnumeric_syd);
-	auto_format_function_result (def, AF_MONETARY);
-
-	def = function_add_args  (cat, "tbilleq", "??f",
-				  "settlement,maturity,discount",
-				  &help_tbilleq,  gnumeric_tbilleq);
-
-	def = function_add_args  (cat, "tbillprice", "??f",
-				  "settlement,maturity,discount",
-				  &help_tbillprice, gnumeric_tbillprice);
-
-	def = function_add_args  (cat, "tbillyield", "??f",
-				  "settlement,maturity,pr",
-				  &help_tbillyield, gnumeric_tbillyield);
-	auto_format_function_result (def, AF_PERCENT);
-
-	def = function_add_args	 (cat, "vdb", "fffff|ff",
-				  "cost,salvage,life,start_period,"
-				  "end_period[,factor,switch]",
-				  &help_vdb, gnumeric_vdb);
-	auto_format_function_result (def, AF_MONETARY);
-
-	def = function_add_args	 (cat, "xirr", "AA|f", "values,dates[,guess]",
-				  &help_xirr,	  gnumeric_xirr);
-	auto_format_function_result (def, AF_PERCENT);
-
-	def = function_add_args	 (cat, "xnpv", "fAA", "rate,values,dates",
-				  &help_xnpv,	  gnumeric_xnpv);
-	auto_format_function_result (def, AF_MONETARY);
-
-	def = function_add_args  (cat, "yield", "??fff|ff",
-				  "settle,mat,rate,price,redemption_price,"
-				  "frequency,basis",
-				  &help_yield, gnumeric_yield);
-	auto_format_function_result (def, AF_PERCENT);
-
-	def = function_add_args  (cat, "yielddisc", "??fff",
-				  "settlement,maturity,pr,redemption,basis",
-				  &help_yielddisc,  gnumeric_yielddisc);
-
-	def = function_add_args  (cat, "yieldmat", "???fff",
-				  "settlement,maturity,issue,rate,pr,basis",
-				  &help_yieldmat,  gnumeric_yieldmat);
+void
+plugin_cleanup (void)
+{
+	int i;
+	for (i = 0; af_info[i].func; i++)
+		auto_format_function_result_remove (af_info[i].func);
 }
