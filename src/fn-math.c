@@ -111,33 +111,6 @@ callback_function_sumxy (Sheet *sheet, int col, int row,
 	return TRUE;
 }
 
-static int
-callback_function_makeslist (const EvalPosition *ep, Value *value,
-			     ErrorMessage *error, void *closure)
-{
-        math_sums_t *mm = closure;
-        float_t     x;
-	gpointer    p;
-
-        switch (value->type) {
-	case VALUE_INTEGER:
-	        x = value->v.v_int;
-		break;
-	case VALUE_FLOAT:
-	        x = value->v.v_float;
-		break;
-	default:
-	        return TRUE;
-	}
-
-	p = g_new(float_t, 1);
-	*((float_t *) p) = x;
-	mm->list = g_slist_append(mm->list, p);
-	mm->num++;
-
-	return TRUE;
-}
-
 typedef struct {
         GSList              *list;
         criteria_test_fun_t fun;
@@ -191,52 +164,32 @@ static char *help_gcd = {
 	   "@SEEALSO=LCM")
 };
 
-static Value *
-gnumeric_gcd (FunctionEvalInfo *ei, GList *expr_node_list)
+static int
+range_gcd (const float_t *xs, int n, float_t *res)
 {
-        math_sums_t p;
-	GSList      *current;
-        int         a, b, old_gcd, new_gcd;
+	if (n > 0) {
+		int i;
+		int gcd_so_far = 0;
 
-	p.num  = 0;
-	p.list = NULL;
-	if (function_iterate_argument_values (&ei->pos, 
-					      callback_function_makeslist,
-					      &p, expr_node_list,
-					      ei->error, TRUE) == FALSE) {
-		if (error_message_is_set (ei->error))
-			return function_error (ei, gnumeric_err_NUM);
-	}
-
-	if (p.list == NULL || p.list->next == NULL)
-		return function_error (ei, gnumeric_err_NUM);
-
-try_again:
-	a = *((float_t *) p.list->data);
-	current=p.list->next;
-	b = *((float_t *) current->data);
-	old_gcd = gcd(a, b);
-
-	for (current=current->next; current!=NULL; current=current->next) {
-	        b = *((float_t *) current->data);
-		new_gcd = gcd(a, b);
-		if (old_gcd != new_gcd) {
-		        GSList *tmp;
-			for (tmp=p.list; tmp!=NULL; tmp=tmp->next) {
-			        b = *((float_t *) current->data);
-				if (b % old_gcd == 0)
-				        *((float_t *) current->data) = 
-					  b / old_gcd;
-			}
-			goto try_again;
+		for (i = 0; i < n; i++) {
+			if (xs[i] <= 0)
+				return 1;
+			else
+				gcd_so_far = gcd ((int)(floor (xs[i])), gcd_so_far);
 		}
-	}
+		*res = gcd_so_far;
+		return 0;
+	} else
+		return 1;
+}
 
-	for (current=p.list; current!=NULL; current=current->next)
-	        g_free(current->data);
-	g_slist_free(p.list);
-
-	return value_new_int (old_gcd);
+static Value *
+gnumeric_gcd (FunctionEvalInfo *ei, GList *nodes)
+{
+	return float_range_function (nodes, ei,
+				     range_gcd,
+				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     gnumeric_err_NUM, ei->error);
 }
 
 static char *help_lcm = {

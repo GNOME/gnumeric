@@ -229,6 +229,10 @@ range_stddev_est (const float_t *xs, int n, float_t *res)
 	}		
 }
 
+/*
+ * The skew of a population.  Note, that this might is a special Excel
+ * meaning of "skew".  Caveat emptor.
+ */
 int
 range_skew (const float_t *xs, int n, float_t *res)
 {

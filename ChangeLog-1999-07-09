@@ -1,3 +1,7 @@
+1999-06-25  Morten Welinder  <terra@diku.dk>
+
+	* src/fn-math.c (gnumeric_gcd): Cleanup and fix.
+
 1999-06-24  Michael Meeks  <michael@edenproject.org>
 
 	* src/expr.c (value_area_get_at_x_y): Return value_zero instead

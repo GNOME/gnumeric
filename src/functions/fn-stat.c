@@ -536,11 +536,6 @@ gnumeric_negbinomdist (FunctionEvalInfo *ei, Value **argv)
 	int x, r;
 	float_t p;
 
-	if (!VALUE_IS_NUMBER(argv[0]) ||
-	    !VALUE_IS_NUMBER(argv[1]) ||
-	    !VALUE_IS_NUMBER(argv[2]))
-		return function_error (ei, gnumeric_err_VALUE);
-
 	x = value_get_as_int (argv [0]);
 	r = value_get_as_int (argv [1]);
 	p = value_get_as_float (argv[2]);
@@ -557,9 +552,9 @@ static char *help_normsdist = {
 
           "@DESCRIPTION="
           "The NORMSDIST function returns the standard normal cumulative "
-	  "distribution. @x is the value for which you want the distribution. "
+	  "distribution. @x is the value for which you want the distribution."
           "\n"
-          "Performing this function on a string or empty cell simply does nothing. "
+          "Performing this function on a string or empty cell simply does nothing."
           "\n"
           "@SEEALSO=NOMRDIST")
 };
@@ -684,9 +679,6 @@ static Value *
 gnumeric_fisherinv (FunctionEvalInfo *ei, Value **argv)
 {
        float_t y;
-
-       if (!VALUE_IS_NUMBER(argv [0]))
-               return function_error (ei, gnumeric_err_VALUE);
 
        y = value_get_as_float (argv [0]);
        return value_new_float ((exp (2*y)-1.0) / (exp (2*y)+1.0));
@@ -1325,7 +1317,7 @@ static char *help_betadist = {
 
 	   "@DESCRIPTION="
 	   "BETADIST function returns the cumulative beta distribution. @a "
-	   "is the optional lower bound of @x and @b is the optinal upper "
+	   "is the optional lower bound of @x and @b is the optional upper "
 	   "bound of @x.  If @a is not given, BETADIST uses 0.  If @b is "
 	   "not given, BETADIST uses 1."
 	   "\n"
