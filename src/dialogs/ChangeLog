@@ -1,3 +1,7 @@
+2002-03-17  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* solver.glade, dialog-solver.c : Added BOOL constraint support.
+
 2002-03-16  Jon K Hellan  <hellan@acm.org>
 
 	* dialog-cell-format.c (BorderPicker): Add is_auto_color member.

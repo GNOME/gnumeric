@@ -68,7 +68,8 @@ static char const * constraint_strs_untranslated[] = {
 	N_("="),
  /* xgettext: Int == Integer constraint for the linear program */
 	N_("Int"),
-/*	N_("Bool"), */
+ /* xgettext: Bool == Boolean (or binary) constraint for the linear program */
+	N_("Bool"),
 	NULL
 };
 
