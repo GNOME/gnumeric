@@ -1061,7 +1061,7 @@ NRA_c (gnm_float x, gnm_float  t, gnm_float r, gnm_float b, gnm_float v)
 		LHS = si - x;
 		RHS = opt_bs1 (OS_Call, si, x, t, r, v, b) + (1 - expgnum ((b - r) * t) * calc_N (d1)) * si / q2;
 		bi = expgnum ((b - r) * t) * calc_N (d1) * (1 - 1 / q2)
-			+ (1 - expgnum ((b - r) * t) * n_d(d1) / (v * sqrtgnum (t))) / q2;
+			+ (1 - expgnum ((b - r) * t) * n_d (d1) / (v * sqrtgnum (t))) / q2;
 	}
 	return si;
 }
@@ -1108,7 +1108,7 @@ NRA_p (gnm_float x, gnm_float t, gnm_float r, gnm_float b, gnm_float v)
 	LHS = x - si;
 	RHS = opt_bs1 (OS_Put, si, x, t, r, v, b) - (1 - expgnum ((b - r) * t) * calc_N (-d1)) * si / q1;
 	bi = -expgnum ((b - r) * t) * calc_N (-d1) * (1 - 1 / q1)
-		- (1 + expgnum ((b - r) * t) * n_d(-d1) / (v * sqrtgnum (t))) / q1;
+		- (1 + expgnum ((b - r) * t) * n_d (-d1) / (v * sqrtgnum (t))) / q1;
 	e = 0.000001;
 
 	/* Newton Raphson algorithm for finding critical price si */
