@@ -113,28 +113,6 @@ cb_name_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 	gtk_tree_path_free (path);
 }
 
-static gint
-location_of_iter (GtkTreeIter  *iter, GtkListStore *model)
-{
-	gint loc;
-	/* Note: in gtk 2.2 we could just do: */
-/* 	gchar* path = gtk_tree_model_get_string_from_iter */
-/* 		(GTK_TREE_MODEL (model), iter); */
-
-	/* in gtk 2.0 we need: */
-	GtkTreePath *treepath = gtk_tree_model_get_path 
-		(GTK_TREE_MODEL (model), iter);
-	gchar* path = gtk_tree_path_to_string (treepath);
-	gtk_tree_path_free (treepath);
-	/* end of gtk 2.0 code */
-
-	loc = atoi(path);
-
-	g_free (path);
-
-	return loc;
-}
-
 static void
 cb_color_changed_fore (G_GNUC_UNUSED GOComboColor *go_combo_color,
 		       GOColor color, G_GNUC_UNUSED gboolean custom,
@@ -179,8 +157,7 @@ static void
 cb_selection_changed (G_GNUC_UNUSED GtkTreeSelection *ignored,
 		      SheetManager *state)
 {
-	GtkTreeIter  iter;
-	GtkTreeIter this_iter;
+	GtkTreeIter  it, iter;
 	gint row;
 	Sheet *sheet;
 	gboolean is_deleted;
@@ -222,15 +199,18 @@ cb_selection_changed (G_GNUC_UNUSED GtkTreeSelection *ignored,
                               is_deleted ? GTK_STOCK_UNDELETE : GTK_STOCK_DELETE);
 	gtk_button_set_alignment (GTK_BUTTON (state->delete_btn), 0., .5);
 
-	gtk_widget_set_sensitive (state->up_btn,
-				  location_of_iter (&iter, state->model) > 0);
-
-	row = location_of_iter (&iter, state->model);
+	gtk_tree_model_get_iter_first 
+		(GTK_TREE_MODEL (state->model),
+		 &iter);
+	gtk_widget_set_sensitive (state->up_btn, 
+				  !gtk_tree_selection_iter_is_selected (selection, &iter));
+	it = iter;
+	while (gtk_tree_model_iter_next (GTK_TREE_MODEL (state->model),
+					 &it))
+		iter = it;
 	gtk_widget_set_sensitive (state->down_btn,
-				  gtk_tree_model_iter_nth_child
-				  (GTK_TREE_MODEL (state->model),
-				   &this_iter, NULL, row+1));
-
+				  !gtk_tree_selection_iter_is_selected (selection, &iter));
+	
 	if (sheet != NULL)
 		wb_view_sheet_focus (
 			wb_control_view (WORKBOOK_CONTROL (state->wbcg)), sheet);
@@ -401,76 +381,35 @@ populate_sheet_list (SheetManager *state)
 }
 
 static void
-cb_item_move (SheetManager *state, gint direction)
+cb_item_move (SheetManager *state, gnm_iter_search_t iter_search)
 {
-	char* name;
-	char* new_name;
-	Sheet * sheet;
-	GtkTreeIter iter;
-	gint row;
-	gboolean is_deleted;
-	gboolean is_editable;
-	gboolean is_locked;
-	gboolean is_visible;
-	GdkColor *back, *fore;
-	GtkTreeSelection *selection = gtk_tree_view_get_selection (state->sheet_list);
+	GtkTreeSelection  *selection = gtk_tree_view_get_selection (state->sheet_list);
+	GtkTreeModel *model;
+	GtkTreeIter  a, b;
 
-	if (!gtk_tree_selection_get_selected (selection, NULL, &iter))
+	g_return_if_fail (selection != NULL);
+
+	if (!gtk_tree_selection_get_selected  (selection, &model, &a))
 		return;
 
-	gtk_tree_model_get (GTK_TREE_MODEL (state->model), &iter,
-			    SHEET_LOCKED, &is_locked,
-			    SHEET_VISIBLE, &is_visible,
-			    SHEET_NAME, &name,
-			    SHEET_NEW_NAME, &new_name,
-			    IS_EDITABLE_COLUMN, &is_editable,
-			    SHEET_POINTER, &sheet,
-			    IS_DELETED,	&is_deleted,
-			    BACKGROUND_COLOUR, &back,
-			    FOREGROUND_COLOUR, &fore,
-			    -1);
-	row = location_of_iter (&iter, state->model);
-	if (row + direction < 0)
+	b = a;
+	if (!iter_search (model, &b))
 		return;
-	gtk_list_store_remove (state->model, &iter);
-	gtk_list_store_insert (state->model, &iter, row + direction);
-	gtk_list_store_set (state->model, &iter,
-			    SHEET_LOCKED, is_locked,
-			    SHEET_LOCK_IMAGE, is_locked ?
-			    state->image_padlock : state->image_padlock_no,
-			    SHEET_VISIBLE, is_visible,
-			    SHEET_VISIBLE_IMAGE, is_visible ? 
-			    state->image_visible : NULL,
-			    SHEET_NAME, name,
-			    SHEET_NEW_NAME, new_name,
-			    IS_EDITABLE_COLUMN, is_editable,
-			    SHEET_POINTER, sheet,
-			    IS_DELETED,	is_deleted,
-			    BACKGROUND_COLOUR, back,
-			    FOREGROUND_COLOUR, fore,
-			    -1);
-	if (back)
-		gdk_color_free (back);
-	if (fore)
-		gdk_color_free (fore);
-	g_free (name);
-	g_free (new_name);
-	gtk_tree_selection_select_iter (selection, &iter);
 
-	/* this is a little hack-ish, but we need to refresh the buttons */
+	gtk_list_store_swap (state->model, &a, &b);
 	cb_selection_changed (NULL, state);
 }
 
 static void
 cb_up (G_GNUC_UNUSED GtkWidget *w, SheetManager *state)
 {
-	cb_item_move (state, -1);
+	cb_item_move (state, gnm_tree_model_iter_prev);
 }
 
 static void
 cb_down (G_GNUC_UNUSED GtkWidget *w, SheetManager *state)
 {
-	cb_item_move (state,  1);
+	cb_item_move (state, gnm_tree_model_iter_next);
 }
 
 static void

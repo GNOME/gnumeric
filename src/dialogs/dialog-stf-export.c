@@ -313,25 +313,6 @@ cb_selection_changed (GtkTreeSelection *new_selection,
 	gtk_widget_set_sensitive (state->sheets.down, !last_selected);
 }
 
-typedef gboolean gnm_iter_search_t (GtkTreeModel *model, GtkTreeIter* iter);
-
-#define gnm_tree_model_iter_next gtk_tree_model_iter_next
-
-static gboolean 
-gnm_tree_model_iter_prev (GtkTreeModel *model, GtkTreeIter* iter)
-{
-	GtkTreePath *path = gtk_tree_model_get_path (model, iter);
-
-	if (gtk_tree_path_prev (path) &&
-	    gtk_tree_model_get_iter (model, iter, path)) {
-		gtk_tree_path_free (path);
-		return TRUE;
-	}
-	gtk_tree_path_free (path);
-	return FALSE;
-}
-
-
 static void
 move_element (TextExportState *state, gnm_iter_search_t iter_search)
 {

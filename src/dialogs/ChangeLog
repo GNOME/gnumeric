@@ -1,3 +1,14 @@
+2004-11-01  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-stf-export.c (location_of_iter): deleted
+	(cb_selection_changed): check whether first and last item 
+	  are selected
+	(cb_item_move): rewrite using gtk 2.2 api additions
+	(cb_up): change arguments to cb_item_move
+	(cb_down): ditto
+	* dialog-sheet-order.c (gnm_tree_model_iter_prev):
+	  move to gui-util.c
+
 2004-10-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-stf-export.glade: clarify instructions

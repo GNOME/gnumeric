@@ -130,4 +130,9 @@ GdkPixbuf* gnm_pixbuf_intelligent_scale (GdkPixbuf *pixbuf,
 					 guint width, guint height);
 void	   gnm_widget_disable_focus (GtkWidget *w);
 
+typedef gboolean gnm_iter_search_t (GtkTreeModel *model, GtkTreeIter* iter);
+#define gnm_tree_model_iter_next gtk_tree_model_iter_next
+gboolean gnm_tree_model_iter_prev (GtkTreeModel *model, GtkTreeIter* iter);
+
+
 #endif /* GNUMERIC_GUI_UTIL_H */

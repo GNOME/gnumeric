@@ -1,3 +1,9 @@
+2004-11-01  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/gui-util.h (gnm_iter_search_t): new type
+	(gnm_tree_model_iter_prev): new
+	* src/gui-util.c (gnm_tree_model_iter_prev): new
+	
 2004-10-30  Stepan Kasal  <kasal@ucw.cz>
 
 	A cleanup of ssconvert; don't require Gnome.

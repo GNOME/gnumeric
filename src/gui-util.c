@@ -1421,3 +1421,18 @@ gnm_widget_disable_focus (GtkWidget *w)
 			(GtkCallback) gnm_widget_disable_focus, NULL);
 	GTK_WIDGET_UNSET_FLAGS (w, GTK_CAN_FOCUS);
 }
+
+
+gboolean 
+gnm_tree_model_iter_prev (GtkTreeModel *model, GtkTreeIter* iter)
+{
+	GtkTreePath *path = gtk_tree_model_get_path (model, iter);
+
+	if (gtk_tree_path_prev (path) &&
+	    gtk_tree_model_get_iter (model, iter, path)) {
+		gtk_tree_path_free (path);
+		return TRUE;
+	}
+	gtk_tree_path_free (path);
+	return FALSE;
+}
