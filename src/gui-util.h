@@ -130,6 +130,8 @@ void gnm_setup_label_atk (GtkLabel *label, GtkWidget *target);
 
 int gnm_measure_string (PangoContext *context, const PangoFontDescription *font_desc, const char *str);
 
+void gnm_link_button_and_entry (GtkWidget *button, GtkWidget *entry);
+
 /* Refugees from GAL.  */
 typedef enum {
 	GNM_CURSOR_FAT_CROSS,
