@@ -3,8 +3,6 @@ AC_INIT(src/gnumeric.h)
 AM_CONFIG_HEADER(gnumeric-config.h)
 AM_INIT_AUTOMAKE(gnumeric,1.0.4)
 AM_MAINTAINER_MODE
-AM_ACLOCAL_INCLUDE(macros)
-AM_PROG_XML_I18N_TOOLS
 
 # Make --disable-static the default
 AC_DISABLE_STATIC

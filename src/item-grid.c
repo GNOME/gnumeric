@@ -1041,8 +1041,8 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 			return TRUE;
 
 		switch (event->button.button) {
+		/* This is here just for demo purposes */
 		case 2: drag_start (GTK_WIDGET (item->canvas), event, sheet);
-			g_warning ("This is here just for demo purposes");
 			return TRUE;
 
 		case 3: scg_context_menu (ig->scg, &event->button, FALSE, FALSE);

@@ -1,3 +1,8 @@
+2002-01-22  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-autofill.c (autofill_create_fill_items) : Use
+	  list_prepend, and reverse in palce of append.
+
 2001-01-22  Kevin Breit <mrproper@ximian.com>
 
 	* Makefile.am: Added omf-install/

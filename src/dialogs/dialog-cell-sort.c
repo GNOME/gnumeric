@@ -106,10 +106,10 @@ col_row_name_list (Sheet *sheet, int start, int end,
 		str  = is_cols
 			? col_row_name (sheet, i, index, header, TRUE)
 			: col_row_name (sheet, index, i, header, FALSE);
-		list = g_list_append (list, str);
+		list = g_list_prepend (list, str);
 	}
 
-	return list;
+	return g_list_reverse (list);
 }
 
 static gint

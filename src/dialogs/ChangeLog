@@ -1,3 +1,8 @@
+2002-01-22  Jody Goldberg <jody@gnome.org>
+
+	* dialog-cell-sort.c (col_row_name_list) : prepend then reverse,
+	  append is slow.
+
 2002-01-21  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.0.3

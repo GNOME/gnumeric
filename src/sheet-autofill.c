@@ -522,14 +522,14 @@ autofill_create_fill_items (Sheet *sheet, gboolean singleton_increment,
 
 		if (!type_is_compatible (last, fi)) {
 			if (last) {
-				all_items = g_list_append (all_items, item_list);
+				all_items = g_list_prepend (all_items, g_list_reverse (item_list));
 				item_list = NULL;
 			}
 
 			last = fi;
 		}
 
-		item_list = g_list_append (item_list, fi);
+		item_list = g_list_prepend (item_list, fi);
 
 		if (col_inc != 0) {
 			col += col_inc * fi->merged_size.col;
@@ -541,7 +541,8 @@ autofill_create_fill_items (Sheet *sheet, gboolean singleton_increment,
 	}
 
 	if (item_list)
-		all_items = g_list_append (all_items, item_list);
+		all_items = g_list_prepend (all_items, g_list_reverse (item_list));
+	all_items = g_list_reverse (all_items);
 
 	/* Make every non-ending group point to the end element
 	 * and compute the deltas.
