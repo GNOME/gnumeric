@@ -5,7 +5,7 @@
 #
 #  Author(s): Kenneth Christiansen
 #
-#  GNOME PO Update Utility requires the XML to POT Generator, xml2pot.pl
+#  GNOME PO Update Utility requires the XML to POT Generator, ui-extract.pl
 #  Please distribute it along with this scrips, aswell as desk.po and
 #  README.tools.
 #
@@ -155,13 +155,19 @@ sub GeneratePot{
     $c="xgettext --default-domain\=$PACKAGE --directory\=\.\."
       ." --add-comments --keyword\=\_ --keyword\=N\_"
       ." --files-from\=\.\/POTFILES\.in ";  
-    $c1="test \! -f $PACKAGE\.po \|\| \( rm -f \.\/$PACKAGE\-source.pot "
-       ."&& mv $PACKAGE\.po \.\/$PACKAGE\-source.pot \)";
-#   $c2="\.\/xml2pot\.pl";
+    $c1="test \! -f $PACKAGE\.po \|\| \( rm -f \.\/$PACKAGE\.pot "
+       ."&& mv $PACKAGE\.po \.\/$PACKAGE\.pot \)";
+
+    open FILE, "XMLFILES.in";
+    while (<FILE>) {
+        chomp $_;
+        $xmlfiles="\.\/ui-extract.pl ../$_";
+        system($xmlfiles);
+    }
+    close FILE;
 
     system($c);
     system($c1);
-#   system($c2);
 }
 
 sub Merging{
