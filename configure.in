@@ -173,7 +173,7 @@ if test "x${gnumeric_with_gnome}" = "xtrue"; then
 	PKG_CHECK_MODULES(CORBA_LIBS,  [ORBit-2.0 >= 2.4.2
 					libbonobo-2.0 >= 2.0.0
 					bonobo-activation-2.0 >= 1.0.2
-					],[with_corba=$gnumeric_with_gnome])
+					],[with_corba=true], [with_corba=false])
 	if test "x$with_corba" = "xtrue" ; then
 		ORBIT="`$PKG_CONFIG --variable=orbit_idl ORBit-2.0`"
 		BONOBO_IDL_DIR="`$PKG_CONFIG --variable=idldir libbonobo-2.0`"
@@ -181,9 +181,8 @@ if test "x${gnumeric_with_gnome}" = "xtrue"; then
 		ORBIT_IDL="${ORBIT} -I${BONOBO_IDL_DIR} -I${BONOBO_ACTIVATION_IDL_DIR}"
 		AC_SUBST(ORBIT_IDL)
 	fi
-else
-	AM_CONDITIONAL(GCONF_SCHEMAS_INSTALL, false)
 fi
+AM_CONDITIONAL(GCONF_SCHEMAS_INSTALL, $gnumeric_with_gnome)
 AM_CONDITIONAL(WITH_CORBA, $with_corba)
 
 dnl ****************************

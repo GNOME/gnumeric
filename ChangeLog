@@ -1,3 +1,101 @@
+2004-09-26  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric-pane.c (gnm_pane_object_move) :  handle symetric
+	  movement via ctrl-click and object duplicate via ctrl-click on
+	  acetate
+
+	* src/gnumeric-pane.c (build_so_menu) : new
+	(display_object_menu) : create a GtkMenu based on the actions.
+
+	* src/sheet-object.c (sheet_object_populate_menu) : Rework the
+	  interface to return action descririptors rather than a GtkMenu
+	  Change all implementations
+
+2004-09-26  Jody Goldberg <jody@gnome.org>
+
+	* src/xml-io.c (xml_cellregion_read) : read objects
+	(xml_cellregion_write) : write them too
+
+2004-09-25  Jody Goldberg <jody@gnome.org>
+
+	* src/wbcg-actions.c (cb_edit_copy) : Use
+	  gnm_app_clipboard_cut_copy_obj for objects
+	(cb_edit_cut) : ditto.
+
+	* src/sheet-object.c (sheet_object_populate_menu) : put the stacking
+	  items into a sub menu.
+
+2004-09-24  Jody Goldberg <jody@gnome.org>
+
+	* src/clipboard.c (paste_object) : new.
+	(clipboard_paste_region) : use it.
+	(cb_dup_objects) : new.
+	(clipboard_copy_range) : dup the objects in the range.
+	(cellregion_new) : init the object list
+	(cellregion_unref) : free the object list
+
+	* src/sheet-object.c (sheet_object_dup) : make public, and tweak
+	  interface.
+	(sheet_object_clone_sheet) : adjust to the interface change.
+
+2004-09-24  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-object-image.c (sheet_object_image_copy) : implement
+
+	* src/wbcg-actions.c : update the actions to handle the new drawing
+	  object types.
+
+	* src/sheet-object.c (sheet_object_clone) : Change the interface to
+	  have the wrapper create the object.  Then s/clone/copy/ and have it
+	  just do the assignament rather, not allocation.
+	* src/sheet-object*.c : s/clone/copy/ with related semantic changes
+
+	* src/rendered-value.c (rendered_value_render) : trivial
+	  constification
+
+	* src/main-application.c (main) : Use bonobo_main WITH_GNOME just in
+	  case.
+
+	* src/gnumeric-pane.c (gnm_pane_object_register) : Change return type
+	  to GObject.  There's no need to be more specific.
+	(gnm_pane_widget_register) : ditto.
+
+	* src/gnm-so-filled.c : Rewrite of the old SheetObjectGraphic
+	  to use GogStyle, merge text into the base, and use GObject properties
+	* src/gnm-so-line.c : Rewrite of the old SheetObjectFilled
+	  to use GogStyle  and use GObject properties
+
+	* src/Makefile.am : Adjust to the file changes for
+	  sheet-object-graphic.c
+
+2004-09-13  Stepan Kasal  <kasal@ucw.cz>
+
+	* configure.in (GCONF_SCHEMAS_INSTALL): AM_CONDITIONAL has to be
+	  called in all branches.
+
+2004-09-24  Jody Goldberg <jody@gnome.org>
+
+	* src/xml-io.c (xml_read_sheet_object) : add hooks to the old names
+	  for GnmSOFilled, and GnmSOLine
+
+2004-09-23  Jody Goldberg <jody@gnome.org>
+
+	* src/commands.c (cmd_object_format) : undo redo for the new line and
+	  filled objects.
+
+2004-09-23  Jody Goldberg <jody@gnome.org>
+
+	* configure.in (GNUMERIC_PLUGIN_LDFLAGS) : new macro to give the win32
+	  folk a hook for the plugins.
+	* plugins/*/Makefile.am : Use it
+	* plugins/*/plugin.xml.in : Remove the .la for module names.  Core of
+	  glib adds just before checking platform specific names.
+
+2004-09-23  Jody Goldberg <jody@gnome.org>
+
+	* src/wbcg-actions.c (cb_view_zoom_out) : in and out were reversed
+	(cb_view_zoom_in) : ditto
+
 2004-09-24  Morten Welinder  <terra@gnome.org>
 
 	* src/print-cell.c (print_cell): New wrapper function.  Turn on
@@ -226,7 +324,8 @@
 	  conditional.  Check also for pango, which is required even if no GUI
 	  is used.  We use gtk+-2.0 >= 2.4.0 which requires pango >= 1.4.0; so
 	  we ask pango >= 1.4.0 too.
-	* src/Makefile.am: Conditionalize solver, start using WITH_GTH.
+	* configure.in: Implement --disable-solver option, --enable-plugins hack.
+	* src/Makefile.am: Conditionalize solver, start using WITH_GTK.
 	* plugins/Makefile.am: compile the mps plugin only if ENABLE_SOLVER
 	  is set; --enable-plugins can override the plugin list.
 	* src/solver.h: Don't declare anything if not !ENABLE_SOLVER; supply

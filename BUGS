@@ -8,8 +8,11 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
+debian 272697
+
     : File Sendto needs to uri-ify the name when opening tmp file
     : Add <control>period == insert current date&time
+    : editing text boxes
 
     http://bugzilla.gnome.org/show_bug.cgi?id=152528
     : No crash when reading broken xls
@@ -43,38 +46,6 @@ Release Critical
     http://bugzilla.gnome.org/show_bug.cgi?id=151610
     : crash 	: fixed
     : we mis-import multiple axis sets
-
-    Enter =1/3 in D11 and resize column D quickly and repeatly.  Get
-    NULL rendered value here:
-	(gdb) where
-	#0  g_log (log_domain=0x0, log_level=G_LOG_LEVEL_CRITICAL, format=0xfaae5e00 "%s: assertion `%s' failed") at gmessages.c:560
-	#1  0xfaab16c8 in g_return_if_fail_warning (log_domain=0x0, pretty_function=0x2bd260 "cell_calc_layout", expression=0x2bd278 "rv != NULL") at gmessages.c:575
-	#2  0x50a5c in cell_calc_layout (cell=0x76b5ac, rv=0x0, printing=0, x1=192, y1=170, width=-1, height=-1, h_center=-1, rect=0xffbedd68, res_color=0xffbedd54, res_x=0xffbedd50, res_y=0xffbedd4c) at cell-draw.c:65
-	#3  0x50f54 in cell_draw (cell=0x76b5ac, gc=0x6e1e30, drawable=0x6e0840, x1=192, y1=170, width=-1, height=-1, h_center=-1) at cell-draw.c:217
-	#4  0x8fec4 in item_grid_draw (item=0x3, drawable=0x6e0840, expose=0xffbee750) at item-grid.c:582
-	#5  0x20d12c in foo_canvas_group_draw (item=0x5dc4d8, drawable=0x6e0840, expose=0xffbee750) at foo-canvas.c:1497
-	#6  0x20f8b0 in foo_canvas_expose (widget=0x5dbaf0, event=0xffbee750) at foo-canvas.c:2890
-	#7  0xfb4d6a88 in _gtk_marshal_BOOLEAN__BOXED (closure=0x63eb90, return_value=0xffbee240, n_param_values=4663864, param_values=0xffbee390, invocation_hint=0xffbee260, marshal_data=0x20f714) at gtkmarshalers.c:83
-	#8  0xfae3cd40 in g_type_class_meta_marshal (closure=0x63eb90, return_value=0xffbee240, n_param_values=2, param_values=0xffbee390, invocation_hint=0xffbee260, marshal_data=0xc8) at gclosure.c:514
-	#9  0xfae3cac0 in g_closure_invoke (closure=0x63eb90, return_value=0xffbee240, n_param_values=2, param_values=0xffbee390, invocation_hint=0xffbee260) at gclosure.c:437
-	#10 0xfae561a0 in signal_emit_unlocked_R (node=0x4babc8, detail=0, instance=0x5dbaf0, emission_return=0xffbee348, instance_and_params=0xffbee390) at gsignal.c:2474
-	#11 0xfae54198 in g_signal_emit_valist (instance=0x5dbaf0, signal_id=1, detail=0, var_args=0xffbee5e4) at gsignal.c:2205
-	#12 0xfae543b0 in g_signal_emit (instance=0x5dbaf0, signal_id=63, detail=0) at gsignal.c:2239
-	#13 0xfb5e3664 in gtk_widget_event_internal (widget=0x5dbaf0, event=0xffbee750) at gtkwidget.c:3564
-	#14 0xfb5e3394 in gtk_widget_send_expose (widget=0x5dbaf0, event=0xffbee750) at gtkwidget.c:3404
-	#15 0xfb4d3ff0 in gtk_main_do_event (event=0xffbee750) at gtkmain.c:1292
-	#16 0xfb2aea4c in gdk_window_process_updates_internal (window=0x6e0840) at gdkwindow.c:2077
-	#17 0xfb2aeb80 in gdk_window_process_all_updates () at gdkwindow.c:2141
-	#18 0xfb2ae824 in gdk_window_update_idle (data=0x0) at gdkwindow.c:1998
-	#19 0xfaaac854 in g_idle_dispatch (source=0x7914e0, callback=0xfb2ae7e8 <gdk_window_update_idle>, user_data=0x0) at gmain.c:3803
-	#20 0xfaaa8b90 in g_main_dispatch (context=0x410d80) at gmain.c:1943
-	#21 0xfaaaa08c in g_main_context_dispatch (context=0x410d80) at gmain.c:2493
-	#22 0xfaaaa5bc in g_main_context_iterate (context=0x410d80, block=1, dispatch=1, self=0x3f4a80) at gmain.c:2574
-	#23 0xfaaaae34 in g_main_loop_run (loop=0x51f4a8) at gmain.c:2778
-	#24 0xfb4d37b4 in gtk_main () at gtkmain.c:917
-
-
-
 
     : Use GNOME Recent for the gnome build
     : Add a HIGy '*' before the workbook name when modified

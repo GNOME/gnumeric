@@ -33,6 +33,9 @@ Jody:
 	* XLS import for arcs, polygons
 	* Improve XLS object styling
 	* More win32 build patches
+	* Clipboard support for objects
+	* Support for symetric object resize, and duplication via ctrl-click
+	* Cleanout the SheetObject menu code to restore model gui split
 
 Jon Kåre:
 	* Fix the CORBA plugin
