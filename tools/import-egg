@@ -9,7 +9,7 @@ my $myself = $0;
 $myself =~ s|^.*/||;
 
 die "$0: must run from top-level gnumeric directory.\n"
-    unless -r "gnumeric-config.h";
+    unless -r "gnumeric-config.h.in";
 my $dst = "src/cut-n-paste-code/egg";
 
 my $eggdir = $ARGV[0];
