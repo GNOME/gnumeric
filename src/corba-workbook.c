@@ -94,7 +94,7 @@ Workbook_save_to (PortableServer_Servant servant, const CORBA_char * filename, C
 
 	if (gnumeric_xml_write_workbook (command_context_corba (wb),
 					 wb, filename) == 0)
-		workbook_mark_clean (wb);
+		workbook_set_dirty (wb, FALSE);
 	else
 		g_error ("Could not save to file %s", wb->filename);
 

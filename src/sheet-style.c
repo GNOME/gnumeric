@@ -21,6 +21,13 @@
 #include "main.h"
 #include "border.h"
 
+typedef enum {
+	STYLE_CACHE_FLUSH_HASH   = 0x1,
+	STYLE_CACHE_FLUSH_LIST   = 0x2,
+	STYLE_CACHE_FLUSH_ALL    = 0xff,
+	STYLE_CACHE_FLUSH_SHRINK = 0x800
+} CacheFlushType;
+
 /*
  *   The performance of the style code is rather affected by these
  * numbers, please do send me results of various combinations using
@@ -99,21 +106,26 @@ scache_remove (CellPos *key, MStyle *mstyle, SheetStyleData *sd)
 	return TRUE;
 }
 
-static inline void
-sheet_style_cache_flush (SheetStyleData *sd, gboolean all)
+static void
+sheet_style_cache_flush (SheetStyleData *sd, CacheFlushType type)
 {
-	if (sd->style_cache) {
-		if (!all) /* We are a good size, this will wrap but heh. */
-			g_hash_table_freeze (sd->style_cache);
-		
-		g_hash_table_foreach_remove (sd->style_cache,
-					     (GHRFunc)scache_remove, sd);
-		style_cache_flushes++;
+	if (type & STYLE_CACHE_FLUSH_HASH) {
+		if (sd->style_cache) {
+			if (type & STYLE_CACHE_FLUSH_SHRINK)
+				/* We are a good size, this will wrap but heh. */
+				g_hash_table_freeze (sd->style_cache);
+			
+			g_hash_table_foreach_remove (sd->style_cache,
+						     (GHRFunc)scache_remove, sd);
+			style_cache_flushes++;
+		}
 	}
 
-	if (sd->cached_list)
-		g_list_free (sd->cached_list);
-	sd->cached_list = NULL;
+	if (type & STYLE_CACHE_FLUSH_LIST) {
+		if (sd->cached_list)
+			g_list_free (sd->cached_list);
+		sd->cached_list = NULL;
+	}
 }
 
 static void
@@ -124,7 +136,7 @@ sheet_style_cache_add (SheetStyleData *sd, int col, int row,
 
 	if (sd->style_cache &&
 	    g_hash_table_size (sd->style_cache) > STYLE_MAX_CACHE_SIZE)
-		sheet_style_cache_flush (sd, FALSE);
+		sheet_style_cache_flush (sd, STYLE_CACHE_FLUSH_HASH & STYLE_CACHE_FLUSH_SHRINK);
 
 	if (!sd->style_cache)
 		sd->style_cache = g_hash_table_new ((GHashFunc)cellpos_hash,
@@ -453,8 +465,7 @@ sheet_style_optimize (Sheet *sheet, Range range)
 
 	g_list_free (style_list);
 
-	/* FIXME: shouldn't be neccessary but just in case */
-	sheet_style_cache_flush (sd, TRUE);
+	sheet_style_cache_flush (sd, STYLE_CACHE_FLUSH_ALL);
 }
 
 /**
@@ -505,7 +516,14 @@ sheet_style_attach (Sheet  *sheet, Range range,
 		range_dump (&sr->range);
 		printf ("\n");
 	}
-	sheet_style_cache_flush (sd, TRUE);
+	
+	/* Try to handle set/get, set/get, set/get pattern without cache trashing */
+/*	if (range_overlap (&range, &sd->cached_range)) {
+		g_warning ("Trying to be too clever");
+		sd->cached_list = g_list_prepend (sd->cached_list, sr);
+		sheet_style_cache_flush (sd, STYLE_CACHE_FLUSH_HASH);
+		} else*/
+		sheet_style_cache_flush (sd, STYLE_CACHE_FLUSH_ALL);
 }
 
 static inline MStyle *
@@ -729,7 +747,7 @@ sheet_destroy_styles (Sheet *sheet)
 
 	g_return_if_fail (sd != NULL);
 
-	sheet_style_cache_flush (sd, TRUE);
+	sheet_style_cache_flush (sd, STYLE_CACHE_FLUSH_ALL);
 
 	if (sd->style_cache)
 		g_hash_table_destroy (sd->style_cache);
@@ -851,7 +869,7 @@ sheet_style_delete_colrow (Sheet *sheet, int pos, int count,
 		}
 	}
 
-	sheet_style_cache_flush (sd, TRUE);
+	sheet_style_cache_flush (sd, STYLE_CACHE_FLUSH_ALL);
 }
 
 static void
@@ -898,7 +916,7 @@ stylish_insert_colrow (Sheet *sheet, int pos, int count, gboolean is_col)
 			
 	}
 
- 	sheet_style_cache_flush (sd, TRUE);
+	sheet_style_cache_flush (sd, STYLE_CACHE_FLUSH_ALL);
 }
 
 static void
@@ -977,7 +995,7 @@ styleless_insert_colrow (Sheet *sheet, int pos, int count, gboolean is_col)
 		}
 	}
 
-	sheet_style_cache_flush (sd, TRUE);
+	sheet_style_cache_flush (sd, STYLE_CACHE_FLUSH_ALL);
 }
 
 void
@@ -1065,9 +1083,9 @@ sheet_style_relocate (const ExprRelocateInfo *rinfo)
 	}
 	g_list_free (stored_regions);
 
-	sheet_style_cache_flush (rinfo->target_sheet->style_data, TRUE);
+	sheet_style_cache_flush (rinfo->target_sheet->style_data, STYLE_CACHE_FLUSH_ALL);
 	if (rinfo->origin_sheet != rinfo->target_sheet)
-		sheet_style_cache_flush (rinfo->origin_sheet->style_data, TRUE);
+		sheet_style_cache_flush (rinfo->origin_sheet->style_data, STYLE_CACHE_FLUSH_ALL);
 }
 
 GList *

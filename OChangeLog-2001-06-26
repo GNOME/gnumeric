@@ -1,3 +1,18 @@
+2000-04-22  Michael Meeks  <michael@helixcode.com>
+
+	* src/sheet-style.c (sheet_style_attach): comment out optimization
+	for now.
+
+	* src/workbook.h (workbook_mark_clean): remove redundant prototype.
+
+	* src/corba-workbook.c (Workbook_save_to): use workbook_set_dirty
+	instead.
+
+2000-04-21  Michael Meeks  <michael@helixcode.com>
+
+	* src/sheet-style.c (sheet_style_cache_flush): update, kill inline
+	update all cache_flushes to be more explicit.
+
 2000-04-22  Almer. S. Tigelaar.  <almer1@dds.nl>
 
 	Fixed Bug #9007 
