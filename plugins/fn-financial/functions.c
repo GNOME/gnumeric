@@ -209,7 +209,7 @@ coupnum (GDate const *settlement, GDate const *maturity,
 
 	g_date_subtract_months (&this_coupondate, months);
 
-	if (conv->eom &&  g_date_is_last_of_month (maturity))
+	if (conv->eom && g_date_is_last_of_month (maturity))
 		while (!g_date_is_last_of_month (&this_coupondate))
 			g_date_add_days (&this_coupondate, 1);
 
@@ -2117,6 +2117,7 @@ gnumeric_duration (FunctionEvalInfo *ei, Value **argv)
 	GnmCouponConvention conv;
 
 	conv.date_conv = workbook_date_conv (ei->pos->sheet->workbook);
+	conv.eom = TRUE;
 
 	fCoup      = value_get_as_float (argv[2]);
 	fYield     = value_get_as_float (argv[3]);
@@ -2962,30 +2963,63 @@ static char const *help_oddlprice = {
 	   "@SEEALSO=")
 };
 
+static gnm_float
+calc_oddlprice (const GDate *settlement, const GDate *maturity,
+		const GDate *last_interest,
+		gnm_float rate, gnm_float yield, gnm_float redemption,
+		const GnmCouponConvention *conv)
+{
+	GDate d = *last_interest;
+	gnm_float x1, x2, x3;
+
+	do {
+		g_date_add_months (&d, 12 / conv->freq);
+	} while (g_date_compare (&d, maturity) < 0);
+
+        x1 = date_ratio (last_interest, settlement, &d, conv);
+        x2 = date_ratio (last_interest, maturity, &d, conv);
+        x3 = date_ratio (settlement, maturity, &d, conv);
+
+        return (redemption * conv->freq +
+		100 * rate * (x2 - x1 * (1 + yield * x3 / conv->freq))) /
+		(yield * x3 + conv->freq);
+}
+
+
 static Value *
 gnumeric_oddlprice (FunctionEvalInfo *ei, Value **argv)
 {
-        GDate     nSettle, nMat, nLastCoup;
-	gnm_float fRate, fYield, fRedemp;
-	gint      nFreq, nBase;
-	GnmDateConventions const *date_conv =
-		workbook_date_conv (ei->pos->sheet->workbook);
+        GDate     settlement, maturity, last_interest;
+	gnm_float rate, yield, redemption;
+	GnmCouponConvention conv;
 
-	fRate      = value_get_as_float (argv[3]);
-	fYield     = value_get_as_float (argv[4]);
-	fRedemp    = value_get_as_float (argv[5]);
-	nFreq      = value_get_as_int (argv[6]);
-        nBase      = argv[7] ? value_get_as_int (argv[7]) : 0;
+	rate       = value_get_as_float (argv[3]);
+	yield      = value_get_as_float (argv[4]);
+	redemption = value_get_as_float (argv[5]);
 
-        if (nBase < 0 || nBase > 4 || fRate < 0 ||
-	    (nFreq != 1 && nFreq != 2 && nFreq != 4) ||
-	    !datetime_value_to_g (&nSettle, argv[0], date_conv) ||
-	    !datetime_value_to_g (&nMat, argv[1], date_conv) ||
-	    !datetime_value_to_g (&nLastCoup, argv[2], date_conv))
+        conv.eom   = TRUE;
+        conv.freq  = value_get_as_int (argv[6]);
+        conv.basis = argv[7] ? value_get_as_int (argv[7]) : 0;
+	conv.date_conv = workbook_date_conv (ei->pos->sheet->workbook);
+
+	if (!datetime_value_to_g (&settlement, argv[0], conv.date_conv) ||
+	    !datetime_value_to_g (&maturity, argv[1], conv.date_conv) ||
+	    !datetime_value_to_g (&last_interest, argv[2], conv.date_conv))
+		return value_new_error_VALUE (ei->pos);
+
+        if (!is_valid_basis (conv.basis) ||
+	    !is_valid_freq (conv.freq) ||
+            g_date_compare (&settlement, &maturity) > 0 ||
+	    g_date_compare (&last_interest, &settlement) > 0)
 		return value_new_error_NUM (ei->pos);
 
-	return get_oddlprice (&nSettle, &nMat, &nLastCoup, fRate, fYield,
-			      fRedemp, nFreq, nBase);
+        if (rate < 0.0 || yield < 0.0 || redemption <= 0.0)
+                return value_new_error_NUM (ei->pos);
+
+	return value_new_float
+		(calc_oddlprice
+		 (&settlement, &maturity, &last_interest,
+		  rate, yield, redemption, &conv));
 }
 
 /***************************************************************************/
@@ -3020,30 +3054,63 @@ static char const *help_oddlyield = {
 	   "@SEEALSO=")
 };
 
+
+static gnm_float
+calc_oddlyield (const GDate *settlement, const GDate *maturity,
+		const GDate *last_interest,
+		gnm_float rate, gnm_float price, gnm_float redemption,
+		const GnmCouponConvention *conv)
+{
+	GDate d = *last_interest;
+	gnm_float x1, x2, x3;
+
+	do {
+		g_date_add_months (&d, 12 / conv->freq);
+	} while (g_date_compare (&d, maturity) < 0);
+
+        x1 = date_ratio (last_interest, settlement, &d, conv);
+        x2 = date_ratio (last_interest, maturity, &d, conv);
+        x3 = date_ratio (settlement, maturity, &d, conv);
+
+        return (conv->freq * (redemption - price) + 100 * rate * (x2 - x1)) /
+		(x3 * price + 100 * rate * x1 * x3 / conv->freq);
+}
+
+
 static Value *
 gnumeric_oddlyield (FunctionEvalInfo *ei, Value **argv)
 {
-        GDate     nSettle, nMat, nLastCoup;
-	gnm_float fRate, fPrice, fRedemp;
-	gint      nFreq, nBase;
-	GnmDateConventions const *date_conv =
-		workbook_date_conv (ei->pos->sheet->workbook);
+        GDate     settlement, maturity, last_interest;
+	gnm_float rate, price, redemption;
+	GnmCouponConvention conv;
 
-	fRate      = value_get_as_float (argv[3]);
-	fPrice     = value_get_as_float (argv[4]);
-	fRedemp    = value_get_as_float (argv[5]);
-	nFreq      = value_get_as_int (argv[6]);
-        nBase      = argv[7] ? value_get_as_int (argv[7]) : 0;
+	rate       = value_get_as_float (argv[3]);
+	price      = value_get_as_float (argv[4]);
+	redemption = value_get_as_float (argv[5]);
 
-        if (nBase < 0 || nBase > 4 || fRate < 0 ||
-	    (nFreq != 1 && nFreq != 2 && nFreq != 4) ||
-	    !datetime_value_to_g (&nSettle, argv[0], date_conv) ||
-	    !datetime_value_to_g (&nMat, argv[1], date_conv) ||
-	    !datetime_value_to_g (&nLastCoup, argv[2], date_conv))
+        conv.eom   = TRUE;
+        conv.freq  = value_get_as_int (argv[6]);
+        conv.basis = argv[7] ? value_get_as_int (argv[7]) : 0;
+	conv.date_conv = workbook_date_conv (ei->pos->sheet->workbook);
+
+	if (!datetime_value_to_g (&settlement, argv[0], conv.date_conv) ||
+	    !datetime_value_to_g (&maturity, argv[1], conv.date_conv) ||
+	    !datetime_value_to_g (&last_interest, argv[2], conv.date_conv))
+		return value_new_error_VALUE (ei->pos);
+
+        if (!is_valid_basis (conv.basis) ||
+	    !is_valid_freq (conv.freq) ||
+            g_date_compare (&settlement, &maturity) > 0 ||
+	    g_date_compare (&last_interest, &settlement) > 0)
 		return value_new_error_NUM (ei->pos);
 
-	return get_oddlyield (&nSettle, &nMat, &nLastCoup, fRate, fPrice,
-			      fRedemp, nFreq, nBase);
+        if (rate < 0.0 || price <= 0.0 || redemption <= 0.0)
+                return value_new_error_NUM (ei->pos);
+
+	return value_new_float
+		(calc_oddlyield
+		 (&settlement, &maturity, &last_interest,
+		  rate, price, redemption, &conv));
 }
 
 /***************************************************************************/
@@ -3563,6 +3630,7 @@ gnumeric_mduration (FunctionEvalInfo *ei, Value **argv)
 	GnmCouponConvention conv;
 
 	conv.date_conv = workbook_date_conv (ei->pos->sheet->workbook);
+	conv.eom = TRUE;
 
 	fCoup      = value_get_as_float (argv[2]);
 	fYield     = value_get_as_float (argv[3]);

@@ -1,3 +1,8 @@
+2003-07-01  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_oddlprice, gnumeric_oddlyield): Dump OO's
+	implementation and roll our own.  (Our date stuff is better.)
+
 2003-06-29  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (func_coup): Use is_valid_basis and is_valid_freq.

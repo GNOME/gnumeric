@@ -66,7 +66,7 @@ Morten:
 	  function.
 	* Make pretty-printing clarify trees like "-2^2" into "(-2)^2".
 	* Fix cell entry display for strings with initial quote.
-	* Fix YIELDDISC and ODDFPRICE.
+	* Fix YIELDDISC, ODDFPRICE, ODDLPRICE, and ODDLYIELD.
 	* Implement ODDFYIELD.
 	* Reduce flicker in format selector widgets.
 	* Fix another O(n^2) problem in stf import.

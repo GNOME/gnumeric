@@ -338,42 +338,6 @@ Value *	   get_yieldmat  (GDate *nSettle, GDate *nMat, GDate *nIssue,
 
 /***************************************************************************/
 
-Value *    get_oddlprice (GDate *nSettle, GDate *nMat, GDate *nLastCoup,
-			  gnm_float fRate, gnm_float fYield,
-			  gnm_float fRedemp, gint nFreq, gint nBase)
-{
-        gnm_float fDCi  = GetYearFrac ( nLastCoup, nMat, nBase ) * nFreq;
-        gnm_float fDSCi = GetYearFrac ( nSettle, nMat, nBase ) *  nFreq;
-        gnm_float fAi   = GetYearFrac ( nLastCoup, nSettle, nBase ) * nFreq;
-
-        gnm_float p     = fRedemp + fDCi * 100.0 * fRate / nFreq;
-        p /= fDSCi * fYield / nFreq + 1.0;
-        p -= fAi * 100.0 * fRate / nFreq;
-
-        return value_new_float ( p );
-}
-
-/***************************************************************************/
-
-Value *    get_oddlyield (GDate *nSettle, GDate *nMat, GDate *nLastCoup,
-			  gnm_float fRate, gnm_float fPrice,
-			  gnm_float fRedemp, gint nFreq, gint nBase)
-{
-        gnm_float      fDCi  = GetYearFrac ( nLastCoup, nMat, nBase ) * nFreq;
-        gnm_float      fDSCi = GetYearFrac ( nSettle, nMat, nBase ) * nFreq;
-        gnm_float      fAi   = GetYearFrac ( nLastCoup, nSettle, nBase ) *
-	        nFreq;
-
-        gnm_float      y     = fRedemp + fDCi * 100.0 * fRate / nFreq;
-        y /= fPrice + fAi * 100.0 * fRate / nFreq;
-        y--;
-        y *= nFreq / fDSCi;
-
-        return value_new_float ( y );
-}
-
-/***************************************************************************/
-
 Value *    get_duration  (GDate *nSettle, GDate *nMat, gnm_float fCoup,
 			  gnm_float fYield, gint nFreq, gint nBase,
 			  gnm_float fNumOfCoups)
