@@ -43,7 +43,7 @@
 #include <gtk/gtkoptionmenu.h>
 #include <gtk/gtknotebook.h>
 #include <widgets/widget-font-selector.h>
-#include <widgets/preview-file-selection.h>
+#include <gui-file.h>
 #include <gdk-pixbuf/gdk-pixdata.h>
 
 #include <gsf/gsf-impl-utils.h>
@@ -733,43 +733,30 @@ static void
 cb_image_file_select (GtkWidget *cc, StylePrefState *state)
 {
 	GogStyle *style = state->style;
-	GtkFileSelection *fs;
+	char *filename;
 	GtkWidget *w;
 
 	g_return_if_fail (style != NULL);
 	g_return_if_fail (GOG_FILL_STYLE_IMAGE == style->fill.type);
 
-	fs = GTK_FILE_SELECTION (preview_file_selection_new (_("Select an image"), TRUE));
-	gtk_window_set_modal (GTK_WINDOW (fs), TRUE);
-	gtk_file_selection_hide_fileop_buttons (fs);
+	filename = gui_image_file_select (NULL,
+					  style->fill.u.image.filename);
+	if (!filename)
+		return;
 
-	if (style->fill.u.image.filename != NULL)
-		preview_file_selection_set_filename (fs, style->fill.u.image.filename);
+	if (style->fill.u.image.image != NULL)
+		g_object_unref (style->fill.u.image.image);
+	g_free (style->fill.u.image.filename);
 
-	/* 
-	 * should not be modal
-	 **/
-	if (gnumeric_dialog_file_selection (NULL, GTK_WIDGET (fs))) {
+	style->fill.u.image.filename = filename;
+	style->fill.u.image.image = gdk_pixbuf_new_from_file (filename, NULL);
 
-		if (style->fill.u.image.image != NULL)
-			g_object_unref (style->fill.u.image.image);
-		g_free (style->fill.u.image.filename);
+	w = glade_xml_get_widget (state->gui, "fill_image_sample");
+	g_object_set_data (G_OBJECT (w), "filename",
+			   style->fill.u.image.filename);
 
-		style->fill.u.image.filename =
-			g_strdup (gtk_file_selection_get_filename (fs));
-		style->fill.u.image.image = (style->fill.u.image.filename != NULL) 
-			? gdk_pixbuf_new_from_file (style->fill.u.image.filename, NULL)
-			: NULL;
-
-		w = glade_xml_get_widget (state->gui, "fill_image_sample");
-		g_object_set_data (G_OBJECT (w), "filename",
-				   style->fill.u.image.filename);
-			
-		gog_style_set_image_preview (style->fill.u.image.image, state);
-
-		set_style (state);
-	}
-	gtk_widget_destroy (GTK_WIDGET (fs));
+	gog_style_set_image_preview (style->fill.u.image.image, state);
+	set_style (state);
 }
 
 static void

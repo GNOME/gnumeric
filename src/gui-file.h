@@ -10,6 +10,6 @@ void     gui_file_open      (WorkbookControlGUI *wbcg,
 gboolean gui_file_read	    (WorkbookControlGUI *wbcg, char const *file_name,
 			     GnmFileOpener const *optional_format,
 			     gchar const *optional_encoding);
-char *   gui_image_file_select (WorkbookControlGUI *wbcg);
+char *   gui_image_file_select (WorkbookControlGUI *wbcg, const char *initial);
 
 #endif /* GNUMERIC_GUI_FILE_H */

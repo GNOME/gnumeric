@@ -344,7 +344,6 @@ update_preview_cb (GtkFileChooser *chooser)
 		g_free (filename);
 	}
 
-
 	gtk_file_chooser_set_preview_widget_active (chooser, have_preview);
 }
 
@@ -356,7 +355,7 @@ filter_images (const GtkFileFilterInfo *filter_info, gpointer data)
 }
 
 char *
-gui_image_file_select (WorkbookControlGUI *wbcg)
+gui_image_file_select (WorkbookControlGUI *wbcg, const char *initial)
 {
 	GtkFileChooser *fsel;
 	char *result = NULL;
@@ -371,6 +370,13 @@ gui_image_file_select (WorkbookControlGUI *wbcg)
 				GTK_STOCK_OPEN, GTK_RESPONSE_OK,
 				NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (fsel), GTK_RESPONSE_OK);
+
+	if (initial) {
+		if (g_path_is_absolute (initial))
+			gtk_file_chooser_set_filename (fsel, initial);
+		else
+			g_warning ("Ignoring non-absolute initial filename %s", initial);
+	}
 
 	/* Filters */
 	{	

@@ -1042,7 +1042,7 @@ static GNM_ACTION_DEF (cb_autosum)
 static GNM_ACTION_DEF (cb_insert_image)
 {
 	SheetControlGUI *scg = wbcg_cur_scg (wbcg);
-	char *filename = gui_image_file_select (wbcg);
+	char *filename = gui_image_file_select (wbcg, NULL);
 
 	if (filename) {
 #warning "Why doesn't this simply use libgsf?"
