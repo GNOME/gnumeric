@@ -353,7 +353,7 @@
         <emphasis role="bold">Printing</emphasis>
       </para>
       <para>
-	Using <application>Pango</application> throught the printing subsystem
+	Using <application>Pango</application> throughout the printing subsystem
 	improves the consistency between on screen and resulting paper.
       </para>
     </listitem>
