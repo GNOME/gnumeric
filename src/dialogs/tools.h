@@ -47,6 +47,10 @@ int random_tool           (WorkbookControl *context, Sheet *sheet,
 int average_tool          (WorkbookControl *context, Sheet *sheet,
 			   Range *range, int interval, int std_error_flag,
 			   data_analysis_output_t *dao);
+int exp_smoothing_tool    (WorkbookControl *context, Sheet *sheet,
+			   Range *range, gnum_float damp_fact,
+			   int std_error_flag,
+			   data_analysis_output_t *dao);
 int ranking_tool          (WorkbookControl *context, Sheet *sheet,
 			   Range *input_range, int columns_flag,
 			   data_analysis_output_t *dao);

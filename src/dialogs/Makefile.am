@@ -94,6 +94,7 @@ glade_DATA = 				\
 	dialog-stf-export.glade		\
 	dialog-stf.glade		\
 	dialog-zoom.glade		\
+	exp-smoothing.glade		\
 	font-sel.glade			\
 	formula-guru.glade		\
 	fourier-analysis.glade		\

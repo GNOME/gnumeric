@@ -66,7 +66,8 @@ typedef enum {
 	TOOL_ANOVA_SINGLE = 16,
 	TOOL_ANOVA_TWO_FACTOR = 17,
 	TOOL_FTEST = 18,
-	TOOL_RANDOM = 19
+	TOOL_RANDOM = 19,
+	TOOL_EXP_SMOOTHING = 20
 } ToolType;
 
 
@@ -80,6 +81,7 @@ typedef enum {
 #define HISTOGRAM_KEY         "analysistools-histogram-dialog"
 #define FOURIER_KEY           "analysistools-fourier-dialog"
 #define AVERAGE_KEY           "analysistools-moving-average-dialog"
+#define EXP_SMOOTHING_KEY     "analysistools-exp-smoothing-dialog"
 #define REGRESSION_KEY        "analysistools-regression-dialog"
 #define ANOVA_TWO_FACTOR_KEY  "analysistools-anova-two-factor-dialog"
 #define ANOVA_SINGLE_KEY      "analysistools-anova-single-factor-dialog"
@@ -246,6 +248,31 @@ typedef struct {
 
 	GtkWidget *interval_entry;
 } AverageToolState;
+
+typedef struct {
+        ToolType  const type;
+        GladeXML  *gui;
+        GtkWidget *dialog;
+        GnumericExprEntry *input_entry;
+        GnumericExprEntry *input_entry_2;
+        GnumericExprEntry *output_entry;
+        GtkWidget *ok_button;
+        GtkWidget *cancel_button;
+        GtkWidget *apply_button;
+        GtkWidget *help_button;
+        char *helpfile;
+        char *input_var1_str;
+        char *input_var2_str;
+        GtkWidget *new_sheet;
+        GtkWidget *new_workbook;
+        GtkWidget *output_range;
+        Sheet  *sheet;
+        Workbook  *wb;
+        WorkbookControlGUI  *wbcg;
+        GtkAccelGroup *accel;
+
+        GtkWidget *damping_fact_entry;
+} ExpSmoothToolState;
 
 typedef struct {
 	ToolType  const type;
@@ -2898,6 +2925,179 @@ dialog_regression_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 /**********************************************/
 
 /**********************************************/
+/*  Begin of Exponential smoothing tool code */
+/**********************************************/
+
+
+/**
+ * exp_smoothing_tool_ok_clicked_cb:
+ * @button:
+ * @state:
+ *
+ **/
+static void
+exp_smoothing_tool_ok_clicked_cb (GtkWidget *button, ExpSmoothToolState *state)
+{
+	data_analysis_output_t  dao;
+	Range                   range;
+        char                    *text;
+	GtkWidget               *w;
+	int                     standard_errors_flag;
+	gnum_float              damp_fact;
+
+	text = gtk_entry_get_text (GTK_ENTRY (state->input_entry));
+	parse_range (text, &range.start.col,
+		     &range.start.row,
+		     &range.end.col,
+		     &range.end.row);
+
+        parse_output ((GenericToolState *)state, &dao);
+
+	w = glade_xml_get_widget (state->gui, "labels_button");
+        dao.labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+
+	text = gtk_entry_get_text (GTK_ENTRY (state->damping_fact_entry));
+	damp_fact = atof (text);
+	w = glade_xml_get_widget (state->gui, "std_errors_button");
+	standard_errors_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(w));
+
+	switch (exp_smoothing_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
+				    &range, damp_fact, standard_errors_flag,
+				    &dao)) {
+	case 0:
+		gtk_widget_destroy (state->dialog);
+		break;
+	default:
+		break;
+	}
+	return;
+}
+
+/**
+ * exp_smoothing_tool_update_sensitivity_cb:
+ * @state:
+ *
+ * Update the dialog widgets sensitivity.
+ * We cannot use tool_update_sensitivity_cb
+ * since we are also considering whether in fact
+ * an interval is given.
+ **/
+static void
+exp_smoothing_tool_update_sensitivity_cb (GtkWidget *dummy,
+					  ExpSmoothToolState *state)
+{
+	gboolean ready  = FALSE;
+	char const *output_text;
+	char const *input_text;
+	char const *text;
+	int i;
+	gnum_float damp_fact;
+        Value *output_range;
+        Value *input_range;
+
+	output_text = gtk_entry_get_text (GTK_ENTRY (state->output_entry));
+	input_text = gtk_entry_get_text (GTK_ENTRY (state->input_entry));
+        output_range = global_range_parse (state->sheet,output_text);
+        input_range = range_parse (state->sheet,input_text,TRUE);
+	i = gnumeric_glade_group_value (state->gui, output_group);
+	text = gtk_entry_get_text (GTK_ENTRY (state->damping_fact_entry));
+	damp_fact = atof (text);
+
+	ready = ((input_range != NULL) &&
+                 (damp_fact >= 0 && damp_fact <= 1) &&
+                 ((i != 2) || (output_range != NULL)));
+
+        if (input_range != NULL) value_release (input_range);
+        if (output_range != NULL) value_release (output_range);
+
+	gtk_widget_set_sensitive (state->ok_button, ready);
+}
+
+
+/**
+ * dialog_exp_smoothing_tool_init:
+ * @state:
+ *
+ * Create the dialog (guru).
+ *
+ **/
+static gboolean
+dialog_exp_smoothing_tool_init (ExpSmoothToolState *state)
+{
+	if (dialog_tool_init ((GenericToolState *)state, "exp-smoothing.glade",
+			      "ExpSmoothing",
+			      GTK_SIGNAL_FUNC (exp_smoothing_tool_ok_clicked_cb),
+			      GTK_SIGNAL_FUNC (exp_smoothing_tool_update_sensitivity_cb),
+			      GNUM_EE_SINGLE_RANGE | GNUM_EE_SHEET_OPTIONAL)) {
+		return TRUE;
+	}
+
+	state->damping_fact_entry = glade_xml_get_widget (state->gui,
+							  "damping-fact-entry");
+
+	gtk_signal_connect_after (GTK_OBJECT (state->damping_fact_entry),"changed",
+				  GTK_SIGNAL_FUNC
+				  (exp_smoothing_tool_update_sensitivity_cb),
+				  state);
+ 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				  GTK_EDITABLE (state->damping_fact_entry));
+
+	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+			       EXP_SMOOTHING_KEY);
+
+	exp_smoothing_tool_update_sensitivity_cb (NULL,state);
+
+	return FALSE;
+}
+
+/**
+ * dialog_exp_smoothing_tool:
+ * @wbcg:
+ * @sheet:
+ *
+ * Show the dialog (guru).
+ *
+ **/
+static int
+dialog_exp_smoothing_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
+{
+        ExpSmoothToolState *state;
+
+	if (wbcg == NULL) {
+		return 1;
+	}
+
+	/* Only pop up one copy per workbook */
+	if (gnumeric_dialog_raise_if_exists (wbcg, EXP_SMOOTHING_KEY))
+		return 0;
+
+	state = g_new (ExpSmoothToolState, 1);
+	(*(ToolType *)state) = TOOL_EXP_SMOOTHING;
+	state->wbcg  = wbcg;
+	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->sheet = sheet;
+	state->helpfile = "exp-smoothing-tool.html";
+	state->input_var1_str = NULL;
+	state->input_var2_str = NULL;
+
+	if (dialog_exp_smoothing_tool_init (state)) {
+		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+				 _("Could not create the Exponential Smoothing "
+				   "Tool dialog."));
+		g_free (state);
+		return 0;
+	}
+
+	gtk_widget_show (state->dialog);
+
+        return 0;
+}
+
+/**********************************************/
+/*  End of Exponential Smoothing tool code */
+/**********************************************/
+
+/**********************************************/
 /*  Begin of Moving Averages tool code */
 /**********************************************/
 
@@ -3686,7 +3886,9 @@ static tool_list_t tools[] = {
 	  dialog_descriptive_stat_tool },
         { N_("F-Test: Two-Sample for Variances"),
 	  dialog_ftest_tool },
-        { N_("Fourier Analysis"),
+        { N_("Exponential Smoothing"),
+	  dialog_exp_smoothing_tool },
+	{ N_("Fourier Analysis"),
 	  dialog_fourier_tool },
         { N_("Histogram"),
 	  dialog_histogram_tool },

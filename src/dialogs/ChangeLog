@@ -1,3 +1,14 @@
+2001-11-07  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* dialog-analysis-tools.c
+	(exp_smoothing_tool_update_sensitivity_cb,
+	exp_smoothing_tool_ok_clicked_cb, dialog_exp_smoothing_tool_init,
+	dialog_exp_smoothing_tool): Wrote.
+
+	* tools.h: Added exp_smoothing_tool proto.
+
+	* Makefile.am, exp-smoothing.glade: Introduced.
+
 2001-11-05  Morten Welinder  <terra@diku.dk>
 
 	* dialog-summary.c (summary_get): Plug leak.
