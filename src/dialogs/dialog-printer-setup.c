@@ -1407,32 +1407,6 @@ do_setup_page (PrinterSetupState *state)
 	gnumeric_combo_enters (GTK_WINDOW (state->dialog), first_page_combo);
 }
 
-static void
-cb_do_print (GtkWidget *w, PrinterSetupState *state)
-{
-	WorkbookControlGUI *wbcg;
-	Sheet *sheet;
-
-	fetch_settings (state);
-	wbcg = state->wbcg;
-	sheet = state->sheet;
-	gtk_widget_destroy (state->dialog);
-	sheet_print (wbcg, sheet, FALSE, PRINT_ACTIVE_SHEET);
-}
-
-static void
-cb_do_print_preview (GtkWidget *w, PrinterSetupState *state)
-{
-	fetch_settings (state);
-	sheet_print (state->wbcg, state->sheet, TRUE, PRINT_ACTIVE_SHEET);
-}
-
-static void
-cb_do_print_cancel (GtkWidget *w, PrinterSetupState *state)
-{
-	gtk_widget_destroy (state->dialog);
-}
-
 static Sheet *
 print_setup_get_sheet (PrinterSetupState *state)
 {
@@ -1446,6 +1420,41 @@ print_setup_get_sheet (PrinterSetupState *state)
 	return workbook_sheet_by_index (state->sheet->workbook, 
 					gtk_option_menu_get_history (GTK_OPTION_MENU 
 								     (state->sheet_selector)));
+}
+
+static void
+cb_do_print (GtkWidget *w, PrinterSetupState *state)
+{
+	WorkbookControlGUI *wbcg;
+	Sheet *sheet;
+
+	wbcg_edit_detach_guru (state->wbcg);
+	wbcg_edit_finish (state->wbcg, TRUE);
+	fetch_settings (state);
+	wbcg = state->wbcg;
+	sheet = state->sheet;
+	print_info_save (state->pi);
+	cmd_print_set_up (state->wbcg, print_setup_get_sheet (state), state->pi);
+	gtk_widget_destroy (state->dialog);
+	sheet_print (wbcg, sheet, FALSE, PRINT_ACTIVE_SHEET);
+}
+
+static void
+cb_do_print_preview (GtkWidget *w, PrinterSetupState *state)
+{
+	PrintInformation *old_pi;
+	fetch_settings (state);
+
+	old_pi = state->sheet->print_info;
+	state->sheet->print_info = state->pi;
+	sheet_print (state->wbcg, state->sheet, TRUE, PRINT_ACTIVE_SHEET);
+	state->sheet->print_info = old_pi;
+}
+
+static void
+cb_do_print_cancel (GtkWidget *w, PrinterSetupState *state)
+{
+	gtk_widget_destroy (state->dialog);
 }
 
 static void
