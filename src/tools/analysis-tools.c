@@ -4186,11 +4186,11 @@ analysis_tool_fourier_engine_run (data_analysis_output_t *dao,
 }
 
 static int
-analysis_tool_fourier_calc_length (data_analysis_output_t *dao, 
-				   analysis_tools_data_fourier_t *info)
+analysis_tool_fourier_calc_length (analysis_tools_data_fourier_t *info)
 {
+	Sheet         *sheet = wb_control_cur_sheet(info->base.wbc);
 	GPtrArray     *data = new_data_set_list (info->base.input, info->base.group_by,
-						 TRUE, info->base.labels, dao->sheet);
+						 TRUE, info->base.labels, sheet);
 	int           result = 1;
 	guint         dataset;
 
@@ -4221,7 +4221,7 @@ analysis_tool_fourier_engine (data_analysis_output_t *dao, gpointer specs,
 	case TOOL_ENGINE_UPDATE_DAO: 
 		prepare_input_range (&info->base.input, info->base.group_by);
 		dao_adjust (dao, 2 * g_slist_length (info->base.input), 
-			    2 + analysis_tool_fourier_calc_length (dao, specs));
+			    2 + analysis_tool_fourier_calc_length (specs));
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:
 		return analysis_tool_generic_clean (dao, specs);
