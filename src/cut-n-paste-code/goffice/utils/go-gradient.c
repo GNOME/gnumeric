@@ -50,33 +50,35 @@ go_gradient_selector (GOColor start, GOColor end)
 		{ NULL, NULL, GO_GRADIENT_NE_TO_SW_MIRRORED }	
 	};
 	guint i, length;
-	GdkPixbuf  *pixbuf;
 	GdkPixdata  pixdata;
 	GtkWidget  *w;
 	gpointer    data;
 	ArtRender *render;
 	ArtGradientLinear gradient;
 	ArtGradientStop stops[2];
+	const int sizex = 20, sizey = 20;
+	GdkPixbuf *pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, sizex, sizey);
+	int rowstride = gdk_pixbuf_get_rowstride (pixbuf);
+	void *pixels = gdk_pixbuf_get_pixels (pixbuf);
+	int n_channels = gdk_pixbuf_get_n_channels (pixbuf);
 
-	pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, 20, 20);
 	for (i = 0; i < G_N_ELEMENTS (elements); i++) {
-		memset (gdk_pixbuf_get_pixels (pixbuf), 0, gdk_pixbuf_get_rowstride (pixbuf) * 20);
-		render = art_render_new (0, 0, 20, 20,
-			gdk_pixbuf_get_pixels (pixbuf),
-			gdk_pixbuf_get_rowstride (pixbuf),
-			gdk_pixbuf_get_n_channels (pixbuf) - 1,
-			8, ART_ALPHA_SEPARATE, NULL);
+		memset (pixels, 0, rowstride * sizey);
+		render = art_render_new (0, 0, sizex, sizey,
+					 pixels,
+					 rowstride,
+					 n_channels - 1,
+					 8, ART_ALPHA_SEPARATE, NULL);
 		if (elements[i].inline_gdkpixbuf != NULL)
 			g_free ((gpointer) elements[i].inline_gdkpixbuf);
 
 		go_gradient_setup (&gradient,
 				   i, start, end,
-				   0, 0,
-				   20, 20,
+				   0, 0, sizex, sizey,
 				   stops);
 
-		art_render_gradient_linear (render,
-			&gradient, ART_FILTER_NEAREST);
+		art_render_gradient_linear (render, &gradient,
+					    ART_FILTER_NEAREST);
 		art_render_invoke (render);
 
 		data = gdk_pixdata_from_pixbuf (&pixdata, pixbuf, FALSE);
@@ -128,12 +130,12 @@ go_gradient_setup (ArtGradientLinear *gradient,
 
 	switch (dir % 4) {
 	case 0:
-		gradient->spread = ART_GRADIENT_REPEAT;
+		gradient->spread = ART_GRADIENT_PAD;
 		go_color_to_artpix (stops[0].color, col0);
 		go_color_to_artpix (stops[1].color, col1);
 		break;
 	case 1:
-		gradient->spread = ART_GRADIENT_REPEAT;
+		gradient->spread = ART_GRADIENT_PAD;
 		go_color_to_artpix (stops[0].color, col1);
 		go_color_to_artpix (stops[1].color, col0);
 		break;

@@ -139,17 +139,17 @@ gog_style_set_image_preview (GdkPixbuf *pix, StylePrefState *state)
 	char *size;
 	GtkWidget *w;
 
-	if (state->fill.image.image != NULL)
-		g_object_unref (state->fill.image.image);
-	state->fill.image.image = pix;
-	if (state->fill.image.image != NULL)
-		g_object_ref (state->fill.image.image);
-	
+	if (state->fill.image.image != pix) {
+		if (state->fill.image.image != NULL)
+			g_object_unref (state->fill.image.image);
+		state->fill.image.image = pix;
+		if (state->fill.image.image != NULL)
+			g_object_ref (state->fill.image.image);
+	}
 
 	w = glade_xml_get_widget (state->gui, "fill_image_sample");
 	
-	scaled = gnm_pixbuf_intelligent_scale 
-				(pix, HSCALE, VSCALE);
+	scaled = gnm_pixbuf_intelligent_scale (pix, HSCALE, VSCALE);
 	gtk_image_set_from_pixbuf (GTK_IMAGE (w), scaled);
 	g_object_unref (scaled);
 	
@@ -648,7 +648,8 @@ static void
 gog_style_pref_state_free (StylePrefState *state)
 {
 	g_object_unref (state->gui);
-	g_object_unref (state->fill.image.image);
+	if (state->fill.image.image != NULL)
+		g_object_unref (state->fill.image.image);
 	g_free (state);
 }
 
