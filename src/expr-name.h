@@ -15,7 +15,7 @@ struct _NamedExpression {
 	gboolean    builtin : 1;
 	union {
 		ExprTree     *expr_tree;
-		FunctionArgs *expr_func;
+		FunctionArgs  expr_func;
 	} t;
 };
 

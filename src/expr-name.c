@@ -436,7 +436,7 @@ expr_name_eval (NamedExpression const *nexpr,
 		ei.pos = pos;
 		ei.func_call = NULL; /* FIXME : This is ugly. why are there
 					no descriptors for builtins */
-		return nexpr->t.expr_func (&ei, NULL);
+		return (*nexpr->t.expr_func) (&ei, NULL);
 	}
 
 	return expr_eval (nexpr->t.expr_tree, pos, flags);
@@ -533,7 +533,7 @@ name_sheet_title (FunctionEvalInfo *ei, Value **args)
 
 static struct {
 	gchar const *name;
-	FunctionArgs *fn;
+	FunctionArgs fn;
 } const builtins[] =
 {
 	/* Consolidate_Area
