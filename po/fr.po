@@ -1,15 +1,15 @@
 # French translation of gnumeric.
-# Copyright (C) 1998-2002 Free Software Foundation, Inc.
+# Copyright (C) 1998-2003 Free Software Foundation, Inc.
 # Vincent Renardias <vincent@ldsol.com>, 1998-2000.
 # Fabrice Bellet <Fabrice.Bellet@imag.fr>, 1999.
-# Christophe Merlet (RedFox) <redfox@redfoxcenter.org>, 2000-2002.
-# maintainer: Olivier Jousselin <oj@marylou.fr>, 2001-2002.
+# Christophe Merlet (RedFox) <redfox@redfoxcenter.org>, 2000-2003.
+# maintainer: Olivier Jousselin <oj@marylou.fr>, 2001-2003.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 1.0.11\n"
-"POT-Creation-Date: 2003-01-03 18:51+0000\n"
-"PO-Revision-Date: 2002-12-10 22:15+0100\n"
+"Project-Id-Version: gnumeric 1.0.13\n"
+"POT-Creation-Date: 2003-02-24 21:03+0100\n"
+"PO-Revision-Date: 2003-02-24 21:03+0100\n"
 "Last-Translator: Christophe Merlet (RedFox) <redfox@redfoxcenter.org>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -1367,7 +1367,7 @@ msgstr "_Correction automatique..."
 
 #: src/GNOME_Gnumeric.xml.h:8 src/workbook-control-gui.c:2693
 msgid "Auto_fill"
-msgstr "Remplissage auto"
+msgstr "Remplissage _auto"
 
 #: src/GNOME_Gnumeric.xml.h:9 src/workbook-control-gui.c:2694
 msgid "Automatically fill the current selection"
@@ -1977,11 +1977,11 @@ msgstr "Nouveau"
 
 #: src/GNOME_Gnumeric.xml.h:150 src/workbook-control-gui.c:2803
 msgid "New _Shared"
-msgstr "Nouvelle feuille partagée"
+msgstr "Nouvelle feuille _partagée"
 
 #: src/GNOME_Gnumeric.xml.h:151 src/workbook-control-gui.c:2806
 msgid "New _Unshared"
-msgstr "N_ouvelle feuille non partagée"
+msgstr "Nouvelle feuille _non partagée"
 
 #: src/GNOME_Gnumeric.xml.h:152 src/workbook-control-gui.c:2984
 msgid "One Factor Analysis of Variance"
@@ -2001,11 +2001,11 @@ msgstr "Ouvrir un classeur existant"
 
 #: src/GNOME_Gnumeric.xml.h:156 src/workbook-control-gui.c:3125
 msgid "Outlines _Below"
-msgstr "Contours en-dessous"
+msgstr "Contours _en-dessous"
 
 #: src/GNOME_Gnumeric.xml.h:157 src/workbook-control-gui.c:3131
 msgid "Outlines _Right"
-msgstr "Contours à droite"
+msgstr "Contours à _droite"
 
 #: src/GNOME_Gnumeric.xml.h:158
 msgid "Oval"
@@ -2361,11 +2361,11 @@ msgstr "Annuler la dernière action"
 
 #: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:3012
 msgid "Unpaired Samples, E_qual Var.: T-Test"
-msgstr "Échantillons non appariés, var. égales : test T"
+msgstr "Échantillons non appariés, var. é_gales : test T"
 
 #: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:3017
 msgid "Unpaired Samples, _Unequal Var.: T-Test"
-msgstr "Échantillons non appariés, var. différentes : test T"
+msgstr "Échantillons non appariés, var. _différentes : test T"
 
 #: src/GNOME_Gnumeric.xml.h:243 src/workbook-control-gui.c:3155
 msgid "Validate input with preset criteria"
@@ -2560,7 +2560,7 @@ msgstr "_Insérer un nouveau"
 
 #: src/GNOME_Gnumeric.xml.h:287 src/workbook-control-gui.c:3022
 msgid "_Known Variances or Large Sample: Z-Test"
-msgstr "Variances connues ou échantillon volumineux : test Z"
+msgstr "Variances _connues ou échantillon volumineux : test Z"
 
 #: src/GNOME_Gnumeric.xml.h:288 src/workbook-control-gui.c:2999
 msgid "_Moving Average"
@@ -3052,7 +3052,7 @@ msgstr "Imaginaire"
 msgid "Error '%s' opening workbook stream"
 msgstr "Erreur « %s » à l'ouverture du flux du classeur"
 
-#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3412
+#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3417
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Fichier xml non valide. L'arbre est-il vide ?"
 
@@ -3623,7 +3623,7 @@ msgstr "C_opier vers : "
 
 #: src/dialogs/advanced-filter.glade.h:4
 msgid "C_riteria range:"
-msgstr "Intervalle de critère : "
+msgstr "Intervalle de _critère :"
 
 #: src/dialogs/advanced-filter.glade.h:5
 msgid "Copy to a new _sheet"
@@ -3631,7 +3631,7 @@ msgstr "Copier vers une nouvelle _feuille"
 
 #: src/dialogs/advanced-filter.glade.h:6
 msgid "Copy to a new _workbook"
-msgstr "Copier vers un nouveau classeur"
+msgstr "Copier vers un nouveau _classeur"
 
 #: src/dialogs/advanced-filter.glade.h:7
 msgid "_Copy to a new location"
@@ -3643,7 +3643,7 @@ msgstr "_Filtrer sur place"
 
 #: src/dialogs/advanced-filter.glade.h:9
 msgid "_List range:     "
-msgstr "Intervalle de liste : "
+msgstr "Intervalle de _liste : "
 
 #: src/dialogs/advanced-filter.glade.h:10
 msgid "_Unique records only"
@@ -3671,7 +3671,7 @@ msgstr "ANOVA : Facteur unique"
 #: src/dialogs/regression.glade.h:2 src/dialogs/sampling.glade.h:2
 #: src/dialogs/variance-tests.glade.h:2
 msgid "A_utofit Columns"
-msgstr "Ajustement automatique des colonnes"
+msgstr "Ajustement _automatique des colonnes"
 
 #: src/dialogs/anova-one.glade.h:4 src/dialogs/correlation.glade.h:3
 #: src/dialogs/covariance.glade.h:3 src/dialogs/descriptive-stats.glade.h:7
@@ -3786,7 +3786,7 @@ msgstr "Correction automatique"
 
 #: src/dialogs/autocorrect.glade.h:2
 msgid "Capitalize _first letter of sentence"
-msgstr "Met en majuscule la première lettre d'une phrase"
+msgstr "Met en majuscule la _première lettre d'une phrase"
 
 #: src/dialogs/autocorrect.glade.h:3
 msgid "Capitalize _names of days"
@@ -4196,7 +4196,7 @@ msgstr "Demi cercles"
 
 #: src/dialogs/cell-format.glade.h:71
 msgid "Shrin_k to fit"
-msgstr "Ajuster en rétrécissant"
+msgstr "Ajuster en _rétrécissant"
 
 #: src/dialogs/cell-format.glade.h:72
 msgid "Small Circles"
@@ -4304,7 +4304,7 @@ msgstr "Nombres entiers"
 
 #: src/dialogs/cell-format.glade.h:98
 msgid "Worksheet _protected"
-msgstr "Feuille de travaill protégée"
+msgstr "Feuille de travaill _protégée"
 
 #: src/dialogs/cell-format.glade.h:99
 msgid "_Accounting"
@@ -4419,8 +4419,7 @@ msgid "_Wrap text"
 msgstr "_Retour à la ligne"
 
 #: src/dialogs/cell-format.glade.h:129
-#, fuzzy
-msgid "min &lt;= val &lt;= max         (between)"
+msgid "min <= val <= max         (between)"
 msgstr "min <= val <= max         (entre)"
 
 #: src/dialogs/cell-format.glade.h:130
@@ -4428,33 +4427,28 @@ msgid "val != bound                  (not equal to)"
 msgstr "val != limite              (différent de)"
 
 #: src/dialogs/cell-format.glade.h:131
-#, fuzzy
-msgid "val &gt;  bound                  (greater than)"
-msgstr "val > limite              (supérieur à)"
-
-#: src/dialogs/cell-format.glade.h:132
-#, fuzzy
-msgid "val &gt;=bound                  (greater than or equal to)"
-msgstr "val >= limite              (supérieur ou égal à)"
-
-#: src/dialogs/cell-format.glade.h:133
-#, fuzzy
-msgid "val &lt;  bound                  (less than)"
+msgid "val <  bound                  (less than)"
 msgstr "val < limite              (inférieur à)"
 
-#: src/dialogs/cell-format.glade.h:134
-#, fuzzy
-msgid "val &lt;= min || max &lt;= val (not between)"
+#: src/dialogs/cell-format.glade.h:132
+msgid "val <= min || max <= val (not between)"
 msgstr "val <= min || max <= val         (pas compris entre)"
 
-#: src/dialogs/cell-format.glade.h:135
-#, fuzzy
-msgid "val &lt;=bound                  (less than or equal to)"
+#: src/dialogs/cell-format.glade.h:133
+msgid "val <=bound                  (less than or equal to)"
 msgstr "val <= limite              (inférieur ou égal à)"
 
-#: src/dialogs/cell-format.glade.h:136
+#: src/dialogs/cell-format.glade.h:134
 msgid "val == bound                 (equal to)"
 msgstr "val == limite                 (égal à)"
+
+#: src/dialogs/cell-format.glade.h:135
+msgid "val >  bound                  (greater than)"
+msgstr "val > limite              (supérieur à)"
+
+#: src/dialogs/cell-format.glade.h:136
+msgid "val >=bound                  (greater than or equal to)"
+msgstr "val >= limite              (supérieur ou égal à)"
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "A _header"
@@ -4499,7 +4493,7 @@ msgstr "Sensible à la _casse"
 
 #: src/dialogs/cell-sort.glade.h:11
 msgid "_Right-Left"
-msgstr "Droite-Gauche"
+msgstr "_Droite-Gauche"
 
 #: src/dialogs/cell-sort.glade.h:12
 msgid "_Text"
@@ -4507,7 +4501,7 @@ msgstr "_Texte"
 
 #: src/dialogs/cell-sort.glade.h:13
 msgid "_Top-Bottom"
-msgstr "Haut-Bas"
+msgstr "_Haut-Bas"
 
 #: src/dialogs/cell-sort.glade.h:14
 msgid "_Value"
@@ -4543,7 +4537,7 @@ msgstr "Compte"
 
 #: src/dialogs/consolidate.glade.h:6
 msgid "D_elete"
-msgstr "Effacer"
+msgstr "_Effacer"
 
 #: src/dialogs/consolidate.glade.h:7
 msgid "Data consolidation"
@@ -4671,7 +4665,7 @@ msgstr "Décaler les cellules vers le _haut"
 
 #: src/dialogs/descriptive-stats.glade.h:1
 msgid "(1 - alpha) = "
-msgstr "(1 - _Alpha) = "
+msgstr "(1 - alpha) = "
 
 #: src/dialogs/descriptive-stats.glade.h:2
 msgid ".95"
@@ -5676,12 +5670,12 @@ msgstr "Détails du greffon"
 #: src/dialogs/dialog-printer-setup.c:984
 #: src/dialogs/dialog-printer-setup.c:1112
 msgid "Customize header"
-msgstr "Configurer les _en-têtes de pages"
+msgstr "Configurer les en-têtes de pages"
 
 #: src/dialogs/dialog-printer-setup.c:986
 #: src/dialogs/dialog-printer-setup.c:1118
 msgid "Customize footer"
-msgstr "Configurer les _pieds de page"
+msgstr "Configurer les pieds de page"
 
 #: src/dialogs/dialog-printer-setup.c:1111
 msgid "Custom header configuration"
@@ -5716,15 +5710,15 @@ msgstr "Commentaires"
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Voulez-vous vraiment supprimer la feuille nommée « %s » ?"
 
-#: src/dialogs/dialog-solver.c:65
+#: src/dialogs/dialog-solver.c:65 src/dialogs/solver.glade.h:1
 msgid "<="
 msgstr "<="
 
-#: src/dialogs/dialog-solver.c:66
+#: src/dialogs/dialog-solver.c:66 src/dialogs/solver.glade.h:3
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:3
+#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:2
 msgid "="
 msgstr "="
 
@@ -5771,27 +5765,25 @@ msgstr "Voulez-vous vraiment annuler ?"
 msgid "\""
 msgstr "\""
 
-#: src/dialogs/dialog-stf-export.glade.h:2
-msgid "&lt;- Remove"
-msgstr "&lt;- Enlever"
-
-#: src/dialogs/dialog-stf-export.glade.h:3
-#, fuzzy
-msgid "&lt;- Remove all"
-msgstr "&lt;- Enlever"
-
-#: src/dialogs/dialog-stf-export.glade.h:4 src/dialogs/dialog-stf.glade.h:2
+#: src/dialogs/dialog-stf-export.glade.h:2 src/dialogs/dialog-stf.glade.h:2
 msgid "'"
 msgstr "'"
 
+#: src/dialogs/dialog-stf-export.glade.h:3
+msgid "<- Remove"
+msgstr "<- Enlever"
+
+#: src/dialogs/dialog-stf-export.glade.h:4
+msgid "<- Remove all"
+msgstr "<- Enlever tout"
+
 #: src/dialogs/dialog-stf-export.glade.h:5
-msgid "Add -&gt;"
-msgstr "Ajouter -&gt;"
+msgid "Add ->"
+msgstr "Ajouter ->"
 
 #: src/dialogs/dialog-stf-export.glade.h:6
-#, fuzzy
-msgid "Add all -&gt;"
-msgstr "Ajouter -&gt;"
+msgid "Add all ->"
+msgstr "Ajouter tout ->"
 
 #: src/dialogs/dialog-stf-export.glade.h:7
 msgid "Always"
@@ -6209,7 +6201,7 @@ msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:62
 msgid "_Adjacent text indicators escaped"
-msgstr "Séparateurs adjacents protégés"
+msgstr "Séparateurs _adjacents protégés"
 
 #: src/dialogs/dialog-stf.glade.h:64
 msgid "_Colon (:)"
@@ -6397,15 +6389,15 @@ msgstr "Solution :"
 
 #: src/dialogs/goalseek.glade.h:9
 msgid "_By Changing Cell:"
-msgstr "En changeant la cellule :"
+msgstr "_En changeant la cellule :"
 
 #: src/dialogs/goalseek.glade.h:10
 msgid "_Set Cell:"
-msgstr "Affecter la cellule :"
+msgstr "_Affecter la cellule :"
 
 #: src/dialogs/goalseek.glade.h:11
 msgid "_To Value:"
-msgstr "À la valeur :"
+msgstr "À la _valeur :"
 
 #: src/dialogs/graph-guru.glade.h:4
 msgid "_Finish"
@@ -6429,15 +6421,15 @@ msgstr "Config en-tête/pied de page"
 
 #: src/dialogs/hf-config.glade.h:3
 msgid "_Left section:"
-msgstr "Section de gauche :"
+msgstr "Section de _gauche :"
 
 #: src/dialogs/hf-config.glade.h:4
 msgid "_Middle section:"
-msgstr "Section du centre :"
+msgstr "Section du _centre :"
 
 #: src/dialogs/hf-config.glade.h:5
 msgid "_Right section:"
-msgstr "Section de droite :"
+msgstr "Section de _droite :"
 
 #: src/dialogs/histogram.glade.h:2
 msgid "Bin _Labels"
@@ -6469,7 +6461,7 @@ msgstr "Ma_x :"
 
 #: src/dialogs/histogram.glade.h:13
 msgid "Out_put"
-msgstr "Résultat"
+msgstr "_Résultat"
 
 #: src/dialogs/histogram.glade.h:14
 msgid "Pareto (_Sorted)"
@@ -6481,23 +6473,23 @@ msgstr "_Pourcentages"
 
 #: src/dialogs/histogram.glade.h:16
 msgid "Pre_determined Bins"
-msgstr "Valeurs prédéterminées"
+msgstr "Valeurs pré_déterminées"
 
 #: src/dialogs/histogram.glade.h:17
 msgid "Ro_ws"
-msgstr "Lignes"
+msgstr "_Lignes"
 
 #: src/dialogs/histogram.glade.h:19
 msgid "_Bins"
-msgstr "Valeurs"
+msgstr "_Valeurs"
 
 #: src/dialogs/histogram.glade.h:20
 msgid "_Calculated Bins"
-msgstr "Valeurs calculées"
+msgstr "Valeurs _calculées"
 
 #: src/dialogs/histogram.glade.h:22
 msgid "_Input"
-msgstr "Entrée"
+msgstr "_Entrée"
 
 #: src/dialogs/histogram.glade.h:23
 msgid "_N:"
@@ -6521,11 +6513,11 @@ msgstr "Insérer cellules"
 
 #: src/dialogs/insert-cells.glade.h:5
 msgid "Shift cells _down"
-msgstr "Décaler les cellules vers le bas"
+msgstr "Décaler les cellules vers le _bas"
 
 #: src/dialogs/insert-cells.glade.h:6
 msgid "_Shift cells right"
-msgstr "_Décaler les cellules vers la droite"
+msgstr "Décaler les cellules vers la _droite"
 
 #: src/dialogs/mean-tests.glade.h:4
 msgid "E_qual"
@@ -6707,7 +6699,7 @@ msgstr "Numéro de la premiè_re page :"
 
 #: src/dialogs/print.glade.h:6
 msgid "He_ader:"
-msgstr "En-tête de page :"
+msgstr "_En-tête de page :"
 
 #: src/dialogs/print.glade.h:7
 msgid "Headers and footers"
@@ -6755,7 +6747,7 @@ msgstr "À dro_ite, puis en bas"
 
 #: src/dialogs/print.glade.h:21
 msgid "Row and co_lumn headings"
-msgstr "En-têtes de lignes et colonnes"
+msgstr "En-têtes de lignes et co_lonnes"
 
 #: src/dialogs/print.glade.h:22
 msgid "Scale"
@@ -6808,7 +6800,7 @@ msgstr "Lignes de _grille"
 
 #: src/dialogs/print.glade.h:34
 msgid "_Header:"
-msgstr "En-tête de page :"
+msgstr "_En-tête de page :"
 
 #: src/dialogs/print.glade.h:35
 msgid "_Horizontally"
@@ -6877,7 +6869,7 @@ msgstr "Nombres aléatoires"
 
 #: src/dialogs/random-generation.glade.h:8
 msgid "Size of _Sample:"
-msgstr "Taille de l'échantillon :"
+msgstr "Taille de l'é_chantillon :"
 
 #: src/dialogs/random-generation.glade.h:9
 msgid "_Distribution:"
@@ -6897,7 +6889,7 @@ msgstr "Ex-aequo :"
 
 #: src/dialogs/rank.glade.h:16
 msgid "_Top Rank"
-msgstr "Meilleur rang"
+msgstr "_Meilleur rang"
 
 #: src/dialogs/regression.glade.h:1
 msgid "0.95"
@@ -6921,7 +6913,7 @@ msgstr "Hauteur de _ligne (pts) :"
 
 #: src/dialogs/sampling.glade.h:6
 msgid "N_umber of Samples:"
-msgstr "Nombre d'échantillons :"
+msgstr "_Nombre d'échantillons :"
 
 #: src/dialogs/sampling.glade.h:8
 msgid "Per_iod:"
@@ -6945,11 +6937,11 @@ msgstr " _Intervalle d'entrée : "
 
 #: src/dialogs/sampling.glade.h:18
 msgid "_Periodic"
-msgstr "Périodique"
+msgstr "_Périodique"
 
 #: src/dialogs/sampling.glade.h:19
 msgid "_Random"
-msgstr "Aléatoire"
+msgstr "_Aléatoire"
 
 #: src/dialogs/search-replace.glade.h:1
 msgid "Ask before each change"
@@ -6985,11 +6977,11 @@ msgstr "Échouer sans faire de changement dans aucune cellule."
 
 #: src/dialogs/search-replace.glade.h:9
 msgid "Ma_ke string value"
-msgstr "Créer une chaîne"
+msgstr "_Créer une chaîne"
 
 #: src/dialogs/search-replace.glade.h:10
 msgid "Ma_tch whole words only"
-msgstr "Mot entier seulement"
+msgstr "_Mot entier seulement"
 
 #: src/dialogs/search-replace.glade.h:11 src/dialogs/search.glade.h:9
 msgid "Miscellaneous"
@@ -7025,11 +7017,11 @@ msgstr "Demander avant de remplacer"
 
 #: src/dialogs/search-replace.glade.h:19
 msgid "Ra_nge"
-msgstr "Intervalle"
+msgstr "_Intervalle"
 
 #: src/dialogs/search-replace.glade.h:20
 msgid "Re_gular expression"
-msgstr "Expression régulière"
+msgstr "Expression ré_gulière"
 
 #: src/dialogs/search-replace.glade.h:21
 msgid "Scope"
@@ -7089,7 +7081,7 @@ msgstr "_Avancée"
 
 #: src/dialogs/search-replace.glade.h:36
 msgid "_By"
-msgstr "Par"
+msgstr "_Par"
 
 #: src/dialogs/search-replace.glade.h:37
 msgid "_Column major"
@@ -7105,11 +7097,11 @@ msgstr "Feuille _courante"
 
 #: src/dialogs/search-replace.glade.h:40
 msgid "_Don't change"
-msgstr "Ne pas changer"
+msgstr "_Ne pas changer"
 
 #: src/dialogs/search-replace.glade.h:41 src/dialogs/search.glade.h:27
 msgid "_Entire workbook"
-msgstr "le classeur _entier"
+msgstr "Le classeur _entier"
 
 #: src/dialogs/search-replace.glade.h:42 src/dialogs/search.glade.h:28
 msgid "_Expressions"
@@ -7117,7 +7109,7 @@ msgstr "_Expressions"
 
 #: src/dialogs/search-replace.glade.h:43
 msgid "_Fail"
-msgstr "Échouer"
+msgstr "É_chouer"
 
 #: src/dialogs/search-replace.glade.h:44 src/dialogs/search.glade.h:29
 msgid "_Ignore case"
@@ -7125,11 +7117,11 @@ msgstr "_Ignorer la casse"
 
 #: src/dialogs/search-replace.glade.h:45
 msgid "_Location"
-msgstr "Emplacement"
+msgstr "_Emplacement"
 
 #: src/dialogs/search-replace.glade.h:46
 msgid "_Make error expression"
-msgstr "Créer une expression d'erreur"
+msgstr "_Créer une expression d'erreur"
 
 #: src/dialogs/search-replace.glade.h:47 src/dialogs/search.glade.h:31
 msgid "_Normal"
@@ -7137,7 +7129,7 @@ msgstr "_Normal"
 
 #: src/dialogs/search-replace.glade.h:48 src/dialogs/search.glade.h:32
 msgid "_Other values"
-msgstr "Autres valeurs"
+msgstr "_Autres valeurs"
 
 #: src/dialogs/search-replace.glade.h:49 src/dialogs/search.glade.h:33
 msgid "_Plain text"
@@ -7145,15 +7137,15 @@ msgstr "Texte _pur"
 
 #: src/dialogs/search-replace.glade.h:50
 msgid "_Preserve case"
-msgstr "Préserver la casse"
+msgstr "_Préserver la casse"
 
 #: src/dialogs/search-replace.glade.h:51
 msgid "_Query"
-msgstr "Demander"
+msgstr "_Demander"
 
 #: src/dialogs/search-replace.glade.h:52
 msgid "_Replace by"
-msgstr "Remplacer par"
+msgstr "_Remplacer par"
 
 #: src/dialogs/search-replace.glade.h:53
 msgid "_Replacing"
@@ -7161,15 +7153,15 @@ msgstr "_Remplacement"
 
 #: src/dialogs/search-replace.glade.h:54 src/dialogs/search.glade.h:36
 msgid "_Row major"
-msgstr "Ligne principale"
+msgstr "_Ligne principale"
 
 #: src/dialogs/search-replace.glade.h:55 src/dialogs/search.glade.h:37
 msgid "_Search for"
-msgstr "Rechercher"
+msgstr "_Rechercher"
 
 #: src/dialogs/search-replace.glade.h:56 src/dialogs/search.glade.h:38
 msgid "_Strings"
-msgstr "Chaînes"
+msgstr "_Chaînes"
 
 #: src/dialogs/search.glade.h:1
 msgid "C_olumn major"
@@ -7197,7 +7189,7 @@ msgstr "Chercher le texte dans les valeurs textuelles"
 
 #: src/dialogs/search.glade.h:8
 msgid "Match _whole words only"
-msgstr "Mot complet seulement"
+msgstr "Mot _complet seulement"
 
 #: src/dialogs/search.glade.h:10
 msgid "Searc_h"
@@ -7269,7 +7261,7 @@ msgstr "Ordonner les feuilles"
 
 #: src/dialogs/sheet-order.glade.h:7
 msgid "_Sheet Name"
-msgstr "Nom de feuille"
+msgstr "Nom de _feuille"
 
 #: src/dialogs/sheet-rename.glade.h:1
 msgid "Enter new _sheet name:"
@@ -7278,14 +7270,6 @@ msgstr "Saisissez le _nouveau nom de la feuille :"
 #: src/dialogs/sheet-rename.glade.h:2
 msgid "Rename sheet"
 msgstr "Renommer la feuille"
-
-#: src/dialogs/solver.glade.h:1
-msgid "&gt;="
-msgstr "&gt;="
-
-#: src/dialogs/solver.glade.h:2
-msgid "&lt;="
-msgstr "&lt;="
 
 #: src/dialogs/solver.glade.h:4
 msgid "Assume _Linear Model"
@@ -7341,7 +7325,7 @@ msgstr "_Changer"
 
 #: src/dialogs/solver.glade.h:20
 msgid "_Left Hand Side:"
-msgstr "Membre de gauche"
+msgstr "Membre de _gauche :"
 
 #: src/dialogs/solver.glade.h:21
 msgid "_Limits"
@@ -7353,7 +7337,7 @@ msgstr "_Max"
 
 #: src/dialogs/solver.glade.h:23
 msgid "_Right Hand Side:"
-msgstr "Membre de droite :"
+msgstr "Membre de _droite :"
 
 #: src/dialogs/solver.glade.h:24
 msgid "_Sensitivity"
@@ -7373,7 +7357,7 @@ msgstr "C_ommentaires"
 
 #: src/dialogs/summary.glade.h:2
 msgid "Com_pany"
-msgstr "Société"
+msgstr "_Société"
 
 #: src/dialogs/summary.glade.h:3
 msgid "Document Summary Information"
@@ -7389,11 +7373,11 @@ msgstr "_Auteur"
 
 #: src/dialogs/summary.glade.h:7
 msgid "_Keywords"
-msgstr "Mots clés"
+msgstr "_Mots-clés"
 
 #: src/dialogs/summary.glade.h:8
 msgid "_Manager"
-msgstr "Gestionnaire"
+msgstr "_Gestionnaire"
 
 #: src/dialogs/summary.glade.h:9
 msgid "_Title"
@@ -7460,7 +7444,7 @@ msgstr "Intervalle de la variable_2 :"
 
 #: src/dialogs/workbook-attr.glade.h:1
 msgid "Notebook _Tabs for Sheets"
-msgstr "Onglets pour les feuilles"
+msgstr "_Onglets pour les feuilles"
 
 #: src/dialogs/workbook-attr.glade.h:2
 msgid "View"
@@ -9381,8 +9365,8 @@ msgstr ""
 "Si @mois est < 1 ou > 12, l'année sera corrigée. De même pour les jours.\n"
 "L'@année doit être au moins égale à 1900. Si @année est < 1900, DATE lui "
 "ajoutera 1900.\n"
-"Si la date fournie est invalide, DATE renvoie une erreur #NUM!. Cette "
-"fonction est compatible avec Excel.\n"
+"Si la date fournie est invalide, DATE renvoie une erreur #NUM!.\n"
+"Cette fonction est compatible avec Excel.\n"
 "@EXAMPLES=\n"
 "DATE(2001;3;30) renvoie \"Mar 30, 2001\".\n"
 "\n"
@@ -9487,7 +9471,7 @@ msgstr ""
 "différence de mois\n"
 "\"yd\" renvoie le nombre de jours entiers entre les dates, sans compter la "
 "différence d'années\n"
-"Cette fonction est compatible avec Excel. \n"
+"Cette fonction est compatible avec Excel.\n"
 "@EXAMPLES=\n"
 "DATEDIF(DATE(2000,4,30),DATE(2003,8,4),\"d\") vaut 1191.\n"
 "DATEDIF(DATE(2000,4,30),DATE(2003,8,4),\"y\") vaut 3.\n"
@@ -9588,7 +9572,7 @@ msgstr ""
 "@FUNCTION=TIME\n"
 "@SYNTAX=TIME (heures;minutes;secondes)\n"
 "@DESCRIPTION=Renvoie une chaîne représentant l'heure fournie en paramètre.\n"
-"Cette fonction est compatible avec Excel\n"
+"Cette fonction est compatible avec Excel.\n"
 "@EXAMPLES=\n"
 "TIME(3;5;23) renvoie 3:05.\n"
 "\n"
@@ -9609,8 +9593,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=TIMEVALUE\n"
 "@SYNTAX=TIMEVALUE (heure_texte)\n"
-"@DESCRIPTION=Renvoie une fraction représentant l'heure @heure_texte, une "
-"valeur entre 0 et 1.\n"
+"@DESCRIPTION=TIMEVALUE renvoie une fraction représentant l'heure "
+"@heure_texte, une valeur entre 0 et 1.\n"
+"Cette fonction est compatible avec Excel.\n"
 "@EXAMPLES=\n"
 "TIMEVALUE(\"3:05\") vaut 0,128472.\n"
 "TIMEVALUE(\"2:24:53 PM\") vaut 0,600613.\n"
@@ -9637,7 +9622,7 @@ msgstr ""
 "sous la forme d'un entier entre 0 (minuit) à 23 (23h00).\n"
 "NB: Gnumeric fera pour vous une traduction de chaîne littérale en nombre, "
 "donc la date peut être donnée sous forme de chaîne.\n"
-"\n"
+"Cette fonction est compatible avec Excel.\n"
 "@EXAMPLES=\n"
 "HOUR(0.128472) vaut 3.\n"
 "\n"
@@ -9715,7 +9700,7 @@ msgstr ""
 "donc la date peut être fournie sous forme de chaîne.\n"
 "Cette fonction est compatible avec Excel.\n"
 "@EXAMPLES=\n"
-"\"YEAR(DATE(2003; 4; 30)) vaut 2003.\\n\"\n"
+"YEAR(DATE(2003; 4; 30)) vaut 2003.\n"
 "\n"
 "@SEEALSO=DAY, MONTH, NOW, TIME"
 
@@ -10322,8 +10307,8 @@ msgstr ""
 "évaluée en @x. @y est l'ordre de la fonction de Bessel, tronqué s'il n'est "
 "pas entier.\n"
 "Si @x ou @y ne sont pas des valeurs numériques, l'erreur #VALEUR! est "
-"renvoyée. Si @y < 0, l'erreur #NUM! est renvoyée. Cette fonction est "
-"compatible avec Excel.\n"
+"renvoyée. Si @y < 0, l'erreur #NUM! est renvoyée.\n"
+"Cette fonction est compatible avec Excel.\n"
 "@EXAMPLES=\n"
 "BESSELI(0,7;3) vaut 0,007367374.\n"
 "\n"
@@ -11926,7 +11911,7 @@ msgstr ""
 "@valeurs contient les flux de trésorerie, qui doivent se produire à "
 "intervalles réguliers. L'argument optionnel @devine est la valeur initiale "
 "utilisée par IRR, et n'est présent que pour être compatible avec Excel.\n"
-"Cette fonction est compatible avec Excel. \n"
+"Cette fonction est compatible avec Excel.\n"
 "@EXAMPLES=\n"
 "Supposons que les cellules A1:A8 contiennent -32432, 5324, 7432, 9332, "
 "12324, 4334, 1235, -3422. Alors,\n"
@@ -13248,7 +13233,8 @@ msgstr ""
 "@FUNCTION=COUNTBLANK\n"
 "@SYNTAX=COUNTBLANK(intervalle)\n"
 "@DESCRIPTION=La fonction COUNTBLANK renvoie le nombre de cellules vides dans "
-"@intervalle. Cette fonction est compatible avec Excel.\n"
+"@intervalle.\n"
+"Cette fonction est compatible avec Excel.\n"
 "@EXAMPLES=\n"
 "COUNTBLANK(A1:A20) renvoie le nombre de cellules vides dans A1:A20.\n"
 "\n"
@@ -13404,7 +13390,7 @@ msgstr ""
 "#NOM!     5\n"
 "#NUM!      6\n"
 "#N/A!       7\n"
-"Cette fonction est compatible avec Excel. \n"
+"Cette fonction est compatible avec Excel.\n"
 "@EXAMPLES=\n"
 "ERROR.TYPE(NA()) vaut 7.\n"
 "\n"
@@ -14548,7 +14534,7 @@ msgstr ""
 "@SYNTAX=COUNTIF(intervalle;critères)\n"
 "@DESCRIPTION=La fonction COUNTIF compte le nombre de cellules dans "
 "@intervalle qui satisfont @critères.\n"
-"This function is Excel compatible. \n"
+"Cette fonction est compatible avec Excel.\n"
 "@EXAMPLES=\n"
 "Si A1, A2, ..., A5 contiennent 23, 27, 28, 33, et 39, alors\n"
 "COUNTIF(A1:A5;\"<=28\") vaut 3.\n"
@@ -14781,7 +14767,7 @@ msgstr ""
 "immédiatement inférieur, ou à l'entier immédiatement inférieur si @précision "
 "est omis.\n"
 "Cette fonction est compatible avec Excel.\n"
-"@EXAMPLES=\\n\"\n"
+"@EXAMPLES=\n"
 "FLOOR(0,5) vaut 0.\n"
 "FLOOR(5;2) vaut 4.\n"
 "FLOOR(-5;-2) vaut -4.\n"
@@ -14982,6 +14968,7 @@ msgstr ""
 "@SYNTAX=RAND()\n"
 "@DESCRIPTION=Renvoie un nombre aléatoire compris entre 0 et 1.\n"
 "Cette fonction est compatible avec Excel.\n"
+"@EXAMPLES=\n"
 "\n"
 "@SEEALSO=RANDBETWEEN"
 
@@ -15351,7 +15338,8 @@ msgstr ""
 "@DESCRIPTION=La fonction PI renvoie la valeur de pi telle qu'elle est "
 "définie par M_PI.\n"
 "Cette fonction ne prend aucun argument.\n"
-"Cette fonction est compatible avec Excel.\n"
+"Cette fonction est compatible avec Excel, mis à part qu'elle retourne pi "
+"avec une meilleure précision.\n"
 "@EXAMPLES=\n"
 "PI() vaut 3,141593.\n"
 "\n"
@@ -15541,6 +15529,8 @@ msgstr ""
 "Si @mini ou @maxi ne sont pas entiers, ils sont tronqués. Si @mini > @maxi, "
 "RANDBETWEEN renvoie l'erreur #NUM!. \n"
 "Cette fonction est compatible avec Excel.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=RAND"
 
 #: src/functions/fn-math.c:1983
@@ -15879,7 +15869,7 @@ msgstr ""
 "10  VAR\n"
 "11  VARP\n"
 "Cette fonction est compatible avec Excel.\n"
-"@EXAMPLES=\\n\"\n"
+"@EXAMPLES=\n"
 "Si A1, A2, ..., A5 contiennent 23, 27, 28, 33, et 39 :\n"
 "SUBTOTAL(1;A1:A5) vaut 30.\n"
 "SUBTOTAL(6;A1:A5) vaut 22378356.\n"
@@ -15939,7 +15929,7 @@ msgstr ""
 "@DESCRIPTION=La fonction MINVERSE renvoie l'inverse de @matrice.\n"
 "Si elle n'est pas inversible, MINVERSE renvoie l'erreur #NUM!. Si elle n'est "
 "pas carrée, MINVERSE renvoie l'erreur #VALUE!.\n"
-"Cette fonction est compatible avec Excel. \n"
+"Cette fonction est compatible avec Excel.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=MMULT, MDETERM"
@@ -15966,6 +15956,8 @@ msgstr ""
 "Le résultat est un tableau possédant le même nombre de lignes que @tableau1 "
 "et le même nombre de colonnes que @tableau2.\n"
 "Cette fonction est compatible avec Excel.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=TRANSPOSE,MINVERSE"
 
 #: src/functions/fn-math.c:3175
@@ -16330,6 +16322,7 @@ msgstr ""
 "Cette fonction est compatible avec Excel.\n"
 "@EXAMPLES=\n"
 "NEGBINOMDIST(2;5;0,55) vaut 0,152872629\n"
+"\n"
 "@SEEALSO=BINOMDIST,COMBIN,FACT,HYPGEOMDIST,PERMUT"
 
 #: src/functions/fn-stat.c:542
@@ -16553,6 +16546,7 @@ msgstr ""
 "@FUNCTION=COUNT\n"
 "@SYNTAX=COUNT(b1; b2; ...)\n"
 "@DESCRIPTION=Renvoie le nombre de paramètres passés à la fonction.\n"
+"Cette fonction est compatible avec Excel.\n"
 "@EXAMPLES=\n"
 "Si A1, A2, ..., A5 contiennent 11,4, 17,3,\n"
 "21,3, 25,9, and 40,1, alors\n"
@@ -16828,6 +16822,7 @@ msgstr ""
 "gamma cumulée.\n"
 "Si @p < 0 ou @p > 1, @lpha <= 0 ou @beta <= 0, la fonction GAMMAINV renvoie "
 "l'erreur #NUM!.\n"
+"Cette fonction est compatible avec Excel.\n"
 "@EXAMPLES=\n"
 "GAMMAINV(0,34;2;4) vaut 4,829093908.\n"
 "\n"
@@ -16854,6 +16849,7 @@ msgstr ""
 "liberté.\n"
 "Si @ddl n'est pas un entier, il est tronqué. Si @ddl < 1, la fonction "
 "CHIDIST renvoie l'erreur #NUM!.\n"
+"Cette fonction est compatible avec Excel.\n"
 "@EXAMPLES=\n"
 "CHIDIST(5,3;2) vaut 0,070651213.\n"
 "\n"
@@ -16879,6 +16875,7 @@ msgstr ""
 "degrés de liberté.\n"
 "Si @p < 0 ou @p > 1 ou si @ddl < 1, la fonction CHIINV renvoie l'erreur "
 "#NUM!.\n"
+"Cette fonction est compatible avec Excel.\n"
 "@EXAMPLES=\n"
 "CHIINV(0,98;7) vaut 1,564293004.\n"
 "\n"
@@ -16904,6 +16901,9 @@ msgstr ""
 "distribution du chi-2.\n"
 "@interv_réel contient les données observées. @interv_theorique contient les "
 "valeurs espérées des données.\n"
+"Cette fonction est compatible avec Excel.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=CHIDIST,CHIINV"
 
 #: src/functions/fn-stat.c:1442
@@ -16929,6 +16929,7 @@ msgstr ""
 "(resp. 1) par défaut.\n"
 "Si @x < @a ou @x > @b, @alpha <= 0, @beta <= 0 ou @a >= @b, BETADIST renvoie "
 "l'erreur #NUM!.\n"
+"Cette fonction est compatible avec Excel.\n"
 "@EXAMPLES=\n"
 "BETADIST(0,12;2;3) vaut 0,07319808.\n"
 "\n"
@@ -16957,6 +16958,7 @@ msgstr ""
 "optionnelle de @x, 0 (resp. 1) par défaut.\n"
 "Si @x < @a ou @x > @b, @alpha <= 0, @beta <= 0 ou @a >= @b, BETAINV renvoie "
 "l'erreur #NUM!.\n"
+"Cette fonction est compatible avec Excel.\n"
 "@EXAMPLES=\n"
 "BETAINV(0,45;1,6;1) vaut 0,607096629.\n"
 "\n"
@@ -16983,6 +16985,7 @@ msgstr ""
 "en @x. @ddl est le degré de liberté et @côtés vaut 1 ou 2, selon que l'on "
 "désire une distribution unilatérale ou bilatérale\n"
 "Si @ddl < 1, ou @côtés différent de 1 et 2, TDIST renvoie l'erreur #NUM!.\n"
+"Cette fonction est compatible avec Excel.\n"
 "@EXAMPLES=\n"
 "TDIST(2;5;1) vaut 0,050969739.\n"
 "\n"
@@ -17006,6 +17009,7 @@ msgstr ""
 "@DESCRIPTION=La fonction TINV renvoie l'inverse de la distribution T "
 "bilatérale de Student.\n"
 "Si @p < 0 ou @p > 1 ou @ddl < 1, TINV renvoie l'erreur #NUM!. \n"
+"Cette fonction est compatible avec Excel.\n"
 "@EXAMPLES=\n"
 "TINV(0,4;32) vaut 0,852998454.\n"
 "\n"
@@ -17060,6 +17064,7 @@ msgstr ""
 "dénominateur.\n"
 "Si @p < 0 ou @p > 1, FINV renvoie l'erreur #NUM!. Si @ddl < 1 ou @ddl2 < 1, "
 "FINV renvoie l'erreur #NUM!.\n"
+"Cette fonction est compatible avec Excel.\n"
 "@EXAMPLES=\n"
 "FINV(0,2;2;4) vaut 2,472135955.\n"
 "\n"
@@ -17091,6 +17096,7 @@ msgstr ""
 "Si @n ou @essais ne sont pas des valeurs entières, elles sont tronquées. Si "
 "@n < 0 ou @essais < 0 ou @n > @essais, BINOMDIST renvoie #NUM!. Si @p < 0 ou "
 "@p > 1, BINOMDIST renvoie l'erreur #NUM!. \n"
+"Cette fonction est compatible avec Excel.\n"
 "@EXAMPLES=\n"
 "BINOMDIST(3;5;0,8;0) vaut 0,2048.\n"
 "\n"
@@ -17122,6 +17128,7 @@ msgstr ""
 "Si @essais n'est pas une valeur entière, elle est tronquée. Si @essais < 0, "
 "CRITBINOM renvoie l'erreur #NUM!. Si @p < 0 ou @p > 1, CRITBINOM renvoie "
 "l'erreur #NUM!. \n"
+"Cette fonction est compatible avec Excel.\n"
 "@EXAMPLES=\n"
 "CRITBINOM(10;0,5;0,75) vaut 6.\n"
 "\n"
@@ -17148,6 +17155,7 @@ msgstr ""
 "permutation. \n"
 "L'exécution de cette fonction sur une chaîne ou une cellule vide renvoie une "
 "erreur #NUM!. Si @n = 0 ou @n < @k, PERMUT renvoie l'erreur #NUM!\n"
+"Cette fonction est compatible avec Excel.\n"
 "@EXAMPLES=\n"
 "PERMUT(7;3) vaut 210.\n"
 "\n"
@@ -17206,6 +17214,7 @@ msgstr ""
 "Si @taille n'est pas une valeur entière, elle est tronquée. Si @taille < 0, "
 "CONFIDENCE renvoie l'erreur #NUM!. Si @taille = 0, CONFIDENCE renvoie "
 "l'erreur #DIV/0!. \n"
+"Cette fonction est compatible avec Excel.\n"
 "@EXAMPLES=\n"
 "CONFIDENCE(0,05;1;33) vaut 0,341185936.\n"
 "\n"
@@ -17260,6 +17269,7 @@ msgstr ""
 "^@alpha), sinon elle vaut (@alpha/@beta^@alpha) * @x^(@alpha-1) * exp(-(@x/"
 "@beta^@alpha)). \n"
 "Si @x < 0, @alpha <= 0 ou @beta <= 0, WEIBULL renvoie une erreur #NUM!.\n"
+"Cette fonction est compatible avec Excel.\n"
 "@EXAMPLES=\n"
 "WEIBULL(3;2;4;0) vaut 0,213668559.\n"
 "\n"
@@ -17312,6 +17322,7 @@ msgstr ""
 "normale cumulative. @p est la probabilité voulue, @moyenne et @écart_type "
 "sont les caractéristiques de la distribution.\n"
 "Si @p < 0 ou @p > 1 ou @écart_type <= 0, NORMINV renvoie l'erreur #NUM!. \n"
+"Cette fonction est compatible avec Excel.\n"
 "@EXAMPLES=\n"
 "NORMINV(0,76;2;3) vaut 4,118907689.?\n"
 "@SEEALSO=NORMDIST,NORMSDIST,NORMSINV,STANDARDIZE,ZTEST"
@@ -17509,6 +17520,8 @@ msgstr ""
 "Pearson de deux ensembles de données.\n"
 "Les chaînes et les cellules vides sont ignorées.\n"
 "Cette fonction est compatible avec Excel.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=INTERCEPT,LINEST,RSQ,SLOPE,STEYX"
 
 #: src/functions/fn-stat.c:2279
@@ -17529,6 +17542,8 @@ msgstr ""
 "de Pearson des deux ensembles de données.\n"
 "Les chaînes et les cellules vides sont simplement ignorées.\n"
 "Cette fonction est compatible avec Excel.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=CORREL,COVAR,INTERPCEPT,LINEST,LOGEST,PEARSON,SLOPE,STEYX,TREND"
 
 #: src/functions/fn-stat.c:2309
@@ -17584,6 +17599,7 @@ msgstr ""
 "Si l'ensemble de données est vide, LARGE renvoie l'erreur #NUM!. Si k <= 0 "
 "ou si k est plus grand que le nombre d'éléments de l'ensemble, LARGE renvoie "
 "également #NUM!. \n"
+"Cette fonction est compatible avec Excel.\n"
 "@EXAMPLES=\n"
 "Si les cellules A1, A2, ..., A5 contiennent 11,4, 17,3,\n"
 "21,3, 25,9, et 40,1, alors\n"
@@ -17651,6 +17667,8 @@ msgstr ""
 "PROB renvoie l'erreur #NUM!. Si @interv_x et @interv_prob contiennent un "
 "nombre différent de données, PROB renvoie l'erreur #N/A!. \n"
 "Cette fonction est compatible avec Excel.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=BINOMDIST,CRITBINOM"
 
 #: src/functions/fn-stat.c:2555
@@ -17704,6 +17722,7 @@ msgstr ""
 "Le test Z génère une cote centrée réduite de @x pour la série de données "
 "@réf, et renvoie la probabilité bilatérale de la loi normale.\n"
 "Si @réf contient moins de deux éléments, ZTEST renvoie l'erreur #DIV/0!.\n"
+"Cette fonction est compatible avec Excel.\n"
 "@EXAMPLES=\n"
 "Si A1, A2, ..., A5 contiennent 11,4, 17,3, 21,3, 25,9, et 40,1, alors\n"
 "ZTEST(A1:A5;20) vaut 0,254717826.\n"
@@ -18112,6 +18131,7 @@ msgstr ""
 "@type=1, TTEST renvoie l'erreur #N/A!. @côtés et @type sont tronqués en "
 "entiers. Si @côtés ne vaut ni un ni deux, TTEST renvoie l'erreur #NUM!. Si "
 "@type ne vaut pas 1, 2 ou 3, TTEST renvoie l'erreur #NUM!.\n"
+"Cette fonction est compatible avec Excel.\n"
 "@EXAMPLES=\n"
 "Si A1, A2, ..., A5 contiennent 11,4, 17,3, 21,3, 25,9, et 40,1, et que B1, "
 "B2, ... B5 contiennent 23,2, 25,8, 29,9, 33,5, et 42,7, alors\n"
@@ -18119,6 +18139,7 @@ msgstr ""
 "TTEST(A1:A5;B1:B5;2;1) vaut 0,006255239.\n"
 "TTEST(A1:A5;B1:B5;1;2) vaut 0,111804322.\n"
 "TTEST(A1:A5;B1:B5;1;3) vaut 0,113821797.\n"
+"\n"
 "@SEEALSO=FDIST,FINV"
 
 #: src/functions/fn-stat.c:3475
@@ -18147,6 +18168,7 @@ msgstr ""
 "@données.\n"
 "Cette fonction est compatible avec Excel.\n"
 "@EXAMPLES=\n"
+"\n"
 "@SEEALSO="
 
 #: src/functions/fn-stat.c:3550
@@ -18698,6 +18720,7 @@ msgstr ""
 "@DESCRIPTION=Renvoie la position de @chaîne1 dans @chaîne2 (sensible à la "
 "casse), en cherchant à partir du début ou du caractère @début si ce "
 "paramètre est présent.\n"
+"Cette fonction est compatible avec Excel.\n"
 "@EXAMPLES=\n"
 "FIND(\"ac\";\"Jacques\") vaut 2.\n"
 "\n"
@@ -18720,6 +18743,7 @@ msgstr ""
 "@DESCRIPTION=Renvoie @nombre sous forme de chaîne formatée avec @décimales, "
 "en omettant les séparateurs de milliers si le paramètre @pas_de_séparateur "
 "est VRAI.\n"
+"Cette fonction est compatible avec Excel.\n"
 "@EXAMPLES=\n"
 "FIXED(1234,567;2) vaut \"1 234,57\".\n"
 "\n"
@@ -18762,6 +18786,7 @@ msgstr ""
 "@SYNTAX=REPLACE(ancien;début;nombre;nouveau)\n"
 "@DESCRIPTION=Renvoie le texte @ancien, dans lequel les @nombre caractères "
 "commençant à @start ont été remplacés par @nouveau.\n"
+"Cette fonction est compatible avec Excel.\n"
 "@EXAMPLES=\n"
 "REPLACE(\"tester\";2;3;\"ABCDE \"tABCDEer\".\n"
 "\n"
@@ -18784,6 +18809,7 @@ msgstr ""
 "@SYNTAX=T(valeur)\n"
 "@DESCRIPTION=Renvoie @valeur si et seulement s'il s'agit de texte, sinon "
 "renvoie une chaîne vide.\n"
+"Cette fonction est compatible avec Excel.\n"
 "@EXAMPLES=\n"
 "T(\"texte\") vaut \"texte\".\n"
 "T(64) renvoie une cellule vide.\n"
@@ -19133,7 +19159,7 @@ msgstr ""
 
 #: src/item-cursor.c:1008
 msgid "_Move"
-msgstr "Déplacer"
+msgstr "_Déplacer"
 
 #: src/item-cursor.c:1014
 msgid "Copy _Formats"
@@ -19145,19 +19171,19 @@ msgstr "Copier les _valeurs"
 
 #: src/item-cursor.c:1021
 msgid "Shift _Down and Copy"
-msgstr "Décaler vers le bas et copier"
+msgstr "Décaler vers le _bas et copier"
 
 #: src/item-cursor.c:1023
 msgid "Shift _Right and Copy"
-msgstr "Décaler vers la droite et copier"
+msgstr "Décaler vers la _droite et copier"
 
 #: src/item-cursor.c:1025
 msgid "Shift Dow_n and Move"
-msgstr "Décaler vers le bas et déplacer"
+msgstr "Décaler vers le b_as et déplacer"
 
 #: src/item-cursor.c:1027
 msgid "Shift Righ_t and Move"
-msgstr "Décaler vers la droite et déplacer"
+msgstr "Décaler vers la d_roite et déplacer"
 
 #: src/item-cursor.c:1032
 msgid "C_ancel"
@@ -20425,7 +20451,7 @@ msgstr "Cacher l'en-tête de _lignes"
 
 #: src/workbook-control-gui.c:3052
 msgid "Ranks And _Percentiles"
-msgstr "Ordres et Pourcentages"
+msgstr "Ordres et _Pourcentages"
 
 #: src/workbook-control-gui.c:3073
 msgid "Manage available plugin modules."
@@ -20521,7 +20547,7 @@ msgstr "Envoyer le fichier courant par courriel"
 
 #: src/workbook-control-gui.c:4388
 msgid "Re-Edit"
-msgstr "_Éditer à nouveau"
+msgstr "Éditer à nouveau"
 
 #: src/workbook-control-gui.c:4388 src/workbook-control-gui.c:4394
 msgid "Discard"
@@ -20816,25 +20842,33 @@ msgstr "Traitement du fichier..."
 msgid "Not enough memory to create zlib decompression state."
 msgstr "Mémoire insuffisante pour créer un état de décompression pour zlib"
 
-#: src/xml-io.c:3421
+#: src/xml-io.c:3426
 msgid "Is not an Gnumeric Workbook file"
 msgstr "N'est pas un fichier classeur Gnumeric"
 
-#: src/xml-io.c:3478
+#: src/xml-io.c:3483
 msgid "Gnumeric XML file format"
 msgstr "Format de fichier Gnumeric XML"
 
-#~ msgid "<- Remove"
-#~ msgstr "<- Enlever"
+#~ msgid "&lt;- Remove"
+#~ msgstr "&lt;- Enlever"
 
-#~ msgid "<- Remove all"
-#~ msgstr "<- Enlever tout"
+#, fuzzy
+#~ msgid "&lt;- Remove all"
+#~ msgstr "&lt;- Enlever"
 
-#~ msgid "Add ->"
-#~ msgstr "Ajouter ->"
+#~ msgid "Add -&gt;"
+#~ msgstr "Ajouter -&gt;"
 
-#~ msgid "Add all ->"
-#~ msgstr "Ajouter tout ->"
+#, fuzzy
+#~ msgid "Add all -&gt;"
+#~ msgstr "Ajouter -&gt;"
+
+#~ msgid "&gt;="
+#~ msgstr "&gt;="
+
+#~ msgid "&lt;="
+#~ msgstr "&lt;="
 
 #~ msgid "PLN : Not a PlanPerfect File"
 #~ msgstr "PLN : N'est pas un fichier PlanPerfect"
