@@ -78,14 +78,14 @@ capp_workbooks (PortableServer_Servant ignore,
 	return res;
 }
 
-static POA_GNOME_Gnumeric_Application__vepv	application_vepv;
-static POA_GNOME_Gnumeric_Application__epv	application_epv;
-static POA_GNOME_Gnumeric_Application		application;
-static PortableServer_Servant 			app = &application;
+static PortableServer_Servant app = CORBA_OBJECT_NIL;
 
 void
-plugin_init (void)
+plugin_init_general (ErrorInfo **ret_error)
 {
+	static POA_GNOME_Gnumeric_Application__vepv	application_vepv;
+	static POA_GNOME_Gnumeric_Application__epv	application_epv;
+	static POA_GNOME_Gnumeric_Application		application;
 	PortableServer_ObjectId *oid;
 	PortableServer_POA	 poa;
 	CORBA_Environment	 ev;
@@ -100,6 +100,8 @@ plugin_init (void)
 	application_epv.workbook_open	= capp_workbook_open;
 	application_epv.workbooks	= capp_workbooks;
 	application.vepv = &application_vepv;
+
+	app = &application;
 
 	CORBA_exception_init (&ev);
 	POA_GNOME_Gnumeric_Application__init (app, &ev);
@@ -116,7 +118,7 @@ plugin_init (void)
 }
 
 void
-plugin_cleanup (void)
+plugin_cleanup_general (ErrorInfo **ret_error)
 {
 	PortableServer_POA	 poa;
 	CORBA_Environment	 ev;

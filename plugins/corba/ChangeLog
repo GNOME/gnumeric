@@ -1,3 +1,8 @@
+2002-09-19  Jody Goldberg <jody@gnome.org>
+
+	* corba-application.c : move init into a 'general' service so that
+	  things do not complain.
+
 2002-09-18  Jody Goldberg <jody@gnome.org>
 
 	* New module to re-enable a CORBA interface in a plugin now that it is
