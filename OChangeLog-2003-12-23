@@ -1,3 +1,7 @@
+2003-12-14  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* debian/changelog, debian/control: Updated.
+
 2003-12-13  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=128169
