@@ -1000,7 +1000,7 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 				? major_path[0].y + dir * label_pad
 				: center + dir * (line_width + label_pad);
 			label_pos.h  = area->h - line_width;
-			label_pos.w  = step;
+			label_pos.w  = -1;
 		}
 
 		for (bound = -1, i = 0 ; i < n ; i++) {
@@ -1065,7 +1065,7 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 				? major_path[0].x + dir * label_pad
 				: center + dir * (line_width + label_pad);
 			label_pos.w  = area->w - line_width;
-			label_pos.h  = step;
+			label_pos.h  = -1;
 		}
 
 		for (bound = DBL_MAX, i = 0 ; i < n ; i++) {
@@ -1084,6 +1084,7 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 					label = gog_axis_get_marker (axis, i-1);
 				} else
 					label = gog_axis_get_marker (axis, i);
+
 				gog_renderer_draw_text (v->renderer, label,
 					&label_pos, anchor, &label_result);
 				g_free (label);

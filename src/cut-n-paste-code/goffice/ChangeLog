@@ -1,5 +1,9 @@
 2003-09-15  Jody Goldberg <jody@gnome.org>
 
+	* graph/gog-axis.c (gog_axis_view_render) : clipping the label text in
+	  the iterating dimension is a bad idea, we want to clip whole labels,
+	  not the individual lines.
+
 	* graph/plugins/plot_pie/gog-pie.c (gog_pie_view_render) : only draw
 	  the first series for a pie.  Things can sneak in.
 
