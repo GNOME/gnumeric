@@ -77,6 +77,9 @@ cell_register_span (Cell const * const cell, int left, int right)
 	ri = cell->row_info;
 	col = cell->pos.col;
 
+	if (left == right)
+		return;
+
 	if (ri->spans == NULL)
 		ri->spans = g_hash_table_new (col_hash, col_compare);
 
@@ -200,7 +203,7 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 
         /*
 	 * Report only one column is used if
-	 *	- Cell is going to be recalculated
+	 *	- Cell has an expression
 	 *	- Cell is in a hidden col
 	 * 	- Cell is a number
 	 * 	- Cell is the top left of a merged cell
@@ -221,7 +224,7 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 	if (align == HALIGN_LEFT || align == HALIGN_RIGHT)
 		indented_w += cell_rendered_offset (cell);
 
-	if (cell_needs_recalc (cell) ||
+	if (cell_has_expr (cell) ||
 	    !cell->col_info->visible ||
 	    ((indented_w <= COL_INTERNAL_WIDTH (cell->col_info)) &&
 	     align != HALIGN_CENTER_ACROSS_SELECTION) ||

@@ -1,4 +1,10 @@
 2001-06-03  Jody Goldberg <jgoldberg@home.com>
+
+	* src/cellspan.c (cell_calc_span) : do not span expressions
+	  because they do not span when recalculated.  This will be fixed when
+	  just in time rendering is done.
+
+2001-06-03  Jody Goldberg <jgoldberg@home.com>
 	From Juan Pablo Mendoza <pablo_juan@yahoo.com>
 
 	* rendered-value.c (rendered_value_get_text): Add a check for
