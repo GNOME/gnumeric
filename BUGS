@@ -21,6 +21,14 @@ Pending Patches
 Long term breakage
 ------------------
 
+- Fix "-geometry" handling:
+  * Positions like "400x200-0-0" are not understood.
+  * When an anchor is specified (e.g., "+0+0"), the window manager should
+    not be asked to place the window.  (Under twx, for example, the user
+    typically clicks to place the window.)
+
+- "-display foo:0.0" needs to be handled, somehow.
+
 - Data->Filter dialog
     : use expr entry widget.
 
