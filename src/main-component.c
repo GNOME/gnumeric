@@ -20,6 +20,12 @@
 #include <bonobo/bonobo-persist-stream.h>
 #include "workbook-control-component-priv.h"
 #include "plugin.h"
+#define DISABLE_DEBUG
+#ifndef DISABLE_DEBUG
+#define d(code)	do { code; } while (0)
+#else
+#define d(code)
+#endif
 
 char const *gnumeric_lib_dir = GNUMERIC_LIBDIR;
 char const *gnumeric_data_dir = GNUMERIC_DATADIR;
@@ -62,7 +68,7 @@ static gint
 load_workbook_from_file (BonoboPersistFile *pf, const CORBA_char *text_uri,
 		      CORBA_Environment *ev, void *closure)
 {
-	g_message (__PRETTY_FUNCTION__);
+	d (printf ("load_workbook_from_file %s\n", (char *)text_uri));
 	return 0;
 }
 
@@ -231,15 +237,15 @@ add_interfaces (BonoboObject *control, WorkbookControl *wbc)
 }
 
 static BonoboObject *
-gnumeric_component_factory (BonoboGenericFactory *this,
-			    const char           *oaf_iid,
-			    void                 *data)
+gnm_component_factory (BonoboGenericFactory *this,
+		       const char           *oaf_iid,
+		       void                 *data)
 {
 	BonoboControl *control;
 	GtkWidget *w;
 	WorkbookControl *wbc;
 
-	g_message ("Trying to produce a '%s'", oaf_iid);
+	d (printf ("%s producing a '%s'\n", "gnm_component_factory", oaf_iid));
 	wbc = workbook_control_component_new (NULL, NULL);
 	w = WORKBOOK_CONTROL_GUI (wbc)->table;
 	g_object_set_data (G_OBJECT (w), WBC_KEY, wbc);
@@ -274,5 +280,5 @@ main (int argc, char *argv [])
 	gnm_common_init ();
 
 	return bonobo_generic_factory_main ("OAFIID:GNOME_Gnumeric_Factory",
-					    gnumeric_component_factory, NULL);
+					    gnm_component_factory, NULL);
 }

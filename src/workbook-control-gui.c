@@ -4534,10 +4534,8 @@ static GtkSettings *
 wbcg_get_gtk_settings (WorkbookControlGUI *wbcg)
 {
 #ifdef HAVE_GTK_SETTINGS_GET_FOR_SCREEN
-	g_return_val_if_fail(wbcg->toplevel != NULL, NULL);
-	g_return_val_if_fail(wbcg->toplevel->screen != NULL, NULL);
-
-	return gtk_settings_get_for_screen (wbcg->toplevel->screen);
+	GdkScreen *screen = gtk_widget_get_screen (wbcg->table);
+	return gtk_settings_get_for_screen (screen);
 #else
 	return gtk_settings_get_default ();
 #endif

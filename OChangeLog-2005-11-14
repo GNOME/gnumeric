@@ -1,5 +1,19 @@
 2002-12-08  Jon K Hellan  <hellan@acm.org>
 
+	* src/bonobo-io.c (gnumeric_bonobo_read_from_stream): Bitrot was
+	setting in. Fix.
+
+	* src/main-component.c (load_workbook_from_file): Conditionalize
+	debug output.
+	(gnm_component_factory): Rename from
+	gnumeric_component_factory. Conditionalize debug output.
+	(main): Use new name of gnm_component_factory.
+
+	* src/workbook-control-gui.c (wbcg_get_gtk_settings): Get screen
+	from wbcg->table. Needed for Bonobo component case.
+
+2002-12-08  Jon K Hellan  <hellan@acm.org>
+
 	* src/sheet-filter.c: Include gdkevents.h
 
 2002-12-08  Jon K Hellan  <hellan@acm.org>

@@ -41,25 +41,19 @@ gnumeric_bonobo_read_from_stream (BonoboPersistStream       *ps,
 {
 	WorkbookControl *wbc;
 	WorkbookView    *wb_view;
-	Workbook        *wb;
 	IOContext       *ioc;
 	GsfInput       *input = NULL;
-	GnmFileOpener const *fo    = NULL;
-	FileProbeLevel pl;
-	GList *l;
-	gboolean         old;
 	Workbook        *old_wb;
 
 	g_return_if_fail (data != NULL);
 	g_return_if_fail (IS_WORKBOOK_CONTROL_COMPONENT (data));
 
 	wbc = WORKBOOK_CONTROL (data);
-	wb = wb_control_workbook (wbc);
 	ioc = gnumeric_io_context_new (COMMAND_CONTEXT (wbc));
 	input = gsf_input_bonobo_new (stream, NULL);
 	wb_view = wb_view_new_from_input  (input, NULL, ioc);
 
-	if (gnumeric_io_error_occurred (ioc)) {
+	if (gnumeric_io_error_occurred (ioc) || wb_view == NULL) {
 		gnumeric_io_error_display (ioc);
 		/* This may be a bad exception to throw, but they're all bad */
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
@@ -70,10 +64,7 @@ gnumeric_bonobo_read_from_stream (BonoboPersistStream       *ps,
 		return;
 	}
 
-	workbook_set_dirty (wb, FALSE);
-
 	old_wb = wb_control_workbook (wbc);
-
 	if (workbook_is_dirty (old_wb)) {
 		/* No way to interact properly with user */
 		g_warning ("Old workbook has unsaved changes.");
@@ -85,9 +76,6 @@ gnumeric_bonobo_read_from_stream (BonoboPersistStream       *ps,
 	workbook_unref (old_wb);
 	workbook_control_set_view (wbc, wb_view, NULL);
 	workbook_control_init_state (wbc);
-	workbook_recalc (wb);
-	g_return_if_fail (!workbook_is_dirty (wb));
-	sheet_update (wb_view_cur_sheet (wb_view));
 }
 
 #if 0
