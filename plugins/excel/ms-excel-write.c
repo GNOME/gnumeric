@@ -284,6 +284,13 @@ excel_write_EOF (BiffPut *bp)
 	ms_biff_put_commit (bp);
 }
 
+static double
+points_to_inches (double pts)
+{
+	return pts / 72.0;
+}
+
+
 /* See: S59DE3.HTM */
 static void
 excel_write_SETUP (BiffPut *bp, ExcelSheet *esheet)
@@ -308,8 +315,8 @@ excel_write_SETUP (BiffPut *bp, ExcelSheet *esheet)
 
 	if (!print_info_get_margins (pi, &header, &footer, &dummy, &dummy))
 		header = footer = 0.;
-	header = unit_convert (header, UNIT_POINTS, UNIT_INCH);
-	footer = unit_convert (footer, UNIT_POINTS, UNIT_INCH);
+	header = points_to_inches (header);
+	footer = points_to_inches (footer);
 
 	GSF_LE_SET_GUINT16 (data +  0, 0);	/* _invalid_ paper size */
 	GSF_LE_SET_GUINT16 (data +  2, 100);	/* scaling factor */
@@ -2535,13 +2542,8 @@ excel_write_DEFAULT_ROW_HEIGHT (BiffPut *bp, ExcelSheet *esheet)
 static void
 excel_write_margin (BiffPut *bp, guint16 op, double points)
 {
-	guint8 *data;
-	double  margin;
-
-	margin = unit_convert (points, UNIT_POINTS, UNIT_INCH);
-
-	data = ms_biff_put_len_next (bp, op, 8);
-	gsf_le_set_double (data, margin);
+	guint8 *data = ms_biff_put_len_next (bp, op, 8);
+	gsf_le_set_double (data, points_to_inches (points));
 
 	ms_biff_put_commit (bp);
 }

@@ -114,19 +114,6 @@ print_info_free (PrintInformation *pi)
 	g_free (pi);
 }
 
-#if 0
-static PrintUnit
-print_unit_new (UnitName unit, double value)
-{
-	PrintUnit u;
-
-	u.points = unit_convert (value, unit, UNIT_POINTS);
-	u.desired_display = unit;
-
-	return u;
-}
-#endif
-
 static void
 load_margin (char const *str, PrintUnit *p, char *def)
 {
@@ -136,7 +123,7 @@ load_margin (char const *str, PrintUnit *p, char *def)
 
 	p->points = gnome_config_get_float (pts);
 	s = gnome_config_get_string (pts_units);
-	p->desired_display = unit_name_to_unit (s, FALSE);
+	p->desired_display = unit_name_to_unit (s);
 	g_free (pts_units);
 	g_free (pts);
 	g_free (s);
@@ -273,7 +260,9 @@ print_info_new (void)
 	pi->scaling.dim.rows = gnome_config_get_int ("scale_height=1");
 
 	/* Margins */
-	s = g_strdup_printf ("%.13g", unit_convert (1.0, UNIT_CENTIMETER, UNIT_POINTS));
+	s = g_strdup_printf ("%.13g", unit_convert (1.0,
+						    gnome_print_unit_get_by_abbreviation ("cm"),
+						    gnome_print_unit_get_by_abbreviation ("pt")));
 	load_margin ("margin_top", &pi->margins.top,       s);
 	load_margin ("margin_bottom", &pi->margins.bottom, s);
 	g_free (s);
@@ -311,7 +300,7 @@ save_margin (char const *prefix, PrintUnit const *p)
 	char *x = g_strconcat (prefix, "_units", NULL);
 
 	gnome_config_set_float (prefix, p->points);
-	gnome_config_set_string (x, unit_name_get_name (p->desired_display, FALSE));
+	gnome_config_set_string (x, p->desired_display->name);
 	g_free (x);
 }
 
@@ -412,96 +401,34 @@ print_info_save (PrintInformation const *pi)
 	gnome_config_sync ();
 }
 
-static struct {
-	char const *short_name;
-	char const *full_name;
-	double factor;
-} units [UNIT_LAST + 1] = {
-	{ N_("pts"), N_("points"),     1.0 },
-	{ N_("mm"),  N_("millimeter"), 72.0 / 25.4 },  /* 1in = 25.4mm, exact */
-	{ N_("cm"),  N_("centimeter"), 72.0 / 2.54 },
-	{ N_("In"),  N_("inch"),       72.0 },
-	{ NULL, NULL, 0.0 }
-};
-
-/*
- * unit_name_get_short_name :
- * @unit : The unit.
- * @translated : Should the name be translated
- *
- * Returns the optionally translated short name of the @unit.
- */
-char const *
-unit_name_get_short_name (UnitName name, gboolean translated)
+const GnomePrintUnit *
+unit_name_to_unit (const char *name)
 {
-	g_assert (name >= UNIT_POINTS && name < UNIT_LAST);
+	GList *units = gnome_print_unit_get_list (GNOME_PRINT_UNITS_ALL);
+	GList *l;
+	const GnomePrintUnit *res = NULL;
 
-	return translated
-		? _(units [name].short_name)
-		:   units [name].short_name;
-}
-
-/*
- * unit_name_get_name :
- * @unit : The unit.
- * @translated : Should the name be translated
- *
- * Returns the optionally translated standard name of the @unit.
- */
-char const *
-unit_name_get_name (UnitName name, gboolean translated)
-{
-	g_assert (name >= UNIT_POINTS && name < UNIT_LAST);
-
-	return translated
-		? _(units [name].full_name)
-		:   units [name].full_name;
-}
-
-/*
- * unit_name_to_unit :
- * @str : A string with a unit name.
- * @translated : Is @str localized.
- *
- * Returns the unit associated with the possiblely translated @str.
- */
-UnitName
-unit_name_to_unit (char const *s, gboolean translated)
-{
-	int i;
-
-	for (i = 0; units [i].full_name != NULL; i++) {
-		if (translated) {
-			if (strcmp (s, _(units [i].full_name)) == 0)
-				return (UnitName) i;
-		} else {
-			if (strcmp (s, units [i].full_name) == 0)
-				return (UnitName) i;
+	for (l = units; l; l = l->next) {
+		const GnomePrintUnit *u = l->data;
+		if (g_ascii_strcasecmp (name, u->name) == 0 ||
+		    g_ascii_strcasecmp (name, u->plural) == 0 ||
+		    g_ascii_strcasecmp (name, u->abbr) == 0 ||
+		    g_ascii_strcasecmp (name, u->abbr_plural) == 0) {
+			res = u;
+			break;
 		}
 	}
 
-	return UNIT_POINTS;
+	g_list_free (units);
+	return res;
 }
 
 double
-print_unit_get_prefered (PrintUnit *unit)
+unit_convert (double value, const GnomePrintUnit *src, const GnomePrintUnit *dst)
 {
-	g_assert (unit != NULL);
-	g_assert (unit->desired_display >= UNIT_POINTS && unit->desired_display < UNIT_LAST);
-
-	return units [unit->desired_display].factor * unit->points;
-}
-
-double
-unit_convert (double value, UnitName source, UnitName target)
-{
-	g_assert (source >= UNIT_POINTS && source < UNIT_LAST);
-	g_assert (target >= UNIT_POINTS && target < UNIT_LAST);
-
-	if (source == target)
-		return value;
-
-	return (units [source].factor * value) / units [target].factor;
+	gboolean ok = gnome_print_convert_distance (&value, src, dst);
+	g_assert (ok);
+	return value;
 }
 
 static void

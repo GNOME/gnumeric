@@ -41,6 +41,8 @@ Morten:
 	* Fix DAYS360 incompatibility (with XL).
 	* Improve parsing infra-structure.
 	* Fix unnecessary singularities for IPMT, PPMT, and NPER.
+	* Make print-info use GnomePrintUnit instead of our own half-baked
+	  stuff.
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.12

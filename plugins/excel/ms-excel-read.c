@@ -527,11 +527,19 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 	return so ? G_OBJECT (so) : NULL;
 }
 
+static double
+inches_to_points (double inch)
+{
+	return inch * 72.0;
+}
+
+
 static void
 excel_print_unit_init_inch (PrintUnit *pu, double val)
 {
-	pu->points = unit_convert (val, UNIT_INCH, UNIT_POINTS);
-	pu->desired_display = UNIT_INCH; /* FIXME: should be more global */
+	const GnomePrintUnit *uinch = gnome_print_unit_get_by_abbreviation ("in");
+	pu->points = inches_to_points (val);
+	pu->desired_display = uinch; /* FIXME: should be more global */
 }
 
 /*
@@ -560,8 +568,8 @@ excel_init_margins (ExcelSheet *esheet)
 	excel_print_unit_init_inch (&pi->margins.top, 1.0);
 	excel_print_unit_init_inch (&pi->margins.bottom, 1.0);
 
-	points = unit_convert (0.75, UNIT_INCH, UNIT_POINTS);
-	short_points = unit_convert (0.5, UNIT_INCH, UNIT_POINTS);
+	points = inches_to_points (0.75);
+	short_points = inches_to_points (0.5);
 	print_info_set_margins (pi, short_points, short_points, points, points);
 }
 
@@ -3414,9 +3422,9 @@ excel_read_SETUP (BiffQuery *q, ExcelSheet *esheet)
 #endif
 
 	print_info_set_margin_header 
-		(pi, unit_convert (gsf_le_get_double (q->data + 16), UNIT_INCH, UNIT_POINTS));
+		(pi, inches_to_points (gsf_le_get_double (q->data + 16)));
 	print_info_set_margin_footer 
-		(pi, unit_convert (gsf_le_get_double (q->data + 24), UNIT_INCH, UNIT_POINTS));
+		(pi, inches_to_points (gsf_le_get_double (q->data + 24)));
 }
 
 static void
@@ -4697,13 +4705,11 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 
 		case BIFF_LEFT_MARGIN:
 			print_info_set_margin_left 
-				(pi, unit_convert (gsf_le_get_double (q->data), 
-						   UNIT_INCH, UNIT_POINTS));
+				(pi, inches_to_points (gsf_le_get_double (q->data)));
 			break;
 		case BIFF_RIGHT_MARGIN:
 			print_info_set_margin_right
-				(pi, unit_convert (gsf_le_get_double (q->data), 
-						   UNIT_INCH, UNIT_POINTS));
+				(pi, inches_to_points (gsf_le_get_double (q->data)));
 			break;
 		case BIFF_TOP_MARGIN:
 			excel_print_unit_init_inch (&pi->margins.top,

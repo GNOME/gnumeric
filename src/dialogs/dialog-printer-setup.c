@@ -169,19 +169,6 @@ static void fetch_settings (PrinterSetupState *state);
 static void printer_setup_state_free (PrinterSetupState *state);
 static void do_hf_customize (gboolean header, PrinterSetupState *state);
 
-static UnitName
-unit_selector_gnome_print_unit_to_gnm (GnomePrintUnit const *unit)
-{
-	if (!strcmp (unit->abbr, "mm"))
-		return UNIT_MILLIMETER;
-	if (!strcmp (unit->abbr, "pt"))
-		return UNIT_POINTS;
-	if (!strcmp (unit->abbr, "in"))
-	        return UNIT_INCH;
-
-	return UNIT_CENTIMETER;
-}
-
 /**
  * spin_button_set_bound
  * @spin           spinbutton
@@ -543,7 +530,7 @@ notebook_flipped (__attribute__((unused)) GtkNotebook *notebook,
  * here. But as of gtk+ 1.2.7, climb_rate has no effect for that call.
  */
 static void
-spin_button_adapt_to_unit (GtkSpinButton *spin, UnitName new_unit)
+spin_button_adapt_to_unit (GtkSpinButton *spin, const GnomePrintUnit *new_unit)
 {
 	GtkAdjustment *adjustment;
 	gfloat step_increment;
@@ -553,23 +540,19 @@ spin_button_adapt_to_unit (GtkSpinButton *spin, UnitName new_unit)
 	adjustment = gtk_spin_button_get_adjustment (spin);
 	g_return_if_fail (GTK_IS_ADJUSTMENT (adjustment));
 
-	switch (new_unit) {
-	case UNIT_POINTS:
-		/* Fallthrough */
-	case UNIT_MILLIMETER:
+	if (new_unit->unittobase <= 1) {
+		/* "mm" and "pt" */
 		step_increment = 1.0;
 		digits = 1;
-		break;
-	case UNIT_CENTIMETER:
+	} else if (new_unit->unittobase <= 30) {
+		/* "cm" */
 		step_increment = 0.5;
 		digits = 2;
-		break;
-	case UNIT_INCH:
-	default:
+	} else {
 		step_increment = 0.25;
 		digits = 2;
-		break;
 	}
+
 	adjustment->step_increment = step_increment;
 	adjustment->page_increment = step_increment * 10;
 	gtk_adjustment_changed (adjustment);
@@ -656,7 +639,6 @@ static void
 cb_unit_selector_changed (GnomePrintUnitSelector *sel, PrinterSetupState *state)
 {
 	const GnomePrintUnit *unit;
-	UnitName un;
 	
 	g_return_if_fail (state != NULL);
 
@@ -664,9 +646,8 @@ cb_unit_selector_changed (GnomePrintUnitSelector *sel, PrinterSetupState *state)
 	if (unit) {
 		gnome_print_config_set (state->pi->print_config, GNOME_PRINT_KEY_PREFERED_UNIT, 
 					unit->abbr);
-		un = unit_selector_gnome_print_unit_to_gnm (unit);
-		spin_button_adapt_to_unit (state->margins.header.spin, un);
-		spin_button_adapt_to_unit (state->margins.footer.spin, un);
+		spin_button_adapt_to_unit (state->margins.header.spin, unit);
+		spin_button_adapt_to_unit (state->margins.footer.spin, unit);
 	}
 }
 
@@ -687,7 +668,7 @@ do_setup_margin (PrinterSetupState *state)
 	GtkWidget *table;
 	GtkBox *container;
 	PrintMargins *pm;
-	UnitName displayed_unit;
+	const GnomePrintUnit *displayed_unit;
 	double header = 0, footer = 0, left = 0, right = 0;
 
 	g_return_if_fail (state && state->pi);
@@ -1681,7 +1662,7 @@ unit_info_to_print_unit (UnitInfo *ui, PrinterSetupState *state)
 
         u.points = ui->value;
 	gnome_print_convert_distance (&u.points, gp_unit, GNOME_PRINT_PS_UNIT);
-	u.desired_display = unit_selector_gnome_print_unit_to_gnm (gp_unit);
+	u.desired_display = gp_unit;
 	return u;
 }
 

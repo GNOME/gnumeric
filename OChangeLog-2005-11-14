@@ -1,3 +1,18 @@
+2002-12-03  Morten Welinder  <terra@diku.dk>
+
+	* src/xml-io.c (POINT_SIZE_PRECISION): Increase to 4.
+	(xml_node_set_print_unit): Just use the GnomePrintUnit name.
+	(xml_node_get_print_unit): Use unit_name_to_unit.
+
+	* src/print-info.c (print_unit_new, unit_name_get_short_name,
+	unit_name_get_name): Delete.
+	(unit_name_to_unit): Return a GnomePrintUnit*.  Remove unused
+	"translated" argument.  All callers changed.
+	(unit_convert): Take GnomePrintUnit* arguments.  All callers
+	changed.
+
+	* src/print-info.h (enum UnitName): Delete.
+
 2002-12-03  Jon K Hellan  <hellan@acm.org>
 
 	* configure.in: Check for gtk_settings_get_for_screen

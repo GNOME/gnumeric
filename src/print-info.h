@@ -10,17 +10,6 @@ typedef enum {
 	PRINT_ORIENT_VERTICAL
 } PrintOrientation;
 
-/* FIXME: rather than using `UnitName' we should be using GnomePrintUnits*/
-
-typedef enum {
-	UNIT_POINTS,
-	UNIT_MILLIMETER,
-	UNIT_CENTIMETER,
-	UNIT_INCH
-} UnitName;
-
-#define UNIT_LAST (UNIT_INCH+1)
-
 /*
  * Scaling for the sheet: percentage or make it fit a number
  * of columns and rows
@@ -40,7 +29,7 @@ typedef struct {
 
 typedef struct {
 	double    points;
-	UnitName desired_display;
+	const GnomePrintUnit *desired_display;
 } PrintUnit;
 
 /*
@@ -122,12 +111,10 @@ char             *hf_format_render       (char const *format,
 HFRenderInfo     *hf_render_info_new     (void);
 void              hf_render_info_destroy (HFRenderInfo *hfi);
 
-
-char const *unit_name_get_short_name (UnitName name, gboolean translated);
-char const *unit_name_get_name       (UnitName name, gboolean translated);
-UnitName    unit_name_to_unit        (char const *s, gboolean translated);
-double      print_unit_get_prefered  (PrintUnit *unit);
-double      unit_convert             (double value, UnitName source, UnitName target);
+const GnomePrintUnit *unit_name_to_unit    (const char *name);
+double      unit_convert             (double value,
+				      const GnomePrintUnit *source,
+				      const GnomePrintUnit *target);
 
 void        print_init               (void);
 void        print_shutdown           (void);

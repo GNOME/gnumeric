@@ -1,3 +1,12 @@
+2002-12-03  Morten Welinder  <terra@diku.dk>
+
+	* ms-excel-read.c (excel_print_unit_init_inch): Convert to
+	GnomePrintUnit.
+	(excel_init_margins): Ditto.
+	(excel_read_SETUP): Ditto.
+	* ms-excel-write.c (excel_write_margin): Ditto.
+	(excel_write_SETUP): Ditto.
+
 2002-11-30  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.c (excel_read_AUTOFILTER) : finish.

@@ -65,7 +65,7 @@
 #include <limits.h>
 
 /* Precision to use when saving point measures. */
-#define POINT_SIZE_PRECISION 3
+#define POINT_SIZE_PRECISION 4
 
 /* FIXME - tune the values below */
 #define XML_INPUT_BUFFER_SIZE      4096
@@ -255,29 +255,10 @@ static void
 xml_node_set_print_unit (xmlNodePtr node, char const *name,
 			 PrintUnit const *pu)
 {
-	xmlNodePtr  child;
-	char const *txt = "points";
-	xmlChar       *tstr;
+	xmlChar *tstr;
 
-	if (pu == NULL || name == NULL)
-		return;
-
-	switch (pu->desired_display) {
-	case UNIT_POINTS:
-		txt = "points";
-		break;
-	case UNIT_MILLIMETER:
-		txt = "mm";
-		break;
-	case UNIT_CENTIMETER:
-		txt = "cm";
-		break;
-	case UNIT_INCH:
-		txt = "in";
-		break;
-	}
-
-	child = xmlNewChild (node, NULL, (xmlChar const *)name, NULL);
+	const char *txt = pu->desired_display->abbr;
+	xmlNodePtr child = xmlNewChild (node, NULL, (xmlChar const *)name, NULL);
 
 	xml_node_set_points (child, "Points", pu->points);
 
@@ -291,7 +272,7 @@ xml_node_set_print_margins (xmlNodePtr node, char const *name,
 			    double points)
 {
 	xmlNodePtr  child;
-	char const *txt = "points";
+	char const *txt = "Pt";
 	xmlChar       *tstr;
 
 	if (name == NULL)
@@ -317,14 +298,7 @@ xml_node_get_print_unit (xmlNodePtr node, PrintUnit * const pu)
 	xml_node_get_double (node, "Points", &pu->points);
 	txt = (gchar *)xmlGetProp  (node, (xmlChar const *)"PrefUnit");
 	if (txt) {
-		if (!g_ascii_strcasecmp (txt, "points"))
-			pu->desired_display = UNIT_POINTS;
-		else if (!strcmp (txt, "mm"))
-			pu->desired_display = UNIT_MILLIMETER;
-		else if (!strcmp (txt, "cm"))
-			pu->desired_display = UNIT_CENTIMETER;
-		else if (!strcmp (txt, "in"))
-			pu->desired_display = UNIT_INCH;
+		pu->desired_display = unit_name_to_unit (txt);
 		xmlFree (txt);
 	}
 }

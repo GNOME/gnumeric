@@ -507,14 +507,7 @@ xml_sax_print_margins_unit (XMLSaxParseState *state, xmlChar const **attrs, Prin
 		if (xml_sax_attr_double (attrs, "Points", &points))
 			pu->points = points;
 		else if (!strcmp (attrs[0], "PrefUnit")) {
-			if (!strcmp (attrs[1], "points"))
-				pu->desired_display = UNIT_POINTS;
-			else if (!strcmp (attrs[1], "mm"))
-				pu->desired_display = UNIT_MILLIMETER;
-			else if (!strcmp (attrs[1], "cm"))
-				pu->desired_display = UNIT_CENTIMETER;
-			else if (!strcmp (attrs[1], "in"))
-				pu->desired_display = UNIT_INCH;
+			pu->desired_display = unit_name_to_unit (attrs[1]);
 		} else
 			unknown_attr (state, attrs, "Margin");
 	}
