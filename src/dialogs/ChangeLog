@@ -1,3 +1,23 @@
+2001-10-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* correlation.glade : add `group by area' radio button
+	* covariance.glade : ditto
+	* descriptive-stats.glade: ditto
+	* sampling.glade : added group_by buttons as well as multiple sample entry
+	* dialog-analysis-tools.c (parse_output) : initialize all fields of dao
+	(dialog_tool_init) : add argument specifying the flags for the input
+          expression entry widgets
+	(tool_update_sensitivity_multiple_areas_cb) : new routine, 
+          tool_update_sensitivity_cb for multiple input ranges
+	(corr_tool_ok_clicked_cb) : use global_range_list_parse rather than parse_range,
+          call tool with modified argument list
+	(cov_tool_ok_clicked_cb) : ditto
+	(desc_stats_tool_ok_clicked_cb) : ditto	
+	(sampling_tool_ok_clicked_cb) : ditto, as well as support for group_by and multiple
+          samples
+	* tools.h : changed arguments for correlation_tool, covariance_tool, 
+          descriptive_stat_tool, and sampling_tool
+
 2001-10-25  Morten Welinder  <terra@diku.dk>
 
 	* dialog-cell-format.c (fmt_dialog_init_format_page): Plug leak.

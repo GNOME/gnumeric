@@ -1073,7 +1073,7 @@ global_range_parse (Sheet *sheet, char const *range)
 	ParsePos pp;
 	Value *value;
 
-	parse_pos_init (&pp, sheet->workbook, sheet, 1, 1);
+	parse_pos_init (&pp, sheet->workbook, sheet, 0, 0);
 	the_tree = expr_parse_string (range, &pp,
 				    NULL, NULL);
 	value = range_from_expr_tree(the_tree);

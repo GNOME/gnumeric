@@ -3,8 +3,15 @@ Gnumeric 0.73
 Andreas:
 	* Allow analysis tool output to be directed onto a range 
           on another sheet.
-	* Allow analysis tool output ranges to be specified using defined 
-	  names.
+	* Allow analysis tool output ranges to be specified using 
+	  defined names.
+	* Change covariance, correlation, descriptive statistics and 
+	  sampling tools to allow multiple selections (and defined
+          names as input.
+	* Change covariance and correlation tools to handle missing 
+          observations.
+	* Change sampling tool to permit multiple samples from the 
+          same or different data. 
 
 Jody:
 	* Fix autosizing of indented content.

@@ -1,3 +1,19 @@
+2001-10-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/analysis-tools.c : various routines added to keep track of missing 
+	  observations as well as various routines removed that are no longer
+	  required. Renamed data_set_t to old_data_set_t, and introduced a new
+          data_set_t
+	(correlation_tool) : now handles missing observations and permits disconnected
+          rectangular data regions
+	(covariance_tool) : ditto
+	(descriptive_stat_tool) : now permits disconnected rectangular data regions 
+	(sampling_tool) : now permits samples of multiple datasets as well as multiple 
+	  samples.
+	* src/analysis-tools.h : new group_by_t type
+	* src/ranges.c (global_range_parse) : fix bug (relative references were 
+	  evaluated with respect to B2 rather than A1)
+
 2001-10-25  Morten Welinder  <terra@diku.dk>
 
 	* src/number-match.c (format_create_regexp): Sign after "E" is

@@ -4,18 +4,19 @@
 #include "analysis-tools.h"
 
 int correlation_tool      (WorkbookControl *context, Sheet *current_sheet,
-			   Range *input_range, int columns_flag,
+			   GSList *input, group_by_t group_by,
 			   data_analysis_output_t *dao);
 int covariance_tool       (WorkbookControl *context, Sheet *current_sheet,
-			   Range *input_range, int columns_flag,
+			   GSList *input, group_by_t group_by,
 			   data_analysis_output_t *dao);
 int descriptive_stat_tool (WorkbookControl *context, Sheet *current_sheet,
-			   Range *input_range, int columns_flag,
+			   GSList *input, group_by_t group_by,
 			   descriptive_stat_tool_t *ds,
 			   data_analysis_output_t *dao);
 int sampling_tool         (WorkbookControl *context, Sheet *sheet,
-			   Range *input_range, gboolean periodic_flag,
-			   int size, data_analysis_output_t *dao);
+			   GSList *input, group_by_t group_by,
+			   gboolean periodic_flag, guint size, guint number, 
+			   data_analysis_output_t *dao);
 int ftest_tool            (WorkbookControl *context, Sheet *sheet,
 			   Range *input_range1, Range *input_range2,
 			   gnum_float alpha,

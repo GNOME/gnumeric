@@ -182,7 +182,7 @@
 	<widget>
 	  <class>GtkHBox</class>
 	  <name>vbox2</name>
-	  <homogeneous>False</homogeneous>
+	  <homogeneous>True</homogeneous>
 	  <spacing>0</spacing>
 	  <child>
 	    <left_attach>1</left_attach>
@@ -219,6 +219,21 @@
 	    <name>grouped_by_row</name>
 	    <can_focus>True</can_focus>
 	    <label>_Rows</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <group>GroupedBy</group>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkRadioButton</class>
+	    <name>grouped_by_area</name>
+	    <can_focus>True</can_focus>
+	    <label>_Areas</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <group>GroupedBy</group>
