@@ -1,3 +1,7 @@
+2002-11-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.12
+
 2002-11-02  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* api.c: Made lots of functions static.

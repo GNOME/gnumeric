@@ -1,3 +1,16 @@
+2002-11-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.12
+
+2002-11-15  Jody Goldberg <jody@gnome.org>
+
+	* ms-formula-write.c : tidy up sheet hanlding in references.
+
+	* ms-excel-write.c (excel_write_NAME_v7) : new.
+	(excel_foreach_name) : ditto.
+	(write_workbook) : produce names for biff7 including sheet local and
+	  placeholders.
+
 2002-11-14  Jon K Hellan  <hellan@acm.org>
 
 	* plugin.xml.in: Remove "open" and "import" attributes.

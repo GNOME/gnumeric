@@ -612,38 +612,72 @@ excel_write_MERGECELLS (BiffPut *bp, ExcelSheet *esheet)
 	ms_biff_put_commit (bp);
 }
 
+static int
+excel_write_builtin_name (char const *ptr)
+{
+	static char const *builtins [] = {
+		"Consolidate_Area",	"Auto_Open",
+		"Auto_Close",		"Extract",
+		"Database",		"Criteria",
+		"Print_Area",		"Print_Titles",
+		"Recorder",		"Data_Form",
+		"Auto_Activate",	"Auto_Deactivate",
+		"Sheet_Title",		"AutoFilter"
+	};
+	int i = G_N_ELEMENTS (builtins);
+	while (i-- > 0)
+		if (!strcmp (builtins[i], ptr))
+			return i;
+	return -1;
+}
+
+static void
+cb_enumerate_names (gpointer key, GnmNamedExpr *nexpr, ExcelWriteState *ewb)
+{
+	ewb->tmp_counter++; /* pre increment to avoid 0 */
+	g_hash_table_insert (ewb->names, (gpointer)nexpr,
+		GUINT_TO_POINTER (ewb->tmp_counter));
+}
+
 static void
 excel_write_NAME_v7 (gpointer key, GnmNamedExpr *nexpr, ExcelWriteState *ewb)
 {
-	guint8 data0 [20];
-	guint8 data1 [2];
-	guint16 len;
+	guint8 data [15];
 	unsigned name_len;
 	char const *name;
+	int builtin_index;
 
 	g_return_if_fail (nexpr != NULL);
 
 	ms_biff_put_var_next (ewb->bp, BIFF_NAME);
+	memset (data, 0, sizeof data);
+
 
 	name = nexpr->name->str;
-	excel_write_string_len (name, &name_len); 
+	if (nexpr->pos.sheet != NULL) /* sheet local */
+		GSF_LE_SET_GUINT16 (data + 6, nexpr->pos.sheet->index_in_wb +1);
 
-	memset (data0, 0, sizeof (data0));
-	GSF_LE_SET_GUINT8 (data0 + 3, name_len); /* name_len */
-	ms_biff_put_var_write (ewb->bp, data0, 14);
+	builtin_index = excel_write_builtin_name (name);
+	if (builtin_index >= 0) {
+		GSF_LE_SET_GUINT16 (data + 0, 0x20); /* flag builtin */
+		GSF_LE_SET_GUINT8  (data + 3, 1);    /* name_len */
+		GSF_LE_SET_GUINT8  (data + 14, builtin_index);    /* name_len */
+		ms_biff_put_var_write (ewb->bp, data, 15);
+	} else {
+		excel_write_string_len (name, &name_len); 
+		GSF_LE_SET_GUINT8 (data + 3, name_len); /* name_len */
+		ms_biff_put_var_write (ewb->bp, data, 14);
+		excel_write_string (ewb->bp, name, STR_NO_LENGTH);
+	}
 
-	excel_write_string (ewb->bp, name, STR_NO_LENGTH);
-	len = excel_write_formula (ewb, nexpr->expr_tree,
-				   nexpr->pos.sheet, 0, 0);
-
-	g_return_if_fail (len <= 0xffff);
-
-	ms_biff_put_var_seekto (ewb->bp, 4);
-	GSF_LE_SET_GUINT16 (data1, len);
-	ms_biff_put_var_write (ewb->bp, data1, 2);
+	if (!expr_name_is_placeholder (nexpr)) {
+		guint16 expr_len = excel_write_formula (ewb, nexpr->expr_tree,
+							nexpr->pos.sheet, 0, 0);
+		ms_biff_put_var_seekto (ewb->bp, 4);
+		GSF_LE_SET_GUINT16 (data, expr_len);
+		ms_biff_put_var_write (ewb->bp, data, 2);
+	}
 	ms_biff_put_commit (ewb->bp);
-
-	g_ptr_array_add (ewb->names, (gpointer)nexpr);
 }
 
 int
@@ -653,7 +687,7 @@ excel_write_get_externsheet_idx (ExcelWriteState *ewb,
 {
 	ExcelSheetPair key, *sp;
 	key.a = sheeta;
-	key.b = sheetb;
+	key.b = sheetb ? sheetb : sheeta;
 
 	sp = g_hash_table_lookup (ewb->sheet_pairs, &key);
 
@@ -3275,6 +3309,27 @@ excel_write_WRITEACCESS (BiffPut *bp)
 }
 
 static void
+excel_foreach_name (ExcelWriteState *ewb, GHFunc func)
+{
+	ExcelSheet *s = NULL;
+	unsigned i;
+
+	if (ewb->gnum_wb->names != NULL) {
+		g_hash_table_foreach (ewb->gnum_wb->names->names, func, ewb);
+		g_hash_table_foreach (ewb->gnum_wb->names->placeholders, func, ewb);
+	}
+	for (i = 0; i < ewb->sheets->len; i++) {
+		s = g_ptr_array_index (ewb->sheets, i);
+		if (s->gnum_sheet->names != NULL) {
+			g_hash_table_foreach (s->gnum_sheet->names->names,
+				func, ewb);
+			g_hash_table_foreach (s->gnum_sheet->names->placeholders,
+				func, ewb);
+		}
+	}
+}
+
+static void
 write_workbook (ExcelWriteState *ewb)
 {
 	BiffPut		*bp = ewb->bp;
@@ -3337,13 +3392,11 @@ write_workbook (ExcelWriteState *ewb)
 		 * to make our lives easier */
 		excel_write_externsheets_v7 (ewb, NULL);
 
-		if (ewb->gnum_wb->names != NULL) {
-			g_hash_table_foreach (ewb->gnum_wb->names->names,
-				(GHFunc) excel_write_NAME_v7, ewb);
-			for (i = 0; i < ewb->sheets->len; i++) {
-#warning FIX
-			}
-		}
+		/* assign indicies to the names before we export */
+		ewb->tmp_counter = ewb->externnames->len;
+		excel_foreach_name (ewb, (GHFunc)&cb_enumerate_names);
+
+		excel_foreach_name (ewb, (GHFunc)&excel_write_NAME_v7);
 	}
 
 	/* See: S59E19.HTM */
@@ -3524,7 +3577,7 @@ excel_write_state_new (IOContext *context, WorkbookView *gwb_view,
 	ewb->gnum_wb      = wb_view_workbook (gwb_view);
 	ewb->gnum_wb_view = gwb_view;
 	ewb->sheets	  = g_ptr_array_new ();
-	ewb->names	  = g_ptr_array_new ();
+	ewb->names	  = g_hash_table_new (g_direct_hash, g_direct_equal);
 	ewb->externnames  = g_ptr_array_new ();
 	ewb->function_map = g_hash_table_new_full (g_direct_hash, g_direct_equal,
 		NULL, g_free);
@@ -3579,7 +3632,7 @@ excel_write_state_free (ExcelWriteState *ewb)
 		g_free (g_ptr_array_index (ewb->sheets, i));
 
 	g_ptr_array_free (ewb->sheets, TRUE);
-	g_ptr_array_free (ewb->names, TRUE);
+	g_hash_table_destroy (ewb->names);
 	g_ptr_array_free (ewb->externnames, TRUE);
 	g_hash_table_destroy (ewb->function_map);
 	g_hash_table_destroy (ewb->sheet_pairs);

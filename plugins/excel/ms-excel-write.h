@@ -73,10 +73,10 @@ struct _ExcelWriteState {
 	/* we use the ewb as a closure for things, this is useful */
 	int tmp_counter;
 
-	gboolean       double_stream_file;
-	GPtrArray     *externnames;
-	GPtrArray     *names;
-	unsigned       streamPos;
+	gboolean	 double_stream_file;
+	GPtrArray	*externnames;
+	GHashTable	*names;
+	unsigned	 streamPos;
 
 	/* no need to use a full fledged two table, we already know that the
 	 * Strings are unique. */

@@ -177,8 +177,8 @@ ms_sheet_parse_expr (MSContainer *container, guint8 const *data, int length)
 					     data, length);
 }
 
-static Sheet  *
-ms_sheet_sheet (MSContainer const *container)
+static Sheet *
+ms_sheet_get_sheet (MSContainer const *container)
 {
 	return ((ExcelSheet const *)container)->sheet;
 }
@@ -556,7 +556,7 @@ excel_sheet_new (ExcelWorkbook *ewb, char const *sheet_name)
 		&ms_sheet_realize_obj,
 		&ms_sheet_create_obj,
 		&ms_sheet_parse_expr,
-		&ms_sheet_sheet,
+		&ms_sheet_get_sheet,
 		&ms_sheet_get_fmt
 	};
 
@@ -2771,7 +2771,9 @@ excel_read_NAME (BiffQuery *q, ExcelWorkbook *ewb)
 
 	if (name != NULL) {
 		Sheet *sheet = NULL;
-		d (1, fprintf (stderr, "%hu\n", sheet_index););
+		d (1,
+		fprintf (stderr, "NAME : %s\n", name);
+		   fprintf (stderr, "%hu\n", sheet_index););
 		if (sheet_index > 0) {
 			/* NOTE : the docs lie the index for biff7 is
 			 * indeed a reference to the externsheet
@@ -4202,6 +4204,8 @@ excel_read_SCL (BiffQuery *q, ExcelSheet *esheet)
  * It should only happen for external names to deal with 'reference self'
  * supbook entries.  However, you never know.
  *
+ * you also need to check for (Sheet *)2 which indicates deleted
+ *
  * WARNING WARNING WARNING
  **/
 ExcelExternSheetV8 const *
@@ -4231,11 +4235,11 @@ supbook_get_sheet (ExcelWorkbook *ewb, gint16 sup_index, unsigned i)
 
 	/* 0xffff == deleted */
 	if (i >= 0xffff)
-		return NULL;
+		return (Sheet *)2; /* magic value */
 
 	/* WARNING : 0xfffe record for local names kludge a solution */
 	if (i == 0xfffe)
-		return (Sheet *)1;
+		return (Sheet *)1; /* magic value */
 
 	g_return_val_if_fail ((unsigned)sup_index < ewb->v8.supbook->len, NULL);
 
@@ -4288,14 +4292,6 @@ excel_read_EXTERNSHEET_v8 (BiffQuery const *q, ExcelWorkbook *ewb)
 /**
  * excel_externsheet_v7 :
  *
- * WARNING WARNING WARNING
- *
- * This function can and will return intentionally INVALID pointers in some
- * cases.  You need to check for (Sheet *)1
- * It should only happen for external names to deal with 'reference self'
- * entries.  However, you never know.
- *
- * WARNING WARNING WARNING
  **/
 Sheet *
 excel_externsheet_v7 (MSContainer const *container, gint16 idx)
@@ -4306,11 +4302,7 @@ excel_externsheet_v7 (MSContainer const *container, gint16 idx)
 
 	externsheets = container->v7.externsheet;
 	g_return_val_if_fail (externsheets != NULL, NULL);
-
-	if (idx < 0)
-		idx = -idx;
-
-	g_return_val_if_fail (idx != 0, NULL);
+	g_return_val_if_fail (idx > 0, NULL);
 	g_return_val_if_fail (idx <= (int)externsheets->len, NULL);
 
 	return g_ptr_array_index (externsheets, idx-1);
@@ -4331,6 +4323,11 @@ excel_read_EXTERNSHEET_v7 (BiffQuery const *q, MSContainer *container)
 	 * names in the current workbook
 	 */
 	switch (type) {
+	case 2: sheet = ms_container_sheet (container);
+		if (sheet == NULL)
+			g_warning ("What does this mean ?");
+		break;
+
 	case 3: {
 		guint8 len = GSF_LE_GET_GUINT8 (q->data);
 		char *name;
@@ -4352,11 +4349,8 @@ excel_read_EXTERNSHEET_v7 (BiffQuery const *q, MSContainer *container)
 		break;
 	}
 
-	case 4: /* another piece of undocumented magic that I am guessing is
-		 * the same as SUPBOOK
-		 * see pivot.xls for an example
-		 */
-		sheet = (Sheet *)1;
+	case 4: /* undocumented.  Seems to be used as a placeholder for names */
+		sheet = NULL;
 		break;
 
 	case 0x3a : /* undocumented magic.  seems to indicate the sheet for an
@@ -4368,6 +4362,7 @@ excel_read_EXTERNSHEET_v7 (BiffQuery const *q, MSContainer *container)
 
 	default:
 		/* Fix when we get placeholders to external workbooks */
+		gsf_mem_dump (q->data, q->length);
 		gnm_io_warning_unsupported_feature (container->ewb->context,
 			_("external references"));
 	};

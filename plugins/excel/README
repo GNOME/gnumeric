@@ -4,92 +4,16 @@ For information on the Excel file format simply see:
 
 	http://www.microsoft.com/msdn
 
-As of recently this information has been pulled, we'd like to think
-due to the combined efforts of Caolan, Jody and myself =) However,
-the material is available in hard copy:
-
 	Microsoft Excel97 Developer's Kit, Microsoft Press
 	ISBN 1-57231-498-2 at $50
-
 
 ------------------------------------------------------------------------
 
 If you are going to work on the excel import or export functionality you
 need to do the following:
 
-checkout CVS module libole2
-build libole2
-sym link libole2/test/test-ole to plugins/excel/ole
-
-Read the following; it is vital to run the program from that directory
-since it parses the headers to annotate the dumps.
-
-I am not very interested in recieving patches that havn't been developed
-using the 'biffraw' functionality; biffraw & diff are your friends.
-
-The 'ole' helper program is designed to let you inspect the contents of
-OLE2 files. It has a complicated syntax, as described in the help you get
-when you just run it.
-
-Try for starters:
-
-	./ole somefile.xls biff workbook
-
-You _must_ be in the plugins/excel directory for it to find the biff_types.h
-which it uses to annotate the biff records nicely; patches welcome.
-
-It will also dump the contents of drawing streams inside the BIFF do:
-
-	./ole somefile.xls draw workbook
-
-Or to put / get files to / from an OLE file use:
-
-	./ole somefile.xls put <filename> <stream name>
-or
-	./ole somefile.xls get <stream name> <filename>
-
-FAQ's:
-
-1. Why is the code so complicated ?
-
-	Well, this is rather beyond our control. In order to support the several
-different versions of the stream some complexity is unnavoidable. Furthermore
-the structure of the streams whilst logical has to be mapped to gnumeric's
-structure which can be another source of complexity.
-
-	Due to several bad design decisions made in the format ( favouring memory
-savings over elegance, speed and maintainability ) the abstraction of the lower
-biff-records will become more and more integraly tied into the upper layers to
-remove problems with 'continue' records in several places.
-
-	Actualy, upon further thought I'll retract some of what I said above, its
-still ugly, but I think the source of the problem is twofold:
-
-	1) Segmentation - whoever was responsible for this should be given a very
-	very hard stare.
-
-	2) Minimal Changes - later versions of Biff should have been handled
-	totaly differently with regard to the file format, perhaps they wanted
-	minimal forwards compatibility; but seems unlikely.
-
-2. Help me !
-
-	Before you send mail to myself or Jody the following may save us both time.
-
-	a) I am not interested whatsoever in helping people write non-Free software,
-	if you are writing free software, specify that when you mail.
-
-	b) I am not interested _Even Slightly_ in helping people port this code to
-	other languages such as Java / Perl etc. Please don't even tell me you are
-	doing this, you are misguided.
-
-	c) I Am interested in helping you make the current codebase do what you want
-	it to, whether that is making it convert to HTML or whatever, I might even
-	write a few lines of code for you. This or the CORBA API are the preferred
-	ways of using this code. Though this involves work it will contribute
-	something back, which will be appreciated.
-
-
-1999-09-03 Michael Meeks <mmeeks@gnu.org>
+checkout CVS module libgsf
+build libgsf
+sym link libole2/test/test-msole1 to plugins/excel/biffdump
 
 2002-01-01 Please direct comments to <jody@gnome.org>

@@ -1,3 +1,7 @@
+2002-11-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.12
+
 2002-11-14  Jon K Hellan  <hellan@acm.org>
 
 	* src/gui-file.c (gui_file_open): Use get_file_openers instead of

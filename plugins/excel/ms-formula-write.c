@@ -261,7 +261,55 @@ write_string (PolishData *pd, gchar const *txt)
 }
 
 static void
-write_area (PolishData *pd, CellRef const *a, CellRef const *b)
+excel_formula_write_CELLREF (PolishData *pd, CellRef const *ref, Sheet *sheet_b)
+{
+	guint8 data[24];
+
+	g_return_if_fail (pd);
+	g_return_if_fail (ref);
+
+	if (ref->sheet == NULL) {
+		g_return_if_fail (sheet_b == NULL);
+
+		push_guint8 (pd, OP_VALUE (FORMULA_PTG_REF));
+		if (pd->ewb->bp->version <= MS_BIFF_V7) {
+			write_cellref_v7 (pd, ref, data + 2, data);
+			ms_biff_put_var_write (pd->ewb->bp, data, 3);
+		} else {
+			write_cellref_v8 (pd, ref, data + 2, data);
+			ms_biff_put_var_write (pd->ewb->bp, data, 4);
+		}
+	} else {
+		push_guint8 (pd, OP_VALUE (FORMULA_PTG_REF_3D));
+		if (pd->ewb->bp->version <= MS_BIFF_V7) {
+			guint16 idx_a, idx_b;
+			gint16 ixals;
+
+			/* FIXME no external references for now */
+			g_return_if_fail (pd->ewb->gnum_wb == ref->sheet->workbook);
+
+			idx_a = ref->sheet->index_in_wb;
+			idx_b = (sheet_b != NULL) ? sheet_b->index_in_wb : idx_a;
+			ixals = -(idx_a+1);
+			GSF_LE_SET_GUINT16 (data, ixals);
+			GSF_LE_SET_GUINT32 (data +  2, 0x0);
+			GSF_LE_SET_GUINT32 (data +  6, 0x0);
+			GSF_LE_SET_GUINT16 (data + 10, idx_a);
+			GSF_LE_SET_GUINT16 (data + 12, idx_b);
+			write_cellref_v7 (pd, ref, data + 16, data + 14);
+			ms_biff_put_var_write (pd->ewb->bp, data, 17);
+		} else {
+			guint16 extn_idx = excel_write_get_externsheet_idx (
+						pd->ewb, ref->sheet, sheet_b);
+			GSF_LE_SET_GUINT16 (data, extn_idx);
+			write_cellref_v8 (pd, ref, data + 4, data + 2);
+			ms_biff_put_var_write (pd->ewb->bp, data, 6);
+		}
+	}
+}
+
+static void
+excel_formula_write_AREA (PolishData *pd, CellRef const *a, CellRef const *b)
 {
 	guint8 data[24];
 
@@ -276,13 +324,14 @@ write_area (PolishData *pd, CellRef const *a, CellRef const *b)
 			write_cellref_v8 (pd, b, data + 6, data + 2);
 			ms_biff_put_var_write (pd->ewb->bp, data, 8);
 		}
-#if 0
-	} else if (a->col == b->col &&
-		   a->row == b->row &&
-		   a->col_relative == b->col_relative &&
-		   a->row_relative == b->row_relative) {
-#endif
-	} else {
+		return;
+	} 
+
+	g_return_if_fail (a->sheet != NULL);
+
+	if (a->col != b->col || a->row != b->row ||
+	    a->col_relative != b->col_relative ||
+	    a->row_relative != b->row_relative) {
 		g_return_if_fail (a->sheet != NULL);
 
 		push_guint8 (pd, OP_REF (FORMULA_PTG_AREA_3D));
@@ -293,11 +342,11 @@ write_area (PolishData *pd, CellRef const *a, CellRef const *b)
 			/* FIXME no external references for now */
 			g_return_if_fail (pd->ewb->gnum_wb == a->sheet->workbook);
 
-			idx_a = a->sheet->index_in_wb + 1;
+			idx_a = a->sheet->index_in_wb;
 			idx_b = (b->sheet != NULL)
-				? a->sheet->index_in_wb + 1 : idx_a;
+				? b->sheet->index_in_wb : idx_a;
 
-			ixals = -(idx_a-1);
+			ixals = -(idx_a+1);
 
 			GSF_LE_SET_GUINT16 (data, ixals);
 			GSF_LE_SET_GUINT32 (data +  2, 0x0);
@@ -309,58 +358,14 @@ write_area (PolishData *pd, CellRef const *a, CellRef const *b)
 			ms_biff_put_var_write (pd->ewb->bp, data, 20);
 		} else {
 			guint16 extn_idx = excel_write_get_externsheet_idx (
-					    pd->ewb, a->sheet, b->sheet);
+						pd->ewb, a->sheet, b->sheet);
 			GSF_LE_SET_GUINT16 (data, extn_idx);
 			write_cellref_v8 (pd, a, data + 6, data + 2);
 			write_cellref_v8 (pd, b, data + 8, data + 4);
 			ms_biff_put_var_write (pd->ewb->bp, data, 10);
 		}
-	}
-}
-
-static void
-excel_formula_write_CELLREF (PolishData *pd, CellRef const *ref)
-{
-	guint8 data[24];
-
-	g_return_if_fail (pd);
-	g_return_if_fail (ref);
-
-	if (ref->sheet == NULL) {
-		push_guint8 (pd, OP_VALUE (FORMULA_PTG_REF));
-		if (pd->ewb->bp->version <= MS_BIFF_V7) {
-			write_cellref_v7 (pd, ref, data + 2, data);
-			ms_biff_put_var_write (pd->ewb->bp, data, 3);
-		} else {
-			write_cellref_v8 (pd, ref, data + 2, data);
-			ms_biff_put_var_write (pd->ewb->bp, data, 4);
-		}
-	} else {
-		push_guint8 (pd, OP_VALUE (FORMULA_PTG_REF_3D));
-		if (pd->ewb->bp->version <= MS_BIFF_V7) {
-			guint16 idx_a;
-			gint16 ixals;
-
-			/* FIXME no external references for now */
-			g_return_if_fail (pd->ewb->gnum_wb == ref->sheet->workbook);
-
-			idx_a = ref->sheet->index_in_wb + 1;
-			ixals = -(idx_a-1);
-			GSF_LE_SET_GUINT16 (data, ixals);
-			GSF_LE_SET_GUINT32 (data +  2, 0x0);
-			GSF_LE_SET_GUINT32 (data +  6, 0x0);
-			GSF_LE_SET_GUINT16 (data + 10, idx_a);
-			GSF_LE_SET_GUINT16 (data + 12, idx_a);
-			write_cellref_v7 (pd, ref, data + 16, data + 14);
-			ms_biff_put_var_write (pd->ewb->bp, data, 17);
-		} else {
-			guint16 extn_idx = excel_write_get_externsheet_idx (
-						pd->ewb, ref->sheet, ref->sheet);
-			GSF_LE_SET_GUINT16 (data, extn_idx);
-			write_cellref_v8 (pd, ref, data + 4, data + 2);
-			ms_biff_put_var_write (pd->ewb->bp, data, 6);
-		}
-	}
+	} else
+		excel_formula_write_CELLREF (pd, a, b->sheet);
 }
 
 static void
@@ -440,25 +445,22 @@ write_funcall (PolishData *pd, GnmExpr const *expr)
 }
 
 static void
-excel_formula_write_NAME (PolishData *pd, GnmExpr const *expr)
+excel_formula_write_NAME_v7 (PolishData *pd, GnmExpr const *expr)
 {
-	GnmNamedExpr const *n = expr->name.name;
-	guint8 data[14];
-	unsigned i;
+	guint8 data [15];
+	gpointer tmp;
+	unsigned name_idx;
 
-	memset (data, 0, sizeof (data));
+	memset (data, 0, sizeof data);
 
-	for (i = 0; i < pd->ewb->names->len; i++)
-		if (n == g_ptr_array_index (pd->ewb->names, i))
-			break;
+	tmp = g_hash_table_lookup (pd->ewb->names,
+				   (gpointer)expr->name.name);
+	g_return_if_fail (tmp != NULL);
 
-	if (i < pd->ewb->names->len) {
-		GSF_LE_SET_GUINT8  (data + 0, FORMULA_PTG_NAME);
-		GSF_LE_SET_GUINT16 (data + 1, i + 1);
-		ms_biff_put_var_write (pd->ewb->bp, data, 15);
-	} else {
-		g_warning ("This entire mechanism is bogus.  It does not handle sheet local names");
-	}
+	name_idx = GPOINTER_TO_UINT (tmp);
+	GSF_LE_SET_GUINT8  (data + 0, FORMULA_PTG_NAME);
+	GSF_LE_SET_GUINT16 (data + 1, name_idx);
+	ms_biff_put_var_write (pd->ewb->bp, data, 15);
 }
 
 static void
@@ -569,11 +571,10 @@ write_node (PolishData *pd, GnmExpr const *expr, int paren_level)
 			write_string (pd, v->v_str.val->str);
 			break;
 
-		case VALUE_CELLRANGE: {
-			write_area (pd, &v->v_range.cell.a,
-				    &v->v_range.cell.b);
+		case VALUE_CELLRANGE:
+			excel_formula_write_AREA (pd, &v->v_range.cell.a,
+						  &v->v_range.cell.b);
 			break;
-		}
 
                 /* See S59E2B.HTM for some really duff docs */
 		case VALUE_ARRAY : { /* Guestimation */
@@ -614,11 +615,11 @@ write_node (PolishData *pd, GnmExpr const *expr, int paren_level)
 	}
 
 	case GNM_EXPR_OP_CELLREF :
-		excel_formula_write_CELLREF (pd, &expr->cellref.ref);
+		excel_formula_write_CELLREF (pd, &expr->cellref.ref, NULL);
 		break;
 
 	case GNM_EXPR_OP_NAME :
-		excel_formula_write_NAME (pd, expr);
+		excel_formula_write_NAME_v7 (pd, expr);
 		break;
 
 	case GNM_EXPR_OP_ARRAY : {

@@ -1201,7 +1201,7 @@ sheet_object_polygon_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 		"outline_color_gdk",	outline_color,
 		"width_units",		sop->outline_width,
 		"points",		sop->points,
-		"join_style",		GDK_JOIN_ROUND,
+		/* "join_style",		GDK_JOIN_ROUND, */
 		NULL);
 	gnm_pane_object_register (so, item);
 	return G_OBJECT (item);

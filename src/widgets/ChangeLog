@@ -1,3 +1,15 @@
+2002-11-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.12
+
+2002-11-15  Jody Goldberg <jody@gnome.org>
+
+	* widget-editable-label.c (el_set_cursor) : new.
+	(el_stop_editing) : use it here.
+	(el_entry_realize) : here.
+	(editable_label_start_editing) : and here.
+	(el_class_init) : connect up the new realize handler.
+
 2002-11-13  Jody Goldberg <jody@gnome.org>
 
 	* widget-font-selector.c (fs_init) : explicitly show the preview.

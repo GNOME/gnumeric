@@ -78,6 +78,14 @@ el_set_color_gdk (EditableLabel *el, GdkColor *base, GdkColor *text)
 }
 
 static void
+el_set_cursor (GtkEntry *entry, GdkCursorType cursor_type)
+{
+	GdkCursor *cursor = gdk_cursor_new (cursor_type);
+	gdk_window_set_cursor (entry->text_area, cursor);
+	gdk_cursor_unref (cursor);
+}
+
+static void
 el_stop_editing (EditableLabel *el)
 {
 	if (el->unedited_text == NULL)
@@ -87,6 +95,7 @@ el_stop_editing (EditableLabel *el)
 	el->unedited_text = NULL;
 
 	el_set_color_gdk (el, &el->base, &el->text);
+	el_set_cursor (GTK_ENTRY (el), GDK_HAND2);
 	gtk_editable_set_editable (GTK_EDITABLE (el), FALSE);
 	gtk_editable_select_region (GTK_EDITABLE (el), 0, 0);
 	gtk_grab_remove (GTK_WIDGET (el));
@@ -190,12 +199,12 @@ el_size_request (GtkWidget *el, GtkRequisition *req)
 	req->width = logical_rect.width / PANGO_SCALE + 2*2;
 }
 
-static gint
-el_expose_event (GtkWidget *widget, GdkEventExpose *event)
+static void
+el_entry_realize (GtkWidget *widget)
 {
-	GtkWidgetClass	*base = g_type_class_peek (BASE_TYPE);
-	base = g_type_class_peek (BASE_TYPE);
-	return base->expose_event (widget, event);
+	GtkWidgetClass	*base   = g_type_class_peek (BASE_TYPE);
+	base->realize (widget);
+	el_set_cursor (GTK_ENTRY (widget), GDK_HAND2);
 }
 
 static void
@@ -209,7 +218,7 @@ el_class_init (GtkObjectClass *object_class)
 	widget_class->button_press_event = el_button_press_event;
 	widget_class->key_press_event	 = el_key_press_event;
 	widget_class->size_request	 = el_size_request;
-	widget_class->expose_event	 = el_expose_event;
+	widget_class->realize		 = el_entry_realize;
 
 	el_signals [EDIT_FINISHED] = g_signal_new ("edit_finished",
 		EDITABLE_LABEL_TYPE,
@@ -340,6 +349,7 @@ editable_label_start_editing (EditableLabel *el)
 	gtk_editable_select_region (GTK_EDITABLE (el), 0, -1);
 	gtk_editable_set_editable (GTK_EDITABLE (el), TRUE);
 	el_set_color_gdk (el, &el->base, &el->text);
+	el_set_cursor (GTK_ENTRY (el), GDK_XTERM);
 	gtk_widget_grab_focus (GTK_WIDGET (el));
 	gtk_grab_add (GTK_WIDGET (el));
 }

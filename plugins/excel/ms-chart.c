@@ -2357,6 +2357,12 @@ chart_parse_expr  (MSContainer *container, guint8 const *data, int length)
 				    data, length, FALSE, NULL);
 }
 
+static Sheet *
+chart_get_sheet (MSContainer const *container)
+{
+	return ms_container_sheet (container->parent_container);
+}
+
 static StyleFormat *
 chart_get_fmt (MSContainer const *container, guint16 indx)
 {
@@ -2370,7 +2376,7 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver, GObject
 		chart_realize_obj,
 		chart_create_obj,
 		chart_parse_expr,
-		NULL,
+		chart_get_sheet,
 		chart_get_fmt
 	};
 	int const num_handler = sizeof(chart_biff_handler) /
