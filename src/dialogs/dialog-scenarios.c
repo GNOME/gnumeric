@@ -642,7 +642,7 @@ dialog_scenarios (WorkbookControlGUI *wbcg)
 	if (dialog_tool_init (&state->base, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_SCENARIOS_VIEW,
 			      "scenario-manager.glade", "Scenarios",
-			      _("Results:"), NULL, error_str, "Scenarios",
+			      _("Result Cells:"), NULL, error_str, "Scenarios",
 			      G_CALLBACK (scenarios_ok_clicked_cb),
 			      G_CALLBACK (scenarios_cancel_clicked_cb),
 			      G_CALLBACK (scenarios_update_sensitivity_cb),
@@ -657,23 +657,16 @@ dialog_scenarios (WorkbookControlGUI *wbcg)
 	if (state->scenario_state->scenarios_treeview == NULL)
 	        goto error_out;
 
-	/* Set sensitivity of comment and changing cells widgets. */
-	w = glade_xml_get_widget (state->base.gui, "changing_cells_label");
-	if (w == NULL)
-	        goto error_out;
-	gtk_widget_set_sensitive (w, FALSE);
 	w = glade_xml_get_widget (state->base.gui, "changing_cells_entry");
 	if (w == NULL)
 	        goto error_out;
 	gtk_widget_set_sensitive (w, FALSE);
 	w = glade_xml_get_widget (state->base.gui, "comment_view");
+
 	if (w == NULL)
 	        goto error_out;
 	gtk_widget_set_sensitive (w, FALSE);
-	w = glade_xml_get_widget (state->base.gui, "comment_label");
-	if (w == NULL)
-	        goto error_out;
-	gtk_widget_set_sensitive (w, FALSE);
+
 	if (state->base.sheet->scenarios == NULL)
 		gtk_widget_set_sensitive
 			(state->scenario_state->summary_button, FALSE);
