@@ -375,7 +375,7 @@ oleo_read (IOContext *io_context, Workbook *wb, GsfInput *input)
 	guint8 *line;
 	OleoParseState state;
 
-	state.textline = gsf_input_textline_new (input);
+	state.textline = (GsfInputTextline *) gsf_input_textline_new (input);
 	/* This should probably come from import dialog.  */
 	state.converter = g_iconv_open ("UTF-8", "ISO-8859-1");
 	state.sheet = oleo_new_sheet (wb, ++sheetidx);

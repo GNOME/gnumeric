@@ -500,7 +500,7 @@ sylk_file_open (GnmFileOpener const *fo,
 
 	memset (&state, 0, sizeof (state));
 	state.io_context = io_context;
-	state.input = gsf_input_textline_new (input);
+	state.input = (GsfInputTextline *) gsf_input_textline_new (input);
 	state.sheet = sheet_new (book, base);
 	state.col = state.row = 1;
 	state.converter = g_iconv_open ("UTF-8", "ISO-8859-1");

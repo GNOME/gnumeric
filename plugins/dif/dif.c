@@ -56,7 +56,8 @@ dif_input_context_new (IOContext *io_context, Workbook *wb, GsfInput *input)
 	ctxt = g_new (DifInputContext, 1);
 	ctxt->io_context     = io_context;
 
-	ctxt->input	     = gsf_input_textline_new (input);
+	ctxt->input	     = (GsfInputTextline *) gsf_input_textline_new (input);
+
 	ctxt->line_no        = 1;
 	ctxt->line           = NULL;
 	ctxt->sheet          = workbook_sheet_add (wb, NULL, FALSE);
