@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-09-23 20:01+0200\n"
-"PO-Revision-Date: 2004-09-24 21:00-0300\n"
+"POT-Creation-Date: 2004-09-25 20:00+0200\n"
+"PO-Revision-Date: 2004-09-25 20:42-0300\n"
 "Last-Translator: Afonso Celso Medina <medina@maua.,br>\n"
 "Language-Team: Português/Brasil <gnome-l10n-br@listas.cipsga.org.br>\n"
 "MIME-Version: 1.0\n"
@@ -8985,9 +8985,10 @@ msgid "%s version %s"
 msgstr "%s versão %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
+#. Color
 #: plugins/fn-info/functions.c:1324
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1445
-#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:220
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:224
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:117
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:819
 #: src/dialogs/dialog-cell-format.c:2364 src/dialogs/dialog-cell-format.c:2369
@@ -20389,58 +20390,51 @@ msgid "<b>Values</b>"
 msgstr "<b>Valores</b>"
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:6
-#: src/dialogs/so-arrow.glade.h:5
-msgid "Color:"
-msgstr "Cor:"
+msgid "Colo_r:"
+msgstr "Co_r:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:7
-msgid "Display:"
-msgstr "Tela:"
+msgid "Dis_play:"
+msgstr "T_ela:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:8
-msgid "Line width:"
-msgstr "Espessura da linha:"
+msgid ""
+"None\n"
+"Absolute\n"
+"Relative\n"
+"Percent"
+msgstr ""
+"Nenhum\n"
+"Absoluto\n"
+"Relativo\n"
+"Porcentagem"
 
-#: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:9
-msgid "Width:"
-msgstr "Largura:"
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:12
+msgid "_Line width:"
+msgstr "Espessura da _linha:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:236
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:13
+msgid "_Width:"
+msgstr "_Largura:"
+
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:242
 msgid "No error bar displayed"
 msgstr "Nenhuma barra de erro apresentada"
 
-#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:242
-#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:258
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:248
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:264
 msgid "Positive error bar displayed"
 msgstr "Barra de erro positiva apresentada"
 
-#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:247
-#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:263
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:253
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:269
 msgid "Negative error bar displayed"
 msgstr "Barra de erro negativa apresentada"
 
-#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:252
-#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:268
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:258
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:274
 msgid "Full error bar displayed"
 msgstr "Barra de erro completa apresentada"
-
-#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:275
-#: src/dialogs/cell-format.glade.h:63 src/dialogs/dialog-cell-format.c:89
-#: src/dialogs/dialog-paste-special.c:55 src/tools/solver/reports-write.c:718
-msgid "None"
-msgstr "Nenhum"
-
-#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:276
-msgid "Absolute"
-msgstr "Absoluto"
-
-#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:277
-msgid "Relative"
-msgstr "Relativo"
-
-#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:278
-msgid "Percent"
-msgstr "Porcentagem"
 
 #. default
 #. Cheat and assign a name here, graphs will not have parents until we
@@ -20703,7 +20697,7 @@ msgid "Default"
 msgstr "Padrão"
 
 #. Guppi
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:522
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:524
 msgid "Guppi"
 msgstr "Guppi"
 
@@ -22461,6 +22455,11 @@ msgstr "Esquerda"
 msgid "Locking cells or hiding formulas only affects protected worksheets."
 msgstr "Bloquear células ou ocultar fórmulas afeta apenas pastas protegidas."
 
+#: src/dialogs/cell-format.glade.h:63 src/dialogs/dialog-cell-format.c:89
+#: src/dialogs/dialog-paste-special.c:55 src/tools/solver/reports-write.c:718
+msgid "None"
+msgstr "Nenhum"
+
 #: src/dialogs/cell-format.glade.h:64
 msgid "Outline"
 msgstr "Contorno"
@@ -23363,12 +23362,12 @@ msgstr "81"
 msgid "An error occurred while reading the category list"
 msgstr "Ocorreu um erro durante a leitura da lista de categorias"
 
-#: src/dialogs/dialog-autosave.c:79
+#: src/dialogs/dialog-autosave.c:78
 #, c-format
 msgid "Do you want to save the workbook %s ?"
 msgstr "Deseja salvar o WorkBook %s ?"
 
-#: src/dialogs/dialog-autosave.c:184
+#: src/dialogs/dialog-autosave.c:183
 msgid "Could not create the autosave dialog."
 msgstr "Impossível criar o diálogo de autosalvamento."
 
@@ -26344,6 +26343,10 @@ msgstr "Espessura da seta:"
 msgid "Arrow/Line Properties"
 msgstr "Propriedades da Seta/Linha"
 
+#: src/dialogs/so-arrow.glade.h:5
+msgid "Color:"
+msgstr "Cor:"
+
 #: src/dialogs/so-arrow.glade.h:6
 msgid "Distance from tip of arrowhead to the center point"
 msgstr "Distância da ponta da seta ao ponto central"
@@ -27741,11 +27744,11 @@ msgstr ""
 "diferentes ou use outro formato.\n"
 "Deseja salvar apenas a pasta atual?"
 
-#: src/gui-util.c:211
+#: src/gui-util.c:212
 msgid "Multiple errors\n"
 msgstr "Múltiplos erros\n"
 
-#: src/gui-util.c:623
+#: src/gui-util.c:637
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr "Impossível abrir o arquivo '%s'"
