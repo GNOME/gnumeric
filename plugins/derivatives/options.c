@@ -200,14 +200,15 @@ opt_bs (FunctionEvalInfo *ei, Value *argv[])
 
 static const char *help_opt_bs = {
 	N_("@FUNCTION=opt_bs\n"
-	   "@SYNTAX=OPT_BS(call_put_flag,spot,strike,time,rate,volatility,cost_of_carry)\n"
+	   "@SYNTAX=OPT_BS(call_put_flag,spot,strike,time,rate,volatility,"
+	   "cost_of_carry)\n"
 	   "@DESCRIPTION="
-	   "OPT_BS uses the Black-Scholes model to calculate the price of"
-	   "a European option using call_put_flag, @call_put_flag struck at @strike on an asset with spot price "
-	   "@spot.\n"
+	   "OPT_BS uses the Black-Scholes model to calculate the price of "
+	   "a European option using call_put_flag, @call_put_flag struck at "
+	   "@strike on an asset with spot price @spot.\n"
 	   "\n"
-	   "@volatility is the annualized volatility, in percent, of "
-	   "the asset for the period through to the exercise date.  "
+	   "@volatility is the annualized volatility, in percent, of the asset "
+	   "or the period through to the exercise date. "
 	   "@days_to_maturity the number of days to exercise, and @rate is "
 	   "the risk-free interest rate to the exercise date, in percent.\n"
 	   "\n"
@@ -269,12 +270,12 @@ opt_bs_delta (FunctionEvalInfo *ei, Value *argv[])
 static char const *help_opt_bs_delta = {
 	N_("@FUNCTION=OPT_BS_DELTA\n"
 
-	   "@SYNTAX=OPT_BS_DELTA(call_put_flag,spot,strike,time,rate,volatility,cost_of_carry)\n"
+	   "@SYNTAX=OPT_BS_DELTA(call_put_flag,spot,strike,time,rate,"
+	   "volatility,cost_of_carry)\n"
 	   "@DESCRIPTION="
 	   "OPT_BS_DELTA uses the Black-Scholes model to calculate the "
-	   "\"delta\" of a European option with call_put_flag, @call_put_flag
-	   struck at @strike on an "
-	   "asset with spot price @spot.\n"
+	   "\"delta\" of a European option with call_put_flag, @call_put_flag"
+	   "struck at @strike on an asset with spot price @spot.\n"
 	   "\n"
 	   "(The delta of an option is the rate of change of its price with "
 	   "respect to the spot price of the underlying asset.)\n"
@@ -289,9 +290,8 @@ static char const *help_opt_bs_delta = {
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
-		"@SEEALSO=OPT_BS, OPT_BS_DELTA, "
-		"OPT_BS_RHO, OPT_BS_THETA, "
-		"OPT_BS_VEGA, OPT_BS_GAMMA")
+	   "@SEEALSO=OPT_BS, OPT_BS_RHO, OPT_BS_THETA, "
+	   "OPT_BS_VEGA, OPT_BS_GAMMA")
 };
 
 
@@ -327,7 +327,8 @@ opt_bs_gamma (FunctionEvalInfo *ei, Value *argv[])
 static char const *help_opt_bs_gamma = {
 	N_("@FUNCTION=OPT_BS_GAMMA\n"
 
-	   "@SYNTAX=OPT_BS_GAMMA(spot,strike,time,rate,volatility,cost_of_carry)\n"
+	   "@SYNTAX=OPT_BS_GAMMA(spot,strike,time,rate,volatility,"
+	   "cost_of_carry)\n"
 	   "@DESCRIPTION="
 	   "OPT_BS_GAMMA uses the Black-Scholes model to calculate the "
 	   "\"gamma\" of a European option struck at @strike on an asset "
@@ -347,9 +348,8 @@ static char const *help_opt_bs_gamma = {
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
-		"@SEEALSO=OPT_BS, OPT_BS_DELTA, "
-		"OPT_BS_RHO, "
-		"OPT_BS_THETA, OPT_BS_VEGA")
+	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, "
+	   "OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA")
 };
 
 /* theta for the generalized Black and Scholes formula */
@@ -403,11 +403,12 @@ opt_bs_theta (FunctionEvalInfo *ei, Value *argv[])
 static char const *help_opt_bs_theta = {
 	N_("@FUNCTION=OPT_BS_THETA\n"
 
-	   "@SYNTAX=OPT_BS_THETA(call_put_flag,spot,strike,time,rate,volatility,cost_of_carry)\n"
+	   "@SYNTAX=OPT_BS_THETA(call_put_flag,spot,strike,time,rate,"
+	   "volatility,cost_of_carry)\n"
 	   "@DESCRIPTION="
 	   "OPT_BS_THETA uses the Black-Scholes model to calculate the "
-	   "\"theta\" of a European option with call_put_flag, @call_put_flag struck at @strike on an asset "
-	   "with spot price @spot.\n"
+	   "\"theta\" of a European option with call_put_flag, @call_put_flag "
+	   "struck at @strike on an asset with spot price @spot.\n"
 	   "\n"
 	   "(The theta of an option is the rate of change of its price with "
 	   "respect to time to expiry.)\n"
@@ -417,15 +418,14 @@ static char const *help_opt_bs_theta = {
 	   "@days_to_maturity the number of days to exercise, and @rate is "
 	   "the risk-free interest rate to the exercise date, in percent.\n"
 	   "\n"
-	   "* The returned value will be expressed as minus the rate of change
-	   "
+	   "* The returned value will be expressed as minus the rate of change "
 	   "of option value, per 365.25 days."
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
-		"@SEEALSO=OPT_BS, OPT_BS_DELTA, "
-		"OPT_BS_RHO, "
-		"OPT_BS_THETA, OPT_BS_VEGA, OPT_BS_GAMMA")
+	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, "
+	   "OPT_BS_RHO, OPT_BS_THETA, "
+	   "OPT_BS_VEGA, OPT_BS_GAMMA")
 };
 
 
@@ -460,7 +460,8 @@ static char const *help_opt_bs_vega = {
 	/* xgettext:no-c-format */
 	N_("@FUNCTION=OPT_BS_VEGA\n"
 
-	   "@SYNTAX=OPT_BS_VEGA(call_put_flag,spot,strike,time,rate,volatility,cost_of_carry)\n"
+	   "@SYNTAX=OPT_BS_VEGA(call_put_flag,spot,strike,time,rate,volatility,"
+	   "cost_of_carry)\n"
 	   "@DESCRIPTION="
 	   "OPT_BS_VEGA uses the Black-Scholes model to calculate the "
 	   "\"vega\" of a European option struck at @strike on an asset "
@@ -470,7 +471,7 @@ static char const *help_opt_bs_vega = {
 	   "respect to volatility, and is the same for calls and puts.)\n"
 	   "\n"
 	   "@volatility is the annualized volatility, in percent, of the "
-	   "asset for the period through to the exercise date.  "
+	   "asset for the period through to the exercise date. "
 	   "@days_to_maturity the number of days to exercise, and @rate is "
 	   "the risk-free interest rate to the exercise date, in percent.\n"
 	   "\n"
@@ -480,8 +481,7 @@ static char const *help_opt_bs_vega = {
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, "
-		", OPT_BS_RHO, "
-		"OPT_BS_THETA, OPT_BS_GAMMA")
+	   "OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
 };
 
 
@@ -541,12 +541,12 @@ static char const *help_opt_bs_rho = {
 	/* xgettext:no-c-format */
 	N_("@FUNCTION=OPT_BS_RHO\n"
 
-	   "@SYNTAX=OPT_BS_RHO(call_put_flag,spot,strike,time,rate,volatility,cost_of_carry)\n"
+	   "@SYNTAX=OPT_BS_RHO(call_put_flag,spot,strike,time,rate,volatility,"
+	   "cost_of_carry)\n"
 	   "@DESCRIPTION="
 	   "OPT_BS_RHO uses the Black-Scholes model to calculate the "
-	   "\"rho\" of a European option with call_put_flag, @call_put_flag
-	   struck at @strike on an asset "
-	   "with spot price @spot.\n"
+	   "\"rho\" of a European option with call_put_flag, @call_put_flag "
+	   "struck at @strike on an asset with spot price @spot.\n"
 	   "\n"
 	   "(The rho of an option is the rate of change of its price with "
 	   "respect to the risk free interest rate.)\n"
@@ -561,9 +561,8 @@ static char const *help_opt_bs_rho = {
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
-		"@SEEALSO=OPT_BS, OPT_BS_DELTA, "
-		"OPT_BS_RHO, OPT_BS_THETA, "
-		"OPT_BS_VEGA, OPT_BS_GAMMA")
+	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, "
+	   "OPT_BS_THETA, OPT_BS_VEGA, OPT_BS_GAMMA")
 };
 
 /* Carry for the generalized Black and Scholes formula */
@@ -612,29 +611,28 @@ static char const *help_opt_bs_carrycost = {
 	/* xgettext:no-c-format */
 	N_("@FUNCTION=OPT_BS_CARRYCOST\n"
 
-	   "@SYNTAX=OPT_BS_CARRYCOST(call_put_flag,spot,strike,time,rate,volatility,cost_of_carry)\n"
+	   "@SYNTAX=OPT_BS_CARRYCOST(call_put_flag,spot,strike,time,rate,"
+	   "volatility,cost_of_carry)\n"
 	   "@DESCRIPTION="
 	   "OPT_BS_CARRYCOST uses the Black-Scholes model to calculate the "
-	   "\"elasticity\" of a European option struck at @strike on an asset
-	   "
+	   "\"elasticity\" of a European option struck at @strike on an asset"
 	   "with spot price @spot.\n"
 	   "\n"
-	   "(The elasticity of an option is the rate of change of its price
-		with "
-		"respect to its cost of carry.)\n"
-		"\n"
-		"@volatility is the annualized volatility, in percent, of the "
-		"asset for the period through to the exercise date.  "
-		"@days_to_maturity the number of days to exercise, and @rate is "
-		"the risk-free interest rate to the exercise date, in percent.\n"
-		"\n"
-		"* The returned value will be expressed as the rate of change "
-		"of option value, per 100% volatilty."
-		"\n"
-		"@EXAMPLES=\n"
-		"\n"
-		"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA,
-	OPT_BS_GAMMA")
+	   "(The elasticity of an option is the rate of change of its price"
+	   "with respect to its cost of carry.)\n"
+	   "\n"
+	   "@volatility is the annualized volatility, in percent, of the "
+	   "asset for the period through to the exercise date.  "
+	   "@days_to_maturity the number of days to exercise, and @rate is "
+	   "the risk-free interest rate to the exercise date, in percent.\n"
+	   "\n"
+	   "* The returned value will be expressed as the rate of change "
+	   "of option value, per 100% volatilty."
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, "
+	   "OPT_BS_THETA, OPT_BS_GAMMA")
 };
 
 
@@ -683,25 +681,26 @@ static char const *help_opt_garman_kohlhagen = {
 	/* xgettext:no-c-format */
 	N_("@FUNCTION=OPT_GARMAN_KOHLHAGEN\n"
 
-	   "@SYNTAX=OPT_GARMAN_KOHLHAGEN(call_put_flag,spot,strike,time,domesitc_rate,foreign_rate,volatility,cost_of_carry)\n"
+	   "@SYNTAX=OPT_GARMAN_KOHLHAGEN(call_put_flag,spot,strike,time,"
+	   "domesitc_rate,foreign_rate,volatility,cost_of_carry)\n"
 	   "@DESCRIPTION="
-	   "OPT_GARMAN_KOHLHAGEN values the theoretical price of a "
-	   "European option struck at @strike on an asset"
-	   "with spot price @spot.\n"
+	   "OPT_GARMAN_KOHLHAGEN values the theoretical price of a European "
+	   "option struck at @strike on an asset with spot price @spot.\n"
 	   "\n"
 	   "@volatility is the annualized volatility, in percent, of the "
-	   "asset for the period through to the exercise date.  "
-	   "@days_to_maturity the number of days to exercise, and @domestic_rate is "
-	   "the domestic risk-free interest rate to the exercise date,@foreign_rate is "
-	   "the foreign risk-free interest rate to the exercise date, in percent.\n"
+	   "asset for the period through to the exercise date. "
+	   "@days_to_maturity the number of days to exercise, and "
+	   "@domestic_rate is the domestic risk-free interest rate to the "
+	   "exercise date,@foreign_rate is the foreign risk-free interest rate "
+	   "to the exercise date, in percent.\n"
 	   "\n"
 	   "* The returned value will be expressed as the rate of change "
 	   "of option value, per 100% volatilty."
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
-	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA,
-	   OPT_BS_GAMMA")
+	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, "
+	   "OPT_BS_THETA, OPT_BS_GAMMA")
 };
 
 
@@ -748,25 +747,27 @@ static char const *help_opt_french = {
 	/* xgettext:no-c-format */
 	N_("@FUNCTION=OPT_FRENCH\n"
 
-	   "@SYNTAX=OPT_FRENCH(call_put_flag,spot,strike,time,t2,rate,volatility,cost_of_carry)\n"
+	   "@SYNTAX=OPT_FRENCH(call_put_flag,spot,strike,time,t2,rate,"
+	   "volatility,cost_of_carry)\n"
 	   "@DESCRIPTION="
 	   "OPT_FRENCH values the theoretical price of a "
-	   "European option adjusted for trading day volatility, struck at @strike on an asset"
-	   "with spot price @spot.\n"
+	   "European option adjusted for trading day volatility, struck at "
+	   "@strike on an asset with spot price @spot.\n"
 	   "\n"
 	   "@volatility is the annualized volatility, in percent, of the "
-	   "asset for the period through to the exercise date.  "
-	   "@days_to_maturity the number of days to exercise, and @domestic_rate is "
-	   "the domestic risk-free interest rate to the exercise date,@foreign_rate is "
-	   "the foreign risk-free interest rate to the exercise date, in percent.\n"
+	   "asset for the period through to the exercise date. "
+	   "@days_to_maturity the number of days to exercise, and "
+	   "@domestic_rate is the domestic risk-free interest rate to the "
+	   "exercise date,@foreign_rate is the foreign risk-free interest rate "
+	   "to the exercise date, in percent.\n"
 	   "\n"
-	   "* The returned value will be expressed as the rate of change "
-	   "of option value, per 100% volatilty."
+	   "* The returned value will be expressed as the rate of change of "
+	   "option value, per 100% volatilty."
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
-	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA,
-	   OPT_BS_GAMMA")
+	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, "
+	   "OPT_BS_THETA, OPT_BS_GAMMA")
 };
 
 /* Merton jump diffusion model*/
@@ -812,15 +813,16 @@ static const char *help_opt_jump_diff = {
 	/* xgettext:no-c-format */
 	N_("@FUNCTION=OPT_JUMP_DIFF\n"
 
-	   "@SYNTAX=OPT_JUMP_DIFF(call_put_flag,spot,strike,time,rate,volatility,lambda,gamma)\n"
+	   "@SYNTAX=OPT_JUMP_DIFF(call_put_flag,spot,strike,time,rate,"
+	   "volatility,lambda,gamma)\n"
 	   "@DESCRIPTION="
-	   "OPT_JUMP_DIFF models the theoretical price of an option according to"
-	   "the Jump Diffussion process (Merton)"
+	   "OPT_JUMP_DIFF models the theoretical price of an option according "
+	   "to the Jump Diffussion process (Merton)."
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
-	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA,
-	   OPT_BS_GAMMA")
+	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, "
+	   "OPT_BS_THETA, OPT_BS_GAMMA")
 };
 
 
@@ -898,15 +900,16 @@ static char const *help_opt_miltersen_schwartz = {
 	/* xgettext:no-c-format */
 	N_("@FUNCTION=OPT_MILTERSEN_SCHWARTZ\n"
 
-	   "@SYNTAX=OPT_MILTERSEN_SCHWARTZ(call_put_flag,p_t,f_t,x,t1,t2,v_s,v_e,v_f,rho_se,rho_sf,rho_ef,kappa_e,kappa_f)\n"
+	   "@SYNTAX=OPT_MILTERSEN_SCHWARTZ(call_put_flag,p_t,f_t,x,t1,t2,v_s,"
+	   "v_e,v_f,rho_se,rho_sf,rho_ef,kappa_e,kappa_f)\n"
 	   "@DESCRIPTION="
-	   "OPT_MILTERSEN_SCHWARTZ models the theoretical price of an option according to"
-	   "Miltersen & Schwartz"
+	   "OPT_MILTERSEN_SCHWARTZ models the theoretical price of an option "
+	   "according to Miltersen & Schwartz."
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
-	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA,
-	   OPT_BS_GAMMA")
+	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, "
+	   "OPT_BS_THETA, OPT_BS_GAMMA")
 };
 
 
@@ -998,16 +1001,17 @@ static char const *help_opt_rgw = {
 	/* xgettext:no-c-format */
 	N_("@FUNCTION=OPT_RGW\n"
 
-	   "@SYNTAX=OPT_RGW(call_put_flag,spot,strike,t1,t2,rate,d,volatility)\n"
+	   "@SYNTAX=OPT_RGW(call_put_flag,spot,strike,t1,t2,rate,d,volatility)"
+	   "\n"
 	   "@DESCRIPTION="
-	   "OPT_RGW models the theoretical price of an option according to"
-	   "the Roll Geske Whaley apporximation where t1 is the time to the dividend payout and t2 is the time to option"
-	   "expiration."
+	   "OPT_RGW models the theoretical price of an option according to "
+	   "the Roll Geske Whaley apporximation where t1 is the time to the "
+	   "dividend payout and t2 is the time to option expiration."
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
-	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA,
-	   OPT_BS_GAMMA")
+	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, "
+	   "OPT_BS_THETA, OPT_BS_GAMMA")
 };
 
 /* the Barone-Adesi and Whaley (1987) American approximation */
@@ -1039,16 +1043,16 @@ static char const *help_opt_BAW_amer = {
 	/* xgettext:no-c-format */
 	N_("@FUNCTION=OPT_BAW_AMER\n"
 
-	   "@SYNTAX=OPT_BAW_AMER(call_put_flag,spot,strike,time,rate,cost_of_carry,volatility)\n"
+	   "@SYNTAX=OPT_BAW_AMER(call_put_flag,spot,strike,time,rate,"
+	   "cost_of_carry,volatility)\n"
 	   "@DESCRIPTION="
-	   "OPT_BAW_AMER models the theoretical price of an option according to"
-	   "the Barone Adesie & Whaley approximation"
-
+	   "OPT_BAW_AMER models the theoretical price of an option according "
+	   "to the Barone Adesie & Whaley approximation."
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
-	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA,
-	   OPT_BS_GAMMA")
+	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, "
+	   "OPT_BS_THETA, OPT_BS_GAMMA")
 };
 
 /* American call */
@@ -1222,19 +1226,17 @@ static char const *help_opt_bjerStens = {
 	/* xgettext:no-c-format */
 	N_("@FUNCTION=OPT_BJERSTENS\n"
 
-	   "@SYNTAX=OPT_BJERSTENS(call_put_flag,spot,strike,time,rate,cost_of_carry,volatility)\n"
+	   "@SYNTAX=OPT_BJERSTENS(call_put_flag,spot,strike,time,rate,"
+	   "cost_of_carry,volatility)\n"
 	   "@DESCRIPTION="
-	   "OPT_BJERSTENS models the theoretical price of american options according"
-	   "the Bjerksund & Stensland approximation technique"
+	   "OPT_BJERSTENS models the theoretical price of american options "
+	   "according to the Bjerksund & Stensland approximation technique."
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
-	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA,
-	   OPT_BS_GAMMA")
+	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, "
+	   "OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
 };
-
-
-
 
 static gnum_float
 opt_bjerStens1_c(gnum_float s, gnum_float x, gnum_float t, gnum_float r, gnum_float b, gnum_float v)
@@ -1303,15 +1305,16 @@ static char const *help_opt_exec = {
 	/* xgettext:no-c-format */
 	N_("@FUNCTION=OPT_EXEC\n"
 
-	   "@SYNTAX=OPT_EXEC(call_put_flag,spot,strike,time,rate,volatility,cost_of_carry,lambda)\n"
+	   "@SYNTAX=OPT_EXEC(call_put_flag,spot,strike,time,rate,volatility,"
+	   "cost_of_carry,lambda)\n"
 	   "@DESCRIPTION="
-	   "OPT_EXEC models the theoretical price of executive stock options given"
-	   "lambda (jump rate for executives)"
+	   "OPT_EXEC models the theoretical price of executive stock options "
+	   "given lambda (jump rate for executives)."
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
-	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA,
-	   OPT_BS_GAMMA")
+	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, "
+	   "OPT_BS_THETA, OPT_BS_GAMMA")
 };
 
 
@@ -1343,15 +1346,16 @@ static char const *help_opt_forward_start = {
 	/* xgettext:no-c-format */
 	N_("@FUNCTION=OPT_FORWARD_START\n"
 
-	   "@SYNTAX=OPT_FORWARD_START(call_put_flag,spot,alpha,time1,time,rate,volatility,cost_of_carry)\n"
+	   "@SYNTAX=OPT_FORWARD_START(call_put_flag,spot,alpha,time1,time,rate,"
+	   "volatility,cost_of_carry)\n"
 	   "@DESCRIPTION="
-	   "OPT_FORWARD_START models the theoretical price of forward start options"
-
+	   "OPT_FORWARD_START models the theoretical price of forward start "
+	   "options"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
-	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA,
-	   OPT_BS_GAMMA")
+	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, "
+	   "OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
 };
 
 
@@ -1399,15 +1403,16 @@ static char const *help_opt_time_switch = {
 	/* xgettext:no-c-format */
 	N_("@FUNCTION=OPT_TIME_SWITCH\n"
 
-	   "@SYNTAX=OPT_TIME_SWITCH(call_put_flag,spot,strike,a,time,m,dt,rate,cost_of_carry,volatility)\n"
+	   "@SYNTAX=OPT_TIME_SWITCH(call_put_flag,spot,strike,a,time,m,dt,rate,"
+	   "cost_of_carry,volatility)\n"
 	   "@DESCRIPTION="
-	   "OPT_TIME_SWITCH models the theoretical price of time switch options"
-
+	   "OPT_TIME_SWITCH models the theoretical price of time switch "
+	   "options."
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
-	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA,
-	   OPT_BS_GAMMA")
+	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, "
+	   "OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
 };
 
 
@@ -1442,15 +1447,16 @@ static char const *help_opt_simple_chooser = {
 	/* xgettext:no-c-format */
 	N_("@FUNCTION=OPT_SIMPLE_CHOOSER\n"
 
-	   "@SYNTAX=OPT_SIMPLE_CHOOSER(call_put_flag,spot,strike,time1,time2,rate,cost_of_carry,volatility)\n"
+	   "@SYNTAX=OPT_SIMPLE_CHOOSER(call_put_flag,spot,strike,time1,time2,"
+	   "rate,cost_of_carry,volatility)\n"
 	   "@DESCRIPTION="
-	   "OPT_SIMPLE_CHOOSER models the theoretical price of simple chooser options"
-
+	   "OPT_SIMPLE_CHOOSER models the theoretical price of simple chooser "
+	   "options."
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
-	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA,
-	   OPT_BS_GAMMA")
+	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, "
+	   "OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
 };
 
 
@@ -1495,15 +1501,16 @@ static char const *help_opt_complex_chooser = {
 	/* xgettext:no-c-format */
 	N_("@FUNCTION=OPT_COMPLEX_CHOOSER\n"
 
-	   "@SYNTAX=OPT_COMPLEX_CHOOSER(call_put_flag,spot,strike_call,strike_put,time,time_call,time_put,rate,cost_of_carry,volatility)\n"
+	   "@SYNTAX=OPT_COMPLEX_CHOOSER(call_put_flag,spot,strike_call,"
+	   "strike_put,time,time_call,time_put,rate,cost_of_carry,volatility)\n"
 	   "@DESCRIPTION="
-	   "OPT_COMPLEX_CHOOSER models the theoretical price of complex chooser options"
-
+	   "OPT_COMPLEX_CHOOSER models the theoretical price of complex "
+	   "chooser options."
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
-	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA,
-	   OPT_BS_GAMMA")
+	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, "
+	   "OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
 };
 
 
@@ -1600,15 +1607,15 @@ static char const *help_opt_on_options = {
 	/* xgettext:no-c-format */
 	N_("@FUNCTION=OPT_ON_OPTIONS\n"
 
-	   "@SYNTAX=OPT_ON_OPTIONS(type_flag,spot,strike1,strike1,time1,time2,rate,cost_of_carry,volatility)\n"
+	   "@SYNTAX=OPT_ON_OPTIONS(type_flag,spot,strike1,strike1,time1,time2,"
+	   "rate,cost_of_carry,volatility)\n"
 	   "@DESCRIPTION="
 	   "OPT_ON_OPTIONS models the theoretical price of options on options"
-
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
-	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA,
-	   OPT_BS_GAMMA")
+	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, "
+	   "OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
 };
 
 
@@ -1674,35 +1681,37 @@ static char const *help_opt_extendible_writer = {
 	/* xgettext:no-c-format */
 	N_("@FUNCTION=OPT_EXTENDIBLE_WRITER\n"
 
-	   "@SYNTAX=OPT_EXTENDIBLE_WRITER(call_put_flag,spot,strike1,strike2,time1,time2,rate,cost_of_carry,volatility)\n"
+	   "@SYNTAX=OPT_EXTENDIBLE_WRITER(call_put_flag,spot,strike1,strike2,"
+	   "time1,time2,rate,cost_of_carry,volatility)\n"
 	   "@DESCRIPTION="
-	   "OPT_EXTENDIBLE_WRITER models the theoretical price of extendible writer options"
-
+	   "OPT_EXTENDIBLE_WRITER models the theoretical price of extendible "
+	   "writer options."
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
-	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA,
-	   OPT_BS_GAMMA")
+	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, "
+	   "OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
 };
 
 ModulePluginFunctionInfo const derivatives_functions [] = {
 	{ "opt_bs",
-	  "sfffff|f","call_put_flag, spot, strike, time, rate, volatility,
-	  cost_of_carry",
+	  "sfffff|f","call_put_flag, spot, strike, time, rate, volatility, "
+	  "cost_of_carry",
 	  &help_opt_bs, opt_bs, NULL, NULL, NULL },
 
 	{ "opt_bs_delta",
-	  "sffffff|f", "call_put_flag, spot, strike, time, rate, volatility,
-	  cost_of_carry",
+	  "sffffff|f", "call_put_flag, spot, strike, time, rate, volatility, "
+	  "cost_of_carry",
 	  &help_opt_bs_delta, opt_bs_delta, NULL, NULL, NULL },
 
 	{ "opt_bs_rho",
-	  "sffffff|f", "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry",
+	  "sffffff|f", "call_put_flag, spot, strike, time, rate, volatility, "
+	  "cost_of_carry",
 	  &help_opt_bs_rho, opt_bs_rho, NULL, NULL, NULL },
 
 	{ "opt_bs_theta",
-	  "sffffff|f", "call_put_flag, spot, strike, time, rate, volatility,
-	  cost_of_carry",
+	  "sffffff|f", "call_put_flag, spot, strike, time, rate, volatility, "
+	  "cost_of_carry",
 	  &help_opt_bs_theta, opt_bs_theta, NULL, NULL, NULL },
 
 	{ "opt_bs_gamma",
@@ -1714,7 +1723,8 @@ ModulePluginFunctionInfo const derivatives_functions [] = {
 	  &help_opt_bs_vega, opt_bs_vega, NULL, NULL, NULL },
 
 	{ "opt_bs_carrycost",
-	  "sffffff|f", "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry",
+	  "sffffff|f", "call_put_flag, spot, strike, time, rate, volatility, "
+	  "cost_of_carry",
 	  &help_opt_bs_carrycost, opt_bs_carrycost, NULL, NULL, NULL },
 
 	{ "cum_biv_norm_dist",
@@ -1722,31 +1732,38 @@ ModulePluginFunctionInfo const derivatives_functions [] = {
 	  &help_cum_biv_norm_dist, cum_biv_norm_dist, NULL, NULL, NULL },
 
 	{ "opt_garman_kohlhagen",
-	  "sffffff", "call_put_flag, spot, strike, time, domestic_rate,foreign_rate, volatility",
+	  "sffffff", "call_put_flag, spot, strike, time, domestic_rate, "
+	  "foreign_rate, volatility",
 	  &help_opt_garman_kohlhagen, opt_garman_kohlhagen, NULL, NULL, NULL },
 
 	{ "opt_french",
-	  "sfffffff", "call_put_flag, spot, strike, time, t2,rate, volatility, cost of carry",
+	  "sfffffff", "call_put_flag, spot, strike, time, t2, rate, "
+	  "volatility, cost of carry",
 	  &help_opt_french, opt_french, NULL, NULL, NULL },
 
 	{ "opt_jump_diff",
-	  "sfffffff", "call_put_flag, spot, strike, time, rate, volatility, lambda, gamma",
+	  "sfffffff", "call_put_flag, spot, strike, time, rate, volatility, "
+	  "lambda, gamma",
 	  &help_opt_jump_diff, opt_jump_diff, NULL, NULL, NULL },
 
 	{ "opt_exec",
-	  "sfffffff", "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry, lambda",
+	  "sfffffff", "call_put_flag, spot, strike, time, rate, volatility, "
+	  "cost_of_carry, lambda",
 	  &help_opt_exec, opt_exec, NULL, NULL, NULL },
 
 	{ "opt_bjerStens",
-	  "sffffff", "call_put_flag, spot, strike, time, rate, cost_of_carry, volatility",
+	  "sffffff", "call_put_flag, spot, strike, time, rate, cost_of_carry, "
+	  "volatility",
 	  &help_opt_bjerStens, opt_bjerStens, NULL, NULL, NULL },
 
 	{ "opt_miltersen_schwartz",
-	  "sfffffffffffff", "call_put_flag, p_t, f_t, x, t1, t2, v_s, v_e, v_f, rho_se, rho_sf, rho_ef, kappa_e, kappa_f)",
+	  "sfffffffffffff", "call_put_flag, p_t, f_t, x, t1, t2, v_s, v_e, "
+	  "v_f, rho_se, rho_sf, rho_ef, kappa_e, kappa_f)",
 	  &help_opt_miltersen_schwartz, opt_miltersen_schwartz, NULL, NULL, NULL },
 
 	{ "opt_BAW_amer",
-	  "sffffff", "call_put_flag, spot, strike, time, rate, cost_of_carry, volatility",
+	  "sffffff", "call_put_flag, spot, strike, time, rate, cost_of_carry, "
+	  "volatility",
 	  &help_opt_BAW_amer, opt_BAW_amer, NULL, NULL, NULL },
 
 	{ "opt_rgw",
@@ -1754,27 +1771,33 @@ ModulePluginFunctionInfo const derivatives_functions [] = {
 	  &help_opt_rgw, opt_rgw, NULL, NULL, NULL },
 
 	{ "opt_forward_start",
-	  "sfffffff", "call_put_flag,spot,alpha,time1,time,rate,volatility,cost_of_carry",
+	  "sfffffff", "call_put_flag, spot, alpha, time1, time, rate, "
+	  "volatility, cost_of_carry",
 	  &help_opt_forward_start, opt_forward_start, NULL, NULL, NULL },
 
 	{ "opt_time_switch",
-	  "sfffffffff", "call_put_flag,spot,strike,a,time,m,dt,rate,cost_of_carry,volatility",
+	  "sfffffffff", "call_put_flag, spot, strike, a, time, m, dt, rate, "
+	  "cost_of_carry, volatility",
 	  &help_opt_time_switch, opt_time_switch, NULL, NULL, NULL },
 
 	{ "opt_simple_chooser",
-	  "fffffff", "spot,strike,time1,time2,rate,cost_of_carry,volatility",
+	  "fffffff", "spot, strike, time1, time2, rate, cost_of_carry, "
+	  "volatility",
 	  &help_opt_simple_chooser, opt_simple_chooser, NULL, NULL, NULL },
 
 	{ "opt_complex_chooser",
-	  "fffffffff", "spot,strike_call,strike_put,time,time_call,time_put,rate,cost_of_carry,volatility",
+	  "fffffffff", "spot, strike_call, strike_put, time, time_call, "
+	  "time_put, rate, cost_of_carry, volatility",
 	  &help_opt_complex_chooser, opt_complex_chooser, NULL, NULL, NULL },
 
 	{ "opt_on_options",
-	  "sffffffff", "type_flag,spot,strike1,strike2,time1,time2,rate,cost_of_carry,volatility",
+	  "sffffffff", "type_flag, spot, strike1, strike2, time1, time2, "
+	  "rate, cost_of_carry, volatility",
 	  &help_opt_on_options, opt_on_options, NULL, NULL, NULL },
 
 	{ "opt_extendible_writer",
-	  "sffffffff", "type_flag,spot,strike1,strike2,time1,time2,rate,cost_of_carry,volatility",
+	  "sffffffff", "type_flag, spot, strike1, strike2, time1, time2, "
+	  "rate, cost_of_carry, volatility",
 	  &help_opt_extendible_writer, opt_extendible_writer, NULL, NULL, NULL },
 
 	{ NULL}

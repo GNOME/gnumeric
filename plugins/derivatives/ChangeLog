@@ -1,3 +1,7 @@
+2002-10-12  Christian Neumair  <chris@gnome-de.org>
+
+	* options.c: Fixed function descriptions.
+
 2002-10-09  Jody Goldberg <jody@gnome.org>
 
 	* options.c (opt_time_switch) : fix warning and make marginally more

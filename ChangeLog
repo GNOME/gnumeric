@@ -1,3 +1,7 @@
+2002-10-12  Christian Neumair  <chris@gnome-de.org>
+
+	* plugins/derivatives/options.c: Fixed function descriptions.
+
 2002-10-11  Morten Welinder  <terra@diku.dk>
 
 	* configure.in (have_ld): Check for fmodl.
