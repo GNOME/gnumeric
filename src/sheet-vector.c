@@ -41,7 +41,7 @@ find_block (SheetVector *vec, int index, int *ret_top, int *ret_idx)
 		
 		total += vec->blocks [i].size;
 
-		if (index < total){
+		if (index <= total){
 			*ret_top = total;
 			*ret_idx = old_total - index;
 			return i;
@@ -374,8 +374,8 @@ sheet_vector_append_range (SheetVector *sheet_vector, Range *range)
 	if (sheet_vector->blocks == NULL){
 		sheet_vector->blocks = g_new0 (RangeBlock, 1);
 		sheet_vector->n_blocks = 1;
-		sheet_vector->blocks [0].size = (range->end.col - range->start.col) *
-			(range->end.row - range->start.row);
+		sheet_vector->blocks [0].size = (range->end.col - range->start.col + 1) *
+			(range->end.row - range->start.row + 1);
 		sheet_vector->blocks [0].range = *range;
 		sheet_vector->len = sheet_vector->blocks [0].size;
 	} else {

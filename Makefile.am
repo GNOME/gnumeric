@@ -1,4 +1,4 @@
-SUBDIRS = intl po macros idl plugins src doc icons
+SUBDIRS = intl po macros idl plugins wizards src doc icons
 
 change_logs = \
 	OChangeLog

@@ -181,6 +181,9 @@ graphic_context_auto_guess_series (WizardGraphicContext *gc)
 		vector_list = vector_list->next;
 	} 
 
+	/*
+	 * 2. Process the rest
+	 */
 	for (; vector_list; vector_list = vector_list->next){
 		GNOME_Gnumeric_Vector vector;
 
@@ -303,7 +306,7 @@ graphic_context_destroy (WizardGraphicContext *gc)
 	for (l = gc->view_frames; l; l = l->next){
 		BonoboViewFrame *view_frame = BONOBO_VIEW_FRAME (l->data);
 
-		gtk_object_unref (GTK_OBJECT (view_frame));
+		bonobo_object_unref (BONOBO_OBJECT (view_frame));
 	}
 	CORBA_exception_init (&ev);
 	CORBA_Object_release (gc->layout, &ev);
@@ -501,7 +504,7 @@ data_range_destroy (DataRange *data_range, gboolean detach_from_sheet)
 		sheet_vector_detach (data_range->vector);
 
 	if (data_range->vector)
-		gtk_object_unref (GTK_OBJECT (data_range->vector));
+		bonobo_object_unref (BONOBO_OBJECT (data_range->vector));
 
 	string_unref (data_range->entered_expr);
 	g_free (data_range);

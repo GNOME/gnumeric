@@ -27,7 +27,7 @@ GRAPH_CORBA_GENERATED = 		\
 libGraph_a_SOURCES    = $(GRAPH_CORBA_GENERATED)
 libGnumeric_a_SOURCES = $(GNUMERIC_CORBA_GENERATED)
 
-$(GRAPH_CORBA_GENERATED): Graph.idl $(top_srcdir)/src/Gnumeric-value.idl $(top_srcdir)/src/Gnumeric.idl
+$(GRAPH_CORBA_GENERATED): Graph.idl $(top_srcdir)/idl/Gnumeric.idl
 	orbit-idl -I`$(GNOME_CONFIG) --datadir`/idl -I$(srcdir) -I$(top_srcdir) $(srcdir)/Graph.idl
 	touch my_graph_idl
 

@@ -1,3 +1,8 @@
+2000-03-11  Miguel de Icaza  <miguel@helixcode.com>
+
+	* graphic-context.c (graphic_context_destroy): Use
+	gnome_object_unref here
+
 2000-03-06  Michael Meeks  <michael@helixcode.com>
 
 	* graphic-context.c (graphic_context_data_range_count): make static.
