@@ -487,6 +487,7 @@ cell_set_expr_internal (Cell *cell, ExprTree *expr, char const *optional_format)
 
 	cell->u.expression = expr;
 	cell->cell_flags |= CELL_HAS_EXPRESSION;
+	cell->format = fmt;
 
 	/* Until the value is recomputed, we put in this value.  */
 	cell->value = value_new_error (NULL, gnumeric_err_RECALC);
@@ -707,21 +708,25 @@ cell_set_mstyle (Cell const *cell, MStyle *mstyle)
 char *
 cell_get_format (Cell const *cell)
 {
-	MStyle *mstyle;
-	char *result;
+	char   *result = NULL;
+	MStyle *mstyle = cell_get_mstyle (cell);
 
-	mstyle = cell_get_mstyle (cell);
 	if (mstyle_is_element_set (mstyle, MSTYLE_FORMAT)) {
 		char const *format;
 		format = mstyle_get_format (mstyle)->format;
+
 		/* FIXME: we really should distinguish between "not assigned"
 		   and "assigned General".  */
-		if (format && strcmp (format, "General") != 0)
-			result = g_strdup (format);
-		else
-			result = NULL;
-	} else
-		result = NULL;
+		if (format) {
+			/* If the format is General it may have been over
+			 * ridden by the format used to parse the input text.
+			 */
+			if (strcmp (format, "General") != 0)
+				result = g_strdup (format);
+			else if (cell->format)
+				result = g_strdup (cell->format->format);
+		}
+	}
 
 	mstyle_unref (mstyle);
 	return result;

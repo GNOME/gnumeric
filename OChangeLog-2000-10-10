@@ -1,3 +1,10 @@
+2000-05-24  Jody Goldberg <jgoldberg@home.com>
+
+	* src/cell.c (cell_set_expr_internal) : Actually assign the format
+	  after we ref it.
+	(cell_get_format) : Cells with format 'General' may appear to have
+	  a format via autoformat or via the text that was entered.
+
 2000-05-21  Jody Goldberg <jgoldberg@home.com>
 
 	* src/cmd-edit.[ch] : New files.
