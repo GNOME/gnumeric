@@ -1,3 +1,8 @@
+2001-02-06  Almer S. Tigelaar  <almer1@dds.nl>
+
+	* src/gui-clipboard.c (x_selection_to_cell_region):
+	Don't invoke the STF druid when pasting a single line. Fixes #21507.
+
 2001-02-06  Jon K Hellan  <hellan@acm.org>
 
 	* src/embeddable-grid.c (grid_view_new): Adapt to changes in bonobo.

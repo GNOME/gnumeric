@@ -67,8 +67,6 @@ Long term breakage
 - While we're playing with those functions, lets add simple ones like inc/dec
   font size and things like that.
 
-STF - pasting a single line should not invoke the importer
-
 - locale : Saving xml should not rely on changing the textdomain to
            disable translation of TRUE/FALSE in expressions.
 	 : Support parsing and displaying locale specific function

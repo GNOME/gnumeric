@@ -76,50 +76,74 @@ x_selection_to_cell_region (WorkbookControlGUI *wbcg, const char *src, int len)
 		return crerr;
 	}
 
-	dialogresult = stf_dialog (wbcg, "clipboard", data);
+	/*
+	 * See if this is a "single line + line end" or a "multiline"
+	 * string. If this is _not_ the case we won't invoke the STF, it is
+	 * unlikely that the user will actually need it in this case.
+	 * NOTE: This is making an assumption on what the user 'wants', this
+	 * is not really a good thing. We should put this in a config dialog.
+	 */
+	if (strchr (data, '\n') == NULL) {
+		CellCopy *ccopy;
+		
+		ccopy = g_new (CellCopy, 1);
+		ccopy->type = CELL_COPY_TYPE_TEXT;
+		ccopy->col_offset = 0;
+		ccopy->row_offset = 0;
+		ccopy->u.text = g_strdup (data);
 
-	if (dialogresult != NULL) {
-		GSList *iterator;
-		int col, rowcount;
+		cr         = g_new0 (CellRegion, 1);
+		cr->list   = g_list_prepend (cr->list, ccopy);
+		cr->cols   = 1;
+		cr->rows   = 1;
+		cr->styles = NULL;
+		cr->merged = NULL;
+	} else {
+		dialogresult = stf_dialog (wbcg, "clipboard", data);
 
-		cr = stf_parse_region (dialogresult->parseoptions, dialogresult->newstart);
+		if (dialogresult != NULL) {
+			GSList *iterator;
+			int col, rowcount;
 
-		if (cr == NULL) {
-			g_free (data);
-			g_warning (_("Parse error while trying to parse data into cellregion"));
+			cr = stf_parse_region (dialogresult->parseoptions, dialogresult->newstart);
+
+			if (cr == NULL) {
+				g_free (data);
+				g_warning (_("Parse error while trying to parse data into cellregion"));
+				return crerr;
+			}
+
+			iterator = dialogresult->formats;
+			col = 0;
+			rowcount = stf_parse_get_rowcount (dialogresult->parseoptions, dialogresult->newstart);
+			while (iterator) {
+				StyleRegion *content = g_new (StyleRegion, 1);
+				MStyle *style = mstyle_new ();
+				Range range;
+
+				mstyle_set_format (style, iterator->data);
+
+				range.start.col = col;
+				range.start.row = 0;
+				range.end.col   = col;
+				range.end.row   = rowcount;
+
+				content->style = style;
+				content->range  = range;
+
+				cr->styles = g_list_prepend (cr->styles, content);
+				
+				iterator = g_slist_next (iterator);
+
+				col++;
+			}
+
+			stf_dialog_result_free (dialogresult);
+		} else {
 			return crerr;
 		}
-
-		iterator = dialogresult->formats;
-		col = 0;
-		rowcount = stf_parse_get_rowcount (dialogresult->parseoptions, dialogresult->newstart);
-		while (iterator) {
-			StyleRegion *content = g_new (StyleRegion, 1);
-			MStyle *style = mstyle_new ();
-			Range range;
-
-			mstyle_set_format (style, iterator->data);
-
-			range.start.col = col;
-			range.start.row = 0;
-			range.end.col   = col;
-			range.end.row   = rowcount;
-
-			content->style = style;
-			content->range  = range;
-
-			cr->styles = g_list_prepend (cr->styles, content);
-
-			iterator = g_slist_next (iterator);
-
-			col++;
-		}
-
-		stf_dialog_result_free (dialogresult);
-	} else {
-		return crerr;
 	}
-
+	
 	g_free (crerr);
 	g_free (data);
 
