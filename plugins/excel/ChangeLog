@@ -1,3 +1,8 @@
+2005-02-09  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (excel_read_BOUNDSHEET) : set the visibility of
+	  imported sheets.
+
 2005-02-08  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.c (excel_read_SETUP) : drop debug spew

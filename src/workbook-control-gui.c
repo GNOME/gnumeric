@@ -803,10 +803,13 @@ wbcg_sheet_add (WorkbookControl *wbc, SheetView *sv)
 
 	g_return_if_fail (wbcg != NULL);
 
+	sheet = sv_sheet (sv);
+	if (!sheet->is_visible)
+		return;
+
 	if (wbcg->notebook == NULL)
 		workbook_setup_sheets (wbcg);
 
-	sheet = sv_sheet (sv);
 	scg = sheet_control_gui_new (sv, wbcg);
 
 	/*

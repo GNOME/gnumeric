@@ -1,3 +1,13 @@
+2005-02-09  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control-gui.c (wbcg_sheet_add) : don't create a control
+	  for a hidden sheet.
+
+2005-02-09  Jody Goldberg <jody@gnome.org>
+
+	For david@arabidopsis.info (David J Craigon):
+	* src/ssconvert.c : Add -I flag to specify importer
+
 2005-02-09  Jon K Hellan  <hellan@acm.org>
 
 	* src/Makefile.am (GNUMERIC_BASE): Remove error-info.c.

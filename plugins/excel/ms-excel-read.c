@@ -1171,6 +1171,10 @@ excel_read_BOUNDSHEET (BiffQuery *q, ExcelWorkbook *ewb, MsBiffVersion ver)
 	case MS_BIFF_TYPE_Macrosheet :
 	case MS_BIFF_TYPE_Chart :
 		bs->esheet = excel_sheet_new (ewb, bs->name, bs->gnm_type);
+
+		if (bs->esheet && bs->esheet->sheet &&
+		    bs->visibility != MS_SHEET_VISIBLE)
+			sheet_set_visibility (bs->esheet->sheet, FALSE);
 		break;
 	default :
 		bs->esheet = NULL;
