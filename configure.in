@@ -248,10 +248,10 @@ AC_ARG_WITH(gb,
 )
 
 if $try_gb; then
-	AC_MSG_CHECKING(for Gb >= 0.0.9)
+	AC_MSG_CHECKING(for Gb >= 0.0.10)
 	if gnome-config --libs gb > /dev/null 2>&1; then
 		vers=`gnome-config --modversion gb | awk 'BEGIN { FS = "."; } { print $1 * 10000 + $2 * 100 + $3; }'`
-		if test "$vers" -ge 000009; then
+		if test "$vers" -ge 000010; then
 			gb_ok=true
 		else
 		    	gb_ok=false

@@ -1,3 +1,7 @@
+2000-05-18  Michael Meeks  <michael@helixcode.com>
+
+	* configure.in: Bump required GB version.
+
 2000-05-16  Michael Meeks  <michael@helixcode.com>
 
 	* configure.in: Kill libole2 path check, add CONFIG_SUBDIRS
