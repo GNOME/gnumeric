@@ -1,5 +1,13 @@
 2000-11-02  Jody Goldberg <jgoldberg@home.com>
 
+	* src/rendered-value.c (rendered_value_new_ext) : Any form of General
+	  will need a width.  Default to full precision.
+
+	* src/cell.c (cell_set_value) : Do not both to assign optional formats
+	  of General
+
+2000-11-02  Jody Goldberg <jgoldberg@home.com>
+
 	* src/workbook-control-gui.c (cb_file_new) : We need to create a
 	  control & view.
 	(workbook_close_if_user_permits) : Do not attempt to finsihed editing

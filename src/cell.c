@@ -430,7 +430,8 @@ cell_set_value (Cell *cell, Value *v, StyleFormat *opt_fmt)
 	cell_dirty (cell);
 	cell_cleanout (cell);
 
-	cell->format = opt_fmt;
+	cell->format = (opt_fmt == NULL || style_format_is_general (opt_fmt))
+		? NULL : opt_fmt;
 	cell->value = v;
 	cell_render_value (cell);
 

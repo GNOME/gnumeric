@@ -1884,7 +1884,7 @@ style_format_unref (StyleFormat *sf)
 }
 
 gboolean
-style_format_is_general(StyleFormat const *sf)
+style_format_is_general (StyleFormat const *sf)
 {
 	return 0 == strcmp (sf->format, "General");
 }

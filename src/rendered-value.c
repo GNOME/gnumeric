@@ -70,7 +70,7 @@ rendered_value_new_ext (Cell *cell, MStyle *mstyle)
 	RenderedValue	*res;
 	Sheet		*sheet;
 	StyleColor	*color;
-	float		 col_width = 0.;
+	float		 col_width = -1.;
 	char *str;
 
 	g_return_val_if_fail (cell != NULL, NULL);
@@ -94,7 +94,8 @@ rendered_value_new_ext (Cell *cell, MStyle *mstyle)
 
 		/* For format general approximate the cell width in characters */
 		if (style_format_is_general(format)) {
-			if (cell->format == NULL) {
+			if (cell->format == NULL ||
+			    style_format_is_general (cell->format)) {
 				StyleFont *style_font =
 					sheet_view_get_style_font (sheet, mstyle);
 				GdkFont *gdk_font =
