@@ -1,3 +1,9 @@
+2000-07-14  Michael Meeks  <michael@helixcode.com>
+
+	* src/sheet-object.c (shutdown_sheet_object_creation): implement
+	(sheet_leave_notify): implement. (sheet_button_press): hook up leave notify.
+	(sheet_finish_object_creation): disconnect the handler too.
+
 2000-07-18  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/functions/fn-financial.c (coupnum): Fixed frequency two and

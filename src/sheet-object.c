@@ -552,6 +552,32 @@ sheet_motion_notify (GnumericSheet *gsheet, GdkEvent *event, Sheet *sheet)
 	return 1;
 }
 
+static int
+shutdown_sheet_object_creation (GnumericSheet *gsheet, Sheet *sheet)
+{
+	SheetObject *so;
+
+	g_return_val_if_fail (sheet != NULL, -1);
+	g_return_val_if_fail (sheet->current_object != NULL, -1);
+
+	so = sheet->current_object;
+	sheet_finish_object_creation (sheet, so);
+
+#ifdef ENABLE_BONOBO
+	/*
+	 * Bonobo objects might want to load state from somewhere
+	 * to be useful
+	 */
+	if (IS_SHEET_OBJECT_BONOBO (so))
+		sheet_object_bonobo_load_from_file (
+			SHEET_OBJECT_BONOBO (so), NULL);
+#endif
+	
+	sheet_object_start_editing (so);
+
+	return 1;
+}
+
 /*
  * sheet_button_release
  *
@@ -575,7 +601,9 @@ sheet_button_release (GnumericSheet *gsheet, GdkEventButton *event, Sheet *sheet
 	/* Do not propagate this event further */
 	gtk_signal_emit_stop_by_name (GTK_OBJECT (gsheet), "button_release_event");
 
-	gnome_canvas_window_to_world (GNOME_CANVAS (gsheet), event->x, event->y,&brx, &bry);
+	gnome_canvas_window_to_world (GNOME_CANVAS (gsheet),
+				      event->x, event->y,
+				      &brx, &bry);
 	
 	tl = (ObjectCoords *)sheet->coords->data;
 
@@ -583,21 +611,18 @@ sheet_button_release (GnumericSheet *gsheet, GdkEventButton *event, Sheet *sheet
 
 	SO_CLASS (sheet->current_object)->update_bounds (so);
 
-	sheet_finish_object_creation (sheet, so);
+	return shutdown_sheet_object_creation (gsheet, sheet);
+}
 
-#ifdef ENABLE_BONOBO
-	/*
-	 * Bonobo objects might want to load state from somewhere
-	 * to be useful
-	 */
-	if (IS_SHEET_OBJECT_BONOBO (so))
-		sheet_object_bonobo_load_from_file (
-			SHEET_OBJECT_BONOBO (so), NULL);
-#endif
-	
-	sheet_object_start_editing   (so);
-	
-	return 1;
+static int
+sheet_leave_notify (GnumericSheet *gsheet, GdkEventCrossing *event, Sheet *sheet)
+{
+	g_return_val_if_fail (gsheet != NULL, 1);
+
+	/* Do not propagate this event further */
+	gtk_signal_emit_stop_by_name (GTK_OBJECT (gsheet), "leave_notify_event");
+
+	return shutdown_sheet_object_creation (gsheet, sheet);
 }
 
 /*
@@ -639,12 +664,10 @@ sheet_button_press (GnumericSheet *gsheet, GdkEventButton *event, Sheet *sheet)
 		return 1;
 	}
 
-	/*
-	 * FIXME: we need to connect to 'out of scope' type signals here and
-	 * finalize object creation then
-	 */
 	gtk_signal_connect (GTK_OBJECT (gsheet), "button_release_event",
 			    GTK_SIGNAL_FUNC (sheet_button_release), sheet);
+	gtk_signal_connect (GTK_OBJECT (gsheet), "leave_notify_event",
+			    GTK_SIGNAL_FUNC (sheet_leave_notify), sheet);
 	gtk_signal_connect (GTK_OBJECT (gsheet), "motion_notify_event",
 			    GTK_SIGNAL_FUNC (sheet_motion_notify), sheet);
 	
@@ -685,8 +708,10 @@ sheet_finish_object_creation (Sheet *sheet, SheetObject *o)
 			GTK_SIGNAL_FUNC (sheet_button_release), sheet);
 		gtk_signal_disconnect_by_func (
 			GTK_OBJECT (gsheet),
+			GTK_SIGNAL_FUNC (sheet_leave_notify), sheet);
+		gtk_signal_disconnect_by_func (
+			GTK_OBJECT (gsheet),
 			GTK_SIGNAL_FUNC (sheet_motion_notify), sheet);
-
 	}
 }
 
