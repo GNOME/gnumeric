@@ -53,6 +53,8 @@
 #include "solver.h"
 #include "sheet-style.h"
 #include "parse-util.h"
+#include "func.h"
+#include "expr.h"
 #include "mps.h"
 
 #include <libgnome/gnome-i18n.h>
@@ -279,7 +281,6 @@ mps_write_sheet_labels (MpsInputContext *ctxt, Sheet *sh)
 	mps_set_cell (sh, col + 2, row, _("Type"));
 	mps_set_cell (sh, col + 3, row, _("RHS"));
 	mps_set_cell (sh, col + 4, row, _("Slack"));
-	mps_set_cell (sh, col + 5, row, _("Status"));
 }
 
 
@@ -351,6 +352,9 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 	          SolverConstraint   *c;
 		  MpsRow             *row;
 		  int                col, r;
+		  GnmExpr            *expr;
+		  GnmExprList        *args;
+		  CellRef            ref1, ref2;
 
 		  static const gchar *type_str[] = {
 			  "=", "<=", ">="
@@ -426,50 +430,19 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 
 
 		  /* Add Slack calculation */
-		  buf = g_string_new ("");
-		  if (row->type == LessOrEqualRow) {
-		          g_string_sprintfa (buf, "=%s-",
-					     cell_coord_name (ecol + 3, r));
-			  g_string_sprintfa (buf, "%s",
-					     cell_coord_name (ecol + 1, r));
-		  } else if (row->type == GreaterOrEqualRow) {
-		          g_string_sprintfa (buf, "=%s-",
-					     cell_coord_name (ecol + 1, r));
-			  g_string_sprintfa (buf, "%s",
-					     cell_coord_name (ecol + 3, r));
-		  } else {
-		          g_string_sprintfa (buf, "=ABS(%s-",
-					     cell_coord_name (ecol + 1, r));
-			  g_string_sprintfa (buf, "%s",
-					     cell_coord_name (ecol + 3, r));
-			  g_string_sprintfa (buf, ")");
-		  }
+		  cellref_set (&ref1, sh, ecol + 1, r, FALSE);
+		  cellref_set (&ref2, sh, ecol + 3, r, FALSE);
+		  expr = (GnmExpr *) gnm_expr_new_binary
+			  (gnm_expr_new_cellref (&ref1),
+			   GNM_EXPR_OP_SUB,
+			   gnm_expr_new_cellref (&ref2));
+		  args = (GnmExprList *) g_list_append (NULL, (gpointer) expr);
 		  cell = sheet_cell_fetch (sh, ecol + 4, r);
-		  sheet_cell_set_text (cell, buf->str);
-		  g_string_free (buf, FALSE);
+		  expr = (GnmExpr *) gnm_expr_new_funcall
+			  (func_lookup_by_name ("ABS", NULL), args);
+		  cell_set_expr (cell, expr);
+		  cell_queue_recalc (cell);
 
-
-		  /* Add Status field */
-		  buf = g_string_new ("");
-		  if (row->type == EqualityRow) {
-		          g_string_sprintfa (buf,
-					     "=IF(%s>%s,\"NOK\", \"Binding\")",
-					     cell_coord_name (ecol + 4, r),
-					     BINDING_LIMIT);
-		  } else {
-		          g_string_sprintfa (buf,
-					     "=IF(%s<0,\"NOK\", ",
-					     cell_coord_name (ecol + 4, r));
-			  g_string_sprintfa (buf,
-					     "IF(%s<=%s,\"Binding\","
-					     "\"Not Binding\"))",
-					     cell_coord_name (ecol + 4, r),
-					     BINDING_LIMIT);
-		  }
-		  cell = sheet_cell_fetch (sh, ecol + 5, r);
-		  cell_set_text (cell, buf->str);
-		  cell_eval (cell);
-		  g_string_free (buf, FALSE);
 
 		  /* Add Solver constraint */
 		  c          = g_new (SolverConstraint, 1);

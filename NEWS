@@ -21,6 +21,7 @@ Jukka:
 	    a benchmark in ftp://plato.la.asu.edu/pub/lpsimp.txt.
 	  - Added the algorithm selection into the dialog.
 	  - Other dialog improvements.
+	* Speed optimizations for the MPS plugin.
 
 Morten:
 	* Add poor man's utf8 regexp routines.
