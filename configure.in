@@ -616,31 +616,6 @@ dnl ====================================
 dnl = End tests for jw
 dnl ====================================
 
-dnl Implement Debian policy on building with debugging info and on stripping.
-echo "Debian build policy: "
-echo -n "	* "
-case $DEB_BUILD_OPTIONS in
-	*debug*)	echo -n "Will "
-			;;
-	*)		echo -n "Will not "
-			CFLAGS=`echo $CFLAGS | sed -e 's/-g\>//'`
-			;;
-esac
-echo "include debug info in objects."
-echo -n "	* "
-case $DEB_BUILD_OPTIONS in
-	*nostrip*)	echo -n "Will not "
-			INSTALL_STRIP_PROGRAM=`echo $INSTALL_STRIP_PROGRAM | sed -e 's/-s\>//'`
-			STRIP=/bin/true
-			;;
-	*)		echo -n "Will "
-			;;
-esac
-echo "strip on install."
-#echo "CFLAGS is: $CFLAGS"
-#echo "INSTALL_STRIP_PROGRAM is: $INSTALL_STRIP_PROGRAM"
-#echo "STRIP is: $STRIP"
-
 AC_OUTPUT([
 gnumeric.spec
 GNOME_Gnumeric.server.in
