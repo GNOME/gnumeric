@@ -401,7 +401,7 @@
   <title>Including Tables Into Other Documents</title>
   <para>To include an exported <application>Gnumeric</application> table into 
   another <application>LaTeX</application> document you need to
-  use several packages
+  use several packages</para>
   <screen>
         \usepackage{color}
         \usepackage{array}
@@ -411,33 +411,30 @@
         \usepackage{hhline}
         \usepackage{ifthen}  
   </screen>
-  and to add the following lines to the preamble of your document:
+  <para> and to add the following lines to the preamble of your document:</para
   <screen>
         \newlength{\gnumericTableWidth}
         \newlength{\gnumericTableWidthComplete}
   </screen>
-  </para>
-  <para>When you have set up your main document in this way, include each table with:
+  <para>When you have set up your main document in this way, include each table with:</para>
   <screen>
         \input{<replaceable>mygnumericfile.tex</replaceable>}  
   </screen>
-  </para>
   </sect3>
   <sect3 id="file-format-latex-customization">
   <title>Customizing The <application>LaTeX</application> Tables</title>
   <para>To switch from portrait to landscape for independently <command>latex</command>ed tables,
-  uncomment the line:
+  uncomment the line:</para>
   <screen>
 	                  %,landscape%
   </screen>
-  to obtain
+  <para>to obtain</para>
   <screen>
 	\documentclass[12pt%
 	                  ,landscape%
                     ]{report}
   </screen>
-  </para>
-  <para>To change the column widths, look for the following section in the <application>LaTeX</application> file:
+  <para>To change the column widths, look for the following section in the <application>LaTeX</application> file:</para>
   <screen>
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%                                                                  %%
@@ -453,9 +450,8 @@
 \def\gnumericColD{89pt*\gnumericScale}
 \def\gnumericColE{89pt*\gnumericScale}
   </screen>  
-  </para>
   <para>To change the second column (Column B) to a width of 0.75 inches, we would simply have to
-  modify this code to:
+  modify this code to:</para>
   <screen>
 \def\gnumericColA{107pt*\gnumericScale}
 \def\gnumericColB{0.75in}
@@ -463,7 +459,6 @@
 \def\gnumericColD{89pt*\gnumericScale}
 \def\gnumericColE{89pt*\gnumericScale}
   </screen>  
-  </para> 
   </sect3>
   </sect2>
 
