@@ -685,7 +685,7 @@ compute_group (Sheet const *sheet, int start, int end, int usable,
  * Hmm. This appears to fail when sheet is split over several pages.
  */
 static void
-render_sheet_objects (Sheet *sheet, PrintJobInfo *pj)
+render_sheet_objects (Sheet const *sheet, PrintJobInfo *pj)
 {
 	GList *l;
 

@@ -1,5 +1,9 @@
 2001-02-16  Jody Goldberg <jgoldberg@home.com>
 
+	* src/print.c (render_sheet_objects) : more constness.
+
+2001-02-16  Jody Goldberg <jgoldberg@home.com>
+
 	* src/gnumeric.xml : remove the 'pack-end' from some of the format
 	  controls too.
 
