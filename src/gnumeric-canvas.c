@@ -549,7 +549,21 @@ gnumeric_sheet_key (GtkWidget *widget, GdkEventKey *event)
 			return 1;
 		}
 	}
-	
+
+	if ((event->state & GDK_CONTROL_MASK) != 0) {
+		switch (event->keyval) {
+		case GDK_a:	/* Select all */
+			sheet_select_all (gsheet->sheet_view->sheet);
+			sheet_redraw_all (gsheet->sheet_view->sheet);
+			break;
+		case GDK_space:	/* Select row */
+			break;
+		default:
+			break;
+		}
+		return 1;
+	}
+
 	switch (event->keyval){
 	case GDK_Left:
 		(*movefn_horizontal)(gsheet, -1);

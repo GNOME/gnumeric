@@ -22,7 +22,7 @@ AC_SUBST(CPPFLAGS)
 AC_SUBST(LDFLAGS)
 
 dnl ## internationalization support
-ALL_LINGUAS="es fr ko pt"
+ALL_LINGUAS="es fr ko pt it"
 AM_GNU_GETTEXT
 AC_LINK_FILES($nls_cv_header_libgt, $nls_cv_header_intl)
 
