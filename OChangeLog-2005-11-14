@@ -1,5 +1,13 @@
 2003-01-07  Morten Welinder  <terra@diku.dk>
 
+	* src/parse-util.h (GnmParseFunctionHandler): don't take a user
+	pointer, but the conventions instead.
+
+	* src/parser.y: Supply convs to handlers.  Look up functions in
+	rewriter hash and act accordingly.
+
+2003-01-07  Morten Welinder  <terra@diku.dk>
+
 	* src/regression.c (matrix_invert): Return value was transposed.
 	Not good.
 
