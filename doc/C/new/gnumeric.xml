@@ -6,7 +6,7 @@
 <!ENTITY file-format-open "Excel 95/97/2000, gnumeric XML, HTML, comma separated CSV, Applix,  Lotus 1-2-3, 
 GNU oleo">
 <!ENTITY introduction SYSTEM "introduction.xml">
-<!ENTITY getting-started SYSTEM "getting-started.xml">
+<!ENTITY getting-started SYSTEM "chapter-getting-started.xml">
 <!ENTITY autofill SYSTEM "chapter-autofill.xml">
 <!--
 <!ENTITY advanced-features SYSTEM "advanced-features.xml">
