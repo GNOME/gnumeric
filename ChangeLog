@@ -1,5 +1,12 @@
 2003-10-20  Jody Goldberg <jody@gnome.org>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=124975
+	* src/commands.c (CmdPasteCut) : handle undo for paste from a deleted
+	  external sheet.  Only fixes first order problem.  We'll need a more
+	  invasive approach later.
+
+2003-10-20  Jody Goldberg <jody@gnome.org>
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=123325
 	* src/value.c (criteria_test_greater_or_equal) : NULL args are valid.
 	(criteria_test_less_or_equal) : ditto.

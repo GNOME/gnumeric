@@ -243,7 +243,7 @@ gnm_conf_init (gboolean fast)
 {
 	gnm_conf_init_essential ();
 	if (fast)
-		g_timeout_add (5000, (GSourceFunc) gnm_conf_init_extras, NULL);
+		g_timeout_add (1000, (GSourceFunc) gnm_conf_init_extras, NULL);
 	else
 		gnm_conf_init_extras ();
 }

@@ -2401,6 +2401,9 @@ typedef struct {
 	GnmRelocUndo	 reloc_storage;
 	gboolean	 move_selection;
 	ColRowStateList *saved_sizes;
+
+	/* handle redo-ing an undo with content from a deleted sheet */
+	CellRegion *deleted_sheet_contents;
 } CmdPasteCut;
 
 MAKE_GNM_COMMAND (CmdPasteCut, cmd_paste_cut);
@@ -2425,10 +2428,12 @@ cmd_paste_cut_update_origin (GnmExprRelocateInfo const  *info,
 		sheet_set_dirty (info->target_sheet, TRUE);
 
 		/* An if necessary both workbooks */
-		if (info->origin_sheet->workbook != info->target_sheet->workbook &&
-			info->origin_sheet->workbook->recalc_auto)
-			workbook_recalc (info->origin_sheet->workbook);
-		sheet_update (info->origin_sheet);
+		if (IS_SHEET (info->origin_sheet) &&
+		    info->origin_sheet->workbook != info->target_sheet->workbook) {
+			if (info->origin_sheet->workbook->recalc_auto)
+				workbook_recalc (info->origin_sheet->workbook);
+			sheet_update (info->origin_sheet);
+		}
 	}
 }
 
@@ -2440,6 +2445,7 @@ cmd_paste_cut_undo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->paste_content != NULL, TRUE);
+	g_return_val_if_fail (me->deleted_sheet_contents == NULL, TRUE);
 
 	reverse.target_sheet = me->info.origin_sheet;
 	reverse.origin_sheet = me->info.target_sheet;
@@ -2451,7 +2457,11 @@ cmd_paste_cut_undo (GnmCommand *cmd, WorkbookControl *wbc)
 	reverse.row_offset = -me->info.row_offset;
 
 	/* Move things back being careful NOT to invalidate the src region */
-	sheet_move_range (&reverse, NULL, GNM_CMD_CONTEXT (wbc));
+	if (IS_SHEET (me->info.origin_sheet))
+		sheet_move_range (&reverse, NULL, GNM_CMD_CONTEXT (wbc));
+	else
+		me->deleted_sheet_contents = clipboard_copy_range (
+			reverse.origin_sheet, &reverse.origin);
 
 	/* Restore the original row heights */
 	colrow_set_states (me->info.target_sheet, FALSE,
@@ -2476,7 +2486,7 @@ cmd_paste_cut_undo (GnmCommand *cmd, WorkbookControl *wbc)
 	sheet_flag_status_update_range (me->info.target_sheet, NULL);
 
 	/* Select the original region */
-	if (me->move_selection)
+	if (me->move_selection && IS_SHEET (me->info.origin_sheet))
 		sv_selection_set (sheet_get_view (me->info.origin_sheet, wb_control_view (wbc)),
 				  &me->info.origin.start,
 				  me->info.origin.start.col,
@@ -2530,7 +2540,20 @@ cmd_paste_cut_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		g_slist_free (frag);
 	}
 
-	sheet_move_range (&me->info, &me->reloc_storage, GNM_CMD_CONTEXT (wbc));
+	/* rare corner case.  If the origin sheet has been deleted */
+	if (!IS_SHEET (me->info.origin_sheet)) {
+		PasteTarget pt;
+		paste_target_init (&pt, me->info.target_sheet, &tmp, PASTE_ALL_TYPES);
+		sheet_clear_region (pt.sheet,
+			tmp.start.col, tmp.start.row, tmp.end.col,   tmp.end.row,
+			CLEAR_VALUES | CLEAR_MERGES | CLEAR_NOCHECKARRAY | CLEAR_RECALC_DEPS,
+			GNM_CMD_CONTEXT (wbc));
+		clipboard_paste_region (me->deleted_sheet_contents,
+			&pt, GNM_CMD_CONTEXT (wbc));
+		cellregion_free (me->deleted_sheet_contents);
+		me->deleted_sheet_contents = NULL;
+	} else
+		sheet_move_range (&me->info, &me->reloc_storage, GNM_CMD_CONTEXT (wbc));
 
 	cmd_paste_cut_update_origin (&me->info, wbc);
 
@@ -2565,6 +2588,11 @@ cmd_paste_cut_finalize (GObject *cmd)
 		dependents_unrelocate_free (me->reloc_storage.exprs);
 		me->reloc_storage.exprs = NULL;
 	}
+	if (me->deleted_sheet_contents) {
+		cellregion_free (me->deleted_sheet_contents);
+		me->deleted_sheet_contents = NULL;
+	}
+
 	gnm_command_finalize (cmd);
 }
 
@@ -2615,6 +2643,7 @@ cmd_paste_cut (WorkbookControl *wbc, GnmExprRelocateInfo const *info,
 	/* Store the specs for the object */
 	me->info = *info;
 	me->paste_content  = NULL;
+	me->deleted_sheet_contents = NULL;
 	me->reloc_storage.exprs  = NULL;
 	me->move_selection = move_selection;
 	me->saved_sizes    = NULL;

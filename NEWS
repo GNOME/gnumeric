@@ -15,6 +15,10 @@ Jody:
 	* Improve padding of chart elements
 	http://bugzilla.gnome.org/show_bug.cgi?id=124244
 	* Fix xls import of collapsed cols/rows at level 0
+	http://bugzilla.gnome.org/show_bug.cgi?id=123325
+	* Fix in 1.2.1 was spewing pointless warnings
+	http://bugzilla.gnome.org/show_bug.cgi?id=124975
+	* Handle undoing a paste from a deletd external sheet
 
 Morten:
 	* Fix crash with STF import and gazillions of columns.

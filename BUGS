@@ -8,7 +8,6 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    http://bugzilla.gnome.org/show_bug.cgi?id=124975	[external paste undo]
     http://bugzilla.gnome.org/show_bug.cgi?id=125044	[chart label printing]
     http://bugzilla.gnome.org/show_bug.cgi?id=121337	[negative time]
     http://bugzilla.gnome.org/show_bug.cgi?id=124315	[line plot ignores axis]
