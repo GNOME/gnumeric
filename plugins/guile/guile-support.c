@@ -149,13 +149,13 @@ value_to_scm (Value const *val, CellRef cell_ref)
 			return scm_makfrom0str (val->v_err.mesg->str);
 
 		case VALUE_STRING :
-			return scm_makfrom0str (val->v_str.val->str);
+			return scm_makfrom0str (value_get_as_string (val));
 
 		case VALUE_INTEGER :
-			return scm_long2num (val->v_int.val);
+			return scm_long2num (value_get_as_int (val));
 
 		case VALUE_FLOAT :
-			return gh_double2scm (val->v_float.val);
+			return gh_double2scm (value_get_as_float (val));
 
 		case VALUE_CELLRANGE :
 			/* FIXME : Support inverted ranges */
