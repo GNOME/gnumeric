@@ -60,9 +60,7 @@
       Certain toolbar options, such as the zoom box, are combinations
       of a button or text entry area and a downward pointing arrow. If
       the user clicks on the arrow, a list of available options
-      appears. It is also possible to "tear off" these options into a
-      separate window in the same way as was explained for menus in
-      <xref linkend="Menus-General" />.
+      appears.
     </para>
 
     <para>

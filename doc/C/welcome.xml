@@ -35,6 +35,12 @@
           showing the use of complex formatting and several graphical
           plots.</phrase>
         </textobject>
+	<caption>
+	  <para>
+	    Please note that &gnum; looks prettier than shown
+            here. This image has been shrunk to fit in this document.
+	  </para>
+	</caption>
       </mediaobject>
     </screenshot>
   </figure>

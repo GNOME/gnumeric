@@ -17,8 +17,8 @@
     <application>Gnumeric</application> opens by default with a view
     of an empty workbook which is called "Book 1" and which contains
     three worksheets: "Sheet1", "Sheet2", and "Sheet3" as can be seen
-    in <xref linkend="gnumeric-labelled.png" />. The outermost portion
-    of the window is not actually part of
+    in <xref linkend="fig-gui-overview-gnumeric-labelled" />. The
+    outermost portion of the window is not actually part of
     <application>Gnumeric</application> and may look different on
     different machines. <application>Gnumeric</application> attempts
     to place its name and the name of the workbook on this outer
@@ -31,12 +31,12 @@
     functions which <application>Gnumeric</application> provides can
     be accessed quickly from here. The graphic elements of
     <application>Gnumeric</application> are made of several
-    independent pieces.  <xref linkend="gnumeric-labelled.png" />
-    shows a newly opened, empty Gnumeric with the principle elements
-    labelled.
+    independent pieces.  <xref
+    linkend="fig-gui-overview-gnumeric-labelled" /> shows a newly
+    opened, empty Gnumeric with the principle elements labelled.
   </para>
 
-  <figure id="gnumeric-labelled.png">
+  <figure id="fig-gui-overview-gnumeric-labelled">
     <title>The Gnumeric worksheet elements</title>
     <mediaobject>
       <imageobject>
@@ -153,10 +153,14 @@
     
   </variablelist>
   
-  <para>The next chapters will explain each of these elements. <xref
-  linkend="sect-gui-menus" /> will explain the menus, <xref linkend="sect-gui-toolbars"
-  /> will explain the toolbars and <xref linkend="sect-gui-other-elements" />
-  will explain the remaining elements.</para>
+  <para>
+    The next chapters will explain each of these elements. <xref
+    linkend="sect-gui-menus" /> will explain the menus, <xref
+    linkend="sect-gui-toolbars" /> will explain the toolbars, <xref
+    linkend="data-entry" /> will explain the data entry area, <xref
+    linkend="cell-grid" /> will explain the cell grid area, and <xref
+    linkend="info-area" /> will explain the information area.
+  </para>
   
         <!-- A few of these functions are complicated (and powerful) so
 	they are explained in larger sections later in the manual. The next

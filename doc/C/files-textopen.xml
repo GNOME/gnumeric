@@ -608,7 +608,7 @@
 	        on a single line, empty lines appearing between the
 	        lines of the file, or undefined symbols appearing at
 	        the beginning or end of almost every line. See <xref
-	        linkend="sect-file-textImport-lineBreak" /> for more
+	        linkend="sect-file-textImport-complex-lineBreak" /> for more
 	        details.
 	      </para>
 	    </listitem>
@@ -627,7 +627,7 @@
 	        and data organized in fixed width columns. Note that
 	        this choice will determine which panel will be shown
 	        as the second panel of the druid. See <xref
-	        linkend="sect-file-textImport-dataStruct" /> for more
+	        linkend="sect-file-textImport-complex-dataStruct" /> for more
 	        details. 
 	      </para>
 	    </listitem>
@@ -791,7 +791,7 @@
 	      </para>
 
 	      <para>
-	        See <xref linkend="sect-file-textImport-dataStruct" />
+	        See <xref linkend="sect-file-textImport-complex-dataStruct" />
 	        for more details.
 	      </para>
 	    </listitem>

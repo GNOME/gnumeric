@@ -65,9 +65,7 @@
 	      </keycombo>,
 	      typing both keys simultaneously.
 	    </para>
-	  </listitem>
 <!-- TODO: render hack, remove me. -->
-	  <listitem>
 	    <para>
 	    </para>
 	  </listitem>
@@ -320,9 +318,10 @@
 	        folders and to add and remove bookmark folders from
 	        the user's bookmark folder list. When the dialog is
 	        expanded, the small arrow will point downward, the
-	        areas showing in <xref linkend=""/> will appear and
-	        area <emphasis role="bold">B</emphasis> will be
-	        disabled.
+	        areas showing in <xref
+	        linkend="fig-file-save-dialog-expanded-components"/>
+	        will appear and area <emphasis
+	        role="bold">B</emphasis> will be disabled.
 	      </para>
 	    </listitem>
           </varlistentry>
@@ -1231,7 +1230,7 @@
 
 <!--    TABLE    TABLE    TABLE    TABLE    TABLE    TABLE    -->
 <table frame='all'><title>The file formats which &gnum; can create.</title>
-<tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
        
 
 <thead>

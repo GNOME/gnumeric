@@ -1,3 +1,27 @@
+2004-10-06  Adrian Custer <acuster@gnome.org>
+
+	* NEWS Misc cleanup.
+
+	* figures/gnumeric-power-example.png: Made 510 pixels wide.
+
+	* gnumeric.xml: Added a comma in graphics chapter title.
+	* welcome.xml: Added caption with note to image.
+	* quick-start.xml: Sync chapter titles.
+	* file-save.xml: fix invalid varlistentry.
+	* gui-overview.xml: fix link id name, links in last para.
+	* quick-start.xml: fix link id name.
+	* graphics-plots.xml: move valign into <imagedata>, remove valign
+	                      from <tgroup>.
+	* files-formats.xml: remove valign from <tgroup>.
+	* files-opening.xml: remove valign from <tgroup>.
+	* files-textopen.xml: correct linkends.
+	* files-saving.xml: remove valign from <tgroup>. Add a link.
+	* bugs.xml: remove valign from <tgroup>.
+	* gui-toolbars.xml: rm discussion of "tearing off" since it broke
+	                      a ref. 
+	* graphics-widgets.xml: added a link.
+	* graphics-drawings.xml: added a link.
+
 2004-10-05  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.3.91

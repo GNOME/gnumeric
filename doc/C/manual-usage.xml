@@ -109,7 +109,7 @@
       <listitem>
 	<para>
 	  <xref linkend="chapter-graphics" />: <guilabel>Graphics:
-              Plots and Drawings</guilabel> 
+              Plots, Images, Widgets, and Drawings</guilabel> 
 	</para> 
 	<para> 
 	  This chapter explains how to add graphical elements to a
@@ -163,7 +163,7 @@
       <listitem>
 	<para>
 	  <xref linkend="chapter-files" />: 
-              <guilabel>File Opening and Saving</guilabel>
+              <guilabel>Working with Files</guilabel>
         </para>
         <para>
           This chapter explains how to use files in &gnum;. The
@@ -191,7 +191,7 @@
       <listitem>
 	<para>
 	  <xref linkend="chapter-morehelp" />: 
-              <guilabel>Getting Help from Other Sources</guilabel>
+              <guilabel>Getting More Help</guilabel>
         </para>
         <para>
           This chapter describes other sources of help which are
@@ -215,7 +215,7 @@
            requesting an enhancement or a new feature.
 	</para>
       </listitem>
-
+<!--
       <listitem>
 	<para>
 	  <xref linkend="chapter-getting-involved" />: 
@@ -226,6 +226,7 @@
            the GNOME project, or other free software projects.
 	</para>
       </listitem>
+-->
 
 <!--
       <listitem>
@@ -336,6 +337,18 @@
         </para>
         <para>
           This appendix defines certain terms used in this manual.
+	</para>
+      </listitem>
+-->
+
+<!--
+      <listitem>
+	<para>
+	  <xref linkend="index" />: 
+              <guilabel>Index</guilabel>
+        </para>
+        <para>
+          The index provides a link to the concepts used in this manual.
 	</para>
       </listitem>
 -->

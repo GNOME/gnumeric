@@ -314,7 +314,7 @@ a user
     </para>
 
 <table frame='all'><title>Components of Gnumeric</title>
-<tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
 
 <thead>
 <row>
@@ -438,7 +438,7 @@ a user
       </para>
 
 <table frame='all'><title>Problem Severity</title>
-<tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
 <thead>
 <row>
   <entry align="center">Severity Level</entry>

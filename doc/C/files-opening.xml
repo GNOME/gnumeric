@@ -971,7 +971,7 @@
 
 <!--    TABLE    TABLE    TABLE    TABLE    TABLE    TABLE    -->
 <table frame='all'><title>The file formats which &gnum; can open.</title>
-<tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
        
 
 <thead>

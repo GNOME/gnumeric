@@ -1,4 +1,3 @@
-
 <sect1 id="sect-graphics-plots">
   <title>Graphical Plots</title>
 
@@ -1024,9 +1023,9 @@
       <title>
         Line Plots
         <inlinemediaobject>
-          <imageobject valign="top">
+          <imageobject>
             <imagedata fileref="figures/graphs-types-line.png" 
-		       width="40"/>
+		       width="40" valign="top" />
           </imageobject>
           <textobject>
             <phrase>An icon for the line plot type.</phrase>
@@ -1137,7 +1136,7 @@
       </para>
 
 <table frame='all'><title>The data in each line plot series</title>
-<tgroup cols='3' align='left' valign='top' colsep='1' rowsep='1'>
+<tgroup cols='3' align='left' colsep='1' rowsep='1'>
 
 <thead>
 <row>
@@ -1348,9 +1347,9 @@
       <title>
         XY Scatterplots
         <inlinemediaobject>
-          <imageobject valign="top">
+          <imageobject>
             <imagedata fileref="figures/graphs-types-xyplot.png" 
-		       width="40"/>
+		       width="40" valign="top"/>
           </imageobject>
           <textobject>
             <phrase>An icon for the XY scatterplot plot type.</phrase>
@@ -1412,7 +1411,7 @@
       </para>
 
 <table frame='all'><title>The data in each XY scatterplot series</title>
-<tgroup cols='3' align='left' valign='top' colsep='1' rowsep='1'>
+<tgroup cols='3' align='left' colsep='1' rowsep='1'>
 
 <thead>
 <row>
@@ -1569,9 +1568,9 @@
       <title>
         Bubble Plots
         <inlinemediaobject>
-          <imageobject valign="top">
+          <imageobject>
             <imagedata fileref="figures/graphs-types-bubble.png" 
-		       width="40"/>
+		       width="40" valign="top"/>
           </imageobject>
           <textobject>
             <phrase>An icon for the pie plot type.</phrase>
@@ -1633,7 +1632,7 @@
       </para>
 
 <table frame='all'><title>The data in each bubble series</title>
-<tgroup cols='3' align='left' valign='top' colsep='1' rowsep='1'>
+<tgroup cols='3' align='left' colsep='1' rowsep='1'>
 
 <thead>
 <row>
@@ -1747,9 +1746,9 @@
       <title>
         Pie Plots
         <inlinemediaobject>
-          <imageobject valign="top">
+          <imageobject>
             <imagedata fileref="figures/graphs-types-pie.png" 
-		       width="40"/>
+		       width="40" valign="top"/>
           </imageobject>
           <textobject>
             <phrase>An icon for the pie plot type.</phrase>
@@ -1826,7 +1825,7 @@
       </para>
 
 <table frame='all'><title>The data in each pie plot series</title>
-<tgroup cols='3' align='left' valign='top' colsep='1' rowsep='1'>
+<tgroup cols='3' align='left' colsep='1' rowsep='1'>
 
 <thead>
 <row>
@@ -1918,9 +1917,9 @@
       <title>
         Area Plots
         <inlinemediaobject>
-          <imageobject valign="top">
+          <imageobject>
             <imagedata fileref="figures/graphs-types-area.png" 
-		       width="40"/>
+		       width="40" valign="top"/>
           </imageobject>
           <textobject>
             <phrase>An icon for the area plot type.</phrase>
@@ -2032,7 +2031,7 @@
       </para>
 
 <table frame='all'><title>The data in each area plot series</title>
-<tgroup cols='3' align='left' valign='top' colsep='1' rowsep='1'>
+<tgroup cols='3' align='left' colsep='1' rowsep='1'>
 
 <thead>
 <row>
@@ -2167,9 +2166,9 @@
       <title>
         Bar Plots
         <inlinemediaobject>
-          <imageobject valign="top">
+          <imageobject>
             <imagedata fileref="figures/graphs-types-bar.png" 
-		       width="40"/>
+		       width="40" valign="top"/>
           </imageobject>
           <textobject>
             <phrase>An icon for the bar plot type.</phrase>
@@ -2283,7 +2282,7 @@
       </para>
 
 <table frame='all'><title>The data in each bar plot series</title>
-<tgroup cols='3' align='left' valign='top' colsep='1' rowsep='1'>
+<tgroup cols='3' align='left' colsep='1' rowsep='1'>
 
 <thead>
 <row>
@@ -2419,9 +2418,9 @@
       <title>
         Column Plots
         <inlinemediaobject>
-          <imageobject valign="top">
+          <imageobject>
             <imagedata fileref="figures/graphs-types-column.png" 
-		       width="40"/>
+		       width="40" valign="top"/>
           </imageobject>
           <textobject>
             <phrase>An icon for the column plot type.</phrase>
@@ -2535,7 +2534,7 @@
       </para>
 
 <table frame='all'><title>The data in each column plot series</title>
-<tgroup cols='3' align='left' valign='top' colsep='1' rowsep='1'>
+<tgroup cols='3' align='left' colsep='1' rowsep='1'>
 
 <thead>
 <row>
@@ -2669,9 +2668,9 @@
       <title>
         Radar Plots
         <inlinemediaobject>
-          <imageobject valign="top">
+          <imageobject>
             <imagedata fileref="figures/graphs-types-radar.png" 
-		       width="40"/>
+		       width="40" valign="top"/>
           </imageobject>
           <textobject>
             <phrase>An icon for the radar plot type.</phrase>
@@ -2763,7 +2762,7 @@
       </para>
 
 <table frame='all'><title>The data in each radar plot series</title>
-<tgroup cols='3' align='left' valign='top' colsep='1' rowsep='1'>
+<tgroup cols='3' align='left' colsep='1' rowsep='1'>
 
 <thead>
 <row>
@@ -2898,9 +2897,9 @@
       <title>
         Ring Plots
         <inlinemediaobject>
-          <imageobject valign="top">
+          <imageobject>
             <imagedata fileref="figures/graphs-types-ring.png" 
-		       width="40"/>
+		       width="40" valign="top"/>
           </imageobject>
           <textobject>
             <phrase>An icon for the ring plot type.</phrase>
@@ -2996,7 +2995,7 @@
       </para>
 
 <table frame='all'><title>The data in each ring plot series</title>
-<tgroup cols='3' align='left' valign='top' colsep='1' rowsep='1'>
+<tgroup cols='3' align='left' colsep='1' rowsep='1'>
 
 <thead>
 <row>

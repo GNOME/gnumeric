@@ -11,7 +11,7 @@
 
 <!--    TABLE    TABLE    TABLE    TABLE    TABLE    TABLE    -->
 <table frame='all'><title>The file formats supported by &gnum;</title>
-<tgroup cols='4' align='left' valign='top' colsep='1' rowsep='1'>
+<tgroup cols='4' align='left' colsep='1' rowsep='1'>
        
 
 <thead>
@@ -192,7 +192,7 @@
 
 
     <informaltable frame='all'>
-      <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
 	    <entry>
@@ -284,7 +284,7 @@
 <!--    TABLE    TABLE    TABLE    TABLE    TABLE    TABLE    -->
 <table frame='all'>
   <title>Gnumeric XML format versions</title>
-<tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
        
 
 <thead>
@@ -455,7 +455,7 @@ gunzip Book1.text.gz
     </para>
 
     <informaltable frame='all'>
-      <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
 	    <entry>
@@ -571,7 +571,7 @@ gunzip Book1.text.gz
     </para>
 
     <informaltable frame='all'>
-      <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
 	    <entry>
@@ -685,7 +685,7 @@ gunzip Book1.text.gz
     </para>
 
     <informaltable frame='all'>
-      <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
 	    <entry>
@@ -791,7 +791,7 @@ gunzip Book1.text.gz
     </para>
 
     <informaltable frame='all'>
-      <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
 	    <entry>
@@ -890,7 +890,7 @@ gunzip Book1.text.gz
     </para>
 
     <informaltable frame='all'>
-      <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
 	    <entry>
@@ -1072,7 +1072,7 @@ gunzip Book1.text.gz
     </para>
 
     <informaltable frame='all'>
-      <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
 	    <entry>
@@ -1333,7 +1333,7 @@ pdflatex Book1.tex
     </para>
 
     <informaltable frame='all'>
-      <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
 	    <entry>
@@ -1473,7 +1473,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
     </para>
 
     <informaltable frame='all'>
-      <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
 	    <entry>
@@ -1576,7 +1576,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
     </para>
 
     <informaltable frame='all'>
-      <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
 	    <entry>
@@ -1710,7 +1710,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
     </para>
 
     <informaltable frame='all'>
-      <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
 	    <entry>
@@ -1805,7 +1805,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
     </para>
 
     <informaltable frame='all'>
-      <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
 	    <entry>
@@ -1931,7 +1931,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
     </para>
 
     <informaltable frame='all'>
-      <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
 	    <entry>
@@ -2042,7 +2042,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
      
 
     <informaltable frame='all'>
-      <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
 	    <entry>
@@ -2168,7 +2168,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
      
 
     <informaltable frame='all'>
-      <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
 	    <entry>
@@ -2286,7 +2286,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
     </para>
 
     <informaltable frame='all'>
-      <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
 	    <entry>
@@ -2374,7 +2374,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
     </para>
 
     <informaltable frame='all'>
-      <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
 	    <entry>
@@ -2488,7 +2488,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
     </para>
 
     <informaltable frame='all'>
-      <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
 	    <entry>
@@ -2642,7 +2642,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
     </para>
 
     <informaltable frame='all'>
-      <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
 	    <entry>
@@ -2763,7 +2763,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
     </para>
 
     <informaltable frame='all'>
-      <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
 	    <entry>
@@ -2968,7 +2968,7 @@ Sheet 0
     </para>
 
     <informaltable frame='all'>
-      <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
 	    <entry>
@@ -3088,7 +3088,7 @@ Sheet 0
     </para>
 
     <informaltable frame='all'>
-      <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
 	    <entry>
