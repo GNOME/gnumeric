@@ -392,7 +392,7 @@ restore_old_values (ScenariosState *state)
 	wbc = WORKBOOK_CONTROL (state->wbcg);
 	dao_init (&dao, NewSheetOutput);
 	dao.sheet = state->sheet;
-	scenario_show (wbc, "",
+	scenario_show (wbc, NULL,
 		       (scenario_t *) state->scenario_state->old_values,
 		       &dao);
 	state->scenario_state->old_values = NULL;
@@ -445,7 +445,7 @@ scenarios_show_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	GtkTreeSelection        *selection;
 	GtkTreeIter             iter;
 	GtkTreeModel            *model;
-	gchar                   *value;
+	const gchar             *value;
 
 	selection = gtk_tree_view_get_selection
 	        (GTK_TREE_VIEW (state->scenario_state->scenarios_treeview));
@@ -460,7 +460,9 @@ scenarios_show_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	
 	wbc = WORKBOOK_CONTROL (state->wbcg);
 	state->scenario_state->old_values = (GList *)
-		scenario_show (wbc, value,
+		scenario_show (wbc,
+			       scenario_by_name (state->sheet->scenarios,
+						 value, NULL),
 			       (scenario_t *) state->scenario_state->old_values,
 			       &dao);
 }
@@ -504,6 +506,8 @@ scenarios_summary_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 {
 	Sheet *new_sheet;
 	Value *results;
+
+	restore_old_values (state);
 
 	results = gnm_expr_entry_parse_as_value (
 		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);

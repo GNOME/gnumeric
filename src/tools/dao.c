@@ -680,6 +680,32 @@ dao_set_colors (data_analysis_output_t *dao, int col1, int row1,
 		       col2 + dao->start_col, row2 + dao->start_row, mstyle);
 }
 
+/**
+ * dao_set_align:
+ * @dao:
+ * @col1:
+ * @row1:
+ * @col2:
+ * @row2:
+ *
+ * set the given horizontal and vertical alignment to a cell range
+ * 
+ *
+ **/
+void
+dao_set_align (data_analysis_output_t *dao, int col1, int row1,
+	       int col2, int row2,
+	       StyleHAlignFlags align_h, StyleVAlignFlags align_v)
+{
+	MStyle *mstyle;
+
+	mstyle = mstyle_new ();
+	mstyle_set_align_h (mstyle, align_h);
+	mstyle_set_align_v (mstyle, align_v);
+	dao_set_style (dao, col1 + dao->start_col, row1 + dao->start_row,
+		       col2 + dao->start_col, row2 + dao->start_row, mstyle);
+}
+
 
 /**
  * dao_get_colrow_state_list:

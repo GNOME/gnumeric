@@ -43,10 +43,11 @@
 #include "scenarios.h"
 #include "dao.h"
 #include "style-color.h"
+#include "parse-util.h"
 
 /* Generic stuff **********************************************************/
 
-static scenario_t *
+scenario_t *
 scenario_by_name (GList *scenarios, const gchar *name, gboolean *all_deleted)
 {
 	scenario_t *s, *res = NULL;
@@ -318,20 +319,21 @@ scenario_mark_deleted (GList *scenarios, gchar *name)
 
 /* Scenario: Show **********************************************************/
 
+
 static Value *
 show_cb (int col, int row, Value *v, data_analysis_output_t *dao)
 {
 	dao_set_cell_value (dao, col, row, value_duplicate (v));
+
 	return v;
 }
 
 scenario_t *
 scenario_show (WorkbookControl        *wbc,
-	       const gchar            *name,
+	       scenario_t             *s,
 	       scenario_t             *old_values,
 	       data_analysis_output_t *dao)
 {
-	scenario_t   *s;
 	scenario_t   *stored_values;
 	int           rows, cols;
 	collect_cb_t  cb;
@@ -343,12 +345,11 @@ scenario_show (WorkbookControl        *wbc,
 		scenario_free (old_values);
 	}
 
-	s = scenario_by_name (dao->sheet->scenarios, name, NULL);
 	if (s == NULL)
 		return;
 
 	/* Store values for recovery. */
-	stored_values = scenario_new (dao->sheet, name, "");
+	stored_values = scenario_new (dao->sheet, "", "");
 	stored_values->range = s->range;
 	rows = s->range.end.row - s->range.start.row + 1;
 	cols = s->range.end.col - s->range.start.col + 1;
@@ -556,6 +557,60 @@ summary_cb (int col, int row, Value *v, summary_cb_t *p)
 	return v;
 }
 
+static void
+scenario_summary_res_cells (WorkbookControl *wbc, Value *results,
+			    summary_cb_t *cb)
+{
+	int        i, j, col, tmp_row = 4 + cb->row;
+	Range      r;
+
+	dao_set_cell (&cb->dao, 0, 3 + cb->row++, _("Result Cells:"));
+
+	range_init_value (&r, (Value *) results);
+	for (i = r.start.col; i <= r.end.col; i++)
+		for (j = r.start.row; j <= r.end.row; j++) {
+			scenario_t *ov = NULL;
+			Cell       *cell;
+			GList      *cur;
+			
+			cell = sheet_cell_fetch (cb->sheet, i, j);
+			
+			/* Names of the result cells. */
+			dao_set_cell (&cb->dao, 0, 3 + cb->row,
+				      cell_name (cell));
+			
+			/* Current value. */
+			dao_set_cell_value (&cb->dao, 1, 3 + cb->row,
+					    value_duplicate (cell->value));
+			
+			/* Evaluate and write the value of the cell
+			 * with all different scenario values. */
+			col = 2;
+			for (cur = cb->sheet->scenarios; cur != NULL;
+			     cur = cur->next) {
+				scenario_t *s = (scenario_t *) cur->data;
+				
+				ov = scenario_show (wbc, s, ov, &cb->dao);
+				
+				cell = sheet_cell_fetch (cb->sheet, i, j);
+				
+				dao_set_cell_value (&cb->dao, col++,
+						    3 + cb->row,
+						    value_duplicate
+						    (cell->value));
+			}
+			cb->row++;
+			
+			/* Use show to clean up 'ov'. */
+			scenario_show (wbc, NULL, ov, &cb->dao);
+			ov = NULL;
+		}
+	
+	/* Set the alignment of names of result cells to be right. */
+	dao_set_align (&cb->dao, 0, tmp_row, 0, 2 + cb->row,
+		       HALIGN_RIGHT, VALIGN_BOTTOM);
+}
+
 void
 scenario_summary (WorkbookControl *wbc,
 		  Sheet           *sheet,
@@ -589,9 +644,13 @@ scenario_summary (WorkbookControl *wbc,
 		scenario_for_each_value (s, (ScenarioValueCB) summary_cb, &cb);
 	}
 
+	/* Set the alignment of names of the changing cells to be right. */
+	dao_set_align (&cb.dao, 0, 3, 0, 2 + cb.row, HALIGN_RIGHT, 
+		       VALIGN_BOTTOM);
+
 	/* Result cells. */
-	dao_set_cell (&cb.dao, 0, 3 + cb.row, _("Result Cells:"));
-	cb.row += 1;
+	if (results != NULL)
+		scenario_summary_res_cells (wbc, results, &cb);
 
 	/* Destroy the hash table. */
 	g_hash_table_foreach (cb.names, (GHFunc) rm_fun_cb, NULL);
@@ -607,6 +666,8 @@ scenario_summary (WorkbookControl *wbc,
 					 gs_white.blue),
 			style_color_new (gs_dark_gray.red, gs_dark_gray.green,
 					 gs_dark_gray.blue));
+	dao_set_align (&cb.dao, 1, 1, cb.col + 1, 1, HALIGN_RIGHT, 
+		       VALIGN_BOTTOM);
 
 	*new_sheet = cb.dao.sheet;
 }

@@ -19,6 +19,8 @@ typedef struct {
 } scenario_t;
 
 
+scenario_t *scenario_by_name      (GList *scenarios, const gchar *name,
+				   gboolean *all_deleted);
 void        scenario_free_all     (GList *list);
 GList      *scenario_copy_all     (GList *list, Sheet *new);
 
@@ -29,7 +31,7 @@ void        scenario_delete_cols  (GList *list, int row, int count);
 
 void        scenario_manager_ok   (Sheet *sheet, scenario_t *old_values);
 scenario_t *scenario_show         (WorkbookControl        *wbc,
-				   const gchar            *name,
+				   scenario_t             *scenario,
 				   scenario_t             *old_values,
 				   data_analysis_output_t *dao);
 gboolean    scenario_add_new      (gchar *name,
