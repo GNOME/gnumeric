@@ -17,6 +17,7 @@
 #include "workbook-view.h"
 #include "plugin.h"
 #include "workbook.h"
+#include "gui-file.h"
 #include "gnumeric-gconf.h"
 
 #include <libgnome/gnome-i18n.h>
