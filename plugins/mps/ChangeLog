@@ -1,3 +1,9 @@
+2002-02-25  Jody Goldberg <jody@gnome.org>
+
+	* mps.c : include solver.h
+	(mps_create_sheet) : handle change of solver_parms from
+	  containment -> pointer.
+
 2001-02-20  Morten Welinder  <terra@diku.dk>
 
 	* mps.c (mps_parse_name): Fix isspace usage.

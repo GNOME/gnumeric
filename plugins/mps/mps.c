@@ -34,6 +34,7 @@
 #include "module-plugin-defs.h"
 #include "ranges.h"
 #include "style.h"
+#include "solver.h"
 #include "sheet-style.h"
 
 
@@ -255,7 +256,7 @@ mps_create_sheet (MpsInputContext *ctxt,  WorkbookView *wbv)
 	gint   i, n;
 	static const gchar *type_str[] = { "=", "<=", ">=" };
 	Cell *cell;
-	SolverParameters *param = &sh->solver_parameters;
+	SolverParameters *param = sh->solver_parameters;
 
 	mps_prepare (wbv, ctxt);
 
