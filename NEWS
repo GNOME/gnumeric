@@ -10,6 +10,7 @@ Andreas:
 Jody:
 	* Fix color selectors for drawing objects.
 	* Re-enable support for row vectors in graphs.
+	* Allow string functions to accept numbers as strings.
 
 Jukka:
 	* Improved COUPDAYS().
