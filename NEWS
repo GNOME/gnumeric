@@ -4,6 +4,10 @@ Gnumeric 0.71
 Almer:
 	* Core support for validation and conditional formats.
 
+Andreas:
+	* Rewrite descriptive statistics analysis tool dialog to use a 
+          glade template and the gnumeric-expr-entry widget.
+
 Jody:
 	* Enable XL import for graphs.
 	* Add simple bucketing of range dependencies.

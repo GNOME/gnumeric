@@ -5,13 +5,16 @@
 #include "gnumeric.h"
 
 typedef struct {
+        GtkWidget *entry[5];
+} stat_tool_t;
+
+typedef struct {
         gboolean summary_statistics;
         gboolean confidence_level;
         gboolean kth_largest;
         gboolean kth_smallest;
         int      k_smallest, k_largest;
         gnum_float  c_level;
-        GtkWidget *entry[5];
 } descriptive_stat_tool_t;
 
 typedef enum {

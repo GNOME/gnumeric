@@ -89,6 +89,7 @@ glade_DATA = 				\
 	colrow.glade			\
 	consolidate.glade		\
 	delete-cells.glade		\
+	descriptive-stats.glade		\
 	dialog-stf-export.glade		\
 	dialog-stf.glade		\
 	dialog-zoom.glade		\

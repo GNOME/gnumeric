@@ -1,3 +1,28 @@
+2001-09-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/dialogs/descriptive-stats.glade : New file. Template for 
+	  descriptive stats analysis tool dialog.
+	* src/analysis-tools.h : Separate descriptive_stat_tool_t type into
+	  descriptive_stat_tool_t (used by descriptive stats tool) and 
+	  stat_tool_t (used by other tools).
+	* src/dialogs/dialog-analysis-tools.c : Rewrote code related to 
+	  descriptive stats tool to use glade template and gnumeric-expr-entry
+	  widget.
+	(summary_stat_signal_fun) : deleted
+	(confidence_signal_fun) : deleted
+	(kth_largest_signal_fun) : deleted
+	(kth_smallest_signal_fun) : deleted
+	(first_col_label_signal_fun) : deleted
+	(add_groupped_by) : deleted
+	(desc_stat_tool_destroy) : new procedure
+	(desc_stat_tool_set_focus) : new procedure
+	(cb_desc_stat_tool_ok_clicked) : new procedure
+	(cb_desc_stat_tool_cancel_clicked) : new procedure
+	(desc_stat_tool_update_sensitivity) : new procedure
+	(desc_stat_tool_update_sensitivity_cb) : new procedure
+	(dialog_desc_stat_tool_init) : new procedure
+	(dialog_descriptive_stat_tool) : setu-p guru rather than modal dialog.
+
 2001-09-06  Jody Goldberg <jgoldberg@home.com>
 
 	* src/xml-io.c (xml_parse_ctx_new) : Use GNUM_XML_LATEST.
