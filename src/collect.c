@@ -11,6 +11,8 @@
 #include "collect.h"
 
 #include "func.h"
+#include "value.h"
+#include "expr.h"
 #include "datetime.h"
 
 /* ------------------------------------------------------------------------- */

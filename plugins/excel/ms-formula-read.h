@@ -15,10 +15,11 @@
 #include "ms-biff.h"
 
 ExprTree *
-ms_excel_parse_formula (ExcelSheet const *sheet,
-			guint8 const *mem,
+ms_excel_parse_formula (ExcelWorkbook const *ewb,
+			ExcelSheet const *esheet,
 			int fn_col, int fn_row,
-			gboolean shared, guint16 length,
-			gboolean *array_element) ;
+			guint8 const *mem, guint16 length,
+			gboolean shared,
+			gboolean *array_element);
 
 #endif

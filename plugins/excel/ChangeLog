@@ -1,3 +1,20 @@
+2002-03-07  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c : revamp extensheet handling and name import.
+	  Still does not work for XL95, but things should be ok for >= 97.
+	  Getting closer to supporting external references.
+
+2002-03-02  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (write_externsheets) : Use unquoted.  This code
+	  needs some love.
+
+2002-03-02  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (ms_excel_read_formula) : avoid leaking when faced
+	  with bad input.
+	(ms_excel_read_formula) : ditto.
+
 2002-02-28  Jody Goldberg <jody@gnome.org>
 
 	* ms-formula-write.c (write_area) : write explicitly scoped addreses

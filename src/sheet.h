@@ -4,7 +4,6 @@
 
 #include "gnumeric.h"
 #include "colrow.h"
-#include <gtk/gtktypeutils.h>
 
 typedef GList ColStyleList;
 typedef struct _SheetPrivate SheetPrivate;

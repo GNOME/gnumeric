@@ -125,21 +125,6 @@ union _ExprTree {
 	ExprSet		set;
 };
 
-/**
- * Function parameter structures
- */
-enum _FuncType { FUNCTION_ARGS, FUNCTION_NODES, FUNCTION_NAMEONLY };
-typedef enum _FuncType FuncType;
-
-typedef Value *(FunctionArgs)  (FunctionEvalInfo *ei, Value **args);
-typedef Value *(FunctionNodes) (FunctionEvalInfo *ei, ExprList *nodes);
-
-struct _FunctionEvalInfo {
-	EvalPos const *pos;
-	FunctionDefinition const *func_def;
-	ExprFunction const *func_call;
-};
-
 #define expr_parse_str_simple(expr_text, pp) \
 	expr_parse_str (expr_text, pp, GNM_PARSER_DEFAULT, NULL)
 ExprTree   *expr_parse_str	   (char const *expr, ParsePos const *pp,

@@ -39,18 +39,15 @@ style_condition_expr_dep_eval (Dependent *dep)
 	g_return_if_fail (dep != NULL);
 	sce = DEP_TO_STYLE_CONDITION_EXPR (dep);
 
-	if (sce->val) {
+	if (sce->val != NULL) {
 		value_release (sce->val);
 		sce->val = NULL;
 	}
 
-	if (dep->expression) {
+	if (dep->expression != NULL) {
 		EvalPos ep;
-
-		ep.eval.row = ep.eval.col = 0;
-		ep.sheet = dep->sheet;
-
-		sce->val = expr_eval (dep->expression, &ep, 0);
+		sce->val = expr_eval (dep->expression,
+			eval_pos_init_dep (&ep, dep), EVAL_STRICT);
 	}
 }
 

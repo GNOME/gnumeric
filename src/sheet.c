@@ -40,6 +40,7 @@
 #include "sheet-object-impl.h"
 #include "sheet-object-cell-comment.h"
 #include "solver.h"
+#include "e-memory.h"
 
 #include <libgnome/gnome-i18n.h>
 #include <stdlib.h>
@@ -2574,6 +2575,7 @@ sheet_cell_add_to_hash (Sheet *sheet, Cell *cell)
 	cell->base.flags |= CELL_IN_SHEET_LIST;
 	cell->col_info   = sheet_col_fetch (sheet, cell->pos.col);
 	cell->row_info   = sheet_row_fetch (sheet, cell->pos.row);
+	cell->rendered_value = NULL;
 
 	g_hash_table_insert (sheet->cell_hash, &cell->pos, cell);
 
@@ -2605,10 +2607,11 @@ sheet_cell_new (Sheet *sheet, int col, int row)
 	g_return_val_if_fail (row >= 0, NULL);
 	g_return_val_if_fail (row < SHEET_MAX_ROWS, NULL);
 
-	cell = g_new0 (Cell, 1);
+	cell = g_new (Cell, 1);
 
 	cell->base.sheet   = sheet;
 	cell->base.flags = DEPENDENT_CELL;
+	cell->base.expression = NULL;
 	cell->pos.col = col;
 	cell->pos.row = row;
 	cell->value   = value_new_empty ();

@@ -1,3 +1,22 @@
+2002-03-07  Jody Goldberg <jody@gnome.org>
+
+	* src/position.c (eval_pos_init*) : handle the optional dependent.
+
+	* src/eval.c (link_expr_dep) : support the adjustment to EvalPos.
+	(unlink_expr_dep) : support the adjustment to EvalPos.
+
+	* *.c : directly include gnome-i18n.h, value.h and expr.h
+	  where necessary now that they are no longer included.
+	* src/func.h : here.
+
+	* src/position.h (EvalPos) : Pass in an optional Dependent.
+
+	* src/expr.h (FunctionEvalInfo) : remove the func_def.  Send in the
+	  ExprFunc wrapper instead.  That contains the func-def if desired.
+
+	* src/func.c (function_set_link_handlers) : differentiate signatures
+	  for link & unlink.
+
 2002-03-07  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* src/analysis-tools.[ch]: Moved into src/tools.

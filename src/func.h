@@ -2,10 +2,7 @@
 #define GNUMERIC_FUNC_H
 
 #include "gnumeric.h"
-#include "value.h"
-#include "expr.h"
-
-#include <libgnome/gnome-i18n.h>
+#include "eval.h"
 
 /* Setup of the symbol table */
 void functions_init     (void);
@@ -77,7 +74,18 @@ typedef enum {
 	/* TODO : Are there other forms or recalc we need to think about ? */
 } FunctionFlags;
 
-typedef void     (*FuncLinkHandle)  (FunctionEvalInfo *ei);
+typedef enum { FUNCTION_ARGS, FUNCTION_NODES, FUNCTION_NAMEONLY } FuncType;
+
+typedef Value *(FunctionArgs)  (FunctionEvalInfo *ei, Value **args);
+typedef Value *(FunctionNodes) (FunctionEvalInfo *ei, ExprList *nodes);
+
+struct _FunctionEvalInfo {
+	EvalPos const *pos;
+	ExprFunction const *func_call;
+};
+
+typedef DependentFlags	(*FuncLinkHandle) 	(FunctionEvalInfo *ei);
+typedef void		(*FuncUnlinkHandle) 	(FunctionEvalInfo *ei);
 typedef gboolean (*FunctionGetFullInfoCallback) (FunctionDefinition *fn_def,
                                                  gchar const **args_ptr,
                                                  gchar const **arg_names_ptr,
@@ -101,7 +109,8 @@ struct _FunctionDefinition {
 			char *arg_types;
 		} args;
 	} fn;
-	FuncLinkHandle link, unlink;
+	FuncLinkHandle   link;
+	FuncUnlinkHandle unlink;
 	gpointer     user_data;
 	gint         ref_count;
 };
@@ -142,7 +151,8 @@ char        function_def_get_arg_type  (FunctionDefinition const *fn_def,
                                         gint arg_idx);
 
 void function_set_link_handlers (FunctionDefinition *fn_def,
-				 FuncLinkHandle link, FuncLinkHandle unlink);
+				 FuncLinkHandle   link,
+				 FuncUnlinkHandle unlink);
 
 Value *function_call_with_list	     (FunctionEvalInfo *ei, ExprList *args);
 Value *function_call_with_values     (EvalPos const *ep, gchar const *name,

@@ -25,6 +25,8 @@
 #include "plugin-util.h"
 #include "module-plugin-defs.h"
 
+#include <libgnome/gnome-i18n.h>
+
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 #define N_INPUT_LINES_BETWEEN_UPDATES   50

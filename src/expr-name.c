@@ -434,7 +434,7 @@ expr_name_eval (NamedExpression const *nexpr,
 	if (nexpr->builtin) {
 		FunctionEvalInfo ei;
 		ei.pos = pos;
-		ei.func_def = NULL; /* FIXME : This is ugly. why are there
+		ei.func_call = NULL; /* FIXME : This is ugly. why are there
 					no descriptors for builtins */
 		return nexpr->t.expr_func (&ei, NULL);
 	}

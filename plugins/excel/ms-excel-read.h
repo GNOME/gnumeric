@@ -1,10 +1,12 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /**
  * ms-excel.h: MS Excel support for Gnumeric
  *
  * Author:
+ *    Jody Goldberg (jody@gnome.org)
  *    Michael Meeks (michael@ximian.com)
  *
- * (C) 1998, 1999, 2000 Michael Meeks
+ * (C) 1998-2002 Michael Meeks
  **/
 #ifndef GNUMERIC_MS_EXCEL_H
 #define GNUMERIC_MS_EXCEL_H
@@ -70,10 +72,9 @@ typedef struct _BiffFontData
 } BiffFontData;
 
 typedef struct _BiffExternSheetData {
-	guint16 sup_idx;
-	guint16 first_sheet;
-	guint16 last_sheet;
-} XLExternSheet;
+	Sheet *first_sheet;
+	Sheet *last_sheet;
+} XLExternSheetV8;
 
 typedef struct _BiffFormatData {
 	guint16 idx;
@@ -84,19 +85,18 @@ typedef struct _ExcelWorkbook
 {
 	MSContainer container;
 
-	GPtrArray           *excel_sheets;
-	GHashTable          *boundsheet_data_by_stream;
-	GHashTable          *boundsheet_data_by_index;
-	GPtrArray           *XF_cell_records;
-	GHashTable          *font_data;
-	GHashTable          *format_data; /* leave as a hash */
-	GPtrArray           *name_data;
-	int                  read_drawing_group;
-	XLExternSheet	    *extern_sheets;
-	guint16              num_extern_sheets;
-	ExcelPalette        *palette;
-	char               **global_strings;
-	guint32              global_string_max;
+	GPtrArray	 *excel_sheets;
+	GHashTable	 *boundsheet_data_by_stream;
+	GHashTable	 *boundsheet_data_by_index;
+	GPtrArray	 *XF_cell_records;
+	GHashTable	 *font_data;
+	GHashTable	 *format_data; /* leave as a hash */
+	GPtrArray	 *name_data;
+	GArray		 *extern_sheet_v8;
+	GPtrArray	 *extern_sheet_v7;
+	ExcelPalette	 *palette;
+	char		**global_strings;
+	guint32		  global_string_max;
 
 	gboolean warn_unsupported_graphs : 1;
 
@@ -108,9 +108,13 @@ typedef struct _ExcelWorkbook
 
 char       *biff_get_text (guint8 const *ptr, guint32 length, guint32 *byte_length);
 char const *biff_get_error_text (guint8 err);
-ExprTree   *biff_name_data_get_name (ExcelSheet const *sheet, int idx);
-ExcelSheet *ms_excel_workbook_get_sheet 		(ExcelWorkbook *wb, guint idx);
-XLExternSheet const *ms_excel_workboot_get_externsheets (ExcelWorkbook *wb, guint idx);
+
+ExprTree	 	*ms_excel_workbook_get_name  (ExcelWorkbook const *ewb, int idx);
+ExcelSheet		*ms_excel_workbook_get_sheet (ExcelWorkbook const *wb, guint idx);
+XLExternSheetV8 const	*ms_excel_workbook_get_externsheet_v8 (ExcelWorkbook const *wb,
+							       guint idx);
+Sheet 			*ms_excel_workbook_get_externsheet_v7 (ExcelWorkbook const *wb,
+							       int idx, int sheet_index);
 
 MsBiffBofData * ms_biff_bof_data_new (BiffQuery * q);
 void ms_biff_bof_data_destroy (MsBiffBofData * data);

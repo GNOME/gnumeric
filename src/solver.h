@@ -30,24 +30,23 @@ typedef enum {
         LPSolve = 0
 } SolverLPAlgorithmType;
 
-typedef void * SolverProgram;
+typedef gpointer SolverProgram;
 
-typedef SolverProgram * (solver_lp_init_fn) (int n_vars, int n_constraints);
-typedef void (solver_lp_remove_fn) (SolverProgram *handle);
-typedef void (solver_lp_set_obj_fn) (SolverProgram *handle, int col, 
+typedef SolverProgram (solver_lp_init_fn) (int n_vars, int n_constraints);
+typedef void (solver_lp_remove_fn) (SolverProgram handle);
+typedef void (solver_lp_set_obj_fn) (SolverProgram handle, int col, 
 				     gnum_float v);
-typedef void (solver_lp_add_constraint_fn) (SolverProgram *handle,
+typedef void (solver_lp_add_constraint_fn) (SolverProgram handle,
 					      SolverConstraintType type,
 					      gnum_float *row, gnum_float rhs);
-typedef void (solver_lp_set_maxim_fn) (SolverProgram *handle);
-typedef void (solver_lp_set_minim_fn) (SolverProgram *handle);
-typedef void (solver_lp_set_int_fn) (SolverProgram *handle, int col,
+typedef void (solver_lp_set_maxim_fn) (SolverProgram handle);
+typedef void (solver_lp_set_minim_fn) (SolverProgram handle);
+typedef void (solver_lp_set_int_fn) (SolverProgram handle, int col,
 				       gboolean must_be_int);
-typedef int  (solver_lp_solve_fn) (SolverProgram *handle);
-typedef gnum_float (solver_lp_get_obj_fn_value_fn) (SolverProgram *handle);
-typedef gnum_float (solver_lp_get_obj_fn_var_fn) (SolverProgram *lp, int col);
-typedef gnum_float (solver_lp_get_shadow_prize_fn) (SolverProgram *lp, int row);
-
+typedef int  (solver_lp_solve_fn) (SolverProgram handle);
+typedef gnum_float (solver_lp_get_obj_fn_value_fn) (SolverProgram handle);
+typedef gnum_float (solver_lp_get_obj_fn_var_fn) (SolverProgram lp, int col);
+typedef gnum_float (solver_lp_get_shadow_prize_fn) (SolverProgram lp, int row);
 
 typedef struct {
         const char                    *name;

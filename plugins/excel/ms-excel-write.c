@@ -367,7 +367,7 @@ write_externsheets (BiffPut *bp, ExcelWorkbook *wb, ExcelSheet *ignore)
 		MS_OLE_SET_GUINT8(data, len);
 		MS_OLE_SET_GUINT8(data + 1, 3); /* Magic */
 		ms_biff_put_var_write (bp, data, 2);
-		biff_put_text (bp, esheet->gnum_sheet->name_quoted,
+		biff_put_text (bp, esheet->gnum_sheet->name_unquoted,
 			       wb->ver, FALSE, AS_PER_VER);
 		ms_biff_put_commit (bp);
 	}

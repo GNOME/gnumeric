@@ -511,13 +511,10 @@ search_collect_cells (SearchReplace *sr, Sheet *sheet)
 	{
 		GSList *range_list;
 		EvalPos ep;
-		ep.eval.col = 0;
-		ep.eval.row = 0;
-		ep.sheet = sr->curr_sheet;
-
 		cells = g_ptr_array_new ();
 		range_list = global_range_list_parse (sr->curr_sheet, sr->range_text);
-		global_range_list_foreach (range_list, &ep, TRUE,
+		global_range_list_foreach (range_list,
+			   eval_pos_init_sheet (&ep, sr->curr_sheet), TRUE,
 			   (ForeachCellCB) search_collect_cells_cb, cells);
 		range_list_destroy (range_list);
 		break;

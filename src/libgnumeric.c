@@ -59,6 +59,7 @@ extern gboolean EmbeddableGridFactory_init (void);
 #ifdef ENABLE_BONOBO
 #include <bonobo.h>
 #endif
+#include <libgnome/gnome-i18n.h>
 
 /* The debugging level */
 int gnumeric_debugging = 0;

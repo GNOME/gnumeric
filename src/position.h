@@ -4,8 +4,9 @@
 #include "gnumeric.h"
 
 struct _EvalPos {
-	CellPos  eval;
-	Sheet   *sheet;
+	CellPos    eval;
+	Sheet     *sheet;
+	Dependent *dep; /* optionally NULL */
 };
 
 struct _ParsePos {
@@ -18,12 +19,13 @@ struct _ParsePos {
  * Used for getting a valid Sheet *from a CellRef
  * Syntax is CellRef, valid Sheet *
  */
-#define eval_sheet(a,b)     (a?a:b)
+#define eval_sheet(a,b)     (((a) != NULL) ? (a) : (b))
 
 /* Initialization routines for Evaluation Positions */
-EvalPos  *eval_pos_init          (EvalPos *pp, Sheet *s, CellPos const *pos);
-EvalPos  *eval_pos_init_dep 	 (EvalPos *eval_pos, Dependent const *dep);
-EvalPos  *eval_pos_init_cell     (EvalPos *pp, Cell const *cell);
+EvalPos  *eval_pos_init		(EvalPos *pp, Sheet *s, CellPos const *pos);
+EvalPos  *eval_pos_init_dep	(EvalPos *eval_pos, Dependent const *dep);
+EvalPos  *eval_pos_init_cell	(EvalPos *pp, Cell const *cell);
+EvalPos  *eval_pos_init_sheet	(EvalPos *pp, Sheet *sheet);
 
 /* Initialization routines for Parse Positions */
 ParsePos *parse_pos_init         (ParsePos *pp, Workbook *wb,

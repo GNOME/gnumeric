@@ -15,6 +15,7 @@
 #include "func.h"
 #include "datetime.h"
 #include "sheet.h"
+#include "value.h"
 
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-config.h>

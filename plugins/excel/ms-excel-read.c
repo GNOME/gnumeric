@@ -3,10 +3,10 @@
  * ms-excel.c: MS Excel support for Gnumeric
  *
  * Authors:
- *    Michael Meeks (michael@ximian.com)
  *    Jody Goldberg (jody@gnome.org)
+ *    Michael Meeks (michael@ximian.com)
  *
- * (C) 1998-2001 Michael Meeks, Jody Goldberg
+ * (C) 1998-2002 Michael Meeks, Jody Goldberg
  * unicode and national language support (C) 2001 by Vlad Harchev <hvv@hippo.ru>
  **/
 
@@ -65,15 +65,476 @@
 
 static excel_iconv_t current_workbook_iconv = NULL;
 
-/* Forward references */
-static ExcelSheet *ms_excel_sheet_new (ExcelWorkbook *wb, char const *name);
+char const *excel_builtin_formats[EXCEL_BUILTIN_FORMAT_LEN] = {
+/* 0x00 */	"General",
+/* 0x01 */	"0",
+/* 0x02 */	"0.00",
+/* 0x03 */	"#,##0",
+/* 0x04 */	"#,##0.00",
+/* 0x05 */	"$#,##0_);($#,##0)",
+/* 0x06 */	"$#,##0_);[Red]($#,##0)",
+/* 0x07 */	"$#,##0.00_);($#,##0.00)",
+/* 0x08 */	"$#,##0.00_);[Red]($#,##0.00)",
+/* 0x09 */	"0%",
+/* 0x0a */	"0.00%",
+/* 0x0b */	"0.00E+00",
+/* 0x0c */	"# ?/?",
+/* 0x0d */	"# ?" "?/?" "?",  /* Don't accidentally use trigraph.  */
+/* 0x0e		"m/d/yy" */ NULL,	/* locale specific, set in */
+/* 0x0f		"d-mmm-yy", */ NULL,	/* ms_excel_read_init */
+/* 0x10		"d-mmm", */ NULL,
+/* 0x11 */	"mmm-yy",
+/* 0x12 */	"h:mm AM/PM",
+/* 0x13 */	"h:mm:ss AM/PM",
+/* 0x14 */	"h:mm",
+/* 0x15 */	"h:mm:ss",
+/* 0x16		"m/d/yy h:mm", */ NULL,
+	0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 0x17-0x24 reserved for intl versions */
+/* 0x25 */	"#,##0_);(#,##0)",
+/* 0x26 */	"#,##0_);[Red](#,##0)",
+/* 0x27 */	"#,##0.00_);(#,##0.00)",
+/* 0x28 */	"#,##0.00_);[Red](#,##0.00)",
+/* 0x29 */	"_(* #,##0_);_(* (#,##0);_(* \"-\"_);_(@_)",
+/* 0x2a */	"_($* #,##0_);_($* (#,##0);_($* \"-\"_);_(@_)",
+/* 0x2b */	"_(* #,##0.00_);_(* (#,##0.00);_(* \"-\"??_);_(@_)",
+/* 0x2c */	"_($* #,##0.00_);_($* (#,##0.00);_($* \"-\"??_);_(@_)",
+/* 0x2d */	"mm:ss",
+/* 0x2e */	"[h]:mm:ss",
+/* 0x2f */	"mm:ss.0",
+/* 0x30 */	"##0.0E+0",
+/* 0x31 */	"@"
+};
+
+static StyleFormat *
+ms_excel_wb_get_fmt (ExcelWorkbook *wb, guint16 idx)
+{
+	char const *ans = NULL;
+	BiffFormatData const *d = g_hash_table_lookup (wb->format_data, &idx);
+
+	if (d)
+		ans = d->name;
+	else if (idx <= 0x31) {
+		ans = excel_builtin_formats[idx];
+		if (!ans)
+			printf ("Foreign undocumented format\n");
+	} else
+		printf ("Unknown format: 0x%x\n", idx);
+
+	if (ans)
+		return style_format_new_XL (ans, FALSE);
+	else
+		return NULL;
+}
+
+static ExprTree *
+ms_sheet_parse_expr_internal (ExcelSheet *esheet, guint8 const *data, int length)
+{
+	ExprTree *expr;
+
+	g_return_val_if_fail (length > 0, NULL);
+
+	expr = ms_excel_parse_formula (esheet->wb, esheet, 0, 0,
+		data, length, FALSE, NULL);
+#if 0
+	{
+		char *tmp;
+		ParsePos pp;
+		Sheet *sheet = esheet->gnum_sheet;
+		Workbook *wb = (sheet == NULL) ? esheet->wb->gnum_wb : NULL;
+
+		tmp = expr_tree_as_string (expr, parse_pos_init (&pp, wb, sheet, 0, 0));
+		puts (tmp);
+		g_free (tmp);
+	}
+#endif
+
+	return expr;
+}
+
+static ExprTree *
+ms_sheet_parse_expr (MSContainer *container, guint8 const *data, int length)
+{
+	return ms_sheet_parse_expr_internal ((ExcelSheet *)container,
+					     data, length);
+}
+
+static Sheet  *
+ms_sheet_sheet (MSContainer const *container)
+{
+	return ((ExcelSheet const *)container)->gnum_sheet;
+}
+
+static StyleFormat *
+ms_sheet_get_fmt (MSContainer const *container, guint16 indx)
+{
+	return ms_excel_wb_get_fmt (((ExcelSheet const *)container)->wb, indx);
+}
+
+static StyleColor *
+ms_sheet_map_color (ExcelSheet const *esheet, MSObj const *obj, MSObjAttrID id)
+{
+	gushort r, g, b;
+	MSObjAttr *attr = ms_object_attr_bag_lookup (obj->attrs, id);
+
+	if (attr == NULL)
+		return NULL;
+
+	if ((~0x7ffffff) & attr->v.v_uint)
+		return ms_excel_palette_get (esheet->wb->palette,
+			(0x7ffffff & attr->v.v_uint));
+
+	r = (attr->v.v_uint)       & 0xff;
+	g = (attr->v.v_uint >> 8)  & 0xff;
+	b = (attr->v.v_uint >> 16) & 0xff;
+
+	return style_color_new_i8 (r, g, b);
+}
+
+static SheetObject *
+ms_sheet_create_image (MSObj *obj, MSEscherBlip *blip)
+{
+	SheetObject *so;
+	MSObjAttr *crop_left_attr = ms_object_attr_bag_lookup
+		(obj->attrs, MS_OBJ_ATTR_BLIP_CROP_LEFT);
+	MSObjAttr *crop_top_attr = ms_object_attr_bag_lookup
+		(obj->attrs, MS_OBJ_ATTR_BLIP_CROP_TOP);
+	MSObjAttr *crop_right_attr = ms_object_attr_bag_lookup
+		(obj->attrs, MS_OBJ_ATTR_BLIP_CROP_RIGHT);
+	MSObjAttr *crop_bottom_attr = ms_object_attr_bag_lookup
+		(obj->attrs, MS_OBJ_ATTR_BLIP_CROP_BOTTOM);
+	double crop_left_val = 0.0;
+	double crop_top_val = 0.0;
+	double crop_right_val = 0.0;
+	double crop_bottom_val = 0.0;
+
+	so = sheet_object_image_new (blip->type, blip->data, blip->data_len,
+				     !blip->needs_free);
+
+	if (!so)
+		return NULL;
+
+	if (crop_left_attr)
+		crop_left_val   = (double) crop_left_attr->v.v_uint / 65536.;
+	if (crop_top_attr)
+		crop_top_val    = (double) crop_top_attr->v.v_uint / 65536.;
+	if (crop_right_attr)
+		crop_right_val  = (double) crop_right_attr->v.v_uint / 65536.;
+	if (crop_bottom_attr)
+		crop_bottom_val = (double) crop_bottom_attr->v.v_uint / 65536.;
+	sheet_object_image_set_crop (SHEET_OBJECT_IMAGE (so),
+				     crop_left_val, crop_top_val,
+				     crop_right_val, crop_bottom_val);
+
+	return so;
+}
+
+/**
+ * ms_sheet_obj_anchor_to_pos:
+ * @points	Array which receives anchor coordinates in points
+ * @obj         The object
+ * @sheet	The sheet
+ *
+ * Converts anchor coordinates in Excel units to points. Anchor
+ * coordinates are x and y of upper left and lower right corner. Each
+ * is expressed as a pair: Row/cell number + position within cell as
+ * fraction of cell dimension.
+ *
+ * NOTE: According to docs, position within cell is expressed as
+ * 1/1024 of cell dimension. However, this doesn't seem to be true
+ * vertically, for Excel 97. We use 256 for >= XL97 and 1024 for
+ * preceding.
+  */
+static gboolean
+ms_sheet_obj_anchor_to_pos (Sheet const * sheet, MsBiffVersion const ver,
+			    guint8 const *raw_anchor,
+			    Range *range, float offset[4])
+{
+	float const row_denominator = (ver >= MS_BIFF_V8) ? 256. : 1024.;
+	int	i;
+
+	d (0, printf ("%s\n", sheet->name_unquoted););
+
+	/* Ignore the first 2 bytes.  What are they ? */
+	/* Dec/1/2000 JEG: I have not researched it, but this may have some
+	 * flags indicating whether or not the object is acnhored to the cell
+	 */
+	raw_anchor += 2;
+
+	/* Words 0, 4, 8, 12: The row/col of the corners */
+	/* Words 2, 6, 10, 14: distance from cell edge */
+	for (i = 0; i < 4; i++, raw_anchor += 4) {
+		int const pos  = MS_OLE_GET_GUINT16 (raw_anchor);
+		int const nths = MS_OLE_GET_GUINT16 (raw_anchor + 2);
+
+		d (2, {
+			printf ("%d/%d cell %s from ",
+				nths, (i & 1) ? 256 : 1024,
+				(i & 1) ? "heights" : "widths");
+			if (i & 1)
+				printf ("row %d;\n", pos + 1);
+			else
+				printf ("col %s (%d);\n", col_name (pos), pos);
+		});
+
+		if (i & 1) { /* odds are rows */
+			offset[i] = nths / row_denominator;
+			if (i == 1)
+				range->start.row = pos;
+			else
+				range->end.row = pos;
+		} else {
+			offset[i] = nths / 1024.;
+			if (i == 0)
+				range->start.col = pos;
+			else
+				range->end.col = pos;
+		}
+	}
+
+	return FALSE;
+}
+
+static gboolean
+ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
+{
+	float offsets[4];
+	Range range;
+	ExcelSheet *esheet;
+	MSObjAttr *anchor;
+
+	if (obj == NULL)
+		return TRUE;
+
+	g_return_val_if_fail (container != NULL, TRUE);
+	esheet = (ExcelSheet *)container;
+
+	anchor = ms_object_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_ANCHOR);
+	if (anchor == NULL) {
+		printf ("MISSING anchor for obj %p\n", obj);
+		return TRUE;
+	}
+
+	if (ms_sheet_obj_anchor_to_pos (esheet->gnum_sheet, container->ver,
+					anchor->v.v_ptr, &range, offsets))
+		return TRUE;
+
+	if (obj->gnum_obj != NULL) {
+		static SheetObjectAnchorType const anchor_types[4] = {
+			SO_ANCHOR_PERCENTAGE_FROM_COLROW_START,
+			SO_ANCHOR_PERCENTAGE_FROM_COLROW_START,
+			SO_ANCHOR_PERCENTAGE_FROM_COLROW_START,
+			SO_ANCHOR_PERCENTAGE_FROM_COLROW_START
+		};
+		MSObjAttr *flip_h = ms_object_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_FLIP_H);
+		MSObjAttr *flip_v = ms_object_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_FLIP_V);
+		SheetObjectDirection direction =
+			((flip_h == NULL) ? SO_DIR_RIGHT : 0) |
+			((flip_v == NULL) ? SO_DIR_DOWN : 0);
+		SheetObjectAnchor anchor;
+		sheet_object_anchor_init (&anchor, &range,
+					  offsets, anchor_types,
+					  direction);
+		sheet_object_anchor_set (SHEET_OBJECT (obj->gnum_obj),
+					 &anchor);
+		sheet_object_set_sheet (SHEET_OBJECT (obj->gnum_obj),
+					esheet->gnum_sheet);
+
+		/* can not be done until we have set the sheet */
+		if (obj->excel_type == 0x0B) {
+			sheet_widget_checkbox_set_link (SHEET_OBJECT (obj->gnum_obj),
+				ms_object_attr_get_expr (obj, MS_OBJ_ATTR_CHECKBOX_LINK, NULL));
+		} else if (obj->excel_type == 0x11) {
+			sheet_widget_scrollbar_set_details (SHEET_OBJECT (obj->gnum_obj),
+				ms_object_attr_get_expr (obj, MS_OBJ_ATTR_SCROLLBAR_LINK, NULL),
+				0,
+				ms_object_attr_get_int  (obj, MS_OBJ_ATTR_SCROLLBAR_MIN, 0),
+				ms_object_attr_get_int  (obj, MS_OBJ_ATTR_SCROLLBAR_MAX, 100),
+				ms_object_attr_get_int  (obj, MS_OBJ_ATTR_SCROLLBAR_INC, 1),
+				ms_object_attr_get_int  (obj, MS_OBJ_ATTR_SCROLLBAR_PAGE, 10));
+		}
+	}
+
+	return FALSE;
+}
+
+static GObject *
+ms_sheet_create_obj (MSContainer *container, MSObj *obj)
+{
+	SheetObject *so = NULL;
+	Workbook *wb;
+	ExcelSheet const *esheet;
+
+	if (obj == NULL)
+		return NULL;
+
+	g_return_val_if_fail (container != NULL, NULL);
+
+	esheet = (ExcelSheet const *)container;
+	wb = esheet->wb->gnum_wb;
+
+	switch (obj->excel_type) {
+	case 0x01: { /* Line */
+		MSObjAttr *is_arrow = ms_object_attr_bag_lookup (obj->attrs,
+			MS_OBJ_ATTR_ARROW_END);
+		so = sheet_object_line_new (is_arrow != NULL); break;
+		break;
+	}
+	case 0x02:
+	case 0x03: { /* Box or Oval */
+		StyleColor *fill_color = NULL;
+		so = sheet_object_box_new (obj->excel_type == 3);
+		if (ms_object_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_FILLED))
+			fill_color = ms_sheet_map_color (esheet, obj,
+				MS_OBJ_ATTR_FILL_COLOR);
+		sheet_object_graphic_fill_color_set (so, fill_color);
+		break;
+	}
+
+	case 0x05: { /* Chart */
+#ifdef ENABLE_BONOBO
+		so = SHEET_OBJECT (gnm_graph_new (wb));
+#else
+		so = sheet_object_box_new (FALSE);  /* placeholder */
+		if (esheet->wb->warn_unsupported_graphs) {
+			/* TODO : Use IOContext when available */
+			esheet->wb->warn_unsupported_graphs = FALSE;
+			g_warning ("Images are not supported in non-bonobo version");
+		}
+#endif
+		break;
+	}
+
+	/* TextBox */
+	case 0x06: so = g_object_new (sheet_widget_label_get_type (), NULL);
+		   break;
+	/* Button */
+	case 0x07: so = g_object_new (sheet_widget_button_get_type (), NULL);
+		   break;
+	case 0x08: { /* Picture */
+		MSObjAttr *blip_id = ms_object_attr_bag_lookup (obj->attrs,
+			MS_OBJ_ATTR_BLIP_ID);
+
+		if (blip_id != NULL) {
+			MSEscherBlip *blip = ms_container_get_blip (container,
+				blip_id->v.v_uint - 1);
+			if (blip != NULL) {
+				so = ms_sheet_create_image (obj, blip);
+				blip->needs_free = FALSE; /* image took over managing data */
+			}
+		}
+
+		/* replace blips we don't know how to handle with rectangles */
+		if (so == NULL)
+			so = sheet_object_box_new (FALSE);  /* placeholder */
+		break;
+	}
+	case 0x0B: so = g_object_new (sheet_widget_checkbox_get_type (), NULL);
+		   break;
+	case 0x0C: so = g_object_new (sheet_widget_radio_button_get_type (), NULL);
+		   break;
+	case 0x0E: so = g_object_new (sheet_widget_label_get_type (), NULL);
+		   break;
+	case 0x10: so = sheet_object_box_new (FALSE);  break; /* Spinner */
+	case 0x11: so = g_object_new (sheet_widget_scrollbar_get_type (), NULL);
+		   break;
+	case 0x12: so = g_object_new (sheet_widget_list_get_type (), NULL);
+		   break;
+	case 0x14: so = g_object_new (sheet_widget_combo_get_type (), NULL);
+		   break;
+
+	case 0x19: /* Comment */
+		/* TODO: we'll need a special widget for this */
+		return NULL;
+
+	default:
+		g_warning ("EXCEL: unhandled excel object of type %s (0x%x) id = %d\n",
+			   obj->excel_type_name, obj->excel_type, obj->id);
+		return NULL;
+	}
+
+	return so ? G_OBJECT (so) : NULL;
+}
+
+static void
+ms_excel_print_unit_init_inch (PrintUnit *pu, double val)
+{
+	pu->points = unit_convert (val, UNIT_INCH, UNIT_POINTS);
+	pu->desired_display = UNIT_INCH; /* FIXME: should be more global */
+}
+
+/*
+ * ms_excel_init_margins
+ * @esheet ExcelSheet
+ *
+ * Excel only saves margins when any of the margins differs from the
+ * default. So we must initialize the margins to Excel's defaults, which
+ * are:
+ * Top, bottom:    1 in   - 72 pt
+ * Left, right:    3/4 in - 48 pt
+ * Header, footer: 1/2 in - 36 pt
+ */
+static void
+ms_excel_init_margins (ExcelSheet *esheet)
+{
+	PrintInformation *pi;
+
+	g_return_if_fail (esheet != NULL);
+	g_return_if_fail (esheet->gnum_sheet != NULL);
+	g_return_if_fail (esheet->gnum_sheet->print_info != NULL);
+
+	pi = esheet->gnum_sheet->print_info;
+	ms_excel_print_unit_init_inch (&pi->margins.top, 1.0);
+	ms_excel_print_unit_init_inch (&pi->margins.bottom, 1.0);
+	ms_excel_print_unit_init_inch (&pi->margins.left, 0.75);
+	ms_excel_print_unit_init_inch (&pi->margins.right, 0.75);
+	ms_excel_print_unit_init_inch (&pi->margins.header, 0.5);
+	ms_excel_print_unit_init_inch (&pi->margins.footer, 0.5);
+}
+
+static ExcelSheet *
+ms_excel_sheet_new (ExcelWorkbook *wb, char const *sheet_name)
+{
+	static MSContainerClass const vtbl = {
+		&ms_sheet_realize_obj,
+		&ms_sheet_create_obj,
+		&ms_sheet_parse_expr,
+		&ms_sheet_sheet,
+		&ms_sheet_get_fmt
+	};
+
+	ExcelSheet *esheet = g_new (ExcelSheet, 1);
+	Sheet *sheet = workbook_sheet_by_name (wb->gnum_wb, sheet_name);
+
+	if (sheet == NULL)
+		sheet = sheet_new (wb->gnum_wb, sheet_name);
+
+	esheet->wb         = wb;
+	esheet->gnum_sheet = sheet;
+	esheet->base_char_width         = -1;
+	esheet->base_char_width_default = -1;
+	esheet->freeze_panes		= FALSE;
+	esheet->shared_formulae         =
+		g_hash_table_new ((GHashFunc)&cellpos_hash,
+				  (GCompareFunc)&cellpos_cmp);
+
+	ms_excel_init_margins (esheet);
+	ms_container_init (&esheet->container, &vtbl, &wb->container);
+
+	/* in case nothing forces a spanning flag it here so that spans will
+	 * regenerater later.
+	 */
+	sheet_flag_recompute_spans (sheet);
+
+	return esheet;
+}
+
 
 void
 ms_excel_unexpected_biff (BiffQuery *q, char const *state,
 			  int debug_level)
 {
 #ifndef NO_DEBUG_EXCEL
-	if (debug_level > 0) {
+	if (debug_level > -1) {
 		printf ("Unexpected Opcode in %s: 0x%x, length 0x%x\n",
 			state, q->opcode, q->length);
 		if (debug_level > 2)
@@ -549,7 +1010,7 @@ static void
 biff_boundsheet_data_new (BiffQuery *q, ExcelWorkbook *wb, MsBiffVersion ver)
 {
 	BiffBoundsheetData *ans;
-	const char *default_name = "Unknown%d";
+	char const *default_name = "Unknown%d";
 
 	/* Testing seems to indicate that Biff5 is compatibile with Biff7 here. */
 	if (ver != MS_BIFF_V5 && ver != MS_BIFF_V7 && ver != MS_BIFF_V8) {
@@ -706,67 +1167,6 @@ biff_font_data_destroy (gpointer key, BiffFontData *fd, gpointer userdata)
 	return 1;
 }
 
-char const *excel_builtin_formats[EXCEL_BUILTIN_FORMAT_LEN] = {
-/* 0x00 */	"General",
-/* 0x01 */	"0",
-/* 0x02 */	"0.00",
-/* 0x03 */	"#,##0",
-/* 0x04 */	"#,##0.00",
-/* 0x05 */	"$#,##0_);($#,##0)",
-/* 0x06 */	"$#,##0_);[Red]($#,##0)",
-/* 0x07 */	"$#,##0.00_);($#,##0.00)",
-/* 0x08 */	"$#,##0.00_);[Red]($#,##0.00)",
-/* 0x09 */	"0%",
-/* 0x0a */	"0.00%",
-/* 0x0b */	"0.00E+00",
-/* 0x0c */	"# ?/?",
-/* 0x0d */	"# ?" "?/?" "?",  /* Don't accidentally use trigraph.  */
-/* 0x0e		"m/d/yy" */ NULL,	/* locale specific, set in */
-/* 0x0f		"d-mmm-yy", */ NULL,	/* ms_excel_read_init */
-/* 0x10		"d-mmm", */ NULL,
-/* 0x11 */	"mmm-yy",
-/* 0x12 */	"h:mm AM/PM",
-/* 0x13 */	"h:mm:ss AM/PM",
-/* 0x14 */	"h:mm",
-/* 0x15 */	"h:mm:ss",
-/* 0x16		"m/d/yy h:mm", */ NULL,
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 0x17-0x24 reserved for intl versions */
-/* 0x25 */	"#,##0_);(#,##0)",
-/* 0x26 */	"#,##0_);[Red](#,##0)",
-/* 0x27 */	"#,##0.00_);(#,##0.00)",
-/* 0x28 */	"#,##0.00_);[Red](#,##0.00)",
-/* 0x29 */	"_(* #,##0_);_(* (#,##0);_(* \"-\"_);_(@_)",
-/* 0x2a */	"_($* #,##0_);_($* (#,##0);_($* \"-\"_);_(@_)",
-/* 0x2b */	"_(* #,##0.00_);_(* (#,##0.00);_(* \"-\"??_);_(@_)",
-/* 0x2c */	"_($* #,##0.00_);_($* (#,##0.00);_($* \"-\"??_);_(@_)",
-/* 0x2d */	"mm:ss",
-/* 0x2e */	"[h]:mm:ss",
-/* 0x2f */	"mm:ss.0",
-/* 0x30 */	"##0.0E+0",
-/* 0x31 */	"@"
-};
-
-static StyleFormat *
-ms_excel_wb_get_fmt (ExcelWorkbook *wb, guint16 idx)
-{
-	char const *ans = NULL;
-	BiffFormatData const *d = g_hash_table_lookup (wb->format_data, &idx);
-
-	if (d)
-		ans = d->name;
-	else if (idx <= 0x31) {
-		ans = excel_builtin_formats[idx];
-		if (!ans)
-			printf ("Foreign undocumented format\n");
-	} else
-		printf ("Unknown format: 0x%x\n", idx);
-
-	if (ans)
-		return style_format_new_XL (ans, FALSE);
-	else
-		return NULL;
-}
-
 static gboolean
 biff_format_data_destroy (gpointer key, BiffFormatData *d, gpointer userdata)
 {
@@ -775,125 +1175,34 @@ biff_format_data_destroy (gpointer key, BiffFormatData *d, gpointer userdata)
 	return 1;
 }
 
-typedef struct {
-	char const *name;
-	int  sheet_index;	/* -1 indicates workbook level */
-	enum { BNDStore, BNDName } type;
-	union {
-		NamedExpression *name;
-		struct {
-			guint8   *data;
-			guint16   len;
-		} store;
-	} v;
-} BiffNameData;
-
-static int externsheet = 0;
-
 /*
  * We must not try and parse the data until we have
  * read all the sheets in (for inter-sheet references in names).
  */
 static void
-biff_name_data_new (ExcelWorkbook *wb, char const *name,
-		    int sheet_index,
-		    guint8 const *formula, guint16 len,
-		    gboolean external)
+ms_excel_add_name (ExcelWorkbook *wb, NamedExpression *nexpr)
 {
-	BiffNameData *bnd = g_new (BiffNameData, 1);
-	bnd->name        = name;
-	bnd->sheet_index = sheet_index;
-	bnd->type        = BNDStore;
-
-	if (formula) {
-		bnd->v.store.data = g_malloc (len);
-		memcpy (bnd->v.store.data, formula, len);
-		bnd->v.store.len  = len;
-	} else {
-		bnd->v.store.data = NULL;
-		bnd->v.store.len  = 0;
-	}
-
-	d (1, printf ("%s: %x %x sheet=%d '%s'\n",
-		      external ? "EXTERNNAME" : "NAME",
-		      externsheet,
-		      wb->name_data->len, sheet_index, bnd->name);
-	);
-	if (ms_excel_read_debug > 2)
-		ms_ole_dump (bnd->v.store.data, bnd->v.store.len);
-
-	g_ptr_array_add (wb->name_data, bnd);
+	g_ptr_array_add (wb->name_data, nexpr);
 }
 
 ExprTree *
-biff_name_data_get_name (ExcelSheet const *esheet, int idx)
+ms_excel_workbook_get_name (ExcelWorkbook const *ewb, int idx)
 {
-	BiffNameData *bnd;
+	NamedExpression *nexpr = NULL;
 	GPtrArray    *a;
 
-	g_return_val_if_fail (esheet, NULL);
-	g_return_val_if_fail (esheet->wb, NULL);
+	g_return_val_if_fail (ewb, NULL);
 
-	a = esheet->wb->name_data;
+	a = ewb->name_data;
 
 	if (a == NULL || idx < 0 || (int)a->len <= idx ||
-	    (bnd = g_ptr_array_index (a, idx)) == NULL) {
+	    (nexpr = g_ptr_array_index (a, idx)) == NULL) {
 		g_warning ("EXCEL: %x (of %x) UNKNOWN name\n", idx, a->len);
 		return expr_tree_new_constant (value_new_string ("Unknown name"));
 
 	}
 
-	if (bnd->type == BNDStore && bnd->v.store.data) {
-		ExprTree *tree = ms_excel_parse_formula (esheet,
-			bnd->v.store.data, 0, 0, FALSE,
-			bnd->v.store.len, NULL);
-
-		bnd->type = BNDName;
-		g_free (bnd->v.store.data);
-
-		if (tree) {
-			ParsePos pp;
-			if (bnd->sheet_index > 0)
-				parse_pos_init (&pp, NULL, esheet->gnum_sheet, 0,0);
-			else
-				parse_pos_init (&pp, esheet->wb->gnum_wb, NULL, 0,0);
-
-			bnd->v.name = expr_name_add (&pp, bnd->name, tree, NULL);
-
-			if (!bnd->v.name)
-				printf ("Error: for name '%s'\n", bnd->name);
-#ifndef NO_DEBUG_EXCEL
-			else if (ms_excel_read_debug > 1) {
-				ParsePos ep;
-				parse_pos_init (&ep, NULL, esheet->gnum_sheet, 0, 0);
-				printf ("Parsed name: '%s' = '%s'\n",
-					bnd->name, tree
-					? expr_tree_as_string (tree, &ep)
-					: "error");
-			}
-#endif
-		} else
-			bnd->v.name = NULL; /* OK so it's a special 'AddIn' name */
-	}
-
-	if (bnd->type == BNDName && bnd->v.name)
-		return expr_tree_new_name (bnd->v.name, NULL, NULL);
-	return expr_tree_new_constant (value_new_string (bnd->name));
-}
-
-static void
-biff_name_data_destroy (BiffNameData *bnd)
-{
-	g_return_if_fail (bnd);
-
-	if (bnd->name)
-		g_free ((char *)bnd->name);
-	bnd->name    = NULL;
-	if (bnd->type == BNDStore) {
-		if (bnd->v.store.data)
-			g_free (bnd->v.store.data);
-	} /* else: bnd->v.name is held in the sheet */
-	g_free (bnd);
+	return expr_tree_new_name (nexpr, NULL, NULL);
 }
 
 EXCEL_PALETTE_ENTRY const excel_default_palette[EXCEL_DEF_PAL_LEN] = {
@@ -1088,34 +1397,6 @@ ms_excel_get_xf (ExcelSheet *esheet, int xfidx)
 	return xf;
 }
 
-/**
- * get_substitute_font
- * @fontname    The font name
- *
- * Tries to find a gnome font which matches the Excel font.
- * Returns the name of the substitute font if found. Otherwise returns NULL
- */
-/* This is very ad hoc - throw it away when something better comes along */
-static const gchar *
-get_substitute_font (const gchar *fontname)
-{
-	int i;
-
-	/* Strictly for testing */
-	static const char *temporary[][2] = {
-		{ "Times New Roman", "Times"},
-		{ "Arial",           "Helvetica"},
-		{ "Courier New",     "Courier"},
-		{ NULL }
-	};
-	for (i = 0; temporary[i][0]; i++)
-		if (g_strcasecmp (temporary[i][0], fontname) == 0) {
-			return temporary[i][1];
-		}
-
-	return NULL;
-}
-
 static MStyle *
 ms_excel_get_style_from_xf (ExcelSheet *esheet, guint16 xfidx)
 {
@@ -1158,7 +1439,7 @@ ms_excel_get_style_from_xf (ExcelSheet *esheet, guint16 xfidx)
 	fd = ms_excel_get_font (esheet, xf->font_idx);
 	if (fd != NULL) {
 		StyleUnderlineType underline = UNDERLINE_NONE;
-		const char *subs_fontname = get_substitute_font (fd->fontname);
+		char const *subs_fontname = fd->fontname;
 		if (subs_fontname)
 			mstyle_set_font_name   (mstyle, subs_fontname);
 		else
@@ -1288,15 +1569,16 @@ ms_excel_get_style_from_xf (ExcelSheet *esheet, guint16 xfidx)
 static void
 ms_excel_set_xf (ExcelSheet *esheet, int col, int row, guint16 xfidx)
 {
-	MStyle *const mstyle = ms_excel_get_style_from_xf (esheet, xfidx);
-	if (mstyle == NULL)
-		return;
-
 	d (2, printf ("%s!%s%d = xf(%d)\n", esheet->gnum_sheet->name_unquoted,
 		      col_name (col), row + 1, xfidx););
 
-#warning there is a big optimization here if we do not apply the sheet/col/row default
-	sheet_style_set_pos (esheet->gnum_sheet, col, row, mstyle);
+	if (xfidx > 0) {
+		MStyle *const mstyle = ms_excel_get_style_from_xf (esheet, xfidx);
+		if (mstyle == NULL)
+			return;
+
+		sheet_style_set_pos (esheet->gnum_sheet, col, row, mstyle);
+	}
 }
 
 static void
@@ -1695,11 +1977,9 @@ ms_excel_formula_shared (BiffQuery *q, ExcelSheet *esheet, Cell *cell)
 		guint8 *data = q->data + (is_array ? 14 : 10);
 		guint16 const data_len =
 			MS_OLE_GET_GUINT16 (q->data + (is_array ? 12 : 8));
-		ExprTree *expr = ms_excel_parse_formula (esheet, data,
-							 array_col_first,
-							 array_row_first,
-							 !is_array, data_len,
-							 NULL);
+		ExprTree *expr = ms_excel_parse_formula (
+			esheet->wb, esheet, array_col_first, array_row_first,
+			data, data_len, !is_array, NULL);
 		BiffSharedFormula *sf = g_new (BiffSharedFormula, 1);
 
 		/*
@@ -1762,11 +2042,10 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *esheet)
 	Cell	 *cell;
 	Value	 *val = NULL;
 
-	/* Set format */
 	ms_excel_set_xf (esheet, col, row, xf_index);
 
-	/* Then fetch Cell */
 	cell = sheet_cell_fetch (esheet->gnum_sheet, col, row);
+	g_return_if_fail (cell != NULL);
 
 	d (0, printf ("Formula in %s!%s;\n",
 		      cell->base.sheet->name_quoted, cell_name (cell)););
@@ -1799,7 +2078,7 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *esheet)
 		double const num = gnumeric_get_le_double (q->data + 6);
 		val = value_new_float (num);
 	} else {
-		const guint8 val_type = MS_OLE_GET_GUINT8 (q->data + 6);
+		guint8 const val_type = MS_OLE_GET_GUINT8 (q->data + 6);
 		switch (val_type) {
 		case 0: /* String */
 			is_string = TRUE;
@@ -1841,10 +2120,9 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *esheet)
 		};
 	}
 
-	expr = ms_excel_parse_formula (esheet, (q->data + 22),
-				       col, row,
-				       FALSE, MS_OLE_GET_GUINT16 (q->data + 20),
-				       &array_elem);
+	expr = ms_excel_parse_formula (esheet->wb, esheet, col, row,
+		(q->data + 22), MS_OLE_GET_GUINT16 (q->data + 20),
+		FALSE, &array_elem);
 
 	/* Error was flaged by parse_formula */
 	if (expr == NULL && !array_elem)
@@ -1862,7 +2140,7 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *esheet)
 				 *       unicode format rather than the pure
 				 *       length version the docs describe.
 				 */
-				const guint16 len = MS_OLE_GET_GUINT16 (q->data);
+				guint16 const len = MS_OLE_GET_GUINT16 (q->data);
 
 				if (len > 0)
 					v = biff_get_text (q->data + 2, len, NULL);
@@ -1877,29 +2155,29 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *esheet)
 				val = value_new_string (v);
 				g_free (v);
 			} else {
-				EvalPos pos;
-				val = value_new_error (eval_pos_init_cell (&pos, cell), "INVALID STRING");
+				EvalPos ep;
+				val = value_new_error (eval_pos_init_cell (&ep, cell),
+					"INVALID STRING");
 				g_warning ("EXCEL: invalid STRING record in %s",
-					   cell_name (cell));
+					cell_name (cell));
 			}
 		} else {
-			/*
-			 * Docs say that there should be a STRING
-			 * record here
-			 */
-			EvalPos pos;
-			val = value_new_error (eval_pos_init_cell (&pos, cell), "MISSING STRING");
+			/* There should be a STRING record here */
+			EvalPos ep;
+			val = value_new_error (eval_pos_init_cell (&ep, cell),
+				"MISSING STRING");
 			g_warning ("EXCEL: missing STRING record for %s",
-				   cell_name (cell));
+				cell_name (cell));
 		}
 	}
 
 	/* We MUST have a value */
 	if (val == NULL) {
-		EvalPos pos;
-		val = value_new_error (eval_pos_init_cell (&pos, cell), "MISSING Value");
+		EvalPos ep;
+		val = value_new_error (eval_pos_init_cell (&ep, cell),
+			"MISSING Value");
 		g_warning ("EXCEL: Invalid state.  Missing Value in %s?",
-			   cell_name (cell));
+			cell_name (cell));
 	}
 
 	if (cell_is_array (cell)) {
@@ -1914,8 +2192,12 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *esheet)
 		} else
 			cell_assign_value (cell, val);
 	} else if (!cell_has_expr (cell)) {
-		cell_set_expr_and_value (cell, expr, val, TRUE);
-		expr_tree_unref (expr);
+		/* Just in case things screwed up, at least save the value */
+		if (expr != NULL) {
+			cell_set_expr_and_value (cell, expr, val, TRUE);
+			expr_tree_unref (expr);
+		} else
+			cell_assign_value (cell, val);
 	} else {
 		/*
 		 * NOTE: Only the expression is screwed.
@@ -1938,411 +2220,11 @@ BiffSharedFormula *
 ms_excel_sheet_shared_formula (ExcelSheet const *esheet,
 			       CellPos const    *key)
 {
+	g_return_val_if_fail (esheet != NULL, NULL);
+
 	d (5, printf ("FIND SHARED: %s\n", cell_pos_name (key)););
 
 	return g_hash_table_lookup (esheet->shared_formulae, key);
-}
-
-/**
- * ms_sheet_obj_anchor_to_pos:
- * @points	Array which receives anchor coordinates in points
- * @obj         The object
- * @sheet	The sheet
- *
- * Converts anchor coordinates in Excel units to points. Anchor
- * coordinates are x and y of upper left and lower right corner. Each
- * is expressed as a pair: Row/cell number + position within cell as
- * fraction of cell dimension.
- *
- * NOTE: According to docs, position within cell is expressed as
- * 1/1024 of cell dimension. However, this doesn't seem to be true
- * vertically, for Excel 97. We use 256 for >= XL97 and 1024 for
- * preceding.
-  */
-static gboolean
-ms_sheet_obj_anchor_to_pos (Sheet const * sheet, MsBiffVersion const ver,
-			    guint8 const *raw_anchor,
-			    Range *range, float offset[4])
-{
-	float const row_denominator = (ver >= MS_BIFF_V8) ? 256. : 1024.;
-	int	i;
-
-	d (0, printf ("%s\n", sheet->name_unquoted););
-
-	/* Ignore the first 2 bytes.  What are they ? */
-	/* Dec/1/2000 JEG: I have not researched it, but this may have some
-	 * flags indicating whether or not the object is acnhored to the cell
-	 */
-	raw_anchor += 2;
-
-	/* Words 0, 4, 8, 12: The row/col of the corners */
-	/* Words 2, 6, 10, 14: distance from cell edge */
-	for (i = 0; i < 4; i++, raw_anchor += 4) {
-		int const pos  = MS_OLE_GET_GUINT16 (raw_anchor);
-		int const nths = MS_OLE_GET_GUINT16 (raw_anchor + 2);
-
-		d (2, {
-			printf ("%d/%d cell %s from ",
-				nths, (i & 1) ? 256 : 1024,
-				(i & 1) ? "heights" : "widths");
-			if (i & 1)
-				printf ("row %d;\n", pos + 1);
-			else
-				printf ("col %s (%d);\n", col_name (pos), pos);
-		});
-
-		if (i & 1) { /* odds are rows */
-			offset[i] = nths / row_denominator;
-			if (i == 1)
-				range->start.row = pos;
-			else
-				range->end.row = pos;
-		} else {
-			offset[i] = nths / 1024.;
-			if (i == 0)
-				range->start.col = pos;
-			else
-				range->end.col = pos;
-		}
-	}
-
-	return FALSE;
-}
-
-static gboolean
-ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
-{
-	float offsets[4];
-	Range range;
-	ExcelSheet *esheet;
-	MSObjAttr *anchor;
-
-	if (obj == NULL)
-		return TRUE;
-
-	g_return_val_if_fail (container != NULL, TRUE);
-	esheet = (ExcelSheet *)container;
-
-	anchor = ms_object_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_ANCHOR);
-	if (anchor == NULL) {
-		printf ("MISSING anchor for obj %p\n", obj);
-		return TRUE;
-	}
-
-	if (ms_sheet_obj_anchor_to_pos (esheet->gnum_sheet, container->ver,
-					anchor->v.v_ptr, &range, offsets))
-		return TRUE;
-
-	if (obj->gnum_obj != NULL) {
-		static SheetObjectAnchorType const anchor_types[4] = {
-			SO_ANCHOR_PERCENTAGE_FROM_COLROW_START,
-			SO_ANCHOR_PERCENTAGE_FROM_COLROW_START,
-			SO_ANCHOR_PERCENTAGE_FROM_COLROW_START,
-			SO_ANCHOR_PERCENTAGE_FROM_COLROW_START
-		};
-		MSObjAttr *flip_h = ms_object_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_FLIP_H);
-		MSObjAttr *flip_v = ms_object_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_FLIP_V);
-		SheetObjectDirection direction =
-			((flip_h == NULL) ? SO_DIR_RIGHT : 0) |
-			((flip_v == NULL) ? SO_DIR_DOWN : 0);
-		SheetObjectAnchor anchor;
-		sheet_object_anchor_init (&anchor, &range,
-					  offsets, anchor_types,
-					  direction);
-		sheet_object_anchor_set (SHEET_OBJECT (obj->gnum_obj),
-					 &anchor);
-		sheet_object_set_sheet (SHEET_OBJECT (obj->gnum_obj),
-					esheet->gnum_sheet);
-
-		/* can not be done until we have set the sheet */
-		if (obj->excel_type == 0x0B) {
-			sheet_widget_checkbox_set_link (SHEET_OBJECT (obj->gnum_obj),
-				ms_object_attr_get_expr (obj, MS_OBJ_ATTR_CHECKBOX_LINK, NULL));
-		} else if (obj->excel_type == 0x11) {
-			sheet_widget_scrollbar_set_details (SHEET_OBJECT (obj->gnum_obj),
-				ms_object_attr_get_expr (obj, MS_OBJ_ATTR_SCROLLBAR_LINK, NULL),
-				0,
-				ms_object_attr_get_int  (obj, MS_OBJ_ATTR_SCROLLBAR_MIN, 0),
-				ms_object_attr_get_int  (obj, MS_OBJ_ATTR_SCROLLBAR_MAX, 100),
-				ms_object_attr_get_int  (obj, MS_OBJ_ATTR_SCROLLBAR_INC, 1),
-				ms_object_attr_get_int  (obj, MS_OBJ_ATTR_SCROLLBAR_PAGE, 10));
-		}
-	}
-
-	return FALSE;
-}
-
-static StyleColor *
-ms_sheet_map_color (ExcelSheet const *esheet, MSObj const *obj, MSObjAttrID id)
-{
-	gushort r, g, b;
-	MSObjAttr *attr = ms_object_attr_bag_lookup (obj->attrs, id);
-
-	if (attr == NULL)
-		return NULL;
-
-	if ((~0x7ffffff) & attr->v.v_uint)
-		return ms_excel_palette_get (esheet->wb->palette,
-			(0x7ffffff & attr->v.v_uint));
-
-	r = (attr->v.v_uint)       & 0xff;
-	g = (attr->v.v_uint >> 8)  & 0xff;
-	b = (attr->v.v_uint >> 16) & 0xff;
-
-	return style_color_new_i8 (r, g, b);
-}
-
-static SheetObject *
-ms_sheet_create_image (MSObj *obj, MSEscherBlip *blip)
-{
-	SheetObject *so;
-	MSObjAttr *crop_left_attr = ms_object_attr_bag_lookup
-		(obj->attrs, MS_OBJ_ATTR_BLIP_CROP_LEFT);
-	MSObjAttr *crop_top_attr = ms_object_attr_bag_lookup
-		(obj->attrs, MS_OBJ_ATTR_BLIP_CROP_TOP);
-	MSObjAttr *crop_right_attr = ms_object_attr_bag_lookup
-		(obj->attrs, MS_OBJ_ATTR_BLIP_CROP_RIGHT);
-	MSObjAttr *crop_bottom_attr = ms_object_attr_bag_lookup
-		(obj->attrs, MS_OBJ_ATTR_BLIP_CROP_BOTTOM);
-	double crop_left_val = 0.0;
-	double crop_top_val = 0.0;
-	double crop_right_val = 0.0;
-	double crop_bottom_val = 0.0;
-	
-	so = sheet_object_image_new (blip->type, blip->data, blip->data_len,
-				     !blip->needs_free);
-
-	if (!so)
-		return NULL;
-	
-	if (crop_left_attr)
-		crop_left_val   = (double) crop_left_attr->v.v_uint / 65536.;
-	if (crop_top_attr)
-		crop_top_val    = (double) crop_top_attr->v.v_uint / 65536.;
-	if (crop_right_attr)
-		crop_right_val  = (double) crop_right_attr->v.v_uint / 65536.;
-	if (crop_bottom_attr)
-		crop_bottom_val = (double) crop_bottom_attr->v.v_uint / 65536.;
-	sheet_object_image_set_crop (SHEET_OBJECT_IMAGE (so),
-				     crop_left_val, crop_top_val,
-				     crop_right_val, crop_bottom_val);
-
-	return so;
-}
-
-static GObject *
-ms_sheet_create_obj (MSContainer *container, MSObj *obj)
-{
-	SheetObject *so = NULL;
-	Workbook *wb;
-	ExcelSheet const *esheet;
-
-	if (obj == NULL)
-		return NULL;
-
-	g_return_val_if_fail (container != NULL, NULL);
-
-	esheet = (ExcelSheet const *)container;
-	wb = esheet->wb->gnum_wb;
-
-	switch (obj->excel_type) {
-	case 0x01: { /* Line */
-		MSObjAttr *is_arrow = ms_object_attr_bag_lookup (obj->attrs,
-			MS_OBJ_ATTR_ARROW_END);
-		so = sheet_object_line_new (is_arrow != NULL); break;
-		break;
-	}
-	case 0x02:
-	case 0x03: { /* Box or Oval */
-		StyleColor *fill_color = NULL;
-		so = sheet_object_box_new (obj->excel_type == 3);
-		if (ms_object_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_FILLED))
-			fill_color = ms_sheet_map_color (esheet, obj,
-				MS_OBJ_ATTR_FILL_COLOR);
-		sheet_object_graphic_fill_color_set (so, fill_color);
-		break;
-	}
-
-	case 0x05: { /* Chart */
-#ifdef ENABLE_BONOBO
-		so = SHEET_OBJECT (gnm_graph_new (wb));
-#else
-		so = sheet_object_box_new (FALSE);  /* placeholder */
-		if (esheet->wb->warn_unsupported_graphs) {
-			/* TODO : Use IOContext when available */
-			esheet->wb->warn_unsupported_graphs = FALSE;
-			g_warning ("Images are not supported in non-bonobo version");
-		}
-#endif
-		break;
-	}
-
-	/* TextBox */
-	case 0x06: so = g_object_new (sheet_widget_label_get_type (), NULL);
-		   break;
-	/* Button */
-	case 0x07: so = g_object_new (sheet_widget_button_get_type (), NULL);
-		   break;
-	case 0x08: { /* Picture */
-		MSObjAttr *blip_id = ms_object_attr_bag_lookup (obj->attrs,
-			MS_OBJ_ATTR_BLIP_ID);
-
-		if (blip_id != NULL) {
-			MSEscherBlip *blip = ms_container_get_blip (container,
-				blip_id->v.v_uint - 1);
-			if (blip != NULL) {
-				so = ms_sheet_create_image (obj, blip);
-				blip->needs_free = FALSE; /* image took over managing data */
-			}
-		}
-
-		/* replace blips we don't know how to handle with rectangles */
-		if (so == NULL)
-			so = sheet_object_box_new (FALSE);  /* placeholder */
-		break;
-	}
-	case 0x0B: so = g_object_new (sheet_widget_checkbox_get_type (), NULL);
-		   break;
-	case 0x0C: so = g_object_new (sheet_widget_radio_button_get_type (), NULL);
-		   break;
-	case 0x0E: so = g_object_new (sheet_widget_label_get_type (), NULL);
-		   break;
-	case 0x10: so = sheet_object_box_new (FALSE);  break; /* Spinner */
-	case 0x11: so = g_object_new (sheet_widget_scrollbar_get_type (), NULL);
-		   break;
-	case 0x12: so = g_object_new (sheet_widget_list_get_type (), NULL);
-		   break;
-	case 0x14: so = g_object_new (sheet_widget_combo_get_type (), NULL);
-		   break;
-
-	case 0x19: /* Comment */
-		/* TODO: we'll need a special widget for this */
-		return NULL;
-
-	default:
-		g_warning ("EXCEL: unhandled excel object of type %s (0x%x) id = %d\n",
-			   obj->excel_type_name, obj->excel_type, obj->id);
-		return NULL;
-	}
-
-	return so ? G_OBJECT (so) : NULL;
-}
-
-static ExprTree *
-ms_sheet_parse_expr_internal (ExcelSheet *esheet, guint8 const *data, int length)
-{
-	ExprTree *expr;
-
-	g_return_val_if_fail (length > 0, NULL);
-
-	expr = ms_excel_parse_formula (esheet, data,
-				       0, 0, FALSE, length, NULL);
-#if 0
-	{
-		char *tmp;
-		ParsePos pp;
-		Sheet *sheet = esheet->gnum_sheet;
-		Workbook *wb = (sheet == NULL) ? esheet->wb->gnum_wb : NULL;
-
-		tmp = expr_tree_as_string (expr, parse_pos_init (&pp, wb, sheet, 0, 0));
-		puts (tmp);
-		g_free (tmp);
-	}
-#endif
-
-	return expr;
-}
-
-static ExprTree *
-ms_sheet_parse_expr (MSContainer *container, guint8 const *data, int length)
-{
-	return ms_sheet_parse_expr_internal ((ExcelSheet *)container,
-					     data, length);
-}
-
-static Sheet  *
-ms_sheet_sheet (MSContainer const *container)
-{
-	return ((ExcelSheet const *)container)->gnum_sheet;
-}
-
-static StyleFormat *
-ms_sheet_get_fmt (MSContainer const *container, guint16 indx)
-{
-	return ms_excel_wb_get_fmt (((ExcelSheet const *)container)->wb, indx);
-}
-
-static void
-ms_excel_print_unit_init_inch (PrintUnit *pu, double val)
-{
-	pu->points = unit_convert (val, UNIT_INCH, UNIT_POINTS);
-	pu->desired_display = UNIT_INCH; /* FIXME: should be more global */
-}
-
-/*
- * ms_excel_init_margins
- * @esheet ExcelSheet
- *
- * Excel only saves margins when any of the margins differs from the
- * default. So we must initialize the margins to Excel's defaults, which
- * are:
- * Top, bottom:    1 in   - 72 pt
- * Left, right:    3/4 in - 48 pt
- * Header, footer: 1/2 in - 36 pt
- */
-static void
-ms_excel_init_margins (ExcelSheet *esheet)
-{
-	PrintInformation *pi;
-
-	g_return_if_fail (esheet != NULL);
-	g_return_if_fail (esheet->gnum_sheet != NULL);
-	g_return_if_fail (esheet->gnum_sheet->print_info != NULL);
-
-	pi = esheet->gnum_sheet->print_info;
-	ms_excel_print_unit_init_inch (&pi->margins.top, 1.0);
-	ms_excel_print_unit_init_inch (&pi->margins.bottom, 1.0);
-	ms_excel_print_unit_init_inch (&pi->margins.left, 0.75);
-	ms_excel_print_unit_init_inch (&pi->margins.right, 0.75);
-	ms_excel_print_unit_init_inch (&pi->margins.header, 0.5);
-	ms_excel_print_unit_init_inch (&pi->margins.footer, 0.5);
-}
-
-static ExcelSheet *
-ms_excel_sheet_new (ExcelWorkbook *wb, char const *sheet_name)
-{
-	static MSContainerClass const vtbl = {
-		&ms_sheet_realize_obj,
-		&ms_sheet_create_obj,
-		&ms_sheet_parse_expr,
-		&ms_sheet_sheet,
-		&ms_sheet_get_fmt
-	};
-
-	ExcelSheet *esheet = g_new (ExcelSheet, 1);
-	Sheet *sheet = workbook_sheet_by_name (wb->gnum_wb, sheet_name);
-
-	if (sheet == NULL)
-		sheet = sheet_new (wb->gnum_wb, sheet_name);
-
-	esheet->wb         = wb;
-	esheet->gnum_sheet = sheet;
-	esheet->base_char_width         = -1;
-	esheet->base_char_width_default = -1;
-	esheet->freeze_panes		= FALSE;
-	esheet->shared_formulae         =
-		g_hash_table_new ((GHashFunc)&cellpos_hash,
-				  (GCompareFunc)&cellpos_cmp);
-
-	ms_excel_init_margins (esheet);
-	ms_container_init (&esheet->container, &vtbl, &wb->container);
-
-	/* in case nothing forces a spanning, do it here so that any new content
-	 * will get spanned.
-	 */
-	sheet_flag_recompute_spans (sheet);
-
-	return esheet;
 }
 
 static void
@@ -2475,8 +2357,9 @@ ms_excel_workbook_new (MsBiffVersion ver)
 	ms_container_init (&ans->container, &vtbl, NULL);
 	ans->container.ver = ver;
 
-	ans->extern_sheets = NULL;
-	ans->num_extern_sheets = 0;
+	ans->extern_sheet_v8 = NULL;
+	ans->extern_sheet_v7 = NULL;
+
 	ans->gnum_wb = NULL;
 	/* Boundsheet data hashed twice */
 	ans->boundsheet_data_by_stream = g_hash_table_new ((GHashFunc)biff_guint32_hash,
@@ -2493,14 +2376,13 @@ ms_excel_workbook_new (MsBiffVersion ver)
 	ans->palette          = ms_excel_default_palette ();
 	ans->global_strings   = NULL;
 	ans->global_string_max  = 0;
-	ans->read_drawing_group = 0;
 
 	ans->warn_unsupported_graphs = TRUE;
 	return ans;
 }
 
 ExcelSheet *
-ms_excel_workbook_get_sheet (ExcelWorkbook *wb, guint idx)
+ms_excel_workbook_get_sheet (ExcelWorkbook const *wb, guint idx)
 {
 	if (idx < wb->excel_sheets->len)
 		return g_ptr_array_index (wb->excel_sheets, idx);
@@ -2522,10 +2404,10 @@ ms_excel_workbook_destroy (ExcelWorkbook *wb)
 			biff_xf_data_destroy (g_ptr_array_index (wb->XF_cell_records, lp));
 	g_ptr_array_free (wb->XF_cell_records, TRUE);
 
-	if (wb->name_data)
-		for (lp = 0; lp < wb->name_data->len; lp++)
-			biff_name_data_destroy (g_ptr_array_index (wb->name_data, lp));
-	g_ptr_array_free (wb->name_data, TRUE);
+	if (wb->name_data) {
+		g_ptr_array_free (wb->name_data, TRUE);
+		wb->name_data = NULL;
+	}
 
 	g_hash_table_foreach_remove (wb->font_data,
 				     (GHRFunc)biff_font_data_destroy,
@@ -2537,11 +2419,19 @@ ms_excel_workbook_destroy (ExcelWorkbook *wb)
 				     wb);
 	g_hash_table_destroy (wb->format_data);
 
-	if (wb->palette && wb->palette != ms_excel_default_palette ())
+	if (wb->palette && wb->palette != ms_excel_default_palette ()) {
 		ms_excel_palette_destroy (wb->palette);
+		wb->palette = NULL;
+	}
 
-	if (wb->extern_sheets)
-		g_free (wb->extern_sheets);
+	if (wb->extern_sheet_v8) {
+		g_array_free (wb->extern_sheet_v8, TRUE);
+		wb->extern_sheet_v8 = NULL;
+	}
+	if (wb->extern_sheet_v7) {
+		g_ptr_array_free (wb->extern_sheet_v7, TRUE);
+		wb->extern_sheet_v7 = NULL;
+	}
 
 	if (wb->global_strings) {
 		unsigned i;
@@ -2597,181 +2487,173 @@ biff_get_rk (guint8 const *ptr)
 	while (1) abort ();
 }
 
-/*
- * ms_excel_read_name:
- * read a Name.  The workbook must be present, the sheet is optional.
- */
-static void
-ms_excel_read_name (BiffQuery *q, ExcelWorkbook *wb, ExcelSheet *esheet)
+static char const *
+ms_excel_builtin_name (guint8 const *ptr)
 {
-#if defined(excel95)
-Opcode 0x 18 :            NAME, length 0x24 (=36)
-       0 |  0  0  0  4 12  0  1  0  1  0  0  0  0  0 62 6f | ..............bo
-      10 | 62 6f 3a ff ff  0  0  0  0  0  0  1  0  0  0  0 | bo:.............
-      20 |  0  1  0  1 XX XX XX XX XX XX XX XX XX XX XX XX | ....************
-       0 |  0  0  0  4 12  0  2  0  1  0  0  0  0  0 62 6f | ..............bo
-      10 | 62 6f 3a fe ff  0  0  0  0  0  0  1  0  1  0  1 | bo:.............
-      20 |  0  1  0  1 XX XX XX XX XX XX XX XX XX XX XX XX | ....************
-       0 |  0  0  0  4 12  0  3  0  1  0  0  0  0  0 62 6f | ..............bo
-      10 | 62 6f 3a fd ff  0  0  0  0  0  0  1  0  2  0  2 | bo:.............
-      20 |  0  1  0  1 XX XX XX XX XX XX XX XX XX XX XX XX | ....************
-#elif defined(excel2k)
-Opcode 0x 18 :            NAME, length 0x1a (=26)
-       0 |  0  0  0  4  7  0  0  0  1  0  0  0  0  0  0 62 | ...............b
-      10 | 6f 62 6f 3a  0  0  1  0  1  0 XX XX XX XX XX XX | obo:......******
-       0 |  0  0  0  4  7  0  0  0  2  0  0  0  0  0  0 62 | ...............b
-      10 | 6f 62 6f 3a  1  0  1  0  1  0 XX XX XX XX XX XX | obo:......******
-       0 |  0  0  0  4  7  0  0  0  3  0  0  0  0  0  0 62 | ...............b
-      10 | 6f 62 6f 3a  2  0  1  0  1  0 XX XX XX XX XX XX | obo:......******
-#endif
-	guint16 fn_grp_idx;
-	guint16 flags          = MS_OLE_GET_GUINT16 (q->data);
-#if 0
-	guint8  kb_shortcut    = MS_OLE_GET_GUINT8  (q->data + 2);
-#endif
-	guint8  name_len       = MS_OLE_GET_GUINT8  (q->data + 3);
-	guint16 name_def_len;
-	guint8 *name_def_data;
-	int     const sheet_idx      = MS_OLE_GET_GUINT16 (q->data + 8);
-	guint8  const menu_txt_len   = MS_OLE_GET_GUINT8  (q->data + 10);
-	guint8  const descr_txt_len  = MS_OLE_GET_GUINT8  (q->data + 11);
-	guint8  const help_txt_len   = MS_OLE_GET_GUINT8  (q->data + 12);
-	guint8  const status_txt_len = MS_OLE_GET_GUINT8  (q->data + 13);
-	char *name, *menu_txt, *descr_txt, *help_txt, *status_txt;
-	const guint8 *ptr;
+	switch (*ptr) {
+	case 0x00: return "Consolidate_Area";
+	case 0x01: return "Auto_Open";
+	case 0x02: return "Auto_Close";
+	case 0x03: return "Extract";
+	case 0x04: return "Database";
+	case 0x05: return "Criteria";
+	case 0x06: return "Print_Area";
+	case 0x07: return "Print_Titles";
+	case 0x08: return "Recorder";
+	case 0x09: return "Data_Form";
+	case 0x0a: return "Auto_Activate";
+	case 0x0b: return "Auto_Deactivate";
+	case 0x0c: return "Sheet_Title";
 
-#if 0
-	dump_biff (q);
-#endif
-	/* FIXME FIXME FIXME: Offsets have moved alot between versions.
-	 *                     track down the details */
-	if (wb->container.ver >= MS_BIFF_V8) {
-		name_def_len   = MS_OLE_GET_GUINT16 (q->data + 4);
-		name_def_data  = q->data + 15 + name_len;
+	default:
+		   g_warning ("Unknown builtin named expression %d", (int)*ptr);
+	}
+	return NULL;
+}
+
+static void
+ms_excel_read_NAME (BiffQuery *q, ExcelWorkbook *ewb)
+{
+	NamedExpression *nexpr = NULL;
+	guint16 flags		= MS_OLE_GET_GUINT16 (q->data);
+	/*guint8  kb_shortcut	= MS_OLE_GET_GUINT8  (q->data + 2); */
+	guint8  name_len	= MS_OLE_GET_GUINT8  (q->data + 3);
+	guint16 expr_len	= MS_OLE_GET_GUINT16 (q->data + 4);
+	guint16 sheet_index	= MS_OLE_GET_GUINT16 (q->data + 8);
+	guint8 const *expr_data, *ptr = q->data + 14;
+	char *name = NULL;
+	/* int fn_grp_idx = (flags & 0xfc0)>>6; */
+
+	if (ewb->container.ver >= MS_BIFF_V8) {
+		expr_data  = q->data + 15 + name_len;
 		ptr = q->data + 14;
-	} else if (wb->container.ver >= MS_BIFF_V7) {
-		name_def_len   = MS_OLE_GET_GUINT16 (q->data + 4);
-		name_def_data  = q->data + 14 + name_len;
+	} else if (ewb->container.ver >= MS_BIFF_V7) {
+		expr_data  = q->data + 14 + name_len;
 		ptr = q->data + 14;
 	} else {
-		name_def_len   = MS_OLE_GET_GUINT16 (q->data + 4);
-		name_def_data  = q->data + 5 + name_len;
+		expr_data  = q->data + 5 + name_len;
 		ptr = q->data + 5;
 	}
 
-	/* FIXME FIXME FIXME: Disable for now */
-	if (0 && name_len == 1 && *ptr <= 0x0c) {
-		const char *cname;
-		switch (*ptr) {
-		case 0x00: cname = "Consolidate_Area"; break;
-		case 0x01: cname = "Auto_Open"; break;
-		case 0x02: cname = "Auto_Close"; break;
-		case 0x03: cname = "Extract"; break;
-		case 0x04: cname = "Database"; break;
-		case 0x05: cname = "Criteria"; break;
-		case 0x06: cname = "Print_Area"; break;
-		case 0x07: cname = "Print_Titles"; break;
-		case 0x08: cname = "Recorder"; break;
-		case 0x09: cname = "Data_Form"; break;
-		case 0x0a: cname = "Auto_Activate"; break;
-		case 0x0b: cname = "Auto_Deactivate"; break;
-		case 0x0c: cname = "Sheet_Title"; break;
-		default:   cname = "ERROR ERROR ERROR.  This is impossible";
-		}
-		name = g_strdup (cname);
-	} else
-		name = biff_get_text (ptr, name_len, NULL);
-	ptr += name_len + name_def_len;
-	menu_txt = biff_get_text (ptr, menu_txt_len, NULL);
-	ptr += menu_txt_len;
-	descr_txt = biff_get_text (ptr, descr_txt_len, NULL);
-	ptr += descr_txt_len;
-	help_txt = biff_get_text (ptr, help_txt_len, NULL);
-	ptr += help_txt_len;
-	status_txt = biff_get_text (ptr, status_txt_len, NULL);
+	/* is built in */
+	if ((flags & 0x0020)) {
+		char const *cname = ms_excel_builtin_name (ptr);
+		if (cname != NULL)
+			nexpr = expr_name_lookup (NULL, cname);
+	} else if (NULL != (name = biff_get_text (ptr, name_len, NULL))) {
+		ParsePos pp;
+		ExprTree *expr;
 
-	fn_grp_idx = (flags & 0xfc0)>>6;
+		/* I think it is ok to pass sheet = NULL */
+		expr = ms_excel_parse_formula (ewb, NULL, 0, 0,
+			expr_data, expr_len, FALSE, NULL);
+
+		if (expr == NULL)
+			expr = expr_tree_new_constant (
+				value_new_error (NULL, gnumeric_err_REF));
+
+		parse_pos_init (&pp, ewb->gnum_wb, NULL, 0, 0);
+		if (sheet_index > 0)
+			pp.sheet = workbook_sheet_by_index (ewb->gnum_wb, sheet_index-1),
+		nexpr = expr_name_add (&pp, name, expr, NULL);
+	}
+
+	/* nexpr is potentially NULL if there was an error */
+	ms_excel_add_name (ewb,  nexpr);
 
 	d (5, {
+		guint8  menu_txt_len	= MS_OLE_GET_GUINT8  (q->data + 10);
+		guint8  descr_txt_len	= MS_OLE_GET_GUINT8  (q->data + 11);
+		guint8  help_txt_len	= MS_OLE_GET_GUINT8  (q->data + 12);
+		guint8  status_txt_len= MS_OLE_GET_GUINT8  (q->data + 13);
+		char *menu_txt;
+		char *descr_txt;
+		char *help_txt;
+		char *status_txt;
+
+		ptr += name_len + expr_len;
+		menu_txt = biff_get_text (ptr, menu_txt_len, NULL);
+		ptr += menu_txt_len;
+		descr_txt = biff_get_text (ptr, descr_txt_len, NULL);
+		ptr += descr_txt_len;
+		help_txt = biff_get_text (ptr, help_txt_len, NULL);
+		ptr += help_txt_len;
+		status_txt = biff_get_text (ptr, status_txt_len, NULL);
+
 		printf ("Name record: '%s', '%s', '%s', '%s', '%s'\n",
 			name ? name : "(null)",
 			menu_txt ? menu_txt : "(null)",
 			descr_txt ? descr_txt : "(null)",
 			help_txt ? help_txt : "(null)",
 			status_txt ? status_txt : "(null)");
-		ms_ole_dump (name_def_data, name_def_len);
 
-		/* Unpack flags */
-		if ((flags & 0x0001) != 0)
-			printf (" Hidden");
-		if ((flags & 0x0002) != 0)
-			printf (" Function");
-		if ((flags & 0x0004) != 0)
-			printf (" VB-Proc");
-		if ((flags & 0x0008) != 0)
-			printf (" Proc");
-		if ((flags & 0x0010) != 0)
-			printf (" CalcExp");
-		if ((flags & 0x0020) != 0)
-			printf (" BuiltIn");
-		if ((flags & 0x1000) != 0)
-			printf (" BinData");
+		if ((flags & 0x0001) != 0) printf (" Hidden");
+		if ((flags & 0x0002) != 0) printf (" Function");
+		if ((flags & 0x0004) != 0) printf (" VB-Proc");
+		if ((flags & 0x0008) != 0) printf (" Proc");
+		if ((flags & 0x0010) != 0) printf (" CalcExp");
+		if ((flags & 0x0020) != 0) printf (" BuiltIn");
+		if ((flags & 0x1000) != 0) printf (" BinData");
 		printf ("\n");
+
+		if (menu_txt)
+			g_free (menu_txt);
+		if (descr_txt)
+			g_free (descr_txt);
+		if (help_txt)
+			g_free (help_txt);
+		if (status_txt)
+			g_free (status_txt);
 	});
-
-	biff_name_data_new (wb, name, sheet_idx - 1,
-			    name_def_data, name_def_len, FALSE);
-
-	if (menu_txt)
-		g_free (menu_txt);
-	if (descr_txt)
-		g_free (descr_txt);
-	if (help_txt)
-		g_free (help_txt);
-	if (status_txt)
-		g_free (status_txt);
 }
 
-/* S59D7E.HTM */
 static void
 ms_excel_externname (BiffQuery *q, ExcelWorkbook *wb, ExcelSheet *esheet)
 {
-	char const *name;
-	guint8 *defn;
-	guint16 defnlen;
+	NamedExpression *nexpr = NULL;
+	char *name = NULL;
+
+	/* NOTE : The name is associated with the last EXTERNSHEET records seen */
 	if (wb->container.ver >= MS_BIFF_V7) {
 		guint16 flags = MS_OLE_GET_GUINT8 (q->data);
 		guint32 namelen = MS_OLE_GET_GUINT8 (q->data + 6);
 
-		name = biff_get_text (q->data + 7, namelen, &namelen);
-		defn    = q->data + 7 + namelen;
-		defnlen = MS_OLE_GET_GUINT16 (defn);
-		defn += 2;
-
 		switch (flags & 0x18) {
-		case 0x00: /* external name */
-		    break;
+		case 0x00: { /* external name */
+			name = biff_get_text (q->data + 7, namelen, &namelen);
+#if 0
+			ExprTree *expr;
+
+			/* TODO : understand what an external name is */
+			expr = ms_sheet_parse_expr_internal (esheet,
+				q->data + 9 + namelen,
+				MS_OLE_GET_GUINT16 (q->data + 7 + namelen));
+#endif
+			break;
+		}
+
 		case 0x01: /* DDE */
 			printf ("FIXME: DDE links are no supported.\n"
 				"Name '%s' will be lost.\n", name);
-			return;
+			break;
+
 		case 0x10: /* OLE */
 			printf ("FIXME: OLE links are no supported.\n"
 				"Name '%s' will be lost.\n", name);
-			return;
+			break;
+
 		default:
 			g_warning ("EXCEL: Invalid external name type. ('%s')", name);
-			return;
+			break;
 		}
 	} else { /* Ancient Papyrus spec. */
-		static guint8 data[] = { 0x1c, 0x17 }; /* Error: REF */
-		defn = data;
-		defnlen = 2;
 		name = biff_get_text (q->data + 1,
-				      MS_OLE_GET_GUINT8 (q->data), NULL);
+			MS_OLE_GET_GUINT8 (q->data), NULL);
 	}
 
-	biff_name_data_new (wb, name, -1, defn, defnlen, TRUE);
+	if (name != NULL)
+		g_free (name);
+	ms_excel_add_name (wb, nexpr);
 }
 
 /**
@@ -3764,6 +3646,7 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb,
                      WorkbookView *wb_view, ExcelSheet *esheet,
 		     IOContext *io_context)
 {
+	MStyle *mstyle;
 	PrintInformation *pi;
 
 	g_return_val_if_fail (wb != NULL, FALSE);
@@ -3775,6 +3658,14 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb,
 
 	d (1, printf ("----------------- '%s' -------------\n",
 		      esheet->gnum_sheet->name_unquoted););
+
+	/* Apply the default style */
+	mstyle = ms_excel_get_style_from_xf (esheet, 0);
+	if (mstyle != NULL) {
+		Range r;
+		sheet_style_set_range (esheet->gnum_sheet,
+			range_init_full_sheet (&r), mstyle);
+	}
 
 	for (; ms_biff_query_next (q) ;
 	     value_io_progress_update (io_context, q->streamPos)) {
@@ -3864,16 +3755,21 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb,
 
 		case BIFF_BOOLERR: { /* S59D5F.HTM */
 			Value *v;
+			CellPos pos;
 			guint8 const val = MS_OLE_GET_GUINT8 (q->data + 6);
+
+			pos.col = EX_GETCOL (q);
+			pos.row = EX_GETROW (q);
+
 			if (MS_OLE_GET_GUINT8 (q->data + 7)) {
-				/* FIXME: Init EvalPos */
-				v = value_new_error (NULL,
-						     biff_get_error_text (val));
+				EvalPos ep;
+				v = value_new_error (
+					eval_pos_init (&ep, esheet->gnum_sheet, &pos),
+					biff_get_error_text (val));
 			} else
 				v = value_new_bool (val);
 			ms_excel_sheet_insert_val (esheet,
-						   EX_GETXF (q), EX_GETCOL (q),
-						   EX_GETROW (q), v);
+				EX_GETXF (q), pos.col, pos.row, v);
 			break;
 		}
 
@@ -3928,7 +3824,7 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb,
 
 		case BIFF_HEADER: { /* FIXME: S59D94 */
 			if (q->length) {
-				char *const str = biff_get_text (q->data + 1,
+				char *str = biff_get_text (q->data + 1,
 					MS_OLE_GET_GUINT8 (q->data), NULL);
 				d (2, printf ("Header '%s'\n", str););
 				g_free (str);
@@ -3938,17 +3834,13 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb,
 
 		case BIFF_FOOTER: { /* FIXME: S59D8D */
 			if (q->length) {
-				char *const str = biff_get_text (q->data + 1,
+				char *str = biff_get_text (q->data + 1,
 					MS_OLE_GET_GUINT8 (q->data), NULL);
 				d (2, printf ("Footer '%s'\n", str););
 				g_free (str);
 			}
 		}
 		break;
-
-		case BIFF_NAME:
-			ms_excel_read_name (q, esheet->wb, esheet);
-			break;
 
 		case BIFF_NOTE: /* See: S59DAB.HTM */
 			ms_excel_read_comment (q, esheet);
@@ -4136,7 +4028,7 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb,
 			});
 
 			if (lastcol < firstcol) {
-				int const tmp = firstcol;
+				int tmp = firstcol;
 				firstcol = lastcol;
 				lastcol = tmp;
 			}
@@ -4224,18 +4116,11 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb,
 	return FALSE;
 }
 
-XLExternSheet const *
-ms_excel_workboot_get_externsheets (ExcelWorkbook *wb, guint idx)
-{
-	g_return_val_if_fail (idx < wb->num_extern_sheets, NULL);
-	return &wb->extern_sheets [idx];
-}
-
 /*
  * see S59DEC.HTM
  */
 static void
-ms_excel_read_supporting_wb (BiffQuery *q, MsBiffBofData *ver)
+ms_excel_SUPBOOK (BiffQuery *q, MsBiffBofData *ver)
 {
 	guint16	numTabs = MS_OLE_GET_GUINT16 (q->data);
 	guint8 encodeType = MS_OLE_GET_GUINT8 (q->data + 2);
@@ -4321,46 +4206,93 @@ ms_excel_read_window1 (BiffQuery *q, WorkbookView *wb_view)
 	}
 }
 
-static void
-ms_excel_externsheet (BiffQuery const *q, ExcelWorkbook *wb, MsBiffBofData *ver)
+XLExternSheetV8 const *
+ms_excel_workbook_get_externsheet_v8 (ExcelWorkbook const *ewb, guint idx)
 {
-	g_return_if_fail (ver != NULL);
+	g_return_val_if_fail (ewb->extern_sheet_v8 != NULL, NULL);
+	g_return_val_if_fail (idx < ewb->extern_sheet_v8->len, NULL);
+	return &g_array_index (ewb->extern_sheet_v8, XLExternSheetV8, idx);
+}
 
-	/* FIXME: Clean this cruft.  I do not know what it was for, but it is definitely
-	 * broken.
-	 */
-	++externsheet;
+static void
+ms_excel_externsheet_v8 (BiffQuery const *q, ExcelWorkbook *ewb)
+{
+	gint16 sup_index;
+	unsigned i, num, first, last;
+	Sheet *first_sheet, *last_sheet;
 
-	if (ver->version >= MS_BIFF_V8) {
-		guint16 numXTI = MS_OLE_GET_GUINT16 (q->data);
-		guint16 cnt;
+	g_return_if_fail (ewb->extern_sheet_v8 == NULL);
+	num = MS_OLE_GET_GUINT16 (q->data);
 
-		wb->num_extern_sheets = numXTI;
-#if 0
-		printf ("ExternSheet (%d entries)\n", numXTI);
-		ms_ole_dump (q->data, q->length);
-#endif
+	d (-1, printf ("ExternSheet (%d entries)\n", num););
+	d (10, ms_ole_dump (q->data, q->length););
 
-		wb->extern_sheets = g_new (XLExternSheet, numXTI + 1);
+	ewb->extern_sheet_v8 = g_array_set_size (
+		g_array_sized_new (FALSE, FALSE,
+			sizeof(XLExternSheetV8), num), num);
 
-		for (cnt = 0; cnt < numXTI; cnt++) {
-			wb->extern_sheets[cnt].sup_idx = MS_OLE_GET_GUINT16 (q->data + 2 + cnt * 6 + 0);
-			wb->extern_sheets[cnt].first_sheet = MS_OLE_GET_GUINT16 (q->data + 2 + cnt * 6 + 2);
-			wb->extern_sheets[cnt].last_sheet  = MS_OLE_GET_GUINT16 (q->data + 2 + cnt * 6 + 4);
-#if 0
-			printf ("SupBook: %d First sheet %d, Last sheet %d\n",
-				wb->extern_sheets[cnt].sup_idx,
-				wb->extern_sheets[cnt].first_tab,
-				wb->extern_sheets[cnt].last_tab);
-#endif
+	for (i = 0; i < num; i++) {
+		sup_index = (gint16)MS_OLE_GET_GUINT16 (q->data + 2 + i * 6 + 0);
+		first	  = MS_OLE_GET_GUINT16 (q->data + 2 + i * 6 + 2);
+		last	  = MS_OLE_GET_GUINT16 (q->data + 2 + i * 6 + 4);
+
+		d (-1, printf ("ExternSheet: %hd First sheet %d, Last sheet %d\n",
+			      sup_index, first, last););
+
+		if (sup_index >= 0 &&
+		    first != 0xfffe && last != 0xfffe) { /* record for local names */
+			first_sheet = workbook_sheet_by_index (ewb->gnum_wb, first);
+			last_sheet  = workbook_sheet_by_index (ewb->gnum_wb, last);
+		} else {
+			first_sheet = last_sheet = NULL;
+			g_warning ("external references not supported yet.");
 		}
-	} else
-		printf ("ExternSheet: only BIFF8 supported so far...\n");
+
+		g_array_index (ewb->extern_sheet_v8, XLExternSheetV8, i).first_sheet = first_sheet;
+		g_array_index (ewb->extern_sheet_v8, XLExternSheetV8, i).last_sheet = last_sheet;
+	}
+}
+
+Sheet *
+ms_excel_workbook_get_externsheet_v7 (ExcelWorkbook const *ewb,
+				      int idx, int sheet_index)
+{
+	/* For things to be internal for now */
+	return workbook_sheet_by_index (ewb->gnum_wb, sheet_index);
+}
+
+static void
+ms_excel_externsheet_v7 (BiffQuery const *q, ExcelWorkbook *ewb)
+{
+	unsigned const type = MS_OLE_GET_GUINT8 (q->data + 1);
+
+	if (ewb->extern_sheet_v7 == NULL)
+		ewb->extern_sheet_v7 = g_ptr_array_new ();
+
+	/* Type 3 is undocumented magic.  It is used to forward declare sheet
+	 * names in the current workbook
+	 */
+	if (type == 3) {
+		char *name = biff_get_text (q->data + 2,
+			MS_OLE_GET_GUINT8 (q->data), NULL);
+		if (name != NULL) {
+			Sheet *sheet = workbook_sheet_by_name (ewb->gnum_wb, name);
+			if (sheet == NULL) {
+				sheet = sheet_new (ewb->gnum_wb, name);
+				d (-1, printf ("ExternSheet: added forward referenced sheet '%s'\n", name););
+			}
+		}
+	} else {
+		g_warning ("external references not supported yet.");
+	}
+
+	/* Fix when we get placeholders to external workbooks */
+	g_ptr_array_add (ewb->extern_sheet_v7, NULL);
 }
 
 static ExcelWorkbook *
 ms_excel_read_bof (BiffQuery *q,
-		   ExcelWorkbook *wb,
+		   ExcelWorkbook *ewb,
 		   WorkbookView *wb_view,
 		   IOContext *context,
 		   MsBiffBofData **version, int *current_sheet)
@@ -4377,8 +4309,8 @@ ms_excel_read_bof (BiffQuery *q,
 		ver->version = vv;
 
 	if (ver->type == MS_BIFF_TYPE_Workbook) {
-		wb = ms_excel_workbook_new (ver->version);
-		wb->gnum_wb = wb_view_workbook (wb_view);
+		ewb = ms_excel_workbook_new (ver->version);
+		ewb->gnum_wb = wb_view_workbook (wb_view);
 		if (ver->version >= MS_BIFF_V8) {
 			guint32 ver = MS_OLE_GET_GUINT32 (q->data + 4);
 			if (ver == 0x4107cd18)
@@ -4397,14 +4329,14 @@ ms_excel_read_bof (BiffQuery *q,
 			printf ("Excel 2.x\n");
 	} else if (ver->type == MS_BIFF_TYPE_Worksheet) {
 		BiffBoundsheetData *bsh =
-			g_hash_table_lookup (wb->boundsheet_data_by_stream,
+			g_hash_table_lookup (ewb->boundsheet_data_by_stream,
 					     &q->streamPos);
 		if (bsh) {
-			ExcelSheet *esheet = ms_excel_workbook_get_sheet (wb, *current_sheet);
+			ExcelSheet *esheet = ms_excel_workbook_get_sheet (ewb, *current_sheet);
 			gboolean    kill  = FALSE;
 
 			ms_excel_sheet_set_version (esheet, ver->version);
-			if (ms_excel_read_sheet (q, wb, wb_view, esheet, context)) {
+			if (ms_excel_read_sheet (q, ewb, wb_view, esheet, context)) {
 				ms_container_realize_objs (sheet_container (esheet));
 
 #if 0
@@ -4434,11 +4366,11 @@ ms_excel_read_bof (BiffQuery *q,
 				GObject *graph =
 #if 0
 					/* enable when we support workbooklevel objects */
-					gnm_graph_new (wb->gnum_wb);
+					gnm_graph_new (ewb->gnum_wb);
 #else
 					NULL;
 #endif
-		ms_excel_chart (q, &wb->container, ver->version,
+		ms_excel_chart (q, &ewb->container, ver->version,
 				graph);
 	} else if (ver->type == MS_BIFF_TYPE_VBModule ||
 		 ver->type == MS_BIFF_TYPE_Macrosheet) {
@@ -4456,7 +4388,7 @@ ms_excel_read_bof (BiffQuery *q,
 	} else
 		printf ("Unknown BOF (%x)\n", ver->type);
 
-	return wb;
+	return ewb;
 }
 
 void
@@ -4528,7 +4460,7 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 				break;
 
 			case BIFF_SUPBOOK:
-				ms_excel_read_supporting_wb (q, ver);
+				ms_excel_SUPBOOK (q, ver);
 				break;
 
 			default:
@@ -4546,6 +4478,14 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 			d (0, printf ("End of worksheet spec.\n"););
 			break;
 
+		case BIFF_FONT: /* see S59D8C.HTM */
+			biff_font_data_new (q, wb);
+			break;
+
+		case BIFF_WINDOW1:
+			ms_excel_read_window1 (q, wb_view);
+			break;
+
 		case BIFF_BOUNDSHEET:
 			biff_boundsheet_data_new (q, wb, ver->version);
 			break;
@@ -4554,26 +4494,20 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 			wb->palette = ms_excel_palette_new (q);
 			break;
 
-		case BIFF_FONT: /* see S59D8C.HTM */
-			biff_font_data_new (q, wb);
-			break;
-
 		case BIFF_XF_OLD: /* see S59E1E.HTM */
 		case BIFF_XF:
 			biff_xf_data_new (q, wb, ver->version);
 			break;
 
-		case BIFF_SST: /* see S59DE7.HTM */
-			read_sst (q, wb, ver->version);
-			break;
 
-		case BIFF_EXTSST: /* See: S59D84 */
-			/* Can be safely ignored on read side */
+		case BIFF_EXTERNCOUNT: /* see S59D7D.HTM */
 			break;
-
 
 		case BIFF_EXTERNSHEET: /* See: S59D82.HTM */
-			ms_excel_externsheet (q, wb, ver);
+			if (ver->version >= MS_BIFF_V8)
+				ms_excel_externsheet_v8 (q, wb);
+			else
+				ms_excel_externsheet_v7 (q, wb);
 			break;
 
 		case BIFF_FORMAT: { /* S59D8E.HTM */
@@ -4596,11 +4530,6 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 			g_hash_table_insert (wb->format_data, &d->idx, d);
 			break;
 		}
-
-		case BIFF_EXTERNCOUNT: /* see S59D7D.HTM */
-			d (0, printf ("%d external references\n",
-				      MS_OLE_GET_GUINT16 (q->data)););
-			break;
 
 		case BIFF_CODEPAGE: { /* DUPLICATE 42 */
 			/* This seems to appear within a workbook */
@@ -4660,7 +4589,7 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 			break;
 
 		case BIFF_NAME:
-			ms_excel_read_name (q, wb, NULL);
+			ms_excel_read_NAME (q, wb);
 			break;
 
 		case BIFF_WRITEACCESS:
@@ -4693,10 +4622,6 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 					"dates will be incorrect\n");
 			break;
 
-		case BIFF_WINDOW1:
-			ms_excel_read_window1 (q, wb_view);
-			break;
-
 		case BIFF_SELECTION: /* 0, NOT 10 */
 			break;
 
@@ -4721,6 +4646,14 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 			d (1, printf ("%smenu with %d sub items",
 				      (MS_OLE_GET_GUINT8 (q->data + 6) == 1) ? "" : "Placeholder ",
 				      MS_OLE_GET_GUINT8 (q->data + 5)););
+			break;
+
+		case BIFF_SST: /* see S59DE7.HTM */
+			read_sst (q, wb, ver->version);
+			break;
+
+		case BIFF_EXTSST: /* See: S59D84 */
+			/* Can be safely ignored on read side */
 			break;
 
 		default:

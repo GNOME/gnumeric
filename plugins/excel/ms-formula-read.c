@@ -21,11 +21,15 @@
 #include <str.h>
 #include <parse-util.h>
 #include <sheet.h>
+#include <workbook.h>
 
 #include <fcntl.h>
 #include <assert.h>
 #include <stdio.h>
+#include <libgnome/gnome-i18n.h>
 
+#undef G_LOG_DOMAIN
+#define G_LOG_DOMAIN "gnumeric:read_expr"
 /* #define NO_DEBUG_EXCEL */
 
 /**
@@ -666,10 +670,13 @@ make_function (ExprList **stack, int fn_idx, int numargs)
  * ms_excel_dump_cellname : internal utility to dump the current location safely.
  */
 static void
-ms_excel_dump_cellname (ExcelSheet const *sheet, int fn_col, int fn_row)
+ms_excel_dump_cellname (ExcelWorkbook const *ewb, ExcelSheet const *esheet,
+			int fn_col, int fn_row)
 {
-	if (sheet && sheet->gnum_sheet && sheet->gnum_sheet->name_unquoted)
-		printf ("%s!", sheet->gnum_sheet->name_unquoted);
+	if (esheet && esheet->gnum_sheet && esheet->gnum_sheet->name_unquoted)
+		printf ("%s!", esheet->gnum_sheet->name_unquoted);
+	else if (ewb && ewb->gnum_wb && ewb->gnum_wb->filename)
+		printf ("[%s]", ewb->gnum_wb->filename);
 	printf ("%s%d : ", col_name(fn_col), fn_row+1);
 }
 
@@ -705,12 +712,14 @@ static Operation const unary_ops [] = {
  * Return a dynamicly allocated ExprTree containing the formula, or NULL
  **/
 ExprTree *
-ms_excel_parse_formula (ExcelSheet const *sheet, guint8 const *mem,
-			int fn_col, int fn_row, gboolean shared,
-			guint16 length,
+ms_excel_parse_formula (ExcelWorkbook const *ewb,
+			ExcelSheet const *esheet,
+			int fn_col, int fn_row,
+			guint8 const *mem, guint16 length,
+			gboolean shared,
 			gboolean *array_element)
 {
-	MsBiffVersion const ver = sheet->wb->container.ver;
+	MsBiffVersion const ver = ewb->container.ver;
 
 	/* so that the offsets and lengths match the documentation */
 	guint8 const *cur = mem + 1;
@@ -725,14 +734,11 @@ ms_excel_parse_formula (ExcelSheet const *sheet, guint8 const *mem,
 	if (array_element != NULL)
 		*array_element = FALSE;
 
-	g_return_val_if_fail (sheet != NULL, NULL);
+	g_return_val_if_fail (ewb != NULL, NULL);
 
 #ifndef NO_DEBUG_EXCEL
-	if (ms_excel_formula_debug > 1) {
-		printf ("\n\n%s:%s%s\n", (sheet->gnum_sheet
-					  ? sheet->gnum_sheet->name_unquoted
-					  : ""),
-			cell_coord_name (fn_col,fn_row), (shared?" (shared)":""));
+	if (ms_excel_formula_debug > 1 && esheet != NULL) {
+		ms_excel_dump_cellname (ewb, esheet, fn_col, fn_row);
 		ms_ole_dump (mem, length);
 	}
 #endif
@@ -760,17 +766,13 @@ ms_excel_parse_formula (ExcelSheet const *sheet, guint8 const *mem,
 
 			top_left.row = MS_OLE_GET_GUINT16 (cur+0);
 			top_left.col = MS_OLE_GET_GUINT16 (cur+2);
-			sf = ms_excel_sheet_shared_formula (sheet, &top_left);
+			sf = ms_excel_sheet_shared_formula (esheet, &top_left);
 
 			if (sf == NULL) {
 #ifndef NO_DEBUG_EXCEL
 				if (ms_excel_formula_debug > 3) {
-					printf("Unknown shared formula "
-					       "@ %s:%s\n",
-					       (sheet->gnum_sheet
-						? sheet->gnum_sheet->name_unquoted
-						: ""),
-					       cell_coord_name (fn_col, fn_row));
+					printf ("Unknown shared formula @");
+					ms_excel_dump_cellname (ewb, esheet, fn_col, fn_row);
 				}
 #endif
 				parse_list_free (&stack);
@@ -792,10 +794,8 @@ ms_excel_parse_formula (ExcelSheet const *sheet, guint8 const *mem,
 				printf ("Parse shared formula\n");
 			}
 #endif
-			expr = ms_excel_parse_formula (sheet, sf->data,
-						       fn_col, fn_row, TRUE,
-						       sf->data_len,
-						       array_element);
+			expr = ms_excel_parse_formula (ewb, esheet, fn_col, fn_row,
+				sf->data, sf->data_len, TRUE, array_element);
 
 			parse_list_push (&stack, expr);
 			ptg_length = length; /* Force it to be the only token */
@@ -856,7 +856,7 @@ ms_excel_parse_formula (ExcelSheet const *sheet, guint8 const *mem,
 					warned_3 = TRUE;
 				} /* else always warn */
 
-				ms_excel_dump_cellname (sheet, fn_col, fn_row);
+				ms_excel_dump_cellname (ewb, esheet, fn_col, fn_row);
 				printf ("Hmm, ptgAttr of type 0 ??\n"
 					"I've seen a case where an instance of this with flag A and another with flag 3\n"
 					"bracket a 1x1 array formula.  please send us this file.\n"
@@ -876,11 +876,9 @@ ms_excel_parse_formula (ExcelSheet const *sheet, guint8 const *mem,
 					ms_ole_dump (mem, length);
 				}
 #endif
-				tr = (w) ? ms_excel_parse_formula (sheet,
-						   cur+ptg_length,
-						   fn_col, fn_row, shared, w,
-						   NULL)
-					 : expr_tree_string ("");
+				tr = w ? ms_excel_parse_formula (ewb, esheet, fn_col, fn_row,
+					   cur+ptg_length, w, shared, NULL)
+					: expr_tree_string ("");
 				parse_list_push (&stack, tr);
 				ptg_length += w;
 			} else if (grbit & 0x04) { /* AttrChoose 'optimised' my foot. */
@@ -905,10 +903,9 @@ ms_excel_parse_formula (ExcelSheet const *sheet, guint8 const *mem,
 							*(cur+ptg_length+offset));
 					}
 #endif
-					tr = ms_excel_parse_formula (sheet, cur+ptg_length+offset,
-								     fn_col, fn_row, shared,
-								     len, NULL);
-					data+=2;
+					tr = ms_excel_parse_formula (ewb, esheet, fn_col, fn_row,
+						cur+ptg_length+offset, len, shared, NULL);
+					data += 2;
 					parse_list_push (&stack, tr);
 				}
 				ptg_length+=MS_OLE_GET_GUINT16(data);
@@ -941,7 +938,7 @@ ms_excel_parse_formula (ExcelSheet const *sheet, guint8 const *mem,
 				;
 #endif
 			} else {
-				ms_excel_dump_cellname (sheet, fn_col, fn_row);
+				ms_excel_dump_cellname (ewb, esheet, fn_col, fn_row);
 				printf ("Unknown PTG Attr gr = 0x%x, w = 0x%x ptg = 0x%x\n", grbit, w, ptg);
 				error = TRUE;
 			}
@@ -1214,9 +1211,7 @@ ms_excel_parse_formula (ExcelSheet const *sheet, guint8 const *mem,
 			}
 			if (name_idx < 0)
 				printf ("FIXME: how odd; negative name calling is bad!\n");
-			parse_list_push (&stack,
-					 biff_name_data_get_name (sheet,
-								  name_idx));
+			parse_list_push (&stack, ms_excel_workbook_get_name (ewb, name_idx));
 #ifndef NO_DEBUG_EXCEL
 			if (ms_excel_formula_debug > 2)
 				printf ("Name idx %d\n", name_idx);
@@ -1304,65 +1299,49 @@ ms_excel_parse_formula (ExcelSheet const *sheet, guint8 const *mem,
 /*				printf ("FIXME: v7 NameX : %d %d\n", extn_sheet_idx, extn_name_idx); */
 				ptg_length = 24;
 			}
-			tree = biff_name_data_get_name (sheet, extn_name_idx-1);
+			tree = ms_excel_workbook_get_name (ewb, extn_name_idx-1);
 			parse_list_push (&stack, tree);
 		}
 		break;
 
 		case FORMULA_PTG_REF_3D : { /* see S59E2B.HTM */
 			CellRef first, last;
-			int last_index;
-			ExcelSheet *first_sheet;
-			ExcelWorkbook *wb = sheet->wb;
 
 			if (ver >= MS_BIFF_V8) {
-				XLExternSheet const *es = ms_excel_workboot_get_externsheets (sheet->wb,
+				XLExternSheetV8 const *es = ms_excel_workbook_get_externsheet_v8 (ewb,
 					MS_OLE_GET_GUINT16 (cur));
 
-				g_return_val_if_fail (es != NULL, NULL);
-
-				/* TODO : init wb from es record in case of
-				 * external 3d references.
-				 */
-				first_sheet = ms_excel_workbook_get_sheet (wb, es->first_sheet);
-				last_index = es->last_sheet;
 				getRefV8 (&first,
 					  MS_OLE_GET_GUINT16 (cur + 2),
 					  MS_OLE_GET_GUINT16 (cur + 4),
 					  fn_col, fn_row, 0);
+				last = first;
+
+				/* Lose as little as possible on failure */
+				if (es != NULL) {
+					first.sheet = es->first_sheet;
+					last.sheet  = es->last_sheet;
+				} else
+					first.sheet = last.sheet = NULL;
+
 				ptg_length = 6;
 			} else {
-				/* TODO : init wb from from the extn_idx in
-				 * case of external 3d references.
-				 */
 				gint16 ixals = (gint16)MS_OLE_GET_GUINT16 (cur);
-				if (ixals > 0) {
-					g_warning ("EXCEL : external 3d references not supported.");
-					/* first_sheet will fall back to 0 */
-				}
-				first_sheet = ms_excel_workbook_get_sheet (sheet->wb,
-					MS_OLE_GET_GUINT16 (cur + 10));
-				last_index  = MS_OLE_GET_GUINT16 (cur + 12);
-
 				getRefV7 (&first,
 					  MS_OLE_GET_GUINT8  (cur + 16),
 					  MS_OLE_GET_GUINT16 (cur + 14),
 					  fn_col, fn_row, 0);
+
+				last = first;
+				first.sheet = ms_excel_workbook_get_externsheet_v7 (ewb,
+					ixals, MS_OLE_GET_GUINT16 (cur + 10));
+				last.sheet  = ms_excel_workbook_get_externsheet_v7 (ewb,
+					ixals, MS_OLE_GET_GUINT16 (cur + 12));
+
 				ptg_length = 17;
 			}
-			last = first;
-			if (first_sheet != NULL) {
-			first.sheet = first_sheet->gnum_sheet;
-			first_sheet = ms_excel_workbook_get_sheet (first_sheet->wb, last_index);
-				if (first_sheet != NULL)
-			last.sheet  = first_sheet->gnum_sheet;
-			}
-			if (first_sheet == NULL) {
-				g_warning ("EXCEL : external 3d references in %s!%s.",
-					   (sheet->gnum_sheet)?
-					   sheet->gnum_sheet->name_unquoted : "",
-					   cell_coord_name (fn_col,fn_row));
-			}
+			if (first.sheet != NULL && last.sheet == NULL)
+				last.sheet = first.sheet;
 
 			/* There does not appear to be a way to express a ref
 			 * to another sheet without using a 3d ref.  lets be smarter
@@ -1377,18 +1356,11 @@ ms_excel_parse_formula (ExcelSheet const *sheet, guint8 const *mem,
 		case FORMULA_PTG_AREA_3D : { /* see S59E2B.HTM */
 			/* See comments in FORMULA_PTG_REF_3D for correct handling of external references */
 			CellRef first, last;
-			int last_index;
-			ExcelSheet *first_sheet;
-			ExcelWorkbook *wb = sheet->wb;
 
 			if (ver >= MS_BIFF_V8) {
-				XLExternSheet const *es = ms_excel_workboot_get_externsheets (sheet->wb,
+				XLExternSheetV8 const *es = ms_excel_workbook_get_externsheet_v8 (ewb,
 					MS_OLE_GET_GUINT16 (cur));
 
-				g_return_val_if_fail (es != NULL, NULL);
-
-				first_sheet = ms_excel_workbook_get_sheet (wb, es->first_sheet);
-				last_index = es->last_sheet;
 				getRefV8 (&first,
 					  MS_OLE_GET_GUINT16(cur+2),
 					  MS_OLE_GET_GUINT16(cur+6),
@@ -1397,16 +1369,17 @@ ms_excel_parse_formula (ExcelSheet const *sheet, guint8 const *mem,
 					  MS_OLE_GET_GUINT16(cur+4),
 					  MS_OLE_GET_GUINT16(cur+8),
 					  fn_col, fn_row, 0);
+
+				/* Lose as little as possible on failure */
+				if (es != NULL) {
+					first.sheet = es->first_sheet;
+					last.sheet  = es->last_sheet;
+				} else
+					first.sheet = last.sheet = NULL;
+
 				ptg_length = 10;
 			} else {
 				gint16 ixals = (gint16)MS_OLE_GET_GUINT16 (cur);
-				if (ixals > 0) {
-					g_warning ("EXCEL : external 3d references not supported.");
-					/* first_sheet will fall back to 0 */
-				}
-				first_sheet = ms_excel_workbook_get_sheet (sheet->wb,
-					MS_OLE_GET_GUINT16 (cur + 10));
-				last_index  = MS_OLE_GET_GUINT16 (cur + 12);
 
 				getRefV7 (&first,
 					  MS_OLE_GET_GUINT8(cur+18),
@@ -1416,20 +1389,17 @@ ms_excel_parse_formula (ExcelSheet const *sheet, guint8 const *mem,
 					  MS_OLE_GET_GUINT8(cur+19),
 					  MS_OLE_GET_GUINT16(cur+16),
 					  fn_col, fn_row, 0);
+
+				first.sheet = ms_excel_workbook_get_externsheet_v7 (ewb,
+					ixals, MS_OLE_GET_GUINT16 (cur + 10));
+				last.sheet  = ms_excel_workbook_get_externsheet_v7 (ewb,
+					ixals, MS_OLE_GET_GUINT16 (cur + 12));
+
 				ptg_length = 20;
 			}
-			if (first_sheet != NULL) {
-			first.sheet = first_sheet->gnum_sheet;
-			first_sheet = ms_excel_workbook_get_sheet (first_sheet->wb, last_index);
-				if (first_sheet != NULL)
-			last.sheet  = first_sheet->gnum_sheet;
-			}
-			if (first_sheet == NULL) {
-				g_warning ("EXCEL : external 3d references in %s!%s.",
-					   (sheet->gnum_sheet)?
-					   sheet->gnum_sheet->name_unquoted : "",
-					   cell_coord_name (fn_col,fn_row));
-			}
+
+			if (first.sheet != NULL && last.sheet == NULL)
+				last.sheet = first.sheet;
 
 			parse_list_push_raw (&stack, value_new_cellrange (&first, &last, fn_col, fn_row));
 			break;
@@ -1456,8 +1426,8 @@ ms_excel_parse_formula (ExcelSheet const *sheet, guint8 const *mem,
 
 	if (error) {
 		g_warning ("Unknown Formula/Array at %s!%s%s\n",
-			(sheet->gnum_sheet)?
-			sheet->gnum_sheet->name_unquoted : "",
+			(esheet->gnum_sheet)?
+			esheet->gnum_sheet->name_unquoted : "",
 			cell_coord_name (fn_col,fn_row),
 			(shared?" (shared)":""));
 		printf ("formula data : \n");

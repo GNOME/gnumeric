@@ -16,6 +16,7 @@
 #include "cell.h"
 #include "sheet.h"
 #include "str.h"
+#include "value.h"
 #include "parse-util.h"
 #include "ranges.h"
 #include "number-match.h"
@@ -25,6 +26,7 @@
 
 #include <math.h>
 #include <string.h>
+#include <libgnome/gnome-i18n.h>
 
 /***************************************************************************/
 
@@ -810,7 +812,6 @@ expr_eval_real (ExprTree const *expr, EvalPos const *pos,
 	case OPER_FUNCALL: {
 		FunctionEvalInfo ei;
 		ei.pos = pos;
-		ei.func_def  = expr->func.func;
 		ei.func_call = (ExprFunction const *)expr;
 
 		/*if (flags & EVAL_PERMIT_NON_SCALAR)*/

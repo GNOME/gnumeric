@@ -685,10 +685,9 @@ link_expr_dep (Dependent *dep, CellPos const *pos, ExprTree *tree)
 		if (tree->func.func->link) {
 			EvalPos		 ep;
 			FunctionEvalInfo fei;
-			fei.pos = eval_pos_init (&ep, dep->sheet, pos);
-			fei.func_def  = tree->func.func;
+			fei.pos = eval_pos_init_dep (&ep, dep);
 			fei.func_call = (ExprFunction const *)tree;
-			tree->func.func->link (&fei);
+			flag = tree->func.func->link (&fei);
 		}
 		for (l = tree->func.arg_list; l; l = l->next)
 			flag |= link_expr_dep (dep, pos, l->data);
@@ -766,8 +765,7 @@ unlink_expr_dep (Dependent *dep, CellPos const *pos, ExprTree *tree)
 		if (tree->func.func->unlink) {
 			EvalPos		 ep;
 			FunctionEvalInfo fei;
-			fei.pos = eval_pos_init (&ep, dep->sheet, pos);
-			fei.func_def  = tree->func.func;
+			fei.pos = eval_pos_init_dep (&ep, dep);
 			fei.func_call = (ExprFunction const *)tree;
 			tree->func.func->unlink (&fei);
 		}

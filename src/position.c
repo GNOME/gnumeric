@@ -31,37 +31,60 @@
 #include "ranges.h"
 
 EvalPos *
-eval_pos_init (EvalPos *eval_pos, Sheet *sheet, CellPos const *pos)
+eval_pos_init (EvalPos *ep, Sheet *sheet, CellPos const *pos)
 {
-	g_return_val_if_fail (eval_pos != NULL, NULL);
+	g_return_val_if_fail (ep != NULL, NULL);
 	g_return_val_if_fail (sheet != NULL, NULL);
+	g_return_val_if_fail (pos != NULL, NULL);
 
-	eval_pos->sheet = sheet;
-	eval_pos->eval  = *pos;
+	ep->sheet = sheet;
+	ep->eval  = *pos;
+	ep->dep   = NULL;
 
-	return eval_pos;
+	return ep;
 }
 
 EvalPos *
-eval_pos_init_dep (EvalPos *eval_pos, Dependent const *dep)
+eval_pos_init_dep (EvalPos *ep, Dependent const *dep)
 {
+	g_return_val_if_fail (ep != NULL, NULL);
 	g_return_val_if_fail (dep != NULL, NULL);
 
+	ep->dep = (Dependent *)dep;
+	ep->sheet = dep->sheet;
 	if (dependent_is_cell (dep)) {
-		Cell const *cell = DEP_TO_CELL (dep);
-		return eval_pos_init (eval_pos, dep->sheet, &cell->pos);
+		ep->eval = DEP_TO_CELL (dep)->pos;
 	} else {
 		static CellPos const pos = { 0, 0 };
-		return eval_pos_init (eval_pos, dep->sheet, &pos);
+		ep->eval = pos;
 	}
+	return ep;
 }
 
 EvalPos *
-eval_pos_init_cell (EvalPos *eval_pos, Cell const *cell)
+eval_pos_init_cell (EvalPos *ep, Cell const *cell)
 {
+	g_return_val_if_fail (ep != NULL, NULL);
 	g_return_val_if_fail (cell != NULL, NULL);
 
-	return eval_pos_init (eval_pos, cell->base.sheet, &cell->pos);
+	ep->dep = CELL_TO_DEP (cell);
+	ep->sheet = cell->base.sheet;
+	ep->eval = cell->pos;
+	return ep;
+}
+
+EvalPos *
+eval_pos_init_sheet (EvalPos *ep, Sheet *sheet)
+{
+	static CellPos const pos = { 0, 0 };
+
+	g_return_val_if_fail (ep != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+
+	ep->dep = NULL;
+	ep->sheet = sheet;
+	ep->eval = pos;
+	return ep;
 }
 
 /*
@@ -145,13 +168,13 @@ cellref_equal (CellRef const *a, CellRef const *b)
 }
 
 int
-cellref_get_abs_col (CellRef const *ref, EvalPos const *pos)
+cellref_get_abs_col (CellRef const *ref, EvalPos const *ep)
 {
 	g_return_val_if_fail (ref != NULL, 0);
-	g_return_val_if_fail (pos != NULL, 0);
+	g_return_val_if_fail (ep != NULL, 0);
 
 	if (ref->col_relative) {
-		int res = (pos->eval.col + ref->col) % SHEET_MAX_COLS;
+		int res = (ep->eval.col + ref->col) % SHEET_MAX_COLS;
 		if (res < 0)
 			return res + SHEET_MAX_COLS;
 		return res;
@@ -160,13 +183,13 @@ cellref_get_abs_col (CellRef const *ref, EvalPos const *pos)
 }
 
 int
-cellref_get_abs_row (CellRef const *ref, EvalPos const *pos)
+cellref_get_abs_row (CellRef const *ref, EvalPos const *ep)
 {
 	g_return_val_if_fail (ref != NULL, 0);
-	g_return_val_if_fail (pos != NULL, 0);
+	g_return_val_if_fail (ep != NULL, 0);
 
 	if (ref->row_relative) {
-		int res = (pos->eval.row + ref->row) % SHEET_MAX_ROWS;
+		int res = (ep->eval.row + ref->row) % SHEET_MAX_ROWS;
 		if (res < 0)
 			return res + SHEET_MAX_ROWS;
 		return res;

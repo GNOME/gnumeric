@@ -147,28 +147,16 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 		case VALIDATION_TYPE_ANY :
 			return VALIDATION_STATUS_VALID;
 
-		case VALIDATION_TYPE_AS_INT : {
-			if (val->type == VALUE_FLOAT) {
-				gnum_float f = value_get_as_float (val);
-				gboolean isint = gnumabs (f - gnumeric_fake_round (f)) < 1e-10;
-				if (!isint) {
-					const char *valstr = value_peek_string (val);
-					msg = g_strdup_printf (_("'%s' is not an integer"), valstr);
-					break;
-				}
-			}
-			/* FIXME: break or comment. */
-#warning "Jody, why do we fall through here?"
-		}
-
-		case VALIDATION_TYPE_AS_DATE :	/* What the hell does this do */
-		case VALIDATION_TYPE_AS_TIME :	/* What the hell does this do */
+		case VALIDATION_TYPE_AS_INT :
 		case VALIDATION_TYPE_AS_NUMBER :
+		case VALIDATION_TYPE_AS_DATE :	/* What the hell does this do */
+		case VALIDATION_TYPE_AS_TIME : {	/* What the hell does this do */
+			Value *res = NULL;
 			if (val->type == VALUE_ERROR)
 				msg = g_strdup_printf (_("'%s' is an error"),
 						       val->v_err.mesg->str);
 			else if (val->type == VALUE_STRING) {
-				Value *res = format_match_number (val->v_str.val->str, NULL);
+				res = format_match_number (val->v_str.val->str, NULL);
 				if (res == NULL) {
 					char const *fmt;
 					/* FIXME what else is needed */
@@ -184,6 +172,19 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 			} else
 				val_expr = expr_tree_new_constant (
 					value_duplicate (val));
+			if (val->type == VALUE_FLOAT) {
+				gnum_float f = value_get_as_float (val);
+				gboolean isint = gnumabs (f - gnumeric_fake_round (f)) < 1e-10;
+				if (!isint) {
+					const char *valstr = value_peek_string (val);
+					msg = g_strdup_printf (_("'%s' is not an integer"), valstr);
+					break;
+				}
+			}
+			/* FIXME: break or comment. */
+#warning "Jody, why do we fall through here?"
+		}
+
 			break;
 
 		case VALIDATION_TYPE_IN_LIST :

@@ -133,14 +133,14 @@ static GNOME_Gnumeric_Scalar_Seq *
 gnm_graph_vector_seq_scalar (GnmGraphVector *vector)
 {
 	int i, len;
-	EvalPos pos;
+	EvalPos ep;
 	GNOME_Gnumeric_Scalar_Seq *values;
 	Value *v = vector->value;
 
-	eval_pos_init_dep (&pos, &vector->dep);
+	eval_pos_init_dep (&ep, &vector->dep);
 	len = (v == NULL) ? 1 : (vector->is_column
-		? value_area_get_height (&pos, v)
-		: value_area_get_width (&pos, v));
+		? value_area_get_height (&ep, v)
+		: value_area_get_width (&ep, v));
 
 	values = GNOME_Gnumeric_Scalar_Seq__alloc ();
 	values->_length = values->_maximum = len;
@@ -156,8 +156,8 @@ gnm_graph_vector_seq_scalar (GnmGraphVector *vector)
 	/* FIXME : This is dog slow */
 	for (i = 0; i < len ; ++i) {
 		Value const *elem = vector->is_column
-			? value_area_get_x_y (&pos, v, 0, i)
-			: value_area_get_x_y (&pos, v, i, 0);
+			? value_area_get_x_y (&ep, v, 0, i)
+			: value_area_get_x_y (&ep, v, i, 0);
 
 		/* TODO : handle blanks */
 		values->_buffer [i] = elem ? value_get_as_float (elem) : 0.;
@@ -170,14 +170,14 @@ static GNOME_Gnumeric_String_Seq *
 gnm_graph_vector_seq_string (GnmGraphVector *vector)
 {
 	int i, len;
-	EvalPos pos;
+	EvalPos ep;
 	GNOME_Gnumeric_String_Seq *values;
 	Value *v = vector->value;
 
-	eval_pos_init_dep (&pos, &vector->dep);
+	eval_pos_init_dep (&ep, &vector->dep);
 	len = (v == NULL) ? 1 : (vector->is_column
-		   ? value_area_get_height (&pos, v)
-		   : value_area_get_width (&pos, v));
+		   ? value_area_get_height (&ep, v)
+		   : value_area_get_width (&ep, v));
 	values = GNOME_Gnumeric_String_Seq__alloc ();
 	values->_length = values->_maximum = len;
 	values->_buffer = CORBA_sequence_CORBA_string_allocbuf (len);
@@ -192,8 +192,8 @@ gnm_graph_vector_seq_string (GnmGraphVector *vector)
 	/* FIXME : This is dog slow */
 	for (i = 0; i < len ; ++i) {
 		Value const *elem = vector->is_column
-			? value_area_get_x_y (&pos, v, 0, i)
-			: value_area_get_x_y (&pos, v, i, 0);
+			? value_area_get_x_y (&ep, v, 0, i)
+			: value_area_get_x_y (&ep, v, i, 0);
 		/* TODO : handle blanks */
 		char const *tmp = elem ? value_peek_string (elem) : "";
 		values->_buffer[i] = CORBA_string_dup (tmp);
@@ -641,10 +641,10 @@ gnm_graph_add_vector (GnmGraph *graph, ExprTree *expr,
 		if ((type == GNM_VECTOR_AUTO || type == vector->type) &&
 		    expr_tree_equal (expr, vector->dep.expression)) {
 			d({
-				ParsePos pos;
+				ParsePos ep;
 				char *expr_str;
-				parse_pos_init (&pos, NULL, sheet, 0, 0);
-				expr_str = expr_tree_as_string (expr, &pos);
+				expr_str = expr_tree_as_string (expr,
+					parse_pos_init_sheet (&ep, sheet));
 				printf ("vector::ref (%d) @ %p = %s\n",
 					vector->type, vector, expr_str);
 				g_free (expr_str);

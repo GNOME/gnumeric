@@ -560,7 +560,7 @@ typedef struct
 	GnumericCommand parent;
 
 	EvalPos	 pos;
-	gchar		*text;
+	gchar	*text;
 } CmdSetText;
 
 GNUMERIC_MAKE_COMMAND (CmdSetText, cmd_set_text);

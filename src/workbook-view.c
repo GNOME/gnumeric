@@ -339,7 +339,6 @@ wb_view_auto_expr_value_display (WorkbookView *wbv)
 void
 wb_view_auto_expr_recalc (WorkbookView *wbv, gboolean display)
 {
-	static CellPos const cp = {0, 0};
 	EvalPos	 ep;
 	Value	*v;
 
@@ -347,7 +346,7 @@ wb_view_auto_expr_recalc (WorkbookView *wbv, gboolean display)
 	g_return_if_fail (wbv->auto_expr != NULL);
 
 	v = expr_eval (wbv->auto_expr,
-		       eval_pos_init (&ep, wbv->current_sheet, &cp),
+		       eval_pos_init_sheet (&ep, wbv->current_sheet),
 		       EVAL_STRICT);
 
 	if (wbv->auto_expr_value_as_string)

@@ -20,6 +20,8 @@
 #include "symbol.h"
 #include "workbook.h"
 #include "sheet.h"
+#include "value.h"
+#include "expr.h"
 #include "number-match.h"
 #include "format.h"
 
@@ -360,11 +362,12 @@ fn_def_new (FunctionCategory *category,
 
 	fn_def = g_new (FunctionDefinition, 1);
 	fn_def->get_full_info_callback = NULL;
-	fn_def->flags	 = 0;
-	fn_def->name      = name;
-	fn_def->help      = help;
+	fn_def->flags	= 0;
+	fn_def->name    = name;
+	fn_def->help    = help;
 	fn_def->named_arguments = arg_names;
-	fn_def->link = fn_def->unlink = NULL;
+	fn_def->link	= NULL;
+	fn_def->unlink	= NULL;
 	fn_def->user_data = NULL;
 	fn_def->ref_count = 0;
 
@@ -568,7 +571,8 @@ function_def_count_args (FunctionDefinition const *fn_def,
  */
 void
 function_set_link_handlers (FunctionDefinition *fn_def,
-			    FuncLinkHandle link, FuncLinkHandle unlink)
+			    FuncLinkHandle   link,
+			    FuncUnlinkHandle unlink)
 {
 	/* Be paranoid for now */
 	g_return_if_fail (fn_def != NULL);
@@ -776,12 +780,12 @@ function_call_with_list (FunctionEvalInfo *ei, ExprList *l)
 	Value **values;
 
 	g_return_val_if_fail (ei != NULL, NULL);
-	g_return_val_if_fail (ei->func_def != NULL, NULL);
+	g_return_val_if_fail (ei->func_call != NULL, NULL);
 
-	function_def_get_full_info_if_needed ((FunctionDefinition *) ei->func_def);
+	fn_def = ei->func_call->func;
+	function_def_get_full_info_if_needed ((FunctionDefinition *) fn_def);
 
 	/* Functions that deal with ExprNodes */
-	fn_def = ei->func_def;
 	if (fn_def->fn_type == FUNCTION_NODES)
 		return fn_def->fn.fn_nodes (ei, l);
 
@@ -848,12 +852,14 @@ function_def_call_with_values (EvalPos const *ep,
                                Value  *values [])
 {
 	Value *retval;
+	ExprFunction	ef;
 	FunctionEvalInfo fs;
 
-	function_def_get_full_info_if_needed ((FunctionDefinition *) fn_def);
-
 	fs.pos = ep;
-	fs.func_def = fn_def;
+	fs.func_call = &ef;
+	ef.func = (FunctionDefinition *)fn_def;
+
+	function_def_get_full_info_if_needed (ef.func);
 
 	if (fn_def->fn_type == FUNCTION_NODES) {
 		/*
@@ -914,6 +920,7 @@ cb_iterate_cellrange (Sheet *sheet, int col, int row,
 
 	if (cell == NULL) {
 		ep.sheet = sheet;
+		ep.dep = NULL;
 		ep.eval.col = col;
 		ep.eval.row = row;
 		return (*data->callback)(&ep, NULL, data->closure);

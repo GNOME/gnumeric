@@ -3,6 +3,7 @@
 
 #include "gnumeric.h"
 #include "expr.h"
+#include "func.h"
 #include "parse-util.h"
 
 struct _NamedExpression {

@@ -25,11 +25,13 @@
 
 #include "cell.h"
 #include "eval.h"
+#include "expr.h"
 #include "func.h"
 #include "position.h"
 #include "ranges.h"
 #include "selection.h"
 #include "sheet.h"
+#include "value.h"
 #include "str.h"
 #include "workbook.h"
 

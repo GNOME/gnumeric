@@ -20,6 +20,7 @@
 #include "sheet.h"
 #include "workbook.h"
 #include "format.h"
+#include "value.h"
 
 /* ------------------------------------------------------------------------- */
 /*

@@ -18,6 +18,7 @@
 #include "value.h"
 #include "plugin-util.h"
 #include "module-plugin-defs.h"
+#include <libgnome/gnome-i18n.h>
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 

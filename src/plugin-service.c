@@ -25,6 +25,7 @@
 #include <libxml/globals.h>
 #include <gal/util/e-xml-utils.h>
 #include <gal/util/e-util.h>
+#include <libgnome/gnome-i18n.h>
 
 typedef enum {FILE_PATTERN_SHELL, FILE_PATTERN_REGEXP, FILE_PATTERN_LAST} InputFilePatternType;
 
