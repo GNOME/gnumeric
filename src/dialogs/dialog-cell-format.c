@@ -2002,18 +2002,28 @@ fmt_dialog_impl (FormatState *state, MStyleBorder **borders)
 	static char const * const pattern_buttons[] = {
 	    "gp_solid", "gp_75grey", "gp_50grey",
 	    "gp_25grey", "gp_125grey", "gp_625grey",
+
 	    "gp_horiz",
 	    "gp_vert",
 	    "gp_diag",
 	    "gp_rev_diag",
 	    "gp_diag_cross",
 	    "gp_thick_diag_cross",
+
 	    "gp_thin_horiz",
 	    "gp_thin_vert",
 	    "gp_thin_rev_diag",
 	    "gp_thin_diag",
 	    "gp_thin_horiz_cross",
 	    "gp_thin_diag_cross",
+
+	    "gp_foreground_solid",
+	    "gp_small_circle",
+	    "gp_semi_circle",
+	    "gp_thatch",
+	    "gp_large_circles",
+	    "gp_bricks",
+
 	    NULL
 	};
 

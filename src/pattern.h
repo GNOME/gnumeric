@@ -5,9 +5,9 @@
 #include <gnome.h>
 #include <libgnomeprint/gnome-print.h>
 
-#define GNUMERIC_SHEET_PATTERNS 20
+#define GNUMERIC_SHEET_PATTERNS 25
 
-GdkPixmap * gnumeric_pattern_get_stipple(gint const index);
+GdkPixmap * gnumeric_pattern_get_stipple(gint index);
 
 gboolean    gnumeric_background_set_gc	(MStyle *style, GdkGC *gc,
 					 GnomeCanvas *canvas,

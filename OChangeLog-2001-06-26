@@ -1,7 +1,15 @@
+2000-04-25  Jody Goldberg <jgoldberg@home.com>
+
+	* src/pattern.c (gnumeric_sheet_patterns) : Add the rest of the
+	  patterns for applix.
+
+	* src/dialogs/cell-format.glade : Add all of the new patterns.
+	* src/dialogs/dialog-cell-format.c : Ditto.
+
 2000-04-24  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook-private.h : Rename ea_status -> selection_descriptor
-	Moved ea_entry here and called it edit_line.
+	  Moved ea_entry here and called it edit_line.
 	* src/workbook.c (workbook_get_entry) : new routine.
 
 	* src/dialogs/function-select.glade : Made this a dialog, not a popup.
