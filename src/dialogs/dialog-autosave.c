@@ -132,15 +132,15 @@ loop:
 			gtk_widget_grab_focus (minutes);
 			goto loop;
 		}
-		wb->autosave_timer = 
-		        gtk_timeout_add(wb->autosave_minutes*60000,
-					(GtkFunction) dialog_autosave_callback, wb);
 	} else {
 	        wb->autosave = old_autosave;
 	        wb->autosave_prompt = old_prompt;
 		wb->autosave_minutes = old_minutes;
 	}
-
+	wb->autosave_timer = 
+		gtk_timeout_add(wb->autosave_minutes*60000,
+				(GtkFunction) dialog_autosave_callback, wb);
+	
 	if (v != -1)
 		gtk_object_destroy (GTK_OBJECT (dia));
 
