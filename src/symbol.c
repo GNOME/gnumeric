@@ -10,63 +10,75 @@
 #include <ctype.h>
 #include "symbol.h"
 
-GHashTable *symbol_hash_table;
+SymbolTable *global_symbol_table;
 
+/**
+ * symbol_lookup:
+ * @st: The symbol table where lookup takes place
+ * @str: string to be looked up in the symbol table
+ */
 Symbol *
-symbol_lookup (char *str)
+symbol_lookup (SymbolTable *st, char *str)
 {
 	Symbol *sym;
 
 	g_return_val_if_fail (str != NULL, NULL);
-	sym = (Symbol *) g_hash_table_lookup (symbol_hash_table, str);
+	g_return_val_if_fail (st != NULL, NULL);
+	
+	sym = (Symbol *) g_hash_table_lookup (st->hash, str);
 	return sym;
 }
 
 Symbol *
-symbol_lookup_substr (char *buffer, int len)
+symbol_lookup_substr (SymbolTable *st, char *buffer, int len)
 {
 	char *str;
 	Symbol *sym;
 	
 	g_return_val_if_fail (buffer != NULL, NULL);
+	g_return_val_if_fail (st != NULL, NULL);
+	
 	str = g_new (char, len + 1);
 	strncpy (str, buffer, len);
 	str [len] = 0;
 
-	sym = symbol_lookup (str);
+	sym = symbol_lookup (st, str);
 	g_free (str);
 	
 	return sym;
 }
 
-/*
- * symbol_install
+/**
+ * symbol_install:
  *
+ * @st: The symbol table
  * @str: the string name
  * @SymbolType: in which hash table we perform the lookup
  * @data: information attached to the symbol
  */
 Symbol *
-symbol_install (char *str, SymbolType type, void *data)
+symbol_install (SymbolTable *st, char *str, SymbolType type, void *data)
 {
 	Symbol *sym;
 
 	g_return_val_if_fail (str != NULL, NULL);
+	g_return_val_if_fail (st != NULL, NULL);
 
 	sym = g_new (Symbol, 1);
 	sym->ref_count = 1;
 	sym->type = type;
 	sym->data = data;
 	sym->str  = g_strdup (str);
+	sym->st   = st;
 	
-	g_hash_table_insert (symbol_hash_table, sym->str, sym);
+	g_hash_table_insert (st->hash, sym->str, sym);
 	
 	return sym;
 }
 
-/*
+/**
  * symbol_ref:
- * @Sym: The symbol to reference
+ * @sym: The symbol to reference
  *
  * Increments the reference count for the symbol
  */
@@ -87,16 +99,19 @@ symbol_ref (Symbol *sym)
  * symbol is created
  */
 Symbol *
-symbol_ref_string (char *str)
+symbol_ref_string (SymbolTable *st, char *str)
 {
 	Symbol *sym;
 
-	sym = symbol_lookup (str);
+	g_return_val_if_fail (st != NULL, NULL);
+	g_return_val_if_fail (str != NULL, NULL);
+	
+	sym = symbol_lookup (st, str);
 	if (sym){
 		symbol_ref (sym);
 		return sym;
 	}
-	return symbol_install (str, SYMBOL_STRING, 0);
+	return symbol_install (st, str, SYMBOL_STRING, 0);
 }
 
 /*
@@ -104,7 +119,7 @@ symbol_ref_string (char *str)
  * @Sym:  The symbol to remove the reference from
  *
  * Unreferences a symbol.  If the count reaches zero, the symbol
- * is deallocated
+ * Is deallocated
  */
 void
 symbol_unref (Symbol *sym)
@@ -113,7 +128,7 @@ symbol_unref (Symbol *sym)
 	g_return_if_fail (sym->ref_count > 0);
 	
 	if (--(sym->ref_count) == 0){
-		g_hash_table_remove (symbol_hash_table, sym->str);
+		g_hash_table_remove (sym->st->hash, sym->str);
 		g_free (sym->str);
 		g_free (sym);
 	}
@@ -144,9 +159,36 @@ g_strcase_hash (gconstpointer v)
 	return h /* % M */;
 }
 
-void
-symbol_init (void)
+SymbolTable *
+symbol_table_new (void)
 {
-	symbol_hash_table = g_hash_table_new (g_strcase_hash, g_strcase_equal);
+	SymbolTable *st = g_new (SymbolTable, 1);
+
+	st->hash = g_hash_table_new (g_strcase_hash, g_strcase_equal);
+
+	return st;
+}
+
+/**
+ * symbol_table_destroy:
+ * @st: The symbol table to destroy
+ *
+ * This only releases the resources associated with a SymbolTable.
+ * Note that the symols on the Symbol Table are not unrefed, it is
+ * up to the caller to unref them.
+ */
+void
+symbol_table_destroy (SymbolTable *st)
+{
+	g_return_if_fail (st != NULL);
+
+	g_hash_table_destroy (st->hash);
+	g_free (st);
+}
+
+void
+global_symbol_init (void)
+{
+	global_symbol_table = symbol_table_new ();
 }
 

@@ -307,7 +307,7 @@ set_cursor (ItemBar *item_bar, int pos)
 
 /*
  * Returns the GnomeCanvasPoints for a line at position in the
- * correct orientation
+ * correct orientation.  
  */
 static GnomeCanvasPoints *
 item_bar_get_line_points (ItemBar *item_bar, gdouble position)
@@ -341,6 +341,7 @@ item_bar_start_resize (ItemBar *item_bar, int pos, int pixels)
 	GnumericSheet *gsheet;
 	Sheet *sheet;
 	int division_pos;
+	double division_pos_d;
 
 	sheet = item_bar->sheet_view->sheet;
 	gsheet = GNUMERIC_SHEET (item_bar->sheet_view->sheet_view);
@@ -354,9 +355,12 @@ item_bar_start_resize (ItemBar *item_bar, int pos, int pixels)
 			sheet, gsheet->top_col, pos+1);
 	}
 
-	points = item_bar_get_line_points (item_bar, division_pos);
+	/* division_pos is in pixels, convert to canvas units */
+	gnome_canvas_window_to_world (GNOME_CANVAS (gsheet), division_pos, 0, &division_pos_d, NULL);
 	
-	item_bar->resize_guide_offset = division_pos - pixels;
+	points = item_bar_get_line_points (item_bar, division_pos_d);
+	
+	item_bar->resize_guide_offset = division_pos_d - pixels;
 		
 	item = gnome_canvas_item_new (
 		group,

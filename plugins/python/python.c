@@ -157,7 +157,7 @@ __register_function (PyObject *m, PyObject *py_args)
 	
 	fndef->fn              = marshal_func;
 	
-	symbol_install (fndef->name, SYMBOL_FUNCTION, fndef);
+	symbol_install (global_symbol_table, fndef->name, SYMBOL_FUNCTION, fndef);
 	
 	Py_INCREF (Py_None);
 	return Py_None;

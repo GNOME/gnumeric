@@ -40,86 +40,90 @@ static char *help_stat_nvariance = {
 };
 	
 static FunctionDefinition plugin_functions[] = {
-{"stdev", "", "", &help_stat_stdev, stat_stdev, NULL },
-{"variance", "", "", &help_stat_variance, stat_variance, NULL },
-{"nvariance", "", "", &help_stat_nvariance, stat_nvariance, NULL },
-{ NULL, NULL },};
+	{"stdev", "", "", &help_stat_stdev, stat_stdev, NULL },
+	{"variance", "", "", &help_stat_variance, stat_variance, NULL },
+	{"nvariance", "", "", &help_stat_nvariance, stat_nvariance, NULL },
+	{ NULL, NULL },
+};
 
 
-static int can_unload(PluginData *pd) {
+static int
+can_unload (PluginData *pd)
+{
 	Symbol *sym;
-	sym = symbol_lookup("stat_variance");
+	
+	sym = symbol_lookup (global_symbol_table, "stat_variance");
+
 	return sym->ref_count <= 1;
 }
 	
-int init_plugin (PluginData *pd) {
-	install_symbols(plugin_functions);
+int
+init_plugin (PluginData *pd)
+{
+	install_symbols (plugin_functions);
+
 	pd->can_unload = can_unload;
 	pd->cleanup_plugin = cleanup_plugin;
-	pd->title = g_strdup("Statistics Plugin");
+	pd->title = g_strdup (_("Statistics Plugin"));
+
 	return 0;
 }
 
-static void cleanup_plugin (PluginData *pd) {
+static void
+cleanup_plugin (PluginData *pd)
+{
 	Symbol *sym;
 	unsigned int i;
 	
 	g_free (pd->title);
 	
-	for(i=0;i<(((sizeof(plugin_functions))/(sizeof(FunctionDefinition)))-1);i++)  {
-	sym = symbol_lookup(plugin_functions[i].name);
-	if (sym) 
+	for (i = 0; i <(((sizeof(plugin_functions))/(sizeof(FunctionDefinition)))-1); i++){
+		sym = symbol_lookup(global_symbol_table, plugin_functions [i].name);
+
+		if (sym) 
 			symbol_unref(sym);
 	}
 }
 
-static Value *stat_variance(void *sheet, GList *expr_node_list, int eval_col, 
-			int eval_row, char **error_string) {
-	Value *result;
+static Value *
+stat_variance (void *sheet, GList *expr_node_list, int eval_col, 
+	       int eval_row, char **error_string)
+{
 	float undiv;
 	unsigned int len;
-	
-	result = g_malloc(sizeof(Value *));
-	result->type = VALUE_FLOAT;
-	result->v.v_float = 0.0;
-	
-	undiv = stat_undivided_variance(sheet, expr_node_list, eval_col,
-					eval_row, error_string);
-	len = g_list_length(expr_node_list);
-	if (len == 1) {
+
+	undiv = stat_undivided_variance (sheet, expr_node_list, eval_col,
+					 eval_row, error_string);
+	len = g_list_length (expr_node_list);
+
+	if (len == 1){
 		*error_string = _("variance - division by 0");
-		g_free(result);
 		return NULL;
 	}
 
-	result->v.v_float = undiv / (len - 1);
-	
-	return result;
+	return value_float (undiv / (len - 1));
 }
 
-static Value *stat_nvariance(void *sheet, GList *expr_node_list, int eval_col,
-			int eval_row, char **error_string) {
-	Value *result;
+static Value *
+stat_nvariance (void *sheet, GList *expr_node_list, int eval_col,
+		int eval_row, char **error_string)
+{
 	float undiv;
 	unsigned int len;
-	
-	result = g_malloc(sizeof(Value *));
-	result->type = VALUE_FLOAT;
-	result->v.v_float = 0.0;
 	
 	undiv = stat_undivided_variance(sheet, expr_node_list, eval_col,
 					eval_row, error_string);
 	
 	len = g_list_length(expr_node_list);
 	
-	result->v.v_float = undiv / len;
-
-	return result;
+	return value_float (undiv / len);
 }
-	
-float stat_undivided_variance(void *sheet, GList *expr_node_list, 
-				int eval_col, int eval_row, 
-				char **error_string) {
+
+float
+stat_undivided_variance (void *sheet, GList *expr_node_list, 
+			 int eval_col, int eval_row, 
+			 char **error_string)
+{
 	
 	Value *avgV, *tmpval;
 	GPtrArray *values;
@@ -142,19 +146,21 @@ float stat_undivided_variance(void *sheet, GList *expr_node_list,
 	
 	avg = value_get_as_double(avgV);
 	
-	for(i=0;i<(values->len); i++) {
-		tmpval = g_ptr_array_index(values, i);
+	for (i = 0; i < values->len; i++){
+		tmpval = g_ptr_array_index (values, i);
 		tmp = tmpval->v.v_float - avg;
 		tmp *= tmp;
 		result += tmp;
 	}
 	
-	g_free(avgV);	
+	g_free (avgV);	
 	
 	return result;
 }
 
-static Value *stat_stdev(void *sheet, GList *expr_node_list, int eval_col,                               int eval_row, char **error_string) {
+static Value *
+stat_stdev (void *sheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+{
 	Value *result, *var;
 	
 	result = g_malloc(sizeof(Value *));
@@ -172,15 +178,16 @@ static Value *stat_stdev(void *sheet, GList *expr_node_list, int eval_col,      
 }
 	
 
-int callback_var ( Sheet *sheet, Value *value, char **error_string, 
-		void *closure) {
+int
+callback_var (Sheet *sheet, Value *value, char **error_string, void *closure)
+{
 	GPtrArray *values = (GPtrArray *) closure;
 
 	float tmp;
-	tmp =value_get_as_double(value);
+	tmp = value_get_as_double (value);
 	value->v.v_float = tmp;
 	value->type = VALUE_FLOAT;
-	g_ptr_array_add(values, g_memdup(value, sizeof(*value)));
+	g_ptr_array_add (values, g_memdup (value, sizeof (*value)));
 	
 	return TRUE;
 }

@@ -136,7 +136,7 @@ sheet_new (Workbook *wb, char *name)
 	sheet->max_row_used = 0;
 
 	sheet->cell_hash = g_hash_table_new (cell_hash, cell_compare);
-
+	
 	sheet_style = style_new ();
 	sheet_style_attach (sheet, 0, 0, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1, sheet_style);
 	
@@ -210,9 +210,14 @@ sheet_set_zoom_factor (Sheet *sheet, double factor)
 		
 	sheet->last_zoom_factor_used = factor;
 
+	/* First, the default styles */
+	sheet_compute_col_row_new_size (sheet, &sheet->default_row_style, NULL);
+ 	sheet_compute_col_row_new_size (sheet, &sheet->default_col_style, NULL);
+
+	/* Then every column and row */
 	sheet_foreach_col (sheet, sheet_compute_col_row_new_size, NULL);
 	sheet_foreach_row (sheet, sheet_compute_col_row_new_size, NULL);
-	
+
 	for (l = sheet->sheet_views; l; l = l->next){
 		SheetView *sheet_view = l->data;
 
@@ -240,7 +245,7 @@ sheet_row_new (Sheet *sheet)
 
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
-	
+
 	ri = sheet_duplicate_colrow (&sheet->default_row_style);
 	row_init_span (ri);
 

@@ -56,6 +56,9 @@ typedef struct {
 
 	gboolean   have_x_selection;
 
+	/* The Symbol table used for naming cell ranges in the workbook */
+	SymbolTable *symbol_names;
+	
 	/*
 	 * This is  used during the clipboard paste command to pass information
 	 * to the asyncronous paste callback
@@ -79,50 +82,50 @@ typedef enum {
 } SheetModeType;
 
 typedef struct {
-	int        signature;
+	int         signature;
 	
-	Workbook   *workbook;
-	GList      *sheet_views;
+	Workbook    *workbook;
+	GList       *sheet_views;
 	
-	char       *name;
+	char        *name;
 
-	GList      *style_list;	/* The list of styles applied to the sheets */
+	GList       *style_list;	/* The list of styles applied to the sheets */
 
-	ColRowInfo default_col_style;
-	GList      *cols_info;
+	ColRowInfo  default_col_style;
+	GList       *cols_info;
 
-	ColRowInfo default_row_style;
-	GList      *rows_info;
+	ColRowInfo  default_row_style;
+	GList       *rows_info;
 
-	GHashTable *cell_hash;	/* The cells in hashed format */
+	GHashTable  *cell_hash;	/* The cells in hashed format */
 
-	GList      *selections;
+	GList       *selections;
 
-	int        max_col_used;
-	int        max_row_used;
+	int         max_col_used;
+	int         max_row_used;
 
 	int         cursor_col, cursor_row;
 	
 	/* The list of formulas */
-	GList      *formula_cell_list;
+	GList       *formula_cell_list;
 
-	double     last_zoom_factor_used;
+	double      last_zoom_factor_used;
 
 	/* Objects */
 	SheetModeType mode;	/* Sheet mode */
-	GList      *objects;	/* List of objects in the spreadsheet */
-	GList      *coords;	/* During creation time: keeps click coordinates */
-	void       *current_object;
-	
+	GList       *objects;	/* List of objects in the spreadsheet */
+	GList       *coords;	/* During creation time: keeps click coordinates */
+	void        *current_object;
+
 	/*
 	 * When editing a cell: the cell (may be NULL) and
 	 * the original text of the cell
 	 */
-	String    *editing_saved_text;
-	Cell      *editing_cell;
-	int        editing;
+	String      *editing_saved_text;
+	Cell        *editing_cell;
+	int         editing;
 	
-	gboolean   modified;
+	gboolean    modified;
 	
 	/* For walking trough a selection */
 	struct {
@@ -182,7 +185,7 @@ gboolean    sheet_selection_copy              (Sheet *sheet);
 gboolean    sheet_selection_cut               (Sheet *sheet);
 void        sheet_selection_paste             (Sheet *sheet,
 					       int dest_col,    int dest_row,
-					       int paste_flags, guint32 time);
+					       int paste_flags, guint32 time32);
 int         sheet_selection_walk_step         (Sheet *sheet,
 					       int   forward,     int horizontal,
 					       int   current_col, int current_row,

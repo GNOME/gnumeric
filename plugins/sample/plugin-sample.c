@@ -32,7 +32,7 @@ can_unload (PluginData *pd)
 {
 	Symbol *sym;
 	
-	sym = symbol_lookup ("plusone");
+	sym = symbol_lookup (global_symbol_table, "plusone");
 	return sym->ref_count <= 1;
 }
   
@@ -42,7 +42,7 @@ cleanup_plugin (PluginData *pd)
 	Symbol *sym;
 	
 	g_free (pd->title);
-	sym = symbol_lookup ("plusone");
+	sym = symbol_lookup (global_symbol_table, "plusone");
 	if (sym) {
 		symbol_unref(sym);
 	}

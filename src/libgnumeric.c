@@ -61,7 +61,7 @@ main (int argc, char *argv [])
 	style_init ();
 	format_color_init ();
 	cursors_init ();
-	symbol_init ();
+	global_symbol_init ();
 	constants_init ();
 	functions_init ();
 	plugins_init ();

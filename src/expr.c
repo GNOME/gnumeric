@@ -539,7 +539,7 @@ function_call_with_values (Sheet *sheet, char *name, int argc, Value *values[], 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (name != NULL, NULL);
 
-	sym = symbol_lookup (name);
+	sym = symbol_lookup (global_symbol_table, name);
 	if (sym == NULL){
 		*error_string = "Function does not exist";
 		return NULL;

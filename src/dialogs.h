@@ -9,5 +9,6 @@ void  dialog_delete_cells    (Sheet *sheet);
 void  dialog_zoom            (Sheet *sheet);
 char *dialog_query_load_file (void);
 void  dialog_about           (void);
+void  dialog_define_names    (Workbook *wb);
 
 #endif /* GNUMERIC_DIALOGS_H */

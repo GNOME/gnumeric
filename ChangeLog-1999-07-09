@@ -1,3 +1,24 @@
+1998-10-27  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/parser.c (dump_tree): Use extra argument.
+
+	* src/expr.c (function_call_with_values): Use the extra argument
+	to symbol_lookup
+
+	* src/func.c (constants_init): Use the extra argument to symbol_install.
+
+	* src/main.c (main): Invoke global_symbol_init.
+
+	* src/symbol.h: Symbol routines now take an extra argument; the
+	symboltable they work on.  Now the code can have multiple symbol
+	tables (this is required for the cell range name bindings in a
+	per-sheet fashion.
+
+1998-10-25  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/sheet.c (sheet_set_zoom_factor): Zoom factor should be
+	applied to to the default styles.
+
 1998-10-27  Daniel Veillard <Daniel.Veillard@w3.org>
 
 	* src/xml-io.c: adapted code to the new XML tree format, however

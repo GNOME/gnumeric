@@ -30,7 +30,7 @@ dump_functions (char *filename)
 		exit (1);
 	}
 
-	g_hash_table_foreach (symbol_hash_table, dump_func_help, NULL);
+	g_hash_table_foreach (global_symbol_table->hash, dump_func_help, NULL);
 
 	fclose (output_file);
 }

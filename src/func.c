@@ -143,7 +143,8 @@ install_symbols (FunctionDefinition *functions)
 	int i;
 	
 	for (i = 0; functions [i].name; i++){
-		symbol_install (functions [i].name, SYMBOL_FUNCTION, &functions [i]);
+		symbol_install (global_symbol_table, functions [i].name,
+				SYMBOL_FUNCTION, &functions [i]);
 	}
 }
 
@@ -177,7 +178,7 @@ constants_init (void)
 	version->type = VALUE_FLOAT;
 	version->v.v_float = atof (GNUMERIC_VERSION);
 	
-	symbol_install ("FALSE", SYMBOL_VALUE, false);
-	symbol_install ("TRUE", SYMBOL_VALUE, true);
-	symbol_install ("GNUMERIC_VERSION", SYMBOL_VALUE, version);
+	symbol_install (global_symbol_table, "FALSE", SYMBOL_VALUE, false);
+	symbol_install (global_symbol_table, "TRUE", SYMBOL_VALUE, true);
+	symbol_install (global_symbol_table, "GNUMERIC_VERSION", SYMBOL_VALUE, version);
 }

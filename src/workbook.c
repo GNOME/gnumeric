@@ -225,6 +225,8 @@ workbook_do_destroy (Workbook *wb)
 	workbook_list = g_list_remove (workbook_list, wb);
 	workbook_count--;
 
+	symbol_table_destroy (wb->symbol_names);
+	
 	if (workbook_count == 0)
 		gtk_main_quit ();
 }
@@ -1090,6 +1092,8 @@ workbook_new (void)
 	wb->toplevel  = gnome_app_new ("Gnumeric", "Gnumeric");
 	wb->sheets    = g_hash_table_new (g_str_hash, g_str_equal);
 	wb->table     = gtk_table_new (0, 0, 0);
+
+	wb->symbol_names = symbol_table_new ();
 
 	gtk_window_set_policy(GTK_WINDOW(wb->toplevel), 1, 1, 0);
 
