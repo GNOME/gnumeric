@@ -1201,6 +1201,20 @@ gnumeric_sheet_set_left_col (GnumericSheet *gsheet, int new_first_col)
 	}
 }
 
+/*
+ * gnumeric_sheet_make_cell_visible
+ * @gsheet        sheet widget
+ * @col           column
+ * @row           row
+ * @force_scroll  force a scroll
+ *
+ * Ensure that cell (col, row) is visible.
+ * Sheet is scrolled if cell is outside viewport.
+ * 
+ * Avoid calling this before the canvas is realized:
+ * We do not know the visible area, and would unconditionally scroll the cell
+ * to the top left of the viewport.
+ */
 void
 gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet, int col, int row,
 				  gboolean const force_scroll)

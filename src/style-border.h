@@ -58,7 +58,7 @@ GdkGC *style_border_get_gc      (MStyleBorder *border, GdkWindow *window);
 
 void style_border_draw  (MStyleBorder const * const st, MStyleElementType const t,
 			 GdkDrawable * const drawable,
-			 int const x1, int const y1, int const x2, int const y2,
+			 int x1, int y1, int x2, int y2,
 			 MStyleBorder const * const extend_begin,
 			 MStyleBorder const * const extend_end);
 void style_border_print (MStyleBorder const * const border, MStyleElementType const t,

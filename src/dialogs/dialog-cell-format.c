@@ -1905,6 +1905,7 @@ cb_fmt_dialog_dialog_apply (GtkObject *w, int page, FormatState *state)
 
 	cell_thaw_redraws ();
 	mstyle_unref (state->result);
+	sheet_update_controls (state->sheet);
 
 	/* Get a fresh style to accumulate results in */
 	state->result = mstyle_new ();

@@ -1,3 +1,52 @@
+2000-04-04  Jon K Hellan  <hellan@acm.org>
+
+	* src/sheet-view.c (sheet_view_set_zoom_factor): Call
+	gnumeric_sheet_make_visible only if sheet widget is realized.
+	(sheet_view_make_edit_pos_visible): New function: Make the cell at
+	the edit position visible.
+	(sheet_view_size_allocate): Add call to
+	sheet_view_make_edit_pos_visible.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_make_cell_visible): Add
+	comment.
+
+	* src/xml-io.c (xml_sheet_read): Read zoom into a local variable
+	before calling sheet_set_zoom_factor. Otherwise,
+	sheet_set_zoom_factor would assume that it had already initialized
+	this factor.
+
+	* src/workbook.c (change_zoom_in_current_sheet_cb): No longer call
+	change_displayed_zoom_cb, sheet_set_zoom_factor will call it
+	indirectly. 
+
+	* src/workbook.[ch] (workbook_class_init,
+	workbook_focus_current_sheet, workbook_create_standard_toobar):
+	Rename "sheet_changed" signal to "sheet_entered".  Remove
+	"cell_changed" signal.
+	(workbook_focus_current_sheet): Rename "sheet_changed" signal to
+	"sheet_entered".
+	(workbook_zoom_feedback_set): New function: Update zoom combo in
+	toolbar when zoom changes.
+
+	* src/sheet.c (sheet_update_zoom_controls): New function: Update
+	zoom controls when zoom changes.
+	(sheet_set_zoom_factor): Use it.
+	(sheet_load_cell_val): Do not emit "cell_changed".
+
+	* src/dialogs/dialog-cell-format.c (cb_fmt_dialog_dialog_apply):
+	Call sheet_update_controls to update toolbar controls.
+
+	* src/history.c (file_history_cmd): Remove pristine workbook when
+	a new one is read in. For consistency with File/Open, File/Import
+	and Bonobo File/History.
+
+	* src/dialogs/dialog-workbook-attr.c
+	(cb_attr_dialog_dialog_apply): Include workbook-view.h to get
+	prototype for workbook_view_pref_visibility.
+
+	* src/border.h (style_border_print): Remove bogus const in  prototype.
+	Reported by Aron Griffis.
+
 2000-04-02  Jody Goldberg <jgoldberg@home.com>
 
 	* src/item-edit.c (entry_changed) : Call scan_for_range here.

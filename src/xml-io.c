@@ -2501,6 +2501,7 @@ xml_sheet_read (parse_xml_context_t *ctxt, xmlNodePtr tree)
 	xmlNodePtr cells;
 	xmlNodePtr objects;
 	Sheet *ret = NULL;
+	double zoom_factor;
 	char *val;
 
 	if (strcmp (tree->name, "Sheet")){
@@ -2530,7 +2531,7 @@ xml_sheet_read (parse_xml_context_t *ctxt, xmlNodePtr tree)
 
 	xml_get_value_int (tree, "MaxCol", &ret->cols.max_used);
 	xml_get_value_int (tree, "MaxRow", &ret->rows.max_used);
-	xml_get_value_double (tree, "Zoom", &ret->last_zoom_factor_used);
+	xml_get_value_double (tree, "Zoom", &zoom_factor);
 
 	xml_read_print_info (ctxt, tree);
 	xml_read_styles (ctxt, tree);
@@ -2575,7 +2576,7 @@ xml_sheet_read (parse_xml_context_t *ctxt, xmlNodePtr tree)
 	xml_dispose_read_cell_styles (ctxt);
 
 	/* Initialize the ColRowInfo's ->size_pixels data */
-	sheet_set_zoom_factor (ret, ret->last_zoom_factor_used);
+	sheet_set_zoom_factor (ret, zoom_factor);
 	return ret;
 }
 

@@ -69,13 +69,13 @@ static WORKBOOK_PARENT_CLASS *workbook_parent_class;
 
 /* Workbook signals */
 enum {
-	SHEET_CHANGED,
-	CELL_CHANGED,
+	SHEET_ENTERED,
+	CELL_ENTERED,
 	LAST_SIGNAL
 };
 
 static gint workbook_signals [LAST_SIGNAL] = {
-	0, /* SHEET_CHANGED, CELL_CHANGED */
+	0, /* SHEET_ENTERED, CELL_ENTERED */
 };
 
 static void workbook_set_arg (GtkObject *object, GtkArg *arg, guint arg_id);
@@ -1297,7 +1297,6 @@ static GnomeUIInfo workbook_menu_format_sheet [] = {
 	GNOMEUIINFO_ITEM_NONE(N_("Re-_Order Sheets"),
 		NULL,
 		&sheet_order_cmd),
-
 	{
 	    GNOME_APP_UI_TOGGLEITEM,
 	    N_("Display _Formulas"), NULL,
@@ -1569,7 +1568,7 @@ workbook_focus_current_sheet (Workbook *wb)
 		gtk_window_set_focus (GTK_WINDOW (wb->toplevel), sheet_view->sheet_view);
 
 		if (wb->current_sheet != sheet) {
-			gtk_signal_emit (GTK_OBJECT (wb), workbook_signals [SHEET_CHANGED], sheet);
+			gtk_signal_emit (GTK_OBJECT (wb), workbook_signals [SHEET_ENTERED], sheet);
 			wb->current_sheet = sheet;
 		}
 	} else
@@ -2229,25 +2228,14 @@ workbook_class_init (GtkObjectClass *object_class)
 				 GTK_TYPE_BOOL, GTK_ARG_READWRITE,
 				 ARG_VIEW_TABS);
 				 
-	workbook_signals [SHEET_CHANGED] =
+	workbook_signals [SHEET_ENTERED] =
 		gtk_signal_new (
-			"sheet_changed",
+			"sheet_entered",
 			GTK_RUN_LAST,
 			object_class->type,
 			GTK_SIGNAL_OFFSET (WorkbookClass,
-					   sheet_changed),
+					   sheet_entered),
 			gtk_marshal_NONE__POINTER,
-			GTK_TYPE_NONE,
-			1,
-			GTK_TYPE_POINTER);
-	workbook_signals [CELL_CHANGED] =
-		gtk_signal_new (
-			"cell_changed",
-			GTK_RUN_LAST,
-			object_class->type,
-			GTK_SIGNAL_OFFSET (WorkbookClass,
-					   cell_changed),
-			gtk_marshal_NONE__POINTER_POINTER_INT_INT,
 			GTK_TYPE_NONE,
 			1,
 			GTK_TYPE_POINTER);
@@ -2307,11 +2295,19 @@ change_zoom_in_current_sheet_cb (GtkWidget *caller, Workbook *wb)
 	int factor = atoi (gtk_entry_get_text (GTK_ENTRY (caller)));
 	sheet_set_zoom_factor(wb->current_sheet, (double)factor / 100);
 
-	/* reset the contents of the combo just in case we hit a bound */
-	change_displayed_zoom_cb (NULL, wb->current_sheet, wb);
-
 	/* Restore the focus to the sheet */
 	workbook_focus_current_sheet (wb);
+}
+
+/*
+ * Updates the zoom control state
+ */
+void
+workbook_zoom_feedback_set (Workbook *wb, double zoom_factor)
+{
+	g_return_if_fail (wb->current_sheet);
+	
+	change_displayed_zoom_cb (NULL, wb->current_sheet, wb);
 }
 
 /*
@@ -2372,7 +2368,7 @@ workbook_create_standard_toobar (Workbook *wb)
 	gtk_combo_box_set_title (GTK_COMBO_BOX (zoom), _("Zoom"));
 
 	/* Change the value when the displayed sheet is changed */
-	gtk_signal_connect (GTK_OBJECT (wb), "sheet_changed",
+	gtk_signal_connect (GTK_OBJECT (wb), "sheet_entered",
 			    (GtkSignalFunc) (change_displayed_zoom_cb), wb);
 	
 	/* Set a reasonable default width */

@@ -27,8 +27,12 @@ file_history_cmd (GtkWidget *widget, Workbook *wb)
 
 	new_wb = workbook_read (workbook_command_context_gui (wb), filename);
 
-	if (new_wb != NULL)
+	if (new_wb != NULL) {
 		gtk_widget_show (new_wb->toplevel);
+
+		if (workbook_is_pristine (wb))
+			gtk_object_unref (GTK_OBJECT (wb));
+	}
 }
 
 #else

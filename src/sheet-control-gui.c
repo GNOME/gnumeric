@@ -241,11 +241,13 @@ sheet_view_set_zoom_factor (SheetView *sheet_view, double factor)
 	gsheet->row_offset.first =
 	    sheet_row_get_distance_pixels (sheet_view->sheet, 0, gsheet->row.first);
 
-	/* Ensure that the current cell remains visible when we zoom */
-	gnumeric_sheet_make_cell_visible (gsheet,
-					  sheet_view->sheet->cursor.edit_pos.col,
-					  sheet_view->sheet->cursor.edit_pos.row,
-					  TRUE);
+	if (GTK_WIDGET_REALIZED (gsheet))
+		/* Ensure that the current cell remains visible when we zoom */
+		gnumeric_sheet_make_cell_visible
+			(gsheet,
+			 sheet_view->sheet->cursor.edit_pos.col,
+			 sheet_view->sheet->cursor.edit_pos.row,
+			 TRUE);
 
 	/* Repsition the cursor */
 	item_cursor_reposition (gsheet->item_cursor);
@@ -318,9 +320,32 @@ sheet_view_scrollbar_config (SheetView const *sheet_view)
 	gtk_adjustment_changed (ha);
 }
 
+/*
+ * sheet_view_make_edit_pos_visible
+ * @sheet_view  Sheet view
+ *
+ * Make the cell at the edit position visible.
+ *
+ * To be called from the "size_allocate" signal handler when the geometry of a
+ * new sheet view has been configured. 
+ */
+static void
+sheet_view_make_edit_pos_visible (SheetView const *sheet_view)
+{
+	GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
+
+	gnumeric_sheet_make_cell_visible
+		(gsheet,
+		 sheet_view->sheet->cursor.edit_pos.col,
+		 sheet_view->sheet->cursor.edit_pos.row,
+		 TRUE);
+
+}
+
 static void
 sheet_view_size_allocate (GtkWidget *widget, GtkAllocation *alloc, SheetView *sheet_view)
 {
+	sheet_view_make_edit_pos_visible (sheet_view);
 	sheet_view_scrollbar_config (sheet_view);
 }
 

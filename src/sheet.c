@@ -43,6 +43,8 @@
 #define COLROW_GET_SEGMENT(seg_array, i) \
 	(g_ptr_array_index ((seg_array)->info, COLROW_SEGMENT_INDEX(i)))
 
+static void sheet_update_zoom_controls (Sheet *sheet);
+
 void
 sheet_adjust_preferences (Sheet const *sheet)
 {
@@ -324,6 +326,8 @@ sheet_set_zoom_factor (Sheet *sheet, double const f)
 	 */
 	g_hash_table_foreach (sheet->cell_hash,
 			      cb_cell_recalc_dimension, NULL);
+
+	sheet_update_zoom_controls (sheet);
 }
 
 ColRowInfo *
@@ -943,12 +947,6 @@ sheet_load_cell_val (Sheet *sheet)
 
 	gtk_entry_set_text (entry, text);
 
-	/* FIXME : Nothing uses this ???? */
-	gtk_signal_emit_by_name (GTK_OBJECT (sheet->workbook), "cell_changed",
-				 sheet, text,
-				 sheet->cursor.edit_pos.col,
-				 sheet->cursor.edit_pos.row);
-
 	g_free (text);
 }
 
@@ -971,6 +969,24 @@ sheet_update_controls (Sheet *sheet)
 
 	workbook_feedback_set (sheet->workbook, mstyle);
 	mstyle_unref (mstyle);
+}		
+
+/**
+ * sheet_update_zoom_controls:
+ *
+ * This routine is run every time the zoom has changed.  It checks
+ * what the status of various toolbar feedback controls should be
+ *
+ * FIXME: This will at some point become a sheet view function.
+ */
+static void
+sheet_update_zoom_controls (Sheet *sheet)
+{
+	g_return_if_fail (sheet != NULL);
+
+	if (sheet == sheet->workbook->current_sheet)
+		workbook_zoom_feedback_set (sheet->workbook,
+					    sheet->last_zoom_factor_used);
 }		
 
 int

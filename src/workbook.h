@@ -138,9 +138,7 @@ typedef struct {
 #endif
 	
 	/* Signals */
-	void (*sheet_changed) (Sheet *sheet);
-	void (*cell_changed)  (Sheet *sheet, char *contents,
-			       int col, int row);
+	void (*sheet_entered) (Sheet *sheet);
 } WorkbookClass;
 
 GtkType     workbook_get_type            (void);
@@ -220,6 +218,7 @@ typedef enum {
 } WorkbookFeedbackType;
 
 void     workbook_feedback_set        (Workbook *, MStyle *style);
+void     workbook_zoom_feedback_set   (Workbook *, double zoom_factor);
 
 /*
  * Hooks for CORBA bootstrap: they create the 
