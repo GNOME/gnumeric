@@ -666,7 +666,7 @@ check_quoted (char const *str, int *num_escapes)
 		*num_escapes = 0;
 		for (; *str && *str != quote; str = g_utf8_next_char (str))
 			if (*str == '\\' && str[1]) {
-				str = g_utf8_next_char (str+1);
+				str++;
 				(*num_escapes)++;
 			}
 	} else
@@ -678,7 +678,7 @@ static void
 unquote (char *dst, char const *src, int n)
 {
 	while (n-- > 0)
-		if (*src == '\\') {
+		if (*src == '\\' && src[1]) {
 			int n = g_utf8_skip [*(guchar *)(++src)];
 			strncpy (dst, src, n);
 			dst += n;

@@ -1,5 +1,11 @@
 2002-09-16  Morten Welinder  <terra@diku.dk>
 
+	* src/parse-util.c (check_quoted): Fix traversal right after
+	backquote.
+	(unquote): Make terminal \\ case match check_quoted.
+
+2002-09-16  Morten Welinder  <terra@diku.dk>
+
 	* src/parse-util.c (sheet_parse): Off by one bug.
 
 2002-09-16  Morten Welinder  <terra@diku.dk>
