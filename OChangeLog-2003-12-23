@@ -1,4 +1,4 @@
-2000-11-03  Almer S. Tigelaar  <almer1@dds.nl>
+2000-11-06  Almer S. Tigelaar  <almer1@dds.nl>
 
 	Fix bug #21674. (Fix will kick in once the version number of the
 	XML format is bumped to GNUM_XML_V5)
