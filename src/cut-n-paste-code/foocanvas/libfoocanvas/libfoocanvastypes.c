@@ -1,5 +1,6 @@
 /* File import from foocanvas to gnumeric by import-foocanvas.  Do not edit.  */
 
+#undef GTK_DISABLE_DEPRECATED
 #include <gnumeric-config.h>
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>

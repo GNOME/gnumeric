@@ -125,6 +125,7 @@ sub copy_subsystem {
 	print DST "/* File import from foocanvas to gnumeric by $myself.  Do not edit.  */\n\n";
 
 	if ($file =~ /\.c$/) {
+	    print DST "#undef GTK_DISABLE_DEPRECATED\n";
 	    print DST "#include <gnumeric-config.h>\n";
 	    print DST "#include <gnumeric-i18n.h>\n";
 	    print DST "#include <gnumeric.h>\n\n";
