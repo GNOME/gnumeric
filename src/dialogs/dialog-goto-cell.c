@@ -10,12 +10,7 @@
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "dialogs.h"
-
-static void
-cb_goto_cell (GtkEntry *entry, GnomeDialog *dialog)
-{
-	gtk_main_quit ();
-}
+#include "utils-dialog.h"
 
 static void
 cb_row_selected (GtkCList *clist, int row, int col, GdkEvent *event, GtkEntry *entry)
@@ -43,22 +38,24 @@ dialog_goto_cell (Workbook *wb)
 		titles [1] = NULL;
 		
 		dialog = gnome_dialog_new (_("Go to..."),
-					   GNOME_STOCK_BUTTON_HELP,
-					   _("Special..."),
 					   GNOME_STOCK_BUTTON_OK,
 					   GNOME_STOCK_BUTTON_CANCEL,
+					   _("Special..."),
+					   GNOME_STOCK_BUTTON_HELP,
 					   NULL);
 		gnome_dialog_close_hides (GNOME_DIALOG (dialog), TRUE);
+		gnome_dialog_set_default(GNOME_DIALOG(dialog), GNOME_OK);
+		gnome_dialog_set_parent (GNOME_DIALOG (dialog), 
+					    GTK_WINDOW(wb->toplevel));
 
 		swin = gtk_scrolled_window_new (NULL, NULL);
 		clist = gtk_clist_new_with_titles (1, titles);
+		gtk_clist_column_titles_passive (GTK_CLIST (clist));
 		gtk_container_add (GTK_CONTAINER (swin), clist);
 		gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (swin),
 						GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
-		entry = gtk_entry_new ();
-		gtk_signal_connect (GTK_OBJECT (entry), "activate",
-				    GTK_SIGNAL_FUNC (cb_goto_cell), dialog);
+		entry = ut_dia_entry_new (GNOME_DIALOG (dialog));
 
 		gtk_signal_connect (GTK_OBJECT (clist), "select_row",
 				    GTK_SIGNAL_FUNC (cb_row_selected), entry);
@@ -78,19 +75,19 @@ dialog_goto_cell (Workbook *wb)
 	gtk_widget_grab_focus (entry);
 	
 	/* Run the dialog */
-	gnome_dialog_run (GNOME_DIALOG (dialog));
+	if (gnome_dialog_run (GNOME_DIALOG (dialog)) == GNOME_OK) {
 
-	text = gtk_entry_get_text (GTK_ENTRY (entry));
+		text = gtk_entry_get_text (GTK_ENTRY (entry));
 
-	if (*text){
-		if (workbook_parse_and_jump (wb, text)){
-			gchar *texts [1];
-			
-			texts [0] = text;
-			
-			gtk_clist_append (GTK_CLIST (clist), texts);
+		if (*text){
+			if (workbook_parse_and_jump (wb, text)){
+				gchar *texts [1];
+				
+				texts [0] = text;
+				
+				gtk_clist_append (GTK_CLIST (clist), texts);
+			}
 		}
-	}
-	
+	}	
 	gnome_dialog_close (GNOME_DIALOG (dialog));
 }

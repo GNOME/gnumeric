@@ -55,7 +55,7 @@ int
 dialog_paste_special (Workbook *wb)
 {
 	GtkWidget *dialog, *hbox;
-	GtkWidget *f1, *f1v, *f2, *f2v, *cb;
+	GtkWidget *f1, *f1v, *f2, *f2v, *cb, *first_button = NULL;
 	GSList *group_type, *group_ops;
 	int result, i;
 	int v;
@@ -90,6 +90,7 @@ dialog_paste_special (Workbook *wb)
 		gtk_signal_connect (GTK_OBJECT (r), "toggled", func, f2);
 
 		gtk_box_pack_start_defaults (GTK_BOX (f1v), r);
+		if (i == 0) first_button = r;
 	}
 
 	group_ops = NULL;
@@ -113,6 +114,7 @@ dialog_paste_special (Workbook *wb)
 
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), hbox, TRUE, TRUE, 0);
 	gtk_widget_show_all (hbox);
+	gtk_widget_grab_focus (first_button);
 
 	/* Run the dialog */
 	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);

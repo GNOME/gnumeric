@@ -127,6 +127,7 @@
 	  <class>GtkButton</class>
 	  <name>ok</name>
 	  <has_default>True</has_default>
+	  <can_default>True</can_default>
 	  <can_focus>True</can_focus>
 	  <stock_button>GNOME_STOCK_BUTTON_OK</stock_button>
 	  <child>

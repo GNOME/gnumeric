@@ -15,6 +15,7 @@
 #include "expr.h"
 #include "selection.h"
 #include "utils.h"
+#include "utils-dialog.h"
 
 typedef struct {
 	GtkWidget *parent;
@@ -39,7 +40,8 @@ order_box_new(GtkWidget * parent, const char *frame_text, const char *default_te
 		GtkTable *tt;
 		tt = GTK_TABLE(gtk_table_new(0, 0, 0));
 		gtk_table_attach(tt, gtk_label_new(_("Column:")), 0, 1, 0, 1, 0, 0, 2, 0);
-		this->rangetext = gtk_entry_new_with_max_length(5);
+		this->rangetext = ut_dia_entry_new_with_max_length
+			(GNOME_DIALOG(gtk_widget_get_toplevel(parent)), 5);
 		gtk_entry_set_text(GTK_ENTRY(this->rangetext), default_text);
 		gtk_table_attach(tt, this->rangetext, 1, 2, 0, 1, 0, 0, 0, 2);
 /*              gtk_table_attach (tt, this->rangetext, 1, 2, 0, 1, GTK_FILL | GTK_EXPAND, 0, 0, 2); */

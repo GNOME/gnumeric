@@ -14,10 +14,7 @@
 #include "func.h"
 #include "tools.h"
 #include "utils.h"
-
-GtkWidget *
-hbox_pack_label_and_entry(char *str, char *default_str,
-			  int entry_len, GtkWidget *vbox);
+#include "utils-dialog.h"
 
 /* Different constraint types */
 static const char *constraint_strs[] = {
@@ -93,7 +90,7 @@ add_radio_buttons (GtkWidget *hbox, const char *title, const char *ops[])
 	for (i = 0; ops [i]; i++) {
 		GtkWidget *r;
 		
-		r = gtk_radio_button_new_with_label (group_ops, _(ops [i]));
+		r = gtk_radio_button_new_with_label (group_ops, ops [i]);
 		group_ops = GTK_RADIO_BUTTON (r)->group;
 		gtk_box_pack_start_defaults (GTK_BOX (fv), r);
 	}
@@ -113,19 +110,6 @@ add_check_buttons (GtkWidget *box, const char *ops[])
 	        button = gtk_check_button_new_with_label (ops[i]);
 		gtk_box_pack_start (GTK_BOX (box), button, TRUE, TRUE, 0);
 	}
-}
-
-
-GList *
-add_strings_to_glist (const char *strs[])
-{
-        int   i;
-	GList *list = NULL;
-
-	for (i=0; strs[i] != NULL; i++) {
-	        list = g_list_append (list, (gpointer) strs[i]);
-	}
-	return list;
 }
 
 
@@ -161,11 +145,12 @@ dialog_solver_options (Workbook *wb, Sheet *sheet)
 	add_check_buttons(check_buttons_right, check_button_right_ops);
 
 	group_estimates = add_radio_buttons(radio_buttons, 
-					    "Estimates", estimate_ops);
+					    _("Estimates"), estimate_ops);
 	group_derivatives = add_radio_buttons(radio_buttons,
-					      "Derivatives", derivative_ops);
+					      _("Derivatives"), 
+					      derivative_ops);
 	group_search = add_radio_buttons(radio_buttons,
-					 "Search", search_ops);
+					 _("Search"), search_ops);
 
 	gtk_box_pack_start (GTK_BOX (check_buttons), 
 			    check_buttons_left, TRUE, TRUE, 0);
@@ -387,7 +372,7 @@ dialog_solver (Workbook *wb, Sheet *sheet)
 		/* Radio buttons for problem type selection */
 		radio_buttons = gtk_hbox_new (TRUE, 0);
 		group_equal = add_radio_buttons(radio_buttons,
-						"Equal to:", equal_ops);
+						_("Equal to:"), equal_ops);
 
 		gtk_box_pack_start (GTK_BOX (box), 
 				    radio_buttons, TRUE, TRUE, 0);
@@ -412,16 +397,16 @@ dialog_solver (Workbook *wb, Sheet *sheet)
 		  (GTK_SCROLLED_WINDOW (scrolled_win), constraint_list);
 		gtk_clist_set_selection_mode (GTK_CLIST (constraint_list),
 					      GTK_SELECTION_SINGLE);
-		gtk_clist_set_column_title (GTK_CLIST (constraint_list),
-					    0, "Subject to the Constraints:");
+		gtk_clist_set_column_title (GTK_CLIST (constraint_list), 0,
+					    _("Subject to the Constraints:"));
 		gtk_clist_column_titles_passive (GTK_CLIST (constraint_list));
 		gtk_clist_column_titles_show (GTK_CLIST (constraint_list));
 		gtk_clist_clear (GTK_CLIST (constraint_list));
 
 		/* Constraint buttons */
-		constr_add_button = gtk_button_new_with_label ("Add");
-		constr_change_button = gtk_button_new_with_label ("Change");
-		constr_delete_button = gtk_button_new_with_label ("Delete");
+		constr_add_button = gtk_button_new_with_label (_("Add"));
+		constr_change_button = gtk_button_new_with_label (_("Change"));
+		constr_delete_button = gtk_button_new_with_label (_("Delete"));
 		constr_button_box = gtk_vbox_new (FALSE, 0);
 		constraint_dialog.constraints = NULL;
 		constraint_dialog.clist = GTK_CLIST (constraint_list);

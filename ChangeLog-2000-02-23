@@ -9,16 +9,66 @@
 	From : Jon K Hellan  <Jon.K.Hellan@item.ntnu.no>
 
 	* src/dialogs/dialog-printer.c (gnumeric_printer_dialog_run): 
-	toplevel: New parameter - app window.
-	Set initial focus.
-	Make <Enter> in entry fields invoke default button.
-	Specify the app as the parent.
+	  Workbook: New parameter
+	  Set initial focus.
+	  Make <Enter> in entry fields invoke default button.
+	  Specify the app as the parent.
 
 	* src/dialogs/dialog-printer.h (gnumeric_printer_dialog_run): 
-	Change signature
+	  Change signature
 
 	* src/print.c (sheet_print): 
-	gnumeric_printer_dialog_run has new signature
+	  gnumeric_printer_dialog_run has new signature
+
+	* src/dialogs/dialog-sovler.c (add_strings_to_glist): Remove
+	(add_radio_buttons): Remove unnecessary "_()"
+	(dialog_solver_options, dialog_solver): Add missing "_()"
+
+	* src/dialogs/utils-dialog.c: New file
+	(ut_dia_entry_new_with_max_length, ut_dia_entry_new): 
+	  Create entry fields where <Enter> activates the default button
+	(hbox_pack_label_and_entry): Move from dialog-analysis-tools.c
+	(add_strings_to_glist): Move from dialog-solver.c
+
+	* src/dialogs/utils-dialog.h: New file
+	(hbox_pack_label_and_entry, add_strings_to_glist): Move from tools.h
+
+	* src/dialogs/dialog-cell-comment.c (dialog_cell_comment): 
+	  Make OK button the default.
+
+	* src/dialogs/dialog-cell-sort.c (order_box_new):  
+	  Make <Enter> in entry field invoke default button.
+
+	* src/dialogs/dialog-define-names.c (dialog_define_names): 
+	  Make <Enter> in entry field invoke default button.
+	  Specify the app as the parent.
+
+	* src/dialogs/names.glade: ok button needs "can_default".
+
+	* src/dialogs/dialog-summary.c (dialog_summary_update): 
+	  Make <Enter> in entry fields invoke default button.
+
+	* src/dialogs/summary.glade: Make OK button the default.
+	  Change widget names used by program to avoid inadvertent
+	  translation. 
+
+	* src/dialogs/dialog-analysis-tools.c 
+	(new_dialog): Make OK button the default
+	(dialog_data_analysis): Initial focus and selection, Make OK button
+	  the default.
+	(add_check_buttons, add_output_frame, dialog_sampling_tool): Make
+	  <Enter> in entry field invoke default button
+	(hbox_pack_label_and_entry): Move to utils-dialog.c
+	(dialog_random_tool): Replace pack_label_and_entry with
+	  hbox_pack_label_and_entry  
+	(pack_label_and_entry): Remove
+
+	* src/dialogs/dialog-goal-seek.c (dialog_found_solution, 
+	dialog_goal_seek): Make OK button the default
+	(dialog_goal_seek): Make <Enter> in entry field invoke default button.
+
+	* src/dialogs/dialog-paste-special.c (dialog_paste_special): 
+	  Initial focus
 
 1999-10-05  Jody Goldberg <jgoldberg@home.com>
 
