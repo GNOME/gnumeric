@@ -1,3 +1,63 @@
+2000-05-25  Jon K Hellan  <hellan@acm.org>
+
+	* src/dialogs/dialog-printer-setup.c: Add an option menu for
+	selecting units to the margin page.  Read entire dialog from guile
+	file rather than just reading contents and reparenting into a new
+	GnomeDialog.
+	(dialog_print_info_t): Add conversion_listeners list.
+	(convert_to_{pt|mm|cm|in): These are no longer called directly as
+	callbacks, so the unused widget parameter has been removed.
+	(listeners_convert): New callback function invoked when a new unit
+	has been selected. Receives a conversion function as callback data
+	and invokes it on all the registered conversion listeners.
+	(add_unit): Add dpi parameter. Remove data parameter. Connect
+	listeners_convert.
+	(unit_editor_new): Rename to unit_editor_configure. Connect target
+	to existing spinbutton in glade dialog. Add dialog_print_info and
+	spin button name parameter. Replace PrintUnit parameter with
+	points and units. Use unit parameter instead of hardcoded
+	centimeters. Register unit editor as a conversion listener. Make
+	<Ret> in spin buttons invoke "OK". Remove deactivated code to
+	display a unit selector for each margin.
+	(tattach): Remove.
+	(do_setup_margin): Use the top margin unit for display and ignore
+	desired display for the others. Configure unit selector option
+	menu. Call unit_editor_configure for each margin - previously
+	unit_editor_new was called via tattach. Pack preview canvas in
+	container instead of explicitly in table. Thus, the code no longer
+	contains table coordinates, and the glade file can safely be
+	changed.
+	(do_setup_page): Make <Ret> in spin buttons and combo invoke "OK".
+	(do_setup_main_dialog): Remove dialog reparenting hack -
+	GnomeDialogs are now fully supported in Glade. Remove explicit
+	focusing - now done in Glade file.
+	(dialog_print_info_destroy): Free conversion listeners.
+	(do_setup_page_info): Make <Ret> in entry fields and combo invoke
+	"OK".
+
+	* src/dialogs/print.glade(.h?): Turn into a complete GnomeDialog.
+	Set consistent internal border in notebook pages. Rename rightmost
+	page from "page" (used for two pages) to "sheet".
+	(page page): Give meaningful name to first page number combo. Make
+	it insensitive.
+	(margin page): Add an option menu for units. Include spin buttons
+	in glade file. Tweak layout.
+	(sheet page): Give meaningful names to print area entry and
+	comments combo. Make them insensitive.
+	
+	* src/dialogs/cell-format.glade: Add focus target to
+	format_symbol_label to make Number/Currency/S_ymbol accelerator
+	work.
+
+	* src/dialogs/autocorrect-exceptions.glade: Add internal border to
+	notebook pages.
+
+	* src/dialogs/workbook-attr.glade: Add internal border to notebook
+	pages and frames.
+
+	* src/dialogs/dialog-workbook-attr.c (attr_dialog_impl): Set
+	dialog title.
+
 2000-05-24  Morten Welinder  <terra@diku.dk>
 
 	* src/main.c (gnumeric_main): Style now needs to be initialised
@@ -46,6 +106,7 @@
 	(cell_get_format) : Cells with format 'General' may appear to have
 	  a format via autoformat or via the text that was entered.
 
+>>>>>>> 1.336
 2000-05-21  Jody Goldberg <jgoldberg@home.com>
 
 	* src/cmd-edit.[ch] : New files.

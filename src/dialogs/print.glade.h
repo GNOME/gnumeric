@@ -4,14 +4,13 @@
  * DO NOT compile it as part of your application.
  */
 
-gchar *s = N_("window2");
+gchar *s = N_("Print setup");
 gchar *s = N_("Orientation");
 gchar *s = N_("Por_trait");
 gchar *s = N_("_Landscape");
 gchar *s = N_("Scale");
 gchar *s = N_("_Adjust to:");
 gchar *s = N_("_Fit to:");
-/* xgettext:no-c-format */
 gchar *s = N_("% of normal size");
 gchar *s = N_("page(s) wide by");
 gchar *s = N_("tall");
@@ -20,15 +19,21 @@ gchar *s = N_("_Print");
 gchar *s = N_("Print previe_w");
 gchar *s = N_("_Options");
 gchar *s = N_("Page");
-gchar *s = N_("_Top:");
-gchar *s = N_("He_ader:");
-gchar *s = N_("_Bottom:");
-gchar *s = N_("_Footer");
 gchar *s = N_("Center on page");
 gchar *s = N_("_Horizontally");
 gchar *s = N_("_Vertically");
 gchar *s = N_("_Left:");
-gchar *s = N_("_Right");
+gchar *s = N_("_Right:");
+gchar *s = N_("_Units:");
+gchar *s = N_("pts\n"
+              "mm\n"
+              "cm\n"
+              "In\n"
+              "");
+gchar *s = N_("_Top:");
+gchar *s = N_("He_ader:");
+gchar *s = N_("_Footer:");
+gchar *s = N_("_Bottom:");
 gchar *s = N_("Paper _size:");
 gchar *s = N_("_Print");
 gchar *s = N_("Print previe_w");
@@ -59,4 +64,4 @@ gchar *s = N_("R_ight, then down");
 gchar *s = N_("_Print");
 gchar *s = N_("Print previe_w");
 gchar *s = N_("_Options");
-gchar *s = N_("Page");
+gchar *s = N_("Sheet");

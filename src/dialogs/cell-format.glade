@@ -409,6 +409,7 @@
 	  <yalign>0</yalign>
 	  <xpad>0</xpad>
 	  <ypad>0</ypad>
+	  <focus_target>format_currency_symbol</focus_target>
 	  <child>
 	    <padding>0</padding>
 	    <expand>False</expand>
