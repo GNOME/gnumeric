@@ -1,5 +1,3 @@
-# translation of cs.po to Czech
-# Czech translation of cs.po
 # Gnumeric Czech translation
 # Copyright (c) 1999,2000,2001,2002 The Free Software Foundation
 # Petr Vyhnalek <petr.vyhnalek@email.cz>, 1999
@@ -9,9 +7,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: cs\n"
-"POT-Creation-Date: 2003-04-13 12:11+0200\n"
-"PO-Revision-Date: 2003-04-13 21:43+0200\n"
+"Project-Id-Version: gnumeric VERSION\n"
+"POT-Creation-Date: 2003-04-16 20:07+0200\n"
+"PO-Revision-Date: 2003-04-16 23:00+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -716,7 +714,8 @@ msgid ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
 "@FUNCTION=OPT_ON_OPTIONS\n"
-"@SYNTAX=OPT_ON_OPTIONS(příznak_typu,cena,realizační_cena1,realizační_cena2,čas1,čas2,úrok,náklady_držení,míra_kolísání)\n"
+"@SYNTAX=OPT_ON_OPTIONS(příznak_typu,cena,realizační_cena1,realizační_cena2,"
+"čas1,čas2,úrok,náklady_držení,míra_kolísání)\n"
 "@DESCRIPTION=OPT_ON_OPTIONS modeluje teoretickou cenu opcí na opce.\n"
 "@EXAMPLES=\n"
 "\n"
@@ -857,7 +856,7 @@ msgid "Functions related to financial derivatives"
 msgstr "Funkce spojené s finančními deriváty"
 
 #: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5116
-#: plugins/gnumeric_1_0/xml-io.c:3369 plugins/mps/mps.c:549 src/xml-io.c:3588
+#: plugins/gnumeric_1_0/xml-io.c:3369 plugins/mps/mps.c:549 src/xml-io.c:3741
 msgid "Reading file..."
 msgstr "Načítá se soubor..."
 
@@ -15986,7 +15985,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=MID\n"
 "@SYNTAX=MID(řetězec, pozice, délka)\n"
-"@DESCRIPTION=MID vrací podřetězec z @řetězce začínající na @pozici a dlouhý @délka znaků.\n"
+"@DESCRIPTION=MID vrací podřetězec z @řetězce začínající na @pozici a dlouhý "
+"@délka znaků.\n"
 "\n"
 "Tato funkce je kompatibilní s Excelem.\n"
 "\n"
@@ -16618,25 +16618,25 @@ msgstr "Formát souborů PO slovníku Gnome"
 msgid "It provides support for saving Gnome Glossary in .po files."
 msgstr "Poskytuje podporu pro ukládání Slovníku Gnome do souborů .po."
 
-#: plugins/gnumeric_1_0/xml-io.c:2824 src/xml-io.c:3047
+#: plugins/gnumeric_1_0/xml-io.c:2824 src/xml-io.c:3200
 msgid "Unparsable xml in clipboard"
 msgstr "Obsah schránky v XML není možné zpracovat"
 
-#: plugins/gnumeric_1_0/xml-io.c:2831 src/xml-io.c:3054
+#: plugins/gnumeric_1_0/xml-io.c:2831 src/xml-io.c:3207
 msgid "Clipboard is in unknown format"
 msgstr "Obsah schránky má neznámý formát."
 
 #: plugins/gnumeric_1_0/xml-io.c:3111 plugins/xbase/boot.c:175
 #: src/dialogs/dialog-goto-cell.c:283 src/dialogs/dialog-search.c:721
 #: src/dialogs/print.glade.h:21 src/workbook.c:1048 src/workbook.c:1378
-#: src/xml-io.c:3336
+#: src/xml-io.c:3489
 msgid "Sheet"
 msgstr "List"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: plugins/gnumeric_1_0/xml-io.c:3238 src/xml-io.c:3468
+#: plugins/gnumeric_1_0/xml-io.c:3238 src/xml-io.c:3621
 msgid "Processing file..."
 msgstr "Zpracovává se soubor..."
 
@@ -16644,7 +16644,7 @@ msgstr "Zpracovává se soubor..."
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Není soubor se sešitem Gnumeric"
 
-#: plugins/gnumeric_1_0/xml-io.c:3446 src/xml-io.c:3667
+#: plugins/gnumeric_1_0/xml-io.c:3446 src/xml-io.c:3820
 msgid "Failure saving file"
 msgstr "Chyba při ukládání souboru."
 
@@ -16757,7 +16757,7 @@ msgstr "Omezení:"
 #: src/cut-n-paste-code/egg/menu/egg-action.c:120
 #: src/dialogs/dialog-define-names.c:500 src/dialogs/dialog-formula-guru.c:811
 #: src/dialogs/dialog-function-select.c:417
-#: src/dialogs/dialog-function-select.c:439 src/dialogs/dialog-scenarios.c:324
+#: src/dialogs/dialog-function-select.c:439 src/dialogs/dialog-scenarios.c:331
 #: src/format-template.c:408 src/tools/solver/reports-write.c:81
 #: src/tools/solver/reports-write.c:103 src/tools/solver/reports-write.c:130
 #: src/tools/solver/reports-write.c:237 src/tools/solver/reports-write.c:283
@@ -22785,35 +22785,42 @@ msgid ""
 msgstr ""
 "Nastavit výšku řádku výběru na <span style='italic' weight='bold'>%s</span>"
 
-#: src/dialogs/dialog-scenarios.c:100
+#: src/dialogs/dialog-scenarios.c:101
 msgid "Invalid changing cells"
 msgstr "Neplatné měnící se buňky:"
 
-#: src/dialogs/dialog-scenarios.c:108
+#: src/dialogs/dialog-scenarios.c:109
 msgid "Changing cells should be on the current sheet only."
 msgstr "Měnící se buňky by měly být jen v aktuálním listu"
 
-#: src/dialogs/dialog-scenarios.c:119
+#: src/dialogs/dialog-scenarios.c:120
 msgid "Scenario name already used"
 msgstr "Název scénáře se již používá"
 
-#: src/dialogs/dialog-scenarios.c:124
+#: src/dialogs/dialog-scenarios.c:125
 msgid "Invalid scenario name"
 msgstr "Neplatný název scénáře."
 
-#: src/dialogs/dialog-scenarios.c:170
+#: src/dialogs/dialog-scenarios.c:146
+msgid ""
+"Changing cells contain at least one expression that is not just a value. "
+"Note that showing the scenario will overwrite the formula with it's current "
+"value."
+msgstr "Měnící se buňky obsahují alespoň jeden výraz, který není jen hodnota. Všimněte si, že zobrazení scénáře přepíše vzorec jeho aktuální hodnotou."
+
+#: src/dialogs/dialog-scenarios.c:180
 msgid "Could not create the Scenario Add dialog."
 msgstr "Nelze vytvořit dialog Přidat scénář."
 
-#: src/dialogs/dialog-scenarios.c:187 src/dialogs/scenario-add.glade.h:5
+#: src/dialogs/dialog-scenarios.c:197 src/dialogs/scenario-add.glade.h:5
 msgid "_Changing cells:"
 msgstr "_Měnící se buňky:"
 
-#: src/dialogs/dialog-scenarios.c:202
+#: src/dialogs/dialog-scenarios.c:212
 msgid "Created on "
 msgstr "Vytvořeno "
 
-#: src/dialogs/dialog-scenarios.c:487
+#: src/dialogs/dialog-scenarios.c:532
 msgid "Could not create the Scenarios dialog."
 msgstr "Nelze vytvořit dialog Scénáře."
 
@@ -23046,7 +23053,11 @@ msgstr "Cílová buňka by měla obsahovat výraz."
 msgid "Constraint `%s' is for a cell that is not an input cell."
 msgstr "Omezení '%s' je pro buňku, která není vstupní."
 
-#: src/dialogs/dialog-solver.c:1322
+#: src/dialogs/dialog-solver.c:999
+msgid "No constraints defined for the problem."
+msgstr "Pro problém nejsou definována omezení."
+
+#: src/dialogs/dialog-solver.c:1329
 msgid "Could not create the Solver dialog."
 msgstr "Nelze vytvořit dialog Nástroje pro řešitele."
 
@@ -27540,23 +27551,23 @@ msgstr "Fourierovy řady (%s)"
 msgid "Fourier Series"
 msgstr "Fourierovy řady"
 
-#: src/tools/dao.c:127
+#: src/tools/dao.c:128
 msgid "New Sheet"
 msgstr "Nový list"
 
-#: src/tools/dao.c:130
+#: src/tools/dao.c:131
 msgid "New Workbook"
 msgstr "Nový sešit"
 
-#: src/tools/dao.c:742
+#: src/tools/dao.c:770
 msgid "Gnumeric "
 msgstr "Gnumeric "
 
-#: src/tools/dao.c:747
+#: src/tools/dao.c:775
 msgid "Worksheet:"
 msgstr "List:"
 
-#: src/tools/dao.c:754
+#: src/tools/dao.c:782
 msgid "Report Created: "
 msgstr "Výkaz vytvořen:"
 
@@ -28524,11 +28535,11 @@ msgstr "Již existuje list s názvem"
 msgid "You may not use this name twice"
 msgstr "Nemůžete použít jeden název dvakrát"
 
-#: src/xml-io.c:3630
+#: src/xml-io.c:3783
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "Toto není soubor se sešitem Gnumeric"
 
-#: src/xml-io.c:3699
+#: src/xml-io.c:3852
 msgid "Gnumeric XML file format"
 msgstr "Souborový formát Gnumeric XML"
 
@@ -28798,9 +28809,6 @@ msgstr "Souborový formát Gnumeric XML"
 
 #~ msgid "The printer used with the lpr command"
 #~ msgstr "Tiskárna použitá s příkazem lpr"
-
-#~ msgid "lpr Printer"
-#~ msgstr "Tiskárna lpr"
 
 #~ msgid "PLN : Not a PlanPerfect File"
 #~ msgstr "PLN : Není soubor PlanPerfect"
@@ -29131,9 +29139,6 @@ msgstr "Souborový formát Gnumeric XML"
 
 #~ msgid "State"
 #~ msgstr "Stav"
-
-#~ msgid "Plugins"
-#~ msgstr "Moduly"
 
 #~ msgid "Andorran peseta"
 #~ msgstr "Andorská peseta"
