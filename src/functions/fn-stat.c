@@ -3833,7 +3833,7 @@ gnumeric_linest (FunctionEvalInfo *ei, Value *argv [])
 	gboolean          affine, stat, err;
 	regression_stat_t extra_stat;
 
-	extra_stat.se = NULL;
+	memset (&extra_stat, 0, sizeof (extra_stat));
 
 	ys = collect_floats_value (argv[0], &ei->pos,
 				   COLLECT_IGNORE_STRINGS |
@@ -3913,6 +3913,8 @@ gnumeric_linest (FunctionEvalInfo *ei, Value *argv [])
 	g_free (xs);
 	g_free (ys);
 	g_free (extra_stat.se);
+	g_free (extra_stat.xbar);
+	g_free (extra_stat.t);
 
 	return result;
 }
@@ -4076,7 +4078,7 @@ gnumeric_logest (FunctionEvalInfo *ei, Value *argv [])
 	gboolean          affine, stat, err;
 	regression_stat_t extra_stat;
 
-	extra_stat.se = NULL;
+	memset (&extra_stat, 0, sizeof (extra_stat));
 
 	ys = collect_floats_value (argv[0], &ei->pos,
 				   COLLECT_IGNORE_STRINGS |
@@ -4155,6 +4157,8 @@ gnumeric_logest (FunctionEvalInfo *ei, Value *argv [])
 	g_free (xs);
 	g_free (ys);
 	g_free (extra_stat.se);
+	g_free (extra_stat.xbar);
+	g_free (extra_stat.t);
 
 	return result;
 }

@@ -1,3 +1,8 @@
+1999-12-13  Morten Welinder  <terra@diku.dk>
+
+	* src/functions/fn-stat.c (gnumeric_logest): Plug leaks.
+	(gnumeric_linest): Plug leaks.
+
 1999-12-12  Tuomas Kuosmanen  <tigert@gimp.org>
 
 	* src/pixmaps/bucket.xpm 
