@@ -44,5 +44,16 @@ savings over elegance, speed and maintainability ) the abstraction of the lower
 biff-records will become more and more integraly tied into the upper layers to
 remove problems with 'continue' records in several places.
 
+	Actualy, upon further thought I'll retract some of what I said above, its
+still ugly, but I think the source of the problem is twofold:
+
+	1) Segmentation - whoever was responsible for this should be given a very
+	very hard stare.
+
+	2) Minimal Changes - later versions of Biff should have been handled
+	totaly differently with regard to the file format, perhaps they wanted
+	minimal forwards compatibility; but seems unlikely.
+
+
 1999-09-03 Michael Meeks <michael@imaginator.com>
 

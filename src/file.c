@@ -161,6 +161,46 @@ workbook_load_from (Workbook *wb, const char *filename)
 	return ret;
 }
 
+/**
+ * workbook_try_read:
+ * @filename: gives the URI of the file.
+ * 
+ * This function attempts to read the file
+ * 
+ * Return value: a loaded workbook on success or
+ *               NULL on failure.
+ **/
+Workbook *
+workbook_try_read (const char *filename)
+{
+	Workbook *wb;
+
+	g_return_val_if_fail (filename != NULL, NULL);
+
+	wb = workbook_new ();
+	if (!workbook_load_from (wb, filename)) {
+		char *s;
+#ifdef ENABLE_BONOBO
+		gnome_object_destroy (GNOME_OBJECT (wb));
+#else
+		gtk_object_destroy   (GTK_OBJECT (wb));
+#endif
+		wb = NULL;
+	}
+
+	return wb;
+}
+
+/**
+ * workbook_read:
+ * @filename: the file's URI
+ * 
+ * This attempts to read a workbook, if the file doesn't
+ * exist it will create a blank 1 sheet workbook, otherwise
+ * it will flag a user error message.
+ * 
+ * Return value: a pointer to a Workbook or NULL.
+ **/
 Workbook *
 workbook_read (const char *filename)
 {
@@ -175,16 +215,10 @@ workbook_read (const char *filename)
 		return wb;
 	}
 
-	wb = workbook_new ();
-	if (!workbook_load_from (wb, filename)) {
+	wb = workbook_try_read (filename);
+	if (!wb) {
 		char *s;
-#ifdef ENABLE_BONOBO
-		gnome_object_destroy (GTK_OBJECT (wb));
-#else
-		gtk_object_destroy   (GTK_OBJECT (wb));
-#endif
-		wb = NULL;
-		
+
 		s = g_strdup_printf (
 			N_("Could not read file %s"), filename);
 		
@@ -263,7 +297,7 @@ workbook_import (Workbook *parent, const char *filename)
 		wb = workbook_new ();
 		if (!fo->open (wb, filename)){
 #ifdef ENABLE_BONOBO
-		        gnome_object_destroy (GTK_OBJECT (wb));
+		        gnome_object_destroy (GNOME_OBJECT (wb));
 #else
 			gtk_object_destroy   (GTK_OBJECT (wb));
 #endif

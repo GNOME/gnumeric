@@ -472,9 +472,13 @@ extend_file (MsOle *f, guint blocks)
 	if (newptr != f->mem)
 		printf ("Memory map moved from %p to %p\n",
 			f->mem, newptr);
+
+	if (newptr == MAP_FAILED) {
+		f->mem = 0;
+		g_warning ("panic: re-map failed!");
+	}
 #endif
 	f->mem = newptr;
-
 #endif
 }
 
@@ -1165,6 +1169,11 @@ ms_ole_open (const char *name)
 
 	if (!f->mem) {
 		printf ("Obscure internal error, leak.\n");
+		g_free (f);
+		return 0;
+	} else if (f->mem == MAP_FAILED) {
+		g_warning ("Failed to mmap '%s' copy it to an mmappable mount point", name);
+		g_free (f);
 		return 0;
 	}
 #else

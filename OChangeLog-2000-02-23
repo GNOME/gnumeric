@@ -1,3 +1,23 @@
+1999-09-08  Michael Meeks  <michael@nuclecu.unam.mx>
+
+	* src/sheet-view.c (filenames_dropped, sheet_view_construct): Move
+	D&D activation to here, so we get sensible handling of positions.
+	
+	* src/sheet-object-container.c (user_activation_request_cb): typo.
+	(sheet_object_drop_file): Emit the correct signal to realize, take
+	a SheetView argument, clean 'msg's up.
+	(sheet_object_container_new): Squashed warning.
+
+	* src/workbook.c (filenames_dropped, workbook_new): Move D&D into
+	sheet-view.c.
+
+	* src/file.c (workbook_try_read): Split from workbook_read.
+	(workbook_import, workbook_read): Correct casts & updated.
+
+	* src/dialogs/dialog-function-select.c (function_definition_update),
+	(function_categories_fill): Add casts to get round daft clist_append
+	constification.
+
 1999-09-08  Vincent Renardias  <vincent@ldsol.com>
 
 	* src/dialogs/dialog-analysis-tools.c: A number of displayed strings

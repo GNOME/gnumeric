@@ -39,7 +39,7 @@ typedef struct {
 
 GtkType sheet_object_get_type  (void);
 void    sheet_object_construct (SheetObject *sheet_object, Sheet *sheet);
-void    sheet_object_drop_file (Sheet *sheet, gint x, gint y,
+void    sheet_object_drop_file (SheetView *sheet_view, gint x, gint y,
 				const char *fname);
 
 /*

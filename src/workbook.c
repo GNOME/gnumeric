@@ -871,34 +871,6 @@ about_cmd (GtkWidget *widget, Workbook *wb)
 	dialog_about (wb);
 }
 
-static void
-filenames_dropped (GtkWidget * widget,
-		   GdkDragContext   *context,
-		   gint              x,
-		   gint              y,
-		   GtkSelectionData *selection_data,
-		   guint             info,
-		   guint             time,
-		   Workbook         *wb)
-{
-	GList *names, *tmp_list;
-
-	names = gnome_uri_list_extract_filenames ((char *)selection_data->data);
-	tmp_list = names;
-
-	while (tmp_list) {
-		Workbook *new_wb;
-
-		if ((new_wb = workbook_read (tmp_list->data)))
-			gtk_widget_show (new_wb->toplevel);
-		else
-		        sheet_object_drop_file (workbook_get_current_sheet (wb),
-						x, y, tmp_list->data);
-
-		tmp_list = tmp_list->next;
-	}
-}
-
 #ifdef ENABLE_BONOBO
 static void
 insert_object_cmd (GtkWidget *widget, Workbook *wb)
@@ -2004,12 +1976,6 @@ workbook_new (void)
 	GtkWidget *toolbar;
 	Workbook *wb;
 
-	static GtkTargetEntry drag_types[] =
-	{
-		{ "text/uri-list", 0, 0 },
-	};
-	static gint n_drag_types = sizeof (drag_types) / sizeof (drag_types [0]);
-
 	wb = gtk_type_new (workbook_get_type ());
 	wb->toplevel  = gnome_app_new ("Gnumeric", "Gnumeric");
 	wb->table     = gtk_table_new (0, 0, 0);
@@ -2059,6 +2025,7 @@ workbook_new (void)
 		GTK_OBJECT (wb->toplevel), "delete_event",
 		GTK_SIGNAL_FUNC (workbook_widget_delete_event), wb);
 
+#if 0
 	/* Enable toplevel as a drop target */
 
 	gtk_drag_dest_set (wb->toplevel,
@@ -2069,6 +2036,7 @@ workbook_new (void)
 	gtk_signal_connect (GTK_OBJECT(wb->toplevel),
 			    "drag_data_received",
 			    GTK_SIGNAL_FUNC(filenames_dropped), wb);
+#endif
 
 	/* clipboard setup */
 	x_clipboard_bind_workbook (wb);

@@ -80,7 +80,7 @@ user_activation_request_cb (GnomeViewFrame *view_frame, SheetObject *so)
 {
 	Sheet *sheet = so->sheet;
 
-	printf ("user activation rqeuest\n");
+	printf ("user activation request\n");
 	if (sheet->active_object_frame){
 		gnome_view_frame_view_deactivate (sheet->active_object_frame);
 		if (sheet->active_object_frame != NULL)
@@ -449,7 +449,6 @@ sheet_object_container_new (Sheet *sheet,
 {
 	SheetObjectContainer *c;
 	SheetObject *so;
-	GnomeObjectClient *object_server;
 	
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
@@ -457,6 +456,8 @@ sheet_object_container_new (Sheet *sheet,
 	g_return_val_if_fail (y1 <= y2, NULL);
 
 #if 0
+	GnomeObjectClient *object_server;
+
 	if (!object_server)
 		return NULL;
 

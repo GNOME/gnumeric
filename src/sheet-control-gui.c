@@ -13,6 +13,7 @@
 #include <string.h>
 #include "gnumeric.h"
 #include "gnumeric-sheet.h"
+#include "sheet-object.h"
 #include "item-cursor.h"
 #include "utils.h"
 
@@ -440,12 +441,44 @@ sheet_view_init (SheetView *sheet_view)
 }
 
 static void
+filenames_dropped (GtkWidget * widget,
+		   GdkDragContext   *context,
+		   gint              x,
+		   gint              y,
+		   GtkSelectionData *selection_data,
+		   guint             info,
+		   guint             time,
+		   SheetView         *sheet_view)
+{
+	GList *names, *tmp_list;
+
+	names = gnome_uri_list_extract_filenames ((char *)selection_data->data);
+	tmp_list = names;
+
+	while (tmp_list) {
+		Workbook *new_wb;
+
+		if ((new_wb = workbook_try_read (tmp_list->data)))
+			gtk_widget_show (new_wb->toplevel);
+		else
+		        sheet_object_drop_file (sheet_view, x, y, tmp_list->data);
+
+		tmp_list = tmp_list->next;
+	}
+}
+
+static void
 sheet_view_construct (SheetView *sheet_view)
 {
 	GnomeCanvasGroup *root_group;
 	GtkTable  *table = GTK_TABLE (sheet_view);
 	GtkWidget *select_all;
 	Sheet *sheet = sheet_view->sheet;
+
+	static GtkTargetEntry drag_types[] = {
+		{ "text/uri-list", 0, 0 },
+	};
+	static gint n_drag_types = sizeof (drag_types) / sizeof (drag_types [0]);
 	
 	/* Column canvas */
 	sheet_view->col_canvas = new_canvas_bar (sheet_view, GTK_ORIENTATION_HORIZONTAL, &sheet_view->col_item);
@@ -481,6 +514,17 @@ sheet_view_construct (SheetView *sheet_view)
 		sheet_view,
 		ITEM_BAR (sheet_view->col_item),
 		ITEM_BAR (sheet_view->row_item));
+
+	/* Enable the sheet as a drop target */
+	gtk_drag_dest_set (sheet_view->sheet_view,
+			   GTK_DEST_DEFAULT_ALL,
+			   drag_types, n_drag_types,
+			   GDK_ACTION_COPY);
+
+	gtk_signal_connect (GTK_OBJECT(sheet_view->sheet_view),
+			    "drag_data_received",
+			    GTK_SIGNAL_FUNC(filenames_dropped),
+			    sheet_view);
 	
 	gtk_signal_connect_after (
 		GTK_OBJECT (sheet_view), "size_allocate",
@@ -741,7 +785,7 @@ sheet_view_comment_relocate (SheetView *sheet_view, int col, int row, GnomeCanva
 void
 sheet_view_insert_object (SheetView *sheet_view, GnomeObjectClient *object)
 {
-	GtkWidget *view;
+/*	GtkWidget *view;*/
 
 	/*
 	 * Commented out because the new_view api changed and it isn't

@@ -1,3 +1,9 @@
+1999-09-08  Michael Meeks  <michael@nuclecu.unam.mx>
+
+	* ms-ole.c (ms_ole_open, extend_file): Added trap for MAP_FAILED.
+
+	MM to MW: Thanks, my new mail address is as above.
+
 1999-08-29  Morten Welinder  <terra@diku.dk>
 
 	MW to MM: your primary mail server (mail.imaginator.com) is out;

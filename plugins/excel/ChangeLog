@@ -1,3 +1,7 @@
+1999-09-08  Michael Meeks  <michael@imaginator.com>
+
+	* README: More random thoughts to pass the time of day.
+
 1999-09-05  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-write.c (write_value) : Always use mode 2 for ints.
