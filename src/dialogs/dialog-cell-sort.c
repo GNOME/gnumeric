@@ -23,6 +23,7 @@
 #include <sort.h>
 #include <sheet.h>
 #include <workbook-edit.h>
+#include <widgets/gnumeric-cell-renderer.h>
 #include <widgets/gnumeric-expr-entry.h>
 #include <value.h>
 
@@ -60,6 +61,8 @@ typedef struct {
 	GtkWidget *cell_sort_row_rb;
 	GtkWidget *cell_sort_col_rb;
 	GtkWidget *cell_sort_header_check;
+	GdkPixbuf *image_ascending;
+	GdkPixbuf *image_descending;
 
 	Value     *sel;
 	gboolean   header;
@@ -69,9 +72,9 @@ typedef struct {
 } SortFlowState;
 
 enum {
-	ITEM_IN_USE,
 	ITEM_NAME,
 	ITEM_DESCENDING,
+	ITEM_DESCENDING_IMAGE,
 	ITEM_CASE_SENSITIVE,
 	ITEM_SORT_BY_VALUE,
 	ITEM_MOVE_FORMAT,
@@ -147,9 +150,9 @@ append_data (SortFlowState *state, int i, int index)
 		: col_row_name (sheet, index, i, state->header, FALSE);
 	gtk_list_store_append (state->model, &iter);
 	gtk_list_store_set (state->model, &iter,
-			    ITEM_IN_USE, TRUE,
 			    ITEM_NAME,  str,
 			    ITEM_DESCENDING, FALSE,
+			    ITEM_DESCENDING_IMAGE, state->image_ascending,
 			    ITEM_CASE_SENSITIVE, FALSE,
 			    ITEM_SORT_BY_VALUE, TRUE,
 			    ITEM_MOVE_FORMAT, TRUE,
@@ -297,6 +300,11 @@ dialog_destroy (GtkObject *w, SortFlowState  *state)
 
 	state->dialog = NULL;
 
+	g_object_unref (state->image_ascending);
+	state->image_ascending = NULL;
+	g_object_unref (state->image_descending);
+	state->image_descending = NULL;
+
 	g_free (state);
 
 	return FALSE;
@@ -316,7 +324,7 @@ cb_dialog_ok_clicked (GtkWidget *button, SortFlowState *state)
 	SortClause *array, *this_array_item;
 	int item = 0;
 	GtkTreeIter iter;
-	gboolean in_use, descending, case_sensitive, sort_by_value, move_format;
+	gboolean descending, case_sensitive, sort_by_value, move_format;
 	gint number;
 	gint base;
 
@@ -327,7 +335,6 @@ cb_dialog_ok_clicked (GtkWidget *button, SortFlowState *state)
 	while (gtk_tree_model_iter_nth_child  (GTK_TREE_MODEL (state->model),
 					       &iter, NULL, item)) {
 		gtk_tree_model_get (GTK_TREE_MODEL (state->model), &iter,
-				    ITEM_IN_USE, &in_use,
 				    ITEM_DESCENDING,&descending,
 				    ITEM_CASE_SENSITIVE, &case_sensitive,
 				    ITEM_SORT_BY_VALUE, &sort_by_value,
@@ -335,13 +342,11 @@ cb_dialog_ok_clicked (GtkWidget *button, SortFlowState *state)
 				    ITEM_NUMBER, &number,
 				    -1);
 		item++;
-		if (in_use) {
-			this_array_item->offset = number - base;
-			this_array_item->asc = descending ? 1 : 0;
-			this_array_item->cs = case_sensitive;
-			this_array_item->val = sort_by_value;
-			this_array_item++;
-		}
+		this_array_item->offset = number - base;
+		this_array_item->asc = descending ? 1 : 0;
+		this_array_item->cs = case_sensitive;
+		this_array_item->val = sort_by_value;
+		this_array_item++;
 	}
 
 
@@ -472,7 +477,7 @@ static void
 move_cb (SortFlowState *state, gint direction)
 {
 	GtkTreeIter iter;
-	gboolean in_use, descending, case_sensitive, sort_by_value, move_format;
+	gboolean descending, case_sensitive, sort_by_value, move_format;
 	gint number, row;
 	char* name;
 
@@ -480,7 +485,6 @@ move_cb (SortFlowState *state, gint direction)
 		return;
 
 	gtk_tree_model_get (GTK_TREE_MODEL (state->model), &iter,
-			    ITEM_IN_USE, &in_use,
 			    ITEM_NAME, &name,
 			    ITEM_DESCENDING,&descending,
 			    ITEM_CASE_SENSITIVE, &case_sensitive,
@@ -494,9 +498,10 @@ move_cb (SortFlowState *state, gint direction)
 	gtk_list_store_remove (state->model, &iter);
 	gtk_list_store_insert (state->model, &iter, row + direction);
 	gtk_list_store_set (state->model, &iter,
-			    ITEM_IN_USE, in_use,
 			    ITEM_NAME, name,
 			    ITEM_DESCENDING,descending,
+			    ITEM_DESCENDING_IMAGE,descending ? state->image_descending :
+			                                       state->image_ascending,
 			    ITEM_CASE_SENSITIVE, case_sensitive,
 			    ITEM_SORT_BY_VALUE, sort_by_value,
 			    ITEM_MOVE_FORMAT, move_format,
@@ -512,16 +517,11 @@ static void cb_down (GtkWidget *w, SortFlowState *state) { move_cb (state,  1); 
 static void cb_delete_clicked (GtkWidget *w, SortFlowState *state)
 {
 	GtkTreeIter iter;
-	gboolean in_use;
 
 	if (!gtk_tree_selection_get_selected (state->selection, NULL, &iter))
 		return;
 
-	gtk_tree_model_get (GTK_TREE_MODEL (state->model), &iter,
-			    ITEM_IN_USE, &in_use,
-			    -1);
-	if (in_use)
-		state->sort_items -= 1;
+	state->sort_items -= 1;
 	gtk_list_store_remove (state->model, &iter);
 	if (state->sort_items == 0 || state->sort_items == 1)
 		cb_update_sensitivity (NULL, state);
@@ -589,7 +589,7 @@ static void cb_add_clicked (GtkWidget *w, SortFlowState *state)
 }
 
 static void
-cb_toggled_in_use (GtkCellRendererToggle *cell,
+cb_toggled_descending (GtkCellRendererToggle *cell,
 	 gchar                 *path_string,
 	 gpointer               data)
 {
@@ -600,24 +600,16 @@ cb_toggled_in_use (GtkCellRendererToggle *cell,
 	gboolean value;
 
 	gtk_tree_model_get_iter (model, &iter, path);
-	gtk_tree_model_get (model, &iter, ITEM_IN_USE, &value, -1);
+	gtk_tree_model_get (model, &iter, ITEM_DESCENDING, &value, -1);
 
-	state->sort_items += (value ? -1 : 1);
-	if (state->sort_items == 0 || state->sort_items == 1)
-		cb_update_sensitivity (NULL, state);
-
-	value = !value;
-	gtk_list_store_set (GTK_LIST_STORE (model), &iter, ITEM_IN_USE, value, -1);
-
+	if (value) {
+		gtk_list_store_set (GTK_LIST_STORE (model), &iter, ITEM_DESCENDING, FALSE,
+				   ITEM_DESCENDING_IMAGE, state->image_ascending, -1);
+	} else {
+		gtk_list_store_set (GTK_LIST_STORE (model), &iter, ITEM_DESCENDING, TRUE,
+				   ITEM_DESCENDING_IMAGE, state->image_descending, -1);
+	}
 	gtk_tree_path_free (path);
-}
-
-static void
-cb_toggled_descending (GtkCellRendererToggle *cell,
-	 gchar                 *path_string,
-	 gpointer               data)
-{
-	toggled (cell, path_string, data, ITEM_DESCENDING);
 }
 
 static void
@@ -692,8 +684,8 @@ dialog_init (SortFlowState *state)
 
 /* Set-up tree view */
 	scrolled = glade_xml_get_widget (state->gui, "scrolled_cell_sort_list");
-	state->model = gtk_list_store_new (NUM_COLMNS, G_TYPE_BOOLEAN, G_TYPE_STRING,
-					   G_TYPE_BOOLEAN, G_TYPE_BOOLEAN,
+	state->model = gtk_list_store_new (NUM_COLMNS, G_TYPE_STRING,
+					   G_TYPE_BOOLEAN, GDK_TYPE_PIXBUF, G_TYPE_BOOLEAN,
 					   G_TYPE_BOOLEAN, G_TYPE_BOOLEAN, G_TYPE_INT);
 	state->treeview = GTK_TREE_VIEW (
 		gtk_tree_view_new_with_model (GTK_TREE_MODEL (state->model)));
@@ -703,27 +695,20 @@ dialog_init (SortFlowState *state)
 		"changed",
 		G_CALLBACK (cb_sort_selection_changed), state);
 
-	renderer = gtk_cell_renderer_toggle_new ();
-	g_signal_connect (G_OBJECT (renderer),
-		"toggled",
-		G_CALLBACK (cb_toggled_in_use), state);
-	column = gtk_tree_view_column_new_with_attributes (_("Sort"),
-							   renderer,
-							   "active", ITEM_IN_USE, NULL);
-	gtk_tree_view_append_column (state->treeview, column);
-
 	column = gtk_tree_view_column_new_with_attributes (_("Row/Column"),
 							   gtk_cell_renderer_text_new (),
 							   "text", ITEM_NAME, NULL);
 	gtk_tree_view_append_column (state->treeview, column);
 
-	renderer = gtk_cell_renderer_toggle_new ();
+	renderer = gnumeric_cell_renderer_new ();
 	g_signal_connect (G_OBJECT (renderer),
 		"toggled",
 		G_CALLBACK (cb_toggled_descending), state);
-	column = gtk_tree_view_column_new_with_attributes (_("Descend"),
+	column = gtk_tree_view_column_new_with_attributes ("",
 							   renderer,
-							   "active", ITEM_DESCENDING, NULL);
+							   "active", ITEM_DESCENDING, 
+							   "pixbuf", ITEM_DESCENDING_IMAGE,
+							   NULL);
 	gtk_tree_view_append_column (state->treeview, column);
 
 	renderer = gtk_cell_renderer_toggle_new ();
@@ -846,6 +831,14 @@ dialog_cell_sort (WorkbookControlGUI *wbcg, Sheet *sheet)
 
         state->dialog = glade_xml_get_widget (state->gui, "CellSort");
 
+	state->image_ascending =  gtk_widget_render_icon (state->dialog,
+                                             GTK_STOCK_SORT_ASCENDING,
+                                             GTK_ICON_SIZE_LARGE_TOOLBAR,
+                                             "Gnumeric-Cell-Sort");
+	state->image_descending =  gtk_widget_render_icon (state->dialog,
+                                             GTK_STOCK_SORT_DESCENDING,
+                                             GTK_ICON_SIZE_LARGE_TOOLBAR,
+                                             "Gnumeric-Cell-Sort");
 	if (dialog_init (state)) {
 		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
 				 _("Could not create the Cell-Sort dialog."));

@@ -1,3 +1,7 @@
+2002-03-09  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/gnm-marshalers.list : add NONE:STRING
+
 2002-03-10  Jon K Hellan  <hellan@acm.org>
 
 	* src/func.c (copy_hash_table_to_ptr_array): Check if function is

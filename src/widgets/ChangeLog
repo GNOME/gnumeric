@@ -1,5 +1,9 @@
-2002-03-02  Jody Goldberg <jody@gnome.org>
+2002-03-09  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* Makefile.am : add gnumeric-cell-renderer.[ch]
+	* gnumeric-cell-renderer.[ch] : new
+
+2002-03-02  Jody Goldberg <jody@gnome.org>
 
 	* gnumeric-expr-entry.c (gnm_expr_entry_get_text) : new util.
 	(gnm_expr_entry_parse_as_value) :  add some preconditions.
