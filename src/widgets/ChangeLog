@@ -1,3 +1,9 @@
+2002-01-30  Jody Goldberg <jody@gnome.org>
+
+	* widget-editable-label.c (el_init) : delete to work around a change
+	  in canvas initialization sequence.  The adjustments may not exist yet.
+	(el_realize) : initialize them here.
+
 2002-01-21  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.0.3

@@ -17,7 +17,7 @@
 #include <libgnomeui/libgnomeui.h>
 #include <gdk/gdkkeysyms.h>
 
-#define EDITABLE_LABEL_CLASS(k) (GTK_CHECK_CLASS_CAST(k), EDITABLE_LABEL_TYPE)
+#define EDITABLE_LABEL_CLASS(k) (GTK_CHECK_CLASS_CAST (k), EDITABLE_LABEL_TYPE)
 struct _EditableLabel {
 	GnomeCanvas     canvas;
 	GnomeCanvasItem *text_item;
@@ -45,7 +45,7 @@ typedef struct {
  *
  * I do want to avoid typing.
  */
-#define EL(x) EDITABLE_LABEL(x)
+#define EL(x) EDITABLE_LABEL (x)
 typedef EditableLabel El;
 typedef EditableLabelClass ElClass;
 
@@ -314,13 +314,14 @@ el_key_press_event (GtkWidget *widget, GdkEventKey *event)
 }
 
 static void
-el_realize(GtkWidget *widget)
+el_realize (GtkWidget *widget)
 {
 	EditableLabel *el = EL (widget);
 
 	if (GTK_WIDGET_CLASS (el_parent_class)->realize)
 		(*GTK_WIDGET_CLASS (el_parent_class)->realize) (widget);
 
+	gnome_canvas_set_scroll_region (GNOME_CANVAS (el), 0, 0, 32000, 32000);
 	editable_label_set_color (el, el->color);
 	gnome_canvas_item_set (GNOME_CANVAS_ITEM (EL (widget)->text_item),
 		"font_desc", widget->style->font_desc,
@@ -365,12 +366,6 @@ el_class_init (ElClass *klass)
 			GTK_TYPE_NONE, 0);
 }
 
-static void
-el_init (El *el)
-{
-	gnome_canvas_set_scroll_region (GNOME_CANVAS (el), 0, 0, 32000, 32000);
-}
-
 GtkType
 editable_label_get_type (void)
 {
@@ -382,7 +377,7 @@ editable_label_get_type (void)
 			sizeof (EditableLabel),
 			sizeof (EditableLabelClass),
 			(GtkClassInitFunc) el_class_init,
-			(GtkObjectInitFunc) el_init,
+			(GtkObjectInitFunc) NULL,
 			NULL, /* reserved 1 */
 			NULL, /* reserved 2 */
 			(GtkClassInitFunc) NULL
@@ -413,8 +408,8 @@ editable_label_set_text (EditableLabel *el, char const *text)
 		GnomeCanvasGroup *root_group;
 		GtkWidget* text_color_widget;
 
-		text_color_widget = gtk_button_new();
-		gtk_widget_ensure_style(text_color_widget);
+		text_color_widget = gtk_button_new ();
+		gtk_widget_ensure_style (text_color_widget);
 
 		root_group = GNOME_CANVAS_GROUP (GNOME_CANVAS (el)->root);
 
@@ -427,7 +422,7 @@ editable_label_set_text (EditableLabel *el, char const *text)
 			"fill_color_gdk",	
 				&text_color_widget->style->text[GTK_STATE_NORMAL],
 			NULL);
-		gtk_widget_destroy(text_color_widget);
+		gtk_widget_destroy (text_color_widget);
 	} else
 		el_change_text (el, text);
 }
