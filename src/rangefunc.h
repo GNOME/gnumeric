@@ -11,6 +11,7 @@ int range_multinomial (const gnm_float *xs, int n, gnm_float *res);
 
 int range_sumsq (const gnm_float *xs, int n, gnm_float *res);
 int range_avedev (const gnm_float *xs, int n, gnm_float *res);
+int range_hypot (const gnm_float *xs, int n, gnm_float *res);
 
 int range_average (const gnm_float *xs, int n, gnm_float *res);
 int range_harmonic_mean (const gnm_float *xs, int n, gnm_float *res);

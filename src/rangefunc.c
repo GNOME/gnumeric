@@ -80,6 +80,22 @@ range_sumsq (const gnm_float *xs, int n, gnm_float *res)
 	return 0;
 }
 
+int
+range_hypot (const gnm_float *xs, int n, gnm_float *res)
+{
+	switch (n) {
+	case 0: *res = 0; return 0;
+	case 1: *res = gnumabs (xs[0]); return 0;
+	case 2: *res = hypotgnum (xs[0], xs[1]); return 0;
+	default:
+		if (range_sumsq (xs, n, res))
+			return 1;
+		*res = sqrtgnum (*res);
+		return 0;
+	}
+}
+
+
 /* Arithmetic average.  */
 int
 range_average (const gnm_float *xs, int n, gnm_float *res)

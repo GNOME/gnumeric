@@ -1,5 +1,7 @@
 2004-10-08  Morten Welinder  <terra@gnome.org>
 
+	* src/rangefunc.c (range_hypot): New function.
+
 	* src/workbook.c (workbook_sheet_unhide_controls): New function.
 
 	* src/sheet.c (sheet_set_visibility): Call

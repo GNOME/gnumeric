@@ -248,6 +248,33 @@ gnumeric_lcm (FunctionEvalInfo *ei, GnmExprList *nodes)
 
 /***************************************************************************/
 
+static char const *help_hypot = {
+	N_("@FUNCTION=HYPOT\n"
+	   "@SYNTAX=HYPOT(number1,number2,...)\n"
+
+	   "@DESCRIPTION="
+	   "HYPOT returns the square root of the sum of the squares of the argumnents.\n"
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "HYPOT(3,4) equals to 5.\n"
+	   "\n"
+	   "@SEEALSO=MIN,MAX")
+};
+
+static GnmValue *
+gnumeric_hypot (FunctionEvalInfo *ei, GnmExprList *nodes)
+{
+	return float_range_function (nodes, ei,
+				     range_hypot,
+				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
+				     GNM_ERROR_NUM);
+
+}
+
+/***************************************************************************/
+
 static char const *help_abs = {
 	N_("@FUNCTION=ABS\n"
 	   "@SYNTAX=ABS(b1)\n"
@@ -3204,6 +3231,9 @@ GnmFuncDescriptor const math_functions[] = {
 	{ "gcd", NULL, N_("number,number"), &help_gcd,
 	  NULL, gnumeric_gcd, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "hypot", NULL, "",            &help_hypot,
+	  NULL, gnumeric_hypot, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "int",     "f", N_("number"),    &help_int,
 	  gnumeric_int, NULL, NULL, NULL, NULL,	  
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,

@@ -6,6 +6,7 @@ Morten:
 	* Make File->Open start in the directory where the current file
 	  was loaded.  [#143188]
 	* Make it possible to unhide sheets.  [#154710]
+	* Add HYPOT function.  [#148322]
 
 --------------------------------------------------------------------------
 
