@@ -1,0 +1,59 @@
+Gnumeric 0.56 aka 'Australian philosophers' has been released.  This version
+adds depth to existing features, fixes some bugs, and has several usability
+enhancements to boot.  It is strongly recommended that people upgrade as this
+release fixes a rather serious problem that would bloat memory when used when
+using large sheets.
+
+ATTENTION PACKAGERS : libole2 has now been officially split into a separate
+                      package.  This library is required for MS excel support.
+
+There is no release number 0.55 !
+It was released this morning, however what we thought would be a long drawn
+out bug hunt evaporated and it seemed important enough to re-release to get
+the long standing XL export problem fixed.
+
+* New features
+
+	* Added support for auto-completion (Miguel)
+
+	* Undo : resize, paste, auto-fill (Jody)
+
+	* Enhance sorting to handle styles, and headers (JPR)
+
+	* Extend auto-fill to support months and years (Jody)
+
+	* Dynamic print margins (ERDI, JonKare)
+
+	* Formula guru (Jody, JonKare)
+
+* Bug fixes, Polishing & Optimisations
+
+	* Improved the optimisation of styles. (Morten)
+
+	* Lots of GUI improvements (JonKare)
+
+	* Speedup workbook exit, copy/paste (Jody)
+
+	* Make sort stable, and optimise it (Morten)
+
+	* Fix several functions (Morten, Jody)
+
+	* Some translation and locale bugs (Jody, Kenneth)
+
+	* STF importer bug fixes and enhancements. (Almer)
+
+	* Fix tricky Excel import problem (Michael)
+
+	* Improve all forms of scrolling to use timers (Jody)
+
+	* Mysterious XL export problems. (Jody)
+
+* Translations
+
+	* Updated: da (Kenneth), de (Karl), ja (Oka/Nakai), no
+        (Kjartan), pt (Jesus), ru (Valek), maybe more.
+	* Update not new, but not mentioned the last time: it (Leandro).
+
+* Availability
+
+	ftp://ftp.gnome.org/pub/GNOME/stable/sources/gnumeric
