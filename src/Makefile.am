@@ -180,6 +180,8 @@ GNUMERIC_BASE_SOURCES =				\
 	str.h					\
 	stf.c					\
 	stf.h					\
+	stf-export.c				\
+	stf-export.h				\
 	stf-parse.c				\
 	stf-parse.h				\
 	style.c					\

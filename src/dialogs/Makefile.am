@@ -52,6 +52,11 @@ libdialogs_a_SOURCES =				\
 	dialog-stf-format-page.c		\
 	dialog-stf-preview.c			\
 	dialog-stf-preview.h			\
+	dialog-stf-export.c			\
+	dialog-stf-export.h			\
+	dialog-stf-export-private.h		\
+	dialog-stf-export-sheet-page.c		\
+	dialog-stf-export-format-page.c		\
 	dialog-summary.c			\
 	dialog-workbook-attr.c			\
 	dialog-zoom.c				\
@@ -87,6 +92,7 @@ glade_DATA = 				\
 	cell-format.glade		\
 	cell-sort.glade			\
 	dialog-stf.glade		\
+	dialog-stf-export.glade		\
 	plugin-manager.glade		\
 	function-select.glade 		\
 	workbook-attr.glade
@@ -117,6 +123,7 @@ glade_msgs = 				\
 	cell-format.glade.h		\
 	cell-sort.glade.h		\
 	dialog-stf.glade.h		\
+	dialog-stf-export.glade.h	\
 	plugin-manager.glade.h		\
 	function-select.glade.h		\
 	workbook-attr.glade.h

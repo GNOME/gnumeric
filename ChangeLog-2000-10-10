@@ -1,3 +1,33 @@
+2000-04-29  Almer. S. Tigelaar.  <almer1@dds.nl>
+
+	* src/stf-export.[ch] : New, 
+	low-level stf-export code.
+
+	* src/dialogs/dialog-stf-export.glade : New, 
+	stf export dialog.
+
+	* src/dialogs/dialog-stf-export.glade.h : New, 
+	stf export dialog strings.
+
+	* src/dialogs/dialog-stf-export.[ch] : New, 
+	top-level controlling code for the stf export dialog.
+
+	* src/dialogs/dialog-stf-export-private.h : New, 
+	private declarations for the stf exporter.
+
+	* src/dialogs/dialog-stf-export-format-page.c : New, 
+	controlling code for the format page of the stf export dialog
+
+	* src/dialogs/dialog-stf-export-sheet-page.c : New, 
+	controlling code for the sheet page of the stf export dialog
+	
+	* src/Makefile.am : Updated to include new files
+
+	* src/stf.c : Now also provides export for csv files
+	using the new stf export dialog
+
+	* src/dialogs/Makefile.am : Updated to include new files
+	
 2000-04-29  Jody Goldberg <jgoldberg@home.com>
 
 	* src/parser.y : Make the sheet_sep, and range_sep conditional

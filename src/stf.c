@@ -36,6 +36,7 @@
 #include <unistd.h>
 
 #include "plugin.h"
+#include "plugin-util.h"
 #include "gnumeric.h"
 #include "file.h"
 #include "style.h"
@@ -47,6 +48,7 @@
 
 #include "stf.h"
 #include "dialog-stf.h"
+#include "dialog-stf-export.h"
 
 /**
  * stf_open_and_read
@@ -103,7 +105,7 @@ stf_open_and_read (const char *filename)
  *
  * Main routine, handles importing a file including all dialog mumbo-jumbo
  *
- * returns : NULL on success or an error message otherwise
+ * returns : 0 on success or -1 otherwise
  **/
 static int
 stf_read_workbook (CommandContext *context, Workbook *book, char const *filename)
@@ -214,6 +216,100 @@ stf_read_workbook (CommandContext *context, Workbook *book, char const *filename
 		return -1;
 }
 
+
+#ifndef PAGE_SIZE
+#define PAGE_SIZE (BUFSIZ*8)
+#endif
+
+/**
+ * stf_open_for_write:
+ * @context: commandcontext
+ * @filename: file to open
+ * 
+ * Opens a file
+ * 
+ * Return value: NULL on error or a pointer to a FILE struct on success.
+ **/
+static FILE *
+stf_open_for_write (CommandContext *context, const char *filename)
+{
+	FILE *f = gnumeric_fopen (context, filename, "w");
+
+	if (!f)
+		return NULL;
+
+	setvbuf (f, NULL, _IOFBF, PAGE_SIZE);
+
+	return f;
+}
+
+/**
+ * stf_write_func:
+ * @string: data to write
+ * @data: file to write too
+ * 
+ * Callback routine which writes to a file
+ * 
+ * Return value: TRUE on successful write, FALSE otherwise
+ **/
+static gboolean
+stf_write_func (char *string, gpointer data)
+{
+	FILE *f = data;
+
+	if (fputs (string, f) >= 0)
+		return TRUE;
+	else
+		return FALSE;
+}
+
+/**
+ * stf_write_workbook
+ * @context  : command context
+ * @book     : workbook
+ * @filename : file to read from+convert
+ *
+ * Main routine, handles exporting a file including all dialog mumbo-jumbo
+ *
+ * returns : 0 on success or -1 otherwise
+ **/
+static int
+stf_write_workbook (CommandContext *context, Workbook *wb,
+		    const char *filename)
+{
+	StfE_Result_t *result;
+
+	g_return_val_if_fail (context != NULL, -1);
+	g_return_val_if_fail (wb != NULL, -1);
+	g_return_val_if_fail (filename != NULL, -1);
+
+	result = stf_export_dialog (context, wb);
+
+	if (result != NULL) {
+		FILE *f = stf_open_for_write (context, filename);
+		
+		if (!f)
+			return -1;
+
+		stf_export_options_set_write_callback (result->export_options,
+						       (StfEWriteFunc) stf_write_func, (gpointer) f);
+		
+		if (stf_export (result->export_options) == FALSE) {
+		
+			gnumeric_error_read (context,
+					     _("Error while trying to write csv file"));
+			stf_export_dialog_result_free (result);
+			return -1;
+		}
+		
+		stf_export_dialog_result_free (result);
+
+		fclose (f);
+		
+		return 0;
+	} else
+		return -1;
+}
 /**
  * stf_init
  *
@@ -228,4 +324,8 @@ stf_init (void)
 
 	desc = _("Text File import");
 	file_format_register_open (1, desc, NULL, stf_read_workbook);
+
+	desc = _("Text File Export (*.csv)");
+	file_format_register_save (".csv", desc, FILE_FL_MANUAL,
+				   stf_write_workbook);
 }
