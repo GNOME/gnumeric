@@ -4935,7 +4935,6 @@ typedef struct
 {
 	GnumericCommand cmd;
 
-	Sheet           *sheet;
 	CellPos	        pos;
 	gchar		*new_text;
 	gchar		*old_text;
@@ -4966,21 +4965,23 @@ cmd_set_comment_apply (Sheet *sheet, CellPos *pos, char const *text)
 }
 
 static gboolean
-cmd_set_comment_undo (GnumericCommand *cmd,
-		      G_GNUC_UNUSED WorkbookControl *wbc)
+cmd_set_comment_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
 	CmdSetComment *me = CMD_SET_COMMENT (cmd);
+	Sheet *sheet = workbook_sheet_by_index (wb_control_workbook (wbc),
+						me->cmd.sheet);
 
-	return cmd_set_comment_apply (me->sheet, &me->pos, me->old_text);
+	return cmd_set_comment_apply (sheet, &me->pos, me->old_text);
 }
 
 static gboolean
-cmd_set_comment_redo (GnumericCommand *cmd,
-		      G_GNUC_UNUSED WorkbookControl *wbc)
+cmd_set_comment_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
 	CmdSetComment *me = CMD_SET_COMMENT (cmd);
+	Sheet *sheet = workbook_sheet_by_index (wb_control_workbook (wbc),
+						me->cmd.sheet);
 
-	return cmd_set_comment_apply (me->sheet, &me->pos, me->new_text);
+	return cmd_set_comment_apply (sheet, &me->pos, me->new_text);
 }
 
 static void
@@ -5028,7 +5029,6 @@ cmd_set_comment (WorkbookControl *wbc,
 	g_free (where);
 	me->old_text    = NULL;
 	me->pos         = *pos;
-	me->sheet       = sheet;
 	comment = cell_has_comment_pos (sheet, pos);
 	if (comment)
 		me->old_text = g_strdup (cell_comment_text_get (comment));

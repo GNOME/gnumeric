@@ -1,5 +1,11 @@
 2003-08-01  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
+	* src/commands.c (cmd_set_comment_redo): don't keep a sheet
+	  pointer across undo/redo.
+	(cmd_set_comment): ditto
+
+2003-08-01  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
 	* src/commands.c (cmd_reorganize_sheets_delete_recreate_sheet):
 	  paste content back
 	(cmd_reorganize_sheets_delete_get_this_sheet_info): get content
