@@ -551,6 +551,23 @@ yngnum (int n, gnm_float x)
 #endif
 
 /* ------------------------------------------------------------------------- */
+
+#ifdef NEED_FAKE_LGAMMA_R
+gnm_float
+lgamma_rgnum (gnm_float x, int *signp)
+{
+#ifdef HAVE_LGAMMA
+	gnm_float res = lgamma (x);
+	*signp = (x >= 0 || fmodgnum (floorgnum (-x), 2.0) != 0.0) ? +1 : -1;
+	return res;
+#else
+#error "I need to have lgamma for this to work."
+#endif
+}
+#endif
+
+/* ------------------------------------------------------------------------- */
+
 /**
  * gnumeric_utf8_strcapital:
  * @p: pointer to UTF-8 string

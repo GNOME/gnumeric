@@ -6991,9 +6991,9 @@ lbeta3 (gnm_float a, gnm_float b, int *sign)
 	    (ab <= 0 && ab == floorgnum (ab)))
 		return gnm_nan;
 
-	res_a = lgammagnum (a); sign_a = signgam;
-	res_b = lgammagnum (b); sign_b = signgam;
-	res_ab = lgammagnum (ab); sign_ab = signgam;
+	res_a = lgamma_rgnum (a, &sign_a);
+	res_b = lgamma_rgnum (b, &sign_b);
+	res_ab = lgamma_rgnum (ab, &sign_ab);
 
 	*sign = sign_a * sign_b * sign_ab;
 	return res_a + res_b - res_ab;

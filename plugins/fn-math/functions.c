@@ -908,8 +908,9 @@ gnumeric_fact (FunctionEvalInfo *ei, GnmValue **argv)
 		return value_new_error_NUM (ei->pos);
 
 	if (x > 12 || !x_is_integer) {
-		gnm_float tmp = lgammagnum (x + 1);
-		gnm_float res = signgam * expgnum (tmp);
+		int sign;
+		gnm_float tmp = lgamma_rgnum (x + 1, &sign);
+		gnm_float res = sign * expgnum (tmp);
 		if (x_is_integer)
 			res = floorgnum (res + 0.5);  /* Round, just in case. */
 		return value_new_float (res);

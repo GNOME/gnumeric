@@ -410,7 +410,7 @@ dnl
 if test $ac_cv_func_finite = no; then
   AC_CHECK_LIB(m, finite,
         [AC_DEFINE(HAVE_FINITE, 1,
-		[Define if the finite() function is available]
+		[Define if the finite function is available]
 	 )
          LIBS="$LIBS -lm"])
 fi
@@ -420,12 +420,16 @@ AC_CHECK_HEADERS(langinfo.h)
 dnl iswprint/iswspace are sometimes in wctype.h
 AC_CHECK_HEADERS(wctype.h)
 
-AC_CHECK_DECL(signgam,
-	[AC_DEFINE(HAVE_SIGNGAM, 1,
-		[Define if signgam component of gammal is available])],
-	[], [
-	#include "math.h"
-	])
+dnl We supply our own lgamma_r (using lgamma) when missing.
+AC_CHECK_FUNCS(lgamma)
+if test $ac_cv_func_lgamma = no; then
+  AC_CHECK_LIB(m, lgamma,
+        [AC_DEFINE(HAVE_LGAMMA, 1,
+		[Define if the lgamma function is available]
+	 )
+         LIBS="$LIBS -lm"])
+fi
+AC_CHECK_FUNCS(lgamma_r)
 
 AC_C_LONG_DOUBLE
 float_msg=double
@@ -439,7 +443,7 @@ AC_ARG_WITH(long_double,
 
 		need_sunmath=no
 		for ldfunc in fabsl sqrtl expl expm1l logl log10l log1pl ceill floorl powl hypotl \
-				sinl cosl tanl asinl acosl atanl atan2l fmodl lgammal \
+				sinl cosl tanl asinl acosl atanl atan2l fmodl lgammal lgammal_r \
 				sinhl coshl tanhl asinhl acoshl atanhl \
 				isnanl finitel; do
 			AC_CHECK_FUNC($ldfunc,

@@ -94,6 +94,7 @@ gnm_float yngnum (int n, gnm_float x);
 #define hypotgnum hypotl
 #define isnangnum isnanl
 #define lgammagnum lgammal
+#define lgamma_rgnum lgammal_r
 #define log10gnum log10l
 #define log1pgnum log1pl
 #define loggnum logl
@@ -143,6 +144,7 @@ typedef double gnm_float;
 #define isnangnum isnan
 #define ldexpgnum ldexp
 #define lgammagnum lgamma
+#define lgamma_rgnum lgamma_r
 #define log10gnum log10
 #define log1pgnum log1p
 #define loggnum log
@@ -164,6 +166,12 @@ typedef double gnm_float;
 #elif defined(FINITE)
 #define finitegnum FINITE
 #error "I don't know an equivalent of finite for your system; you lose"
+#endif
+
+#ifndef HAVE_LGAMMA_R
+#define NEED_FAKE_LGAMMA_R
+/* Defined in gutils.c  */
+gnm_float lgamma_rgnum (gnm_float x, int *signp);
 #endif
 
 #define GNUM_FORMAT_e "e"

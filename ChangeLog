@@ -1,5 +1,16 @@
 2004-07-20  Morten Welinder  <terra@gnome.org>
 
+	* src/mathfunc.c (lbeta3): Use lgamma_rgnum.
+
+	* src/gutils.c (lgamma_rgnum): When needed, supply this.
+
+	* src/numbers.h (lgamma_rgnum): Add definition for this.
+
+	* configure.in (lgamma_r): Check for this.  Check for long double
+	version when needed.
+
+2004-07-20  Morten Welinder  <terra@gnome.org>
+
 	* src/ranges.c (range_is_infinite): Fix.  (Still unused, though.)
 
 2004-07-19  Jody Goldberg <jody@gnome.org>
