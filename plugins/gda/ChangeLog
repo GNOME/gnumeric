@@ -1,3 +1,7 @@
+2002-02-18  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.0
+
 2002-01-24  Rodrigo Moya <rodrigo@gnome-db.org>
 
 	* plugin-gda.c: converted to libgda-2 API

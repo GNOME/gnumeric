@@ -1,5 +1,9 @@
 2002-02-18  Jody Goldberg <jody@gnome.org>
 
+	* Release 1.1.0
+
+2002-02-18  Jody Goldberg <jody@gnome.org>
+
 	* src/workbook-control-gui.c (cb_scroll_wheel_support) : fix
 	  scrollwheel support.
 	(workbook_control_gui_init) : use the new 'scroll-event' handler.

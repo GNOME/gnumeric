@@ -32,7 +32,8 @@ Jody:
 	* guruify autoformat dialog, and update autoformat code.
 	* move format from cell -> value.
 	* add an icon to the expr-entry (thanks Jacub)
-	* make images available without bonobo.
+	* make images available without bonobo, including printing.
+	* fix scrollwheels for gnome2.
 
 Jon Kåre:
 	* More correct import of "automatic" colors from Excel
