@@ -6221,19 +6221,16 @@ msgid "Search column by column"
 msgstr ""
 
 #: src/dialogs/search.glade.h:14
-#, fuzzy
 msgid "Search in all cells in the workbook"
-msgstr "Пошук ╕ зам╕на у вс╕х ком╕рках книги"
+msgstr "Пошук у вс╕х ком╕рках книги"
 
 #: src/dialogs/search.glade.h:15
-#, fuzzy
 msgid "Search in current sheet only"
-msgstr "Пошук ╕ зам╕на лише на поточному аркуш╕"
+msgstr "Пошук лише у поточному аркуш╕"
 
 #: src/dialogs/search.glade.h:16
-#, fuzzy
 msgid "Search in specified range only"
-msgstr "Пошук ╕ зам╕на лише у вказаному д╕апазон╕"
+msgstr "Пошук лише у вказаному д╕апазон╕"
 
 #: src/dialogs/search-replace.glade.h:50 src/dialogs/search.glade.h:17
 msgid "Search line by line"
@@ -6241,16 +6238,15 @@ msgstr ""
 
 #: src/dialogs/search.glade.h:18
 msgid "Show next match"
-msgstr ""
+msgstr "Показати наступне сп╕впад╕ння"
 
 #: src/dialogs/search.glade.h:19
 msgid "Show previous match"
-msgstr ""
+msgstr "Показати попередн╓ сп╕впад╕ння"
 
 #: src/dialogs/search.glade.h:20
-#, fuzzy
 msgid "Start search"
-msgstr "Пошук"
+msgstr "Почати пошук"
 
 #: src/dialogs/search-replace.glade.h:53 src/dialogs/search.glade.h:21
 msgid "The search text is a regular expression"
@@ -6270,7 +6266,6 @@ msgid "_Advanced"
 msgstr "Розширен╕"
 
 #: src/dialogs/search.glade.h:25
-#, fuzzy
 msgid "_Comments"
 msgstr "Коментар╕"
 
@@ -6287,9 +6282,8 @@ msgid "_Expressions"
 msgstr "Вирази"
 
 #: src/dialogs/search.glade.h:29
-#, fuzzy
 msgid "_Ignore case"
-msgstr "Зб╕льшити"
+msgstr "╤╜норувати ре╜╕стр"
 
 #: src/dialogs/search.glade.h:30
 #, fuzzy
@@ -6322,9 +6316,8 @@ msgid "_Row major"
 msgstr "Стовпчик"
 
 #: src/dialogs/search.glade.h:37
-#, fuzzy
 msgid "_Search for"
-msgstr "Шукати на"
+msgstr "Шукати"
 
 #: src/dialogs/search.glade.h:38
 msgid "_Strings"
@@ -6368,9 +6361,8 @@ msgid "Current sheet"
 msgstr "Поточний аркуш"
 
 #: src/dialogs/search-replace.glade.h:11
-#, fuzzy
 msgid "Do not perform this replacement"
-msgstr "Запит на зам╕ну"
+msgstr "Не зд╕йснювати цю зам╕ну"
 
 #: src/dialogs/search-replace.glade.h:12
 msgid "Don't change"
@@ -6398,9 +6390,8 @@ msgid "Fail without any changes actually being done to any cell"
 msgstr ""
 
 #: src/dialogs/search-replace.glade.h:18
-#, fuzzy
 msgid "Ignore case"
-msgstr "Зб╕льшити"
+msgstr "╤╜норувати ре╜╕стр"
 
 #: src/dialogs/search-replace.glade.h:19
 #, fuzzy
@@ -15653,14 +15644,12 @@ msgid "_Ungroup..."
 msgstr "Розгрупувати..."
 
 #: src/workbook-control-gui.c:2886
-#, fuzzy
 msgid "_Sort"
-msgstr "Сортувати"
+msgstr "Посортувати"
 
 #: src/workbook-control-gui.c:2887
-#, fuzzy
 msgid "Sorts the selected region."
-msgstr "В╕дсортувати вибран╕ ком╕рки"
+msgstr "Посортувати вибраний д╕апазон."
 
 #: src/workbook-control-gui.c:2924
 msgid "Creates a new workbook"
@@ -15727,24 +15716,20 @@ msgstr ""
 "вибору."
 
 #: src/workbook-control-gui.c:3745
-#, fuzzy
 msgid "Send"
-msgstr "Нед╕ля"
+msgstr "В╕д╕слати"
 
 #: src/workbook-control-gui.c:3745
-#, fuzzy
 msgid "Send the current file in email"
-msgstr "Зберегти поточний файл"
+msgstr "В╕д╕слати поточний файл електронною поштою"
 
 #: src/workbook-control.c:194
-#, fuzzy
 msgid "Address"
-msgstr "Додати"
+msgstr "Адреса"
 
 #: src/workbook-format-toolbar.c:87
-#, fuzzy
 msgid "Set Horizontal Alignment"
-msgstr "Вертикальне вир╕внювання"
+msgstr "Встановити горизонтальне вир╕внювання"
 
 #: src/workbook-format-toolbar.c:187
 msgid "Set Font Style"
@@ -15759,14 +15744,12 @@ msgid "Set Font Size"
 msgstr "Встановити розм╕р шрифту"
 
 #: src/workbook-format-toolbar.c:309
-#, fuzzy
 msgid "Format as Money"
-msgstr "Формати"
+msgstr "Сформатувати як грош╕"
 
 #: src/workbook-format-toolbar.c:322
-#, fuzzy
 msgid "Format with thousands separator"
-msgstr "Розд╕лювач розряд╕в"
+msgstr "Сформатувати з розд╕лювачами розряд╕в"
 
 #: src/workbook-format-toolbar.c:351
 msgid "Increase precision"
@@ -15976,9 +15959,8 @@ msgid "Default file saver is not available."
 msgstr ""
 
 #: src/workbook-view.c:746
-#, fuzzy
 msgid "No sheets in workbook."
-msgstr "Модиф╕кувати назви таблиць та книг"
+msgstr "В книз╕ нема╓ таблиць."
 
 #: src/workbook-view.c:756
 msgid "Unsupported file format."
@@ -16037,6 +16019,5 @@ msgid "Gnumeric XML file format"
 msgstr "Формат файлу Gnumeric"
 
 #: gnumeric.desktop.in.h:2
-#, fuzzy
 msgid "The GNOME Spreadsheet"
-msgstr "В╕дкрити таблицю"
+msgstr "Електронна таблиця GNOME"
