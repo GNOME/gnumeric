@@ -1,3 +1,8 @@
+2005-02-09  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (gnumeric_offset) : fix transposition of width and
+	  height
+
 2005-02-08  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.5.0

@@ -1054,8 +1054,8 @@ gnumeric_offset (FunctionEvalInfo *ei, GnmValue **args)
 	else if (a.row >= SHEET_MAX_ROWS || a.col >= SHEET_MAX_COLS)
 		return value_new_error_REF (ei->pos);
 
-	b.row += width-1;
-	b.col += height-1;
+	b.row += height - 1;
+	b.col += width  - 1;
 	if (b.row >= SHEET_MAX_ROWS || b.col >= SHEET_MAX_COLS)
 		return value_new_error_REF (ei->pos);
 
