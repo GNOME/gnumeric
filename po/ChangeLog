@@ -1,6 +1,11 @@
 2003-05-05  Andreas Guelzow <aguelzow@taliesin.ca>
 
-	* Makefile.am: add src/charset.[ch]
+	* POTFILES.in: remove src/charset.c and add 
+	  src/widgets/widget-charmap-selector.c
+
+2003-05-05  Andreas Guelzow <aguelzow@taliesin.ca>
+
+	* POTFILES.in: add src/charset.c
 
 2003-05-03  Jan Morén  <jan.moren@lucs.lu.se>
 

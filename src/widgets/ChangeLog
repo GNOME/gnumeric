@@ -1,3 +1,9 @@
+2003-05-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* widget-charmap-selector.c: new (objectified charset.c)
+	* widget-charmap-selector.h: new (objectified charset.h)
+	* Makefile.am: added widget-charmap-selector.[ch]
+
 2003-04-23  Jody Goldberg <jody@gnome.org>
 
 	* gnumeric-expr-entry.c (gee_class_init) : add wbcg property.

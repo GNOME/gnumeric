@@ -96,7 +96,6 @@ src/GNOME_Gnumeric.xml
 src/GNOME_Gnumeric_Component.xml
 src/bonobo-io.c
 src/cell.c
-src/charset.c
 src/clipboard.c
 src/cmd-edit.c
 src/command-context-stderr.c
@@ -292,6 +291,7 @@ src/widgets/gnumeric-cell-renderer-expr-entry.c
 src/widgets/gnumeric-cell-renderer-text.c
 src/widgets/gnumeric-cell-renderer-toggle.c
 src/widgets/gnumeric-expr-entry.c
+src/widgets/widget-charmap-selector.c
 src/widgets/widget-font-selector.c
 src/workbook-cmd-format.c
 src/workbook-control-component.c

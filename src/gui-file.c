@@ -22,7 +22,7 @@
 #include "workbook-view.h"
 #include "workbook-priv.h"
 #include "gnumeric-gconf.h"
-#include "charset.h"
+#include "widgets/widget-charmap-selector.h"
 
 #include <gtk/gtk.h>
 #include <glade/glade.h>
@@ -33,7 +33,7 @@
 
 typedef struct 
 {
-	CharmapChooser *charmap_data;
+	CharmapSelector *charmap_selector;
 	GList *openers;
 } file_format_changed_cb_data;
 
@@ -126,7 +126,7 @@ file_format_changed_cb (GtkOptionMenu *omenu_format,
 {
 	GnmFileOpener *fo = g_list_nth_data (data->openers,
 					     gtk_option_menu_get_history (omenu_format));
-	charmap_chooser_set_sensitive (data->charmap_data, 
+	charmap_selector_set_sensitive (data->charmap_selector, 
 				       fo != NULL && 
 				       gnm_file_opener_is_encoding_dependent (fo));
 }
@@ -143,7 +143,7 @@ gui_file_open (WorkbookControlGUI *wbcg)
 	GtkFileSelection *fsel;
 	GtkOptionMenu *omenu;
 	GtkWidget *format_chooser;
-	GtkWidget *charmap_chooser;
+	GtkWidget *charmap_selector;
 	GtkWidget *box;
 	GnmFileOpener *fo = NULL;
 	gchar const *file_name;
@@ -162,9 +162,9 @@ gui_file_open (WorkbookControlGUI *wbcg)
 	format_chooser = make_format_chooser (openers, omenu);
 
 	/* Make charmap chooser */
-	data.charmap_data = g_new0 (CharmapChooser,1);
-	charmap_chooser = make_charmap_chooser (data.charmap_data);
-
+	charmap_selector = charmap_selector_new ();
+	data.charmap_selector = CHARMAP_SELECTOR(charmap_selector);
+	
 	/* Pack it into file selector */
 	fsel = GTK_FILE_SELECTION (gtk_file_selection_new (_("Load file")));
 	gtk_file_selection_hide_fileop_buttons (fsel);
@@ -177,7 +177,7 @@ gui_file_open (WorkbookControlGUI *wbcg)
                           gtk_label_new (_("File format:")),
 			  0, 1, 0, 1, GTK_SHRINK | GTK_FILL, GTK_SHRINK, 5, 2);
         gtk_table_attach (GTK_TABLE (box),
-                          charmap_chooser,
+                          charmap_selector,
 			  1, 2, 1, 2, GTK_EXPAND | GTK_FILL, GTK_SHRINK, 5, 2);
 	gtk_table_attach (GTK_TABLE (box),
                           gtk_label_new (_("Character encoding:")),
@@ -193,7 +193,6 @@ gui_file_open (WorkbookControlGUI *wbcg)
 	/* Show file selector */
 	if (!gnumeric_dialog_file_selection (wbcg, fsel)) {
 		g_list_free (openers);
-		g_free (data.charmap_data);
 		gtk_object_destroy (GTK_OBJECT (fsel));
 		return;
 	}
@@ -202,12 +201,11 @@ gui_file_open (WorkbookControlGUI *wbcg)
 			      gtk_option_menu_get_history (omenu));
 
 	file_name = gtk_file_selection_get_filename (fsel);
-	encoding = charmap_chooser_get_selected_encoding (data.charmap_data);
+	encoding = charmap_selector_get_encoding (CHARMAP_SELECTOR(charmap_selector));
 	gui_file_read (wbcg, file_name, fo, encoding);
 
 	gtk_object_destroy (GTK_OBJECT (fsel));
 	g_list_free (openers);
-	g_free(data.charmap_data);
 }
 
 /*

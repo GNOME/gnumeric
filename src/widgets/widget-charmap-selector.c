@@ -1,6 +1,11 @@
 /*
+ * A charmap selector widget.  
+ *
+ *  Copyright (C) 2003 Andreas J. Guelzow
+ *
+ *  based on code by:
  *  Copyright (C) 2000 Marco Pesenti Gritti
- *  Copyright (C) 2002 Andreas J. Guelzow
+ *  from the galeon code base
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -17,10 +22,45 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#include <gnumeric-config.h>
 #include <gnumeric-i18n.h>
-#include "gnumeric.h"
-#include "charset.h"
+#include <gnumeric.h>
+#include "widget-charmap-selector.h"
+#include <gsf/gsf-impl-utils.h>
+
+#define CS(x) CHARMAP_SELECTOR(x)
+
+typedef enum {
+	LG_ARABIC,
+	LG_BALTIC,
+	LG_CENTRAL_EUROPEAN,
+	LG_CHINESE,
+	LG_CYRILLIC,
+	LG_GREEK,
+	LG_HEBREW,
+	LG_INDIAN,
+	LG_JAPANESE, 
+	LG_KOREAN,
+	LG_TURKISH,
+	LG_UNICODE,
+	LG_VIETNAMESE,
+	LG_WESTERN,
+	LG_OTHER,
+	LG_LAST
+} LanguageGroup;
+
+typedef struct {
+	gchar const *charset_title;
+	gchar const *charset_name;
+	LanguageGroup const lgroup;
+} CharsetInfo;
+
+typedef struct
+{
+        char const *group_name;
+        gint preferred_encoding;
+}
+LGroupInfo;
+
 
 LGroupInfo lgroups[] = {
 	{N_("Arabic"),0},
@@ -124,14 +164,43 @@ CharsetInfo const charset_trans_array[] = {
 	{N_("Western (ISO-8859-15)"),             "ISO-8859-15",           LG_WESTERN},
 	{N_("Western (MacRoman)"),                "x-mac-roman",           LG_WESTERN},
 	{N_("Western (Windows-1252)"),            "windows-1252",          LG_WESTERN},
-	/* charsets whithout posibly translatable names */
+	/* charsets whithout possibly translatable names */
 	{"T61.8bit",                              "T61.8bit",              LG_OTHER},
 	{"x-imap4-modified-utf7",                 "x-imap4-modified-utf7", LG_UNICODE},
 	{"x-u-escaped",                           "x-u-escaped",           LG_OTHER},
 	{NULL,                                    NULL,                    LG_LAST}
 };
 
-static void set_encodings_menu (CharmapChooser *data)
+struct _CharmapSelector {
+	GtkHBox box;
+	GtkOptionMenu *encoding_classes;
+	GtkMenu *encoding_classes_menu;
+	unsigned int last_encoding_class;
+	GtkOptionMenu *encodings;
+	GtkMenu *encodings_menu;
+};
+
+typedef struct {
+	GtkHBoxClass parent_class;
+
+	gboolean (* charmap_changed) (CharmapSelector *cs, char const *new_charmap);
+} CharmapSelectorClass;
+
+
+typedef CharmapSelector Cs;
+typedef CharmapSelectorClass CsClass;
+
+static GtkHBoxClass *cs_parent_class;
+
+/* Signals we emit */
+enum {
+	CHARMAP_CHANGED,
+	LAST_SIGNAL
+};
+
+static guint cs_signals[LAST_SIGNAL] = { 0 };
+
+static void set_encodings_menu (CharmapSelector *data)
 {
         unsigned int lgroup;
 	GtkWidget *item;
@@ -155,21 +224,26 @@ static void set_encodings_menu (CharmapChooser *data)
 	if (lgroup < LG_LAST) {
 		while (charset_trans->lgroup != LG_LAST) {
 			if (charset_trans->lgroup == lgroup) {
-				item = gtk_menu_item_new_with_label (_(charset_trans->charset_title));
+				item = gtk_menu_item_new_with_label 
+					(_(charset_trans->charset_title));
 				gtk_widget_show (item);
 				gtk_menu_append (menu, item);
 			}
 			charset_trans++;
 		}
-		gtk_option_menu_set_history (data->encodings, 
-					     lgroups[lgroup].preferred_encoding);
+		gtk_option_menu_set_history 
+			(data->encodings, 
+			 lgroups[lgroup].preferred_encoding);
 	} else {
 		char const *locale_encoding;
 		
 		g_get_charset (&locale_encoding);
 		while (charset_trans->lgroup != LG_LAST) {
-			if (0 == g_ascii_strcasecmp(charset_trans->charset_name, locale_encoding)) {
-				item = gtk_menu_item_new_with_label (_(charset_trans->charset_title));
+			if (0 == g_ascii_strcasecmp
+			    (charset_trans->charset_name, 
+			     locale_encoding)) {
+				item = gtk_menu_item_new_with_label 
+					(_(charset_trans->charset_title));
 				gtk_widget_show (item);
 				gtk_menu_append (menu, item);
 				break;
@@ -177,44 +251,64 @@ static void set_encodings_menu (CharmapChooser *data)
 			charset_trans++;
 		}
 		if (charset_trans->lgroup == LG_LAST) {
-				item = gtk_menu_item_new_with_label (locale_encoding);
+				item = gtk_menu_item_new_with_label 
+					(locale_encoding);
 				gtk_widget_show (item);
-				gtk_menu_append (menu, item);			
+				gtk_menu_append (menu, item);
 		}
 		gtk_option_menu_set_history (data->encodings, 0);
 	}
 }
 
 static void
-encoding_class_changed_cb (GtkOptionMenu *optionmenu,
-			   CharmapChooser *data)
+encoding_class_changed_cb (GtkOptionMenu *optionmenu, CharmapSelector *cs)
 {
-	g_return_if_fail (optionmenu == data->encoding_classes);
+	g_return_if_fail (IS_CHARMAP_SELECTOR(cs));
+	g_return_if_fail (optionmenu == cs->encoding_classes);
 
-	set_encodings_menu (data);
+	set_encodings_menu (cs);
+	gtk_signal_emit (GTK_OBJECT (cs),
+			 cs_signals[CHARMAP_CHANGED], 
+			 charmap_selector_get_encoding (cs));
+}
+
+static void
+encodings_changed_cb (GtkOptionMenu *optionmenu, CharmapSelector *cs)
+{
+	gint selection, class;
+	
+	g_return_if_fail (IS_CHARMAP_SELECTOR(cs));
+	g_return_if_fail (optionmenu == cs->encodings);
+
+	selection = gtk_option_menu_get_history (cs->encodings);
+	class = gtk_option_menu_get_history (cs->encoding_classes);
+	if (class < LG_LAST)
+		lgroups[class].preferred_encoding = selection;
+
+	gtk_signal_emit (GTK_OBJECT (cs),
+			 cs_signals[CHARMAP_CHANGED], 
+			 charmap_selector_get_encoding (cs));
 }
 
 static void 
-set_menu_to_default (CharmapChooser *data)
+set_menu_to_default (CharmapSelector *cs)
 {
-	gtk_option_menu_set_history (data->encoding_classes, LG_LAST + 1);
-	set_encodings_menu (data);
-	gtk_option_menu_set_history (data->encodings, 0);	
+	g_return_if_fail (IS_CHARMAP_SELECTOR(cs));
+	
+	gtk_option_menu_set_history (cs->encoding_classes, LG_LAST + 1);
+	set_encodings_menu (cs);
+	gtk_option_menu_set_history (cs->encodings, 0);	
 }
 
 
-GtkWidget *
-make_charmap_chooser (CharmapChooser *data)
+static void
+cs_init (CharmapSelector *cs)
 {
         GtkWidget *item;
 	GtkMenu *menu;
 	LGroupInfo *lgroup = lgroups;
-	GtkWidget *box;
 
-	g_return_val_if_fail (data != NULL, NULL);
-
-	data->encoding_classes = GTK_OPTION_MENU(gtk_option_menu_new());
-
+	cs->encoding_classes = GTK_OPTION_MENU(gtk_option_menu_new());
         menu = GTK_MENU (gtk_menu_new ());
 
 	while (lgroup->group_name) {
@@ -230,27 +324,67 @@ make_charmap_chooser (CharmapChooser *data)
 	gtk_widget_show (item);
 	gtk_menu_append (menu, item);
 
-	gtk_option_menu_set_menu (data->encoding_classes, GTK_WIDGET (menu));
-	data->encoding_classes_menu = menu;
+	gtk_option_menu_set_menu (cs->encoding_classes, GTK_WIDGET (menu));
+	cs->encoding_classes_menu = menu;
 
-	data->encodings = GTK_OPTION_MENU(gtk_option_menu_new());
-	data->encodings_menu = NULL;
-	data->last_encoding_class = LG_LAST;
+	cs->encodings = GTK_OPTION_MENU(gtk_option_menu_new());
+	cs->encodings_menu = NULL;
+	cs->last_encoding_class = LG_LAST;
 	
-	g_signal_connect (G_OBJECT (data->encoding_classes), "changed", 
-			  G_CALLBACK (encoding_class_changed_cb), data);
+	g_signal_connect (G_OBJECT (cs->encoding_classes), "changed", 
+			  G_CALLBACK (encoding_class_changed_cb), cs);
+	g_signal_connect (G_OBJECT (cs->encodings), "changed", 
+			  G_CALLBACK (encodings_changed_cb), cs);
 
-	set_menu_to_default (data);
+	set_menu_to_default (cs);
 
-	box = gtk_hbox_new(FALSE, 1);
-	gtk_box_pack_start (GTK_BOX(box), GTK_WIDGET(data->encoding_classes), TRUE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX(box), GTK_WIDGET(data->encodings), TRUE, TRUE, 0);
-
-	return (box);
+	gtk_box_pack_start (GTK_BOX(cs), GTK_WIDGET(cs->encoding_classes), 
+			    TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX(cs), GTK_WIDGET(cs->encodings), TRUE, 
+			    TRUE, 0);
 }
 
+static void
+cs_destroy (GtkObject *object)
+{
+/* 	CharmapSelector *cs = CHARMAP_SELECTOR (object); */
+
+	((GtkObjectClass *)cs_parent_class)->destroy (object);
+}
+
+static void
+cs_class_init (GtkObjectClass *klass)
+{
+	klass->destroy = cs_destroy;
+
+	cs_parent_class = g_type_class_peek (gtk_hbox_get_type ());
+
+	cs_signals[CHARMAP_CHANGED] =
+		gtk_signal_new (
+			"charmap_changed",
+			GTK_RUN_LAST,
+			GTK_CLASS_TYPE (klass),
+			GTK_SIGNAL_OFFSET (CharmapSelectorClass, 
+					   charmap_changed),
+			gtk_marshal_NONE__POINTER,
+			GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
+}
+
+GSF_CLASS (CharmapSelector, charmap_selector,
+	   cs_class_init, cs_init, GTK_TYPE_HBOX)
+
+GtkWidget *
+charmap_selector_new (void)
+{
+	GtkWidget *w;
+
+	w = gtk_type_new (CHARMAP_SELECTOR_TYPE);
+	return w;
+}
+
+
 gchar const *
-charmap_chooser_get_selected_encoding (CharmapChooser *data)
+charmap_selector_get_encoding     (CharmapSelector *cs)
 {
 	gint selection, cnt = 0;
 	unsigned int lgroup;
@@ -259,10 +393,10 @@ charmap_chooser_get_selected_encoding (CharmapChooser *data)
 	
 	g_get_charset (&locale_encoding);
 
-	g_return_val_if_fail (data != NULL, locale_encoding);
+	g_return_val_if_fail (IS_CHARMAP_SELECTOR(cs), locale_encoding);
 	
-	selection = gtk_option_menu_get_history (data->encodings);
-	lgroup = gtk_option_menu_get_history (data->encoding_classes);
+	selection = gtk_option_menu_get_history (cs->encodings);
+	lgroup = gtk_option_menu_get_history (cs->encoding_classes);
 	if (lgroup >= LG_LAST) 
 		return locale_encoding;
 	
@@ -279,14 +413,19 @@ charmap_chooser_get_selected_encoding (CharmapChooser *data)
 	return locale_encoding;
 }
 
-void        
-charmap_chooser_set_sensitive (CharmapChooser *data, gboolean sensitive)
+void 
+charmap_selector_set_sensitive (CharmapSelector *cs, gboolean sensitive)
 {
-	g_return_if_fail (data != NULL);
+	g_return_if_fail (IS_CHARMAP_SELECTOR(cs));
 	
-	gtk_widget_set_sensitive (GTK_WIDGET(data->encoding_classes), sensitive);
-	gtk_widget_set_sensitive (GTK_WIDGET(data->encodings), sensitive);
+	gtk_widget_set_sensitive (GTK_WIDGET(cs->encoding_classes), sensitive);
+	gtk_widget_set_sensitive (GTK_WIDGET(cs->encodings), sensitive);
 }
+
+
+
+
+
 
 
 

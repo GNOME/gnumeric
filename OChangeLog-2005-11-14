@@ -1,5 +1,14 @@
 2003-05-05  Andreas Guelzow <aguelzow@taliesin.ca>
 
+	* src/Makefile.am: removed src/charset.[ch]
+	* src/charset.[ch]: removed (replaced by 
+	  src/widgets/widget-charmap-selector.[ch])
+	* src/gui-file.c: replaced data block CharmapChooser by 
+	  widget CharmapSelector including the corresponding
+	  function calls
+
+2003-05-05  Andreas Guelzow <aguelzow@taliesin.ca>
+
 	* src/charset.c (make_charmap_chooser): move declarations
 	  where they belong
 

@@ -41,8 +41,6 @@ GNUMERIC_BASE =					\
 	cell-draw.h				\
 	cellspan.c				\
 	cellspan.h				\
-	charset.c				\
-	charset.h				\
 	clipboard.c				\
 	clipboard.h				\
 	cmd-edit.h				\

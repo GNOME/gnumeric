@@ -9,6 +9,8 @@ INCLUDES = 						\
 noinst_LIBRARIES = libwidgets.a
 
 libwidgets_a_SOURCES =				\
+	widget-charmap-selector.c		\
+	widget-charmap-selector.h		\
 	widget-editable-label.c			\
 	widget-editable-label.h			\
 	widget-font-selector.c			\
