@@ -149,6 +149,10 @@ sub import_file {
 		$_ = "#ifndef MATHLIB_STANDALONE\n$_\n#endif";
 	    }
 
+	    if ($filename =~ m|/qbeta\.c$| && /xinbta = 0\.5;/) {
+		s/0\.5/(xinbta < lower) ? sqrtgnum (lower) : 1 - sqrtgnum (lower)/;
+	    }
+
 	    if ($filename =~ m|/qgamma\.c$| && /return 0\.5\*scale\*ch;/) {
 		$_ = ("    /* Special Gnumeric patch to improve precision.  */\n" .
 		      "    {\n" .

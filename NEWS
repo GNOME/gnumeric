@@ -39,6 +39,7 @@ Morten:
 	* Fix latex exporter crash.
 	* Restore auto-format functionality.  (Automatically supply a format
 	  to a new cell based on the formula entered.)
+	* Work around hangs in, e.g., BETAINV.
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.16

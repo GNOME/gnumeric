@@ -1,7 +1,10 @@
 2003-05-01  Morten Welinder  <terra@gnome.org>
 
+	* import-R (import_file): Patch qbeta to work around a hang.
+	(This is a kludge.)
+
 	* import-R (import_file): Optimize lbeta slightly (given our
-	stupid gammagn).
+	stupid gammafn).
 
 	* import-R (import_file): Patch an R bug.
 

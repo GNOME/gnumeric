@@ -2032,9 +2032,9 @@ gnm_float qbeta(gnm_float alpha, gnm_float p, gnm_float q, gboolean lower_tail, 
     adj = 1;
     /* Sometimes the approximation is negative! */
     if (xinbta < lower)
-	xinbta = 0.5;
+	xinbta = (xinbta < lower) ? sqrtgnum (lower) : 1 - sqrtgnum (lower);
     else if (xinbta > upper)
-	xinbta = 0.5;
+	xinbta = (xinbta < lower) ? sqrtgnum (lower) : 1 - sqrtgnum (lower);
 
     /* Desired accuracy should depend on  (a,p)
      * This is from Remark .. on AS 109, adapted.
