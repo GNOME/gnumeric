@@ -122,6 +122,40 @@ Pending Patches
 24) Plugins
     24.1) enhance gobject service to do delayed load		(DONE)
 
+25) Audit all fixed-length buffers.  Most non-time-critical can be replaced
+    by proper usage of g_strdup_printf.
+    25.1)  src/*.[ch]                                           (DONE 20030110 MW)
+    25.2)  plugins/applix
+    25.3)  plugins/corba
+    25.4)  plugins/derivatives
+    25.5)  plugins/dif
+    25.6)  plugins/excel
+    25.7)  plugins/fn-*                                         (DONE 20030110 MW)
+    25.8)  plugins/gb                                           (DONE 20030110 MW)
+    25.9)  plugins/gda                                          (DONE 20030110 MW)
+    25.10) plugins/gnome-glossary
+    25.11) plugins/gnumeric_1_0
+    25.12) plugins/guile                                        (DONE 20030110 MW)
+    25.13) plugins/html                                         (DONE 20030110 MW)
+    25.14) plugins/lotus-123                                    (DONE 20030110 MW)
+    25.15) plugins/mps
+    25.16) plugins/numtheory                                    (DONE 20030110 MW)
+    25.17) plugins/oleo                                         (DONE 20030408 MW)
+    25.18) plugins/openoffice
+    25.19) plugins/perl                                         (DONE 20030110 MW)
+    25.20) plugins/plan-perfect
+    25.21) plugins/psiconv
+    25.22) plugins/py-func
+    25.23) plugins/python-loader
+    25.24) plugins/qpro                                         (DONE 20030110 MW)
+    25.25) plugins/sample_datasource                            (DONE 20030110 MW)
+    25.26) plugins/sc
+    25.27) plugins/sylk                                         (DONE 20030110 MW)
+    25.28) plugins/uihello
+    25.29) plugins/xbase
+    25.30) plugins/xml_sax
+
+
 Functions
     ODDFPRICE	(test fails)
     ODDFYEILD	(unimplementeD)
@@ -190,22 +224,6 @@ Misc stuff that should be fixed
 - Remove duplication of code between analysis-tools.c and collect.c
 
 - Make deletion work for multiple ranges.
-
-- Audit all fixed-length buffers.  Most non-time-critical can be replaced
-  by proper usage of g_strdup_printf.
-  - src/*.[ch]: Done 20030110 MW.
-    plugins/fn-*: Done 20030110 MW.
-    plugins/gb: Done 20030110 MW.
-    plugins/gda: Done 20030110 MW.
-    plugins/guile: Done 20030110 MW.
-    plugins/html: Done 20030110 MW.
-    plugins/lotus: Done 20030110 MW.
-    plugins/numtheory: Done 20030110 MW.
-    plugins/oleo: Done 20030408 MW.
-    plugins/perl: Done 20030110 MW.
-    plugins/qpro: Done 20030110 MW.
-    plugins/sample_datasource: Done 20030110 MW.
-    plugins/sylk: Done 20030110 MW.
 
 - The autocalc label should use a more readable format and should not get
   clipped.
