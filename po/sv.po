@@ -28,8 +28,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2002-01-16 14:06+0100\n"
-"PO-Revision-Date: 2002-01-16 14:06+0100\n"
+"POT-Creation-Date: 2002-01-19 02:24+0100\n"
+"PO-Revision-Date: 2002-01-19 02:30+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -61,7 +61,7 @@ msgstr "Applix (*.as)"
 msgid "Imports version 4.[234] spreadsheets"
 msgstr "Importerar kalkylblad från version 4.[234]"
 
-#: plugins/derivatives/plugin.xml.in.h:1 src/functions/fn-financial.c:3216
+#: plugins/derivatives/plugin.xml.in.h:1 src/functions/fn-financial.c:3119
 msgid "Financial"
 msgstr "Finansiella"
 
@@ -73,7 +73,7 @@ msgstr "Finansiella derivat"
 msgid "Functions related to financial derivatives"
 msgstr "Funktioner relaterade till finansiella derivat"
 
-#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4523
+#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4518
 #: plugins/mps/mps.c:579 src/xml-io.c:3374
 msgid "Reading file..."
 msgstr "Läser fil..."
@@ -196,16 +196,16 @@ msgstr "Diagram%d"
 msgid "Module%d"
 msgstr "Modul%d"
 
-#: plugins/excel/ms-excel-read.c:4518
+#: plugins/excel/ms-excel-read.c:4513
 msgid "No book or workbook streams found."
 msgstr "Kunde inte hitta ström med bok eller arbetsbok."
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4682
+#: plugins/excel/ms-excel-read.c:4677
 msgid "Password protected workbooks are not supported yet."
 msgstr "Lösenordsskyddade arbetsböcker stöds ännu inte."
 
-#: plugins/excel/ms-excel-read.c:4795
+#: plugins/excel/ms-excel-read.c:4790
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Kunde inte hitta en giltig MS Excel-arbetsbok"
 
@@ -218,11 +218,11 @@ msgstr "För många rader för detta format (%d > %d)"
 msgid "Can't open stream for writing\n"
 msgstr "Kan inte öppna ström för skrivning\n"
 
-#: plugins/excel/ms-formula-read.c:642
+#: plugins/excel/ms-formula-read.c:600
 msgid "Broken function"
 msgstr "Trasig funktion"
 
-#: plugins/excel/ms-formula-read.c:1438
+#: plugins/excel/ms-formula-read.c:1448
 msgid " Unknown formula"
 msgstr " Okänd formel"
 
@@ -300,7 +300,7 @@ msgstr "Fel: kunde inte initiera anslutningspool"
 msgid "Error: could not open connection to %s"
 msgstr "Fel: kunde inte öppna anslutning till %s"
 
-#: plugins/gda/plugin.xml.in.h:1 src/functions/fn-database.c:1364
+#: plugins/gda/plugin.xml.in.h:1 src/functions/fn-database.c:1365
 msgid "Database"
 msgstr "Databas"
 
@@ -440,16 +440,15 @@ msgid "Constraints:"
 msgstr "Bivillkor:"
 
 #. Print constraint titles.
-#: plugins/mps/mps.c:335 src/dialogs/plugin-manager.glade.h:13
+#: plugins/mps/mps.c:335 src/dialogs/plugin-manager.glade.h:10
 #: src/format-template.c:510 src/solver-lp.c:898 src/solver-lp.c:922
 #: src/solver-lp.c:955 src/solver-lp.c:1049 src/solver-lp.c:1096
 #: src/workbook-control.c:233
 msgid "Name"
 msgstr "Namn"
 
-#: plugins/mps/mps.c:339 src/dialogs/cell-sort.glade.h:14
-#: src/dialogs/plugin-manager.glade.h:15 src/solver-lp.c:1050
-#: src/solver-lp.c:1097
+#: plugins/mps/mps.c:339 src/dialogs/plugin-manager.glade.h:12
+#: src/solver-lp.c:1050 src/solver-lp.c:1097
 msgid "Value"
 msgstr "Värde"
 
@@ -1077,7 +1076,7 @@ msgstr "Utför en enkel stavningskontroll automatiskt"
 msgid "Automatically save the current document at regular intervals"
 msgstr "Spara det aktuella dokumentet automatiskt med regelbundna mellanrum"
 
-#: src/GNOME_Gnumeric.xml.h:12 src/dialogs/cell-format.glade.h:16
+#: src/GNOME_Gnumeric.xml.h:12 src/dialogs/cell-format.glade.h:15
 #: src/dialogs/dialog-cell-format.c:2577 src/workbook-format-toolbar.c:819
 #: src/workbook-format-toolbar.c:875
 msgid "Background"
@@ -1359,7 +1358,7 @@ msgstr "F_ormat"
 msgid "Filter data with given criteria"
 msgstr "Filtrera data efter givna kriterier"
 
-#: src/GNOME_Gnumeric.xml.h:79 src/dialogs/cell-format.glade.h:40
+#: src/GNOME_Gnumeric.xml.h:79 src/dialogs/cell-format.glade.h:39
 #: src/workbook-format-toolbar.c:758
 msgid "Font"
 msgstr "Typsnitt"
@@ -1522,7 +1521,7 @@ msgstr "Gå till specifierad cell"
 msgid "Label"
 msgstr "Rubrik"
 
-#: src/GNOME_Gnumeric.xml.h:118 src/dialogs/cell-format.glade.h:55
+#: src/GNOME_Gnumeric.xml.h:118 src/dialogs/cell-format.glade.h:53
 #: src/workbook-format-toolbar.c:629
 msgid "Left"
 msgstr "Vänster"
@@ -1531,7 +1530,7 @@ msgstr "Vänster"
 msgid "Left justifies the contents of each cell"
 msgstr "Vänsterjusterar innehållet i cellerna"
 
-#: src/GNOME_Gnumeric.xml.h:120 src/dialogs/cell-format.glade.h:56
+#: src/GNOME_Gnumeric.xml.h:120 src/dialogs/cell-format.glade.h:54
 #: src/workbook-object-toolbar.c:174
 msgid "Line"
 msgstr "Linje"
@@ -1663,7 +1662,7 @@ msgstr "Klistra in med filter och transformationer"
 msgid "Percent"
 msgstr "Procent"
 
-#: src/GNOME_Gnumeric.xml.h:152 src/dialogs/print.glade.h:18
+#: src/GNOME_Gnumeric.xml.h:152 src/dialogs/print.glade.h:16
 #: src/workbook-control-gui.c:2980
 msgid "Print"
 msgstr "Skriv ut"
@@ -1681,7 +1680,7 @@ msgstr "Förhandsgranska"
 msgid "Print S_etup..."
 msgstr "U_tskriftsformat..."
 
-#: src/GNOME_Gnumeric.xml.h:156 src/dialogs/print.glade.h:20 src/print.c:1185
+#: src/GNOME_Gnumeric.xml.h:156 src/dialogs/print.glade.h:18 src/print.c:1185
 msgid "Print preview"
 msgstr "Förhandsgranskning"
 
@@ -1738,7 +1737,7 @@ msgstr "Ta bort markerade celler, och skifta in andra celler"
 msgid "Rename the current sheet"
 msgstr "Byt namn på aktuellt blad"
 
-#: src/GNOME_Gnumeric.xml.h:170 src/dialogs/cell-format.glade.h:70
+#: src/GNOME_Gnumeric.xml.h:170 src/dialogs/cell-format.glade.h:68
 #: src/workbook-format-toolbar.c:631
 msgid "Right"
 msgstr "Höger"
@@ -1998,7 +1997,7 @@ msgstr "St_äng"
 #: src/dialogs/descriptive-stats.glade.h:16
 #: src/dialogs/fourier-analysis.glade.h:8 src/dialogs/histogram.glade.h:21
 #: src/dialogs/moving-averages.glade.h:9 src/dialogs/rank.glade.h:10
-#: src/dialogs/regression.glade.h:13 src/dialogs/sampling.glade.h:14
+#: src/dialogs/regression.glade.h:10 src/dialogs/sampling.glade.h:13
 #: src/workbook-control-gui.c:2725
 msgid "_Columns"
 msgstr "_Kolumner"
@@ -2045,7 +2044,7 @@ msgstr "_Redigera"
 msgid "_File"
 msgstr "_Arkiv"
 
-#: src/GNOME_Gnumeric.xml.h:241 src/dialogs/cell-format.glade.h:109
+#: src/GNOME_Gnumeric.xml.h:241 src/dialogs/cell-format.glade.h:110
 #: src/workbook-control-gui.c:2640
 msgid "_Fill"
 msgstr "_Fyll"
@@ -2158,7 +2157,7 @@ msgstr "_Rad"
 #: src/dialogs/descriptive-stats.glade.h:21
 #: src/dialogs/fourier-analysis.glade.h:13
 #: src/dialogs/moving-averages.glade.h:14 src/dialogs/rank.glade.h:15
-#: src/dialogs/regression.glade.h:17 src/dialogs/sampling.glade.h:20
+#: src/dialogs/regression.glade.h:15 src/dialogs/sampling.glade.h:20
 #: src/workbook-control-gui.c:2722
 msgid "_Rows"
 msgstr "_Rader"
@@ -2321,7 +2320,7 @@ msgstr "K:te minsta"
 msgid "Smallest (%d)"
 msgstr "Minsta (%d)"
 
-#: src/analysis-tools.c:1266 src/dialogs/cell-format.glade.h:72
+#: src/analysis-tools.c:1266 src/dialogs/cell-format.glade.h:70
 msgid "Sample"
 msgstr "Exempel"
 
@@ -2409,7 +2408,7 @@ msgid "Y Variable"
 msgstr "Y-variabel"
 
 #: src/analysis-tools.c:2348 src/dialogs/dialog-analysis-tools.c:4573
-#: src/dialogs/regression.glade.h:9
+#: src/dialogs/regression.glade.h:8
 msgid "Regression"
 msgstr "Regression"
 
@@ -2912,7 +2911,7 @@ msgid "Merging %s"
 msgstr "Sammanslagning av %s"
 
 #. Corrected below.
-#: src/commands.c:3631 src/dialogs/search-replace.glade.h:43
+#: src/commands.c:3631 src/dialogs/search-replace.glade.h:23
 msgid "Search and Replace"
 msgstr "Sök och ersätt"
 
@@ -3177,7 +3176,7 @@ msgstr "A_utopassa kolumner"
 #: src/dialogs/covariance.glade.h:3 src/dialogs/descriptive-stats.glade.h:7
 #: src/dialogs/fourier-analysis.glade.h:3 src/dialogs/histogram.glade.h:6
 #: src/dialogs/moving-averages.glade.h:3 src/dialogs/rank.glade.h:3
-#: src/dialogs/regression.glade.h:5 src/dialogs/sampling.glade.h:3
+#: src/dialogs/regression.glade.h:4 src/dialogs/sampling.glade.h:3
 msgid "Grouped By:"
 msgstr "Grupperad efter:"
 
@@ -3186,7 +3185,7 @@ msgstr "Grupperad efter:"
 #: src/dialogs/descriptive-stats.glade.h:8
 #: src/dialogs/fourier-analysis.glade.h:5 src/dialogs/mean-tests.glade.h:6
 #: src/dialogs/moving-averages.glade.h:5 src/dialogs/rank.glade.h:4
-#: src/dialogs/regression.glade.h:6 src/dialogs/sampling.glade.h:4
+#: src/dialogs/regression.glade.h:5 src/dialogs/sampling.glade.h:4
 #: src/dialogs/variance-tests.glade.h:3
 msgid "Input"
 msgstr "Indata"
@@ -3197,7 +3196,7 @@ msgstr "Indata"
 #: src/dialogs/fourier-analysis.glade.h:6 src/dialogs/histogram.glade.h:12
 #: src/dialogs/mean-tests.glade.h:7 src/dialogs/moving-averages.glade.h:7
 #: src/dialogs/random-generation.glade.h:3 src/dialogs/rank.glade.h:5
-#: src/dialogs/regression.glade.h:7 src/dialogs/sampling.glade.h:6
+#: src/dialogs/regression.glade.h:6 src/dialogs/sampling.glade.h:5
 #: src/dialogs/variance-tests.glade.h:4
 msgid "N_ew Workbook"
 msgstr "Ny arb_etsbok"
@@ -3208,7 +3207,7 @@ msgstr "Ny arb_etsbok"
 #: src/dialogs/fourier-analysis.glade.h:7 src/dialogs/mean-tests.glade.h:8
 #: src/dialogs/moving-averages.glade.h:8
 #: src/dialogs/random-generation.glade.h:5 src/dialogs/rank.glade.h:6
-#: src/dialogs/regression.glade.h:8 src/dialogs/sampling.glade.h:8
+#: src/dialogs/regression.glade.h:7 src/dialogs/sampling.glade.h:7
 #: src/dialogs/variance-tests.glade.h:5
 msgid "Output"
 msgstr "Utdata"
@@ -3220,7 +3219,7 @@ msgstr "_Alfa = "
 #: src/dialogs/anova-one.glade.h:9 src/dialogs/correlation.glade.h:7
 #: src/dialogs/covariance.glade.h:7 src/dialogs/descriptive-stats.glade.h:15
 #: src/dialogs/histogram.glade.h:18 src/dialogs/rank.glade.h:9
-#: src/dialogs/regression.glade.h:12 src/dialogs/sampling.glade.h:13
+#: src/dialogs/regression.glade.h:9 src/dialogs/sampling.glade.h:12
 msgid "_Areas"
 msgstr "_Områden"
 
@@ -3240,7 +3239,7 @@ msgstr "_Indataområde:"
 #: src/dialogs/descriptive-stats.glade.h:18
 #: src/dialogs/fourier-analysis.glade.h:10 src/dialogs/mean-tests.glade.h:22
 #: src/dialogs/moving-averages.glade.h:11 src/dialogs/rank.glade.h:12
-#: src/dialogs/regression.glade.h:14 src/dialogs/sampling.glade.h:15
+#: src/dialogs/regression.glade.h:12 src/dialogs/sampling.glade.h:15
 #: src/dialogs/variance-tests.glade.h:11
 msgid "_Labels"
 msgstr "_Rubriker"
@@ -3251,7 +3250,7 @@ msgstr "_Rubriker"
 #: src/dialogs/fourier-analysis.glade.h:11 src/dialogs/histogram.glade.h:24
 #: src/dialogs/mean-tests.glade.h:23 src/dialogs/moving-averages.glade.h:12
 #: src/dialogs/random-generation.glade.h:10 src/dialogs/rank.glade.h:13
-#: src/dialogs/regression.glade.h:15 src/dialogs/sampling.glade.h:16
+#: src/dialogs/regression.glade.h:13 src/dialogs/sampling.glade.h:16
 #: src/dialogs/variance-tests.glade.h:12
 msgid "_New Sheet"
 msgstr "_Nytt blad"
@@ -3262,7 +3261,7 @@ msgstr "_Nytt blad"
 #: src/dialogs/fourier-analysis.glade.h:12 src/dialogs/histogram.glade.h:26
 #: src/dialogs/mean-tests.glade.h:24 src/dialogs/moving-averages.glade.h:13
 #: src/dialogs/random-generation.glade.h:11 src/dialogs/rank.glade.h:14
-#: src/dialogs/regression.glade.h:16 src/dialogs/sampling.glade.h:17
+#: src/dialogs/regression.glade.h:14 src/dialogs/sampling.glade.h:17
 #: src/dialogs/variance-tests.glade.h:13
 msgid "_Output Range:"
 msgstr "_Utdataområde:"
@@ -3305,7 +3304,7 @@ msgid "Re_place:"
 msgstr "Ers_ätt:"
 
 #: src/dialogs/autocorrect.glade.h:7 src/dialogs/consolidate.glade.h:26
-#: src/dialogs/dialog-stf.glade.h:61 src/dialogs/names.glade.h:6
+#: src/dialogs/dialog-stf.glade.h:61 src/dialogs/names.glade.h:3
 #: src/dialogs/solver.glade.h:16
 msgid "_Add"
 msgstr "_Lägg till"
@@ -3318,7 +3317,7 @@ msgstr "_Inför inte stor bokstav efter:"
 msgid "_First Letter"
 msgstr "_Första bokstaven"
 
-#: src/dialogs/autocorrect.glade.h:10 src/dialogs/cell-format.glade.h:111
+#: src/dialogs/autocorrect.glade.h:10 src/dialogs/cell-format.glade.h:112
 msgid "_General"
 msgstr "_Allmänt"
 
@@ -3394,7 +3393,7 @@ msgstr "Aktuell kategori"
 msgid "The group/individual that made the template"
 msgstr "Gruppen/personen som tillverkat mallen"
 
-#: src/dialogs/autoformat.glade.h:16
+#: src/dialogs/autoformat.glade.h:16 src/dialogs/summary.glade.h:6
 msgid "_Category"
 msgstr "_Kategori"
 
@@ -3472,44 +3471,44 @@ msgid "75% Grey"
 msgstr "75% grå"
 
 #: src/dialogs/cell-format.glade.h:12
-msgid "Action :"
-msgstr "Åtgärd:"
+msgid "A_ction :"
+msgstr "_Åtgärd:"
 
 #: src/dialogs/cell-format.glade.h:13
 msgid "Alignment"
 msgstr "Justering"
 
 #: src/dialogs/cell-format.glade.h:14
-msgid "Allow :"
-msgstr "Tillåt:"
-
-#: src/dialogs/cell-format.glade.h:15
 msgid "Any Value                     (no validation)"
 msgstr "Alla värden                   (ingen validering)"
 
-#: src/dialogs/cell-format.glade.h:17
+#: src/dialogs/cell-format.glade.h:16
 msgid "Background Color"
 msgstr "Bakgrundsfärg"
 
-#: src/dialogs/cell-format.glade.h:18 src/dialogs/dialog-cell-format.c:2567
+#: src/dialogs/cell-format.glade.h:17 src/dialogs/dialog-cell-format.c:2567
 msgid "Border"
 msgstr "Kant"
 
-#: src/dialogs/cell-format.glade.h:19 src/workbook-format-toolbar.c:637
+#: src/dialogs/cell-format.glade.h:18 src/workbook-format-toolbar.c:637
 msgid "Bottom"
 msgstr "Underkant"
 
-#: src/dialogs/cell-format.glade.h:20
+#: src/dialogs/cell-format.glade.h:19
 msgid "Bricks"
 msgstr "Tegelstenar"
 
-#: src/dialogs/cell-format.glade.h:21
+#: src/dialogs/cell-format.glade.h:20
 msgid "C_enter"
 msgstr "C_entrera"
 
-#: src/dialogs/cell-format.glade.h:22
+#: src/dialogs/cell-format.glade.h:21
 msgid "Center _across selection"
 msgstr "Centrera över markering"
+
+#: src/dialogs/cell-format.glade.h:22
+msgid "Co_lor :"
+msgstr "F_ärg:"
 
 #: src/dialogs/cell-format.glade.h:23 src/sheet-object-graphic.c:459
 msgid "Color"
@@ -3520,73 +3519,69 @@ msgid "Color :"
 msgstr "Färg:"
 
 #: src/dialogs/cell-format.glade.h:25
-msgid "Condition :"
-msgstr "Villkor:"
-
-#: src/dialogs/cell-format.glade.h:26
 msgid "Control"
 msgstr "Kontroll"
 
-#: src/dialogs/cell-format.glade.h:27 src/dialogs/dialog-cell-format.c:2106
+#: src/dialogs/cell-format.glade.h:26 src/dialogs/dialog-cell-format.c:2106
 msgid "Criteria"
 msgstr "Kriterium:"
 
-#: src/dialogs/cell-format.glade.h:28
+#: src/dialogs/cell-format.glade.h:27
 msgid "Cust_om"
 msgstr "_Anpassad"
 
-#: src/dialogs/cell-format.glade.h:29 src/dialogs/dialog-stf-export.glade.h:15
+#: src/dialogs/cell-format.glade.h:28 src/dialogs/dialog-stf-export.glade.h:15
 #: src/dialogs/dialog-stf-format-page.c:170
 #: src/dialogs/dialog-stf-format-page.c:376
 msgid "Custom"
 msgstr "Anpassad"
 
-#: src/dialogs/cell-format.glade.h:30
+#: src/dialogs/cell-format.glade.h:29
 msgid "Date"
 msgstr "Datum"
 
-#: src/dialogs/cell-format.glade.h:31
+#: src/dialogs/cell-format.glade.h:30
 msgid "De_lete format"
 msgstr "_Ta bort formatering"
 
-#: src/dialogs/cell-format.glade.h:32
+#: src/dialogs/cell-format.glade.h:31
 msgid "Deci_mal places:"
 msgstr "Deci_maler:"
 
-#: src/dialogs/cell-format.glade.h:33
+#: src/dialogs/cell-format.glade.h:32
 msgid "Diagonal"
 msgstr "Diagonal"
 
-#: src/dialogs/cell-format.glade.h:34
+#: src/dialogs/cell-format.glade.h:33
 msgid "Diagonal Crosshatch"
 msgstr "Diagonala rutor"
 
-#: src/dialogs/cell-format.glade.h:35
+#: src/dialogs/cell-format.glade.h:34
 msgid "Diagonal Stripe"
 msgstr "Diagonala ränder"
 
-#: src/dialogs/cell-format.glade.h:36
+#: src/dialogs/cell-format.glade.h:35
 msgid "Display the value exactly as it was entered"
 msgstr "Visa värdet exakt som det matades in"
 
-#: src/dialogs/cell-format.glade.h:37 src/dialogs/dialog-cell-format.c:1303
+#: src/dialogs/cell-format.glade.h:36 src/dialogs/dialog-cell-format.c:1303
 #: src/dialogs/dialog-cell-format.c:1363
 msgid "Double"
 msgstr "Dubbel"
 
-#: src/dialogs/cell-format.glade.h:38
+#: src/dialogs/cell-format.glade.h:37
 msgid "Effects"
 msgstr "Effekter"
 
-#: src/dialogs/cell-format.glade.h:39
+#: src/dialogs/cell-format.glade.h:38
 msgid "Error Alert"
 msgstr "Felvarning"
 
-#: src/dialogs/cell-format.glade.h:41
+#: src/dialogs/cell-format.glade.h:40
 msgid "Foreground Solid"
 msgstr "Förgrund massiv"
 
-#: src/dialogs/cell-format.glade.h:42
+#: src/dialogs/cell-format.glade.h:41
 msgid ""
 "General format cells attempt to select an appropriate format depending on "
 "the value of the cell."
@@ -3594,361 +3589,381 @@ msgstr ""
 "Allmänt-formaterade celler försöker välja ett lämpligt format beroende på "
 "värdet i cellen."
 
-#: src/dialogs/cell-format.glade.h:43
+#: src/dialogs/cell-format.glade.h:42
 msgid "Horizontal"
 msgstr "Vågrätt"
 
-#: src/dialogs/cell-format.glade.h:44
+#: src/dialogs/cell-format.glade.h:43
 msgid "Horizontal Stripe"
 msgstr "Vågräta ränder"
 
-#: src/dialogs/cell-format.glade.h:45
-msgid "Ignore blank cells"
-msgstr "Ignorera tomma celler"
-
-#: src/dialogs/cell-format.glade.h:46
+#: src/dialogs/cell-format.glade.h:44
 msgid "In a list"
 msgstr "I en lista"
 
-#: src/dialogs/cell-format.glade.h:47
-msgid "In-cell dropdown"
-msgstr "Rullgardinsmeny i cell"
+#: src/dialogs/cell-format.glade.h:45
+msgid "In-_cell dropdown"
+msgstr "Rullgardinsmeny i _cell"
 
-#: src/dialogs/cell-format.glade.h:48
+#: src/dialogs/cell-format.glade.h:46
 msgid "Information  (allows invalid input)"
 msgstr "Information  (tillåter ogiltig indata)"
 
-#: src/dialogs/cell-format.glade.h:49
+#: src/dialogs/cell-format.glade.h:47
 msgid "Input Message"
 msgstr "Indatameddelande"
 
-#: src/dialogs/cell-format.glade.h:50
+#: src/dialogs/cell-format.glade.h:48
 msgid "Inside"
 msgstr "Inuti"
 
-#: src/dialogs/cell-format.glade.h:51
+#: src/dialogs/cell-format.glade.h:49
 msgid "Inside Horizontal"
 msgstr "Inuti, vågrätt"
 
-#: src/dialogs/cell-format.glade.h:52
+#: src/dialogs/cell-format.glade.h:50
 msgid "Inside Vertical"
 msgstr "Inuti, lodrätt"
 
-#: src/dialogs/cell-format.glade.h:53
+#: src/dialogs/cell-format.glade.h:51
 msgid "J_ustify"
 msgstr "J_ustera"
 
-#: src/dialogs/cell-format.glade.h:54
+#: src/dialogs/cell-format.glade.h:52
 msgid "Large Circles"
 msgstr "Stora cirklar"
 
-#: src/dialogs/cell-format.glade.h:57
+#: src/dialogs/cell-format.glade.h:55
 msgid "Locking cells or hiding formulas only affects protected worksheets."
 msgstr "Att låsa celler eller gömma formler påverkar endast skyddade blad."
 
-#: src/dialogs/cell-format.glade.h:58
+#: src/dialogs/cell-format.glade.h:56
 msgid "Message :"
 msgstr "Meddelande:"
 
-#: src/dialogs/cell-format.glade.h:59
+#: src/dialogs/cell-format.glade.h:57
 msgid "Negative number:"
 msgstr "Negativt tal:"
 
-#: src/dialogs/cell-format.glade.h:60 src/dialogs/dialog-cell-format.c:1305
+#: src/dialogs/cell-format.glade.h:58 src/dialogs/dialog-cell-format.c:1305
 #: src/dialogs/dialog-cell-format.c:1361 src/dialogs/dialog-paste-special.c:34
 msgid "None"
 msgstr "Ingen"
 
-#: src/dialogs/cell-format.glade.h:61
+#: src/dialogs/cell-format.glade.h:59
 msgid "None          (silently accept invalid input)"
 msgstr "Ingen         (acceptera ogiltig indata under tystnad)"
 
-#: src/dialogs/cell-format.glade.h:62 src/dialogs/dialog-formula-guru.c:432
+#: src/dialogs/cell-format.glade.h:60 src/dialogs/dialog-formula-guru.c:432
 #: src/dialogs/dialog-search.c:126
 msgid "Number"
 msgstr "Tal"
 
-#: src/dialogs/cell-format.glade.h:63
+#: src/dialogs/cell-format.glade.h:61
 msgid "Numbers"
 msgstr "Tal"
 
-#: src/dialogs/cell-format.glade.h:64 src/dialogs/print.glade.h:13
+#: src/dialogs/cell-format.glade.h:62 src/dialogs/print.glade.h:11
 msgid "Orientation"
 msgstr "Orientering"
 
-#: src/dialogs/cell-format.glade.h:65
+#: src/dialogs/cell-format.glade.h:63
 msgid "Outline"
 msgstr "Ram"
 
-#: src/dialogs/cell-format.glade.h:66 src/dialogs/dialog-cell-format.c:2582
+#: src/dialogs/cell-format.glade.h:64 src/dialogs/dialog-cell-format.c:2582
 msgid "Pattern"
 msgstr "Mönster"
 
-#: src/dialogs/cell-format.glade.h:67
+#: src/dialogs/cell-format.glade.h:65
 msgid "Protection"
 msgstr "Skydd"
 
-#: src/dialogs/cell-format.glade.h:68
+#: src/dialogs/cell-format.glade.h:66
 msgid "Reverse Diagonal"
 msgstr "Omvänd diagonal"
 
-#: src/dialogs/cell-format.glade.h:69
+#: src/dialogs/cell-format.glade.h:67
 msgid "Reverse Diagonal Stripe"
 msgstr "Omvända diagonala ränder"
 
-#: src/dialogs/cell-format.glade.h:71
+#: src/dialogs/cell-format.glade.h:69
 msgid "S_ymbol:"
 msgstr "S_ymbol:"
 
-#: src/dialogs/cell-format.glade.h:73
+#: src/dialogs/cell-format.glade.h:71
 msgid "Semi Circles"
 msgstr "Halvcirklar"
 
-#: src/dialogs/cell-format.glade.h:74
-msgid "Show input message when cell is selected"
-msgstr "Visa indatameddelande när cell har markerats"
-
-#: src/dialogs/cell-format.glade.h:75
+#: src/dialogs/cell-format.glade.h:72
 msgid "Shrin_k to fit"
 msgstr "_Krymp tills det passar"
 
 #. There must be a better way than this
-#: src/dialogs/cell-format.glade.h:76 src/dialogs/dialog-cell-format.c:1301
+#: src/dialogs/cell-format.glade.h:73 src/dialogs/dialog-cell-format.c:1301
 #: src/dialogs/dialog-cell-format.c:1362
 msgid "Single"
 msgstr "Enkel"
 
-#: src/dialogs/cell-format.glade.h:77
+#: src/dialogs/cell-format.glade.h:74
 msgid "Small Circles"
 msgstr "Små cirklar"
 
-#: src/dialogs/cell-format.glade.h:78
+#: src/dialogs/cell-format.glade.h:75
 msgid "Solid"
 msgstr "Helfylld"
 
-#: src/dialogs/cell-format.glade.h:79
+#: src/dialogs/cell-format.glade.h:76
 msgid "Sp_ecial"
 msgstr "Sp_ecial"
 
-#: src/dialogs/cell-format.glade.h:80
+#: src/dialogs/cell-format.glade.h:77
 msgid "Stop           (never allow invalid input)"
 msgstr "Stopp          (tillåt aldrig ogiltig indata)"
 
-#: src/dialogs/cell-format.glade.h:81
+#: src/dialogs/cell-format.glade.h:78
 msgid "Stri_kethrough"
 msgstr "Genomstry_kning"
 
-#: src/dialogs/cell-format.glade.h:82
+#: src/dialogs/cell-format.glade.h:79
 msgid "Su_bscript"
 msgstr "U_pphöjd"
 
-#: src/dialogs/cell-format.glade.h:83
+#: src/dialogs/cell-format.glade.h:80
 msgid "Sup_erscript"
 msgstr "N_edsänkt"
 
-#: src/dialogs/cell-format.glade.h:84
+#: src/dialogs/cell-format.glade.h:81
+msgid "TTitle :"
+msgstr "TTitel:"
+
+#: src/dialogs/cell-format.glade.h:82
 msgid "Te_xt"
 msgstr "Te_xt"
 
-#: src/dialogs/cell-format.glade.h:85
+#: src/dialogs/cell-format.glade.h:83
 msgid "Text length"
 msgstr "Textlängd"
 
-#: src/dialogs/cell-format.glade.h:86
+#: src/dialogs/cell-format.glade.h:84
 msgid "Thatch"
 msgstr "Halmtak"
 
-#: src/dialogs/cell-format.glade.h:87
+#: src/dialogs/cell-format.glade.h:85
 msgid "Thick Diagonal Crosshatch"
 msgstr "Tjocka diagonala rutor"
 
-#: src/dialogs/cell-format.glade.h:88
+#: src/dialogs/cell-format.glade.h:86
 msgid "Thin Diagonal Crosshatch"
 msgstr "Tunna diagonala rutor"
 
-#: src/dialogs/cell-format.glade.h:89
+#: src/dialogs/cell-format.glade.h:87
 msgid "Thin Diagonal Stripe"
 msgstr "Tunna diagonala ränder"
 
-#: src/dialogs/cell-format.glade.h:90
+#: src/dialogs/cell-format.glade.h:88
 msgid "Thin Horizontal Crosshatch"
 msgstr "Tunna diagonala rutor"
 
-#: src/dialogs/cell-format.glade.h:91
+#: src/dialogs/cell-format.glade.h:89
 msgid "Thin Horizontal Stripe"
 msgstr "Tunna vågräta ränder"
 
-#: src/dialogs/cell-format.glade.h:92
+#: src/dialogs/cell-format.glade.h:90
 msgid "Thin Reverse Diagonal Stripe"
 msgstr "Tunna omvända diagonala ränder"
 
-#: src/dialogs/cell-format.glade.h:93
+#: src/dialogs/cell-format.glade.h:91
 msgid "Thin Vertical Stripe"
 msgstr "Tunna lodräta ränder"
 
-#: src/dialogs/cell-format.glade.h:94
+#: src/dialogs/cell-format.glade.h:92
 msgid "Time"
 msgstr "Tid"
 
-#: src/dialogs/cell-format.glade.h:95
+#: src/dialogs/cell-format.glade.h:93
 msgid "Title :"
 msgstr "Titel:"
 
-#: src/dialogs/cell-format.glade.h:96
+#: src/dialogs/cell-format.glade.h:94
 msgid "Top"
 msgstr "Överkant"
 
-#: src/dialogs/cell-format.glade.h:97
+#: src/dialogs/cell-format.glade.h:95
 msgid "Unfinished"
 msgstr "Inte klar"
 
-#: src/dialogs/cell-format.glade.h:98
+#: src/dialogs/cell-format.glade.h:96
 msgid "Validation"
 msgstr "Validering"
 
-#: src/dialogs/cell-format.glade.h:99
+#: src/dialogs/cell-format.glade.h:97
 msgid "Vertical Alignment"
 msgstr "Lodrät justering"
 
-#: src/dialogs/cell-format.glade.h:100
+#: src/dialogs/cell-format.glade.h:98
 msgid "Vertical Stripe"
 msgstr "Lodräta ränder"
 
-#: src/dialogs/cell-format.glade.h:101
+#: src/dialogs/cell-format.glade.h:99
 msgid "Warning      (accept/discard invalid input)"
 msgstr "Varning      (acceptera/förkasta ogiltig indata)"
 
-#: src/dialogs/cell-format.glade.h:102
+#: src/dialogs/cell-format.glade.h:100
 msgid "Whole numbers"
 msgstr "Hela tal"
 
-#: src/dialogs/cell-format.glade.h:103
+#: src/dialogs/cell-format.glade.h:101
 msgid "Worksheet _protected"
 msgstr "Blad _skyddat"
 
-#: src/dialogs/cell-format.glade.h:104
+#: src/dialogs/cell-format.glade.h:102
 msgid "_Accounting"
 msgstr "_Redovisning"
 
-#: src/dialogs/cell-format.glade.h:105
+#: src/dialogs/cell-format.glade.h:103
+msgid "_Allow :"
+msgstr "_Tillåt:"
+
+#: src/dialogs/cell-format.glade.h:104
 msgid "_Bottom"
 msgstr "_Underkant"
 
-#: src/dialogs/cell-format.glade.h:106
+#: src/dialogs/cell-format.glade.h:105
 msgid "_Center"
 msgstr "_Centrera"
 
+#: src/dialogs/cell-format.glade.h:106
+msgid "_Color :"
+msgstr "_Färg:"
+
 #: src/dialogs/cell-format.glade.h:107
+msgid "_Condition :"
+msgstr "_Villkor:"
+
+#: src/dialogs/cell-format.glade.h:108
 msgid "_Currency"
 msgstr "_Valuta"
 
-#: src/dialogs/cell-format.glade.h:108
+#: src/dialogs/cell-format.glade.h:109
 msgid "_Date"
 msgstr "_Datum"
 
-#: src/dialogs/cell-format.glade.h:110
+#: src/dialogs/cell-format.glade.h:111
 msgid "_Fraction"
 msgstr "_Bråk"
 
-#: src/dialogs/cell-format.glade.h:112
+#: src/dialogs/cell-format.glade.h:113
 msgid "_Hidden"
 msgstr "_Gömd"
 
-#: src/dialogs/cell-format.glade.h:113
+#: src/dialogs/cell-format.glade.h:114
+msgid "_Ignore blank cells"
+msgstr "_Ignorera tomma celler"
+
+#: src/dialogs/cell-format.glade.h:115
 msgid "_Indent"
 msgstr "_Indrag"
 
-#: src/dialogs/cell-format.glade.h:114
+#: src/dialogs/cell-format.glade.h:116
 msgid "_Justify"
 msgstr "_Justera"
 
-#: src/dialogs/cell-format.glade.h:115
+#: src/dialogs/cell-format.glade.h:117
 msgid "_Left"
 msgstr "_Vänster"
 
-#: src/dialogs/cell-format.glade.h:116
+#: src/dialogs/cell-format.glade.h:118
 msgid "_Locked"
 msgstr "_Låst"
 
-#: src/dialogs/cell-format.glade.h:117
+#: src/dialogs/cell-format.glade.h:119
+msgid "_Message :"
+msgstr "_Meddelande:"
+
+#: src/dialogs/cell-format.glade.h:120
 msgid "_Number"
 msgstr "Ta_l"
 
-#: src/dialogs/cell-format.glade.h:118
+#: src/dialogs/cell-format.glade.h:121
 msgid "_Percentage"
 msgstr "_Procent"
 
-#: src/dialogs/cell-format.glade.h:119
+#: src/dialogs/cell-format.glade.h:122
 msgid "_Right"
 msgstr "_Höger"
 
-#: src/dialogs/cell-format.glade.h:120
+#: src/dialogs/cell-format.glade.h:123
 msgid "_Scientific"
 msgstr "_Matematik"
 
-#: src/dialogs/cell-format.glade.h:121
+#: src/dialogs/cell-format.glade.h:124
+msgid "_Show input message when cell is selected"
+msgstr "_Visa indatameddelande när cell har markerats"
+
+#: src/dialogs/cell-format.glade.h:125
 msgid "_Style"
 msgstr "_Stil"
 
-#: src/dialogs/cell-format.glade.h:122
+#: src/dialogs/cell-format.glade.h:126
 msgid "_Time"
 msgstr "_Tid"
 
-#: src/dialogs/cell-format.glade.h:123
+#: src/dialogs/cell-format.glade.h:127
 msgid "_Top"
 msgstr "_Överkant"
 
-#: src/dialogs/cell-format.glade.h:124
+#: src/dialogs/cell-format.glade.h:128
 msgid "_Type"
 msgstr "_Typ"
 
-#: src/dialogs/cell-format.glade.h:125
+#: src/dialogs/cell-format.glade.h:129
 msgid "_Underline:"
 msgstr "_Understrykning:"
 
-#: src/dialogs/cell-format.glade.h:126
+#: src/dialogs/cell-format.glade.h:130
 msgid "_Use Separator for 1000's"
 msgstr "_Använd tusentalsseparator"
 
-#: src/dialogs/cell-format.glade.h:127
+#: src/dialogs/cell-format.glade.h:131
 msgid "_Wrap text"
 msgstr "_Radbryt text"
 
-#: src/dialogs/cell-format.glade.h:128
+#: src/dialogs/cell-format.glade.h:132
 msgid "min <= val <= max         (between)"
 msgstr "min <= värde <= max       (mellan)"
 
-#: src/dialogs/cell-format.glade.h:129
+#: src/dialogs/cell-format.glade.h:133
 msgid "val != bound                  (not equal to)"
 msgstr "värde != gräns                (inte lika med)"
 
-#: src/dialogs/cell-format.glade.h:130
+#: src/dialogs/cell-format.glade.h:134
 msgid "val <  bound                  (less than)"
 msgstr "värde >  gräns                (mindre än)"
 
-#: src/dialogs/cell-format.glade.h:131
+#: src/dialogs/cell-format.glade.h:135
 msgid "val <= min || max <= val (not between)"
 msgstr "värde <= min || max <= värde (inte mellan)"
 
-#: src/dialogs/cell-format.glade.h:132
+#: src/dialogs/cell-format.glade.h:136
 msgid "val <=bound                  (less than or equal to)"
 msgstr "värde <=gräns                (mindre än eller lika med)"
 
-#: src/dialogs/cell-format.glade.h:133
+#: src/dialogs/cell-format.glade.h:137
 msgid "val == bound                 (equal to)"
 msgstr "värde == gräns               (lika med)"
 
-#: src/dialogs/cell-format.glade.h:134
+#: src/dialogs/cell-format.glade.h:138
 msgid "val >  bound                  (greater than)"
 msgstr "värde >  gräns                (större än)"
 
-#: src/dialogs/cell-format.glade.h:135
+#: src/dialogs/cell-format.glade.h:139
 msgid "val >=bound                  (greater than or equal to)"
 msgstr "värde >=gräns                (större än eller lika med)"
 
 #: src/dialogs/cell-sort.glade.h:1
-msgid "A header"
-msgstr "Ett sidhuvud"
+msgid "A _header"
+msgstr "Ett sid_huvud"
 
 #: src/dialogs/cell-sort.glade.h:2 src/dialogs/graph-guru.glade.h:1
 msgid "Add"
@@ -3959,45 +3974,49 @@ msgid "Advanced Sort Options"
 msgstr "Avancerade sorteringsinställningar"
 
 #: src/dialogs/cell-sort.glade.h:4
-msgid "Case sensitive"
-msgstr "Gör skillnad på gemener/VERSALER"
-
-#: src/dialogs/cell-sort.glade.h:5
 msgid "Entries are"
 msgstr "Poster är"
 
-#: src/dialogs/cell-sort.glade.h:6 src/dialogs/graph-guru.glade.h:3
+#: src/dialogs/cell-sort.glade.h:5 src/dialogs/graph-guru.glade.h:3
 msgid "Remove"
 msgstr "Ta bort"
 
-#: src/dialogs/cell-sort.glade.h:7
-msgid "Right-Left"
-msgstr "Höger-vänster"
-
-#: src/dialogs/cell-sort.glade.h:8
+#: src/dialogs/cell-sort.glade.h:6
 msgid "Selection has"
 msgstr "markeringen har"
 
-#: src/dialogs/cell-sort.glade.h:9 src/dialogs/dialog-cell-sort.c:503
+#: src/dialogs/cell-sort.glade.h:7 src/dialogs/dialog-cell-sort.c:503
 #: src/workbook-control-gui.c:2362
 msgid "Sort"
 msgstr "Sortera"
 
-#: src/dialogs/cell-sort.glade.h:10 src/dialogs/dialog-cell-sort.c:574
+#: src/dialogs/cell-sort.glade.h:8 src/dialogs/dialog-cell-sort.c:574
 msgid "Sort by"
 msgstr "Sortera efter"
 
-#: src/dialogs/cell-sort.glade.h:11
+#: src/dialogs/cell-sort.glade.h:9
 msgid "Sort..."
 msgstr "Sortera..."
 
+#: src/dialogs/cell-sort.glade.h:10
+msgid "_Case sensitive"
+msgstr "_Gör skillnad på gemener/VERSALER"
+
+#: src/dialogs/cell-sort.glade.h:11
+msgid "_Right-Left"
+msgstr "_Höger-vänster"
+
 #: src/dialogs/cell-sort.glade.h:12
-msgid "Text"
-msgstr "Text"
+msgid "_Text"
+msgstr "_Text"
 
 #: src/dialogs/cell-sort.glade.h:13
-msgid "Top-Bottom"
-msgstr "Uppifrån-ner"
+msgid "_Top-Bottom"
+msgstr "_Uppifrån-ner"
+
+#: src/dialogs/cell-sort.glade.h:14
+msgid "_Value"
+msgstr "_Värde"
 
 #: src/dialogs/col-width.glade.h:1
 msgid "Column width"
@@ -4135,8 +4154,7 @@ msgstr "Korrelation"
 msgid "Covariance"
 msgstr "Kovarians"
 
-#: src/dialogs/delete-cells.glade.h:1 src/dialogs/sheet-order.glade.h:2
-#: src/sheet-object.c:92
+#: src/dialogs/delete-cells.glade.h:1 src/sheet-object.c:92
 msgid "Delete"
 msgstr "Ta bort"
 
@@ -4458,7 +4476,6 @@ msgid "_Value And Probability Input Range:"
 msgstr "Indataområde för _värde och sannolikhet:"
 
 #: src/dialogs/dialog-analysis-tools.c:2574
-#: src/dialogs/search-replace.glade.h:24
 #: src/widgets/widget-font-selector.c:113
 msgid "Normal"
 msgstr "Normal"
@@ -4576,11 +4593,11 @@ msgid ""
 "There must be an equal number of entries for each variable in the regression."
 msgstr "Det måste finnas samma antal poster för varje variabel i regressionen."
 
-#: src/dialogs/dialog-analysis-tools.c:3246
+#: src/dialogs/dialog-analysis-tools.c:3246 src/dialogs/regression.glade.h:16
 msgid "_X Variables:"
 msgstr "_X-variabler:"
 
-#: src/dialogs/dialog-analysis-tools.c:3270
+#: src/dialogs/dialog-analysis-tools.c:3270 src/dialogs/regression.glade.h:17
 msgid "_Y Variable:"
 msgstr "_Y-variabel:"
 
@@ -4670,7 +4687,7 @@ msgstr "Slumptalsgenerering"
 msgid "Rank and Percentile"
 msgstr "Rang och percentil"
 
-#: src/dialogs/dialog-analysis-tools.c:4575 src/dialogs/sampling.glade.h:10
+#: src/dialogs/dialog-analysis-tools.c:4575 src/dialogs/sampling.glade.h:9
 msgid "Sampling"
 msgstr "Sampling"
 
@@ -4958,7 +4975,7 @@ msgstr "Sträng"
 msgid "Boolean"
 msgstr "Boolesk variabel"
 
-#: src/dialogs/dialog-formula-guru.c:434 src/dialogs/search-replace.glade.h:36
+#: src/dialogs/dialog-formula-guru.c:434
 msgid "Range"
 msgstr "Område"
 
@@ -5022,31 +5039,31 @@ msgstr "Cell"
 msgid "Go to..."
 msgstr "Gå till..."
 
-#: src/dialogs/dialog-graph-guru.c:749
+#: src/dialogs/dialog-graph-guru.c:772
 msgid "Step 1 of 3: Select graph type"
 msgstr "Steg 1 av 3: Välj typ av graf"
 
-#: src/dialogs/dialog-graph-guru.c:755
+#: src/dialogs/dialog-graph-guru.c:778
 msgid "Step 2 of 3: Select data ranges"
 msgstr "Steg 2 av 3: Välj dataintervall"
 
-#: src/dialogs/dialog-graph-guru.c:757
+#: src/dialogs/dialog-graph-guru.c:780
 msgid "Graph Data"
 msgstr "Grafdata"
 
-#: src/dialogs/dialog-graph-guru.c:762
+#: src/dialogs/dialog-graph-guru.c:785
 msgid "Step 3 of 3: Customize graph"
 msgstr "Steg 3 av 3: Anpassa graf"
 
-#: src/dialogs/dialog-graph-guru.c:764
+#: src/dialogs/dialog-graph-guru.c:787
 msgid "Format Graph"
 msgstr "Formatera graf"
 
-#: src/dialogs/dialog-graph-guru.c:939
+#: src/dialogs/dialog-graph-guru.c:1009
 msgid "Plot name"
 msgstr "Kurvnamn"
 
-#: src/dialogs/dialog-graph-guru.c:942
+#: src/dialogs/dialog-graph-guru.c:1012
 msgid "Series name"
 msgstr "Serienamn"
 
@@ -5875,48 +5892,48 @@ msgid "place holder no need to translate"
 msgstr "place holder no need to translate"
 
 #: src/dialogs/goalseek.glade.h:1
-msgid "(Maximum):"
-msgstr "(Maximum):"
+msgid "(Ma_ximum):"
+msgstr "(Ma_ximum):"
 
 #: src/dialogs/goalseek.glade.h:2
-msgid "(Minimum):"
-msgstr "(Minimum):"
+msgid "(_Minimum):"
+msgstr "(_Minimum):"
 
 #: src/dialogs/goalseek.glade.h:3
-msgid "By Changing Cell:"
-msgstr "Genom att ändra cell:"
-
-#: src/dialogs/goalseek.glade.h:4
 msgid "Current Value:"
 msgstr "Aktuellt värde:"
 
-#: src/dialogs/goalseek.glade.h:5
+#: src/dialogs/goalseek.glade.h:4
 msgid "Goal:"
 msgstr "Mål:"
 
-#: src/dialogs/goalseek.glade.h:6
+#: src/dialogs/goalseek.glade.h:5
 msgid "GoalSeek"
 msgstr "Målsök"
 
-#: src/dialogs/goalseek.glade.h:7
+#: src/dialogs/goalseek.glade.h:6
 msgid "Last Result:"
 msgstr "Senaste resultat:"
 
-#: src/dialogs/goalseek.glade.h:8
+#: src/dialogs/goalseek.glade.h:7
 msgid "Remaining Error:"
 msgstr "Återstående fel:"
 
-#: src/dialogs/goalseek.glade.h:9
-msgid "Set Cell:"
-msgstr "Ställ in cell:"
-
-#: src/dialogs/goalseek.glade.h:10
+#: src/dialogs/goalseek.glade.h:8
 msgid "Solution:"
 msgstr "Lösning:"
 
+#: src/dialogs/goalseek.glade.h:9
+msgid "_By Changing Cell:"
+msgstr "_Genom att ändra cell:"
+
+#: src/dialogs/goalseek.glade.h:10
+msgid "_Set Cell:"
+msgstr "_Ställ in cell:"
+
 #: src/dialogs/goalseek.glade.h:11
-msgid "To Value:"
-msgstr "Till värde:"
+msgid "_To Value:"
+msgstr "_Till värde:"
 
 #: src/dialogs/graph-guru.glade.h:4
 msgid "_Finish"
@@ -5939,16 +5956,16 @@ msgid "Header/Footer Config"
 msgstr "Konfiguration av sidhuvud/sidfot"
 
 #: src/dialogs/hf-config.glade.h:3
-msgid "Left section:"
-msgstr "Vänstersektion:"
+msgid "_Left section:"
+msgstr "_Vänstersektion:"
 
 #: src/dialogs/hf-config.glade.h:4
-msgid "Middle section:"
-msgstr "Mittsektion:"
+msgid "_Middle section:"
+msgstr "_Mittsektion:"
 
 #: src/dialogs/hf-config.glade.h:5
-msgid "Right section:"
-msgstr "Högersektion:"
+msgid "_Right section:"
+msgstr "_Högersektion:"
 
 #: src/dialogs/histogram.glade.h:2
 msgid "Bin _Labels"
@@ -6074,7 +6091,7 @@ msgstr "Opa_rad"
 msgid "Variable 1 Pop. Variance:"
 msgstr "Populationsvarians för variabel 1:"
 
-#: src/dialogs/mean-tests.glade.h:16 src/dialogs/variance-tests.glade.h:8
+#: src/dialogs/mean-tests.glade.h:16
 msgid "Variable 1 Range:"
 msgstr "Område för variabel 1:"
 
@@ -6082,7 +6099,7 @@ msgstr "Område för variabel 1:"
 msgid "Variable 2 Pop. Variance:"
 msgstr "Populationsvarians för variabel 2:"
 
-#: src/dialogs/mean-tests.glade.h:18 src/dialogs/variance-tests.glade.h:9
+#: src/dialogs/mean-tests.glade.h:18
 msgid "Variable 2 Range:"
 msgstr "Område för variabel 2:"
 
@@ -6123,80 +6140,81 @@ msgid "Define names"
 msgstr "Definiera namn"
 
 #: src/dialogs/names.glade.h:2
-msgid "Expression : "
-msgstr "Uttryck: "
-
-#: src/dialogs/names.glade.h:3
-msgid "Name : "
-msgstr "Namn: "
-
-#: src/dialogs/names.glade.h:4
-msgid "Scope :"
-msgstr "Omfattning:"
-
-#: src/dialogs/names.glade.h:5
 msgid "Workbook"
 msgstr "Arbetsbok"
 
-#: src/dialogs/names.glade.h:7 src/dialogs/solver.glade.h:19
+#: src/dialogs/names.glade.h:4 src/dialogs/sheet-order.glade.h:6
+#: src/dialogs/solver.glade.h:19
 msgid "_Delete"
 msgstr "_Ta bort"
+
+#: src/dialogs/names.glade.h:5
+msgid "_Expression : "
+msgstr "_Uttryck: "
+
+#: src/dialogs/names.glade.h:6
+msgid "_Name : "
+msgstr "_Namn: "
+
+#: src/dialogs/names.glade.h:7
+msgid "_Scope :"
+msgstr "_Omfattning:"
 
 #: src/dialogs/names.glade.h:8
 msgid "_Update"
 msgstr "_Uppdatera"
 
 #: src/dialogs/plugin-manager.glade.h:1
-msgid "Activate all plugins"
-msgstr "Aktivera alla insticksmoduler"
+msgid "A_ctivate plugin"
+msgstr "A_ktivera insticksmodul"
 
 #: src/dialogs/plugin-manager.glade.h:2
-msgid "Activate new plugins by default"
-msgstr "Aktivera nya insticksmoduler som standard"
+msgid "Activate _new plugins by default"
+msgstr "Aktivera _nya insticksmoduler som standard"
 
 #: src/dialogs/plugin-manager.glade.h:3
-msgid "Activate plugin"
-msgstr "Aktivera insticksmodul"
-
-#: src/dialogs/plugin-manager.glade.h:4
 msgid "Active plugins"
 msgstr "Aktiva insticksmoduler"
 
-#: src/dialogs/plugin-manager.glade.h:5
+#: src/dialogs/plugin-manager.glade.h:4
 msgid "Available inactive plugins"
 msgstr "Tillgängliga inaktiva insticksmoduler"
 
+#: src/dialogs/plugin-manager.glade.h:5
+msgid "Deac_tivate plugin"
+msgstr "Deak_tivera insticksmodul"
+
 #: src/dialogs/plugin-manager.glade.h:6
-msgid "Deactivate all plugins"
-msgstr "Deaktivera alla insticksmoduler"
-
-#: src/dialogs/plugin-manager.glade.h:7
-msgid "Deactivate plugin"
-msgstr "Deaktivera insticksmodul"
-
-#: src/dialogs/plugin-manager.glade.h:8
 msgid "Description"
 msgstr "Beskrivning"
 
-#: src/dialogs/plugin-manager.glade.h:9
+#: src/dialogs/plugin-manager.glade.h:7
 msgid "Directory"
 msgstr "Katalog"
 
-#: src/dialogs/plugin-manager.glade.h:10
+#: src/dialogs/plugin-manager.glade.h:8
 msgid "Extra information"
 msgstr "Extrainformation"
 
-#: src/dialogs/plugin-manager.glade.h:11
+#: src/dialogs/plugin-manager.glade.h:9
 msgid "Id"
 msgstr "Id"
 
-#: src/dialogs/plugin-manager.glade.h:12
-msgid "Install new plugin"
-msgstr "Installera ny insticksmodul"
-
-#: src/dialogs/plugin-manager.glade.h:14
+#: src/dialogs/plugin-manager.glade.h:11
 msgid "Plugin Manager"
 msgstr "Insticksmodulhanterare"
+
+#: src/dialogs/plugin-manager.glade.h:13
+msgid "_Activate all plugins"
+msgstr "_Aktivera alla insticksmoduler"
+
+#: src/dialogs/plugin-manager.glade.h:14
+msgid "_Deactivate all plugins"
+msgstr "_Deaktivera alla insticksmoduler"
+
+#: src/dialogs/plugin-manager.glade.h:15
+msgid "_Install new plugin"
+msgstr "_Installera ny insticksmodul"
 
 #: src/dialogs/print.glade.h:2
 #, no-c-format
@@ -6212,164 +6230,160 @@ msgid "Fi_rst page number:"
 msgstr "_Börja sidnumrera från:"
 
 #: src/dialogs/print.glade.h:6
-msgid "Footer:"
-msgstr "Sidfot:"
-
-#: src/dialogs/print.glade.h:7
 msgid "He_ader:"
 msgstr "Sid_huvud:"
 
-#: src/dialogs/print.glade.h:8
-msgid "Header:"
-msgstr "Huvud:"
-
-#: src/dialogs/print.glade.h:9
+#: src/dialogs/print.glade.h:7
 msgid "Headers and footers"
 msgstr "Sidhuvud/sidfot"
 
-#: src/dialogs/print.glade.h:10 src/print-info.c:428
+#: src/dialogs/print.glade.h:8 src/print-info.c:428
 msgid "In"
 msgstr "Tum"
 
-#: src/dialogs/print.glade.h:11
+#: src/dialogs/print.glade.h:9
 msgid "Margins"
 msgstr "Marginaler"
 
-#: src/dialogs/print.glade.h:12
+#: src/dialogs/print.glade.h:10
 msgid "Options"
 msgstr "Alternativ"
 
-#: src/dialogs/print.glade.h:14
+#: src/dialogs/print.glade.h:12
 msgid "Page"
 msgstr "Sida"
 
-#: src/dialogs/print.glade.h:15
+#: src/dialogs/print.glade.h:13
 msgid "Page order"
 msgstr "Utskriftsordning"
 
-#: src/dialogs/print.glade.h:16
+#: src/dialogs/print.glade.h:14
 msgid "Paper _size:"
 msgstr "Pappers_storlek:"
 
-#: src/dialogs/print.glade.h:17
+#: src/dialogs/print.glade.h:15
 msgid "Por_trait"
 msgstr "S_tående"
 
-#: src/dialogs/print.glade.h:19
+#: src/dialogs/print.glade.h:17
 msgid "Print _area:"
 msgstr "Utskrifts_område:"
 
-#: src/dialogs/print.glade.h:21
+#: src/dialogs/print.glade.h:19
 msgid "Print setup"
 msgstr "Utskriftsformat"
 
-#: src/dialogs/print.glade.h:22
+#: src/dialogs/print.glade.h:20
 msgid "R_ight, then down"
 msgstr "_Höger, sedan nedåt"
 
-#: src/dialogs/print.glade.h:23
+#: src/dialogs/print.glade.h:21
 msgid "Row and co_lumn headings"
 msgstr "Rad- och kolumnrubriker"
 
-#: src/dialogs/print.glade.h:24
+#: src/dialogs/print.glade.h:22
 msgid "Scale"
 msgstr "Skala"
 
-#: src/dialogs/print.glade.h:25 src/functions/fn-sheet.c:141
+#: src/dialogs/print.glade.h:23 src/functions/fn-sheet.c:141
 #: src/workbook.c:1065 src/xml-io.c:3082
 msgid "Sheet"
 msgstr "Blad"
 
-#: src/dialogs/print.glade.h:26
+#: src/dialogs/print.glade.h:24
 msgid "Styles with no content"
 msgstr "Stilar utan innehåll"
 
-#: src/dialogs/print.glade.h:27
+#: src/dialogs/print.glade.h:25
 msgid "Titles to print"
 msgstr "Utskriftsrubriker"
 
-#: src/dialogs/print.glade.h:28
+#: src/dialogs/print.glade.h:26
 msgid "_Adjust to:"
 msgstr "_Justera till:"
 
-#: src/dialogs/print.glade.h:29
+#: src/dialogs/print.glade.h:27
 msgid "_Black and white"
 msgstr "S_vartvitt"
 
-#: src/dialogs/print.glade.h:30
+#: src/dialogs/print.glade.h:28
 msgid "_Bottom:"
 msgstr "_Underkant:"
 
-#: src/dialogs/print.glade.h:31
+#: src/dialogs/print.glade.h:29
 msgid "_Columns to repeat on the left side:"
 msgstr "_Rader att upprepa till vänster:"
 
-#: src/dialogs/print.glade.h:32
+#: src/dialogs/print.glade.h:30
 msgid "_Down, then right"
 msgstr "_Nedåt, sedan höger"
 
-#: src/dialogs/print.glade.h:33
+#: src/dialogs/print.glade.h:31
 msgid "_Fit to:"
 msgstr "_Anpassa till:"
 
-#: src/dialogs/print.glade.h:34
+#: src/dialogs/print.glade.h:32
 msgid "_Footer:"
 msgstr "Sid_fot:"
 
-#: src/dialogs/print.glade.h:35
+#: src/dialogs/print.glade.h:33
 msgid "_Grid lines"
 msgstr "R_utnät"
 
-#: src/dialogs/print.glade.h:36
+#: src/dialogs/print.glade.h:34
+msgid "_Header:"
+msgstr "_Huvud:"
+
+#: src/dialogs/print.glade.h:35
 msgid "_Horizontally"
 msgstr "_Vågrätt"
 
-#: src/dialogs/print.glade.h:37
+#: src/dialogs/print.glade.h:36
 msgid "_Landscape"
 msgstr "_Liggande"
 
-#: src/dialogs/print.glade.h:38
+#: src/dialogs/print.glade.h:37
 msgid "_Left:"
 msgstr "_Vänster:"
 
-#: src/dialogs/print.glade.h:39
+#: src/dialogs/print.glade.h:38
 msgid "_Right:"
 msgstr "_Höger:"
 
-#: src/dialogs/print.glade.h:40
+#: src/dialogs/print.glade.h:39
 msgid "_Rows to repeat on the upper region:"
 msgstr "Ra_der att upprepa överst:"
 
-#: src/dialogs/print.glade.h:41
+#: src/dialogs/print.glade.h:40
 msgid "_Top:"
 msgstr "_Överkant:"
 
-#: src/dialogs/print.glade.h:42
+#: src/dialogs/print.glade.h:41
 msgid "_Units:"
 msgstr "_Enheter:"
 
-#: src/dialogs/print.glade.h:43
+#: src/dialogs/print.glade.h:42
 msgid "_Vertically"
 msgstr "_Lodrätt"
 
 #. 1in = 25.4mm, exact
-#: src/dialogs/print.glade.h:44 src/print-info.c:427
+#: src/dialogs/print.glade.h:43 src/print-info.c:427
 msgid "cm"
 msgstr "cm"
 
-#: src/dialogs/print.glade.h:45 src/print-info.c:426
+#: src/dialogs/print.glade.h:44 src/print-info.c:426
 msgid "mm"
 msgstr "mm"
 
-#: src/dialogs/print.glade.h:46
+#: src/dialogs/print.glade.h:45
 msgid "page(s) wide by"
 msgstr "sidor på bredden och"
 
-#: src/dialogs/print.glade.h:47 src/print-info.c:425
+#: src/dialogs/print.glade.h:46 src/print-info.c:425
 msgid "pts"
 msgstr "pkter"
 
-#: src/dialogs/print.glade.h:48
+#: src/dialogs/print.glade.h:47
 msgid "tall"
 msgstr "hög"
 
@@ -6409,17 +6423,9 @@ msgstr "0,95"
 msgid "Confidence Level:"
 msgstr "Konfidensnivå:"
 
-#: src/dialogs/regression.glade.h:4
-msgid "Force Intercept To Be Zero"
-msgstr "Tvinga gräns att vara noll"
-
-#: src/dialogs/regression.glade.h:10
-msgid "X Variables:"
-msgstr "X-variabler:"
-
 #: src/dialogs/regression.glade.h:11
-msgid "Y Variable:"
-msgstr "Y-variabel:"
+msgid "_Force Intercept To Be Zero"
+msgstr "_Tvinga gräns att vara noll"
 
 #: src/dialogs/row-height.glade.h:1
 msgid "Row height"
@@ -6429,25 +6435,25 @@ msgstr "Radhöjd:"
 msgid "_Row height (pts):"
 msgstr "_Radhöjd (punkter):"
 
-#: src/dialogs/sampling.glade.h:5
-msgid "Input Range: "
-msgstr "Indataområde: "
-
-#: src/dialogs/sampling.glade.h:7
+#: src/dialogs/sampling.glade.h:6
 msgid "N_umber of Samples:"
 msgstr "_Antal prov:"
 
-#: src/dialogs/sampling.glade.h:9
-msgid "Period:"
-msgstr "Periodisk:"
+#: src/dialogs/sampling.glade.h:8
+msgid "Per_iod:"
+msgstr "Per_iod:"
 
-#: src/dialogs/sampling.glade.h:11
+#: src/dialogs/sampling.glade.h:10
 msgid "Sampling Method:"
 msgstr "Stickprovsmetod:"
 
-#: src/dialogs/sampling.glade.h:12
+#: src/dialogs/sampling.glade.h:11
 msgid "Size of Sample:"
 msgstr "Storlek på stickprov:"
+
+#: src/dialogs/sampling.glade.h:14
+msgid "_Input Range: "
+msgstr "_Indataområde: "
 
 #: src/dialogs/sampling.glade.h:18
 msgid "_Periodic"
@@ -6458,218 +6464,226 @@ msgid "_Random"
 msgstr "_Slumpmässig"
 
 #: src/dialogs/search-replace.glade.h:1
-msgid "Advanced"
-msgstr "Avancerat"
-
-#: src/dialogs/search-replace.glade.h:2
 msgid "Ask before each change"
 msgstr "Fråga innan varje ändring"
 
-#: src/dialogs/search-replace.glade.h:3
+#: src/dialogs/search-replace.glade.h:2
 msgid "Attempt to preserve case of text when replacing"
 msgstr "Försök att bevara små eller stora bokstäver vid ersättning"
 
-#: src/dialogs/search-replace.glade.h:4
-msgid "By"
-msgstr "Efter"
-
-#: src/dialogs/search-replace.glade.h:5
+#: src/dialogs/search-replace.glade.h:3
 msgid "Change cells containing"
 msgstr "Ändra celler som innehåller"
 
-# Osäker
-#: src/dialogs/search-replace.glade.h:6
-msgid "Column major"
-msgstr "Kolumnöverterm"
-
-#: src/dialogs/search-replace.glade.h:7 src/dialogs/summary.glade.h:3
-msgid "Comments"
-msgstr "Kommentarer"
-
-#: src/dialogs/search-replace.glade.h:8
+#: src/dialogs/search-replace.glade.h:4
 msgid "Create =ERROR(\"...\")"
 msgstr "Skapa =FEL(\"...\")"
 
-#: src/dialogs/search-replace.glade.h:9
-msgid "Current sheet"
-msgstr "Aktuellt blad"
-
-#: src/dialogs/search-replace.glade.h:10 src/dialogs/search.glade.h:3
+#: src/dialogs/search-replace.glade.h:5 src/dialogs/search.glade.h:3
 msgid "Do not consider matches in the middle of words"
 msgstr "Behandla inte träffar i mitten på ord"
 
-#: src/dialogs/search-replace.glade.h:11
+#: src/dialogs/search-replace.glade.h:6
 msgid "Do not perform this replacement"
 msgstr "Utför inte denna ersättning"
 
-#: src/dialogs/search-replace.glade.h:12
-msgid "Don't change"
-msgstr "Ändra inte"
-
-#: src/dialogs/search-replace.glade.h:13
-msgid "Entire workbook"
-msgstr "Hela arbetsboken"
-
-#: src/dialogs/search-replace.glade.h:14
+#: src/dialogs/search-replace.glade.h:7
 msgid "Error behavior"
 msgstr "Felbeteende"
 
-#: src/dialogs/search-replace.glade.h:15
-msgid "Expressions"
-msgstr "Uttryck"
-
-#: src/dialogs/search-replace.glade.h:16
-msgid "Fail"
-msgstr "Misslyckas"
-
-#: src/dialogs/search-replace.glade.h:17
+#: src/dialogs/search-replace.glade.h:8
 msgid "Fail without any changes actually being done to any cell"
 msgstr "Misslyckas utan att ändringar görs i någon cell"
 
-#: src/dialogs/search-replace.glade.h:18
-msgid "Ignore case"
-msgstr "Ignorera skillnader på gemener/VERSALER"
+#: src/dialogs/search-replace.glade.h:9
+msgid "Ma_ke string value"
+msgstr "G_ör strängvärde"
 
-#: src/dialogs/search-replace.glade.h:19
-msgid "Location"
-msgstr "Plats"
+#: src/dialogs/search-replace.glade.h:10
+msgid "Ma_tch whole words only"
+msgstr "Endas_t träff på hela ord"
 
-#: src/dialogs/search-replace.glade.h:20
-msgid "Make error expression"
-msgstr "Gör hjälputtryck"
-
-#: src/dialogs/search-replace.glade.h:21
-msgid "Make string value"
-msgstr "Gör strängvärde"
-
-#: src/dialogs/search-replace.glade.h:22
-msgid "Match whole words only"
-msgstr "Endast träff på hela ord"
-
-#: src/dialogs/search-replace.glade.h:23 src/dialogs/search.glade.h:9
+#: src/dialogs/search-replace.glade.h:11 src/dialogs/search.glade.h:9
 msgid "Miscellanea"
 msgstr "Diverse"
 
-#: src/dialogs/search-replace.glade.h:25
-msgid "Other values"
-msgstr "Övriga värden"
-
-#: src/dialogs/search-replace.glade.h:26
+#: src/dialogs/search-replace.glade.h:12
 msgid "Perform changes within cell comments"
 msgstr "Utför ändringar inom cellkommentarer"
 
-#: src/dialogs/search-replace.glade.h:27
+#: src/dialogs/search-replace.glade.h:13
 msgid "Perform changes within expressions"
 msgstr "Utför ändringar inom uttryck"
 
-#: src/dialogs/search-replace.glade.h:28
+#: src/dialogs/search-replace.glade.h:14
 msgid "Perform changes within non-string values"
 msgstr "Utför ändringar inom värden som inte är strängar"
 
-#: src/dialogs/search-replace.glade.h:29
+#: src/dialogs/search-replace.glade.h:15
 msgid "Perform changes within string values"
 msgstr "Utför ändringar inom strängvärden"
 
-#: src/dialogs/search-replace.glade.h:30
+#: src/dialogs/search-replace.glade.h:16
 msgid "Perform no more replacements"
 msgstr "Utför inga ytterligare ersättningar"
 
-#: src/dialogs/search-replace.glade.h:31
+#: src/dialogs/search-replace.glade.h:17
 msgid "Perform this replacement"
 msgstr "Utför denna ersättning"
 
-#: src/dialogs/search-replace.glade.h:32
-msgid "Plain text"
-msgstr "Vanlig text"
-
-#: src/dialogs/search-replace.glade.h:33
-msgid "Preserve case"
-msgstr "Bevara skillnad på gemener/VERSALER"
-
-#: src/dialogs/search-replace.glade.h:34
-msgid "Query"
-msgstr "Fråga"
-
-#: src/dialogs/search-replace.glade.h:35
+#: src/dialogs/search-replace.glade.h:18
 msgid "Query for replacement"
 msgstr "Fråga efter ersättning"
 
-#: src/dialogs/search-replace.glade.h:37
-msgid "Regular expression"
-msgstr "Reguljärt uttryck"
+#: src/dialogs/search-replace.glade.h:19
+msgid "Ra_nge"
+msgstr "O_mråde"
 
-#: src/dialogs/search-replace.glade.h:38
-msgid "Replace by"
-msgstr "Ersätt med"
+#: src/dialogs/search-replace.glade.h:20
+msgid "Re_gular expression"
+msgstr "Re_guljärt uttryck"
 
-#: src/dialogs/search-replace.glade.h:39
-msgid "Replacing"
-msgstr "Ersättning"
-
-# Osäker
-#: src/dialogs/search-replace.glade.h:40
-msgid "Row major"
-msgstr "Radöverterm"
-
-#: src/dialogs/search-replace.glade.h:41
+#: src/dialogs/search-replace.glade.h:21
 msgid "Scope"
 msgstr "Omfattning"
 
-#: src/dialogs/search-replace.glade.h:42 src/dialogs/search.glade.h:10
+#: src/dialogs/search-replace.glade.h:22
 msgid "Search"
 msgstr "Sök"
 
-#: src/dialogs/search-replace.glade.h:44
+#: src/dialogs/search-replace.glade.h:24
 msgid "Search and Replace Query"
 msgstr "Sök och ersätt-fråga"
 
-#: src/dialogs/search-replace.glade.h:45
+#: src/dialogs/search-replace.glade.h:25
 msgid "Search and replace in all cells in the workbook"
 msgstr "Sök och ersätt i alla celler i arbetsboken"
 
-#: src/dialogs/search-replace.glade.h:46
+#: src/dialogs/search-replace.glade.h:26
 msgid "Search and replace in current sheet only"
 msgstr "Sök och ersätt endast i det aktuella bladet"
 
-#: src/dialogs/search-replace.glade.h:47
+#: src/dialogs/search-replace.glade.h:27
 msgid "Search and replace in specified range only"
 msgstr "Sök och ersätt endast inom det angivna intervallet"
 
-#: src/dialogs/search-replace.glade.h:48 src/dialogs/search.glade.h:13
+#: src/dialogs/search-replace.glade.h:28 src/dialogs/search.glade.h:13
 msgid "Search column by column"
 msgstr "Sök kolumn efter kolumn"
 
-#: src/dialogs/search-replace.glade.h:49
-msgid "Search for"
-msgstr "Sök efter"
-
-#: src/dialogs/search-replace.glade.h:50 src/dialogs/search.glade.h:17
+#: src/dialogs/search-replace.glade.h:29 src/dialogs/search.glade.h:17
 msgid "Search line by line"
 msgstr "Sök rad efter rad"
 
-#: src/dialogs/search-replace.glade.h:51
+#: src/dialogs/search-replace.glade.h:30
 msgid "Skip cells that that would result in errors"
 msgstr "Hoppa över celler som skulle gett fel"
 
-#: src/dialogs/search-replace.glade.h:52
-msgid "Strings"
-msgstr "Strängar"
-
-#: src/dialogs/search-replace.glade.h:53 src/dialogs/search.glade.h:21
+#: src/dialogs/search-replace.glade.h:31 src/dialogs/search.glade.h:21
 msgid "The search text is a regular expression"
 msgstr "Söktexten är ett reguljärt uttryck"
 
-#: src/dialogs/search-replace.glade.h:54 src/dialogs/search.glade.h:22
+#: src/dialogs/search-replace.glade.h:32 src/dialogs/search.glade.h:22
 msgid "The search text is taken literal"
 msgstr "Söktexten tolkas bokstavligen"
 
-#: src/dialogs/search-replace.glade.h:55
+#: src/dialogs/search-replace.glade.h:33
 msgid "Turn unparseable entries into string values"
 msgstr "Gör strängar av poster som inte kan tolkas"
 
-#: src/dialogs/search-replace.glade.h:56 src/dialogs/search.glade.h:23
+#: src/dialogs/search-replace.glade.h:34 src/dialogs/search.glade.h:23
 msgid "When set, do not distinguish between upper and lower case letters"
 msgstr "Skilj inte på små eller stora bokstäver när detta är angivet"
+
+#: src/dialogs/search-replace.glade.h:35 src/dialogs/search.glade.h:24
+msgid "_Advanced"
+msgstr "_Avancerat"
+
+#: src/dialogs/search-replace.glade.h:36
+msgid "_By"
+msgstr "_Efter"
+
+# Osäker
+#: src/dialogs/search-replace.glade.h:37
+msgid "_Column major"
+msgstr "_Kolumnöverterm"
+
+#: src/dialogs/search-replace.glade.h:38 src/dialogs/search.glade.h:25
+msgid "_Comments"
+msgstr "_Kommentarer"
+
+#: src/dialogs/search-replace.glade.h:39 src/dialogs/search.glade.h:26
+msgid "_Current sheet"
+msgstr "_Aktuellt blad"
+
+#: src/dialogs/search-replace.glade.h:40
+msgid "_Don't change"
+msgstr "Ändra i_nte"
+
+#: src/dialogs/search-replace.glade.h:41 src/dialogs/search.glade.h:27
+msgid "_Entire workbook"
+msgstr "_Hela arbetsboken"
+
+#: src/dialogs/search-replace.glade.h:42 src/dialogs/search.glade.h:28
+msgid "_Expressions"
+msgstr "_Uttryck"
+
+#: src/dialogs/search-replace.glade.h:43
+msgid "_Fail"
+msgstr "_Misslyckas"
+
+#: src/dialogs/search-replace.glade.h:44 src/dialogs/search.glade.h:29
+msgid "_Ignore case"
+msgstr "_Ignorera skillnader på gemener/VERSALER"
+
+#: src/dialogs/search-replace.glade.h:45
+msgid "_Location"
+msgstr "_Plats"
+
+#: src/dialogs/search-replace.glade.h:46
+msgid "_Make error expression"
+msgstr "_Gör feluttryck"
+
+#: src/dialogs/search-replace.glade.h:47 src/dialogs/search.glade.h:31
+msgid "_Normal"
+msgstr "_Normal"
+
+#: src/dialogs/search-replace.glade.h:48 src/dialogs/search.glade.h:32
+msgid "_Other values"
+msgstr "_Övriga värden"
+
+#: src/dialogs/search-replace.glade.h:49 src/dialogs/search.glade.h:33
+msgid "_Plain text"
+msgstr "_Vanlig text"
+
+#: src/dialogs/search-replace.glade.h:50
+msgid "_Preserve case"
+msgstr "_Bevara skillnad på gemener/VERSALER"
+
+#: src/dialogs/search-replace.glade.h:51
+msgid "_Query"
+msgstr "_Fråga"
+
+#: src/dialogs/search-replace.glade.h:52
+msgid "_Replace by"
+msgstr "_Ersätt med"
+
+#: src/dialogs/search-replace.glade.h:53
+msgid "_Replacing"
+msgstr "_Ersättning"
+
+# Osäker
+#: src/dialogs/search-replace.glade.h:54 src/dialogs/search.glade.h:36
+msgid "_Row major"
+msgstr "_Radöverterm"
+
+#: src/dialogs/search-replace.glade.h:55 src/dialogs/search.glade.h:37
+msgid "_Search for"
+msgstr "_Sök efter"
+
+#: src/dialogs/search-replace.glade.h:56 src/dialogs/search.glade.h:38
+msgid "_Strings"
+msgstr "_Strängar"
 
 # Osäker
 #: src/dialogs/search.glade.h:1
@@ -6699,6 +6713,10 @@ msgstr "Sök text inom strängvärden"
 #: src/dialogs/search.glade.h:8
 msgid "Match _whole words only"
 msgstr "Endast träff på _hela ord"
+
+#: src/dialogs/search.glade.h:10
+msgid "Searc_h"
+msgstr "Sö_k"
 
 #: src/dialogs/search.glade.h:11
 msgid "Search Center"
@@ -6732,45 +6750,9 @@ msgstr "Visa föregående träff"
 msgid "Start search"
 msgstr "Starta sökning"
 
-#: src/dialogs/search.glade.h:24
-msgid "_Advanced"
-msgstr "_Avancerat"
-
-#: src/dialogs/search.glade.h:25
-msgid "_Comments"
-msgstr "_Kommentarer"
-
-#: src/dialogs/search.glade.h:26
-msgid "_Current sheet"
-msgstr "_Aktuellt blad"
-
-#: src/dialogs/search.glade.h:27
-msgid "_Entire workbook"
-msgstr "_Hela arbetsboken"
-
-#: src/dialogs/search.glade.h:28
-msgid "_Expressions"
-msgstr "_Uttryck"
-
-#: src/dialogs/search.glade.h:29
-msgid "_Ignore case"
-msgstr "_Ignorera skillnader på gemener/VERSALER"
-
 #: src/dialogs/search.glade.h:30
 msgid "_Matches"
 msgstr "_Träffar"
-
-#: src/dialogs/search.glade.h:31
-msgid "_Normal"
-msgstr "_Normal"
-
-#: src/dialogs/search.glade.h:32
-msgid "_Other values"
-msgstr "_Övriga värden"
-
-#: src/dialogs/search.glade.h:33
-msgid "_Plain text"
-msgstr "_Vanlig text"
 
 #: src/dialogs/search.glade.h:34
 msgid "_Range"
@@ -6780,42 +6762,29 @@ msgstr "_Område"
 msgid "_Regular expression"
 msgstr "_Reguljärt uttryck"
 
-# Osäker
-#: src/dialogs/search.glade.h:36
-msgid "_Row major"
-msgstr "_Radöverterm"
-
-#: src/dialogs/search.glade.h:37
-msgid "_Search for"
-msgstr "_Sök efter"
-
-#: src/dialogs/search.glade.h:38
-msgid "_Strings"
-msgstr "_Strängar"
-
 #: src/dialogs/sheet-order.glade.h:1
 msgid "Close this dialog"
 msgstr "Stäng detta dialogfönster"
 
-#: src/dialogs/sheet-order.glade.h:3
+#: src/dialogs/sheet-order.glade.h:2
 msgid "Delete the currently selected sheet"
 msgstr "Ta bort det aktuella markerade bladet"
 
-#: src/dialogs/sheet-order.glade.h:4
+#: src/dialogs/sheet-order.glade.h:3
 msgid "Move the currently selected sheet down one position"
 msgstr "Flytta ned det för tillfället valda bladet en position"
 
-#: src/dialogs/sheet-order.glade.h:5
+#: src/dialogs/sheet-order.glade.h:4
 msgid "Move the currently selected sheet up one position"
 msgstr "Flytta upp det för tillfället valda bladet en position"
 
-#: src/dialogs/sheet-order.glade.h:6
+#: src/dialogs/sheet-order.glade.h:5
 msgid "Order Sheets"
 msgstr "Bladordning"
 
 #: src/dialogs/sheet-order.glade.h:7
-msgid "Sheet Name"
-msgstr "Bladnamn"
+msgid "_Sheet Name"
+msgstr "_Bladnamn"
 
 #: src/dialogs/sheet-rename.glade.h:1
 msgid "Enter new _sheet name:"
@@ -6906,36 +6875,36 @@ msgid "_Type:"
 msgstr "T_yp:"
 
 #: src/dialogs/summary.glade.h:1
-msgid "Author"
-msgstr "Författare"
+msgid "C_omments"
+msgstr "K_ommentarer"
 
 #: src/dialogs/summary.glade.h:2
-msgid "Category"
-msgstr "Kategori"
+msgid "Com_pany"
+msgstr "Fö_retag"
 
-#: src/dialogs/summary.glade.h:4
-msgid "Company"
-msgstr "Företag"
-
-#: src/dialogs/summary.glade.h:5
+#: src/dialogs/summary.glade.h:3
 msgid "Document Summary Information"
 msgstr "Dokumentinformation"
 
-#: src/dialogs/summary.glade.h:6
-msgid "Keywords"
-msgstr "Nyckelord"
-
-#: src/dialogs/summary.glade.h:7
-msgid "Manager"
-msgstr "Manager"
-
-#: src/dialogs/summary.glade.h:8
+#: src/dialogs/summary.glade.h:4
 msgid "Summary"
 msgstr "Sammanfattning"
 
+#: src/dialogs/summary.glade.h:5
+msgid "_Author"
+msgstr "_Författare"
+
+#: src/dialogs/summary.glade.h:7
+msgid "_Keywords"
+msgstr "_Nyckelord"
+
+#: src/dialogs/summary.glade.h:8
+msgid "_Manager"
+msgstr "_Manager"
+
 #: src/dialogs/summary.glade.h:9
-msgid "Title"
-msgstr "Titel"
+msgid "_Title"
+msgstr "_Titel"
 
 #: src/dialogs/tabulate.glade.h:2
 msgid "Dependency cells"
@@ -6986,6 +6955,14 @@ msgstr "_Synlig"
 #: src/dialogs/variance-tests.glade.h:7
 msgid "Testing Equality of 2 Variances (F-Test)"
 msgstr "Testar likhet av 2 varianser (F-test)"
+
+#: src/dialogs/variance-tests.glade.h:8
+msgid "Variable _1 Range:"
+msgstr "Område för variabel _1:"
+
+#: src/dialogs/variance-tests.glade.h:9
+msgid "Variable _2 Range:"
+msgstr "Område för variabel _2:"
 
 #: src/dialogs/workbook-attr.glade.h:1
 msgid "Notebook _Tabs for Sheets"
@@ -8612,7 +8589,7 @@ msgstr ""
 msgid ""
 "\n"
 "If none of the items match the conditions, DGET returns #VALUE! error. If "
-"more than one items match the conditions, DGET returns #NUM! error. "
+"more than one items match the conditions, DGET returns #NUM! error. \n"
 "@EXAMPLES=\n"
 "DGET(A1:C7, \"Salary\", A9:A10) equals 34323.\n"
 "DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\".\n"
@@ -8622,13 +8599,14 @@ msgstr ""
 "\n"
 "Om inget av objekten överensstämmer med villkoren returnerar DGET felvärdet "
 "#VÄRDE!. Om mer än ett av objekten överensstämmer med villkoren returnerar "
-"DGET felvärdet #NUM!. @EXAMPLES=\n"
+"DGET felvärdet #NUM!.\n"
+"@EXAMPLES=\n"
 "DGET(A1:C7; \"Lön\"; A9:A10) är lika med 34323.\n"
 "DGET(A1:C7; \"Namn\"; A9:A10) är lika med \"Clark\".\n"
 "\n"
 "@SEEALSO=DCOUNT"
 
-#: src/functions/fn-database.c:764
+#: src/functions/fn-database.c:765
 msgid ""
 "@FUNCTION=DMAX\n"
 "@SYNTAX=DMAX(database,field,criteria)\n"
@@ -8640,7 +8618,7 @@ msgstr ""
 "@DESCRIPTION=Funktionen DMAX returnerar det största värdet från en kolumn "
 "som överensstämmer med de villkor som angivits.\n"
 
-#: src/functions/fn-database.c:772
+#: src/functions/fn-database.c:773
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -8658,7 +8636,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DMIN"
 
-#: src/functions/fn-database.c:836
+#: src/functions/fn-database.c:837
 msgid ""
 "@FUNCTION=DMIN\n"
 "@SYNTAX=DMIN(database,field,criteria)\n"
@@ -8670,7 +8648,7 @@ msgstr ""
 "@DESCRIPTION=Funktionen DMIN returnerar det minsta värdet från en kolumn som "
 "överensstämmer med de villkor som angivits.\n"
 
-#: src/functions/fn-database.c:844
+#: src/functions/fn-database.c:845
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -8686,7 +8664,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DMAX"
 
-#: src/functions/fn-database.c:907
+#: src/functions/fn-database.c:908
 msgid ""
 "@FUNCTION=DPRODUCT\n"
 "@SYNTAX=DPRODUCT(database,field,criteria)\n"
@@ -8698,7 +8676,7 @@ msgstr ""
 "@DESCRIPTION=Funktionen DPRODUCT returnerar produkten av de värden från en "
 "kolumn som överensstämmer med de villkor som angivits.\n"
 
-#: src/functions/fn-database.c:915
+#: src/functions/fn-database.c:916
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -8712,7 +8690,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DSUM"
 
-#: src/functions/fn-database.c:975
+#: src/functions/fn-database.c:976
 msgid ""
 "@FUNCTION=DSTDEV\n"
 "@SYNTAX=DSTDEV(database,field,criteria)\n"
@@ -8726,7 +8704,7 @@ msgstr ""
 "standardavvikelsen av ett stickprov. Stickprovet består av värden som "
 "överensstämmer med de villkor som angivits.\n"
 
-#: src/functions/fn-database.c:984
+#: src/functions/fn-database.c:985
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -8742,7 +8720,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DSTDEVP"
 
-#: src/functions/fn-database.c:1042
+#: src/functions/fn-database.c:1043
 msgid ""
 "@FUNCTION=DSTDEVP\n"
 "@SYNTAX=DSTDEVP(database,field,criteria)\n"
@@ -8756,7 +8734,7 @@ msgstr ""
 "standardavvikelsen av en population. Populationen består av värden som "
 "överensstämmer med de villkor som angivits.\n"
 
-#: src/functions/fn-database.c:1051
+#: src/functions/fn-database.c:1052
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -8772,7 +8750,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DSTDEV"
 
-#: src/functions/fn-database.c:1111
+#: src/functions/fn-database.c:1112
 msgid ""
 "@FUNCTION=DSUM\n"
 "@SYNTAX=DSUM(database,field,criteria)\n"
@@ -8784,7 +8762,7 @@ msgstr ""
 "@DESCRIPTION=Funktionen DSUM returnerar summan av värdena från en kolumn som "
 "överensstämmer med de villkor som angivits.\n"
 
-#: src/functions/fn-database.c:1119
+#: src/functions/fn-database.c:1120
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -8800,7 +8778,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DPRODUCT"
 
-#: src/functions/fn-database.c:1179
+#: src/functions/fn-database.c:1180
 msgid ""
 "@FUNCTION=DVAR\n"
 "@SYNTAX=DVAR(database,field,criteria)\n"
@@ -8814,7 +8792,7 @@ msgstr ""
 "population. Populationen består av värden som överensstämmer med de villkor "
 "som angivits.\n"
 
-#: src/functions/fn-database.c:1188
+#: src/functions/fn-database.c:1189
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -8830,7 +8808,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DVARP"
 
-#: src/functions/fn-database.c:1248
+#: src/functions/fn-database.c:1249
 msgid ""
 "@FUNCTION=DVARP\n"
 "@SYNTAX=DVARP(database,field,criteria)\n"
@@ -8844,7 +8822,7 @@ msgstr ""
 "stickprov. Stickprovet består av värden som överensstämmer med de villkor "
 "som angivits.\n"
 
-#: src/functions/fn-database.c:1257
+#: src/functions/fn-database.c:1258
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -8860,7 +8838,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DVAR"
 
-#: src/functions/fn-database.c:1318
+#: src/functions/fn-database.c:1319
 msgid ""
 "@FUNCTION=GETPIVOTDATA\n"
 "@SYNTAX=GETPIVOTDATA(pivot_table,field_name)\n"
@@ -9449,7 +9427,7 @@ msgid ""
 "@DESCRIPTION=NETWORKDAYS returns the number of non-weekend non-holidays "
 "between @start_date and @end_date.  Holidays optionally supplied in "
 "@holidays.\n"
-"Returns #NUM if start_date or end_date are invalid.\n"
+"Returns #NUM! if start_date or end_date are invalid.\n"
 "This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "NETWORKDAYS(DATE(2001,1,2),DATE(2001,2,15)) equals 33.\n"
@@ -10624,8 +10602,9 @@ msgstr ""
 msgid ""
 "@FUNCTION=DELTA\n"
 "@SYNTAX=DELTA(x[,y])\n"
-"@DESCRIPTION=DELTA function tests for numerical equivalence of two arguments "
-"returning 1 in case of equality.  @y is optional, and defaults to 0.\n"
+"@DESCRIPTION=DELTA function tests for numerical equivalence of two "
+"arguments, returning 1 in case of equality.  @y is optional, and defaults to "
+"0.\n"
 "If either argument is non-numeric returns a #VALUE! error.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
@@ -10654,7 +10633,7 @@ msgid ""
 "@FUNCTION=GESTEP\n"
 "@SYNTAX=GESTEP(x[,y])\n"
 "@DESCRIPTION=GESTEP function test for if @x is >= @y, returning 1 if it is "
-"so, and 0 otherwise @y is optional, and defaults to 0.\n"
+"so, and 0 otherwise. @y is optional, and defaults to 0.\n"
 "If either argument is non-numeric returns a #VALUE! error.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
@@ -10679,7 +10658,7 @@ msgstr "Tekniska"
 
 # FIXME: rate!=hastighet här. Vad är par?
 #
-#: src/functions/fn-financial.c:352
+#: src/functions/fn-financial.c:343
 msgid ""
 "@FUNCTION=ACCRINT\n"
 "@SYNTAX=ACCRINT(issue,first_interest,settlement,rate,par,frequency[,basis])\n"
@@ -10738,7 +10717,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ACCRINTM"
 
-#: src/functions/fn-financial.c:444
+#: src/functions/fn-financial.c:435
 msgid ""
 "@FUNCTION=ACCRINTM\n"
 "@SYNTAX=ACCRINTM(issue,maturity,rate[,par,basis])\n"
@@ -10788,7 +10767,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ACCRINT"
 
-#: src/functions/fn-financial.c:496
+#: src/functions/fn-financial.c:487
 msgid ""
 "@FUNCTION=INTRATE\n"
 "@SYNTAX=INTRATE(settlement,maturity,investment,redemption[,basis])\n"
@@ -10845,7 +10824,7 @@ msgstr ""
 "7,68%\n"
 "@SEEALSO=RECEIVED, DATE"
 
-#: src/functions/fn-financial.c:557
+#: src/functions/fn-financial.c:548
 msgid ""
 "@FUNCTION=RECEIVED\n"
 "@SYNTAX=RECEIVED(settlement,maturity,investment,rate[,basis])\n"
@@ -10892,7 +10871,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INTRATE"
 
-#: src/functions/fn-financial.c:612
+#: src/functions/fn-financial.c:603
 msgid ""
 "@FUNCTION=PRICEDISC\n"
 "@SYNTAX=PRICEDISC(settlement,maturity,discount,redemption[,basis])\n"
@@ -10941,7 +10920,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PRICEMAT"
 
-#: src/functions/fn-financial.c:664
+#: src/functions/fn-financial.c:655
 msgid ""
 "@FUNCTION=PRICEMAT\n"
 "@SYNTAX=PRICEMAT(settlement,maturity,issue,rate,yield[,basis])\n"
@@ -10990,7 +10969,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PRICEDISC"
 
-#: src/functions/fn-financial.c:723
+#: src/functions/fn-financial.c:714
 msgid ""
 "@FUNCTION=DISC\n"
 "@SYNTAX=DISC(settlement,maturity,par,redemption[,basis])\n"
@@ -11036,7 +11015,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:774
+#: src/functions/fn-financial.c:765
 msgid ""
 "@FUNCTION=EFFECT\n"
 "@SYNTAX=EFFECT(r,nper)\n"
@@ -11080,11 +11059,11 @@ msgstr ""
 "effektiva räntan som du kommer att betala på ditt lån.\n"
 "@SEEALSO=NOMINAL"
 
-#: src/functions/fn-financial.c:813
+#: src/functions/fn-financial.c:804
 msgid "effect - domain error"
 msgstr "effect - domänfel"
 
-#: src/functions/fn-financial.c:821
+#: src/functions/fn-financial.c:812
 msgid ""
 "@FUNCTION=NOMINAL\n"
 "@SYNTAX=NOMINAL(r,nper)\n"
@@ -11116,11 +11095,11 @@ msgstr ""
 "\n"
 "@SEEALSO=EFFECT"
 
-#: src/functions/fn-financial.c:851
+#: src/functions/fn-financial.c:842
 msgid "nominal - domain error"
 msgstr "nominal - domänfel"
 
-#: src/functions/fn-financial.c:860
+#: src/functions/fn-financial.c:851
 msgid ""
 "@FUNCTION=ISPMT\n"
 "@SYNTAX=ISPMT(rate,per,nper,pv)\n"
@@ -11138,7 +11117,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV"
 
-#: src/functions/fn-financial.c:894
+#: src/functions/fn-financial.c:885
 msgid ""
 "@FUNCTION=DB\n"
 "@SYNTAX=DB(cost,salvage,life,period[,month])\n"
@@ -11164,7 +11143,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DDB,SLN,SYD"
 
-#: src/functions/fn-financial.c:950
+#: src/functions/fn-financial.c:941
 msgid ""
 "@FUNCTION=DDB\n"
 "@SYNTAX=DDB(cost,salvage,life,period[,factor])\n"
@@ -11192,7 +11171,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SLN,SYD"
 
-#: src/functions/fn-financial.c:998
+#: src/functions/fn-financial.c:989
 msgid ""
 "@FUNCTION=SLN\n"
 "@SYNTAX=SLN(cost,salvage_value,life)\n"
@@ -11236,11 +11215,11 @@ msgstr ""
 "Detta kommer att returnera det årliga värdeminskningsvärdet 9300 kr.\n"
 "@SEEALSO=SYD"
 
-#: src/functions/fn-financial.c:1042
+#: src/functions/fn-financial.c:1033
 msgid "sln - domain error"
 msgstr "sln - domänfel"
 
-#: src/functions/fn-financial.c:1050
+#: src/functions/fn-financial.c:1041
 msgid ""
 "@FUNCTION=SYD\n"
 "@SYNTAX=SYD(cost,salvage_value,life,period)\n"
@@ -11287,11 +11266,11 @@ msgstr ""
 "=SYD(50000; 2000; 3; 2), vilket resulterar i 16000.\n"
 "@SEEALSO=SLN"
 
-#: src/functions/fn-financial.c:1096
+#: src/functions/fn-financial.c:1087
 msgid "syd - domain error"
 msgstr "syd - domänfel"
 
-#: src/functions/fn-financial.c:1106
+#: src/functions/fn-financial.c:1097
 msgid ""
 "@FUNCTION=DOLLARDE\n"
 "@SYNTAX=DOLLARDE(fractional_dollar,fraction)\n"
@@ -11316,7 +11295,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLARFR"
 
-#: src/functions/fn-financial.c:1150
+#: src/functions/fn-financial.c:1141
 msgid ""
 "@FUNCTION=DOLLARFR\n"
 "@SYNTAX=DOLLARFR(decimal_dollar,fraction)\n"
@@ -11338,7 +11317,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLARDE"
 
-#: src/functions/fn-financial.c:1192
+#: src/functions/fn-financial.c:1183
 msgid ""
 "@FUNCTION=MIRR\n"
 "@SYNTAX=MIRR(values,finance_rate,reinvest_rate)\n"
@@ -11356,7 +11335,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NPV"
 
-#: src/functions/fn-financial.c:1252
+#: src/functions/fn-financial.c:1243
 msgid ""
 "@FUNCTION=TBILLEQ\n"
 "@SYNTAX=TBILLEQ(settlement,maturity,discount)\n"
@@ -11382,7 +11361,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TBILLPRICE,TBILLYIELD"
 
-#: src/functions/fn-financial.c:1297
+#: src/functions/fn-financial.c:1288
 msgid ""
 "@FUNCTION=TBILLPRICE\n"
 "@SYNTAX=TBILLPRICE(settlement,maturity,discount)\n"
@@ -11410,7 +11389,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TBILLEQ,TBILLYIELD"
 
-#: src/functions/fn-financial.c:1338
+#: src/functions/fn-financial.c:1329
 msgid ""
 "@FUNCTION=TBILLYIELD\n"
 "@SYNTAX=TBILLYIELD(settlement,maturity,pr)\n"
@@ -11437,7 +11416,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TBILLEQ,TBILLYIELD"
 
-#: src/functions/fn-financial.c:1379
+#: src/functions/fn-financial.c:1370
 msgid ""
 "@FUNCTION=RATE\n"
 "@SYNTAX=RATE(nper,pmt,pv[,fv,type,guess])\n"
@@ -11453,7 +11432,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV,FV"
 
-#: src/functions/fn-financial.c:1487
+#: src/functions/fn-financial.c:1478
 msgid ""
 "@FUNCTION=IRR\n"
 "@SYNTAX=IRR(values[,guess])\n"
@@ -11489,7 +11468,7 @@ msgstr ""
 "IRR(A1:A8) lika med 0,04375. \n"
 "@SEEALSO=FV,NPV,PV"
 
-#: src/functions/fn-financial.c:1610
+#: src/functions/fn-financial.c:1601
 msgid ""
 "@FUNCTION=PV\n"
 "@SYNTAX=PV(rate,nper,pmt[,fv,type])\n"
@@ -11513,7 +11492,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FV"
 
-#: src/functions/fn-financial.c:1657
+#: src/functions/fn-financial.c:1648
 msgid ""
 "@FUNCTION=NPV\n"
 "@SYNTAX=NPV(rate,v1,v2,...)\n"
@@ -11537,7 +11516,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV,XNPV"
 
-#: src/functions/fn-financial.c:1711
+#: src/functions/fn-financial.c:1702
 msgid ""
 "@FUNCTION=XNPV\n"
 "@SYNTAX=XNPV(rate,values,dates)\n"
@@ -11563,7 +11542,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NPV,PV"
 
-#: src/functions/fn-financial.c:1771
+#: src/functions/fn-financial.c:1762
 msgid ""
 "@FUNCTION=XIRR\n"
 "@SYNTAX=XIRR(values,dates[,guess])\n"
@@ -11606,7 +11585,7 @@ msgstr ""
 "XIRR(A1:A5;B1:B5) lika med 0,224838. \n"
 "@SEEALSO=IRR,XNPV"
 
-#: src/functions/fn-financial.c:1875
+#: src/functions/fn-financial.c:1866
 msgid ""
 "@FUNCTION=FV\n"
 "@SYNTAX=FV(rate,term,pmt,pv,type)\n"
@@ -11631,7 +11610,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV,PMT,PPMT"
 
-#: src/functions/fn-financial.c:1914
+#: src/functions/fn-financial.c:1905
 msgid ""
 "@FUNCTION=PMT\n"
 "@SYNTAX=PMT(rate,nper,pv[,fv,type])\n"
@@ -11660,7 +11639,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: src/functions/fn-financial.c:1952
+#: src/functions/fn-financial.c:1943
 msgid ""
 "@FUNCTION=IPMT\n"
 "@SYNTAX=IPMT(rate,per,nper,pv,fv,type)\n"
@@ -11688,7 +11667,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: src/functions/fn-financial.c:1999
+#: src/functions/fn-financial.c:1990
 msgid ""
 "@FUNCTION=PPMT\n"
 "@SYNTAX=PPMT(rate,per,nper,pv[,fv,type])\n"
@@ -11716,7 +11695,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IPMT,PV,FV"
 
-#: src/functions/fn-financial.c:2048
+#: src/functions/fn-financial.c:2039
 msgid ""
 "@FUNCTION=NPER\n"
 "@SYNTAX=NPER(rate,pmt,pv,fv,type)\n"
@@ -11749,7 +11728,7 @@ msgstr ""
 "motsvarar alltså att pengarna har fördubblats precis för det 12:e året.\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: src/functions/fn-financial.c:2097
+#: src/functions/fn-financial.c:2088
 msgid ""
 "@FUNCTION=DURATION\n"
 "@SYNTAX=DURATION(rate,pv,fv)\n"
@@ -11771,7 +11750,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: src/functions/fn-financial.c:2134
+#: src/functions/fn-financial.c:2125
 msgid ""
 "@FUNCTION=FVSCHEDULE\n"
 "@SYNTAX=FVSCHEDULE(principal,schedule)\n"
@@ -11798,7 +11777,7 @@ msgstr ""
 "FVSCHEDULE(3000;A1:A5) lika med 4942,7911611.\n"
 "@SEEALSO=PV,FV"
 
-#: src/functions/fn-financial.c:2178
+#: src/functions/fn-financial.c:2169
 msgid ""
 "@FUNCTION=EURO\n"
 "@SYNTAX=EURO(currency)\n"
@@ -11844,7 +11823,7 @@ msgstr ""
 "EURO(\"DEM\") returnerar 1,95583.\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2260
+#: src/functions/fn-financial.c:2251
 msgid ""
 "@FUNCTION=PRICE\n"
 "@SYNTAX=PRICE(settle,mat,rate,yield,redemption_price,frequency[,basis])\n"
@@ -11888,7 +11867,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2349
+#: src/functions/fn-financial.c:2340
 msgid ""
 "@FUNCTION=YIELD\n"
 "@SYNTAX=YIELD(settle,mat,rate,price,redemption_price,frequency[,basis])\n"
@@ -11931,7 +11910,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2438
+#: src/functions/fn-financial.c:2429
 msgid ""
 "@FUNCTION=YIELDDISC\n"
 "@SYNTAX=YIELDDISC(settlement,maturity,pr,redemption[,basis])\n"
@@ -11975,7 +11954,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2474
+#: src/functions/fn-financial.c:2465
 msgid ""
 "@FUNCTION=YIELDMAT\n"
 "@SYNTAX=YIELDMAT(settlement,maturity,issue,rate,pr[,basis])\n"
@@ -12021,7 +12000,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2511
+#: src/functions/fn-financial.c:2502
 msgid ""
 "@FUNCTION=ODDFPRICE\n"
 "@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,yld,redemption,"
@@ -12069,7 +12048,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2613
+#: src/functions/fn-financial.c:2604
 msgid ""
 "@FUNCTION=ODDFYIELD\n"
 "@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,redemption,"
@@ -12115,7 +12094,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2650
+#: src/functions/fn-financial.c:2641
 msgid ""
 "@FUNCTION=ODDLPRICE\n"
 "@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,"
@@ -12162,7 +12141,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2687
+#: src/functions/fn-financial.c:2678
 msgid ""
 "@FUNCTION=ODDLYIELD\n"
 "@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,"
@@ -12208,7 +12187,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2724
+#: src/functions/fn-financial.c:2715
 msgid ""
 "@FUNCTION=AMORDEGRC\n"
 "@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate[,"
@@ -12250,7 +12229,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2758
+#: src/functions/fn-financial.c:2749
 msgid ""
 "@FUNCTION=AMORLINC\n"
 "@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate[,"
@@ -12293,250 +12272,348 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2792
+#: src/functions/fn-financial.c:2783
+#, fuzzy
 msgid ""
 "@FUNCTION=COUPDAYBS\n"
 "@SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis])\n"
 "@DESCRIPTION=COUPDAYBS returns the number of days from the beginning of the "
-"coupon period to the settlement date. @settlement is the settlement date of "
-"the security. @maturity is the maturity date of the security. @frequency is "
-"the number of coupon payments per year. Allowed frequencies are: 1 = annual, "
-"2 = semi, 4 = quarterly. @basis is the type of day counting system you want "
-"to use:\n"
+"coupon period to the settlement date.\n"
+"@settlement is the settlement date of the security.\n"
+"@maturity is the maturity date of the security.\n"
+"@frequency is the number of coupon payments per year.\n"
+"@eom = TRUE handles end of month maturity dates special.\n"
+"Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly, 6 = bimonthly, "
+"12 = monthly.\n"
+"@basis is the type of day counting system you want to use:\n"
 "\n"
-"0  US 30/360\n"
+"0  MSRB 30/360 (MSRB Rule G33 (e))\n"
 "1  actual days/actual days\n"
 "2  actual days/360\n"
 "3  actual days/365\n"
 "4  European 30/360\n"
+"5  European+ 30/360\n"
+"(see the gnumeric manual for a detailed description of these bases)\n"
 "\n"
-"If @frequency is other than 1, 2, or 4, COUPDAYBS returns #NUM! error. If "
-"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and "
-"4, #NUM! error is returned. \n"
+"If @frequency is invalid, COUPDAYBS returns #NUM! error.\n"
+"If @basis is omitted, MSRB 30/360 is applied.\n"
+"If @basis is invalid, #NUM! error is returned.\n"
+"\n"
 "@EXAMPLES=\n"
+"COUPDAYBS (DATE(2002,11,29),DATE(2004,2,29),4,0) = 89\n"
+"COUPDAYBS (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 0\n"
 "\n"
 "@SEEALSO="
 msgstr ""
 "@FUNCTION=COUPDAYBS\n"
 "@SYNTAX=COUPDAYBS(avräkning;mognad;frekvens[;bas])\n"
 "@DESCRIPTION=COUPDAYBS returnerar antalet dagar från början på "
-"betalningsperioden till avräkningsdatumet. @avräkning är avräkningsdatumet "
-"för säkerheten. @mognad är mognadsdatumet för säkerheten. @frekvens är "
-"antalet betalningar per år. Tillåtna frekvenser är: 1 = årligen, 2 = "
-"halvårsvis, 4 = kvartalsvis. @bas är den typ av dagsräkningssystem som du "
-"vill använda:\n"
+"betalningsperioden till avräkningsdatumet.\n"
+"@avräkning är avräkningsdatumet för säkerheten.\n"
+"@mognad är mognadsdatumet för säkerheten.\n"
+"@frekvens är antalet betalningar per år.\n"
+"@eom=SANT behandlar mognadsdatum i slutet på månader speciellt.\n"
+"Tillåtna frekvenser är: 1 = årligen, 2 = halvårsvis, 4 = kvartalsvis, och om "
+"eom är givet: 6 = varannan månad, 12 = månatligen.\n"
+"@bas är den typ av dagsräkningssystem som du vill använda:\n"
 "\n"
-"0  Amerikanskt 30/360\n"
+"0  30/360\n"
 "1  verkliga dagar/verkliga dagar\n"
 "2  verkliga dagar/360\n"
 "3  verkliga dagar/365\n"
 "4  Europeiskt 30/360\n"
+"5  Amerikanskt 30/360 (tillgängligt endast om eom är givet)\n"
+"(se gnumericmanualen för en detaljerad beskrivning av dessa baser)\n"
 "\n"
-"Om @frekvens är en annan än 1, 2 eller 4 returnerar COUPDAYBS felvärdet "
-"#NUM!. Om @bas utelämnas används amerikanskt 30/360-system. Om @bas inte är "
-"mellan 1 och 4 returnerar COUPDAYBS felvärdet #NUM!.\n"
+"Om @frekvens är ogiltig returnerar COUPDAYBS felvärdet #NUM!.\n"
+"Om @bas utelämnas används 30/360-system.\n"
+"Om @bas är ogiltig returneras felvärdet #NUM!.\n"
+"\n"
+"Om COUPDAYBS anropas med 3 eller 4 argument är den XL-kompatibel.\n"
 "@EXAMPLES=\n"
-"\n"
+"COUPDAYBS(8-Oct-2001;29-Nov-2002;4;0) = 40COUPDAYBS(8-Oct-2001;29-Nov-"
+"2002;4;0;TRUE) = 39COUPDAYBS(8-Oct-2001;29-Nov-2002;4;0;FALSE) = 39\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2859
+#: src/functions/fn-financial.c:2825
+#, fuzzy
 msgid ""
 "@FUNCTION=COUPDAYS\n"
-"@SYNTAX=COUPDAYS(settlement,maturity,frequency[,basis])\n"
+"@SYNTAX=COUPDAYS(settlement,maturity,frequency[,basis,eom])\n"
 "@DESCRIPTION=COUPDAYS returns the number of days in the coupon period of the "
-"settlement date.@settlement is the settlement date of the security. "
-"@maturity is the maturity date of the security. @frequency is the number of "
-"coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = "
-"quarterly. @basis is the type of day counting system you want to use:\n"
+"settlement date.\n"
+"@settlement is the settlement date of the security.\n"
+"@maturity is the maturity date of the security.\n"
+"@frequency is the number of coupon payments per year.\n"
+"@eom = TRUE handles end of month maturity dates special.\n"
+"Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly, 6 = bimonthly, "
+"12 = monthly.\n"
+"@basis is the type of day counting system you want to use:\n"
 "\n"
-"0  US 30/360\n"
+"0  MSRB 30/360 (MSRB Rule G33 (e))\n"
 "1  actual days/actual days\n"
 "2  actual days/360\n"
 "3  actual days/365\n"
 "4  European 30/360\n"
+"5  European+ 30/360\n"
+"(see the gnumeric manual for a detailed description of these bases)\n"
 "\n"
-"If @frequency is other than 1, 2, or 4, COUPDAYS returns #NUM! error. If "
-"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and "
-"4, #NUM! error is returned. \n"
+"If @frequency is invalid, COUPDAYS returns #NUM! error.\n"
+"If @basis is omitted, MSRB 30/360 is applied.\n"
+"If @basis is invalid, #NUM! error is returned.\n"
+"\n"
 "@EXAMPLES=\n"
+"COUPDAYS (DATE(2002,11,29),DATE(2004,2,29),4,0) = 90\n"
+"COUPDAYS (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 90\n"
+"COUPDAYS (DATE(2002,11,29),DATE(2004,2,29),4,1,FALSE) = 91\n"
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=COUPDAYS\n"
-"@SYNTAX=COUPDAYS(avräkning;mognad;frekvens[;bas])\n"
-"@DESCRIPTION=COUPDAYS returnerar antalet dagar i betalningsperioden till "
-"avräkningsdatumet. @avräkning är avräkningsdatumet för säkerheten. @mognad "
-"är mognadsdatumet för säkerheten. @frekvens är antalet betalningar per år. "
-"Tillåtna frekvenser är: 1 = årligen, 2 = halvårsvis, 4 = kvartalsvis. @bas "
-"är den typ av dagsräkningssystem som du vill använda:\n"
+"@FUNCTION=COUPDAYBS\n"
+"@SYNTAX=COUPDAYBS(avräkning;mognad;frekvens[;bas])\n"
+"@DESCRIPTION=COUPDAYBS returnerar antalet dagar från början på "
+"betalningsperioden till avräkningsdatumet.\n"
+"@avräkning är avräkningsdatumet för säkerheten.\n"
+"@mognad är mognadsdatumet för säkerheten.\n"
+"@frekvens är antalet betalningar per år.\n"
+"@eom=SANT behandlar mognadsdatum i slutet på månader speciellt.\n"
+"Tillåtna frekvenser är: 1 = årligen, 2 = halvårsvis, 4 = kvartalsvis, och om "
+"eom är givet: 6 = varannan månad, 12 = månatligen.\n"
+"@bas är den typ av dagsräkningssystem som du vill använda:\n"
 "\n"
-"0  Amerikanskt 30/360\n"
+"0  30/360\n"
 "1  verkliga dagar/verkliga dagar\n"
 "2  verkliga dagar/360\n"
 "3  verkliga dagar/365\n"
 "4  Europeiskt 30/360\n"
+"5  Amerikanskt 30/360 (tillgängligt endast om eom är givet)\n"
+"(se gnumericmanualen för en detaljerad beskrivning av dessa baser)\n"
 "\n"
-"Om @frekvens är en annan än 1, 2 eller 4 returnerar COUPDAYS felvärdet "
-"#NUM!. Om @bas utelämnas används amerikanskt 30/360-system. Om @bas inte är "
-"mellan 1 och 4 returnerar COUPDAYS felvärdet #NUM!.\n"
+"Om @frekvens är ogiltig returnerar COUPDAYBS felvärdet #NUM!.\n"
+"Om @bas utelämnas används 30/360-system.\n"
+"Om @bas är ogiltig returneras felvärdet #NUM!.\n"
+"\n"
+"Om COUPDAYBS anropas med 3 eller 4 argument är den XL-kompatibel.\n"
 "@EXAMPLES=\n"
-"\n"
+"COUPDAYBS(8-Oct-2001;29-Nov-2002;4;0) = 40COUPDAYBS(8-Oct-2001;29-Nov-"
+"2002;4;0;TRUE) = 39COUPDAYBS(8-Oct-2001;29-Nov-2002;4;0;FALSE) = 39\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2926
+#: src/functions/fn-financial.c:2868
+#, fuzzy
 msgid ""
 "@FUNCTION=COUPDAYSNC\n"
-"@SYNTAX=COUPDAYSNC(settlement,maturity,frequency[,basis])\n"
+"@SYNTAX=COUPDAYSNC(settlement,maturity,frequency[,basis,eom])\n"
 "@DESCRIPTION=COUPDAYSNC returns the number of days from the settlement date "
-"to the next coupon date. @settlement is the settlement date of the security. "
-"@maturity is the maturity date of the security. @frequency is the number of "
-"coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = "
-"quarterly. @basis is the type of day counting system you want to use:\n"
+"to the next coupon date.\n"
+"@settlement is the settlement date of the security.\n"
+"@maturity is the maturity date of the security.\n"
+"@frequency is the number of coupon payments per year.\n"
+"@eom = TRUE handles end of month maturity dates special.\n"
+"Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly, 6 = bimonthly, "
+"12 = monthly.\n"
+"@basis is the type of day counting system you want to use:\n"
 "\n"
-"0  US 30/360\n"
+"0  MSRB 30/360 (MSRB Rule G33 (e))\n"
 "1  actual days/actual days\n"
 "2  actual days/360\n"
 "3  actual days/365\n"
 "4  European 30/360\n"
+"5  European+ 30/360\n"
+"(see the gnumeric manual for a detailed description of these bases)\n"
 "\n"
-"If @frequency is other than 1, 2, or 4, COUPDAYSNC returns #NUM! error. If "
-"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and "
-"4, #NUM! error is returned. \n"
+"If @frequency is invalid, COUPDAYSNC returns #NUM! error.\n"
+"If @basis is omitted, MSRB 30/360 is applied.\n"
+"If @basis is invalid, #NUM! error is returned.\n"
+"\n"
 "@EXAMPLES=\n"
+"COUPDAYSNC (DATE(2002,11,29),DATE(2004,2,29),4,0) = 1\n"
+"COUPDAYSNC (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 89\n"
 "\n"
 "@SEEALSO="
 msgstr ""
 "@FUNCTION=COUPDAYSNC\n"
-"@SYNTAX=COUPDAYSNC(avräkning;mognad;frekvens[;bas])\n"
+"@SYNTAX=COUPDAYSNC(avräkning;mognad;frekvens[;bas;eom])\n"
 "@DESCRIPTION=COUPDAYSNC returnerar antalet dagar från avräkningsdatumet till "
-"nästa betalningsdatum. @avräkning är avräkningsdatumet för säkerheten. "
-"@mognad är mognadsdatumet för säkerheten. @frekvens är antalet betalningar "
-"per år. Tillåtna frekvenser är: 1 = årligen, 2 = halvårsvis, 4 = "
-"kvartalsvis. @bas är den typ av dagsräkningssystem som du vill använda:\n"
+"nästa betalningsdatum.\n"
+"@avräkning är avräkningsdatumet för säkerheten.\n"
+"@mognad är mognadsdatumet för säkerheten.\n"
+"@frekvens är antalet betalningar per år.\n"
+"@eom=SANT gör att mognadsdatum i slutet av månader hanteras speciellt.\n"
+"Tillåtna frekvenser är: 1 = årligen, 2 = halvårsvis, 4 = kvartalsvis, och om "
+"eom är angivet: 6 = varannan månad, 12 = månatligen.\n"
+"@bas är den typ av dagsräkningssystem som du vill använda:\n"
 "\n"
-"0  Amerikanskt 30/360\n"
+"0  30/360\n"
 "1  verkliga dagar/verkliga dagar\n"
 "2  verkliga dagar/360\n"
 "3  verkliga dagar/365\n"
 "4  Europeiskt 30/360\n"
+"5  Amerikanskt 30/360 (tillgängligt endast om eom är angivet)\n"
+"(se gnumericmanualen för en detaljerad beskrivning av dessa baser)\n"
 "\n"
-"Om @frekvens är en annan än 1, 2 eller 4 returnerar COUPDAYSNC felvärdet "
-"#NUM!. Om @bas utelämnas används amerikanskt 30/360-system. Om @bas inte är "
-"mellan 1 och 4 returnerar COUPDAYSNC felvärdet #NUM!.\n"
+"Om @frekvens är ogiltig returnerar COUPDAYSNC felvärdet #NUM!.\n"
+"Om @bas utelämnas används 30/360-system.\n"
+"Om @bas är ogiltig returneras felvärdet #NUM!.\n"
+"\n"
+"Om COUPDAYSNC anropas med 3 eller 4 argument är den XL-kompatibel.\n"
 "@EXAMPLES=\n"
-"\n"
+"COUPDAYSNC(8-Oct-2001;29-Nov-2002;4;0) = 50COUPDAYSNC(8-Oct-2001;29-Nov-"
+"2002;4;0;TRUE) = 51COUPDAYSNC(8-Oct-2001;29-Nov-2002;4;0;FALSE) = 51\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2993
+#: src/functions/fn-financial.c:2910
+#, fuzzy
 msgid ""
 "@FUNCTION=COUPNCD\n"
-"@SYNTAX=COUPNCD(settlement,maturity,frequency[,basis])\n"
-"@DESCRIPTION=COUPNCD returns the coupon date following settlement."
-"@settlement is the settlement date of the security. @maturity is the "
-"maturity date of the security. @frequency is the number of coupon payments "
-"per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. "
+"@SYNTAX=COUPNCD(settlement,maturity,frequency[,basis,eom])\n"
+"@DESCRIPTION=COUPNCD returns the coupon date following settlement.\n"
+"@settlement is the settlement date of the security.\n"
+"@maturity is the maturity date of the security.\n"
+"@frequency is the number of coupon payments per year.\n"
+"@eom = TRUE handles end of month maturity dates special.\n"
+"Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly, 6 = bimonthly, "
+"12 = monthly.\n"
 "@basis is the type of day counting system you want to use:\n"
 "\n"
-"0  US 30/360\n"
+"0  MSRB 30/360 (MSRB Rule G33 (e))\n"
 "1  actual days/actual days\n"
 "2  actual days/360\n"
 "3  actual days/365\n"
 "4  European 30/360\n"
+"5  European+ 30/360\n"
+"(see the gnumeric manual for a detailed description of these bases)\n"
 "\n"
-"If @frequency is other than 1, 2, or 4, COUPNCD returns #NUM! error. If "
-"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and "
-"4, #NUM! error is returned. \n"
+"If @frequency is invalid, COUPNCD returns #NUM! error.\n"
+"If @basis is omitted, MSRB 30/360 is applied.\n"
+"If @basis is invalid, #NUM! error is returned.\n"
+"\n"
 "@EXAMPLES=\n"
+"COUPNCD (DATE(2002,11,29),DATE(2004,2,29),4,0) = 30-Nov-2002\n"
+"COUPNCD (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 28-Feb-2003\n"
 "\n"
 "@SEEALSO="
 msgstr ""
 "@FUNCTION=COUPNCD\n"
-"@SYNTAX=COUPNCD(avräkning;mognad;frekvens[;bas])\n"
-"@DESCRIPTION=COUPNCD returnerar betalningsdatumet som följer avräkningen. "
-"@avräkning är avräkningsdatumet för säkerheten. @mognad är mognadsdatumet "
-"för säkerheten. @frekvens är antalet betalningar per år. Tillåtna frekvenser "
-"är: 1 = årligen, 2 = halvårsvis, 4 = kvartalsvis. @bas är den typ av "
-"dagsräkningssystem som du vill använda:\n"
+"@SYNTAX=COUPNCD(avräkning;mognad;frekvens[;bas;eom])\n"
+"@DESCRIPTION=COUPNCD returnerar betalningsdatumet som följer avräkningen.\n"
+"@avräkning är avräkningsdatumet för säkerheten.\n"
+"@mognad är mognadsdatumet för säkerheten.\n"
+"@frekvens är antalet betalningar per år.\n"
+"@eom = SANT behandlar mognadsdatum i slutet av månaden speciellt.\n"
+"Tillåtna frekvenser är: 1 = årligen, 2 = halvårsvis, 4 = kvartalsvis och om "
+"eom är angivet: 6 = varannan månad, 12 = månatligen.\n"
+"@bas är den typ av dagsräkningssystem som du vill använda:\n"
 "\n"
-"0  Amerikanskt 30/360\n"
+"0  30/360\n"
 "1  verkliga dagar/verkliga dagar\n"
 "2  verkliga dagar/360\n"
 "3  verkliga dagar/365\n"
 "4  Europeiskt 30/360\n"
+"5  Amerikanskt 30/360\n"
+"(se gnumericmanualen för en detaljerad beskrivning av dessa baser)\n"
 "\n"
-"Om @frekvens är en annan än 1, 2 eller 4 returnerar COUPNCD felvärdet #NUM!. "
-"Om @bas utelämnas används amerikanskt 30/360-system. Om @bas inte är mellan "
-"1 och 4 returnerar COUPNCD felvärdet #NUM!.\n"
+"Om @frekvens är ogiltig returnerar COUPNCD felvärdet #NUM!.\n"
+"Om @bas utelämnas används 30/360-system.\n"
+"Om @bas är ogiltig returneras felvärdet #NUM!.\n"
+"\n"
+"Om COUPNCD anropas med 3 eller 4 argument är den XL-kompatibel.\n"
 "@EXAMPLES=\n"
-"\n"
+"COUPNCD(8-Oct-2001;29-Nov-2002;4;0) = 28-Nov-2001COUPNCD(8-Oct-2001;29-Nov-"
+"2002;4;0;TRUE) = 29-Nov-2001COUPNCD(8-Oct-2001;29-Nov-2002;4;0;FALSE) = 29-"
+"Nov-2001\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3028
+#: src/functions/fn-financial.c:2951
+#, fuzzy
 msgid ""
 "@FUNCTION=COUPPCD\n"
-"@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis])\n"
-"@DESCRIPTION=COUPPCD returns the coupon date preceeding settlement."
-"@settlement is the settlement date of the security. @maturity is the "
-"maturity date of the security. @frequency is the number of coupon payments "
-"per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. "
+"@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis,eom])\n"
+"@DESCRIPTION=COUPPCD returns the coupon date preceeding settlement.\n"
+"@settlement is the settlement date of the security.\n"
+"@maturity is the maturity date of the security.\n"
+"@frequency is the number of coupon payments per year.\n"
+"@eom = TRUE handles end of month maturity dates special.\n"
+"Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly, 6 = bimonthly, "
+"12 = monthly.\n"
 "@basis is the type of day counting system you want to use:\n"
 "\n"
-"0  US 30/360\n"
+"0  MSRB 30/360 (MSRB Rule G33 (e))\n"
 "1  actual days/actual days\n"
 "2  actual days/360\n"
 "3  actual days/365\n"
 "4  European 30/360\n"
+"5  European+ 30/360\n"
+"(see the gnumeric manual for a detailed description of these bases)\n"
 "\n"
-"If @frequency is other than 1, 2, or 4, COUPPCD returns #NUM! error. If "
-"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and "
-"4, #NUM! error is returned. \n"
+"If @frequency is invalid, COUPPCD returns #NUM! error.\n"
+"If @basis is omitted, MSRB 30/360 is applied.\n"
+"If @basis is invalid, #NUM! error is returned.\n"
+"\n"
 "@EXAMPLES=\n"
+"COUPPCD (DATE(2002,11,29),DATE(2004,2,29),4,0) = 31-AUG-2002\n"
+"COUPPCD (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 29-Nov-2002\n"
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=COUPPCD\n"
-"@SYNTAX=COUPPCD(avräkning;mognad;frekvens[;bas])\n"
-"@DESCRIPTION=COUPPCD returnerar betalningsdatumet som föregår avräkningen. "
-"@avräkning är avräkningsdatumet för säkerheten. @mognad är mognadsdatumet "
-"för säkerheten. @frekvens är antalet betalningar per år. Tillåtna frekvenser "
-"är: 1 = årligen, 2 = halvårsvis, 4 = kvartalsvis. @bas är den typ av "
-"dagsräkningssystem som du vill använda:\n"
+"@FUNCTION=COUPNCD\n"
+"@SYNTAX=COUPNCD(avräkning;mognad;frekvens[;bas;eom])\n"
+"@DESCRIPTION=COUPNCD returnerar betalningsdatumet som följer avräkningen.\n"
+"@avräkning är avräkningsdatumet för säkerheten.\n"
+"@mognad är mognadsdatumet för säkerheten.\n"
+"@frekvens är antalet betalningar per år.\n"
+"@eom = SANT behandlar mognadsdatum i slutet av månaden speciellt.\n"
+"Tillåtna frekvenser är: 1 = årligen, 2 = halvårsvis, 4 = kvartalsvis och om "
+"eom är angivet: 6 = varannan månad, 12 = månatligen.\n"
+"@bas är den typ av dagsräkningssystem som du vill använda:\n"
 "\n"
-"0  Amerikanskt 30/360\n"
+"0  30/360\n"
 "1  verkliga dagar/verkliga dagar\n"
 "2  verkliga dagar/360\n"
 "3  verkliga dagar/365\n"
 "4  Europeiskt 30/360\n"
+"5  Amerikanskt 30/360\n"
+"(se gnumericmanualen för en detaljerad beskrivning av dessa baser)\n"
 "\n"
-"Om @frekvens är en annan än 1, 2 eller 4 returnerar COUPPCD felvärdet #NUM!. "
-"Om @bas utelämnas används amerikanskt 30/360-system. Om @bas inte är mellan "
-"1 och 4 returnerar COUPPCD felvärdet #NUM!.\n"
+"Om @frekvens är ogiltig returnerar COUPNCD felvärdet #NUM!.\n"
+"Om @bas utelämnas används 30/360-system.\n"
+"Om @bas är ogiltig returneras felvärdet #NUM!.\n"
+"\n"
+"Om COUPNCD anropas med 3 eller 4 argument är den XL-kompatibel.\n"
 "@EXAMPLES=\n"
-"\n"
+"COUPNCD(8-Oct-2001;29-Nov-2002;4;0) = 28-Nov-2001COUPNCD(8-Oct-2001;29-Nov-"
+"2002;4;0;TRUE) = 29-Nov-2001COUPNCD(8-Oct-2001;29-Nov-2002;4;0;FALSE) = 29-"
+"Nov-2001\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3063
+#: src/functions/fn-financial.c:2992
+#, fuzzy
 msgid ""
 "@FUNCTION=COUPNUM\n"
-"@SYNTAX=COUPNUM(settlement,maturity,frequency[,basis])\n"
+"@SYNTAX=COUPNUM(settlement,maturity,frequency[,basis,eom])\n"
 "@DESCRIPTION=COUPNUM returns the numbers of coupons to be paid between the "
-"settlement and maturity dates, rounded up.@settlement is the settlement date "
-"of the security. @maturity is the maturity date of the security. @frequency "
-"is the number of coupon payments per year. Allowed frequencies are: 1 = "
-"annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system "
-"you want to use:\n"
+"settlement and maturity dates, rounded up.\n"
+"@settlement is the settlement date of the security.\n"
+"@maturity is the maturity date of the security.\n"
+"@frequency is the number of coupon payments per year.\n"
+"@eom = TRUE handles end of month maturity dates special.\n"
+"Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. 6 = bimonthly, "
+"12 = monthly.\n"
+"@basis is the type of day counting system you want to use:\n"
 "\n"
-"0  US 30/360\n"
+"0  MSRB 30/360 (MSRB Rule G33 (e))\n"
 "1  actual days/actual days\n"
 "2  actual days/360\n"
 "3  actual days/365\n"
 "4  European 30/360\n"
+"5  European+ 30/360\n"
 "\n"
 "If @frequency is other than 1, 2, or 4, COUPNUM returns #NUM! error. If "
-"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and "
+"@basis is omitted, MSRB 30/360 is applied. If @basis is not in between 0 and "
 "4, #NUM! error is returned. \n"
 "@EXAMPLES=\n"
-"\n"
+"COUPNUM (DATE(2002,11,29),DATE(2004,2,29),4,0) = 6\n"
+"COUPNUM (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 5\n"
 "@SEEALSO="
 msgstr ""
 "@FUNCTION=COUPNUM\n"
@@ -12561,7 +12638,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3129
+#: src/functions/fn-financial.c:3032
 msgid ""
 "@FUNCTION=CUMIPMT\n"
 "@SYNTAX=CUMIPMT(rate,nper,pv,start_period,end_period,type)\n"
@@ -12579,7 +12656,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3149
+#: src/functions/fn-financial.c:3052
 msgid ""
 "@FUNCTION=CUMPRINC\n"
 "@SYNTAX=CUMPRINC(rate,nper,pv,start_period,end_period,type)\n"
@@ -12597,7 +12674,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3169
+#: src/functions/fn-financial.c:3072
 msgid ""
 "@FUNCTION=MDURATION\n"
 "@SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency[,basis])\n"
@@ -12615,7 +12692,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3190
+#: src/functions/fn-financial.c:3093
 msgid ""
 "@FUNCTION=VDB\n"
 "@SYNTAX=VDB(cost,salvage,life,start_period,end_period[,factor,switch])\n"
@@ -12853,9 +12930,9 @@ msgid ""
 "#DIV/0!    2\n"
 "#VALUE!    3\n"
 "#REF!      4\n"
-"#NAME!     5\n"
+"#NAME?     5\n"
 "#NUM!      6\n"
-"#NA!       7\n"
+"#N/A       7\n"
 "This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "ERROR.TYPE(NA()) equals 7.\n"
@@ -12869,9 +12946,9 @@ msgstr ""
 "#DIV/0!    2\n"
 "#VÄRDE!    3\n"
 "#REF!      4\n"
-"#NAMN!     5\n"
+"#NAMN?     5\n"
 "#NUM!      6\n"
-"#-!        7\n"
+"#-         7\n"
 "Denna funktion är kompatibel med Excel.\n"
 "@EXAMPLES=\n"
 "ERROR.TYPE(NA()) är lika med 7.\n"
@@ -13774,7 +13851,7 @@ msgid ""
 "If any of the arguments is less than one, LCM returns #NUM! error.\n"
 "This function is Excel compatible. \n"
 "@EXAMPLES=\n"
-"LCM(2,13) equlas to 26.\n"
+"LCM(2,13) equals to 26.\n"
 "LCM(4,7,5) equals to 140.\n"
 "\n"
 "@SEEALSO=GCD"
@@ -13824,7 +13901,7 @@ msgid ""
 "@SYNTAX=ACOS(x)\n"
 "@DESCRIPTION=ACOS function calculates the arc cosine of @x; that is the "
 "value whose cosine is @x.  If @x  falls  outside  the range -1 to 1, ACOS "
-"fails and returns the NUM! error. The value it returns is in radians.\n"
+"fails and returns the #NUM! error. The value it returns is in radians.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "ACOS(0.1) equals 1.470629.\n"
@@ -13836,7 +13913,7 @@ msgstr ""
 "@SYNTAX=ACOS(x)\n"
 "@DESCRIPTION=Funktionen ACOS beräknar arcus cosinus av @x; det vill säga det "
 "värde vars cosinus är @x. Om @x ligger utanför området -1 till 1, returnerar "
-"ACOS felet NUM!. Resultatet anges i radianer.\n"
+"ACOS felvärdet #NUM!. Resultatet anges i radianer.\n"
 "Denna funktion är kompatibel med Excel.\n"
 "@EXAMPLES=\n"
 "ACOS(0,1) är lika med 1,470629.\n"
@@ -13850,7 +13927,7 @@ msgid ""
 "@SYNTAX=ACOSH(x)\n"
 "@DESCRIPTION=ACOSH  function  calculates  the inverse hyperbolic cosine of "
 "@x; that is the value whose hyperbolic cosine is @x. If @x is less than 1.0, "
-"ACOSH() returns the NUM! error.\n"
+"ACOSH() returns the #NUM! error.\n"
 "This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "ACOSH(2) equals 1.31696.\n"
@@ -13862,7 +13939,7 @@ msgstr ""
 "@SYNTAX=ACOSH(x)\n"
 "@DESCRIPTION=Funktionen ACOSH beräknar inversen till cosinus hyperbolicus av "
 "@x; det vill säga det värde vars cosinus hyperbolicus är @x. Om @x är mindre "
-"än 1,0, returnerar ACOSH() felet NUM!\n"
+"än 1,0, returnerar ACOSH() felvärdet #NUM!\n"
 "Denna funktion är kompatibel med Excel.\n"
 "@EXAMPLES=\n"
 "ACOSH(2) är lika med 1,31696.\n"
@@ -13876,7 +13953,7 @@ msgid ""
 "@SYNTAX=ASIN(x)\n"
 "@DESCRIPTION=ASIN function calculates the arc sine of @x; that is the value "
 "whose sine is @x. If @x falls outside  the  range -1 to 1, ASIN fails and "
-"returns the NUM! error.\n"
+"returns the #NUM! error.\n"
 "This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "ASIN(0.5) equals 0.523599.\n"
@@ -13888,7 +13965,7 @@ msgstr ""
 "@SYNTAX=ASIN(x)\n"
 "@DESCRIPTION=Funktionen ASIN beräknar arcus sinus av @x; det vill säga det "
 "värde vars sinus är @x. Om @x ligger utanför området -1 till 1, returnerar "
-"ASIN felet NUM!\n"
+"ASIN felvärdet #NUM!\n"
 "Denna funktion är kompatibel med Excel.\n"
 "@EXAMPLES=\n"
 "ASIN(0,5) är lika med 0,523599.\n"
@@ -13950,7 +14027,7 @@ msgid ""
 "@SYNTAX=ATANH(x)\n"
 "@DESCRIPTION=ATANH function calculates the inverse hyperbolic tangent of @x; "
 "that is the value whose hyperbolic tangent is @x. If the absolute value of "
-"@x is greater than 1.0, ATANH returns NUM! error.\n"
+"@x is greater than 1.0, ATANH returns #NUM! error.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "ATANH(0.5) equals 0.549306.\n"
@@ -13962,7 +14039,7 @@ msgstr ""
 "@SYNTAX=ATANH(x)\n"
 "@DESCRIPTION=Funktionen ATANH beräknar inversen till tangens hyperbolicus; "
 "det vill säga det värde vars tanh är @x. Om absolutvärdet av @x är större än "
-"1,0 returnerar ATANH felvärdet NUM!\n"
+"1,0 returnerar ATANH felvärdet #NUM!\n"
 "Denna funktion är kompatibel med Excel.\n"
 "@EXAMPLES=\n"
 "ATANH(0,5) är lika med 0,549306.\n"
@@ -14946,8 +15023,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(number)\n"
-"@DESCRIPTION=FACTDOUBLE function returns the double factorial of a "
-"@number. \n"
+"@DESCRIPTION=FACTDOUBLE function returns the double factorial of a @number, "
+"i.e., x!!.\n"
 "If @number is not an integer, it is truncated.  If @number is negative "
 "FACTDOUBLE returns #NUM! error.\n"
 "This function is Excel compatible. \n"
@@ -14958,7 +15035,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(tal)\n"
-"@DESCRIPTION=Funktionen FACTDOUBLE beräknar semifakulteten för @tal.\n"
+"@DESCRIPTION=Funktionen FACTDOUBLE beräknar semifakulteten för @tal, dvs "
+"x!!.\n"
 "Om @tal inte är ett heltal, trunkeras det. Om @tal är negativt, returneras "
 "felvärdet #NUM!.\n"
 "Denna funktion är kompatibel med Excel.\n"
@@ -14970,9 +15048,10 @@ msgstr ""
 #: src/functions/fn-math.c:1854
 msgid ""
 "@FUNCTION=QUOTIENT\n"
-"@SYNTAX=QUOTIENT(num,den)\n"
+"@SYNTAX=QUOTIENT(numerator,denumerator)\n"
 "@DESCRIPTION=QUOTIENT function returns the integer portion of a division.  "
-"@num is the divided and @den is the divisor.\n"
+"@numerator is the divided number and \n"
+"@denumerator is the divisor.\n"
 "This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "QUOTIENT(23,5) equals 4.\n"
@@ -14988,7 +15067,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MOD"
 
-#: src/functions/fn-math.c:1885
+#: src/functions/fn-math.c:1886
 msgid ""
 "@FUNCTION=SIGN\n"
 "@SYNTAX=SIGN(number)\n"
@@ -15014,7 +15093,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-math.c:1919
+#: src/functions/fn-math.c:1920
 msgid ""
 "@FUNCTION=SQRTPI\n"
 "@SYNTAX=SQRTPI(number)\n"
@@ -15036,12 +15115,12 @@ msgstr ""
 "\n"
 "@SEEALSO=PI"
 
-#: src/functions/fn-math.c:1948
+#: src/functions/fn-math.c:1949
 msgid ""
 "@FUNCTION=RANDBETWEEN\n"
 "@SYNTAX=RANDBETWEEN(bottom,top)\n"
 "@DESCRIPTION=RANDBETWEEN function returns a random integer number between "
-"@bottom and @top.\n"
+"and including @bottom and @top.\n"
 "If @bottom or @top is non-integer, they are truncated. If @bottom > @top, "
 "RANDBETWEEN returns #NUM! error.\n"
 "This function is Excel compatible. \n"
@@ -15052,8 +15131,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=RANDBETWEEN\n"
 "@SYNTAX=RANDBETWEEN(lägst;högst)\n"
-"@DESCRIPTION=RANDBETWEEN returnerar ett slumpheltal mellan @lägst och "
-"@högst.\n"
+"@DESCRIPTION=RANDBETWEEN returnerar ett slumpheltal mellan och inklusive "
+"@lägst och @högst.\n"
 "Om @lägst eller @högst är icke-heltal, trunkeras de. Om @lägst > @högst, "
 "returneras felvärdet #NUM!. Denna funktion är kompatibel med Excel.\n"
 "@EXAMPLES=\n"
@@ -15061,13 +15140,13 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND"
 
-#: src/functions/fn-math.c:1982
+#: src/functions/fn-math.c:1983
 msgid ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(number[,digits])\n"
-"@DESCRIPTION=ROUNDDOWN function rounds a given @number down, towards zero. "
-"@number is the number you want rounded down and @digits is the number of "
-"digits to which you want to round that number. \n"
+"@DESCRIPTION=ROUNDDOWN function rounds a given @number down. @number is the "
+"number you want rounded down and @digits is the number of digits to which "
+"you want to round that number. \n"
 "If @digits is greater than zero, @number is rounded down to the given number "
 "of digits. If @digits is zero or omitted, @number is rounded down to the "
 "nearest integer. If @digits is less than zero, @number is rounded down to "
@@ -15083,8 +15162,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(tal[;siffor])\n"
-"@DESCRIPTION=Funktionen ROUNDDOWN avrundar @tal nedåt, mot noll. @siffor är "
-"antalet siffror som @tal skall avrundas till.\n"
+"@DESCRIPTION=Funktionen ROUNDDOWN avrundar @tal nedåt. @siffor är antalet "
+"siffror som @tal skall avrundas till.\n"
 "Om @siffror är större än noll avrundas @tal till det angivna antalet "
 "siffror. Om @siffror är noll eller utelämnat, avrundas @tal nedåt till "
 "närmsta heltal. Om @siffror är mindre än noll, avrundas @tal nedåt till "
@@ -15098,7 +15177,7 @@ msgstr ""
 "\n"
 " @SEEALSO=ROUND,ROUNDUP"
 
-#: src/functions/fn-math.c:2026
+#: src/functions/fn-math.c:2027
 msgid ""
 "@FUNCTION=ROUND\n"
 "@SYNTAX=ROUND(number[,digits])\n"
@@ -15134,13 +15213,13 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUNDDOWN,ROUNDUP"
 
-#: src/functions/fn-math.c:2067
+#: src/functions/fn-math.c:2068
 msgid ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(number[,digits])\n"
-"@DESCRIPTION=ROUNDUP function rounds a given number up, away from zero. "
-"@number is the number you want rounded up and @digits is the number of "
-"digits to which you want to round that number. \n"
+"@DESCRIPTION=ROUNDUP function rounds a given number up. @number is the "
+"number you want rounded up and @digits is the number of digits to which you "
+"want to round that number. \n"
 "If @digits is greater than zero, @number is rounded up to the given number "
 "of digits. If @digits is zero or omitted, @number is rounded up to the "
 "nearest integer. If @digits is less than zero, @number is rounded up to the "
@@ -15156,8 +15235,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(tal[;siffror])\n"
-"@DESCRIPTION=Funktionen ROUNDUP avrundar @tal uppåt, bort från noll. "
-"@siffror är antalet siffror som @tal skall avrundas till.\n"
+"@DESCRIPTION=Funktionen ROUNDUP avrundar @tal uppåt. @siffror är antalet "
+"siffror som @tal skall avrundas till.\n"
 "Om @siffror är större än noll avrundas @tal till det angivna antalet "
 "siffror. Om @siffror är noll eller utelämnat, avrundas @tal uppåt till "
 "närmsta heltal. Om @siffror är mindre än noll, avrundas @tal uppåt till "
@@ -15171,7 +15250,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUND,ROUNDDOWN"
 
-#: src/functions/fn-math.c:2111
+#: src/functions/fn-math.c:2112
 msgid ""
 "@FUNCTION=MROUND\n"
 "@SYNTAX=MROUND(number,multiple)\n"
@@ -15201,7 +15280,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP"
 
-#: src/functions/fn-math.c:2161
+#: src/functions/fn-math.c:2162
 msgid ""
 "@FUNCTION=ROMAN\n"
 "@SYNTAX=ROMAN(number[,type])\n"
@@ -15242,7 +15321,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-math.c:2427
+#: src/functions/fn-math.c:2428
 msgid ""
 "@FUNCTION=SUMX2MY2\n"
 "@SYNTAX=SUMX2MY2(array1,array2)\n"
@@ -15252,7 +15331,7 @@ msgid ""
 "equation of SUMX2MY2 is SUM (x^2-y^2). \n"
 "Strings and empty cells are simply ignored.\n"
 "If @array1 and @array2 have different number of data points, SUMX2MY2 "
-"returns #N/A! error.\n"
+"returns #N/A error.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, "
@@ -15268,7 +15347,7 @@ msgstr ""
 "kvadraterna av talen i de två fälten @fält1 och @fält2. Ekvationen för "
 "SUMX2MY2 är SUM (x²-y²).\n"
 "Strängar och tomma celler ignoreras.\n"
-"Om @fält1 och @fält2 har olika antal värden returneras felvärdet #-!.\n"
+"Om @fält1 och @fält2 har olika antal värden returneras felvärdet #-.\n"
 "Denna funktion är kompatibel med Excel.\n"
 "@EXAMPLES=\n"
 "Antag att cellerna A1, A2, ..., A5 innehåller talen 11, 15, 17, 21, och 43 "
@@ -15278,14 +15357,14 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2PY2"
 
-#: src/functions/fn-math.c:2483 src/functions/fn-math.c:2502
-#: src/functions/fn-math.c:2596 src/functions/fn-math.c:2616
-#: src/functions/fn-math.c:2708 src/functions/fn-math.c:2728
+#: src/functions/fn-math.c:2484 src/functions/fn-math.c:2503
+#: src/functions/fn-math.c:2597 src/functions/fn-math.c:2617
+#: src/functions/fn-math.c:2709 src/functions/fn-math.c:2729
 #: src/functions/fn-stat.c:2619 src/functions/fn-stat.c:2649
 msgid "Array version not implemented!"
 msgstr "Fältversion inte implementerad!"
 
-#: src/functions/fn-math.c:2540
+#: src/functions/fn-math.c:2541
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
 "@SYNTAX=SUMX2PY2(array1,array2)\n"
@@ -15295,7 +15374,7 @@ msgid ""
 "equation of SUMX2PY2 is SUM (x^2+y^2). \n"
 "Strings and empty cells are simply ignored.\n"
 "If @array1 and @array2 have different number of data points, SUMX2PY2 "
-"returns #N/A! error.\n"
+"returns #N/A error.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, "
@@ -15311,7 +15390,7 @@ msgstr ""
 "kvadraterna av de motsvarande talen i de två fälten @fält1 och @fält2. "
 "Ekvationen för SUMX2MY2 är SUM (x²+y²).\n"
 "Strängar och tomma celler ignoreras.\n"
-"Om @fält1 och @fält2 har olika antal värden returneras felvärdet #-!.\n"
+"Om @fält1 och @fält2 har olika antal värden returneras felvärdet #-.\n"
 "Denna funktion är kompatibel med Excel.\n"
 "@EXAMPLES=\n"
 "Antag att cellerna A1, A2, ..., A5 innehåller talen 11, 15, 17, 21, och 43 "
@@ -15321,7 +15400,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2MY2"
 
-#: src/functions/fn-math.c:2652
+#: src/functions/fn-math.c:2653
 msgid ""
 "@FUNCTION=SUMXMY2\n"
 "@SYNTAX=SUMXMY2(array1,array2)\n"
@@ -15331,7 +15410,7 @@ msgid ""
 "equation of SUMXMY2 is SUM (x-y)^2. \n"
 "Strings and empty cells are simply ignored.\n"
 "If @array1 and @array2 have different number of data points, SUMXMY2 returns "
-"#N/A! error.\n"
+"#N/A error.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, "
@@ -15348,7 +15427,7 @@ msgstr ""
 "fältet eller intervallet med datapunkter och @fält2 är det andra fältet med "
 "datapunkter. Ekvationen för SUMXMY2 är SUM (x-y)².\n"
 "Strängar och tomma celler ignoreras.\n"
-"Om @fält1 och @fält2 har olika antal värden returneras felvärdet #-!.\n"
+"Om @fält1 och @fält2 har olika antal värden returneras felvärdet #-.\n"
 "Denna funktion är kompatibel med Excel.\n"
 "@EXAMPLES=\n"
 "Antag att cellerna A1, A2, ..., A5 innehåller talen 11, 15, 17, 21, och 43 "
@@ -15358,7 +15437,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2MY2,SUMX2PY2"
 
-#: src/functions/fn-math.c:2766
+#: src/functions/fn-math.c:2767
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
 "@SYNTAX=SUMIF(function_nbr,ref1,ref2,...)\n"
@@ -15416,12 +15495,12 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNT,SUM"
 
-#: src/functions/fn-math.c:2848
+#: src/functions/fn-math.c:2849
 msgid ""
 "@FUNCTION=SERIESSUM\n"
 "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
 "@DESCRIPTION=SERIESSUM function returns the sum of a power series.  @x is "
-"the base of the power serie, @n is the initial power to raise @x, @m is the "
+"the base of the power series, @n is the initial power to raise @x, @m is the "
 "increment to the power for each term in the series, and @coefficients is the "
 "coefficents by which each successive power of @x is multiplied.\n"
 "This function is Excel compatible.\n"
@@ -15446,7 +15525,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNT,SUM"
 
-#: src/functions/fn-math.c:2971
+#: src/functions/fn-math.c:2972
 msgid ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(matrix)\n"
@@ -15471,11 +15550,11 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT, MDETERM"
 
-#: src/functions/fn-math.c:3019
+#: src/functions/fn-math.c:3020
 msgid "#3D MULT?"
 msgstr "#3D MULT?"
 
-#: src/functions/fn-math.c:3098
+#: src/functions/fn-math.c:3099
 msgid ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(array1,array2)\n"
@@ -15497,7 +15576,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TRANSPOSE,MINVERSE"
 
-#: src/functions/fn-math.c:3174
+#: src/functions/fn-math.c:3175
 msgid ""
 "@FUNCTION=MDETERM\n"
 "@SYNTAX=MDETERM(matrix)\n"
@@ -15527,7 +15606,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT, MINVERSE"
 
-#: src/functions/fn-math.c:3232
+#: src/functions/fn-math.c:3233
 msgid ""
 "@FUNCTION=SUMPRODUCT\n"
 "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
@@ -15561,7 +15640,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM,PRODUCT"
 
-#: src/functions/fn-math.c:3350
+#: src/functions/fn-math.c:3351
 msgid "Maths / Trig."
 msgstr "Matematik/Trig."
 
@@ -16004,7 +16083,7 @@ msgid ""
 "@DESCRIPTION=MODE returns the most common number of the data set. If the "
 "data set has many most common numbers MODE returns the first one of them. \n"
 "Strings and empty cells are simply ignored. If the data set does not contain "
-"any duplicates MODE returns #N/A! error.\n"
+"any duplicates MODE returns #N/A error.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
@@ -16018,7 +16097,7 @@ msgstr ""
 "@DESCRIPTION=MODE returnerar det vanligast förekommande talet i en serie. Om "
 "serien har flera sådana tal ges det första av dem.\n"
 "Strängar och tomma celler ignoreras. Om serien inte har några dubletter ger "
-"MODE felvärdet #-!\n"
+"MODE felvärdet #-.\n"
 "Denna funktion är kompatibel med Excel.\n"
 "@EXAMPLES=\n"
 "Antag att cellerna A1, A2, ..., A5 innehåller talen 11,4, 17,3, 11,4, 25,9 "
@@ -17190,30 +17269,30 @@ msgstr ""
 #: src/functions/fn-stat.c:2461
 msgid ""
 "@FUNCTION=PROB\n"
-"@SYNTAX=PROB(range_x,prob_range,lower_limit[,upper_limit])\n"
+"@SYNTAX=PROB(x_range,prob_range,lower_limit[,upper_limit])\n"
 "@DESCRIPTION=PROB function returns the probability that values in a range or "
 "an array are between two limits. If @upper_limit is not given, PROB returns "
 "the probability that values in @x_range are equal to @lower_limit.\n"
 "If the sum of the probabilities in @prob_range is not equal to 1 PROB "
 "returns #NUM! error. If any value in @prob_range is <=0 or > 1, PROB returns "
 "#NUM! error. If @x_range and @prob_range contain a different number of data "
-"entries, PROB returns #N/A! error.\n"
+"entries, PROB returns #N/A error.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=BINOMDIST,CRITBINOM"
 msgstr ""
 "@FUNCTION=PROB\n"
-"@SYNTAX=PROB(område_x;sannolikhetsområde;undre_gräns[;övre_gräns])\n"
+"@SYNTAX=PROB(x-område;sannolikhetsområde;undre_gräns[;övre_gräns])\n"
 "@DESCRIPTION=Funktionen PROB returnerar sannolikheten att värdena i ett "
 "område eller en vektor är mellan två gränser. Om @övre_gräns inte är angivet "
-"returnerar PROB sannolikheten att värdena i @område_x är lika med "
+"returnerar PROB sannolikheten att värdena i @x-område är lika med "
 "@undre_gräns.\n"
 "Om summan av sannolikheterna i @sannolikhetsområde inte är lika med 1 "
 "returnerar PROB felvärdet #NUM!. Om något värde i @sannolikhetsområde är <= "
-"0 eller > 1 returnerar PROB felvärdet #NUM!. Om @område_x och "
+"0 eller > 1 returnerar PROB felvärdet #NUM!. Om @x-område och "
 "@sannolikhetsområde innehåller olika antal dataposter returnerar PROB "
-"felvärdet #-!.\n"
+"felvärdet #-.\n"
 "Denna funktion är kompatibel med Excel.\n"
 "@EXAMPLES=\n"
 "\n"
@@ -17226,7 +17305,7 @@ msgid ""
 "@DESCRIPTION=STEYX function returns the standard error of the predicted y-"
 "value for each x in the regression.\n"
 "If @known_y's and @known_x's are empty or have a different number of "
-"arguments then STEYX returns #N/A! error.\n"
+"arguments then STEYX returns #N/A error.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
@@ -17241,7 +17320,7 @@ msgstr ""
 "@DESCRIPTION=Funktionen STEYX returnerar standardfelet för det spådda y-"
 "värdet för varje x i en regression.\n"
 "Om @kända_y och @kända_x är tomma eller har olika antal argument returnerar "
-"STEYX felvärdet #-!.\n"
+"STEYX felvärdet #-.\n"
 "Denna funktion är kompatibel med Excel.\n"
 "@EXAMPLES=\n"
 "Antag att cellerna A1, A2, ..., A5 innehåller talen 11,4, 17,3, 21,3, 25,9 "
@@ -17325,9 +17404,41 @@ msgid ""
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
 "11.4, 17.3, \"missing\", 25.9, and 40.1.  Then\n"
-"MINA(A1:A5) equals 0.\n"
+"MAXA(A1:A5) equals 40.1.\n"
 "\n"
 "@SEEALSO=MAX,MINA"
+msgstr ""
+"@FUNCTION=MAXA\n"
+"@SYNTAX=MAXA(tal1;tal2;...)\n"
+"@DESCRIPTION=MAXA returnerar det största värdet bland alla argument. Tal, "
+"text och logiska värden inkluderas även de i beräkningen. Om cellen "
+"innehåller text eller om argumenten evalueras till FALSKT, räknas de som "
+"noll (0). Om ett argument evalueras till SANT, räknas det som 1. Observera "
+"att tomma celler inte räknas.\n"
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"Antag att cellerna A1, A2, ..., A5 innehåller talen och strängarna 11,4, "
+"17,3, \"saknas\", 25,9 och 40,1. Då är\n"
+"MAXA(A1:A5) lika med 40,1.\n"
+"\n"
+"@SEEALSO=MAX,MINA"
+
+#: src/functions/fn-stat.c:2861
+msgid ""
+"@FUNCTION=MINA\n"
+"@SYNTAX=MINA(number1,number2,...)\n"
+"@DESCRIPTION=MINA returns the smallest value of the given arguments.  "
+"Numbers, text and logical values are included in the calculation too. If the "
+"cell contains text or the argument evaluates to FALSE, it is counted as "
+"value zero (0).  If the argument evaluates to TRUE, it is counted as one "
+"(1).  Note that empty cells are not counted.\n"
+"This function is Excel compatible.\n"
+"@EXAMPLES=\n"
+"Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
+"11.4, 17.3, \"missing\", 25.9, and 40.1.  Then\n"
+"MINA(A1:A5) equals 0.\n"
+"\n"
+"@SEEALSO=MIN,MAXA"
 msgstr ""
 "@FUNCTION=MAXA\n"
 "@SYNTAX=MAXA(tal1;tal2;...)\n"
@@ -17343,38 +17454,6 @@ msgstr ""
 "MINA(A1:A5) lika med 0.\n"
 "\n"
 "@SEEALSO=MAX,MINA"
-
-#: src/functions/fn-stat.c:2861
-msgid ""
-"@FUNCTION=MINA\n"
-"@SYNTAX=MINA(number1,number2,...)\n"
-"@DESCRIPTION=MINA returns the smallest value of the given arguments.  "
-"Numbers, text and logical values are included in the calculation, blank "
-"cells are not.  If the cell contains text or the argument evaluates to "
-"FALSE, it is counted as value zero (0).  If the argument evaluates to TRUE, "
-"it is counted as one (1).  Note that empty cells are not counted.\n"
-"This function is Excel compatible.\n"
-"@EXAMPLES=\n"
-"Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
-"11.4, 17.3, \"missing\", 25.9, and 40.1.  Then\n"
-"MAXA(A1:A5) equals 40.1.\n"
-"\n"
-"@SEEALSO=MIN,MAXA"
-msgstr ""
-"@FUNCTION=MINA\n"
-"@SYNTAX=MINA(tal1;tal2;...)\n"
-"@DESCRIPTION=MINA returnerar det minsta värdet av alla argument. Tal, text "
-"och logiska värden inkluderas även de i beräkningen. Om cellen innehåller "
-"text eller om argumenten evalueras till FALSKT, räknas de som noll (0). Om "
-"ett argument evalueras till SANT, räknas det som 1. Observera att tomma "
-"celler inte räknas.\n"
-"Denna funktion är kompatibel med Excel.\n"
-"@EXAMPLES=\n"
-"Antag att cellerna A1, A2, ..., A5 innehåller talen och strängarna 11,4, "
-"17,3, \"saknas\", 25,9 och 40,1. Då är\n"
-"MAXA(A1:A5) lika med 40,1.\n"
-"\n"
-"@SEEALSO=MIN,MAXA"
 
 #: src/functions/fn-stat.c:2896
 msgid ""
@@ -17912,7 +17991,7 @@ msgid ""
 "existing values using simple linear regression.  The estimated future value "
 "is a y-value for a given x-value (@x). \n"
 "If @known_x or @known_y contains no data entries or different number of data "
-"entries, FORECAST returns #N/A! error. If the variance of the @known_x is "
+"entries, FORECAST returns #N/A error. If the variance of the @known_x is "
 "zero, FORECAST returns #DIV/0 error.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
@@ -17929,8 +18008,8 @@ msgstr ""
 "befintliga värdena genom att använda enkel linjär regression. Det "
 "uppskattade framtida värdet är ett y-värde för ett givet x-värde (@x).\n"
 "Om @kända_x eller @kända_y innehåller olika antal datapunkter returnerar "
-"FORECAST felvärdet #-!. Om variansen hos @kända_x är noll returnerar "
-"FORECAST felvärdet #DIV/0.\n"
+"FORECAST felvärdet #-. Om variansen hos @kända_x är noll returnerar FORECAST "
+"felvärdet #DIV/0.\n"
 "Denna funktion är kompatibel med Excel.\n"
 "@EXAMPLES=\n"
 "Antag att cellerna A1, A2, ..., A5 innehåller talen 11,4, 17,3, 21,3, 25,9 "
@@ -17947,7 +18026,7 @@ msgid ""
 "@DESCRIPTION=INTERCEPT function calculates the point where the linear "
 "regression line intersects the y-axis.  \n"
 "If @known_x or @known_y contains no data entries or different number of data "
-"entries, INTERCEPT returns #N/A! error. If the variance of the @known_x is "
+"entries, INTERCEPT returns #N/A error. If the variance of the @known_x is "
 "zero, INTERCEPT returns #DIV/0 error.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
@@ -17963,7 +18042,7 @@ msgstr ""
 "@DESCRIPTION=Funktionen INTERCEPT beräknar den punkt där den linjära "
 "regressionslinjen skär y-axeln.\n"
 "Om @kända_x eller @kända_y inte innehåller några datapunkter eller "
-"innehåller olika antal datapunkter returnerar INTERCEPT felvärdet #-!. Om "
+"innehåller olika antal datapunkter returnerar INTERCEPT felvärdet #-. Om "
 "variansen hos @kända_x är noll returnerar INTERCEPT felvärdet #DIV/0.\n"
 "Denna funktion är kompatibel med Excel.\n"
 "@EXAMPLES=\n"
@@ -18562,7 +18641,7 @@ msgstr "Formatera som alternativt tal"
 msgid "File \"%s\" has unknown format."
 msgstr "Filen \"%s\" har ett ogiltigt format."
 
-#: src/gnumeric-graph.c:1027
+#: src/gnumeric-graph.c:1032
 msgid "Data..."
 msgstr "Data..."
 
@@ -19481,15 +19560,15 @@ msgstr "Genomskinlig"
 msgid "CheckBox %d"
 msgstr "Kryssruta %d"
 
-#: src/sheet-object-widget.c:791
+#: src/sheet-object-widget.c:793
 msgid "Checkbox Configure"
 msgstr "Kryssrutekonfiguration"
 
-#: src/sheet-object-widget.c:804
+#: src/sheet-object-widget.c:806
 msgid "Cell :"
 msgstr "Cell:"
 
-#: src/sheet-object-widget.c:807
+#: src/sheet-object-widget.c:809
 msgid "Label :"
 msgstr "Rubrik:"
 
@@ -19497,35 +19576,35 @@ msgstr "Rubrik:"
 msgid "Properties..."
 msgstr "Egenskaper..."
 
-#: src/sheet.c:2126
+#: src/sheet.c:2127
 msgid "Target region contains merged cells"
 msgstr "Målregionen innehåller sammanslagna celler"
 
-#: src/sheet.c:2188
+#: src/sheet.c:2189
 msgid "cannot operate on merged cells"
 msgstr "kan inte operera på sammanslagna celler"
 
-#: src/sheet.c:2199
+#: src/sheet.c:2200
 msgid "cannot operate on array formulae"
 msgstr "kan inte operera på vektorformler"
 
-#: src/sheet.c:3051
+#: src/sheet.c:3052
 msgid "Clear"
 msgstr "Töm"
 
-#: src/sheet.c:3457
+#: src/sheet.c:3458
 msgid "Insert Columns"
 msgstr "Infoga kolumner"
 
-#: src/sheet.c:3514
+#: src/sheet.c:3515
 msgid "Delete Columns"
 msgstr "Ta bort kolumner"
 
-#: src/sheet.c:3568
+#: src/sheet.c:3569
 msgid "Insert Rows"
 msgstr "Infoga rader"
 
-#: src/sheet.c:3625
+#: src/sheet.c:3626
 msgid "Delete Rows"
 msgstr "Ta bort rader"
 
@@ -20386,6 +20465,211 @@ msgstr "Är inte en Gnumeric-arbetsboksfil"
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML-filformat"
 
+#~ msgid ""
+#~ "@FUNCTION=COUPDAYS\n"
+#~ "@SYNTAX=COUPDAYS(settlement,maturity,frequency[,basis,eom])\n"
+#~ "@DESCRIPTION=COUPDAYS returns the number of days in the coupon period of "
+#~ "the settlement date.\n"
+#~ "@settlement is the settlement date of the security.\n"
+#~ "@maturity is the maturity date of the security.\n"
+#~ "@frequency is the number of coupon payments per year.\n"
+#~ "@eom = TRUE handles end of month maturity dates special.\n"
+#~ "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly and if eom "
+#~ "is given: 6 = bimonthly, 12 = monthly.\n"
+#~ "@basis is the type of day counting system you want to use:\n"
+#~ "\n"
+#~ "0  30/360\n"
+#~ "1  actual days/actual days\n"
+#~ "2  actual days/360\n"
+#~ "3  actual days/365\n"
+#~ "4  European 30/360\n"
+#~ "5  US 30/360  (available only if eom is given)\n"
+#~ "(see the gnumeric manual for a detailed description of these bases)\n"
+#~ "\n"
+#~ "If @frequency is invalid, COUPDAYS returns #NUM! error.\n"
+#~ "If @basis is omitted, 30/360 is applied.\n"
+#~ "If @basis is invalid, #NUM! error is returned.\n"
+#~ "\n"
+#~ "If COUPDAYS is called with 3 or 4 arguments and basis other than 1, it is "
+#~ "XL compatible.\n"
+#~ "@EXAMPLES=\n"
+#~ "\n"
+#~ "@SEEALSO="
+#~ msgstr ""
+#~ "@FUNCTION=COUPDAYS\n"
+#~ "@SYNTAX=COUPDAYS(avräkning;mognad;frekvens[;bas;eom])\n"
+#~ "@DESCRIPTION=COUPDAYS returnerar antalet dagar i betalningsperioden till "
+#~ "avräkningsdatumet.\n"
+#~ "@avräkning är avräkningsdatumet för säkerheten.\n"
+#~ "@mognad är mognadsdatumet för säkerheten.\n"
+#~ "@frekvens är antalet betalningar per år.\n"
+#~ "Tillåtna frekvenser är: 1 = årligen, 2 = halvårsvis, 4 = kvartalsvis och "
+#~ "om eom är angivet: 6 = varannan månad, 12 = månatligen.\n"
+#~ "@bas är den typ av dagsräkningssystem som du vill använda:\n"
+#~ "\n"
+#~ "0  30/360\n"
+#~ "1  verkliga dagar/verkliga dagar\n"
+#~ "2  verkliga dagar/360\n"
+#~ "3  verkliga dagar/365\n"
+#~ "4  Europeiskt 30/360\n"
+#~ "5  Amerikanskt 30/360 (tillgängligt endast om eom är angivet)\n"
+#~ "(se gnumericmanualen för en detaljerad beskrivning av dessa baser)\n"
+#~ "\n"
+#~ "Om @frekvens är ogiltig returnerar COUPDAYS felvärdet #NUM!.\n"
+#~ "Om @bas utelämnas används 30/360-system.\n"
+#~ "Om @bas är ogiltig returneras felvärdet #NUM!.\n"
+#~ "\n"
+#~ "Om COUPDAYS anropas med 3 eller 4 argument och bas annan än 1 är den XL-"
+#~ "kompatibel.\n"
+#~ "@EXAMPLES=\n"
+#~ "\n"
+#~ "@SEEALSO="
+
+#~ msgid ""
+#~ "@FUNCTION=COUPPCD\n"
+#~ "@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis,eom])\n"
+#~ "@DESCRIPTION=COUPPCD returns the coupon date preceeding settlement.\n"
+#~ "@settlement is the settlement date of the security.\n"
+#~ "@maturity is the maturity date of the security.\n"
+#~ "@frequency is the number of coupon payments per year.\n"
+#~ "@eom = TRUE handles end of month maturity dates special.\n"
+#~ "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly and if eom "
+#~ "is given: 6 = bimonthly, 12 = monthly.\n"
+#~ "@basis is the type of day counting system you want to use:\n"
+#~ "\n"
+#~ "0  30/360\n"
+#~ "1  actual days/actual days\n"
+#~ "2  actual days/360\n"
+#~ "3  actual days/365\n"
+#~ "4  European 30/360\n"
+#~ "5  US 30/360  (available only if eom is given)\n"
+#~ "(see the gnumeric manual for a detailed description of these bases)\n"
+#~ "\n"
+#~ "If @frequency is invalid, COUPPCD returns #NUM! error.\n"
+#~ "If @basis is omitted, 30/360 is applied.\n"
+#~ "If @basis is invalid, #NUM! error is returned.\n"
+#~ "\n"
+#~ "If COUPPCD is called with 3 or 4 arguments, it is XL compatible.\n"
+#~ "@EXAMPLES=\n"
+#~ "COUPPCD(8-Oct-2001,29-Nov-2002,4,0) = 28-Aug-2001COUPPCD(8-Oct-2001,29-"
+#~ "Nov-2002,4,0,TRUE) = 29-Aug-2001COUPPCD(8-Oct-2001,29-Nov-2002,4,0,FALSE) "
+#~ "= 29-Aug-2001COUPPCD(8-Oct-2001,30-Nov-2002,4,0,FALSE) = 30-Aug-"
+#~ "2001COUPPCD(8-Oct-2001,30-Nov-2002,4,0,TRUE) = 31-Aug-2001\n"
+#~ "@SEEALSO="
+#~ msgstr ""
+#~ "@FUNCTION=COUPPCD\n"
+#~ "@SYNTAX=COUPPCD(avräkning;mognad;frekvens[;bas;eom])\n"
+#~ "@DESCRIPTION=COUPPCD returnerar betalningsdatumet som föregår "
+#~ "avräkningen.\n"
+#~ "@avräkning är avräkningsdatumet för säkerheten.\n"
+#~ "@mognad är mognadsdatumet för säkerheten.\n"
+#~ "@frekvens är antalet betalningar per år.\n"
+#~ "@eom = SANT behandlas mognadsdatum i slutet av månaden speciellt.\n"
+#~ "Tillåtna frekvenser är: 1 = årligen, 2 = halvårsvis, 4 = kvartalsvis och "
+#~ "om eom är angivet: 6 = varannan månad, 12 = månatligen.\n"
+#~ "@bas är den typ av dagsräkningssystem som du vill använda:\n"
+#~ "\n"
+#~ "0  30/360\n"
+#~ "1  verkliga dagar/verkliga dagar\n"
+#~ "2  verkliga dagar/360\n"
+#~ "3  verkliga dagar/365\n"
+#~ "4  Europeiskt 30/360\n"
+#~ "5  Amerikanskt 30/360 (tillgängligt endast om eom är angivet)\n"
+#~ "(se gnumericmanualen för en detaljerad beskrivning av dessa baser)\n"
+#~ "\n"
+#~ "Om @frekvens är ogiltig returnerar COUPPCD felvärdet #NUM!. Om @bas "
+#~ "utelämnas används 30/360-system.\n"
+#~ "Om @bas är ogiltig returneras felvärdet #NUM!.\n"
+#~ "@EXAMPLES=\n"
+#~ "COUPPCD(8-Oct-2001;29-Nov-2002;4;0) = 28-Aug-2001COUPPCD(8-Oct-2001;29-"
+#~ "Nov-2002;4;0;TRUE) = 29-Aug-2001COUPPCD(8-Oct-2001;29-Nov-2002;4;0;FALSE) "
+#~ "= 29-Aug-2001COUPPCD(8-Oct-2001;30-Nov-2002;4;0;FALSE) = 30-Aug-"
+#~ "2001COUPPCD(8-Oct-2001;30-Nov-2002;4;0;TRUE) = 31-Aug-2001\n"
+#~ "@SEEALSO="
+
+#~ msgid "Allow :"
+#~ msgstr "Tillåt:"
+
+#~ msgid "Condition :"
+#~ msgstr "Villkor:"
+
+#~ msgid "Footer:"
+#~ msgstr "Sidfot:"
+
+#~ msgid "X Variables:"
+#~ msgstr "X-variabler:"
+
+#~ msgid "Y Variable:"
+#~ msgstr "Y-variabel:"
+
+#~ msgid "Input Range: "
+#~ msgstr "Indataområde: "
+
+#~ msgid "Advanced"
+#~ msgstr "Avancerat"
+
+#~ msgid "Current sheet"
+#~ msgstr "Aktuellt blad"
+
+#~ msgid "Entire workbook"
+#~ msgstr "Hela arbetsboken"
+
+#~ msgid "Expressions"
+#~ msgstr "Uttryck"
+
+#~ msgid "Ignore case"
+#~ msgstr "Ignorera skillnader på gemener/VERSALER"
+
+#~ msgid "Other values"
+#~ msgstr "Övriga värden"
+
+#~ msgid "Plain text"
+#~ msgstr "Vanlig text"
+
+# Osäker
+#~ msgid "Row major"
+#~ msgstr "Radöverterm"
+
+#~ msgid "Search for"
+#~ msgstr "Sök efter"
+
+#~ msgid "Strings"
+#~ msgstr "Strängar"
+
+#~ msgid "Category"
+#~ msgstr "Kategori"
+
+#~ msgid ""
+#~ "@FUNCTION=MINA\n"
+#~ "@SYNTAX=MINA(number1,number2,...)\n"
+#~ "@DESCRIPTION=MINA returns the smallest value of the given arguments.  "
+#~ "Numbers, text and logical values are included in the calculation, blank "
+#~ "cells are not.  If the cell contains text or the argument evaluates to "
+#~ "FALSE, it is counted as value zero (0).  If the argument evaluates to "
+#~ "TRUE, it is counted as one (1).  Note that empty cells are not counted.\n"
+#~ "This function is Excel compatible.\n"
+#~ "@EXAMPLES=\n"
+#~ "Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
+#~ "11.4, 17.3, \"missing\", 25.9, and 40.1.  Then\n"
+#~ "MAXA(A1:A5) equals 40.1.\n"
+#~ "\n"
+#~ "@SEEALSO=MIN,MAXA"
+#~ msgstr ""
+#~ "@FUNCTION=MINA\n"
+#~ "@SYNTAX=MINA(tal1;tal2;...)\n"
+#~ "@DESCRIPTION=MINA returnerar det minsta värdet av alla argument. Tal, "
+#~ "text och logiska värden inkluderas även de i beräkningen. Om cellen "
+#~ "innehåller text eller om argumenten evalueras till FALSKT, räknas de som "
+#~ "noll (0). Om ett argument evalueras till SANT, räknas det som 1. "
+#~ "Observera att tomma celler inte räknas.\n"
+#~ "Denna funktion är kompatibel med Excel.\n"
+#~ "@EXAMPLES=\n"
+#~ "Antag att cellerna A1, A2, ..., A5 innehåller talen och strängarna 11,4, "
+#~ "17,3, \"saknas\", 25,9 och 40,1. Då är\n"
+#~ "MAXA(A1:A5) lika med 40,1.\n"
+#~ "\n"
+#~ "@SEEALSO=MIN,MAXA"
+
 #~ msgid "Decimal"
 #~ msgstr "Decimal"
 
@@ -21012,12 +21296,6 @@ msgstr "Gnumeric XML-filformat"
 #~ msgid "Warning"
 #~ msgstr "Varning"
 
-#~ msgid "_Allow :"
-#~ msgstr "_Tillåt:"
-
-#~ msgid "_Condition :"
-#~ msgstr "_Villkor:"
-
 #~ msgid "_Error Alert"
 #~ msgstr "_Felvarning"
 
@@ -21174,9 +21452,6 @@ msgstr "Gnumeric XML-filformat"
 
 #~ msgid "_Up"
 #~ msgstr "_Upp"
-
-#~ msgid "_Value:"
-#~ msgstr "_Värde:"
 
 #~ msgid "_X axis"
 #~ msgstr "_X-axel"
@@ -21598,9 +21873,6 @@ msgstr "Gnumeric XML-filformat"
 
 #~ msgid "_Labels in First Row           "
 #~ msgstr "_Rubriker på första raden      "
-
-#~ msgid " _Input Range: "
-#~ msgstr "_Indataområde: "
 
 #~ msgid "_Output Range: "
 #~ msgstr "_Utdataområde: "
