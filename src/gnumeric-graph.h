@@ -3,6 +3,7 @@
 
 #include "gnumeric.h"
 #include <gtk/gtkwidget.h>
+#include <gnome-xml/tree.h>
 
 typedef enum {
 	GNM_VECTOR_AUTO	   = 0,
@@ -17,14 +18,16 @@ typedef enum {
 
 GtkType gnm_graph_get_type (void);
 
-GnmGraph	*gnm_graph_new	     (Workbook *wb);
-GtkWidget	*gnm_graph_type_selector   (GnmGraph *graph);
-void		 gnm_graph_clear_vectors   (GnmGraph *graph);
-void		 gnm_graph_arrange_vectors (GnmGraph *graph);
-GnmGraphVector	*gnm_graph_add_vector	   (GnmGraph *graph,
-					    ExprTree *expr,
-					    GnmGraphVectorType type,
-					    Sheet *sheet);
+GnmGraph	*gnm_graph_new			(Workbook *wb);
+GtkWidget	*gnm_graph_type_selector	(GnmGraph *graph);
+void		 gnm_graph_clear_vectors	(GnmGraph *graph);
+void		 gnm_graph_arrange_vectors	(GnmGraph *graph);
+void		 gnm_graph_import_specification	(GnmGraph *graph,
+						 xmlDocPtr spec);
+GnmGraphVector	*gnm_graph_add_vector	   	(GnmGraph *graph,
+						 ExprTree *expr,
+						 GnmGraphVectorType type,
+						 Sheet *sheet);
 
 extern char const * const gnm_graph_vector_type_name [];
 

@@ -1493,7 +1493,12 @@ scg_mode_edit (SheetControl *sc)
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
 	scg_mode_clear (scg);
-	scg_cursor_visible (scg, TRUE);
+
+	/* During destruction we have already been disconnected
+	 * so don't bother changing the cursor
+	 */
+	if (sc->sheet != NULL)
+		scg_cursor_visible (scg, TRUE);
 
 	if (wbcg_edit_has_guru (scg->wbcg))
 		wbcg_edit_finish (scg->wbcg, FALSE);

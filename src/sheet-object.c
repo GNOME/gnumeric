@@ -469,7 +469,7 @@ sheet_object_read_xml (XmlParseContext const *ctxt, xmlNodePtr tree)
 		xmlFree (tmp);
 	}
 
-	if (xml_get_value_int (tree, "Direction", &tmp_int))
+	if (xml_prop_get_int (tree, "Direction", &tmp_int))
 		so->anchor.direction = tmp_int;
 	else
 		so->anchor.direction = SO_DIR_UNKNOWN;
@@ -503,16 +503,16 @@ sheet_object_write_xml (SheetObject const *so, XmlParseContext const *ctxt)
 		return NULL;
 	}
 
-	xml_set_value_cstr (tree, "ObjectBound", range_name (&so->anchor.cell_bound));
+	xml_prop_set_cstr (tree, "ObjectBound", range_name (&so->anchor.cell_bound));
 	snprintf (buffer, sizeof (buffer), "%.*g %.*g %.*g %.*g",
 		  DBL_DIG, so->anchor.offset [0], DBL_DIG, so->anchor.offset [1],
 		  DBL_DIG, so->anchor.offset [2], DBL_DIG, so->anchor.offset [3]);
-	xml_set_value_cstr (tree, "ObjectOffset", buffer);
+	xml_prop_set_cstr (tree, "ObjectOffset", buffer);
 	snprintf (buffer, sizeof (buffer), "%d %d %d %d",
 		  so->anchor.type [0], so->anchor.type [1],
 		  so->anchor.type [2], so->anchor.type [3]);
-	xml_set_value_cstr (tree, "ObjectAnchorType", buffer);
-	xml_set_value_int (tree, "Direction", so->anchor.direction);
+	xml_prop_set_cstr (tree, "ObjectAnchorType", buffer);
+	xml_prop_set_int (tree, "Direction", so->anchor.direction);
 
 	return tree;
 }

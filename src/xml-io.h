@@ -65,9 +65,9 @@ GnumFileOpener *gnumeric_xml_get_opener (void);
 GnumFileSaver  *gnumeric_xml_get_saver (void);
 
 void gnumeric_xml_read_workbook (GnumFileOpener const *fo, IOContext *context,
-                                 WorkbookView *wbv, const gchar *filename);
+                                 WorkbookView *wbv, gchar const *filename);
 void gnumeric_xml_write_workbook (GnumFileSaver const *fs, IOContext *context,
-                                  WorkbookView *wbv, const gchar *filename);
+                                  WorkbookView *wbv, gchar const *filename);
 #ifdef ENABLE_BONOBO
 void gnumeric_xml_write_workbook_to_stream (GnumFileSaver const *fs, 
 		                            IOContext *context,
@@ -101,24 +101,21 @@ int        gnumeric_xml_write_selection_clipboard (WorkbookControl *context, She
 int        gnumeric_xml_read_selection_clipboard  (WorkbookControl *context, CellRegion **cr,
 						   xmlChar *buffer);
 /*
- * Exported support functions
+ * Some utility routines for setting properties
  */
-void	     xml_set_value_cstr	   (xmlNodePtr node, const char *name, const char *val);
-String *     xml_get_value_string  (xmlNodePtr node, const char *name);
-void         xml_set_value_string  (xmlNodePtr node, const char *name, const String *val);
-gboolean     xml_get_value_int     (xmlNodePtr node, const char *name, int *val);
-void         xml_set_value_int     (xmlNodePtr node, const char *name, int val);
-
-GdkColor *xml_get_value_color   (xmlNodePtr node, const char *name);
-void      xml_set_value_color   (xmlNodePtr node, const char *name,
-			         const GdkColor *color);
-gboolean  xml_get_value_double  (xmlNodePtr node, const char *name, double *val);
-void      xml_set_value_double  (xmlNodePtr node, const char *name, double val,
-				 int precision);
+xmlChar *xml_prop_get_cstr	(xmlNodePtr node, char const *name);
+void	 xml_prop_set_cstr	(xmlNodePtr node, char const *name, char const *val);
+gboolean xml_prop_get_int	(xmlNodePtr node, char const *name, int *val);
+void     xml_prop_set_int	(xmlNodePtr node, char const *name, int val);
+gboolean xml_prop_get_double	(xmlNodePtr node, char const *name, double *val);
+void     xml_prop_set_double	(xmlNodePtr node, char const *name, double val, int precision);
+GdkColor *xml_prop_get_gdkcolor (xmlNodePtr node, char const *name);
+void      xml_prop_set_gdkcolor (xmlNodePtr node, char const *name,
+			         GdkColor const *color);
 
 
-xmlNodePtr   xml_write_style       (XmlParseContext *ctxt, MStyle *style);
-MStyle      *xml_read_style        (XmlParseContext *ctxt, xmlNodePtr tree);
+xmlNodePtr   xml_write_style    (XmlParseContext *ctxt, MStyle *style);
+MStyle      *xml_read_style     (XmlParseContext *ctxt, xmlNodePtr tree);
 
 void      xml_init (void);
 
