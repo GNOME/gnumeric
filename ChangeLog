@@ -1,5 +1,8 @@
 2000-05-17  Jody Goldberg <jgoldberg@home.com>
 
+	* configure.in : Update required version of bonobo to 0.13.
+	* README : Ditto.
+
 	* src/cell-draw.c (cell_draw) : Cache the vertical alignment, and
 	  ensure that verticaly justified lines do not overlap.
 	* src/print-cell.c (print_cell) : Ditto.

@@ -1,12 +1,19 @@
 Gnumeric 0.54
 
+Jacob:
+	* Enable mini icons when available.
+
 Jody:
+	* Bug fixes.
 	* Initial applix import.
 	* Speedup workbook exit, copy/paste.
 	* Improve row/col insert/del.
 
-Jacob:
-	* Enable mini icons when available.
+JonKare:
+	* Lots of dialog polishing.
+
+Michael:
+	* Get embedded gnumeric working again.
 
 Translations:
         * New: gl (Jesus).
