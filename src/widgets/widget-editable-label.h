@@ -32,7 +32,8 @@ typedef struct {
 	GnomeCanvasClass parent_class;
 
 	/* Signals emited by this widget */
-	gboolean (* text_changed) (EditableLabel *el, const char *newtext);
+	gboolean (* text_changed)    (EditableLabel *el, const char *newtext);
+	void     (* editing_stopped) (void);
 } EditableLabelClass;
 
 END_GNOME_DECLS

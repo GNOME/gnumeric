@@ -24,6 +24,7 @@ typedef EditableLabelClass ElClass;
 /* Signals we emit */
 enum {
 	TEXT_CHANGED,
+	EDITING_STOPPED,
 	LAST_SIGNAL
 };
 
@@ -231,6 +232,8 @@ el_button_press_event (GtkWidget *widget, GdkEventButton *button)
 
 	if (el->entry && button->window != widget->window){
 		el_stop_editing (el);
+		gtk_signal_emit (GTK_OBJECT (el), el_signals [EDITING_STOPPED]);
+		
 		return FALSE;
 	}
 	
@@ -262,6 +265,7 @@ el_key_press_event (GtkWidget *widget, GdkEventKey *event)
 	if (event->keyval == GDK_Escape) {
 		el_stop_editing (el);
 		el_change_text (el, el->text);
+		gtk_signal_emit (GTK_OBJECT (el), el_signals [EDITING_STOPPED]);
 		
 		return TRUE;
 	}
@@ -314,6 +318,14 @@ el_class_init (ElClass *Class)
 			GTK_SIGNAL_OFFSET (EditableLabelClass, text_changed),
 			gtk_marshal_BOOL__POINTER,
 			GTK_TYPE_BOOL, 1, GTK_TYPE_POINTER);
+	el_signals [EDITING_STOPPED] =
+		gtk_signal_new (
+			"editing_stopped",
+			GTK_RUN_LAST,
+			object_class->type,
+			GTK_SIGNAL_OFFSET (EditableLabelClass, editing_stopped),
+			gtk_marshal_NONE__NONE,
+			GTK_TYPE_NONE, 0);
 	
 	gtk_object_class_add_signals (object_class, el_signals, LAST_SIGNAL);
 }

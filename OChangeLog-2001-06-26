@@ -1,3 +1,15 @@
+2000-04-22  Almer. S. Tigelaar.  <almer1@dds.nl>
+
+	Fixed Bug #9007 
+	Note : Does not fix the mouse click problem, just the focus
+	problem
+	
+	* src/workbook.c 
+	(workbook_attach_sheet) : Attaches a signal handler for 
+	the "editing_stopped" signal of the editable label.
+	(sheet_label_editing_stopped_signal) : The signal handler
+	of the "editing_stopped" signal.
+	
 2000-04-21  Chema Celorio  <chema@celorio.com>
 
 	* src/sheet.c (sheet_redraw_cell_region): small typo

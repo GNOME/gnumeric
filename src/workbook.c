@@ -2717,6 +2717,14 @@ workbook_rename_sheet (Workbook *wb, const char *old_name, const char *new_name)
 	return TRUE;
 }
 
+
+static void
+sheet_label_editing_stopped_signal (EditableLabel *el, Workbook *wb)
+{
+	workbook_focus_current_sheet (wb);
+	
+}
+
 /*
  * Signal handler for EditableLabel's text_changed signal.
  */
@@ -2952,6 +2960,9 @@ workbook_attach_sheet (Workbook *wb, Sheet *sheet)
 	gtk_signal_connect (
 		GTK_OBJECT (sheet_label), "text_changed",
 		GTK_SIGNAL_FUNC (sheet_label_text_changed_signal), wb);
+	gtk_signal_connect (
+		GTK_OBJECT (sheet_label), "editing_stopped",
+		GTK_SIGNAL_FUNC (sheet_label_editing_stopped_signal), wb);
 	gtk_signal_connect (
 		GTK_OBJECT (sheet_label), "button_press_event",
 		GTK_SIGNAL_FUNC (sheet_label_button_press), t);

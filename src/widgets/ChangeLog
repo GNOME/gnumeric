@@ -1,3 +1,9 @@
+2000-04-22  Almer. S. Tigelaar.  <almer1@dds.nl>
+
+	* widget-editable-label.c : Added new event "editing_stopped", 
+	this signal is emmited when the user presses "ESC" or presses
+	the mouse button(s) outside the editable label. 
+
 2000-04-09  Morten Welinder  <terra@diku.dk>
 
 	* widget-font-selector.c (reload_preview): Plug leaks.
