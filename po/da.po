@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.40\n"
 "POT-Creation-Date: 2000-06-19 22:02-0400\n"
-"PO-Revision-Date: 2000-07-25 02:30+02:00\n"
+"PO-Revision-Date: 2000-07-31 02:30+02:00\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -166,7 +166,7 @@ msgstr "Database tilgang"
 msgid "Enables database access"
 msgstr "Aktiverer database tilgang"
 
-#: plugins/guile/plugin.c:282 src/func.c:524
+#: plugins/guile/plugin.c:282 src/func.c:535
 #: src/functions/fn-information.c:574 src/functions/fn-information.c:642
 #: src/functions/fn-information.c:669 src/functions/fn-information.c:695
 #: src/functions/fn-information.c:744 src/functions/fn-information.c:773
@@ -472,15 +472,15 @@ msgstr "MultiPlan (SYLK)"
 msgid "Imports MultiPlan (SYLK) files"
 msgstr "Importerer MultiPlan-filer"
 
-#: plugins/xbase/boot.c:207
+#: plugins/xbase/boot.c:231
 msgid "Xbase (*.dbf) file format"
 msgstr "Xbase (*.dbf) filformat"
 
-#: plugins/xbase/boot.c:211
+#: plugins/xbase/boot.c:235
 msgid "XBase"
 msgstr "XBase"
 
-#: plugins/xbase/boot.c:212
+#: plugins/xbase/boot.c:236
 msgid "Imports XBase files"
 msgstr "Importerer XBase-filer"
 
@@ -2782,13 +2782,17 @@ msgstr "Boolsk"
 
 #: src/dialogs/dialog-function-wizard.c:407
 msgid "Array"
-msgstr "Matrise"
+msgstr "Matrix"
 
 #: src/dialogs/dialog-function-wizard.c:408
 msgid "Range/Array"
 msgstr "Omfang/Matrise"
 
-#: src/dialogs/dialog-function-wizard.c:410
+#: src/dialogs/dialog-function-wizard.c:409
+msgid "Scalar"
+msgstr "Skalar"
+
+#: src/dialogs/dialog-function-wizard.c:411
 msgid "Any"
 msgstr "Enhver"
 
@@ -5825,7 +5829,7 @@ msgstr "Kan ikke oprette filen %s\n"
 msgid "Unknown Function"
 msgstr "Ukendt funktion"
 
-#: src/func.c:567
+#: src/func.c:578
 msgid "Function does not exist"
 msgstr "Funktion eksisterer ikke"
 
@@ -6362,7 +6366,7 @@ msgid ""
 "@FUNCTION=WORKDAY\n"
 "@SYNTAX=WORKDAY (start_date,days,holidays)\n"
 "@DESCRIPTION=Returns the day which is @days working days from the "
-"@start_date.  Weekends and holidays optionaly supplied in @holidays are "
+"@start_date.  Weekends and holidays optionally supplied in @holidays are "
 "respected.\n"
 "Returns #NUM! if @start_date or @days are invalid.\n"
 "@EXAMPLES=\n"
@@ -6394,7 +6398,7 @@ msgid ""
 "@FUNCTION=NETWORKDAYS\n"
 "@SYNTAX=NETWORKDAYS (start_date,end_date,holidays)\n"
 "@DESCRIPTION=Returns the number of non-weekend non-holidays between "
-"@start_date and @end_date.  Holidays optionaly supplied in @holidays.\n"
+"@start_date and @end_date.  Holidays optionally supplied in @holidays.\n"
 "Returns #NUM if start_date or end_date are invalid\n"
 "@EXAMPLES=\n"
 "\n"
@@ -13171,8 +13175,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=PEARSON\n"
 "@SYNTAX=PEARSON(vektor1,vektor2)\n"
-"@DESCRIPTION=PEARSON returnerer Pearson-korrelationskoefficienten af "
-"to datasæt.\n"
+"@DESCRIPTION=PEARSON returnerer Pearson-korrelationskoefficienten af to "
+"datasæt.\n"
 "Strenge og tomme celler ignoreres. Denne funktion er Excel kompatibel.\n"
 "@EXAMPLES=\n"
 "\n"
