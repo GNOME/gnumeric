@@ -10,7 +10,7 @@ xmldir	 = $(goffice_graph_piedir)
 gladedir = $(goffice_graph_piedir)
 
 goffice_graph_pie_LTLIBRARIES = pie.la
-pie_la_LDFLAGS = -module -avoid-version
+pie_la_LDFLAGS = -module $(GNUMERIC_PLUGIN_LDFLAGS)
 pie_la_SOURCES = \
 	gog-pie.c		\
 	gog-pie.h		\

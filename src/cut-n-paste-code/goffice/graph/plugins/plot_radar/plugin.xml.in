@@ -5,7 +5,7 @@
 		<_description>Radial/Radar plots</_description>
 	</information>
 	<loader type="Gnumeric_Builtin:module">
-		<attribute name="module_file" value="radar.la"/>
+		<attribute name="module_file" value="radar"/>
 	</loader>
 	<services>
 		<service type="plot_engine" id="GogRadarPlot">

@@ -147,10 +147,12 @@ plugin_init (void)
 	filename = g_strdup_printf ("%s/%s", g_get_home_dir (), "atl");
 
 	/* NOTE : better to use popen here, but this is fine for testing */
+#ifdef HAVE_MKFIFO
 	if (mkfifo (filename, S_IRUSR | S_IWUSR) == 0) {
 		atl_filename = filename;
 		atl_fd = open (atl_filename, O_RDWR|O_NONBLOCK);
 	} else
+#endif /* HAVE_MKFIFO */
 		g_free (filename);
 
 	if (atl_fd >= 0) {

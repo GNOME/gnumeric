@@ -5,7 +5,7 @@
 		<_description>Line, Area, Bar and Column plots</_description>
 	</information>
 	<loader type="Gnumeric_Builtin:module">
-		<attribute name="module_file" value="barcol.la"/>
+		<attribute name="module_file" value="barcol"/>
 	</loader>
 	<services>
 		<service type="plot_engine" id="GogLinePlot">

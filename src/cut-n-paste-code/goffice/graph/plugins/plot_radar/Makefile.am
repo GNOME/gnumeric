@@ -10,7 +10,7 @@ xmldir	 = $(goffice_graph_radardir)
 gladedir = $(goffice_graph_radardir)
 
 goffice_graph_radar_LTLIBRARIES = radar.la
-radar_la_LDFLAGS = -module -avoid-version
+radar_la_LDFLAGS = -module $(GNUMERIC_PLUGIN_LDFLAGS)
 radar_la_SOURCES = \
 	gog-radar.c		\
 	gog-radar.h		

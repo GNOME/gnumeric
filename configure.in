@@ -55,6 +55,46 @@ Please use another compiler, for example a gcc 2.95 series compiler.])
 fi
 
 dnl *****************************
+# Check for zlib.
+_cppflags="${CPPFLAGS}"
+_ldflags="${LDFLAGS}"
+
+AC_ARG_WITH(zlib,
+	[[  --with-zlib=DIR       use libz in DIR]],
+	[case x"$withval" in
+	 xyes|xno) ;;
+	 *)	Z_DIR=$withval
+		CPPFLAGS="${CPPFLAGS} -I$withval/include"
+		LDFLAGS="${LDFLAGS} -L$withval/lib"
+		;;
+	 esac])
+
+if test "x$with_zlib" != xno; then
+	with_zlib=no
+	AC_CHECK_HEADER(zlib.h, [AC_CHECK_LIB(z, gzread, [with_zlib=yes])])
+fi
+
+if test "$with_zlib" = no; then
+	AC_MSG_ERROR([*** zlib is required])
+fi
+
+if test "x${Z_DIR}" != "x"; then
+	Z_CPPFLAGS="-I${Z_DIR}/include"
+	case ${host} in
+	*-*-solaris*)	Z_LIBS="-L${Z_DIR}/lib -R${Z_DIR}/lib -lz" ;;
+	*)		Z_LIBS="-L${Z_DIR}/lib -lz" ;;
+	esac
+else
+	Z_LIBS="-lz"
+fi
+AC_DEFINE([HAVE_LIBZ], [], [Have compression library])
+AC_SUBST(Z_CPPFLAGS)
+AC_SUBST(Z_LIBS)
+
+CPPFLAGS=${_cppflags}
+LDFLAGS=${_ldflags}
+
+dnl *****************************
 gnumeric_reqs="
 	glib-2.0		>= 2.4.0
 	gobject-2.0		>= 2.4.0
@@ -494,7 +534,7 @@ fi
 dnl We do not want to force libgnomeprint 2.8 just yet.
 SAVE_LIBS="$LIBS"
 LIBS="$LIBS $GNUMERIC_LIBS"
-AC_CHECK_FUNCS(gnome_print_pango_create_layout)
+AC_CHECK_FUNCS(gnome_print_pango_create_layout mkfifo)
 LIBS="$SAVE_LIBS"
 unset SAVE_LIBS
 
@@ -699,26 +739,24 @@ AM_CONDITIONAL(WITH_PERL, false)
 dnl **************************************************
 dnl * Check for mono
 dnl **************************************************
-try_mono=false
-with_mono=false
+with_mono=no
 mono_msg="disabled, still experimental"
-AC_ARG_WITH(mono,
-	[--{with,without}-mono     Compile the mono scripting engine],
-	if test "x$withval" = xno; then
-		mono_msg="Disabled by request"
-		try_mono=false
-	else
-		try_mono=true
-	fi
-)
 
-if $try_mono; then
-    PKG_CHECK_MODULES(MONO, mono, [with_mono=yes ; mono_msg="yes"], [with_mono=no])
-fi
-if test "x$with_mono" = "xyes" ; then
-    AC_DEFINE(WITH_MONO, 1,
-	    [Define if mono .NET engine is available])
-fi
+dnl A tricky way to comment out in m4:
+ifelse([
+AC_ARG_WITH(mono, [--{with,without}-mono     Compile the mono scripting engine])
+case x$with_mono in
+xno)	mono_msg="Disabled by request";;
+*)
+    PKG_CHECK_MODULES(MONO, mono,
+	[with_mono=yes
+	 AC_DEFINE(WITH_MONO, 1, [Define if mono .NET engine is available])],
+	[with_mono=no])
+    mono_msg=$with_mono
+    ;;
+esac
+])
+
 AM_CONDITIONAL(WITH_MONO, test "x$with_mono" = "xyes")
 AC_SUBST(MONO_CFLAGS)
 AC_SUBST(MONO_LIBS)

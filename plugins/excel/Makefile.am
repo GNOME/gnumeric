@@ -1,12 +1,13 @@
 INCLUDES = \
     -DGNOMELOCALEDIR=\""$(datadir)/locale"\" 		\
     -I$(top_srcdir)/src	-I$(top_builddir)/src		\
-    $(GNUMERIC_CFLAGS)
+    $(GNUMERIC_CFLAGS) $(Z_CPPFLAGS)
 
 gnumeric_plugin_exceldir = $(gnumeric_plugindir)/excel
 xmldir = $(gnumeric_plugin_exceldir)
 gnumeric_plugin_excel_LTLIBRARIES = excel.la
 excel_la_LDFLAGS = -module $(GNUMERIC_PLUGIN_LDFLAGS)
+excel_la_LIBADD  = $(Z_LIBS)
 excel_la_SOURCES =		\
 	boot.c			\
 	boot.h			\
@@ -40,8 +41,8 @@ excel_la_SOURCES =		\
 	ms-chart.c		\
 	rc4.c			\
 	rc4.h			\
-	crypt-md4.c			\
-	crypt-md4.h			\
+	crypt-md4.c		\
+	crypt-md4.h		\
 	md5.c			\
 	md5.h
 

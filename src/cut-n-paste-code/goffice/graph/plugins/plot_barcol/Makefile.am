@@ -10,7 +10,7 @@ xmldir	 = $(goffice_graph_barcoldir)
 gladedir = $(goffice_graph_barcoldir)
 
 goffice_graph_barcol_LTLIBRARIES = barcol.la
-barcol_la_LDFLAGS = -module -avoid-version
+barcol_la_LDFLAGS = -module $(GNUMERIC_PLUGIN_LDFLAGS)
 barcol_la_SOURCES = gog-1.5d.c 		\
 		    gog-1.5d.h		\
 		    gog-line.c		\

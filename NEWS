@@ -107,6 +107,7 @@ Jon Kåre:
 
 Kasal:
 	* Some typos in various docs
+	* Cleanup configure.in
 
 Morten:
 	* Make new windows inherit toolbar visibility from parent.

@@ -1,3 +1,13 @@
+2004-10-04  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : Add a test for mkfifo
+
+2004-09-13  Stepan Kasal  <kasal@ucw.cz>
+
+	* configure.in: Cleanup the mono detection code.  This way it
+	  won't get to the ``configure --help'' which is good for the
+	  upcoming stable release.
+
 2004-10-01  Jody Goldberg <jody@gnome.org>
 
 	* src/colrow.c (colrow_set_sizes) : no need to calculate the size if

@@ -4,7 +4,7 @@
 		<_description>2D plots</_description>
 	</information>
 	<loader type="Gnumeric_Builtin:module">
-		<attribute name="module_file" value="xy.la"/>
+		<attribute name="module_file" value="xy"/>
 	</loader>
 	<services>
 		<service type="plot_engine" id="GogXYPlot">

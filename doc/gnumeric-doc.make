@@ -6,7 +6,9 @@
 # Requires that the calling makefile define 'lang'
 
 docname = gnumeric
-omffile = gnumeric-$(lang).omf
+if WITH_GNOME
+  omffile = gnumeric-$(lang).omf
+endif
 gnumeric_docdir  = $(top_srcdir)/doc
 entities += functions.xml
 

@@ -1,3 +1,8 @@
+2004-09-16  Stepan Kasal  <kasal@ucw.cz>
+
+	* Makefile.am (excel_la_LIBADD): New variable, set to $(Z_LIBS).
+	(INCLUDES): add $(Z_CPPFLAGS)
+
 2004-09-24  Jody Goldberg <jody@gnome.org>
 
 	* ms-obj.c (ms_obj_attr_new_flag) : add some safety checking

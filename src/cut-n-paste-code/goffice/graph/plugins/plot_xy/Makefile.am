@@ -10,7 +10,7 @@ xmldir	 = $(goffice_graph_xydir)
 gladedir = $(goffice_graph_xydir)
 
 goffice_graph_xy_LTLIBRARIES = xy.la
-xy_la_LDFLAGS = -module -avoid-version
+xy_la_LDFLAGS = -module $(GNUMERIC_PLUGIN_LDFLAGS)
 xy_la_SOURCES = \
 	gog-xy.c		\
 	gog-xy.h		\
