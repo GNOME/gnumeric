@@ -2939,14 +2939,15 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Range *range,
  *
  **/
 
-int histogram_tool (WorkbookControl *wbc, Sheet *sheet, Range *range, Range *bin_range,
-		    gboolean labels, gboolean sorted, gboolean percentage,
-		    gboolean chart, data_analysis_output_t *dao)
+int
+histogram_tool (WorkbookControl *wbc, Sheet *sheet, Range *range, Range *bin_range,
+		gboolean labels, gboolean sorted, gboolean percentage,
+		gboolean chart, data_analysis_output_t *dao)
 {
         data_set_t bin_set, set;
 	GSList     *list;
 	int        i, j, cols, rows, cum_sum;
-	gnum_float    *intval;
+	gnum_float *intval;
 	int        *count;
 
 	cols = bin_range->end.col - bin_range->start.col + 1;
