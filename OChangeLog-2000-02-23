@@ -1,3 +1,10 @@
+1999-09-26  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/sheet-object.c (sheet_set_mode_type): Protect Bonobo code
+	from being included if we dont have Bonobo.
+
+	* src/Makefile.am: reverted changes from the libole2 code.
+	
 1999-09-26  Michael Meeks  <michael@nuclecu.unam.mx>
 
 	* src/Makefile.am (gnumeric_libs): Fix so gnumeric compiles.

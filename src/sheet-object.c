@@ -559,6 +559,8 @@ sheet_button_release (GnumericSheet *gsheet, GdkEventButton *event, Sheet *sheet
 	SO_CLASS (sheet->current_object)->update_bounds (so);
 
 	sheet_finish_object_creation (sheet, so);
+
+#ifdef ENABLE_BONOBO
 	/*
 	 * Bonobo objects might want to load state from somewhere
 	 * to be useful
@@ -566,6 +568,7 @@ sheet_button_release (GnumericSheet *gsheet, GdkEventButton *event, Sheet *sheet
 	if (IS_SHEET_OBJECT_BONOBO (so))
 		sheet_object_bonobo_load_from_file (
 			SHEET_OBJECT_BONOBO (so), NULL);
+#endif
 	
 	sheet_object_start_editing   (so);
 	
@@ -710,6 +713,7 @@ sheet_set_mode_type (Sheet *sheet, SheetModeType mode)
 	switch (sheet->mode) {
 	case SHEET_MODE_CREATE_GRAPHIC:
 	case SHEET_MODE_CREATE_CANVAS_ITEM:
+#ifdef ENABLE_BONOBO
 	{
 		char *required_interfaces [2];
 		char *goad_id;
@@ -727,6 +731,7 @@ sheet_set_mode_type (Sheet *sheet, SheetModeType mode)
 		}
 		sheet->mode_data = g_strdup (goad_id);
 	}
+#endif
 	/* fall down */
 	   
 	case SHEET_MODE_CREATE_LINE:
