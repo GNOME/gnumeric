@@ -21,6 +21,7 @@
 #include "value.h"
 #include "str.h"
 #include "command-context.h"
+#include "expr.h"
 
 #include "Python.h"
 
@@ -47,12 +48,11 @@ static PyObject *GnumericError;
  * Caller must free it.
  */
 static char *
-string_from_exception ()
+string_from_exception (void)
 {
-	char *header = _("Python exception");
-	char *retval = header;
-	char buf [256];
-	int pos = 0;
+	const char *header = _("Python exception");
+	const char *retval = header;
+	char buf[256];
 
 	PyObject *ptype = NULL, *pvalue = NULL, *ptraceback = NULL;
 	PyObject *stype = NULL, *svalue = NULL;
@@ -69,6 +69,8 @@ string_from_exception ()
 		 * from C  */
 		retval = PyString_AsString (svalue);
 	} else {
+		int pos;
+
 		/* Include exception class in the error message */
 		stype = PyObject_Str (ptype);
 		if (!stype)
@@ -79,7 +81,7 @@ string_from_exception ()
 
 		if (!svalue)
 			goto cleanup;
-		if (pos + 3 < (int)sizeof(buf))
+		if (pos + 3 < (int)sizeof (buf))
 			snprintf (buf + pos , sizeof buf - pos , ": %s",
 				  PyString_AsString (svalue));
 	}
@@ -128,10 +130,10 @@ cell_ref_to_python (CellRef *cell)
 {
 	PyObject *mod, *klass, *ret;
 
-	if ((mod = PyImport_ImportModule(GNUMERIC_DEFS_MODULE)) == NULL)
+	if ((mod = PyImport_ImportModule (GNUMERIC_DEFS_MODULE)) == NULL)
 		return NULL;
 
-	if ((klass  = PyObject_GetAttrString(mod, CELL_REF_CLASS)) == NULL)
+	if ((klass  = PyObject_GetAttrString (mod, CELL_REF_CLASS)) == NULL)
 		return NULL;
 
 	ret = PyObject_CallFunction (klass, "iiii", cell->col, cell->row,
@@ -208,7 +210,7 @@ row_to_python (Value *v, int j)
 	for (i = 0; i < cols; i++) {
 		o = value_to_python (v->v_array.vals[i][j]);
 		if (o == NULL) {
-			Py_DECREF(list);
+			Py_DECREF (list);
 			return NULL;
 		}
 		PyList_SetItem (list, i, o);
@@ -242,7 +244,7 @@ array_to_python (Value *v)
 	for (j = 0; j < rows; j++) {
 		row = row_to_python (v, j);
 		if (row == NULL) {
-			Py_DECREF(list);
+			Py_DECREF (list);
 			return NULL;
 		}
 		PyList_SetItem (list, j, row);
@@ -304,7 +306,7 @@ value_to_python (Value *v)
  *
  * Returns TRUE if object is an instance of gnumeric_defs.Boolean and
  * FALSE otherwise.
- * I don't believe this is 100% kosher, but should work in practice. A 100 %
+ * I don't believe this is 100% kosher, but should work in practice. A 100%
  * solution seems to require that the boolean class be defined in C.
  */
 static int
@@ -316,8 +318,8 @@ boolean_check (PyObject *o)
 	if (!PyObject_HasAttrString (o, "__class__"))
 		return FALSE;
 
-	klass = PyObject_GetAttrString  (o, "__class__");
-	s = PyString_AsString (PyObject_Str(klass));
+	klass = PyObject_GetAttrString (o, "__class__");
+	s = PyString_AsString (PyObject_Str (klass));
 	Py_XDECREF (klass);
 	return (s != NULL &&
 		strcmp (s, (GNUMERIC_DEFS_MODULE "." BOOLEAN_CLASS)) == 0);
@@ -365,7 +367,7 @@ range_check (PyObject *o)
 		return FALSE;
 
 	klass = PyObject_GetAttrString  (o, "__class__");
-	s = PyString_AsString (PyObject_Str(klass));
+	s = PyString_AsString (PyObject_Str (klass));
 	Py_XDECREF (klass);
 	return (s != NULL &&
 		strcmp (s, (GNUMERIC_DEFS_MODULE "." CELL_RANGE_CLASS)) == 0);
@@ -574,7 +576,7 @@ value_from_python (PyObject *o, EvalPos const *pos)
 	} else if (range_check (o)) {
 		v = range_from_python (o, pos);
 	} else {
-		PyErr_SetString  (PyExc_TypeError, _("Unknown Python type"));
+		PyErr_SetString (PyExc_TypeError, _("Unknown Python type"));
 	}
 
 	return v;
@@ -588,7 +590,7 @@ typedef struct {
 static GList *funclist = NULL;
 
 static int
-fndef_compare(FuncData *fdata, FunctionDefinition *fndef)
+fndef_compare (FuncData *fdata, FunctionDefinition *fndef)
 {
 	return (fdata->fndef != fndef);
 }
@@ -751,7 +753,7 @@ apply (PyObject *m, PyObject *py_args)
 	}
 
 	num_args = PySequence_Length (seq);
-	values = g_new0(Value*, num_args);
+	values = g_new0 (Value*, num_args);
 	for (i = 0; i < num_args; ++i)
 	{
 		item = PySequence_GetItem (seq, i);
@@ -838,8 +840,8 @@ register_function (PyObject *m, PyObject *py_args)
 	fdata = g_new (FuncData, 1);
 	fdata->fndef   = fndef;
 	fdata->codeobj = codeobj;
-	Py_INCREF(codeobj);
-	funclist = g_list_append(funclist, fdata);
+	Py_INCREF (codeobj);
+	funclist = g_list_append (funclist, fdata);
 
 	Py_INCREF (Py_None);
 	return Py_None;
@@ -863,7 +865,7 @@ static const PyMethodDef gnumeric_funcs[] = {
  * Initialize module.
  */
 static void
-initgnumeric(void)
+initgnumeric (void)
 {
 	PyObject *m, *d;
 
@@ -871,10 +873,10 @@ initgnumeric(void)
 	m = Py_InitModule ("gnumeric", gnumeric_funcs);
 
 	/* Add our own exception class. */
-	d = PyModule_GetDict(m);
-	GnumericError = PyErr_NewException("gnumeric.error", NULL, NULL);
+	d = PyModule_GetDict (m);
+	GnumericError = PyErr_NewException ("gnumeric.error", NULL, NULL);
 	if (GnumericError != NULL)
-		PyDict_SetItemString(d, "error", GnumericError);
+		PyDict_SetItemString (d, "error", GnumericError);
 }
 
 gboolean
@@ -896,14 +898,15 @@ extern char **environ;
 void
 plugin_init_general (ErrorInfo **ret_error)
 {
-	gchar *exc_string;
 
 #ifdef BROKEN_PY_INITIALIZE
 	int i;
 
-	/* Python's convertenviron has gotten into its head that it can
-	   write to the strings in the environment.  We have little choice
-	but to allocate a copy of everything. */
+	/*
+	 * Python's convertenviron has gotten into its head that it can
+	 * write to the strings in the environment.  We have little choice
+	 * but to allocate a copy of everything.
+	 */
 	for (i = 0; environ[i]; i++)
 		environ[i] = g_strdup (environ[i]);
 #endif
@@ -916,7 +919,7 @@ plugin_init_general (ErrorInfo **ret_error)
 	/* setup standard functions */
 	initgnumeric ();
 	if (PyErr_Occurred ()) {
-		exc_string = string_from_exception ();
+		char *exc_string = string_from_exception ();
 		PyErr_Print (); /* Also do a full traceback to stderr */
 		*ret_error = error_info_new_printf (
 		             _("Unhandled Python exception: %s"), exc_string);
@@ -929,13 +932,13 @@ plugin_init_general (ErrorInfo **ret_error)
 
 	{
 		int ret;
-		char *dir = NULL, *name = NULL, buf[256];
+		char *dir, *name, buf[256];
 		FILE *fp;
 
 		/* Add gnumeric python directory to sys.path, so that we can
 		 * import modules  from there */
 		dir = gnumeric_sys_data_dir ("python");
-		name = g_strconcat (dir, "gnumeric_startup.py", NULL);
+		name = g_concat_dir_and_file (dir, "gnumeric_startup.py");
 
 		ret = PyRun_SimpleString ("import sys");
 		if (ret == 0) {
@@ -947,10 +950,10 @@ plugin_init_general (ErrorInfo **ret_error)
 		/* run the python initialization file */
 		fp = fopen (name, "r");
 		if (fp){
-			PyRun_SimpleFile(fp, name);
+			PyRun_SimpleFile (fp, name);
 			fclose (fp);
 		}
-		g_free(name);
-		g_free(dir);
+		g_free (name);
+		g_free (dir);
 	}
 }
