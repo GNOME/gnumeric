@@ -192,6 +192,7 @@ EXTRA_GNOME_CFLAGS=`gnome-config --cflags gnomeui print libglade $bonobo`
 AC_SUBST(EXTRA_GNOME_LIBS)
 AC_SUBST(EXTRA_GNOME_CFLAGS)
 
+AM_CONDITIONAL(LIBOLE2_PUBLIC_LIBRARY, false)
 
 AC_OUTPUT([
 gnumeric.spec

@@ -46,10 +46,7 @@ sheet_object_item_realize (SheetObject *so, SheetView *sheet_view)
 static void
 sheet_object_item_update_bounds (SheetObject *sheet_object)
 {
-	/*
-	 * For now default impl
-	 */
-	SHEET_OBJECT_CLASS (GTK_OBJECT (sheet_object)->klass)->update_bounds (sheet_object);
+	/* Does not do much */
 }
 
 static void
