@@ -190,7 +190,7 @@ cb_dialog_row_height_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 	gnm_float value = gtk_spin_button_get_value (state->spin);
 	double const scale =
 		state->sheet->last_zoom_factor_used *
-		application_display_dpi_get (FALSE) / 72.;
+		gnm_app_display_dpi_get (FALSE) / 72.;
 	int size_pixels = (int)(value * scale + 0.5);
 	gboolean use_default = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (state->default_check));

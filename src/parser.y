@@ -653,7 +653,7 @@ string_opt_quote : STRING
 
 workbookref : '[' string_opt_quote ']'  {
 		char const *wb_name = $2->constant.value->v_str.val->str;
-		Workbook *wb = application_workbook_get_by_name (wb_name);
+		Workbook *wb = gnm_app_workbook_get_by_name (wb_name);
 
 		if (wb != NULL) {
 			unregister_allocation ($2); gnm_expr_unref ($2);

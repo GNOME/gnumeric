@@ -339,6 +339,7 @@ gog_series_set_index (GogSeries *series, int ind, gboolean is_manual)
 	series->index = ind;
 	gog_theme_init_style (gog_object_get_theme (GOG_OBJECT (series)),
 		series->base.style, GOG_OBJECT (series), ind);
+	gog_styled_object_style_changed (GOG_STYLED_OBJECT (series));
 }
 
 /**

@@ -55,7 +55,7 @@ capp_workbook_open (PortableServer_Servant ignore,
 		    CORBA_boolean          shared_view,
 		    CORBA_Environment     *ev)
 {
-	Workbook     *wb = application_workbook_get_by_name (file_name);
+	Workbook     *wb = gnm_app_workbook_get_by_name (file_name);
 	WorkbookView *wbv;
 
 	if (wb != NULL) {
@@ -78,7 +78,7 @@ static GNOME_Gnumeric_Workbooks *
 capp_workbooks (PortableServer_Servant ignore,
 		CORBA_Environment     *ev)
 {
-	GList *workbooks = application_workbook_list ();
+	GList *workbooks = gnm_app_workbook_list ();
 	int i, len = g_list_length (workbooks);
 	GNOME_Gnumeric_Workbooks *res = GNOME_Gnumeric_Workbooks__alloc ();
 	res->_length = res->_maximum = len;

@@ -445,8 +445,12 @@ gog_object_get_editor (GogObject *obj, GogDataAllocator *dalloc,
 {
 	GogObjectClass *klass = GOG_OBJECT_GET_CLASS (obj);
 	g_return_val_if_fail (klass != NULL, NULL);
-	if (klass->editor)
+	if (klass->editor) {
+		/* If there are pending updates do them before creating the editor
+		 * to avoid expensive widget changes later */
+		gog_graph_force_update (gog_object_get_graph (obj));
 		return (*klass->editor) (obj, dalloc, cc);
+	}
 	return NULL;
 }
 

@@ -1159,7 +1159,7 @@ sheet_control_gui_new (SheetView *sv, WorkbookControlGUI *wbcg)
 	gtk_widget_show_all (GTK_WIDGET (scg->inner_table));
 
 	/* Scroll bars and their adjustments */
-	scroll_update_policy = application_live_scrolling ()
+	scroll_update_policy = gnm_app_live_scrolling ()
 		? GTK_UPDATE_CONTINUOUS : GTK_UPDATE_DELAYED;
 	scg->va = gtk_adjustment_new (0., 0., 1, 1., 1., 1.);
 	scg->vs = g_object_new (GTK_TYPE_VSCROLLBAR,
@@ -1564,8 +1564,8 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 	 * items
 	 */
 	int sensitivity_filter =
-		(!application_clipboard_is_empty () &&
-		!application_clipboard_is_cut ())
+		(!gnm_app_clipboard_is_empty () &&
+		!gnm_app_clipboard_is_cut ())
 		? 0 : CONTEXT_DISABLE_PASTE_SPECIAL;
 
 	GList *l;

@@ -358,7 +358,7 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 		return FALSE;
 	}
 
-	application_clipboard_unant ();
+	gnm_app_clipboard_unant ();
 	wb_control_edit_set_sensitive (WORKBOOK_CONTROL (wbcg), TRUE, FALSE);
 
 	cell = sheet_cell_get (sv->sheet, col, row);
@@ -467,7 +467,7 @@ wbcg_edit_attach_guru_main (WorkbookControlGUI *wbcg, GtkWidget *guru)
 	/* Make sure we don't have anything anted.
 	 * this protects against two anted regions showing up
 	 */
-	application_clipboard_unant ();
+	gnm_app_clipboard_unant ();
 
 	/* don't sit end 'End' mode when a dialog comes up */
 	wbcg_set_end_mode (wbcg, FALSE);

@@ -124,7 +124,7 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 	void (*movefn) (SheetControlGUI *, int n,
 			gboolean jump, gboolean horiz);
 
-	gboolean transition_keys = application_use_transition_keys();
+	gboolean transition_keys = gnm_app_use_transition_keys();
 	gboolean end_mode = wbcg->last_key_was_end;
 	
 	/* Magic : Some of these are accelerators,
@@ -333,7 +333,7 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 
 	case GDK_Escape:
 		wbcg_edit_finish (wbcg, FALSE, NULL);
-		application_clipboard_unant ();
+		gnm_app_clipboard_unant ();
 		break;
 
 	case GDK_F4:
@@ -400,7 +400,7 @@ gnm_canvas_key_mode_object (GnmCanvas *gcanvas, GdkEventKey *event)
 	switch (event->keyval) {
 	case GDK_Escape:
 		scg_mode_edit (sc);
-		application_clipboard_unant ();
+		gnm_app_clipboard_unant ();
 		return TRUE;;
 
 	case GDK_BackSpace: /* Ick! */

@@ -277,13 +277,13 @@ cmd_paste (WorkbookControl *wbc, PasteTarget const *pt)
 	g_return_if_fail (pt != NULL);
 	g_return_if_fail (IS_SHEET (pt->sheet));
 
-	src_range = application_clipboard_area_get ();
-	content = application_clipboard_contents_get ();
+	src_range = gnm_app_clipboard_area_get ();
+	content = gnm_app_clipboard_contents_get ();
 
 	if (content == NULL && src_range != NULL) {
 		/* Pasting a Cut */
 		GnmExprRelocateInfo rinfo;
-		Sheet *src_sheet = application_clipboard_sheet_get ();
+		Sheet *src_sheet = gnm_app_clipboard_sheet_get ();
 
 		/* Validate the size & shape of the target here. */
 		int const cols = (src_range->end.col - src_range->start.col);
@@ -316,7 +316,7 @@ cmd_paste (WorkbookControl *wbc, PasteTarget const *pt)
 		rinfo.target_sheet = pt->sheet;
 
 		if (!cmd_paste_cut (wbc, &rinfo, TRUE, NULL))
-			application_clipboard_clear (TRUE);
+			gnm_app_clipboard_clear (TRUE);
 
 	/* If this application has marked a selection use it */
 	} else if (content != NULL)

@@ -530,7 +530,7 @@ workbook_view_new (Workbook *wb)
 	wbv->show_horizontal_scrollbar = TRUE;
 	wbv->show_vertical_scrollbar = TRUE;
 	wbv->show_notebook_tabs = TRUE;
-	wbv->do_auto_completion = application_use_auto_complete ();
+	wbv->do_auto_completion = gnm_app_use_auto_complete ();
 	wbv->is_protected = FALSE;
 
 	/* Set the default operation to be performed over selections */

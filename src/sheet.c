@@ -2714,8 +2714,8 @@ sheet_destroy (Sheet *sheet)
 	}
 
 	/* Clear the cliboard to avoid dangling references to the deleted sheet */
-	if (sheet == application_clipboard_sheet_get ())
-		application_clipboard_clear (TRUE);
+	if (sheet == gnm_app_clipboard_sheet_get ())
+		gnm_app_clipboard_clear (TRUE);
 
 	sheet_style_shutdown (sheet);
 

@@ -46,11 +46,11 @@ set_clone_restart (GnomeClient *client)
 	int count = 1;
 
 	argv = g_new0 (char *, 
-		       2 + g_list_length (application_workbook_list ()));
+		       2 + g_list_length (gnm_app_workbook_list ()));
 
 	argv[0] = (char *) program_argv0;
 
-	workbooks = g_list_copy (application_workbook_list ());
+	workbooks = g_list_copy (gnm_app_workbook_list ());
 	for (ptr = workbooks; ptr != NULL ; ptr = ptr->next) {
 		Workbook *wb = ptr->data;
 		if (wb->file_format_level == FILE_FL_AUTO) {
@@ -72,7 +72,7 @@ interaction_function (GnomeClient *client, gint key, GnomeDialogType dialog_type
 	gboolean ask_user = TRUE;
 	gboolean do_not_cancel = FALSE;
 
-	workbooks = g_list_copy (application_workbook_list ());
+	workbooks = g_list_copy (gnm_app_workbook_list ());
 	for (ptr = workbooks; ptr != NULL ; ptr = ptr->next) {
 		Workbook *wb = ptr->data;
 		WorkbookControlGUI *wbcg = NULL;
@@ -203,7 +203,7 @@ client_die_cb (GnomeClient *client, gpointer data)
 {
 	GList *ptr, *workbooks;
 
-	workbooks = g_list_copy (application_workbook_list ());
+	workbooks = g_list_copy (gnm_app_workbook_list ());
 	for (ptr = workbooks; ptr != NULL ; ptr = ptr->next) {
 		Workbook *wb = ptr->data;
 

@@ -584,6 +584,8 @@ cb_graph_guru_add_plot (GtkWidget *w, GraphGuruState *s)
 	GogPlot *plot = gog_plot_new_by_type (type);
 	gog_object_add_by_name (GOG_OBJECT (s->prop_object),
 		"Plot", GOG_OBJECT (plot));
+	/* as a convenience add a series to the newly created plot */
+	gog_object_add_by_name (GOG_OBJECT (plot), "Series", NULL);
 }
 
 static void

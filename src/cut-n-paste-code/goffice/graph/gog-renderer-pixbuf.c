@@ -267,8 +267,8 @@ make_layout (GogRendererPixbuf *prend, char const *text)
 
 	if (prend->pango_context == NULL)
 		prend->pango_context = pango_ft2_get_context (
-			application_display_dpi_get (TRUE),
-			application_display_dpi_get (FALSE));
+			gnm_app_display_dpi_get (TRUE),
+			gnm_app_display_dpi_get (FALSE));
 
 	gog_debug (0, {
 		char *msg = pango_font_description_to_string (fd);
@@ -570,8 +570,8 @@ gog_renderer_pixbuf_update (GogRendererPixbuf *prend, int w, int h, double zoom)
 		}
 
 		prend->pango_context = pango_ft2_get_context (
-			application_display_dpi_get (TRUE),
-			application_display_dpi_get (FALSE));
+			gnm_app_display_dpi_get (TRUE),
+			gnm_app_display_dpi_get (FALSE));
 
 		/* make sure we dont try to queue an update while updating */
 		prend->base.needs_update = TRUE;

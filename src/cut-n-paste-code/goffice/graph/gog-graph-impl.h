@@ -53,6 +53,7 @@ typedef struct {
 
 /* protected */
 gboolean gog_graph_request_update (GogGraph *graph);
+void     gog_graph_force_update   (GogGraph *graph);
 
 G_END_DECLS
 

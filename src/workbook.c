@@ -139,7 +139,7 @@ workbook_finalize (GObject *wb_object)
 	}
 
 	/* Remove ourselves from the list of workbooks.  */
-	application_workbook_list_remove (wb);
+	gnm_app_workbook_list_remove (wb);
 
 	/* Now do deletions that will put this workbook into a weird
 	   state.  Careful here.  */
@@ -150,7 +150,7 @@ workbook_finalize (GObject *wb_object)
 	wb->sheets = NULL;
 
 	if (wb->file_format_level >= FILE_FL_MANUAL_REMEMBER)
-		application_history_add (wb->filename);
+		gnm_app_history_add (wb->filename);
 
 	if (wb->filename) {
 	       g_free (wb->filename);
@@ -158,7 +158,7 @@ workbook_finalize (GObject *wb_object)
 	}
 
 #warning this has no business being here
-	if (initial_workbook_open_complete && application_workbook_list () == NULL)
+	if (initial_workbook_open_complete && gnm_app_workbook_list () == NULL)
 		gtk_main_quit ();
 	G_OBJECT_CLASS (workbook_parent_class)->finalize (wb_object);
 }
@@ -315,7 +315,7 @@ workbook_init (GObject *object)
 	wb->being_reordered    = FALSE;
 	wb->recursive_dirty_enabled = TRUE;
 
-	application_workbook_list_add (wb);
+	gnm_app_workbook_list_add (wb);
 }
 
 static void

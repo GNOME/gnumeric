@@ -115,7 +115,7 @@ static gboolean
 cb_pref_notification_destroy (G_GNUC_UNUSED GtkWidget *page,
 			      guint notification)
 {
-	gconf_client_notify_remove (application_get_gconf_client (), notification);
+	gconf_client_notify_remove (gnm_app_get_gconf_client (), notification);
 	return TRUE;
 }
 
@@ -469,7 +469,7 @@ cb_value_edited (GtkCellRendererText *cell,
 	gnm_float  the_float;
 	gboolean    the_bool;
 	GnmValue       *value;
-	GConfClient *client = application_get_gconf_client ();
+	GConfClient *client = gnm_app_get_gconf_client ();
 	GConfSchema *the_schema;
 	gboolean     err;
 	GtkTreeModel *model = g_object_get_data (G_OBJECT (cell), "model");
@@ -1219,7 +1219,7 @@ cb_pref_window_transition_keys_toggled (GtkToggleButton *button, PrefState *stat
 			       GNUMERIC_GCONF_GUI_ED_TRANSITION_KEYS,
 			       gtk_toggle_button_get_active (button),
 			       NULL);
-	application_set_transition_keys(gtk_toggle_button_get_active (button));
+	gnm_app_set_transition_keys(gtk_toggle_button_get_active (button));
 }
 
 
@@ -1560,7 +1560,7 @@ cb_preferences_destroy (G_GNUC_UNUSED GtkWidget *widget,
 
 	g_free (state);
 
-	application_set_pref_dialog (NULL);
+	gnm_app_set_pref_dialog (NULL);
 
 	return FALSE;
 }
@@ -1597,7 +1597,7 @@ dialog_preferences (WorkbookControlGUI *wbcg, gint page)
 	GtkTreeViewColumn *column;
 	GtkTreeSelection  *selection;
 
-	w = application_get_pref_dialog ();
+	w = gnm_app_get_pref_dialog ();
 	if (w) {
 		gtk_widget_show (w);
 		gdk_window_raise (w->window);
@@ -1614,7 +1614,7 @@ dialog_preferences (WorkbookControlGUI *wbcg, gint page)
 	state->dialog     = glade_xml_get_widget (gui, "preferences");
 	state->notebook   = glade_xml_get_widget (gui, "notebook");
 	state->pages      = NULL;
-	state->gconf      = application_get_gconf_client ();
+	state->gconf      = gnm_app_get_gconf_client ();
 	state->description = GTK_TEXT_VIEW (glade_xml_get_widget (gui, "description"));
 	state->wb	  = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 
@@ -1658,7 +1658,7 @@ dialog_preferences (WorkbookControlGUI *wbcg, gint page)
 		"destroy",
 		G_CALLBACK (cb_preferences_destroy), state);
 
-	application_set_pref_dialog (state->dialog);
+	gnm_app_set_pref_dialog (state->dialog);
 
 	for (i = 0; page_info[i].page_initializer; i++) {
 		page_info_t *this_page =  &page_info[i];

@@ -953,7 +953,7 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 	vbox = GTK_BOX (glade_xml_get_widget (gui,"sheet_order_buttons_vbox"));
 	cg = color_group_fetch ("back_color_group", wb_control_view (WORKBOOK_CONTROL (wbcg)));
 	state->ccombo_back = color_combo_new (
-		application_get_pixbuf ("bucket"),
+		gnm_app_get_pixbuf ("bucket"),
 		_("Default"), NULL, cg);
 	gtk_box_pack_start (vbox, state->ccombo_back, 0, 0, 0);
 	gtk_widget_set_sensitive (state->ccombo_back, FALSE);
@@ -966,7 +966,7 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 
 	cg = color_group_fetch ("fore_color_group", wb_control_view (WORKBOOK_CONTROL (wbcg)));
 	state->ccombo_fore = color_combo_new (
-		application_get_pixbuf ("font"),
+		gnm_app_get_pixbuf ("font"),
 		_("Default"), NULL, cg);
 	gtk_box_pack_start (vbox, state->ccombo_fore, 1, 1, 0);
 	gtk_widget_set_sensitive (state->ccombo_fore, FALSE);

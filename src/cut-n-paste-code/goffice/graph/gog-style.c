@@ -64,7 +64,8 @@ static GObjectClass *parent_klass;
 typedef struct {
 	GladeXML  *gui;
 	GogObject *obj;
-	gboolean  enable_edit;
+	gboolean   enable_edit;
+	gulong     style_changed_handler;
 	struct {
 		struct {
 			GtkWidget *fore, *back, *combo;
@@ -100,10 +101,12 @@ gog_object_dup_style (GogObject *obj)
 }
 
 static void
-gog_object_set_style (GogObject *obj, GogStyle *style)
+gog_object_set_style (StylePrefState const *state, GogStyle *style)
 {
-	g_object_set (G_OBJECT (obj), "style", style, NULL);
+	g_signal_handler_block (state->obj, state->style_changed_handler);
+	g_object_set (G_OBJECT (state->obj), "style", style, NULL);
 	g_object_unref (style);
+	g_signal_handler_unblock (state->obj, state->style_changed_handler);
 }
 
 static GtkWidget *
@@ -183,7 +186,7 @@ cb_outline_size_changed (GtkAdjustment *adj, StylePrefState *state)
 	GogStyle *style = gog_object_dup_style (state->obj);
 	g_return_if_fail (style != NULL);
 	style->outline.width = adj->value;
-	gog_object_set_style (state->obj, style);
+	gog_object_set_style (state, style);
 }
 
 static void
@@ -196,7 +199,7 @@ cb_outline_color_changed (GtkWidget *cc,
 	g_return_if_fail (style != NULL);
 	style->outline.color = color_combo_get_gocolor (cc, is_custom);
 	style->outline.auto_color = is_default;
-	gog_object_set_style (state->obj, style);
+	gog_object_set_style (state, style);
 }
 
 static void
@@ -232,7 +235,7 @@ cb_line_size_changed (GtkAdjustment *adj, StylePrefState const *state)
 	GogStyle *style = gog_object_dup_style (state->obj);
 	g_return_if_fail (style != NULL);
 	style->line.width = adj->value;
-	gog_object_set_style (state->obj, style);
+	gog_object_set_style (state, style);
 }
 
 static void
@@ -245,7 +248,7 @@ cb_line_color_changed (GtkWidget *cc,
 	g_return_if_fail (style != NULL);
 	style->line.color = color_combo_get_gocolor (cc, is_custom);
 	style->line.auto_color = is_default;
-	gog_object_set_style (state->obj, style);
+	gog_object_set_style (state, style);
 }
 
 static void
@@ -285,7 +288,7 @@ cb_pattern_type_changed (GtkWidget *cc, int index, StylePrefState const *state)
 
 	style->fill.u.pattern.pat.pattern =
 		(index / 10 - 1)  * 6 + index % 10 - 1;
-	gog_object_set_style (state->obj, style);
+	gog_object_set_style (state, style);
 }
 
 static void
@@ -328,7 +331,7 @@ cb_fg_color_changed (GtkWidget *cc,
 	style->fill.pattern_fore_auto = is_default;
 	style->fill.is_auto = (style->fill.pattern_fore_auto & 
 			       style->fill.pattern_back_auto);
-	gog_object_set_style (state->obj, style);
+	gog_object_set_style (state, style);
 	populate_pattern_combo (state, style);
 }
 
@@ -345,7 +348,7 @@ cb_bg_color_changed (GtkWidget *cc,
 	style->fill.pattern_back_auto = is_default;
 	style->fill.is_auto = (style->fill.pattern_fore_auto & 
 			       style->fill.pattern_back_auto);
-	gog_object_set_style (state->obj, style);
+	gog_object_set_style (state, style);
 	populate_pattern_combo (state, style);
 }
 
@@ -378,7 +381,7 @@ cb_gradient_type_changed (GtkWidget *cc, int dir, StylePrefState const *state)
 {
 	GogStyle *style = gog_object_dup_style (state->obj);
 	style->fill.u.gradient.dir = dir; /* pre mapped */
-	gog_object_set_style (state->obj, style);
+	gog_object_set_style (state, style);
 }
 
 static void
@@ -416,7 +419,7 @@ cb_fill_gradient_start_color (GtkWidget *cc,
 	style->fill.gradient_start_auto = is_default;
 	style->fill.is_auto = (style->fill.gradient_start_auto & 
 			       style->fill.gradient_end_auto);
-	gog_object_set_style (state->obj, style);
+	gog_object_set_style (state, style);
 	populate_gradient_combo (state, style);
 }
 
@@ -439,7 +442,7 @@ cb_fill_gradient_end_color (GtkWidget *cc,
 	style->fill.gradient_end_auto = is_default;
 	style->fill.is_auto = (style->fill.gradient_start_auto & 
 			       style->fill.gradient_end_auto);
-	gog_object_set_style (state->obj, style);
+	gog_object_set_style (state, style);
 
 	if (by_user)
 		populate_gradient_combo (state, style);
@@ -459,7 +462,7 @@ cb_gradient_brightness_value_changed (GtkWidget *w, StylePrefState *state)
 		gtk_range_get_value (GTK_RANGE (w)));
 	color_combo_set_gocolor (state->fill.gradient.end,
 		style->fill.u.gradient.end);
-	gog_object_set_style (state->obj, style);
+	gog_object_set_style (state, style);
 }
 
 static void
@@ -484,7 +487,7 @@ cb_gradient_style_changed (GtkWidget *w, StylePrefState *state)
 	}
 	gtk_widget_set_sensitive (state->fill.gradient.end, two_color);
 	gtk_widget_set_sensitive (state->fill.gradient.end_label, two_color);
-	gog_object_set_style (state->obj, style);
+	gog_object_set_style (state, style);
 }
 
 static void
@@ -579,7 +582,7 @@ cb_image_file_select (GtkWidget *cc, StylePrefState *state)
 			
 		gog_style_set_image_preview (style->fill.u.image.image, state);
 
-		gog_object_set_style (state->obj, style);
+		gog_object_set_style (state, style);
 	}
 	gtk_widget_destroy (GTK_WIDGET (fs));
 }
@@ -591,7 +594,7 @@ cb_image_style_changed (GtkWidget *w, StylePrefState *state)
 	g_return_if_fail (style != NULL);
 	g_return_if_fail (GOG_FILL_STYLE_IMAGE == style->fill.type);
 	style->fill.u.image.type = gtk_option_menu_get_history (GTK_OPTION_MENU (w));
-	gog_object_set_style (state->obj, style);
+	gog_object_set_style (state, style);
 }
 
 static void
@@ -680,7 +683,7 @@ cb_fill_type_changed (GtkWidget *menu, StylePrefState *state)
 		break;
 	}
 	style->fill.type = page;
-	gog_object_set_style (state->obj, style);
+	gog_object_set_style (state, style);
 
 	w = glade_xml_get_widget (state->gui, "fill_notebook");
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (w), page);
@@ -727,7 +730,7 @@ cb_marker_shape_changed (GtkWidget *cc, int shape, StylePrefState const *state)
 {
 	GogStyle *style = gog_object_dup_style_and_marker (state->obj);
 	go_marker_set_shape (style->marker, shape);
-	gog_object_set_style (state->obj, style);
+	gog_object_set_style (state, style);
 }
 
 static void
@@ -766,7 +769,7 @@ cb_marker_outline_color_changed (GtkWidget *cc,
 	else
 		go_marker_set_outline_color (style->marker,
 			color_combo_get_gocolor (cc, is_custom));
-	gog_object_set_style (state->obj, style);
+	gog_object_set_style (state, style);
 	populate_marker_combo (state, style);
 }
 
@@ -782,7 +785,7 @@ cb_marker_fill_color_changed (GtkWidget *cc,
 	else
 		go_marker_set_fill_color (style->marker,
 			color_combo_get_gocolor (cc, is_custom));
-	gog_object_set_style (state->obj, style);
+	gog_object_set_style (state, style);
 	populate_marker_combo (state, style);
 }
 
@@ -791,7 +794,7 @@ cb_marker_size_changed (GtkAdjustment *adj, StylePrefState *state)
 {
 	GogStyle *style = gog_object_dup_style_and_marker (state->obj);
 	go_marker_set_size (style->marker, adj->value);
-	gog_object_set_style (state->obj, style);
+	gog_object_set_style (state, style);
 }
 
 static void
@@ -840,7 +843,7 @@ cb_font_changed (FontSelector *fs, G_GNUC_UNUSED gpointer mstyle,
 
 	font_selector_get_pango (fs, new_font);
 	gog_style_set_font (style, new_font);
-	gog_object_set_style (state->obj, style);
+	gog_object_set_style (state, style);
 }
 
 static void
@@ -868,6 +871,8 @@ font_init (StylePrefState *state, GogStyle const *style, guint32 enable, GtkWidg
 static void
 gog_style_pref_state_free (StylePrefState *state)
 {
+	g_signal_handler_disconnect (G_OBJECT (state->obj),
+		state->style_changed_handler);
 	g_object_unref (state->gui);
 	if (state->fill.gradient.timer != 0) {
 		g_source_remove (state->fill.gradient.timer);
@@ -876,6 +881,12 @@ gog_style_pref_state_free (StylePrefState *state)
 	if (state->fill.image.image != NULL)
 		g_object_unref (state->fill.image.image);
 	g_free (state);
+}
+
+static void
+cb_style_changed (GogObject *obj, GogStyle *style, StylePrefState *state)
+{
+	g_warning ("update widgets");
 }
 
 GtkWidget *
@@ -906,6 +917,9 @@ gog_style_editor (GogObject *obj, GnmCmdContext *cc,
 
 	state->enable_edit = TRUE;
 
+	state->style_changed_handler = g_signal_connect (G_OBJECT (obj),
+		"style-changed",
+		G_CALLBACK (cb_style_changed), state);
  	w = glade_xml_get_widget (gui, "gog_style_prefs");
 	g_object_set_data_full (G_OBJECT (w),
 		"state", state, (GDestroyNotify) gog_style_pref_state_free);

@@ -1200,7 +1200,7 @@ cmd_ins_del_colrow_undo (GnmCommand *cmd, WorkbookControl *wbc)
 	 * for the shift of col/rows.
 	 */
 	if (me->cutcopied != NULL && me->cut_copy_view != NULL)
-		application_clipboard_cut_copy (wbc, me->is_cut, me->cut_copy_view,
+		gnm_app_clipboard_cut_copy (wbc, me->is_cut, me->cut_copy_view,
 						me->cutcopied, FALSE);
 
 	return FALSE;
@@ -1306,7 +1306,7 @@ cmd_ins_del_colrow_redo (GnmCommand *cmd, WorkbookControl *wbc)
 			s.end.row   += key;
 		}
 
-		application_clipboard_cut_copy (wbc, me->is_cut, me->cut_copy_view, &s, FALSE);
+		gnm_app_clipboard_cut_copy (wbc, me->is_cut, me->cut_copy_view, &s, FALSE);
 	}
 
 	return trouble;
@@ -1359,11 +1359,11 @@ cmd_ins_del_colrow (WorkbookControl *wbc,
 	me->contents = NULL;
 
 	/* We store the cut or/copied range if applicable */
-	if (!application_clipboard_is_empty () &&
-	    sheet == application_clipboard_sheet_get ()) {
-		me->cutcopied = range_dup (application_clipboard_area_get ());
-		me->is_cut    = application_clipboard_is_cut ();
-		sv_weak_ref (application_clipboard_sheet_view_get (),
+	if (!gnm_app_clipboard_is_empty () &&
+	    sheet == gnm_app_clipboard_sheet_get ()) {
+		me->cutcopied = range_dup (gnm_app_clipboard_area_get ());
+		me->is_cut    = gnm_app_clipboard_is_cut ();
+		sv_weak_ref (gnm_app_clipboard_sheet_view_get (),
 			&(me->cut_copy_view));
 	} else
 		me->cutcopied = NULL;

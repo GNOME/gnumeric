@@ -405,6 +405,13 @@ gog_axis_update (GogObject *obj)
 		    (axis->auto_bound [AXIS_ELEM_MAX] + 10. * step) < 0)
 			axis->auto_bound [AXIS_ELEM_MAX] = 0;
 
+		/* The epsilon shift can pull us away from a zero we want to
+		 * keep (eg percentage bars withno negative elements) */
+		if (axis->auto_bound [AXIS_ELEM_MIN] < 0 && minima >= 0.)
+			axis->auto_bound [AXIS_ELEM_MIN] = 0;
+		else if (axis->auto_bound [AXIS_ELEM_MAX] > 0 && maxima <= 0.)
+			axis->auto_bound [AXIS_ELEM_MAX] = 0;
+
 		if (finite (axis->logical_min_val) &&
 		    axis->auto_bound [AXIS_ELEM_MIN] < axis->logical_min_val)
 			axis->auto_bound [AXIS_ELEM_MIN] = axis->logical_min_val;

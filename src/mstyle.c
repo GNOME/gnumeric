@@ -683,7 +683,7 @@ mstyle_copy_merge (const MStyle *orig, const MStyle *overlay)
 MStyle *
 mstyle_new_default (void)
 {
-	GConfClient *client = application_get_gconf_client ();
+	GConfClient *client = gnm_app_get_gconf_client ();
 	char *font_name;
 	double font_size;
 	MStyle *mstyle = mstyle_new ();

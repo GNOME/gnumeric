@@ -5151,8 +5151,8 @@ excel_read_WINDOW1 (BiffQuery *q, WorkbookView *wb_view)
 		 * the containing excel window.
 		 */
 		wb_view_preferred_size (wb_view,
-					.5 + width * application_display_dpi_get (TRUE) / (72. * 20.),
-					.5 + height * application_display_dpi_get (FALSE) / (72. * 20.));
+					.5 + width * gnm_app_display_dpi_get (TRUE) / (72. * 20.),
+					.5 + height * gnm_app_display_dpi_get (FALSE) / (72. * 20.));
 
 		if (options & 0x0001)
 			fprintf (stderr,"Unsupported: Hidden workbook\n");

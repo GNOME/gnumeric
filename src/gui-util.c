@@ -990,7 +990,7 @@ gnumeric_toolbar_new (WorkbookControlGUI *wbcg,
 	gnome_app_fill_toolbar_with_data (GTK_TOOLBAR (tbar), info,
 		app->accel_group, wbcg);
 
-	behavior = gconf_client_get_bool (application_get_gconf_client (),
+	behavior = gconf_client_get_bool (gnm_app_get_gconf_client (),
 		"/desktop/gnome/interface/toolbar_detachable", NULL)
 		? BONOBO_DOCK_ITEM_BEH_NORMAL
 		: BONOBO_DOCK_ITEM_BEH_LOCKED;
@@ -1481,7 +1481,7 @@ gnm_fat_cross_cursor (GdkDisplay *display)
 	static GdkPixbuf *pixbuf = NULL;
 
 	if (!pixbuf)
-		pixbuf = application_get_pixbuf ("cursor_cross");
+		pixbuf = gnm_app_get_pixbuf ("cursor_cross");
 
 	return gdk_cursor_new_from_pixbuf (display, pixbuf, 17, 17);
 }

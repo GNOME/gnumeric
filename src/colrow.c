@@ -41,7 +41,7 @@ colrow_compute_pixels_from_pts (ColRowInfo *cri,
 	int const margin = cri->margin_a + cri->margin_b;
 	double const scale =
 		sheet->last_zoom_factor_used *
-		application_display_dpi_get (horizontal) / 72.;
+		gnm_app_display_dpi_get (horizontal) / 72.;
 
 	cri->size_pixels = (int)(cri->size_pts * scale + 0.5);
 	if (cri->size_pixels <= margin)
@@ -54,7 +54,7 @@ colrow_compute_pts_from_pixels (ColRowInfo *cri,
 {
 	double const scale =
 		sheet->last_zoom_factor_used *
-		application_display_dpi_get (horizontal) / 72.;
+		gnm_app_display_dpi_get (horizontal) / 72.;
 
 	cri->size_pts = cri->size_pixels / scale;
 #if 0

@@ -417,9 +417,9 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 		    guint info, WorkbookControlGUI *wbcg)
 {
 	gboolean to_gnumeric = FALSE, content_needs_free = FALSE;
-	CellRegion *clipboard = application_clipboard_contents_get ();
-	Sheet *sheet = application_clipboard_sheet_get ();
-	GnmRange const *a = application_clipboard_area_get ();
+	CellRegion *clipboard = gnm_app_clipboard_contents_get ();
+	Sheet *sheet = gnm_app_clipboard_sheet_get ();
+	GnmRange const *a = gnm_app_clipboard_area_get ();
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 
 	/*
@@ -493,7 +493,7 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 				a->end.col,   a->end.row,
 				CLEAR_VALUES|CLEAR_COMMENTS|CLEAR_RECALC_DEPS,
 				GNM_CMD_CONTEXT (wbc));
-			application_clipboard_clear (TRUE);
+			gnm_app_clipboard_clear (TRUE);
 		}
 
 		cellregion_free (clipboard);
@@ -509,7 +509,7 @@ static gint
 x_clipboard_clear_cb (GtkClipboard *clipboard,
 		      gpointer      data)
 {
-	application_clipboard_clear (FALSE);
+	gnm_app_clipboard_clear (FALSE);
 
 	return TRUE;
 }

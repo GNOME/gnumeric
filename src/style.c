@@ -208,7 +208,7 @@ style_font_new_simple (PangoContext *context,
 		font->approx_width.pixels.E = calc_font_width (font, "E");
 		font->approx_width.pixels.e = calc_font_width (font, "e");
 
-		pts_scale = application_display_dpi_get (TRUE) / 72.0;
+		pts_scale = gnm_app_display_dpi_get (TRUE) / 72.0;
 		font->approx_width.pts.digit =
 			font->approx_width.pixels.digit / pts_scale;
 		font->approx_width.pts.decimal =
@@ -406,7 +406,7 @@ gnm_pango_context_get (void)
 static void
 font_init (void)
 {
-	GConfClient *client = application_get_gconf_client ();
+	GConfClient *client = gnm_app_get_gconf_client ();
 	PangoContext *context;
 	StyleFont *gnumeric_default_font = NULL;
 	int n_families, i;

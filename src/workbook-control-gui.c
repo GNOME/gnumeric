@@ -816,7 +816,7 @@ cb_sheet_label_drag_begin (GtkWidget *widget, GdkDragContext *context,
 	/* Create the arrow. */
 	arrow = gtk_window_new (GTK_WINDOW_POPUP);
 	gtk_widget_realize (arrow);
-	pixbuf = application_get_pixbuf ("sheet_move_marker");
+	pixbuf = gnm_app_get_pixbuf ("sheet_move_marker");
 	image = gtk_image_new_from_pixbuf (pixbuf);
 	gtk_widget_show (image);
 	gtk_container_add (GTK_CONTAINER (arrow), image);
@@ -1082,7 +1082,7 @@ wbcg_load_file_history (WorkbookControlGUI *wbcg)
 	char const *seperator_path = _("_File/Preferen_ces...");
 	GtkWidget  *sep, *w;
 	int sep_pos, accel_number = 1;
-	GSList const *ptr = application_history_get_list (FALSE);
+	GSList const *ptr = gnm_app_history_get_list (FALSE);
 	unsigned new_history_size = g_slist_length ((GSList *)ptr);
 	GnomeUIInfo info[] = {
 		{ GNOME_APP_UI_ITEM, NULL, NULL, file_history_cmd, NULL },
@@ -1150,7 +1150,7 @@ file_history_cmd (BonoboUIComponent *uic, WorkbookControlGUI *wbcg, const char *
 static void
 wbcg_load_file_history (WorkbookControlGUI *wbcg)
 {
-	GSList const *ptr = application_history_get_list (FALSE);
+	GSList const *ptr = gnm_app_history_get_list (FALSE);
 	unsigned new_history_size = g_slist_length ((GSList *)ptr);
 	unsigned i, accel_number = 1;
 	CORBA_Environment ev;
@@ -1206,7 +1206,7 @@ static void
 wbcg_file_history_setup (WorkbookControlGUI *wbcg)
 {
 	wbcg_load_file_history (wbcg);
-	g_signal_connect_object (gnumeric_application_get_app (),
+	g_signal_connect_object (gnm_app_get_app (),
 		"notify::file-history-list",
 		G_CALLBACK (wbcg_load_file_history), wbcg, G_CONNECT_SWAPPED);
 }
@@ -1462,8 +1462,8 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 
 	if (MS_PASTE_SPECIAL & flags)
 		change_menu_sensitivity (wbcg->menu_item_paste_special,
-			!application_clipboard_is_empty () &&
-			!application_clipboard_is_cut () &&
+			!gnm_app_clipboard_is_empty () &&
+			!gnm_app_clipboard_is_cut () &&
 			!edit_object);
 	if (MS_PRINT_SETUP & flags)
 		change_menu_sensitivity (wbcg->menu_item_page_setup,
@@ -1503,8 +1503,8 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 	}
 	if (MS_PASTE_SPECIAL & flags)
 		change_menu_sensitivity (wbcg, "/commands/EditPasteSpecial",
-			!application_clipboard_is_empty () &&
-			!application_clipboard_is_cut () &&
+			!gnm_app_clipboard_is_empty () &&
+			!gnm_app_clipboard_is_cut () &&
 			!edit_object);
 	if (MS_PRINT_SETUP & flags)
 		change_menu_sensitivity (wbcg, "/commands/FilePageSetup",
@@ -1771,7 +1771,7 @@ workbook_close_if_user_permits (WorkbookControlGUI *wbcg,
 						 _("If you close without saving, changes will be discarded."));
 						 
 		if (exiting) {
-			int n_of_wb = g_list_length (application_workbook_list ());
+			int n_of_wb = g_list_length (gnm_app_workbook_list ());
 			if (n_of_wb > 1)
 			{
 			  	gnumeric_dialog_add_button (GTK_DIALOG(d), _("Discard all"), 
@@ -1988,7 +1988,7 @@ cb_file_quit (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	wbcg_edit_finish (wbcg, FALSE, NULL);
 
 	/* list is modified during workbook destruction */
-	workbooks = g_list_copy (application_workbook_list ());
+	workbooks = g_list_copy (gnm_app_workbook_list ());
 
 	for (ptr = workbooks; ok && ptr != NULL ; ptr = ptr->next) {
 		Workbook *wb = ptr->data;
@@ -5720,7 +5720,7 @@ register_xml_ui (const char *xml_ui, const char *textdomain, GSList *verb_list,
 	new_ui->verb_fn_data = verb_fn_data;
 
 	GNM_SLIST_APPEND (registered_xml_uis, new_ui);
-	application_workbook_foreach (add_ui_to_workbook_controls, new_ui);
+	gnm_app_workbook_foreach (add_ui_to_workbook_controls, new_ui);
 
 	return new_ui;
 }
@@ -5728,7 +5728,7 @@ register_xml_ui (const char *xml_ui, const char *textdomain, GSList *verb_list,
 void
 unregister_xml_ui (CustomXmlUI *ui)
 {
-	application_workbook_foreach (remove_ui_from_workbook_controls, ui);
+	gnm_app_workbook_foreach (remove_ui_from_workbook_controls, ui);
 	GNM_SLIST_REMOVE (registered_xml_uis, ui);
 	g_free (ui->xml_ui);
 	g_free (ui->textdomain);

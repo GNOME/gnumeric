@@ -1160,11 +1160,13 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 		 char const *data, char const *data_end,
 		 Sheet *sheet, int start_col, int start_row)
 {
-	int row;
-	unsigned int lrow;
+	int row, col;
+	unsigned int lrow, lcol;
 	GnmDateConventions const *date_conv;
 	GStringChunk *lines_chunk;
-	GPtrArray *lines;
+	GPtrArray *lines, *line;
+	char const *text;
+
 	SETUP_LOCALE_SWITCH;
 
 	g_return_val_if_fail (parseoptions != NULL, FALSE);
@@ -1181,29 +1183,19 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 	lines = stf_parse_general (parseoptions, lines_chunk, data, data_end,
 				   SHEET_MAX_ROWS);
 	for (row = start_row, lrow = 0; lrow < lines->len ; row++, lrow++) {
-		unsigned int lcol, lcol_target = 0;
-		GPtrArray *line = g_ptr_array_index (lines, lrow);
+		col = start_col;
+		line = g_ptr_array_index (lines, lrow);
 
-		for (lcol = 0; lcol < line->len; lcol++) {
+		for (lcol = 0; lcol < line->len; lcol++)
 			if (parseoptions->col_import_array == NULL ||
 			    parseoptions->col_import_array[lcol]) {
-				char *text = g_ptr_array_index (line, lcol);
-				if (text) {
-					GnmValue *v;
-					StyleFormat *fmt = mstyle_get_format
-						(sheet_style_get (sheet,
-								  start_col + lcol_target,
-								  row));
-					v = format_match (text, fmt, date_conv);
-					if (v == NULL)
-						v = value_new_string (text);
-
-					cell_set_value (sheet_cell_fetch
-							(sheet, start_col + lcol_target, row), v);
-				}
-				lcol_target++;
+				text = g_ptr_array_index (line, lcol);
+				if (text)
+					cell_set_text (
+						sheet_cell_fetch (sheet, col, row),
+						text);
+				col++;
 			}
-		}
 	}
 
 	stf_parse_general_free (lines);

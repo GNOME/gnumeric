@@ -265,6 +265,13 @@ gog_plot_request_cardinality_update (GogPlot *plot)
 	}
 }
 
+/**
+ * gog_plot_get_cardinality :
+ * @plot : #GogPlot
+ *
+ * Return the number of logical elements in the plot, updatnig the cache if
+ * necessary
+ **/
 unsigned
 gog_plot_get_cardinality (GogPlot *plot)
 {
@@ -273,6 +280,7 @@ gog_plot_get_cardinality (GogPlot *plot)
 	if (!plot->cardinality_valid) {
 		GogPlotClass *klass = GOG_PLOT_GET_CLASS (plot);
 		GogSeries    *series;
+		gboolean      is_valid;
 
 		plot->cardinality_valid = TRUE;
 		plot->index_num = gog_chart_get_cardinality (
@@ -287,14 +295,13 @@ gog_plot_get_cardinality (GogPlot *plot)
 
 			for (ptr = plot->series; ptr != NULL ; ptr = ptr->next) {
 				series = GOG_SERIES (ptr->data);
-				if (gog_series_is_valid (GOG_SERIES (series))) {
-					if (plot->vary_style_by_element) {
-						if (size < series->num_elements)
-							size = series->num_elements;
-						gog_series_set_index (series, plot->index_num, FALSE);
-					} else
-						gog_series_set_index (series, i++, FALSE);
-				}
+				is_valid = gog_series_is_valid (GOG_SERIES (series));
+				if (plot->vary_style_by_element) {
+					if (is_valid && size < series->num_elements)
+						size = series->num_elements;
+					gog_series_set_index (series, plot->index_num, FALSE);
+				} else
+					gog_series_set_index (series, i++, FALSE);
 			}
 
 			plot->cardinality = (plot->vary_style_by_element) ? size : (i - plot->index_num);

@@ -72,7 +72,7 @@ ib_compute_pixels_from_indent (Sheet const *sheet, gboolean const is_cols)
 {
 	double const scale =
 		sheet->last_zoom_factor_used *
-		application_display_dpi_get (is_cols) / 72.;
+		gnm_app_display_dpi_get (is_cols) / 72.;
 	int const indent = is_cols
 		? sheet->cols.max_outline_level
 		: sheet->rows.max_outline_level;
@@ -735,7 +735,7 @@ colrow_tip_setlabel (ItemBar *ib, gboolean const is_cols, int size_pixels)
 {
 	if (ib->tip != NULL) {
 		char *buffer;
-		double const scale = 72. / application_display_dpi_get (!is_cols);
+		double const scale = 72. / gnm_app_display_dpi_get (!is_cols);
 		if (is_cols)
 			buffer = g_strdup_printf (_("Width: %.2f pts (%d pixels)"),
 						  scale*size_pixels, size_pixels);

@@ -127,7 +127,7 @@ icg_show_gui (IOContextGtk *icg)
 
 	box = GTK_BOX (gtk_vbox_new (FALSE, 0));
 	gtk_box_pack_start (box,
-			    gtk_image_new_from_pixbuf (application_get_pixbuf ("gnumeric_splash")),
+			    gtk_image_new_from_pixbuf (gnm_app_get_pixbuf ("gnumeric_splash")),
 			    TRUE, FALSE, 0);
 
 	/* Don't show this unless we need it. */

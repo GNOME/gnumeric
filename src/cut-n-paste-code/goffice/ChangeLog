@@ -1,3 +1,27 @@
+2003-11-01  Jody Goldberg <jody@gnome.org>
+
+	* graph/plugins/plot_barcol/gog-barcol.c
+	(gog_barcol_plot_class_init) : set the default to match the real
+	  default so that things persist properly.
+
+2003-10-30  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-plot.c (gog_plot_get_cardinality) : Set the index even if
+	  the series is invald.  This makes like easier when adding a series.
+
+	* graph/gog-style.c (gog_object_set_style) : block style change
+	  signals.
+	(gog_style_pref_state_free) : disconnect the style change handler.
+	(gog_style_editor) : monitor style changed signals.
+	(cb_style_changed) : new.
+
+	* graph/gog-series.c (gog_series_set_index) : signal when the style
+	  changes.
+
+	* graph/gog-object.c (gog_object_get_editor) : force an update before
+	  creating an editor to avoid flicker later.
+	* graph/gog-graph.c (gog_graph_force_update) : new.
+
 2003-10-29  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-axis.c (cb_axis_bound_changed) : update all the auto

@@ -272,7 +272,7 @@ wb_control_parse_and_jump (WorkbookControl *wbc, char const *text)
 }
 
 static void
-cb_wbc_clipboard_modified (GnumericApplication *app, WorkbookControl *wbc)
+cb_wbc_clipboard_modified (GnmApp *app, WorkbookControl *wbc)
 {
 	wb_control_menu_state_update (wbc, MS_PASTE_SPECIAL);
 }
@@ -285,7 +285,7 @@ wbc_finalize (GObject *obj)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (obj);
 	if (wbc->clipboard_changed_signal)
-		g_signal_handler_disconnect (gnumeric_application_get_app (),
+		g_signal_handler_disconnect (gnm_app_get_app (),
 					     wbc->clipboard_changed_signal);
 	wbc->clipboard_changed_signal = 0;
 	if (wbc->wb_view != NULL)
@@ -307,7 +307,7 @@ workbook_control_init (GObject *obj)
 	WorkbookControl *wbc = WORKBOOK_CONTROL (obj);
 
 	wbc->clipboard_changed_signal = g_signal_connect (
-		gnumeric_application_get_app (),
+		gnm_app_get_app (),
 		"clipboard_modified",
 		G_CALLBACK (cb_wbc_clipboard_modified), wbc);
 }

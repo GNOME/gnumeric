@@ -459,8 +459,8 @@ static void
 excel_write_WINDOW1 (BiffPut *bp, WorkbookView const *wb_view)
 {
 	guint8 *data = ms_biff_put_len_next (bp, BIFF_WINDOW1, 18);
-	float hdpi = application_display_dpi_get (TRUE) / (72. * 20.);
-	float vdpi = application_display_dpi_get (FALSE) / (72. * 20.);
+	float hdpi = gnm_app_display_dpi_get (TRUE) / (72. * 20.);
+	float vdpi = gnm_app_display_dpi_get (FALSE) / (72. * 20.);
 	guint16 width = .5 + wb_view->preferred_width / hdpi;
 	guint16 height = .5 + wb_view->preferred_height / vdpi;
 	guint16 options = 0;

@@ -313,7 +313,7 @@ setup_pattern_button (GladeXML  *gui,
 	if (tmp != NULL) {
 		GtkButton *button = GTK_BUTTON (tmp);
 		if (flag) {
-			GtkWidget *image = gtk_image_new_from_pixbuf (application_get_pixbuf (name));
+			GtkWidget *image = gtk_image_new_from_pixbuf (gnm_app_get_pixbuf (name));
 			gtk_widget_show (image);
 			gtk_container_add (GTK_CONTAINER (tmp), image);
 		}
@@ -423,7 +423,7 @@ init_button_image (GladeXML *gui, char const *const name)
 {
 	GtkWidget *tmp = glade_xml_get_widget (gui, name);
 	if (tmp != NULL) {
-		GtkWidget *image = gtk_image_new_from_pixbuf (application_get_pixbuf (name));
+		GtkWidget *image = gtk_image_new_from_pixbuf (gnm_app_get_pixbuf (name));
 		gtk_widget_show (image);
 		gtk_container_add (GTK_CONTAINER (tmp), image);
 	}
@@ -660,8 +660,8 @@ cb_rotate_canvas_realize (GnomeCanvas *canvas, FormatState *state)
 		NULL);
 
 	context = pango_ft2_get_context (
-		application_display_dpi_get (TRUE),
-		application_display_dpi_get (FALSE));
+		gnm_app_display_dpi_get (TRUE),
+		gnm_app_display_dpi_get (FALSE));
 	layout = pango_layout_new (context);
 	pango_layout_set_font_description (layout,
 		pango_context_get_font_description (gtk_widget_get_pango_context (GTK_WIDGET (canvas))));

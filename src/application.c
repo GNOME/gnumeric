@@ -29,6 +29,11 @@
 #include <gtk/gtkiconfactory.h>
 #include <gtk/gtkselection.h>
 
+#define GNM_APP(o)		(G_TYPE_CHECK_INSTANCE_CAST((o), GNM_APP_TYPE, GnmApp))
+#define GNM_APP_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST((k),	 GNM_APP_TYPE, GnmAppClass))
+#define IS_GNM_APP(o)		(G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_APP_TYPE))
+#define IS_GNM_APP_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE((k),	 GNM_APP_TYPE))
+
 enum {
 	APPLICATION_PROP_0,
 	APPLICATION_PROP_FILE_HISTORY_LIST
@@ -43,7 +48,7 @@ enum {
 
 static GQuark signals [LAST_SIGNAL] = { 0 };
 
-struct _GnumericApplication {
+struct _GnmApp {
 	GObject  base;
 
 	/* Clipboard */
@@ -66,17 +71,17 @@ struct _GnumericApplication {
 typedef struct {
 	GObjectClass     parent;
 
-	void (*workbook_added)     (GnumericApplication *gnm_app, Workbook *wb);
-	void (*workbook_removed)   (GnumericApplication *gnm_app, Workbook *wb);
-	void (*clipboard_modified) (GnumericApplication *gnm_app);
+	void (*workbook_added)     (GnmApp *gnm_app, Workbook *wb);
+	void (*workbook_removed)   (GnmApp *gnm_app, Workbook *wb);
+	void (*clipboard_modified) (GnmApp *gnm_app);
 
-} GnumericApplicationClass;
+} GnmAppClass;
 
 static GObjectClass *parent_klass;
-static GnumericApplication *app;
+static GnmApp *app;
 
 GObject *
-gnumeric_application_get_app (void)
+gnm_app_get_app (void)
 {
 	return G_OBJECT (app);
 }
@@ -111,13 +116,13 @@ add_icon (GtkIconFactory *factory,
 }
 
 /**
- * application_workbook_list_remove :
+ * gnm_app_workbook_list_remove :
  * @wb :
  *
  * Remove @wb from the application's list of workbooks.
  **/
 void
-application_workbook_list_add (Workbook *wb)
+gnm_app_workbook_list_add (Workbook *wb)
 {
 	g_return_if_fail (IS_WORKBOOK (wb));
 
@@ -126,13 +131,13 @@ application_workbook_list_add (Workbook *wb)
 }
 
 /**
- * application_workbook_list_remove :
+ * gnm_app_workbook_list_remove :
  * @wb :
  *
  * Remove @wb from the application's list of workbooks.
  **/
 void
-application_workbook_list_remove (Workbook *wb)
+gnm_app_workbook_list_remove (Workbook *wb)
 {
 	g_return_if_fail (wb != NULL);
 
@@ -141,19 +146,19 @@ application_workbook_list_remove (Workbook *wb)
 }
 
 GList *
-application_workbook_list (void)
+gnm_app_workbook_list (void)
 {
 	return app->workbook_list;
 }
 
 /**
- * application_clipboard_clear:
+ * gnm_app_clipboard_clear:
  *
  * Clear and free the contents of the clipboard if it is
  * not empty.
  */
 void
-application_clipboard_clear (gboolean drop_selection)
+gnm_app_clipboard_clear (gboolean drop_selection)
 {
 	if (app->clipboard_copied_contents) {
 		cellregion_free (app->clipboard_copied_contents);
@@ -180,14 +185,14 @@ application_clipboard_clear (gboolean drop_selection)
 }
 
 void
-application_clipboard_unant (void)
+gnm_app_clipboard_unant (void)
 {
 	if (app->clipboard_sheet_view != NULL)
 		sv_unant (app->clipboard_sheet_view);
 }
 
 /**
- * application_clipboard_cut_copy:
+ * gnm_app_clipboard_cut_copy:
  *
  * @wbc   : the workbook control that requested the operation.
  * @is_cut: is this a cut or a copy.
@@ -208,14 +213,14 @@ application_clipboard_unant (void)
  * that the control can claim the selection.
  */
 void
-application_clipboard_cut_copy (WorkbookControl *wbc, gboolean is_cut,
+gnm_app_clipboard_cut_copy (WorkbookControl *wbc, gboolean is_cut,
 				SheetView *sv, GnmRange const *area,
 				gboolean animate_cursor)
 {
 	g_return_if_fail (IS_SHEET_VIEW (sv));
 	g_return_if_fail (area != NULL);
 
-	application_clipboard_clear (FALSE);
+	gnm_app_clipboard_clear (FALSE);
 
 	if (wb_control_claim_selection (wbc)) {
 		Sheet *sheet = sv_sheet (sv);
@@ -239,13 +244,13 @@ application_clipboard_cut_copy (WorkbookControl *wbc, gboolean is_cut,
 }
 
 gboolean
-application_clipboard_is_empty (void)
+gnm_app_clipboard_is_empty (void)
 {
 	return app->clipboard_sheet_view == NULL;
 }
 
 gboolean
-application_clipboard_is_cut (void)
+gnm_app_clipboard_is_cut (void)
 {
 	if (app->clipboard_sheet_view != NULL)
 		return app->clipboard_copied_contents ? FALSE : TRUE;
@@ -253,7 +258,7 @@ application_clipboard_is_cut (void)
 }
 
 Sheet *
-application_clipboard_sheet_get (void)
+gnm_app_clipboard_sheet_get (void)
 {
 	if (app->clipboard_sheet_view == NULL)
 		return NULL;
@@ -261,19 +266,19 @@ application_clipboard_sheet_get (void)
 }
 
 SheetView *
-application_clipboard_sheet_view_get (void)
+gnm_app_clipboard_sheet_view_get (void)
 {
 	return app->clipboard_sheet_view;
 }
 
 CellRegion *
-application_clipboard_contents_get (void)
+gnm_app_clipboard_contents_get (void)
 {
 	return app->clipboard_copied_contents;
 }
 
 GnmRange const *
-application_clipboard_area_get (void)
+gnm_app_clipboard_area_get (void)
 {
 	/*
 	 * Only return the range if the sheet has been set.
@@ -302,18 +307,18 @@ cb_workbook_name (Workbook * wb, gpointer closure)
 }
 
 Workbook *
-application_workbook_get_by_name (char const * const name)
+gnm_app_workbook_get_by_name (char const * const name)
 {
 	struct wb_name_closure close;
 	close.wb = NULL;
 	close.name = name;
-	application_workbook_foreach (&cb_workbook_name, &close);
+	gnm_app_workbook_foreach (&cb_workbook_name, &close);
 
 	return close.wb;
 }
 
 gboolean
-application_workbook_foreach (WorkbookCallback cback, gpointer data)
+gnm_app_workbook_foreach (GnmWbIterFunc cback, gpointer data)
 {
 	GList *l;
 
@@ -340,38 +345,38 @@ cb_workbook_index (G_GNUC_UNUSED Workbook * wb, gpointer closure)
 }
 
 Workbook *
-application_workbook_get_by_index (int i)
+gnm_app_workbook_get_by_index (int i)
 {
 	struct wb_index_closure close;
 	close.wb = NULL;
 	close.index = i;
-	application_workbook_foreach (&cb_workbook_index, &close);
+	gnm_app_workbook_foreach (&cb_workbook_index, &close);
 
 	return close.wb;
 }
 
 double
-application_display_dpi_get (gboolean horizontal)
+gnm_app_display_dpi_get (gboolean horizontal)
 {
 	return horizontal ? gnm_app_prefs->horizontal_dpi : gnm_app_prefs->vertical_dpi;
 }
 
 double
-application_dpi_to_pixels (void)
+gnm_app_dpi_to_pixels (void)
 {
 	return MIN (gnm_app_prefs->horizontal_dpi,
 		    gnm_app_prefs->vertical_dpi) / 72.;
 }
 
 /**
- * application_history_get_list:
+ * gnm_app_history_get_list:
  *
  * creating it if necessary.
  *
  * Return value: the list./
  **/
 GSList const *
-application_history_get_list (gboolean force_reload)
+gnm_app_history_get_list (gboolean force_reload)
 {
         gint max_entries;
 	GSList const *ptr;
@@ -400,7 +405,7 @@ application_history_get_list (gboolean force_reload)
  * Adds @filename to the application's history of files.
  **/
 void
-application_history_add (char const *filename)
+gnm_app_history_add (char const *filename)
 {
 	char *canonical_name;
         gint max_entries;
@@ -418,7 +423,7 @@ application_history_add (char const *filename)
 		canonical_name = g_strdup (filename);
 
 	/* force a reload in case max_entries has changed */
-	application_history_get_list (TRUE);
+	gnm_app_history_get_list (TRUE);
 	exists = g_slist_find_custom (app->history_list,
 				      canonical_name, g_str_compare);
 
@@ -451,17 +456,17 @@ application_history_add (char const *filename)
 	gnm_conf_sync ();
 }
 
-gboolean application_use_auto_complete	  (void) { return gnm_app_prefs->auto_complete; }
-gboolean application_live_scrolling	  (void) { return gnm_app_prefs->live_scrolling; }
-int	 application_auto_expr_recalc_lag (void) { return gnm_app_prefs->recalc_lag; }
-gboolean application_use_transition_keys  (void) { return gnm_app_prefs->transition_keys; }
-void     application_set_transition_keys  (gboolean state)
+gboolean gnm_app_use_auto_complete	  (void) { return gnm_app_prefs->auto_complete; }
+gboolean gnm_app_live_scrolling	  (void) { return gnm_app_prefs->live_scrolling; }
+int	 gnm_app_auto_expr_recalc_lag (void) { return gnm_app_prefs->recalc_lag; }
+gboolean gnm_app_use_transition_keys  (void) { return gnm_app_prefs->transition_keys; }
+void     gnm_app_set_transition_keys  (gboolean state)
 {
 	((GnmAppPrefs *)gnm_app_prefs)->transition_keys = state;
 }
 
 GConfClient *
-application_get_gconf_client (void)
+gnm_app_get_gconf_client (void)
 {
 	if (!app->gconf_client) {
 		app->gconf_client = gconf_client_get_default ();
@@ -473,7 +478,7 @@ application_get_gconf_client (void)
 }
 
 void
-application_release_gconf_client (void)
+gnm_app_release_gconf_client (void)
 {
 	if (app->gconf_client) {
 		gconf_client_remove_dir (app->gconf_client,
@@ -487,33 +492,33 @@ application_release_gconf_client (void)
  * Get a named pixbuf.
  */
 GdkPixbuf *
-application_get_pixbuf (const char *name)
+gnm_app_get_pixbuf (const char *name)
 {
 	return g_hash_table_lookup (app->named_pixbufs, name);
 }
 
 
 gpointer
-application_get_pref_dialog (void)
+gnm_app_get_pref_dialog (void)
 {
 	return app->pref_dialog;
 }
 
 void
-application_set_pref_dialog (gpointer dialog)
+gnm_app_set_pref_dialog (gpointer dialog)
 {
 	app->pref_dialog = dialog;
 }
 
 void
-application_release_pref_dialog (void)
+gnm_app_release_pref_dialog (void)
 {
 	if (app->pref_dialog)
 		gtk_widget_destroy (app->pref_dialog);
 }
 
 static void
-gnumeric_application_setup_pixbufs (GnumericApplication *app)
+gnumeric_application_setup_pixbufs (GnmApp *app)
 {
 	static struct {
 		guchar const   *scalable_data;
@@ -685,7 +690,7 @@ gnumeric_application_setup_icons (void)
 static void
 gnumeric_application_finalize (GObject *obj)
 {
-	GnumericApplication *application = GNUMERIC_APPLICATION (obj);
+	GnmApp *application = GNM_APP (obj);
 
 	g_slist_foreach (application->history_list, (GFunc)g_free, NULL);
 	g_slist_free (application->history_list);
@@ -699,7 +704,7 @@ static void
 gnumeric_application_get_property (GObject *obj, guint param_id,
 				   GValue *value, GParamSpec *pspec)
 {
-	GnumericApplication *application = GNUMERIC_APPLICATION (obj);
+	GnmApp *application = GNM_APP (obj);
 	switch (param_id) {
 	case APPLICATION_PROP_FILE_HISTORY_LIST:
 		g_value_set_pointer (value, application->history_list);
@@ -710,7 +715,7 @@ gnumeric_application_get_property (GObject *obj, guint param_id,
 }
 
 static void
-gnumeric_application_class_init (GObjectClass *gobject_klass)
+gnm_app_class_init (GObjectClass *gobject_klass)
 {
 	parent_klass = g_type_class_peek_parent (gobject_klass);
 
@@ -723,25 +728,25 @@ gnumeric_application_class_init (GObjectClass *gobject_klass)
 			G_PARAM_READABLE));
 
 	signals [WORKBOOK_ADDED] = g_signal_new ("workbook_added",
-		GNUMERIC_APPLICATION_TYPE,
+		GNM_APP_TYPE,
 		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (GnumericApplicationClass, workbook_added),
+		G_STRUCT_OFFSET (GnmAppClass, workbook_added),
 		(GSignalAccumulator) NULL, NULL,
 		gnm__VOID__OBJECT,
 		G_TYPE_NONE,
 		1, WORKBOOK_TYPE);
 	signals [WORKBOOK_REMOVED] = g_signal_new ("workbook_removed",
-		GNUMERIC_APPLICATION_TYPE,
+		GNM_APP_TYPE,
 		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (GnumericApplicationClass, workbook_removed),
+		G_STRUCT_OFFSET (GnmAppClass, workbook_removed),
 		(GSignalAccumulator) NULL, NULL,
 		gnm__VOID__POINTER,
 		G_TYPE_NONE,
 		1, G_TYPE_POINTER);
 	signals [CLIPBOARD_MODIFIED] = g_signal_new ("clipboard_modified",
-		GNUMERIC_APPLICATION_TYPE,
+		GNM_APP_TYPE,
 		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (GnumericApplicationClass, clipboard_modified),
+		G_STRUCT_OFFSET (GnmAppClass, clipboard_modified),
 		(GSignalAccumulator) NULL, NULL,
 		gnm__VOID__VOID,
 		G_TYPE_NONE,
@@ -749,9 +754,9 @@ gnumeric_application_class_init (GObjectClass *gobject_klass)
 }
 
 static void
-gnumeric_application_init (GObject *obj)
+gnm_app_init (GObject *obj)
 {
-	GnumericApplication *gnm_app = GNUMERIC_APPLICATION (obj);
+	GnmApp *gnm_app = GNM_APP (obj);
 
 	gnm_app->clipboard_copied_contents = NULL;
 	gnm_app->clipboard_sheet_view = NULL;
@@ -770,6 +775,6 @@ gnumeric_application_init (GObject *obj)
 	app = gnm_app;
 }
 
-GSF_CLASS (GnumericApplication, gnumeric_application,
-	   gnumeric_application_class_init, gnumeric_application_init,
+GSF_CLASS (GnmApp, gnm_app,
+	   gnm_app_class_init, gnm_app_init,
 	   G_TYPE_OBJECT);

@@ -2168,7 +2168,7 @@ py_gnumeric_workbooks_method (PyObject *self, PyObject *args)
 	if (!PyArg_ParseTuple (args, (char *) ":workbooks"))
 		return NULL;
 
-	workbooks = application_workbook_list ();
+	workbooks = gnm_app_workbook_list ();
 	len = g_list_length (workbooks);
 	result = PyTuple_New (len);
 	for (l = workbooks, i = 0; i < len; l = l->next, i++) {

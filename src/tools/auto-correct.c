@@ -71,7 +71,7 @@ autocorrect_clear (void)
 static void
 autocorrect_load (void)
 {
-	GConfClient *client = application_get_gconf_client ();
+	GConfClient *client = gnm_app_get_gconf_client ();
 
 	autocorrect.init_caps = gconf_client_get_bool (client,
 		AUTOCORRECT_INIT_CAPS, NULL);
@@ -97,10 +97,10 @@ autocorrect_init (void)
 
 	autocorrect_load ();
 	autocorrect.notification_id = gconf_client_notify_add (
-		application_get_gconf_client (),
+		gnm_app_get_gconf_client (),
 		AUTOCORRECT_DIRECTORY, cb_autocorrect_update,
 		NULL, NULL, NULL);
-	g_object_set_data_full (gnumeric_application_get_app (),
+	g_object_set_data_full (gnm_app_get_app (),
 		"ToolsAutoCorrect", GINT_TO_POINTER (1),
 		(GDestroyNotify) autocorrect_clear);
 }
@@ -133,9 +133,9 @@ autocorrect_store_config (void)
 	gconf_change_set_set_bool (cs, AUTOCORRECT_REPLACE,
 		autocorrect.replace);
 
-	gconf_client_commit_change_set (application_get_gconf_client (),
+	gconf_client_commit_change_set (gnm_app_get_gconf_client (),
 					cs, FALSE, NULL);
-	gconf_client_suggest_sync (application_get_gconf_client (), NULL);
+	gconf_client_suggest_sync (gnm_app_get_gconf_client (), NULL);
 	gconf_change_set_unref (cs);
 }
 

@@ -101,7 +101,7 @@ void
 gnm_common_init (gboolean fast)
 {
 	mathfunc_init ();
-	g_object_new (GNUMERIC_APPLICATION_TYPE, NULL);
+	g_object_new (GNM_APP_TYPE, NULL);
 	plugin_services_init ();
 	libgoffice_init ();
 	gnm_conf_init (fast);
@@ -152,8 +152,8 @@ gnm_dump_func_defs (char const* filename, gboolean def_or_state)
 void
 gnm_shutdown (void)
 {
-	application_release_pref_dialog ();
-	application_clipboard_clear (TRUE);
+	gnm_app_release_pref_dialog ();
+	gnm_app_clipboard_clear (TRUE);
 
 	plugins_shutdown ();
 	print_shutdown ();
@@ -171,8 +171,8 @@ gnm_shutdown (void)
 	value_shutdown ();
 	mstyle_shutdown ();
 	gnm_string_shutdown ();
-	application_release_gconf_client ();
+	gnm_app_release_gconf_client ();
 	libgoffice_shutdown ();
 	plugin_services_shutdown ();
-	g_object_unref (gnumeric_application_get_app ());
+	g_object_unref (gnm_app_get_app ());
 }

@@ -40,6 +40,13 @@ enum {
 static gulong gog_styled_object_signals [LAST_SIGNAL] = { 0, };
 static GObjectClass *parent_klass;
 
+void
+gog_styled_object_style_changed (GogStyledObject *obj)
+{
+	g_signal_emit (G_OBJECT (obj),
+		gog_styled_object_signals [STYLE_CHANGED], 0, obj->style);
+}
+
 static void
 gog_styled_object_set_property (GObject *obj, guint param_id,
 				GValue const *value, GParamSpec *pspec)
@@ -60,8 +67,7 @@ gog_styled_object_set_property (GObject *obj, guint param_id,
 		style->interesting_fields =
 			(klass->interesting_fields) (GOG_STYLED_OBJECT (obj));
 
-		g_signal_emit (G_OBJECT (obj),
-			gog_styled_object_signals [STYLE_CHANGED], 0, style);
+		gog_styled_object_style_changed (GOG_STYLED_OBJECT (obj));
 		resize = gog_style_is_different_size (gso->style, style);
 		if (style != NULL)
 			g_object_ref (style);

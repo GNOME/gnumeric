@@ -217,7 +217,7 @@ sheet_object_image_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 	pixbuf = soi_get_pixbuf (soi, 1.);
 
 	if (pixbuf == NULL) {
-		placeholder = application_get_pixbuf ("unknown_image");
+		placeholder = gnm_app_get_pixbuf ("unknown_image");
 		pixbuf = gdk_pixbuf_copy (placeholder);
 	}
 

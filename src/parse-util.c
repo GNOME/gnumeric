@@ -708,7 +708,7 @@ wbref_parse (char const *start, Workbook **wb)
 		} else
 			unquote (name, start+2, end-start-2);
 
-		tmp_wb = application_workbook_get_by_name (name);
+		tmp_wb = gnm_app_workbook_get_by_name (name);
 		if (tmp_wb == NULL)
 			return NULL;
 		*wb = tmp_wb;

@@ -313,7 +313,7 @@ sv_selection_copy (SheetView *sv, WorkbookControl *wbc)
 	if (!(sel = selection_first_range (sv, GNM_CMD_CONTEXT (wbc), _("Copy"))))
 		return FALSE;
 
-	application_clipboard_cut_copy (wbc, FALSE, sv, sel, TRUE);
+	gnm_app_clipboard_cut_copy (wbc, FALSE, sv, sel, TRUE);
 
 	return TRUE;
 }
@@ -341,7 +341,7 @@ sv_selection_cut (SheetView *sv, WorkbookControl *wbc)
 	if (sheet_range_splits_region (sv_sheet (sv), sel, NULL, GNM_CMD_CONTEXT (wbc), _("Cut")))
 		return FALSE;
 
-	application_clipboard_cut_copy (wbc, TRUE, sv, sel, TRUE);
+	gnm_app_clipboard_cut_copy (wbc, TRUE, sv, sel, TRUE);
 
 	return TRUE;
 }
@@ -563,7 +563,7 @@ sv_update (SheetView *sv)
 	}
 
 	if (sv->selection_content_changed) {
-		int const lag = application_auto_expr_recalc_lag ();
+		int const lag = gnm_app_auto_expr_recalc_lag ();
 		sv->selection_content_changed = FALSE;
 		if (sv->auto_expr_timer == 0 || lag < 0) {
 			auto_expr_timer_clear (sv);

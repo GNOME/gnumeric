@@ -163,7 +163,7 @@ gog_barcol_plot_class_init (GogPlot1_5dClass *gog_plot_1_5d_klass)
 	g_object_class_install_property (gobject_klass, BARCOL_PROP_OVERLAP_PERCENTAGE,
 		g_param_spec_int ("overlap_percentage", "overlap percentage",
 			"The distance between series as a percentage of their width",
-			-100, 100, 100, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			-100, 100, 0, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, BARCOL_PROP_HORIZONTAL,
 		g_param_spec_boolean ("horizontal", "horizontal",
 			"horizontal bars or vertical columns",
