@@ -62,6 +62,7 @@ workbook_edit_set_sensitive (Workbook const *wb, gboolean flag1, gboolean flag2)
 	gtk_widget_set_sensitive (wb->priv->func_button, flag2);
 	gtk_widget_set_sensitive (wb->priv->standard_toolbar, flag2);
 	gtk_widget_set_sensitive (wb->priv->format_toolbar, flag2);
+	gtk_widget_set_sensitive (wb->priv->object_toolbar, flag2);
 }
 
 void

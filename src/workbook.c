@@ -34,6 +34,7 @@
 #include "widgets/gnumeric-toolbar.h"
 #include "workbook-cmd-format.h"
 #include "workbook-format-toolbar.h"
+#include "workbook-object-toolbar.h"
 #include "workbook-view.h"
 #include "command-context-gui.h"
 #include "commands.h"
@@ -47,6 +48,7 @@
 #ifdef ENABLE_BONOBO
 #include <bonobo/bonobo-persist-file.h>
 #include "sheet-object-container.h"
+#include "sheet-object-bonobo.h"
 #include "embeddable-grid.h"
 #endif
 
@@ -198,19 +200,34 @@ about_cmd (GtkWidget *widget, Workbook *wb)
 
 #ifdef ENABLE_BONOBO
 static void
+select_component_id (Sheet *sheet, char const *interface)
+{
+	char *obj_id;
+	char const *required_interfaces [2];
+
+	required_interfaces [0] = interface;
+	required_interfaces [1] = NULL;
+
+	obj_id = bonobo_selector_select_id (_("Select an object to add"),
+					    required_interfaces);
+	if (obj_id != NULL)
+		sheet_mode_create_object (
+			sheet_object_container_new_object (sheet, obj_id));
+	else
+		sheet_mode_edit	(sheet);
+}
+static void
 create_embedded_component_cmd (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet = wb->current_sheet;
-
-	sheet_set_mode_type (sheet, SHEET_MODE_CREATE_COMPONENT);
+	select_component_id (wb->current_sheet,
+			     "IDL:Bonobo/Embeddable:1.0");
 }
 
 static void
 create_embedded_item_cmd (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet = wb->current_sheet;
-
-	sheet_set_mode_type (sheet, SHEET_MODE_CREATE_CANVAS_ITEM);
+	select_component_id (wb->current_sheet,
+			     "IDL:Bonobo/Canvas/Item:1.0");
 }
 
 static void
@@ -219,50 +236,6 @@ launch_graph_guru (GtkWidget *widget, Workbook *wb)
 	dialog_graph_guru (wb);
 }
 #endif
-
-#ifdef GNUMERIC_TEST_ACTIVE_OBJECT
-static void
-create_button_cmd (GtkWidget *widget, Workbook *wb)
-{
-	Sheet *sheet = wb->current_sheet;
-	sheet_set_mode_type (sheet, SHEET_MODE_CREATE_BUTTON);
-}
-
-static void
-create_checkbox_cmd (GtkWidget *widget, Workbook *wb)
-{
-	Sheet *sheet = wb->current_sheet;
-	sheet_set_mode_type (sheet, SHEET_MODE_CREATE_CHECKBOX);
-}
-#endif
-
-static void
-create_line_cmd (GtkWidget *widget, Workbook *wb)
-{
-	Sheet *sheet = wb->current_sheet;
-	sheet_set_mode_type (sheet, SHEET_MODE_CREATE_LINE);
-}
-
-static void
-create_arrow_cmd (GtkWidget *widget, Workbook *wb)
-{
-	Sheet *sheet = wb->current_sheet;
-	sheet_set_mode_type (sheet, SHEET_MODE_CREATE_ARROW);
-}
-
-static void
-create_rectangle_cmd (GtkWidget *widget, Workbook *wb)
-{
-	Sheet *sheet = wb->current_sheet;
-	sheet_set_mode_type (sheet, SHEET_MODE_CREATE_BOX);
-}
-
-static void
-create_ellipse_cmd (GtkWidget *widget, Workbook *wb)
-{
-	Sheet *sheet = wb->current_sheet;
-	sheet_set_mode_type (sheet, SHEET_MODE_CREATE_OVAL);
-}
 
 static void
 cb_sheet_destroy_contents (gpointer key, gpointer value, gpointer user_data)
@@ -672,16 +645,12 @@ cut_cmd (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = wb->current_sheet;
 
-	if (sheet->mode == SHEET_MODE_SHEET)
+	if (sheet->current_object != NULL) {
+		gtk_object_unref (GTK_OBJECT (sheet->current_object));
+		sheet->current_object = NULL;
+	} else
 		sheet_selection_cut (workbook_command_context_gui (wb), sheet);
-	else {
-		if (sheet->current_object){
-			gtk_object_unref (GTK_OBJECT (sheet->current_object));
-			sheet->current_object = NULL;
-			sheet_set_mode_type (sheet, SHEET_MODE_SHEET);
-		} else
-			printf ("no object selected\n");
-	}
+	sheet_mode_edit	(sheet);
 }
 
 static void
@@ -1143,14 +1112,18 @@ sort_descend_cmd (GtkWidget *widget, Workbook *wb)
 static void
 insert_object_cmd (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet = wb->current_sheet;
+	SheetObject *so;
 	char  *obj_id;
 
 	obj_id = bonobo_selector_select_id (
 		_("Select an object to add"), NULL);
 
-	if (obj_id != NULL)
-		sheet_object_insert (sheet, obj_id);
+	if (obj_id == NULL)
+		return;
+
+	so = sheet_object_bonobo_new_from_oid (wb->current_sheet, obj_id);
+	if (so != NULL)
+		sheet_mode_create_object (so);
 }
 #endif
 
@@ -1224,7 +1197,7 @@ BonoboUIVerb verbs [] = {
 
 };
 
-#endif
+#else
 
 /* File menu */
 static GnomeUIInfo workbook_menu_file [] = {
@@ -1582,6 +1555,7 @@ static GnomeUIInfo workbook_menu [] = {
 	GNOMEUIINFO_END
 };
 
+#endif
 static GnomeUIInfo workbook_standard_toolbar [] = {
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("New"), N_("Creates a new workbook"),
@@ -1657,32 +1631,9 @@ static GnomeUIInfo workbook_standard_toolbar [] = {
 		N_("Insert shaped object"), N_("Inserts a shaped object into the spreadsheet"),
 		create_embedded_item_cmd, NULL, object_xpm),
 #endif
-#ifdef GNUMERIC_TEST_ACTIVE_OBJECT
-	GNOMEUIINFO_ITEM_DATA (
-		N_("Button"), N_("Creates a button"),
-		&create_button_cmd, NULL, button_xpm),
-	GNOMEUIINFO_ITEM_DATA (
-		N_("Checkbox"), N_("Creates a checkbox"),
-		&create_checkbox_cmd, NULL, checkbox_xpm),
-#endif
-	GNOMEUIINFO_ITEM_DATA (
-		N_("Line"), N_("Creates a line object"),
-		create_line_cmd, NULL, line_xpm),
-	GNOMEUIINFO_ITEM_DATA (
-		N_("Arrow"), N_("Creates an arrow object"),
-		create_arrow_cmd, NULL, arrow_xpm),
-	GNOMEUIINFO_ITEM_DATA (
-		N_("Rectangle"), N_("Creates a rectangle object"),
-		create_rectangle_cmd, NULL, rect_xpm),
-	GNOMEUIINFO_ITEM_DATA (
-		N_("Ellipse"), N_("Creates an ellipse object"),
-		create_ellipse_cmd, NULL, oval_xpm),
-
-	GNOMEUIINFO_SEPARATOR,
-
-
 	GNOMEUIINFO_END
 };
+
 
 static void
 do_focus_sheet (GtkNotebook *notebook, GtkNotebookPage *page, guint page_num, Workbook *wb)
@@ -2713,6 +2664,9 @@ workbook_create_toolbars (Workbook *wb)
 
 	wb->priv->format_toolbar = workbook_create_format_toolbar (wb);
 	gtk_widget_show (wb->priv->format_toolbar);
+
+	wb->priv->object_toolbar = workbook_create_object_toolbar (wb);
+	gtk_widget_show (wb->priv->object_toolbar);
 }
 
 static gboolean
@@ -2793,36 +2747,33 @@ workbook_new (void)
 	gtk_widget_show (wb->priv->main_vbox);
 	gtk_box_pack_end (GTK_BOX (wb->priv->main_vbox), wb->priv->table, TRUE, TRUE, 0);
 	bonobo_app_set_contents (BONOBO_APP (wb->toplevel), wb->priv->main_vbox);
+
+	wb->priv->workbook_views  = NULL;
+	wb->priv->persist_file    = NULL;
+
+	wb->priv->uih = bonobo_ui_handler_new ();
+	bonobo_ui_handler_set_app (wb->priv->uih, BONOBO_APP (wb->toplevel));
 	{
-		BonoboUIHandlerMenuItem *list;
+		char *fname;
+		xmlNode *ui;
+		BonoboUIComponent *component =
+			bonobo_ui_compat_get_component (wb->priv->uih);
+		Bonobo_UIContainer container = 
+			bonobo_ui_compat_get_container (wb->priv->uih);
 
-		wb->priv->workbook_views  = NULL;
-		wb->priv->persist_file    = NULL;
+		bonobo_ui_component_add_verb_list_with_data (
+			component, verbs, wb);
+		
+		fname = bonobo_ui_util_get_ui_fname ("gnumeric.xml");
+		g_warning ("Loading ui from '%s'", fname);
+		
+		ui = bonobo_ui_util_new_ui (component, fname, "gnumeric");
+		
+		bonobo_ui_component_set_tree (
+			component, container, "/", ui, NULL);
 
-		wb->priv->uih = bonobo_ui_handler_new ();
-		bonobo_ui_handler_set_app (wb->priv->uih, BONOBO_APP (wb->toplevel));
-		{
-			char *fname;
-			xmlNode *ui;
-			BonoboUIComponent *component =
-				bonobo_ui_compat_get_component (wb->priv->uih);
-			Bonobo_UIContainer container = 
-				bonobo_ui_compat_get_container (wb->priv->uih);
-
-			bonobo_ui_component_add_verb_list_with_data (
-				component, verbs, wb);
-			
-			fname = bonobo_ui_util_get_ui_fname ("gnumeric.xml");
-			g_warning ("Loading ui from '%s'", fname);
-			
-			ui = bonobo_ui_util_new_ui (component, fname, "gnumeric");
-			
-			bonobo_ui_component_set_tree (
-				component, container, "/", ui, NULL);
-
-			g_free (fname);
-			xmlFreeNode (ui);
-		}
+		g_free (fname);
+		xmlFreeNode (ui);
 	}
 #endif
 	/* Create dynamic history menu items. */
@@ -3368,6 +3319,9 @@ workbook_detach_sheet (Workbook *wb, Sheet *sheet, gboolean force)
 
 	notebook = GTK_NOTEBOOK (wb->notebook);
 	sheets = workbook_sheet_count (sheet->workbook);
+
+	/* Finish any object editing */
+	sheet_mode_edit (sheet);
 
 	/*
 	 * Remove our reference to this sheet

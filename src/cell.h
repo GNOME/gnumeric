@@ -6,13 +6,12 @@
 #include "dependent.h"
 
 typedef enum {
+    /* MUST BE > 0xffff for dependent */
     /* Cell has an expression rather than entered_text */
-    CELL_HAS_EXPRESSION	   = 0x1,
+    CELL_HAS_EXPRESSION	   = 0x10000,
 
     /* Cell is linked into the sheet */
-    CELL_IN_SHEET_LIST	   = 0x2
-
-    /* MUST BE <= 0xffff */
+    CELL_IN_SHEET_LIST	   = 0x20000
 } CellFlags;
 
 typedef struct _CellComment CellComment;

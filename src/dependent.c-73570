@@ -251,6 +251,86 @@ dependent_unqueue_recalc_sheet (Sheet *sheet)
 	wb->eval_queue = queue;
 }
 
+static GPtrArray *dep_classes = NULL;
+
+/**
+ * dependent_register_type :
+ * @klass : A vtable
+ *
+ * Store the vtable and allocate an ID for a new class
+ * of dependents.
+ */
+guint32
+dependent_type_register (DependentClass const *klass)
+{
+	guint32 res;
+
+	if (dep_classes == NULL) {
+		/* Init with a pair of NULL classes so we can access directly */
+		dep_classes = g_ptr_array_new ();
+		g_ptr_array_add	(dep_classes, NULL);
+		g_ptr_array_add	(dep_classes, NULL);
+	}
+	g_ptr_array_add	(dep_classes, (gpointer)klass);
+	res = dep_classes->len-1;
+
+	g_return_val_if_fail (res > DEPENDENT_TYPE_MASK, res);
+
+	return res;
+}
+
+/**
+ * dependent_eval :
+ * @dep : The dependent we are interested in.
+ *
+ * When the expression needs recalculation
+ * this routine dispatches to the virtual handler.
+ */
+void
+dependent_eval (Dependent *dep)
+{
+	if (dep->generation != dep->sheet->workbook->generation) {
+		int const t = (dep->flags & DEPENDENT_TYPE_MASK);
+		dep->generation = dep->sheet->workbook->generation;
+
+		if (t == DEPENDENT_CELL) {
+			cell_eval (DEP_TO_CELL (dep));
+		} else {
+			DependentClass *klass = g_ptr_array_index (dep_classes, t);
+
+			g_return_if_fail (klass);
+			(*klass->eval) (dep);
+		}
+	}
+}
+
+/**
+ * dependent_set_expr :
+ * @dep : The dependent we are interested in.
+ * @expr : new expression.
+ *
+ * When the expression associated with a dependent needs to change
+ * this routine dispatches to the virtual handler.
+ */
+void
+dependent_set_expr (Dependent *dep, ExprTree *expr)
+{
+	int const t = (dep->flags & DEPENDENT_TYPE_MASK);
+
+	if (t == DEPENDENT_CELL) {
+		/*
+		 * Explicitly do not check for array subdivision, we may be
+		 * replacing the corner of an array.
+		 */
+		cell_set_expr_unsafe (DEP_TO_CELL (dep), expr, NULL);
+	} else {
+		DependentClass *klass = g_ptr_array_index (dep_classes, t);
+
+		g_return_if_fail (klass);
+		(*klass->set_expr) (dep, expr);
+	}
+}
+
 /**
  * dependent_debug_name :
  * @dep : The dependent we are interested in.
@@ -261,29 +341,34 @@ dependent_unqueue_recalc_sheet (Sheet *sheet)
 void
 dependent_debug_name (Dependent const *dep, FILE *out)
 {
+	int t;
+
 	g_return_if_fail (dep != NULL);
 	g_return_if_fail (out != NULL);
+
+	t = (dep->flags & DEPENDENT_TYPE_MASK);
 
 	if (dep->sheet != NULL)
 		fprintf (out, "%s!", dep->sheet->name_quoted);
 	else
 		g_warning ("Invalid dep, missing sheet");
 
-	switch (dep->flags & DEPENDENT_TYPE_MASK) {
-	case DEPENDENT_CELL :
+	if (t == DEPENDENT_CELL) {
 		fprintf (out, "%s", cell_name (DEP_TO_CELL (dep)));
-		break;
+	} else {
+		DependentClass *klass = g_ptr_array_index (dep_classes, t);
 
-	case DEPENDENT_GRAPH_SERIES :
-	case DEPENDENT_CHECK_BOX :
-	case DEPENDENT_TYPE_MASK :
-		break;
-	};
+		g_return_if_fail (klass);
+		(*klass->debug_name) (dep, out);
+	}
 }
 
 /**
  * dependent_list_filter :
+ * @input : A GList of dependents
+ * @type : The type of dependent desired.
  *
+ * Create a new list containint only dependents or the desired type.
  */
 GList *
 dependent_list_filter (GList *input, DependentFlags type)
@@ -298,3 +383,4 @@ dependent_list_filter (GList *input, DependentFlags type)
 	g_list_free (input);
 	return res;
 }
+

@@ -5,4 +5,4 @@
  */
 
 gchar *s = N_("Column width");
-gchar *s = N_("_Column width:");
+gchar *s = N_("_Column width (pts):");

@@ -1832,7 +1832,7 @@ xml_read_sheet_object (XmlParseContext *ctxt, xmlNodePtr tree)
 
 			ret = sheet_object_create_filled (
 				ctxt->sheet, type,
-				x1, y1, x2, y2, fill_color, color, width);
+				fill_color, color, width);
 			if (ret) {
 				SheetObjectFilled *sof;
 
@@ -1843,8 +1843,9 @@ xml_read_sheet_object (XmlParseContext *ctxt, xmlNodePtr tree)
 		} else {
 			ret = sheet_object_create_line (
 				ctxt->sheet, type,
-				x1, y1, x2, y2, color, width);
+				color, width);
 		}
+		sheet_object_set_bounds (ret, x1, y1, x2, y2);
 		g_free (color);
 	}
 	if (ret)
@@ -2452,7 +2453,6 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet *sheet)
 	xmlNodePtr rows;
 	xmlNodePtr cols;
 	xmlNodePtr cells;
-	xmlNodePtr objects;
 	xmlNodePtr printinfo;
 	xmlNodePtr styles;
 	xmlNodePtr solver;
@@ -2544,24 +2544,19 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet *sheet)
 
 	/*
 	 * Objects
-	 * NOTE: seems that objects == NULL while current_object != NULL
-	 * is possible
 	 */
-	if (sheet->objects != NULL) {
-		GList * l = sheet->objects;
-		objects = xmlNewChild (cur, ctxt->ns, "Objects", NULL);
+	if (sheet->sheet_objects != NULL) {
+		xmlNodePtr objects = xmlNewChild (cur, ctxt->ns,
+						  "Objects", NULL);
+		GList *l = sheet->sheet_objects;
 		while (l) {
 			child = xml_write_sheet_object (ctxt, l->data);
 			if (child)
 				xmlAddChild (objects, child);
 			l = l->next;
 		}
-	} else if (sheet->current_object != NULL) {
-		objects = xmlNewChild (cur, ctxt->ns, "Objects", NULL);
-		child = xml_write_sheet_object (ctxt, sheet->current_object);
-		if (child)
-			xmlAddChild (objects, child);
 	}
+
 	/*
 	 * Cells informations
 	 */
@@ -2830,8 +2825,6 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	xmlNodePtr child;
 	/* xmlNodePtr styles; */
-	xmlNodePtr cells;
-	xmlNodePtr objects;
 	Sheet *ret = NULL;
 	double zoom_factor;
 	char *val;
@@ -2877,21 +2870,17 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 		xml_read_names (ctxt, child, NULL, ret);
 
 	child = xml_search_child (tree, "Objects");
-	if (child != NULL){
-		objects = child->childs;
-		while (objects != NULL){
-			xml_read_sheet_object (ctxt, objects);
-			objects = objects->next;
-		}
+	if (child != NULL) {
+		xmlNodePtr object = child->childs;
+		for (; object != NULL ; object = object->next)
+			xml_read_sheet_object (ctxt, object);
 	}
 
 	child = xml_search_child (tree, "Cells");
-	if (child != NULL){
-		cells = child->childs;
-		while (cells != NULL){
-			xml_read_cell (ctxt, cells);
-			cells = cells->next;
-		}
+	if (child != NULL) {
+		xmlNodePtr cell = child->childs;
+		for (; cell != NULL ; cell = cell->next)
+			xml_read_cell (ctxt, cell);
 	}
 
 	/*

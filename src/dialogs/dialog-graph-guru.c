@@ -29,9 +29,16 @@
 #include "workbook-edit.h"
 #include "workbook-private.h" /* FIXME Ick */
 #include "sheet-object.h"
+#include "selection.h"
+#include "graph-series.h"
+#include "idl/gnumeric-graphs.h"
+#include <liboaf/liboaf.h>
 
 typedef struct
 {
+	BonoboObjectClient		*object_server;
+	GNOME_Gnumeric_Graph_Manager	 manager;
+
 	/* GUI accessors */
 	GladeXML    *gui;
 	GtkWidget   *dialog;
@@ -137,18 +144,19 @@ cb_graph_guru_clicked (GtkWidget *button, GraphGuruState *state)
 	}
 
 	if (button == state->button_finish) {
-#if 0
-		GList *l;
+		BonoboClientSite *client_site;
 
-		sheet_set_mode_type_full (state->wb->current_sheet,
-					  SHEET_MODE_CREATE_GRAPH, state->client_site);
+		/* Configure our container */
+		client_site = bonobo_client_site_new (state->wb->priv->bonobo_container);
+		bonobo_container_add (state->wb->priv->bonobo_container,
+				      BONOBO_OBJECT (client_site));
 
-		for (l = state->data_range_list; l; l = l->next) {
-			DataRange *r = l->data;
-
-			sheet_vector_attach (r->vector, state->wb->current_sheet);
+		if (bonobo_client_site_bind_embeddable (client_site, state->object_server)) {
+			Sheet *sheet = state->wb->current_sheet;
+			sheet_mode_create_object (
+				sheet_object_container_new_bonobo (sheet,
+								   client_site));
 		}
-#endif
 	}
 
 	gtk_object_destroy (GTK_OBJECT(state->dialog));
@@ -165,11 +173,31 @@ graph_guru_init_button  (GraphGuruState *state, const char *widget_name)
 	return tmp;
 }
 
+static GtkWidget *
+get_selector_control (GraphGuruState *state)
+{
+	CORBA_Environment	 ev;
+	Bonobo_Control		 control;
+	Bonobo_Unknown           corba_uih;
+	GtkWidget *res = NULL;
+
+	CORBA_exception_init (&ev);
+	control = GNOME_Gnumeric_Graph_Manager_getTypeSelectControl (state->manager, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION)
+		return NULL;
+
+	corba_uih = bonobo_object_corba_objref (BONOBO_OBJECT (state->wb->priv->uih));
+	res =  bonobo_widget_new_control_from_objref (control, corba_uih);
+
+	CORBA_exception_free (&ev);
+
+	return res;
+}
+
 static gboolean
 graph_guru_init (GraphGuruState *state)
 {
-	BonoboClientSite *client_site;
-	GtkWidget        *control;
+	GtkWidget *control;
 
 	state->gui = gnumeric_glade_xml_new (workbook_command_context_gui (state->wb),
 					     "graph-guru.glade");
@@ -194,15 +222,9 @@ graph_guru_init (GraphGuruState *state)
 			    GTK_SIGNAL_FUNC (cb_graph_guru_key_press),
 			    state);
 
-	/* Configure container */
-	client_site = bonobo_client_site_new (state->wb->priv->bonobo_container);
-	bonobo_container_add (state->wb->priv->bonobo_container,
-			      BONOBO_OBJECT (client_site));
-
-	control = bonobo_widget_new_control (
-		"OAFIID:guppi_chart_selector:da7874cd-e72b-4458-b685-6718caf3d573",
-		bonobo_object_corba_objref (BONOBO_OBJECT (client_site)));
+	control = get_selector_control (state);
 	gtk_notebook_prepend_page (state->steps, control, NULL);
+
 	gtk_widget_show (state->dialog);
 	gtk_widget_show (control);
 
@@ -211,6 +233,30 @@ graph_guru_init (GraphGuruState *state)
 	graph_guru_set_page (state, 0);
 
 	return FALSE;
+}
+
+static gboolean
+graph_guru_init_manager (GraphGuruState *state)
+{
+	CORBA_Environment	 ev;
+	Bonobo_Unknown		 o;
+
+	CORBA_exception_init (&ev);
+	o = (Bonobo_Unknown)oaf_activate ("repo_ids.has('IDL:Gnome/Gnumeric/Graph/Manager:1.0')",
+					  NULL, 0, NULL, &ev);
+
+	state->manager = CORBA_OBJECT_NIL;
+	if (o != CORBA_OBJECT_NIL) {
+		state->object_server = bonobo_object_client_from_corba (o);
+		if (state->object_server != NULL)
+			state->manager = bonobo_object_query_interface (
+				BONOBO_OBJECT (state->object_server),
+				"IDL:GNOME/Gnumeric/Graph/Manager:1.0");
+	}
+
+	CORBA_exception_free (&ev);
+
+	return (state->manager == CORBA_OBJECT_NIL);
 }
 
 /**
@@ -222,18 +268,36 @@ graph_guru_init (GraphGuruState *state)
 void
 dialog_graph_guru (Workbook *wb)
 {
+	CORBA_Environment ev;
+	GNOME_Gnumeric_VectorScalarNotify subscriber;
+
 	GraphGuruState *state;
+	Range const * r;
+	GraphSeries *series;
+	Sheet *sheet;
 
 	g_return_if_fail (wb != NULL);
 
 	state = g_new(GraphGuruState, 1);
 	state->wb	= wb;
 	state->valid	= FALSE;
-	if (graph_guru_init (state)) {
+	if (graph_guru_init_manager (state) || graph_guru_init (state)) {
 		g_free (state);
 		return;
 	}
 
 	/* Ok everything is hooked up. Let-er rip */
 	state->valid = TRUE;
+
+	sheet = state->wb->current_sheet;
+
+	/* FIXME : add the logic. to autodetect a series */
+	r = selection_first_range (sheet, TRUE);
+	series = graph_series_new (sheet, r);
+
+	CORBA_exception_init (&ev);
+	subscriber = GNOME_Gnumeric_Graph_Manager_addVectorScalar (
+		state->manager, graph_series_servant (series), &ev);
+	graph_series_set_subscriber (series, subscriber);
+	CORBA_exception_free (&ev);
 }

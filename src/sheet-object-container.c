@@ -16,6 +16,7 @@
 #include "workbook-private.h"
 #include "gnumeric-util.h"
 #include "sheet-object-container.h"
+#include "sheet-object-widget.h"
 #include <bonobo/bonobo-container.h>
 #include <bonobo/bonobo-view-frame.h>
 #include <bonobo/bonobo-client-site.h>
@@ -61,7 +62,7 @@ user_activation_request_cb (BonoboViewFrame *view_frame, SheetObject *so)
 	}
 
 	bonobo_view_frame_view_activate (view_frame);
-	sheet_object_make_current (so);
+	sheet_mode_edit_object (so);
 
 	return FALSE;
 }
@@ -113,7 +114,7 @@ item_destroyed (GnomeCanvasItem *item, BonoboViewFrame *view_frame)
 }
 
 static GnomeCanvasItem *
-sheet_object_container_realize (SheetObject *so, SheetView *sheet_view)
+sheet_object_container_new_view (SheetObject *so, SheetView *sheet_view)
 {
 	SheetObjectContainer *soc;
 	GnomeCanvasItem *i;
@@ -124,7 +125,7 @@ sheet_object_container_realize (SheetObject *so, SheetView *sheet_view)
 
 	view_frame = bonobo_client_site_new_view (
 		SHEET_OBJECT_BONOBO (so)->client_site,
-		bonobo_ui_compat_get_container (BONOBO_OBJECT (sheet_view->sheet->workbook->priv->uih)));
+		bonobo_ui_compat_get_container (sheet_view->sheet->workbook->priv->uih));
 
 	if (!view_frame) {
 		g_warning ("Component died");
@@ -185,7 +186,7 @@ sheet_object_container_class_init (GtkObjectClass *object_class)
 	sheet_object_container_parent_class = gtk_type_class (sheet_object_get_type ());
 
 	/* SheetObject class method overrides */
-	sheet_object_class->realize = sheet_object_container_realize;
+	sheet_object_class->new_view = sheet_object_container_new_view;
 	sheet_object_class->update_bounds = sheet_object_container_update_bounds;
 }
 
@@ -213,10 +214,7 @@ sheet_object_container_get_type (void)
 }
 
 SheetObject *
-sheet_object_container_new_bonobo (Sheet *sheet,
-				   double x1, double y1,
-				   double x2, double y2,
-				   BonoboClientSite *client_site)
+sheet_object_container_new_bonobo (Sheet *sheet, BonoboClientSite *client_site)
 {
 	SheetObjectContainer *c;
 
@@ -226,7 +224,6 @@ sheet_object_container_new_bonobo (Sheet *sheet,
 	c = gtk_type_new (sheet_object_container_get_type ());
 
 	sheet_object_construct (SHEET_OBJECT (c), sheet);
-	sheet_object_set_bounds (SHEET_OBJECT (c), x1, y1, x2, y2);
 
 	SHEET_OBJECT_BONOBO (c)->object_server =
 		bonobo_client_site_get_embeddable (client_site);
@@ -237,8 +234,6 @@ sheet_object_container_new_bonobo (Sheet *sheet,
 
 SheetObject *
 sheet_object_container_new_object (Sheet *sheet,
-				   double x1, double y1,
-				   double x2, double y2,
 				   const char *object_id)
 {
 	SheetObjectContainer *c;
@@ -250,11 +245,39 @@ sheet_object_container_new_object (Sheet *sheet,
 	c = gtk_type_new (sheet_object_container_get_type ());
 
 	if (!sheet_object_bonobo_construct (
-		SHEET_OBJECT_BONOBO (c), sheet,
-		object_id, x1, y1, x2, y2)) {
+		SHEET_OBJECT_BONOBO (c), sheet, object_id)) {
 		gtk_object_destroy (GTK_OBJECT (c));
 		return NULL;
 	}
 
 	return SHEET_OBJECT (c);
+}
+SheetObject *
+sheet_object_container_new_file (Sheet *sheet, const char *fname)
+{
+	SheetObject *so = NULL;
+	const char *mime_type;
+	const char *mime_goad_id;
+	char *msg = NULL;
+
+	g_return_if_fail (sheet != NULL);
+
+	if (!(mime_type = gnome_mime_type (fname))) {
+		msg = g_strdup_printf ("unknown mime type for '%s'", (char *)fname);
+		gnome_dialog_run_and_close (GNOME_DIALOG (gnome_error_dialog (msg)));
+	} else if (!(mime_goad_id = gnome_mime_get_value (mime_type, "bonobo-goad-id"))) {
+		msg = g_strdup_printf ("no mime mapping for '%s'", mime_type);
+		gnome_dialog_run_and_close (GNOME_DIALOG (gnome_error_dialog (msg)));
+	} else {
+		so = sheet_object_container_new_object (sheet, mime_goad_id);
+		if (so == NULL) {
+			msg = g_strdup_printf ("can't create object for '%s'", mime_goad_id);
+			gnome_dialog_run_and_close (GNOME_DIALOG (gnome_error_dialog (msg)));
+		} else
+			sheet_object_bonobo_load_from_file (SHEET_OBJECT_BONOBO (so), fname);
+	}
+	if (msg)
+		g_free (msg);
+
+	return so;
 }

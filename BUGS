@@ -19,8 +19,12 @@ Release Critical
   font size and things like that.
 - Copy sheet, and insert new sheet both append to the end of the sheet list
   rather than inserting before the current sheet.
-- When setting the zoom for excel import we respan & render all cells.  Then
-  we redo it after loading.  Add a flag to disable respanning to sheet_set_zoom.
+- print : repeat row/col does not handle overlap, or case where the repeat
+          is already on the page.
+        : sheets in wrong order
+	: titles not clipped.
+- latex : multiline rows not handled properly.
+        : nor are spans
 
 Post 0.57 Changes
 -----------------
@@ -92,8 +96,6 @@ Printing
 --------
 - cell text wraps differently when printing than displaying due to scaling
   differences in font size.  do we want to eliminate this ?
-- headers and footers should be clipped
-- Support for repeated rows/cols is borked.
 
 Widget polishing
 ----------------

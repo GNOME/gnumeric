@@ -1,3 +1,9 @@
+2000-09-10  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_sheet_obj_realize) : Adjust to new object
+	  creation semantics.  First you create the object.  Then set its
+	  size.
+
 2000-09-06  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (ms_excel_sheet_new) : No need to call set_zoom.

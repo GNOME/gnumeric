@@ -35,28 +35,6 @@ struct _SheetSelection {
 
 typedef GList ColStyleList;
 
-typedef enum {
-	/* Normal editing mode of the Sheet */
-	SHEET_MODE_SHEET,
-
-	/* Drawing object creation */
-	SHEET_MODE_CREATE_LINE,
-	SHEET_MODE_CREATE_BOX,
-	SHEET_MODE_CREATE_OVAL,
-	SHEET_MODE_CREATE_ARROW,
-
-	/* Selection for the region for a Graphics object */
-	SHEET_MODE_CREATE_GRAPH,
-	SHEET_MODE_CREATE_CANVAS_ITEM,
-	SHEET_MODE_CREATE_COMPONENT,
-
-	SHEET_MODE_CREATE_BUTTON,
-	SHEET_MODE_CREATE_CHECKBOX,
-
-	/* Object is selected */
-	SHEET_MODE_OBJECT_SELECTED,
-} SheetModeType;
-
 typedef struct _SheetPrivate SheetPrivate;
 
 struct _Sheet {
@@ -98,12 +76,9 @@ struct _Sheet {
 	double      last_zoom_factor_used;
 
 	/* Objects */
-	SheetModeType mode;	/* Sheet mode */
-	void        *mode_data; /* Sheet per-mode data */
-
-	GList       *objects;	/* List of objects in the spreadsheet */
-	GList       *coords;	/* During creation time: keeps click coordinates */
-	void        *current_object;
+	GList       *sheet_objects;	/* List of objects in this sheet */
+	SheetObject *new_object;	/* A newly created object that has yet to be realized */
+	SheetObject *current_object;
 	void        *active_object_frame;
 
 	gboolean    pristine;
@@ -144,27 +119,32 @@ void	    sheet_update_cursor_pos	 (Sheet const *sheet);
 void        sheet_set_edit_pos           (Sheet *sheet, int col, int row);
 void        sheet_make_cell_visible      (Sheet *sheet, int col, int row);
 
+/* Object Management */
+void        sheet_mode_edit		 (Sheet *sheet);
+void        sheet_mode_edit_object	 (SheetObject *so);
+void        sheet_mode_create_object	 (SheetObject *so);
+
 /* Cell management */
-Cell       *sheet_cell_get                (Sheet const *sheet, int col, int row);
-Cell       *sheet_cell_fetch              (Sheet *sheet, int col, int row);
-Cell       *sheet_cell_new                (Sheet *sheet, int col, int row);
-void        sheet_cell_insert             (Sheet *sheet, Cell *cell,
-				           int col, int row, gboolean recalc_span);
-void        sheet_cell_remove             (Sheet *sheet, Cell *cell, gboolean redraw);
-void	    sheet_cell_remove_simple	  (Sheet *sheet, Cell *cell);
+Cell       *sheet_cell_get               (Sheet const *sheet, int col, int row);
+Cell       *sheet_cell_fetch             (Sheet *sheet, int col, int row);
+Cell       *sheet_cell_new               (Sheet *sheet, int col, int row);
+void        sheet_cell_insert            (Sheet *sheet, Cell *cell,
+				          int col, int row, gboolean recalc_span);
+void        sheet_cell_remove            (Sheet *sheet, Cell *cell, gboolean redraw);
+void	    sheet_cell_remove_simple	 (Sheet *sheet, Cell *cell);
 
 /* Iteration utilities */
 /* See also : workbook_foreach_cell_in_range */
-Value      *sheet_cell_foreach_range      (Sheet *sheet, int only_existing,
-				           int start_col, int start_row,
-				           int end_col, int end_row,
-					   ForeachCellCB callback,
-				           void *closure);
+Value      *sheet_cell_foreach_range     (Sheet *sheet, int only_existing,
+				          int start_col, int start_row,
+				          int end_col, int end_row,
+					  ForeachCellCB callback,
+				          void *closure);
 
-void        sheet_cell_comment_link       (Cell *cell);
-void        sheet_cell_comment_unlink     (Cell *cell);
+void        sheet_cell_comment_link      (Cell *cell);
+void        sheet_cell_comment_unlink    (Cell *cell);
 
-void        sheet_recompute_spans_for_col      (Sheet *sheet, int col);
+void        sheet_recompute_spans_for_col     (Sheet *sheet, int col);
 
 gboolean    sheet_is_region_empty_or_selected (Sheet *sheet, int start_col, int start_row,
 					       int end_col, int end_row);
@@ -308,11 +288,6 @@ Sheet      *sheet_lookup_by_name          (Workbook *wb, const char *name);
 
 int         sheet_col_selection_type      (Sheet const *sheet, int col);
 int         sheet_row_selection_type      (Sheet const *sheet, int row);
-
-/*
- * Event state manipulation (for mode operation)
- */
-void        sheet_set_mode_type           (Sheet *sheet, SheetModeType type);
 
 /* Utilities for various flavours of cursor */
 void        sheet_show_cursor                (Sheet *sheet);

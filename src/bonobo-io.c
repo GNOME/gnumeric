@@ -191,7 +191,7 @@ gnumeric_bonobo_obj_read (xmlNodePtr   tree,
 	}
 
 	sob = SHEET_OBJECT_BONOBO (sheet_object_container_new_object
-				   (sheet, x1, y1, x2, y2, object_id));
+				   (sheet, object_id));
 	if (!sob) {
 		g_warning ("Error activating '%s'", object_id);
 		return NULL;

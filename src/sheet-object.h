@@ -7,6 +7,7 @@
 
 #include "sheet.h"
 #include "sheet-view.h"
+#include "gnumeric-sheet.h"
 
 /*
  * SheetObject
@@ -23,7 +24,7 @@ typedef enum {
 	SHEET_OBJECT_ACTION_CAN_PRESS
 } SheetObjectAction;
 
-typedef struct {
+struct _SheetObject {
 	GtkObject          parent_object;
 	SheetObjectAction  type;
 	Sheet             *sheet;
@@ -32,7 +33,7 @@ typedef struct {
 
 	/* Private data */
 	GnomeCanvasPoints *bbox_points; /* use _get / _set_bounds */
-} SheetObject;
+};
 
 typedef struct {
 	SheetObject     *so;
@@ -50,25 +51,19 @@ typedef struct {
 	GtkObjectClass parent_class;
 
 	/* Virtual methods */
-	GnomeCanvasItem *(*realize) (SheetObject *sheet_object,
-				     SheetView   *sheet_view);
-	void       (*update_bounds) (SheetObject *sheet_object);
-	void         (*start_popup) (SheetObject *sheet_object,
-				     GtkMenu     *menu);
-	void           (*end_popup) (SheetObject *sheet_object,
-				     GtkMenu     *menu);
-
-	void               (*print) (SheetObject *so, SheetObjectPrintInfo *pi);
+	GnomeCanvasItem *(*new_view) (SheetObject *sheet_object,
+				      SheetView   *sheet_view);
+	void        (*update_bounds) (SheetObject *sheet_object);
+	void        (*populate_menu) (SheetObject *sheet_object,
+				      GtkMenu     *menu);
+	void                (*print) (SheetObject *so, SheetObjectPrintInfo *pi);
+	GtkWidget *   (*user_config) (SheetObject *, SheetView *);
 } SheetObjectClass;
 
 GtkType sheet_object_get_type      (void);
 void    sheet_object_construct     (SheetObject *sheet_object, Sheet *sheet);
-void    sheet_object_drop_file     (Sheet *sheet, gdouble x, gdouble y,
-				    const char *fname);
 int     sheet_object_canvas_event  (GnomeCanvasItem *item, GdkEvent *event,
 				    SheetObject *so);
-void    sheet_object_widget_handle (SheetObject *so, GtkWidget *widget,
-				    GnomeCanvasItem *item);
 void    sheet_object_print         (SheetObject *so, SheetObjectPrintInfo *pi);
 
 /* b = bottom, t = top, l = left, r = right */
@@ -78,7 +73,7 @@ void    sheet_object_set_bounds (SheetObject *sheet_object, double tlx, double t
 				 double brx, double bry);
 
 /*
- * Sheet modes
+ * FIXME : Totally broken.
  */
 typedef enum {
 	SHEET_OBJECT_LINE,
@@ -94,34 +89,9 @@ typedef enum {
  * This routine creates the SheetObject in the SheetViews's Canvases.
  */
 void             sheet_object_realize        (SheetObject *object);
-
 void             sheet_object_unrealize      (SheetObject *object);
 
-void             sheet_object_make_current   (SheetObject *object);
-
-SheetObject     *sheet_object_create_line    (Sheet *sheet,   int is_arrow,
-					      double x1,      double y1,
-					      double x2,      double y2,
-					      const char    *color, int width);
-
-SheetObject     *sheet_object_create_filled  (Sheet *sheet, int type,
-					      double x1, double y1,
-					      double x2, double y2,
-					      const char *fill_color,
-					      const char *outline_color,
-					      int w);
-
-SheetObject     *sheet_object_create_button  (Sheet *sheet,
-					      double x1, double y1,
-					      double x2, double y2);
-
-SheetObject     *sheet_object_create_checkbox(Sheet *sheet,
-					      double x1, double y1,
-					      double x2, double y2);
-
-void 		 sheet_set_mode_type_full    (Sheet *sheet, SheetModeType mode,
-					      void *mode_data);
-
-void		 sheet_object_insert (Sheet *sheet, char *obj_id);
+int 		 sheet_object_begin_creation (GnumericSheet *gsheet,
+					      GdkEventButton *event);
 
 #endif /* GNUMERIC_SHEET_OBJECT_H */

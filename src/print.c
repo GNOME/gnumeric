@@ -533,11 +533,16 @@ print_sheet_range (Sheet *sheet, Range r, PrintJobInfo *pj, gboolean output)
 
 	/*
 	 * Render Sheet objects.
+	 *
+	 * FIXME : JEG Sep/10/00
+	 * Michael : Why is this bonobo specific ?
+	 * Shouldn't the printing be part of sheet object with special
+	 * handlers for bonobo objects ?
 	 */
 #ifdef ENABLE_BONOBO
 	{
 		pj->sheet_objects = NULL;
-		for (l = sheet->objects; l; l = l->next) {
+		for (l = sheet->sheet_objects; l; l = l->next) {
 			SheetObjectPrintInfo *pi;
 			double tlx, tly, brx, bry;
 

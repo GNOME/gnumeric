@@ -266,9 +266,7 @@ sheet_object_bonobo_get_type (void)
 
 SheetObjectBonobo *
 sheet_object_bonobo_construct (SheetObjectBonobo *sob, Sheet *sheet,
-			       const char *object_id,
-			       double x1, double y1,
-			       double x2, double y2)
+			       const char *object_id)
 {
 	g_return_val_if_fail (sob != NULL, NULL);
 	g_return_val_if_fail (sheet != NULL, NULL);
@@ -277,7 +275,6 @@ sheet_object_bonobo_construct (SheetObjectBonobo *sob, Sheet *sheet,
 	g_return_val_if_fail (IS_SHEET_OBJECT_BONOBO (sob), NULL);
 
 	sheet_object_construct  (SHEET_OBJECT (sob), sheet);
-	sheet_object_set_bounds (SHEET_OBJECT (sob), x1, y1, x2, y2);
 
 	sob->object_id     = g_strdup (object_id);
 	sob->object_server = bonobo_object_activate (object_id, 0);
@@ -303,4 +300,43 @@ sheet_object_bonobo_get_object_iid (SheetObjectBonobo *sob)
 	g_return_val_if_fail (IS_SHEET_OBJECT_BONOBO (sob), NULL);
 
 	return sob->object_id;
+}
+
+/*
+ * sheet_object_bonobo_new_from_oid:
+ *
+ * FIXME : We should have a SheetObject wrapper for these things.
+ */
+void
+sheet_object_bonobo_new_from_oid (Sheet *sheet, char *obj_id)
+{
+	BonoboClientSite *client_site;
+	BonoboObjectClient *object_server;
+
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (obj_id != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	object_server = bonobo_object_activate (obj_id, 0);
+
+	if (!object_server) {
+		char *msg;
+
+		msg = g_strdup_printf (_("I was not able to activate object %s"), obj_id);
+
+		gnumeric_notice (sheet->workbook, GNOME_MESSAGE_BOX_ERROR, msg);
+		g_free (msg);
+		return NULL;
+	}
+
+	client_site = bonobo_client_site_new (sheet->workbook->priv->bonobo_container);
+	bonobo_container_add (sheet->workbook->priv->bonobo_container, BONOBO_OBJECT (client_site));
+
+	if (!bonobo_client_site_bind_embeddable (client_site, object_server)){
+		gnumeric_notice (sheet->workbook, GNOME_MESSAGE_BOX_ERROR,
+				 _("I was unable to the bind object"));
+		gtk_object_unref (GTK_OBJECT (object_server));
+		gtk_object_unref (GTK_OBJECT (client_site));
+		return;
+	}
 }

@@ -1,9 +1,9 @@
 /*
- * Clipboard.c: Implements the copy/paste operations
+ * dialog-paste-special.c: The dialog for selecting non-standard
+ *    behaviors when pasting.
  *
  * Author:
  *  MIguel de Icaza (miguel@gnu.org)
- *
  */
 #include <config.h>
 #include <gnome.h>

@@ -27,20 +27,13 @@ typedef struct {
  */
 GtkType      sheet_object_container_get_type (void);
 
-SheetObject *sheet_object_graphic_new        (Sheet *sheet,
-					      double x1, double y1,
-					      double x2, double y2);
-
-SheetObject *sheet_object_container_new_object
-                                             (Sheet *sheet,
-					      double x1, double y1,
-					      double x2, double y2,
-					      const char *object_id);
-SheetObject *sheet_object_container_new_bonobo
-                                             (Sheet *sheet,
-					      double x1, double y1,
-					      double x2, double y2,
-					      BonoboClientSite *client_site);
+SheetObject *sheet_object_graphic_new          (Sheet *sheet);
+SheetObject *sheet_object_container_new_object (Sheet *sheet,
+						const char *object_id);
+SheetObject *sheet_object_container_new_file   (Sheet *sheet,
+						const char *filename);
+SheetObject *sheet_object_container_new_bonobo (Sheet *sheet,
+						BonoboClientSite *client_site);
 
 #endif /* GNUMERIC_SHEET_OBJECT_CONTAINER_H */
 

@@ -216,6 +216,8 @@ GNUMERIC_BASE_SOURCES =				\
 	workbook-edit.h				\
 	workbook-format-toolbar.c		\
 	workbook-format-toolbar.h		\
+	workbook-object-toolbar.c		\
+	workbook-object-toolbar.h		\
 	workbook-private.h			\
 	workbook-private.c			\
 	workbook-view.h				\
@@ -230,6 +232,8 @@ GNUMERIC_BONOBO_SOURCES = 			\
 	bonobo-io.h				\
 	embeddable-grid.c			\
 	embeddable-grid.h			\
+	graph-series.c				\
+	graph-series.h				\
 	sheet-object-bonobo.c			\
 	sheet-object-bonobo.h			\
 	sheet-object-container.c		\
@@ -270,8 +274,7 @@ gnumeric_LDADD = 					\
 gnumeric_bonobo_LDADD =					\
 	$(gnumeric_libs)				\
 	-lbonobo-print					\
-	../idl/libGnumeric.a				\
-	../idl/libGraph.a				\
+	../idl/libGnumericIDL.a				\
 	$(EXTRA_GNOME_LIBS)				\
 	$(GNOME_XML_LIB) 				\
 	$(GUILE_LIBS)					\

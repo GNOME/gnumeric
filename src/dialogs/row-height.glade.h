@@ -5,4 +5,4 @@
  */
 
 gchar *s = N_("Row height");
-gchar *s = N_("_Row height:");
+gchar *s = N_("_Row height (pts):");

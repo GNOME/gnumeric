@@ -13,7 +13,7 @@
 #include "gnumeric.h"
 #include "gnumeric-sheet.h"
 #include "gnumeric-util.h"
-#include "sheet-object.h"
+#include "sheet-object-container.h"
 #include "color.h"
 #include "cursors.h"
 #include "selection.h"
@@ -780,7 +780,7 @@ gnumeric_sheet_key_mode_object (GnumericSheet *gsheet, GdkEventKey *event)
 
 	switch (event->keyval){
 	case GDK_Escape:
-		sheet_set_mode_type (sheet, SHEET_MODE_SHEET);
+		sheet_mode_edit	(sheet);
 		application_clipboard_unant ();
 		break;
 
@@ -788,7 +788,7 @@ gnumeric_sheet_key_mode_object (GnumericSheet *gsheet, GdkEventKey *event)
 	case GDK_Delete:
 		gtk_object_destroy (GTK_OBJECT (sheet->current_object));
 		sheet->current_object = NULL;
-		sheet_set_mode_type (sheet, SHEET_MODE_SHEET);
+		sheet_mode_edit	(sheet);
 		break;
 
 	default:
@@ -803,16 +803,9 @@ gnumeric_sheet_key_press (GtkWidget *widget, GdkEventKey *event)
 	GnumericSheet *gsheet = GNUMERIC_SHEET (widget);
 	Sheet *sheet = gsheet->sheet_view->sheet;
 
-	switch (sheet->mode){
-	case SHEET_MODE_SHEET:
-		return gnumeric_sheet_key_mode_sheet (gsheet, event);
-
-	case SHEET_MODE_OBJECT_SELECTED:
+	if (sheet->current_object != NULL)
 		return gnumeric_sheet_key_mode_object (gsheet, event);
-
-	default:
-		return FALSE;
-	}
+	return gnumeric_sheet_key_mode_sheet (gsheet, event);
 }
 
 static gint
@@ -828,7 +821,7 @@ gnumeric_sheet_key_release (GtkWidget *widget, GdkEventKey *event)
 	 * is released, or the mouse button is release we need to reset
 	 * to displaying the edit pos.
 	 */
-	if (sheet->mode == SHEET_MODE_SHEET &&
+	if (sheet->current_object == NULL &&
 	    (event->keyval == GDK_Shift_L || event->keyval == GDK_Shift_R))
 		workbook_set_region_status (sheet->workbook,
 					    cell_pos_name (&sheet->cursor.edit_pos));
@@ -889,6 +882,9 @@ gnumeric_sheet_drag_data_get (GtkWidget *widget,
 #endif
 }
 
+/*
+ * gnumeric_sheet_filenames_dropped :
+ */
 static void
 gnumeric_sheet_filenames_dropped (GtkWidget        *widget,
 				  GdkDragContext   *context,
@@ -905,21 +901,21 @@ gnumeric_sheet_filenames_dropped (GtkWidget        *widget,
 
 	command_context = workbook_command_context_gui (sheet->workbook);
 	names = gnome_uri_list_extract_filenames ((char *)selection_data->data);
-	tmp_list = names;
 
-	while (tmp_list) {
-		Workbook *new_wb;
-		if ((new_wb = workbook_try_read (command_context,
-						 tmp_list->data)) == NULL) {
-			gdouble world_x, world_y;
-			gnome_canvas_window_to_world (GNOME_CANVAS (gsheet), x, y,
-						      &world_x, &world_y);
-		        sheet_object_drop_file (gsheet->sheet_view->sheet, world_x, world_y,
-						tmp_list->data);
+	for (tmp_list = names; tmp_list != NULL ; tmp_list = tmp_list->next) {
+		Workbook *new_wb =
+			workbook_try_read (command_context, tmp_list->data);
+
+		if (new_wb == NULL) {
+#ifdef ENABLE_BONOBO
+			/* If it wasn't a workbook, see if we have a control for it */
+			SheetObject *so = sheet_object_container_new_file (
+				gsheet->sheet_view->sheet, tmp_list->data);
+			if (so != NULL)
+				sheet_mode_create_object (so);
+#endif
 		} else
 			workbook_show (new_wb);
-
-		tmp_list = tmp_list->next;
 	}
 }
 

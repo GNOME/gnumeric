@@ -41,7 +41,6 @@ module GNOME {
 		};
 
 		typedef sequence<VecValue> VecValueVec;
-		typedef sequence<double>   DoubleVec;
 
 		exception PluginProblem { string mesg; };
 
@@ -267,42 +266,6 @@ module GNOME {
 			
 			void set_header_visibility (in boolean cols, in boolean rows);
 			void get_header_visibility (out boolean cols, out boolean rows);
-		};
-
-		//
-		// Interfaces for accessing value sets from linear arrays.
-		// Mainly used for graphics.
-		//
-		interface VectorNotify {
-			void changed (in short low, in short high);
-		};
-
-		interface Vector : Bonobo::Unknown {
-			exception OutOfRange {};
-			exception Failed {};
-
-		        boolean     only_numbers   ();
-			DoubleVec   get_numbers    (in short low, in short high) raises (OutOfRange);
-			VecValueVec get_vec_values (in short low, in short high) raises (OutOfRange);
-
-			/**
-			 * set:
-			 * @pos: index to modify
-			 * value: value to place
-			 *
-			 * Sets the value at index position @pos to @val
-			 */
-			void set (in short pos, in double val);
-
-			void set_notify (in VectorNotify vector_notify) 
-				raises (OutOfRange, Failed);
-
-			/**
-			 * count:
-			 *
-			 * Returns the number of objects in this collection
-			 */
-			short count ();
 		};
 	};
 };

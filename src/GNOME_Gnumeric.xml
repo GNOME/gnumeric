@@ -113,7 +113,7 @@
 
 			<menuitem/>
 
-			<submenu name="_Select...">
+			<submenu name="Select" _label="_Select...">
 
 				<menuitem name="EditSelectAll" verb=""
 				_label="Select _All" accel="&lt;Control&gt;a"

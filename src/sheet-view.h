@@ -32,12 +32,6 @@ struct _SheetView {
 	GnomeCanvasGroup *selection_group;
 	
 	/*
-	 * Temporary object used during the creation of objects
-	 * in the canvas
-	 */
-	void             *temp_item;
-
-	/*
 	 * Control points for the current item
 	 */
 	GnomeCanvasItem  *control_points [8];

@@ -299,31 +299,13 @@ invalidate_refs (Dependent *dep, const ExprRewriteInfo *rwinfo)
 	newtree = expr_rewrite (dep->expression, rwinfo);
 
 	/*
-	 * We are told this cell depends on this region, hence if
-	 * newtree is null then either we did not depend on it
-	 * ( ie. serious breakage ) or we had a duplicate reference
-	 * and we have already removed it.
+	 * We are told this dependent depends on this region, hence if newtree
+	 * is null then either we did not depend on it ( ie. serious breakage )
+	 * or we had a duplicate reference and we have already removed it.
 	 */
 	g_return_if_fail (newtree != NULL);
 
-#if 0
-	fprintf (stderr, "Invalidating to #REF! in %s!%s %p\n",
-	cell->base.sheet->name_quoted, cell_name (cell), newtree);
-#endif
-
-	switch (dep->flags & DEPENDENT_TYPE_MASK) {
-	case DEPENDENT_CELL :
-		/*
-		 * Explicitly do not check for array subdivision, we may be
-		 * replacing the corner of an array.
-		 */
-		cell_set_expr_unsafe (DEP_TO_CELL (dep), newtree, NULL);
-		break;
-
-	case DEPENDENT_GRAPH_SERIES :
-	case DEPENDENT_CHECK_BOX :
-		break;
-	};
+	dependent_set_expr (dep, newtree);
 }
 
 /*
@@ -421,9 +403,6 @@ cell_eval (Cell *cell)
 {
 	g_return_if_fail (cell != NULL);
 
-	if (cell->base.generation == cell->base.sheet->workbook->generation)
-		return;
-
 	cell->base.generation = cell->base.sheet->workbook->generation;
 
 	if (cell_has_expr (cell)) {
@@ -441,20 +420,6 @@ cell_eval (Cell *cell)
 		}
 		g_list_free (deps);
 	}
-}
-
-static void
-dependent_eval (Dependent *dependent)
-{
-	switch (dependent->flags & DEPENDENT_TYPE_MASK) {
-	case DEPENDENT_CELL :
-		cell_eval (DEP_TO_CELL (dependent));
-		break;
-
-	case DEPENDENT_GRAPH_SERIES :
-	case DEPENDENT_CHECK_BOX :
-		break;
-	};
 }
 
 static void

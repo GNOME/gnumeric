@@ -22,6 +22,7 @@
 #include "application.h"
 #include "workbook-cmd-format.h"
 #include "workbook-edit.h"
+#include "sheet-object.h"
 #include "pattern.h"
 #include "workbook-view.h"
 #include "workbook.h"
@@ -641,25 +642,31 @@ item_grid_popup_menu (Sheet *sheet, GdkEvent *event, int col, int row,
 }
 
 static int
-item_grid_button_1 (Sheet *sheet, GdkEvent *event, ItemGrid *item_grid, int col, int row, int x, int y)
+item_grid_button_1 (Sheet *sheet, GdkEventButton *event,
+		    ItemGrid *item_grid, int col, int row, int x, int y)
 {
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_grid);
 	GnomeCanvas   *canvas = item->canvas;
 	GnumericSheet *gsheet = GNUMERIC_SHEET (canvas);
 
-	/*
-	 * Range check first
-	 */
+	/* Range check first */
 	if (col >= SHEET_MAX_COLS)
 		return 1;
 	if (row >= SHEET_MAX_ROWS)
 		return 1;
 
+	/* A new object is ready to be realized and inserted */
+	if (sheet->new_object != NULL)
+		return sheet_object_begin_creation (gsheet, event);
+
+	if (sheet->current_object != NULL)
+		sheet_mode_edit	(sheet);
+
 	/*
 	 * If we were already selecting a range of cells for a formula,
 	 * reset the location to a new place.
 	 */
-	if (gsheet->selecting_cell){
+	if (gsheet->selecting_cell) {
 		item_grid->selecting = ITEM_GRID_SELECTING_FORMULA_RANGE;
 		gnumeric_sheet_selection_cursor_place (gsheet, col, row);
 		gnumeric_sheet_selection_cursor_base (gsheet, col, row);
@@ -681,17 +688,15 @@ item_grid_button_1 (Sheet *sheet, GdkEvent *event, ItemGrid *item_grid, int col,
 	if (workbook_edit_has_guru (sheet->workbook))
 		return 1;
 
-	/*
-	 * This was a regular click on a cell on the spreadsheet.  Select it.
-	 */
+	/* This was a regular click on a cell on the spreadsheet.  Select it. */
 	workbook_finish_editing (sheet->workbook, TRUE);
 
-	if (!(event->button.state & (GDK_CONTROL_MASK|GDK_SHIFT_MASK)))
+	if (!(event->state & (GDK_CONTROL_MASK|GDK_SHIFT_MASK)))
 		sheet_selection_reset_only (sheet);
 
 	item_grid->selecting = ITEM_GRID_SELECTING_CELL_RANGE;
 
-	if ((event->button.state & GDK_SHIFT_MASK) && sheet->selections)
+	if ((event->state & GDK_SHIFT_MASK) && sheet->selections)
 		sheet_selection_extend_to (sheet, col, row);
 	else {
 		sheet_selection_add (sheet, col, row);
@@ -703,7 +708,7 @@ item_grid_button_1 (Sheet *sheet, GdkEvent *event, ItemGrid *item_grid, int col,
 				GDK_POINTER_MOTION_MASK |
 				GDK_BUTTON_RELEASE_MASK,
 				NULL,
-				event->button.time);
+				event->time);
 	return 1;
 }
 
@@ -757,10 +762,12 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 	case GDK_ENTER_NOTIFY: {
 		int cursor;
 
-		if (sheet->mode == SHEET_MODE_SHEET)
-			cursor = GNUMERIC_CURSOR_FAT_CROSS;
-		else
+		if (sheet->new_object != NULL)
+			cursor = GNUMERIC_CURSOR_THIN_CROSS;
+		else if (sheet->current_object != NULL)
 			cursor = GNUMERIC_CURSOR_ARROW;
+		else
+			cursor = GNUMERIC_CURSOR_FAT_CROSS;
 
 		cursor_set_widget (canvas, cursor);
 		return TRUE;
@@ -864,8 +871,6 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 		return TRUE;
 
 	case GDK_BUTTON_PRESS:
-		sheet_set_mode_type (sheet, SHEET_MODE_SHEET);
-
 		sheet_view_stop_sliding (item_grid->sheet_view);
 
 		gnome_canvas_w2c (canvas, event->button.x, event->button.y, &x, &y);
@@ -878,7 +883,8 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 
 		switch (event->button.button){
 		case 1:
-			return item_grid_button_1 (sheet, event, item_grid, col, row, x, y);
+			return item_grid_button_1 (sheet, &event->button,
+						   item_grid, col, row, x, y);
 
 		case 2:
 			g_warning ("This is here just for demo purposes");

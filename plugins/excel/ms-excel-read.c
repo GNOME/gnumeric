@@ -31,6 +31,8 @@
 #include "ms-excel-util.h"
 #include "ms-excel-xf.h"
 #include "workbook-view.h"
+#include "sheet-object-widget.h"
+#include "sheet-object-graphic.h"
 
 /* #define NO_DEBUG_EXCEL */
 
@@ -2320,6 +2322,7 @@ ms_sheet_obj_realize (MSObj *obj, MSContainer *container)
 {
 	double   position[4];
 	ExcelSheet *sheet;
+	SheetObject *so = NULL;
 
 	if (obj == NULL)
 		return TRUE;
@@ -2340,24 +2343,17 @@ ms_sheet_obj_realize (MSObj *obj, MSContainer *container)
 
 	switch (obj->gnumeric_type) {
 	case SHEET_OBJECT_BUTTON :
-		sheet_object_create_button (sheet->gnum_sheet,
-					    position[0], position[1],
-					    position[2], position[3]);
+		so = sheet_widget_button_new (sheet->gnum_sheet);
 		break;
 
 	case SHEET_OBJECT_CHECKBOX :
-		sheet_object_create_checkbox (sheet->gnum_sheet,
-					      position[0], position[1],
-					      position[2], position[3]);
+		so = sheet_widget_checkbox_new (sheet->gnum_sheet);
 		break;
 
 	case SHEET_OBJECT_BOX :
-		sheet_object_realize (
-		sheet_object_create_filled (sheet->gnum_sheet,
-					    SHEET_OBJECT_BOX,
-					    position[0], position[1],
-					    position[2], position[3],
-					    "white", "black", 1));
+		so = sheet_object_create_filled (sheet->gnum_sheet,
+						 SHEET_OBJECT_BOX,
+						 "white", "black", 1);
 		break;
 
 	case SHEET_OBJECT_GRAPHIC : /* If this was a picture */
@@ -2382,11 +2378,8 @@ ms_sheet_obj_realize (MSObj *obj, MSContainer *container)
 #ifdef ENABLE_BONOBO
 		g_return_val_if_fail (blip->stream != NULL, FALSE);
 		g_return_val_if_fail (blip->repo_id != NULL, FALSE);
-		so = sheet_object_container_new_object (
-			sheet->gnum_sheet,
-			position[0], position[1],
-			position[2], position[3],
-			blip->repo_id);
+		so = sheet_object_container_new_object (sheet->gnum_sheet,
+							blip->repo_id);
 		if (!sheet_object_bonobo_load (SHEET_OBJECT_BONOBO (so), blip->stream))
 			g_warning ("Failed to load '%s' from stream",
 				   blip->repo_id);
@@ -2397,6 +2390,12 @@ ms_sheet_obj_realize (MSObj *obj, MSContainer *container)
 	default :
 	break;
 	};
+
+	if (so != NULL) {
+		sheet_object_set_bounds (so, position[0], position[1],
+					 position[2], position[3]);
+		sheet_object_realize (so);
+	}
 
 	return FALSE;
 }

@@ -32,6 +32,7 @@
 #include "sheet-private.h"
 #include "expr-name.h"
 #include "rendered-value.h"
+#include "sheet-object.h"
 
 #ifdef ENABLE_BONOBO
 #    include <libgnorba/gnorba.h>
@@ -179,6 +180,11 @@ sheet_new (Workbook *wb, const char *name)
 	sheet->name_unquoted = g_strdup (name);
 	sheet->name_quoted = sheet_name_quote (name);
 	sheet_create_styles (sheet);
+
+	sheet->sheet_objects = NULL;
+	sheet->new_object = NULL;
+	sheet->current_object = NULL;
+	sheet->active_object_frame = NULL;
 
 	sheet->last_zoom_factor_used = 1.0;
 	sheet->cols.max_used = -1;
@@ -2187,8 +2193,18 @@ sheet_destroy (Sheet *sheet)
 		sheet->print_info = NULL;
 	}
 
-	if (sheet->objects) {
-		g_warning ("Reminder: need to destroy SheetObjects");
+	if (sheet->sheet_objects) {
+		/* The list is changed as we remove */
+		GList *objs = g_list_copy (sheet->sheet_objects);
+		GList *ptr;
+		for (ptr = objs; ptr != NULL ; ptr = ptr->next) {
+			SheetObject *so = SHEET_OBJECT (ptr->data);
+			if (so != NULL)
+				gtk_object_unref (GTK_OBJECT (so));
+		}
+		g_list_free (objs);
+		if (sheet->sheet_objects != NULL)
+			g_warning ("There is a problem with sheet objects");
 	}
 
 	sheet_selection_free (sheet);

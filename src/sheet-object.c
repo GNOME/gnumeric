@@ -7,6 +7,7 @@
  */
 #include <config.h>
 #include <gnome.h>
+#include <math.h>
 #include <gdk/gdkkeysyms.h>
 #include "gnumeric.h"
 #include "gnumeric-sheet.h"
@@ -28,31 +29,15 @@
 #define GNUMERIC_SHEET_VIEW(p) GNUMERIC_SHEET (SHEET_VIEW(p)->sheet_view);
 
 /* Returns the class for a SheetObject */
-#define SO_CLASS(so) SHEET_OBJECT_CLASS (GTK_OBJECT(so)->klass)
+#define SO_CLASS(so) SHEET_OBJECT_CLASS(GTK_OBJECT(so)->klass)
 
 static GtkObjectClass *sheet_object_parent_class;
 
-static void sheet_finish_object_creation (Sheet *sheet, SheetObject *so);
-static void sheet_object_start_editing   (SheetObject *so);
 static void sheet_object_stop_editing    (SheetObject *so);
-static void sheet_object_start_popup     (SheetObject *so, GtkMenu *menu);
-static void sheet_object_end_popup       (SheetObject *so, GtkMenu *menu);
-
-typedef struct {
-	gdouble x, y;
-} ObjectCoords;
-
-static void
-sheet_release_coords (Sheet *sheet)
-{
-	GList *l;
-	
-	for (l = sheet->coords; l; l = l->next)
-		g_free (l->data);
-
-	g_list_free (sheet->coords);
-	sheet->coords = NULL;
-}
+static void sheet_object_populate_menu   (SheetObject *so, GtkMenu *menu);
+static int  control_point_handle_event   (GnomeCanvasItem *item,
+					  GdkEvent *event, SheetObject *so);
+static void update_bbox 		 (SheetObject *so);
 
 static void
 sheet_object_destroy (GtkObject *object)
@@ -60,17 +45,14 @@ sheet_object_destroy (GtkObject *object)
 	SheetObject *so = SHEET_OBJECT (object);
 	Sheet *sheet;
 
-	sheet = so->sheet;
 	sheet_object_stop_editing (so);
-	if (so == sheet->current_object)
-		sheet->current_object = NULL;
-
 	while (so->realized_list) {
 		GnomeCanvasItem *item = so->realized_list->data;
 		gtk_object_destroy (GTK_OBJECT (item));
 	}
 
-	sheet->objects  = g_list_remove (sheet->objects, so);
+	sheet = so->sheet;
+	sheet->sheet_objects  = g_list_remove (sheet->sheet_objects, so);
 	sheet->modified = TRUE;
 	gnome_canvas_points_free (so->bbox_points);
 
@@ -80,11 +62,11 @@ sheet_object_destroy (GtkObject *object)
 /**
  * sheet_object_update_bounds:
  * @so: The sheet object
- * 
+ *
  * This is a default implementation for lightweight objects.
  * The process or re-realizing the object will use the new
  * set of co-ordinates.
- * 
+ *
  **/
 static void
 sheet_object_update_bounds (SheetObject *so)
@@ -97,14 +79,14 @@ static void
 sheet_object_class_init (GtkObjectClass *object_class)
 {
 	SheetObjectClass *sheet_object_class = SHEET_OBJECT_CLASS (object_class);
-	
+
 	sheet_object_parent_class = gtk_type_class (gtk_object_get_type ());
 
 	object_class->destroy = sheet_object_destroy;
 	sheet_object_class->update_bounds = sheet_object_update_bounds;
-	sheet_object_class->start_popup   = sheet_object_start_popup;
-	sheet_object_class->end_popup     = sheet_object_end_popup;
+	sheet_object_class->populate_menu = sheet_object_populate_menu;
 	sheet_object_class->print         = NULL;
+	sheet_object_class->user_config   = NULL;
 }
 
 GtkType
@@ -140,92 +122,57 @@ sheet_object_construct (SheetObject *so, Sheet *sheet)
 
 	so->type        = SHEET_OBJECT_ACTION_STATIC;
 	so->sheet       = sheet;
+	so->dragging    = FALSE;
 	so->bbox_points = gnome_canvas_points_new (2);
 
-	sheet->objects  = g_list_prepend (sheet->objects, so);
+	sheet->sheet_objects  = g_list_prepend (sheet->sheet_objects, so);
 
 	sheet->modified = TRUE;
-}
-
-void
-sheet_object_drop_file (Sheet *sheet, gdouble x, gdouble y, const char *fname)
-{
-#ifdef ENABLE_BONOBO
-	const char *mime_type;
-	const char *mime_goad_id;
-	char *msg = NULL;
-	
-	g_return_if_fail (sheet != NULL);
-
-	if (!(mime_type = gnome_mime_type (fname))) {
-		msg = g_strdup_printf ("unknown mime type for '%s'", (char *)fname);
-		gnome_dialog_run_and_close (GNOME_DIALOG (gnome_error_dialog (msg)));
-	} else if (!(mime_goad_id = gnome_mime_get_value (mime_type, "bonobo-goad-id"))) {
-		msg = g_strdup_printf ("no mime mapping for '%s'", mime_type);
-		gnome_dialog_run_and_close (GNOME_DIALOG (gnome_error_dialog (msg)));
-	} else {
-		SheetObject   *so;
-		ObjectCoords   pos;
-
-		so = SHEET_OBJECT (sheet_object_container_new_object (
-			sheet, pos.x, pos.y,
-			pos.x + 100.0, pos.y + 100.0,
-			mime_goad_id));
-		if (!so) {
-			msg = g_strdup_printf ("can't create object for '%s'", mime_goad_id);
-			gnome_dialog_run_and_close (GNOME_DIALOG (gnome_error_dialog (msg)));
-		} else {
-			sheet_object_bonobo_load_from_file (SHEET_OBJECT_BONOBO (so), fname);
-		}
-	}
-	if (msg)
-		g_free (msg);
-#endif
 }
 
 /**
  * sheet_object_get_bounds:
  * @so: The sheet object we are interested in
- * @tlx: set to the top left x position
- * @tly: set to the top left y position
- * @brx: set to the bottom right x position
- * @bry: set to the bottom right y position
- * 
+ * @l: set to the left position
+ * @t: set to the top position
+ * @r: set to the right position
+ * @b: set to the bottom position
+ *
  *   This function returns the bounds of the sheet object
  * in the pointers it is passed.
- * 
+ *
  **/
 void
-sheet_object_get_bounds (SheetObject *so, double *tlx, double *tly,
-			 double *brx, double *bry)
+sheet_object_get_bounds (SheetObject *so, double *l, double *t,
+			 double *r, double *b)
 {
 	g_return_if_fail (so != NULL);
-	g_return_if_fail (tlx != NULL);
-	g_return_if_fail (tly != NULL);
-	g_return_if_fail (brx != NULL);
-	g_return_if_fail (bry != NULL);
+	g_return_if_fail (l != NULL);
+	g_return_if_fail (t != NULL);
+	g_return_if_fail (r != NULL);
+	g_return_if_fail (b != NULL);
 
-	*tlx = MIN (so->bbox_points->coords [0],
-		    so->bbox_points->coords [2]);
-	*brx = MAX (so->bbox_points->coords [0],
-		    so->bbox_points->coords [2]);
-	*tly = MIN (so->bbox_points->coords [1],
-		    so->bbox_points->coords [3]);
-	*bry = MAX (so->bbox_points->coords [1],
-		    so->bbox_points->coords [3]);
+	*l = MIN (so->bbox_points->coords [0],
+		  so->bbox_points->coords [2]);
+	*r = MAX (so->bbox_points->coords [0],
+		  so->bbox_points->coords [2]);
+	*t = MIN (so->bbox_points->coords [1],
+		  so->bbox_points->coords [3]);
+	*b = MAX (so->bbox_points->coords [1],
+		  so->bbox_points->coords [3]);
 }
 
 /**
- * sheet_object_get_bounds:
+ * sheet_object_set_bounds:
  * @so: The sheet object we are interested in
  * @tlx: top left x position
  * @tly: top left y position
  * @brx: bottom right x position
  * @bry: bottom right y position
- * 
+ *
  *  This sets the co-ordinates of the bounding box and
  * does any neccessary housekeeping.
- * 
+ *
  **/
 void
 sheet_object_set_bounds (SheetObject *so, double tlx, double tly,
@@ -257,19 +204,19 @@ static GnomeCanvasItem *
 sheet_view_object_realize (SheetView *sheet_view, SheetObject *so)
 {
 	GnomeCanvasItem *item;
-	
+
 	g_return_val_if_fail (sheet_view != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET_VIEW (sheet_view), NULL);
 	g_return_val_if_fail (so != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET_OBJECT (so), NULL);
 
-	item = SO_CLASS (so)->realize (so, sheet_view);
+	item = SO_CLASS (so)->new_view (so, sheet_view);
 
 	if (item == NULL) {
 		g_warning ("We created an unsupported type\n");
 		return NULL;
 	}
-	
+
 	gtk_signal_connect (GTK_OBJECT (item), "event",
 			    GTK_SIGNAL_FUNC (sheet_object_canvas_event), so);
 	gtk_signal_connect (GTK_OBJECT (item), "destroy",
@@ -287,7 +234,7 @@ static void
 sheet_view_object_unrealize (SheetView *sheet_view, SheetObject *so)
 {
 	GList *l;
-	
+
 	g_return_if_fail (sheet_view != NULL);
 	g_return_if_fail (IS_SHEET_VIEW (sheet_view));
 	g_return_if_fail (so != NULL);
@@ -297,7 +244,7 @@ sheet_view_object_unrealize (SheetView *sheet_view, SheetObject *so)
 		GnomeCanvasItem *item   = GNOME_CANVAS_ITEM (so->realized_list->data);
 		GnumericSheet   *gsheet = GNUMERIC_SHEET (item->canvas);
 
-		if (gsheet->sheet_view != sheet_view) 
+		if (gsheet->sheet_view != sheet_view)
 			continue;
 
 		gtk_object_destroy (GTK_OBJECT (item));
@@ -318,13 +265,12 @@ sheet_object_realize (SheetObject *so)
 
 	g_return_if_fail (so != NULL);
 	g_return_if_fail (IS_SHEET_OBJECT (so));
-	
+
 	for (l = so->sheet->sheet_views; l; l = l->next) {
 		SheetView *sheet_view = l->data;
 		GnomeCanvasItem *item;
-		
+
 		item = sheet_view_object_realize (sheet_view, so);
-		sheet_view->temp_item = so; 
 	}
 }
 
@@ -344,231 +290,121 @@ sheet_object_unrealize (SheetObject *so)
 
 	for (l = so->sheet->sheet_views; l; l = l->next) {
 		SheetView *sheet_view = l->data;
-		
+
 		sheet_view_object_unrealize (sheet_view, so);
-		sheet_view->temp_item = NULL; 
 	}
 }
 
-/*
- * Only for demostration purposes
- */
-static GtkWidget *
-button_widget_create (SheetObjectWidget *sow, SheetView *sheet_view)
-{
-	GtkWidget *button;
-
-	button = gtk_button_new_with_label (_("Button"));
-	gtk_widget_show (button);
-	
-	return button;
-}
+typedef struct {
+	Sheet *sheet;
+	double x, y;
+	gboolean has_been_sized;
+	GnomeCanvasItem *item;
+} SheetObjectCreationData;
 
 /*
- * Only for demostration purposes
- */
-static GtkWidget *
-checkbox_widget_create (SheetObjectWidget *sow, SheetView *sheet_view)
-{
-	static int hack_counter = 0; /* FIXME this will break in multiple views. */
-	GtkWidget *checkbox;
-	char *label;
-
-	label = g_strdup_printf ("Check Box %d", ++hack_counter);
-	checkbox = gtk_check_button_new_with_label (label);
-	g_free (label);
-	gtk_toggle_button_set_mode (GTK_TOGGLE_BUTTON (checkbox), FALSE);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbox), FALSE);
-	gtk_widget_show (checkbox);
-	
-	return checkbox;
-}
-
-SheetObject *
-sheet_object_create_button  (Sheet *sheet,
-			     double x1, double y1,
-			     double x2, double y2)
-{
-	SheetObject * obj =
-	    sheet_object_widget_new (sheet, x1, y1, x2, y2,
-				     button_widget_create, NULL);
-	sheet_object_realize (obj);
-	return obj;
-}
-
-SheetObject *
-sheet_object_create_checkbox (Sheet *sheet,
-			      double x1, double y1,
-			      double x2, double y2)
-{
-	SheetObject * obj =
-	    sheet_object_widget_new (sheet, x1, y1, x2, y2,
-				     checkbox_widget_create, NULL);
-	sheet_object_realize (obj);
-	return obj;
-}
-
-/*
- * create_object
+ * cb_obj_create_motion:
+ * @gsheet : 
+ * @event :
+ * @closure :
  *
- * Creates an object with the data stored from the creation or
- * previous mouse samples to the location to_x, to_y.
+ * Rubber band a rectangle to show where the object is going to go,
+ * and support autoscroll.
  */
-static SheetObject *
-create_object (Sheet *sheet, gdouble to_x, gdouble to_y)
+static gboolean
+cb_obj_create_motion (GnumericSheet *gsheet, GdkEventMotion *event,
+		      SheetObjectCreationData *closure)
 {
-	SheetObject *o = NULL;
-	ObjectCoords *oc;
+	double tmp_x, tmp_y;
 	double x1, x2, y1, y2;
 
-	oc = sheet->coords->data;
+	g_return_val_if_fail (gsheet != NULL, TRUE);
 
-	x1 = MIN (oc->x, to_x);
-	x2 = MAX (oc->x, to_x);
-	y1 = MIN (oc->y, to_y);
-	y2 = MAX (oc->y, to_y);
-	
-	switch (sheet->mode){
-	case SHEET_MODE_CREATE_LINE:
-		o = sheet_object_create_line (
-			sheet, FALSE,
-			oc->x, oc->y,
-			to_x, to_y,
-			"black", 1);
-		break;
+	gnome_canvas_window_to_world (GNOME_CANVAS (gsheet),
+				      event->x, event->y,
+				      &tmp_x, &tmp_y);
 
-	case SHEET_MODE_CREATE_ARROW:
-		o = sheet_object_create_line (
-			sheet, TRUE,
-			oc->x, oc->y,
-			to_x, to_y,
-			"black", 1);
-		break;
-		
-	case SHEET_MODE_CREATE_BOX: {
-		o = sheet_object_create_filled (
-			sheet, SHEET_OBJECT_BOX,
-			x1, y1, x2, y2,
-			NULL, "black", 1);
-		break;
+	if (tmp_x < closure->x) {
+		x1 = tmp_x;
+		x2 = closure->x;
+	} else {
+		x2 = tmp_x;
+		x1 = closure->x;
+	}
+	if (tmp_y < closure->y) {
+		y1 = tmp_y;
+		y2 = closure->y;
+	} else {
+		y2 = tmp_y;
+		y1 = closure->y;
+	}
+	     
+	if (!closure->has_been_sized) {
+		closure->has_been_sized =
+		    (fabs (tmp_x - closure->x) > 5.) ||
+		    (fabs (tmp_y - closure->y) > 5.);
 	}
 
-	case SHEET_MODE_CREATE_OVAL: {
-		o = sheet_object_create_filled (
-			sheet, SHEET_OBJECT_OVAL,
-			x1, y1, x2, y2,
-			NULL, "black", 1);
-		break;
-	}
+	gnome_canvas_item_set (closure->item,
+			       "x1", x1, "y1", y1,
+			       "x2", x2, "y2", y2,
+			       NULL);
 
-
-	case SHEET_MODE_CREATE_CANVAS_ITEM:
-#ifdef ENABLE_BONOBO
-		o = sheet_object_container_new_object (
-			sheet, x1, y1, x2, y2, sheet->mode_data);
-		g_free (sheet->mode_data);
-		sheet->mode_data = NULL;
-		sheet_object_set_bounds (o, x1, y1, x2, y2);
-#endif
-		break;
-		
-	case SHEET_MODE_CREATE_BUTTON:
-		o = sheet_object_create_button (sheet, x1, y1, x2, y2);
-		break;
-		
-	case SHEET_MODE_CREATE_CHECKBOX:
-		o = sheet_object_create_checkbox (sheet, x1, y1, x2, y2);
-		break;
-
-	case SHEET_MODE_SHEET:
-	case SHEET_MODE_OBJECT_SELECTED:
-		g_assert_not_reached ();
-
-	case SHEET_MODE_CREATE_GRAPH:
-#ifdef ENABLE_BONOBO
-		g_warning ("Ugly API name follows, fix it");
-		o = sheet_object_container_new_bonobo (
-			sheet, x1, y1, x2, y2, sheet->mode_data);
-
-		g_warning ("Possible leak");
-		/*
-		 * Ie, who "owns" mode_data when it is a BonoboObjectClient?
-		 */
-		sheet->mode_data = NULL;
-		break;
-#endif
-			
-	case SHEET_MODE_CREATE_COMPONENT:
-#ifdef ENABLE_BONOBO
-		/* Bug 9984 : do not start objects with size 0,0 */
-		if (x1 == x2)
-			x2 += 50.;
-		if (y1 == y2)
-			y2 += 50.;
-		o = sheet_object_container_new_object (
-			sheet, x1, y1, x2, y1, sheet->mode_data);
-		g_free (sheet->mode_data);
-		sheet->mode_data = NULL;
-		break;
-#endif
-	}
-
-	sheet_object_realize (o);
-
-	return o;
+	return TRUE;
 }
 
 /*
- * sheet_motion_notify
+ * cb_obj_create_button_release
  *
- * Invoked when the sheet is in a SHEET_MODE_CREATE mode to keep track
- * of the cursor position.
+ * Invoked as the last step in object creation.
  */
-static int
-sheet_motion_notify (GnumericSheet *gsheet, GdkEvent *event, Sheet *sheet)
+static gboolean
+cb_obj_create_button_release (GnumericSheet *gsheet, GdkEventButton *event,
+			      SheetObjectCreationData *closure)
 {
-	double  brx, bry;
-	ObjectCoords *tl;
-	SheetObject  *so;
-
-	g_return_val_if_fail (sheet != NULL, 1);
-	g_return_val_if_fail (gsheet != NULL, 1);
-	g_return_val_if_fail (sheet->coords != NULL, 1);
-	g_return_val_if_fail (sheet->coords->data != NULL, 1);
-	g_return_val_if_fail (sheet->current_object != NULL, 1);
-
-	/* Do not propagate this event further */
-	gtk_signal_emit_stop_by_name (GTK_OBJECT (gsheet), "motion_notify_event");
-
-	so = SHEET_OBJECT (sheet->current_object);
-	gnome_canvas_window_to_world (GNOME_CANVAS (gsheet),
-				      event->button.x, event->button.y,
-				      &brx, &bry);
-	
-	tl = (ObjectCoords *)sheet->coords->data;
-
-	sheet->current_object = so;
-	sheet_object_set_bounds (so, tl->x, tl->y, brx, bry);
-	
-
-	SO_CLASS(so)->update_bounds (so);
-	
-	return 1;
-}
-
-static int
-shutdown_sheet_object_creation (GnumericSheet *gsheet, Sheet *sheet)
-{
+	double x1, y1, x2, y2;
 	SheetObject *so;
+	Sheet *sheet;
 
-	g_return_val_if_fail (sheet != NULL, -1);
-	g_return_val_if_fail (sheet->current_object != NULL, -1);
+	g_return_val_if_fail (gsheet != NULL, 1);
+	g_return_val_if_fail (closure != NULL, -1);
+	g_return_val_if_fail (closure->sheet != NULL, -1);
+	g_return_val_if_fail (closure->sheet->new_object != NULL, -1);
 
-	so = sheet->current_object;
-	sheet_finish_object_creation (sheet, so);
+	sheet = closure->sheet;
+	so = sheet->new_object;
+	sheet_set_dirty (sheet, TRUE);
+
+	if (closure->has_been_sized) {
+		x1 = closure->x;
+		y1 = closure->y;
+		gnome_canvas_window_to_world (GNOME_CANVAS (gsheet),
+					      event->x, event->y, &x2, &y2);
+	} else {
+		sheet_object_get_bounds (so, &x1, &y1, &x2, &y2);
+		x2 -= x1;	 y2 -= y1;
+		x1 = closure->x; y1 = closure->y;
+		x2 += x1;	 y2 += y1;
+	}
+	sheet_object_set_bounds (so, x1, y1, x2, y2);
+	SO_CLASS(so)->update_bounds (so);
+	sheet_object_realize (so);
+
+	sheet->new_object = NULL;
+
+	gtk_signal_disconnect_by_func (
+		GTK_OBJECT (gsheet),
+		GTK_SIGNAL_FUNC (cb_obj_create_motion), closure);
+	gtk_signal_disconnect_by_func (
+		GTK_OBJECT (gsheet),
+		GTK_SIGNAL_FUNC (cb_obj_create_button_release), closure);
+
+	gtk_object_destroy (GTK_OBJECT (closure->item));
+	g_free (closure);
 
 #ifdef ENABLE_BONOBO
 	/*
+	 * FIXME : Michael why is this here ??
 	 * Bonobo objects might want to load state from somewhere
 	 * to be useful
 	 */
@@ -576,276 +412,130 @@ shutdown_sheet_object_creation (GnumericSheet *gsheet, Sheet *sheet)
 		sheet_object_bonobo_load_from_file (
 			SHEET_OBJECT_BONOBO (so), NULL);
 #endif
-	
-	sheet_object_start_editing (so);
 
-	return 1;
+	sheet_mode_edit_object (so);
+
+	return TRUE;
 }
 
 /*
- * sheet_button_release
- *
- * Invoked as the last step in object creation.
- */
-static int
-sheet_button_release (GnumericSheet *gsheet, GdkEventButton *event, Sheet *sheet)
-{
-	double  brx, bry;
-	ObjectCoords *tl;
-	SheetObject *so;
-
-	g_return_val_if_fail (sheet != NULL, 1);
-	g_return_val_if_fail (gsheet != NULL, 1);
-	g_return_val_if_fail (sheet->coords != NULL, 1);
-	g_return_val_if_fail (sheet->coords->data != NULL, 1);
-	g_return_val_if_fail (sheet->current_object != NULL, 1);
-
-	so = sheet->current_object;
-	
-	/* Do not propagate this event further */
-	gtk_signal_emit_stop_by_name (GTK_OBJECT (gsheet), "button_release_event");
-
-	gnome_canvas_window_to_world (GNOME_CANVAS (gsheet),
-				      event->x, event->y,
-				      &brx, &bry);
-	
-	tl = (ObjectCoords *)sheet->coords->data;
-
-	sheet_object_set_bounds (so, tl->x, tl->y, brx, bry);
-
-	SO_CLASS (sheet->current_object)->update_bounds (so);
-
-	return shutdown_sheet_object_creation (gsheet, sheet);
-}
-
-static int
-sheet_leave_notify (GnumericSheet *gsheet, GdkEventCrossing *event, Sheet *sheet)
-{
-	g_return_val_if_fail (gsheet != NULL, 1);
-
-	/* Do not propagate this event further */
-	gtk_signal_emit_stop_by_name (GTK_OBJECT (gsheet), "leave_notify_event");
-
-	return shutdown_sheet_object_creation (gsheet, sheet);
-}
-
-/*
- * sheet_button_press
+ * sheet_object_begin_creation
  *
  * Starts the process of creating a SheetObject.  Handles the initial
  * button press on the GnumericSheet.
  */
-static int
-sheet_button_press (GnumericSheet *gsheet, GdkEventButton *event, Sheet *sheet)
+gboolean
+sheet_object_begin_creation (GnumericSheet *gsheet, GdkEventButton *event)
 {
-	ObjectCoords *oc;
-	double x1, y1;
+	Sheet *sheet;
+	SheetObject *so;
+	SheetObjectCreationData *closure;
 
-	if (sheet->current_object) {
-		sheet_object_stop_editing (sheet->current_object);
-		sheet->current_object = NULL;
-	}
-	
-	/* Do not propagate this event further */
-	gtk_signal_emit_stop_by_name (GTK_OBJECT (gsheet), "button_press_event");
+	g_return_val_if_fail (gsheet != NULL, TRUE);
+	g_return_val_if_fail (gsheet->sheet_view != NULL, TRUE);
 
-	oc = g_new (ObjectCoords, 1);
+	sheet = gsheet->sheet_view->sheet;
 
-	gnome_canvas_window_to_world (GNOME_CANVAS (gsheet), event->x, event->y, &x1, &y1);
-	
-	/* Bug 9984 : do not start objects with size 0,0 */
-	oc->x = MAX(x1 - 50., 0.);
-	oc->y = MAX(y1 - 50., 0.);
-	sheet->coords = g_list_append (sheet->coords, oc);
-	sheet->current_object = create_object (sheet, x1, y1);
+	g_return_val_if_fail (sheet != NULL, TRUE);
+	g_return_val_if_fail (sheet->current_object == NULL, TRUE);
+	g_return_val_if_fail (sheet->new_object != NULL, TRUE);
 
-	/*
-	 * If something fails during object creation,
-	 * set the mode to the normal sheet mode
-	 */
-	if (!sheet->current_object) {
-		sheet_set_mode_type (sheet, SHEET_MODE_SHEET);
-		return 1;
-	}
+	so = sheet->new_object;
+
+	closure = g_new (SheetObjectCreationData, 1);
+	closure->sheet = sheet;
+	closure->has_been_sized = FALSE;
+	gnome_canvas_window_to_world (GNOME_CANVAS (gsheet),
+				      event->x, event->y,
+				      &closure->x, &closure->y);
+
+	closure->item = gnome_canvas_item_new (
+		gsheet->sheet_view->object_group,
+		gnome_canvas_rect_get_type (),
+		"outline_color", "black",
+		"width_units",   2.0,
+		NULL);
 
 	gtk_signal_connect (GTK_OBJECT (gsheet), "button_release_event",
-			    GTK_SIGNAL_FUNC (sheet_button_release), sheet);
-	gtk_signal_connect (GTK_OBJECT (gsheet), "leave_notify_event",
-			    GTK_SIGNAL_FUNC (sheet_leave_notify), sheet);
+			    GTK_SIGNAL_FUNC (cb_obj_create_button_release), closure);
 	gtk_signal_connect (GTK_OBJECT (gsheet), "motion_notify_event",
-			    GTK_SIGNAL_FUNC (sheet_motion_notify), sheet);
-	
-	return 1;
+			    GTK_SIGNAL_FUNC (cb_obj_create_motion), closure);
+
+	return TRUE;
+}
+
+static gboolean
+sheet_mode_clear (Sheet *sheet)
+{
+	g_return_val_if_fail (sheet != NULL, FALSE);
+	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
+
+	if (sheet->new_object != NULL) {
+		gtk_object_unref (GTK_OBJECT (sheet->new_object));
+		sheet->new_object = NULL;
+	}
+	sheet_object_stop_editing (sheet->current_object);
+	return TRUE;
 }
 
 /*
- * sheet_finish_object_creation
- *
- * Last step of the creation of an object: sets the sheet mode to
- * select the current object, releases the datastructures used
- * during object creation and disconnects the signal handlers
- * used during object creation
- */
-static void
-sheet_finish_object_creation (Sheet *sheet, SheetObject *o)
-{
-	GList *l;
-
-	o->dragging = FALSE;
-
-	/* Set the mode */
-	sheet_set_mode_type (sheet, SHEET_MODE_OBJECT_SELECTED);
-
-	sheet_release_coords (sheet);
-
-	sheet->modified = TRUE;
-	
-	/* Disconnect the signal handlers for object creation */
-	for (l = sheet->sheet_views; l; l = l->next) {
-		SheetView *sheet_view = l->data;
-		GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
-
-		sheet_view->temp_item = NULL;
-		gtk_signal_disconnect_by_func (
-			GTK_OBJECT (gsheet),
-			GTK_SIGNAL_FUNC (sheet_button_press), sheet);
-		gtk_signal_disconnect_by_func (
-			GTK_OBJECT (gsheet),
-			GTK_SIGNAL_FUNC (sheet_button_release), sheet);
-		gtk_signal_disconnect_by_func (
-			GTK_OBJECT (gsheet),
-			GTK_SIGNAL_FUNC (sheet_leave_notify), sheet);
-		gtk_signal_disconnect_by_func (
-			GTK_OBJECT (gsheet),
-			GTK_SIGNAL_FUNC (sheet_motion_notify), sheet);
-	}
-}
-
-static void
-sheet_object_bind_button_events (Sheet *sheet)
-{
-	GList *l;
-	
-	for (l = sheet->sheet_views; l; l = l->next) {
-		
-		SheetView *sheet_view = l->data;
-		GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
-		
-		sheet_view->temp_item = NULL;
-		gtk_signal_connect (GTK_OBJECT (gsheet), "button_press_event",
-				    GTK_SIGNAL_FUNC (sheet_button_press), sheet);
-	}
-}
-
-/*
- * sheet_set_mode_type:
+ * sheet_mode_edit:
  * @sheet:  The sheet
- * @mode:   The new mode of operation
- *
- * These are the following major mode types:
- *   Object creation (SHEET_MODE_CREATE_*)
- *                   These are used during object creation in the sheeet
- *
- *   Sheet mode      (SHEET_MODE_SHEET)
- *                   Regular spreadsheet operations are in place, sheet
- *                   cursor is displayed.
- *
- *   Object editing  (SHEET_MODE_OBJECT_SELECTED)
- *                   No spreadsheet cursor is active, and edition is directed
- *                   towards the currently selected object
  */
 void
-sheet_set_mode_type_full (Sheet *sheet, SheetModeType mode, void *mode_data)
+sheet_mode_edit	(Sheet *sheet)
 {
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
+#ifdef ENABLE_BONOBO
+	if (sheet->active_object_frame) {
+		bonobo_view_frame_view_deactivate (sheet->active_object_frame);
+		if (sheet->active_object_frame != NULL)
+			bonobo_view_frame_set_covered (sheet->active_object_frame, TRUE);
+		sheet->active_object_frame = NULL;
+	}
+#endif
+	sheet_mode_clear (sheet);
+	sheet_show_cursor (sheet);
+}
 
-	if (sheet->mode == mode)
-		return;
-	
-	sheet->mode = mode;
+/*
+ * sheet_mode_edit_object
+ *
+ * Makes the object the currently selected object and prepares it for
+ * user edition.
+ */
+void
+sheet_mode_edit_object (SheetObject *so)
+{
+	Sheet *sheet;
 
-	if (mode == SHEET_MODE_OBJECT_SELECTED) {
+	g_return_if_fail (so != NULL);
+	g_return_if_fail (IS_SHEET_OBJECT (so));
+
+	sheet = so->sheet;
+	if (sheet_mode_clear (sheet)) {
+		sheet->current_object = so;
+		update_bbox (so);
 		sheet_hide_cursor (sheet);
-		return;
-	}
-
-	if (mode == SHEET_MODE_SHEET) {
-#ifdef ENABLE_BONOBO
-		if (sheet->active_object_frame) {
-			bonobo_view_frame_view_deactivate (sheet->active_object_frame);
-			if (sheet->active_object_frame != NULL)
-				bonobo_view_frame_set_covered (sheet->active_object_frame, TRUE);
-			sheet->active_object_frame = NULL;
-		}
-#endif
-		sheet_show_cursor (sheet);
-		if (sheet->current_object) {
-			sheet_object_stop_editing (sheet->current_object);
-			sheet->current_object = NULL;
-		}
-		return;
-	}
-
-	switch (sheet->mode) {
-	case SHEET_MODE_CREATE_GRAPH:
-#ifdef ENABLE_BONOBO
-		g_assert (BONOBO_IS_CLIENT_SITE (mode_data));
-		sheet_object_bind_button_events (sheet);
-		sheet->mode_data = mode_data;
-#endif
-		break;
-		
-	case SHEET_MODE_CREATE_COMPONENT:
-	case SHEET_MODE_CREATE_CANVAS_ITEM:
-#ifdef ENABLE_BONOBO
-	{
-		char const *required_interfaces [2];
-		char *obj_id;
-
-		if (sheet->mode == SHEET_MODE_CREATE_CANVAS_ITEM)
-			required_interfaces [0] = "IDL:Bonobo/Canvas/Item:1.0";
-		else
-			required_interfaces [0] = "IDL:Bonobo/Embeddable:1.0";
-		required_interfaces [1] = NULL;
-
-		obj_id = bonobo_selector_select_id (
-			_("Select an object to add"), required_interfaces);
-		if (obj_id == NULL) {
-			sheet_set_mode_type (sheet, SHEET_MODE_SHEET);
-			return;
-		}
-		sheet->mode_data = g_strdup (obj_id);
-
-		sheet_object_bind_button_events (sheet);
-		break;
-	}
-#endif
-
-	case SHEET_MODE_CREATE_LINE:
-	case SHEET_MODE_CREATE_ARROW:
-	case SHEET_MODE_CREATE_OVAL:
-	case SHEET_MODE_CREATE_BOX:
-	case SHEET_MODE_CREATE_BUTTON:
-	case SHEET_MODE_CREATE_CHECKBOX:
-		sheet_object_bind_button_events (sheet);
-		break;
-		
-	default:
-		g_assert_not_reached ();
 	}
 }
 
 void
-sheet_set_mode_type (Sheet *sheet, SheetModeType mode)
+sheet_mode_create_object (SheetObject *so)
 {
-	sheet_set_mode_type_full (sheet, mode, NULL);
+	Sheet *sheet;
+
+	g_return_if_fail (so != NULL);
+	g_return_if_fail (IS_SHEET_OBJECT (so));
+
+	sheet = so->sheet;
+	if (sheet_mode_clear (sheet))
+		sheet->new_object = so;
 }
- 
+
 /*
  * sheet_object_destroy_control_points
  *
- * Destroys the Canvas Items used as sheet control points
+ * Destroys the canvas items used as sheet control points
  */
 static void
 sheet_object_destroy_control_points (Sheet *sheet)
@@ -853,9 +543,12 @@ sheet_object_destroy_control_points (Sheet *sheet)
 	GList *l;
 
 	for (l = sheet->sheet_views; l; l = l->next) {
-		SheetView *sheet_view = l->data;
 		int i;
-		
+		SheetView *sheet_view = SHEET_VIEW (l->data);
+
+		if (sheet_view == NULL)
+			return;
+
 		for (i = 0; i < 8; i++) {
 			gtk_object_destroy (GTK_OBJECT (sheet_view->control_points [i]));
 			sheet_view->control_points [i] = NULL;
@@ -866,98 +559,137 @@ sheet_object_destroy_control_points (Sheet *sheet)
 static void
 sheet_object_stop_editing (SheetObject *so)
 {
-	Sheet *sheet = so->sheet;
+	if (so != NULL) {
+		Sheet *sheet = so->sheet;
 
-	if (so == sheet->current_object)
-		sheet_object_destroy_control_points (sheet);
-
-	sheet->current_object = NULL;
+		if (so == sheet->current_object) {
+			sheet_object_destroy_control_points (sheet);
+			sheet->current_object = NULL;
+		}
+	}
 }
 
 /*
- * set_item_x:
+ * new_control_point
+ * @group:  The canvas group to which this control point belongs
+ * @so:     The sheet object
+ * @idx:    control point index to be created
+ * @x:      x coordinate of control point
+ * @y:      y coordinate of control point
  *
- * changes the x position of the idxth control point
+ * This is used to create a number of control points in a sheet
+ * object, the meaning of them is used in other parts of the code
+ * to belong to the following locations:
+ *
+ *     0 -------- 1 -------- 2
+ *     |                     |
+ *     3                     4
+ *     |                     |
+ *     5 -------- 6 -------- 7
  */
-static void
-set_item_x (SheetView *sheet_view, int idx, double x)
+static GnomeCanvasItem *
+new_control_point (GnomeCanvasGroup *group, SheetObject *so,
+		   int idx, double x, double y, CursorType ct)
 {
-	gnome_canvas_item_set (
-		sheet_view->control_points [idx],
-		"x1", x - 2,
-		"x2", x + 2,
+	GnomeCanvasItem *item;
+
+	item = gnome_canvas_item_new (
+		group,
+		gnome_canvas_rect_get_type (),
+		"x1",    x - 2,
+		"y1",    y - 2,
+		"x2",    x + 2,
+		"y2",    y + 2,
+		"outline_color", "black",
+		"fill_color",    "black",
 		NULL);
+
+	gtk_signal_connect (GTK_OBJECT (item), "event",
+			    GTK_SIGNAL_FUNC (control_point_handle_event),
+			    so);
+
+	gtk_object_set_user_data (GTK_OBJECT (item), GINT_TO_POINTER (idx));
+	gtk_object_set_data (GTK_OBJECT (item), "cursor", GINT_TO_POINTER (ct));
+
+	return item;
 }
 
 /*
- * set_item_y:
+ * set_item_x_y:
  *
- * changes the y position of the idxth control point
+ * changes the x and y position of the idxth control point,
+ * creating the control point if necessary.
  */
 static void
-set_item_y (SheetView *sheet_view, int idx, double y)
+set_item_x_y (SheetObject *so, SheetView *sheet_view, int idx,
+	      double x, double y, CursorType ct)
 {
-	gnome_canvas_item_set (
-		sheet_view->control_points [idx],
-		"y1", y - 2,
-		"y2", y + 2,
-		NULL);
+	if (sheet_view->control_points [idx] == NULL)
+		sheet_view->control_points [idx] = new_control_point (
+			sheet_view->object_group, so, idx, x, y, ct);
+	else
+		gnome_canvas_item_set (
+		       sheet_view->control_points [idx],
+		       "x1", x - 2,
+		       "x2", x + 2,
+		       "y1", y - 2,
+		       "y2", y + 2,
+		       NULL);
 }
 
 /**
  * update_bbox:
  * @sheet_object: The selected object.
- * 
+ *
  *  This updates all the views this object appears in. It
  * re-aligns the control points so that they appear at the
  * correct verticies.
- * 
  **/
 static void
 update_bbox (SheetObject *so)
 {
-	GList *l;
+	GList *ptr;
 	const double *c = so->bbox_points->coords;
+	double l, t, r, b;
 
-	for (l = so->sheet->sheet_views; l; l = l->next) {
-		SheetView *sheet_view = l->data;
+	l = c[0];
+	t = c[1];
+	r = c[2] - 1.; /* bounding boxes EXCLUDE the far coords */
+	b = c[3] - 1.;
+	for (ptr = so->sheet->sheet_views; ptr != NULL; ptr = ptr->next) {
+		SheetView *sheet_view = ptr->data;
 
-		set_item_x (sheet_view, 0, c[0]);
-		set_item_x (sheet_view, 3, c[0]);
-		set_item_x (sheet_view, 5, c[0]);
-		set_item_x (sheet_view, 2, c[2]);
-		set_item_x (sheet_view, 4, c[2]);
-		set_item_x (sheet_view, 7, c[2]);
-
-		set_item_x (sheet_view, 1, (c[0] + c[2]) / 2.0);
-		set_item_x (sheet_view, 6, (c[0] + c[2]) / 2.0);
-
-		set_item_y (sheet_view, 0, c[1]);
-		set_item_y (sheet_view, 1, c[1]);
-		set_item_y (sheet_view, 2, c[1]);
-		set_item_y (sheet_view, 5, c[3]);
-		set_item_y (sheet_view, 6, c[3]);
-		set_item_y (sheet_view, 7, c[3]);
-
-		set_item_y (sheet_view, 3, (c[1] + c[3]) / 2.0);
-		set_item_y (sheet_view, 4, (c[1] + c[3]) / 2.0);
+		set_item_x_y (so, sheet_view, 0, l, t,
+			      GNUMERIC_CURSOR_SIZE_TL);
+		set_item_x_y (so, sheet_view, 1, (l + r) / 2, t,
+			      GNUMERIC_CURSOR_SIZE_Y);
+		set_item_x_y (so, sheet_view, 2, r, t,
+			      GNUMERIC_CURSOR_SIZE_TR);
+		set_item_x_y (so, sheet_view, 3, l, (t + b) / 2,
+			      GNUMERIC_CURSOR_SIZE_X);
+		set_item_x_y (so, sheet_view, 4, r, (t + b) / 2,
+			      GNUMERIC_CURSOR_SIZE_X);
+		set_item_x_y (so, sheet_view, 5, l, b,
+			      GNUMERIC_CURSOR_SIZE_TR);
+		set_item_x_y (so, sheet_view, 6, (l + r) / 2, b,
+			      GNUMERIC_CURSOR_SIZE_Y);
+		set_item_x_y (so, sheet_view, 7, r, b,
+			      GNUMERIC_CURSOR_SIZE_TL);
 	}
 }
 
 /*
- * control_point_handle_event
+ * control_point_handle_event :
  *
  * Event handler for the control points.
- *
- * The index for this control point is retrieved from the Gtk user object_data
- *
+ * Index & cursor type are stored as user data associated with the CanvasItem
  */
 static int
 control_point_handle_event (GnomeCanvasItem *item, GdkEvent *event, SheetObject *so)
 {
 	int idx;
 	static gdouble last_x, last_y;
-	
+
 	switch (event->type) {
 	case GDK_ENTER_NOTIFY:
 	{
@@ -965,11 +697,11 @@ control_point_handle_event (GnomeCanvasItem *item, GdkEvent *event, SheetObject 
 		cursor_set_widget (item->canvas, GPOINTER_TO_UINT (p));
 		break;
 	}
-		
+
 	case GDK_BUTTON_RELEASE:
 		if (!so->dragging)
 			return FALSE;
-		
+
 		so->dragging = FALSE;
 		gnome_canvas_item_ungrab (item, event->button.time);
 		break;
@@ -982,7 +714,6 @@ control_point_handle_event (GnomeCanvasItem *item, GdkEvent *event, SheetObject 
 					NULL, event->button.time);
 		last_x = event->button.x;
 		last_y = event->button.y;
-		sheet_object_make_current (so);
 		break;
 
 	case GDK_MOTION_NOTIFY: {
@@ -998,7 +729,7 @@ control_point_handle_event (GnomeCanvasItem *item, GdkEvent *event, SheetObject 
 		dy = event->button.y - last_y;
 		last_x = event->button.x;
 		last_y = event->button.y;
-		
+
 		switch (idx) {
 		case 0:
 			coords[0] += dx;
@@ -1039,53 +770,51 @@ control_point_handle_event (GnomeCanvasItem *item, GdkEvent *event, SheetObject 
 
 		break;
 	}
-	
+
 	default:
 		return FALSE;
-	}		
+	}
 	return TRUE;
 }
 
 static void
 sheet_object_remove_cb (GtkWidget *widget, SheetObject *so)
 {
-	gtk_signal_emit_by_name (GTK_OBJECT (so), "destroy");
+	gtk_object_unref (GTK_OBJECT (so));
+}
+
+static void
+cb_sheet_object_configure (GtkWidget *widget, SheetObject *so)
+{
 }
 
 /**
- * sheet_object_start_popup:
+ * sheet_object_populate_menu:
  * @so:  the sheet object
  * @menu: the menu to insert into
- * 
+ *
  * Add standard items to the object's popup menu.
  **/
 static void
-sheet_object_start_popup (SheetObject *so, GtkMenu *menu)
+sheet_object_populate_menu (SheetObject *so, GtkMenu *menu)
 {
 	GtkWidget *item = gtk_menu_item_new_with_label (_("Remove"));
 
 	gtk_signal_connect (GTK_OBJECT (item), "activate",
 			    GTK_SIGNAL_FUNC (sheet_object_remove_cb), so);
 
+	if (SO_CLASS(so)->user_config != NULL) {
+		item = gtk_menu_item_new_with_label (_("Configure"));
+		gtk_signal_connect (GTK_OBJECT (item), "activate",
+				    GTK_SIGNAL_FUNC (cb_sheet_object_configure), so);
+		gtk_menu_append (menu, item);
+	}
 	gtk_menu_append (menu, item);
-}
-
-/**
- * sheet_object_end_popup:
- * @so: the sheet object
- * @menu: the menu to remove from.
- * 
- * clean standard items from the objects popup menu.
- **/
-static void
-sheet_object_end_popup (SheetObject *so, GtkMenu *menu)
-{
 }
 
 static void
 menu_unrealize_cb (GtkMenu *menu, SheetObject *so)
 {
-	SO_CLASS (so)->end_popup (so, menu);
 }
 
 static GtkMenu *
@@ -1093,7 +822,7 @@ create_popup_menu (SheetObject *so)
 {
 	GtkMenu *menu = GTK_MENU (gtk_menu_new ());
 
-	SO_CLASS (so)->start_popup (so, menu);
+	SO_CLASS (so)->populate_menu (so, menu);
 	gtk_signal_connect (GTK_OBJECT (menu), "unrealize",
 			    GTK_SIGNAL_FUNC (menu_unrealize_cb), so);
 
@@ -1102,7 +831,7 @@ create_popup_menu (SheetObject *so)
 
 void
 sheet_object_print (SheetObject *so, SheetObjectPrintInfo *pi)
-		    
+
 {
 	if (SO_CLASS (so)->print)
 		SO_CLASS (so)->print (so, pi);
@@ -1128,17 +857,14 @@ sheet_object_canvas_event (GnomeCanvasItem *item, GdkEvent *event, SheetObject *
 		else
 			cursor_set_widget (item->canvas, GNUMERIC_CURSOR_PRESS);
 		break;
-		
+
 	case GDK_BUTTON_PRESS:
 	{
 		switch (event->button.button) {
 		case 1:
 		case 2:
-			if (so->sheet->current_object) {
-				sheet_object_stop_editing (so->sheet->current_object);
-				so->sheet->current_object = NULL;
-			}
-			
+			sheet_object_stop_editing (so->sheet->current_object);
+
 			so->dragging = TRUE;
 			gnome_canvas_item_grab (item,
 						GDK_POINTER_MOTION_MASK |
@@ -1153,10 +879,10 @@ sheet_object_canvas_event (GnomeCanvasItem *item, GdkEvent *event, SheetObject *
 		{
 			GtkMenu *menu;
 
-			sheet_object_make_current (so);
+			sheet_mode_edit_object (so);
 			menu = create_popup_menu (so);
 			gtk_widget_show_all (GTK_WIDGET (menu));
-			gnumeric_popup_menu (menu, (GdkEventButton *)event);
+			gnumeric_popup_menu (menu, &event->button);
 			break;
 		}
 		default:
@@ -1169,9 +895,9 @@ sheet_object_canvas_event (GnomeCanvasItem *item, GdkEvent *event, SheetObject *
 	case GDK_BUTTON_RELEASE:
 		if (!so->dragging)
 			return FALSE;
-		
+
 		so->dragging = FALSE;
-		
+
 		gnome_canvas_item_ungrab (item, event->button.time);
 
 		sheet_object_unrealize (so);
@@ -1180,17 +906,17 @@ sheet_object_canvas_event (GnomeCanvasItem *item, GdkEvent *event, SheetObject *
 		so->bbox_points->coords [2] += event_total_x;
 		so->bbox_points->coords [3] += event_total_y;
 		sheet_object_realize (so);
-		
-		sheet_object_make_current (so);
+
+		sheet_mode_edit_object (so);
 		break;
 
 	case GDK_MOTION_NOTIFY:
 	{
 		int        dx, dy;
-	
+
 		if (!so->dragging)
 			return FALSE;
-		
+
 		dx = event->button.x - event_last_x;
 		dy = event->button.y - event_last_y;
 		event_total_x += dx;
@@ -1206,218 +932,3 @@ sheet_object_canvas_event (GnomeCanvasItem *item, GdkEvent *event, SheetObject *
 	}
 	return TRUE;
 }
-
-/**
- * sheet_object_widget_event:
- * @widget: The widget it happens on
- * @event:  The event.
- * @item:   The canvas item.
- * 
- *  This handles an event on the object stored in the 
- * "sheet_object" data on the canvas item, it passes the
- * event if button 3 is pressed to the standard sheet-object
- * handler otherwise it passes it on.
- * 
- * Return value: event handled ?
- **/
-static int
-sheet_object_widget_event (GtkWidget *widget, GdkEvent *event,
-			   GnomeCanvasItem *item)
-{
-	SheetObject *so = gtk_object_get_data (GTK_OBJECT (item),
-					       "sheet_object");
-
-	g_return_val_if_fail (so != NULL, FALSE);
-
-	switch (event->type) {
-		
-	case GDK_BUTTON_PRESS:
-	{
-		switch (event->button.button) {
-		case 1:
-		case 2:
-			return FALSE;
-		case 3:
-		default:
-			return sheet_object_canvas_event (item, event, so);
-		}
-		break;
-	}
-	default:
-		break;
-	}
-	return FALSE;
-}
-
-void
-sheet_object_widget_handle (SheetObject *so, GtkWidget *widget,
-			    GnomeCanvasItem *item)
-{
-	gtk_object_set_data (GTK_OBJECT (item), "sheet_object", so);
-	gtk_signal_connect  (GTK_OBJECT (widget), "event",
-			     GTK_SIGNAL_FUNC (sheet_object_widget_event),
-			     item);
-}
-
-/*
- * new_control_point
- * @group:  The canvas group to which this control point belongs
- * @so:     The sheet object
- * @idx:    control point index to be created
- * @x:      x coordinate of control point
- * @y:      y coordinate of control point
- *
- * This is used to create a number of control points in a sheet
- * object, the meaning of them is used in other parts of the code
- * to belong to the following locations:
- *
- *     0 -------- 1 -------- 2
- *     |                     |
- *     3                     4
- *     |                     |
- *     5 -------- 6 -------- 7
- */
-static GnomeCanvasItem *
-new_control_point (GnomeCanvasGroup *group, SheetObject *so,
-		   int idx, double x, double y)
-{
-	GnomeCanvasItem *item;
-
-	item = gnome_canvas_item_new (
-		group,
-		gnome_canvas_rect_get_type (),
-		"x1",    x - 2,
-		"y1",    y - 2,
-		"x2",    x + 2,
-		"y2",    y + 2,
-		"outline_color", "black",
-		"fill_color",    "black",
-		NULL);
-
-	gtk_signal_connect (GTK_OBJECT (item), "event",
-			    GTK_SIGNAL_FUNC (control_point_handle_event),
-			    so);
-	
-	gtk_object_set_user_data (GTK_OBJECT (item), GINT_TO_POINTER (idx));
-	
-	return item;
-}
-
-/*
- * sheet_object_start_editing
- *
- * Makes an object editable (adds its control points).
- */
-static void
-sheet_object_start_editing (SheetObject *so)
-{
-	Sheet *sheet;
-	double *box;
-	GList *l;
-	
-	g_return_if_fail (so != NULL);
-	g_return_if_fail (so->sheet != NULL);
-	g_return_if_fail (so->bbox_points != NULL);
-
-	sheet = so->sheet;
-	box   = so->bbox_points->coords;
-	for (l = sheet->sheet_views; l; l = l->next) {
-		SheetView *sheet_view = l->data;
-		GnomeCanvasGroup *group = sheet_view->object_group;
-		GnomeCanvasItem **p = sheet_view->control_points;
-		
-		p [0] = new_control_point (group, so, 0, box [0], box [1]);
-		gtk_object_set_data (GTK_OBJECT (p [0]), "cursor",
-				     GINT_TO_POINTER (GNUMERIC_CURSOR_SIZE_TL));
-		p [1] = new_control_point (group, so, 1, (box [0] + box [2]) / 2, box [1]);
-		gtk_object_set_data (GTK_OBJECT (p [1]), "cursor",
-				     GINT_TO_POINTER (GNUMERIC_CURSOR_SIZE_Y));
-		p [2] = new_control_point (group, so, 2, box [2], box [1]);
-		gtk_object_set_data (GTK_OBJECT (p [2]), "cursor",
-				     GINT_TO_POINTER (GNUMERIC_CURSOR_SIZE_TR));
-		p [3] = new_control_point (group, so, 3, box [0], (box [1] + box [3]) / 2);
-		gtk_object_set_data (GTK_OBJECT (p [3]), "cursor",
-				     GINT_TO_POINTER (GNUMERIC_CURSOR_SIZE_X));
-		p [4] = new_control_point (group, so, 4, box [2], (box [1] + box [3]) / 2);
-		gtk_object_set_data (GTK_OBJECT (p [4]), "cursor",
-				     GINT_TO_POINTER (GNUMERIC_CURSOR_SIZE_X));
-		p [5] = new_control_point (group, so, 5, box [0], box [3]);
-		gtk_object_set_data (GTK_OBJECT (p [5]), "cursor",
-				     GINT_TO_POINTER (GNUMERIC_CURSOR_SIZE_TR));
-		p [6] = new_control_point (group, so, 6, (box [0] + box [2]) / 2, box [3]);
-		gtk_object_set_data (GTK_OBJECT (p [6]), "cursor",
-				     GINT_TO_POINTER (GNUMERIC_CURSOR_SIZE_Y));
-		p [7] = new_control_point (group, so, 7, box [2], box [3]);
-		gtk_object_set_data (GTK_OBJECT (p [7]), "cursor",
-				     GINT_TO_POINTER (GNUMERIC_CURSOR_SIZE_TL));
-	}
-}
-
-/*
- * sheet_object_make_current
- *
- * Makes the object the currently selected object and prepares it for
- * user edition.
- */
-void
-sheet_object_make_current (SheetObject *so)
-{
-	Sheet *sheet;
-
-	g_return_if_fail (so != NULL);
-	g_return_if_fail (IS_SHEET_OBJECT (so));
-
-	sheet = so->sheet;
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-	
-	if (sheet->current_object == so)
-		return;
-
-	sheet_set_mode_type (sheet, SHEET_MODE_OBJECT_SELECTED);
-	
-	if (sheet->current_object)
-		sheet_object_stop_editing (sheet->current_object);
-
-	sheet_object_start_editing (so);
-
-	sheet->current_object = so;
-}
-
-void
-sheet_object_insert (Sheet *sheet, char *obj_id)
-{
-#ifdef ENABLE_BONOBO
-	BonoboClientSite *client_site;
-	BonoboObjectClient *object_server;
-
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (obj_id != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-
-	object_server = bonobo_object_activate (obj_id, 0);
-	
-	if (!object_server) {
-		char *msg;
-
-		msg = g_strdup_printf (_("I was not able to activate object %s"), obj_id);
-
-		gnumeric_notice (sheet->workbook, GNOME_MESSAGE_BOX_ERROR, msg);
-		g_free (msg);
-		return;
-	}
-
-	client_site = bonobo_client_site_new (sheet->workbook->priv->bonobo_container);
-	bonobo_container_add (sheet->workbook->priv->bonobo_container, BONOBO_OBJECT (client_site));
-
-	if (!bonobo_client_site_bind_embeddable (client_site, object_server)){
-		gnumeric_notice (sheet->workbook, GNOME_MESSAGE_BOX_ERROR,
-				 _("I was unable to the bind object"));
-		gtk_object_unref (GTK_OBJECT (object_server));
-		gtk_object_unref (GTK_OBJECT (client_site));
-		return;
-	}
-
-#endif
-}
-

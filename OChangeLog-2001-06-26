@@ -1,3 +1,187 @@
+2000-09-10  Jody Goldberg <jgoldberg@home.com>
+
+	* src/xml-io.c (xml_read_sheet_object) : objects have their positions
+	  set after creation, not before.
+	NOTE : This routine is incomplete.  It does not handle all of the
+	  objects.  It is questionable whether or not it even belongs here.
+	  We may want to encapsulate the persistence on a per object basis.
+	(xml_sheet_read) : localize and improve variable naming.
+
+	* src/workbook.c : Add an ifdef around the GnomeUI handler in bonobo
+	  mode.  Move the object creation cruft into its own file.
+	(select_component_id) : new function.
+	(create_embedded_component_cmd) : simplify.
+	(create_embedded_item_cmd) : simplify.
+	(create_button_cmd) : Delete.
+	(create_checkbox_cmd) : Delete.
+	(create_line_cmd) : Delete.
+	(create_arrow_cmd) : Delete.
+	(create_rectangle_cmd) : delete.
+	(create_ellipse_cmd) : delete.
+	(cut_cmd) : simplify object handling.
+	(insert_object_cmd) : Use sheet_object_bonobo_new_from_oid.
+	(do_focus_sheet) : Handle object toolbar too.
+	(workbook_detach_sheet) : Before messing with the views go back to
+	  simple edit mode.
+
+	* src/workbook-object-toolbar.c (create_object_command) : new
+	  function.
+	(cmd_create_*) : Use here.
+
+	* src/workbook-edit.c (workbook_edit_set_sensitive) : Add the object
+	  toolbar.
+
+	* src/sheet-object.c (sheet_release_coords) : delete.
+	(sheet_object_destroy) : simplify.
+	(SheetObject::end_popup) : remove.
+	(SheetObject::populate_menu) : rename from start_popup.
+	(SheetObject::new_view) : rename from realize.
+	(SheetObject::user_config) : New virtual.
+	(sheet_object_construct) : initialize dragging to FALSE.
+	  s/Sheet::objects/Sheet::sheet_objects/
+	(sheet_object_drop_file) : Moved.
+	(sheet_object_realize) : No need for SheetView::temp_item.
+	(button_widget_create) : delete.
+	(checkbox_widget_create) : delete.
+	(sheet_object_create_button) : delete.
+	(sheet_object_create_checkbox) : delete.
+	(create_object) : delete.
+	(cb_obj_create_motion) : rename from sheet_motion_notify.  Simplify.
+	  Rubber band a rectangle rather than the actual object.
+	  Keep track of whether or not a we have resized larger than the
+	  minimum 5x5 size.
+	(cb_obj_create_button_release) : rename from sheet_button_release.
+	  Change behavior to have the release do the realizing and bound
+	  setting.  Set the bounds to the current coord ONLY if we have moved
+	  enough, otherwise just use the default size of the object tranformed
+	  to the location of the original button press.
+	(shutdown_sheet_object_creation) : merge into button release.
+	(sheet_leave_notify) : Delete.
+	(sheet_button_press) : Delete.
+	(sheet_object_begin_creation) : Delete.
+	(sheet_finish_object_creation) : merge into button release and clear
+	  out all the cruft requiring removal of signals.
+	(sheet_mode_clear) : new function.  Does some object management.
+	(sheet_set_mode_type) : delete.
+	(sheet_set_mode_type_full) : delete content.  Split logical action into.
+	(sheet_mode_edit) : here.
+	(sheet_mode_edit_object) : here.
+	(sheet_mode_create_object) : and here.
+	(sheet_object_destroy_control_points) : be more pedantic a about
+	  checking that we have a valid view.
+	(sheet_object_stop_editing) : Adjust for new object editing semantics.
+	(set_item_x) : Merge this
+	(set_item_y) : and this.
+	(set_item_x_y) : into here.  And add the logic to call
+	  new_control_point.
+	(new_control_point) : Set the cursor here.
+	(update_bbox) : Recall that the bounding box excludes the far coords.
+	(control_point_handle_event) : No need to make object the current, if
+	  we are being called we are current.
+	(sheet_object_populate_menu) : rename from sheet_object_start_popup.
+	(sheet_object_end_popup) : delete.
+	(sheet_object_canvas_event) : adjust to function renaming.
+	(sheet_object_widget_event) : delete.
+	(sheet_object_widget_handle) : delete.
+	(sheet_object_start_editing) : delete, no need.  update_bbox does all
+	  of this.
+	(sheet_object_make_current) : delete.
+	(sheet_object_insert) : this was not what its name suggested.  It was
+	  a rather specialized bonobo utility.  Move it where it belongs.
+
+	* src/sheet-object-widget.c : Rewrite.
+
+	* src/sheet-object-item.c (sheet_object_item_new_view) : rename from
+	  sheet_object_item_realize.
+
+	* src/sheet-object-graphic.c (sheet_object_graphic_new_view) :
+	  rename from sheet_object_graphic_realize.
+	(sheet_object_filled_new_view) : renamed from sheet_object_filled_realize.
+	(sheet_object_create_line) : No need to take position, do that later.
+	(sheet_object_create_filled) : Ditto.
+
+	* src/sheet-object-container.c (user_activation_request_cb) : Adjust
+	  to changes in sheet mode handling.
+	(sheet_object_container_new_view) : rename from sheet_object_container_realize.
+	(sheet_object_container_new_bonobo) : No need to take pos info, that
+	  is set later.
+	(sheet_object_container_new_object) : Ditto.
+	(sheet_object_container_new_file) : Moved and renamed from sheet_object_drop_file.
+
+	* src/sheet-object-bonobo.c (sheet_object_bonobo_construct) : No need
+	  to take position info.  Bounds are set later.
+	(sheet_object_bonobo_new_from_oid) : Move from sheet_object_insert
+	  which was much to generic a name and location for this.
+
+	* src/print.c (print_sheet_range) : Adjust to rename of the
+	  sheet_object list.
+
+	* src/pixmaps.h : Remove the pixmaps that moved to the object toolbar.
+
+	* src/item-grid.c (item_grid_button_1) : Handle object creation and
+	  finishing object editing directly, no more need for adding and
+	  removing handlers.  Adjust arg to be a Button event.
+	(item_grid_event) : Add a new cursor for object creation.
+	(item_grid_event) : Do not change to edit mode until we know why the
+	  button was pressed.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_object) :
+	  s/sheet_set_mode_type/sheet_mode_edit/
+	(gnumeric_sheet_key_press) : Adjust to new mode scheme.
+	(gnumeric_sheet_key_release) : Ditto.
+	(gnumeric_sheet_filenames_dropped) : Ditto.
+
+	* src/gnumeric.h : Add fwd decl of SheetObject.
+
+	* src/gnumeric-sheet.h : delete GnumericSheet::mode .
+
+	* src/gnumeric-type-util.h : Rename GNUMERIC_MAKE_TYPE_WITH_PARENT
+	  to GNUMERIC_MAKE_TYPE_WITH_CLASS.  That makes more sense.
+
+	* src/eval.c (invalidate_refs) : Use dependent_set_expr.
+	(cell_eval) : New need to check generation If we are called we are out
+	  of date.
+
+	* src/dependent.c (dependent_eval) : moved from eval.c.
+	(dependent_type_register) : New routine.
+	(dependent_set_expr) ; Ditto.
+	(dependent_debug_name) : Use the new registry.
+
+	* src/dependent.h : Reorder flags, remove explicit types for graphs
+	  and checkboxes.  Those are handled by the virtual table.
+
+	* src/commands.c : s/PARENT/CLASS/
+
+	* src/cell.h : Reorder the CellFlags.
+
+	* src/bonobo-io.c (gnumeric_bonobo_obj_read) : Do not pass the
+	  position to sheet_object_containter_new_object.
+
+	* src/Makefile.am : Add workbook-object-toolbar.[ch]
+	  and graph-series.[ch]
+	  merge the libraries from the two idl files.
+
+2000-09-09  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-view.c (sheet_view_construct) : Init control points to NULL.
+	(SheetView::temp_item) : remove this.
+
+	* src/sheet.c (sheet_new) : Init the members associated with objects.
+	(sheet_destroy) : Destroy objects.
+	(Sheet::mode) : remove.
+
+	* src/gnumeric.xml : Add a label for the selection menu.
+
+	* src/sheet-object-container.c (sheet_object_container_realize) :
+	  Fix warning.
+
+2000-09-07  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-bar.c (colrow_tip_setlabel) : mark the size tooltips as
+	  containing pts.
+	* src/dialogs/row-height.glade :
+	* src/dialogs/col-width.glade : Ditto.
+
 2000-09-10  Almer S. Tigelaar  <almer1@dds.nl>
 
 	* src/dialogs/dialog-stf.h: Limit the number of lines 

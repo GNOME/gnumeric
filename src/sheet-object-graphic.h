@@ -51,10 +51,11 @@ typedef struct {
 GtkType sheet_object_filled_get_type (void);
 
 
-
-SheetObject *sheet_object_create_line (Sheet *sheet, int is_arrow,
-				       double x1, double y1,
-				       double x2, double y2,
+SheetObject *sheet_object_create_line (Sheet *sheet, gboolean is_arrow,
 				       const char *color, int w);
+SheetObject *sheet_object_create_filled (Sheet *sheet, int type,
+					 const char *fill_color,
+					 const char *outline_color,
+					 int w);
 
 #endif

@@ -140,8 +140,8 @@ func ## _class_init (GnumericCommandClass * const parent) \
 		gtk_object_dtor = parent->parent_class.destroy;	\
 	parent->parent_class.destroy = & func ## _destroy;	\
 } \
-static GNUMERIC_MAKE_TYPE_WITH_PARENT(func, #type, type, GnumericCommandClass, func ## _class_init, NULL, \
-				      gnumeric_command_get_type())
+static GNUMERIC_MAKE_TYPE_WITH_CLASS(func, #type, type, GnumericCommandClass, func ## _class_init, NULL, \
+				     gnumeric_command_get_type())
 
 /******************************************************************/
 

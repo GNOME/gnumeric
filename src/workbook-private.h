@@ -48,6 +48,7 @@ struct _WorkbookPrivate {
 	 */
 	GtkWidget *standard_toolbar;
 	GtkWidget *format_toolbar;
+	GtkWidget *object_toolbar;
 
 	GtkWidget *font_name_selector;
 	GtkWidget *font_size_selector;

@@ -15,7 +15,7 @@
 static SheetObject *sheet_object_item_parent_class;
 
 static GnomeCanvasItem *
-sheet_object_item_realize (SheetObject *so, SheetView *sheet_view)
+sheet_object_item_new_view (SheetObject *so, SheetView *sheet_view)
 {
 	GnomeCanvasItem *item = NULL;
 
@@ -42,7 +42,7 @@ sheet_object_item_class_init (GtkObjectClass *object_class)
 	sheet_object_item_parent_class = gtk_type_class (sheet_object_get_type ());
 
 	/* SheetObject class method overrides */
-	sheet_object_class->realize = sheet_object_item_realize;
+	sheet_object_class->new_view = sheet_object_item_new_view;
 	sheet_object_class->update_bounds = sheet_object_item_update_bounds;
 }
 

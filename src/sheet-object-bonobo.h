@@ -45,9 +45,7 @@ typedef struct {
 GtkType            sheet_object_bonobo_get_type       (void);
 SheetObjectBonobo *sheet_object_bonobo_construct      (SheetObjectBonobo *sob, 
 						       Sheet             *sheet,
-						       const char        *object_id,
-						       double x1, double y1,
-						       double x2, double y2);
+						       const char        *object_id);
 
 const char        *sheet_object_bonobo_get_object_iid (SheetObjectBonobo *sob);
 gboolean           sheet_object_bonobo_load_from_file (SheetObjectBonobo *sob,

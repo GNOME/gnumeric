@@ -35,18 +35,26 @@
 #define GNUMERIC_TEST_ACTIVE_OBJECT
 
 static void
+create_object_command (Sheet *sheet, SheetObject *so)
+{
+	create_object_command (so);
+	workbook_recalc (sheet->workbook);
+	sheet_update (sheet);
+}
+
+static void
 cmd_create_label (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = wb->current_sheet;
 	SheetObject *so = sheet_widget_label_new (sheet);
-	sheet_set_mode_type_full (sheet, SHEET_MODE_CREATE, so);
+	create_object_command (so);
 }
 static void
 cmd_create_frame (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = wb->current_sheet;
 	SheetObject *so = sheet_widget_frame_new (sheet);
-	sheet_set_mode_type_full (sheet, SHEET_MODE_CREATE, so);
+	create_object_command (so);
 }
 
 #ifdef GNUMERIC_TEST_ACTIVE_OBJECT
@@ -55,35 +63,35 @@ cmd_create_button (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = wb->current_sheet;
 	SheetObject *so = sheet_widget_button_new (sheet);
-	sheet_set_mode_type_full (sheet, SHEET_MODE_CREATE, so);
+	create_object_command (so);
 }
 static void
 cmd_create_checkbox (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = wb->current_sheet;
 	SheetObject *so = sheet_widget_checkbox_new (sheet);
-	sheet_set_mode_type_full (sheet, SHEET_MODE_CREATE, so);
+	create_object_command (so);
 }
 static void
 cmd_create_radiobutton (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = wb->current_sheet;
 	SheetObject *so = sheet_widget_radio_button_new	(sheet);
-	sheet_set_mode_type_full (sheet, SHEET_MODE_CREATE, so);
+	create_object_command (so);
 }
 static void
 cmd_create_list (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = wb->current_sheet;
 	SheetObject *so = sheet_widget_list_new (sheet);
-	sheet_set_mode_type_full (sheet, SHEET_MODE_CREATE, so);
+	create_object_command (so);
 }
 static void
 cmd_create_combobox (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = wb->current_sheet;
 	SheetObject *so = sheet_widget_combo_new (sheet);
-	sheet_set_mode_type_full (sheet, SHEET_MODE_CREATE, so);
+	create_object_command (so);
 }
 #endif
 
@@ -92,14 +100,14 @@ cmd_create_line (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = wb->current_sheet;
 	SheetObject *so = sheet_object_create_line (sheet, FALSE, "black", 1);
-	sheet_set_mode_type_full (sheet, SHEET_MODE_CREATE, so);
+	create_object_command (so);
 }
 static void
 cmd_create_arrow (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = wb->current_sheet;
 	SheetObject *so = sheet_object_create_line (sheet, TRUE, "black", 1);
-	sheet_set_mode_type_full (sheet, SHEET_MODE_CREATE, so);
+	create_object_command (so);
 }
 static void
 cmd_create_rectangle (GtkWidget *widget, Workbook *wb)
@@ -107,7 +115,7 @@ cmd_create_rectangle (GtkWidget *widget, Workbook *wb)
 	Sheet *sheet = wb->current_sheet;
 	SheetObject *so = sheet_object_create_filled (sheet, SHEET_OBJECT_BOX,
 						      NULL, "black", 1);
-	sheet_set_mode_type_full (sheet, SHEET_MODE_CREATE, so);
+	create_object_command (so);
 }
 static void
 cmd_create_ellipse (GtkWidget *widget, Workbook *wb)
@@ -115,7 +123,7 @@ cmd_create_ellipse (GtkWidget *widget, Workbook *wb)
 	Sheet *sheet = wb->current_sheet;
 	SheetObject *so = sheet_object_create_filled (sheet, SHEET_OBJECT_OVAL,
 						      NULL, "black", 1);
-	sheet_set_mode_type_full (sheet, SHEET_MODE_CREATE, so);
+	create_object_command (so);
 }
 
 #include "pixmaps/label.xpm"

@@ -8,6 +8,7 @@
 
 typedef struct _Workbook	Workbook;
 typedef struct _Sheet		Sheet;
+typedef struct _SheetObject	SheetObject;
 typedef struct _Dependent	Dependent;
 typedef struct _Cell		Cell;
 

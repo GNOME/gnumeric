@@ -25,8 +25,6 @@ typedef struct {
 	ItemCursor    *item_cursor;
 	ItemEdit      *item_editor;
 
-	SheetModeType mode;
-	
 	/*
 	 * This flag keeps track of a cell selector
 	 * (ie, when the user uses the cursor keys

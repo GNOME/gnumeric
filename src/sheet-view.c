@@ -583,6 +583,7 @@ sheet_view_construct (SheetView *sheet_view)
 	GnomeCanvasGroup *root_group;
 	GtkTable  *table = GTK_TABLE (sheet_view);
 	Sheet *sheet = sheet_view->sheet;
+	int i;
 
 	/* Column canvas */
 	sheet_view->col_canvas = new_canvas_bar (sheet_view, GTK_ORIENTATION_HORIZONTAL, &sheet_view->col_item);
@@ -641,6 +642,9 @@ sheet_view_construct (SheetView *sheet_view)
 			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 			  0, 0);
 	gtk_widget_show (sheet_view->sheet_view);
+
+	for (i = 8; i-- > 0 ; )
+		sheet_view->control_points[i] = NULL;
 
 	/*
 	 * The selection group
@@ -739,6 +743,10 @@ sheet_view_destroy (GtkObject *object)
 	if (sheet_view->tip)
 		gtk_object_unref (GTK_OBJECT (sheet_view->tip));
 
+	/* FIXME : Should we be pedantic and
+	 * 1) clear the control points
+	 * 2) remove ourselves from the sheets list of views ?
+	 */
 	if (GTK_OBJECT_CLASS (sheet_view_parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (sheet_view_parent_class)->destroy)(object);
 }
