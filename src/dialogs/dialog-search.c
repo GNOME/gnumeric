@@ -416,6 +416,14 @@ next_clicked (GtkWidget *widget, DialogState *dd)
 	prev_next_clicked (dd, +1);
 }
 
+static void
+cb_focus_on_entry (GtkWidget *widget, GtkWidget *entry)
+{
+        if (GTK_TOGGLE_BUTTON (widget)->active)
+		gtk_widget_grab_focus (GTK_WIDGET (gnm_expr_entry_get_entry 
+						   (GNUMERIC_EXPR_ENTRY (entry))));
+}
+
 void
 dialog_search (WorkbookControlGUI *wbcg)
 {
@@ -477,6 +485,7 @@ dialog_search (WorkbookControlGUI *wbcg)
 								    TRUE);
 	gnm_expr_entry_load_from_text  (dd->rangetext, selection_text);
 	g_free (selection_text);
+	
 
 	dd->gentry = GNOME_ENTRY (gnome_entry_new ("search_entry"));
 	gtk_table_attach (table, GTK_WIDGET (dd->gentry),
@@ -533,6 +542,9 @@ dialog_search (WorkbookControlGUI *wbcg)
 	g_signal_connect (G_OBJECT (gnm_expr_entry_get_entry (dd->rangetext)),
 		"focus-in-event",
 		G_CALLBACK (range_focused), dd);
+	g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "scope_range")),
+		"toggled",
+		G_CALLBACK (cb_focus_on_entry), dd->rangetext);
 
 /* FIXME: Add correct helpfile address */
 	gnumeric_init_help_button (
@@ -540,7 +552,7 @@ dialog_search (WorkbookControlGUI *wbcg)
 		"search.html");
 
 	cursor_change (dd->e_table, 0, dd);
-	wbcg_edit_attach_guru (wbcg, GTK_WIDGET (dialog));
+	wbcg_edit_attach_guru_with_unfocused_rs (wbcg, GTK_WIDGET (dialog), dd->rangetext);
 	non_model_dialog (wbcg, dialog, SEARCH_KEY);
 }
 

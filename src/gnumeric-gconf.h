@@ -140,4 +140,7 @@ void     gnm_gconf_set_live_scrolling (gboolean val);
 gint     gnm_gconf_get_recalc_lag (void);
 void     gnm_gconf_set_recalc_lag (gint val);
 
+gboolean gnm_gconf_get_unfocused_range_selection (void);
+void     gnm_gconf_set_unfocused_range_selection (gboolean val);
+
 #endif /* GNUMERIC_GRAPH_H */

@@ -1,3 +1,14 @@
+2002-05-08  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* schemas/gnumeric-general.schemas : add unfocused-rs schema
+	* src/gnumeric-gconf-priv.h : add unfocused-rs key and fix 
+	  print-setup-all-sheets key
+	* src/gnumeric-gconf.c : add unfocused-rs get/set methods
+	* src/gnumeric-gconf.h : ditto
+	* src/workbook-edit.c (wbcg_edit_attach_guru_main) : new
+	(wbcg_edit_attach_guru) : split off wbcg_edit_attach_guru_main
+	(wbcg_edit_attach_guru_with_unfocused_rs) : new
+	
 2002-05-06  Jon K Hellan  <hellan@acm.org>
 
 	* src/bonobo-io.c (deserialize_wb_from_xml_stream)

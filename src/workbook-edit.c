@@ -455,17 +455,7 @@ wbcg_set_entry (WorkbookControlGUI *wbcg, GnumericExprEntry *entry)
 }
 
 static void
-cb_guru_set_focus (GtkWidget *window, GtkWidget *focus_widget,
-		   WorkbookControlGUI *wbcg)
-{
-	GnumericExprEntry *gee = NULL;
-	if (focus_widget != NULL && IS_GNUMERIC_EXPR_ENTRY (focus_widget->parent))
-		gee = GNUMERIC_EXPR_ENTRY (focus_widget->parent);
-	wbcg_set_entry (wbcg, gee);
-}
-
-void
-wbcg_edit_attach_guru (WorkbookControlGUI *wbcg, GtkWidget *guru)
+wbcg_edit_attach_guru_main (WorkbookControlGUI *wbcg, GtkWidget *guru)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 
@@ -483,9 +473,47 @@ wbcg_edit_attach_guru (WorkbookControlGUI *wbcg, GtkWidget *guru)
 	workbook_edit_set_sensitive (wbcg, FALSE, FALSE);
 	wb_control_menu_state_update (wbc, NULL, MS_GURU_MENU_ITEMS);
 
+}
+
+static void
+cb_guru_set_focus (GtkWidget *window, GtkWidget *focus_widget,
+		   WorkbookControlGUI *wbcg)
+{
+	GnumericExprEntry *gee = NULL;
+	if (focus_widget != NULL && IS_GNUMERIC_EXPR_ENTRY (focus_widget->parent))
+		gee = GNUMERIC_EXPR_ENTRY (focus_widget->parent);
+	wbcg_set_entry (wbcg, gee);
+}
+
+void
+wbcg_edit_attach_guru (WorkbookControlGUI *wbcg, GtkWidget *guru)
+{
+	g_return_if_fail (guru != NULL);
+	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
+
+	wbcg_edit_attach_guru_main (wbcg, guru);
+
 	g_signal_connect (G_OBJECT (guru),
 		"set-focus",
 		G_CALLBACK (cb_guru_set_focus), wbcg);
+}
+
+void
+wbcg_edit_attach_guru_with_unfocused_rs (WorkbookControlGUI *wbcg, GtkWidget *guru, 
+					 GnumericExprEntry *gee)
+{
+	g_return_if_fail (guru != NULL);
+	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
+
+	wbcg_edit_attach_guru_main (wbcg, guru);
+	
+	if (gnm_gconf_get_unfocused_range_selection ()) {
+		if (gee)
+			wbcg_set_entry (wbcg, gee);
+	} else
+		g_signal_connect (G_OBJECT (guru),
+				  "set-focus",
+				  G_CALLBACK (cb_guru_set_focus), wbcg);
 }
 
 void

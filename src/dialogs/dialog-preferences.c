@@ -266,6 +266,8 @@ static pref_tree_data_t pref_tree_data[] = {
 	                      "/schemas" FUNCTION_SELECT_GCONF_NUM_OF_RECENT},
 	{GNUMERIC_GCONF_GUI_ED_AUTOCOMPLETE, NULL, 
 	                      "/schemas" GNUMERIC_GCONF_GUI_ED_AUTOCOMPLETE},
+	{DIALOGS_GCONF_UNFOCUSED_RS, NULL, 
+	                      "/schemas" DIALOGS_GCONF_UNFOCUSED_RS},
 	{NULL, NULL, NULL}
 };
 

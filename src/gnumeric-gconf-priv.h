@@ -36,7 +36,10 @@
 #define AUTOFORMAT_GCONF_USR_DIR AUTOFORMAT_GCONF_DIRECTORY "/usr-dir"
 
 #define PRINTSETUP_GCONF_DIRECTORY "/apps/gnumeric/printsetup"
-#define PRINTSETUP_GCONF_ALL_SHEETS AUTOFORMAT_GCONF_DIRECTORY "/all-sheets"
+#define PRINTSETUP_GCONF_ALL_SHEETS PRINTSETUP_GCONF_DIRECTORY "/all-sheets"
+
+#define DIALOGS_GCONF_DIRECTORY "/apps/gnumeric/dialogs"
+#define DIALOGS_GCONF_UNFOCUSED_RS DIALOGS_GCONF_DIRECTORY "/rs/unfocused"
 
 /*
  *  schemas/gnumeric-general.schemas

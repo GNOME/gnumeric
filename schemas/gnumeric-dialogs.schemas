@@ -179,6 +179,17 @@
         <long>This value determines whether by default the print set-up dialog applies to all sheets simultaneously.</long>
         </locale>
       </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/dialogs/rs/unfocused</key>
+        <applyto>/apps/gnumeric/dialogs/rs/unfocused</applyto>
+        <owner>Gnumeric</owner>
+        <type>bool</type>
+	<default>FALSE</default>
+        <locale name="C">
+        <short>Allow Unfocused Range Selections</short>
+        <long>Some dialogs contain only a single entry field that allows range selections in the workbook. Setting this variable to TRUE directs selections to this entry even the entry does not have keyboard focus.</long>
+        </locale>
+      </schema>
    </schemalist>
 </gconfschemafile>
   

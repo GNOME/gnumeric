@@ -733,3 +733,20 @@ gnm_gconf_set_all_sheets (gboolean val)
 			       PRINTSETUP_GCONF_ALL_SHEETS,
 			       val, NULL);
 }
+
+gboolean
+gnm_gconf_get_unfocused_range_selection (void)
+{
+	return gconf_client_get_bool (application_get_gconf_client (), 
+				      DIALOGS_GCONF_UNFOCUSED_RS,
+				      NULL);
+}
+
+void
+gnm_gconf_set_unfocused_range_selection (gboolean val)
+{
+	gconf_client_set_bool (application_get_gconf_client (), 
+			       DIALOGS_GCONF_UNFOCUSED_RS,
+			       val, NULL);
+}
+
