@@ -1,4 +1,4 @@
-<sect1 id="solver">
+<sect1 id="solver-chapter">
   <title>Solver</title>
 
   <para>With Gnumeric Solver you can solve linear programs.</para>

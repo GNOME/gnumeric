@@ -1,3 +1,8 @@
+2000-12-21  Jody Goldberg <jgoldberg@home.com>
+
+	* analysis-tools.sgml : Silence some warnings.
+	* solver.sgml : ditto.
+
 2000-12-17 Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.61

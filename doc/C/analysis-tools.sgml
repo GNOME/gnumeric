@@ -69,6 +69,7 @@
   <sect2 id="two-factor-without-tool">
      <title>Anova: Two-Factor Without Replication Tool</title>
 
+     <para>WriteMe</para>
   </sect2>
 
   <sect2 id="correlation-tool">
@@ -208,6 +209,7 @@
   <sect2 id="moving-average-tool">
      <title>Moving Average Tool</title>
 
+     <para>WriteMe</para>
   </sect2>
 
   <sect2 id="random-number-generation-tool">
@@ -263,11 +265,13 @@
   <sect2 id="rank-and-percentile-tool">
      <title>Rank and Percentile Tool</title>
 
+     <para>WriteMe</para>
   </sect2>
 
   <sect2 id="regression-tool">
      <title>Regression Tool</title>
 
+     <para>WriteMe</para>
   </sect2>
 
   <sect2 id="sampling-tool">
@@ -293,16 +297,19 @@
   <sect2 id="t-test-paired-two-samples-for-means-tool">
      <title>t-Test: Paired Two Sample for Means Tool</title>
 
+     <para>WriteMe</para>
   </sect2>
 
   <sect2 id="t-test-two-sample-equal-variances-tool">
      <title>t-Test: Two-Sample Assuming Equal Variances Tool</title>
 
+     <para>WriteMe</para>
   </sect2>
 
   <sect2 id="t-test-two-samples-unequal-variances">
      <title>t-Test: Two-Sample Assuming Unequal Variances Tool</title>
 
+     <para>WriteMe</para>
   </sect2>
 
   <sect2 id="ztest-two-samples-for-means-tool">
