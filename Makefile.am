@@ -41,7 +41,7 @@ gnumeric_version="$(VERSION)"
 endif
 
 gnumeric.keys: gnumeric.keys.in Makefile
-	sed -e 's^\@icondir\@^$(appicondir)^g' < $(srcdir)/gnumeric.keys.in > gnumeric.keys.tmp \
+	sed -e 's^\@gnumeric_icondir\@^$(gnumeric_icondir)^g' < $(srcdir)/gnumeric.keys.in > gnumeric.keys.tmp \
 	&& mv gnumeric.keys.tmp gnumeric.keys 
 
 dist-hook: gnumeric.spec

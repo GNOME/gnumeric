@@ -1,3 +1,13 @@
+2002-08-17  Jody Goldberg <jody@gnome.org>
+
+	* src/xml-io.c (xml_probe) : clear the sax routines so that it is
+	  actually quiet.
+
+2002-08-16  Jody Goldberg <jody@gnome.org>
+
+	* src/gui-clipboard.c (x_clipboard_received) : tidy up a bit and
+	  prepare to receive utf8.
+
 2002-08-16  Jon K Hellan  <hellan@acm.org>
 
 	* src/xml-io.h (gnumeric_xml_read_workbook): Declare.
@@ -21,6 +31,21 @@
 	overflow from gsf_input_size.
 
 2002-08-14  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric.keys.in (application) : convert to use gnumeric_icondir
+
+	* src/workbook-control-gui.c (workbook_control_gui_ctor_class) : move
+	  the default icon init here.
+	* src/libgnumeric.c (gnm_common_init) : from here.  I'd like to make
+	  this non-gui.  That will take a fair amount of cleanup, but it
+	  should be doable.
+
+2002-08-14  Jody Goldberg <jody@gnome.org>
+
+	* src/gui-util.c (gnumeric_load_image) : Use gtk_image_new_from_file
+	  directly.
+
+	* src/xml-io.c (xml_read_cell) : make the warning more informative.
 
 	* src/workbook-control-component.c (wbcc_set_sensitive) : fix warning.
 

@@ -1,3 +1,16 @@
+2002-08-17  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-util.c (get_locale_charset_name) : delete.
+	(excel_iconv_open_for_import) : realize that 1200 and 1201 are both
+	  unicode and that we only want to convert to utf8.
+	(excel_wcstombs) : die die die.  We may need this again one day when
+	  exporting utf8 back to xl 95.  But we'll cross that bridge when we
+	  come to it.
+
+	* ms-excel-read.c (get_chars) : internally text should always be utf8.
+	(ms_excel_read_workbook) : fix the warning.
+	  I've found some references for the code pages.
+
 2002-08-16  Jon K Hellan  <hellan@acm.org>
 
 	* ms-excel-read.c (ms_excel_read_SUPBOOK): Shut up warning.

@@ -670,48 +670,28 @@ get_xtn_lens (guint32 *pre_len, guint32 *end_len, guint8 const *ptr, gboolean ex
 }
 
 static char *
-get_chars (char const *ptr, guint length, gboolean high_byte)
+get_chars (char const *ptr, guint length, gboolean use_utf16)
 {
 	char* ans;
-	guint32 lp;
+	unsigned i;
 
-	if (high_byte) {
-		wchar_t* wc = g_new (wchar_t, length + 2);
-		size_t retlength;
-		ans = g_new (char, (length + 2) * 8);
+	if (use_utf16) {
+		gunichar2 *uni_text = g_alloca (sizeof (gunichar2)*length);
 
-		for (lp = 0; lp < length; lp++) {
-			guint16 c = GSF_LE_GET_GUINT16 (ptr);
-			ptr += 2;
-			wc[lp] = c;
-		}
-
-		retlength = excel_wcstombs (ans, wc, length);
-		g_free (wc);
-		if (retlength == (size_t)-1)
-			retlength = 0;
-		ans[retlength] = 0;
-		ans = g_realloc (ans, retlength + 2);
+		for (i = 0; i < length; i++, ptr += 2)
+			uni_text [i] = GSF_LE_GET_GUINT16 (ptr);
+		ans = g_utf16_to_utf8 (uni_text, length, NULL, NULL, NULL);
 	} else {
-		size_t inbytes = length,
-			outbytes = (length + 2) * 8,
-			retlength;
-		char* inbuf = g_new (char, length), *outbufptr;
-		char const * inbufptr = inbuf;
+		size_t outbytes = (length + 2) * 8;
+		char *outbuf = g_new (char, outbytes + 1);
 
-		ans = g_new (char, outbytes + 1);
-		outbufptr = ans;
-		for (lp = 0; lp < length; lp++) {
-			inbuf[lp] = GSF_LE_GET_GUINT8 (ptr);
-			ptr++;
-		}
+		ans = outbuf;
 		excel_iconv (current_workbook_iconv,
-			     &inbufptr, &inbytes, &outbufptr, &outbytes);
+			     &ptr, &length, &outbuf, &outbytes);
 
-		retlength = outbufptr-ans;
-		ans[retlength] = 0;
-		ans = g_realloc (ans, retlength + 1);
-		g_free (inbuf);
+		i = outbuf - ans;
+		ans [i] = 0;
+		ans = g_realloc (ans, i + 1);
 	}
 	return ans;
 }
@@ -730,7 +710,7 @@ biff_get_text (guint8 const *pos, guint32 length, guint32 *byte_length)
 	guint8 const *ptr;
 	guint32 byte_len;
 	gboolean header;
-	gboolean high_byte;
+	gboolean use_utf16;
 	gboolean ext_str;
 	gboolean rich_str;
 
@@ -739,8 +719,9 @@ biff_get_text (guint8 const *pos, guint32 length, guint32 *byte_length)
 	*byte_length = 0;
 
 	if (!length) {
-		/* FIXME FIXME FIXME: What about the 1 byte for the header?
-		 *                     The length may be wrong in this case.
+		/* NOTE : This is WRONG in some cases.  There is also the 1
+		 * 	byte header which is sometimes part of the count and
+		 * 	sometimes not.
 		 */
 		return 0;
 	}
@@ -751,7 +732,7 @@ biff_get_text (guint8 const *pos, guint32 length, guint32 *byte_length)
 	});
 
 	header = biff_string_get_flags (pos,
-					&high_byte,
+					&use_utf16,
 					&ext_str,
 					&rich_str);
 	if (header) {
@@ -771,7 +752,7 @@ biff_get_text (guint8 const *pos, guint32 length, guint32 *byte_length)
 
 	d (4, {
 		printf ("String len %d, byte length %d: %d %d %d:\n",
-			length, (*byte_length), high_byte, rich_str, ext_str);
+			length, (*byte_length), use_utf16, rich_str, ext_str);
 		gsf_mem_dump (pos, *byte_length);
 	});
 
@@ -780,8 +761,8 @@ biff_get_text (guint8 const *pos, guint32 length, guint32 *byte_length)
 		ans = g_new (char, 2);
 		g_warning ("Warning unterminated string floating.");
 	} else {
-		(*byte_length) += (high_byte ? 2 : 1)*length;
-		ans = get_chars ((char *) ptr, length, high_byte);
+		(*byte_length) += (use_utf16 ? 2 : 1)*length;
+		ans = get_chars ((char *) ptr, length, use_utf16);
 	}
 	return ans;
 }
@@ -819,7 +800,7 @@ sst_read_string (char **output, BiffQuery *q, guint32 offset)
 	guint32  total_end_len;
 	/* Will be localy scoped when gdb gets its act together */
 		gboolean header;
-		gboolean high_byte;
+		gboolean use_utf16;
 		gboolean ext_str = FALSE;
 		gboolean rich_str = FALSE;
 		guint32  chars_left;
@@ -841,7 +822,7 @@ sst_read_string (char **output, BiffQuery *q, guint32 offset)
 		new_offset = sst_bound_check (q, new_offset);
 
 		header = biff_string_get_flags (q->data + new_offset,
-						&high_byte,
+						&use_utf16,
 						&ext_str,
 						&rich_str);
 		if (!header) {
@@ -856,7 +837,7 @@ sst_read_string (char **output, BiffQuery *q, guint32 offset)
 		total_end_len += end_len;
 
 		/* the - end_len is an educated guess based on insufficient data */
-		chars_left = (q->length - new_offset - pre_len) / (high_byte ? 2 : 1);
+		chars_left = (q->length - new_offset - pre_len) / (use_utf16 ? 2 : 1);
 		if (chars_left > total_len)
 			get_len = total_len;
 		else
@@ -865,8 +846,8 @@ sst_read_string (char **output, BiffQuery *q, guint32 offset)
 		g_assert (get_len >= 0);
 
 		/* FIXME: split this simple bit out of here, it makes more sense damnit */
-		str = get_chars ((char *)(q->data + new_offset + pre_len), get_len, high_byte);
-		new_offset += pre_len + get_len * (high_byte ? 2 : 1);
+		str = get_chars ((char *)(q->data + new_offset + pre_len), get_len, use_utf16);
+		new_offset += pre_len + get_len * (use_utf16 ? 2 : 1);
 
 		if (!(*output))
 			*output = str;
@@ -4778,7 +4759,7 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 	int current_sheet = 0;
 	char *problem_loading = NULL;
 	gboolean stop_loading = FALSE;
-	gboolean prev_was_eof;
+	gboolean prev_was_eof = FALSE;
 
 	io_progress_message (context, _("Reading file..."));
 #warning Possible overflow
@@ -4914,12 +4895,11 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 				case 0x8000:
 					puts ("CodePage = Apple Macintosh");
 					break;
-				case 0x04e4:
+				case 1252:
 					puts ("CodePage = ANSI (Microsoft Windows)");
 					break;
-				case 0x04b0:
-					/* FIXME FIXME: This is a guess */
-					puts ("CodePage = Auto");
+				case 1200:
+					puts ("CodePage = little endian unicode");
 					break;
 				default:
 					printf ("CodePage = UNKNOWN(%hx)\n",

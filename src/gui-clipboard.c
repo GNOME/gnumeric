@@ -1,8 +1,10 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * gui-clipboard.c: Implements the X11 based copy/paste operations
  *
  * Author:
  *  Miguel de Icaza (miguel@gnu.org)
+ *  Jody Goldberg (jody@gnome.org)
  */
 #include <gnumeric-config.h>
 #include "gnumeric.h"
@@ -39,12 +41,11 @@
 
 static CellRegion *
 x_clipboard_to_cell_region (WorkbookControlGUI *wbcg,
-			    const guchar *src, int len)
+			    guchar const *src, int len)
 {
 	DialogStfResult_t *dialogresult;
 	CellRegion *cr = NULL;
 	char *data;
-	char const *c;
 
 	data = g_new (char, len + 1);
 	memcpy (data, src, len);
@@ -53,19 +54,6 @@ x_clipboard_to_cell_region (WorkbookControlGUI *wbcg,
 	if (stf_parse_convert_to_unix (data) < 0) {
 		g_free (data);
 		g_warning (_("Error while trying to pre-convert clipboard data"));
-		return cellregion_new (NULL);
-	}
-
-	if ((c = stf_parse_is_valid_data (data, len)) != NULL) {
-		char *message;
-
-		message = g_strdup_printf (_("The data on the clipboard does not seem to be valid text.\nThe character '%c' (ASCII decimal %d) was encountered.\nMost likely your locale settings are wrong."),
-					   *c, (int) ((unsigned char)*c));
-		g_warning (message);
-		g_free (message);
-
-		g_free (data);
-
 		return cellregion_new (NULL);
 	}
 
@@ -145,26 +133,31 @@ x_clipboard_to_cell_region (WorkbookControlGUI *wbcg,
  */
 static void
 x_clipboard_received (GtkClipboard *clipboard, GtkSelectionData *sel,
-		      WorkbookControlGUI *wbcg)
+		      gpointer closure)
 {
-	GdkAtom atom_targets  = gdk_atom_intern (TARGETS_ATOM_NAME, FALSE);
-	GdkAtom atom_gnumeric = gdk_atom_intern (GNUMERIC_ATOM_NAME, FALSE);
-	GdkAtom atom_html = gdk_atom_intern ("text/html", FALSE);
-	PasteTarget *pt = wbcg->clipboard_paste_callback_data;
+	WorkbookControlGUI *wbcg = closure;
+	WorkbookControl	   *wbc  = WORKBOOK_CONTROL (wbcg);
+	PasteTarget	   *pt   = wbcg->clipboard_paste_callback_data;
 	CellRegion *content = NULL;
-	gboolean region_pastable = FALSE;
-	gboolean free_closure = FALSE;
-	WorkbookControl	*wbc = WORKBOOK_CONTROL (wbcg);
+	gboolean clear_content = FALSE;
 
-	if (sel->target == atom_targets) { /* The data is a list of atoms */
-		GdkAtom *atoms = (GdkAtom *) sel->data;
-		gboolean gnumeric_format, html_format;
-		int atom_count = (sel->length / sizeof (GdkAtom));
-		int i;
+	/* The data is a list of atoms */
+	if (sel->target == gdk_atom_intern (TARGETS_ATOM_NAME, FALSE)) {
+		/* in order of preference */
+		static char const *formats [] = {
+			GNUMERIC_ATOM_NAME,
+			/* "text/html", */
+			"UTF8_STRING",
+			"COMPOUND_TEXT",
+			NULL
+		};
+
+		GdkAtom const *targets = (GdkAtom *) sel->data;
+		unsigned const atom_count = (sel->length / sizeof (GdkAtom));
+		unsigned i, j;
 
 		/* Nothing on clipboard? */
 		if (sel->length < 0) {
-
 			if (wbcg->clipboard_paste_callback_data != NULL) {
 				g_free (wbcg->clipboard_paste_callback_data);
 				wbcg->clipboard_paste_callback_data = NULL;
@@ -172,13 +165,23 @@ x_clipboard_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 			return;
 		}
 
-		gnumeric_format = html_format = FALSE;
-		/* Does the remote app support Gnumeric xml ? */
-		for (i = 0; i < atom_count; i++)
-			if (atoms[i] == atom_gnumeric)
-				gnumeric_format = TRUE;
-			else if (atoms[i] == atom_html)
-				html_format = TRUE;
+		/* what do we like best */
+		for (i = 0 ; formats[i] != NULL ; i++) {
+			GdkAtom atom = gdk_atom_intern (formats[i], FALSE);
+
+			/* do they offer what we want ? */
+			for (j = 0; j < atom_count && targets [j] != atom ; j++)
+				;
+			if (j < atom_count) {
+				gtk_clipboard_request_contents (clipboard, atom,
+					x_clipboard_received, wbcg);
+				break;
+			}
+		}
+		/* If all else fails try STRING */
+		if (formats[i] == NULL)
+			gtk_clipboard_request_contents (clipboard, GDK_SELECTION_TYPE_STRING,
+				 x_clipboard_received, wbcg);
 
 		/* NOTE : We don't release the date resources
 		 * (wbcg->clipboard_paste_callback_data), the reason for
@@ -187,31 +190,7 @@ x_clipboard_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 		 * and that call _will_ free the data (and also needs it).
 		 * So we won't release anything.
 		 */
-
-		/* If another instance of gnumeric put this data on the clipboard
-		 * request the data in gnumeric XML format. If not, just
-		 * request it in string format
-		 */
-		if (gnumeric_format)
-			gtk_clipboard_request_contents
-				(clipboard, atom_gnumeric,
-				 (GtkClipboardReceivedFunc)
-				 x_clipboard_received,
-				 wbcg);
-		else if (html_format)
-			gtk_clipboard_request_contents
-				(clipboard, atom_html,
-				 (GtkClipboardReceivedFunc)
-				 x_clipboard_received,
-				 wbcg);
-		else
-			gtk_clipboard_request_contents
-				(clipboard, GDK_SELECTION_TYPE_STRING,
-				 (GtkClipboardReceivedFunc)
-				 x_clipboard_received,
-				 wbcg);
-
-	} else if (sel->target == atom_gnumeric) {
+	} else if (sel->target == gdk_atom_intern (GNUMERIC_ATOM_NAME, FALSE)) {
 		/* The data is the gnumeric specific XML interchange format */
 		content = xml_cellregion_read (wbc, pt->sheet, sel->data, sel->length);
 #if 0
@@ -219,7 +198,7 @@ x_clipboard_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 		content = html_cellregion_read (wbc, pt->sheet, sel->data, sel->length);
 #endif
 	} else {  /* The data is probably in String format */
-		free_closure = TRUE;
+		clear_content = TRUE;
 		/* Did X provide any selection? */
 		if (sel->length > 0)
 			content = x_clipboard_to_cell_region (wbcg, sel->data, sel->length);
@@ -238,12 +217,9 @@ x_clipboard_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 			cellregion_free (content);
 	}
 
-	if (region_pastable || free_closure) {
-		/* Remove our used resources */
-		if (wbcg->clipboard_paste_callback_data != NULL) {
-			g_free (wbcg->clipboard_paste_callback_data);
-			wbcg->clipboard_paste_callback_data = NULL;
-		}
+	if (clear_content && wbcg->clipboard_paste_callback_data != NULL) {
+		g_free (wbcg->clipboard_paste_callback_data);
+		wbcg->clipboard_paste_callback_data = NULL;
 	}
 }
 
@@ -349,7 +325,7 @@ void
 x_request_clipboard (WorkbookControlGUI *wbcg, PasteTarget const *pt)
 {
 	PasteTarget *new_pt;
-	GtkClipboard *primary = gtk_clipboard_get (GDK_SELECTION_PRIMARY);
+	GtkClipboard *primary = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
 	GdkAtom atom_targets  = gdk_atom_intern (TARGETS_ATOM_NAME, FALSE);
 
 	if (wbcg->clipboard_paste_callback_data != NULL)
@@ -360,10 +336,8 @@ x_request_clipboard (WorkbookControlGUI *wbcg, PasteTarget const *pt)
 	wbcg->clipboard_paste_callback_data = new_pt;
 
 	/* Query the formats, This will callback x_clipboard_received */
-	gtk_clipboard_request_contents
-		(primary, atom_targets,
-		 (GtkClipboardReceivedFunc) x_clipboard_received,
-		 wbcg);
+	gtk_clipboard_request_contents (primary, atom_targets,
+		  x_clipboard_received, wbcg);
 }
 
 gboolean
@@ -372,21 +346,17 @@ x_claim_clipboard (WorkbookControlGUI *wbcg)
 	gboolean clipboard_owner_set;
 	gboolean primary_owner_set;
 	static const GtkTargetEntry targets[] = {
-		{(char *) GNUMERIC_ATOM_NAME,  GTK_TARGET_SAME_WIDGET,
-		 GNUMERIC_ATOM_INFO},
+		{ (char *) GNUMERIC_ATOM_NAME,  GTK_TARGET_SAME_WIDGET, GNUMERIC_ATOM_INFO },
+		/* { (char *)"text/html", 0, 0 }, */
+		{ (char *)"UTF8_STRING", 0, 0 },
+		{ (char *)"COMPOUND_TEXT", 0, 0 },
 		{ (char *)"STRING", 0, 0 },
 	};
 	GtkClipboard *clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
-	GtkClipboard *primary = gtk_clipboard_get (GDK_SELECTION_PRIMARY);
 
-	clipboard_owner_set = gtk_clipboard_set_with_owner
-		(clipboard, targets, G_N_ELEMENTS (targets),
-		 (GtkClipboardGetFunc) x_clipboard_get_cb, 
-		 NULL, G_OBJECT (wbcg));
-	primary_owner_set = gtk_clipboard_set_with_owner 
-		(primary, targets, G_N_ELEMENTS (targets),
-		 (GtkClipboardGetFunc) x_clipboard_get_cb,
-		 (GtkClipboardClearFunc) x_clipboard_clear_cb,
-		 G_OBJECT (wbcg));
-	return clipboard_owner_set || primary_owner_set;
+	return gtk_clipboard_set_with_owner (clipboard,
+		targets, G_N_ELEMENTS (targets),
+		(GtkClipboardGetFunc) x_clipboard_get_cb,
+		(GtkClipboardClearFunc) x_clipboard_clear_cb,
+		G_OBJECT (wbcg));
 }

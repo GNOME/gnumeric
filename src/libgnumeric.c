@@ -51,10 +51,7 @@ extern gboolean EmbeddableGridFactory_init (void);
 #include <glade/glade.h>
 
 #include <libgnome/gnome-config.h>
-
-#ifdef USE_WM_ICONS
 #include <libgnomeui/gnome-window-icon.h>
-#endif
 
 #ifdef WITH_BONOBO
 #include <bonobo.h>
@@ -106,6 +103,7 @@ gnumeric_check_for_components (void)
 }
 #endif
 
+extern char *gnumeric_data_dir;
 /*
  * FIXME: We hardcode the GUI command context. Change once we are able
  * to tell whether we are in GUI or not.
@@ -113,10 +111,6 @@ gnumeric_check_for_components (void)
 void
 gnm_common_init (void)
 {
-#ifdef USE_WM_ICONS
-	gnome_window_icon_set_default_from_file (GNOME_ICONDIR"/gnome-gnumeric.png");
-#endif
-
 	g_object_new (GNUMERIC_APPLICATION_TYPE, NULL);
 	value_init ();
 	expr_init ();

@@ -1948,7 +1948,8 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 		if (shared_expr_index > 0) {
 			if (shared_expr_index == (int)ctxt->shared_exprs->len + 1) {
 				if (!cell_has_expr (cell)) {
-					g_warning ("XML-IO: Shared expression with no expession?");
+					g_warning ("XML-IO: Shared expression with no expession? id = %d\ncontent ='%s'",
+						   shared_expr_index, content);
 					cell_set_expr (cell,
 						gnm_expr_new_constant (value_duplicate (cell->value)));
 				}
@@ -3320,7 +3321,7 @@ xml_probe (GnumFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 	if (ctxt == NULL)
 		return FALSE;
 
-	memcpy (&silent, ctxt->sax, sizeof (silent));
+	memset (&silent, 0, sizeof (silent));
 	old = ctxt->sax;
 	ctxt->sax = &silent;
 

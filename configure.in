@@ -524,6 +524,7 @@ if test "x$try_bonobo" = "xtrue"; then
 		libbonobo-2.0 >= 1.115.0
 		libbonoboui-2.0
 		bonobo-activation-2.0
+		libgsf-gnome-1 >= 1.3.0
 		],	
 		[bonobo_msg="yes"],
 		[bonobo_msg="NO. xxx problem"])

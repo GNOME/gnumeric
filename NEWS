@@ -6,6 +6,11 @@ dorami@bu.iij4u.or.jp:
 Jody:
 	* Add XL for polygon colours.
 	* More pango work.
+	* Fix icon assignment.
+	* Support pasting utf8
+	* Rewrite plan perfect import, significantly more useful now.
+	  Includes some format transfer and uses the wordperfect
+	  charset map from kword (thanks to Ariya Hidayat)
 
 Jukka:
 	* Solver improvements:

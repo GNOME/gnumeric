@@ -4931,6 +4931,13 @@ workbook_control_gui_ctor_class (GObjectClass *object_class)
 	wbc_class->paste_from_selection  = wbcg_paste_from_selection;
 	wbc_class->validation_msg	 = wbcg_validation_msg;
 	wbcg_class->set_transient        = wbcg_set_transient_for;
+
+	{
+		char *iconfile = g_strconcat (GNUMERIC_ICONDIR, G_DIR_SEPARATOR_S,
+					      "gnome-gnumeric.png", NULL);
+		gnome_window_icon_set_default_from_file (iconfile);
+		g_free (iconfile);
+	}
 }
 
 GSF_CLASS (WorkbookControlGUI, workbook_control_gui,

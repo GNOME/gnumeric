@@ -1,5 +1,6 @@
-iconsdir = $(datadir)/pixmaps/gnumeric
+iconsdir = $(gnumeric_icondir)
 
+# keep in sync with gnumeric/src/libgnumeric.c:gnm_common_init
 appicondir = $(datadir)/pixmaps
 appicon_DATA = gnome-gnumeric.png \
                gnome-application-x-gnumeric.png \

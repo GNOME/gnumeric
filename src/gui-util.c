@@ -31,7 +31,6 @@
 #	include "workbook-private.h"
 #endif
 
-#include <libgnome/gnome-util.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-help.h>
 
@@ -1238,13 +1237,13 @@ int_to_entry (GtkEntry *entry, gint the_int)
 }
 
 GtkWidget *
-gnumeric_load_image (char const * const name)
+gnumeric_load_image (char const *filename)
 {
 	GtkWidget *image;
 	char *path;
 
-	path = g_strconcat (GNUMERIC_ICONDIR "/", name, NULL);
-	image = gnome_pixmap_new_from_file (path);
+	path = g_strconcat (GNUMERIC_ICONDIR "/", filename, NULL);
+	image = gtk_image_new_from_file (path);
 	g_free (path);
 
 	if (image)
