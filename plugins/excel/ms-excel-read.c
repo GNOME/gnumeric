@@ -1350,6 +1350,9 @@ ms_excel_formula_shared (BiffQuery *q, ExcelSheet *sheet, Cell *cell)
 {
 	g_return_val_if_fail (ms_biff_query_next (q), FALSE);
 	if (q->ls_op != BIFF_SHRFMLA && q->ls_op != BIFF_ARRAY) {
+		/* There must be _no_ path through this function that does
+		   not set either the cell value or the formula */
+		cell_set_text (cell, "Broken expr b");
 		printf ("EXCEL : unexpected record after a formula %x in '%s'\n",
 			q->opcode, cell_name (cell->col->pos, cell->row->pos));
 		return FALSE;
@@ -1517,8 +1520,8 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 		g_warning ("NULL expr a");
 		return;
 	} else { /* Expr is NULL */
-		cell_set_text (cell, "Broken expr b");
 		g_warning ("NULL expr b");
+		cell_set_text (cell, "Broken expr b");
 	}
 
 	if (is_string)
