@@ -263,7 +263,7 @@ print_headers (PrintJobInfo *pj)
 	gnome_print_setfont (pj->print_context, pj->decoration_font);
 	gnome_print_setrgbcolor (pj->print_context, 0, 0, 0);
 	
-	y = pj->height - pm->top.points - pj->decoration_font->size;
+	y = pj->height - pm->header.points - pj->decoration_font->size;
 	print_hf (pj, pj->pi->header->left_format,   LEFT_HEADER, y);
 	print_hf (pj, pj->pi->header->middle_format, MIDDLE_HEADER, y);
 	print_hf (pj, pj->pi->header->right_format,  RIGHT_HEADER, y);
@@ -277,7 +277,7 @@ print_footers (PrintJobInfo *pj)
 	
 	gnome_print_setfont (pj->print_context, pj->decoration_font);
 
-	y = pm->bottom.points;
+	y = pm->footer.points;
 	print_hf (pj, pj->pi->footer->left_format,   LEFT_HEADER, y);
 	print_hf (pj, pj->pi->footer->middle_format, MIDDLE_HEADER, y);
 	print_hf (pj, pj->pi->footer->right_format,  RIGHT_HEADER, y);
