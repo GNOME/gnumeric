@@ -1,3 +1,11 @@
+1999-10-29  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/sheet.c (sheet_set_zoom_factor): don't bother re-rendering update.
+
+	* src/sheet-style.c (sheet_cells_update): Add re-render argument.
+	(re_dimension_cells_cb): update. (sheet_selection_apply_style_cb): if
+	format changed re-render cell's text + add redraw.
+
 1999-10-28  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/item-grid.c (item_grid_set_gc_stipple): Add.

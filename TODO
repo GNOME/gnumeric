@@ -167,6 +167,10 @@ Gnumeric Spread Sheet task list
   - pattern selector needs tooltips, button like appearance, and
     white backgrounds for the patterns.
 
+  Font:
+    Font selector needs to display whether bold / italic / font name
+    is unique, and if so to show which it is.
+
   Protection:
     Bloqued/Hidden
 

@@ -359,6 +359,7 @@ style_new (void)
 	return style;
 }
 
+#if 0
 Style *
 style_new_mstyle (MStyle *st, guint len,
 		  gdouble zoom)
@@ -474,6 +475,7 @@ style_new_mstyle (MStyle *st, guint len,
 
 	return style;
 }
+#endif
 
 Style *
 style_new_empty (void)

@@ -415,10 +415,14 @@ sheet_selection_apply_style_cb (Sheet *sheet,
 				Range const *range,
 				gpointer user_data)
 {
-	mstyle_ref           (user_data);
+	MStyle *mstyle = (MStyle *)user_data;
+	mstyle_ref           (mstyle);
 	sheet_style_attach   (sheet, *range, user_data);
 	sheet_style_optimize (sheet, *range);
-	sheet_cells_update   (sheet, *range);
+	sheet_cells_update   (sheet, *range,
+			      mstyle_is_element_set (mstyle, MSTYLE_FORMAT));
+	sheet_redraw_cell_region (sheet, range->start.col, range->start.row,
+				  range->end.col, range->end.row);
 }
 
 /**
@@ -609,9 +613,13 @@ sheet_styles_dump (Sheet *sheet)
 
 static Value *
 re_dimension_cells_cb (Sheet *sheet, int col, int row, Cell *cell,
-		       gpointer dummy)
+		       gpointer re_render)
 {
+	if (GPOINTER_TO_INT (re_render))
+		cell_render_value (cell);
+
 	cell_style_changed (cell);
+
 	return NULL;
 }
 
@@ -620,18 +628,22 @@ re_dimension_cells_cb (Sheet *sheet, int col, int row, Cell *cell,
  * sheet_cells_update:
  * @sheet: The sheet,
  * @r:     the region to update.
+ * @render_text: whether to re-render the text in cells
  * 
- * This is used to re-calculate cell dimensions 
+ * This is used to re-calculate cell dimensions and re-render
+ * a cell's text. eg. if a format has changed we need to re-render
+ * the cached version of the rendered text in the cell.
  **/
 void
-sheet_cells_update (Sheet *sheet, Range r)
+sheet_cells_update (Sheet *sheet, Range r,
+		    gboolean render_text)
 {
 	sheet->modified = TRUE;
 	sheet_cell_foreach_range (sheet, TRUE,
 				  r.start.col, r.start.row,
 				  r.end.col, r.end.row,
 				  re_dimension_cells_cb,
-				  NULL);
+				  GINT_TO_POINTER (render_text));
 }
 
 Range

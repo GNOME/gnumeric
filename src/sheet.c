@@ -314,7 +314,7 @@ sheet_set_zoom_factor (Sheet *sheet, double factor)
 	 * FIXME: this slugs zoom performance and should not
 	 * be neccessary if we get rendering right IMHO.
 	 */
-	sheet_cells_update (sheet, sheet_get_full_range ());
+	sheet_cells_update (sheet, sheet_get_full_range (), FALSE);
 }
 
 /*
