@@ -560,6 +560,14 @@ workbook_set_filename (Workbook *wb, const char *name)
 	return TRUE;
 }
 
+const gchar *
+workbook_get_filename (Workbook *wb)
+{
+	g_return_val_if_fail (IS_WORKBOOK (wb), NULL);
+
+	return wb->filename;
+}
+
 /**
  * workbook_set_saveinfo:
  * @wb: the workbook to modify

@@ -1209,26 +1209,13 @@ cb_file_new (GtkWidget *widget, WorkbookControlGUI *wbcg)
 static void
 cb_file_open (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	char *fname = dialog_query_load_file (wbcg);
-
-	if (!fname)
-		return;
-
-	(void) wb_view_open (wb_control_view (wbc), wbc, fname);
-	g_free (fname);
+	gui_file_open (wbcg);
 }
 
 static void
 cb_file_import (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	char *fname = dialog_query_load_file (wbcg);
-
-	if (!fname)
-		return;
-
-	(void) gui_file_import (wbcg, fname);
-	g_free (fname);
+	gui_file_import (wbcg);
 }
 
 static void
@@ -3607,7 +3594,9 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 	wbcg->autosave_timer = 0;
 	wbcg->autosave_minutes = 0;
 	wbcg->autosave_prompt = FALSE;
-	
+
+	wbcg->current_saver	= NULL;
+
 	/* Postpone showing the GUI, so that we may resize it freely. */
 	gtk_idle_add ((GtkFunction) show_gui, wbcg);
 	/* Postpone clipboard setup. For mysterious reasons, connecting

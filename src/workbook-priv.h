@@ -93,7 +93,8 @@ gboolean    workbook_sheet_rename        (WorkbookControl *,
 					  const char *new_name);
 
 /* IO Routines */
-gboolean       workbook_set_filename   (Workbook *wb, const char *);
+gboolean       workbook_set_filename   (Workbook *wb, const gchar *);
+const gchar   *workbook_get_filename   (Workbook *wb);
 gboolean       workbook_set_saveinfo   (Workbook *wb, const gchar *,
                                         FileFormatLevel, GnumFileSaver *);
 GnumFileSaver *workbook_get_file_saver (Workbook *wb);

@@ -1,5 +1,39 @@
 2001-06-05  Zbigniew Chyla  <cyba@gnome.pl>
 
+	* src/gnumeric-util.[ch] (gnumeric_dialog_file_selection): New
+	function, some code moved from gui-file.c.
+
+	* src/workbook.[ch] (workbook_get_filename): New accessor function.
+
+	* src/gui-file.h
+	(gui_file_open): New function.
+	(gui_file_import): Removed fname argument.
+
+	* src/gui-file.c
+	(gui_file_import): Create and open file selector, using
+	gnumeric_dialog_file_selection to display it. Use one dialog to select
+	file and file format, we don't need glade file anymore. Optionally
+	show all registered openers as importers.
+	(gui_file_save_as): Uses gnumeric_dialog_file_selection. Take
+	workbook's current saver if current_saver is NULL (previously we've
+	been loosing this information), use
+	gnumeric_option_menu_get_selected_index instead of playing with
+	signals.
+	(gui_file_open): New function, some code moved from
+	dialog_query_load_file.
+	(gui_file_save): Always call wb_view_preferred_size.
+	(do_save_as): Take GnumFileSaver as argument.
+	(cb_select, handle_ok, saver_activate, fill_save_menu,
+	make_format_chooser, file_dialog_delete_event, fs_key_event,
+	fs_set_filename): Removed.
+
+	* src/workbook-control-gui.c
+	(cb_file_new): Just call gui_file_open.
+	(cb_file_import): Call gui_file_import.
+	(workbook_control_gui_init): Initialize current_saver with NULL.
+
+2001-06-05  Zbigniew Chyla  <cyba@gnome.pl>
+
 	* src/workbook.c (workbook_new): Slight modification of the previous
 	patch.
 

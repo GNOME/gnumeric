@@ -29,7 +29,6 @@ int	   dialog_paste_special   (WorkbookControlGUI *wbcg);
 void	   dialog_insert_cells    (WorkbookControlGUI *wbcg, Sheet *sheet);
 void	   dialog_delete_cells    (WorkbookControlGUI *wbcg, Sheet *sheet);
 void	   dialog_zoom            (WorkbookControlGUI *wbcg, Sheet *sheet);
-char	  *dialog_query_load_file (WorkbookControlGUI *wbcg);
 void   	 dialog_about           (WorkbookControlGUI *wbcg);
 void   	 dialog_define_names    (WorkbookControlGUI *wbcg);
 void   	 dialog_cell_comment    (WorkbookControlGUI *wbcg,

@@ -1,11 +1,12 @@
-#ifndef GNUMERIC_FILE_GUI_H
-#define GNUMERIC_FILE_GUI_H
+#ifndef GNUMERIC_GUI_FILE_H
+#define GNUMERIC_GUI_FILE_H
 
 #include "gnumeric.h"
 #include "workbook-control-gui.h"
 
 gboolean gui_file_save_as   (WorkbookControlGUI *wbcg, WorkbookView *);
 gboolean gui_file_save      (WorkbookControlGUI *wbcg, WorkbookView *);
-gboolean gui_file_import    (WorkbookControlGUI *wbcg, const char *fname);
+void     gui_file_import    (WorkbookControlGUI *wbcg);
+void     gui_file_open      (WorkbookControlGUI *wbcg);
 
-#endif /* GNUMERIC_FILE_H */
+#endif /* GNUMERIC_GUI_FILE_H */

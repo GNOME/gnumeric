@@ -45,6 +45,92 @@ gnumeric_dialog_question_yes_no (WorkbookControlGUI *wbcg,
 	return gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog)) == 0;
 }
 
+static void
+fsel_dialog_finish (GtkWidget *widget)
+{
+	gtk_widget_hide (widget);
+	gtk_main_quit ();
+}
+
+static void
+fsel_handle_ok (GtkWidget *widget, gboolean *result)
+{
+	GtkFileSelection *fsel;
+	gchar *file_name;
+
+	fsel = GTK_FILE_SELECTION (gtk_widget_get_ancestor (widget, GTK_TYPE_FILE_SELECTION));
+	file_name = gtk_file_selection_get_filename (fsel);
+	
+	/* Change into directory if that's what user selected */
+	if (g_file_test (file_name, G_FILE_TEST_ISDIR)) {
+		gint name_len;
+		gchar *dir_name;
+
+		name_len = strlen (file_name);
+		if (name_len < 1 || file_name [name_len - 1] != '/') {
+			/* The file selector needs a '/' at the end of a directory name */
+			dir_name = g_strconcat (file_name, "/", NULL);
+		} else {
+			dir_name = g_strdup (file_name);
+		}
+		gtk_file_selection_set_filename (fsel, dir_name);
+		g_free (dir_name);
+	} else {
+		fsel_dialog_finish (GTK_WIDGET (fsel));
+		*result = TRUE;
+	}
+}
+
+static void
+fsel_handle_cancel (GtkWidget *widget, gpointer user_data)
+{
+	GtkWidget *fsel;
+
+	fsel = gtk_widget_get_ancestor (widget, GTK_TYPE_FILE_SELECTION);
+	fsel_dialog_finish (fsel);
+}
+
+static gint
+fsel_delete_event (GtkWidget *widget, GdkEventAny *event)
+{
+	fsel_dialog_finish (widget);
+	return TRUE;
+}
+
+static gint
+fsel_key_event (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
+{
+	if (event->keyval == GDK_Escape) {
+		gtk_signal_emit_stop_by_name (GTK_OBJECT (widget), "key_press_event");
+		fsel_dialog_finish (widget);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+gboolean
+gnumeric_dialog_file_selection (WorkbookControlGUI *wbcg, GtkFileSelection *fsel)
+{
+	gboolean result = FALSE;
+
+	gtk_window_set_modal (GTK_WINDOW (fsel), TRUE);
+	gnumeric_set_transient (wbcg, GTK_WINDOW (fsel));
+	gtk_signal_connect (GTK_OBJECT (fsel->ok_button), "clicked",
+	                    GTK_SIGNAL_FUNC (fsel_handle_ok), &result);
+	gtk_signal_connect (GTK_OBJECT (fsel->cancel_button), "clicked",
+	                    GTK_SIGNAL_FUNC (fsel_handle_cancel), NULL);
+	gtk_signal_connect (GTK_OBJECT (fsel), "key_press_event",
+	                    GTK_SIGNAL_FUNC (fsel_key_event), NULL);
+	gtk_signal_connect (GTK_OBJECT (fsel), "delete_event",
+	                    GTK_SIGNAL_FUNC (fsel_delete_event), NULL);
+	gtk_widget_show_all (GTK_WIDGET (fsel));
+	gtk_grab_add (GTK_WIDGET (fsel));
+	gtk_main ();
+
+	return result;
+}
+
 /*
  * TODO:
  * Get rid of trailing newlines /whitespace.
