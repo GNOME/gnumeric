@@ -139,10 +139,92 @@ function_iterate_argument_values (Sheet                   *sheet,
 	return result;
 }
 
+static GPtrArray *categories = NULL ;
+
+/**
+ * The right way TM. :-)
+ **/
+GPtrArray *
+get_function_categories()
+{
+	return categories ;
+}
+
+TOKENISED_HELP *
+tokenised_help_new (FunctionDefinition *fd)
+{
+	TOKENISED_HELP *tok = g_new (TOKENISED_HELP, 1) ;
+	tok->fd = fd ;
+	if (fd->help && fd->help[0]) {
+		char *ptr ;
+		tok->help_copy = g_strdup (fd->help[0]) ;
+		tok->sections = g_ptr_array_new () ;
+		ptr = tok->help_copy ;
+		while (*ptr) {
+			if (*ptr == '\\' && *(ptr+1))
+				ptr+=2 ;
+			if (*ptr == '@' ||
+			    *ptr == '=') {
+				*ptr = 0 ;
+				g_ptr_array_add (tok->sections, (ptr+1)) ;
+			}
+			ptr++ ;
+		}
+/*	{
+		int lp ;
+		for (lp=0;lp<tok->sections->len;lp++)
+			printf ("'%s'\n",
+				(char *)g_ptr_array_index (tok->sections, lp)) ;
+				} */
+	} else {
+		tok->help_copy = NULL ;
+		tok->sections = NULL ;
+	}
+	
+	return tok ;
+}
+
+/**
+ * Use to find a token eg. "FUNCTION"'s value.
+ **/
+char *
+tokenised_help_find (TOKENISED_HELP *tok, char *token)
+{
+	int lp ;
+	if (!tok || !tok->sections)
+		return "Duff Function Description." ;
+	for (lp=0;lp<tok->sections->len-1;lp++) {
+		char *cmp = g_ptr_array_index (tok->sections, lp) ;
+		if (strcasecmp (cmp, token) == 0) {
+			return g_ptr_array_index (tok->sections, lp+1) ;
+		}
+	}
+	return "Can't find token" ;	
+}
+
 void
-install_symbols (FunctionDefinition *functions)
+tokenised_help_destroy (TOKENISED_HELP *tok)
+{
+	g_return_if_fail (tok) ;
+	/* John 8:34-36 */
+	if (tok->help_copy)
+		g_free (tok->help_copy) ;
+	if (tok->sections)
+		g_ptr_array_free (tok->sections, FALSE) ;
+	g_free (tok) ;
+}
+
+void
+install_symbols (FunctionDefinition *functions, gchar *description)
 {
 	int i;
+	FUNCTION_CATEGORY *fnc = g_new (FUNCTION_CATEGORY,1) ;
+	
+	g_return_if_fail (categories) ;
+
+	fnc->name = description ;
+	fnc->functions = functions ;
+	g_ptr_array_add (categories, fnc) ; 
 	
 	for (i = 0; functions [i].name; i++){
 		symbol_install (global_symbol_table, functions [i].name,
@@ -153,15 +235,16 @@ install_symbols (FunctionDefinition *functions)
 void
 functions_init (void)
 {
-	install_symbols (math_functions);
-	install_symbols (sheet_functions);
-	install_symbols (misc_functions);
-	install_symbols (date_functions);
-	install_symbols (string_functions);
-	install_symbols (stat_functions);
-	install_symbols (finance_functions);
-	install_symbols (eng_functions);
-	install_symbols (lookup_functions);
+	categories = g_ptr_array_new () ;
+	install_symbols (math_functions, _("Mathematics"));
+	install_symbols (sheet_functions, _("Sheet"));
+	install_symbols (misc_functions, _("Misc"));
+	install_symbols (date_functions, _("Date"));
+	install_symbols (string_functions, _("String"));
+	install_symbols (stat_functions, _("Statistics"));
+	install_symbols (finance_functions, _("Finance"));
+	install_symbols (eng_functions, _("Engineering"));
+	install_symbols (lookup_functions, _("Lookup"));
 }
 
 void

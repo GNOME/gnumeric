@@ -1,3 +1,43 @@
+1999-04-05 Michael Meeks  <michael@imaginator.com>
+
+	* src/func.c (tokenised_help_new, tokenised_help_destroy),
+	(tokenised_help_find_token): Implemented to assist searching
+	for tokens.
+	
+	* src/func.h: Inserted TOKENISED_HELP struct, and prototypes.
+
+1999-04-04 Michael Meeks  <michael@imaginator.com>
+
+	* src/dialog_function_wizard.c: Created
+
+	* src/workbook.c (workbook_setup_edit_area): Add Wizard
+	button.
+
+	* src/dialogs.h: Add dialog_function_wizard
+
+	* src/func.c (functions_init): Added descriptions.
+	Init categories array.
+	(get_function_categories): Returns array of categories.
+	(install_symbols): Add description argument.
+
+	* src/func.h: Updated prototypes altered,
+	add get_function_categories and struct FUNCTION_CATEGORY.
+
+	* plugins/guile/plugin.c (init_plugin): Update install_symbols.
+
+	* plugins/sample/plugin-sample.c (init_plugin): Ditto.
+
+1999-04-03 Michael Meeks  <michael@imaginator.com>
+
+	* src/sheet.c (sheet_cell_remove_from_hash): Now checks
+	return value of g_hash_table_lookup_extended, before
+	freeing a random pointer if its not there.
+
+	* src/cellspan.c (cell_unregister_span): Check another
+	pointer.
+
+	* src/cell.c (cell_set_formula): Default error_msg !
+
 1999-04-03 Michael Meeks  <michael@imaginator.com>
 
 	* src/sheet.c (sheet_cell_remove_from_hash): Now checks

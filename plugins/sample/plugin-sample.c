@@ -51,7 +51,7 @@ cleanup_plugin (PluginData *pd)
 int
 init_plugin (PluginData *pd)
 {
-	install_symbols (plugin_functions);
+	install_symbols (plugin_functions, "Sample Plugin");
 	pd->can_unload = can_unload;
 	pd->cleanup_plugin = cleanup_plugin;
 	pd->title = g_strdup ("PlusOne Plugin");

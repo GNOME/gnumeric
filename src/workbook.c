@@ -1025,15 +1025,41 @@ cancel_input (GtkWidget *widget, Workbook *wb)
 }
 
 static void
+wizard_input (GtkWidget *widget, Workbook *wb)
+{
+	FunctionDefinition *fd = dialog_function_select (wb) ;
+	gchar *txt, *edittxt, *ptr ;
+	gint pos, lp, len, lentxt, editlen ;
+
+	if (!fd) return ;
+	txt = dialog_function_wizard (wb, fd) ;
+       	if (!txt || !wb || !wb->ea_input) return ;
+	
+	pos = gtk_editable_get_position (GTK_EDITABLE(wb->ea_input)) ;
+
+	gtk_editable_insert_text (GTK_EDITABLE(wb->ea_input),
+				  txt, strlen(txt), &pos) ;
+	g_free (txt) ;
+	txt = gtk_entry_get_text (GTK_ENTRY (wb->ea_input)) ;
+	if (txt[0] != '=')
+	        edittxt = g_strconcat ("=", txt, NULL) ;
+	else
+		edittxt = g_strdup (txt) ;
+	gtk_entry_set_text (GTK_ENTRY (wb->ea_input), edittxt) ;
+	g_free (edittxt) ;
+}
+
+static void
 workbook_setup_edit_area (Workbook *wb)
 {
-	GtkWidget *ok_button, *cancel_button, *box, *box2;
+	GtkWidget *ok_button, *cancel_button, *wizard_button, *box, *box2;
 	GtkWidget *pix;
 	
 	wb->ea_status = gtk_entry_new ();
 	wb->ea_input  = gtk_entry_new ();
 	ok_button     = gtk_button_new ();
 	cancel_button = gtk_button_new ();
+	wizard_button = gtk_button_new ();
 	box           = gtk_hbox_new (0, 0);
 	box2          = gtk_hbox_new (0, 0);
 	
@@ -1053,9 +1079,17 @@ workbook_setup_edit_area (Workbook *wb)
 	gtk_signal_connect (GTK_OBJECT (cancel_button), "clicked",
 			    GTK_SIGNAL_FUNC(cancel_input), wb);
 	
+	/* Function Wizard */
+	pix = gnome_stock_pixmap_widget_new (wb->toplevel, GNOME_STOCK_PIXMAP_BOOK_GREEN);
+	gtk_container_add (GTK_CONTAINER (wizard_button), pix);
+	GTK_WIDGET_UNSET_FLAGS (wizard_button, GTK_CAN_FOCUS);
+	gtk_signal_connect (GTK_OBJECT (wizard_button), "clicked",
+			    GTK_SIGNAL_FUNC(wizard_input), wb);
+
 	gtk_box_pack_start (GTK_BOX (box2), wb->ea_status, 0, 0, 0);
 	gtk_box_pack_start (GTK_BOX (box), ok_button, 0, 0, 0);
 	gtk_box_pack_start (GTK_BOX (box), cancel_button, 0, 0, 0);
+	gtk_box_pack_start (GTK_BOX (box), wizard_button, 0, 0, 0);
 	gtk_box_pack_start (GTK_BOX (box2), box, 0, 0, 0);
 	gtk_box_pack_end   (GTK_BOX (box2), wb->ea_input, 1, 1, 0);
 

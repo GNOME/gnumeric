@@ -59,7 +59,25 @@ Value      *function_def_call_with_values (Sheet              *sheet,
 					   Value              *values [],
 					   char               **error_string);
 
-void install_symbols (FunctionDefinition *functions);
+
+typedef struct {
+	gchar *name ;
+	FunctionDefinition *functions ;
+} FUNCTION_CATEGORY ;
+extern GPtrArray *get_function_categories () ;
+
+typedef struct {
+	GPtrArray *sections ;
+	char  *help_copy ;
+	FunctionDefinition *fd ;
+} TOKENISED_HELP ;
+extern TOKENISED_HELP *tokenised_help_new (FunctionDefinition *fd) ;
+extern char *tokenised_help_find (TOKENISED_HELP *tok, char *token) ;
+extern void tokenised_help_destroy (TOKENISED_HELP *tok) ;
+
+
+void install_symbols (FunctionDefinition *functions,
+		      gchar *description);
 
 float_t combin (int n, int k);
 float_t fact (int n);

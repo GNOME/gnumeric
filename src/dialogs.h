@@ -12,5 +12,7 @@ void  dialog_about           (Workbook *wb);
 void  dialog_define_names    (Workbook *wb);
 void  dialog_cell_comment    (Workbook *wb, Cell *cell);
 void  dialog_cell_sort       (Workbook *wb, Sheet *sheet);
+FunctionDefinition *dialog_function_select (Workbook *wb) ;
+char *dialog_function_wizard (Workbook *wb, FunctionDefinition *fd) ;
 
 #endif /* GNUMERIC_DIALOGS_H */

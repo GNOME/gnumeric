@@ -449,7 +449,7 @@ init_plugin (PluginData *pd)
 {
 	char *init_file_name;
 
-	install_symbols(plugin_functions);
+	install_symbols(plugin_functions, "Guile");
 	pd->can_unload = no_unloading_for_me;
 	pd->title = g_strdup(_("Guile Plugin"));
 
