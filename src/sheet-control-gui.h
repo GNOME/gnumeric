@@ -119,6 +119,7 @@ void scg_make_cell_visible	(SheetControlGUI  *scg, int col, int row,
 void scg_create_editor		(SheetControlGUI *scg);
 void scg_stop_editing		(SheetControlGUI *scg);
 void scg_range_selection_changed (SheetControlGUI *scg, Range *r);
+void scg_start_range_selection	(SheetControlGUI *scg, int col, int row);
 void scg_stop_range_selection	(SheetControlGUI *scg, gboolean clear_string);
 void scg_move_cursor            (SheetControlGUI *Scg, int col, int row,
 				 gboolean clear_selection);

@@ -2015,7 +2015,6 @@ scg_stop_editing (SheetControlGUI *scg)
 void
 scg_range_selection_changed  (SheetControlGUI *scg, Range *r)
 {
-	g_return_if_fail (scg != NULL);
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 	
 	gnumeric_expr_entry_set_rangesel_from_range (
@@ -2024,9 +2023,26 @@ scg_range_selection_changed  (SheetControlGUI *scg, Range *r)
 }
 
 void
+scg_start_range_selection (SheetControlGUI *scg, int col, int row)
+{
+	GnumericSheet *gsheet;
+	ItemCursor *ic;
+	
+	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+
+	gsheet = GNUMERIC_SHEET (scg->canvas);
+	gnumeric_sheet_start_range_selection (gsheet, col, row);
+
+	ic = gsheet->sel_cursor;
+	scg_range_selection_changed (scg, ic ? &ic->pos : NULL);
+}
+
+void
 scg_stop_range_selection (SheetControlGUI *scg, gboolean clear_string)
 {
 
+	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+		
 	gnumeric_sheet_stop_range_selection (GNUMERIC_SHEET (scg->canvas));
 	scg_stop_sliding (scg);
 	gnumeric_expr_entry_rangesel_stopped (

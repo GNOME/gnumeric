@@ -767,7 +767,7 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 	 * cell selection mode.
 	 */
 	if (gnumeric_sheet_can_select_expr_range (gsheet)){
-		gnumeric_sheet_start_range_selection (gsheet, col, row);
+		scg_start_range_selection (scg, col, row);
 		ig->selecting = ITEM_GRID_SELECTING_FORMULA_RANGE;
 		gnome_canvas_item_grab (item,
 					GDK_POINTER_MOTION_MASK |
