@@ -106,6 +106,7 @@ cb_name_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 static gint
 location_of_iter (GtkTreeIter  *iter, GtkListStore *model)
 {
+	gint loc;
 	/* Note: in gtk 2.2 we could just do: */
 /* 	gchar* path = gtk_tree_model_get_string_from_iter */
 /* 		(GTK_TREE_MODEL (model), iter); */
@@ -117,8 +118,8 @@ location_of_iter (GtkTreeIter  *iter, GtkListStore *model)
 	gtk_tree_path_free (treepath);
 	/* end of gtk 2.0 code */
 
-	gint loc = atoi(path);
-	
+	loc = atoi(path);
+
 	g_free (path);
 
 	return loc;
