@@ -5,7 +5,7 @@
 2000-12-09  Chema Celorio  <chema@celorio.com>
 
 	* dialog-define-names.c: add NameGuruScope enums
-	(name_guru_warn): warn when deleting a name that is beein used
+	(name_guru_warn): warn when deleting a name that is being used
 	(name_guru_scope_change): handle scope changes
 	(name_guru_set_expr): implement.
 	(name_guru_clear_selection): implement
@@ -14,7 +14,7 @@
 	(cb_name_guru_select_name): clean
 	(name_guru_scope_get): implement
 	(cb_name_guru_add): fix
-	(name_guru_init): conect sensitivy after (see coment on code)
+	(name_guru_init): connect sensitivy after (see comment in code)
 
 2000-12-7  Jody Goldberg <jgoldberg@home.com>
 
