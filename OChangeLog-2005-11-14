@@ -1,3 +1,9 @@
+2003-06-27  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=115503
+	* src/formats.c (cell_format_classify): set the date related
+	  FormatCharacteristics to something valid (not just to something sane)
+
 2003-06-27  Morten Welinder  <terra@gnome.org>
 
 	* src/rendered-value.c (cell_get_entered_text): Always quote

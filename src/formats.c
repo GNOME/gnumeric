@@ -713,6 +713,17 @@ cell_format_classify (StyleFormat const *sf, FormatCharacteristics *info)
 		for (; elem[j] ; ++j)
 			if (g_ascii_strcasecmp (_(elem[j]), fmt) == 0) {
 				info->list_element = j;
+				switch (i) {
+				case FMT_DATE:
+					info->date_has_days = 
+						(NULL != g_utf8_strchr(elem[j],-1,'d'));
+					info->date_has_months = 
+						(NULL != g_utf8_strchr(elem[j],-1,'m'));
+					break;
+				default:
+					break;
+				}
+				
 				return i;
 			}
 	}
