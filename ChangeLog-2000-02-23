@@ -21,11 +21,8 @@
 
 1999-11-09  Jody Goldberg <jgoldberg@home.com>
 
-	* src/dialogs/dialog-cell-format.c (do_check_border) : Fix the
-	  boundary cases until we getthe extended uniq support.
-
-	* src/formats.c (cell_format_is_number) : Add initial currency
-	  support.
+	* src/formats.c (cell_format_is_number) : Add initial currency,
+	  percent, and scientific notation support.
 
 	* src/format.c (format_number) : Add support for currency codes.
 	(format_value) : Ditto.
@@ -40,6 +37,10 @@
 	  fmt_dialog_impl, fmt_dialog_init_font_page, fmt_dialog_init_align_page,
 	  setup_color_pickers) :  Use mstyle_is_element_conflict.
 	(dialog_cell_format) : Use sheet_selection_get_unique_style.
+	(do_check_border) : Fix the boundary cases until we getthe extended
+	  uniq support.
+	(draw_format_preview) : Add format generation routines for
+	  number, currency, percent, and scientific.
 
 1999-11-09  Michael Meeks  <mmeeks@gnu.org>
 

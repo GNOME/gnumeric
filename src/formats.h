@@ -30,6 +30,7 @@ typedef struct
 	gint	 num_decimals;	/* 0 - 30 */
 	gint	 negative_fmt;	/* 0 - 3 */
 	gint	 currency_symbol_index;
+	gint	 list_element;
 } FormatCharacteristics;
 
 FormatFamily           cell_format_classify (char const * const fmt, FormatCharacteristics *info);

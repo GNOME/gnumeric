@@ -354,11 +354,86 @@ init_button_image (GladeXML *gui, char const * const name)
 static void
 draw_format_preview (FormatState *state)
 {
+	FormatFamily const page = state->format.current_type;
+	static char const * const zeros = "000000000000000000000000000000";
+	GString *new_format = g_string_new ("");
+
 	/* The first time through lets initialize */
 	if (state->format.canvas == NULL) {
 		state->format.canvas =
 		    GNOME_CANVAS (glade_xml_get_widget (state->gui, "format_sample"));
 	}
+
+	/* Update the format based on the current selections and page */
+	switch (page)
+	{
+	/* General has no parameters that change */
+	default :
+		break;
+
+	case FMT_CURRENCY :
+		/* TODO Add correct symbol */
+		g_string_append_c (new_format, '$');
+
+	case FMT_NUMBER :
+		if (state->format.use_seperator) {
+			g_string_append_c (new_format, '#');
+			g_string_append (new_format, format_get_thousand ());
+			g_string_append (new_format, "##0");
+		} else
+			g_string_append_c (new_format, '0');
+
+		if (state->format.num_decimals > 0) {
+			g_return_if_fail (state->format.num_decimals <= 30);
+
+			g_string_append (new_format, format_get_decimal ());
+			g_string_append (new_format, zeros + 30-state->format.num_decimals);
+		}
+
+		/* There are negatives */
+		if (state->format.negative_format > 0) {
+			GString *tmp = g_string_new ("");
+			g_string_append (tmp, new_format->str);
+			switch (state->format.negative_format) {
+			case 1 : g_string_append (tmp, _(";[Red]"));
+				 break;
+			case 2 : g_string_append (tmp, _("_);("));
+				 break;
+			case 3 : g_string_append (tmp, _("_);[Red]("));
+				 break;
+			default :
+				 g_assert_not_reached ();
+			};
+
+			g_string_append (tmp, new_format->str);
+
+			if (state->format.negative_format >= 2)
+				g_string_append_c (tmp, ')');
+			g_string_free (new_format, TRUE);
+			new_format = tmp;
+		}
+		break;
+
+	case FMT_PERCENT :
+	case FMT_SCIENCE :
+		g_string_append_c (new_format, '0');
+		if (state->format.num_decimals > 0) {
+			g_return_if_fail (state->format.num_decimals <= 30);
+
+			g_string_append (new_format, format_get_decimal ());
+			g_string_append (new_format, zeros + 30-state->format.num_decimals);
+		}
+		if (page == FMT_PERCENT)
+			g_string_append_c (new_format, '%');
+		else
+			g_string_append (new_format, "+E00");
+	};
+
+	if (new_format->len > 0)
+		gtk_entry_set_text (GTK_ENTRY (state->format.widget[F_ENTRY]),
+				    new_format->str);
+				    
+	g_string_free (new_format, TRUE);
 }
 
 static void
@@ -380,6 +455,7 @@ fillin_negative_samples (FormatState *state, int const page)
 	int i;
 
 	g_return_if_fail (page == 1 || page == 2);
+	g_return_if_fail (state->format.num_decimals <= 30);
 
 	cl = GTK_CLIST (state->format.widget[F_NEGATIVE]);
 	if (page == 1) {
@@ -407,8 +483,6 @@ fillin_negative_samples (FormatState *state, int const page)
 		sprintf (buf, formats[i], prefix, sep, decimal, decimals + n);
 		gtk_clist_set_text (cl, i, 0, buf);
 	}
-
-	draw_format_preview (state);
 }
 
 static void
@@ -421,6 +495,8 @@ cb_decimals_changed (GtkEditable *editable, FormatState *state)
 
 	if (page == 1 || page == 2)
 		fillin_negative_samples (state, page);
+
+	draw_format_preview (state);
 }
 
 static void
@@ -429,10 +505,12 @@ cb_seperator_toggle (GtkObject *obj, FormatState *state)
 	state->format.use_seperator = 
 		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (obj));
 	fillin_negative_samples (state, 1);
+
+	draw_format_preview (state);
 }
 
 static int
-fm_dialog_init_fmt_list (GtkCList *cl, char const * const *formats,
+fmt_dialog_init_fmt_list (GtkCList *cl, char const * const *formats,
 			 char const * const cur_format,
 			 int select, int *count)
 {
@@ -456,6 +534,7 @@ fm_dialog_init_fmt_list (GtkCList *cl, char const * const *formats,
 static void
 fmt_dialog_enable_widgets (FormatState *state, int page)
 {
+	gboolean has_list = FALSE;
 	static FormatWidget contents[12][6] =
 	{
 		/* General */
@@ -494,22 +573,15 @@ fmt_dialog_enable_widgets (FormatState *state, int page)
 			gtk_widget_hide (state->format.widget[tmp]);
 
 	/* Set the default format if appropriate */
-	/* FIXME : Not correct.  This should be set ONLY if things do not match */
-	switch (page) {
-	case 0: case 3: case 6: case 7: case 8: case 9:
-	{
-		char const * const new_format = cell_formats [0][0];
+	if (page == FMT_GENERAL || page == FMT_ACCOUNT || page == FMT_FRACTION || page == FMT_TEXT) {
+		FormatCharacteristics info;
+		int list_elem = 0;
+		if (page == cell_format_classify (state->format.spec, &info))
+			list_elem = info.list_element;
+
 		gtk_entry_set_text (GTK_ENTRY (state->format.widget[F_ENTRY]),
-				    new_format);
+				    cell_formats[page][list_elem]);
 	}
-	break;
-
-	case 1 : case 2 : /* Are handled by fillin_negative */
-	case 4 : case 5 : /* get filled in with their lists */
-
-	default :
-		break;
-	};
 
 	state->format.current_type = page;
 	for (i = 0; (tmp = contents[page][i]) != F_MAX_WIDGET ; ++i) {
@@ -522,6 +594,9 @@ fmt_dialog_enable_widgets (FormatState *state, int page)
 		if (tmp == F_LIST) {
 			GtkCList *cl = GTK_CLIST (w);
 			int select = -1, start = 0, end = -1;
+
+			has_list = TRUE;
+
 			switch (page) {
 			case 4: case 5: case 7:
 				start = end = page;
@@ -541,7 +616,7 @@ fmt_dialog_enable_widgets (FormatState *state, int page)
 			gtk_clist_set_auto_sort (cl, FALSE);
 
 			for (; start <= end ; ++start)
-				select = fm_dialog_init_fmt_list (cl,
+				select = fmt_dialog_init_fmt_list (cl,
 						cell_formats [start],
 						state->format.spec,
 						select, &count);
@@ -562,6 +637,10 @@ fmt_dialog_enable_widgets (FormatState *state, int page)
 		} else if (tmp == F_NEGATIVE)
 			fillin_negative_samples (state, page);
 	}
+
+	/* Setting the list has already updated the format and preview */
+	if (!has_list)
+		draw_format_preview (state);
 }
 
 /*
@@ -592,6 +671,14 @@ cb_format_list_select (GtkCList *clist, gint row, gint column,
 	gchar *text;
 	gtk_clist_get_text (clist, row, column, &text);
 	gtk_entry_set_text (GTK_ENTRY (state->format.widget[F_ENTRY]), text);
+}
+
+static void
+cb_format_negative_form_selected (GtkCList *clist, gint row, gint column,
+				  GdkEventButton *event, FormatState *state)
+{
+	state->format.negative_format = row;
+	draw_format_preview (state);
 }
 
 static void
@@ -687,6 +774,10 @@ fmt_dialog_init_format_page (FormatState *state)
 		gtk_style_unref (style);
 
 		gtk_clist_select_row (cl, state->format.negative_format, 0);
+		gtk_signal_connect (GTK_OBJECT (cl),
+				    "select-row",
+				    GTK_SIGNAL_FUNC (cb_format_negative_form_selected),
+				    state);
 	}
 
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->format.widget[F_DECIMAL_SPIN]),

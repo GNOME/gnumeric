@@ -42,7 +42,7 @@ char const * const cell_format_currency [] = {
 
 char const * const cell_format_account [] = {
 	N_("_($*#,##0_);_($*(#,##0);_($*\"-\"_);_(@_)"),
-	N_("_(*$,$$0_);_(*(#,##0);_(*\"-\"_);_(@_)"),
+	N_("_(*#,##0_);_(*(#,##0);_(*\"-\"_);_(@_)"),
 	N_("_($*#,##0.00_);_($*(#,##0.00);_($*\"-\"??_);_(@_)"),
 	N_("_(*#,##0.00_);_(*(#,##0.00);_(*\"-\"??_);_(@_)"),
 	NULL
@@ -323,15 +323,26 @@ cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 	int use_paren = 0;
 	int use_red = 0;
 	int num_decimals = 0;
-	char const *ptr = fmt, *end;
+	char const *ptr = fmt, *end, *tmp;
+	int const fmt_len = strlen (fmt);
+
+	if (fmt_len < 1)
+		return FMT_UNKNOWN;
 
 	/* Check for prepended currency */
 	if (ptr[0] == '$') {
 		info->currency_symbol_index = 1;
 		result = FMT_CURRENCY;
+		++ptr;
 	} else if (ptr[0] == '[' && ptr[1] == '$') {
-		info->currency_symbol_index = 1;
-		result = FMT_CURRENCY;
+		char const * const end = strchr (ptr, ']');
+
+		if (end != NULL) {
+			/* FIXME : Look up the correct index */
+			info->currency_symbol_index = 1;
+			result = FMT_CURRENCY;
+			ptr = end + 1;
+		}
 	}
 
 	/* Check for thousands seperator */
@@ -350,20 +361,32 @@ cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 	++ptr;
 
 	/* Check for decimals */
-	if (ptr[0] != ';' && ptr[0] != '_' && ptr[0]) {
-		int count = 0;
-		ptr = strcmp_inc (ptr, format_get_decimal());
-		if (ptr == NULL)
-			return FMT_UNKNOWN;
-
-		while (ptr[count] == '0')
-			++count;
-
-		if (ptr[count] != ';' && ptr[count] != '_' && ptr[count])
-			return FMT_UNKNOWN;
-		num_decimals = count;
-		ptr += count;
+	tmp = strcmp_inc (ptr, format_get_decimal());
+	if (tmp != NULL) {
+		num_decimals = 0;
+		ptr = tmp;
+		while (ptr[num_decimals] == '0')
+			++num_decimals;
+		ptr += num_decimals;
 	}
+
+	if (ptr[0] == '%') {
+		if (!has_sep && info->currency_symbol_index == 0) {
+			info->num_decimals = num_decimals;
+			return FMT_PERCENT;
+		}
+		return FMT_UNKNOWN;
+	}
+	if (NULL != (tmp = strcmp_inc (ptr, "E+00"))) {
+		if (!has_sep && info->currency_symbol_index == 0 && *tmp == '\0') {
+			info->num_decimals = num_decimals;
+			return FMT_SCIENCE;
+		}
+		return FMT_UNKNOWN;
+	}
+
+	if (ptr[0] != ';' && ptr[0] != '_' && ptr[0])
+		return FMT_UNKNOWN;
 
 	/* We have now handled decimals, and thousands seperators */
 	info->thousands_sep = has_sep;
@@ -372,7 +395,7 @@ cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 
 	/* No special negative handling */
 	if (ptr[0] == '\0')
-		return FMT_UNKNOWN;
+		return result;
 
 	/* Save this position */
 	end = ptr;
@@ -423,6 +446,7 @@ FormatFamily
 cell_format_classify (char const * const fmt, FormatCharacteristics *info)
 {
 	FormatFamily res;
+	int i;
 
 	g_return_val_if_fail (fmt != NULL, FMT_GENERAL);
 	g_return_val_if_fail (info != NULL, FMT_GENERAL);
@@ -433,13 +457,20 @@ cell_format_classify (char const * const fmt, FormatCharacteristics *info)
 	info->negative_fmt = 0;
 	info->currency_symbol_index = 0; /* None */
 
-	/* Is it General */
-	if (g_strcasecmp (_("General"), fmt) == 0)
-		return FMT_GENERAL;
+	/* Is it in the lists */
+	for (i = 0; cell_formats[i] != NULL ; ++i) {
+		int j = 0;
+		char const * const * elem = cell_formats[i];
+		for (; elem[j] ; ++j)
+			if (g_strcasecmp (_(elem[j]), fmt) == 0) {
+				info->list_element = j;
+				return i;
+			}
+	}
 
+	/* Can we parse it ? */
 	if ((res = cell_format_is_number (fmt, info)) != FMT_UNKNOWN)
 		return res;
 
 	return FMT_UNKNOWN;
 }
-
