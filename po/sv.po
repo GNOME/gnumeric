@@ -30,8 +30,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2003-06-15 16:34+0200\n"
-"PO-Revision-Date: 2003-06-15 16:37+0200\n"
+"POT-Creation-Date: 2003-06-16 14:05+0200\n"
+"PO-Revision-Date: 2003-06-16 14:12+0200\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -8752,19 +8752,19 @@ msgstr ""
 
 #: plugins/fn-logical/functions.c:324 plugins/fn-logical/functions.c:328
 #: plugins/fn-logical/functions.c:348 plugins/fn-math/functions.c:3231
-#: plugins/fn-stat/functions.c:5671 plugins/fn-stat/functions.c:5675
-#: plugins/fn-stat/functions.c:5679 plugins/fn-stat/functions.c:5717
-#: plugins/fn-stat/functions.c:5720 plugins/fn-stat/functions.c:5729
-#: plugins/fn-stat/functions.c:5765 plugins/fn-stat/functions.c:5779
-#: plugins/fn-stat/functions.c:5782 plugins/fn-stat/functions.c:5785
-#: plugins/fn-stat/functions.c:5807 plugins/fn-stat/functions.c:5811
-#: plugins/fn-stat/functions.c:5815 plugins/fn-stat/functions.c:5819
-#: plugins/fn-stat/functions.c:5823 plugins/fn-stat/functions.c:5827
-#: plugins/fn-stat/functions.c:5873 plugins/fn-stat/functions.c:5883
-#: plugins/fn-stat/functions.c:5887 plugins/fn-stat/functions.c:5891
-#: plugins/fn-stat/functions.c:5895 plugins/fn-stat/functions.c:5924
-#: plugins/fn-stat/functions.c:5927 plugins/fn-stat/functions.c:5930
-#: plugins/fn-stat/functions.c:5933 plugins/fn-stat/functions.c:5949
+#: plugins/fn-stat/functions.c:5674 plugins/fn-stat/functions.c:5678
+#: plugins/fn-stat/functions.c:5682 plugins/fn-stat/functions.c:5720
+#: plugins/fn-stat/functions.c:5723 plugins/fn-stat/functions.c:5732
+#: plugins/fn-stat/functions.c:5768 plugins/fn-stat/functions.c:5782
+#: plugins/fn-stat/functions.c:5785 plugins/fn-stat/functions.c:5788
+#: plugins/fn-stat/functions.c:5810 plugins/fn-stat/functions.c:5814
+#: plugins/fn-stat/functions.c:5818 plugins/fn-stat/functions.c:5822
+#: plugins/fn-stat/functions.c:5826 plugins/fn-stat/functions.c:5830
+#: plugins/fn-stat/functions.c:5876 plugins/fn-stat/functions.c:5886
+#: plugins/fn-stat/functions.c:5890 plugins/fn-stat/functions.c:5894
+#: plugins/fn-stat/functions.c:5898 plugins/fn-stat/functions.c:5927
+#: plugins/fn-stat/functions.c:5930 plugins/fn-stat/functions.c:5933
+#: plugins/fn-stat/functions.c:5936 plugins/fn-stat/functions.c:5952
 #: src/func-builtin.c:134 src/func-builtin.c:140
 msgid "number,number,"
 msgstr "tal;tal;"
@@ -8786,9 +8786,9 @@ msgstr "tal;tal;"
 #: plugins/fn-math/functions.c:3219 plugins/fn-math/functions.c:3222
 #: plugins/fn-math/functions.c:3225 plugins/fn-math/functions.c:3228
 #: plugins/fn-math/functions.c:3241 plugins/fn-math/functions.c:3253
-#: plugins/fn-math/functions.c:3256 plugins/fn-stat/functions.c:5741
-#: plugins/fn-stat/functions.c:5744 plugins/fn-stat/functions.c:5762
-#: plugins/fn-stat/functions.c:5840 plugins/fn-string/functions.c:1128
+#: plugins/fn-math/functions.c:3256 plugins/fn-stat/functions.c:5744
+#: plugins/fn-stat/functions.c:5747 plugins/fn-stat/functions.c:5765
+#: plugins/fn-stat/functions.c:5843 plugins/fn-string/functions.c:1128
 #: plugins/fn-string/functions.c:1131
 msgid "number"
 msgstr "tal"
@@ -11336,7 +11336,7 @@ msgstr "område;kriterium"
 msgid "number,significance"
 msgstr "tal;signifikans"
 
-#: plugins/fn-math/functions.c:3144 plugins/fn-stat/functions.c:5855
+#: plugins/fn-math/functions.c:3144 plugins/fn-stat/functions.c:5858
 msgid "n,k"
 msgstr "n;k"
 
@@ -11383,8 +11383,8 @@ msgstr "område;område;"
 
 #: plugins/fn-math/functions.c:3244 plugins/fn-math/functions.c:3247
 #: plugins/fn-math/functions.c:3250 plugins/fn-math/functions.c:3266
-#: plugins/fn-stat/functions.c:5714 plugins/fn-stat/functions.c:5723
-#: plugins/fn-stat/functions.c:5846 plugins/fn-stat/functions.c:5902
+#: plugins/fn-stat/functions.c:5717 plugins/fn-stat/functions.c:5726
+#: plugins/fn-stat/functions.c:5849 plugins/fn-stat/functions.c:5905
 msgid "array1,array2"
 msgstr "vektor1;vektor2"
 
@@ -12299,7 +12299,7 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-random/functions.c:1097 plugins/fn-random/functions.c:1133
-#: plugins/fn-random/functions.c:1151 plugins/fn-stat/functions.c:5843
+#: plugins/fn-random/functions.c:1151 plugins/fn-stat/functions.c:5846
 msgid "p"
 msgstr "p"
 
@@ -15148,15 +15148,17 @@ msgstr ""
 #: plugins/fn-stat/functions.c:4549
 msgid ""
 "@FUNCTION=TREND\n"
-"@SYNTAX=TREND(known_y's[,known_x's,new_x's])\n"
+"@SYNTAX=TREND(known_y's[,known_x's[,new_x's[,const]]])\n"
 "@DESCRIPTION=TREND function estimates future values of a given data set "
 "using the ``least squares'' line that best fit to your data. @known_y's is "
 "the y-values where y=mx+b and @known_x's contains the corresponding x-"
 "values.  @new_x's contains the x-values for which you want to estimate the y-"
-"values.\n"
+"values. If @const is FALSE, the line will be forced to go through the "
+"origin, i.e., b will be zero.\n"
 "\n"
 "* If @known_x's is omitted, an array {1, 2, 3, ...} is used.\n"
 "* If @new_x's is omitted, it is assumed to be the same as @known_x's.\n"
+"* If @const is omitted, it is assumed to be TRUE.\n"
 "* If @known_y's and @known_x's have unequal number of data points, TREND "
 "returns #NUM! error.\n"
 "\n"
@@ -15169,15 +15171,17 @@ msgid ""
 "@SEEALSO=LINEST"
 msgstr ""
 "@FUNCTION=TREND\n"
-"@SYNTAX=TREND(kända_y[;kända_x;nya_x])\n"
+"@SYNTAX=TREND(kända_y[;kända_x;[nya_x[;konst]]])\n"
 "@DESCRIPTION=Funktionen TREND beräknar framtida värden för en given "
 "datamängd genom att använda den \"minsta kvadrater\"-linje som bäst passar "
 "din data. @kända_y är de y-värden där y=mx+b och @kända_x innehåller "
 "motsvarande x-värden. @nya_x innehåller x-värdena för vilka du vill "
-"uppskatta y-värden.\n"
+"uppskatta y-värden. Om @konst är FALSKT, kommer linjen tvingas att gå "
+"igenom origo, alltså b blir noll.\n"
 "\n"
 "* Om @kända_x utelämnas används en vektor med {1; 2; 3; ...}.\n"
 "* Om @nya_x utelämnas antas det vara samma som @kända_x.\n"
+"* Om @konst utelämnas antas den vara SANT.\n"
 "* Om @kända_y och @kända_x har olika antal datapunkter returnerar TREND \n"
 "felvärdet #NUM!.\n"
 "\n"
@@ -15189,7 +15193,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LINEST"
 
-#: plugins/fn-stat/functions.c:4661
+#: plugins/fn-stat/functions.c:4664
 msgid ""
 "@FUNCTION=LOGEST\n"
 "@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])\n"
@@ -15247,7 +15251,7 @@ msgstr ""
 "\n"
 "@SEEALSO=GROWTH,TREND"
 
-#: plugins/fn-stat/functions.c:4913
+#: plugins/fn-stat/functions.c:4916
 msgid ""
 "@FUNCTION=GROWTH\n"
 "@SYNTAX=GROWTH(known_y's[,known_x's,new_x's,const])\n"
@@ -15287,7 +15291,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGEST,GROWTH,TREND"
 
-#: plugins/fn-stat/functions.c:5025
+#: plugins/fn-stat/functions.c:5028
 msgid ""
 "@FUNCTION=FORECAST\n"
 "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
@@ -15327,7 +15331,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INTERCEPT,TREND"
 
-#: plugins/fn-stat/functions.c:5096
+#: plugins/fn-stat/functions.c:5099
 msgid ""
 "@FUNCTION=INTERCEPT\n"
 "@SYNTAX=INTERCEPT(known_y's,known_x's)\n"
@@ -15365,7 +15369,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FORECAST,TREND"
 
-#: plugins/fn-stat/functions.c:5146
+#: plugins/fn-stat/functions.c:5149
 msgid ""
 "@FUNCTION=SLOPE\n"
 "@SYNTAX=SLOPE(known_y's,known_x's)\n"
@@ -15395,7 +15399,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV,STDEVPA"
 
-#: plugins/fn-stat/functions.c:5190
+#: plugins/fn-stat/functions.c:5193
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
 "@SYNTAX=SUBTOTAL(function_nbr,ref1,ref2,...)\n"
@@ -15463,7 +15467,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNT,SUM"
 
-#: plugins/fn-stat/functions.c:5290
+#: plugins/fn-stat/functions.c:5293
 msgid ""
 "@FUNCTION=CRONBACH\n"
 "@SYNTAX=CRONBACH(ref1,ref2,...)\n"
@@ -15482,7 +15486,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-stat/functions.c:5419
+#: plugins/fn-stat/functions.c:5422
 msgid ""
 "@FUNCTION=GEOMDIST\n"
 "@SYNTAX=GEOMDIST(k,p,cum)\n"
@@ -15512,7 +15516,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDGEOM"
 
-#: plugins/fn-stat/functions.c:5455
+#: plugins/fn-stat/functions.c:5458
 msgid ""
 "@FUNCTION=LOGISTIC\n"
 "@SYNTAX=LOGISTIC(x,a)\n"
@@ -15534,7 +15538,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDLOGISTIC"
 
-#: plugins/fn-stat/functions.c:5491
+#: plugins/fn-stat/functions.c:5494
 msgid ""
 "@FUNCTION=PARETO\n"
 "@SYNTAX=PARETO(x,a,b)\n"
@@ -15556,7 +15560,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDPARETO"
 
-#: plugins/fn-stat/functions.c:5529
+#: plugins/fn-stat/functions.c:5532
 msgid ""
 "@FUNCTION=RAYLEIGH\n"
 "@SYNTAX=RAYLEIGH(x,sigma)\n"
@@ -15578,7 +15582,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDRAYLEIGH"
 
-#: plugins/fn-stat/functions.c:5569
+#: plugins/fn-stat/functions.c:5572
 msgid ""
 "@FUNCTION=RAYLEIGHTAIL\n"
 "@SYNTAX=RAYLEIGHTAIL(x,a,sigma)\n"
@@ -15600,7 +15604,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDRAYLEIGHTAIL"
 
-#: plugins/fn-stat/functions.c:5612
+#: plugins/fn-stat/functions.c:5615
 msgid ""
 "@FUNCTION=EXPPOWDIST\n"
 "@SYNTAX=EXPPOWDIST(x,a,b)\n"
@@ -15622,7 +15626,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDEXPPOW"
 
-#: plugins/fn-stat/functions.c:5643
+#: plugins/fn-stat/functions.c:5646
 msgid ""
 "@FUNCTION=LAPLACE\n"
 "@SYNTAX=LAPLACE(x,a)\n"
@@ -15642,185 +15646,181 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDLAPLACE"
 
-#: plugins/fn-stat/functions.c:5684 plugins/fn-stat/functions.c:5946
+#: plugins/fn-stat/functions.c:5687 plugins/fn-stat/functions.c:5949
 msgid "k,p"
 msgstr "k;p"
 
-#: plugins/fn-stat/functions.c:5688
+#: plugins/fn-stat/functions.c:5691
 msgid "x,alpha,beta,a,b"
 msgstr "x;alfa;beta;a;b"
 
-#: plugins/fn-stat/functions.c:5691
+#: plugins/fn-stat/functions.c:5694
 msgid "p,alpha,beta,a,b"
 msgstr "p;alfa;beta;a;b"
 
-#: plugins/fn-stat/functions.c:5694
+#: plugins/fn-stat/functions.c:5697
 msgid "n,t,p,c"
 msgstr "n;t;p;c"
 
-#: plugins/fn-stat/functions.c:5698
+#: plugins/fn-stat/functions.c:5701
 msgid "x,a,cum"
 msgstr "x;a;kum"
 
-#: plugins/fn-stat/functions.c:5702
+#: plugins/fn-stat/functions.c:5705
 msgid "x,dof"
 msgstr "x;fri"
 
-#: plugins/fn-stat/functions.c:5705 plugins/fn-stat/functions.c:5911
+#: plugins/fn-stat/functions.c:5708 plugins/fn-stat/functions.c:5914
 msgid "p,dof"
 msgstr "p;fri"
 
-#: plugins/fn-stat/functions.c:5708
+#: plugins/fn-stat/functions.c:5711
 msgid "act_range,theo_range"
 msgstr "verkligt_område;teoretiskt_område"
 
-#: plugins/fn-stat/functions.c:5711
+#: plugins/fn-stat/functions.c:5714
 msgid "x,stddev,size"
 msgstr "x;stdav;storlek"
 
-#: plugins/fn-stat/functions.c:5726
+#: plugins/fn-stat/functions.c:5729
 msgid "trials,p,alpha"
 msgstr "försök;p;alfa"
 
-#: plugins/fn-stat/functions.c:5732
+#: plugins/fn-stat/functions.c:5735
 msgid "x,y,cumulative"
 msgstr "x;y;kumulativ"
 
-#: plugins/fn-stat/functions.c:5735
+#: plugins/fn-stat/functions.c:5738
 msgid "x,dof of num,dof of denom"
 msgstr "x;fri hos num;fri hos denom"
 
-#: plugins/fn-stat/functions.c:5738
+#: plugins/fn-stat/functions.c:5741
 msgid "p,dof of num,dof of denom"
 msgstr "p;fri hos num;fri hos denom"
 
-#: plugins/fn-stat/functions.c:5747
+#: plugins/fn-stat/functions.c:5750
 msgid "x,known y's,known x's"
 msgstr "x;kända y;kända x"
 
-#: plugins/fn-stat/functions.c:5750
+#: plugins/fn-stat/functions.c:5753
 msgid "data_array,bins_array"
 msgstr "datavektor;högvektor"
 
-#: plugins/fn-stat/functions.c:5753
+#: plugins/fn-stat/functions.c:5756
 msgid "arr1,arr2"
 msgstr "vektor1;vektor2"
 
-#: plugins/fn-stat/functions.c:5756
+#: plugins/fn-stat/functions.c:5759
 msgid "number,alpha,beta,cum"
 msgstr "tal;alfa;beta;kum"
 
-#: plugins/fn-stat/functions.c:5759
+#: plugins/fn-stat/functions.c:5762
 msgid "number,alpha,beta"
 msgstr "tal;alfa;beta"
 
-#: plugins/fn-stat/functions.c:5769 plugins/fn-stat/functions.c:5914
+#: plugins/fn-stat/functions.c:5772 plugins/fn-stat/functions.c:5917
 msgid "known_y's,known_x's,new_x's,const"
 msgstr "kända_y;kända_x;nya_x;konst"
 
-#: plugins/fn-stat/functions.c:5776
+#: plugins/fn-stat/functions.c:5779
 msgid "x,n,M,N"
 msgstr "x;n;M;N"
 
-#: plugins/fn-stat/functions.c:5789 plugins/fn-stat/functions.c:5792
-#: plugins/fn-stat/functions.c:5804
+#: plugins/fn-stat/functions.c:5792 plugins/fn-stat/functions.c:5795
+#: plugins/fn-stat/functions.c:5807
 msgid "known_y's,known_x's,const,stat"
 msgstr "kända_y;kända_x;konst;stat"
 
-#: plugins/fn-stat/functions.c:5795 plugins/fn-stat/functions.c:5870
-#: plugins/fn-stat/functions.c:5899
+#: plugins/fn-stat/functions.c:5798 plugins/fn-stat/functions.c:5873
+#: plugins/fn-stat/functions.c:5902
 msgid "known_y's,known_x's"
 msgstr "kända_y;kända_x"
 
-#: plugins/fn-stat/functions.c:5798 plugins/fn-stat/functions.c:5837
+#: plugins/fn-stat/functions.c:5801 plugins/fn-stat/functions.c:5840
 msgid "p,mean,stddev"
 msgstr "p;medel;stdav"
 
-#: plugins/fn-stat/functions.c:5801
-msgid "x,meean,stddev"
-msgstr "x;medel;stdav"
-
-#: plugins/fn-stat/functions.c:5831
-msgid "f,t,p"
-msgstr "f;t;p"
-
-#: plugins/fn-stat/functions.c:5834
-msgid "x,mean,stddev,cumulative"
-msgstr "x;medel;stdav;kumulativ"
-
-#: plugins/fn-stat/functions.c:5849
-msgid "array,k"
-msgstr "vektor,k"
-
-#: plugins/fn-stat/functions.c:5852
-msgid "array,x,significance"
-msgstr "vektor;x;signifikans"
-
-#: plugins/fn-stat/functions.c:5858
-msgid "x,mean,cumulative"
-msgstr "x;medel;kumulativ"
-
-#: plugins/fn-stat/functions.c:5861
-msgid "x_range,prob_range,lower_limit,upper_limit"
-msgstr "x-område;sannolikhetsområde;undre_gräns;övre_gräns"
-
-#: plugins/fn-stat/functions.c:5864
-msgid "array,quart"
-msgstr "vektor;fjärdedel"
-
-#: plugins/fn-stat/functions.c:5877
+#: plugins/fn-stat/functions.c:5804 plugins/fn-stat/functions.c:5880
 msgid "x,mean,stddev"
 msgstr "x;medel;stdav"
 
-#: plugins/fn-stat/functions.c:5880
+#: plugins/fn-stat/functions.c:5834
+msgid "f,t,p"
+msgstr "f;t;p"
+
+#: plugins/fn-stat/functions.c:5837
+msgid "x,mean,stddev,cumulative"
+msgstr "x;medel;stdav;kumulativ"
+
+#: plugins/fn-stat/functions.c:5852
+msgid "array,k"
+msgstr "vektor,k"
+
+#: plugins/fn-stat/functions.c:5855
+msgid "array,x,significance"
+msgstr "vektor;x;signifikans"
+
+#: plugins/fn-stat/functions.c:5861
+msgid "x,mean,cumulative"
+msgstr "x;medel;kumulativ"
+
+#: plugins/fn-stat/functions.c:5864
+msgid "x_range,prob_range,lower_limit,upper_limit"
+msgstr "x-område;sannolikhetsområde;undre_gräns;övre_gräns"
+
+#: plugins/fn-stat/functions.c:5867
+msgid "array,quart"
+msgstr "vektor;fjärdedel"
+
+#: plugins/fn-stat/functions.c:5883
 msgid "array,interval"
 msgstr "vektor;intervall"
 
-#: plugins/fn-stat/functions.c:5908
+#: plugins/fn-stat/functions.c:5911
 msgid "x,dof,tails"
 msgstr "x;fri;svansar"
 
-#: plugins/fn-stat/functions.c:5917
+#: plugins/fn-stat/functions.c:5920
 msgid "ref,fraction"
 msgstr "ref;bråktal"
 
-#: plugins/fn-stat/functions.c:5921
+#: plugins/fn-stat/functions.c:5924
 msgid "array1,array2,tails,type"
 msgstr "vektor1;vektor2;svansar;typ"
 
-#: plugins/fn-stat/functions.c:5936
+#: plugins/fn-stat/functions.c:5939
 msgid "x.alpha,beta,cumulative"
 msgstr "x.alfa;beta;kumulativ"
 
-#: plugins/fn-stat/functions.c:5939
+#: plugins/fn-stat/functions.c:5942
 msgid "ref,x"
 msgstr "ref;x"
 
-#: plugins/fn-stat/functions.c:5943 plugins/fn-stat/functions.c:5961
+#: plugins/fn-stat/functions.c:5946 plugins/fn-stat/functions.c:5964
 msgid "x,a,b"
 msgstr "x;a;b"
 
-#: plugins/fn-stat/functions.c:5952
+#: plugins/fn-stat/functions.c:5955
 msgid "x"
 msgstr "x"
 
-#: plugins/fn-stat/functions.c:5955 plugins/fn-stat/functions.c:5958
+#: plugins/fn-stat/functions.c:5958 plugins/fn-stat/functions.c:5961
 msgid "x,a"
 msgstr "x;a"
 
-#: plugins/fn-stat/functions.c:5964
+#: plugins/fn-stat/functions.c:5967
 msgid "x,sigma"
 msgstr "x;sigma"
 
-#: plugins/fn-stat/functions.c:5967
+#: plugins/fn-stat/functions.c:5970
 msgid "x,a,sigma"
 msgstr "x;a;sigma"
 
-#: plugins/fn-stat/functions.c:5973
+#: plugins/fn-stat/functions.c:5976
 msgid "function_nbr,ref,ref,"
 msgstr "funktionsnummer;ref;ref;"
 
-#: plugins/fn-stat/functions.c:5976
+#: plugins/fn-stat/functions.c:5979
 msgid "ref,ref,"
 msgstr "ref;ref;"
 
@@ -17228,7 +17228,7 @@ msgstr ""
 "Exempelinsticksmodul för Python som tillhandahåller en del (onödiga) "
 "funktioner."
 
-#: plugins/python-loader/gnm-py-interpreter.c:205
+#: plugins/python-loader/gnm-py-interpreter.c:224
 msgid "Default interpreter"
 msgstr "Standardtolk"
 
@@ -17240,20 +17240,20 @@ msgstr "Inläsare för Python-insticksmoduler"
 msgid "This plugin provides support for Python plugins"
 msgstr "Denna insticksmodul tillhandahåller stöd för Python-insticksmoduler"
 
-#: plugins/python-loader/py-console.c:71
+#: plugins/python-loader/py-console.c:74
 #, c-format
 msgid "*** Interpreter: %s\n"
 msgstr "*** Tolk: %s\n"
 
-#: plugins/python-loader/py-console.c:121
+#: plugins/python-loader/py-console.c:125
 msgid "Gnumeric Python console"
 msgstr "Gnumeric Pythonkonsol"
 
-#: plugins/python-loader/py-console.c:131
+#: plugins/python-loader/py-console.c:135
 msgid "E_xecute in:"
 msgstr "E_xekvera i:"
 
-#: plugins/python-loader/py-console.c:168
+#: plugins/python-loader/py-console.c:179
 msgid "C_ommand:"
 msgstr "K_ommando:"
 
@@ -17297,30 +17297,30 @@ msgstr "Modulen \"%s\" finns inte."
 msgid "Execution of module \"%s\" failed."
 msgstr "Körning av modulen \"%s\" misslyckades."
 
-#: plugins/python-loader/python-loader.c:297
+#: plugins/python-loader/python-loader.c:299
 msgid "Some name"
 msgstr "Något namn"
 
-#: plugins/python-loader/python-loader.c:354
-#: plugins/python-loader/python-loader.c:442
-#: plugins/python-loader/python-loader.c:657
+#: plugins/python-loader/python-loader.c:358
+#: plugins/python-loader/python-loader.c:448
+#: plugins/python-loader/python-loader.c:663
 #, c-format
 msgid "Python file \"%s\" has invalid format."
 msgstr "Python-filen \"%s\" har ett ogiltigt format."
 
-#: plugins/python-loader/python-loader.c:358
-#: plugins/python-loader/python-loader.c:447 src/plugin-loader-module.c:360
+#: plugins/python-loader/python-loader.c:362
+#: plugins/python-loader/python-loader.c:453 src/plugin-loader-module.c:360
 #: src/plugin-loader-module.c:421
 #, c-format
 msgid "File doesn't contain \"%s\" function."
 msgstr "Filen innehåller inte funktionen \"%s\"."
 
-#: plugins/python-loader/python-loader.c:662
+#: plugins/python-loader/python-loader.c:668
 #, c-format
 msgid "File doesn't contain \"%s\" dictionary."
 msgstr "Filen innehåller inte ordboken \"%s\"."
 
-#: plugins/python-loader/python-loader.c:667
+#: plugins/python-loader/python-loader.c:673
 #, c-format
 msgid "Object \"%s\" is not a dictionary."
 msgstr "Objektet \"%s\" är inte en ordbok."
@@ -29672,6 +29672,9 @@ msgstr "Fel vid sparande av fil"
 #: src/xml-io.c:3951
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML-filformat"
+
+#~ msgid "x,meean,stddev"
+#~ msgstr "x;medel;stdav"
 
 #~ msgid "p,mean,stdev"
 #~ msgstr "p;medel;stdav"
