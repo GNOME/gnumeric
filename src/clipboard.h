@@ -27,4 +27,7 @@ void        clipboard_paste_region       (CellRegion *region,
 					  int         paste_flags);
 
 void        clipboard_release            (CellRegion *region);
+
+int         dialog_paste_special         (void);
+
 #endif

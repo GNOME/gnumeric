@@ -3,22 +3,6 @@
 #include "gnumeric.h"
 #include "eval.h"
 
-static void
-cell_formula_link (Cell *cell)
-{
-	Sheet *sheet = cell->sheet;
-
-	sheet->formula_cell_list = g_list_prepend (sheet->formula_cell_list, cell);
-}
-
-static void
-cell_formula_unlink (Cell *cell)
-{
-	Sheet *sheet = cell->sheet;
-	
-	sheet->formula_cell_list = g_list_remove (sheet->formula_cell_list, cell);
-}
-
 void
 cell_set_formula (Cell *cell, char *text)
 {
@@ -38,7 +22,7 @@ cell_set_formula (Cell *cell, char *text)
 		return;
 	}
 
-	cell_formula_link (cell);
+	sheet_cell_formula_link (cell);
 	cell_add_dependencies (cell);
 	cell_queue_recalc (cell);
 }
@@ -76,7 +60,7 @@ cell_set_text (Cell *cell, char *text)
 	
 	if (cell->parsed_node){
 		cell_drop_dependencies (cell);
-		cell_formula_unlink (cell);
+		sheet_cell_formula_unlink (cell);
 
 		expr_tree_unref (cell->parsed_node);
 		cell->parsed_node = NULL;
@@ -172,7 +156,6 @@ cell_destroy (Cell *cell)
 	g_return_if_fail (cell != NULL);
 
 	if (cell->parsed_node){
-		cell_formula_unlink (cell);
 		expr_tree_unref (cell->parsed_node);
 	}
 

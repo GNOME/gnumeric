@@ -144,6 +144,8 @@ int         sheet_cell_foreach_range  (Sheet *sheet, int only_existing,
 				       sheet_cell_foreach_callback callback,
 				       void *closure);
 Cell       *sheet_cell_get            (Sheet *sheet, int col, int row);
+void        sheet_cell_formula_link   (Cell *cell);
+void        sheet_cell_formula_unlink (Cell *cell);
 
 /* Create new ColRowInfos from the default sheet style */
 ColRowInfo *sheet_col_new             (Sheet *sheet);

@@ -731,3 +731,129 @@ cell_get_abs_col_row (CellRef *cell_ref, int eval_col, int eval_row, int *col, i
 		*row = cell_ref->row;
 }
 
+/*
+ * Converts a parsed tree into its string representation
+ * assuming that we are evaluating at col, row (This is
+ * only used during copying to "render" a new text
+ * representation for a copied cell.
+ *
+ * This routine is pretty simple: it walks the ExprTree and
+ * create a string representation.
+ */
+char *
+expr_decode_tree (ExprTree *tree, int col, int row)
+{
+	static const char *binary_operation_names [] = {
+		"=", ">", "<", ">=", "<=", "<>",
+		"+", "-", "*", "/",  "^",  "&"
+	};
+
+	g_return_val_if_fail (tree != NULL, NULL);
+
+	switch (tree->oper){
+
+		/* The binary operations */
+	case OP_EQUAL:
+	case OP_NOT_EQUAL:
+	case OP_GT:
+	case OP_GTE:
+	case OP_LT:
+	case OP_LTE:
+	case OP_ADD:
+	case OP_SUB:
+	case OP_MULT:
+	case OP_DIV:
+	case OP_EXP:
+	case OP_CONCAT: {	
+		char *a, *b, *res;
+		char const *op;
+		
+		a = expr_decode_tree (tree->u.binary.value_a, col, row);
+		b = expr_decode_tree (tree->u.binary.value_b, col, row);
+		op = binary_operation_names [tree->oper];
+		res = g_copy_strings ("(", a, op, b, ")", NULL);
+		g_free (a);
+		g_free (b);
+		return res;
+	}
+	
+	case OP_NEG: {
+		char *res, *a;
+
+		a = expr_decode_tree (tree->u.value, col, row);
+		res = g_copy_strings ("-", a);
+		g_free (a);
+		return res;
+	}
+	
+	case OP_FUNCALL: {
+		FunctionDefinition *fd;
+		GList *arg_list, *l;
+		char *res, *sum;
+		char **args;
+		int  argc;
+
+		fd = tree->u.function.symbol->data;
+		arg_list = tree->u.function.arg_list;
+		argc = g_list_length (arg_list);
+
+		if (argc){
+			int i, len = 0;
+			args = g_malloc (sizeof (char *) * argc);
+
+			i = 0;
+			for (l = arg_list; l; l = l->next){
+				ExprTree *t = l->data;
+				
+				args [i] = expr_decode_tree (t, col, row);
+				len += strlen (args [i]) + 1;
+			}
+			len++;
+			sum = g_malloc (len + 1);
+			
+			i = 0;
+			sum [0] = 0;
+			for (l = arg_list; l; l = l->next)
+				strcat (sum, args [i]);
+
+			res = g_copy_strings (
+				fd->name, "(", sum, ")", NULL);
+
+			for (i = 0; i < argc; i++)
+				g_free (args [i]);
+			g_free (args);
+
+			return res;
+		} else
+			return g_copy_strings (fd->name, "()", NULL);
+	}
+	
+	case OP_CONSTANT: {
+		Value *v = tree->u.constant;
+
+		if (v->type == VALUE_CELLRANGE){
+			char buffer_a [20], buffer_b [20], *a;
+
+			a = cellref_name (&v->v.cell_range.cell_a, col, row);
+			strcpy (buffer_a, a);
+			a = cellref_name (&v->v.cell_range.cell_b, col, row);
+			strcpy (buffer_b, a);
+
+			return g_copy_strings (buffer_a, ":", buffer_b, NULL);
+		} else
+			return value_string (v);
+	}
+	
+	case OP_VAR: {
+		CellRef *cell_ref;
+
+		cell_ref = &tree->u.constant->v.cell;
+		return g_strdup (cellref_name (cell_ref, col, row));
+	}
+	}
+
+	g_warning ("ExprTree: This should not happen\n");
+	return g_strdup ("0");
+}
+
+

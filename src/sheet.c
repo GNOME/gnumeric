@@ -1118,11 +1118,10 @@ walk_boundaries (int lower_col,   int lower_row,
 		 int upper_col,   int upper_row,
 		 int inc_x,       int inc_y,
 		 int current_col, int current_row,
-		 int *new_col,    int *new_row,
-		 int wrap)
+		 int *new_col,    int *new_row)
 {
-	if (current_row + inc_y == upper_row ||
-	    current_col + inc_x == upper_col){
+	if (current_row + inc_y > upper_row ||
+	    current_col + inc_x > upper_col){
 		*new_row = current_row;
 		*new_col = current_col;
 		return TRUE;
@@ -1140,13 +1139,72 @@ walk_boundaries (int lower_col,   int lower_row,
 	return FALSE;
 }
 
+/*
+ * walk_boundaries: implements the decitions for walking a region
+ * returns TRUE if the cursor left the boundary region.  This
+ * version implements wrapping on the regions.
+ */
+static int
+walk_boundaries_wrapped (int lower_col,   int lower_row,
+			 int upper_col,   int upper_row,
+			 int inc_x,       int inc_y,
+			 int current_col, int current_row,
+			 int *new_col,    int *new_row)
+{
+	if (current_row + inc_y > upper_row){
+		if (current_col + 1 > upper_col)
+			goto overflow;
+
+		*new_row = lower_row;
+		*new_col = current_col + 1;
+		return FALSE;
+	}
+
+	if (current_row + inc_y < lower_row){
+		if (current_col - 1 < lower_col)
+			goto overflow;
+		
+		*new_row = upper_row;
+		*new_col = current_col - 1;
+		return FALSE;
+	}
+	
+	if (current_col + inc_x > upper_col){
+		if (current_row + 1 > upper_row)
+			goto overflow;
+		
+		*new_row = current_row + 1;
+		*new_col = lower_col;
+		return FALSE;
+	}
+
+	if (current_col + inc_x < lower_col){
+		if (current_row - 1 < lower_row)
+			goto overflow;
+		*new_row = current_row - 1;
+		*new_col = upper_col;
+		return FALSE;
+	}
+	
+	*new_row = current_row + inc_y;
+	*new_col = current_col + inc_x;
+	return FALSE;
+	
+overflow:
+	*new_row = current_row;
+	*new_col = current_col;
+	return TRUE;
+}
+
 int
 sheet_selection_walk_step (Sheet *sheet, int forward, int horizontal,
 			   int current_col, int current_row,
 			   int *new_col, int *new_row)
 {
-	int inc_x = 0, inc_y = 0, diff, overflow;
-
+	SheetSelection *ss;
+	int inc_x = 0, inc_y = 0;
+	int selections_count, diff, overflow;;
+	
 	diff = forward ? 1 : -1;
 
 	if (horizontal)
@@ -1154,14 +1212,16 @@ sheet_selection_walk_step (Sheet *sheet, int forward, int horizontal,
 	else
 		inc_y = diff;
 				 
-	if (g_list_length (sheet->selections) == 1){
-		SheetSelection *ss = sheet->selections->data;
+	selections_count = g_list_length (sheet->selections);
+	
+	if (selections_count == 1){
+		ss = sheet->selections->data;
 
 		/* If there is no selection besides the cursor, plain movement */
 		if (ss->start_col == ss->end_col && ss->start_row == ss->end_row){
 			walk_boundaries (0, 0, SHEET_MAX_COLS, SHEET_MAX_ROWS,
 					 inc_x, inc_y, current_col, current_row,
-					 new_col, new_row, FALSE);
+					 new_col, new_row);
 			return FALSE;
 		}
 	}
@@ -1169,30 +1229,35 @@ sheet_selection_walk_step (Sheet *sheet, int forward, int horizontal,
 	if (!sheet->walk_info.current)
 		sheet->walk_info.current = sheet->selections->data;
 
-	do {
-		SheetSelection *ss = sheet->walk_info.current;
+	ss = sheet->walk_info.current;
 
-		overflow = walk_boundaries (ss->start_col, ss->start_row,
-					    ss->end_col,   ss->end_row,
-					    inc_x, inc_y, current_col, current_row,
-					    new_col, new_row, TRUE);
-		if (overflow){
-			GList *l = sheet->selections;
-
-			for (; l; l = l->next){
-				if (l->data != sheet->walk_info.current)
-					continue;
-				
-				l = l->next;
-				sheet->walk_info.current =
-					l ? l->data : sheet->selections->data;
-
-				*new_col = ss->start_col;
-				*new_row = ss->start_row;
-				return TRUE;
-			}
+	overflow = walk_boundaries_wrapped (
+		ss->start_col, ss->start_row,
+		ss->end_col,   ss->end_row,
+		inc_x, inc_y, current_col, current_row,
+		new_col, new_row);
+	
+	if (overflow){
+		int p;
+		
+		p = g_list_index (sheet->selections, ss);
+		p += diff;
+		if (p < 0)
+			p = selections_count - 1;
+		else if (p == selections_count)
+			p = 0;
+		
+		ss = g_list_nth (sheet->selections, p)->data;
+		sheet->walk_info.current = ss;
+		
+		if (forward){
+			*new_col = ss->start_col;
+			*new_row = ss->start_row;
+		} else {
+			*new_col = ss->end_col;
+			*new_row = ss->end_row;
 		}
-	} while (overflow);
+	}
 	return TRUE;
 }
 
@@ -1442,13 +1507,32 @@ sheet_cell_remove (Sheet *sheet, Cell *cell)
 
 	cellref.col = cell->col->pos;
 	cellref.row = cell->row->pos;
-	
+
+	if (cell->parsed_node)
+		sheet_cell_formula_unlink (cell);
+
 	g_hash_table_remove (sheet->cell_hash, &cellref);
 	cell->col->data = g_list_remove (cell->col->data, cell);
 
 	sheet_redraw_cell_region (sheet,
 				  cellref.col, cellref.row, 
 				  cellref.col, cellref.row);
+}
+
+void
+sheet_cell_formula_link (Cell *cell)
+{
+	Sheet *sheet = cell->sheet;
+
+	sheet->formula_cell_list = g_list_prepend (sheet->formula_cell_list, cell);
+}
+
+void
+sheet_cell_formula_unlink (Cell *cell)
+{
+	Sheet *sheet = cell->sheet;
+	
+	sheet->formula_cell_list = g_list_remove (sheet->formula_cell_list, cell);
 }
 
 static int

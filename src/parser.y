@@ -629,7 +629,6 @@ value_string (Value *value)
 		break;
 		
 	case VALUE_CELLRANGE:
-		g_warning ("Cellrange on a value!");
 		return g_strdup ("Internal problem");
 	}
 	return g_strdup (buffer);

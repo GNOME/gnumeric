@@ -58,6 +58,7 @@ cut_cmd (GtkWidget *widget, Workbook *wb)
 static void
 paste_special_cmd (GtkWidget *widget, Workbook *wb)
 {
+	dialog_paste_special ();
 }
 
 static GnomeUIInfo workbook_menu_file [] = {

@@ -138,6 +138,8 @@ extern int       parser_col, parser_row;
 void        cell_get_abs_col_row (CellRef *cell_ref, int eval_col, int eval_row, int *col, int *row);
 
 ExprTree   *expr_parse_string    (char *expr, int col, int row, char **error_msg);
+char       *expr_decode_tree     (ExprTree *tree, int col, int row);
+
 void        expr_tree_ref        (ExprTree *tree);
 void        expr_tree_unref      (ExprTree *tree);
 
@@ -147,7 +149,7 @@ void        eval_expr_release    (ExprTree *tree);
 Value      *eval_expr            (void *asheet, ExprTree *tree,
 				  int  col, int row,
 				  char **error_string);
-				 
+
 void        value_release        (Value *value);
 Value      *value_cast_to_float  (Value *v);
 int         value_get_bool       (Value *v, int *err);
