@@ -12,6 +12,15 @@ Emmanuel Pacaud:
 	* Add a combo for marker selection.
 	* Make colour combo less ugly for themes.
 
+Jean Brefort:
+	* Basic SVG renderer for charting engine.
+	* Implement brightness style gradients
+
+Jon Kåre:
+	* Add 'Save As' entry for graph objects.  Support png for now.
+	* Persist Styles for charting engine.
+	* Begin to enable support for is_auto
+
 Jody:
 	* Get the lifecycle of copied GogGraphs running smoothly.
 	* Fix printing of graphs.
@@ -32,11 +41,7 @@ Jody:
 	* Fix dynamic depend leak.
 	* Improve performance when deleting multiple sheets at once.
 	* Only export a charting style field if it is interesting.
-
-Jon Kåre:
-	* Add 'Save As' entry for graph objects.  Support png for now.
-	* Persist Styles for charting engine.
-	* Begin to enable support for is_auto
+	* Hook up the Jean's SVG exporter to Jon Kåre's Chart Save As
 
 Morten:
 	* Support End+Home key sequence.

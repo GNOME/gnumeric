@@ -40,11 +40,14 @@
 #include <goffice/graph/gog-data-allocator.h>
 #include <goffice/graph/gog-renderer-gnome-print.h>
 #include <goffice/graph/gog-renderer-pixbuf.h>
+#include <goffice/graph/gog-renderer-svg.h>
 #include <goffice/graph/gog-control-foocanvas.h>
 #include <graph.h>
 
-#include <gdk/gdkkeysyms.h>
 #include <gsf/gsf-impl-utils.h>
+#include <gsf/gsf-utils.h>
+#include <gsf/gsf-output-stdio.h>
+#include <gdk/gdkkeysyms.h>
 #include <libfoocanvas/foo-canvas-line.h>
 #include <libfoocanvas/foo-canvas-rect-ellipse.h>
 #include <libfoocanvas/foo-canvas-polygon.h>
@@ -133,16 +136,14 @@ sheet_object_graph_new_view (SheetObject *so, SheetControl *sc, gpointer key)
  *  svg
  *  eps
  *
- * TODO: Add svg renderer and (possibly) eps renderer.  We may also
- * use a new instance of pixbufrenderer to save as png. This would
- * allow the user to specify size of the saved image, if that's
- * wanted.
+ * TODO: Possibly add an eps renderer.  We may also use a new instance of
+ * pixbufrenderer to save as png. This would allow the user to specify size of
+ * the saved image, if that's wanted.
  */
 static void
 cb_save_as (GtkWidget *widget, GObject *obj_view)
 {
 	SheetObjectGraph *sog;
-	GdkPixbuf *pixbuf;
 	SheetControl *sc;
 	WorkbookControlGUI *wbcg;
 	GtkFileSelection *fsel;
@@ -150,10 +151,6 @@ cb_save_as (GtkWidget *widget, GObject *obj_view)
 	sog = SHEET_OBJECT_GRAPH (sheet_object_view_obj (obj_view));
 
 	g_return_if_fail (sog != NULL);
-	g_return_if_fail (IS_GOG_RENDERER_PIXBUF (sog->renderer));
-
-	pixbuf = gog_renderer_pixbuf_get (GOG_RENDERER_PIXBUF (sog->renderer));
-	g_return_if_fail (pixbuf != NULL);
 
 	sc  = sheet_object_view_control (obj_view);
 	wbcg = scg_get_wbcg (SHEET_CONTROL_GUI (sc));
@@ -161,27 +158,49 @@ cb_save_as (GtkWidget *widget, GObject *obj_view)
 				   (_("Save graph as image")));
 	/* Show file selector */
 	if (gnumeric_dialog_file_selection (wbcg, fsel)) {
-		const gchar *fname = gtk_file_selection_get_filename (fsel);
-		const gchar *base = g_path_get_basename (fname);
-		const gchar *extension = strrchr (base, '.');
-		gchar  *fullname;
+		char const *fname = gtk_file_selection_get_filename (fsel);
+		char const *base = g_path_get_basename (fname);
+		char const *extension = gsf_extension_pointer (base);
 		GError *err = NULL;
 		gboolean ret;
 
-		if (extension == NULL) {
-			fullname = g_strdup_printf ("%s.%s", fname, "png");
+		if (extension == NULL)
+			fname = g_strdup_printf ("%s.%s", fname, "png");
+
+		if (g_ascii_strcasecmp (extension, "png") == 0) {
+			GdkPixbuf *pixbuf = gog_renderer_pixbuf_get (
+				GOG_RENDERER_PIXBUF (sog->renderer));
+			ret = gdk_pixbuf_save (pixbuf, fname, "png", &err, NULL);
+		} else if (g_ascii_strcasecmp (extension, "svg") == 0) {
+			GsfOutputStdio *output = gsf_output_stdio_new (fname, &err);
+
+			if (output != NULL) {
+				double coords [4];
+				sheet_object_position_pts_get (SHEET_OBJECT (sog), coords);
+				ret = gog_graph_export_to_svg (sog->graph, GSF_OUTPUT (output),
+					fabs (coords[2] - coords[0]),
+					fabs (coords[3] - coords[1]));
+
+				gsf_output_close (GSF_OUTPUT (output));
+				g_object_unref (output);
+
+#warning Translate when strings unfreeze
+				if (!ret && err == NULL)
+					err = g_error_new (gsf_output_error_id (), 0,
+						"Unknown failure generating SVG for Chart");
+			} else
+				ret = FALSE;
 		} else {
-			if (strcmp (extension, ".png") != 0) {
-				gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
-						 _("Sorry, gnumeric can only save graphs as png images"));
-				return;
-			}
-			fullname = g_strdup (fname);
+#warning WRONG It can support SVG too, fix when strings unfreeze
+			gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
+					 _("Sorry, gnumeric can only save graphs as png images"));
+			return;
 		}
-		ret   = gdk_pixbuf_save (pixbuf, fullname, "png", &err, NULL);
+
 		if (!ret)
 			cmd_context_error (COMMAND_CONTEXT (wbcg), err);
-		g_free (fullname);
+		if (extension == NULL)
+			g_free ((char *)fname);
 	}
 }
 

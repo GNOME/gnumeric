@@ -108,6 +108,7 @@ void	   gog_style_merge		(GogStyle *dst, GogStyle const *src);
 void	   gog_style_set_marker		(GogStyle *style, GOMarker *marker);
 void	   gog_style_set_font		(GogStyle *style,
 					 PangoFontDescription *desc);
+void	   gog_style_set_fill_brightness(GogStyle *style, float brightness);
 gboolean   gog_style_is_different_size	(GogStyle const *a, GogStyle const *b);
 gboolean   gog_style_is_marker_visible	(GogStyle const *style);
 gboolean   gog_style_is_line_visible	(GogStyle const *style);

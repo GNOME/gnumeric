@@ -58,7 +58,9 @@ libgoffice_graph_la_SOURCES = \
 	gog-control-foocanvas.c		\
 	gog-control-foocanvas.h		\
 	gog-renderer-gnome-print.c	\
-	gog-renderer-gnome-print.h
+	gog-renderer-gnome-print.h		\
+	gog-renderer-svg.c	\
+	gog-renderer-svg.h
 
 
 gnumeric_glade_DATA = \
@@ -74,4 +76,3 @@ INCLUDES = -I$(top_srcdir) 					\
 	   -I$(top_srcdir)/src/cut-n-paste-code			\
 	   -I$(top_srcdir)/src/cut-n-paste-code/foocanvas	\
 	    $(GNUMERIC_CFLAGS)
-

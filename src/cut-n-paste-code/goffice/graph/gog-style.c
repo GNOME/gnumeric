@@ -65,7 +65,9 @@ typedef struct {
 			GtkWidget *fore, *back, *combo;
 		} pattern;
 		struct {
-			GtkWidget *start, *end, *combo;
+			GtkWidget *start, *end, *end_label, *combo;
+			GtkWidget *brightness, *brightness_box;
+			guint	   timer;
 		} gradient;
 		struct {
 			GdkPixbuf *image;	
@@ -362,7 +364,6 @@ static void
 cb_gradient_type_changed (GtkWidget *cc, int dir, StylePrefState const *state)
 {
 	GogStyle *style = gog_object_dup_style (state->obj);
-	g_return_if_fail (style != NULL);
 	style->fill.u.gradient.dir = dir; /* pre mapped */
 	gog_object_set_style (state->obj, style);
 }
@@ -394,50 +395,129 @@ populate_gradient_combo (StylePrefState *state, GogStyle const *style)
 static void
 cb_fill_gradient_start_color (GtkWidget *cc,
 			      G_GNUC_UNUSED GdkColor *color,	G_GNUC_UNUSED gboolean is_custom,
-			      G_GNUC_UNUSED gboolean by_user,	G_GNUC_UNUSED gboolean is_default,
+			    G_GNUC_UNUSED gboolean by_user,	G_GNUC_UNUSED gboolean is_default,
 			      StylePrefState *state)
 {
 	GogStyle *style = gog_object_dup_style (state->obj);
-	g_return_if_fail (style != NULL);
-	g_return_if_fail (GOG_FILL_STYLE_GRADIENT == style->fill.type);
 	style->fill.u.gradient.start = color_combo_get_gocolor (cc);
 	gog_object_set_style (state->obj, style);
 	populate_gradient_combo (state, style);
 }
 
+static gboolean
+cb_delayed_gradient_combo_update (StylePrefState *state)
+{
+	state->fill.gradient.timer = 0;
+	populate_gradient_combo (state, gog_object_get_style (state->obj));
+	return FALSE;
+}
+
 static void
 cb_fill_gradient_end_color (GtkWidget *cc,
 			    G_GNUC_UNUSED GdkColor *color,	G_GNUC_UNUSED gboolean is_custom,
-			    G_GNUC_UNUSED gboolean by_user,	G_GNUC_UNUSED gboolean is_default,
+			    gboolean by_user,
+			    G_GNUC_UNUSED gboolean is_default,
 			    StylePrefState *state)
 {
 	GogStyle *style = gog_object_dup_style (state->obj);
-	g_return_if_fail (style != NULL);
-	g_return_if_fail (GOG_FILL_STYLE_GRADIENT == style->fill.type);
 	style->fill.u.gradient.end = color_combo_get_gocolor (cc);
 	gog_object_set_style (state->obj, style);
-	populate_gradient_combo (state, style);
+
+	if (by_user)
+		populate_gradient_combo (state, style);
+	else {
+		if (state->fill.gradient.timer != 0)
+			g_source_remove (state->fill.gradient.timer);
+		state->fill.gradient.timer = g_timeout_add (100,
+			(GSourceFunc) cb_delayed_gradient_combo_update, state);
+	}
+}
+
+static void
+cb_gradient_brightness_value_changed (GtkWidget *w, StylePrefState *state)
+{
+	GogStyle *style = gog_object_dup_style (state->obj);
+	gog_style_set_fill_brightness (style,
+		gtk_range_get_value (GTK_RANGE (w)));
+	color_combo_set_gocolor (state->fill.gradient.end,
+		style->fill.u.gradient.end);
+	gog_object_set_style (state->obj, style);
+}
+
+static void
+cb_gradient_style_changed (GtkWidget *w, StylePrefState *state)
+{
+	GtkWidget *val = glade_xml_get_widget (state->gui,
+		"fill_gradient_brightness");
+	GtkWidget *box = glade_xml_get_widget (state->gui,
+		"fill_gradient_brightness_box");
+	GogStyle  *style = gog_object_dup_style (state->obj);
+	gboolean two_color = gtk_option_menu_get_history (GTK_OPTION_MENU (w)) == 0;
+
+	if (two_color) {
+		style->fill.u.gradient.brightness = -1;
+		gtk_widget_hide (box);
+	} else {
+		gtk_widget_show (box);
+		gog_style_set_fill_brightness (style,
+			gtk_range_get_value (GTK_RANGE (val)));
+		color_combo_set_gocolor (state->fill.gradient.end,
+			style->fill.u.gradient.end);
+	}
+	gtk_widget_set_sensitive (state->fill.gradient.end, two_color);
+	gtk_widget_set_sensitive (state->fill.gradient.end_label, two_color);
+	gog_object_set_style (state->obj, style);
 }
 
 static void
 fill_gradient_init (StylePrefState *state, GogStyle const *style)
 {
 	GtkWidget *w, *table = glade_xml_get_widget (state->gui, "fill_gradient_table");
+	GtkWidget *type = glade_xml_get_widget (state->gui, "fill_gradient_type");
 
 	state->fill.gradient.start = w = create_color_combo (state,
 		gog_style_get_fill_color (style, 1),
 		"gradient_start", "fill_gradient_start_label",
 		G_CALLBACK (cb_fill_gradient_start_color));
 	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 2, 3, 0, 0, 0, 0);
+	gtk_widget_show (w);
 
 	state->fill.gradient.end = w = create_color_combo (state,
 		gog_style_get_fill_color (style, 2),
 		"gradient_end", "fill_gradient_end_label",
 		G_CALLBACK (cb_fill_gradient_end_color));
 	gtk_table_attach (GTK_TABLE (table), w, 3, 4, 2, 3, 0, 0, 0, 0);
+	gtk_widget_show (w);
+
+	state->fill.gradient.end_label = glade_xml_get_widget (state->gui,
+		"fill_gradient_end_label");
+	state->fill.gradient.brightness = glade_xml_get_widget (state->gui,
+		"fill_gradient_brightness");
+	state->fill.gradient.brightness_box = glade_xml_get_widget (state->gui,
+		"fill_gradient_brightness_box");
+
+	if ((style->fill.type != GOG_FILL_STYLE_GRADIENT) ||
+	    (style->fill.u.gradient.brightness < 0)) {
+		gtk_option_menu_set_history (GTK_OPTION_MENU (type), 0);
+		gtk_widget_hide (state->fill.gradient.brightness_box);
+	} else {
+		gtk_option_menu_set_history (GTK_OPTION_MENU (type), 1);
+		gtk_widget_show (state->fill.gradient.brightness_box);
+		gtk_range_set_value (GTK_RANGE (state->fill.gradient.brightness),
+			style->fill.u.gradient.brightness);
+		gtk_widget_set_sensitive (state->fill.gradient.end, FALSE);
+		gtk_widget_set_sensitive (state->fill.gradient.end_label, FALSE);
+	}
+
+	g_signal_connect (G_OBJECT (type),
+		"changed",
+		G_CALLBACK (cb_gradient_style_changed), state);
+	g_signal_connect (G_OBJECT (state->fill.gradient.brightness),
+		"value_changed",
+		G_CALLBACK (cb_gradient_brightness_value_changed), state);
 
 	populate_gradient_combo (state, style);
-	gtk_widget_show_all (table);
+	gtk_widget_show (table);
 }
 
 /************************************************************************/
@@ -562,6 +642,13 @@ cb_fill_type_changed (GtkWidget *menu, StylePrefState *state)
 			color_combo_get_gocolor (state->fill.gradient.end);
 		style->fill.u.gradient.dir =
 			((PixmapCombo*)state->fill.gradient.combo)->last_index;
+		w = glade_xml_get_widget (state->gui, "fill_gradient_type");
+		if (gtk_option_menu_get_history (GTK_OPTION_MENU (w))) {
+			w = glade_xml_get_widget (state->gui, "fill_gradient_brightness");
+			style->fill.u.gradient.brightness = gtk_range_get_value (GTK_RANGE (w));
+		} else {
+			style->fill.u.gradient.brightness = -1.;
+		}
 		break;
 
 	case GOG_FILL_STYLE_IMAGE:
@@ -762,6 +849,10 @@ static void
 gog_style_pref_state_free (StylePrefState *state)
 {
 	g_object_unref (state->gui);
+	if (state->fill.gradient.timer != 0) {
+		g_source_remove (state->fill.gradient.timer);
+		state->fill.gradient.timer = 0;
+	}
 	if (state->fill.image.image != NULL)
 		g_object_unref (state->fill.image.image);
 	g_free (state);
@@ -1408,6 +1499,16 @@ gog_style_set_font (GogStyle *style, PangoFontDescription *desc)
 		go_font_unref (style->font.font);
 		style->font.font = font;
 	}
+}
+
+void
+gog_style_set_fill_brightness (GogStyle *style, float brightness)
+{
+	g_return_if_fail (GOG_STYLE (style) != NULL);
+	style->fill.u.gradient.brightness = brightness;
+	style->fill.u.gradient.end = (brightness < 50.)
+		? UINT_INTERPOLATE(style->fill.u.gradient.start, RGBA_WHITE, 1. - brightness / 50.)
+		: UINT_INTERPOLATE(style->fill.u.gradient.start, RGBA_BLACK, brightness / 50. - 1.);
 }
 
 /************************************************************************/

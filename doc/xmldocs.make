@@ -72,7 +72,7 @@ install-data-am: omf
 	  basefile=`echo $$file | sed -e  's,^.*/,,'`; \
 	  $(INSTALL_DATA) $$file $(DESTDIR)$(docdir)/figures/$$basefile; \
 	done
-	ln -s share/gnome/ $(gnumeric_datadir)/gnome
+	-ln -s share/gnome/ $(gnumeric_datadir)/gnome	# What the hell is this supposed to do ?
 	-if [ -e $(srcdir)/topic.dat ]; then \
 		$(INSTALL_DATA) $(srcdir)/topic.dat $(DESTDIR)$(docdir); \
 	 fi

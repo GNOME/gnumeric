@@ -33,22 +33,22 @@ static struct {
 	GOGradientDirection dir;
 	const gchar  *name;
 } grad_dir_names[] = {
-	GO_GRADIENT_N_TO_S,            "n-s",
-	GO_GRADIENT_S_TO_N,            "s-n",
-	GO_GRADIENT_N_TO_S_MIRRORED,   "n-s-mirrored",
-	GO_GRADIENT_S_TO_N_MIRRORED,   "s-n-mirrored",
-	GO_GRADIENT_W_TO_E,            "w-e",
-	GO_GRADIENT_E_TO_W,            "e-w",
-	GO_GRADIENT_W_TO_E_MIRRORED,   "w-e-mirrored",
-	GO_GRADIENT_E_TO_W_MIRRORED,   "e-w-mirrored",
-	GO_GRADIENT_NW_TO_SE,          "nw-se",
-	GO_GRADIENT_SE_TO_NW,          "se-nw",
-	GO_GRADIENT_NW_TO_SE_MIRRORED, "nw-se-mirrored",
-	GO_GRADIENT_SE_TO_NW_MIRRORED, "se-nw-mirrored",
-	GO_GRADIENT_NE_TO_SW,          "ne-sw",
-	GO_GRADIENT_SW_TO_NE,          "sw-ne",
-	GO_GRADIENT_SW_TO_NE_MIRRORED, "sw-ne-mirrored",
-	GO_GRADIENT_NE_TO_SW_MIRRORED, "ne-sw-mirrored",
+	{ GO_GRADIENT_N_TO_S,            "n-s" },
+	{ GO_GRADIENT_S_TO_N,            "s-n" },
+	{ GO_GRADIENT_N_TO_S_MIRRORED,   "n-s-mirrored" },
+	{ GO_GRADIENT_S_TO_N_MIRRORED,   "s-n-mirrored" },
+	{ GO_GRADIENT_W_TO_E,            "w-e" },
+	{ GO_GRADIENT_E_TO_W,            "e-w" },
+	{ GO_GRADIENT_W_TO_E_MIRRORED,   "w-e-mirrored" },
+	{ GO_GRADIENT_E_TO_W_MIRRORED,   "e-w-mirrored" },
+	{ GO_GRADIENT_NW_TO_SE,          "nw-se" },
+	{ GO_GRADIENT_SE_TO_NW,          "se-nw" },
+	{ GO_GRADIENT_NW_TO_SE_MIRRORED, "nw-se-mirrored" },
+	{ GO_GRADIENT_SE_TO_NW_MIRRORED, "se-nw-mirrored" },
+	{ GO_GRADIENT_NE_TO_SW,          "ne-sw" },
+	{ GO_GRADIENT_SW_TO_NE,          "sw-ne" },
+	{ GO_GRADIENT_SW_TO_NE_MIRRORED, "sw-ne-mirrored" },
+	{ GO_GRADIENT_NE_TO_SW_MIRRORED, "ne-sw-mirrored" },
 };
 
 GOGradientDirection
@@ -158,7 +158,7 @@ go_gradient_setup (ArtGradientLinear *gradient,
 	if (dir < 4) {
 		gradient->a = 0.;
 		gradient->b = 1. / (dy ? dy : 1);
-		gradient->c = -(gradient->a * x0 + gradient->b * y0);
+		gradient->c = - 1.e-10 - (gradient->a * x0 + gradient->b * y0);
 	} else if (dir < 8) {
 		gradient->a = 1. / (dx ? dx : 1);
 		gradient->b = 0.;

@@ -1,3 +1,25 @@
+2003-09-08  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-style.c (cb_fill_gradient_end_color) : throw the update
+	  into a timer to decrease flicker.
+	  Works around a bug in older libarts.
+	(gog_style_set_fill_brightness) : new.
+	(cb_gradient_brightness_value_changed) : actually hide the brightness.
+	(cb_gradient_style_changed) : ditto.
+	(fill_gradient_init) : ditto.
+
+	* graph/gog-renderer-svg.c (gog_graph_export_to_svg) : convert
+	  interface to use libgsf.
+
+2003-09-07 Jean Brefort <jean.brefort@ac-dijon.fr>
+
+	* utils/go-gradient.c (go_gradient_setup): added a small value to gradient->c for
+	  vertical gradients to avoid a line whith the bad color at the top of the area.
+	* graph/gog-style.c: handle brightness in gradients.
+	* graph/gog-renderer-svg.[c,h]: new files to handle svg export (not
+	fully implemented).
+	* graph/Makefile.am: added gog-renderer-svg.[c,h].
+
 2003-09-07  Jody Goldberg <jody@gnome.org>
 
 	* utils/go-marker.c (go_marker_selector) : Add marker names.

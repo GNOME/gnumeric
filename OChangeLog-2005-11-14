@@ -1,3 +1,13 @@
+2003-09-08  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-object-graph.c (cb_save_as) : Use gsf more extensively.
+	  Use the new SVG renderer.
+
+2003-09-07  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : Bump version reqs to at least gnome-2.0 to make
+	  things nice and clear.
+
 2003-09-06  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/sort.c (sort_permute): move comments
