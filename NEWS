@@ -3,9 +3,9 @@ Gnumeric 1.1.7
 Jukka:
 	* New random distribution functions (mostly integrated from the 
 	  GNU Scientific Library with some minor modifications):
-	  RANDLANDAU().
+	  RANDGAUSSIANTAIL and RANDLANDAU().
 	* New random distributions for the random number generation tool:
-	  Landau.
+	  Gaussian Tail, Landau, and Uniform integer.
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.6

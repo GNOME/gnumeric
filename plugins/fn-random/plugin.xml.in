@@ -23,6 +23,7 @@
 				<function name="randfdist"/>
 				<function name="randgamma"/>
 				<function name="randgaussian"/>
+				<function name="randgaussiantail"/>
 				<function name="randgeom"/>
 				<function name="randgumbel"/>
 				<function name="randhyperg"/>

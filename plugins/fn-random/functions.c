@@ -834,6 +834,40 @@ gnumeric_randlandau (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (random_landau ());
 }
 
+/***************************************************************************/
+
+static const char *help_randgaussiantail = {
+        N_("@FUNCTION=RANDGAUSSIANTAIL\n"
+           "@SYNTAX=RANDGAUSSIANTAIL(a,sigma)\n"
+
+           "@DESCRIPTION="
+           "RANDGAUSSIANTAIL returns a random variates from the upper tail "
+	   "of a Gaussian distribution with standard deviation sigma. The "
+	   "values returned are larger than the lower limit a, which must be "
+	   "positive. The method is based on Marsaglia's famous "
+	   "rectangle-wedge-tail algorithm (Ann Math Stat 32, 894-899 (1961)), "
+	   "with this aspect explained in Knuth, v2, 3rd ed, p139,586 "
+	   "(exercise 11)."
+	   "\n"
+	   "The probability distribution for Gaussian tail random variates is, "
+	   "p(x) dx = {1 over N(a;sigma)} exp (- x^2/(2 sigma^2)) dx, "
+	   "for x > a where N(a;sigma) is the normalization constant, "
+	   "N(a;sigma) = (1/2) erfc(a / sqrt(2 sigma^2)). "
+           "\n"
+           "@EXAMPLES=\n"
+           "RANDGAUSSIANTAIL(0.5,0.1).\n"
+           "\n"
+           "@SEEALSO=RAND")
+};
+
+static Value *
+gnumeric_randgaussiantail (FunctionEvalInfo *ei, Value **argv)
+{
+	gnum_float a     = value_get_as_float (argv[0]);
+	gnum_float sigma = value_get_as_float (argv[1]);
+
+	return value_new_float (random_gaussian_tail (a, sigma));
+}
 
 /***************************************************************************/
 
@@ -860,6 +894,8 @@ const ModulePluginFunctionInfo random_functions[] = {
 	  gnumeric_randfdist, NULL, NULL, NULL },
         { "randgamma", "ff", N_("a,b"),    &help_randgamma,
 	  gnumeric_randgamma, NULL, NULL, NULL },
+        { "randgaussiantail", "ff", N_("a,sigma"),    &help_randgaussiantail,
+	  gnumeric_randgaussiantail, NULL, NULL, NULL },
         { "randgeom", "f", N_("p"),    &help_randgeom,
 	  gnumeric_randgeom, NULL, NULL, NULL },
         { "randgumbel", "ff|f", N_("a,b[,type]"),    &help_randgumbel,
