@@ -288,7 +288,7 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 	/* Show file selector */
 	if (!gnumeric_dialog_file_selection (wbcg, GTK_WIDGET (fsel))) {
 		g_list_free (openers);
-#if 0
+#if 1
 		gtk_object_destroy (GTK_OBJECT (fsel));
 #endif
 		return;
