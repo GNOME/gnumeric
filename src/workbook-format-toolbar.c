@@ -297,14 +297,29 @@ static GnomeUIInfo workbook_format_toolbar [] = {
 	/* Placeholder: font selector */
         /* Placeholder: size selector */
 	
-	{ GNOME_APP_UI_TOGGLEITEM, N_("Bold"), N_("Sets the bold font"),
-	  bold_cmd, NULL, NULL, GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_PIXMAP_TEXT_BOLD },
+	{ GNOME_APP_UI_TOGGLEITEM,
+	  N_("Bold"),
+	  N_("Sets the bold font"),
+	  &bold_cmd, NULL, NULL,
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_PIXMAP_TEXT_BOLD,
+	  'b', GDK_CONTROL_MASK
+	},
 
-	{ GNOME_APP_UI_TOGGLEITEM, N_("Italic"), N_("Makes the font italic"),
-	  italic_cmd, NULL, NULL, GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_PIXMAP_TEXT_ITALIC },
+	{ GNOME_APP_UI_TOGGLEITEM,
+	  N_("Italic"),
+	  N_("Makes the font italic"),
+	  &italic_cmd, NULL, NULL,
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_PIXMAP_TEXT_ITALIC,
+	  'i', GDK_CONTROL_MASK
+	},
 
-	{ GNOME_APP_UI_TOGGLEITEM, N_("Underline"), N_("Underlines the font"),
-	  underline_cmd, NULL, NULL, GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_PIXMAP_TEXT_UNDERLINE },
+	{ GNOME_APP_UI_TOGGLEITEM,
+	  N_("Underline"),
+	  N_("Underlines the font"),
+	  &underline_cmd, NULL, NULL,
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_PIXMAP_TEXT_UNDERLINE,
+	  'u', GDK_CONTROL_MASK
+	},
 
 	GNOMEUIINFO_SEPARATOR,
 
@@ -531,16 +546,19 @@ workbook_create_format_toolbar (Workbook *wb)
 	GnomeDockItemBehavior behavior;
 	GList *l;
 	int i, len;
-	
-	toolbar = gnumeric_toolbar_new (
-		workbook_format_toolbar, wb);
+	GnomeApp *app = GNOME_APP (wb->toplevel);
+
+	g_return_val_if_fail (app != NULL, NULL);
+
+	toolbar = gnumeric_toolbar_new (workbook_format_toolbar,
+					app->accel_group, wb);
 
 	behavior = GNOME_DOCK_ITEM_BEH_NORMAL;
 	if(!gnome_preferences_get_menubar_detachable())
 		behavior |= GNOME_DOCK_ITEM_BEH_LOCKED;
 
 	gnome_app_add_toolbar (
-		GNOME_APP (wb->toplevel),
+		app,
 		GTK_TOOLBAR (toolbar),
 		name,
 		behavior,

@@ -49,10 +49,11 @@ gnumeric_toolbar_get_type (void)
 	return type;
 }
 
-void
+static void
 gnumeric_toolbar_construct (GnumericToolbar *toolbar,
 			    GnomeUIInfo *info,
-			    void *data)
+			    GtkAccelGroup *accel_group,
+			    gpointer data)
 {
 	GtkToolbar *gtk_toolbar = GTK_TOOLBAR (toolbar);
 	
@@ -66,21 +67,23 @@ gnumeric_toolbar_construct (GnumericToolbar *toolbar,
 	/*
 	 * Fixme: load the show_state from configuration
 	 */
-	gnome_app_fill_toolbar_with_data (
-		gtk_toolbar, info, NULL, data);
+	gnome_app_fill_toolbar_with_data (gtk_toolbar, info,
+					  accel_group, data);
 
 	gtk_toolbar_set_style (gtk_toolbar, GTK_TOOLBAR_ICONS);
 }
 
 GtkWidget *
-gnumeric_toolbar_new (GnomeUIInfo *info, void *data)
+gnumeric_toolbar_new (GnomeUIInfo *info,
+		      GtkAccelGroup *accel_group,
+		      void *data)
 {
 	GnumericToolbar *toolbar;
 
 	g_return_val_if_fail (info != NULL, NULL);
 	
 	toolbar = gtk_type_new (gnumeric_toolbar_get_type ());
-	gnumeric_toolbar_construct (toolbar, info, data);
+	gnumeric_toolbar_construct (toolbar, info, accel_group, data);
 
 	return GTK_WIDGET (toolbar);
 }
@@ -116,6 +119,3 @@ gnumeric_toolbar_get_widget (GnumericToolbar *toolbar, int pos)
 
 	return NULL;
 }
-
-
-

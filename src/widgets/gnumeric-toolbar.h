@@ -18,10 +18,8 @@ typedef struct {
 
 GtkType    gnumeric_toolbar_get_type   		(void);
 GtkWidget *gnumeric_toolbar_new        		(GnomeUIInfo *info,
+						 GtkAccelGroup *accel_group,
 				       		 void  *data);
-void       gnumeric_toolbar_construct  		(GnumericToolbar *toolbar,
-				       		 GnomeUIInfo *info,
-				       		 void *data);
 GtkWidget *gnumeric_toolbar_get_widget          (GnumericToolbar *toolbar,
 						 int pos);
 

@@ -311,6 +311,17 @@ workbook_do_destroy (Workbook *wb)
 
 	workbook_deps_destroy (wb);
 
+	/*
+	 * All formulas are going to be removed.  Unqueue them before removing
+	 * the cells so that we need not search the lists.
+	 */
+	g_list_free (wb->formula_cell_list);
+	wb->formula_cell_list = NULL;
+
+	/* Just drop the eval queue.  */
+	g_list_free (wb->eval_queue);
+	wb->eval_queue = NULL;
+
 	/* Erase all cells. */
 	g_hash_table_foreach (wb->sheets, &cb_sheet_destroy_contents, NULL);
 
@@ -321,17 +332,6 @@ workbook_do_destroy (Workbook *wb)
 		wb->auto_expr = NULL;
 	}
 
-	/* Problems with insert/delete column/row caused formula_cell_list
-	   to be messed up.  */
-	if (wb->formula_cell_list) {
-		fprintf (stderr, "Reminder: FIXME in workbook_do_destroy\n");
-		g_list_free (wb->formula_cell_list);
-		wb->formula_cell_list = NULL;
-	}
-
-	/* Just drop the eval queue.  */
-	g_list_free (wb->eval_queue);
-	wb->eval_queue = NULL;
 
 	gtk_window_set_focus (GTK_WINDOW (wb->toplevel), NULL);
 	/* Detach and destroy all sheets.  */
@@ -1015,6 +1015,7 @@ sort_cmd (Workbook *wb, int asc)
 		clause[i].offset = i;
 		clause[i].asc = asc;
 		clause[i].cs = FALSE;
+		/* FIXME : Why sort as strings ? */
 		clause[i].val = FALSE;
 	}
 
@@ -2424,13 +2425,15 @@ workbook_create_standard_toobar (Workbook *wb)
 	    "25%",
 	    NULL
 	};
-	int i, len;
-
-	GtkWidget *toolbar, *zoom, *entry;
-
 	const char *name = "StandardToolbar";
+	int i, len;
+	GtkWidget *toolbar, *zoom, *entry;
+	GnomeApp *app = GNOME_APP (wb->toplevel);
 
-	toolbar = gnumeric_toolbar_new (workbook_standard_toolbar, wb);
+	g_return_val_if_fail (app != NULL, NULL);
+
+	toolbar = gnumeric_toolbar_new (workbook_standard_toolbar,
+					app->accel_group, wb);
 
 	behavior = GNOME_DOCK_ITEM_BEH_NORMAL;
 	if(!gnome_preferences_get_menubar_detachable())

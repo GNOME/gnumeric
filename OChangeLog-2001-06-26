@@ -1,3 +1,12 @@
+2000-05-10  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-format-toolbar.c (workbook_format_toolbar) : Add
+	  accelerators for Bold, Underline, and Italic.
+	(workbook_create_format_toolbar) : Pass accel_group.
+
+	* src/workbook.c (workbook_create_standard_toobar) : Pass the
+	  acceleration group to the toolbar.
+
 2000-05-10  Jon K Hellan  <hellan@acm.org>
 
 	* src/dialogs/dialog-analysis-tools.c (dialog_data_analysis):

@@ -28,8 +28,8 @@ sort_clause_destroy (SortClause *clause)
 /* The routines to do the sorting */
 static int
 sort_compare_values (const SortData * ain,
-			 const SortData * bin,
-			 int clause)
+		     const SortData * bin,
+		     int clause)
 {
 	Cell  *ca, *cb;
 	Value *a,  *b;
@@ -170,7 +170,7 @@ sort_range (Sheet *sheet, Range *range,
 	start_col = range->start.col;
 	end_row = range->end.row;
 	end_col = range->end.col;
-	
+
 	if (columns) {
 		length    = end_row - start_row + 1;
 		divisions = end_col - start_col + 1;
@@ -181,7 +181,7 @@ sort_range (Sheet *sheet, Range *range,
 
 	for (lp = 0; lp < length; lp++) {
 		data [lp].cells = g_new (Cell *, divisions);
-		
+
 		for (lp2 = 0; lp2 < divisions; lp2++) {
 			Cell *cell;
 			if (columns)
@@ -235,10 +235,3 @@ sort_contents (Sheet *sheet, Range *range,
 {
 	sort_range (sheet, range, data, columns, sort_qsort_func);
 }
-
-
-
-
-
-
-
