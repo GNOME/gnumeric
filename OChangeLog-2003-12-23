@@ -1,5 +1,7 @@
 2002-10-30  Morten Welinder  <terra@diku.dk>
 
+	* src/gutils.c (gnm_mem_chunk_free): Debugging improvement.
+
 	* src/mathfunc.c (qgamma): New implementation.
 
 2002-10-30  Jody Goldberg <jody@gnome.org>

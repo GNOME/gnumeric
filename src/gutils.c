@@ -841,6 +841,14 @@ gnm_mem_chunk_free (gnm_mem_chunk *chunk, gpointer mem)
 	gnm_mem_chunk_block *block =
 		*((gnm_mem_chunk_block **)((char *)mem - chunk->alignment));
 
+#if 0
+	/*
+	 * This is useful when the exact location of a leak needs to be
+	 * pin-pointed.
+	 */
+	memset (mem, 0, chunk->user_atom_size);
+#endif
+
 	fb->next = block->freelist;
 	block->freelist = fb;
 	block->freecount++;
