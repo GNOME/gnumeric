@@ -1,0 +1,206 @@
+# Norwegian (bokmål dialect) translation of gnumeric.
+# Copyright (C) 1998 Free Software Foundation, Inc.
+# Kjartan Maraas <kmaraas@fib.hl.no>, 1998.
+#
+
+#: src/formats.c:17
+msgid "0"
+msgstr ""
+
+#: src/formats.c:18
+msgid "0.00"
+msgstr ""
+
+#: src/formats.c:19
+msgid "#,##0"
+msgstr ""
+
+#: src/formats.c:20
+msgid "#,##0.00"
+msgstr ""
+
+#: src/formats.c:21
+msgid "#,##0_);(#,##0)"
+msgstr ""
+
+#: src/formats.c:22
+msgid "#,##0_);[red](#,##0)"
+msgstr ""
+
+#: src/formats.c:23
+msgid "#,##0.00_);(#,##0.00)"
+msgstr ""
+
+#: src/formats.c:24
+msgid "#,##0.00_);[red](#,##0.00)"
+msgstr ""
+
+#: src/formats.c:25
+msgid "0.0"
+msgstr ""
+
+#: src/formats.c:30
+msgid "_($*#,##0_);_($*(#,##0);_($*\"-\"_);_(@_)"
+msgstr ""
+
+#: src/formats.c:31
+msgid "_(*$,$$0_);_(*(#,##0);_(*\"-\"_);_(@_)"
+msgstr ""
+
+#: src/formats.c:32
+msgid "_($*#,##0.00_);_($*(#,##0.00);_($*\"-\"??_);_(@_)"
+msgstr ""
+
+#: src/formats.c:33
+msgid "_(*#,##0.00_);_(*(#,##0.00);_(*\"-\"??_);_(@_)"
+msgstr ""
+
+#: src/formats.c:38
+msgid "m/d/yy"
+msgstr ""
+
+#: src/formats.c:39
+msgid "m/d/yyyy"
+msgstr ""
+
+#: src/formats.c:40
+msgid "d-mmm-yy"
+msgstr ""
+
+#: src/formats.c:41
+msgid "d-mmm-yyyy"
+msgstr ""
+
+#: src/formats.c:42
+msgid "d-mmm"
+msgstr ""
+
+#: src/formats.c:43
+msgid "d-mm"
+msgstr ""
+
+#: src/formats.c:44
+msgid "mmm/d"
+msgstr ""
+
+#: src/formats.c:45
+msgid "mm/d"
+msgstr ""
+
+#: src/formats.c:46
+msgid "mm/dd/yy"
+msgstr ""
+
+#: src/formats.c:47
+msgid "mm/dd/yyyy"
+msgstr ""
+
+#: src/formats.c:48
+msgid "mmm/dd/yy"
+msgstr ""
+
+#: src/formats.c:49
+msgid "mmm/dd/yyyy"
+msgstr ""
+
+#: src/formats.c:50
+msgid "mmm/ddd/yy"
+msgstr ""
+
+#: src/formats.c:51
+msgid "mmm/ddd/yyyy"
+msgstr ""
+
+#: src/formats.c:52
+msgid "mm/ddd/yy"
+msgstr ""
+
+#: src/formats.c:53
+msgid "mm/ddd/yyyy"
+msgstr ""
+
+#: src/formats.c:54
+msgid "mmm-yy"
+msgstr ""
+
+#: src/formats.c:55
+msgid "mmm-yyyy"
+msgstr ""
+
+#: src/formats.c:56 src/formats.c:66
+msgid "m/d/yy h:mm"
+msgstr ""
+
+#: src/formats.c:57
+msgid "m/d/yyyy h:mm"
+msgstr ""
+
+#: src/formats.c:62
+msgid "h:mm AM/PM"
+msgstr ""
+
+#: src/formats.c:63
+msgid "h:mm:ss AM/PM"
+msgstr ""
+
+#: src/formats.c:64
+msgid "h:mm"
+msgstr ""
+
+#: src/formats.c:65
+msgid "h:mm:ss"
+msgstr ""
+
+#: src/formats.c:67
+msgid "mm:ss"
+msgstr ""
+
+#: src/formats.c:68
+msgid "mm:ss.0"
+msgstr ""
+
+#: src/formats.c:69
+msgid "[h]:mm:ss"
+msgstr ""
+
+#: src/formats.c:74
+#, c-format
+msgid "0%"
+msgstr ""
+
+#: src/formats.c:75
+#, c-format
+msgid "0.00%"
+msgstr ""
+
+#: src/formats.c:80
+msgid "# ?/?"
+msgstr ""
+
+#: src/formats.c:81
+msgid "# ??/??"
+msgstr ""
+
+#: src/formats.c:86
+msgid "0.00E+00"
+msgstr ""
+
+#: src/formats.c:87
+msgid "##0.0E+0"
+msgstr ""
+
+#: src/formats.c:97
+msgid "$#,##0_);($#,##0)"
+msgstr ""
+
+#: src/formats.c:98
+msgid "$#,##0_);[red]($#,##0)"
+msgstr ""
+
+#: src/formats.c:99
+msgid "$#,##0.00_);($#,##0.00)"
+msgstr ""
+
+#: src/formats.c:100
+msgid "$#,##0.00_);[red]($#,##0.00)"
+msgstr ""
