@@ -434,7 +434,7 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 		if (num_series == index) 
 			r -= outline_width_max / 2.0;
 		
-		has_hole = center_radius > 0.;
+		has_hole = center_radius > 0. || index > 1;
 		r_int = center_radius + r * ((double)index - 1.0) / (double)num_series;
 		r_ext = center_radius + r * (double)index / (double)num_series;
 
