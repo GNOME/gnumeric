@@ -874,10 +874,10 @@ foo_canvas_line_get_property (GObject              *object,
 
 	case PROP_FILL_COLOR:
 		g_value_set_string_take_ownership (value,
-						   g_strdup_printf ("#%02x%02x%02x",
-								    line->fill_rgba >> 24,
-								    (line->fill_rgba >> 16) & 0xff,
-								    (line->fill_rgba >> 8) & 0xff));
+				     g_strdup_printf ("#%02x%02x%02x",
+						      line->fill_rgba >> 24,
+						      (line->fill_rgba >> 16) & 0xff,
+						      (line->fill_rgba >> 8) & 0xff));
 		break;
 
 	case PROP_FILL_COLOR_GDK: {

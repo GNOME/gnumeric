@@ -9,6 +9,7 @@ Gnumeric 1.2.12
 	http://bugzilla.gnome.org/show_bug.cgi?id=136086
 	* xls export rows even if they only have visible formating
 	* Ensure we apply styles before rendering autofill content
+	* Backport a hige performance improvement when scrolling images
 
 --------------------------------------------------------------------------
 Gnumeric 1.2.11

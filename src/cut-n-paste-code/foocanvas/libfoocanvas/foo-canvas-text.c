@@ -980,7 +980,9 @@ foo_canvas_text_set_property (GObject            *object,
 
 	case PROP_WRAP_WIDTH: {
 		double w = fabs (g_value_get_double (value));
-		pango_layout_set_width (text->layout, w * PANGO_SCALE);
+		pango_layout_set_width (text->layout,
+			w * text->item.canvas->pixels_per_unit * PANGO_SCALE);
+
 		break;
 	}
 
@@ -1231,10 +1233,10 @@ foo_canvas_text_get_property (GObject            *object,
 
 	case PROP_FILL_COLOR:
                 g_value_set_string_take_ownership (value,
-						   g_strdup_printf ("#%02x%02x%02x",
-                                                                    text->rgba >> 24,
-                                                                    (text->rgba >> 16) & 0xff,
-                                                                    (text->rgba >> 8) & 0xff));
+				     g_strdup_printf ("#%02x%02x%02x",
+						      text->rgba >> 24,
+						      (text->rgba >> 16) & 0xff,
+						      (text->rgba >> 8) & 0xff));
 		break;
 
 	case PROP_FILL_COLOR_GDK: {
@@ -1311,14 +1313,6 @@ foo_canvas_text_apply_attributes (FooCanvasText *text)
 		add_attr (attr_list, pango_attr_strikethrough_new (text->strikethrough));
 	if (text->rise_set)
 		add_attr (attr_list, pango_attr_rise_new (text->rise));
-
-	zoom = text->item.canvas->pixels_per_unit;
-	if (fabs (zoom - 1.) > 1e-4) {
-		PangoAttribute *attr = pango_attr_scale_new (zoom);
-		attr->start_index = 0;
-		attr->end_index = -1;
-		pango_attr_list_insert_before (attr_list, attr);
-	}
 
 	zoom = text->item.canvas->pixels_per_unit;
 	if (fabs (zoom - 1.) > 1e-4) {

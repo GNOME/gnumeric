@@ -36,7 +36,7 @@
 /* Private part of the FooCanvasPixbuf structure */
 typedef struct {
 	/* Our gdk-pixbuf */
-	GdkPixbuf *pixbuf;
+	GdkPixbuf *pixbuf, *pixbuf_scaled;
 
 	/* Width value */
 	double width;
@@ -308,6 +308,8 @@ foo_canvas_pixbuf_destroy (GtkObject *object)
 
 	    if (priv->pixbuf)
 		g_object_unref (priv->pixbuf);
+	    if (priv->pixbuf_scaled)
+		g_object_unref (priv->pixbuf_scaled);
 
 	    g_free (priv);
 	    gcp->priv = NULL;
@@ -360,8 +362,12 @@ foo_canvas_pixbuf_set_property (GObject            *object,
 
 			if (priv->pixbuf)
 				g_object_unref (priv->pixbuf);
-
 			priv->pixbuf = pixbuf;
+
+			if (priv->pixbuf_scaled) {
+				g_object_unref (priv->pixbuf_scaled);
+				priv->pixbuf_scaled = NULL;
+			}
 		}
 
 		priv->need_pixbuf_update = TRUE;
@@ -657,6 +663,7 @@ foo_canvas_pixbuf_update (FooCanvasItem *item,
 	FooCanvasPixbuf *gcp;
 	PixbufPrivate *priv;
 	double bbox_x0, bbox_y0, bbox_x1, bbox_y1;
+	int w, h;
 
 	gcp = FOO_CANVAS_PIXBUF (item);
 	priv = gcp->priv;
@@ -693,6 +700,20 @@ foo_canvas_pixbuf_update (FooCanvasItem *item,
 		g_print ("BBox is %g %g %g %g\n", item->x1, item->y1, item->x2, item->y2);
 #endif
 
+		if (priv->pixbuf) {
+			w = item->x2 - item->x1;
+			h = item->y2 - item->y1;
+
+			if (priv->pixbuf_scaled)
+				g_object_unref (priv->pixbuf_scaled);
+			if (gdk_pixbuf_get_width (priv->pixbuf) != w ||
+			    gdk_pixbuf_get_height (priv->pixbuf) != h)
+				priv->pixbuf_scaled = gdk_pixbuf_scale_simple (
+					priv->pixbuf, w, h, priv->interp_type);
+			else
+				priv->pixbuf_scaled = g_object_ref (priv->pixbuf);
+		}
+
 		foo_canvas_item_request_redraw (item);
 
 		priv->need_pixbuf_update = FALSE;
@@ -709,7 +730,6 @@ foo_canvas_pixbuf_draw (FooCanvasItem *item, GdkDrawable *drawable,
 {
 	FooCanvasPixbuf *gcp;
 	PixbufPrivate *priv;
-	GdkPixbuf *pixbuf;
 	GdkRectangle display_rect, draw_rect;
 	GdkRegion *draw_region;
 	int w, h;
@@ -725,15 +745,6 @@ foo_canvas_pixbuf_draw (FooCanvasItem *item, GdkDrawable *drawable,
 	w = item->x2 - item->x1;
 	h = item->y2 - item->y1;
 
-	if (gdk_pixbuf_get_width (priv->pixbuf) != w ||
-	    gdk_pixbuf_get_height (priv->pixbuf) != h) {
-		pixbuf = gdk_pixbuf_scale_simple  (priv->pixbuf,
-						   w, h,
-						   priv->interp_type);
-	} else {
-		pixbuf = g_object_ref (priv->pixbuf);
-	}
-
 	display_rect.x = item->x1;
 	display_rect.y = item->y1;
 	display_rect.width  = w;
@@ -742,7 +753,7 @@ foo_canvas_pixbuf_draw (FooCanvasItem *item, GdkDrawable *drawable,
 	gdk_region_intersect (draw_region, expose->region);
 	if (!gdk_region_empty (draw_region)) {
 		gdk_region_get_clipbox (draw_region, &draw_rect);
-		gdk_draw_pixbuf (drawable, NULL, pixbuf,
+		gdk_draw_pixbuf (drawable, NULL, priv->pixbuf_scaled,
 			/* pixbuf 0, 0 is at pix_rect.x, pix_rect.y */
 			     draw_rect.x - display_rect.x,
 			     draw_rect.y - display_rect.y,
@@ -753,8 +764,6 @@ foo_canvas_pixbuf_draw (FooCanvasItem *item, GdkDrawable *drawable,
 			     GDK_RGB_DITHER_NORMAL, 0, 0);
 	}
 	gdk_region_destroy (draw_region);
-
-	g_object_unref (pixbuf);
 }
 
 
