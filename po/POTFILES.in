@@ -222,7 +222,9 @@ src/tools/solver/solver.c
 src/validation.c
 src/value-sheet.c
 src/value.c
-src/widgets/gnumeric-cell-renderer.c
+src/widgets/gnumeric-cell-renderer-toggle.c
+src/widgets/gnumeric-cell-renderer-expr-entry.c
+src/widgets/gnumeric-cell-renderer-text.c
 src/widgets/widget-font-selector.c
 src/workbook-cmd-format.c
 src/workbook-control-gui.c

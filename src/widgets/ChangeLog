@@ -1,3 +1,11 @@
+2002-04-08  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* gnumeric-cell-renderer-toggle.[ch] : new, essentially
+	  gnumeric-cell-renderer.[ch] rewritten as a subclass
+	* gnumeric-cell-renderer.[ch] : deleted
+	* Makefile.am : replace gnumeric-cell-renderer.[ch] by
+	   gnumeric-cell-renderer-toggle.[ch]
+
 2002-04-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* gnumeric-expr-entry.c (gnm_expr_entry_rangesel_start) : set

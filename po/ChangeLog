@@ -1,5 +1,10 @@
 2002-04-08  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* POTFILES.in : removed src/widgets/gnumeric-cell-renderer-toggle.c
+	  and added some missing files
+	
+2002-04-08  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* POTFILES.in : added src/dialogs/dialog-row-height.c and 
 	  src/dialogs/dialog-col-width.c
 

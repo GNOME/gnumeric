@@ -37,7 +37,7 @@
 #include <sort.h>
 #include <sheet.h>
 #include <workbook-edit.h>
-#include <widgets/gnumeric-cell-renderer.h>
+#include <widgets/gnumeric-cell-renderer-toggle.h>
 #include <widgets/gnumeric-expr-entry.h>
 #include <value.h>
 
@@ -705,7 +705,7 @@ dialog_init (SortFlowState *state)
 							   "text", ITEM_NAME, NULL);
 	gtk_tree_view_append_column (state->treeview, column);
 
-	renderer = gnumeric_cell_renderer_new ();
+	renderer = gnumeric_cell_renderer_toggle_new ();
 	g_signal_connect (G_OBJECT (renderer),
 		"toggled",
 		G_CALLBACK (cb_toggled_descending), state);

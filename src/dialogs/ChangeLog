@@ -1,5 +1,10 @@
 2002-04-08  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dialog-cell-sort.c : use gnumeric-cell-renderer-toggle rather than 
+	  gnumeric-cell-renderer
+
+2002-04-08  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* Makefile.am : added dialog-row-height.c and dialog-col-width.c
 	* dialog-row-height.c : new
 	* dialog-col-width.c : new
