@@ -1522,6 +1522,7 @@ ms_biff_query_next (BIFF_QUERY *bq)
 		return 1;
 	}
 	ans = ms_biff_collate_block (bq);
+/*	printf ("OLE-BIFF: Opcode 0x%x length %d\n", bq->opcode, bq->length) ; */
 /*	dump_biff (bq); */
 	return (ans);
 }

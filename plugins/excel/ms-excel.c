@@ -1013,6 +1013,48 @@ ms_excel_workbook_destroy (MS_EXCEL_WORKBOOK * wb)
 }
 
 /**
+ * Unpacks a MS Excel RK structure,
+ * This needs to return / insert sensibly to keep precision / accelerate
+ **/
+static double
+biff_get_rk (guint8 *ptr)
+{
+	LONG number;
+	LONG tmp[2];
+	char buf[65];
+	double answer;
+	enum eType {
+		eIEEE = 0, eIEEEx10 = 1, eInt = 2, eIntx100 = 3
+	} type;
+	
+	number = BIFF_GETLONG (ptr);
+	type = (number & 0x3);
+	switch (type){
+	case eIEEE:
+		tmp[0] = 0;
+		tmp[1] = number & 0xfffffffc;
+		answer = BIFF_GETDOUBLE (((BYTE *) tmp));
+		break;
+	case eIEEEx10:
+		tmp[0] = 0;
+		tmp[1] = number & 0xfffffffc;
+		answer = BIFF_GETDOUBLE (((BYTE *) tmp));
+		answer /= 100.0;
+		break;
+	case eInt:
+		answer = (double) (number >> 2);
+		break;
+	case eIntx100:
+		answer = ((double) (number >> 2)) / 100.0;
+		break;
+	default:
+		printf ("You don't exist go away\n");
+		answer = 0;
+	}
+	return answer ;
+}
+
+/**
  * Parse the cell BIFF tag, and act on it as neccessary
  * NB. Microsoft Docs give offsets from start of biff record, subtract 4 their docs.
  **/
@@ -1044,7 +1086,7 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 				BYTE *ptr;
 
 				/*
-				 * dump (q->data, q->length); 
+				 * dump (ptr, q->length); 
 				 */
 				row = EX_GETROW (q);
 				col = EX_GETCOL (q);
@@ -1123,47 +1165,39 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 	case BIFF_RK:		/*
 				 * FIXME: S59DDA.HTM - test IEEE stuff on other endian platforms 
 				 */
-		{
-			LONG number;
-			LONG tmp[2];
-			char buf[65];
-			double answer;
-			enum eType {
-				eIEEE = 0, eIEEEx10 = 1, eInt = 2, eIntx100 = 3
-			} type;
-
-			number = BIFF_GETLONG (q->data + 6);
-			type = (number & 0x3);
-			printf ("RK number : 0x%x, length 0x%x\n", q->opcode, q->length);
-			printf ("position [%d,%d] = %x ( type %d )\n", EX_GETCOL (q), EX_GETROW (q), number, type);
-			dump (q->data, q->length);
-			switch (type){
-			case eIEEE:
-				tmp[0] = 0;
-				tmp[1] = number & 0xfffffffc;
-				answer = BIFF_GETDOUBLE (((BYTE *) tmp));
-				break;
-			case eIEEEx10:
-				tmp[0] = 0;
-				tmp[1] = number & 0xfffffffc;
-				answer = BIFF_GETDOUBLE (((BYTE *) tmp));
-				answer /= 100.0;
-				break;
-			case eInt:
-				answer = (double) (number >> 2);
-				break;
-			case eIntx100:
-				answer = ((double) (number >> 2)) / 100.0;
-				break;
-			default:
-				printf ("You don't exist go away\n");
-				answer = 0;
-			}
-/*			sprintf (buf, "RK %d %f", type, answer);*/
-			sprintf (buf, "%f", answer);
-			ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q), buf);
-		}
+	{
+		char buf[65];
+		
+		printf ("RK number : 0x%x, length 0x%x\n", q->opcode, q->length);
+		dump (q->data, q->length);
+		sprintf (buf, "%f", biff_get_rk(q->data+6));
+		ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q), buf);
 		break;
+	}
+	case BIFF_MULRK: /* S59DA8.HTM */
+	{
+		guint32 col, row, lastcol ;
+		char buf[65] ;
+		guint8 *ptr = q->data ;
+
+/*		printf ("MULRK\n") ;
+		dump (q->data, q->length) ; */
+
+		row = BIFF_GETWORD(q->data) ;
+		col = BIFF_GETWORD(q->data+2) ;
+		ptr+= 4 ;
+		lastcol = BIFF_GETWORD(q->data+q->length-2) ;
+/*		g_assert ((lastcol-firstcol)*6 == q->length-6 */
+		g_assert (lastcol>=col) ;
+		while (col<=lastcol)
+		{ /* 2byte XF, 4 byte RK */
+			sprintf (buf, "%f", biff_get_rk(ptr+2)) ;
+			ms_excel_sheet_insert(sheet, BIFF_GETWORD(ptr), col, row, buf) ;
+			col++ ;
+			ptr+= 6 ;
+		}
+		break ;
+	}
 	case BIFF_LABEL:
 	{
 		char *label ;

@@ -1,3 +1,9 @@
+1999-02-17  Michael Meeks <michael@imaginator.com>
+
+	* plugins/excel/ms-excel.c (biff_get_rk): moved RK number
+	extraction into function.
+	Added MULRK support: the lost numbers arrive !
+
 1999-02-17  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/fn-math.c (gnumeric_trunc): Implement TRUNC.
