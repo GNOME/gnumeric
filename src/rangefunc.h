@@ -16,6 +16,8 @@ int range_geometric_mean (const gnum_float *xs, int n, gnum_float *res);
 
 int range_min (const gnum_float *xs, int n, gnum_float *res);
 int range_max (const gnum_float *xs, int n, gnum_float *res);
+int range_minabs (const gnum_float *xs, int n, gnum_float *res);
+int range_maxabs (const gnum_float *xs, int n, gnum_float *res);
 
 int range_devsq (const gnum_float *xs, int n, gnum_float *res);
 int range_var_pop (const gnum_float *xs, int n, gnum_float *res);

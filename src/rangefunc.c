@@ -111,6 +111,40 @@ range_max (const gnum_float *xs, int n, gnum_float *res)
 		return 1;
 }
 
+/* Minimum absolute element.  */
+int
+range_minabs (const gnum_float *xs, int n, gnum_float *res)
+{
+	if (n > 0) {
+		gnum_float min = gnumabs (xs[0]);
+		int i;
+
+		for (i = 1; i < n; i++)
+			if (gnumabs (xs[i]) < min)
+				min = gnumabs (xs[i]);
+		*res = min;
+		return 0;
+	} else
+		return 1;
+}
+
+/* Maximum absolute element.  */
+int
+range_maxabs (const gnum_float *xs, int n, gnum_float *res)
+{
+	if (n > 0) {
+		gnum_float max = gnumabs (xs[0]);
+		int i;
+
+		for (i = 1; i < n; i++)
+			if (gnumabs (xs[i]) > max)
+				max = gnumabs (xs[i]);
+		*res = max;
+		return 0;
+	} else
+		return 1;
+}
+
 
 /* Average absolute deviation from mean.  */
 int
