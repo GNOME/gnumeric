@@ -1930,9 +1930,9 @@ BC_R(shtprops)(ExcelChartHandler const *handle,
 	if (has_pos_record && !ignore_pos_record)
 		printf ("There should be a POS record around here soon\n");
 
-	if (manual_format);
+	if (manual_format)
 		printf ("Manually formated\n");
-	if (only_plot_visible_cells);
+	if (only_plot_visible_cells)
 		printf ("Only plot visible (to whom?) cells\n");
 	});
 	return FALSE;
