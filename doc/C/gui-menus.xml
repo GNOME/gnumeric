@@ -825,7 +825,7 @@
      	       	<guimenuitem>Fill</guimenuitem> --- The
 			       <guimenuitem>Fill</guimenuitem> menu item opens a submenu
 				 with only one choice currently. The 
-				 <guimenuitem>Autoill</guimenuitem> menu item will fill an
+				 <guimenuitem>Autofill</guimenuitem> menu item will fill an
 				 entire selection with any formula which is in the top left
 				 cell of the selection. 
 				 </para>
