@@ -1616,7 +1616,7 @@ plugin_db_init (ErrorInfo **ret_error)
 	known_plugin_id_hash = g_hash_table_new (&g_str_hash, &g_str_equal);
 	g_hash_table_freeze (known_plugin_id_hash);
 	for (l = known_plugin_id_list; l != NULL; l = l->next) {
-		g_hash_table_insert (known_plugin_id_hash, l->data, NULL);
+		g_hash_table_insert (known_plugin_id_hash, l->data, l->data);
 	}
 	g_hash_table_thaw (known_plugin_id_hash);
 
