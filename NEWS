@@ -4,6 +4,10 @@ Morten
 	* Cleanup analysis tool code.
 	* Eliminate many fixed limits in the code.  (Still some to go.)
 
+Translations:
+	* Updated: de (Karl), no (Kjartan), maybe more.
+	* Update not new, but not mentioned the last time: pl (Zbigniew).
+
 --------------------------------------------------------------------------
 Gnumeric 0.55/0.56
 
@@ -50,7 +54,7 @@ Morten:
 
 Translations:
 	* Updated: da (Kenneth), de (Karl), ja (Oka/Nakai), no
-        (Kjartan), pt (Jesus), ru (Valek), maybe more.
+        (Kjartan), pt (Tiago), ru (Valek), maybe more.
 	* Update not new, but not mentioned the last time: it (Leandro).
 
 --------------------------------------------------------------------------
