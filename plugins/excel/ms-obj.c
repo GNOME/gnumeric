@@ -355,8 +355,6 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 #endif
 	guint8 *anchor = g_malloc (MS_ANCHOR_SIZE);
 	memcpy (anchor, q->data+8, MS_ANCHOR_SIZE);
-	if (obj->attrs == NULL)
-		obj->attrs = ms_object_attr_bag_new ();
 	ms_object_attr_bag_insert (obj->attrs,
 		ms_object_attr_new_ptr (MS_OBJ_ATTR_ANCHOR, anchor));
 
@@ -677,7 +675,7 @@ ms_read_OBJ (BiffQuery *q, MSContainer *container, GHashTable *attrs)
 	obj->excel_type_name = NULL;
 	obj->id = -1;
 	obj->gnum_obj = NULL;
-	obj->attrs = attrs;
+	obj->attrs = (attrs != NULL) ? attrs : ms_object_attr_bag_new ();
 	obj->ignore_combo_in_filter = FALSE;
 
 #ifndef NO_DEBUG_EXCEL
