@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-09-08 23:59-0400\n"
-"PO-Revision-Date: 2004-09-12 05:08+0200\n"
+"PO-Revision-Date: 2004-09-12 13:00+0200\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -747,7 +747,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1234
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_BJERSTENS\n"
 "@SYNTAX=OPT_BJERSTENS(call_put_flag,spot,strike,time,rate,volatility[,"
@@ -788,7 +788,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1318
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_EXEC\n"
 "@SYNTAX=OPT_EXEC(call_put_flag,spot,strike,time,rate,volatility,"
@@ -834,7 +834,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1366
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_FORWARD_START\n"
 "@SYNTAX=OPT_FORWARD_START(call_put_flag,spot,alpha,time1,time,rate,"
@@ -972,7 +972,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1547
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_COMPLEX_CHOOSER\n"
 "@SYNTAX=OPT_COMPLEX_CHOOSER(call_put_flag,spot,strike_call,strike_put,time,"
@@ -1022,7 +1022,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1662
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_ON_OPTIONS\n"
 "@SYNTAX=OPT_ON_OPTIONS(type_flag,spot,strike1,strike2,time1,time2,rate,"
@@ -1047,23 +1047,19 @@ msgid ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
-"@FUNCTION=OPT_COMPLEX_CHOOSER\n"
-"@SYNTAX=OPT_COMPLEX_CHOOSER(marca_call_put,spot,strike_call,strike_put,"
-"tiempo,tiempo_call,tiempo_put,tasa,coste_de_ejecución,volatilidad)\n"
-"@DESCRIPTION=OPT_COMPLEX_CHOOSER modela el precio teórico de opciones de "
-"elección complejas.\n"
+"@FUNCTION=OPT_ON_OPTIONS\n"
+"@SYNTAX=OPT_ON_OPTIONS(marca_tipo,spot,strike1,strike2,"
+"tiempo1,tiempo2,tasa,coste_de_ejecución,volatilidad)\n"
+"@DESCRIPTION=OPT_ON_OPTIONS modela el precio teórico de opciones sobre "
+"opciones.\n"
 "\n"
-"@marca_call_put es c o p dependiendo de si la opción es «call»(compra) o "
-"«put»(venta)\n"
-"@spot es el precio spot del activo\n"
-"@strike_call es el precio al que se ha fijado la opción\n"
-"@strike_put es el precio al que se ha fijado la opción\n"
-"@tiempo es es tiempo en años hasta que el titular elija una opción put o "
-"call \n"
-"@tiempo_call es el tiempo de vencimiento en años de la opción call si es "
-"elegida\n"
-"@tiempo_put es el tiempo de vencimiento en años de la opción put si es "
-"elegida\n"
+"@marca_tipo es «cc» para calls sobre calls, «cp» para calls sobre puts, y lo mismo para «pc» y «pp»\n"
+"@spot es el precio spot del activo subyacente\n"
+"@strike1 es el precio strike al que la opción que está siendo evaluada se ha fijado.\n"
+"@strike2 es el precio strike al que la opción  subyacente está fijada.\n"
+"@tiempo1 es es tiempo en años hasta el vencimiento de la opción.\n"
+"@tiempo2 es el tiempo en años hasta el vencimiento de la opción subyacente.\n"
+"(@tiempo2 >= @tiempo1)\n"
 "@tasa es la tasa de interés libre de riesgo anualizada.\n"
 "@coste_de_ejecución es la pérdida de valor del activo subyacente, para "
 "«stocks» comunes, esto debería ser el margen (yield) del dividendo.\n"
@@ -1074,7 +1070,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1747
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_EXTENDIBLE_WRITER\n"
 "@SYNTAX=OPT_EXTENDIBLE_WRITER(call_put_flag,spot,strike1,strike2,time1,time2,"
@@ -1207,7 +1203,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1905
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_AMER_EXCHANGE\n"
 "@SYNTAX=OPT_AMER_EXCHANGE(spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,"
@@ -1228,20 +1224,17 @@ msgid ""
 "@SEEALSO=OPT_EURO_EXCH, OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, "
 "OPT_BS_GAMMA"
 msgstr ""
-"@FUNCTION=OPT_BAW_AMER\n"
-"@SYNTAX=OPT_BAW_AMER(marca_call_put,spot,strike,tiempo,tasa,"
-"coste_de_ejecución,volatilidad)\n"
-"@DESCRIPTION=OPT_BAW_AMER modela el precio teórico de una opción de acuerdo "
-"con la aproximación de Barone Adesie & Whaley. \n"
+"@FUNCTION=OPT_AMER_EXCHANGE\n"
+"@SYNTAX=OPT_AMER_EXCHANGE(spot1,spot2,cant1,cant2,tiempo,tasa,"
+"coste_de_ejecución1,coste_ejecución2,volatilidad,rho)\n"
+"@DESCRIPTION=OPT_AMER_EXCHANGE modela el precio teórico de una opción americana "
+"para intercambio de un activo con cantidad @cant2 y precio spot @spot2 por "
+"otro con cantidad @cant1 y precio spot @spot1\n"
 "\n"
-"@call_put_flag es c o p para indicar si la opción es un «call» o «put»\n"
-"@spot es el precio «spot» del activo subyacente\n"
-"@strike es el precio al que se fija la opción\n"
-"@tiempo es el número de días hasta el vencimiento de la opción \n"
+"@tiempo es el vencimiento inicial de la opción en años.\n"
 "@tasa es la tasa de interés libre de riesgo anualizada \n"
-"@coste_de_ejecución es la pérdida de valor del activo subyacente, para "
-"«stocks» comunes, esto debería ser el margen (yield) del dividendo\n"
-"@volatilidad es la volatilidad anualizada en precio del activo subyacente \n"
+"@coste_de_ejecución1 y @coste_de_ejecución2 es la pérdida de valor de los  activos subyacentes, para «stocks» comunes, esto debería ser el margen (yield) del dividendo\n"
+"@volatilidad1 y @volatilidad2 son la volatilidad anualizada en precio de los activos subyacente \n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -1797,9 +1790,8 @@ msgid "MS Excel (tm) 97/2000/XP"
 msgstr "MS Excel™ 97/2000/XP"
 
 #: plugins/excel/plugin.xml.in.h:6
-#, fuzzy
 msgid "MS Excel (tm) 97/2000/XP &amp; 5.0/95"
-msgstr "MS Excel (tm) 97/2000/XP y 5.0/95"
+msgstr "MS Excel™ 97/2000/XP y 5.0/95"
 
 #: plugins/excel/plugin.xml.in.h:7
 msgid "MS Excel (tm) SpreadsheetML"
@@ -10415,7 +10407,6 @@ msgstr ""
 "@SEEALSO=GCD"
 
 #: plugins/fn-math/functions.c:252
-#, fuzzy
 msgid ""
 "@FUNCTION=ABS\n"
 "@SYNTAX=ABS(b1)\n"
@@ -10443,7 +10434,7 @@ msgstr ""
 "ABS(7) es igual a 7.\n"
 "ABS(-3,14) es igual a 3,14.\n"
 "\n"
-"@SEEALSO=CEIL, FLOOR"
+"@SEEALSO=CEIL, CEILING, FLOOR, INT, MOD"
 
 #: plugins/fn-math/functions.c:277
 msgid ""
@@ -10661,7 +10652,6 @@ msgstr ""
 "@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS"
 
 #: plugins/fn-math/functions.c:487
-#, fuzzy
 msgid ""
 "@FUNCTION=CEIL\n"
 "@SYNTAX=CEIL(x)\n"
@@ -10686,7 +10676,7 @@ msgstr ""
 "CEIL(-1,1) es igual a  -1.\n"
 "CEIL(-2,9) es igual a -2.\n"
 "\n"
-"@SEEALSO=ABS, FLOOR, INT"
+"@SEEALSO=CEILING, FLOOR, ABS, INT, MOD"
 
 #: plugins/fn-math/functions.c:511
 msgid ""
@@ -10767,7 +10757,6 @@ msgstr ""
 "@SEEALSO=COUNTIF,SUM"
 
 #: plugins/fn-math/functions.c:726
-#, fuzzy
 msgid ""
 "@FUNCTION=CEILING\n"
 "@SYNTAX=CEILING(x,significance)\n"
@@ -10799,7 +10788,7 @@ msgstr ""
 "CEILING(2,43;1) es igual a 3.\n"
 "CEILING(123,123;3) es igual a 126.\n"
 "\n"
-"@SEEALSO=CEIL"
+"@SEEALSO=CEIL, FLOOR, ABS, INT, MOD"
 
 #: plugins/fn-math/functions.c:770
 msgid ""
@@ -10915,7 +10904,6 @@ msgstr ""
 "@SEEALSO=LOG, LOG2, LOG10"
 
 #: plugins/fn-math/functions.c:866
-#, fuzzy
 msgid ""
 "@FUNCTION=EXPM1\n"
 "@SYNTAX=EXPM1(x)\n"
@@ -10927,17 +10915,16 @@ msgid ""
 "\n"
 "@SEEALSO=EXP, LN1P"
 msgstr ""
-"@FUNCTION=EXP\n"
-"@SYNTAX=EXP(x)\n"
-"@DESCRIPTION=Calcula el valor de e (la base de los logaritmos naturales) "
-"elevado a la potencia @x. \n"
+"@FUNCTION=EXPM1\n"
+"@SYNTAX=EXPM1(x)\n"
+"@DESCRIPTION=Calcula el valor de EXP(@x)-1 con una precisión mayor que la fórmula directa. \n"
 "\n"
 "* Esta función es compatible con Excel. \n"
 "\n"
 "@EXAMPLES=\n"
-"EXP(2) es igual a 7,389056.\n"
+"EXPM1(0.01) es igual a 0,01005.\n"
 "\n"
-"@SEEALSO=LOG, LOG2, LOG10"
+"@SEEALSO=EXP, LN1P"
 
 #: plugins/fn-math/functions.c:887
 msgid ""
@@ -11057,7 +11044,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-math/functions.c:1016
-#, fuzzy
 msgid ""
 "@FUNCTION=FLOOR\n"
 "@SYNTAX=FLOOR(x[,significance])\n"
@@ -11089,10 +11075,9 @@ msgstr ""
 "FLOOR(-5;-2) es igual a -4.\n"
 "FLOOR(-5;2) es igual a #NÚM!.\n"
 "\n"
-"@SEEALSO=CEIL, ABS, INT"
+"@SEEALSO=CEIL, CEILING, ABS, INT, MOD"
 
 #: plugins/fn-math/functions.c:1057
-#, fuzzy
 msgid ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(a)\n"
@@ -11118,7 +11103,7 @@ msgstr ""
 "INT(7,2) es igual a 7.\n"
 "INT(-5,5) es igual a -6.\n"
 "\n"
-"@SEEALSO=FLOOR, CEIL, ABS"
+"@SEEALSO=CEIL, CEILING, FLOOR, ABS, MOD"
 
 #: plugins/fn-math/functions.c:1082
 msgid ""
@@ -11177,7 +11162,6 @@ msgstr ""
 "@SEEALSO=EXP, LOG2, LOG10"
 
 #: plugins/fn-math/functions.c:1145
-#, fuzzy
 msgid ""
 "@FUNCTION=LN1P\n"
 "@SYNTAX=LN1P(x)\n"
@@ -11191,16 +11175,16 @@ msgid ""
 "\n"
 "@SEEALSO=LN, EXPM1"
 msgstr ""
-"@FUNCTION=LOG2\n"
-"@SYNTAX=LOG2(x)\n"
-"@DESCRIPTION=Calcula el logaritmo en base 2 de @x. \n"
+"@FUNCTION=LN1P\n"
+"@SYNTAX=LN1P(x)\n"
+"@DESCRIPTION=Calcula el logaritmo LN(1+@x) con precisión más alta que la fórmula directa. \n"
 "\n"
-"* Si @x <= 0, LOG2 devuelve el error #NÚM!.\n"
+"* Si @x <= -1, LN1P devuelve el error #NÚM!.\n"
 "\n"
 "@EXAMPLES=\n"
-"LOG2(1024) es igual a 10.\n"
+"LN1P(0.01) es igual a 0.00995.\n"
 "\n"
-"@SEEALSO=EXP, LOG10, LOG"
+"@SEEALSO=LN, EXPM1"
 
 #: plugins/fn-math/functions.c:1174
 msgid ""
@@ -11286,7 +11270,6 @@ msgstr ""
 "@SEEALSO=EXP, LOG2, LOG"
 
 #: plugins/fn-math/functions.c:1265
-#, fuzzy
 msgid ""
 "@FUNCTION=MOD\n"
 "@SYNTAX=MOD(number,divisor)\n"
@@ -11312,7 +11295,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "MOD(23,7) es igual a 2.\n"
 "\n"
-"@SEEALSO=INT,FLOOR,CEIL"
+"@SEEALSO=CEIL, CEILING, FLOOR, ABS, INT, ABS"
 
 #: plugins/fn-math/functions.c:1316
 msgid ""
@@ -14528,7 +14511,6 @@ msgstr ""
 "@SEEALSO=BETADIST"
 
 #: plugins/fn-stat/functions.c:1548
-#, fuzzy
 msgid ""
 "@FUNCTION=TDIST\n"
 "@SYNTAX=TDIST(x,dof,tails)\n"
@@ -14549,17 +14531,19 @@ msgid ""
 "@SEEALSO=TINV,TTEST"
 msgstr ""
 "@FUNCTION=TDIST\n"
-"@SYNTAX=TDIST(x,gol,colas)\n"
-"@DESCRIPTION=La función TDIST devuelve la distribución t de Student. @gdl es "
+"@SYNTAX=TDIST(x,dof,colas)\n"
+"@DESCRIPTION=La función TDIST devuelve la distribución t de Student. @dof es "
 "el grado de libertad y @colas es 1 ó 2 dependiendo de si quiere una "
-"distribución de 1 ó 2 colas.\n"
+"distribución de 1 ó 2 colas. @colas= 1 devuelve el tamaño de la cola derecha.\n"
 "\n"
-"* Si @gdl < 1, TDIST devuelve el error #NÚM!.\n"
+"* Si @dof < 1, TDIST devuelve el error #NÚM!.\n"
 "* Si @colas no es ni 1 ni 2, TDIST devuelve el error #NÚM!.\n"
-"* Esta función es compatible con Excel.\n"
+"* Esta función es compatible con Excel para @x no negativos.\n"
 "\n"
 "@EXAMPLES=\n"
 "TDIST(2,5,1) igual a 0,050969739.\n"
+"TDIST(-2,5,1) igual a 0.949030261.\n"
+"TDIST(0,5,2) igual a 1.\n"
 "\n"
 "@SEEALSO=TINV,TTEST"
 
@@ -14808,7 +14792,6 @@ msgstr ""
 "@SEEALSO=COMBIN"
 
 #: plugins/fn-stat/functions.c:1999
-#, fuzzy
 msgid ""
 "@FUNCTION=HYPGEOMDIST\n"
 "@SYNTAX=HYPGEOMDIST(x,n,M,N[,cumulative])\n"
@@ -14830,11 +14813,13 @@ msgid ""
 "@SEEALSO=BINOMDIST,POISSON"
 msgstr ""
 "@FUNCTION=HYPGEOMDIST\n"
-"@SYNTAX=HYPGEOMDIST(x,n,M,N)\n"
+"@SYNTAX=HYPGEOMDIST(x,n,M,N[,cumulative])\n"
 "@DESCRIPTION=La función HYPGEOMDIST devuelve la distribución "
 "hipergeométrica. @x es el número de éxitos en la muestra, @n es el número de "
 "intentos, @M es el número de éxitos en total y @N es el tamaño de la "
 "población.\n"
+"\n"
+"si el argumento opcional @acumulativo es TRUE, la cola acumulativa izquierda será devuelta.\n"
 "\n"
 "* Si @x, @n, @M ó @N no son enteros, se truncan.\n"
 "* Si @x, @n, @M ó @N < 0, HYPGEOMDIST devuelve el error #NÚM!.\n"
@@ -18305,7 +18290,7 @@ msgstr "OpenCalc/StarCalc"
 
 #: plugins/openoffice/plugin.xml.in.h:4
 msgid "OpenOffice OASIS _UNFINISHED_"
-msgstr ""
+msgstr "OpenOffice OASIS _UNFINISHED_"
 
 #: plugins/paradox/paradox.c:72 plugins/paradox/paradox.c:106
 msgid "Error while opening paradox file."
@@ -18552,7 +18537,7 @@ msgstr "Importar archivo Quatro Pro™"
 
 #: plugins/qpro/plugin.xml.in.h:2
 msgid "Quatro Pro (*.wb1, *.wb2, *.wb3)"
-msgstr ""
+msgstr "Quatro Pro (*.wb1, *.wb2, *.wb3)"
 
 #: plugins/qpro/plugin.xml.in.h:3
 msgid "Quatro Pro(tm)"
@@ -18697,9 +18682,10 @@ msgid ""
 "file.  You will need a custom build with SHEET_MAX_ROWS increased to read "
 "this file."
 msgstr ""
+"Esta construción de Gnumeric sólo puede albergar %d filas. Se ignora el resto del archivo. "
+"Necesitará una contrucción personalizada con SHEET_MAX_ROWS incrementado para poder leer este archivo."
 
 #: plugins/xbase/xbase.c:142
-#, fuzzy
 msgid "Failed to read DBF header."
 msgstr "Falló al leer la cabecera DBF."
 
@@ -18814,11 +18800,11 @@ msgstr "Dirección de impresión predeterminada"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:17
 msgid "Default Repeated Left Region"
-msgstr ""
+msgstr "Región izquierda repetida predeterminada"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:18
 msgid "Default Repeated Top Region"
-msgstr ""
+msgstr "Región superior repetida predeterminada"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:19
 msgid "Default Scale Percentage"
@@ -18854,15 +18840,15 @@ msgstr "Tipografía predeterminada para cabecera/pie de página"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:27
 msgid "Header/Footer Format (Left Portion)"
-msgstr ""
+msgstr "Formato de cabecera/pie de página (Porción izquierda)"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:28
 msgid "Header/Footer Format (Middle Portion)"
-msgstr ""
+msgstr "Formato de cabecera/pie de página (Porción media)"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:29
 msgid "Header/Footer Format (Right Portion)"
-msgstr ""
+msgstr "Formato de cabecera/pie de página (Porción derecha)"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:30
 msgid "List of Active Plugins."
@@ -18910,7 +18896,7 @@ msgstr "Cabecera de página"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:41
 msgid "Please use the Print Setup dialog to edit this value."
-msgstr ""
+msgstr "Por favor, use el diálogo «Configurar impresión» para editar este valor."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:42
 msgid "Print Config"
@@ -19046,13 +19032,13 @@ msgstr ""
 msgid ""
 "This string gives the default region to be repeated at the left of each "
 "printed sheet. Please use the Print Setup dialog to edit this value."
-msgstr ""
+msgstr "Esta cadena da la región predeterminada que se repetirá en la parte izquierda de cada hoja impresa. Por favor, use el diálogo de «Configuración de impresión» para editar este valor."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:65
 msgid ""
 "This string gives the default region to be repeated at the top of each "
 "printed sheet. Please use the Print Setup dialog to edit this value."
-msgstr ""
+msgstr "Esta cadena da la región predeterminada que se repetirá en la parte superior de cada hoja impresa. Por favor, use el diálogo de «Configuración de impresión» para editar este valor."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:66
 msgid ""
@@ -20190,9 +20176,8 @@ msgid "Categories between _labels"
 msgstr "Categorías entre _etiquetas"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1430
-#, fuzzy
 msgid "_Cross at category #"
-msgstr "_Categoría:"
+msgstr "_Cruzar en la categoría #"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1436
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1450
@@ -20260,11 +20245,11 @@ msgstr "Eje-Z"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:215
 msgid "Circular-Axis"
-msgstr ""
+msgstr "Eje circular"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:219
 msgid "Radial-Axis"
-msgstr ""
+msgstr "Eje radial"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:223
 msgid "Plot"
@@ -20999,7 +20984,6 @@ msgid "% of default size"
 msgstr "% del tamaño original"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:3
-#, fuzzy
 msgid "3_d"
 msgstr "3_d"
 
@@ -21016,7 +21000,6 @@ msgid "Sur_face"
 msgstr "_Superficie"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:7
-#, fuzzy
 msgid "_Bubbles scaled to"
 msgstr "_Burbujas escaladas a"
 
@@ -21055,14 +21038,12 @@ msgid "Bubble"
 msgstr "Burbuja"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1020
-#, fuzzy
 msgid "Y Error bars"
-msgstr "Ha ocurrido un error al procesar la línea"
+msgstr "Barras de error de Y"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1022
-#, fuzzy
 msgid "X Error bars"
-msgstr "Ha ocurrido un error al procesar la línea"
+msgstr "Barras de error de X"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:2
 msgid ""
@@ -21103,7 +21084,7 @@ msgstr "Puntos XY"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:1
 msgid "2D plots"
-msgstr ""
+msgstr "Dibujos 2D"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:2
 msgid "2D scatter plotting engine"
@@ -21317,12 +21298,10 @@ msgid "Custom Color..."
 msgstr "Color personalizado..."
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-dock-item-grip.c:252
-#, fuzzy
 msgid "Dock the toolbar"
 msgstr "Acoplar la barra de herramientas"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-dock-item-grip.c:253
-#, fuzzy
 msgid "Un dock the toolbar"
 msgstr "Desacoplar la barra de herramientas"
 
@@ -22608,13 +22587,12 @@ msgid "_Use ssmedian"
 msgstr "_Usar mediana ss"
 
 #: src/dialogs/dialog-about.c:63
-#, fuzzy
 msgid "Core"
-msgstr "Más"
+msgstr "Motor"
 
 #: src/dialogs/dialog-about.c:64
 msgid "Features"
-msgstr ""
+msgstr "Características"
 
 #: src/dialogs/dialog-about.c:65
 msgid "Analytics"
@@ -22622,7 +22600,7 @@ msgstr "Analíticos"
 
 #: src/dialogs/dialog-about.c:66
 msgid "Import Export"
-msgstr ""
+msgstr "Importar exportar"
 
 #: src/dialogs/dialog-about.c:67
 msgid "Scripting"
@@ -22630,11 +22608,11 @@ msgstr "Scripting"
 
 #: src/dialogs/dialog-about.c:68
 msgid "UI"
-msgstr ""
+msgstr "IU"
 
 #: src/dialogs/dialog-about.c:69
 msgid "Usability"
-msgstr ""
+msgstr "Usabilidad"
 
 #: src/dialogs/dialog-about.c:70
 msgid "Documentation"
@@ -22646,16 +22624,15 @@ msgstr "Traducción"
 
 #: src/dialogs/dialog-about.c:72
 msgid "QA"
-msgstr ""
+msgstr "QA"
 
 #: src/dialogs/dialog-about.c:73
-#, fuzzy
 msgid "Art"
 msgstr "Arte"
 
 #: src/dialogs/dialog-about.c:74
 msgid "Packaging"
-msgstr ""
+msgstr "Empaquetado"
 
 #: src/dialogs/dialog-about.c:83
 msgid "Options pricers"
@@ -22675,7 +22652,7 @@ msgstr "Motor de dibujo de áreas."
 
 #: src/dialogs/dialog-about.c:91
 msgid "Quality Assurance and sheet copy."
-msgstr ""
+msgstr "Test de calidad y copia de hojas."
 
 #: src/dialogs/dialog-about.c:93
 msgid "OLE2 support."
@@ -22687,7 +22664,7 @@ msgstr "Localización."
 
 #: src/dialogs/dialog-about.c:97
 msgid "Plugin system, localization."
-msgstr ""
+msgstr "Sistema de complementos, localización."
 
 #: src/dialogs/dialog-about.c:99
 msgid "Debian packaging."
@@ -22698,9 +22675,8 @@ msgid "Original plugin engine."
 msgstr "Motor de complementos original."
 
 #: src/dialogs/dialog-about.c:105
-#, fuzzy
 msgid "Custom UI tools"
-msgstr "Color personalizado:"
+msgstr "Herramientas a medida del IU"
 
 #: src/dialogs/dialog-about.c:107
 msgid "RPM packaging"
@@ -22708,11 +22684,11 @@ msgstr "Empaquetado RPM"
 
 #: src/dialogs/dialog-about.c:109
 msgid "Statistics and GUI master"
-msgstr ""
+msgstr "El señor de las estadísticas y GUI"
 
 #: src/dialogs/dialog-about.c:111
 msgid "UI Polish and all round bug fixer"
-msgstr ""
+msgstr "Pulido del IU y arreglos de bugs"
 
 #: src/dialogs/dialog-about.c:113
 msgid "Special functions"
@@ -22720,7 +22696,7 @@ msgstr "Funciones especiales"
 
 #: src/dialogs/dialog-about.c:115
 msgid "Solver, lots of worksheet functions, and general trailblazer"
-msgstr ""
+msgstr "Resolvedor, muchas funciones de hoja de cálculo, y trabajos generales"
 
 #: src/dialogs/dialog-about.c:117
 msgid "One of the original core contributors"
@@ -22731,9 +22707,8 @@ msgid "Icons and Images"
 msgstr "Iconos e imágenes"
 
 #: src/dialogs/dialog-about.c:121
-#, fuzzy
 msgid "The original value format engine and libgoffice work"
-msgstr "Chris Lahey, motor del formato numérico."
+msgstr "El motro de motor del formato numérico original y trabajo con libgoffice"
 
 #: src/dialogs/dialog-about.c:123
 msgid "The original text plugin"
@@ -22741,20 +22716,19 @@ msgstr "Complemento para texto original"
 
 #: src/dialogs/dialog-about.c:125
 msgid "Started the MS Excel import/export engine, and 'GnmStyle'"
-msgstr ""
+msgstr "Inició el motor de importación/exportación de MS Excel, y «GnmStyle» "
 
 #: src/dialogs/dialog-about.c:127
 msgid "SheetObject improvement"
 msgstr "Mejoras de SheetObject"
 
 #: src/dialogs/dialog-about.c:129
-#, fuzzy
 msgid "Many plot types for charting engine."
-msgstr "Motor de dibujo de anillos"
+msgstr "Muchos tipos de dibujos para el motor de diagramas."
 
 #: src/dialogs/dialog-about.c:131
 msgid "canvas support"
-msgstr ""
+msgstr "soporte del lienzo"
 
 #: src/dialogs/dialog-about.c:133 src/dialogs/dialog-about.c:139
 msgid "Guile support"
@@ -22774,11 +22748,11 @@ msgstr "Importador Paradox"
 
 #: src/dialogs/dialog-about.c:143
 msgid "Initial work on OLE2 for libgsf"
-msgstr ""
+msgstr "Trabajo inicial en OLE2 para libgsf"
 
 #: src/dialogs/dialog-about.c:145
 msgid "Consolidation and Structured Text importer"
-msgstr ""
+msgstr "Consolidadción e importador de texto estructurado"
 
 #: src/dialogs/dialog-about.c:147
 msgid "Pieces of MS Excel import"
@@ -24003,7 +23977,7 @@ msgstr "Nombre nuevo"
 
 #: src/dialogs/dialog-sheet-order.c:732
 msgid "At least one sheet must remain visible!"
-msgstr ""
+msgstr "Al menos una hoja debe permanecer visible"
 
 #: src/dialogs/dialog-sheet-order.c:737
 msgid "You may not delete all sheets in a workbook!"
@@ -24208,6 +24182,9 @@ msgid ""
 "'\n"
 "`\n"
 msgstr ""
+"\"\n"
+"'\n"
+"`\n"
 
 #: src/dialogs/dialog-stf-export.glade.h:6
 msgid ""
@@ -24219,15 +24196,17 @@ msgstr ""
 msgid ""
 "<span background=\"#4B6983\" foreground=\"white\" size=\"xx-large\">Choose "
 "sheets to export</span>"
-msgstr ""
+msgstr "<span background=\"#4B6983\" foreground=\"white\" size=\"xx-large\">Elija las hojas a exportar</span>"
 
 #: src/dialogs/dialog-stf-export.glade.h:8
-#, fuzzy
 msgid ""
 "Automatic (puts quotes where needed)\n"
 "Always\n"
 "Never"
-msgstr "Automático (colocar comillas cuando sea necesario)"
+msgstr ""
+"Automático (colocar comillas cuando sea necesario)\n"
+"Siempre\n"
+"Nunca"
 
 #: src/dialogs/dialog-stf-export.glade.h:11 src/gui-file.c:208
 msgid "Character _encoding:"
@@ -24271,33 +24250,46 @@ msgid ""
 "Slash (/)\n"
 "Custom"
 msgstr ""
+"Espacio\n"
+"Tabulador\n"
+"Admiranción (!)\n"
+"Dos puntos (:)\n"
+"Coma (,)\n"
+"Guión (-)\n"
+"Barra (|)\n"
+"Punto y coma (;)\n"
+"Barra invertida (/)\n"
+"Personalizado"
 
 #: src/dialogs/dialog-stf-export.glade.h:28
 msgid "The character sequence to put between columns"
-msgstr ""
+msgstr "La secuencia de caracteres para poner entre columnas"
 
 #: src/dialogs/dialog-stf-export.glade.h:29
 msgid "The characters to quote content"
-msgstr ""
+msgstr "Los caracteres para entrecomillar contenido"
 
 #: src/dialogs/dialog-stf-export.glade.h:30
 msgid "The sequence of characters to mark the end of a line"
-msgstr ""
+msgstr "La secuencia de caracteres que marcan un fin de línea"
 
 #: src/dialogs/dialog-stf-export.glade.h:31
-#, fuzzy
 msgid ""
 "Transliterate\n"
 "Escape"
-msgstr "Transliterar"
+msgstr ""
+"Transliterar\n"
+"Escapar"
 
 #: src/dialogs/dialog-stf-export.glade.h:33
-#, fuzzy
 msgid ""
 "Unix (linefeed)\n"
 "Macintosh (carriage return)\n"
 "Windows (carriage return + linefeed)"
-msgstr "Windows (retorno de carro + salto de línea)"
+msgstr ""
+"Unix (línea nueva)\n"
+"Macintosh (retorno de carro)\n"
+"Windows (retorno de carro + línea nueva)"
 
 #: src/dialogs/dialog-stf-export.glade.h:36
 msgid ""
@@ -27379,11 +27371,13 @@ msgid "Function does not exist"
 msgstr "La función no existe"
 
 #: src/gnumeric-pane.c:124
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%.1f x %.1f pts\n"
 "%d x %d pixels"
-msgstr "Anchura: %.2f pts (%d píxeles)"
+msgstr ""
+"%.1f x %.1f pts\n"
+"%d x %d píxeles"
 
 #: src/gui-clipboard.c:121
 msgid "clipboard"
@@ -27432,12 +27426,12 @@ msgstr ""
 "%s"
 
 #: src/gui-file.c:402
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s already exists.\n"
 "Do you want to save over it?"
 msgstr ""
-"El libro de cuentas %s ya existe.\n"
+" %s ya existe.\n"
 "¿Desea sobreescribirlo?"
 
 #: src/gui-file.c:448
@@ -27449,7 +27443,6 @@ msgid "Save as"
 msgstr "Guardar como"
 
 #: src/gui-file.c:537 src/gui-file.c:612
-#, fuzzy
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
@@ -27668,12 +27661,10 @@ msgid "DISPLAY"
 msgstr "VISOR"
 
 #: src/main-application.c:197
-#, fuzzy
 msgid "X screen to use"
 msgstr "Pantalla (screen) X a usar"
 
 #: src/main-application.c:197
-#, fuzzy
 msgid "SCREEN"
 msgstr "PANTALLA"
 
@@ -29797,19 +29788,19 @@ msgid "Set Background Color"
 msgstr "Establecer color del fondo"
 
 #: src/wbc-gtk.c:614
-#, fuzzy, c-format
+#, c-format
 msgid "Font Name %s"
-msgstr "Actualizar nombre %s"
+msgstr "Nombre de tipografía %s"
 
 #: src/wbc-gtk.c:663
-#, fuzzy, c-format
+#, c-format
 msgid "Font Size %f"
-msgstr "Tamaño de la tipografía"
+msgstr "Tamaño de la tipografía %f"
 
 #: src/wbc-gtk.c:730
-#, fuzzy, c-format
+#, c-format
 msgid "Open %s"
-msgstr "Abrir"
+msgstr "Abrir %s"
 
 #: src/wbc-gtk.c:795
 msgid "Nothing"
@@ -29827,9 +29818,9 @@ msgid "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 msgstr ""
 
 #: src/wbc-gtk.c:1102
-#, fuzzy, c-format
+#, c-format
 msgid "Show/Hide toolbar %s"
-msgstr "Configurar barra de herramientas"
+msgstr "Mostrar/ocultar barra de herramientas %s"
 
 #: src/wbcg-actions.c:339
 #, c-format
@@ -29924,9 +29915,8 @@ msgid "Format as Currency"
 msgstr "Formato de divisa"
 
 #: src/wbcg-actions.c:1218
-#, fuzzy
 msgid "Format as Accounting"
-msgstr "Formato científico"
+msgstr "Formatear como financiero"
 
 #: src/wbcg-actions.c:1224
 msgid "Format as Percentage"
@@ -29973,12 +29963,10 @@ msgid "Decrease Indent"
 msgstr "Decrementar sangrado"
 
 #: src/wbcg-actions.c:1343
-#, fuzzy
 msgid "Copy down"
-msgstr "Copiar"
+msgstr "Copiar abajo"
 
 #: src/wbcg-actions.c:1349
-#, fuzzy
 msgid "Copy right"
 msgstr "Copiar a la derecha"
 
@@ -30005,7 +29993,6 @@ msgid "_Select"
 msgstr "_Seleccionar"
 
 #: src/wbcg-actions.c:1412
-#, fuzzy
 msgid "F_ill"
 msgstr "_Llenar"
 
@@ -30014,12 +30001,10 @@ msgid "_View"
 msgstr "_Ver"
 
 #: src/wbcg-actions.c:1414
-#, fuzzy
 msgid "_Windows"
-msgstr "Ventanas"
+msgstr "_Ventanas"
 
 #: src/wbcg-actions.c:1415
-#, fuzzy
 msgid "_Toolbars"
 msgstr "Herramien_tas"
 
@@ -30105,9 +30090,8 @@ msgid "Open a viewer for Gnumeric's documentation"
 msgstr ""
 
 #: src/wbcg-actions.c:1448
-#, fuzzy
 msgid "Gnumeric on the _Web"
-msgstr "Página web de Gnumeric"
+msgstr "Gnumeric en la _web"
 
 #: src/wbcg-actions.c:1449
 msgid "Browse to Gnumeric's website"
@@ -30126,9 +30110,8 @@ msgid "Report a _Problem"
 msgstr ""
 
 #: src/wbcg-actions.c:1455
-#, fuzzy
 msgid "Report problem "
-msgstr "Informe creado:"
+msgstr "Informe de problemas"
 
 #: src/wbcg-actions.c:1457
 msgid "_About"
@@ -30141,14 +30124,12 @@ msgstr "Acerca de esta aplicación"
 #. Special.  The sensitivity is chained to redo we do not want to
 #. * toggle it directly so we put it in here
 #: src/wbcg-actions.c:1463
-#, fuzzy
 msgid "Repeat"
 msgstr "Repetir"
 
 #: src/wbcg-actions.c:1464
-#, fuzzy
 msgid "Repeat the previous action"
-msgstr "Rehacer la operación"
+msgstr "Repetir la acción anterior"
 
 #: src/wbcg-actions.c:1471
 msgid "Create a new workbook"
@@ -30195,7 +30176,6 @@ msgid "Edit descriptive information"
 msgstr "Editar la información descriptiva"
 
 #: src/wbcg-actions.c:1497
-#, fuzzy
 msgid "Pre_ferences..."
 msgstr "Preferen_cias..."
 
@@ -30241,14 +30221,12 @@ msgid "Clear the selected cells' contents"
 msgstr "Limpia el contenido de las celdas seleccionadas"
 
 #: src/wbcg-actions.c:1523
-#, fuzzy
 msgid "Delete the row(s) containing the selected cells"
-msgstr "Inserta la hora actual en las celdas seleccionadas"
+msgstr "Borrar la fila que contiene las celdas seleccionadas"
 
 #: src/wbcg-actions.c:1526
-#, fuzzy
 msgid "Delete the column(s) containing the selected cells"
-msgstr "Inserta la hora actual en las celdas seleccionadas"
+msgstr "Borras las columnas que contienen las celdas seleccionadas"
 
 #. Insert
 #: src/wbcg-actions.c:1528 src/wbcg-actions.c:1635
@@ -30256,9 +30234,8 @@ msgid "C_ells..."
 msgstr "_Celdas..."
 
 #: src/wbcg-actions.c:1529
-#, fuzzy
 msgid "Delete the selected cells, shifting others into their place"
-msgstr "Eliminar las celdas seleccionadas dejando las otras en su lugar"
+msgstr "Borrar las celdas seleccionadas, desplazando otras a su lugar"
 
 #: src/wbcg-actions.c:1535
 msgid "Select all cells in the spreadsheet"
@@ -30404,24 +30381,20 @@ msgid "Edit the selected cell's comment"
 msgstr "Edita el comentario de la celda seleccionada"
 
 #: src/wbcg-actions.c:1603
-#, fuzzy
 msgid "_Find..."
 msgstr "_Buscar..."
 
 #: src/wbcg-actions.c:1604
-#, fuzzy
 msgid "Search for something"
-msgstr "Buscar algún texto"
+msgstr "Buscar algo"
 
 #: src/wbcg-actions.c:1606
-#, fuzzy
 msgid "R_eplace..."
 msgstr "R_eemplazar..."
 
 #: src/wbcg-actions.c:1607
-#, fuzzy
 msgid "Search for some something and replace it with something else"
-msgstr "Buscar algún texto y reemplazarlo con otro"
+msgstr "Buscar algo y reemplazarlo con otra cosa"
 
 #: src/wbcg-actions.c:1609
 msgid "_Goto cell..."
@@ -30465,44 +30438,40 @@ msgid "Zoom the spreadsheet in or out"
 msgstr "Controla la ampliación de la hoja de cálculo"
 
 #: src/wbcg-actions.c:1627
-#, fuzzy
 msgid "Zoom _In"
 msgstr "_Ampliar"
 
 #: src/wbcg-actions.c:1628
-#, fuzzy
 msgid "Increase the zoom to make things larger"
-msgstr "Incrementar la cantidad de decimales visibles"
+msgstr "Incrementar la ampliación para hacer las cosas más grandes"
 
 #: src/wbcg-actions.c:1630
-#, fuzzy
 msgid "Zoom _Out"
 msgstr "Re_ducir"
 
 #: src/wbcg-actions.c:1631
 msgid "Decrease the zoom to make things smaller"
-msgstr ""
+msgstr "Decrementar la ampliación para hacer las cosas más pequeñas"
 
 #: src/wbcg-actions.c:1636
 msgid "Insert new cells"
-msgstr "Inserta celdas"
+msgstr "Inserta celda nuevas"
 
 #: src/wbcg-actions.c:1639
 msgid "Insert new columns"
-msgstr "Inserta columnas"
+msgstr "Inserta columnas nuevas"
 
 #: src/wbcg-actions.c:1642
 msgid "Insert new rows"
-msgstr "Inserta filas"
+msgstr "Inserta filas nuevas"
 
 #: src/wbcg-actions.c:1645
 msgid "C_hart..."
 msgstr "_Diagrama..."
 
 #: src/wbcg-actions.c:1646
-#, fuzzy
 msgid "Insert a Chart"
-msgstr "Insertar una imagen"
+msgstr "Insertar un diagrama"
 
 #: src/wbcg-actions.c:1648
 msgid "_Image..."
@@ -30789,18 +30758,14 @@ msgstr ""
 "emparejar con distinta varianza: t-test..."
 
 #: src/wbcg-actions.c:1780
-#, fuzzy
 msgid "_Known Variances: Z-Test..."
-msgstr "_Dos varianzas: F-Test..."
+msgstr "_Varianzas conocidas: Z-Test..."
 
 #: src/wbcg-actions.c:1781
-#, fuzzy
 msgid ""
 "Comparing two population means from populations with known variances: z-"
 "test..."
-msgstr ""
-"Comparar de dos medias de población con varianzas conocidas o usando una "
-"muestra grande: z-test..."
+msgstr "Comparar de dos medias de población de poblaciones con varianzas conocidas : z-test..."
 
 #. Tools -> Analysis
 #: src/wbcg-actions.c:1785
@@ -31123,18 +31088,16 @@ msgid "Split merged ranges of cells"
 msgstr "Dividir rangos de celdas combinadas"
 
 #: src/wbcg-actions.c:1933
-#, fuzzy
 msgid "Format the selection as numbers"
-msgstr "Formato numérico"
+msgstr "Formatea la seleción como numérico"
 
 #: src/wbcg-actions.c:1935 src/widgets/widget-format-selector.c:77
 msgid "Currency"
 msgstr "Divisa"
 
 #: src/wbcg-actions.c:1936
-#, fuzzy
 msgid "Format the selection as currency"
-msgstr "Formato de divisa"
+msgstr "Formatea la selección como divisa"
 
 #: src/wbcg-actions.c:1938 src/widgets/widget-format-selector.c:78
 msgid "Accounting"
@@ -31142,63 +31105,55 @@ msgstr "Financiero"
 
 #: src/wbcg-actions.c:1939
 msgid "Format the selection as accounting"
-msgstr ""
+msgstr "Formatea la selección como financiera"
 
 #: src/wbcg-actions.c:1941 src/widgets/widget-format-selector.c:81
 msgid "Percentage"
 msgstr "Porcentaje"
 
 #: src/wbcg-actions.c:1942
-#, fuzzy
 msgid "Format the selection as percentage"
-msgstr "Formato porcentual"
+msgstr "Formatear la selección como porcentual"
 
 #: src/wbcg-actions.c:1944 src/widgets/widget-format-selector.c:83
 msgid "Scientific"
 msgstr "Científico"
 
 #: src/wbcg-actions.c:1945
-#, fuzzy
 msgid "Format the selection as scientific"
-msgstr "Formato científico"
+msgstr "Formatear la selección como científico"
 
 #: src/wbcg-actions.c:1947 src/widgets/widget-format-selector.c:79
 msgid "Date"
 msgstr "Fecha"
 
 #: src/wbcg-actions.c:1948
-#, fuzzy
 msgid "Format the selection as date"
-msgstr "Cortar selección"
+msgstr "Formatear la selección como fecha"
 
 #: src/wbcg-actions.c:1950 src/widgets/widget-format-selector.c:80
 msgid "Time"
 msgstr "Hora"
 
 #: src/wbcg-actions.c:1951
-#, fuzzy
 msgid "Format the selection as time"
-msgstr "Cortar selección"
+msgstr "Formatear la selección como hora"
 
 #: src/wbcg-actions.c:1953
-#, fuzzy
 msgid "AddBorders"
 msgstr "Añadir bordes"
 
 #: src/wbcg-actions.c:1954
-#, fuzzy
 msgid "Add a border the the selection"
-msgstr "Cortar selección"
+msgstr "Añadir un borda a la selección"
 
 #: src/wbcg-actions.c:1956
-#, fuzzy
 msgid "ClearBorders"
 msgstr "Limpiar bordes"
 
 #: src/wbcg-actions.c:1957
-#, fuzzy
 msgid "Clear the border around the selection"
-msgstr "Centrar a través de la _selección"
+msgstr "Limpiar el borde alrededor de la selección"
 
 #: src/wbcg-actions.c:1960
 msgid "Thousands Separator"
@@ -31313,16 +31268,15 @@ msgstr "Alinear a la _derecha"
 
 #: src/wbcg-actions.c:2046
 msgid "_Center Across Selection"
-msgstr "_Centrar respecto a la selección"
+msgstr "_Centrar a través de la selección"
 
 #: src/wbcg-actions.c:2050
-#, fuzzy
 msgid "_Merge and Center"
-msgstr "_Centrar verticalmente"
+msgstr "_Combinar y centrar"
 
 #: src/wbcg-actions.c:2051
 msgid "Merge the selection into 1 cell, and center horizontaly."
-msgstr ""
+msgstr "Combinar la seleccióne n 1 celda, y centrar horizontalmente."
 
 #: src/wbcg-actions.c:2058
 msgid "Align _Top"
@@ -31342,21 +31296,19 @@ msgstr "Alineamiento _inferior"
 
 #: src/wbcg-actions.c:2068
 msgid "View _Statusbar"
-msgstr ""
+msgstr "Ver barra de_estado"
 
 #: src/wbcg-actions.c:2069
 msgid "Toggle visibility of statusbar"
-msgstr ""
+msgstr "Conmutar visibilidad de la barra de estado"
 
 #: src/wbcg-actions.c:2073
-#, fuzzy
 msgid "F_ull Screen..."
-msgstr "Ob_jetivo..."
+msgstr "Pantalla _completa...."
 
 #: src/wbcg-actions.c:2074
-#, fuzzy
 msgid "in or out"
-msgstr "No cerrar sesión"
+msgstr "dentro o fuera"
 
 #: src/wbcg-actions.c:2079
 msgid "_Bold"
@@ -31394,14 +31346,12 @@ msgid "Strike Through"
 msgstr "Tachado"
 
 #: src/wbcg-actions.c:2092
-#, fuzzy
 msgid "_Double Underline"
-msgstr "S_ubrayado"
+msgstr "Subrayado _doble"
 
 #: src/wbcg-actions.c:2093
-#, fuzzy
 msgid "Double Underline"
-msgstr "Subrayado"
+msgstr "Subrayado doble"
 
 #: src/widgets/gnumeric-expr-entry.c:1249
 msgid "Expecting a single range"
@@ -32696,7 +32646,7 @@ msgstr "Ha ocurrido un error al guardar el archivo"
 
 #: src/xml-io.c:4262
 msgid "Gnumeric XML (*.gnumeric) original slow exporter"
-msgstr ""
+msgstr "Exportador lento original de numeric XML (*.gnumeric)"
 
 #~ msgid "Search..."
 #~ msgstr "Buscar..."
