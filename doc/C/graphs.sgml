@@ -122,7 +122,7 @@
 	  plots.  You can customize the data ranges of each plot.
 	</para>
       </sect4>
-      <sect4 id="graphing-advanced-data-ranges-plot">
+      <sect4 id="graphing-advanced-data-ranges-series">
 	<title>Series</title>
 	<para>
 	  A <xref linkend="graphing-advanced-data-ranges-plot"> is
@@ -200,7 +200,7 @@
 	  single, multiple, or range of cells to use.  The row and
 	  column of each cell needs to be prefaced by a $.
 	  <example
-	  id="graphing-advanced-data-ranges-cat-labels-example">
+	  id="graphing-advanced-data-ranges-cat-labels-ex">
 	    <title>Category Labels Example</title>
 	    <para>
 	      A graph needs to be generated that uses labels defined

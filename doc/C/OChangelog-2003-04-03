@@ -1,3 +1,7 @@
+2001-12-29 Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* graphs.sgml : small id fix to remove error messages
+
 2001-12-29  Kevin Breit  <mrproper@ximian.com>
 
 	* graphs.sgml: Updated to add more information
@@ -8,7 +12,8 @@
 
 2001-12-29  Kevin Breit  <mrproper@ximian.com>
 
-	* gui-elements.sgml: Removed some links because they were breaking the build and I don't know where they link to.
+	* gui-elements.sgml: Removed some links because they 
+	  were breaking the build and I don't know where they link to.
 
 	* graphs.sgml: Added file
 
