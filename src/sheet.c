@@ -1273,10 +1273,10 @@ sheet_range_set_text (ParsePos const *pos, Range const *r, char const *str)
 
 	merged = sheet_merge_get_overlap (pos->sheet, r);
 	for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
-		Range const *r = ptr->data;
+		Range const *tmp = ptr->data;
 		sheet_foreach_cell_in_range (pos->sheet, CELL_ITER_ALL,
-			r->start.col, r->start.row, r->end.col, r->end.row,
-			(CellIterFunc)&cb_clear_non_corner, (gpointer)r);
+			tmp->start.col, tmp->start.row, tmp->end.col, tmp->end.row,
+			(CellIterFunc)&cb_clear_non_corner, (gpointer)tmp);
 	}
 	g_slist_free (merged);
 
@@ -4084,4 +4084,27 @@ sheet_get_view (Sheet const *sheet, WorkbookView const *wbv)
 			return view;
 	});
 	return NULL;
+}
+
+static gboolean
+cb_queue_respan (ColRowInfo *info, void *user_data)
+{
+	info->needs_respan = TRUE;
+	return FALSE;
+}
+
+/**
+ * sheet_queue_respan *
+ * @sheet :
+ * @start_row :
+ * @end_row :
+ *
+ * queues a span generation for the selected rows.
+ * the caller is responsible for queuing a redraw
+ **/
+void
+sheet_queue_respan (Sheet const *sheet, int start_row, int end_row)
+{
+	colrow_foreach (&sheet->rows, start_row, end_row,
+		cb_queue_respan, NULL);
 }

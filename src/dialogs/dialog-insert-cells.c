@@ -32,6 +32,7 @@
 #include <ranges.h>
 #include <cmd-edit.h>
 #include <workbook-edit.h>
+#include <command-context.h>
 
 #include <glade/glade.h>
 
@@ -127,7 +128,7 @@ dialog_insert_cells (WorkbookControlGUI *wbcg)
 
 	g_return_if_fail (wbcg != NULL);
 
-	if (!(sel = selection_first_range (sv, wbc, _("Insert"))))
+	if (!(sel = selection_first_range (sv, COMMAND_CONTEXT (wbc), _("Insert"))))
 		return;
 	cols = sel->end.col - sel->start.col + 1;
 	rows = sel->end.row - sel->start.row + 1;

@@ -17,6 +17,7 @@
 #include "selection.h"
 #include "workbook.h"
 #include "workbook-control.h"
+#include "command-context.h"
 #include "dialogs.h"
 #include "gnumeric-gconf.h"
 #include "libgnumeric.h"
@@ -971,7 +972,7 @@ sheet_print_selection (PrintJobInfo *pj, Sheet const *sheet,
 	Range extent;
 
 	if (!(sel = selection_first_range (sheet_get_view (sheet, wb_control_view (wbc)),
-					   wbc, _("Print Region"))))
+					   COMMAND_CONTEXT (wbc), _("Print Region"))))
 		return;
 
 	extent = *sel;

@@ -1169,23 +1169,24 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int const
  *               functions into something meaningful (== application specific)
  *******************************************************************************************************/
 
-Sheet *
-stf_parse_sheet (StfParseOptions_t *parseoptions, char const *data, Sheet *sheet)
+gboolean
+stf_parse_sheet (StfParseOptions_t *parseoptions, char const *data, Sheet *sheet,
+		 int start_col, int start_row)
 {
 	GList *res, *l;
 	int row;
 
-	g_return_val_if_fail (parseoptions != NULL, NULL);
-	g_return_val_if_fail (data != NULL, NULL);
-	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+	g_return_val_if_fail (parseoptions != NULL, FALSE);
+	g_return_val_if_fail (data != NULL, FALSE);
+	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 
 	res = stf_parse_general (parseoptions, data);
-	for (row = 0, l = res; l != NULL; l = l->next, row++) {
+	for (row = start_row, l = res; l != NULL; l = l->next, row++) {
 		GList *mres = l->data;
 		GList *m;
 		int col;
 
-		for (col = 0, m = mres; m != NULL; m = m->next, col++) {
+		for (col = start_col, m = mres; m != NULL; m = m->next, col++) {
 			char *text = m->data;
 
 			if (text) {
@@ -1210,7 +1211,7 @@ stf_parse_sheet (StfParseOptions_t *parseoptions, char const *data, Sheet *sheet
 	}
 
 	g_list_free (res);
-	return sheet;
+	return TRUE;
 }
 
 CellRegion *

@@ -59,6 +59,7 @@ gnumeric_notice (WorkbookControlGUI *wbcg, GtkMessageType type, char const *str)
 	dialog = gtk_message_dialog_new (wbcg == NULL ? NULL : wbcg_toplevel (wbcg),
                                          GTK_DIALOG_DESTROY_WITH_PARENT, type,
 					 GTK_BUTTONS_OK, str);
+	gtk_label_set_use_markup (GTK_LABEL (GTK_MESSAGE_DIALOG (dialog)->label), TRUE);
 
 	gnumeric_dialog_run (wbcg, GTK_DIALOG (dialog));
 }

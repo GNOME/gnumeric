@@ -39,11 +39,19 @@
 #include "workbook.h"
 #include "dialog-stf.h"
 #include "dialog-stf-export.h"
+#include "position.h"
+#include "expr.h"
+#include "value.h"
+#include "format.h"
+#include "selection.h"
+#include "ranges.h"
 
 #include <gsf/gsf-input.h>
 #include <ctype.h>
 #include <string.h>
 #include <glade/glade.h>
+#include <gsf/gsf-output.h>
+#include <gsf/gsf-output-memory.h>
 
 /**
  * stf_open_and_read
@@ -119,6 +127,41 @@ stf_preparse (CommandContext *context, GsfInput *input)
 	return data;
 }
 
+static gboolean
+stf_store_results (DialogStfResult_t *dialogresult,
+		   Sheet *sheet, int start_col, int start_row)
+{
+	GSList *iterator;
+	int col, rowcount;
+
+	stf_parse_options_set_lines_to_parse (dialogresult->parseoptions, dialogresult->lines);
+
+	iterator = dialogresult->formats;
+	col = start_col;
+	rowcount = stf_parse_get_rowcount (dialogresult->parseoptions, dialogresult->newstart);
+	while (iterator) {
+		Range range;
+		MStyle *style = mstyle_new ();
+
+		mstyle_set_format (style, iterator->data);
+
+		range.start.col = col;
+		range.start.row = start_row;
+		range.end.col   = col;
+		range.end.row   = rowcount;
+
+		sheet_style_apply_range (sheet, &range, style);
+
+		iterator = g_slist_next (iterator);
+
+		col++;
+	}
+
+	return stf_parse_sheet (dialogresult->parseoptions,
+				dialogresult->newstart, sheet,
+				start_col, start_row);
+}
+
 /**
  * stf_read_workbook
  * @fo       : file opener
@@ -137,58 +180,23 @@ stf_read_workbook (GnumFileOpener const *fo, IOContext *context, WorkbookView *w
 	Sheet *sheet;
 	Workbook *book;
 
-	book = wb_view_workbook (wbv);
-
 	data = stf_preparse (COMMAND_CONTEXT (context), input);
 	if (!data)
 		return;
 
+	/* FIXME : how to do this cleanly ? */
+	if (!IS_WORKBOOK_CONTROL_GUI (context->impl))
+		return;
+
 	/* Add Sheet */
 	name = g_path_get_basename (gsf_input_name (input));
+	book = wb_view_workbook (wbv);
 	sheet = sheet_new (book, name);
-
 	workbook_sheet_attach (book, sheet, NULL);
+	g_free (name);
 
-	/* FIXME : how to do this cleanly ? */
-	if (IS_WORKBOOK_CONTROL_GUI (context->impl))
-		dialogresult = stf_dialog (WORKBOOK_CONTROL_GUI (context->impl), name, data);
-
-	if (dialogresult != NULL) {
-		GSList *iterator;
-		int col, rowcount;
-
-		stf_parse_options_set_lines_to_parse (dialogresult->parseoptions, dialogresult->lines);
-
-		iterator = dialogresult->formats;
-		col = 0;
-		rowcount = stf_parse_get_rowcount (dialogresult->parseoptions, dialogresult->newstart);
-		while (iterator) {
-			Range range;
-			MStyle *style = mstyle_new ();
-
-			mstyle_set_format (style, iterator->data);
-
-			range.start.col = col;
-			range.start.row = 0;
-			range.end.col   = col;
-			range.end.row   = rowcount;
-
-			sheet_style_apply_range (sheet, &range, style);
-
-			iterator = g_slist_next (iterator);
-
-			col++;
-		}
-
-		if (!stf_parse_sheet (dialogresult->parseoptions, dialogresult->newstart, sheet)) {
-
-			workbook_sheet_detach (book, sheet);
-			g_free (data);
-			gnumeric_error_read (COMMAND_CONTEXT (context),
-				_("Parse error while trying to parse data into sheet"));
-			return;
-		}
-
+	dialogresult = stf_dialog (WORKBOOK_CONTROL_GUI (context->impl), name, data);
+	if (dialogresult != NULL && stf_store_results (dialogresult, sheet, 0, 0)) {
 		workbook_recalc (book);
 		sheet_calc_spans (sheet, SPANCALC_RENDER);
 		workbook_set_saveinfo (book, name, FILE_FL_MANUAL, NULL);
@@ -196,12 +204,98 @@ stf_read_workbook (GnumFileOpener const *fo, IOContext *context, WorkbookView *w
 		workbook_sheet_detach (book, sheet);
 
 	g_free (data);
-	g_free (name);
-
 	if (dialogresult != NULL)
 		stf_dialog_result_free (dialogresult);
+}
+
+static Value *
+cb_get_content (Sheet *sheet, int col, int row,
+		Cell *cell, GsfOutput *buf)
+{
+	char *tmp;
+	if (cell_has_expr (cell)) {
+		ParsePos pp;
+		tmp = gnm_expr_as_string (cell->base.expression,
+			parse_pos_init_cell (&pp, cell));
+	} else if (VALUE_FMT (cell->value) != NULL)
+		tmp = format_value (NULL, cell->value, NULL, -1);
 	else
-		gnumeric_error_read (COMMAND_CONTEXT (context), _("Unknown error while importing"));
+		tmp = value_get_as_string (cell->value);
+
+	gsf_output_write (buf, strlen (tmp), tmp);
+	gsf_output_write (buf, 1, "\n");
+	g_free (tmp);
+
+	return NULL;
+}
+
+/**
+ * stf_text_to_columns
+ * @wbc  : The control making the request
+ *
+ * Main routine, handles importing a file including all dialog mumbo-jumbo
+ **/
+void
+stf_text_to_columns (WorkbookControl *wbc, CommandContext *cc)
+{
+	DialogStfResult_t *dialogresult = NULL;
+	SheetView	*sv;
+	Sheet		*src_sheet, *target_sheet;
+	Range const	*src;
+	Range		 target;
+	GsfOutput	*buf;
+	guint8		*data;
+	gsf_off_t	 len;
+	
+	sv    = wb_control_cur_sheet_view (wbc);
+	src_sheet = sv_sheet (sv);
+	src = selection_first_range (sv, cc, _("Text to Columns"));
+	if (src == NULL)
+		return;
+	if (range_width	(src) > 1) {
+		cmd_context_error (cc, g_error_new (gnm_error_invalid (), 0,
+			_("Only 1 one column of <b>input</b> data can be parsed at a time, not %d"),
+			range_width (src)));
+		return;
+	}
+
+	/* FIXME : how to do this cleanly ? */
+	if (!IS_WORKBOOK_CONTROL_GUI (wbc))
+		return;
+
+#warning Add UI for this
+	target_sheet = src_sheet;
+	target = *src;
+	range_translate (&target, 1, 0);
+
+	buf = gsf_output_memory_new ();
+	sheet_foreach_cell_in_range (src_sheet,
+		CELL_ITER_IGNORE_BLANK | CELL_ITER_IGNORE_HIDDEN,
+		src->start.col, src->start.row,
+		src->end.col, src->end.row,
+		(CellIterFunc) &cb_get_content, buf);
+
+	gsf_output_write (buf, 1, "\0");
+	gsf_output_close (buf);
+	gsf_output_memory_get_bytes (GSF_OUTPUT_MEMORY (buf), &data, &len);
+	dialogresult = stf_dialog (WORKBOOK_CONTROL_GUI (wbc),
+		_("Text to Columns"), data);
+
+	if (dialogresult == NULL ||
+	    !stf_store_results (dialogresult, target_sheet,
+				target.start.col, target.start.row)) {
+		gnumeric_error_read (COMMAND_CONTEXT (cc),
+			_("Error while trying to parse data into sheet"));
+	} else {
+		sheet_flag_status_update_range (target_sheet, &target);
+		sheet_queue_respan (target_sheet, target.start.row, target.end.row);
+		workbook_recalc (target_sheet->workbook);
+		sheet_redraw_all (target_sheet, FALSE);
+	}
+
+	g_object_unref (G_OBJECT (buf));
+	if (dialogresult != NULL)
+		stf_dialog_result_free (dialogresult);
 }
 
 #define STF_PROBE_SIZE 16384
@@ -261,7 +355,7 @@ stf_read_workbook_auto_csvtab (GnumFileOpener const *fo, IOContext *context,
 	if (tab >= lines && tab > comma)
 		stf_parse_options_csv_set_separators (po, "\t", NULL);
 
-	if (!stf_parse_sheet (po, data, sheet)) {
+	if (!stf_parse_sheet (po, data, sheet, 0, 0)) {
 
 		workbook_sheet_detach (book, sheet);
 		g_free (data);

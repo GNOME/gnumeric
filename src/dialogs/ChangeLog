@@ -1,3 +1,9 @@
+2002-10-14  Jody Goldberg <jody@gnome.org>
+
+	* dialog-stf-preview.c (stf_preview_format_line) : take advantage of
+	  the fact that values in 1.1 store their parse formats so that we don't
+	  loose dates.
+
 2002-10-12  Jody Goldberg <jody@gnome.org>
 
 	* dialog-function-select.c (dialog_function_load_recent_funcs) : don't

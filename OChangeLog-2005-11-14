@@ -1,8 +1,47 @@
-2002-10-13  Jody Goldberg <jody@gnome.org>
+2002-10-14  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control-gui.c : Add links for
+	    Data -> Text To Columns
+	    Data -> Import External -> From File
+	Only partially implemented in the last hour, but these are just too
+	easy to pass up.
+
+	* src/stf.c (stf_store_results) : new, split out of.
+	(stf_read_workbook) : here.
+	(cb_get_content) : new utility.
+	(stf_text_to_columns) : new.  Only partially done.
+	  We still need a way to get the target region.
+
+	* src/stf-parse.c (stf_parse_sheet) : take a starting offset for the
+	  output, and return a boolean in place of the sheet that was passed in.
+
+	* src/sheet.c (sheet_queue_respan) : new.
+
+	* src/selection.c (selection_first_range) : start cleanup and take a
+	  CommandContext rather than a Control.
+
+	* src/gui-util.c (gnumeric_notice) : Cheat and access the private
+	  label member to set it to accept markup.
+
+	* src/commands.c (cmd_area_set_text_redo) : a nifty optimization.
+	  Just redraw all and queue respanning for the effected regions.
+
+	* src/GNOME_Gnumeric.xml : Add entries for Text to columns and
+	  External Data -> Import from File
+
+2002-10-14  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control-gui.c (cb_view_freeze_panes) : only center if
+	  we are in the top left, else do H or V only.
+
+	* src/sheet-view.c (sv_freeze_panes) : relax restrictions to allow for
+	  H or V only freezing.
 
 	* src/gnumeric-pane.c (gnm_pane_init) : control configuration of col
 	  and row headers seperately.
 	* src/sheet-control-gui.c (scg_resize) : support H or V only freezing.
+	(scg_set_panes) : ditto.
+	(sheet_control_gui_new) : adjust to the new gnm_pane_init interface.
 	(scg_set_left_col) : test for freezing distinctly from the existence
 	  of pane 3.
 	(scg_set_top_row) : test for freezing distincly from the existence of

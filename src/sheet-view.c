@@ -37,6 +37,7 @@
 #include "value.h"
 #include "parse-util.h"
 #include "expr-name.h"
+#include "command-context.h"
 
 #include <gsf/gsf-impl-utils.h>
 
@@ -303,7 +304,7 @@ sv_selection_copy (SheetView *sv, WorkbookControl *wbc)
 {
 	Range const *sel;
 
-	if (!(sel = selection_first_range (sv, wbc, _("Copy"))))
+	if (!(sel = selection_first_range (sv, COMMAND_CONTEXT (wbc), _("Copy"))))
 		return FALSE;
 
 	application_clipboard_cut_copy (wbc, FALSE, sv, sel, TRUE);
@@ -328,7 +329,7 @@ sv_selection_cut (SheetView *sv, WorkbookControl *wbc)
 	 */
 	g_return_val_if_fail (IS_SHEET_VIEW (sv), FALSE);
 
-	if (!(sel = selection_first_range (sv, wbc, _("Cut"))))
+	if (!(sel = selection_first_range (sv, COMMAND_CONTEXT (wbc), _("Cut"))))
 		return FALSE;
 
 	if (sheet_range_splits_region (sv_sheet (sv), sel, NULL, wbc, _("Cut")))
@@ -686,5 +687,4 @@ sv_set_initial_top_left (SheetView *sv, int col, int row)
 
 	sv->initial_top_left.col = col;
 	sv->initial_top_left.row = row;
-	printf ("initial = %s\n", cellpos_as_string (&sv->initial_top_left));
 }

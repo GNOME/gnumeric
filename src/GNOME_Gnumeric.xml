@@ -611,11 +611,15 @@
 		_label="_Validate..."
 		_tip="Validate input with preset criteria"/>
 
+	    <separator/>
+
+	    <menuitem name="DataTextToColumns" verb=""
+		_label="_Text to Columns..."
+		_tip="Parse the text in the selection into data"/>
+
 	    <menuitem name="DataConsolidate" verb=""
 		_label="_Consolidate..."
 		_tip="Consolidate regions using a function"/>
-
-	    <separator/>
 
 	    <submenu name="Outline" _label="_Group and Outline">
 
@@ -646,6 +650,14 @@
 		<menuitem name="SheetOutlineRight"    verb=""/>
 
 	    </submenu>
+
+	    <submenu name="ExternalData" _label="Get _External Data">
+		<menuitem name="DataImportText" verb=""
+		    pixtype="stock" pixname="gtk-dnd"
+		    _label="Import _Text File..."
+		    _tip="Import the text from a file"/>
+	    </submenu>
+
 	</submenu>
 
 	<submenu name="Help" _label="_Help">

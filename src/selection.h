@@ -24,7 +24,7 @@ ColRowSelectionType sheet_row_selection_type (SheetView const *sv, int row);
 char    *selection_to_string	   (SheetView *sv,
 				    gboolean include_sheet_name_prefix);
 Range const *selection_first_range (SheetView const *sv,
-				    WorkbookControl *wbc, char const *cmd_name);
+				    CommandContext *cc, char const *cmd_name);
 GSList  *selection_get_ranges	   (SheetView const *sv,
 				    gboolean allow_intersection);
 

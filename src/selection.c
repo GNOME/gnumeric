@@ -330,7 +330,7 @@ sv_menu_enable_insert (SheetView *sv, gboolean col, gboolean row)
  */
 Range const *
 selection_first_range (SheetView const *sv,
-		       WorkbookControl *wbc, char const *cmd_name)
+		       CommandContext *cc, char const *cmd_name)
 {
 	Range const *r;
 	GList *l;
@@ -341,8 +341,8 @@ selection_first_range (SheetView const *sv,
 	g_return_val_if_fail (l != NULL && l->data != NULL, NULL);
 
 	r = l->data;
-	if (wbc != NULL && l->next != NULL) {
-		gnumeric_error_invalid (COMMAND_CONTEXT (wbc), cmd_name,
+	if (cc != NULL && l->next != NULL) {
+		gnumeric_error_invalid (cc, cmd_name,
 			_("cannot be performed with multiple ranges selected"));
 		return NULL;
 	}

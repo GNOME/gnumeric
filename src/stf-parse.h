@@ -94,8 +94,9 @@ void                stf_parse_options_fixed_autodiscover              (StfParseO
 								       int const data_lines, char const *data);
 
 /* Higher level functions, can be used for directly parsing into an application specific data container */
-Sheet              *stf_parse_sheet                                   (StfParseOptions_t *parseoptions,
-								       char const *data, Sheet *sheet);
+gboolean	    stf_parse_sheet                                   (StfParseOptions_t *parseoptions,
+								       char const *data, Sheet *sheet,
+								       int start_col, int start_row);
 
 CellRegion         *stf_parse_region                                  (StfParseOptions_t *parseoptions,
 								       char const *data);

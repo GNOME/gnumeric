@@ -72,6 +72,7 @@
 #include "gnumeric-gconf.h"
 #include "filter.h"
 #include "io-context.h"
+#include "stf.h"
 
 #ifdef WITH_BONOBO
 #include "sheet-object-container.h"
@@ -699,8 +700,9 @@ gtk_notebook_page_num_by_label (GtkNotebook *notebook, GtkWidget *label)
 
 static void
 cb_sheet_label_drag_data_get (GtkWidget *widget, GdkDragContext *context,
-	GtkSelectionData *selection_data, guint info, guint time,
-	WorkbookControlGUI *wbcg)
+			      GtkSelectionData *selection_data,
+			      guint info, guint time,
+			      WorkbookControlGUI *wbcg)
 {
 	SheetControlGUI *scg;
 	gint n_source;
@@ -2219,7 +2221,7 @@ cb_edit_fill_autofill (GtkWidget *unused, WorkbookControlGUI *wbcg)
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	Sheet	  *sheet = wb_control_cur_sheet (wbc);
 
-	Range const *total = selection_first_range (sv, wbc, _("Autofill"));
+	Range const *total = selection_first_range (sv, COMMAND_CONTEXT (wbc), _("Autofill"));
 	if (total) {
 		Range src = *total;
 		gboolean do_loop;
@@ -2398,7 +2400,7 @@ cb_insert_rows (GtkWidget *unused, WorkbookControlGUI *wbcg)
 	 * selected region, (use selection_apply).  Arrays and Merged regions
 	 * are permitted.
 	 */
-	if (!(sel = selection_first_range (sv, wbc, _("Insert rows"))))
+	if (!(sel = selection_first_range (sv, COMMAND_CONTEXT (wbc), _("Insert rows"))))
 		return;
 	cmd_insert_rows (wbc, sheet, sel->start.row, range_height (sel));
 }
@@ -2417,7 +2419,8 @@ cb_insert_cols (GtkWidget *unused, WorkbookControlGUI *wbcg)
 	 * selected region, (use selection_apply).  Arrays and Merged regions
 	 * are permitted.
 	 */
-	if (!(sel = selection_first_range (sv, wbc, _("Insert columns"))))
+	if (!(sel = selection_first_range (sv, COMMAND_CONTEXT (wbc),
+					   _("Insert columns"))))
 		return;
 	cmd_insert_cols (wbc, sheet, sel->start.col, range_width (sel));
 }
@@ -2747,6 +2750,12 @@ cb_data_sort (GtkWidget *widget, WorkbookControlGUI *wbcg)
 }
 
 static void
+cb_data_import_text (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+#warning TODO
+}
+
+static void
 cb_show_all (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
@@ -2766,6 +2775,13 @@ cb_data_validate (GtkWidget *widget, WorkbookControlGUI *wbcg)
 }
 
 static void
+cb_data_text_to_columns (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	stf_text_to_columns (WORKBOOK_CONTROL (wbcg),
+			     COMMAND_CONTEXT (wbcg));
+}
+
+static void
 cb_data_consolidate (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	dialog_consolidate (wbcg);
@@ -2777,7 +2793,8 @@ hide_show_detail_real (WorkbookControlGUI *wbcg, gboolean is_cols, gboolean show
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	char const *operation = show ? _("Show Detail") : _("Hide Detail");
-	Range const *r = selection_first_range (sv, wbc, operation);
+	Range const *r = selection_first_range (sv, COMMAND_CONTEXT (wbc),
+						operation);
 	
 	/* This operation can only be performed on a whole existing group */
 	if (sheet_colrow_can_group (sv_sheet (sv), r, is_cols)) {
@@ -2795,7 +2812,8 @@ hide_show_detail (WorkbookControlGUI *wbcg, gboolean show)
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	char const *operation = show ? _("Show Detail") : _("Hide Detail");
-	Range const *r = selection_first_range (sv, wbc, operation);
+	Range const *r = selection_first_range (sv, COMMAND_CONTEXT (wbc),
+						operation);
 	gboolean is_cols;
 
 	/* We only operate on a single selection */
@@ -2840,7 +2858,7 @@ group_ungroup_colrow (WorkbookControlGUI *wbcg, gboolean group)
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	char const *operation = group ? _("Group") : _("Ungroup");
-	Range const *r = selection_first_range (sv, wbc, operation);
+	Range const *r = selection_first_range (sv, COMMAND_CONTEXT (wbc), operation);
 	gboolean is_cols;
 
 	/* We only operate on a single selection */
@@ -2962,7 +2980,7 @@ sort_by_rows (WorkbookControlGUI *wbcg, int asc)
 
 	sv = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
 
-	if (!(tmp = selection_first_range (sv, WORKBOOK_CONTROL (wbcg), _("Sort"))))
+	if (!(tmp = selection_first_range (sv, COMMAND_CONTEXT (wbcg), _("Sort"))))
 		return;
 
 	sel = range_dup (tmp);
@@ -3631,6 +3649,13 @@ static GnomeUIInfo workbook_menu_data_outline [] = {
 	GNOMEUIINFO_END
 };
 
+static GnomeUIInfo workbook_menu_data_external [] = {
+	GNOMEUIINFO_ITEM_STOCK (N_("Import _Text File..."),
+		N_("Import the text from a file"),
+		cb_data_import_text, "gtk-dnd"),
+	GNOMEUIINFO_END
+};
+
 static GnomeUIInfo workbook_menu_data_filter [] = {
 	GNOMEUIINFO_ITEM_NONE (N_("_Show All"),
 		N_("Show all filtered and hidden rows"),
@@ -3652,13 +3677,18 @@ static GnomeUIInfo workbook_menu_data [] = {
 	GNOMEUIINFO_ITEM_NONE (N_("_Validate..."),
 		N_("Validate input with preset criteria"),
 		cb_data_validate),
+
+	GNOMEUIINFO_SEPARATOR,
+
+	GNOMEUIINFO_ITEM_NONE (N_("_Text to Columns..."),
+		N_("Parse the text in the selection into data"),
+		cb_data_text_to_columns),
 	GNOMEUIINFO_ITEM_NONE (N_("_Consolidate..."),
 		N_("Consolidate regions using a function"),
 		cb_data_consolidate),
 
-	GNOMEUIINFO_SEPARATOR,
-
 	GNOMEUIINFO_SUBTREE(N_("_Group and Outline"),   workbook_menu_data_outline),
+	GNOMEUIINFO_SUBTREE(N_("Get _External Data"),   workbook_menu_data_external),
 
 	GNOMEUIINFO_END
 };
@@ -3882,7 +3912,9 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("DataFilterShowAll", cb_show_all),
 	BONOBO_UI_UNSAFE_VERB ("DataFilterAdvancedfilter", cb_data_filter),
 	BONOBO_UI_UNSAFE_VERB ("DataValidate", cb_data_validate),
+	BONOBO_UI_UNSAFE_VERB ("DataTextToColumns", cb_data_text_to_columns),
 	BONOBO_UI_UNSAFE_VERB ("DataConsolidate", cb_data_consolidate),
+	BONOBO_UI_UNSAFE_VERB ("DataImportText", cb_data_import_text),
 
 	BONOBO_UI_UNSAFE_VERB ("DataOutlineHideDetail", cb_data_hide_detail),
 	BONOBO_UI_UNSAFE_VERB ("DataOutlineShowDetail", cb_data_show_detail),
@@ -4956,7 +4988,7 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 #if 0
 	g_signal_connect (G_OBJECT (gcanvas),
 		"drag_data_get",
-		G_CALLBACK (wbcg_drag_data_get), WORBOOK_CONTROL (wbc));
+		G_CALLBACK (wbcg_drag_data_get), WORKBOOK_CONTROL (wbc));
 #endif
 
 	gtk_window_set_policy (wbcg->toplevel, TRUE, TRUE, FALSE);

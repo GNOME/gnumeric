@@ -340,7 +340,7 @@ cmd_paste_to_selection (WorkbookControl *wbc, SheetView *dest_sv, int paste_flag
 	Range const *r;
 	PasteTarget pt;
 
-	if (!(r = selection_first_range (dest_sv, wbc, _("Paste"))))
+	if (!(r = selection_first_range (dest_sv, COMMAND_CONTEXT (wbc), _("Paste"))))
 		return;
 
 	g_return_if_fail (r !=NULL);

@@ -246,6 +246,7 @@ Value const *sheet_cell_get_value (Sheet *sheet, int const col, int const row);
 void  sheet_range_set_text   (ParsePos const *pos, Range const *r, char const *str);
 void  sheet_apply_style	     (Sheet  *sheet, Range const *range, MStyle *mstyle);
 void  sheet_calc_spans	     (Sheet const *sheet, SpanCalcFlags flags);
+void  sheet_queue_respan     (Sheet const *sheet, int start_row, int end_row);
 void  sheet_range_calc_spans (Sheet *sheet, Range const *r, SpanCalcFlags flags);
 void  sheet_cell_calc_span   (Cell *cell, SpanCalcFlags flags);
 void  sheet_regen_adjacent_spans (Sheet *sheet,

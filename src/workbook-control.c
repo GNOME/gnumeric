@@ -222,7 +222,8 @@ wb_control_parse_and_jump (WorkbookControl *wbc, char const *text)
 		/* Not a name or a placeholder for a name, create one */
 		if (nexpr == NULL || expr_name_is_placeholder (nexpr)) {
 			Range const *r = selection_first_range (
-				wb_control_cur_sheet_view (wbc),  wbc,
+				wb_control_cur_sheet_view (wbc),
+				COMMAND_CONTEXT (wbc),
 				_("Define Name"));
 			if (r != NULL) {
 				CellRef a, b;

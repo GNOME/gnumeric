@@ -464,6 +464,9 @@ stf_preview_format_line (RenderData_t *renderdata, GList *data, int colcount)
 		if (NULL == (value = format_match (iterator->data, sf)))
 			value = value_new_string (iterator->data);
 
+		/* if the format is general honour the parse format */
+		if (style_format_is_general (sf))
+			sf = NULL;
 		celltext = format_value (sf, value, NULL, -1);
 
 		value_release (value);

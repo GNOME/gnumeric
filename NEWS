@@ -44,6 +44,8 @@ Jody:
 	* Make format parsing utf8 clean
 	* Fix mishandling of empty strings in xls data validation importer
 	* Support Horizontal and Vertical only frozen panes
+	* Some optimizations for filling large regions
+	* Start work on 'Text from Columns' and 'External Data -> Text File'
 
 Morten:
 	* Port search center from gal's e-table to gtk's treeview.

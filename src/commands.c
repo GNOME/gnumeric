@@ -969,20 +969,10 @@ cmd_area_set_text_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 		/* mark content as dirty */
 		sheet_flag_status_update_range (me->cmd.sheet, r);
+		sheet_queue_respan (me->cmd.sheet, r->start.row, r->end.row);
 	}
 	me->old_content = g_slist_reverse (me->old_content);
-
-	/*
-	 * Now that things have been filled in and recalculated we can generate
-	 * the spans.  Non expression cells need to be rendered.
-	 * TODO : We could be smarter here.  Only the left and
-	 * right columns can span,
-	 * so there is no need to check the middles.
-	 */
-	for (l = me->selection ; l != NULL ; l = l->next) {
-		Range const * const r = l->data;
-		sheet_range_calc_spans (me->cmd.sheet, r, SPANCALC_RENDER);
-	}
+	sheet_redraw_all (me->cmd.sheet, FALSE);
 
 	return FALSE;
 }
