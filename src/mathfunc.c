@@ -5604,7 +5604,7 @@ random_01 (void)
 			if (seed) {
 				int len = strlen (seed);
 				int i;
-				long *longs = g_new (long, len + 1);
+				unsigned long *longs = g_new (unsigned long, len + 1);
 
 				/* We drop only one character into each long.  */
 				for (i = 0; i < len; i++)
