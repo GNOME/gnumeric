@@ -1,3 +1,8 @@
+2001-12-04  Morten Welinder  <terra@diku.dk>
+
+	* plugins/*/Makefile.am: fixup xml file's dlname.
+	* plugins/*/plugin.xml.in: Ditto.
+
 2001-12-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/analysis-tools.c : delete old_data_set_t
