@@ -1,3 +1,8 @@
+2003-07-30  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* solver.glade: align various widgets (and split them over additional
+	  pages)
+
 2003-07-28  Morten Welinder  <terra@gnome.org>
 
 	* dialog-stf-fixed-page.c (cb_treeview_button_press): Make the
