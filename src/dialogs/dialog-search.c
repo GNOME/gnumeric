@@ -471,13 +471,11 @@ search_get_value (gint row, gint column, gpointer _dd, GValue *value)
 		}
 		return;
 	case COL_CONTENTS:
-		if (cell) {
-			char *content = cell_get_entered_text (cell);
-			g_value_set_string (value, content);
-			g_free (content);
-		} else {
+		if (cell)
+			g_value_set_string_take_ownership
+				(value, cell_get_entered_text (cell));
+		else
 			g_value_set_string (value, cell_comment_text_get (item->comment));
-		}
 		return;
 	default:
 		g_assert_not_reached ();

@@ -173,13 +173,32 @@ rstyle_apply (MStyle **old, ReplacementStyle *rs)
 
 /****************************************************************************/
 
-/* if you change this change the tile_{widths,heights} here, in sheet_style_get
- * andin the sanity check in sheet_style_init
+/* If you change this, change the tile_{widths,heights} here, in sheet_style_get
+ * and in the sanity check in sheet_style_init
  */
 #define TILE_TOP_LEVEL	3
 
-#define	TILE_SIZE_COL	4
-#define	TILE_SIZE_ROW	16
+/* This is good until a million columns.  */
+#if SHEET_MAX_COLS <= 4 * 4 * 4 * 4
+#define TILE_SIZE_COL 4
+#elif SHEET_MAX_COLS <= 5 * 5 * 5 * 5
+#define TILE_SIZE_COL 5
+#elif SHEET_MAX_COLS <= 8 * 8 * 8 * 8
+#define TILE_SIZE_COL 8
+#elif SHEET_MAX_COLS <= 16 * 16 * 16 * 16
+#define TILE_SIZE_COL 16
+#else
+#define TILE_SIZE_COL 32
+#endif
+
+/* This is good until 16M rows.  */
+#if SHEET_MAX_ROWS <= 16 * 16 * 16 * 16
+#define	TILE_SIZE_ROW 16
+#elif SHEET_MAX_ROWS <= 32 * 32 * 32 * 32
+#define	TILE_SIZE_ROW 32
+#else
+#define	TILE_SIZE_ROW 64
+#endif
 
 typedef enum {
 	TILE_UNDEFINED	= -1,

@@ -1,3 +1,7 @@
+2002-10-03  Morten Welinder  <terra@diku.dk>
+
+	* src/sheet-style.c (TILE_SIZE_COL, TILE_SIZE_ROW): Auto-size.
+
 2002-10-02  Jody Goldberg <jody@gnome.org>
 
 	* src/commands.c (cmd_reorganize_sheets) : DO NOT STORE CONTROL.
