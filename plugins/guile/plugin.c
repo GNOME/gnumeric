@@ -120,7 +120,7 @@ value_to_scm (Value *val, CellRef cell_ref)
 static Value*
 scm_to_value (SCM scm)
 {
-	if (SCM_NIMP(scm) && SCM_STRINGP(scm))
+	if (SCM_NNULLP(scm) && SCM_STRINGP(scm))
 	{
 		Value *val = g_new(Value, 1);
 
