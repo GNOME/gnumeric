@@ -10,6 +10,7 @@ main (int argc, char *argv [])
 	gnome_init ("Gnumeric", NULL, argc, argv, 0, NULL);
 
 	style_init ();
+	symbol_init ();
 	wb = workbook_new_with_sheets (1);
 	gtk_widget_show (wb->toplevel);
 

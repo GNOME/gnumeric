@@ -185,6 +185,7 @@ sheet_new (Workbook *wb, char *name)
 	rows_shown = cols_shown = 40;
 	
 	sheet = g_new0 (Sheet, 1);
+	sheet->signature = SHEET_SIGNATURE;
 	sheet->parent_workbook = wb;
 	sheet->name = g_strdup (name);
 	sheet->last_zoom_factor_used = -1.0;
@@ -263,7 +264,8 @@ void
 sheet_destroy (Sheet *sheet)
 {
 	g_assert (sheet != NULL);
-	
+	g_return_if_fail (IS_SHEET (sheet)); 
+
 	sheet_selection_clear (sheet);
 	g_free (sheet->name);
 	
@@ -272,6 +274,8 @@ sheet_destroy (Sheet *sheet)
 
 	g_hash_table_foreach (sheet->cell_hash, cell_hash_free_key, NULL);
 	gtk_widget_destroy (sheet->toplevel);
+	
+	sheet->signature = 0;
 	g_free (sheet);
 }
 
@@ -519,6 +523,7 @@ sheet_get_cell_bounds (Sheet *sheet, ColType col, RowType row, int *x, int *y, i
 	GnumericSheet *gsheet;
 
 	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet)); 
 	g_return_if_fail (GNUMERIC_IS_SHEET (sheet->sheet_view));
 	
 	gsheet = GNUMERIC_SHEET (sheet->sheet_view);
@@ -553,6 +558,7 @@ sheet_selection_append_range (Sheet *sheet,
 	SheetSelection *ss;
 
 	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet)); 
 	
 	ss = g_new0 (SheetSelection, 1);
 
@@ -593,6 +599,8 @@ sheet_selection_extend_to (Sheet *sheet, int col, int row)
 	SheetSelection *ss, old_selection;
 
 	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+	
 	g_assert (sheet->selections);
 
 	ss = (SheetSelection *) sheet->selections->data;
@@ -651,6 +659,7 @@ sheet_redraw_cell_region (Sheet *sheet, int start_col, int start_row,
 	int x, y, w, h;
 	
 	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet)); 
 
 	gsheet = GNUMERIC_SHEET (sheet->sheet_view);
 	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
@@ -667,6 +676,7 @@ void
 sheet_redraw_selection (Sheet *sheet, SheetSelection *ss)
 {
 	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet)); 
 	g_return_if_fail (ss != NULL);
 	
 	sheet_redraw_cell_region (sheet,
@@ -734,6 +744,7 @@ sheet_selection_extend_horizontal (Sheet *sheet, int n)
 	 */
 	 
 	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet)); 
 	g_return_if_fail ((n == 1 || n == -1));
 	
 	ss = (SheetSelection *)sheet->selections->data;
@@ -765,6 +776,7 @@ sheet_selection_extend_vertical (Sheet *sheet, int n)
 	SheetSelection old_selection;
 	
 	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet)); 
 	g_return_if_fail ((n == 1 || n == -1));
 	
 	ss = (SheetSelection *)sheet->selections->data;
@@ -818,6 +830,7 @@ sheet_selection_clear_only (Sheet *sheet)
 	GList *list = sheet->selections;
 
 	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet)); 
 
 	gsheet = GNUMERIC_SHEET (sheet->sheet_view);
 	
@@ -855,6 +868,7 @@ sheet_selection_clear (Sheet *sheet)
 	GnumericSheet *gsheet;
 
 	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet)); 
 	
 	gsheet = GNUMERIC_SHEET (sheet->sheet_view);
 	
@@ -887,6 +901,7 @@ sheet_col_get (Sheet *sheet, int pos)
 	ColRowInfo *col;
 
 	g_return_val_if_fail (sheet != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET (sheet), NULL); 
 	
 	for (clist = sheet->cols_info; clist; clist = clist->next){
 		col = (ColRowInfo *) clist->data;
@@ -911,6 +926,7 @@ sheet_row_get (Sheet *sheet, int pos)
 	ColRowInfo *row;
 
 	g_return_val_if_fail (sheet != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET (sheet), NULL); 
 	
 	for (rlist = sheet->rows_info; rlist; rlist = rlist->next){
 		row = (ColRowInfo *) rlist->data;
@@ -953,6 +969,7 @@ sheet_cell_get (Sheet *sheet, int col, int row)
 	CellPos cellref;
 	
 	g_return_val_if_fail (sheet != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET (sheet), NULL); 
 
 	cellref.col = col;
 	cellref.row = row;
@@ -978,6 +995,7 @@ sheet_cell_foreach_range (Sheet *sheet, int only_existing,
 	int   last_col_gen = -1, last_row_gen = -1;
 
 	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet)); 
 	g_return_if_fail (callback != NULL);
 	
 	col = sheet->cols_info;
@@ -1035,6 +1053,7 @@ Style *
 sheet_style_compute (Sheet *sheet, int col, int row)
 {
 	g_return_val_if_fail (sheet != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET (sheet), NULL); 
 	
 	/* FIXME: This should compute the style based on the
 	 * story of the styles applied to the worksheet, the
@@ -1061,6 +1080,7 @@ sheet_cell_new (Sheet *sheet, int col, int row)
 	CellPos *cellref;
 	
 	g_return_val_if_fail (sheet != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET (sheet), NULL); 
 
 	cell = g_new0 (Cell, 1);
 	cell->col   = sheet_col_get (sheet, col);
@@ -1084,6 +1104,8 @@ cell_set_formula (Sheet *sheet, Cell *cell, char *text)
 	char *error_msg;
 	Value *v;
 
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet)); 
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (text != NULL);
 	
@@ -1119,6 +1141,9 @@ void
 cell_set_text (Sheet *sheet, Cell *cell, char *text)
 {
 	GdkFont *font;
+
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet)); 
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (text != NULL);
 
@@ -1126,15 +1151,18 @@ cell_set_text (Sheet *sheet, Cell *cell, char *text)
 	if (cell->entered_text)
 		g_free (cell->entered_text);
 	cell->entered_text = g_strdup (text);
-
+	
+	if (cell->text)
+		g_free (cell->text);
+	cell->text = NULL;
+	
 	if (text [0] == '='){
 		cell_set_formula (sheet, cell, text); 
 	} else {
+		Value *v = g_new (Value, 1);
 		int is_text = 0, is_float;
 		char *p;
 		
-		if (cell->text)
-			g_free (cell->text);
 		cell->text = g_strdup (text);
 
 		for (p = text; *p && !is_text; p++){
@@ -1150,9 +1178,10 @@ cell_set_text (Sheet *sheet, Cell *cell, char *text)
 				is_text = 1;
 			}
 		}
-		if (!is_text){
-			Value *v = g_new (Value, 1);
-
+		if (is_text){
+			v->type = VALUE_STRING;
+			v->v.str = symbol_ref_string (text);
+		} else {
 			if (is_float){
 				v->type = VALUE_FLOAT;
 				float_get_from_range (text, text+strlen(text),
@@ -1162,7 +1191,10 @@ cell_set_text (Sheet *sheet, Cell *cell, char *text)
 				int_get_from_range (text, text+strlen (text),
 						    &v->v.v_int);
 			}
+			/* FIXME: */
+			/* In this case we need to format the text */
 		}
+		cell->value = v;
 	}
 
 	/* No default color */

@@ -49,7 +49,7 @@ typedef struct {
 	int       flags;
 } Cell;
 
-
+#define CELL_TEXT_GET(cell) ((cell)->text ? cell->text : cell->entered_text)
 #define CELL_IS_FORMULA(cell) (cell->entered_text [0] == '=')
 
 #endif /* GNUMERIC_CELL_H */

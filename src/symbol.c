@@ -12,8 +12,6 @@ symbol_lookup (char *str)
 
 	g_return_val_if_fail (str != NULL, NULL);
 	sym = (Symbol *) g_hash_table_lookup (symbol_hash_table, str);
-	if (sym)
-		symbol_ref (sym);
 	return sym;
 }
 
@@ -58,6 +56,19 @@ symbol_ref (Symbol *sym)
 	g_return_if_fail (sym != NULL);
 
 	sym->ref_count++;
+}
+
+Symbol *
+symbol_ref_string (char *str)
+{
+	Symbol *sym;
+
+	sym = symbol_lookup (str);
+	if (sym){
+		symbol_ref (sym);
+		return sym;
+	}
+	return symbol_install (str, SYMBOL_STRING, 0);
 }
 
 void

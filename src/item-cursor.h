@@ -21,6 +21,7 @@ typedef struct {
 
 	ItemCursorStyle style;
 	GdkGC    *gc;
+	GdkColor black;
 } ItemCursor;
 
 GtkType item_cursor_get_type (void);
@@ -29,7 +30,9 @@ typedef struct {
 	GnomeCanvasItemClass parent_class;
 } ItemCursorClass;
 
-void    item_cursor_set_bounds (ItemCursor *item_cursor, int c1, int c2, int r1, int r2);
+void item_cursor_set_bounds (ItemCursor *item_cursor,
+			     int start_col, int start_row,
+			     int end_col, int end_row);
 
 #endif
 

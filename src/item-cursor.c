@@ -14,13 +14,15 @@
 #include "item-cursor.h"
 #include "item-debug.h"
 
+static GdkColor black, white;
 static GnomeCanvasItem *item_cursor_parent_class;
 
 /* The argument we take */
 enum {
 	ARG_0,
 	ARG_SHEET,		/* The Sheet * argument */
-	ARG_ITEM_GRID		/* The ItemGrid * argument */
+	ARG_ITEM_GRID,		/* The ItemGrid * argument */
+	ARG_STYLE               /* The style type */
 };
 
 static void
@@ -45,10 +47,11 @@ item_cursor_realize (GnomeCanvasItem *item)
 	window = GTK_WIDGET (item->canvas)->window;
 
 	gc = item_cursor->gc = gdk_gc_new (window);
-#if 0
+
 	gdk_color_black (item->canvas->colormap, &black);
+	gdk_color_white (item->canvas->colormap, &white);
 	gdk_gc_set_foreground (gc, &black);
-#endif
+	gdk_gc_set_background (gc, &white);
 }
 
 static void
@@ -124,6 +127,8 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 	else
 		premove = 0;
 
+	gdk_gc_set_line_attributes (item_cursor->gc, 1,
+				    GDK_LINE_SOLID, -1, -1);
 	if (draw_external){
 		points [0].x = dx + cursor_width + 1;
 		points [0].y = dy + cursor_height + 1 - premove;
@@ -168,6 +173,15 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 				    dy + cursor_height + 1,
 				    2, 2);
 	}
+
+	if (draw_center){
+		gdk_gc_set_line_attributes (item_cursor->gc, 1,
+					    GDK_LINE_DOUBLE_DASH, -1, -1);
+		gdk_draw_rectangle (drawable, item_cursor->gc, FALSE,
+				    dx, dy,
+				    dx + cursor_width, dy + cursor_height);
+		
+	}
 }
 
 static void
@@ -183,8 +197,12 @@ item_cursor_request_redraw (ItemCursor *item_cursor)
 void
 item_cursor_set_bounds (ItemCursor *item_cursor, int start_col, int start_row, int end_col, int end_row)
 {
-	item_cursor_request_redraw (item_cursor);
+	g_return_if_fail (start_col <= end_col);
+	g_return_if_fail (start_row <= end_row);
 	
+	item_cursor_request_redraw (item_cursor);
+
+	printf ("BOUNDS: %d,%d %d,%d\n", start_col, start_row, end_col, end_row);
 	item_cursor->start_col = start_col;
 	item_cursor->end_col   = end_col;
 	item_cursor->start_row = start_row;
@@ -249,6 +267,9 @@ item_cursor_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	case ARG_ITEM_GRID:
 		item_cursor->item_grid = GTK_VALUE_POINTER (*arg);
 		break;
+	case ARG_STYLE:
+		item_cursor->style = GTK_VALUE_INT (*arg);
+		break;
 	}
 }
 
@@ -270,6 +291,8 @@ item_cursor_class_init (ItemCursorClass *item_cursor_class)
 				 GTK_ARG_WRITABLE, ARG_SHEET);
 	gtk_object_add_arg_type ("ItemCursor::Grid", GTK_TYPE_POINTER,
 				 GTK_ARG_WRITABLE, ARG_ITEM_GRID);
+	gtk_object_add_arg_type ("ItemCursor::Style", GTK_TYPE_INT,
+				 GTK_ARG_WRITABLE, ARG_STYLE);
 	
 	object_class->set_arg = item_cursor_set_arg;
 	object_class->destroy = item_cursor_destroy;

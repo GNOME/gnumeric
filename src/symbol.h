@@ -20,5 +20,6 @@ Symbol *symbol_lookup_substr (char *buffer, int len);
 Symbol *symbol_install       (char *str, SymbolType type, void *data);
 void    symbol_ref           (Symbol *);
 void    symbol_unref         (Symbol *);
+Symbol *symbol_ref_string    (char *str);
 
 #endif

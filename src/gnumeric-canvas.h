@@ -25,9 +25,18 @@ typedef struct {
 	ItemCursor  *item_cursor;
 	ItemBar     *item_bar_col;
 	ItemEdit    *item_editor;
+
+	/* This flag keeps track of a cell selector
+	 * (ie, when the user uses the cursor keys
+	 * to select a cell for an expression).
+	 */
+	int         selecting_cell;
+	int         sel_cursor_pos;
+	int         sel_text_len;
+	ItemCursor  *selection;
 } GnumericSheet;
 
-GtkType gnumeric_sheet_get_type (void);
+GtkType    gnumeric_sheet_get_type               (void);
 
 GtkWidget *gnumeric_sheet_new            	 (Sheet *sheet);
 void       gnumeric_sheet_set_selection  	 (GnumericSheet *sheet, SheetSelection *ss);

@@ -4,3 +4,4 @@
 #include "expr.h"
 #include "cell.h"
 #include "sheet.h"
+#include "utils.h"

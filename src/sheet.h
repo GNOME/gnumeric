@@ -29,6 +29,8 @@ typedef struct {
 } SheetSelection;
 
 typedef struct {
+	int        signature;
+	
 	Workbook   *parent_workbook;
 	GtkWidget  *toplevel, *col_canvas, *row_canvas;
 	GtkWidget  *sheet_view;
@@ -56,6 +58,9 @@ typedef struct {
 	int        max_col_used;
 	int        max_row_used;
 } Sheet;
+
+#define SHEET_SIGNATURE 0x12349876
+#define IS_SHEET(x) (((Sheet *) x)->signature == SHEET_SIGNATURE)
 
 typedef  void (*sheet_col_row_callback)(Sheet *sheet, ColRowInfo *ci,
 					void *user_data);

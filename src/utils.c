@@ -59,3 +59,24 @@ int_get_from_range (char *start, char *end, int_t *t)
 	if (p != small_buffer)
 		g_free (p);
 }
+
+char *
+cell_name (int col, int row)
+{
+	static char buffer [10];
+	char *p = buffer;
+	
+	if (col < 'Z'-'A'){
+		*p++ = col + 'A';
+	} else {
+		int a = col / ('Z'-'A');
+		int b = col % ('Z'-'A');
+		
+		*p++ = a + 'A';
+		*p++ = b + 'A';
+	}
+	sprintf (p, "%d", row+1);
+
+	return buffer;
+}
+

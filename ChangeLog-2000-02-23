@@ -1,3 +1,61 @@
+1998-07-25  Miguel de Icaza  <miguel@redhat.com>
+
+	* src/item-cursor.c (item_cursor_draw): Minimal code to support
+	the anted-cursor.  There is a bug, I just dont know where :-)
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_key): Added support for
+	selecting cell values with the cursor keys.
+	(start_cell_selection): Starts the interactive selection of a cell
+	(stop_cell_selection): Stops the interactive selection of a cell.
+	(selection_remove_selection_string): Removes the text that has
+	been inserted into the text line for selection purposes.
+	(selection_insert_selection_string): Updates the entry with the
+	contents of the selection range.
+	(selection_expand_vertical, selection_expand_horizontal): Expands
+	the selection.
+
+	* src/item-cursor.h (item_cursor_set_bounds): Change prototype to
+	reflect actual argument names.  I was a victim of my own lazyness.
+
+	* src/gnumeric-sheet.c (move_cursor_vertical, move_cursor,
+	move_cursor_horizontal): Renamed to allow formatting in 80
+	columns. 
+
+	* src/utils.c (cell_name): New routine.  Renders a cell name.
+
+
+	* src/sheet.h (IS_SHEET): Added a signature to Sheet strucutres
+	and a signature to test with.
+
+	* src/symbol.c (symbol_ref_string): New function: it makes sure a
+	symbol exists: it either increases the refcount for an existing
+	string, or creates it.
+
+1998-07-24    Miguel de Icaza <miguel@redhat.com>
+
+	* src/workbook.c (workbook_get_current_sheet): New function.
+
+	* src/sheet.c (cell_set_formula): New function.  Loads a cell with
+	a formula.
+
+	* src/parser.y (eval_value_string): New routine to return a string
+	representation of a Value *.  This should use the format.c that
+	Chris is working on, but we need Chris to commit his changes ;-).
+	For now it uses %d and %g.
+
+	* src/numbers.h: Compatibility functions to make the code work
+	with or without GMP.
+	
+	* src/gnumeric-sheet.c (gnumeric_sheet_set_current_value): Sets
+	the value to whatever happens to be on the input line.
+
+	* src/expr.c (eval_cast_to_float): New function: casts a value to
+	float. 
+	(eval_cell_value): new function.
+	(eval_node_value): evaluates the expression tree.
+
+	* src/cell.h: Keep the computed value as well.
+
 Sat Jul 25 14:10:23 1998  Tom Tromey  <tromey@cygnus.com>
 
 	* src/Makefile.am (test_parser_LDADD): Added INTLLIBS.
