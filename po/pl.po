@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "POT-Creation-Date: 2001-12-29 15:01+0100\n"
-"PO-Revision-Date: 2001-12-29 16:10+0100\n"
+"PO-Revision-Date: 2001-12-30 02:07+0100\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3643,7 +3643,7 @@ msgstr "_Specjalne"
 
 #: src/dialogs/cell-format.glade.h:1
 msgid "Stop           (never allow invalid input)"
-msgstr "Zatrzymani  (bez zezwolenia na wprowadzenie niepoprawnych danych)"
+msgstr "Zatrzymanie  (bez zezwolenia na wprowadzenie niepoprawnych danych)"
 
 #: src/dialogs/cell-format.glade.h:1
 msgid "Stri_kethrough"
