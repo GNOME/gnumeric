@@ -43,6 +43,10 @@ Morten:
 	* Fix EXPRESSION crash.
 	* Fix 65577.
 
+Toralf Lund:
+	* http://bugzilla.gnome.org/show_bug.cgi?id=60468
+	More work on the oleo importer.
+
 --------------------------------------------------------------------------
 Gnumeric 0.76
 

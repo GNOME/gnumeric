@@ -7,12 +7,9 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    http://bugzilla.gnome.org/show_bug.cgi?id=65112
-
 Pending Patches
 ---------------
 
-    http://bugzilla.gnome.org/show_bug.cgi?id=60468	oleo
     http://bugzilla.gnome.org/show_bug.cgi?id=55142	charset for ole summary
     libole2 + vfs support.
 
