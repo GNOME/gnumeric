@@ -1,3 +1,13 @@
+2000-03-31  JP Rosevear  <jpr@arcavia.com>
+
+	* src/xml-io.c (xml_read_attribute): Allow per type reading of
+	the "Attribute" xml node so that complex types can sort themselves
+	out.
+	(xml_write_attribute): Allow per type writing of the "Attribute" xml
+	node so that complex types can write themselves appropriately.
+	(xml_write_attributes): Tidy and use xml_write_attribute.
+	(xml_read_attribute): Tiday and use xml_read_attribute.
+
 2000-03-29  Jody Goldberg <jgoldberg@home.com>
 
 	* src/dialogs/dialog-cell-format.c (cb_font_changed) : Use the size
@@ -36,6 +46,7 @@
 	* gnumeric.spec.in (Requires): Updated the requirements for
 	Gnumeric here.
 
+>>>>>>> 1.123
 2000-03-26  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/dialogs/Makefile.am (glade_msgs): Added a new missing file.
@@ -130,6 +141,7 @@
 
 	* src/dialogs/workbook-attr.glade: Deflickerize + set initial focus.
 
+>>>>>>> 1.117
 2000-03-25  Jody Goldberg <jgoldberg@home.com>
 
 	* src/print.c (print_page) : Call setup_rotation unconditionally it

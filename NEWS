@@ -86,6 +86,10 @@ Morten:
 Ariel:
 	* Guile plugin can now register functions in user given categories.
 
+JP:
+	* Add sorting functionality to workbook toolbar
+	* Sorting fixes
+	* Add basic attribute support for workbooks
 --------------------------------------------------------------------------
 
 Gnumeric 0.48

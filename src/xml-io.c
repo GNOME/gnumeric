@@ -1121,6 +1121,34 @@ xml_get_print_hf (xmlNodePtr node, PrintHF *const hf)
 	}
 }
 
+static void
+xml_write_attribute (parse_xml_context_t *ctxt, xmlNodePtr attr, GtkArg *arg)
+{
+	xmlChar *tstr;
+	gchar *str;
+	
+	switch (arg->type) {
+	case GTK_TYPE_CHAR:
+	case GTK_TYPE_UCHAR:
+	case GTK_TYPE_BOOL:
+	case GTK_TYPE_INT:
+	case GTK_TYPE_UINT:
+	case GTK_TYPE_LONG:
+	case GTK_TYPE_ULONG:
+	case GTK_TYPE_FLOAT:
+	case GTK_TYPE_DOUBLE:
+	case GTK_TYPE_STRING:
+		str = xml_arg_get (arg);	
+		tstr = xmlEncodeEntitiesReentrant (ctxt->doc, str);  
+		xmlNewChild (attr, ctxt->ns, "value", tstr);
+		if (tstr) {
+			xmlFree (tstr);
+		}
+		g_free (str);
+		break;
+	}	
+}
+
 static xmlNodePtr
 xml_write_attributes (parse_xml_context_t *ctxt, guint n_args, GtkArg *args)
 {
@@ -1144,15 +1172,8 @@ xml_write_attributes (parse_xml_context_t *ctxt, guint n_args, GtkArg *args)
 		
 		xmlNewChild (tmp, ctxt->ns, "type", tstr);
 		xml_set_value_int (tmp, "type", args->type);
-		
-		str = xml_arg_get (args);	
-		tstr = xmlEncodeEntitiesReentrant (ctxt->doc, str);  
-		xmlNewChild (tmp, ctxt->ns, "value", tstr);
-		if (tstr) {
-			xmlFree (tstr);
-		}
-		
-		g_free (str);
+
+		xml_write_attribute (ctxt, tmp, args);
 
 		xmlAddChild (cur, tmp);
 	}
@@ -1172,9 +1193,39 @@ xml_free_arg_list (GList *list)
 }
 
 static void
+xml_read_attribute (parse_xml_context_t *ctxt, xmlNodePtr attr, GtkArg *arg)
+{
+	xmlNodePtr *val;
+	char *value;
+	
+	switch (arg->type) {
+	case GTK_TYPE_CHAR:
+	case GTK_TYPE_UCHAR:
+	case GTK_TYPE_BOOL:
+	case GTK_TYPE_INT:
+	case GTK_TYPE_UINT:
+	case GTK_TYPE_LONG:
+	case GTK_TYPE_ULONG:
+	case GTK_TYPE_FLOAT:
+	case GTK_TYPE_DOUBLE:
+	case GTK_TYPE_STRING:
+		val = xml_search_child (attr, "value");
+		if (val) {
+			value = xmlNodeGetContent (val);
+			xml_arg_set (arg, value);
+			
+			if (value){
+				xmlFree (value);
+			}
+		}
+		break;
+	}	
+}
+
+static void
 xml_read_attributes (parse_xml_context_t *ctxt, xmlNodePtr tree, GList **list)
 {
-	xmlNodePtr child;
+	xmlNodePtr child, subchild;
 	GtkArg *arg;
 	
 	g_return_if_fail (ctxt != NULL);
@@ -1185,32 +1236,20 @@ xml_read_attributes (parse_xml_context_t *ctxt, xmlNodePtr tree, GList **list)
 	while (child) {
 		char *name = NULL;
 		int type = 0;
-		char *value = NULL;
 		
 		if (child->name && !strcmp (child->name, "Attribute")) {
-			xmlNodePtr bits;
 
-			bits = child->childs;
-			while (bits) {
-
-				if (!strcmp (bits->name, "name")) {
-					name = xmlNodeGetContent (bits);
-				}
-				
-				if (!strcmp (bits->name, "type")) {
-					xml_get_value_int (child,
-							   "type", &type);
-				}
-
-				if (!strcmp (bits->name, "value")) {
-					value = xmlNodeGetContent (bits);
-				}
-				bits = bits->next;
+			subchild = xml_search_child (child, "name");
+			if (subchild) {
+				name = xmlNodeGetContent (subchild);
 			}
-			if (name && type && value) {
+			
+			xml_get_value_int (child, "type", &type);
+
+			if (name && type) {
 				arg = gtk_arg_new (type);
 				arg->name = g_strdup (name);
-				xml_arg_set ( arg, value);
+				xml_read_attribute (ctxt, child, arg);
 				
 				*list = g_list_prepend (*list, arg);
 			}
@@ -1218,10 +1257,6 @@ xml_read_attributes (parse_xml_context_t *ctxt, xmlNodePtr tree, GList **list)
 		if (name){
 			xmlFree (name);
 			name = NULL;
-		}
-		if (value){
-			xmlFree (value);
-			value = NULL;
 		}
 		child = child->next;
 	}
