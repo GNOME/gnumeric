@@ -8,11 +8,18 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
+    - Panes : Autoscroll
+	    : Sheet objects
+	    : item-bar item-grid paint black line at max
+	    : item-cursor handling of drag handle
+
 Pending Patches
 ---------------
 
 Long term breakage
 ------------------
+
+- support negative durations with [h]
 
 - Functions like SMALL and LARGE use O(n*log n) algorithms.  Should use
   O(n) algorithms, see Knuth.
