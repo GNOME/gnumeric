@@ -28,8 +28,10 @@
 
 #define STYLE_DEBUG (style_debugging > 2)
 
+static guint32 stamp = 0;
+
 struct _SheetStyleData {
-	GList      *style_list;
+	GList      *style_list; /* of StyleRegions */
 	GHashTable *cell_cache;
 };
 
@@ -122,6 +124,35 @@ sheet_style_cache_add (Sheet *sheet, int col, int row,
 	g_hash_table_insert (STYLE_CACHE (sheet), ep, mstyle);
 }
 
+static gboolean
+list_check_sorted (const GList *list, gboolean as_per_sheet)
+{
+	const GList *l = list;
+
+	if (as_per_sheet) {
+		guint32 stamp = -1; /* max guint32 */
+
+		while (l) {
+			StyleRegion *sr = l->data;
+			if (sr->stamp > stamp)
+				return FALSE;
+			stamp = sr->stamp;
+			l = g_list_next (l);
+		}
+	} else {
+		guint32 stamp = 0;
+
+		while (l) {
+			StyleRegion *sr = l->data;
+			if (sr->stamp < stamp)
+				return FALSE;
+			stamp = sr->stamp;
+			l = g_list_next (l);
+		}
+	}
+	return TRUE;
+}
+
 /**
  * sheet_style_attach_single:
  * @sheet: the sheet
@@ -201,6 +232,9 @@ sheet_style_optimize (Sheet *sheet, Range range)
 		len++;
 	}
 
+	if (!list_check_sorted (style_list, FALSE))
+		g_warning ("Styles not sorted");
+
 	if (STYLE_DEBUG)
 		g_warning ("there are %d overlaps out of %d = %g%%",
 			   overlapping, len, (double)((1.0 * overlapping) / len));
@@ -239,7 +273,7 @@ sheet_style_optimize (Sheet *sheet, Range range)
 				if (STYLE_DEBUG)
 					printf ("testme: Two equal ranges, merged\n");
 
-				if (mstyle_stamp_compare (sra->style, srb->style) >= 0) {
+				if (sra->stamp >= srb->stamp) {
 					master = sra;
 					slave  = srb;
 					b->data = NULL;
@@ -292,7 +326,7 @@ sheet_style_optimize (Sheet *sheet, Range range)
 					if (mstyle_equal  ( sra->style,  srb->style)) {
 						StyleRegion *master, *slave;
 
-						if (mstyle_stamp_compare (sra->style, srb->style) >= 0) {
+						if (sra->stamp >= srb->stamp) {
 							master = sra;
 							slave  = srb;
 							b->data = NULL;
@@ -356,6 +390,7 @@ sheet_style_attach (Sheet  *sheet, Range range,
 	 */
 
 	sr = g_new (StyleRegion, 1);
+	sr->stamp = stamp++;
 	sr->range = range;
 	sr->style = mstyle;
 
@@ -403,6 +438,9 @@ sheet_style_compute (Sheet const *sheet, int col, int row)
 		return mstyle;
 	}
 
+	if (!list_check_sorted (STYLE_LIST (sheet), TRUE))
+		g_warning ("Styles not sorted");
+
 	style_list = NULL;
 	/* Look in the styles applied to the sheet */
 	for (l = STYLE_LIST (sheet); l; l = l->next) {
@@ -418,8 +456,6 @@ sheet_style_compute (Sheet const *sheet, int col, int row)
 	}
 	style_list = g_list_reverse (style_list);
 
-/*	if (!mstyle_list_check_sorted (style_list))
-	g_warning ("Styles not sorted");*/
 	mstyle = mstyle_do_merge (style_list, MSTYLE_ELEMENT_MAX);
 	g_list_free (style_list);
 
@@ -520,9 +556,6 @@ sheet_unique_cb (Sheet *sheet, Range const *range,
 			}
 		}
 
-/*		if (!mstyle_list_check_sorted (style_list))
-		g_warning ("Styles not sorted");*/
-
 		tmp = mstyle_do_merge (style_list, MSTYLE_ELEMENT_MAX);
 
 		mstyle_compare (cl->mstyle, tmp);
@@ -619,7 +652,7 @@ sheet_styles_dump (Sheet *sheet)
 
 	for (l = STYLE_LIST (sheet); l; l = l->next) {
 		StyleRegion *sr = l->data;
-		printf ("Range: ");
+		printf ("Stamp %d Range: ", sr->stamp);
 		range_dump (&sr->range);
 		printf ("style ");
 		mstyle_dump (sr->style);

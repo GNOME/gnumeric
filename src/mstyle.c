@@ -77,12 +77,9 @@ void           mstyle_elements_unref   (MStyleElement *e);
 typedef struct {
 	guint32        ref_count;
 	gchar         *name;
-	guint32        stamp;
 	MStyleElement *elements;
 } PrivateStyle;
 #define MSTYLE_ELEMENTS(s) (((PrivateStyle *)s)->elements)
-
-static guint32 stamp = 0;
 
 const char *mstyle_names[MSTYLE_ELEMENT_MAX] = {
 	"--UnSet--",
@@ -413,7 +410,6 @@ mstyle_new (void)
 
 	pst->ref_count = 1;
 	pst->name = NULL;
-	pst->stamp = stamp++;
 	pst->elements  = g_new (MStyleElement, MSTYLE_ELEMENT_MAX);
 
 	for (i = 0; i < MSTYLE_ELEMENT_MAX; i++)
@@ -529,17 +525,8 @@ mstyle_merge (const MStyle *sta, const MStyle *stb)
 	g_return_val_if_fail (sta != NULL, NULL);
 	g_return_val_if_fail (stb != NULL, NULL);
 
-	if (((PrivateStyle *)sta)->stamp >=
-	    ((PrivateStyle *)stb)->stamp) {
-		pstm = (PrivateStyle *)sta;
-		psts = (PrivateStyle *)stb;
-	} else {
-		pstm = (PrivateStyle *)stb;
-		psts = (PrivateStyle *)sta;
-	}
-
-	if (pstm->stamp == psts->stamp)
-		g_warning ("Odd merging regions with same stamp");
+	pstm = (PrivateStyle *)sta;
+	psts = (PrivateStyle *)stb;
 
 	ans = (PrivateStyle *)mstyle_new ();
 
@@ -549,7 +536,6 @@ mstyle_merge (const MStyle *sta, const MStyle *stb)
 		else if (psts->elements[i].type)
 			ans->elements[i] = mstyle_element_ref (psts->elements[i]);
 	}
-	ans->stamp = pstm->stamp;
 
 	return (MStyle *)ans;
 }
@@ -586,8 +572,7 @@ mstyle_dump (const MStyle *st)
 	char *txt;
 	const PrivateStyle *pst = (PrivateStyle *)st;
 
-	printf ("Style '%s', stamp %d\n", pst->name?pst->name:"unnamed",
-		pst->stamp);
+	printf ("Style '%s'\n", pst->name?pst->name:"unnamed");
 	txt = mstyle_to_string (st);
 	printf ("%s\n", txt);
 	g_free (txt);
@@ -614,19 +599,6 @@ mstyle_destroy (MStyle *st)
 	g_free (pst);
 }
 
-static void
-dump_style_list (const GList *l)
-{
-	printf ("Style list:\n");
-	while (l) {
-		PrivateStyle *pst = l->data;
-		printf ("%d: '%s' ", pst->stamp,
-			mstyle_to_string ((MStyle *)pst));
-		l = g_list_next (l);
-	}
-	printf ("End of style list\n");
-}
-
 gboolean
 mstyle_equal (const MStyle *a, const MStyle *b)
 {
@@ -643,43 +615,6 @@ mstyle_equal (const MStyle *a, const MStyle *b)
 		g_warning ("Named style equal unimplemented");
 
 	return mstyle_elements_equal (pa->elements, pb->elements);
-}
-
-int
-mstyle_stamp_compare (const MStyle *a, const MStyle *b)
-{
-	PrivateStyle *pa = (PrivateStyle *)a;
-	PrivateStyle *pb = (PrivateStyle *)b;
-
-	g_return_val_if_fail (a != NULL, FALSE);
-	g_return_val_if_fail (b != NULL, FALSE);
-
-	if (pa->stamp > pb->stamp)
-		return 1;
-	else if (pa->stamp == pb->stamp)
-		return 0;
-	else
-		return -1;
-}
-
-gboolean
-mstyle_list_check_sorted (const GList *list)
-{
-	const GList *l = list;
-	guint32 stamp = -1; /* max guint32 */
-
-	while (l) {
-		PrivateStyle *pst = l->data;
-		/*
-		 *  We can have several copies of a style with the same stamp
-		 * in the queue, each is ref-counted.
-		 */
-		if (pst->stamp > stamp)
-			return FALSE;
-		stamp = pst->stamp;
-		l = g_list_next (l);
-	}
-	return TRUE;
 }
 
 gboolean

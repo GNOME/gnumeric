@@ -64,7 +64,6 @@ void        mstyle_destroy       (MStyle *st);
 gboolean    mstyle_equal         (const MStyle *a, const MStyle *b);
 gboolean    mstyle_verify        (const MStyle *st);
 guint       mstyle_hash          (gconstpointer st);
-int         mstyle_stamp_compare (const MStyle *a, const MStyle *b);
 
 /*
  * Wafer thin element access functions.
@@ -108,6 +107,5 @@ char       *mstyle_to_string   (const MStyle *st); /* Debug only ! leaks like a 
 void        mstyle_dump        (const MStyle *st);
 
 MStyle     *mstyle_do_merge    (const GList *list, MStyleElementType max);
-gboolean    mstyle_list_check_sorted (const GList *list);
 
 #endif /* GNUMERIC_MSTYLE_H */

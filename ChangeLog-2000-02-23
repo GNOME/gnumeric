@@ -1,3 +1,16 @@
+1999-11-01  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/sheet-style.c (list_check_sorted): create + add checks.
+	(sheet_style_optimize): Use stamps correctly.
+	(sheet_styles_dump): dump stamp.
+
+	* src/mstyle.c (mstyle_merge, mstyle_dump): Kill stamp.
+	(mstyle_stamp_compare, dump_style_flist): kill.
+
+	* src/sheet-style.c (sheet_style_attach): set stamp + inc.
+
+	* src/sheet.h: Move StyleRegion to sheet-style.c + add stamp.
+
 1999-10-31  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/sheet-style.c (sheet_style_compute, sheet_unique_cb): Kill

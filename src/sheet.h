@@ -21,6 +21,12 @@ typedef struct {
 } MStyle;
 
 typedef struct {
+	guint32  stamp;
+	Range    range;
+	MStyle  *style;
+} StyleRegion;
+
+typedef struct {
 	/* TODO : Remove this.  It should be part of the sheet cursor
 	 * data structures */
         CellPos base;
@@ -68,11 +74,6 @@ typedef struct {
 #define SHEET_MAX_COLS 256	/* 0 - 255 inclusive */
 
 typedef GList ColStyleList;
-
-typedef struct {
-	Range  range;
-	MStyle  *style;
-} StyleRegion;
 
 typedef enum {
 	/* Normal editing mode of the Sheet */
@@ -341,11 +342,6 @@ void        sheet_shift_col               (Sheet *sheet,  int col, int row, int 
 void        sheet_shift_cols              (Sheet *sheet,
 				           int start_col, int end_col,
 				           int row,       int count);
-
-void        sheet_style_attach_old        (Sheet *sheet,
-					   int    start_col, int start_row,
-					   int    end_col,   int end_row,
-					   MStyle  *style);
 Sheet      *sheet_lookup_by_name          (Workbook *wb, const char *name);
 
 void        sheet_update_controls         (Sheet *sheet);
