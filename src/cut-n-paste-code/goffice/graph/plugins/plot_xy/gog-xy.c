@@ -328,6 +328,9 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 			y = *y_vals++;
 			valid = !isnan (y) && !isnan (x);
 			if (valid) {
+				/* We are checking with finite here because isinf
+				   if not available everywhere.  Note, that NANs
+				   have been ruled out.  */
 				if (!finite (y))
 					y = 0; /* excel is just sooooo consistent */
 				if (!finite (x))
