@@ -2576,7 +2576,10 @@ sheet_cell_add_to_hash (Sheet *sheet, Cell *cell)
 	cell->base.flags |= CELL_IN_SHEET_LIST;
 	cell->col_info   = sheet_col_fetch (sheet, cell->pos.col);
 	cell->row_info   = sheet_row_fetch (sheet, cell->pos.row);
-	cell->rendered_value = NULL;
+	if (cell->rendered_value) {
+		rendered_value_destroy (cell->rendered_value);
+		cell->rendered_value = NULL;
+	}
 
 	g_hash_table_insert (sheet->cell_hash, &cell->pos, cell);
 

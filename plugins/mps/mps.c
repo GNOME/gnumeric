@@ -277,7 +277,7 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 			SolverParameters *param)
 {
 	GSList  *current;
-	int     i, n, r, ecol, inc, inc2;
+	int     i, n, r, ecol, inc2;
 	int     n_rows_per_fn;
 	GString *var_range [2];
 	Range   range;
@@ -543,14 +543,10 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 
 /* Creates the spreadsheet model. */
 static void
-mps_create_sheet (MpsInputContext *ctxt,  WorkbookView *wbv)
+mps_create_sheet (MpsInputContext *ctxt, WorkbookView *wbv)
 {
         Sheet            *sh = wbv->current_sheet;
-	GString          *buf;
-	Range            range;
-	MpsRow           *row;
-	gint             i, n;
-	Cell             *cell;
+	gint             i;
 	int              n_rows_per_fn;
 	SolverParameters *param = sh->solver_parameters;
 
@@ -567,7 +563,7 @@ mps_create_sheet (MpsInputContext *ctxt,  WorkbookView *wbv)
 			      ctxt->objective_row->name);
 	else {
 		for (i = 0; i < n_rows_per_fn; i++) {
-			buf = g_string_new ("");
+			GString *buf = g_string_new ("");
 			g_string_sprintfa (buf, "%s (R[%d])",
 					   ctxt->objective_row->name, i+1);
 			mps_set_cell (sh, VARIABLE_COL - 1,

@@ -1,3 +1,7 @@
+2002-04-15  Morten Welinder  <terra@diku.dk>
+
+	* src/sheet.c (sheet_cell_add_to_hash): Plug leak.
+
 2002-04-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* schemas/gnumeric-general.schemas : add various new preferences
