@@ -35,17 +35,32 @@ draw_overflow (GdkDrawable *drawable, GdkGC *gc, GdkFont *font, int x1, int y1, 
 }
 
 static GList *
-cell_split_text (GdkFont *font, const char *text, int width)
+cell_split_text (GdkFont *font, char const *text, int const width)
 {
 	GList *list;
-	const char *p, *line_begin, *ideal_cut_spot = NULL;
-	int  line_len, used, last_was_cut_point;
+	char const *p, *line_begin, *ideal_cut_spot = NULL;
+	int  line_len, used;
+	gboolean last_was_cut_point = FALSE;
 
 	list = NULL;
 	used = 0;
-	last_was_cut_point = FALSE;
 	for (line_begin = p = text; *p; p++){
 		int len;
+
+		/* If there is an embeded return honour it */
+		if (*p == '\n'){
+			int const line_len = p - line_begin;
+			char *line = g_malloc (line_len + 1);
+			memcpy (line, line_begin, line_len);
+			line [line_len] = '\0';
+			list = g_list_append (list, line);
+
+			used = 0;
+			line_begin = p+1; /* skip the newline */
+			ideal_cut_spot = NULL;
+			last_was_cut_point = FALSE;
+			continue;
+		}
 
 		if (last_was_cut_point && *p != ' ')
 			ideal_cut_spot = p;
@@ -54,16 +69,17 @@ cell_split_text (GdkFont *font, const char *text, int width)
 
 		/* If we have overflowed, do the wrap */
 		if (used + len > width){
-			const char *begin = line_begin;
+			char const *begin = line_begin;
 			char *line;
 			
 			if (ideal_cut_spot){
-				int n = p - ideal_cut_spot + 1;
+				int const n = p - ideal_cut_spot + 1;
 
 				line_len = ideal_cut_spot - line_begin;
 				used = gdk_text_width (font, ideal_cut_spot, n);
 				line_begin = ideal_cut_spot;
 			} else {
+				/* Split BEFORE this character */
 				used = len;
 				line_len = p - line_begin;
 				line_begin = p;
@@ -211,6 +227,7 @@ cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc, GdkDrawable *drawable, 
 		for (l = lines; l; l = l->next){
 			char *str = l->data;
 
+			/* Why do we need this. it breaks multi-line indents */
 			str = str_trim_spaces (str);
 			
 			switch (halign){

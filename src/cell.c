@@ -340,6 +340,7 @@ cell_comment_realize (Cell *cell)
 		o = sheet_view_comment_create_marker (
 			sheet_view,
 			cell->col->pos, cell->row->pos);
+		gtk_object_ref (GTK_OBJECT (o));
 
 		cell->comment->realized_list = g_list_prepend (
 			cell->comment->realized_list, o);

@@ -1,3 +1,16 @@
+1999-07-08  Jody Goldberg  <jgoldberg@home.com>
+
+	* src/cell-draw.c (cell_split_text) : Honour embedded newlines.
+	  Why do we call str_trim_spaces ?
+
+	* src/print-cell.c (cell_split_text) : Ditto.  Adjust gnome-print to
+	  make the code even more similar to cell-draw version.  Should we be
+	  using double rather than int for width calculations ?
+	  NOTE : This requires some recent (1999/7/7) changes to gnome-print.
+
+	* src/cell.c (cell_comment_realize) : reference the comment object
+	  to avoid verbose warnings when we exit.
+
 1999-07-08  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* doc/C/analysis-tools.sgml: New file. Added documentation for the

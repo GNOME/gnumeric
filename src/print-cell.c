@@ -103,42 +103,51 @@ print_overflow (GnomePrintContext *context, Cell *cell)
 }
 
 static GList *
-cell_split_text (GnomeFont *font, char *text, int width)
+cell_split_text (GnomeFont *font, char const *text, int const width)
 {
 	GList *list;
-	char *p, *line, *line_begin, *ideal_cut_spot = NULL;
-	int  line_len, used, last_was_cut_point;
-	char buf [2];
+	char const *p, *line_begin, *ideal_cut_spot = NULL;
+	int  line_len, used;
+	gboolean last_was_cut_point = FALSE;
 
-	buf [1] = 0;
 	list = NULL;
 	used = 0;
-	last_was_cut_point = FALSE;
 	for (line_begin = p = text; *p; p++){
 		int len;
+
+		/* If there is an embeded return honour it */
+		if (*p == '\n'){
+			int const line_len = p - line_begin;
+			char *line = g_malloc (line_len + 1);
+			memcpy (line, line_begin, line_len);
+			line [line_len] = '\0';
+			list = g_list_append (list, line);
+
+			used = 0;
+			line_begin = p+1; /* skip the newline */
+			ideal_cut_spot = NULL;
+			last_was_cut_point = FALSE;
+			continue;
+		}
 
 		if (last_was_cut_point && *p != ' ')
 			ideal_cut_spot = p;
 
-		buf [0] = *p;
-		len = gnome_font_get_width_string (font, buf);
+		len = gnome_font_get_width_string_n (font, p, 1);
 
 		/* If we have overflowed, do the wrap */
 		if (used + len > width){
-			char *begin = line_begin;
+			char const *begin = line_begin;
+			char *line;
 			
 			if (ideal_cut_spot){
-				char *temp;
-				int n = p - ideal_cut_spot + 1;
+				int const n = p - ideal_cut_spot + 1;
 
-				temp = alloca (n+1);
-				strncpy (temp, ideal_cut_spot, n);
-				temp [n] = 0;
-				
 				line_len = ideal_cut_spot - line_begin;
-				used = gnome_font_get_width_string (font, temp);
+				used = gnome_font_get_width_string_n (font, ideal_cut_spot, n);
 				line_begin = ideal_cut_spot;
 			} else {
+				/* Split BEFORE this character */
 				used = len;
 				line_len = p - line_begin;
 				line_begin = p;
@@ -159,6 +168,8 @@ cell_split_text (GnomeFont *font, char *text, int width)
 			last_was_cut_point = FALSE;
 	}
 	if (*line_begin){
+		char *line;
+
 		line_len = p - line_begin;
 		line = g_malloc (line_len+1);
 		memcpy (line, line_begin, line_len);
@@ -251,6 +262,7 @@ print_cell_text (GnomePrintContext *context, Cell *cell, double base_x, double b
 		for (l = lines; l; l = l->next){
 			char *str = l->data;
 
+			/* Why do we need this. it breaks multi-line indents */
 			str = str_trim_spaces (str);
 
 			switch (halign){
