@@ -60,10 +60,9 @@ typedef struct {
 	SheetObject  base;
 	GogGraph	*graph;
 	GObject		*renderer;
+	gulong		 add_sig, remove_sig;
 } SheetObjectGraph;
-typedef struct {
-	SheetObjectClass base;
-} SheetObjectGraphClass;
+typedef SheetObjectClass SheetObjectGraphClass;
 
 static GObjectClass *parent_klass;
 
@@ -72,14 +71,12 @@ sog_data_set_sheet (G_GNUC_UNUSED SheetObjectGraph *sog, GOData *data, Sheet *sh
 {
 	gnm_go_data_set_sheet (data, sheet);
 }
-
 static void
 cb_graph_add_data (G_GNUC_UNUSED GogGraph *graph,
 		   GOData *data, SheetObjectGraph *sog)
 {
 	sog_data_set_sheet (sog, data, sog->base.sheet);
 }
-
 static void
 cb_graph_remove_data (G_GNUC_UNUSED GogGraph *graph,
 		      GOData *data, SheetObjectGraph *sog)
@@ -87,60 +84,12 @@ cb_graph_remove_data (G_GNUC_UNUSED GogGraph *graph,
 	sog_data_set_sheet (sog, data, NULL);
 }
 
-void
-sheet_object_graph_set_gog (SheetObject *so, GogGraph *graph,
-			    gboolean attach_signals)
+static void
+sog_datas_set_sheet (SheetObjectGraph *sog, Sheet *sheet)
 {
-	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
-
-	if (graph != NULL)
-		g_object_ref (G_OBJECT (graph));
-	else
-		graph = g_object_new (GOG_GRAPH_TYPE, NULL);
-
-	if (sog->graph != NULL)
-		g_object_unref (G_OBJECT (sog->graph));
-
-	sog->graph = graph;
-
-	if (sog->renderer != NULL)
-		g_object_set (sog->renderer, "model", graph, NULL);
-	else
-		sog->renderer = g_object_new (GOG_RENDERER_PIXBUF_TYPE,
-					      "model", sog->graph,
-					      NULL);
-	if (attach_signals) {
-		g_signal_connect_object (G_OBJECT (graph),
-					 "add_data",
-					 G_CALLBACK (cb_graph_add_data), 
-					 G_OBJECT (sog), 0);
-		g_signal_connect_object (G_OBJECT (graph),
-					 "remove_data",
-					 G_CALLBACK (cb_graph_remove_data), 
-					 G_OBJECT (sog), 0);
-	}
-}
-
-GogGraph *
-sheet_object_graph_get_gog (SheetObject *sog)
-{
-	g_return_val_if_fail (IS_SHEET_OBJECT_GRAPH (sog), NULL);
-
-	return ((SheetObjectGraph *)sog)->graph;
-}
-
-/**
- * sheet_object_graph_new :
- * @graph : #GogGraph
- *
- * Adds a reference to @graph and creates a gnumeric sheet object wrapper
- **/
-SheetObject *
-sheet_object_graph_new (GogGraph *graph)
-{
-	SheetObjectGraph *sog = g_object_new (SHEET_OBJECT_GRAPH_TYPE, NULL);
-	sheet_object_graph_set_gog (SHEET_OBJECT (sog), graph, TRUE);
-	return SHEET_OBJECT (sog);
+	GSList *ptr = gog_graph_get_data (sog->graph);
+	for (; ptr != NULL ; ptr = ptr->next)
+		sog_data_set_sheet (sog, ptr->data, sheet);
 }
 
 static void
@@ -206,7 +155,7 @@ sheet_object_graph_read_xml (SheetObject *so,
 
 	if (child != NULL) {
 		GogObject *graph = gog_object_new_from_xml (NULL, child);
-		sheet_object_graph_set_gog (so, GOG_GRAPH (graph), TRUE);
+		sheet_object_graph_set_gog (so, GOG_GRAPH (graph));
 		g_object_unref (graph);
 	}
 	return FALSE;
@@ -235,7 +184,7 @@ sheet_object_graph_clone (SheetObject const *so, Sheet *sheet)
 
 	new_sog = g_object_new (G_OBJECT_TYPE (so), NULL);
 	graph = gog_graph_dup (sog->graph);
-	sheet_object_graph_set_gog (SHEET_OBJECT (new_sog), graph, TRUE);
+	sheet_object_graph_set_gog (SHEET_OBJECT (new_sog), graph);
 	g_object_unref (graph);
 
 	return SHEET_OBJECT (new_sog);
@@ -278,13 +227,8 @@ static gboolean
 sheet_object_graph_set_sheet (SheetObject *so, Sheet *sheet)
 {
 	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
-
-	if (sog->graph != NULL) {
-		GSList *ptr = gog_graph_get_data (sog->graph);
-		for (; ptr != NULL ; ptr = ptr->next)
-			sog_data_set_sheet (sog, ptr->data, sheet);
-	}
-
+	if (sog->graph != NULL)
+		sog_datas_set_sheet (sog, sheet);
 	return FALSE;
 }
 
@@ -292,13 +236,8 @@ static gboolean
 sheet_object_graph_remove_from_sheet (SheetObject *so)
 {
 	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
-
-	if (sog->graph != NULL) {
-		GSList *ptr = gog_graph_get_data (sog->graph);
-		for (; ptr != NULL ; ptr = ptr->next)
-			sog_data_set_sheet (sog, ptr->data, NULL);
-	}
-
+	if (sog->graph != NULL)
+		sog_datas_set_sheet (sog, NULL);
 	return FALSE;
 }
 
@@ -359,6 +298,78 @@ GSF_CLASS (SheetObjectGraph, sheet_object_graph,
 	   sheet_object_graph_class_init, sheet_object_graph_init,
 	   SHEET_OBJECT_TYPE);
 
+/**
+ * sheet_object_graph_new :
+ * @graph : #GogGraph
+ *
+ * Adds a reference to @graph and creates a gnumeric sheet object wrapper
+ **/
+SheetObject *
+sheet_object_graph_new (GogGraph *graph)
+{
+	SheetObjectGraph *sog = g_object_new (SHEET_OBJECT_GRAPH_TYPE, NULL);
+	sheet_object_graph_set_gog (SHEET_OBJECT (sog), graph);
+	return SHEET_OBJECT (sog);
+}
+
+GogGraph *
+sheet_object_graph_get_gog (SheetObject *sog)
+{
+	g_return_val_if_fail (IS_SHEET_OBJECT_GRAPH (sog), NULL);
+
+	return ((SheetObjectGraph *)sog)->graph;
+}
+
+/**
+ * sheet_object_graph_set_gog :
+ * @so : #SheetObjectGraph
+ * @graph : #GogGraph
+ *
+ * If @graph is non NULL add a reference to it, otherwise create a new graph.
+ * Assign the graph to its SheetObjectGraph wrapper and initialize the
+ * handlers, disconnecting any existing connection for the preceding graph.
+ **/
+void
+sheet_object_graph_set_gog (SheetObject *so, GogGraph *graph)
+{
+	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
+
+	g_return_if_fail (IS_SHEET_OBJECT_GRAPH (so));
+
+	if (graph != NULL) {
+		if (sog->graph == graph)
+			return;
+
+		g_object_ref (G_OBJECT (graph));
+	} else
+		graph = g_object_new (GOG_GRAPH_TYPE, NULL);
+
+	if (sog->graph != NULL) {
+		g_signal_handler_disconnect (sog->graph, sog->add_sig);
+		g_signal_handler_disconnect (sog->graph, sog->remove_sig);
+		if (so->sheet != NULL)
+			sog_datas_set_sheet (sog, NULL);
+		g_object_unref (sog->graph);
+	}
+
+	sog->graph = graph;
+	if (so->sheet != NULL)
+		sog_datas_set_sheet (sog, so->sheet);
+	sog->add_sig = g_signal_connect_object (G_OBJECT (graph),
+		"add_data",
+		G_CALLBACK (cb_graph_add_data), G_OBJECT (sog), 0);
+	sog->remove_sig = g_signal_connect_object (G_OBJECT (graph),
+		"remove_data",
+		G_CALLBACK (cb_graph_remove_data), G_OBJECT (sog), 0);
+
+	if (sog->renderer != NULL)
+		g_object_set (sog->renderer, "model", graph, NULL);
+	else
+		sog->renderer = g_object_new (GOG_RENDERER_PIXBUF_TYPE,
+					      "model", sog->graph,
+					      NULL);
+}
+
 static void
 cb_graph_guru_done (WorkbookControlGUI *wbcg)
 {
@@ -377,3 +388,4 @@ sheet_object_graph_guru (WorkbookControlGUI *wbcg, GogGraph *graph,
 	g_object_set_data_full (G_OBJECT (dialog),
 		"guru", wbcg, (GDestroyNotify) cb_graph_guru_done);
 }
+

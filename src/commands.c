@@ -6607,7 +6607,6 @@ typedef struct
 	SheetObject *so;
 	GogGraph *new_graph;
 	GogGraph *old_graph;
-	gboolean first_time;
 } CmdSOGraphConfig;
 
 GNUMERIC_MAKE_COMMAND (CmdSOGraphConfig, cmd_so_graph_config);
@@ -6617,11 +6616,8 @@ cmd_so_graph_config_redo (GnumericCommand *cmd,
 			  G_GNUC_UNUSED WorkbookControl *wbc)
 {
 	CmdSOGraphConfig *me = CMD_SO_GRAPH_CONFIG (cmd);
-
-	sheet_object_graph_set_gog (me->so, me->new_graph, me->first_time);
-	me->first_time = FALSE;
-
-	return (FALSE);
+	sheet_object_graph_set_gog (me->so, me->new_graph);
+	return FALSE;
 }
 
 static gboolean
@@ -6629,10 +6625,8 @@ cmd_so_graph_config_undo (GnumericCommand *cmd,
 			  G_GNUC_UNUSED WorkbookControl *wbc)
 {
 	CmdSOGraphConfig *me = CMD_SO_GRAPH_CONFIG (cmd);
-
-	sheet_object_graph_set_gog (me->so, me->old_graph, FALSE);
-
-	return (FALSE);
+	sheet_object_graph_set_gog (me->so, me->old_graph);
+	return FALSE;
 }
 
 static void
@@ -6654,28 +6648,22 @@ gboolean cmd_so_graph_config (WorkbookControl *wbc,
 {
 	GObject *object;
 	CmdSOGraphConfig *me;
-	GogGraph *new_graph, *old_graph;
 
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
 	g_return_val_if_fail (IS_SHEET_OBJECT_GRAPH (so), TRUE);
 	g_return_val_if_fail (IS_GOG_GRAPH (n_graph), TRUE);
 	g_return_val_if_fail (IS_GOG_GRAPH (o_graph), TRUE);
 	
-	new_graph = GOG_GRAPH (n_graph);
-	old_graph = GOG_GRAPH (o_graph);
-
 	object = g_object_new (CMD_SO_GRAPH_CONFIG_TYPE, NULL);
 	me = CMD_SO_GRAPH_CONFIG (object);
 
 	me->so = so;
 	g_object_ref (G_OBJECT (so));
 
-	me->new_graph = new_graph;
-	g_object_ref (G_OBJECT (new_graph));
-	me->old_graph = old_graph;
-	g_object_ref (G_OBJECT (old_graph));
-
-	me->first_time = TRUE;
+	me->new_graph = GOG_GRAPH (n_graph);
+	g_object_ref (G_OBJECT (me->new_graph));
+	me->old_graph = GOG_GRAPH (o_graph);
+	g_object_ref (G_OBJECT (me->old_graph));
 
 	me->cmd.sheet = sheet_object_get_sheet (so);;
 	me->cmd.size = 1;

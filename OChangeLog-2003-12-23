@@ -1,3 +1,18 @@
+2003-08-24  Jody Goldberg <jody@gnome.org>
+
+	* src/commands.c (cmd_so_graph_config_redo) : no need to diddle with
+	  references.  set_gog adds and unrefs as necessary internally.
+	(cmd_so_graph_config_undo) : all we need to do is watch our
+	  references.
+
+	* src/sheet-object-graph.c (sheet_object_graph_set_gog) : beef this up
+	  a bit to handle connecting and disconnecting the data.  Remove the
+	  'attach_signals' flag.  That exposes more implementation than I'm
+	  comfortable with.
+	(sog_datas_set_sheet) : new.  Split out of new.  Split out of.
+	(sheet_object_graph_set_sheet) : here.
+	(sheet_object_graph_remove_from_sheet) : and here.
+
 2003-08-23  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/commands.c (cmd_so_graph_config_redo): use 
