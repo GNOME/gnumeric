@@ -428,7 +428,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 			int npos;
 
 			if (item_bar->resize_guide == NULL){
-				item_bar_start_resize (item_bar, element);
+				item_bar_start_resize (item_bar, item_bar->resize_pos);
 				gnome_canvas_item_grab (item,
 							GDK_POINTER_MOTION_MASK |
 							GDK_BUTTON_RELEASE_MASK,
