@@ -36,6 +36,10 @@
 	* src/dialogs/dialog-goal-seek.c (dialog_found_solution):
 	Deflickerize.
 
+	* src/dialogs/dialog-analysis-tools.c (dialog_sampling_tool,
+	dialog_descriptive_stat_tool, dialog_ztest_tool,
+	dialog_random_tool, dialog_regression_tool): Deflickerize.
+
 2000-02-21  Jody Goldberg <jgoldberg@home.com>
 
 	* src/cell-draw.c (cell_draw) : Doh!
@@ -98,11 +102,6 @@
 	(stf_read_workbook) : Detach sheet on parse error.
 
 2000-02-21  Jon K Hellan  <hellan@acm.org>
->>>>>>> 1.1342
-
-	* src/dialogs/dialog-analysis-tools.c (dialog_sampling_tool,
-	dialog_descriptive_stat_tool, dialog_ztest_tool,
-	dialog_random_tool, dialog_regression_tool): Deflickerize.
 
 	* src/dialogs/dialog-cell-sort.c (dialog_cell_sort): Deflickerize.
 
