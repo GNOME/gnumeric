@@ -1,3 +1,19 @@
+1999-06-16  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-math.c (gnumeric_gcd): Made GCD() to take variable number
+ 	of arguments.
+
+	* src/fn-stat.c (gnumeric_rank): RANK() fixed.
+
+	* src/fn-eng.c (gnumeric_erf): ERF() fixed to return negative
+	results if the argument is negative too like in Excel.
+
+	* srg/fn-eng.c (get_real_and_imaginary): Added a branch for empty
+ 	imaginary part.
+
+	* src/fn-eng.c (gnumeric_improduct, gnumeric_imsum): Made IMSUM()
+	and IMPRODUCT() to take variable number of arguments.
+	
 1999-06-15  Morten Welinder  <terra@diku.dk>
 
 	* src/style.c (style_font_new_simple): Plug leak.

@@ -332,7 +332,7 @@ callback_function_stat_inv_sum (Sheet *sheet, Value *value,
 
 static char *help_rank = {
 	N_("@FUNCTION=RANK\n"
-	   "@SYNTAX=RANK(x,ref,order)\n"
+	   "@SYNTAX=RANK(x,ref[,order])\n"
 
 	   "@DESCRIPTION="
 	   "RANK returns the rank of a number in a list of numbers. @x is the "
@@ -345,75 +345,71 @@ static char *help_rank = {
 };
 
 typedef struct {
-	int     first;
-	guint32 num;
         float_t x;
-        float_t last;
-        GSList  *list;
+        int     order;
+        int     rank;
 } stat_rank_t;
 
 static int
-callback_function_rank (Sheet *sheet, Value *value,
-			char **error_string, void *closure)
+callback_function_rank (Sheet *sheet, int col, int row,
+			Cell *cell, void *user_data)
 {
-	stat_rank_t *mm = closure;
-	float_t x;
+        stat_rank_t *p = user_data;
+	float_t     x;
 
-	if (!VALUE_IS_NUMBER (value))
-		return TRUE;
+	if (cell == NULL || cell->value == NULL)
+	        return TRUE;
 
-	x = value_get_as_float (value);
-	if (mm->first == TRUE)
-		mm->x = x;
-	else if (mm->num == 1)
-		mm->last = x;
-	else {
-		float_t *p = g_new (float_t, 1);
-		*p = mm->last;
-		mm->list = g_slist_append (mm->list, p);
-		mm->last = x;
+	switch (cell->value->type) {
+        case VALUE_INTEGER:
+                x = cell->value->v.v_int;
+                break;
+        case VALUE_FLOAT:
+                x = cell->value->v.v_float;
+                break;
+        default:
+                return FALSE;
+        }
+
+	if (p->order) {
+	        if (x < p->x)
+		        p->rank++;
+	} else {
+	        if (x > p->x)
+		        p->rank++;
 	}
-	mm->num++;
-	mm->first = FALSE;
+
 	return TRUE;
 }
 
 static Value *
-gnumeric_rank (Sheet *sheet, GList *expr_node_list,
-	       int eval_col, int eval_row, char **error_string)
+gnumeric_rank (struct FunctionDefinition *i,
+               Value *argv [], char **error_string)
 {
 	stat_rank_t p;
-	GSList      *list;
-	int         order, rank;
+	int         ret;
 
-	p.first = TRUE;
-	p.num   = 0;
-	p.list  = NULL;
+	p.x = value_get_as_float (argv[0]);
+	if (argv[2])
+	        p.order = value_get_as_int (argv[2]);
+	else
+	        p.order = 0;
+	p.rank = 1;
+	ret = sheet_cell_foreach_range (
+	        argv[1]->v.cell_range.cell_a.sheet, TRUE,
+		argv[1]->v.cell_range.cell_a.col,
+		argv[1]->v.cell_range.cell_a.row,
+		argv[1]->v.cell_range.cell_b.col,
+		argv[1]->v.cell_range.cell_b.row,
+		callback_function_rank,
+		&p);
 
-	function_iterate_argument_values (sheet, callback_function_rank,
-					  &p, expr_node_list,
-					  eval_col, eval_row, error_string);
-	list  = p.list;
-	order = (int) p.last;
-	rank  = 1;
-
-	while (list != NULL){
-	        float_t *x;
-		x = list->data;
-		if (order){
-		        if (*x < p.x)
-			        rank++;
-		} else {
-		        if (*x > p.x)
-			        rank++;
-		}
-		g_free(x);
-		list = list->next;
+	if (ret == FALSE) {
+	        *error_string = gnumeric_err_VALUE;
+		return NULL;
 	}
 
-	g_slist_free(p.list);
-
-	return value_new_int (rank);
+	return value_new_int (p.rank);
 }
 
 static char *help_trimmean = {
@@ -1113,8 +1109,7 @@ static char *help_counta = {
 
 static int
 callback_function_counta (Sheet *sheet, Value *value,
-			  char **error_string, void *
-closure)
+			  char **error_string, void *closure)
 {
         Value *result = (Value *) closure;
 
@@ -4015,8 +4010,8 @@ FunctionDefinition stat_functions [] = {
 	  gnumeric_pearson, NULL },
 	{ "prob", "AAf|f", "x_range,prob_range,lower_limit,upper_limit",
 	  &help_prob,   NULL, gnumeric_prob },
-	{ "rank",      0,      "",          &help_rank,
-	  gnumeric_rank, NULL },
+	{ "rank", "fr|f",  "number,range[,order]", &help_rank,
+	  NULL, gnumeric_rank },
 	{ "rsq",       0,      "",          &help_rsq,
 	  gnumeric_rsq, NULL },
 	{ "skew",      0,      "",          &help_skew,

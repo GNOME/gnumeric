@@ -419,7 +419,7 @@ FORMULA_FUNC_DATA formula_func_data[] =
 /* 342 */	{ "RADIANS", 1 },
 /* 343 */	{ "DEGREES", 1 },
 /* 344 */	{ "SUBTOTAL", -1 },
-/* 345 */	{ "SUMIF", 3 },
+/* 345 */	{ "SUMIF", -1 }, /* Actual range is optional */
 /* 346 */	{ "COUNTIF", 2 },
 /* 347 */	{ "COUNTBLANK", -1 },
 /* 348 */	{ "SCENARIOGET", -2 },

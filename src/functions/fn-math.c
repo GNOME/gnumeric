@@ -109,6 +109,33 @@ callback_function_sumxy (Sheet *sheet, int col, int row,
 	return TRUE;
 }
 
+static int
+callback_function_makeslist (Sheet *sheet, Value *value,
+			     char **error_string, void *closure)
+{
+        math_sums_t *mm = closure;
+        float_t     x;
+	gpointer    p;
+
+        switch (value->type) {
+	case VALUE_INTEGER:
+	        x = value->v.v_int;
+		break;
+	case VALUE_FLOAT:
+	        x = value->v.v_float;
+		break;
+	default:
+	        return TRUE;
+	}
+
+	p = g_new(float_t, 1);
+	*((float_t *) p) = x;
+	mm->list = g_slist_append(mm->list, p);
+	mm->num++;
+
+	return TRUE;
+}
+
 typedef struct {
         GSList              *list;
         criteria_test_fun_t fun;
@@ -151,10 +178,10 @@ callback_function_criteria (Sheet *sheet, int col, int row,
 
 static char *help_gcd = {
 	N_("@FUNCTION=GCD\n"
-	   "@SYNTAX=GCD(a,b)\n"
+	   "@SYNTAX=GCD(number1,number2,...)\n"
 
 	   "@DESCRIPTION="
-	   "GCD returns the greatest common divisor of two numbers. "
+	   "GCD returns the greatest common divisor of given numbers. "
 	   "\n"
 	   "If any of the arguments is less than zero, GCD returns #NUM! "
 	   "error. "
@@ -163,20 +190,55 @@ static char *help_gcd = {
 };
 
 static Value *
-gnumeric_gcd (struct FunctionDefinition *i,
-	      Value *argv [], char **error_string)
+gnumeric_gcd (Sheet *sheet, GList *expr_node_list,
+	      int eval_col, int eval_row, char **error_string)
 {
-        float_t a, b;
+        math_sums_t p;
+	GSList      *current;
+        int         a, b, old_gcd, new_gcd;
 
-	a = value_get_as_float (argv[0]);
-	b = value_get_as_float (argv[1]);
-
-        if (a < 0 || b < 0) {
+	p.num  = 0;
+	p.list = NULL;
+	if (function_iterate_argument_values (sheet, 
+					      callback_function_makeslist,
+					      &p, expr_node_list,
+					      eval_col, eval_row,
+					      error_string) == FALSE) {
 		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
-	return value_new_int (gcd(a, b));
+	if (p.list == NULL || p.list->next == NULL) {
+		*error_string = gnumeric_err_NUM;
+		return NULL;
+	}
+
+try_again:
+	a = *((float_t *) p.list->data);
+	current=p.list->next;
+	b = *((float_t *) current->data);
+	old_gcd = gcd(a, b);
+
+	for (current=current->next; current!=NULL; current=current->next) {
+	        b = *((float_t *) current->data);
+		new_gcd = gcd(a, b);
+		if (old_gcd != new_gcd) {
+		        GSList *tmp;
+			for (tmp=p.list; tmp!=NULL; tmp=tmp->next) {
+			        b = *((float_t *) current->data);
+				if (b % old_gcd == 0)
+				        *((float_t *) current->data) = 
+					  b / old_gcd;
+			}
+			goto try_again;
+		}
+	}
+
+	for (current=p.list; current!=NULL; current=current->next)
+	        g_free(current->data);
+	g_slist_free(p.list);
+
+	return value_new_int (old_gcd);
 }
 
 static char *help_lcm = {
@@ -1769,7 +1831,6 @@ gnumeric_randbetween (struct FunctionDefinition *i,
 		return value_new_float (r);
 }
 
-
 static char *help_rounddown = {
 	N_("@FUNCTION=ROUNDDOWN\n"
 	   "@SYNTAX=ROUNDDOWN(number[,digits])\n"
@@ -2550,7 +2611,7 @@ FunctionDefinition math_functions [] = {
 	  NULL, gnumeric_combin },
 	{ "floor",   "f|f",    "number",  &help_floor,   NULL, gnumeric_floor },
 	{ "gcd",     "ff",   "number1,number2", &help_gcd,
-	  NULL, gnumeric_gcd },
+	  gnumeric_gcd, NULL },
 	{ "int",     "f",    "number",    &help_int,     NULL, gnumeric_int },
 	{ "lcm",     0,      "",          &help_lcm,     gnumeric_lcm, NULL },
 	{ "ln",      "f",    "number",    &help_ln,      NULL, gnumeric_ln },

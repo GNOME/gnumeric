@@ -505,6 +505,7 @@ get_real_and_imaginary(char *inumber, float_t *real, float_t *im,
         char *p;
 
 	*real = 0;
+	*suffix = j_suffix;
 
 	*im = is_unit_imaginary(inumber, suffix);
 	if (*im)
@@ -514,6 +515,11 @@ get_real_and_imaginary(char *inumber, float_t *real, float_t *im,
 	*real = strtod(inumber, &p);
 	if (inumber == p)
 	        return 1;
+
+	if (*p == '\0') {
+	        *im = 0;
+	        return 0;
+	}
 
 	/* Check if only imaginary coefficient */
 	if (*p == 'i') {
@@ -1199,45 +1205,114 @@ gnumeric_imsub (struct FunctionDefinition *fd,
 
 static char *help_improduct = {
 	N_("@FUNCTION=IMPRODUCT\n"
-	   "@SYNTAX=IMPRODUCT(inumber,inumber)\n"
+	   "@SYNTAX=IMPRODUCT(inumber1[,inumber2,...])\n"
 	   "@DESCRIPTION="
-	   "IMPRODUCT returns the product of two complex numbers. "
+	   "IMPRODUCT returns the product of given complex numbers. "
 	   "\n"
 	   "@SEEALSO=IMDIV")
 };
 
-static Value *
-gnumeric_improduct (struct FunctionDefinition *fd, 
-		    Value *argv [], char **error_string)
+typedef enum {
+        Improduct, Imsum
+} eng_imoper_type_t;
+
+typedef struct {
+        float_t           real;
+        float_t           im;
+        char              *suffix;
+        eng_imoper_type_t type;
+} eng_imoper_t;
+
+static int
+callback_function_imoper (Sheet *sheet, Value *value,
+			  char **error_string, void *closure)
 {
-        float_t a, b, c, d;
-	char    *suffix;
+        eng_imoper_t *result = closure;
+	char         *suffix;
+	float_t      im, real, rest_im, rest_real;
 
-	if (VALUE_IS_NUMBER(argv[0])) {
-	        a = value_get_as_float (argv[0]);
-	        b = 0;
-	} else if (argv[0]->type != VALUE_STRING) {
+        switch (value->type){
+        case VALUE_INTEGER:
+	        im = 0;
+		real = value->v.v_int;
+                break;
+	case VALUE_FLOAT:
+	        im = 0;
+		real = value->v.v_float;
+		break;
+	case VALUE_STRING:
+	        if (get_real_and_imaginary(value->v.str->str,
+					   &real, &im, &suffix))
+		        return FALSE;
+		break;
+        default:
+                return FALSE;
+        }
+
+	rest_real = result->real;
+	rest_im = result->im;
+
+	switch (result->type) {
+	case Improduct:
+	        result->real = rest_real*real - rest_im*im;
+		result->im = rest_real*im + rest_im*real;
+	        break;
+	case Imsum:
+	        result->real = rest_real + real;
+		result->im = rest_im + im;
+	        break;
+	default:
+	        return FALSE;
+	}
+
+        return TRUE;
+}
+
+static Value *
+gnumeric_improduct (Sheet *sheet, GList *expr_node_list,
+		    int eval_col, int eval_row, char **error_string)
+{
+        eng_imoper_t p;
+	ExprTree     *tree;
+	Value        *val;
+        float_t      a, b;
+
+	if (expr_node_list == NULL) {
+                *error_string = gnumeric_err_NUM;
+                return NULL;
+	}
+
+	tree = (ExprTree *) expr_node_list->data;
+        if (tree == NULL) {
+                *error_string = gnumeric_err_NUM;
+                return NULL;
+        }
+        val = eval_expr (sheet, tree, eval_col, eval_row, error_string);
+
+	if (VALUE_IS_NUMBER(val)) {
+	        p.real = value_get_as_float (val);
+	        p.im = 0;
+		p.suffix = "j";
+	} else if (val->type != VALUE_STRING) {
 		*error_string = gnumeric_err_VALUE;
 		return NULL;
-	} else if (get_real_and_imaginary(argv[0]->v.str->str,
-					  &a, &b, &suffix)) {
+	} else if (get_real_and_imaginary(val->v.str->str,
+					  &p.real, &p.im, &p.suffix)) {
 		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
-	if (VALUE_IS_NUMBER(argv[1])) {
-	        c = value_get_as_float (argv[1]);
-	        d = 0;
-	} else if (argv[1]->type != VALUE_STRING) {
-		*error_string = gnumeric_err_VALUE;
-		return NULL;
-	} else if (get_real_and_imaginary(argv[1]->v.str->str,
-					  &c, &d, &suffix)) {
-		*error_string = gnumeric_err_NUM;
-		return NULL;
-	}
+	p.type = Improduct;
 
-	return create_inumber (a*c-b*d, a*d+b*c, suffix);
+        if (function_iterate_argument_values (sheet, callback_function_imoper,
+                                              &p, expr_node_list->next,
+                                              eval_col, eval_row,
+                                              error_string) == FALSE) {
+                *error_string = gnumeric_err_NUM;
+                return NULL;
+        }
+
+	return create_inumber (p.real, p.im, p.suffix);
 }
 
 static char *help_imsum = {
@@ -1250,37 +1325,50 @@ static char *help_imsum = {
 };
 
 static Value *
-gnumeric_imsum (struct FunctionDefinition *fd, 
-		Value *argv [], char **error_string)
+gnumeric_imsum (Sheet *sheet, GList *expr_node_list,
+		int eval_col, int eval_row, char **error_string)
 {
-        float_t a, b, c, d;
-	char    *suffix;
+        eng_imoper_t p;
+	ExprTree     *tree;
+	Value        *val;
+        float_t      a, b;
 
-	if (VALUE_IS_NUMBER(argv[0])) {
-	        a = value_get_as_float (argv[0]);
-	        b = 0;
-	} else if (argv[0]->type != VALUE_STRING) {
+	if (expr_node_list == NULL) {
+                *error_string = gnumeric_err_NUM;
+                return NULL;
+	}
+
+	tree = (ExprTree *) expr_node_list->data;
+        if (tree == NULL) {
+                *error_string = gnumeric_err_NUM;
+                return NULL;
+        }
+        val = eval_expr (sheet, tree, eval_col, eval_row, error_string);
+
+	if (VALUE_IS_NUMBER(val)) {
+	        p.real = value_get_as_float (val);
+	        p.im = 0;
+		p.suffix = "j";
+	} else if (val->type != VALUE_STRING) {
 		*error_string = gnumeric_err_VALUE;
 		return NULL;
-	} else if (get_real_and_imaginary(argv[0]->v.str->str,
-					  &a, &b, &suffix)) {
+	} else if (get_real_and_imaginary(val->v.str->str,
+					  &p.real, &p.im, &p.suffix)) {
 		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
-	if (VALUE_IS_NUMBER(argv[1])) {
-	        c = value_get_as_float (argv[1]);
-	        d = 0;
-	} else if (argv[1]->type != VALUE_STRING) {
-		*error_string = gnumeric_err_VALUE;
-		return NULL;
-	} else if (get_real_and_imaginary(argv[1]->v.str->str,
-					  &c, &d, &suffix)) {
-		*error_string = gnumeric_err_NUM;
-		return NULL;
-	}
+	p.type = Imsum;
 
-	return create_inumber (a+c, b+d, suffix);
+        if (function_iterate_argument_values (sheet, callback_function_imoper,
+                                              &p, expr_node_list->next,
+                                              eval_col, eval_row,
+                                              error_string) == FALSE) {
+                *error_string = gnumeric_err_NUM;
+                return NULL;
+        }
+
+	return create_inumber (p.real, p.im, p.suffix);
 }
 
 static char *help_convert = {
@@ -1700,15 +1788,16 @@ gnumeric_erf (struct FunctionDefinition *i,
 	lower = value_get_as_float (argv[0]);
 	if (argv[1])
 		upper = value_get_as_float (argv[1]);
-	
-	if (lower < 0.0 || upper < 0.0){
-		*error_string = gnumeric_err_NUM;
-		return NULL;
-	}
-	       
-	ans = erf(lower);
+
+	if (lower < 0.0)
+	        ans = -erf(-lower);
+	else
+	        ans = erf(lower);
 	if (argv[1])
-		ans = erf(upper) - ans;
+	        if (upper < 0.0)
+		        ans = -erf(-upper) - ans;
+	        else
+		        ans = erf(upper) - ans;
 	
 	return value_new_float (ans);
 }
@@ -1942,8 +2031,8 @@ FunctionDefinition eng_functions [] = {
 	  NULL, gnumeric_imlog2 },
 	{ "impower",     "?f", "inumber,number",             &help_impower,
 	  NULL, gnumeric_impower },
-	{ "improduct",   "??", "inumber,inumber",            &help_improduct,
-	  NULL, gnumeric_improduct },
+	{ "improduct",   0, "inumber1,inumber2,...",         &help_improduct,
+	  gnumeric_improduct, NULL },
 	{ "imreal",      "?",  "inumber",                    &help_imreal,
 	  NULL, gnumeric_imreal },
 	{ "imsin",       "?",  "inumber",                    &help_imsin,
@@ -1953,7 +2042,7 @@ FunctionDefinition eng_functions [] = {
 	{ "imsub",       "??", "inumber,inumber",            &help_imsub,
 	  NULL, gnumeric_imsub },
 	{ "imsum",       "??", "inumber,inumber",            &help_imsum,
-	  NULL, gnumeric_imsum },
+	  gnumeric_imsum, NULL },
 	{ "oct2bin",     "?|f",  "xnum,ynum",                &help_oct2bin,
 	  NULL, gnumeric_oct2bin },
 	{ "oct2dec",     "?",    "number",                   &help_oct2dec,

@@ -1,3 +1,7 @@
+1999-06-16  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* ms-formula-read.c (formula_func_data): SUMIF made var args.
+	
 1999-06-15  Morten Welinder  <terra@diku.dk>
 
 	* ms-formula-read.c (ms_excel_parse_formula): Handle bools.  Plug
