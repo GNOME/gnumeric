@@ -9,6 +9,7 @@
 #include <config.h>
 #include <gnome.h>
 #include "gnumeric.h"
+#include "gnumeric-util.h"
 #include "clipboard.h"
 #include "eval.h"
 
@@ -118,6 +119,15 @@ clipboard_paste_region (CellRegion *region, Sheet *dest_sheet, int dest_col, int
 				expr_tree_unref (new_cell->parsed_node);
 				new_cell->parsed_node = NULL;
 			}
+		}
+
+		if (!paste_formulas){
+			char *rendered;
+
+			rendered = value_string (new_cell->value);
+			string_unref (new_cell->entered_text);
+			new_cell->entered_text = string_get (rendered);
+			g_free (rendered);
 		}
 
 		sheet_redraw_cell_region (dest_sheet,
@@ -239,6 +249,7 @@ dialog_paste_special (void)
 
 	result = 0;
 	i = gtk_radio_group_get_selected (group_type);
+	printf ("Seleccion: %d\n", i);
 	switch (i){
 	case 0: /* all */
 		result = PASTE_ALL_TYPES;

@@ -60,7 +60,15 @@ cut_cmd (GtkWidget *widget, Workbook *wb)
 static void
 paste_special_cmd (GtkWidget *widget, Workbook *wb)
 {
-	dialog_paste_special ();
+	GnumericSheet *gsheet;
+	Sheet *sheet;
+	int flags;
+
+	sheet = workbook_get_current_sheet (wb);
+	gsheet = GNUMERIC_SHEET (sheet->sheet_view);
+	flags = dialog_paste_special ();
+	sheet_selection_paste (sheet, gsheet->cursor_col, gsheet->cursor_row, flags);
+	
 }
 
 static void
