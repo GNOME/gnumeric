@@ -1,9 +1,9 @@
 2001-06-28  Jody Goldberg <jgoldberg@home.com>
 
+	* src/formats.c : Add comments re: order assumptions.
+
 	* src/workbook-control-gui.c (workbook_standard_toolbar_orient) :
 	  disable initial frozen pane support for release.
-
-2001-06-28  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook-control-gui.c (sort_by_rows) : fix old bug with sort
 	  tool buttons.

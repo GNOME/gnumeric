@@ -56,7 +56,10 @@ cell_format_account [] = {
 	NULL
 };
 
-/* Some are generated */
+/*****************************************************************/
+/* Some are generated						 */
+/* WARNING WARNING WARNING : do not reorder these !! 		 */
+/* the generated versions and the excel plugin assume this order */
 static char const *
 cell_format_date [] = {
 	"m/d/yy",
@@ -93,6 +96,7 @@ cell_format_date [] = {
 	"yyyy",
 	NULL
 };
+/*****************************************************/
 
 /* Some are generated */
 static char const *
