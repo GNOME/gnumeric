@@ -31,7 +31,7 @@ msgstr "Importerar versjon 4.[234] rekneark"
 
 #: plugins/derivatives/plugin.xml.in.h:1
 msgid "Finance"
-msgstr "Finansielt"
+msgstr "Finans"
 
 #: plugins/derivatives/plugin.xml.in.h:2
 msgid "Financial Derivatives"
@@ -845,7 +845,7 @@ msgstr "K_olonne"
 
 #: src/GNOME_Gnumeric.xml.h:18 src/workbook-format-toolbar.c:442
 msgid "Center"
-msgstr "Sentrert"
+msgstr "Midtstill"
 
 #: src/GNOME_Gnumeric.xml.h:19
 msgid "CenterAcrossSelection"
@@ -1017,15 +1017,15 @@ msgstr "Klipp ut valde område"
 #: src/GNOME_Gnumeric.xml.h:59 src/workbook-format-toolbar.c:401
 #: src/workbook-format-toolbar.c:481
 msgid "Decrease Indent"
-msgstr "Mindre innrykk"
+msgstr "Minke innrykk"
 
 #: src/GNOME_Gnumeric.xml.h:60
 msgid "Decrease Precision"
-msgstr "Lågare presisjon"
+msgstr "Minke presisjon"
 
 #: src/GNOME_Gnumeric.xml.h:61
 msgid "Decrease the precision of the selected cells"
-msgstr "Reduser presisjonen for dei valde celler"
+msgstr "Minke presisjonen for dei valde celler"
 
 #: src/GNOME_Gnumeric.xml.h:62 src/workbook-control-gui.c:2755
 msgid "Display _Formulas"
@@ -1170,15 +1170,15 @@ msgstr "Inkluderar tusenskilleteikn i valde celler"
 #: src/GNOME_Gnumeric.xml.h:96 src/workbook-format-toolbar.c:379
 #: src/workbook-format-toolbar.c:484
 msgid "Increase Indent"
-msgstr "Større innrykk"
+msgstr "Auke innrykk"
 
 #: src/GNOME_Gnumeric.xml.h:97
 msgid "Increase Precision"
-msgstr "Høgare presisjon"
+msgstr "Auke presisjon"
 
 #: src/GNOME_Gnumeric.xml.h:98
 msgid "Increase the precision of the selected cells"
-msgstr "Auk presisjonen for dei valde celler"
+msgstr "Auke presisjonen for dei valde celler"
 
 #: src/GNOME_Gnumeric.xml.h:99
 msgid "Insert Component"
@@ -1919,7 +1919,7 @@ msgstr "_Verkty"
 #: src/GNOME_Gnumeric.xml.h:272 src/workbook-control-gui.c:1025
 #: src/workbook-control-gui.c:2561
 msgid "_Undo"
-msgstr "_Angra"
+msgstr "_Angre"
 
 #: src/GNOME_Gnumeric.xml.h:273
 msgid "_Ungroup"
@@ -6194,7 +6194,7 @@ msgstr "_Andre verdiar"
 
 #: src/dialogs/search.glade.h:33
 msgid "_Plain text"
-msgstr "_Enkel tekst"
+msgstr "_Rein tekst"
 
 #: src/dialogs/search.glade.h:34
 msgid "_Range"
@@ -14611,11 +14611,11 @@ msgstr "Koeffisient"
 
 #: src/solver-lp.c:1052 src/solver-lp.c:1099
 msgid "Increase"
-msgstr "Stigande"
+msgstr "Auke"
 
 #: src/solver-lp.c:1053 src/solver-lp.c:1100
 msgid "Decrease"
-msgstr "Synkande"
+msgstr "Minke"
 
 #: src/solver-lp.c:1089
 msgid "Shadow"
@@ -14819,7 +14819,7 @@ msgstr "_Fjern frysing på Panes"
 #: src/workbook-control-gui.c:1021 src/workbook-control-gui.c:2954
 #: src/workbook-control-gui.c:3137 src/workbook-control-gui.c:3177
 msgid "Undo"
-msgstr "Angra"
+msgstr "Angre"
 
 #: src/workbook-control-gui.c:1022 src/workbook-control-gui.c:2957
 #: src/workbook-control-gui.c:3145 src/workbook-control-gui.c:3179
@@ -15083,11 +15083,11 @@ msgstr "Format med tusetalsskiljar"
 
 #: src/workbook-format-toolbar.c:350
 msgid "Increase precision"
-msgstr "Høgare presisjon"
+msgstr "Auke presisjon"
 
 #: src/workbook-format-toolbar.c:356
 msgid "Decrease precision"
-msgstr "Lågare presisjon"
+msgstr "Minke presisjon"
 
 #: src/workbook-format-toolbar.c:412
 msgid "Select font"
@@ -15163,7 +15163,7 @@ msgstr "Fjern desimalar"
 
 #: src/workbook-format-toolbar.c:475
 msgid "Decreases the number of decimals displayed"
-msgstr "Reduserer talet på desimalar som blir vist"
+msgstr "Minkar talet på desimalar som blir vist"
 
 #: src/workbook-format-toolbar.c:538
 msgid "Set Foreground Color"
