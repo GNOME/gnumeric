@@ -31,6 +31,9 @@ Release Critical
     http://bugzilla.gnome.org/show_bug.cgi?id=152511
     : crash when adding a xy plot over a pie plot
 
+    gnumeric http://jk.ufisa.uninett.no/gnumeric/colwidth.xls
+    --> "Unable to reaed MS property stream header"
+
 Worries
 
     We init gnome_print at sheet creation time.  With cups this can cause
