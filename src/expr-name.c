@@ -307,23 +307,19 @@ expr_name_list (Workbook *wb, Sheet *sheet, gboolean builtins_too)
 char *
 expr_name_value (const NamedExpression *expr_name)
 {
-	gchar    *val;
-
 	if (!expr_name->builtin) {
+		char * val;
 		ParsePos  pos, *pp;
 
 		pp = parse_pos_init (&pos, expr_name->wb,
 				     expr_name->sheet, 0, 0);
 		val = expr_tree_as_string (expr_name->t.expr_tree, pp);
-	} else
-		val = g_strdup (_("Builtin"));
-
-	if (val)
+		if (val == NULL)
+			return g_strdup ("Error");
 		return val;
-	else
-		return g_strdup ("Error");
 
-	return val;
+	}
+	return g_strdup (_("Builtin"));
 }
 
 
@@ -358,19 +354,23 @@ expr_name_invalidate_refs_name (NamedExpression *exprn)
 void
 expr_name_invalidate_refs_sheet (const Sheet *sheet)
 {
+#if 0
 	static gboolean warned = FALSE;
 	if (!warned)
 		g_warning ("Implement Me !. expr_name_invalidate_refs_sheet\n");
 	warned = TRUE;
+#endif
 }
 
 void
 expr_name_invalidate_refs_wb (const Workbook *wb)
 {
+#if 0
 	static gboolean warned = FALSE;
 	if (!warned)
 		g_warning ("Implement Me !. expr_name_invalidate_refs_wb\n");
 	warned = TRUE;
+#endif
 }
 
 

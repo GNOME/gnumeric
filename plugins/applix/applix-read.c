@@ -977,7 +977,7 @@ applix_read_cells (ApplixReadState *state)
 
 			if (!val_is_string)
 				/* Does it match any formats */
-				val = format_match (ptr, NULL);
+				val = format_match (ptr, NULL, NULL);
 
 			if (val == NULL)
 				/* TODO : Could this happen ? */
@@ -1073,7 +1073,7 @@ applix_read_cells (ApplixReadState *state)
 #endif
 			/* Does it match any formats */
 			if (!val_is_string)
-				val = format_match (ptr, NULL);
+				val = format_match (ptr, NULL, NULL);
 			if (val == NULL)
 				val = value_new_string (ptr);
 

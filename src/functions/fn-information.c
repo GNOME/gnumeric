@@ -819,7 +819,7 @@ gnumeric_n (FunctionEvalInfo *ei, Value **argv)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	str = argv[0]->v_str.val->str;
-	if (NULL != (v = format_match (str, NULL)))
+	if (NULL != (v = format_match (str, NULL, NULL)))
 		return v;
 	return value_new_float (0);
 }

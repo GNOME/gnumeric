@@ -292,14 +292,18 @@ cell_set_text (Cell *cell, char const *text)
 	Value *val;
 	ExprTree *expr;
 	EvalPos pos;
+	MStyle *mstyle;
+	StyleFormat *cformat;
 
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (text != NULL);
 	g_return_if_fail (!cell_is_partial_array (cell));
 
+	mstyle = cell_get_mstyle (cell);
+	cformat = mstyle_get_format (mstyle);
+	mstyle_unref (mstyle);
 	format = parse_text_value_or_expr (eval_pos_init_cell (&pos, cell),
-					   text, &val, &expr,
-					   NULL /* TODO : Use assigned format ? */);
+					   text, &val, &expr, cformat);
 
 	if (val != NULL) {	/* String was a value */
 		cell_cleanout (cell);

@@ -1929,3 +1929,15 @@ style_format_is_general (StyleFormat const *sf)
 {
 	return 0 == strcmp (sf->format, "General");
 }
+
+/**
+ * style_format_is_general :
+ * @sf : the format to check
+ *
+ * A small utility to check whether a format is 'General'
+ */
+gboolean
+style_format_is_text (StyleFormat const *sf)
+{
+	return 0 == strcmp (sf->format, "@");
+}

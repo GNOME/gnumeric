@@ -28,7 +28,7 @@ main ()
 		if (s [strlen (s)-1] == '\n')
 			s [strlen (s)-1] = 0;
 
-		if (format_match (s, &format))
+		if (format_match (s, NULL, &format))
 			printf ("Format matched: %s\n", format);
 		else
 			printf ("No match found\n");

@@ -25,6 +25,7 @@
 #include "formats.h"
 #include "command-context.h"
 #include "workbook.h"
+#include "sheet-object.h"
 #include "number-match.h"
 #include "main.h"
 #include "expr-name.h"

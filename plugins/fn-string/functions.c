@@ -756,7 +756,7 @@ gnumeric_text (FunctionEvalInfo *ei, Value **args)
 	}
 
 	if (arg->type == VALUE_STRING) {
-		Value *match = format_match (arg->v_str.val->str, NULL);
+		Value *match = format_match (arg->v_str.val->str, NULL, NULL);
 		ok = (match != NULL);
 		if (ok)
 			tmp = match;
@@ -909,7 +909,7 @@ gnumeric_value (FunctionEvalInfo *ei, Value **argv)
 		}
 		*q = 0;
 
-		v = format_match (arg, NULL);
+		v = format_match (arg, NULL, NULL);
 		free (arg);
 
 		if (v)

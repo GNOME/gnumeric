@@ -1200,23 +1200,24 @@ sheet_range_set_text (EvalPos const *pos, Range const *r, char const *str)
 }
 
 void
-sheet_cell_set_text (Cell *cell, char const *str)
+sheet_cell_set_text (Cell *cell, char const *text)
 {
 	StyleFormat *format;
 	Value *val;
 	ExprTree *expr;
 	EvalPos pos;
-	char *cformat;
+	MStyle *mstyle;
+	StyleFormat *cformat;
 
-	g_return_if_fail (str != NULL);
 	g_return_if_fail (cell != NULL);
+	g_return_if_fail (text != NULL);
 	g_return_if_fail (!cell_is_partial_array (cell));
 
-	cformat = cell_get_format (cell);
+	mstyle = cell_get_mstyle (cell);
+	cformat = mstyle_get_format (mstyle);
+	mstyle_unref (mstyle);
 	format = parse_text_value_or_expr (eval_pos_init_cell (&pos, cell),
-					   str, &val, &expr,
-					   cformat);
-	g_free (cformat);
+					   text, &val, &expr, cformat);
 
 	if (expr != NULL) {
 		cell_set_expr (cell, expr, format);

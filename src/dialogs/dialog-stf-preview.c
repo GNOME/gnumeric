@@ -489,7 +489,7 @@ stf_preview_format_line (RenderData_t *renderdata, GSList *data, int colcount)
 		}
 
 		/* Formatting */
-		if (NULL == (value = format_match (iterator->data, NULL)))
+		if (NULL == (value = format_match (iterator->data, NULL, NULL)))
 			value = value_new_string (iterator->data);
 
 		sf = g_ptr_array_index (renderdata->colformats, col);

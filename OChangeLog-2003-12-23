@@ -1,3 +1,30 @@
+2000-12-10  Jody Goldberg <jgoldberg@home.com>
+
+	* src/expr-name.c (expr_name_invalidate_refs_sheet) : comment out the
+	  warning.  These the life cycles of names are too fluid to scare
+	  users yet.
+	(expr_name_invalidate_refs_wb) : Ditto.
+
+2000-12-10  Jody Goldberg <jgoldberg@home.com>
+
+	* src/cell.c (cell_set_text) : send the current format to the
+	  number matcher..
+	* src/sheet.c (sheet_cell_set_text) : Ditto.
+
+	* src/parse-util.c (parse_text_value_or_expr) : send the curent
+	  format to the number matcher.
+
+	* src/number-match.c (format_match) : take the current format as a
+	  parameter.  Begin using it to handle cells formated as text.
+
+	* src/format.c (style_format_is_text)  utility routine.
+
+2000-12-09  Jody Goldberg <jgoldberg@home.com>
+
+	* src/selection.c (sheet_selection_set_internal) : rename from
+	  sheet_selection_set and add the 'just_add_it' flag to indicate that
+	  we don't need to do anything fancy.
+
 2000-12-09  Chema Celorio  <chema@celorio.com>
 
 	* src/xml-io.c (xml_write_names): Always wrinte a <Names> node,

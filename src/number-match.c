@@ -1017,7 +1017,8 @@ format_match_simple (const char *text)
 #define NM 40
 
 Value *
-format_match (const char *text, StyleFormat **format)
+format_match (const char *text, StyleFormat const *current_format,
+	      StyleFormat **format)
 {
 	Value   *v;
 	GList *l;
@@ -1032,6 +1033,12 @@ format_match (const char *text, StyleFormat **format)
 	/* If it begins with a '\'' it is a string */
 	if (text[0] == '\'')
 		return value_new_string (text + 1);
+
+	/* FIXME : when the regex merges with the StyleFormat we can do this properly
+	 * for now at least handle text
+	 */
+	if (current_format && style_format_is_text (current_format))
+		return value_new_string (text);
 
 	/* TODO : We should check the format associated with the region first,
 	 *        but we're not passing that information in yet

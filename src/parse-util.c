@@ -497,8 +497,7 @@ parse_cell_name_list (Sheet *sheet,
  * @text: The text to be parsed.
  * @val : Returns a Value * if the text was a value, otherwise NULL.
  * @expr: Returns an ExprTree * if the text was an expression, otherwise NULL.
- * @current_format : An optional string with the current number format.  Not
- *                   implemented
+ * @current_format : Optional, current number format.
  *
  * Returns : A pointer to the optimal format to display the value or
  *     expression result, possibly NULL if there is no preffered format.
@@ -509,7 +508,7 @@ parse_cell_name_list (Sheet *sheet,
 StyleFormat *
 parse_text_value_or_expr (EvalPos const *pos, char const *text,
 			  Value **val, ExprTree **expr,
-			  char const *current_format /* can be NULL */)
+			  StyleFormat const *current_format /* can be NULL */)
 {
 	StyleFormat *desired_format = NULL;
 	char const * const expr_start = gnumeric_char_start_expr_p (text);
@@ -536,7 +535,7 @@ parse_text_value_or_expr (EvalPos const *pos, char const *text,
 		}
 	} else {
 		/* Does it match any formats?  */
-		*val = format_match (text, &desired_format);
+		*val = format_match (text, current_format, &desired_format);
 
 		/* If it does not match known formats, assume it is text.  */
 		if (*val == NULL)
