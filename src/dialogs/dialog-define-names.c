@@ -379,6 +379,7 @@ name_guru_add (NameGuruState *state)
 		} else
 			gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
 					 _("You cannot redefine a builtin name."));
+		gnm_expr_unref (expr);
 	} else {
 		char const *error = NULL;
 		ParsePos pos;
@@ -392,6 +393,7 @@ name_guru_add (NameGuruState *state)
 					state->pp.eval.row);
 
 		expr_name = expr_name_add (&pos, name, expr, &error);
+		gnm_expr_unref (expr);
 		if (expr_name == NULL) {
 			g_return_val_if_fail (error != NULL, FALSE);
 			gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR, error);
@@ -400,6 +402,7 @@ name_guru_add (NameGuruState *state)
 		}
 		dirty = TRUE;
 	}
+	
 
 	g_return_val_if_fail (expr_name != NULL, FALSE);
 

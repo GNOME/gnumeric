@@ -1,5 +1,9 @@
 2002-04-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dialog-define-name.c (name_guru_add) : fix leak
+
+2002-04-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* so-arrow.glade : remove apply button
 	* so-fill.glade : remove apply button
 	* dialog-sheet-order.c : don't reset the color combos
