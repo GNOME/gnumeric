@@ -76,25 +76,22 @@ rendered_value_new (Cell *cell, MStyle *mstyle, gboolean dynamic_width)
 			     style_format_is_general (cell->format))) {
 				StyleFont *style_font =
 					sheet_view_get_style_font (sheet, mstyle);
-				GdkFont *gdk_font =
-					style_font_gdk_font (style_font);
-
-				/* FIXME : how does one get the width of the
-				 * widest character used to display numbers.
-				 * Use 4 as the max width for now.  Count the
-				 * inter character spacing by measuring a
-				 * string with 10 digits
-				 *
-				 * This does not belong here at all.  There
-				 * should be a global scaled StyleFont cache
-				 * indexed by stylefont and scale (res*zoom)
-				 * which pre-calculates this stuff.
-				 */
-				double const font_width = gdk_string_measure (gdk_font, "4444444444") / 10.;
-				if (font_width > 0)
-					col_width = (COL_INTERNAL_WIDTH (cell->col_info)) / font_width;
-
+				float const font_width = style_font_get_width (style_font);
 				style_font_unref (style_font);
+
+				if (font_width > 0.) {
+					float cell_width;
+					if (cell_is_merged (cell)) {
+						Range const *merged =
+							sheet_region_get_merged_cell (cell->base.sheet, &cell->pos);
+						cell_width = sheet_col_get_distance_pts (cell->base.sheet,
+							merged->start.col, merged->end.col + 1);
+											
+					} else
+						cell_width = cell->col_info->size_pts;
+					cell_width -= cell->col_info->margin_a + cell->col_info->margin_b;
+					col_width = cell_width / font_width;
+				}
 			} else {
 				format = cell->format;
 				dynamic_width = FALSE;

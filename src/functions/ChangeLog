@@ -1,0 +1,4 @@
+2000-12-27  Jody Goldberg <jgoldberg@home.com>
+
+	* fn-date.c (datedif_opt_yd) : only display warning once.
+

@@ -1,3 +1,50 @@
+2000-12-29  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_redraw_cell_region) : support merged cells.
+
+	* src/style.c (style_font_new_simple) : guestimate width.
+	(style_font_get_width) : new function.
+
+	* src/rendered-value.c (rendered_value_new) : appoximate with via pts.
+	  handle merged cells.
+
+2000-12-29  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_region_unmerge) : untag an existing cell as being
+	  merged.
+	(sheet_cell_remove_from_hash) : ditto.
+	(sheet_region_merge) : tag an existing cell as being merged.
+	(sheet_cell_add_to_hash) : ditto.
+
+	* src/item-edit.c (recalc_spans) : support merged cells.
+
+2000-12-29  Jody Goldberg <jgoldberg@home.com>
+
+	* src/xml-io.c (xml_read_cell) : Early versions had newlines at the
+	  end of their content
+
+	* src/sheet.c (sheet_{insert,delete}_{cols,rows}) : no need to update
+	  object positions, we have already moved them.
+
+2000-12-29  Jody Goldberg <jgoldberg@home.com>
+
+	* src/commands.c (GNUMERIC_MAKE_COMMAND_WITH_PARENT) : new macro.
+	(update_after_action) : new function to localize calls to
+	  sheet_update, dirty, recalc.
+	(GnumericCommand) : Add a sheet to help localize repeated calls to
+	  sheet_update, dirty, recalc.
+	(command_undo) : Call update_after_action.
+	(command_redo) : Call update_after_action.
+	(command_push_undo) : Call update_after_action.
+	(cmd_*_{undo,redo}) : remove calls to sheet_update, dirty, recalc.
+	(cmd_*) : set the sheet.
+	(cmd_paste_cut_update_origin) : new function.
+	(cmd_paste_cut_undo) : call cmd_paste_cut_update_origin.
+	(cmd_paste_cut_redo) : ditto.
+
+	* src/commands.c (CmdMergeCells) : inherit from CmdUnmergeCells to
+	  facilitate reuse and implement.
+
 2000-12-27  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet.c (sheet_cell_insert) : privatize.

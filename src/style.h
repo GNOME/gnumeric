@@ -42,8 +42,9 @@ enum _StyleOrientation {
 struct _StyleFont {
 	int                ref_count;
 	char              *font_name;
-	double             size;
-	double             scale;
+	float             size;
+	float             scale;
+	float		  approx_width;
 	GnomeDisplayFont  *dfont;
 	GnomeFont         *font;
 	GdkFont		  *gdk_font;
@@ -87,8 +88,9 @@ StyleFont     *style_font_new         (const char *font_name,
 StyleFont     *style_font_new_simple  (const char *font_name,
 				       double size, double scale,
 				       gboolean bold, gboolean italic);
-GdkFont       *style_font_gdk_font    (StyleFont const * const sf);
-int            style_font_get_height  (StyleFont const * const sf);
+GdkFont       *style_font_gdk_font    (StyleFont const *sf);
+int            style_font_get_height  (StyleFont const *sf);
+float	       style_font_get_width   (StyleFont const *sf);
 void           style_font_ref         (StyleFont *sf);
 void           style_font_unref       (StyleFont *sf);
 

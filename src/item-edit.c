@@ -208,7 +208,8 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 {
 	GtkWidget *canvas   = GTK_WIDGET (item->canvas);
 	ItemEdit *item_edit = ITEM_EDIT (item);
-	ColRowInfo const * const ci = sheet_col_get_info (item_edit->scg->sheet, item_edit->col);
+	ColRowInfo const * const ci = sheet_col_get_info (item_edit->scg->sheet,
+							  item_edit->pos.col);
 	int const left_pos = ((int)item->x1) + ci->margin_a - x;
 
 	/* NOTE : This does not handle vertical alignment yet so there may be some
@@ -285,13 +286,14 @@ recalc_spans (GnomeCanvasItem *item)
 	GdkFont  *font      = item_edit->font;
 	const char *start = workbook_edit_get_display_text (item_edit->scg->wbcg);
 	const char *text  = start;
-
+	int col_span, row_span, tmp;
 	GSList	*text_offsets = NULL;
+	Range const *merged;
 
 	/* Adjust the spans */
 	GnumericSheet *gsheet = GNUMERIC_SHEET (item->canvas);
 	int cur_line = 1;
-	int cur_col = item_edit->col, max_col = cur_col;
+	int cur_col = item_edit->pos.col, max_col = cur_col;
 	ColRowInfo const * cri = sheet_col_get_info (sheet, cur_col);
 
 	/* Start after the grid line and the left margin */
@@ -312,7 +314,7 @@ recalc_spans (GnomeCanvasItem *item)
 						offset = 0;
 
 					cur_line++;
-					cur_col = item_edit->col;
+					cur_col = item_edit->pos.col;
 					text_offsets = g_slist_prepend (text_offsets,
 									GINT_TO_POINTER(offset));
 					if (item->y1 + cur_line * item_edit->font_height >
@@ -328,32 +330,43 @@ recalc_spans (GnomeCanvasItem *item)
 				 * of an infinite loop if we somehow start on an
 				 * invisible column
 				 */
-			} while (!cri->visible && cur_col != item_edit->col);
+			} while (!cri->visible && cur_col != item_edit->pos.col);
 
-			if (cur_col == item_edit->col)
+			if (cur_col == item_edit->pos.col)
 				left_in_col = cri->size_pixels - cri->margin_a - 1;
 			else
 				left_in_col += cri->size_pixels;
 		}
 		left_in_col -= pos_size;
 	}
-	item_edit->col_span = 1 + max_col - item_edit->col;
+	item_edit->col_span = 1 + max_col - item_edit->pos.col;
 	item_edit->lines = cur_line;
 
 	if (item_edit->text_offsets != NULL)
 		g_slist_free (item_edit->text_offsets);
 	item_edit->text_offsets = g_slist_reverse (text_offsets);
 
+	col_span = item_edit->col_span;
+	merged = sheet_region_get_merged_cell (sheet, &item_edit->pos);
+	if (merged != NULL) {
+		int tmp = merged->end.col - merged->start.col + 1;
+		if (col_span < tmp)
+			col_span = tmp;
+		row_span = merged->end.row - merged->start.row + 1;
+	} else
+		row_span = 1;
+
 	/* The lower right is based on the span size excluding the grid lines
 	 * Recall that the bound excludes the far point
 	 */
 	item->x2 = 1 + item->x1 - 2 +
-		scg_colrow_distance_get (item_edit->scg, TRUE, item_edit->col,
-				  item_edit->col + item_edit->col_span);
+		scg_colrow_distance_get (item_edit->scg, TRUE, item_edit->pos.col,
+					 item_edit->pos.col + col_span);
 
-	cri = sheet_row_get_info (sheet, item_edit->row);
+	tmp = scg_colrow_distance_get (item_edit->scg, FALSE, item_edit->pos.row,
+				       item_edit->pos.row + row_span) - 2;
 	item->y2 = 1 + item->y1 +
-		MAX (item_edit->lines * item_edit->font_height, cri->size_pixels - 2);
+		MAX (item_edit->lines * item_edit->font_height, tmp);
 
 	gnome_canvas_group_child_bounds (GNOME_CANVAS_GROUP (item->parent), item);
 }
@@ -423,8 +436,8 @@ item_edit_init (ItemEdit *item_edit)
 	item_edit->col_span = 1;
 	item_edit->lines = 1;
 	item_edit->scg = NULL;
-	item_edit->col = -1;
-	item_edit->row = -1;
+	item_edit->pos.col = -1;
+	item_edit->pos.row = -1;
 	item_edit->font = NULL;
 	item_edit->font_height = 1;
 	item_edit->cursor_visible = TRUE;
@@ -496,8 +509,7 @@ item_edit_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	item_edit->scg = item_edit->item_grid->scg;
 	sheet = item_edit->scg->sheet;
 	item_edit->entry = GTK_ENTRY (workbook_get_entry (item_edit->scg->wbcg));
-	item_edit->col = sheet->edit_pos.col;
-	item_edit->row = sheet->edit_pos.row;
+	item_edit->pos = sheet->edit_pos;
 
 	entry = item_edit->entry;
 	item_edit->signal_changed = gtk_signal_connect (
@@ -519,7 +531,7 @@ item_edit_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	/* set the font and the upper left corner if this is the first pass */
 	if (item_edit->font == NULL) {
 		MStyle *mstyle = sheet_style_compute (sheet,
-						      item_edit->col, item_edit->row);
+			item_edit->pos.col, item_edit->pos.row);
 		StyleFont *sf = sheet_view_get_style_font (sheet, mstyle);
 
 		item_edit->font = style_font_gdk_font (sf);
@@ -530,10 +542,10 @@ item_edit_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		/* move inwards 1 pixel for the grid line */
 		item->x1 = 1 + gsheet->col_offset.first +
 			scg_colrow_distance_get (item_edit->scg, TRUE,
-					  gsheet->col.first, item_edit->col);
+					  gsheet->col.first, item_edit->pos.col);
 		item->y1 = 1 + gsheet->row_offset.first +
 			scg_colrow_distance_get (item_edit->scg, FALSE,
-					  gsheet->row.first, item_edit->row);
+					  gsheet->row.first, item_edit->pos.row);
 
 		item->x2 = item->x1 + 1;
 		item->y2 = item->y2 + 1;

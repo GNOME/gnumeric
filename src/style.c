@@ -86,6 +86,17 @@ style_font_new_simple (const char *font_name, double size, double scale,
 	}
 
 	font->ref_count++;
+
+	/* FIXME : how does one get the width of the
+	 * widest character used to display numbers.
+	 * Use 4 as the max width for now.  Count the
+	 * inter character spacing by measuring a
+	 * string with 10 digits
+	 */
+	font->approx_width = font->gdk_font
+		? gnome_font_get_width_string (font->font, "4444444444") / 10.
+		: 1.;
+
 #ifdef DEBUG_REF_COUNT
 	fprintf (stderr, __FUNCTION__ " font=%p name=%s%s%s ref_count=%d\n",
 		 font, font->font_name,
@@ -133,6 +144,14 @@ style_font_get_height (StyleFont const * const sf)
 	g_return_val_if_fail (sf != NULL, 0);
 
 	return gnome_display_font_height (sf->dfont);
+}
+
+float
+style_font_get_width (StyleFont const *sf)
+{
+	g_return_val_if_fail (sf != NULL, 0);
+
+	return sf->approx_width;
 }
 
 void

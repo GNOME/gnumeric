@@ -1979,8 +1979,15 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
  		}
 		child = child->next;
 	}
-	if (content == NULL)
+	if (content == NULL) {
 		content = xmlNodeGetContent (tree);
+		/* Early versions had newlines at the end of their content */
+		if (ctxt->version <= GNUM_XML_V1) {
+			char *tmp = strchr (content, '\n');
+			if (tmp != NULL)
+				*tmp = '\0';
+		}
+	}
 
 	if (content != NULL) {
 		if (is_post_52_array) {

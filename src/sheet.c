@@ -1292,13 +1292,17 @@ sheet_cell_set_value (Cell *cell, Value *v, StyleFormat *opt_fmt)
  * It is usually called before a change happens to a region,
  * and after the change has been done to queue the regions
  * for the old contents and the new contents.
+ *
+ * It intelligently handles spans and merged ranges
  */
 void
 sheet_redraw_cell_region (Sheet const *sheet,
 			  int start_col, int start_row,
 			  int end_col,   int end_row)
 {
-	int row, min_col = start_col, max_col = end_col;
+	GSList *ptr;
+	int min_col = start_col, max_col = end_col;
+	int row, min_row = start_row, max_row = end_row;
 
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (start_col <= end_col);
@@ -1337,10 +1341,25 @@ sheet_redraw_cell_region (Sheet const *sheet,
 		}
 	}
 
-	/* FIXME : expand the rectangle to contain any merged regions */
+	/* TODO : this may get expensive if there are alot of merged ranges */
+	/* no need to iterate, one pass is enough */
+	for (ptr = sheet->list_merged ; ptr != NULL ; ptr = ptr->next) {
+		Range const * const test = ptr->data;
+		if (start_row <= test->end.row || end_row >= test->start.row) {
+			if (min_col > test->start.col)
+				min_col = test->start.col;
+			if (max_col < test->end.col)
+				max_col = test->end.col;
+			if (min_row > test->start.row)
+				min_row = test->start.row;
+			if (max_row < test->end.row)
+				max_row = test->end.row;
+		}
+	}
+
 	SHEET_FOREACH_CONTROL (sheet, control,
 		sheet_view_redraw_cell_region ( control,
-			min_col, start_row, max_col, end_row););
+			min_col, min_row, max_col, max_row););
 }
 
 void
@@ -1983,6 +2002,9 @@ sheet_cell_add_to_hash (Sheet *sheet, Cell *cell)
 	cell->row_info   = sheet_row_fetch (sheet, cell->pos.row);
 
 	g_hash_table_insert (sheet->cell_hash, &cell->pos, cell);
+
+	if (sheet_region_get_merged_cell (sheet, &cell->pos))
+		cell->base.flags |= CELL_IS_MERGED;
 }
 
 static void
@@ -2027,7 +2049,7 @@ sheet_cell_remove_from_hash (Sheet *sheet, Cell *cell)
 	cell_drop_dependencies (cell);
 
 	g_hash_table_remove (sheet->cell_hash, &cell->pos);
-	cell->base.flags &= ~CELL_IN_SHEET_LIST;
+	cell->base.flags &= ~(CELL_IN_SHEET_LIST|CELL_IS_MERGED);
 }
 
 /**
@@ -2885,9 +2907,9 @@ sheet_insert_cols (WorkbookControl *wbc, Sheet *sheet,
 		colrow_move (sheet, i, 0, i, SHEET_MAX_ROWS-1,
 			     &sheet->cols, i, i + count);
 
-	/* 4. Slide the StyleRegions and SheetObjects to the right */
-	sheet_relocate_objects (&reloc_info);
+	/* 4. Slide the StyleRegions and Merged regions to the right */
 	sheet_relocate_merged (&reloc_info);
+	sheet_relocate_objects (&reloc_info);
 	sheet_style_insert_colrow (sheet, col, count, TRUE);
 
 	/* 5. Recompute dependencies */
@@ -2897,8 +2919,6 @@ sheet_insert_cols (WorkbookControl *wbc, Sheet *sheet,
 	sheet->priv->recompute_visibility = TRUE;
 	sheet->priv->recompute_spans = TRUE;
 	sheet_flag_status_update_range (sheet, &reloc_info.origin);
-	if (sheet->priv->reposition_objects.col > col)
-		sheet->priv->reposition_objects.col = col;
 
 	return FALSE;
 }
@@ -2959,9 +2979,9 @@ sheet_delete_cols (WorkbookControl *wbc, Sheet *sheet,
 		colrow_move (sheet, i, 0, i, SHEET_MAX_ROWS-1,
 			     &sheet->cols, i, i-count);
 
-	/* 5. Slide the StyleRegions and SheetObjects left */
-	sheet_relocate_objects (&reloc_info);
+	/* 5. Slide the StyleRegions and Merge regions left */
 	sheet_relocate_merged (&reloc_info);
+	sheet_relocate_objects (&reloc_info);
 	sheet_style_delete_colrow (sheet, col, count, TRUE);
 
 	/* 6. Recompute dependencies */
@@ -2971,8 +2991,6 @@ sheet_delete_cols (WorkbookControl *wbc, Sheet *sheet,
 	sheet->priv->recompute_visibility = TRUE;
 	sheet->priv->recompute_spans = TRUE;
 	sheet_flag_status_update_range (sheet, &reloc_info.origin);
-	if (sheet->priv->reposition_objects.col > col)
-		sheet->priv->reposition_objects.col = col;
 
 	return FALSE;
 }
@@ -3038,9 +3056,9 @@ sheet_insert_rows (WorkbookControl *wbc, Sheet *sheet,
 		colrow_move (sheet, 0, i, SHEET_MAX_COLS-1, i,
 			     &sheet->rows, i, i+count);
 
-	/* 4. Slide the StyleRegions and SheetObjects down */
-	sheet_relocate_objects (&reloc_info);
+	/* 4. Slide the StyleRegions and Merge regions down */
 	sheet_relocate_merged (&reloc_info);
+	sheet_relocate_objects (&reloc_info);
 	sheet_style_insert_colrow (sheet, row, count, FALSE);
 
 	/* 5. Recompute dependencies */
@@ -3050,8 +3068,6 @@ sheet_insert_rows (WorkbookControl *wbc, Sheet *sheet,
 	sheet->priv->recompute_visibility = TRUE;
 	sheet->priv->recompute_spans = TRUE;
 	sheet_flag_status_update_range (sheet, &reloc_info.origin);
-	if (sheet->priv->reposition_objects.row > row)
-		sheet->priv->reposition_objects.row = row;
 
 	return FALSE;
 }
@@ -3112,9 +3128,9 @@ sheet_delete_rows (WorkbookControl *wbc, Sheet *sheet,
 		colrow_move (sheet, 0, i, SHEET_MAX_COLS-1, i,
 			     &sheet->rows, i, i-count);
 
-	/* 5. Slide the StyleRegions and SheetObjects up */
-	sheet_relocate_objects (&reloc_info);
+	/* 5. Slide the StyleRegions and Merge regions up */
 	sheet_relocate_merged (&reloc_info);
+	sheet_relocate_objects (&reloc_info);
 	sheet_style_delete_colrow (sheet, row, count, FALSE);
 
 	/* 6. Recompute dependencies */
@@ -3124,8 +3140,6 @@ sheet_delete_rows (WorkbookControl *wbc, Sheet *sheet,
 	sheet->priv->recompute_visibility = TRUE;
 	sheet->priv->recompute_spans = TRUE;
 	sheet_flag_status_update_range (sheet, &reloc_info.origin);
-	if (sheet->priv->reposition_objects.row > row)
-		sheet->priv->reposition_objects.row = row;
 
 	return FALSE;
 }
@@ -3886,6 +3900,7 @@ sheet_region_merge (CommandContext *cc, Sheet *sheet, Range const *range)
 {
 	GSList *test;
 	Range  *r_copy;
+	Cell   *cell;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (range != NULL, TRUE);
@@ -3911,6 +3926,10 @@ sheet_region_merge (CommandContext *cc, Sheet *sheet, Range const *range)
 	sheet->list_merged = g_slist_insert_sorted (sheet->list_merged, r_copy,
 						    (GCompareFunc)range_row_cmp);
 
+	cell = sheet_cell_get (sheet, range->start.col, range->start.row);
+	if (cell != NULL)
+		cell->base.flags |= CELL_IS_MERGED;
+
 	sheet->priv->reposition_selection = TRUE;
 	return FALSE;
 }
@@ -3929,6 +3948,7 @@ gboolean
 sheet_region_unmerge (CommandContext *cc, Sheet *sheet, Range const *range)
 {
 	Range *r_copy;
+	Cell *cell;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (range != NULL, TRUE);
@@ -3941,6 +3961,10 @@ sheet_region_unmerge (CommandContext *cc, Sheet *sheet, Range const *range)
 	g_hash_table_remove (sheet->hash_merged, &r_copy->start);
 	sheet->list_merged = g_slist_remove (sheet->list_merged, r_copy);
 	g_free (r_copy);
+
+	cell = sheet_cell_get (sheet, range->start.col, range->start.row);
+	if (cell != NULL)
+		cell->base.flags &= ~CELL_IS_MERGED;
 
 	sheet->priv->reposition_selection = TRUE;
 	return FALSE;

@@ -19,7 +19,8 @@ struct _ItemEdit {
 	guint      signal_button_press;	/* ::button-press-event signal in the GtkWidget */
 
 	/* Where are we */
-	int         col, row, col_span, lines, ignore_lines;
+	CellPos	    pos;
+	int         col_span, lines, ignore_lines;
 	GSList	   *text_offsets;
 
 	GdkFont  *font;
