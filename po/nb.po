@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-01 22:00-0500\n"
+"POT-Creation-Date: 2004-11-07 01:25-0500\n"
 "PO-Revision-Date: 2004-08-21 10:58+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <i18n-nb@lister.ping.uio.no>\n"
@@ -936,7 +936,7 @@ msgid "Functions related to financial derivatives"
 msgstr "Funksjoner relatert til finansielle derivater"
 
 #: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5743
-#: plugins/mps/mps.c:547 src/xml-io.c:4192
+#: plugins/mps/mps.c:547 src/xml-io.c:4199
 msgid "Reading file..."
 msgstr "Leser fil..."
 
@@ -14848,8 +14848,8 @@ msgstr "Begrensninger:"
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1057
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:379
 #: src/dialogs/dialog-define-names.c:496 src/dialogs/dialog-formula-guru.c:800
-#: src/dialogs/dialog-function-select.c:445
-#: src/dialogs/dialog-function-select.c:467 src/dialogs/dialog-scenarios.c:368
+#: src/dialogs/dialog-function-select.c:443
+#: src/dialogs/dialog-function-select.c:465 src/dialogs/dialog-scenarios.c:368
 #: src/dialogs/dialog-simulation.c:217 src/dialogs/dialog-zoom.c:198
 #: src/format-template.c:247 src/tools/solver/reports-write.c:79
 #: src/tools/solver/reports-write.c:101 src/tools/solver/reports-write.c:128
@@ -14859,10 +14859,9 @@ msgstr "Begrensninger:"
 msgid "Name"
 msgstr "Navn"
 
-#: plugins/mps/mps.c:272 src/dialogs/dialog-preferences.c:459
-#: src/dialogs/dialog-simulation.c:222 src/tools/solver/reports-write.c:236
-#: src/tools/solver/reports-write.c:282 src/tools/solver/reports-write.c:394
-#: src/tools/solver/reports-write.c:401
+#: plugins/mps/mps.c:272 src/dialogs/dialog-simulation.c:222
+#: src/tools/solver/reports-write.c:236 src/tools/solver/reports-write.c:282
+#: src/tools/solver/reports-write.c:394 src/tools/solver/reports-write.c:401
 msgid "Value"
 msgstr "Verdi"
 
@@ -15661,8 +15660,8 @@ msgstr "Feil under åpning av xbase-fil."
 
 #: plugins/xbase/boot.c:175 src/commands.c:4906
 #: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:409
-#: src/dialogs/dialog-stf-export.c:443 src/dialogs/print.glade.h:21
-#: src/print-info.c:391 src/workbook.c:1091 src/xml-io.c:3782
+#: src/dialogs/dialog-stf-export.c:444 src/dialogs/print.glade.h:21
+#: src/print-info.c:391 src/workbook.c:1091 src/xml-io.c:3789
 msgid "Sheet"
 msgstr "Ark"
 
@@ -15698,7 +15697,7 @@ msgstr "EKSPERIMENTELL SAX-basert Gnumeric (*.gnumeric)"
 msgid "EXPERIMENTAL SAX based XML"
 msgstr "EKSPERIMENTELL SAX-basert XML"
 
-#: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4318
+#: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4325
 #, fuzzy
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Gnumeric XML filformat"
@@ -16684,7 +16683,7 @@ msgstr "Setter bredden for kolonner %s til forvalg"
 msgid "Setting height of rows %s to default"
 msgstr "Setter høyden for rader %s til forvalg"
 
-#: src/commands.c:2089 src/dialogs/dialog-preferences.c:816
+#: src/commands.c:2089 src/dialogs/dialog-preferences.c:704
 msgid "Sorting"
 msgstr "Sorterer"
 
@@ -16976,7 +16975,7 @@ msgstr "Tekst (%s) til kolonner (%s)"
 #: src/commands.c:6652 src/dialogs/solver.glade.h:17
 #: src/tools/solver/reports-write.c:193 src/tools/solver/reports-write.c:354
 #: src/tools/solver/reports-write.c:484 src/tools/solver/reports-write.c:743
-#: src/tools/solver/reports-write.c:904 src/tools/solver/reports-write.c:955
+#: src/tools/solver/reports-write.c:907 src/tools/solver/reports-write.c:958
 msgid "Solver"
 msgstr "Problemløser"
 
@@ -17387,7 +17386,7 @@ msgid "%d x %d"
 msgstr "%d x %d"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:881
-#: src/dialogs/cell-format.glade.h:48 src/dialogs/dialog-preferences.c:812
+#: src/dialogs/cell-format.glade.h:48 src/dialogs/dialog-preferences.c:697
 msgid "Font"
 msgstr "Skrift"
 
@@ -20626,11 +20625,11 @@ msgstr "Funksjon/argument"
 msgid "Could not create the formula guru."
 msgstr "Kunne ikke opprette formelveiviseren."
 
-#: src/dialogs/dialog-function-select.c:212
+#: src/dialogs/dialog-function-select.c:210
 msgid "Recently Used"
 msgstr "Sist brukt"
 
-#: src/dialogs/dialog-function-select.c:217
+#: src/dialogs/dialog-function-select.c:215
 msgid "All Functions (long list)"
 msgstr "Alle funksjoner (lang liste)"
 
@@ -20757,27 +20756,27 @@ msgstr "Sett inn"
 msgid "Could not create the Insert Cell dialog."
 msgstr "Kunne ikke opprette dialog for insetting av celle."
 
-#: src/dialogs/dialog-merge.c:265
+#: src/dialogs/dialog-merge.c:264
 msgid "One field is not part of the merge zone!"
 msgstr "Ett felt er ikke en del av flettesonen!"
 
-#: src/dialogs/dialog-merge.c:267
+#: src/dialogs/dialog-merge.c:266
 #, c-format
 msgid "%i fields are not part of the merge zone!"
 msgstr "%i felter er ikke del av flettesonen!"
 
-#: src/dialogs/dialog-merge.c:284
+#: src/dialogs/dialog-merge.c:283
 #, c-format
 msgid ""
 "The data columns range in length from %i to %i. Shall we trim the lengths to "
 "%i and proceed?"
 msgstr ""
 
-#: src/dialogs/dialog-merge.c:393
+#: src/dialogs/dialog-merge.c:392
 msgid "Input Data"
 msgstr "Inndata"
 
-#: src/dialogs/dialog-merge.c:400
+#: src/dialogs/dialog-merge.c:399
 msgid "Merge Field"
 msgstr "Flett felt"
 
@@ -20941,7 +20940,7 @@ msgid "Plugin name"
 msgstr "Navn på tillegg"
 
 #: src/dialogs/dialog-plugin-manager.c:732
-#: src/dialogs/dialog-preferences.c:451 src/dialogs/function-select.glade.h:2
+#: src/dialogs/function-select.glade.h:2
 msgid "Description"
 msgstr "Beskrivelse"
 
@@ -20953,12 +20952,12 @@ msgstr "ID"
 msgid "Directory"
 msgstr "Katalog"
 
-#: src/dialogs/dialog-preferences.c:655
+#: src/dialogs/dialog-preferences.c:442
 msgid "The items on this page customize the behaviour of the undo/redo system."
 msgstr ""
 "Oppføringene på denne siden tilpasser oppførselen for angring/gjenoppretting."
 
-#: src/dialogs/dialog-preferences.c:690
+#: src/dialogs/dialog-preferences.c:477
 msgid ""
 "The items on this page customize the inital settings of the sort dialog and "
 "the behaviour of the sort toolbar buttons."
@@ -20966,35 +20965,64 @@ msgstr ""
 "Oppføringene på denne siden tilpasser forhåndsdefinerte innstillinger for "
 "sorteringsdialogen og oppførselen for verktøylinjeknappene for sortering."
 
-#: src/dialogs/dialog-preferences.c:728
+#: src/dialogs/dialog-preferences.c:515
 msgid "The items on this page customize the new default workbook."
 msgstr "Oppføringene på denne siden tilpasser den nye forvalgte arbeidsboken."
 
-#: src/dialogs/dialog-preferences.c:768
+#: src/dialogs/dialog-preferences.c:555
 msgid "The items on this page are related to the saving and opening of files."
 msgstr ""
 "Oppføringene på denne siden er relatert til lagring og åpning av filer."
 
-#: src/dialogs/dialog-preferences.c:813
-msgid "Windows"
-msgstr "Vinduer"
+#: src/dialogs/dialog-preferences.c:593
+#, fuzzy
+msgid "The items on this page are related to the screen layout and resolution."
+msgstr ""
+"Oppføringene på denne siden er relatert til lagring og åpning av filer."
 
-#: src/dialogs/dialog-preferences.c:814
+#: src/dialogs/dialog-preferences.c:625
+#, fuzzy
+msgid ""
+"The items on this page and its subpages are related to various gnumeric "
+"tools."
+msgstr ""
+"Oppføringene på denne siden er relatert til lagring og åpning av filer."
+
+#: src/dialogs/dialog-preferences.c:660
+#, fuzzy
+msgid "The items on this page arerelated to copy. cut and paste."
+msgstr ""
+"Oppføringene på denne siden er relatert til lagring og åpning av filer."
+
+#: src/dialogs/dialog-preferences.c:698
+msgid "Copy and Paste"
+msgstr ""
+
+#: src/dialogs/dialog-preferences.c:699
 msgid "Files"
 msgstr "Filer"
 
-#: src/dialogs/dialog-preferences.c:815 src/wbc-gtk.c:472
+#: src/dialogs/dialog-preferences.c:700
+#, fuzzy
+msgid "Tools"
+msgstr "Verk_tøy"
+
+#: src/dialogs/dialog-preferences.c:701 src/wbc-gtk.c:472
 msgid "Undo"
 msgstr "Angre"
 
-#: src/dialogs/dialog-preferences.c:817
-msgid "Various"
-msgstr "Forskjellig"
+#: src/dialogs/dialog-preferences.c:702
+msgid "Windows"
+msgstr "Vinduer"
 
-#. {N_("Internal"),      GTK_STOCK_DIALOG_ERROR,    "5",  &pref_tree_initializer,		&pref_tree_page_open,	pref_tree_data_danger},
-#: src/dialogs/dialog-preferences.c:819
+#: src/dialogs/dialog-preferences.c:703
 msgid "Header/Footer"
 msgstr "Topp- og bunntekst"
+
+#: src/dialogs/dialog-preferences.c:705
+#, fuzzy
+msgid "Screen"
+msgstr "Skjerm %d"
 
 #: src/dialogs/dialog-printer-setup.c:873
 msgid "Customize header"
@@ -21424,26 +21452,26 @@ msgstr ""
 msgid "Could not create the Simulation dialog."
 msgstr "Kunne ikke opprette simuleringsdialogen."
 
-#: src/dialogs/dialog-solver.c:107
+#: src/dialogs/dialog-solver.c:109
 msgid "Simplex (LP Solve 5.0)"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:108
+#: src/dialogs/dialog-solver.c:110
 #, fuzzy
 msgid "Revised Simplex (GLPK 4.5)"
 msgstr "Kinesisk, forenklet (GBK)"
 
-#: src/dialogs/dialog-solver.c:109
+#: src/dialogs/dialog-solver.c:111
 msgid "< Not available >"
 msgstr "< Ikke tilgjengelig >"
 
-#: src/dialogs/dialog-solver.c:451
+#: src/dialogs/dialog-solver.c:392
 msgid ""
 "Looking for a subject for your thesis? Maybe you would like to write a QP "
 "solver for Gnumeric?"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:803
+#: src/dialogs/dialog-solver.c:698
 msgid ""
 "Solver found an optimal solution.  All constraints and optimality conditions "
 "are satisfied.\n"
@@ -21451,18 +21479,18 @@ msgstr ""
 "Problemløseren fant en optimal løsning. Alle begrensninger og betingelser "
 "for en optimal løsning er tilfredsstilt.\n"
 
-#: src/dialogs/dialog-solver.c:812
+#: src/dialogs/dialog-solver.c:707
 msgid ""
 "Neither sensitivity nor limits report are meaningful if the program has "
 "integer constraints.  These reports will not be created."
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:830
+#: src/dialogs/dialog-solver.c:725
 msgid ""
 "The Target Cell value specified does not converge!  The program is unbounded."
 msgstr "Målcelleverdien konvergerer ikke! Programmet er uavgrenset."
 
-#: src/dialogs/dialog-solver.c:844
+#: src/dialogs/dialog-solver.c:739
 msgid ""
 "A feasible solution could not be found.  All specified constraints cannot be "
 "met simultaneously. "
@@ -21470,49 +21498,49 @@ msgstr ""
 "En mulig løsning ble ikke funnet. Alle spesifiserte begrensninger kan ikke "
 "møtes samtidig."
 
-#: src/dialogs/dialog-solver.c:859
+#: src/dialogs/dialog-solver.c:754
 msgid ""
 "The maximum number of iterations exceeded. The optimal value could not be "
 "found."
 msgstr ""
 "Maksimalt antall gjennomganger oversteget. Den beste verdien ble ikke funnet."
 
-#: src/dialogs/dialog-solver.c:899
+#: src/dialogs/dialog-solver.c:798
 msgid "Optimal solution created by solver.\n"
 msgstr "Optimal løsning funnet av problemløseren.\n"
 
-#: src/dialogs/dialog-solver.c:933
+#: src/dialogs/dialog-solver.c:832
 msgid "Unknown error."
 msgstr "Ukjent feil."
 
-#: src/dialogs/dialog-solver.c:952
+#: src/dialogs/dialog-solver.c:851
 msgid "You have not specified a problem to be solved"
 msgstr "Du har ikke spesifisert et problem som skal løses"
 
-#: src/dialogs/dialog-solver.c:971 src/tools/solver/solver.c:377
+#: src/dialogs/dialog-solver.c:870 src/tools/solver/solver.c:377
 msgid "Target cell should contain a formula."
 msgstr "Målcellen bør inneholde en formel."
 
-#: src/dialogs/dialog-solver.c:1050
+#: src/dialogs/dialog-solver.c:948
 #, c-format
 msgid "Constraint `%s' is for a cell that is not an input cell."
 msgstr "Begrensning «%s» er for en celle som ikke er en inndatacelle."
 
-#: src/dialogs/dialog-solver.c:1072
+#: src/dialogs/dialog-solver.c:970
 msgid "No constraints defined for the problem."
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:1129
+#: src/dialogs/dialog-solver.c:1030
 msgid ""
 "The maximum time exceeded. The optimal value could not be found in given "
 "time."
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:1328
+#: src/dialogs/dialog-solver.c:1236
 msgid "Subject to the Constraints:"
 msgstr "Utsatt for begrensningene:"
 
-#: src/dialogs/dialog-solver.c:1444
+#: src/dialogs/dialog-solver.c:1352
 msgid "Could not create the Solver dialog."
 msgstr "Kunne ikke opprette dialog for problemløser."
 
@@ -21520,20 +21548,20 @@ msgstr "Kunne ikke opprette dialog for problemløser."
 msgid "Are you sure you want to cancel?"
 msgstr "Er du sikker på at du vil avbryte?"
 
-#: src/dialogs/dialog-stf-export.c:437
+#: src/dialogs/dialog-stf-export.c:438
 msgid "Export"
 msgstr "Eksporter"
 
-#: src/dialogs/dialog-stf-export.c:510
+#: src/dialogs/dialog-stf-export.c:511
 #: src/dialogs/dialog-stf-export.glade.h:39
 msgid "_Next"
 msgstr "_Neste"
 
-#: src/dialogs/dialog-stf-export.c:513
+#: src/dialogs/dialog-stf-export.c:514
 msgid "_Finish"
 msgstr "_Fullfør"
 
-#: src/dialogs/dialog-stf-export.c:572
+#: src/dialogs/dialog-stf-export.c:573
 msgid "This workbook does not contain any exportable content."
 msgstr ""
 
@@ -24889,15 +24917,15 @@ msgstr "Flytt celler til høyre og flytt"
 msgid "C_ancel"
 msgstr "_Avbryt"
 
-#: src/main-application.c:60 src/ssconvert.c:38
+#: src/main-application.c:60 src/ssconvert.c:41
 msgid "Display Gnumeric's version"
 msgstr "Vis Gnumerics versjonsinfo"
 
-#: src/main-application.c:62 src/ssconvert.c:41
+#: src/main-application.c:62 src/ssconvert.c:44
 msgid "Set the root library directory"
 msgstr "Sett rotkatalog for biblioteker"
 
-#: src/main-application.c:64 src/ssconvert.c:43
+#: src/main-application.c:64 src/ssconvert.c:46
 msgid "Adjust the root data directory"
 msgstr "Juster rotkatalog for data"
 
@@ -25723,22 +25751,22 @@ msgid "_Remove Hyperlink"
 msgstr "Fje_rn hyperlenke"
 
 #. This is somewhat cheesy and should use ngettext
-#: src/sheet-control-gui.c:1958
+#: src/sheet-control-gui.c:1972
 #, fuzzy
 msgid "Duplicate Object"
 msgstr "Dupliser"
 
-#: src/sheet-control-gui.c:1958
+#: src/sheet-control-gui.c:1972
 #, fuzzy
 msgid "Insert Object"
 msgstr "Sett inn objekt"
 
-#: src/sheet-control-gui.c:1959
+#: src/sheet-control-gui.c:1973
 #, fuzzy
 msgid "Move Object"
 msgstr "Flytt objekt"
 
-#: src/sheet-control-gui.c:1959
+#: src/sheet-control-gui.c:1973
 #, fuzzy
 msgid "Resize Object"
 msgstr "Endre størrelse på objekt"
@@ -25866,61 +25894,61 @@ msgstr "Kopier"
 msgid "Cut"
 msgstr "Klipp ut"
 
-#: src/ssconvert.c:46
+#: src/ssconvert.c:49
 msgid "Optionally specify an encoding for imported content"
 msgstr ""
 
-#: src/ssconvert.c:46
+#: src/ssconvert.c:49
 msgid "ENCODING"
 msgstr ""
 
-#: src/ssconvert.c:48
+#: src/ssconvert.c:51
 msgid "Optionally specify which exporter to use"
 msgstr ""
 
-#: src/ssconvert.c:50
+#: src/ssconvert.c:53
 msgid "List the available exporters"
 msgstr ""
 
-#: src/ssconvert.c:52
+#: src/ssconvert.c:55
 msgid "List the available importers"
 msgstr ""
 
-#: src/ssconvert.c:54
+#: src/ssconvert.c:57
 msgid ""
 "Export a file for each sheet if the exporter only supports one sheet at a "
 "time."
 msgstr ""
 
-#: src/ssconvert.c:102
+#: src/ssconvert.c:105
 #, c-format
 msgid ""
 "Unknown exporter '%s'.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
 
-#: src/ssconvert.c:126
+#: src/ssconvert.c:129
 #, c-format
 msgid ""
 "Unable to guess exporter to use for '%s'.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
 
-#: src/ssconvert.c:133
+#: src/ssconvert.c:136
 #, c-format
 msgid ""
 "An output file name or an explicit export type is required.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
 
-#: src/ssconvert.c:147
+#: src/ssconvert.c:150
 #, c-format
 msgid ""
 "Selected exporter (%s) does not support saving multiple sheets in one file.\n"
 "Only the current sheet will be saved."
 msgstr ""
 
-#: src/ssconvert.c:174
+#: src/ssconvert.c:176
 #, c-format
 msgid ""
 "ssconvert version '%s'\n"
@@ -26548,7 +26576,7 @@ msgstr "(Inndata)"
 msgid "Maximum time exceeded. Simulation was not completed. "
 msgstr "Maksimal tid oversteget. Simuleringen ble ikke fullført."
 
-#: src/tools/solver/reports.c:328
+#: src/tools/solver/reports.c:327
 msgid ""
 "Model is too large for program report generation. Program report was not "
 "created."
@@ -26588,7 +26616,7 @@ msgstr "Binding"
 msgid "Not Binding"
 msgstr "Ikke bindende"
 
-#: src/tools/solver/reports-write.c:178 src/tools/solver/reports-write.c:884
+#: src/tools/solver/reports-write.c:178 src/tools/solver/reports-write.c:887
 msgid "Assume that all variables are integers."
 msgstr "Anta at alle variabler er heltall."
 
@@ -26866,32 +26894,32 @@ msgstr "Prosesseringstid"
 msgid "System Information"
 msgstr "Systeminformasjon"
 
-#: src/tools/solver/reports-write.c:766 src/tools/solver/reports-write.c:904
+#: src/tools/solver/reports-write.c:766 src/tools/solver/reports-write.c:907
 msgid "Program Report"
 msgstr "Programrapport"
 
-#: src/tools/solver/reports-write.c:893
+#: src/tools/solver/reports-write.c:896
 msgid "Assume that all variables take only positive values."
 msgstr "Anta at alle variabler kun tar positive verdier."
 
-#: src/tools/solver/reports-write.c:909
+#: src/tools/solver/reports-write.c:912
 msgid "Minimize"
 msgstr "Minimer"
 
-#: src/tools/solver/reports-write.c:912
+#: src/tools/solver/reports-write.c:915
 msgid "Maximize"
 msgstr "Maksimer"
 
-#: src/tools/solver/reports-write.c:915
+#: src/tools/solver/reports-write.c:918
 msgid "Equal to"
 msgstr "Lik"
 
 #. Print `Subject to' title.
-#: src/tools/solver/reports-write.c:921
+#: src/tools/solver/reports-write.c:924
 msgid "Subject to"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:942 src/tools/solver/reports-write.c:955
+#: src/tools/solver/reports-write.c:945 src/tools/solver/reports-write.c:958
 msgid "Dual Program Report"
 msgstr "Dobbel programrapport"
 
@@ -26907,7 +26935,29 @@ msgid ""
 "RHS entries."
 msgstr ""
 
-#: src/tools/solver/solver.c:523
+#: src/tools/solver/solver.c:465
+msgid "EqualTo models are not supported yet.  Please use Min or Max"
+msgstr ""
+
+#: src/tools/solver/solver.c:478
+msgid ""
+"Failure setting automatic scaling with this solver, try a different "
+"algorithm."
+msgstr ""
+
+#: src/tools/solver/solver.c:484
+msgid ""
+"Failure setting the maximum number of iterations with this solver, try a "
+"different algorithm."
+msgstr ""
+
+#: src/tools/solver/solver.c:490
+msgid ""
+"Failure setting setting the maximum solving time with this solver, try a "
+"different algorithm."
+msgstr ""
+
+#: src/tools/solver/solver.c:536
 msgid ""
 "Some of the input cells contain non-numeric values.  Specify a valid input "
 "range."
@@ -29956,35 +30006,35 @@ msgstr "Ikke støttet filformat."
 msgid "An unexplained error happened while opening %s"
 msgstr "En uforklart feil oppsto ved åpning av «%s»"
 
-#: src/xml-io.c:2763
+#: src/xml-io.c:2770
 #, c-format
 msgid "Unsupported object type '%s'"
 msgstr "Ikke-støttet objekttype «%s»"
 
-#: src/xml-io.c:3466
+#: src/xml-io.c:3473
 msgid "Unparsable xml in clipboard"
 msgstr "Ugyldig xml på utklippstavlen"
 
-#: src/xml-io.c:3473
+#: src/xml-io.c:3480
 msgid "Clipboard is in unknown format"
 msgstr "Utklippstavlen har ukjent format"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3913
+#: src/xml-io.c:3920
 msgid "Processing file..."
 msgstr "Prossesserer fil..."
 
-#: src/xml-io.c:4240
+#: src/xml-io.c:4247
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "Filen er ikke en Gnumeric arbeidsbok"
 
-#: src/xml-io.c:4277
+#: src/xml-io.c:4284
 msgid "Failure saving file"
 msgstr "Feil under lagring av fil"
 
-#: src/xml-io.c:4322
+#: src/xml-io.c:4329
 msgid "Gnumeric XML (*.gnumeric) original slow exporter"
 msgstr ""
 
@@ -30181,6 +30231,9 @@ msgstr "Navn på malen"
 #, fuzzy
 msgid "A simple list template"
 msgstr "Navn på malen"
+
+#~ msgid "Various"
+#~ msgstr "Forskjellig"
 
 #~ msgid ""
 #~ "@FUNCTION=STDEV\n"

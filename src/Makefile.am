@@ -391,7 +391,7 @@ EXTRA_DIST = GNOME_Gnumeric-gtk.xml.in				\
 	    main-component.c					\
 	    $(GNUMERIC_GNOME) README.gnm_float			\
 	    gnumeric-paths.sh.in ssconvert.c gnumeric.rc
-DISTCLEAN = GNOME_Gnumeric-gtk.xml
+DISTCLEANFILES = GNOME_Gnumeric-gtk.xml
 
 #number_match_SOURCES = number-match.c  formats.c dates.c number-match-test.c
 

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-01 22:00-0500\n"
+"POT-Creation-Date: 2004-11-07 01:25-0500\n"
 "PO-Revision-Date: 2003-09-05 11:50+0100\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -940,7 +940,7 @@ msgid "Functions related to financial derivatives"
 msgstr "Funkcje związane z pochodnymi finansowymi"
 
 #: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5743
-#: plugins/mps/mps.c:547 src/xml-io.c:4192
+#: plugins/mps/mps.c:547 src/xml-io.c:4199
 msgid "Reading file..."
 msgstr "Wczytywanie pliku..."
 
@@ -14971,8 +14971,8 @@ msgstr "Ograniczenia:"
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1057
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:379
 #: src/dialogs/dialog-define-names.c:496 src/dialogs/dialog-formula-guru.c:800
-#: src/dialogs/dialog-function-select.c:445
-#: src/dialogs/dialog-function-select.c:467 src/dialogs/dialog-scenarios.c:368
+#: src/dialogs/dialog-function-select.c:443
+#: src/dialogs/dialog-function-select.c:465 src/dialogs/dialog-scenarios.c:368
 #: src/dialogs/dialog-simulation.c:217 src/dialogs/dialog-zoom.c:198
 #: src/format-template.c:247 src/tools/solver/reports-write.c:79
 #: src/tools/solver/reports-write.c:101 src/tools/solver/reports-write.c:128
@@ -14982,10 +14982,9 @@ msgstr "Ograniczenia:"
 msgid "Name"
 msgstr "Nazwa"
 
-#: plugins/mps/mps.c:272 src/dialogs/dialog-preferences.c:459
-#: src/dialogs/dialog-simulation.c:222 src/tools/solver/reports-write.c:236
-#: src/tools/solver/reports-write.c:282 src/tools/solver/reports-write.c:394
-#: src/tools/solver/reports-write.c:401
+#: plugins/mps/mps.c:272 src/dialogs/dialog-simulation.c:222
+#: src/tools/solver/reports-write.c:236 src/tools/solver/reports-write.c:282
+#: src/tools/solver/reports-write.c:394 src/tools/solver/reports-write.c:401
 msgid "Value"
 msgstr "Wartość"
 
@@ -15809,8 +15808,8 @@ msgstr "Wystąpił błąd przy odczycie pliku xbase."
 
 #: plugins/xbase/boot.c:175 src/commands.c:4906
 #: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:409
-#: src/dialogs/dialog-stf-export.c:443 src/dialogs/print.glade.h:21
-#: src/print-info.c:391 src/workbook.c:1091 src/xml-io.c:3782
+#: src/dialogs/dialog-stf-export.c:444 src/dialogs/print.glade.h:21
+#: src/print-info.c:391 src/workbook.c:1091 src/xml-io.c:3789
 msgid "Sheet"
 msgstr "Arkusz"
 
@@ -15848,7 +15847,7 @@ msgstr ""
 msgid "EXPERIMENTAL SAX based XML"
 msgstr "Eksperymentalna obsługa XML-a oparta na interfejsie SAX"
 
-#: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4318
+#: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4325
 #, fuzzy
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Format Gnumeric XML"
@@ -16867,7 +16866,7 @@ msgstr "Ustawianie szerokości kolumn %s na wartości domyślne"
 msgid "Setting height of rows %s to default"
 msgstr "Ustawienie wysokości wierszy %s na wartości domyślne"
 
-#: src/commands.c:2089 src/dialogs/dialog-preferences.c:816
+#: src/commands.c:2089 src/dialogs/dialog-preferences.c:704
 msgid "Sorting"
 msgstr "Sortowanie"
 
@@ -17165,7 +17164,7 @@ msgstr "Usuń kolumny"
 #: src/commands.c:6652 src/dialogs/solver.glade.h:17
 #: src/tools/solver/reports-write.c:193 src/tools/solver/reports-write.c:354
 #: src/tools/solver/reports-write.c:484 src/tools/solver/reports-write.c:743
-#: src/tools/solver/reports-write.c:904 src/tools/solver/reports-write.c:955
+#: src/tools/solver/reports-write.c:907 src/tools/solver/reports-write.c:958
 msgid "Solver"
 msgstr "Solver"
 
@@ -17594,7 +17593,7 @@ msgid "%d x %d"
 msgstr "%d x %d"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:881
-#: src/dialogs/cell-format.glade.h:48 src/dialogs/dialog-preferences.c:812
+#: src/dialogs/cell-format.glade.h:48 src/dialogs/dialog-preferences.c:697
 msgid "Font"
 msgstr "Czcionka"
 
@@ -20960,11 +20959,11 @@ msgstr "Funkcja/argument"
 msgid "Could not create the formula guru."
 msgstr "Nie można utworzyć druida tworzenia wyrażeń."
 
-#: src/dialogs/dialog-function-select.c:212
+#: src/dialogs/dialog-function-select.c:210
 msgid "Recently Used"
 msgstr "Ostatnio używane"
 
-#: src/dialogs/dialog-function-select.c:217
+#: src/dialogs/dialog-function-select.c:215
 msgid "All Functions (long list)"
 msgstr "Wszystkie funkcje (długa lista)"
 
@@ -21092,27 +21091,27 @@ msgstr "Wstaw"
 msgid "Could not create the Insert Cell dialog."
 msgstr "Nie można utworzyć okna dialogowego wstawiania komórek."
 
-#: src/dialogs/dialog-merge.c:265
+#: src/dialogs/dialog-merge.c:264
 msgid "One field is not part of the merge zone!"
 msgstr "Jedno pole nie jest częścią strefy złączenia!"
 
-#: src/dialogs/dialog-merge.c:267
+#: src/dialogs/dialog-merge.c:266
 #, c-format
 msgid "%i fields are not part of the merge zone!"
 msgstr "%i pola nie są częścią strefy złączenia!"
 
-#: src/dialogs/dialog-merge.c:284
+#: src/dialogs/dialog-merge.c:283
 #, c-format
 msgid ""
 "The data columns range in length from %i to %i. Shall we trim the lengths to "
 "%i and proceed?"
 msgstr ""
 
-#: src/dialogs/dialog-merge.c:393
+#: src/dialogs/dialog-merge.c:392
 msgid "Input Data"
 msgstr "Dane wejściowe"
 
-#: src/dialogs/dialog-merge.c:400
+#: src/dialogs/dialog-merge.c:399
 #, fuzzy
 msgid "Merge Field"
 msgstr "Scal"
@@ -21280,7 +21279,7 @@ msgid "Plugin name"
 msgstr "Nazwa wtyczki"
 
 #: src/dialogs/dialog-plugin-manager.c:732
-#: src/dialogs/dialog-preferences.c:451 src/dialogs/function-select.glade.h:2
+#: src/dialogs/function-select.glade.h:2
 msgid "Description"
 msgstr "Opis"
 
@@ -21292,13 +21291,13 @@ msgstr "ID"
 msgid "Directory"
 msgstr "Katalog"
 
-#: src/dialogs/dialog-preferences.c:655
+#: src/dialogs/dialog-preferences.c:442
 msgid "The items on this page customize the behaviour of the undo/redo system."
 msgstr ""
 "Elementy na tej stronie służą do dostosowania zachowania systemu cofnięć/"
 "powtórzeń."
 
-#: src/dialogs/dialog-preferences.c:690
+#: src/dialogs/dialog-preferences.c:477
 msgid ""
 "The items on this page customize the inital settings of the sort dialog and "
 "the behaviour of the sort toolbar buttons."
@@ -21307,36 +21306,65 @@ msgstr ""
 "dialogowego uporządkowywania oraz zachowanie przycisków paska narzędziowego "
 "służących do uporządkowywania."
 
-#: src/dialogs/dialog-preferences.c:728
+#: src/dialogs/dialog-preferences.c:515
 msgid "The items on this page customize the new default workbook."
 msgstr ""
 "Elementy na tej stronie służą do dostosowania nowego domyślnego arkusza."
 
-#: src/dialogs/dialog-preferences.c:768
+#: src/dialogs/dialog-preferences.c:555
 msgid "The items on this page are related to the saving and opening of files."
 msgstr ""
 "Elementy na tej stronie są związane z zapisywaniem i otwieraniem plików."
 
-#: src/dialogs/dialog-preferences.c:813
-msgid "Windows"
-msgstr "Okna"
+#: src/dialogs/dialog-preferences.c:593
+#, fuzzy
+msgid "The items on this page are related to the screen layout and resolution."
+msgstr ""
+"Elementy na tej stronie są związane z zapisywaniem i otwieraniem plików."
 
-#: src/dialogs/dialog-preferences.c:814
+#: src/dialogs/dialog-preferences.c:625
+#, fuzzy
+msgid ""
+"The items on this page and its subpages are related to various gnumeric "
+"tools."
+msgstr ""
+"Elementy na tej stronie są związane z zapisywaniem i otwieraniem plików."
+
+#: src/dialogs/dialog-preferences.c:660
+#, fuzzy
+msgid "The items on this page arerelated to copy. cut and paste."
+msgstr ""
+"Elementy na tej stronie są związane z zapisywaniem i otwieraniem plików."
+
+#: src/dialogs/dialog-preferences.c:698
+msgid "Copy and Paste"
+msgstr ""
+
+#: src/dialogs/dialog-preferences.c:699
 msgid "Files"
 msgstr "Pliki"
 
-#: src/dialogs/dialog-preferences.c:815 src/wbc-gtk.c:472
+#: src/dialogs/dialog-preferences.c:700
+#, fuzzy
+msgid "Tools"
+msgstr "_Narzędzia"
+
+#: src/dialogs/dialog-preferences.c:701 src/wbc-gtk.c:472
 msgid "Undo"
 msgstr "Cofnięcie"
 
-#: src/dialogs/dialog-preferences.c:817
-msgid "Various"
-msgstr "Różne"
+#: src/dialogs/dialog-preferences.c:702
+msgid "Windows"
+msgstr "Okna"
 
-#. {N_("Internal"),      GTK_STOCK_DIALOG_ERROR,    "5",  &pref_tree_initializer,		&pref_tree_page_open,	pref_tree_data_danger},
-#: src/dialogs/dialog-preferences.c:819
+#: src/dialogs/dialog-preferences.c:703
 msgid "Header/Footer"
 msgstr "Nagłówek/stopka"
+
+#: src/dialogs/dialog-preferences.c:705
+#, fuzzy
+msgid "Screen"
+msgstr "Ekran %d"
 
 #: src/dialogs/dialog-printer-setup.c:873
 msgid "Customize header"
@@ -21776,21 +21804,21 @@ msgstr ""
 msgid "Could not create the Simulation dialog."
 msgstr "Nie można utworzyć okna symulacji."
 
-#: src/dialogs/dialog-solver.c:107
+#: src/dialogs/dialog-solver.c:109
 #, fuzzy
 msgid "Simplex (LP Solve 5.0)"
 msgstr "Simpleks (Rozwiązanie LP 3.2)"
 
-#: src/dialogs/dialog-solver.c:108
+#: src/dialogs/dialog-solver.c:110
 #, fuzzy
 msgid "Revised Simplex (GLPK 4.5)"
 msgstr "Ulepszony Simpleks (GLPK 3.2)"
 
-#: src/dialogs/dialog-solver.c:109
+#: src/dialogs/dialog-solver.c:111
 msgid "< Not available >"
 msgstr "< Niedostępne >"
 
-#: src/dialogs/dialog-solver.c:451
+#: src/dialogs/dialog-solver.c:392
 msgid ""
 "Looking for a subject for your thesis? Maybe you would like to write a QP "
 "solver for Gnumeric?"
@@ -21798,7 +21826,7 @@ msgstr ""
 "Szukasz tematu dla swojej pracy? Może chcesz napisać solvera QP dla "
 "Gnumerica?"
 
-#: src/dialogs/dialog-solver.c:803
+#: src/dialogs/dialog-solver.c:698
 msgid ""
 "Solver found an optimal solution.  All constraints and optimality conditions "
 "are satisfied.\n"
@@ -21806,7 +21834,7 @@ msgstr ""
 "Solver znalazł optymalne rozwiązanie. Wszystkie ograniczenia i warunki "
 "optymalności zostały spełnione.\n"
 
-#: src/dialogs/dialog-solver.c:812
+#: src/dialogs/dialog-solver.c:707
 msgid ""
 "Neither sensitivity nor limits report are meaningful if the program has "
 "integer constraints.  These reports will not be created."
@@ -21814,13 +21842,13 @@ msgstr ""
 "Ani raport wrażliwości ani ograniczeń nie mają sensu jeśli program posiada "
 "ograniczenia na liczby całkowite. Te raporty nie zostaną utworzone."
 
-#: src/dialogs/dialog-solver.c:830
+#: src/dialogs/dialog-solver.c:725
 msgid ""
 "The Target Cell value specified does not converge!  The program is unbounded."
 msgstr ""
 "Wartość komórki docelowej nie jest zbieźna! Program może działać bez końca."
 
-#: src/dialogs/dialog-solver.c:844
+#: src/dialogs/dialog-solver.c:739
 msgid ""
 "A feasible solution could not be found.  All specified constraints cannot be "
 "met simultaneously. "
@@ -21828,39 +21856,39 @@ msgstr ""
 "Nie można znaleźć prawdopodobnego rozwiązania. Nie można spełnić "
 "równocześnie wszystkich wprowadzonych ograniczeń."
 
-#: src/dialogs/dialog-solver.c:859
+#: src/dialogs/dialog-solver.c:754
 msgid ""
 "The maximum number of iterations exceeded. The optimal value could not be "
 "found."
 msgstr ""
 "Osiągnięto maksymalną liczbę iteracji. Nie znaleziono optymalnej wartości."
 
-#: src/dialogs/dialog-solver.c:899
+#: src/dialogs/dialog-solver.c:798
 msgid "Optimal solution created by solver.\n"
 msgstr "Optymalna wartość utworzona przez solver.\n"
 
-#: src/dialogs/dialog-solver.c:933
+#: src/dialogs/dialog-solver.c:832
 msgid "Unknown error."
 msgstr "Nieznany błąd."
 
-#: src/dialogs/dialog-solver.c:952
+#: src/dialogs/dialog-solver.c:851
 msgid "You have not specified a problem to be solved"
 msgstr "Nie wybrano problemu do rozwiązania"
 
-#: src/dialogs/dialog-solver.c:971 src/tools/solver/solver.c:377
+#: src/dialogs/dialog-solver.c:870 src/tools/solver/solver.c:377
 msgid "Target cell should contain a formula."
 msgstr "Komórka docelowa powinna zawierać wyrażenie."
 
-#: src/dialogs/dialog-solver.c:1050
+#: src/dialogs/dialog-solver.c:948
 #, c-format
 msgid "Constraint `%s' is for a cell that is not an input cell."
 msgstr "Więc \"%s\" odnosi się do komórki nie będącej komórką wejściową."
 
-#: src/dialogs/dialog-solver.c:1072
+#: src/dialogs/dialog-solver.c:970
 msgid "No constraints defined for the problem."
 msgstr "Nie zdefiniowano ograniczeń dla tego problemu."
 
-#: src/dialogs/dialog-solver.c:1129
+#: src/dialogs/dialog-solver.c:1030
 msgid ""
 "The maximum time exceeded. The optimal value could not be found in given "
 "time."
@@ -21868,11 +21896,11 @@ msgstr ""
 "Przekroczono czas maksymalny. Nie można było znaleźć optymalnej wartości w "
 "zadanym czasie."
 
-#: src/dialogs/dialog-solver.c:1328
+#: src/dialogs/dialog-solver.c:1236
 msgid "Subject to the Constraints:"
 msgstr "Przedmiot ograniczeń:"
 
-#: src/dialogs/dialog-solver.c:1444
+#: src/dialogs/dialog-solver.c:1352
 msgid "Could not create the Solver dialog."
 msgstr "Nie można utworzyć okna dialogowego solvera."
 
@@ -21880,23 +21908,23 @@ msgstr "Nie można utworzyć okna dialogowego solvera."
 msgid "Are you sure you want to cancel?"
 msgstr "Czy na pewno chcesz anulować?"
 
-#: src/dialogs/dialog-stf-export.c:437
+#: src/dialogs/dialog-stf-export.c:438
 #, fuzzy
 msgid "Export"
 msgstr "Raport"
 
-#: src/dialogs/dialog-stf-export.c:510
+#: src/dialogs/dialog-stf-export.c:511
 #: src/dialogs/dialog-stf-export.glade.h:39
 #, fuzzy
 msgid "_Next"
 msgstr "_Tekst:"
 
-#: src/dialogs/dialog-stf-export.c:513
+#: src/dialogs/dialog-stf-export.c:514
 #, fuzzy
 msgid "_Finish"
 msgstr "_Zakończ"
 
-#: src/dialogs/dialog-stf-export.c:572
+#: src/dialogs/dialog-stf-export.c:573
 msgid "This workbook does not contain any exportable content."
 msgstr ""
 
@@ -25336,15 +25364,15 @@ msgstr "Pr_zesuń komórki w prawo i przenieś"
 msgid "C_ancel"
 msgstr "_Anuluj"
 
-#: src/main-application.c:60 src/ssconvert.c:38
+#: src/main-application.c:60 src/ssconvert.c:41
 msgid "Display Gnumeric's version"
 msgstr "Wypisuje wersję Gnumerica"
 
-#: src/main-application.c:62 src/ssconvert.c:41
+#: src/main-application.c:62 src/ssconvert.c:44
 msgid "Set the root library directory"
 msgstr "Ustawia główny katalog bibliotek"
 
-#: src/main-application.c:64 src/ssconvert.c:43
+#: src/main-application.c:64 src/ssconvert.c:46
 msgid "Adjust the root data directory"
 msgstr "Ustawia główny katalog danych"
 
@@ -26186,22 +26214,22 @@ msgid "_Remove Hyperlink"
 msgstr "_Usuń odnośnik"
 
 #. This is somewhat cheesy and should use ngettext
-#: src/sheet-control-gui.c:1958
+#: src/sheet-control-gui.c:1972
 #, fuzzy
 msgid "Duplicate Object"
 msgstr "Zduplikuj"
 
-#: src/sheet-control-gui.c:1958
+#: src/sheet-control-gui.c:1972
 #, fuzzy
 msgid "Insert Object"
 msgstr "Wstawienie obiektu"
 
-#: src/sheet-control-gui.c:1959
+#: src/sheet-control-gui.c:1973
 #, fuzzy
 msgid "Move Object"
 msgstr "Przeniesienie obiektu"
 
-#: src/sheet-control-gui.c:1959
+#: src/sheet-control-gui.c:1973
 #, fuzzy
 msgid "Resize Object"
 msgstr "Zmiana rozmiaru obiektu"
@@ -26334,61 +26362,61 @@ msgstr "Skopiuj"
 msgid "Cut"
 msgstr "Wytnij"
 
-#: src/ssconvert.c:46
+#: src/ssconvert.c:49
 msgid "Optionally specify an encoding for imported content"
 msgstr ""
 
-#: src/ssconvert.c:46
+#: src/ssconvert.c:49
 msgid "ENCODING"
 msgstr ""
 
-#: src/ssconvert.c:48
+#: src/ssconvert.c:51
 msgid "Optionally specify which exporter to use"
 msgstr ""
 
-#: src/ssconvert.c:50
+#: src/ssconvert.c:53
 msgid "List the available exporters"
 msgstr ""
 
-#: src/ssconvert.c:52
+#: src/ssconvert.c:55
 msgid "List the available importers"
 msgstr ""
 
-#: src/ssconvert.c:54
+#: src/ssconvert.c:57
 msgid ""
 "Export a file for each sheet if the exporter only supports one sheet at a "
 "time."
 msgstr ""
 
-#: src/ssconvert.c:102
+#: src/ssconvert.c:105
 #, c-format
 msgid ""
 "Unknown exporter '%s'.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
 
-#: src/ssconvert.c:126
+#: src/ssconvert.c:129
 #, c-format
 msgid ""
 "Unable to guess exporter to use for '%s'.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
 
-#: src/ssconvert.c:133
+#: src/ssconvert.c:136
 #, c-format
 msgid ""
 "An output file name or an explicit export type is required.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
 
-#: src/ssconvert.c:147
+#: src/ssconvert.c:150
 #, c-format
 msgid ""
 "Selected exporter (%s) does not support saving multiple sheets in one file.\n"
 "Only the current sheet will be saved."
 msgstr ""
 
-#: src/ssconvert.c:174
+#: src/ssconvert.c:176
 #, fuzzy, c-format
 msgid ""
 "ssconvert version '%s'\n"
@@ -27026,7 +27054,7 @@ msgstr "(Wejście) "
 msgid "Maximum time exceeded. Simulation was not completed. "
 msgstr "Przekroczono czas maksymalny. Symulacja nie została zakończona. "
 
-#: src/tools/solver/reports.c:328
+#: src/tools/solver/reports.c:327
 msgid ""
 "Model is too large for program report generation. Program report was not "
 "created."
@@ -27068,7 +27096,7 @@ msgstr ""
 msgid "Not Binding"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:178 src/tools/solver/reports-write.c:884
+#: src/tools/solver/reports-write.c:178 src/tools/solver/reports-write.c:887
 msgid "Assume that all variables are integers."
 msgstr "Zakładanie że wszystkie zmienne są liczbami całkowitymi."
 
@@ -27350,35 +27378,35 @@ msgstr "Czas obliczenia"
 msgid "System Information"
 msgstr "Informacje systemowe"
 
-#: src/tools/solver/reports-write.c:766 src/tools/solver/reports-write.c:904
+#: src/tools/solver/reports-write.c:766 src/tools/solver/reports-write.c:907
 msgid "Program Report"
 msgstr "Raport programu"
 
-#: src/tools/solver/reports-write.c:893
+#: src/tools/solver/reports-write.c:896
 msgid "Assume that all variables take only positive values."
 msgstr ""
 
-#: src/tools/solver/reports-write.c:909
+#: src/tools/solver/reports-write.c:912
 #, fuzzy
 msgid "Minimize"
 msgstr "Minimum"
 
-#: src/tools/solver/reports-write.c:912
+#: src/tools/solver/reports-write.c:915
 #, fuzzy
 msgid "Maximize"
 msgstr "Maksimum"
 
-#: src/tools/solver/reports-write.c:915
+#: src/tools/solver/reports-write.c:918
 #, fuzzy
 msgid "Equal to"
 msgstr "Równe:"
 
 #. Print `Subject to' title.
-#: src/tools/solver/reports-write.c:921
+#: src/tools/solver/reports-write.c:924
 msgid "Subject to"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:942 src/tools/solver/reports-write.c:955
+#: src/tools/solver/reports-write.c:945 src/tools/solver/reports-write.c:958
 msgid "Dual Program Report"
 msgstr ""
 
@@ -27396,7 +27424,29 @@ msgstr ""
 "Komórki RHS powinny zawierać tylko poprawne dane liczbowe. Określ poprawne "
 "wpisy RHS."
 
-#: src/tools/solver/solver.c:523
+#: src/tools/solver/solver.c:465
+msgid "EqualTo models are not supported yet.  Please use Min or Max"
+msgstr ""
+
+#: src/tools/solver/solver.c:478
+msgid ""
+"Failure setting automatic scaling with this solver, try a different "
+"algorithm."
+msgstr ""
+
+#: src/tools/solver/solver.c:484
+msgid ""
+"Failure setting the maximum number of iterations with this solver, try a "
+"different algorithm."
+msgstr ""
+
+#: src/tools/solver/solver.c:490
+msgid ""
+"Failure setting setting the maximum solving time with this solver, try a "
+"different algorithm."
+msgstr ""
+
+#: src/tools/solver/solver.c:536
 msgid ""
 "Some of the input cells contain non-numeric values.  Specify a valid input "
 "range."
@@ -30508,35 +30558,35 @@ msgstr "Nieobsługiwany format pliku."
 msgid "An unexplained error happened while opening %s"
 msgstr "Podczas otwierania %s wystąpił nierozpoznany błąd"
 
-#: src/xml-io.c:2763
+#: src/xml-io.c:2770
 #, fuzzy, c-format
 msgid "Unsupported object type '%s'"
 msgstr "Nieobsługiwany typ ładowarki \"%s\"."
 
-#: src/xml-io.c:3466
+#: src/xml-io.c:3473
 msgid "Unparsable xml in clipboard"
 msgstr "Schowek zawiera niepoprawne dane w XML-u"
 
-#: src/xml-io.c:3473
+#: src/xml-io.c:3480
 msgid "Clipboard is in unknown format"
 msgstr "Dane w schowku są w nieznanym formacie"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3913
+#: src/xml-io.c:3920
 msgid "Processing file..."
 msgstr "Przetwarzanie pliku..."
 
-#: src/xml-io.c:4240
+#: src/xml-io.c:4247
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "Plik nie jest plikiem zeszytu Gnumerica"
 
-#: src/xml-io.c:4277
+#: src/xml-io.c:4284
 msgid "Failure saving file"
 msgstr "Wystąpił błąd przy zapisie pliku"
 
-#: src/xml-io.c:4322
+#: src/xml-io.c:4329
 msgid "Gnumeric XML (*.gnumeric) original slow exporter"
 msgstr ""
 
@@ -30733,6 +30783,9 @@ msgstr "Nazwa szablonu"
 #, fuzzy
 msgid "A simple list template"
 msgstr "Nazwa szablonu"
+
+#~ msgid "Various"
+#~ msgstr "Różne"
 
 #, fuzzy
 #~ msgid ""

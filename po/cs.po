@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-03 03:18+0100\n"
+"POT-Creation-Date: 2004-11-07 01:25-0500\n"
 "PO-Revision-Date: 2004-11-03 13:32+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -1508,7 +1508,7 @@ msgid "Functions related to financial derivatives"
 msgstr "Funkce spojené s finančními deriváty"
 
 #: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5743
-#: plugins/mps/mps.c:547 src/xml-io.c:4192
+#: plugins/mps/mps.c:547 src/xml-io.c:4199
 msgid "Reading file..."
 msgstr "Načítá se soubor..."
 
@@ -17805,10 +17805,9 @@ msgstr "Omezení:"
 msgid "Name"
 msgstr "Název"
 
-#: plugins/mps/mps.c:272 src/dialogs/dialog-preferences.c:459
-#: src/dialogs/dialog-simulation.c:222 src/tools/solver/reports-write.c:236
-#: src/tools/solver/reports-write.c:282 src/tools/solver/reports-write.c:394
-#: src/tools/solver/reports-write.c:401
+#: plugins/mps/mps.c:272 src/dialogs/dialog-simulation.c:222
+#: src/tools/solver/reports-write.c:236 src/tools/solver/reports-write.c:282
+#: src/tools/solver/reports-write.c:394 src/tools/solver/reports-write.c:401
 msgid "Value"
 msgstr "Hodnota"
 
@@ -18611,7 +18610,7 @@ msgstr "Chyba při otevírání souboru Xbase."
 #: plugins/xbase/boot.c:175 src/commands.c:4906
 #: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:409
 #: src/dialogs/dialog-stf-export.c:444 src/dialogs/print.glade.h:21
-#: src/print-info.c:391 src/workbook.c:1091 src/xml-io.c:3782
+#: src/print-info.c:391 src/workbook.c:1091 src/xml-io.c:3789
 msgid "Sheet"
 msgstr "List"
 
@@ -18650,7 +18649,7 @@ msgstr "EXPERIMENTÁLNÍ Gnumeric založený na SAX (*.gnumeric)"
 msgid "EXPERIMENTAL SAX based XML"
 msgstr "EXPERIMENTÁLNÍ XML založené na SAX"
 
-#: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4318
+#: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4325
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Gnumeric XML (*.gnumeric)"
 
@@ -19725,7 +19724,7 @@ msgstr "Nastavení šířky sloupců %s na výchozí"
 msgid "Setting height of rows %s to default"
 msgstr "Nastavení výšky řádků %s na výchozí"
 
-#: src/commands.c:2089 src/dialogs/dialog-preferences.c:816
+#: src/commands.c:2089 src/dialogs/dialog-preferences.c:704
 msgid "Sorting"
 msgstr "Třídění"
 
@@ -20012,7 +20011,7 @@ msgstr "Text (%s) do sloupců (%s)"
 #: src/commands.c:6652 src/dialogs/solver.glade.h:17
 #: src/tools/solver/reports-write.c:193 src/tools/solver/reports-write.c:354
 #: src/tools/solver/reports-write.c:484 src/tools/solver/reports-write.c:743
-#: src/tools/solver/reports-write.c:904 src/tools/solver/reports-write.c:955
+#: src/tools/solver/reports-write.c:907 src/tools/solver/reports-write.c:958
 msgid "Solver"
 msgstr "Řešitel"
 
@@ -20411,7 +20410,7 @@ msgid "%d x %d"
 msgstr "%d × %d"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:881
-#: src/dialogs/cell-format.glade.h:48 src/dialogs/dialog-preferences.c:812
+#: src/dialogs/cell-format.glade.h:48 src/dialogs/dialog-preferences.c:697
 msgid "Font"
 msgstr "Písmo"
 
@@ -23821,16 +23820,16 @@ msgstr "Vložit"
 msgid "Could not create the Insert Cell dialog."
 msgstr "Nelze vytvořit dialog pro Vložení buněk."
 
-#: src/dialogs/dialog-merge.c:265
+#: src/dialogs/dialog-merge.c:264
 msgid "One field is not part of the merge zone!"
 msgstr "Jedno pole není součástí spojované oblasti!"
 
-#: src/dialogs/dialog-merge.c:267
+#: src/dialogs/dialog-merge.c:266
 #, c-format
 msgid "%i fields are not part of the merge zone!"
 msgstr "%i polí není součástí spojované oblasti!"
 
-#: src/dialogs/dialog-merge.c:284
+#: src/dialogs/dialog-merge.c:283
 #, c-format
 msgid ""
 "The data columns range in length from %i to %i. Shall we trim the lengths to "
@@ -23839,11 +23838,11 @@ msgstr ""
 "Datové sloupce jsou dlouhé od %i do %i. Mají se zkrátit na délku %i a "
 "pokračovat?"
 
-#: src/dialogs/dialog-merge.c:393
+#: src/dialogs/dialog-merge.c:392
 msgid "Input Data"
 msgstr "Vstupní data"
 
-#: src/dialogs/dialog-merge.c:400
+#: src/dialogs/dialog-merge.c:399
 msgid "Merge Field"
 msgstr "Sloučit pole"
 
@@ -23999,7 +23998,7 @@ msgid "Plugin name"
 msgstr "Název zásuvného modulu"
 
 #: src/dialogs/dialog-plugin-manager.c:732
-#: src/dialogs/dialog-preferences.c:451 src/dialogs/function-select.glade.h:2
+#: src/dialogs/function-select.glade.h:2
 msgid "Description"
 msgstr "Popis"
 
@@ -24011,11 +24010,11 @@ msgstr "ID"
 msgid "Directory"
 msgstr "Adresář"
 
-#: src/dialogs/dialog-preferences.c:655
+#: src/dialogs/dialog-preferences.c:442
 msgid "The items on this page customize the behaviour of the undo/redo system."
 msgstr "Položky na této stránce upravují chování systému kroků zpět."
 
-#: src/dialogs/dialog-preferences.c:690
+#: src/dialogs/dialog-preferences.c:477
 msgid ""
 "The items on this page customize the inital settings of the sort dialog and "
 "the behaviour of the sort toolbar buttons."
@@ -24023,34 +24022,60 @@ msgstr ""
 "Položky na této stránce upravují počáteční nastavení v dialogu třídění a "
 "chování tlačítek třídění v lištách nástrojů."
 
-#: src/dialogs/dialog-preferences.c:728
+#: src/dialogs/dialog-preferences.c:515
 msgid "The items on this page customize the new default workbook."
 msgstr "Položky na této stránce upravují výchozí nový sešit."
 
-#: src/dialogs/dialog-preferences.c:768
+#: src/dialogs/dialog-preferences.c:555
 msgid "The items on this page are related to the saving and opening of files."
 msgstr "Položky na této stránce se týkají ukládání a otevírání souborů."
 
-#: src/dialogs/dialog-preferences.c:813
-msgid "Windows"
-msgstr "Okna"
+#: src/dialogs/dialog-preferences.c:593
+#, fuzzy
+msgid "The items on this page are related to the screen layout and resolution."
+msgstr "Položky na této stránce se týkají ukládání a otevírání souborů."
 
-#: src/dialogs/dialog-preferences.c:814
+#: src/dialogs/dialog-preferences.c:625
+#, fuzzy
+msgid ""
+"The items on this page and its subpages are related to various gnumeric "
+"tools."
+msgstr "Položky na této stránce se týkají ukládání a otevírání souborů."
+
+#: src/dialogs/dialog-preferences.c:660
+#, fuzzy
+msgid "The items on this page arerelated to copy. cut and paste."
+msgstr "Položky na této stránce se týkají ukládání a otevírání souborů."
+
+#: src/dialogs/dialog-preferences.c:698
+msgid "Copy and Paste"
+msgstr ""
+
+#: src/dialogs/dialog-preferences.c:699
 msgid "Files"
 msgstr "Soubory"
 
-#: src/dialogs/dialog-preferences.c:815 src/wbc-gtk.c:472
+#: src/dialogs/dialog-preferences.c:700
+#, fuzzy
+msgid "Tools"
+msgstr "_Nástroje"
+
+#: src/dialogs/dialog-preferences.c:701 src/wbc-gtk.c:472
 msgid "Undo"
 msgstr "Zpět"
 
-#: src/dialogs/dialog-preferences.c:817
-msgid "Various"
-msgstr "Různé"
+#: src/dialogs/dialog-preferences.c:702
+msgid "Windows"
+msgstr "Okna"
 
-#. {N_("Internal"),      GTK_STOCK_DIALOG_ERROR,    "5",  &pref_tree_initializer,		&pref_tree_page_open,	pref_tree_data_danger},
-#: src/dialogs/dialog-preferences.c:819
+#: src/dialogs/dialog-preferences.c:703
 msgid "Header/Footer"
 msgstr "Hlavičky/patičky"
+
+#: src/dialogs/dialog-preferences.c:705
+#, fuzzy
+msgid "Screen"
+msgstr "Obrazovka %d"
 
 #: src/dialogs/dialog-printer-setup.c:873
 msgid "Customize header"
@@ -24485,19 +24510,19 @@ msgstr "Číslo prvního kola by mělo být větší nebo rovno číslu posledn�
 msgid "Could not create the Simulation dialog."
 msgstr "Nelze vytvořit dialog pro Simulaci."
 
-#: src/dialogs/dialog-solver.c:107
+#: src/dialogs/dialog-solver.c:109
 msgid "Simplex (LP Solve 5.0)"
 msgstr "Simplex (LP Solve 5.0)"
 
-#: src/dialogs/dialog-solver.c:108
+#: src/dialogs/dialog-solver.c:110
 msgid "Revised Simplex (GLPK 4.5)"
 msgstr "Revidovaný Simplex (GLPK 4.5)"
 
-#: src/dialogs/dialog-solver.c:109
+#: src/dialogs/dialog-solver.c:111
 msgid "< Not available >"
 msgstr "< Není k dispozici >"
 
-#: src/dialogs/dialog-solver.c:451
+#: src/dialogs/dialog-solver.c:392
 msgid ""
 "Looking for a subject for your thesis? Maybe you would like to write a QP "
 "solver for Gnumeric?"
@@ -24505,7 +24530,7 @@ msgstr ""
 "Hledáte předmět své diplomové práce? Možná byste rád napsal řešitele QP pro "
 "Gnumeric?"
 
-#: src/dialogs/dialog-solver.c:803
+#: src/dialogs/dialog-solver.c:698
 msgid ""
 "Solver found an optimal solution.  All constraints and optimality conditions "
 "are satisfied.\n"
@@ -24513,7 +24538,7 @@ msgstr ""
 "Řešitel nalezl optimální řešení. Všechny omezení a podmínky optimálnosti "
 "jsou uspokojeny.\n"
 
-#: src/dialogs/dialog-solver.c:812
+#: src/dialogs/dialog-solver.c:707
 msgid ""
 "Neither sensitivity nor limits report are meaningful if the program has "
 "integer constraints.  These reports will not be created."
@@ -24521,51 +24546,51 @@ msgstr ""
 "Hlášení o citlivosti a limitech nemají smysl, pokud má program celočíselná "
 "omezení. Tato hlášení nebudou vygenerovány."
 
-#: src/dialogs/dialog-solver.c:830
+#: src/dialogs/dialog-solver.c:725
 msgid ""
 "The Target Cell value specified does not converge!  The program is unbounded."
 msgstr "Hodnota cílové buňky nekonverguje! Program je neohraničený."
 
-#: src/dialogs/dialog-solver.c:844
+#: src/dialogs/dialog-solver.c:739
 msgid ""
 "A feasible solution could not be found.  All specified constraints cannot be "
 "met simultaneously. "
 msgstr ""
 "Vhodné řešení nebylo nalezeno. Všechny omezení není možné uspokojit najednou."
 
-#: src/dialogs/dialog-solver.c:859
+#: src/dialogs/dialog-solver.c:754
 msgid ""
 "The maximum number of iterations exceeded. The optimal value could not be "
 "found."
 msgstr ""
 "Byl přesažen maximální počet iterací. Optimální hodnotu se nepodařilo nalézt."
 
-#: src/dialogs/dialog-solver.c:899
+#: src/dialogs/dialog-solver.c:798
 msgid "Optimal solution created by solver.\n"
 msgstr "Řešitel nalezl optimální řešení.\n"
 
-#: src/dialogs/dialog-solver.c:933
+#: src/dialogs/dialog-solver.c:832
 msgid "Unknown error."
 msgstr "Neznámá chyba."
 
-#: src/dialogs/dialog-solver.c:952
+#: src/dialogs/dialog-solver.c:851
 msgid "You have not specified a problem to be solved"
 msgstr "Nezadali jste problém, který se má řešit"
 
-#: src/dialogs/dialog-solver.c:971 src/tools/solver/solver.c:377
+#: src/dialogs/dialog-solver.c:870 src/tools/solver/solver.c:377
 msgid "Target cell should contain a formula."
 msgstr "Cílová buňka by měla obsahovat výraz."
 
-#: src/dialogs/dialog-solver.c:1050
+#: src/dialogs/dialog-solver.c:948
 #, c-format
 msgid "Constraint `%s' is for a cell that is not an input cell."
 msgstr "Omezení '%s' je pro buňku, která není vstupní."
 
-#: src/dialogs/dialog-solver.c:1072
+#: src/dialogs/dialog-solver.c:970
 msgid "No constraints defined for the problem."
 msgstr "Pro problém nejsou definována omezení."
 
-#: src/dialogs/dialog-solver.c:1129
+#: src/dialogs/dialog-solver.c:1030
 msgid ""
 "The maximum time exceeded. The optimal value could not be found in given "
 "time."
@@ -24573,11 +24598,11 @@ msgstr ""
 "Byl přesažen maximální čas. Optimální hodnotu se v zadaném čase nepodařilo "
 "nalézt."
 
-#: src/dialogs/dialog-solver.c:1328
+#: src/dialogs/dialog-solver.c:1236
 msgid "Subject to the Constraints:"
 msgstr "Omezení použít pro:"
 
-#: src/dialogs/dialog-solver.c:1444
+#: src/dialogs/dialog-solver.c:1352
 msgid "Could not create the Solver dialog."
 msgstr "Nelze vytvořit dialog Nástroje pro řešitele."
 
@@ -24646,19 +24671,25 @@ msgstr "Exportovat jako text"
 msgid ""
 "Lower the selected sheet in the list of to be exported sheets to be exported "
 "later."
-msgstr "Snížit vybraný list v seznamu exportovaných listů, aby byl exportován později."
+msgstr ""
+"Snížit vybraný list v seznamu exportovaných listů, aby byl exportován "
+"později."
 
 #: src/dialogs/dialog-stf-export.glade.h:15
 msgid ""
 "Move the selected sheet to the end of the list of to be exported exported "
 "sheets to be exported last."
-msgstr "Přesunout vybraný list na konec seznamu exportovaných listů, aby byl exportován poslední."
+msgstr ""
+"Přesunout vybraný list na konec seznamu exportovaných listů, aby byl "
+"exportován poslední."
 
 #: src/dialogs/dialog-stf-export.glade.h:16
 msgid ""
 "Move the selected sheet to the top of the list of to be exported sheets to "
 "be exported first."
-msgstr "Přesunout vybraný list na začátek seznamu exportovaných listů, aby byl exportován první."
+msgstr ""
+"Přesunout vybraný list na začátek seznamu exportovaných listů, aby byl "
+"exportován první."
 
 #: src/dialogs/dialog-stf-export.glade.h:17
 msgid "Qu_oting:"
@@ -24672,7 +24703,8 @@ msgstr "Znak u_vozovek:"
 msgid ""
 "Raise the selected sheet in the list of to be exported sheets to be exported "
 "earlier."
-msgstr "Zvýšit vybraný list v seznamu exportovaných listů, aby byl exportován dříve."
+msgstr ""
+"Zvýšit vybraný list v seznamu exportovaných listů, aby byl exportován dříve."
 
 #: src/dialogs/dialog-stf-export.glade.h:20
 msgid "Select N_one"
@@ -27957,15 +27989,15 @@ msgstr "Posunout buňky dopra_va a přesunout"
 msgid "C_ancel"
 msgstr "_Zrušit"
 
-#: src/main-application.c:60 src/ssconvert.c:38
+#: src/main-application.c:60 src/ssconvert.c:41
 msgid "Display Gnumeric's version"
 msgstr "Zobrazit verzi aplikace Gnumeric"
 
-#: src/main-application.c:62 src/ssconvert.c:41
+#: src/main-application.c:62 src/ssconvert.c:44
 msgid "Set the root library directory"
 msgstr "Nastavit kořenový adresář knihoven"
 
-#: src/main-application.c:64 src/ssconvert.c:43
+#: src/main-application.c:64 src/ssconvert.c:46
 msgid "Adjust the root data directory"
 msgstr "Upravit kořenový adresář dat"
 
@@ -28932,34 +28964,34 @@ msgstr "Kopírovat"
 msgid "Cut"
 msgstr "Vyjmout"
 
-#: src/ssconvert.c:46
+#: src/ssconvert.c:49
 msgid "Optionally specify an encoding for imported content"
 msgstr "Nepovinné určení kódování importovaného obsahu"
 
-#: src/ssconvert.c:46
+#: src/ssconvert.c:49
 msgid "ENCODING"
 msgstr "KÓDOVÁNÍ"
 
-#: src/ssconvert.c:48
+#: src/ssconvert.c:51
 msgid "Optionally specify which exporter to use"
 msgstr "Nepovinné určení, který exportér používat"
 
-#: src/ssconvert.c:50
+#: src/ssconvert.c:53
 msgid "List the available exporters"
 msgstr "Vypsat dostupné exportéry"
 
-#: src/ssconvert.c:52
+#: src/ssconvert.c:55
 msgid "List the available importers"
 msgstr "Vypsat dostupné importéry"
 
-#: src/ssconvert.c:54
+#: src/ssconvert.c:57
 msgid ""
 "Export a file for each sheet if the exporter only supports one sheet at a "
 "time."
 msgstr ""
 "Exportovat soubor pro každý list, pokud exportér podporuje jen jeden list."
 
-#: src/ssconvert.c:102
+#: src/ssconvert.c:105
 #, c-format
 msgid ""
 "Unknown exporter '%s'.\n"
@@ -28968,7 +29000,7 @@ msgstr ""
 "Neznámý exportér '%s'.\n"
 "Zkuste zobrazit seznam možností pomocí --list-exporters.\n"
 
-#: src/ssconvert.c:126
+#: src/ssconvert.c:129
 #, c-format
 msgid ""
 "Unable to guess exporter to use for '%s'.\n"
@@ -28977,7 +29009,7 @@ msgstr ""
 "Nemohu uhádnot exportér, který používat pro '%s'.\n"
 "Zkuste zobrazit seznam možností pomocí --list-exporters.\n"
 
-#: src/ssconvert.c:133
+#: src/ssconvert.c:136
 #, c-format
 msgid ""
 "An output file name or an explicit export type is required.\n"
@@ -28986,7 +29018,7 @@ msgstr ""
 "Je vyžadován název výstupního souboru nebo explicitní typ exportu.\n"
 "Zkuste zobrazit seznam možností pomocí --list-exporters.\n"
 
-#: src/ssconvert.c:147
+#: src/ssconvert.c:150
 #, c-format
 msgid ""
 "Selected exporter (%s) does not support saving multiple sheets in one file.\n"
@@ -28995,7 +29027,7 @@ msgstr ""
 "Zvolený expotér (%s) nepodporuje ukládání více listů do jednoho souboru.\n"
 "Bude uložen jen aktuální list."
 
-#: src/ssconvert.c:174
+#: src/ssconvert.c:176
 #, c-format
 msgid ""
 "ssconvert version '%s'\n"
@@ -29658,7 +29690,7 @@ msgstr "(Vstup)"
 msgid "Maximum time exceeded. Simulation was not completed. "
 msgstr "Překročen maximální čas. Simulace nebyla dokončena. "
 
-#: src/tools/solver/reports.c:328
+#: src/tools/solver/reports.c:327
 msgid ""
 "Model is too large for program report generation. Program report was not "
 "created."
@@ -29700,7 +29732,7 @@ msgstr "Závazný"
 msgid "Not Binding"
 msgstr "Nezávazný"
 
-#: src/tools/solver/reports-write.c:178 src/tools/solver/reports-write.c:884
+#: src/tools/solver/reports-write.c:178 src/tools/solver/reports-write.c:887
 msgid "Assume that all variables are integers."
 msgstr "Předpokládat, že všechny proměnné jsou celočíselné."
 
@@ -29978,32 +30010,32 @@ msgstr "Čas výpočtu"
 msgid "System Information"
 msgstr "Systémové informace"
 
-#: src/tools/solver/reports-write.c:766 src/tools/solver/reports-write.c:904
+#: src/tools/solver/reports-write.c:766 src/tools/solver/reports-write.c:907
 msgid "Program Report"
 msgstr "Výkaz o programu"
 
-#: src/tools/solver/reports-write.c:893
+#: src/tools/solver/reports-write.c:896
 msgid "Assume that all variables take only positive values."
 msgstr "Předpokládat, že všechny proměnné nabývají pouze kladných hodnot."
 
-#: src/tools/solver/reports-write.c:909
+#: src/tools/solver/reports-write.c:912
 msgid "Minimize"
 msgstr "Minimalizovat"
 
-#: src/tools/solver/reports-write.c:912
+#: src/tools/solver/reports-write.c:915
 msgid "Maximize"
 msgstr "Maximalizovat"
 
-#: src/tools/solver/reports-write.c:915
+#: src/tools/solver/reports-write.c:918
 msgid "Equal to"
 msgstr "Stejné jako"
 
 #. Print `Subject to' title.
-#: src/tools/solver/reports-write.c:921
+#: src/tools/solver/reports-write.c:924
 msgid "Subject to"
 msgstr "Vzhledem k"
 
-#: src/tools/solver/reports-write.c:942 src/tools/solver/reports-write.c:955
+#: src/tools/solver/reports-write.c:945 src/tools/solver/reports-write.c:958
 msgid "Dual Program Report"
 msgstr "Dvojitý výkaz o programu"
 
@@ -30023,7 +30055,32 @@ msgstr ""
 "Buňky vpravo by měly obsahovat vzorce, které vrací řádné číselné hodnoty. "
 "Zadejte vpravo platné položky."
 
-#: src/tools/solver/solver.c:523
+#: src/tools/solver/solver.c:465
+msgid "EqualTo models are not supported yet.  Please use Min or Max"
+msgstr ""
+
+#: src/tools/solver/solver.c:478
+msgid ""
+"Failure setting automatic scaling with this solver, try a different "
+"algorithm."
+msgstr ""
+
+#: src/tools/solver/solver.c:484
+#, fuzzy
+msgid ""
+"Failure setting the maximum number of iterations with this solver, try a "
+"different algorithm."
+msgstr ""
+"Tato hodnota určuje maximální počet položek v seznamu zpětných operací či "
+"jejich vrácení."
+
+#: src/tools/solver/solver.c:490
+msgid ""
+"Failure setting setting the maximum solving time with this solver, try a "
+"different algorithm."
+msgstr ""
+
+#: src/tools/solver/solver.c:536
 msgid ""
 "Some of the input cells contain non-numeric values.  Specify a valid input "
 "range."
@@ -33047,35 +33104,35 @@ msgstr "Nepodporovaný formát souboru."
 msgid "An unexplained error happened while opening %s"
 msgstr "Nastala nevysvětlitelná chyba při otevírání %s"
 
-#: src/xml-io.c:2763
+#: src/xml-io.c:2770
 #, c-format
 msgid "Unsupported object type '%s'"
 msgstr "Nepodporovaný typ objektu '%s'"
 
-#: src/xml-io.c:3466
+#: src/xml-io.c:3473
 msgid "Unparsable xml in clipboard"
 msgstr "Obsah schránky v XML není možné zpracovat"
 
-#: src/xml-io.c:3473
+#: src/xml-io.c:3480
 msgid "Clipboard is in unknown format"
 msgstr "Obsah schránky má neznámý formát."
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3913
+#: src/xml-io.c:3920
 msgid "Processing file..."
 msgstr "Zpracovává se soubor..."
 
-#: src/xml-io.c:4240
+#: src/xml-io.c:4247
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "Toto není soubor se sešitem Gnumeric"
 
-#: src/xml-io.c:4277
+#: src/xml-io.c:4284
 msgid "Failure saving file"
 msgstr "Chyba při ukládání souboru."
 
-#: src/xml-io.c:4322
+#: src/xml-io.c:4329
 msgid "Gnumeric XML (*.gnumeric) original slow exporter"
 msgstr "Gnumeric XML (*.gnumeric), původní pomalý exportér"
 
@@ -33255,6 +33312,9 @@ msgstr "Šablona fialového seznamu"
 #: templates/autoformat/autoformat.List.simple.xml.in.h:1
 msgid "A simple list template"
 msgstr "Šablona jednoduchého seznamu"
+
+#~ msgid "Various"
+#~ msgstr "Různé"
 
 #~ msgid "Data Sources..."
 #~ msgstr "Zdroje dat..."

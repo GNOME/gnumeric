@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AC_PACKAGE_NAME AC_PACKAGE_VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-01 22:00-0500\n"
+"POT-Creation-Date: 2004-11-07 01:25-0500\n"
 "PO-Revision-Date: 2003-08-12 22:15+0900\n"
 "Last-Translator: Changwoo Ryu <cwryu@debian.org>\n"
 "Language-Team: GTP Korean <gnome-kr-translation@gnome.or.kr>\n"
@@ -935,7 +935,7 @@ msgid "Functions related to financial derivatives"
 msgstr ""
 
 #: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5743
-#: plugins/mps/mps.c:547 src/xml-io.c:4192
+#: plugins/mps/mps.c:547 src/xml-io.c:4199
 msgid "Reading file..."
 msgstr "파일을 읽는 중..."
 
@@ -11419,8 +11419,8 @@ msgstr ""
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1057
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:379
 #: src/dialogs/dialog-define-names.c:496 src/dialogs/dialog-formula-guru.c:800
-#: src/dialogs/dialog-function-select.c:445
-#: src/dialogs/dialog-function-select.c:467 src/dialogs/dialog-scenarios.c:368
+#: src/dialogs/dialog-function-select.c:443
+#: src/dialogs/dialog-function-select.c:465 src/dialogs/dialog-scenarios.c:368
 #: src/dialogs/dialog-simulation.c:217 src/dialogs/dialog-zoom.c:198
 #: src/format-template.c:247 src/tools/solver/reports-write.c:79
 #: src/tools/solver/reports-write.c:101 src/tools/solver/reports-write.c:128
@@ -11430,10 +11430,9 @@ msgstr ""
 msgid "Name"
 msgstr "이름"
 
-#: plugins/mps/mps.c:272 src/dialogs/dialog-preferences.c:459
-#: src/dialogs/dialog-simulation.c:222 src/tools/solver/reports-write.c:236
-#: src/tools/solver/reports-write.c:282 src/tools/solver/reports-write.c:394
-#: src/tools/solver/reports-write.c:401
+#: plugins/mps/mps.c:272 src/dialogs/dialog-simulation.c:222
+#: src/tools/solver/reports-write.c:236 src/tools/solver/reports-write.c:282
+#: src/tools/solver/reports-write.c:394 src/tools/solver/reports-write.c:401
 msgid "Value"
 msgstr "값"
 
@@ -12144,8 +12143,8 @@ msgstr "xbase 파일을 여는 중 오류."
 
 #: plugins/xbase/boot.c:175 src/commands.c:4906
 #: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:409
-#: src/dialogs/dialog-stf-export.c:443 src/dialogs/print.glade.h:21
-#: src/print-info.c:391 src/workbook.c:1091 src/xml-io.c:3782
+#: src/dialogs/dialog-stf-export.c:444 src/dialogs/print.glade.h:21
+#: src/print-info.c:391 src/workbook.c:1091 src/xml-io.c:3789
 msgid "Sheet"
 msgstr "시트"
 
@@ -12181,7 +12180,7 @@ msgstr "SAX 바탕의 실험적인 Gnumeric 형식 (*.gnumeric)"
 msgid "EXPERIMENTAL SAX based XML"
 msgstr "SAX 바탕의 실험적인 XML"
 
-#: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4318
+#: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4325
 #, fuzzy
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "SAX 바탕의 실험적인 Gnumeric 형식 (*.gnumeric)"
@@ -13169,7 +13168,7 @@ msgstr ""
 msgid "Setting height of rows %s to default"
 msgstr ""
 
-#: src/commands.c:2089 src/dialogs/dialog-preferences.c:816
+#: src/commands.c:2089 src/dialogs/dialog-preferences.c:704
 msgid "Sorting"
 msgstr "정렬중"
 
@@ -13474,7 +13473,7 @@ msgstr "열 지움"
 #: src/commands.c:6652 src/dialogs/solver.glade.h:17
 #: src/tools/solver/reports-write.c:193 src/tools/solver/reports-write.c:354
 #: src/tools/solver/reports-write.c:484 src/tools/solver/reports-write.c:743
-#: src/tools/solver/reports-write.c:904 src/tools/solver/reports-write.c:955
+#: src/tools/solver/reports-write.c:907 src/tools/solver/reports-write.c:958
 #, fuzzy
 msgid "Solver"
 msgstr "해결"
@@ -13913,7 +13912,7 @@ msgid "%d x %d"
 msgstr "%d행 x %d열"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:881
-#: src/dialogs/cell-format.glade.h:48 src/dialogs/dialog-preferences.c:812
+#: src/dialogs/cell-format.glade.h:48 src/dialogs/dialog-preferences.c:697
 msgid "Font"
 msgstr "글꼴"
 
@@ -17343,11 +17342,11 @@ msgstr "분수(_F)"
 msgid "Could not create the formula guru."
 msgstr "인자 값을 구할 수 없습니다"
 
-#: src/dialogs/dialog-function-select.c:212
+#: src/dialogs/dialog-function-select.c:210
 msgid "Recently Used"
 msgstr "최근에 사용된 함수"
 
-#: src/dialogs/dialog-function-select.c:217
+#: src/dialogs/dialog-function-select.c:215
 #, fuzzy
 msgid "All Functions (long list)"
 msgstr "함수가 없습니다"
@@ -17484,27 +17483,27 @@ msgstr "넣음"
 msgid "Could not create the Insert Cell dialog."
 msgstr "인자 값을 구할 수 없습니다"
 
-#: src/dialogs/dialog-merge.c:265
+#: src/dialogs/dialog-merge.c:264
 msgid "One field is not part of the merge zone!"
 msgstr ""
 
-#: src/dialogs/dialog-merge.c:267
+#: src/dialogs/dialog-merge.c:266
 #, c-format
 msgid "%i fields are not part of the merge zone!"
 msgstr ""
 
-#: src/dialogs/dialog-merge.c:284
+#: src/dialogs/dialog-merge.c:283
 #, c-format
 msgid ""
 "The data columns range in length from %i to %i. Shall we trim the lengths to "
 "%i and proceed?"
 msgstr ""
 
-#: src/dialogs/dialog-merge.c:393
+#: src/dialogs/dialog-merge.c:392
 msgid "Input Data"
 msgstr "입력 데이터"
 
-#: src/dialogs/dialog-merge.c:400
+#: src/dialogs/dialog-merge.c:399
 #, fuzzy
 msgid "Merge Field"
 msgstr "평균"
@@ -17668,7 +17667,7 @@ msgid "Plugin name"
 msgstr "플러그인 이름"
 
 #: src/dialogs/dialog-plugin-manager.c:732
-#: src/dialogs/dialog-preferences.c:451 src/dialogs/function-select.glade.h:2
+#: src/dialogs/function-select.glade.h:2
 msgid "Description"
 msgstr "설명"
 
@@ -17680,46 +17679,68 @@ msgstr "ID"
 msgid "Directory"
 msgstr "디렉토리"
 
-#: src/dialogs/dialog-preferences.c:655
+#: src/dialogs/dialog-preferences.c:442
 msgid "The items on this page customize the behaviour of the undo/redo system."
 msgstr ""
 
-#: src/dialogs/dialog-preferences.c:690
+#: src/dialogs/dialog-preferences.c:477
 msgid ""
 "The items on this page customize the inital settings of the sort dialog and "
 "the behaviour of the sort toolbar buttons."
 msgstr ""
 
-#: src/dialogs/dialog-preferences.c:728
+#: src/dialogs/dialog-preferences.c:515
 msgid "The items on this page customize the new default workbook."
 msgstr ""
 
-#: src/dialogs/dialog-preferences.c:768
+#: src/dialogs/dialog-preferences.c:555
 msgid "The items on this page are related to the saving and opening of files."
 msgstr ""
 
-#: src/dialogs/dialog-preferences.c:813
-msgid "Windows"
+#: src/dialogs/dialog-preferences.c:593
+msgid "The items on this page are related to the screen layout and resolution."
 msgstr ""
 
-#: src/dialogs/dialog-preferences.c:814
+#: src/dialogs/dialog-preferences.c:625
+msgid ""
+"The items on this page and its subpages are related to various gnumeric "
+"tools."
+msgstr ""
+
+#: src/dialogs/dialog-preferences.c:660
+msgid "The items on this page arerelated to copy. cut and paste."
+msgstr ""
+
+#: src/dialogs/dialog-preferences.c:698
+msgid "Copy and Paste"
+msgstr ""
+
+#: src/dialogs/dialog-preferences.c:699
 msgid "Files"
 msgstr "파일"
 
-#: src/dialogs/dialog-preferences.c:815 src/wbc-gtk.c:472
+#: src/dialogs/dialog-preferences.c:700
+#, fuzzy
+msgid "Tools"
+msgstr "도구(_T)"
+
+#: src/dialogs/dialog-preferences.c:701 src/wbc-gtk.c:472
 msgid "Undo"
 msgstr "실행 취소"
 
-#: src/dialogs/dialog-preferences.c:817
-#, fuzzy
-msgid "Various"
-msgstr "변수"
+#: src/dialogs/dialog-preferences.c:702
+msgid "Windows"
+msgstr ""
 
-#. {N_("Internal"),      GTK_STOCK_DIALOG_ERROR,    "5",  &pref_tree_initializer,		&pref_tree_page_open,	pref_tree_data_danger},
-#: src/dialogs/dialog-preferences.c:819
+#: src/dialogs/dialog-preferences.c:703
 #, fuzzy
 msgid "Header/Footer"
 msgstr "머리말과 꼬리말"
+
+#: src/dialogs/dialog-preferences.c:705
+#, fuzzy
+msgid "Screen"
+msgstr "시트%d"
 
 #: src/dialogs/dialog-printer-setup.c:873
 msgid "Customize header"
@@ -18180,92 +18201,92 @@ msgstr ""
 msgid "Could not create the Simulation dialog."
 msgstr "인자 값을 구할 수 없습니다"
 
-#: src/dialogs/dialog-solver.c:107
+#: src/dialogs/dialog-solver.c:109
 msgid "Simplex (LP Solve 5.0)"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:108
+#: src/dialogs/dialog-solver.c:110
 #, fuzzy
 msgid "Revised Simplex (GLPK 4.5)"
 msgstr "중국어 간체 (GBK)"
 
-#: src/dialogs/dialog-solver.c:109
+#: src/dialogs/dialog-solver.c:111
 msgid "< Not available >"
 msgstr "< 사용할 수 없음 >"
 
-#: src/dialogs/dialog-solver.c:451
+#: src/dialogs/dialog-solver.c:392
 msgid ""
 "Looking for a subject for your thesis? Maybe you would like to write a QP "
 "solver for Gnumeric?"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:803
+#: src/dialogs/dialog-solver.c:698
 msgid ""
 "Solver found an optimal solution.  All constraints and optimality conditions "
 "are satisfied.\n"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:812
+#: src/dialogs/dialog-solver.c:707
 msgid ""
 "Neither sensitivity nor limits report are meaningful if the program has "
 "integer constraints.  These reports will not be created."
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:830
+#: src/dialogs/dialog-solver.c:725
 msgid ""
 "The Target Cell value specified does not converge!  The program is unbounded."
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:844
+#: src/dialogs/dialog-solver.c:739
 msgid ""
 "A feasible solution could not be found.  All specified constraints cannot be "
 "met simultaneously. "
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:859
+#: src/dialogs/dialog-solver.c:754
 msgid ""
 "The maximum number of iterations exceeded. The optimal value could not be "
 "found."
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:899
+#: src/dialogs/dialog-solver.c:798
 msgid "Optimal solution created by solver.\n"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:933
+#: src/dialogs/dialog-solver.c:832
 msgid "Unknown error."
 msgstr "모르는 에러"
 
-#: src/dialogs/dialog-solver.c:952
+#: src/dialogs/dialog-solver.c:851
 msgid "You have not specified a problem to be solved"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:971 src/tools/solver/solver.c:377
+#: src/dialogs/dialog-solver.c:870 src/tools/solver/solver.c:377
 #, fuzzy
 msgid "Target cell should contain a formula."
 msgstr "'셀 설정'의 셀 이름은 공식을 포함해야만 합니다"
 
-#: src/dialogs/dialog-solver.c:1050
+#: src/dialogs/dialog-solver.c:948
 #, c-format
 msgid "Constraint `%s' is for a cell that is not an input cell."
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:1072
+#: src/dialogs/dialog-solver.c:970
 msgid "No constraints defined for the problem."
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:1129
+#: src/dialogs/dialog-solver.c:1030
 msgid ""
 "The maximum time exceeded. The optimal value could not be found in given "
 "time."
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:1328
+#: src/dialogs/dialog-solver.c:1236
 #, fuzzy
 msgid "Subject to the Constraints:"
 msgstr "내용(_C)"
 
-#: src/dialogs/dialog-solver.c:1444
+#: src/dialogs/dialog-solver.c:1352
 #, fuzzy
 msgid "Could not create the Solver dialog."
 msgstr "인자 값을 구할 수 없습니다"
@@ -18274,23 +18295,23 @@ msgstr "인자 값을 구할 수 없습니다"
 msgid "Are you sure you want to cancel?"
 msgstr "정말로 취소하시겠습니까?"
 
-#: src/dialogs/dialog-stf-export.c:437
+#: src/dialogs/dialog-stf-export.c:438
 #, fuzzy
 msgid "Export"
 msgstr "읽어들이기"
 
-#: src/dialogs/dialog-stf-export.c:510
+#: src/dialogs/dialog-stf-export.c:511
 #: src/dialogs/dialog-stf-export.glade.h:39
 #, fuzzy
 msgid "_Next"
 msgstr "텍스트(_T):"
 
-#: src/dialogs/dialog-stf-export.c:513
+#: src/dialogs/dialog-stf-export.c:514
 #, fuzzy
 msgid "_Finish"
 msgstr "마침(_I)"
 
-#: src/dialogs/dialog-stf-export.c:572
+#: src/dialogs/dialog-stf-export.c:573
 msgid "This workbook does not contain any exportable content."
 msgstr ""
 
@@ -21850,15 +21871,15 @@ msgstr "셀을 오른쪽으로 보내고 옮김(_T)"
 msgid "C_ancel"
 msgstr "취소(_A)"
 
-#: src/main-application.c:60 src/ssconvert.c:38
+#: src/main-application.c:60 src/ssconvert.c:41
 msgid "Display Gnumeric's version"
 msgstr "Gnumeric 버전 보이기"
 
-#: src/main-application.c:62 src/ssconvert.c:41
+#: src/main-application.c:62 src/ssconvert.c:44
 msgid "Set the root library directory"
 msgstr ""
 
-#: src/main-application.c:64 src/ssconvert.c:43
+#: src/main-application.c:64 src/ssconvert.c:46
 msgid "Adjust the root data directory"
 msgstr ""
 
@@ -22703,22 +22724,22 @@ msgid "_Remove Hyperlink"
 msgstr "제거(_R)"
 
 #. This is somewhat cheesy and should use ngettext
-#: src/sheet-control-gui.c:1958
+#: src/sheet-control-gui.c:1972
 #, fuzzy
 msgid "Duplicate Object"
 msgstr "빼끼기(_D)"
 
-#: src/sheet-control-gui.c:1958
+#: src/sheet-control-gui.c:1972
 #, fuzzy
 msgid "Insert Object"
 msgstr "객체 삽입"
 
-#: src/sheet-control-gui.c:1959
+#: src/sheet-control-gui.c:1973
 #, fuzzy
 msgid "Move Object"
 msgstr "객채 이동"
 
-#: src/sheet-control-gui.c:1959
+#: src/sheet-control-gui.c:1973
 #, fuzzy
 msgid "Resize Object"
 msgstr "선 그림"
@@ -22850,61 +22871,61 @@ msgstr "복사"
 msgid "Cut"
 msgstr "잘라내기"
 
-#: src/ssconvert.c:46
+#: src/ssconvert.c:49
 msgid "Optionally specify an encoding for imported content"
 msgstr ""
 
-#: src/ssconvert.c:46
+#: src/ssconvert.c:49
 msgid "ENCODING"
 msgstr ""
 
-#: src/ssconvert.c:48
+#: src/ssconvert.c:51
 msgid "Optionally specify which exporter to use"
 msgstr ""
 
-#: src/ssconvert.c:50
+#: src/ssconvert.c:53
 msgid "List the available exporters"
 msgstr ""
 
-#: src/ssconvert.c:52
+#: src/ssconvert.c:55
 msgid "List the available importers"
 msgstr ""
 
-#: src/ssconvert.c:54
+#: src/ssconvert.c:57
 msgid ""
 "Export a file for each sheet if the exporter only supports one sheet at a "
 "time."
 msgstr ""
 
-#: src/ssconvert.c:102
+#: src/ssconvert.c:105
 #, c-format
 msgid ""
 "Unknown exporter '%s'.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
 
-#: src/ssconvert.c:126
+#: src/ssconvert.c:129
 #, c-format
 msgid ""
 "Unable to guess exporter to use for '%s'.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
 
-#: src/ssconvert.c:133
+#: src/ssconvert.c:136
 #, c-format
 msgid ""
 "An output file name or an explicit export type is required.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
 
-#: src/ssconvert.c:147
+#: src/ssconvert.c:150
 #, c-format
 msgid ""
 "Selected exporter (%s) does not support saving multiple sheets in one file.\n"
 "Only the current sheet will be saved."
 msgstr ""
 
-#: src/ssconvert.c:174
+#: src/ssconvert.c:176
 #, fuzzy, c-format
 msgid ""
 "ssconvert version '%s'\n"
@@ -23543,7 +23564,7 @@ msgstr "입력"
 msgid "Maximum time exceeded. Simulation was not completed. "
 msgstr ""
 
-#: src/tools/solver/reports.c:328
+#: src/tools/solver/reports.c:327
 msgid ""
 "Model is too large for program report generation. Program report was not "
 "created."
@@ -23583,7 +23604,7 @@ msgstr ""
 msgid "Not Binding"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:178 src/tools/solver/reports-write.c:884
+#: src/tools/solver/reports-write.c:178 src/tools/solver/reports-write.c:887
 msgid "Assume that all variables are integers."
 msgstr ""
 
@@ -23883,32 +23904,32 @@ msgstr "계산 시간"
 msgid "System Information"
 msgstr "시스템 정보"
 
-#: src/tools/solver/reports-write.c:766 src/tools/solver/reports-write.c:904
+#: src/tools/solver/reports-write.c:766 src/tools/solver/reports-write.c:907
 msgid "Program Report"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:893
+#: src/tools/solver/reports-write.c:896
 msgid "Assume that all variables take only positive values."
 msgstr ""
 
-#: src/tools/solver/reports-write.c:909
+#: src/tools/solver/reports-write.c:912
 msgid "Minimize"
 msgstr "최소"
 
-#: src/tools/solver/reports-write.c:912
+#: src/tools/solver/reports-write.c:915
 msgid "Maximize"
 msgstr "최대"
 
-#: src/tools/solver/reports-write.c:915
+#: src/tools/solver/reports-write.c:918
 msgid "Equal to"
 msgstr ""
 
 #. Print `Subject to' title.
-#: src/tools/solver/reports-write.c:921
+#: src/tools/solver/reports-write.c:924
 msgid "Subject to"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:942 src/tools/solver/reports-write.c:955
+#: src/tools/solver/reports-write.c:945 src/tools/solver/reports-write.c:958
 msgid "Dual Program Report"
 msgstr ""
 
@@ -23924,7 +23945,29 @@ msgid ""
 "RHS entries."
 msgstr ""
 
-#: src/tools/solver/solver.c:523
+#: src/tools/solver/solver.c:465
+msgid "EqualTo models are not supported yet.  Please use Min or Max"
+msgstr ""
+
+#: src/tools/solver/solver.c:478
+msgid ""
+"Failure setting automatic scaling with this solver, try a different "
+"algorithm."
+msgstr ""
+
+#: src/tools/solver/solver.c:484
+msgid ""
+"Failure setting the maximum number of iterations with this solver, try a "
+"different algorithm."
+msgstr ""
+
+#: src/tools/solver/solver.c:490
+msgid ""
+"Failure setting setting the maximum solving time with this solver, try a "
+"different algorithm."
+msgstr ""
+
+#: src/tools/solver/solver.c:536
 msgid ""
 "Some of the input cells contain non-numeric values.  Specify a valid input "
 "range."
@@ -27076,38 +27119,38 @@ msgstr "지원하지 않는 파일 형식."
 msgid "An unexplained error happened while opening %s"
 msgstr ""
 
-#: src/xml-io.c:2763
+#: src/xml-io.c:2770
 #, fuzzy, c-format
 msgid "Unsupported object type '%s'"
 msgstr "지원되지 않는 파이썬 형식: %s"
 
-#: src/xml-io.c:3466
+#: src/xml-io.c:3473
 #, fuzzy
 msgid "Unparsable xml in clipboard"
 msgstr "클립보드 내용 붙이기"
 
-#: src/xml-io.c:3473
+#: src/xml-io.c:3480
 msgid "Clipboard is in unknown format"
 msgstr "모르는 클립보드 형식"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3913
+#: src/xml-io.c:3920
 msgid "Processing file..."
 msgstr "파일 처리중..."
 
-#: src/xml-io.c:4240
+#: src/xml-io.c:4247
 #, fuzzy
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "Gnumeric 워크북 파일이 아닙니다"
 
-#: src/xml-io.c:4277
+#: src/xml-io.c:4284
 #, fuzzy
 msgid "Failure saving file"
 msgstr "파일 닫기 에러, 에러: %s"
 
-#: src/xml-io.c:4322
+#: src/xml-io.c:4329
 msgid "Gnumeric XML (*.gnumeric) original slow exporter"
 msgstr ""
 
@@ -27304,6 +27347,10 @@ msgstr "샘플 갯수:"
 #, fuzzy
 msgid "A simple list template"
 msgstr "샘플 갯수:"
+
+#, fuzzy
+#~ msgid "Various"
+#~ msgstr "변수"
 
 #, fuzzy
 #~ msgid "Data Sources..."

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.71\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-01 22:00-0500\n"
+"POT-Creation-Date: 2004-11-07 01:25-0500\n"
 "PO-Revision-Date: 2003-08-31 22:07+0100\n"
 "Last-Translator: Jordi Negrevernis i Font <jorneg@retemail.es>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
@@ -1372,7 +1372,7 @@ msgid "Functions related to financial derivatives"
 msgstr "Les funcions relacionaven els subproductes financers"
 
 #: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5743
-#: plugins/mps/mps.c:547 src/xml-io.c:4192
+#: plugins/mps/mps.c:547 src/xml-io.c:4199
 msgid "Reading file..."
 msgstr "S'està llegint el fitxer..."
 
@@ -16866,8 +16866,8 @@ msgstr "Restriccions"
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1057
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:379
 #: src/dialogs/dialog-define-names.c:496 src/dialogs/dialog-formula-guru.c:800
-#: src/dialogs/dialog-function-select.c:445
-#: src/dialogs/dialog-function-select.c:467 src/dialogs/dialog-scenarios.c:368
+#: src/dialogs/dialog-function-select.c:443
+#: src/dialogs/dialog-function-select.c:465 src/dialogs/dialog-scenarios.c:368
 #: src/dialogs/dialog-simulation.c:217 src/dialogs/dialog-zoom.c:198
 #: src/format-template.c:247 src/tools/solver/reports-write.c:79
 #: src/tools/solver/reports-write.c:101 src/tools/solver/reports-write.c:128
@@ -16877,10 +16877,9 @@ msgstr "Restriccions"
 msgid "Name"
 msgstr "Nom"
 
-#: plugins/mps/mps.c:272 src/dialogs/dialog-preferences.c:459
-#: src/dialogs/dialog-simulation.c:222 src/tools/solver/reports-write.c:236
-#: src/tools/solver/reports-write.c:282 src/tools/solver/reports-write.c:394
-#: src/tools/solver/reports-write.c:401
+#: plugins/mps/mps.c:272 src/dialogs/dialog-simulation.c:222
+#: src/tools/solver/reports-write.c:236 src/tools/solver/reports-write.c:282
+#: src/tools/solver/reports-write.c:394 src/tools/solver/reports-write.c:401
 msgid "Value"
 msgstr "Valor"
 
@@ -17740,8 +17739,8 @@ msgstr "S'ha produït un error mentre s'obria el fitxer xbase."
 # src/functions/fn-sheet.c:104
 #: plugins/xbase/boot.c:175 src/commands.c:4906
 #: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:409
-#: src/dialogs/dialog-stf-export.c:443 src/dialogs/print.glade.h:21
-#: src/print-info.c:391 src/workbook.c:1091 src/xml-io.c:3782
+#: src/dialogs/dialog-stf-export.c:444 src/dialogs/print.glade.h:21
+#: src/print-info.c:391 src/workbook.c:1091 src/xml-io.c:3789
 msgid "Sheet"
 msgstr "Full"
 
@@ -17780,7 +17779,7 @@ msgid "EXPERIMENTAL SAX based XML"
 msgstr "EXPERIMENTAL SAX basat en XML"
 
 #
-#: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4318
+#: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4325
 #, fuzzy
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "INACABAT Gnumeric XML (*.gnumeric)"
@@ -18864,7 +18863,7 @@ msgstr "S'està especificant l'amplada de les columnes %s per defecte"
 msgid "Setting height of rows %s to default"
 msgstr "S'està especificant l'alçada de les files %s per defecte"
 
-#: src/commands.c:2089 src/dialogs/dialog-preferences.c:816
+#: src/commands.c:2089 src/dialogs/dialog-preferences.c:704
 msgid "Sorting"
 msgstr "S'està ordenant"
 
@@ -19171,7 +19170,7 @@ msgstr "Text a les columnes"
 #: src/commands.c:6652 src/dialogs/solver.glade.h:17
 #: src/tools/solver/reports-write.c:193 src/tools/solver/reports-write.c:354
 #: src/tools/solver/reports-write.c:484 src/tools/solver/reports-write.c:743
-#: src/tools/solver/reports-write.c:904 src/tools/solver/reports-write.c:955
+#: src/tools/solver/reports-write.c:907 src/tools/solver/reports-write.c:958
 msgid "Solver"
 msgstr "Solucionador"
 
@@ -19624,7 +19623,7 @@ msgid "%d x %d"
 msgstr "%dR x %dC"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:881
-#: src/dialogs/cell-format.glade.h:48 src/dialogs/dialog-preferences.c:812
+#: src/dialogs/cell-format.glade.h:48 src/dialogs/dialog-preferences.c:697
 msgid "Font"
 msgstr "Tipus de lletra"
 
@@ -23194,11 +23193,11 @@ msgstr "Funció/Argument"
 msgid "Could not create the formula guru."
 msgstr "No s'ha pogut crear la fòrmula guru."
 
-#: src/dialogs/dialog-function-select.c:212
+#: src/dialogs/dialog-function-select.c:210
 msgid "Recently Used"
 msgstr "Recentment Utilitzat"
 
-#: src/dialogs/dialog-function-select.c:217
+#: src/dialogs/dialog-function-select.c:215
 #, fuzzy
 msgid "All Functions (long list)"
 msgstr "Funció inexistent"
@@ -23340,16 +23339,16 @@ msgstr "Inserta"
 msgid "Could not create the Insert Cell dialog."
 msgstr "No s'ha pogut crear el diàleg de Cel la d'Inserció."
 
-#: src/dialogs/dialog-merge.c:265
+#: src/dialogs/dialog-merge.c:264
 msgid "One field is not part of the merge zone!"
 msgstr "Un camp no és part de la zona del marge!"
 
-#: src/dialogs/dialog-merge.c:267
+#: src/dialogs/dialog-merge.c:266
 #, c-format
 msgid "%i fields are not part of the merge zone!"
 msgstr "els %i camps no són part de la zona del marge!"
 
-#: src/dialogs/dialog-merge.c:284
+#: src/dialogs/dialog-merge.c:283
 #, c-format
 msgid ""
 "The data columns range in length from %i to %i. Shall we trim the lengths to "
@@ -23359,12 +23358,12 @@ msgstr ""
 "queajustem la seva llargària a %i i procedim?"
 
 #
-#: src/dialogs/dialog-merge.c:393
+#: src/dialogs/dialog-merge.c:392
 msgid "Input Data"
 msgstr "Dada d'Entrada"
 
 #
-#: src/dialogs/dialog-merge.c:400
+#: src/dialogs/dialog-merge.c:399
 msgid "Merge Field"
 msgstr "Fusiona les cel·les"
 
@@ -23532,7 +23531,7 @@ msgid "Plugin name"
 msgstr "Nom del Connector"
 
 #: src/dialogs/dialog-plugin-manager.c:732
-#: src/dialogs/dialog-preferences.c:451 src/dialogs/function-select.glade.h:2
+#: src/dialogs/function-select.glade.h:2
 msgid "Description"
 msgstr "Descripció"
 
@@ -23544,12 +23543,12 @@ msgstr "ID"
 msgid "Directory"
 msgstr "Directori"
 
-#: src/dialogs/dialog-preferences.c:655
+#: src/dialogs/dialog-preferences.c:442
 msgid "The items on this page customize the behaviour of the undo/redo system."
 msgstr ""
 "Els elements en aquesta pàgina personalitzen l'entorn del sistema undo/redo."
 
-#: src/dialogs/dialog-preferences.c:690
+#: src/dialogs/dialog-preferences.c:477
 msgid ""
 "The items on this page customize the inital settings of the sort dialog and "
 "the behaviour of the sort toolbar buttons."
@@ -23557,43 +23556,73 @@ msgstr ""
 "Els elements en aquesta pàgina personalitzen les configuracions inicials "
 "deldiàleg i de l'entorn dels botons de la barra d'eines"
 
-#: src/dialogs/dialog-preferences.c:728
+#: src/dialogs/dialog-preferences.c:515
 msgid "The items on this page customize the new default workbook."
 msgstr ""
 "Els elements en aquest pàgina personalitzen el nou llibre de treball "
 "perdefecte."
 
-#: src/dialogs/dialog-preferences.c:768
+#: src/dialogs/dialog-preferences.c:555
 msgid "The items on this page are related to the saving and opening of files."
 msgstr ""
 "Els elements en aquesta pàgina estan relacionats amb els fitxers oberts "
 "idesats."
 
-#: src/dialogs/dialog-preferences.c:813
+#: src/dialogs/dialog-preferences.c:593
 #, fuzzy
-msgid "Windows"
-msgstr "Amaga files"
+msgid "The items on this page are related to the screen layout and resolution."
+msgstr ""
+"Els elements en aquesta pàgina estan relacionats amb els fitxers oberts "
+"idesats."
 
-#: src/dialogs/dialog-preferences.c:814
+#: src/dialogs/dialog-preferences.c:625
+#, fuzzy
+msgid ""
+"The items on this page and its subpages are related to various gnumeric "
+"tools."
+msgstr ""
+"Els elements en aquesta pàgina estan relacionats amb els fitxers oberts "
+"idesats."
+
+#: src/dialogs/dialog-preferences.c:660
+#, fuzzy
+msgid "The items on this page arerelated to copy. cut and paste."
+msgstr ""
+"Els elements en aquesta pàgina estan relacionats amb els fitxers oberts "
+"idesats."
+
+#: src/dialogs/dialog-preferences.c:698
+msgid "Copy and Paste"
+msgstr ""
+
+#: src/dialogs/dialog-preferences.c:699
 #, fuzzy
 msgid "Files"
 msgstr "_Fitxer"
 
-#: src/dialogs/dialog-preferences.c:815 src/wbc-gtk.c:472
+#: src/dialogs/dialog-preferences.c:700
+#, fuzzy
+msgid "Tools"
+msgstr "_Eines"
+
+#: src/dialogs/dialog-preferences.c:701 src/wbc-gtk.c:472
 msgid "Undo"
 msgstr "Desfés"
 
-#
-#: src/dialogs/dialog-preferences.c:817
+#: src/dialogs/dialog-preferences.c:702
 #, fuzzy
-msgid "Various"
-msgstr "Variables"
+msgid "Windows"
+msgstr "Amaga files"
 
-#. {N_("Internal"),      GTK_STOCK_DIALOG_ERROR,    "5",  &pref_tree_initializer,		&pref_tree_page_open,	pref_tree_data_danger},
-#: src/dialogs/dialog-preferences.c:819
+#: src/dialogs/dialog-preferences.c:703
 #, fuzzy
 msgid "Header/Footer"
 msgstr "Capçaleres i peus de pàgina"
+
+#: src/dialogs/dialog-preferences.c:705
+#, fuzzy
+msgid "Screen"
+msgstr "Pantalla %d"
 
 #
 #: src/dialogs/dialog-printer-setup.c:873
@@ -24067,21 +24096,21 @@ msgstr ""
 msgid "Could not create the Simulation dialog."
 msgstr "No s'ha pogut crear el diàleg de la Simulació."
 
-#: src/dialogs/dialog-solver.c:107
+#: src/dialogs/dialog-solver.c:109
 #, fuzzy
 msgid "Simplex (LP Solve 5.0)"
 msgstr "Simplex (LP Solve 3.2)"
 
-#: src/dialogs/dialog-solver.c:108
+#: src/dialogs/dialog-solver.c:110
 #, fuzzy
 msgid "Revised Simplex (GLPK 4.5)"
 msgstr "Revised Simplex (GLPK 3.2)"
 
-#: src/dialogs/dialog-solver.c:109
+#: src/dialogs/dialog-solver.c:111
 msgid "< Not available >"
 msgstr "< Not disponible >"
 
-#: src/dialogs/dialog-solver.c:451
+#: src/dialogs/dialog-solver.c:392
 msgid ""
 "Looking for a subject for your thesis? Maybe you would like to write a QP "
 "solver for Gnumeric?"
@@ -24089,7 +24118,7 @@ msgstr ""
 "Buscant una tema per a la teva tesis? Potser vols t'agradaria escriure un "
 "solventador QP per al Gnumeric?"
 
-#: src/dialogs/dialog-solver.c:803
+#: src/dialogs/dialog-solver.c:698
 msgid ""
 "Solver found an optimal solution.  All constraints and optimality conditions "
 "are satisfied.\n"
@@ -24097,7 +24126,7 @@ msgstr ""
 "El solucionador ha trobat una solució òptima. Totes les "
 "condicionsoptimitzades s'han satisfet.\n"
 
-#: src/dialogs/dialog-solver.c:812
+#: src/dialogs/dialog-solver.c:707
 #, fuzzy
 msgid ""
 "Neither sensitivity nor limits report are meaningful if the program has "
@@ -24106,14 +24135,14 @@ msgstr ""
 "Ni l'informe de sensitivititat ni el de límits tenen sentit si el programa "
 "té restriccions enteres. Per tant, no es crearan."
 
-#: src/dialogs/dialog-solver.c:830
+#: src/dialogs/dialog-solver.c:725
 msgid ""
 "The Target Cell value specified does not converge!  The program is unbounded."
 msgstr ""
 "El valor especificat de la Cel·la Objectiu no convergeix! El programa no "
 "està acotat."
 
-#: src/dialogs/dialog-solver.c:844
+#: src/dialogs/dialog-solver.c:739
 msgid ""
 "A feasible solution could not be found.  All specified constraints cannot be "
 "met simultaneously. "
@@ -24121,7 +24150,7 @@ msgstr ""
 "No s'ha pogut trobat una solució possible. Totes les restriccions no "
 "s'acompleix simultàniament."
 
-#: src/dialogs/dialog-solver.c:859
+#: src/dialogs/dialog-solver.c:754
 msgid ""
 "The maximum number of iterations exceeded. The optimal value could not be "
 "found."
@@ -24129,35 +24158,35 @@ msgstr ""
 "S'ha excedit el número màxim d'iteracions. No s'ha pogut trobat el valor "
 "òptim."
 
-#: src/dialogs/dialog-solver.c:899
+#: src/dialogs/dialog-solver.c:798
 msgid "Optimal solution created by solver.\n"
 msgstr "Solució òptima creada per solventador.\n"
 
 #
-#: src/dialogs/dialog-solver.c:933
+#: src/dialogs/dialog-solver.c:832
 msgid "Unknown error."
 msgstr "Error desconegut"
 
-#: src/dialogs/dialog-solver.c:952
+#: src/dialogs/dialog-solver.c:851
 msgid "You have not specified a problem to be solved"
 msgstr "No has especificat cap problema per a resoldre"
 
 #
-#: src/dialogs/dialog-solver.c:971 src/tools/solver/solver.c:377
+#: src/dialogs/dialog-solver.c:870 src/tools/solver/solver.c:377
 msgid "Target cell should contain a formula."
 msgstr "La cel la seleccionada ha de tenir una fòrmula."
 
-#: src/dialogs/dialog-solver.c:1050
+#: src/dialogs/dialog-solver.c:948
 #, c-format
 msgid "Constraint `%s' is for a cell that is not an input cell."
 msgstr ""
 "La restricció '%s' és per una cel·la que no sigui una cel·la d'entrada."
 
-#: src/dialogs/dialog-solver.c:1072
+#: src/dialogs/dialog-solver.c:970
 msgid "No constraints defined for the problem."
 msgstr "No s'ha definit les restriccions per al problema."
 
-#: src/dialogs/dialog-solver.c:1129
+#: src/dialogs/dialog-solver.c:1030
 msgid ""
 "The maximum time exceeded. The optimal value could not be found in given "
 "time."
@@ -24165,12 +24194,12 @@ msgstr ""
 "S'ha excedit el temps màxim. El valor òptim no s'ha pogut trobar en elstemps "
 "donat."
 
-#: src/dialogs/dialog-solver.c:1328
+#: src/dialogs/dialog-solver.c:1236
 msgid "Subject to the Constraints:"
 msgstr "Subjecte a les Restriccions:"
 
 #
-#: src/dialogs/dialog-solver.c:1444
+#: src/dialogs/dialog-solver.c:1352
 msgid "Could not create the Solver dialog."
 msgstr "No s'ha pogut crear el diàleg del Solucionador."
 
@@ -24179,25 +24208,25 @@ msgid "Are you sure you want to cancel?"
 msgstr "Esteu segur que voleu cancel·lar?"
 
 #
-#: src/dialogs/dialog-stf-export.c:437
+#: src/dialogs/dialog-stf-export.c:438
 #, fuzzy
 msgid "Export"
 msgstr "Informe"
 
 #
-#: src/dialogs/dialog-stf-export.c:510
+#: src/dialogs/dialog-stf-export.c:511
 #: src/dialogs/dialog-stf-export.glade.h:39
 #, fuzzy
 msgid "_Next"
 msgstr "_Text:"
 
 #
-#: src/dialogs/dialog-stf-export.c:513
+#: src/dialogs/dialog-stf-export.c:514
 #, fuzzy
 msgid "_Finish"
 msgstr "_Bins"
 
-#: src/dialogs/dialog-stf-export.c:572
+#: src/dialogs/dialog-stf-export.c:573
 msgid "This workbook does not contain any exportable content."
 msgstr ""
 
@@ -27994,15 +28023,15 @@ msgstr "Canvia a la Dret_a i Mou"
 msgid "C_ancel"
 msgstr "C_ancel·la"
 
-#: src/main-application.c:60 src/ssconvert.c:38
+#: src/main-application.c:60 src/ssconvert.c:41
 msgid "Display Gnumeric's version"
 msgstr "Mostra la versió del Gnumeric"
 
-#: src/main-application.c:62 src/ssconvert.c:41
+#: src/main-application.c:62 src/ssconvert.c:44
 msgid "Set the root library directory"
 msgstr "Especifica el directori arrel de la llibreria"
 
-#: src/main-application.c:64 src/ssconvert.c:43
+#: src/main-application.c:64 src/ssconvert.c:46
 msgid "Adjust the root data directory"
 msgstr "Ajusta el directori arrel de les dades"
 
@@ -28868,24 +28897,24 @@ msgid "_Remove Hyperlink"
 msgstr "_Suprimeix l'hiperenllaç"
 
 #. This is somewhat cheesy and should use ngettext
-#: src/sheet-control-gui.c:1958
+#: src/sheet-control-gui.c:1972
 #, fuzzy
 msgid "Duplicate Object"
 msgstr "_Duplica"
 
 #
-#: src/sheet-control-gui.c:1958
+#: src/sheet-control-gui.c:1972
 #, fuzzy
 msgid "Insert Object"
 msgstr "Insereix un objecte"
 
-#: src/sheet-control-gui.c:1959
+#: src/sheet-control-gui.c:1973
 #, fuzzy
 msgid "Move Object"
 msgstr "Mou l'objecte"
 
 #
-#: src/sheet-control-gui.c:1959
+#: src/sheet-control-gui.c:1973
 #, fuzzy
 msgid "Resize Object"
 msgstr "Redimensiona l'objecte"
@@ -29019,61 +29048,61 @@ msgstr "Copia"
 msgid "Cut"
 msgstr "Retalla"
 
-#: src/ssconvert.c:46
+#: src/ssconvert.c:49
 msgid "Optionally specify an encoding for imported content"
 msgstr ""
 
-#: src/ssconvert.c:46
+#: src/ssconvert.c:49
 msgid "ENCODING"
 msgstr ""
 
-#: src/ssconvert.c:48
+#: src/ssconvert.c:51
 msgid "Optionally specify which exporter to use"
 msgstr ""
 
-#: src/ssconvert.c:50
+#: src/ssconvert.c:53
 msgid "List the available exporters"
 msgstr ""
 
-#: src/ssconvert.c:52
+#: src/ssconvert.c:55
 msgid "List the available importers"
 msgstr ""
 
-#: src/ssconvert.c:54
+#: src/ssconvert.c:57
 msgid ""
 "Export a file for each sheet if the exporter only supports one sheet at a "
 "time."
 msgstr ""
 
-#: src/ssconvert.c:102
+#: src/ssconvert.c:105
 #, c-format
 msgid ""
 "Unknown exporter '%s'.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
 
-#: src/ssconvert.c:126
+#: src/ssconvert.c:129
 #, c-format
 msgid ""
 "Unable to guess exporter to use for '%s'.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
 
-#: src/ssconvert.c:133
+#: src/ssconvert.c:136
 #, c-format
 msgid ""
 "An output file name or an explicit export type is required.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
 
-#: src/ssconvert.c:147
+#: src/ssconvert.c:150
 #, c-format
 msgid ""
 "Selected exporter (%s) does not support saving multiple sheets in one file.\n"
 "Only the current sheet will be saved."
 msgstr ""
 
-#: src/ssconvert.c:174
+#: src/ssconvert.c:176
 #, fuzzy, c-format
 msgid ""
 "ssconvert version '%s'\n"
@@ -29752,7 +29781,7 @@ msgstr "(Entrada)"
 msgid "Maximum time exceeded. Simulation was not completed. "
 msgstr "S'ha excedit el temps màxim: optmització interrompuda"
 
-#: src/tools/solver/reports.c:328
+#: src/tools/solver/reports.c:327
 msgid ""
 "Model is too large for program report generation. Program report was not "
 "created."
@@ -29794,7 +29823,7 @@ msgstr "Obligatori"
 msgid "Not Binding"
 msgstr "No obligatori"
 
-#: src/tools/solver/reports-write.c:178 src/tools/solver/reports-write.c:884
+#: src/tools/solver/reports-write.c:178 src/tools/solver/reports-write.c:887
 #, fuzzy
 msgid "Assume that all variables are integers."
 msgstr "Assumeix que totes les variables són senceres."
@@ -30102,35 +30131,35 @@ msgstr "L'Hora de l'Ordinador"
 msgid "System Information"
 msgstr "Informació del Sistema"
 
-#: src/tools/solver/reports-write.c:766 src/tools/solver/reports-write.c:904
+#: src/tools/solver/reports-write.c:766 src/tools/solver/reports-write.c:907
 msgid "Program Report"
 msgstr "Informe del Programa"
 
-#: src/tools/solver/reports-write.c:893
+#: src/tools/solver/reports-write.c:896
 msgid "Assume that all variables take only positive values."
 msgstr "Assumeix que totes les variables prenen sol valors positius."
 
 #
-#: src/tools/solver/reports-write.c:909
+#: src/tools/solver/reports-write.c:912
 msgid "Minimize"
 msgstr "Minimitza"
 
 #
-#: src/tools/solver/reports-write.c:912
+#: src/tools/solver/reports-write.c:915
 msgid "Maximize"
 msgstr "Maximitza"
 
 #
-#: src/tools/solver/reports-write.c:915
+#: src/tools/solver/reports-write.c:918
 msgid "Equal to"
 msgstr "Igual a"
 
 #. Print `Subject to' title.
-#: src/tools/solver/reports-write.c:921
+#: src/tools/solver/reports-write.c:924
 msgid "Subject to"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:942 src/tools/solver/reports-write.c:955
+#: src/tools/solver/reports-write.c:945 src/tools/solver/reports-write.c:958
 msgid "Dual Program Report"
 msgstr "Informe del Programa Dual"
 
@@ -30150,7 +30179,31 @@ msgstr ""
 "Les cel les han de contindre solament valors numèrics propers. Especificales "
 "entrades RHS vàlides"
 
-#: src/tools/solver/solver.c:523
+#: src/tools/solver/solver.c:465
+msgid "EqualTo models are not supported yet.  Please use Min or Max"
+msgstr ""
+
+#: src/tools/solver/solver.c:478
+msgid ""
+"Failure setting automatic scaling with this solver, try a different "
+"algorithm."
+msgstr ""
+
+#: src/tools/solver/solver.c:484
+#, fuzzy
+msgid ""
+"Failure setting the maximum number of iterations with this solver, try a "
+"different algorithm."
+msgstr ""
+"Aquest valor determina el número màxim d'elements en la llista Desfer/Refer."
+
+#: src/tools/solver/solver.c:490
+msgid ""
+"Failure setting setting the maximum solving time with this solver, try a "
+"different algorithm."
+msgstr ""
+
+#: src/tools/solver/solver.c:536
 msgid ""
 "Some of the input cells contain non-numeric values.  Specify a valid input "
 "range."
@@ -33455,18 +33508,18 @@ msgstr "Format de fitxer no implementat"
 msgid "An unexplained error happened while opening %s"
 msgstr "S'ha produït un error no explicat obrint %s"
 
-#: src/xml-io.c:2763
+#: src/xml-io.c:2770
 #, fuzzy, c-format
 msgid "Unsupported object type '%s'"
 msgstr "Tipus de carregador \"%s\" no permès."
 
 #
-#: src/xml-io.c:3466
+#: src/xml-io.c:3473
 msgid "Unparsable xml in clipboard"
 msgstr "Xml no analitzable en el porta-retalls"
 
 #
-#: src/xml-io.c:3473
+#: src/xml-io.c:3480
 msgid "Clipboard is in unknown format"
 msgstr "El portaretalls és d'un format desconegut"
 
@@ -33474,21 +33527,21 @@ msgstr "El portaretalls és d'un format desconegut"
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3913
+#: src/xml-io.c:3920
 msgid "Processing file..."
 msgstr "Processant el fitxer..."
 
-#: src/xml-io.c:4240
+#: src/xml-io.c:4247
 #, fuzzy
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "No és un fitxer de llibre de treball del Gnumeric"
 
-#: src/xml-io.c:4277
+#: src/xml-io.c:4284
 #, fuzzy
 msgid "Failure saving file"
 msgstr "S'ha produït un error en desar el fitxer."
 
-#: src/xml-io.c:4322
+#: src/xml-io.c:4329
 msgid "Gnumeric XML (*.gnumeric) original slow exporter"
 msgstr ""
 
@@ -33688,6 +33741,11 @@ msgstr "Nom de la plantilla"
 #, fuzzy
 msgid "A simple list template"
 msgstr "Nom de la plantilla"
+
+#
+#, fuzzy
+#~ msgid "Various"
+#~ msgstr "Variables"
 
 # src/functions/fn-stat.c:184
 #

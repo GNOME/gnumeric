@@ -124,7 +124,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-01 22:00-0500\n"
+"POT-Creation-Date: 2004-11-07 01:25-0500\n"
 "PO-Revision-Date: 2004-10-29 17:58+0200\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: nl <vertaling@nl.linux.org>\n"
@@ -1704,7 +1704,7 @@ msgid "Functions related to financial derivatives"
 msgstr "Functies gerelateerd aan financieel afgeleiden"
 
 #: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5743
-#: plugins/mps/mps.c:547 src/xml-io.c:4192
+#: plugins/mps/mps.c:547 src/xml-io.c:4199
 msgid "Reading file..."
 msgstr "Bezig met lezen bestand..."
 
@@ -18434,8 +18434,8 @@ msgstr "Voorwaarden:"
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1057
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:379
 #: src/dialogs/dialog-define-names.c:496 src/dialogs/dialog-formula-guru.c:800
-#: src/dialogs/dialog-function-select.c:445
-#: src/dialogs/dialog-function-select.c:467 src/dialogs/dialog-scenarios.c:368
+#: src/dialogs/dialog-function-select.c:443
+#: src/dialogs/dialog-function-select.c:465 src/dialogs/dialog-scenarios.c:368
 #: src/dialogs/dialog-simulation.c:217 src/dialogs/dialog-zoom.c:198
 #: src/format-template.c:247 src/tools/solver/reports-write.c:79
 #: src/tools/solver/reports-write.c:101 src/tools/solver/reports-write.c:128
@@ -18445,10 +18445,9 @@ msgstr "Voorwaarden:"
 msgid "Name"
 msgstr "Naam"
 
-#: plugins/mps/mps.c:272 src/dialogs/dialog-preferences.c:459
-#: src/dialogs/dialog-simulation.c:222 src/tools/solver/reports-write.c:236
-#: src/tools/solver/reports-write.c:282 src/tools/solver/reports-write.c:394
-#: src/tools/solver/reports-write.c:401
+#: plugins/mps/mps.c:272 src/dialogs/dialog-simulation.c:222
+#: src/tools/solver/reports-write.c:236 src/tools/solver/reports-write.c:282
+#: src/tools/solver/reports-write.c:394 src/tools/solver/reports-write.c:401
 msgid "Value"
 msgstr "Waarde"
 
@@ -19271,8 +19270,8 @@ msgstr "Fout bij het openen van xbase bestand"
 # werkblad?
 #: plugins/xbase/boot.c:175 src/commands.c:4906
 #: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:409
-#: src/dialogs/dialog-stf-export.c:443 src/dialogs/print.glade.h:21
-#: src/print-info.c:391 src/workbook.c:1091 src/xml-io.c:3782
+#: src/dialogs/dialog-stf-export.c:444 src/dialogs/print.glade.h:21
+#: src/print-info.c:391 src/workbook.c:1091 src/xml-io.c:3789
 msgid "Sheet"
 msgstr "Blad"
 
@@ -19311,7 +19310,7 @@ msgstr "EXPERIMENTAL SAX gebaseerde Gnumeric (*.gnumeric)"
 msgid "EXPERIMENTAL SAX based XML"
 msgstr "EXPERIMENTAL SAX gebaseerde XML"
 
-#: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4318
+#: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4325
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Gnumeric XML (*.gnumeric)"
 
@@ -20376,7 +20375,7 @@ msgid "Setting height of rows %s to default"
 msgstr "Instellen van rijen %s op standaardhoogte"
 
 # dit is een item van het voorkeurs-venster
-#: src/commands.c:2089 src/dialogs/dialog-preferences.c:816
+#: src/commands.c:2089 src/dialogs/dialog-preferences.c:704
 msgid "Sorting"
 msgstr "Sorteren"
 
@@ -20667,7 +20666,7 @@ msgstr "Tekst (%s) naar kolommen (%s)"
 #: src/commands.c:6652 src/dialogs/solver.glade.h:17
 #: src/tools/solver/reports-write.c:193 src/tools/solver/reports-write.c:354
 #: src/tools/solver/reports-write.c:484 src/tools/solver/reports-write.c:743
-#: src/tools/solver/reports-write.c:904 src/tools/solver/reports-write.c:955
+#: src/tools/solver/reports-write.c:907 src/tools/solver/reports-write.c:958
 msgid "Solver"
 msgstr "Oplosser"
 
@@ -21074,7 +21073,7 @@ msgid "%d x %d"
 msgstr "%d x %d"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:881
-#: src/dialogs/cell-format.glade.h:48 src/dialogs/dialog-preferences.c:812
+#: src/dialogs/cell-format.glade.h:48 src/dialogs/dialog-preferences.c:697
 msgid "Font"
 msgstr "Lettertype"
 
@@ -24421,11 +24420,11 @@ msgstr "Functie/Argument"
 msgid "Could not create the formula guru."
 msgstr "Kon de formule-goeroe niet oproepen."
 
-#: src/dialogs/dialog-function-select.c:212
+#: src/dialogs/dialog-function-select.c:210
 msgid "Recently Used"
 msgstr "Pas Gebruikt"
 
-#: src/dialogs/dialog-function-select.c:217
+#: src/dialogs/dialog-function-select.c:215
 msgid "All Functions (long list)"
 msgstr "Alle functies (lange lijst)"
 
@@ -24553,16 +24552,16 @@ msgstr "Invoegen"
 msgid "Could not create the Insert Cell dialog."
 msgstr "Kon het Cel Invoegen dialoogvenster niet maken."
 
-#: src/dialogs/dialog-merge.c:265
+#: src/dialogs/dialog-merge.c:264
 msgid "One field is not part of the merge zone!"
 msgstr "Een veld is geen deel van de samenvoegingszone!"
 
-#: src/dialogs/dialog-merge.c:267
+#: src/dialogs/dialog-merge.c:266
 #, c-format
 msgid "%i fields are not part of the merge zone!"
 msgstr "%i velden zijn geen deel van de samenvoegingszone!"
 
-#: src/dialogs/dialog-merge.c:284
+#: src/dialogs/dialog-merge.c:283
 #, c-format
 msgid ""
 "The data columns range in length from %i to %i. Shall we trim the lengths to "
@@ -24571,11 +24570,11 @@ msgstr ""
 "De datakolommen variëren in lengte van %i tot %i. Zullen we de lengte "
 "inkorten tot %i en verdergaan?"
 
-#: src/dialogs/dialog-merge.c:393
+#: src/dialogs/dialog-merge.c:392
 msgid "Input Data"
 msgstr "Invoergegevens"
 
-#: src/dialogs/dialog-merge.c:400
+#: src/dialogs/dialog-merge.c:399
 msgid "Merge Field"
 msgstr "Samenvoegen Veld"
 
@@ -24732,7 +24731,7 @@ msgid "Plugin name"
 msgstr "Pluginnaam"
 
 #: src/dialogs/dialog-plugin-manager.c:732
-#: src/dialogs/dialog-preferences.c:451 src/dialogs/function-select.glade.h:2
+#: src/dialogs/function-select.glade.h:2
 msgid "Description"
 msgstr "Beschrijving"
 
@@ -24744,13 +24743,13 @@ msgstr "ID"
 msgid "Directory"
 msgstr "Map"
 
-#: src/dialogs/dialog-preferences.c:655
+#: src/dialogs/dialog-preferences.c:442
 msgid "The items on this page customize the behaviour of the undo/redo system."
 msgstr ""
 "De items op deze pagina bepalen het gedrag van het herstellen/herhalen "
 "systeem."
 
-#: src/dialogs/dialog-preferences.c:690
+#: src/dialogs/dialog-preferences.c:477
 msgid ""
 "The items on this page customize the inital settings of the sort dialog and "
 "the behaviour of the sort toolbar buttons."
@@ -24759,39 +24758,69 @@ msgstr ""
 "dialoogvenster en\n"
 "het gedrag van de sorteerknoppen op de knoppenbalk."
 
-#: src/dialogs/dialog-preferences.c:728
+#: src/dialogs/dialog-preferences.c:515
 msgid "The items on this page customize the new default workbook."
 msgstr ""
 "De items op deze pagina bepalen de standaard vorm van een nieuwe werkmap."
 
-#: src/dialogs/dialog-preferences.c:768
+#: src/dialogs/dialog-preferences.c:555
 msgid "The items on this page are related to the saving and opening of files."
 msgstr ""
 "De items op deze pagina hebben te maken met het opslaan en het openen van "
 "bestanden."
 
-#: src/dialogs/dialog-preferences.c:813
-msgid "Windows"
-msgstr "Vensters"
+#: src/dialogs/dialog-preferences.c:593
+#, fuzzy
+msgid "The items on this page are related to the screen layout and resolution."
+msgstr ""
+"De items op deze pagina hebben te maken met het opslaan en het openen van "
+"bestanden."
 
-#: src/dialogs/dialog-preferences.c:814
+#: src/dialogs/dialog-preferences.c:625
+#, fuzzy
+msgid ""
+"The items on this page and its subpages are related to various gnumeric "
+"tools."
+msgstr ""
+"De items op deze pagina hebben te maken met het opslaan en het openen van "
+"bestanden."
+
+#: src/dialogs/dialog-preferences.c:660
+#, fuzzy
+msgid "The items on this page arerelated to copy. cut and paste."
+msgstr ""
+"De items op deze pagina hebben te maken met het opslaan en het openen van "
+"bestanden."
+
+#: src/dialogs/dialog-preferences.c:698
+msgid "Copy and Paste"
+msgstr ""
+
+#: src/dialogs/dialog-preferences.c:699
 msgid "Files"
 msgstr "Bestanden"
 
-#: src/dialogs/dialog-preferences.c:815 src/wbc-gtk.c:472
+#: src/dialogs/dialog-preferences.c:700
+#, fuzzy
+msgid "Tools"
+msgstr "E_xtra"
+
+#: src/dialogs/dialog-preferences.c:701 src/wbc-gtk.c:472
 msgid "Undo"
 msgstr "Ongedaan maken"
 
-# Verscheidene is een betere vertaling, maar het staat heel stom
-# in het dialoogvenster.
-#: src/dialogs/dialog-preferences.c:817
-msgid "Various"
-msgstr "Overige"
+#: src/dialogs/dialog-preferences.c:702
+msgid "Windows"
+msgstr "Vensters"
 
-#. {N_("Internal"),      GTK_STOCK_DIALOG_ERROR,    "5",  &pref_tree_initializer,		&pref_tree_page_open,	pref_tree_data_danger},
-#: src/dialogs/dialog-preferences.c:819
+#: src/dialogs/dialog-preferences.c:703
 msgid "Header/Footer"
 msgstr "Kop/voet"
+
+#: src/dialogs/dialog-preferences.c:705
+#, fuzzy
+msgid "Screen"
+msgstr "Scherm %d"
 
 #: src/dialogs/dialog-printer-setup.c:873
 msgid "Customize header"
@@ -25230,19 +25259,19 @@ msgstr ""
 msgid "Could not create the Simulation dialog."
 msgstr "Kon het Simulatie-dialoogvenster niet maken."
 
-#: src/dialogs/dialog-solver.c:107
+#: src/dialogs/dialog-solver.c:109
 msgid "Simplex (LP Solve 5.0)"
 msgstr "Simplex (LP Solve 5.0)"
 
-#: src/dialogs/dialog-solver.c:108
+#: src/dialogs/dialog-solver.c:110
 msgid "Revised Simplex (GLPK 4.5)"
 msgstr "Gereviseerde Simplex (GLPK 4.5)"
 
-#: src/dialogs/dialog-solver.c:109
+#: src/dialogs/dialog-solver.c:111
 msgid "< Not available >"
 msgstr "< Niet beschikbaar >"
 
-#: src/dialogs/dialog-solver.c:451
+#: src/dialogs/dialog-solver.c:392
 msgid ""
 "Looking for a subject for your thesis? Maybe you would like to write a QP "
 "solver for Gnumeric?"
@@ -25250,7 +25279,7 @@ msgstr ""
 "Nog op zoek naar een onderwerp voor uw scriptie? Misschien wilt u een QP-"
 "oplosser schrijven voor Gnumeric?"
 
-#: src/dialogs/dialog-solver.c:803
+#: src/dialogs/dialog-solver.c:698
 msgid ""
 "Solver found an optimal solution.  All constraints and optimality conditions "
 "are satisfied.\n"
@@ -25259,7 +25288,7 @@ msgstr ""
 "optimaliserings voorwaarden is voldaan.\n"
 
 # Getallen-voorwaarden?
-#: src/dialogs/dialog-solver.c:812
+#: src/dialogs/dialog-solver.c:707
 msgid ""
 "Neither sensitivity nor limits report are meaningful if the program has "
 "integer constraints.  These reports will not be created."
@@ -25268,12 +25297,12 @@ msgstr ""
 "\"integer constraints\" heeft. Deze rapporten zullen dus niet worden "
 "gegenereerd."
 
-#: src/dialogs/dialog-solver.c:830
+#: src/dialogs/dialog-solver.c:725
 msgid ""
 "The Target Cell value specified does not converge!  The program is unbounded."
 msgstr "De Doelcel-waarde convergeert niet! Het programma is onbegrenst."
 
-#: src/dialogs/dialog-solver.c:844
+#: src/dialogs/dialog-solver.c:739
 msgid ""
 "A feasible solution could not be found.  All specified constraints cannot be "
 "met simultaneously. "
@@ -25281,7 +25310,7 @@ msgstr ""
 "Een geschikte oplossing kon niet worden gevonden. Er kan niet gelijktijdig "
 "aan alle opgegeven voorwaarden worden voldaan."
 
-#: src/dialogs/dialog-solver.c:859
+#: src/dialogs/dialog-solver.c:754
 msgid ""
 "The maximum number of iterations exceeded. The optimal value could not be "
 "found."
@@ -25289,32 +25318,32 @@ msgstr ""
 "Het maximale aantal iteraties is verlopen. De optimale waarde kon niet "
 "worden gevonden."
 
-#: src/dialogs/dialog-solver.c:899
+#: src/dialogs/dialog-solver.c:798
 msgid "Optimal solution created by solver.\n"
 msgstr "Optimale oplossing gevonden door de oplosser.\n"
 
-#: src/dialogs/dialog-solver.c:933
+#: src/dialogs/dialog-solver.c:832
 msgid "Unknown error."
 msgstr "Onbekende fout."
 
-#: src/dialogs/dialog-solver.c:952
+#: src/dialogs/dialog-solver.c:851
 msgid "You have not specified a problem to be solved"
 msgstr "U heeft geen probleem opgegeven om op te lossen"
 
-#: src/dialogs/dialog-solver.c:971 src/tools/solver/solver.c:377
+#: src/dialogs/dialog-solver.c:870 src/tools/solver/solver.c:377
 msgid "Target cell should contain a formula."
 msgstr "Doelcel moet een formule bevatten."
 
-#: src/dialogs/dialog-solver.c:1050
+#: src/dialogs/dialog-solver.c:948
 #, c-format
 msgid "Constraint `%s' is for a cell that is not an input cell."
 msgstr "Voorwaarde `%s' is voor een cel dat geen invoercel is."
 
-#: src/dialogs/dialog-solver.c:1072
+#: src/dialogs/dialog-solver.c:970
 msgid "No constraints defined for the problem."
 msgstr "Geen randvoorwaarden voor het probleem gedefinieerd."
 
-#: src/dialogs/dialog-solver.c:1129
+#: src/dialogs/dialog-solver.c:1030
 msgid ""
 "The maximum time exceeded. The optimal value could not be found in given "
 "time."
@@ -25322,11 +25351,11 @@ msgstr ""
 "De maximum tijd is verlopen. De optimale waarde kon niet binnen de gegeven "
 "tijd worden gevonden."
 
-#: src/dialogs/dialog-solver.c:1328
+#: src/dialogs/dialog-solver.c:1236
 msgid "Subject to the Constraints:"
 msgstr "Onderhevig aan de Voorwaarden:"
 
-#: src/dialogs/dialog-solver.c:1444
+#: src/dialogs/dialog-solver.c:1352
 msgid "Could not create the Solver dialog."
 msgstr "Kon het Oplosser dialoogvenster niet maken."
 
@@ -25334,20 +25363,20 @@ msgstr "Kon het Oplosser dialoogvenster niet maken."
 msgid "Are you sure you want to cancel?"
 msgstr "Weet U zeker dat u wilt afbreken?"
 
-#: src/dialogs/dialog-stf-export.c:437
+#: src/dialogs/dialog-stf-export.c:438
 msgid "Export"
 msgstr "Exporteren"
 
-#: src/dialogs/dialog-stf-export.c:510
+#: src/dialogs/dialog-stf-export.c:511
 #: src/dialogs/dialog-stf-export.glade.h:39
 msgid "_Next"
 msgstr "V_olgende"
 
-#: src/dialogs/dialog-stf-export.c:513
+#: src/dialogs/dialog-stf-export.c:514
 msgid "_Finish"
 msgstr "_Voltooien"
 
-#: src/dialogs/dialog-stf-export.c:572
+#: src/dialogs/dialog-stf-export.c:573
 msgid "This workbook does not contain any exportable content."
 msgstr ""
 
@@ -28809,15 +28838,15 @@ msgstr "Schuif cellen naar rechts en verplaats"
 msgid "C_ancel"
 msgstr "_Annuleren"
 
-#: src/main-application.c:60 src/ssconvert.c:38
+#: src/main-application.c:60 src/ssconvert.c:41
 msgid "Display Gnumeric's version"
 msgstr "Gnumeric's versienummer weergeven"
 
-#: src/main-application.c:62 src/ssconvert.c:41
+#: src/main-application.c:62 src/ssconvert.c:44
 msgid "Set the root library directory"
 msgstr "De map van de root bibliotheek instellen"
 
-#: src/main-application.c:64 src/ssconvert.c:43
+#: src/main-application.c:64 src/ssconvert.c:46
 msgid "Adjust the root data directory"
 msgstr "De root datamap wijzigen"
 
@@ -29646,19 +29675,19 @@ msgid "_Remove Hyperlink"
 msgstr "Hyperlink Ve_rwijderen"
 
 #. This is somewhat cheesy and should use ngettext
-#: src/sheet-control-gui.c:1958
+#: src/sheet-control-gui.c:1972
 msgid "Duplicate Object"
 msgstr "Object dupliceren"
 
-#: src/sheet-control-gui.c:1958
+#: src/sheet-control-gui.c:1972
 msgid "Insert Object"
 msgstr "Object invoegen"
 
-#: src/sheet-control-gui.c:1959
+#: src/sheet-control-gui.c:1973
 msgid "Move Object"
 msgstr "Object verplaatsen"
 
-#: src/sheet-control-gui.c:1959
+#: src/sheet-control-gui.c:1973
 msgid "Resize Object"
 msgstr "Object van grootte veranderen"
 
@@ -29789,27 +29818,27 @@ msgstr "Kopiëren"
 msgid "Cut"
 msgstr "Knippen"
 
-#: src/ssconvert.c:46
+#: src/ssconvert.c:49
 msgid "Optionally specify an encoding for imported content"
 msgstr "Specificeer zonodig een tekenset voor de geïmporteerde inhoud"
 
-#: src/ssconvert.c:46
+#: src/ssconvert.c:49
 msgid "ENCODING"
 msgstr "TEKENSET"
 
-#: src/ssconvert.c:48
+#: src/ssconvert.c:51
 msgid "Optionally specify which exporter to use"
 msgstr "Specificeer zonodig de te gebruiken exportfunctie"
 
-#: src/ssconvert.c:50
+#: src/ssconvert.c:53
 msgid "List the available exporters"
 msgstr "De beschikbare exportfuncties opsommen"
 
-#: src/ssconvert.c:52
+#: src/ssconvert.c:55
 msgid "List the available importers"
 msgstr "De beschikbare importfuncties opsommen"
 
-#: src/ssconvert.c:54
+#: src/ssconvert.c:57
 msgid ""
 "Export a file for each sheet if the exporter only supports one sheet at a "
 "time."
@@ -29817,35 +29846,35 @@ msgstr ""
 "Elk werkblad als een afzonderlijk bestand exporteren wanneer de "
 "exportfunctie slechts een blad per keer ondersteund."
 
-#: src/ssconvert.c:102
+#: src/ssconvert.c:105
 #, c-format
 msgid ""
 "Unknown exporter '%s'.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
 
-#: src/ssconvert.c:126
+#: src/ssconvert.c:129
 #, c-format
 msgid ""
 "Unable to guess exporter to use for '%s'.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
 
-#: src/ssconvert.c:133
+#: src/ssconvert.c:136
 #, c-format
 msgid ""
 "An output file name or an explicit export type is required.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
 
-#: src/ssconvert.c:147
+#: src/ssconvert.c:150
 #, c-format
 msgid ""
 "Selected exporter (%s) does not support saving multiple sheets in one file.\n"
 "Only the current sheet will be saved."
 msgstr ""
 
-#: src/ssconvert.c:174
+#: src/ssconvert.c:176
 #, c-format
 msgid ""
 "ssconvert version '%s'\n"
@@ -30517,7 +30546,7 @@ msgstr "(Invoer)"
 msgid "Maximum time exceeded. Simulation was not completed. "
 msgstr "Maximumtijd is overschreden. Simulatie is niet voltooid."
 
-#: src/tools/solver/reports.c:328
+#: src/tools/solver/reports.c:327
 msgid ""
 "Model is too large for program report generation. Program report was not "
 "created."
@@ -30560,7 +30589,7 @@ msgstr "Binding"
 msgid "Not Binding"
 msgstr "Geen Binding"
 
-#: src/tools/solver/reports-write.c:178 src/tools/solver/reports-write.c:884
+#: src/tools/solver/reports-write.c:178 src/tools/solver/reports-write.c:887
 msgid "Assume that all variables are integers."
 msgstr "Aannemen dat alle variabelen gehele getallen zijn."
 
@@ -30840,32 +30869,32 @@ msgstr "Berekeningstijd"
 msgid "System Information"
 msgstr "Systeem Informatie"
 
-#: src/tools/solver/reports-write.c:766 src/tools/solver/reports-write.c:904
+#: src/tools/solver/reports-write.c:766 src/tools/solver/reports-write.c:907
 msgid "Program Report"
 msgstr "Programmarapport"
 
-#: src/tools/solver/reports-write.c:893
+#: src/tools/solver/reports-write.c:896
 msgid "Assume that all variables take only positive values."
 msgstr "Aannemen dat alle variabelen alleen positief zijn."
 
-#: src/tools/solver/reports-write.c:909
+#: src/tools/solver/reports-write.c:912
 msgid "Minimize"
 msgstr "Minimaliseren"
 
-#: src/tools/solver/reports-write.c:912
+#: src/tools/solver/reports-write.c:915
 msgid "Maximize"
 msgstr "Maximaliseren"
 
-#: src/tools/solver/reports-write.c:915
+#: src/tools/solver/reports-write.c:918
 msgid "Equal to"
 msgstr "Gelijk aan"
 
 #. Print `Subject to' title.
-#: src/tools/solver/reports-write.c:921
+#: src/tools/solver/reports-write.c:924
 msgid "Subject to"
 msgstr "Onder voorwaarde"
 
-#: src/tools/solver/reports-write.c:942 src/tools/solver/reports-write.c:955
+#: src/tools/solver/reports-write.c:945 src/tools/solver/reports-write.c:958
 msgid "Dual Program Report"
 msgstr "Tweeledig Programmarapport"
 
@@ -30886,7 +30915,31 @@ msgstr ""
 "De Rechterzijde-cellen moeten geldige numerieke waarden bevatten. Geef "
 "geldige Rechterzijde."
 
-#: src/tools/solver/solver.c:523
+#: src/tools/solver/solver.c:465
+msgid "EqualTo models are not supported yet.  Please use Min or Max"
+msgstr ""
+
+#: src/tools/solver/solver.c:478
+msgid ""
+"Failure setting automatic scaling with this solver, try a different "
+"algorithm."
+msgstr ""
+
+#: src/tools/solver/solver.c:484
+#, fuzzy
+msgid ""
+"Failure setting the maximum number of iterations with this solver, try a "
+"different algorithm."
+msgstr ""
+"Deze waarde bepaalt het maximum aantal items in de herstellen/opnieuw-lijst."
+
+#: src/tools/solver/solver.c:490
+msgid ""
+"Failure setting setting the maximum solving time with this solver, try a "
+"different algorithm."
+msgstr ""
+
+#: src/tools/solver/solver.c:536
 msgid ""
 "Some of the input cells contain non-numeric values.  Specify a valid input "
 "range."
@@ -33960,35 +34013,35 @@ msgstr "Niet ondersteund bestandsformaat."
 msgid "An unexplained error happened while opening %s"
 msgstr "Er trad een onverklaarbare fout op bij het openen van %s"
 
-#: src/xml-io.c:2763
+#: src/xml-io.c:2770
 #, c-format
 msgid "Unsupported object type '%s'"
 msgstr "Niet ondersteund objecttype '%s'"
 
-#: src/xml-io.c:3466
+#: src/xml-io.c:3473
 msgid "Unparsable xml in clipboard"
 msgstr "Niet te verwerken xml in klembord"
 
-#: src/xml-io.c:3473
+#: src/xml-io.c:3480
 msgid "Clipboard is in unknown format"
 msgstr "Klembord is in onbekend formaat"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3913
+#: src/xml-io.c:3920
 msgid "Processing file..."
 msgstr "Bezig met verwerken bestand..."
 
-#: src/xml-io.c:4240
+#: src/xml-io.c:4247
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "Het bestand is geen Gnumeric Werkmapbestand"
 
-#: src/xml-io.c:4277
+#: src/xml-io.c:4284
 msgid "Failure saving file"
 msgstr "Fout bij opslaan bestand"
 
-#: src/xml-io.c:4322
+#: src/xml-io.c:4329
 msgid "Gnumeric XML (*.gnumeric) original slow exporter"
 msgstr "Gnumeric XML (*.gnumeric) oorspronkelijke export (langzaam)"
 
@@ -34172,6 +34225,11 @@ msgstr "Sjabloonnaam"
 #, fuzzy
 msgid "A simple list template"
 msgstr "Sjabloonnaam"
+
+# Verscheidene is een betere vertaling, maar het staat heel stom
+# in het dialoogvenster.
+#~ msgid "Various"
+#~ msgstr "Overige"
 
 #~ msgid ""
 #~ "@FUNCTION=STDEV\n"
