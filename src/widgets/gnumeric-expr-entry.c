@@ -134,7 +134,9 @@ gee_rangesel_reset (GnmExprEntry *gee)
 static void
 gee_destroy (GtkObject *object)
 {
-	gee_detach_scg (GNM_EXPR_ENTRY (object));
+	GnmExprEntry *gee = GNM_EXPR_ENTRY (object);
+	gee_remove_update_timer (gee);
+	gee_detach_scg (gee);
 	parent_class->destroy (object);
 }
 
@@ -750,11 +752,11 @@ cb_gee_update_timeout (GEETimerClosure const *info)
 }
 
 static void
-gee_remove_update_timer (GnmExprEntry *range)
+gee_remove_update_timer (GnmExprEntry *gee)
 {
-	if (range->update_timeout_id != 0) {
-		g_source_remove (range->update_timeout_id);
-		range->update_timeout_id = 0;
+	if (gee->update_timeout_id != 0) {
+		g_source_remove (gee->update_timeout_id);
+		gee->update_timeout_id = 0;
 	}
 }
 
@@ -799,7 +801,7 @@ gee_notify_cursor_position (G_GNUC_UNUSED GObject *object,
 
 /**
  * gnm_expr_entry_set_update_policy:
- * @range: a #GnmExprEntry
+ * @gee: a #GnmExprEntry
  * @policy: update policy
  *
  * Sets the update policy for the expr-entry. #GTK_UPDATE_CONTINUOUS means that
