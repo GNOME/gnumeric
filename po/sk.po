@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
-"POT-Creation-Date: 2002-07-03 16:59+0200\n"
+"POT-Creation-Date: 2002-07-18 14:05-0400\n"
 "PO-Revision-Date: 2002-07-03 17:00+0200\n"
 "Last-Translator: Stanislav Vi¹òovský <visnovsky@nenya.ms.mff.cuni.cz>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
@@ -389,7 +389,7 @@ msgstr "Finanèné produkty"
 msgid "Functions related to financial derivatives"
 msgstr "Funkcie pre finanèné produkty"
 
-#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4536
+#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4543
 #: plugins/mps/mps.c:579 src/xml-io.c:3386
 msgid "Reading file..."
 msgstr "Èítam súbor..."
@@ -458,7 +458,8 @@ msgid "Data Interchange Format (DIF) module"
 msgstr "Modul pre Data Interchange Format (DIF)"
 
 #: plugins/dif/plugin.xml.in.h:3
-msgid "Reads and writes information stored in the Data Interchange Format (*.dif)"
+msgid ""
+"Reads and writes information stored in the Data Interchange Format (*.dif)"
 msgstr "Zapisuje a èíta informácie ulo¾ené v Data Interchange Format (*.dif)"
 
 #: plugins/excel/boot.c:104
@@ -489,7 +490,7 @@ msgstr "Súbor sa ukladá..."
 msgid "#UNKNOWN!"
 msgstr "#UNKNOWN!"
 
-#: plugins/excel/ms-excel-read.c:564 plugins/lotus-123/lotus.c:190
+#: plugins/excel/ms-excel-read.c:564 plugins/lotus-123/lotus.c:205
 #: plugins/oleo/oleo.c:362 plugins/psiconv/psiconv-read.c:497
 #, c-format
 msgid "Sheet%d"
@@ -510,16 +511,16 @@ msgstr "Graf%d"
 msgid "Module%d"
 msgstr "Modul%d"
 
-#: plugins/excel/ms-excel-read.c:4531
+#: plugins/excel/ms-excel-read.c:4538
 msgid "No book or workbook streams found."
 msgstr "Neboli nájdené ¾iadne zo¹itové kanále."
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4695
+#: plugins/excel/ms-excel-read.c:4702
 msgid "Password protected workbooks are not supported yet."
 msgstr "Zo¹ity chránené heslom zatiaµ nie sú podporované."
 
-#: plugins/excel/ms-excel-read.c:4808
+#: plugins/excel/ms-excel-read.c:4815
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Nepodarilo sa nájs» platný zo¹it MS Excel"
 
@@ -702,7 +703,7 @@ msgstr "TROFF (*.me)"
 msgid "Error executing groff."
 msgstr "Chyba pri spú¹taní groff."
 
-#: plugins/lotus-123/lotus.c:315
+#: plugins/lotus-123/lotus.c:341
 msgid "Error while reading lotus workbook."
 msgstr "Chyba pri èítaní zo¹ita lotus."
 
@@ -1228,7 +1229,7 @@ msgstr "Chyba pri spracovaní riadku."
 #.
 #. * Add Sheet
 #.
-#: plugins/sc/sc.c:420 plugins/sylk/sylk.c:461 src/stf.c:176 src/stf.c:279
+#: plugins/sc/sc.c:420 plugins/sylk/sylk.c:461 src/stf.c:178 src/stf.c:281
 #, c-format
 msgid "Imported %s"
 msgstr "Importovaný %s"
@@ -1838,7 +1839,8 @@ msgstr "Opakovane prepoèítava pre nájdenie cieµovej hodnoty"
 
 #: src/GNOME_Gnumeric.xml.h:127 src/workbook-control-gui.c:3092
 msgid "Iteratively recalculate with constraints to approach a target value"
-msgstr "Opakovane prepoèítava s obmedzeniami, a¾ kým nedosiahne cieµovú hodnotu"
+msgstr ""
+"Opakovane prepoèítava s obmedzeniami, a¾ kým nedosiahne cieµovú hodnotu"
 
 #: src/GNOME_Gnumeric.xml.h:128 src/workbook-control-gui.c:2788
 msgid "Jump to a specified cell"
@@ -5016,7 +5018,8 @@ msgstr ""
 "premenných a skúste to znovu."
 
 #: src/dialogs/dialog-analysis-tools.c:3085
-msgid "There must be an equal number of entries for each variable in the regression."
+msgid ""
+"There must be an equal number of entries for each variable in the regression."
 msgstr "Pre ka¾dú premennú regresie musí by» rovnaký poèet polo¾iek."
 
 #: src/dialogs/dialog-analysis-tools.c:3185 src/dialogs/regression.glade.h:16
@@ -5061,7 +5064,8 @@ msgstr "Nepodarilo sa vytvori» dialóg nástroja pre histogram."
 
 #: src/dialogs/dialog-analysis-tools.c:4252
 msgid "Could not create the ANOVA (single factor) tool dialog."
-msgstr "Nepodarilo sa vytvori» dialóg nástroja pre ANOVA (jednoduché triedenie)."
+msgstr ""
+"Nepodarilo sa vytvori» dialóg nástroja pre ANOVA (jednoduché triedenie)."
 
 #: src/dialogs/dialog-analysis-tools.c:4315
 msgid "Each sample must contain the same number of rows."
@@ -5859,7 +5863,8 @@ msgstr "Ståpec %d"
 msgid ""
 "Actual processing will start at this line, any previous lines will be "
 "ignored."
-msgstr "Spracovanie zaène na tomto riadku, v¹etky predchádzajúce budú ignorované."
+msgstr ""
+"Spracovanie zaène na tomto riadku, v¹etky predchádzajúce budú ignorované."
 
 #: src/dialogs/dialog-stf.glade.h:4
 msgid "Add a new column"
@@ -5945,7 +5950,8 @@ msgstr "Definova» ¹írku ka¾dého ståpca ruène."
 msgid ""
 "Each column in the text is separated by a 'separation' character, e.g. a "
 "semicolon."
-msgstr "Ka¾dý ståpec v texte je oddelený oddeµovacím znakom, napr. bodkoèiarkou."
+msgstr ""
+"Ka¾dý ståpec v texte je oddelený oddeµovacím znakom, napr. bodkoèiarkou."
 
 #: src/dialogs/dialog-stf.glade.h:23
 msgid "End"
@@ -6050,8 +6056,10 @@ msgid "See two successive separators as one."
 msgstr "Dva za sebou idúce oddeµovaèe chápa» ako jeden."
 
 #: src/dialogs/dialog-stf.glade.h:48
-msgid "See two successive text indicators as one that does not terminate the cell."
-msgstr "Dva za sebou idúce oznaèovaèe textu chápa» ako jeden, ktorý nekonèí bunku."
+msgid ""
+"See two successive text indicators as one that does not terminate the cell."
+msgstr ""
+"Dva za sebou idúce oznaèovaèe textu chápa» ako jeden, ktorý nekonèí bunku."
 
 #: src/dialogs/dialog-stf.glade.h:49
 msgid ""
@@ -7331,8 +7339,10 @@ msgid "Tabulate Dependency"
 msgstr "Tabulova» závistlosti"
 
 #: src/dialogs/tabulate.glade.h:10
-msgid "Use down for first source, right for second, and multiple sheets for third"
-msgstr "Smerom dolu prvý zdroj, smerom vpravo druhý, viacnásobné listy pre tretí"
+msgid ""
+"Use down for first source, right for second, and multiple sheets for third"
+msgstr ""
+"Smerom dolu prvý zdroj, smerom vpravo druhý, viacnásobné listy pre tretí"
 
 #: src/dialogs/tabulate.glade.h:11
 msgid "_Coordinate"
@@ -7445,15 +7455,18 @@ msgid "Saving over old files of this type is disabled for safety."
 msgstr "Ulo¾enie do starých súborov tohto typu je kvôli bezpeèenosti vypnuté."
 
 #: src/file.c:497
-msgid "You can turn this safety feature off by editing appropriate plugin.xml file."
+msgid ""
+"You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
 "Túto funkciu mô¾ete bezpeène vypnú» úpravou zodpovedajúceho súboru plugin."
 "xml."
 
 #: src/format-template.c:875
 #, c-format
-msgid "The target region is too small.  It should be at least %d rows by %d columns"
-msgstr "Cieµová oblas» je príli¹ malá, mala by by» aspoò %d riadkov a %d ståpcov"
+msgid ""
+"The target region is too small.  It should be at least %d rows by %d columns"
+msgstr ""
+"Cieµová oblas» je príli¹ malá, mala by by» aspoò %d riadkov a %d ståpcov"
 
 #: src/format-template.c:878
 #, c-format
@@ -19968,15 +19981,15 @@ msgstr "Príli¹ veµa riadkov dát pre spracovanie: %d"
 msgid "Too many columns in data to parse: %d"
 msgstr "Príli¹ veµa ståpcov dát pre spracovanie: %d"
 
-#: src/stf.c:117
+#: src/stf.c:119
 msgid "Error while trying to memory map file"
 msgstr "Chyba pri pokuse o namapovanie súboru do pamäti"
 
-#: src/stf.c:128
+#: src/stf.c:130
 msgid "Error while trying to pre-convert file"
 msgstr "Chyba pri pokuse o prevod súboru"
 
-#: src/stf.c:134
+#: src/stf.c:136
 #, c-format
 msgid ""
 "This file does not seem to be a valid text file.\n"
@@ -19987,23 +20000,24 @@ msgstr ""
 "Bol nájdený znak '%c' (ASCII hodnota %d).\n"
 "Va¹e nastavenie národného prostredia asi nie je v poriadku."
 
-#: src/stf.c:220 src/stf.c:308
+#: src/stf.c:222 src/stf.c:310
 msgid "Parse error while trying to parse data into sheet"
 msgstr "Chyba pri naèítavaní dát do listu"
 
-#: src/stf.c:433
+#: src/stf.c:435
 msgid "Error while trying to write csv file"
 msgstr "Chyba pri zápise csv súboru"
 
-#: src/stf.c:456
+#: src/stf.c:458
 msgid "Text import (auto-detect CSV or tab-delimited)"
-msgstr "Import textu (automatická detekcia CSV alebo text oddelený tabulátormi)"
+msgstr ""
+"Import textu (automatická detekcia CSV alebo text oddelený tabulátormi)"
 
-#: src/stf.c:460
+#: src/stf.c:462
 msgid "Text import (configurable)"
 msgstr "Import textového súboru (nastaviteµné)"
 
-#: src/stf.c:464
+#: src/stf.c:466
 msgid "Text export (configurable)"
 msgstr "Export textového súboru (nastaviteµné)"
 
@@ -20799,4 +20813,3 @@ msgstr "Súborový formát Gnumeric XML"
 #~ "Detaily nájdete na http://www.gnumeric.org.\n"
 #~ "\n"
 #~ "-- Tím Gnumericu."
-

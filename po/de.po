@@ -64,7 +64,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.0.x\n"
-"POT-Creation-Date: 2002-06-18 01:32-0400\n"
+"POT-Creation-Date: 2002-07-18 14:05-0400\n"
 "PO-Revision-Date: 2002-02-28 15:03+0100\n"
 "Last-Translator: Karsten Weiss <knweiss@gmx.de>\n"
 "Language-Team: GNOME-DE <gnome-de@gnome.org>\n"
@@ -316,7 +316,7 @@ msgstr "Finanzfunktionen"
 msgid "Functions related to financial derivatives"
 msgstr "Funktionen aus dem Finanzbereich"
 
-#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4536
+#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4543
 #: plugins/mps/mps.c:579 src/xml-io.c:3386
 msgid "Reading file..."
 msgstr "Die Datei wird gelesen..."
@@ -419,7 +419,7 @@ msgstr "Datei wird gespeichert..."
 msgid "#UNKNOWN!"
 msgstr "#UNBEKANNT!"
 
-#: plugins/excel/ms-excel-read.c:564 plugins/lotus-123/lotus.c:190
+#: plugins/excel/ms-excel-read.c:564 plugins/lotus-123/lotus.c:205
 #: plugins/oleo/oleo.c:362 plugins/psiconv/psiconv-read.c:497
 #, c-format
 msgid "Sheet%d"
@@ -440,16 +440,16 @@ msgstr "Diagramm%d"
 msgid "Module%d"
 msgstr "Modul%d"
 
-#: plugins/excel/ms-excel-read.c:4531
+#: plugins/excel/ms-excel-read.c:4538
 msgid "No book or workbook streams found."
 msgstr "Keine book- oder workbook-Streams gefunden."
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4695
+#: plugins/excel/ms-excel-read.c:4702
 msgid "Password protected workbooks are not supported yet."
 msgstr "Passwortgeschützte Arbeitsbücher werden noch nicht unterstützt."
 
-#: plugins/excel/ms-excel-read.c:4808
+#: plugins/excel/ms-excel-read.c:4815
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Es ist nicht möglich, ein gültiges MS-Excel-Arbeitsbuch aufzufinden."
 
@@ -636,7 +636,7 @@ msgstr "TROFF (*.me)"
 msgid "Error executing groff."
 msgstr "Fehler beim Ausführen von »groff«."
 
-#: plugins/lotus-123/lotus.c:315
+#: plugins/lotus-123/lotus.c:341
 msgid "Error while reading lotus workbook."
 msgstr "Fehler beim Lesen des Lotus-Arbeitsbuchs."
 
@@ -1169,7 +1169,7 @@ msgstr "Fehler beim Parsen der Zeile"
 #.
 #. * Add Sheet
 #.
-#: plugins/sc/sc.c:420 plugins/sylk/sylk.c:461 src/stf.c:176 src/stf.c:279
+#: plugins/sc/sc.c:420 plugins/sylk/sylk.c:461 src/stf.c:178 src/stf.c:281
 #, c-format
 msgid "Imported %s"
 msgstr "%s importiert"
@@ -7686,12 +7686,12 @@ msgid "yellow"
 msgstr "gelb"
 
 #. Is it a boolean?
-#: src/format.c:1551 src/number-match.c:1066 src/value-sheet.c:34
+#: src/format.c:1551 src/number-match.c:1109 src/value-sheet.c:34
 #: src/value.c:255 src/value.c:494
 msgid "TRUE"
 msgstr "WAHR"
 
-#: src/format.c:1551 src/number-match.c:1068 src/value-sheet.c:34
+#: src/format.c:1551 src/number-match.c:1111 src/value-sheet.c:34
 #: src/value.c:257 src/value.c:494
 msgid "FALSE"
 msgstr "FALSCH"
@@ -15671,35 +15671,35 @@ msgstr "Die Arbeitsbuch-Factory konnte nicht initialisiert werden."
 msgid "Could not initialize EmbeddableGrid factory"
 msgstr "Die EmbeddableGrid-Factory konnte nicht initialisiert werden."
 
-#: src/number-match.c:672
+#: src/number-match.c:698
 msgid "#NULL!"
 msgstr "#NULL!"
 
-#: src/number-match.c:673
+#: src/number-match.c:699
 msgid "#DIV/0!"
 msgstr "#DIV/0!"
 
-#: src/number-match.c:674
+#: src/number-match.c:700
 msgid "#VALUE!"
 msgstr "#WERT!"
 
-#: src/number-match.c:675
+#: src/number-match.c:701
 msgid "#REF!"
 msgstr "#BEZUG!"
 
-#: src/number-match.c:676
+#: src/number-match.c:702
 msgid "#NAME?"
 msgstr "#NAME?"
 
-#: src/number-match.c:677
+#: src/number-match.c:703
 msgid "#NUM!"
 msgstr "#ZAHL!"
 
-#: src/number-match.c:678
+#: src/number-match.c:704
 msgid "#N/A"
 msgstr "#-/-"
 
-#: src/number-match.c:679
+#: src/number-match.c:705
 msgid "#RECALC!"
 msgstr "#NEU-BER!"
 
@@ -16505,15 +16505,15 @@ msgid "Too many columns in data to parse: %d"
 msgstr "Zu viele Spalten in den einzulesenden Daten: %d"
 
 # KONSISTENCY!
-#: src/stf.c:117
+#: src/stf.c:119
 msgid "Error while trying to memory map file"
 msgstr "Fehler beim Versuch, Datei in Speicher zu mappen"
 
-#: src/stf.c:128
+#: src/stf.c:130
 msgid "Error while trying to pre-convert file"
 msgstr "Fehler beim Versuch, die Datei vorab zu konvertieren"
 
-#: src/stf.c:134
+#: src/stf.c:136
 #, c-format
 msgid ""
 "This file does not seem to be a valid text file.\n"
@@ -16524,23 +16524,23 @@ msgstr ""
 "Das Zeichen »%c« (ASCII-Dezimalwert %d) wurde angetroffen.\n"
 "Wahrscheinlich sind Ihre Standorteinstellungen (\"locale settings\") falsch."
 
-#: src/stf.c:220 src/stf.c:308
+#: src/stf.c:222 src/stf.c:310
 msgid "Parse error while trying to parse data into sheet"
 msgstr "Fehler beim Versuch, die Daten in das Blatt einzupassen"
 
-#: src/stf.c:433
+#: src/stf.c:435
 msgid "Error while trying to write csv file"
 msgstr "Fehler beim Versuch, eine csv-Datei zu schreiben"
 
-#: src/stf.c:456
+#: src/stf.c:458
 msgid "Text import (auto-detect CSV or tab-delimited)"
 msgstr ""
 
-#: src/stf.c:460
+#: src/stf.c:462
 msgid "Text import (configurable)"
 msgstr "Textdatei-Import (konfigurierbar)"
 
-#: src/stf.c:464
+#: src/stf.c:466
 msgid "Text export (configurable)"
 msgstr "Textdatei-Export (konfigurierbar)"
 

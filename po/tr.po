@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric \n"
-"POT-Creation-Date: 2002-06-18 01:32-0400\n"
+"POT-Creation-Date: 2002-07-18 14:05-0400\n"
 "PO-Revision-Date: 2002-02-20 14:09+0200\n"
 "Last-Translator: Nilgün Belma Bugüner <nilgun@fide.org>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
@@ -260,7 +260,7 @@ msgstr "Finansal Türevler"
 msgid "Functions related to financial derivatives"
 msgstr "Finansal türevlerle ilgili işlevler"
 
-#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4536
+#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4543
 #: plugins/mps/mps.c:579 src/xml-io.c:3386
 msgid "Reading file..."
 msgstr "Dosya okunuyor..."
@@ -359,7 +359,7 @@ msgstr "Dosya kaydediliyor..."
 msgid "#UNKNOWN!"
 msgstr "#BİLİNMEYEN!"
 
-#: plugins/excel/ms-excel-read.c:564 plugins/lotus-123/lotus.c:190
+#: plugins/excel/ms-excel-read.c:564 plugins/lotus-123/lotus.c:205
 #: plugins/oleo/oleo.c:362 plugins/psiconv/psiconv-read.c:497
 #, c-format
 msgid "Sheet%d"
@@ -380,16 +380,16 @@ msgstr "Grafik%d"
 msgid "Module%d"
 msgstr "Modül%d"
 
-#: plugins/excel/ms-excel-read.c:4531
+#: plugins/excel/ms-excel-read.c:4538
 msgid "No book or workbook streams found."
 msgstr "Bir defter bulunamadı"
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4695
+#: plugins/excel/ms-excel-read.c:4702
 msgid "Password protected workbooks are not supported yet."
 msgstr "Parola korumalı defterler henüz desteklenmiyor."
 
-#: plugins/excel/ms-excel-read.c:4808
+#: plugins/excel/ms-excel-read.c:4815
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "MS Excel defteri konumlanamadı"
 
@@ -577,7 +577,7 @@ msgstr "TROFF (*.me)"
 msgid "Error executing groff."
 msgstr "groff çalışırken hata."
 
-#: plugins/lotus-123/lotus.c:315
+#: plugins/lotus-123/lotus.c:341
 msgid "Error while reading lotus workbook."
 msgstr "Lotus defteri okunurken hata"
 
@@ -1121,7 +1121,7 @@ msgstr "Satır çözümlenirken hata"
 #.
 #. * Add Sheet
 #.
-#: plugins/sc/sc.c:420 plugins/sylk/sylk.c:461 src/stf.c:176 src/stf.c:279
+#: plugins/sc/sc.c:420 plugins/sylk/sylk.c:461 src/stf.c:178 src/stf.c:281
 #, c-format
 msgid "Imported %s"
 msgstr "%s açıldı"
@@ -7712,12 +7712,12 @@ msgid "yellow"
 msgstr "sarı"
 
 #. Is it a boolean?
-#: src/format.c:1551 src/number-match.c:1066 src/value-sheet.c:34
+#: src/format.c:1551 src/number-match.c:1109 src/value-sheet.c:34
 #: src/value.c:255 src/value.c:494
 msgid "TRUE"
 msgstr "DOĞRU"
 
-#: src/format.c:1551 src/number-match.c:1068 src/value-sheet.c:34
+#: src/format.c:1551 src/number-match.c:1111 src/value-sheet.c:34
 #: src/value.c:257 src/value.c:494
 msgid "FALSE"
 msgstr "YANLIŞ"
@@ -20918,35 +20918,35 @@ msgstr "Defter yapımcısı başlatılamadı"
 msgid "Could not initialize EmbeddableGrid factory"
 msgstr "Gömülebilir Izgara yapımcısı başlatılamadı"
 
-#: src/number-match.c:672
+#: src/number-match.c:698
 msgid "#NULL!"
 msgstr "#BOŞ!"
 
-#: src/number-match.c:673
+#: src/number-match.c:699
 msgid "#DIV/0!"
 msgstr "#BÖLÜ/0!"
 
-#: src/number-match.c:674
+#: src/number-match.c:700
 msgid "#VALUE!"
 msgstr "#DEĞER!"
 
-#: src/number-match.c:675
+#: src/number-match.c:701
 msgid "#REF!"
 msgstr "#REF!"
 
-#: src/number-match.c:676
+#: src/number-match.c:702
 msgid "#NAME?"
 msgstr "#İSİM?"
 
-#: src/number-match.c:677
+#: src/number-match.c:703
 msgid "#NUM!"
 msgstr "#SAYI!"
 
-#: src/number-match.c:678
+#: src/number-match.c:704
 msgid "#N/A"
 msgstr "#YOK!"
 
-#: src/number-match.c:679
+#: src/number-match.c:705
 msgid "#RECALC!"
 msgstr "#HESAP!"
 
@@ -21726,15 +21726,15 @@ msgstr "Veri içinde ayrıştırılacak satır sayısı çok fazla: %d"
 msgid "Too many columns in data to parse: %d"
 msgstr "Veri içinde ayrıştırılacak sütun sayısı çok fazla: %d"
 
-#: src/stf.c:117
+#: src/stf.c:119
 msgid "Error while trying to memory map file"
 msgstr "Eşlem dosyası belleğe alınırken hata oluştu"
 
-#: src/stf.c:128
+#: src/stf.c:130
 msgid "Error while trying to pre-convert file"
 msgstr "Dosya dönüştürülürken hata oluştu"
 
-#: src/stf.c:134
+#: src/stf.c:136
 #, c-format
 msgid ""
 "This file does not seem to be a valid text file.\n"
@@ -21745,24 +21745,24 @@ msgstr ""
 "'%c' karakteri (ascii ondalık %d) saptandı.\n"
 "Yerel ayarlarınız sorunlu olabilir."
 
-#: src/stf.c:220 src/stf.c:308
+#: src/stf.c:222 src/stf.c:310
 msgid "Parse error while trying to parse data into sheet"
 msgstr "Çizelgedeki veriyi çözümlerken hata oluştu"
 
-#: src/stf.c:433
+#: src/stf.c:435
 msgid "Error while trying to write csv file"
 msgstr "csv dosyasına yazılırken hata oluştu"
 
-#: src/stf.c:456
+#: src/stf.c:458
 msgid "Text import (auto-detect CSV or tab-delimited)"
 msgstr ""
 
-#: src/stf.c:460
+#: src/stf.c:462
 #, fuzzy
 msgid "Text import (configurable)"
 msgstr "Metin Dosyası İçeri Aktarım (özelleştirilebilir)"
 
-#: src/stf.c:464
+#: src/stf.c:466
 #, fuzzy
 msgid "Text export (configurable)"
 msgstr "Metin Dosyası İçeri Aktarım (özelleştirilebilir)"

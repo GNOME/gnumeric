@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.0.6\n"
-"POT-Creation-Date: 2002-06-18 01:32-0400\n"
+"POT-Creation-Date: 2002-07-18 14:05-0400\n"
 "PO-Revision-Date: 2002-06-04 20:42+0900\n"
 "Last-Translator: Takeshi Aihana <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
@@ -405,7 +405,7 @@ msgstr "財務関係"
 msgid "Functions related to financial derivatives"
 msgstr "金融関係の関数"
 
-#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4536
+#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4543
 #: plugins/mps/mps.c:579 src/xml-io.c:3386
 msgid "Reading file..."
 msgstr "ファイルの読み込み中..."
@@ -503,7 +503,7 @@ msgstr "ファイルの保存中..."
 msgid "#UNKNOWN!"
 msgstr "#UNKNOWN!"
 
-#: plugins/excel/ms-excel-read.c:564 plugins/lotus-123/lotus.c:190
+#: plugins/excel/ms-excel-read.c:564 plugins/lotus-123/lotus.c:205
 #: plugins/oleo/oleo.c:362 plugins/psiconv/psiconv-read.c:497
 #, c-format
 msgid "Sheet%d"
@@ -524,16 +524,16 @@ msgstr "グラフ%d"
 msgid "Module%d"
 msgstr "モジュール%d"
 
-#: plugins/excel/ms-excel-read.c:4531
+#: plugins/excel/ms-excel-read.c:4538
 msgid "No book or workbook streams found."
 msgstr "ブックあるいはワークブックストリームが見つかりませんでした。"
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4695
+#: plugins/excel/ms-excel-read.c:4702
 msgid "Password protected workbooks are not supported yet."
 msgstr "パスワード保護されたワークブックは、まだサポートされていません。"
 
-#: plugins/excel/ms-excel-read.c:4808
+#: plugins/excel/ms-excel-read.c:4815
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "有効な MS Excel のワークブックが見つかりません"
 
@@ -718,7 +718,7 @@ msgstr "TROFF (*.me)"
 msgid "Error executing groff."
 msgstr "groff の実行中にエラーが発生しました。"
 
-#: plugins/lotus-123/lotus.c:315
+#: plugins/lotus-123/lotus.c:341
 msgid "Error while reading lotus workbook."
 msgstr "Lotus ワークブックの読み込み中にエラーが発生しました。"
 
@@ -1244,7 +1244,7 @@ msgstr "行の構文解析中にエラーが発生しました"
 #.
 #. * Add Sheet
 #.
-#: plugins/sc/sc.c:420 plugins/sylk/sylk.c:461 src/stf.c:176 src/stf.c:279
+#: plugins/sc/sc.c:420 plugins/sylk/sylk.c:461 src/stf.c:178 src/stf.c:281
 #, c-format
 msgid "Imported %s"
 msgstr "%s の読み込み"
@@ -7516,12 +7516,12 @@ msgid "yellow"
 msgstr "黄"
 
 #. Is it a boolean?
-#: src/format.c:1551 src/number-match.c:1066 src/value-sheet.c:34
+#: src/format.c:1551 src/number-match.c:1109 src/value-sheet.c:34
 #: src/value.c:255 src/value.c:494
 msgid "TRUE"
 msgstr "TRUE"
 
-#: src/format.c:1551 src/number-match.c:1068 src/value-sheet.c:34
+#: src/format.c:1551 src/number-match.c:1111 src/value-sheet.c:34
 #: src/value.c:257 src/value.c:494
 msgid "FALSE"
 msgstr "FALSE"
@@ -19103,35 +19103,35 @@ msgstr "ワークブックファクトリを初期化できませんでした"
 msgid "Could not initialize EmbeddableGrid factory"
 msgstr "埋め込みグリッドファクトリを初期化できませんでした"
 
-#: src/number-match.c:672
+#: src/number-match.c:698
 msgid "#NULL!"
 msgstr "#NULL!"
 
-#: src/number-match.c:673
+#: src/number-match.c:699
 msgid "#DIV/0!"
 msgstr "#DIV/0!"
 
-#: src/number-match.c:674
+#: src/number-match.c:700
 msgid "#VALUE!"
 msgstr "#VALUE!"
 
-#: src/number-match.c:675
+#: src/number-match.c:701
 msgid "#REF!"
 msgstr "#REF!"
 
-#: src/number-match.c:676
+#: src/number-match.c:702
 msgid "#NAME?"
 msgstr "#NAME?"
 
-#: src/number-match.c:677
+#: src/number-match.c:703
 msgid "#NUM!"
 msgstr "#NUM!"
 
-#: src/number-match.c:678
+#: src/number-match.c:704
 msgid "#N/A"
 msgstr "#N/A"
 
-#: src/number-match.c:679
+#: src/number-match.c:705
 msgid "#RECALC!"
 msgstr "#RECALC!"
 
@@ -19913,15 +19913,15 @@ msgstr "解析するための行が多すぎます: %d"
 msgid "Too many columns in data to parse: %d"
 msgstr "データの中に解析する列が多すぎます: %d"
 
-#: src/stf.c:117
+#: src/stf.c:119
 msgid "Error while trying to memory map file"
 msgstr "メモリマップファイルの試行中にエラー"
 
-#: src/stf.c:128
+#: src/stf.c:130
 msgid "Error while trying to pre-convert file"
 msgstr "ファイル変換中にエラー"
 
-#: src/stf.c:134
+#: src/stf.c:136
 #, c-format
 msgid ""
 "This file does not seem to be a valid text file.\n"
@@ -19932,23 +19932,23 @@ msgstr ""
 "文字'%c' (ASCII 10進 %d) が見つかりました。\n"
 "おそらくロケール設定が正しくありません。"
 
-#: src/stf.c:220 src/stf.c:308
+#: src/stf.c:222 src/stf.c:310
 msgid "Parse error while trying to parse data into sheet"
 msgstr "シートに読み込むデータの構文解析中に構文解析エラー"
 
-#: src/stf.c:433
+#: src/stf.c:435
 msgid "Error while trying to write csv file"
 msgstr "csv ファイルの書き出しに失敗しました"
 
-#: src/stf.c:456
+#: src/stf.c:458
 msgid "Text import (auto-detect CSV or tab-delimited)"
 msgstr "テキストのインポート (CSV/タブ区切りテキストの自動検出)"
 
-#: src/stf.c:460
+#: src/stf.c:462
 msgid "Text import (configurable)"
 msgstr "テキストのインポート (カスタマイズ可能)"
 
-#: src/stf.c:464
+#: src/stf.c:466
 msgid "Text export (configurable)"
 msgstr "テキストのエキスポート (カスタマイズ可能)"
 

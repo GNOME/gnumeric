@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.70\n"
-"POT-Creation-Date: 2002-06-18 01:32-0400\n"
+"POT-Creation-Date: 2002-07-18 14:05-0400\n"
 "PO-Revision-Date: 2001-08-27 16:50+0200\n"
 "Last-Translator: András Tímár <timar@gnome.hu>\n"
 "Language-Team: Hungarian <hu@gnome.hu>\n"
@@ -261,7 +261,7 @@ msgstr "Pénzügyi"
 msgid "Functions related to financial derivatives"
 msgstr ""
 
-#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4536
+#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4543
 #: plugins/mps/mps.c:579 src/xml-io.c:3386
 msgid "Reading file..."
 msgstr "Fájl beolvasása..."
@@ -364,7 +364,7 @@ msgstr "Fájl mentése..."
 msgid "#UNKNOWN!"
 msgstr "#ISMERETLEN!"
 
-#: plugins/excel/ms-excel-read.c:564 plugins/lotus-123/lotus.c:190
+#: plugins/excel/ms-excel-read.c:564 plugins/lotus-123/lotus.c:205
 #: plugins/oleo/oleo.c:362 plugins/psiconv/psiconv-read.c:497
 #, c-format
 msgid "Sheet%d"
@@ -385,16 +385,16 @@ msgstr ""
 msgid "Module%d"
 msgstr "Módusz"
 
-#: plugins/excel/ms-excel-read.c:4531
+#: plugins/excel/ms-excel-read.c:4538
 msgid "No book or workbook streams found."
 msgstr "Nem találtam book vagy workbook stream-et."
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4695
+#: plugins/excel/ms-excel-read.c:4702
 msgid "Password protected workbooks are not supported yet."
 msgstr "A jelszóval védett munkafüzeteket a program jelenleg nem támogatja."
 
-#: plugins/excel/ms-excel-read.c:4808
+#: plugins/excel/ms-excel-read.c:4815
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Nem találok érvényes MS Excel munkafüzetet"
 
@@ -596,7 +596,7 @@ msgstr "TROFF fájlformátum (*.me)"
 msgid "Error executing groff."
 msgstr ""
 
-#: plugins/lotus-123/lotus.c:315
+#: plugins/lotus-123/lotus.c:341
 msgid "Error while reading lotus workbook."
 msgstr "Hiba történt a lotus munkafüzet olvasása közben."
 
@@ -1149,7 +1149,7 @@ msgstr "Hiba a sor értelmezésénél"
 #.
 #. * Add Sheet
 #.
-#: plugins/sc/sc.c:420 plugins/sylk/sylk.c:461 src/stf.c:176 src/stf.c:279
+#: plugins/sc/sc.c:420 plugins/sylk/sylk.c:461 src/stf.c:178 src/stf.c:281
 #, c-format
 msgid "Imported %s"
 msgstr "%s importálása"
@@ -7687,12 +7687,12 @@ msgid "yellow"
 msgstr "Sárga"
 
 #. Is it a boolean?
-#: src/format.c:1551 src/number-match.c:1066 src/value-sheet.c:34
+#: src/format.c:1551 src/number-match.c:1109 src/value-sheet.c:34
 #: src/value.c:255 src/value.c:494
 msgid "TRUE"
 msgstr "IGAZ"
 
-#: src/format.c:1551 src/number-match.c:1068 src/value-sheet.c:34
+#: src/format.c:1551 src/number-match.c:1111 src/value-sheet.c:34
 #: src/value.c:257 src/value.c:494
 msgid "FALSE"
 msgstr "HAMIS"
@@ -17524,35 +17524,35 @@ msgstr "Nem sikerült a Workbook factory inicializálása"
 msgid "Could not initialize EmbeddableGrid factory"
 msgstr "Nem sikerült EmbeddableGrid factory inicializálása"
 
-#: src/number-match.c:672
+#: src/number-match.c:698
 msgid "#NULL!"
 msgstr "#NULLA!"
 
-#: src/number-match.c:673
+#: src/number-match.c:699
 msgid "#DIV/0!"
 msgstr "#ZÉROOSZTÓ!"
 
-#: src/number-match.c:674
+#: src/number-match.c:700
 msgid "#VALUE!"
 msgstr "#ÉRTÉK!"
 
-#: src/number-match.c:675
+#: src/number-match.c:701
 msgid "#REF!"
 msgstr "#HIVATK!"
 
-#: src/number-match.c:676
+#: src/number-match.c:702
 msgid "#NAME?"
 msgstr "#NÉV?"
 
-#: src/number-match.c:677
+#: src/number-match.c:703
 msgid "#NUM!"
 msgstr "#SZÁM!"
 
-#: src/number-match.c:678
+#: src/number-match.c:704
 msgid "#N/A"
 msgstr "#N/A"
 
-#: src/number-match.c:679
+#: src/number-match.c:705
 msgid "#RECALC!"
 msgstr "#ÚJRASZÁMOL!"
 
@@ -18362,15 +18362,15 @@ msgstr "Túl sok sorból állnak az adatok, nem lehet értelmezni: %d"
 msgid "Too many columns in data to parse: %d"
 msgstr "Túl sok oszlopból állnak az adatok, nem lehet értelmezni: %d"
 
-#: src/stf.c:117
+#: src/stf.c:119
 msgid "Error while trying to memory map file"
 msgstr "Hiba történt a fájl memóriába leképezése során"
 
-#: src/stf.c:128
+#: src/stf.c:130
 msgid "Error while trying to pre-convert file"
 msgstr "Hiba történt a fájl elõzetes konvertálása során"
 
-#: src/stf.c:134
+#: src/stf.c:136
 #, c-format
 msgid ""
 "This file does not seem to be a valid text file.\n"
@@ -18381,24 +18381,24 @@ msgstr ""
 "Egy '%c' karakter (decimális ASCII-kódja %d) található benne.\n"
 "Valószínûleg rossz a locale beállítása."
 
-#: src/stf.c:220 src/stf.c:308
+#: src/stf.c:222 src/stf.c:310
 msgid "Parse error while trying to parse data into sheet"
 msgstr "Értelmezési hiba történt az adatok munkalapra írása közben"
 
-#: src/stf.c:433
+#: src/stf.c:435
 msgid "Error while trying to write csv file"
 msgstr "Hiba történt a csv fájl írása közben"
 
-#: src/stf.c:456
+#: src/stf.c:458
 msgid "Text import (auto-detect CSV or tab-delimited)"
 msgstr ""
 
-#: src/stf.c:460
+#: src/stf.c:462
 #, fuzzy
 msgid "Text import (configurable)"
 msgstr "Szövegfájl exportálása (*.csv)"
 
-#: src/stf.c:464
+#: src/stf.c:466
 #, fuzzy
 msgid "Text export (configurable)"
 msgstr "Szövegfájl exportálása (*.csv)"

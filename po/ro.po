@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.0\n"
-"POT-Creation-Date: 2002-06-18 01:32-0400\n"
+"POT-Creation-Date: 2002-07-18 14:05-0400\n"
 "PO-Revision-Date: 2001-12-31 08:21+0200\n"
 "Last-Translator: Dan Damian <dand@softhome.net>\n"
 "Language-Team: Romanian <gnomero-list@lists.sourceforge.net>\n"
@@ -257,7 +257,7 @@ msgstr "Derivative financiare"
 msgid "Functions related to financial derivatives"
 msgstr "Funcþii referitoare la derivate financiare"
 
-#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4536
+#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4543
 #: plugins/mps/mps.c:579 src/xml-io.c:3386
 msgid "Reading file..."
 msgstr "Citesc fiºierul..."
@@ -360,7 +360,7 @@ msgstr "Salvez fiºierul..."
 msgid "#UNKNOWN!"
 msgstr "#NECUNOSCUT!"
 
-#: plugins/excel/ms-excel-read.c:564 plugins/lotus-123/lotus.c:190
+#: plugins/excel/ms-excel-read.c:564 plugins/lotus-123/lotus.c:205
 #: plugins/oleo/oleo.c:362 plugins/psiconv/psiconv-read.c:497
 #, c-format
 msgid "Sheet%d"
@@ -381,16 +381,16 @@ msgstr "Diagramã%d"
 msgid "Module%d"
 msgstr "Modul%d"
 
-#: plugins/excel/ms-excel-read.c:4531
+#: plugins/excel/ms-excel-read.c:4538
 msgid "No book or workbook streams found."
 msgstr "N-am gãsit nici un registru sau registru de lucru."
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4695
+#: plugins/excel/ms-excel-read.c:4702
 msgid "Password protected workbooks are not supported yet."
 msgstr "Registrele de lucru protejate prin parolã nu sunt incã suportate."
 
-#: plugins/excel/ms-excel-read.c:4808
+#: plugins/excel/ms-excel-read.c:4815
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Nu pot localiza un registru de lucru MS Excel valid"
 
@@ -575,7 +575,7 @@ msgstr "TROFF (*.me)"
 msgid "Error executing groff."
 msgstr "Eroare la execuþia groff"
 
-#: plugins/lotus-123/lotus.c:315
+#: plugins/lotus-123/lotus.c:341
 msgid "Error while reading lotus workbook."
 msgstr "Eroare la citirea registrului lotus"
 
@@ -1022,7 +1022,7 @@ msgstr "Eroare la procesarea liniei"
 #.
 #. * Add Sheet
 #.
-#: plugins/sc/sc.c:420 plugins/sylk/sylk.c:461 src/stf.c:176 src/stf.c:279
+#: plugins/sc/sc.c:420 plugins/sylk/sylk.c:461 src/stf.c:178 src/stf.c:281
 #, c-format
 msgid "Imported %s"
 msgstr "Importat %s"
@@ -7422,12 +7422,12 @@ msgid "yellow"
 msgstr "galben"
 
 #. Is it a boolean?
-#: src/format.c:1551 src/number-match.c:1066 src/value-sheet.c:34
+#: src/format.c:1551 src/number-match.c:1109 src/value-sheet.c:34
 #: src/value.c:255 src/value.c:494
 msgid "TRUE"
 msgstr "ADEVÃRAT"
 
-#: src/format.c:1551 src/number-match.c:1068 src/value-sheet.c:34
+#: src/format.c:1551 src/number-match.c:1111 src/value-sheet.c:34
 #: src/value.c:257 src/value.c:494
 msgid "FALSE"
 msgstr "FALS"
@@ -14937,35 +14937,35 @@ msgstr "Nu am putut iniþializa creatorul de registre"
 msgid "Could not initialize EmbeddableGrid factory"
 msgstr "Nu am putut înregistra creatorul EmbeddableGrid"
 
-#: src/number-match.c:672
+#: src/number-match.c:698
 msgid "#NULL!"
 msgstr "#NUL!"
 
-#: src/number-match.c:673
+#: src/number-match.c:699
 msgid "#DIV/0!"
 msgstr "#DIV/0!"
 
-#: src/number-match.c:674
+#: src/number-match.c:700
 msgid "#VALUE!"
 msgstr "#VAL!"
 
-#: src/number-match.c:675
+#: src/number-match.c:701
 msgid "#REF!"
 msgstr "#REF!"
 
-#: src/number-match.c:676
+#: src/number-match.c:702
 msgid "#NAME?"
 msgstr "#NUME?"
 
-#: src/number-match.c:677
+#: src/number-match.c:703
 msgid "#NUM!"
 msgstr "#NUM!"
 
-#: src/number-match.c:678
+#: src/number-match.c:704
 msgid "#N/A"
 msgstr "#N/A"
 
-#: src/number-match.c:679
+#: src/number-match.c:705
 msgid "#RECALC!"
 msgstr "#RECALC!"
 
@@ -15752,15 +15752,15 @@ msgstr "Prea multe rânduri de procesat în date: %d"
 msgid "Too many columns in data to parse: %d"
 msgstr "Prea multe coloane de procesat în date: %d"
 
-#: src/stf.c:117
+#: src/stf.c:119
 msgid "Error while trying to memory map file"
 msgstr "Eroare la încercarea de a copia în memorie fiºierul"
 
-#: src/stf.c:128
+#: src/stf.c:130
 msgid "Error while trying to pre-convert file"
 msgstr "Eroare la încercarea de a pre-converti fiºierul"
 
-#: src/stf.c:134
+#: src/stf.c:136
 #, c-format
 msgid ""
 "This file does not seem to be a valid text file.\n"
@@ -15771,24 +15771,24 @@ msgstr ""
 "A fost întâlnit caracterul '%c' (%d în ASCII zecimal).\n"
 "Cel mai probabil setãrile de localizare sunt incorecte."
 
-#: src/stf.c:220 src/stf.c:308
+#: src/stf.c:222 src/stf.c:310
 msgid "Parse error while trying to parse data into sheet"
 msgstr "Eroare de procesare la încercarea de a procesa date în foaie"
 
-#: src/stf.c:433
+#: src/stf.c:435
 msgid "Error while trying to write csv file"
 msgstr "Eroare la încercarea de a scrie fiºier csv"
 
-#: src/stf.c:456
+#: src/stf.c:458
 msgid "Text import (auto-detect CSV or tab-delimited)"
 msgstr ""
 
-#: src/stf.c:460
+#: src/stf.c:462
 #, fuzzy
 msgid "Text import (configurable)"
 msgstr "Import fiºier text (personalizat)"
 
-#: src/stf.c:464
+#: src/stf.c:466
 #, fuzzy
 msgid "Text export (configurable)"
 msgstr "Import fiºier text (personalizat)"

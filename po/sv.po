@@ -29,7 +29,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2002-06-18 01:32-0400\n"
+"POT-Creation-Date: 2002-07-18 14:05-0400\n"
 "PO-Revision-Date: 2002-05-29 00:21+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -446,7 +446,7 @@ msgstr "Finansiella derivat"
 msgid "Functions related to financial derivatives"
 msgstr "Funktioner relaterade till finansiella derivat"
 
-#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4536
+#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4543
 #: plugins/mps/mps.c:579 src/xml-io.c:3386
 msgid "Reading file..."
 msgstr "Läser fil..."
@@ -548,7 +548,7 @@ msgstr "Sparar fil..."
 msgid "#UNKNOWN!"
 msgstr "#OKÄND!"
 
-#: plugins/excel/ms-excel-read.c:564 plugins/lotus-123/lotus.c:190
+#: plugins/excel/ms-excel-read.c:564 plugins/lotus-123/lotus.c:205
 #: plugins/oleo/oleo.c:362 plugins/psiconv/psiconv-read.c:497
 #, c-format
 msgid "Sheet%d"
@@ -569,16 +569,16 @@ msgstr "Diagram%d"
 msgid "Module%d"
 msgstr "Modul%d"
 
-#: plugins/excel/ms-excel-read.c:4531
+#: plugins/excel/ms-excel-read.c:4538
 msgid "No book or workbook streams found."
 msgstr "Kunde inte hitta ström med bok eller arbetsbok."
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4695
+#: plugins/excel/ms-excel-read.c:4702
 msgid "Password protected workbooks are not supported yet."
 msgstr "Lösenordsskyddade arbetsböcker stöds ännu inte."
 
-#: plugins/excel/ms-excel-read.c:4808
+#: plugins/excel/ms-excel-read.c:4815
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Kunde inte hitta en giltig MS Excel-arbetsbok"
 
@@ -761,7 +761,7 @@ msgstr "TROFF (*.me)"
 msgid "Error executing groff."
 msgstr "Fel vid körning av groff."
 
-#: plugins/lotus-123/lotus.c:315
+#: plugins/lotus-123/lotus.c:341
 msgid "Error while reading lotus workbook."
 msgstr "Fel vid läsning av lotus-arbetsbok."
 
@@ -1293,7 +1293,7 @@ msgstr "Fel vid tolkning av rad"
 #.
 #. * Add Sheet
 #.
-#: plugins/sc/sc.c:420 plugins/sylk/sylk.c:461 src/stf.c:176 src/stf.c:279
+#: plugins/sc/sc.c:420 plugins/sylk/sylk.c:461 src/stf.c:178 src/stf.c:281
 #, c-format
 msgid "Imported %s"
 msgstr "Importerade %s"
@@ -7591,12 +7591,12 @@ msgid "yellow"
 msgstr "gul"
 
 #. Is it a boolean?
-#: src/format.c:1551 src/number-match.c:1066 src/value-sheet.c:34
+#: src/format.c:1551 src/number-match.c:1109 src/value-sheet.c:34
 #: src/value.c:255 src/value.c:494
 msgid "TRUE"
 msgstr "SANT"
 
-#: src/format.c:1551 src/number-match.c:1068 src/value-sheet.c:34
+#: src/format.c:1551 src/number-match.c:1111 src/value-sheet.c:34
 #: src/value.c:257 src/value.c:494
 msgid "FALSE"
 msgstr "FALSKT"
@@ -19386,35 +19386,35 @@ msgstr "Kunde inte initiera \"Workbook factory\""
 msgid "Could not initialize EmbeddableGrid factory"
 msgstr "Kunde inte initiera \"EmbeddableGrid factory\""
 
-#: src/number-match.c:672
+#: src/number-match.c:698
 msgid "#NULL!"
 msgstr "#TOM!"
 
-#: src/number-match.c:673
+#: src/number-match.c:699
 msgid "#DIV/0!"
 msgstr "#DIV/0!"
 
-#: src/number-match.c:674
+#: src/number-match.c:700
 msgid "#VALUE!"
 msgstr "#VÄRDE!"
 
-#: src/number-match.c:675
+#: src/number-match.c:701
 msgid "#REF!"
 msgstr "#REF!"
 
-#: src/number-match.c:676
+#: src/number-match.c:702
 msgid "#NAME?"
 msgstr "#NAMN?"
 
-#: src/number-match.c:677
+#: src/number-match.c:703
 msgid "#NUM!"
 msgstr "#NUM!"
 
-#: src/number-match.c:678
+#: src/number-match.c:704
 msgid "#N/A"
 msgstr "#-"
 
-#: src/number-match.c:679
+#: src/number-match.c:705
 msgid "#RECALC!"
 msgstr "#OMKALK!"
 
@@ -20200,15 +20200,15 @@ msgstr "För många rader i data för att tolka: %d"
 msgid "Too many columns in data to parse: %d"
 msgstr "För många kolumner i data för att tolka: %d"
 
-#: src/stf.c:117
+#: src/stf.c:119
 msgid "Error while trying to memory map file"
 msgstr "Fel vid skrivning till minneskartfil"
 
-#: src/stf.c:128
+#: src/stf.c:130
 msgid "Error while trying to pre-convert file"
 msgstr "Fel vid försök att förkonvertera fil"
 
-#: src/stf.c:134
+#: src/stf.c:136
 #, c-format
 msgid ""
 "This file does not seem to be a valid text file.\n"
@@ -20219,23 +20219,23 @@ msgstr ""
 "Tecknet \"%c\" (det decimala ASCII-tecknet %d) hittades.\n"
 "Dina lokalinställningar är troligtvis fel."
 
-#: src/stf.c:220 src/stf.c:308
+#: src/stf.c:222 src/stf.c:310
 msgid "Parse error while trying to parse data into sheet"
 msgstr "Tolkningsfel vid tolkning av data i kalkylbladet"
 
-#: src/stf.c:433
+#: src/stf.c:435
 msgid "Error while trying to write csv file"
 msgstr "Fel vid skrivning av csv-fil"
 
-#: src/stf.c:456
+#: src/stf.c:458
 msgid "Text import (auto-detect CSV or tab-delimited)"
 msgstr ""
 
-#: src/stf.c:460
+#: src/stf.c:462
 msgid "Text import (configurable)"
 msgstr "Textimport (anpassningsbar)"
 
-#: src/stf.c:464
+#: src/stf.c:466
 msgid "Text export (configurable)"
 msgstr "Textexport (anpassningsbar)"
 

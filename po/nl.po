@@ -11,7 +11,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
-"POT-Creation-Date: 2002-06-18 01:32-0400\n"
+"POT-Creation-Date: 2002-07-18 14:05-0400\n"
 "PO-Revision-Date: 2002-05-30 01:55+02:00\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -452,7 +452,7 @@ msgstr "Financieel Afgeleiden"
 msgid "Functions related to financial derivatives"
 msgstr "Functies gerelateerd aan financieel afgeleiden"
 
-#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4536
+#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4543
 #: plugins/mps/mps.c:579 src/xml-io.c:3386
 msgid "Reading file..."
 msgstr "Bezig bestand te lezen..."
@@ -554,7 +554,7 @@ msgstr "Bezig bestand op te slaan..."
 msgid "#UNKNOWN!"
 msgstr "#ONBEKEND!"
 
-#: plugins/excel/ms-excel-read.c:564 plugins/lotus-123/lotus.c:190
+#: plugins/excel/ms-excel-read.c:564 plugins/lotus-123/lotus.c:205
 #: plugins/oleo/oleo.c:362 plugins/psiconv/psiconv-read.c:497
 #, c-format
 msgid "Sheet%d"
@@ -575,16 +575,16 @@ msgstr "Kaart%d"
 msgid "Module%d"
 msgstr "Module%d"
 
-#: plugins/excel/ms-excel-read.c:4531
+#: plugins/excel/ms-excel-read.c:4538
 msgid "No book or workbook streams found."
 msgstr "Geen map of werkmap stromen gevonden."
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4695
+#: plugins/excel/ms-excel-read.c:4702
 msgid "Password protected workbooks are not supported yet."
 msgstr "Wachtwoord-beveiligde werkmappen worden nog niet ondersteund."
 
-#: plugins/excel/ms-excel-read.c:4808
+#: plugins/excel/ms-excel-read.c:4815
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Niet in staat om een geldig MS Excel werkmap te vinden"
 
@@ -770,7 +770,7 @@ msgstr "TROFF (*.me)"
 msgid "Error executing groff."
 msgstr "Fout bij uitvoeren groff."
 
-#: plugins/lotus-123/lotus.c:315
+#: plugins/lotus-123/lotus.c:341
 msgid "Error while reading lotus workbook."
 msgstr "Fout bij lezen van lotus werkmap."
 
@@ -1300,7 +1300,7 @@ msgstr "Fout bij verwerken van regel"
 #.
 #. * Add Sheet
 #.
-#: plugins/sc/sc.c:420 plugins/sylk/sylk.c:461 src/stf.c:176 src/stf.c:279
+#: plugins/sc/sc.c:420 plugins/sylk/sylk.c:461 src/stf.c:178 src/stf.c:281
 #, c-format
 msgid "Imported %s"
 msgstr "%s Geïmporteerd."
@@ -7626,12 +7626,12 @@ msgid "yellow"
 msgstr "geel"
 
 #. Is it a boolean?
-#: src/format.c:1551 src/number-match.c:1066 src/value-sheet.c:34
+#: src/format.c:1551 src/number-match.c:1109 src/value-sheet.c:34
 #: src/value.c:255 src/value.c:494
 msgid "TRUE"
 msgstr "WAAR"
 
-#: src/format.c:1551 src/number-match.c:1068 src/value-sheet.c:34
+#: src/format.c:1551 src/number-match.c:1111 src/value-sheet.c:34
 #: src/value.c:257 src/value.c:494
 msgid "FALSE"
 msgstr "ONWAAR"
@@ -19733,35 +19733,35 @@ msgstr "Fout bij initialiseren Gnumeric Werkmap fabriek"
 msgid "Could not initialize EmbeddableGrid factory"
 msgstr "Fout bij initialiseren EmbeddableGrid object"
 
-#: src/number-match.c:672
+#: src/number-match.c:698
 msgid "#NULL!"
 msgstr "#LEEG!"
 
-#: src/number-match.c:673
+#: src/number-match.c:699
 msgid "#DIV/0!"
 msgstr "#DEEL/0"
 
-#: src/number-match.c:674
+#: src/number-match.c:700
 msgid "#VALUE!"
 msgstr "#WAARDE!"
 
-#: src/number-match.c:675
+#: src/number-match.c:701
 msgid "#REF!"
 msgstr "#VERW!"
 
-#: src/number-match.c:676
+#: src/number-match.c:702
 msgid "#NAME?"
 msgstr "#NAAM?"
 
-#: src/number-match.c:677
+#: src/number-match.c:703
 msgid "#NUM!"
 msgstr "#GETAL!"
 
-#: src/number-match.c:678
+#: src/number-match.c:704
 msgid "#N/A"
 msgstr "#N/B"
 
-#: src/number-match.c:679
+#: src/number-match.c:705
 msgid "#RECALC!"
 msgstr "#HERBEREKEN!"
 
@@ -20549,15 +20549,15 @@ msgstr "Te veel rijen in gegevens om te verwerken: %d"
 msgid "Too many columns in data to parse: %d"
 msgstr "Gegevens bevatten te veel kolommen om te verwerken: %d"
 
-#: src/stf.c:117
+#: src/stf.c:119
 msgid "Error while trying to memory map file"
 msgstr "Fout tijdens laden bestand"
 
-#: src/stf.c:128
+#: src/stf.c:130
 msgid "Error while trying to pre-convert file"
 msgstr "Fout tijdens pre-converteren bestand"
 
-#: src/stf.c:134
+#: src/stf.c:136
 #, c-format
 msgid ""
 "This file does not seem to be a valid text file.\n"
@@ -20568,23 +20568,23 @@ msgstr ""
 "Ik kwam het teken '%c' tegen (ASCII waarde %d).\n"
 "Waarschijnlijk zijn je instellingen voor locale verkeerd."
 
-#: src/stf.c:220 src/stf.c:308
+#: src/stf.c:222 src/stf.c:310
 msgid "Parse error while trying to parse data into sheet"
 msgstr "Fout bij taalkundig ontleden van gegevens naar blad"
 
-#: src/stf.c:433
+#: src/stf.c:435
 msgid "Error while trying to write csv file"
 msgstr "Fout tijdens het schrijven csv bestand"
 
-#: src/stf.c:456
+#: src/stf.c:458
 msgid "Text import (auto-detect CSV or tab-delimited)"
 msgstr ""
 
-#: src/stf.c:460
+#: src/stf.c:462
 msgid "Text import (configurable)"
 msgstr "Tekst import (instelbaar)"
 
-#: src/stf.c:464
+#: src/stf.c:466
 msgid "Text export (configurable)"
 msgstr "Tekst uitvoer (instelbaar)"
 

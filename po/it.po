@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.34\n"
-"POT-Creation-Date: 2002-06-18 01:32-0400\n"
+"POT-Creation-Date: 2002-07-18 14:05-0400\n"
 "PO-Revision-Date: 2001-01-04 20:05+01:00\n"
 "Last-Translator: Leandro Noferini <lnoferin@cybervalley.org>\n"
 "Language-Team: \n"
@@ -260,7 +260,7 @@ msgstr "Finanziarie"
 msgid "Functions related to financial derivatives"
 msgstr ""
 
-#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4536
+#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4543
 #: plugins/mps/mps.c:579 src/xml-io.c:3386
 msgid "Reading file..."
 msgstr ""
@@ -361,7 +361,7 @@ msgstr "Singolo"
 msgid "#UNKNOWN!"
 msgstr "#UNKNOWN!"
 
-#: plugins/excel/ms-excel-read.c:564 plugins/lotus-123/lotus.c:190
+#: plugins/excel/ms-excel-read.c:564 plugins/lotus-123/lotus.c:205
 #: plugins/oleo/oleo.c:362 plugins/psiconv/psiconv-read.c:497
 #, c-format
 msgid "Sheet%d"
@@ -382,16 +382,16 @@ msgstr ""
 msgid "Module%d"
 msgstr "Modo"
 
-#: plugins/excel/ms-excel-read.c:4531
+#: plugins/excel/ms-excel-read.c:4538
 msgid "No book or workbook streams found."
 msgstr ""
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4695
+#: plugins/excel/ms-excel-read.c:4702
 msgid "Password protected workbooks are not supported yet."
 msgstr "Cartelle di lavoro protette da password non ancora supportate"
 
-#: plugins/excel/ms-excel-read.c:4808
+#: plugins/excel/ms-excel-read.c:4815
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Non riesco a trovare una cartella di lavoro MS Excel"
 
@@ -583,7 +583,7 @@ msgstr "File formato TROFF (*.me)"
 msgid "Error executing groff."
 msgstr ""
 
-#: plugins/lotus-123/lotus.c:315
+#: plugins/lotus-123/lotus.c:341
 msgid "Error while reading lotus workbook."
 msgstr ""
 
@@ -1142,7 +1142,7 @@ msgstr "errore nel parsare la linea\n"
 #.
 #. * Add Sheet
 #.
-#: plugins/sc/sc.c:420 plugins/sylk/sylk.c:461 src/stf.c:176 src/stf.c:279
+#: plugins/sc/sc.c:420 plugins/sylk/sylk.c:461 src/stf.c:178 src/stf.c:281
 #, c-format
 msgid "Imported %s"
 msgstr "Ho importato %s"
@@ -7840,12 +7840,12 @@ msgid "yellow"
 msgstr "giallo"
 
 #. Is it a boolean?
-#: src/format.c:1551 src/number-match.c:1066 src/value-sheet.c:34
+#: src/format.c:1551 src/number-match.c:1109 src/value-sheet.c:34
 #: src/value.c:255 src/value.c:494
 msgid "TRUE"
 msgstr "VERO"
 
-#: src/format.c:1551 src/number-match.c:1068 src/value-sheet.c:34
+#: src/format.c:1551 src/number-match.c:1111 src/value-sheet.c:34
 #: src/value.c:257 src/value.c:494
 msgid "FALSE"
 msgstr "FALSO"
@@ -16837,35 +16837,35 @@ msgid "Could not initialize EmbeddableGrid factory"
 msgstr ""
 "Non riesco ad inizializzare la fabbrica delle Cartelle di lavoro di Gnumeric"
 
-#: src/number-match.c:672
+#: src/number-match.c:698
 msgid "#NULL!"
 msgstr "#NULL!"
 
-#: src/number-match.c:673
+#: src/number-match.c:699
 msgid "#DIV/0!"
 msgstr "#DIV/0!"
 
-#: src/number-match.c:674
+#: src/number-match.c:700
 msgid "#VALUE!"
 msgstr "#VALUE!"
 
-#: src/number-match.c:675
+#: src/number-match.c:701
 msgid "#REF!"
 msgstr "#REF!"
 
-#: src/number-match.c:676
+#: src/number-match.c:702
 msgid "#NAME?"
 msgstr "#NAME?"
 
-#: src/number-match.c:677
+#: src/number-match.c:703
 msgid "#NUM!"
 msgstr "#NUM!"
 
-#: src/number-match.c:678
+#: src/number-match.c:704
 msgid "#N/A"
 msgstr "#N/A"
 
-#: src/number-match.c:679
+#: src/number-match.c:705
 msgid "#RECALC!"
 msgstr "#RECALC!"
 
@@ -17694,15 +17694,15 @@ msgstr "Troppe righe per questo formato"
 msgid "Too many columns in data to parse: %d"
 msgstr ""
 
-#: src/stf.c:117
+#: src/stf.c:119
 msgid "Error while trying to memory map file"
 msgstr ""
 
-#: src/stf.c:128
+#: src/stf.c:130
 msgid "Error while trying to pre-convert file"
 msgstr "Errore nella pre-conversione del file"
 
-#: src/stf.c:134
+#: src/stf.c:136
 #, c-format
 msgid ""
 "This file does not seem to be a valid text file.\n"
@@ -17713,24 +17713,24 @@ msgstr ""
 "È stato incontrato il carattere '%c' (in ASCII decimale %d).\n"
 "Molto probabilmente sono sbagliate le impostazioni del locale."
 
-#: src/stf.c:220 src/stf.c:308
+#: src/stf.c:222 src/stf.c:310
 msgid "Parse error while trying to parse data into sheet"
 msgstr "Errore di sintassi controllando i dati dentro il foglio"
 
-#: src/stf.c:433
+#: src/stf.c:435
 msgid "Error while trying to write csv file"
 msgstr "Errore scrivendo il file csv"
 
-#: src/stf.c:456
+#: src/stf.c:458
 msgid "Text import (auto-detect CSV or tab-delimited)"
 msgstr ""
 
-#: src/stf.c:460
+#: src/stf.c:462
 #, fuzzy
 msgid "Text import (configurable)"
 msgstr "File in formato testo (*.csv)"
 
-#: src/stf.c:464
+#: src/stf.c:466
 #, fuzzy
 msgid "Text export (configurable)"
 msgstr "File in formato testo (*.csv)"

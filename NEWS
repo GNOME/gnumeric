@@ -4,6 +4,7 @@ Jody:
 	* Fix 0 sized TXO import inside escher streams
 	* Fix import of IMDATA inside escher streams
 	* Improve lotus importer
+	* wrap text does no supercede center across selection
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=86338
 	* Match cummulative time
