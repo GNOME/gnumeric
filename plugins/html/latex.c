@@ -182,129 +182,129 @@ latex_fputs (const char *p, FILE *fp)
 static void
 latex2e_write_file_header(FILE *fp)
 {
-		fputs("
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%                                                                  %%
-%%  This is the header of a LaTeX2e file exported from Gnumeric.    %%
-%%                                                                  %%
-%%  This file can be compiled as it stands or included in another   %%
-%%  LaTeX document. The table is based on the longtable package so  %%
-%%  the longtable options (headers, footers...) can be set in the   %%
-%%  preamble section below (see PRAMBLE).                           %%
-%%                                                                  %%
-%%  To include the file in another, the following two lines must be %%
-%%  in the including file:                                          %%
-%%        \\def\\inputGnumericTable{}                                 %%
-%%  at the begining of the file and:                                %%
-%%        \\input{name-of-this-file.tex}                             %%
-%%  where the table is to be placed. Note also that the including   %%
-%%  file must use the following packages for the table to be        %%
-%%  rendered correctly:                                             %%
-%%    \\usepackage[latin1]{inputenc}                                 %%
-%%    \\usepackage{color}                                            %%
-%%    \\usepackage{array}                                            %%
-%%    \\usepackage{longtable}                                        %%
-%%    \\usepackage{calc}                                             %%
-%%    \\usepackage{multirow}                                         %%
-%%    \\usepackage{hhline}                                           %%
-%%    \\usepackage{ifthen}                                           %%
-%%  optionally (for landscape tables embedded in another document): %%
-%%    \\usepackage{lscape}                                           %%
-%%                                                                  %%
-%%  In addition the following commands need to be executed in the   %%
-%%  preamble:                                                       %%
-%%                                                                  %%
-%%  \\newlength{\\gnumericTableWidth}                                 %%
-%%  \\newlength{\\gnumericTableWidthComplete}                         %%
-%%                                                                  %%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-%%  This section checks if we are begin input into another file or  %%
-%%  the file will be compiled alone. First use a macro taken from   %%
-%%  the TeXbook ex 7.7 (suggestion of Han-Wen Nienhuys).            %%
-\\def\\ifundefined#1{\\expandafter\\ifx\\csname#1\\endcsname\\relax}
-
-
-%%  Check for the \\def token for inputed files. If it is not        %%
-%%  defined, the file will be processed as a standalone and the     %%
-%%  preamble will be used.                                          %%
-\\ifundefined{inputGnumericTable}
-
-%%  We must be able to close or not the document at the end.        %%
-	\\def\\gnumericTableEnd{\\end{document}}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%                                                                  %%
-%%  This is the PREAMBLE. Change these values to get the right      %%
-%%  paper size and other niceties. Uncomment the landscape option   %%
-%%  to the documentclass defintion for standalone documents.        %%
-%%                                                                  %%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-	\\documentclass[12pt%
-	                  %,landscape%
-                    ]{report}
-	\\usepackage[latin1]{inputenc}
-	\\usepackage{color}
-        \\usepackage{array}
-	\\usepackage{longtable}
-        \\usepackage{calc}
-        \\usepackage{multirow}
-        \\usepackage{hhline}
-        \\usepackage{ifthen}
-
-	\\begin{document}
-
-        \\newlength{\\gnumericTableWidth}
-        \\newlength{\\gnumericTableWidthComplete}
-
-%%  End of the preamble for the standalone. The next section is for %%
-%%  documents which are included into other LaTeX2e files.          %%
-\\else
-
-%%  We are not a stand alone document. For a regular table, we will %%
-%%  have no preamble and only define the closing to mean nothing.   %%
-    \\def\\gnumericTableEnd{}
-
-%%  If we want landscape mode in an embedded document, comment out  %%
-%%  the line above and uncomment the two below. The table will      %%
-%%  begin on a new page and run in landscape mode.                  %%
-%       \\def\\gnumericTableEnd{\\end{landscape}}
-%       \\begin{landscape}
-
-
-%%  End of the else clause for this file being \\input.              %%
-\\fi
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%                                                                  %%
-%%  The rest is the gnumeric table, except for the closing          %%
-%%  statement. Changes below will alter the table\'s appearance.     %%
-%%                                                                  %%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\\providecommand{\\gnumericPB}[1]%
-{\\let\\gnumericTemp=\\\\#1\\let\\\\=\\gnumericTemp\\hspace{0pt}}
-
-%%  The default table format retains the relative column widths of  %%
-%%  gnumeric. They can easily be changed to c, r or l. In that case %%
-%%  you may want to comment out the next line and uncomment the one %%
-%%  thereafter                                                      %%
-\\providecommand\\gnumbox{\\makebox[0pt]}
-%%\\providecommand\\gnumbox[1][]{\\makebox}
-
-%% to adjust positions in multirow situations                       %%
-\\setlength{\\bigstrutjot}{\\jot}
-\\setlength{\\extrarowheight}{\\doublerulesep}
-
-%%  The \\setlongtables command keeps column widths the same across %%
-%%  pages. Simply comment out next line for varying column widths.  %%
-\\setlongtables
-
-",fp);
+		fputs(
+"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
+"%%                                                                  %%\n"
+"%%  This is the header of a LaTeX2e file exported from Gnumeric.    %%\n"
+"%%                                                                  %%\n"
+"%%  This file can be compiled as it stands or included in another   %%\n"
+"%%  LaTeX document. The table is based on the longtable package so  %%\n"
+"%%  the longtable options (headers, footers...) can be set in the   %%\n"
+"%%  preamble section below (see PRAMBLE).                           %%\n"
+"%%                                                                  %%\n"
+"%%  To include the file in another, the following two lines must be %%\n"
+"%%  in the including file:                                          %%\n"
+"%%        \\def\\inputGnumericTable{}                                 %%\n"
+"%%  at the begining of the file and:                                %%\n"
+"%%        \\input{name-of-this-file.tex}                             %%\n"
+"%%  where the table is to be placed. Note also that the including   %%\n"
+"%%  file must use the following packages for the table to be        %%\n"
+"%%  rendered correctly:                                             %%\n"
+"%%    \\usepackage[latin1]{inputenc}                                 %%\n"
+"%%    \\usepackage{color}                                            %%\n"
+"%%    \\usepackage{array}                                            %%\n"
+"%%    \\usepackage{longtable}                                        %%\n"
+"%%    \\usepackage{calc}                                             %%\n"
+"%%    \\usepackage{multirow}                                         %%\n"
+"%%    \\usepackage{hhline}                                           %%\n"
+"%%    \\usepackage{ifthen}                                           %%\n"
+"%%  optionally (for landscape tables embedded in another document): %%\n"
+"%%    \\usepackage{lscape}                                           %%\n"
+"%%                                                                  %%\n"
+"%%  In addition the following commands need to be executed in the   %%\n"
+"%%  preamble:                                                       %%\n"
+"%%                                                                  %%\n"
+"%%  \\newlength{\\gnumericTableWidth}                                 %%\n"
+"%%  \\newlength{\\gnumericTableWidthComplete}                         %%\n"
+"%%                                                                  %%\n"
+"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
+"\n"
+"\n"
+"\n"
+"%%  This section checks if we are begin input into another file or  %%\n"
+"%%  the file will be compiled alone. First use a macro taken from   %%\n"
+"%%  the TeXbook ex 7.7 (suggestion of Han-Wen Nienhuys).            %%\n"
+"\\def\\ifundefined#1{\\expandafter\\ifx\\csname#1\\endcsname\\relax}\n"
+"\n"
+"\n"
+"%%  Check for the \\def token for inputed files. If it is not        %%\n"
+"%%  defined, the file will be processed as a standalone and the     %%\n"
+"%%  preamble will be used.                                          %%\n"
+"\\ifundefined{inputGnumericTable}\n"
+"\n"
+"%%  We must be able to close or not the document at the end.        %%\n"
+"	\\def\\gnumericTableEnd{\\end{document}}\n"
+"\n"
+"\n"
+"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
+"%%                                                                  %%\n"
+"%%  This is the PREAMBLE. Change these values to get the right      %%\n"
+"%%  paper size and other niceties. Uncomment the landscape option   %%\n"
+"%%  to the documentclass defintion for standalone documents.        %%\n"
+"%%                                                                  %%\n"
+"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
+"\n"
+"	\\documentclass[12pt%\n"
+"	                  %,landscape%\n"
+"                    ]{report}\n"
+"	\\usepackage[latin1]{inputenc}\n"
+"	\\usepackage{color}\n"
+"        \\usepackage{array}\n"
+"	\\usepackage{longtable}\n"
+"        \\usepackage{calc}\n"
+"        \\usepackage{multirow}\n"
+"        \\usepackage{hhline}\n"
+"        \\usepackage{ifthen}\n"
+"\n"
+"	\\begin{document}\n"
+"\n"
+"        \\newlength{\\gnumericTableWidth}\n"
+"        \\newlength{\\gnumericTableWidthComplete}\n"
+"\n"
+"%%  End of the preamble for the standalone. The next section is for %%\n"
+"%%  documents which are included into other LaTeX2e files.          %%\n"
+"\\else\n"
+"\n"
+"%%  We are not a stand alone document. For a regular table, we will %%\n"
+"%%  have no preamble and only define the closing to mean nothing.   %%\n"
+"    \\def\\gnumericTableEnd{}\n"
+"\n"
+"%%  If we want landscape mode in an embedded document, comment out  %%\n"
+"%%  the line above and uncomment the two below. The table will      %%\n"
+"%%  begin on a new page and run in landscape mode.                  %%\n"
+"%       \\def\\gnumericTableEnd{\\end{landscape}}\n"
+"%       \\begin{landscape}\n"
+"\n"
+"\n"
+"%%  End of the else clause for this file being \\input.              %%\n"
+"\\fi\n"
+"\n"
+"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
+"%%                                                                  %%\n"
+"%%  The rest is the gnumeric table, except for the closing          %%\n"
+"%%  statement. Changes below will alter the table\'s appearance.     %%\n"
+"%%                                                                  %%\n"
+"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
+"\n"
+"\\providecommand{\\gnumericPB}[1]%\n"
+"{\\let\\gnumericTemp=\\\\#1\\let\\\\=\\gnumericTemp\\hspace{0pt}}\n"
+"\n"
+"%%  The default table format retains the relative column widths of  %%\n"
+"%%  gnumeric. They can easily be changed to c, r or l. In that case %%\n"
+"%%  you may want to comment out the next line and uncomment the one %%\n"
+"%%  thereafter                                                      %%\n"
+"\\providecommand\\gnumbox{\\makebox[0pt]}\n"
+"%%\\providecommand\\gnumbox[1][]{\\makebox}\n"
+"\n"
+"%% to adjust positions in multirow situations                       %%\n"
+"\\setlength{\\bigstrutjot}{\\jot}\n"
+"\\setlength{\\extrarowheight}{\\doublerulesep}\n"
+"\n"
+"%%  The \\setlongtables command keeps column widths the same across %%\n"
+"%%  pages. Simply comment out next line for varying column widths.  %%\n"
+"\\setlongtables\n"
+"\n"
+,fp);
 }
 
 
@@ -322,16 +322,16 @@ latex2e_write_table_header(FILE *fp, int num_cols)
 	int col;
 
 
-	fputs ("
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%  The longtable options. (Caption, headers... see Goosens, p.124) %%
-%\t\\caption{The Table Caption.}             \\\\	%
-% \\hline	% Across the top of the table.
-%%  The rest of these options are table rows which are placed on    %%
-%%  the first, last or every page. Use \\multicolumn if you want.    %%
-
-%%  Header for the first page.                                      %%
-",fp);
+	fputs (
+"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
+"%%  The longtable options. (Caption, headers... see Goosens, p.124) %%\n"
+"%\t\\caption{The Table Caption.}             \\\\	%\n"
+"% \\hline	% Across the top of the table.\n"
+"%%  The rest of these options are table rows which are placed on    %%\n"
+"%%  the first, last or every page. Use \\multicolumn if you want.    %%\n"
+"\n"
+"%%  Header for the first page.                                      %%\n"
+,fp);
 
 	fprintf (fp, "%%\t\\multicolumn{%d}{c}{The First Header} \\\\ \\hline \n", num_cols);
 	fprintf (fp, "%%\t\\multicolumn{1}{c}{colTag}\t%%Column 1\n");
@@ -628,9 +628,9 @@ latex2e_write_multicolumn_cell (FILE *fp, const Cell *cell, const int num_merged
 			break;
 		}
 
- 	if (!cell_is_blank (cell)) {
-		/* Check the foreground (text) colour. */
-		textColor= cell_get_render_color (cell);
+	if (!cell_is_blank (cell)) {
+                /* Check the foreground (text) colour. */
+		textColor = cell_get_render_color (cell);
 		if (textColor == NULL)
 			textColor = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE);
 		r = textColor->red;
@@ -639,7 +639,7 @@ latex2e_write_multicolumn_cell (FILE *fp, const Cell *cell, const int num_merged
 		if (r != 0 || g != 0 || b != 0)
 			fprintf (fp, "{\\color[rgb]{%.2f,%.2f,%.2f} ",
 				 (double)r/65535, (double)g/65535, (double)b/65535);       
-		
+
 		/* Establish the font's style for the styles that can be addressed by LaTeX.
 		 * More complicated efforts (like changing fonts) are left to the user.
 		 */
@@ -863,16 +863,16 @@ latex_file_save (GnumFileSaver const *fs, IOContext *io_context,
 "{\\def\\gnumericScale{\\ratio{\\textwidth-\\tabcolsep*\\gumericNumCols*2-\\arrayrulewidth*\\gumericNumCols}%\n"
 "{\\gnumericTableWidth}}}%\n"
 "{\\def\\gnumericScale{1}}\n"
-"
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%                                                                  %%
-%% The following are the widths of the various columns. We are      %%
-%% defining them here because then they are easier to change.       %%
-%% Depending on the cell formats we may use them more than once.    %%
-%%                                                                  %%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-", fp);
+"\n"
+"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
+"%%                                                                  %%\n"
+"%% The following are the widths of the various columns. We are      %%\n"
+"%% defining them here because then they are easier to change.       %%\n"
+"%% Depending on the cell formats we may use them more than once.    %%\n"
+"%%                                                                  %%\n"
+"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
+"\n"
+, fp);
 	
 	for (col = total_range.start.col; col <=  total_range.end.col; col++) {
 		ColRowInfo const * ci;
@@ -993,7 +993,7 @@ latex_file_save (GnumFileSaver const *fs, IOContext *io_context,
 						       col - total_range.start.col,
 						       next_vert, current_sheet);
 			col += (num_merged_cols - 1);
-			next_row : continue;
+			continue;
 		}
 		fprintf (fp, "\\\\\n");
 		if (prev_vert != NULL) 

@@ -7,9 +7,6 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-  plugins/html/latex.c contains strings with embedded newlines.  Change to
-  using \n\ at the end of each line.
-
 Pending Patches
 ---------------
 
