@@ -1,13 +1,13 @@
-2002-07-07  Jon K Hellan  <hellan@acm.org>
+2002-07-07  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
-	* functions.c: Fix bug in registration of TRUE and FALSE
-	functions. They require no arguments, not one.
+	* functions.c, gsl-complex.c: Implemented the following fns:
+	  IMARCSIN(), IMARCCOS(), IMARCTAN(), IMARCSEC(), IMARCCSC(),
+	  IMARCCOT(), IMSINH(), IMCOSH(), IMTANH(), IMSECH(), IMCSCH(),
+	  IMCOTH(), IMARCSINH(), IMARCCOSH(), IMARCTANH(), IMARCSECH(),
+	  IMARCCSCH(), and IMARCCOTH().
 
-2002-05-29  Jody Goldberg <jody@gnome.org>
+	* functions.c: Imported the complex functions from the fn-eng
+	plug-in.
 
-	* Release 1.1.4
-
-2002-05-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
-
-	* functions.c : mark argument names for translation and adjust 
-	  them for use by the formula guru.
+	* gsl-complex.[ch]: Imported with modifications from the GNU
+	Scientific Library (GPLed stuff).
