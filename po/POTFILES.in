@@ -99,6 +99,7 @@ src/dialogs/dialog-insert-cells.c
 src/dialogs/dialog-merge.c
 src/dialogs/dialog-paste-special.c
 src/dialogs/dialog-plugin-manager.c
+src/dialogs/dialog-preferences.c
 src/dialogs/dialog-printer-setup.c
 src/dialogs/dialog-random-generator.c
 src/dialogs/dialog-search-replace.c
