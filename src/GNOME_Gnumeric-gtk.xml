@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ui>
   <menubar>
     <menu name="File" action="MenuFile">
@@ -75,13 +75,13 @@
     </menu>
     <menu name="View" action="MenuView">
       <menuitem action="ViewNew"/>
-      <menuitem action="ViewZoom"/>
       <menuitem action="ViewFreezeThawPanes"/>
       <separator/>
-      <menuitem action="ViewStandardToolbar"/>
-      <menuitem action="ViewFormatToolbar"/>
-      <menuitem action="ViewObjectToolbar"/>
+      <menu name="Toolbars" action="MenuViewToolbars">
+      </menu>
       <menuitem action="ViewStatusbar"/>
+      <menuitem action="ViewFullScreen"/>
+      <menuitem action="ViewZoom"/>
     </menu>
     <menu name="Insert" action="MenuInsert">
       <menuitem action="InsertCells"/>

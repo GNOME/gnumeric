@@ -14,7 +14,7 @@
 
 #include <gsf/gsf-impl-utils.h>
 
-#define CC_CLASS(o) GNM_CMD_CONTEXT_CLASS (G_OBJECT_GET_CLASS (o))
+#define CC_CLASS(o) (G_TYPE_INSTANCE_GET_INTERFACE ((o), GNM_CMD_CONTEXT_TYPE, GnmCmdContextClass))
 
 static GError *
 format_message (GQuark id, char const *message)
@@ -176,6 +176,22 @@ gnm_cmd_context_set_sensitive (GnmCmdContext *cc, gboolean sensitive)
 	CC_CLASS (cc)->set_sensitive (cc, sensitive);
 }
 
-GSF_CLASS (GnmCmdContext, gnm_cmd_context,
-	   NULL, NULL,
-	   G_TYPE_OBJECT)
+GType
+gnm_cmd_context_get_type (void)
+{
+	static GType gnm_cmd_context_type = 0;
+
+	if (!gnm_cmd_context_type) {
+		static GTypeInfo const gnm_cmd_context_info = {
+			sizeof (GnmCmdContextClass),	/* class_size */
+			NULL,				/* base_init */
+			NULL,				/* base_finalize */
+		};
+
+		gnm_cmd_context_type = g_type_register_static (G_TYPE_INTERFACE,
+			"GnmCmdContext", &gnm_cmd_context_info, 0);
+	}
+
+	return gnm_cmd_context_type;
+}
+

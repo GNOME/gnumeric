@@ -96,6 +96,7 @@ go_gradient_selector (GOColor start, GOColor end)
 	for (i = 0; i < G_N_ELEMENTS (grad_dir_names); i++) {
 		GOGradientDirection dir = grad_dir_names[i].dir;
 		pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, W, H);
+		gdk_pixbuf_fill (pixbuf, 0); /* in case the fill colours have alpha = 0 */
 		render = art_render_new (0, 0, W, H,
 			gdk_pixbuf_get_pixels (pixbuf),
 			gdk_pixbuf_get_rowstride (pixbuf),

@@ -1,3 +1,18 @@
+2004-05-07  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-theme.c (gog_themes_init) : sync the default theme with
+	  XL's notion of things so that we do not theme away auto settings on
+	  import.  Specificly Give chart's the background and make graph
+	  empty.
+
+	*  */Makefile.am : use goffice.mk for include paths
+
+2004-05-03  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=136363
+	* graph/gog-style.c (gog_style_apply_theme) : Do not theme the fonts
+	  it over rides the user selection because there is no 'auto' flag.
+
 2004-05-06  Morten Welinder  <terra@gnome.org>
 
 	* utils/go-gradient.c (go_gradient_dir_from_str,

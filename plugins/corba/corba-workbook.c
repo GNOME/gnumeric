@@ -31,6 +31,7 @@
 #include <sheet-control-priv.h>
 #include <ranges.h>
 #include <sheet.h>
+#include <command-context-priv.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <bonobo.h>

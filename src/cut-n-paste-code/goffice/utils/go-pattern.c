@@ -228,6 +228,7 @@ go_pattern_selector (GOColor fore, GOColor back,
 	w = go_combo_pixmaps_new (5);
 	for (i = 0; i < G_N_ELEMENTS (elements); i++) {
 		pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, W, H);
+		gdk_pixbuf_fill (pixbuf, 0); /* in case the fill colours have alpha = 0 */
 		is_auto = elements[i] == GO_PATTERN_MAX;
 		pat.pattern = is_auto ? default_pat : i;
 		go_pattern_render_svp (&pat, svp, 0, 0, W, H,

@@ -137,7 +137,8 @@ void        print_info_set_margin_left   (PrintInformation *pi, double left);
 void        print_info_set_margin_right  (PrintInformation *pi, double right);
 void        print_info_set_orientation   (PrintInformation *pi, 
 					  PrintOrientation orient); 
-PrintOrientation print_info_get_orientation   (PrintInformation *pi); 
+PrintOrientation print_info_get_orientation (PrintInformation const *pi); 
+guint		 print_info_get_n_copies    (PrintInformation const *pi);
 
 /* Formats known */
 extern GList *hf_formats;

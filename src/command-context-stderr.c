@@ -18,8 +18,8 @@
 #include "ranges.h"
 
 struct _CmdContextStderr {
-	GnmCmdContext	context;
-	int		status;
+	GObject	 base;
+	int	 status;
 };
 typedef GnmCmdContextClass CmdContextStderrClass;
 
@@ -67,12 +67,6 @@ ccs_error_info (GnmCmdContext *cc, ErrorInfo *error)
 	ccs->status = -1;
 }
 
-static void
-ccs_init (CmdContextStderr *ccs)
-{
-	ccs->status = 0;
-}
-
 static char *
 ccs_get_password (G_GNUC_UNUSED GnmCmdContext *cc,
 		  G_GNUC_UNUSED char const* filename)
@@ -96,7 +90,13 @@ ccs_progress_message_set (GnmCmdContext *cc, gchar const *msg)
 }
 
 static void
-ccs_class_init (GnmCmdContextClass *cc_class)
+ccs_init (CmdContextStderr *ccs)
+{
+	ccs->status = 0;
+}
+
+static void
+ccs_gnm_cmd_context_init (GnmCmdContextClass *cc_class)
 {
 	cc_class->get_password		= ccs_get_password;
 	cc_class->set_sensitive	   	= ccs_set_sensitive;
@@ -106,6 +106,7 @@ ccs_class_init (GnmCmdContextClass *cc_class)
 	cc_class->error.error_info	= ccs_error_info;
 }
 
-GSF_CLASS (CmdContextStderr, cmd_context_stderr,
-	   ccs_class_init, ccs_init,
-	   GNM_CMD_CONTEXT_TYPE);
+GSF_CLASS_FULL (CmdContextStderr, cmd_context_stderr,
+		NULL, ccs_init,
+		G_TYPE_OBJECT, 0,
+		GSF_INTERFACE (ccs_gnm_cmd_context_init, GNM_CMD_CONTEXT_TYPE))

@@ -15,6 +15,13 @@ Jody:
 	* Pango uses _byte_ offsets for attributes.  Fix everything
 	* Fix xls import of chart background and outline
 	* Support richtext during autofill
+  	* A huge performance improvement when scrolling images
+	http://bugzilla.gnome.org/show_bug.cgi?id=136363
+	* Fix font handling in chart labels and titles
+	http://bugzilla.gnome.org/show_bug.cgi?id=140671
+	* Fix crash when undoing a cut from a different workbook
+	* Fix MS XL crash when there are too many strings
+	* MS XL import for chart gradient backgrounds
 
 Morten:
 	* Fix crash related to database functions (#138600).  [backported]

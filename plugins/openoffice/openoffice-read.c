@@ -3,7 +3,7 @@
 /*
  * openoffice-read.c : import open/star calc files
  *
- * Copyright (C) 2002 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002-2004 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -62,7 +62,8 @@ typedef enum {
 	OO_STYLE_ROW,
 	OO_STYLE_SHEET,
 	OO_STYLE_GRAPHICS,
-	OO_STYLE_PARAGRAPH
+	OO_STYLE_PARAGRAPH,
+	OO_STYLE_TEXT
 } OOStyleType;
 
 typedef struct {
@@ -87,6 +88,7 @@ typedef struct {
 	OOStyleType	 cur_style_type;
 	GnmStyle	*col_default_styles[SHEET_MAX_COLS];
 	GSList		*sheet_order;
+	int	 	richtext_len;
 
 	GnmExprConventions *exprconv;
 } OOParseState;
@@ -472,6 +474,16 @@ oo_rangeref_parse (GnmRangeRef *ref, char const *start, GnmParsePos const *pp)
 }
 
 static void
+oo_cell_content_span_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+}
+
+static void
+oo_cell_content_span_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+}
+
+static void
 oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin;
@@ -694,6 +706,7 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "table",	  OO_STYLE_SHEET },
 		{ "graphics",	  OO_STYLE_GRAPHICS },
 		{ "paragraph",	  OO_STYLE_PARAGRAPH },
+		{ "text",	  OO_STYLE_TEXT },
 		{ NULL,	0 },
 	};
 
@@ -979,11 +992,12 @@ GSF_XML_IN_NODE (START, OFFICE, OO_NS_OFFICE, "document-content", FALSE, NULL, N
 	GSF_XML_IN_NODE (TABLE_ROW, TABLE_CELL, OO_NS_TABLE, "table-cell", FALSE, &oo_cell_start, &oo_cell_end),
 	GSF_XML_IN_NODE (TABLE_ROW, TABLE_COVERED_CELL, OO_NS_TABLE, "covered-table-cell", FALSE, &oo_covered_cell_start, &oo_covered_cell_end),
 	  GSF_XML_IN_NODE (TABLE_CELL, CELL_TEXT, OO_NS_TEXT, "p", TRUE, NULL, &oo_cell_content_end),
-	    GSF_XML_IN_NODE (CELL_TEXT, CELL_TEXT_S, OO_NS_TEXT, "s", FALSE, NULL, NULL),
+	    GSF_XML_IN_NODE (CELL_TEXT, CELL_TEXT_S,    OO_NS_TEXT, "s", FALSE, NULL, NULL),
+	    GSF_XML_IN_NODE (CELL_TEXT, CELL_TEXT_SPAN, OO_NS_TEXT, "span", GSF_XML_SHARED_CONTENT, &oo_cell_content_span_start, &oo_cell_content_span_end),
 	  GSF_XML_IN_NODE (TABLE_CELL, CELL_OBJECT, OO_NS_DRAW, "object", FALSE, NULL, NULL),		/* ignore for now */
 	  GSF_XML_IN_NODE (TABLE_CELL, CELL_GRAPHIC, OO_NS_DRAW, "g", FALSE, NULL, NULL),		/* ignore for now */
 	    GSF_XML_IN_NODE (CELL_GRAPHIC, CELL_GRAPHIC, OO_NS_DRAW, "g", FALSE, NULL, NULL),		/* 2nd def */
-	    GSF_XML_IN_NODE (CELL_GRAPHIC, DRAW_POLYLINE, OO_NS_DRAW, "polyline", FALSE, NULL, NULL),		/* 2nd def */
+	    GSF_XML_IN_NODE (CELL_GRAPHIC, DRAW_POLYLINE, OO_NS_DRAW, "polyline", FALSE, NULL, NULL),	/* 2nd def */
       GSF_XML_IN_NODE (TABLE, TABLE_COL_GROUP, OO_NS_TABLE, "table-column-group", FALSE, NULL, NULL),
         GSF_XML_IN_NODE (TABLE_COL_GROUP, TABLE_COL_GROUP, OO_NS_TABLE, "table-column-group", FALSE, NULL, NULL),
         GSF_XML_IN_NODE (TABLE_COL_GROUP, TABLE_COL, OO_NS_TABLE, "table-column", FALSE, NULL, NULL), /* 2nd def */

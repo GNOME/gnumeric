@@ -294,7 +294,7 @@ points_to_inches (double pts)
 static void
 excel_write_SETUP (BiffPut *bp, ExcelWriteSheet *esheet)
 {
-	PrintInformation *pi = esheet->gnum_sheet->print_info;
+	PrintInformation const *pi = esheet->gnum_sheet->print_info;
 	double header, footer, dummy;
 	guint8 * data = ms_biff_put_len_next (bp, BIFF_SETUP, 34);
 	guint16 options = 0;
@@ -3983,7 +3983,7 @@ excel_write_SST (ExcelWriteState *ewb)
 	SSTInf		*extsst = NULL;
 	char *ptr, data [8224];
 	char const * const last = data + sizeof (data);
-	unsigned i, tmp, out_bytes, blocks, char_len, byte_len;
+	unsigned i, tmp, out_bytes, blocks, char_len, byte_len, scale;
 	GnmString const *string;
 	char *str;
 
@@ -4084,15 +4084,19 @@ unicode_loop :
 	ms_biff_put_var_write (bp, data, ptr-data);
 	ms_biff_put_commit (bp);
 
-	/* Write EXTSST */
+	/* EXSST must fit in 1 record, no CONTINUEs */
+	scale = 1;
+	while (((blocks / scale) * 8) >= (ms_biff_max_record_len (bp) - 2))
+		scale *= 2;
 	ms_biff_put_var_next (bp, BIFF_EXTSST);
-	GSF_LE_SET_GUINT16 (data + 0, 8); /* seems constant */
+	GSF_LE_SET_GUINT16 (data + 0, 8*scale);
 	ms_biff_put_var_write (bp, data, 2);
 
-	for (i = 0; i < blocks; i++) {
+	GSF_LE_SET_GUINT16 (data + 6, 0);	/* constant ignored */
+	for (i = 0; i < blocks; i += scale) {
 		GSF_LE_SET_GUINT32 (data + 0, extsst[i].streampos);
 		GSF_LE_SET_GUINT16 (data + 4, extsst[i].record_pos);
-		ms_biff_put_var_write (bp, data, 6);
+		ms_biff_put_var_write (bp, data, 8);
 	}
 	ms_biff_put_commit (bp);
 }

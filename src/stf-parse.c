@@ -1175,8 +1175,8 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 						warned = TRUE;
 					}
 				} else {
-					const char *text = g_ptr_array_index (line, lcol);
-					if (text)
+					char const *text = g_ptr_array_index (line, lcol);
+					if (text && *text)
 						cell_set_text (
 							sheet_cell_fetch (sheet, col, row),
 							text);

@@ -5,10 +5,10 @@
 #include "summary.h"
 #include "datetime.h"
 #include "file.h"
-#include <glib-object.h>
+#include <goffice/app/go-doc-impl.h>
 
 struct _Workbook {
-	GObject  base;
+	GODoc base;
 
 	GPtrArray *wb_views;
 
@@ -47,7 +47,7 @@ struct _Workbook {
 };
 
 typedef struct {
-	GObjectClass   base;
+	GODocClass base;
 
 	void (*summary_changed)     (Workbook *wb);
 	void (*filename_changed)    (Workbook *wb);

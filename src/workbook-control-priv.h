@@ -1,11 +1,10 @@
 #ifndef GNUMERIC_WORKBOOK_CONTROL_PRIV_H
 #define GNUMERIC_WORKBOOK_CONTROL_PRIV_H
 
-#include "command-context-priv.h"
 #include "workbook-control.h"
 
 struct _WorkbookControl {
-	GnmCmdContext	context;
+	GObject	base;
 
 	WorkbookView *wb_view;
 
@@ -17,7 +16,7 @@ struct _WorkbookControl {
 	gulong clipboard_changed_signal;
 };
 typedef struct {
-	GnmCmdContextClass   context_class;
+	GObjectClass   base;
 
 	/* Create a new control of the same form */
 	WorkbookControl *(*control_new) (WorkbookControl *wbc, WorkbookView *wbv, Workbook *wb,

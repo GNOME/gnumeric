@@ -726,6 +726,19 @@ print_info_set_n_copies  (PrintInformation *pi, guint copies)
 				    (gint)copies);
 }
 
+guint        
+print_info_get_n_copies  (PrintInformation const *pi)
+{
+	int res = 1;
+
+	g_return_val_if_fail (pi->print_config != NULL, 1);
+
+	if (gnome_print_config_get_int (pi->print_config,
+		GNOME_PRINT_KEY_NUM_COPIES, &res))
+		return res;
+	return 1;
+}
+
 void        
 print_info_set_orientation (PrintInformation *pi, PrintOrientation orient)
 {
@@ -756,7 +769,7 @@ print_info_set_orientation (PrintInformation *pi, PrintOrientation orient)
 }
 
 PrintOrientation
-print_info_get_orientation (PrintInformation *pi)
+print_info_get_orientation (PrintInformation const *pi)
 {
 	guchar  *orient = NULL;
 	PrintOrientation res = PRINT_ORIENT_VERTICAL;
@@ -766,7 +779,6 @@ print_info_get_orientation (PrintInformation *pi)
 	orient = gnome_print_config_get (pi->print_config,
 					 GNOME_PRINT_KEY_ORIENTATION);
 
-	g_warning ("print_info_get_orientation %s", orient);
 	g_return_val_if_fail (orient != NULL, res);
 
 	if (strcmp (orient, "R0") == 0)

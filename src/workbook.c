@@ -1609,5 +1609,5 @@ workbook_set_1904 (Workbook *wb, gboolean flag)
 
 GSF_CLASS (Workbook, workbook,
 	   workbook_class_init, workbook_init,
-	   G_TYPE_OBJECT);
+	   GO_DOC_TYPE);
 

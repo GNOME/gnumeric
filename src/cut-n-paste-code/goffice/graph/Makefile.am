@@ -79,10 +79,4 @@ gnumeric_glade_DATA = \
 
 EXTRA_DIST = $(gnumeric_glade_DATA)
 
-# prune this when the code moves
-INCLUDES = -I$(top_srcdir) 					\
-	   -I$(top_srcdir)/src 					\
-	   -I$(top_srcdir)/src/cut-n-paste-code			\
-	   -I$(top_srcdir)/src/cut-n-paste-code/foocanvas	\
-	    $(GNUMERIC_CFLAGS) \
-		-DGNUMERICICONDIR=\"$(gnumeric_icondir)\"
+include $(srcdir)/../goffice.mk

@@ -1517,6 +1517,7 @@ static GtkActionEntry permanent_actions[] = {
 	        { "MenuEditSelect",	NULL, N_("_Select") },
 	        { "MenuEditFill",	NULL, N_("_Fill") },
 	{ "MenuView",		NULL, N_("_View") },
+		{ "MenuViewToolbars",		NULL, N_("_Toolbars") },
 	{ "MenuInsert",		NULL, N_("_Insert") },
 		{ "MenuInsertNames",		NULL, N_("_Names") },
 		{ "MenuInsertSpecial",		NULL, N_("S_pecial") },
@@ -1717,12 +1718,15 @@ static GtkActionEntry actions[] = {
 	{ "ViewNew", NULL, N_("_New View..."),
 		NULL, N_("Create a new view of the workbook"),
 		G_CALLBACK (cb_view_new) },
-	{ "ViewZoom", NULL, N_("_Zoom..."),
-		NULL, N_("Zoom the spreadsheet in or out"),
-		G_CALLBACK (cb_view_zoom) },
 	{ "ViewFreezeThawPanes", NULL, N_("_Freeze Panes"),
 		NULL, N_("Freeze the top left of the sheet"),
 		G_CALLBACK (cb_view_freeze_panes) },
+	{ "ViewFullScreen", NULL, N_("F_ull Screen..."),
+		NULL, N_("Zoom the spreadsheet in or out"),
+		G_CALLBACK (cb_view_zoom) },
+	{ "ViewZoom", NULL, N_("_Zoom..."),
+		NULL, N_("Zoom the spreadsheet in or out"),
+		G_CALLBACK (cb_view_zoom) },
 
 /* Insert */
 	{ "InsertCells", NULL, N_("C_ells..."),
@@ -2143,7 +2147,7 @@ static GtkToggleActionEntry toggle_actions[] = {
 	        N_("Toggle visibility of object toolbar"),
 	        G_CALLBACK (cb_view_object_toolbar), TRUE },
 	{ "ViewStatusbar", NULL,
-	        N_("View S_tatusbar"), NULL,
+	        N_("View _Statusbar"), NULL,
 	        N_("Toggle visibility of statusbar"),
 	        G_CALLBACK (cb_view_statusbar), TRUE }
 };

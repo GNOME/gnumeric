@@ -279,16 +279,18 @@ icg_finalize (GObject *obj)
 }
 
 static void
-icg_class_init (IOContextGtkClass *klass)
+icg_gnm_cmd_context_init (GnmCmdContextClass *cc_class)
 {
-	GnmCmdContextClass *cc_class = GNM_CMD_CONTEXT_CLASS (klass);
-
-	G_OBJECT_CLASS (klass)->finalize = icg_finalize;
-
 	cc_class->get_password         = icg_get_password;
 	cc_class->progress_set         = icg_progress_set;
 	cc_class->progress_message_set = icg_progress_message_set;
 	cc_class->error.error_info     = icg_error_error_info;
+}
+
+static void
+icg_class_init (GObjectClass *klass)
+{
+	klass->finalize = icg_finalize;
 }
 
 static void
@@ -307,10 +309,10 @@ icg_init (IOContextGtk *icg)
 	g_timer_start (icg->timer);
 }
 
-GSF_CLASS (IOContextGtk, io_context_gtk,
-	   icg_class_init, icg_init,
-	   TYPE_IO_CONTEXT)
-
+GSF_CLASS_FULL (IOContextGtk, io_context_gtk,
+		icg_class_init, icg_init,
+		TYPE_IO_CONTEXT, 0,
+		GSF_INTERFACE (icg_gnm_cmd_context_init, GNM_CMD_CONTEXT_TYPE))
 
 /* Show the additional "files" progress bar if needed */
 void

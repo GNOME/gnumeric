@@ -84,10 +84,10 @@
 #include <libgnomecanvas/gnome-canvas-pixbuf.h>
 #include <pango/pangoft2.h>
 
-static const struct {
-	const char *Cname;
+static struct {
+	char const *Cname;
 	StyleUnderlineType ut;
-} underline_types[] = {
+} const underline_types[] = {
 	{ N_("None"), UNDERLINE_NONE },
 	{ N_("Single"), UNDERLINE_SINGLE },
 	{ N_("Double"), UNDERLINE_DOUBLE }
@@ -176,7 +176,6 @@ typedef struct _FormatState
 	struct {
 		FontSelector	*selector;
 		ColorPicker      color;
-		GtkCheckButton	*strikethrough;
 	} font;
 	struct {
 		GnomeCanvas	*canvas;
@@ -388,13 +387,11 @@ setup_color_pickers (ColorPicker *picker,
 	combo = go_combo_color_new (NULL, default_caption, 
 		def_sc ? GDK_TO_UINT (def_sc->color) : RGBA_BLACK, cg);
 	go_combo_box_set_title (GO_COMBO_BOX (combo), caption);
+
+	/* Connect to the sample canvas and redraw it */
 	g_signal_connect (G_OBJECT (combo),
 		"color_changed",
 		G_CALLBACK (preview_update), state);
-
-	/* Connect to the sample canvas and redraw it */
-	picker->combo          = combo;
-	picker->preview_update = preview_update;
 
 	if (mcolor && !mcolor->is_auto)
 		go_combo_color_set_color (GO_COMBO_COLOR (combo), &mcolor->color);
@@ -414,6 +411,12 @@ setup_color_pickers (ColorPicker *picker,
 
 	if (def_sc)
 		style_color_unref (def_sc);
+
+	if (picker != NULL) {
+		picker->combo          = combo;
+		picker->preview_update = preview_update;
+	}
+
 }
 
 /*
@@ -1024,7 +1027,6 @@ fmt_dialog_init_font_page (FormatState *state)
 	if (!mstyle_is_element_conflict (state->style, MSTYLE_FONT_STRIKETHROUGH))
 		strikethrough = mstyle_get_font_strike (state->style);
 
-	state->font.strikethrough = GTK_CHECK_BUTTON (strike);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (strike), strikethrough);
 	font_selector_set_strike (state->font.selector, strikethrough);
 
@@ -2282,7 +2284,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 			     _("Automatic"), _("Border"), state,
 			     G_CALLBACK (cb_border_color),
 			     MSTYLE_ELEMENT_UNSET, state->style);
-	setup_color_pickers (&state->font.color, "fore_color_group",
+	setup_color_pickers (NULL, "fore_color_group",
 			     "font_color_hbox",		"font_color_label",
 			     _("Automatic"), _("Foreground"), state,
 			     G_CALLBACK (cb_font_preview_color),

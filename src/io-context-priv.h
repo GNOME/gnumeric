@@ -24,10 +24,6 @@ typedef struct {
 	GnmProgressHelperType helper_type;
 	union {
 		struct {
-			FILE *f;
-			glong size;
-		} file;
-		struct {
 			gchar *start;
 			gint size;
 		} mem;
@@ -51,22 +47,22 @@ typedef struct {
 } ProgressRange;
 
 struct _IOContext {
-	GnmCmdContext parent;
+	GObject base;
 
-	GnmCmdContext *impl;
-	ErrorInfo *info;
-	gboolean error_occurred;
-	gboolean warning_occurred;
+	GnmCmdContext	*impl;
+	ErrorInfo	*info;
+	gboolean	 error_occurred;
+	gboolean	 warning_occurred;
 
-	GList *progress_ranges;
-	gfloat progress_min, progress_max;
-	gdouble last_progress;
-	gdouble last_time;
+	GList	*progress_ranges;
+	gfloat	 progress_min, progress_max;
+	gdouble  last_progress;
+	gdouble  last_time;
 	GnmProgressHelper helper;
 };
 
 struct _IOContextClass {
-	GnmCmdContextClass parent_class;
+	GObjectClass base;
 };
 
 #endif /* GNUMERIC_IO_CONTEXT_PRIV_H */

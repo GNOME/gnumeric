@@ -34,6 +34,7 @@
 #include "value.h"
 #include "ranges.h"
 #include "expr-name.h"
+#include "command-context.h"
 
 #include <gsf/gsf-impl-utils.h>
 
@@ -317,7 +318,7 @@ workbook_control_init (GObject *obj)
 
 GSF_CLASS (WorkbookControl, workbook_control,
 	   workbook_control_class_init, workbook_control_init,
-	   GNM_CMD_CONTEXT_TYPE);
+	   G_TYPE_OBJECT);
 
 void
 wb_control_set_view (WorkbookControl *wbc,

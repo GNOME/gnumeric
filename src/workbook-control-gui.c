@@ -69,6 +69,7 @@
 #include "gnumeric-gconf.h"
 #include "filter.h"
 #include "io-context.h"
+#include "command-context-priv.h"
 #include "stf.h"
 #include "rendered-value.h"
 #include "sort.h"
@@ -2468,10 +2469,19 @@ wbcg_go_plot_data_allocator_init (GogDataAllocatorClass *iface)
 
 guint wbcg_signals [WBCG_LAST_SIGNAL];
 static void
+wbcg_gnm_cmd_context_init (GnmCmdContextClass *iface)
+{
+	iface->get_password	    = wbcg_get_password;
+	iface->set_sensitive	    = wbcg_set_sensitive;
+	iface->error.error	    = wbcg_error_error;
+	iface->error.error_info	    = wbcg_error_error_info;
+	iface->progress_set	    = wbcg_progress_set;
+	iface->progress_message_set = wbcg_progress_message_set;
+}
+
+static void
 workbook_control_gui_class_init (GObjectClass *object_class)
 {
-	GnmCmdContextClass  *cc_class =
-		GNM_CMD_CONTEXT_CLASS (object_class);
 	WorkbookControlClass *wbc_class =
 		WORKBOOK_CONTROL_CLASS (object_class);
 	WorkbookControlGUIClass *wbcg_class =
@@ -2481,13 +2491,6 @@ workbook_control_gui_class_init (GObjectClass *object_class)
 
 	parent_class = g_type_class_peek_parent (object_class);
 	object_class->finalize = wbcg_finalize;
-
-	cc_class->get_password		= wbcg_get_password;
-	cc_class->set_sensitive		= wbcg_set_sensitive;
-	cc_class->error.error		= wbcg_error_error;
-	cc_class->error.error_info	= wbcg_error_error_info;
-	cc_class->progress_set		= wbcg_progress_set;
-	cc_class->progress_message_set	= wbcg_progress_message_set;
 
 	wbc_class->title_set		= wbcg_title_set;
 	wbc_class->prefs_update		= wbcg_prefs_update;
@@ -2555,7 +2558,8 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg)
 GSF_CLASS_FULL (WorkbookControlGUI, workbook_control_gui,
 		workbook_control_gui_class_init, workbook_control_gui_init,
 		WORKBOOK_CONTROL_TYPE, G_TYPE_FLAG_ABSTRACT,
-		GSF_INTERFACE (wbcg_go_plot_data_allocator_init, GOG_DATA_ALLOCATOR_TYPE))
+		GSF_INTERFACE (wbcg_go_plot_data_allocator_init, GOG_DATA_ALLOCATOR_TYPE);
+		GSF_INTERFACE (wbcg_gnm_cmd_context_init, GNM_CMD_CONTEXT_TYPE))
 
 static void
 wbcg_create (WorkbookControlGUI *wbcg,

@@ -26,6 +26,7 @@
 #include <goffice/graph/gog-chart.h>
 #include <goffice/graph/gog-axis.h>
 #include <goffice/graph/gog-style.h>
+#include <goffice/graph/gog-theme.h>
 #include <goffice/graph/gog-graph.h>
 #include <goffice/graph/gog-object-xml.h>
 #include <goffice/graph/go-data.h>
@@ -285,65 +286,101 @@ gog_plot_request_cardinality_update (GogPlot *plot)
  * gog_plot_get_cardinality :
  * @plot : #GogPlot
  *
- * Return the number of logical elements in the plot, updatnig the cache if
+ * Return the number of logical elements in the plot, updating the cache if
  * necessary
  **/
-unsigned
-gog_plot_get_cardinality (GogPlot *plot)
+void
+gog_plot_get_cardinality (GogPlot *plot, unsigned *full, unsigned *visible)
 {
-	g_return_val_if_fail (GOG_PLOT (plot) != NULL, 0);
+	g_return_if_fail (GOG_PLOT (plot) != NULL);
 
 	if (!plot->cardinality_valid) {
-		GogPlotClass *klass = GOG_PLOT_GET_CLASS (plot);
-		GogSeries    *series;
-		gboolean      is_valid;
+		GogSeries *series;
+		GSList	  *ptr;
+		gboolean   is_valid;
+		unsigned   size = 0, no_legend = 0, i;
 
 		plot->cardinality_valid = TRUE;
-		plot->index_num = gog_chart_get_cardinality (
-			gog_plot_get_chart (plot));
+		gog_chart_get_cardinality (gog_plot_get_chart (plot), NULL, &i);
+		plot->index_num = i;
 
-		if (klass->cardinality != NULL)
-			plot->cardinality = (klass->cardinality) (plot);
-
-		if (klass->cardinality == NULL || plot->cardinality < 0) {
-			GSList *ptr;
-			unsigned size = 0, i = plot->index_num;
-
-			for (ptr = plot->series; ptr != NULL ; ptr = ptr->next) {
-				series = GOG_SERIES (ptr->data);
-				is_valid = gog_series_is_valid (GOG_SERIES (series));
-				if (plot->vary_style_by_element) {
-					if (is_valid && size < series->num_elements)
-						size = series->num_elements;
-					gog_series_set_index (series, plot->index_num, FALSE);
-				} else
-					gog_series_set_index (series, i++, FALSE);
+		for (ptr = plot->series; ptr != NULL ; ptr = ptr->next) {
+			series = GOG_SERIES (ptr->data);
+			is_valid = gog_series_is_valid (GOG_SERIES (series));
+			if (plot->vary_style_by_element) {
+				if (is_valid && size < series->num_elements)
+					size = series->num_elements;
+				gog_series_set_index (series, plot->index_num, FALSE);
+			} else {
+				gog_series_set_index (series, i++, FALSE);
+				if (!gog_series_has_legend (series))
+					no_legend++;
 			}
-
-			plot->cardinality = (plot->vary_style_by_element) ? size : (i - plot->index_num);
 		}
+
+		plot->full_cardinality =
+			plot->vary_style_by_element ? size : (i - plot->index_num);
+		plot->visible_cardinality = plot->full_cardinality - no_legend;
 	}
-	return plot->cardinality;
+
+	if (full != NULL)
+		*full = plot->full_cardinality;
+	if (visible != NULL)
+		*visible = plot->visible_cardinality;
 }
 
 void
-gog_plot_foreach_elem (GogPlot *plot, GogEnumFunc func, gpointer data)
+gog_plot_foreach_elem (GogPlot *plot, gboolean only_visible,
+		       GogEnumFunc func, gpointer data)
 {
-	GogPlotClass *klass = GOG_PLOT_GET_CLASS (plot);
+	GSList *ptr;
+	GogSeries const *series;
+	GogStyle *style;
+	GODataVector *labels;
+	unsigned i, n, num_labels = 0;
+	char *label = NULL;
+	GogTheme *theme = gog_object_get_theme (GOG_OBJECT (plot));
 
-	g_return_if_fail (klass != NULL);
+	g_return_if_fail (GOG_PLOT (plot) != NULL);
 	g_return_if_fail (plot->cardinality_valid);
 
-	if (klass->foreach_elem == NULL ||
-	    !(klass->foreach_elem) (plot, func, data)) {
-		unsigned i = plot->index_num;
-		GSList *ptr;
-		for (ptr = plot->series; ptr != NULL ; ptr = ptr->next)
-			func (i++, gog_styled_object_get_style (ptr->data),
-			      gog_object_get_name (ptr->data), data);
+	ptr = plot->series;
+	if (ptr == NULL)
+		return;
 
-		g_return_if_fail (i == plot->index_num + plot->cardinality);
+	if (!plot->vary_style_by_element) {
+		unsigned i = plot->index_num;
+		for (; ptr != NULL ; ptr = ptr->next, i++)
+			if (!only_visible || gog_series_has_legend (ptr->data))
+				func (i, gog_styled_object_get_style (ptr->data),
+				      gog_object_get_name (ptr->data), data);
+
+		g_return_if_fail (i == plot->index_num + plot->full_cardinality);
+		return;
 	}
+
+	series = ptr->data; /* start with the first */
+	labels = NULL;
+	if (series->values[0].data != NULL) {
+		labels = GO_DATA_VECTOR (series->values[0].data);
+		num_labels = go_data_vector_get_len (labels);
+	}
+	style = gog_style_dup (series->base.style);
+	n = only_visible ? plot->visible_cardinality : plot->full_cardinality;
+	for (i = 0; i < n ; i++) {
+		gog_theme_init_style (theme, style, GOG_OBJECT (series),
+			plot->index_num + i);
+		if (labels != NULL)
+ 			label = (i < num_labels)
+ 				? go_data_vector_get_str (labels, i) : g_strdup ("");
+		else
+			label = NULL;
+		if (label == NULL)
+			label = g_strdup_printf ("%d", i);
+		(func) (i, style, label, data);
+		g_free (label);
+	}
+	g_object_unref (style);
 }
 
 /**

@@ -115,7 +115,7 @@ struct _GogStyle {
 GogStyle  *gog_style_new		(void);
 GogStyle  *gog_style_dup		(GogStyle const *style);
 void	   gog_style_assign		(GogStyle *dst, GogStyle const *src);
-void	   gog_style_merge		(GogStyle *dst, GogStyle const *src);
+void	   gog_style_apply_theme	(GogStyle *dst, GogStyle const *src);
 void	   gog_style_set_marker		(GogStyle *style, GOMarker *marker);
 void	   gog_style_set_font		(GogStyle *style,
 					 PangoFontDescription *desc);

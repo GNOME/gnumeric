@@ -35,6 +35,7 @@
 #include "style-color.h"
 #include "global-gnome-font.h"
 #include "workbook-edit.h"
+#include "command-context-priv.h"
 
 #include <goffice/gui-utils/go-action-combo-stack.h>
 #include <goffice/gui-utils/go-action-combo-color.h>

@@ -38,20 +38,21 @@ gboolean  gog_chart_get_position  (GogChart const *chart, unsigned *x, unsigned 
 void	  gog_chart_set_position  (GogChart *chart, unsigned x, unsigned y,
 				   unsigned cols, unsigned rows);
 
-void	  gog_chart_request_cardinality_update (GogChart *chart);
-unsigned  gog_chart_get_cardinality (GogChart *);
-void	  gog_chart_foreach_elem  (GogChart *,
-				   GogEnumFunc handler, gpointer data);
+void	 gog_chart_request_cardinality_update (GogChart *chart);
+void	 gog_chart_get_cardinality (GogChart *chart,
+				    unsigned *full, unsigned *visible);
+void	 gog_chart_foreach_elem	   (GogChart *chart, gboolean only_visible,
+				    GogEnumFunc handler, gpointer data);
 
-gboolean  gog_chart_axis_set_is_valid (GogChart const *chart, GogAxisSet type);
-gboolean  gog_chart_axis_set_assign   (GogChart *chart, GogAxisSet type);
-GSList	 *gog_chart_get_axis	      (GogChart const *chart, GogAxisType type);
+gboolean gog_chart_axis_set_is_valid (GogChart const *chart, GogAxisSet type);
+gboolean gog_chart_axis_set_assign   (GogChart *chart, GogAxisSet type);
+GSList	*gog_chart_get_axis	     (GogChart const *chart, GogAxisType type);
 
-GogGrid  *gog_chart_get_grid	      (GogChart const *chart);
+GogGrid *gog_chart_get_grid	     (GogChart const *chart);
 
 /* View utils */
-void	  gog_chart_view_get_indents  (GogView const *view,
-				       double *pre, double *post);
+void	 gog_chart_view_get_indents  (GogView const *view,
+				      double *pre, double *post);
 
 G_END_DECLS
 

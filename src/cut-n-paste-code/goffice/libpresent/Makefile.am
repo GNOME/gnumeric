@@ -15,6 +15,4 @@ libgoffice_libpresent_la_SOURCES =		\
 	present-view.h				\
 	ppt-types.h
 
-# prune this when the code moves
-INCLUDES = -I$(top_srcdir)/src/cut-n-paste-code/goffice		\
-	   $(GNUMERIC_CFLAGS)
+include $(srcdir)/../goffice.mk

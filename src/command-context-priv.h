@@ -3,12 +3,8 @@
 
 #include "command-context.h"
 
-struct _GnmCmdContext {
-	GObject base;
-};
-
 typedef struct {
-	GObjectClass base;
+	GTypeInterface base;
 
 	char *  (*get_password)		(GnmCmdContext *cc,
 					 char const *filename);
@@ -18,7 +14,7 @@ typedef struct {
 	void    (*progress_message_set)	(GnmCmdContext *cc, gchar const *msg);
 	struct {
 		void (*error)		(GnmCmdContext *cc, GError *err);
-		void (*error_info)  (GnmCmdContext *ctxt, ErrorInfo *error);
+		void (*error_info)  	(GnmCmdContext *ctxt, ErrorInfo *error);
 	} error;
 } GnmCmdContextClass;
 

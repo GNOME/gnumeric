@@ -2480,13 +2480,17 @@ cmd_paste_cut_undo (GnmCommand *cmd, WorkbookControl *wbc)
 	sheet_flag_status_update_range (me->info.target_sheet, NULL);
 
 	/* Select the original region */
-	if (me->move_selection && IS_SHEET (me->info.origin_sheet))
-		sv_selection_set (sheet_get_view (me->info.origin_sheet, wb_control_view (wbc)),
+	if (me->move_selection && IS_SHEET (me->info.origin_sheet)) {
+		SheetView *sv = sheet_get_view (me->info.origin_sheet,
+			wb_control_view (wbc));
+		if (sv != NULL)
+			sv_selection_set (sv,
 				  &me->info.origin.start,
 				  me->info.origin.start.col,
 				  me->info.origin.start.row,
 				  me->info.origin.end.col,
 				  me->info.origin.end.row);
+	}
 
 	cmd_paste_cut_update_origin (&me->info, wbc);
 

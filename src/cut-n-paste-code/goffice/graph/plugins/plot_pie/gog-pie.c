@@ -185,47 +185,6 @@ gog_pie_plot_editor (GogObject *item,
 	return gog_pie_plot_pref (GOG_PIE_PLOT (item), cc);
 }
 
-static gboolean
-gog_pie_plot_foreach_elem (GogPlot *plot, GogEnumFunc handler, gpointer data)
-{
-	unsigned i, n, num_labels = 0;
-	GogPiePlot const *model = GOG_PIE_PLOT (plot);
-	GogSeries const *series;
-	GogTheme *theme = gog_object_get_theme (GOG_OBJECT (plot));
-	GogStyle *style;
-	GODataVector *labels;
-	char *label = NULL;
-
-	if (!model->base.vary_style_by_element  || plot->series == NULL)
-		return FALSE;
-
-	series = plot->series->data; /* start with the first */
-	i = 0;
-	n = model->base.cardinality;
-	style = gog_style_dup (series->base.style);
-	labels = NULL;
-	if (series->values[0].data != NULL) {
-		labels = GO_DATA_VECTOR (series->values[0].data);
-		num_labels = go_data_vector_get_len (labels);
-	}
-	for ( ; i < n ; i++) {
-		gog_theme_init_style (theme, style, GOG_OBJECT (series),
-			model->base.index_num + i);
-		if (labels != NULL)
- 			label = (i < num_labels)
- 				? go_data_vector_get_str (labels, i) : g_strdup ("");
-		else
-			label = NULL;
-		if (label == NULL)
-			label = g_strdup_printf ("%d", i);
-		(handler) (i, style, label, data);
-		g_free (label);
-	}
-	g_object_unref (style);
-
-	return TRUE;
-}
-
 static void
 gog_pie_plot_update (GogObject *obj)
 {
@@ -277,7 +236,6 @@ gog_pie_plot_class_init (GogPlotClass *plot_klass)
 	plot_klass->desc.num_series_min = 1;
 	plot_klass->desc.num_series_max = 1;
 	plot_klass->series_type  = gog_pie_series_get_type ();
-	plot_klass->foreach_elem = gog_pie_plot_foreach_elem;
 }
 
 static void

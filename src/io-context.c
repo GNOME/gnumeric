@@ -62,7 +62,7 @@ ioc_finalize (GObject *obj)
 		g_object_unref (G_OBJECT (io_context->impl));
 	}
 
-	G_OBJECT_CLASS (g_type_class_peek (GNM_CMD_CONTEXT_TYPE))->finalize (obj);
+	G_OBJECT_CLASS (g_type_class_peek (G_TYPE_OBJECT))->finalize (obj);
 }
 
 static char *
@@ -105,21 +105,23 @@ gnumeric_io_error_string (IOContext *context, const gchar *str)
 }
 
 static void
-io_context_class_init (IOContextClass *klass)
+io_context_gnm_cmd_context_init (GnmCmdContextClass *cc_class)
 {
-	GnmCmdContextClass *cc_class = GNM_CMD_CONTEXT_CLASS (klass);
-
-	G_OBJECT_CLASS (klass)->finalize = ioc_finalize;
-
 	cc_class->get_password	   = ioc_get_password;
 	cc_class->set_sensitive	   = ioc_set_sensitive;
 	cc_class->error.error      = ioc_error_error;
 	cc_class->error.error_info = ioc_error_error_info;
 }
+static void
+io_context_class_init (GObjectClass *klass)
+{
+	klass->finalize = ioc_finalize;
+}
 
-GSF_CLASS (IOContext, io_context,
-	   io_context_class_init, io_context_init,
-	   GNM_CMD_CONTEXT_TYPE)
+GSF_CLASS_FULL (IOContext, io_context,
+		io_context_class_init, io_context_init,
+		G_TYPE_OBJECT, 0,
+		GSF_INTERFACE (io_context_gnm_cmd_context_init, GNM_CMD_CONTEXT_TYPE))
 
 IOContext *
 gnumeric_io_context_new (GnmCmdContext *cc)

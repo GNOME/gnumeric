@@ -263,7 +263,7 @@ new_blank_pixbuf (GOMarker *marker, guint size)
 	int pixbuf_size = size + 1 + 2 * offset;
 	GdkPixbuf *res = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8,
 					    pixbuf_size, pixbuf_size);
-	gdk_pixbuf_fill (res, 0);
+	gdk_pixbuf_fill (res, 0); /* in case the fill colours have alpha = 0 */
 	return res;
 }
 

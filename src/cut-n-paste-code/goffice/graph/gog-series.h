@@ -37,14 +37,15 @@ GType gog_series_element_get_type (void);
 #define IS_GOG_SERIES(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_SERIES_TYPE))
 
 GType gog_series_get_type (void);
-gboolean      gog_series_is_valid  (GogSeries const *series);
-GODataScalar *gog_series_get_name  (GogSeries const *series);
-void	      gog_series_set_name  (GogSeries *series,
-				    GODataScalar *val, GError **err);
-void	      gog_series_set_dim   (GogSeries *series, int dim_i,
-				    GOData *val, GError **err);
-void	      gog_series_set_index (GogSeries *series,
-				    int ind, gboolean is_manual);
+gboolean      gog_series_is_valid   (GogSeries const *series);
+gboolean      gog_series_has_legend (GogSeries const *series);
+GODataScalar *gog_series_get_name   (GogSeries const *series);
+void	      gog_series_set_name   (GogSeries *series,
+				     GODataScalar *val, GError **err);
+void	      gog_series_set_dim    (GogSeries *series, int dim_i,
+				     GOData *val, GError **err);
+void	      gog_series_set_index  (GogSeries *series,
+				     int ind, gboolean is_manual);
 
 GList 	     *gog_series_get_elements (GogSeries *series);
 

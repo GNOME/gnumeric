@@ -41,7 +41,7 @@ struct _GogLegend {
 	double	 swatch_padding_pts;
 	gulong	 chart_cardinality_handle;
 	gulong	 chart_child_name_changed_handle;
-	int	 cached_count;
+	unsigned cached_count;
 	gboolean names_changed;
 };
 
@@ -143,9 +143,10 @@ static void
 gog_legend_update (GogObject *obj)
 {
 	GogLegend *legend = GOG_LEGEND (obj);
-	int i = gog_chart_get_cardinality (GOG_CHART (obj->parent));
-	if (legend->cached_count != i)
-		legend->cached_count = i;
+	unsigned visible;
+	gog_chart_get_cardinality (GOG_CHART (obj->parent), NULL, &visible);
+	if (legend->cached_count != visible)
+		legend->cached_count = visible;
 	else if (!legend->names_changed)
 		return;
 	legend->names_changed = FALSE;
@@ -269,7 +270,8 @@ gog_legend_view_size_request (GogView *v, GogViewRequisition *avail)
 	dat.maximum.w = 0.;
 	dat.maximum.h = gog_renderer_pt2r_y (v->renderer, l->swatch_size_pts);
 	dat.uses_lines = FALSE;
-	gog_chart_foreach_elem (chart, (GogEnumFunc) cb_size_elements, &dat);
+	gog_chart_foreach_elem (chart, TRUE,
+		(GogEnumFunc) cb_size_elements, &dat);
 	((GogLegendView *)v)->line_height = dat.maximum.h;
 	((GogLegendView *)v)->uses_lines = dat.uses_lines;
 
@@ -279,7 +281,7 @@ gog_legend_view_size_request (GogView *v, GogViewRequisition *avail)
 	/* 1/2 between swatch and label */
 	res.w = dat.maximum.w + gog_renderer_pt2r_x (v->renderer,
 		mult * l->swatch_size_pts + .5 * l->swatch_padding_pts);
-	n = gog_chart_get_cardinality (chart);
+	gog_chart_get_cardinality (chart, NULL, &n);
 	res.h = n * dat.maximum.h;
 	if (n > 1)
 		res.h += (n-1) * pad_y; /* between lines, not top or bottom */
@@ -370,7 +372,7 @@ gog_legend_view_render (GogView *v, GogViewAllocation const *bbox)
 	dat.base_line = pad_y / 2.; /* bottom of the swatch */
 	dat.bottom    = v->residual.y + v->residual.h -
 		((GogLegendView *)v)->line_height;
-	gog_chart_foreach_elem (GOG_CHART (v->model->parent),
+	gog_chart_foreach_elem (GOG_CHART (v->model->parent), TRUE,
 		(GogEnumFunc) cb_render_elements, &dat);
 }
 

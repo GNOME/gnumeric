@@ -1,9 +1,10 @@
-SUBDIRS = graph utils gui-utils drawing ms-compat libpresent test pixmaps
+SUBDIRS = app graph utils gui-utils drawing ms-compat libpresent test pixmaps
 
 noinst_LTLIBRARIES = libgoffice.la
 
 libgoffice_la_LIBADD = 				\
 	utils/libgoffice-utils.la		\
+	app/libgoffice-app.la			\
 	gui-utils/libgoffice-gui-utils.la	\
 	graph/libgoffice-graph.la		\
 	drawing/libgoffice-drawing.la		\
@@ -15,10 +16,6 @@ libgoffice_la_SOURCES = 	\
 	goffice.h		\
 	goffice-config.h
 
-# prune this when the code moves
-INCLUDES = -I$(top_srcdir) 					\
-	   -I$(top_srcdir)/src 					\
-	   -I$(top_builddir)/src 				\
-	   -I$(top_srcdir)/src/cut-n-paste-code			\
-	   -I$(top_srcdir)/src/cut-n-paste-code/foocanvas	\
-	    $(GNUMERIC_CFLAGS)
+EXTRA_DIST = goffice.mk
+
+include $(srcdir)/goffice.mk

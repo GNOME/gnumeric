@@ -47,7 +47,7 @@ gnumeric_reqs="
 glib-2.0		>= 2.4.0
 gobject-2.0		>= 2.4.0
 gmodule-2.0		>= 2.4.0
-libgsf-1		>= 1.8.2
+libgsf-1		>= 1.9.0
 gtk+-2.0		>= 2.4.0
 libxml-2.0		>= 2.4.12
 libglade-2.0		>= 2.0.0
@@ -67,7 +67,7 @@ libbonobo-2.0	>= 2.2.0
 libbonoboui-2.0	>= 2.2.0
 libgnome-2.0	>= 2.0.0
 libgnomeui-2.0	>= 2.0.0
-libgsf-gnome-1	>= 1.8.2"
+libgsf-gnome-1	>= 1.9.0"
 
 AC_ARG_WITH(gnome,
 	[--{with,without}-gnome   Use GNOME extensions],
@@ -765,6 +765,7 @@ src/cut-n-paste-code/foocanvas/Makefile
 src/cut-n-paste-code/foocanvas/libfoocanvas/Makefile
 src/cut-n-paste-code/pcre/Makefile
 src/cut-n-paste-code/goffice/Makefile
+src/cut-n-paste-code/goffice/app/Makefile
 src/cut-n-paste-code/goffice/pixmaps/Makefile
 src/cut-n-paste-code/goffice/utils/Makefile
 src/cut-n-paste-code/goffice/gui-utils/Makefile

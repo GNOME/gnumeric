@@ -1263,6 +1263,7 @@ format_remove_decimal (GnmFormat const *fmt)
 	case FMT_DATE:
 	case FMT_TEXT:
 	case FMT_SPECIAL:
+	case FMT_MARKUP:
 		/* Nothing to remove for these formats ! */
 		return NULL;
 	case FMT_UNKNOWN:
@@ -1358,6 +1359,7 @@ format_add_decimal (GnmFormat const *fmt)
 	case FMT_DATE:
 	case FMT_TEXT:
 	case FMT_SPECIAL:
+	case FMT_MARKUP:
 		/* Nothing to add for these formats ! */
 		return NULL;
 	case FMT_UNKNOWN:
@@ -1417,7 +1419,6 @@ GnmFormat *
 format_toggle_thousands (GnmFormat const *fmt)
 {
 	FormatCharacteristics fc;
-	GString *newformat;
 
 	fc = fmt->family_info;
 	fc.thousands_sep = !fc.thousands_sep;

@@ -22,6 +22,4 @@ libgoffice_drawing_la_SOURCES = 	\
 	god-drawing.c			\
 	god-drawing.h
 
-# prune this when the code moves
-INCLUDES = -I$(top_srcdir)/src/cut-n-paste-code/goffice	\
-	 $(GNUMERIC_CFLAGS)
+include $(srcdir)/../goffice.mk

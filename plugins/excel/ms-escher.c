@@ -237,7 +237,7 @@ ms_escher_get_data (MSEscherState *state,
 
 static gboolean
 ms_escher_read_container (MSEscherState *state, MSEscherHeader *container,
-			  gint offset);
+			  gint prefix, gboolean return_attrs_in_container);
 
 /****************************************************************************/
 
@@ -293,7 +293,7 @@ ms_escher_read_SplitMenuColors (MSEscherState *state, MSEscherHeader *h)
 static gboolean
 ms_escher_read_BStoreContainer (MSEscherState *state, MSEscherHeader *h)
 {
-	return ms_escher_read_container (state, h, 0);
+	return ms_escher_read_container (state, h, 0, FALSE);
 }
 
 static gchar const *
@@ -357,7 +357,7 @@ ms_escher_read_BSE (MSEscherState *state, MSEscherHeader *h)
 
 	/* Ignore empties */
 	if (h->len > 36 + COMMON_HEADER_LEN)
-		return ms_escher_read_container (state, h, 36);
+		return ms_escher_read_container (state, h, 36, FALSE);
 
 	/* Store a blank */
 	ms_container_add_blip (state->container, NULL);
@@ -483,7 +483,7 @@ ms_escher_read_ColorScheme (MSEscherState *state, MSEscherHeader *h)
 static gboolean
 ms_escher_read_SpContainer (MSEscherState *state, MSEscherHeader *h)
 {
-	return ms_escher_read_container (state, h, 0);
+	return ms_escher_read_container (state, h, 0, FALSE);
 }
 
 static gboolean
@@ -1392,9 +1392,13 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		/* 0 :  */
 		case 394 : name = "long fillHeight"; break;
 		/* 0 : Fade angle - degrees in 16.16 */
-		case 395 : name = "long fillAngle"; break;
+		case 395 : id = MS_OBJ_ATTR_FILL_ANGLE;
+			   name = "long fillAngle";
+			   break;
 		/* 0 : Linear shaded fill focus percent */
-		case 396 : name = "long fillFocus"; break;
+		case 396 : id = MS_OBJ_ATTR_FILL_FOCUS;
+			   name = "long fillFocus";
+			   break;
 		/* 0 : Fraction 16.16 */
 		case 397 : name = "long fillToLeft"; break;
 		/* 0 : Fraction 16.16 */
@@ -1416,7 +1420,9 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		/* measure_Default :  */
 		case 405 : name = "LengthMeasure fillDztype"; break;
 		/* 0 : Special shades */
-		case 406 : name = "long fillShadePreset"; break;
+		case 406 : id = MS_OBJ_ATTR_FILL_PRESET;
+			   name = "long fillShadePreset";
+			   break;
 		/* NULL : a preset array of colors */
 		case 407 : name = "IMsoArray fillShadeColors"; break;
 		/* 0 :  */
@@ -1428,9 +1434,9 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		/* 0 :  */
 		case 411 : name = "long fillShapeOriginY"; break;
 		/* shade_Default : Type of shading, if a shaded (gradient) fill. */
-		case 412 : name = "ShadeType fillShadeType"; break;
-
-
+		case 412 : id = MS_OBJ_ATTR_FILL_SHADE_TYPE;
+			   name = "ShadeType fillShadeType";
+			   break;
 		/* TRUE : Is shape filled? */
 		case 443 : name = "bool fFilled"; break;
 		/* TRUE : Should we hit test fill?  */
@@ -1820,17 +1826,17 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 static gboolean
 ms_escher_read_SpgrContainer (MSEscherState *state, MSEscherHeader *h)
 {
-	return ms_escher_read_container (state, h, 0);
+	return ms_escher_read_container (state, h, 0, FALSE);
 }
 static gboolean
 ms_escher_read_DgContainer (MSEscherState *state, MSEscherHeader *h)
 {
-	return ms_escher_read_container (state, h, 0);
+	return ms_escher_read_container (state, h, 0, FALSE);
 }
 static gboolean
 ms_escher_read_DggContainer (MSEscherState *state, MSEscherHeader *h)
 {
-	return ms_escher_read_container (state, h, 0);
+	return ms_escher_read_container (state, h, 0, FALSE);
 }
 static gboolean
 ms_escher_read_ClientTextbox (MSEscherState *state, MSEscherHeader *h)
@@ -1889,9 +1895,11 @@ ms_escher_read_ClientData (MSEscherState *state, MSEscherHeader *h)
 
 static gboolean
 ms_escher_read_container (MSEscherState *state, MSEscherHeader *container,
-			  gint const prefix)
+			  gint prefix, gboolean return_attrs_in_container)
 {
 	MSEscherHeader h;
+
+	g_return_val_if_fail (container != NULL, TRUE);
 
 	ms_escher_header_init (&h);
 	h.container = container;
@@ -1996,25 +2004,30 @@ ms_escher_read_container (MSEscherState *state, MSEscherHeader *container,
 		h.offset += h.len;
 	} while (h.offset < (container->offset + container->len));
 
+	if (container->attrs == NULL && return_attrs_in_container) {
+		container->attrs = h.attrs;
+		h.release_attrs = FALSE;
+	}
 	ms_escher_header_release (&h);
 	return FALSE;
 }
 
 /*
  * ms_escher_parse:
- * @q:     Biff context.
- * @wb:    required workbook argument
- * @sheet: optional sheet argument
+ * @q:
+ * @container:    required workbook argument
+ * @return_attrs: Should we steal our childrens attributes and return them
  *
- *   This function parses an escher stream, and stores relevant data in the
- * workbook.
+ * Parse an escher stream stores in a sequence of biff records
+ *
+ * Returns NULL or an MSObjAttrBag (callers frees) depending on @return_attrs
  */
 MSObjAttrBag *
-ms_escher_parse (BiffQuery *q, MSContainer *container)
+ms_escher_parse (BiffQuery *q, MSContainer *container, gboolean return_attrs)
 {
 	MSEscherState state;
 	MSEscherHeader fake_header;
-	MSObjAttrBag  *attrs;
+	MSObjAttrBag *res = NULL;
 	char const *drawing_record_name = "Unknown";
 
 	g_return_val_if_fail (q != NULL, NULL);
@@ -2043,14 +2056,16 @@ ms_escher_parse (BiffQuery *q, MSContainer *container)
 	fake_header.offset = 0;
 
 	d (0, printf ("{  /* Escher '%s'*/\n", drawing_record_name););
-	ms_escher_read_container (&state, &fake_header, -COMMON_HEADER_LEN);
+	ms_escher_read_container (&state,
+		&fake_header, -COMMON_HEADER_LEN, return_attrs);
 	d (0, printf ("}; /* Escher '%s'*/\n", drawing_record_name););
 
-	attrs = fake_header.attrs;
-	fake_header.release_attrs = FALSE;
+	if (return_attrs) {
+		res = fake_header.attrs;
+		fake_header.release_attrs = FALSE;
+	}
 	ms_escher_header_release (&fake_header);
-
-	return attrs;
+	return res;
 }
 
 /****************************************************************************/

@@ -2,7 +2,7 @@
 /*
  * workbook-view.c: View functions for the workbook
  *
- * Copyright (C) 2000 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2000-2004 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -46,6 +46,7 @@
 #include "cell.h"
 #include "gutils.h"
 #include "io-context.h"
+#include "command-context.h"
 
 #include <gsf/gsf.h>
 #include <gsf/gsf-impl-utils.h>
@@ -57,6 +58,11 @@
 #include <errno.h>
 #include <sys/stat.h>
 #include "mathfunc.h"
+
+#ifdef WITH_GNOME
+#include <gsf-gnome/gsf-output-gnomevfs.h>
+#include <libgnomevfs/gnome-vfs-uri.h>
+#endif /* WITH_GNOME */
 
 /* WorkbookView signals */
 enum {
@@ -565,9 +571,25 @@ wbv_save_to_file (WorkbookView *wbv, GnmFileSaver const *fs,
 
 	if (filename_utf8) {
 		GError *err = NULL;
-		GsfOutputStdio *output;
+		GsfOutputStdio *output = NULL;
 
+#ifdef WITH_GNOME
+		{
+			/* cheesy mechanism to prefer stdio */
+			if (uri != NULL && uri->method_string != NULL &&
+			    0 != strcmp ("file", uri->method_string)) {
+				output = (GsfOutput *)gsf_output_gnomevfs_new (filename, &err);
+			} else {
+				output = (GsfOutput *)gsf_output_stdio_new (filename, &err);
+			}
+
+			if (uri != NULL)
+				gnome_vfs_uri_unref (uri);
+		}
+#else
 		output = gsf_output_stdio_new (filename, &err);
+#endif
+
 		if (output == NULL) {
 			char *str = g_strdup_printf (_("Can't open '%s' for writing: %s"),
 						     filename_utf8, err->message);

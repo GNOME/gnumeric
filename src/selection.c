@@ -565,6 +565,8 @@ sv_selection_set (SheetView *sv, GnmCellPos const *edit,
 		  int base_col, int base_row,
 		  int move_col, int move_row)
 {
+	g_return_if_fail (IS_SHEET_VIEW (sv));
+
 	sheet_selection_set_internal (sv, edit,
 		base_col, base_row,
 		move_col, move_row, FALSE);

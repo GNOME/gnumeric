@@ -393,26 +393,31 @@ go_conf_set_str_list (G_GNUC_UNUSED char const *key, G_GNUC_UNUSED GSList *list)
 gboolean
 go_conf_get_bool (char const *key)
 {
+	return FALSE;
 }
 
 int
 go_conf_get_int	(char const *key)
 {
+	return 0;
 }
 
 double
 go_conf_get_double (char const *key)
 {
+	return 0.;
 }
 
 char *
 go_conf_get_string (char const *key)
 {
+	return "";
 }
 
 GSList *
 go_conf_get_str_list (char const *key)
 {
+	return NULL;
 }
 
 gboolean
@@ -489,6 +494,7 @@ guint
 go_conf_add_monitor (char const *key,
 		     GOConfMonitorFunc monitor, gpointer data)
 {
+	return 1;
 }
 
 #endif
@@ -777,18 +783,6 @@ void
 gnm_gconf_set_autoformat_usr_dirs (char const * string)
 {
 	go_conf_set_string (AUTOFORMAT_GCONF_USR_DIR, string);
-}
-
-void
-gnm_gconf_set_horizontal_window_fraction  (gnm_float val)
-{
-	go_conf_set_double (GNM_CONF_GUI_WINDOW_X, val);
-}
-
-void
-gnm_gconf_set_vertical_window_fraction  (gnm_float val)
-{
-	go_conf_set_double (GNM_CONF_GUI_WINDOW_Y, val);
 }
 
 void

@@ -42,7 +42,7 @@ struct _GogPlot {
 	GogChart	*chart;		/* potentially NULL */
 
 	GSList		*series;
-	unsigned	 cardinality;
+	unsigned	 full_cardinality, visible_cardinality;
 	gboolean	 cardinality_valid;
 	unsigned	 index_num;
 	gboolean	 vary_style_by_element;
@@ -61,9 +61,6 @@ typedef struct {
 	GType		series_type;
 
 	/* Virtuals */
-	unsigned   (*cardinality)  (GogPlot *plot);
-	gboolean   (*foreach_elem) (GogPlot *plot,
-				    GogEnumFunc handler, gpointer data);
 
 	GogAxisSet (*axis_set_pref)     (GogPlot const *plot);
 	gboolean   (*axis_set_is_valid) (GogPlot const *plot, GogAxisSet type);

@@ -1,3 +1,27 @@
+2004-05-07  Jody Goldberg <jody@gnome.org>
+
+	* src/command-context-priv.h : Make this an interface
+	* src/command-context.c : support the change here.
+	* src/command-context-stderr.c : here.
+	* src/io-context-gtk.c : here
+	* src/io-context-priv.h : here
+	* src/io-context.c : here.
+	* src/workbook-control-gui.c : here
+	* src/workbook-control.c : and here
+
+	* src/GNOME_Gnumeric-gtk.xml : Move the toolbars out, they will be
+	  generated.  Add FullScreen.
+
+	* configure.in : bump libgsf dep and add the new goffice/app directory
+
+2004-05-03  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=140671
+	* src/commands.c (cmd_paste_cut_undo) : we don't know the SheetView
+	  associated with the origin sheet.
+
+	* src/selection.c (sv_selection_set) : add some safety
+
 2004-05-04  Morten Welinder  <terra@gnome.org>
 
 	* src/validation.c (validation_new): Make sure

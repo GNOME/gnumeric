@@ -614,6 +614,12 @@ ms_biff_put_var_next (BiffPut *bp, guint16 opcode)
 	gsf_output_write (bp->output, 4, data);
 }
 
+inline unsigned
+ms_biff_max_record_len (BiffPut const *bp)
+{
+	return (bp->version >= MS_BIFF_V8) ? MAX_BIFF8_RECORD_SIZE : MAX_BIFF7_RECORD_SIZE;
+}
+
 void
 ms_biff_put_var_write  (BiffPut *bp, guint8 const *data, guint32 len)
 {
@@ -626,6 +632,14 @@ ms_biff_put_var_write  (BiffPut *bp, guint8 const *data, guint32 len)
 
 	/* Temporary */
 	g_return_if_fail (bp->length + len < 0xf000);
+
+	if ((bp->curpos + len) > ms_biff_max_record_len (bp)) {
+
+		g_return_if_fail (bp->curpos == bp->length);
+
+		ms_biff_put_commit (bp);
+		ms_biff_put_var_next (bp, BIFF_CONTINUE);
+	}
 
 	gsf_output_write (bp->output, len, data);
 	bp->curpos += len;
@@ -707,8 +721,3 @@ ms_biff_put_commit (BiffPut *bp)
 		ms_biff_put_var_commit (bp);
 }
 
-unsigned
-ms_biff_max_record_len (BiffPut const *bp)
-{
-	return (bp->version >= MS_BIFF_V8) ? MAX_BIFF8_RECORD_SIZE : MAX_BIFF7_RECORD_SIZE;
-}

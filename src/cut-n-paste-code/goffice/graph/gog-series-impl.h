@@ -79,6 +79,7 @@ struct _GogSeries {
 	GogPlot	  	  *plot;
 	GogDatasetElement *values;
 	unsigned   	   num_elements;
+	gboolean	   has_legend;
 
 	GogSeriesElementStyleList *element_style_overrides;
 };

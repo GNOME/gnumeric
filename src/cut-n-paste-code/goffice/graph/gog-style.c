@@ -35,10 +35,12 @@
 
 #include <src/gui-util.h>
 #include <glade/glade-xml.h>
+#include <gtk/gtkcheckbutton.h>
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkimage.h>
 #include <gtk/gtktable.h>
+#include <gtk/gtkvbox.h>
 #include <gtk/gtkrange.h>
 #include <gtk/gtkoptionmenu.h>
 #include <gtk/gtknotebook.h>
@@ -872,7 +874,7 @@ static void
 font_init (StylePrefState *state, guint32 enable, gpointer optional_notebook)
 {
 	GogStyle *style = state->style;
-	GtkWidget *w;
+	GtkWidget *w, *box;
 
 	if (!enable)
 		return;
@@ -880,14 +882,24 @@ font_init (StylePrefState *state, guint32 enable, gpointer optional_notebook)
 	g_return_if_fail (style->font.font != NULL);
 	g_return_if_fail (GTK_NOTEBOOK (optional_notebook) != NULL);
 
+	box = gtk_vbox_new (FALSE, 5);
+
+#if 0
+	w = gtk_check_button_new_with_label (_("Automatic"));
+	gtk_box_pack_start (GTK_BOX (box), w, FALSE, TRUE, 0);
+#endif
+	gtk_widget_show_all (box);
+
 	w = font_selector_new ();
 	font_selector_set_from_pango  (FONT_SELECTOR (w), style->font.font->desc);
 	g_signal_connect (G_OBJECT (w),
 		"font_changed",
 		G_CALLBACK (cb_font_changed), state);
-	gtk_notebook_prepend_page (GTK_NOTEBOOK (optional_notebook), w,
-		gtk_label_new (_("Font")));
+	gtk_box_pack_end (GTK_BOX (box), w, TRUE, TRUE, 0);
 	gtk_widget_show (w);
+
+	gtk_notebook_prepend_page (GTK_NOTEBOOK (optional_notebook), box,
+		gtk_label_new (_("Font")));
 	gtk_widget_show (GTK_WIDGET (optional_notebook));
 }
 
@@ -1074,7 +1086,7 @@ gog_style_assign (GogStyle *dst, GogStyle const *src)
 }
 
 /**
- * gog_style_merge :
+ * gog_style_apply_theme :
  * @dst : #GogStyle
  * @src :  #GogStyle
  *
@@ -1082,18 +1094,13 @@ gog_style_assign (GogStyle *dst, GogStyle const *src)
  * assigned (is_auto)
  **/
 void
-gog_style_merge	(GogStyle *dst, GogStyle const *src)
+gog_style_apply_theme (GogStyle *dst, GogStyle const *src)
 {
 	if (src == dst)
 		return;
 
 	g_return_if_fail (GOG_STYLE (src) != NULL);
 	g_return_if_fail (GOG_STYLE (dst) != NULL);
-
-	if (src->font.font != NULL)
-		go_font_ref (src->font.font);
-	if (dst->font.font != NULL)
-		go_font_unref (dst->font.font);
 
 	if (dst->outline.auto_color)
 		dst->outline.color = src->outline.color;
@@ -1126,7 +1133,15 @@ gog_style_merge	(GogStyle *dst, GogStyle const *src)
 		go_marker_set_fill_color (dst->marker.mark,
 			go_marker_get_fill_color (src->marker.mark));
 
-	dst->font    = src->font; /* FIXME: No way to tell if this is auto */
+#if 0
+	/* Fonts are not themed until we have some sort of auto mechanism
+	 * stronger than 'auto_size' */
+	if (src->font.font != NULL)
+		go_font_ref (src->font.font);
+	if (dst->font.font != NULL)
+		go_font_unref (dst->font.font);
+	dst->font = src->font;
+#endif
 }
 
 static void
@@ -1177,6 +1192,8 @@ gog_style_init (GogStyle *style)
 	style->fill.gradient_end_auto = TRUE;
 	style->fill.type = GOG_FILL_STYLE_PATTERN;
 	go_pattern_set_solid (&style->fill.u.pattern.pat, 0);
+
+	style->font.auto_scale = TRUE;
 	style->font.font = go_font_new_by_index (0);
 	style->font.color = RGBA_BLACK;
 }

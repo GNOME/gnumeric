@@ -315,7 +315,7 @@ typedef struct {
 
 static void
 sheet_object_graph_user_config_free_data (gpointer data,
-                                             GClosure *closure)
+					  GClosure *closure)
 {
 	g_free (data);
 	closure->data = NULL;
@@ -345,9 +345,8 @@ sheet_object_graph_user_config (SheetObject *so, SheetControl *sc)
 	data->so = so;
 	data->wbc = WORKBOOK_CONTROL (wbcg);
  
-	closure = g_cclosure_new (G_CALLBACK (cb_update_graph),
-				  data, (GClosureNotify)
-				  sheet_object_graph_user_config_free_data);
+	closure = g_cclosure_new (G_CALLBACK (cb_update_graph), data,
+		(GClosureNotify) sheet_object_graph_user_config_free_data);
 	
  	sheet_object_graph_guru (wbcg, sog->graph, closure);
 	g_closure_sink (closure);

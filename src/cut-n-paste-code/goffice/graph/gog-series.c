@@ -48,7 +48,7 @@ static GObjectClass *gse_parent_klass;
 
 enum {
 	ELEMENT_PROP_0,
-	ELEMENT_INDEX,
+	ELEMENT_INDEX
 };
 
 static void
@@ -61,7 +61,6 @@ gog_series_element_set_property (GObject *obj, guint param_id,
 	case ELEMENT_INDEX :
 		gse->index = g_value_get_int (value);
 		break;
-
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */
 	}
@@ -188,7 +187,12 @@ GSF_CLASS (GogSeriesElement, gog_series_element,
 
 /*****************************************************************************/
 
-static GObjectClass *parent_klass;
+static GObjectClass *series_parent_klass;
+
+enum {
+	SERIES_PROP_0,
+	SERIES_HAS_LEGEND
+};
 
 static gboolean
 role_series_element_can_add (GogObject const *parent)
@@ -234,7 +238,39 @@ gog_series_finalize (GObject *obj)
 		series->values = NULL;
 	}
 
-	(*parent_klass->finalize) (obj);
+	(*series_parent_klass->finalize) (obj);
+}
+
+static void
+gog_series_set_property (GObject *obj, guint param_id,
+			 GValue const *value, GParamSpec *pspec)
+{
+	GogSeries *series = GOG_SERIES (obj);
+
+	switch (param_id) {
+	case SERIES_HAS_LEGEND :
+		series->has_legend = g_value_get_boolean (value);
+		break;
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 return; /* NOTE : RETURN */
+	}
+
+	gog_object_emit_changed (GOG_OBJECT (obj), FALSE);
+}
+
+static void
+gog_series_get_property (GObject *obj, guint param_id,
+			 GValue *value, GParamSpec *pspec)
+{
+	GogSeries *series = GOG_SERIES (obj);
+
+	switch (param_id) {
+	case SERIES_HAS_LEGEND :
+		g_value_set_boolean (value, series->has_legend); 
+		break;
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 break;
+	}
 }
 
 static unsigned
@@ -354,8 +390,11 @@ gog_series_class_init (GogSeriesClass *klass)
 	GogObjectClass *gog_klass = (GogObjectClass *) klass;
 	GogStyledObjectClass *style_klass = (GogStyledObjectClass *) klass;
 
-	parent_klass = g_type_class_peek_parent (klass);
+	series_parent_klass = g_type_class_peek_parent (klass);
 	gobject_klass->finalize		= gog_series_finalize;
+	gobject_klass->set_property	= gog_series_set_property;
+	gobject_klass->get_property	= gog_series_get_property;
+
 	gog_klass->editor		= gog_series_editor;
 	gog_klass->update		= gog_series_update;
 	style_klass->init_style 	= gog_series_init_style;
@@ -363,12 +402,19 @@ gog_series_class_init (GogSeriesClass *klass)
 	gog_klass->use_parent_as_proxy  = TRUE;
 
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
+
+	g_object_class_install_property (gobject_klass, SERIES_HAS_LEGEND,
+		g_param_spec_boolean ("has-legend", "has-legend",
+			"Should the series show up in legends",
+			TRUE,
+			G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 }
 
 static void
 gog_series_init (GogSeries *series)
 {
 	series->is_valid = FALSE;
+	series->has_legend = TRUE;
 	series->plot = NULL;
 	series->values = NULL;
 	series->index = -1;
@@ -505,6 +551,19 @@ gog_series_check_validity (GogSeries *series)
 			return;
 		}
 	series->is_valid = TRUE;
+}
+
+/**
+ * gog_series_has_legend :
+ * @series : #GogSeries
+ *
+ * Returns TRUE if the series has a visible legend entry
+ **/
+gboolean
+gog_series_has_legend (GogSeries const *series)
+{
+	g_return_val_if_fail (GOG_SERIES (series) != NULL, FALSE);
+	return series->has_legend;
 }
 
 /**

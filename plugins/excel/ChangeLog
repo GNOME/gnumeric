@@ -1,3 +1,32 @@
+2004-05-07  Jody Goldberg <jody@gnome.org>
+
+	* ms-biff.c (ms_biff_put_var_write) : Quick and simple support for
+	  continue.  It will not split a block of content, but it will split
+	  between blocks (attempted writes).
+
+2004-05-06  Jody Goldberg <jody@gnome.org>
+
+	* ms-obj.c (ms_obj_attr_get_*) : Take an attrbag rather than an obj to
+	 be more useful.
+
+	* ms-escher.c (ms_escher_read_container) : add a
+	  'return_attrs_in_container' kludge parameter.
+	(ms_escher_parse) : make the return of the attributes optional and
+	  actually make it work.
+	(ms_escher_read_OPT) : load properties for gradients.
+
+	* ms-chart.c (BC_R(gelframe)) : support gradients
+	(BC_R(legend)) : store the legend object.
+	(BC_R(legendxn)) : notice deleted legend elements.
+	(BC_R(text)) : import the text colour.
+	(BC_R(end)) : support legend styles and clarify the grid vs plotarea
+	  distinction.
+
+2004-05-03  Jody Goldberg <jody@gnome.org>
+
+	* excel-xml-read.c : some tweaks to get a layout that will support
+	  richtext.
+
 2004-05-04  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-write.c (excel_write_DV): Map VALIDATION_OP_NONE to

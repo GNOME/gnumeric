@@ -10,13 +10,12 @@ Release Critical
 
     http://bugzilla.gnome.org/show_bug.cgi?id=136546
     : about box i18n
-    http://bugzilla.gnome.org/show_bug.cgi?id=136363
-    : label font size
     http://bugzilla.gnome.org/show_bug.cgi?id=140820
     : undo of tab colour change
     http://bugzilla.gnome.org/show_bug.cgi?id=127203	[x axis child pos]
     : X axis label seperation
-
+    : Delete grid then edit and see a new grid
+    : xls loading of things with deleted axis
 
 Worries
     http://bugzilla.gnome.org/show_bug.cgi?id=123403
@@ -233,15 +232,29 @@ Short Term Goals
 	    1.7.5.3) Marker					(DONE)
 	    1.7.5.4) Grid					(DONE)
 	    1.7.5.5) Chart					(DONE)
+	    1.7.5.6) Legend					(DONE)
 	1.7.6) Avoid leaking GODatas when faced with an unknown	(DONE)
 	       plot type.
 	1.7.7) double axis import on simple_bar2
-	1.7.8) Axis bounds and ticks size			(DONE)
-	1.7.9) log scale					(DONE)
-	1.7.10) Titles						(DONE)
-	1.7.11) check marker none
-	1.7.12) Axis value format				(DONE)
-	1.7.13) check plot default styles
+	1.7.8) Titles						(DONE)
+	1.7.9) check marker none
+	1.7.10) Axis
+	    1.7.10.1) value format				(DONE)
+	    1.7.10.2) Axis bounds and ticks size		(DONE)
+	    1.7.10.3) log scale					(DONE)
+	    1.7.10.4) deleted axis should not appear
+	1.7.11) Gradients
+	    1.7.11.1) Horizontal x4				(DONE)
+	    1.7.11.2) Vertical x4				(DONE)
+	    1.7.11.3) Diag Up x4				(DONE)
+	    1.7.11.4) Diag Down x4				(DONE)
+	    1.7.11.5) From center
+	    1.7.11.6) From corner
+	    1.7.11.7) Two colour				(DONE)
+	    1.7.11.8) Two colour alpha (is this possible)
+	    1.7.11.9) One colour				(DONE)
+	    1.7.11.10) One colour alpha (is this possible)
+	    1.7.11.11) presets
     1.8) data sources						(DONE)
 	1.8.1) vector and scalar data sources from gnumeric	(DONE)
 	1.8.2) Add min/max elements to vector			(DONE)

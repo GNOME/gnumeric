@@ -137,84 +137,84 @@ ms_obj_attr_new_markup (MSObjAttrID id, PangoAttrList *markup)
 }
 
 guint32
-ms_obj_attr_get_uint (MSObj *obj, MSObjAttrID id, guint32 default_value)
+ms_obj_attr_get_uint (MSObjAttrBag *attrs, MSObjAttrID id, guint32 default_value)
 {
 	MSObjAttr *attr;
 
-	g_return_val_if_fail (obj != NULL, default_value);
+	g_return_val_if_fail (attrs != NULL, default_value);
 	g_return_val_if_fail (id & MS_OBJ_ATTR_IS_INT_MASK, default_value);
 
-	attr = ms_obj_attr_bag_lookup (obj->attrs, id);
+	attr = ms_obj_attr_bag_lookup (attrs, id);
 	if (attr == NULL)
 		return default_value;
 	return attr->v.v_uint;
 }
 
 gint32
-ms_obj_attr_get_int  (MSObj *obj, MSObjAttrID id, gint32 default_value)
+ms_obj_attr_get_int  (MSObjAttrBag *attrs, MSObjAttrID id, gint32 default_value)
 {
 	MSObjAttr *attr;
 
-	g_return_val_if_fail (obj != NULL, default_value);
+	g_return_val_if_fail (attrs != NULL, default_value);
 	g_return_val_if_fail (id & MS_OBJ_ATTR_IS_INT_MASK, default_value);
 
-	attr = ms_obj_attr_bag_lookup (obj->attrs, id);
+	attr = ms_obj_attr_bag_lookup (attrs, id);
 	if (attr == NULL)
 		return default_value;
 	return attr->v.v_int;
 }
 
 gpointer
-ms_obj_attr_get_ptr  (MSObj *obj, MSObjAttrID id, gpointer default_value)
+ms_obj_attr_get_ptr  (MSObjAttrBag *attrs, MSObjAttrID id, gpointer default_value)
 {
 	MSObjAttr *attr;
 
-	g_return_val_if_fail (obj != NULL, default_value);
+	g_return_val_if_fail (attrs != NULL, default_value);
 	g_return_val_if_fail (id & MS_OBJ_ATTR_IS_PTR_MASK, default_value);
 
-	attr = ms_obj_attr_bag_lookup (obj->attrs, id);
+	attr = ms_obj_attr_bag_lookup (attrs, id);
 	if (attr == NULL)
 		return default_value;
 	return attr->v.v_ptr;
 }
 
 GArray *
-ms_obj_attr_get_array (MSObj *obj, MSObjAttrID id, GArray *default_value)
+ms_obj_attr_get_array (MSObjAttrBag *attrs, MSObjAttrID id, GArray *default_value)
 {
 	MSObjAttr *attr;
 
-	g_return_val_if_fail (obj != NULL, default_value);
+	g_return_val_if_fail (attrs != NULL, default_value);
 	g_return_val_if_fail (id & MS_OBJ_ATTR_IS_GARRAY_MASK, default_value);
 
-	attr = ms_obj_attr_bag_lookup (obj->attrs, id);
+	attr = ms_obj_attr_bag_lookup (attrs, id);
 	if (attr == NULL)
 		return default_value;
 	return attr->v.v_array;
 }
 
 GnmExpr const *
-ms_obj_attr_get_expr (MSObj *obj, MSObjAttrID id, GnmExpr const *default_value)
+ms_obj_attr_get_expr (MSObjAttrBag *attrs, MSObjAttrID id, GnmExpr const *default_value)
 {
 	MSObjAttr *attr;
 
-	g_return_val_if_fail (obj != NULL, default_value);
+	g_return_val_if_fail (attrs != NULL, default_value);
 	g_return_val_if_fail (id & MS_OBJ_ATTR_IS_EXPR_MASK, default_value);
 
-	attr = ms_obj_attr_bag_lookup (obj->attrs, id);
+	attr = ms_obj_attr_bag_lookup (attrs, id);
 	if (attr == NULL)
 		return default_value;
 	return attr->v.v_expr;
 }
 
 PangoAttrList *
-ms_obj_attr_get_markup (MSObj *obj, MSObjAttrID id, PangoAttrList *default_value)
+ms_obj_attr_get_markup (MSObjAttrBag *attrs, MSObjAttrID id, PangoAttrList *default_value)
 {
 	MSObjAttr *attr;
 
-	g_return_val_if_fail (obj != NULL, default_value);
+	g_return_val_if_fail (attrs != NULL, default_value);
 	g_return_val_if_fail (id & MS_OBJ_ATTR_IS_PANGO_ATTR_LIST_MASK, default_value);
 
-	attr = ms_obj_attr_bag_lookup (obj->attrs, id);
+	attr = ms_obj_attr_bag_lookup (attrs, id);
 	if (attr == NULL)
 		return default_value;
 	return attr->v.v_markup;
