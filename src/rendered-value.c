@@ -175,6 +175,7 @@ cb_dump (PangoAttribute *a)
 				(PangoAttrFilterFunc) cb_dump, NULL);
 #endif
 
+#ifdef HAVE_PANGO_CONTEXT_SET_MATRIX
 /* Gets the bounds of a layout in pango units.  Mostly copied from gtklabel.c */
 static void
 get_rotated_layout_bounds (PangoLayout *layout, int *width, int *height)
@@ -219,6 +220,7 @@ get_rotated_layout_bounds (PangoLayout *layout, int *width, int *height)
 	*width = ceil (x_max) - floor (x_min);
 	*height = ceil (y_max) - floor (y_min);
 }
+#endif
 
 void
 rendered_value_remeasure (RenderedValue *rv)
