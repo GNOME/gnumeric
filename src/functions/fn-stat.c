@@ -3320,33 +3320,37 @@ static char *help_quartile = {
 static Value *
 gnumeric_quartile (FunctionEvalInfo *ei, Value **argv)
 {
-        static const float_t q[] = { 0.00, 0.25, 0.50, 0.75, 1.00 };
-	float_t test, index;
 	float_t *data = NULL;
 	Value   *result = NULL;
-	int     quart, n, ind;
+	int     n;
 
 	data = collect_floats_value (argv[0], ei->pos,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS,
 				     &n, &result);
-	if (result)
-		goto out;
+	if (result) {
+		/* Nothing.  */
+	} else if (n == 0) {
+		result = value_new_error (ei->pos, gnumeric_err_NUM);
+	} else {
+		int quart, ind;
+		float_t test, index;
+		static const float_t q[] = { 0.00, 0.25, 0.50, 0.75, 1.00 };
 
-	quart = value_get_as_int (argv[1]);
-	qsort ((float_t *) data, n, sizeof (data[0]), (void *) &float_compare);
+		quart = value_get_as_int (argv[1]);
+		qsort ((float_t *) data, n, sizeof (data[0]), (void *) &float_compare);
 
-	index = q[quart] * (n - 1);
-	ind = (int)index;
-	test = index - ind;
-	if (index == n - 1)
-	        result = value_new_float (data[n - 1]);
-	else
-	        result = value_new_float ((1.0 - test) * data[ind] +
-					  test * data[ind + 1]);
-out:
+		index = q[quart] * (n - 1);
+		ind = (int)index;
+		test = index - ind;
+		if (index == n - 1)
+			result = value_new_float (data[n - 1]);
+		else
+			result = value_new_float ((1.0 - test) * data[ind] +
+						  test * data[ind + 1]);
+	}
+
 	g_free (data);
-
 	return result;
 }
 

@@ -1,5 +1,7 @@
 2000-04-15  Morten Welinder  <terra@diku.dk>
 
+	* src/functions/fn-stat.c (gnumeric_quartile): Fix for empty case.
+
 	* src/xml-io.c (xml_free_arg_list): Plug leak.
 
 2000-04-15  Karl EICHWALDER  <ke@suse.de>
