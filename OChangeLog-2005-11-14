@@ -1,4 +1,15 @@
 2001-05-07  Almer S. Tigelaar  <almer@gnome.org>
+
+	* src/workbook-edit.c
+	(workbook_edit_toolbars_set_sensitive): New, enable/disable
+	all toolbars. Now works for bonobo toolbars too.
+	(cb_thaw_ui_toolbar): Use toolbars_set_sensitive.
+	(workbook_edit_set_sensitive): Idem.
+
+	* src/GNOME_Gnumeric.xml: Add toolbar commands and set verbs
+	on existing toolbars.
+
+2001-05-07  Almer S. Tigelaar  <almer@gnome.org>
     
     	* src/parser.y (gnumeric_expr_parser): Display which
     	token caused the parse error. And display more detailed

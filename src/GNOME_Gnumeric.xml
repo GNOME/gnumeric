@@ -131,6 +131,10 @@
 	    _label="_About..."
 	    _tip="About this application"
 	    pixtype="stock" pixname="About"/>
+
+	<cmd name="StandardToolbar" sensitive="1"/>
+	<cmd name="FormatToolbar" sensitive="1"/>
+	<cmd name="ObjectToolbar" sensitive="1"/>
     </commands>
 
     <menu>
@@ -486,7 +490,7 @@
     </menu>
 
     <dockitem name="StandardToolbar" behavior="exclusive" homogeneous="0"
-	band_num="1" look="icon" relief="none">
+	band_num="1" look="icon" relief="none" verb="StandardToolbar">
 
 	<toolitem name="New"
 	    pixtype="stock" pixname="New"
@@ -598,7 +602,7 @@
     </dockitem>
 
     <dockitem name="FormatToolbar" band_num="2" behavior="exclusive"
-	homogeneous="0" look="icon" relief="none">
+	homogeneous="0" look="icon" relief="none" verb="FormatToolbar">
 
 	<control name="FontName"
 	    _tip="Font selector"
@@ -720,7 +724,7 @@
     </dockitem>
 
     <dockitem name="ObjectToolbar" band_num="2" placement="left"
-	homogeneous="0" look="icon" relief="none">
+	homogeneous="0" look="icon" relief="none" verb="ObjectToolbar">
 
 	<toolitem name="Label"
 	    pixtype="stock" pixname="Gnumeric_Label"

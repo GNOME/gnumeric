@@ -54,20 +54,46 @@ workbook_auto_complete_destroy (WorkbookControlGUI *wbcg)
 
 }
 
+static void
+workbook_edit_toolbars_set_sensitive (WorkbookControlGUI *wbcg, gboolean sensitive)
+{
+#ifdef ENABLE_BONOBO
+	CORBA_Environment ev;
+#endif
+	static gboolean is_sensitive = TRUE;
+
+	/* Don't disable/enable again (prevent toolbar flickering) */
+	if (is_sensitive != sensitive)
+		is_sensitive = sensitive;
+	else
+		return;
+
+#ifdef ENABLE_BONOBO
+	CORBA_exception_init (&ev);
+	bonobo_ui_component_set_prop (wbcg->uic, "/commands/StandardToolbar",
+				      "sensitive", sensitive ? "1" : "0", &ev);
+	bonobo_ui_component_set_prop (wbcg->uic, "/commands/FormatToolbar",
+				      "sensitive", sensitive ? "1" : "0", &ev);
+	bonobo_ui_component_set_prop (wbcg->uic, "/commands/ObjectToolbar",
+				      "sensitive", sensitive ? "1" : "0", &ev);
+	CORBA_exception_free (&ev);
+#else
+	gtk_widget_set_sensitive (wbcg->standard_toolbar, sensitive);
+	gtk_widget_set_sensitive (wbcg->format_toolbar, sensitive);
+	gtk_widget_set_sensitive (wbcg->object_toolbar, sensitive);
+#endif
+
+}
+
 static gboolean
 cb_thaw_ui_toolbar (gpointer *data)
 {
         WorkbookControlGUI *wbcg = (WorkbookControlGUI *)data;
 
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), FALSE);
-#ifdef ENABLE_BONOBO
-#warning FIXME : how to quickly sensitize and desensitize a toolbar
-#else
-	gtk_widget_set_sensitive (wbcg->standard_toolbar, TRUE);
-	gtk_widget_set_sensitive (wbcg->format_toolbar, TRUE);
-	gtk_widget_set_sensitive (wbcg->object_toolbar, TRUE);
-#endif
-
+	
+	workbook_edit_toolbars_set_sensitive (wbcg, TRUE);
+	
 	if (wbcg->ui_timer != 0) {
 		gtk_timeout_remove (wbcg->ui_timer);
 		wbcg->ui_timer = 0;
@@ -99,15 +125,8 @@ workbook_edit_set_sensitive (WorkbookControlGUI *wbcg, gboolean flag1, gboolean 
 		/* We put the re-enabling of the ui on a timer */
 		wbcg->ui_timer = gtk_timeout_add (UI_THAW_DELAY, (GtkFunction) cb_thaw_ui_toolbar,
 						  wbcg);
-	} else {
-#ifdef ENABLE_BONOBO
-#warning FIXME : how to quickly sensitize and desensitize a toolbar
-#else
-		gtk_widget_set_sensitive (wbcg->standard_toolbar, flag2);
-		gtk_widget_set_sensitive (wbcg->format_toolbar, flag2);
-		gtk_widget_set_sensitive (wbcg->object_toolbar, flag2);
-#endif
-	}
+	} else
+		workbook_edit_toolbars_set_sensitive (wbcg, flag2);
 }
 
 gboolean
