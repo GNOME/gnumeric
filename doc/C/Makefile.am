@@ -274,7 +274,6 @@ sgml_ents = 					\
 	autosave.sgml				\
 	cell_refer.sgml				\
 	copying-moving.sgml			\
-	dndselection.sgml			\
 	editing.sgml				\
 	files.sgml				\
 	filter.sgml				\
