@@ -133,8 +133,6 @@ static void
 ccs_class_init (GObjectClass *object_class)
 {
 	CommandContextClass *cc_class = COMMAND_CONTEXT_CLASS (object_class);
-	CommandContextStderrClass *ccs_class
-		= COMMAND_CONTEXT_STDERR_CLASS (object_class);
 
 	g_return_if_fail (cc_class != NULL);
 	cc_class->error.system       = ccs_system;

@@ -1,5 +1,7 @@
 2002-03-08  Jon K Hellan  <hellan@acm.org>
 
+	* src/command-context-stderr.c (ccs_class_init): Make gmorten happy.
+
 	* src/command-context.h (COMMAND_CONTEXT): Fix typo.
 
 	* src/command-context-stderr.c
