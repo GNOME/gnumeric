@@ -1,23 +1,70 @@
 figs =							\
-	figures/add-decimals.png				\
+	figures/add-decimals.png			\
 	figures/advanced-filter-1.png			\
 	figures/advanced-filter-2.png			\
-	figures/align-center.png				\
+	figures/align-center.png			\
 	figures/align-left.png				\
 	figures/align-right.png				\
 	figures/analysis-tools.png			\
+	figures/analysistools-ANOVA1-ex1.png		\
+	figures/analysistools-ANOVA1-ex2.png		\
+	figures/analysistools-ANOVA2w-ex1.png		\
+	figures/analysistools-ANOVA2w-ex2.png		\
+	figures/analysistools-ANOVA2wo-ex1.png		\
+	figures/analysistools-ANOVA2wo-ex2.png		\
 	figures/analysistools-correlation-ex1.png	\
 	figures/analysistools-correlation-ex2.png	\
 	figures/analysistools-correlation-ex3.png	\
 	figures/analysistools-correlation.png		\
+	figures/analysistools-covariance-ex1.png	\
+	figures/analysistools-covariance-ex2.png	\
 	figures/analysistools-covariance.png		\
 	figures/analysistools-descstats.png		\
+	figures/analysistools-descstats-ex1.png		\
+	figures/analysistools-descstats-ex2.png		\
+	figures/analysistools-ftest-ex1.png		\
+	figures/analysistools-ftest-ex2.png		\
+	figures/analysistools-ftest.png			\
+	figures/analysistools-histogram-ex1.png		\
+	figures/analysistools-histogram-ex2.png		\
+	figures/analysistools-histogram.png		\
+	figures/analysistools-moving-average-ex1.png	\
+	figures/analysistools-moving-average-ex2.png	\
+	figures/analysistools-moving-average.png	\
 	figures/analysistools-outputoptions.png		\
-	figures/analysistools-ranges.png			\
+	figures/analysistools-random-ex1.png		\
+	figures/analysistools-random-ex2.png		\
+	figures/analysistools-random.png		\
+	figures/analysistools-ranges.png		\
+	figures/analysistools-rank-ex1.png		\
+	figures/analysistools-rank-ex2.png		\
 	figures/analysistools-rank.png			\
+	figures/analysistools-regression-ex1.png	\
+	figures/analysistools-regression-ex2.png	\
+	figures/analysistools-regression-ex3.png	\
+	figures/analysistools-regression.png		\
+	figures/analysistools-sampling-ex1.png		\
+	figures/analysistools-sampling-ex2.png		\
+	figures/analysistools-sampling.png		\
+	figures/analysistools-smoothing-ex1.png		\
+	figures/analysistools-smoothing-ex2.png		\
+	figures/analysistools-smoothing.png		\
 	figures/analysistools-tools.png			\
+	figures/analysistools-ttest-equal-ex1.png	\
+	figures/analysistools-ttest-equal-ex2.png	\
+	figures/analysistools-ttest-equal.png		\
+	figures/analysistools-ttest-paired-ex1.png	\
+	figures/analysistools-ttest-paired-ex2.png	\
+	figures/analysistools-ttest-paired.png		\
+	figures/analysistools-ttest-unequal-ex1.png	\
+	figures/analysistools-ttest-unequal-ex2.png	\
+	figures/analysistools-ttest-unequal.png		\
+	figures/analysistools-ttest.png			\
+	figures/analysistools-ztest-ex1.png		\
+	figures/analysistools-ztest-ex2.png		\
+	figures/analysistools-ztest.png			\
 	figures/arrow.png				\
-	figures/auto-correct.png				\
+	figures/auto-correct.png			\
 	figures/auto-save.png				\
 	figures/auto-sum.png				\
 	figures/autocorrect.png				\
@@ -32,7 +79,7 @@ figs =							\
 	figures/autofill-8.png				\
 	figures/autofill-9.png				\
 	figures/autosave.png				\
-	figures/bold.png					\
+	figures/bold.png				\
 	figures/border.png				\
 	figures/cells-1.png				\
 	figures/cells-2.png				\
@@ -50,16 +97,16 @@ figs =							\
 	figures/graphing.png				\
 	figures/insert-object.png			\
 	figures/italic.png				\
-	figures/line.png					\
+	figures/line.png				\
 	figures/modify-comment.png			\
 	figures/money.png				\
 	figures/number-format-buttonbar.png		\
 	figures/number-format-color-dialog.png		\
-	figures/number-format-dialog.png			\
+	figures/number-format-dialog.png		\
 	figures/number-format-font-dialog.png		\
-	figures/number-format-justification-dialog-2.png	\
+	figures/number-format-justification-dialog-2.png\
 	figures/number-format-justification.png		\
-	figures/oval.png					\
+	figures/oval.png				\
 	figures/percentage.png				\
 	figures/plug-ins.png				\
 	figures/plugins.png				\
@@ -72,7 +119,7 @@ figs =							\
 	figures/print-preview-last.png			\
 	figures/print-preview-next.png			\
 	figures/print-preview-toolbar.png		\
-	figures/print-preview-zoomin.png			\
+	figures/print-preview-zoomin.png		\
 	figures/print-preview-zoomout.png		\
 	figures/print-preview.png			\
 	figures/print-worksheet.png			\
@@ -82,11 +129,13 @@ figs =							\
 	figures/printing-setup-margins.png		\
 	figures/printing-setup-page-1.png		\
 	figures/printing-setup-page.png			\
-	figures/rect.png					\
-	figures/redo.png					\
+	figures/printing-setup-sheet.png		\
+	figures/rect.png				\
+	figures/redo.png				\
 	figures/remove-decimals.png			\
+	figures/sample_gnumeric.png			\
 	figures/selection-1.png				\
-	figures/selection-10.png				\
+	figures/selection-10.png			\
 	figures/selection-2.png				\
 	figures/selection-3.png				\
 	figures/selection-4.png				\
@@ -103,7 +152,7 @@ figs =							\
 	figures/solver-05.png				\
 	figures/sort-ascending.png			\
 	figures/sort-descending.png			\
-	figures/sort.png					\
+	figures/sort.png				\
 	figures/stock-copy.png				\
 	figures/stock-cut.png				\
 	figures/stock-new.png				\
@@ -114,7 +163,7 @@ figs =							\
 	figures/thousands.png				\
 	figures/toolbar.png				\
 	figures/underline.png				\
-	figures/undo.png					\
+	figures/undo.png				\
 	figures/worksheet-all-1.png			\
 	figures/worksheet-cols-1.png			\
 	figures/worksheet-data-1.png			\
@@ -127,40 +176,34 @@ figs =							\
 	figures/worksheet-zoomin-1.jpg			\
 	figures/worksheet-zoomout-1.jpg			\
 	figures/zoom-dialog.png				\
-	figures/zoom-toolbar.png				\
-	figures/zoom.png					\
-	figures/analysistools-ANOVA2w-ex1.png		\
-	figures/analysistools-ANOVA2w-ex2.png		\
-	figures/analysistools-ANOVA2wo-ex1.png		\
-	figures/analysistools-ANOVA2wo-ex2.png		\
-	figures/analysistools-covariance-ex1.png		\
-	figures/analysistools-covariance-ex2.png		\
-	figures/analysistools-descstats-ex1.png		\
-	figures/analysistools-descstats-ex2.png	
+	figures/zoom-toolbar.png			\
+	figures/zoom.png
 
 
 docname = gnumeric
 lang = C
 sgml_ents = 					\
-	editing.sgml				\
-	number-format.sgml			\
-	formulas.sgml				\
-	cell_refer.sgml				\
-	selections.sgml				\
-	copying-moving.sgml			\
-	printing.sgml				\
-	autofill.sgml				\
-	introduction.sgml			\
-	files.sgml				\
-	autosave.sgml				\
-	functions.sgml				\
-	printing.sgml				\
 	analysis-tools.sgml			\
-	solver.sgml				\
-	autocorrect.sgml			\
-	filter.sgml				\
 	authors.sgml				\
-	license.sgml
+	autocorrect.sgml			\
+	autofill.sgml				\
+	autosave.sgml				\
+	cell_refer.sgml				\
+	copying-moving.sgml			\
+	dndselection.sgml			\
+	editing.sgml				\
+	files.sgml				\
+	filter.sgml				\
+	formulas.sgml				\
+	functions.sgml				\
+	introduction.sgml			\
+	license.sgml				\
+	number-format.sgml			\
+	printing.sgml				\
+	selections.sgml				\
+	solver.sgml				\
+	text-entry.sgml				\
+	worksheet.sgml
 
 include $(top_srcdir)/doc/sgmldocs.make
 dist-hook: app-dist-hook
