@@ -14,6 +14,8 @@ Jukka:
 	  BERNOULLI(), CAUCHY(), EXPPOWDIST(), GEOMDIST(), LANDAU(),
  	  LAPLACE(), LOGISTIC(), PARETO(), RAYLEIGH(), and RAYLEIGHTAIL().
 	* Added `Filter->Show All'.
+	* Improved the function description layout in the
+	  `Insert->Function' dialog.
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.6

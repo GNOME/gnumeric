@@ -244,8 +244,59 @@ cb_dialog_function_select_fun_selection_changed (GtkTreeSelection *the_selection
 				    -1);
 		{
 			TokenizedHelp *help = tokenized_help_new (func);
-			char const * f_desc = tokenized_help_find (help, "DESCRIPTION");
-			gtk_text_buffer_set_text (state->description, f_desc, -1);
+			char const * f_desc =
+				tokenized_help_find (help, "DESCRIPTION");
+			char const * cursor;
+			GString    * buf = g_string_new ("");
+			GtkTextIter  start, end;
+			GtkTextTag * tag;
+			int          i;
+
+			g_string_append (buf, f_desc);
+			gtk_text_buffer_set_text (state->description, buf->str,
+						  -1);
+
+			/* Set the fn name Bold */
+			cursor = f_desc;
+			for (i = 0; !isspace (*cursor); i++)
+				cursor++;
+
+			tag = gtk_text_buffer_create_tag (state->description,
+							  NULL,
+							  "weight",
+							  PANGO_WEIGHT_BOLD,
+							  NULL);  
+			gtk_text_buffer_get_iter_at_offset (state->description,
+							    &start, 0);
+			gtk_text_buffer_get_iter_at_offset (state->description,
+							    &end, i);
+			gtk_text_buffer_apply_tag (state->description, tag,
+						   &start, &end);
+
+			/* Set the arguments and errors Italic */
+			for ( ; *cursor; cursor++) {
+				if (*cursor == '@' || *cursor == '#') {
+					cursor++;
+					for (i = 0; *cursor
+						     && !isspace (*cursor); i++)
+						cursor++;
+					tag = gtk_text_buffer_create_tag
+						(state->description,
+						 NULL, "style",
+						 PANGO_STYLE_ITALIC, NULL);  
+					gtk_text_buffer_get_iter_at_offset
+						(state->description, &start,
+						 cursor - f_desc - i);
+					gtk_text_buffer_get_iter_at_offset
+						(state->description, &end,
+						 cursor - f_desc);
+					gtk_text_buffer_apply_tag
+						(state->description, tag,
+						 &start, &end);
+				}
+			}
+
+			g_string_free (buf, FALSE);
 			tokenized_help_destroy (help);
 		}
 		gtk_widget_set_sensitive (state->ok_button, TRUE);
