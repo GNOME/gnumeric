@@ -2035,6 +2035,16 @@ gnm_expr_get_func_def (GnmExpr const *expr)
 	return expr->func.func;
 }
 
+int
+gnm_expr_get_func_argcount (GnmExpr const *expr)
+{
+	g_return_val_if_fail (expr != NULL, 0);
+	g_return_val_if_fail (expr->any.oper == GNM_EXPR_OP_FUNCALL, 0);
+
+	return g_slist_length (expr->func.arg_list);
+}
+
+
 /**
  * gnm_expr_first_func :
  * @expr :

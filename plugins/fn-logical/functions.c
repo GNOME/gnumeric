@@ -269,9 +269,18 @@ static GnmValue *
 gnumeric_if (FunctionEvalInfo *ei, GnmValue **args)
 {
 	gboolean err;
+	int argcount;
 	int res = value_get_as_bool (args[0], &err) ? 1 : 2;
-	return args[res] ?
-		value_dup (args[res]) : value_new_bool (res == 1);
+
+	if (args[res])
+		return value_dup (args[res]);
+
+	argcount = gnm_expr_get_func_argcount ((const GnmExpr *)ei->func_call);
+
+	if (argcount == 3)
+		return value_new_int (0);
+	else
+		return value_new_bool (res == 1);
 }
 
 /***************************************************************************/

@@ -1,3 +1,7 @@
+2004-06-04  Morten Welinder  <terra@gnome.org>
+
+	* src/expr.c (gnm_expr_get_func_argcount): New function.
+
 2004-05-31  Jody Goldberg <jody@gnome.org>
 
 	* src/graph.c (gnm_go_data_get_sheet) : new.

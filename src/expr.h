@@ -61,6 +61,7 @@ GnmValue      *gnm_expr_get_range    (GnmExpr const *expr);
 GSList        *gnm_expr_get_ranges   (GnmExpr const *expr);
 GnmValue const*gnm_expr_get_constant (GnmExpr const *expr);
 GnmFunc       *gnm_expr_get_func_def (GnmExpr const *expr);
+int            gnm_expr_get_func_argcount (GnmExpr const *expr);
 
 void	  gnm_expr_ref		     (GnmExpr const *expr);
 void	  gnm_expr_unref	     (GnmExpr const *expr);

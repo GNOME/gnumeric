@@ -1,3 +1,9 @@
+2004-06-04  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_if): If the arg count is 3 (including
+	empties), the default value is zero.  Otherwise, the default value
+	is TRUE or FALSE.
+
 2004-03-28  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.3.0
