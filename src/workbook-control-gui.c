@@ -468,6 +468,7 @@ cb_sheet_label_button_press (GtkWidget *widget, GdkEventButton *event,
 }
 
 static void workbook_setup_sheets (WorkbookControlGUI *wbcg);
+static void wbcg_menu_state_sheet_count (WorkbookControl *wbc);
 
 /**
  * wbcg_sheet_add:
@@ -516,9 +517,7 @@ wbcg_sheet_add (WorkbookControl *wbc, Sheet *sheet)
 		wbcg_ui_update_end (wbcg);
 	}
 
-	/* Only be scrollable if there are more than 3 tabs */
-	if (g_list_length (wbcg->notebook->children) > 3)
-		gtk_notebook_set_scrollable (wbcg->notebook, TRUE);
+	wbcg_menu_state_sheet_count (wbc);
 
 	/* create views for the sheet objects */
 	for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next)
@@ -543,9 +542,7 @@ wbcg_sheet_remove (WorkbookControl *wbc, Sheet *sheet)
 
 	gtk_notebook_remove_page (wbcg->notebook, i);
 
-	/* Only be scrollable if there are more than 3 tabs */
-	if (g_list_length (wbcg->notebook->children) <= 3)
-		gtk_notebook_set_scrollable (wbcg->notebook, FALSE);
+	wbcg_menu_state_sheet_count (wbc);
 }
 
 static void
@@ -854,6 +851,26 @@ wbcg_menu_state_sheet_prefs (WorkbookControl *wbc, Sheet const *sheet)
 		"/commands/SheetHideRowHeader", sheet->hide_row_header);
 #endif
 	wbcg_ui_update_end (wbcg);
+}
+
+static void
+wbcg_menu_state_sheet_count (WorkbookControl *wbc)
+{
+ 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
+	gboolean enable = (g_list_length (wbcg->notebook->children) > 1);
+
+	/* Only be scrollable if there are more than 3 tabs */
+	if (g_list_length (wbcg->notebook->children) <= 3)
+		gtk_notebook_set_scrollable (wbcg->notebook, FALSE);
+	
+#ifndef ENABLE_BONOBO
+	change_menu_sensitivity (wbcg->menu_item_sheet_remove, enable);
+	change_menu_sensitivity (wbcg->menu_item_sheets_edit_reorder, enable);
+	change_menu_sensitivity (wbcg->menu_item_sheets_format_reorder, enable);
+#else
+	change_menu_sensitivity (wbcg, "/commands/SheetRemove", enable);
+	change_menu_sensitivity (wbcg, "/commands/SheetReorder", enable);
+#endif
 }
 
 static void
@@ -3226,12 +3243,20 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 	/* Get the menu items that will be enabled disabled based on
 	 * workbook state.
 	 */
-	wbcg->menu_item_undo	      = workbook_menu_edit[0].widget;
-	wbcg->menu_item_redo	      = workbook_menu_edit[1].widget;
-	wbcg->menu_item_paste_special = workbook_menu_edit[6].widget;
-	wbcg->menu_item_insert_rows   = workbook_menu_insert[1].widget;
-	wbcg->menu_item_insert_cols   = workbook_menu_insert[2].widget;
-	wbcg->menu_item_insert_cells  = workbook_menu_insert[3].widget;
+	wbcg->menu_item_undo =
+		workbook_menu_edit [0].widget;
+	wbcg->menu_item_redo =
+		workbook_menu_edit [1].widget;
+	wbcg->menu_item_paste_special =
+		workbook_menu_edit [6].widget;
+	
+	wbcg->menu_item_insert_rows =
+		workbook_menu_insert [1].widget;
+	wbcg->menu_item_insert_cols =
+		workbook_menu_insert [2].widget;
+	wbcg->menu_item_insert_cells =
+		workbook_menu_insert [3].widget;
+	
 	wbcg->menu_item_sheet_display_formulas =
 		workbook_menu_format_sheet [2].widget;
 	wbcg->menu_item_sheet_hide_zero =
@@ -3242,6 +3267,13 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 		workbook_menu_format_sheet [5].widget;
 	wbcg->menu_item_sheet_hide_row_header =
 		workbook_menu_format_sheet [6].widget;
+		
+	wbcg->menu_item_sheet_remove =
+		workbook_menu_edit_sheet [3].widget;
+	wbcg->menu_item_sheets_edit_reorder =
+		workbook_menu_edit_sheet [4].widget;
+	wbcg->menu_item_sheets_format_reorder =
+		workbook_menu_format_sheet [1].widget;
 #else
 	bonobo_window_set_contents (BONOBO_WINDOW (wbcg->toplevel), wbcg->table);
 
@@ -3321,7 +3353,7 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 	wbcg->autosave_timer = 0;
 	wbcg->autosave_minutes = 0;
 	wbcg->autosave_prompt = FALSE;
-
+	
 	/* Postpone showing the GUI, so that we may resize it freely. */
 	gtk_idle_add ((GtkFunction) show_gui, wbcg);
 }
@@ -3360,7 +3392,7 @@ workbook_control_gui_ctor_class (GtkObjectClass *object_class)
 	wbc_class->sheet.focus	    = wbcg_sheet_focus;
 	wbc_class->sheet.move	    = wbcg_sheet_move;
 	wbc_class->sheet.remove_all = wbcg_sheet_remove_all;
-
+	
 	wbc_class->undo_redo.clear    = wbcg_undo_redo_clear;
 	wbc_class->undo_redo.truncate = wbcg_undo_redo_truncate;
 	wbc_class->undo_redo.pop      = wbcg_undo_redo_pop;

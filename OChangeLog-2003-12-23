@@ -1,3 +1,15 @@
+2001-02-24  Almer S. Tigelaar  <almer@gnome.org>
+
+	* src/workbook-control-gui-priv.h :
+	Add sheet remove and sheet re-order menu items.
+
+	* src/workbook-control-gui.c
+	(wbcg_menu_state_sheet_count) : New, Take care of sheet counts dependant
+	gui elements like the sheet remove/re-order menus.
+	(wbcg_sheet_add) : Call menu_state_sheet_count from here.
+	(wbcg_sheet_remove) : Idem.
+	(workbook_control_gui_init) : Initialize the remove and re-order menu-items.
+	
 2001-02-24  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook-control-gui.c (workbook_control_gui_new) : Why was I
