@@ -41,7 +41,7 @@
 #include "func.h"
 #include "cell.h"
 #include "value.h"
-#include "main.h"
+#include "libgnumeric.h"
 #include "command-context.h"
 #include "guile-support.h"
 #include "smob-value.h"
