@@ -170,7 +170,7 @@ datedif_opt_yd (GDate *gdate1, GDate *gdate2, int excel_compat)
 
 		/* treat all years divisible by four as leap years: */
 		/* this is clearly wrong, but it's what Excel does. */
-		/* ( i use 2004 here since it is clearly a leap year.) */
+		/* (I use 2004 here since it is clearly a leap year.) */
 		new_year1 = 2004 + (g_date_year (gdate1) & 0x3);
 		new_year2 = new_year1 + (g_date_year (gdate2) - 
 					 g_date_year (gdate1));
@@ -209,7 +209,7 @@ datedif_opt_md (GDate *gdate1, GDate *gdate2, int excel_compat)
 
 		/* treat all years divisible by four as leap years: */
 		/* this is clearly wrong, but it's what Excel does. */
-		/* ( i use 2004 here since it is clearly a leap year.) */
+		/* (I use 2004 here since it is clearly a leap year.) */
 		new_year1 = 2004 + (g_date_year (gdate1) & 0x3);
 		new_year2 = new_year1 + (g_date_year (gdate2) -
 					 g_date_year (gdate1));
