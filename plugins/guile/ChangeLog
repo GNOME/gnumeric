@@ -1,3 +1,7 @@
+1999-12-10  Michael Meeks  <mmeeks@gnu.org>
+
+	* Makefile.am: Fixup guile install.
+
 1999-12-10  Ariel Rios <jarios@usa.net>
 
 	* plugin.c: (expr_to_scm) The OPER_PERCENT case was included.
