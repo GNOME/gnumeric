@@ -1,3 +1,12 @@
+1999-12-21  JP Rosevear <jpr@arcavia.com>
+
+	* src/ranges.c (range_intersection) : Tidy and handle the case
+	where the ranges don't intersect.
+
+	* src/dialogs/dialog-cell-sort.c (dialog_cell_sort) : Use
+	sheet_get_extent only if there are infinite ranges, so the user
+	sees their manually selected range if possible.
+
 1999-12-21  Jody Goldberg <jgoldberg@home.com>
 
 	* src/expr.c (expr_implicit_intersection) : New routine split from

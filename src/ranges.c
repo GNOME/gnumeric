@@ -724,33 +724,22 @@ range_fragment_free (GList *fragments)
  * diagram this would be A (upside down U) B
  * NB. totally commutative.
  * 
- * Return value: the intersection.
+ * Return value: the intersection
  **/
 Range
 range_intersection (Range const *a, Range const *b)
 {
 	Range ans;
 
-	if (a->start.col > b->start.col)
-		ans.start.col = a->start.col;
-	else
-		ans.start.col = b->start.col;
+	g_return_if_fail (range_overlap (a, b));
+	
+	ans.start.col = MAX(a->start.col, b->start.col);
+	ans.start.row = MAX(a->start.row, b->start.row);
+	
+	ans.end.col = MIN(a->end.col, b->end.col);
+	ans.end.row = MIN(a->end.row, b->end.row);
 
-	if (a->end.col < b->end.col)
-		ans.end.col   = a->end.col;
-	else
-		ans.end.col   = b->end.col;
-
-	if (a->start.row > b->start.row)
-		ans.start.row = a->start.row;
-	else
-		ans.start.row = b->start.row;
-
-	if (a->end.row < b->end.row)
-		ans.end.row   = a->end.row;
-	else
-		ans.end.row   = b->end.row;
-
+	/* Make sure this is an actual intersection */
 	return ans;
 }
 
