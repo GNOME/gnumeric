@@ -668,7 +668,7 @@ compute_value (char *s, regmatch_t *mp, GByteArray *array, double *v)
 
 			number = g_date_serial (date);
 
-			g_date_free( date );
+			g_date_free (date);
 		}
 
 		*v = number;

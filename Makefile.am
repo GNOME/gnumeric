@@ -1,6 +1,6 @@
 SUBDIRS = intl po macros plugins src 
 
-EXTRA_DIST = gnumeric.desktop README HACKING
+EXTRA_DIST = gnumeric.desktop README HACKING xlibtool
 
 dist-hook:
 	mkdir $(distdir)/samples

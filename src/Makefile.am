@@ -67,6 +67,7 @@ GNUMERIC_BASE_SOURCES =			\
 	item-edit.h			\
 	item-grid.c			\
 	item-grid.h			\
+	main.h				\
 	number-match.c			\
 	number-match.h			\
 	numbers.h			\

@@ -130,3 +130,12 @@ po/Makefile.in
 macros/Makefile
 stamp.h
 ],[sed -e "/POTFILES =/r po/POTFILES" po/Makefile.in > po/Makefile])
+
+rm -f xlibtool
+mv libtool xlibtool
+rm -f $srcdir/xltmain.sh
+mv $srcdir/ltmain.sh $srcdir/xltmain.sh
+sed -e 's/^archive_cmds="\(.*\)"$/archive_cmds="\1 \\$deplibs"/' xlibtool > libtool
+sed -e 's/\$show "extracting global C symbols from.*//' <  $srcdir/xltmain.sh > $srcdir/ltmain.sh
+
+chmod +x libtool $srcdir/ltmain.sh
