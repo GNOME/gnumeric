@@ -1,6 +1,12 @@
+2001-10-15  Adrian Custer <acuster@nature.berkeley.edu>
+
+	* latex.c : add documentation to functions, trivial changes to 2.09
+	exporter code.
+	* plugin.xml.in : changed identifier from LaTeX to LaTeX 2.09.
+
 2001-10-14  Adrian Custer <acuster@nature.berkeley.edu>
 
-	* latex.c : re-order the latex escape sequence, add documentation
+	* latex.c : re-order the latex escape sequence, add documentation.
 
 2001-10-07  Jody Goldberg <jgoldberg@home.com>
 

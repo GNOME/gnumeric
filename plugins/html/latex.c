@@ -40,7 +40,7 @@
  * @p : a pointer to a char, start of the string to be processed.
  * @fp : a file pointer where the processed characters are written.
  *
- * This escapes any special LaTeX characters from the LaTeX engine. Reordered
+ * This escapes any special LaTeX characters from the LaTeX engine. Re-ordered
  * from Rasca's code to have most common first.
  */
 static void
@@ -74,6 +74,15 @@ latex_fputs (const char *p, FILE *fp)
 }
 
 
+/**
+ * latex_fprintf_cell :
+ * 
+ * @fp : a file pointer where the cell contents will be written.
+ * @cell : the cell whose contents are to be written.
+ *
+ * This processes each cell. Only used in the LaTeX 2.09 exporter,
+ * the functionality was folded into the LaTeX2e exporter.
+ */
 static void
 latex_fprintf_cell (FILE *fp, const Cell *cell)
 {
@@ -91,8 +100,17 @@ latex_fprintf_cell (FILE *fp, const Cell *cell)
 	g_free (s);
 }
 
-/*
- * write every sheet of the workbook to a latex table
+
+/**
+ * latex_file_save : The LateX 2.09 exporter.
+ *
+ * @FileSaver :        structure for file plugins.
+ * @IOcontext :        currently not used but reserved for the future. 
+ * @WorkbookView :     provides the way to access the sheet being exported.
+ * @filename :         file written to.
+ *
+ * The function writes every sheet of the workbook to a LaTeX 2.09 table. It is
+ * Rasca's code essentially unchanged and so can only do simple export.
  */
 void
 latex_file_save (GnumFileSaver const *fs, IOContext *io_context,
@@ -134,8 +152,8 @@ latex_file_save (GnumFileSaver const *fs, IOContext *io_context,
 		for (row = range.start.row; row <= range.end.row; row++) {
 			for (col = range.start.col; col <= range.end.col; col++) {
 				cell = sheet_cell_get (sheet, col, row);
-				if (!cell) {
-					if (col)
+				if (cell_is_blank(cell)) {
+					if (col != range.start.col)
 						fprintf (fp, "\t&\n");
 					else
 						fprintf (fp, "\t\n");
@@ -144,7 +162,7 @@ latex_file_save (GnumFileSaver const *fs, IOContext *io_context,
 
 					if (!mstyle)
 						break;
-					if (col != 0)
+					if (col != range.start.col)
 						fprintf (fp, "\t&");
 					else
 						fprintf (fp, "\t ");
