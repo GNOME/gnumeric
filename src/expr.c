@@ -354,6 +354,8 @@ value_get_as_bool (const Value *v, int *err)
 
 	switch (v->type) {
 	case VALUE_STRING:
+		/* FIXME FIXME FIXME */
+		/* Use locale to support TRUE, FALSE */
 		return atoi (v->v.str->str);
 
 	case VALUE_CELLRANGE:
@@ -1100,7 +1102,7 @@ eval_expr (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 					value_release (a);
 					value_release (b);
 					value_release (res);
-					*error_string = _("Division by zero");
+					*error_string = gnumeric_err_DIV0;
 					return NULL;
 				}
 				res->type = VALUE_FLOAT;
@@ -1137,7 +1139,7 @@ eval_expr (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 					value_release (a);
 					value_release (b);
 					value_release (res);
-					*error_string = _("Division by zero");
+					*error_string = gnumeric_err_DIV0;
 					return NULL;
 				}
 

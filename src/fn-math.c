@@ -154,7 +154,7 @@ gnumeric_gcd (struct FunctionDefinition *i,
 	b = value_get_as_float (argv[1]);
 
         if (a < 0 || b < 0) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
@@ -210,7 +210,7 @@ gnumeric_lcm (Sheet *sheet, GList *expr_node_list,
 					      result, expr_node_list,
 					      eval_col, eval_row,
 					      error_string) == FALSE) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
@@ -475,7 +475,7 @@ gnumeric_countif (struct FunctionDefinition *i,
 
 	if ((!VALUE_IS_NUMBER(argv[1]) && argv[1]->type != VALUE_STRING)
 	    || (range->type != VALUE_CELLRANGE)) {
-	        *error_string = _("#VALUE!");
+		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	}
 
@@ -495,7 +495,7 @@ gnumeric_countif (struct FunctionDefinition *i,
 	  callback_function_criteria,
 	  &items);
 	if (ret == FALSE) {
-	        *error_string = _("#VALUE!");
+		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	}
 
@@ -538,7 +538,7 @@ gnumeric_sumif (struct FunctionDefinition *i,
 
 	if ((!VALUE_IS_NUMBER(argv[1]) && argv[1]->type != VALUE_STRING)
 	    || (range->type != VALUE_CELLRANGE)) {
-	        *error_string = _("#VALUE!");
+		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	}
 
@@ -558,7 +558,7 @@ gnumeric_sumif (struct FunctionDefinition *i,
 	  callback_function_criteria,
 	  &items);
 	if (ret == FALSE) {
-	        *error_string = _("#VALUE!");
+		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	}
 
@@ -604,14 +604,14 @@ gnumeric_ceiling (struct FunctionDefinition *i,
 
 	if (!VALUE_IS_NUMBER(argv[0]) ||
 	    !VALUE_IS_NUMBER(argv[1])) {
-                *error_string = _("#VALUE!");
+		*error_string = gnumeric_err_VALUE;
                 return NULL;
 	}
 	x = value_get_as_float (argv[0]);
 	significance = value_get_as_float (argv[1]);
 	if ((x < 0.0 && significance > 0.0) ||
 	    (x > 0.0 && significance < 0.0)) {
-                *error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
                 return NULL;
 	}
 	if (significance < 0) {
@@ -756,12 +756,12 @@ gnumeric_fact (struct FunctionDefinition *id,
 		i = argv [0]->v.v_int;
 		break;
 	default:
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
 	if (i < 0){
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
@@ -818,7 +818,7 @@ gnumeric_combin (struct FunctionDefinition *id,
 	if (k >= 0 && n >= k)
 		return value_new_float (combin (n ,k));
 
-	*error_string = _("#NUM!");
+	*error_string = gnumeric_err_NUM;
 	return NULL;
 }
 
@@ -896,7 +896,7 @@ gnumeric_log (struct FunctionDefinition *i,
 	        base = value_get_as_float (argv[1]);
 
 	if (t <= 0.0) {
-		*error_string = _("#VALUE!");
+		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	}
 
@@ -922,7 +922,7 @@ gnumeric_ln (struct FunctionDefinition *i,
 	t = value_get_as_float (argv [0]);
 
 	if (t <= 0.0){
-		*error_string = _("#VALUE!");
+		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	}
 
@@ -954,7 +954,7 @@ gnumeric_power (struct FunctionDefinition *i,
 		return value_new_float (pow (x, y));
 
 	/* FIXME: What is supposed to happen for x=y=0?  */
-	*error_string = _("#VALUE!");
+	*error_string = gnumeric_err_VALUE;
 	return NULL;
 }
 
@@ -1035,7 +1035,7 @@ gnumeric_mod (struct FunctionDefinition *i,
 	if (a<0) a = -a;
 
 	if (a < 0){ /* -0 */
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	if (b < 0){
@@ -1043,11 +1043,11 @@ gnumeric_mod (struct FunctionDefinition *i,
 		b = -b;
 	}
 	if (b < 0) { /* -0 */
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	if (b == 0) {
-		*error_string = _("#DIV/0!");
+		*error_string = gnumeric_err_DIV0;
 		return NULL;
 	}
 
@@ -1157,7 +1157,7 @@ gnumeric_sqrt (struct FunctionDefinition *i,
 	float_t x = value_get_as_float (argv [0]);
 
 	if (x < 0){
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	return value_new_float (sqrt (x));
@@ -1393,7 +1393,7 @@ gnumeric_multinomial (Sheet *sheet, GList *expr_node_list, int eval_col,
 					      &p, expr_node_list,
 					      eval_col, eval_row,
 					      error_string) == FALSE) {
-	        *error_string = _("#VALUE!");
+	        *error_string = gnumeric_err_VALUE;
 		return NULL;
 	}
 
@@ -1661,7 +1661,7 @@ gnumeric_factdouble (struct FunctionDefinition *i,
 
 	number = value_get_as_int (argv[0]);
 	if (number < 0) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	for (n = number; n > 0; n-= 2)
@@ -1736,7 +1736,7 @@ gnumeric_sqrtpi (struct FunctionDefinition *i,
 
 	n = value_get_as_float (argv[0]);
 	if (n < 0) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
@@ -1764,7 +1764,7 @@ gnumeric_randbetween (struct FunctionDefinition *i,
 	bottom = value_get_as_int (argv[0]);
 	top = value_get_as_int (argv[1]);
 	if (bottom > top) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
@@ -1950,7 +1950,7 @@ gnumeric_mround (struct FunctionDefinition *i,
 
 	if ((number > 0 && multiple < 0)
 	    || (number < 0 && multiple > 0)) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	if (number < 0) {
@@ -2003,7 +2003,7 @@ gnumeric_roman (struct FunctionDefinition *fd,
 	        form = value_get_as_int (argv[1]);
 
 	if (n < 0 || n > 3999) {
-		*error_string = _("#VALUE!");
+		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	}
 
@@ -2011,7 +2011,7 @@ gnumeric_roman (struct FunctionDefinition *fd,
 	        return value_new_string ("");
 
 	if (form < 0 || form > 4) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
@@ -2093,7 +2093,7 @@ gnumeric_sumx2my2 (struct FunctionDefinition *i,
 		  callback_function_sumxy,
 		  &items_x);
 		if (ret == FALSE) {
-		        *error_string = _("#VALUE!");
+			*error_string = gnumeric_err_VALUE;
 			return NULL;
 		}
 	} else {
@@ -2111,7 +2111,7 @@ gnumeric_sumx2my2 (struct FunctionDefinition *i,
 		  callback_function_sumxy,
 		  &items_y);
 		if (ret == FALSE) {
-		        *error_string = _("#VALUE!");
+			*error_string = gnumeric_err_VALUE;
 			return NULL;
 		}
 	} else {
@@ -2120,7 +2120,7 @@ gnumeric_sumx2my2 (struct FunctionDefinition *i,
 	}
 
 	if (items_x.num != items_y.num) {
-	        *error_string = _("#N/A!");
+	        *error_string = gnumeric_err_NA;
 		return NULL;
 	}
 
@@ -2190,7 +2190,7 @@ gnumeric_sumx2py2 (struct FunctionDefinition *i,
 		  callback_function_sumxy,
 		  &items_x);
 		if (ret == FALSE) {
-		        *error_string = _("#VALUE!");
+			*error_string = gnumeric_err_VALUE;
 			return NULL;
 		}
 	} else {
@@ -2208,7 +2208,7 @@ gnumeric_sumx2py2 (struct FunctionDefinition *i,
 		  callback_function_sumxy,
 		  &items_y);
 		if (ret == FALSE) {
-		        *error_string = _("#VALUE!");
+			*error_string = gnumeric_err_VALUE;
 			return NULL;
 		}
 	} else {
@@ -2217,7 +2217,7 @@ gnumeric_sumx2py2 (struct FunctionDefinition *i,
 	}
 
 	if (items_x.num != items_y.num) {
-	        *error_string = _("#N/A!");
+	        *error_string = gnumeric_err_NA;
 		return NULL;
 	}
 
@@ -2287,7 +2287,7 @@ gnumeric_sumxmy2 (struct FunctionDefinition *i,
 		  callback_function_sumxy,
 		  &items_x);
 		if (ret == FALSE) {
-		        *error_string = _("#VALUE!");
+			*error_string = gnumeric_err_VALUE;
 			return NULL;
 		}
 	} else {
@@ -2305,7 +2305,7 @@ gnumeric_sumxmy2 (struct FunctionDefinition *i,
 		  callback_function_sumxy,
 		  &items_y);
 		if (ret == FALSE) {
-		        *error_string = _("#VALUE!");
+			*error_string = gnumeric_err_VALUE;
 			return NULL;
 		}
 	} else {
@@ -2314,7 +2314,7 @@ gnumeric_sumxmy2 (struct FunctionDefinition *i,
 	}
 
 	if (items_x.num != items_y.num) {
-	        *error_string = _("#N/A!");
+	        *error_string = gnumeric_err_NA;
 		return NULL;
 	}
 
@@ -2372,25 +2372,25 @@ gnumeric_subtotal (Sheet *tsheet, GList *expr_node_list,
 	int      fun_nbr;
 
 	if (expr_node_list == NULL) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
 	tree = (ExprTree *) expr_node_list->data;
 	if (tree == NULL) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
 	val = eval_expr (tsheet, tree, eval_col, eval_row, error_string);
 	if (! VALUE_IS_NUMBER(val)) {
-		*error_string = _("#VALUE!");
+		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	}
 
 	fun_nbr = value_get_as_int(val);
 	if (fun_nbr < 1 || fun_nbr > 11) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
@@ -2489,19 +2489,19 @@ gnumeric_seriessum (Sheet *sheet, GList *expr_node_list,
 	float_t          x, n, m;
 
 	if (expr_node_list == NULL) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
 	/* Get x */
 	tree = (ExprTree *) expr_node_list->data;
 	if (tree == NULL) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	val = eval_expr (sheet, tree, eval_col, eval_row, error_string);
 	if (! VALUE_IS_NUMBER(val)) {
-		*error_string = _("#VALUE!");
+		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	}
 	x = value_get_as_int(val);
@@ -2510,12 +2510,12 @@ gnumeric_seriessum (Sheet *sheet, GList *expr_node_list,
 	/* Get n */
 	tree = (ExprTree *) expr_node_list->data;
 	if (tree == NULL) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	val = eval_expr (sheet, tree, eval_col, eval_row, error_string);
 	if (! VALUE_IS_NUMBER(val)) {
-		*error_string = _("#VALUE!");
+		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	}
 	n = value_get_as_int(val);
@@ -2524,12 +2524,12 @@ gnumeric_seriessum (Sheet *sheet, GList *expr_node_list,
 	/* Get m */
 	tree = (ExprTree *) expr_node_list->data;
 	if (tree == NULL) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	val = eval_expr (sheet, tree, eval_col, eval_row, error_string);
 	if (! VALUE_IS_NUMBER(val)) {
-		*error_string = _("#VALUE!");
+		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	}
 	m = value_get_as_int(val);
@@ -2545,7 +2545,7 @@ gnumeric_seriessum (Sheet *sheet, GList *expr_node_list,
 					      &p, expr_node_list,
 					      eval_col, eval_row,
 					      error_string) == FALSE) {
-		*error_string = _("#VALUE!");
+		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	}
 

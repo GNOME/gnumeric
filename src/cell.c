@@ -205,6 +205,7 @@ cell_comment_destroy (Cell *cell)
 
 	for (l = comment->realized_list; l; l = l->next)
 		gtk_object_unref (l->data);
+	g_list_free (comment->realized_list);
 
 	g_free (comment);
 }

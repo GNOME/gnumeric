@@ -1,3 +1,16 @@
+1999-06-13  Morten Welinder  <terra@diku.dk>
+
+	* src/cell.c (cell_comment_destroy): Free realized_list.
+
+1999-06-12  Jody Goldberg  <jgoldberg@home.com>
+
+	* src/expr.h : Declare new standard error constants to avoid
+	spelling problems and typos.
+	* src/expr.c, src/func.c, src/fn-math.c : Use and define them.
+	* src/fn-misc.c	: First pass at finishing off error functions.
+	* src/fn-information.c : Provide stubs for the rest of the
+	information functions.
+
 1999-06-12  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/dialog-cell-comment.c (dialog_cell_comment): Process the

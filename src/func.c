@@ -274,6 +274,17 @@ functions_init (void)
 	install_symbols (information_functions, _("Information"));
 }
 
+/* Initialize temporarily with statics.  The real versions from the locale
+ * will be setup in constants_init 
+ */
+char * gnumeric_err_NULL = "#NULL!";
+char * gnumeric_err_DIV0 = "#DIV/0!";
+char * gnumeric_err_VALUE = "#VALUE!";
+char * gnumeric_err_REF = "#REF!";
+char * gnumeric_err_NAME = "#NAME?";
+char * gnumeric_err_NUM = "#NUM!";
+char * gnumeric_err_NA = "#N/A";
+
 void
 constants_init (void)
 {
@@ -300,5 +311,13 @@ constants_init (void)
 
 	/* Global helper value for arrays */
 	value_zero = value_new_float (0);
+
+	gnumeric_err_NULL = _("#NULL!");
+	gnumeric_err_DIV0 = _("#DIV/0!");
+	gnumeric_err_VALUE = _("#VALUE!");
+	gnumeric_err_REF = _("#REF!");
+	gnumeric_err_NAME = _("#NAME?");
+	gnumeric_err_NUM = _("#NUM!");
+	gnumeric_err_NA = _("#N/A");
 }
 
