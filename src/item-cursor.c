@@ -531,8 +531,13 @@ item_cursor_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
 {
 	ItemCursor const *ic = ITEM_CURSOR (item);
 
-	/* Ensure that animated cursors do not receive events */
-	if (!ic->visible || ic->style == ITEM_CURSOR_ANTED)
+	/* Cursor should not always receive events
+	 * 1) when invisible
+	 * 2) when animated
+	 * 3) while a guru is up
+	 */
+	if (!ic->visible || ic->style == ITEM_CURSOR_ANTED ||
+	    wbcg_edit_has_guru (ic->scg->wbcg))
 		return DBL_MAX;
 
 	*actual_item = NULL;

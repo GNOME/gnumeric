@@ -1,3 +1,8 @@
+2001-10-03  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-cursor.c (item_cursor_point) : disable events that could
+	  cause cursor changes or allow dragging while a guru is up.
+
 2001-10-03  Jakub Steiner <jimmac@ximian.com>
 
 	* gnome-gnumeric.png: now it scales down better AND looks nice ;)
