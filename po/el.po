@@ -17,6 +17,7 @@
 # Gnumeric 1.5.x
 # 16Mar2005 Nikos update 814 translated
 # 22Mar2005 Nikos update 837 translated
+# 23Mar2005 Nikos update 894 translated
 #
 # Spiros Papadimitriou <spapadim+@cs.cmu.edu>, 2000.
 # Nikos Charonitakis <charosn@her.forthnet.gr>, 2003, 2005.
@@ -29,8 +30,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: el\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-03-22 01:55+0200\n"
-"PO-Revision-Date: 2005-03-22 02:28+0200\n"
+"POT-Creation-Date: 2005-03-23 00:43+0200\n"
+"PO-Revision-Date: 2005-03-23 00:43+0200\n"
 "Last-Translator: Nikos Charonitakis <charosn@her.forthnet.gr>\n"
 "Language-Team:  <team@gnome.gr>\n"
 "MIME-Version: 1.0\n"
@@ -5209,28 +5210,24 @@ msgid "no available row"
 msgstr "<Μη διαθέσιμο>"
 
 #: ../src/dialogs/dialog-cell-sort.c:787
-#, fuzzy
 msgid "no available column"
-msgstr "<Μη διαθέσιμο>"
+msgstr "μη διαθέσιμη στήλη"
 
 #: ../src/dialogs/dialog-cell-sort.c:1030
-#, fuzzy
 msgid "Header"
-msgstr "_Κεφαλίδα:"
+msgstr "Κεφαλίδα"
 
 #: ../src/dialogs/dialog-cell-sort.c:1035
 msgid "Row/Column"
 msgstr "Γραμμή/Στήλη"
 
 #: ../src/dialogs/dialog-cell-sort.c:1055
-#, fuzzy
 msgid "Case Sensitive"
-msgstr "Διάκριση πεζών κεφαλαίων"
+msgstr "Διάκριση Πεζών από Κεφαλαία"
 
 #: ../src/dialogs/dialog-cell-sort.c:1075
-#, fuzzy
 msgid "By Value"
-msgstr "Τιμή p"
+msgstr "Κατά Τιμή"
 
 #: ../src/dialogs/dialog-cell-sort.c:1205
 #, fuzzy
@@ -5397,9 +5394,8 @@ msgid "Not a range or name"
 msgstr "Όχι a or"
 
 #: ../src/dialogs/dialog-hyperlink.c:254
-#, fuzzy
 msgid "Internal Link"
-msgstr "Εσωτερικό σφάλμα"
+msgstr "Εσωτερικός Σύνδεσμος"
 
 #: ../src/dialogs/dialog-hyperlink.c:256
 #, fuzzy
@@ -5407,9 +5403,8 @@ msgid "Jump to specific cells or named range in the current workbook"
 msgstr "or in"
 
 #: ../src/dialogs/dialog-hyperlink.c:260
-#, fuzzy
 msgid "External Link"
-msgstr "Εσωτερικό σφάλμα"
+msgstr "Εξωτερικός Σύνδεσμος"
 
 #: ../src/dialogs/dialog-hyperlink.c:262
 #, fuzzy
@@ -5456,9 +5451,9 @@ msgstr "_Διαγραφή"
 msgid "Could not create the hyperlink dialog."
 msgstr "Άκυρο όρισμα"
 
-#: ../src/dialogs/dialog-insert-cells.c:136 ../src/workbook-control-gui.c:538
+#: ../src/dialogs/dialog-insert-cells.c:136 ../src/workbook-control-gui.c:547
 msgid "Insert"
-msgstr "Παρεμβολή"
+msgstr "Εισαγωγή"
 
 #: ../src/dialogs/dialog-insert-cells.c:166
 #, fuzzy
@@ -5520,9 +5515,8 @@ msgid "_All"
 msgstr "_Όλα"
 
 #: ../src/dialogs/dialog-paste-special.c:68
-#, fuzzy
 msgid "Cont_ent"
-msgstr "Περιεχόμενο"
+msgstr "Περιε_χόμενο"
 
 #: ../src/dialogs/dialog-paste-special.c:69
 #, fuzzy
@@ -5543,9 +5537,8 @@ msgid "_None"
 msgstr "Καμία"
 
 #: ../src/dialogs/dialog-paste-special.c:77
-#, fuzzy
 msgid "A_dd"
-msgstr "Προσθήκη"
+msgstr "Προσ_θήκη"
 
 #: ../src/dialogs/dialog-paste-special.c:78
 #, fuzzy
@@ -5563,14 +5556,12 @@ msgid "D_ivide"
 msgstr "Διαίρεση"
 
 #: ../src/dialogs/dialog-paste-special.c:187
-#, fuzzy
 msgid "Paste Special"
-msgstr "Ει_δική Επικόλληση"
+msgstr "Ειδική Επικόλληση"
 
 #: ../src/dialogs/dialog-paste-special.c:190
-#, fuzzy
 msgid "Paste _Link"
-msgstr "Επικόλληση Δεσμού"
+msgstr "Επικόλληση _Συνδέσμου"
 
 #: ../src/dialogs/dialog-paste-special.c:199
 msgid "Paste type"
@@ -5591,9 +5582,8 @@ msgid "Skip _Blanks"
 msgstr "Προσπέραση"
 
 #: ../src/dialogs/dialog-plugin-manager.c:287
-#, fuzzy
 msgid "Select Directory"
-msgstr "Κατάλογος"
+msgstr "Επιλογή Καταλόγου"
 
 #: ../src/dialogs/dialog-plugin-manager.c:408
 #, fuzzy
@@ -5601,9 +5591,8 @@ msgid "Plugin dependencies"
 msgstr "Τίτλος Αρθρώματος"
 
 #: ../src/dialogs/dialog-plugin-manager.c:416
-#, fuzzy
 msgid "Unknown plugin"
-msgstr "Άγνωστο σφάλμα εκτίμησης"
+msgstr "Άγνωστη πρόσθετη λειτουργία"
 
 #: ../src/dialogs/dialog-plugin-manager.c:430
 #, fuzzy
@@ -5653,9 +5642,8 @@ msgid "Active"
 msgstr "Ενεργό"
 
 #: ../src/dialogs/dialog-plugin-manager.c:721
-#, fuzzy
 msgid "Plugin name"
-msgstr "Διαχειριστής Αρθρωμάτων Gnumeric"
+msgstr "Όνομα πρόσθετης λειτουργίας"
 
 #: ../src/dialogs/dialog-plugin-manager.c:740
 #: ../src/dialogs/function-select.glade.h:2
@@ -5720,18 +5708,16 @@ msgid "The items on this page are related to copy. cut and paste."
 msgstr "αντικείμενα στο αντιγραφή αποκοπή and επικόλληση."
 
 #: ../src/dialogs/dialog-preferences.c:764
-#, fuzzy
 msgid "Copy and Paste"
-msgstr "Αντιγραφή and Επικόλληση"
+msgstr "Αντιγραφή και Επικόλληση"
 
 #: ../src/dialogs/dialog-preferences.c:765
 msgid "Files"
 msgstr "Αρχεία"
 
 #: ../src/dialogs/dialog-preferences.c:766
-#, fuzzy
 msgid "Tools"
-msgstr "Εργα_λεία"
+msgstr "Εργαλεία"
 
 #: ../src/dialogs/dialog-preferences.c:767 ../src/wbc-gtk.c:472
 msgid "Undo"
@@ -5742,7 +5728,6 @@ msgid "Windows"
 msgstr "Παράθυρα"
 
 #: ../src/dialogs/dialog-preferences.c:769
-#, fuzzy
 msgid "Header/Footer"
 msgstr "Κεφαλίδα/Υποσέλιδο"
 
@@ -5751,9 +5736,8 @@ msgid "Sorting"
 msgstr "Ταξινόμηση"
 
 #: ../src/dialogs/dialog-preferences.c:771
-#, fuzzy
 msgid "Screen"
-msgstr "Οθόνη # %1"
+msgstr "Οθόνη"
 
 #: ../src/dialogs/dialog-printer-setup.c:876
 #, fuzzy
@@ -6119,9 +6103,8 @@ msgid "Integer"
 msgstr "Ακέραιος"
 
 #: ../src/dialogs/dialog-search.c:160
-#, fuzzy
 msgid "Other value"
-msgstr "Στην τιμή:"
+msgstr "Άλλη τιμή"
 
 #: ../src/dialogs/dialog-search.c:366
 #: ../src/dialogs/dialog-search-replace.c:156
@@ -6130,7 +6113,6 @@ msgid "You must select some cell types to search."
 msgstr "Εσύ."
 
 #: ../src/dialogs/dialog-search.c:450
-#, fuzzy
 msgid "Content"
 msgstr "Περιεχόμενο"
 
@@ -6182,7 +6164,7 @@ msgstr "λίστα?"
 #: ../src/dialogs/dialog-sheet-order.c:1056
 #: ../src/dialogs/dialog-sheet-order.c:1066
 msgid "Default"
-msgstr "Εξ ορισμού"
+msgstr "Προεπιλογή"
 
 #: ../src/dialogs/dialog-shuffle.c:151
 #, fuzzy
@@ -6234,16 +6216,16 @@ msgid "Variable"
 msgstr "Μεταβλητή"
 
 #: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:247
-#: ../src/workbook-control-gui.c:1852
+#: ../src/workbook-control-gui.c:1862
 msgid "Min"
 msgstr "Ελάχιστο"
 
-#: ../src/dialogs/dialog-simulation.c:237 ../src/workbook-control-gui.c:1854
+#: ../src/dialogs/dialog-simulation.c:237 ../src/workbook-control-gui.c:1864
 msgid "Average"
 msgstr "Μέσος όρος"
 
 #: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:249
-#: ../src/workbook-control-gui.c:1853
+#: ../src/workbook-control-gui.c:1863
 msgid "Max"
 msgstr "Μέγιστο"
 
@@ -6274,9 +6256,8 @@ msgid "Revised Simplex (GLPK 4.5)"
 msgstr "Κινέζικα Απλοποιημένα (GBK)"
 
 #: ../src/dialogs/dialog-solver.c:111
-#, fuzzy
 msgid "< Not available >"
-msgstr "<Μη διαθέσιμο>"
+msgstr "< Μη διαθέσιμο >"
 
 #: ../src/dialogs/dialog-solver.c:392
 #, fuzzy
@@ -6320,12 +6301,10 @@ msgid ""
 msgstr "από not."
 
 #: ../src/dialogs/dialog-solver.c:798
-#, fuzzy
 msgid "Optimal solution created by solver.\n"
-msgstr "ο"
+msgstr ""
 
 #: ../src/dialogs/dialog-solver.c:832
-#, fuzzy
 msgid "Unknown error."
 msgstr "Άγνωστο σφάλμα."
 
@@ -6373,13 +6352,12 @@ msgstr "Είστε σίγουρος ότι θέλετε να ακυρώσετε?
 #: ../src/dialogs/dialog-stf-export.c:438
 #, fuzzy
 msgid "Export"
-msgstr "Αναφορά"
+msgstr "Εξαγωγή"
 
 #: ../src/dialogs/dialog-stf-export.c:511
 #: ../src/dialogs/dialog-stf-export.glade.h:38
-#, fuzzy
 msgid "_Next"
-msgstr "_Κείμενο:"
+msgstr "_Επόμενο"
 
 #: ../src/dialogs/dialog-stf-export.c:514
 #, fuzzy
@@ -6408,9 +6386,8 @@ msgid ""
 msgstr "Αυτόματη"
 
 #: ../src/dialogs/dialog-stf-export.glade.h:8 ../src/gui-file.c:207
-#, fuzzy
 msgid "Character _encoding:"
-msgstr "Κωδικοποίηση Χαρακτήρων"
+msgstr "_Κωδικοποίηση χαρακτήρων:"
 
 #: ../src/dialogs/dialog-stf-export.glade.h:9
 #, fuzzy
@@ -6428,9 +6405,8 @@ msgid "Deselect all sheets for export."
 msgstr "Επιλογή Ειδικού Χρώματος"
 
 #: ../src/dialogs/dialog-stf-export.glade.h:12
-#, fuzzy
 msgid "Export as Text"
-msgstr "Μορφές"
+msgstr "Εξαγωγή ως Κείμενο"
 
 #: ../src/dialogs/dialog-stf-export.glade.h:13
 #, fuzzy
@@ -6524,14 +6500,12 @@ msgid "_Preserves Formats"
 msgstr "Συσχέτιση"
 
 #: ../src/dialogs/dialog-stf-export.glade.h:40
-#, fuzzy
 msgid "_Separator:"
-msgstr "Διαχωριστικό:"
+msgstr "_Διαχωριστικό:"
 
 #: ../src/dialogs/dialog-stf-export.glade.h:41
-#, fuzzy
 msgid "_Unknown characters:"
-msgstr "Άγνωστος τελεστής"
+msgstr "_Άγνωστη χαρακτήρες:"
 
 #: ../src/dialogs/dialog-stf-fixed-page.c:52
 #, fuzzy
@@ -6651,14 +6625,12 @@ msgid ""
 msgstr "αριστερά δεξιά"
 
 #: ../src/dialogs/dialog-stf.glade.h:11
-#, fuzzy
 msgid "CSV"
 msgstr "CSV"
 
 #: ../src/dialogs/dialog-stf.glade.h:12
-#, fuzzy
 msgid "C_ustom"
-msgstr "&Προσαρμοσμένο"
+msgstr "_Προσαρμοσμένο"
 
 #: ../src/dialogs/dialog-stf.glade.h:13
 #, fuzzy
@@ -7002,7 +6974,7 @@ msgstr "Οθόνη"
 #: ../src/dialogs/dialog-view.c:159
 #, fuzzy, c-format
 msgid "Screen %d"
-msgstr "Οθόνη # %1"
+msgstr "Οθόνη %d"
 
 #: ../src/dialogs/dialog-zoom.glade.h:2 ../src/tools/analysis-tools.c:5330
 #, no-c-format
@@ -7047,9 +7019,8 @@ msgid "_75 %"
 msgstr "_75 %"
 
 #: ../src/dialogs/dialog-zoom.glade.h:16
-#, fuzzy
 msgid "_Custom"
-msgstr "Προσαρμοσμένο 1"
+msgstr "_Προσαρμοσμένο"
 
 #: ../src/dialogs/dialog-zoom.glade.h:18
 #, fuzzy, no-c-format
@@ -7376,7 +7347,6 @@ msgid "_Subject:"
 msgstr "_Θέμα:"
 
 #: ../src/dialogs/hyperlink.glade.h:9
-#, fuzzy
 msgid "_Tip:"
 msgstr "_Συμβουλή:"
 
@@ -7517,9 +7487,8 @@ msgid "3"
 msgstr "3"
 
 #: ../src/dialogs/moving-averages.glade.h:3
-#, fuzzy
 msgid "C_olumns"
-msgstr "Στήλες"
+msgstr "Σ_τήλες"
 
 #: ../src/dialogs/moving-averages.glade.h:6 ../src/tools/analysis-tools.c:3731
 #: ../src/tools/analysis-tools.c:3734
@@ -7532,9 +7501,8 @@ msgid "_Interval:"
 msgstr "Στην τιμή:"
 
 #: ../src/dialogs/names.glade.h:3
-#, fuzzy
 msgid "<b>Available Names</b>"
-msgstr "Διαθέσιμα Ονόματα"
+msgstr "<b>Διαθέσιμα Ονόματα</b>"
 
 #: ../src/dialogs/names.glade.h:4
 #, fuzzy
@@ -7639,9 +7607,8 @@ msgid "Plugin List"
 msgstr "Λίστα επιπρόσθετων λειτουργιών"
 
 #: ../src/dialogs/plugin-manager.glade.h:7
-#, fuzzy
 msgid "Plugin Manager"
-msgstr "Διαχειριστής προσθέτων"
+msgstr "Διαχείριση Προσθέτων Λειτουργιών"
 
 #: ../src/dialogs/plugin-manager.glade.h:8
 msgid "Plugin directory:"
@@ -7726,7 +7693,6 @@ msgid "Page"
 msgstr "Σελίδα"
 
 #: ../src/dialogs/print.glade.h:16
-#, fuzzy
 msgid "Page Setup"
 msgstr "Διαμόρφωση Σελίδας"
 
@@ -7900,14 +7866,12 @@ msgid "Sampling"
 msgstr "Δειγματοληψία"
 
 #: ../src/dialogs/sampling.glade.h:8
-#, fuzzy
 msgid "Sampling method:"
-msgstr "Μέθοδος Δειγματοληψίας:"
+msgstr "Μέθοδος δειγματοληψίας:"
 
 #: ../src/dialogs/sampling.glade.h:9
-#, fuzzy
 msgid "Size of sample:"
-msgstr "Μέγεθος δειγματοληψίας"
+msgstr "Μέγεθος του δείγματος:"
 
 #: ../src/dialogs/sampling.glade.h:13
 #, fuzzy
@@ -7919,9 +7883,8 @@ msgid "_Periodic"
 msgstr "_Περιοδική"
 
 #: ../src/dialogs/sampling.glade.h:17
-#, fuzzy
 msgid "_Random"
-msgstr "&Τυχαία"
+msgstr "_Τυχαία"
 
 #: ../src/dialogs/scenario-add.glade.h:2
 #, fuzzy
@@ -8087,14 +8050,12 @@ msgid "Search text is"
 msgstr "Μάρτιος"
 
 #: ../src/dialogs/search.glade.h:23
-#, fuzzy
 msgid "Show next match"
-msgstr "Εμφάνιση επόμενης σελίδας"
+msgstr "Εμφάνιση επόμενου ταιριάσματος"
 
 #: ../src/dialogs/search.glade.h:24
-#, fuzzy
 msgid "Show previous match"
-msgstr "Εμφάνιση προηγούμενης σελίδας"
+msgstr "Εμφάνιση προηγούμενου ταιριάσματος"
 
 #: ../src/dialogs/search.glade.h:25
 msgid "Start search"
@@ -8131,7 +8092,7 @@ msgstr "βιβλίου"
 #: ../src/dialogs/search.glade.h:32 ../src/dialogs/search-replace.glade.h:42
 #, fuzzy
 msgid "_Expressions"
-msgstr "Εκφράσεις"
+msgstr "_Εκφράσεις"
 
 #: ../src/dialogs/search.glade.h:33 ../src/dialogs/search-replace.glade.h:44
 #, fuzzy
@@ -8630,9 +8591,8 @@ msgid ""
 msgstr "ο ο ο"
 
 #: ../src/dialogs/so-scrollbar.glade.h:1
-#, fuzzy
 msgid "Increment:"
-msgstr "Δεκέμβριος"
+msgstr "Βήμα:"
 
 #: ../src/dialogs/so-scrollbar.glade.h:3
 msgid "Max:"
@@ -8685,7 +8645,7 @@ msgstr "_Λέξεις κλειδιά:"
 #: ../src/dialogs/summary.glade.h:10
 #, fuzzy
 msgid "_Manager:"
-msgstr "&Διαχειριστής"
+msgstr "Διαχειριστής"
 
 #: ../src/dialogs/summary.glade.h:11
 msgid "_Title:"
@@ -8767,7 +8727,7 @@ msgstr "Νέο στο"
 
 #: ../src/dialogs/view.glade.h:6
 msgid "Specified screen:"
-msgstr ""
+msgstr "Καθορισμένη οθόνη:"
 
 #: ../src/dialogs/view.glade.h:7
 msgid "_Share cursor position"
@@ -8838,9 +8798,8 @@ msgid "_Manual"
 msgstr "_Χειροκόνητος"
 
 #: ../src/dialogs/workbook-attr.glade.h:17
-#, fuzzy
 msgid "_Protect Workbook"
-msgstr "Νέο Βιβλίο"
+msgstr "_Προστασία Βιβλίου Εργασίας"
 
 #: ../src/dialogs/workbook-attr.glade.h:18
 #, fuzzy
@@ -9424,7 +9383,7 @@ msgstr ""
 msgid "Range"
 msgstr "Range"
 
-#: ../src/tools/simulation.c:257 ../src/workbook-control-gui.c:1855
+#: ../src/tools/simulation.c:257 ../src/workbook-control-gui.c:1865
 msgid "Count"
 msgstr "Πλήθος"
 
@@ -9660,7 +9619,7 @@ msgstr "Πληροφορίες"
 #: ../src/tools/solver/reports-write.c:523
 #, fuzzy
 msgid "Minimization"
-msgstr "Μεγένθυση"
+msgstr "Μεγέθυνση"
 
 #: ../src/tools/solver/reports-write.c:526
 msgid "Maximization"
@@ -9703,9 +9662,8 @@ msgstr "Νέος Περιορισμός"
 
 #: ../src/tools/solver/reports-write.c:572
 #: ../src/tools/solver/reports-write.c:603
-#, fuzzy
 msgid "Number of"
-msgstr "οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½"
+msgstr ""
 
 #.
 #. * Fill in the labels of `Data Sparsity' section.
@@ -9758,7 +9716,7 @@ msgstr "Μοντέλο CPU"
 
 #: ../src/tools/solver/reports-write.c:666
 msgid "CPU MHz"
-msgstr "ΚΜΕ ΜΗΖ"
+msgstr "CPU MHz"
 
 #: ../src/tools/solver/reports-write.c:667
 msgid "OS"
@@ -10413,7 +10371,7 @@ msgstr "Διαγραφή φύλλων"
 
 #: ../src/commands.c:5259
 msgid "Delete a sheet"
-msgstr "Διαγραφή φύλλου"
+msgstr "Διαγραφή ενός φύλλου"
 
 #: ../src/commands.c:5262
 #, fuzzy
@@ -10830,19 +10788,16 @@ msgid "Load file"
 msgstr "Φόρτωση αρχείου"
 
 #: ../src/gui-file.c:222 ../src/gui-file.c:365
-#, fuzzy
 msgid "Select a file"
-msgstr "Επιλογή εικόνας"
+msgstr "Επιλογή ενός αρχείου"
 
 #: ../src/gui-file.c:247 ../src/gui-file.c:379
-#, fuzzy
 msgid "All Files"
-msgstr "Αρχεία"
+msgstr "Όλα τα Αρχεία"
 
 #: ../src/gui-file.c:252 ../src/gui-file.c:384
-#, fuzzy
 msgid "Spreadsheets"
-msgstr "Λογιστικό Φύλλο"
+msgstr "Λογιστικά Φύλλα"
 
 #: ../src/gui-file.c:278 ../src/gui-file.c:408
 msgid "File _type:"
@@ -11248,9 +11203,8 @@ msgid "Print preview"
 msgstr "Προεπισκόπιση εκτύπωσης"
 
 #: ../src/print.c:1319
-#, fuzzy
 msgid "Printing failed"
-msgstr "Απόντα εισαγωγικά"
+msgstr "Η εκτύπωση απέτυχε"
 
 #: ../src/print.c:1425
 msgid "Print Sheets"
@@ -11370,9 +11324,8 @@ msgid "Do not save any"
 msgstr "not αποθήκευση"
 
 #: ../src/session.c:126 ../src/session.c:129
-#, fuzzy
 msgid "Do not save"
-msgstr "Βάση δεδομένων"
+msgstr "Να μην αποθηκευτεί"
 
 #: ../src/session.c:131
 #, fuzzy
@@ -11427,9 +11380,8 @@ msgid "_Insert Cells..."
 msgstr "Παρεμβολή κελίων"
 
 #: ../src/sheet-control-gui.c:1521
-#, fuzzy
 msgid "_Delete Cells..."
-msgstr "Διαγραφή κελιών"
+msgstr "_Διαγραφή Κελιών..."
 
 #: ../src/sheet-control-gui.c:1523
 #, fuzzy
@@ -11650,7 +11602,7 @@ msgstr "Αντιγραφή"
 
 #: ../src/sheet-view.c:340 ../src/sheet-view.c:343
 msgid "Cut"
-msgstr "Κοπή"
+msgstr "Αποκοπή"
 
 #: ../src/ssconvert.c:52 ../src/ssindex.c:59 ../src/ssindex.c:61
 #: ../src/ssindex.c:63
@@ -11953,12 +11905,12 @@ msgstr ""
 #: ../src/wbcg-actions.c:769 ../src/wbcg-actions.c:788
 #, fuzzy
 msgid "Show Detail"
-msgstr "Τίτλος Αρθρώματος"
+msgstr "Εμφάνιση Λεπτομέρειας"
 
 #: ../src/wbcg-actions.c:769 ../src/wbcg-actions.c:788
 #, fuzzy
 msgid "Hide Detail"
-msgstr "Έσω Κατακόρυφο"
+msgstr "Απόκρυψη Λεπτομέρειας"
 
 #: ../src/wbcg-actions.c:776
 #, fuzzy
@@ -12052,7 +12004,7 @@ msgstr "Αύξηση Εσοχής"
 
 #: ../src/wbcg-actions.c:1354
 msgid "Decrease Indent"
-msgstr "Μείωση εσοχής"
+msgstr "Μείωση Εσοχής"
 
 #: ../src/wbcg-actions.c:1361
 #, fuzzy
@@ -12094,14 +12046,12 @@ msgid "_View"
 msgstr "_Προβολή"
 
 #: ../src/wbcg-actions.c:1426
-#, fuzzy
 msgid "_Windows"
-msgstr "Παράθυρα"
+msgstr "_Παράθυρα"
 
 #: ../src/wbcg-actions.c:1427
-#, fuzzy
 msgid "_Toolbars"
-msgstr "_Εργαλειοθήκες..."
+msgstr "_Εργαλειοθήκες"
 
 #: ../src/wbcg-actions.c:1429
 #, fuzzy
@@ -12179,7 +12129,6 @@ msgid "Copy the selection"
 msgstr "Αντιγραφή της επιλογής"
 
 #: ../src/wbcg-actions.c:1454
-#, fuzzy
 msgid "Paste the clipboard"
 msgstr "Επικόλληση του προχείρου"
 
@@ -12218,7 +12167,7 @@ msgstr "a"
 
 #: ../src/wbcg-actions.c:1467
 msgid "Report problem "
-msgstr ""
+msgstr "Αναφορά προβλήματος"
 
 #: ../src/wbcg-actions.c:1469
 msgid "_About"
@@ -12247,7 +12196,7 @@ msgstr "Δημιουργία νέου βιβλίου"
 
 #: ../src/wbcg-actions.c:1486
 msgid "Open a file"
-msgstr "Άνοιγμα αρχείου"
+msgstr "Άνοιγμα ενός αρχείου"
 
 #: ../src/wbcg-actions.c:1489
 msgid "Save the current workbook"
@@ -12290,21 +12239,18 @@ msgid "Edit descriptive information"
 msgstr "Περιληπτικές πληροφορίες"
 
 #: ../src/wbcg-actions.c:1509
-#, fuzzy
 msgid "Pre_ferences..."
-msgstr "Πρ_οτιμήσεις"
+msgstr "Πρ_οτιμήσεις..."
 
 #: ../src/wbcg-actions.c:1510
-#, fuzzy
 msgid "Change Gnumeric Preferences"
-msgstr "Κυκιλική αναφορά"
+msgstr "Αλλαγή Προτιμήσεων Gnumeric"
 
 #: ../src/wbcg-actions.c:1513
 msgid "Close the current file"
 msgstr "Κλείσιμο του τρέχοντος αρχείου"
 
 #: ../src/wbcg-actions.c:1516
-#, fuzzy
 msgid "Quit the application"
 msgstr "Έξοδος από την εφαρμογή"
 
@@ -12363,9 +12309,8 @@ msgid "Select an entire column"
 msgstr "Επιλέξτε αντικείμενο"
 
 #: ../src/wbcg-actions.c:1552
-#, fuzzy
 msgid "Select _Row"
-msgstr "Διαγραφή _σειρών"
+msgstr "Επιλογή _Σειράς"
 
 #: ../src/wbcg-actions.c:1553
 #, fuzzy
@@ -12547,7 +12492,6 @@ msgstr "Επανυπολογισμός του φύλλου"
 
 #. View
 #: ../src/wbcg-actions.c:1630
-#, fuzzy
 msgid "_New View..."
 msgstr "_Νέα Προβολή..."
 
@@ -12556,12 +12500,12 @@ msgstr "_Νέα Προβολή..."
 msgid "Create a new view of the workbook"
 msgstr "Δημιουργία νέου βιβλίου"
 
-#: ../src/wbcg-actions.c:1633 ../src/workbook-control-gui.c:1041
+#: ../src/wbcg-actions.c:1633 ../src/workbook-control-gui.c:1051
 #, fuzzy
 msgid "_Freeze Panes"
 msgstr "_Διαγραφή..."
 
-#: ../src/wbcg-actions.c:1634 ../src/workbook-control-gui.c:1044
+#: ../src/wbcg-actions.c:1634 ../src/workbook-control-gui.c:1054
 #, fuzzy
 msgid "Freeze the top left of the sheet"
 msgstr "επάνω αριστερά από"
@@ -12712,7 +12656,7 @@ msgstr "_Gnumeric..."
 #: ../src/wbcg-actions.c:1701
 #, fuzzy
 msgid "Edit the Gnumeric Preferences"
-msgstr "Επεξεργασία Προτιμήσεις"
+msgstr "Επεξεργασία Προτιμήσεων του Gnumeric"
 
 #: ../src/wbcg-actions.c:1703
 #, fuzzy
@@ -13137,7 +13081,7 @@ msgid "Remove an outline group"
 msgstr "Αφαίρεση ομάδα"
 
 #. Data -> Filter
-#: ../src/wbcg-actions.c:1870 ../src/workbook-control-gui.c:1052
+#: ../src/wbcg-actions.c:1870 ../src/workbook-control-gui.c:1062
 #, fuzzy
 msgid "Add _Auto Filter"
 msgstr "Προχωρημένο Φίλτρο"
@@ -13177,7 +13121,7 @@ msgid "Import the text from a file"
 msgstr "Εισαγωγή αρχείου"
 
 #. Standard Toolbar
-#: ../src/wbcg-actions.c:1885 ../src/workbook-control-gui.c:1851
+#: ../src/wbcg-actions.c:1885 ../src/workbook-control-gui.c:1861
 #: ../src/workbook-view.c:542
 msgid "Sum"
 msgstr "Άθροισμα"
@@ -13857,103 +13801,103 @@ msgstr "Διεύθυνση"
 msgid " : Gnumeric"
 msgstr " : Gnumeric"
 
-#: ../src/workbook-control-gui.c:536
+#: ../src/workbook-control-gui.c:545
 msgid "Manage sheets..."
 msgstr "Διαχείριση Φύλλων Εργασίας..."
 
-#: ../src/workbook-control-gui.c:539
+#: ../src/workbook-control-gui.c:548
 msgid "Append"
 msgstr "Προσάρτηση"
 
-#: ../src/workbook-control-gui.c:540
+#: ../src/workbook-control-gui.c:549
 #, fuzzy
 msgid "Duplicate"
 msgstr "Δύο φορές"
 
-#: ../src/workbook-control-gui.c:541
+#: ../src/workbook-control-gui.c:550
 msgid "Remove"
 msgstr "Διαγραφή"
 
-#: ../src/workbook-control-gui.c:542
+#: ../src/workbook-control-gui.c:551
 msgid "Rename"
 msgstr "Μετονομασία"
 
-#: ../src/workbook-control-gui.c:1040
+#: ../src/workbook-control-gui.c:1050
 #, fuzzy
 msgid "Un_freeze Panes"
 msgstr "_Διαγραφή..."
 
-#: ../src/workbook-control-gui.c:1043
+#: ../src/workbook-control-gui.c:1053
 #, fuzzy
 msgid "Unfreeze the top left of the sheet"
 msgstr "επάνω αριστερά από"
 
-#: ../src/workbook-control-gui.c:1051
+#: ../src/workbook-control-gui.c:1061
 #, fuzzy
 msgid "Remove _Auto Filter"
 msgstr "Αφαίρεση δεκαδικών"
 
-#: ../src/workbook-control-gui.c:1054
+#: ../src/workbook-control-gui.c:1064
 msgid "Remove a filter"
 msgstr "Aφαίρεση Φίλτρου"
 
-#: ../src/workbook-control-gui.c:1055
+#: ../src/workbook-control-gui.c:1065
 msgid "Add a filter"
 msgstr "Προσθήκη φίλτρου"
 
-#: ../src/workbook-control-gui.c:1066
+#: ../src/workbook-control-gui.c:1076
 msgid "_Undo"
 msgstr "_Αναίρεση"
 
-#: ../src/workbook-control-gui.c:1067
+#: ../src/workbook-control-gui.c:1077
 msgid "_Redo"
 msgstr "_Επανάληψη"
 
-#: ../src/workbook-control-gui.c:1195
+#: ../src/workbook-control-gui.c:1205
 #, fuzzy, c-format
 msgid "Save changes to workbook '%s' before closing?"
 msgstr "Αποθήκευση πριν?"
 
-#: ../src/workbook-control-gui.c:1199
+#: ../src/workbook-control-gui.c:1209
 #, fuzzy
 msgid "Save changes to workbook before closing?"
 msgstr "Αποθήκευση πριν?"
 
-#: ../src/workbook-control-gui.c:1205
+#: ../src/workbook-control-gui.c:1215
 #, fuzzy
 msgid "If you close without saving, changes will be discarded."
 msgstr "κλείσιμο."
 
-#: ../src/workbook-control-gui.c:1212
+#: ../src/workbook-control-gui.c:1222
 msgid "Discard all"
 msgstr "Απόρριψη όλων"
 
-#: ../src/workbook-control-gui.c:1214 ../src/workbook-control-gui.c:1223
-#: ../src/workbook-control-gui.c:1231
+#: ../src/workbook-control-gui.c:1224 ../src/workbook-control-gui.c:1233
+#: ../src/workbook-control-gui.c:1241
 msgid "Discard"
 msgstr "Απόρριψη"
 
-#: ../src/workbook-control-gui.c:1216
+#: ../src/workbook-control-gui.c:1226
 msgid "Save all"
 msgstr "Αποθήκευση όλων"
 
-#: ../src/workbook-control-gui.c:1218 ../src/workbook-control-gui.c:1225
+#: ../src/workbook-control-gui.c:1228 ../src/workbook-control-gui.c:1235
 msgid "Don't quit"
 msgstr "Όχι έξοδος"
 
-#: ../src/workbook-control-gui.c:1233
+#: ../src/workbook-control-gui.c:1243
 msgid "Don't close"
 msgstr "Όχι κλείσιμο"
 
-#: ../src/workbook-control-gui.c:2234 ../src/workbook-control-gui.c:2249
+#: ../src/workbook-control-gui.c:2244 ../src/workbook-control-gui.c:2259
 msgid "_Re-Edit"
 msgstr "Επε_ξεργασία ξανά"
 
-#: ../src/workbook-control-gui.c:2235 ../src/workbook-control-gui.c:2240
+#: ../src/workbook-control-gui.c:2245 ../src/workbook-control-gui.c:2250
 msgid "_Discard"
 msgstr "Α_πόρριψη"
 
-#: ../src/workbook-control-gui.c:2239 ../src/workbook-control-gui.c:2250
+#: ../src/workbook-control-gui.c:2249 ../src/workbook-control-gui.c:2260
 msgid "_Accept"
 msgstr "_Αποδοχή"
 
