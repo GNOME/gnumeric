@@ -4,9 +4,9 @@ and longer term bugs.
 
 Release Critical
 ----------------
-- gnumeric depends on unreleased bonobo
-- gnumeric depends on unreleased gnome-print
 - print-preview is not cleared between pages.
+- gnumeric depends on unreleased gnome-print
+- gnumeric depends on unreleased bonobo
 
 Long term breakage
 ------------------
@@ -21,6 +21,8 @@ Long term breakage
 
 - non string values entered directly are not really editable in that we
   may not be able to parse the formated version.
+  eg value = 90, format = '[$USD] 0.00'
+     We put the FORMATTED result (USD 90.00) into the edit region.
 
 - Names : sheet vs workbook, addresses not changing with row/col ins/del.
 
@@ -28,3 +30,13 @@ Function Breakage
 -----------------
 - Match  : does not support match_type +-1
 - Index  : does not support 0,0 or reference syntax.
+
+Widget polishing
+----------------
+- gtk-combo-box
+    : Escape does not cancel
+
+- gtk-combo-text
+    : Does not autoscroll when mouse moves outside list (see font list)
+    : a value entered directly in the edit field does not handle selection in
+      the list correctly

@@ -2307,7 +2307,7 @@ workbook_create_standard_toobar (Workbook *wb)
 		GNOME_DOCK_TOP, 1, 0, 0);
 
 	/* Zoom combo box */
-	zoom = wb->priv->zoom_entry = gtk_combo_text_new ();
+	zoom = wb->priv->zoom_entry = gtk_combo_text_new (FALSE);
 	if (!gnome_preferences_get_toolbar_relief_btn ())
 		gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (zoom), GTK_RELIEF_NONE);
 	entry = GTK_COMBO_TEXT (zoom)->entry;
@@ -2319,7 +2319,7 @@ workbook_create_standard_toobar (Workbook *wb)
 			    (GtkSignalFunc) (change_displayed_zoom_cb), wb);
 	
 	/* Set a reasonable default width */
-	len = gdk_string_measure (entry->style->font, "000000");
+	len = gdk_string_measure (entry->style->font, "%10000");
 	gtk_widget_set_usize (entry, len, 0);
 
 	/* Preset values */

@@ -166,7 +166,7 @@ change_font_size_in_selection_cmd (GtkEntry *entry, Workbook *wb)
 
 	size = atof (gtk_entry_get_text (entry));
 	if (size < 0.0) {
-		gtk_entry_set_text (entry, "12");
+		gtk_entry_set_text (entry, "10");
 		return;
 	}
 
@@ -175,7 +175,10 @@ change_font_size_in_selection_cmd (GtkEntry *entry, Workbook *wb)
 
 	cmd_format (workbook_command_context_gui (wb),
 		    sheet, mstyle, NULL);
+
+	/* FIXME : This should be part of cmd_format */
 	sheet_selection_height_update (sheet);
+
 	workbook_focus_current_sheet (sheet->workbook);
 }
 
@@ -389,11 +392,11 @@ workbook_format_toolbar_orient (GtkToolbar *toolbar,
 	Workbook *wb = closure;
 
 	if (dir == GTK_ORIENTATION_HORIZONTAL) {
-		gtk_widget_show (wb->priv->option_menu);
-		gtk_widget_show (wb->priv->size_widget);
+		gtk_widget_show (wb->priv->font_name_selector);
+		gtk_widget_show (wb->priv->font_size_selector);
 	} else {
-		gtk_widget_hide (wb->priv->option_menu);
-		gtk_widget_hide (wb->priv->size_widget);
+		gtk_widget_hide (wb->priv->font_name_selector);
+		gtk_widget_hide (wb->priv->font_size_selector);
 	}
 }
 
@@ -519,10 +522,10 @@ cb_border_changed (PixmapCombo *pixmap_combo, int index, Workbook *wb)
 GtkWidget *
 workbook_create_format_toolbar (Workbook *wb)
 {
-	GtkWidget *menu, *toolbar, *fontsel, *entry;
+	GtkWidget *toolbar, *fontsel, *fontsize, *entry;
 	const char *name = "FormatToolbar";
 	GList *l;
-	int len;
+	int i, len;
 	
 	toolbar = gnumeric_toolbar_new (
 		workbook_format_toolbar, wb);
@@ -537,14 +540,13 @@ workbook_create_format_toolbar (Workbook *wb)
 	/*
 	 * Create a font name selector
 	 */
-	fontsel = wb->priv->option_menu = gtk_combo_text_new ();
+	fontsel = wb->priv->font_name_selector = gtk_combo_text_new (TRUE);
 	if (!gnome_preferences_get_toolbar_relief_btn ())
 		gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (fontsel), GTK_RELIEF_NONE);
 	entry = GTK_COMBO_TEXT (fontsel)->entry;
 	gtk_signal_connect (GTK_OBJECT (entry), "activate",
 			    GTK_SIGNAL_FUNC (change_font_in_selection_cmd), wb);
-	gtk_container_set_border_width (GTK_CONTAINER (wb->priv->option_menu), 0);
-	menu = gtk_menu_new ();
+	gtk_container_set_border_width (GTK_CONTAINER (fontsel), 0);
 
 	/* An empty item for the case of no font that applies */
 	gtk_combo_text_add_item(GTK_COMBO_TEXT (fontsel), "", "");
@@ -561,33 +563,38 @@ workbook_create_format_toolbar (Workbook *wb)
 	gtk_widget_set_usize (entry, len, 0);
 
 	/* Add it to the toolbar */
-	gtk_widget_show (wb->priv->option_menu);
-	gtk_toolbar_insert_widget (
-		GTK_TOOLBAR (toolbar), wb->priv->option_menu,
-		_("Font selector"), NULL, 0);
-
-	gtk_signal_connect (
-		GTK_OBJECT(toolbar), "orientation-changed",
-		GTK_SIGNAL_FUNC (&workbook_format_toolbar_orient), wb);
+	gtk_widget_show (fontsel);
+	gtk_toolbar_insert_widget ( GTK_TOOLBAR (toolbar), fontsel,
+				    _("Font selector"), NULL, 0);
 
 	/*
 	 * Create the font size control
 	 */
-	wb->priv->size_widget = gtk_entry_new ();
-	gtk_widget_show (wb->priv->size_widget);
+	fontsize = wb->priv->font_size_selector = gtk_combo_text_new (TRUE);
+	if (!gnome_preferences_get_toolbar_relief_btn ())
+		gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (fontsize), GTK_RELIEF_NONE);
+	entry = GTK_COMBO_TEXT (fontsize)->entry;
+	gtk_signal_connect (GTK_OBJECT (entry), "activate",
+			    GTK_SIGNAL_FUNC (change_font_size_in_selection_cmd), wb);
+	for (i = 0; gnumeric_point_sizes [i] != 0; i++) {
+		char buffer [12];
+		g_snprintf (buffer, sizeof(buffer),
+			    "%d", gnumeric_point_sizes [i]);
+		gtk_combo_text_add_item(GTK_COMBO_TEXT (fontsize), buffer, buffer);
+	}
 
-	len = gdk_string_measure (wb->priv->size_widget->style->font, "000000");
-	gtk_widget_set_usize (GTK_WIDGET (wb->priv->size_widget), len, 0);
-	gtk_signal_connect (
-		GTK_OBJECT (wb->priv->size_widget), "activate",
-		GTK_SIGNAL_FUNC (change_font_size_in_selection_cmd), wb);
-		
-	gtk_toolbar_insert_widget (
-		GTK_TOOLBAR (toolbar),
-		wb->priv->size_widget, _("Size"), NULL, 1);
+	/* Set a reasonable default width */
+	gtk_widget_set_usize (entry, gdk_string_measure (entry->style->font, "888"), 0);
 
+	/* Add it to the toolbar */
+	gtk_widget_show (fontsize);
+	gtk_toolbar_insert_widget (GTK_TOOLBAR (toolbar), fontsize,
+				   _("Font Size"), NULL, 1);
+
+	gtk_toolbar_append_space (GTK_TOOLBAR (toolbar));
+	
 	/*
-	 * Create the combo boxes
+	 * Create the border combo box.
 	 */
 	wb->priv->border_combo = pixmap_combo_new (border_combo_info, 3, 4);
 	/* default to none */
@@ -597,35 +604,44 @@ workbook_create_format_toolbar (Workbook *wb)
 			    GTK_SIGNAL_FUNC (cb_border_changed), wb);
 	disable_focus (wb->priv->border_combo, NULL);
 
-	/* Draw an outline for the default */
+	gtk_toolbar_append_widget (
+		GTK_TOOLBAR (toolbar),
+		wb->priv->border_combo, _("Borders"), NULL);
+
+	/*
+	 * Create the background colour combo box.
+	 */
 	wb->priv->back_combo = color_combo_new (bucket_xpm, _("Clear Background"),
+						/* Draw an outline for the default */
 						NULL);
 	gtk_widget_show (wb->priv->back_combo);
 	gtk_signal_connect (GTK_OBJECT (wb->priv->back_combo), "changed",
 			    GTK_SIGNAL_FUNC (back_color_changed), wb);
 	disable_focus (wb->priv->back_combo, NULL);
 	
-	/* Draw black for the default */
+	gtk_toolbar_append_widget (
+		GTK_TOOLBAR (toolbar),
+		wb->priv->back_combo, _("Background"), NULL);
+
+	/*
+	 * Create the font colour combo box.
+	 */
 	wb->priv->fore_combo = color_combo_new (font_xpm, _("Automatic"),
+						/* Draw black for the default */
 						&gs_black);
 	gtk_widget_show (wb->priv->fore_combo);
 	gtk_signal_connect (GTK_OBJECT (wb->priv->fore_combo), "changed",
 			    GTK_SIGNAL_FUNC (fore_color_changed), wb);
 	disable_focus (wb->priv->fore_combo, NULL);
 
-	gtk_toolbar_append_space (GTK_TOOLBAR (toolbar));
-	
-	gtk_toolbar_append_widget (
-		GTK_TOOLBAR (toolbar),
-		wb->priv->border_combo, _("Borders"), NULL);
-
-	gtk_toolbar_append_widget (
-		GTK_TOOLBAR (toolbar),
-		wb->priv->back_combo, _("Background"), NULL);
-
 	gtk_toolbar_append_widget (
 		GTK_TOOLBAR (toolbar),
 		wb->priv->fore_combo, _("Foreground"), NULL);
+
+	/* Handle orientation changes so that we can hide wide widgets */
+	gtk_signal_connect (
+		GTK_OBJECT(toolbar), "orientation-changed",
+		GTK_SIGNAL_FUNC (&workbook_format_toolbar_orient), wb);
 
 	return toolbar;
 }
@@ -707,8 +723,8 @@ workbook_feedback_set (Workbook *workbook, MStyle *style)
 	workbook_format_halign_feedback_set (workbook, mstyle_get_align_h (style));
 
 	g_return_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_SIZE));
-	sprintf (size_str, "%g", mstyle_get_font_size (style));
-	gtk_entry_set_text (GTK_ENTRY (workbook->priv->size_widget),
+	g_snprintf (size_str, sizeof(size_str), "%d", (int)mstyle_get_font_size (style));
+	gtk_entry_set_text (GTK_ENTRY(GTK_COMBO_TEXT (workbook->priv->font_size_selector)->entry),
 			    size_str);
 
 	/*
@@ -750,12 +766,12 @@ workbook_feedback_set (Workbook *workbook, MStyle *style)
 		 * +1 means, skip over the "undefined font" element
 		 */
 		gtk_combo_text_select_item (
-			GTK_COMBO_TEXT (workbook->priv->option_menu),
+			GTK_COMBO_TEXT (workbook->priv->font_name_selector),
 			np+1);
 		font_set = TRUE;
 	}
 	if (!font_set)
 		gtk_combo_text_select_item (
-			GTK_COMBO_TEXT (workbook->priv->option_menu),
+			GTK_COMBO_TEXT (workbook->priv->font_name_selector),
 			0);
 }

@@ -21,15 +21,8 @@ struct _WorkbookPrivate {
 	GtkWidget *standard_toolbar;
 	GtkWidget *format_toolbar;
 
-	/*
-	 * GtkOptionMenu for the font selector
-	 */
-	GtkWidget *option_menu;
-
-	/*
-	 * GtkEntry for the size specifier
-	 */
-	GtkWidget *size_widget;
+	GtkWidget *font_name_selector;
+	GtkWidget *font_size_selector;
 
 	/*
 	 * GtkCombo for the zoomer

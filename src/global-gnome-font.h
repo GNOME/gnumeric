@@ -3,7 +3,7 @@
 
 extern GList *gnumeric_font_family_list;
 extern GList *gnumeric_point_size_list;
-extern int gnumeric_point_sizes [];
+extern int const gnumeric_point_sizes [];
 
 void global_gnome_font_init     (void);
 void global_gnome_font_shutdown (void);

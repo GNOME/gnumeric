@@ -1,3 +1,10 @@
+2000-03-26  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-format-toolbar.c (change_font_size_in_selection_cmd) :
+	  default size is 10 points.
+	(workbook_create_format_toolbar) : Switch the size selector over to
+	  gtk-combo-text too.
+
 2000-03-26  Almer. S. Tigelaar.  <almer1@dds.nl>
 
 	* src/plugin-util.c, src/plugin-util.h: New, ment for reducing

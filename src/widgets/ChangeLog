@@ -1,3 +1,12 @@
+2000-03-26  Jody Goldberg <jgoldberg@home.com>
+
+	* gtk-combo-text.c : Add a hash to be used for proper lookup of
+	  entries made directly in the edit area.  Yes morten it leaks.
+	(gtk_combo_text_construct) : Make scrolling
+	  optional.
+	(gtk_combo_text_add_item) : Add some brute force mouse over effects.
+	  Still need autoscroll, and cancel.
+
 2000-03-25  Jody Goldberg <jgoldberg@home.com>
 
 	* widget-color-combo.c (color_table_setup) : Init the new custom_color data.

@@ -14,7 +14,7 @@
 GList *gnumeric_font_family_list = NULL;
 GList *gnumeric_point_size_list = NULL;
 
-int gnumeric_point_sizes [] = {
+int const gnumeric_point_sizes [] = {
 	4, 8, 9, 10, 11, 12, 14, 16, 18, 
 	20, 22, 24, 26, 28, 36, 48, 72,
 	0

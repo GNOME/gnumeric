@@ -50,7 +50,7 @@ list_select_cb (GtkWidget *caller, gpointer data)
 		(GTK_OBJECT (caller), "value");
 
 	g_return_if_fail (entry && value);
-	
+
 	gtk_entry_set_text (entry, value);
 	gtk_signal_emit_by_name (GTK_OBJECT (entry), "activate");
 
@@ -58,62 +58,100 @@ list_select_cb (GtkWidget *caller, gpointer data)
 }
 
 void
-gtk_combo_text_construct (GtkComboText *combo_text)
+gtk_combo_text_select_item (GtkComboText *ct, int elem)
 {
-	GtkWidget *entry, *list, *scroll;
-
-	entry = combo_text->entry = gtk_entry_new ();
-	list = combo_text->list = gtk_list_new ();
-	scroll = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW(scroll),
-				       GTK_POLICY_NEVER,
-				       GTK_POLICY_AUTOMATIC);
-
-	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW(scroll), list);
-	gtk_widget_set_usize (scroll, 0, 200); /* MAGIC NUMBER */
-
-	gtk_widget_show (entry);
-	gtk_widget_show (scroll);
-	gtk_combo_box_construct (GTK_COMBO_BOX (combo_text), entry, scroll);
+	gtk_list_select_item (GTK_LIST(ct->list), elem);
 }
 
-GtkWidget*
-gtk_combo_text_new ()
+/* FIXME : This is over kill.  There must be a more elegant way of handling
+ * this.
+ *
+ * TODO : Add autoscroll
+ * TODO : Cancel the popup when 'Escape' is pressed.
+ */
+static gboolean
+cb_enter (GtkWidget *w, GdkEventCrossing *event,
+	  gpointer user)
 {
-	GtkComboText *combo_text;
-
-	combo_text = gtk_type_new (gtk_combo_text_get_type ());
-	gtk_combo_text_construct (combo_text);
-	return GTK_WIDGET (combo_text);
+	gtk_widget_set_state (w, GTK_STATE_ACTIVE);
+	return TRUE;
+}
+static gboolean
+cb_exit (GtkWidget *w, GdkEventCrossing *event,
+	  gpointer user)
+{
+	gtk_widget_set_state (w, GTK_STATE_NORMAL);
+	return TRUE;
 }
 
 void
-gtk_combo_text_select_item (GtkComboText *combo_text, int elem)
-{
-	gtk_list_select_item (GTK_LIST(combo_text->list), elem);
-}
-
-void
-gtk_combo_text_add_item (GtkComboText *combo_text,
+gtk_combo_text_add_item (GtkComboText *ct,
 			 const gchar *item,
 			 const gchar *value)
 {
 	GtkWidget *listitem;
-		
+	gchar *value_copy;
+
 	g_return_if_fail (item);
-		
+
 	if (!value)
 		value = item;
+
+	value_copy = g_strdup (value);
+	g_hash_table_insert (ct->elements, (gpointer)value_copy,
+			     GINT_TO_POINTER (g_hash_table_size (ct->elements)));
 
 	listitem = gtk_list_item_new_with_label (item);
 	gtk_widget_show (listitem);
 
 	gtk_object_set_data_full (GTK_OBJECT (listitem), "value",
-				  g_strdup (value), g_free);
+				  value_copy, g_free);
 	gtk_signal_connect (GTK_OBJECT (listitem), "select",
 			    GTK_SIGNAL_FUNC (list_select_cb),
-			    (gpointer) combo_text);
+			    (gpointer) ct);
+	gtk_signal_connect (GTK_OBJECT (listitem), "enter-notify-event",
+			    GTK_SIGNAL_FUNC (cb_enter),
+			    (gpointer) ct);
+	gtk_signal_connect (GTK_OBJECT (listitem), "leave-notify-event",
+			    GTK_SIGNAL_FUNC (cb_exit),
+			    (gpointer) ct);
 
-	gtk_container_add (GTK_CONTAINER (combo_text->list),
+	gtk_container_add (GTK_CONTAINER (ct->list),
 			   listitem);
+}
+
+static void
+gtk_combo_text_construct (GtkComboText *ct, gboolean const is_scrolled)
+{
+	GtkWidget *entry, *list, *scroll, *display_widget;
+
+	ct->elements = g_hash_table_new (&g_str_hash,
+					 &g_str_equal);
+
+	entry = ct->entry = gtk_entry_new ();
+	list = ct->list = gtk_list_new ();
+	if (is_scrolled) {
+		display_widget = scroll = gtk_scrolled_window_new (NULL, NULL);
+		gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW(scroll),
+						GTK_POLICY_NEVER,
+						GTK_POLICY_AUTOMATIC);
+
+		gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW(scroll), list);
+		gtk_widget_set_usize (scroll, 0, 200); /* MAGIC NUMBER */
+	} else
+		display_widget = list;
+
+	gtk_widget_show (display_widget);
+	gtk_widget_show (entry);
+	gtk_combo_box_construct (GTK_COMBO_BOX (ct), entry, display_widget);
+}
+
+GtkWidget*
+gtk_combo_text_new (gboolean const is_scrolled)
+{
+	GtkComboText *ct;
+
+	ct = gtk_type_new (gtk_combo_text_get_type ());
+	gtk_combo_text_construct (ct, is_scrolled);
+	return GTK_WIDGET (ct);
 }

@@ -856,6 +856,12 @@ cmd_format_redo (GnumericCommand *cmd, CommandContext *context)
 		}
 	}
 
+#if 0
+	/* FIXME : finish this. */
+	if (mstyle_is_element_set  (me->new_style, MSTYLE_FONT_SIZE))
+		sheet_selection_height_update (sheet);
+#endif
+
 	sheet_set_dirty (me->sheet, TRUE);
 	sheet_update (me->sheet);
 
