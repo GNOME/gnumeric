@@ -144,7 +144,7 @@ fake_df (GoalSeekFunction f, gnm_float x, gnm_float *dfx, gnm_float xstep,
 }
 
 void
-goal_seek_initialise (GoalSeekData *data)
+goal_seek_initialize (GoalSeekData *data)
 {
 	data->havexpos = data->havexneg = FALSE;
 	data->xmin = -1e10;
@@ -541,7 +541,7 @@ main ()
 {
 	GoalSeekData data;
 
-	goal_seek_initialise (&data);
+	goal_seek_initialize (&data);
 	data.xmin = -100;
 	data.xmax = 100;
 
