@@ -1,3 +1,7 @@
+2000-11-02  Michael Meeks  <michael@helixcode.com>
+
+	* configure.in: Require bonobo-0.27+
+
 2000-11-02  Michael Meeks <michael@helixcode.com>
 
 	* The big api rename ...
