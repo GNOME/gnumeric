@@ -97,9 +97,12 @@ Pending Patches
 Functions
     ODDFPRICE
     ODDFYEILD
-    ODDLPRICE
-    ODDLYEILD
-    YEILDDISC
+    YIELDDISC
+    openoffice/scaddins/source/analysis/analysishelper.cxx
+    has copies of these.  Although the code looks simplistic
+    Need to read the docs
+	ODDLPRICE
+	ODDLYEILD
 
 UTF-8:
     - Window titles.
