@@ -11,11 +11,13 @@ Jody:
 	  span correctly.
 
 Morten:
-	* Leak fixes.
+	* Leak fixes.  Bug other people about leaks.
 	* IPMT, PPMT argument order corrected.
 	* MIRR fixed (or at least changed) to match Excel.
-	* RATE uses supplied guess.
+	* RATE, IRR, XIRR use supplied guess.
 	* Improve precision of IRR.
+	* Made auto-format work for sheet-relative cellrefs, i.e.,
+	  "=sum(a1:a10)" now takes a default format from the range.
 
 --------------------------------------------------------------------------
 Gnumeric 0.49
