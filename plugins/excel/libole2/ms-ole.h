@@ -44,7 +44,8 @@ struct _MS_OLE
 	 * To be considered private
 	 **/
 	char mode;
-	int file_descriptor ;
+	int file_descriptor;
+	int dirty;
 	GArray    *bb;     /* Big  blocks status  */
 #ifndef OLE_MMAP
 	GPtrArray *bbptr;  /* Pointers to blocks  NULL if not read in */

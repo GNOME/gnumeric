@@ -1,6 +1,40 @@
+1999-05-23  Michael Meeks  <michael@imaginator.com>
+
+	* ms-ole.c (ms_ole_directory_create): Setup 'dir' properly
+	for streams tacked onto chain.
+	(PPS_SET_NAME_LEN): Removed factor of two.
+	(ms_ole_create): Updated magic from 0x0003003b to 0x0003003e
+
+1999-05-22  Michael Meeks  <michael@imaginator.com>
+
+	* ms-ole.c (pps_encode): Fix for NULL names.
+	(ms_ole_directory_create): Silly bug chaining in filenames.
+	(next_free_sb): Actually mark the blocks we are using as used.
+	Re-adjust the calculations for extending the sbf.
+	(ms_ole_stream_close): Add check on array before free.
+	(free_allocation): Write the Small block writing code.
+	(ms_ole_directory_next): Recurse over NULL names.
+	Cleaned debug: silent except for errors.
+	Added 'dirty' flag to MS_OLE *, fo write-backs.
+	(read_sb): Trancate the SB chain to remove appended
+	unused blocks.
+	(write_pps): Fiddled.
+	(pps_encode): Silly bug in PPS name length setting &
+	setting start to END_OF_CHAIN.
+
 1999-05-21  Michael Meeks  <michael@imaginator.com>
 
 	* ms-ole.c (ms_ole_stream_close): Leak fixed: thanks Morten.
+	(read_bb): Silly bug with lengths and header block.
+	(ms_ole_create): Changed creation method, parallel but discrete.
+	(ms_ole_directory_create): Cleaned up, bug not setting primary_entr
+	(ms_ole_cleanup): Fleshed out.
+	(next_free_pps): Serious bug klonked.
+	(write_pps, write_sb, write_bb): Implemented.
+	(ms_ole_append_block): Fix silly bug using sb not bb.
+	(next_free_bb): Add call to extend_file !
+	(ms_ole_write_sb): Simplified conversion and killed nasty
+	critical section checks.
 
 1999-05-20  Michael Meeks  <michael@imaginator.com>
 
