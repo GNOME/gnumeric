@@ -68,6 +68,7 @@ IMAGES = @STRIP_BEGIN@ 						\
 	border_top_n_double_bottom.xpm	\
 	border_top_n_thick_bottom.xpm	\
 	\
+	pivottable_16.png		pivottable_24.png	\
 	protection_no_24.png 		\
 	protection_yes_24.png 		\
 	\
@@ -173,6 +174,8 @@ VARIABLES = @STRIP_BEGIN@ 									\
 	gnm_border_top_n_double_bottom		$(srcdir)/border_top_n_double_bottom.xpm	\
 	gnm_border_top_n_thick_bottom		$(srcdir)/border_top_n_thick_bottom.xpm		\
 	\
+	gnm_pivottable_16      			$(srcdir)/pivottable_16.png 			\
+	gnm_pivottable_24			$(srcdir)/pivottable_24.png 			\
 	gnm_protection_no			$(srcdir)/protection_no_24.png 			\
 	gnm_protection_yes			$(srcdir)/protection_yes_24.png 		\
 	\

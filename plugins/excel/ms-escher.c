@@ -1774,11 +1774,10 @@ ms_escher_read_ClientTextbox (MSEscherState *state, MSEscherHeader *h)
 	has_next_record = ms_biff_query_next (state->q);
 	g_return_val_if_fail (has_next_record, TRUE);
 
-	/* FIXME.  Get an object management framework into place
-	 * so that there is somewhere to put the comment text.
-	 */
 	text = ms_read_TXO (state->q);
-	g_free (text);
+	ms_escher_header_add_attr (h,
+		ms_obj_attr_new_ptr (MS_OBJ_ATTR_TEXT, text));
+	d (0 , printf ("'%s';\n", text););
 	return FALSE;
 }
 

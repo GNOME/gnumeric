@@ -862,7 +862,7 @@ gnum_plugin_file_saver_init (GnumPluginFileSaver *fs)
 
 static void
 gnum_plugin_file_saver_save (GnumFileSaver const *fs, IOContext *io_context,
-                             WorkbookView *wbv, const GsfOutput *output)
+                             WorkbookView const *wbv, GsfOutput *output)
 {
 	GnumPluginFileSaver *pfs = GNUM_PLUGIN_FILE_SAVER (fs);
 	PluginServiceFileSaver *service_file_saver = GNM_PLUGIN_SERVICE_FILE_SAVER (pfs->service);

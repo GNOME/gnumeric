@@ -1,3 +1,24 @@
+2002-11-29  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (excel_write_WINDOW1) : make view const
+	(excel_write_state_new) : ditto.
+
+	* ms-excel-read.c (excel_prepare_autofilter) : new.
+	(excel_read_NAME) : handle autofilters.
+
+	* ms-escher.c (ms_escher_read_ClientTextbox) : store the text.
+
+	* plugins/excel/boot.c (excel_save) : make the view const not the
+	  output.
+	(excel_dsf_file_save) : ditto.
+	(excel_biff8_file_save) : ditto.
+	(excel_biff7_file_save) : ditto.
+
+2002-11-26  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (ms_sheet_create_obj) : use the new label setting
+	  utilities.
+
 2002-11-28  Jon K Hellan  <hellan@acm.org>
 
 	* boot.c (excel_save, excel_dsf_file_save, excel_biff8_file_save)

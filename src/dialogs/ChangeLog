@@ -1,3 +1,12 @@
+2002-11-29  Jody Goldberg <jody@gnome.org>
+
+	* dialog-cell-sort.c (cb_update_add_sensitivity) : adjust to interface
+	  change for value_to_global_range.
+	(cb_add_clicked) : ditto.
+
+	* dialogs.h : Add pivottable
+	* Makefile.am : ditto.
+
 2002-11-27  Jody Goldberg <jody@gnome.org>
 
 	* dialog-cell-format.c (cb_back_preview_color) : Assigning the default

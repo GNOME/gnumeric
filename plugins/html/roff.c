@@ -34,8 +34,8 @@
 #include "plugin-util.h"
 #include "cellspan.h"
 
-#include <errno.h>
 #include <string.h>
+#include <gsf/gsf-output.h>
 
 /*
  * escape special characters .. needs work
@@ -84,8 +84,9 @@ roff_fprintf (GsfOutput *output, const Cell *cell)
  *
  * FIXME: Should roff quote sheet name (and everything else)
  */
-static void
-write_wb_roff (IOContext *io_context, WorkbookView *wb_view, GsfOutput *output)
+void
+roff_file_save (GnumFileSaver const *fs, IOContext *io_context,
+                WorkbookView const *wb_view, GsfOutput *output)
 {
 	GList *sheets, *ptr;
 	Cell *cell;
@@ -190,19 +191,4 @@ write_wb_roff (IOContext *io_context, WorkbookView *wb_view, GsfOutput *output)
 		gsf_output_printf (output, ".TE\n\n");
 	}
 	g_list_free (sheets);
-}
-
-/*
- * write sheets to a roff file
- */
-void
-roff_file_save (GnumFileSaver const *fs, IOContext *io_context,
-                WorkbookView *wb_view, GsfOutput *output)
-{
-	ErrorInfo *error;
-
-	g_return_if_fail (wb_view != NULL);
-	g_return_if_fail (output != NULL);
-
-	write_wb_roff (io_context, wb_view, output);
 }

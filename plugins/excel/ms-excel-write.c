@@ -442,7 +442,7 @@ excel_write_externsheets_v8 (ExcelWriteState *ewb)
 }
 
 static void
-excel_write_WINDOW1 (BiffPut *bp, WorkbookView *wb_view)
+excel_write_WINDOW1 (BiffPut *bp, WorkbookView const *wb_view)
 {
 	guint8 *data = ms_biff_put_len_next (bp, BIFF_WINDOW1, 18);
 	float hdpi = application_display_dpi_get (TRUE) / (72. * 20.);
@@ -3562,7 +3562,7 @@ sst_collect_str (gpointer ignored, Cell const *cell, ExcelWriteState *ewb)
 }
 
 ExcelWriteState *
-excel_write_state_new (IOContext *context, WorkbookView *gwb_view,
+excel_write_state_new (IOContext *context, WorkbookView const *gwb_view,
 		       gboolean biff7, gboolean biff8)
 {
 	ExcelWriteState *ewb = g_new (ExcelWriteState, 1);

@@ -12,6 +12,7 @@
 #include "item-bar.h"
 
 #include "style.h"
+#include "style-color.h"
 #include "sheet.h"
 #include "sheet-control-gui-priv.h"
 #include "application.h"
@@ -39,7 +40,7 @@ struct _ItemBar {
 	FooCanvasItem  canvas_item;
 
 	GnmCanvas	*gcanvas;
-	GdkGC           *text_gc, *lines, *shade;
+	GdkGC           *text_gc, *filter_gc, *lines, *shade;
 	GdkCursor       *normal_cursor;
 	GdkCursor       *change_cursor;
 	StyleFont	*normal_font, *bold_font;
@@ -192,6 +193,8 @@ item_bar_realize (FooCanvasItem *item)
 
 	ib->text_gc = gdk_gc_new (window);
 	gdk_gc_set_foreground (ib->text_gc, &style->text[GTK_STATE_NORMAL]);
+	ib->filter_gc = gdk_gc_new (window);
+	gdk_gc_set_foreground (ib->filter_gc, &gs_green);
 	ib->shade = gdk_gc_new (window);
 	gdk_gc_set_foreground (ib->shade, &style->dark[GTK_STATE_NORMAL]);
 	ib->lines = gdk_gc_new (window);
@@ -213,6 +216,7 @@ item_bar_unrealize (FooCanvasItem *item)
 	ItemBar *ib = ITEM_BAR (item);
 
 	gdk_gc_unref (ib->text_gc);
+	gdk_gc_unref (ib->filter_gc);
 	gdk_gc_unref (ib->lines);
 	gdk_gc_unref (ib->shade);
 	gdk_cursor_destroy (ib->change_cursor);

@@ -79,8 +79,8 @@ gboolean    range_is_sane	(Range const *range);
 gboolean    range_translate     (Range *range, int col_offset, int row_offset);
 gboolean    range_transpose     (Range *range, CellPos const *origin);
 
-gboolean    setup_range_from_value (Range *range, Value *v, gboolean release);
-gboolean    setup_range_from_range_ref (Range *range, RangeRef *v, gboolean release);
+gboolean    setup_range_from_value (Range *range, Value const *v);
+gboolean    setup_range_from_range_ref (Range *range, RangeRef const *rr);
 
 /* TODO : Do these 2 belong here ? or in sheet.h
  * Probably sheet.h but that is overfull.
@@ -99,7 +99,7 @@ GSList     *range_fragment        (Range const *a, Range const *b);
 void        range_fragment_free   (GSList *fragments);
 
 GlobalRange *global_range_new     (Sheet *sheet, Range const *r);
-GlobalRange *value_to_global_range (Value *v);
+gboolean     value_to_global_range(Value const *v, GlobalRange *res);
 void         global_range_free    (GlobalRange *gr);
 gboolean     global_range_overlap (GlobalRange const *a, GlobalRange const *b);
 GlobalRange *global_range_dup     (GlobalRange const *src);

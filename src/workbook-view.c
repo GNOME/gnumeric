@@ -534,8 +534,6 @@ wbv_save_to_file (WorkbookView *wbv, GnumFileSaver const *fs,
 {
 	char *msg = NULL;
 
-	GsfOutput *output;
-	
 	if (gnumeric_valid_filename (file_name)) {
 		GError *err = NULL;
 		GsfOutput *output;
@@ -724,8 +722,10 @@ wb_view_new_from_input  (GsfInput *input,
 		if (gnumeric_io_error_occurred (io_context)) {
 			g_object_unref (G_OBJECT (new_wb));
 			new_wbv = NULL;
-		} else
+		} else {
+			workbook_recalc (new_wb); 
 			workbook_set_dirty (new_wb, FALSE);
+		}
 	} else
 		gnumeric_error_read (COMMAND_CONTEXT (io_context),
 			_("Unsupported file format."));

@@ -109,11 +109,6 @@ gui_file_read (WorkbookControlGUI *wbcg, char const *file_name,
 		} else
 			(void) wb_control_wrapper_new (WORKBOOK_CONTROL (wbcg), wbv, NULL);
 
-		workbook_recalc (wb_view_workbook (wbv)); 
-		g_return_val_if_fail (!workbook_is_dirty (wb_view_workbook (wbv)), FALSE);
-
-		if (wb_view_cur_sheet (wbv) != NULL)
-			sheet_update (wb_view_cur_sheet (wbv));
 		return TRUE;
 	}
 	return FALSE;

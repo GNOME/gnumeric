@@ -57,9 +57,8 @@
 #include <cellspan.h>
 #include <rendered-value.h>
 
-#include <errno.h>
-#include <stdio.h>
 #include <locale.h>
+#include <gsf/gsf-output.h>
 
 typedef enum {
 	LATEX_NO_BORDER = 0,
@@ -869,7 +868,7 @@ latex2e_print_hhline (GsfOutput *output, StyleBorderType *clines, int n, StyleBo
  */
 void
 latex_file_save (GnumFileSaver const *fs, IOContext *io_context,
-		 WorkbookView *wb_view, GsfOutput *output)
+		 WorkbookView const *wb_view, GsfOutput *output)
 {
 	Cell *cell;
 	Sheet *current_sheet;
@@ -877,16 +876,9 @@ latex_file_save (GnumFileSaver const *fs, IOContext *io_context,
  	Range const *merge_range;
 	int row, col, num_cols, length;
 	int num_merged_cols, num_merged_rows;
-	Workbook *wb = wb_view_workbook (wb_view);
-	ErrorInfo *open_error;
 	StyleBorderType *clines, *this_clines;
 	StyleBorderType *prev_vert = NULL, *next_vert = NULL, *this_vert;
 	gboolean needs_hline;
-
-
-	/* Sanity check */
-	g_return_if_fail (wb != NULL);
-	g_return_if_fail (output != NULL);
 
 	/* This is the preamble of the LaTeX2e file. */
 	latex2e_write_file_header(output);

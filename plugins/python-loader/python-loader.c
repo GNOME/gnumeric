@@ -370,7 +370,7 @@ typedef struct {
 
 static void
 gnumeric_plugin_loader_python_func_file_save (GnumFileSaver const *fs, PluginService *service,
-                                              IOContext *io_context, WorkbookView *wb_view,
+                                              IOContext *io_context, WorkbookView const *wb_view,
                                               GsfOutput *output)
 {
 #ifndef WITH_PYGTK

@@ -62,8 +62,8 @@ MsExcelReadGbFn ms_excel_read_gb = NULL;
 
 gboolean excel_file_probe (GnumFileOpener const *fo, GsfInput *input, FileProbeLevel pl);
 void excel_file_open (GnumFileOpener const *fo, IOContext *context, WorkbookView *wbv, GsfInput *input);
-void excel_biff7_file_save (GnumFileSaver const *fs, IOContext *context, WorkbookView *wbv, GsfOutput const *output);
-void excel_biff8_file_save (GnumFileSaver const *fs, IOContext *context, WorkbookView *wbv, GsfOutput const *output);
+void excel_biff7_file_save (GnumFileSaver const *fs, IOContext *context, WorkbookView const *wbv, GsfOutput *output);
+void excel_biff8_file_save (GnumFileSaver const *fs, IOContext *context, WorkbookView const *wbv, GsfOutput *output);
 void plugin_cleanup (void);
 
 gboolean
@@ -196,14 +196,13 @@ excel_file_open (GnumFileOpener const *fo, IOContext *context,
 }
 
 static void
-excel_save (IOContext *context, WorkbookView *wbv, GsfOutput const *output,
+excel_save (IOContext *context, WorkbookView const *wbv, GsfOutput *output,
 	    gboolean biff7, gboolean biff8)
 {
 	Workbook *wb;
 	GsfOutput *content;
 	GsfOutfile *outfile;
 	ExcelWriteState *ewb = NULL;
-	GError    *err;
 	GsfStructuredBlob *macros;
 
 	io_progress_message (context, _("Preparing to save..."));
@@ -248,20 +247,20 @@ excel_save (IOContext *context, WorkbookView *wbv, GsfOutput const *output,
 
 void
 excel_dsf_file_save (GnumFileSaver const *fs, IOContext *context,
-		       WorkbookView *wbv, GsfOutput const *output)
+		       WorkbookView const *wbv, GsfOutput *output)
 {
 	excel_save (context, wbv, output, TRUE, TRUE);
 }
 void
 excel_biff8_file_save (GnumFileSaver const *fs, IOContext *context,
-		       WorkbookView *wbv, GsfOutput const *output)
+		       WorkbookView const *wbv, GsfOutput *output)
 {
 	excel_save (context, wbv, output, FALSE, TRUE);
 }
 
 void
 excel_biff7_file_save (GnumFileSaver const *fs, IOContext *context,
-		       WorkbookView *wbv, GsfOutput const *output)
+		       WorkbookView const *wbv, GsfOutput *output)
 {
 	excel_save (context, wbv, output, TRUE, FALSE);
 }

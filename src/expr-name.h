@@ -14,6 +14,7 @@ struct _GnmNamedExpr {
 	GnmExpr const *expr_tree;
 	gboolean    active;
 	gboolean    is_placeholder;
+	gboolean    is_hidden;
 };
 
 GnmNamedExpr *expr_name_lookup (ParsePos const *pos, char const *name);
@@ -21,9 +22,9 @@ GnmNamedExpr *expr_name_add    (ParsePos const *pp, char const *name,
 				GnmExpr const *expr, char **error_msg,
 				gboolean link_to_container);
 
-void	 expr_name_ref	      (GnmNamedExpr *exprn);
-void	 expr_name_unref      (GnmNamedExpr *exprn);
-void     expr_name_remove     (GnmNamedExpr *exprn);
+void	 expr_name_ref	      (GnmNamedExpr *nexpr);
+void	 expr_name_unref      (GnmNamedExpr *nexpr);
+void     expr_name_remove     (GnmNamedExpr *nexpr);
 Value   *expr_name_eval       (GnmNamedExpr const *ne, EvalPos const *ep,
 			       GnmExprEvalFlags flags);
 char    *expr_name_as_string  (GnmNamedExpr const *ne, ParsePos const *pp);

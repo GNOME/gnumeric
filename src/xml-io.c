@@ -52,18 +52,15 @@
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-input-gzip.h>
 #include <gsf/gsf-output.h>
+#include <gsf/gsf-output-gzip.h>
 #include <gsf/gsf-utils.h>
 
-#include <libxml/parser.h>
-#include <libxml/parserInternals.h>
-#include <libxml/xmlmemory.h>
 #include <gal/util/e-xml-utils.h>
-#include <gal/widgets/e-colors.h>
 #include <libgnomeprint/gnome-print-config.h>
 
 #include <locale.h>
-#include <math.h>
 #include <errno.h>
+#include <math.h>
 #include <string.h>
 #include <limits.h>
 
@@ -79,9 +76,9 @@ static GnumFileSaver *xml_saver = NULL;
 /* ------------------------------------------------------------------------- */
 
 XmlParseContext *
-xml_parse_ctx_new (xmlDocPtr             doc,
-		   xmlNsPtr              ns,
-		   WorkbookView	     *wb_view)
+xml_parse_ctx_new (xmlDocPtr     doc,
+		   xmlNsPtr      ns,
+		   WorkbookView *wb_view)
 {
 	XmlParseContext *ctxt = g_new0 (XmlParseContext, 1);
 
@@ -3437,12 +3434,11 @@ gnumeric_xml_read_workbook (GnumFileOpener const *fo,
 static void
 gnumeric_xml_write_workbook (GnumFileSaver const *fs,
                              IOContext *context,
-                             WorkbookView *wb_view,
-                             const GsfOutput *output)
+                             WorkbookView const *wb_view,
+                             GsfOutput *output)
 {
 	xmlDocPtr xml;
 	XmlParseContext *ctxt;
-	xmlOutputBufferPtr buf;
 	char const *extension;
 	GsfOutput *gzout = NULL;
 	char *filename;
@@ -3456,7 +3452,9 @@ gnumeric_xml_write_workbook (GnumFileSaver const *fs,
 			_("Failure saving file"));
 		return;
 	}
-	ctxt = xml_parse_ctx_new (xml, NULL, wb_view);
+
+	/* we share context with import const_cast is safe */
+	ctxt = xml_parse_ctx_new (xml, NULL, (WorkbookView *)wb_view);
 	ctxt->io_context = context;
 	xml->xmlRootNode = xml_workbook_write (ctxt);
 	xml_parse_ctx_destroy (ctxt);

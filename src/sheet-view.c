@@ -27,6 +27,7 @@
 #include "sheet-view.h"
 #include "sheet.h"
 #include "sheet-merge.h"
+#include "sheet-filter.h"
 #include "sheet-private.h"
 #include "sheet-control.h"
 #include "sheet-control-priv.h"
@@ -344,8 +345,7 @@ sv_selection_cut (SheetView *sv, WorkbookControl *wbc)
 /**
  * sv_cursor_set :
  * @sv : The sheet
- * @edit_col :
- * @edit_row :
+ * @edit :
  * @base_col :
  * @base_row :
  * @move_col :
@@ -554,7 +554,8 @@ sv_update (SheetView *sv)
 			if (new_pos == NULL)
 				new_pos = cellpos_as_string (&sv->edit_pos);
 			SHEET_VIEW_FOREACH_CONTROL (sv, sc,
-				wb_control_selection_descr_set (sc_wbc (sc), new_pos););
+				wb_control_selection_descr_set (sc_wbc (sc), new_pos);
+				wb_control_menu_state_update (sc_wbc (sc), MS_ADD_VS_REMOVE_FILTER););
 		}
 	}
 
@@ -579,12 +580,30 @@ fail_if_not_selected (Sheet *sheet, int col, int row, Cell *cell, void *sv)
 }
 
 /**
+ * sv_edit_pos_in_filter :
+ * @sv :
+ *
+ * Is the row in the edit_pos part of an auto filter ?
+ **/
+GnmFilter *
+sv_edit_pos_in_filter (SheetView const *sv)
+{
+	GSList *ptr;
+	int row;
+	
+	g_return_val_if_fail (IS_SHEET_VIEW (sv), NULL);
+
+	row = sv->edit_pos.row;
+	for (ptr = sv->sheet->filters; ptr != NULL ; ptr = ptr->next)
+		if (gnm_filter_contains_row (ptr->data, row))
+			return ptr->data;
+	return NULL;
+}
+
+/**
  * sheet_is_region_empty_or_selected:
  * @sheet: sheet to check
- * @start_col: starting column
- * @start_row: starting row
- * @end_col:   end column
- * @end_row:   end row
+ * @r : the region
  *
  * Returns TRUE if the specified region of the @sheet does not
  * contain any cells that are not selected.

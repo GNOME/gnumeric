@@ -1578,6 +1578,31 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 		g_slist_free (new_args);
 		return NULL;
 	}
+	case GNM_EXPR_OP_SET: {
+		gboolean rewrite = FALSE;
+		GnmExprList *new_set = NULL;
+		GnmExprList *l;
+
+		for (l = expr->set.set; l; l = l->next) {
+			GnmExpr const *arg = gnm_expr_rewrite (l->data, rwinfo);
+			new_set = gnm_expr_list_append (new_set, arg);
+			if (arg != NULL)
+				rewrite = TRUE;
+		}
+
+		if (rewrite) {
+			GnmExprList *m;
+
+			for (l = expr->set.set, m = new_set; l; l = l->next, m = m->next) {
+				if (m->data == NULL)
+					gnm_expr_ref ((m->data = l->data));
+			}
+
+			return gnm_expr_new_set (new_set);
+		}
+		g_slist_free (new_set);
+		return NULL;
+	}
 
 	case GNM_EXPR_OP_NAME: {
 		GnmNamedExpr *nexpr = expr->name.name;
@@ -1663,30 +1688,43 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 		Value const *v = expr->constant.value;
 
 		if (v->type == VALUE_CELLRANGE) {
-			CellRef ref_a = v->v_range.cell.a;
-			CellRef ref_b = v->v_range.cell.b;
+			CellRef const *ref_a = &v->v_range.cell.a;
+			CellRef const *ref_b = &v->v_range.cell.b;
 
 			if (rwinfo->type == GNM_EXPR_REWRITE_SHEET) {
+				Value *v = NULL;
 
-				if (ref_a.sheet == rwinfo->u.sheet ||
-				    ref_b.sheet == rwinfo->u.sheet)
-					return gnm_expr_new_constant (value_new_error (NULL, gnumeric_err_REF));
-				else
+				if (ref_a->sheet == rwinfo->u.sheet) {
+					if (ref_b->sheet != NULL &&
+					    ref_b->sheet != rwinfo->u.sheet) {
+						CellRef new_a = *ref_a;
+						new_a.sheet = workbook_sheet_by_index (ref_a->sheet->workbook,
+							(ref_a->sheet->index_in_wb < ref_b->sheet->index_in_wb)
+							? ref_a->sheet->index_in_wb + 1
+							: ref_a->sheet->index_in_wb - 1);
+						v = value_new_cellrange_unsafe (&new_a, ref_b);
+					}
+				} else if (ref_b->sheet == rwinfo->u.sheet) {
+					CellRef new_b = *ref_b;
+					new_b.sheet = workbook_sheet_by_index (ref_b->sheet->workbook,
+						(ref_b->sheet->index_in_wb > ref_a->sheet->index_in_wb)
+						? ref_b->sheet->index_in_wb - 1
+						: ref_b->sheet->index_in_wb + 1);
+					v = value_new_cellrange_unsafe (ref_a, &new_b);
+				} else
 					return NULL;
+				if (v == NULL)
+					v = value_new_error (NULL, gnumeric_err_REF);
+				return gnm_expr_new_constant (v);
 
 			} else if (rwinfo->type == GNM_EXPR_REWRITE_WORKBOOK) {
-
-				if      (ref_a.sheet &&
-					 ref_a.sheet->workbook == rwinfo->u.workbook)
+				if (ref_a->sheet != NULL &&
+				    ref_a->sheet->workbook == rwinfo->u.workbook)
 					return gnm_expr_new_constant (value_new_error (NULL, gnumeric_err_REF));
-
-				else if (ref_b.sheet &&
-					 ref_b.sheet->workbook == rwinfo->u.workbook)
+				if (ref_b->sheet != NULL &&
+				    ref_b->sheet->workbook == rwinfo->u.workbook)
 					return gnm_expr_new_constant (value_new_error (NULL, gnumeric_err_REF));
-
-				else
-					return NULL;
-
+				return NULL;
 			} else
 				return cellrange_relocate (v, &rwinfo->u.relocate);
 		}
@@ -1703,9 +1741,7 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 		}
 		return NULL;
 	}
-	case GNM_EXPR_OP_SET:
-		return NULL;
-	}
+	};
 
 	g_assert_not_reached ();
 	return NULL;
@@ -1932,6 +1968,7 @@ gnm_expr_get_boundingbox (GnmExpr const *expr, Range *bound)
  * @expr :
  *
  * If this expression contains a single range return it.
+ * Caller is responsible for value_releasing the result.
  */
 Value *
 gnm_expr_get_range (GnmExpr const *expr)

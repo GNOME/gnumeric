@@ -24,8 +24,7 @@
 
 #include "gnumeric.h"
 
-void roff_dvi_file_save (GnumFileSaver const *fs, IOContext *io_context, WorkbookView *wb_view, GsfOutput *output);
-void roff_pdf_file_save (GnumFileSaver const *fs, IOContext *io_context, WorkbookView *wb_view, GsfOutput *output);
-void roff_file_save (GnumFileSaver const *fs, IOContext *io_context, WorkbookView *wb_view, GsfOutput *output);
+void roff_file_save (GnumFileSaver const *fs, IOContext *io_context,
+		     WorkbookView const *wb_view, GsfOutput *output);
 
 #endif

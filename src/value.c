@@ -477,6 +477,33 @@ value_duplicate (Value const *src)
 	return res;
 }
 
+/**
+ * value_cmp :
+ * @ptr_a :
+ * @ptr_b :
+ *
+ * qsort style comparison function.
+ **/
+int
+value_cmp (void const *ptr_a, void const *ptr_b)
+{
+	Value const *a = *(Value const **)ptr_a;
+	Value const *b = *(Value const **)ptr_b;
+	switch (value_compare (a, b, TRUE)) {
+	case IS_EQUAL : return 0;
+	case IS_LESS :  return -1;
+	case IS_GREATER :  return 1;
+	default :
+	};
+	return a->type - b->type;
+}
+
+gint
+value_equal (Value const *a, Value const *b)
+{
+	return IS_EQUAL == value_compare (a, b, TRUE);
+}
+
 guint
 value_hash (Value const *v)
 {
@@ -651,7 +678,7 @@ value_get_as_string (Value const *v)
 		 *       references relative to A1
 		 */
 		Range range;
-		setup_range_from_value (&range, (Value *)v, FALSE);
+		setup_range_from_value (&range, v);
 		return global_range_name (v->v_range.cell.a.sheet, &range);;
 	}
 

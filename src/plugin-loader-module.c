@@ -18,6 +18,7 @@
 
 #include <gal/util/e-xml-utils.h>
 #include <gsf/gsf-impl-utils.h>
+#include <gsf/gsf-output.h>
 #include <libxml/parser.h>
 #include <libxml/parserInternals.h>
 #include <libxml/xmlmemory.h>
@@ -369,21 +370,21 @@ gnumeric_plugin_loader_module_load_service_file_opener (GnumericPluginLoader *lo
 
 typedef struct {
 	void (*module_func_file_save) (GnumFileSaver const *fs, IOContext *io_context,
-	                               WorkbookView *wbv, const gchar *filename);
+	                               WorkbookView const *wbv, GsfOutput *output);
 } ServiceLoaderDataFileSaver;
 
 static void
 gnumeric_plugin_loader_module_func_file_save (GnumFileSaver const *fs, PluginService *service,
-                                              IOContext *io_context, WorkbookView *wbv,
-                                              const gchar *file_name)
+                                              IOContext *io_context, WorkbookView const *wbv,
+					      GsfOutput *output)
 {
 	ServiceLoaderDataFileSaver *loader_data;
 
 	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_FILE_SAVER (service));
-	g_return_if_fail (file_name != NULL);
+	g_return_if_fail (GSF_IS_OUTPUT (output));
 
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
-	loader_data->module_func_file_save (fs, io_context, wbv, file_name);
+	loader_data->module_func_file_save (fs, io_context, wbv, output);
 }
 
 static void

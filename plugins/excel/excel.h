@@ -17,7 +17,7 @@ void excel_read_workbook (IOContext *context, WorkbookView *new_wb,
 
 typedef struct _ExcelWriteState	 ExcelWriteState;
 void		 excel_write_state_free (ExcelWriteState *ewb);
-ExcelWriteState *excel_write_state_new  (IOContext *context, WorkbookView *wbv,
+ExcelWriteState *excel_write_state_new  (IOContext *context, WorkbookView const *wbv,
 					 gboolean biff7, gboolean biff8);
 
 void excel_write_v7 (ExcelWriteState *ewb, GsfOutfile *output);

@@ -520,6 +520,8 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 	case 0x13 : /* group box */
 		break;
 	case 0x14 : /* drop down */
+		obj->ignore_combo_in_filter =
+			(GSF_LE_GET_GUINT16 (q->data + 8) & 0x8000) ? TRUE : FALSE;
 		break;
 	default :
 		;

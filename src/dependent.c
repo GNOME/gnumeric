@@ -115,13 +115,6 @@ dependent_type_register (DependentClass const *klass)
 static void
 dependent_changed (Dependent *dep)
 {
-	static CellPos const pos = { 0, 0 };
-
-	/* A pos should not be necessary, but supply one just in case.  If a
-	 * user specifies a relative reference this is probably what they want.
-	 */
-	dependent_link (dep, &pos);
-
 	if (dep->sheet->workbook->recursive_dirty_enabled)
 		dependent_queue_recalc (dep);
 	else
@@ -134,11 +127,10 @@ dependent_changed (Dependent *dep)
  * @new_expr : new expression.
  *
  * When the expression associated with a dependent needs to change this routine
- * dispatches to the virtual handler unlinking if necessary.
- * NOTE : it does NOT relink cells incase they are going to move later.
- * It does appear to relink objects ???
+ * dispatches to the virtual handler unlinking if necessary.  Adds a ref to
+ * @new_expr.
+ * NOTE : it does NOT relink dependents in case they are going to move later.
  */
-#warning fix the semantics of this
 void
 dependent_set_expr (Dependent *dep, GnmExpr const *new_expr)
 {
@@ -201,8 +193,12 @@ dependent_set_sheet (Dependent *dep, Sheet *sheet)
 	g_return_if_fail (!dependent_is_linked (dep));
 
 	dep->sheet = sheet;
-	if (dep->expression != NULL)
+	if (dep->expression != NULL) {
+		CellPos const *pos = (dependent_is_cell (dep))
+			? &DEP_TO_CELL(dep)->pos : &dummy;
+		dependent_link (dep, pos);
 		dependent_changed (dep);
+	}
 }
 
 static void

@@ -233,7 +233,7 @@ gnum_file_saver_finalize (GObject *obj)
 
 static void
 gnum_file_saver_save_real (GnumFileSaver const *fs, IOContext *io_context,
-                           WorkbookView *wbv, GsfOutput const *output)
+                           WorkbookView const *wbv, GsfOutput *output)
 {
 	if (fs->save_func == NULL) {
 		gnumeric_io_error_unknown (io_context);
@@ -480,7 +480,7 @@ gnum_file_saver_get_format_level (GnumFileSaver const *fs)
  */
 void
 gnum_file_saver_save (GnumFileSaver const *fs, IOContext *io_context,
-                      WorkbookView *wbv, GsfOutput const *output)
+                      WorkbookView const *wbv, GsfOutput *output)
 {
 	char *file_name;
 	

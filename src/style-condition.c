@@ -29,7 +29,7 @@
 
 /*********************************************************************************/
 
-#define DEP_TO_STYLE_CONDITION_EXPR(d_ptr) (StyleConditionExpr *)(((char *)d_ptr) - GTK_STRUCT_OFFSET(StyleConditionExpr, dep))
+#define DEP_TO_STYLE_CONDITION_EXPR(d_ptr) (StyleConditionExpr *)(((char *)d_ptr) - G_STRUCT_OFFSET(StyleConditionExpr, dep))
 
 static void
 style_condition_expr_dep_eval (Dependent *dep)

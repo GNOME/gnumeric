@@ -28,6 +28,7 @@
 #include <sheet-view.h>
 #include <sheet-style.h>
 #include <sheet-merge.h>
+#include <sheet-filter.h>
 #include <cell.h>
 #include <style.h>
 #include <format.h>
@@ -323,6 +324,7 @@ static gboolean
 ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 {
 	float offsets[4];
+	char const *label;
 	Range range;
 	ExcelSheet *esheet;
 	MSObjAttr *anchor;
@@ -376,6 +378,21 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 				ms_obj_attr_get_int  (obj, MS_OBJ_ATTR_SCROLLBAR_MAX, 100),
 				ms_obj_attr_get_int  (obj, MS_OBJ_ATTR_SCROLLBAR_INC, 1),
 				ms_obj_attr_get_int  (obj, MS_OBJ_ATTR_SCROLLBAR_PAGE, 10));
+		}
+
+		label = ms_obj_attr_get_ptr (obj, MS_OBJ_ATTR_TEXT, NULL);
+		if (label != NULL) {
+			SheetObject *so = SHEET_OBJECT (obj->gnum_obj);
+			switch (obj->excel_type) {
+			case 0x07: sheet_widget_button_set_label (so, label);
+				   break;
+			case 0x0B: sheet_widget_checkbox_set_label (so, label);
+				   break;
+			case 0x0C: sheet_widget_radio_button_set_label(so, label);
+				   break;
+			default:
+				   break;
+			};
 		}
 	}
 
@@ -432,8 +449,8 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 		break;
 	}
 
-	/* TextBox */
-	case 0x06: {
+	case 0x0E: /* Label */
+	case 0x06: { /* TextBox */
 		StyleColor *fill_color = NULL;
 		StyleColor *outline_color;
 
@@ -453,7 +470,7 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 
 	/* Button */
 	case 0x07: so = g_object_new (sheet_widget_button_get_type (), NULL);
-		   break;
+		break;
 	case 0x08: { /* Picture */
 		MSObjAttr *blip_id = ms_obj_attr_bag_lookup (obj->attrs,
 			MS_OBJ_ATTR_BLIP_ID);
@@ -482,20 +499,20 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 		   break;
 
 	case 0x0B: so = g_object_new (sheet_widget_checkbox_get_type (), NULL);
-		   break;
+		break;
 	case 0x0C: so = g_object_new (sheet_widget_radio_button_get_type (), NULL);
-		   break;
-	case 0x0E: so = g_object_new (sheet_object_text_get_type (), NULL);
-		   break;
+		break;
 	case 0x10: so = sheet_object_box_new (FALSE);  break; /* Spinner */
 	case 0x11: so = g_object_new (sheet_widget_scrollbar_get_type (), NULL);
-		   break;
+		break;
 	case 0x12: so = g_object_new (sheet_widget_list_get_type (), NULL);
-		   break;
+		break;
+
 	/* ignore combos associateed with filters */
-	case 0x14: if (!obj->ignore_combo_in_filter)
-			   so = g_object_new (sheet_widget_combo_get_type (), NULL);
-		   break;
+	case 0x14:
+		if (!obj->ignore_combo_in_filter)
+			so = g_object_new (sheet_widget_combo_get_type (), NULL);
+	break;
 
 	case 0x19: /* Comment */
 		/* TODO: we'll need a special widget for this */
@@ -2613,7 +2630,7 @@ excel_builtin_name (guint8 const *ptr)
 	case 0x0A: return "Auto_Activate";
 	case 0x0B: return "Auto_Deactivate";
 	case 0x0C: return "Sheet_Title";
-	case 0x0D: return "AutoFilter";
+	case 0x0D: return "_FilterDatabase";
 
 	default:
 		   g_warning ("Unknown builtin named expression %d", (int)*ptr);
@@ -2734,6 +2751,27 @@ excel_read_EXTERNNAME (BiffQuery *q, MSContainer *container)
 	}
 }
 
+/* Do some error checking to handle the magic name associated with an
+ * autofilter in a sheet */
+static void
+excel_prepare_autofilter (ExcelWorkbook *ewb, GnmNamedExpr *nexpr)
+{
+	if (nexpr->pos.sheet != NULL) {
+		Value *v = gnm_expr_get_range (nexpr->expr_tree);
+		if (v != NULL) {
+			GlobalRange r;
+			gboolean valid = value_to_global_range (v, &r);
+			value_release (v);
+
+			if (valid) {
+				(void) gnm_filter_new (r.sheet, &r.range);
+				return;
+			}
+		}
+	}
+	gnm_io_warning (ewb->context, _("Failure parsing AutoFilter."));
+}
+
 static void
 excel_read_NAME (BiffQuery *q, ExcelWorkbook *ewb)
 {
@@ -2809,10 +2847,16 @@ excel_read_NAME (BiffQuery *q, ExcelWorkbook *ewb)
 		/* Add a ref to keep it around after the excel-sheet/wb goes
 		 * away.  externames do not get references and are unrefed
 		 * after import finishes, which destroys them if they are not
-		 * in use.
-		 */
-		if (nexpr != NULL)
+		 * in use. */
+		if (nexpr != NULL) {
 			expr_name_ref (nexpr);
+			nexpr->is_hidden = (flags & 0x0001) ? TRUE : FALSE;
+
+			/* Undocumented magic.
+			 * XL stores a hidden name with the details of an autofilter */
+			if (nexpr->is_hidden && !strcmp (nexpr->name->str, "_FilterDatabase"))
+				excel_prepare_autofilter (ewb, nexpr);
+		}
 	}
 
 	/* nexpr is potentially NULL if there was an error,
@@ -4188,6 +4232,8 @@ excel_read_AUTOFILTER (BiffQuery *q, ExcelSheet *esheet)
 	guint16 const flags = GSF_LE_GET_GUINT16 (q->data + 2);
 	read_DOPER (q->data +  4, 0, esheet);
 	read_DOPER (q->data + 14, 1, esheet);
+
+	printf ("%hu\n", active_filter);
 }
 static void
 excel_read_SCL (BiffQuery *q, ExcelSheet *esheet)

@@ -64,19 +64,17 @@ range_init_full_sheet (Range *r)
 }
 
 gboolean    
-setup_range_from_value (Range *range, Value *v, gboolean release)
+setup_range_from_value (Range *range, Value const *v)
 {
 	g_return_val_if_fail (range != NULL && v != NULL &&
 			      v->type == VALUE_CELLRANGE, FALSE);
 
-	setup_range_from_range_ref (range, &v->v_range.cell, FALSE);
-	if (release)
-		value_release (v);
+	setup_range_from_range_ref (range, &v->v_range.cell);
 	return TRUE;	
 }
 
 gboolean    
-setup_range_from_range_ref (Range *range, RangeRef *rr, gboolean release)
+setup_range_from_range_ref (Range *range, RangeRef const *rr)
 {
 	g_return_val_if_fail (range != NULL && rr != NULL, FALSE);
 
@@ -84,8 +82,6 @@ setup_range_from_range_ref (Range *range, RangeRef *rr, gboolean release)
 	range->start.row = rr->a.row;
 	range->end.col   = rr->b.col;
 	range->end.row   = rr->b.row;
-	if (release)
-		g_free(rr);
 	return TRUE;	
 }
 
@@ -1007,18 +1003,22 @@ global_range_new (Sheet *sheet, Range const *r)
 	return gr;
 }
 
-GlobalRange *
-value_to_global_range (Value *v) 
+/**
+ * value_to_global_range :
+ * @v :
+ * @res :
+ *
+ * convert @v into a global range and return in @res
+ **/
+gboolean
+value_to_global_range (Value const *v, GlobalRange *res) 
 {
-	GlobalRange *gr;
+	g_return_val_if_fail (v->type == VALUE_CELLRANGE, FALSE);
 
-	g_return_val_if_fail (v->type == VALUE_CELLRANGE, NULL);
-
-	gr = g_new0 (GlobalRange, 1);
-	gr->sheet = v->v_range.cell.a.sheet;
-	setup_range_from_value (&gr->range, v, FALSE);
+	res->sheet = v->v_range.cell.a.sheet;
+	setup_range_from_value (&res->range, v);
 	
-	return gr;
+	return TRUE;
 }
 
 void

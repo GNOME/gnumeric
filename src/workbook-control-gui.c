@@ -33,6 +33,7 @@
 #include "sheet.h"
 #include "sheet-view.h"
 #include "sheet-merge.h"
+#include "sheet-filter.h"
 #include "sheet-private.h"
 #include "sheet-control-gui-priv.h"
 #include "gnumeric-canvas.h"
@@ -1341,6 +1342,24 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 				   NULL, label, new_tip);
 #else
 		change_menu_label (wbcg, "/commands/ViewFreezeThawPanes",
+		                   NULL, label, new_tip);
+#endif
+	}
+
+	if (MS_ADD_VS_REMOVE_FILTER & flags) {
+		gboolean const has_filter = (sv_edit_pos_in_filter (sv) != NULL);
+		char const* label = has_filter
+			? _("Remove _Auto Filter")
+			: _("Add _Auto Filter");
+		char const *new_tip = has_filter
+			? _("Remove a filter")
+			: _("Add a filter");
+
+#ifndef WITH_BONOBO
+		change_menu_label (wbcg->menu_item_auto_filter,
+				   NULL, label, new_tip);
+#else
+		change_menu_label (wbcg, "/commands/DataAutoFilter",
 		                   NULL, label, new_tip);
 #endif
 	}
@@ -2775,6 +2794,25 @@ cb_data_import_text (GtkWidget *widget, WorkbookControlGUI *wbcg)
 }
 
 static void
+cb_auto_filter (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	SheetView *sv = wb_control_cur_sheet_view (wbc);
+	GnmFilter *filter = sv_edit_pos_in_filter (sv);
+
+	if (filter == NULL) {
+		Range const *src = selection_first_range (sv,
+			COMMAND_CONTEXT (wbcg), _("Add Filter"));
+		gnm_filter_new	(sv->sheet, src);
+	} else {
+		/* keep distinct to simplify undo/redo later */
+		gnm_filter_remove (filter);
+		gnm_filter_free (filter);
+	}
+
+}
+
+static void
 cb_show_all (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
@@ -2798,6 +2836,12 @@ cb_data_text_to_columns (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	stf_text_to_columns (WORKBOOK_CONTROL (wbcg),
 			     COMMAND_CONTEXT (wbcg));
+}
+
+static void
+cb_data_pivottable (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	dialog_pivottable (wbcg);
 }
 
 static void
@@ -3676,13 +3720,15 @@ static GnomeUIInfo workbook_menu_data_external [] = {
 };
 
 static GnomeUIInfo workbook_menu_data_filter [] = {
+	GNOMEUIINFO_ITEM_NONE (N_("Add _Auto Filter"),
+		N_("Add a filter"),
+		cb_auto_filter),
 	GNOMEUIINFO_ITEM_NONE (N_("_Show All"),
 		N_("Show all filtered and hidden rows"),
 		cb_show_all),
-	{ GNOME_APP_UI_ITEM, N_("Advanced _Filter..."),
-	  N_("Filter data with given criteria"),
-	  cb_data_filter,
-	NULL, NULL, 0, 0, 0, 0 },
+	GNOMEUIINFO_ITEM_NONE (N_("Advanced _Filter..."),
+		N_("Filter data with given criteria"),
+		cb_data_filter),
 
 	GNOMEUIINFO_END
 };
@@ -3707,6 +3753,9 @@ static GnomeUIInfo workbook_menu_data [] = {
 		cb_data_consolidate),
 
 	GNOMEUIINFO_SUBTREE(N_("_Group and Outline"),   workbook_menu_data_outline),
+	GNOMEUIINFO_ITEM_STOCK (N_("_PivotTable..."),
+		N_("Create a pivot table."),
+		cb_data_pivottable, "Gnumeric_PivotTable"),
 	GNOMEUIINFO_SUBTREE(N_("Get _External Data"),   workbook_menu_data_external),
 
 	GNOMEUIINFO_END
@@ -4912,8 +4961,11 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 		workbook_menu_data_outline [6].widget;
 	wbcg->menu_item_sheet_outline_symbols_right =
 		workbook_menu_data_outline [7].widget;
-	wbcg->menu_item_filter_show_all =
+
+	wbcg->menu_item_auto_filter =
 		workbook_menu_data_filter [0].widget;
+	wbcg->menu_item_filter_show_all =
+		workbook_menu_data_filter [1].widget;
 	
 	wbcg->menu_item_sheet_remove =
 		workbook_menu_edit_sheet [3].widget;

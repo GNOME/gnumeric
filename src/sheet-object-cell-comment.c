@@ -31,7 +31,6 @@
 #include "sheet-control-gui-priv.h"
 #include "dialogs.h"
 
-
 #include <libxml/globals.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gal/widgets/e-cursors.h>

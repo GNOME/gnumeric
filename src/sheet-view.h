@@ -71,6 +71,7 @@ void	   sv_update		(SheetView *sv);
 Sheet	     *sv_sheet		(SheetView const *sv);
 WorkbookView *sv_wbv		(SheetView const *sv);
 gboolean      sv_is_frozen	(SheetView const *sheet);
+GnmFilter    *sv_edit_pos_in_filter	     (SheetView const *sv);
 gboolean      sv_is_region_empty_or_selected (SheetView const *sv,
 					      Range const *r);
 

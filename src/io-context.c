@@ -363,7 +363,7 @@ count_io_progress_update (IOContext *io_context, gint inc)
 }
 
 void
-workbook_io_progress_set (IOContext *io_context, Workbook *wb, gint step)
+workbook_io_progress_set (IOContext *io_context, Workbook const *wb, gint step)
 {
 	gint n = 0;
 	GList *sheets, *l;
@@ -417,7 +417,6 @@ void
 gnm_io_warning (__attribute__((unused)) IOContext *context,
 		char const *fmt, ...)
 {
-	ErrorInfo *condition;
 	va_list args;
 
 	va_start (args, fmt);

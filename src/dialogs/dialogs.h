@@ -21,34 +21,35 @@ typedef enum {
 
 void     dialog_graph_guru	(WorkbookControlGUI *wbcg, GnmGraph *graph, int page);
 void	 dialog_formula_guru	(WorkbookControlGUI *wbcg, GnmFunc const *);
-void	 dialog_plugin_manager  (WorkbookControlGUI *wbcg);
-void	 dialog_goto_cell       (WorkbookControlGUI *wbcg);
-void	 dialog_cell_format     (WorkbookControlGUI *wbcg,
+void	 dialog_plugin_manager	(WorkbookControlGUI *wbcg);
+void	 dialog_goto_cell	(WorkbookControlGUI *wbcg);
+void	 dialog_cell_format	(WorkbookControlGUI *wbcg,
 				 FormatDialogPosition_t pageno);
-void	 dialog_conditional_fmt (WorkbookControlGUI *wbcg);
-int	 dialog_paste_special   (WorkbookControlGUI *wbcg);
-void	 dialog_insert_cells    (WorkbookControlGUI *wbcg);
-void	 dialog_delete_cells    (WorkbookControlGUI *wbcg);
-void	 dialog_zoom            (WorkbookControlGUI *wbcg, Sheet *sheet);
-void   	 dialog_about           (WorkbookControlGUI *wbcg);
-void   	 dialog_define_names    (WorkbookControlGUI *wbcg);
-void   	 dialog_cell_comment    (WorkbookControlGUI *wbcg,
+void	 dialog_conditional_fmt	(WorkbookControlGUI *wbcg);
+int	 dialog_paste_special	(WorkbookControlGUI *wbcg);
+void	 dialog_insert_cells	(WorkbookControlGUI *wbcg);
+void	 dialog_delete_cells	(WorkbookControlGUI *wbcg);
+void	 dialog_zoom		(WorkbookControlGUI *wbcg, Sheet *sheet);
+void	 dialog_about		(WorkbookControlGUI *wbcg);
+void	 dialog_define_names	(WorkbookControlGUI *wbcg);
+void	 dialog_cell_comment	(WorkbookControlGUI *wbcg,
 				 Sheet *sheet, CellPos const *pos);
-void   	 dialog_cell_sort       (WorkbookControlGUI *wbcg);
-void   	 dialog_workbook_attr   (WorkbookControlGUI *wbcg);
-void   	 dialog_goal_seek       (WorkbookControlGUI *wbcg, Sheet *sheet);
-void   	 dialog_solver          (WorkbookControlGUI *wbcg, Sheet *sheet);
-void     dialog_simulation      (WorkbookControlGUI *wbcg, Sheet *sheet);
-void   	 dialog_printer_setup   (WorkbookControlGUI *wbcg, Sheet *sheet);
-void     dialog_autocorrect     (WorkbookControlGUI *wbcg);
-void   	 dialog_advanced_filter (WorkbookControlGUI *wbcg);
-void   	 dialog_autosave        (WorkbookControlGUI *wbcg);
-gboolean dialog_autosave_prompt (WorkbookControlGUI *wbcg);
-void     dialog_autoformat      (WorkbookControlGUI *wbcg);
-void     dialog_consolidate     (WorkbookControlGUI *wbcg);
-void     dialog_sheet_order     (WorkbookControlGUI *wbcg);
-void     dialog_row_height      (WorkbookControlGUI *wbcg, gboolean set_default);
-void     dialog_col_width       (WorkbookControlGUI *wbcg, gboolean set_default);
+void	 dialog_cell_sort	(WorkbookControlGUI *wbcg);
+void	 dialog_workbook_attr	(WorkbookControlGUI *wbcg);
+void	 dialog_goal_seek	(WorkbookControlGUI *wbcg, Sheet *sheet);
+void	 dialog_solver		(WorkbookControlGUI *wbcg, Sheet *sheet);
+void     dialog_simulation	(WorkbookControlGUI *wbcg, Sheet *sheet);
+void	 dialog_printer_setup	(WorkbookControlGUI *wbcg, Sheet *sheet);
+void     dialog_autocorrect	(WorkbookControlGUI *wbcg);
+void	 dialog_advanced_filter	(WorkbookControlGUI *wbcg);
+void	 dialog_autosave	(WorkbookControlGUI *wbcg);
+gboolean dialog_autosave_prompt	(WorkbookControlGUI *wbcg);
+void     dialog_autoformat	(WorkbookControlGUI *wbcg);
+void     dialog_consolidate	(WorkbookControlGUI *wbcg);
+void     dialog_pivottable	(WorkbookControlGUI *wbcg);
+void     dialog_sheet_order	(WorkbookControlGUI *wbcg);
+void     dialog_row_height	(WorkbookControlGUI *wbcg, gboolean set_default);
+void     dialog_col_width	(WorkbookControlGUI *wbcg, gboolean set_default);
 void     dialog_hyperlink	(WorkbookControlGUI *wbcg, SheetControl *sc);
 
 typedef void (* ColRowCallback_t) (WorkbookControlGUI *wbcg, gboolean is_cols, gpointer data);
@@ -97,7 +98,7 @@ typedef enum {
 int dialog_ttest_tool    (WorkbookControlGUI *wbcg, Sheet *sheet, ttest_type test);
 
 /* Modeless dialogs */
-void   	 dialog_summary_update  (WorkbookControlGUI *wbcg, gboolean open_dialogs);
+void	 dialog_summary_update  (WorkbookControlGUI *wbcg, gboolean open_dialogs);
 void     dialog_preferences (WorkbookControlGUI *wbcg, gint page);
 
 

@@ -48,8 +48,8 @@ struct _ExcelWriteState {
 	BiffPut	      *bp;
 
 	IOContext     *io_context;
-	Workbook      *gnum_wb;
-	WorkbookView  *gnum_wb_view;
+	Workbook      const *gnum_wb;
+	WorkbookView  const *gnum_wb_view;
 	GPtrArray     *sheets;
 
 	struct {

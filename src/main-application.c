@@ -141,7 +141,7 @@ main (int argc, char *argv [])
 
 	with_gui = !func_def_file && !func_state_file;
 	if (with_gui) {
-		ioc = IO_CONTEXT (gnumeric_io_context_gtk_new ());
+		ioc = IO_CONTEXT (g_object_new (TYPE_IO_CONTEXT_GTK, NULL));
 		handle_paint_events ();
 	} else {
 		/* TODO: Make this inconsistency go away */

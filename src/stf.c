@@ -265,7 +265,7 @@ stf_text_to_columns (WorkbookControl *wbc, CommandContext *cc)
 	Range const	*src;
 	Range		 target;
 	GsfOutput	*buf;
-	guint8		*data;
+	guint8 const	*data;
 	
 	sv    = wb_control_cur_sheet_view (wbc);
 	src_sheet = sv_sheet (sv);
@@ -429,7 +429,8 @@ stf_write_func (const char *string, GsfOutput *output)
  * Main routine, handles exporting a file including all dialog mumbo-jumbo
  **/
 static void
-stf_write_workbook (GnumFileSaver const *fs, IOContext *context, WorkbookView *wbv, GsfOutput *output)
+stf_write_workbook (GnumFileSaver const *fs, IOContext *context,
+		    WorkbookView const *wbv, GsfOutput *output)
 {
 	StfE_Result_t *result = NULL;
 

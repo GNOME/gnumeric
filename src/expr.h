@@ -93,8 +93,8 @@ struct _GnmExprRewriteInfo {
 	} u;
 };
 
-GnmExpr const *gnm_expr_rewrite (GnmExpr            const *expr,
-				 GnmExprRewriteInfo const *rwinfo);
+GnmExpr const *gnm_expr_rewrite		(GnmExpr const *expr,
+					 GnmExprRewriteInfo const *rwinfo);
 
 Value *gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 		      GnmExprEvalFlags flags);

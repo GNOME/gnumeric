@@ -1,3 +1,17 @@
+2002-11-29  Jody Goldberg <jody@gnome.org>
+
+	* roff.c (roff_file_save) : const the view and include gsf-output.h
+
+	* latex.c (latex_file_save) : const the view.
+
+	* html.c : include gsf-output.h and remove some vacuous comments.
+	(html_write_cell_content) : remove trailing argument from a puts.
+	(html_file_save) : const the view.
+	(html40_file_save) : ditto.
+	(html32_file_save) : ditto.
+	(html40frag_file_save) : ditto.
+	(xhtml_file_save) : ditto.
+
 2002-11-28  Jon K Hellan  <hellan@acm.org>
 
 	* html.[ch] (html40_file_save, html32_file_save) 

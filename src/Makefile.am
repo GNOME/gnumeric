@@ -155,6 +155,8 @@ GNUMERIC_BASE =					\
 	parse-util.h				\
 	pattern.h				\
 	pattern.c				\
+	pivottable.h				\
+	pivottable.c				\
 	plugin-loader-module.c			\
 	plugin-loader-module.h			\
 	plugin-loader.c				\
@@ -206,6 +208,8 @@ GNUMERIC_BASE =					\
 	sheet-private.h				\
 	sheet-autofill.c			\
 	sheet-autofill.h			\
+	sheet-filter.h				\
+	sheet-filter.c				\
 	sheet-object.c				\
 	sheet-object.h				\
 	sheet-object-impl.h			\

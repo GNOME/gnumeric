@@ -1,9 +1,6 @@
 #ifndef GNUMERIC_FILE_PRIV_H
 #define GNUMERIC_FILE_PRIV_H
 
-#ifdef WITH_BONOBO
-#include <bonobo/bonobo-storage.h>
-#endif
 /*
  * GnumFileOpener
  */
@@ -55,15 +52,8 @@ struct _GnumFileSaverClass {
 
 	void (*save) (GnumFileSaver const *fs,
 	              IOContext *io_context,
-	              WorkbookView *wbv,
-	              const GsfOutput *output);
-#ifdef WITH_BONOBO
-	void (*save_to_stream) (GnumFileSaver const *fs,
-	                        IOContext *io_context,
-	                        WorkbookView *wbv,
-	                        BonoboStream *stream,
-	                        CORBA_Environment *ev);
-#endif
+	              WorkbookView const *wbv,
+	              GsfOutput *output);
 };
 
 struct _GnumFileSaver {

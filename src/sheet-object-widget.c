@@ -124,7 +124,7 @@ sheet_object_widget_update_bounds (SheetObject *so, GObject *view_obj)
 {
 	double coords [4];
 	FooCanvasItem   *view = FOO_CANVAS_ITEM (view_obj);
-	SheetControlGUI	  *scg  =
+	SheetControlGUI	*scg  =
 		SHEET_CONTROL_GUI (sheet_object_view_control (view_obj));
 
 	/* NOTE : far point is EXCLUDED so we add 1 */
@@ -482,6 +482,23 @@ sheet_widget_button_read_xml (SheetObject *so,
 	return FALSE;
 }
 
+void
+sheet_widget_button_set_label (SheetObject *so, char const *str)
+{
+	GList *list;
+	SheetWidgetButton *swb = SHEET_WIDGET_BUTTON (so);
+
+	puts (str);
+	g_free (swb->label);
+	swb->label = g_strdup (str);
+
+ 	list = swb->sow.parent_object.realized_list;
+ 	for (; list != NULL; list = list->next) {
+ 		FooCanvasWidget *item = FOO_CANVAS_WIDGET (list->data);
+ 		gtk_button_set_label (GTK_BUTTON (item->widget), swb->label);
+ 	}
+}
+
 SOW_MAKE_TYPE (button, Button,
 	       NULL,
 	       NULL,
@@ -493,7 +510,7 @@ SOW_MAKE_TYPE (button, Button,
 /****************************************************************************/
 #define SHEET_WIDGET_SCROLLBAR_TYPE     (sheet_widget_scrollbar_get_type ())
 #define SHEET_WIDGET_SCROLLBAR(obj)     (G_TYPE_CHECK_INSTANCE_CAST ((obj), SHEET_WIDGET_SCROLLBAR_TYPE, SheetWidgetScrollbar))
-#define DEP_TO_SCROLLBAR(d_ptr)		(SheetWidgetScrollbar *)(((char *)d_ptr) - GTK_STRUCT_OFFSET(SheetWidgetScrollbar, dep))
+#define DEP_TO_SCROLLBAR(d_ptr)		(SheetWidgetScrollbar *)(((char *)d_ptr) - G_STRUCT_OFFSET(SheetWidgetScrollbar, dep))
 
 typedef struct {
 	SheetObjectWidget	sow;
@@ -957,7 +974,7 @@ SOW_MAKE_TYPE (scrollbar, Scrollbar,
 /****************************************************************************/
 #define SHEET_WIDGET_CHECKBOX_TYPE	(sheet_widget_checkbox_get_type ())
 #define SHEET_WIDGET_CHECKBOX(obj)	(G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_WIDGET_CHECKBOX_TYPE, SheetWidgetCheckbox))
-#define DEP_TO_CHECKBOX(d_ptr)		(SheetWidgetCheckbox *)(((char *)d_ptr) - GTK_STRUCT_OFFSET(SheetWidgetCheckbox, dep))
+#define DEP_TO_CHECKBOX(d_ptr)		(SheetWidgetCheckbox *)(((char *)d_ptr) - G_STRUCT_OFFSET(SheetWidgetCheckbox, dep))
 
 typedef struct {
 	SheetObjectWidget	sow;
@@ -1209,47 +1226,17 @@ cb_checkbox_config_ok_clicked (GtkWidget *button, CheckboxConfigState *state)
 static void
 cb_checkbox_config_cancel_clicked (GtkWidget *button, CheckboxConfigState *state)
 {
-	GList *list;
- 	SheetWidgetCheckbox *swc;
- 	swc = state->swc;
-
- 	if (swc->label)
- 		g_free (swc->label);
- 	swc->label = g_strdup (state->old_label);
-
- 	list = swc->sow.parent_object.realized_list;
- 	for (; list != NULL; list = list->next) {
- 		FooCanvasWidget *item = FOO_CANVAS_WIDGET (list->data);
- 		g_return_if_fail (GTK_IS_CHECK_BUTTON (item->widget));
- 		g_return_if_fail (GTK_IS_LABEL (GTK_BIN (item->widget)->child));
- 		gtk_label_set_text (GTK_LABEL (GTK_BIN (item->widget)->child), state->old_label);
- 	}
-	
+	sheet_widget_checkbox_set_label	(SHEET_OBJECT (state->swc),
+		state->old_label);
 	gtk_widget_destroy (state->dialog);
 }
 
 static void
 cb_checkbox_label_changed (GtkWidget *entry, CheckboxConfigState *state)
 {
-	GList *list;
- 	SheetWidgetCheckbox *swc;
- 	gchar const *text;
-
- 	text = gtk_entry_get_text (GTK_ENTRY (entry));
- 	swc = state->swc;
-
- 	if (swc->label)
- 		g_free (swc->label);
- 	swc->label = g_strdup (text);
-
- 	list = swc->sow.parent_object.realized_list;
- 	for (; list != NULL; list = list->next) {
- 		FooCanvasWidget *item = FOO_CANVAS_WIDGET (list->data);
- 		g_return_if_fail (GTK_IS_CHECK_BUTTON (item->widget));
- 		g_return_if_fail (GTK_IS_LABEL (GTK_BIN (item->widget)->child));
- 		gtk_label_set_text (GTK_LABEL (GTK_BIN (item->widget)->child), text);
- 	}
-
+	sheet_widget_checkbox_set_label	(SHEET_OBJECT (state->swc),
+		gtk_entry_get_text (GTK_ENTRY (entry)));
+	gtk_widget_destroy (state->dialog);
 }
 
 static void
@@ -1415,6 +1402,22 @@ sheet_widget_checkbox_set_link (SheetObject *so, GnmExpr const *expr)
 	dependent_set_expr (&swc->dep, expr);
 }
 
+void
+sheet_widget_checkbox_set_label	(SheetObject *so, char const *str)
+{
+	GList *list;
+	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (so);
+
+	g_free (swc->label);
+	swc->label = g_strdup (str);
+
+ 	list = swc->sow.parent_object.realized_list;
+ 	for (; list != NULL; list = list->next) {
+ 		FooCanvasWidget *item = FOO_CANVAS_WIDGET (list->data);
+ 		gtk_button_set_label (GTK_BUTTON (item->widget), swc->label);
+ 	}
+}
+
 SOW_MAKE_TYPE (checkbox, Checkbox,
 	       &sheet_widget_checkbox_user_config,
 	       &sheet_widget_checkbox_set_sheet,
@@ -1426,13 +1429,14 @@ SOW_MAKE_TYPE (checkbox, Checkbox,
 /****************************************************************************/
 #define SHEET_WIDGET_RADIO_BUTTON_TYPE	(sheet_widget_radio_button_get_type ())
 #define SHEET_WIDGET_RADIO_BUTTON(obj)	(G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_WIDGET_RADIO_BUTTON_TYPE, SheetWidgetRadioButton))
-#define DEP_TO_RADIO_BUTTON(d_ptr)	(SheetWidgetRadioButton *)(((char *)d_ptr) - GTK_STRUCT_OFFSET(SheetWidgetRadioButton, dep))
+#define DEP_TO_RADIO_BUTTON(d_ptr)	(SheetWidgetRadioButton *)(((char *)d_ptr) - G_STRUCT_OFFSET(SheetWidgetRadioButton, dep))
 
 typedef struct {
 	SheetObjectWidget	sow;
 
-	gboolean	being_updated;
-	Dependent	dep;
+	gboolean	 being_updated;
+	char		*label;
+	Dependent	 dep;
 } SheetWidgetRadioButton;
 typedef struct {
 	SheetObjectWidgetClass	sow;
@@ -1470,6 +1474,7 @@ sheet_widget_radio_button_init (SheetObjectWidget *sow)
 	SheetWidgetRadioButton *swrb = SHEET_WIDGET_RADIO_BUTTON (sow);
 
 	swrb->being_updated = FALSE;
+	swrb->label = g_strdup (_("RadioButton"));
 
 	swrb->dep.sheet = NULL;
 	swrb->dep.flags = radio_button_get_dep_type ();
@@ -1480,6 +1485,12 @@ static void
 sheet_widget_radio_button_finalize (GObject *obj)
 {
 	SheetWidgetRadioButton *swrb = SHEET_WIDGET_RADIO_BUTTON (obj);
+
+	if (swrb->label != NULL) {
+		g_free (swrb->label);
+		swrb->label = NULL;
+	}
+
 	dependent_set_expr (&swrb->dep, NULL);
 	(*sheet_object_widget_class->finalize) (obj);
 }
@@ -1529,6 +1540,22 @@ sheet_widget_radio_button_clear_sheet (SheetObject *so)
 	return FALSE;
 }
 
+void
+sheet_widget_radio_button_set_label (SheetObject *so, char const *str)
+{
+	GList *list;
+	SheetWidgetRadioButton *swrb = SHEET_WIDGET_RADIO_BUTTON (so);
+
+	g_free (swrb->label);
+	swrb->label = g_strdup (str);
+
+ 	list = swrb->sow.parent_object.realized_list;
+ 	for (; list != NULL; list = list->next) {
+ 		FooCanvasWidget *item = FOO_CANVAS_WIDGET (list->data);
+ 		gtk_button_set_label (GTK_BUTTON (item->widget), swrb->label);
+ 	}
+}
+
 SOW_MAKE_TYPE (radio_button, RadioButton,
 	       NULL,
 	       sheet_widget_radio_button_set_sheet,
@@ -1540,7 +1567,7 @@ SOW_MAKE_TYPE (radio_button, RadioButton,
 /****************************************************************************/
 #define SHEET_WIDGET_LIST_TYPE	(sheet_widget_list_get_type ())
 #define SHEET_WIDGET_LIST(obj)	(G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_WIDGET_LIST_TYPE, SheetWidgetList))
-#define DEP_TO_LIST(d_ptr)	(SheetWidgetList *)(((char *)d_ptr) - GTK_STRUCT_OFFSET(SheetWidgetList, dep))
+#define DEP_TO_LIST(d_ptr)	(SheetWidgetList *)(((char *)d_ptr) - G_STRUCT_OFFSET(SheetWidgetList, dep))
 
 typedef struct {
 	SheetObjectWidget	sow;
@@ -1637,8 +1664,8 @@ SOW_MAKE_TYPE (list, List,
 /****************************************************************************/
 #define SHEET_WIDGET_COMBO_TYPE     (sheet_widget_combo_get_type ())
 #define SHEET_WIDGET_COMBO(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_WIDGET_COMBO_TYPE, SheetWidgetCombo))
-#define DEP_TO_COMBO_INPUT(d_ptr)	(SheetWidgetCombo *)(((char *)d_ptr) - GTK_STRUCT_OFFSET(SheetWidgetCombo, input_dep))
-#define DEP_TO_COMBO_OUTPUT(d_ptr)	(SheetWidgetCombo *)(((char *)d_ptr) - GTK_STRUCT_OFFSET(SheetWidgetCombo, output_dep))
+#define DEP_TO_COMBO_INPUT(d_ptr)	(SheetWidgetCombo *)(((char *)d_ptr) - G_STRUCT_OFFSET(SheetWidgetCombo, input_dep))
+#define DEP_TO_COMBO_OUTPUT(d_ptr)	(SheetWidgetCombo *)(((char *)d_ptr) - G_STRUCT_OFFSET(SheetWidgetCombo, output_dep))
 
 typedef struct {
 	SheetObjectWidget	sow;

@@ -120,6 +120,8 @@ typedef struct _FormatTemplate          FormatTemplate;
 
 typedef struct _Validation              Validation;
 
+typedef struct _GnmFilter		GnmFilter;
+
 typedef struct _GnmGraph		GnmGraph;
 typedef struct _GnmGraphPlot		GnmGraphPlot;
 typedef struct _GnmGraphSeries		GnmGraphSeries;
@@ -147,12 +149,11 @@ typedef enum {
 typedef Value *(*CellIterFunc) (Sheet *sheet, int col, int row,
 				Cell *cell, gpointer user_data);
 
-typedef enum _SpanCalcFlags {
+typedef enum {
 	SPANCALC_SIMPLE 	= 0x0,	/* Just calc spans */
 	SPANCALC_RESIZE		= 0x1,	/* Calculate sizes of all cells */
 	SPANCALC_RE_RENDER	= 0x2,	/* Render and Size all cells */
-	SPANCALC_RENDER		= 0x4,	/* Render and Size any unrendered cells */
-	SPANCALC_NO_DRAW	= 0x8	/* Do not queue a redraw */
+	SPANCALC_RENDER		= 0x4	/* Render and Size any unrendered cells */
 } SpanCalcFlags;
 
 typedef enum

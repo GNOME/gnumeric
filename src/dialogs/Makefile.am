@@ -48,6 +48,7 @@ base_files =					\
 	dialog-delete-cells.c			\
 	dialog-merge.c				\
 	dialog-paste-special.c			\
+	dialog-pivottable.c			\
 	dialog-plugin-manager.c 		\
 	dialog-printer-setup.c			\
 	dialog-preferences.c			\
@@ -115,6 +116,7 @@ glade_DATA = 				\
 	merge.glade			\
 	moving-averages.glade		\
 	names.glade			\
+	pivottable.glade		\
 	plugin-manager.glade		\
 	preferences.glade 		\
 	print.glade 			\

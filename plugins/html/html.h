@@ -26,17 +26,17 @@
 #include "file.h"
 #include "error-info.h"
 
-void html32_file_save (GnumFileSaver const *fs, IOContext *io_context, 
-		       WorkbookView *wb_view, GsfOutput *output);
-void html40_file_save (GnumFileSaver const *fs, IOContext *io_context, 
-		       WorkbookView *wb_view, GsfOutput *output);
+void html32_file_save	  (GnumFileSaver const *fs, IOContext *io_context, 
+			   WorkbookView const  *wb_view, GsfOutput *output);
+void html40_file_save	  (GnumFileSaver const *fs, IOContext *io_context, 
+			   WorkbookView const  *wb_view, GsfOutput *output);
 void html40frag_file_save (GnumFileSaver const *fs, IOContext *io_context, 
-			   WorkbookView *wb_view, GsfOutput *output);
-void xhtml_file_save (GnumFileSaver const *fs, IOContext *io_context,
-                      WorkbookView *wb_view, GsfOutput *output);
+			   WorkbookView const  *wb_view, GsfOutput *output);
+void xhtml_file_save	  (GnumFileSaver const *fs, IOContext *io_context,
+			   WorkbookView const  *wb_view, GsfOutput *output);
 
 void html_file_open (GnumFileOpener const *fo, IOContext *io_context, 
-		       WorkbookView *wb_view, GsfInput *input);
+		     WorkbookView *wb_view, GsfInput *input);
 
 #define G_PLUGIN_FOR_HTML "GPFH/0.5"
 

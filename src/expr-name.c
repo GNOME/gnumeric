@@ -102,7 +102,7 @@ typedef struct {
 } CheckName;
 
 static void
-cb_check_name (__attribute__((unused)) gpointer key, GnmNamedExpr *nexpr,
+cb_check_name (G_GNUC_UNUSED gpointer key, GnmNamedExpr *nexpr,
 	       CheckName *user)
 {
 	Value *v;
@@ -150,7 +150,7 @@ gnm_named_expr_collection_check (GnmNamedExprCollection *scope,
 /******************************************************************************/
 
 static void
-cb_collect_name_deps (gpointer key, __attribute__((unused)) gpointer value,
+cb_collect_name_deps (gpointer key, G_GNUC_UNUSED gpointer value,
 		      gpointer user_data)
 {
 	GSList **list = user_data;
@@ -263,6 +263,7 @@ expr_name_new (char const *name, gboolean is_placeholder)
 	nexpr->expr_tree	= NULL;
 	nexpr->dependents	= NULL;
 	nexpr->is_placeholder	= is_placeholder;
+	nexpr->is_hidden	= FALSE;
 
 	g_return_val_if_fail (nexpr->name != NULL, NULL);
 
@@ -623,12 +624,20 @@ expr_name_by_name (GnmNamedExpr const *a, GnmNamedExpr const *b)
  * Names in the list do NOT have additional references added.
  */
 static void
-cb_get_names (__attribute__((unused)) gpointer key, GnmExprName *nexpr,
+cb_get_names (G_GNUC_UNUSED gpointer key, GnmNamedExpr *nexpr,
 	      GList **accum)
 {
-	*accum = g_list_prepend (*accum, nexpr);
+	if (!nexpr->is_hidden)
+		*accum = g_list_prepend (*accum, nexpr);
 }
 
+/**
+ * sheet_names_get_available :
+ * @sheet :
+ *
+ * Gets the list of non hidden names available in the context @sheet.
+ * Caller is responsible for freeing the list, but not its content.
+ **/
 GList *
 sheet_names_get_available (Sheet const *sheet)
 {

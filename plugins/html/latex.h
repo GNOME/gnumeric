@@ -25,6 +25,7 @@
 #include <gnumeric.h>
 #include <file.h>
 
-void latex_file_save (GnumFileSaver const *fs, IOContext *io_context, WorkbookView *wb_view, GsfOutput *output);
+void latex_file_save (GnumFileSaver const *fs, IOContext *io_context,
+		      WorkbookView const *wb_view, GsfOutput *output);
 
 #endif

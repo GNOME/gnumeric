@@ -44,9 +44,9 @@
 #include "style-border.h"
 #include <rendered-value.h>
 #include "mstyle.h"
-#include <errno.h>
-#include <string.h>
 
+#include <gsf/gsf-output.h>
+#include <string.h>
 
 /*
  * html_version_t:
@@ -155,55 +155,43 @@ html_write_cell_content (GsfOutput *output, Cell *cell, MStyle *mstyle, html_ver
 	guint b = 0;
 	char *rendered_string;
 	gboolean hidden = mstyle_get_content_hidden (mstyle);
-	
 
 	if (version ==HTML32 && hidden)
-	  gsf_output_puts (output, "<!-- 'HIDDEN DATA' -->",output);
-	else
-	  {
-
-	if (mstyle != NULL) {
-	        
-	       
-	        if (mstyle_get_font_italic (mstyle))
-			gsf_output_puts (output, "<i>");
-		if (mstyle_get_font_bold (mstyle))
-			gsf_output_puts (output, "<b>");
-		if (font_is_monospaced (mstyle))
-			gsf_output_puts (output, "<tt>");
-	}
-
-	if (cell != NULL) {
-		if (mstyle != NULL && version != HTML40) {
-			html_get_text_color (cell, mstyle, &r, &g, &b);
-			if (r > 0 || g > 0 || b > 0)
-				gsf_output_printf (output, "<font color=\"#%02X%02X%02X\">", r, g, b);
+		gsf_output_puts (output, "<!-- 'HIDDEN DATA' -->");
+	else {
+		if (mstyle != NULL) {
+			if (mstyle_get_font_italic (mstyle))
+				gsf_output_puts (output, "<i>");
+			if (mstyle_get_font_bold (mstyle))
+				gsf_output_puts (output, "<b>");
+			if (font_is_monospaced (mstyle))
+				gsf_output_puts (output, "<tt>");
 		}
-		
-		rendered_string = cell_get_rendered_text (cell);
-		html_print_encoded (output, rendered_string);
-		g_free (rendered_string);
+
+		if (cell != NULL) {
+			if (mstyle != NULL && version != HTML40) {
+				html_get_text_color (cell, mstyle, &r, &g, &b);
+				if (r > 0 || g > 0 || b > 0)
+					gsf_output_printf (output, "<font color=\"#%02X%02X%02X\">", r, g, b);
+			}
+
+			rendered_string = cell_get_rendered_text (cell);
+			html_print_encoded (output, rendered_string);
+			g_free (rendered_string);
+		}
+
+		if (r > 0 || g > 0 || b > 0)
+			gsf_output_puts (output, "</font>");
+		if (mstyle != NULL) {
+			if (font_is_monospaced (mstyle))
+				gsf_output_puts (output, "</tt>");
+			if (mstyle_get_font_bold (mstyle))
+				gsf_output_puts (output, "</b>");
+			if (mstyle_get_font_italic (mstyle))
+				gsf_output_puts (output, "</i>");
+		}
 	}
-
-	if (r > 0 || g > 0 || b > 0)
-		gsf_output_puts (output, "</font>");
-	if (mstyle != NULL) {
-		if (font_is_monospaced (mstyle))
-			gsf_output_puts (output, "</tt>");
-		if (mstyle_get_font_bold (mstyle))
-			gsf_output_puts (output, "</b>");
-		if (mstyle_get_font_italic (mstyle))
-			gsf_output_puts (output, "</i>");
-	}}
 }
-
-
-/*
- * html_get_border_style :
- *
- *
- *
- */
 
 static char *
 html_get_border_style (StyleBorder *border)
@@ -268,16 +256,6 @@ html_get_border_style (StyleBorder *border)
 	return result;
 }
 
-/*
- * html_write_border_style_40 :
- *
- * @output: the stream
- * @border: a non-blank border
- * @border_name:
- *
- *
- */
-
 static void
 html_write_one_border_style_40 (GsfOutput *output, StyleBorder *border, char const *border_name)
 {
@@ -288,14 +266,6 @@ html_write_one_border_style_40 (GsfOutput *output, StyleBorder *border, char con
 	gsf_output_printf (output, " %s:%s;", border_name, text);
 	g_free (text);
 }
-/*
- * html_write_border_style_40 :
- *
- * @output: the stream
- * @mstyle: style
- *
- *
- */
 
 static void
 html_write_border_style_40 (GsfOutput *output, MStyle *mstyle)
@@ -316,27 +286,15 @@ html_write_border_style_40 (GsfOutput *output, MStyle *mstyle)
 		html_write_one_border_style_40 (output, border, "border-right");
 }
 
-/*
- * write_cell:
- *
- * @output: the stream
- * @sheet: the gnumeric sheet
- * @row: the row number
- * @col: the col number
- *
- * Output all cell info for the given cell
- *
- */
-
 static void
 write_cell (GsfOutput *output, Sheet *sheet, gint row, gint col, html_version_t version)
 {
 	Cell *cell;
 	MStyle *mstyle;
 	guint r, g, b;
-	
+
 	mstyle = sheet_style_get (sheet, col, row);
-	if (mstyle != NULL && version != HTML32 && version != HTML40 && 
+	if (mstyle != NULL && version != HTML32 && version != HTML40 &&
 	    mstyle_get_pattern (mstyle) != 0 &&
 	    mstyle_is_element_set (mstyle, MSTYLE_COLOR_BACK)) {
 		html_get_color (mstyle, MSTYLE_COLOR_BACK, &r, &g, &b);
@@ -395,10 +353,10 @@ write_cell (GsfOutput *output, Sheet *sheet, gint row, gint col, html_version_t 
 				html_get_text_color (cell, mstyle, &r, &g, &b);
 				if (r > 0 || g > 0 || b > 0)
 					gsf_output_printf (output, " color:#%02X%02X%02X;", r, g, b);
-				if(mstyle_get_content_hidden(mstyle))
-				  gsf_output_puts (output, " visibility:hidden;",output);
+				if (mstyle_get_content_hidden (mstyle))
+					gsf_output_puts (output, " visibility:hidden;");
 			}
-			
+
 			html_write_border_style_40 (output, mstyle);
 			gsf_output_printf (output, "\"");
 		}
@@ -419,9 +377,7 @@ write_cell (GsfOutput *output, Sheet *sheet, gint row, gint col, html_version_t 
  * Set up a TD node for each cell in the given row, witht eh  appropriate
  * colspan and rowspan.
  * Call write_cell for each cell.
- *
  */
-
 static void
 write_row (GsfOutput *output, Sheet *sheet, gint row, Range *range, html_version_t version)
 {
@@ -473,9 +429,7 @@ write_row (GsfOutput *output, Sheet *sheet, gint row, Range *range, html_version
  * @sheet: the gnumeric sheet
  *
  * set up a table and call write_row for each row
- *
  */
-
 static void
 write_sheet (GsfOutput *output, Sheet *sheet, html_version_t version)
 {
@@ -493,7 +447,7 @@ write_sheet (GsfOutput *output, Sheet *sheet, html_version_t version)
 		gsf_output_puts (output, "<p><table border=\"1\">\n");
 		break;
 	}
-	
+
 	gsf_output_puts (output, "<caption>");
 	html_print_encoded (output, sheet->name_unquoted);
 	gsf_output_puts (output, "</caption>\n");
@@ -501,7 +455,7 @@ write_sheet (GsfOutput *output, Sheet *sheet, html_version_t version)
 	total_range = sheet_get_extent (sheet, TRUE);
 	for (row = total_range.start.row; row <=  total_range.end.row; row++) {
 		gsf_output_puts (output, "<tr>\n");
-		write_row (output, sheet, row, &total_range, 
+		write_row (output, sheet, row, &total_range,
 			   (version == XHTML) ? HTML40 : version);
 		gsf_output_puts (output, "</tr>\n");
 	}
@@ -515,18 +469,17 @@ write_sheet (GsfOutput *output, Sheet *sheet, html_version_t version)
  */
 static void
 html_file_save (GnumFileSaver const *fs, IOContext *io_context,
-                  WorkbookView *wb_view, GsfOutput *output, html_version_t version)
+		WorkbookView const *wb_view, GsfOutput *output, html_version_t version)
 {
 	GList *sheets, *ptr;
 	Workbook *wb = wb_view_workbook (wb_view);
-	ErrorInfo *open_error;
 
 	g_return_if_fail (wb != NULL);
 	g_return_if_fail (output != NULL);
 
 	switch (version) {
 	case HTML32:
-	gsf_output_puts (output, 
+	gsf_output_puts (output,
 "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2//EN\">\n"
 "<html>\n"
 "<head>\n\t<title>Tables</title>\n"
@@ -548,7 +501,7 @@ html_file_save (GnumFileSaver const *fs, IOContext *io_context,
 "</head>\n<body>\n");
 		break;
 	case HTML40:
-		gsf_output_puts (output, 
+		gsf_output_puts (output,
 "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\"\n"
 "\t\t\"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html>\n"
@@ -571,7 +524,7 @@ html_file_save (GnumFileSaver const *fs, IOContext *io_context,
 "</head>\n<body>\n");
 		break;
 	case XHTML  :
-		gsf_output_puts (output, 
+		gsf_output_puts (output,
 "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n"
 "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"\n"
 "\t\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n"
@@ -603,51 +556,34 @@ html_file_save (GnumFileSaver const *fs, IOContext *io_context,
 		write_sheet (output, (Sheet *) ptr->data, version);
 	}
 	g_list_free (sheets);
-	if (version == HTML32 || version == HTML40 || version == XHTML)  
+	if (version == HTML32 || version == HTML40 || version == XHTML)
 		gsf_output_puts (output, "</body>\n</html>\n");
 }
 
-
-/*
- * write every sheet of the workbook to an html 4.0 table
- *
- */
 void
 html40_file_save (GnumFileSaver const *fs, IOContext *io_context,
-                  WorkbookView *wb_view, GsfOutput *output)
+                  WorkbookView const *wb_view, GsfOutput *output)
 {
 	html_file_save (fs, io_context, wb_view, output, HTML40);
 }
 
-/*
- * write every sheet of the workbook to an html 3.2 table
- *
- */
 void
 html32_file_save (GnumFileSaver const *fs, IOContext *io_context,
-                  WorkbookView *wb_view, GsfOutput *output)
+                  WorkbookView const *wb_view, GsfOutput *output)
 {
 	html_file_save (fs, io_context, wb_view, output, HTML32);
 }
 
-/*
- * write every sheet of the workbook to an html 4.0 fragment table
- *
- */
 void
 html40frag_file_save (GnumFileSaver const *fs, IOContext *io_context,
-                  WorkbookView *wb_view, GsfOutput *output)
+		      WorkbookView const *wb_view, GsfOutput *output)
 {
 	html_file_save (fs, io_context, wb_view, output, HTML40F);
 }
-/*
- * write every sheet of the workbook to an xhtml 1.0 table
- *
- */
 
 void
 xhtml_file_save (GnumFileSaver const *fs, IOContext *io_context,
-                  WorkbookView *wb_view, GsfOutput *output)
+		 WorkbookView const *wb_view, GsfOutput *output)
 {
 	html_file_save (fs, io_context, wb_view, output, XHTML);
 }

@@ -484,8 +484,6 @@ sheet_object_print (SheetObject const *so, GnomePrintContext *ctx,
 {
 	if (SO_CLASS (so)->print)
 		SO_CLASS (so)->print (so, ctx, base_x, base_y);
-	else
-		g_warning ("Un-printable sheet object");
 }
 
 SheetObject *
@@ -911,15 +909,8 @@ sheet_object_clone (SheetObject const *so, Sheet *sheet)
 {
 	SheetObject *new_so = NULL;
 
-	if (!SO_CLASS (so)->clone) {
-		static gboolean warned = FALSE;
-		if (!warned) {
-			g_warning ("Some objects are lacking a clone method and will not"
-				   "be duplicated.");
-			warned = TRUE;
-		}
+	if (!SO_CLASS (so)->clone)
 		return NULL;
-	}
 
 	new_so = SO_CLASS (so)->clone (so, sheet);
 

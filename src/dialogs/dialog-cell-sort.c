@@ -226,12 +226,11 @@ cb_update_add_sensitivity (__attribute__((unused)) GtkWidget *dummy,
 	if (state->sel == NULL || range_add == NULL) {
 		gtk_widget_set_sensitive (state->add_button, FALSE);
 	} else {
-		GlobalRange *a = value_to_global_range (state->sel);
-		GlobalRange *b = value_to_global_range (range_add);
+		GlobalRange a, b;
+		value_to_global_range (state->sel, &a);
+		value_to_global_range (range_add, &b);
 		gtk_widget_set_sensitive (state->add_button,
-					  global_range_overlap (a, b));
-		global_range_free (a);
-		global_range_free (b);
+			global_range_overlap (&a, &b));
 	}
 	if (range_add != NULL)
 		value_release (range_add);
@@ -549,11 +548,11 @@ cb_delete_clicked (__attribute__((unused)) GtkWidget *w, SortFlowState *state)
 		cb_update_sensitivity (NULL, state);
 }
 
-static void cb_add_clicked (__attribute__((unused)) GtkWidget *w, SortFlowState *state)
+static void
+cb_add_clicked (__attribute__((unused)) GtkWidget *w, SortFlowState *state)
 {
         Value *range_add;
-	GlobalRange *grange_sort;
-	GlobalRange *grange_add;
+	GlobalRange grange_sort, grange_add;
 	Range intersection;
 	int start;
 	int end;
@@ -565,12 +564,12 @@ static void cb_add_clicked (__attribute__((unused)) GtkWidget *w, SortFlowState 
 
 	g_return_if_fail (range_add != NULL && state->sel != NULL);
 	
-	grange_sort = value_to_global_range (state->sel);
-	grange_add = value_to_global_range (range_add);
+	value_to_global_range (state->sel, &grange_sort);
+	value_to_global_range (range_add, &grange_add);
 
 	value_release (range_add);
 
-	if (range_intersection (&intersection, &grange_sort->range, &grange_add->range)) {
+	if (range_intersection (&intersection, &grange_sort.range, &grange_add.range)) {
 
 		if (state->is_cols) {
 			start = intersection.start.col;
@@ -608,8 +607,6 @@ static void cb_add_clicked (__attribute__((unused)) GtkWidget *w, SortFlowState 
 		}		
 	}
 
-	global_range_free (grange_sort);
-	global_range_free (grange_add);
 	if (state->sort_items == 1)
 		cb_update_sensitivity (NULL, state);
 }

@@ -37,7 +37,7 @@ void       count_io_progress_update (IOContext *io_context, gint inc);
 void       value_io_progress_set    (IOContext *io_context, gint total, gint step);
 void       value_io_progress_update (IOContext *io_context, gint value);
 
-void       workbook_io_progress_set    (IOContext *io_context, Workbook *wb, gint step);
+void       workbook_io_progress_set    (IOContext *io_context, Workbook const *wb, gint step);
 void       workbook_io_progress_update (IOContext *io_context, gint inc);
 
 void       io_progress_unset      (IOContext *io_context);

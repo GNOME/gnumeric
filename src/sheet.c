@@ -56,6 +56,8 @@
 #include "sheet-object-cell-comment.h"
 #include "solver.h"
 #include "hlink.h"
+#include "sheet-filter.h"
+#include "pivottable.h"
 #include <gnumeric-i18n.h>
 
 #include <stdlib.h>
@@ -194,6 +196,8 @@ sheet_new (Workbook *wb, char const *name)
 
 	sheet->print_info = print_info_new ();
 
+	sheet->filters = NULL;
+	sheet->pivottables = NULL;
 	sheet->list_merged = NULL;
 	sheet->hash_merged = g_hash_table_new ((GHashFunc)&cellpos_hash,
 					       (GCompareFunc)&cellpos_cmp);
@@ -276,8 +280,7 @@ sheet_range_calc_spans (Sheet *sheet, Range const *r, SpanCalcFlags flags)
 	sheet_queue_respan (sheet, r->start.row, r->end.row);
 
 	/* Redraw the new region in case the span changes */
-	if (!(flags & SPANCALC_NO_DRAW))
-		sheet_redraw_range (sheet, r);
+	sheet_redraw_range (sheet, r);
 }
 
 void
@@ -340,7 +343,7 @@ sheet_cell_calc_span (Cell *cell, SpanCalcFlags flags)
 				min_col = merged->start.col;
 			if (max_col < merged->end.col)
 				max_col = merged->end.col;
-		} else if (!(flags & SPANCALC_NO_DRAW)) {
+		} else {
 			sheet_redraw_cell (cell);
 			return;
 		}
@@ -366,9 +369,8 @@ sheet_cell_calc_span (Cell *cell, SpanCalcFlags flags)
 			cell_register_span (cell, left, right);
 	}
 
-	if (!(flags & SPANCALC_NO_DRAW))
-		sheet_redraw_partial_row (cell->base.sheet,
-			cell->pos.row, min_col, max_col);
+	sheet_redraw_partial_row (cell->base.sheet,
+		cell->pos.row, min_col, max_col);
 }
 
 /**
@@ -2581,6 +2583,17 @@ sheet_destroy_contents (Sheet *sheet)
 	/* A simple test to see if this has already been run. */
 	if (sheet->hash_merged == NULL)
 		return;
+
+	if (NULL != sheet->filters) {
+		g_slist_foreach (sheet->filters, (GFunc)gnm_filter_free, NULL);
+		g_slist_free (sheet->filters);
+		sheet->filters = NULL;
+	}
+	if (NULL != sheet->pivottables) {
+		g_slist_foreach (sheet->pivottables, (GFunc)gnm_pivottable_free, NULL);
+		g_slist_free (sheet->pivottables);
+		sheet->pivottables = NULL;
+	}
 
 	/* The memory is managed by Sheet::list_merged */
 	g_hash_table_destroy (sheet->hash_merged);

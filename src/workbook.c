@@ -854,6 +854,7 @@ cb_dep_link (Dependent *dep, gpointer value, gpointer user_data)
 		pos = &DEP_TO_CELL (dep)->pos;
 	dependent_link (dep, pos);
 }
+
 static void
 post_sheet_index_change (Workbook *wb)
 {
@@ -949,6 +950,16 @@ workbook_sheet_attach (Workbook *wb, Sheet *new_sheet,
 		wb_view_sheet_add (view, new_sheet););
 }
 
+static void
+cb_tweak_3d (Dependent *dep, gpointer value, GnmExprRewriteInfo *rwinfo)
+{
+	GnmExpr const *newtree = gnm_expr_rewrite (dep->expression, rwinfo);
+	if (newtree != NULL) {
+		dependent_set_expr (dep, newtree);
+		gnm_expr_unref (newtree);
+	}
+}
+
 /**
  * workbook_sheet_detach:
  * @wb: workbook.
@@ -995,16 +1006,20 @@ workbook_sheet_detach (Workbook *wb, Sheet *sheet)
 	WORKBOOK_FOREACH_CONTROL (wb, view, control,
 		wb_control_sheet_remove (control, sheet););
 
-	/* If we are not destroying things,
-	 * Check for 3d refs that start or end on this sheet
-	 */
+	pre_sheet_index_change (wb);
+	/* If we are not destroying things, Check for 3d refs that start or end
+	 * on this sheet */
 	if (wb->sheet_order_dependents != NULL) {
-#warning TODO
-		puts ("foo");
+		GnmExprRewriteInfo rwinfo;
+
+		rwinfo.type = GNM_EXPR_REWRITE_SHEET;
+		rwinfo.u.sheet = sheet;
+		g_hash_table_foreach (wb->sheet_order_dependents,
+			(GHFunc) cb_tweak_3d, &rwinfo);
+
 	}
 
 	/* Remove our reference to this sheet */
-	pre_sheet_index_change (wb);
 	g_ptr_array_remove_index (wb->sheets, sheet_index);
 	workbook_sheet_index_update (wb, sheet_index);
 	sheet->index_in_wb = -1;
