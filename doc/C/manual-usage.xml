@@ -115,18 +115,16 @@
 
       <listitem>
 	<para>
-	  <xref linkend="chapter-graphics" />: 
-              <guilabel>Graphics: Plots and Drawings</guilabel>
-        </para>
-        <para>
-          This chapter explains how to use
-          <application>Gnumeric</application> to add graphical
-          elements to a worksheet. Data plots allow users to create
-          charts of data in a worksheet including pie charts, bar and
-          column charts and scatterplots. Drawings allow users to add
-          simple graphical elements on top of a worksheet including
-          lines, arrows and simple polygons.
-	</para>
+	  <xref linkend="chapter-graphics" />: <guilabel>Graphics:
+              Plots and Drawings</guilabel> 
+	</para> 
+	<para> 
+	  This chapter explains how to add graphical elements to a
+          <application>Gnumeric</application> worksheet, including
+          data graphs to plot worksheet data, images from external
+          files, graphical user interface widgets which interact with
+          worksheet data, and simple drawing elements. 
+	</para> 
       </listitem>
 
       <listitem>

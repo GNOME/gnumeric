@@ -1188,6 +1188,30 @@ c:\Program Files\Gnome-Office\gnumeric
     of these can be done easily and efficiently.
   </para>
 
+  <warning>
+    <title>Graphing is changing rapidly in Gnumeric 1.3</title>
+
+    <para>
+      The approach to the creation of graphical displays of data was
+      completely redesigned in
+      <application>Gnumeric</application> version 1.2 and is still
+      being improved. The ultimate goal is a system which will produce
+      an elegant graph automatically but can be customized in detail
+      according the user's preferences. This is a active area of
+      programming development and therefore will be changing
+      repeatedly in future versions.
+    </para>
+
+    <para>
+      Information on the creation of graphical displays of data is
+      presented in greater detail in <xref linkend="chapter-graphics"
+      />. That chapter will be updated regularly during development to
+      explain in detail how to produce and modify graphical displays
+      of data.
+    </para>
+
+  </warning>  
+
   <para>
     When graphs are used to explore data, the aim is usually to
     produce a plot quickly with a minimum of effort. These plots are
@@ -1308,7 +1332,7 @@ c:\Program Files\Gnome-Office\gnumeric
                 </textobject>
               </inlinemediaobject>
              which looks like three colored pillars. This launches a
-             new window called the graph druid.
+             new window called the graph guru.
           </para>
         </step>
 
@@ -1528,31 +1552,7 @@ c:\Program Files\Gnome-Office\gnumeric
 
     </sect3>
 
-  </sect2>
-
-  <sect2 id="quick-graphing-conclusion">
-    <title>Graphing is changing rapidly in Gnumeric 1.2</title>
-
-    <para>
-      The approach to the creation of graphical displays of data has
-      been completely redesigned in
-      <application>Gnumeric</application> version 1.2 and is still
-      being improved. The ultimate goal is a system which will produce
-      an elegant graph automatically but can be customized in detail
-      according the user's preferences. This is a active area of
-      programming development and therefore will be changing
-      repeatedly in future versions.
-    </para>
-
-    <para>
-      Information on the creation of graphical displays of data is
-      presented in greater detail in <xref linkend="chapter-graphics"
-      />. That chapter will be updated regularly during development to
-      explain in detail how to produce and modify graphical displays
-      of data.
-    </para>
-
-  </sect2>      
+  </sect2>    
 
 </sect1>
 

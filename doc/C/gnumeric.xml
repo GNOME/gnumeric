@@ -44,6 +44,7 @@
   <!ENTITY graphics-overview    SYSTEM "graphics-overview.xml">
   <!ENTITY graphics-plots       SYSTEM "graphics-plots.xml">
   <!ENTITY graphics-images      SYSTEM "graphics-images.xml">
+  <!ENTITY graphics-widgets     SYSTEM "graphics-widgets.xml">
   <!ENTITY graphics-drawings    SYSTEM "graphics-drawings.xml">
 
   <!ENTITY files-overview       SYSTEM "files-overview.xml">
@@ -516,22 +517,20 @@
 
 
   <chapter id="chapter-graphics">
-    <title>Graphics: Plots, Images and Drawings</title>
+    <title>Graphics: Plots, Images, Widgets and Drawings</title>
 
     <para>
-      This chapter explains how to use
-      <application>Gnumeric</application> to add graphical elements to
-      a worksheet. Data plots allow users to create charts of data in
-      a worksheet including pie charts, bar and column charts and
-      scatterplots. Images in standard computer formats can be added
-      on top of a worksheet. Drawings allow users to add simple
-      graphical elements on top of a worksheet including lines, arrows
-      and simple polygons.
+      This chapter explains how to add graphical elements to a
+          <application>Gnumeric</application> worksheet, including
+          data graphs to plot worksheet data, images from external
+          files, graphical user interface widgets which interact with
+          worksheet data, and simple drawing elements.
     </para>
 
     &graphics-overview;
     &graphics-plots;
     &graphics-images;
+    &graphics-widgets;
     &graphics-drawings;
 
   </chapter>

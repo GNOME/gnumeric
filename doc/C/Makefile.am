@@ -48,6 +48,7 @@ entities =  \
      graphics-images.xml \
      graphics-overview.xml \
      graphics-plots.xml \
+     graphics-widgets.xml \
      gui-menus.xml \
      gui-mouse.xml \
      gui-other-elements.xml \

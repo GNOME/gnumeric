@@ -65,6 +65,7 @@ EXTRA_DIST = \
      analysistools-ztest-ex1.png \
      analysistools-ztest-ex2.png \
      analysistools-ztest.png \
+     arrowhead-dimensions.png \
      autofill-1.png \
      autofill-10.png \
      autofill-2.png \
@@ -133,6 +134,32 @@ EXTRA_DIST = \
      cell-with-text.png \
      cells-1.png \
      cells-2.png \
+     chart_area_1_1.png \
+     chart_area_1_2.png \
+     chart_area_1_3.png \
+     chart_bar_1_1.png \
+     chart_bar_1_2.png \
+     chart_bar_1_3.png \
+     chart_bubble_1_1.png \
+     chart_column_1_1.png \
+     chart_column_1_2.png \
+     chart_column_1_3.png \
+     chart_line_1_1.png \
+     chart_line_1_2.png \
+     chart_line_1_3.png \
+     chart_line_2_1.png \
+     chart_line_2_2.png \
+     chart_line_2_3.png \
+     chart_pie_1_1.png \
+     chart_pie_2_1.png \
+     chart_radar_1_1.png \
+     chart_radar_1_2.png \
+     chart_radar_1_3.png \
+     chart_ring_1_1.png \
+     chart_ring_1_2.png \
+     chart_scatter_1_1.png \
+     chart_scatter_3_1.png \
+     chart_scatter_3_2.png \
      dialog-auto-correct.png \
      dialog-autosave.png \
      dialog-border.png \
@@ -140,6 +167,18 @@ EXTRA_DIST = \
      dialog-graphing.png \
      dialog-insert-object.png \
      dialog-summary.png \
+     dialog-properties-label.png \
+     dialog-properties-frame.png \
+     dialog-properties-checkbox.png \
+     dialog-properties-scrollbar.png \
+     dialog-properties-line.png \
+     dialog-properties-arrow.png \
+     dialog-properties-rectangle.png \
+     dialog-properties-oval.png \
+     drawing-line.png \
+     drawing-arrow.png \
+     drawing-rectangle.png \
+     drawing-oval.png \
      example-colGraph-modified.png \
      example-colGraph.png \
      example-columnSelect.png \
@@ -165,6 +204,53 @@ EXTRA_DIST = \
      gnumeric-labelled.png \
      gnumeric-power-example.png \
      gnumeric-rearranged.png \
+     graph-components.png \
+     graph-hierarchy.png \
+     graphguru-axes-category-bounds.png \
+     graphguru-axes-category-details.png \
+     graphguru-axes-category-style.png \
+     graphguru-axes-continuous-bounds.png \
+     graphguru-axes-continuous-format.png \
+     graphguru-components.png \
+     graphguru-backPanels-none.png \
+     graphguru-backPanels-pattern.png \
+     graphguru-backPanels-gradient.png \
+     graphguru-backPanels-image.png \
+     graphguru-plot-barCol.png \
+     graphguru-plot-bubble.png \
+     graphguru-plot-pie.png \
+     graphguru-plot-radar.png \
+     graphguru-plot-ring.png \
+     graphguru-series-data-bubble.png \
+     graphguru-series-data-single.png \
+     graphguru-series-data-xy.png \
+     graphguru-series-error.png \
+     graphguru-series-style-filled.png \
+     graphguru-series-style-line.png \
+     graphguru-title-font.png \
+     graphical-elements.png \
+     graphical-elements-selected.png \
+     graphical-elements-stacked.png \
+     graph-example-line.png \
+     graph-example-xyplot.png \
+     graph-example-bubble.png \
+     graph-example-pie.png \
+     graph-example-area.png \
+     graph-example-bar.png \
+     graph-example-column.png \
+     graph-example-radar.png \
+     graph-example-ring.png \
+     graphs-types-area.png \
+     graphs-types-bar.png \
+     graphs-types-bubble.png \
+     graphs-types-column.png \
+     graphs-types-line.pngy \
+     graphs-types-pie.png \
+     graphs-types-radar.png \
+     graphs-types-ring.png \
+     graphs-types-stock.png \
+     graphs-types-surface.png \
+     graphs-types-xyplot.png \
      info-area.png \
      label-five.png \
      label-four.png \
@@ -266,6 +352,16 @@ EXTRA_DIST = \
      toolbar-standard.png \
      toolbar.png \
      toolbars.png \
+     widget-label.png \
+     widget-frame.png \
+     widget-checkbox.png \
+     widget-entryBox.png \
+     widget-entryBox-outlined.png \
+     widget-scrollbar.png \
+     widget-spinbutton.png \
+     widget-slider.png \
+     widget-list.png \
+     widget-combobox.png \
      worksheet-all-1.png \
      worksheet-cols-1.png \
      worksheet-data-1.png \

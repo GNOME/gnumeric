@@ -1,3 +1,125 @@
+2004-09-22  Adrian Custer <acuster@gnome.org>
+
+	* gnumeric.xml: Edits for the graphics chapter. Split 'widgets'.
+	* manual-usage.xml: Edit graph chapter paragraph.
+	* quick-start.xml: Edit the graphing section - changed end to
+	                   warning and moved to the begining.
+	
+	* graphics-overview.xml: First edits.
+	* figures/graphical-elements.png: New File.
+	* figures/graphical-elements-selected.png: New File.
+	* figures/graphical-elements-stacked.png: New File.
+	* figures/Makefile.am: Added filename above.
+	
+	* graphics-plots.xml: First edits.
+	* figures/graph-components.png: Added.
+	* figures/graph-hierarchy.png: Added.
+	* figures/graphguru-components.png: Added.
+	* figures/graphs-types-line.png: Added from goffice. Was linegraph.xpm.
+	* figures/graphs-types-xyplot.png: Added from goffice. Was scatter.xpm.
+	* figures/graphs-types-ring.png: Added from goffice. Was doughnut.xpm.
+	* figures/graphs-types-area.png: Added from goffice. Was area.xpm.
+	* figures/graphs-types-bar.png: Added from goffice. Was bar.xpm.
+	* figures/graphs-types-bubble.png: Added from goffice. Was bubble.xpm.
+	* figures/graphs-types-column.png: Added from goffice. Was column.xpm.
+	* figures/graphs-types-pie.png: Added from goffice. Was pie.xpm.
+	* figures/graphs-types-radar.png: Added from goffice. Was radar.xpm.
+	* figures/graphs-types-surface.png: Add from goffice. Was surface.xpm.
+	* figures/graphs-types-stock.png: Added from goffice. Was stock.xpm.
+	* figures/graph-example-line.png: Added.
+	* figures/graph-example-xyplot.png: Added.
+	* figures/graph-example-bubble.png: Added.
+	* figures/graph-example-pie.png: Added.
+	* figures/graph-example-area.png: Added.
+	* figures/graph-example-bar.png: Added.
+	* figures/graph-example-column.png: Added.
+	* figures/graph-example-radar.png: Added.
+	* figures/graph-example-ring.png: Added.
+	* figures/chart_line_1_1.png: Added from goffice.
+	* figures/chart_line_1_2.png: Added from goffice.
+	* figures/chart_line_1_3.png: Added from goffice.
+	* figures/chart_line_2_1.png: Added from goffice.
+	* figures/chart_line_2_2.png: Added from goffice.
+	* figures/chart_line_2_3.png: Added from goffice.
+	* figures/chart_scatter_1_1.png: Added from goffice.
+	* figures/chart_scatter_3_1.png: Added from goffice.
+	* figures/chart_scatter_3_2.png: Added from goffice.
+	* figures/chart_bubble_1_1.png: Added from goffice.
+	* figures/chart_pie_1_1.png: Added from goffice.
+	* figures/chart_pie_2_1.png: Added from goffice.
+	* figures/chart_area_1_1.png: Added from goffice.
+	* figures/chart_area_1_2.png: Added from goffice.
+	* figures/chart_area_1_3.png: Added from goffice.
+	* figures/chart_bar_1_1.png: Added from goffice.
+	* figures/chart_bar_1_2.png: Added from goffice.
+	* figures/chart_bar_1_3.png: Added from goffice.
+	* figures/chart_column_1_1.png: Added from goffice.
+	* figures/chart_column_1_2.png: Added from goffice.
+	* figures/chart_column_1_3.png: Added from goffice.
+	* figures/chart_radar_1_1.png: Added from goffice.
+	* figures/chart_radar_1_2.png: Added from goffice.
+	* figures/chart_radar_1_3.png: Added from goffice.
+	* figures/chart_ring_1_1.png: Added from goffice.
+	* figures/chart_ring_1_2.png: Added from goffice.
+	* figures/widget-entryBox.png: Added.
+	* figures/widget-entryBox-outlined.png: Added.
+	* figures/graphguru-backPanels-none.png: Added.
+	* figures/graphguru-backPanels-pattern.png: Added.
+	* figures/graphguru-backPanels-gradient.png: Added.
+	* figures/graphguru-backPanels-image.png: Added.
+	* figures/graphguru-title-font.png: Added.
+	* figures/graphguru-axes-category-bounds.png: Added.
+	* figures/graphguru-axes-category-details.png: Added.
+	* figures/graphguru-axes-category-style.png: Added.
+	* figures/graphguru-axes-continuous-bounds.png: Added.
+	* figures/graphguru-axes-continuous-format.png: Added.
+	* figures/graphguru-plot-barCol.png: Added.
+	* figures/graphguru-plot-bubble.png: Added.
+	* figures/graphguru-plot-pie.png: Added.
+	* figures/graphguru-plot-radar.png: Added.
+	* figures/graphguru-plot-ring.png: Added.
+	* figures/graphguru-series-data-bubble.png: Added.
+	* figures/graphguru-series-data-single.png: Added.
+	* figures/graphguru-series-data-xy.png: Added.
+	* figures/graphguru-series-error.png: Added.
+	* figures/graphguru-series-style-filled.png: Added.
+	* figures/graphguru-series-style-line.png: Added.
+	* figures/Makefile.am: Added files above.
+	
+	
+	
+	
+	* graphics-images.xml: Edits.
+	
+	* graphics-widgets.xml: Split from graphics-drawings.xml. Edits.
+	* Makefile.am: Added filename above.
+	* figures/widget-label.png: Added.
+	* figures/widget-frame.png: Added.
+	* figures/widget-checkbox.png: Added.
+	* figures/widget-scrollbar.png: Added.
+	* figures/widget-spinbutton.png: Added.
+	* figures/widget-slider.png: Added.
+	* figures/widget-list.png: Added.
+	* figures/widget-combobox.png: Added.
+	* figures/dialog-properties-labels.png: Added.
+	* figures/dialog-properties-frames.png: Added.
+	* figures/dialog-properties-checkbox.png: Added.
+	* figures/dialog-properties-scrollbar.png: Added.
+	* figures/Makefile.am: Added filenames above.
+	
+	* graphics-drawings.xml: Spit out the widgets. Edits.
+	* figures/drawing-line.png: Added.
+	* figures/drawing-arrow.png: Added.
+	* figures/arrowhead-dimensions.png: Added.
+	* figures/drawing-rectangle.png: Added.
+	* figures/drawing-oval.png: Added.
+	* figures/dialog-properties-line.png: Added.
+	* figures/dialog-properties-arrow.png: Added.
+	* figures/dialog-properties-rectangle.png: Added.
+	* figures/dialog-properties-oval.png: Added.
+	* figures/Makefile.am: Added filenames above.
+
+
 2004-09-08  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.3.90
