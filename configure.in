@@ -501,7 +501,7 @@ unset SAVE_LIBS
 dnl We do not want to force pango 1.6 just yet.
 SAVE_LIBS="$LIBS"
 LIBS="$LIBS $GNUMERIC_LIBS"
-AC_CHECK_FUNCS(pango_layout_set_ellipsize)
+AC_CHECK_FUNCS(pango_layout_set_ellipsize pango_context_set_matrix)
 LIBS="$SAVE_LIBS"
 unset SAVE_LIBS
 

@@ -1,3 +1,8 @@
+2004-09-28  Morten Welinder  <terra@gnome.org>
+
+	* configure.in: Add check for pango_context_set_matrix.  We're
+	going to need that for rotated text.
+
 2004-09-28  Jody Goldberg <jody@gnome.org>
 
 	* src/commands.c (cmd_object_delete) : Take an optional descriptor
