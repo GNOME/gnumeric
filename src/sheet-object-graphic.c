@@ -1315,6 +1315,7 @@ sheet_object_polygon_class_init (GObjectClass *gobject_class)
 
 	gobject_class->finalize = sheet_object_polygon_finalize;
 
+	sheet_object_class = SHEET_OBJECT_CLASS (gobject_class);
 	sheet_object_class->new_view	  = sheet_object_polygon_new_view;
 	sheet_object_class->read_xml_dom  = sheet_object_polygon_read_xml_dom;
 	sheet_object_class->write_xml_dom = sheet_object_polygon_write_xml_dom;
