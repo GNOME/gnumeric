@@ -27,8 +27,6 @@ Gnumeric Spread Sheet task list
     * Provide GUI for margin editing.
   * Add headers and footers
   * Add left, middle right header/footer support
-  * Add "repeat on top" support.
-  * Add font selector to the cell format.
   * Add the missing options to the Print Dialog
   * Display printing status (pages to go).
   * Add column/row title printing

@@ -45,12 +45,16 @@ typedef struct {
 	/*
 	 * Part 2: Handy pre-computed information passed around
 	 */
-	int width, height;	/* total dimensions */
-	int x_points;		/* real usable X (ie, width - margins) */
-	int y_points;		/* real usable Y (ie, height - margins) */
-	int titles_used_x;	/* points used by the X titles */
-	int titles_used_y;	/* points used by the Y titles */
-	
+	double width, height;	/* total dimensions */
+	double x_points;	/* real usable X (ie, width - margins) */
+	double y_points;	/* real usable Y (ie, height - margins) */
+	double titles_used_x;	/* points used by the X titles */
+	double titles_used_y;	/* points used by the Y titles */
+
+	/* The repeat columns/rows ranges used space */
+	double repeat_cols_used_x;
+	double repeat_rows_used_y;
+
 	/*
 	 * Part 3: Handy pointers
 	 */
@@ -60,8 +64,91 @@ typedef struct {
 } PrintJobInfo;
 
 static void
-print_titles (Sheet *sheet, int start_col, int start_row, int end_col, int end_row, PrintJobInfo *pj)
+print_titles (Sheet *sheet, int start_col, int start_row, int end_col, int end_row,
+	      double base_x, double base_y, PrintJobInfo *pj)
 {
+}
+
+static void
+print_page_repeated_rows (Sheet *sheet,
+			  int start_col, int start_row, int end_col, int end_row,
+			  double base_x, double base_y,
+			  double print_width, double print_height,
+			  PrintJobInfo *pj)
+{
+	Value *value = &pj->pi->repeat_top.range;
+	CellRef *cell_a = &value->v.cell_range.cell_a;
+	CellRef *cell_b = &value->v.cell_range.cell_b;
+
+	base_y = pj->height - base_y;
+
+	if (pj->pi->print_line_divisions){
+		print_cell_grid (
+			pj->print_context,
+			sheet,
+			start_col, cell_a->row,
+			end_col,   cell_b->row,
+			base_x, base_y,
+			print_width, print_height);
+	}
+	print_cell_range (
+		pj->print_context, sheet,
+		start_col, cell_a->row,
+		end_col,   cell_b->row,
+		base_x, base_y);
+}
+
+static void
+print_page_repeated_cols (Sheet *sheet,
+			  int start_col, int start_row, int end_col, int end_row,
+			  double base_x, double base_y,
+			  double print_width, double print_height,
+			  PrintJobInfo *pj)
+{
+	Value *value = &pj->pi->repeat_top.range;
+	CellRef *cell_a = &value->v.cell_range.cell_a;
+	CellRef *cell_b = &value->v.cell_range.cell_b;
+
+	base_y = pj->height - base_y;
+
+	if (pj->pi->print_line_divisions){
+		print_cell_grid (
+			pj->print_context,
+			sheet,
+			cell_a->col, start_row,
+			cell_b->col, end_row,
+			base_x, base_y,
+			print_width, print_height);
+	}
+	print_cell_range (
+		pj->print_context, sheet,
+		cell_a->col, start_row,
+		cell_b->col, end_row,
+		base_x, base_y);
+}
+
+static void
+print_page_cells (Sheet *sheet,
+		  int start_col, int start_row, int end_col, int end_row,
+		  double base_x, double base_y, double print_width, double print_height,
+		  PrintJobInfo *pj)
+{
+	base_y = pj->height - base_y;
+
+	if (pj->pi->print_line_divisions){
+		print_cell_grid (
+			pj->print_context,
+			sheet, start_col, start_row,
+			end_col, end_row,
+			base_x, base_y,
+			print_width, print_height);
+	}
+	
+	print_cell_range (
+		pj->print_context, sheet,
+		start_col, start_row,
+		end_col, end_row,
+		base_x, base_y);
 }
 
 static void
@@ -69,7 +156,7 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
 {
 	PrintMargins *margins = &pj->pi->margins;
 	double print_height, print_width;
-	int base_x, base_y;
+	double base_x, base_y;
 	int i;
 	
 	base_x = 0;
@@ -80,6 +167,8 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
 	if (pj->pi->center_vertically){
 		if (pj->pi->print_titles)
 			print_height += sheet->default_row_style.units;
+		if (pj->pi->repeat_top.use)
+			print_height += pj->repeat_rows_used_y;
 		base_y = (pj->y_points - print_height)/2;
 	}
 
@@ -87,36 +176,54 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
 	if (pj->pi->center_horizontally){
 		if (pj->pi->print_titles)
 			print_width += sheet->default_col_style.units;
+		if (pj->repeat_cols_used_x)
+			print_width += pj->repeat_cols_used_x;
 		base_x = (pj->x_points - print_width)/2;
-	}
-
-	if (pj->pi->print_titles){
-		print_titles (sheet, start_col, start_row, end_col, end_row, pj);
-		base_x += sheet->default_col_style.units;
-		base_y += sheet->default_row_style.units;
 	}
 
 	/* Margins */
 	base_x += margins->left.points; 
 	base_y += margins->top.points + margins->header.points;
-	
-	base_y = pj->height - base_y;
-	for (i = 0; i < pj->n_copies; i++){
 
-		if (pj->pi->print_line_divisions){
-			print_cell_grid (
-				pj->print_context,
-				sheet, start_col, start_row,
-				end_col, end_row,
-				base_x, base_y,
-				print_width, print_height);
+	for (i = 0; i < pj->n_copies; i++){
+		double x = base_x;
+		double y = base_y;
+
+		/*
+		 * Print any titles that might be used
+		 */
+		if (pj->pi->print_titles){
+			print_titles (
+				sheet, start_col, start_row, end_col, end_row,
+				x, y, pj);
+			x += sheet->default_col_style.units;
+			y += sheet->default_row_style.units;
 		}
 
-		print_cell_range (pj->print_context, sheet,
-				  start_col, start_row,
-				  end_col, end_row,
-				  base_x, base_y);
+		/*
+		 * Print the repeated rows and columns
+		 */
+		print_page_repeated_rows (
+			sheet, start_col, start_row, end_col, end_row,
+			x + pj->repeat_cols_used_x, y, print_width, print_height, pj);
+		y += pj->repeat_rows_used_y;
 
+		print_page_repeated_cols (
+			sheet, start_col, start_row, end_col, end_row,
+			x, y, print_width, print_height, pj);
+
+		x += pj->repeat_cols_used_x;
+		
+		/*
+		 * Print the body of the data
+		 */
+		print_page_cells (
+			sheet, start_col, start_row, end_col, end_row,
+			x, y, print_width, print_height, pj);
+
+		/*
+		 * Output page
+		 */
 		gnome_print_showpage (pj->print_context);
 	}
 }
@@ -174,8 +281,8 @@ print_sheet_range (Sheet *sheet, int start_col, int start_row, int end_col, int 
 	GList *l, *m;
 	GList *cols, *rows;
 	
-	usable_x = pj->x_points - pj->titles_used_x;
-	usable_y = pj->y_points - pj->titles_used_y;
+	usable_x = pj->x_points - pj->titles_used_x - pj->repeat_cols_used_x;
+	usable_y = pj->y_points - pj->titles_used_y - pj->repeat_rows_used_y;
 
 	cols = compute_groups (sheet, start_col, end_col, usable_x, sheet_col_get_info);
 	rows = compute_groups (sheet, start_row, end_row, usable_y, sheet_row_get_info);
@@ -224,6 +331,21 @@ workbook_print_selection (Workbook *wb, PrintJobInfo *pj)
 	
 }
 
+static double
+print_range_used_units (Sheet *sheet, gboolean compute_rows, PrintRepeatRange *range)
+{
+	Value *cell_range = &range->range;
+	CellRef *cell_a = &cell_range->v.cell_range.cell_a;
+	CellRef *cell_b = &cell_range->v.cell_range.cell_b;
+
+	if (compute_rows)
+		return sheet_row_get_unit_distance
+			(sheet, cell_a->row, cell_b->row+1);
+	else
+		return sheet_col_get_unit_distance
+			(sheet, cell_a->col, cell_b->col+1);
+}
+
 static void
 print_sheet (gpointer key, gpointer value, gpointer user_data)
 {
@@ -241,6 +363,11 @@ print_sheet (gpointer key, gpointer value, gpointer user_data)
 		pj->titles_used_x = 0;
 		pj->titles_used_y = 0;
 	}
+
+	pj->repeat_rows_used_y = print_range_used_units (
+		sheet, TRUE, &pj->pi->repeat_top);
+	pj->repeat_cols_used_x = print_range_used_units (
+		sheet, FALSE, &pj->pi->repeat_left);
 
 	print_sheet_range (sheet, 0, 0, sheet->max_col_used+1, sheet->max_row_used+1, pj);
 }

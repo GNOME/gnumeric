@@ -60,6 +60,11 @@ typedef struct {
 	char *right_format;
 } PrintHF;
 
+typedef struct {
+	gboolean use;
+	Value range;
+} PrintRepeatRange;
+
 struct _PrintInformation {
 	PrintOrientation orientation;
 	PrintScaling     scaling;
@@ -83,8 +88,7 @@ struct _PrintInformation {
 
 	const GnomePaper *paper;
 
-	Value repeat_top_range;
-	Value repeat_left_range;
+	PrintRepeatRange  repeat_top, repeat_left;
 };
 
 PrintInformation *print_info_new  (void);

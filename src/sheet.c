@@ -533,7 +533,7 @@ sheet_row_set_height (Sheet *sheet, int row, int height, gboolean height_set_by_
  * size of the row will include the margins.
  */
 void
-sheet_row_set_internal_height (Sheet *sheet, ColRowInfo *ri, int height)
+sheet_row_set_internal_height (Sheet *sheet, ColRowInfo *ri, double height)
 {
 	double pix;
 

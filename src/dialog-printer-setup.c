@@ -14,6 +14,7 @@
 #include "dialogs.h"
 #include "print-info.h"
 #include "print.h"
+#include "ranges.h"
 
 #define PREVIEW_X 170
 #define PREVIEW_Y 200
@@ -120,13 +121,11 @@ preview_page_create (dialog_print_info_t *dpi)
 	pi->offset_x = (PREVIEW_X - (width * pi->scale)) / 2;
 	pi->offset_y = (PREVIEW_Y - (height * pi->scale)) / 2;
 	pi->offset_x = pi->offset_y = 0;
-	printf ("Mas: %d %d, escale=%g\n", pi->offset_x, pi->offset_y, pi->scale);
 	x1 = pi->offset_x + 0 * pi->scale;
 	y1 = pi->offset_y + 0 * pi->scale;
 	x2 = pi->offset_x + width * pi->scale;
 	y2 = pi->offset_y + height * pi->scale;
 
-	printf ("Valores: (%g %g) (%g %g)\n", x1, y1, x2, y2);
 	group = gnome_canvas_root (GNOME_CANVAS (pi->canvas));
 	pi->o_page_shadow = gnome_canvas_item_new (
 		group, gnome_canvas_rect_get_type (),
@@ -331,21 +330,17 @@ display_order_icon (GtkToggleButton *toggle, dialog_print_info_t *dpi)
 	gtk_widget_hide (hide);
 }
 
-static gboolean
-is_range_empty (const Value *v)
-{
-	return (v->v.cell_range.cell_a.col == -1);
-}
-
 static void
 do_setup_page_info (dialog_print_info_t *dpi)
 {
 	GtkWidget *divisions = glade_xml_get_widget (dpi->gui, "check-print-divisions");
 	GtkWidget *bw        = glade_xml_get_widget (dpi->gui, "check-black-white");
 	GtkWidget *titles    = glade_xml_get_widget (dpi->gui, "check-print-titles");
-	GtkWidget *order     = glade_xml_get_widget (dpi->gui, "radio-order-right");
+	GtkWidget *order_rd  = glade_xml_get_widget (dpi->gui, "radio-order-right");
+	GtkWidget *order_dr  = glade_xml_get_widget (dpi->gui, "radio-order-down");
 	GtkWidget *table     = glade_xml_get_widget (dpi->gui, "page-order-table");
 	GtkEntry *entry_top, *entry_left;
+	GtkWidget *order;
 
 	dpi->icon_rd = load_image ("right-down.png");
 	dpi->icon_dr = load_image ("down-right.png");
@@ -360,7 +355,7 @@ do_setup_page_info (dialog_print_info_t *dpi)
 		GTK_TABLE (table), dpi->icon_dr,
 		1, 2, 0, 2, GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 0, 0);
 
-	gtk_signal_connect (GTK_OBJECT (order), "toggled", GTK_SIGNAL_FUNC(display_order_icon), dpi);
+	gtk_signal_connect (GTK_OBJECT (order_rd), "toggled", GTK_SIGNAL_FUNC(display_order_icon), dpi);
 	
 	if (dpi->pi->print_line_divisions)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (divisions), TRUE);
@@ -372,22 +367,25 @@ do_setup_page_info (dialog_print_info_t *dpi)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (titles), TRUE);
 
 	if (dpi->pi->print_order == PRINT_ORDER_DOWN_THEN_RIGHT)
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (order), TRUE);
+		order = order_dr;
+	else
+		order = order_rd;
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (order), TRUE);
 
-	if (!is_range_empty (&dpi->pi->repeat_top_range)){
+	if (dpi->pi->repeat_top.use){
 		char *s;
 		entry_top  = GTK_ENTRY (glade_xml_get_widget (dpi->gui, "repeat-rows-entry"));
 
-		s = value_cellrange_get_as_string (&dpi->pi->repeat_top_range, FALSE);
+		s = value_cellrange_get_as_string (&dpi->pi->repeat_top.range, FALSE);
 		gtk_entry_set_text (entry_top, s);
 		g_free (s);
 	}
 
-	if (!is_range_empty (&dpi->pi->repeat_left_range)){
+	if (dpi->pi->repeat_left.use){
 		char *s;
 		entry_left = GTK_ENTRY (glade_xml_get_widget (dpi->gui, "repeat-cols-entry"));
 
-		s = value_cellrange_get_as_string (&dpi->pi->repeat_left_range, FALSE);
+		s = value_cellrange_get_as_string (&dpi->pi->repeat_left.range, FALSE);
 		gtk_entry_set_text (entry_left, s);
 		g_free (s);
 	}
@@ -417,9 +415,9 @@ do_setup_page (dialog_print_info_t *dpi)
 	gui = dpi->gui;
 	table = GTK_TABLE (glade_xml_get_widget (gui, "table-orient"));
 	
-	image = load_image ("gnumeric/orient-vertical.png");
+	image = load_image ("orient-vertical.png");
 	gtk_table_attach_defaults (table, image, 0, 1, 0, 1);
-	image = load_image ("gnumeric/orient-horizontal.png");
+	image = load_image ("orient-horizontal.png");
 	gtk_table_attach_defaults (table, image, 2, 3, 0, 1);
 
 	/*
@@ -482,7 +480,7 @@ do_print_cb (GtkWidget *w, dialog_print_info_t *dpi)
 static void
 do_setup_main_dialog (dialog_print_info_t *dpi)
 {
-	GtkWidget *notebook;
+	GtkWidget *notebook, *old_parent;
 	int i;
 	
 	/*
@@ -494,14 +492,14 @@ do_setup_main_dialog (dialog_print_info_t *dpi)
 		GNOME_STOCK_BUTTON_OK,
 		GNOME_STOCK_BUTTON_CANCEL,
 		NULL);
+	gnome_dialog_set_parent (GNOME_DIALOG (dpi->dialog), GTK_WINDOW (dpi->workbook->toplevel));
 	gtk_window_set_policy (GTK_WINDOW (dpi->dialog), FALSE, TRUE, TRUE);
-		
+
 	notebook = glade_xml_get_widget (dpi->gui, "print-setup-notebook");
-
+	old_parent = gtk_widget_get_toplevel (notebook->parent);
 	gtk_widget_reparent (notebook, GNOME_DIALOG (dpi->dialog)->vbox);
-
-	gtk_widget_unref (glade_xml_get_widget (dpi->gui, "print-setup"));
-
+	gtk_widget_destroy (old_parent);
+	
 	gtk_widget_queue_resize (notebook);
 
 	for (i = 1; i < 5; i++){
@@ -636,7 +634,7 @@ static void
 do_fetch_page_info (dialog_print_info_t *dpi)
 {
 	GtkToggleButton *t;
-	Value top_range, left_range;
+	Value *top_range, *left_range;
 	GtkEntry *entry_top, *entry_left;
 	
 	t = GTK_TOGGLE_BUTTON (glade_xml_get_widget (dpi->gui, "check-print-divisions"));
@@ -654,11 +652,17 @@ do_fetch_page_info (dialog_print_info_t *dpi)
 	entry_top  = GTK_ENTRY (glade_xml_get_widget (dpi->gui, "repeat-rows-entry"));
 	entry_left = GTK_ENTRY (glade_xml_get_widget (dpi->gui, "repeat-cols-entry"));
 
-	if (range_parse (NULL, gtk_entry_get_text (entry_top), &top_range))
-		dpi->pi->repeat_top_range = top_range;
+	if (range_parse (NULL, gtk_entry_get_text (entry_top), &top_range)){
+		dpi->pi->repeat_top.range = *top_range;
+		dpi->pi->repeat_top.use = TRUE;
+		value_release (top_range);
+	}
 
-	if (range_parse (NULL, gtk_entry_get_text (entry_left), &left_range))
-		dpi->pi->repeat_left_range = left_range;
+	if (range_parse (NULL, gtk_entry_get_text (entry_left), &left_range)){
+		dpi->pi->repeat_left.range = *left_range;
+		dpi->pi->repeat_left.use = TRUE;
+		value_release (left_range);
+	}
 }
 
 static void

@@ -36,6 +36,8 @@ range_parse (Sheet *sheet, const char *range, Value **v)
 {
 	CellRef a, b;
 	char *p;
+	char *copy;
+	char *part_2;
 	
 	g_return_val_if_fail (range != NULL, FALSE);
 	g_return_val_if_fail (v != NULL, FALSE);
@@ -44,15 +46,23 @@ range_parse (Sheet *sheet, const char *range, Value **v)
 	b.col_relative = 0;
 	a.row_relative = 0;
 	b.row_relative = 0;
-	
-	if (!parse_cell_name (range, &a.col, &a.row))
+
+	copy = g_strdup (range);
+	if ((p = strchr (copy, ':')) != NULL){
+		*p = 0;
+		part_2 = p+1;
+	} else
+		part_2 = NULL;
+	    
+	if (!parse_cell_name (copy, &a.col, &a.row)){
+		g_free (copy);
 		return FALSE;
+	}
 
 	a.sheet = sheet;
 	
-	p = strstr (range, ":");
-	if (p){
-		if (!parse_cell_name (range, &b.col, &b.row))
+	if (part_2){
+		if (!parse_cell_name (part_2, &b.col, &b.row))
 			return FALSE;
 
 		b.sheet = sheet;
@@ -61,6 +71,7 @@ range_parse (Sheet *sheet, const char *range, Value **v)
 
 	*v = value_new_cellrange (&a, &b);
 
+	g_free (copy);
 	return  TRUE;
 }
 

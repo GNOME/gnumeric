@@ -1,3 +1,53 @@
+1999-07-02  Miguel de Icaza  <miguel@gnu.org>
+
+	* doc/Design, doc/translating.sgml: small touchups.
+
+	* src/dialog-printer-setup.c (do_setup_main_dialog): Set the
+	window parent here.
+	(do_setup_main_dialog): Force destruction of parent widget.
+
+	* src/print.glade: Removed visibility flag from toplevel dialog
+	box. 
+
+	* doc/C/files.sgml: Updated indentation.
+
+	* src/dialog-printer-setup.c (do_setup_page): Use relative path
+	for printing here.
+
+1999-06-30  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/item-grid.c (item_grid_draw_cell): Eliminate warning.
+
+	* src/dialog-printer-setup.c: Adapted to the new setup for keeping
+	track of col/rows ranges.
+	(do_fetch_page_info): ditto.
+
+	* src/print.c (PrintJobInfo): Use doubles for all the printing
+	units. 
+	(print_sheet_range): Take into account the repeat ranges for
+	repeated headers, repeated columns.
+	(print_sheet): compute space used by repeated headers and repeated
+	columns. 
+	(print_page): Print repeating top rows and repeating left
+	columns on each page.  Loop over printing routines.
+	(print_page_cells): new routine: prints a cell range only.
+	(print_page_repeated_rows, print_page_repeated_cols): Prints the
+	repeating columns and repeating rows.
+
+	* src/dialog-cell-format.c (apply_font_format): Implement
+	GnomePrint based version.
+
+
+	* src/print-info.c (save_range): Updated to reflect the new change
+	to PrintRepeatRange.
+	(print_info_save): ditto.
+	(load_range): ditto.
+	(print_info_new): ditto.
+
+	* src/print-info.h: Store ranges as a structure that contains an
+	explicit tag for validness instead of overloading the definition
+	of Value/CellRange.
+	
 1999-07-02  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/anaysis-tools.c: New file for data analysis tools.
@@ -33,7 +83,7 @@
 
 1999-06-30 Heath Martin <martinh@pegasus.cc.ucf.edu>
 	
-	* src/cell.[c,h]: (cell_get_comment) New function.
+	* src/cell.c, src/cell.h: (cell_get_comment) New function.
  
  	* src/xml-io.c: (xml_write_cell) Save comments.
  	(xml_read_cell) Load comments.
@@ -44,6 +94,7 @@
 	add a bit about Styles.
 
 1999-06-29  Jody Goldberg  <jgoldberg@home.com>
+	
 	* src/cell.c (cell_set_formula) : Handle special case of array by
 	  setting the entire matrix from the top left corner.
 	(cell_set_array_formula) : New function.

@@ -8,7 +8,9 @@
 <!entity worksheet SYSTEM "worksheet.sgml">
 <!entity files SYSTEM "files.sgml">
 <!entity functions SYSTEM "functions.sgml">
+<!entity printing SYSTEM "printing.sgml">
 ]>
+
 <book id="gnumeric">
   <bookinfo>
     <title>Gnumeric's user manual</title>
@@ -82,6 +84,11 @@
     &files;
   </chapter>
 
+  <chapter id="printing">
+    <title>Printing</title>
+    &printing;
+  </chapter>
+  
   <chapter id="tutorials">
     <title>Tutorials</title>
     <para>Nothing yet, will be some walkthroughs eventually.</para>

@@ -100,35 +100,23 @@ load_hf (const char *type, const char *a, const char *b, const char *c)
 	return format;
 }
 
-static void
-init_invalid_range (Value *v)
-{
-	v->type = VALUE_CELLRANGE;
-	v->v.cell_range.cell_a.sheet = NULL;
-	v->v.cell_range.cell_b.sheet = NULL;
-	v->v.cell_range.cell_a.col = -1;
-	v->v.cell_range.cell_a.row = -1;
-	v->v.cell_range.cell_b.col = -1;
-	v->v.cell_range.cell_b.row = -1;
-}
-
-static const Value *
+static Value *
 load_range (const char *name)
 {
-	static Value v;
+	static Value *v;
 	char *str;
-       
-	str = gnome_config_get_string (name);
-	if (!str){
-		init_invalid_range (&v);
-		return &v;
-	}
+	gboolean ok;
 		
-	if (!range_parse (NULL, str, &v))
-		init_invalid_range (&v);
+	str = gnome_config_get_string (name);
+	if (!str)
+		return NULL;
+
+	ok = range_parse (NULL, str, &v);
 	g_free (str);
+	if (!ok)
+		return NULL;
 	
-	return &v;
+	return v;
 }
 
 #define CENTIMETER_IN_POINTS      "28.346457"
@@ -143,6 +131,7 @@ PrintInformation *
 print_info_new (void)
 {
 	PrintInformation *pi;
+	Value *cellrange;
 	char *s;
 	
 	pi = g_new0 (PrintInformation, 1);
@@ -194,8 +183,22 @@ print_info_new (void)
 	else
 		pi->print_order = PRINT_ORDER_DOWN_THEN_RIGHT;
 
-	pi->repeat_top_range =  *load_range ("repeat_top_range=");
-	pi->repeat_left_range = *load_range ("repeat_bottom_range=");
+	/*
+	 * Load the columns/rows to repeat
+	 */
+	if ((cellrange = load_range ("repeat_top_range=")) != NULL){
+		pi->repeat_top.range = *cellrange;
+		pi->repeat_top.use = TRUE;
+		value_release (cellrange);
+	} else
+		pi->repeat_top.use = FALSE;
+
+	if ((cellrange = load_range ("repeat_left_range=")) != NULL){
+		pi->repeat_left.range = *cellrange;
+		pi->repeat_left.use = TRUE;
+		value_release (cellrange);
+	} else
+		pi->repeat_left.use = FALSE;
 		
 	gnome_config_pop_prefix ();
 	gnome_config_sync ();
@@ -214,17 +217,16 @@ save_margin (const char *prefix, PrintUnit *p)
 }
 
 static void
-save_range (const char *section, Value *v)
+save_range (const char *section, PrintRepeatRange *repeat)
 {
-	if (v->v.cell_range.cell_a.col == -1)
-		gnome_config_set_string (section, "");
-	else {
+	if (repeat->use){
 		char *s;
 
-		s = value_cellrange_get_as_string (v, FALSE);
+		s = value_cellrange_get_as_string (&repeat->range, FALSE);
 		gnome_config_set_string (section, s);
 		g_free (s);
-	}
+	} else
+		gnome_config_set_string (section, "");
 }
 
 void
@@ -254,8 +256,8 @@ print_info_save (PrintInformation *pi)
 	gnome_config_set_bool ("print_titles", pi->print_titles);
 	gnome_config_set_bool ("order_right", pi->print_order);
 
-	save_range ("repeat_top_range", &pi->repeat_top_range);
-	save_range ("repeat_left_range", &pi->repeat_left_range);
+	save_range ("repeat_top_range", &pi->repeat_top);
+	save_range ("repeat_left_range", &pi->repeat_left);
 	
 	gnome_config_pop_prefix ();
 	gnome_config_sync ();

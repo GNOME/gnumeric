@@ -7,6 +7,7 @@
  */
 #include <config.h>
 #include <gnome.h>
+#include <libgnomeprint/gnome-font-dialog.h>
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "gnumeric-sheet.h"
@@ -522,35 +523,35 @@ font_changed (GtkWidget *widget, GtkStyle *previous_style, GnomePropertyBox *pro
 static GtkWidget *
 create_font_page (GtkWidget *prop_win, CellList *cells)
 {
-	font_widget = gtk_font_selection_new ();
+	GtkWidget *font_widget;
+	
+	font_widget = gnome_font_selection_new ();
 	gtk_widget_show (font_widget);
 
-	gtk_signal_connect (GTK_OBJECT (GTK_FONT_SELECTION (font_widget)->preview_entry),
+	gtk_signal_connect (GTK_OBJECT (GNOME_FONT_SELECTION (font_widget)->preview),
 			    "style_set",
 			    GTK_SIGNAL_FUNC (font_changed), prop_win);
-	
 	return font_widget;
 }
 
-#if 0
-#warning FIXME: Need to code the apply_font_format code 
 static void
 apply_font_format (Style *style, Sheet *sheet, CellList *cells)
 {
-	GtkFontSelection *font_sel = GTK_FONT_SELECTION (font_widget);
-	GdkFont   *gdk_font;
+	GnomeFontSelection *font_sel = GNOME_FONT_SELECTION (font_widget);
+	GnomeDisplayFont *gnome_display_font;
+	GnomeFont *gnome_font;
 	GList *l;
 	char *font_name;
-	int  height;
-	
-	font_name = gtk_font_selection_get_font_name (font_sel);
+	double height;
 
-	if (!font_name)
+	gnome_display_font = gnome_font_selection_get_font (font_sel);
+	if (!gnome_display_font)
 		return;
 
-	gdk_font = gtk_font_selection_get_font (font_sel);
-	height = gdk_font->ascent + gdk_font->descent;
-
+	gnome_font = gnome_display_font->gnome_font;
+	font_name = gnome_font->fontmap_entry->font_name;
+	height = gnome_display_font->gnome_font->size;
+	
 	/* Apply the new font to all of the cell rows */
 	for (; cells; cells = cells->next){
 		Cell *cell = cells->data;
@@ -579,9 +580,14 @@ apply_font_format (Style *style, Sheet *sheet, CellList *cells)
 		}
 	}
 	style->valid_flags |= STYLE_FONT;
-	style->font = style_font_new (font_name, 10); 
+	style->font = style_font_new (
+		font_name,
+		gnome_font->size,
+		sheet->last_zoom_factor_used,
+		gnome_font->fontmap_entry->weight_code >= GNOME_FONT_BOLD,
+		gnome_font->fontmap_entry->italic);
 }
-#endif
+
 
 static void
 color_pick_change_notify (GnomeColorPicker *cp, guint r, guint g, guint b, guint a, GnomePropertyBox *pbox)
@@ -916,8 +922,7 @@ static struct {
 } cell_format_pages [] = {
 	{ N_("Number"),    create_number_format_page,  apply_number_formats  },
 	{ N_("Alignment"), create_align_page,          apply_align_format    },
-#warning Activate Fonts here too.
-/*	{ N_("Font"),      create_font_page,           apply_font_format     }, */
+	{ N_("Font"),      create_font_page,           apply_font_format     },
 	{ N_("Coloring"),  create_coloring_page,       apply_coloring_format },
 	{ NULL, NULL, NULL }
 };

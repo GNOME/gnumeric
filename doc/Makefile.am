@@ -13,4 +13,3 @@ EXTRA_DIST = 				\
 	writing-functions.sgml		\
 	linux-expo-99-gnumeric.tex
 
-	

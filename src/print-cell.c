@@ -375,8 +375,8 @@ print_cell_range (GnomePrintContext *context,
 	g_return_if_fail (GNOME_IS_PRINT_CONTEXT (context));
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (start_col < end_col);
-	g_return_if_fail (start_row < end_row);
+	g_return_if_fail (start_col <= end_col);
+	g_return_if_fail (start_row <= end_row);
 
 	y = 0;
 	ci = NULL;
@@ -431,8 +431,8 @@ print_cell_grid (GnomePrintContext *context,
 	g_return_if_fail (GNOME_IS_PRINT_CONTEXT (context));
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (start_col < end_col);
-	g_return_if_fail (start_row < end_row);
+	g_return_if_fail (start_col <= end_col);
+	g_return_if_fail (start_row <= end_row);
 
 	gnome_print_setlinewidth (context, 0.5);
 

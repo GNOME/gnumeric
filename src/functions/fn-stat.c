@@ -3472,7 +3472,6 @@ init_lrstat_closure(stat_lrstat_t *cl)
 static Value *
 gnumeric_forecast (FunctionEvalInfo *ei, Value *argv [])
 {
-        GSList        *current;
 	ExprTree      *tree;
 	GList         *expr_node_list;
 	stat_lrstat_t cl;
@@ -3554,7 +3553,6 @@ static char *help_intercept = {
 static Value *
 gnumeric_intercept (FunctionEvalInfo *ei, Value *argv [])
 {
-        GSList        *current;
 	ExprTree      *tree;
 	GList         *expr_node_list;
 	stat_lrstat_t cl;

@@ -14,7 +14,7 @@
 #include "gnumeric-util.h"
 
 #undef DEBUG_FONTS
-#define DEFAULT_FONT      "Helvetica"
+#define DEFAULT_FONT "Helvetica"
 #define DEFAULT_SIZE 12
 
 static GHashTable *style_format_hash;
@@ -121,7 +121,7 @@ style_font_new_simple (const char *font_name, double size, double scale, int bol
 	
 	font = (StyleFont *) g_hash_table_lookup (style_font_hash, &key);
 	if (!font){
-		GnomeDisplayFont *display_font;
+		const GnomeDisplayFont *display_font;
 		GnomeFont *gnome_font;
 
 		display_font = gnome_get_display_font (

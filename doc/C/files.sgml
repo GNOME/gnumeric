@@ -1,19 +1,22 @@
 <sect1>
   <title>Working with files</title>
-
+  
   <sect2>
     <title>Saving files</title>
-
-    <para>There are several ways to save a file that is currently open. If the file
-      has been named and already exists (ie, its not a new worksheet) the Save function
-      will save the file to the existing name. </para>
-
-    <para>The Save procedure can be invoked several ways. It is available in the 
-      Menubar (see <xref linkend="menu-bar">) from <guimenu><accel>F</accel>ile</guimenu>/
-	<guimenuitem><accel>S</accel>ave</guimenuitem> menuitem. There is also
-	a buttonbar <guibutton>Save</guibutton> (see <xref linkend="buttonbar-buttons">).
-	  All these methods are equivalent    .</para>
-
+    
+    <para>There are several ways to save a file that is currently
+      open. If the file has been named and already exists (ie, its not
+      a new worksheet) the Save function will save the file to the
+      existing name. </para>
+    
+    <para>The Save procedure can be invoked several ways. It is
+      available in the Menubar (see <xref linkend="menu-bar">) from
+      <guimenu><accel>F</accel>ile</guimenu>/
+      <guimenuitem><accel>S</accel>ave</guimenuitem> menuitem. There
+      is also a buttonbar <guibutton>Save</guibutton> (see <xref
+      linkend="buttonbar-buttons">).  All these methods are equivalent
+      .
+    </para>
 
     <!-- FIXME is this proper? --> 
     <important>
@@ -34,20 +37,20 @@
 	  </term>
 	  <listitem>
 	    <para>
-	    <guiicon>
+	      <guiicon>
 		<inlinegraphic fileref="images/stock_save.gif"></inlinegraphic>
 		Save
 	      </guiicon>
 	    </para>
 	  </listitem>
-      </varlistentry>
+	</varlistentry>
 	<!-- FIXME this is broken, the keycombo actions seem t ge ignored -->
 	<!-- We need to maek it clear its alt and F _then_ a, and the generated html doesnt do that -->
 	<varlistentry>
 	  <term>
 	    Keyboard Shortcut
 	  </term>
-	<listitem>
+	  <listitem>
 	    <para>
 	      <keycombo action=seq>
 		<keycombo action=simul>
@@ -57,17 +60,19 @@
 	      </keycombo>
 	    </para>
 	  </listitem>
-      </varlistentry>
+	</varlistentry>
       </variablelist>
       
     </important>
-      
-    <para>To save new files, or to rename a file, the <guimenuitem>Save As...</guimenuitem>
-      is used. This will prompt the user for a new filename and path for the file to be
-      saved as. </para>
+    
+    <para>To save new files, or to rename a file, the
+      <guimenuitem>Save As...</guimenuitem> is used. This will prompt
+      the user for a new filename and path for the file to be saved
+      as.
+    </para>
     
     <important>
-	<variablelist>
+      <variablelist>
 	<title>Invoking a file Save as..</title>
 	<varlistentry>
 	  <term>Menubar</term>
@@ -88,15 +93,15 @@
 		<inlinegraphic fileref="images/stock_save.gif"></inlinegraphic>
 		Save
 	      </guiicon>
-		  This calls <guimenuitem>Save as...</guimenuitem> for new unnamed files. To rename a file, the menu
-		  or keyboard shortcut needs to be used.
+	      This calls <guimenuitem>Save as...</guimenuitem> for new unnamed files. To rename a file, the menu
+	      or keyboard shortcut needs to be used.
 	    </para>
 	  </listitem>
 	</varlistentry>
 	<!-- FIXME this is broken, the keycombo actions seem t ge ignored -->
 	<!-- We need to maek it clear its alt and F _then_ a, and the generated html doesnt do that -->
 	<varlistentry>
-	<term>
+	  <term>
 	    Keyboard Shortcut
 	  </term>
 	  <listitem>
@@ -107,24 +112,27 @@
 		</keycombo>
 		<keycap>a</keycap>
 	      </keycombo>
-	  </para>
+	    </para>
 	  </listitem>
 	</varlistentry>
       </variablelist>
       
     </important>
-
-    </sect2>
-
-    <sect2>
-      <title>File format</title>
-      
-      <para>The default file format an Gnumeric's native format is a xml based file. 
-	The file format is a ascii text based xml format. It is however, typically written
-	and read in a gzip compressed form. </para>
-      
-    <para>The uncompressed format is human readable and designed to be easily parsed. It
-      is very extensible.</para>
+    
+  </sect2>
+  
+  <sect2>
+    <title>File format</title>
+    
+    <para>The default file format an Gnumeric's native format is a xml
+      based file.  The file format is a ascii text based xml
+      format. It is however, typically written and read in a gzip
+      compressed form.
+    </para>
+    
+    <para>The uncompressed format is human readable and designed to be
+      easily parsed. It is very extensible.
+    </para>
       
   </sect2>
 
