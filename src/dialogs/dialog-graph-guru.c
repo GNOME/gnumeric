@@ -1008,9 +1008,12 @@ dialog_graph_guru (WorkbookControlGUI *wbcg, GnmGraph *graph, int page)
 
 		/* Excel docs claim that rows == cols uses rows */
 		state->is_columns = num_cols < num_rows;
-		for (ptr = state->sheet->selections; ptr != NULL; ptr = ptr->next)
+
+		/* selections are in reverse order */
+		ptr = g_list_last (state->sheet->selections);
+		for (; ptr != NULL; ptr = ptr->prev)
 			gnm_graph_range_to_vectors (state->graph, state->sheet,
-			ptr->data, state->is_columns);
+						    ptr->data, state->is_columns);
 		gnm_graph_arrange_vectors (state->graph);
 	}
 

@@ -241,7 +241,7 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 	}
 
 	sheet_merge_get_adjacent (sheet, &cell->pos, &merge_left, &merge_right);
-	min_col = (merge_left != NULL) ? merge_left->end.col : 0;
+	min_col = (merge_left != NULL) ? merge_left->end.col : -1;
 	max_col = (merge_right != NULL) ? merge_right->start.col : SHEET_MAX_COLS;
 
 	*col1 = *col2 = cell->pos.col;
@@ -275,7 +275,7 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 		left = indented_w - COL_INTERNAL_WIDTH (cell->col_info);
 		margin = cell->col_info->margin_a;
 
-		for (; left > 0 && pos >= min_col; pos--){
+		for (; left > 0 && pos > min_col; pos--){
 			ColRowInfo *ci = sheet_col_get_info (sheet, pos);
 
 			if (ci->visible) {
@@ -309,7 +309,7 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 		for (; remain_left > 0 || remain_right > 0;){
 			ColRowInfo *ci;
 
-			if (--pos_l >= min_col){
+			if (--pos_l > min_col){
 				ci = sheet_col_get_info (sheet, pos_l);
 
 				if (ci->visible) {
@@ -351,7 +351,7 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 		int pos_l, pos_r;
 
 		pos_l = pos_r = cell->pos.col;
-		while (--pos_l >= min_col) {
+		while (--pos_l > min_col) {
 			ColRowInfo const *ci = sheet_col_get_info (sheet, pos_l);
 			if (ci->visible) {
 				if (cellspan_is_empty (pos_l, ri, cell)) {

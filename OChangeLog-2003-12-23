@@ -1,5 +1,7 @@
 2001-10-21  Jody Goldberg <jgoldberg@home.com>
 
+	* src/cellspan.c (cell_calc_span) : min_col is exclusive.
+
 	* src/sheet-object-container.c (sheet_object_container_update_bounds) :
 	  handle visibility.
 	* src/sheet-object-cell-comment.c (cell_comment_update_bounds) : ditto.

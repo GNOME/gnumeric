@@ -115,7 +115,7 @@ char const *const gnm_graph_vector_type_name [] =
 
 static void
 impl_vector_selection_selected (PortableServer_Servant servant,
-				const GNOME_Gnumeric_SeqPair * ranges,
+				const GNOME_Gnumeric_SeqPair *ranges,
 				CORBA_Environment * ev)
 {
 	GnmGraphVector *vector = SERVANT_TO_GRAPH_VECTOR (servant);
