@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.0\n"
 "POT-Creation-Date: 2003-01-06 06:07+0100\n"
-"PO-Revision-Date: 2003-01-07 10:33+EDT\n"
+"PO-Revision-Date: 2003-01-14 11:02+EDT\n"
 "Last-Translator: Ge'ez Frontier Foundation <locales@geez.org>\n"
 "Language-Team: Amharic <locales@geez.org>\n"
 "MIME-Version: 1.0\n"
@@ -2653,7 +2653,7 @@ msgstr ""
 
 #: plugins/fn-date/plugin.xml.in.h:2
 msgid "Date/Time"
-msgstr ""
+msgstr "ቀን/ሰዓት"
 
 #: plugins/fn-date/plugin.xml.in.h:3
 msgid "Functions manipulating dates and time"
@@ -10577,7 +10577,7 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:8 src/workbook-object-toolbar.c:163
 msgid "Arrow"
-msgstr ""
+msgstr "ቀስት"
 
 #: src/GNOME_Gnumeric.xml.h:9 src/workbook-control-gui.c:3639
 msgid "Auto _Correct..."
@@ -11334,7 +11334,7 @@ msgstr "ከፕሮግራሙ ውጣ"
 
 #: src/GNOME_Gnumeric.xml.h:186
 msgid "Radio Button"
-msgstr ""
+msgstr "ሬዲዮ ቁልፍ"
 
 #: src/GNOME_Gnumeric.xml.h:187
 msgid "Ranks and _Percentiles"
@@ -15388,7 +15388,7 @@ msgstr ""
 #. xgettext: Bool == Boolean (or binary) constraint for the linear program
 #: src/dialogs/dialog-solver.c:89 src/dialogs/solver.glade.h:10
 msgid "Bool"
-msgstr ""
+msgstr "ቡል"
 
 #: src/dialogs/dialog-solver.c:103
 msgid "Revised Simplex (GLPK 3.2)"
@@ -15400,7 +15400,7 @@ msgstr ""
 
 #: src/dialogs/dialog-solver.c:105
 msgid "< Not available >"
-msgstr "*"
+msgstr ""
 
 #: src/dialogs/dialog-solver.c:432
 msgid ""
@@ -16814,7 +16814,7 @@ msgstr ""
 
 #: src/dialogs/search-replace.glade.h:42 src/dialogs/search.glade.h:31
 msgid "_Ignore case"
-msgstr ""
+msgstr "የፊደሉን መጠን _ተዉት"
 
 #: src/dialogs/search-replace.glade.h:43
 msgid "_Location"
@@ -18246,7 +18246,7 @@ msgstr ""
 
 #: src/func.c:679
 msgid "Boolean"
-msgstr "ቦልያን"
+msgstr "ቡልያን"
 
 #: src/func.c:681
 msgid "Cell Range"
