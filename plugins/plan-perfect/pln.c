@@ -33,6 +33,11 @@
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
+gboolean pln_file_probe (GnumFileOpener const *fo, GsfInput *input,
+			 FileProbeLevel pl);
+void     pln_file_open (GnumFileOpener const *fo, IOContext *io_context,
+			WorkbookView *wb_view, GsfInput *input);
+
 static char const *formula1[] = {
 	NULL,			/* 0 */
 	"MINUS(",
