@@ -1,5 +1,10 @@
 2000-05-27  Jody Goldberg <jgoldberg@home.com>
 
+	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet) : Chift/Ctrl
+	  space are not active while editing.
+
+	* src/workbook.c (function_druid) : Disable until this works better.
+
 	* src/commands.c (cmd_paste_copy_undo) : Mark the sheet as dirt, and
 	  do a recalc.
 

@@ -634,7 +634,8 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 	 * Magic : Some of these are accelerators,
 	 * we need to catch them before entering because they appear to be printable
 	 */
-	if (event->keyval == GDK_space && (event->state & (GDK_SHIFT_MASK|GDK_CONTROL_MASK)) )
+	if (wb->editing && event->keyval == GDK_space &&
+	    (event->state & (GDK_SHIFT_MASK|GDK_CONTROL_MASK)))
 		return FALSE;
 
 	switch (event->keyval){

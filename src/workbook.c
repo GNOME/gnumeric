@@ -1083,11 +1083,13 @@ autosum_cmd (GtkWidget *widget, Workbook *wb)
 	}
 }
 
+#ifdef FUNCTION_DRUID
 static void
 function_druid (GtkWidget *widget, Workbook *wb)
 {
 	dialog_function_druid (wb);
 }
+#endif
 
 static void
 sort_ascend_cmd (GtkWidget *widget, Workbook *wb)
@@ -1517,9 +1519,12 @@ static GnomeUIInfo workbook_standard_toolbar [] = {
 	GNOMEUIINFO_ITEM_DATA (
 		N_("Sum"), N_("Sum into the current cell."),
 		autosum_cmd, NULL, auto_sum_xpm),
+#ifdef FUNCTION_DRUID
 	GNOMEUIINFO_ITEM_DATA (
 		N_("Function"), N_("Edit a function in the current cell."),
 		&function_druid, NULL, function_selector_xpm),
+#endif
+
 	GNOMEUIINFO_ITEM_DATA (
 		N_("Sort Ascending"), N_("Sorts the selected region in ascending order based on the first column selected."),
 		sort_ascend_cmd, NULL, sort_ascending_xpm),
