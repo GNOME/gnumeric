@@ -1,3 +1,7 @@
+2000-05-07  Karl Eichwalder  <ke@suse.de>
+
+	* boot.c (init_plugin): Change string for consistency.
+
 2000-05-06  Jody Goldberg <jgoldberg@home.com>
 
 	* Makefile.am : Remove config.h from here too.

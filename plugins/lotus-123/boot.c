@@ -83,7 +83,7 @@ lotus_cleanup_plugin (PluginData *pd)
 PluginInitResult
 init_plugin (CommandContext *context, PluginData *pd)
 {
-	char *descr  = _("Lotus (*.wk1) file format");
+	char *descr  = _("Lotus file format (*.wk1)");
 
 	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
 		return PLUGIN_QUIET_ERROR;
