@@ -1,4 +1,5 @@
-2003-08-11  Carlos Perelló Marín <carlos@gnome.org>
+
+2003-08-11  Carlos PerellÃ³ MarÃ­n <carlos@gnome.org>
 
 	* configure.in: Added a dependency with intltool 0.27 because
 	this project needs UTF-8 strings inside source code.
@@ -5507,7 +5508,7 @@
 
 	* src/value.c (value_coerce_to_number) : new.
 
-2002-09-26  Lutz Müller <lutz@users.sourceforge.net>
+2002-09-26  Lutz MÃ¼ller <lutz@users.sourceforge.net>
 
 	* src/workbook.[c,h]: New signals: "sheet_added" and "sheet_deleted".
 
@@ -5568,7 +5569,7 @@
 	* src/workbook.c (post_sheet_index_change) : don't emit the signal
 	  during destruction.
 
-2002-09-24  Lutz Müller <lutz@users.sourceforge.net>
+2002-09-24  Lutz MÃ¼ller <lutz@users.sourceforge.net>
 
 	* src/dialogs/dialog-sheet-order.c: Be aware of changes in the
 	  sheet order.
@@ -5618,7 +5619,7 @@
 	* src/expr.c (gnm_expr_eval) : handle empties when implicit
 	  intersection is valid but accesses an empty cell.
 
-2002-09-23  Lutz Müller <lutz@users.sourceforge.net>
+2002-09-23  Lutz MÃ¼ller <lutz@users.sourceforge.net>
 
 	* src/workbook-control-gui.c: Implement reordering of sheets via
 	  drag & drop within workbooks.
@@ -7742,7 +7743,7 @@
 
 	* src/parse-util.h : Add PERR_SINGLE_RANGE.
 
-2002-05-29  Jon Kåre Hellan  <hellan@acm.org>
+2002-05-29  Jon KÃ¥re Hellan  <hellan@acm.org>
 
 	* configure.in (try_python): Fix typo
 
