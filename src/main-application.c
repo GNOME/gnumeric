@@ -8,9 +8,23 @@
  */
 
 #include <gnumeric-config.h>
-#include <glib.h>
-#include <libgnumeric.h>
+#include "gnumeric.h"
+#include "libgnumeric.h"
+
+#include "command-context.h"
+#include "workbook-control-gui.h"
+#include "workbook-view.h"
+#include "plugin.h"
+#include "workbook.h"
+#include "gnumeric-gconf.h"
+
 #include <libgnome/gnome-i18n.h>
+#include <gtk/gtkmain.h>
+
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <time.h>
 
 static	int gnumeric_show_version = FALSE;
 static	char *dump_file_name = NULL;
@@ -50,11 +64,52 @@ gnumeric_popt_options[] = {
 	{ NULL, '\0', 0, NULL, 0 }
 };
 
+static void
+handle_paint_events (void)
+{
+	/* FIXME: we need to mask input events correctly here */
+	/* Show something coherent */
+	while (gtk_events_pending () && !initial_workbook_open_complete)
+		gtk_main_iteration_do (FALSE);
+}
+
+
+static void
+warn_about_ancient_gnumerics (const char *binary, WorkbookControl *wbc)
+{
+	struct stat buf;
+	time_t now = time (NULL);
+	int days = 180;
+
+	if (binary &&
+	    stat (binary, &buf) != -1 &&
+	    buf.st_mtime != -1 &&
+	    now - buf.st_mtime > days * 24 * 60 * 60) {
+		handle_paint_events ();
+
+		gnumeric_error_system (COMMAND_CONTEXT (wbc),
+				       _("Thank you for using Gnumeric!\n"
+					 "\n"
+					 "The version of Gnumeric you are using is quite old\n"
+					 "by now.  It is likely that many bugs have been fixed\n"
+					 "and that new features have been added in the meantime.\n"
+					 "\n"
+					 "Please consider upgrading before reporting any bugs.\n"
+					 "Consult http://www.gnumeric.org/ for details.\n"
+					 "\n"
+					 "-- The Gnumeric Team."));
+	}
+}
+
+
 int
 main (int argc, char *argv [])
 {
+	char const **startup_files;
+	gboolean opened_workbook = FALSE;
+	WorkbookControl *wbc;
+
 	poptContext ctx;
-	int ret;
 
 	init_init (argv[0]);
 
@@ -68,11 +123,55 @@ main (int argc, char *argv [])
 
 	gnm_common_init ();
 
-	if (dump_file_name) {
+	if (dump_file_name)
 		return gnm_dump_func_defs (dump_file_name); 
+
+	/* Load selected files */
+	if (ctx)
+		startup_files = poptGetArgs (ctx);
+	else
+		startup_files = NULL;
+
+#ifdef WITH_BONOBO
+	bonobo_activate ();
+#endif
+ 	wbc = workbook_control_gui_new (NULL, NULL);
+
+	/* TODO : make a dialog based command context and do this earlier.  We
+	 * should not arbitrarily be using the 1st workbook as the place to
+	 * link errors or status.
+	 *
+	 * plugin init should be earlier too.
+	 */
+ 	plugins_init (COMMAND_CONTEXT (wbc));
+	if (startup_files) {
+		int i;
+		for (i = 0; startup_files [i]  && !initial_workbook_open_complete ; i++) {
+ 			if (wb_view_open (startup_files[i], wbc, TRUE, NULL))
+  				opened_workbook = TRUE;
+
+			/* cheesy attempt to keep the ui from freezing during load */
+			handle_paint_events ();
+		}
 	}
 
-	gnm_application_init (&ctx);
+	/* If we were intentionally short circuited exit now */
+	if (!initial_workbook_open_complete && !immediate_exit_flag) {
+		initial_workbook_open_complete = TRUE;
+		if (!opened_workbook) {
+			gint n_of_sheets = gnm_gconf_get_initial_sheet_number ();
+			while (n_of_sheets--)
+				workbook_sheet_add (wb_control_workbook (wbc),
+						    NULL, FALSE);
+
+			/* cheesy attempt to keep the ui from freezing during load */
+			handle_paint_events ();
+		}
+
+		warn_about_ancient_gnumerics (g_get_prgname(), wbc);
+
+		gtk_main ();
+	}
 
 	gnm_shutdown ();
 

@@ -845,6 +845,14 @@ workbook_sheet_by_name (Workbook const *wb, char const *sheet_name)
 	return g_hash_table_lookup (wb->sheet_hash_private, sheet_name);
 }
 
+/**
+ * workbook_sheet_attach :
+ * @wb :
+ * @new_sheet :
+ * @insert_after : optional position.
+ *
+ * Add @new_sheet to @wb, either placing it after @insert_after, or appending.
+ */
 void
 workbook_sheet_attach (Workbook *wb, Sheet *new_sheet,
 		       Sheet const *insert_after)
@@ -933,6 +941,14 @@ workbook_sheet_detach (Workbook *wb, Sheet *sheet)
 	return TRUE;
 }
 
+/**
+ * workbook_sheet_add :
+ * @wb :
+ * @insert_after : optional position.
+ *
+ * Create and name a new sheet, either placing it after @insert_after, or
+ * appending.
+ */
 Sheet *
 workbook_sheet_add (Workbook *wb, Sheet const *insert_after, gboolean make_dirty)
 {

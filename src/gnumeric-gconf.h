@@ -102,13 +102,4 @@ void     gnm_gconf_set_horizontal_window_fraction  (gnum_float val);
 gnum_float gnm_gconf_get_vertical_window_fraction (void);
 void     gnm_gconf_set_vertical_window_fraction  (gnum_float val);
 
-
-
-
-
-
-
-
-
-
 #endif /* GNUMERIC_GRAPH_H */

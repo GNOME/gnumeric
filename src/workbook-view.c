@@ -577,47 +577,29 @@ wb_view_save (WorkbookView *wbv, CommandContext *context)
 }
 
 /**
- * wb_view_open:
- * @wbv         : Workbook View
- * @wbc         : Workbook Control
+ * wb_view_open :
  * @file_name   : File name
- * @display_err : should errors messages be generated
+ * @wbc         : Workbook Control
+ * @display_errors :
+ * @fo          : Optional GnumFileOpener
  *
- * Reads @file_name file, automatically detecting file type and using
- * appropriate file opener.
+ * Reads @file_name file using given file opener @fo, or probes for a valid
+ * possibility if @fo is NULL.
  *
  * Return value: TRUE if file was successfully read and FALSE otherwise.
  */
 gboolean
-wb_view_open (WorkbookView *wbv, WorkbookControl *wbc,
-              gchar const *file_name, gboolean display_errors)
-{
-	return wb_view_open_custom (wbv, wbc, NULL, file_name, display_errors);
-}
-
-/**
- * wb_view_open_custom:
- * @wbv         : Workbook View
- * @wbc         : Workbook Control
- * @fo          : GnumFileOpener object
- * @file_name   : File name
- *
- * Reads @file_name file using given file opener (@fo).
- *
- * Return value: TRUE if file was successfully read and FALSE otherwise.
- */
-gboolean
-wb_view_open_custom (WorkbookView *wbv, WorkbookControl *wbc,
-                     GnumFileOpener const *fo, gchar const *file_name,
-		     gboolean display_errors)
+wb_view_open (char const *file_name,
+	      WorkbookControl *wbc,
+	      gboolean display_errors,
+	      GnumFileOpener const *fo)
 {
 	Workbook *new_wb = NULL;
 	WorkbookView *new_wbv = NULL;
 
-	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), FALSE);
+	g_return_val_if_fail (file_name != NULL, FALSE);
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), FALSE);
 	g_return_val_if_fail (fo == NULL || IS_GNUM_FILE_OPENER (fo), FALSE);
-	g_return_val_if_fail (file_name != NULL, FALSE);
 
 	if (g_file_test (file_name, G_FILE_TEST_IS_REGULAR)) {
 		IOContext *io_context = gnumeric_io_context_new (COMMAND_CONTEXT (wbc));

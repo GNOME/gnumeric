@@ -1,5 +1,11 @@
 2002-04-16  Jody Goldberg <jody@gnome.org>
 
+	* src/workbook-view.c (wb_view_open) : merge with wb_view_open_custom
+	  and remove the useless view argument.
+
+	* src/libgnumeric.c : move the application specific code from here.
+	* src/main-application.c : to here.
+
 	* configure.in : Addd gobject & gmodule
 
 2002-04-15  Andreas J. Guelzow <aguelzow@taliesin.ca>

@@ -18,8 +18,6 @@
 #include "command-context.h"
 #include "command-context-stderr.h"
 #include "workbook.h"
-#include "workbook-control-gui.h"
-#include "workbook-view.h"
 #include "sheet-object.h"
 #include "number-match.h"
 #include "expr-name.h"
@@ -41,11 +39,6 @@
 #include "gnumeric-gconf.h"
 #include "auto-correct.h"
 
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <time.h>
-#include <gtk/gtkmain.h>
 #include <locale.h>
 #ifdef WITH_BONOBO
 #include "bonobo-io.h"
@@ -97,44 +90,6 @@ init_init (char const* gnumeric_binary)
 	 */
 	setlocale (LC_ALL, "");
 }
-
-static void
-handle_paint_events (void)
-{
-	/* FIXME: we need to mask input events correctly here */
-	/* Show something coherent */
-	while (gtk_events_pending () && !initial_workbook_open_complete)
-		gtk_main_iteration_do (FALSE);
-}
-
-
-static void
-warn_about_ancient_gnumerics (const char *binary, WorkbookControl *wbc)
-{
-	struct stat buf;
-	time_t now = time (NULL);
-	int days = 180;
-
-	if (binary &&
-	    stat (binary, &buf) != -1 &&
-	    buf.st_mtime != -1 &&
-	    now - buf.st_mtime > days * 24 * 60 * 60) {
-		handle_paint_events ();
-
-		gnumeric_error_system (COMMAND_CONTEXT (wbc),
-				       _("Thank you for using Gnumeric!\n"
-					 "\n"
-					 "The version of Gnumeric you are using is quite old\n"
-					 "by now.  It is likely that many bugs have been fixed\n"
-					 "and that new features have been added in the meantime.\n"
-					 "\n"
-					 "Please consider upgrading before reporting any bugs.\n"
-					 "Consult http://www.gnumeric.org/ for details.\n"
-					 "\n"
-					 "-- The Gnumeric Team."));
-	}
-}
-
 
 
 #if 0
@@ -193,54 +148,6 @@ gnm_common_init ()
 
 	global_gnome_font_init ();
 	glade_gnome_init ();
-}
-
-void
-gnm_application_init (poptContext *ctx)
-{
-	char const **startup_files;
-	gboolean opened_workbook = FALSE;
-	WorkbookControl *wbc;
-
-	/* Load selected files */
-	if (ctx)
-		startup_files = poptGetArgs (*ctx);
-	else
-		startup_files = NULL;
-
-#ifdef WITH_BONOBO
-	bonobo_activate ();
-#endif
- 	wbc = workbook_control_gui_new (NULL, NULL);
- 	plugins_init (COMMAND_CONTEXT (wbc));
-	if (startup_files) {
-		int i;
-		for (i = 0; startup_files [i]  && !initial_workbook_open_complete ; i++) {
- 			if (wb_view_open (wb_control_view (wbc), wbc,
-					  startup_files[i], TRUE))
-  				opened_workbook = TRUE;
-
-			handle_paint_events ();
-		}
-	}
-
-	/* If we were intentionally short circuited exit now */
-	if (!initial_workbook_open_complete && !immediate_exit_flag) {
-		initial_workbook_open_complete = TRUE;
-		if (!opened_workbook) {
-			gint n_of_sheets = gnm_gconf_get_initial_sheet_number ();
-			Sheet *sheet = NULL;
-			
-			while (n_of_sheets--)
-				sheet = workbook_sheet_add (wb_control_workbook (wbc),
-						    sheet, FALSE);
-			handle_paint_events ();
-		}
-
-		warn_about_ancient_gnumerics (g_get_prgname(), wbc);
-
-		gtk_main ();
-	}
 }
 
 int
