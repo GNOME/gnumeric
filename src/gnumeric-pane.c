@@ -770,20 +770,6 @@ gnm_pane_object_start_resize (GnmPane *pane, GdkEventButton *event,
 	gnm_widget_set_cursor_type (GTK_WIDGET (pane->gcanvas), GDK_HAND2);
 }
 
-static void
-cb_clear_indirect_rubber_bands (SheetObject *so, FooCanvasItem **ctrl_pts,
-				GnmPane *pane)
-{
-	if (NULL != ctrl_pts[9]) {
-		double const *pts = g_hash_table_lookup (
-			pane->gcanvas->simple.scg->selected_objects, so);
-		gtk_object_destroy (GTK_OBJECT (ctrl_pts[9]));
-		ctrl_pts[9] = NULL;
-		sheet_object_view_set_bounds (sheet_object_get_view (so, (SheetObjectViewContainer *)pane),
-			pts, TRUE);
-	}
-}
-
 static int
 cb_control_point_event (FooCanvasItem *ctrl_pt, GdkEvent *event, GnmPane *pane)
 {
@@ -826,8 +812,6 @@ cb_control_point_event (FooCanvasItem *ctrl_pt, GdkEvent *event, GnmPane *pane)
 		gnm_simple_canvas_ungrab (ctrl_pt, event->button.time);
 		gnm_canvas_slide_stop (gcanvas);
 		control_point_set_cursor (scg, ctrl_pt);
-		g_hash_table_foreach (pane->drag.ctrl_pts, 
-			(GHFunc) cb_clear_indirect_rubber_bands, pane);
 		if (pane->drag.had_motion)
 			scg_objects_drag_commit	(scg, idx,
 				pane->drag.created_objects);

@@ -704,62 +704,47 @@ dnl **************************************************
 dnl * Check for Perl
 dnl **************************************************
 dnl
-perl_msg="yes"
-AC_CHECK_PROG(perl_val, perl, true, false)
-if $perl_val; then
-  AC_MSG_CHECKING(for perl ExtUtils::Embed module				)
-  perl -e 'eval { require ExtUtils::Embed }; if ($@) { exit(1); } else { exit(0); }'
-  if test "x$?" = "x0"; then
-    AC_MSG_RESULT($marker_ok)
+perl_val=false
+AC_ARG_WITH(perl, [--{with,without}-perl   Compile the Perl plugin loader])
+if test "x$with_perl" != xno; then
+    case "x$with_perl" in
+    xyes|x)	perl_prog=perl;;
+    *)		perl_prog="$with_perl";;
+    esac
+    AC_CHECK_PROG(PERL_APP, "$perl_prog", $perl_prog,"")
+    if test "x$PERL_APP" != x; then
+	AC_MSG_CHECKING(for perl ExtUtils::Embed module				)
+	$perl_prog -e 'eval { require ExtUtils::Embed }; if ($@) { exit(1); } else { exit(0); }'
+	if test "x$?" = "x0"; then
+	    AC_MSG_RESULT($marker_ok)
+	    AC_CHECK_LIB(perl, perl_construct, [perl_val=true ; perl_msg="yes (using $perl_prog)"], [perl_msg="missing/invalid libperl"])
+	else
+	    AC_MSG_RESULT($marker_no)
+	    perl_msg="Missing ExtUtils::Embed"
+	fi
+    else
+	perl_msg="could not find $perl_prog"
+    fi
+else
+    perl_msg="Disabled by request"
+fi
 
+if test $perl_val ; then
     dnl Use ExtUtils::Embed to figure out the other options.
-    PERL_CCCDLFLAGS=`perl -MConfig -e 'print $Config{cccdlflags},"\n";'`
-    PERL_LDDLFLAGS=`perl -MConfig -e 'print $Config{lddlflags},"\n";'`
-    PERL_CC=`perl -MConfig -e 'print $Config{cc},"\n";'`
-    PERL_LD=`perl -MConfig -e 'print $Config{ld},"\n";'`
-    PERL_CCOPTS=`perl -MExtUtils::Embed -e ccopts`
-    PERL_LDOPTS=`perl -MExtUtils::Embed -e ldopts`
+    PERL_CCCDLFLAGS=`$perl_prog -MConfig -e 'print $Config{cccdlflags},"\n";'`
+    PERL_LDDLFLAGS=`$perl_prog -MConfig -e 'print $Config{lddlflags},"\n";'`
+    PERL_CC=`$perl_prog -MConfig -e 'print $Config{cc},"\n";'`
+    PERL_LD=`$perl_prog -MConfig -e 'print $Config{ld},"\n";'`
+    PERL_CCOPTS=`$perl_prog -MExtUtils::Embed -e ccopts`
+    PERL_LDOPTS=`$perl_prog -MExtUtils::Embed -e ldopts`
     AC_SUBST(PERL_CCCDLFLAGS)
     AC_SUBST(PERL_LDDLFLAGS)
     AC_SUBST(PERL_CC)
     AC_SUBST(PERL_LD)
     AC_SUBST(PERL_CCOPTS)
     AC_SUBST(PERL_LDOPTS)
-  else
-    AC_MSG_RESULT($marker_no)
-    perl_val=false
-    perl_msg="problems rutting perl"
-  fi
-else
-    perl_msg="disabled by request"
 fi
-
 AM_CONDITIONAL(WITH_PERL, $perl_val)
-
-dnl **************************************************
-dnl * Check for mono
-dnl **************************************************
-with_mono=no
-mono_msg="disabled, still experimental"
-
-dnl A tricky way to comment out in m4:
-ifelse([
-AC_ARG_WITH(mono, [--{with,without}-mono     Compile the mono scripting engine])
-case x$with_mono in
-xno)	mono_msg="Disabled by request";;
-*)
-    PKG_CHECK_MODULES(MONO, mono,
-	[with_mono=yes
-	 AC_DEFINE(WITH_MONO, 1, [Define if mono .NET engine is available])],
-	[with_mono=no])
-    mono_msg=$with_mono
-    ;;
-esac
-])
-
-AM_CONDITIONAL(WITH_MONO, test "x$with_mono" = "xyes")
-AC_SUBST(MONO_CFLAGS)
-AC_SUBST(MONO_LIBS)
 
 dnl **************************************************
 dnl * Check for Python
@@ -855,6 +840,31 @@ EOF
 	fi
 fi
 AM_CONDITIONAL(WITH_PYTHON, $python_val)
+
+dnl **************************************************
+dnl * Check for mono
+dnl **************************************************
+with_mono=no
+mono_msg="disabled, still experimental"
+
+dnl A tricky way to comment out in m4:
+ifelse([
+AC_ARG_WITH(mono, [--{with,without}-mono     Compile the mono scripting engine])
+case x$with_mono in
+xno)	mono_msg="Disabled by request";;
+*)
+    PKG_CHECK_MODULES(MONO, mono,
+	[with_mono=yes
+	 AC_DEFINE(WITH_MONO, 1, [Define if mono .NET engine is available])],
+	[with_mono=no])
+    mono_msg=$with_mono
+    ;;
+esac
+])
+
+AM_CONDITIONAL(WITH_MONO, test "x$with_mono" = "xyes")
+AC_SUBST(MONO_CFLAGS)
+AC_SUBST(MONO_LIBS)
 
 dnl **************************************************
 dnl * Config defaults (Must be after bonobo)

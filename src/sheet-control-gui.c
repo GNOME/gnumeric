@@ -1934,13 +1934,27 @@ typedef struct {
 	GSList *objects, *anchors;
 } CollectObjectsData;
 static void
-cb_collect_objects (SheetObject *so, double *coords, CollectObjectsData *data)
+cb_collect_objects_to_commit (SheetObject *so, double *coords, CollectObjectsData *data)
 {
 	SheetObjectAnchor *anchor = g_new0 (SheetObjectAnchor, 1);
 	sheet_object_anchor_cpy	(anchor, sheet_object_get_anchor (so));
 	scg_object_coords_to_anchor (data->scg, coords, anchor);
 	data->objects = g_slist_prepend (data->objects, so);
 	data->anchors = g_slist_prepend (data->anchors, anchor);
+
+	if (!sheet_object_rubber_band_directly (so)) {
+		SCG_FOREACH_PANE (data->scg, pane, {
+			FooCanvasItem **ctrl_pts = g_hash_table_lookup (pane->drag.ctrl_pts, so);
+			if (NULL != ctrl_pts[9]) {
+				double const *pts = g_hash_table_lookup (
+					pane->gcanvas->simple.scg->selected_objects, so);
+				gtk_object_destroy (GTK_OBJECT (ctrl_pts[9]));
+				ctrl_pts[9] = NULL;
+				sheet_object_view_set_bounds (sheet_object_get_view (so, (SheetObjectViewContainer *)pane),
+					pts, TRUE);
+			}
+		});
+	}
 }
 
 void
@@ -1951,7 +1965,7 @@ scg_objects_drag_commit (SheetControlGUI *scg, int drag_type,
 	data.objects = data.anchors = NULL;
 	data.scg = scg;
 	g_hash_table_foreach (scg->selected_objects,
-		(GHFunc) cb_collect_objects, &data);
+		(GHFunc) cb_collect_objects_to_commit, &data);
 	cmd_objects_move (WORKBOOK_CONTROL (scg_get_wbcg (scg)),
 		data.objects, data.anchors, created_objects,
 		created_objects /* This is somewhat cheesy and should use ngettext */

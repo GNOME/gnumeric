@@ -12,6 +12,7 @@ Release Critical
     : Use GNOME Recent for the gnome build
     : kasal's popt patch
     : Printing is zoomed for non-gnome build
+    : tie the custom ui into action sensitivity pools
 
 Worries
 -------

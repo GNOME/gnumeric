@@ -73,7 +73,5 @@ dist-hook: gnumeric.spec
 	cp gnumeric.spec $(distdir)
 
 # disable the check because the old perl plugin is hard to clean
-distcleancheck:
+distuninstallcheck:
 	@:
-
-

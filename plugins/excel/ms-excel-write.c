@@ -3288,7 +3288,7 @@ excel_write_autofilter_objs (ExcelWriteSheet *esheet)
 }
 
 static void
-excel_write_chart (ExcelWriteSheet *esheet, SheetObject *so)
+excel_write_chart_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 {
 	static guint8 const obj_v8[] = {
 /* SpContainer */   0xf,   0,   4, 0xf0,   0x6a, 0, 0, 0,
@@ -3421,7 +3421,7 @@ blipinf_free (BlipInf *blip)
 }
 
 static void
-excel_write_image (ExcelWriteSheet *esheet, BlipInf *bi)
+excel_write_image_v8 (ExcelWriteSheet *esheet, BlipInf *bi)
 {
 	static guint8 const obj_v8[] = {
 /* SpContainer */   0xf,   0,   4, 0xf0,   0x4c, 0, 0, 0,
@@ -3517,7 +3517,7 @@ excel_write_ClientTextbox(ExcelWriteState *ewb, SheetObject *so)
 }
 
 static void
-excel_write_textbox (ExcelWriteSheet *esheet, SheetObject *so)
+excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 {
 	static guint8 const obj_v8[] = {
 /* SpContainer */   0xf,   0,   4, 0xf0,    0x6c, 0, 0, 0,
@@ -3979,7 +3979,7 @@ excel_write_CODENAME (ExcelWriteState *ewb, GObject *src)
 }
 
 static void
-excel_write_objs (ExcelWriteSheet *esheet)
+excel_write_objs_v8 (ExcelWriteSheet *esheet)
 {
 	BiffPut *bp = esheet->ewb->bp;
 	GSList  *ptr, *charts = sheet_objects_get (esheet->gnum_sheet,
@@ -4030,15 +4030,15 @@ excel_write_objs (ExcelWriteSheet *esheet)
 
 #warning handle multiple charts in a graph by creating multiple objects
 	for (ptr = charts; ptr != NULL ; ptr = ptr->next)
-		excel_write_chart (esheet, ptr->data);
+		excel_write_chart_v8 (esheet, ptr->data);
 	g_slist_free (charts);
 
 	for (ptr = esheet->blips; ptr != NULL ; ptr = ptr->next)
 		if (ptr->data)
-			excel_write_image (esheet, ptr->data);
+			excel_write_image_v8 (esheet, ptr->data);
 
 	for (ptr = esheet->textboxes; ptr != NULL ; ptr = ptr->next)
-		excel_write_textbox (esheet, ptr->data);
+		excel_write_textbox_v8 (esheet, ptr->data);
 
 	excel_write_autofilter_objs (esheet);
 }
@@ -4110,7 +4110,7 @@ excel_write_sheet (ExcelWriteState *ewb, ExcelWriteSheet *esheet)
 	excel_sheet_write_INDEX (esheet, index_off, dbcells);
 
 	if (ewb->num_obj_groups > 0)
-		excel_write_objs (esheet);
+		excel_write_objs_v8 (esheet);
 
 	SHEET_FOREACH_VIEW (esheet->gnum_sheet, view, {
 		if (excel_write_WINDOW2 (ewb->bp, esheet, view))
