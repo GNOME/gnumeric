@@ -1,3 +1,8 @@
+2001-10-20  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_find_boundary_{horizontal,vertical}) : handle
+	  jumping to end of non-blank region where the end is hidden.
+
 2001-10-19  Jody Goldberg <jgoldberg@home.com>
 
 	* src/gnumeric-graph.c (gnm_graph_setup) : it is 'oaf-run-query'

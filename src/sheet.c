@@ -1871,7 +1871,9 @@ sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int move_row,
 					return (find_nonblank || iterations == 1) ? bound->end.col : prev_col;
 				new_col = sheet->cols.max_used;
 			}
-			keep_looking = (sheet_is_cell_empty (sheet, new_col, move_row) == find_nonblank);
+			keep_looking =
+				sheet_col_is_hidden (sheet, new_col) ||
+				(sheet_is_cell_empty (sheet, new_col, move_row) == find_nonblank);
 			if (keep_looking)
 				prev_col = new_col;
 			else if (!find_nonblank) {
@@ -1885,7 +1887,7 @@ sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int move_row,
 					new_col = prev_col;
 			}
 		}
-	} while (keep_looking || sheet_col_is_hidden (sheet, new_col));
+	} while (keep_looking);
 
 
 	return new_col;
@@ -1976,7 +1978,9 @@ sheet_find_boundary_vertical (Sheet *sheet, int move_col, int start_row,
 				new_row = sheet->rows.max_used;
 			}
 
-			keep_looking = (sheet_is_cell_empty (sheet, move_col, new_row) == find_nonblank);
+			keep_looking =
+				sheet_row_is_hidden (sheet, new_row) ||
+				(sheet_is_cell_empty (sheet, move_col, new_row) == find_nonblank);
 			if (keep_looking)
 				prev_row = new_row;
 			else if (!find_nonblank) {
@@ -1990,7 +1994,7 @@ sheet_find_boundary_vertical (Sheet *sheet, int move_col, int start_row,
 					new_row = prev_row;
 			}
 		}
-	} while (keep_looking || sheet_row_is_hidden (sheet, new_row));
+	} while (keep_looking);
 
 	return new_row;
 }
