@@ -34,7 +34,7 @@ depending cells fashion.
 
        The DependencySingle structure mapping stores the degenerate case of
 a DependencyRange. Essentialy it stores the cells that depend on a unit range.
-This allows for extremely fast linear time hashed lookup. This contrasts with
+This allows for extremely fast constant time hashed lookup. This contrasts with
 the Range hash, all of which has to be traversed per dependency calculation.
 NB. the DependencySingle has to use CellPos' since there is no garentee that
 a cell will exist at a given position in the sheet that is depended on.
