@@ -60,7 +60,8 @@ cell_ref_to_scm (CellRef cell, CellRef eval_cell)
 static CellRef
 scm_to_cell_ref (SCM scm)
 {
-	CellRef cell = { 0, 0, 0, 0 };
+	/* Sheet local, absolute references */
+	CellRef cell = { NULL, 0, 0, FALSE, FALSE };
 
 	if (SCM_NIMP(scm) && SCM_CONSP(scm)
 	    && SCM_NFALSEP(scm_eq_p(SCM_CAR(scm), scm_symbolfrom0str("cell-ref")))
@@ -133,34 +134,27 @@ value_to_scm (Value const *val, CellRef cell_ref)
 static Value*
 scm_to_value (SCM scm)
 {
-	if (SCM_NIMP(scm) && SCM_STRINGP(scm))
-	{
-		Value *val = g_new(Value, 1);
+	if (SCM_NIMP(scm) && SCM_STRINGP(scm)) {
+		/* assuming (wrongly?) that scm strings are zero-terminated */
+		return value_new_string (SCM_CHARS(scm));
 
-		val->type = VALUE_STRING;
-		val->v.str = string_get(SCM_CHARS(scm)); /* assuming (wrongly?) that scm strings are zero-terminated */
-		return val;
-	}
-	else if (SCM_NFALSEP(scm_number_p(scm)))
-	{
+	} else if (SCM_NFALSEP(scm_number_p(scm))) {
 		/* We do not need to do any distinction between an integer or
 		 *  a float here. If we do so, we can crash gnumeric if the
                  *  size of scm is bigger than the size of int
 		 */
-
 		return value_new_float ((float_t)scm_num2dbl(scm, 0));
-	}
-	else if (SCM_NIMP(scm) && SCM_CONSP(scm))
+
+	} else if (SCM_NIMP(scm) && SCM_CONSP(scm))
 	{
 		if (scm_eq_p(SCM_CAR(scm), scm_symbolfrom0str("cell-range"))
 		    && SCM_NIMP(SCM_CDR(scm)) && SCM_CONSP(SCM_CDR(scm)))
 		{
-			Value *val = g_new(Value, 1);
+			CellRef a = scm_to_cell_ref(SCM_CADR(scm));
+			CellRef b = scm_to_cell_ref(SCM_CDDR(scm));
 
-			val->type = VALUE_CELLRANGE;
-			val->v.cell_range.cell_a = scm_to_cell_ref(SCM_CADR(scm));
-			val->v.cell_range.cell_b = scm_to_cell_ref(SCM_CDDR(scm));
-			return val;
+			/* The refs are always absolute so the 0,0 is irrelevant */
+			return value_new_cellrange (&a, &b, 0, 0);
 		}
 	}
 

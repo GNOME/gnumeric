@@ -1,3 +1,7 @@
+2000-04-21  Jody Goldberg <jgoldberg@home.com>
+
+	* plugin.c (scm_to_value) : Use value_new_{cellrange,string}.
+
 2000-04-05  Jody Goldberg <jgoldberg@home.com>
 
 	* plugin.c (func_scm_apply) : Use eval_expr_empty, and
