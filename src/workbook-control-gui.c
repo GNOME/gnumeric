@@ -3190,7 +3190,9 @@ static GnomeUIInfo workbook_menu_file [] = {
 	{ GNOME_APP_UI_ITEM, N_("Print Pre_view..."),
 	  N_("Print preview"),
 	  cb_file_print_preview,
-	  NULL, NULL, 0, 0, 'p', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
+	  NULL, NULL,
+	  GNOME_APP_PIXMAP_STOCK, GTK_STOCK_PRINT_PREVIEW,
+	  'p', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
 	GNOMEUIINFO_MENU_PRINT_ITEM (cb_file_print, NULL),
 
 	GNOMEUIINFO_SEPARATOR,
