@@ -1,5 +1,7 @@
 2000-05-19  Jody Goldberg <jgoldberg@home.com>
 
+	* src/cell.c (cell_copy) : Ref the format if one exists.
+
 	* src/colrow.c (cb_set_row_height) : Only set the height if it
 	  changed.
 

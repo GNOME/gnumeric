@@ -131,6 +131,9 @@ cell_copy (Cell const *cell)
 	    ? value_duplicate (new_cell->value)
 	    : value_new_empty ();
 
+	if (cell->format)
+		style_format_ref (cell->format);
+
 	if (cell->comment) {
 		new_cell->comment = NULL;
 		cell_set_comment (new_cell, cell->comment->comment->str);
