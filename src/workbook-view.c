@@ -738,11 +738,15 @@ wb_view_sendto (WorkbookView *wbv, GnmCmdContext *context)
 
 			template = g_build_filename (g_get_tmp_dir (), dirname, NULL);
 #ifdef G_OS_WIN32
-			if (mkdir (template) == 0)
+			if (mkdir (template) == 0) {
+				problem = TRUE;
 				break;
+			}
 #else
-			if (mkdir (template, 0700) == 0)
+			if (mkdir (template, 0700) == 0) {
+				problem = TRUE;
 				break;
+			}
 #endif
 
 			if (errno != EEXIST) {

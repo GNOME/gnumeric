@@ -1,7 +1,7 @@
 2004-09-27  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook-view.c (wb_view_sendto): Bring !WITH_GNOME case a
-	lot closer to sanity.
+	lot closer to sanity.  Properly handle case where mkdir fails.
 
 2004-09-27  Jody Goldberg <jody@gnome.org>
 
