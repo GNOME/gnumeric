@@ -6,78 +6,144 @@
 #include <gnome.h>
 
 #include "../../src/gnumeric.h"
-#include "../../src/func.h"
+#include "../../src/symbol.h"
 #include "../../src/plugin.h"
 
 #include "Python.h"
 
-PyObject *codeobj = NULL;
+/*
+ * Support for registering Python-based functions for use in formulas.
+ */
+
+static PyObject *
+v2py(Value *v)
+{
+  PyObject *o;
+
+  switch (v->type) {
+  case VALUE_INTEGER:
+    o = PyInt_FromLong(v->v.v_int);
+    break;
+  case VALUE_FLOAT:
+    o = PyFloat_FromDouble(v->v.v_float);
+    break;
+  case VALUE_STRING:
+    o = PyString_FromString(v->v.str->str);
+    break;
+  default:
+    o = NULL;
+    break;
+  }
+  return o;
+}
 
 static Value *
-marshal(Value *argv[], char **error_string)
+py2v(PyObject *o)
 {
-  PyObject *args = Py_BuildValue("()");
-  PyObject *result;
-  Value *v;
+  Value *v = g_new(Value, 1);
 
-  g_print("marshall: activated\n");
+  if (!v) return NULL;
 
-  result = PyEval_CallObject(codeobj, args);
-  if (!result)
-    return NULL;
-
-  Py_DECREF(args);
-
-  g_print("checking result\n");
-
-  v = g_new0(Value, 1);
-  if (PyInt_Check(result)) {
-    g_print("marshal: making integer value\n");
+  if (PyInt_Check(o)) {
     v->type = VALUE_INTEGER;
-    v->v.v_int = (int_t) PyInt_AsLong(result);
-  } else if (PyFloat_Check(result)) {
-    g_print("marshal: making float value\n");
+    v->v.v_int = (int_t) PyInt_AsLong(o);
+  } else if (PyFloat_Check(o)) {
     v->type = VALUE_FLOAT;
-    v->v.v_float = (float_t) PyFloat_AsDouble(result);
+    v->v.v_float = (float_t) PyFloat_AsDouble(o);
   } else {
-    PyErr_SetString(PyExc_TypeError, "unexpected return type");
     g_free(v);
-    v = NULL;
+    return NULL;
   }
 
+  /* Python strings ae not null-terminated ... add code later */ 
+
+  return v;
+}
+
+typedef struct {
+  FunctionDefinition *fndef;
+  PyObject *codeobj;
+} FuncData;
+
+static GList *funclist = NULL;
+
+static int
+fndef_compare(FunctionDefinition *fndef, FuncData *fdata)
+{
+  return (fdata->fndef == fndef);
+}
+
+static Value *
+marshal_func(FunctionDefinition *fndef, Value *argv[], char **error_string)
+{
+  PyObject *args, *result;
+  Value *v;
+  GList *l;
+  int i, count = strlen(fndef->args);
+
+  /* Find the Python code object for this FunctionDefinition. */
+  l = g_list_find_custom(funclist, fndef, (GCompareFunc) fndef_compare);
+  if (!l) {
+    *error_string = "Unable to lookup Python code object.";
+    return NULL;
+  }
+
+  /* Build the argument list wihch is a Python tuple. */
+  args = PyTuple_New(count);
+  for (i = 0; i < count; i++) {
+    PyTuple_SetItem(args, i, v2py(argv[i]));  /* ref is stolen from us */
+  }
+
+  /* Call the Python object. */
+  result = PyEval_CallObject( ((FuncData *)(l->data))->codeobj, args);
+  Py_DECREF(args);
+  if (!result) {
+    *error_string = "Python exception.";
+    PyErr_Clear(); /* XXX should popup window with exception info */
+    return NULL;
+  }
+
+  v = py2v(result);
   Py_DECREF(result);
   return v;
 }
 
-static FunctionDefinition plugin_functions [] = {
-  { "plusone", "f", "number", NULL, NULL, marshal },
-  { NULL, NULL },
-};
-
 static PyObject *
 __register_function(PyObject *m, PyObject *args)
 {
-  char *funcname;
+  FunctionDefinition *fndef;
+  FuncData *fdata;
+  char *funcname, *params;
+  PyObject *codeobj;
 
-  if (! PyArg_ParseTuple(args, "sO", &funcname, &codeobj))
+  if (! PyArg_ParseTuple(args, "ssO", &funcname, &params, &codeobj))
     return NULL;
 
-  g_print("__register_function called (func=%s)\n", funcname);
-
   if (! PyCallable_Check(codeobj)) {
-    g_print("object is not callable\n");
     PyErr_SetString(PyExc_TypeError, "object must be callable");
     return NULL;
   }
 
-  g_print("object is callable\n");
-  
-  plugin_functions[0].name = g_strdup(funcname);
-  g_print("installed function name\n");
-  install_symbols(plugin_functions);
-  g_print("told gnumeric about the function");
-  
-  return Py_BuildValue("");
+  fndef = g_new0(FunctionDefinition, 1);
+  if (!fndef) {
+    PyErr_SetString(PyExc_MemoryError, "could not alloc FuncDef");
+    return NULL;
+  }
+
+  fdata = g_new(FuncData, 1);
+  fdata->fndef = fndef;
+  fdata->codeobj = codeobj;
+  Py_INCREF(codeobj);
+  funclist = g_list_append(funclist, fdata);
+
+  fndef->name = g_strdup(funcname);
+  fndef->args = g_strdup(params);
+  fndef->fn = marshal_func;
+
+  symbol_install(fndef->name, SYMBOL_FUNCTION, fndef);
+
+  Py_INCREF(Py_None);
+  return Py_None;
 }
 
 static PyMethodDef gnumeric_funcs[] = {
@@ -99,12 +165,10 @@ init_plugin(PluginData * pd)
   PyObject *m, *d, *f;
 
   /* initialize the python interpreter */
-  g_print("python plugin started\n");
   Py_SetProgramName("gnumeric");
   Py_Initialize();
 
   /* setup standard functions */
-
   initgnumeric();
   if (PyErr_Occurred()) {
     PyErr_Print();
@@ -116,19 +180,22 @@ init_plugin(PluginData * pd)
   pd->title = g_strdup("Python Plugin");
 
   /* run the magic python file */
+  /* XXX should run single Python file in system directory. This file would
+   * then contain policy for the loading the remainder of the Python
+   * scripts.
+   */
 
   {
     char *homedir = getenv("HOME");
     char *fname;
     FILE *fp;
 
-    g_print("running python file\n");
-    g_warning ("FIXME: This should load a systme installed file");
+    g_warning ("FIXME: This should load a system installed file");
     fname = g_copy_strings(homedir ? homedir : "", "/.gnumeric/main.py", NULL);
     fp = fopen(fname, "r");
-    PyRun_AnyFile(fp, fname);
+    PyRun_SimpleFile(fp, fname);
+    /* XXX Detect Python exception and popup window with info */
     g_free(fname);
-    g_print("done running python file\n");
   }
 
   return 0;
@@ -136,6 +203,10 @@ init_plugin(PluginData * pd)
 
 void cleanup_plugin(PluginData *pd)
 {
+  /* XXX Unloading the Plugin will crash gnumeric right now :) */
+  /* XXX Plugin API needs to support a "can_unload" function instead of
+   * the lame reference count.
+   */
   g_free(pd->title);
   Py_Finalize();
 }
