@@ -467,7 +467,7 @@ generate_format (FormatState *state)
 
 	case FMT_NUMBER :
 		/* Make sure no currency is selected */
-		format.currency_symbol_index = -1;		
+		format.currency_symbol_index = 0;
 
 	case FMT_CURRENCY :
 		style_format_number(new_format, &format);
