@@ -705,8 +705,8 @@ eval_expr (void *asheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 					*error_string = _("Division by zero");
 					return NULL;
 				}
-					
-				res->v.v_int =  a->v.v_int / b->v.v_int;
+				res->type = VALUE_FLOAT;
+				res->v.v_float =  a->v.v_int / (float_t)b->v.v_int;
 				break;
 				
 			case OP_EXP: 

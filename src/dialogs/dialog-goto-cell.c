@@ -80,13 +80,15 @@ dialog_goto_cell (Workbook *wb)
 
 	text = gtk_entry_get_text (GTK_ENTRY (entry));
 
-	if (workbook_parse_and_jump (wb, text)){
-		char *texts [1];
-
-		texts [0] = text;
-		
-		gtk_clist_append (GTK_CLIST (clist), texts);
+	if (*text){
+		if (workbook_parse_and_jump (wb, text)){
+			char *texts [1];
+			
+			texts [0] = text;
+			
+			gtk_clist_append (GTK_CLIST (clist), texts);
+		}
 	}
-
+	
 	gnome_dialog_close (GNOME_DIALOG (dialog));
 }

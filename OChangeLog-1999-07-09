@@ -1,5 +1,11 @@
 1998-09-23  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/dialog-goto-cell.c (dialog_goto_cell): Do not complain if
+	there was no target cell entered.
+
+	* src/expr.c (eval_expr): Division of integers results in a
+	float. 
+
 	* src/workbook.c: Added shortcuts to the File menu.
 
 	* src/item-cursor.c (item_cursor_autofill_event): Do not allow
