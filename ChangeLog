@@ -1,5 +1,17 @@
 2003-08-23  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
+	* src/commands.c (cmd_so_graph_config_redo): use 
+	  sheet_object_graph_set_gog
+	(cmd_so_graph_config_undo): ditto
+	(cmd_so_graph_config): initialize me->first_time
+	* src/sheet-object-graph.h (sheet_object_graph_reassign_gog):
+	  export sheet_object_graph_set_gog instead
+	(sheet_object_graph_reassign_gog): delete
+	(sheet_object_graph_set_gog): allow this function to be called
+	  even with a second (or later) graph.
+
+2003-08-23  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
 	* src/commands.c 
 	(cmd_reorganize_sheets_delete_get_this_sheet_info): do not
 	  exclude graphs

@@ -6607,6 +6607,7 @@ typedef struct
 	SheetObject *so;
 	GogGraph *new_graph;
 	GogGraph *old_graph;
+	gboolean first_time;
 } CmdSOGraphConfig;
 
 GNUMERIC_MAKE_COMMAND (CmdSOGraphConfig, cmd_so_graph_config);
@@ -6617,8 +6618,8 @@ cmd_so_graph_config_redo (GnumericCommand *cmd,
 {
 	CmdSOGraphConfig *me = CMD_SO_GRAPH_CONFIG (cmd);
 
-	g_object_unref (G_OBJECT (sheet_object_graph_get_gog (me->so)));
-	sheet_object_graph_reassign_gog (me->so, me->new_graph);
+	sheet_object_graph_set_gog (me->so, me->new_graph, me->first_time);
+	me->first_time = FALSE;
 
 	return (FALSE);
 }
@@ -6629,8 +6630,7 @@ cmd_so_graph_config_undo (GnumericCommand *cmd,
 {
 	CmdSOGraphConfig *me = CMD_SO_GRAPH_CONFIG (cmd);
 
-	g_object_unref (G_OBJECT (sheet_object_graph_get_gog (me->so)));
-	sheet_object_graph_reassign_gog (me->so, me->old_graph);
+	sheet_object_graph_set_gog (me->so, me->old_graph, FALSE);
 
 	return (FALSE);
 }
@@ -6674,6 +6674,8 @@ gboolean cmd_so_graph_config (WorkbookControl *wbc,
 	g_object_ref (G_OBJECT (new_graph));
 	me->old_graph = old_graph;
 	g_object_ref (G_OBJECT (old_graph));
+
+	me->first_time = TRUE;
 
 	me->cmd.sheet = sheet_object_get_sheet (so);;
 	me->cmd.size = 1;

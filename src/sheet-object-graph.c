@@ -87,35 +87,38 @@ cb_graph_remove_data (G_GNUC_UNUSED GogGraph *graph,
 	sog_data_set_sheet (sog, data, NULL);
 }
 
-void 
-sheet_object_graph_reassign_gog (SheetObject *so, GogGraph *graph)
+void
+sheet_object_graph_set_gog (SheetObject *so, GogGraph *graph,
+			    gboolean attach_signals)
 {
 	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
-	g_return_if_fail (graph != NULL);
 
-	g_object_set (sog->renderer, "model", graph, NULL);
-	g_object_ref (G_OBJECT (graph));
-	sog->graph = graph;
-}
-
-static void
-sheet_object_graph_set_gog (SheetObjectGraph *sog, GogGraph *graph)
-{
 	if (graph != NULL)
 		g_object_ref (G_OBJECT (graph));
 	else
 		graph = g_object_new (GOG_GRAPH_TYPE, NULL);
+
+	if (sog->graph != NULL)
+		g_object_unref (G_OBJECT (sog->graph));
+
 	sog->graph = graph;
 
-	sog->renderer = g_object_new (GOG_RENDERER_PIXBUF_TYPE,
-				      "model", sog->graph,
-				      NULL);
-	g_signal_connect_object (G_OBJECT (graph),
-		"add_data",
-		G_CALLBACK (cb_graph_add_data), G_OBJECT (sog), 0);
-	g_signal_connect_object (G_OBJECT (graph),
-		"remove_data",
-		G_CALLBACK (cb_graph_remove_data), G_OBJECT (sog), 0);
+	if (sog->renderer != NULL)
+		g_object_set (sog->renderer, "model", graph, NULL);
+	else
+		sog->renderer = g_object_new (GOG_RENDERER_PIXBUF_TYPE,
+					      "model", sog->graph,
+					      NULL);
+	if (attach_signals) {
+		g_signal_connect_object (G_OBJECT (graph),
+					 "add_data",
+					 G_CALLBACK (cb_graph_add_data), 
+					 G_OBJECT (sog), 0);
+		g_signal_connect_object (G_OBJECT (graph),
+					 "remove_data",
+					 G_CALLBACK (cb_graph_remove_data), 
+					 G_OBJECT (sog), 0);
+	}
 }
 
 GogGraph *
@@ -136,7 +139,7 @@ SheetObject *
 sheet_object_graph_new (GogGraph *graph)
 {
 	SheetObjectGraph *sog = g_object_new (SHEET_OBJECT_GRAPH_TYPE, NULL);
-	sheet_object_graph_set_gog (sog, graph);
+	sheet_object_graph_set_gog (SHEET_OBJECT (sog), graph, TRUE);
 	return SHEET_OBJECT (sog);
 }
 
@@ -203,7 +206,7 @@ sheet_object_graph_read_xml (SheetObject *so,
 
 	if (child != NULL) {
 		GogObject *graph = gog_object_new_from_xml (NULL, child);
-		sheet_object_graph_set_gog (SHEET_OBJECT_GRAPH (so), GOG_GRAPH (graph));
+		sheet_object_graph_set_gog (so, GOG_GRAPH (graph), TRUE);
 		g_object_unref (graph);
 	}
 	return FALSE;
@@ -232,7 +235,7 @@ sheet_object_graph_clone (SheetObject const *so, Sheet *sheet)
 
 	new_sog = g_object_new (G_OBJECT_TYPE (so), NULL);
 	graph = gog_graph_dup (sog->graph);
-	sheet_object_graph_set_gog (new_sog, graph);
+	sheet_object_graph_set_gog (SHEET_OBJECT (new_sog), graph, TRUE);
 	g_object_unref (graph);
 
 	return SHEET_OBJECT (new_sog);
