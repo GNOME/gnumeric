@@ -1,5 +1,10 @@
 2001-10-10  Jody Goldberg <jgoldberg@home.com>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=62031
+	* src/sheet-control-gui.c (scg_cursor_extend) : Make this smarter.
+	  only make the dimension that changed visible, there is no need to
+	  jump to the corner.
+
 	* src/gui-util.h (color_combo_get_style_color) : add missing decl.
 
 2001-10-08    J.H.M. Dassen (Ray) <jdassen@debian.org>

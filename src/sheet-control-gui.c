@@ -2632,19 +2632,20 @@ scg_cursor_extend (SheetControlGUI *scg, int n,
 		   gboolean jump_to_bound, gboolean horiz)
 {
 	Sheet *sheet = ((SheetControl *) scg)->sheet;
-	CellPos tmp = sheet->cursor.move_corner;
+	CellPos move = sheet->cursor.move_corner;
+	CellPos visible = scg->pane[0].gcanvas->first;
 
 	if (horiz)
-		tmp.col = sheet_find_boundary_horizontal (sheet,
-			tmp.col, tmp.row, sheet->cursor.base_corner.row,
+		visible.col = move.col = sheet_find_boundary_horizontal (sheet,
+			move.col, move.row, sheet->cursor.base_corner.row,
 			n, jump_to_bound);
 	else
-		tmp.row = sheet_find_boundary_vertical (sheet,
-			tmp.col, tmp.row, sheet->cursor.base_corner.col,
+		visible.row = move.row = sheet_find_boundary_vertical (sheet,
+			move.col, move.row, sheet->cursor.base_corner.col,
 			n, jump_to_bound);
 
-	sheet_selection_extend_to (sheet, tmp.col, tmp.row);
-	sheet_make_cell_visible (sheet, tmp.col, tmp.row);
+	sheet_selection_extend_to (sheet, move.col, move.row);
+	sheet_make_cell_visible (sheet, visible.col, visible.row);
 }
 
 GtkWidget *
