@@ -29,6 +29,7 @@ Morten:
 	* Fix a few stf irritants.
 	* Security fix for sample data source plugin.
 	* Security fix for oleo plugin.
+	* Security fix for sc plugin.
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.16

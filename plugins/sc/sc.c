@@ -99,7 +99,8 @@ sc_parse_coord (const char **strdata, int *col, int *row)
 {
 	const char *s = *strdata, *eq;
 	int len = strlen (s);
-	char tmpstr [16];
+	char tmpstr[16];
+	size_t tmplen;
 
 	g_return_if_fail (strdata);
 	g_return_if_fail (col);
@@ -109,8 +110,12 @@ sc_parse_coord (const char **strdata, int *col, int *row)
 	if (!eq)
 		return;
 
-	memcpy (tmpstr, s, eq - s);
-	tmpstr [eq - s] = 0;
+	tmplen = eq - s;
+	if (tmplen >= sizeof (tmpstr))
+		return;
+
+	memcpy (tmpstr, s, tmplen);
+	tmpstr [tmplen] = 0;
 
 	if (!sc_cellname_to_coords (tmpstr, col, row))
 		return;
