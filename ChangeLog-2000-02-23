@@ -1,3 +1,12 @@
+2000-02-03  Jody Goldberg <jgoldberg@home.com>
+
+	* src/xml-io.c (xml_{read,write}_selection_info) : New functions.
+	(xml_{read,write}_range) : New functions.
+	(xml_write_style_region) : Use xml_write_range.  (DOH!)
+	(xml_read_style_region) : Use xml_read_range.
+	(xml_sheet_read) : Use xml_read_selection_info.
+	(xml_sheet_write) : Use xml_write_selection_info.
+
 2000-02-03  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/solver-lp.c (solver_simplex): Bug fix.  Convert RHS values

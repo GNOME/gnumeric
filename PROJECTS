@@ -14,8 +14,13 @@ Description                                             Difficulty  Integration
   functions to samples/regress.gnumeric so we can be
   sure that we are returning the right error code.
 
+- libgladeify the pluging manager dialog and move it	Low	    Low
+  into the dialogs directory.
 
-
+- Enhance plugin interface and manager to supply	Medium	    Medium
+  descriptive information about the plugin, and allow
+  browsing/listing the funtions & I/O routines it
+  provides.
 
 
 

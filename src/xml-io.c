@@ -126,16 +126,6 @@ xml_get_value_int (xmlNodePtr node, const char *name, int *val)
 	return 0;
 }
 
-static gboolean
-xml_get_range (xmlNodePtr tree, Range *res)
-{
-	return 
-	    xml_get_value_int (tree, "startCol", &res->start.col) &&
-	    xml_get_value_int (tree, "startRow", &res->start.row) &&
-	    xml_get_value_int (tree, "endCol",   &res->end.col) &&
-	    xml_get_value_int (tree, "endRow",   &res->end.row);
-}
-
 #if 0
 /*
  * Get a float value for a node either carried as an attibute or as
@@ -535,6 +525,68 @@ xml_search_child (xmlNodePtr node, const char *name)
 		child = child->next;
 	}
 	return NULL;
+}
+
+static gboolean
+xml_read_range (xmlNodePtr tree, Range *res)
+{
+	return 
+	    xml_get_value_int (tree, "startCol", &res->start.col) &&
+	    xml_get_value_int (tree, "startRow", &res->start.row) &&
+	    xml_get_value_int (tree, "endCol",   &res->end.col) &&
+	    xml_get_value_int (tree, "endRow",   &res->end.row);
+}
+
+static void
+xml_write_range (xmlNodePtr tree, Range *value)
+{
+	xml_set_value_int (tree, "startCol", value->start.col);
+	xml_set_value_int (tree, "startRow", value->start.row);
+	xml_set_value_int (tree, "endCol",   value->end.col);
+	xml_set_value_int (tree, "endRow",   value->end.row);
+}
+
+static void
+xml_read_selection_info (parse_xml_context_t *ctxt, Sheet *sheet, xmlNodePtr tree)
+{
+	Range r;
+	int row, col;
+	xmlNodePtr sel, selections = xml_search_child (tree, "Selections");
+	if (selections == NULL)
+		return;
+
+	sheet_selection_reset_only (sheet);
+	for (sel = selections->childs; sel; sel = sel->next) {
+		if (xml_read_range (sel, &r))
+			sheet_selection_append_range (sheet,
+						      r.start.col, r.start.row,
+						      r.start.col, r.start.row,
+						      r.end.col, r.end.row);
+	}
+
+	if (xml_get_value_int (tree, "CursorCol", &col) &&
+	    xml_get_value_int (tree, "CursorRow", &row))
+		sheet_cursor_set (sheet, col, row, col, row, col, row);
+}
+
+static void
+xml_write_selection_info (parse_xml_context_t *ctxt, Sheet *sheet, xmlNodePtr tree)
+{
+	GList *ptr, *copy;
+	tree = xmlNewChild (tree, ctxt->ns, "Selections", NULL);
+
+	/* Insert the selections in REVERSE order */
+	copy = g_list_copy (sheet->selections);
+	ptr = g_list_reverse (copy);
+	for (; ptr != NULL ; ptr = ptr->next) {
+		SheetSelection *sel = ptr->data;
+		xmlNodePtr child = xmlNewChild (tree, ctxt->ns, "Selection", NULL);
+		xml_write_range (child, &sel->user);
+	}
+	g_list_free (copy);
+
+	xml_set_value_int (tree, "CursorCol", sheet->cursor_col);
+	xml_set_value_int (tree, "CursorRow", sheet->cursor_row);
 }
 
 /*
@@ -1280,7 +1332,7 @@ xml_write_style_region (parse_xml_context_t *ctxt, StyleRegion *region)
 	xmlNodePtr cur, child;
 
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "StyleRegion", NULL);
-	xml_get_range (cur, &region->range);
+	xml_write_range (cur, &region->range);
 
 	if (region->style != NULL) {
 		child = xml_write_style (ctxt, region->style);
@@ -1306,7 +1358,7 @@ xml_read_style_region (parse_xml_context_t *ctxt, xmlNodePtr tree)
 			 tree->name);
 		return;
 	}
-	xml_get_range (tree, &range);
+	xml_read_range (tree, &range);
 	child = tree->childs;
 
 	if (child)
@@ -1765,6 +1817,9 @@ xml_sheet_write (parse_xml_context_t *ctxt, Sheet *sheet)
 				      &xml_write_colrow_info, &closure);
 	}
 
+	/* Save the current selection */
+	xml_write_selection_info (ctxt, sheet, cur);
+
 	/*
 	 * Objects
 	 * NOTE: seems that objects == NULL while current_object != NULL
@@ -1849,29 +1904,6 @@ xml_read_rows_info (parse_xml_context_t *ctxt, Sheet *sheet, xmlNodePtr tree)
 		sheet_row_add (sheet, info);
 		sheet_row_set_height_units (ctxt->sheet, info->pos, units, info->hard_size);
 	}
-}
-
-static void
-xml_read_selection_info (parse_xml_context_t *ctxt, Sheet *sheet, xmlNodePtr tree)
-{
-	Range r;
-	int row, col;
-	xmlNodePtr sel, selections = xml_search_child (tree, "Selections");
-	if (selections == NULL)
-		return;
-
-	sheet_selection_reset_only (sheet);
-	for (sel = selections->childs; sel; sel = sel->next) {
-		if (xml_get_range (sel, &r))
-			sheet_selection_append_range (sheet,
-						      r.start.col, r.start.row,
-						      r.start.col, r.start.row,
-						      r.end.col, r.end.row);
-	}
-
-	if (xml_get_value_int (tree, "CursorCol", &col) &&
-	    xml_get_value_int (tree, "CursorRow", &row))
-		sheet_cursor_set (sheet, col, row, col, row, col, row);
 }
 
 static void
