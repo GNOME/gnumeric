@@ -883,6 +883,22 @@ do_render_number (gdouble number, format_info_t *info)
 	return result;
 }
 
+/*
+ * Microsoft Excel has a bug in the handling of year 1900,
+ * I quote from http://catless.ncl.ac.uk/Risks/19.64.html#subj9.1
+ *
+ * > Microsoft EXCEL version 6.0 ("Office 95 version") and version 7.0 ("Office
+ * > 97 version") believe that year 1900 is a leap year.  The extra February 29
+ * > cause the following problems.
+ * > 
+ * > 1)  All day-of-week before March 1, 1900 are incorrect;
+ * > 2)  All date sequence (serial number) on and after March 1, 1900 are incorrect.
+ * > 3)  Calculations of number of days across March 1, 1900 are incorrect.
+ * > 
+ * > The risk of the error will cause must be little.  Especially case 1.
+ * > However, import or export date using serial date number will be a problem.
+ * > If no one noticed anything wrong, it must be that no one did it that way.
+ */
 static struct tm *
 split_time (gdouble number)
 {
