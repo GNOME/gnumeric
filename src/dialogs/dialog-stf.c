@@ -403,6 +403,10 @@ stf_dialog (WorkbookControlGUI *wbcg,
 
 		dialogresult->formats = pagedata.format.formats;
 		pagedata.format.formats = NULL;
+		dialogresult->parseoptions->col_import_array 
+			=  pagedata.format.col_import_array;
+		pagedata.format.col_import_array = NULL;
+		pagedata.format.col_import_count = 0;
 	}
 
 	stf_dialog_main_page_cleanup   (&pagedata);

@@ -68,6 +68,8 @@ typedef struct {
 	int                index;
 	gboolean           manual_change;
 	gboolean           sublist_select;
+        gboolean          *col_import_array;
+        int                col_import_count;
 } FormatInfo_t;
 
 

@@ -139,7 +139,8 @@ stf_preview_new (GtkWidget *data_container,
 	renderdata->ll =
 		gnumeric_lazy_list_new (render_get_value, renderdata, 0);
 	gnumeric_lazy_list_add_column (renderdata->ll,
-				       SHEET_MAX_COLS,
+#warning FIXME: we should not need to limit the shown columns to 4 times SHEET_MAX_COLS 
+				       4*SHEET_MAX_COLS,
 				       G_TYPE_STRING);
 
 	renderdata->tree_view =
@@ -222,13 +223,7 @@ stf_preview_set_lines (RenderData_t *renderdata, GPtrArray *lines)
 		colcount = MAX (colcount, (int)line->len);
 	}
 
-	/*
-	 * Don't display more then the maximum amount of columns
-	 * in a sheet
-	 */
-	if (colcount > SHEET_MAX_COLS)
-		colcount = SHEET_MAX_COLS;
-	else if (colcount <= 0)
+	if (colcount <= 0)
 		colcount = 1;
 
 	/* Fix number of columns.  */

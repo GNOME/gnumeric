@@ -54,6 +54,8 @@ typedef struct {
      
 	int                  rowcount;              /* Number of rows parsed */
 	int                  colcount;              /* Number of columns parsed */
+        gboolean             *col_import_array;     /* 0/1 array indicating  */
+	                                            /* which cols to import  */
 } StfParseOptions_t;
 
 /* CREATION/DESTRUCTION of stf options struct */

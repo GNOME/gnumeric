@@ -1,3 +1,14 @@
+2003-06-28  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/stf-parse.c (stf_parse_options_new): initialize new fields
+	(stf_parse_options_free): free new fields
+	(stf_parse_csv_line): show all columns
+	(stf_parse_sheet): only store selected rows (and formats vary within 
+	  each row!)
+	* src/stf-parse.h: add col_import_array to parse_options
+	* src/stf.c (stf_store_results): apply only the format of selected
+	  columns
+
 2003-06-27  Jody Goldberg <jody@gnome.org>
 
 	* src/datetime.c (days_between_basis) : tidy up a bit.

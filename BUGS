@@ -226,7 +226,7 @@ Pending Patches
 	 target location useful for text to columns, and
 	 import into sheet
     2.5) A help button
-    2.6) Make it possible to ignore column on import, thus
+    2.6) Make it possible to ignore column on import, thus      (DONE)
 	 making it possible to import (parts of) files with
 	 more than 256 columns.  (Think of this as a special
 	 "format".)

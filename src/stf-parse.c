@@ -55,7 +55,6 @@ gnumeric_setlocale(LC_ALL, oldlocale);\
 g_free (oldlocale);}
 
 #define WARN_TOO_MANY_ROWS _("Too many rows in data to parse: %d")
-#define WARN_TOO_MANY_COLS _("Too many columns in data to parse: %d")
 
 /* Source_t struct, used for interchanging parsing information between the low level parse functions */
 typedef struct {
@@ -162,6 +161,8 @@ stf_parse_options_new (void)
 	parseoptions->sep.str = NULL;
 	parseoptions->sep.chr = NULL;
 
+	parseoptions->col_import_array = NULL;
+
 	return parseoptions;
 }
 
@@ -175,7 +176,9 @@ void
 stf_parse_options_free (StfParseOptions_t *parseoptions)
 {
 	g_return_if_fail (parseoptions != NULL);
-
+	
+	if (parseoptions->col_import_array)
+		g_free (parseoptions->col_import_array);
 	if (parseoptions->locale)
 		g_free (parseoptions->locale);
 	if (parseoptions->sep.chr)
@@ -593,7 +596,6 @@ static GPtrArray *
 stf_parse_csv_line (Source_t *src, StfParseOptions_t *parseoptions)
 {
 	GPtrArray *line;
-	int col = 0;
 
 	g_return_val_if_fail (src != NULL, NULL);
 	g_return_val_if_fail (parseoptions != NULL, NULL);
@@ -606,11 +608,7 @@ stf_parse_csv_line (Source_t *src, StfParseOptions_t *parseoptions)
 
 		trim_spaces_inplace (field, parseoptions);
 		g_ptr_array_add (line, field);
-
-		if (++col >= SHEET_MAX_COLS) {
-			g_warning (WARN_TOO_MANY_COLS, col);
-			break;
-		}
+	
 	}
 
 	return line;
@@ -683,11 +681,6 @@ stf_parse_fixed_line (Source_t *src, StfParseOptions_t *parseoptions)
 
 		trim_spaces_inplace (field, parseoptions);
 		g_ptr_array_add (line, field);
-
-		if (++col >= SHEET_MAX_COLS) {
-			g_warning (WARN_TOO_MANY_COLS, col);
-			break;
-		}
 
 		src->splitpos++;
 	}
@@ -1123,23 +1116,26 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 		data_end = data + strlen (data);
 	lines = stf_parse_general (parseoptions, data, data_end);
 	for (row = start_row, lrow = 0; lrow < lines->len ; row++, lrow++) {
-		unsigned int lcol;
+		unsigned int lcol, lcol_target = 0;
 		GPtrArray *line = g_ptr_array_index (lines, lrow);
-		StyleFormat *fmt;
-
-		/* format is the same for the entire column */
-		fmt = mstyle_get_format (sheet_style_get (sheet, start_col, row));
 
 		for (lcol = 0; lcol < line->len; lcol++) {
-			char *text = g_ptr_array_index (line, lcol);
-
-			if (text) {
-				Value *v = format_match (text, fmt, date_conv);
-				if (v == NULL) {
-					v = value_new_string_nocopy (text);
-					g_ptr_array_index (line, lcol) = NULL;
+			if (parseoptions->col_import_array[lcol]) {
+				char *text = g_ptr_array_index (line, lcol);
+				if (text) {
+					Value *v;
+					StyleFormat *fmt = mstyle_get_format 
+						(sheet_style_get (sheet, start_col + lcol_target, 
+								  row));
+					v = format_match (text, fmt, date_conv);
+					if (v == NULL) {
+						v = value_new_string_nocopy (text);
+						g_ptr_array_index (line, lcol) = NULL;
+					}
+					cell_set_value (sheet_cell_fetch 
+							(sheet, start_col + lcol_target, row), v);
 				}
-				cell_set_value (sheet_cell_fetch (sheet, start_col + lcol, row), v);
+				lcol_target++;
 			}
 		}
 	}
