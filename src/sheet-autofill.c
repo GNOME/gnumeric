@@ -718,6 +718,10 @@ autofill_cell (FillItem *fi, GnmCell *cell, int idx, int limit_x, int limit_y)
 		v = value_new_string (text);
 		break;
 	}
+
+	default:
+		g_assert_not_reached ();
+		return;
 	}
 
 	if (fi->fmt != NULL)
