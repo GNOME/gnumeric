@@ -1,3 +1,9 @@
+2000-02-28  Morten Welinder  <terra@diku.dk>
+
+	* src/format.c (render_number): Move calculation of thousand's sep
+ 	outside the loop.  Avoid calculations way beyond double's
+ 	precision.
+
 2000-02-24  Dom Lachowicz <dominicl@seas.upenn.edu>
  
  	* src/functions/fn-eng.c (convert): catch DIV0

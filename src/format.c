@@ -38,6 +38,7 @@
 #include "utils.h"
 #include "portability.h"
 #include "datetime.h"
+#include "mathfunc.h"
 
 /* Points to the locale information for number display */
 static struct lconv *lc = NULL;
@@ -496,6 +497,11 @@ render_number (gdouble number,
 	gint zero_count;
 	gdouble temp;
 	int group = 0;
+	char c1000;
+	static gdouble beyond_precision = 0;
+
+	if (!beyond_precision)
+		beyond_precision = gpow10 (DBL_DIG + 1);
 
 	if (right_allowed >= 0) {
 		/* Change "rounding" into "truncating".  */
@@ -507,32 +513,30 @@ render_number (gdouble number,
 		number += delta;
 	}
 
-	for (temp = number; temp >= 1.0; temp /= 10.0){
-		double r = floor (temp);
+	c1000 = (lc->thousands_sep[0]) ? lc->thousands_sep[0] : ',';
+
+	for (temp = number; temp >= 1.0; temp /= 10.0) {
 		int digit;
 
-		if (use_thousand_sep){
+		if (use_thousand_sep) {
 			group++;
 			if (group == 4){
-				int c;
-
 				group = 1;
-				if (lc->thousands_sep [0] == 0)
-					c = ',';
-				else
-					c = lc->thousands_sep [0];
-
-				g_string_prepend_c (number_string, c);
+				g_string_prepend_c (number_string, c1000);
 			}
 		}
 
-		digit = r - floor (r / 10) * 10;
-		g_string_prepend_c (number_string, (digit) + '0');
+		if (temp > beyond_precision)
+			digit = 0;
+		else {
+			double r = floor (temp);
+			digit = r - floor (r / 10) * 10;
+		}
+		g_string_prepend_c (number_string, digit + '0');
 		if (left_req > 0)
-			left_req --;
+			left_req--;
 		if (left_spaces > 0)
-			left_spaces --;
-
+			left_spaces--;
 	}
 
 	for (; left_req > 0; left_req--, left_spaces--)
