@@ -1135,6 +1135,7 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("FileOpen", file_open_cmd),
 	BONOBO_UI_VERB ("FileImport", file_import_cmd),
 	BONOBO_UI_VERB ("FileSave", file_save_cmd),
+	BONOBO_UI_VERB ("FileSaveAs", file_save_as_cmd),
 	BONOBO_UI_VERB ("FileSummary", summary_cmd),
 	BONOBO_UI_VERB ("FilePrint", file_print_cmd),
 	BONOBO_UI_VERB ("FilePrintSetup", print_setup_cmd),
@@ -2574,7 +2575,7 @@ workbook_create_standard_toobar (Workbook *wb)
 #warning FIXME; the toolbar should be bonoboized properly.
 	toolbar = gnumeric_toolbar_new (
 		workbook_standard_toolbar,
-		bonobo_app_get_accel_group (BONOBO_APP (wb->toplevel)), wb);
+		bonobo_win_get_accel_group (BONOBO_WIN (wb->toplevel)), wb);
 
 
 	gtk_box_pack_start (GTK_BOX (wb->priv->main_vbox), toolbar,
@@ -2702,7 +2703,7 @@ workbook_new (void)
 
 	wb = gtk_type_new (workbook_get_type ());
 #ifdef ENABLE_BONOBO
-	wb->toplevel  = GTK_OBJECT (bonobo_app_new ("Gnumeric", "Gnumeric"));
+	wb->toplevel  = GTK_OBJECT (bonobo_win_new ("Gnumeric", "Gnumeric"));
 #else
 	wb->toplevel  = GTK_OBJECT (gnome_app_new ("Gnumeric", "Gnumeric"));
 #endif
@@ -2746,13 +2747,13 @@ workbook_new (void)
 	wb->priv->main_vbox = gtk_vbox_new (FALSE, 0);
 	gtk_widget_show (wb->priv->main_vbox);
 	gtk_box_pack_end (GTK_BOX (wb->priv->main_vbox), wb->priv->table, TRUE, TRUE, 0);
-	bonobo_app_set_contents (BONOBO_APP (wb->toplevel), wb->priv->main_vbox);
+	bonobo_win_set_contents (BONOBO_WIN (wb->toplevel), wb->priv->main_vbox);
 
 	wb->priv->workbook_views  = NULL;
 	wb->priv->persist_file    = NULL;
 
 	wb->priv->uih = bonobo_ui_handler_new ();
-	bonobo_ui_handler_set_app (wb->priv->uih, BONOBO_APP (wb->toplevel));
+	bonobo_ui_handler_set_app (wb->priv->uih, BONOBO_WIN (wb->toplevel));
 	{
 		char *fname;
 		xmlNode *ui;

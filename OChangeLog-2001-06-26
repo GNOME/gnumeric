@@ -1,3 +1,12 @@
+2000-09-11  Michael Meeks  <michael@helixcode.com>
+
+	* src/workbook-format-toolbar.c: s/BonoboApp/BonoboWin/
+
+	* src/workbook-object-toolbar.c: ditto.
+
+	* src/workbook.c: s/BonoboApp/BonoboWin/
+	(verbs): Add FileSaveAs which I seem to have forgotten.
+
 2000-09-10  Jody Goldberg <jgoldberg@home.com>
 
 	* src/graph-series.c (graph_series_destroy) : plug leak.

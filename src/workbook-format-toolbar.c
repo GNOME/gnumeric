@@ -591,7 +591,7 @@ workbook_create_format_toolbar (Workbook *wb)
 #ifdef ENABLE_BONOBO
 	toolbar = gnumeric_toolbar_new (
 		workbook_format_toolbar,
-		bonobo_app_get_accel_group (BONOBO_APP (wb->toplevel)), wb);
+		bonobo_win_get_accel_group (BONOBO_WIN (wb->toplevel)), wb);
 
 #warning FIXME; the toolbar should be bonoboized properly.
 	gtk_box_pack_start (GTK_BOX (wb->priv->main_vbox), toolbar,
