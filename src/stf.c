@@ -425,7 +425,7 @@ stf_write_csv (GnmFileSaver const *fs, IOContext *context,
 	stf_export_options_set_quoting_mode    (config, QUOTING_MODE_AUTO);
 	stf_export_options_set_quoting_char    (config, '"');
 	stf_export_options_sheet_list_add      (config,
-		workbook_sheet_by_index	 (wb_view_workbook (wbv), 0));
+						wb_view_cur_sheet (wbv));
 	stf_export_options_set_write_callback  (config,
 		(StfEWriteFunc) stf_write_func, (gpointer) output);
 
