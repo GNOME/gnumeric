@@ -1,6 +1,24 @@
-2004-01-28  Jean Brefort  <jean.brefort@ac-dijon.fr>
+2004-01-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* plugins/excel/ms-chart.c: (scatter):add import of bubble plots
+	* src/gnumeric-gconf-priv.h: add many more printing related keys
+	* src/gnumeric-gconf.c (gnm_conf_init_essential): initialize 
+	  printing variables from gconf
+	(gnm_gconf_set_print_center_horizontally): implement
+	(gnm_gconf_set_print_center_vertically): implement
+	(gnm_gconf_set_print_grid_lines): implement
+	(gnm_gconf_set_print_even_if_only_styles): implement
+	(gnm_gconf_set_print_black_and_white): implement
+	(gnm_gconf_set_print_titles): implement
+	(gnm_gconf_set_print_order_right_then_down): implement
+	(gnm_gconf_set_print_scale_percentage): implement
+	(gnm_gconf_set_print_scale_percentage_value): implement
+	(gnm_gconf_set_print_scale_width): implement
+	(gnm_gconf_set_print_scale_height): implement
+	(gnm_gconf_set_print_repeat_top): implement
+	(gnm_gconf_set_print_repeat_left): implement
+	(gnm_gconf_set_print_tb_margins): implement
+	(gnm_gconf_set_print_header_formats): implement
+	* src/print-info.c (load_formats): add saved custom formats
 
 2004-01-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
 

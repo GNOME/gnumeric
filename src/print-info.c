@@ -164,9 +164,33 @@ load_formats (void)
 			hf_formats_base_num++;
 		}
 	} 
-	/* Now append the custom formats */
-	
 
+	/* Now append the custom formats */
+	{
+		GSList const *left;
+		GSList const *middle;
+		GSList const *right;
+		
+		left = gnm_app_prefs->printer_header_formats_left;
+		middle = gnm_app_prefs->printer_header_formats_middle;
+		right = gnm_app_prefs->printer_header_formats_right;
+
+		while (left != NULL && middle != NULL && right != NULL)
+		{
+			PrintHF *format;
+
+			format = print_hf_new 
+				(left->data ? (char *)(left->data) : "",
+				 middle->data ? (char *)(middle->data) : "",
+				 right->data ? (char *)(right->data) : "");
+
+			hf_formats = g_list_prepend (hf_formats, format);
+			
+			left = left->next;
+			middle = middle->next;
+			right = right->next;
+		}
+	}
 
 	hf_formats = g_list_reverse (hf_formats);
 }

@@ -1,3 +1,7 @@
+2004-01-28  Jean Brefort  <jean.brefort@ac-dijon.fr>
+
+	* plugins/excel/ms-chart.c: (scatter):add import of bubble plots
+
 2004-01-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* ms-excel-read.c (excel_read_SETUP): use print_info_set_orientation

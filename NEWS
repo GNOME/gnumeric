@@ -9,10 +9,11 @@ Andreas:
 	* Use the paper selected in the print dialog [backported]
 	http://bugzilla.gnome.org/show_bug.cgi?id=132347
 	* Fix argument names for RATE.
-	* Some HIGfication inthe print setup dialog
+	* Some HIGfication in the print setup dialog
 	* Make sure that when printing to a file we don't accidentally 
 	  overwrite an existing one.
 	* Don't close the print dialog if a user wants to look at a preview.
+	* Remove last use of gnome-config
 
 Emmanuel Pacaud:
 	* Work on single point formating for charts.

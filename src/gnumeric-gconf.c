@@ -6,7 +6,7 @@
  * Author:
  * 	Andreas J. Guelzow <aguelzow@taliesin.ca>
  *
- * (C) Copyright 2002 Andreas J. Guelzow <aguelzow@taliesin.ca>
+ * (C) Copyright 2002-2004 Andreas J. Guelzow <aguelzow@taliesin.ca>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -188,38 +188,63 @@ gnm_conf_init_essential (void)
 	prefs.zoom = gnm_gconf_get_float (client,
 		  GNUMERIC_GCONF_GUI_ZOOM, .1, 5., 1.);
 
-	/* Unfortunately we nee the printing stuff in essentials since the */
-	/* first pi is created for the new sheet */
+	/* Unfortunately we need the printing stuff in essentials since the */
+	/* first pi is created for the new sheet before the idle loop has a */
+	/* chance to run                                                    */
 	prefs.printer_config = gconf_client_get_string (client,
 		PRINTSETUP_GCONF_PRINTER_CONFIG, NULL);
-	prefs.print_center_horizontally = FALSE;   /* Need schemas */
-	prefs.print_center_vertically = FALSE;
-	prefs.print_grid_lines = FALSE;
-	prefs.print_even_if_only_styles = FALSE;
-	prefs.print_black_and_white = FALSE;
-	prefs.print_titles = FALSE;
-	prefs.print_order_right_then_down = FALSE;
-	prefs.print_scale_percentage = FALSE;
-	prefs.print_scale_percentage_value = 0.0;
-	prefs.print_scale_width = 0;
-        prefs.print_scale_height = 0;
-	prefs.print_repeat_top = NULL;
-	prefs.print_repeat_left = NULL;
-	prefs.print_tb_margins.top.points = 120.0;
-	prefs.print_tb_margins.bottom.points = 120.0;
-	prefs.print_tb_margins.top.desired_display 
-		= gnome_print_unit_get_by_name("cm");
-	prefs.print_tb_margins.bottom.desired_display 
-		= prefs.print_tb_margins.top.desired_display;
+	prefs.print_center_horizontally = gnm_gconf_get_bool 
+		(client, PRINTSETUP_GCONF_CENTER_HORIZONTALLY, FALSE); 
+	prefs.print_center_vertically = gnm_gconf_get_bool 
+		(client, PRINTSETUP_GCONF_CENTER_VERTICALLY, FALSE);
+	prefs.print_grid_lines = gnm_gconf_get_bool 
+		(client, PRINTSETUP_GCONF_PRINT_GRID_LINES, FALSE);
+	prefs.print_even_if_only_styles = gnm_gconf_get_bool 
+		(client, PRINTSETUP_GCONF_EVEN_IF_ONLY_STYLES, FALSE);
+	prefs.print_black_and_white = gnm_gconf_get_bool 
+		(client, PRINTSETUP_GCONF_PRINT_BLACK_AND_WHITE, FALSE);
+	prefs.print_titles = gnm_gconf_get_bool 
+		(client, PRINTSETUP_GCONF_PRINT_TITLES, FALSE);
+	prefs.print_order_right_then_down = gnm_gconf_get_bool 
+		(client, PRINTSETUP_GCONF_RIGHT_THEN_DOWN, FALSE);
+	prefs.print_scale_percentage = gnm_gconf_get_bool 
+		(client, PRINTSETUP_GCONF_SCALE_PERCENTAGE, TRUE);
+	prefs.print_scale_percentage_value = gnm_gconf_get_float 
+		(client, PRINTSETUP_GCONF_SCALE_PERCENTAGE_VALUE, 1, 100, 500);
+	prefs.print_scale_width = gnm_gconf_get_int 
+		(client, PRINTSETUP_GCONF_SCALE_WIDTH, 0, 100, 1);
+        prefs.print_scale_height = gnm_gconf_get_int 
+		(client, PRINTSETUP_GCONF_SCALE_HEIGHT, 0, 100, 1);
+	prefs.print_repeat_top = gconf_client_get_string (client,
+		PRINTSETUP_GCONF_REPEAT_TOP, NULL);
+	prefs.print_repeat_left = gconf_client_get_string (client,
+		PRINTSETUP_GCONF_REPEAT_LEFT, NULL);
+	prefs.print_tb_margins.top.points = gnm_gconf_get_float 
+		(client, PRINTSETUP_GCONF_MARGIN_TOP, 0.0, 10000.0, 120.0);
+	prefs.print_tb_margins.bottom.points = gnm_gconf_get_float 
+		(client, PRINTSETUP_GCONF_MARGIN_BOTTOM, 0.0, 10000.0, 120.0);
+	{
+		/* Note: the desired display unit is stored in the  */
+		/* printer config. So we are never using this field */
+		/* inside the margin structure, but only setting it */
+		/* in various input routines.                       */
+		prefs.print_tb_margins.top.desired_display 
+			= gnome_print_unit_get_by_abbreviation ("cm");
+		prefs.print_tb_margins.bottom.desired_display 
+			= prefs.print_tb_margins.top.desired_display;
+	}
 	prefs.print_all_sheets = gnm_gconf_get_bool (client,
 		PRINTSETUP_GCONF_ALL_SHEETS, TRUE);
 	prefs.printer_header = gconf_client_get_list (client,
 		PRINTSETUP_GCONF_HEADER, GCONF_VALUE_STRING, NULL);
 	prefs.printer_footer = gconf_client_get_list (client,
 		PRINTSETUP_GCONF_FOOTER, GCONF_VALUE_STRING, NULL);
-	prefs.printer_header_formats_left = NULL;
-	prefs.printer_header_formats_middle = NULL;
-	prefs.printer_header_formats_right = NULL;
+	prefs.printer_header_formats_left = gconf_client_get_list (client,
+		PRINTSETUP_GCONF_HEADER_FORMAT_LEFT, GCONF_VALUE_STRING, NULL);
+	prefs.printer_header_formats_middle = gconf_client_get_list (client,
+		PRINTSETUP_GCONF_HEADER_FORMAT_MIDDLE, GCONF_VALUE_STRING, NULL);
+	prefs.printer_header_formats_right = gconf_client_get_list (client,
+		PRINTSETUP_GCONF_HEADER_FORMAT_RIGHT, GCONF_VALUE_STRING, NULL);
 
 }
 
@@ -664,79 +689,137 @@ gnm_gconf_set_printer_footer (gchar const *left, gchar const *middle,
 	prefs.printer_footer = list;
 }
 
-void     gnm_gconf_set_print_center_horizontally (gboolean val)
+void     
+gnm_gconf_set_print_center_horizontally (gboolean val)
 {
-
+	gconf_client_set_bool (gnm_app_get_gconf_client (),
+			       PRINTSETUP_GCONF_CENTER_HORIZONTALLY,
+			       val, NULL);
 }
 
-void     gnm_gconf_set_print_center_vertically (gboolean val)
+void     
+gnm_gconf_set_print_center_vertically (gboolean val)
 {
-
+	gconf_client_set_bool (gnm_app_get_gconf_client (),
+			       PRINTSETUP_GCONF_CENTER_VERTICALLY,
+			       val, NULL);
 }
 
-void     gnm_gconf_set_print_grid_lines (gboolean val)
+void     
+gnm_gconf_set_print_grid_lines (gboolean val)
 {
-
+	gconf_client_set_bool (gnm_app_get_gconf_client (),
+			       PRINTSETUP_GCONF_PRINT_GRID_LINES,
+			       val, NULL);
 }
 
-void     gnm_gconf_set_print_even_if_only_styles (gboolean val)
+void     
+gnm_gconf_set_print_even_if_only_styles (gboolean val)
 {
-
+	gconf_client_set_bool (gnm_app_get_gconf_client (),
+			       PRINTSETUP_GCONF_EVEN_IF_ONLY_STYLES,
+			       val, NULL);
 }
 
-void     gnm_gconf_set_print_black_and_white (gboolean val)
+void     
+gnm_gconf_set_print_black_and_white (gboolean val)
 {
-
+	gconf_client_set_bool (gnm_app_get_gconf_client (),
+			       PRINTSETUP_GCONF_PRINT_BLACK_AND_WHITE,
+			       val, NULL);
 }
 
-void     gnm_gconf_set_print_titles (gboolean val)
+void     
+gnm_gconf_set_print_titles (gboolean val)
 {
-
+	gconf_client_set_bool (gnm_app_get_gconf_client (),
+			       PRINTSETUP_GCONF_PRINT_TITLES,
+			       val, NULL);
 }
 
-void     gnm_gconf_set_print_order_right_then_down (gboolean val)
+void     
+gnm_gconf_set_print_order_right_then_down (gboolean val)
 {
-
+	gconf_client_set_bool (gnm_app_get_gconf_client (),
+			       PRINTSETUP_GCONF_RIGHT_THEN_DOWN,
+			       val, NULL);
 }
 
-void     gnm_gconf_set_print_scale_percentage (gboolean val)
+void     
+gnm_gconf_set_print_scale_percentage (gboolean val)
 {
-
+	gconf_client_set_bool (gnm_app_get_gconf_client (),
+			       PRINTSETUP_GCONF_SCALE_PERCENTAGE,
+			       val, NULL);
 }
 
-void     gnm_gconf_set_print_scale_percentage_value (gnm_float val)
+void     
+gnm_gconf_set_print_scale_percentage_value (gnm_float val)
 {
-
+	gconf_client_set_float (gnm_app_get_gconf_client (),
+			       PRINTSETUP_GCONF_SCALE_PERCENTAGE_VALUE,
+			       val, NULL);
 }
 
-void     gnm_gconf_set_print_scale_width (gint val)
+void     
+gnm_gconf_set_print_scale_width (gint val)
 {
-
+	gconf_client_set_int (gnm_app_get_gconf_client (),
+			       PRINTSETUP_GCONF_SCALE_WIDTH,
+			       val, NULL);
 }
 
-void     gnm_gconf_set_print_scale_height (gint val)
+void     
+gnm_gconf_set_print_scale_height (gint val)
 {
-
+	gconf_client_set_int (gnm_app_get_gconf_client (),
+			       PRINTSETUP_GCONF_SCALE_HEIGHT,
+			       val, NULL);
 }
 
-void     gnm_gconf_set_print_repeat_top (gchar const *str)
+void     
+gnm_gconf_set_print_repeat_top (gchar const *str)
 {
-
+	gconf_client_set_string (gnm_app_get_gconf_client (),
+				 PRINTSETUP_GCONF_REPEAT_TOP,
+				 str, NULL);
 }
 
-void     gnm_gconf_set_print_repeat_left (gchar const *str)
+void    
+gnm_gconf_set_print_repeat_left (gchar const *str)
 {
-
+	gconf_client_set_string (gnm_app_get_gconf_client (),
+				 PRINTSETUP_GCONF_REPEAT_LEFT,
+				 str, NULL);
 }
 
-void     gnm_gconf_set_print_tb_margins (PrintMargins const *pm)
+void     
+gnm_gconf_set_print_tb_margins (PrintMargins const *pm)
 {
-
+	/* We are not saving the GnomePrintUnits since they are */
+	/* duplicated in the gnomeprintconfig                   */
+	gconf_client_set_float (gnm_app_get_gconf_client (),
+			       PRINTSETUP_GCONF_MARGIN_TOP,
+			       pm->top.points, NULL);
+	gconf_client_set_float (gnm_app_get_gconf_client (),
+			       PRINTSETUP_GCONF_MARGIN_BOTTOM,
+			       pm->bottom.points, NULL);
 }
 
-void     gnm_gconf_set_print_header_formats (GSList *left, GSList *middle, 
-					     GSList *right)
+void     
+gnm_gconf_set_print_header_formats (GSList *left, GSList *middle, 
+				    GSList *right)
 {
+	gconf_client_set_list (gnm_app_get_gconf_client (),
+			       PRINTSETUP_GCONF_HEADER_FORMAT_LEFT,
+			       GCONF_VALUE_STRING, left, NULL);
+	gconf_client_set_list (gnm_app_get_gconf_client (),
+			       PRINTSETUP_GCONF_HEADER_FORMAT_MIDDLE,
+			       GCONF_VALUE_STRING, middle, NULL);
+	gconf_client_set_list (gnm_app_get_gconf_client (),
+			       PRINTSETUP_GCONF_HEADER_FORMAT_RIGHT,
+			       GCONF_VALUE_STRING, right, NULL);
+
 	g_slist_free_custom (left, g_free);
 	g_slist_free_custom (middle, g_free);
 	g_slist_free_custom (right, g_free);
