@@ -1,5 +1,11 @@
 1999-06-29  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
+	* samples/textfuns.xls: Added a new test file.
+
+	* samples/engfuns.xls, samples/mathfuns.xls: Updated.
+
+1999-06-29  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
 	* src/fn-stat.c: Added FORECAST() and INTERCEPT().
 
 	* src/fn-math.c: SUMIF() can now take an optional argument
