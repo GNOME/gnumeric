@@ -1,3 +1,10 @@
+/*
+ * cell.c: Cell management of the Gnumeric spreadsheet.
+ *
+ * Author:
+ *    Miguel de Icaza (miguel@kernel.org)
+ *
+ */
 #include <config.h>
 #include <gnome.h>
 #include "gnumeric.h"
@@ -348,3 +355,185 @@ cell_make_value (Cell *cell)
 	string_unref (cell->entered_text);
 	cell->entered_text = string_ref (cell->text);
 }
+
+int
+cell_get_horizontal_align (Cell *cell)
+{
+	g_return_val_if_fail (cell != NULL, HALIGN_LEFT);
+
+	if (cell->style->halign == HALIGN_GENERAL)
+		if (cell->value){
+			if (cell->value->type== VALUE_FLOAT ||
+			    cell->value->type == VALUE_INTEGER)
+				return HALIGN_RIGHT;
+			else
+				return HALIGN_LEFT;
+		} else
+			return HALIGN_RIGHT;
+	else
+		return cell->style->halign;
+}
+
+static inline int
+cell_is_number (Cell *cell)
+{
+	if (cell->value)
+		if (cell->value->type == VALUE_FLOAT || cell->value->type == VALUE_INTEGER)
+			return TRUE;
+
+	return FALSE;
+}
+
+static inline int
+cell_contents_fit_inside_column (Cell *cell)
+{
+	if (cell->width < COL_INTERNAL_WIDTH (cell->col))
+		return TRUE;
+	else
+		return FALSE;
+}
+
+/*
+ * cell_get_span:
+ * @cell:   The cell we will examine
+ * @col1:   return value: the first column used by this cell
+ * @col2:   return value: the last column used by this cell
+ *
+ * This routine returns the column interval used by a Cell.
+ */
+void
+cell_get_span (Cell *cell, int *col1, int *col2)
+{
+	Sheet *sheet;
+	int align, left;
+	int row, pos, margin;
+	
+	g_return_if_fail (cell != NULL);
+
+	/*
+	 * If the cell is a number, or the text fits inside the
+	 * column, then we report only one column is used
+	 */
+	if (cell_is_number (cell) ||
+	    cell->style->halign == HALIGN_JUSTIFY ||
+	    cell_contents_fit_inside_column (cell)){
+		*col1 = *col2 = cell->col->pos;
+		return;
+	}
+
+	sheet = cell->sheet;
+	align = cell_get_horizontal_align (cell);
+	row   = cell->row->pos;
+
+	switch (cell->style->halign){
+	case HALIGN_LEFT:
+		*col1 = *col2 = cell->col->pos;
+		pos = cell->col->pos + 1;
+		left = cell->width - COL_INTERNAL_WIDTH (cell->col);
+		margin = cell->col->margin_b;
+		
+		for (; left > 0 && pos < SHEET_MAX_COLS-1; pos++){
+			ColRowInfo *ci;
+			Cell *sibling;
+
+			sibling = sheet_cell_get (sheet, pos, row);
+
+			if (sibling)
+				return;
+
+			ci = sheet_col_get_info (sheet, pos);
+			
+			/* The space consumed is:
+			 *    - The margin_b from the last column
+			 *    - The width of the cell
+			 */
+			left -= COL_INTERNAL_WIDTH (ci) +
+				margin + ci->margin_a;
+			margin = ci->margin_b;
+			(*col2)++;
+		}
+		return;
+		
+	case HALIGN_RIGHT:
+		*col1 = *col2 = cell->col->pos;
+		pos = cell->col->pos - 1;
+		left = cell->width - COL_INTERNAL_WIDTH (cell->col);
+		margin = cell->col->margin_a;
+		
+		for (; left > 0 && pos >= 0; pos--){
+			ColRowInfo *ci;
+			Cell *sibling;
+
+			sibling = sheet_cell_get (sheet, pos, row);
+
+			if (sibling)
+				return;
+
+			ci = sheet_col_get_info (sheet, pos);
+
+			/* The space consumed is:
+			 *   - The margin_a from the last column
+			 *   - The widht of this cell
+			 */
+			left -= COL_INTERNAL_WIDTH (ci) +
+				margin + ci->margin_b;
+			margin = ci->margin_a;
+			(*col1)--;
+		}
+		return;
+
+	case HALIGN_CENTER: {
+		int left_left, left_right;
+		int margin_a, margin_b;
+		
+		*col1 = *col2 = cell->col->pos;
+		left = cell->width -  COL_INTERNAL_WIDTH (cell->col);
+		
+		left_left  = left / 2 + (left % 2);
+		left_right = left / 2;
+		margin_a = cell->col->margin_a;
+		margin_b = cell->col->margin_b;
+		
+		for (; left_left > 0 || left_right > 0;){
+			ColRowInfo *ci;
+			Cell *left_sibling, *right_sibling;
+
+			if (*col1 - 1 > 0){
+				left_sibling = sheet_cell_get (sheet, *col1 - 1, row);
+
+				if (left_sibling)
+					left_left = 0;
+				else {
+					ci = sheet_col_get_info (sheet, *col1 - 1);
+
+					left_left -= COL_INTERNAL_WIDTH (ci) +
+						margin_a + ci->margin_b;
+					margin_a = ci->margin_a;
+					(*col1)--;
+				}
+			} else
+				left_left = 0;
+
+			if (*col2 + 1 < SHEET_MAX_COLS-1){
+				right_sibling = sheet_cell_get (sheet, *col2 + 1, row);
+
+				if (right_sibling)
+					left_right = 0;
+				else {
+					ci = sheet_col_get_info (sheet, *col2 + 1);
+
+					left_right -= COL_INTERNAL_WIDTH (ci) +
+						margin_b + ci->margin_a;
+					margin_b = ci->margin_b;
+					(*col2)++;
+				}
+			} else
+				left_right = 0;
+			
+		} /* for */
+
+	} /* case HALIGN_CENTER */
+			
+	} /* switch */
+}
+

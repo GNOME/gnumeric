@@ -20,7 +20,7 @@
  */
 typedef struct parseXmlContext {
     xmlDocPtr  doc;        /* Xml document */
-    xmlNsPtr  ns;          /* Main name space */
+    xmlNsPtr   ns;         /* Main name space */
     xmlNodePtr parent;     /* used only for g_hash_table_foreach callbacks */
     GHashTable *nameTable; /* to reproduce multiple refs with HREFs */
     int        fontIdx;    /* for Font refs names ... */
@@ -351,6 +351,8 @@ Sheet *gnumericReadXmlSheet(const char *filename) {
     xmlNsPtr gmr;
     parseXmlContext ctxt;
 
+    g_return_if_fail (filename != NULL);
+    
     /*
      * Load the file into an XML tree.
      */
@@ -397,6 +399,9 @@ int gnumericWriteXmlSheet(Sheet *sheet, const char *filename) {
     xmlNsPtr gmr;
     parseXmlContext ctxt;
 
+    g_return_if_fail (sheet != NULL);
+    g_return_if_fail (IS_SHEET (sheet));
+    g_return_if_fail (filename != NULL);
     /*
      * Open in write mode, !!! Save a bak ?
      */
@@ -446,6 +451,8 @@ Workbook *gnumericReadXmlWorkbook(const char *filename) {
     xmlNsPtr gmr;
     parseXmlContext ctxt;
 
+    g_return_if_fail (filename != NULL);
+    
     /*
      * Load the file into an XML tree.
      */
@@ -486,12 +493,15 @@ Workbook *gnumericReadXmlWorkbook(const char *filename) {
  * returns 0 in case of success, -1 otherwise.
  */
 
-int gnumericWriteXmlWorkbook(Workbook *sheet, const char *filename) {
+int gnumericWriteXmlWorkbook(Workbook *wb, const char *filename) {
     FILE *output;
     xmlDocPtr xml;
     xmlNsPtr gmr;
     parseXmlContext ctxt;
 
+    g_return_if_fail (wb != NULL);
+    g_return_if_fail (filename != NULL);
+    
     /*
      * Open in write mode, !!! Save a bak ?
      */
@@ -516,7 +526,7 @@ int gnumericWriteXmlWorkbook(Workbook *sheet, const char *filename) {
     ctxt.ns = gmr;
     ctxt.nameTable = g_hash_table_new(ptrHash, ptrCompare);
     ctxt.fontIdx = 1;
-    xml->root = writeXmlWorkbook(&ctxt, sheet);
+    xml->root = writeXmlWorkbook(&ctxt, wb);
     g_hash_table_foreach(ctxt.nameTable, nameFree, NULL);
     g_hash_table_destroy(ctxt.nameTable);
 

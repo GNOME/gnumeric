@@ -210,20 +210,8 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 	style = cell->style;
 	font = style->font->font;
 
-	/*
-	 * General Alignement is a special case: it means
-	 * left alignment for text and right alignment for
-	 * numbers
-	 */
-	halign = style->halign;
-		
-	if (halign == HALIGN_GENERAL && cell->value){
-		if (cell->value->type == VALUE_FLOAT || cell->value->type == VALUE_INTEGER)
-			halign = HALIGN_RIGHT;
-		else
-			halign = HALIGN_LEFT;
-	}
-	
+	halign = cell_get_horizontal_align (cell);
+
 	switch (halign){
 	case HALIGN_LEFT:
 		if (col < SHEET_MAX_COLS-1)

@@ -9,9 +9,9 @@
 #ifndef __GNUMERIC_XML_IO__
 #define __GNUMERIC_XML_IO__
 
-extern Sheet *gnumericReadXmlSheet(const char *filename);
-extern int gnumericWriteXmlSheet(Sheet *sheet, const char *filename);
-extern Workbook *gnumericReadXmlWorkbook(const char *filename);
-extern int gnumericWriteXmlWorkbook(Workbook *sheet, const char *filename);
+Sheet*    gnumericReadXmlSheet     (const char *filename);
+int       gnumericWriteXmlSheet    (Sheet *sheet, const char *filename);
+Workbook* gnumericReadXmlWorkbook  (const char *filename);
+int       gnumericWriteXmlWorkbook (Workbook *sheet, const char *filename);
 
 #endif /* __GNUMERIC_XML_IO__ */

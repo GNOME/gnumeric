@@ -1120,7 +1120,6 @@ sheet_selection_reset_only (Sheet *sheet)
 
 			sheet_view_redraw_columns (sheet_view);
 		}
-		
 
 	/* Unselect the row bar */
 	if (clean_bar_selection (sheet->rows_info) > 0)

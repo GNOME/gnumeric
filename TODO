@@ -2,17 +2,74 @@
 
 GNOME Spread Sheet task list
 
-* Split the sheet from the view
+* EDITION
 
-  Right now the code has a Sheet (which is the repository for
-information) and this Sheet has a GnumericSheet inside (which is the
-display canvas).
+** Paste special 
 
-  We need to make the Sheet control multiple "views".  Say, SheetView
-objects, which will in turn include GnumericSheet objects.
+  needs some little changes:
+  - When formulas are pasted with an operation,
+    the new ExprTree should be created with the operation.
 
-  Cursor position should be moved from GnumericSheet to Sheet as
-well
+** Style
+
+  Alignment:
+    Horizontal:
+      General/Left/Right/Center/Justify/
+          Center with respect to selection.
+    Vertical
+      Up/Center/Fown/Justify
+
+    Automatic return check box
+      This automatically "wraps" text when it overflows the cell
+
+    Orientation
+      horizontal
+      vertical: 3 types of string display.
+
+  Fonts:
+
+  Borders:
+
+  Color/patterns
+
+  Protection:
+    Bloqued/Hidden
+
+* File Load/Save
+
+  Support for popular formats.  
+
+    I have the specs for the XS3 format.  SC should be
+    trivial to support as well (from the guile sources)
+
+* Scrolling
+
+** Scrollbar scrolling
+
+* CORBA exporting
+
+* Perl bindings.
+
+* Display Engine
+
+** item-edit
+
+   This should be improved to use a cell rendering routine.
+   which should be shared between item-grid and item-edit, to
+   get life feedback on the result.
+
+* Workbooks:
+
+** Notebook:
+   Clicking on it chooses it
+   Double clicking changes the name
+   Right clicking gets:
+     insert
+     
+
+* Cell selection
+
+   It does not shrink.
 
 * Format engine
 
@@ -117,78 +174,3 @@ PM/pm/p/p     "AM", "am", "M" or "a" for the hours between midnight
 	      the 24-hour format.
 
 
-* EDITION
-
-** Paste special 
-
-  needs some little changes:
-  - When formulas are pasted with an operation,
-    the new ExprTree should be created with the operation.
-
-** Style
-
-  Alignment:
-    Horizontal:
-      General/Left/Right/Center/Justify/
-          Center with respect to selection.
-    Vertical
-      Up/Center/Fown/Justify
-
-    Automatic return check box
-      This automatically "wraps" text when it overflows the cell
-
-    Orientation
-      horizontal
-      vertical: 3 types of string display.
-
-  Fonts:
-
-  Borders:
-
-  Color/patterns
-
-  Protection:
-    Bloqued/Hidden
-
-* File Load/Save
-
-  Support for popular formats.  
-
-    I have the specs for the XS3 format.  SC should be
-    trivial to support as well (from the guile sources)
-
-* Scrolling
-
-** Nice page scrolling with tooltips
-
-** Scrollbar scrolling
-
-* CORBA exporting
-
-* Perl bindings.
-
-* Display Engine
-
-** item-edit
-
-   This should be improved to use a cell rendering routine.
-   which should be shared between item-grid and item-edit, to
-   get life feedback on the result.
-
-* Selection
-
-   Make the selection work by drawing with the invert or the xor
-   operations instead of drawing and redrawing on top with the text.
-
-* Workbooks:
-
-** Notebook:
-   Clicking on it chooses it
-   Double clicking changes the name
-   Right clicking gets:
-     insert
-     
-
-* Cell selection
-
-   It does not shrink.

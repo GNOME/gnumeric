@@ -4,7 +4,6 @@
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "gnumeric-sheet.h"
-#include "xml-io.h"
 #include "dialogs.h"
 
 /* The locations within the main table in the workbook */
@@ -25,7 +24,8 @@ quit_cmd (void)
 static void
 save_cmd (GtkWidget *widget, Workbook *wb)
 {
-        gnumericWriteXmlWorkbook (current_workbook, "default.wb");
+	
+/*        gnumericWriteXmlWorkbook (wb, "default.wb"); */
 }
 
 static void

@@ -1,8 +1,22 @@
+1998-08-31  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/item-bar.c (item_bar_event): grab the focus when selecting
+	as well. 
+
+	* src/sheet-view.c (sheet_view_redraw_cell_region): Implemented
+	correctly: we now use cell_get_span on every cell in the range to
+	actually compute which areas need to be updated.
+
+	* src/cell.c (cell_get_span): New routine.  Computes the number of
+	columns spanned by a cell.
+
+=======
 Sun Aug 30 17:19:02 EDT 1998 Daniel Veillard <Daniel.Veillard@w3.org>
 
 	* src/xml-io.c: added saving of the current workbook as one
 	  file, added code to load the workbook. Some part are really
 	  untested/incomplete especially the style support. 
+	
 	* src/main.c (main): added loading of "default.wb" on startup
 	  i.e. the default workbook.
 

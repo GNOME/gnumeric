@@ -447,6 +447,11 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 						e->button.time);
 		} else {
 			item_bar->start_selection = element;
+			gnome_canvas_item_grab (item,
+						GDK_POINTER_MOTION_MASK |
+						GDK_BUTTON_RELEASE_MASK,
+						item_bar->normal_cursor,
+						e->button.time);
 			gtk_signal_emit (GTK_OBJECT (item),
 					 item_bar_signals [SELECTION_CHANGED],
 					 element, TRUE);
@@ -461,8 +466,8 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 					 item_bar->resize_width);
 			item_bar->resize_pos = -1;
 			gtk_object_destroy (item_bar->resize_guide);
-			gnome_canvas_item_ungrab (item, e->button.time);
 		}
+		gnome_canvas_item_ungrab (item, e->button.time);
 		item_bar->start_selection = -1;
 		break;
 		

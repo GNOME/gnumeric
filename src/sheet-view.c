@@ -39,6 +39,8 @@ sheet_view_redraw_cell_region (SheetView *sheet_view, int start_col, int start_r
 	GnumericSheet *gsheet;
 	Sheet *sheet = sheet_view->sheet;
 	int first_visible_col, first_visible_row;
+	int last_visible_col, last_visible_row;
+	int col, row, min_col, max_col;
 	int x, y, w, h;
 	
 	g_return_if_fail (sheet_view != NULL);
@@ -47,22 +49,51 @@ sheet_view_redraw_cell_region (SheetView *sheet_view, int start_col, int start_r
 	gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
 	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
 
-	if (gsheet->top_col > start_col)
-		first_visible_col = start_col;
-	else
-		first_visible_col = gsheet->top_col;
+	if ((end_col < gsheet->top_col) ||
+	    (end_row < gsheet->top_row) ||
+	    (start_col > gsheet->last_visible_col) ||
+	    (start_row > gsheet->last_visible_row))
+		return;
+	
+	/* The region on which we care to redraw */
+	first_visible_col = MAX (gsheet->top_col, start_col);
+	first_visible_row = MAX (gsheet->top_row, start_row);
+	last_visible_col =  MIN (gsheet->last_visible_col, end_col);
+	last_visible_row =  MIN (gsheet->last_visible_row, end_row);
 
-	if (gsheet->top_row > start_row)
-		first_visible_row = start_row;
-	else
-		first_visible_row = gsheet->top_row;
+	/* Initial values for min/max column computation */
+	min_col = first_visible_col;
+	max_col = last_visible_col;
 
-	x = sheet_col_get_distance (sheet, first_visible_col, start_col);
-	y = sheet_row_get_distance (sheet, first_visible_row, start_row);
-	w = sheet_col_get_distance (sheet, start_col, end_col+1);
-	h = sheet_col_get_distance (sheet, start_col, end_col+1);
+	/* Find the range of columns that require a redraw */
+	for (col = first_visible_col; col <= last_visible_col; col++)
+		for (row = first_visible_row; row <= last_visible_row; row++){
+			Cell *cell;
+			int  col1, col2;
 
-	gnome_canvas_request_redraw (GNOME_CANVAS (gsheet), x, y, x+w, y+h);
+			cell = sheet_cell_get (sheet, col, row);
+
+			if (cell){
+				cell_get_span (cell, &col1, &col2);
+
+				min_col = MIN (col1, min_col);
+				max_col = MAX (col2, max_col);
+			}
+			
+		}
+
+	/* Only draw those regions that are visible */
+	min_col = MAX (first_visible_col, min_col);
+	max_col = MIN (last_visible_col, max_col);
+
+	x = sheet_col_get_distance (sheet, gsheet->top_col, min_col+1);
+	y = sheet_col_get_distance (sheet, gsheet->top_row, first_visible_row+1);
+	w = sheet_col_get_distance (sheet, min_col, max_col+1);
+	h = sheet_col_get_distance (sheet, first_visible_row, last_visible_row+1);
+
+	gnome_canvas_request_redraw (GNOME_CANVAS (gsheet),
+				     x, y,
+				     x+w, y+h);
 }
 
 void
