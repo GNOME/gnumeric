@@ -611,7 +611,7 @@ go_marker_selector (GOColor outline_color, GOColor fill_color)
 	g_object_unref (marker);
 	g_object_unref (pixbuf);
 
-	widget = pixmap_combo_new (elements, 4, 4);
+	widget = pixmap_combo_new (elements, 4, 4, FALSE);
 	gtk_combo_box_set_tearable (GTK_COMBO_BOX (widget), FALSE);
 	return widget;
 }

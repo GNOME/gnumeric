@@ -791,7 +791,7 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 				     -1);
 
 	/* Border combo box */
-	border_combo = pixmap_combo_new (border_combo_info, 3, 4);
+	border_combo = pixmap_combo_new (border_combo_info, 3, 4, TRUE);
 
 	/* default to none */
 	pixmap_combo_select_pixmap (PIXMAP_COMBO (border_combo), 1);

@@ -186,7 +186,7 @@ cb_scroll_size_request (GtkWidget *widget, GtkRequisition *requisition,
 	screen = gtk_widget_get_screen (widget);
 	if (screen == NULL)	/* Looks like this will happen when
 				 * embedded as a bonobo component */
-		screen = gdk_screen_get_default;
+		screen = gdk_screen_get_default ();
 
 	gdk_screen_get_monitor_geometry (screen, 0, &rect);
 	mon_width  = rect.width;

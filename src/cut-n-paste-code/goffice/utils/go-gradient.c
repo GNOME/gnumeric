@@ -141,7 +141,7 @@ go_gradient_selector (GOColor start, GOColor end)
 		g_free (data);
 	}
 	g_object_unref (pixbuf);
-	w = pixmap_combo_new (elements, 4, 4);
+	w = pixmap_combo_new (elements, 4, 4, FALSE);
 	gtk_combo_box_set_tearable (GTK_COMBO_BOX (w), FALSE);
 	return w;
 }

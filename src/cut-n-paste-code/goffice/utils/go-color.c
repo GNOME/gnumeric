@@ -335,16 +335,24 @@ go_color_render_svp (GOColor color, ArtSVP const *svp,
 /***************************************************************************/
 
 GOColor
-color_combo_get_gocolor (GtkWidget *cc) /* , GOColor default_val) */
+color_combo_get_gocolor (GtkWidget *cc, gboolean is_custom) /* , GOColor default_val) */
 {
-	/* GOColor res = default_val; */
-	GOColor res = 0;
-	GdkColor *gdk = color_combo_get_color (COLOR_COMBO (cc), NULL);
-	if (gdk != NULL) {
-		res = GDK_TO_UINT (*gdk);
-		gdk_color_free (gdk);
+	/* cheap hack to pull alpha direct from picker if it is custom.  The
+	 * stock combo interface loses the alpha by storing a GdkColor */
+	if (is_custom) {
+		guint8 r, g, b, a;
+		gnome_color_picker_get_i8 (COLOR_COMBO (cc)->palette->picker,
+			&r, &g, &b, &a);
+		return RGBA_TO_UINT (r, g, b, a);
+	} else {
+		GdkColor *gdk = color_combo_get_color (COLOR_COMBO (cc), NULL);
+		if (gdk != NULL) {
+			GOColor res = GDK_TO_UINT (*gdk);
+			gdk_color_free (gdk);
+			return res;
+		}
 	}
-	return res;
+	return 0; /* GOColor res = default_val; */
 }
 
 void
@@ -352,15 +360,18 @@ color_combo_set_gocolor (GtkWidget *cc, GOColor c)
 {
 	if (UINT_RGBA_A (c) != 0) {
 		GdkColor gdk;
-		gdk.red    = UINT_RGBA_R(c);
+		gdk.red    = UINT_RGBA_R (c);
 		gdk.red   |= (gdk.red << 8);
-		gdk.green  = UINT_RGBA_G(c);
+		gdk.green  = UINT_RGBA_G (c);
 		gdk.green |= (gdk.green << 8);
-		gdk.blue   = UINT_RGBA_B(c);
+		gdk.blue   = UINT_RGBA_B (c);
 		gdk.blue  |= (gdk.blue << 8);
 		/* should not be necessary.  The CC should do it for itself */
 		gdk_rgb_find_color (gtk_widget_get_colormap (cc), &gdk);
 		color_combo_set_color (COLOR_COMBO (cc), &gdk);
+		gnome_color_picker_set_i8 (COLOR_COMBO (cc)->palette->picker,
+			UINT_RGBA_R (c), UINT_RGBA_G (c),
+			UINT_RGBA_B (c), UINT_RGBA_A (c));
 	} else
 		color_combo_set_color (COLOR_COMBO (cc), NULL);
 }

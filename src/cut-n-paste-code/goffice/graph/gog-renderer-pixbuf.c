@@ -349,6 +349,7 @@ gog_renderer_pixbuf_draw_text (GogRenderer *rend, ArtPoint const *pos, GtkAnchor
 		size->h = rect.height;
 	}
 	g_object_unref (layout);
+	g_free (ft_bitmap.buffer);
 }
 
 static void

@@ -125,8 +125,8 @@ pixmap_clicked (GtkWidget *button, PixmapCombo *pc)
 }
 
 static void
-pixmap_combo_construct (PixmapCombo *pc,
-			PixmapComboElement const *elements, int ncols, int nrows)
+pixmap_combo_construct (PixmapCombo *pc, PixmapComboElement const *elements,
+			int ncols, int nrows, gboolean copy_images)
 {
 	int row, col;
 
@@ -155,8 +155,7 @@ pixmap_combo_construct (PixmapCombo *pc,
 			if (!data)
 				goto nomore;
 
-			/* Deliberately copy the pixels.  */
-			pixbuf = gdk_pixbuf_new_from_inline (-1, data, TRUE, NULL);
+			pixbuf = gdk_pixbuf_new_from_inline (-1, data, copy_images, NULL);
 			pc->ids[pc->num_elements] = element->id;
 			pc->pixbufs[pc->num_elements] = pixbuf;
 
@@ -205,7 +204,8 @@ pixmap_combo_construct (PixmapCombo *pc,
 }
 
 GtkWidget *
-pixmap_combo_new (PixmapComboElement const *elements, int ncols, int nrows)
+pixmap_combo_new (PixmapComboElement const *elements,
+		  int ncols, int nrows, gboolean copy_images)
 {
 	PixmapCombo *pc;
 
@@ -215,7 +215,7 @@ pixmap_combo_new (PixmapComboElement const *elements, int ncols, int nrows)
 
 	pc = g_object_new (PIXMAP_COMBO_TYPE, NULL);
 
-	pixmap_combo_construct (pc, elements, ncols, nrows);
+	pixmap_combo_construct (pc, elements, ncols, nrows, copy_images);
 
 	return GTK_WIDGET (pc);
 }

@@ -275,6 +275,7 @@ init_xl_font_widths (void)
 	    {  86,  92, "Palatino" },
 	    {  81,  87, "Roman" },
 	    { 109, 117, "Sans" }, /* alias for bitstream */
+	    { 109, 117, "Sans Regular" }, /* alias for bitstream */
 	    {  69,  74, "Script" },
 	    { 142, 152, "Serpentine" },
 	    {  96, 102, "Small Fonts" },

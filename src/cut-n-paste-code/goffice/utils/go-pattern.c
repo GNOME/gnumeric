@@ -52,9 +52,9 @@ static GOPatternSpec const go_patterns [] = {
 	{ 8, 8, /* Vertical Stripe */
 		{ 0x33, 0x33, 0x33, 0x33, 0x33, 0x33, 0x33, 0x33 } },
 	{ 8, 8, /* Reverse Diagonal Stripe */
-		{ 0xcc, 0x66, 0x33, 0x99, 0xcc, 0x66, 0x33, 0x99 } },
-	{ 8, 8, /* Diagonal Stripe */
 		{ 0x33, 0x66, 0xcc, 0x99, 0x33, 0x66, 0xcc, 0x99 } },
+	{ 8, 8, /* Diagonal Stripe */
+		{ 0xcc, 0x66, 0x33, 0x99, 0xcc, 0x66, 0x33, 0x99 } },
 	{ 8, 8, /* Diagonal Crosshatch */
 		{ 0x99, 0x66, 0x66, 0x99, 0x99, 0x66, 0x66, 0x99 } },
 	{ 8, 8, /* Thick Diagonal Crosshatch */
@@ -87,7 +87,7 @@ static GOPatternSpec const go_patterns [] = {
 
 static struct {
 	GOPatternType pattern;
-	const gchar  *name;
+	char  const *name;
 } pattern_names[] = {
 	{ GO_PATTERN_SOLID,            "solid" },
 	{ GO_PATTERN_GREY75,           "grey75" },
@@ -117,7 +117,7 @@ static struct {
 
 
 GOPatternType
-go_pattern_from_str (const gchar *name)
+go_pattern_from_str (char const *name)
 {
 	unsigned i;
 	GOPatternType ret = GO_PATTERN_SOLID;
@@ -130,11 +130,11 @@ go_pattern_from_str (const gchar *name)
 	}
 	return ret;
 }
-const gchar *
+char const *
 go_pattern_as_str (GOPatternType pattern)
 {
 	unsigned i;
-	const gchar *ret = "none";
+	char const *ret = "none";
 
 	for (i = 0; i < sizeof pattern_names / sizeof pattern_names[0]; i++) {
 		if (pattern_names[i].pattern == pattern) {
@@ -204,7 +204,7 @@ go_pattern_selector (GOColor fore, GOColor back)
 		{ N_("Thin Horizontal Stripe"),		NULL, 31},
 		{ N_("Thin Vertical Stripe"),		NULL, 32},
 		{ N_("Thin Reverse Diagonal Stripe"),	NULL, 33},
-		{ N_("Thin Diagonal Crosshatch"),	NULL, 34},
+		{ N_("Thin Diagonal Stripe"),		NULL, 34},
 		{ N_("Thin Horizontal Crosshatch"),	NULL, 35},
 		{ N_("Thin Diagonal Crosshatch"),	NULL, 36},
 		{ N_("Foreground Solid"),		NULL, 41},
@@ -214,8 +214,8 @@ go_pattern_selector (GOColor fore, GOColor back)
 		{ N_("Large Circles"),			NULL, 45},
 		{ N_("Bricks"),				NULL, 46}
 	};
-	const int H = 20;
-	const int W = 20;
+	int const H = 20;
+	int const W = 20;
 	GtkWidget *w;
 	GdkPixbuf *pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, W, H);
 	guchar    *buf = gdk_pixbuf_get_pixels (pixbuf);
@@ -250,15 +250,10 @@ go_pattern_selector (GOColor fore, GOColor back)
 		elements[i].inline_gdkpixbuf = gdk_pixdata_serialize (&pixdata, &length);
 		g_free (data);
 	}
-	art_svp_free (svp);
-	w = pixmap_combo_new (elements, 6, 4);
-	gtk_combo_box_set_tearable (GTK_COMBO_BOX (w), FALSE);
 	g_object_unref (pixbuf);
-
-	for (i = 0; i < G_N_ELEMENTS (elements) ; i++) {
-		g_free (elements[i].inline_gdkpixbuf);
-		elements[i].inline_gdkpixbuf = NULL;
-	}
+	art_svp_free (svp);
+	w = pixmap_combo_new (elements, 6, 4, FALSE);
+	gtk_combo_box_set_tearable (GTK_COMBO_BOX (w), FALSE);
 	return w;
 }
 

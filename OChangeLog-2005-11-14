@@ -1,3 +1,16 @@
+2003-09-13  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric.spec.in:
+	* README :
+	* configure.in : require gsf 1.8.2 to ensure that libole2 based
+	  gnumeric-1.0.x can read our xls files.
+
+2003-09-12  Jon K Hellan  <hellan@acm.org>
+
+	* src/workbook-control-gui.c (cb_graph_dim_editor_destroy): New
+	callback invoked when expr entry is destroyed.
+	(wbcg_data_allocator_editor): Use it.
+
 2003-09-12  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/print.c (print_range_down_then_right) equalize the scaling parameters

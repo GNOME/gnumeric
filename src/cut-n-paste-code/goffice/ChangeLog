@@ -1,3 +1,23 @@
+2003-09-13  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-chart.c (gog_chart_axis_set_assign) : clear_parent clears
+	  ::grid, store the pointer for a moment so that we can free it.
+
+	* utils/go-color.c (color_combo_get_gocolor) : cheap hack to support
+	  alpha channel despite interface limitations.  It only works for
+	  custom colours, but thats the most important case.
+	(color_combo_set_gocolor) : init the custom picker too to ensure that
+	  alpha gets set correctly.
+
+	* utils/go-gradient.c (go_gradient_selector) : no need to free images,
+	  have the combo absorb them.
+	* utils/go-pattern.c (go_pattern_selector) : ditto.
+	  fix cut-n-paste-o the first
+	  'Thin Diagonal Crosshatch' was actually
+	  'Thin Diagonal Stripe'
+
+	* graph/gog-renderer-pixbuf.c (gog_renderer_pixbuf_draw_text) : leak.
+
 2003-09-12  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-axis.c (gog_axis_set_property) : fix typos.

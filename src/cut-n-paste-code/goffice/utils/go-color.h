@@ -108,7 +108,7 @@ void go_color_render_svp (GOColor color, ArtSVP const *svp,
 			  int x0, int y0, int x1, int y1,
 			  art_u8 *buf, int rowstride);
 
-GOColor color_combo_get_gocolor (GtkWidget *cc); /* , GOColor default_val); */
+GOColor color_combo_get_gocolor (GtkWidget *cc, gboolean is_custom); /* , GOColor default_val); */
 void    color_combo_set_gocolor (GtkWidget *cc, GOColor c);
 
 GOColor go_color_from_str (const gchar *string);

@@ -249,5 +249,5 @@ preview_file_selection_set_filename (GtkFileSelection *filesel,
 				     const gchar      *filename)
 {
 	gtk_file_selection_set_filename (filesel, filename);
-	preview_file_selection_update (filesel, NULL);
+	preview_file_selection_update (PREVIEW_FILE_SELECTION (filesel), NULL);
 }

@@ -1,12 +1,10 @@
-/* File import from gal to gnumeric by import-gal.  Do not edit.  */
-
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * widget-pixmap-combo.h - A pixmap selector combo box
- * Copyright 2000, 2001, Ximian, Inc.
+ * Copyright 2000-2003, Ximian, Inc.
  *
  * Authors:
- *   Jody Goldberg <jgoldberg@home.com>
+ *   Jody Goldberg <jody@gnome.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -61,7 +59,7 @@ typedef struct {
 
 GtkType    pixmap_combo_get_type      (void);
 GtkWidget *pixmap_combo_new           (PixmapComboElement const *elements,
-				       int ncols, int nrows);
+				       int ncols, int nrows, gboolean copy_images);
 void       pixmap_combo_select_pixmap (PixmapCombo *combo, int index);
 
 typedef struct {
