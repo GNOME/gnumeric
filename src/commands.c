@@ -2707,6 +2707,24 @@ typedef struct {
 	} old, new;
 } SearchReplaceItem;
 
+
+static void
+cmd_search_replace_update_after_action (CmdSearchReplace *me)
+{
+	SearchReplace *sr = me->sr;
+	GList *tmp;
+	Sheet *last_sheet = NULL;
+
+	for (tmp = me->cells; tmp; tmp = tmp->next) {
+		SearchReplaceItem *sri = tmp->data;
+		if (sri->pos.sheet != last_sheet) {
+			last_sheet = sri->pos.sheet;
+			update_after_action (last_sheet);
+		}
+	}
+}
+
+
 static gboolean
 cmd_search_replace_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
@@ -2739,6 +2757,7 @@ cmd_search_replace_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 			break;
 		}
 	}
+	cmd_search_replace_update_after_action (me);
 
 	return FALSE;
 }
@@ -2775,6 +2794,7 @@ cmd_search_replace_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 			break;
 		}
 	}
+	cmd_search_replace_update_after_action (me);
 
 	return FALSE;
 }
@@ -2784,54 +2804,88 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, WorkbookControl *wbc,
 			    Cell *cell, gboolean test_run)
 {
 	SearchReplace *sr = me->sr;
+	gboolean is_expr, is_value, is_string, is_other;
+	Value *v = cell->value;
 
-	if (cell_has_expr (cell)) {
-		if (sr->replace_expressions) {
-			g_warning ("Unimplemented.");
-		}
-	} else if (!cell_is_blank (cell) && cell->value && !test_run) {
-		Value *v = cell->value;
-		gboolean is_string = (v->type == VALUE_STRING);
+	is_expr = cell_has_expr (cell);
+	is_value = !is_expr && !cell_is_blank (cell) && v;
+	is_string = is_value && (v->type == VALUE_STRING);
+	is_other = is_value && !is_string;
 
-		if (is_string ? sr->replace_strings : sr->replace_other_values) {
-			char *old_copy, *new_text;
-			const char *old_text;
+	if ((is_expr && sr->replace_expressions) ||
+	    (is_string && sr->replace_strings) ||
+	    (is_other && sr->replace_other_values)) {
+		char *old_text = cell_get_entered_text (cell);
+		gboolean initial_quote = (is_value && old_text[0] == '\'');
+		char *new_text = search_replace_string (sr, old_text + (initial_quote ? 1 : 0));
 
-			if (is_string) {
-				old_copy = NULL;
-				old_text = v->v_str.val->str;
-			} else {
-				old_copy = value_get_as_string (v);
-				old_text = old_copy;
+		if (new_text) {
+			MStyle *mstyle;
+			StyleFormat *sf, *cf;
+			ExprTree *expr;
+			Value *val;
+			EvalPos ep;
+			gboolean err;
+
+			if (initial_quote) {
+				/*
+				 * The initial quote was not part of the s-a-r,
+				 * so tack it back on.
+				 */
+				char *tmp = g_new (char, strlen (new_text) + 2);
+				tmp[0] = '\'';
+				strcpy (tmp + 1, new_text);
+				g_free (new_text);
+				new_text = tmp;
 			}
 
-			new_text = search_replace_string (sr, old_text);
-			if (new_text) {
-				gboolean doit = TRUE;
+			mstyle = cell_get_mstyle (cell);
+			cf = mstyle_get_format (mstyle);
+			ep.sheet = cell->base.sheet;
+			ep.eval = cell->pos;
+			sf = parse_text_value_or_expr (&ep, new_text,
+						       &val, &expr, cf);
+			/*
+			 * FIXME: this is a hack, but parse_text_value_or_expr
+			 * does not have a better way of signaling an error.
+			 */
+			err = val && gnumeric_char_start_expr_p (new_text);
 
-				if (sr->query) {
-					/* FIXME. */
+			if (val) value_release (val);
+			if (expr) expr_tree_unref (expr);
+			if (sf) style_format_unref (sf);
+
+			if (err) {
+				if (test_run) {
+					/* FIXME: error dialog.  */
+
+					g_free (old_text);
+					g_free (new_text);
+					return TRUE;
+				} else {
+
 				}
-
-				if (doit) {
+			} else {
+				if (!test_run) {
 					SearchReplaceItem *sri = g_new (SearchReplaceItem, 1);
 
-					if (!old_copy) old_copy = g_strdup (old_text);
+					sheet_cell_set_text (cell, new_text);
+
 					sri->pos.sheet = cell->base.sheet;
 					sri->pos.eval = cell->pos;
 					sri->old_type = sri->new_type = SRI_text;
-					sri->old.text = old_copy;
+					sri->old.text = old_text;
 					sri->new.text = new_text;
 					me->cells = g_list_prepend (me->cells, sri);
-					old_copy = NULL;
 
-					sheet_cell_set_text (cell, new_text);
-				} else
-					g_free (new_text);
+					old_text = new_text = NULL;
+				}
 			}
 
-			g_free (old_copy);
+			g_free (new_text);
 		}
+
+		g_free (old_text);
 	}
 
 	if (!test_run && sr->replace_comments) {
@@ -2899,6 +2953,7 @@ cb_order_sheet_row_col (const void *_a, const void *_b)
 	return i;
 }
 
+
 static gboolean
 cmd_search_replace_do (CmdSearchReplace *me, WorkbookControl *wbc,
 		       Sheet *sheet, gboolean test_run)
@@ -2910,14 +2965,17 @@ cmd_search_replace_do (CmdSearchReplace *me, WorkbookControl *wbc,
 	int i;
 
 	if (test_run) {
-		/*
-		 * The only thing that can fail during replacement are
-		 * expressions in fail mode.  Thus we don't really have
-		 * to perform a test_run in any other case.
-		 */
-		if (sr->error_behaviour != SRE_fail ||
-		    !sr->replace_expressions)
+		switch (sr->error_behaviour) {
+		case SRE_skip:
+		case SRE_query:
+		case SRE_error:
+		case SRE_string:
+			/* An error is not a problem.  */
 			return FALSE;
+
+		case SRE_fail:
+			; /* Nothing.  */
+		}
 	}
 
 	/* Collect a list of all cells subject to search.  */
@@ -2990,6 +3048,8 @@ cmd_search_replace_do (CmdSearchReplace *me, WorkbookControl *wbc,
 	if (!test_run) {
 		/* Cells were added in the wrong order.  Correct.  */
 		me->cells = g_list_reverse (me->cells);
+
+		cmd_search_replace_update_after_action (me);
 	}
 
 	return result;

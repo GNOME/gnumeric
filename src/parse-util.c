@@ -502,7 +502,7 @@ parse_cell_name_list (Sheet *sheet,
  * @current_format : Optional, current number format.
  *
  * Returns : A pointer to the optimal format to display the value or
- *     expression result, possibly NULL if there is no preffered format.
+ *     expression result, possibly NULL if there is no preferred format.
  *
  * If there is a parse failure for an expression an error Value with the syntax
  * error is returned.

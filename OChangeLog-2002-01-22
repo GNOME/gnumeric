@@ -1,3 +1,13 @@
+2001-01-24  Morten Welinder  <terra@diku.dk>
+
+	* src/commands.c (cmd_search_replace_update_after_action): New
+ 	function.
+	(cmd_search_replace_undo, cmd_search_replace_redo,
+ 	cmd_search_replace_do): Call
+ 	cmd_search_replace_update_after_action.
+	(cmd_search_replace_do_cell): Change to work on entered text which
+ 	is, we believe, what XL does.
+
 2001-01-24  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet-style.c (sheet_style_get_uniform) : disable stupid cruft
