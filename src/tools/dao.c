@@ -274,6 +274,25 @@ dao_format_output (data_analysis_output_t *dao, char const *cmd)
 	return FALSE;
 }
 
+
+gboolean
+dao_cell_is_visible (data_analysis_output_t *dao, int col, int row)
+{
+	col += dao->offset_col;
+	row += dao->offset_row;
+
+	if (dao->type == RangeOutput &&
+	    (dao->cols > 1 || dao->rows > 1) &&
+	    (col >= dao->cols || row >= dao->rows))
+	        return FALSE;
+
+	col += dao->start_col;
+	row += dao->start_row;
+
+	return (!(col >= SHEET_MAX_COLS || row >= SHEET_MAX_ROWS));
+}
+
+
 /*
  * dao_set_cell_expr absorbs the reference for the expr.
  *
@@ -293,13 +312,17 @@ dao_set_cell_expr (data_analysis_output_t *dao, int col, int row,
 	 */
 	if (dao->type == RangeOutput &&
 	    (dao->cols > 1 || dao->rows > 1) &&
-	    (col >= dao->cols || row >= dao->rows))
+	    (col >= dao->cols || row >= dao->rows)) {
+		gnm_expr_unref (expr);
 	        return;
+	}
 
 	col += dao->start_col;
 	row += dao->start_row;
-	if (col >= SHEET_MAX_COLS || row >= SHEET_MAX_ROWS)
+	if (col >= SHEET_MAX_COLS || row >= SHEET_MAX_ROWS) {
+		gnm_expr_unref (expr);
 		return;
+	}
 
 	cell = sheet_cell_fetch (dao->sheet, col, row);
 	cell_set_expr (cell, expr);

@@ -2760,7 +2760,7 @@ dialog_anova_single_factor_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
  	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->alpha_entry));
 
-	gnm_dao_set_put (GNM_DAO (state->base.gdao), FALSE, FALSE);
+	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);
 	anova_single_tool_update_sensitivity_cb (NULL, state);
 	tool_load_selection ((GenericToolState *)state, TRUE);
 

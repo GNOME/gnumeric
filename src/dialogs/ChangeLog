@@ -1,3 +1,8 @@
+2004-07-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-analysis-tools.c (dialog_anova_single_factor_tool):
+	  Enable the `put' menu in the dao widget.
+
 2004-07-05  Jody Goldberg <jody@gnome.org>
 
 	* dialog-about.c (dialog_about) : Throw in some gradients and a cheesy
@@ -14,7 +19,6 @@
 	  retrieve information from the ss_button
 	(dialog_descriptive_stat_tool): c_entry is a spinbutton (not an 
 	  entry). Enable the `put' menu in the dao widget.
-	
 
 2004-06-01  Morten Welinder  <terra@gnome.org>
 

@@ -352,29 +352,18 @@ strip_missing (GArray * data, GSList * missing)
 }
 
 /*
- *  analysis_tools_write_label:
+ *  analysis_tools_remove_label:
  *  @val: range to extract label from
- *  @dao: data_analysis_output_t, where to write to
- *  @info: analysis_tools_data_descriptive_t info
- *  @x: output col number
- *  @y: output row number
- *  @i: default col/row number
+ *  @info: analysis_tools_data_generic_t info
  *
  */
 
 static void
-analysis_tools_write_label (GnmValue *val, data_analysis_output_t *dao, 
-			    analysis_tools_data_descriptive_t *info,
-			    int x, int y, int i)
+analysis_tools_remove_label (GnmValue *val,
+			    analysis_tools_data_generic_t *info)
 {
-	char const *format = NULL;
-
-	if (info->base.labels) {
-		GnmValue *label = value_dup(val);
-		
-		label->v_range.cell.b = label->v_range.cell.a;
-		dao_set_cell_expr (dao,  x, y, gnm_expr_new_constant (label));
-		switch (info->base.group_by) {
+	if (info->labels) {
+		switch (info->group_by) {
 		case GROUPED_BY_ROW:
 			val->v_range.cell.a.col++;
 			break;
@@ -385,8 +374,37 @@ analysis_tools_write_label (GnmValue *val, data_analysis_output_t *dao,
 			val->v_range.cell.a.row++;
 			break;
 		}
+	}
+}
+
+
+
+/*
+ *  analysis_tools_write_label:
+ *  @val: range to extract label from
+ *  @dao: data_analysis_output_t, where to write to
+ *  @info: analysis_tools_data_generic_t info
+ *  @x: output col number
+ *  @y: output row number
+ *  @i: default col/row number
+ *
+ */
+
+static void
+analysis_tools_write_label (GnmValue *val, data_analysis_output_t *dao, 
+			    analysis_tools_data_generic_t *info,
+			    int x, int y, int i)
+{
+	char const *format = NULL;
+
+	if (info->labels) {
+		GnmValue *label = value_dup(val);
+		
+		label->v_range.cell.b = label->v_range.cell.a;
+		dao_set_cell_expr (dao,  x, y, gnm_expr_new_constant (label));
+		analysis_tools_remove_label (val, info);
 	} else {
-		switch (info->base.group_by) {
+		switch (info->group_by) {
 		case GROUPED_BY_ROW:
 			format = _("Row %i");
 			break;
@@ -1085,7 +1103,7 @@ summary_statistics (data_analysis_output_t *dao,
 		val_org = value_dup(data->data);
 
 		/* Note that analysis_tools_write_label may modify val_org */
-		analysis_tools_write_label (val_org, dao, info, col + 1, 0, col + 1);
+		analysis_tools_write_label (val_org, dao, &info->base, col + 1, 0, col + 1);
 		dao_set_italic (dao, col+1, 0, col+1, 0);
 
 	        /* Mean */
@@ -1228,7 +1246,7 @@ confidence_level (data_analysis_output_t *dao,
 		val_org = value_dup(data->data);
 
 		/* Note that analysis_tools_write_label may modify val_org */
-		analysis_tools_write_label (val_org, dao, info, col + 1, 0, col + 1);
+		analysis_tools_write_label (val_org, dao, &info->base, col + 1, 0, col + 1);
 		dao_set_italic (dao, col+1, 0, col+1, 0);
 
 		val = value_dup(val_org);
@@ -1293,7 +1311,7 @@ kth_smallest_largest (data_analysis_output_t *dao,
 
 		val = value_dup(data->data);
 
-		analysis_tools_write_label (val, dao, info, col + 1, 0, col + 1);
+		analysis_tools_write_label (val, dao, &info->base, col + 1, 0, col + 1);
 		dao_set_italic (dao, col+1, 0, col+1, 0);
 
 		args = gnm_expr_list_append (args, gnm_expr_new_constant (val));		
@@ -3030,74 +3048,86 @@ static gboolean
 analysis_tool_anova_single_engine_run (data_analysis_output_t *dao, gpointer specs)
 {
 	analysis_tools_data_anova_single_t *info = specs;
-	GPtrArray *data = NULL;
-	guint index, i;
-	gint error;
-	gint N = 0;
-	gnm_float ss_b, ss_w, ss_t;
-	gnm_float ms_b, ms_w, f = 0.0, p = 0.0, f_c = 0.0;
-	gnm_float overall_mean;
-	gnm_float *treatment_mean = NULL;
-	gnm_float *ss_terms = NULL;
-	int        df_b, df_w, df_t;
+	GSList *inputdata = info->base.input;
+	GnmFunc *fd_sum = NULL;
+	GnmFunc *fd_count = NULL;
+	GnmFunc *fd_mean = NULL;
+	GnmFunc *fd_var = NULL;
+	GnmFunc *fd_devsq = NULL;
 
-	prepare_input_range (&info->base.input, info->base.group_by);
-	data = new_data_set_list (info->base.input, info->base.group_by,
-				  TRUE, info->base.labels, dao->sheet);
-
+	guint index;
 
 	dao_set_cell (dao, 0, 0, _("Anova: Single Factor"));
 	dao_set_cell (dao, 0, 2, _("SUMMARY"));
+	dao_set_italic (dao, 0, 0, 0, 2);
+
 	set_cell_text_row (dao, 0, 3, _("/Groups"
 					"/Count"
 					"/Sum"
 					"/Average"
 					"/Variance"));
-	dao_set_italic (dao, 0, 0, 0, data->len + 11);
 	dao_set_italic (dao, 0, 3, 4, 3);
 
 	dao->offset_row += 4;
 	if (dao->rows <= dao->offset_row)
 		goto finish_anova_single_factor_tool;
 
-	/* SUMMARY & ANOVA calculation*/
-	treatment_mean = g_new (gnm_float, data->len);
-	for (index = 0; index < data->len; index++) {
-		gnm_float x;
-		data_set_t *current_data;
-		gnm_float *the_data;
+	/* SUMMARY */
 
-		current_data = g_ptr_array_index (data, index);
-		the_data = (gnm_float *)current_data->data->data;
+	fd_mean = gnm_func_lookup ("AVERAGE", NULL);
+	gnm_func_ref (fd_mean);
+	fd_var = gnm_func_lookup ("VAR", NULL);
+	gnm_func_ref (fd_var);
+	fd_sum = gnm_func_lookup ("SUM", NULL);
+	gnm_func_ref (fd_sum);
+	fd_count = gnm_func_lookup ("COUNT", NULL);
+	gnm_func_ref (fd_count);
+	fd_devsq = gnm_func_lookup ("DEVSQ", NULL);
+	gnm_func_ref (fd_devsq);
+
+	for (index = 0; inputdata != NULL; 
+	     inputdata = inputdata->next, index++) {
+		GnmExprList *args = NULL;
+		GnmValue *val_org = NULL;
+		GnmValue *val = NULL;
+
+		val_org = value_dup(inputdata->data);
 
 		/* Label */
-		dao_set_cell_printf (dao, 0, index, current_data->label);
+		analysis_tools_write_label (val_org, dao, &info->base, 
+					    0, index, index + 1);
+		dao_set_italic (dao, 0, index, 0, index);
 
 		/* Count */
-		dao_set_cell_int (dao, 1, index, current_data->data->len);
-		N += current_data->data->len;
+		val = value_dup(val_org);
+		args = gnm_expr_list_append (NULL, 
+					     gnm_expr_new_constant (val));
+		dao_set_cell_expr (dao, 1, index, 
+				   gnm_expr_new_funcall (fd_count, args));
 
 		/* Sum */
-		error = range_sum (the_data,
-				   current_data->data->len, &x);
-		dao_set_cell_float_na (dao, 2, index, x, error == 0);
+		val = value_dup(val_org);
+		args = gnm_expr_list_append (NULL, 
+					     gnm_expr_new_constant (val));
+		dao_set_cell_expr (dao, 2, index, 
+				   gnm_expr_new_funcall (fd_sum, args));
 
 		/* Average */
-		error = range_average (the_data,
-				       current_data->data->len, &x);
-		dao_set_cell_float_na (dao, 3, index, x, error == 0);
-		treatment_mean[index] = x;
+		val = value_dup(val_org);
+		args = gnm_expr_list_append (NULL, 
+					     gnm_expr_new_constant (val));
+		dao_set_cell_expr (dao, 3, index, 
+				   gnm_expr_new_funcall (fd_mean, args));
 
 		/* Variance */
-		error = range_var_est (the_data,
-				       current_data->data->len, &x);
-		dao_set_cell_float_na (dao, 4, index, x, error == 0);
+		args = gnm_expr_list_append (NULL, 
+					     gnm_expr_new_constant (val_org));
+		dao_set_cell_expr (dao, 4, index, 
+				   gnm_expr_new_funcall (fd_var, args));
 
-		/* Further Calculations */;
-		error = range_sumsq (the_data, current_data->data->len, &x);
 	}
 
-	dao->offset_row += data->len + 2;
+	dao->offset_row += index + 2;
 	if (dao->rows <= dao->offset_row)
 		goto finish_anova_single_factor_tool;
 
@@ -3107,6 +3137,7 @@ analysis_tool_anova_single_engine_run (data_analysis_output_t *dao, gpointer spe
 					"/Between Groups"
 					"/Within Groups"
 					"/Total"));
+	dao_set_italic (dao, 0, 0, 0, 4);
 	set_cell_text_row (dao, 1, 1, _("/SS"
 					"/df"
 					"/MS"
@@ -3116,61 +3147,234 @@ analysis_tool_anova_single_engine_run (data_analysis_output_t *dao, gpointer spe
 	dao_set_italic (dao, 1, 1, 6, 1);
 
 	/* ANOVA */
-	df_b = data->len - 1;
-	df_w = N - data->len;
-	df_t = N - 1;
+	{
+		GnmExprList *args = NULL;
+		GnmExprList *sum_wdof_args = NULL;
+		GnmExprList *sum_tdof_args = NULL;
+		GnmExprList *arg_ss_total = NULL;
+		GnmExprList *arg_ss_within = NULL;
 
-	error = range_average (treatment_mean, data->len, &overall_mean);
-	ss_terms = g_new (gnm_float, data->len);
-	for (index = 0; index < data->len; index++) {
-		data_set_t *current_data = g_ptr_array_index (data, index);
-		gnm_float diff = treatment_mean[index] - overall_mean;
+		GnmExpr const *expr_wdof = NULL;
+		GnmExpr const *expr_ss_total = NULL;
+		GnmExpr const *expr_ss_within = NULL;
 
-		ss_terms[index] = current_data->data->len * (diff * diff);
-	}
-	error = range_sum (ss_terms, data->len, &ss_b);
+		for (inputdata = info->base.input; inputdata != NULL; 
+		     inputdata = inputdata->next) {
+			GnmValue *val_org = NULL;
+			GnmExpr const *expr_one = NULL;
+			GnmExpr const *expr_count_one = NULL;
+			
+			val_org = value_dup(inputdata->data);
+			analysis_tools_remove_label (val_org, &info->base);
+			expr_one = gnm_expr_new_constant (value_dup(val_org));
 
-	for (index = 0; index < data->len; index++) {
-		data_set_t *current_data = g_ptr_array_index (data, index);
-		gnm_float *the_data = (gnm_float *)current_data->data->data;
+			arg_ss_total =  gnm_expr_list_append 
+				(arg_ss_total, 
+				 gnm_expr_new_constant (val_org));
 
-		ss_terms[index] = 0;
-		for (i = 0; i < current_data->data->len; i++) {
-			gnm_float diff = the_data[i] - treatment_mean[index];
-			ss_terms[index] += diff * diff;
+			gnm_expr_ref (expr_one);
+			args = gnm_expr_list_append 
+				(NULL, expr_one);
+			arg_ss_within =  gnm_expr_list_append 
+				(arg_ss_within, 
+				 gnm_expr_new_funcall 
+				 (fd_devsq, args));
+
+			args = gnm_expr_list_append 
+				(NULL, expr_one);
+			expr_count_one = gnm_expr_new_funcall (fd_count, args);
+
+			gnm_expr_ref (expr_count_one);
+			sum_wdof_args = gnm_expr_list_append
+				(sum_wdof_args,
+				 gnm_expr_new_binary(
+					 expr_count_one,
+					 GNM_EXPR_OP_SUB,
+					 gnm_expr_new_constant
+					 (value_new_int (1))));
+			sum_tdof_args = gnm_expr_list_append
+				(sum_tdof_args,
+				 expr_count_one);
+		}
+
+		expr_ss_total = gnm_expr_new_funcall
+			(fd_devsq, arg_ss_total);
+		expr_ss_within = gnm_expr_new_funcall
+			(fd_sum, arg_ss_within);
+
+		{
+			/* SS between groups */
+			GnmExpr const *expr_ss_between = NULL;
+			
+			if (dao_cell_is_visible (dao, 1,4)) {
+				GnmCellRef cr_within = {NULL, 0, 1 ,TRUE, TRUE};
+				GnmCellRef cr_total = {NULL, 0, 2 ,TRUE, TRUE};
+				expr_ss_between = gnm_expr_new_binary
+					(gnm_expr_new_cellref (&cr_total),
+					 GNM_EXPR_OP_SUB,
+					 gnm_expr_new_cellref (&cr_within));
+				
+			} else {
+				gnm_expr_ref (expr_ss_total);
+				gnm_expr_ref (expr_ss_within);
+				expr_ss_between = gnm_expr_new_binary
+					(expr_ss_total,
+					 GNM_EXPR_OP_SUB,
+					 expr_ss_within);
+			}
+			dao_set_cell_expr (dao,  1, 2, expr_ss_between);
+		}
+		{
+			/* SS within groups */
+			gnm_expr_ref (expr_ss_within);
+			dao_set_cell_expr (dao,  1, 3, expr_ss_within);
+		}
+		{
+			/* SS total groups */
+			dao_set_cell_expr (dao,  1, 4, expr_ss_total);
+		}
+		{
+			/* Between groups degrees of freedom */
+			dao_set_cell_int (dao, 2, 2,
+					  g_slist_length (info->base.input) - 1);
+		}
+		{
+			/* Within groups degrees of freedom */
+			expr_wdof = gnm_expr_new_funcall (fd_sum, sum_wdof_args);
+			gnm_expr_ref (expr_wdof);
+			dao_set_cell_expr (dao, 2, 3, expr_wdof);
+		}
+		{
+			/* Total degrees of freedom */
+			GnmExpr const *expr_tdof = NULL;
+			
+			expr_tdof = gnm_expr_new_binary(
+				gnm_expr_new_funcall (fd_sum, sum_tdof_args),
+				GNM_EXPR_OP_SUB,
+				gnm_expr_new_constant (value_new_int (1)));
+			dao_set_cell_expr (dao, 2, 4, expr_tdof);
+		}
+		{
+			/* MS values */
+			GnmExpr const *expr_ms = NULL;
+			GnmCellRef cr_num = {NULL, -2, 0 ,TRUE, TRUE};
+			GnmCellRef cr_denom = {NULL, -1, 0 ,TRUE, TRUE};
+			cr_num.sheet = dao->sheet;
+			cr_denom.sheet = dao->sheet;
+			
+			expr_ms = gnm_expr_new_binary
+				(gnm_expr_new_cellref (&cr_num),
+				 GNM_EXPR_OP_DIV,
+				 gnm_expr_new_cellref (&cr_denom));
+			gnm_expr_ref (expr_ms);
+			dao_set_cell_expr(dao, 3, 2, expr_ms);
+			dao_set_cell_expr(dao, 3, 3, expr_ms);
+		}
+		{
+			/* Observed F */
+			GnmCellRef cr_num = {NULL, -1, 0 ,TRUE, TRUE};
+			GnmCellRef cr_denom = {NULL, -1, 1 ,TRUE, TRUE};
+			GnmExpr const *expr_denom = NULL;
+			GnmExpr const *expr_f = NULL;
+			cr_num.sheet = dao->sheet;
+			cr_denom.sheet = dao->sheet;
+
+			if (dao_cell_is_visible (dao, 3, 3)) {
+				expr_denom = gnm_expr_new_cellref (&cr_denom);
+				gnm_expr_unref (expr_ss_within);
+			} else {
+				gnm_expr_ref (expr_wdof);
+				expr_denom = gnm_expr_new_binary
+					(expr_ss_within,
+					 GNM_EXPR_OP_DIV,
+					 expr_wdof);
+			}
+
+			expr_f = gnm_expr_new_binary
+				(gnm_expr_new_cellref (&cr_num),
+				 GNM_EXPR_OP_DIV, expr_denom);
+			dao_set_cell_expr(dao, 4, 2, expr_f);
+		}
+		{
+			/* P value */
+			GnmFunc *fd_fdist = NULL;
+			GnmCellRef cr = {NULL, -1, 0 ,TRUE, TRUE};
+			GnmExprList *args = NULL;
+			cr.sheet = dao->sheet;
+
+			args = gnm_expr_list_append
+				(args, gnm_expr_new_cellref (&cr));
+
+			cr.col = -3;
+			args = gnm_expr_list_append
+				(args, gnm_expr_new_cellref (&cr));
+
+			if (dao_cell_is_visible (dao, 2, 3)) {
+				cr.row = 1;
+				args = gnm_expr_list_append
+					(args, gnm_expr_new_cellref (&cr));
+			} else {
+				gnm_expr_ref (expr_wdof);
+				args = gnm_expr_list_append
+					(args, expr_wdof);
+			}
+
+			fd_fdist = gnm_func_lookup ("FDIST", NULL);
+			gnm_func_ref (fd_fdist);
+
+			dao_set_cell_expr(dao, 5, 2,
+					  gnm_expr_new_funcall (fd_fdist, args));
+			if (fd_fdist)
+				gnm_func_unref (fd_fdist);
+		}
+		{
+			/* Critical F*/
+			GnmFunc *fd_finv = NULL;
+			GnmCellRef cr = {NULL, -4, 0 ,TRUE, TRUE};
+			GnmExprList *args = NULL;
+			cr.sheet = dao->sheet;
+
+			args = gnm_expr_list_append
+				(args, gnm_expr_new_constant
+				 (value_new_float (info->alpha)));
+
+			args = gnm_expr_list_append
+				(args, gnm_expr_new_cellref (&cr));
+
+			if (dao_cell_is_visible (dao, 2, 3)) {
+				cr.row = 1;
+				args = gnm_expr_list_append
+					(args, gnm_expr_new_cellref (&cr));
+				gnm_expr_unref (expr_wdof);
+			} else
+				args = gnm_expr_list_append
+					(args, expr_wdof);
+
+			fd_finv = gnm_func_lookup ("FINV", NULL);
+			gnm_func_ref (fd_finv);
+
+			dao_set_cell_expr(dao, 6, 2,
+					  gnm_expr_new_funcall (fd_finv, args));
+			if (fd_finv)
+				gnm_func_unref (fd_finv);
 		}
 	}
-	error = range_sum (ss_terms, data->len, &ss_w);
-	g_free (ss_terms);
-
-	ss_t = ss_b + ss_w;
-	ms_b = ss_b / df_b;
-	ms_w = ss_w / df_w;
-	f    = ms_b / ms_w;
-	p    = pf (f, df_b, df_w, FALSE, FALSE);
-	f_c  = qf (info->alpha, df_b, df_w, FALSE, FALSE);
-
-	dao_set_cell_float (dao, 1, 2, ss_b);
-	dao_set_cell_float (dao, 1, 3, ss_w);
-	dao_set_cell_float (dao, 1, 4, ss_t);
-	dao_set_cell_int (dao, 2, 2, df_b);
-	dao_set_cell_int (dao, 2, 3, df_w);
-	dao_set_cell_int (dao, 2, 4, df_t);
-	dao_set_cell_float (dao, 3, 2, ms_b);
-	dao_set_cell_float (dao, 3, 3, ms_w);
-	dao_set_cell_float (dao, 4, 2, f);
-	dao_set_cell_float (dao, 5, 2, p);
-	dao_set_cell_float (dao, 6, 2, f_c);
 
 finish_anova_single_factor_tool:
 
-	if (treatment_mean != NULL)
-		g_free (treatment_mean);
-
+	if (fd_mean) 
+		gnm_func_unref (fd_mean);
+	if (fd_var) 
+		gnm_func_unref (fd_var);
+	if (fd_sum) 
+		gnm_func_unref (fd_sum);
+	if (fd_count) 
+		gnm_func_unref (fd_count);
+	if (fd_devsq) 
+		gnm_func_unref (fd_devsq);
+	
 	dao->offset_row = 0;
 	dao->offset_col = 0;
-
-	destroy_data_set_list (data);
 
 	dao_redraw_respan (dao);
         return FALSE;

@@ -58,6 +58,7 @@ data_analysis_output_t *dao_load_from_value (data_analysis_output_t *dao,
 void dao_autofit_columns      (data_analysis_output_t *dao);
 void dao_autofit_these_columns (data_analysis_output_t *dao, int from_col,
 				int to_col);
+gboolean dao_cell_is_visible      (data_analysis_output_t *dao, int col, int row);
 void dao_set_bold             (data_analysis_output_t *dao, int col1, int row1,
 			       int col2, int row2);
 void dao_set_italic           (data_analysis_output_t *dao, int col1, int row1,
