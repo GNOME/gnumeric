@@ -5,13 +5,25 @@
 #include "cell.h"
 #include "summary.h"
 
+typedef enum {
+	FD_CURRENT = -1,
+	FD_NUMBER,
+	FD_ALIGNMENT,
+	FD_FONT,
+	FD_BORDER,
+	FD_BACKGROUND,
+	FD_PROTECTION,
+	FD_LAST = FD_PROTECTION
+} FormatDialogPosition_t;
+
 #ifdef ENABLE_BONOBO
 void     dialog_graph_guru	(Workbook *wb);
 #endif
 void     dialog_formula_guru	(Workbook *wb);
 void     dialog_plugin_manager  (Workbook *wb);
 void   	 dialog_goto_cell       (Workbook *wb);
-void   	 dialog_cell_format     (Workbook *wb, Sheet *sheet);
+void   	 dialog_cell_format     (Workbook *wb, Sheet *sheet,
+				 FormatDialogPosition_t pageno);
 int    	 dialog_paste_special   (Workbook *wb);
 void   	 dialog_insert_cells    (Workbook *wb, Sheet *sheet);
 void   	 dialog_delete_cells    (Workbook *wb, Sheet *sheet);

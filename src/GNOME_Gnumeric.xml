@@ -34,7 +34,7 @@
 			pixname="Menu_Print"/>
 	
 			<menuitem name="FilePrintPreview" verb="" _label="Print Pre_view"
-			_tip="Print the current file" pixtype="stock"
+			_tip="Print preview" pixtype="stock"
 			pixname="Gnumeric_PrintPreview"/>
 
 			<separator/>
@@ -386,8 +386,8 @@
 
 		<separator/>
 
-		<control name="EditUndo"/>
-		<control name="EditRedo"/>
+		<control name="EditUndo" _tip="Undo the last action"/>
+		<control name="EditRedo" _tip="Redo the undone action"/>
 
 		<separator/>
 
@@ -416,13 +416,17 @@
 		 _label="Insert Shaped Component" _tip="Insert a shaped component into the spreadsheet"
 		 verb="InsertShapedComponent"/>
 
-		<control name="SheetZoom"/>
+		<control name="SheetZoom" 
+			 _tip="Zoom the spreadsheet in or out" 
+			 vdisplay="none"/>
 	</dockitem>
 
 	<dockitem name="FormatToolbar" band_num="2" homogeneous="0" look="icons" relief="none">
 
-		<control name="FontName"/>
-		<control name="FontSize"/>
+		<control name="FontName"  _tip="Font selector"  
+			 vdisplay="button" verb="FontSelect" pixtype="stock" 
+			 pixname="Font" _label="Font"/>
+		<control name="FontSize" _tip="Font Size" vdisplay="none"/>
 
 		<toolitem type="toggle" name="FontBold" pixtype="stock" pixname="Bold"
 		 _label="Bold" _tip="Make font bold"
@@ -469,9 +473,9 @@
 
 		<separator/>
 
-		<control name="BorderSelector"/>
-		<control name="BackgroundColor"/>
-		<control name="ForegroundColor"/>
+		<control name="BorderSelector" _tip="Borders"/>
+		<control name="BackgroundColor" _tip="Background"/>
+		<control name="ForegroundColor" _tip="Foreground"/>
 
 	</dockitem>
 

@@ -1,3 +1,25 @@
+2000-10-21  Jon K Hellan  <hellan@acm.org>
+
+	* src/gnumeric.xml: Add tips for toolbar undo and redo.  Correct
+	tip for menu PrintPreview.  Add tip to toolbar zoom.  Don't
+	display it when vertical.  Add tips to toolbar font name and font
+	size controls. Replace them with a button in vertical mode. (2
+	controls -> 1 button.)  It invokes the font page of the format
+	dialog. Add tips to toolbar border, background and foreground
+	selectors.
+
+	* src/workbook-format-toolbar.c (font_select_cmd): New
+	command. Pop up cell format dialog at font page.
+	(workbook_feedback_set): Remove warning by not defining toolbar
+	variable for bonobo.
+	(workbook_format_toolbar_orient): Remove warning by undefining
+	this for bonobo.
+
+	* src/workbook.c (format_cells_cmd): Call dialog_cell_format
+	with new parameter pageno = FD_CURRENT.
+
+	* src/item-grid.c (context_menu_hander): Ditto
+
 2000-10-21  Michael Meeks  <michael@helixcode.com>
 
 	* src/gnumeric.xml.h: commit to CVS.

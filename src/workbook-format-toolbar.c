@@ -163,6 +163,23 @@ toggled_from_toolbar (GtkToggleButton *t)
 #endif
 }
 
+/**
+ * font_select_cmd
+ *
+ * @widget widget
+ * @wb     workboook
+ *
+ * Pop up cell format dialog at font page. Used from font select toolbar
+ * button, which is displayed in vertical mode instead of font name / font
+ * size controls.
+ */
+static void
+font_select_cmd (GtkWidget *widget, Workbook *wb)
+{
+	Sheet *sheet = wb->current_sheet;
+	dialog_cell_format (wb, sheet, FD_FONT);
+}
+
 static void
 bold_cmd (GtkToggleButton *t, Workbook *wb)
 {
@@ -403,6 +420,7 @@ static GnomeUIInfo workbook_format_toolbar [] = {
 };
 #else
 static BonoboUIVerb verbs [] = {
+	BONOBO_UI_UNSAFE_VERB ("FontSelect",               &font_select_cmd),
 	BONOBO_UI_UNSAFE_VERB ("FontBold",		   &bold_cmd),
 	BONOBO_UI_UNSAFE_VERB ("FontItalic",		   &italic_cmd),
 	BONOBO_UI_UNSAFE_VERB ("FontUnderline",	   &underline_cmd),
@@ -466,6 +484,7 @@ disable_focus (GtkWidget *base, void *closure)
 	GTK_WIDGET_UNSET_FLAGS (base, GTK_CAN_FOCUS);
 }
 
+#ifndef ENABLE_BONOBO
 /*
  * Some toolbar items are too damn wide to put into the toolbar
  * if it is vertical.
@@ -485,6 +504,7 @@ workbook_format_toolbar_orient (GtkToolbar *toolbar,
 		gtk_widget_hide (wb->priv->font_size_selector);
 	}
 }
+#endif
 
 
 /****************************************************************************/
@@ -827,7 +847,9 @@ workbook_format_halign_feedback_set (Workbook *workbook,
 void
 workbook_feedback_set (Workbook *wb, MStyle *style)
 {
+#ifndef ENABLE_BONOBO
 	GnumericToolbar *toolbar;
+#endif
 	GtkComboText    *fontsel = GTK_COMBO_TEXT (wb->priv->font_name_selector);
 	GtkComboText    *fontsize= GTK_COMBO_TEXT (wb->priv->font_size_selector);
 	char             size_str [40];

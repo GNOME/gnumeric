@@ -912,7 +912,7 @@ static void
 format_cells_cmd (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = wb->current_sheet;
-	dialog_cell_format (wb, sheet);
+	dialog_cell_format (wb, sheet, FD_CURRENT);
 }
 
 static void

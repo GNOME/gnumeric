@@ -425,7 +425,7 @@ context_menu_hander (GnumericPopupMenuElement const *element,
 		cmd_clear_selection (cc, sheet, CLEAR_VALUES);
 		break;
 	case CONTEXT_FORMAT_CELL :
-		dialog_cell_format (wb, sheet);
+		dialog_cell_format (wb, sheet, FD_CURRENT);
 		break;
 	case CONTEXT_COL_WIDTH :
 		sheet_dialog_set_column_width (NULL, wb);

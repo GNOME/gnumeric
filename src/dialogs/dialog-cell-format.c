@@ -154,7 +154,8 @@ fmt_dialog_changed (FormatState *state)
 
 /* Default to the 'Format' page but remember which page we were on between
  * invocations */
-static int fmt_dialog_page = 0;
+static FormatDialogPosition_t fmt_dialog_page = FD_NUMBER;
+
 
 /*
  * Callback routine to help remember which format tab was selected
@@ -1988,7 +1989,8 @@ static void set_initial_focus (FormatState *state)
 }
 
 static void
-fmt_dialog_impl (FormatState *state, MStyleBorder **borders)
+fmt_dialog_impl (FormatState *state, MStyleBorder **borders,
+		 FormatDialogPosition_t pageno)
 {
 	static GnomeHelpMenuEntry help_ref = { "gnumeric", "formatting.html" };
 	static struct {
@@ -2087,7 +2089,12 @@ fmt_dialog_impl (FormatState *state, MStyleBorder **borders)
 	state->back.pattern_item	= NULL;
 	state->back.pattern.cur_index	= 0;
 
-	/* Select the same page the last invocation used */
+	/* Use same page as last invocation used unless pageno >= 0 and
+	 * sensible */
+	if (pageno >= 0 && pageno <= FD_LAST)
+		fmt_dialog_page = pageno;
+	
+	/* Select the wanted page the last invocation used */
 	gtk_notebook_set_page (
 		GTK_NOTEBOOK (GNOME_PROPERTY_BOX (dialog)->notebook),
 		fmt_dialog_page);
@@ -2255,7 +2262,7 @@ fmt_dialog_selection_type (Sheet *sheet,
 }
 
 void
-dialog_cell_format (Workbook *wb, Sheet *sheet)
+dialog_cell_format (Workbook *wb, Sheet *sheet, FormatDialogPosition_t pageno)
 {
 	GladeXML     *gui;
 	MStyle       *mstyle;
@@ -2297,7 +2304,7 @@ dialog_cell_format (Workbook *wb, Sheet *sheet)
 					&state->selection_mask);
 	state->selection_mask	= 1 << state->selection_mask;
 
-	fmt_dialog_impl (state, borders);
+	fmt_dialog_impl (state, borders, pageno);
 }
 
 /*

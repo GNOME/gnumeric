@@ -1,3 +1,12 @@
+2000-10-21  Jon K Hellan  <hellan@acm.org>
+
+	* dialogs.h (enum FormatDialogPosition_t): Define.
+	(dialog_cell_format): Added pageno parameter.
+
+	* dialog-cell-format.c (dialog_cell_format): Ditto.
+	(fmt_dialog_impl): Ditto. Use it to select page.
+
+
 2000-10-10  Jody Goldberg <jgoldberg@home.com>
 
         * Release 0.57
