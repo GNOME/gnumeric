@@ -143,7 +143,7 @@ record_peek_next (record_t *r)
 	if (header == NULL)
 		return 0xffff;
 	type = GSF_LE_GET_GUINT16 (header);
-	gsf_input_seek (r->input, -2, GSF_SEEK_CUR);
+	gsf_input_seek (r->input, -2, G_SEEK_CUR);
 	return type;
 }
 

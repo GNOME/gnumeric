@@ -285,7 +285,7 @@ stf_read_default_probe (GnumFileOpener const *fo, GsfInput *input, FileProbeLeve
 	gsf_off_t remain;
 	int len;
 
-	if (gsf_input_seek (input, 0, GSF_SEEK_SET))
+	if (gsf_input_seek (input, 0, G_SEEK_SET))
 		return FALSE;
 	remain = gsf_input_remaining (input);
 	len = MIN (remain, STF_PROBE_SIZE);

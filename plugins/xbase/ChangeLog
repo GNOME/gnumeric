@@ -1,3 +1,8 @@
+2002-08-19  Jon K Hellan  <hellan@acm.org>
+
+	* xbase.c (record_seek, xbase_field_new): Use glib's seek enum
+	instead of the enum which used to be in libgsf.
+
 2002-08-15  Jon K Hellan  <hellan@acm.org>
 
 	* xbase.[ch] (record_seek): Change type of row parameter to

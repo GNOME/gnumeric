@@ -269,7 +269,7 @@ ms_biff_query_peek_next (BiffQuery *q, guint16 *opcode)
 		return FALSE;
 	*opcode = GSF_LE_GET_GUINT16 (data);
 
-	gsf_input_seek (q->input, -2, GSF_SEEK_CUR);
+	gsf_input_seek (q->input, -2, G_SEEK_CUR);
 
 	return TRUE;
 }
@@ -494,7 +494,7 @@ ms_biff_put_var_seekto (BiffPut *bp, int pos)
 	g_return_if_fail (!bp->data);
 
 	bp->curpos = pos;
-	gsf_output_seek (bp->output, bp->streamPos + bp->curpos + 4, GSF_SEEK_SET);
+	gsf_output_seek (bp->output, bp->streamPos + bp->curpos + 4, G_SEEK_SET);
 }
 
 static void
@@ -510,13 +510,13 @@ ms_biff_put_var_commit (BiffPut *bp)
 	g_return_if_fail (!bp->data);
 
 	endpos = bp->streamPos + bp->length + 4;
-	gsf_output_seek (bp->output, bp->streamPos, GSF_SEEK_SET);
+	gsf_output_seek (bp->output, bp->streamPos, G_SEEK_SET);
 
 	GSF_LE_SET_GUINT16 (tmp, (bp->ms_op<<8) + bp->ls_op);
 	GSF_LE_SET_GUINT16 (tmp+2, bp->length);
 	gsf_output_write (bp->output, 4, tmp);
 
-	gsf_output_seek (bp->output, endpos, GSF_SEEK_SET);
+	gsf_output_seek (bp->output, endpos, G_SEEK_SET);
 	bp->streamPos  = endpos;
 	bp->curpos     = 0;
 }
@@ -532,7 +532,7 @@ ms_biff_put_len_commit (BiffPut *bp)
 	g_return_if_fail (bp->length < MAX_LIKED_BIFF_LEN);
 
 /*	if (!bp->data_malloced) Unimplemented optimisation
-		bp->output->lseek (bp->output, bp->length, GSF_SEEK_CUR);
+		bp->output->lseek (bp->output, bp->length, G_SEEK_CUR);
 		else */
 	GSF_LE_SET_GUINT16 (tmp, (bp->ms_op<<8) + bp->ls_op);
 	GSF_LE_SET_GUINT16 (tmp + 2, bp->length);

@@ -56,7 +56,7 @@ qpro_check_signature (GsfInput *input)
 	guint8 const *header;
 	guint16 version;
 
-	if (gsf_input_seek (input, 0, GSF_SEEK_SET) ||
+	if (gsf_input_seek (input, 0, G_SEEK_SET) ||
 	    NULL == (header = gsf_input_read (input, 2+2+2, NULL)) ||
 	    GSF_LE_GET_GUINT16 (header + 0) != 0 ||
 	    GSF_LE_GET_GUINT16 (header + 2) != 2)
@@ -466,7 +466,7 @@ qpro_read_workbook (QProReadState *state, GsfInput *input)
 	guint8 const *data;
 
 	state->input = input;
-	gsf_input_seek (input, 0, GSF_SEEK_SET);
+	gsf_input_seek (input, 0, G_SEEK_SET);
 
 	while (NULL != (data = qpro_get_record (state, &id, &len))) {
 		switch (id) {

@@ -418,7 +418,7 @@ gboolean
 sylk_file_probe (GnumFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 {
 	char const *header = NULL;
-	if (!gsf_input_seek (input, 0, GSF_SEEK_SET))
+	if (!gsf_input_seek (input, 0, G_SEEK_SET))
 		header = gsf_input_read (input, 3, NULL);
 	return (header != NULL && strncmp (header, "ID;", 3) == 0);
 }

@@ -49,7 +49,7 @@ applix_file_probe (GnumFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 	static guint8 const signature[] = "*BEGIN SPREADSHEETS VERSION";
 	guint8 const *header;
 
-	return !gsf_input_seek (input, 0, GSF_SEEK_SET) &&
+	return !gsf_input_seek (input, 0, G_SEEK_SET) &&
 		NULL != (header = gsf_input_read (input, sizeof (signature)-1, NULL)) &&
 		0 == memcmp (header, signature, sizeof (signature)-1);
 }

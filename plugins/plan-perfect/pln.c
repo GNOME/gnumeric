@@ -189,7 +189,7 @@ pln_file_probe (GnumFileOpener const *fo, GsfInput *input,
 	 *	14-15	= unused
 	 */
 	char const *header = NULL;
-	if (!gsf_input_seek (input, 0, GSF_SEEK_SET))
+	if (!gsf_input_seek (input, 0, G_SEEK_SET))
 		header = gsf_input_read (input, sizeof (signature), NULL);
 	return header != NULL &&
 		memcmp (header, signature, sizeof (signature)) == 0;

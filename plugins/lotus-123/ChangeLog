@@ -1,3 +1,10 @@
+2002-08-19  Jon K Hellan  <hellan@acm.org>
+
+	* boot.c (lotus_file_probe): Use glib's seek enum instead of the
+	enum which used to be in libgsf.
+
+	* lotus.c (record_peek_next): Ditto.
+
 2002-08-12  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.7

@@ -817,10 +817,10 @@ biff_boundsheet_write_last (GsfOutput *output, guint32 pos,
 	g_return_if_fail (output);
 
 	oldpos = gsf_output_tell (output);
-	gsf_output_seek (output, pos+4, GSF_SEEK_SET);
+	gsf_output_seek (output, pos+4, G_SEEK_SET);
 	GSF_LE_SET_GUINT32 (data, streamPos);
 	gsf_output_write (output, 4, data);
-	gsf_output_seek (output, oldpos, GSF_SEEK_SET);
+	gsf_output_seek (output, oldpos, G_SEEK_SET);
 }
 
 /**
@@ -3076,9 +3076,9 @@ write_index (GsfOutput *output, ExcelSheet *esheet, unsigned pos)
 
 	oldpos = gsf_output_tell (output);
 	if (esheet->wb->ver >= MS_BIFF_V8)
-		gsf_output_seek (output, pos+4+16, GSF_SEEK_SET);
+		gsf_output_seek (output, pos+4+16, G_SEEK_SET);
 	else
-		gsf_output_seek (output, pos+4+12, GSF_SEEK_SET);
+		gsf_output_seek (output, pos+4+12, G_SEEK_SET);
 
 	for (lp = 0; lp < esheet->dbcells->len; lp++) {
 		unsigned pos = g_array_index (esheet->dbcells, unsigned, lp);
@@ -3090,7 +3090,7 @@ write_index (GsfOutput *output, ExcelSheet *esheet, unsigned pos)
 		gsf_output_write (output, 4, data);
 	}
 
-	gsf_output_seek (output, oldpos, GSF_SEEK_SET);
+	gsf_output_seek (output, oldpos, G_SEEK_SET);
 }
 
 /* See: S59DDB.HTM */

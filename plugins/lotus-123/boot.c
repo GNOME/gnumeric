@@ -30,9 +30,9 @@ gboolean
 lotus_file_probe (GnumFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 {
 	char const *header = NULL;
-	if (!gsf_input_seek (input, 0, GSF_SEEK_SET))
+	if (!gsf_input_seek (input, 0, G_SEEK_SET))
 		header = gsf_input_read (input, 4, NULL);
-	gsf_input_seek (input, 0, GSF_SEEK_SET);
+	gsf_input_seek (input, 0, G_SEEK_SET);
 	return header != NULL &&
 	       header[0] == (LOTUS_BOF & 0xff) &&
 	       header[1] == ((LOTUS_BOF >> 8) & 0xff) &&

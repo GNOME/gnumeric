@@ -66,7 +66,7 @@ record_seek (XBrecord *record, int whence, gsf_off_t row)
 		return FALSE;
 	record->row = offset;
 	offset = (offset-1) * record->file->fieldlen + record->file->offset;
-	return !gsf_input_seek (record->file->input, offset, GSF_SEEK_SET) &&
+	return !gsf_input_seek (record->file->input, offset, G_SEEK_SET) &&
 	    gsf_input_read (record->file->input, record->file->fieldlen, record->data) != NULL;
 }
 
@@ -172,7 +172,7 @@ xbase_field_new (XBfile *file)
 		return NULL;
 	} else if (buf[0] == 0x0D || buf[0] == 0) { /* field array terminator */
 		if (buf[1] == 0) { /* FIXME: crude test, not in spec */
-			if (gsf_input_seek (file->input, 263, GSF_SEEK_CUR)) /* skip DBC */
+			if (gsf_input_seek (file->input, 263, G_SEEK_CUR)) /* skip DBC */
 				g_warning ("xbase_field_new: fseek error");
 		}
 		file->offset = gsf_input_tell (file->input);
