@@ -11,7 +11,6 @@
 	* Improve the usability of the dialog (e.g. focus issues).
 	* MPS plugin:
 	  - Improve BOUNDS support.
-	  - Fix bug: If obj. fn. (N) is not last, the indexes get of by 1.
 	* Update user documentation.
 
 1.2 Later versions

@@ -4,7 +4,6 @@
  *
  * Authors:
  *   Jukka-Pekka Iivonen <jiivonen@hutcs.cs.hut.fi>
- *   File handling code copied from Dif module.
  *
  *      MPS importer module.  MPS format is a de facto standard ASCII format
  *      among most of the commercial LP solvers.
@@ -123,9 +122,9 @@ mps_prepare (WorkbookView *wbv, MpsInputContext *ctxt)
 	g_hash_table_foreach (ctxt->col_hash, put_into_index, (gpointer) ctxt);
 
 	ctxt->matrix = g_new (gnum_float *, ctxt->n_rows + ctxt->n_bounds);
-	for (i=0; i<ctxt->n_rows + ctxt->n_bounds; i++) {
+	for (i = 0; i < ctxt->n_rows + ctxt->n_bounds; i++) {
 	          ctxt->matrix[i] = g_new (gnum_float, ctxt->n_cols);
-		  for (n=0; n<ctxt->n_cols; n++)
+		  for (n = 0; n < ctxt->n_cols; n++)
 		            ctxt->matrix[i][n] = 0.0;
 	}
 

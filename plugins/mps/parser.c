@@ -4,7 +4,6 @@
  *
  * Authors:
  *   Jukka-Pekka Iivonen <jiivonen@hutcs.cs.hut.fi>
- *   File handling code copied from Dif module.
  *
  *      Reads an MPS file and stores the data in it in data structures
  *      defined in mps.h.
@@ -67,8 +66,8 @@ mps_get_line (MpsInputContext *ctxt)
 		ctxt->line = gsf_input_textline_ascii_gets (ctxt->input);
 		if (ctxt->line == NULL)
 			return FALSE;
-		/* Check if a comment line */
-	} while (ctxt->line[0] == '*');
+		/* Check if a comment or empty line */
+	} while (ctxt->line[0] == '*' || ctxt->line[0] == '\0');
 
 	return TRUE;
 }
@@ -77,12 +76,12 @@ static gboolean
 mps_parse_data (gchar *str, gchar *type, gchar *name1, gchar *name2,
 		gchar *value1, gchar *name3, gchar *value2)
 {
-        gint i;
+        gint  i;
 	gchar *n1 = name1;
 	gchar *n2 = name2;
 	gchar *n3 = name3;
 
-	for (i=0; i<8; i++)
+	for (i = 0; i < 8; i++)
 	        name1[i] = name2[i] = name3[i] = ' ';
 	*value2 = *name3 = '\0';
         if (!(*str) || *str++ != ' ' || !(*str))
@@ -120,7 +119,7 @@ mps_parse_data (gchar *str, gchar *type, gchar *name1, gchar *name2,
 	        goto ok_out;
 	if (*str++ != ' ')
 	        return FALSE;
-	for (i=15; i<=22; i++, str++) {
+	for (i = 15; i <= 22; i++, str++) {
 	        *name2++ = *str;
 		if (!(*str))
 		        return FALSE;
@@ -130,7 +129,7 @@ mps_parse_data (gchar *str, gchar *type, gchar *name1, gchar *name2,
 	/* Value 1 */
 	if (!(*str) || *str++ != ' ' || !(*str) || *str++ != ' ')
 	        return FALSE;
-	for (i=25; i<=36; i++, str++) {
+	for (i = 25; i <= 36; i++, str++) {
 	        *value1++ = *str;
 		if (!(*str))
 		        goto ok_out;
@@ -150,7 +149,7 @@ mps_parse_data (gchar *str, gchar *type, gchar *name1, gchar *name2,
 	        goto ok_out;
 	if (*str++ != ' ')
 	        return FALSE;
-	for (i=40; i<=47; i++, str++) {
+	for (i = 40; i <= 47; i++, str++) {
 	        *name3++ = *str;
 		if (!(*str))
 		        return FALSE;
@@ -160,7 +159,7 @@ mps_parse_data (gchar *str, gchar *type, gchar *name1, gchar *name2,
 	/* Value 2 */
 	if (!(*str) || *str++ != ' ' || !(*str) || *str++ != ' ')
 	        return FALSE;
-	for (i=50; i<=61; i++, str++) {
+	for (i = 50; i <= 61; i++, str++) {
 	        *value2++ = *str;
 		if (!(*str))
 		        goto ok_out;
@@ -168,15 +167,15 @@ mps_parse_data (gchar *str, gchar *type, gchar *name1, gchar *name2,
 	*value2 = '\0';
 
  ok_out:
-	for (i=7; i>=0; i--)
+	for (i = 7; i >= 0; i--)
 	        if (n1[i] != ' ')
 		        break;
 	n1[i+1] = '\0';
-	for (i=7; i>=0; i--)
+	for (i = 7; i >= 0; i--)
 	        if (n2[i] != ' ')
 		        break;
 	n2[i+1] = '\0';
-	for (i=7; i>=0; i--)
+	for (i = 7; i >= 0; i--)
 	        if (n3[i] != ' ')
 		        break;
 	n3[i+1] = '\0';
@@ -237,13 +236,15 @@ mps_add_row (MpsInputContext *ctxt, MpsRowType type, gchar *txt)
 
 	row->name = g_strdup (txt);
 	row->type = type;
-	row->index = ctxt->n_rows;
-	ctxt->n_rows += 1;
-
-	ctxt->rows = g_slist_prepend (ctxt->rows, row);
 
 	if (type == ObjectiveRow)
 	          ctxt->objective_row = row;
+	else {
+		row->index = ctxt->n_rows;
+		ctxt->n_rows += 1;
+
+		ctxt->rows = g_slist_prepend (ctxt->rows, row);
+	}
 
 	return TRUE;
 }
@@ -302,10 +303,12 @@ mps_parse_rows (MpsInputContext *ctxt)
  ok_out:
 	for (tmp = ctxt->rows; tmp != NULL; tmp = tmp->next) {
 	        MpsRow *row = (MpsRow *) tmp->data;
-		g_hash_table_insert (ctxt->row_hash,
-				     row->name,
-				     (gpointer) row);
+		g_hash_table_insert (ctxt->row_hash, row->name, (gpointer) row);
 	}
+	g_hash_table_insert (ctxt->row_hash, ctxt->objective_row->name,
+			     (gpointer) ctxt->objective_row);
+	ctxt->objective_row->index = ctxt->n_rows;
+	ctxt->n_rows += 1;
 
 	return TRUE;
 }
@@ -316,16 +319,17 @@ static gboolean
 mps_add_column (MpsInputContext *ctxt, gchar *row_name, gchar *col_name,
 		gchar *value_str)
 {
-        MpsCol *col;
-	MpsRow *row;
+        MpsCol     *col;
+	MpsRow     *row;
 	MpsColInfo *i;
 
 	row = (MpsRow *) g_hash_table_lookup (ctxt->row_hash, row_name);
 	if (row == NULL)
 	          return FALSE;
-	col = g_new (MpsCol, 1);
-	col->row = row;
-	col->name = g_strdup (col_name);
+
+	col        = g_new (MpsCol, 1);
+	col->row   = row;
+	col->name  = g_strdup (col_name);
 	col->value = atof (value_str);
 	ctxt->cols = g_slist_prepend (ctxt->cols, col);
 
@@ -396,13 +400,13 @@ mps_add_rhs (MpsInputContext *ctxt, gchar *rhs_name, gchar *row_name,
 {
         MpsRhs *rhs;
 
-	rhs = g_new (MpsRhs, 1);
+	rhs       = g_new (MpsRhs, 1);
 	rhs->name = g_strdup (rhs_name);
-	rhs->row = (MpsRow *) g_hash_table_lookup (ctxt->row_hash, row_name);
+	rhs->row  = (MpsRow *) g_hash_table_lookup (ctxt->row_hash, row_name);
 	if (rhs->row == NULL)
 	          return FALSE;
 	rhs->value = atof (value_str);
-	ctxt->rhs = g_slist_prepend (ctxt->rhs, rhs);
+	ctxt->rhs  = g_slist_prepend (ctxt->rhs, rhs);
 
 	return TRUE;
 }
@@ -459,12 +463,12 @@ mps_add_bound (MpsInputContext *ctxt, MpsBoundType type, gchar *bound_name,
 	if (info == NULL)
 	        return FALSE;  /* Column is not defined */
 
-	bound = g_new (MpsBound, 1);
-	bound->name = g_new (gchar, strlen (bound_name) + 13);
+	bound            = g_new (MpsBound, 1);
+	bound->name      = g_new (gchar, strlen (bound_name) + 13);
 	sprintf(bound->name, "Bound #%d: %s", ctxt->n_bounds + 1, bound_name);
 	bound->col_index = info->index;
-	bound->value = atof (value_str);
-	ctxt->bounds = g_slist_prepend (ctxt->bounds, bound);
+	bound->value     = atof (value_str);
+	ctxt->bounds     = g_slist_prepend (ctxt->bounds, bound);
 	(ctxt->n_bounds)++;
 
 	return TRUE;
