@@ -31,22 +31,22 @@ gnumeric_notice (Workbook *wb, const char *type, const char *str)
 }
 
 /**
- * gnumeric_dialog_run : A utility routine to handle the application being closed by
- * the window manager while a modal dialog is being displayed.
+ * gnumeric_wb_dialog_run : A utility routine to handle the
+ * application being closed by the window manager while a modal dialog
+ * is being displayed. 
  */
-gint
-gnumeric_dialog_run (Workbook *wb, GnomeDialog *dialog)
+static gint
+gnumeric_wb_dialog_run (Workbook *wb, GnomeDialog *dialog)
 {
 	gint res;
 	GtkObject * const app = GTK_OBJECT (wb->toplevel);
 
-	if (wb)
-		gnome_dialog_set_parent (GNOME_DIALOG (dialog),
-					 GTK_WINDOW (wb->toplevel));
+	gnome_dialog_set_parent (GNOME_DIALOG (dialog),
+				 GTK_WINDOW (wb->toplevel));
 
 	gtk_object_ref (app);
 	res = gnome_dialog_run (dialog);
-
+	
 	/* If the application was closed close the dialog too */
 	if (res < 0 && GTK_OBJECT_DESTROYED (app))
 		gnome_dialog_close (dialog);
@@ -58,6 +58,19 @@ gnumeric_dialog_run (Workbook *wb, GnomeDialog *dialog)
 	 */
 	gtk_object_unref (app);
 	return res;
+}
+
+/**
+ * gnumeric_dialog_run : A utility routine to handle the application being closed by
+ * the window manager while a modal dialog is being displayed.
+ */
+gint
+gnumeric_dialog_run (Workbook *wb, GnomeDialog *dialog)
+{
+	if (wb)
+		return gnumeric_wb_dialog_run (wb, dialog);
+	else 
+		return gnome_dialog_run (dialog);
 }
 
 int

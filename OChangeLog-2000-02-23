@@ -1,3 +1,9 @@
+2000-01-28  Jon K Hellan  <hellan@acm.org>
+
+	* src/gnumeric-util.c (gnumeric_dialog_run): Handle wb = NULL
+	correctly. Move handling of wb != NULL to gnumeric_wb_dialog_run.
+	(gnumeric_wb_dialog_run): New static function.
+
 2000-01-27  Jody Goldberg <jgoldberg@home.com>
 
 	* *.c : convert to using Workbook::current_sheet rather than 
