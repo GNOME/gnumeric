@@ -228,7 +228,7 @@ gboolean
 gog_graph_validate_chart_layout (GogGraph *graph)
 {
 	GSList *ptr;
-	GogChart *chart;
+	GogChart *chart = NULL;
 	unsigned i, max_col, max_row;
 	gboolean changed = FALSE;
 

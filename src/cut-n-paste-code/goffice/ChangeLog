@@ -1,5 +1,8 @@
 2004-03-16  Morten Welinder  <terra@gnome.org>
 
+	* graph/gog-graph.c (gog_graph_validate_chart_layout): Initialize
+	graph.
+
 	* drawing/god-property-table.c (god_property_table_finalize): Chain up.
 	* drawing/god-shape.c (god_shape_dispose): Chain up.
 	* drawing/god-text-model.c (god_text_model_finalize): Chain up.
