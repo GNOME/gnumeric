@@ -1,0 +1,25 @@
+2002-03-01  Jody Goldberg <jody@gnome.org>
+
+	* sample_datasource.c : Initial implementation of an external data
+	  source.  The actual data source is quick and dirty, we just read
+	  from a named pipe.  It is completely unsuitable for real work.  The
+	  intent is to provide a test bed for the components necessary to
+	  produce a data source.  Current architectural limitations include
+	    - Although the source queues things correctly for recalc it does
+	      not actually run the recalc yet.  We'll want to offer some
+	      configurability for this.
+	    - linking an expression from a plugin that has not yet been loaded
+	      should activate.  Instead we don't activate until the first
+	      evaluation.  This is not a major failing but it does mean that
+	      _link functions are not called corerctly.
+	    - The init/cleanup routines for plugins should have
+	      CommandContexts to report errors.
+	    - It would be nice to be able to add menu and toolbar entries.
+
+
+	To use the source :
+	    in a sheet atl_last(ticker)
+	    and then cat > /tmp/atl
+	    ticker:value
+	    The on sheet value will only change on the _next_ user invoked
+	    recalc.
