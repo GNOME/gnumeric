@@ -721,7 +721,6 @@ drag_start (GtkWidget *widget, GdkEvent *event, Sheet *sheet)
 /*
  * Handle the selection
  */
-#define convert(c,sx,sy,x,y) gnome_canvas_w2c (c,sx,sy,x,y)
 
 static gboolean
 cb_extend_cell_range (SheetView *sheet_view, int col, int row, gpointer ignored)
@@ -801,7 +800,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 		break;
 
 	case GDK_MOTION_NOTIFY:
-		convert (canvas, event->motion.x, event->motion.y, &x, &y);
+		gnome_canvas_w2c (canvas, event->motion.x, event->motion.y, &x, &y);
 		gnome_canvas_get_scroll_offsets (canvas, &left, &top);
 
 		width = GTK_WIDGET (canvas)->allocation.width;
@@ -832,11 +831,11 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 			else if (item_grid->selecting == ITEM_GRID_SELECTING_FORMULA_RANGE)
 				slide_handler = &cb_extend_expr_range;
 
-			sheet_view_start_sliding (item_grid->sheet_view,
-						  slide_handler, NULL,
-						  col, row, dx, dy);
+			if (sheet_view_start_sliding (item_grid->sheet_view,
+						      slide_handler, NULL,
+						      col, row, dx, dy))
 
-			return TRUE;
+				return TRUE;
 		}
 
 		sheet_view_stop_sliding (item_grid->sheet_view);
@@ -862,7 +861,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 
 		sheet_view_stop_sliding (item_grid->sheet_view);
 
-		convert (canvas, event->button.x, event->button.y, &x, &y);
+		gnome_canvas_w2c (canvas, event->button.x, event->button.y, &x, &y);
 		col = gnumeric_sheet_find_col (gsheet, x, NULL);
 		row = gnumeric_sheet_find_row (gsheet, y, NULL);
 

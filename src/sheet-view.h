@@ -98,10 +98,10 @@ void             sheet_view_update_cursor_pos	  (SheetView *sheet_view);
 StyleFont *      sheet_view_get_style_font        (Sheet const *sheet,
 						   MStyle const * const mstyle);
 
-void sheet_view_start_sliding (SheetView *sheet_view,
-			       SheetViewSlideHandler slide_handler,
-			       gpointer user_data,
-			       int col, int row, int dx, int dy);
+gboolean sheet_view_start_sliding (SheetView *sheet_view,
+				   SheetViewSlideHandler slide_handler,
+				   gpointer user_data,
+				   int col, int row, int dx, int dy);
 void sheet_view_stop_sliding (SheetView *sheet_view);
 
 typedef struct {

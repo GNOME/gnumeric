@@ -32,7 +32,7 @@ static GnomeCanvasItem *item_cursor_parent_class;
 /* The argument we take */
 enum {
 	ARG_0,
-	ARG_SHEET,		/* The Sheet * argument */
+	ARG_SHEETVIEW,		/* The SheetView * argument */
 	ARG_ITEM_GRID,		/* The ItemGrid * argument */
 	ARG_STYLE,              /* The style type */
 	ARG_COLOR,              /* The optional color */
@@ -146,7 +146,7 @@ item_cursor_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, in
 {
 	ItemCursor    *item_cursor = ITEM_CURSOR (item);
 	GnumericSheet *gsheet = GNUMERIC_SHEET (item->canvas);
-	Sheet         *sheet = item_cursor->sheet;
+	Sheet         *sheet = item_cursor->sheet_view->sheet;
 
 	int x, y, w, h, extra;
 
@@ -430,21 +430,25 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 	}
 }
 
-void
+gboolean
 item_cursor_set_bounds (ItemCursor *item_cursor, int start_col, int start_row, int end_col, int end_row)
 {
 	GnomeCanvasItem *item;
 
-	g_return_if_fail (start_col <= end_col);
-	g_return_if_fail (start_row <= end_row);
-	g_return_if_fail (start_col >= 0);
-	g_return_if_fail (end_col >= 0);
-	g_return_if_fail (end_col < SHEET_MAX_COLS);
-	g_return_if_fail (end_row < SHEET_MAX_ROWS);
-	g_return_if_fail (IS_ITEM_CURSOR (item_cursor));
+	g_return_val_if_fail (start_col <= end_col, FALSE);
+	g_return_val_if_fail (start_row <= end_row, FALSE);
+	g_return_val_if_fail (start_col >= 0, FALSE);
+	g_return_val_if_fail (start_row >= 0, FALSE);
+	g_return_val_if_fail (end_col < SHEET_MAX_COLS, FALSE);
+	g_return_val_if_fail (end_row < SHEET_MAX_ROWS, FALSE);
+	g_return_val_if_fail (IS_ITEM_CURSOR (item_cursor), FALSE);
 
-	/* Redraw the old area */
-	item = GNOME_CANVAS_ITEM (item_cursor);
+	/* Nothing changed */
+	if (item_cursor->pos.start.col == start_col &&
+	    item_cursor->pos.end.col   == end_col &&
+	    item_cursor->pos.start.row == start_row &&
+	    item_cursor->pos.end.row   == end_row)
+		return FALSE;
 
 	/* Move to the new area */
 	item_cursor->pos.start.col = start_col;
@@ -453,7 +457,10 @@ item_cursor_set_bounds (ItemCursor *item_cursor, int start_col, int start_row, i
 	item_cursor->pos.end.row   = end_row;
 
 	/* Request an update */
+	item = GNOME_CANVAS_ITEM (item_cursor);
 	gnome_canvas_item_request_update (item);
+
+	return TRUE;
 }
 
 /**
@@ -578,7 +585,7 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 		new_item = gnome_canvas_item_new (
 			group,
 			item_cursor_get_type (),
-			"ItemCursor::Sheet", ic->sheet,
+			"ItemCursor::SheetView", ic->sheet_view,
 			"ItemCursor::Grid",  ic->item_grid,
 			"ItemCursor::Style", style,
 			NULL);
@@ -625,12 +632,11 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 			ITEM_CURSOR (new_item)->row_delta = d_row;
 		}
 
-		item_cursor_set_bounds (
-			ITEM_CURSOR (new_item),
-			ic->pos.start.col, ic->pos.start.row,
-			ic->pos.end.col,   ic->pos.end.row);
+		if (item_cursor_set_bounds (ITEM_CURSOR (new_item),
+					    ic->pos.start.col, ic->pos.start.row,
+					    ic->pos.end.col,   ic->pos.end.row))
+			gnome_canvas_update_now (canvas);
 
-		gnome_canvas_update_now (canvas);
 		gnome_canvas_item_grab (
 			new_item,
 			GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
@@ -654,7 +660,7 @@ item_cursor_target_region_ok (ItemCursor *item_cursor)
 	int v;
 
 	v = sheet_is_region_empty_or_selected (
-		item_cursor->sheet,
+		item_cursor->sheet_view->sheet,
 		item_cursor->pos.start.col, item_cursor->pos.start.row,
 		item_cursor->pos.end.col, item_cursor->pos.end.row);
 
@@ -670,7 +676,7 @@ item_cursor_target_region_ok (ItemCursor *item_cursor)
 		GNOME_STOCK_BUTTON_NO,
 		NULL);
 	window = gtk_widget_get_toplevel (GTK_WIDGET (canvas));
-	v = gnumeric_dialog_run (item_cursor->sheet->workbook, GNOME_DIALOG (message));
+	v = gnumeric_dialog_run (item_cursor->sheet_view->sheet->workbook, GNOME_DIALOG (message));
 
 	if (v == 0)
 		return TRUE;
@@ -692,7 +698,7 @@ typedef enum {
 static void
 item_cursor_do_action (ItemCursor *item_cursor, ActionType action, guint32 time)
 {
-	Sheet *sheet = item_cursor->sheet;
+	Sheet *sheet = item_cursor->sheet_view->sheet;
 	Workbook *wb = sheet->workbook;
 	PasteTarget pt;
 
@@ -788,11 +794,16 @@ item_cursor_set_bounds_visibly (ItemCursor *item_cursor,
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_cursor);
 	GnumericSheet   *gsheet = GNUMERIC_SHEET (item->canvas);
 
-	item_cursor_set_bounds (item_cursor, start_col, start_row, end_col, end_row);
-
-	gnumeric_sheet_make_cell_visible (gsheet,
-					  visible_col, visible_row, FALSE);
-	gnome_canvas_update_now (GNOME_CANVAS (gsheet));
+	/*
+	 * FIXME FIXME FIXME
+	 * Ideally we would update the bounds BEFORE we scroll,
+	 * this would decrease the flicker.  Unfortunately, our optimization
+	 * of clipping the cursor to the currently visible region is getting in the way.
+	 * We are forced to make the region visible before we move the cursor.
+	 */
+	gnumeric_sheet_make_cell_visible (gsheet, visible_col, visible_row, FALSE);
+	if (item_cursor_set_bounds (item_cursor, start_col, start_row, end_col, end_row))
+		gnome_canvas_update_now (GNOME_CANVAS (gsheet));
 }
 
 void
@@ -852,18 +863,92 @@ item_cursor_tip_setlabel (ItemCursor *item_cursor)
 }
 #endif
 
+static gboolean
+cb_move_cursor (SheetView *sheet_view, int col, int row, gpointer user_data)
+{
+	ItemCursor *item_cursor = user_data;
+	int const w = (item_cursor->pos.end.col - item_cursor->pos.start.col);
+	int const h = (item_cursor->pos.end.row - item_cursor->pos.start.row);
+	int corner_left = col - item_cursor->col_delta;
+	int corner_top = row - item_cursor->row_delta;
+
+	if (corner_left < 0)
+		corner_left = 0;
+	else if (corner_left >= (SHEET_MAX_COLS - w))
+		corner_left = SHEET_MAX_COLS - w;
+
+	if (corner_top < 0)
+		corner_top = 0;
+	else if (corner_top >= (SHEET_MAX_ROWS - h))
+		corner_top = SHEET_MAX_ROWS - h;
+
+#if 0
+	/*
+	 * Leave this disabled until GtkLayout correctly handles
+	 * Windows with SaveUnder set. (Speak to quartic for details).
+	 */
+	item_cursor_tip_setlabel (item_cursor);
+#endif
+
+	/* Make target cell visible, and adjust the cursor size */
+	item_cursor_set_bounds_visibly (item_cursor, col, row,
+					corner_left, corner_top,
+					corner_left + w, corner_top + h);
+	return FALSE;
+}
+
+static void
+item_cursor_handle_motion (ItemCursor *item_cursor, GdkEvent *event,
+			   SheetViewSlideHandler slide_handler)
+{
+	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (item_cursor)->canvas;
+	GnumericSheet *gsheet = GNUMERIC_SHEET (canvas);
+	int x, y;
+	int left, top;
+	int width, height;
+	int col, row;
+
+	gnome_canvas_w2c (canvas, event->button.x, event->button.y, &x, &y);
+	gnome_canvas_get_scroll_offsets (canvas, &left, &top);
+
+	width = GTK_WIDGET (canvas)->allocation.width;
+	height = GTK_WIDGET (canvas)->allocation.height;
+
+	col = gnumeric_sheet_find_col (gsheet, x, NULL);
+	row = gnumeric_sheet_find_row (gsheet, y, NULL);
+
+	if (x < left || y < top || x >= left + width || y >= top + height) {
+		int dx = 0, dy = 0;
+
+		if (x < left)
+			dx = x - left;
+		else if (x >= left + width)
+			dx = x - width - left;
+
+		if (y < top)
+			dy = y - top;
+		else if (y >= top + height)
+			dy = y - height - top;
+
+		if (sheet_view_start_sliding (item_cursor->sheet_view,
+					      slide_handler, item_cursor,
+					      col, row, dx, dy))
+			return;
+	}
+	sheet_view_stop_sliding (item_cursor->sheet_view);
+
+	(*slide_handler) (item_cursor->sheet_view, col, row, item_cursor);
+}
+
 static gint
 item_cursor_drag_event (GnomeCanvasItem *item, GdkEvent *event)
 {
-	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (item)->canvas;
-	GnumericSheet *gsheet = GNUMERIC_SHEET (canvas);
 	ItemCursor *item_cursor = ITEM_CURSOR (item);
-	int x, y, w, h;
-	int col, row;
-	int corner_left, corner_top;
 
 	switch (event->type){
 	case GDK_BUTTON_RELEASE:
+		sheet_view_stop_sliding (item_cursor->sheet_view);
+
 		gnome_canvas_item_ungrab (item, event->button.time);
 		item_cursor_do_drop (item_cursor, (GdkEventButton *) event);
 
@@ -882,38 +967,7 @@ item_cursor_drag_event (GnomeCanvasItem *item, GdkEvent *event)
 		return TRUE;
 
 	case GDK_MOTION_NOTIFY:
-		gnome_canvas_w2c (canvas, event->button.x, event->button.y, &x, &y);
-		if (x < 0)
-			x = 0;
-		if (y < 0)
-			y = 0;
-		col = gnumeric_sheet_find_col (gsheet, x, NULL);
-		corner_left = col - item_cursor->col_delta;
-
-		row = gnumeric_sheet_find_row (gsheet, y, NULL);
-		corner_top = row - item_cursor->row_delta;
-
-		w   = (item_cursor->pos.end.col - item_cursor->pos.start.col);
-		h   = (item_cursor->pos.end.row - item_cursor->pos.start.row);
-
-		if (corner_left < 0 || corner_left + w >= SHEET_MAX_COLS)
-			return TRUE;
-		if (corner_top < 0 || corner_top + h >= SHEET_MAX_ROWS)
-			return TRUE;
-
-		item_cursor_set_bounds_visibly (item_cursor, col, row,
-						corner_left,
-						corner_top,
-						corner_left + w,
-						corner_top + h);
-
-#if 0
-		/*
-		 * Leave this disabled until GtkLayout correctly handles
-		 * Windows with SaveUnder set. (Speak to quartic for details).
-		 */
-		item_cursor_tip_setlabel (item_cursor);
-#endif
+		item_cursor_handle_motion (item_cursor, event, &cb_move_cursor);
 		return TRUE;
 
 	default:
@@ -921,18 +975,47 @@ item_cursor_drag_event (GnomeCanvasItem *item, GdkEvent *event)
 	}
 }
 
+static gboolean
+cb_autofill_scroll (SheetView *sheet_view, int col, int row, gpointer user_data)
+{
+	ItemCursor *item_cursor = user_data;
+	int bottom = item_cursor->base_row + item_cursor->base_rows;
+	int right = item_cursor->base_col + item_cursor->base_cols;
+
+	/* Autofill by row or by col, NOT both. */
+	if ((right - col) > (bottom - row)){
+		/* FIXME : We do not support inverted auto-fill */
+		if (bottom < row)
+			bottom = row;
+	} else {
+		/* FIXME : We do not support inverted auto-fill */
+		if (right < col)
+			right = col;
+	}
+
+	/* Do not auto scroll past the start */
+	if (row < item_cursor->base_row)
+		row = item_cursor->base_row;
+	if (col < item_cursor->base_col)
+		col = item_cursor->base_col;
+
+	item_cursor_set_bounds_visibly (item_cursor, col, row,
+					item_cursor->base_col,
+					item_cursor->base_row,
+					right, bottom);
+	return FALSE;
+}
+
 static gint
 item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 {
-	GnomeCanvas *canvas = item->canvas;
-	GnumericSheet *gsheet = GNUMERIC_SHEET (canvas);
 	ItemCursor *item_cursor = ITEM_CURSOR (item);
-	int col, row, x, y;
 
 	switch (event->type){
 	case GDK_BUTTON_RELEASE: {
-		Sheet *sheet = item_cursor->sheet;
+		Sheet *sheet = item_cursor->sheet_view->sheet;
 
+		sheet_view_stop_sliding (item_cursor->sheet_view);
 
 		/*
 		 * We flush after the ungrab, to have the ungrab take
@@ -955,40 +1038,7 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 	}
 
 	case GDK_MOTION_NOTIFY:
-		gnome_canvas_w2c (canvas, event->button.x, event->button.y, &x, &y);
-		if (x < 0)
-			x = 0;
-		if (y < 0)
-			y = 0;
-		col = gnumeric_sheet_find_col (gsheet, x, NULL);
-		row = gnumeric_sheet_find_row (gsheet, y, NULL);
-
-		/* Autofill by row or by col, NOT both. */
-		if ((item_cursor->base_x - x) > (item_cursor->base_y - y)){
-
-			/* FIXME : We do not support inverted auto-fill */
-			int bound = item_cursor->base_row + item_cursor->base_rows;
-			if (row > bound)
-				bound = row;
-
-			item_cursor_set_bounds_visibly (
-				item_cursor, col, row,
-				item_cursor->base_col, item_cursor->base_row,
-				item_cursor->base_col + item_cursor->base_cols,
-				bound);
-		} else {
-
-			/* FIXME : We do not support inverted auto-fill */
-			int bound = item_cursor->base_col + item_cursor->base_cols;
-			if (col > bound)
-				bound = col;
-
-			item_cursor_set_bounds_visibly (
-				item_cursor, col, row,
-				item_cursor->base_col, item_cursor->base_row,
-				bound,
-				item_cursor->base_row + item_cursor->base_rows);
-		}
+		item_cursor_handle_motion (item_cursor, event, &cb_autofill_scroll);
 		return TRUE;
 
 	default:
@@ -1054,8 +1104,8 @@ item_cursor_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	item_cursor = ITEM_CURSOR (o);
 
 	switch (arg_id){
-	case ARG_SHEET:
-		item_cursor->sheet = GTK_VALUE_POINTER (*arg);
+	case ARG_SHEETVIEW:
+		item_cursor->sheet_view = GTK_VALUE_POINTER (*arg);
 		break;
 	case ARG_ITEM_GRID:
 		item_cursor->item_grid = GTK_VALUE_POINTER (*arg);
@@ -1091,8 +1141,8 @@ item_cursor_class_init (ItemCursorClass *item_cursor_class)
 	object_class = (GtkObjectClass *) item_cursor_class;
 	item_class = (GnomeCanvasItemClass *) item_cursor_class;
 
-	gtk_object_add_arg_type ("ItemCursor::Sheet", GTK_TYPE_POINTER,
-				 GTK_ARG_WRITABLE, ARG_SHEET);
+	gtk_object_add_arg_type ("ItemCursor::SheetView", GTK_TYPE_POINTER,
+				 GTK_ARG_WRITABLE, ARG_SHEETVIEW);
 	gtk_object_add_arg_type ("ItemCursor::Grid", GTK_TYPE_POINTER,
 				 GTK_ARG_WRITABLE, ARG_ITEM_GRID);
 	gtk_object_add_arg_type ("ItemCursor::Style", GTK_TYPE_INT,

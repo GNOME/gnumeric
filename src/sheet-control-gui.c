@@ -890,7 +890,7 @@ sheet_view_selection_ant (SheetView *sheet_view)
 
 		item_cursor = ITEM_CURSOR (gnome_canvas_item_new (
 			group, item_cursor_get_type (),
-			"Sheet", sheet_view->sheet,
+			"SheetView", sheet_view,
 			"Grid",  grid,
 			"Style", ITEM_CURSOR_ANTED,
 			NULL));
@@ -1053,7 +1053,7 @@ sheet_view_sliding_callback (gpointer data)
 	return TRUE;
 }
 
-void
+gboolean
 sheet_view_start_sliding (SheetView *sheet_view,
 			  SheetViewSlideHandler slide_handler,
 			  gpointer user_data,
@@ -1069,7 +1069,7 @@ sheet_view_start_sliding (SheetView *sheet_view,
 	     (dy < 0 && gsheet->row.first == 0) ||
 	     (dy > 0 && gsheet->row.last_full >= SHEET_MAX_ROWS-1))) {
 		sheet_view_stop_sliding (sheet_view);
-		return;
+		return FALSE;
 	}
 
 	sheet_view->slide_handler = slide_handler;
@@ -1085,6 +1085,7 @@ sheet_view_start_sliding (SheetView *sheet_view,
 		sheet_view->sliding = gtk_timeout_add (
 			200, sheet_view_sliding_callback, sheet_view);
 	}
+	return TRUE;
 }
 
 #if 0

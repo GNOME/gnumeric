@@ -1,3 +1,32 @@
+2000-06-09  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-cursor.c (item_cursor_update) : Change sheet -> sheet-view.
+	(item_cursor_set_bounds) : Add a short circuit test and return TRUE
+	  if things changed.
+	(item_cursor_selection_event) : Take a SheetView.
+	(item_cursor_target_region_ok) : sheet -> sheet-view
+	(item_cursor_do_action) : Ditto.
+	(item_cursor_set_arg) : Ditto.
+	(item_cursor_class_init) : Ditto.
+	(item_cursor_set_bounds_visibly) : Make the cell visible before
+	  changing the bounds.
+	(cb_move_cursor) : New function.
+	(cb_autofill_scroll) : New function.
+	(item_cursor_handle_motion) : New function.
+	(item_cursor_drag_event) : Enable timer based scrolling.
+	(item_cursor_autofill_event) : Ditto.
+
+	* src/gnumeric-sheet.c (start_cell_selection_at) : item-cursor takes a
+	  sheet-view rather than a sheet.
+	(gnumeric_sheet_new) : Ditto. Only update if the bounds changed.
+
+	* src/item-edit.c : Take a SheetView rather than a Sheet.
+
+	* src/sheet-view.c (sheet_view_start_sliding) : Return a flag
+	  indicating whether or not the timer has been triggered.
+
+	* src/border.c (LineDotPattern) : Fixed const.
+
 2000-06-08  Jody Goldberg <jgoldberg@home.com>
 
 	* src/gnumeric-sheet.c (gnumeric_sheet_compute_visible_ranges) :

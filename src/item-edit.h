@@ -15,7 +15,7 @@ typedef struct {
 	guint      signal_event;	/* ::event signal in the GtkEntry */
 	
 	ItemGrid   *item_grid;
-	Sheet      *sheet;
+	SheetView  *sheet_view;
 	GtkEntry   *entry;		/* Utility pointer to the workbook entry */
 
 	/* Where are we */

@@ -20,7 +20,7 @@ typedef enum {
 typedef struct {
 	GnomeCanvasItem canvas_item;
 
-	Sheet    *sheet;
+	SheetView    *sheet_view;
 	ItemGrid *item_grid;	/* A copy of our "parent" grid */
 	Range     pos;
 
@@ -67,7 +67,7 @@ typedef struct {
 	GnomeCanvasItemClass parent_class;
 } ItemCursorClass;
 
-void item_cursor_set_bounds     (ItemCursor *item_cursor,
+gboolean item_cursor_set_bounds (ItemCursor *item_cursor,
 				 int start_col, int start_row,
 				 int end_col, int end_row);
 

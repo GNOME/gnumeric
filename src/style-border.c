@@ -11,8 +11,8 @@
 #include "color.h"
 
 struct LineDotPattern {
-	gint const elements;
-	const unsigned char * const	pattern;
+	gint const		elements;
+	unsigned char * const	pattern;
 	double * const		pattern_d;
 };
 

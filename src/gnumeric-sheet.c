@@ -283,7 +283,7 @@ start_cell_selection_at (GnumericSheet *gsheet, int col, int row)
 	gsheet->sel_cursor = ITEM_CURSOR (gnome_canvas_item_new (
 		group,
 		item_cursor_get_type (),
-		"Sheet", sheet,
+		"SheetView", gsheet->sheet_view,
 		"Grid",  gsheet->item_grid,
 		"Style", ITEM_CURSOR_ANTED, NULL));
 	item_cursor_set_spin_base (gsheet->sel_cursor, col, row);
@@ -949,7 +949,7 @@ gnumeric_sheet_new (SheetView *sheet_view, ItemBar *colbar, ItemBar *rowbar)
 	/* The cursor */
 	item = gnome_canvas_item_new (gsheet_group,
 				      item_cursor_get_type (),
-				      "ItemCursor::Sheet", sheet,
+				      "ItemCursor::SheetView", sheet_view,
 				      "ItemCursor::Grid", gsheet->item_grid,
 				      NULL);
 	gsheet->item_cursor = ITEM_CURSOR (item);

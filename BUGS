@@ -7,17 +7,17 @@ Release Critical
 - Selection in the font name combo is partly broken. Manually entering a value
   does not change the selected entry.
 - Changing an expression name that is in use causes a crash.
-- The max row/col canvas scroll size is still hard coded.
 - Saving xml should not rely on changing the textdomain to disable translation
   of TRUE/FALSE.
 
 Long term breakage
 ------------------
+- The max row/col canvas scroll size is still hard coded.
+
 - Increase/Decrease precision toolbar buttons should look at the displayed
   precision for the edit cell and assign the changed value to the entire
   selection.  Not individually adjusting each non-blank cell's precision.
   This would mirror the application of bold/italic/underline
-
 - Moreover, the above buttons ought to work.  Try "44", click $, then add
   and remove decimals.
 
@@ -39,8 +39,6 @@ Long term breakage
 
 - Names : Sheet local vs workbook local vs application global (does that exist ?)
 	: addresses not changing with row/col ins/del.
-
-- Cursor autoscroll should use the timer mechanism from sheet-view.
 
 - Underline should scale with font size.  (Say, min (1, font->descent/4?)
   gnome-print has a function we could use for printing which returns the
