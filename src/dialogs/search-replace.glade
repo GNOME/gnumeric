@@ -184,7 +184,7 @@
 
 	      <widget>
 		<class>GnomeEntry</class>
-		<name>entry4</name>
+		<name>search_entry</name>
 		<max_saved>10</max_saved>
 		<child>
 		  <left_attach>1</left_attach>
@@ -215,7 +215,7 @@
 
 	      <widget>
 		<class>GnomeEntry</class>
-		<name>entry5</name>
+		<name>replace_entry</name>
 		<max_saved>10</max_saved>
 		<child>
 		  <left_attach>1</left_attach>
