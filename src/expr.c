@@ -827,6 +827,7 @@ eval_expr (void *asheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 				res->v.v_int = pow (a->v.v_int, b->v.v_int);
 				break;
 			default:
+				break;
 			}
 		} else {
 			res->type = VALUE_FLOAT;
@@ -863,6 +864,7 @@ eval_expr (void *asheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 				res->v.v_float = pow (a->v.v_float, b->v.v_float);
 				break;
 			default:
+				break;
 			}
 		}
 		value_release (a);

@@ -196,6 +196,7 @@ fill_item_destroy (FillItem *fi)
 		break;
 		
 	default:
+		break;
 	}
 	g_free (fi);
 }

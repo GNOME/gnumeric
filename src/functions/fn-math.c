@@ -163,6 +163,7 @@ callback_function_and (Sheet *sheet, Value *value, char **error_string, void *cl
 
 	default:
 		/* ignore strings */
+		break;
 	}
 	
 	return TRUE;
@@ -812,6 +813,7 @@ callback_function_min_max (Sheet *sheet, Value *value, char **error_string, void
 
 	default:
 		/* ignore strings */
+		break;
 	}
 	
 	return TRUE;
@@ -915,6 +917,7 @@ callback_function_or (Sheet *sheet, Value *value, char **error_string, void *clo
 
 	default:
 		/* ignore strings */
+		break;
 	}
 	
 	return TRUE;

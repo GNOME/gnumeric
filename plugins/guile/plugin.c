@@ -264,8 +264,14 @@ func_scm_apply (void *tsheet, GList *expr_node_list, int eval_col, int eval_row,
 
 	for (i = g_list_length(expr_node_list) - 1; i >= 1; --i)
 	{
-		CellRef eval_cell = { eval_col, eval_row, 0, 0 };
+		CellRef eval_cell;
 
+		eval_cell.col = eval_col;
+		eval_cell.row = eval_row;
+		eval_cell.col_relative = 0;
+		eval_cell.row_relative = 0;
+		eval_cell.sheet = NULL;
+		
 		value = eval_expr(tsheet, (ExprTree*)g_list_nth(expr_node_list, i)->data, eval_col, eval_row, error_string);
 		if (value == NULL)
 		{

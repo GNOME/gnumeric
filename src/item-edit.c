@@ -215,6 +215,7 @@ entry_event (GtkEntry *entry, GdkEvent *event, ItemEdit *item_edit)
 		queue_sync (item_edit);
 
 	default:
+		break;
 	}
 	return FALSE;
 }
