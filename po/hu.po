@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
-"POT-Creation-Date: 1999-12-03 20:25-0600\n"
+"POT-Creation-Date: 1999-12-30 18:03-0600\n"
 "PO-Revision-Date: 1998-08-01 13:46+0202\n"
 "Last-Translator: Németh Péter <qgenpete@gold.uni-miskolc.hu>\n"
 "Language-Team: Németh Péter <qgenpete@gold.uni-miskolc.hu>\n"
@@ -10,28 +10,37 @@ msgstr ""
 "Content-Type: text/plain; charset=iso-8859-2\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: plugins/excel/boot.c:92
+#: plugins/excel/boot.c:94
 msgid "Saving over old files disabled for safety"
 msgstr ""
 
-#: plugins/excel/boot.c:100
+#: plugins/excel/boot.c:102
 msgid "Can't open"
 msgstr ""
 
-#: plugins/excel/boot.c:141
+#: plugins/excel/boot.c:140
 msgid "Microsoft(R) Excel file format"
 msgstr ""
 
-#: plugins/excel/boot.c:142
+#: plugins/excel/boot.c:141
 msgid "Excel(R) 97 file format"
 msgstr ""
 
-#: plugins/excel/boot.c:143
+#: plugins/excel/boot.c:142
 msgid "Excel(R) 95 file format"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:265
+#: plugins/excel/ms-excel-read.c:258
 msgid "#UNKNOWN!"
+msgstr ""
+
+#: plugins/excel/ms-excel-read.c:3452
+msgid "No book or workbook streams found."
+msgstr ""
+
+#. All records after this are encrypted
+#: plugins/excel/ms-excel-read.c:3790
+msgid "Password protected workbooks are not supported yet."
 msgstr ""
 
 #: plugins/excel/ms-formula-read.c:648
@@ -46,20 +55,39 @@ msgstr ""
 msgid " Unknown formula"
 msgstr ""
 
-#: plugins/ff-csv/csv-io.c:142 plugins/sylk/sylk.c:443
+#: plugins/ff-csv/csv-io.c:54
+#, c-format
+msgid "Invalid CSV file unexpected end of line at line %d"
+msgstr ""
+
+#: plugins/ff-csv/csv-io.c:98
+#, c-format
+msgid "Invalid CSV file has more than the maximum number of rows %d"
+msgstr ""
+
+#: plugins/ff-csv/csv-io.c:105
+#, c-format
+msgid "Invalid CSV file has more than the maximum number of columns %d"
+msgstr ""
+
+#: plugins/ff-csv/csv-io.c:144 plugins/sylk/sylk.c:440
 #, fuzzy, c-format
 msgid "Imported %s"
 msgstr "Formá_tum"
 
-#: plugins/ff-csv/csv-io.c:271
+#: plugins/ff-csv/csv-io.c:161
+msgid "Unable to mmap the file"
+msgstr ""
+
+#: plugins/ff-csv/csv-io.c:279
 msgid "Comma Separated Value (CSV) import"
 msgstr ""
 
-#: plugins/ff-csv/csv-io.c:274
+#: plugins/ff-csv/csv-io.c:282
 msgid "Comma Separated Value format (*.csv)"
 msgstr ""
 
-#: plugins/ff-csv/csv-io.c:277
+#: plugins/ff-csv/csv-io.c:285
 msgid "Comma Separated Value (CSV) module"
 msgstr ""
 
@@ -104,7 +132,7 @@ msgstr ""
 msgid "EPS file format (*.eps)"
 msgstr ""
 
-#: plugins/html/boot.c:102
+#: plugins/html/boot.c:106
 msgid "HTML (simple html export/import plugin)"
 msgstr ""
 
@@ -112,7 +140,7 @@ msgstr ""
 msgid "Lotus (*.wk1) file format"
 msgstr ""
 
-#: plugins/lotus-123/boot.c:95
+#: plugins/lotus-123/boot.c:98
 msgid "Lotus 123 file import/export plugin"
 msgstr ""
 
@@ -120,45 +148,41 @@ msgstr ""
 msgid "GNU Oleo (*.oleo) file format"
 msgstr ""
 
-#: plugins/oleo/boot.c:95
+#: plugins/oleo/boot.c:98
 msgid "GNU Oleo import plugin"
 msgstr ""
 
-#: plugins/python/python.c:101
+#: plugins/python/python.c:103
 msgid "Unable to lookup Python code object."
 msgstr ""
 
 #. XXX should popup window with exception info
-#: plugins/python/python.c:116
+#: plugins/python/python.c:118
 msgid "Python exception."
 msgstr ""
 
-#: plugins/python/python.c:137
+#: plugins/python/python.c:139
 msgid "object must be callable"
 msgstr ""
 
 #: plugins/python/python.c:143
-msgid "could not alloc FuncDef"
-msgstr ""
-
-#: plugins/python/python.c:147
 msgid "Perl"
 msgstr ""
 
-#: plugins/python/python.c:173
+#: plugins/python/python.c:169
 msgid "Gnumeric/Python module initialized\n"
 msgstr ""
 
-#: plugins/python/python.c:186
+#: plugins/python/python.c:185
 msgid "Python Plugin"
 msgstr ""
 
-#: plugins/sample/plugin-sample.c:49
+#: plugins/sample/plugin-sample.c:48
 #, fuzzy
 msgid "Sample Plugin"
 msgstr "Függõleges vonalas"
 
-#: plugins/stat/stat.c:27
+#: plugins/stat/stat.c:30
 msgid "OLD Statistics Plugin, not required anymore"
 msgstr ""
 
@@ -170,23 +194,28 @@ msgstr ""
 msgid "MultiPlan (SYLK) file import module"
 msgstr ""
 
-#: plugins/text/text-io.c:305
-#, c-format
-msgid ""
-"While opening %s\n"
-"%s"
+#: plugins/text/text-io.c:312
+msgid "Empty file"
 msgstr ""
 
-#: plugins/text/text-io.c:337
+#: plugins/text/text-io.c:315
+msgid "File is too large"
+msgstr ""
+
+#: plugins/text/text-io.c:321
+msgid "Can not mmap the file"
+msgstr ""
+
+#: plugins/text/text-io.c:326
 msgid "NoName"
 msgstr "Névtelen"
 
-#: plugins/text/text-io.c:428
+#: plugins/text/text-io.c:417
 #, fuzzy
 msgid "Simple Text Format"
 msgstr "Cellaformázás..."
 
-#: plugins/text/text-io.c:459
+#: plugins/text/text-io.c:451
 msgid "TXT (simple text import/export plugin)"
 msgstr ""
 
@@ -194,7 +223,7 @@ msgstr ""
 msgid "Xbase (*.dbf) file format"
 msgstr ""
 
-#: plugins/xbase/boot.c:215
+#: plugins/xbase/boot.c:218
 msgid "XBase file import/export plugin"
 msgstr ""
 
@@ -227,67 +256,71 @@ msgid "Jakub Jelinek, Gnumeric hacker."
 msgstr ""
 
 #: src/about.c:31
-msgid "Chris Lahey, Number format engine."
+msgid "Jon K Hellan, Excel hacker."
 msgstr ""
 
 #: src/about.c:32
-msgid "Adrian Likins, Documentation, debugging."
+msgid "Chris Lahey, Number format engine."
 msgstr ""
 
 #: src/about.c:33
-msgid "Takashi Matsuda, simple text plugin."
+msgid "Adrian Likins, Documentation, debugging."
 msgstr ""
 
 #: src/about.c:34
-msgid "Federico Mena, Canvas support."
+msgid "Takashi Matsuda, simple text plugin."
 msgstr ""
 
 #: src/about.c:35
-msgid "Michael Meeks, Excel and OLE2 importing."
+msgid "Federico Mena, Canvas support."
 msgstr ""
 
 #: src/about.c:36
-msgid "Mark Probst, Guile support."
+msgid "Michael Meeks, Excel and OLE2 importing."
 msgstr ""
 
 #: src/about.c:37
-msgid "Rasca, HTML, troff, LaTeX exporters."
+msgid "Mark Probst, Guile support."
 msgstr ""
 
 #: src/about.c:38
-msgid "Vincent Renardias, CSV support, French localisation."
+msgid "Rasca, HTML, troff, LaTeX exporters."
 msgstr ""
 
 #: src/about.c:39
-msgid "Bruno Unna, Excel bits."
+msgid "Vincent Renardias, CSV support, French localisation."
 msgstr ""
 
 #: src/about.c:40
-msgid "Daniel Veillard, XML support."
+msgid "Bruno Unna, Excel bits."
 msgstr ""
 
 #: src/about.c:41
-msgid "Vladimir Vuksan, financial functions."
+msgid "Daniel Veillard, XML support."
 msgstr ""
 
 #: src/about.c:42
+msgid "Vladimir Vuksan, financial functions."
+msgstr ""
+
+#: src/about.c:43
 msgid "Morten Welinder, Gnumeric hacker."
 msgstr ""
 
-#: src/about.c:56
+#: src/about.c:57
 msgid "Gnumeric"
 msgstr ""
 
-#: src/about.c:57
+#: src/about.c:58
 msgid "(C) 1998-1999 Miguel de Icaza"
 msgstr ""
 
-#: src/about.c:64
+#: src/about.c:65
 #, fuzzy
 msgid "Gnumeric Home Page"
 msgstr "Függõleges vonalas"
 
-#: src/about.c:66
+#: src/about.c:67
 msgid "Gnumeric Support page"
 msgstr ""
 
@@ -461,375 +494,401 @@ msgstr "november"
 msgid "December"
 msgstr "december"
 
-#: src/dialogs/dialog-analysis-tools.c:73
-#: src/dialogs/dialog-analysis-tools.c:1800
+#: src/dialogs/dialog-analysis-tools.c:74
+#: src/dialogs/dialog-analysis-tools.c:1897
 msgid "Anova: Single Factor"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:75
-#: src/dialogs/dialog-analysis-tools.c:1888
+#: src/dialogs/dialog-analysis-tools.c:76
+#: src/dialogs/dialog-analysis-tools.c:1985
 msgid "Anova: Two-Factor Without Replication"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:77
-#: src/dialogs/dialog-analysis-tools.c:395
+#: src/dialogs/dialog-analysis-tools.c:78
+#: src/dialogs/dialog-analysis-tools.c:464
 #, fuzzy
 msgid "Correlation"
 msgstr "Mûvelet"
 
-#: src/dialogs/dialog-analysis-tools.c:79
-#: src/dialogs/dialog-analysis-tools.c:476
+#: src/dialogs/dialog-analysis-tools.c:80
+#: src/dialogs/dialog-analysis-tools.c:545
 msgid "Covariance"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:81
-#: src/dialogs/dialog-analysis-tools.c:664
+#: src/dialogs/dialog-analysis-tools.c:82
+#: src/dialogs/dialog-analysis-tools.c:733
 msgid "Descriptive Statistics"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:83
-#: src/dialogs/dialog-analysis-tools.c:1191
+#: src/dialogs/dialog-analysis-tools.c:84
+#: src/dialogs/dialog-analysis-tools.c:1260
 msgid "F-Test: Two-Sample for Variances"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:85
-#: src/dialogs/dialog-analysis-tools.c:1627
+#: src/dialogs/dialog-analysis-tools.c:86
+#: src/dialogs/dialog-analysis-tools.c:1724
 #, fuzzy
 msgid "Moving Average"
 msgstr "Átlag"
 
-#: src/dialogs/dialog-analysis-tools.c:87
-#: src/dialogs/dialog-analysis-tools.c:1336
+#: src/dialogs/dialog-analysis-tools.c:88
+#: src/dialogs/dialog-analysis-tools.c:1405
 msgid "Random Number Generation"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:89
-#: src/dialogs/dialog-analysis-tools.c:1717
+#: src/dialogs/dialog-analysis-tools.c:90
+#: src/dialogs/dialog-analysis-tools.c:1814
 msgid "Rank and Percentile"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:91
-#: src/dialogs/dialog-analysis-tools.c:1527
+#. TODO This would be better using the
+#. value in the checkbox instead of this
+#. global, but I don't know GTK very well
+#: src/dialogs/dialog-analysis-tools.c:92
+#: src/dialogs/dialog-analysis-tools.c:1602
 msgid "Regression"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:93
-#: src/dialogs/dialog-analysis-tools.c:553
+#: src/dialogs/dialog-analysis-tools.c:94
+#: src/dialogs/dialog-analysis-tools.c:622
 #, fuzzy
 msgid "Sampling"
 msgstr "Függõleges vonalas"
 
-#: src/dialogs/dialog-analysis-tools.c:95
-#: src/dialogs/dialog-analysis-tools.c:877
+#: src/dialogs/dialog-analysis-tools.c:96
+#: src/dialogs/dialog-analysis-tools.c:946
 msgid "t-Test: Paired Two Sample for Means"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:97
-#: src/dialogs/dialog-analysis-tools.c:982
+#: src/dialogs/dialog-analysis-tools.c:98
+#: src/dialogs/dialog-analysis-tools.c:1051
 msgid "t-Test: Two-Sample Assuming Equal Variances"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:99
-#: src/dialogs/dialog-analysis-tools.c:1087
+#: src/dialogs/dialog-analysis-tools.c:100
+#: src/dialogs/dialog-analysis-tools.c:1156
 msgid "t-Test: Two-Sample Assuming Unequal Variances"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:101
-#: src/dialogs/dialog-analysis-tools.c:760
+#: src/dialogs/dialog-analysis-tools.c:102
+#: src/dialogs/dialog-analysis-tools.c:829
 msgid "z-Test: Two Sample for Means"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:108
-#: src/dialogs/dialog-analysis-tools.c:1305
-#: src/dialogs/dialog-analysis-tools.c:1484
+#: src/dialogs/dialog-analysis-tools.c:109
+#: src/dialogs/dialog-analysis-tools.c:1374
+#: src/dialogs/dialog-analysis-tools.c:1553
 msgid "Discrete"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:109
-#: src/dialogs/dialog-analysis-tools.c:1302
-#: src/dialogs/dialog-analysis-tools.c:1474
+#: src/dialogs/dialog-analysis-tools.c:110
+#: src/dialogs/dialog-analysis-tools.c:1371
+#: src/dialogs/dialog-analysis-tools.c:1543
 #: src/widgets/widget-font-selector.c:125
 #, fuzzy
 msgid "Normal"
 msgstr "Formátumot"
 
-#: src/dialogs/dialog-analysis-tools.c:110
-#: src/dialogs/dialog-analysis-tools.c:1299
-#: src/dialogs/dialog-analysis-tools.c:1480
+#: src/dialogs/dialog-analysis-tools.c:111
+#: src/dialogs/dialog-analysis-tools.c:1368
+#: src/dialogs/dialog-analysis-tools.c:1549
 msgid "Bernoulli"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:111
-#: src/dialogs/dialog-analysis-tools.c:1296
-#: src/dialogs/dialog-analysis-tools.c:1468
+#: src/dialogs/dialog-analysis-tools.c:112
+#: src/dialogs/dialog-analysis-tools.c:1365
+#: src/dialogs/dialog-analysis-tools.c:1537
 msgid "Uniform"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:152
+#: src/dialogs/dialog-analysis-tools.c:159
 msgid "Summary Statistics"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:154
+#: src/dialogs/dialog-analysis-tools.c:161
 msgid "Confidence Level for Mean"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:155
+#: src/dialogs/dialog-analysis-tools.c:162
 msgid "0.95"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:156
+#: src/dialogs/dialog-analysis-tools.c:163
 msgid "Kth Largest:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:157
-#: src/dialogs/dialog-analysis-tools.c:159
+#: src/dialogs/dialog-analysis-tools.c:164
+#: src/dialogs/dialog-analysis-tools.c:166
 msgid "1"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:158
+#: src/dialogs/dialog-analysis-tools.c:165
 msgid "Kth Smallest:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:164
+#: src/dialogs/dialog-analysis-tools.c:171
 msgid "Labels in First Row"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:170
+#: src/dialogs/dialog-analysis-tools.c:177
 msgid "Labels"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:176
+#: src/dialogs/dialog-analysis-tools.c:183
+msgid "Force Intercept to Be Zero"
+msgstr ""
+
+#: src/dialogs/dialog-analysis-tools.c:189
 msgid "Standard Errors"
 msgstr ""
 
-#: src/dialogs/cell-sort.glade.h:12 src/dialogs/dialog-analysis-tools.c:203
+#: src/dialogs/cell-sort.glade.h:12 src/dialogs/dialog-analysis-tools.c:272
 #, fuzzy
 msgid "Columns"
 msgstr "Os_zlopok"
 
-#: src/dialogs/cell-sort.glade.h:11 src/dialogs/dialog-analysis-tools.c:204
+#: src/dialogs/cell-sort.glade.h:11 src/dialogs/dialog-analysis-tools.c:273
 #, fuzzy
 msgid "Rows"
 msgstr "_Sorok"
 
-#: src/dialogs/dialog-analysis-tools.c:209
+#: src/dialogs/dialog-analysis-tools.c:278
 msgid "Periodic"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:210
+#: src/dialogs/dialog-analysis-tools.c:279
 msgid "Random"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:220
-#: src/dialogs/dialog-analysis-tools.c:1977
-msgid "OK"
-msgstr ""
+#: src/dialogs/dialog-analysis-tools.c:368
+#, fuzzy
+msgid "You should introduce a valid cell range in 'Into a Range:'"
+msgstr "A beírt szöveg nem érvényes hivatkozás vagy létezõ név"
 
-#: src/dialogs/dialog-analysis-tools.c:331
+#: src/dialogs/dialog-analysis-tools.c:400
 #, fuzzy
 msgid "New Sheet"
 msgstr "M_unkalap"
 
 #. hbox = gtk_hbox_new (FALSE, 0);
-#: src/dialogs/dialog-analysis-tools.c:335
+#: src/dialogs/dialog-analysis-tools.c:404
 #, fuzzy
 msgid "New Workbook"
 msgstr "Munkafüzet mentése"
 
-#: src/dialogs/dialog-analysis-tools.c:340
+#: src/dialogs/dialog-analysis-tools.c:409
 msgid "Output Range:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:360
+#: src/dialogs/dialog-analysis-tools.c:429
 msgid "Grouped By:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:405
-#: src/dialogs/dialog-analysis-tools.c:486
-#: src/dialogs/dialog-analysis-tools.c:563
-#: src/dialogs/dialog-analysis-tools.c:674
-#: src/dialogs/dialog-analysis-tools.c:1636
+#: src/dialogs/dialog-analysis-tools.c:471
+#: src/dialogs/dialog-analysis-tools.c:552
+#: src/dialogs/dialog-analysis-tools.c:629
+#: src/dialogs/dialog-analysis-tools.c:740
+#: src/dialogs/dialog-analysis-tools.c:837
+#: src/dialogs/dialog-analysis-tools.c:954
+#: src/dialogs/dialog-analysis-tools.c:1059
+#: src/dialogs/dialog-analysis-tools.c:1165
+#: src/dialogs/dialog-analysis-tools.c:1605
 #: src/dialogs/dialog-analysis-tools.c:1727
-#: src/dialogs/dialog-analysis-tools.c:1810
-#: src/dialogs/dialog-analysis-tools.c:1899
+#: src/dialogs/dialog-analysis-tools.c:1821
+#: src/dialogs/dialog-analysis-tools.c:1904
+#: src/dialogs/dialog-analysis-tools.c:1993
+msgid "Input:"
+msgstr ""
+
+#: src/dialogs/dialog-analysis-tools.c:474
+#: src/dialogs/dialog-analysis-tools.c:555
+#: src/dialogs/dialog-analysis-tools.c:632
+#: src/dialogs/dialog-analysis-tools.c:743
+#: src/dialogs/dialog-analysis-tools.c:1733
+#: src/dialogs/dialog-analysis-tools.c:1824
+#: src/dialogs/dialog-analysis-tools.c:1907
+#: src/dialogs/dialog-analysis-tools.c:1996
 msgid "Input Range:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:440
-#: src/dialogs/dialog-analysis-tools.c:520
-#: src/dialogs/dialog-analysis-tools.c:624
-#: src/dialogs/dialog-analysis-tools.c:714
-#: src/dialogs/dialog-analysis-tools.c:1762
-#: src/dialogs/dialog-analysis-tools.c:1847
-#: src/dialogs/dialog-analysis-tools.c:1933
+#: src/dialogs/dialog-analysis-tools.c:509
+#: src/dialogs/dialog-analysis-tools.c:589
+#: src/dialogs/dialog-analysis-tools.c:693
+#: src/dialogs/dialog-analysis-tools.c:783
+#: src/dialogs/dialog-analysis-tools.c:1859
+#: src/dialogs/dialog-analysis-tools.c:1944
+#: src/dialogs/dialog-analysis-tools.c:2030
 #, fuzzy
 msgid "You should introduce a valid cell range in 'Range:'"
 msgstr "A beírt szöveg nem érvényes hivatkozás vagy létezõ név"
 
-#: src/dialogs/dialog-analysis-tools.c:483
-#: src/dialogs/dialog-analysis-tools.c:560
-#: src/dialogs/dialog-analysis-tools.c:671
-#: src/dialogs/dialog-analysis-tools.c:768
-#: src/dialogs/dialog-analysis-tools.c:885
-#: src/dialogs/dialog-analysis-tools.c:990
-#: src/dialogs/dialog-analysis-tools.c:1096
-#: src/dialogs/dialog-analysis-tools.c:1530
-#: src/dialogs/dialog-analysis-tools.c:1630
-#: src/dialogs/dialog-analysis-tools.c:1724
-#: src/dialogs/dialog-analysis-tools.c:1807
-#: src/dialogs/dialog-analysis-tools.c:1896
-msgid "Input:"
-msgstr ""
-
-#: src/dialogs/dialog-analysis-tools.c:565
+#: src/dialogs/dialog-analysis-tools.c:634
 #, fuzzy
 msgid "Sampling Method:"
 msgstr "Minta:"
 
-#: src/dialogs/dialog-analysis-tools.c:577
+#: src/dialogs/dialog-analysis-tools.c:646
 msgid "Period:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:580
+#: src/dialogs/dialog-analysis-tools.c:649
 msgid "Number of Samples:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:771
-#: src/dialogs/dialog-analysis-tools.c:888
-#: src/dialogs/dialog-analysis-tools.c:993
-#: src/dialogs/dialog-analysis-tools.c:1099
-#: src/dialogs/dialog-analysis-tools.c:1201
+#: src/dialogs/dialog-analysis-tools.c:840
+#: src/dialogs/dialog-analysis-tools.c:957
+#: src/dialogs/dialog-analysis-tools.c:1062
+#: src/dialogs/dialog-analysis-tools.c:1168
+#: src/dialogs/dialog-analysis-tools.c:1270
 msgid "Variable 1 Range:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:774
-#: src/dialogs/dialog-analysis-tools.c:891
-#: src/dialogs/dialog-analysis-tools.c:996
-#: src/dialogs/dialog-analysis-tools.c:1102
-#: src/dialogs/dialog-analysis-tools.c:1204
+#: src/dialogs/dialog-analysis-tools.c:843
+#: src/dialogs/dialog-analysis-tools.c:960
+#: src/dialogs/dialog-analysis-tools.c:1065
+#: src/dialogs/dialog-analysis-tools.c:1171
+#: src/dialogs/dialog-analysis-tools.c:1273
 msgid "Variable 2 Range:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:777
-#: src/dialogs/dialog-analysis-tools.c:894
-#: src/dialogs/dialog-analysis-tools.c:999
-#: src/dialogs/dialog-analysis-tools.c:1105
+#: src/dialogs/dialog-analysis-tools.c:846
+#: src/dialogs/dialog-analysis-tools.c:963
+#: src/dialogs/dialog-analysis-tools.c:1068
+#: src/dialogs/dialog-analysis-tools.c:1174
 msgid "Hypothesized Mean Difference:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:780
+#: src/dialogs/dialog-analysis-tools.c:849
 msgid "Variable 1 Variance (known):"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:783
+#: src/dialogs/dialog-analysis-tools.c:852
 msgid "Variable 2 Variance (known):"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:785
-#: src/dialogs/dialog-analysis-tools.c:896
-#: src/dialogs/dialog-analysis-tools.c:1001
-#: src/dialogs/dialog-analysis-tools.c:1107
-#: src/dialogs/dialog-analysis-tools.c:1206
-#: src/dialogs/dialog-analysis-tools.c:1814
-#: src/dialogs/dialog-analysis-tools.c:1901
+#: src/dialogs/dialog-analysis-tools.c:854
+#: src/dialogs/dialog-analysis-tools.c:965
+#: src/dialogs/dialog-analysis-tools.c:1070
+#: src/dialogs/dialog-analysis-tools.c:1176
+#: src/dialogs/dialog-analysis-tools.c:1275
+#: src/dialogs/dialog-analysis-tools.c:1911
+#: src/dialogs/dialog-analysis-tools.c:1998
 msgid "Alpha:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:817
-#: src/dialogs/dialog-analysis-tools.c:928
-#: src/dialogs/dialog-analysis-tools.c:1033
-#: src/dialogs/dialog-analysis-tools.c:1139
-#: src/dialogs/dialog-analysis-tools.c:1239
-#: src/dialogs/dialog-analysis-tools.c:1574
+#: src/dialogs/dialog-analysis-tools.c:886
+#: src/dialogs/dialog-analysis-tools.c:997
+#: src/dialogs/dialog-analysis-tools.c:1102
+#: src/dialogs/dialog-analysis-tools.c:1208
+#: src/dialogs/dialog-analysis-tools.c:1308
+#: src/dialogs/dialog-analysis-tools.c:1650
 #, fuzzy
 msgid "You should introduce a valid cell range in 'Variable 1:'"
 msgstr "A beírt szöveg nem érvényes hivatkozás vagy létezõ név"
 
-#: src/dialogs/dialog-analysis-tools.c:828
-#: src/dialogs/dialog-analysis-tools.c:939
-#: src/dialogs/dialog-analysis-tools.c:1044
-#: src/dialogs/dialog-analysis-tools.c:1150
-#: src/dialogs/dialog-analysis-tools.c:1250
-#: src/dialogs/dialog-analysis-tools.c:1585
+#: src/dialogs/dialog-analysis-tools.c:897
+#: src/dialogs/dialog-analysis-tools.c:1008
+#: src/dialogs/dialog-analysis-tools.c:1113
+#: src/dialogs/dialog-analysis-tools.c:1219
+#: src/dialogs/dialog-analysis-tools.c:1319
+#: src/dialogs/dialog-analysis-tools.c:1658
 #, fuzzy
 msgid "You should introduce a valid cell range in 'Variable 2:'"
 msgstr "A beírt szöveg nem érvényes hivatkozás vagy létezõ név"
 
-#: src/dialogs/dialog-analysis-tools.c:1347
+#: src/dialogs/dialog-analysis-tools.c:1416
 msgid "Number of Variables:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1350
+#: src/dialogs/dialog-analysis-tools.c:1419
 msgid "Number of Random Numbers:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1361
+#: src/dialogs/dialog-analysis-tools.c:1430
 msgid "Parameters:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1374
+#: src/dialogs/dialog-analysis-tools.c:1443
 msgid "Value and Probability Input Range:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1379
+#: src/dialogs/dialog-analysis-tools.c:1448
 msgid "Between:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1382
+#: src/dialogs/dialog-analysis-tools.c:1451
 msgid "And:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1387
+#: src/dialogs/dialog-analysis-tools.c:1456
 msgid "Mean = "
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1389
+#: src/dialogs/dialog-analysis-tools.c:1458
 msgid "Standard Deviation = "
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1393
+#: src/dialogs/dialog-analysis-tools.c:1462
 msgid "Lambda"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1397
+#: src/dialogs/dialog-analysis-tools.c:1466
 #, fuzzy
 msgid "p Value"
 msgstr "Értéket"
 
-#: src/dialogs/dialog-analysis-tools.c:1492
+#: src/dialogs/dialog-analysis-tools.c:1561
 #, fuzzy
 msgid ""
 "You should introduce a valid cell range in 'Value and Probability Input "
 "Range:'"
 msgstr "A beírt szöveg nem érvényes hivatkozás vagy létezõ név"
 
-#: src/dialogs/dialog-analysis-tools.c:1536
+#: src/dialogs/dialog-analysis-tools.c:1611
 msgid "Input Y Range:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1539
+#: src/dialogs/dialog-analysis-tools.c:1614
 msgid "Input X Range:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1541
+#: src/dialogs/dialog-analysis-tools.c:1616
 msgid "Confidence Level:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1638
+#: src/dialogs/dialog-analysis-tools.c:1682
+msgid ""
+"There are too few data points to conduct this regression.\n"
+"There must be at least as many data points as free variables."
+msgstr ""
+
+#: src/dialogs/dialog-analysis-tools.c:1688
+msgid ""
+"Two or more of the independent variables are linearly dependent,\n"
+"and the regression cannot be calculated. Remove one of these\n"
+"variables and try the regression again."
+msgstr ""
+
+#: src/dialogs/dialog-analysis-tools.c:1695
+msgid ""
+"There must be an equal number of entries for each variable in the regression."
+msgstr ""
+
+#: src/dialogs/dialog-analysis-tools.c:1735
 #, fuzzy
 msgid "Interval:"
 msgstr "Általános"
 
-#: src/dialogs/dialog-analysis-tools.c:1673
+#: src/dialogs/dialog-analysis-tools.c:1770
 #, fuzzy
 msgid "You should introduce a valid cell range in 'Range Input:'"
 msgstr "A beírt szöveg nem érvényes hivatkozás vagy létezõ név"
 
-#: src/dialogs/dialog-analysis-tools.c:1976
+#: src/dialogs/dialog-analysis-tools.c:2073
 msgid "Data Analysis"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1984
+#: src/dialogs/dialog-analysis-tools.c:2081
 msgid "Analysis Tools"
 msgstr ""
 
@@ -856,62 +915,59 @@ msgstr "#,##0_);[Piros](#,##0)"
 msgid "Format Cells"
 msgstr "Beszúrás"
 
-#: src/dialogs/dialog-cell-sort.c:133
+#: src/dialogs/dialog-cell-sort.c:138
 #, fuzzy
 msgid "Ascending"
 msgstr "Könyvelõi"
 
-#: src/dialogs/dialog-cell-sort.c:136
+#: src/dialogs/dialog-cell-sort.c:141
 msgid "Descending"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:444
+#: src/dialogs/dialog-cell-sort.c:454
 msgid "At least one clause is required."
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:453
+#: src/dialogs/dialog-cell-sort.c:463
 msgid "Can't add more than the selection length."
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:456
+#: src/dialogs/dialog-cell-sort.c:466
 msgid "Maximum number of clauses has been reached."
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:588 src/print.c:508 src/workbook.c:1501
-msgid "Selection must be a single range"
-msgstr ""
+#: src/dialogs/dialog-cell-sort.c:595
+#, fuzzy
+msgid "sort"
+msgstr "Formá_tum"
 
-#: src/dialogs/dialog-cell-sort.c:600
-msgid "Selection must be a finite range"
-msgstr ""
-
-#: src/dialogs/dialog-cell-sort.c:650
+#: src/dialogs/dialog-cell-sort.c:655
 msgid "then by"
 msgstr ""
 
-#: src/dialogs/cell-sort.glade.h:16 src/dialogs/dialog-cell-sort.c:650
+#: src/dialogs/cell-sort.glade.h:16 src/dialogs/dialog-cell-sort.c:655
 msgid "Sort by"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:685
+#: src/dialogs/dialog-cell-sort.c:690
 #, fuzzy
 msgid "Column must be within range"
 msgstr "Tartományon kívüli oszlophivatkozás"
 
-#: src/dialogs/dialog-cell-sort.c:702
+#: src/dialogs/dialog-cell-sort.c:707
 #, fuzzy
 msgid "Row must be within range"
 msgstr "Tartományon kívüli oszlophivatkozás"
 
-#: src/dialogs/dialog-cell-sort.c:709
+#: src/dialogs/dialog-cell-sort.c:714
 msgid "First column must be valid"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:709
+#: src/dialogs/dialog-cell-sort.c:714
 msgid "First row must be valid"
 msgstr ""
 
-#: src/dialogs/dialog-delete-cells.c:79
+#: src/dialogs/dialog-delete-cells.c:84
 msgid "delete cells"
 msgstr ""
 
@@ -920,41 +976,41 @@ msgstr ""
 msgid "Formula Selection"
 msgstr "Tört"
 
-#: src/dialogs/dialog-function-wizard.c:206 src/functions/fn-string.c:1295
+#: src/dialogs/dialog-function-wizard.c:202 src/functions/fn-string.c:1295
 msgid "String"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:31 src/dialogs/dialog-function-wizard.c:209
+#: src/dialogs/cell-format.glade.h:31 src/dialogs/dialog-function-wizard.c:205
 msgid "Number"
 msgstr "Szám"
 
-#: src/dialogs/dialog-function-wizard.c:212
+#: src/dialogs/dialog-function-wizard.c:208
 msgid "Boolean"
 msgstr ""
 
-#: src/dialogs/dialog-function-wizard.c:215
+#: src/dialogs/dialog-function-wizard.c:211
 #, fuzzy
 msgid "Range"
 msgstr "Téglalap"
 
-#: src/dialogs/dialog-function-wizard.c:218
+#: src/dialogs/dialog-function-wizard.c:214
 #, fuzzy
 msgid "Array"
 msgstr "Nyíl"
 
-#: src/dialogs/dialog-function-wizard.c:221
+#: src/dialogs/dialog-function-wizard.c:217
 msgid "Range/Array"
 msgstr ""
 
-#: src/dialogs/dialog-function-wizard.c:224
+#: src/dialogs/dialog-function-wizard.c:220
 msgid "Any"
 msgstr ""
 
-#: src/dialogs/dialog-function-wizard.c:227
+#: src/dialogs/dialog-function-wizard.c:223
 msgid "Unknown"
 msgstr ""
 
-#: src/dialogs/dialog-function-wizard.c:334
+#: src/dialogs/dialog-function-wizard.c:332
 #, fuzzy
 msgid "Formula Wizard"
 msgstr "Képletet"
@@ -1044,7 +1100,7 @@ msgstr "Ugrás..."
 msgid "Special..."
 msgstr "Irányított..."
 
-#: src/dialogs/dialog-insert-cells.c:79
+#: src/dialogs/dialog-insert-cells.c:84
 msgid "insert cells"
 msgstr "Beszúrás"
 
@@ -1122,16 +1178,16 @@ msgstr "Balra zárás"
 msgid "Select Printer"
 msgstr "Vonalrajzolás"
 
-#: src/dialogs/dialog-printer-setup.c:502
+#: src/dialogs/dialog-printer-setup.c:504
 #, fuzzy
 msgid "Custom header configuration"
 msgstr "Háttér beállítása"
 
-#: src/dialogs/dialog-printer-setup.c:513
+#: src/dialogs/dialog-printer-setup.c:515
 msgid "Custom footer configuration"
 msgstr ""
 
-#: src/dialogs/dialog-printer-setup.c:726
+#: src/dialogs/dialog-printer-setup.c:730
 #, fuzzy
 msgid "Print setup"
 msgstr "Százalék"
@@ -1140,16 +1196,11 @@ msgstr "Százalék"
 msgid "<="
 msgstr ""
 
-#. N_("="),
-#: src/dialogs/dialog-solver.c:24
-msgid ">="
-msgstr ""
-
-#: src/dialogs/dialog-solver.c:44 src/workbook.c:1617
+#: src/dialogs/dialog-solver.c:44 src/workbook.c:1718
 msgid "Max"
 msgstr "Maximum"
 
-#: src/dialogs/dialog-solver.c:45 src/workbook.c:1616
+#: src/dialogs/dialog-solver.c:45 src/workbook.c:1717
 msgid "Min"
 msgstr "Minimum"
 
@@ -1196,32 +1247,32 @@ msgstr ""
 msgid "Show Iteration Results"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:132
+#: src/dialogs/dialog-solver.c:133
 #, fuzzy
 msgid "Gnumeric Solver Options"
 msgstr "Függõleges vonalas"
 
-#: src/dialogs/dialog-solver.c:148
+#: src/dialogs/dialog-solver.c:149
 #, fuzzy
 msgid "Estimates"
 msgstr "Idõ"
 
-#: src/dialogs/dialog-solver.c:150
+#: src/dialogs/dialog-solver.c:151
 msgid "Derivatives"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:153
+#: src/dialogs/dialog-solver.c:154
 #, fuzzy
 msgid "Search"
 msgstr "március"
 
-#: src/dialogs/dialog-solver.c:232
+#: src/dialogs/dialog-solver.c:233
 msgid "Add Constraint"
 msgstr ""
 
 #. Constraint buttons
-#: src/dialogs/cell-sort.glade.h:13 src/dialogs/dialog-solver.c:235
-#: src/dialogs/dialog-solver.c:407 src/dialogs/names.glade.h:9
+#: src/dialogs/cell-sort.glade.h:13 src/dialogs/dialog-solver.c:236
+#: src/dialogs/dialog-solver.c:409 src/dialogs/names.glade.h:9
 msgid "Add"
 msgstr "Összeadás"
 
@@ -1240,32 +1291,36 @@ msgstr "Áthelyezés"
 msgid "Options..."
 msgstr "Mûvelet"
 
-#: src/dialogs/dialog-solver.c:375
+#: src/dialogs/dialog-solver.c:377
 msgid "Equal to:"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:401
+#: src/dialogs/dialog-solver.c:403
 msgid "Subject to the Constraints:"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:408
+#: src/dialogs/dialog-solver.c:410
 #, fuzzy
 msgid "Change"
 msgstr "Téglalap"
 
-#: src/dialogs/dialog-solver.c:409 src/dialogs/names.glade.h:10
+#: src/dialogs/dialog-solver.c:411 src/dialogs/names.glade.h:10
 msgid "Delete"
 msgstr "Törlés"
 
-#: src/dialogs/dialog-solver.c:482
+#: src/dialogs/dialog-solver.c:485
 #, fuzzy
 msgid "You should introduce a valid cell name for 'Target cell'"
 msgstr "A beírt szöveg nem érvényes hivatkozás vagy létezõ név"
 
-#: src/dialogs/dialog-solver.c:503
+#: src/dialogs/dialog-solver.c:506
 #, fuzzy
 msgid "You should introduce a valid cell names in 'By changing cells'"
 msgstr "A beírt szöveg nem érvényes hivatkozás vagy létezõ név"
+
+#: src/dialogs/dialog-solver.c:525
+msgid "The problem is unbounded and cannot be solved"
+msgstr ""
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -1393,171 +1448,171 @@ msgstr ""
 msgid "_Fit to:"
 msgstr ""
 
-#: src/dialogs/print.glade.h:14
-#, c-format
+#: src/dialogs/print.glade.h:15
+#, no-c-format
 msgid "% of normal size"
 msgstr ""
 
-#: src/dialogs/print.glade.h:15
+#: src/dialogs/print.glade.h:16
 msgid "page(s) wide by"
 msgstr ""
 
-#: src/dialogs/print.glade.h:16
+#: src/dialogs/print.glade.h:17
 #, fuzzy
 msgid "tall"
 msgstr "Dõlt"
 
-#: src/dialogs/print.glade.h:17
+#: src/dialogs/print.glade.h:18
 msgid "Fi_rst page number:"
 msgstr ""
 
-#: src/dialogs/print.glade.h:18 src/dialogs/print.glade.h:32
-#: src/dialogs/print.glade.h:42 src/dialogs/print.glade.h:58
+#: src/dialogs/print.glade.h:19 src/dialogs/print.glade.h:33
+#: src/dialogs/print.glade.h:43 src/dialogs/print.glade.h:59
 #, fuzzy
 msgid "_Print"
 msgstr "Százalék"
 
-#: src/dialogs/print.glade.h:19 src/dialogs/print.glade.h:33
-#: src/dialogs/print.glade.h:43 src/dialogs/print.glade.h:59
+#: src/dialogs/print.glade.h:20 src/dialogs/print.glade.h:34
+#: src/dialogs/print.glade.h:44 src/dialogs/print.glade.h:60
 msgid "Print previe_w"
 msgstr ""
 
-#: src/dialogs/print.glade.h:20 src/dialogs/print.glade.h:34
-#: src/dialogs/print.glade.h:44 src/dialogs/print.glade.h:60
+#: src/dialogs/print.glade.h:21 src/dialogs/print.glade.h:35
+#: src/dialogs/print.glade.h:45 src/dialogs/print.glade.h:61
 #, fuzzy
 msgid "_Options"
 msgstr "Mûvelet"
 
-#: src/dialogs/print.glade.h:21 src/dialogs/print.glade.h:61
+#: src/dialogs/print.glade.h:22 src/dialogs/print.glade.h:62
 #, fuzzy
 msgid "Page"
 msgstr "Beillesztés"
 
-#: src/dialogs/print.glade.h:22
+#: src/dialogs/print.glade.h:23
 #, fuzzy
 msgid "_Top:"
 msgstr "Fent"
 
-#: src/dialogs/print.glade.h:23
+#: src/dialogs/print.glade.h:24
 msgid "He_ader:"
 msgstr ""
 
-#: src/dialogs/print.glade.h:24
+#: src/dialogs/print.glade.h:25
 #, fuzzy
 msgid "_Bottom:"
 msgstr "Lent"
 
-#: src/dialogs/print.glade.h:25
+#: src/dialogs/print.glade.h:26
 #, fuzzy
 msgid "_Footer"
 msgstr "Betûtípus"
 
-#: src/dialogs/print.glade.h:26
+#: src/dialogs/print.glade.h:27
 #, fuzzy
 msgid "Center on page"
 msgstr "Középre"
 
-#: src/dialogs/print.glade.h:27
+#: src/dialogs/print.glade.h:28
 #, fuzzy
 msgid "_Horizontally"
 msgstr "Vízszintesen:"
 
-#: src/dialogs/print.glade.h:28
+#: src/dialogs/print.glade.h:29
 #, fuzzy
 msgid "_Vertically"
 msgstr "Függõlegesen:"
 
-#: src/dialogs/print.glade.h:29
+#: src/dialogs/print.glade.h:30
 #, fuzzy
 msgid "_Left:"
 msgstr "Balra"
 
-#: src/dialogs/cell-format.glade.h:34 src/dialogs/print.glade.h:30
+#: src/dialogs/cell-format.glade.h:34 src/dialogs/print.glade.h:31
 #, fuzzy
 msgid "_Right"
 msgstr "Jobbra"
 
-#: src/dialogs/print.glade.h:31
+#: src/dialogs/print.glade.h:32
 msgid "Paper _size:"
 msgstr ""
 
-#: src/dialogs/print.glade.h:35
+#: src/dialogs/print.glade.h:36
 #, fuzzy
 msgid "Margins"
 msgstr "Minimum"
 
-#: src/dialogs/print.glade.h:36 src/dialogs/print.glade.h:41
+#: src/dialogs/print.glade.h:37 src/dialogs/print.glade.h:42
 msgid "sample goes here"
 msgstr ""
 
-#: src/dialogs/print.glade.h:37
+#: src/dialogs/print.glade.h:38
 msgid "Header"
 msgstr ""
 
-#: src/dialogs/print.glade.h:38
+#: src/dialogs/print.glade.h:39
 msgid "Customize _header"
 msgstr ""
 
-#: src/dialogs/print.glade.h:39
+#: src/dialogs/print.glade.h:40
 msgid "Customize _footer"
 msgstr ""
 
-#: src/dialogs/print.glade.h:40
+#: src/dialogs/print.glade.h:41
 msgid "Footer:"
 msgstr ""
 
-#: src/dialogs/print.glade.h:45
+#: src/dialogs/print.glade.h:46
 msgid "Headers and footers"
 msgstr ""
 
-#: src/dialogs/print.glade.h:46
+#: src/dialogs/print.glade.h:47
 #, fuzzy
 msgid "Print _area:"
 msgstr "Százalék"
 
-#: src/dialogs/print.glade.h:47
+#: src/dialogs/print.glade.h:48
 msgid "Titles to print"
 msgstr ""
 
-#: src/dialogs/print.glade.h:48
+#: src/dialogs/print.glade.h:49
 msgid "_Columns to repeat on the left side:"
 msgstr ""
 
-#: src/dialogs/print.glade.h:49
+#: src/dialogs/print.glade.h:50
 msgid "_Rows to repeat on the upper region:"
 msgstr ""
 
-#: src/dialogs/print.glade.h:50 src/workbook.c:1128
+#: src/dialogs/print.glade.h:51 src/workbook.c:1225
 #, fuzzy
 msgid "Print"
 msgstr "Százalék"
 
-#: src/dialogs/print.glade.h:51
+#: src/dialogs/print.glade.h:52
 msgid "Row and co_lumn headings"
 msgstr ""
 
-#: src/dialogs/print.glade.h:52 src/workbook.c:952
+#: src/dialogs/print.glade.h:53 src/workbook.c:1048
 #, fuzzy
 msgid "Co_mments"
 msgstr "_Képletet"
 
-#: src/dialogs/print.glade.h:53
+#: src/dialogs/print.glade.h:54
 msgid "_Grid lines"
 msgstr ""
 
-#: src/dialogs/print.glade.h:54
+#: src/dialogs/print.glade.h:55
 msgid "_Black and white"
 msgstr ""
 
-#: src/dialogs/print.glade.h:55
+#: src/dialogs/print.glade.h:56
 msgid "Page order"
 msgstr ""
 
-#: src/dialogs/print.glade.h:56
+#: src/dialogs/print.glade.h:57
 msgid "_Down, then right"
 msgstr ""
 
-#: src/dialogs/print.glade.h:57
+#: src/dialogs/print.glade.h:58
 #, fuzzy
 msgid "R_ight, then down"
 msgstr "Jobbra zárás"
@@ -1917,7 +1972,7 @@ msgstr "Beszúrás"
 msgid "Inside Horizontal"
 msgstr "Vízszintesen:"
 
-#: src/dialogs/cell-format.glade.h:75 src/workbook.c:1168
+#: src/dialogs/cell-format.glade.h:75 src/workbook.c:1265
 msgid "Line"
 msgstr "Vonal"
 
@@ -2096,8 +2151,7 @@ msgstr ""
 msgid "Sort"
 msgstr "Formá_tum"
 
-#: src/dialogs/cell-sort.glade.h:14 src/plugin-manager.c:143
-#: src/sheet-object.c:978
+#: src/dialogs/cell-sort.glade.h:14 src/sheet-object.c:978
 msgid "Remove"
 msgstr "Eltávolítás"
 
@@ -2177,11 +2231,6 @@ msgstr ""
 msgid "Sheets"
 msgstr "M_unkalap"
 
-#: src/dump.c:31
-#, c-format
-msgid "Can not create file %s\n"
-msgstr ""
-
 #: src/embeddable-grid.c:153
 msgid "Embedded Sheet"
 msgstr ""
@@ -2206,68 +2255,59 @@ msgstr ""
 msgid "Error: no sheet"
 msgstr ""
 
-#: src/expr.c:219
+#: src/expr.c:217
 msgid "Syntax error"
 msgstr "Szintaktikai hiba"
 
-#: src/expr.c:223
+#: src/expr.c:221
 msgid "Missing quote"
 msgstr ""
 
-#: src/expr.c:227
+#: src/expr.c:225
 msgid "Impossible!"
 msgstr ""
 
-#: src/expr.c:477
+#: src/expr.c:437
 #, fuzzy
 msgid "Internal error"
 msgstr "Szintaktikai hiba"
 
-#: src/expr.c:504 src/functions/fn-information.c:572
-#: src/functions/fn-information.c:641 src/functions/fn-information.c:668
-#: src/functions/fn-information.c:694 src/functions/fn-information.c:743
-#: src/functions/fn-information.c:772 src/functions/fn-information.c:837
-#: src/functions/fn-logical.c:191 src/functions/fn-lookup.c:468
-#: src/functions/fn-lookup.c:579 src/functions/fn-string.c:342
-msgid "Invalid number of arguments"
-msgstr "Az argumentumok száma nem megfelelõ"
-
-#: src/expr.c:855
+#: src/expr.c:745
 msgid "Internal type error"
 msgstr ""
 
-#: src/expr.c:993
+#: src/expr.c:897
 msgid "Unknown operator"
 msgstr ""
 
-#: src/expr.c:1129
+#: src/expr.c:1061
 msgid "Unknown evaluation error"
 msgstr ""
 
-#: src/file.c:231
+#: src/file.c:263
 #, c-format
 msgid "Could not read file %s"
 msgstr ""
 
-#: src/file.c:404
+#: src/file.c:439
 #, fuzzy
 msgid "File format:"
 msgstr "Cellaformázás..."
 
-#: src/file.c:458
+#: src/file.c:494
 msgid "Save workbook as"
 msgstr "Munkafüzet mentése másként"
 
-#: src/file.c:502
+#: src/file.c:538
 msgid "Sorry, there are no file savers loaded, I cannot save"
 msgstr ""
 
-#: src/file.c:515 src/file.c:539
+#: src/file.c:552 src/file.c:577
 #, c-format
 msgid "Could not save to file %s"
 msgstr ""
 
-#: src/file.c:550
+#: src/file.c:590
 msgid "Load file"
 msgstr ""
 
@@ -3911,8 +3951,8 @@ msgid ""
 "@FUNCTION=TBILLEQ\n"
 "@SYNTAX=TBILLEQ(settlement,maturity,discount)\n"
 "@DESCRIPTION=TBILLEQ function returns the bond-yield equivalent (BEY) for a "
-"treasury bill.  TBILLEQ is equivalent to (365 x discount) / (360 - discount "
-"x DSM) where DSM is the days between @settlement and @maturity. \n"
+"treasury bill.  TBILLEQ is equivalent to (365 * discount) / (360 - discount "
+"* DSM) where DSM is the days between @settlement and @maturity. \n"
 "If @settlement is after @maturity or the @maturity is set to over one year "
 "later than the @settlement, TBILLEQ returns NUM! error. If @discount is "
 "negative, TBILLEQ returns NUM! error. \n"
@@ -3921,7 +3961,7 @@ msgid ""
 "@SEEALSO=TBILLPRICE,TBILLYIELD"
 msgstr ""
 
-#: src/functions/fn-financial.c:1072
+#: src/functions/fn-financial.c:1076
 msgid ""
 "@FUNCTION=TBILLPRICE\n"
 "@SYNTAX=TBILLPRICE(settlement,maturity,discount)\n"
@@ -3937,7 +3977,7 @@ msgid ""
 "@SEEALSO=TBILLEQ,TBILLYIELD"
 msgstr ""
 
-#: src/functions/fn-financial.c:1113
+#: src/functions/fn-financial.c:1117
 msgid ""
 "@FUNCTION=TBILLYIELD\n"
 "@SYNTAX=TBILLYIELD(settlement,maturity,pr)\n"
@@ -3952,7 +3992,7 @@ msgid ""
 "@SEEALSO=TBILLEQ,TBILLPRICE"
 msgstr ""
 
-#: src/functions/fn-financial.c:1154
+#: src/functions/fn-financial.c:1158
 #, fuzzy
 msgid ""
 "@FUNCTION=RATE\n"
@@ -3967,7 +4007,7 @@ msgstr ""
 "@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
 "@SEEALSO=HOUR"
 
-#: src/functions/fn-financial.c:1258
+#: src/functions/fn-financial.c:1262
 msgid ""
 "@FUNCTION=IRR\n"
 "@SYNTAX=IRR(values[,guess])\n"
@@ -3987,7 +4027,7 @@ msgid ""
 "@SEEALSO=FV,NPV,PV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1339
+#: src/functions/fn-financial.c:1343
 #, fuzzy
 msgid ""
 "@FUNCTION=PV\n"
@@ -4002,12 +4042,12 @@ msgstr ""
 "@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
 "@SEEALSO=HOUR"
 
-#: src/functions/fn-financial.c:1363
+#: src/functions/fn-financial.c:1367
 #, fuzzy
 msgid "pv - domain error"
 msgstr "acos: nincs értelmezve"
 
-#: src/functions/fn-financial.c:1376
+#: src/functions/fn-financial.c:1380
 msgid ""
 "@FUNCTION=NPV\n"
 "@SYNTAX=NPV(rate,v1,v2,...)\n"
@@ -4021,7 +4061,7 @@ msgid ""
 "@SEEALSO=PV,XNPV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1430
+#: src/functions/fn-financial.c:1434
 msgid ""
 "@FUNCTION=XNPV\n"
 "@SYNTAX=XNPV(rate,values,dates)\n"
@@ -4036,7 +4076,7 @@ msgid ""
 "@SEEALSO=NPV,PV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1487
+#: src/functions/fn-financial.c:1491
 msgid ""
 "@FUNCTION=XIRR\n"
 "@SYNTAX=XIRR(values,dates[,guess])\n"
@@ -4059,7 +4099,7 @@ msgid ""
 "@SEEALSO=IRR,XNPV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1591
+#: src/functions/fn-financial.c:1595
 #, fuzzy
 msgid ""
 "@FUNCTION=FV\n"
@@ -4074,7 +4114,7 @@ msgstr ""
 "@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
 "@SEEALSO=HOUR"
 
-#: src/functions/fn-financial.c:1624
+#: src/functions/fn-financial.c:1628
 #, fuzzy
 msgid ""
 "@FUNCTION=PMT\n"
@@ -4089,7 +4129,7 @@ msgstr ""
 "@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
 "@SEEALSO=HOUR"
 
-#: src/functions/fn-financial.c:1658
+#: src/functions/fn-financial.c:1662
 msgid ""
 "@FUNCTION=IPMT\n"
 "@SYNTAX=IPMT(rate,per,nper,pv,fv,type)\n"
@@ -4106,7 +4146,7 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1712
+#: src/functions/fn-financial.c:1716
 msgid ""
 "@FUNCTION=PPMT\n"
 "@SYNTAX=PPMT(rate,per,nper,pv[,fv,type])\n"
@@ -4122,7 +4162,7 @@ msgid ""
 "@SEEALSO=IPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1767
+#: src/functions/fn-financial.c:1771
 #, fuzzy
 msgid ""
 "@FUNCTION=NPER\n"
@@ -4137,7 +4177,7 @@ msgstr ""
 "@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
 "@SEEALSO=HOUR"
 
-#: src/functions/fn-financial.c:1803
+#: src/functions/fn-financial.c:1807
 msgid ""
 "@FUNCTION=DURATION\n"
 "@SYNTAX=DURATION(rate,pv,fv)\n"
@@ -4150,7 +4190,7 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1840
+#: src/functions/fn-financial.c:1844
 msgid ""
 "@FUNCTION=FVSCHEDULE\n"
 "@SYNTAX=FVSCHEDULE(pv,schedule)\n"
@@ -4163,7 +4203,116 @@ msgid ""
 "@SEEALSO=PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1883
+#: src/functions/fn-financial.c:1885
+msgid ""
+"@FUNCTION=EURO\n"
+"@SYNTAX=EURO(currency)\n"
+"@DESCRIPTION=EURO converts one Euro to a given national currency in the "
+"European monetary union.  Currency is one of the following:\n"
+"    ATS     (Austria)\n"
+"    BEF     (Belgium)\n"
+"    DEM     (Germany)\n"
+"    ESP     (Spain)\n"
+"    FIM     (Finland)\n"
+"    FRF     (France)\n"
+"    IEP     (Ireland)\n"
+"    ITL     (Italy)\n"
+"    LUF     (Luxemburg)\n"
+"    NLG     (Netherlands)\n"
+"    PTE     (Portugal)\n"
+"\n"
+"If the given currency is other than one of the above, EURO returns NUM! "
+"error. \n"
+"@EXAMPLES=\n"
+"EURO(\"DEM\") returns 1.95583.\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/functions/fn-financial.c:1967
+msgid ""
+"@FUNCTION=PRICE\n"
+"@SYNTAX=PRICE(settle,mat,rate,yield,redemption_price,frequency,basis)\n"
+"@DESCRIPTION=\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/functions/fn-financial.c:1991
+msgid ""
+"@FUNCTION=YIELD\n"
+"@SYNTAX=YIELD(settle,mat,rate,price,redemption_price,frequency,basis)\n"
+"@DESCRIPTION=\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/functions/fn-financial.c:2009
+msgid ""
+"@FUNCTION=YIELDDISC\n"
+"@SYNTAX=YIELDDISC(settlement,maturity,pr,redemption,basis)\n"
+"@DESCRIPTION=\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/functions/fn-financial.c:2027
+msgid ""
+"@FUNCTION=YIELDMAT\n"
+"@SYNTAX=YIELDMAT(settlement,maturity,issue,rate,pr,basis)\n"
+"@DESCRIPTION=\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/functions/fn-financial.c:2045
+msgid ""
+"@FUNCTION=ODDFPRICE\n"
+"@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,yld,redemption,"
+"frequency,basis)\n"
+"@DESCRIPTION=\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/functions/fn-financial.c:2063
+msgid ""
+"@FUNCTION=ODDFYIELD\n"
+"@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,redemption,f"
+"requency,basis)\n"
+"@DESCRIPTION=\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/functions/fn-financial.c:2081
+msgid ""
+"@FUNCTION=ODDLPRICE\n"
+"@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,frequ"
+"ency,basis)\n"
+"@DESCRIPTION=\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/functions/fn-financial.c:2099
+msgid ""
+"@FUNCTION=ODDLYIELD\n"
+"@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,freque"
+"ncy,basis)\n"
+"@DESCRIPTION=\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/functions/fn-financial.c:2119
 msgid "Financial"
 msgstr ""
 
@@ -4368,7 +4517,16 @@ msgstr ""
 "@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
 "@SEEALSO=HOUR"
 
-#: src/functions/fn-information.c:601
+#: src/func.c:367 src/functions/fn-information.c:572
+#: src/functions/fn-information.c:640 src/functions/fn-information.c:667
+#: src/functions/fn-information.c:693 src/functions/fn-information.c:742
+#: src/functions/fn-information.c:771 src/functions/fn-information.c:836
+#: src/functions/fn-logical.c:191 src/functions/fn-lookup.c:468
+#: src/functions/fn-lookup.c:579 src/functions/fn-string.c:342
+msgid "Invalid number of arguments"
+msgstr "Az argumentumok száma nem megfelelõ"
+
+#: src/functions/fn-information.c:600
 #, fuzzy
 msgid ""
 "@FUNCTION=ISEVEN\n"
@@ -4384,7 +4542,7 @@ msgstr ""
 "@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
 "@SEEALSO=HOUR"
 
-#: src/functions/fn-information.c:622
+#: src/functions/fn-information.c:621
 #, fuzzy
 msgid ""
 "@FUNCTION=ISLOGICAL\n"
@@ -4400,7 +4558,7 @@ msgstr ""
 "@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
 "@SEEALSO=HOUR"
 
-#: src/functions/fn-information.c:651
+#: src/functions/fn-information.c:650
 #, fuzzy
 msgid ""
 "@FUNCTION=ISNONTEXT\n"
@@ -4416,7 +4574,7 @@ msgstr ""
 "@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
 "@SEEALSO=HOUR"
 
-#: src/functions/fn-information.c:677
+#: src/functions/fn-information.c:676
 #, fuzzy
 msgid ""
 "@FUNCTION=ISNUMBER\n"
@@ -4432,7 +4590,7 @@ msgstr ""
 "@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
 "@SEEALSO=HOUR"
 
-#: src/functions/fn-information.c:703
+#: src/functions/fn-information.c:702
 #, fuzzy
 msgid ""
 "@FUNCTION=ISODD\n"
@@ -4448,7 +4606,7 @@ msgstr ""
 "@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
 "@SEEALSO=HOUR"
 
-#: src/functions/fn-information.c:724
+#: src/functions/fn-information.c:723
 #, fuzzy
 msgid ""
 "@FUNCTION=ISREF\n"
@@ -4464,7 +4622,7 @@ msgstr ""
 "@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
 "@SEEALSO=HOUR"
 
-#: src/functions/fn-information.c:755
+#: src/functions/fn-information.c:754
 #, fuzzy
 msgid ""
 "@FUNCTION=ISTEXT\n"
@@ -4480,7 +4638,7 @@ msgstr ""
 "@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
 "@SEEALSO=HOUR"
 
-#: src/functions/fn-information.c:781
+#: src/functions/fn-information.c:780
 #, fuzzy
 msgid ""
 "@FUNCTION=N\n"
@@ -4496,7 +4654,7 @@ msgstr ""
 "@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
 "@SEEALSO=HOUR"
 
-#: src/functions/fn-information.c:820
+#: src/functions/fn-information.c:819
 #, fuzzy
 msgid ""
 "@FUNCTION=TYPE\n"
@@ -4513,7 +4671,7 @@ msgstr ""
 "A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk.\n"
 "@SEEALSO=EXP, LOG2, LOG10"
 
-#: src/functions/fn-information.c:847
+#: src/functions/fn-information.c:846
 #, fuzzy
 msgid "Information"
 msgstr "Tört"
@@ -4722,7 +4880,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-lookup.c:703
+#: src/functions/fn-lookup.c:708
 msgid ""
 "@FUNCTION=INDEX\n"
 "@SYNTAX=INDEX(reference, [row, col, area])\n"
@@ -4734,7 +4892,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-lookup.c:754
+#: src/functions/fn-lookup.c:759
 #, fuzzy
 msgid ""
 "@FUNCTION=COLUMN\n"
@@ -4753,7 +4911,7 @@ msgstr ""
 "január 1.-tõl eltelt napokat jelzi.\n"
 "@SEEALSO=TODAY, NOW"
 
-#: src/functions/fn-lookup.c:807
+#: src/functions/fn-lookup.c:812
 #, fuzzy
 msgid ""
 "@FUNCTION=COLUMNS\n"
@@ -4772,7 +4930,7 @@ msgstr ""
 "január 1.-tõl eltelt napokat jelzi.\n"
 "@SEEALSO=TODAY, NOW"
 
-#: src/functions/fn-lookup.c:832
+#: src/functions/fn-lookup.c:837
 msgid ""
 "@FUNCTION=OFFSET\n"
 "@SYNTAX=OFFSET(range,row,col,height,width)\n"
@@ -4786,7 +4944,7 @@ msgid ""
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 msgstr ""
 
-#: src/functions/fn-lookup.c:895
+#: src/functions/fn-lookup.c:900
 #, fuzzy
 msgid ""
 "@FUNCTION=ROW\n"
@@ -4805,7 +4963,7 @@ msgstr ""
 "január 1.-tõl eltelt napokat jelzi.\n"
 "@SEEALSO=TODAY, NOW"
 
-#: src/functions/fn-lookup.c:948
+#: src/functions/fn-lookup.c:953
 #, fuzzy
 msgid ""
 "@FUNCTION=ROWS\n"
@@ -4824,7 +4982,7 @@ msgstr ""
 "január 1.-tõl eltelt napokat jelzi.\n"
 "@SEEALSO=TODAY, NOW"
 
-#: src/functions/fn-lookup.c:973
+#: src/functions/fn-lookup.c:978
 #, fuzzy
 msgid ""
 "@FUNCTION=HYPERLINK\n"
@@ -4844,7 +5002,7 @@ msgstr ""
 "függvénynek nem lehet argumentuma.\n"
 "@SEEALSO="
 
-#: src/functions/fn-lookup.c:998
+#: src/functions/fn-lookup.c:1003
 #, fuzzy
 msgid ""
 "@FUNCTION=TRANSPOSE\n"
@@ -4862,7 +5020,7 @@ msgstr ""
 "függvénynek nem lehet argumentuma.\n"
 "@SEEALSO="
 
-#: src/functions/fn-lookup.c:1048
+#: src/functions/fn-lookup.c:1053
 msgid "Data / Lookup"
 msgstr ""
 
@@ -7413,7 +7571,7 @@ msgid ""
 "@SEEALSO=LOGEST,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:3923
+#: src/functions/fn-stat.c:4047
 msgid ""
 "@FUNCTION=TREND\n"
 "@SYNTAX=TREND(known_y's[,known_x's],new_x's])\n"
@@ -7434,7 +7592,7 @@ msgid ""
 "@SEEALSO=LINEST"
 msgstr ""
 
-#: src/functions/fn-stat.c:4035
+#: src/functions/fn-stat.c:4159
 msgid ""
 "@FUNCTION=LOGEST\n"
 "@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])\n"
@@ -7460,7 +7618,7 @@ msgid ""
 "@SEEALSO=LOGEST,GROWTH,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4165
+#: src/functions/fn-stat.c:4401
 msgid ""
 "@FUNCTION=GROWTH\n"
 "@SYNTAX=GROWTH(known_y's[,known_x's,new_x's,const])\n"
@@ -7480,7 +7638,7 @@ msgid ""
 "@SEEALSO=LOGEST,GROWTH,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4279
+#: src/functions/fn-stat.c:4515
 msgid ""
 "@FUNCTION=FORECAST\n"
 "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
@@ -7499,7 +7657,7 @@ msgid ""
 "@SEEALSO=INTERCEPT,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4350
+#: src/functions/fn-stat.c:4586
 msgid ""
 "@FUNCTION=INTERCEPT\n"
 "@SYNTAX=INTERCEPT(known_y's,known_x's)\n"
@@ -7517,7 +7675,7 @@ msgid ""
 "@SEEALSO=FORECAST,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4399
+#: src/functions/fn-stat.c:4635
 msgid ""
 "@FUNCTION=SLOPE\n"
 "@SYNTAX=SLOPE(known_y's,known_x's)\n"
@@ -7532,7 +7690,7 @@ msgid ""
 "@SEEALSO=STDEV,STDEVPA"
 msgstr ""
 
-#: src/functions/fn-stat.c:4444
+#: src/functions/fn-stat.c:4680
 msgid "Statistics"
 msgstr ""
 
@@ -8245,166 +8403,181 @@ msgstr ""
 msgid "[Red]"
 msgstr ""
 
-#: src/func.c:422
+#. TODO : Say which argument is empty to improve error messages
+#: src/func.c:153
+#, fuzzy
+msgid "Missing argument"
+msgstr "Az argumentumok száma nem megfelelõ"
+
+#: src/func.c:715
 msgid "Function does not exist"
 msgstr ""
 
-#: src/func.c:424
+#: src/func.c:717
 msgid "Calling non-function"
+msgstr ""
+
+#: src/func.c:769
+#, c-format
+msgid "Can not create file %s\n"
 msgstr ""
 
 #: src/gnumeric-util.c:20
 msgid "You cannot change part of an array."
 msgstr ""
 
-#: src/item-bar.c:462
+#: src/item-bar.c:443
 #, c-format
 msgid "Height: %.2f"
 msgstr ""
 
-#: src/item-bar.c:465
+#: src/item-bar.c:446
 #, c-format
 msgid "Width: %.2f"
 msgstr ""
 
-#: src/item-cursor.c:578
+#: src/item-cursor.c:579
 msgid ""
 "The cells dragged will overwrite the contents of the\n"
 "existing cells in that range.  Do you want me to replace\n"
 "the contents in this region?"
 msgstr ""
 
-#: src/item-cursor.c:659 src/workbook.c:1140
+#: src/item-cursor.c:665 src/workbook.c:1237
 msgid "Copy"
 msgstr "Másolás"
 
-#: src/item-cursor.c:660 src/print-preview.c:538
+#: src/item-cursor.c:666 src/print-preview.c:538
 msgid "Move"
 msgstr "Áthelyezés"
 
-#: src/item-cursor.c:661
+#: src/item-cursor.c:667
 msgid "Copy formats"
 msgstr "Csak formátum másolása ide"
 
-#: src/item-cursor.c:662
+#: src/item-cursor.c:668
 msgid "Copy values"
 msgstr "Csak érték másolása ide"
 
-#: src/item-cursor.c:663
+#: src/item-cursor.c:669
 msgid "Shift cells down and copy"
 msgstr "Lefelé tolás és másolás"
 
-#: src/item-cursor.c:664
+#: src/item-cursor.c:670
 msgid "Shift cells right and copy"
 msgstr "Jobbra tolás és másolás"
 
-#: src/item-cursor.c:665
+#: src/item-cursor.c:671
 msgid "Shift cells down and move"
 msgstr "Lefelé tolás és áthelyezés"
 
-#: src/item-cursor.c:666
+#: src/item-cursor.c:672
 msgid "Shift cells right and move"
 msgstr "Jobbra tolás és áthelyezés"
 
-#: src/item-grid.c:640
+#: src/item-grid.c:641
 #, fuzzy
 msgid "Cu_t"
 msgstr "Kivágás"
 
-#: src/item-grid.c:642
+#: src/item-grid.c:643
 #, fuzzy
 msgid "_Copy"
 msgstr "Másolás"
 
-#: src/item-grid.c:644
+#: src/item-grid.c:645
 #, fuzzy
 msgid "_Paste"
 msgstr "Beillesztés"
 
-#: src/item-grid.c:646
+#: src/item-grid.c:647
 #, fuzzy
 msgid "Paste _Special"
 msgstr "Irányított beillesztés"
 
-#: src/item-grid.c:651
+#: src/item-grid.c:652
 #, fuzzy
 msgid "_Insert..."
 msgstr "_Beszúrás"
 
-#: src/item-grid.c:653 src/workbook.c:972
+#: src/item-grid.c:654 src/workbook.c:1071
 #, fuzzy
 msgid "_Delete..."
 msgstr "Törlés"
 
-#: src/item-grid.c:655
+#: src/item-grid.c:656
 #, fuzzy
 msgid "Clear Co_ntents"
 msgstr "_Képletet"
 
-#: src/item-grid.c:660
+#: src/item-grid.c:661
 #, fuzzy
 msgid "_Format Cells..."
 msgstr "_Cellák..."
 
 #. Column specific functions
-#: src/item-grid.c:664
+#: src/item-grid.c:665
 #, fuzzy
 msgid "Column _Width..."
 msgstr "_Oszlop"
 
-#: src/item-grid.c:666 src/item-grid.c:674
+#: src/item-grid.c:667 src/item-grid.c:675
 #, fuzzy
 msgid "_Hide"
 msgstr "_Nézet"
 
-#: src/item-grid.c:668 src/item-grid.c:676
+#: src/item-grid.c:669 src/item-grid.c:677
 msgid "_Unhide"
 msgstr ""
 
 #. Row specific functions (Note some of the labels are duplicated
-#: src/item-grid.c:672
+#: src/item-grid.c:673
 #, fuzzy
 msgid "_Row Height..."
 msgstr "Jobbra"
 
-#: src/main.c:48
+#: src/main.c:50
 msgid "Dumps the function definitions"
 msgstr ""
 
-#: src/main.c:48
+#: src/main.c:50
 msgid "FILE"
 msgstr "FÁJL"
 
-#: src/main.c:50
+#: src/main.c:52
 msgid "Enables some debugging functions"
 msgstr ""
 
-#: src/main.c:50 src/main.c:52 src/main.c:57 src/main.c:61 src/main.c:65
-#: src/main.c:69 src/main.c:73 src/main.c:77
+#: src/main.c:52 src/main.c:54 src/main.c:61 src/main.c:65 src/main.c:69
+#: src/main.c:73 src/main.c:77
 msgid "LEVEL"
 msgstr ""
 
-#: src/main.c:52
+#: src/main.c:54
 msgid "Enables some style related debugging functions"
 msgstr ""
 
-#: src/main.c:56 src/main.c:72
+#: src/main.c:56
+msgid "Exit immediately after loading the selected books (useful for testing)."
+msgstr ""
+
+#: src/main.c:60 src/main.c:76
 msgid "Enables debugging mesgs while reading excel workbooks"
 msgstr ""
 
-#: src/main.c:60
+#: src/main.c:64
 msgid "Enables debugging mesgs while reading excel functions"
 msgstr ""
 
-#: src/main.c:64
+#: src/main.c:68
 msgid "Enables debugging mesgs while reading excel colours & patterns"
 msgstr ""
 
-#: src/main.c:68
+#: src/main.c:72
 msgid "Enables debugging mesgs while reading excel charts"
 msgstr ""
 
-#: src/main.c:76
+#: src/main.c:80
 msgid "Enables extra consistancy checking while reading ole files"
 msgstr ""
 
@@ -8412,40 +8585,39 @@ msgstr ""
 msgid "(([-+]?[0-9,]+)?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
 msgstr ""
 
-#: src/plugin-manager.c:105 src/plugin-manager.c:106
+#: src/plugin-manager.c:107 src/plugin-manager.c:108
 msgid "Name"
 msgstr "Név"
 
-#: src/plugin-manager.c:105 src/plugin-manager.c:106
+#: src/plugin-manager.c:107 src/plugin-manager.c:108
 msgid "File"
 msgstr "Fájl"
 
-#: src/plugin-manager.c:137
-msgid "Close"
-msgstr "Mégse"
+#: src/plugin.c:39
+#, c-format
+msgid ""
+"Unable to open plugin '%s'\n"
+"Plugin version '%s' is different from application '%s'."
+msgstr ""
 
-#: src/plugin-manager.c:140
-msgid "Add..."
-msgstr "Hozzáadás..."
-
-#: src/plugin.c:41
+#: src/plugin.c:70
 msgid "unable to open module file: "
 msgstr ""
 
-#: src/plugin.c:52
+#: src/plugin.c:80
 msgid "Plugin must contain init_plugin function."
 msgstr ""
 
-#: src/plugin.c:58
+#: src/plugin.c:89
 msgid "init_plugin returned error"
 msgstr "Az init_plugin függvény hibát jelez!"
 
-#: src/plugin.c:78
+#: src/plugin.c:110
 msgid "Plugin is still in use.\n"
 msgstr ""
 
 #: src/print-info.c:20 src/print-info.c:23 src/print-info.c:24
-#: src/print-info.c:269
+#: src/print-info.c:277
 msgid "Page &[PAGE]"
 msgstr ""
 
@@ -8462,72 +8634,72 @@ msgstr ""
 msgid "&[DATE]"
 msgstr ""
 
-#: src/print-info.c:268
+#: src/print-info.c:276
 #, fuzzy
 msgid "Sheet &[PAGE]"
 msgstr "M_unkalap"
 
-#: src/print-info.c:419
+#: src/print-info.c:439
 #, fuzzy
 msgid "pts"
 msgstr "Mûvelet"
 
-#: src/print-info.c:419
+#: src/print-info.c:439
 #, fuzzy
 msgid "points"
 msgstr "Mûvelet"
 
-#: src/print-info.c:420
+#: src/print-info.c:440
 #, fuzzy
 msgid "mm"
 msgstr "mm-d"
 
-#: src/print-info.c:420
+#: src/print-info.c:440
 msgid "millimeter"
 msgstr ""
 
-#: src/print-info.c:421
+#: src/print-info.c:441
 msgid "cm"
 msgstr ""
 
-#: src/print-info.c:421
+#: src/print-info.c:441
 #, fuzzy
 msgid "centimeter"
 msgstr "Középre"
 
-#: src/print-info.c:422
+#: src/print-info.c:442
 msgid "In"
 msgstr ""
 
-#: src/print-info.c:422
+#: src/print-info.c:442
 msgid "inch"
 msgstr ""
 
-#: src/print-info.c:482
+#: src/print-info.c:502
 #, fuzzy
 msgid "Sheet 1"
 msgstr "M_unkalap"
 
-#: src/print-info.c:540
+#: src/print-info.c:560
 msgid "tab"
 msgstr ""
 
-#: src/print-info.c:541
+#: src/print-info.c:561
 #, fuzzy
 msgid "page"
 msgstr "Beillesztés"
 
-#: src/print-info.c:542
+#: src/print-info.c:562
 #, fuzzy
 msgid "pages"
 msgstr "Beillesztés"
 
-#: src/print-info.c:543
+#: src/print-info.c:563
 #, fuzzy
 msgid "date"
 msgstr "Dátum"
 
-#: src/print-info.c:544
+#: src/print-info.c:564
 #, fuzzy
 msgid "time"
 msgstr "Idõ"
@@ -8613,7 +8785,7 @@ msgstr "Szöveg"
 msgid "Last"
 msgstr "Beillesztés"
 
-#: src/print-preview.c:539 src/workbook.c:2180
+#: src/print-preview.c:539 src/workbook.c:2276
 msgid "Zoom in"
 msgstr "Nagyítás"
 
@@ -8622,7 +8794,7 @@ msgstr "Nagyítás"
 msgid "Zooms the page in"
 msgstr "Nagyítás"
 
-#: src/print-preview.c:540 src/workbook.c:2173
+#: src/print-preview.c:540 src/workbook.c:2269
 msgid "Zoom out"
 msgstr "Kicsinyítés"
 
@@ -8645,34 +8817,39 @@ msgstr ""
 msgid "the workbook"
 msgstr "Munkafüzet mentése"
 
-#: src/print.c:623
+#: src/print.c:515 src/workbook.c:1602
+msgid "Selection must be a single range"
+msgstr ""
+
+#: src/print.c:631
 msgid "Printing failed -- bad filename?"
 msgstr ""
 
-#: src/selection.c:144
+#: src/selection.c:150
 msgid "The command `"
 msgstr ""
 
-#: src/selection.c:146
+#: src/selection.c:152
 msgid "' cannot be performed with multiple selections"
 msgstr ""
 
-#: src/selection.c:594
+#. FIXME FIXME : disable copying part of an array
+#: src/selection.c:602
 #, fuzzy
 msgid "copy"
 msgstr "Másolás"
 
-#: src/selection.c:625
+#: src/selection.c:633
 #, fuzzy
 msgid "cut"
 msgstr "Kivágás"
 
-#: src/selection.c:665
+#: src/selection.c:680
 #, fuzzy
 msgid "paste"
 msgstr "Beillesztés"
 
-#: src/selection.c:688
+#: src/selection.c:703
 #, c-format
 msgid ""
 "The area can not be pasted into the selection because it\n"
@@ -8681,12 +8858,12 @@ msgid ""
 "Try selecting a single cell or an area of the same shape and size."
 msgstr ""
 
-#: src/sheet-object.c:359 src/workbook.c:1158
+#: src/sheet-object.c:359 src/workbook.c:1255
 #, fuzzy
 msgid "Button"
 msgstr "Lent"
 
-#: src/sheet-object.c:728 src/workbook.c:899
+#: src/sheet-object.c:728 src/workbook.c:995
 #, fuzzy
 msgid "Select an object"
 msgstr "Vonalrajzolás"
@@ -8701,21 +8878,21 @@ msgstr "Sor: %d"
 msgid "Column: %s"
 msgstr "Oszlop: %s"
 
-#: src/sheet.c:1005
+#: src/sheet.c:1190
 #, fuzzy
 msgid "Internal ERROR"
 msgstr "Szintaktikai hiba"
 
-#: src/sheet.c:3001
+#: src/sheet.c:3146
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr ""
 
-#: src/sheet.c:3013
+#: src/sheet.c:3158
 msgid "I was unable to the bind object"
 msgstr ""
 
-#: src/style.c:406
+#: src/style.c:428
 msgid ""
 "Gnumeric failed to find a suitable default font.\n"
 "\n"
@@ -8875,466 +9052,471 @@ msgstr ""
 msgid "Foreground"
 msgstr ""
 
-#: src/workbook.c:436
+#: src/workbook.c:537
 msgid "Warning"
 msgstr ""
 
-#: src/workbook.c:445
+#: src/workbook.c:546
 #, c-format
 msgid "Workbook %s has unsaved changes, save them?"
 msgstr ""
 
-#: src/workbook.c:448
+#: src/workbook.c:549
 msgid "Workbook has unsaved changes, save them?"
 msgstr ""
 
-#: src/workbook.c:679
+#: src/workbook.c:766
 #, fuzzy
 msgid "Insert cols"
 msgstr "Beszúrás"
 
-#: src/workbook.c:699
+#: src/workbook.c:791
 msgid "Insert rows"
 msgstr "Sorok beszúrása"
 
-#: src/workbook.c:794
+#: src/workbook.c:892
 msgid ">mm/dd/yyyy"
 msgstr ">yyyy/mm/dd"
 
-#: src/workbook.c:813
+#: src/workbook.c:911
 msgid ">hh:mm"
 msgstr ""
 
-#: src/workbook.c:908
+#: src/workbook.c:1004
 msgid "_New"
 msgstr "Új dok_umentum"
 
-#: src/workbook.c:908
+#: src/workbook.c:1004
 #, fuzzy
 msgid "Create a new spreadsheet"
 msgstr "Új munkalap"
 
-#: src/workbook.c:912
+#: src/workbook.c:1008
 #, fuzzy
 msgid "_Import..."
 msgstr "Formá_tum"
 
-#: src/workbook.c:912
+#: src/workbook.c:1008
 msgid "Imports a file"
 msgstr ""
 
-#: src/workbook.c:918
+#: src/workbook.c:1014
 msgid "Su_mmary..."
 msgstr ""
 
-#: src/workbook.c:918
+#: src/workbook.c:1014
 msgid "Summary information"
 msgstr ""
 
-#: src/workbook.c:923
+#: src/workbook.c:1019
 msgid "Plu_g-ins..."
 msgstr ""
 
-#: src/workbook.c:923
+#: src/workbook.c:1019
 #, fuzzy
 msgid "Gnumeric plugins"
 msgstr "Függõleges vonalas"
 
-#: src/workbook.c:930 src/workbook.c:1131
+#: src/workbook.c:1026 src/workbook.c:1228
 msgid "Print pre_view"
 msgstr ""
 
-#: src/workbook.c:930 src/workbook.c:1131
+#: src/workbook.c:1026 src/workbook.c:1228
 msgid "Print preview"
 msgstr ""
 
-#: src/workbook.c:946
+#: src/workbook.c:1042
 msgid "_All"
 msgstr "Min_dent"
 
-#: src/workbook.c:947
+#: src/workbook.c:1043
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr ""
 
-#: src/workbook.c:949
+#: src/workbook.c:1045
 msgid "_Formats"
 msgstr "_Formátumot"
 
-#: src/workbook.c:950
+#: src/workbook.c:1046
 msgid "Clear the selected cells' formats"
 msgstr ""
 
-#: src/workbook.c:953
+#: src/workbook.c:1049
 #, fuzzy
 msgid "Clear the selected cells' comments"
 msgstr "Középre zárás"
 
-#: src/workbook.c:955
+#: src/workbook.c:1051
 msgid "_Content"
 msgstr "_Képletet"
 
-#: src/workbook.c:956
+#: src/workbook.c:1052
 #, fuzzy
 msgid "Clear the selected cells' contents"
 msgstr "Középre zárás"
 
-#: src/workbook.c:970
-#, fuzzy
-msgid "P_aste special..."
-msgstr "Irányított beillesztés..."
-
-#: src/workbook.c:974
+#: src/workbook.c:1073
 msgid "C_lear"
 msgstr "_Törlés"
 
-#: src/workbook.c:975
+#: src/workbook.c:1074
 msgid "Clear the selected cell(s)"
 msgstr ""
 
-#: src/workbook.c:979
+#: src/workbook.c:1078
 msgid "_Select All"
 msgstr "Mindent kijelöl"
 
-#: src/workbook.c:980
+#: src/workbook.c:1079
 msgid "Select all cells in the spreadsheet"
 msgstr ""
 
-#: src/workbook.c:982
+#: src/workbook.c:1081
 #, fuzzy
 msgid "_Goto cell..."
 msgstr "_Ugrás..."
 
-#: src/workbook.c:983
+#: src/workbook.c:1082
 msgid "Jump to a specified cell"
 msgstr ""
 
-#: src/workbook.c:989
+#: src/workbook.c:1088
 msgid "Insert object..."
 msgstr ""
 
-#: src/workbook.c:990
+#: src/workbook.c:1089
 #, fuzzy
 msgid "Inserts a Bonobo object"
 msgstr "Vonalrajzolás"
 
-#: src/workbook.c:994
+#: src/workbook.c:1093
 #, fuzzy
 msgid "_Define cell names"
 msgstr "Törlés"
 
-#: src/workbook.c:997
+#: src/workbook.c:1096
 #, fuzzy
 msgid "_Recalculate"
 msgstr "Újraszámolás"
 
-#: src/workbook.c:998
+#: src/workbook.c:1097
 msgid "Recalculate the spreadsheet"
 msgstr ""
 
-#: src/workbook.c:1006
+#: src/workbook.c:1105
 msgid "_Zoom..."
 msgstr "_Nagyítás..."
 
-#: src/workbook.c:1007
+#: src/workbook.c:1106
 msgid "Zoom the spreadsheet in or out"
 msgstr ""
 
-#: src/workbook.c:1014
+#: src/workbook.c:1113
 #, fuzzy
 msgid "Current _date"
 msgstr "Jelenlegi dátum"
 
-#: src/workbook.c:1015
+#: src/workbook.c:1114
 msgid "Insert the current date into the selected cell(s)"
 msgstr ""
 
-#: src/workbook.c:1018
+#: src/workbook.c:1117
 #, fuzzy
 msgid "Current _time"
 msgstr "Jelenlegi idõ"
 
-#: src/workbook.c:1019
+#: src/workbook.c:1118
 msgid "Insert the current time into the selected cell(s)"
 msgstr ""
 
-#: src/workbook.c:1026 src/workbook.c:1074
+#: src/workbook.c:1125 src/workbook.c:1173
 msgid "_Sheet"
 msgstr "M_unkalap"
 
-#: src/workbook.c:1026
+#: src/workbook.c:1125
 #, fuzzy
 msgid "Insert a new spreadsheet"
 msgstr "Új munkalap"
 
-#: src/workbook.c:1028 src/workbook.c:1069
+#: src/workbook.c:1127 src/workbook.c:1168
 msgid "_Cells..."
 msgstr "_Cellák..."
 
-#: src/workbook.c:1028
+#: src/workbook.c:1127
 #, fuzzy
 msgid "Insert new cells"
 msgstr "Beszúrás"
 
-#: src/workbook.c:1030
+#: src/workbook.c:1129
 msgid "_Rows"
 msgstr "_Sorok"
 
-#: src/workbook.c:1030
+#: src/workbook.c:1129
 #, fuzzy
 msgid "Insert new rows"
 msgstr "Sorok beszúrása"
 
-#: src/workbook.c:1032
+#: src/workbook.c:1131
 msgid "C_olumns"
 msgstr "Os_zlopok"
 
-#: src/workbook.c:1032
+#: src/workbook.c:1131
 #, fuzzy
 msgid "Insert new columns"
 msgstr "Egész oszlopot szúr be"
 
-#: src/workbook.c:1037
+#: src/workbook.c:1136
 msgid "_Add/modify comment..."
 msgstr ""
 
-#: src/workbook.c:1038
+#: src/workbook.c:1137
 msgid "Edit the selected cell's comment"
 msgstr ""
 
-#: src/workbook.c:1039
+#: src/workbook.c:1138
 #, fuzzy
 msgid "S_pecial"
 msgstr "Speciális"
 
-#: src/workbook.c:1047 src/workbook.c:1055
+#: src/workbook.c:1146 src/workbook.c:1154
 #, fuzzy
 msgid "_Auto fit selection"
 msgstr "Balra zárás"
 
-#: src/workbook.c:1049
+#: src/workbook.c:1148
 msgid "_Width"
 msgstr ""
 
-#: src/workbook.c:1057
+#: src/workbook.c:1156
 msgid "_Height"
 msgstr ""
 
-#: src/workbook.c:1063
+#: src/workbook.c:1162
 msgid "_Change name"
 msgstr ""
 
-#: src/workbook.c:1070
+#: src/workbook.c:1169
 msgid "Modify the formatting of the selected cells"
 msgstr ""
 
-#: src/workbook.c:1072
+#: src/workbook.c:1171
 msgid "C_olumn"
 msgstr "_Oszlop"
 
-#: src/workbook.c:1073
+#: src/workbook.c:1172
 msgid "_Row"
 msgstr "So_r"
 
-#: src/workbook.c:1081
+#: src/workbook.c:1180
 #, fuzzy
 msgid "_Sort..."
 msgstr "Formá_tum"
 
-#: src/workbook.c:1082
+#: src/workbook.c:1181
 #, fuzzy
 msgid "Sort the selected cells"
 msgstr "Középre zárás"
 
-#: src/workbook.c:1083
+#: src/workbook.c:1182
 msgid "_Goal Seek..."
 msgstr ""
 
-#: src/workbook.c:1085
+#: src/workbook.c:1183
 msgid "_Solver..."
 msgstr ""
 
-#: src/workbook.c:1087
+#: src/workbook.c:1184
 msgid "_Data Analysis..."
 msgstr ""
 
-#: src/workbook.c:1103
+#: src/workbook.c:1200
 msgid "_Insert"
 msgstr "_Beszúrás"
 
-#: src/workbook.c:1104
+#: src/workbook.c:1201
 msgid "F_ormat"
 msgstr "Formá_tum"
 
-#: src/workbook.c:1105
+#: src/workbook.c:1202
 msgid "_Tools"
 msgstr ""
 
-#: src/workbook.c:1116
+#: src/workbook.c:1213
 msgid "New"
 msgstr "Új"
 
-#: src/workbook.c:1116
+#: src/workbook.c:1213
 #, fuzzy
 msgid "Creates a new sheet"
 msgstr "Új munkalap"
 
-#: src/workbook.c:1119
+#: src/workbook.c:1216
 msgid "Open"
 msgstr "Megnyitás"
 
-#: src/workbook.c:1119
+#: src/workbook.c:1216
 msgid "Opens an existing workbook"
 msgstr "Egy létezõ munkafüzet megnyitása"
 
-#: src/workbook.c:1122
+#: src/workbook.c:1219
 msgid "Save"
 msgstr "Mentés"
 
-#: src/workbook.c:1122
+#: src/workbook.c:1219
 msgid "Saves the workbook"
 msgstr "Munkafüzet mentése"
 
-#: src/workbook.c:1128
+#: src/workbook.c:1225
 #, fuzzy
 msgid "Prints the workbook"
 msgstr "Munkafüzet mentése"
 
-#: src/workbook.c:1137
+#: src/workbook.c:1234
 msgid "Cut"
 msgstr "Kivágás"
 
-#: src/workbook.c:1137
+#: src/workbook.c:1234
 msgid "Cuts the selection to the clipboard"
 msgstr "Kivágás"
 
-#: src/workbook.c:1140
+#: src/workbook.c:1237
 msgid "Copies the selection to the clipboard"
 msgstr "Másolás"
 
-#: src/workbook.c:1143
+#: src/workbook.c:1240
 msgid "Paste"
 msgstr "Beillesztés"
 
-#: src/workbook.c:1143
+#: src/workbook.c:1240
 msgid "Pastes the clipboard"
 msgstr "Beillesztés"
 
-#: src/workbook.c:1150
+#: src/workbook.c:1247
 msgid "Graphic"
 msgstr ""
 
-#: src/workbook.c:1150
+#: src/workbook.c:1247
 #, fuzzy
 msgid "Creates a graphic in the spreadsheet"
 msgstr "Új munkalap"
 
-#: src/workbook.c:1153
+#: src/workbook.c:1250
 msgid "Bonobo Item"
 msgstr ""
 
-#: src/workbook.c:1153
+#: src/workbook.c:1250
 #, fuzzy
 msgid "Creates a Bonobo shaped item"
 msgstr "Új munkalap"
 
-#: src/workbook.c:1158
+#: src/workbook.c:1255
 #, fuzzy
 msgid "Creates a button"
 msgstr "Vonalrajzolás"
 
-#: src/workbook.c:1161
+#: src/workbook.c:1258
 msgid "Checkbox"
 msgstr ""
 
-#: src/workbook.c:1161
+#: src/workbook.c:1258
 #, fuzzy
 msgid "Creates a checkbox"
 msgstr "Új munkalap"
 
-#: src/workbook.c:1168
+#: src/workbook.c:1265
 msgid "Creates a line object"
 msgstr "Vonalrajzolás"
 
-#: src/workbook.c:1171
+#: src/workbook.c:1268
 msgid "Arrow"
 msgstr "Nyíl"
 
-#: src/workbook.c:1171
+#: src/workbook.c:1268
 msgid "Creates an arrow object"
 msgstr "Nyílrajzolás"
 
-#: src/workbook.c:1174
+#: src/workbook.c:1271
 msgid "Rectangle"
 msgstr "Téglalap"
 
-#: src/workbook.c:1174
+#: src/workbook.c:1271
 msgid "Creates a rectangle object"
 msgstr "Téglalaprajzolás"
 
-#: src/workbook.c:1177
+#: src/workbook.c:1274
 msgid "Ellipse"
 msgstr "Ellipszis"
 
-#: src/workbook.c:1177
+#: src/workbook.c:1274
 msgid "Creates an ellipse object"
 msgstr "Ellipszisrajzolás"
 
-#: src/workbook.c:1395
+#: src/workbook.c:1496
 msgid "You should introduce a valid cell name"
 msgstr "A beírt szöveg nem érvényes hivatkozás vagy létezõ név"
 
-#: src/workbook.c:1404
+#: src/workbook.c:1505
 msgid "Column out of range"
 msgstr "Tartományon kívüli oszlophivatkozás"
 
-#: src/workbook.c:1410
+#: src/workbook.c:1511
 msgid "Row number out of range"
 msgstr "Tartományon kívüli sorhivatkozás"
 
-#: src/workbook.c:1615
+#: src/workbook.c:1716
 msgid "Sum"
 msgstr "Összeg"
 
-#: src/workbook.c:1618
+#: src/workbook.c:1719
 msgid "Average"
 msgstr "Átlag"
 
-#: src/workbook.c:1619
+#: src/workbook.c:1720
 msgid "Count"
 msgstr "Darabszám"
 
-#: src/workbook.c:2054
+#: src/workbook.c:2154
 #, fuzzy, c-format
 msgid "Book%d.gnumeric"
 msgstr "Névtelen.gnumeric"
 
-#: src/workbook.c:2304
+#: src/workbook.c:2400
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr ""
 
-#: src/workbook.c:2353
+#: src/workbook.c:2449
 msgid "Add another sheet"
 msgstr ""
 
-#: src/workbook.c:2354
+#: src/workbook.c:2450
 msgid "Remove this sheet"
 msgstr ""
 
-#: src/workbook.c:2622 src/workbook.c:2655
+#: src/workbook.c:2718 src/workbook.c:2751
 #, fuzzy, c-format
 msgid "Sheet%d"
 msgstr "Munka%d"
 
-#: src/workbook.c:2691
+#: src/workbook.c:2787
 #, fuzzy
 msgid "Gnumeric: "
 msgstr "Függõleges vonalas"
 
-#: src/xml-io.c:2344
+#: src/xml-io.c:2378
 #, fuzzy
 msgid "Gnumeric XML file format"
 msgstr "Függõleges vonalas"
+
+#~ msgid "Close"
+#~ msgstr "Mégse"
+
+#~ msgid "Add..."
+#~ msgstr "Hozzáadás..."
+
+#, fuzzy
+#~ msgid "P_aste special..."
+#~ msgstr "Irányított beillesztés..."
 
 #, fuzzy
 #~ msgid "Column:"
