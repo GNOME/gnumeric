@@ -150,6 +150,13 @@ workbook_read (const char *filename)
 	oldlocale = g_strdup (setlocale (LC_NUMERIC, NULL));
 	setlocale (LC_NUMERIC, "C");
 
+	if (!g_file_exists (filename)){
+		w = workbook_new ();
+		workbook_set_filename (w, filename);
+
+		return w;
+	}
+	
 	for (l = gnumeric_file_openers; l; l = l->next){
 		const FileOpener *fo = l->data;
 

@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 1999-08-03 00:23-0500\n"
+"POT-Creation-Date: 1999-08-03 08:17-0500\n"
 "PO-Revision-Date: 1999-04-19 14:42-0600\n"
 "Last-Translator: Valek Filippov <val@comptek.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -658,25 +658,25 @@ msgstr "#Ссылка на удаленную ячейку!"
 msgid "#Reference to deleted range!"
 msgstr "#Ссылка на удаленную область!"
 
-#: src/file.c:171
+#: src/file.c:178
 #, c-format
 msgid "Could not read file %s"
 msgstr "Невозможно считать файл %s"
 
-#: src/file.c:332
+#: src/file.c:339
 msgid "File format:"
 msgstr "Формат файла:"
 
-#: src/file.c:376
+#: src/file.c:383
 msgid "Save workbook as"
 msgstr "Сохранить книгу как..."
 
-#: src/file.c:415
+#: src/file.c:422
 msgid "Sorry, there are no file savers loaded, I cannot save"
 msgstr ""
 "К сожалению, модуль для сохранения файлов не загружен, сохранение невозможно"
 
-#: src/file.c:469
+#: src/file.c:476
 msgid "Load file"
 msgstr "Загрузить файл"
 
@@ -3393,63 +3393,63 @@ msgstr "Номер строки вне диапазона"
 msgid "Selection must be a single range"
 msgstr ""
 
-#: src/workbook.c:1439
+#: src/workbook.c:1441
 msgid "Sum"
 msgstr "Сум"
 
-#: src/workbook.c:1440
+#: src/workbook.c:1442
 msgid "Min"
 msgstr "Мин"
 
-#: src/workbook.c:1441
+#: src/workbook.c:1443
 msgid "Max"
 msgstr "Макс"
 
-#: src/workbook.c:1442
+#: src/workbook.c:1444
 msgid "Average"
 msgstr "Среднее"
 
-#: src/workbook.c:1443
+#: src/workbook.c:1445
 msgid "Count"
 msgstr "Количество"
 
-#: src/workbook.c:1704
+#: src/workbook.c:1706
 msgid "Untitled.gnumeric"
 msgstr "Безымянный.gnumeric"
 
-#: src/workbook.c:1793
+#: src/workbook.c:1795
 msgid "Zoom out"
 msgstr "Уменьшить"
 
-#: src/workbook.c:1800
+#: src/workbook.c:1802
 msgid "Zoom in"
 msgstr "Увеличить"
 
-#: src/workbook.c:1895
+#: src/workbook.c:1897
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s' "
 msgstr "Вы действительно хотите удалить таблицу `%s' ?"
 
-#: src/workbook.c:1914
+#: src/workbook.c:1916
 #, fuzzy
 msgid "Other sheets depend on the values on this sheet; I cannot remove it"
 msgstr ""
 "Другие таблицы зависят от значений в этой таблице, поэтому ее нельзя удалить"
 
-#: src/workbook.c:1934
+#: src/workbook.c:1936
 msgid "Add another sheet"
 msgstr "Добавить другую таблицу"
 
-#: src/workbook.c:1935
+#: src/workbook.c:1937
 msgid "Remove this sheet"
 msgstr "Удалить эту таблицу"
 
-#: src/workbook.c:2192 src/workbook.c:2227
+#: src/workbook.c:2194 src/workbook.c:2229
 #, fuzzy, c-format
 msgid "Sheet%d"
 msgstr "Таблица %d"
 
-#: src/workbook.c:2300
+#: src/workbook.c:2302
 #, fuzzy
 msgid "Gnumeric: "
 msgstr "Дополнения Gnumeric"

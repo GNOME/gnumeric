@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 1999-08-03 00:23-0500\n"
+"POT-Creation-Date: 1999-08-03 08:17-0500\n"
 "Content-Type: text/plain; charset=iso8859-2\n"
 "Date: 1998-09-30 00:38:13-0500\n"
 "From: Petr Vyyhnalek <petr.vyhnalek@email.cz>\n"
@@ -669,25 +669,25 @@ msgstr "Vycentruje buòku"
 msgid "#Reference to deleted range!"
 msgstr ""
 
-#: src/file.c:171
+#: src/file.c:178
 #, c-format
 msgid "Could not read file %s"
 msgstr ""
 
-#: src/file.c:332
+#: src/file.c:339
 #, fuzzy
 msgid "File format:"
 msgstr "Formát buòky"
 
-#: src/file.c:376
+#: src/file.c:383
 msgid "Save workbook as"
 msgstr "Ulo¾it se¹it jako"
 
-#: src/file.c:415
+#: src/file.c:422
 msgid "Sorry, there are no file savers loaded, I cannot save"
 msgstr ""
 
-#: src/file.c:469
+#: src/file.c:476
 msgid "Load file"
 msgstr "Otevøít soubor"
 
@@ -2913,61 +2913,61 @@ msgstr "Sloupec je mimo povolenmý rozsah"
 msgid "Selection must be a single range"
 msgstr ""
 
-#: src/workbook.c:1439
+#: src/workbook.c:1441
 msgid "Sum"
 msgstr "Suma"
 
-#: src/workbook.c:1440
+#: src/workbook.c:1442
 msgid "Min"
 msgstr ""
 
-#: src/workbook.c:1441
+#: src/workbook.c:1443
 msgid "Max"
 msgstr ""
 
-#: src/workbook.c:1442
+#: src/workbook.c:1444
 msgid "Average"
 msgstr "Prumìr"
 
-#: src/workbook.c:1443
+#: src/workbook.c:1445
 msgid "Count"
 msgstr "Souèet"
 
-#: src/workbook.c:1704
+#: src/workbook.c:1706
 msgid "Untitled.gnumeric"
 msgstr "Bezjmena.gnumeric"
 
-#: src/workbook.c:1793
+#: src/workbook.c:1795
 msgid "Zoom out"
 msgstr "Zmen¹ení"
 
-#: src/workbook.c:1800
+#: src/workbook.c:1802
 msgid "Zoom in"
 msgstr "Zvìt¹ení"
 
-#: src/workbook.c:1895
+#: src/workbook.c:1897
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s' "
 msgstr ""
 
-#: src/workbook.c:1914
+#: src/workbook.c:1916
 msgid "Other sheets depend on the values on this sheet; I cannot remove it"
 msgstr ""
 
-#: src/workbook.c:1934
+#: src/workbook.c:1936
 msgid "Add another sheet"
 msgstr ""
 
-#: src/workbook.c:1935
+#: src/workbook.c:1937
 msgid "Remove this sheet"
 msgstr ""
 
-#: src/workbook.c:2192 src/workbook.c:2227
+#: src/workbook.c:2194 src/workbook.c:2229
 #, fuzzy, c-format
 msgid "Sheet%d"
 msgstr "Se¹it %d"
 
-#: src/workbook.c:2300
+#: src/workbook.c:2302
 #, fuzzy
 msgid "Gnumeric: "
 msgstr "Gnumeric"

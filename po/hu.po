@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
-"POT-Creation-Date: 1999-08-03 00:23-0500\n"
+"POT-Creation-Date: 1999-08-03 08:17-0500\n"
 "PO-Revision-Date: 1998-08-01 13:46+0202\n"
 "Last-Translator: Németh Péter <qgenpete@gold.uni-miskolc.hu>\n"
 "Language-Team: Németh Péter <qgenpete@gold.uni-miskolc.hu>\n"
@@ -666,25 +666,25 @@ msgstr "Középre zárás"
 msgid "#Reference to deleted range!"
 msgstr ""
 
-#: src/file.c:171
+#: src/file.c:178
 #, c-format
 msgid "Could not read file %s"
 msgstr ""
 
-#: src/file.c:332
+#: src/file.c:339
 #, fuzzy
 msgid "File format:"
 msgstr "Cellaformázás..."
 
-#: src/file.c:376
+#: src/file.c:383
 msgid "Save workbook as"
 msgstr "Munkafüzet mentése másként"
 
-#: src/file.c:415
+#: src/file.c:422
 msgid "Sorry, there are no file savers loaded, I cannot save"
 msgstr ""
 
-#: src/file.c:469
+#: src/file.c:476
 msgid "Load file"
 msgstr ""
 
@@ -3324,61 +3324,61 @@ msgstr "Tartományon kívüli sorhivatkozás"
 msgid "Selection must be a single range"
 msgstr ""
 
-#: src/workbook.c:1439
+#: src/workbook.c:1441
 msgid "Sum"
 msgstr "Összeg"
 
-#: src/workbook.c:1440
+#: src/workbook.c:1442
 msgid "Min"
 msgstr "Minimum"
 
-#: src/workbook.c:1441
+#: src/workbook.c:1443
 msgid "Max"
 msgstr "Maximum"
 
-#: src/workbook.c:1442
+#: src/workbook.c:1444
 msgid "Average"
 msgstr "Átlag"
 
-#: src/workbook.c:1443
+#: src/workbook.c:1445
 msgid "Count"
 msgstr "Darabszám"
 
-#: src/workbook.c:1704
+#: src/workbook.c:1706
 msgid "Untitled.gnumeric"
 msgstr "Névtelen.gnumeric"
 
-#: src/workbook.c:1793
+#: src/workbook.c:1795
 msgid "Zoom out"
 msgstr "Kicsinyítés"
 
-#: src/workbook.c:1800
+#: src/workbook.c:1802
 msgid "Zoom in"
 msgstr "Nagyítás"
 
-#: src/workbook.c:1895
+#: src/workbook.c:1897
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s' "
 msgstr ""
 
-#: src/workbook.c:1914
+#: src/workbook.c:1916
 msgid "Other sheets depend on the values on this sheet; I cannot remove it"
 msgstr ""
 
-#: src/workbook.c:1934
+#: src/workbook.c:1936
 msgid "Add another sheet"
 msgstr ""
 
-#: src/workbook.c:1935
+#: src/workbook.c:1937
 msgid "Remove this sheet"
 msgstr ""
 
-#: src/workbook.c:2192 src/workbook.c:2227
+#: src/workbook.c:2194 src/workbook.c:2229
 #, fuzzy, c-format
 msgid "Sheet%d"
 msgstr "Munka%d"
 
-#: src/workbook.c:2300
+#: src/workbook.c:2302
 #, fuzzy
 msgid "Gnumeric: "
 msgstr "Függõleges vonalas"

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.3\n"
-"POT-Creation-Date: 1999-08-03 00:23-0500\n"
+"POT-Creation-Date: 1999-08-03 08:17-0500\n"
 "PO-Revision-Date: 1998-12-05 07:00+09:00\n"
 "Last-Translator: Mitsuru Oka <95i44@is.kochi-u.ac.jp>\n"
 "Language-Team: \n"
@@ -669,25 +669,25 @@ msgstr "セルの内容を中央寄せ"
 msgid "#Reference to deleted range!"
 msgstr ""
 
-#: src/file.c:171
+#: src/file.c:178
 #, c-format
 msgid "Could not read file %s"
 msgstr ""
 
-#: src/file.c:332
+#: src/file.c:339
 #, fuzzy
 msgid "File format:"
 msgstr "セルフォーマット"
 
-#: src/file.c:376
+#: src/file.c:383
 msgid "Save workbook as"
 msgstr "名前を付けてワークブックを保存します"
 
-#: src/file.c:415
+#: src/file.c:422
 msgid "Sorry, there are no file savers loaded, I cannot save"
 msgstr ""
 
-#: src/file.c:469
+#: src/file.c:476
 msgid "Load file"
 msgstr "ファイルを読み込みます"
 
@@ -3431,61 +3431,61 @@ msgstr "行数が範囲外です"
 msgid "Selection must be a single range"
 msgstr ""
 
-#: src/workbook.c:1439
+#: src/workbook.c:1441
 msgid "Sum"
 msgstr "合計"
 
-#: src/workbook.c:1440
+#: src/workbook.c:1442
 msgid "Min"
 msgstr "最小"
 
-#: src/workbook.c:1441
+#: src/workbook.c:1443
 msgid "Max"
 msgstr "最大"
 
-#: src/workbook.c:1442
+#: src/workbook.c:1444
 msgid "Average"
 msgstr "平均"
 
-#: src/workbook.c:1443
+#: src/workbook.c:1445
 msgid "Count"
 msgstr "回数"
 
-#: src/workbook.c:1704
+#: src/workbook.c:1706
 msgid "Untitled.gnumeric"
 msgstr ""
 
-#: src/workbook.c:1793
+#: src/workbook.c:1795
 msgid "Zoom out"
 msgstr "拡大"
 
-#: src/workbook.c:1800
+#: src/workbook.c:1802
 msgid "Zoom in"
 msgstr "縮小"
 
-#: src/workbook.c:1895
+#: src/workbook.c:1897
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s' "
 msgstr ""
 
-#: src/workbook.c:1914
+#: src/workbook.c:1916
 msgid "Other sheets depend on the values on this sheet; I cannot remove it"
 msgstr ""
 
-#: src/workbook.c:1934
+#: src/workbook.c:1936
 msgid "Add another sheet"
 msgstr ""
 
-#: src/workbook.c:1935
+#: src/workbook.c:1937
 msgid "Remove this sheet"
 msgstr ""
 
-#: src/workbook.c:2192 src/workbook.c:2227
+#: src/workbook.c:2194 src/workbook.c:2229
 #, fuzzy, c-format
 msgid "Sheet%d"
 msgstr "シート %d"
 
-#: src/workbook.c:2300
+#: src/workbook.c:2302
 #, fuzzy
 msgid "Gnumeric: "
 msgstr "垂直線"

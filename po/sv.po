@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.27\n"
-"POT-Creation-Date: 1999-08-03 00:23-0500\n"
+"POT-Creation-Date: 1999-08-03 08:17-0500\n"
 "PO-Revision-Date: 1999-07-18 14:30+0200\n"
 "Last-Translator: Richard Hult <rhult@hem2.passagen.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -660,24 +660,24 @@ msgstr "#Referens till nyfödd cell!"
 msgid "#Reference to deleted range!"
 msgstr "#Referens till nyfödd cell!"
 
-#: src/file.c:171
+#: src/file.c:178
 #, c-format
 msgid "Could not read file %s"
 msgstr "Kunde inte läsa filen %s"
 
-#: src/file.c:332
+#: src/file.c:339
 msgid "File format:"
 msgstr "Filformat:"
 
-#: src/file.c:376
+#: src/file.c:383
 msgid "Save workbook as"
 msgstr "Spara arbetsbok som"
 
-#: src/file.c:415
+#: src/file.c:422
 msgid "Sorry, there are no file savers loaded, I cannot save"
 msgstr "Inga filsparare är laddade, kan inte spara"
 
-#: src/file.c:469
+#: src/file.c:476
 msgid "Load file"
 msgstr "Öppna fil"
 
@@ -2918,61 +2918,61 @@ msgstr "Radnummer utanför giltigt område"
 msgid "Selection must be a single range"
 msgstr "Markeringen måste bestå av ett enkelt område"
 
-#: src/workbook.c:1439
+#: src/workbook.c:1441
 msgid "Sum"
 msgstr "Sum"
 
-#: src/workbook.c:1440
+#: src/workbook.c:1442
 msgid "Min"
 msgstr "Min"
 
-#: src/workbook.c:1441
+#: src/workbook.c:1443
 msgid "Max"
 msgstr "Max"
 
-#: src/workbook.c:1442
+#: src/workbook.c:1444
 msgid "Average"
 msgstr "Medelvärde"
 
-#: src/workbook.c:1443
+#: src/workbook.c:1445
 msgid "Count"
 msgstr "Räkna"
 
-#: src/workbook.c:1704
+#: src/workbook.c:1706
 msgid "Untitled.gnumeric"
 msgstr "Namnlös.gnumeric"
 
-#: src/workbook.c:1793
+#: src/workbook.c:1795
 msgid "Zoom out"
 msgstr "Zooma ut"
 
-#: src/workbook.c:1800
+#: src/workbook.c:1802
 msgid "Zoom in"
 msgstr "Zooma in"
 
-#: src/workbook.c:1895
+#: src/workbook.c:1897
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s' "
 msgstr "Är du säker på att du vill ta bort bladet med namn `%s' "
 
-#: src/workbook.c:1914
+#: src/workbook.c:1916
 msgid "Other sheets depend on the values on this sheet; I cannot remove it"
 msgstr "Andra blad refererar till värden på detta blad; kan inte ta bort det"
 
-#: src/workbook.c:1934
+#: src/workbook.c:1936
 msgid "Add another sheet"
 msgstr "Lägg till ett nytt blad"
 
-#: src/workbook.c:1935
+#: src/workbook.c:1937
 msgid "Remove this sheet"
 msgstr "Ta bort detta blad"
 
-#: src/workbook.c:2192 src/workbook.c:2227
+#: src/workbook.c:2194 src/workbook.c:2229
 #, c-format
 msgid "Sheet%d"
 msgstr "Blad%d"
 
-#: src/workbook.c:2300
+#: src/workbook.c:2302
 msgid "Gnumeric: "
 msgstr "Gnumeric: "
 
