@@ -1,3 +1,11 @@
+1998-07-12  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/item-bar.c (item_bar_event): Do world->canvas cordinate
+	conversion to get zoomed resizng working).
+
+	* src/sheet.c (sheet_row_set_height): Silly mistake, add the newly
+	created rowinfo to the row array, not the column array.
+
 1998-07-11  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/style.c (style_duplicate): New function.  Does style

@@ -225,6 +225,7 @@ is_pointer_on_division (ItemBar *item_bar, int pos, int *the_total, int *the_ele
 		else
 			cri = sheet_col_get_info (item_bar->sheet, i);
 
+		printf ("%d %d->%d\n", i, cri->pixels, pos);
 		total += cri->pixels;
 		if ((total - 4 < pos) && (pos < total + 4)){
 			if (the_total)
@@ -286,27 +287,32 @@ item_bar_start_resize (ItemBar *item_bar, int pos)
 	item_bar->resize_guide = GTK_OBJECT (item);
 }
 
+#define convert(c,sx,sy,x,y) gnome_canvas_w2c (c,sx,sy,x,y)
+
 static gint
-item_bar_event (GnomeCanvasItem *item, GdkEvent *event)
+item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 {
 	ColRowInfo *cri;
+	GnomeCanvas *canvas = item->canvas;
 	ItemBar *item_bar = ITEM_BAR (item);
-	int pos, start, ele;
+	int pos, start, ele, x, y;
 	
-	switch (event->type){
+	switch (e->type){
 	case GDK_ENTER_NOTIFY:
+		convert (canvas, e->crossing.x, e->crossing.y, &x, &y);
 		if (item_bar->orientation == GTK_ORIENTATION_VERTICAL)
-			pos = event->crossing.y;
+			pos = y;
 		else
-			pos = event->crossing.x;
+			pos = x;
 		set_cursor (item_bar, pos);
 		break;
 		
 	case GDK_MOTION_NOTIFY:
+		convert (canvas, e->motion.x, e->motion.y, &x, &y);
 		if (item_bar->orientation == GTK_ORIENTATION_VERTICAL)
-			pos = event->motion.y;
+			pos = y;
 		else
-			pos = event->motion.x;
+			pos = x;
 
 		/* Do column resizing or incremental marking */
 		if (ITEM_BAR_RESIZING (item_bar)){
@@ -325,10 +331,11 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *event)
 		break;
 
 	case GDK_BUTTON_PRESS:
+		convert (canvas, e->button.x, e->button.y, &x, &y);
 		if (item_bar->orientation == GTK_ORIENTATION_VERTICAL)
-			pos = event->button.y;
+			pos = y;
 		else
-			pos = event->button.x;
+			pos = x;
 
 		cri = is_pointer_on_division (item_bar, pos, &start, &ele);
 		if (cri){

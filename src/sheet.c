@@ -304,8 +304,7 @@ colrow_set_units (Sheet *sheet,ColRowInfo *info)
 	double pix = sheet->last_zoom_factor_used;
 	
 	info->units  = (info->pixels -
-			(info->margin_a + info->margin_b + 1))
-		/ pix;
+			(info->margin_a + info->margin_b + 1)) / pix;
 }
 
 void
@@ -324,7 +323,8 @@ sheet_row_set_height (Sheet *sheet, int row, int height)
 	ri->pixels = height;
 	colrow_set_units (sheet, ri);
 	if (add)
-		sheet_col_add (sheet, ri);
+		sheet_row_add (sheet, ri);
+	printf ("ROW=%d %d\n", ri->pos, ri->pixels);
 	sheet_redraw_all (sheet);
 }
 
