@@ -1,5 +1,9 @@
 2002-03-12  Jody Goldberg <jody@gnome.org>
 
+	* src/workbook-control-gui.c (cb_sheet_label_edit_finished) : renamed
+	  from cb_sheet_label_changed and handle NULL text as cancel.
+	(cb_sheet_label_edit_stopped) : deleted.
+
 	* configure.in : Generate GNOME_Gnumeric.server.in
 	* Generate GNOME_Gnumeric.server : start to think about this.
 

@@ -53,6 +53,7 @@
 #include "value.h"
 #include "validation.h"
 #include "history.h"
+#include "style-color.h"
 #include "str.h"
 #include "cell.h"
 #include "formats.h"
@@ -366,23 +367,16 @@ wbcg_edit_selection_descr_set (WorkbookControl *wbc, char const *text)
 	gtk_entry_set_text (GTK_ENTRY (wbcg->selection_descriptor), text);
 }
 
-/*
- * Signal handler for EditableLabel's text_changed signal.
- */
 static gboolean
-cb_sheet_label_changed (EditableLabel *el,
-			const char *new_name, WorkbookControlGUI *wbcg)
+cb_sheet_label_edit_finished (EditableLabel *el, char const *new_name,
+			    WorkbookControlGUI *wbcg)
 {
-	gboolean ans = !cmd_rename_sheet (WORKBOOK_CONTROL (wbcg), NULL,
-		editable_label_get_text (el), new_name);
+	gboolean reject = FALSE;
+	if (new_name != NULL)
+		reject = cmd_rename_sheet (WORKBOOK_CONTROL (wbcg), NULL,
+				editable_label_get_text (el), new_name);
 	wbcg_focus_cur_scg (wbcg);
-	return ans;
-}
-
-static void
-cb_sheet_label_edit_stopped (EditableLabel *el, WorkbookControlGUI *wbcg)
-{
-	wbcg_focus_cur_scg (wbcg);
+	return reject;
 }
 
 static void
@@ -523,7 +517,6 @@ cb_sheet_label_button_press (GtkWidget *widget, GdkEventButton *event,
 	}
 
 	if (event->button == 3) {
-
 		sheet_menu_label_run (SHEET_CONTROL_GUI (obj), event);
 		scg_take_focus (SHEET_CONTROL_GUI (obj));
 		return TRUE;
@@ -564,14 +557,14 @@ wbcg_sheet_add (WorkbookControl *wbc, Sheet *sheet)
 	 * NB. this is so we can use editable_label_set_text since
 	 * gtk_notebook_set_tab_label kills our widget & replaces with a label.
 	 */
-	sheet_label = editable_label_new (sheet->name_unquoted, sheet->tab_color);
+	sheet_label = editable_label_new (sheet->name_unquoted,
+		&sheet->tab_color->color);
 	g_signal_connect_after (GTK_OBJECT (sheet_label),
-		"text_changed",
-		G_CALLBACK (cb_sheet_label_changed), wbcg);
-	g_signal_connect (G_OBJECT (sheet_label),
-		"editing_stopped",
-		G_CALLBACK (cb_sheet_label_edit_stopped), wbcg);
-	g_signal_connect (G_OBJECT (sheet_label),
+		"edit_finished",
+		G_CALLBACK (cb_sheet_label_edit_finished), wbcg);
+
+	/* do not preempt the editable label handler */
+	g_signal_connect_after (G_OBJECT (sheet_label),
 		"button_press_event",
 		G_CALLBACK (cb_sheet_label_button_press), scg->table);
 
@@ -627,7 +620,8 @@ wbcg_sheet_rename (WorkbookControl *wbc, Sheet *sheet)
 
 	label = gtk_notebook_get_tab_label (wbcg->notebook, GTK_WIDGET (scg->table));
 	editable_label_set_text (EDITABLE_LABEL (label), sheet->name_unquoted);
-	editable_label_set_color (EDITABLE_LABEL (label), sheet->tab_color);
+	editable_label_set_color (EDITABLE_LABEL (label),
+		&sheet->tab_color->color);
 }
 
 static void

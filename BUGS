@@ -17,7 +17,6 @@ Release Critical
 - Summary dialog is non-functional.
 - Function selection dialog is broken, and it sucks.
 - Go-to cell dialog is shot, make it a guru.
-- rewrite editable-lable to be utf8 clean
 
 1.2 Targets
 -----------

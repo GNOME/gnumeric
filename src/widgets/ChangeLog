@@ -1,3 +1,7 @@
+2002-03-12  Jody Goldberg <jody@gnome.org>
+
+	* widget-editable-label.c : rewrite.
+
 2002-03-10  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.1

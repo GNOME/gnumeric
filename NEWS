@@ -8,6 +8,7 @@ Andreas:
 Jody:
 	* Fix XL import of external function names.
 	* plug item-bar leak.
+	* Rewrite editable-label to use gtkentry and to be utf8 clean.
 
 Jukka:
 	* More solver improvements.
