@@ -116,7 +116,7 @@ add_cell_range_dep (Cell *cell, DependencyRange const * const range)
 	/* Look it up */
 	DependencyRange *result =
 		g_hash_table_lookup (cell->sheet->dependency_hash, range);
-	if (result){
+	if (result) {
 		/* Is the cell already listed? */
 		GList const *cl = g_list_find (result->cell_list, cell);
 		if (cl)
@@ -343,8 +343,7 @@ cell_drop_dependencies (Cell *cell)
 }
 
 typedef struct {
-	int   start_col, start_row;
-	int   end_col, end_row;
+	Range r;
 	Sheet *sheet;
 	GList *list;
 } get_range_dep_closure_t;
@@ -358,14 +357,10 @@ search_range_deps (gpointer key, gpointer value, gpointer closure)
 	GList *l;
 
 	/* No intersection is the common case */
-
-	if (!(range_contains (range, c->start_col, c->start_row) ||
-	      range_contains (range, c->end_col,   c->end_row  ) ||
-	      range_contains (range, c->start_col, c->end_row  ) ||
-	      range_contains (range, c->end_col,   c->start_row)))
+	if (!range_overlap (range, &c->r))
 		return;
 
-	for (l = deprange->cell_list; l; l = l->next){
+	for (l = deprange->cell_list; l; l = l->next) {
 		Cell *cell = l->data;
 
 		c->list = g_list_prepend (c->list, cell);
@@ -382,10 +377,10 @@ region_get_dependencies (Sheet *sheet, int start_col, int start_row, int end_col
 	if (!sheet->dependency_hash)
 		dependency_hash_init (sheet);
 
-	closure.start_col = start_col;
-	closure.start_row = start_row;
-	closure.end_col = end_col;
-	closure.end_row = end_row;
+	closure.r.start.col = start_col;
+	closure.r.start.row = start_row;
+	closure.r.end.col   = end_col;
+	closure.r.end.row   = end_row;
 	closure.sheet = sheet;
 	closure.list = NULL;
 

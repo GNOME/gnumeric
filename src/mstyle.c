@@ -529,7 +529,7 @@ mstyle_merge (const MStyle *sta, const MStyle *stb)
 	g_return_val_if_fail (sta != NULL, NULL);
 	g_return_val_if_fail (stb != NULL, NULL);
 
-	if (((PrivateStyle *)sta)->stamp >
+	if (((PrivateStyle *)sta)->stamp >=
 	    ((PrivateStyle *)stb)->stamp) {
 		pstm = (PrivateStyle *)sta;
 		psts = (PrivateStyle *)stb;
@@ -549,6 +549,7 @@ mstyle_merge (const MStyle *sta, const MStyle *stb)
 		else if (psts->elements[i].type)
 			ans->elements[i] = mstyle_element_ref (psts->elements[i]);
 	}
+	ans->stamp = pstm->stamp;
 
 	return (MStyle *)ans;
 }
@@ -644,6 +645,23 @@ mstyle_equal (const MStyle *a, const MStyle *b)
 	return mstyle_elements_equal (pa->elements, pb->elements);
 }
 
+int
+mstyle_stamp_compare (const MStyle *a, const MStyle *b)
+{
+	PrivateStyle *pa = (PrivateStyle *)a;
+	PrivateStyle *pb = (PrivateStyle *)b;
+
+	g_return_val_if_fail (a != NULL, FALSE);
+	g_return_val_if_fail (b != NULL, FALSE);
+
+	if (pa->stamp > pb->stamp)
+		return 1;
+	else if (pa->stamp == pb->stamp)
+		return 0;
+	else
+		return -1;
+}
+
 gboolean
 mstyle_list_check_sorted (const GList *list)
 {
@@ -656,12 +674,8 @@ mstyle_list_check_sorted (const GList *list)
 		 *  We can have several copies of a style with the same stamp
 		 * in the queue, each is ref-counted.
 		 */
-		if (pst->stamp > stamp &&
-		    STYLE_DEBUG) {
-			g_warning ("Error on style sorting");
-			dump_style_list (list);
+		if (pst->stamp > stamp)
 			return FALSE;
-		}
 		stamp = pst->stamp;
 		l = g_list_next (l);
 	}

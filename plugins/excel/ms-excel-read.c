@@ -1,9 +1,9 @@
 /**
  * ms-excel.c: MS Excel support for Gnumeric
  *
- * Author:
+ * Authors:
  *    Michael Meeks (michael@imaginator.com)
- *    Jody Goldberh (jgoldberg@home.com)
+ *    Jody Goldberg (jgoldberg@home.com)
  *
  * (C) 1998, 1999 Michael Meeks, Jody Goldberg
  **/
@@ -967,7 +967,7 @@ ms_excel_get_stylefont (ExcelSheet *sheet, BiffXFData const *xf,
 	return ms_excel_palette_get (sheet->wb->palette, fd->color_idx, NULL);
 }
 
-static BiffXFData const *
+static BiffXFData *
 ms_excel_get_xf (ExcelSheet *sheet, int const xfidx)
 {
 	BiffXFData const *xf;
@@ -1024,7 +1024,6 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 	StyleColor *fore, *back, *basefore;
 	int back_index;
 	MStyle *mstyle;
-	Range   range;
 
 	g_return_val_if_fail (xf != NULL, NULL);
 
@@ -2165,7 +2164,7 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 			lastcol = tmp;
 		}
 
-		i = lastcol;
+		range_end = i = lastcol;
 		prev_xf = -1;
 		do
 		{
@@ -2173,7 +2172,7 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 			xf_index = MS_OLE_GET_GUINT16 (ptr);
 			if (prev_xf != xf_index) {
 				if (prev_xf >= 0)
-					ms_excel_set_xf_segment (sheet, i+1, range_end,
+					ms_excel_set_xf_segment (sheet, i + 1, range_end,
 								 row, prev_xf);
 				prev_xf = xf_index;
 				range_end = i;

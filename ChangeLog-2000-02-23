@@ -1,3 +1,18 @@
+1999-10-30  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/eval.c (region_get_dependencies): Update.
+	(search_range_deps): fix logic bug in range intersection.
+
+	* src/mstyle.c (mstyle_merge): Make sta the default master style,
+	fix several logic bugs in stamp order preservation + stamp from the
+	master style.
+	(mstyle_list_check_sorted): kill debug churning, just answer.
+	(mstyle_stamp_compare): Implement.
+
+	* src/sheet-style.c (sheet_style_optimize): Add warning + use
+	new stamp merging fn. + simplify by NULLing slain StyleRegion list
+	elements. (sheet_style_compute): quieten debug.
+
 1999-10-30  Jody Goldberg <jgoldberg@home.com>
 
 	* src/gnumeric-sheet.c (gnumeric_sheet_new) : Found the drawing

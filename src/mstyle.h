@@ -55,15 +55,16 @@ Style         *style_new_mstyle       (MStyle *e, guint len,
 				       double zoom);
 /* End of deprecation */
 
-MStyle     *mstyle_new         (void);
-MStyle     *mstyle_new_name    (const gchar *name);
-MStyle     *mstyle_new_default (void);
-void        mstyle_ref         (MStyle *st);
-void        mstyle_unref       (MStyle *st);
-void        mstyle_destroy     (MStyle *st);
-gboolean    mstyle_equal       (const MStyle *a, const MStyle *b);
-gboolean    mstyle_verify      (const MStyle *st);
-guint       mstyle_hash        (gconstpointer st);
+MStyle     *mstyle_new           (void);
+MStyle     *mstyle_new_name      (const gchar *name);
+MStyle     *mstyle_new_default   (void);
+void        mstyle_ref           (MStyle *st);
+void        mstyle_unref         (MStyle *st);
+void        mstyle_destroy       (MStyle *st);
+gboolean    mstyle_equal         (const MStyle *a, const MStyle *b);
+gboolean    mstyle_verify        (const MStyle *st);
+guint       mstyle_hash          (gconstpointer st);
+int         mstyle_stamp_compare (const MStyle *a, const MStyle *b);
 
 /*
  * Wafer thin element access functions.

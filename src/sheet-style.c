@@ -209,14 +209,17 @@ sheet_style_optimize (Sheet *sheet, Range range)
 	 * Merge any identical Range regions
 	 */
 	for (a = style_list; a; a = a->next) {
-
 		StyleRegion *sra = a->data;
 		GList       *b;
 
-		b = a->next;
-		while (b) {
+		if (!a->data)
+			continue;
+
+		for (b = a->next; b && a->data; b = b->next) {
 			StyleRegion *srb = b->data;
-			GList *next = g_list_next (b);
+
+			if (!b->data)
+				continue;
 
 			if (STYLE_DEBUG) {
 				printf ("Compare equal iteration: ");
@@ -231,24 +234,29 @@ sheet_style_optimize (Sheet *sheet, Range range)
 			 */
 			if (range_equal (&sra->range, &srb->range)) {
 				MStyle *tmp;
+				StyleRegion *master, *slave;
 
 				if (STYLE_DEBUG)
 					printf ("testme: Two equal ranges, merged\n");
 
-				tmp = mstyle_merge (sra->style, srb->style);
-				if (tmp) {
-					style_list = g_list_remove (style_list, srb);
-					STYLE_LIST (sheet) = g_list_remove (STYLE_LIST (sheet), srb);
-					mstyle_unref (sra->style);
-					sra->style = tmp;
-					mstyle_unref (srb->style);
-					srb->style = NULL;
-					g_free (srb);
-				} else
-					g_warning ("failed mstyle_merge!");
+				if (mstyle_stamp_compare (sra->style, srb->style) >= 0) {
+					master = sra;
+					slave  = srb;
+					b->data = NULL;
+				} else {
+					master = srb;
+					slave  = sra;
+					a->data = NULL;
+				}
+				tmp = mstyle_merge (master->style, slave->style);
+				g_return_if_fail (tmp != NULL);
+				STYLE_LIST (sheet) = g_list_remove (STYLE_LIST (sheet), slave);
+				mstyle_unref (master->style);
+				master->style = tmp;
+				mstyle_unref (slave->style);
+				slave->style = NULL;
+				g_free (slave);
 			}
-
-			b = next;
 		}
 	}
 
@@ -260,14 +268,17 @@ sheet_style_optimize (Sheet *sheet, Range range)
 		 * Cull adjacent identical Style ranges.
 		 */
 		for (a = style_list; a; a = a->next) {
-
 			StyleRegion *sra = a->data;
 			GList       *b;
 
-			b = a->next;
-			while (b) {
+			if (!a->data)
+				continue;
+
+			for (b = a->next; b && a->data; b = b->next) {
 				StyleRegion *srb = b->data;
-				GList *next = g_list_next (b);
+
+				if (!b->data)
+					continue;
 
 				if (STYLE_DEBUG) {
 					printf ("Compare adjacent iteration: ");
@@ -279,20 +290,27 @@ sheet_style_optimize (Sheet *sheet, Range range)
 
 				if (range_adjacent (&sra->range, &srb->range)) {
 					if (mstyle_equal  ( sra->style,  srb->style)) {
+						StyleRegion *master, *slave;
+
+						if (mstyle_stamp_compare (sra->style, srb->style) >= 0) {
+							master = sra;
+							slave  = srb;
+							b->data = NULL;
+						} else {
+							master = srb;
+							slave  = sra;
+							a->data = NULL;
+						}
 						if (STYLE_DEBUG)
 							printf ("testme: Merging two ranges\n");
 
-						sra->range = range_merge (&sra->range, &srb->range);
-						style_list = g_list_remove (style_list, srb);
-						STYLE_LIST (sheet) = g_list_remove (STYLE_LIST (sheet), srb);
-
-						mstyle_unref (srb->style);
-						g_free (srb);
+						master->range = range_merge (&master->range, &slave->range);
+						STYLE_LIST (sheet) = g_list_remove (STYLE_LIST (sheet), slave);
+						mstyle_unref (slave->style);
+						g_free (slave);
 					} else if (STYLE_DEBUG)
 						printf ("Regions adjacent but not equal\n");
 				}
-
-				b = next;
 			}
 		}
 	}
@@ -390,7 +408,7 @@ sheet_style_compute (Sheet const *sheet, int col, int row)
 	for (l = STYLE_LIST (sheet); l; l = l->next) {
 		StyleRegion *sr = l->data;
 		if (range_contains (&sr->range, col, row)) {
-			if (STYLE_DEBUG) {
+			if (style_debugging > 5) {
 				range_dump (&sr->range);
 				mstyle_dump (sr->style);
 			}

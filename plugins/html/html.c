@@ -121,8 +121,8 @@ html_write_cell32 (FILE *fp, Cell *cell)
 
 		if (r != 0 || g != 0 || b != 0)
 			fprintf (fp, "</FONT>");
+		mstyle_unref (mstyle);
 	}
-	mstyle_unref (mstyle);
 	fprintf (fp, "</TD>\n");
 }
 
