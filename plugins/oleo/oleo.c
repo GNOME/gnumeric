@@ -152,7 +152,7 @@ oleo_deal_with_cell (char *str, Sheet *sheet, int *ccol, int *crow)
 			double double_result = strtod (cval, &error);
 		        if (!*error)
 		     		oleo_insert_value (sheet, *ccol, *crow,
-						   value_new_float ((float)double_result));
+						   value_new_float (double_result));
 	        	else {
 				char *last = cval + strlen(cval) - 1;
 				if (*cval == '"' && *last == '"') {
