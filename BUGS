@@ -369,11 +369,12 @@ Misc stuff that should be fixed
     - Freeze panes (tricky this is a view attribute)
     - Duplicate sheet.
     - Remove sheet. This raises some serious design issues: We are refering to
-      sheets within most commands by sheet address. THat will change on remove/undo
+      sheets within most commands by sheet address, that will change on 
+      remove/undo
     - Goal seek.
     - Tabulate.
     - Sheet object configuration changes.
-    - Sheet object creation
+    - Sheet object creation                (Isn't this already done ?)
     - Workbook attr changes
     - Fill->series
     - Data->Text to columns
