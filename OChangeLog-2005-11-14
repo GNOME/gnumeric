@@ -1,3 +1,10 @@
+2001-02-07  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-style.c (border_mask_vec) : fix the problem where
+	  artificial conflicts were created when comparing cells without
+	  borders to cells with backgrounds and no borders.  the backgrounds
+	  were causing the borders to be NULL which would toggle a conflict.
+
 2001-02-06  Jody Goldberg <jgoldberg@home.com>
 
 	* src/print.c (print_page) : Print areas with visible styles too.

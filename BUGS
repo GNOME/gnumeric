@@ -9,8 +9,6 @@ Release Critical
 
 - Fix Borders
     - diagonals
-    - sheet_uniform is broken by the NULLing of border-none around cells with
-      backgrounds
     * use new border code for cell format dialog
     * adjust to the different stroking techniques for rendering vs printing.
 
@@ -106,9 +104,12 @@ Long term breakage
 - SheetObjects
     : Add data member to Class to indicate 'simple' object
       types that can be rubber banded directly.
+    : Add data member to Class to indicate 'invertable' object
+      types that allow for top below bottom or left after right.
     : Add acetate_create virtual to handle shaped objects.
     : config dialog for arrows and graphic objects (set colour and arrow dir)
     : Other anchor types for sheet objects
+    : Add keyboard controls for the control points
 
 Dialogs
 -------

@@ -1193,8 +1193,8 @@ cb_filter_style (MStyle *style,
 }
 
 static void
-border_mask (gboolean *known, StyleBorder **borders,
-	     StyleBorder const *b, StyleBorderLocation l)
+border_mask_internal (gboolean *known, StyleBorder **borders,
+		      StyleBorder const *b, StyleBorderLocation l)
 {
 	if (!known [l]) {
 		known [l] = TRUE;
@@ -1207,19 +1207,34 @@ border_mask (gboolean *known, StyleBorder **borders,
 }
 
 static void
+border_mask (gboolean *known, StyleBorder **borders,
+	     StyleBorder const *b, StyleBorderLocation l)
+{
+	if (b == NULL)
+		b = style_border_none ();
+	border_mask_internal (known, borders, b, l);
+}
+
+static void
 border_mask_vec (gboolean *known, StyleBorder **borders,
 		 StyleBorder const * const *vec, int first, int last,
 		 StyleBorderLocation l)
 {
 	StyleBorder const *b = vec [first];
 
-	while (first++ < last)
-		if (b != vec [first]) {
+	if (b == NULL)
+		b = style_border_none ();
+	while (first++ < last) {
+		StyleBorder const *tmp = vec [first];
+		if (tmp == NULL)
+			tmp = style_border_none ();
+		if (b != tmp) {
 			b = NULL;
 			break;
 		}
+	}
 
-	border_mask (known, borders, b, l);
+	border_mask_internal (known, borders, b, l);
 }
 
 /**
@@ -1462,6 +1477,7 @@ sheet_style_has_visible_content (Sheet const *sheet, Range *src)
 	foreach_tile (sheet->style_data->styles,
 		      TILE_TOP_LEVEL, 0, 0, src,
 		      cb_visible_content, &res);
+	return res;
 }
 
 /**
