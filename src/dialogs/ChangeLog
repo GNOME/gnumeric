@@ -1,3 +1,29 @@
+2003-12-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dao.glade: some HIG modifications
+	* dialog-analysis-tools.c (ttest_update_sensitivity_cb):
+	  use new dao widget
+	(ftest_update_sensitivity_cb): ditto
+	(sampling_tool_update_sensitivity): ditto
+	(regression_tool_update_sensitivity_cb): ditto
+	(exp_smoothing_tool_update_sensitivity_cb): ditto
+	(average_tool_update_sensitivity_cb): ditto
+	(histogram_tool_update_sensitivity_cb): ditto
+	(dialog_ttest_tool): disable `put' menu
+	(dialog_ftest_tool): ditto
+	(dialog_sampling_tool): ditto
+	(dialog_regression_tool): ditto
+	(dialog_exp_smoothing_tool): ditto
+	(dialog_average_tool): ditto
+	(dialog_histogram_tool): ditto
+	* exp-smoothing.glade: replace output page widgets with dao widget
+	* histogram.glade: ditto
+	* mean-tests.glade: ditto
+	* moving-averages.glade: ditto
+	* regression.glade: ditto
+	* sampling.glade: ditto
+	* variance-tests.glade: ditto
+	
 2003-12-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dao.glade: new
