@@ -53,15 +53,15 @@ xml_write_format_col_row_info (XmlParseContext *ctxt, FormatColRowInfo info, xml
 	 * Write placement
 	 */
 	child = xmlNewDocNode (ctxt->doc, ctxt->ns, "Placement", NULL);
-	xml_prop_set_int (child, "offset", info.offset);
-	xml_prop_set_int (child, "offset_gravity", info.offset_gravity);
+	xml_node_set_int (child, "offset", info.offset);
+	xml_node_set_int (child, "offset_gravity", info.offset_gravity);
 	xmlAddChild (node, child);
 
 	/*
 	 * Write dimensions
 	 */
 	child = xmlNewDocNode (ctxt->doc, ctxt->ns, "Dimensions", NULL);
-	xml_prop_set_int (child, "size", info.size);
+	xml_node_set_int (child, "size", info.size);
 	xmlAddChild (node, child);
 }
 
@@ -96,10 +96,10 @@ xml_write_format_template_member (XmlParseContext *ctxt, TemplateMember *member)
 	 * Write frequency information
 	 */
 	child = xmlNewDocNode (ctxt->doc, ctxt->ns, "Frequency", NULL);
-	xml_prop_set_int (child, "direction", format_template_member_get_direction (member));
-	xml_prop_set_int (child, "repeat", format_template_member_get_repeat (member));
-	xml_prop_set_int (child, "skip", format_template_member_get_skip (member));
-	xml_prop_set_int (child, "edge", format_template_member_get_edge (member));
+	xml_node_set_int (child, "direction", format_template_member_get_direction (member));
+	xml_node_set_int (child, "repeat", format_template_member_get_repeat (member));
+	xml_node_set_int (child, "skip", format_template_member_get_skip (member));
+	xml_node_set_int (child, "edge", format_template_member_get_edge (member));
 	xmlAddChild (cur, child);
 
 	/*
@@ -141,9 +141,9 @@ xml_write_format_template_members (XmlParseContext *ctxt, FormatTemplate *ft)
 	name_c        = format_template_get_name (ft);
 	description_c = format_template_get_description (ft);
 
-	xml_prop_set_cstr (child, "author", author_c);
-	xml_prop_set_cstr (child, "name", name_c);
-	xml_prop_set_cstr (child, "description", description_c);
+	xml_node_set_cstr (child, "author", author_c);
+	xml_node_set_cstr (child, "name", name_c);
+	xml_node_set_cstr (child, "description", description_c);
 
 	g_free (author_c);
 	g_free (name_c);
@@ -229,8 +229,8 @@ xml_read_format_col_row_info (XmlParseContext *ctxt, FormatTemplate *ft, xmlNode
 	 */
 	child = e_xml_get_child_by_name (tree, "Placement");
 	if (child) {
-		xml_prop_get_int  (child, "offset", &info.offset);
-		xml_prop_get_int  (child, "offset_gravity", &info.offset_gravity);
+		xml_node_get_int  (child, "offset", &info.offset);
+		xml_node_get_int  (child, "offset_gravity", &info.offset_gravity);
 	} else {
 		fprintf (stderr, ERR_READ_FT_MEMBER, "Placement");
 	}
@@ -240,7 +240,7 @@ xml_read_format_col_row_info (XmlParseContext *ctxt, FormatTemplate *ft, xmlNode
 	 */
 	child = e_xml_get_child_by_name (tree, "Dimensions");
 	if (child){
-		xml_prop_get_int (child, "size", &info.size);
+		xml_node_get_int (child, "size", &info.size);
 	} else {
 		fprintf (stderr, ERR_READ_FT_MEMBER, "Dimensions");
 	}
@@ -289,10 +289,10 @@ xml_read_format_template_member (XmlParseContext *ctxt, FormatTemplate *ft, xmlN
 
 	child = e_xml_get_child_by_name (tree, "Frequency");
 	if (child){
-		xml_prop_get_int (child, "direction", (int *) &direction);
-		xml_prop_get_int (child, "repeat", &repeat);
-		xml_prop_get_int (child, "skip", &skip);
-		xml_prop_get_int (child, "edge", &edge);
+		xml_node_get_int (child, "direction", (int *) &direction);
+		xml_node_get_int (child, "repeat", &repeat);
+		xml_node_get_int (child, "skip", &skip);
+		xml_node_get_int (child, "edge", &edge);
 	} else {
 		fprintf (stderr, ERR_READ_FT_MEMBER, "Frequency");
 		return FALSE;
@@ -352,9 +352,9 @@ xml_read_format_template_members (XmlParseContext *ctxt, FormatTemplate *ft, xml
 	if (child){
 		xmlChar *author, *name, *description;
 
-		author      = xml_prop_get_cstr (child, "author");
-		name        = xml_prop_get_cstr (child, "name");
-		description = xml_prop_get_cstr (child, "description");
+		author      = xml_node_get_cstr (child, "author");
+		name        = xml_node_get_cstr (child, "name");
+		description = xml_node_get_cstr (child, "description");
 
 		format_template_set_author (ft, author);
 		format_template_set_name (ft, name);

@@ -177,18 +177,18 @@ sheet_object_graphic_read_xml (SheetObject *so,
 	g_return_val_if_fail (IS_SHEET_OBJECT_GRAPHIC (so), TRUE);
 	sog = SHEET_OBJECT_GRAPHIC (so);
 
-	color = xml_prop_get_gdkcolor (tree, "FillColor");
+	color = xml_node_get_gdkcolor (tree, "FillColor");
 	sheet_object_graphic_fill_color_set (sog, color);
 
-	if (xml_prop_get_int (tree, "Type", &tmp))
+	if (xml_node_get_int (tree, "Type", &tmp))
 		sog->type = tmp;
 
-	xml_prop_get_double (tree, "Width", &width);
+	xml_node_get_double (tree, "Width", &width);
 	sheet_object_graphic_width_set (sog, width);
 
-	if (xml_prop_get_double (tree, "ArrowShapeA", &a) &&
-	    xml_prop_get_double (tree, "ArrowShapeB", &b) &&
-	    xml_prop_get_double (tree, "ArrowShapeC", &c))
+	if (xml_node_get_double (tree, "ArrowShapeA", &a) &&
+	    xml_node_get_double (tree, "ArrowShapeB", &b) &&
+	    xml_node_get_double (tree, "ArrowShapeC", &c))
 		sheet_object_graphic_abc_set (sog, a, b, c);
 
 	return FALSE;
@@ -203,14 +203,14 @@ sheet_object_graphic_write_xml (SheetObject const *so,
 	g_return_val_if_fail (IS_SHEET_OBJECT_GRAPHIC (so), TRUE);
 	sog = SHEET_OBJECT_GRAPHIC (so);
 
-	xml_prop_set_gdkcolor (tree, "FillColor", sog->fill_color);
-	xml_prop_set_int (tree, "Type", sog->type);
-	xml_prop_set_double (tree, "Width", sog->width, -1);
+	xml_node_set_gdkcolor (tree, "FillColor", sog->fill_color);
+	xml_node_set_int (tree, "Type", sog->type);
+	xml_node_set_double (tree, "Width", sog->width, -1);
 
 	if (sog->type == SHEET_OBJECT_ARROW) {
-		xml_prop_set_double (tree, "ArrowShapeA", sog->a, -1);
-		xml_prop_set_double (tree, "ArrowShapeB", sog->b, -1);
-		xml_prop_set_double (tree, "ArrowShapeC", sog->c, -1);
+		xml_node_set_double (tree, "ArrowShapeA", sog->a, -1);
+		xml_node_set_double (tree, "ArrowShapeB", sog->b, -1);
+		xml_node_set_double (tree, "ArrowShapeC", sog->c, -1);
 	}
 
 	return FALSE;
@@ -706,7 +706,7 @@ sheet_object_filled_read_xml (SheetObject *so,
 	g_return_val_if_fail (IS_SHEET_OBJECT_FILLED (so), TRUE);
 	sof = SHEET_OBJECT_FILLED (so);
 
-	color = xml_prop_get_gdkcolor (tree, "OutlineColor");
+	color = xml_node_get_gdkcolor (tree, "OutlineColor");
 	sheet_object_filled_outline_color_set (sof, color);
 
 	return sheet_object_graphic_read_xml (so, ctxt, tree);
@@ -721,7 +721,7 @@ sheet_object_filled_write_xml (SheetObject const *so,
 	g_return_val_if_fail (IS_SHEET_OBJECT_FILLED (so), TRUE);
 	sof = SHEET_OBJECT_FILLED (so);
 
-	xml_prop_set_gdkcolor (tree, "OutlineColor", sof->outline_color);
+	xml_node_set_gdkcolor (tree, "OutlineColor", sof->outline_color);
 
 	return sheet_object_graphic_write_xml (so, ctxt, tree);
 }

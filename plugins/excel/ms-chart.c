@@ -38,12 +38,16 @@ typedef enum {
 	MS_VECTOR_PURPOSE_MAX		= 4
 } MS_VECTOR_PURPOSE;
 
+char const *const ms_vector_purpose_type_name [] =
+{
+    "labels", "values", "categories", "bubbles",
+};
+
 typedef struct _ExcelChartSeries
 {
 	struct {
 		GnmGraphVectorType type;
-		int		   count;
-		GnmGraphVector	  *g_vector;
+		int count, remote_ID;
 	} vector [MS_VECTOR_PURPOSE_MAX];
 
 	int chart_group;
@@ -101,7 +105,7 @@ excel_chart_series_new (void)
 
 	series->chart_group = -1;
 	for (i = MS_VECTOR_PURPOSE_MAX; i-- > 0 ; ) {
-		series->vector [i].g_vector = NULL;
+		series->vector [i].remote_ID = -1;
 		series->vector [i].type = GNM_VECTOR_AUTO; /* may be reset later */
 	}
 
@@ -244,7 +248,7 @@ BC_R(ai)(ExcelChartHandler const *handle,
 
 	g_return_val_if_fail (purpose < MS_VECTOR_PURPOSE_MAX, TRUE);
 	switch (purpose) {
-	case MS_VECTOR_PURPOSE_LABELS :	    puts ("Linking title or text"); break;
+	case MS_VECTOR_PURPOSE_LABELS :	    puts ("Linking labels"); break;
 	case MS_VECTOR_PURPOSE_VALUES :	    puts ("Linking values"); break;
 	case MS_VECTOR_PURPOSE_CATEGORIES : puts ("Linking categories"); break;
 	case MS_VECTOR_PURPOSE_BUBBLES :    puts ("Linking bubbles"); break;
@@ -271,7 +275,7 @@ BC_R(ai)(ExcelChartHandler const *handle,
 			g_return_val_if_fail (s->currentSeries != NULL, TRUE);
 
 #ifdef ENABLE_BONOBO
-			s->currentSeries->vector [purpose].g_vector =
+			s->currentSeries->vector [purpose].remote_ID =
 				gnm_graph_add_vector (s->graph, expr,
 					s->currentSeries->vector [purpose].type,
 					sheet);
@@ -2123,7 +2127,7 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver, GtkObje
 	int const num_handler = sizeof(chart_biff_handler) /
 		sizeof(ExcelChartHandler *);
 
-	int i;
+	int i, j;
 	xmlNodePtr tmp;
 	gboolean done = FALSE;
 	ExcelChartReadState state;
@@ -2282,9 +2286,15 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver, GtkObje
 			   state.xml_ns, "Data", NULL);
 	for (i = state.series->len; i-- > 0 ; ) {
 		ExcelChartSeries *series = g_ptr_array_index (state.series, i);
-		xmlNodePtr s = xmlNewDocNode (state.xml_doc, state.xml_ns, "Series", NULL);
-		xml_prop_set_int (s, "ChartGroup", series->chart_group);
-		xmlAddChild (tmp, s);
+		xmlNodePtr s = xmlNewChild (tmp, state.xml_ns, "Series", NULL);
+		xml_node_set_int (s, "ChartGroup", series->chart_group);
+
+		for (j = MS_VECTOR_PURPOSE_MAX; j-- > 0 ; )
+			if (series->vector [j].remote_ID >= 0) {
+				xmlNodePtr v = xmlNewChild (s, state.xml_ns,
+							    ms_vector_purpose_type_name [j], NULL);
+				xml_node_set_int (v, "ID", series->vector [j].remote_ID);
+			}
 	}
 
 #ifdef ENABLE_BONOBO

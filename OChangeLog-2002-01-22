@@ -1,3 +1,9 @@
+2001-08-28  Jody Goldberg <jgoldberg@home.com>
+
+	* src/xml-io.c (xml_sheet_read) : no need to load the max col/row.
+	  That is really only useful for external parsers.  We handle it
+	  internally.
+
 2001-08-28  Morten Welinder  <terra@diku.dk>
 
 	* src/workbook.h (struct _Workbook): point to first dependent
@@ -31,21 +37,21 @@
 	* idl/gnumeric-graphs.idl (importSpecification) : new routine.
 
 	* src/xml-io.c : clean up.
-	s/xml_get_value_int/xml_prop_get_int/
-	s/xml_set_value_int/xml_prop_set_int/
-	s/xml_get_value_double/xml_prop_get_double/
-	s/xml_set_value_double/xml_prop_set_double/
-	s/xml_set_value_points/xml_prop_set_points/
-	s/xml_set_value_cstr/xml_prop_set_cstr/
-	s/xml_set_prop_cellpos/xml_prop_set_cellpos/
-	s/xml_get_prop_cellpos/xml_prop_get_cellpos/
-	s/xml_read_range/xml_prop_get_range/
-	s/xml_get_print_hf/xml_prop_get_print_hf/
-	s/xml_set_print_hf/xml_prop_set_print_hf/
-	s/xml_set_color_value/xml_prop_set_color/
-	s/xml_get_color_value/xml_prop_get_color/
-	s/xml_set_value_color/xml_prop_set_gdkcolor/
-	s/xml_get_value_color/xml_prop_get_gdkcolor/
+	s/xml_get_value_int/xml_node_get_int/
+	s/xml_set_value_int/xml_node_set_int/
+	s/xml_get_value_double/xml_node_get_double/
+	s/xml_set_value_double/xml_node_set_double/
+	s/xml_set_value_points/xml_node_set_points/
+	s/xml_set_value_cstr/xml_node_set_cstr/
+	s/xml_set_prop_cellpos/xml_node_set_cellpos/
+	s/xml_get_prop_cellpos/xml_node_get_cellpos/
+	s/xml_read_range/xml_node_get_range/
+	s/xml_get_print_hf/xml_node_get_print_hf/
+	s/xml_set_print_hf/xml_node_set_print_hf/
+	s/xml_set_color_value/xml_node_set_color/
+	s/xml_get_color_value/xml_node_get_color/
+	s/xml_set_value_color/xml_node_set_gdkcolor/
+	s/xml_get_value_color/xml_node_get_gdkcolor/
 
 	Remove the pointless searching of children for content.
 	We never relied on those semantics, nor do we want them.
@@ -53,7 +59,7 @@
 	(xml_sheet_create) : Use xmlGetProp directly.
 	(xml_sheet_read) : ditto.
 	(xml_read_solver) : ditto.
-	(xml_write_solver) : use xml_prop_set_cstr.
+	(xml_write_solver) : use xml_node_set_cstr.
 	(xml_write_print_info) : Use xmlNewChild.
 	(xml_value_get) : delete and use xmlGetProp directly.
 

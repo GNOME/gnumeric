@@ -24,7 +24,7 @@ void		 gnm_graph_clear_vectors	(GnmGraph *graph);
 void		 gnm_graph_arrange_vectors	(GnmGraph *graph);
 void		 gnm_graph_import_specification	(GnmGraph *graph,
 						 xmlDocPtr spec);
-GnmGraphVector	*gnm_graph_add_vector	   	(GnmGraph *graph,
+int		gnm_graph_add_vector	   	(GnmGraph *graph,
 						 ExprTree *expr,
 						 GnmGraphVectorType type,
 						 Sheet *sheet);

@@ -252,7 +252,7 @@ sheet_widget_label_write_xml (SheetObject const *so,
 {
 	SheetWidgetLabel *swl = SHEET_WIDGET_LABEL (so);
 
-	xml_prop_set_cstr (tree, "Label", swl->label);
+	xml_node_set_cstr (tree, "Label", swl->label);
 
 	return FALSE;
 }
@@ -350,7 +350,7 @@ sheet_widget_frame_write_xml (SheetObject const *so,
 {
 	SheetWidgetFrame *swf = SHEET_WIDGET_FRAME (so);
 
-	xml_prop_set_cstr (tree, "Label", swf->label);
+	xml_node_set_cstr (tree, "Label", swf->label);
 
 	return FALSE;
 }
@@ -447,7 +447,7 @@ sheet_widget_button_write_xml (SheetObject const *so,
 {
 	SheetWidgetButton *swb = SHEET_WIDGET_BUTTON (so);
 
-	xml_prop_set_cstr (tree, "Label", swb->label);
+	xml_node_set_cstr (tree, "Label", swb->label);
 
 	return FALSE;
 }
@@ -908,9 +908,9 @@ sheet_widget_checkbox_write_xml (SheetObject const *so,
 	pp = parse_pos_init (&pos, NULL, so->sheet, 0, 0);
 	val = expr_tree_as_string (swc->dep.expression, pp);
 
-	xml_prop_set_cstr (tree, "Label", swc->label);
-	xml_prop_set_int  (tree, "Value", swc->value);
-	xml_prop_set_cstr (tree, "Input", val);
+	xml_node_set_cstr (tree, "Label", swc->label);
+	xml_node_set_int  (tree, "Value", swc->value);
+	xml_node_set_cstr (tree, "Input", val);
 	
 	return FALSE;
 }
@@ -955,7 +955,7 @@ sheet_widget_checkbox_read_xml (SheetObject *so,
 	swc->dep.sheet = context->sheet;
 	swc->dep.flags = checkbox_get_dep_type ();
 		
-	xml_prop_get_int (tree, "Value", &swc->value);
+	xml_node_get_int (tree, "Value", &swc->value);
 
 	return FALSE;
 }

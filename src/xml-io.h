@@ -100,17 +100,16 @@ int        gnumeric_xml_write_selection_clipboard (WorkbookControl *context, She
 						   xmlChar **buffer, int *size);
 int        gnumeric_xml_read_selection_clipboard  (WorkbookControl *context, CellRegion **cr,
 						   xmlChar *buffer);
-/*
- * Some utility routines for setting properties
- */
-xmlChar *xml_prop_get_cstr	(xmlNodePtr node, char const *name);
-void	 xml_prop_set_cstr	(xmlNodePtr node, char const *name, char const *val);
-gboolean xml_prop_get_int	(xmlNodePtr node, char const *name, int *val);
-void     xml_prop_set_int	(xmlNodePtr node, char const *name, int val);
-gboolean xml_prop_get_double	(xmlNodePtr node, char const *name, double *val);
-void     xml_prop_set_double	(xmlNodePtr node, char const *name, double val, int precision);
-GdkColor *xml_prop_get_gdkcolor (xmlNodePtr node, char const *name);
-void      xml_prop_set_gdkcolor (xmlNodePtr node, char const *name,
+
+/* Some utility routines for setting attributes or content */
+xmlChar  *xml_node_get_cstr	(xmlNodePtr node, char const *name);
+void	  xml_node_set_cstr	(xmlNodePtr node, char const *name, char const *val);
+gboolean  xml_node_get_int	(xmlNodePtr node, char const *name, int *val);
+void      xml_node_set_int	(xmlNodePtr node, char const *name, int val);
+gboolean  xml_node_get_double	(xmlNodePtr node, char const *name, double *val);
+void      xml_node_set_double	(xmlNodePtr node, char const *name, double val, int precision);
+GdkColor *xml_node_get_gdkcolor (xmlNodePtr node, char const *name);
+void      xml_node_set_gdkcolor (xmlNodePtr node, char const *name,
 			         GdkColor const *color);
 
 

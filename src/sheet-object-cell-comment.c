@@ -203,8 +203,8 @@ cell_comment_write_xml (SheetObject const *so,
 			XmlParseContext const *ctxt, xmlNodePtr tree)
 {
 	CellComment const *cc = CELL_COMMENT (so);
-	xml_prop_set_cstr (tree, "Author", cc->author);
-	xml_prop_set_cstr (tree, "Text", cc->text);
+	xml_node_set_cstr (tree, "Author", cc->author);
+	xml_node_set_cstr (tree, "Text", cc->text);
 	return FALSE;
 }
 

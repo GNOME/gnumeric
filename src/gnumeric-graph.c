@@ -637,8 +637,10 @@ gnm_graph_subscribe_vector (GnmGraph *graph, GnmGraphVector *vector)
  * @expr  : the expression to evaluate for this vector.
  * @type  : optional, pass GNM_VECTOR_AUTO, and we will make a guess.
  * @sheet : this a dependentContainer when I create it.
+ *
+ * Returns the ID of the vector
  */
-GnmGraphVector *
+int
 gnm_graph_add_vector (GnmGraph *graph, ExprTree *expr,
 		      GnmGraphVectorType type, Sheet *sheet)
 {
@@ -646,7 +648,7 @@ gnm_graph_add_vector (GnmGraph *graph, ExprTree *expr,
 	EvalPos ep;
 	int i;
 
-	g_return_val_if_fail (IS_GNUMERIC_GRAPH (graph), FALSE);
+	g_return_val_if_fail (IS_GNUMERIC_GRAPH (graph), -1);
 
 	/* If this graph already has this vector don't duplicate it.
 	 * This is useful when importing a set of series with a common dimension.
@@ -664,7 +666,7 @@ gnm_graph_add_vector (GnmGraph *graph, ExprTree *expr,
 			printf ("vector::ref (%d) @ 0x%p = %s\n", vector->type, vector, expr_str);
 			g_free (expr_str);
 #endif
-			return vector;
+			return vector->id;
 		}
 	}
 
@@ -712,7 +714,7 @@ gnm_graph_add_vector (GnmGraph *graph, ExprTree *expr,
 	}
 #endif
 
-	return vector;
+	return vector->id;
 }
 
 static char *
