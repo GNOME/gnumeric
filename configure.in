@@ -307,7 +307,7 @@ if $try_gb; then
 	AC_MSG_CHECKING(for Gb >= 0.0.17						)
 	if gnome-config --libs gb > /dev/null 2>&1; then
 		verstxt=`gnome-config --modversion gb 2>/dev/null`
-		vers=`echo "$verstxt" | awk -F. '{ printf "%d, $1 * 10000 + $2 * 100 + $3; }'`
+		vers=`echo "$verstxt" | awk -F. '{ printf "%d", $1 * 10000 + $2 * 100 + $3; }'`
 		if test "$vers" -ge 000017; then
 			AC_MSG_RESULT(<yes > found $verstxt)
 			AC_DEFINE(ENABLE_GB)

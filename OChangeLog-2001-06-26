@@ -1,3 +1,7 @@
+2000-12-18  Almer S. Tigelaar  <almer1@dds.nl>
+
+	* configure.in : Fix typo in gb check.
+
 2000-12-17  Jody Goldberg <jgoldberg@home.com>
 
 	* configure.in : Post release bump
