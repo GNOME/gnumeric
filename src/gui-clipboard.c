@@ -288,7 +288,8 @@ table_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 		 * if the conversion from the X selection -> a cellregion
 		 * was canceled this may have content sized -1,-1
 		 */
-		if (content->cols > 0 && content->rows > 0)
+		if ((content->cols > 0 && content->rows > 0) ||
+		    content->objects != NULL)
 			cmd_paste_copy (wbc, pt, content);
 
 		/* Release the resources we used */

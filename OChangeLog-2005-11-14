@@ -1,3 +1,10 @@
+2005-03-12  Jon K Hellan  <hellan@acm.org>
+
+	* src/wbcg-actions.c: Add <Ctrl>+P accelerator for print.
+
+	* src/gui-clipboard.c (table_content_received): Paste selection
+	with only objects, no cells.
+
 2005-03-10  Morten Welinder  <terra@gnome.org>
 
 	* src/print-cell.c (print_cell): Pretend to have zoom=100%.

@@ -1501,7 +1501,7 @@ static const GtkActionEntry actions[] = {
 		NULL, N_("Print preview"),
 		G_CALLBACK (cb_file_print_preview) },
 	{ "FilePrint", GTK_STOCK_PRINT, NULL,
-		NULL, N_("Print the current file"),
+		"<control>p", N_("Print the current file"),
 		G_CALLBACK (cb_file_print) },
 	{ "FileSummary", GTK_STOCK_PROPERTIES, N_("Proper_ties..."),
 		NULL, N_("Edit descriptive information"),
