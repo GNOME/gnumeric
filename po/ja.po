@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-16 15:28+0900\n"
+"POT-Creation-Date: 2004-10-17 04:58+0900\n"
 "PO-Revision-Date: 2004-03-08 18:30+0900\n"
 "Last-Translator: Yukihiro Nakai <nakai@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
@@ -17369,11 +17369,11 @@ msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:23
 msgid "Screen resolution in the horizontal direction."
-msgstr ""
+msgstr "水平方向のスクリーン解像度です。"
 
 #: schemas/gnumeric-general.schemas.in.h:24
 msgid "Screen resolution in the vertical direction."
-msgstr ""
+msgstr "垂直方向のスクリーン解像度です。"
 
 #: schemas/gnumeric-general.schemas.in.h:25
 msgid ""
@@ -17381,6 +17381,9 @@ msgid ""
 "case-sensitive sort and determine the initial state of the case-sensitive "
 "checkbox in the sort dialog."
 msgstr ""
+"このオプションを設定するとツールバーのソートボタンが大文字小文字を区別した"
+"ソートをするようになったりソートダイアログにある「大文字小文字を区別する」"
+"チェックボックスの初期状態を決定したりします。"
 
 #: schemas/gnumeric-general.schemas.in.h:26
 msgid ""
@@ -17388,6 +17391,9 @@ msgid ""
 "the cell formats while sorting and determines the initial state of the "
 "preserve-formats checkbox in the sort dialog."
 msgstr ""
+"このオプションを設定すると、ツールバーのソートボタンがソート中にセルフォー"
+"マットを保護したり、ソートダイアログにある「フォーマットを保護したままソー"
+"ト」チェックボックスの初期状態を決定したりします。"
 
 #: schemas/gnumeric-general.schemas.in.h:27
 msgid "Show Sheet Name in Undo List"
@@ -22712,9 +22718,8 @@ msgid "_Separator:"
 msgstr "セパレータ"
 
 #: src/dialogs/dialog-stf-export.glade.h:41
-#, fuzzy
 msgid "_Unknown characters:"
-msgstr "不明な文字:"
+msgstr "不明な文字(_U):"
 
 #: src/dialogs/dialog-stf-fixed-page.c:52
 msgid "Autodiscovery did not find any columns in the text. Try manually"
@@ -31011,6 +31016,10 @@ msgstr "ファイルの保存に失敗"
 #: src/xml-io.c:4333
 msgid "Gnumeric XML (*.gnumeric) original slow exporter"
 msgstr "Gnumeric XML (*.gnumeric) オリジナルの遅いエクスポート"
+
+#: templates/autoformat/autoformat.General.advanced.xml.h:1
+msgid "An advanced colorless template"
+msgstr "高度で色のないテンプレート"
 
 #, fuzzy
 #~ msgid "Raise object"
