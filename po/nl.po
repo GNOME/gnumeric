@@ -1,3 +1,10 @@
+# WAARSCHUWING!
+# =============
+# NIET AANKOMEN NIKS UPDATEN NIKS MODIFYEN HIER
+# WORDT AAN GEWERKT OP DIT MOMENT.
+# =========================
+# Neem contact op met Dennis Smit <synap@area101.penguin.nl>
+#
 # gnumeric nl.po
 # Copyright (C) 1999 Free Software Foundation, Inc.
 # M.Meij <M.Meij@wbmt.tudelft.nl>

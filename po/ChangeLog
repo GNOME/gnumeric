@@ -1,3 +1,11 @@
+2001-05-17  Almer S. Tigelaar  <almer@gnome.org>
+
+	On behalf of Dennis Smit <dennis@area101.penguin.nl> :
+
+	* nl.po: Add a don't-translate-this warning.
+	someone is working hard on revamping this
+	translation.
+
 2001-05-15  Stanislav Visnovsky  <visnovsky@nenya.ms.mff.cuni.cz>
 
 	* sk.po: Updated Slovak translation.
