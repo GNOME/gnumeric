@@ -12,8 +12,8 @@
 #include "eval.h"
 #include "format.h"
 #include "color.h"
-
-#include <gnome-print.h>
+#include <libgnomeprint/gnome-print.h>
+#include "print-cell.h"
 
 #define CELL_DIM(cell,p) (cell->p->units + cell->p->margin_a + cell->p->margin_b)
 #define CELL_HEIGHT(cell) CELL_DIM(cell,row)
@@ -157,6 +157,7 @@ print_cell_range (GnomePrintContext *context,
 	g_return_if_fail (start_col < end_col);
 	g_return_if_fail (end_col < end_row);
 
+	y = 0;
 	for (row = 0; row <= end_row; row++){
 		ri = sheet_row_get_info (sheet, row);
 
@@ -204,7 +205,7 @@ print_cell_grid (GnomePrintContext *context,
 	g_return_if_fail (end_col < end_row);
 
 	for (cols = sheet->cols_info; cols; cols = cols->next){
-		ColRowInfo *ci;
+		ColRowInfo *ci = cols->data;
 
 		if (ci->pos < start_col)
 			continue;
@@ -224,6 +225,7 @@ print_cell_grid (GnomePrintContext *context,
 	for (rows = sheet->rows_info; rows; rows = rows->next){
 		ColRowInfo *ri;
 
+		ri = rows->data;
 		if (ri->pos < start_row)
 			continue;
 		if (ri->pos > end_row)

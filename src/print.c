@@ -94,6 +94,7 @@ print_page (Sheet *sheet, int start_col, int end_col, int start_row, int end_row
 		base_y += sheet->default_row_style.units;
 	}
 
+	base_y += pj->height;
 	for (i = 0; i < pj->n_copies; i++){
 		     print_cell_range (pj->print_context, sheet,
 				       start_col, start_row,
