@@ -21,7 +21,7 @@ You need:
 
 	glib	    >= 1.2.7	(glib-libs 1.3 is not supported)
 	gtk+	    >= 1.2.7	(gnome-libs 1.3 is not supported)
-	gnome-libs  >= 1.2.5	(gnome-libs 2.0 is not supported)
+	gnome-libs  >= 1.0.57	(gnome-libs 2.0 is not supported)
 	libglade    == 0.14	(DO NOT USE CVS HEAD, 29/Sep/00 it is broken)
 	gal	    >= 0.0.1
 	gnome-print >= 0.24	(Be careful, newer version may not compile)
@@ -33,11 +33,14 @@ You need:
 	NOTE : libole2 is also known as libgnomeole2
 
 Optionally:
-	bonobo == CVS HEAD as of 29/Sep/00
+	bonobo == 0.20
 	NOTE : This is an unstable interface.  It is not part of the released
 	    GNOME api and is subject to change.  Newer released versions of
 	    bonobo will almost certainly NOT compile with this release of
 	    gnumeric.
+	With the newer bonobo you will also want a newer gnome-libs
+	gnome-libs  >= 1.2.5	(gnome-libs 2.0 is not supported)
+	guppi == CVS module guppi3
 
 Notes regarding plugins
 -----------------------
