@@ -1,3 +1,12 @@
+2002-02-28  Jody Goldberg <jody@gnome.org>
+
+	* ms-formula-write.c (write_area) : write explicitly scoped addreses
+	  as area3d not area.  Use tx = 0xffff and warn that we only support
+	  locale sheets.
+
+	* ms-excel-write.c (write_bits) : better attribution and dump names.
+	(write_workbook) : let write_bits handle the names.
+
 2002-02-26  Jody Goldberg <jody@gnome.org>
 
 	* ms-escher.c (ms_escher_get_data) : clarify the interface.
