@@ -124,8 +124,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-07 01:25-0500\n"
-"PO-Revision-Date: 2004-10-29 17:58+0200\n"
+"POT-Creation-Date: 2004-11-21 11:16+0100\n"
+"PO-Revision-Date: 2004-11-21 18:03+0100\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: nl <vertaling@nl.linux.org>\n"
 "MIME-Version: 1.0\n"
@@ -1703,7 +1703,7 @@ msgstr "Financieel Afgeleiden"
 msgid "Functions related to financial derivatives"
 msgstr "Functies gerelateerd aan financieel afgeleiden"
 
-#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5743
+#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5831
 #: plugins/mps/mps.c:547 src/xml-io.c:4199
 msgid "Reading file..."
 msgstr "Bezig met lezen bestand..."
@@ -1789,52 +1789,52 @@ msgstr "Opslaan wordt nu voorbereid..."
 msgid "Saving file..."
 msgstr "Bezig bestand op te slaan..."
 
-#: plugins/excel/excel-xml-read.c:85 plugins/xml_sax/xml-sax-read.c:270
+#: plugins/excel/excel-xml-read.c:85 plugins/xml_sax/xml-sax-read.c:276
 #, c-format
 msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Onverwacht attribuut %s::%s == '%s'."
 
 #: plugins/excel/excel-xml-read.c:198
 #: plugins/openoffice/openoffice-read.c:1479
-#: plugins/xml_sax/xml-sax-read.c:1649
+#: plugins/xml_sax/xml-sax-read.c:1767
 msgid "XML document not well formed!"
 msgstr "Onjuist gemaakt XML document!"
 
-#: plugins/excel/ms-excel-read.c:1069 src/value.c:60
+#: plugins/excel/ms-excel-read.c:1070 src/value.c:60
 msgid "#UNKNOWN!"
 msgstr "#ONBEKEND!"
 
 # werkblad?
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1151 plugins/excel/ms-excel-read.c:1163
+#: plugins/excel/ms-excel-read.c:1152 plugins/excel/ms-excel-read.c:1164
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:510
 #: src/dialogs/dialog-sheet-order.c:432 src/dialogs/dialog-sheet-order.c:436
 #, c-format
 msgid "Sheet%d"
 msgstr "Blad%d"
 
-#: plugins/excel/ms-excel-read.c:1167
+#: plugins/excel/ms-excel-read.c:1168
 #, c-format
 msgid "Macro%d"
 msgstr "Macro%d"
 
-#: plugins/excel/ms-excel-read.c:1171
+#: plugins/excel/ms-excel-read.c:1172
 #, c-format
 msgid "Chart%d"
 msgstr "Grafiek%d"
 
-#: plugins/excel/ms-excel-read.c:1174
+#: plugins/excel/ms-excel-read.c:1175
 #, c-format
 msgid "Module%d"
 msgstr "Module%d"
 
-#: plugins/excel/ms-excel-read.c:2963
+#: plugins/excel/ms-excel-read.c:2964
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Fout bij verwerken naar '%s'"
 
-#: plugins/excel/ms-excel-read.c:3059
+#: plugins/excel/ms-excel-read.c:3060
 #, c-format
 msgid ""
 "DDE links are not supported.\n"
@@ -1843,7 +1843,7 @@ msgstr ""
 "DDE-links zijn niet ondersteund.\n"
 "Naam '%s' zal verloren gaan.\n"
 
-#: plugins/excel/ms-excel-read.c:3065
+#: plugins/excel/ms-excel-read.c:3066
 #, c-format
 msgid ""
 "OLE links are not supported.\n"
@@ -1852,15 +1852,15 @@ msgstr ""
 "OLE-links zijn niet ondersteund.\n"
 "Naam '%s' zal verloren gaan.\n"
 
-#: plugins/excel/ms-excel-read.c:5088
+#: plugins/excel/ms-excel-read.c:5176
 msgid "external references"
 msgstr "externe verwijzingen"
 
-#: plugins/excel/ms-excel-read.c:5111
+#: plugins/excel/ms-excel-read.c:5199
 msgid "No password supplied"
 msgstr "Geen wachtwoord opgegeven"
 
-#: plugins/excel/ms-excel-read.c:5969
+#: plugins/excel/ms-excel-read.c:6057
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Niet in staat om een geldige MS Excel werkmap te vinden"
 
@@ -10866,7 +10866,6 @@ msgstr ""
 "@SEEALSO=GCD"
 
 #: plugins/fn-math/functions.c:252
-#, fuzzy
 msgid ""
 "@FUNCTION=HYPOT\n"
 "@SYNTAX=HYPOT(number1,number2,...)\n"
@@ -10878,17 +10877,14 @@ msgid ""
 "\n"
 "@SEEALSO=MIN,MAX"
 msgstr ""
-"@FUNCTION=ODD\n"
-"@SYNTAX=ODD(getal)\n"
-"@DESCRIPTION=ODD geeft het @getal afgerond naar het dichstbijzijnde oneven "
-"getal.\n"
-"\n"
-"* Deze functie is compatibel met Excel.\n"
+"@FUNCTION=HYPOT\n"
+"@SYNTAX=HYPOT(getal1;getal2;...)\n"
+"@DESCRIPTION=HYPOT geeft de wortel van de som van de kwadraten van de argumenten.\n"
 "\n"
 "@EXAMPLES=\n"
-"ODD(4,4) is 5\n"
+"HYPOT(3,4) is 5\n"
 "\n"
-"@SEEALSO=EVEN"
+"@SEEALSO=MIN,MAX"
 
 #: plugins/fn-math/functions.c:279
 msgid ""
@@ -18405,9 +18401,8 @@ msgid "Lotus 123"
 msgstr "Lotus 123"
 
 #: plugins/lotus-123/plugin.xml.in.h:3
-#, fuzzy
 msgid "Lotus 123 (*.wk1, *.wks, *.123)"
-msgstr "Lotus 123 (*.wk1, *.wks)"
+msgstr "Lotus 123 (*.wk1, *.wks, *.123)"
 
 #: plugins/mps/mps.c:181
 msgid "Program Name"
@@ -18430,8 +18425,8 @@ msgstr "Objectieve functie:"
 msgid "Constraints:"
 msgstr "Voorwaarden:"
 
-#: plugins/mps/mps.c:245 src/commands.c:6112
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1057
+#: plugins/mps/mps.c:245 src/commands.c:6144
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1063
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:379
 #: src/dialogs/dialog-define-names.c:496 src/dialogs/dialog-formula-guru.c:800
 #: src/dialogs/dialog-function-select.c:443
@@ -18865,7 +18860,7 @@ msgid "Could not allocate memory for record."
 msgstr "Kon geen geheugen reserveren voor het record."
 
 #: plugins/paradox/paradox.c:196
-#, fuzzy, c-format
+#, c-format
 msgid "Field type %d is not supported."
 msgstr "Veldtype %d wordt niet ondersteund."
 
@@ -18882,9 +18877,8 @@ msgid "Paradox database or primary index file"
 msgstr "Paradox database of primair indexbestand"
 
 #: plugins/perl/ext/Gnumeric.xs:144
-#, fuzzy
 msgid "Perl plugin"
-msgstr "Guile Plugin"
+msgstr "Perl plugin"
 
 #: plugins/perl/plugin.xml.in.h:1
 msgid "Enables the creation of functions in Perl"
@@ -18895,48 +18889,42 @@ msgid "Perl"
 msgstr "Perl"
 
 #: plugins/perl-func/plugin.xml.in.h:2
-#, fuzzy
 msgid "Perl functions"
-msgstr "Speciale functies"
+msgstr "Perl functies"
 
 #: plugins/perl-func/plugin.xml.in.h:3
-#, fuzzy
 msgid "Sample Perl plugin providing some (useless) functions."
-msgstr "Voorbeeld Python plugin met enkele (zinloze) functies."
+msgstr "Voorbeeld Perl plugin met enkele (zinloze) functies."
 
 #: plugins/perl-loader/perl-loader.c:109
-#, fuzzy
 msgid "Module name not given."
-msgstr "Geen module-bestandsnaam gegeven."
+msgstr "Geen modulenaam gegeven."
 
 #: plugins/perl-loader/perl-loader.c:135
-#, fuzzy
 msgid "perl_func.pl doesn't exit."
-msgstr "Module \"%s\" bestaat niet."
+msgstr "perl_func.pl bestaat niet."
 
 #: plugins/perl-loader/perl-loader.c:179 plugins/perl-loader/perl-loader.c:198
 #, c-format
 msgid "Perl error: %s\n"
-msgstr ""
+msgstr "Perl fout: %s\n"
 
 #: plugins/perl-loader/perl-loader.c:257
-#, fuzzy
 msgid "Perl error: "
-msgstr "Guile fout"
+msgstr "Perl fout: "
 
 #: plugins/perl-loader/plugin.xml.in.h:1
-#, fuzzy
 msgid "Perl plugin loader"
-msgstr "Python pluginlader"
+msgstr "Perl pluginlader"
 
 #: plugins/perl-loader/plugin.xml.in.h:2
-#, fuzzy
 msgid "This plugin provides support for Perl plugins"
-msgstr "Deze plugin levert ondersteuning voor Python plugins"
+msgstr "Deze plugin levert ondersteuning voor Perl plugins"
 
+# rekenblad/spreadsheet
 #: plugins/plan-perfect/pln.c:504
 msgid "PLN : Spreadsheet is password encrypted"
-msgstr "PLN : Rekenblad is beveiligd met een wachtwoord."
+msgstr "PLN : Spreadsheet is beveiligd met een wachtwoord."
 
 #: plugins/plan-perfect/pln.c:571
 #, c-format
@@ -19268,7 +19256,7 @@ msgid "Error while opening xbase file."
 msgstr "Fout bij het openen van xbase bestand"
 
 # werkblad?
-#: plugins/xbase/boot.c:175 src/commands.c:4906
+#: plugins/xbase/boot.c:175 src/commands.c:4938
 #: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:409
 #: src/dialogs/dialog-stf-export.c:444 src/dialogs/print.glade.h:21
 #: src/print-info.c:391 src/workbook.c:1091 src/xml-io.c:3789
@@ -19310,7 +19298,7 @@ msgstr "EXPERIMENTAL SAX gebaseerde Gnumeric (*.gnumeric)"
 msgid "EXPERIMENTAL SAX based XML"
 msgstr "EXPERIMENTAL SAX gebaseerde XML"
 
-#: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4325
+#: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4327
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Gnumeric XML (*.gnumeric)"
 
@@ -19318,14 +19306,19 @@ msgstr "Gnumeric XML (*.gnumeric)"
 msgid "The next generation sax based xml I/O subsystem"
 msgstr "De volgende generatie sax gebaseerd xml I/O subsysteem"
 
-#: plugins/xml_sax/xml-sax-read.c:302
+#: plugins/xml_sax/xml-sax-read.c:308
 #, c-format
 msgid "Multiple version specifications.  Assuming %d"
 msgstr "Meerdere versie-specificaties.  Er wordt uitgegaan van %d"
 
-#: plugins/xml_sax/xml-sax-read.c:473
+#: plugins/xml_sax/xml-sax-read.c:479
 msgid "File has inconsistent SheetNameIndex element."
 msgstr "Bestand heeft inconsistent SheetNameIndex element."
+
+#: plugins/xml_sax/xml-sax-read.c:1318 src/xml-io.c:2770
+#, c-format
+msgid "Unsupported object type '%s'"
+msgstr "Niet ondersteund objecttype '%s'"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:1
 #, fuzzy
@@ -19348,6 +19341,7 @@ msgid "Activate New Plugins"
 msgstr "Nieuwe plugins activeren"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:4
+#: src/dialogs/dialog-preferences.c:708
 msgid "Allow Unfocused Range Selections"
 msgstr "\"Bereik-selecties zonder aandacht\" toestaan"
 
@@ -19388,25 +19382,26 @@ msgid "Default Header/Footer Font Size"
 msgstr "Standaard lettertypegrootte kop/voet"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:14
-#, fuzzy
 msgid "Default Horizontal Centering"
-msgstr "Standaard horizontale grootte van venster"
+msgstr "Standaard horizontale centrering"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:15
 msgid "Default Print Cells with Only Styles"
-msgstr ""
+msgstr "Standaard cellen afdrukken met alleen stijlen"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:16
 msgid "Default Print Direction"
 msgstr "Standaard afdrukrichting"
 
+# herhaald/herhalend
 #: schemas/gnumeric-dialogs.schemas.in.h:17
 msgid "Default Repeated Left Region"
-msgstr ""
+msgstr "Standaard herhaald linkergebied"
 
+# herhaald/herhalend
 #: schemas/gnumeric-dialogs.schemas.in.h:18
 msgid "Default Repeated Top Region"
-msgstr ""
+msgstr "Standaard herhaald bovengebied"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:19
 msgid "Default Scale Percentage"
@@ -19418,28 +19413,24 @@ msgid "Default Scale Type"
 msgstr "Standaard schalingstype"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:21
-#, fuzzy
 msgid "Default Scaling Height"
-msgstr "Standaard vertikale grootte van venster"
+msgstr "Standaard schaalhoogte"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:22
-#, fuzzy
 msgid "Default Scaling Width"
-msgstr "Standaard vertikale grootte van venster"
+msgstr "Standaard schaalbreedte"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:23
-#, fuzzy
 msgid "Default Title Printing"
-msgstr "Bestanden overschrijven instellen als standaard"
+msgstr "Standaard titel afdrukken"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:24
 msgid "Default Top Margin"
 msgstr "Standaard bovenmarge"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:25
-#, fuzzy
 msgid "Default Vertical Centering"
-msgstr "Standaard vertikale grootte van venster"
+msgstr "Standaard verticale centrering"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:26
 msgid "Default header/footer font name"
@@ -19490,6 +19481,7 @@ msgid "List of recently used functions."
 msgstr "Lijst van recentelijk gebruikte functies."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:38
+#: src/dialogs/dialog-preferences.c:699
 msgid "Maximum Length of Recently Used Functions List"
 msgstr "Maximumlengte van de lijst met recentelijk gebruikte functies."
 
@@ -19636,34 +19628,35 @@ msgstr ""
 msgid ""
 "This string gives the default region to be repeated at the left of each "
 "printed sheet. Please use the Print Setup dialog to edit this value."
-msgstr ""
+msgstr "Deze tekenreeks geeft het standaard gebied dat aan de linkerzijde van elk afgedrukt werkblad wordt herhaald. Gebruik het dialoogvenster Afdrukinstellingen om deze waarde in te stellen."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:65
 msgid ""
 "This string gives the default region to be repeated at the top of each "
 "printed sheet. Please use the Print Setup dialog to edit this value."
-msgstr ""
+msgstr "Deze tekenreeks geeft het standaard gebied dat aan de bovenzijde van elk afgedrukt werkblad wordt herhaald. Gebruik het dialoogvenster Afdrukinstellingen om deze waarde in te stellen."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:66
 msgid ""
 "This value determines the default number of pages a printout of the current "
 "sheet is suppposed to be high. 0 disables scaling. Please use the Print "
 "Setup dialog to edit this value."
-msgstr ""
+msgstr "Deze waarde bepaalt hoeveel pagina's hoog een afdrukversie van het huidige werkblad standaard moet zijn. 0 zet schalen uit. Gebruik het dialoogvenster Afdrukinstellingen om deze waarde in te stellen."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:67
 msgid ""
 "This value determines the default number of pages a printout of the current "
 "sheet is suppposed to be wide. 0 disables scaling. Please use the Print "
 "Setup dialog to edit this value."
-msgstr ""
+msgstr "Deze waarde bepaalt hoeveel pagina's breed een afdrukversie van het huidige werkblad standaard moet zijn. 0 zet schalen uit. Gebruik het dialoogvenster Afdrukinstellingen om deze waarde in te stellen."
 
+# eenvoudiger gemaakt
 #: schemas/gnumeric-dialogs.schemas.in.h:68
 msgid ""
 "This value determines the default setting in the Print Setup dialog whether "
 "to center pages horizontally. Please use the Print Setup dialog to edit this "
 "value."
-msgstr ""
+msgstr "Deze waarde bepaalt of pagina's standaard horizontaal moeten worden gecentreerd. Gebruik het dialoogvenster Afdrukinstellingen om deze waarde in te stellen."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:69
 msgid ""
@@ -19762,6 +19755,7 @@ msgid "Auto Expression Recalculation Lag"
 msgstr "Vertraging bij automatische herberekening van uitdrukkingen"
 
 #: schemas/gnumeric-general.schemas.in.h:2
+#: src/dialogs/dialog-preferences.c:704
 msgid "Autocomplete"
 msgstr "Automatisch aanvullen"
 
@@ -19776,6 +19770,7 @@ msgstr ""
 "overschrijven, de standaardknop zijn."
 
 #: schemas/gnumeric-general.schemas.in.h:4
+#: src/dialogs/dialog-preferences.c:616
 msgid "Default Compression Level For Gnumeric Files"
 msgstr "Standaard compressieniveau voor Gnumeric-bestanden"
 
@@ -19784,22 +19779,27 @@ msgid "Default Font Size"
 msgstr "Standaard lettergrootte"
 
 #: schemas/gnumeric-general.schemas.in.h:6
+#: src/dialogs/dialog-preferences.c:564
 msgid "Default Horizontal Window Size"
 msgstr "Standaard horizontale grootte van venster"
 
 #: schemas/gnumeric-general.schemas.in.h:7
+#: src/dialogs/dialog-preferences.c:572
 msgid "Default Number of Sheets"
 msgstr "Standaard aantal werkbladen"
 
 #: schemas/gnumeric-general.schemas.in.h:8
+#: src/dialogs/dialog-preferences.c:621
 msgid "Default To Overwriting Files"
 msgstr "Bestanden overschrijven instellen als standaard"
 
 #: schemas/gnumeric-general.schemas.in.h:9
+#: src/dialogs/dialog-preferences.c:560
 msgid "Default Vertical Window Size"
-msgstr "Standaard vertikale grootte van venster"
+msgstr "Standaard verticale grootte van venster"
 
 #: schemas/gnumeric-general.schemas.in.h:10
+#: src/dialogs/dialog-preferences.c:568
 msgid "Default Zoom Factor"
 msgstr "Standaard zoom-factor"
 
@@ -19808,6 +19808,7 @@ msgid "Default font name"
 msgstr "Standaard lettertype-naam"
 
 #: schemas/gnumeric-general.schemas.in.h:12
+#: src/dialogs/dialog-preferences.c:662
 msgid "Horizontal DPI"
 msgstr "DPI Horizontaal"
 
@@ -19823,6 +19824,7 @@ msgid ""
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:14
+#: src/dialogs/dialog-preferences.c:612
 msgid "Length of File History"
 msgstr "Lengte van de bestandsgeschiedenis"
 
@@ -19836,22 +19838,27 @@ msgstr "Lijst van recentelijk gebruikte bestanden"
 
 # Realtime meeschuiven?
 #: schemas/gnumeric-general.schemas.in.h:17
+#: src/dialogs/dialog-preferences.c:580
 msgid "Live Scrolling"
 msgstr "Live schuiven"
 
 #: schemas/gnumeric-general.schemas.in.h:18
+#: src/dialogs/dialog-preferences.c:474
 msgid "Maximal Undo Size"
 msgstr "Maximum omvang van Herstellen"
 
 #: schemas/gnumeric-general.schemas.in.h:19
+#: src/dialogs/dialog-preferences.c:515
 msgid "Number of Automatic Clauses"
 msgstr "Aantal automatisch clausules"
 
 #: schemas/gnumeric-general.schemas.in.h:20
+#: src/dialogs/dialog-preferences.c:478
 msgid "Number of Undo Items"
 msgstr "Aantal Herstellen-items"
 
 #: schemas/gnumeric-general.schemas.in.h:21
+#: src/dialogs/dialog-preferences.c:741
 msgid "Prefer CLIPBOARD over PRIMARY selection"
 msgstr "bij selecteren CLIPBOARD prefereren boven PRIMARY"
 
@@ -19861,7 +19868,7 @@ msgstr "Schermresolutie in horizontale richting."
 
 #: schemas/gnumeric-general.schemas.in.h:24
 msgid "Screen resolution in the vertical direction."
-msgstr "Schermresolutie in vertikale richting."
+msgstr "Schermresolutie in verticale richting."
 
 #: schemas/gnumeric-general.schemas.in.h:25
 msgid ""
@@ -19884,6 +19891,7 @@ msgstr ""
 "sorteringsdialoogvenster standaard bij: 'opmaak behouden' staan"
 
 #: schemas/gnumeric-general.schemas.in.h:27
+#: src/dialogs/dialog-preferences.c:482
 msgid "Show Sheet Name in Undo List"
 msgstr "Werkbladnaam tonen in de Herstellen-lijst"
 
@@ -19897,7 +19905,8 @@ msgstr ""
 "variabele bepaalt of de gebruiker wordt gewaarschuwd als er van een werkboek "
 "met meerdere werkbladen slechts één werkblad wordt opgeslagen."
 
-#: schemas/gnumeric-general.schemas.in.h:29 src/wbcg-actions.c:1903
+#: schemas/gnumeric-general.schemas.in.h:29
+#: src/dialogs/dialog-preferences.c:527 src/wbcg-actions.c:1903
 msgid "Sort Ascending"
 msgstr "Oplopend sorteeren"
 
@@ -19906,6 +19915,7 @@ msgid "Sort is Case-Sensitive"
 msgstr "Sorteren is hoofdlettergevoelig"
 
 #: schemas/gnumeric-general.schemas.in.h:31
+#: src/dialogs/dialog-preferences.c:519
 msgid "Sorting Preserves Formats"
 msgstr "Sorteren behoudt opmaak"
 
@@ -19968,9 +19978,7 @@ msgstr ""
 msgid ""
 "This number (between 0.25 and 1.00) gives the vertical fraction of the "
 "screen size covered by the default window."
-msgstr ""
-"Dit getal (tussen 0.25 en 1.00) geeft de vertikale fractie van het "
-"beeldscherm dat door het standaardvenster in beslag wordt genomen."
+msgstr "Dit getal (tussen 0.25 en 1.00) geeft de verticale fractie van het beeldscherm dat door het standaardvenster in beslag wordt genomen."
 
 #: schemas/gnumeric-general.schemas.in.h:43
 msgid ""
@@ -20058,14 +20066,17 @@ msgstr "Werkbalk-stijl. Geldige waarden zijn both, both_horiz, icon en text"
 
 # geen idee wat deze toetsen doen
 #: schemas/gnumeric-general.schemas.in.h:55
+#: src/dialogs/dialog-preferences.c:576
 msgid "Transition Keys"
 msgstr "Overgangstoetsen"
 
 #: schemas/gnumeric-general.schemas.in.h:56
+#: src/dialogs/dialog-preferences.c:666
 msgid "Vertical DPI"
 msgstr "DPI Vertikaal"
 
 #: schemas/gnumeric-general.schemas.in.h:57
+#: src/dialogs/dialog-preferences.c:625
 msgid "Warn When Exporting Into Single Sheet Format"
 msgstr "Waarschuwen als geëxporteerd wordt naar een enkel-werkblad formaat"
 
@@ -20101,6 +20112,7 @@ msgstr ""
 "ucs LaTeX pakket hebben geïnstalleerd."
 
 #: schemas/gnumeric-plugins.schemas.in.h:2
+#: src/dialogs/dialog-preferences.c:630
 msgid "Use UTF-8 in LaTeX Export"
 msgstr "Bij LaTeX-export, UTF-8 gebruiken"
 
@@ -20375,7 +20387,7 @@ msgid "Setting height of rows %s to default"
 msgstr "Instellen van rijen %s op standaardhoogte"
 
 # dit is een item van het voorkeurs-venster
-#: src/commands.c:2089 src/dialogs/dialog-preferences.c:704
+#: src/commands.c:2089 src/dialogs/dialog-preferences.c:770
 msgid "Sorting"
 msgstr "Sorteren"
 
@@ -20535,125 +20547,125 @@ msgstr "Instellen hoogte van rijen op %.2fpts"
 msgid "Zoom %s to %.0f%%"
 msgstr "Zoom %s tot %.0f%%"
 
-#: src/commands.c:4420
+#: src/commands.c:4452
 msgid "Delete Object"
 msgstr "Object verwijderen"
 
-#: src/commands.c:4581
+#: src/commands.c:4613
 msgid "Format Object"
 msgstr "Object opmaken"
 
-#: src/commands.c:5180
+#: src/commands.c:5212
 msgid "Reordering Sheets"
 msgstr "Bladen Herordenen"
 
-#: src/commands.c:5183
+#: src/commands.c:5215
 msgid "Renaming Sheets"
 msgstr "Bladen Hernoemen"
 
-#: src/commands.c:5186
+#: src/commands.c:5218
 #, c-format
 msgid "Appending %i Sheets"
 msgstr "%i bladen toevoegen"
 
-#: src/commands.c:5190
+#: src/commands.c:5222
 msgid "Changing Tab Colors"
 msgstr "Kleur van Tabs Veranderen"
 
-#: src/commands.c:5193
+#: src/commands.c:5225
 msgid "Changing Sheet Protection"
 msgstr "Bladbeveiliging Veranderen"
 
-#: src/commands.c:5196
+#: src/commands.c:5228
 msgid "Delete sheets"
 msgstr "Werkbladen verwijderen"
 
-#: src/commands.c:5199
+#: src/commands.c:5231
 msgid "Delete a sheet"
 msgstr "Een werkblad verwijderen"
 
-#: src/commands.c:5202
+#: src/commands.c:5234
 msgid "Changing Sheet Visibility"
 msgstr "Wijzigen zichtbaarheid blad"
 
-#: src/commands.c:5205
+#: src/commands.c:5237
 msgid "Reorganizing Sheets"
 msgstr "Bladen Herordenen"
 
-#: src/commands.c:5356
+#: src/commands.c:5388
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Commentaar van %s wissen"
 
-#: src/commands.c:5357
+#: src/commands.c:5389
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Commentaar van %s instellen"
 
-#: src/commands.c:5737
+#: src/commands.c:5769
 #, c-format
 msgid "Merging data into %s"
 msgstr "Samenvoegen gegevens naar %s"
 
-#: src/commands.c:5839
+#: src/commands.c:5871
 msgid "Changing summary info"
 msgstr "Veranderen samevatting"
 
 # naar boven/onderen
 # naar voren/achteren
-#: src/commands.c:5928
+#: src/commands.c:5960
 msgid "Pull Object to the Front"
 msgstr "Object naar voren halen"
 
-#: src/commands.c:5931
+#: src/commands.c:5963
 msgid "Pull Object Forward"
 msgstr "Object naar voren"
 
-#: src/commands.c:5934
+#: src/commands.c:5966
 msgid "Push Object Backward"
 msgstr "Object naar achteren"
 
-#: src/commands.c:5937
+#: src/commands.c:5969
 msgid "Push Object to the Back"
 msgstr "Object naar achteren duwen"
 
-#: src/commands.c:6052
+#: src/commands.c:6084
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Paginainstellingen voor %s"
 
-#: src/commands.c:6054
+#: src/commands.c:6086
 msgid "Page Setup For All Sheets"
 msgstr "Paginainstellingen voor alle werkbladen"
 
-#: src/commands.c:6169
+#: src/commands.c:6201
 msgid "has a circular reference"
 msgstr "bevat een kringverwijzing"
 
-#: src/commands.c:6192
+#: src/commands.c:6224
 #, c-format
 msgid "Define Name %s"
 msgstr "Naam %s definiëren"
 
-#: src/commands.c:6195
+#: src/commands.c:6227
 #, c-format
 msgid "Update Name %s"
 msgstr "Naam %s bijwerken"
 
-#: src/commands.c:6259
+#: src/commands.c:6291
 msgid "Add scenario"
 msgstr "Scenario toevoegen"
 
-#: src/commands.c:6334
+#: src/commands.c:6366
 msgid "Scenario Show"
 msgstr "Scenario tonen"
 
-#: src/commands.c:6398
+#: src/commands.c:6430
 msgid "Shuffle Data"
 msgstr "Data husselen"
 
 #. FIXME?
-#: src/commands.c:6508
+#: src/commands.c:6540
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Tekst (%s) naar kolommen (%s)"
@@ -20663,28 +20675,28 @@ msgstr "Tekst (%s) naar kolommen (%s)"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/commands.c:6652 src/dialogs/solver.glade.h:17
+#: src/commands.c:6684 src/dialogs/solver.glade.h:17
 #: src/tools/solver/reports-write.c:193 src/tools/solver/reports-write.c:354
 #: src/tools/solver/reports-write.c:484 src/tools/solver/reports-write.c:743
 #: src/tools/solver/reports-write.c:907 src/tools/solver/reports-write.c:958
 msgid "Solver"
 msgstr "Oplosser"
 
-#: src/commands.c:6736
+#: src/commands.c:6768
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Doelzoeken (%s)"
 
-#: src/commands.c:6881
+#: src/commands.c:6913
 #, c-format
 msgid "Duplicating %s"
 msgstr "%s dupliceren"
 
-#: src/commands.c:6960
+#: src/commands.c:6992
 msgid "Tabulating Dependencies"
 msgstr "Afhankelijkhedeb tabuleren"
 
-#: src/commands.c:7035
+#: src/commands.c:7067
 msgid "Reconfigure Graph"
 msgstr "Diagram opnieuw configureren"
 
@@ -20729,11 +20741,11 @@ msgstr "Details"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1469
 msgid "Categories between _ticks"
-msgstr ""
+msgstr "Categorieën tussen _streepjes"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1470
 msgid "Categories between _labels"
-msgstr ""
+msgstr "Categorieën tussen _labels"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1471
 msgid "_Cross at category #"
@@ -20983,20 +20995,27 @@ msgid "Chart"
 msgstr "Grafiek"
 
 # Dit zijn titels van de dialoogvensters, vandaar gebiedende wijs
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1083
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1089
 msgid "Step 1 of 2: Select Chart Type"
 msgstr "Stap 1 van 2: Kies het soort grafiek"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1091
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1097
 msgid "Step 2 of 2: Customize Chart"
 msgstr "Stap 2 van 2: Pas de grafiek aan"
 
 # Venstertitel
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1096
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1102
 msgid "Customize Chart"
 msgstr "Grafiek aanpassen"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1210
+# de I is een kleine letter voor de sneltoets
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1178
+#: src/dialogs/function-select.glade.h:6 src/wbcg-actions.c:1442
+#: src/wbcg-actions.c:1600
+msgid "_Insert"
+msgstr "_Invoegen"
+
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1236
 msgid "_Plot Type"
 msgstr "_Plot type"
 
@@ -21067,13 +21086,13 @@ msgstr "Instellingen"
 msgid "Point"
 msgstr "Punt"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:159 src/gui-file.c:359
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:159 src/gui-file.c:348
 #, c-format
 msgid "%d x %d"
 msgstr "%d x %d"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:881
-#: src/dialogs/cell-format.glade.h:48 src/dialogs/dialog-preferences.c:697
+#: src/dialogs/cell-format.glade.h:48 src/dialogs/dialog-preferences.c:763
 msgid "Font"
 msgstr "Lettertype"
 
@@ -21137,9 +21156,8 @@ msgid "Si_ze:"
 msgstr "Gr_ootte:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:15
-#, fuzzy
 msgid "St_yle:"
-msgstr "Stijl:"
+msgstr "_Stijl:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:16
 #: src/dialogs/hyperlink.glade.h:5
@@ -21336,12 +21354,11 @@ msgstr "Aanliggende horizontale balken gegroepeerd per hoofd- en subcategorie."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:11
 msgid "Adjacent vertical 3D columns grouped by major and minor categories."
-msgstr ""
-"Aanliggende vertikale 3D-kolommen gegroepeerd per hoofd- en subcategorie."
+msgstr "Aanliggende verticale 3D-kolommen gegroepeerd per hoofd- en subcategorie."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:12
 msgid "Adjacent vertical columns grouped by major and minor categories."
-msgstr "Aanliggende vertikale kolommen gegroepeerd per hoofd- en subcategorie."
+msgstr "Aanliggende verticale kolommen gegroepeerd per hoofd- en subcategorie."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:13
 #: src/func.c:679
@@ -21389,9 +21406,7 @@ msgstr ""
 msgid ""
 "Minor categories stacked as percentages of the minor total, in 3D vertical "
 "bars, grouped by major category."
-msgstr ""
-"Subcategorien gestapeld als percentages van het subtotaal, in vertikale 3D-"
-"balken, gegroepeerd door hoofdcategorie."
+msgstr "Subcategorien gestapeld als percentages van het subtotaal, in verticale 3D-balken, gegroepeerd door hoofdcategorie."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:23
 msgid ""
@@ -21405,9 +21420,7 @@ msgstr ""
 msgid ""
 "Minor categories stacked as percentages of the minor total, in vertical "
 "columns, grouped by major category."
-msgstr ""
-"Subcategorien gestapeld als percentages van het subtotaal, in vertikale "
-"balken, gegroepeerd door hoofdcategorie."
+msgstr "Subcategorien gestapeld als percentages van het subtotaal, in verticale balken, gegroepeerd door hoofdcategorie."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:25
 msgid ""
@@ -21425,15 +21438,11 @@ msgstr ""
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:27
 msgid ""
 "Minor categories stacked in vertical 3D columns, grouped by major category."
-msgstr ""
-"Subcategorien gestapeld in vertikale 3D-kolommen, gegroepeerd door "
-"hoofdcategorie."
+msgstr "Subcategorien gestapeld in verticale 3D-kolommen, gegroepeerd door hoofdcategorie."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:28
 msgid "Minor categories stacked in vertical columns grouped by major category."
-msgstr ""
-"Subcategorien gestapeld in vertikale kolommen, gegroepeerd door "
-"hoofdcategorie."
+msgstr "Subcategorien gestapeld in verticale kolommen, gegroepeerd door hoofdcategorie."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:29
 msgid "Percentage Areas"
@@ -21576,13 +21585,10 @@ msgid "degrees"
 msgstr "graden"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-series.glade.h:3
-#, fuzzy
 msgid ""
 "The amount this slice is separated from the center measured as a percentage "
 "of the radius of the pie"
-msgstr ""
-"De standaardafstand die punten van het centrum zijn verwijderd gemeten als "
-"een percentage van de straal van de cirkel."
+msgstr "De afstand waarmee deze punt van het centrum is verwijderd gemeten als een percentage van de straal van de cirkel."
 
 # afstand
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-series.glade.h:4
@@ -21752,10 +21758,10 @@ msgstr "Radar plot-motor"
 msgid "Radial/Radar plots"
 msgstr ""
 
+# aantal punten
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/gog-contour-prefs.glade.h:1
-#, fuzzy
 msgid "_Slices number:"
-msgstr "Gehele getallen"
+msgstr ""
 
 #. xgettext : the base for how to name contour plot objects
 #.
@@ -21780,19 +21786,16 @@ msgid "Z"
 msgstr "Z"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/plot-types.xml.in.h:1
-#, fuzzy
 msgid "Contour"
-msgstr "Telling"
+msgstr "Contour"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/plot-types.xml.in.h:2
-#, fuzzy
 msgid "Contour plot."
-msgstr "Gebiedgrafiek."
+msgstr "Contourgrafiek."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/plot-types.xml.in.h:3
-#, fuzzy
 msgid "Surface"
-msgstr "Opper_vlak"
+msgstr "Oppervlak"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/plugin.xml.in.h:1
 #, fuzzy
@@ -21863,11 +21866,11 @@ msgstr "Ballonnen"
 msgid "Bubble"
 msgstr "Ballonnen"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1019
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1021
 msgid "Y Error bars"
 msgstr "Y foutbalken"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1021
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1023
 msgid "X Error bars"
 msgstr "X foutbalken"
 
@@ -21911,7 +21914,7 @@ msgstr "XY-punten"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:1
 msgid "2D plots"
-msgstr ""
+msgstr "2D plots"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:2
 msgid "2D scatter plotting engine"
@@ -22167,19 +22170,19 @@ msgstr "Egaal"
 
 #: src/cut-n-paste-code/goffice/utils/go-line.c:53
 msgid "Dash"
-msgstr ""
+msgstr "Streep"
 
 #: src/cut-n-paste-code/goffice/utils/go-line.c:54
 msgid "Dot"
-msgstr ""
+msgstr "Punt"
 
 #: src/cut-n-paste-code/goffice/utils/go-line.c:55
 msgid "Dash dot"
-msgstr ""
+msgstr "Streep punt"
 
 #: src/cut-n-paste-code/goffice/utils/go-line.c:56
 msgid "Dash dot dot"
-msgstr ""
+msgstr "Streep punt punt"
 
 #. xgettext : this will appear as 'Automatic (patternname)'
 #. xgettext : this will appear as 'Automatic (shapename)'
@@ -22640,7 +22643,7 @@ msgid "_Rows"
 msgstr "_Rijen"
 
 #: src/dialogs/anova-two.glade.h:1 src/dialogs/autocorrect.glade.h:1
-#: src/dialogs/autofilter-expression.glade.h:27
+#: src/dialogs/autofilter-expression.glade.h:14
 #: src/dialogs/autoformat.glade.h:1 src/dialogs/autosave.glade.h:1
 #: src/dialogs/cell-format.glade.h:2 src/dialogs/descriptive-stats.glade.h:2
 #: src/dialogs/dialog-stf-export.glade.h:5 src/dialogs/dialog-stf.glade.h:3
@@ -22772,51 +22775,20 @@ msgstr ""
 "bevat\n"
 "bevat niet"
 
-# BUG? waarom bevat is_less_than underscore?
-#: src/dialogs/autofilter-expression.glade.h:14
-msgid ""
-"\n"
-"equals\n"
-"does not equal\n"
-"is greater than\n"
-"is greater than or equal to\n"
-"is_less_than\n"
-"is less than or equal to\n"
-"begins with\n"
-"does not begin with\n"
-"ends with\n"
-"does not end with\n"
-"contains\n"
-"does not contain"
-msgstr ""
-"\n"
-"is gelijk aan\n"
-"is niet gelijk aan\n"
-"is groter dan\n"
-"is groter of gelijk aan\n"
-"is_kleiner_dan\n"
-"is kleiner of gelijk aan\n"
-"begint met\n"
-"begint niet met\n"
-"eindigt met\n"
-"eindigt niet met\n"
-"bevat\n"
-"bevat niet"
-
-#: src/dialogs/autofilter-expression.glade.h:28
+#: src/dialogs/autofilter-expression.glade.h:15
 #: src/dialogs/autofilter-top10.glade.h:1
 msgid "Gnumeric : AutoFilter"
 msgstr "Gnumeric : AutoFilter"
 
-#: src/dialogs/autofilter-expression.glade.h:29
+#: src/dialogs/autofilter-expression.glade.h:16
 msgid "Show rows where:"
 msgstr "Rijen tonen waarbij:"
 
-#: src/dialogs/autofilter-expression.glade.h:30
+#: src/dialogs/autofilter-expression.glade.h:17
 msgid "_And"
 msgstr "_En"
 
-#: src/dialogs/autofilter-expression.glade.h:31
+#: src/dialogs/autofilter-expression.glade.h:18
 msgid "_Or"
 msgstr "_Of"
 
@@ -23801,10 +23773,8 @@ msgid "Vincent Renardias"
 msgstr "Vincent Renardias"
 
 #: src/dialogs/dialog-about.c:139
-#, fuzzy
 msgid "original CSV support, French localization"
-msgstr ""
-"Vincent Renardias, oorspronkelijke CSV ondersteuning, Franse localisatie. "
+msgstr "oorspronkelijke CSV ondersteuning, Franse vertaling"
 
 #: src/dialogs/dialog-about.c:140
 msgid "Ariel Rios"
@@ -23942,13 +23912,13 @@ msgstr "Kon het Geavanceerde Filter dialoogvenster niet maken."
 msgid "The input range is invalid."
 msgstr "Het invoerbereik is ongeldig."
 
+# Het uitvoerbereik is ongeldig.
 #: src/dialogs/dialog-analysis-tools.c:504
 #: src/dialogs/dialog-analysis-tools.c:1088
 #: src/dialogs/dialog-analysis-tools.c:2706
 #: src/dialogs/dialog-analysis-tools.c:2932
-#, fuzzy
 msgid "The output specification is invalid."
-msgstr "Het uitvoerbereik is ongeldig."
+msgstr "De uitvoerspecificatie in ongeldig."
 
 #: src/dialogs/dialog-analysis-tools.c:560
 #: src/dialogs/dialog-analysis-tools.c:679
@@ -24118,7 +24088,7 @@ msgstr "Het aantal rijen per steekproef moet een positieg geheel getal zijn."
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "Kon het ANOVA (twee factor) dialoogvenster niet maken."
 
-#: src/dialogs/dialog-autocorrect.c:329
+#: src/dialogs/dialog-autocorrect.c:332
 msgid "Could not create the AutoCorrect dialog."
 msgstr "Kon het AutoCorrectie dialoogvenster niet maken."
 
@@ -24743,13 +24713,18 @@ msgstr "ID"
 msgid "Directory"
 msgstr "Map"
 
-#: src/dialogs/dialog-preferences.c:442
+#: src/dialogs/dialog-preferences.c:455
 msgid "The items on this page customize the behaviour of the undo/redo system."
 msgstr ""
 "De items op deze pagina bepalen het gedrag van het herstellen/herhalen "
 "systeem."
 
-#: src/dialogs/dialog-preferences.c:477
+#: src/dialogs/dialog-preferences.c:470
+#, fuzzy
+msgid "Length of Undo Descriptors"
+msgstr "Lengte van de herstellen-beschrijvingen"
+
+#: src/dialogs/dialog-preferences.c:498
 msgid ""
 "The items on this page customize the inital settings of the sort dialog and "
 "the behaviour of the sort toolbar buttons."
@@ -24758,25 +24733,30 @@ msgstr ""
 "dialoogvenster en\n"
 "het gedrag van de sorteerknoppen op de knoppenbalk."
 
-#: src/dialogs/dialog-preferences.c:515
+#: src/dialogs/dialog-preferences.c:523
+#, fuzzy
+msgid "Sorting is Case-Sensitive"
+msgstr "Sorteren is hoofdlettergevoelig"
+
+#: src/dialogs/dialog-preferences.c:544
 msgid "The items on this page customize the new default workbook."
 msgstr ""
 "De items op deze pagina bepalen de standaard vorm van een nieuwe werkmap."
 
-#: src/dialogs/dialog-preferences.c:555
+#: src/dialogs/dialog-preferences.c:596
 msgid "The items on this page are related to the saving and opening of files."
 msgstr ""
 "De items op deze pagina hebben te maken met het opslaan en het openen van "
 "bestanden."
 
-#: src/dialogs/dialog-preferences.c:593
+#: src/dialogs/dialog-preferences.c:646
 #, fuzzy
 msgid "The items on this page are related to the screen layout and resolution."
 msgstr ""
 "De items op deze pagina hebben te maken met het opslaan en het openen van "
 "bestanden."
 
-#: src/dialogs/dialog-preferences.c:625
+#: src/dialogs/dialog-preferences.c:682
 #, fuzzy
 msgid ""
 "The items on this page and its subpages are related to various gnumeric "
@@ -24785,42 +24765,40 @@ msgstr ""
 "De items op deze pagina hebben te maken met het opslaan en het openen van "
 "bestanden."
 
-#: src/dialogs/dialog-preferences.c:660
+#: src/dialogs/dialog-preferences.c:724
 #, fuzzy
-msgid "The items on this page arerelated to copy. cut and paste."
+msgid "The items on this page are related to copy. cut and paste."
 msgstr ""
 "De items op deze pagina hebben te maken met het opslaan en het openen van "
 "bestanden."
 
-#: src/dialogs/dialog-preferences.c:698
+#: src/dialogs/dialog-preferences.c:764
 msgid "Copy and Paste"
-msgstr ""
+msgstr "Kopiëren en plakken"
 
-#: src/dialogs/dialog-preferences.c:699
+#: src/dialogs/dialog-preferences.c:765
 msgid "Files"
 msgstr "Bestanden"
 
-#: src/dialogs/dialog-preferences.c:700
-#, fuzzy
+#: src/dialogs/dialog-preferences.c:766
 msgid "Tools"
-msgstr "E_xtra"
+msgstr "Extra"
 
-#: src/dialogs/dialog-preferences.c:701 src/wbc-gtk.c:472
+#: src/dialogs/dialog-preferences.c:767 src/wbc-gtk.c:472
 msgid "Undo"
 msgstr "Ongedaan maken"
 
-#: src/dialogs/dialog-preferences.c:702
+#: src/dialogs/dialog-preferences.c:768
 msgid "Windows"
 msgstr "Vensters"
 
-#: src/dialogs/dialog-preferences.c:703
+#: src/dialogs/dialog-preferences.c:769
 msgid "Header/Footer"
 msgstr "Kop/voet"
 
-#: src/dialogs/dialog-preferences.c:705
-#, fuzzy
+#: src/dialogs/dialog-preferences.c:771
 msgid "Screen"
-msgstr "Scherm %d"
+msgstr "Scherm"
 
 #: src/dialogs/dialog-printer-setup.c:873
 msgid "Customize header"
@@ -24838,6 +24816,7 @@ msgstr "Aangepaste kop configuratie"
 msgid "Custom footer configuration"
 msgstr "Aangepaste voet configuratie"
 
+# gelijkwaardig/gelijkmatig/gelijk/uniform
 #: src/dialogs/dialog-random-generator.c:111
 msgid "Uniform"
 msgstr "Uniform"
@@ -25171,7 +25150,7 @@ msgstr "Nieuwe Naam"
 
 #: src/dialogs/dialog-sheet-order.c:670
 msgid "At least one sheet must remain visible!"
-msgstr ""
+msgstr "Er moet tenminste een werkblad zichtbaar blijven!"
 
 #: src/dialogs/dialog-sheet-order.c:675
 msgid "You may not delete all sheets in a workbook!"
@@ -25378,7 +25357,7 @@ msgstr "_Voltooien"
 
 #: src/dialogs/dialog-stf-export.c:573
 msgid "This workbook does not contain any exportable content."
-msgstr ""
+msgstr "Dit werkboek bevat niets dat kan worden geëxporteerd."
 
 #: src/dialogs/dialog-stf-export.glade.h:1
 msgid ""
@@ -25626,15 +25605,14 @@ msgid "Ban_g (!)"
 msgstr "Uitroepteken (!)"
 
 #: src/dialogs/dialog-stf.glade.h:7
-#, fuzzy
 msgid ""
 "Both sides\n"
 "Neither side\n"
 "On left side only\n"
 "On right side only"
 msgstr ""
-"Altijd (Beide zijden)\n"
-"Nooit\n"
+"Beide zijden\n"
+"Geen enkele zijde\n"
 "Alleen aan linkerzijde\n"
 "Alleen aan rechterzijde"
 
@@ -25666,9 +25644,8 @@ msgid "Co_mma (,)"
 msgstr "Ko_mma (,)"
 
 #: src/dialogs/dialog-stf.glade.h:16
-#, fuzzy
 msgid "Column selection"
-msgstr "Selectie knippen"
+msgstr "Kolomselectie"
 
 #: src/dialogs/dialog-stf.glade.h:17
 msgid "Columns"
@@ -26189,12 +26166,6 @@ msgstr "Functiekiezer"
 msgid "Select a function to insert:"
 msgstr "Kies een functie om in te voegen:"
 
-# de I is een kleine letter voor de sneltoets
-#: src/dialogs/function-select.glade.h:6 src/wbcg-actions.c:1442
-#: src/wbcg-actions.c:1600
-msgid "_Insert"
-msgstr "_Invoegen"
-
 #: src/dialogs/goalseek.glade.h:1
 msgid "(Ma_ximum):"
 msgstr "(Ma_ximum):"
@@ -26315,9 +26286,8 @@ msgid "_Percentages"
 msgstr "_Percentages"
 
 #: src/dialogs/histogram.glade.h:22
-#, fuzzy
 msgid "_Predetermined bins"
-msgstr "_Vastgelegde Bins"
+msgstr "_Vastgelegde bins"
 
 #: src/dialogs/hyperlink.glade.h:2
 msgid "<small>Optional</small>"
@@ -26385,12 +26355,10 @@ msgid "E_qual"
 msgstr "_Gelijk"
 
 #: src/dialogs/mean-tests.glade.h:5
-#, fuzzy
 msgid "Hypothesized mean _difference:"
-msgstr "Verondersteld Gemiddeld _Verschil:"
+msgstr "Verondersteld gemiddeld _verschil:"
 
 #: src/dialogs/mean-tests.glade.h:6
-#, fuzzy
 msgid "Population variances are:"
 msgstr "Populatievarianties zijn:"
 
@@ -26399,22 +26367,18 @@ msgid "Testing the Difference of 2 Means"
 msgstr "Bezig met testen van 2 gemiddelden"
 
 #: src/dialogs/mean-tests.glade.h:8
-#, fuzzy
 msgid "Variable _1 population variance:"
-msgstr "Variabele _1 Populatievariantie:"
+msgstr "Variabele _1 populatievariantie:"
 
 #: src/dialogs/mean-tests.glade.h:9 src/dialogs/variance-tests.glade.h:7
-#, fuzzy
 msgid "Variable _1 range:"
 msgstr "Variabele _1 bereik:"
 
 #: src/dialogs/mean-tests.glade.h:10
-#, fuzzy
 msgid "Variable _2 population variance:"
-msgstr "Variabele _2 Populatievariantie:"
+msgstr "Variabele _2 populatievariantie:"
 
 #: src/dialogs/mean-tests.glade.h:11 src/dialogs/variance-tests.glade.h:8
-#, fuzzy
 msgid "Variable _2 range:"
 msgstr "Variabele _2 bereik:"
 
@@ -26431,7 +26395,6 @@ msgid "_Paired"
 msgstr "_Gekoppeld"
 
 #: src/dialogs/mean-tests.glade.h:19
-#, fuzzy
 msgid "_Population variances are:"
 msgstr "_Populatievarianties zijn:"
 
@@ -26472,9 +26435,8 @@ msgid "3"
 msgstr "3"
 
 #: src/dialogs/moving-averages.glade.h:3
-#, fuzzy
 msgid "C_olumns"
-msgstr "K_olom"
+msgstr "K_olommen"
 
 #: src/dialogs/moving-averages.glade.h:6 src/tools/analysis-tools.c:3731
 #: src/tools/analysis-tools.c:3734
@@ -26482,24 +26444,20 @@ msgid "Moving Average"
 msgstr "Bewegend Gemiddelde"
 
 #: src/dialogs/moving-averages.glade.h:10
-#, fuzzy
 msgid "_Interval:"
-msgstr "In_terval:"
+msgstr "_Interval:"
 
 #: src/dialogs/names.glade.h:3
-#, fuzzy
 msgid "<b>Available Names</b>"
-msgstr "Beschikbare namen"
+msgstr "<b>Beschikbare namen</b>"
 
 #: src/dialogs/names.glade.h:4
-#, fuzzy
 msgid "<b>Definition</b>"
-msgstr "<b>Oriëntatie</b>"
+msgstr "<b>Definitie</b>"
 
 #: src/dialogs/names.glade.h:5
-#, fuzzy
 msgid "Define Names"
-msgstr "Definieer Naam"
+msgstr "Namen definiëren"
 
 #: src/dialogs/names.glade.h:6
 msgid "Workbook"
@@ -26624,29 +26582,24 @@ msgid "% of _normal size"
 msgstr "% van _normale grootte"
 
 #: src/dialogs/print.glade.h:3
-#, fuzzy
 msgid "<b>Center on Page</b>"
-msgstr "Centreren op pagina"
+msgstr "<b>Centreren op pagina</b>"
 
 #: src/dialogs/print.glade.h:4
-#, fuzzy
 msgid "<b>Page Order</b>"
-msgstr "<b>Markering</b>"
+msgstr "<b>Paginavolgorde</b>"
 
 #: src/dialogs/print.glade.h:5
-#, fuzzy
 msgid "<b>Print</b>"
-msgstr "<b>Lijn</b>"
+msgstr "<b>Afdrukken</b>"
 
 #: src/dialogs/print.glade.h:6
-#, fuzzy
 msgid "<b>Scale</b>"
-msgstr "<b>Voorbeeld</b>"
+msgstr "<b>Schaal</b>"
 
 #: src/dialogs/print.glade.h:7
-#, fuzzy
 msgid "<b>Titles To Print</b>"
-msgstr "Titels om te printen"
+msgstr "<b>Titels om te printen</b>"
 
 #: src/dialogs/print.glade.h:8
 msgid "Apply _to:"
@@ -26657,9 +26610,8 @@ msgid "Apply to _all sheets of this workbook."
 msgstr "Toepassen op _alle werkbladen van dit werkboek."
 
 #: src/dialogs/print.glade.h:10
-#, fuzzy
 msgid "Co_mments:"
-msgstr "Op_merkingen"
+msgstr "Op_merkingen:"
 
 #: src/dialogs/print.glade.h:11
 msgid "Fi_rst page number:"
@@ -26670,7 +26622,6 @@ msgid "He_ader:"
 msgstr "_Kop:"
 
 #: src/dialogs/print.glade.h:13
-#, fuzzy
 msgid "Headers and Footers"
 msgstr "Koppen en voetnoten"
 
@@ -26771,14 +26722,12 @@ msgid "_Distribution:"
 msgstr "_Distributie:"
 
 #: src/dialogs/random-generation.glade.h:8
-#, fuzzy
 msgid "_Number of variables:"
-msgstr "Aantal _Variabelen:"
+msgstr "Aantal _variabelen:"
 
 #: src/dialogs/random-generation.glade.h:9
-#, fuzzy
 msgid "_Size of sample:"
-msgstr "Grootte van Steekproef:"
+msgstr "_Grootte van steekproef:"
 
 #: src/dialogs/rank.glade.h:5
 msgid "Rank and Percentile"
@@ -26789,12 +26738,10 @@ msgid "Ties:"
 msgstr "Bindingen:"
 
 #: src/dialogs/rank.glade.h:8
-#, fuzzy
 msgid "_Average rank"
 msgstr "Gemiddelde _rang"
 
 #: src/dialogs/rank.glade.h:13
-#, fuzzy
 msgid "_Top rank"
 msgstr "_Hoogste rang"
 
@@ -26803,7 +26750,6 @@ msgid "0.95"
 msgstr "0.95"
 
 #: src/dialogs/regression.glade.h:3
-#, fuzzy
 msgid "Confidence level:"
 msgstr "Betrouwbaarheidsniveau:"
 
@@ -26818,14 +26764,12 @@ msgid "_Force intercept to be zero"
 msgstr "Snijpunt _forceren op nul"
 
 #: src/dialogs/regression.glade.h:14
-#, fuzzy
 msgid "_X variables:"
-msgstr "_X Variabelen:"
+msgstr "_X variabelen:"
 
 #: src/dialogs/regression.glade.h:15
-#, fuzzy
 msgid "_Y variable:"
-msgstr "_Y Variabele:"
+msgstr "_Y variabele:"
 
 #: src/dialogs/row-height.glade.h:1
 msgid "Row Height"
@@ -26836,7 +26780,6 @@ msgid "_Row height (pt.):"
 msgstr "_Rijhoogte (pt.):"
 
 #: src/dialogs/sampling.glade.h:4
-#, fuzzy
 msgid "N_umber of samples:"
 msgstr "_Aantal steekproeven:"
 
@@ -26850,17 +26793,14 @@ msgid "Sampling"
 msgstr "Steekproeven"
 
 #: src/dialogs/sampling.glade.h:8
-#, fuzzy
 msgid "Sampling method:"
 msgstr "Steekproefmethode:"
 
 #: src/dialogs/sampling.glade.h:9
-#, fuzzy
 msgid "Size of sample:"
-msgstr "Grootte van Steekproef:"
+msgstr "Grootte van steekproef:"
 
 #: src/dialogs/sampling.glade.h:13
-#, fuzzy
 msgid "_Input range: "
 msgstr "_Invoerbereik:"
 
@@ -27283,37 +27223,32 @@ msgid "Find Min."
 msgstr "Min. zoeken"
 
 #: src/dialogs/simulation.glade.h:8
-#, fuzzy
 msgid "First round #:"
 msgstr "Eerste ronde #:"
 
 #: src/dialogs/simulation.glade.h:9
-#, fuzzy
 msgid "Input variables:"
-msgstr "# Invoervariabelen"
+msgstr "Invoervariabelen:"
 
 #: src/dialogs/simulation.glade.h:10
 msgid "Iterations:"
 msgstr "Iteraties:"
 
 #: src/dialogs/simulation.glade.h:11
-#, fuzzy
 msgid "Last round #:"
-msgstr "Laatste Ronde #:"
+msgstr "Laatste ronde #:"
 
 #: src/dialogs/simulation.glade.h:12
-#, fuzzy
 msgid "Max time:"
-msgstr "Max Tijd:"
+msgstr "Max tijd:"
 
 #: src/dialogs/simulation.glade.h:13
 msgid "Next Sim."
 msgstr "Volgende Sim."
 
 #: src/dialogs/simulation.glade.h:16
-#, fuzzy
 msgid "Output variables:"
-msgstr "# Uitvoervariabelen"
+msgstr "Uitvoervariabelen:"
 
 #: src/dialogs/simulation.glade.h:17
 msgid "Prev. Sim."
@@ -27376,12 +27311,10 @@ msgid "Constraints"
 msgstr "Voorwaarden"
 
 #: src/dialogs/solver.glade.h:8
-#, fuzzy
 msgid "Max _Iterations:"
-msgstr "Max Iteraties:"
+msgstr "Max _Iteraties:"
 
 #: src/dialogs/solver.glade.h:9
-#, fuzzy
 msgid "Max _Time (sec.):"
 msgstr "Max _Tijd (sec.):"
 
@@ -27411,9 +27344,8 @@ msgid "Solve"
 msgstr "Oplossen"
 
 #: src/dialogs/solver.glade.h:19
-#, fuzzy
 msgid "_Algorithm:"
-msgstr "Algoritme:"
+msgstr "_Algoritme:"
 
 #: src/dialogs/solver.glade.h:20
 msgid "_Answer"
@@ -27432,9 +27364,8 @@ msgid "_Do not create scenarios"
 msgstr "_Geen scenarios aanmaken"
 
 #: src/dialogs/solver.glade.h:25
-#, fuzzy
 msgid "_Equal To:"
-msgstr "Gelijk aan:"
+msgstr "_Gelijk aan:"
 
 # linkerzijde
 #: src/dialogs/solver.glade.h:26
@@ -27592,18 +27523,16 @@ msgid "_Visual"
 msgstr "_Visueel"
 
 #: src/dialogs/variance-tests.glade.h:5
-#, fuzzy
 msgid "Test"
-msgstr "_Test"
+msgstr "Test"
 
 #: src/dialogs/variance-tests.glade.h:6
 msgid "Testing Equality of 2 Variances (F-Test)"
 msgstr "Gelijkheid testen van 2 Varianties (F-Test)"
 
 #: src/dialogs/view.glade.h:3
-#, fuzzy
 msgid "<b>Location</b>"
-msgstr "<b>Lijn</b>"
+msgstr "<b>Locatie</b>"
 
 # misschien 'maken' weglaten
 #: src/dialogs/view.glade.h:4
@@ -27684,7 +27613,7 @@ msgstr "Werkmap _beveiligen"
 
 #: src/dialogs/workbook-attr.glade.h:18
 msgid "_Vertical Scrollbar"
-msgstr "_Vertikale schuifbalk"
+msgstr "_Verticale schuifbalk"
 
 #: src/expr.c:719
 msgid "Unknown operator"
@@ -27718,12 +27647,12 @@ msgstr "'%s' is reeds in werkmap gedefinieerd"
 msgid "Invalid template file: %s"
 msgstr "Ongeldig sjabloon bestand: %s"
 
-#: src/file.c:497
+#: src/file.c:522
 msgid "Saving over old files of this type is disabled for safety."
 msgstr ""
 "Veiligheidshalve is het opslaan over oude bestanden van dit type uitgezet."
 
-#: src/file.c:499
+#: src/file.c:524
 msgid ""
 "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
@@ -28629,24 +28558,20 @@ msgid "Filled Object Properties"
 msgstr "Kader-eigenschappen"
 
 #: src/gnm-so-line.c:148
-#, fuzzy
 msgid "Line/Arrow Properties"
 msgstr "Lijn/Pijl-eigenschappen"
 
 #: src/GNOME_Gnumeric-gtk.xml.in.h:1
-#, fuzzy
 msgid "FormatToolbar"
-msgstr "_Werkbalken"
+msgstr "OpmaakWerkbalk"
 
 #: src/GNOME_Gnumeric-gtk.xml.in.h:2
-#, fuzzy
 msgid "ObjectToolbar"
-msgstr "GObject-lader"
+msgstr "ObjectWerkbalk"
 
 #: src/GNOME_Gnumeric-gtk.xml.in.h:3
-#, fuzzy
 msgid "StandardToolbar"
-msgstr "Standaard Fout"
+msgstr "StandaardWerkbalk"
 
 #: src/gnumeric-pane.c:130
 #, c-format
@@ -28670,24 +28595,24 @@ msgid "Load file"
 msgstr "Bestand laden"
 
 # kies een bestand/selecteer een bestand
-#: src/gui-file.c:224 src/gui-file.c:666
+#: src/gui-file.c:224 src/gui-file.c:655
 msgid "Select a file"
 msgstr "Een bestand selecteren"
 
-#: src/gui-file.c:242 src/gui-file.c:468 src/gui-file.c:680
+#: src/gui-file.c:242 src/gui-file.c:457 src/gui-file.c:669
 msgid "All Files"
 msgstr "Alle bestanden"
 
-#: src/gui-file.c:247 src/gui-file.c:685
+#: src/gui-file.c:247 src/gui-file.c:674
 msgid "Spreadsheets"
 msgstr "Spreadsheets"
 
 # bestandtype?
-#: src/gui-file.c:284 src/gui-file.c:535 src/gui-file.c:709
+#: src/gui-file.c:273 src/gui-file.c:524 src/gui-file.c:698
 msgid "File _type:"
 msgstr "Bestands_type:"
 
-#: src/gui-file.c:400
+#: src/gui-file.c:389
 #, c-format
 msgid ""
 "%s\n"
@@ -28696,7 +28621,7 @@ msgstr ""
 "%s\n"
 "is een mapnaam"
 
-#: src/gui-file.c:406
+#: src/gui-file.c:395
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -28705,41 +28630,37 @@ msgstr ""
 "U heeft geen toestemming om op te slaan naar\n"
 "%s"
 
-#: src/gui-file.c:415
-#, fuzzy, c-format
+#: src/gui-file.c:404
+#, c-format
 msgid ""
 "A file called <i>%s</i> already exists in %s.\n"
 "\n"
 "Do you want to save over it?"
 msgstr ""
-"Werkmap %s bestaat al.\n"
-"Wilt U er overheen opslaan?"
+"Een bestand <i>%s</i> bestaat al in %s.\n"
+"\n"
+"Wilt u het vervangen?"
 
-#: src/gui-file.c:473
-#, fuzzy
+#: src/gui-file.c:462
 msgid "Images"
-msgstr "Afbeelding"
+msgstr "Afbeeldingen"
 
-#: src/gui-file.c:513
-#, fuzzy
+#: src/gui-file.c:502
 msgid "Save as"
-msgstr "Alles opslaan"
+msgstr "Opslaan als"
 
-#: src/gui-file.c:562 src/gui-file.c:758
-#, fuzzy
+#: src/gui-file.c:551 src/gui-file.c:747
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
-msgstr ""
-"De opgegeven bestandsextentie komt niet overeen met het gekozen "
-"bestandstype. Wilt u evengoed deze naam gebruiken?"
+msgstr "De opgegeven bestandsextensie komt niet overeen met het gekozen bestandstype. Wilt u evengoed deze naam gebruiken?"
 
-#: src/gui-file.c:589
-#, fuzzy
+# Kies een afbeelding/Een afbeelding selecteren
+#: src/gui-file.c:578
 msgid "Select an Image"
 msgstr "Een afbeelding selecteren"
 
-#: src/gui-file.c:608
+#: src/gui-file.c:597
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -29311,7 +29232,7 @@ msgstr "Bestand bevat array \"%s\" niet."
 msgid "Module doesn't contain \"%s\" function."
 msgstr "Module bevat \"%s\" functie niet."
 
-#: src/plugin-service.c:159 src/plugin-service.c:249 src/plugin-service.c:1141
+#: src/plugin-service.c:159 src/plugin-service.c:249 src/plugin-service.c:1166
 msgid "Error while loading plugin service."
 msgstr "Fout bij activeren plugin"
 
@@ -29327,95 +29248,95 @@ msgstr "Schoonmaak functie binnen plugin gaf een foutmelding."
 msgid "Clipboard"
 msgstr "Klembord"
 
-#: src/plugin-service.c:408
+#: src/plugin-service.c:422
 msgid "File opener has no description"
 msgstr "Bestandsopener heeft geen beschrijving"
 
-#: src/plugin-service.c:440
+#: src/plugin-service.c:454
 #, c-format
 msgid "File opener - %s"
 msgstr "Bestandsopener - %s"
 
-#: src/plugin-service.c:559
+#: src/plugin-service.c:573
 msgid "Error while reading file."
 msgstr "Fout bij lezen bestand."
 
-#: src/plugin-service.c:714
+#: src/plugin-service.c:739
 msgid "File saver has no description"
 msgstr "Bestandsopslag heeft geen beschrijving"
 
-#: src/plugin-service.c:760
+#: src/plugin-service.c:785
 #, c-format
 msgid "File saver - %s"
 msgstr "Bestandsopslag - %s"
 
-#: src/plugin-service.c:822
+#: src/plugin-service.c:847
 msgid "Error while saving file."
 msgstr "Fout bij opslaan bestand."
 
-#: src/plugin-service.c:975
+#: src/plugin-service.c:1000
 msgid "Missing function category name."
 msgstr "Ontbrekende functiecategorie-naam."
 
-#: src/plugin-service.c:979
+#: src/plugin-service.c:1004
 msgid "Function group is empty."
 msgstr "Ontbrekende functiegroep-id."
 
-#: src/plugin-service.c:1009
+#: src/plugin-service.c:1034
 msgid "No func_desc_load method.\n"
 msgstr ""
 
-#: src/plugin-service.c:1079
+#: src/plugin-service.c:1104
 #, c-format
 msgid "%d function in category \"%s\""
 msgstr "%d functie in categorie \"%s\""
 
-#: src/plugin-service.c:1080
+#: src/plugin-service.c:1105
 #, c-format
 msgid "Group of %d functions in category \"%s\""
 msgstr "Groep van %d functies in categorie \"%s\""
 
-#: src/plugin-service.c:1176
+#: src/plugin-service.c:1201
 msgid "Plugin loader"
 msgstr "Python pluginlader"
 
-#: src/plugin-service.c:1273
+#: src/plugin-service.c:1298
 msgid "Missing file name."
 msgstr "Bestandsnaam ontbreekt."
 
-#: src/plugin-service.c:1322
+#: src/plugin-service.c:1347
 #, c-format
 msgid "Cannot read UI description from XML file %s."
 msgstr "Kan het infobestand (\"%s\") voor plugin niet lezen."
 
-#: src/plugin-service.c:1356
+#: src/plugin-service.c:1381
 #, c-format
 msgid "User interface with %d action"
 msgstr "Gebruikersinterface met %d actie"
 
-#: src/plugin-service.c:1357
+#: src/plugin-service.c:1382
 #, c-format
 msgid "User interface with %d actions"
 msgstr "Gebruikers-interface met %d acties"
 
-#: src/plugin-service.c:1385
+#: src/plugin-service.c:1410
 msgid "GObject loader"
 msgstr "GObject-lader"
 
-#: src/plugin-service.c:1492
+#: src/plugin-service.c:1517
 msgid "No \"type\" attribute on \"service\" element."
 msgstr "Geen \"type\"-attribuut op \"service\"-element."
 
-#: src/plugin-service.c:1498
+#: src/plugin-service.c:1523
 #, c-format
 msgid "Unknown service type: %s."
 msgstr "Onbekend servicetype: %s."
 
-#: src/plugin-service.c:1514
+#: src/plugin-service.c:1539
 msgid "Error reading service information."
 msgstr "Fout bij lezen service-informatie."
 
-#: src/plugin-service.c:1576
+#: src/plugin-service.c:1601
 msgid ""
 "We must load service before activating it (PLUGIN_ALWAYS_LOAD is set) but "
 "loading failed."
@@ -29450,15 +29371,15 @@ msgstr "Afdrukvoorbeeld"
 msgid "Printing failed"
 msgstr "Afdrukken mislukt"
 
-#: src/print.c:1443
+#: src/print.c:1444
 msgid "Print Sheets"
 msgstr "Werkbladen Afdrukken"
 
-#: src/print.c:1452
+#: src/print.c:1453
 msgid "Act_ive sheet"
 msgstr "Huid_ige werkblad"
 
-#: src/print.c:1452
+#: src/print.c:1453
 msgid "S_heets"
 msgstr "Werkbladen"
 
@@ -29787,12 +29708,12 @@ msgstr "Frame"
 msgid "Button"
 msgstr "Knop"
 
-#: src/sheet-object-widget.c:1304
+#: src/sheet-object-widget.c:1352
 #, c-format
 msgid "CheckBox %d"
 msgstr "Vinkje %d"
 
-#: src/sheet-object-widget.c:1750 src/wbcg-actions.c:1950
+#: src/sheet-object-widget.c:1807 src/wbcg-actions.c:1950
 msgid "RadioButton"
 msgstr "RadioKnop"
 
@@ -29924,33 +29845,32 @@ msgstr ""
 msgid "Parse error while trying to parse data into sheet"
 msgstr "Verwerkingsfout bij het verwerken van data naar blad"
 
+# 'trying to' is niet vertaald
 #: src/stf.c:428
-#, fuzzy
 msgid "Error while trying to export file as text"
-msgstr "Fout tijdens het lezen bestand"
+msgstr "Fout bij het exporteren van het bestand als tekst"
 
 #: src/stf.c:448
-#, fuzzy
 msgid "Error while trying to write CSV file"
-msgstr "Fout tijdens het schrijven csv bestand"
+msgstr "Fout bij het schrijven CSV-bestand"
 
 # CHECK misschien is dit te lang
-#: src/stf.c:490
+#: src/stf.c:504
 msgid "Comma or tab separated values (CSV/TSV)"
-msgstr "Waarden gescheiden door kommas of tabs (CSV/TSV)"
+msgstr "Waarden gescheiden door komma's of tabs (CSV/TSV)"
 
-#: src/stf.c:494
+#: src/stf.c:509
 msgid "Text import (configurable)"
 msgstr "Tekst-import (instelbaar)"
 
-#: src/stf.c:499
+#: src/stf.c:515
 msgid "Text export (configurable)"
 msgstr "Tekst-export (instelbaar)"
 
 # CHECK misschien is dit te lang
-#: src/stf.c:503
+#: src/stf.c:519
 msgid "Comma separated values (CSV)"
-msgstr "Waarden gescheiden door kommas (CSV)"
+msgstr "Waarden gescheiden door komma's (CSV)"
 
 #: src/stf-parse.c:58
 #, c-format
@@ -29961,7 +29881,7 @@ msgstr "Te veel rijen in gegevens om te verwerken: %d"
 msgid ""
 "There are more columns of data than there is room for in the sheet.  Extra "
 "columns will be ignored."
-msgstr ""
+msgstr "Er zijn meer kolommen met data dan er plaats is in het werkblad.  Overige kolommen zullen worden genegeerd."
 
 #: src/tools/analysis-tools.c:220 src/tools/analysis-tools.c:409
 #: src/tools/analysis-tools.c:4658
@@ -30917,7 +30837,7 @@ msgstr ""
 
 #: src/tools/solver/solver.c:465
 msgid "EqualTo models are not supported yet.  Please use Min or Max"
-msgstr ""
+msgstr "GelijkAan-modellen worden nog niet ondersteund.  Probeer Min of Max"
 
 #: src/tools/solver/solver.c:478
 msgid ""
@@ -31437,11 +31357,8 @@ msgid "C_ells..."
 msgstr "_Cellen..."
 
 #: src/wbcg-actions.c:1555
-#, fuzzy
 msgid "Delete the selected cells, shifting others into their place"
-msgstr ""
-"Verwijder de geselecteerde cellen waardoor andere cellen in hun plaats "
-"schuiven"
+msgstr "De geselecteerde cellen verwijderen waardoor andere cellen in hun plaats schuiven"
 
 #: src/wbcg-actions.c:1561
 msgid "Select all cells in the spreadsheet"
@@ -34013,11 +33930,6 @@ msgstr "Niet ondersteund bestandsformaat."
 msgid "An unexplained error happened while opening %s"
 msgstr "Er trad een onverklaarbare fout op bij het openen van %s"
 
-#: src/xml-io.c:2770
-#, c-format
-msgid "Unsupported object type '%s'"
-msgstr "Niet ondersteund objecttype '%s'"
-
 #: src/xml-io.c:3473
 msgid "Unparsable xml in clipboard"
 msgstr "Niet te verwerken xml in klembord"
@@ -34041,7 +33953,7 @@ msgstr "Het bestand is geen Gnumeric Werkmapbestand"
 msgid "Failure saving file"
 msgstr "Fout bij opslaan bestand"
 
-#: src/xml-io.c:4329
+#: src/xml-io.c:4332
 msgid "Gnumeric XML (*.gnumeric) original slow exporter"
 msgstr "Gnumeric XML (*.gnumeric) oorspronkelijke export (langzaam)"
 
@@ -34204,27 +34116,54 @@ msgid "Very simple table template with the same border everywhere "
 msgstr ""
 
 #: templates/autoformat/autoformat.List.basic.xml.in.h:1
-#, fuzzy
 msgid "A basic list"
-msgstr "In een lijst"
+msgstr "Een eenvoudige lijst"
 
 #: templates/autoformat/autoformat.List.green.xml.in.h:1
 msgid "A green list template"
-msgstr ""
+msgstr "Een groene lijst sjabloon"
 
 #: templates/autoformat/autoformat.List.lila.xml.in.h:2
 msgid "Lila"
 msgstr "Lila"
 
 #: templates/autoformat/autoformat.List.lila.xml.in.h:3
-#, fuzzy
 msgid "Lila list template"
-msgstr "Sjabloonnaam"
+msgstr "Lila lijstsjabloon"
 
 #: templates/autoformat/autoformat.List.simple.xml.in.h:1
-#, fuzzy
 msgid "A simple list template"
-msgstr "Sjabloonnaam"
+msgstr "Een eenvoudige lijst sjabloon"
+
+# BUG? waarom bevat is_less_than underscore?
+#~ msgid ""
+#~ "\n"
+#~ "equals\n"
+#~ "does not equal\n"
+#~ "is greater than\n"
+#~ "is greater than or equal to\n"
+#~ "is_less_than\n"
+#~ "is less than or equal to\n"
+#~ "begins with\n"
+#~ "does not begin with\n"
+#~ "ends with\n"
+#~ "does not end with\n"
+#~ "contains\n"
+#~ "does not contain"
+#~ msgstr ""
+#~ "\n"
+#~ "is gelijk aan\n"
+#~ "is niet gelijk aan\n"
+#~ "is groter dan\n"
+#~ "is groter of gelijk aan\n"
+#~ "is_kleiner_dan\n"
+#~ "is kleiner of gelijk aan\n"
+#~ "begint met\n"
+#~ "begint niet met\n"
+#~ "eindigt met\n"
+#~ "eindigt niet met\n"
+#~ "bevat\n"
+#~ "bevat niet"
 
 # Verscheidene is een betere vertaling, maar het staat heel stom
 # in het dialoogvenster.
@@ -35669,9 +35608,6 @@ msgstr "Sjabloonnaam"
 
 #~ msgid "Space style"
 #~ msgstr "Scheiders-stijl"
-
-#~ msgid "Whether spacers are vertical lines or just blank"
-#~ msgstr "Of Scheiders vertikale strepen moeten zijn of gewoon onzichtbaar"
 
 #~ msgid "Button relief"
 #~ msgstr "Knopreliëf"
