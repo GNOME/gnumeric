@@ -14,6 +14,7 @@
 #include "plugin-loader.h"
 
 #define PARENT_TYPE (gtk_object_get_type ())
+#define PL_GET_CLASS(loader)	GNUMERIC_PLUGIN_LOADER_CLASS (GTK_OBJECT (loader)->klass)
 
 void gnumeric_plugin_loader_unload_service_general_real (GnumericPluginLoader *loader,
                                                          PluginService *service,
@@ -170,8 +171,7 @@ gnumeric_plugin_loader_set_attributes (GnumericPluginLoader *loader,
 	g_return_if_fail (IS_GNUMERIC_PLUGIN_LOADER (loader));
 	g_return_if_fail (ret_error != NULL);
 
-	GNUMERIC_PLUGIN_LOADER_CLASS (GTK_OBJECT (loader)->klass)->set_attributes (
-	                                                           loader, attr_names, attr_values, &error);
+	PL_GET_CLASS(loader)->set_attributes (loader, attr_names, attr_values, &error);
 	*ret_error = error;
 }
 
@@ -199,7 +199,7 @@ gnumeric_plugin_loader_load (GnumericPluginLoader *loader, ErrorInfo **ret_error
 	}
 	plugin_load_dependencies (loader->plugin, &error);
 	if (error == NULL) {
-		gnumeric_plugin_loader_class = GNUMERIC_PLUGIN_LOADER_CLASS (GTK_OBJECT (loader)->klass);
+		gnumeric_plugin_loader_class = PL_GET_CLASS(loader);
 		g_return_if_fail (gnumeric_plugin_loader_class->load != NULL);
 		gnumeric_plugin_loader_class->load (loader, &error);
 		if (error == NULL) {
@@ -229,7 +229,7 @@ gnumeric_plugin_loader_unload (GnumericPluginLoader *loader, ErrorInfo **ret_err
 	if (!loader->is_loaded) {
 		return;
 	}
-	gnumeric_plugin_loader_class = GNUMERIC_PLUGIN_LOADER_CLASS (GTK_OBJECT (loader)->klass);
+	gnumeric_plugin_loader_class = PL_GET_CLASS(loader);
 	if (gnumeric_plugin_loader_class->unload != NULL) {
 		gnumeric_plugin_loader_class->unload (loader, &error);
 		if (error == NULL) {
@@ -253,7 +253,7 @@ gnumeric_plugin_loader_load_service (GnumericPluginLoader *loader, PluginService
 	g_return_if_fail (ret_error != NULL);
 
 	*ret_error = NULL;
-	gnumeric_plugin_loader_class = GNUMERIC_PLUGIN_LOADER_CLASS (GTK_OBJECT (loader)->klass);
+	gnumeric_plugin_loader_class = PL_GET_CLASS(loader);
 	gnumeric_plugin_loader_load (loader, &error);
 	if (error == NULL) {
 		void (*load_service_method) (GnumericPluginLoader *, PluginService *, ErrorInfo **) = NULL;
@@ -307,7 +307,7 @@ gnumeric_plugin_loader_unload_service (GnumericPluginLoader *loader, PluginServi
 	g_return_if_fail (ret_error != NULL);
 
 	*ret_error = NULL;
-	gnumeric_plugin_loader_class = GNUMERIC_PLUGIN_LOADER_CLASS (GTK_OBJECT (loader)->klass);
+	gnumeric_plugin_loader_class = PL_GET_CLASS(loader);
 
 	switch (service->service_type) {
 	case PLUGIN_SERVICE_GENERAL:
@@ -356,7 +356,7 @@ gnumeric_plugin_loader_get_extra_info_list (GnumericPluginLoader *loader, GList 
 	g_return_val_if_fail (IS_GNUMERIC_PLUGIN_LOADER (loader), 0);
 	g_return_val_if_fail (ret_keys_list != NULL && ret_values_list != NULL, 0);
 
-	gnumeric_plugin_loader_class = GNUMERIC_PLUGIN_LOADER_CLASS (GTK_OBJECT (loader)->klass);
+	gnumeric_plugin_loader_class = PL_GET_CLASS(loader);
 	if (gnumeric_plugin_loader_class->get_extra_info_list != NULL) {
 		return gnumeric_plugin_loader_class->get_extra_info_list (loader, ret_keys_list, ret_values_list);
 	} else {

@@ -7,7 +7,7 @@
  * This is a pretty simple implementation, should be helpful
  * to find performance hot-spots (if you bump SEARCH_STEPS to SHEET_MAX_ROWS/2)
  *
- * (C) 2000 Helix Code, Inc.
+ * (C) 2000-2001 Ximian, Inc.
  */
 #include <config.h>
 #include <string.h>
@@ -24,28 +24,14 @@
 static GtkObjectClass *parent_class;
 
 static void
-free_search (CompleteSheet *cs)
-{
-	/* Nothing, for now.  */
-}
-
-static void
 complete_sheet_finalize (GtkObject *object)
 {
 	CompleteSheet *cs = COMPLETE_SHEET (object);
+	if (cs->current != NULL) {
 	g_free (cs->current);
-	parent_class->finalize (object);
+		cs->current = NULL;
 }
-
-static void
-complete_sheet_destroy (GtkObject *object)
-{
-	CompleteSheet *cs = COMPLETE_SHEET (object);
-
-	free_search (cs);
-
-	if (parent_class->destroy)
-		(parent_class->destroy) (object);
+	parent_class->finalize (object);
 }
 
 #define MAX_SCAN_SPACE 1024
@@ -66,8 +52,6 @@ search_space_complete (CompleteSheet *cs)
 static void
 reset_search (CompleteSheet *cs)
 {
-	free_search (cs);
-
 	cs->inf = MAX (cs->row - 1, 0);
 	cs->sup = MIN (cs->row + 1, SHEET_MAX_ROWS);
 }
@@ -128,7 +112,6 @@ complete_sheet_class_init (GtkObjectClass *object_class)
 {
 	CompleteClass *auto_complete_class = (CompleteClass *) object_class;
 
-	object_class->destroy = complete_sheet_destroy;
 	object_class->finalize = complete_sheet_finalize;
 	auto_complete_class->search_iteration = complete_sheet_search_iteration;
 

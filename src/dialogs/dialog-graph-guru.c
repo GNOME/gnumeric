@@ -35,10 +35,9 @@
 #include <idl/GNOME_Gnumeric_Graph.h>
 
 #include <bonobo.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-xml-utils.h>
-#include <gnome-xml/parser.h>
+#include <libxml/parser.h>
 
 #define CONFIG_GURU		GNOME_Gnumeric_Graph_v1_ConfigGuru
 #define CONFIG_GURU1(suffix)	GNOME_Gnumeric_Graph_v1_ConfigGuru_ ## suffix

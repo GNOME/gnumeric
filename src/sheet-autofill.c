@@ -377,15 +377,24 @@ fill_item_new (Sheet *sheet, int col, int row)
  * Computes the delta for the items of the same type in fill_item_list
  * and stores the delta result in the last element (we get this as
  * the parameter last
+ *
+ * @singleton_increment : filling with a singleton will increment not copy.
  */
 static void
-autofill_compute_delta (GList *list_last)
+autofill_compute_delta (GList *list_last, gboolean singleton_increment)
 {
 	FillItem *fi = list_last->data;
 	FillItem *lfi;
 
 	fi->delta_is_float = FALSE;
-	fi->delta.d_int = 0;
+	fi->delta.d_int = singleton_increment ? 1 : 0;
+
+	/* In the special case of autofilling with a singleton date
+	 * containing days default to number.
+	 */
+	if (fi->type == FILL_DAYS && list_last->prev == NULL)
+		fi->type = FILL_NUMBER;
+
 	switch (fi->type) {
 	case FILL_DAYS:
 	case FILL_MONTHS:
@@ -431,7 +440,7 @@ autofill_compute_delta (GList *list_last)
 
 		if (list_last->prev == NULL) {
 			if ((fi->delta_is_float = (fi->v.value->type == VALUE_FLOAT)))
-				fi->delta.d_float = 0;
+				fi->delta.d_float = singleton_increment ? 1. : 0.;
 			return;
 		}
 		lfi = list_last->prev->data;
@@ -509,7 +518,9 @@ type_is_compatible (FillItem *last, FillItem *current)
 }
 
 static GList *
-autofill_create_fill_items (Sheet *sheet, int col, int row, int region_count, int col_inc, int row_inc)
+autofill_create_fill_items (Sheet *sheet, gboolean singleton_increment,
+			    int col, int row,
+			    int region_count, int col_inc, int row_inc)
 {
 	FillItem *last;
 	GList *item_list, *all_items, *major;
@@ -553,7 +564,7 @@ autofill_create_fill_items (Sheet *sheet, int col, int row, int region_count, in
 			fi->group_last = last_fi;
 		}
 
-		autofill_compute_delta (last_item);
+		autofill_compute_delta (last_item, gboolean singleton_increment);
 	}
 
 	return all_items;
@@ -625,7 +636,7 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 		return;
 	}
 
-	case FILL_DAYS : /* this hsould have been converted above */
+	case FILL_DAYS : /* this should have been converted above */
 		g_warning ("Please report this warning and detail the autofill\n"
 			   "setup used to generate it.");
 	case FILL_NUMBER: {
@@ -726,7 +737,7 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 }
 
 static void
-sheet_autofill_dir (Sheet *sheet,
+sheet_autofill_dir (Sheet *sheet, gboolean singleton_increment,
 		    int base_col,     int base_row,
 		    int region_count,
 		    int start_pos,    int end_pos,
@@ -739,9 +750,8 @@ sheet_autofill_dir (Sheet *sheet,
 	int count_max;
 
 	/* Create the fill items */
-	all_items = autofill_create_fill_items (
-		sheet, base_col, base_row,
-		region_count, col_inc, row_inc);
+	all_items = autofill_create_fill_items (sheet, singleton_increment,
+		base_col, base_row, region_count, col_inc, row_inc);
 
 	col = base_col + region_count * col_inc;
 	row = base_row + region_count * row_inc;
@@ -817,7 +827,7 @@ autofill_init (void)
  * queue a recalc, flag a status update, or regen spans.
  */
 void
-sheet_autofill (Sheet *sheet, gboolean default_increment,
+sheet_autofill (Sheet *sheet, gboolean singleton_increment,
 		int base_col,	int base_row,
 		int w,		int h,
 		int end_col,	int end_row)
@@ -832,27 +842,30 @@ sheet_autofill (Sheet *sheet, gboolean default_increment,
 		autofill_inited = TRUE;
 	}
 
-	/* FIXME: replace with enum: FILL_DIR_{NORTH|EAST|SOUTH|WEST} */
 	if (base_col > end_col || base_row > end_row) {
 		/* Inverse Auto-fill */
 		if (base_col != end_col + w - 1) {
 			for (series = 0; series < h; series++)
-				sheet_autofill_dir (sheet, base_col, base_row-series, w,
-						    base_col, end_col-1, -1, 0);
+				sheet_autofill_dir (sheet, singleton_increment,
+					base_col, base_row-series, w,
+					base_col, end_col-1, -1, 0);
 		} else {
 			for (series = 0; series < w; series++)
-				sheet_autofill_dir (sheet, base_col-series, base_row, h, 
-						    base_row, end_row-1, 0, -1);
+				sheet_autofill_dir (sheet, singleton_increment,
+					base_col-series, base_row, h, 
+					base_row, end_row-1, 0, -1);
 		}
 	} else {
 		if (end_col != base_col + w - 1) {
 			for (series = 0; series < h; series++)
-				sheet_autofill_dir (sheet, base_col, base_row+series, w,
-						    base_col, end_col+1, 1, 0);
+				sheet_autofill_dir (sheet, singleton_increment,
+					base_col, base_row+series, w,
+					base_col, end_col+1, 1, 0);
 		} else {
 			for (series = 0; series < w; series++)
-				sheet_autofill_dir (sheet, base_col+series, base_row, h, 
-						    base_row, end_row+1, 0, 1);
+				sheet_autofill_dir (sheet, singleton_increment,
+					base_col+series, base_row, h, 
+					base_row, end_row+1, 0, 1);
 		}
 	}
 }

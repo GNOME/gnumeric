@@ -675,8 +675,8 @@ AM_CONDITIONAL(WITH_GDA, $have_gda)
 AC_SUBST(GDA_CFLAGS)
 AC_SUBST(GDA_LIBS)
 
-GNUMERIC_LIBS=`gnome-config --libs gnomeui print libglade $bonobo libole2 gal`
-GNUMERIC_CFLAGS=`gnome-config --cflags gnomeui print libglade $bonobo libole2 gal`
+GNUMERIC_LIBS=`gnome-config --libs gnomeui print libglade $bonobo libole2 gal gdk_pixbuf`
+GNUMERIC_CFLAGS=`gnome-config --cflags gnomeui print libglade $bonobo libole2 gal gdk_pixbuf`
 AC_SUBST(GNUMERIC_LIBS)
 AC_SUBST(GNUMERIC_CFLAGS)
 

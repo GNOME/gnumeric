@@ -2,7 +2,7 @@
 #define GNUMERIC_PLUGIN_H
 
 #include <sys/types.h>
-#include <gnome-xml/tree.h>
+#include <libxml/tree.h>
 #include <gtk/gtktypeutils.h>
 #include "gnumeric.h"
 #include "error-info.h"

@@ -3,7 +3,7 @@
 
 #include "gnumeric.h"
 #include <gtk/gtkwidget.h>
-#include <gnome-xml/tree.h>
+#include <libxml/tree.h>
 #include <bonobo.h>
 /* Do not include idl here due to automake irritaion for the non-bonobo case */
 

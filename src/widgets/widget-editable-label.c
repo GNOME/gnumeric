@@ -71,7 +71,7 @@ el_edit_sync (El *el)
 
 	el_change_text (el, text);
 
-	cursor_pos = GTK_EDITABLE (entry)->current_pos;
+	cursor_pos = gtk_editable_get_position (GTK_EDITABLE (entry));
 
 	points = gnome_canvas_points_new (2);
 	points->coords [0] = gdk_text_width (font, text, cursor_pos) + MARGIN;

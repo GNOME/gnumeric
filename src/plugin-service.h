@@ -3,7 +3,7 @@
 
 #include <glib.h>
 #include <gmodule.h>
-#include <gnome-xml/tree.h>
+#include <libxml/tree.h>
 #include <gal/util/e-xml-utils.h>
 #include "gnumeric.h"
 #include "file.h"

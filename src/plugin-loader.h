@@ -3,7 +3,7 @@
 
 #include <glib.h>
 #include <gtk/gtkobject.h>
-#include <gnome-xml/tree.h>
+#include <libxml/tree.h>
 #include "gnumeric.h"
 #include "error-info.h"
 #include "plugin.h"
@@ -44,7 +44,7 @@ struct _GnumericPluginLoaderClass {
 	gint (*get_extra_info_list) (GnumericPluginLoader *loader, GList **ret_keys_list, GList **ret_values_list);
 };
 
-guint gnumeric_plugin_loader_get_type (void);
+GtkType gnumeric_plugin_loader_get_type (void);
 
 void gnumeric_plugin_loader_set_attributes (GnumericPluginLoader *loader,
                                             GList *attr_names, GList *attr_values,

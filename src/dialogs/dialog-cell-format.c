@@ -2661,23 +2661,23 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	setup_color_pickers (&state->border.color, "border_color_group",
 			     "border_color_hbox",
 			     _("Automatic"), _("Border"), &gs_black, state,
-			     cb_border_color, MSTYLE_ELEMENT_UNSET,
-			     state->style, NULL);
+			     GTK_SIGNAL_FUNC (cb_border_color),
+			     MSTYLE_ELEMENT_UNSET, state->style, NULL);
 	setup_color_pickers (&state->font.color, "fore_color_group",
 			     "font_color_hbox",
 			     _("Automatic"), _("Foreground"), &gs_black, state,
-			     cb_font_preview_color, MSTYLE_COLOR_FORE,
-			     state->style, NULL);
+			     GTK_SIGNAL_FUNC (cb_font_preview_color),
+			     MSTYLE_COLOR_FORE, state->style, NULL);
 	setup_color_pickers (&state->back.back_color, "back_color_group",
 			     "back_color_hbox",
 			     _("Clear Background"), _("Background"), NULL, state,
-			     cb_back_preview_color, MSTYLE_COLOR_BACK,
-			     state->style, NULL);
+			     GTK_SIGNAL_FUNC (cb_back_preview_color),
+			     MSTYLE_COLOR_BACK, state->style, NULL);
 	setup_color_pickers (&state->back.pattern_color, "pattern_color_group",
 			     "pattern_color_hbox",
 			     _("Automatic"), _("Pattern"), &gs_black, state,
-			     cb_pattern_preview_color, MSTYLE_COLOR_PATTERN,
-			     state->style, NULL);
+			     GTK_SIGNAL_FUNC (cb_pattern_preview_color),
+			     MSTYLE_COLOR_PATTERN, state->style, NULL);
 
 	/* Setup the border images */
 	for (i = 0; (name = border_buttons[i]) != NULL; ++i) {

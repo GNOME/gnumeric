@@ -524,12 +524,6 @@ item_bar_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
 	return 0.0;
 }
 
-static void
-item_bar_translate (GnomeCanvasItem *item, double dx, double dy)
-{
-	printf ("item_bar_translate %g, %g\n", dx, dy);
-}
-
 /**
  * is_pointer_on_division :
  *
@@ -961,7 +955,6 @@ item_bar_class_init (ItemBarClass *item_bar_class)
 	item_class->unrealize   = item_bar_unrealize;
 	item_class->draw        = item_bar_draw;
 	item_class->point       = item_bar_point;
-	item_class->translate   = item_bar_translate;
 	item_class->event       = item_bar_event;
 	object_class->destroy   = item_bar_destroy;
 	object_class->set_arg   = item_bar_set_arg;

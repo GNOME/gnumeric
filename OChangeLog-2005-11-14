@@ -1,3 +1,46 @@
+2001-12-13  Jody Goldberg <jody@gnome.org>
+
+	s/gnome-xml/libxml/
+
+	* src/workbook.c (workbook_set_filename) : const.
+
+	* src/workbook-control-gui.c (wb_control_gui_focus_cur_sheet) : back
+	  port some gnome2 fixes.
+	(cb_notebook_switch_page) : ditto.
+
+	* src/workbook-edit.c (auto_complete_matches) : Use
+	  gtk_editable_get_position.
+
+	* src/plugin-loader.h (gnumeric_plugin_loader_get_type) : fix return type.
+
+	* src/plugin-loader.c : Use PL_GET_CLASS.
+
+	* src/item-bar.c (item_bar_translate) : delete useless.
+	* src/item-cursor.c (item_cursor_translate) : delete useless.
+	* src/item-edit.c (item_edit_translate) : delete useless.
+	(point_is_inside_range) : Use gtk_editable_get_position.
+
+	* src/gui-file.c (gui_file_import) : const.
+
+	* src/complete-sheet.c (free_search) : unused.
+	(complete_sheet_finalize) : protect.
+	(complete_sheet_destroy) : delete.
+
+	* configure.in : explicitly add gdk_pixbuf just in case gnome-print
+	  doesn't.
+
+	* src/sheet-autofill.c (sheet_autofill) : pass singleton_increment to.
+	(sheet_autofill_dir) : here.
+	(autofill_create_fill_items) : here.
+	(autofill_compute_delta) : and here. Use singleton_increment.  Handle
+	  singleton date fills.
+
+2001-12-13  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook.c (workbook_set_filename) : const.
+
+	* src/gui-file.c (gui_file_import) : const.
+
 2001-12-13  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/stf-parse.c (stf_parse_options_fixed_autodiscover) :

@@ -18,10 +18,10 @@
 #include <bonobo.h>
 
 #include "gnumeric.h"
-#include "gnome-xml/parser.h"
-#include "gnome-xml/parserInternals.h"
-#include "gnome-xml/xmlmemory.h"
-#include "gnome-xml/xmlIO.h"
+#include "libxml/parser.h"
+#include "libxml/parserInternals.h"
+#include "libxml/xmlmemory.h"
+#include "libxml/xmlIO.h"
 #include "sheet-object-bonobo.h"
 #include "sheet-object-container.h"
 #include "io-context.h"

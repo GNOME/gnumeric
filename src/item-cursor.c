@@ -557,12 +557,6 @@ item_cursor_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
 }
 
 static void
-item_cursor_translate (GnomeCanvasItem *item, double dx, double dy)
-{
-	printf ("item_cursor_translate %g, %g\n", dx, dy);
-}
-
-static void
 item_cursor_setup_auto_fill (ItemCursor *ic, ItemCursor const *parent, int x, int y)
 {
 	ic->base_x = x;
@@ -1433,7 +1427,6 @@ item_cursor_class_init (ItemCursorClass *item_cursor_class)
 	item_class->unrealize   = item_cursor_unrealize;
 	item_class->draw        = item_cursor_draw;
 	item_class->point       = item_cursor_point;
-	item_class->translate   = item_cursor_translate;
 	item_class->event       = item_cursor_event;
 }
 

@@ -88,7 +88,7 @@ gui_file_import (WorkbookControlGUI *wbcg)
 	GtkOptionMenu *omenu;
 	GtkWidget *format_chooser;
 	GnumFileOpener *fo = NULL;
-	gchar *file_name;
+	gchar const *file_name;
 
 	if (gnome_config_get_bool_with_default (
 	    "Gnumeric/File/ImportUsesAllOpeners=false", NULL)) {

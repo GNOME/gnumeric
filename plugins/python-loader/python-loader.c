@@ -10,9 +10,9 @@
 #include <libgnome/libgnome.h>
 #include <gal/util/e-xml-utils.h>
 #include <gal/util/e-util.h>
-#include <gnome-xml/parser.h>
-#include <gnome-xml/parserInternals.h>
-#include <gnome-xml/xmlmemory.h>
+#include <libxml/parser.h>
+#include <libxml/parserInternals.h>
+#include <libxml/xmlmemory.h>
 #include "gnumeric.h"
 #include "workbook.h"
 #include "sheet.h"

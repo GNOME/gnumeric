@@ -82,13 +82,12 @@ point_is_inside_range (ItemEdit *item_edit, const char *text, Range *range)
 {
 	Value *v;
 	Sheet *sheet = ((SheetControl *) item_edit->scg)->sheet;
-	int text_len, cursor_pos, scan;
+	int cursor_pos, scan;
 
 	if ((text = gnumeric_char_start_expr_p (text)) == NULL)
 		return FALSE;
 
-	text_len = strlen (text);
-	cursor_pos = GTK_EDITABLE (item_edit->entry)->current_pos;
+	cursor_pos = gtk_editable_get_position (GTK_EDITABLE (item_edit->entry));
 	if (cursor_pos == 0)
 		return FALSE;
 	cursor_pos--;
@@ -227,7 +226,7 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	 */
 	int top_pos = ((int)item->y1) - y + 1; /* grid line */
 	int text_offset = 0;
-	int cursor_pos = GTK_EDITABLE (item_edit->entry)->current_pos;
+	int cursor_pos = gtk_editable_get_position (GTK_EDITABLE (item_edit->entry));
 	GSList *ptr;
 	char const *text;
 
@@ -276,12 +275,6 @@ item_edit_point (GnomeCanvasItem *item, double c_x, double c_y, int cx, int cy,
 
 	*actual_item = item;
 	return 0.0;
-}
-
-static void
-item_edit_translate (GnomeCanvasItem *item, double dx, double dy)
-{
-	g_warning ("item_cursor_translate %g, %g\n", dx, dy);
 }
 
 static int
@@ -608,7 +601,6 @@ item_edit_class_init (ItemEditClass *item_edit_class)
 	item_class->update      = item_edit_update;
 	item_class->draw        = item_edit_draw;
 	item_class->point       = item_edit_point;
-	item_class->translate   = item_edit_translate; /* deprecated in canvas */
 	item_class->event       = item_edit_event;
 }
 

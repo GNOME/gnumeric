@@ -8,8 +8,8 @@
 #include "gnumeric.h"
 #include "xml-io-version.h"
 #include "file.h"
-#include <gnome-xml/tree.h>
-#include <gnome-xml/xmlmemory.h>
+#include <libxml/tree.h>
+#include <libxml/xmlmemory.h>
 
 typedef struct _XmlParseContext XmlParseContext;
 

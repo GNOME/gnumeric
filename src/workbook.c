@@ -520,7 +520,7 @@ workbook_new_with_sheets (int sheet_count)
 gboolean
 workbook_set_filename (Workbook *wb, const char *name)
 {
-	char *base_name;
+	char const *base_name;
 	g_return_val_if_fail (wb != NULL, FALSE);
 	g_return_val_if_fail (name != NULL, FALSE);
 

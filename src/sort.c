@@ -14,6 +14,7 @@
 #include "sort.h"
 #include "value.h"
 #include "sheet.h"
+#include "ranges.h"
 
 #include <stdlib.h>
 

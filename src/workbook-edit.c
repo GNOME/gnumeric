@@ -545,7 +545,7 @@ static gboolean
 auto_complete_matches (WorkbookControlGUI *wbcg)
 {
 	GtkEntry *entry = GTK_ENTRY (wbcg_get_entry (wbcg));
-	size_t cursor_pos = GTK_EDITABLE (entry)->current_pos;
+	int cursor_pos = gtk_editable_get_position (GTK_EDITABLE (entry));
 	char const *text = gtk_entry_get_text (entry);
 	gboolean equal;
 
@@ -568,7 +568,7 @@ auto_complete_matches (WorkbookControlGUI *wbcg)
 			perform_test = TRUE;
 
 		if (perform_test)
-			if (cursor_pos != strlen (text))
+			if (cursor_pos != (int)strlen (text))
 				wbcg->auto_completing = FALSE;
 
 	}

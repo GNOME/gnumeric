@@ -41,7 +41,7 @@
 #include <liboaf/liboaf.h>
 #include <gal/util/e-util.h>
 #include <gal/util/e-xml-utils.h>
-#include <gnome-xml/parser.h>
+#include <libxml/parser.h>
 
 #define DISABLE_DEBUG
 #ifndef DISABLE_DEBUG

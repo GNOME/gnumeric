@@ -28,7 +28,7 @@
 #endif
 #include <xml-io.h>
 #include <gal/util/e-xml-utils.h>
-#include <gnome-xml/tree.h>
+#include <libxml/tree.h>
 #include <stdio.h>
 #include <math.h>
 

@@ -2,7 +2,7 @@
 #define GNUMERIC_PLUGIN_LOADER_MODULE_H
 
 #include <glib.h>
-#include <gnome-xml/tree.h>
+#include <libxml/tree.h>
 #include "func.h"
 #include "error-info.h"
 #include "plugin.h"

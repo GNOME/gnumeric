@@ -145,14 +145,15 @@ wb_control_gui_toplevel (WorkbookControlGUI *wbcg)
 Sheet *
 wb_control_gui_focus_cur_sheet (WorkbookControlGUI *wbcg)
 {
-	GtkObject *table;
+	GtkWidget *table;
 	GtkObject *obj;
 	SheetControlGUI *scg;
 
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), NULL);
 
-	table = GTK_OBJECT ((wbcg->notebook)->cur_page->child);
-	obj = gtk_object_get_data (table, SHEET_CONTROL_KEY);
+	table = gtk_notebook_get_nth_page (wbcg->notebook,
+		gtk_notebook_get_current_page (wbcg->notebook));
+	obj = gtk_object_get_data (GTK_OBJECT (table), SHEET_CONTROL_KEY);
 	scg = SHEET_CONTROL_GUI (obj);
 
 	g_return_val_if_fail (scg != NULL, NULL);
@@ -3401,9 +3402,11 @@ cb_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page,
 		scg_rangesel_stop (wbcg->rangesel, TRUE);
 
 	if (wbcg_rangesel_possible (wbcg)) {
+		GtkWidget *child;
 		GtkObject *obj;
 
-		obj = gtk_object_get_data (GTK_OBJECT (page->child),
+		child = gtk_notebook_get_nth_page (notebook, page_num);
+		obj = gtk_object_get_data (GTK_OBJECT (child),
 					   SHEET_CONTROL_KEY);
 		scg_take_focus (SHEET_CONTROL_GUI (obj));
 		return;

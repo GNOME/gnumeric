@@ -53,9 +53,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <gnome.h>
-#include <gnome-xml/tree.h>
-#include <gnome-xml/parser.h>
-#include <gnome-xml/parserInternals.h>
+#include <libxml/tree.h>
+#include <libxml/parser.h>
+#include <libxml/parserInternals.h>
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
@@ -67,7 +67,7 @@ void     xml_sax_file_open (GnumFileOpener const *fo, IOContext *io_context,
 /*****************************************************************************/
 
 static int
-xml_sax_attr_double (CHAR const * const *attrs, char const *name, double * res)
+xml_sax_attr_double (xmlChar const * const *attrs, char const *name, double * res)
 {
 	char *end;
 	double tmp;
@@ -89,7 +89,7 @@ xml_sax_attr_double (CHAR const * const *attrs, char const *name, double * res)
 	return TRUE;
 }
 static gboolean
-xml_sax_double (CHAR const *chars, double *res)
+xml_sax_double (xmlChar const *chars, double *res)
 {
 	char *end;
 	*res = g_strtod (chars, &end);
@@ -97,7 +97,7 @@ xml_sax_double (CHAR const *chars, double *res)
 }
 
 static int
-xml_sax_attr_bool (CHAR const * const *attrs, char const *name, int *res)
+xml_sax_attr_bool (xmlChar const * const *attrs, char const *name, int *res)
 {
 	g_return_val_if_fail (attrs != NULL, FALSE);
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
@@ -112,7 +112,7 @@ xml_sax_attr_bool (CHAR const * const *attrs, char const *name, int *res)
 }
 
 static int
-xml_sax_attr_int (CHAR const * const *attrs, char const *name, int *res)
+xml_sax_attr_int (xmlChar const * const *attrs, char const *name, int *res)
 {
 	char *end;
 	int tmp;
@@ -135,7 +135,7 @@ xml_sax_attr_int (CHAR const * const *attrs, char const *name, int *res)
 }
 
 static gboolean
-xml_sax_int (CHAR const *chars, int *res)
+xml_sax_int (xmlChar const *chars, int *res)
 {
 	char *end;
 	*res = strtol (chars, &end, 10);
@@ -143,7 +143,7 @@ xml_sax_int (CHAR const *chars, int *res)
 }
 
 static gboolean
-xml_sax_attr_cellpos (CHAR const * const *attrs, char const *name, CellPos *val)
+xml_sax_attr_cellpos (xmlChar const * const *attrs, char const *name, CellPos *val)
 {
 	CellPos tmp;
 
@@ -164,7 +164,7 @@ xml_sax_attr_cellpos (CHAR const * const *attrs, char const *name, CellPos *val)
 }
 
 static int
-xml_sax_color (CHAR const * const *attrs, char const *name, StyleColor **res)
+xml_sax_color (xmlChar const * const *attrs, char const *name, StyleColor **res)
 {
 	int red, green, blue;
 
@@ -185,7 +185,7 @@ xml_sax_color (CHAR const * const *attrs, char const *name, StyleColor **res)
 }
 
 static gboolean
-xml_sax_range (CHAR const * const *attrs, Range *res)
+xml_sax_range (xmlChar const * const *attrs, Range *res)
 {
 	int flags = 0;
 	for (; attrs[0] && attrs[1] ; attrs += 2)
@@ -495,7 +495,7 @@ typedef struct _XMLSaxParseState
 } XMLSaxParseState;
 
 static void
-xml_sax_unknown_attr (XMLSaxParseState *state, CHAR const * const *attrs, char const *name)
+xml_sax_unknown_attr (XMLSaxParseState *state, xmlChar const * const *attrs, char const *name)
 {
 	g_return_if_fail (attrs != NULL);
 
@@ -539,7 +539,7 @@ xml_sax_fatal_error (XMLSaxParseState *state, const char *msg, ...)
 /****************************************************************************/
 
 static void
-xml_sax_wb (XMLSaxParseState *state, CHAR const **attrs)
+xml_sax_wb (XMLSaxParseState *state, xmlChar const **attrs)
 {
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (strcmp (attrs[0], "xmlns:gmr") == 0) {
@@ -581,7 +581,7 @@ xml_sax_wb_sheetname (XMLSaxParseState *state)
 }
 
 static void
-xml_sax_wb_view (XMLSaxParseState *state, CHAR const **attrs)
+xml_sax_wb_view (XMLSaxParseState *state, xmlChar const **attrs)
 {
 	int sheet_index;
 	int width = -1, height = -1;
@@ -705,7 +705,7 @@ xml_sax_attr_elem (XMLSaxParseState *state)
 }
 
 static void
-xml_sax_sheet_start (XMLSaxParseState *state, CHAR const **attrs)
+xml_sax_sheet_start (XMLSaxParseState *state, xmlChar const **attrs)
 {
 	int tmp;
 
@@ -799,7 +799,7 @@ xml_sax_sheet_zoom (XMLSaxParseState *state)
 }
 
 static void
-xml_sax_print_margins (XMLSaxParseState *state, CHAR const **attrs)
+xml_sax_print_margins (XMLSaxParseState *state, xmlChar const **attrs)
 {
 	PrintInformation *pi;
 	PrintUnit *pu;
@@ -850,7 +850,7 @@ xml_sax_print_margins (XMLSaxParseState *state, CHAR const **attrs)
 }
 
 static void
-xml_sax_print_scale (XMLSaxParseState *state, CHAR const **attrs)
+xml_sax_print_scale (XMLSaxParseState *state, xmlChar const **attrs)
 {
 	PrintInformation *pi;
 	double percentage;
@@ -874,7 +874,7 @@ xml_sax_print_scale (XMLSaxParseState *state, CHAR const **attrs)
 }
 
 static void
-xml_sax_selection_range (XMLSaxParseState *state, CHAR const **attrs)
+xml_sax_selection_range (XMLSaxParseState *state, xmlChar const **attrs)
 {
 	Range r;
 	if (xml_sax_range (attrs, &r))
@@ -885,7 +885,7 @@ xml_sax_selection_range (XMLSaxParseState *state, CHAR const **attrs)
 }
 
 static void
-xml_sax_selection (XMLSaxParseState *state, CHAR const **attrs)
+xml_sax_selection (XMLSaxParseState *state, xmlChar const **attrs)
 {
 	int col = -1, row = -1;
 
@@ -919,7 +919,7 @@ xml_sax_selection_end (XMLSaxParseState *state)
 }
 
 static void
-xml_sax_sheet_layout (XMLSaxParseState *state, CHAR const **attrs)
+xml_sax_sheet_layout (XMLSaxParseState *state, xmlChar const **attrs)
 {
 	CellPos tmp;
 
@@ -931,7 +931,7 @@ xml_sax_sheet_layout (XMLSaxParseState *state, CHAR const **attrs)
 }
 
 static void
-xml_sax_sheet_freezepanes (XMLSaxParseState *state, CHAR const **attrs)
+xml_sax_sheet_freezepanes (XMLSaxParseState *state, xmlChar const **attrs)
 {
 	CellPos frozen_tl, unfrozen_tl;
 	int flags = 0;
@@ -949,7 +949,7 @@ xml_sax_sheet_freezepanes (XMLSaxParseState *state, CHAR const **attrs)
 }
 
 static void
-xml_sax_cols_rows (XMLSaxParseState *state, CHAR const **attrs, gboolean is_col)
+xml_sax_cols_rows (XMLSaxParseState *state, xmlChar const **attrs, gboolean is_col)
 {
 	double def_size;
 
@@ -965,7 +965,7 @@ xml_sax_cols_rows (XMLSaxParseState *state, CHAR const **attrs, gboolean is_col)
 }
 
 static void
-xml_sax_colrow (XMLSaxParseState *state, CHAR const **attrs, gboolean is_col)
+xml_sax_colrow (XMLSaxParseState *state, xmlChar const **attrs, gboolean is_col)
 {
 	ColRowInfo *cri = NULL;
 	double size = -1.;
@@ -1021,7 +1021,7 @@ xml_sax_colrow (XMLSaxParseState *state, CHAR const **attrs, gboolean is_col)
 }
 
 static void
-xml_sax_style_region_start (XMLSaxParseState *state, CHAR const **attrs)
+xml_sax_style_region_start (XMLSaxParseState *state, xmlChar const **attrs)
 {
 	g_return_if_fail (state->style_range_init == FALSE);
 	g_return_if_fail (state->style == NULL);
@@ -1045,7 +1045,7 @@ xml_sax_style_region_end (XMLSaxParseState *state)
 }
 
 static void
-xml_sax_styleregion_start (XMLSaxParseState *state, CHAR const **attrs)
+xml_sax_styleregion_start (XMLSaxParseState *state, xmlChar const **attrs)
 {
 	int val;
 	StyleColor *colour;
@@ -1088,7 +1088,7 @@ xml_sax_styleregion_start (XMLSaxParseState *state, CHAR const **attrs)
 }
 
 static void
-xml_sax_styleregion_font (XMLSaxParseState *state, CHAR const **attrs)
+xml_sax_styleregion_font (XMLSaxParseState *state, xmlChar const **attrs)
 {
 	double size_pts = 10.;
 	int val;
@@ -1172,7 +1172,7 @@ xml_sax_styleregion_font_end (XMLSaxParseState *state)
 }
 
 static void
-xml_sax_validation (XMLSaxParseState *state, CHAR const **attrs)
+xml_sax_validation (XMLSaxParseState *state, xmlChar const **attrs)
 {
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (xml_sax_attr_int (attrs, "Style", (int *) &state->validation.vs)) {
@@ -1211,7 +1211,7 @@ xml_sax_validation_end (XMLSaxParseState *state)
 }
 
 static void
-xml_sax_style_condition (XMLSaxParseState *state, CHAR const **attrs)
+xml_sax_style_condition (XMLSaxParseState *state, xmlChar const **attrs)
 {
 	state->condition.prev_next_op = state->condition.next_op;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
@@ -1235,7 +1235,7 @@ xml_sax_style_condition_chain (XMLSaxParseState *state, StyleCondition *sc)
 }
 
 static void
-xml_sax_style_condition_expr (XMLSaxParseState *state, CHAR const **attrs)
+xml_sax_style_condition_expr (XMLSaxParseState *state, xmlChar const **attrs)
 {
 	StyleConditionOperator op = -1;
 	StyleCondition *sc;
@@ -1265,7 +1265,7 @@ xml_sax_style_condition_expr (XMLSaxParseState *state, CHAR const **attrs)
 }
 
 static void
-xml_sax_style_condition_constraint (XMLSaxParseState *state, CHAR const **attrs)
+xml_sax_style_condition_constraint (XMLSaxParseState *state, xmlChar const **attrs)
 {
 	StyleCondition *sc;
 	StyleConditionConstraint constraint = -1;
@@ -1281,7 +1281,7 @@ xml_sax_style_condition_constraint (XMLSaxParseState *state, CHAR const **attrs)
 }
 
 static void
-xml_sax_style_condition_flags (XMLSaxParseState *state, CHAR const **attrs)
+xml_sax_style_condition_flags (XMLSaxParseState *state, xmlChar const **attrs)
 {
 	StyleCondition *sc;
 	StyleConditionFlags flags;
@@ -1297,7 +1297,7 @@ xml_sax_style_condition_flags (XMLSaxParseState *state, CHAR const **attrs)
 }
 
 static void
-xml_sax_style_region_borders (XMLSaxParseState *state, CHAR const **attrs)
+xml_sax_style_region_borders (XMLSaxParseState *state, xmlChar const **attrs)
 {
 	int pattern = -1;
 	StyleColor *colour = NULL;
@@ -1323,7 +1323,7 @@ xml_sax_style_region_borders (XMLSaxParseState *state, CHAR const **attrs)
 }
 
 static void
-xml_sax_cell (XMLSaxParseState *state, CHAR const **attrs)
+xml_sax_cell (XMLSaxParseState *state, xmlChar const **attrs)
 {
 	int row = -1, col = -1;
 	int rows = -1, cols = -1;
@@ -1543,7 +1543,7 @@ xml_sax_merge (XMLSaxParseState *state)
 }
 
 static void
-xml_sax_object (XMLSaxParseState *state, CHAR const **attrs)
+xml_sax_object (XMLSaxParseState *state, xmlChar const **attrs)
 {
 	
 }
@@ -1660,7 +1660,7 @@ xml_sax_name (XMLSaxParseState *state)
 /****************************************************************************/
 
 static gboolean
-xml_sax_switch_state (XMLSaxParseState *state, CHAR const *name, xmlSaxState const newState)
+xml_sax_switch_state (XMLSaxParseState *state, xmlChar const *name, xmlSaxState const newState)
 {
 	if (strcmp (name, xmlSax_state_names[newState]))
 		    return FALSE;
@@ -1671,7 +1671,7 @@ xml_sax_switch_state (XMLSaxParseState *state, CHAR const *name, xmlSaxState con
 }
 
 static void
-xml_sax_unknown_state (XMLSaxParseState *state, CHAR const *name)
+xml_sax_unknown_state (XMLSaxParseState *state, xmlChar const *name)
 {
 	if (state->unknown_depth++)
 		return;
@@ -1689,7 +1689,7 @@ xml_sax_file_probe (GnumFileOpener const *fo, const gchar *file_name, FileProbeL
  */
 
 static void
-xml_sax_start_element (XMLSaxParseState *state, CHAR const *name, CHAR const **attrs)
+xml_sax_start_element (XMLSaxParseState *state, xmlChar const *name, xmlChar const **attrs)
 {
 	switch (state->state) {
 	case STATE_START:
@@ -1968,7 +1968,7 @@ xml_sax_start_element (XMLSaxParseState *state, CHAR const *name, CHAR const **a
 }
 
 static void
-xml_sax_end_element (XMLSaxParseState *state, const CHAR *name)
+xml_sax_end_element (XMLSaxParseState *state, const xmlChar *name)
 {
 	if (state->unknown_depth > 0) {
 		state->unknown_depth--;
@@ -2095,7 +2095,7 @@ xml_sax_end_element (XMLSaxParseState *state, const CHAR *name)
 }
 
 static void
-xml_sax_characters (XMLSaxParseState *state, const CHAR *chars, int len)
+xml_sax_characters (XMLSaxParseState *state, const xmlChar *chars, int len)
 {
 	switch (state->state) {
 	case STATE_WB_ATTRIBUTES_ELEM_NAME :
@@ -2135,7 +2135,7 @@ xml_sax_characters (XMLSaxParseState *state, const CHAR *chars, int len)
 }
 
 static xmlEntityPtr
-xml_sax_get_entity (XMLSaxParseState *state, const CHAR *name)
+xml_sax_get_entity (XMLSaxParseState *state, const xmlChar *name)
 {
 	return xmlGetPredefinedEntity (name);
 }
