@@ -185,11 +185,17 @@ gnumeric_nominal (FunctionEvalInfo *ei, Value **argv)
 
 static char *help_db = {
 	N_("@FUNCTION=DB\n"
-	   "@SYNTAX=DB(r,nper)\n"
+	   "@SYNTAX=DB(cost,salvage,life,period[,month])\n"
 	   "@DESCRIPTION="
-	   "DB returns the "
+	   "DB returns the depreciation of an asset for a given period "
+	   "using the fixed-declining balance method.  @cost is the "
+	   "initial value of the asset.  @salvage after the depreciation. "
+	   "@life is the number of periods overall.  @period is the period "
+	   "for which you want the depreciation to be calculated.  @month "
+	   "is the number of months in the first year of depreciation. "
+	   "If @month is omitted, it is assumed to be 12. "
 	   "\n"
-	   "@SEEALSO=")
+	   "@SEEALSO=DDB,SLN,SYD,VDB")
 };
 
 static Value *
@@ -225,6 +231,50 @@ gnumeric_db (FunctionEvalInfo *ei, Value **argv)
 		       total += (cost - total) * rate;
 
 	return value_new_float (((cost - total) * rate * (12 - month)) / 12);
+}
+
+static char *help_ddb = {
+	N_("@FUNCTION=DDB\n"
+	   "@SYNTAX=DDB(cost,salvage,life,period[,factor])\n"
+	   "@DESCRIPTION="
+	   "DDB returns the depreciation of an asset for a given period "
+	   "using the double-declining balance method or some other similar "
+	   "method you specify.  @cost is the initial value of the asset, "
+	   "@salvage is the value after the last period, @life is the "
+	   "number of periods, @period is the period for which you want the "
+	   "depreciation to be calculated, and @factor is the factor at "
+	   "which the balance declines.  If @factor is omitted, it is "
+	   "assumed to be two (double-declining balance method). "
+	   "\n"
+	   "@SEEALSO=SLN,SYD,VDB")
+};
+
+static Value *
+gnumeric_ddb (FunctionEvalInfo *ei, Value **argv)
+{
+	float_t cost, salvage, life, period, factor;
+	float_t total;
+	int     i;
+
+	cost = value_get_as_float (argv[0]);
+	salvage = value_get_as_float (argv[1]);
+	life = value_get_as_float (argv[2]);
+	period = value_get_as_float (argv[3]);
+	if (argv[4] == NULL)
+	        factor = 2;
+	else
+	        factor = value_get_as_float (argv[4]);
+
+	total = 0;
+	for (i=0; i<life-1; i++) {
+	        float_t period_dep = (cost - total) * (factor/life);
+		if (period-1 == i)
+		        return value_new_float (period_dep);
+		else
+		        total += period_dep;
+	}
+
+	return value_new_float (cost - total - salvage);
 }
 
 static char *help_sln = {
@@ -819,6 +869,9 @@ void finance_functions_init()
 	function_add_args  (cat, "db", "ffff|f",
 			    "cost,salvage,life,period[,month]",
 			    &help_db, gnumeric_db);
+	function_add_args  (cat, "ddb", "ffff|f",
+			    "cost,salvage,life,period[,factor]",
+			    &help_ddb, gnumeric_ddb);
 	function_add_args  (cat, "dollarde", "ff", 
 			    "fractional_dollar,fraction",
 			    &help_dollarde, gnumeric_dollarde);
