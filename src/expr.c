@@ -405,24 +405,6 @@ expr_tree_unref (ExprTree *tree)
 }
 
 static void
-encode_cellref (GString *dest, const CellRef *ref, gboolean use_relative_syntax)
-{
-	if (ref->sheet){
-		g_string_append_c (dest, '\'');
-		g_string_append (dest, ref->sheet->name);
-		g_string_append (dest, "'!");
-	}
-	if (use_relative_syntax && !ref->col_relative)
-		g_string_append_c (dest, '$');
-	g_string_append (dest, col_name (ref->col));
-
-	if (use_relative_syntax && !ref->row_relative)
-		g_string_append_c (dest, '$');
-	g_string_sprintfa (dest, "%d", ref->row+1);
-}
-
-
-static void
 cell_ref_make_absolute (CellRef *cell_ref, int eval_col, int eval_row)
 {
 	g_return_if_fail (cell_ref != NULL);
