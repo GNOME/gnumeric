@@ -540,7 +540,7 @@ gnumeric_negbinomdist (FunctionEvalInfo *ei, Value **argv)
 	r = value_get_as_int (argv [1]);
 	p = value_get_as_float (argv[2]);
 
-	if ((x + r -1) <= 0 || p < 0 || p > 1)
+	if ((x + r - 1) <= 0 || p < 0 || p > 1)
 		return function_error (ei, gnumeric_err_NUM);
 
 	return value_new_float (combin (x+r-1, r-1) * pow (p, r) * pow (1-p, x));
@@ -1036,15 +1036,13 @@ gnumeric_expondist (FunctionEvalInfo *ei, Value **argv)
 		return function_error (ei, gnumeric_err_NUM);
 
 	cuml = value_get_as_bool (argv[2], &err);
-
 	if (err)
 		return function_error (ei, gnumeric_err_VALUE);
 
-	if (cuml){
-		return value_new_float (-expm1(-y*x));
-	} else {
-		return value_new_float (y*exp(-y*x));
-	}
+	if (cuml)
+		return value_new_float (pexp (x, 1 / y));
+	else
+		return value_new_float (dexp (x, 1 / y));
 }
 
 static char *help_gammaln = {
@@ -1207,7 +1205,7 @@ static char *help_chitest = {
 
           "@DESCRIPTION="
           "The CHITEST function returns the test for independence of "
-	  "chi-squared distribution. "
+	  "chi-squared distribution."
           "\n"
 	  "@actual_range is a range that contains the observed data points. "
 	  "@theoretical_range is a range that contains the expected values "
@@ -1576,17 +1574,10 @@ gnumeric_binomdist (FunctionEvalInfo *ei, Value **argv)
 	if (n<0 || trials<0 || p<0 || p>1 || n>trials || err)
 		return function_error (ei, gnumeric_err_NUM);
 
-	if (cuml){
-		float_t v=0;
-		int x;
-
-		for (x=0; x<=n; x++)
-		        v += (combin(trials, x) * pow(p, x) *
-				    pow(1-p, trials-x));
-		return value_new_float (v);
-	} else
-		return value_new_float (combin(trials, n) * pow(p, n) *
-						  pow(1-p, trials-n));
+	if (cuml)
+		return value_new_float (pbinom (n, trials, p));
+	else
+		return value_new_float (dbinom (n, trials, p));
 }
 
 static char *help_critbinom = {
@@ -1614,11 +1605,6 @@ gnumeric_critbinom (FunctionEvalInfo *ei, Value **argv)
         float_t p, alpha, sum;
         int x;
 
-        if (!VALUE_IS_NUMBER(argv[0]) ||
-            !VALUE_IS_NUMBER(argv[1]) ||
-            !VALUE_IS_NUMBER(argv[2]))
-                return function_error (ei, gnumeric_err_VALUE);
-
         trials = value_get_as_int (argv [0]);
         p = value_get_as_float (argv[1]);
         alpha = value_get_as_float (argv[2]);
@@ -1626,10 +1612,7 @@ gnumeric_critbinom (FunctionEvalInfo *ei, Value **argv)
         if (trials<0 || p<0 || p>1 || alpha<0 || alpha>1)
 	        return function_error (ei, gnumeric_err_NUM);
 
-	sum = 0;
-	for (x=0; sum<alpha; x++)
-                sum += (combin(trials, x) * pow(p, x) * pow(1-p, trials-x));
-	return value_new_int (x-1);
+	return value_new_float (qbinom (alpha, trials, p));
 }
 
 static char *help_permut = {
@@ -1641,7 +1624,6 @@ static char *help_permut = {
            "@n is the number of objects, @k is the number of objects in each "
            "permutation."
 	   "\n"
-	   "if n or k is non-integer PERMUT returns #VALUE! error. "
 	   "if n = 0 PERMUT returns #NUM! error. "
 	   "if n < k PERMUT returns #NUM! error."
 	   "\n"
@@ -1653,17 +1635,13 @@ gnumeric_permut (FunctionEvalInfo *ei, Value **argv)
 {
 	int n, k;
 
-	if (argv[0]->type != VALUE_INTEGER ||
-	    argv[1]->type != VALUE_INTEGER)
-		return function_error (ei, gnumeric_err_VALUE);
-
 	n = value_get_as_int (argv [0]);
 	k = value_get_as_int (argv [1]);
 
-	if (n<k || n==0)
+	if (0 <= k && k <= n)
+		return value_new_float (fact (n) / fact (n-k));
+	else
 		return function_error (ei, gnumeric_err_NUM);
-
-	return value_new_float (fact(n) / fact(n-k));
 }
 
 static char *help_hypgeomdist = {
@@ -1687,11 +1665,6 @@ static Value *
 gnumeric_hypgeomdist (FunctionEvalInfo *ei, Value **argv)
 {
 	int x, n, M, N;
-
-	if (!VALUE_IS_NUMBER(argv[0]) ||
-	    !VALUE_IS_NUMBER(argv[1]) ||
-	    !VALUE_IS_NUMBER(argv[2]))
-		return function_error (ei, gnumeric_err_VALUE);
 
 	x = value_get_as_int (argv [0]);
 	n = value_get_as_int (argv [1]);
@@ -1725,11 +1698,6 @@ gnumeric_confidence (FunctionEvalInfo *ei, Value **argv)
 {
 	float_t x, stddev;
 	int size;
-
-	if (!VALUE_IS_NUMBER(argv[0]) ||
-	    !VALUE_IS_NUMBER(argv[1]) ||
-	    !VALUE_IS_NUMBER(argv[2]))
-		return function_error (ei, gnumeric_err_VALUE);
 
 	x = value_get_as_float (argv [0]);
 	stddev = value_get_as_float (argv [1]);
@@ -1769,6 +1737,8 @@ gnumeric_standardize (FunctionEvalInfo *ei, Value **argv)
 
 	if (stddev == 0)
 		return function_error (ei, gnumeric_err_DIV0);
+	else if (stddev < 0)
+		return function_error (ei, gnumeric_err_NUM);
 
 	return value_new_float ((x-mean) / stddev);
 }
@@ -1793,7 +1763,7 @@ static Value *
 gnumeric_weibull (FunctionEvalInfo *ei, Value **argv)
 {
         float_t x, alpha, beta;
-        int cuml, err=0;
+        int cuml, err;
 
         x = value_get_as_float (argv [0]);
         alpha = value_get_as_float (argv [1]);
@@ -1803,15 +1773,13 @@ gnumeric_weibull (FunctionEvalInfo *ei, Value **argv)
                 return function_error (ei, gnumeric_err_NUM);
 
         cuml = value_get_as_bool (argv[3], &err);
-
         if (err)
                 return function_error (ei, gnumeric_err_VALUE);
 
         if (cuml)
-                return value_new_float (1.0 - exp(-pow(x/beta, alpha)));
+                return value_new_float (pweibull (x, alpha, beta));
         else
-                return value_new_float ((alpha/pow(beta, alpha)*
-						  pow(x, alpha-1)*exp(-pow(x/beta, alpha))));
+		return value_new_float (dweibull (x, alpha, beta));
 }
 
 static char *help_normdist = {
@@ -1843,7 +1811,6 @@ gnumeric_normdist (FunctionEvalInfo *ei, Value **argv)
                 return function_error (ei, gnumeric_err_DIV0);
 
         cuml = value_get_as_bool (argv[3], &err);
-
         if (err)
                 return function_error (ei, gnumeric_err_VALUE);
 
@@ -2044,17 +2011,10 @@ gnumeric_poisson (FunctionEvalInfo *ei, Value **argv)
 	if (x<=0 || mean <=0 || err)
 		return function_error (ei, gnumeric_err_NUM);
 
-	if (cuml) {
-	        int k;
-		float_t sum = 0;
-
-	        for (k=0; k<=x; k++)
-		        sum += exp(-mean)*pow(mean,k) / exp (lgamma (k + 1));
-
-		return value_new_float (sum);
-	} else
-		return value_new_float (exp(-mean)*pow(mean,x) /
-						  exp (lgamma (x + 1)));
+	if (cuml)
+		return value_new_float (ppois (x, mean));
+	else
+		return value_new_float (dpois (x, mean));
 }
 
 static char *help_pearson = {

@@ -1,6 +1,15 @@
-Fri Jun 25 12:56:37 1999  Morten Welinder  <welinder@rentec.com>
+1999-06-25  Morten Welinder  <terra@diku.dk>
 
-	* src/fn-stat.c (gnumeric_kurt): Use range function.
+	* src/fn-eng.c (eng_functions_init): Extend impower to handle two
+ 	complex numbers.
+	(eng_functions_init): Prepare for besseli and besselk.  Docs
+ 	please.
+
+	* src/mathfunc.c (dweibull, pweibull, ppois, dpois, dexp, pexp,
+ 	dbinom, pbinom, qbinom, besseli, besselk): New functions.
+
+	* src/fn-stat.c: Use new mathfuncs.
+	(gnumeric_kurt): Use range function.
 	(gnumeric_kurtp): New function.
 	(gnumeric_skewp): New function.
 
@@ -8,8 +17,6 @@ Fri Jun 25 12:56:37 1999  Morten Welinder  <welinder@rentec.com>
 	(range_skew_pop): New function.
 	(range_kurtosis_m3_est): New function.
 	(range_kurtosis_m3_pop): New function.
-
-1999-06-25  Morten Welinder  <terra@diku.dk>
 
 	* src/fn-math.c (gnumeric_gcd): Cleanup and fix.
 
