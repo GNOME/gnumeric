@@ -1,7 +1,13 @@
 1999-01-06  Nat Friedman  <nat@nat.org>
 
+	* src/workbook.c: Use the standard GNOMEUIINFO macros from
+ 	gnome-app-helper.h.
+
+1999-01-06  Nat Friedman  <nat@nat.org>
+
 	* src/workbook.c: Use the gnome-uidefs.h macros for the
  	accelerators.
+	
 
 1999-01-04  Havoc Pennington  <hp@pobox.com>
 
