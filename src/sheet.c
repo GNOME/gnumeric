@@ -6,42 +6,41 @@ static void
 sheet_init_dummy_stuff (Sheet *sheet)
 {
 	int x, y;
-	ColInfo c, *cp;
-	RowInfo *rp;
+	ColRowInfo c, *cp, *rp;
 
-	c.col          = 0;
-	c.style        = NULL;
-	c.unit_width   = 40;
-	c.width        = 0;
-	c.left_margin  = 0;
-	c.right_margin = 0;
+	c.pos        = 0;
+	c.style      = NULL;
+	c.units      = 40;
+	c.pixels     = 0;
+	c.margin_a   = 0;
+	c.margin_b   = 0;
 
 	sheet->default_col_style = c;
 
 	/* Initialize some of the columns */
 	for (x = 0; x < 40; x += 2){
-		cp = g_new0 (ColInfo, 1);
+		cp = g_new0 (ColRowInfo, 1);
 
 		*cp = c;
-		cp->col = x;
-		cp->unit_width = (x+1) * 30;
+		cp->pos = x;
+		cp->units = (x+1) * 30;
 		sheet->cols_info = g_list_append (sheet->cols_info, cp);
 	}
 
 	/* Rows, we keep them consistent for now */
-	sheet->default_row_style.row          = 0;
-	sheet->default_row_style.style        = NULL;
-	sheet->default_row_style.unit_height  = 20;
-	sheet->default_row_style.height       = 0;
-	sheet->default_row_style.top_margin   = 0;
-	sheet->default_row_style.bottom_margin = 0;
+	sheet->default_row_style.pos      = 0;
+	sheet->default_row_style.style    = NULL;
+	sheet->default_row_style.units    = 20;
+	sheet->default_row_style.pixels   = 0;
+	sheet->default_row_style.margin_a = 0;
+	sheet->default_row_style.margin_b = 0;
 
 	for (y = 0; y < 6; y += 2){
-		rp = g_new0 (RowInfo, 1);
+		rp = g_new0 (ColRowInfo, 1);
 
 		*rp = sheet->default_row_style;
-		rp->row = y;
-		rp->unit_height = (20 * (y + 1));
+		rp->pos = y;
+		rp->units = (20 * (y + 1));
 		sheet->rows_info = g_list_append (sheet->rows_info, rp);
 	}
 }
@@ -117,7 +116,7 @@ sheet_new (Workbook *wb, char *name)
 }
 
 void
-sheet_foreach_col (Sheet *sheet, sheet_col_callback callback, void *user_data)
+sheet_foreach_col (Sheet *sheet, sheet_col_row_callback callback, void *user_data)
 {
 	GList *l = sheet->cols_info;
 
@@ -132,7 +131,7 @@ sheet_foreach_col (Sheet *sheet, sheet_col_callback callback, void *user_data)
 }
 
 void
-sheet_foreach_row (Sheet *sheet, sheet_row_callback callback, void *user_data)
+sheet_foreach_row (Sheet *sheet, sheet_col_row_callback callback, void *user_data)
 {
 	GList *l = sheet->rows_info;
 
@@ -147,21 +146,12 @@ sheet_foreach_row (Sheet *sheet, sheet_row_callback callback, void *user_data)
 }
 
 static void
-sheet_compute_col_size (Sheet *sheet, ColInfo *ci, void *data)
+sheet_compute_col_row_new_size (Sheet *sheet, ColRowInfo *ci, void *data)
 {
 	double pix_per_unit = sheet->last_zoom_factor_used;
 
-	ci->width = (ci->unit_width * pix_per_unit) +
-		ci->left_margin + ci->right_margin + 1;
-}
-
-static void
-sheet_compute_row_size (Sheet *sheet, RowInfo *ri, void *data)
-{
-	double pix_per_unit = sheet->last_zoom_factor_used;
-	
-	ri->height = (ri->unit_height * pix_per_unit) +
-		ri->top_margin + ri->bottom_margin + 1;
+	ci->pixels = (ci->units * pix_per_unit) +
+		ci->margin_a + ci->margin_b + 1;
 }
 
 /*
@@ -177,8 +167,8 @@ sheet_reconfigure_zoom (Sheet *sheet)
 		return;
 
 	sheet->last_zoom_factor_used = pixels_per_unit;
-	sheet_foreach_col (sheet, sheet_compute_col_size, NULL);
-	sheet_foreach_row (sheet, sheet_compute_row_size, NULL);
+	sheet_foreach_col (sheet, sheet_compute_col_row_new_size, NULL);
+	sheet_foreach_row (sheet, sheet_compute_col_row_new_size, NULL);
 }
 
 void
@@ -193,30 +183,30 @@ sheet_set_zoom_factor (Sheet *sheet, double factor)
 	gnome_canvas_scroll_to (GNOME_CANVAS (sheet->row_canvas), 0, 0);
 }
 
-ColInfo *
+ColRowInfo *
 sheet_get_col_info (Sheet *sheet, int col)
 {
 	GList *l = sheet->cols_info;
 
 	for (; l; l = l->next){
-		ColInfo *ci = l->data;
+		ColRowInfo *ci = l->data;
 
-		if (ci->col == col)
+		if (ci->pos == col)
 			return ci;
 	}
 
 	return &sheet->default_col_style;
 }
 
-RowInfo *
+ColRowInfo *
 sheet_get_row_info (Sheet *sheet, int row)
 {
 	GList *l = sheet->rows_info;
 
 	for (; l; l = l->next){
-		RowInfo *ri = l->data;
+		ColRowInfo *ri = l->data;
 
-		if (ri->row == row)
+		if (ri->pos == row)
 			return ri;
 	}
 
@@ -229,17 +219,17 @@ sheet_get_row_info (Sheet *sheet, int row)
 int
 sheet_col_get_distance (Sheet *sheet, int from_col, int to_col)
 {
-	ColInfo *ci;
+	ColRowInfo *ci;
 	int pixels = 0, i;
 
 	g_assert (from_col <= to_col);
 
 	/* This can be optimized, yes, but the implementation
-	 * of the RowInfo, ColInfo sets is going to change anyways
+	 * of the ColRowInfo sets is going to change anyways
 	 */
 	for (i = from_col; i < to_col; i++){
 		ci = sheet_get_col_info (sheet, i);
-		pixels += ci->width;
+		pixels += ci->pixels;
 	}
 	return pixels;
 }
@@ -250,7 +240,7 @@ sheet_col_get_distance (Sheet *sheet, int from_col, int to_col)
 int
 sheet_row_get_distance (Sheet *sheet, int from_row, int to_row)
 {
-	RowInfo *ri;
+	ColRowInfo *ri;
 	int pixels = 0, i;
 
 	g_assert (from_row <= to_row);
@@ -260,7 +250,7 @@ sheet_row_get_distance (Sheet *sheet, int from_row, int to_row)
 	 */
 	for (i = from_row; i < to_row; i++){
 		ri = sheet_get_row_info (sheet, i);
-		pixels += ri->height;
+		pixels += ri->pixels;
 	}
 	return pixels;
 }

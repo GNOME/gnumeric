@@ -29,30 +29,19 @@ typedef struct {
 } CellColor;
 
 typedef struct {
-	RowType    row;
+	int        pos;			/* the column or row number */
 	Style      *style;		/* if existant, this row style */
 
 	/* The height */
-	int        unit_height;		/* In units */
-	int        top_margin;  	/* in pixels: top margin */
-	int        bottom_margin; 	/* in pixels: bottom margin */
-	int        height;		/* we compute this from the above parameters */
-} RowInfo;
+	int        units;		/* In units */
+	int        margin_a;  		/* in pixels: top/left margin */
+	int        margin_b; 		/* in pixels: bottom/right margin */
+	int        pixels;		/* we compute this from the above parameters */
+} ColRowInfo;
 
 typedef struct {
-	ColType    col;
-	Style      *style;		/* if existant, this column style */
-
-	/* The width */
-	int        unit_width;		/* in units */
-	int        left_margin;         /* in pixels: left margin */
-	int        right_margin;        /* in pixels: right margin */
-	int        width;    		/* w2pix (unit_width) + margins */
-} ColInfo;
-
-typedef struct {
-	ColInfo   *col;
-	RowInfo   *row;
+	ColRowInfo *col;
+	ColRowInfo *row;
 
 	/* Text as entered by the user */
 	char      *entered_text;
@@ -71,3 +60,4 @@ typedef struct {
 #define CELL_IS_FORMULA(cell) (cell->entered_text [0] == '=')
 
 #endif /* GNUMERIC_CELL_H */
+

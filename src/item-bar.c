@@ -126,8 +126,8 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 {
 	ItemBar *item_bar = ITEM_BAR (item);
 	Sheet   *sheet = item_bar->sheet;
-	ColInfo *ci;
-	RowInfo *ri;
+	ColRowInfo *ci;
+	ColRowInfo *ri;
 	int element, total, pixels, limit;
 	char *str;
 	
@@ -142,7 +142,7 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 	do {
 		if (item_bar->orientation == GTK_ORIENTATION_VERTICAL){
 			ri = sheet_get_row_info (sheet, element);
-			pixels = ri->height;
+			pixels = ri->pixels;
 			if (total+pixels >= y){
 				str = get_row_name (element);
 				bar_draw_cell (item_bar, drawable, str,
@@ -152,7 +152,7 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 			}
 		} else {
 			ci = sheet_get_col_info (sheet, element);
-			pixels = ci->width;
+			pixels = ci->pixels;
 			if (total+pixels >= x){
 				str = get_col_name (element);
 				bar_draw_cell (item_bar, drawable, str, 
@@ -184,22 +184,18 @@ item_bar_translate (GnomeCanvasItem *item, double dx, double dy)
 static int
 is_pointer_on_division (ItemBar *item_bar, int pos)
 {
-	ColInfo *ci;
-	RowInfo *ri;
+	ColRowInfo *cri;
 	int i, total, pixels;
 	
 	total = 0;
 	
 	for (i = item_bar->first_element; total < pos; i++){
-		if (item_bar->orientation == GTK_ORIENTATION_VERTICAL){
-			ri = sheet_get_row_info (item_bar->sheet, i);
-			pixels = ri->height;
-		} else {
-			ci = sheet_get_col_info (item_bar->sheet, i);
-			pixels = ci->width;
-		}
-		total += pixels;
+		if (item_bar->orientation == GTK_ORIENTATION_VERTICAL)
+			cri = sheet_get_row_info (item_bar->sheet, i);
+		else
+			cri = sheet_get_col_info (item_bar->sheet, i);
 
+		total += cri->pixels;
 		if ((total - 4 < pos) && (pos < total + 4))
 			return 1;
 	}
