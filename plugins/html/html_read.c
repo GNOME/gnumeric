@@ -74,30 +74,30 @@ html_read_content (htmlNodePtr cur, xmlBufferPtr buf, MStyle *mstyle, xmlBufferP
 			htmlNodeDump (buf, doc, ptr);
 		else if (ptr->type == XML_ELEMENT_NODE) {
 			if (first) {
-				if (xmlStrEqual (ptr->name, "i") 
-				    || xmlStrEqual (ptr->name, "em"))
+				if (xmlStrEqual (ptr->name, (xmlChar *)"i")
+				    || xmlStrEqual (ptr->name, (xmlChar *)"em"))
 					mstyle_set_font_italic (mstyle, TRUE);
-				if (xmlStrEqual (ptr->name, "b"))
+				if (xmlStrEqual (ptr->name, (xmlChar *)"b"))
 					mstyle_set_font_bold (mstyle, TRUE);
 			}
-			if (xmlStrEqual (ptr->name, "a")) {
+			if (xmlStrEqual (ptr->name, (xmlChar *)"a")) {
 				xmlAttrPtr   props;
 				props = ptr->properties;
 				while (props) {
-					if (xmlStrEqual (props->name, "href") && props->children) {
+					if (xmlStrEqual (props->name, (xmlChar *)"href") && props->children) {
 						htmlNodeDump (a_buf, doc, props->children);
-						xmlBufferAdd (a_buf, "\n", -1);
+						xmlBufferAdd (a_buf, (xmlChar *)"\n", -1);
 					}
 					props = props->next;
 				}
 			}
-			if (xmlStrEqual (ptr->name, "img")) {
+			if (xmlStrEqual (ptr->name, (xmlChar *)"img")) {
 				xmlAttrPtr   props;
 				props = ptr->properties;
 				while (props) {
-					if (xmlStrEqual (props->name, "src") && props->children) {
+					if (xmlStrEqual (props->name, (xmlChar *)"src") && props->children) {
 						htmlNodeDump (a_buf, doc, props->children);
-						xmlBufferAdd (a_buf, "\n", -1);
+						xmlBufferAdd (a_buf, (xmlChar *)"\n", -1);
 					}
 					props = props->next;
 				}
@@ -115,7 +115,7 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, Sheet *sheet, int row)
 	int col = -1;
 	
 	for (ptr = cur->children; ptr != NULL ; ptr = ptr->next) {
-		if (xmlStrEqual (ptr->name, "td") || xmlStrEqual (ptr->name, "th")) {
+		if (xmlStrEqual (ptr->name, (xmlChar *)"td") || xmlStrEqual (ptr->name, (xmlChar *)"th")) {
 			xmlBufferPtr buf, a_buf;
 			xmlAttrPtr   props;
 			int colspan = 1;
@@ -134,10 +134,10 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, Sheet *sheet, int row)
 			/* Do we span across multiple rows or cols? */
 			props = ptr->properties;
 			while (props) {
-				if (xmlStrEqual (props->name, "colspan") && props->children)
-				    colspan = atoi (props->children->content);
-				if (xmlStrEqual (props->name, "rowspan") && props->children)
-				    rowspan = atoi (props->children->content);
+				if (xmlStrEqual (props->name, (xmlChar *)"colspan") && props->children)
+				    colspan = atoi ((char *)props->children->content);
+				if (xmlStrEqual (props->name, (xmlChar *)"rowspan") && props->children)
+				    rowspan = atoi ((char *)props->children->content);
 				props = props->next;
 			}
 			if (colspan < 1)
@@ -150,7 +150,7 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, Sheet *sheet, int row)
 			a_buf = xmlBufferCreate ();
 
 			mstyle = mstyle_new_default ();
-			if (xmlStrEqual (ptr->name, "th"))
+			if (xmlStrEqual (ptr->name, (xmlChar *)"th"))
 				mstyle_set_font_bold (mstyle, TRUE);
 
 			html_read_content (ptr, buf, mstyle, a_buf, TRUE, doc);
@@ -159,7 +159,7 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, Sheet *sheet, int row)
 				char *name;
 				Cell *cell;
 
-				name = g_strndup (buf->content, buf->use);
+				name = g_strndup ((gchar *)buf->content, buf->use);
 				cell = sheet_cell_fetch	(sheet, col + 1, row);
 				sheet_style_set_pos (sheet, col + 1, row, mstyle);
 				cell_set_text (cell, name);
@@ -168,7 +168,7 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, Sheet *sheet, int row)
 			if (a_buf->use > 0) {
 				char *name;
 
-				name = g_strndup (a_buf->content, a_buf->use);
+				name = g_strndup ((gchar *)a_buf->content, a_buf->use);
 				cell_set_comment (sheet, &pos, NULL, name);
 				g_free (name);
 			}
@@ -204,7 +204,7 @@ html_read_table (htmlNodePtr cur, htmlDocPtr doc, WorkbookView *wb_view)
 	for (ptr = cur->children; ptr != NULL ; ptr = ptr->next) {
 		if (ptr->type != XML_ELEMENT_NODE)
 			continue;
-		if (xmlStrEqual (ptr->name, "caption")) {
+		if (xmlStrEqual (ptr->name, (xmlChar *)"caption")) {
 			xmlBufferPtr buf;
 			buf = xmlBufferCreate ();
 			for (ptr2 = ptr->children; ptr2 != NULL ; ptr2 = ptr2->next) {
@@ -212,13 +212,13 @@ html_read_table (htmlNodePtr cur, htmlDocPtr doc, WorkbookView *wb_view)
 			}
 			if (buf->use > 0) {
 				char *name;
-				name = g_strndup (buf->content, buf->use);
+				name = g_strndup ((gchar *)buf->content, buf->use);
 				sheet = html_get_sheet (name, wb);
 				g_free (name);
 			}
 			xmlBufferFree (buf);
 		}
-		if (xmlStrEqual (ptr->name, "tr")) {
+		if (xmlStrEqual (ptr->name, (xmlChar *)"tr")) {
 			row++;
 			if (sheet == NULL)
 				sheet = html_get_sheet (NULL, wb);
@@ -239,7 +239,7 @@ html_search_for_tables (htmlNodePtr cur, htmlDocPtr doc, WorkbookView *wb_view)
 
     if (cur->type == XML_ELEMENT_NODE) {
 	    htmlNodePtr ptr;
-	    if (xmlStrEqual (cur->name, "table"))
+	    if (xmlStrEqual (cur->name, (xmlChar *)"table"))
 		    html_read_table (cur, doc, wb_view);
 	    for (ptr = cur->children; ptr != NULL ; ptr = ptr->next)
 		    html_search_for_tables (ptr, doc, wb_view);
@@ -262,7 +262,7 @@ html_file_open (GnumFileOpener const *fo, IOContext *io_context,
 	buf = gsf_input_read (input, 4, NULL);
 	if (buf != NULL) {
 		ctxt = htmlCreatePushParserCtxt (NULL, NULL,
-			buf, 4, gsf_input_name (input), 0);
+			(char *)buf, 4, gsf_input_name (input), 0);
 
 		for (; size > 0 ; size -= len) {
 			len = 4096;
@@ -271,10 +271,10 @@ html_file_open (GnumFileOpener const *fo, IOContext *io_context,
 		       buf = gsf_input_read (input, len, NULL);
 		       if (buf == NULL)
 			       break;
-		       htmlParseChunk (ctxt, buf, len, 0);
+		       htmlParseChunk (ctxt, (char *)buf, len, 0);
 		}
 
-		htmlParseChunk (ctxt, buf, 0, 1);
+		htmlParseChunk (ctxt, (char *)buf, 0, 1);
 		doc = ctxt->myDoc;
 		htmlFreeParserCtxt (ctxt);
 	}
