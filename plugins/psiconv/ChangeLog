@@ -2,6 +2,9 @@
 
 	* psiconv-read.c (psi_new_string): Use g_utf16_to_utf8 instead of
 	g_convert_with_iconv. Can now read Psion Sheets!
+	(psi_new_string, value_new_from_psi_cell, parse_subexpr,
+	expr_new_from_formula, add_cell, add_workbook): Remove iconv state
+	argument.
 
 2004-08-17  Jon K Hellan  <hellan@acm.org>
 

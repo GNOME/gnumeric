@@ -52,13 +52,8 @@
 
 #include <psiconv/parse.h>
 
-typedef struct {
-	GIConv converter;
-} PsiState;
-
-
 static GnmValue *
-psi_new_string (PsiState *state, psiconv_ucs2 const *data)
+psi_new_string (psiconv_ucs2 const *data)
 {
 	return value_new_string_nocopy (
 		g_utf16_to_utf8 (data, -1, NULL, NULL, NULL));
@@ -235,7 +230,7 @@ set_style(Sheet *sheet, int row, int col,
 }
 
 static GnmValue *
-value_new_from_psi_cell(PsiState *state, const psiconv_sheet_cell psi_cell)
+value_new_from_psi_cell(const psiconv_sheet_cell psi_cell)
 {
 	switch (psi_cell->type) {
 	case psiconv_cell_int :
@@ -243,7 +238,7 @@ value_new_from_psi_cell(PsiState *state, const psiconv_sheet_cell psi_cell)
 	case psiconv_cell_float :
 		return value_new_float(psi_cell->data.dat_float);
 	case psiconv_cell_string :
-		return psi_new_string(state, psi_cell->data.dat_string);
+		return psi_new_string(psi_cell->data.dat_string);
 	case psiconv_cell_bool :
 		return value_new_bool(psi_cell->data.dat_bool);
 	case psiconv_cell_blank :
@@ -259,7 +254,7 @@ value_new_from_psi_cell(PsiState *state, const psiconv_sheet_cell psi_cell)
 }
 
 static GnmExpr const *
-parse_subexpr(PsiState *state, const psiconv_formula psi_formula)
+parse_subexpr(const psiconv_formula psi_formula)
 {
 	int nrargs=0; /* -1 for variable */
 	int kind=-1; /* 0 for dat, 1 for operator, 2 for formula, 3 for special,
@@ -331,9 +326,7 @@ parse_subexpr(PsiState *state, const psiconv_formula psi_formula)
 			v = value_new_int(psi_formula->data.dat_int);
 			break;
 		case psiconv_formula_dat_string:
-			/* FIXME: Unicode problem. 
-			   See PsiState - state->converter is unintialized */
-			v = psi_new_string(state, psi_formula->data.dat_string);
+			v = psi_new_string(psi_formula->data.dat_string);
 			break;
 		case psiconv_formula_dat_cellblock: {
 			GnmCellRef cr1, cr2;
@@ -364,7 +357,7 @@ parse_subexpr(PsiState *state, const psiconv_formula psi_formula)
 			if (!(psi_form1 = psiconv_list_get
 			                  (psi_formula->data.fun_operands,0)))
 				return NULL;
-			if (!(expr1 = parse_subexpr(state, psi_form1)))
+			if (!(expr1 = parse_subexpr(psi_form1)))
 				return NULL;
 		}
 		if (nrargs >= 2) {
@@ -373,7 +366,7 @@ parse_subexpr(PsiState *state, const psiconv_formula psi_formula)
 				gnm_expr_unref(expr1);
 				return NULL;
 			}
-			if (!(expr2 = parse_subexpr(state, psi_form2))) {
+			if (!(expr2 = parse_subexpr(psi_form2))) {
 				gnm_expr_unref(expr1);
 				return NULL;
 			}
@@ -423,7 +416,7 @@ parse_subexpr(PsiState *state, const psiconv_formula psi_formula)
 			if (!(psi_form1 = psiconv_list_get
 			                  (psi_formula->data.fun_operands,0)))
 				return NULL;
-			return parse_subexpr(state, psi_form1);
+			return parse_subexpr(psi_form1);
 		default:
 			break;
 		}
@@ -433,19 +426,18 @@ parse_subexpr(PsiState *state, const psiconv_formula psi_formula)
 }
 
 static GnmExpr const *
-expr_new_from_formula (PsiState *state,
-		       const psiconv_sheet_cell psi_cell,
+expr_new_from_formula (const psiconv_sheet_cell psi_cell,
 		       const psiconv_formula_list psi_formulas)
 {
 	psiconv_formula formula;
 
 	formula = psiconv_get_formula (psi_formulas, psi_cell->ref_formula);
 
-	return (formula != NULL) ?  parse_subexpr (state, formula) : NULL;
+	return (formula != NULL) ?  parse_subexpr (formula) : NULL;
 }
 
 static void
-add_cell (PsiState *state, Sheet *sheet, const psiconv_sheet_cell psi_cell,
+add_cell (Sheet *sheet, const psiconv_sheet_cell psi_cell,
 	  const psiconv_formula_list psi_formulas, const GnmStyle * default_style)
 {
 	GnmCell *cell;
@@ -456,10 +448,10 @@ add_cell (PsiState *state, Sheet *sheet, const psiconv_sheet_cell psi_cell,
 	if (!cell)
 		return;
 
-	val = value_new_from_psi_cell (state, psi_cell);
+	val = value_new_from_psi_cell (psi_cell);
 
 	if (psi_cell->calculated)
-		expr = expr_new_from_formula (state, psi_cell, psi_formulas);
+		expr = expr_new_from_formula (psi_cell, psi_formulas);
 
 	if (expr != NULL) {
 		/* TODO : is there a notion of parse format ?
@@ -487,8 +479,7 @@ add_cell (PsiState *state, Sheet *sheet, const psiconv_sheet_cell psi_cell,
 }
 
 static void
-add_cells(PsiState *state,
-	  Sheet *sheet, const psiconv_sheet_cell_list psi_cells,
+add_cells(Sheet *sheet, const psiconv_sheet_cell_list psi_cells,
           const psiconv_formula_list psi_formulas,
           const GnmStyle *default_style)
 {
@@ -502,12 +493,12 @@ add_cells(PsiState *state,
 	for (i = 0; i < psiconv_list_length(psi_cells); i++) {
 		/* If psiconv_list_get fails, something is very wrong... */
 		if ((psi_cell = psiconv_list_get(psi_cells,i)))
-			add_cell(state, sheet,psi_cell,psi_formulas, default_style);
+			add_cell(sheet,psi_cell,psi_formulas, default_style);
 	}
 }
 
 static void
-add_worksheet(PsiState *state, Workbook *wb, psiconv_sheet_worksheet psi_worksheet,int nr,
+add_worksheet(Workbook *wb, psiconv_sheet_worksheet psi_worksheet,int nr,
               psiconv_formula_list psi_formulas)
 {
 	Sheet *sheet;
@@ -530,7 +521,7 @@ add_worksheet(PsiState *state, Workbook *wb, psiconv_sheet_worksheet psi_workshe
 
 	/* TODO: Add show_zeros */
 
-	add_cells(state, sheet,psi_worksheet->cells,psi_formulas,default_style);
+	add_cells(sheet,psi_worksheet->cells,psi_formulas,default_style);
 
 	/* TODO: What about the NULL? */
 	sheet_flag_recompute_spans(sheet);
@@ -542,24 +533,16 @@ add_workbook(Workbook *wb, psiconv_sheet_workbook_section psi_workbook)
 {
 	psiconv_u32 i;
 	psiconv_sheet_worksheet psi_worksheet;
-	PsiState state;
-
-	state.converter = g_iconv_open ("UTF-8", "UCS-2");
-	if (state.converter == (GIConv) -1) {
-		g_message ("g_iconv_open failed");
-		return;
-	}
 
 	/* TODO: Perhaps add formulas and share them? */
 	for (i = 0; i < psiconv_list_length(psi_workbook->worksheets); i++) {
 		/* If psiconv_list_get fails, something is very wrong... */
 		if ((psi_worksheet = psiconv_list_get
 		                                 (psi_workbook->worksheets,i)))
-			add_worksheet(&state, wb,psi_worksheet,i,
+			add_worksheet(wb,psi_worksheet,i,
 			              psi_workbook->formulas);
 	}
 
-	g_iconv_close (state.converter);
 	workbook_queue_all_recalc (wb);
 }
 
