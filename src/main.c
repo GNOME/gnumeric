@@ -113,7 +113,7 @@ const struct poptOption gnumeric_popt_options [] = {
 	  N_("LEVEL") },
 	{ "debug_excel_color", '\0', POPT_ARG_INT,
 	    &ms_excel_color_debug, 0,
-	  N_("Enables debugging mesgs while reading excel colours & patterns"),
+	  N_("Enables debugging mesgs while reading excel colors & patterns"),
 	  N_("LEVEL") },
 	{ "debug_excel_objects", '\0', POPT_ARG_INT,
 	    &ms_excel_object_debug, 0,
