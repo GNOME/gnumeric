@@ -1,3 +1,7 @@
+2001-02-19  Karl Eichwalder  <ke@suse.de>
+
+	* de.po: Update.
+
 2001-02-18  Yukihiro Nakai  <nakai@gnome.gr.jp>
 
 	* ja.po: Today's Japanese update.
@@ -1217,7 +1221,7 @@
 1999-09-23  Kjartan Maraas  <kmaraas@online.no>
 
 	* no.po: Updated Norwegian translation.
-	  
+
 1999-09-23  Rodrigo Stulzer Lopes <rodrigo@conectiva.com.br>
 
 	* pt_BR.po: added.
@@ -1251,7 +1255,7 @@
 1999-09-08  Kjartan Maraas  <kmaraas@online.no>
 
 	* no.po: Updated translation.
-	
+
 1999-09-08  Richard Hult  <rhult@hem2.passagen.se>
 
 	* sv.po: Updated Swedish translation.
@@ -1279,7 +1283,7 @@
 1999-08-29  Kjartan Maraas  <kmaraas@online.no>
 
 	* no.po: Updated translation.
-	
+
 1999-08-27  Karl Eichwalder  <ke@suse.de>
 
 	* de.po: Update.
@@ -1287,7 +1291,7 @@
 1999-08-22  Kjartan Maraas  <kmaraas@online.no>
 
 	* no.po: Updated translation.
-	
+
 1999-08-22  Richard Hult  <rhult@hem2.passagen.se>
 
 	* sv.po: Updated translation.
@@ -1299,7 +1303,7 @@
 	  after: 264 translated messages, 9 fuzzy translations, 146 untranslated messages.
 	  I don't intend to do the rest as I'm not a gnumeric user myself.
 	  Is someone interested to finish the job?
-	
+
 1999-08-20  Raja R Harinath  <harinath@cs.umn.edu>
 
 	* es.po: Remove spurious "s.
@@ -1313,7 +1317,7 @@
 1999-08-12  Kjartan Maraas  <kmaraas@online.no>
 
 	* no.po: Updated translation.
-	
+
 1999-08-07  Richard Hult <rhult@hem2.passagen.se>
 
 	* sv.po: Translated more strings.
