@@ -1,5 +1,9 @@
 1999-06-14  Morten Welinder  <terra@diku.dk>
 
+	* src/fn-math.c (callback_function_seriessum): Simplify.
+	(gnumeric_seriessum): Don't round x, n, and m to integers.  Fix
+ 	error handling.
+
 	* src/fn-math.c (pow10): New function.
 	(gnumeric_rounddown): Simplify and correct.
 	(gnumeric_round): Ditto.

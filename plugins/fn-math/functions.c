@@ -2421,18 +2421,12 @@ callback_function_seriessum (Sheet *sheet, Value *value,
 			     char **error_string, void *closure)
 {
 	math_seriessum_t *mm = closure;
-	float_t          coefficient=0;
+	float_t coefficient;
 
-	switch (value->type){
-	case VALUE_INTEGER:
-	        coefficient = value->v.v_int;
-		break;
-	case VALUE_FLOAT:
-	        coefficient = value->v.v_float;
-		break;
-	default:
-	        return FALSE;
-	}
+	if (!VALUE_IS_NUMBER (value))
+		return FALSE;
+
+	coefficient = value_get_as_float (value);
 
 	mm->sum += coefficient * pow(mm->x, mm->n);
 	mm->n += mm->m;
@@ -2461,11 +2455,12 @@ gnumeric_seriessum (Sheet *sheet, GList *expr_node_list,
 		return NULL;
 	}
 	val = eval_expr (sheet, tree, eval_col, eval_row, error_string);
-	if (! VALUE_IS_NUMBER(val)) {
+	if (!val) return NULL;
+	if (!VALUE_IS_NUMBER (val)) {
 		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	}
-	x = value_get_as_int(val);
+	x = value_get_as_float (val);
 	expr_node_list = expr_node_list->next;
 
 	/* Get n */
@@ -2475,11 +2470,12 @@ gnumeric_seriessum (Sheet *sheet, GList *expr_node_list,
 		return NULL;
 	}
 	val = eval_expr (sheet, tree, eval_col, eval_row, error_string);
-	if (! VALUE_IS_NUMBER(val)) {
+	if (!val) return NULL;
+	if (!VALUE_IS_NUMBER (val)) {
 		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	}
-	n = value_get_as_int(val);
+	n = value_get_as_float (val);
 	expr_node_list = expr_node_list->next;
 
 	/* Get m */
@@ -2489,11 +2485,12 @@ gnumeric_seriessum (Sheet *sheet, GList *expr_node_list,
 		return NULL;
 	}
 	val = eval_expr (sheet, tree, eval_col, eval_row, error_string);
-	if (! VALUE_IS_NUMBER(val)) {
+	if (!val) return NULL;
+	if (!VALUE_IS_NUMBER (val)) {
 		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	}
-	m = value_get_as_int(val);
+	m = value_get_as_float (val);
 	expr_node_list = expr_node_list->next;
 
 	p.n = n;
