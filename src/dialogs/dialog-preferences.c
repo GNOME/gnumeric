@@ -747,7 +747,7 @@ pref_window_page_initializer (PrefState *state,
 	double_pref_create_widget (GNM_CONF_GUI_ZOOM,
 		page, row++, 1.00, 0.10, 5.00, 0.05, 2);
 	int_pref_create_widget (GNM_CONF_WORKBOOK_NSHEETS,
-		page, row++, 1, 1, 100, 1);
+		page, row++, 1, 1, 64, 1);
 	bool_pref_create_widget (GNM_CONF_GUI_ED_LIVESCROLLING,
 		page, row++);
 
