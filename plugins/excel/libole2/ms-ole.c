@@ -1403,10 +1403,10 @@ ms_ole_destroy (MsOle **ptr)
 #if OLE_DEBUG > 0
 	printf ("FIXME: should truncate to remove unused blocks\n");
 #endif
-	if (f->ref_count != 0)
-		g_warning ("Unclosed files exist on this OLE stream");
-
 	if (f) {
+		if (f->ref_count != 0)
+			g_warning ("Unclosed files exist on this OLE stream");
+
 		if (f->dirty)
 			ms_ole_cleanup (f);
 
