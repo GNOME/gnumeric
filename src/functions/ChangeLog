@@ -1,3 +1,11 @@
+2002-02-19  Morten Welinder  <terra@diku.dk>
+
+	* fn-math.c (gnumeric_randbetween): use gnum_float, not double.
+	* fn-string.c (gnumeric_fixed): Ditto.
+	* fn-eng.c (val_to_base): Ditto.
+	(gnumeric_besseli): Ditto.
+	(gnumeric_besselk): Ditto.
+
 2002-02-18  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.0

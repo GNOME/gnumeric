@@ -490,12 +490,12 @@ static char *help_fixed = {
 static Value *
 gnumeric_fixed (FunctionEvalInfo *ei, Value **argv)
 {
-	int	  decimals;
-	gdouble   num;
-	gboolean  commas = TRUE;
+	int decimals;
+	gnum_float num;
+	gboolean commas = TRUE;
 	format_info_t fmt;
-	GString  *str;
-	Value    *res;
+	GString *str;
+	Value *res;
 
 	num = value_get_as_float (argv[0]);
 	decimals = argv[1] ? value_get_as_int (argv[1]) : 2;
@@ -511,7 +511,7 @@ gnumeric_fixed (FunctionEvalInfo *ei, Value **argv)
 
 	if (decimals <= 0) {
 		/* no decimal point : just round and pad 0's */
-		double mult = gpow10 (decimals);
+		gnum_float mult = gpow10 (decimals);
 		num = (gnumeric_fake_round (num * mult) / mult);
 		fmt.right_req = fmt.right_allowed = 0;
 	} else /* decimal point format */

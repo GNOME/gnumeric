@@ -1966,7 +1966,7 @@ static Value *
 gnumeric_randbetween (FunctionEvalInfo *ei, Value **argv)
 {
         int bottom, top;
-	double r;
+	gnum_float r;
 
 	bottom = value_get_as_int (argv[0]);
 	top    = value_get_as_int (argv[1]);

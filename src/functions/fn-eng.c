@@ -33,7 +33,7 @@ val_to_base (FunctionEvalInfo *ei, Value **argv, int num_argv,
 	int max, places;
 	char *err, buffer[40];
 	const char *str;
-	double v, b10;
+	gnum_float v, b10;
 	int digit;
 
 	g_return_val_if_fail (src_base > 1 && src_base <= 36,
@@ -415,9 +415,7 @@ static char *help_besseli = {
 static Value *
 gnumeric_besseli (FunctionEvalInfo *ei, Value **argv)
 {
-	double x;
-	double order;
-	double result;
+	gnum_float x, order;
 
 	x = value_get_as_float (argv[0]);	/* value to evaluate I_n at. */
 	order = value_get_as_float (argv[1]);	/* the order */
@@ -425,8 +423,7 @@ gnumeric_besseli (FunctionEvalInfo *ei, Value **argv)
 	if (order < 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	result = bessel_i (x, order, 1.0);
-	return value_new_float (result);
+	return value_new_float (bessel_i (x, order, 1.0));
 }
 
 /***************************************************************************/
@@ -455,9 +452,7 @@ static char *help_besselk = {
 static Value *
 gnumeric_besselk (FunctionEvalInfo *ei, Value **argv)
 {
-	double x;
-	double order;
-	double result;
+	gnum_float x, order;
 
 	x = value_get_as_float (argv[0]);	/* value to evaluate K_n at. */
 	order = value_get_as_float (argv[1]);	/* the order */
@@ -465,8 +460,7 @@ gnumeric_besselk (FunctionEvalInfo *ei, Value **argv)
 	if (order < 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	result = bessel_k (x, order, 1.0);
-	return value_new_float (result);
+	return value_new_float (bessel_k (x, order, 1.0));
 }
 
 /***************************************************************************/
