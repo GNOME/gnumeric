@@ -3831,7 +3831,6 @@ msgstr ""
 "@SEEALSO=RAND"
 
 #: src/fn-math.c:1629
-#, fuzzy
 msgid ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(number[,digits])\n"
@@ -3857,7 +3856,6 @@ msgstr ""
 "@SEEALSO=ROUNDUP"
 
 #: src/fn-math.c:1667
-#, fuzzy
 msgid ""
 "@FUNCTION=ROUND\n"
 "@SYNTAX=ROUND(number[,digits])\n"
@@ -3882,7 +3880,6 @@ msgstr ""
 "@SEEALSO=ROUNDDOWN,ROUNDUP"
 
 #: src/fn-math.c:1702
-#, fuzzy
 msgid ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(number[,digits])\n"
@@ -4133,7 +4130,6 @@ msgstr ""
 "@SEEALSO=TRANSPOSE,MINVERSE"
 
 #: src/fn-math.c:2788
-#, fuzzy
 msgid ""
 "@FUNCTION=MDETERM\n"
 "@SYNTAX=MDETERM(array)\n"
@@ -4142,13 +4138,12 @@ msgid ""
 "returns #VALUE! error.\n"
 "@SEEALSO=MMULT, MINVERSE"
 msgstr ""
-"@FUNCTION=FACTDOUBLE\n"
-"@SYNTAX=FACTDOUBLE(número)\n"
-"@DESCRIPTION=La función FACTDOUBLE devuelve la factorial doble de un "
-"número.\n"
-"Si @número no es un entero, será troncado. Si @número es negativo FACTDOUBLE "
-"devuelve el error #NUM! .\n"
-"@SEEALSO=FACT"
+"@FUNCTION=MDETERM\n"
+"@SYNTAX=MDETERM(matríz)\n"
+"@DESCRIPTION=La función MDETERM devuelvel el determinante de la @matríz dada.\n"
+"Si la @matríz no tiene la misma cantidad de líneas que de columnas MDETERM "
+"devuelve el error #VALOR! .\n"
+"@SEEALSO=MMULT, MINVERSE"
 
 #: src/fn-math.c:2905
 msgid ""
@@ -4290,7 +4285,6 @@ msgid "Sheet"
 msgstr "Hoja"
 
 #: src/fn-stat.c:107
-#, fuzzy
 msgid ""
 "@FUNCTION=VARP\n"
 "@SYNTAX=VARP(b1, b2, ...)\n"
@@ -4300,13 +4294,14 @@ msgid ""
 "Performing this function on a string or empty cell simply does nothing.\n"
 "@SEEALSO=STDEV,VAR,MEAN"
 msgstr ""
-"@FUNCTION=DEGREES\n"
-"@SYNTAX=DEGREES(x)\n"
-"@DESCRIPTION=Calcula el equivalente en grados del ángulo x dado en "
-"radianes.\n"
-"Efectuar esta función sobre una cadena de texto o sobre una celda vacía "
-"simplemente no hace nada.\n"
-"@SEEALSO=RADIANS, PI"
+"@FUNCTION=VARP\n"
+"@SYNTAX=VARP(b1, b2, ...)\n"
+"@DESCRIPTION=VARP calcula la variencia de un conjunto de números, cada "
+"número es el miembro de una población y el conjunto es la población entera.\n"
+"(VARP también se conoce como N-variencia.)\n"
+"Aplicar esta función a una cadena de texto o una celda vacía simplemente no"
+" hace nada.\n"
+"@SEEALSO=STDEV,VAR,MEAN"
 
 #: src/fn-stat.c:132
 msgid ""
@@ -4321,7 +4316,6 @@ msgid ""
 msgstr ""
 
 #: src/fn-stat.c:158
-#, fuzzy
 msgid ""
 "@FUNCTION=STDEV\n"
 "@SYNTAX=STDEV(b1, b2, ...)\n"
@@ -4330,15 +4324,8 @@ msgid ""
 "Performing this function on a string or empty cell simply does nothing.\n"
 "@SEEALSO=VAR,MEAN"
 msgstr ""
-"@FUNCTION=CEIL\n"
-"@SYNTAX=CEIL(x)\n"
-"@DESCRIPTION=La función CEIL redondea x hacia el próximo valor entero.\n"
-"Efectuar esta función sobre una cadena de texto o sobre una celda vacía "
-"simplemente no hace nada.\n"
-"@SEEALSO=ABS, FLOOR, INT"
 
 #: src/fn-stat.c:180
-#, fuzzy
 msgid ""
 "@FUNCTION=STDEVP\n"
 "@SYNTAX=STDEVP(b1, b2, ...)\n"
@@ -4347,12 +4334,6 @@ msgid ""
 "Performing this function on a string or empty cell simply does nothing.\n"
 "@SEEALSO=STDEV,VAR,MEAN"
 msgstr ""
-"@FUNCTION=CEIL\n"
-"@SYNTAX=CEIL(x)\n"
-"@DESCRIPTION=La función CEIL redondea x hacia el próximo valor entero.\n"
-"Efectuar esta función sobre una cadena de texto o sobre una celda vacía "
-"simplemente no hace nada.\n"
-"@SEEALSO=ABS, FLOOR, INT"
 
 #: src/fn-stat.c:203
 msgid ""
@@ -4378,7 +4359,6 @@ msgid ""
 msgstr ""
 
 #: src/fn-stat.c:338
-#, fuzzy
 msgid ""
 "@FUNCTION=COVAR\n"
 "@SYNTAX=COVAR(array1,array2)\n"
@@ -4386,12 +4366,6 @@ msgid ""
 "Strings and empty cells are simply ignored.\n"
 "@SEEALSO=CORREL,FISHER,FISHERINV"
 msgstr ""
-"@FUNCTION=POWER\n"
-"@SYNTAX=POWER(x,y)\n"
-"@DESCRIPTION=Devuelve el valor de x a la potencia y.\n"
-"Efectuar esta función sobre una cadena de texto o sobre una celda vacía "
-"devuelve un error.\n"
-"@SEEALSO=EXP"
 
 #: src/fn-stat.c:360
 msgid ""
@@ -4416,7 +4390,6 @@ msgid ""
 msgstr ""
 
 #: src/fn-stat.c:414
-#, fuzzy
 msgid ""
 "@FUNCTION=NORMSDIST\n"
 "@SYNTAX=NORMSDIST(x)\n"
@@ -4425,12 +4398,6 @@ msgid ""
 "Performing this function on a string or empty cell simply does nothing.\n"
 "@SEEALSO=NOMRDIST"
 msgstr ""
-"@FUNCTION=CEIL\n"
-"@SYNTAX=CEIL(x)\n"
-"@DESCRIPTION=La función CEIL redondea x hacia el próximo valor entero.\n"
-"Efectuar esta función sobre una cadena de texto o sobre una celda vacía "
-"simplemente no hace nada.\n"
-"@SEEALSO=ABS, FLOOR, INT"
 
 #: src/fn-stat.c:437
 msgid ""
@@ -4469,7 +4436,6 @@ msgid ""
 msgstr ""
 
 #: src/fn-stat.c:530
-#, fuzzy
 msgid ""
 "@FUNCTION=FISHERINV\n"
 "@SYNTAX=FISHERINV(x)\n"
@@ -4478,11 +4444,6 @@ msgid ""
 "If @x is non-number FISHERINV returns #VALUE! error.\n"
 "@SEEALSO=FISHER"
 msgstr ""
-"@FUNCTION=SQRT\n"
-"@SYNTAX=SQRT(x)\n"
-"@DESCRIPTION=La función SQRT devuelve la raíz cuadrada de @x,\n"
-"Si @x es negativo devuelve #NUM!. Esta función accepta un solo argumento.\n"
-"@SEEALSO=POW"
 
 #: src/fn-stat.c:552
 msgid ""
@@ -4496,7 +4457,6 @@ msgid ""
 msgstr ""
 
 #: src/fn-stat.c:637
-#, fuzzy
 msgid ""
 "@FUNCTION=HARMEAN\n"
 "@SYNTAX=HARMEAN(b1, b2, ...)\n"
@@ -4504,16 +4464,8 @@ msgid ""
 "Performing this function on a string or empty cell simply does nothing.\n"
 "@SEEALSO=GEOMEAN,MEDIAN,MEAN,MODE"
 msgstr ""
-"@FUNCTION=DEGREES\n"
-"@SYNTAX=DEGREES(x)\n"
-"@DESCRIPTION=Calcula el equivalente en grados del ángulo x dado en "
-"radianes.\n"
-"Efectuar esta función sobre una cadena de texto o sobre una celda vacía "
-"simplemente no hace nada.\n"
-"@SEEALSO=RADIANS, PI"
 
 #: src/fn-stat.c:659
-#, fuzzy
 msgid ""
 "@FUNCTION=GEOMEAN\n"
 "@SYNTAX=GEOMEAN(b1, b2, ...)\n"
@@ -4522,16 +4474,8 @@ msgid ""
 "Performing this function on a string or empty cell simply does nothing.\n"
 "@SEEALSO=HARMEAN,MEDIAN,MEAN,MODE"
 msgstr ""
-"@FUNCTION=DEGREES\n"
-"@SYNTAX=DEGREES(x)\n"
-"@DESCRIPTION=Calcula el equivalente en grados del ángulo x dado en "
-"radianes.\n"
-"Efectuar esta función sobre una cadena de texto o sobre una celda vacía "
-"simplemente no hace nada.\n"
-"@SEEALSO=RADIANS, PI"
 
 #: src/fn-stat.c:683
-#, fuzzy
 msgid ""
 "@FUNCTION=COUNT\n"
 "@SYNTAX=COUNT(b1, b2, ...)\n"
@@ -4540,16 +4484,8 @@ msgid ""
 "Performing this function on a string or empty cell simply does nothing.\n"
 "@SEEALSO=AVERAGE"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(x)\n"
-"@DESCRIPTION=Calcula el número en radianes equivalente al ángulo de x "
-"grados.\n"
-"Efectuar esta función sobre una cadena de texto o sobre una celda vacía "
-"simplemente no hace nada.\n"
-"@SEEALSO=PI,DEGREES"
 
 #: src/fn-stat.c:719
-#, fuzzy
 msgid ""
 "@FUNCTION=COUNTA\n"
 "@SYNTAX=COUNTA(b1, b2, ...)\n"
@@ -4557,14 +4493,8 @@ msgid ""
 "cells.\n"
 "@SEEALSO=AVERAGE,COUNT,DCOUNT,DCOUNTA,PRODUCT,SUM"
 msgstr ""
-"@FUNCTION=SUM\n"
-"@SYNTAX=SUM(valor1, valor2, ...)\n"
-"@DESCRIPTION=Calcula la suma de todos los valores y celdas referenciados en "
-"la lista de argumentos. \n"
-"@SEEALSO=AVERAGE, COUNT"
 
 #: src/fn-stat.c:751
-#, fuzzy
 msgid ""
 "@FUNCTION=AVERAGE\n"
 "@SYNTAX=AVERAGE(value1, value2,...)\n"
@@ -4573,14 +4503,8 @@ msgid ""
 "by the count of the arguments.\n"
 "@SEEALSO=SUM, COUNT"
 msgstr ""
-"@FUNCTION=SUM\n"
-"@SYNTAX=SUM(valor1, valor2, ...)\n"
-"@DESCRIPTION=Calcula la suma de todos los valores y celdas referenciados en "
-"la lista de argumentos. \n"
-"@SEEALSO=AVERAGE, COUNT"
 
 #: src/fn-stat.c:773
-#, fuzzy
 msgid ""
 "@FUNCTION=MIN\n"
 "@SYNTAX=MIN(b1, b2, ...)\n"
@@ -4590,17 +4514,8 @@ msgid ""
 "Performing this function on a string or empty cell simply does nothing.\n"
 "@SEEALSO=MAX,ABS"
 msgstr ""
-"@FUNCTION=ABS\n"
-"@SYNTAX=ABS(b1)\n"
-"@DESCRIPTION=Implementa la función Valor Absoluto: el resultado se obtiene "
-"abandonando el signo negativo (si presente). Se aplica a números enteros y a "
-"coma flotante.\n"
-"Aplicar este función sobre una cadena de texto o una celda vacia no hace "
-"nada.\n"
-"@SEEALSO=CEIL, FLOOR"
 
 #: src/fn-stat.c:798
-#, fuzzy
 msgid ""
 "@FUNCTION=MAX\n"
 "@SYNTAX=MAX(b1, b2, ...)\n"
@@ -4610,14 +4525,6 @@ msgid ""
 "Performing this function on a string or empty cell simply does nothing.\n"
 "@SEEALSO=MIN,ABS"
 msgstr ""
-"@FUNCTION=ABS\n"
-"@SYNTAX=ABS(b1)\n"
-"@DESCRIPTION=Implementa la función Valor Absoluto: el resultado se obtiene "
-"abandonando el signo negativo (si presente). Se aplica a números enteros y a "
-"coma flotante.\n"
-"Aplicar este función sobre una cadena de texto o una celda vacia no hace "
-"nada.\n"
-"@SEEALSO=CEIL, FLOOR"
 
 #: src/fn-stat.c:823
 msgid ""
@@ -4656,7 +4563,6 @@ msgid ""
 msgstr ""
 
 #: src/fn-stat.c:914
-#, fuzzy
 msgid ""
 "@FUNCTION=GAMMALN\n"
 "@SYNTAX=GAMMALN(x)\n"
@@ -4666,14 +4572,6 @@ msgid ""
 "GAMMALN returns #NUM! error.\n"
 "@SEEALSO=POISSON"
 msgstr ""
-"@FUNCTION=CEILING\n"
-"@SYNTAX=CEILING(x,significancia)\n"
-"@DESCRIPTION=La función CEILING redondea hacia arriba @x de manera a que sea "
-"igula al multiple de @significancia más cercano.\n"
-"Si @x o @significancia no es un valor numérico, CEILING devuelve el error "
-"#VALOR!. Si @x y @significancia son de signos contrarios, CEILING devuelve "
-"el error #NUM!. \n"
-"@SEEALSO=CEIL"
 
 #: src/fn-stat.c:945
 msgid ""
@@ -4699,7 +4597,6 @@ msgid ""
 msgstr ""
 
 #: src/fn-stat.c:1010
-#, fuzzy
 msgid ""
 "@FUNCTION=CHIDIST\n"
 "@SYNTAX=CHIDIST(x,dof)\n"
@@ -4709,13 +4606,6 @@ msgid ""
 "error.\n"
 "@SEEALSO=CHIINV,CHITEST"
 msgstr ""
-"@FUNCTION=FACTDOUBLE\n"
-"@SYNTAX=FACTDOUBLE(número)\n"
-"@DESCRIPTION=La función FACTDOUBLE devuelve la factorial doble de un "
-"número.\n"
-"Si @número no es un entero, será troncado. Si @número es negativo FACTDOUBLE "
-"devuelve el error #NUM! .\n"
-"@SEEALSO=FACT"
 
 #: src/fn-stat.c:1040
 msgid ""
@@ -4800,7 +4690,6 @@ msgid ""
 msgstr ""
 
 #: src/fn-stat.c:1380
-#, fuzzy
 msgid ""
 "@FUNCTION=FINV\n"
 "@SYNTAX=TINV(p,dof)\n"
@@ -4810,14 +4699,6 @@ msgid ""
 "returns #NUM! error.\n"
 "@SEEALSO=FDIST"
 msgstr ""
-"@FUNCTION=CEILING\n"
-"@SYNTAX=CEILING(x,significancia)\n"
-"@DESCRIPTION=La función CEILING redondea hacia arriba @x de manera a que sea "
-"igula al multiple de @significancia más cercano.\n"
-"Si @x o @significancia no es un valor numérico, CEILING devuelve el error "
-"#VALOR!. Si @x y @significancia son de signos contrarios, CEILING devuelve "
-"el error #NUM!. \n"
-"@SEEALSO=CEIL"
 
 #: src/fn-stat.c:1410
 msgid ""
@@ -4963,7 +4844,6 @@ msgid ""
 msgstr ""
 
 #: src/fn-stat.c:1778
-#, fuzzy
 msgid ""
 "@FUNCTION=AVEDEV\n"
 "@SYNTAX=AVEDEV(n1, n2, ...)\n"
@@ -4972,16 +4852,8 @@ msgid ""
 "Performing this function on a string or empty cell simply does nothing.\n"
 "@SEEALSO=STDEV"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(x)\n"
-"@DESCRIPTION=Calcula el número en radianes equivalente al ángulo de x "
-"grados.\n"
-"Efectuar esta función sobre una cadena de texto o sobre una celda vacía "
-"simplemente no hace nada.\n"
-"@SEEALSO=PI,DEGREES"
 
 #: src/fn-stat.c:1801
-#, fuzzy
 msgid ""
 "@FUNCTION=DEVSQ\n"
 "@SYNTAX=DEVSQ(n1, n2, ...)\n"
@@ -4990,14 +4862,8 @@ msgid ""
 "Strings and empty cells are simply ignored.\n"
 "@SEEALSO=STDEV"
 msgstr ""
-"@FUNCTION=SUMSQ\n"
-"@SYNTAX=SUMSQ(valor1, valor2, ...)\n"
-"@DESCRIPTION=Calcula la suma de los cuadrados de todos los valores y celdas "
-"referenciados en la lista de argumentos. \n"
-"@SEEALSO=SUM, COUNT"
 
 #: src/fn-stat.c:1824
-#, fuzzy
 msgid ""
 "@FUNCTION=FISHER\n"
 "@SYNTAX=FISHER(x)\n"
@@ -5006,11 +4872,6 @@ msgid ""
 "FISHER returns #NUM! error\n"
 "@SEEALSO=SKEW"
 msgstr ""
-"@FUNCTION=SQRT\n"
-"@SYNTAX=SQRT(x)\n"
-"@DESCRIPTION=La función SQRT devuelve la raíz cuadrada de @x,\n"
-"Si @x es negativo devuelve #NUM!. Esta función accepta un solo argumento.\n"
-"@SEEALSO=POW"
 
 #: src/fn-stat.c:1853
 msgid ""
@@ -5110,7 +4971,6 @@ msgid ""
 msgstr ""
 
 #: src/fn-stat.c:2423
-#, fuzzy
 msgid ""
 "@FUNCTION=AVERAGEA\n"
 "@SYNTAX=AVERAGEA(number1,number2,...)\n"
@@ -5121,18 +4981,8 @@ msgid ""
 "Note that empty cells are not counted.\n"
 "@SEEALSO=AVERAGE"
 msgstr ""
-"@FUNCTION=SUMA\n"
-"@SYNTAX=SUMA(valor1, valor2, ...)\n"
-"@DESCRIPTION=Calcula la suma de todos los valores y celdas referenciados en "
-"la lista de argumentos. Se incluye en el cálculo los números y también los "
-"textos y expresiones lógicas. Si la celda contiene texto o la expresión "
-"lógica FALSO, se contará como un cero (0). Si contiene un valór lógico "
-"VERDAD, se contará como un uno (1). Note que las celdas vacías no son "
-"contadas.\n"
-"@SEEALSO=AVERAGE, SUM, COUNT"
 
 #: src/fn-stat.c:2448
-#, fuzzy
 msgid ""
 "@FUNCTION=MAXA\n"
 "@SYNTAX=MAXA(number1,number2,...)\n"
@@ -5143,18 +4993,8 @@ msgid ""
 "(1).  Note that empty cells are not counted.\n"
 "@SEEALSO=MAX,MINA"
 msgstr ""
-"@FUNCTION=SUMA\n"
-"@SYNTAX=SUMA(valor1, valor2, ...)\n"
-"@DESCRIPTION=Calcula la suma de todos los valores y celdas referenciados en "
-"la lista de argumentos. Se incluye en el cálculo los números y también los "
-"textos y expresiones lógicas. Si la celda contiene texto o la expresión "
-"lógica FALSO, se contará como un cero (0). Si contiene un valór lógico "
-"VERDAD, se contará como un uno (1). Note que las celdas vacías no son "
-"contadas.\n"
-"@SEEALSO=AVERAGE, SUM, COUNT"
 
 #: src/fn-stat.c:2473
-#, fuzzy
 msgid ""
 "@FUNCTION=MINA\n"
 "@SYNTAX=MINA(number1,number2,...)\n"
@@ -5165,18 +5005,8 @@ msgid ""
 "(1).  Note that empty cells are not counted.\n"
 "@SEEALSO=MIN,MAXA"
 msgstr ""
-"@FUNCTION=SUMA\n"
-"@SYNTAX=SUMA(valor1, valor2, ...)\n"
-"@DESCRIPTION=Calcula la suma de todos los valores y celdas referenciados en "
-"la lista de argumentos. Se incluye en el cálculo los números y también los "
-"textos y expresiones lógicas. Si la celda contiene texto o la expresión "
-"lógica FALSO, se contará como un cero (0). Si contiene un valór lógico "
-"VERDAD, se contará como un uno (1). Note que las celdas vacías no son "
-"contadas.\n"
-"@SEEALSO=AVERAGE, SUM, COUNT"
 
 #: src/fn-stat.c:2498
-#, fuzzy
 msgid ""
 "@FUNCTION=VARA\n"
 "@SYNTAX=VARA(number1,number2,...)\n"
@@ -5187,18 +5017,8 @@ msgid ""
 "empty cells are not counted.\n"
 "@SEEALSO=VAR,VARPA"
 msgstr ""
-"@FUNCTION=SUMA\n"
-"@SYNTAX=SUMA(valor1, valor2, ...)\n"
-"@DESCRIPTION=Calcula la suma de todos los valores y celdas referenciados en "
-"la lista de argumentos. Se incluye en el cálculo los números y también los "
-"textos y expresiones lógicas. Si la celda contiene texto o la expresión "
-"lógica FALSO, se contará como un cero (0). Si contiene un valór lógico "
-"VERDAD, se contará como un uno (1). Note que las celdas vacías no son "
-"contadas.\n"
-"@SEEALSO=AVERAGE, SUM, COUNT"
 
 #: src/fn-stat.c:2523
-#, fuzzy
 msgid ""
 "@FUNCTION=VARPA\n"
 "@SYNTAX=VARPA(number1,number2,...)\n"
@@ -5209,18 +5029,8 @@ msgid ""
 "(1).  Note that empty cells are not counted.\n"
 "@SEEALSO=VARP,VARP"
 msgstr ""
-"@FUNCTION=SUMA\n"
-"@SYNTAX=SUMA(valor1, valor2, ...)\n"
-"@DESCRIPTION=Calcula la suma de todos los valores y celdas referenciados en "
-"la lista de argumentos. Se incluye en el cálculo los números y también los "
-"textos y expresiones lógicas. Si la celda contiene texto o la expresión "
-"lógica FALSO, se contará como un cero (0). Si contiene un valór lógico "
-"VERDAD, se contará como un uno (1). Note que las celdas vacías no son "
-"contadas.\n"
-"@SEEALSO=AVERAGE, SUM, COUNT"
 
 #: src/fn-stat.c:2548
-#, fuzzy
 msgid ""
 "@FUNCTION=STDEVA\n"
 "@SYNTAX=STDEVA(number1,number2,...)\n"
@@ -5231,18 +5041,8 @@ msgid ""
 "(1).  Note that empty cells are not counted.\n"
 "@SEEALSO=STDEV,STDEVPA"
 msgstr ""
-"@FUNCTION=SUMA\n"
-"@SYNTAX=SUMA(valor1, valor2, ...)\n"
-"@DESCRIPTION=Calcula la suma de todos los valores y celdas referenciados en "
-"la lista de argumentos. Se incluye en el cálculo los números y también los "
-"textos y expresiones lógicas. Si la celda contiene texto o la expresión "
-"lógica FALSO, se contará como un cero (0). Si contiene un valór lógico "
-"VERDAD, se contará como un uno (1). Note que las celdas vacías no son "
-"contadas.\n"
-"@SEEALSO=AVERAGE, SUM, COUNT"
 
 #: src/fn-stat.c:2573
-#, fuzzy
 msgid ""
 "@FUNCTION=STDEVPA\n"
 "@SYNTAX=STDEVPA(number1,number2,...)\n"
@@ -5253,15 +5053,6 @@ msgid ""
 "it is counted as one (1).  Note that empty cells are not counted.\n"
 "@SEEALSO=STDEVA,STDEVP"
 msgstr ""
-"@FUNCTION=SUMA\n"
-"@SYNTAX=SUMA(valor1, valor2, ...)\n"
-"@DESCRIPTION=Calcula la suma de todos los valores y celdas referenciados en "
-"la lista de argumentos. Se incluye en el cálculo los números y también los "
-"textos y expresiones lógicas. Si la celda contiene texto o la expresión "
-"lógica FALSO, se contará como un cero (0). Si contiene un valór lógico "
-"VERDAD, se contará como un uno (1). Note que las celdas vacías no son "
-"contadas.\n"
-"@SEEALSO=AVERAGE, SUM, COUNT"
 
 #: src/fn-stat.c:2598
 msgid ""
