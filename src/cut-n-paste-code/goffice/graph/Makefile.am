@@ -85,4 +85,4 @@ INCLUDES = -I$(top_srcdir) 					\
 	   -I$(top_srcdir)/src/cut-n-paste-code			\
 	   -I$(top_srcdir)/src/cut-n-paste-code/foocanvas	\
 	    $(GNUMERIC_CFLAGS) \
-		-DGNUMERICGLADEDIR=\"$(gnumeric_gladedir)\"
+		-DGNUMERICICONDIR=\"$(gnumeric_icondir)\"

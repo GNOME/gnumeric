@@ -228,39 +228,39 @@ gog_error_bar_prefs (GogSeries *series,
 		G_CALLBACK (cb_color_changed), editor);
 	gtk_table_attach (GTK_TABLE (table), w, 4, 5, 4, 5, 0, 0, 0, 0);
 	cpx = go_combo_pixmaps_new (4);
-	pixbuf = gdk_pixbuf_new_from_file (GNUMERICGLADEDIR"/bar-none.png", NULL);
+	pixbuf = gdk_pixbuf_new_from_file (GNUMERICICONDIR"/bar-none.png", NULL);
 	go_combo_pixmaps_add_element  (cpx,
 					  pixbuf,
 					  GOG_ERROR_BAR_DISPLAY_NONE,
 					  _("No error bar displayed"));
 	if (horizontal) {
-		pixbuf = gdk_pixbuf_new_from_file (GNUMERICGLADEDIR"/bar-hplus.png", NULL);
+		pixbuf = gdk_pixbuf_new_from_file (GNUMERICICONDIR"/bar-hplus.png", NULL);
 		go_combo_pixmaps_add_element  (cpx,
 						pixbuf,
 						GOG_ERROR_BAR_DISPLAY_POSITIVE,
 						_("Positive error bar displayed"));
-		pixbuf = gdk_pixbuf_new_from_file (GNUMERICGLADEDIR"/bar-hminus.png", NULL);
+		pixbuf = gdk_pixbuf_new_from_file (GNUMERICICONDIR"/bar-hminus.png", NULL);
 		go_combo_pixmaps_add_element  (cpx,
 						pixbuf,
 						GOG_ERROR_BAR_DISPLAY_NEGATIVE,
 						_("Negative error bar displayed"));
-		pixbuf = gdk_pixbuf_new_from_file (GNUMERICGLADEDIR"/bar-hboth.png", NULL);
+		pixbuf = gdk_pixbuf_new_from_file (GNUMERICICONDIR"/bar-hboth.png", NULL);
 		go_combo_pixmaps_add_element  (cpx,
 						pixbuf,
 						GOG_ERROR_BAR_DISPLAY_BOTH,
 						_("Full error bar displayed"));
 	} else {
-		pixbuf = gdk_pixbuf_new_from_file (GNUMERICGLADEDIR"/bar-vplus.png", NULL);
+		pixbuf = gdk_pixbuf_new_from_file (GNUMERICICONDIR"/bar-vplus.png", NULL);
 		go_combo_pixmaps_add_element  (cpx,
 						pixbuf,
 						GOG_ERROR_BAR_DISPLAY_POSITIVE,
 						_("Positive error bar displayed"));
-		pixbuf = gdk_pixbuf_new_from_file (GNUMERICGLADEDIR"/bar-vminus.png", NULL);
+		pixbuf = gdk_pixbuf_new_from_file (GNUMERICICONDIR"/bar-vminus.png", NULL);
 		go_combo_pixmaps_add_element  (cpx,
 						pixbuf,
 						GOG_ERROR_BAR_DISPLAY_NEGATIVE,
 						_("Negative error bar displayed"));
-		pixbuf = gdk_pixbuf_new_from_file (GNUMERICGLADEDIR"/bar-vboth.png", NULL);
+		pixbuf = gdk_pixbuf_new_from_file (GNUMERICICONDIR"/bar-vboth.png", NULL);
 		go_combo_pixmaps_add_element  (cpx,
 						pixbuf,
 						GOG_ERROR_BAR_DISPLAY_BOTH,

@@ -1,3 +1,8 @@
+2004-04-15  Morten Welinder  <terra@gnome.org>
+
+	* graph/gog-error-bar.c (gog_error_bar_prefs): Look for pixmaps in
+	the right directory.
+
 2004-04-08  Jean Brefort  <jean.brefort@ac-dijon.fr>
 
 	* graph/plugins/plot_barcol/gog-1.5d.c: (gog_plot1_5d_update),
