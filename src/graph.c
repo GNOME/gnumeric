@@ -327,6 +327,14 @@ gnm_go_data_vector_load_len (GODataVector *dat)
 		vec->val = gnm_expr_eval (vec->dep.expression, &ep,
 			GNM_EXPR_EVAL_PERMIT_NON_SCALAR | GNM_EXPR_EVAL_PERMIT_EMPTY);
 
+#if 0
+	{
+		char *str = go_data_as_str (dat);
+		g_warning ("load_len '%s'", str);
+		g_free (str);
+	}
+#endif
+
 	if (vec->val != NULL) {
 		switch (vec->val->type) {
 		case VALUE_CELLRANGE:
@@ -338,12 +346,15 @@ gnm_go_data_vector_load_len (GODataVector *dat)
 			if (r.end.row > start_sheet->rows.max_used)
 				r.end.row = start_sheet->rows.max_used;
 
-			w = range_width (&r);
-			h = range_height (&r);
-			if (w > 0 && h > 0)
-				dat->len = ((vec->as_col = (h > w))) ? h : w;
-			else
-				dat->len = 0;
+			if (r.end.col >= r.start.col && r.end.row >= r.start.row) {
+				w = range_width (&r);
+				h = range_height (&r);
+				if (w > 0 && h > 0)
+					dat->len = ((vec->as_col = (h > w))) ? h : w;
+				else
+					dat->len = 0;
+			} else
+					dat->len = 0;
 			break;
 
 		case VALUE_ARRAY :
@@ -422,8 +433,13 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 	Value *v;
 	struct assign_closure closure;
 
-	if (dat->len <= 0)
+	if (dat->len <= 0) {
+		dat->values = NULL;
+		dat->minimum = gnm_nan;
+		dat->maximum = gnm_nan;
+		dat->base.flags |= GO_DATA_CACHE_IS_VALID;
 		return;
+	}
 
 	if (dat->values == NULL)
 		dat->values = g_new (double, dat->len);

@@ -1966,6 +1966,7 @@ ms_excel_read_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
 		if (series != NULL)
 			excel_chart_series_delete (series);
 	}
+	g_array_free (state.stack, TRUE);
 	g_ptr_array_free (state.series, TRUE);
 	ms_container_finalize (&state.container);
 

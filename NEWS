@@ -2,6 +2,7 @@ Gnumeric 1.2.1
 
 Jody:
 	* Fix infinite loop on empty axis under solaris.
+	* Fix leak loading charts.
 
 Morten:
 	* Invalid memory read in marker combo.
