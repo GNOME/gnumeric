@@ -34,7 +34,7 @@
 #include <libgnome/gnome-i18n.h>
 
 #define GLADE_FILE "cell-comment.glade"
-#define COMMENT_DIALOG_KEY "zoom-dialog"
+#define COMMENT_DIALOG_KEY "cell-comment-dialog"
 
 typedef struct {
 	WorkbookControlGUI *wbcg;

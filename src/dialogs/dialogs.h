@@ -41,7 +41,7 @@ void   	 dialog_workbook_attr   (WorkbookControlGUI *wbcg);
 void   	 dialog_goal_seek       (WorkbookControlGUI *wbcg, Sheet *sheet);
 void   	 dialog_solver          (WorkbookControlGUI *wbcg, Sheet *sheet);
 void   	 dialog_printer_setup   (WorkbookControlGUI *wbcg, Sheet *sheet);
-void   	 dialog_summary_update  (WorkbookControlGUI *wbcg, SummaryInfo *sin);
+void   	 dialog_summary_update  (WorkbookControlGUI *wbcg);
 void     dialog_autocorrect     (WorkbookControlGUI *wbcg);
 void   	 dialog_advanced_filter (WorkbookControlGUI *wbcg);
 void   	 dialog_autosave        (WorkbookControlGUI *wbcg);

@@ -12,7 +12,6 @@ Release Critical
   plugins won't load on Solaris/gcc.
 - Why doesn't float_range_function2 use its "flags" argument?
 - Printing dialogs are shot.
-- Summary dialog is non-functional.
 - 3D reference fixes on sheet deletion
 
 1.2 Targets

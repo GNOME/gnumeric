@@ -1,3 +1,10 @@
+2002-03-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-cell-comment.c : fix typo
+	* dialog-summary.c : port to gnome 2 and make into a guru
+	* dialogs.h : change arguments to dialog_summary_update
+	* summary.glade : port to gnome 2
+	
 2002-03-24  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-stf-preview.c (stf_preview_draw_text): use default font

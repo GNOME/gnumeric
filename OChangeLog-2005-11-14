@@ -1,3 +1,8 @@
+2002-03-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* workbook-control-gui.c : change arguments in call of
+	  dialog_summary_update
+
 2002-03-24  Morten Welinder  <terra@diku.dk>
 
 	* src/gutils.c (gnm_mem_chunk_new, gnm_mem_chunk_destroy,
