@@ -383,7 +383,7 @@ append_hour_elapsed (GString *string, struct tm *tm, gnm_float number)
 
 	/* ick.  round assuming no more than 100th of a second, we really need
 	 * to know the precision earlier */
-	res = gnumeric_add_epsilon (number) * 24. * 60. * 60. * 100. + .5;
+	res = gnumeric_fake_round (number * (24 * 60 * 60 * 100));
 	res = modf (res / (60. * 60. * 100.), &int_part);
 	tm->tm_hour = int_part;
 	is_neg = (res < 0);
