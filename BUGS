@@ -156,29 +156,33 @@ Architecture Changes
 	9.1.2) item-cursor
 	    9.1.2.1) basic drawing				(DONE)
 	    9.1.2.2) motion					(DONE)
-	    9.1.2.3) drag autoscroll
+	    9.1.2.3) drag autoscroll				(DONE)
 	    9.1.2.4) re-position the autofill handle
-	9.1.3) item-grid					(DONE)
+	9.1.3) item-grid
 	    9.1.3.1) single cells				(DONE)
 	    9.1.3.2) outline borders				(DONE)
 	    9.1.3.4) diagonal borders				(DONE)
 	    9.1.3.5) spans					(DONE)
 	    9.1.3.5) merges					(DONE)
+	    9.1.3.6) put line on left in RTL mode
 	9.1.4) item-edit
 	    9.1.4.1) basic					(DONE)
 	    9.1.4.2) at the margins				(DONE)
 	    9.1.4.3) mouse events
 	    9.1.4.4) right alignment editing
 	    9.1.4.4) center alignment editing
-	9.1.5) wbcg/scg/pane
+	    9.1.4.5) rotation
+	9.1.5) wbcg/scg/pane					(DONE)
 	    9.1.5.1) init scroll regions for rtl		(DONE)
 	    9.1.5.2) set_top_left				(DONE)
 	    9.1.5.3) set_left					(DONE)
 	    9.1.5.4) scrollbars					(DONE)
 	    9.1.5.5) positioning/redraw when flipping at IV1	(DONE)
 	    9.1.5.6) Zooming					(DONE)
-	    9.1.5.7) zooming sometimes loses headers
+	    9.1.5.7) zooming sometimes loses headers		(DONE)
 			until a scroll
+	    9.1.5.8) increase zoom misaligns grid		(DONE)
+	    9.1.5.9) frozen panes				(DONE)
     9.2) spans
 	9.2.1) swap left/right align during rtl			(DONE)
 	9.2.2) Respect style selected dir
@@ -223,18 +227,20 @@ Architecture Changes
 	9.5.5) merges						(DONE)
 	9.5.6) check right margin, we overwrite the edge
 	9.5.7) init preview scroll to right in rtl mode
+	9.5.8) Objects
     9.6) Add entry in manage sheet dialog			(DONE)
     9.7) Add entry to tab context menu (do we need ?)
     9.8) Set default value depending on LC_MESSAGE		(DONE)
     9.9) autofilters
     9.10) cell comments
-    9.11) sheet objects						(DONE)
+    9.11) sheet objects
 	9.11.1) reposition views when direction changes		(DONE)
 	9.11.2) movement					(DONE)
 	9.11.3) resize						(DONE)
 	9.11.4) creation pivots on right side.			(DONE)
 	9.11.5) selecting object sometimes jumps it to right	(DONE)
 	9.11.6) objects created in rtl disappear in ltr		(DONE)
+	9.11.7) set direction of views
 
 -------------------------------------------------------------------------------
 Target Features
