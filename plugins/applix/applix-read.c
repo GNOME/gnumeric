@@ -34,6 +34,7 @@
 
 #include <application.h>
 #include <expr.h>
+#include <expr-name.h>
 #include <value.h>
 #include <sheet.h>
 #include <number-match.h>
@@ -47,6 +48,7 @@
 #include <position.h>
 #include <ranges.h>
 #include <io-context.h>
+#include <command-context.h>
 #include <workbook-view.h>
 #include <workbook.h>
 #include <error-info.h>
@@ -72,6 +74,7 @@ typedef struct {
 	size_t line_len;
 	int zoom;
 	GSList *sheet_order;
+	GSList *std_names, *real_names;
 } ApplixReadState;
 
 /* #define NO_DEBUG_APPLIX */
@@ -880,26 +883,15 @@ applix_read_view (ApplixReadState *state, unsigned char *buffer)
 {
 	Sheet *sheet = NULL;
 	unsigned char *name = buffer + 19;
+	unsigned char *tmp;
 	gboolean ignore;
-	unsigned len = strlen (name);
 
-	g_return_val_if_fail (len > 1 && name [len-1] == '~', -1);
+	tmp = strchr (name, ':');
+	if (tmp == NULL)
+		return 0;
+	*tmp =  '\0';
 
-	/* I wish there were some docs on this, names sometimes appear to be
-	 * SHEET_LETTER:name~ and sometimes
-	 * SHEET_LETTER:name:~ and sometimes
-	 */
-	if (name [len-2] == ':')
-		name [len-2] = '\0';
-	else
-		name [len-1] = '\0';
-
-	ignore = !strcmp (name, "Current"); /* ignore current */
-#define pv ":PrintableView"
-	if (len >= sizeof (pv))
-		ignore |= !strcmp (name+len-sizeof (pv), pv);
-#undef pv
-
+	ignore = tmp[1] != '~';
 	if (!ignore)
 		state->sheet_order = g_slist_prepend (state->sheet_order,
 			applix_fetch_sheet (state, name));
@@ -939,7 +931,6 @@ applix_read_view (ApplixReadState *state, unsigned char *buffer)
 				applix_height_to_pixels (height));
 		} else if (!a_strncmp (buffer, "View Row Heights: ")) {
 			char *ptr = buffer + 17;
-			puts (buffer);
 			do {
 				int row, height;
 				char *tmp;
@@ -1209,10 +1200,29 @@ static gboolean
 applix_read_sheet_table (ApplixReadState *state)
 {
 	unsigned char *ptr;
-	while (NULL != (ptr = applix_get_line (state)))
+	unsigned char *std_name, *real_name;
+	while (NULL != (ptr = applix_get_line (state))) {
 	       if (!a_strncmp (ptr, "END SHEETS TABLE"))
 		       return FALSE;
-#warning TODO
+
+	       /* Sheet A: ~Foo~ */
+	       std_name = ptr + 6;
+	       ptr = strchr (std_name, ':');
+	       if (ptr == NULL)
+		       continue;
+	       *ptr = '\0';
+
+	       real_name = ptr + 3;
+	       ptr = strchr (real_name, '~');
+	       if (ptr == NULL)
+		       continue;
+	       *ptr = '\0';
+
+	       state->std_names  = g_slist_prepend (state->std_names,
+						    g_strdup (std_name));
+	       state->real_names = g_slist_prepend (state->real_names,
+						    g_strdup (real_name));
+	}
 	return TRUE;
 }
 
@@ -1227,9 +1237,13 @@ applix_read_header_footer (ApplixReadState *state)
 }
 
 static gboolean
-applix_read_relative_name (ApplixReadState *state, char *buffer)
+applix_read_absolute_name (ApplixReadState *state, char *buffer)
 {
 	char *end;
+	RangeRef ref;
+	ParsePos pp;
+	GnmExpr const *expr;
+	GnmNamedExpr *nexpr;
 
 	/* .ABCDe. Coordinate: A:B2..A:C4 */
 	/* Spec guarantees that there are no dots in the name */
@@ -1240,24 +1254,62 @@ applix_read_relative_name (ApplixReadState *state, char *buffer)
 	if (end == NULL)
 		return TRUE;
 	*end = '\0';
-#if 0
-	GnmExpr *expr = gnm_expr_parse_str (expr_string+1,
-		parse_pos_init_cell (&pos, cell),
-		GNM_EXPR_PARSE_USE_APPLIX_CONVENTIONS |
-		GNM_EXPR_PARSE_CREATE_PLACEHOLDER_FOR_UNKNOWN_FUNC,
-		&applix_rangeref_parse,
-		&perr);
-#endif
-	puts (buffer);
+	end = strchr (end + 1, ':');
+	if (end == NULL)
+		return TRUE;
+	applix_rangeref_parse (&ref, end+2,
+		parse_pos_init (&pp, state->wb, NULL, 0, 0));
+	ref.a.col_relative = ref.b.col_relative =
+		ref.a.row_relative = ref.b.row_relative = FALSE;
+
+	expr = gnm_expr_new_constant (value_new_cellrange_unsafe (&ref.a, &ref.b));
+	nexpr = expr_name_lookup (&pp, buffer);
+	if (nexpr == NULL)
+		expr_name_add (&pp, buffer, expr, NULL);
+	else
+		expr_name_set_expr (nexpr, expr, NULL);
 	return FALSE;
 }
 
 static gboolean
-applix_read_absolute_name (ApplixReadState *state, char *buffer)
+applix_read_relative_name (ApplixReadState *state, char *buffer)
 {
+	int dummy;
+	char *end;
+	RangeRef ref, flag;
+	ParsePos pp;
+	GnmExpr const *expr;
+	GnmNamedExpr *nexpr;
+
 	/* .abcdE. tCol:0 tRow:0 tSheet:0 bCol:1 bRow:2 bSheet: 0 tColAbs:0 tRowAbs:0 tSheetAbs:1 bColAbs:0 bRowAbs:0 bSheetAbs:1 */
 	/* Spec guarantees that there are no dots in the name */
-	puts (buffer);
+	buffer = strchr (buffer, '.');
+	if (buffer == NULL)
+		return TRUE;
+	end = strchr (++buffer, '.');
+	if (end == NULL)
+		return TRUE;
+	*end = '\0';
+	if (12 != sscanf (end + 2,
+			  " tCol:%d tRow:%d tSheet:%d bCol:%d bRow:%d bSheet: %d tColAbs:%d tRowAbs:%d tSheetAbs:%d bColAbs:%d bRowAbs:%d bSheetAbs:%d",
+			  &ref.a.col, &ref.a.row, &dummy, &ref.b.col, &ref.b.row, &dummy,
+			  &flag.a.col, &flag.a.row, &dummy, &flag.b.col, &flag.b.row, &dummy))
+		return TRUE;
+
+	ref.a.col_relative = (flag.a.col == 0);
+	ref.b.col_relative = (flag.b.col == 0);
+	ref.a.row_relative = (flag.a.row == 0);
+	ref.b.row_relative = (flag.b.row == 0);
+
+	ref.a.sheet = ref.b.sheet = NULL;
+	expr = gnm_expr_new_constant (value_new_cellrange_unsafe (&ref.a, &ref.b));
+	parse_pos_init (&pp, state->wb, NULL,
+		MAX (-ref.a.col, 0), MAX (-ref.a.row, 0));
+	nexpr = expr_name_lookup (&pp, buffer);
+	if (nexpr == NULL)
+		expr_name_add (&pp, buffer, expr, NULL);
+	else
+		expr_name_set_expr (nexpr, expr, NULL);
 	return FALSE;
 }
 
@@ -1370,7 +1422,7 @@ applix_read_impl (ApplixReadState *state)
 				return applix_parse_error (state, "Absolute named range");
 		} else if (!a_strncmp (buffer, REL_NAMED_RANGE)) {
 			if (applix_read_relative_name (state, buffer + sizeof (REL_NAMED_RANGE)))
-				return applix_parse_error (state, "Absolute named range");
+				return applix_parse_error (state, "Relative named range");
 		} else if (!a_strncmp (buffer, "Row List")) {
 			if (applix_read_row_list (state, buffer + sizeof ("Row List")))
 				return applix_parse_error (state, "row list");
@@ -1413,6 +1465,7 @@ applix_read (IOContext *io_context, WorkbookView *wb_view, GsfInput *src)
 	int i;
 	int res;
 	ApplixReadState	state;
+	GSList *ptr, *renamed_sheets;
 
 	/* Init the state variable */
 	state.input	  = gsf_input_textline_new (src);
@@ -1428,6 +1481,8 @@ applix_read (IOContext *io_context, WorkbookView *wb_view, GsfInput *src)
 	state.buffer_size = 0;
 	state.line_len    = 80;
 	state.sheet_order = NULL;
+	state.std_names   = NULL;
+	state.real_names  = NULL;
 
 	/* Actually read the workbook */
 	res = applix_read_impl (&state);
@@ -1439,6 +1494,21 @@ applix_read (IOContext *io_context, WorkbookView *wb_view, GsfInput *src)
 	state.sheet_order = g_slist_reverse (state.sheet_order);
 	workbook_sheet_reorder (state.wb, state.sheet_order,  NULL);
 	g_slist_free (state.sheet_order);
+
+	renamed_sheets = NULL;
+	for (ptr = state.std_names; ptr != NULL ; ptr = ptr->next)
+		renamed_sheets = g_slist_prepend (renamed_sheets,
+			workbook_sheet_by_name (state.wb, ptr->data));
+	renamed_sheets = g_slist_reverse (renamed_sheets);
+	workbook_sheet_reorganize (state.wb, renamed_sheets, NULL,
+		state.real_names, state.std_names,
+		NULL, NULL, NULL, NULL, NULL, NULL,
+		COMMAND_CONTEXT (io_context));
+	g_slist_free (renamed_sheets);
+	g_slist_foreach (state.std_names, (GFunc)g_free, NULL);
+	g_slist_free (state.std_names);
+	g_slist_foreach (state.real_names, (GFunc)g_free, NULL);
+	g_slist_free (state.real_names);
 
 	/* Release the shared expressions and styles */
 	g_hash_table_foreach_remove (state.exprs, &cb_remove_expr, NULL);

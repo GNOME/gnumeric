@@ -28,14 +28,16 @@ struct _Workbook {
 	/* User defined names */
 	GList      *names;
 
-	/* Attached summary information */
 	SummaryInfo *summary_info;
 
+	/* Calculation options */
 	struct {
 		gboolean enabled;
 		int      max_number;
 		double   tolerance;
 	} iteration;
+	gboolean auto_recalc;
+
 	gboolean during_destruction : 1;
 	gboolean being_reordered : 1;
 	gboolean recursive_dirty_enabled : 1;

@@ -1,8 +1,6 @@
 Near term
-- Sheet name	: Parse the SHEETS TABLE
-		: Add the ability to name sheets without checking for uniqueness
+- validate applix relative named range import
 - row/col visibility
-- number formats
 
 Long term
 - Locale specific currency ?

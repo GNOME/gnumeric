@@ -46,8 +46,7 @@
 
 #define WORKBOOK_ATTRIBUTE_KEY "workbook-attribute-dialog"
 
-typedef struct _AttrState
-{
+typedef struct {
 	GladeXML	 *gui;
 	GtkWidget        *dialog;
 	GtkWidget        *notebook;
@@ -228,7 +227,6 @@ attr_dialog_impl (AttrState *state)
 		G_OBJECT (state->notebook),
 		"switch_page",
 		G_CALLBACK (cb_page_select), state);
-
 
 	state->ok_button = glade_xml_get_widget (state->gui, "ok_button");
 	g_signal_connect (G_OBJECT (state->ok_button),

@@ -7,24 +7,12 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-- We need to somehow add --export-dynamic to the gnumeric link line, or else
-  plugins won't load on Solaris/gcc.  (This might just be my bastard libtool.)
-- 3D reference fixes on sheet deletion
-- Dependencies for constructed ranges
-- Finish support for named ranges in applix.
 - range sel for expressions that start with +
-- 'discard' for invalid expressions enters text as string
-- Reinstate auto-format (=FV(1,2,3,4,5) should yield a monetary format).
-- Fix workbook_sheet_by_name with respect to letter case and utf-8.
+- range sel is broken
+- figure out why error dialogs at startup get forced behind workbook
 
 1.2 Targets
 -----------
-
-- xls export of constructed ranges
-- load/save of external references
-- function_category_compare needs to be made UTF8 safe.
-- Evaluate mathfunc.c's use of gamma and lgamma.  We use the libc lgamma
-  (probably ok) and have gamma(x)=exp(lgamma(x)) (questionable).
 
 1) graphs
 2) stf
@@ -34,39 +22,65 @@ Release Critical
     5.1) move existing code into plugin
     5.2) work on sax style exporter
     5.3) extend api for gnm_expr_as_string to handle 1.0 vs 1.1 style rangerefs
+    5.4) should extend the format api to contain (not support) all of the
+        opencalc flags.
 6) XL
-    - 97 export
-    - Form import
-    - Intersection, union and set export
-    - unknown name export
-8) merge open and import dialogs
-9) Make save-as smart enough to notice incorrect suffix saver mismatch
-10) manual recalc
-11) some handling of external references
-12) fix highlighting of completion code
-13) look into using the default gtk font rather than our own
-14) audit all of the import plugins to do utf8 conversions
-15) audit string functions for utf8: CHAR, CODE, SUBSTITUTE, SEARCH.
+    6.1) 97 export
+    6.2) Form import
+    6.3) Intersection, union and set export
+    6.4) unknown name export
+    6.5) non-ole import ?
+8) Notice mismatch between suffix and saver (eg .xls for gnumeric file)
+9) Manual recalc
+10) fix highlighting of completion code
+11) look into using the default gtk font rather than our own
+12) audit all of the import plugins to do utf8 conversions
+13) Reinstate auto-format (=FV(1,2,3,4,5) should yield a monetary format).
+14) merge open and import dialogs
+15) finish corba plugin
 16) eggmenu
-17) finish corba plugin
-18) support some method of persistence when embedded in abiword
 
-Probably Post 1.2 Targets
-- conditional formats : could be done if someone wanted to work on the dialog
-- pivots and scripting
-
-
-UTF-8 and file names:
-- Recent files in "File" menu.
-- Error messages.
-- Window titles.
-
+UTF-8 :
+    - audit string functions for utf8: CHAR, CODE, SUBSTITUTE, SEARCH.
+    - Recent files in "File" menu.
+    - Error messages.
+    - Window titles.
+    - function_category_compare
 
 Pending Patches
 ---------------
+    - regexp bases format characterization
+    - ?? more work on D&D based sheet reorg ?
+    - New derivatives functions
 
-Long term breakage
-------------------
+Probably Post 1.2 Targets
+-------------------------
+- conditional formats : could be done if someone wanted to work on the dialog
+- pivots and scripting
+- undo/redo transaction log
+- load/save of external references
+
+Misc stuff that should be fixed
+-------------------------------
+
+- Missing undo/redo for
+    - Duplicate sheet.
+    - Remove sheet. This raises some serious design issues.
+    - Freeze panes.
+    - Goal seek.
+    - Tabulate.
+    - Sheet object configuration changes.
+    - Sheet object creation
+    - Workbook attr changes
+
+- Evaluate mathfunc.c's use of gamma and lgamma.  We use the libc lgamma
+  (probably ok) and have gamma(x)=exp(lgamma(x)) (questionable).
+- We need to somehow add --export-dynamic to the gnumeric link line, or else
+  plugins won't load on Solaris/gcc.  (This might just be my bastard libtool.)
+- 3D reference fixes on sheet deletion
+- Dependencies for constructed ranges
+- 'discard' for invalid expressions enters text as string
+- Fix workbook_sheet_by_name with respect to letter case and utf-8.
 
 - Remove duplication of code between analysis-tools.c and collect.c
 
@@ -74,6 +88,7 @@ Long term breakage
 
 - Most arg-type functions need to be somehow marked as strict.  Checking for
   errors by hand everywhere is silly.  (This is at least partially done.)
+    : It is tempting to 
 
 - Add dirty flags to workbook too, adding a sheet should make workbook dirty
   not the new sheet.
@@ -83,14 +98,6 @@ Long term breakage
 
 - The autocalc label should use a more readable format and should not get
   clipped.
-
-- Missing undo/redo for
-    - Duplicate sheet.
-    - Remove sheet. This raises some serious design issues.
-    - Freeze panes.
-    - Goal seek.
-    - Tabulate.
-    - Sheet object configuration changes.
 
 - Names
     : references in names do not get changed with cut/paste or ins/del row/col.
@@ -109,9 +116,6 @@ Long term breakage
   just to do it.  And then check the error code.
 
 - gnumeric_error_invalid change call sequence to use printf argument style.
-
-- Panes 
-    : support horizontal or vertical only
 
 - outline mode
     : finish implementing optionally putting markers above/left

@@ -16,9 +16,12 @@ Jody:
 	* Undo support for defining and updating named expressions
 	* Port Name guru from GtkList -> TreeView
 	* Fix applix expr parsing now that we consider spaces
+	* Correct sheet order and naming for Applix import.
+	* Support named ranges for Applix import.
 	* XML string quoting in expressions for opencalc importer.
 	* Fix handling of 3d references in context of sheet reorder
 	* Some optimization of case insensitive sheet name lookup
+	* Make named expression ids case sensitive.
 
 Morten:
 	* Port search center from gal's e-table to gtk's treeview.

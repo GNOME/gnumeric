@@ -140,7 +140,11 @@ expr_name_lookup_list (GList *p, char const *name)
 	for (; p ; p = p->next) {
 		GnmNamedExpr *nexpr = p->data;
 		g_return_val_if_fail (nexpr != NULL, 0);
-		if (g_ascii_strcasecmp (nexpr->name->str, name) == 0)
+		/* This is inconsistent with XL, but not too bad since it will
+		 * not effect import.  It is required to support Applix names
+		 * which are case sensitive.
+		 */
+		if (strcmp (nexpr->name->str, name) == 0)
 			return nexpr;
 	}
 	return NULL;
@@ -225,7 +229,7 @@ name_refer_circular (char const *name, GnmExpr const *expr)
 		if (nexpr->builtin)
 			return FALSE;
 
-		if (!g_ascii_strcasecmp (nexpr->name->str, name))
+		if (!strcmp (nexpr->name->str, name))
 			return TRUE;
 
 		/* And look inside this name tree too */
