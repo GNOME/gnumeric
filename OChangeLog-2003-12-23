@@ -1,3 +1,10 @@
+2002-08-01  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/stf.c
+	(stf_open_and_read): Use g_try_malloc
+	(stf_preparse, stf_read_workbook, stf_read_workbook_auto_csvtab):
+	s/free/g_free/
+
 2002-08-01  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-style.c (sheet_style_foreach) : new.

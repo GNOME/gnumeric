@@ -51,27 +51,24 @@
  *
  * Will open filename, read the file into a g_alloced memory buffer
  *
- * NOTE : The returned buffer has to be freed by the calling routine.
+ * NOTE : The returned buffer has to be g_freed by the calling routine.
  *
  * returns : a buffer containing the file contents
  **/
 static char *
 stf_open_and_read (GsfInput *input)
 {
-	/* Malloc rather than g_malloc so that we can catch out of memory
-	 * errors
-	 */
-	guint8 *result = malloc (gsf_input_size (input) + 1);
-	guint8 const *data;
+	gpointer result;
 
+	result = g_try_malloc (gsf_input_size (input) + 1);
 	if (result == NULL)
 		return NULL;
 
-	data = gsf_input_read (input, gsf_input_size (input), result);
-	if (data == NULL) {
-		free (result);
-		return NULL;
+	if (gsf_input_read (input, gsf_input_size (input), result) == NULL) {
+		g_free (result);
+		result = NULL;
 	}
+
 	return result;
 }
 
@@ -91,10 +88,7 @@ stf_preparse (IOContext *context, GsfInput *input)
 
 	len = stf_parse_convert_to_unix (data);
 	if (len < 0) {
-		/*
-		 * Note this buffer was allocated with malloc, not g_malloc
-		 */
-		free (data);
+		g_free (data);
 		if (context)
 			gnumeric_io_error_read (context,
 						_("Error while trying to pre-convert file"));
@@ -108,10 +102,7 @@ stf_preparse (IOContext *context, GsfInput *input)
 			gnumeric_io_error_read (context, message);
 			g_free (message);
 		}
-		/*
-		 * Note this buffer was allocated with malloc, not g_malloc
-		 */
-		free (data);
+		g_free (data);
 		return NULL;
 	}
 
@@ -184,10 +175,7 @@ stf_read_workbook (GnumFileOpener const *fo, IOContext *context, WorkbookView *w
 		if (!stf_parse_sheet (dialogresult->parseoptions, dialogresult->newstart, sheet)) {
 
 			workbook_sheet_detach (book, sheet);
-			/*
-			 * Note this buffer was allocated with malloc, not g_malloc
-			 */
-			free (data);
+			g_free (data);
 			gnumeric_io_error_read (context, _("Parse error while trying to parse data into sheet"));
 			return;
 		}
@@ -198,11 +186,7 @@ stf_read_workbook (GnumFileOpener const *fo, IOContext *context, WorkbookView *w
 	} else
 		workbook_sheet_detach (book, sheet);
 
-	/*
-	 * Note the buffer was allocated with malloc, not with g_malloc
-	 * as g_malloc aborts if there is not enough memory
-	 */
-	free (data);
+	g_free (data);
 
 	if (dialogresult != NULL)
 		stf_dialog_result_free (dialogresult);
@@ -270,10 +254,7 @@ stf_read_workbook_auto_csvtab (GnumFileOpener const *fo, IOContext *context,
 	if (!stf_parse_sheet (po, data, sheet)) {
 
 		workbook_sheet_detach (book, sheet);
-		/*
-		 * Note this buffer was allocated with malloc, not g_malloc
-		 */
-		free (data);
+		g_free (data);
 		stf_parse_options_free (po);
 		gnumeric_io_error_read (context, _("Parse error while trying to parse data into sheet"));
 		return;
@@ -284,11 +265,7 @@ stf_read_workbook_auto_csvtab (GnumFileOpener const *fo, IOContext *context,
 	sheet_calc_spans (sheet, SPANCALC_RENDER);
 	workbook_set_saveinfo (book, name, FILE_FL_MANUAL, NULL);
 
-	/*
-	 * Note the buffer was allocated with malloc, not with g_malloc
-	 * as g_malloc aborts if there is not enough memory
-	 */
-	free (data);
+	g_free (data);
 }
 
 static gboolean
