@@ -1425,8 +1425,8 @@ sheet_load_cell_val (Sheet *sheet)
 		text = g_strdup ("");
 
 	gtk_entry_set_text (entry, text);
-	gtk_signal_emit_by_name (sheet->workbook, "cell_changed", sheet,
-				 sheet->cursor_col, sheet->cursor_row, text);
+	gtk_signal_emit_by_name (sheet->workbook, "cell_changed", sheet, text,
+				 sheet->cursor_col, sheet->cursor_row);
 
 	g_free (text);
 }
