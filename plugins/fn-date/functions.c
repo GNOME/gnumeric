@@ -20,10 +20,10 @@ static char *help_date = {
 	   "@SYNTAX=DATE (year,month,day)\n"
 
 	   "@DESCRIPTION="
-	   "Computes the number of days since the 1st of jannuary of 1900"
+	   "Computes the number of days since the 1st of january of 1900"
 	   "(the date serial number) for the given year, month and day.\n"
 
-	   "The day might be negative (to count backwards) and it is relative"
+	   "The day might be negative (to count backwards) and it is relative "
 	   "to the previous month.  The years should be at least 1900"
 	   "\n"
 	   
@@ -62,8 +62,8 @@ static char *help_today = {
 	   "@SYNTAX=TODAY ()\n"
 
 	   "@DESCRIPTION="
-	   "Returns the serial number for today (the number of days"
-	   "trasncurred since the 1st of Jannuary of 1990"
+	   "Returns the serial number for today (the number of days "
+	   "elapsed since the 1st of January of 1900)"
 	   "\n"
 	   
 	   ""
@@ -89,12 +89,12 @@ static char *help_now = {
 	   "@SYNTAX=NOW ()\n"
 
 	   "@DESCRIPTION="
-	   "Returns the serial number for the date and time at the time"
+	   "Returns the serial number for the date and time at the time "
 	   "it is evaluated.\n"
 	   ""
 	   "Serial Numbers in Gnumeric are represented as follows:"
 	   "The integral part is the number of days since the 1st of "
-	   "Jannuary of 1900.  The decimal part represent the fraction "
+	   "January of 1900.  The decimal part represent the fraction "
 	   "of the day and is mapped into hour, minutes and seconds\n"
 	   ""
 	   "For example: .0 represents the beginning of the day, and 0.5 "

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
-"POT-Creation-Date: 1998-09-30 13:25+0200\n"
+"POT-Creation-Date: 1998-09-30 18:51+0200\n"
 "PO-Revision-Date: 1998-08-01 13:46+0202\n"
 "Last-Translator: Vincent Renardias <vincent@waw.com>\n"
 "Language-Team: Vincent Renardias <vincent@waw.com>\n"
@@ -22,7 +22,8 @@ msgstr "Gnumeric"
 msgid ""
 "The GNOME spreadsheet.\n"
 "http://www.gnome.org/gnumeric"
-msgstr "Le tableur GNOME.\n"
+msgstr ""
+"Le tableur GNOME.\n"
 "http://www.gnome.org/gnumeric"
 
 #: src/dialog-cell-format.c:66
@@ -309,7 +310,7 @@ msgstr "# ##0"
 
 #: src/formats.c:20
 msgid "#,##0.00"
-msgstr ""
+msgstr "#.##0,00"
 
 #: src/formats.c:21
 msgid "#,##0_);(#,##0)"
@@ -349,111 +350,111 @@ msgstr ""
 
 #: src/formats.c:38
 msgid "m/d/yy"
-msgstr ""
+msgstr "d/m/yy"
 
 #: src/formats.c:39
 msgid "m/d/yyyy"
-msgstr ""
+msgstr "d/m/yyyy"
 
 #: src/formats.c:40
 msgid "d-mmm-yy"
-msgstr ""
+msgstr "d-mmm-yy"
 
 #: src/formats.c:41
 msgid "d-mmm-yyyy"
-msgstr ""
+msgstr "d-mmm-yyyy"
 
 #: src/formats.c:42
 msgid "d-mmm"
-msgstr ""
+msgstr "d-mmm"
 
 #: src/formats.c:43
 msgid "d-mm"
-msgstr ""
+msgstr "d-mm"
 
 #: src/formats.c:44
 msgid "mmm/d"
-msgstr ""
+msgstr "d/mmm"
 
 #: src/formats.c:45
 msgid "mm/d"
-msgstr ""
+msgstr "d/mm"
 
 #: src/formats.c:46
 msgid "mm/dd/yy"
-msgstr ""
+msgstr "dd/mm/yy"
 
 #: src/formats.c:47
 msgid "mm/dd/yyyy"
-msgstr ""
+msgstr "dd/mm/yyyy"
 
 #: src/formats.c:48
 msgid "mmm/dd/yy"
-msgstr ""
+msgstr "dd/mmm/yy"
 
 #: src/formats.c:49
 msgid "mmm/dd/yyyy"
-msgstr ""
+msgstr "dd/mmm/yyyy"
 
 #: src/formats.c:50
 msgid "mmm/ddd/yy"
-msgstr ""
+msgstr "ddd/mmm/yy"
 
 #: src/formats.c:51
 msgid "mmm/ddd/yyyy"
-msgstr ""
+msgstr "ddd/mmm/yyyy"
 
 #: src/formats.c:52
 msgid "mm/ddd/yy"
-msgstr ""
+msgstr "ddd/mm/yy"
 
 #: src/formats.c:53
 msgid "mm/ddd/yyyy"
-msgstr ""
+msgstr "ddd/mm/yyyy"
 
 #: src/formats.c:54
 msgid "mmm-yy"
-msgstr ""
+msgstr "mmm-yy"
 
 #: src/formats.c:55
 msgid "mmm-yyyy"
-msgstr ""
+msgstr "mmm-yyyy"
 
 #: src/formats.c:56 src/formats.c:66
 msgid "m/d/yy h:mm"
-msgstr ""
+msgstr "d/m/yy h:mm"
 
 #: src/formats.c:57
 msgid "m/d/yyyy h:mm"
-msgstr ""
+msgstr "d/m/yyyy h:mm"
 
 #: src/formats.c:62
 msgid "h:mm AM/PM"
-msgstr ""
+msgstr "h:mm AM/PM"
 
 #: src/formats.c:63
 msgid "h:mm:ss AM/PM"
-msgstr ""
+msgstr "h:mm:ss AM/PM"
 
 #: src/formats.c:64
 msgid "h:mm"
-msgstr ""
+msgstr "h:mm"
 
 #: src/formats.c:65
 msgid "h:mm:ss"
-msgstr ""
+msgstr "h:mm:ss"
 
 #: src/formats.c:67
 msgid "mm:ss"
-msgstr ""
+msgstr "mm:ss"
 
 #: src/formats.c:68
 msgid "mm:ss.0"
-msgstr ""
+msgstr "mm:ss.0"
 
 #: src/formats.c:69
 msgid "[h]:mm:ss"
-msgstr ""
+msgstr "[h]:mm:ss"
 
 #: src/formats.c:74
 #, c-format
@@ -463,23 +464,23 @@ msgstr "0%"
 #: src/formats.c:75
 #, c-format
 msgid "0.00%"
-msgstr ""
+msgstr "0,00%"
 
 #: src/formats.c:80
 msgid "# ?/?"
-msgstr ""
+msgstr "# ?/?"
 
 #: src/formats.c:81
 msgid "# ??/??"
-msgstr ""
+msgstr "# ??/??"
 
 #: src/formats.c:86
 msgid "0.00E+00"
-msgstr ""
+msgstr "0,00E+00"
 
 #: src/formats.c:87
 msgid "##0.0E+0"
-msgstr ""
+msgstr "##0,0E+0"
 
 #: src/formats.c:97
 msgid "$#,##0_);($#,##0)"
@@ -689,30 +690,42 @@ msgstr "Ouvrir fichier"
 msgid ""
 "@FUNCTION=DATE\n"
 "@SYNTAX=DATE (year,month,day)\n"
-"@DESCRIPTION=Computes the number of days since the 1st of jannuary of "
+"@DESCRIPTION=Computes the number of days since the 1st of january of "
 "1900(the date serial number) for the given year, month and day.\n"
-"The day might be negative (to count backwards) and it is relativeto the "
+"The day might be negative (to count backwards) and it is relative to the "
 "previous month.  The years should be at least 1900\n"
 "@SEEALSO=TODAY, NOW"
 msgstr ""
+"@FUNCTION=DATE\n"
+"@SYNTAXE=DATE (année,mois,jour)\n"
+"@DESCRIPTION=Calcule le nombre de jours écoulés entre le 1er janvier de "
+"l'année 1900 et la date donnée.\n"
+"Le jour peux être négatif (pour compter à l'envers) et être relatif au mois "
+"précédent. L'année doit être ultérieure à 1900\n"
+"@SEEALSO=TODAY, NOW"
 
 #: src/fn-date.c:61
 msgid ""
 "@FUNCTION=TODAY\n"
 "@SYNTAX=TODAY ()\n"
-"@DESCRIPTION=Returns the serial number for today (the number of "
-"daystrasncurred since the 1st of Jannuary of 1990\n"
+"@DESCRIPTION=Returns the serial number for today (the number of days elapsed "
+"since the 1st of January of 1900)\n"
 "@SEEALSO=TODAY, NOW"
 msgstr ""
+"@FUNCTION=TODAY\n"
+"@SYNTAXE=TODAY ()\n"
+"@DESCRIPTION=Retourne le numéro de série du jour courant (le nombre de jours "
+"écoulés depuis le 1er janvier 1900)\n"
+"@SEEALSO=TODAY, NOW"
 
 #: src/fn-date.c:88
 msgid ""
 "@FUNCTION=NOW\n"
 "@SYNTAX=NOW ()\n"
-"@DESCRIPTION=Returns the serial number for the date and time at the timeit "
+"@DESCRIPTION=Returns the serial number for the date and time at the time it "
 "is evaluated.\n"
 "Serial Numbers in Gnumeric are represented as follows:The integral part is "
-"the number of days since the 1st of Jannuary of 1900.  The decimal part "
+"the number of days since the 1st of January of 1900.  The decimal part "
 "represent the fraction of the day and is mapped into hour, minutes and "
 "seconds\n"
 "For example: .0 represents the beginning of the day, and 0.5 represents "
