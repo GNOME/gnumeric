@@ -617,18 +617,24 @@ exp:	  CONSTANT 	{ $$ = $1; }
 
 function : STRING '(' arg_list ')' {
 		char const *name = $1->constant.value->v_str.val->str;
-		GnmFunc *f = gnm_func_lookup (name, state->pos->wb);
+		GnmFunc *f;
 		GnmExpr const *f_call = NULL;
+		GnmParseFunctionHandler h = NULL;
 
 		$$ = NULL;
 
-		if (f == NULL) {
-			GnmParseFunctionHandler h =
-				state->convs->unknown_function_handler;
-			if (h)
-				f_call = h (name, $3, NULL);
-		} else
+		if (state->convs->function_rewriter_hash)
+			h = g_hash_table_lookup (state->convs->function_rewriter_hash, name);
+
+		if (h) {
+			f_call = h (name, $3, state->convs);
+		} else if ((f = gnm_func_lookup (name, state->pos->wb))) {
 			f_call = gnm_expr_new_funcall (f, $3);
+		} else {
+			h = state->convs->unknown_function_handler;
+			if (h)
+				f_call = h (name, $3, state->convs);
+		}
 
 		/* We're done with the function name.  */
 		unregister_allocation ($1); gnm_expr_unref ($1);

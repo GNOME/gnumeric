@@ -85,7 +85,7 @@ typedef char const *(*GnmRangeRefParse) (RangeRef *res, char const *in,
  */
 typedef GnmExpr const *(*GnmParseFunctionHandler) (const char *name,
 						   GnmExprList *args,
-						   gpointer userdata);
+						   GnmExprConventions *convs);
 
 typedef void (*GnmParseExprNameHandler) (GString *target,
 					 const ParsePos *pp,

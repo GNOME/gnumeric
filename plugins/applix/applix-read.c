@@ -1454,6 +1454,38 @@ cb_remove_style (gpointer key, gpointer value, gpointer user_data)
 	return TRUE;
 }
 
+static const struct {
+	const char *applixname;
+	const char *gnumericname;
+} simple_renames[] = {
+	{ "IPAYMT", "IPMT" },
+	{ "PAYMT", "PMT" },
+	{ "PPAYMT", "PPMT" },
+	{ 0, 0 }
+};
+
+static GnmExpr const *
+function_renamer (const char *name,
+		  GnmExprList *args,
+		  GnmExprConventions *convs)
+{
+	const char *newname = NULL;
+	Workbook *wb = NULL;
+	int i;
+
+	for (i = 0; simple_renames[i].applixname; i++)
+		if (strcmp (name, simple_renames[i].applixname) == 0)
+			newname = simple_renames[i].gnumericname;
+
+	if (newname) {
+		GnmFunc *f = gnm_func_lookup (newname, wb);
+		if (f)
+			return gnm_expr_new_funcall (f, args);
+	}
+
+	return gnm_func_placeholder_factory (name, args, convs);
+}
+
 static GnmExprConventions *
 applix_conventions (void)
 {
@@ -1465,6 +1497,12 @@ applix_conventions (void)
 	res->range_sep_dotdot = TRUE;
 	res->unknown_function_handler = gnm_func_placeholder_factory;
 	res->ref_parser = applix_rangeref_parse;
+
+	res->function_rewriter_hash =
+		g_hash_table_new (g_str_hash, g_str_equal);
+	g_hash_table_insert (res->function_rewriter_hash,
+			     (gchar *)"IPAYMT",
+			     function_renamer);
 
 	return res;
 }

@@ -536,7 +536,7 @@ gnm_func_add_placeholder (char const *name, char const *type,
 GnmExpr const *
 gnm_func_placeholder_factory (const char *name,
 			      GnmExprList *args,
-			      gpointer userdata)
+			      G_GNUC_UNUSED GnmExprConventions *convs)
 {
 	GnmFunc *f = gnm_func_add_placeholder (name, "", TRUE);
 	return gnm_expr_new_funcall (f, args);

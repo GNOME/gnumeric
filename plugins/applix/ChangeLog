@@ -1,3 +1,8 @@
+2003-01-07  Morten Welinder  <terra@diku.dk>
+
+	* applix-read.c (function_renamer): New function.
+	(applix_conventions): Initialize the function rewriter.
+
 2003-01-02  Jody Goldberg <jody@gnome.org>
 
 	* applix-read.c (applix_parse_cellref) : warning.

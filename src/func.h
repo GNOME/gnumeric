@@ -194,7 +194,7 @@ GnmFunc    *gnm_func_add_placeholder (char const *name,
 				      gboolean copy_name);
 GnmExpr const *gnm_func_placeholder_factory (const char *name,
 					     GnmExprList *args,
-					     gpointer userdata);
+					     GnmExprConventions *convs);
 
 
 /* TODO */
