@@ -1,5 +1,9 @@
 2002-06-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* html_read.c (html_search_for_tables) : important all rather than just top tables
+
+2002-06-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* html_read.c (html_read_content) : add argument and save href prop of <a>
 	(html_read_row) : set comment
 

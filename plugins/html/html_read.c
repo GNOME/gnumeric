@@ -224,13 +224,11 @@ html_search_for_tables (htmlNodePtr cur, htmlDocPtr doc, WorkbookView *wb_view)
     }
 
     if (cur->type == XML_ELEMENT_NODE) {
-	    if (!xmlStrEqual (cur->name, "table")) {
-		    htmlNodePtr ptr;
-		    for (ptr = cur->children; ptr != NULL ; ptr = ptr->next)
-			    html_search_for_tables (ptr, doc, wb_view);
-		    return;
-	    }
-	    html_read_table (cur, doc, wb_view);
+	    htmlNodePtr ptr;
+	    if (xmlStrEqual (cur->name, "table"))
+		    html_read_table (cur, doc, wb_view);
+	    for (ptr = cur->children; ptr != NULL ; ptr = ptr->next)
+		    html_search_for_tables (ptr, doc, wb_view);
     }
 }
 
