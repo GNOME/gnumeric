@@ -960,6 +960,7 @@ static void
 recalc_cmd (GtkWidget *widget, Workbook *wb)
 {
 	workbook_recalc_all (wb);
+	sheet_load_cell_val (wb->current_sheet);
 }
 
 static void

@@ -1,3 +1,9 @@
+2000-03-22  Jody Goldberg <jgoldberg@home.com>
+
+	* src/plugin.c (plugin_load) : Typo.
+
+	* src/workbook.c (recalc_cmd) : Bug7739.
+
 2000-03-22  Chema Celorio  <chema@celorio.com>
 
 	* idl/.cvsignore: Created .cvsignore added Makefiles

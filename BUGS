@@ -8,6 +8,7 @@ Release Critical
 - gnumeric depends on unreleased gnome-print
 - text in print-preview is vertically offset (lewing has a patch for gnome-print)
 - print-preview is not cleared between pages.
+- formated values do not save/load correctly.
 
 Long term breakage
 ------------------

@@ -146,7 +146,8 @@ plugin_load (CommandContext *context, const gchar *modfile)
 		    g_strdup_printf (_("Unable to open plugin '%s'\n"
 				       "The plugin did not check it's version.\n"
 				       "It is probably for a different version of Gnumeric than '%s'."),
-				       GNUMERIC_VERSION);
+				     data->file_name,
+				     GNUMERIC_VERSION);
 		gnumeric_error_plugin_problem (context, mesg);
 		g_free (mesg);
 		goto error;

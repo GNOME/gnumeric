@@ -529,7 +529,7 @@ xml_search_child (xmlNodePtr node, const char *name)
 static gboolean
 xml_read_range (xmlNodePtr tree, Range *res)
 {
-	return 
+	return
 	    xml_get_value_int (tree, "startCol", &res->start.col) &&
 	    xml_get_value_int (tree, "startRow", &res->start.row) &&
 	    xml_get_value_int (tree, "endCol",   &res->end.col) &&
@@ -1389,7 +1389,7 @@ xml_read_style_region (parse_xml_context_t *ctxt, xmlNodePtr tree)
 	Range range;
 
 	style = xml_read_style_region_ex (ctxt, tree, &range);
-	
+
 	if (style)
 		sheet_style_attach (ctxt->sheet, range, style);
 }
@@ -1598,7 +1598,7 @@ xml_write_cell_and_position (parse_xml_context_t *ctxt, Cell *cell, int col, int
 	xmlNodePtr cur;
 	char *text;
 	char *tstr;
-	
+
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Cell", NULL);
 	xml_set_value_int (cur, "Col", col);
 	xml_set_value_int (cur, "Row", row);
@@ -1654,7 +1654,7 @@ xml_read_cell (parse_xml_context_t *ctxt, xmlNodePtr tree)
 	}
 	xml_get_value_int (tree, "Col", &col);
 	xml_get_value_int (tree, "Row", &row);
-	
+
 	ret = sheet_cell_get (ctxt->sheet, col, row);
 	if (ret == NULL)
 		ret = sheet_cell_new (ctxt->sheet, col, row);
@@ -1712,7 +1712,7 @@ xml_read_cell (parse_xml_context_t *ctxt, xmlNodePtr tree)
 	}
 	if (content == NULL)
 		content = xmlNodeGetContent (tree);
-		
+
 	if (content != NULL) {
 		/*
 		 * Handle special case of a non corner element of an array
@@ -1749,13 +1749,13 @@ xml_read_cell_copy (parse_xml_context_t *ctxt, xmlNodePtr tree)
 	ret->type     = CELL_COPY_TYPE_TEXT_AND_COMMENT;
 	ret->comment  = NULL;
 	ret->u.text   = NULL;
-	
+
 	xml_get_value_int (tree, "Col", &ret->col_offset);
 	xml_get_value_int (tree, "Row", &ret->row_offset);
 
 	childs = tree->childs;
 	while (childs != NULL) {
-	
+
 		if (!strcmp (childs->name, "Content"))
 			ret->u.text = xmlNodeGetContent (childs);
 		if (!strcmp (childs->name, "Comment")) {
@@ -1766,7 +1766,7 @@ xml_read_cell_copy (parse_xml_context_t *ctxt, xmlNodePtr tree)
 			 */
  			if (ret->comment) {
  				char *temp = g_strdup (ret->comment);
-			
+
  				xmlFree (ret->comment);
 				ret->comment = temp;
 			}
@@ -1828,7 +1828,7 @@ xml_write_styles (parse_xml_context_t *ctxt, GList *l)
 }
 
 static void
-xml_read_solver (Sheet *sheet, parse_xml_context_t *ctxt, xmlNodePtr tree, 
+xml_read_solver (Sheet *sheet, parse_xml_context_t *ctxt, xmlNodePtr tree,
 		 SolverParameters *param)
 {
 	SolverConstraint *c;
@@ -2101,7 +2101,7 @@ xml_write_selection_clipboard (parse_xml_context_t *ctxt, Sheet *sheet)
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "ClipboardSheetSelection", NULL);
 	if (cur == NULL)
 		return NULL;
-	
+
 	/*
 	 * Write styles
 	 */
@@ -2111,19 +2111,19 @@ xml_write_selection_clipboard (parse_xml_context_t *ctxt, Sheet *sheet)
 	while (iterator) {
 		GList *style_region_list;
 		Range *range = iterator->data;
-		
+
 		style_region_list = sheet_get_styles_in_range (sheet, range);
-		
+
 		styles = xml_write_styles (ctxt, style_region_list);
-		
+
 		if (styles)
 			xmlAddChild (cur, styles);
 
 		sheet_style_list_destroy (style_region_list);
-		
+
 		iterator = g_slist_next (iterator);
 	}
-	
+
 	/*
 	 * Write cells
 	 */
@@ -2141,7 +2141,7 @@ xml_write_selection_clipboard (parse_xml_context_t *ctxt, Sheet *sheet)
 		Range *range = iterator->data;
 
 		for (row = range->start.row; row <= range->end.row; row++) {
-		
+
 			for (col = range->start.col; col <= range->end.col; col++) {
 				Cell *cell = sheet_cell_get (sheet, col, row);
 
@@ -2191,7 +2191,7 @@ xml_read_styles_ex (parse_xml_context_t *ctxt, xmlNodePtr tree, CellRegion *cr)
 
 	for (regions = child->childs; regions; regions = regions->next) {
 		StyleRegion *region = g_new0 (StyleRegion, 1);
-		
+
 		region->style = xml_read_style_region_ex (ctxt, regions, &region->range);
 
 		cr->styles = g_list_prepend (cr->styles, region);
@@ -2375,7 +2375,7 @@ xml_read_selection_clipboard (parse_xml_context_t *ctxt, xmlNodePtr tree)
 	CellRegion *cr;
 	xmlNodePtr child;
 	xmlNodePtr cells;
-	
+
 	if (strcmp (tree->name, "ClipboardSheetSelection")){
 		fprintf (stderr,
 			 "xml_sheet_read_selection_clipboard: invalid element type %s, 'ClipboardSheetSelection' expected\n",
@@ -2404,7 +2404,7 @@ xml_read_selection_clipboard (parse_xml_context_t *ctxt, xmlNodePtr tree)
 	 */
 	child = xml_search_child (tree, "Cells");
 	if (child != NULL){
-	
+
 		cells = child->childs;
 		while (cells != NULL){
 			CellCopy *cc;
@@ -2412,15 +2412,15 @@ xml_read_selection_clipboard (parse_xml_context_t *ctxt, xmlNodePtr tree)
 			cc = xml_read_cell_copy (ctxt, cells);
 
 			if (cc) {
-			
+
 				if (cc->col_offset > cr->cols)
 					cr->cols = cc->col_offset;
 				if (cc->row_offset > cr->rows)
 					cr->rows = cc->row_offset;
-				
+
 				cr->list = g_list_prepend (cr->list, cc);
 			}
-				
+
 			cells = cells->next;
 		}
 	}
@@ -2708,7 +2708,7 @@ gnumeric_xml_write_selection_clipboard (CommandContext *context, Sheet *sheet,
 	xmlSetDocCompressMode (xml, 9);
 	xmlDocDumpMemory (xml, buffer, size);
 	xmlFreeDoc (xml);
-	
+
 	return 0;
 }
 
@@ -2727,7 +2727,7 @@ gnumeric_xml_read_selection_clipboard (CommandContext *context, CellRegion **cr,
 
 	g_return_val_if_fail (*cr == NULL, -1);
 	g_return_val_if_fail (buffer != NULL, -1);
-	
+
 	/*
 	 * Load the buffer into an XML tree.
 	 */
@@ -2742,12 +2742,12 @@ gnumeric_xml_read_selection_clipboard (CommandContext *context, CellRegion **cr,
 			(context, _("Invalid xml clipboard data. Tree is empty ?"));
 		return -1;
 	}
-	
+
 	ctxt.doc = res;
 	*cr = xml_read_selection_clipboard (&ctxt, res->root);
 
 	xmlFreeDoc (res);
-		
+
 	return 0;
 }
 
@@ -2853,9 +2853,4 @@ xml_init (void)
 	file_format_register_open (50, desc, xml_probe, gnumeric_xml_read_workbook);
 	file_format_register_save (".gnumeric", desc, gnumeric_xml_write_workbook);
 }
-
-
-
-
-
 

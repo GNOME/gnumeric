@@ -43,14 +43,24 @@ sheet_view_redraw_all (SheetView *sheet_view)
 		0, 0, INT_MAX, INT_MAX);
 }
 
+/*
+ * redraw a range and all of the associated spans.
+ * TODO : this should have TWO cases.
+ *     1) redraw just the selected region
+ *         This is useful for cursor movement and the like.
+ *     2) redraw including the spans.
+ *         This is useful for changes to cell contents.
+ */
 void
-sheet_view_redraw_cell_region (SheetView *sheet_view, int start_col, int start_row, int end_col, int end_row)
+sheet_view_redraw_cell_region (SheetView *sheet_view,
+			       int start_col, int start_row,
+			       int end_col, int end_row)
 {
 	GnumericSheet *gsheet;
 	GnomeCanvas *canvas;
 	Sheet *sheet = sheet_view->sheet;
 	int first_col, first_row, last_col, last_row;
-	int col, row, min_col, max_col;
+	int row, min_col, max_col;
 	int x, y, w, h;
 
 	g_return_if_fail (sheet_view != NULL);
@@ -76,26 +86,32 @@ sheet_view_redraw_cell_region (SheetView *sheet_view, int start_col, int start_r
 	min_col = first_col;
 	max_col = last_col;
 
-	/* Find the range of columns that require a redraw */
-	for (col = first_col; col <= last_col; col++)
-		for (row = first_row; row <= last_row; row++){
-			Cell *cell;
+	/*
+	 * Check the first and last columns for spans
+	 * and extend the region to include the maximum extent.
+	 */
+	for (row = first_row; row <= last_row; row++){
+		ColRowInfo const * const ri = sheet_row_get (sheet, row);
 
-			cell = sheet_cell_get (sheet, col, row);
+		if (ri != NULL) {
+			CellSpanInfo const * span0 =
+			    row_span_get (ri, first_col);
 
-			if (cell){
-				int col1 = cell->col->pos, col2 = col1;
-				CellSpanInfo const * span =
-					row_span_get (cell->row, col1);
+			if (span0 != NULL) {
+				min_col = MIN (span0->left, min_col);
+				max_col = MAX (span0->right, max_col);
+			}
+			if (first_col != last_col) {
+				CellSpanInfo const * span1 =
+					row_span_get (ri, last_col);
 
-				if (span != NULL) {
-					col1 = span->left;
-					col2 = span->right;
+				if (span1 != NULL) {
+					min_col = MIN (span1->left, min_col);
+					max_col = MAX (span1->right, max_col);
 				}
-				min_col = MIN (col1, min_col);
-				max_col = MAX (col2, max_col);
 			}
 		}
+	}
 
 	/* Only draw those regions that are visible */
 	min_col = MAX (MIN (first_col, min_col), gsheet->col.first);
@@ -354,7 +370,7 @@ sheet_view_col_size_changed (ItemBar *item_bar, int col, int width, SheetView *s
  	if (type == ITEM_BAR_FULL_SELECTION) {
 		int i = sheet->cols.max_used;
 		for (;i >= 0 ; --i) {
- 			ColRowInfo *ci = sheet_col_get (sheet, i);
+ 			ColRowInfo const * const ci = sheet_col_get (sheet, i);
 			if (ci == NULL)
 				continue;
 
@@ -419,12 +435,12 @@ sheet_view_row_size_changed (ItemBar *item_bar, int row, int height, SheetView *
 	if (type == ITEM_BAR_FULL_SELECTION) {
 		int i;
 		for (i = sheet->rows.max_used; i >= 0 ; --i) {
- 			ColRowInfo *ri = sheet_row_get (sheet, i);
+ 			ColRowInfo const * const ri = sheet_row_get (sheet, i);
 			if (ri == NULL)
 				continue;
 
 			if (sheet_row_selection_type (sheet, ri->pos) == ITEM_BAR_FULL_SELECTION)
-					sheet_row_set_size_pixels (sheet, ri->pos, height, TRUE);
+				sheet_row_set_size_pixels (sheet, ri->pos, height, TRUE);
 		}
 	} else
 		sheet_row_set_size_pixels (sheet, row, height, TRUE);
