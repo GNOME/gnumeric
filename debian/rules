@@ -63,6 +63,9 @@ features+= --without-guile
 
 features+= --without-gb
 
+# See http://bugs.debian.org/283067
+features+= --without-paradox
+
 confflags :=	--prefix=/usr --sysconfdir=/etc \
 		--localstatedir=/var/lib \
 		--libexecdir=/usr/bin \
