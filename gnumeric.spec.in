@@ -68,11 +68,10 @@ fi
 
 %defattr (0555, bin, bin)
 %{prefix}/bin/gnumeric
-%{prefix}/lib/gnumeric/plugins/%{version}/*.so.0.0.0
-%{prefix}/lib/gnumeric/plugins/%{version}/*.so.0
+%{prefix}/lib/gnumeric/%{version}/plugins/*.so
 
-%{prefix}/share/gnumeric/python/*
-%{prefix}/share/gnumeric/glade/*.glade
+%{prefix}/share/gnumeric/%{version}/python/*
+%{prefix}/share/gnumeric/%{version}/glade/*.glade
 
 %defattr (0444, bin, man, 0555)
 %{prefix}/share/gnome/help/gnumeric/C/images/*
