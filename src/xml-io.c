@@ -87,7 +87,7 @@ xml_parse_ctx_new (xmlDocPtr doc,
 		   xmlNsPtr  ns)
 {
 	return xml_parse_ctx_new_full (
-		doc, ns, GNUM_XML_V5, NULL, NULL, NULL);
+		doc, ns, GNUM_XML_V6, NULL, NULL, NULL);
 }
 
 void
@@ -1594,8 +1594,12 @@ xml_read_style_region (XmlParseContext *ctxt, xmlNodePtr tree)
 
 	style = xml_read_style_region_ex (ctxt, tree, &range);
 
-	if (style)
-		sheet_style_apply_range (ctxt->sheet, &range, style);
+	if (style != NULL) {
+		if (ctxt->version >= GNUM_XML_V6)
+			sheet_style_set_range (ctxt->sheet, &range, style);
+		else
+			sheet_style_apply_range (ctxt->sheet, &range, style);
+	}
 }
 
 /*
@@ -2799,7 +2803,7 @@ xml_workbook_write (XmlParseContext *ctxt, WorkbookView *wb_view)
 	if (cur == NULL)
 		return NULL;
 	if (ctxt->ns == NULL) {
-		gmr = xmlNewNs (cur, "http://www.gnome.org/gnumeric/v5", "gmr");
+		gmr = xmlNewNs (cur, "http://www.gnome.org/gnumeric/v6", "gmr");
 		xmlSetNs(cur, gmr);
 		ctxt->ns = gmr;
 	}
@@ -3001,6 +3005,7 @@ static const struct {
 	char const * const id;
 	GnumericXMLVersion const version;
 } GnumericVersions [] = {
+	{ "http://www.gnome.org/gnumeric/v6", GNUM_XML_V6 },
 	{ "http://www.gnome.org/gnumeric/v5", GNUM_XML_V5 },
 	{ "http://www.gnome.org/gnumeric/v4", GNUM_XML_V4 },
 	{ "http://www.gnome.org/gnumeric/v3", GNUM_XML_V3 },

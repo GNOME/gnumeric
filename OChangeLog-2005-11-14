@@ -1,5 +1,11 @@
 2001-02-03  Jody Goldberg <jgoldberg@home.com>
 
+	* src/xml-io.c (xml_workbook_read) : bump xml version to 6.
+	(xml_read_style_region) : V6 uses set_range rather than the older
+	  apply_range.  We now save/restore fully qualified styles.
+
+2001-02-03  Jody Goldberg <jgoldberg@home.com>
+
 	* src/sheet-object.c (sheet_objects_max_extent) : new routine.
 	(sheet_object_destroy) : regen extent if necessary.
 

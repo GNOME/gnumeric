@@ -100,6 +100,34 @@ sheet_object_unrealize (SheetObject *so)
 		gtk_object_destroy (GTK_OBJECT (so->realized_list->data));
 }
 
+/**
+ * sheet_objects_max_extent :
+ * @sheet :
+ *
+ * Utility routine to calculate the maximum extent of objects in this sheet.
+ */
+static void
+sheet_objects_max_extent (Sheet *sheet)
+{
+	CellPos max_pos = { 0, 0 };
+	GList *ptr;
+
+	for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next ) {
+		SheetObject *so = SHEET_OBJECT (ptr->data);
+
+		if (max_pos.col < so->cell_bound.end.col)
+			max_pos.col = so->cell_bound.end.col;
+		if (max_pos.row < so->cell_bound.end.row)
+			max_pos.row = so->cell_bound.end.row;
+	}
+
+	if (sheet->max_object_extent.col != max_pos.col ||
+	    sheet->max_object_extent.row != max_pos.row) {
+		sheet->max_object_extent = max_pos;
+		sheet_scrollbar_config (sheet);
+	}
+}
+
 static void
 sheet_object_destroy (GtkObject *object)
 {
@@ -214,34 +242,6 @@ sheet_object_position (SheetObject *so, CellPos const *pos)
 		GtkObject *view = GTK_OBJECT (l->data);
 		SO_CLASS (so)->update_bounds (so, view,
 			sheet_object_view_control (view));
-	}
-}
-
-/**
- * sheet_objects_max_extent :
- * @sheet :
- *
- * Utility routine to calculate the maximum extent of objects in this sheet.
- */
-static void
-sheet_objects_max_extent (Sheet *sheet)
-{
-	CellPos max_pos = { 0, 0 };
-	GList *ptr;
-
-	for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next ) {
-		SheetObject *so = SHEET_OBJECT (ptr->data);
-
-		if (max_pos.col < so->cell_bound.end.col)
-			max_pos.col = so->cell_bound.end.col;
-		if (max_pos.row < so->cell_bound.end.row)
-			max_pos.row = so->cell_bound.end.row;
-	}
-
-	if (sheet->max_object_extent.col != max_pos.col ||
-	    sheet->max_object_extent.row != max_pos.row) {
-		sheet->max_object_extent = max_pos;
-		sheet_scrollbar_config (sheet);
 	}
 }
 
