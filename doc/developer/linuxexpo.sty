@@ -1,0 +1,41 @@
+% This is a style file that produces the format proposed by Larry McVoy
+% for LinuxExpo '99.  This style file was written by
+% David Mosberger <davidm@hpl.hp.com>.
+
+\ExecuteOptions{12pt,twoside,twocolumn}
+
+\usepackage{html,times,helvetic}
+
+\marginparwidth 0pt
+\oddsidemargin  0pt
+\evensidemargin  0pt
+\marginparsep 0pt
+\topmargin   -0.25in
+\textwidth   6.5in
+\textheight  8.5 in
+
+%\renewcommand{\rmdefault}{phv}
+\pagestyle{empty}
+
+\sloppy
+
+\def\abstract{
+  \begin{center}
+    \vspace{-0.8em}\textit{ABSTRACT}
+  \end{center}
+%  \begin{quote}
+}
+
+\def\endabstract{
+%  \end{quote}
+% \rule{\textwidth}{1pt}
+  \thispagestyle{empty}\vspace{0.6em}\par\normalsize\rm\par
+}
+
+\def\@maketitle{\begin{center}
+  \vskip0.2em{\Large\textbf{\@title}\par}\vskip1.0em
+  {\lineskip.5em\large\@author\par}
+  \end{center}\par\vskip 1.4em
+}
+
+\bibliographystyle{plain}
