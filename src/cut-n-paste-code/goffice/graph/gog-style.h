@@ -112,7 +112,7 @@ void	   gog_style_set_font		(GogStyle *style,
 gboolean   gog_style_is_different_size	(GogStyle const *a, GogStyle const *b);
 
 GtkWidget *gog_style_editor		(GogObject *obj, CommandContext *cc,
-					 guint32 enable);
+					 GtkWidget *optional_notebook, guint32 enable);
 
 typedef struct {
 	unsigned i;

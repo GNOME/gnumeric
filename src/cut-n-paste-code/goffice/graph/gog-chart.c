@@ -46,7 +46,7 @@ static GObjectClass *chart_parent_klass;
 static gpointer
 gog_chart_editor (GogObject *gobj, GogDataAllocator *dalloc, CommandContext *cc)
 {
-	return gog_style_editor	(gobj, cc, GOG_STYLE_OUTLINE | GOG_STYLE_FILL);
+	return gog_style_editor	(gobj, cc, NULL, GOG_STYLE_OUTLINE | GOG_STYLE_FILL);
 }
 
 static void

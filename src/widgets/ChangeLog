@@ -1,3 +1,7 @@
+2003-08-29  Jody Goldberg <jody@gnome.org>
+
+	* widget-font-selector.c (font_selector_set_from_pango) : unpango-scale
+
 2003-08-29  Morten Welinder  <terra@gnome.org>
 
 	* widget-pixmap-combo.c (pixmap_combo_construct): Rework to copy

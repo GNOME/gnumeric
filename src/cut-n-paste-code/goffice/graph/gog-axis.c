@@ -216,9 +216,7 @@ gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, CommandContext *cc)
 	gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook),
 		glade_xml_get_widget (gui, "axis_pref_table"),
 		gtk_label_new (_("Details")));
-	gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook),
-		gog_style_editor (gobj, cc, GOG_STYLE_LINE),
-		gtk_label_new (_("Style")));
+	gog_style_editor (gobj, cc, notebook, GOG_STYLE_LINE),
 
 	w = glade_xml_get_widget (gui, "axis_low"),
 	g_signal_connect_object (G_OBJECT (w),

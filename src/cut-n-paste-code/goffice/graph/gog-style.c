@@ -31,6 +31,7 @@
 #include <widgets/widget-color-combo.h>
 #include <widgets/color-palette.h>
 #include <widgets/widget-pixmap-combo.h>
+#include <widgets/widget-font-selector.h>
 #include <widgets/preview-file-selection.h>
 #include <gdk-pixbuf/gdk-pixdata.h>
 
@@ -633,16 +634,39 @@ marker_init (StylePrefState *state, GogStyle const *style, gboolean enable)
 /************************************************************************/
 
 static void
-font_init (StylePrefState *state, GogStyle const *style, gboolean enable)
+cb_font_changed (FontSelector *fs, G_GNUC_UNUSED gpointer mstyle,
+		 StylePrefState *state)
 {
-#if 0
-	GtkWidget *w, *table;
+	GogStyle *style = gog_object_dup_style (state->obj);
+	PangoFontDescription *new_font = pango_font_description_copy (style->font.font->desc);
 
-	if (!enable) {
-		gtk_widget_hide (glade_xml_get_widget (state->gui, "line_frame"));
+	g_return_if_fail (style != NULL);
+
+	font_selector_get_pango (fs, new_font);
+	gog_style_set_font (style, new_font);
+	gog_object_set_style (state->obj, style);
+}
+
+static void
+font_init (StylePrefState *state, GogStyle const *style, guint32 enable, GtkWidget *optional_notebook)
+{
+	GtkWidget *w;
+
+	if (!enable)
 		return;
-	}
-#endif
+
+	g_return_if_fail (style->font.font != NULL);
+	g_return_if_fail (GTK_NOTEBOOK (optional_notebook) != NULL);
+
+	w = font_selector_new ();
+	g_signal_connect (G_OBJECT (w),
+		"font_changed",
+		G_CALLBACK (cb_font_changed), state);
+	font_selector_set_from_pango  (FONT_SELECTOR (w), style->font.font->desc);
+	gtk_notebook_prepend_page (GTK_NOTEBOOK (optional_notebook), w,
+		gtk_label_new (_("Font")));
+	gtk_widget_show (w);
+	gtk_widget_show (optional_notebook);
 }
 
 static void
@@ -655,7 +679,8 @@ gog_style_pref_state_free (StylePrefState *state)
 }
 
 GtkWidget *
-gog_style_editor (GogObject *obj, CommandContext *cc, guint32 enable)
+gog_style_editor (GogObject *obj, CommandContext *cc,
+		  GtkWidget *optional_notebook, guint32 enable)
 {
 	GogStyle *style = gog_object_get_style (obj);
 	GtkWidget *w;
@@ -677,13 +702,19 @@ gog_style_editor (GogObject *obj, CommandContext *cc, guint32 enable)
 	line_init    (state, style, enable & GOG_STYLE_LINE);
 	fill_init    (state, style, enable & GOG_STYLE_FILL);
 	marker_init  (state, style, enable & GOG_STYLE_MARKER);
-	font_init    (state, style, enable & GOG_STYLE_FONT);
+	font_init    (state, style, enable & GOG_STYLE_FONT, optional_notebook);
 
 	state->enable_edit = TRUE;
 
  	w = glade_xml_get_widget (gui, "gog_style_prefs");
 	g_object_set_data_full (G_OBJECT (w),
 		"state", state, (GDestroyNotify) gog_style_pref_state_free);
+
+	if (optional_notebook != NULL) {
+		gtk_notebook_prepend_page (GTK_NOTEBOOK (optional_notebook), w,
+			gtk_label_new (_("Style")));
+		return optional_notebook;
+	}
 	return w;
 }
 
@@ -824,7 +855,8 @@ gog_style_is_different_size (GogStyle const *a, GogStyle const *b)
 {
 	if (a == NULL || b == NULL)
 		return TRUE;
-	return a->outline.width != b->outline.width;
+	return a->outline.width != b->outline.width ||
+		!go_font_eq (a->font.font, b->font.font);
 }
 
 void

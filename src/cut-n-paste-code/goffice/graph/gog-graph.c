@@ -146,7 +146,7 @@ role_chart_pre_remove (GogObject *parent, GogObject *child)
 static gpointer
 gog_graph_editor (GogObject *gobj, GogDataAllocator *dalloc, CommandContext *cc)
 {
-	return gog_style_editor	(gobj, cc, GOG_STYLE_OUTLINE | GOG_STYLE_FILL);
+	return gog_style_editor	(gobj, cc, NULL, GOG_STYLE_OUTLINE | GOG_STYLE_FILL);
 }
 
 static void

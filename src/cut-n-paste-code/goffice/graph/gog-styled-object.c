@@ -91,8 +91,10 @@ gog_styled_object_finalize (GObject *obj)
 {
 	GogStyledObject *gso = GOG_STYLED_OBJECT (obj);
 
-	if (gso->style != NULL)
+	if (gso->style != NULL) {
 		g_object_unref (gso->style);
+		gso->style = NULL;
+	}
 
 	if (parent_klass != NULL && parent_klass->finalize != NULL)
 		(parent_klass->finalize) (obj);

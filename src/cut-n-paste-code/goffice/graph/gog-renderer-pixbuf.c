@@ -25,6 +25,7 @@
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-view.h>
 #include <goffice/utils/go-color.h>
+#include <goffice/utils/go-font.h>
 #include <goffice/utils/go-units.h>
 
 #include <libart_lgpl/art_render_gradient.h>
@@ -32,6 +33,7 @@
 #include <libart_lgpl/art_render_mask.h>
 #include <pango/pangoft2.h>
 #include <gsf/gsf-impl-utils.h>
+#include <src/application.h>
 
 #include <math.h>
 
@@ -216,13 +218,16 @@ make_layout (GogRendererPixbuf *prend, char const *text)
 	PangoAttrList  *attrs = NULL;
 
 	if (prend->pango_context == NULL)
-		prend->pango_context = pango_ft2_font_map_create_context (
-			PANGO_FT2_FONT_MAP (pango_ft2_font_map_for_display ()));
+		prend->pango_context = pango_ft2_get_context (
+			application_display_dpi_get (TRUE),
+			application_display_dpi_get (FALSE));
 
 	layout = pango_layout_new (prend->pango_context);
 	/* Assemble our layout. */
 	pango_layout_set_font_description (layout,
-		pango_context_get_font_description (prend->pango_context));
+		prend->base.cur_style->font.font->desc);
+
+	g_warning (pango_font_description_to_string (prend->base.cur_style->font.font->desc));
 	pango_layout_set_text (layout, text, -1);
 	attr_zoom = pango_attr_scale_new (prend->base.zoom);
 	attr_zoom->start_index = 0;
@@ -418,8 +423,9 @@ gog_renderer_pixbuf_update (GogRendererPixbuf *prend, int w, int h, double zoom)
 			prend->pango_context = NULL;
 		}
 
-		prend->pango_context = pango_ft2_font_map_create_context (
-			PANGO_FT2_FONT_MAP (pango_ft2_font_map_for_display ()));
+		prend->pango_context = pango_ft2_get_context (
+			application_display_dpi_get (TRUE),
+			application_display_dpi_get (FALSE));
 
 		/* make sure we dont try to queue an update while updating */
 		prend->base.needs_update = TRUE;

@@ -67,10 +67,6 @@ StyleFont     *style_font_new         (PangoContext *context,
 				       const char *font_name,
 				       double size_pts, double scale,
 				       gboolean bold, gboolean italic);
-StyleFont     *style_font_new_simple  (PangoContext *context,
-				       const char *font_name,
-				       double size_pts, double scale,
-				       gboolean bold, gboolean italic);
 void style_font_ref          (StyleFont *sf);
 void style_font_unref        (StyleFont *sf);
 

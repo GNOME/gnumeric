@@ -126,6 +126,12 @@ go_font_unref (GOFont const *font)
 	}
 }
 
+gboolean
+go_font_eq (GOFont const *a, GOFont const *b)
+{
+	return pango_font_description_equal (a->desc, b->desc);
+}
+
 void
 go_font_cache_register (GClosure *watcher)
 {
@@ -152,7 +158,7 @@ go_font_init (void)
 		(GEqualFunc)pango_font_description_equal,
 		NULL, (GDestroyNotify) go_font_free);
 	font_default = go_font_new_by_desc (
-		pango_font_description_from_string ("Sans 10"));
+		pango_font_description_from_string ("Sans Regular 10"));
 }
 
 void

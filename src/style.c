@@ -104,7 +104,7 @@ calc_font_width (StyleFont const *font, char const *teststr)
 }
 
 
-StyleFont *
+static StyleFont *
 style_font_new_simple (PangoContext *context,
 		       char const *font_name, double size_pts, double scale,
 		       gboolean bold, gboolean italic)

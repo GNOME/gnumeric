@@ -95,20 +95,20 @@ gog_label_finalize (GObject *obj)
 static gpointer
 gog_label_editor (GogObject *gobj, GogDataAllocator *dalloc, CommandContext *cc)
 {
-	GtkWidget *vbox = gtk_vbox_new (FALSE, 5);
+	GtkWidget *notebook = gtk_notebook_new ();
 	GtkWidget *hbox = gtk_hbox_new (FALSE, 5);
 
 	gtk_box_pack_start (GTK_BOX (hbox), 
-		gtk_label_new_with_mnemonic (_("_Text:")), TRUE, TRUE, 0);
+		gtk_label_new_with_mnemonic (_("_Text:")), FALSE, TRUE, 6);
 	gtk_box_pack_start (GTK_BOX (hbox), 
 		gog_data_allocator_editor (dalloc, GOG_DATASET (gobj), 0, TRUE),
 		TRUE, TRUE, 0);
-	gtk_widget_show (hbox);
-	gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), 
-		    gog_style_editor (gobj, cc, GOG_STYLE_OUTLINE | GOG_STYLE_FILL | GOG_STYLE_FONT),
-		    TRUE, TRUE, 0);
-	return vbox;
+	gtk_widget_show_all (hbox);
+	gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook), hbox,
+		gtk_label_new (_("Data")));
+	gog_style_editor (gobj, cc, notebook,
+		GOG_STYLE_OUTLINE | GOG_STYLE_FILL | GOG_STYLE_FONT);
+	return notebook;
 }
 
 static void
@@ -144,10 +144,18 @@ gog_label_get_elem (GogDataset const *set, int dim_i)
 }
 
 static void
+gog_label_dim_changed (GogDataset *set, int dim_i)
+{
+	g_warning ("gog_label_dim_changed %p (%d)", set, dim_i);
+	gog_object_emit_changed (GOG_OBJECT (set), TRUE);
+}
+
+static void
 gog_label_dataset_init (GogDatasetClass *iface)
 {
-	iface->dims	= gog_label_dims;
-	iface->get_elem	= gog_label_get_elem;
+	iface->dims	   = gog_label_dims;
+	iface->get_elem	   = gog_label_get_elem;
+	iface->dim_changed = gog_label_dim_changed;
 }
 
 GSF_CLASS_FULL (GogLabel, gog_label,
@@ -167,6 +175,16 @@ typedef GogViewClass	GogLabelViewClass;
 static void
 gog_label_view_size_request (GogView *view, GogViewRequisition *req)
 {
+	GogLabel *label = GOG_LABEL (view->model);
+	if (label->text.data != NULL) {
+		char const *text = go_data_scalar_get_str (GO_DATA_SCALAR (label->text.data));
+		if (text != NULL) {
+			gog_renderer_push_style (view->renderer, label->base.style);
+			gog_renderer_measure_text (view->renderer, text, req);
+			gog_renderer_pop_style (view->renderer);
+			return;
+		}
+	}
 	req->w = req->h = 1.;
 }
 

@@ -102,6 +102,8 @@ gog_dataset_set_dim (GogDataset *set, int dim_i, GOData *val, GError **err)
 
 		if (klass->set_dim)
 			(klass->set_dim) (set, dim_i, val, err);
+		if (klass->dim_changed)
+			(klass->dim_changed) (set, dim_i);
 	}
 
 	/* absorb ref to orig, simplifies life cycle easier for new GODatas */

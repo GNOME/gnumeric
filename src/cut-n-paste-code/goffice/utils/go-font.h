@@ -39,6 +39,7 @@ GOFont const *go_font_new_by_index (unsigned i);
 char   	     *go_font_as_str       (GOFont const *font);
 GOFont const *go_font_ref	   (GOFont const *font);
 void	      go_font_unref	   (GOFont const *font);
+gboolean      go_font_eq	   (GOFont const *a, GOFont const *b);
 
 /* cache notification */
 void go_font_cache_register   (GClosure *callback);

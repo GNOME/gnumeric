@@ -13,6 +13,7 @@ Jody:
 	* Fix expr relocation with cross sheet references.
 	* Paper over the most common technique for blowing the stack.
 	* Disable clipboard operations during object editing.
+	* Enable labels in charts
 
 Morten:
 	* Support End+Home key sequence.
