@@ -1685,7 +1685,7 @@
 		<yfill>False</yfill>
 	      </child>
 	      <can_focus>True</can_focus>
-	      <label>RIght, then down</label>
+	      <label>Right, then down</label>
 	      <active>False</active>
 	      <draw_indicator>True</draw_indicator>
 	      <group>page-order</group>
