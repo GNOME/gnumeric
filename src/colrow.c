@@ -89,12 +89,15 @@ colrow_foreach (ColRowCollection const *infos, int first, int last,
 	while (i <= last) {
 		ColRowSegment const *segment = COLROW_GET_SEGMENT (infos, i);
 		int sub = COLROW_SUB_INDEX(i);
+		int inner_last;
 
+		inner_last = (COLROW_SEGMENT_INDEX (last) == COLROW_SEGMENT_INDEX (i))
+			? COLROW_SUB_INDEX (last) : COLROW_SEGMENT_SIZE;
 		i += COLROW_SEGMENT_SIZE - sub;
 		if (segment == NULL)
 			continue;
 
-		for (; sub < COLROW_SEGMENT_SIZE; ++sub) {
+		for (; sub < inner_last; ++sub) {
 			ColRowInfo *info = segment->info[sub];
 			if (info != NULL && (*callback)(info, user_data))
 				return TRUE;

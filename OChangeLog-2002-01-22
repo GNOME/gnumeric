@@ -1,5 +1,7 @@
 2001-03-18  Jody Goldberg <jgoldberg@home.com>
 
+	* src/colrow.c (colrow_foreach) : Doh!
+
 	* src/item-bar.c (item_bar_event) : Now that we are zooming this
 	  canvas we need to transform the coordinates.
 
