@@ -1,3 +1,8 @@
+2004-07-17  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=147756
+	* src/sheet-autofill.c (autofill_cell) : An ancient bug.
+
 2004-07-17  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* schemas/gnumeric-general.schemas.in: Correct compression level

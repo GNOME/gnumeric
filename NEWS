@@ -64,6 +64,8 @@ Jody:
 	* Allow themed series with gradients
 	* Fix application prop dialog
 	* Support repeat for several commands
+	http://bugzilla.gnome.org/show_bug.cgi?id=147756
+	* Ancient autofill leak on constant string fills
 
 Morten:
 	* Fix crash related to database functions (#138600).  [backported]

@@ -585,6 +585,7 @@ autofill_cell (FillItem *fi, GnmCell *cell, int idx, int limit_x, int limit_y)
 		fi->type = delta->type;
 
 	switch (fi->type) {
+	default:
 	case FILL_EMPTY:
 	case FILL_INVALID:
 		g_warning ("This case should not be handled here.");
@@ -647,7 +648,7 @@ autofill_cell (FillItem *fi, GnmCell *cell, int idx, int limit_x, int limit_y)
 		break;
 	case FILL_STRING_CONSTANT:
 		v = value_new_string (fi->v.str->str);
-		return;
+		break;
 	case FILL_STRING_WITH_NUMBER: {
 		int i = delta->v.numstr.num + idx * delta->delta.d_int;
 		int prefixlen = delta->v.numstr.pos;
@@ -718,10 +719,6 @@ autofill_cell (FillItem *fi, GnmCell *cell, int idx, int limit_x, int limit_y)
 		v = value_new_string (text);
 		break;
 	}
-
-	default:
-		g_assert_not_reached ();
-		return;
 	}
 
 	if (fi->fmt != NULL)
