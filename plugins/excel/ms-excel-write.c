@@ -38,6 +38,7 @@
 #include <sheet-object.h>
 #include <sheet-object-cell-comment.h>
 #include <sheet-object-graph.h>
+#include <sheet-object-graphic.h>
 #include <sheet-object-image.h>
 #include <application.h>
 #include <style.h>
@@ -3474,6 +3475,92 @@ excel_write_image (ExcelWriteSheet *esheet, BlipInf *bi)
 	ewb->cur_blip++;
 }
 
+static void
+excel_write_ClientTextbox(BiffPut *bp, SheetObject *so)
+{
+	static guint8 const nullmarkup[] = {
+		0,   0, 0, 0, 0x7d, 0, 0x17, 0,
+		0x10, 0, 0, 0,    0, 0,  0,   0
+	};
+	guint8 buf [18];
+	int txo_len = 18;
+	int draw_len = 8;
+	int char_len;
+	char *label;
+		
+	ms_biff_put_var_next (bp,  BIFF_MS_O_DRAWING);
+	memset (buf, 0, draw_len);
+	GSF_LE_SET_GUINT16 (buf + 2, 0xf00d); /* ClientTextbox */
+	ms_biff_put_var_write (bp, buf, draw_len);
+	ms_biff_put_commit (bp);
+	
+	ms_biff_put_var_next (bp, BIFF_TXO);
+	memset (buf, 0, txo_len);
+	GSF_LE_SET_GUINT16 (buf, 0x212); /* end */
+	g_object_get (G_OBJECT (so), "label", &label, NULL);
+	char_len = excel_write_string_len (label, NULL);
+	GSF_LE_SET_GUINT16 (buf + 10, char_len);
+	GSF_LE_SET_GUINT16 (buf + 12, sizeof nullmarkup);
+	ms_biff_put_var_write (bp, buf, txo_len);
+	ms_biff_put_commit (bp);
+	
+	ms_biff_put_var_next (bp, BIFF_CONTINUE);
+	excel_write_string(bp, STR_NO_LENGTH, label);
+	ms_biff_put_commit (bp);
+	
+	ms_biff_put_var_next (bp, BIFF_CONTINUE);
+	memcpy (buf, nullmarkup, sizeof nullmarkup);
+	GSF_LE_SET_GUINT16 (buf + 8, char_len);
+	ms_biff_put_var_write (bp, buf, sizeof nullmarkup);
+	ms_biff_put_commit (bp);
+}
+
+static void
+excel_write_textbox (ExcelWriteSheet *esheet, SheetObject *so)
+{
+	static guint8 const obj_v8[] = {
+/* SpContainer */   0xf,   0,   4, 0xf0,    0x6c, 0, 0, 0,
+/* Sp */	   0xa2,  0xc, 0xa, 0xf0,      8, 0, 0, 0,
+			0,   0, 0, 0,	/* fill in spid */
+			0, 0xa, 0, 0,
+
+/* OPT */	   0x73,   0, 0xb, 0xf0,   0x2a, 0, 0, 0,
+                        0x80,    0, 0xa0,    0, 0xc6, 0, /* Txid */
+                        0x85,    0,    1,    0,    0, 0, /* wrap_text_at_margin */
+
+                        0xbf,    0,    8,    0,  0xa, 0, /* fFitTextToShape */
+                        0x81,    1, 0x41,    0,    0, 8, /* fillColor */
+                        0xbf,    1,    0,    0,    1, 0, /* fNoFillHitTest */
+                        0xc0,    1, 0x40,    0,    0, 8, /* lineColor */
+                        0xbf,    3,    0,    0,    8, 0, /* fPrint */
+/* ClientAnchor */    0, 0, 0x10, 0xf0,   0x12, 0, 0, 0, 0,0,
+			0,0,  0,0,	0,0,  0,0,	0,0,  0,0,	0,0,  0,0,
+/* ClientData */      0, 0, 0x11, 0xf0,  0, 0, 0, 0
+	};
+
+	guint8 buf [sizeof obj_v8];
+
+	ExcelWriteState *ewb = esheet->ewb;
+	BiffPut *bp = ewb->bp;
+	guint32 id = excel_write_start_drawing (esheet);
+
+	memcpy (buf, obj_v8, sizeof obj_v8);
+	GSF_LE_SET_GUINT32 (buf + 16, id);
+	GSF_LE_SET_GUINT32 (buf + 4, sizeof obj_v8);
+	excel_write_anchor (buf + 0x54, sheet_object_anchor_get (so));
+	ms_biff_put_var_write (bp, buf, sizeof obj_v8);
+	ms_biff_put_commit (bp);
+
+	ms_biff_put_var_next (bp, BIFF_OBJ);
+	ms_objv8_write_common (bp, esheet->cur_obj, 6, 0x6011);
+	GSF_LE_SET_GUINT32 (buf, 0); /* end */
+	ms_biff_put_var_write (bp, buf, 4);
+
+	ms_biff_put_commit (bp);
+
+	excel_write_ClientTextbox(bp, so);
+}
+
 /* See: S59D76.HTM */
 static void
 excel_write_DIMENSION (BiffPut *bp, ExcelWriteSheet *esheet)
@@ -3900,6 +3987,8 @@ excel_write_objs (ExcelWriteSheet *esheet)
 	BiffPut *bp = esheet->ewb->bp;
 	GSList  *ptr, *charts = sheet_objects_get (esheet->gnum_sheet,
 		NULL, SHEET_OBJECT_GRAPH_TYPE);
+	GSList  *texts = sheet_objects_get (esheet->gnum_sheet,
+		NULL, SHEET_OBJECT_TEXT_TYPE);
 	int	 len;
 
 	if (esheet->num_objs == 0)
@@ -3919,6 +4008,7 @@ excel_write_objs (ExcelWriteSheet *esheet)
 		guint8 buf [sizeof header_obj_v8];
 		unsigned last_id, num_filters = 0;
 		unsigned num_charts = g_slist_length (charts);
+		unsigned num_texts = g_slist_length (texts);
 
 		if (esheet->gnum_sheet->filters != NULL) {
 			GnmFilter const *f = esheet->gnum_sheet->filters->data;
@@ -3935,6 +4025,7 @@ excel_write_objs (ExcelWriteSheet *esheet)
 		ms_biff_put_var_next (bp, BIFF_MS_O_DRAWING);
 		memcpy (buf, header_obj_v8, sizeof header_obj_v8);
 		len = 90*num_filters + 114*num_charts+ 84*esheet->num_blips;
+		len += 116*num_texts;
 		GSF_LE_SET_GUINT32 (buf +  4, 72 + len);
 		GSF_LE_SET_GUINT32 (buf + 16, esheet->num_objs + 1);
 		GSF_LE_SET_GUINT32 (buf + 20, last_id);	/* last spid in this group */
@@ -3950,6 +4041,10 @@ excel_write_objs (ExcelWriteSheet *esheet)
 	for (ptr = esheet->blips; ptr != NULL ; ptr = ptr->next)
 		if (ptr->data)
 			excel_write_image (esheet, ptr->data);
+
+	for (ptr = texts; ptr != NULL ; ptr = ptr->next)
+		excel_write_textbox (esheet, ptr->data);
+	g_slist_free (texts);
 
 	excel_write_autofilter_objs (esheet);
 }
@@ -4135,6 +4230,10 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 	esheet->blips = g_slist_reverse (esheet->blips);
 	g_slist_free (objs);
 	esheet->num_objs += esheet->num_blips;
+	/* Text boxes */
+	objs = sheet_objects_get (sheet, NULL, SHEET_OBJECT_TEXT_TYPE);
+	esheet->num_objs += g_slist_length (objs);
+	g_slist_free (objs);
 
 	/* And the autofilters */
 	if (sheet->filters != NULL) {

@@ -1,3 +1,9 @@
+2004-09-04  Jon K Hellan  <hellan@acm.org>
+
+	* ms-excel-write.c (excel_write_ClientTextbox,
+	excel_write_textbox): Implement simple text box export.
+	(excel_write_objs, excel_sheet_new): Export text boxes.
+
 2004-09-03  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-write.c (palette_init) : Export the xlp5 colours too
