@@ -1,3 +1,7 @@
+2002-05-05  Pablo Saratxaga  <pablo@mandrakesoft.com>
+
+	* configure.in: Added Vietnamese (vi) to ALL_LINGUAS
+
 2002-05-05  Jon K Hellan  <hellan@acm.org>
 
 	* src/GNOME_Gnumeric_Component.xml: Add UI for the viewer component.
