@@ -2,6 +2,7 @@
 #define GNUMERIC_SHEET_OBJECT_WIDGET_H
 
 #include "sheet-object.h"
+#include <pango/pango-attributes.h>
 
 void sheet_object_widget_register (void);
 
@@ -26,5 +27,7 @@ void sheet_widget_checkbox_set_link	 (SheetObject *so, GnmExpr const *expr);
 void sheet_widget_checkbox_set_label	 (SheetObject *so, char const *str);
 void sheet_widget_button_set_label	 (SheetObject *so, char const *str);
 void sheet_widget_radio_button_set_label (SheetObject *so, char const *str);
+
+void sheet_widget_button_set_markup      (SheetObject *so, PangoAttrList *markup);
 
 #endif /* GNUMERIC_SHEET_OBJECT_WIDGET_H */

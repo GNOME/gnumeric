@@ -480,7 +480,7 @@ gnm_so_filled_set_property (GObject *obj, guint param_id,
 
 static void
 gnm_so_filled_get_property (GObject *obj, guint param_id,
-			    GValue  *value,  GParamSpec *pspec)
+			    GValue *value, GParamSpec *pspec)
 {
 	GnmSOFilled  *sof = GNM_SO_FILLED (obj);
 	switch (param_id) {

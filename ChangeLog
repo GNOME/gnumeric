@@ -1,3 +1,11 @@
+2004-10-13  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-object-widget.c (SOW_MAKE_TYPE): Add arguments for
+	property support.
+	(SheetWidgetButton): Add markup member.
+	(sheet_widget_button_get_property,
+	sheet_widget_button_set_property): New functions.
+
 2004-10-13  Jean Brefort <jean.brefort@normalesup.org>
 
 	* src/graph.c: (gnm_go_data_vector_load_values),

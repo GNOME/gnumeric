@@ -53,6 +53,7 @@
 #include <libfoocanvas/foo-canvas-widget.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtkframe.h>
+#include <gtk/gtklabel.h>
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtktable.h>
 #include <gtk/gtkcheckbutton.h>
@@ -112,26 +113,31 @@ static GSF_CLASS_FULL (SOWidgetFooView, so_widget_foo_view,
 #define IS_SHEET_WIDGET_OBJECT(o)    (G_TYPE_CHECK_INSTANCE_TYPE((o), SHEET_OBJECT_WIDGET_TYPE))
 #define SOW_CLASS(so)	 	     (SHEET_OBJECT_WIDGET_CLASS (G_OBJECT_GET_CLASS(so)))
 
-#define SOW_MAKE_TYPE(n1, n2, fn_config, fn_set_sheet, fn_clear_sheet,	\
-		      fn_copy, fn_write_dom, fn_read_dom, fn_write_sax)		\
-static void								\
-sheet_widget_ ## n1 ## _class_init (GObjectClass *object_class)		\
-{									\
-	SheetObjectWidgetClass *sow_class = SHEET_OBJECT_WIDGET_CLASS (object_class); \
-	SheetObjectClass *so_class = SHEET_OBJECT_CLASS (object_class);		\
-	object_class->finalize		= &sheet_widget_ ## n1 ## _finalize;	\
-	so_class->user_config		= fn_config;				\
-	so_class->assign_to_sheet	= fn_set_sheet;				\
-	so_class->remove_from_sheet	= fn_clear_sheet;			\
-	so_class->copy			= fn_copy;				\
-	so_class->write_xml_dom		= fn_write_dom;				\
-	so_class->read_xml_dom		= fn_read_dom;				\
-	so_class->write_xml_sax		= fn_write_sax;				\
+#define SOW_MAKE_TYPE(n1, n2, fn_config, fn_set_sheet, fn_clear_sheet,			\
+		      fn_copy, fn_write_dom, fn_read_dom, fn_write_sax,			\
+	              fn_get_property, fn_set_property, class_init_code)		\
+static void										\
+sheet_widget_ ## n1 ## _class_init (GObjectClass *object_class)				\
+{											\
+	SheetObjectWidgetClass *sow_class = SHEET_OBJECT_WIDGET_CLASS (object_class);	\
+	SheetObjectClass *so_class = SHEET_OBJECT_CLASS (object_class);			\
+	object_class->finalize		= &sheet_widget_ ## n1 ## _finalize;		\
+	object_class->set_property	= fn_set_property;				\
+	object_class->get_property	= fn_get_property;				\
+	so_class->user_config		= fn_config;					\
+	so_class->assign_to_sheet	= fn_set_sheet;					\
+	so_class->remove_from_sheet	= fn_clear_sheet;				\
+	so_class->copy			= fn_copy;					\
+	so_class->write_xml_dom		= fn_write_dom;					\
+	so_class->read_xml_dom		= fn_read_dom;					\
+	so_class->write_xml_sax		= fn_write_sax;					\
 	sow_class->create_widget     	= &sheet_widget_ ## n1 ## _create_widget;	\
-}										\
-GSF_CLASS (SheetWidget ## n2, sheet_widget_ ## n1,				\
-	   &sheet_widget_ ## n1 ## _class_init,					\
-	   &sheet_widget_ ## n1 ## _init,					\
+        { class_init_code; }								\
+}											\
+											\
+GSF_CLASS (SheetWidget ## n2, sheet_widget_ ## n1,					\
+	   &sheet_widget_ ## n1 ## _class_init,						\
+	   &sheet_widget_ ## n1 ## _init,						\
 	   SHEET_OBJECT_WIDGET_TYPE);
 
 typedef SheetObject SheetObjectWidget;
@@ -459,7 +465,10 @@ SOW_MAKE_TYPE (frame, Frame,
 	       &sheet_widget_frame_copy,
 	       &sheet_widget_frame_write_xml_dom,
 	       &sheet_widget_frame_read_xml_dom,
-	       &sheet_widget_frame_write_xml_sax)
+	       &sheet_widget_frame_write_xml_sax,
+	       NULL,
+	       NULL,
+	       {})
 
 /****************************************************************************/
 #define SHEET_WIDGET_BUTTON_TYPE     (sheet_widget_button_get_type ())
@@ -467,19 +476,24 @@ SOW_MAKE_TYPE (frame, Frame,
 typedef struct {
 	SheetObjectWidget	sow;
 	char *label;
+	PangoAttrList *markup;
 } SheetWidgetButton;
 typedef SheetObjectWidgetClass SheetWidgetButtonClass;
 
 static void
-sheet_widget_button_init_full (SheetWidgetButton *swb, char const *text)
+sheet_widget_button_init_full (SheetWidgetButton *swb,
+			       char const *text,
+			       PangoAttrList *markup)
 {
 	swb->label = g_strdup (text);
+	swb->markup = markup;
+	if (markup) pango_attr_list_ref (markup);
 }
 
 static void
 sheet_widget_button_init (SheetWidgetButton *swb)
 {
-	sheet_widget_button_init_full (swb, _("Button"));
+	sheet_widget_button_init_full (swb, _("Button"), NULL);
 }
 
 static void
@@ -490,6 +504,11 @@ sheet_widget_button_finalize (GObject *obj)
 	g_free (swb->label);
 	swb->label = NULL;
 
+	if (swb->markup) {
+		pango_attr_list_unref (swb->markup);
+		swb->markup = NULL;
+	}
+
 	(*sheet_object_widget_class->finalize)(obj);
 }
 
@@ -497,19 +516,25 @@ static GtkWidget *
 sheet_widget_button_create_widget (SheetObjectWidget *sow,
 				   G_GNUC_UNUSED SheetObjectViewContainer *container)
 {
-	return gtk_button_new_with_label (SHEET_WIDGET_BUTTON (sow)->label);
+	SheetWidgetButton *swb = SHEET_WIDGET_BUTTON (sow);
+	GtkWidget *w = gtk_button_new_with_label (swb->label);
+	gtk_label_set_attributes (GTK_LABEL (GTK_BIN (w)->child),
+				  swb->markup);
+	return w;
 }
 
 static void
 sheet_widget_button_copy (SheetObject *dst, SheetObject const *src_swb)
 {
 	sheet_widget_button_init_full (SHEET_WIDGET_BUTTON (dst),
-		SHEET_WIDGET_BUTTON (src_swb)->label);
+				       SHEET_WIDGET_BUTTON (src_swb)->label,
+				       SHEET_WIDGET_BUTTON (src_swb)->markup);
 }
 
 static void
 sheet_widget_button_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
 {
+	// FIXME: markup
 	SheetWidgetButton *swb = SHEET_WIDGET_BUTTON (so);
 	gsf_xml_out_add_cstr (output, "Label", swb->label);
 }
@@ -519,6 +544,7 @@ sheet_widget_button_write_xml_dom (SheetObject const	 *so,
 				   XmlParseContext const *context,
 				   xmlNodePtr tree)
 {
+	// FIXME: markup
 	SheetWidgetButton *swb = SHEET_WIDGET_BUTTON (so);
 
 	xml_node_set_cstr (tree, "Label", swb->label);
@@ -531,6 +557,7 @@ sheet_widget_button_read_xml_dom (SheetObject *so, char const *typename,
 				  XmlParseContext const *context,
 				  xmlNodePtr tree)
 {
+	// FIXME: markup
 	SheetWidgetButton *swb = SHEET_WIDGET_BUTTON (so);
 	gchar *label = (gchar *)xmlGetProp (tree, (xmlChar *)"Label");
 
@@ -551,6 +578,9 @@ sheet_widget_button_set_label (SheetObject *so, char const *str)
 	GList *ptr;
 	SheetWidgetButton *swb = SHEET_WIDGET_BUTTON (so);
 
+	if (str == swb->label)
+		return;
+
 	g_free (swb->label);
 	swb->label = g_strdup (str);
 
@@ -560,14 +590,92 @@ sheet_widget_button_set_label (SheetObject *so, char const *str)
  	}
 }
 
+void
+sheet_widget_button_set_markup (SheetObject *so, PangoAttrList *markup)
+{
+	GList *ptr;
+	SheetWidgetButton *swb = SHEET_WIDGET_BUTTON (so);
+
+	if (markup == swb->markup)
+		return;
+
+	if (swb->markup) pango_attr_list_unref (swb->markup);
+	swb->markup = markup;
+	if (markup) pango_attr_list_ref (markup);
+
+ 	for (ptr = swb->sow.realized_list; ptr != NULL; ptr = ptr->next) {
+ 		FooCanvasWidget *item = FOO_CANVAS_WIDGET (ptr->data);
+		gtk_label_set_attributes (GTK_LABEL (GTK_BIN (item->widget)->child),
+					  swb->markup);
+ 	}
+}
+
+enum {
+	SOB_PROP_0 = 0,
+	SOB_PROP_TEXT,
+	SOB_PROP_MARKUP
+};
+
+static void
+sheet_widget_button_get_property (GObject *obj, guint param_id,
+				  GValue  *value, GParamSpec *pspec)
+{
+	SheetWidgetButton *swb = SHEET_WIDGET_BUTTON (obj);
+
+	switch (param_id) {
+	case SOB_PROP_TEXT:
+		g_value_set_string (value, swb->label);
+		break;
+	case SOB_PROP_MARKUP:
+		g_value_set_boxed (value, swb->markup);
+		break;
+	default :
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		break;
+	}
+}
+
+static void
+sheet_widget_button_set_property (GObject *obj, guint param_id,
+				  GValue const *value, GParamSpec *pspec)
+{
+	SheetWidgetButton *swb = SHEET_WIDGET_BUTTON (obj);
+
+	switch (param_id) {
+	case SOB_PROP_TEXT:
+		sheet_widget_button_set_label (SHEET_OBJECT (swb),
+					       g_value_get_string (value));
+		break;
+	case SOB_PROP_MARKUP:
+		sheet_widget_button_set_markup (SHEET_OBJECT (swb),
+						g_value_peek_pointer (value));
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		return;
+	}
+}
+
 SOW_MAKE_TYPE (button, Button,
 	       NULL,
 	       NULL,
 	       NULL,
-	       &sheet_widget_button_copy,
-	       &sheet_widget_button_write_xml_dom,
-	       &sheet_widget_button_read_xml_dom,
-	       &sheet_widget_button_write_xml_sax)
+	       sheet_widget_button_copy,
+	       sheet_widget_button_write_xml_dom,
+	       sheet_widget_button_read_xml_dom,
+	       sheet_widget_button_write_xml_sax,
+	       sheet_widget_button_get_property,
+	       sheet_widget_button_set_property,
+	       {
+		       g_object_class_install_property
+			       (object_class, SOB_PROP_TEXT,
+				g_param_spec_string ("text", NULL, NULL, NULL,
+						     (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+		       g_object_class_install_property
+			       (object_class, SOB_PROP_MARKUP,
+				g_param_spec_boxed ("markup", NULL, NULL, PANGO_TYPE_ATTR_LIST,
+						    (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+	       })
 
 /****************************************************************************/
 #define SHEET_WIDGET_ADJUSTMENT_TYPE	(sheet_widget_adjustment_get_type())
@@ -586,7 +694,7 @@ typedef SheetObjectWidgetClass SheetWidgetAdjustmentClass;
 static GType sheet_widget_adjustment_get_type (void);
 
 static void
-sheet_widget_adjustment_set_value (SheetWidgetAdjustment *swa, gfloat new_val)
+sheet_widget_adjustment_set_value (SheetWidgetAdjustment *swa, double new_val)
 {
 	if (swa->being_updated)
 		return;
@@ -1007,7 +1115,10 @@ SOW_MAKE_TYPE (adjustment, Adjustment,
 	       &sheet_widget_adjustment_copy,
 	       &sheet_widget_adjustment_write_xml_dom,
 	       &sheet_widget_adjustment_read_xml_dom,
-	       &sheet_widget_adjustment_write_xml_sax)
+	       &sheet_widget_adjustment_write_xml_sax,
+	       NULL,
+	       NULL,
+	       {})
 
 /****************************************************************************/
 #define SHEET_WIDGET_SCROLLBAR_TYPE	(sheet_widget_scrollbar_get_type ())
@@ -1537,6 +1648,9 @@ sheet_widget_checkbox_set_label	(SheetObject *so, char const *str)
 	GList *list;
 	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (so);
 
+	if (str == swc->label)
+		return;
+
 	g_free (swc->label);
 	swc->label = g_strdup (str);
 
@@ -1554,7 +1668,10 @@ SOW_MAKE_TYPE (checkbox, Checkbox,
 	       &sheet_widget_checkbox_copy,
 	       &sheet_widget_checkbox_write_xml_dom,
 	       &sheet_widget_checkbox_read_xml_dom,
-	       &sheet_widget_checkbox_write_xml_sax)
+	       &sheet_widget_checkbox_write_xml_sax,
+	       NULL,
+	       NULL,
+	       {})
 
 /****************************************************************************/
 typedef SheetWidgetCheckbox		SheetWidgetToggleButton;
@@ -1703,6 +1820,9 @@ sheet_widget_radio_button_set_label (SheetObject *so, char const *str)
 	GList *list;
 	SheetWidgetRadioButton *swrb = SHEET_WIDGET_RADIO_BUTTON (so);
 
+	if (str == swrb->label)
+		return;
+
 	g_free (swrb->label);
 	swrb->label = g_strdup (str);
 
@@ -1720,7 +1840,10 @@ SOW_MAKE_TYPE (radio_button, RadioButton,
 	       NULL,
 	       NULL,
 	       NULL,
-	       NULL)
+	       NULL,
+	       NULL,
+	       NULL,
+	       {})
 
 /****************************************************************************/
 #define SHEET_WIDGET_LIST_BASE_TYPE     (sheet_widget_list_base_get_type ())
@@ -1901,7 +2024,10 @@ SOW_MAKE_TYPE (list_base, ListBase,
 	       NULL,
 	       &sheet_widget_list_base_write_xml_dom,
 	       &sheet_widget_list_base_read_xml_dom,
-	       &sheet_widget_list_base_write_xml_sax)
+	       &sheet_widget_list_base_write_xml_sax,
+	       NULL,
+	       NULL,
+	       {})
 
 /****************************************************************************/
 #define SHEET_WIDGET_LIST_TYPE	(sheet_widget_list_get_type ())

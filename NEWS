@@ -17,6 +17,7 @@ Morten:
 	* Revive logic to add missing parenthesis in parser.
 	* Fix evil timing issue in about dialog.  [#155268]
 	* Fix window menu in case of "_" in names.  [#155235]
+	* Add support for setting text and markup in buttons.
 
 --------------------------------------------------------------------------
 
