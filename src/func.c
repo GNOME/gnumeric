@@ -789,3 +789,40 @@ function_dump_defs (const char *filename)
 
 	fclose (output_file);
 }
+
+gboolean
+function_is_unused (FunctionDefinition *fndef)
+{
+	Symbol *sym;
+
+	g_return_val_if_fail (fndef != NULL, FALSE);
+	g_return_val_if_fail (fndef->name != NULL, FALSE);
+	
+	sym = symbol_lookup (global_symbol_table, fndef->name);
+
+	if (!sym)
+		return FALSE;
+
+	return symbol_is_unused (sym);
+}
+
+void
+function_remove (FunctionCategory   *parent,
+		 FunctionDefinition *fndef)
+{
+	Symbol *sym;
+
+	g_return_if_fail (fndef != NULL);
+	g_return_if_fail (parent != NULL);
+	g_return_if_fail (function_is_unused (fndef));
+
+	sym = symbol_lookup (global_symbol_table, fndef->name);
+	g_return_if_fail (sym != NULL);
+
+	symbol_remove (global_symbol_table, sym);
+	parent->functions = g_list_remove (parent->functions, fndef);
+
+	fndef->fn_type = -1;
+	g_free (fndef);
+}
+

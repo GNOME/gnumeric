@@ -26,6 +26,8 @@ Symbol      *symbol_lookup         (SymbolTable *st, const char *str);
 Symbol      *symbol_lookup_substr  (SymbolTable *st, const char *buffer, int len);
 Symbol      *symbol_install        (SymbolTable *st, const char *str,
 				    SymbolType type, void *data);
+void         symbol_remove         (SymbolTable *st, Symbol *);
+gboolean     symbol_is_unused      (Symbol *);
 
 void         symbol_ref            (Symbol *);
 void         symbol_unref          (Symbol *);

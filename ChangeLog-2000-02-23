@@ -1,3 +1,9 @@
+2000-01-03  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/func.c (function_remove, function_is_unused): implement.
+
+	* src/symbol.c (symbol_is_unused, symbol_remove): implement.
+
 2000-01-03  Gregory McLean <gregm@gnu.org>
 
 	* gnumeric.spec.in: Synced with my spec tree. This is in sync with

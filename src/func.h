@@ -121,6 +121,10 @@ FunctionDefinition *function_add_nodes (FunctionCategory *parent,
 					char **help,
 					FunctionNodes *fn);
 
+gboolean            function_is_unused (FunctionDefinition *fndef);
+void                function_remove    (FunctionCategory   *parent,
+					FunctionDefinition *fndef);
+
 gpointer function_def_get_fn           (FunctionDefinition *fndef);
 void     function_def_set_user_data    (FunctionDefinition *fndef,
 					gpointer user_data);

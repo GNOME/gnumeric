@@ -67,7 +67,7 @@ symbol_install (SymbolTable *st, const char *str, SymbolType type, void *data)
 	g_return_val_if_fail (st != NULL, NULL);
 
 	sym = (Symbol *) g_hash_table_lookup (st->hash, str);
-	if (sym) printf ("Symbol [%s] redefined.\n", str);
+	if (sym) printf ("(leak) Symbol [%s] redefined.\n", str);
 
 	sym = g_new (Symbol, 1);
 	sym->ref_count = 1;
@@ -80,6 +80,38 @@ symbol_install (SymbolTable *st, const char *str, SymbolType type, void *data)
 	
 	return sym;
 }
+
+gboolean
+symbol_is_unused (Symbol *sym)
+{
+	g_return_val_if_fail (sym != NULL, FALSE);
+	g_return_val_if_fail (sym->ref_count < 0, FALSE);
+
+	return sym->ref_count <= 1;
+}
+
+void
+symbol_remove (SymbolTable *st, Symbol *sym)
+{
+	g_return_if_fail (st != NULL);
+	g_return_if_fail (sym != NULL);
+	g_return_if_fail (st->hash != NULL);
+	g_return_if_fail (sym->ref_count < 0);
+	g_return_if_fail (symbol_is_unused (sym));
+
+	g_hash_table_remove (st->hash, sym);
+
+	if (sym->str)
+		g_free (sym->str);
+	sym->str  = NULL;
+	sym->data = NULL;
+	sym->type = 0;
+	sym->ref_count = -1;
+	sym->st = NULL;
+
+	g_free (sym);
+}
+
 
 /**
  * symbol_ref:
