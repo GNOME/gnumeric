@@ -488,8 +488,10 @@ workbook_is_pristine (Workbook *wb)
 		return FALSE;
 
 	if (wb->names || wb->formula_cell_list ||
-	    wb->eval_queue || !wb->needs_name ||
-	    wb->bonobo_regions)
+#ifdef ENABLE_BONOBO
+	    wb->bonobo_regions ||
+#endif
+	    wb->eval_queue || !wb->needs_name)
 		return FALSE;
 
 	/* Check if we seem to contain anything */
