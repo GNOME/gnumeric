@@ -246,7 +246,7 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 			gboolean  dummy, valid;
 
 			val = gnm_expr_eval (expr, eval_pos_init_cell (&ep, cell),
-					 GNM_EXPR_EVAL_STRICT);
+					     GNM_EXPR_EVAL_STRICT);
 			valid = value_get_as_bool (val, &dummy);
 			value_release (val);
 
@@ -261,6 +261,7 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 				g_return_val_if_fail (v->expr[1] != NULL, VALIDATION_STATUS_VALID);
 
 				gnm_expr_ref (v->expr[1]);
+				gnm_expr_unref (expr);
 				expr = gnm_expr_new_binary (val_expr,
 					(v->op == VALIDATION_OP_BETWEEN) ? GNM_EXPR_OP_LTE : GNM_EXPR_OP_GT,
 					v->expr[1]);
@@ -277,6 +278,7 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 				parse_pos_init_evalpos (&pp, &ep));
 			msg = g_strdup_printf (_("%s is not true."), expr_str);
 			g_free (expr_str);
+			gnm_expr_unref (expr);
 		}
 	}
 
