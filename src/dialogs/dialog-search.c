@@ -38,16 +38,8 @@
 #include <selection.h>
 
 #include <widgets/gnumeric-expr-entry.h>
-#include <gal/widgets/e-cursors.h>
-#include <gal/widgets/e-unicode.h>
-#include <gal/e-table/e-table-simple.h>
-#include <gal/e-table/e-table.h>
-#include <gal/e-table/e-table-scrolled.h>
 #include <libgnomeui/gnome-entry.h>
 #include <glade/glade.h>
-
-/*#include <gal/util/e-unicode-i18n.h>*/
-#define U_(x)	_(x)
 
 #define SEARCH_KEY "search-dialog"
 
@@ -69,10 +61,8 @@ typedef struct {
 	GtkNotebook *notebook;
 	int notebook_matches_page;
 
-	ETable *e_table;
-	ETableScrolled *e_table_scrolled;
-	ETableModel *e_table_model;
-	GHashTable *e_table_strings;
+	GtkTreeView *matches_table;
+	GtkTreeModel *matches_model;
 
 	GPtrArray *matches;
 } DialogState;
@@ -98,135 +88,16 @@ static const char *direction_group[] = {
 
 /* ------------------------------------------------------------------------- */
 
-static int
-col_count (ETableModel *etc, void *data)
-{
-	return 4;
-}
-
-static int
-row_count (ETableModel *etc, void *data)
-{
-	DialogState *dd = data;
-	return dd->matches->len;
-}
-
-static void *
-value_at (ETableModel *etc, int col, int row, void *data)
-{
-	DialogState *dd = data;
-	SearchFilterResult *item = g_ptr_array_index (dd->matches, row);
-	Cell *cell = item->cell;
-	char *result, *cached;
-
-	switch (col) {
-	case COL_SHEET:
-		result = e_utf8_from_locale_string (item->ep.sheet->name_unquoted);
-		break;
-
-	case COL_CELL:
-		result = e_utf8_from_locale_string (cellpos_as_string (&item->ep.eval));
-		break;
-
-	case COL_TYPE:
-		if (cell) {
-			Value *v = cell->value;
-
-			gboolean is_expr = cell_has_expr (cell);
-			gboolean is_value = !is_expr && !cell_is_blank (cell) && v;
-
-			if (is_expr)
-				return (void *)U_("Expression");
-			else if (is_value && v->type == VALUE_STRING)
-				return (void *)U_("String");
-			else if (is_value && v->type == VALUE_INTEGER)
-				return (void *)U_("Integer");
-			else if (is_value && v->type == VALUE_FLOAT)
-				return (void *)U_("Number");
-			else
-				return (void *)U_("Other value");
-		} else
-			return (void *)U_("Comment");
-
-	case COL_CONTENTS:
-		if (cell) {
-			char *s;
-
-			s = cell_get_entered_text (cell);
-			result = e_utf8_from_locale_string (s);
-			g_free (s);
-		} else {
-			result = e_utf8_from_locale_string (cell_comment_text_get (item->comment));
-		}
-		break;
-
-	default:
-		return NULL;
-	}
-
-	cached = g_hash_table_lookup (dd->e_table_strings, result);
-	if (cached) {
-		g_free (result);
-		return cached;
-	}
-
-	g_hash_table_insert (dd->e_table_strings, result, result);
-	return result;
-}
-
-static void *
-duplicate_value (ETableModel *etc, int col, const void *value, void *data)
-{
-	return g_strdup (value);
-}
-
-static void
-free_value (ETableModel *etc, int col, void *value, void *data)
-{
-	g_free (value);
-}
-
-static void *
-initialize_value (ETableModel *etc, int col, void *data)
-{
-	return g_strdup ("");
-}
-
-static gboolean
-value_is_empty (ETableModel *etc, int col, const void *value, void *data)
-{
-	return !(value && *(char *)value);
-}
-
-static char *
-value_to_string (ETableModel *etc, int col, const void *value, void *data)
-{
-	return g_strdup (value);
-}
-
-/* ------------------------------------------------------------------------- */
-
-static gboolean
-cb_clear_strings (gpointer	key, gpointer value, gpointer user_data)
-{
-	g_free (key);
-	return TRUE;
-}
-
-static void
-clear_strings (DialogState *dd)
-{
-	g_hash_table_foreach_remove (dd->e_table_strings, cb_clear_strings, NULL);
-}
-
 static void
 free_state (DialogState *dd)
 {
 	search_filter_matching_free (dd->matches);
+#if 0
 	clear_strings (dd);
 	g_hash_table_destroy (dd->e_table_strings);
+#endif
 	g_object_unref (G_OBJECT (dd->gui));
-	gtk_object_unref (GTK_OBJECT (dd->e_table_model));
+	g_object_unref (G_OBJECT (dd->matches_model));
 	memset (dd, 0, sizeof (*dd));
 	g_free (dd);
 }
@@ -271,10 +142,19 @@ is_checked (GladeXML *gui, const char *name)
 }
 
 static void
-cursor_change (ETable *et, int row, DialogState *dd)
+cursor_change (GtkTreeView *tree_view, DialogState *dd)
 {
-	int matchno = row;
+	int matchno;
 	int lastmatch = dd->matches->len - 1;
+	GtkTreePath *path;
+
+	gtk_tree_view_get_cursor (tree_view, &path, NULL);
+	if (path) {
+		matchno = gtk_tree_path_get_indices (path)[0];
+		gtk_tree_path_free (path);
+	} else {
+		matchno = -1;
+	}
 
 	gtk_widget_set_sensitive (dd->prev_button, matchno > 0);
 	gtk_widget_set_sensitive (dd->next_button,
@@ -307,7 +187,7 @@ search_clicked (GtkWidget *widget, DialogState *dd)
 
 	sr = search_replace_new ();
 
-	sr->search_text = g_strdup (gtk_entry_get_text (GTK_ENTRY 
+	sr->search_text = g_strdup (gtk_entry_get_text (GTK_ENTRY
 							(gnome_entry_gtk_entry (dd->gentry))));
 	sr->replace_text = NULL;
 
@@ -362,28 +242,63 @@ search_clicked (GtkWidget *widget, DialogState *dd)
 	}
 
 	{
+		unsigned int i;
+		GtkTreeStore *tree_store = GTK_TREE_STORE (dd->matches_model);
 		GPtrArray *cells = search_collect_cells (sr, wb_control_cur_sheet (wbc));
+
 		search_filter_matching_free (dd->matches);
 		dd->matches = search_filter_matching (sr, cells);
 		search_collect_cells_free (cells);
 
-		e_table_model_pre_change (dd->e_table_model);
-		e_table_model_changed (dd->e_table_model);
-		clear_strings (dd);
+		gtk_tree_store_clear (tree_store);
+		for (i = 0; i < dd->matches->len; i++) {
+			SearchFilterResult *item = g_ptr_array_index (dd->matches, i);
+			Cell *cell = item->cell;
+			GtkTreeIter iter;
+			const char *type;
+			char *content;
 
-		/*
-		 * The following seems necessary in order to force the scrollbar
-		 * to resize.
-		 */
-		gtk_widget_queue_resize (GTK_WIDGET (dd->e_table_scrolled));
+			if (cell) {
+				Value *v = cell->value;
 
-		e_selection_model_select_single_row (E_SELECTION_MODEL (dd->e_table->selection),
-						     0);
-		e_table_set_cursor_row (dd->e_table, 0);
+				gboolean is_expr = cell_has_expr (cell);
+				gboolean is_value = !is_expr && !cell_is_blank (cell) && v;
+
+				if (is_expr)
+					type = _("Expression");
+				else if (is_value && v->type == VALUE_STRING)
+					type = _("String");
+				else if (is_value && v->type == VALUE_INTEGER)
+					type = _("Integer");
+				else if (is_value && v->type == VALUE_FLOAT)
+					type = _("Number");
+				else
+					type = _("Other value");
+				content = cell_get_entered_text (cell);
+			} else {
+				type = _("Comment");
+				content = g_strdup (cell_comment_text_get (item->comment));
+			}
+
+			gtk_tree_store_append (tree_store, &iter, NULL);
+			gtk_tree_store_set (tree_store, &iter, COL_SHEET,
+					    item->ep.sheet->name_unquoted, -1);
+			gtk_tree_store_set (tree_store, &iter, COL_CELL,
+					    cellpos_as_string (&item->ep.eval), -1);
+			gtk_tree_store_set (tree_store, &iter, COL_TYPE,
+					    type, -1);
+			gtk_tree_store_set (tree_store, &iter, COL_CONTENTS,
+					    content, -1);
+
+			g_free (content);
+		}
+
+		/* Set sensitivity of buttons.  */
+		cursor_change (dd->matches_table, dd);
 	}
 
 	gtk_notebook_set_page (dd->notebook, dd->notebook_matches_page);
-	gtk_widget_grab_focus (GTK_WIDGET (dd->e_table_scrolled));
+	gtk_widget_grab_focus (GTK_WIDGET (dd->matches_table));
 
 	/* Save the contents of the search in the gnome-entry. */
 	gnome_entry_append_history (dd->gentry, TRUE, sr->search_text);
@@ -391,18 +306,16 @@ search_clicked (GtkWidget *widget, DialogState *dd)
 	search_replace_free (sr);
 }
 
-
 static void
 prev_next_clicked (DialogState *dd, int delta)
 {
-	int current = e_table_get_cursor_row (dd->e_table);
+	gboolean res;
+	GtkWidget *w = GTK_WIDGET (dd->matches_table);
 
-	if (current != -1) {
-		current += delta;
-		e_selection_model_select_single_row (E_SELECTION_MODEL (dd->e_table->selection),
-						     current);
-		e_table_set_cursor_row (dd->e_table, current);
-	}
+	gtk_widget_grab_focus (w);
+	g_signal_emit_by_name (w, "move_cursor",
+			       GTK_MOVEMENT_DISPLAY_LINES, delta,
+			       &res);
 }
 
 static void
@@ -421,9 +334,42 @@ static void
 cb_focus_on_entry (GtkWidget *widget, GtkWidget *entry)
 {
         if (GTK_TOGGLE_BUTTON (widget)->active)
-		gtk_widget_grab_focus (GTK_WIDGET (gnm_expr_entry_get_entry 
+		gtk_widget_grab_focus (GTK_WIDGET (gnm_expr_entry_get_entry
 						   (GNUMERIC_EXPR_ENTRY (entry))));
 }
+
+static const struct {
+	const char *title;
+	const char *type;
+} columns[] = {
+	{ N_("Sheet"), "text" },
+	{ N_("Cell"), "text" },
+	{ N_("Type"), "text" },
+	{ N_("Content"), "text" },
+	{ 0, 0 }
+};
+
+static GtkTreeView *
+make_matches_table (GtkTreeModel *model)
+{
+	GtkTreeView *tree_view;
+	int i;
+
+	tree_view = GTK_TREE_VIEW (gtk_tree_view_new_with_model (model));
+
+	for (i = 0; columns[i].title; i++) {
+		GtkCellRenderer *cell = gtk_cell_renderer_text_new ();
+		GtkTreeViewColumn *column =
+			gtk_tree_view_column_new_with_attributes (_(columns[i].title), cell,
+								  columns[i].type, i,
+								  NULL);
+		gtk_tree_view_column_set_sort_column_id (column, i);
+		gtk_tree_view_append_column (tree_view, column);
+	}
+
+	return tree_view;
+}
+
 
 void
 dialog_search (WorkbookControlGUI *wbcg)
@@ -432,17 +378,6 @@ dialog_search (WorkbookControlGUI *wbcg)
 	GtkDialog *dialog;
 	DialogState *dd;
 	GtkTable *table;
-	char *selection_text;
-	const char *spec = "\
-<ETableSpecification cursor-mode=\"line\"\
-                     selection-mode=\"single\"\
-                     allow_grouping=\"false\"\
-                     draw-focus=\"true\">\
-  <ETableColumn model_col=\"0\" _title=\"Sheet\" minimum_width=\"50\" resizable=\"true\" cell=\"string\" compare=\"string\"/>\n\
-  <ETableColumn model_col=\"1\" _title=\"Cell\" minimum_width=\"40\" resizable=\"true\" cell=\"string\" compare=\"string\"/>\n\
-  <ETableColumn model_col=\"2\" _title=\"Type\" minimum_width=\"70\" resizable=\"true\" cell=\"string\" compare=\"string\"/>\n\
-  <ETableColumn model_col=\"3\" _title=\"Content\" minimum_width=\"300\" resizable=\"true\" cell=\"string\" compare=\"string\"/>\n\
-</ETableSpecification>";
 
 	g_return_if_fail (wbcg != NULL);
 
@@ -464,7 +399,6 @@ dialog_search (WorkbookControlGUI *wbcg)
 	dd->gui = gui;
 	dd->dialog = dialog;
 	dd->matches = g_ptr_array_new ();
-	dd->e_table_strings = g_hash_table_new (g_str_hash, g_str_equal);
 
 	dd->prev_button = glade_xml_get_widget (gui, "prev_button");
 	dd->next_button = glade_xml_get_widget (gui, "next_button");
@@ -482,12 +416,14 @@ dialog_search (WorkbookControlGUI *wbcg)
 			  1, 2, 6, 7,
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
-	selection_text = selection_to_string (
-		wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg)),
-		TRUE);
-	gnm_expr_entry_load_from_text  (dd->rangetext, selection_text);
-	g_free (selection_text);
-	
+	{
+		char *selection_text =
+			selection_to_string (
+				wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg)),
+				TRUE);
+		gnm_expr_entry_load_from_text  (dd->rangetext, selection_text);
+		g_free (selection_text);
+	}
 
 	dd->gentry = GNOME_ENTRY (gnome_entry_new ("search_entry"));
 	gtk_table_attach (table, GTK_WIDGET (dd->gentry),
@@ -498,33 +434,32 @@ dialog_search (WorkbookControlGUI *wbcg)
 	gnumeric_editable_enters
 		(GTK_WINDOW (dialog), gnome_entry_gtk_entry (dd->gentry));
 
-	dd->e_table_model =
-		e_table_simple_new (col_count, row_count, NULL,
-				    value_at, NULL, NULL,
-				    NULL, NULL,
-				    duplicate_value, free_value,
-				    initialize_value, value_is_empty,
-				    value_to_string,
-				    dd);
-	dd->e_table_scrolled =
-		E_TABLE_SCROLLED (
-			e_table_scrolled_new (dd->e_table_model,
-					      NULL, spec, NULL));
-	dd->e_table = e_table_scrolled_get_table (dd->e_table_scrolled);
-	/* This makes value_at not called just to determine row height.  */
-	gtk_object_set (GTK_OBJECT (dd->e_table),
-			"uniform_row_height", 1,
-			NULL);
-	e_scroll_frame_set_policy (E_SCROLL_FRAME (dd->e_table_scrolled),
-				   GTK_POLICY_NEVER,
-				   GTK_POLICY_ALWAYS);
-	gtk_box_pack_start (GTK_BOX (glade_xml_get_widget (gui, "matches_vbox")),
-			    GTK_WIDGET (dd->e_table_scrolled),
-			    TRUE, TRUE, 0);
+	dd->matches_model = GTK_TREE_MODEL
+		(gtk_tree_store_new (4,
+				     G_TYPE_STRING,
+				     G_TYPE_STRING,
+				     G_TYPE_STRING,
+				     G_TYPE_STRING));
+	dd->matches_table = make_matches_table (dd->matches_model);
 
+	{
+		GtkWidget *scrolled_window =
+			gtk_scrolled_window_new (NULL, NULL);
+		gtk_container_add (GTK_CONTAINER (scrolled_window),
+				   GTK_WIDGET (dd->matches_table));
+		gtk_box_pack_start (GTK_BOX (glade_xml_get_widget (gui, "matches_vbox")),
+				    scrolled_window,
+				    TRUE, TRUE, 0);
+		gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
+						GTK_POLICY_NEVER,
+						GTK_POLICY_ALWAYS);
+	}
 
-	g_signal_connect (G_OBJECT (dd->e_table),
-		"cursor_change",
+	/* Set sensitivity of buttons.  */
+	cursor_change (dd->matches_table, dd);
+
+	g_signal_connect (G_OBJECT (dd->matches_table),
+		"cursor_changed",
 		G_CALLBACK (cursor_change), dd);
 	g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "search_button")),
 		"clicked",
@@ -548,12 +483,11 @@ dialog_search (WorkbookControlGUI *wbcg)
 		"toggled",
 		G_CALLBACK (cb_focus_on_entry), dd->rangetext);
 
-#warning FIXME: Add correct helpfile address 
+#warning FIXME: Add correct helpfile address
 	gnumeric_init_help_button (
 		glade_xml_get_widget (gui, "help_button"),
 		"search.html");
 
-	cursor_change (dd->e_table, 0, dd);
 	wbcg_edit_attach_guru_with_unfocused_rs (wbcg, GTK_WIDGET (dialog), dd->rangetext);
 	non_model_dialog (wbcg, dialog, SEARCH_KEY);
 }
