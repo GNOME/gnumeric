@@ -6,6 +6,8 @@
 
 	* configure.in : Tweak to produce a semi reasonable gnumericConf.sh
 	  remove gnumeric-config.
+	* Makefile.am : ditto.
+	* gnumericConf.sh : ditto.
 
 	* src/sort.c (sort_range) : Use sheet_cell_remove_simple.
 
