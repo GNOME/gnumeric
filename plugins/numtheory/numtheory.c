@@ -71,7 +71,7 @@ ithprime (int i, int *res)
 
 		candidate = prime_table[computed - 1];
 		/*
-		 * Note, that the dandidate is odd since we filled in the first
+		 * Note, that the candidate is odd since we filled in the first
 		 * two prime numbers.
 		 */
 		while (i > computed) {
