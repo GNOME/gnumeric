@@ -197,6 +197,8 @@ dialog_autosave (WorkbookControlGUI *wbcg)
 			    GTK_SIGNAL_FUNC (cb_autosave_cancel), state);
 	gtk_signal_connect (GTK_OBJECT (state->help_button), "clicked",
 			    GTK_SIGNAL_FUNC (cb_autosave_help), state);
+	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
+			    GTK_SIGNAL_FUNC (dialog_autosave_destroy), state);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->autosave_on_off),
 				      wbcg->autosave);

@@ -20,6 +20,7 @@
 #include <gui-util.h>
 #include <analysis-tools.h>
 #include <value.h>
+#include <workbook-edit.h>
 
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
@@ -31,6 +32,8 @@
 #define NO_RECORDS_FOUND  3
 
 #define ADVANCED_FILTER_KEY         "advanced-filter-dialog"
+
+ANALYSISTOOLS_OUTPUT_GROUP       /* defined in analysis-tools.h */
 
 typedef struct {
 	GENERIC_TOOL_STATE

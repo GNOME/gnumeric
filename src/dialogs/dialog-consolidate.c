@@ -101,7 +101,6 @@ construct_consolidate (ConsolidateState *state)
 	Consolidate     *cs   = consolidate_new ();
 	ConsolidateMode  mode = 0;
 	char            *func;
-	Range            r;
 	Value            *range_value;
 	int              i;
 
@@ -370,6 +369,7 @@ cb_delete_clicked (GtkButton *button, ConsolidateState *state)
 	dialog_set_button_sensitivity (NULL, state);
 }
 
+static void
 cb_help_clicked (GtkButton *button, ConsolidateState *state)
 {
 		gnumeric_help_display (CONSOLIDATE_HELP);

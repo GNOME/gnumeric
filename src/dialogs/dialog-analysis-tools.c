@@ -57,6 +57,14 @@
 #define ANOVA_SINGLE_KEY      "analysistools-anova-single-factor-dialog"
 #define RANDOM_KEY            "analysistools-random-dialog"
 
+ANALYSISTOOLS_OUTPUT_GROUP       /* defined in analysis-tools.h */
+
+static const char *grouped_by_group[] = {
+	"grouped_by_row",
+	"grouped_by_col",
+	"grouped_by_area",
+	0
+};
 
 typedef struct {
 	GENERIC_TOOL_STATE

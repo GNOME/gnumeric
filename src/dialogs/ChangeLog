@@ -1,5 +1,26 @@
 2002-01-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* Makefile.am : add dialog-sheet-name.c
+	* dialog-sheet-name.c : extracted from dialog-simple-input.c
+	* dialog-advanced-filter.c : clean-up
+	* dialog-analysis-tools.c : clean-up
+	* dialog-autosave.c : clean-up
+	* dialog-consolidate.c : clean-up
+	* dialog-simple-input.c : clean-up
+
+2002-01-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* advanced-filter.glade : add padding to warnings
+	* dialog-advanced-filter.c (advanced_filter_ok_clicked_cb) : 
+	  provide information dialog if no records are found
+	(advanced_filter) : ditto
+	(advanced_filter_update_sensitivity_cb) : provide information
+	  messages in warning label
+	* dialog-sheet-order.c (populate_sheet_list) : disable drag
+	starts in sheet list and desensitize column header
+
+2002-01-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* advanced-filter.glade : port to gnome2 and redesign
 	* dialog-advanced-filter.c (filter) : change in-place-output
 	  handling and duplicate values rather than copying strings

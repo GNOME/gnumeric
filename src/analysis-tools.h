@@ -15,20 +15,13 @@ typedef enum {
 	GROUPED_BY_BIN = 3
 } group_by_t;
 
-static const char *grouped_by_group[] = {
-	"grouped_by_row",
-	"grouped_by_col",
-	"grouped_by_area",
-	0
-};
 
-
-static const char *output_group[] = {
-	"newsheet-button",
-	"newworkbook-button",
-	"outputrange-button",
-	"inplace-button",          /* only in advanced filter  */
-	0
+#define ANALYSISTOOLS_OUTPUT_GROUP static const char *output_group[] = {\
+	"newsheet-button",\
+	"newworkbook-button",\
+	"outputrange-button",\
+	"inplace-button",          /* only in advanced filter  */\
+	0\
 };
 
 typedef struct {
@@ -192,6 +185,7 @@ Value *gnumeric_expr_entry_parse_to_value (GnumericExprEntry *ee, Sheet *sheet);
 gboolean tool_destroy (GtkObject *w, GenericToolState  *state);
 void tool_set_focus (GtkWidget *window, GtkWidget *focus_widget, GenericToolState *state);
 void dialog_tool_init_outputs (GenericToolState *state, GtkSignalFunc sensitivity_cb);
+void dialog_tool_init_buttons (GenericToolState *state, GtkSignalFunc ok_function);
 void error_in_entry (GenericToolState *state, GtkWidget *entry, const char *err_str);
 int parse_output (GenericToolState *state, data_analysis_output_t *dao);
 

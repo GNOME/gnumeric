@@ -45,6 +45,7 @@ base_files =					\
 	dialog-printer-setup.c			\
 	dialog-search.c				\
 	dialog-search-replace.c			\
+	dialog-sheet-name.c			\
 	dialog-sheet-order.c			\
 	dialog-simple-input.c			\
 	dialog-solver.c				\

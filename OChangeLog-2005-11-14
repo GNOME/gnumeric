@@ -1,3 +1,8 @@
+2002-01-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/analysis-tools.h : add `warning' to GENERIC_TOOL_STATE
+	  and some clean-up
+	
 2002-01-31  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-control-gui.c (wbcg_focus_cur_scg) : warning

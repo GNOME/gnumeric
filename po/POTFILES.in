@@ -94,6 +94,7 @@ src/dialogs/dialog-plugin-manager.c
 src/dialogs/dialog-printer-setup.c
 src/dialogs/dialog-search-replace.c
 src/dialogs/dialog-search.c
+src/dialogs/dialog-sheet-name.c
 src/dialogs/dialog-sheet-order.c
 src/dialogs/dialog-simple-input.c
 src/dialogs/dialog-solver.c
