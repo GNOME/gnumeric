@@ -165,7 +165,6 @@ BC_R(ai)(ExcelChartHandler const *handle,
 		ExprTree *expr;
 		sheet.ver = s->ver;
 		sheet.wb = s->wb;
-		sheet.blank = 0;
 		sheet.gnum_sheet = NULL;
 		sheet.shared_formulae = NULL;
 

@@ -1,3 +1,9 @@
+1999-08-17  Michael Meeks  <michael@imaginator.com>
+
+	* ms-excel-read.[ch]: Remove sheet blank bit.
+
+	* ms-chart.c (BC_R): Remove sheet->blank reference.
+
 1999-08-16  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-formula-write.c (write_node) : Add OPER_PERCENT

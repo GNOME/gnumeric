@@ -12,7 +12,6 @@
 
 typedef struct _ExcelSheet
 {
-	gboolean blank;
 	Sheet *gnum_sheet;
 	struct _ExcelWorkbook *wb;
 	eBiff_version ver;

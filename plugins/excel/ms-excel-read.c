@@ -1366,12 +1366,13 @@ ms_excel_sheet_insert (ExcelSheet *sheet, int xfidx,
 		       int col, int row, const char *text)
 {
 	Cell *cell = sheet_cell_fetch (sheet->gnum_sheet, col, row);
+
 	/* NB. cell_set_text _certainly_ strdups *text */
-	if (text) {
-		sheet->blank = FALSE;
+	if (text)
 		cell_set_text_simple (cell, text);
-	} else
+	else
 		cell_set_text_simple (cell, "");
+
 	ms_excel_set_cell_xf (sheet, cell, xfidx);
 }
 
@@ -1630,8 +1631,6 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 
 	/* Set format */
 	ms_excel_set_cell_xf (sheet, cell, xf_index);
-
-	sheet->blank = FALSE;
 }
 
 BiffSharedFormula *
@@ -1654,7 +1653,6 @@ ms_excel_sheet_new (ExcelWorkbook *wb, char *name)
 	ExcelSheet *ans = (ExcelSheet *) g_malloc (sizeof (ExcelSheet));
 
 	ans->gnum_sheet = sheet_new (wb->gnum_wb, name);
-	ans->blank = TRUE;
 	ans->wb = wb;
 
 	ans->shared_formulae =
@@ -1673,7 +1671,6 @@ ms_excel_sheet_insert_val (ExcelSheet *sheet, int xfidx,
 	g_return_if_fail (sheet);
 
 	cell = sheet_cell_fetch (sheet->gnum_sheet, col, row);
-	sheet->blank = FALSE;
 	cell_set_value_simple (cell, v);
 	ms_excel_set_cell_xf (sheet, cell, xfidx);
 }
@@ -1687,7 +1684,6 @@ ms_excel_sheet_set_comment (ExcelSheet *sheet, int col, int row, char *text)
 			cell = sheet_cell_fetch (sheet->gnum_sheet, col, row);
 			cell_set_text_simple (cell, "");
 		}
-		sheet->blank = FALSE;
 		cell_set_comment (cell, text);
 	}
 }
@@ -1702,7 +1698,6 @@ ms_excel_sheet_append_comment (ExcelSheet *sheet, int col, int row, char *text)
 		if (cell->comment && cell->comment->comment &&
 		    cell->comment->comment->str) {
 			char *txt = g_strconcat (cell->comment->comment->str, text, NULL);
-			sheet->blank = FALSE;
 			cell_set_comment (cell, txt);
 			g_free (txt);
 		}
