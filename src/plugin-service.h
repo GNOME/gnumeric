@@ -4,15 +4,11 @@
 #include <glib.h>
 #include <gmodule.h>
 #include <libxml/tree.h>
-#include <gal/util/e-xml-utils.h>
-#include <bonobo/bonobo-ui-component.h>
 #include "gnumeric.h"
 #include "file.h"
 #include "func.h"
-#include "workbook-control-gui.h"
 #include "error-info.h"
 #include "plugin.h"
-
 
 #define GNM_PLUGIN_SERVICE_TYPE         (plugin_service_get_type ())
 #define GNM_PLUGIN_SERVICE(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_SERVICE_TYPE, PluginService))
@@ -97,6 +93,8 @@ typedef struct {
 GType plugin_service_plugin_loader_generate_type (PluginService *service,
                                                   ErrorInfo **ret_error);
 
+#ifdef WITH_BONOBO
+#include <workbook-control-gui.h>
 
 #define GNM_PLUGIN_SERVICE_UI_TYPE  (plugin_service_ui_get_type ())
 #define GNM_PLUGIN_SERVICE_UI(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_SERVICE_UI_TYPE, PluginServiceUI))
@@ -110,6 +108,7 @@ typedef struct {
 		BonoboUIComponent *uic, const char *cname, ErrorInfo **ret_error);
 } PluginServiceUICallbacks;
 
+#endif
 
 PluginService *plugin_service_new (xmlNode *tree, ErrorInfo **ret_error);
 const char    *plugin_service_get_id (PluginService *service);

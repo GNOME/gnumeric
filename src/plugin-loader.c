@@ -113,6 +113,7 @@ gnumeric_plugin_loader_unload_service_plugin_loader_real (GnumericPluginLoader *
 	cbs->plugin_func_get_loader_type = NULL;
 }
 
+#ifdef WITH_BONOBO
 static void
 gnumeric_plugin_loader_unload_service_ui_real (GnumericPluginLoader *loader,
                                                PluginService *service,
@@ -127,6 +128,7 @@ gnumeric_plugin_loader_unload_service_ui_real (GnumericPluginLoader *loader,
 	cbs = plugin_service_get_cbs (service);
 	cbs->plugin_func_exec_verb = NULL;
 }
+#endif
 
 static void
 gnumeric_plugin_loader_class_init (GObjectClass *gobject_class)
@@ -151,7 +153,11 @@ gnumeric_plugin_loader_class_init (GObjectClass *gobject_class)
 	plugin_loader_class->load_service_plugin_loader = NULL;
 	plugin_loader_class->unload_service_plugin_loader = gnumeric_plugin_loader_unload_service_plugin_loader_real;
 	plugin_loader_class->load_service_ui = NULL;
+#ifdef WITH_BONOBO
 	plugin_loader_class->unload_service_ui = gnumeric_plugin_loader_unload_service_ui_real;
+#else
+	plugin_loader_class->unload_service_ui = NULL;
+#endif
 }
 
 GSF_CLASS (GnumericPluginLoader, gnumeric_plugin_loader,
@@ -244,8 +250,10 @@ gnumeric_plugin_loader_load_service (GnumericPluginLoader *loader, PluginService
 		load_service_method = gnumeric_plugin_loader_class->load_service_function_group;
 	} else if (GNM_IS_PLUGIN_SERVICE_PLUGIN_LOADER (service)) {
 		load_service_method = gnumeric_plugin_loader_class->load_service_plugin_loader;
+#ifdef WITH_BONOBO
 	} else if (GNM_IS_PLUGIN_SERVICE_UI (service)) {
 		load_service_method = gnumeric_plugin_loader_class->load_service_ui;
+#endif
 	} else {
 		g_assert_not_reached ();
 	}
@@ -285,8 +293,10 @@ gnumeric_plugin_loader_unload_service (GnumericPluginLoader *loader, PluginServi
 		unload_service_method = gnumeric_plugin_loader_class->unload_service_function_group;
 	} else if (GNM_IS_PLUGIN_SERVICE_PLUGIN_LOADER (service)) {
 		unload_service_method = gnumeric_plugin_loader_class->unload_service_plugin_loader;
+#ifdef WITH_BONOBO
 	} else if (GNM_IS_PLUGIN_SERVICE_UI (service)) {
 		unload_service_method = gnumeric_plugin_loader_class->unload_service_ui;
+#endif
 	} else {
 		g_assert_not_reached ();
 	}

@@ -50,8 +50,9 @@ static void gnumeric_plugin_loader_module_load_service_file_opener (GnumericPlug
 static void gnumeric_plugin_loader_module_load_service_file_saver (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
 static void gnumeric_plugin_loader_module_load_service_function_group (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
 static void gnumeric_plugin_loader_module_load_service_plugin_loader (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
+#ifdef WITH_BONOBO
 static void gnumeric_plugin_loader_module_load_service_ui (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
-
+#endif
 
 static void
 gnumeric_plugin_loader_module_set_attributes (GnumericPluginLoader *loader,
@@ -191,7 +192,11 @@ gnumeric_plugin_loader_module_class_init (GObjectClass *gobject_class)
 	gnumeric_plugin_loader_class->load_service_file_saver = gnumeric_plugin_loader_module_load_service_file_saver;
 	gnumeric_plugin_loader_class->load_service_function_group = gnumeric_plugin_loader_module_load_service_function_group;
 	gnumeric_plugin_loader_class->load_service_plugin_loader = gnumeric_plugin_loader_module_load_service_plugin_loader;
+#ifdef WITH_BONOBO
 	gnumeric_plugin_loader_class->load_service_ui = gnumeric_plugin_loader_module_load_service_ui;
+#else
+	gnumeric_plugin_loader_class->load_service_ui = NULL;
+#endif
 }
 
 GSF_CLASS (GnumericPluginLoaderModule, gnumeric_plugin_loader_module,
@@ -588,6 +593,7 @@ gnumeric_plugin_loader_module_load_service_plugin_loader (GnumericPluginLoader *
 	g_free (func_name_get_loader_type);
 }
 
+#ifdef WITH_BONOBO
 /*
  * Service - ui
  */
@@ -674,3 +680,4 @@ gnumeric_plugin_loader_module_load_service_ui (GnumericPluginLoader *loader,
 	g_object_set_data_full (
 		G_OBJECT (service), "loader_data", loader_data, ui_loader_data_free);
 }
+#endif /* WITH_BONOBO */

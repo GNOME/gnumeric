@@ -1279,6 +1279,7 @@ GSF_CLASS (PluginServicePluginLoader, plugin_service_plugin_loader,
            GNM_PLUGIN_SERVICE_TYPE)
 
 
+#ifdef WITH_BONOBO
 /*
  * PluginServiceUI
  */
@@ -1460,6 +1461,7 @@ GSF_CLASS (PluginServiceUI, plugin_service_ui,
            plugin_service_ui_class_init, plugin_service_ui_init,
            GNM_PLUGIN_SERVICE_TYPE)
 
+#endif
 
 /* ---------------------------------------------------------------------- */
 
@@ -1505,8 +1507,10 @@ static struct {
 	{"file_opener", plugin_service_file_opener_get_type},
 	{"file_saver", plugin_service_file_saver_get_type},
 	{"function_group", plugin_service_function_group_get_type},
-	{"plugin_loader", plugin_service_plugin_loader_get_type},
-	{"ui", plugin_service_ui_get_type}
+	{"plugin_loader", plugin_service_plugin_loader_get_type}
+#ifdef WITH_BONOBO
+	,{"ui", plugin_service_ui_get_type}
+#endif
 };
 
 PluginService *
