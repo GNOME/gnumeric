@@ -1,5 +1,8 @@
 Gnumeric 1.1.6
 
+Jody:
+	* Have the stf dialog use the default font.
+
 Jukka:
 	* More solver enhancements:
 	  Reporting improvements.

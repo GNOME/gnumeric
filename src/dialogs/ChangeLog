@@ -1,3 +1,10 @@
+2002-05-30  Jody Goldberg <jody@gnome.org>
+
+	* dialog-stf-preview.c : don't try to get a translated font name,
+	  it confused the hell out of the translators.  Just use the gnumeric
+	  default font.  That has the best chance of being in the right
+	  locale.
+
 2002-05-30  Jukka Pekka  <jiivonen@cs145201.pp.htv.fi>
 
 	* dialog-solver.c (solver_reporting): Added dialog for

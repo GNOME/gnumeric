@@ -43,6 +43,7 @@
 #include <format.h>
 #include <number-match.h>
 #include <value.h>
+#include <style.h>
 
 /******************************************************************************************************************
  * BASIC DRAWING FUNCTIONS
@@ -335,7 +336,7 @@ stf_preview_render_row (RenderData_t *renderdata, double rowy, GList *row, int c
 
 			textwidth = stf_preview_draw_text (renderdata->group,
 							   text ? text : iterator->data,
-							   renderdata->font,
+							   gnumeric_default_font->gdk_font,
 							   TEXT_COLOR,
 							   xpos + (CELL_HPAD / 2),
 							   rowy + (CELL_VPAD / 2));
@@ -401,7 +402,7 @@ stf_preview_format_recalc_colwidths (RenderData_t *renderdata, GList *data, int 
 			}
 
 			/* New width calculation */
-			width = gdk_string_width (renderdata->font, subiterator->data) / renderdata->charwidth;
+			width = gdk_string_width (gnumeric_default_font->gdk_font, subiterator->data) / renderdata->charwidth;
 
 			if (width > widths[col])
 				widths[col] = width;
@@ -623,13 +624,8 @@ stf_preview_new (GnomeCanvas *canvas, gboolean formatted)
 	renderdata->group        = NULL;
 	renderdata->gridgroup    = NULL;
 
-	/* xgettext:
-	 * The name of the default font for this locale.
-	 * Preferably something with the correct encoding.
-	 */
-	renderdata->font       = gdk_fontset_load (_("fixed"));
-	renderdata->charwidth  = gdk_string_width (renderdata->font, "W");
-	renderdata->charheight = gdk_string_height (renderdata->font, "W");
+	renderdata->charwidth  = gdk_string_width (gnumeric_default_font->gdk_font, "W");
+	renderdata->charheight = gdk_string_height (gnumeric_default_font->gdk_font, "W");
 
 	renderdata->activecolumn = -1;
 
@@ -660,8 +656,6 @@ stf_preview_free (RenderData_t *renderdata)
 
 	stf_preview_colformats_clear (renderdata);
 	g_ptr_array_free (renderdata->colformats, TRUE);
-
-	gdk_font_unref (renderdata->font);
 
 	g_free (renderdata);
 }
@@ -745,7 +739,7 @@ stf_preview_colwidths_add (RenderData_t *renderdata, int width)
 		width = 0;
 
 	caption = g_strdup_printf (_(COLUMN_CAPTION), renderdata->colwidths->len);
-	captionwidth = gdk_string_width (renderdata->font, caption) / renderdata->charwidth;
+	captionwidth = gdk_string_width (gnumeric_default_font->gdk_font, caption) / renderdata->charwidth;
 
 	if (captionwidth > width)
 		g_array_append_val (renderdata->colwidths, captionwidth);
@@ -823,7 +817,7 @@ stf_preview_get_displayed_rowcount (RenderData_t *renderdata)
 			"height", &canvasheight,
 			NULL);
 
-	rowcount = (canvasheight / (gdk_string_height (renderdata->font, "Test"))) + 1;
+	rowcount = (canvasheight / renderdata->charheight) + 1;
 
 	return rowcount;
 }
