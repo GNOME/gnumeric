@@ -47,6 +47,7 @@
 #include <unistd.h>
 #include <locale.h>
 #include <signal.h>
+#include <string.h>
 
 #if defined (HAVE_IEEEFP_H) || defined (HAVE_IEEE754_H)
 /* Make sure we have this symbol defined, since the existance of either
@@ -1595,7 +1596,7 @@ gnm_float pgamma(gnm_float x, gnm_float alph, gnm_float scale, gboolean lower_ta
 
 /* NaNs propagated correctly */
 
-
+#ifdef NOMORE_FOR_THREADS
 static int chebyshev_init(gnm_float *dos, int nos, gnm_float eta)
 {
     int i, ii;
@@ -1615,6 +1616,7 @@ static int chebyshev_init(gnm_float *dos, int nos, gnm_float eta)
     }
     return i;
 }
+#endif /* NOMORE_FOR_THREADS */
 
 
 static gnm_float chebyshev_eval(gnm_float x, const gnm_float *a, const int n)

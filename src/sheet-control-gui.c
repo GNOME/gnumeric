@@ -2577,10 +2577,15 @@ GSF_CLASS (SheetControlGUI, sheet_control_gui,
 static gint
 cb_scg_queued_movement (SheetControlGUI *scg)
 {
+	Sheet const *sheet = ((SheetControl *)scg)->sheet;
 	scg->delayedMovement.timer = -1;
 	(*scg->delayedMovement.handler) (scg,
 		scg->delayedMovement.n, FALSE,
 		scg->delayedMovement.horiz);
+	if (wbcg_is_editing (scg->wbcg))
+		sheet_update_only_grid (sheet);
+	else
+		sheet_update (sheet);
 	return FALSE;
 }
 
@@ -2625,7 +2630,12 @@ scg_queue_movement (SheetControlGUI	*scg,
 
 	/* jumps are always immediate */
 	if (jump) {
+		Sheet const *sheet = ((SheetControl *)scg)->sheet;
 		(*handler) (scg, n, TRUE, horiz);
+		if (wbcg_is_editing (scg->wbcg))
+			sheet_update_only_grid (sheet);
+		else
+			sheet_update (sheet);
 		return;
 	}
 

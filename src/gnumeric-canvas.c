@@ -119,6 +119,7 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 	Sheet *sheet = sc->sheet;
 	SheetView *sv = sc->view;
 	WorkbookControlGUI *wbcg = gcanvas->simple.scg->wbcg;
+	gboolean delayed_movement = FALSE;
 	gboolean jump_to_bounds = event->state & GDK_CONTROL_MASK;
 	int state = gnumeric_filter_modifiers (event->state);
 	void (*movefn) (SheetControlGUI *, int n,
@@ -160,12 +161,12 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 	case GDK_Left:
 		if (event->state & SCROLL_LOCK_MASK)
 			scg_set_left_col (gcanvas->simple.scg, gcanvas->first.col - 1);
-		else if (transition_keys && jump_to_bounds)
-			scg_queue_movement 
-				(gcanvas->simple.scg, movefn,
+		else if (transition_keys && jump_to_bounds) {
+			delayed_movement = TRUE;
+			scg_queue_movement (gcanvas->simple.scg, movefn,
 				 -(gcanvas->last_visible.col-gcanvas->first.col),
 				 FALSE, TRUE);
-		else
+		} else
 			(*movefn) (gcanvas->simple.scg, -1, jump_to_bounds || end_mode, TRUE);
 		break;
 
@@ -173,12 +174,12 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 	case GDK_Right:
 		if (event->state & SCROLL_LOCK_MASK)
 			scg_set_left_col (gcanvas->simple.scg, gcanvas->first.col + 1);
-		else if (transition_keys && jump_to_bounds)
-			scg_queue_movement 
-				(gcanvas->simple.scg, movefn,
+		else if (transition_keys && jump_to_bounds) {
+			delayed_movement = TRUE;
+			scg_queue_movement (gcanvas->simple.scg, movefn,
 				 gcanvas->last_visible.col-gcanvas->first.col,
 				 FALSE, TRUE);
-		else
+		} else
 			(*movefn) (gcanvas->simple.scg, 1, jump_to_bounds || end_mode, TRUE);
 		break;
 
@@ -186,12 +187,12 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 	case GDK_Up:
 		if (event->state & SCROLL_LOCK_MASK)
 			scg_set_top_row (gcanvas->simple.scg, gcanvas->first.row - 1);
-		else if (transition_keys && jump_to_bounds)
-			scg_queue_movement 
-				(gcanvas->simple.scg, movefn,
+		else if (transition_keys && jump_to_bounds) {
+			delayed_movement = TRUE;
+			scg_queue_movement (gcanvas->simple.scg, movefn,
 				 -(gcanvas->last_visible.row-gcanvas->first.row),
 				 FALSE, FALSE);
-		else
+		} else
 			(*movefn) (gcanvas->simple.scg, -1, jump_to_bounds || end_mode, FALSE);
 		break;
 
@@ -199,13 +200,12 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 	case GDK_Down:
 		if (event->state & SCROLL_LOCK_MASK)
 			scg_set_top_row (gcanvas->simple.scg, gcanvas->first.row + 1);
-		else if (transition_keys && jump_to_bounds)
-			scg_queue_movement 
-				(gcanvas->simple.scg, movefn,
+		else if (transition_keys && jump_to_bounds) {
+			delayed_movement = TRUE;
+			scg_queue_movement (gcanvas->simple.scg, movefn,
 				 gcanvas->last_visible.row-gcanvas->first.row,
 				 FALSE, FALSE);
-			
-		else
+		} else
 			(*movefn) (gcanvas->simple.scg, 1, jump_to_bounds || end_mode, FALSE);
 		break;
 
@@ -213,28 +213,34 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 	case GDK_Page_Up:
 		if ((event->state & GDK_CONTROL_MASK) != 0)
 			gtk_notebook_prev_page (wbcg->notebook);
-		else if ((event->state & GDK_MOD1_MASK) == 0)
+		else if ((event->state & GDK_MOD1_MASK) == 0) {
+			delayed_movement = TRUE;
 			scg_queue_movement (gcanvas->simple.scg, movefn,
 				-(gcanvas->last_visible.row-gcanvas->first.row),
 				FALSE, FALSE);
-		else
+		} else {
+			delayed_movement = TRUE;
 			scg_queue_movement (gcanvas->simple.scg, movefn,
 				-(gcanvas->last_visible.col-gcanvas->first.col),
 				FALSE, TRUE);
+		}
 		break;
 
 	case GDK_KP_Page_Down:
 	case GDK_Page_Down:
 		if ((event->state & GDK_CONTROL_MASK) != 0)
 			gtk_notebook_next_page (wbcg->notebook);
-		else if ((event->state & GDK_MOD1_MASK) == 0)
+		else if ((event->state & GDK_MOD1_MASK) == 0) {
+			delayed_movement = TRUE;
 			scg_queue_movement (gcanvas->simple.scg, movefn,
 				gcanvas->last_visible.row-gcanvas->first.row,
 				FALSE, FALSE);
-		else
+		} else {
+			delayed_movement = TRUE;
 			scg_queue_movement (gcanvas->simple.scg, movefn,
 				gcanvas->last_visible.col-gcanvas->first.col,
 				FALSE, TRUE);
+		}
 		break;
 
 	case GDK_KP_Home:
@@ -382,10 +388,12 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 		wbcg_set_end_mode(wbcg, FALSE);
 	}
 
-	if (wbcg_is_editing (wbcg))
-		sheet_update_only_grid (sheet);
-	else
-		sheet_update (sheet);
+	if (!delayed_movement) {
+		if (wbcg_is_editing (wbcg))
+			sheet_update_only_grid (sheet);
+		else
+			sheet_update (sheet);
+	}
 
 	return TRUE;
 }

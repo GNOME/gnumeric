@@ -1,3 +1,12 @@
+2003-11-16  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric-canvas.c (gnm_canvas_key_mode_sheet) : no need to
+	  sheet_update on queued movement.
+
+	* src/sheet-control-gui.c (scg_queue_movement) : call sheet_update as
+	  necessary.
+	(cb_scg_queued_movement) : ditto.
+
 2003-11-16  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (random_01): Optionally generate pseudo-random

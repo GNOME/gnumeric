@@ -92,6 +92,8 @@ Jody:
 	* Support DISPLAY-less function dumping
 	http://bugzilla.gnome.org/show_bug.cgi?id=127095
 	* Problem introduced in 1.2.1 that breaks xml import in other locales
+	http://bugzilla.gnome.org/show_bug.cgi?id=127145
+	* Update status display even on delayed motion.
 
 Morten:
 	* Fix crash with STF import and gazillions of columns.
