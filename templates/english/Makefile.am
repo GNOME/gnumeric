@@ -4,3 +4,5 @@ templates_DATA = \
 	loan.gnumeric 		\
 	mileage.gnumeric 	\
 	purchase_order.gnumeric 
+
+EXTRA_DIST = $(templates_DATA)

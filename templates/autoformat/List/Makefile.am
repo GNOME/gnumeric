@@ -4,3 +4,5 @@ list_DATA= \
 	simple.template		\
 	green.template		\
 	lila.template
+
+EXTRA_DIST = $(list_DATA)

@@ -5,3 +5,5 @@ financial_DATA= \
 	ice.template		\
 	modern.template		\
 	purple.template
+
+EXTRA_DIST = $(financial_DATA)

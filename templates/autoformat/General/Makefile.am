@@ -4,3 +4,5 @@ general_DATA= \
 	advanced.template	\
 	basic.template		\
 	table.template
+
+EXTRA_DIST = $(general_DATA)

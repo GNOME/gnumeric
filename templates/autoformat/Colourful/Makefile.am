@@ -5,3 +5,5 @@ colourful_DATA= \
 	blue.template		\
 	orange.template		\
 	vanilla.template
+
+EXTRA_DIST = $(colourful_DATA)
