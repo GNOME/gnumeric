@@ -413,12 +413,34 @@ gnumeric_nt_pi (FunctionEvalInfo *ei, Value **args)
 
 /* ------------------------------------------------------------------------- */
 
+static char *help_bitor = {
+	N_("@FUNCTION=BITOR\n"
+	   "@SYNTAX=BITOR(a,b)\n"
+	   "@DESCRIPTION="
+	   "The BITOR function returns bitwise or-ing of its arguments.\n"
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "@SEEALSO=BITXOR,BITAND")
+};
+
 static Value *
 func_bitor (FunctionEvalInfo *ei, Value *argv [])
 {
         return value_new_int (value_get_as_int (argv [0]) |
 			      value_get_as_int (argv [1]));
 }
+
+/* ------------------------------------------------------------------------- */
+
+static char *help_bitxor = {
+	N_("@FUNCTION=BITXOR\n"
+	   "@SYNTAX=BITXOR(a,b)\n"
+	   "@DESCRIPTION="
+	   "The BITXOR function returns bitwise exclusive or-ing of its arguments.\n"
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "@SEEALSO=BITOR,BITAND")
+};
 
 static Value *
 func_bitxor (FunctionEvalInfo *ei, Value *argv [])
@@ -427,12 +449,38 @@ func_bitxor (FunctionEvalInfo *ei, Value *argv [])
 			      value_get_as_int (argv [1]));
 }
 
+/* ------------------------------------------------------------------------- */
+
+static char *help_bitand = {
+	N_("@FUNCTION=BITAND\n"
+	   "@SYNTAX=BITAND(a,b)\n"
+	   "@DESCRIPTION="
+	   "The BITAND function returns bitwise and-ing of its arguments.\n"
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "@SEEALSO=BITOR,BITXOR")
+};
+
+
 static Value *
 func_bitand (FunctionEvalInfo *ei, Value *argv [])
 {
         return value_new_int (value_get_as_int (argv [0]) &
 			      value_get_as_int (argv [1]));
 }
+
+/* ------------------------------------------------------------------------- */
+
+static char *help_bitlshift = {
+	N_("@FUNCTION=BITLSHIFT\n"
+	   "@SYNTAX=BITLSHIFT(x,n)\n"
+	   "@DESCRIPTION="
+	   "The BITLSHIFT function returns @x bit-shifted left by @n bits.\n"
+	   "If @n is negative, a right shift will in effect be performed.\n"
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "@SEEALSO=BITRSHIFT")
+};
 
 static Value *
 func_bitlshift (FunctionEvalInfo *ei, Value *argv [])
@@ -447,6 +495,19 @@ func_bitlshift (FunctionEvalInfo *ei, Value *argv [])
 	else
 		return value_new_int (l << r);
 }
+
+/* ------------------------------------------------------------------------- */
+
+static char *help_bitrshift = {
+	N_("@FUNCTION=BITRSHIFT\n"
+	   "@SYNTAX=BITRSHIFT(x,n)\n"
+	   "@DESCRIPTION="
+	   "The BITRSHIFT function returns @x bit-shifted right by @n bits.\n"
+	   "If @n is negative, a left shift will in effect be performed.\n"
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "@SEEALSO=BITRSHIFT")
+};
 
 static Value *
 func_bitrshift (FunctionEvalInfo *ei, Value *argv [])
@@ -531,15 +592,15 @@ init_plugin (CommandContext *context, PluginData *pd)
         cat = function_get_category (_("Bitwise Operations"));
 
         function_add_args (cat, "bitor", "ff",
-			   "A,B", NULL, func_bitor);
+			   "A,B", &help_bitor, func_bitor);
         function_add_args (cat, "bitxor", "ff",
-			   "A,B", NULL, func_bitxor);
+			   "A,B", &help_bitxor, func_bitxor);
         function_add_args (cat, "bitand", "ff",
-			   "A,B", NULL, func_bitand);
+			   "A,B", &help_bitand, func_bitand);
         function_add_args (cat, "bitlshift", "ff",
-			   "A,B", NULL, func_bitlshift);
+			   "X,N", &help_bitlshift, func_bitlshift);
         function_add_args (cat, "bitrshift", "ff",
-			   "A,B", NULL, func_bitrshift);
+			   "N,N", &help_bitrshift, func_bitrshift);
 
 	if (plugin_data_init (pd, can_unload, cleanup_plugin,
 			      _("Number Theory"),

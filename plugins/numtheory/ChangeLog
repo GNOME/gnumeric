@@ -1,3 +1,7 @@
+2000-09-12  Morten Welinder  <terra@diku.dk>
+
+	* numtheory.c: help texts for bit operators.
+
 2000-08-07  Morten Welinder  <terra@diku.dk>
 
 	* numtheory.c (WORD_BIT): Compatibility fix.
