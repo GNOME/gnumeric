@@ -156,6 +156,9 @@ gog_view_set_property (GObject *gobject, guint param_id,
 		g_signal_connect_object (G_OBJECT (view->model),
 			"changed",
 			G_CALLBACK (cb_model_changed), view, 0);
+		g_signal_connect_object (G_OBJECT (view->model),
+			"children-reordered",
+			G_CALLBACK (cb_model_reordered), view, G_CONNECT_SWAPPED);
 
 		if (klass->state_init != NULL)
 			(klass->state_init) (view);

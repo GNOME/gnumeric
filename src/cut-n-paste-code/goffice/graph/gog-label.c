@@ -99,6 +99,7 @@ gog_label_finalize (GObject *obj)
 static gpointer
 gog_label_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
 {
+	static guint label_pref_page = 0;
 	GtkWidget *notebook = gtk_notebook_new ();
 	GtkWidget *hbox = gtk_hbox_new (FALSE, 5);
 
@@ -111,6 +112,7 @@ gog_label_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
 	gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook), hbox,
 		gtk_label_new (_("Data")));
 	gog_style_editor (GOG_STYLED_OBJECT (gobj), cc, notebook);
+	gog_style_handle_notebook (notebook, &label_pref_page);
 	return notebook;
 }
 

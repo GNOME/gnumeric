@@ -531,6 +531,7 @@ make_dim_editor (GogDataset *set, GtkTable *table, unsigned dim,
 static gpointer
 gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
 {
+	static guint axis_pref_page = 0;
 	static char const *toggle_props[] = {
 		"invert-axis",
 		"major-tick-labeled",
@@ -569,7 +570,7 @@ gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
 	gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook),
 		glade_xml_get_widget (gui, "axis_pref_table"),
 		gtk_label_new (_("Details")));
-	gog_style_editor (GOG_STYLED_OBJECT (gobj), cc, notebook),
+	gog_style_editor (GOG_STYLED_OBJECT (gobj), cc, notebook);
 
 	w = glade_xml_get_widget (gui, "axis_low");
 	if (axis->pos == GOG_AXIS_AT_LOW)
@@ -593,6 +594,7 @@ gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
 	g_object_set_data_full (G_OBJECT (notebook), "gui", gui,
 				(GDestroyNotify)g_object_unref);
 
+	gog_style_handle_notebook (notebook, &axis_pref_page);
 	gtk_widget_show (GTK_WIDGET (notebook));
 	return notebook;
 }

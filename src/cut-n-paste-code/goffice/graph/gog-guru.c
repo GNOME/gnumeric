@@ -80,7 +80,7 @@ struct _GraphGuruState {
 
 	FooCanvasItem	  *sample_graph_item;
 
-	GtkBin  	  *prop_viewport;
+	GtkContainer  	  *prop_frame;
 	GtkTreeSelection  *prop_selection;
 	GtkTreeView	  *prop_view;
 	GtkTreeStore	  *prop_model;
@@ -89,6 +89,9 @@ struct _GraphGuruState {
 
 	GraphGuruTypeSelector *type_selector;
 
+	struct {
+		GtkWidget *inc, *dec, *first, *last, *menu;
+	} prec;
 	/* internal state */
 	int current_page, initial_page;
 	gboolean valid;
@@ -529,6 +532,26 @@ cb_graph_guru_delete_item (GtkWidget *w, GraphGuruState *s)
 		g_object_unref (obj);
 	}
 }
+static void
+cb_graph_guru_prec_first (GtkWidget *w, GraphGuruState *s)
+{
+	g_warning ("first");
+}
+static void
+cb_graph_guru_prec_inc (GtkWidget *w, GraphGuruState *s)
+{
+	g_warning ("inc");
+}
+static void
+cb_graph_guru_prec_dec (GtkWidget *w, GraphGuruState *s)
+{
+	g_warning ("dec");
+}
+static void
+cb_graph_guru_prec_last (GtkWidget *w, GraphGuruState *s)
+{
+	g_warning ("last");
+}
 
 struct type_menu_create {
 	GraphGuruState *state;
@@ -625,15 +648,26 @@ cb_attr_tree_selection_change (GraphGuruState *s)
 {
 	gboolean add_ok = FALSE;
 	gboolean delete_ok = FALSE;
+	gboolean inc_ok = FALSE;
+	gboolean dec_ok = FALSE;
 	GtkTreeModel *model;
-	GogObject  *obj;
-	GtkWidget *w;
+	GogObject  *obj = NULL;
+	GtkWidget *w, *editor;
+	GtkShadowType shadow = GTK_SHADOW_OUT;
 
-	s->prop_object = NULL;
 	if (gtk_tree_selection_get_selected (s->prop_selection, &model, &s->prop_iter))
 		gtk_tree_model_get (model, &s->prop_iter,
-				    PLOT_ATTR_OBJECT, &s->prop_object,
+				    PLOT_ATTR_OBJECT, &obj,
 				    -1);
+
+	if (s->prop_object == obj)
+		return;
+
+	/* remove the old prop page */
+	s->prop_object = obj;
+	w = gtk_bin_get_child (GTK_BIN (s->prop_frame));
+	if (w != NULL)
+		gtk_container_remove (s->prop_frame, w);
 
 	if (s->prop_object != NULL) {
 		/* Setup up the additions menu */
@@ -674,8 +708,6 @@ cb_attr_tree_selection_change (GraphGuruState *s)
 			gtk_widget_show_all (s->add_menu);
 		}
 
-		obj = s->prop_object;
-
 		/* if we ever go back to the typeselector be sure to 
 		 * add the plot to the last selected chart */
 		s->chart = (GogChart *)
@@ -685,28 +717,26 @@ cb_attr_tree_selection_change (GraphGuruState *s)
 		gtk_widget_set_sensitive (s->button_navigate, s->chart != NULL);
 
 		delete_ok = gog_object_is_deletable (s->prop_object);
+		gog_object_can_reorder (obj, &inc_ok, &dec_ok);
 
 		/* create a prefs page for the graph obj */
-		w = gtk_bin_get_child (s->prop_viewport);
-		if (w != NULL)
-			gtk_container_remove (GTK_CONTAINER (s->prop_viewport), w);
-
-		if (obj != NULL) {
-			GtkWidget *editor = gog_object_get_editor (obj, s->dalloc, s->cc);
-			GtkShadowType shadow = GTK_SHADOW_OUT;
-			if (editor != NULL) {
-				if (GTK_IS_NOTEBOOK (editor))
-					shadow = GTK_SHADOW_NONE;
-				gtk_container_add (GTK_CONTAINER (s->prop_viewport), editor);
-				gtk_widget_show (editor);
-			}
-			gtk_viewport_set_shadow_type (GTK_VIEWPORT (s->prop_viewport), shadow);
-			gtk_widget_show (GTK_WIDGET (s->prop_viewport));
+		editor = gog_object_get_editor (obj, s->dalloc, s->cc);
+		if (editor != NULL) {
+			if (GTK_IS_NOTEBOOK (editor))
+				shadow = GTK_SHADOW_NONE;
+			gtk_container_add (s->prop_frame, editor);
+			gtk_widget_show (editor);
 		}
 	}
+	gtk_frame_set_shadow_type (GTK_FRAME (s->prop_frame), shadow);
 
 	gtk_widget_set_sensitive (s->delete_button, delete_ok);
-	gtk_widget_set_sensitive (s->add_menu, add_ok);
+	gtk_widget_set_sensitive (s->add_menu,	    add_ok);
+	gtk_widget_set_sensitive (s->prec.first,    inc_ok);
+	gtk_widget_set_sensitive (s->prec.inc,	    inc_ok);
+	gtk_widget_set_sensitive (s->prec.dec,	    dec_ok);
+	gtk_widget_set_sensitive (s->prec.last,	    dec_ok);
+	gtk_widget_set_sensitive (s->prec.menu,	    dec_ok | inc_ok);
 }
 
 static gboolean
@@ -773,9 +803,9 @@ cb_find_child_removed (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter
 		s->search_target = NULL;
 		/* remove the tree element and the prop page */
 		gtk_tree_store_remove (s->prop_model, iter);
-		w = gtk_bin_get_child (s->prop_viewport);
+		w = gtk_bin_get_child (GTK_BIN (s->prop_frame));
 		if (w != NULL)
-			gtk_container_remove (GTK_CONTAINER (s->prop_viewport), w);
+			gtk_container_remove (s->prop_frame, w);
 		return TRUE;
 	}
 
@@ -925,10 +955,27 @@ graph_guru_init_format_page (GraphGuruState *s)
 	s->fmt_page_initialized = TRUE;
 	s->add_menu	 = glade_xml_get_widget (s->gui, "add_menu");
 	s->delete_button = glade_xml_get_widget (s->gui, "delete");
+	s->prec.menu  = glade_xml_get_widget (s->gui, "precedence_menu");
+	s->prec.inc   = glade_xml_get_widget (s->gui, "inc_precedence");
+	s->prec.dec   = glade_xml_get_widget (s->gui, "dec_precedence");
+	s->prec.first = glade_xml_get_widget (s->gui, "first_precedence");
+	s->prec.last  = glade_xml_get_widget (s->gui, "last_precedence");
 
 	g_signal_connect (G_OBJECT (s->delete_button),
 		"activate",
 		G_CALLBACK (cb_graph_guru_delete_item), s);
+	g_signal_connect (G_OBJECT (s->prec.first),
+		"activate",
+		G_CALLBACK (cb_graph_guru_prec_first), s);
+	g_signal_connect (G_OBJECT (s->prec.inc),
+		"activate",
+		G_CALLBACK (cb_graph_guru_prec_inc), s);
+	g_signal_connect (G_OBJECT (s->prec.dec),
+		"activate",
+		G_CALLBACK (cb_graph_guru_prec_dec), s);
+	g_signal_connect (G_OBJECT (s->prec.last),
+		"activate",
+		G_CALLBACK (cb_graph_guru_prec_last), s);
 
 	/* Load up the sample view and make it fill the entire canvas */
 	w = glade_xml_get_widget (s->gui, "sample_canvas");
@@ -946,8 +993,8 @@ graph_guru_init_format_page (GraphGuruState *s)
 		G_CALLBACK (cb_canvas_select_item), s);
 	gtk_widget_show (w);
 
-	w = glade_xml_get_widget (s->gui, "prop_viewport");
-	s->prop_viewport = GTK_BIN (w);
+	w = glade_xml_get_widget (s->gui, "prop_frame");
+	s->prop_frame = GTK_CONTAINER (w);
 	s->prop_model = gtk_tree_store_new (PLOT_ATTR_NUM_COLUMNS,
 				    G_TYPE_STRING, G_TYPE_POINTER);
 	s->prop_view = GTK_TREE_VIEW (gtk_tree_view_new_with_model (

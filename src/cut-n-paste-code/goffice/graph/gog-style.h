@@ -26,7 +26,6 @@
 #include <goffice/utils/go-gradient.h>
 #include <goffice/utils/go-pattern.h>
 #include <glib-object.h>
-#include <gtk/gtkwidget.h>
 #include <command-context.h>	/* for GnmCmdContext */
 
 G_BEGIN_DECLS
@@ -122,8 +121,11 @@ gboolean   gog_style_is_different_size	(GogStyle const *a, GogStyle const *b);
 gboolean   gog_style_is_marker_visible	(GogStyle const *style);
 gboolean   gog_style_is_line_visible	(GogStyle const *style);
 
-GtkWidget *gog_style_editor		(GogStyledObject *obj, GnmCmdContext *cc,
-					 GtkWidget *optional_notebook);
+gpointer   gog_style_editor		(GogStyledObject *obj, GnmCmdContext *cc,
+					 gpointer optional_notebook);
+
+/* move this to the widget utils dir when we get one */
+void	   gog_style_handle_notebook	(gpointer notebook, guint *page);
 
 typedef struct {
 	unsigned i;

@@ -80,6 +80,7 @@ gog_series_editor (GogObject *gobj,
 		   GogDataAllocator *dalloc,
 		   GnmCmdContext *cc)
 {
+	static guint series_pref_page = 1;
 	GtkWidget *w;
 	GtkTable  *table;
 	unsigned i, row = 0;
@@ -131,6 +132,7 @@ gog_series_editor (GogObject *gobj,
 	gtk_notebook_prepend_page (GTK_NOTEBOOK (w), GTK_WIDGET (table),
 		gtk_label_new (_("Data")));
 	gog_style_editor (GOG_STYLED_OBJECT (gobj), cc, w);
+	gog_style_handle_notebook (w, &series_pref_page);
 	return w;
 }
 

@@ -865,6 +865,7 @@ marker_init (StylePrefState *state, GogStyle const *style, gboolean enable)
 		"pattern_foreground", "marker_outline_label",
 		G_CALLBACK (cb_marker_outline_color_changed));
 	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 2, 3, 0, 0, 0, 0);
+	g_object_unref (def_style);
 	
 	w = glade_xml_get_widget (state->gui, "marker_size_spin");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w),
@@ -893,7 +894,7 @@ cb_font_changed (FontSelector *fs, G_GNUC_UNUSED gpointer mstyle,
 }
 
 static void
-font_init (StylePrefState *state, GogStyle const *style, guint32 enable, GtkWidget *optional_notebook)
+font_init (StylePrefState *state, GogStyle const *style, guint32 enable, gpointer optional_notebook)
 {
 	GtkWidget *w;
 
@@ -911,7 +912,7 @@ font_init (StylePrefState *state, GogStyle const *style, guint32 enable, GtkWidg
 	gtk_notebook_prepend_page (GTK_NOTEBOOK (optional_notebook), w,
 		gtk_label_new (_("Font")));
 	gtk_widget_show (w);
-	gtk_widget_show (optional_notebook);
+	gtk_widget_show (GTK_WIDGET (optional_notebook));
 }
 
 static void
@@ -939,9 +940,9 @@ gog_style_pref_state_free (StylePrefState *state)
 	g_free (state);
 }
 
-GtkWidget *
+gpointer
 gog_style_editor (GogStyledObject *obj, GnmCmdContext *cc,
-		  GtkWidget *optional_notebook)
+		  gpointer optional_notebook)
 {
 	GogStyle *style = gog_styled_object_get_style (obj);
 	GogStyleFlag enable;
@@ -982,7 +983,7 @@ gog_style_editor (GogStyledObject *obj, GnmCmdContext *cc,
 	if (optional_notebook != NULL) {
 		gtk_notebook_prepend_page (GTK_NOTEBOOK (optional_notebook), w,
 			gtk_label_new (_("Style")));
-		return optional_notebook;
+		return GTK_WIDGET (optional_notebook);
 	}
 	return w;
 }
@@ -1704,4 +1705,23 @@ gog_series_element_style_list_add (GogSeriesElementStyleList *list,
 	pt = go_series_element_style_new (style, i);
 	return g_slist_insert_sorted  (list, pt,
 				       (GCompareFunc) go_series_element_style_cmp);
+}
+
+static void
+cb_switch_page (G_GNUC_UNUSED GtkNotebook *n, G_GNUC_UNUSED GtkNotebookPage *p,
+		guint page_num, guint *store_page)
+{
+		*store_page = page_num;
+}
+
+void
+gog_style_handle_notebook (gpointer notebook, guint *page)
+{
+	g_return_if_fail (GTK_NOTEBOOK (notebook) != NULL);
+	g_return_if_fail (page != NULL);
+
+	gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), *page);
+	g_signal_connect (G_OBJECT (notebook),
+		"switch_page",
+		G_CALLBACK (cb_switch_page), page);
 }

@@ -96,6 +96,7 @@ typedef struct {
 	void (*child_added)	   (GogObject *parent, GogObject *child);
 	void (*child_removed)	   (GogObject *parent, GogObject *child);
 	void (*child_name_changed) (GogObject const *obj, GogObject const *child);
+	void (*children_reordered) (GogObject *obj);
 } GogObjectClass;
 
 #define GOG_OBJECT_TYPE		(gog_object_get_type ())
@@ -120,13 +121,16 @@ void	     gog_object_set_name	 (GogObject *obj, char *name, GError **err);
 GSList      *gog_object_get_children	 (GogObject const *obj);
 gpointer     gog_object_get_editor	 (GogObject *obj,
 					  GogDataAllocator *dalloc, GnmCmdContext *cc);
-GogView	    *gog_object_new_view	 (GogObject const *obj, GogView *view);
-gboolean     gog_object_is_deletable	 (GogObject const *obj);
-GSList   *gog_object_possible_additions	 (GogObject const *obj);
-GogObject   *gog_object_add_by_role	 (GogObject *parent,
+GogView	  *gog_object_new_view	 	 (GogObject const *obj, GogView *view);
+gboolean   gog_object_is_deletable	 (GogObject const *obj);
+GSList    *gog_object_possible_additions (GogObject const *obj);
+GogObject *gog_object_add_by_role	 (GogObject *parent,
 					  GogObjectRole const *role, GogObject *child);
 GogObject   *gog_object_add_by_name	 (GogObject *parent,
 					  char const *role, GogObject *child);
+void		  gog_object_can_reorder (GogObject const *obj,
+					  gboolean *inc_ok, gboolean *dec_ok);
+void		  gog_object_reorder	 (GogObject const *obj, int dir);
 GogObjectPosition gog_object_get_pos	 (GogObject const *obj);
 gboolean	  gog_object_set_pos	 (GogObject *obj, GogObjectPosition p);
 

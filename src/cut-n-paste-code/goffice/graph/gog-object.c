@@ -34,6 +34,7 @@ enum {
 	CHILD_ADDED,
 	CHILD_REMOVED,
 	CHILD_NAME_CHANGED,
+	CHILDREN_REORDERED,
 	NAME_CHANGED,
 	CHANGED,
 	LAST_SIGNAL
@@ -102,6 +103,13 @@ gog_object_class_init (GObjectClass *klass)
 		g_cclosure_marshal_VOID__OBJECT,
 		G_TYPE_NONE,
 		1, G_TYPE_OBJECT);
+	gog_object_signals [CHILDREN_REORDERED] = g_signal_new ("children-reordered",
+		G_TYPE_FROM_CLASS (klass),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (GogObjectClass, children_reordered),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 
 	gog_object_signals [NAME_CHANGED] = g_signal_new ("name-changed",
 		G_TYPE_FROM_CLASS (klass),
@@ -399,8 +407,15 @@ gog_role_cmp (GogObjectRole const *a, GogObjectRole const *b)
 		return 1;
 	else if (index_a > index_b)
 		return -1;
-	if (a->priority != b->priority)
-		return b->priority - a->priority;
+	return b->priority - a->priority;
+}
+
+static int
+gog_role_cmp_full (GogObjectRole const *a, GogObjectRole const *b)
+{
+	int res = gog_role_cmp (a, b);
+	if (res != 0)
+		return res;
 	return g_utf8_collate (a->id, b->id);
 }
 
@@ -426,10 +441,41 @@ gog_object_possible_additions (GogObject const *parent)
 		g_hash_table_foreach (klass->roles,
 			(GHFunc) cb_collect_possible_additions, &data);
 
-		return g_slist_sort (data.res, (GCompareFunc) gog_role_cmp);
+		return g_slist_sort (data.res, (GCompareFunc) gog_role_cmp_full);
 	}
 
 	return NULL;
+}
+
+void
+gog_object_can_reorder (GogObject const *obj, gboolean *inc_ok, gboolean *dec_ok)
+{
+	GogObject const *parent;
+
+	g_return_if_fail (GOG_OBJECT (obj) != NULL);
+
+	if (inc_ok != NULL)
+		*inc_ok = FALSE;
+	if (dec_ok != NULL)
+		*dec_ok = FALSE;
+
+	if (obj->parent == NULL || gog_object_get_graph (obj) == NULL)
+		return;
+	parent = obj->parent;
+	if (inc_ok != NULL)
+		*inc_ok = TRUE;
+	if (dec_ok != NULL)
+		*dec_ok = TRUE;
+	/* gog_role_cmp (GogObjectRole const *a, GogObjectRole const *b) */
+}
+
+void
+gog_object_reorder (GogObject const *obj, int dir)
+{
+	g_return_if_fail (GOG_OBJECT (obj) != NULL);
+
+	g_signal_emit (G_OBJECT (obj),
+		gog_object_signals [CHILDREN_REORDERED], 0);
 }
 
 /**
@@ -596,7 +642,7 @@ gog_object_set_parent (GogObject *child, GogObject *parent,
 	/* Insert sorted based on hokey little ordering */
 	step = &parent->children;
 	while (*step != NULL &&
-	       gog_role_cmp (GOG_OBJECT ((*step)->data)->role, role) >= 0)
+	       gog_role_cmp_full (GOG_OBJECT ((*step)->data)->role, role) >= 0)
 		step = &((*step)->next);
 	*step = g_slist_prepend (*step, child);
 
