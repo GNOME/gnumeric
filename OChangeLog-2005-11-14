@@ -1,5 +1,14 @@
 2003-02-24  Morten Welinder  <terra@diku.dk>
 
+	* src/sheet-object-bonobo.c (sheet_object_bonobo_set_object_iid):
+	Don't use '== TRUE'.
+
+	* src/rendered-value.c (rendered_value_new): Don't specify the
+	text length for the layout text.  strlen takes time and
+	pango_layout_set_text is going to walk over the string anyway.
+
+2003-02-24  Morten Welinder  <terra@diku.dk>
+
 	* src/xml-io.c (xml_read_styles): Count blank nodes too for
 	progress update purposes.
 	(xml_sheet_read): Ditto.

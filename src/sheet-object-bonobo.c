@@ -382,7 +382,7 @@ sheet_object_bonobo_set_object_iid (SheetObjectBonobo *sob,
 
 	result = sheet_object_bonobo_set_server (sob, server);
 	bonobo_object_unref (BONOBO_OBJECT (server));
-	if (result == TRUE) {
+	if (result) {
 		sob->object_id = g_strdup (object_id);
 		return (TRUE);
 	}
