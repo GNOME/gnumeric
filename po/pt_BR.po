@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNUMeric\n"
-"POT-Creation-Date: 2000-09-24 17:06-0400\n"
+"POT-Creation-Date: 2000-09-28 17:31-0300\n"
 "PO-Revision-Date: 1999-04-09 16:14-0300\n"
 "Last-Translator: Elvis Pfützenreuter <epx@netville.com.br>\n"
 "Language-Team: Brazilian Portuguese <ldp-br@bazar.conectiva.com.br>\n"
@@ -83,7 +83,7 @@ msgstr ""
 
 # src/workbook.c:1753 src/workbook.c:1781
 #: plugins/excel/ms-excel-read.c:599 plugins/html/html.c:410
-#: plugins/lotus-123/lotus.c:224 plugins/oleo/oleo.c:44 src/workbook.c:3510
+#: plugins/lotus-123/lotus.c:224 plugins/oleo/oleo.c:44 src/workbook.c:3509
 #, fuzzy, c-format
 msgid "Sheet%d"
 msgstr "Planilha %d"
@@ -862,14 +862,14 @@ msgstr "Máximo"
 
 # src/workbook.c:1077
 #: src/analysis-tools.c:748 src/analysis-tools.c:2323
-#: src/analysis-tools.c:2489 src/analysis-tools.c:2736 src/workbook.c:1653
-#: src/workbook.c:2103
+#: src/analysis-tools.c:2489 src/analysis-tools.c:2736 src/workbook.c:1652
+#: src/workbook.c:2102
 msgid "Sum"
 msgstr "Soma"
 
 # src/workbook.c:1081
 #: src/analysis-tools.c:749 src/analysis-tools.c:2322
-#: src/analysis-tools.c:2488 src/analysis-tools.c:2735 src/workbook.c:2107
+#: src/analysis-tools.c:2488 src/analysis-tools.c:2735 src/workbook.c:2106
 msgid "Count"
 msgstr "Contagem"
 
@@ -1196,7 +1196,7 @@ msgstr ""
 
 # src/workbook.c:1080
 #: src/analysis-tools.c:2324 src/analysis-tools.c:2490
-#: src/analysis-tools.c:2737 src/workbook.c:2106
+#: src/analysis-tools.c:2737 src/workbook.c:2105
 msgid "Average"
 msgstr "Média"
 
@@ -1340,7 +1340,7 @@ msgid "Unable to paste into selection"
 msgstr "Impossível procurar função Guile."
 
 # src/item-grid.c:528 src/sheet.c:2535 src/workbook.c:842
-#: src/cmd-edit.c:354 src/workbook.c:1633
+#: src/cmd-edit.c:354 src/workbook.c:1632
 msgid "Paste"
 msgstr "Colar"
 
@@ -1896,7 +1896,7 @@ msgstr ""
 # src/workbook.c:758
 #: src/dialogs/analysis-tools.glade.h:55 src/dialogs/analysis-tools.glade.h:86
 #: src/dialogs/analysis-tools.glade.h:100
-#: src/dialogs/analysis-tools.glade.h:111 src/workbook.c:1415
+#: src/dialogs/analysis-tools.glade.h:111 src/workbook.c:1414
 #, fuzzy
 msgid "_Columns"
 msgstr "C_olunas"
@@ -1904,7 +1904,7 @@ msgstr "C_olunas"
 # src/workbook.c:756
 #: src/dialogs/analysis-tools.glade.h:56 src/dialogs/analysis-tools.glade.h:87
 #: src/dialogs/analysis-tools.glade.h:99
-#: src/dialogs/analysis-tools.glade.h:110 src/workbook.c:1412
+#: src/dialogs/analysis-tools.glade.h:110 src/workbook.c:1411
 msgid "_Rows"
 msgstr "_Linhas"
 
@@ -3418,7 +3418,7 @@ msgid "Maximum number of clauses has been reached."
 msgstr ""
 
 # src/dialog-goto-cell.c:45
-#: src/dialogs/dialog-cell-sort.c:533 src/workbook.c:1036
+#: src/dialogs/dialog-cell-sort.c:533 src/workbook.c:1035
 #, fuzzy
 msgid "sort"
 msgstr "Ir para..."
@@ -3676,17 +3676,17 @@ msgid "Modified: %s"
 msgstr ""
 
 # src/dialog-cell-format.c:630
-#: src/dialogs/dialog-printer-setup.c:930
+#: src/dialogs/dialog-printer-setup.c:933
 #, fuzzy
 msgid "Custom header configuration"
 msgstr "Configuração do fundo"
 
-#: src/dialogs/dialog-printer-setup.c:942
+#: src/dialogs/dialog-printer-setup.c:945
 msgid "Custom footer configuration"
 msgstr ""
 
 # src/workbook.c:1452
-#: src/dialogs/dialog-sheet-order.c:142 src/workbook.c:3091
+#: src/dialogs/dialog-sheet-order.c:142 src/workbook.c:3090
 #, fuzzy, c-format
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Tem certeza de que quer remover a planilha de nome `%s' "
@@ -4123,7 +4123,7 @@ msgstr ""
 #. * Add this file to your project's POTFILES.in.
 #. * DO NOT compile it as part of your application.
 #.
-#: src/dialogs/dialog-zoom.glade.h:7 src/workbook.c:2615 src/workbook.c:2675
+#: src/dialogs/dialog-zoom.glade.h:7 src/workbook.c:2614 src/workbook.c:2674
 msgid "Zoom"
 msgstr "Ampliação"
 
@@ -4552,7 +4552,7 @@ msgstr ""
 
 # src/dialog-cell-format.c:70
 #: src/dialogs/print.glade.h:48 src/dialogs/print.glade.h:57
-#: src/workbook.c:1618
+#: src/workbook.c:1617
 #, fuzzy
 msgid "Print"
 msgstr "Percentagem"
@@ -4562,7 +4562,7 @@ msgid "Row and co_lumn headings"
 msgstr ""
 
 # src/workbook.c:692
-#: src/dialogs/print.glade.h:50 src/workbook.c:1289
+#: src/dialogs/print.glade.h:50 src/workbook.c:1288
 #, fuzzy
 msgid "Co_mments"
 msgstr "_Comentários"
@@ -4591,13 +4591,13 @@ msgstr ""
 
 # src/workbook.c:752 src/workbook.c:798
 #: src/dialogs/print.glade.h:56 src/functions/fn-sheet.c:138
-#: src/workbook.c:760
+#: src/workbook.c:759
 #, fuzzy
 msgid "Sheet"
 msgstr "_Planilha"
 
-#: src/dialogs/print.glade.h:58 src/print.c:1186 src/workbook.c:1264
-#: src/workbook.c:1621
+#: src/dialogs/print.glade.h:58 src/print.c:1186 src/workbook.c:1263
+#: src/workbook.c:1620
 msgid "Print preview"
 msgstr ""
 
@@ -5070,13 +5070,13 @@ msgid "yellow"
 msgstr "amarelo"
 
 #. Is it a boolean
-#: src/format.c:1532 src/number-match.c:939 src/value-sheet.c:33
+#: src/format.c:1532 src/number-match.c:942 src/value-sheet.c:33
 #: src/value.c:235 src/value.c:458
 msgid "TRUE"
 msgstr ""
 
 # src/main.c:34
-#: src/format.c:1532 src/number-match.c:941 src/value-sheet.c:33
+#: src/format.c:1532 src/number-match.c:944 src/value-sheet.c:33
 #: src/value.c:237 src/value.c:458
 #, fuzzy
 msgid "FALSE"
@@ -6417,8 +6417,8 @@ msgstr ""
 
 # src/dump.c:29
 #: src/func.c:76
-#, c-format
-msgid "Can not create file %s\n"
+#, fuzzy, c-format
+msgid "Cannot create file %s\n"
 msgstr "Impossível criar arquivo %s\n"
 
 # src/expr.c:979
@@ -6438,33 +6438,12 @@ msgid ""
 "or database that match conditions specified. \n"
 msgstr ""
 
-#: src/functions/fn-database.c:500
-msgid ""
-"\n"
-"DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333.\n"
-"DAVERAGE(A1:C7, \"Age\", A9:A11) equals 39.\n"
-"DAVERAGE(A1:C7, \"Salary\", A9:B11) equals 40782.5.\n"
-"DAVERAGE(A1:C7, \"Age\", A9:B11) equals 36.\n"
-"\n"
-"@SEEALSO=DCOUNT"
-msgstr ""
-
 #: src/functions/fn-database.c:561
 msgid ""
 "@FUNCTION=DCOUNT\n"
 "@SYNTAX=DCOUNT(database,field,criteria)\n"
 "@DESCRIPTION=DCOUNT function counts the cells that contain numbers in a "
 "database that match conditions specified. \n"
-msgstr ""
-
-#: src/functions/fn-database.c:569
-msgid ""
-"\n"
-"DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3.\n"
-"DCOUNT(A1:C7, \"Salary\", A9:B11) equals 2.\n"
-"DCOUNT(A1:C7, \"Name\", A9:B11) equals 0.\n"
-"\n"
-"@SEEALSO=DAVERAGE"
 msgstr ""
 
 #: src/functions/fn-database.c:622
@@ -6475,33 +6454,12 @@ msgid ""
 "database that match conditions specified. \n"
 msgstr ""
 
-#: src/functions/fn-database.c:630
-msgid ""
-"\n"
-"DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3.\n"
-"DCOUNTA(A1:C7, \"Salary\", A9:B11) equals 2.\n"
-"DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2.\n"
-"\n"
-"@SEEALSO=DCOUNT"
-msgstr ""
-
 #: src/functions/fn-database.c:680
 msgid ""
 "@FUNCTION=DGET\n"
 "@SYNTAX=DGET(database,field,criteria)\n"
 "@DESCRIPTION=DGET function returns a single value from a column that match "
 "conditions specified. \n"
-msgstr ""
-
-#: src/functions/fn-database.c:688
-msgid ""
-"\n"
-"DGET(A1:C7, \"Salary\", A9:A10) equals 34323.\n"
-"DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\".\n"
-"\n"
-"If none of the items match the conditions, DGET returns #VALUE! error. If "
-"more than one items match the conditions, DGET returns #NUM! error. \n"
-"@SEEALSO=DCOUNT"
 msgstr ""
 
 #: src/functions/fn-database.c:748
@@ -6512,16 +6470,6 @@ msgid ""
 "conditions specified. \n"
 msgstr ""
 
-#: src/functions/fn-database.c:756
-msgid ""
-"\n"
-"DMAX(A1:C7, \"Salary\", A9:A11) equals 47242.\n"
-"DMAX(A1:C7, \"Age\", A9:A11) equals 45.\n"
-"DMAX(A1:C7, \"Age\", A9:B11) equals 43.\n"
-"\n"
-"@SEEALSO=DMIN"
-msgstr ""
-
 #: src/functions/fn-database.c:819
 msgid ""
 "@FUNCTION=DMIN\n"
@@ -6530,29 +6478,12 @@ msgid ""
 "match conditions specified. \n"
 msgstr ""
 
-#: src/functions/fn-database.c:827
-msgid ""
-"\n"
-"DMIN(A1:C7, \"Salary\", A9:B11) equals 34323.\n"
-"DMIN(A1:C7, \"Age\", A9:B11) equals 29.\n"
-"\n"
-"@SEEALSO=DMAX"
-msgstr ""
-
 #: src/functions/fn-database.c:889
 msgid ""
 "@FUNCTION=DPRODUCT\n"
 "@SYNTAX=DPRODUCT(database,field,criteria)\n"
 "@DESCRIPTION=DPRODUCT function returns the product of numbers in a column "
 "that match conditions specified. \n"
-msgstr ""
-
-#: src/functions/fn-database.c:897
-msgid ""
-"\n"
-"DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247.\n"
-"\n"
-"@SEEALSO=DSUM"
 msgstr ""
 
 #: src/functions/fn-database.c:956
@@ -6564,15 +6495,6 @@ msgid ""
 "match conditions specified. \n"
 msgstr ""
 
-#: src/functions/fn-database.c:965
-msgid ""
-"\n"
-"DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949.\n"
-"DSTDEV(A1:C7, \"Salary\", A9:B11) equals 9135.112506.\n"
-"\n"
-"@SEEALSO=DSTDEVP"
-msgstr ""
-
 #: src/functions/fn-database.c:1022
 msgid ""
 "@FUNCTION=DSTDEVP\n"
@@ -6582,30 +6504,12 @@ msgid ""
 "match conditions specified. \n"
 msgstr ""
 
-#: src/functions/fn-database.c:1031
-msgid ""
-"\n"
-"DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7.\n"
-"DSTDEVP(A1:C7, \"Salary\", A9:B11) equals 6459.5.\n"
-"\n"
-"@SEEALSO=DSTDEV"
-msgstr ""
-
 #: src/functions/fn-database.c:1090
 msgid ""
 "@FUNCTION=DSUM\n"
 "@SYNTAX=DSUM(database,field,criteria)\n"
 "@DESCRIPTION=DSUM function returns the sum of numbers in a column that match "
 "conditions specified. \n"
-msgstr ""
-
-#: src/functions/fn-database.c:1098
-msgid ""
-"\n"
-"DSUM(A1:C7, \"Age\", A9:B11) equals 72.\n"
-"DSUM(A1:C7, \"Salary\", A9:B11) equals 81565.\n"
-"\n"
-"@SEEALSO=DPRODUCT"
 msgstr ""
 
 #: src/functions/fn-database.c:1157
@@ -6617,15 +6521,6 @@ msgid ""
 "specified. \n"
 msgstr ""
 
-#: src/functions/fn-database.c:1166
-msgid ""
-"\n"
-"DVAR(A1:C7, \"Age\", A9:B11) equals 98.\n"
-"DVAR(A1:C7, \"Salary\", A9:B11) equals 83450280.5.\n"
-"\n"
-"@SEEALSO=DVARP"
-msgstr ""
-
 #: src/functions/fn-database.c:1225
 msgid ""
 "@FUNCTION=DVARP\n"
@@ -6633,15 +6528,6 @@ msgid ""
 "@DESCRIPTION=DVARP function returns the variance of a population based on "
 "the entire populations. The populations consists of numbers that match "
 "conditions specified. \n"
-msgstr ""
-
-#: src/functions/fn-database.c:1234
-msgid ""
-"\n"
-"DVARP(A1:C7, \"Age\", A9:B11) equals 49.\n"
-"DVARP(A1:C7, \"Salary\", A9:B11) equals 41725140.25.\n"
-"\n"
-"@SEEALSO=DVAR"
 msgstr ""
 
 #: src/functions/fn-database.c:1294
@@ -13180,7 +13066,7 @@ msgstr ""
 "o conteúdo desta região ?"
 
 # src/item-cursor.c:579 src/item-grid.c:527 src/workbook.c:839
-#: src/item-cursor.c:762 src/workbook.c:1630
+#: src/item-cursor.c:762 src/workbook.c:1629
 msgid "Copy"
 msgstr "Copiar"
 
@@ -13250,7 +13136,7 @@ msgid "_Insert..."
 msgstr "_Inserir"
 
 # src/dialog-delete-cells.c:32 src/item-grid.c:532
-#: src/item-grid.c:509 src/workbook.c:1346
+#: src/item-grid.c:509 src/workbook.c:1345
 #, fuzzy
 msgid "_Delete..."
 msgstr "Apagar"
@@ -13273,14 +13159,14 @@ msgid "Column _Width..."
 msgstr ""
 
 # src/workbook.c:662
-#: src/item-grid.c:522 src/item-grid.c:530 src/workbook.c:1449
-#: src/workbook.c:1468
+#: src/item-grid.c:522 src/item-grid.c:530 src/workbook.c:1448
+#: src/workbook.c:1467
 #, fuzzy
 msgid "_Hide"
 msgstr "_Novo"
 
-#: src/item-grid.c:524 src/item-grid.c:532 src/workbook.c:1452
-#: src/workbook.c:1471
+#: src/item-grid.c:524 src/item-grid.c:532 src/workbook.c:1451
+#: src/workbook.c:1470
 msgid "_Unhide"
 msgstr ""
 
@@ -13386,37 +13272,37 @@ msgid ""
 "libdir := %s\n"
 msgstr ""
 
-#: src/number-match.c:582
+#: src/number-match.c:584
 msgid "#NULL!"
 msgstr ""
 
-#: src/number-match.c:583
+#: src/number-match.c:585
 msgid "#DIV/0!"
 msgstr ""
 
 # src/fn-math.c:189 src/fn-math.c:962
-#: src/number-match.c:584
+#: src/number-match.c:586
 #, fuzzy
 msgid "#VALUE!"
 msgstr "#VALOR"
 
-#: src/number-match.c:585
+#: src/number-match.c:587
 msgid "#REF!"
 msgstr ""
 
-#: src/number-match.c:586
+#: src/number-match.c:588
 msgid "#NAME?"
 msgstr ""
 
-#: src/number-match.c:587
+#: src/number-match.c:589
 msgid "#NUM!"
 msgstr ""
 
-#: src/number-match.c:588
+#: src/number-match.c:590
 msgid "#N/A"
 msgstr ""
 
-#: src/number-match.c:589
+#: src/number-match.c:591
 msgid "#RECALC!"
 msgstr ""
 
@@ -13519,6 +13405,7 @@ msgstr "d-mm"
 msgid "millimeter"
 msgstr ""
 
+#. 1in = 25.4mm, exact
 #: src/print-info.c:438
 msgid "cm"
 msgstr ""
@@ -13539,31 +13426,31 @@ msgid "inch"
 msgstr ""
 
 # src/workbook.c:1753 src/workbook.c:1781
-#: src/print-info.c:499
+#: src/print-info.c:529
 #, fuzzy
 msgid "Sheet 1"
 msgstr "Planilha %d"
 
-#: src/print-info.c:562
+#: src/print-info.c:592
 msgid "tab"
 msgstr ""
 
-#: src/print-info.c:563
+#: src/print-info.c:593
 msgid "page"
 msgstr ""
 
-#: src/print-info.c:564
+#: src/print-info.c:594
 msgid "pages"
 msgstr ""
 
 # src/dialog-cell-format.c:68
-#: src/print-info.c:565
+#: src/print-info.c:595
 #, fuzzy
 msgid "date"
 msgstr "Data"
 
 # src/dialog-cell-format.c:69
-#: src/print-info.c:566
+#: src/print-info.c:596
 #, fuzzy
 msgid "time"
 msgstr "Hora"
@@ -13575,7 +13462,7 @@ msgstr "Hora"
 msgid "&[PAGE]"
 msgstr "Planilha %d"
 
-#: src/print.c:987 src/workbook.c:1985
+#: src/print.c:987 src/workbook.c:1984
 msgid "Selection must be a single range"
 msgstr ""
 
@@ -13609,13 +13496,13 @@ msgstr ""
 
 # src/item-cursor.c:579 src/item-grid.c:527 src/workbook.c:839
 #. FIXME FIXME : disable copying part of an array
-#: src/selection.c:599
+#: src/selection.c:600
 #, fuzzy
 msgid "copy"
 msgstr "Copiar"
 
 # src/item-grid.c:526 src/workbook.c:836
-#: src/selection.c:630
+#: src/selection.c:631
 #, fuzzy
 msgid "cut"
 msgstr "Cortar"
@@ -14208,14 +14095,14 @@ msgstr "Cria um objeto elipse"
 msgid "Nothing"
 msgstr "Sem mudanças"
 
-#: src/workbook-view.c:101 src/workbook-view.c:105 src/workbook.c:1640
-#: src/workbook.c:2632 src/workbook.c:2671
+#: src/workbook-view.c:101 src/workbook-view.c:105 src/workbook.c:1639
+#: src/workbook.c:2631 src/workbook.c:2670
 msgid "Undo"
 msgstr ""
 
 # src/dialog-define-names.c:27 src/plugin-manager.c:132
-#: src/workbook-view.c:102 src/workbook-view.c:107 src/workbook.c:1643
-#: src/workbook.c:2640 src/workbook.c:2673
+#: src/workbook-view.c:102 src/workbook-view.c:107 src/workbook.c:1642
+#: src/workbook.c:2639 src/workbook.c:2672
 #, fuzzy
 msgid "Redo"
 msgstr "Remover"
@@ -14251,7 +14138,7 @@ msgstr "Pasta de trabalho tem mudanças não salvas, salvar agora ?"
 # src/dialog-insert-cells.c:30
 #. TODO : No need to check simplicty.  XL applies for each
 #. * non-discrete selected region, (use selection_apply)
-#: src/workbook.c:784
+#: src/workbook.c:783
 #, fuzzy
 msgid "Insert cols"
 msgstr "Inserir células"
@@ -14259,672 +14146,672 @@ msgstr "Inserir células"
 # src/workbook.c:484 src/workbook.c:500
 #. TODO : No need to check simplicty.  XL applies for each
 #. * non-discrete selected region, (use selection_apply)
-#: src/workbook.c:808
+#: src/workbook.c:807
 msgid "Insert rows"
 msgstr "Inserir linhas"
 
 # src/workbook.c:662
-#: src/workbook.c:1250
+#: src/workbook.c:1249
 msgid "_New"
 msgstr "_Novo"
 
 # src/workbook.c:662
-#: src/workbook.c:1250
+#: src/workbook.c:1249
 msgid "Create a new spreadsheet"
 msgstr "Criar uma nova planilha"
 
-#: src/workbook.c:1254
+#: src/workbook.c:1253
 msgid "_Import..."
 msgstr ""
 
 # src/file.c:327
-#: src/workbook.c:1254
+#: src/workbook.c:1253
 #, fuzzy
 msgid "Imports a file"
 msgstr "Carregar arquivo"
 
-#: src/workbook.c:1264 src/workbook.c:1621
+#: src/workbook.c:1263 src/workbook.c:1620
 msgid "Print pre_view"
 msgstr ""
 
-#: src/workbook.c:1269
+#: src/workbook.c:1268
 msgid "Su_mmary..."
 msgstr ""
 
-#: src/workbook.c:1270
+#: src/workbook.c:1269
 msgid "Summary information"
 msgstr ""
 
 # src/workbook.c:687
-#: src/workbook.c:1283
+#: src/workbook.c:1282
 msgid "_All"
 msgstr "_Tudo"
 
 # src/workbook.c:688
-#: src/workbook.c:1284
+#: src/workbook.c:1283
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Limpar os formatos, comentários e conteúdos das células selecionadas"
 
 # src/workbook.c:690
-#: src/workbook.c:1286
+#: src/workbook.c:1285
 msgid "_Formats"
 msgstr "_Formatos"
 
 # src/workbook.c:691
-#: src/workbook.c:1287
+#: src/workbook.c:1286
 msgid "Clear the selected cells' formats"
 msgstr "Limpar os formatos das células selecionadas"
 
 # src/workbook.c:693
-#: src/workbook.c:1290
+#: src/workbook.c:1289
 msgid "Clear the selected cells' comments"
 msgstr "Limpar os comentários das células selecionadas"
 
 # src/workbook.c:694
-#: src/workbook.c:1292
+#: src/workbook.c:1291
 msgid "_Content"
 msgstr "_Conteúdo"
 
 # src/workbook.c:695
-#: src/workbook.c:1293
+#: src/workbook.c:1292
 msgid "Clear the selected cells' contents"
 msgstr "Limpa o conteúdo das células selecionadas"
 
 # src/workbook.c:709
-#: src/workbook.c:1301
+#: src/workbook.c:1300
 #, fuzzy
 msgid "Select _All"
 msgstr "_Selecionar Tudo"
 
 # src/workbook.c:710
-#: src/workbook.c:1302
+#: src/workbook.c:1301
 msgid "Select all cells in the spreadsheet"
 msgstr "Selecionar todas as células da planilha"
 
 # src/dialog-insert-cells.c:36
-#: src/workbook.c:1306
+#: src/workbook.c:1305
 #, fuzzy
 msgid "Select _Row"
 msgstr "Inserir linha(s)"
 
 # src/workbook.c:868
-#: src/workbook.c:1307
+#: src/workbook.c:1306
 #, fuzzy
 msgid "Select an entire row"
 msgstr "Cria um objeto linha"
 
 # src/dialog-delete-cells.c:36
-#: src/workbook.c:1311
+#: src/workbook.c:1310
 #, fuzzy
 msgid "Select _Column"
 msgstr "Apagar coluna(s)"
 
 # src/workbook.c:868
-#: src/workbook.c:1312
+#: src/workbook.c:1311
 #, fuzzy
 msgid "Select an entire column"
 msgstr "Cria um objeto linha"
 
 # src/workbook.c:709
-#: src/workbook.c:1316
+#: src/workbook.c:1315
 #, fuzzy
 msgid "Select Arra_y"
 msgstr "_Selecionar Tudo"
 
-#: src/workbook.c:1317
+#: src/workbook.c:1316
 msgid "Select an array of cells"
 msgstr ""
 
-#: src/workbook.c:1321
+#: src/workbook.c:1320
 msgid "Select _Depends"
 msgstr ""
 
-#: src/workbook.c:1322
+#: src/workbook.c:1321
 msgid "Select all the cells that depend on the current edit cell."
 msgstr ""
 
 # src/workbook.c:703
-#: src/workbook.c:1338
+#: src/workbook.c:1337
 msgid "P_aste special..."
 msgstr "C_olar especial..."
 
-#: src/workbook.c:1339
+#: src/workbook.c:1338
 msgid "Paste with optional filters and transformations"
 msgstr ""
 
 # src/workbook.c:704
-#: src/workbook.c:1344
+#: src/workbook.c:1343
 msgid "C_lear"
 msgstr "_Limpar"
 
-#: src/workbook.c:1347
+#: src/workbook.c:1346
 msgid "Remove selected cells, shifting other into their place"
 msgstr ""
 
 # src/item-grid.c:535
-#: src/workbook.c:1349
+#: src/workbook.c:1348
 #, fuzzy
 msgid "De_lete Sheet"
 msgstr "Formato da célula"
 
-#: src/workbook.c:1350
+#: src/workbook.c:1349
 msgid "Irrevocably remove an entire sheet"
 msgstr ""
 
 # src/dialog-delete-cells.c:32 src/item-grid.c:532
-#: src/workbook.c:1355
+#: src/workbook.c:1354
 #, fuzzy
 msgid "_Select..."
 msgstr "Apagar"
 
 # src/workbook.c:712
 #. Default <Ctrl-G> to be goto
-#: src/workbook.c:1358
+#: src/workbook.c:1357
 #, fuzzy
 msgid "_Goto cell..."
 msgstr "_Ir para a célula.."
 
 # src/workbook.c:713
-#: src/workbook.c:1359
+#: src/workbook.c:1358
 msgid "Jump to a specified cell"
 msgstr "Ir para uma célula específica"
 
 # src/workbook.c:723
 #. Default <F9> to recalculate
-#: src/workbook.c:1363
+#: src/workbook.c:1362
 msgid "_Recalculate"
 msgstr "_Recalcular"
 
 # src/workbook.c:724
-#: src/workbook.c:1364
+#: src/workbook.c:1363
 msgid "Recalculate the spreadsheet"
 msgstr "Recalcular a planilha"
 
 # src/workbook.c:732
-#: src/workbook.c:1373
+#: src/workbook.c:1372
 msgid "_Zoom..."
 msgstr "_Ampliação..."
 
 # src/workbook.c:733
-#: src/workbook.c:1374
+#: src/workbook.c:1373
 msgid "Zoom the spreadsheet in or out"
 msgstr "Ampliar ou reduzir a planilha"
 
 # src/workbook.c:740
 #. Default <Ctrl-;> (control semi-colon) to insert the current date
-#: src/workbook.c:1383
+#: src/workbook.c:1382
 msgid "Current _date"
 msgstr "_Data corrente"
 
 # src/workbook.c:741
-#: src/workbook.c:1384
+#: src/workbook.c:1383
 #, fuzzy
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Inserir o dado corrente na(s) célula(s) selecionada(s)"
 
 # src/workbook.c:744
 #. Default <Ctrl-:> (control colon) to insert the current time
-#: src/workbook.c:1389
+#: src/workbook.c:1388
 msgid "Current _time"
 msgstr "_Hora corrente"
 
 # src/workbook.c:745
-#: src/workbook.c:1390
+#: src/workbook.c:1389
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Inserir a hora corrente na(s) célula(s) selecionada(s)"
 
 # src/workbook.c:754 src/workbook.c:792
-#: src/workbook.c:1397
+#: src/workbook.c:1396
 #, fuzzy
 msgid "_Names..."
 msgstr "_Células..."
 
-#: src/workbook.c:1398
+#: src/workbook.c:1397
 msgid "Edit sheet and workbook names"
 msgstr ""
 
 # src/workbook.c:712
-#: src/workbook.c:1401
+#: src/workbook.c:1400
 #, fuzzy
 msgid "_Auto generate names..."
 msgstr "_Ir para a célula.."
 
 # src/workbook.c:836
-#: src/workbook.c:1402
+#: src/workbook.c:1401
 #, fuzzy
 msgid "Use the current selection to create names"
 msgstr "Corta a seleção para a Área de Transferência"
 
 # src/workbook.c:752 src/workbook.c:798
-#: src/workbook.c:1409 src/workbook.c:1529
+#: src/workbook.c:1408 src/workbook.c:1528
 msgid "_Sheet"
 msgstr "_Planilha"
 
 # src/workbook.c:752
-#: src/workbook.c:1410
+#: src/workbook.c:1409
 msgid "Insert a new spreadsheet"
 msgstr "Inserir uma nova planilha"
 
 # src/workbook.c:756
-#: src/workbook.c:1413
+#: src/workbook.c:1412
 msgid "Insert new rows"
 msgstr "Inserir novas linhas"
 
 # src/workbook.c:758
-#: src/workbook.c:1416
+#: src/workbook.c:1415
 msgid "Insert new columns"
 msgstr "Inserir novas colunas"
 
 # src/workbook.c:754 src/workbook.c:792
-#: src/workbook.c:1418
+#: src/workbook.c:1417
 #, fuzzy
 msgid "C_ells..."
 msgstr "_Células..."
 
 # src/workbook.c:754
-#: src/workbook.c:1419
+#: src/workbook.c:1418
 msgid "Insert new cells"
 msgstr "Inserir novas células"
 
 # src/workbook.c:814
-#: src/workbook.c:1423
+#: src/workbook.c:1422
 #, fuzzy
 msgid "_Object..."
 msgstr "_Inserir"
 
 # src/workbook.c:868
-#: src/workbook.c:1424
+#: src/workbook.c:1423
 #, fuzzy
 msgid "Inserts a Bonobo object"
 msgstr "Cria um objeto linha"
 
 # src/plugin-manager.c:95 src/plugin-manager.c:96
-#: src/workbook.c:1430
+#: src/workbook.c:1429
 #, fuzzy
 msgid "N_ames"
 msgstr "Nome"
 
 # src/workbook.c:763
-#: src/workbook.c:1432
+#: src/workbook.c:1431
 #, fuzzy
 msgid "_Add\\modify comment..."
 msgstr "_Adicionar/Modificar comentário"
 
 # src/workbook.c:764
-#: src/workbook.c:1433
+#: src/workbook.c:1432
 msgid "Edit the selected cell's comment"
 msgstr "Editar o comentário da célula selecionada"
 
 # src/workbook.c:765
-#: src/workbook.c:1436
+#: src/workbook.c:1435
 #, fuzzy
 msgid "S_pecial"
 msgstr "_Especial"
 
-#: src/workbook.c:1443 src/workbook.c:1462
+#: src/workbook.c:1442 src/workbook.c:1461
 msgid "_Auto fit selection"
 msgstr ""
 
 # src/workbook.c:775
-#: src/workbook.c:1446
+#: src/workbook.c:1445
 #, fuzzy
 msgid "_Width..."
 msgstr "_Largura"
 
-#: src/workbook.c:1455
+#: src/workbook.c:1454
 msgid "_Standard Width"
 msgstr ""
 
 # src/workbook.c:781
-#: src/workbook.c:1465
+#: src/workbook.c:1464
 #, fuzzy
 msgid "_Height..."
 msgstr "_Altura"
 
 # src/workbook.c:781
-#: src/workbook.c:1474
+#: src/workbook.c:1473
 #, fuzzy
 msgid "_Standard Height"
 msgstr "_Altura"
 
 # src/workbook.c:786
-#: src/workbook.c:1481
+#: src/workbook.c:1480
 msgid "_Change name"
 msgstr "_Mudar nome"
 
 # src/item-grid.c:535
-#: src/workbook.c:1484
+#: src/workbook.c:1483
 #, fuzzy
 msgid "Re-_Order Sheets"
 msgstr "Formato da célula"
 
 # src/dialog-paste-special.c:21
-#: src/workbook.c:1489
+#: src/workbook.c:1488
 #, fuzzy
 msgid "Display _Formulas"
 msgstr "Fórmulas"
 
-#: src/workbook.c:1495
+#: src/workbook.c:1494
 msgid "Hide _Zeros"
 msgstr ""
 
 # src/gnumeric-sheet.c:907
-#: src/workbook.c:1501
+#: src/workbook.c:1500
 #, fuzzy
 msgid "Hide _Gridlines"
 msgstr "Linhas verticais"
 
-#: src/workbook.c:1507
+#: src/workbook.c:1506
 msgid "Hide _Column Header"
 msgstr ""
 
-#: src/workbook.c:1513
+#: src/workbook.c:1512
 msgid "Hide _Row Header"
 msgstr ""
 
 # src/workbook.c:754 src/workbook.c:792
 #. Default <Ctrl-1> invoke the format dialog
-#: src/workbook.c:1523
+#: src/workbook.c:1522
 msgid "_Cells..."
 msgstr "_Células..."
 
 # src/workbook.c:793
-#: src/workbook.c:1524
+#: src/workbook.c:1523
 msgid "Modify the formatting of the selected cells"
 msgstr "Modifica a formatação das células selecionadas"
 
 # src/workbook.c:796
-#: src/workbook.c:1527
+#: src/workbook.c:1526
 msgid "C_olumn"
 msgstr "C_oluna"
 
 # src/workbook.c:797
-#: src/workbook.c:1528
+#: src/workbook.c:1527
 msgid "_Row"
 msgstr "_Linha"
 
 # src/workbook.c:774 src/workbook.c:780
-#: src/workbook.c:1531
+#: src/workbook.c:1530
 #, fuzzy
 msgid "_Autoformat..."
 msgstr "_Autoajuste"
 
-#: src/workbook.c:1532
+#: src/workbook.c:1531
 msgid "Format a region of cells according to a pre-defined template"
 msgstr ""
 
 # src/file.c:257
-#: src/workbook.c:1535
+#: src/workbook.c:1534
 #, fuzzy
 msgid "_Workbook..."
 msgstr "Salvar pasta de trabalho como"
 
-#: src/workbook.c:1536
+#: src/workbook.c:1535
 msgid "Modify the workbook attributes"
 msgstr ""
 
 # src/workbook.c:673
-#: src/workbook.c:1543
+#: src/workbook.c:1542
 #, fuzzy
 msgid "_Plug-ins..."
 msgstr "Plu_gins..."
 
-#: src/workbook.c:1544
+#: src/workbook.c:1543
 msgid "Manage available plugin modules."
 msgstr ""
 
-#: src/workbook.c:1549
+#: src/workbook.c:1548
 msgid "Auto _Correct..."
 msgstr ""
 
-#: src/workbook.c:1550
+#: src/workbook.c:1549
 msgid "Automatically perform simple spell checking"
 msgstr ""
 
 # src/workbook.c:712
-#: src/workbook.c:1552
+#: src/workbook.c:1551
 #, fuzzy
 msgid "_Auto Save..."
 msgstr "_Ir para a célula.."
 
-#: src/workbook.c:1553
+#: src/workbook.c:1552
 msgid "Automatically save the current document at regular intervals"
 msgstr ""
 
-#: src/workbook.c:1558
+#: src/workbook.c:1557
 msgid "_Goal Seek..."
 msgstr ""
 
-#: src/workbook.c:1559
+#: src/workbook.c:1558
 msgid "Iteratively recalculate to find a target value"
 msgstr ""
 
-#: src/workbook.c:1561
+#: src/workbook.c:1560
 msgid "_Solver..."
 msgstr ""
 
-#: src/workbook.c:1562
+#: src/workbook.c:1561
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr ""
 
-#: src/workbook.c:1567
+#: src/workbook.c:1566
 msgid "_Data Analysis..."
 msgstr ""
 
 # plugins/stat/stat.c:69
-#: src/workbook.c:1568
+#: src/workbook.c:1567
 #, fuzzy
 msgid "Statistical methods."
 msgstr "Plugin de Estatísticas"
 
 # src/dialog-goto-cell.c:45
-#: src/workbook.c:1576
+#: src/workbook.c:1575
 #, fuzzy
 msgid "_Sort..."
 msgstr "Ir para..."
 
 # src/workbook.c:705
-#: src/workbook.c:1577
+#: src/workbook.c:1576
 #, fuzzy
 msgid "Sort the selected cells"
 msgstr "Limpar a(s) célula(s) selecionada(s)"
 
 # src/dialog-delete-cells.c:32 src/item-grid.c:532
-#: src/workbook.c:1579
+#: src/workbook.c:1578
 #, fuzzy
 msgid "_Filter..."
 msgstr "Apagar"
 
-#: src/workbook.c:1580
+#: src/workbook.c:1579
 msgid "Filter data with given criteria"
 msgstr ""
 
 # src/workbook.c:814
-#: src/workbook.c:1596
+#: src/workbook.c:1595
 msgid "_Insert"
 msgstr "_Inserir"
 
 # src/workbook.c:815
-#: src/workbook.c:1597
+#: src/workbook.c:1596
 msgid "F_ormat"
 msgstr "F_ormato"
 
-#: src/workbook.c:1598
+#: src/workbook.c:1597
 msgid "_Tools"
 msgstr ""
 
 # src/dialog-cell-format.c:68
-#: src/workbook.c:1599
+#: src/workbook.c:1598
 #, fuzzy
 msgid "_Data"
 msgstr "Data"
 
 # src/workbook.c:824
-#: src/workbook.c:1606
+#: src/workbook.c:1605
 msgid "New"
 msgstr "Novo"
 
 # src/dialog-define-names.c:42
-#: src/workbook.c:1606
+#: src/workbook.c:1605
 #, fuzzy
 msgid "Creates a new workbook"
 msgstr "Nomes do caderno de trabalho"
 
 # src/workbook.c:827
-#: src/workbook.c:1609
+#: src/workbook.c:1608
 msgid "Open"
 msgstr "Abrir"
 
 # src/workbook.c:827
-#: src/workbook.c:1609
+#: src/workbook.c:1608
 msgid "Opens an existing workbook"
 msgstr "Abre um livro de trabalho pré existente"
 
 # src/workbook.c:830
-#: src/workbook.c:1612
+#: src/workbook.c:1611
 msgid "Save"
 msgstr "Salvar"
 
 # src/workbook.c:830
-#: src/workbook.c:1612
+#: src/workbook.c:1611
 msgid "Saves the workbook"
 msgstr "Salva a pasta de trabalho"
 
 # src/workbook.c:830
-#: src/workbook.c:1618
+#: src/workbook.c:1617
 #, fuzzy
 msgid "Prints the workbook"
 msgstr "Salva a pasta de trabalho"
 
 # src/item-grid.c:526 src/workbook.c:836
-#: src/workbook.c:1627
+#: src/workbook.c:1626
 msgid "Cut"
 msgstr "Cortar"
 
 # src/workbook.c:836
-#: src/workbook.c:1627
+#: src/workbook.c:1626
 msgid "Cuts the selection to the clipboard"
 msgstr "Corta a seleção para a Área de Transferência"
 
 # src/workbook.c:839
-#: src/workbook.c:1630
+#: src/workbook.c:1629
 msgid "Copies the selection to the clipboard"
 msgstr "Copia a seleção para a Área de Transferência"
 
 # src/workbook.c:842
-#: src/workbook.c:1633
+#: src/workbook.c:1632
 msgid "Pastes the clipboard"
 msgstr "Cola o conteúdo da Área de Transferência"
 
 # src/expr.c:979
-#: src/workbook.c:1640
+#: src/workbook.c:1639
 #, fuzzy
 msgid "Undo the operation"
 msgstr "Erro desconhecido de avaliação"
 
-#: src/workbook.c:1643
+#: src/workbook.c:1642
 msgid "Redo the operation"
 msgstr ""
 
-#: src/workbook.c:1653
+#: src/workbook.c:1652
 msgid "Sum into the current cell."
 msgstr ""
 
 # src/dialog-cell-format.c:71
-#: src/workbook.c:1656
+#: src/workbook.c:1655
 #, fuzzy
 msgid "Function"
 msgstr "Fração"
 
-#: src/workbook.c:1656
+#: src/workbook.c:1655
 msgid "Edit a function in the current cell."
 msgstr ""
 
 # src/dialog-cell-format.c:67
-#: src/workbook.c:1660
+#: src/workbook.c:1659
 #, fuzzy
 msgid "Sort Ascending"
 msgstr "Contabilidade"
 
-#: src/workbook.c:1660
+#: src/workbook.c:1659
 msgid ""
 "Sorts the selected region in ascending order based on the first column "
 "selected."
 msgstr ""
 
 # src/dialog-cell-format.c:67
-#: src/workbook.c:1663
+#: src/workbook.c:1662
 #, fuzzy
 msgid "Sort Descending"
 msgstr "Contabilidade"
 
-#: src/workbook.c:1663
+#: src/workbook.c:1662
 msgid ""
 "Sorts the selected region in descending order based on the first column "
 "selected."
 msgstr ""
 
 # src/workbook.c:958
-#: src/workbook.c:1951
+#: src/workbook.c:1950
 msgid "You should introduce a valid cell name"
 msgstr "Você deve digitar um nome válido de célula"
 
 # src/workbook.c:1078
-#: src/workbook.c:2104
+#: src/workbook.c:2103
 msgid "Min"
 msgstr "Mínimo"
 
 # src/workbook.c:1079
-#: src/workbook.c:2105
+#: src/workbook.c:2104
 msgid "Max"
 msgstr "Máximo"
 
 # src/workbook.c:1273
-#: src/workbook.c:2747
+#: src/workbook.c:2746
 #, fuzzy, c-format
 msgid "Book%d.gnumeric"
 msgstr "SemTítulo.gnumeric"
 
 # src/workbook.c:1753 src/workbook.c:1781
-#: src/workbook.c:2975
+#: src/workbook.c:2974
 #, fuzzy
 msgid "Sheet name"
 msgstr "Planilha %d"
 
-#: src/workbook.c:2976
+#: src/workbook.c:2975
 msgid "must have at least 1 letter"
 msgstr ""
 
 # src/item-grid.c:535
-#: src/workbook.c:2983
+#: src/workbook.c:2982
 #, fuzzy
 msgid "Duplicate Sheet name"
 msgstr "Formato da célula"
 
 # src/workbook.c:1491
-#: src/workbook.c:3151
+#: src/workbook.c:3150
 msgid "Add another sheet"
 msgstr "Adicionar outra planilha"
 
 # src/workbook.c:1492
-#: src/workbook.c:3152
+#: src/workbook.c:3151
 msgid "Remove this sheet"
 msgstr "Remover esta planilha"
 
 # src/workbook.c:1492
-#: src/workbook.c:3153
+#: src/workbook.c:3152
 #, fuzzy
 msgid "Rename this sheet"
 msgstr "Remover esta planilha"
 
 # src/workbook.c:1492
-#: src/workbook.c:3154
+#: src/workbook.c:3153
 #, fuzzy
 msgid "Duplicate this sheet"
 msgstr "Remover esta planilha"
 
 # src/workbook.c:1492
-#: src/workbook.c:3155
+#: src/workbook.c:3154
 #, fuzzy
 msgid "Re-order sheets"
 msgstr "Remover esta planilha"
