@@ -47,8 +47,7 @@ module GNOME {
 		interface Sheet {
 			exception OutOfRange {};
 			exception ParseError {};
-			exception InvalidValue {};
-			exception SplitsArray {};
+			exception InvalidCmd {};
 
 			void cursor_set  (in long base_col, in long base_row,
 					  in long start_col, in long start_row,
@@ -75,20 +74,17 @@ module GNOME {
 				raises (OutOfRange);
 			void    selection_copy ();
 			void    selection_cut ()
-				raises (SplitsArray);
-			void    selection_paste (in long dest_col, in long dest_row, 
-						 in long paste_flags)
-				raises (OutOfRange, SplitsArray);
+				raises (InvalidCmd);
 
 			//
 			// Operations on the region
 			//
 			void    clear_region (in long start_col, in long start_row,
 					      in long end_col, in long end_row)
-				raises (OutOfRange, SplitsArray);
+				raises (OutOfRange, InvalidCmd);
 			void    clear_region_content (in long start_col, in long start_row,
 						      in long end_col, in long end_row)
-				raises (OutOfRange, SplitsArray);
+				raises (OutOfRange, InvalidCmd);
 			void    clear_region_comments (in long start_col, in long start_row,
 						       in long end_col, in long end_row)
 				raises (OutOfRange);
@@ -102,12 +98,12 @@ module GNOME {
 			//
 			void    cell_set_value (in long col, in long row,
 						in Gnumeric::Value value)
-				raises (OutOfRange, SplitsArray);
+				raises (OutOfRange, InvalidCmd);
 			Value   cell_get_value (in long col, in long row) 
 				raises (OutOfRange);
 
 			void    cell_set_text (in long col, in long row, in string text)
-				raises (OutOfRange, SplitsArray);
+				raises (OutOfRange, InvalidCmd);
 			string  cell_get_text (in long col, in long row)
 				raises (OutOfRange);
 
@@ -171,7 +167,7 @@ module GNOME {
 			ValueVector range_get_values (in string range)
 				raises (OutOfRange);
 			void    range_set_text (in string range, in string text)
-				raises (OutOfRange, SplitsArray);
+				raises (OutOfRange, InvalidCmd);
 			void    range_set_format (in string range, in string format)
 				raises (OutOfRange);
 			void    range_set_font (in string range, in string font, in short points)
@@ -196,13 +192,13 @@ module GNOME {
 			// Sheet manipulation
 			//
 			void    insert_col (in long col, in long count)
-				raises(SplitsArray);
+				raises(InvalidCmd);
 			void    delete_col (in long col, in long count)
-				raises(SplitsArray);
+				raises(InvalidCmd);
 			void    insert_row (in long row, in long count)
-				raises(SplitsArray);
+				raises(InvalidCmd);
 			void    delete_row (in long row, in long count)
-				raises(SplitsArray);
+				raises(InvalidCmd);
 			void    shift_rows (in long col, 
 					    in long start_row, in long end_row,
 					    in long count);
