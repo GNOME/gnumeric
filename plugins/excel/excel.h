@@ -44,4 +44,5 @@ extern FormulaFuncData formula_func_data[];
 #define FORMULA_FUNC_DATA_LEN 368
 
 #define ROW_BLOCK_MAX_LEN 32
+#define WRITEACCESS_LEN  112
 #endif

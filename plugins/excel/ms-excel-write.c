@@ -311,17 +311,15 @@ static void
 write_bits (BiffPut *bp, ExcelWorkbook *wb, eBiff_version ver)
 {
 	guint8 *data;
-
+	const char *fsf = "The Free Software Foundation";
+	char pad [WRITEACCESS_LEN];
+	
 	/* See: S59E1A.HTM */
+	g_assert (strlen (fsf) < WRITEACCESS_LEN);
+	memset (pad, ' ', sizeof pad);
 	ms_biff_put_var_next (bp, BIFF_WRITEACCESS);
-/*	biff_put_text (bp, "the free software foundation   ", ver, TRUE); */
-	biff_put_text (bp, "Michael Meeks", ver, TRUE, AS_PER_VER); /* For testing */
-	ms_biff_put_var_write (bp, "                  "
-			       "                "
-			       "                "
-			       "                "
-			       "                "
-			       "                  ", 16*6+2);
+	biff_put_text (bp, fsf, ver, TRUE, AS_PER_VER);
+	ms_biff_put_var_write (bp, pad, WRITEACCESS_LEN - strlen (fsf) - 1);
 	ms_biff_put_commit (bp);
 
 	/* See: S59D66.HTM */

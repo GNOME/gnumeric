@@ -6,11 +6,6 @@ Michael
 			* Deeper DBCELL records
 			* Truncated Index records
 			* Intelligent blank cell removal on insertion.
-	* New style support so we can do
-		* Colours
-		* Fonts etc.
-		* Cell borders...
-	* Remove silly name record in Excel writing ( after debugging is done )
 	* Split panes.
 	* Use same XML as Office 2000 for elegance (?)
 	* Investigate VB streams, and their lengths.
@@ -24,12 +19,10 @@ Michael
 	support and to provide a generic sensible sub-query offset.
 	* Fix VLookup so the lookfuns.xls works.
 	* Fix INDEX, AREAS, INDIRECT.
-	* Get scalability to large sheets sorted
-	* Fully clean ms-biff to remove duff padding stuff.
 	* Implement R1C1 style references.
+	* hack ms-biff.c to kill CONTINUE handling.
 
 Jody
-	* HEADER, FOOTER import.
 	* Check the record lengths on the biff records BEFORE use.
 	* More version size changes for NAME
 	* ExternSheet import for pre-biff8
