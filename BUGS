@@ -6,22 +6,6 @@ Release Critical
 ----------------
 - Parser: The single character '%' is parsed as an expression '0%'
 
-- Parser: "=1e100" fails.  And leaks.
-         MLK: 24 bytes leaked at 0x86c5c8
-               expr_tree_new_var [expr.c:131]
-               parse_ref_or_string [parser.y:583]
-               yylex          [parser.y:720]
-               yyparse        [bison.simple:387]
-               gnumeric_expr_parser [parser.y:787]
-               expr_parse_string [expr.c:192]
-
-         MLK: 8 bytes leaked at 0x878cf0
-               value_new_int  [value.c:40]
-               yylex          [parser.y:658]
-               yyparse        [bison.simple:387]
-               gnumeric_expr_parser [parser.y:787]
-               expr_parse_string [expr.c:192]
-
 - Column resizing and "general".  Double-clicking on column separators to
   autosize columns tends to shrink columns with, say, "=22/3" in them.
 
