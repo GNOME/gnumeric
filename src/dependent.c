@@ -35,6 +35,7 @@
 #include "cell.h"
 #include "func.h"
 #include "sheet.h"
+#include "rendered-value.h"
 
 #define BUCKET_SIZE	128
 
@@ -80,6 +81,37 @@ dependent_type_register (DependentClass const *klass)
 	return res;
 }
 
+/*
+ * dependent_flag_recalc:
+ * @dep: the dependent that contains the expression needing recomputation.
+ *
+ * Marks @dep as needing recalculation
+ * NOTE : it does NOT recursively dirty dependencies.
+ */
+#define dependent_flag_recalc(dep) \
+  do { (dep)->flags |= DEPENDENT_NEEDS_RECALC; } while (0)
+
+/**
+ * dependent_changed:
+ * @cell : the dependent that changed
+ *
+ * Links the dependent and queues a recalc.
+ */
+static void
+dependent_changed (Dependent *dep)
+{
+	static CellPos const pos = { 0, 0 };
+
+	/* A pos should not be necessary, but supply one just in case.  If a
+	 * user specifies a relative reference this is probably what they want.
+	 */
+	dependent_link (dep, &pos);
+
+	if (dep->sheet->workbook->priv->recursive_dirty_enabled)
+		cb_dependent_queue_recalc (dep,  NULL);
+	else
+		dependent_flag_recalc (dep);
+}
 
 /**
  * dependent_set_expr :
@@ -88,8 +120,10 @@ dependent_type_register (DependentClass const *klass)
  *
  * When the expression associated with a dependent needs to change this routine
  * dispatches to the virtual handler unlinking if necessary.
- * NOTE : it does NOT relink
+ * NOTE : it does NOT relink cells incase they are going to move later.
+ * It does appear to relink objects ???
  */
+#warning fix the semantics of this
 void
 dependent_set_expr (Dependent *dep, ExprTree *new_expr)
 {
@@ -135,7 +169,7 @@ dependent_set_expr (Dependent *dep, ExprTree *new_expr)
 			expr_tree_unref (dep->expression);
 		dep->expression = new_expr;
 		if (new_expr != NULL)
-			dependent_changed (dep, TRUE);
+			dependent_changed (dep);
 	}
 }
 
@@ -153,18 +187,8 @@ dependent_set_sheet (Dependent *dep, Sheet *sheet)
 
 	dep->sheet = sheet;
 	if (dep->expression != NULL)
-		dependent_changed (dep, TRUE);
+		dependent_changed (dep);
 }
-
-/*
- * dependent_flag_recalc:
- * @dep: the dependent that contains the expression needing recomputation.
- *
- * Marks @dep as needing recalculation
- * NOTE : it does NOT recursively dirty dependencies.
- */
-#define dependent_flag_recalc(dep) \
-  do { (dep)->flags |= DEPENDENT_NEEDS_RECALC; } while (0)
 
 static void
 cb_cell_list_deps (Dependent *dep, gpointer user)
@@ -196,7 +220,7 @@ dependent_queue_recalc_list (GSList *list)
 
 	for (; list != NULL ; list = list->next) {
 		Dependent *dep = list->data;
-		if (!(dep->flags & DEPENDENT_NEEDS_RECALC)) {
+		if (!dependent_needs_recalc (dep)) {
 			dependent_flag_recalc (dep);
 			work = g_slist_prepend (work, dep);
 		}
@@ -224,7 +248,7 @@ dependent_queue_recalc_list (GSList *list)
 			for (list = deps; list != NULL ; list = next) {
 				Dependent *dep = list->data;
 				next = list->next;
-				if (dep->flags & DEPENDENT_NEEDS_RECALC) {
+				if (dependent_needs_recalc (dep)) {
 					list->next = waste;
 					waste = list;
 				} else {
@@ -244,7 +268,7 @@ cb_dependent_queue_recalc (Dependent *dep, gpointer ignore)
 {
 	g_return_if_fail (dep != NULL);
 
-	if (!(dep->flags & DEPENDENT_NEEDS_RECALC)) {
+	if (!dependent_needs_recalc (dep)) {
 		GSList listrec;
 		listrec.next = NULL;
 		listrec.data = dep;
@@ -927,31 +951,138 @@ dependent_unlink (Dependent *dep, CellPos const *pos)
 }
 
 /**
- * dependent_changed:
- * @cell : the dependent that changed
- * @queue_recalc: also queue a recalc for the dependent.
+ * cell_eval_content:
+ * @cell: the cell to evaluate.
  *
- * Registers the expression with the sheet and optionally queues a recalc
- * of the dependent.
- */
-void
-dependent_changed (Dependent *dep, gboolean queue_recalc)
+ * This function evaluates the contents of the cell,
+ * it should not be used by anyone. It is an internal
+ * function.
+ **/
+static gboolean
+cell_eval_content (Cell *cell)
 {
-	static CellPos const pos = { 0, 0 };
+	static Cell *iterating = NULL;
+	Value   *v;
+	EvalPos	 pos;
+	int	 max_iteration;
 
-	g_return_if_fail (dep != NULL);
+	if (!cell_has_expr (cell))
+		return TRUE;
 
-	/* A pos should not be necessary, but supply one just in case.  If a
-	 * user specifies a relative reference this is probably what they want.
-	 */
-	dependent_link (dep, &pos);
-
-	if (queue_recalc) {
-		if (dep->sheet->workbook->priv->recursive_dirty_enabled)
-			cb_dependent_queue_recalc (dep,  NULL);
-		else
-			dependent_flag_recalc (dep);
+#ifdef DEBUG_EVALUATION
+	{
+		ParsePos pp;
+		char *str = expr_tree_as_string (cell->base.expression,
+			parse_pos_init_cell (&pp, cell));
+		printf ("{\nEvaluating %s: %s;\n", cell_name (cell), str);
+		g_free (str);
 	}
+#endif
+
+	/* This is the bottom of a cycle */
+	if (cell->base.flags & DEPENDENT_BEING_CALCULATED) {
+		if (!cell->base.sheet->workbook->iteration.enabled)
+			return TRUE;
+
+		/* but not the first bottom */
+		if (cell->base.flags & DEPENDENT_BEING_ITERATED) {
+#ifdef DEBUG_EVALUATION
+			printf ("}; /* already-iterate (%d) */\n", iterating == NULL);
+#endif
+			return iterating == NULL;
+		}
+
+		/* if we are still marked as iterating then make this the last
+		 * time through.
+		 */
+		if (iterating == cell) {
+#ifdef DEBUG_EVALUATION
+			puts ("}; /* NO-iterate (1) */");
+#endif
+			return TRUE;
+		} else if (iterating == NULL) {
+			cell->base.flags |= DEPENDENT_BEING_ITERATED;
+			iterating = cell;
+#ifdef DEBUG_EVALUATION
+			puts ("}; /* START iterate = TRUE (0) */");
+#endif
+			return FALSE;
+		} else {
+#ifdef DEBUG_EVALUATION
+			puts ("}; /* other-iterate (0) */");
+#endif
+			return FALSE;
+		}
+	}
+
+	/* Prepare to calculate */
+	eval_pos_init_cell (&pos, cell);
+	cell->base.flags |= DEPENDENT_BEING_CALCULATED;
+	max_iteration = cell->base.sheet->workbook->iteration.max_number;
+
+iterate :
+	v = expr_eval (cell->base.expression, &pos, EVAL_STRICT);
+	if (v == NULL)
+		v = value_new_error (&pos, "Internal error");
+
+#ifdef DEBUG_EVALUATION
+	{
+		char *valtxt = v
+			? value_get_as_string (v)
+			: g_strdup ("NULL");
+		printf ("Evaluation(%d) %s := %s\n", max_iteration, cell_name (cell), valtxt);
+		g_free (valtxt);
+	}
+#endif
+
+	/* The top of a cycle */
+	if (cell->base.flags & DEPENDENT_BEING_ITERATED) {
+		cell->base.flags &= ~DEPENDENT_BEING_ITERATED;
+
+		/* We just completed the last iteration, don't change things */
+		if (iterating && max_iteration-- > 0) {
+			/* If we are within bounds make this the last round */
+			if (value_diff (cell->value, v) < cell->base.sheet->workbook->iteration.tolerance)
+				max_iteration = 0;
+			else {
+#ifdef DEBUG_EVALUATION
+				puts ("/* iterate == NULL */");
+#endif
+				iterating = NULL;
+			}
+			value_release (cell->value);
+			cell->value = v;
+			puts ("/* LOOP */");
+#ifdef DEBUG_EVALUATION
+#endif
+			goto iterate;
+		}
+		g_return_val_if_fail (iterating, TRUE);
+		iterating = NULL;
+	} else {
+		/* do not use cell_assign_value unless you pass in the format */
+		if (cell->value != NULL)
+			value_release (cell->value);
+		cell->value = v;
+
+		/* Optimization : Since we don't span calculated cells
+		 * it is ok, to wipe rendered values.  The drawing routine
+		 * will handle it.
+		 */
+		if (cell->rendered_value != NULL) {
+			rendered_value_destroy (cell->rendered_value);
+			cell->rendered_value = NULL;
+		}
+	}
+
+	if (iterating == cell)
+		iterating = NULL;
+
+#ifdef DEBUG_EVALUATION
+	printf ("} (%d)\n", iterating == NULL);
+#endif
+	cell->base.flags &= ~DEPENDENT_BEING_CALCULATED;
+	return iterating == NULL;
 }
 
 void
@@ -968,6 +1099,36 @@ cell_eval (Cell *cell)
 		cell->base.flags &= ~DEPENDENT_NEEDS_RECALC;
 	}
 }
+
+/**
+ * dependent_eval :
+ * @dep :
+ */
+gboolean
+dependent_eval (Dependent *dep)
+{
+	if (dependent_needs_recalc (dep)) {
+		int const t = dependent_type (dep);
+
+		if (t != DEPENDENT_CELL) {
+			DependentClass *klass = g_ptr_array_index (dep_classes, t);
+
+			g_return_val_if_fail (klass, FALSE);
+			(*klass->eval) (dep);
+		} else {
+			gboolean finished = cell_eval_content (DEP_TO_CELL (dep));
+
+			/* This should always be the top of the stack */
+			g_return_val_if_fail (finished, FALSE);
+		}
+
+		/* Don't clear flag until after in case we iterate */
+		dep->flags &= ~DEPENDENT_NEEDS_RECALC;
+		return TRUE;
+	}
+	return FALSE;
+}
+
 
 /**
  * cell_queue_recalc :
@@ -1556,35 +1717,6 @@ workbook_queue_all_recalc (Workbook *wb)
 {
 	/* FIXME : warning what about dependents in other workbooks */
 	WORKBOOK_FOREACH_DEPENDENT (wb, dep, dependent_flag_recalc (dep););
-}
-
-/**
- * dependent_eval :
- * @dep :
- */
-gboolean
-dependent_eval (Dependent *dep)
-{
-	if (dep->flags & DEPENDENT_NEEDS_RECALC) {
-		int const t = dependent_type (dep);
-
-		if (t != DEPENDENT_CELL) {
-			DependentClass *klass = g_ptr_array_index (dep_classes, t);
-
-			g_return_val_if_fail (klass, FALSE);
-			(*klass->eval) (dep);
-		} else {
-			gboolean finished = cell_eval_content (DEP_TO_CELL (dep));
-
-			/* This should always be the top of the stack */
-			g_return_val_if_fail (finished, FALSE);
-		}
-
-		/* Don't clear flag until after in case we iterate */
-		dep->flags &= ~DEPENDENT_NEEDS_RECALC;
-		return TRUE;
-	}
-	return FALSE;
 }
 
 /**

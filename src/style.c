@@ -126,16 +126,17 @@ style_font_new_simple (char const *font_name, double size_pts, double scale,
 
 		/* Worst case scenario */
 		font->gdk_font = gdk_font_from_description (desc);
-		if (font->gdk_font == NULL)
+		if (font->gdk_font == NULL) {
 			/* xgettext:
 			 * The name of the default font for this locale.
 			 * Preferably something with the correct encoding.
 			 */
 			font->gdk_font = gdk_fontset_load (_("fixed"));
-		else
+
+			g_return_val_if_fail (font->gdk_font != NULL, NULL);
+		} else
 			gdk_font_ref (font->gdk_font);
 
-		g_return_if_fail (font->gdk_font != NULL);
 
 		{
 			const char *teststr = "0123456789-+eE.";

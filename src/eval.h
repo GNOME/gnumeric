@@ -77,7 +77,6 @@ void	 dependent_set_sheet	    (Dependent *dependent, Sheet *sheet);
 void	 dependent_link		    (Dependent *dep, CellPos const *pos);
 void	 dependent_unlink	    (Dependent *dep, CellPos const *pos);
 gboolean dependent_eval		    (Dependent *dep);
-void	 dependent_changed	    (Dependent *dep, gboolean queue_recalc);
 void	 cb_dependent_queue_recalc  (Dependent *dep, gpointer ignore);
 
 GSList  *dependents_relocate	    (ExprRelocateInfo const *info);

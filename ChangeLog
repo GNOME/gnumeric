@@ -1,3 +1,9 @@
+2002-03-19  Jody Goldberg <jody@gnome.org>
+
+	* src/eval.c (cell_eval_content) : move here from cell.c and
+	  privatize.
+	(dependent_changed) : remove useless argument.
+
 2002-03-19  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/func.[ch] (function_def_get_arg_type_string) : new

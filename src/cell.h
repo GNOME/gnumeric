@@ -36,7 +36,6 @@ struct _Cell {
 Cell	 *cell_copy	    (Cell const *cell);
 void	  cell_destroy      (Cell *cell);
 void	  cell_relocate     (Cell *cell, ExprRewriteInfo const *rwinfo);
-gboolean  cell_eval_content (Cell *cell);
 
 /**
  * Cell state checking
