@@ -334,12 +334,17 @@ micro_hash_resize (MicroHash *hash_table)
 	GSList **new_buckets, *node, *next;
 	guint bucket;
 	gint old_num_buckets = hash_table->num_buckets;
-	gint new_num_buckets = g_spaced_primes_closest (hash_table->num_elements);
+	gint new_num_buckets;
 
-	if (new_num_buckets < MICRO_HASH_MIN_SIZE)
-		new_num_buckets = MICRO_HASH_MIN_SIZE;
-	else if (new_num_buckets > MICRO_HASH_MAX_SIZE)
-		new_num_buckets = MICRO_HASH_MAX_SIZE;
+	if (hash_table->num_elements <= 1)
+		new_num_buckets = 1;
+	else {
+		new_num_buckets = g_spaced_primes_closest (hash_table->num_elements);
+		if (new_num_buckets < MICRO_HASH_MIN_SIZE)
+			new_num_buckets = MICRO_HASH_MIN_SIZE;
+		else if (new_num_buckets > MICRO_HASH_MAX_SIZE)
+			new_num_buckets = MICRO_HASH_MAX_SIZE;
+	}
 
 	if (old_num_buckets <= 1) {
 		if (new_num_buckets == 1)
@@ -667,6 +672,7 @@ unlink_range_dep (GnmDepContainer *deps, GnmDependent *dep,
 			dep_collection_remove (result->deps, dep);
 			if (dep_collection_is_empty (result->deps)) {
 				g_hash_table_remove (deps->range_hash[i], result);
+				dep_collection_release (result->deps);
 				gnm_mem_chunk_free (deps->range_pool, result);
 			}
 		}
