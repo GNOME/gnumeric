@@ -506,7 +506,15 @@ formula_guru_init_args (FormulaGuruState *state)
 	}
 	ptr = copy_args = g_strdup (syntax);
 	i   = 0;
-	arg_separator = format_get_arg_sep ();
+	/*
+	 We must use different argument separator for parsing depending
+	 on if the function's help is localized or not. If the help is
+	 translated, e.g. to Polish ("@SYNTAX=DGET(baza_danych;pole;kryteria)")
+	 then we use locale dependent separator. If the help is not translated
+	 then we use comma. */
+	arg_separator = state->help_tokens->help_is_localized
+	                ? format_get_arg_sep ()
+	                : ',';
 	while (*ptr) {
 		if (*ptr == '(' && !start)
 			start = ptr + 1;

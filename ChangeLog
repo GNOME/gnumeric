@@ -1,3 +1,13 @@
+2001-08-16  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/func.h (struct TokenizedHelp): Added help_is_localized field. 
+
+	* src/func.c (tokenized_help_new): Initialize it here.
+
+	* src/dialogs/dialog-function-wizard.c (formula_guru_init_args):
+	Use the default argument separator (comma) if the function's help is
+	not localized.
+
 2001-08-15  Jody Goldberg <jgoldberg@home.com>
 
 	* src/GNOME_Gnumeric.xml : Use the new artwork from gtkhtml for

@@ -133,6 +133,7 @@ Value *function_iterate_do_value	(const EvalPos      *ep,
 /* Detailed function help */
 typedef struct {
 	GPtrArray *sections;
+	gboolean   help_is_localized;
 	gchar     *help_copy;
 	FunctionDefinition const *fndef;
 } TokenizedHelp;
