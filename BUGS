@@ -33,6 +33,8 @@ Worries
 Pending Patches
 ---------------
 
+    - kasals gsf patches
+    - finish mg's win32 patches
     - ReFreeze			: John Gill 		: on list	: 1.3 (UI change)
 
     http://bugzilla.gnome.org/show_bug.cgi?id=84062
