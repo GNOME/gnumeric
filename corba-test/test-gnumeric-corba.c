@@ -4,7 +4,7 @@
  * Author:
  *   Miguel de Icaza (miguel@kernel.org)
  */
-#include <config.h>
+#include <gnumeric-config.h>
 #include <Gnumeric.h>
 #include <libgnorba/gnorba.h>
 

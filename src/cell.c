@@ -569,7 +569,7 @@ cell_set_array_formula (Sheet *sheet,
 	g_return_if_fail (col_a <= col_b);
 	g_return_if_fail (row_a <= row_b);
 
-	wrapper = expr_tree_new_array (0, 0, num_rows, num_cols);
+	wrapper = expr_tree_new_array (0, 0, num_cols, num_rows);
 	wrapper->array.corner.value = NULL;
 	wrapper->array.corner.expr = formula;
 	cell_set_expr_internal (corner, wrapper, NULL);
@@ -583,7 +583,7 @@ cell_set_array_formula (Sheet *sheet,
 				continue;
 
 			cell = sheet_cell_fetch (sheet, col_a + x, row_a + y);
-			wrapper = expr_tree_new_array (x, y, num_rows, num_cols);
+			wrapper = expr_tree_new_array (x, y, num_cols, num_rows);
 			cell_set_expr_internal (cell, wrapper, NULL);
 			dependent_link (CELL_TO_DEP (cell), &cell->pos);
 			expr_tree_unref (wrapper);

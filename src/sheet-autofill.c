@@ -727,12 +727,35 @@ autofill_cell (FillItem *fi, Cell *cell, int idx, int limit_x, int limit_y)
 		rinfo->origin.start = rinfo->origin.end = cell->pos;
 		eval_pos_init_cell (&rinfo->pos, cell);
 
-		/* FIXME : I presume this is needed to invalidate
-		 * relative references that will fall off the
-		 * edge ?? */
 		func = expr_rewrite (fi->v.expr, &rwinfo);
-		cell_set_expr (cell, (func == NULL) ? fi->v.expr : func,
-			       fi->fmt);
+
+		/* clip arrays that are only partially copied */
+		if (fi->v.expr->any.oper == OPER_ARRAY) {
+			ExprArray const *array = &fi->v.expr->array;
+			if (array->cols > limit_x) {
+				if (func != NULL)
+					func->array.cols = limit_x;
+				else
+					func = expr_tree_new_array (
+						array->x, array->y,
+						limit_x, array->rows);
+			}
+			if (array->rows > limit_y) {
+				if (func != NULL)
+					func->array.rows = limit_y;
+				else
+					func = expr_tree_new_array (
+						array->x, array->y,
+						array->cols, limit_y);
+			}
+
+			if (func != NULL &&
+			    func->array.x == 0 && func->array.y == 0 &&
+			    func->array.corner.expr == NULL)
+				expr_tree_ref (func->array.corner.expr = array->corner.expr);
+		}
+		cell_set_expr (cell, (func == NULL)
+			       ? fi->v.expr : func, fi->fmt);
 		return;
 	}
 
@@ -812,9 +835,9 @@ sheet_autofill_dir (Sheet *sheet, gboolean singleton_increment,
 				fi = minor->data;
 
 				if (col_inc != 0)
-					limit_x = remain;
+					limit_x = remain + 1;
 				else
-					limit_y = remain;
+					limit_y = remain + 1;
 			}
 
 			autofill_cell (fi, cell,

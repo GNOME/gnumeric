@@ -8,8 +8,6 @@ Release Critical
 ----------------
 
 - name refering to deleted sheet
-- Autofilling a non-integer number of copies of arrays needs to clip
-  the size of the array at the bounds.
 
 Pending Patches
 ---------------

@@ -152,7 +152,7 @@ expr_tree_new_var (CellRef const *cr)
 }
 
 ExprTree *
-expr_tree_new_array (int x, int y, int rows, int cols)
+expr_tree_new_array (int x, int y, int cols, int rows)
 {
 	ExprArray *ans;
 
@@ -1603,7 +1603,7 @@ expr_rewrite (ExprTree const *expr, ExprRewriteInfo const *rwinfo)
 
 			if (func != NULL) {
 				ExprTree *res =
-					expr_tree_new_array (0, 0, a->rows, a->cols);
+					expr_tree_new_array (0, 0, a->cols, a->rows);
 				res->array.corner.value = NULL;
 				res->array.corner.expr = func;
 				return res;

@@ -1,3 +1,13 @@
+2001-12-23  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-autofill.c (sheet_autofill_dir) : add some very special
+	  purpose code to clip the bounds of autofilled arrays that are being
+	  clipped when filling a non-integer multiple of the original block
+	  size.
+
+	* src/expr.c (expr_tree_new_array) : reorder args to match the rest of
+	  the app.
+
 2001-12-22  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-control-gui.c (cb_edit_fill_autofill) : range_trim does

@@ -156,7 +156,7 @@ ExprTree   *expr_tree_new_funcall  (FunctionDefinition *func, ExprList *args);
 ExprTree   *expr_tree_new_name     (NamedExpression *name,
 				    Sheet *sheet_scope, Workbook *wb_scope);
 ExprTree   *expr_tree_new_var      (CellRef const *cr);
-ExprTree   *expr_tree_new_array	   (int x, int y, int rows, int cols);
+ExprTree   *expr_tree_new_array	   (int x, int y, int cols, int rows);
 ExprTree   *expr_tree_new_set	   (ExprList *args);
 
 void	    expr_tree_ref	(ExprTree *tree);
