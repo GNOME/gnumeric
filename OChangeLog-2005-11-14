@@ -1,3 +1,9 @@
+2004-11-29  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=157732
+	* src/gnumeric-pane.c (gnm_pane_display_obj_size_tip) : fix sign of
+	  kludge
+
 2004-11-29  Morten Welinder  <terra@gnome.org>
 
 	* Makefile.am (gnumeric.desktop): Add bugzilla version info.
