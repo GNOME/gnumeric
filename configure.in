@@ -147,6 +147,41 @@ if test "x$gnumeric_with_gnome" = "xtrue"; then
 	CFLAGS="$CFLAGS -DBONOBO_UI_DISABLE_DEPRECATED"
 fi
 
+dnl ==============================================
+dnl GNOME Specific extensions
+with_corba=false
+if test "x${gnumeric_with_gnome}" = "xtrue"; then
+
+	dnl ==============================================
+	dnl Special GConf section  (stolen from libgnome)
+	dnl ==============================================
+
+	AC_PATH_PROG(GCONFTOOL, gconftool-2, no)
+
+	if test x"$GCONFTOOL" = xno; then
+		AC_MSG_ERROR([gconftool-2 executable not found in your path - should be installed with GConf])
+	fi
+	AM_GCONF_SOURCE_2
+
+	dnl *************
+	dnl Corba support
+	dnl *************
+	PKG_CHECK_MODULES(CORBA_LIBS,  [ORBit-2.0 >= 2.4.2
+					libbonobo-2.0 >= 2.0.0
+					bonobo-activation-2.0 >= 1.0.2
+					],[with_corba=$gnumeric_with_gnome])
+	if test "x$with_corba" = "xtrue" ; then
+		ORBIT="`$PKG_CONFIG --variable=orbit_idl ORBit-2.0`"
+		BONOBO_IDL_DIR="`$PKG_CONFIG --variable=idldir libbonobo-2.0`"
+		BONOBO_ACTIVATION_IDL_DIR="`$PKG_CONFIG --variable=idldir bonobo-activation-2.0`"
+		ORBIT_IDL="${ORBIT} -I${BONOBO_IDL_DIR} -I${BONOBO_ACTIVATION_IDL_DIR}"
+		AC_SUBST(ORBIT_IDL)
+	fi
+else
+	AM_CONDITIONAL(GCONF_SCHEMAS_INSTALL, false)
+fi
+AM_CONDITIONAL(WITH_CORBA, $with_corba)
+
 dnl ****************************
 dnl prep the pixmap generator
 dnl ****************************
@@ -811,42 +846,6 @@ AC_SUBST(gnumeric_icondir)
 AC_SUBST(gnumeric_localedir)
 AC_SUBST(gnumeric_autoformatdir)
 AC_SUBST(gnumeric_with_gnome)
-
-
-dnl ==============================================
-dnl GNOME Specific extensions
-with_corba=false
-if test "x${gnumeric_with_gnome}" = "xtrue"; then
-
-dnl ==============================================
-dnl Special GConf section  (stolen from libgnome)
-dnl ==============================================
-
-AC_PATH_PROG(GCONFTOOL, gconftool-2, no)
-
-if test x"$GCONFTOOL" = xno; then
-  AC_MSG_ERROR([gconftool-2 executable not found in your path - should be installed with GConf])
-fi
-AM_GCONF_SOURCE_2
-
-dnl *************
-dnl Corba support
-dnl *************
-PKG_CHECK_MODULES(CORBA_LIBS,  [ORBit-2.0 >= 2.4.2
-				libbonobo-2.0 >= 2.0.0
-				bonobo-activation-2.0 >= 1.0.2
-				],[with_corba=$gnumeric_with_gnome])
-if test "x$with_corba" = "xtrue" ; then
-	ORBIT="`$PKG_CONFIG --variable=orbit_idl ORBit-2.0`"
-	BONOBO_IDL_DIR="`$PKG_CONFIG --variable=idldir libbonobo-2.0`"
-	BONOBO_ACTIVATION_IDL_DIR="`$PKG_CONFIG --variable=idldir bonobo-activation-2.0`"
-	ORBIT_IDL="${ORBIT} -I${BONOBO_IDL_DIR} -I${BONOBO_ACTIVATION_IDL_DIR}"
-	AC_SUBST(ORBIT_IDL)
-fi
-else
-AM_CONDITIONAL(GCONF_SCHEMAS_INSTALL, false)
-fi
-AM_CONDITIONAL(WITH_CORBA, $with_corba)
 
 dnl ====================================
 dnl = Test whether jw is installed

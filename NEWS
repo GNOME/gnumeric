@@ -1,15 +1,16 @@
 Gnumeric 1.3.3
 
 Emmanuel Pacaud:
-
-	* Fix markers in xy and line plots.
 	http://bugzilla.gnome.org/show_bug.cgi?id=151529
+	* Fix markers in xy and line plots.
 
 Jody:
 	* XLS import zooming for full page charts
 	* XLS export for full page charts
 	* XLS import of autoshapes with/without outlines and fills
 	* Use the right default palette for XL95
+	http://bugzilla.gnome.org/show_bug.cgi?id=151628
+	* Fix resizing sample plot in graph assistant type selector
 
 Kasal:
 	* Some typos in various docs

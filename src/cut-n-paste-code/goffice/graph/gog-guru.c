@@ -344,14 +344,14 @@ static void
 cb_typesel_sample_plot_resize (FooCanvas *canvas,
 			       GtkAllocation *alloc, GraphGuruTypeSelector *typesel)
 {
-	double zoom = 1. / canvas->pixels_per_unit;
-	/* Use 96dpi and 50% zoom */
+	/* Use 96dpi and 50% zoom. Hard code the zoom because it is not
+	 * active when sample button is not depressed */
 	if (typesel->sample_graph_item != NULL)
 		foo_canvas_item_set (typesel->sample_graph_item,
-			"w", (double)alloc->width * zoom,
-			"h", (double)alloc->height * zoom,
-			"logical_width_pts",  (72. * zoom * (double)alloc->width) / 96.,
-			"logical_height_pts", (72. * zoom * (double)alloc->height) / 96.,
+			"w", (double)alloc->width * 2.,
+			"h", (double)alloc->height * 2.,
+			"logical_width_pts",  (2. * 72. * (double)alloc->width) / 96.,
+			"logical_height_pts", (2. * 72. * (double)alloc->height) / 96.,
 			NULL);
 }
 
@@ -1205,7 +1205,7 @@ graph_guru_type_selector_new (GraphGuruState *s)
 			"text", PLOT_FAMILY_TYPE_NAME,
 			NULL));
 	gtk_box_pack_start (GTK_BOX (hbox), GTK_WIDGET (typesel->list_view),
-			    TRUE, TRUE, 0);
+			    FALSE, TRUE, 0);
 
 	selection = gtk_tree_view_get_selection (typesel->list_view);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
@@ -1238,7 +1238,7 @@ graph_guru_type_selector_new (GraphGuruState *s)
 	tmp = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (tmp), GTK_SHADOW_IN);
 	gtk_container_add (GTK_CONTAINER (tmp), typesel->canvas);
-	gtk_box_pack_start (GTK_BOX (hbox), tmp, FALSE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), tmp, TRUE, TRUE, 0);
 
 	/* Init the list and the canvas group for each family */
 	g_hash_table_foreach ((GHashTable *)gog_plot_families (),
@@ -1267,10 +1267,11 @@ graph_guru_type_selector_new (GraphGuruState *s)
 	gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
 
 	hbox = gtk_hbox_new (FALSE, 5);
-	gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, TRUE, 0);
 
 	/* Set up sample button */
-	typesel->sample_button = gtk_button_new_with_label (_("Show\nSample"));
+	typesel->sample_button = gnumeric_button_new_with_stock_image (
+		_("Show\nSample"), GTK_STOCK_DIALOG_INFO);
 	gtk_widget_set_sensitive (typesel->sample_button, FALSE);
 	g_signal_connect_swapped (G_OBJECT (typesel->sample_button),
 		"pressed",
@@ -1282,7 +1283,7 @@ graph_guru_type_selector_new (GraphGuruState *s)
 	tmp = gtk_frame_new (_("Description"));
 	gtk_container_add (GTK_CONTAINER (tmp), GTK_WIDGET (typesel->label));
 	gtk_box_pack_start (GTK_BOX (hbox), tmp, TRUE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (hbox), typesel->sample_button, FALSE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), typesel->sample_button, TRUE, TRUE, 0);
 
 	g_object_set_data_full (G_OBJECT (vbox),
 		"state", typesel, (GDestroyNotify) g_free);

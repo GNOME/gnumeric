@@ -1,3 +1,18 @@
+2004-09-05  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=151628
+	* graph/gog-guru.c (cb_typesel_sample_plot_resize) : hard code the
+	  zoom when recalculating the size.  The sample graph is only zoomed
+	  when visible.
+
+2004-09-05  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-guru.c (graph_guru_type_selector_new) : Add a light bulb
+	  to the 'show sample' button to make it stand out a bit more
+
+	* graph/gog-guru.c (graph_guru_type_selector_new) : Make the sample
+	  canvas the main resizeable element in the type selector.
+
 2004-09-01  Jody Goldberg <jody@gnome.org>
 
 	* utils/go-gradient.c : conditionalize selector on WITH_GTK
