@@ -456,6 +456,7 @@ biff_font_data_new (ExcelWorkbook *wb, BiffQuery *q)
 {
 	BiffFontData *fd = g_new (BiffFontData, 1);
 	guint16 data;
+	guint8 data1;
 
 	fd->height = MS_OLE_GET_GUINT16 (q->data + 0);
 	data = MS_OLE_GET_GUINT16 (q->data + 2);
@@ -479,8 +480,9 @@ biff_font_data_new (ExcelWorkbook *wb, BiffQuery *q)
 		printf ("Unknown script %d\n", data);
 		break;
 	}
-	data = MS_OLE_GET_GUINT16 (q->data + 10);
-	switch (data) {
+
+	data1 = MS_OLE_GET_GUINT8 (q->data + 10);
+	switch (data1) {
 	case 0:
 		fd->underline = eBiffFUNone;
 		break;
