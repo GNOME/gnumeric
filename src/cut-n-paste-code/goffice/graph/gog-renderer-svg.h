@@ -28,7 +28,7 @@ G_BEGIN_DECLS
 
 gboolean gog_graph_export_to_svg (GogGraph *graph,
 				  GsfOutput *output,
-				  double width, double height);
+				  double width, double height, double scale);
 
 G_END_DECLS
 

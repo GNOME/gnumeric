@@ -25,15 +25,18 @@
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-view.h>
 #include <goffice/utils/go-color.h>
+#include <goffice/utils/go-font.h>
 #include <goffice/utils/go-marker.h>
 #include <goffice/utils/go-units.h>
 
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-impl-utils.h>
+#include <pango/pangoft2.h>
 
 #include <libxml/tree.h>
 
 #include <locale.h>
+#include <math.h>
 
 #define CC2XML(s) ((const xmlChar *)(s))
 
@@ -83,14 +86,16 @@ gog_renderer_svg_draw_path (GogRenderer *renderer, ArtVpath const *path)
 	GString *string;
 	char *buf;
 	int opacity;
+	char *old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
 
+	setlocale (LC_NUMERIC, "C");
 	xmlAddChild (prend->doc->children, node);
 	string = g_string_new ("");
 	draw_path (prend, path, string);
 	xmlNewProp (node, CC2XML ("d"), CC2XML (string->str));
 	g_string_free (string, TRUE);
 	xmlNewProp (node, CC2XML ("fill"), CC2XML ("none"));
-	buf = g_strdup_printf ("%g",  gog_renderer_line_size (renderer, style->line.width));
+	buf = g_strdup_printf ("%g", gog_renderer_line_size (renderer, style->line.width));
 	xmlNewProp (node, CC2XML ("stroke-width"), CC2XML (buf));
 	g_free (buf);
 	buf = g_strdup_printf ("#%06x", style->line.color >> 8);
@@ -102,6 +107,8 @@ gog_renderer_svg_draw_path (GogRenderer *renderer, ArtVpath const *path)
 		xmlNewProp (node, CC2XML ("stroke-opacity"), CC2XML (buf));
 		g_free (buf);
 	}
+	setlocale (LC_NUMERIC, old_num_locale);
+	g_free (old_num_locale);
 }
 
 static void
@@ -113,7 +120,9 @@ gog_renderer_svg_draw_polygon (GogRenderer *renderer, ArtVpath const *path, gboo
 	xmlNodePtr node;
 	char *buf, *name, *id;
 	int opacity;
+	char *old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
 
+	setlocale (LC_NUMERIC, "C");
 	if (style->fill.type != GOG_FILL_STYLE_NONE || with_outline) {
 		GString *string = g_string_new ("");
 		node = xmlNewDocNode (prend->doc, NULL, "path", NULL);
@@ -267,16 +276,8 @@ gog_renderer_svg_draw_polygon (GogRenderer *renderer, ArtVpath const *path, gboo
 		}
 	} else
 		xmlNewProp (node, CC2XML ("stroke"), CC2XML ("none"));
-}
-
-static void
-gog_renderer_svg_draw_text (GogRenderer *rend, char const *text,
-			    GogViewAllocation const *pos, GtkAnchorType anchor,
-			    GogViewAllocation *result)
-{
-#if 0
-	GogRendererSvg *prend = GOG_RENDERER_SVG (rend);
-#endif
+	setlocale (LC_NUMERIC, old_num_locale);
+	g_free (old_num_locale);
 }
 
 static void
@@ -292,7 +293,9 @@ gog_renderer_svg_draw_marker (GogRenderer *rend, double x, double y)
 	GString *string;
 	char *buf;
 	int opacity;
+	char *old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
 
+	setlocale (LC_NUMERIC, "C");
 	g_return_if_fail (marker != NULL);
 
 	go_marker_get_paths (marker, &outline_path_raw, &fill_path_raw);
@@ -351,15 +354,138 @@ gog_renderer_svg_draw_marker (GogRenderer *rend, double x, double y)
 
 	g_free (outline_path);
 	g_free (fill_path);
+	setlocale (LC_NUMERIC, old_num_locale);
+	g_free (old_num_locale);
+}
+
+static PangoLayout *
+make_layout (GogRenderer *rend, char const *text)
+{
+	PangoLayout *layout;
+	PangoContext* pango_context;
+	PangoFontDescription const *fd = rend->cur_style->font.font->desc;
+
+	/*assume horizontal and vertical resolutions are the same*/
+	pango_context = pango_ft2_get_context (
+			GO_IN_TO_PT(1. / gog_renderer_pt2r (rend, 1.0)),
+			GO_IN_TO_PT(1. / gog_renderer_pt2r (rend, 1.0)));
+
+	gog_debug (0, {
+		char *msg = pango_font_description_to_string (fd);
+		g_warning (msg);
+		g_free (msg);
+	});
+
+	layout = pango_layout_new (pango_context);
+	pango_layout_set_font_description (layout, fd);
+
+	pango_layout_set_text (layout, text, -1);
+
+	return layout;
 }
 
 static void
 gog_renderer_svg_measure_text (GogRenderer *rend,
 				       char const *text, GogViewRequisition *size)
 {
-#warning TODO
-	size->w = 10; /* gnome_font_get_width_utf8 (font, text); */
-	size->h = 10;
+	PangoRectangle  rect;
+	PangoLayout    *layout = make_layout (rend, text);
+	GObject *context = (GObject*) pango_layout_get_context (layout);
+	pango_layout_get_pixel_extents (layout, &rect, NULL);
+	g_object_unref (layout);
+	g_object_unref (context);
+	size->w = gog_renderer_pt2r (rend, rect.width);
+	layout = make_layout (rend, "lp");
+	context = (GObject*) pango_layout_get_context (layout);
+	pango_layout_get_pixel_extents (layout, &rect, NULL);
+	g_object_unref (layout);
+	g_object_unref (context);
+	size->h = gog_renderer_pt2r (rend, rect.height);
+}
+
+static void
+gog_renderer_svg_draw_text (GogRenderer *rend, char const *text,
+			    GogViewAllocation const *pos, GtkAnchorType anchor,
+			    GogViewAllocation *result)
+{
+	GogRendererSvg *prend = GOG_RENDERER_SVG (rend);
+	xmlNodePtr node;
+	char *buf;
+	double x, y;
+	int baseline;
+	char *old_num_locale;
+	PangoRectangle  rect;
+	PangoLayout* layout = make_layout (rend, "lp");
+	GObject *context = (GObject*) pango_layout_get_context (layout);
+	PangoFontDescription const *fd = rend->cur_style->font.font->desc;
+	PangoLayoutIter* iter =pango_layout_get_iter(layout);
+	pango_layout_get_pixel_extents (layout, &rect, NULL);
+	x = pos->x;
+	/* adjust to the base line */
+	y = pos->y;
+	baseline = pango_layout_iter_get_baseline(iter);
+	pango_layout_iter_get_run_extents(iter, &rect, NULL);
+	y += gog_renderer_pt2r(rend, (baseline - rect.y) / PANGO_SCALE);
+	pango_layout_iter_free(iter);
+	g_object_unref (layout);
+	g_object_unref (context);
+
+	switch (anchor) {
+	case GTK_ANCHOR_CENTER : case GTK_ANCHOR_E : case GTK_ANCHOR_W :
+		y -= gog_renderer_pt2r(rend, (double) (rect.height / 2) / PANGO_SCALE);
+		break;
+	case GTK_ANCHOR_SE : case GTK_ANCHOR_S : case GTK_ANCHOR_SW :
+		y -= gog_renderer_pt2r(rend, (double)rect.height / PANGO_SCALE);
+		break;
+	default :
+		break;
+	}
+	node = xmlNewDocNode (prend->doc, NULL, "text", NULL);
+	xmlNodeSetContent (node, CC2XML (text));
+	old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
+	setlocale (LC_NUMERIC, "C");
+	xmlAddChild (prend->doc->children, node);
+	buf = g_strdup_printf ("%g", x);
+	xmlNewProp (node, CC2XML ("x"), CC2XML (buf));
+	g_free (buf);
+	buf = g_strdup_printf ("%g", y);
+	xmlNewProp (node, CC2XML ("y"), CC2XML (buf));
+	g_free (buf);
+	switch (anchor) {
+	case GTK_ANCHOR_CENTER : case GTK_ANCHOR_N : case GTK_ANCHOR_S :
+		xmlNewProp (node, CC2XML ("text-anchor"), CC2XML ("middle"));
+		break;
+	case GTK_ANCHOR_NE : case GTK_ANCHOR_SE : case GTK_ANCHOR_E :
+		xmlNewProp (node, CC2XML ("text-anchor"), CC2XML ("end"));
+		break;
+	default : break;
+	}
+	xmlNewProp (node, CC2XML ("font-family"), CC2XML (pango_font_description_get_family (fd)));
+	buf = g_strdup_printf ("%d", (int)(rint (gog_renderer_pt2r(rend, pango_font_description_get_size (fd) / PANGO_SCALE))));
+	xmlNewProp (node, CC2XML ("font-size"), CC2XML (buf));
+	g_free (buf);
+	switch (pango_font_description_get_weight (fd)) {
+	case PANGO_WEIGHT_BOLD:
+		xmlNewProp (node, CC2XML ("font-weight"), CC2XML ("bold"));
+		break;
+	case PANGO_WEIGHT_NORMAL: break;
+	default:
+		buf = g_strdup_printf ("%d", pango_font_description_get_weight (fd));
+		xmlNewProp (node, CC2XML ("font-weight"), CC2XML (buf));
+		g_free (buf);
+		break;
+	}
+	switch (pango_font_description_get_style (fd)) {
+	case PANGO_STYLE_ITALIC:
+		xmlNewProp (node, CC2XML ("font-syle"), CC2XML ("italic"));
+		break;
+	case PANGO_STYLE_OBLIQUE:
+		xmlNewProp (node, CC2XML ("font-syle"), CC2XML ("oblique"));
+		break;
+	default: break;
+	}
+	setlocale (LC_NUMERIC, old_num_locale);
+	g_free (old_num_locale);
 }
 
 static void
@@ -390,7 +516,7 @@ static GSF_CLASS (GogRendererSvg, gog_renderer_svg,
  **/
 gboolean
 gog_graph_export_to_svg (GogGraph *graph, GsfOutput *output,
-			 double width, double height)
+			 double width, double height, double scale)
 {
 	GogViewAllocation allocation;
 	GogRendererSvg *prend;
@@ -403,6 +529,7 @@ gog_graph_export_to_svg (GogGraph *graph, GsfOutput *output,
 	prend = g_object_new (GOG_RENDERER_SVG_TYPE,
 			      "model", graph,
 			      NULL);
+	prend->base.scale = scale;
 	prend->doc = xmlNewDoc (CC2XML ("1.0"));
 
 	xmlNewDtd (prend->doc,
@@ -426,6 +553,8 @@ gog_graph_export_to_svg (GogGraph *graph, GsfOutput *output,
 	buf = g_strdup_printf ("%g", height);
 	xmlNewProp (prend->doc->children, CC2XML ("height"), CC2XML (buf));
 	g_free (buf);
+	setlocale (LC_NUMERIC, old_num_locale);
+	g_free (old_num_locale);
 
 	allocation.x = 0.;
 	allocation.y = 0.;
@@ -444,8 +573,6 @@ gog_graph_export_to_svg (GogGraph *graph, GsfOutput *output,
 
 	xmlFreeDoc (prend->doc);
 	g_hash_table_destroy (prend->table);
-	setlocale (LC_NUMERIC, old_num_locale);
-	g_free (old_num_locale);
 	g_object_unref (prend);
 
 	return success;

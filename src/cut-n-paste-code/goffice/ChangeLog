@@ -1,3 +1,9 @@
+2003-11-01 Jean Brefort <jean.brefort@ac-dijon.fr>
+
+	* graph/gog-renderer-svg.c: added scale parameter to gog_graph_export_to_svg.
+	* graph/gog-renderer-svg.c: implement gog_renderer_svg_measure_text and
+	gog_renderer_svg_draw_text.
+
 2003-11-01  Jody Goldberg <jody@gnome.org>
 
 	* graph/plugins/plot_barcol/gog-barcol.c

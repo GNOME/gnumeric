@@ -33,6 +33,7 @@
 #include "sheet-object-impl.h"
 #include "workbook-edit.h"
 #include "commands.h"
+#include "application.h"
 
 #include <goffice/graph/gog-graph.h>
 #include <goffice/graph/gog-object.h>
@@ -182,7 +183,8 @@ cb_save_as (GtkWidget *widget, GObject *obj_view)
 				sheet_object_position_pts_get (SHEET_OBJECT (sog), coords);
 				ret = gog_graph_export_to_svg (sog->graph, GSF_OUTPUT (output),
 					fabs (coords[2] - coords[0]),
-					fabs (coords[3] - coords[1]));
+					fabs (coords[3] - coords[1]),
+					1. / gnm_app_dpi_to_pixels ());
 
 				gsf_output_close (GSF_OUTPUT (output));
 				g_object_unref (output);
@@ -509,4 +511,3 @@ sheet_object_graph_guru (WorkbookControlGUI *wbcg, GogGraph *graph,
 	g_object_set_data_full (G_OBJECT (dialog),
 		"guru", wbcg, (GDestroyNotify) cb_graph_guru_done);
 }
-

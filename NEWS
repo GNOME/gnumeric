@@ -12,6 +12,9 @@ Andreas:
 	* Upon deleting of cells try to guess whether to move cells up 
           or to the left.
 
+Jean Brefort:
+	* Support text in SVG exporter
+
 Jody:
 	* More renaming
 	* Don't install schemas when building an rpm
