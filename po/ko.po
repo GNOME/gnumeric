@@ -249,17 +249,14 @@ msgstr "텍스트"
 msgid "Money"
 msgstr "돈"
 
-#. 1. Categories
 #: src/dialog-cell-format.c:253
 msgid "Categories"
 msgstr "범주"
 
-#. 2.1 Input line
 #: src/dialog-cell-format.c:283
 msgid "Code:"
 msgstr "코드:"
 
-#. 2.2 Sample
 #: src/dialog-cell-format.c:292
 msgid "Sample:"
 msgstr "샘플:"
@@ -268,7 +265,7 @@ msgstr "샘플:"
 msgid "Format codes"
 msgstr "형식 코드"
 
-#: src/dialog-cell-format.c:353 src/formats.c:16 src/number-match.c:449
+#: src/dialog-cell-format.c:353 src/formats.c:16 src/number-match.c:448
 msgid "General"
 msgstr "보통"
 
@@ -277,7 +274,7 @@ msgid "Left"
 msgstr "왼쪽"
 
 #: src/dialog-cell-format.c:355 src/dialog-cell-format.c:364
-#: src/workbook.c:797
+#: src/workbook.c:851
 msgid "Center"
 msgstr "중앙"
 
@@ -301,7 +298,6 @@ msgstr "꼭대기"
 msgid "Bottom"
 msgstr "밑바닥"
 
-#. Vertical alignment
 #: src/dialog-cell-format.c:421
 msgid "Vertical"
 msgstr "수직"
@@ -319,7 +315,6 @@ msgstr ""
 msgid "Text color"
 msgstr "텍스트 색상"
 
-#. The radio buttons
 #: src/dialog-cell-format.c:601 src/dialog-cell-format.c:631
 #: src/dialog-paste-special.c:28
 msgid "None"
@@ -361,15 +356,15 @@ msgstr ""
 msgid "Add"
 msgstr "더하기"
 
-#: src/dialog-define-names.c:27 src/plugin-manager.c:129
+#: src/dialog-define-names.c:27 src/plugin-manager.c:131
 msgid "Remove"
 msgstr "제거"
 
-#: src/dialog-define-names.c:41
+#: src/dialog-define-names.c:42
 msgid "Names in the workbook"
 msgstr "워크북에서의 이름"
 
-#: src/dialog-define-names.c:48
+#: src/dialog-define-names.c:49
 msgid "Refers to"
 msgstr ""
 
@@ -381,7 +376,7 @@ msgstr "셀 삭제"
 msgid "Delete cells"
 msgstr "셀 삭제"
 
-#: src/dialog-delete-cells.c:32 src/item-grid.c:509
+#: src/dialog-delete-cells.c:32 src/item-grid.c:524
 msgid "Delete"
 msgstr "삭제"
 
@@ -421,7 +416,7 @@ msgstr "셀 삽입"
 msgid "Insert cells"
 msgstr "셀 삽입"
 
-#: src/dialog-insert-cells.c:32 src/item-grid.c:508
+#: src/dialog-insert-cells.c:32 src/item-grid.c:523
 msgid "Insert"
 msgstr "삽입"
 
@@ -469,15 +464,15 @@ msgstr "곱하기"
 msgid "Divide"
 msgstr "나누기"
 
-#: src/dialog-paste-special.c:56 src/item-grid.c:506
+#: src/dialog-paste-special.c:56 src/item-grid.c:521
 msgid "Paste special"
 msgstr "특별한 붙이기"
 
-#: src/dialog-paste-special.c:60
+#: src/dialog-paste-special.c:61
 msgid "Paste type"
 msgstr "붙이기 종류"
 
-#: src/dialog-paste-special.c:64
+#: src/dialog-paste-special.c:65
 msgid "Operation"
 msgstr "동작"
 
@@ -490,40 +485,39 @@ msgid "Custom"
 msgstr ""
 
 #: src/dialog-zoom.c:83
-#, c-format
 msgid "Zoom factor should be at least 50%"
 msgstr "확대율은 최소 50%입니다"
 
 #: src/dialog-zoom.c:88
-#, c-format
 msgid "Zoom factor should be at most 900%"
 msgstr "확대율은 최대 900%입니다."
 
-#: src/expr.c:53
+#: src/expr.c:59
 msgid "Syntax error"
 msgstr "구문 에러"
 
-#: src/expr.c:57
+#: src/expr.c:63
 msgid "Missing quote"
 msgstr "quote 빠짐"
 
-#: src/expr.c:461 src/fn-sheet.c:25 src/fn-sheet.c:59
+#. Type checking
+#: src/expr.c:467 src/fn-sheet.c:25 src/fn-sheet.c:59
 msgid "Invalid number of arguments"
 msgstr "인자 갯수가 틀림"
 
-#: src/expr.c:689
+#: src/expr.c:695
 msgid "Type error"
 msgstr "유형 에러"
 
-#: src/expr.c:747 src/expr.c:905 src/fn-misc.c:40 src/fn-misc.c:67
+#: src/expr.c:753 src/expr.c:911 src/fn-misc.c:40 src/fn-misc.c:67
 msgid "Type mismatch"
 msgstr "유형이 서로 틀림"
 
-#: src/expr.c:773 src/expr.c:809
+#: src/expr.c:779 src/expr.c:815
 msgid "Division by zero"
 msgstr "0으로 나눔"
 
-#: src/expr.c:920
+#: src/expr.c:926
 msgid "Unknown evaluation error"
 msgstr "모르는 계산 에러"
 
@@ -535,7 +529,7 @@ msgstr "워크북을 다른 이름으로 저장"
 msgid "Load file"
 msgstr "파일 불러오기"
 
-#: src/fn-date.c:19
+#: src/fn-date.c:18
 msgid ""
 "@FUNCTION=DATE\n"
 "@SYNTAX=DATE (year,month,day)\n"
@@ -546,7 +540,7 @@ msgid ""
 "@SEEALSO=TODAY, NOW"
 msgstr ""
 
-#: src/fn-date.c:61
+#: src/fn-date.c:59
 msgid ""
 "@FUNCTION=TODAY\n"
 "@SYNTAX=TODAY ()\n"
@@ -555,7 +549,7 @@ msgid ""
 "@SEEALSO=TODAY, NOW"
 msgstr ""
 
-#: src/fn-date.c:88
+#: src/fn-date.c:87
 msgid ""
 "@FUNCTION=NOW\n"
 "@SYNTAX=NOW ()\n"
@@ -570,7 +564,7 @@ msgid ""
 "@SEEALSO=TODAY, NOW"
 msgstr ""
 
-#: src/fn-date.c:124
+#: src/fn-date.c:127
 msgid ""
 "@FUNCTION=TIME\n"
 "@SYNTAX=TIME (hours,minutes,seconds)\n"
@@ -578,7 +572,7 @@ msgid ""
 "@SEEALSO=HOUR"
 msgstr ""
 
-#: src/fn-date.c:151
+#: src/fn-date.c:154
 msgid ""
 "@FUNCTION=HOUR\n"
 "@SYNTAX=HOUR (serial_number)\n"
@@ -589,7 +583,7 @@ msgid ""
 "SECOND"
 msgstr ""
 
-#: src/fn-date.c:166
+#: src/fn-date.c:169
 msgid ""
 "@FUNCTION=MINUTE\n"
 "@SYNTAX=MINUTE (serial_number)\n"
@@ -599,7 +593,7 @@ msgid ""
 "for you, so you can enter a date as a string@SEEALSO=HOUR, NOW, TIME, SECOND"
 msgstr ""
 
-#: src/fn-date.c:181
+#: src/fn-date.c:184
 msgid ""
 "@FUNCTION=SECOND\n"
 "@SYNTAX=SECOND (serial_number)\n"
@@ -609,7 +603,7 @@ msgid ""
 "for you, so you can enter a date as a string@SEEALSO=HOUR, MINUTE, NOW, TIME"
 msgstr ""
 
-#: src/fn-date.c:219
+#: src/fn-date.c:222
 msgid ""
 "@FUNCTION=YEAR\n"
 "@SYNTAX=YEAR (serial_number)\n"
@@ -618,7 +612,7 @@ msgid ""
 "for you, so you can enter a date as a string@SEEALSO=DAY, MONTH, TIME, NOW"
 msgstr ""
 
-#: src/fn-date.c:233
+#: src/fn-date.c:236
 msgid ""
 "@FUNCTION=MONTH\n"
 "@SYNTAX=MONTH (serial_number)\n"
@@ -627,7 +621,7 @@ msgid ""
 "for you, so you can enter a date as a string@SEEALSO=DAY, TIME, NOW, YEAR"
 msgstr ""
 
-#: src/fn-date.c:247
+#: src/fn-date.c:250
 msgid ""
 "@FUNCTION=DAY\n"
 "@SYNTAX=DAY (serial_number)\n"
@@ -1045,35 +1039,35 @@ msgid ""
 "@SEEALSO=MID, LEFT"
 msgstr ""
 
-#: src/format.c:403
+#: src/format.c:402
 msgid "black"
 msgstr "검정색"
 
-#: src/format.c:404
+#: src/format.c:403
 msgid "blue"
 msgstr "청색"
 
-#: src/format.c:405
+#: src/format.c:404
 msgid "cyan"
 msgstr "청록색"
 
-#: src/format.c:406
+#: src/format.c:405
 msgid "green"
 msgstr "녹색"
 
-#: src/format.c:407
+#: src/format.c:406
 msgid "magenta"
 msgstr "진홍색"
 
-#: src/format.c:408
+#: src/format.c:407
 msgid "red"
 msgstr "적색"
 
-#: src/format.c:409
+#: src/format.c:408
 msgid "white"
 msgstr "흰색"
 
-#: src/format.c:410
+#: src/format.c:409
 msgid "yellow"
 msgstr "황색"
 
@@ -1238,12 +1232,10 @@ msgid "[h]:mm:ss"
 msgstr ""
 
 #: src/formats.c:74
-#, c-format
 msgid "0%"
 msgstr ""
 
 #: src/formats.c:75
-#, c-format
 msgid "0.00%"
 msgstr ""
 
@@ -1280,27 +1272,22 @@ msgid "$#,##0.00_);[red]($#,##0.00)"
 msgstr ""
 
 #: src/gnumeric-sheet.c:878
-#, c-format
 msgid "75%"
 msgstr ""
 
 #: src/gnumeric-sheet.c:881
-#, c-format
 msgid "50%"
 msgstr ""
 
 #: src/gnumeric-sheet.c:884
-#, c-format
 msgid "25%"
 msgstr ""
 
 #: src/gnumeric-sheet.c:887
-#, c-format
 msgid "12%"
 msgstr ""
 
 #: src/gnumeric-sheet.c:890
-#, c-format
 msgid "6%"
 msgstr ""
 
@@ -1329,7 +1316,7 @@ msgstr ""
 msgid "Notice"
 msgstr ""
 
-#: src/item-cursor.c:554 src/item-grid.c:504 src/workbook.c:785
+#: src/item-cursor.c:554 src/item-grid.c:519 src/workbook.c:839
 msgid "Copy"
 msgstr "복사"
 
@@ -1361,47 +1348,47 @@ msgstr "셀을 밑으로 보내고 복사"
 msgid "Shift cells right and move"
 msgstr "셀을 오른쪽으로 보내고 이동"
 
-#: src/item-grid.c:503 src/workbook.c:782
+#: src/item-grid.c:518 src/workbook.c:836
 msgid "Cut"
 msgstr "자르기"
 
-#: src/item-grid.c:505 src/sheet.c:2390 src/workbook.c:788
+#: src/item-grid.c:520 src/sheet.c:2396 src/workbook.c:842
 msgid "Paste"
 msgstr "붙이기"
 
-#: src/item-grid.c:510
+#: src/item-grid.c:525
 msgid "Erase content"
 msgstr "내용 지우기"
 
-#: src/item-grid.c:512
+#: src/item-grid.c:527
 msgid "Cell format"
 msgstr "셀 형식"
 
-#: src/main.c:18
+#: src/main.c:22
 msgid "Dumps the function definitions"
 msgstr ""
 
-#: src/main.c:18
+#: src/main.c:22
 msgid "FILE"
 msgstr "파일"
 
-#: src/number-match.c:149
+#: src/number-match.c:148
 msgid "(([-+]?[0-9,])?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
 msgstr ""
 
-#: src/plugin-manager.c:93 src/plugin-manager.c:94
+#: src/plugin-manager.c:94 src/plugin-manager.c:95
 msgid "Name"
 msgstr "이름"
 
-#: src/plugin-manager.c:93 src/plugin-manager.c:94
+#: src/plugin-manager.c:94 src/plugin-manager.c:95
 msgid "File"
 msgstr "파일"
 
-#: src/plugin-manager.c:123
+#: src/plugin-manager.c:125
 msgid "Close"
 msgstr "닫기"
 
-#: src/plugin-manager.c:126
+#: src/plugin-manager.c:128
 msgid "Add..."
 msgstr "더하기..."
 
@@ -1421,358 +1408,355 @@ msgstr "init_plugin이 에러 되돌림"
 msgid "Plugin is still in use.\n"
 msgstr "플러그인이 아직 사용중입니다.\n"
 
-#: src/sheet-view.c:336 src/sheet-view.c:409
-#, c-format
+#: src/sheet-view.c:336 src/sheet-view.c:410
 msgid "Row: %d"
 msgstr "가로: %d"
 
 #: src/sheet-view.c:343 src/sheet-view.c:382
-#, c-format
 msgid "Column: %s"
 msgstr "세로: %s"
 
-#: src/workbook.c:286
+#: src/workbook.c:301
 msgid "Warning"
 msgstr ""
 
-#: src/workbook.c:297
+#: src/workbook.c:312
 msgid "Workbook "
 msgstr ""
 
-#: src/workbook.c:298
+#: src/workbook.c:313
 msgid " has unsaved changes, save them?"
 msgstr ""
 
-#: src/workbook.c:474 src/workbook.c:490
+#: src/workbook.c:502 src/workbook.c:518
 msgid "Insert rows"
 msgstr ""
 
-#: src/workbook.c:579
+#: src/workbook.c:605
 msgid ">mm/dd/yyyy"
 msgstr ""
 
-#: src/workbook.c:594
+#: src/workbook.c:624
 msgid ">hh:mm"
 msgstr ""
 
-#: src/workbook.c:626
+#: src/workbook.c:680
 msgid "_New"
 msgstr "새 쉬트(_N)"
 
-#: src/workbook.c:628
+#: src/workbook.c:682
 msgid "_Open..."
 msgstr "열기(_O)..."
 
-#: src/workbook.c:630
+#: src/workbook.c:684
 msgid "_Save"
 msgstr "저장(_S)"
 
-#: src/workbook.c:632
+#: src/workbook.c:686
 msgid "Save _as..."
 msgstr "다른 이름으로 저장(_a)..."
 
-#: src/workbook.c:637
+#: src/workbook.c:691
 msgid "Plu_g-ins..."
 msgstr "플러그인(_g)..."
 
-#: src/workbook.c:641
+#: src/workbook.c:695
 msgid "_Close"
 msgstr "닫기(_C)"
 
-#: src/workbook.c:643
+#: src/workbook.c:697
 msgid "E_xit"
 msgstr "종료(_x)"
 
-#: src/workbook.c:651
+#: src/workbook.c:705
 msgid "_All"
 msgstr "모두(_A)"
 
-#: src/workbook.c:652
+#: src/workbook.c:706
 msgid "_Formats"
 msgstr "형식(_F)"
 
-#: src/workbook.c:653
+#: src/workbook.c:707
 msgid "_Comments"
 msgstr "코멘트(_C)"
 
-#: src/workbook.c:654
+#: src/workbook.c:708
 msgid "_Content"
 msgstr "내용(_C)"
 
-#: src/workbook.c:659
+#: src/workbook.c:713
 msgid "Cu_t"
 msgstr "자르기(_t)"
 
-#: src/workbook.c:661
+#: src/workbook.c:715
 msgid "_Copy"
 msgstr "복사(_C)"
 
-#: src/workbook.c:663
+#: src/workbook.c:717
 msgid "_Paste"
 msgstr "붙이기(_P)"
 
-#: src/workbook.c:665
+#: src/workbook.c:719
 msgid "P_aste special..."
 msgstr "특별히 붙이기(_a)..."
 
-#: src/workbook.c:666
+#: src/workbook.c:720
 msgid "C_lear"
 msgstr "지우기(_l)"
 
-#: src/workbook.c:670
+#: src/workbook.c:724
 msgid "_Select All"
 msgstr ""
 
-#: src/workbook.c:672
+#: src/workbook.c:726
 msgid "_Goto cell.."
 msgstr "셀 찾아가기(_G)..."
 
-#: src/workbook.c:678
+#: src/workbook.c:732
 msgid "_Define cell names"
 msgstr "셀 이름 정의"
 
-#: src/workbook.c:682
+#: src/workbook.c:736
 msgid "_Recalculate"
 msgstr "재계산(_R)"
 
-#: src/workbook.c:690
+#: src/workbook.c:744
 msgid "_Zoom..."
 msgstr "확대(_Z)..."
 
-#: src/workbook.c:697
+#: src/workbook.c:751
 msgid "Current _date"
 msgstr "현재 날짜(_d)"
 
-#: src/workbook.c:699
+#: src/workbook.c:753
 msgid "Current _time"
 msgstr "현재 시간(_t)"
 
-#: src/workbook.c:705 src/workbook.c:745
+#: src/workbook.c:759 src/workbook.c:799
 msgid "_Sheet"
 msgstr "쉬트(_S)"
 
-#: src/workbook.c:706 src/workbook.c:740
+#: src/workbook.c:760 src/workbook.c:794
 msgid "_Cells..."
 msgstr "셀(_C)..."
 
-#: src/workbook.c:707
+#: src/workbook.c:761
 msgid "_Rows"
 msgstr "행(_R)"
 
-#: src/workbook.c:708
+#: src/workbook.c:762
 msgid "C_olumns"
 msgstr "열(_o)"
 
-#: src/workbook.c:712
+#: src/workbook.c:766
 msgid "_Add/Modify comment"
 msgstr "코멘트 추가/수정(_A)"
 
-#: src/workbook.c:713
+#: src/workbook.c:767
 msgid "_Special"
 msgstr ""
 
-#: src/workbook.c:722 src/workbook.c:728
+#: src/workbook.c:776 src/workbook.c:782
 msgid "_Autoadjust"
 msgstr "자동정렬(_A)"
 
-#: src/workbook.c:723
+#: src/workbook.c:777
 msgid "_Width"
 msgstr "넓이(_W)"
 
-#: src/workbook.c:729
+#: src/workbook.c:783
 msgid "_Height"
 msgstr "높이(_H)"
 
-#: src/workbook.c:734
+#: src/workbook.c:788
 msgid "_Change name"
 msgstr "이름 바꿈(_C)"
 
-#: src/workbook.c:743
+#: src/workbook.c:797
 msgid "C_olumn"
 msgstr "열(_o)"
 
-#: src/workbook.c:744
+#: src/workbook.c:798
 msgid "_Row"
 msgstr "행(_R)"
 
-#: src/workbook.c:751
+#: src/workbook.c:805
 msgid "_About Gnumeric..."
 msgstr "Gnumeric은(_A).."
 
-#: src/workbook.c:757
+#: src/workbook.c:811
 msgid "_File"
 msgstr "파일(_F)"
 
-#: src/workbook.c:758
+#: src/workbook.c:812
 msgid "_Edit"
 msgstr "편집(_E)"
 
-#: src/workbook.c:759
+#: src/workbook.c:813
 msgid "_View"
 msgstr "보기(_V)"
 
-#: src/workbook.c:760
+#: src/workbook.c:814
 msgid "_Insert"
 msgstr "삽입(_I)"
 
-#: src/workbook.c:761
+#: src/workbook.c:815
 msgid "F_ormat"
 msgstr "형식(_o)"
 
-#: src/workbook.c:762
+#: src/workbook.c:816
 msgid "_Help"
 msgstr "도움말(_H)"
 
-#: src/workbook.c:770
+#: src/workbook.c:824
 msgid "New"
 msgstr "새 쉬트"
 
-#: src/workbook.c:770
+#: src/workbook.c:824
 msgid "Create a new sheet"
 msgstr "새 쉬트 생성"
 
-#: src/workbook.c:773
+#: src/workbook.c:827
 msgid "Open"
 msgstr "열기"
 
-#: src/workbook.c:773
+#: src/workbook.c:827
 msgid "Opens an existing workbook"
 msgstr "기존의 워크북 열기"
 
-#: src/workbook.c:776
+#: src/workbook.c:830
 msgid "Save"
 msgstr "저장"
 
-#: src/workbook.c:776
+#: src/workbook.c:830
 msgid "Saves the workbook"
 msgstr "워크북 저장"
 
-#: src/workbook.c:782
+#: src/workbook.c:836
 msgid "Cuts the selection to the clipboard"
 msgstr "선택한 내용을 클립보드로 잘라보내기"
 
-#: src/workbook.c:785
+#: src/workbook.c:839
 msgid "Copies the selection to the clipboard"
 msgstr "선택한 내용을 클립보드로 복사"
 
-#: src/workbook.c:788
+#: src/workbook.c:842
 msgid "Pastes the clipboard"
 msgstr "클립보드 내용 붙이기"
 
-#: src/workbook.c:794
+#: src/workbook.c:848
 msgid "Left align"
 msgstr "왼쪽 정렬"
 
-#: src/workbook.c:794
+#: src/workbook.c:848
 msgid "Sets the cell alignment to the left"
 msgstr "셀을 왼쪽으로 정렬시킴"
 
-#: src/workbook.c:797
+#: src/workbook.c:851
 msgid "Centers the cell contents"
 msgstr "셀 내용을 중간으로"
 
-#: src/workbook.c:800
+#: src/workbook.c:854
 msgid "Right align"
 msgstr "오른쪽 정렬"
 
-#: src/workbook.c:800
+#: src/workbook.c:854
 msgid "Sets the cell alignment to the right"
 msgstr "셀을 오른쪽으로 정렬시킴"
 
-#: src/workbook.c:806
+#: src/workbook.c:860
 msgid "Bold"
 msgstr ""
 
-#: src/workbook.c:806
+#: src/workbook.c:860
 msgid "Sets the bold attribute on the cell"
 msgstr "셀에 굵은 속성 설정"
 
-#: src/workbook.c:810
+#: src/workbook.c:864
 msgid "Italic"
 msgstr "이탤릭"
 
-#: src/workbook.c:810
+#: src/workbook.c:864
 msgid "Sets the italic attribute on the cell"
 msgstr "셀에 이탤릭 속성 설정"
 
-#: src/workbook.c:816
+#: src/workbook.c:870
 msgid "Line"
 msgstr "선"
 
-#: src/workbook.c:816
+#: src/workbook.c:870
 msgid "Creates a line object"
 msgstr "선 그림"
 
-#: src/workbook.c:819
+#: src/workbook.c:873
 msgid "Arrow"
 msgstr "화살표"
 
-#: src/workbook.c:819
+#: src/workbook.c:873
 msgid "Creates an arrow object"
 msgstr "화살표 생성"
 
-#: src/workbook.c:822
+#: src/workbook.c:876
 msgid "Rectangle"
 msgstr "직사각형"
 
-#: src/workbook.c:822
+#: src/workbook.c:876
 msgid "Creates a rectangle object"
 msgstr "직사각형 생성"
 
-#: src/workbook.c:825
+#: src/workbook.c:879
 msgid "Ellipse"
 msgstr "타원"
 
-#: src/workbook.c:825
+#: src/workbook.c:879
 msgid "Creates an ellipse object"
 msgstr "타원 생성"
 
-#: src/workbook.c:904
+#: src/workbook.c:958
 msgid "You should introduce a valid cell name"
 msgstr "유효한 셀이름을 넣으셔야 합니다"
 
-#: src/workbook.c:910
+#: src/workbook.c:964
 msgid "Column out of range"
 msgstr "열 갯수가 범위를 벗어남"
 
-#: src/workbook.c:915
+#: src/workbook.c:969
 msgid "Row number out of range"
 msgstr "행 갯수가 범위를 벗어남"
 
-#: src/workbook.c:1021
+#: src/workbook.c:1075
 msgid "Sum"
 msgstr "합계"
 
-#: src/workbook.c:1022
+#: src/workbook.c:1076
 msgid "Min"
 msgstr "최소"
 
-#: src/workbook.c:1023
+#: src/workbook.c:1077
 msgid "Max"
 msgstr "최대"
 
-#: src/workbook.c:1024
+#: src/workbook.c:1078
 msgid "Average"
 msgstr "평균"
 
-#: src/workbook.c:1025
+#: src/workbook.c:1079
 msgid "Count"
 msgstr "계수"
 
-#: src/workbook.c:1173
+#: src/workbook.c:1233
 msgid "Untitled.gnumeric"
 msgstr ""
 
-#: src/workbook.c:1238
+#: src/workbook.c:1309
 msgid "Zoom out"
 msgstr "확대"
 
-#: src/workbook.c:1245
+#: src/workbook.c:1316
 msgid "Zoom in"
 msgstr "축소"
 
-#: src/workbook.c:1294 src/workbook.c:1315
-#, c-format
+#: src/workbook.c:1365 src/workbook.c:1386
 msgid "Sheet %d"
 msgstr "쉬트 %d"
 

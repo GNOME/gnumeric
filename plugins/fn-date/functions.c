@@ -72,7 +72,7 @@ static Value *
 gnumeric_today (FunctionDefinition *fd, Value *argv [], char **error_string)
 {
 	Value *v;
-	GDate *date = g_date_new();
+	GDate *date = g_date_new ();
 	
 	g_date_set_time (date, time (NULL));
 	
@@ -110,11 +110,11 @@ gnumeric_now (FunctionDefinition *fd, Value *argv [], char **error_string)
 	Value *v;
 	time_t t = time (NULL);
 	struct tm *tm = localtime (&t);
-	GDate *date = g_date_new();
+	GDate *date = g_date_new ();
 	
 	g_date_set_time (date, t);
 
-	v = value_float (g_date_serial(date) +
+	v = value_float (g_date_serial (date) +
 			 ((tm->tm_hour * 3600 + tm->tm_min * 60 
 			   + tm->tm_sec)/(double)DAY_SECONDS));
 
