@@ -213,7 +213,7 @@ int             expr_tree_get_const_int (ExprTree const *const expr);
 char const *	expr_tree_get_const_str (ExprTree const *const expr);
  
 /* Debugging */ 
-void expr_dump_tree (ExprTree *tree);
+void expr_dump_tree (const ExprTree *tree);
 
 /*
  * Returns int(0) if the expression uses a non-existant cell for anything

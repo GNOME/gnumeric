@@ -777,14 +777,19 @@ eval_expr_real (FunctionEvalInfo *s, ExprTree const *tree)
 		int comp;
 
 		a = eval_expr_real (s, tree->u.binary.value_a);
+		if (VALUE_IS_PROBLEM(a))
+			return a;
+
 		b = eval_expr_real (s, tree->u.binary.value_b);
+		if (VALUE_IS_PROBLEM(b)){
+			value_release (a);
+			return b;
+		}
 
 		comp = compare (a, b);
 
-		if (a != NULL)
-			value_release (a);
-		if (b != NULL)
-			value_release (b);
+		value_release (a);
+		value_release (b);
 
 		if (comp == TYPE_MISMATCH){
 			/* TODO TODO TODO : Make error more informative
@@ -1486,7 +1491,11 @@ do_expr_tree_invalidate_references (ExprTree *src, const struct expr_tree_frob_r
 		case VALUE_STRING:
 		case VALUE_INTEGER:
 		case VALUE_FLOAT:
+		case VALUE_BOOLEAN:
+		case VALUE_ERROR:
+		case VALUE_EMPTY:
 			return NULL;
+
 		case VALUE_CELLRANGE: {
 			CellRef ca = v->v.cell_range.cell_a; /* Copy a structure, not a pointer.  */
 			CellRef cb = v->v.cell_range.cell_b; /* Copy a structure, not a pointer.  */
@@ -1830,13 +1839,11 @@ expr_tree_fixup_references (ExprTree *src, EvalPosition *src_fp,
 
 /* Debugging utility to print an expression */
 void
-expr_dump_tree (ExprTree *tree)
+expr_dump_tree (const ExprTree *tree)
 {
-	Symbol *s;
-	CellRef *cr;
-	
 	switch (tree->oper){
-	case OPER_VAR:
+	case OPER_VAR: {
+		const CellRef *cr;	
 		cr = &tree->u.ref;
 		printf ("Cell: %s%c%s%d\n",
 			cr->col_relative ? "" : "$",
@@ -1844,19 +1851,22 @@ expr_dump_tree (ExprTree *tree)
 			cr->row_relative ? "" : "$",
 			cr->row + '1');
 		return;
+	}
 		
 	case OPER_CONSTANT:
 		value_dump (tree->u.constant);
 		return;
 
-	case OPER_FUNCALL:
+	case OPER_FUNCALL: {
+		const Symbol *s;
 		s = symbol_lookup (global_symbol_table, tree->u.function.symbol->str);
 		printf ("Function call: %s\n", s->str);
-		break;
+		return;
+	}
 
 	case OPER_NAME:
 		printf ("Name : %s\n", tree->u.name->name->str);
-		break;
+		return;
 
 	case OPER_ANY_BINARY:
 		expr_dump_tree (tree->u.binary.value_a);
@@ -1877,16 +1887,16 @@ expr_dump_tree (ExprTree *tree)
 		default:
 			printf ("Error\n");
 		}
-		break;
+		return;
 		
 	case OPER_NEG:
 		expr_dump_tree (tree->u.value);
 		printf ("NEGATIVE\n");
-		break;
+		return;
 
 	case OPER_ARRAY:
 		printf ("ARRAY??\n");
-		break;
+		return;
 	}
 }
 

@@ -160,8 +160,8 @@ gnumeric_if (FunctionEvalInfo *ei, GList *expr_node_list)
 
 	/* Compute the if part */
 	value = eval_expr (ei, (ExprTree *) expr_node_list->data);
-	if (value == NULL)
-		return NULL;
+	if (VALUE_IS_PROBLEM (value))
+		return value;
 
 	/* Choose which expression we will evaluate */
 	ret = value_get_as_bool (value, &err);

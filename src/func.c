@@ -72,13 +72,19 @@ function_iterate_do_value (const EvalPosition      *ep,
 	Value *res = NULL;
 
 	switch (value->type){
-	case VALUE_BOOLEAN:
 	case VALUE_ERROR:
+		if (strict) {
+			res = value_duplicate (value);
+			break;
+		}
+		/* Fall through.  */
+
+	case VALUE_BOOLEAN:
 	case VALUE_INTEGER:
 	case VALUE_FLOAT:
 	case VALUE_STRING:
 		res = (*callback)(ep, value, closure);
-			break;
+		break;
 
 	case VALUE_ARRAY:
 	{
@@ -144,19 +150,15 @@ function_iterate_argument_values (const EvalPosition      *fp,
 		func_eval_info_pos (&fs, fp);
 		val = eval_expr (&fs, tree);
 
-		if (!VALUE_IS_PROBLEM(val)) {
+		if (!VALUE_IS_PROBLEM(val) || !strict) {
 			result = function_iterate_do_value (
 				fp, callback, callback_closure,
 				val, strict);
 			value_release (val);
-		} else if (strict) {
-			/* A strict function -- just short circuit.  */
-			/* FIXME : Make the new position of the error here */
-			result = (val != NULL)
-			    ? value_duplicate(val) : value_terminate();
 		} else {
-			/* A non-strict function -- call the handler.  */
-			result = (*callback) (fp, val, callback_closure);
+			/* A strict function with an error -- just short circuit.  */
+			/* FIXME : Make the new position of the error here */
+			return val;
 		}
 	}
 	return result;

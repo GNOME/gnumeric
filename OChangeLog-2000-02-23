@@ -1,5 +1,17 @@
 1999-07-31  Morten Welinder  <terra@diku.dk>
 
+	* src/fn-logical.c (gnumeric_if): Fix case of first argument
+ 	yielding an error.
+
+	* src/expr.c (expr_dump_tree): Constify.
+
+	* src/func.c (function_iterate_do_value): Fix behaviour of strict
+ 	functions.
+
+	* src/expr.c (do_expr_tree_invalidate_references): Handle
+ 	VALUE_BOOLEAN and VALUE_ERROR.
+	(eval_expr_real): Make comparisons strict.
+
 	* src/summary.c (summary_info_free): Fix leak.
 	(summary_item_free): Fix leak.
 
