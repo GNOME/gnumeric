@@ -102,17 +102,18 @@ typedef enum {
 	GOG_DIM_TYPES
 } GogDimType;
 
-/* A helper enum to simplify import from MS Excel (tm) which uses the same
- * logical dim names for all plot types */
+/* A helper enum to simplify import/export from MS Excel (tm) which uses the
+ * same logical dim names for all plot types.  Do _NOT_ reorder, or change the
+ * enumeration without checking the xls code */
 typedef enum {
-	GOG_MS_DIM_LABELS = 0,
-	GOG_MS_DIM_VALUES,
-	GOG_MS_DIM_CATEGORIES,
-	GOG_MS_DIM_BUBBLES,
-	GOG_MS_DIM_ERR_plus1,
-	GOG_MS_DIM_ERR_minus1,
-	GOG_MS_DIM_ERR_plus2,
-	GOG_MS_DIM_ERR_minus2,
+	GOG_MS_DIM_LABELS	= 0,
+	GOG_MS_DIM_VALUES	= 1,
+	GOG_MS_DIM_CATEGORIES	= 2,
+	GOG_MS_DIM_BUBBLES	= 3, /* undocumented */
+	GOG_MS_DIM_ERR_plus1,	/* we made it up */
+	GOG_MS_DIM_ERR_minus1,	/* we made it up */
+	GOG_MS_DIM_ERR_plus2,	/* we made it up */
+	GOG_MS_DIM_ERR_minus2,	/* we made it up */
 	GOG_MS_DIM_TYPES
 } GogMSDimType;
 

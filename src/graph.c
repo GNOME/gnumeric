@@ -154,6 +154,22 @@ gnm_go_data_set_sheet (GOData *dat, Sheet *sheet)
 	}
 }
 
+Sheet *
+gnm_go_data_get_sheet (GOData const *dat)
+{
+	GnmDependent *dep = gnm_go_data_get_dep (dat);
+	g_return_val_if_fail (dep != NULL, NULL);
+	return dep->sheet;
+}
+
+GnmExpr const *
+gnm_go_data_get_expr (GOData const *dat)
+{
+	GnmDependent *dep = gnm_go_data_get_dep (dat);
+	g_return_val_if_fail (dep != NULL, NULL);
+	return dep->expression;
+}
+
 /**************************************************************************/
 
 struct _GnmGODataScalar {

@@ -1,3 +1,12 @@
+2004-05-31  Jody Goldberg <jody@gnome.org>
+
+	* src/graph.c (gnm_go_data_get_sheet) : new.
+	(gnm_go_data_get_expr) : new.
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=143367
+	* src/item-grid.c (item_grid_realize) : make the seperator a dark
+	  colour rather than black.
+
 2004-05-27  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook.c (workbook_sheet_hide_controls) : split out from.

@@ -72,7 +72,7 @@ struct _ItemGrid {
 		GdkGC      *fill;	/* Default background fill gc */
 		GdkGC      *cell;	/* Color used for the cell */
 		GdkGC      *empty;	/* GC used for drawing empty cells */
-		GdkGC      *bound;	/* the black line at the edge */
+		GdkGC      *bound;	/* the dark line at the edge */
 	} gc;
 
 	GnmRange bound;
@@ -153,7 +153,7 @@ item_grid_realize (FooCanvasItem *item)
 	gdk_gc_set_rgb_bg_color (ig->gc.fill,  &gs_light_gray);
 
 	ig->gc.bound = gdk_gc_new (window);
-	gdk_gc_set_rgb_fg_color (ig->gc.bound, &gs_black);
+	gdk_gc_set_rgb_fg_color (ig->gc.bound, &gs_dark_gray);
 	gdk_gc_set_line_attributes (ig->gc.bound, 3, GDK_LINE_SOLID,
 				    GDK_CAP_NOT_LAST, GDK_JOIN_MITER);
 }

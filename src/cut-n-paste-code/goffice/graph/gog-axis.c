@@ -349,8 +349,8 @@ gog_axis_finalize (GObject *obj)
 	(parent_klass->finalize) (obj);
 }
 
-static double
-axis_get_entry (GogAxis const *axis, unsigned i, gboolean *user_defined)
+double
+gog_axis_get_entry (GogAxis const *axis, unsigned i, gboolean *user_defined)
 {
 	GOData *dat = axis->source [i].data;
 	if (dat != NULL && IS_GO_DATA_SCALAR (dat)) {
@@ -437,10 +437,10 @@ gog_axis_update (GogObject *obj)
 	minima = axis->min_val;
 	maxima = axis->max_val;
 
-	tmp = axis_get_entry (GOG_AXIS (obj), AXIS_ELEM_MIN, &user_defined);
+	tmp = gog_axis_get_entry (GOG_AXIS (obj), AXIS_ELEM_MIN, &user_defined);
 	if (user_defined) minima = tmp;
 
-	tmp = axis_get_entry (GOG_AXIS (obj), AXIS_ELEM_MAX, &user_defined);
+	tmp = gog_axis_get_entry (GOG_AXIS (obj), AXIS_ELEM_MAX, &user_defined);
 	if (user_defined) maxima = tmp;
 
 	range = fabs (maxima - minima);
@@ -929,8 +929,8 @@ gog_axis_get_bounds (GogAxis const *axis, double *minima, double *maxima)
 	g_return_val_if_fail (minima != NULL, FALSE);
 	g_return_val_if_fail (maxima != NULL, FALSE);
 
-	*minima = axis_get_entry (axis, AXIS_ELEM_MIN, NULL);
-	*maxima = axis_get_entry (axis, AXIS_ELEM_MAX, NULL);
+	*minima = gog_axis_get_entry (axis, AXIS_ELEM_MIN, NULL);
+	*maxima = gog_axis_get_entry (axis, AXIS_ELEM_MAX, NULL);
 
 	return finite (*minima) && finite (*maxima) && *minima < *maxima;
 }
@@ -951,9 +951,9 @@ gog_axis_get_ticks (GogAxis const *axis, double *major, double *minor)
 	g_return_if_fail (GOG_AXIS (axis) != NULL);
 
 	if (major != NULL)
-		*major = axis_get_entry (axis, AXIS_ELEM_MAJOR_TICK, NULL);
+		*major = gog_axis_get_entry (axis, AXIS_ELEM_MAJOR_TICK, NULL);
 	if (minor != NULL)
-		*minor = axis_get_entry (axis, AXIS_ELEM_MINOR_TICK, NULL);
+		*minor = gog_axis_get_entry (axis, AXIS_ELEM_MINOR_TICK, NULL);
 }
 
 /**
@@ -1079,7 +1079,7 @@ gog_axis_num_markers (GogAxis *axis, double *major_step, double *minor_step)
 			*minor_step = -1.;
 		return n;
 	} else {
-		major_tick = axis_get_entry (axis, AXIS_ELEM_MAJOR_TICK, NULL);
+		major_tick = gog_axis_get_entry (axis, AXIS_ELEM_MAJOR_TICK, NULL);
 		if (major_tick <= 0. ||
 		    !gog_axis_get_bounds (axis, &minima, &maxima)) {
 			if (major_step != NULL)
@@ -1089,7 +1089,7 @@ gog_axis_num_markers (GogAxis *axis, double *major_step, double *minor_step)
 			return 0;
 		}
 		if (minor_step != NULL) {
-			minor_tick = axis_get_entry (axis, AXIS_ELEM_MINOR_TICK, NULL);
+			minor_tick = gog_axis_get_entry (axis, AXIS_ELEM_MINOR_TICK, NULL);
 			*minor_step = minor_tick / fabs (maxima - minima);
 		}
 		if (major_step != NULL)
@@ -1104,13 +1104,13 @@ gog_axis_get_marker (GogAxis *axis, unsigned i)
 	if (axis->is_discrete) {
 		if (axis->labels != NULL) {
 			if ((int)i < go_data_vector_get_len (axis->labels))
-			return go_data_vector_get_str (axis->labels, i);
+				return go_data_vector_get_str (axis->labels, i);
 			return g_strdup ("");
 		}
 		return g_strdup_printf ("%d", i+1);
 	} else {
-		double major_tick = axis_get_entry (axis, AXIS_ELEM_MAJOR_TICK, NULL);
-		double val = axis_get_entry (axis, AXIS_ELEM_MIN, NULL) +
+		double major_tick = gog_axis_get_entry (axis, AXIS_ELEM_MAJOR_TICK, NULL);
+		double val = gog_axis_get_entry (axis, AXIS_ELEM_MIN, NULL) +
 			(((double)i) * major_tick);
 
 		/* force display to 0 if it is within less than a  step */
@@ -1279,8 +1279,8 @@ draw_axis_from_a_to_b (GogView *v, GogAxis *axis, int ax, int ay, int bx, int by
 		gog_renderer_draw_path (v->renderer, axis_path, NULL);
 
 	// Draw the ticks
-	major_tick = axis_get_entry (axis, AXIS_ELEM_MAJOR_TICK, NULL);
-	minor_tick = axis_get_entry (axis, AXIS_ELEM_MINOR_TICK, NULL);
+	major_tick = gog_axis_get_entry (axis, AXIS_ELEM_MAJOR_TICK, NULL);
+	minor_tick = gog_axis_get_entry (axis, AXIS_ELEM_MINOR_TICK, NULL);
 
 	draw_major = axis->major.tick_out || axis->major.tick_in;
 	draw_minor = !axis->is_discrete && minor_tick > 0. &&

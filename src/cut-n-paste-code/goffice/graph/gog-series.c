@@ -540,6 +540,19 @@ GSF_CLASS_FULL (GogSeries, gog_series,
 		GSF_INTERFACE (gog_series_dataset_init, GOG_DATASET_TYPE))
 
 /**
+ * gog_series_get_plot :
+ * @series : #GogSeries
+ *
+ * Returns the possibly NULL plot that contains this series.
+ **/
+GogPlot *
+gog_series_get_plot (GogSeries const *series)
+{
+	g_return_val_if_fail (GOG_SERIES (series) != NULL, FALSE);
+	return series->plot;
+}
+
+/**
  * gog_series_is_valid :
  * @series : #GogSeries
  *

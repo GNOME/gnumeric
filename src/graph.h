@@ -7,6 +7,8 @@
 #include <glib-object.h>
 
 void	 gnm_go_data_set_sheet (GOData *dat, Sheet *sheet);
+Sheet   *gnm_go_data_get_sheet (GOData const *dat);
+GnmExpr const *gnm_go_data_get_expr (GOData const *dat);
 
 #define GNM_GO_DATA_SCALAR_TYPE	 (gnm_go_data_scalar_get_type ())
 #define GNM_GO_DATA_SCALAR(o)	 (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_GO_DATA_SCALAR_TYPE, GnmGODataScalar))

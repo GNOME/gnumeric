@@ -17,6 +17,7 @@
 #include "ms-excel-read.h"
 #include "ms-excel-write.h"
 #include "ms-escher.h"
+#include "ms-formula-write.h"
 
 #include <parse-util.h>
 #include <format.h>
@@ -251,7 +252,7 @@ BC_R(ai)(XLChartHandler const *handle,
 	if (flags&0x01) {
 		GnmFormat *fmt = ms_container_get_fmt (&s->container,
 			GSF_LE_GET_GUINT16 (q->data + 4));
-		d (2, fputs ("Has Custom number format", stderr););
+		d (2, fputs ("Has Custom number format;\n", stderr););
 		if (fmt != NULL) {
 			char * desc = style_format_as_XL (fmt, FALSE);
 			d (2, fprintf (stderr, "Format = '%s';\n", desc););
@@ -266,10 +267,10 @@ BC_R(ai)(XLChartHandler const *handle,
 	g_return_val_if_fail (purpose < GOG_MS_DIM_TYPES, TRUE);
 	d (0, {
 	switch (purpose) {
-	case GOG_MS_DIM_LABELS :     fputs ("Linking labels;\n", stderr); break;
-	case GOG_MS_DIM_VALUES :     fputs ("Linking values;\n", stderr); break;
-	case GOG_MS_DIM_CATEGORIES : fputs ("Linking categories;\n", stderr); break;
-	case GOG_MS_DIM_BUBBLES :    fputs ("Linking bubbles;\n", stderr); break;
+	case GOG_MS_DIM_LABELS :     fputs ("Labels;\n", stderr); break;
+	case GOG_MS_DIM_VALUES :     fputs ("Values;\n", stderr); break;
+	case GOG_MS_DIM_CATEGORIES : fputs ("Categories;\n", stderr); break;
+	case GOG_MS_DIM_BUBBLES :    fputs ("Bubbles;\n", stderr); break;
 	default :
 		g_assert_not_reached ();
 	};
@@ -1547,9 +1548,7 @@ BC_R(seriestext)(XLChartHandler const *handle,
 	if (s->currentSeries != NULL &&
 	    s->currentSeries->data [GOG_MS_DIM_LABELS].data == NULL) {
 		s->currentSeries->data [GOG_MS_DIM_LABELS].data =
-			gnm_go_data_scalar_new_expr (
-				ms_container_sheet (s->container.parent),
-				gnm_expr_new_constant (value_new_string_nocopy (str)));
+			go_data_scalar_str_new (str, TRUE);
 	} else if (BC_R(top_state) (s) == BIFF_CHART_text) {
 		if (s->text != NULL) {
 			g_warning ("multiple seriestext associated with 1 text record ?");
@@ -1771,10 +1770,9 @@ BC_R(units)(XLChartHandler const *handle,
 }
 /****************************************************************************/
 
-
 static void
-conditional_set_double (gboolean flag, guint8 const *data,
-			gchar const *name, unsigned dim, GogObject *axis)
+xl_axis_get_elem (GogObject *axis, unsigned dim, gchar const *name,
+		  gboolean flag, guint8 const *data)
 {
 	GOData *dat;
 	if (flag) {
@@ -1794,11 +1792,11 @@ BC_R(valuerange)(XLChartHandler const *handle,
 {
 	guint16 const flags = GSF_LE_GET_GUINT16 (q->data+40);
 
-	conditional_set_double (flags&0x01, q->data+ 0, "Min Value", AXIS_ELEM_MIN, s->axis);
-	conditional_set_double (flags&0x02, q->data+ 8, "Max Value", AXIS_ELEM_MAX, s->axis);
-	conditional_set_double (flags&0x04, q->data+16, "Major Increment", AXIS_ELEM_MAJOR_TICK, s->axis);
-	conditional_set_double (flags&0x08, q->data+24, "Minor Increment", AXIS_ELEM_MINOR_TICK, s->axis);
-	conditional_set_double (flags&0x10, q->data+32, "Cross over point", AXIS_ELEM_CROSS_POINT, s->axis);
+	xl_axis_get_elem (s->axis, AXIS_ELEM_MIN,	  "Min Value",		flags&0x01, q->data+ 0);
+	xl_axis_get_elem (s->axis, AXIS_ELEM_MAX,	  "Max Value",		flags&0x02, q->data+ 8);
+	xl_axis_get_elem (s->axis, AXIS_ELEM_MAJOR_TICK,  "Major Increment",	flags&0x04, q->data+16);
+	xl_axis_get_elem (s->axis, AXIS_ELEM_MINOR_TICK,  "Minor Increment",	flags&0x08, q->data+24);
+	xl_axis_get_elem (s->axis, AXIS_ELEM_CROSS_POINT, "Cross over point",	flags&0x10, q->data+32);
 
 	if (flags & 0x20) {
 		g_object_set (s->axis, "log-scale", TRUE, NULL);
@@ -1818,22 +1816,29 @@ BC_R(valuerange)(XLChartHandler const *handle,
 
 /****************************************************************************/
 
-static void
-XL_gog_series_set_dim (GogSeries *series, GogMSDimType ms_type, GOData *val)
+static int
+XL_gog_series_map_dim (GogSeries const *series, GogMSDimType ms_type)
 {
 	GogSeriesDesc const *desc = &series->plot->desc.series;
 	unsigned i = desc->num_dim;
 
-	if (ms_type == GOG_MS_DIM_LABELS) {
-		gog_series_set_dim (series, -1, val, NULL);
+	if (ms_type == GOG_MS_DIM_LABELS)
+		return -1;
+	while (i-- > 0)
+		if (desc->dim[i].ms_type == ms_type)
+			return i;
+	g_warning ("Unexpected val for dim %d", ms_type);
+	return -2;
+}
+
+static void
+XL_gog_series_set_dim (GogSeries *series, GogMSDimType ms_type, GOData *val)
+{
+	int dim = XL_gog_series_map_dim (series, ms_type);
+	if (dim >= -1) {
+		gog_series_set_dim (series, dim, val, NULL);
 		return;
 	}
-	while (i-- > 0)
-		if (desc->dim[i].ms_type == ms_type) {
-			gog_series_set_dim (series, i, val, NULL);
-			return;
-		}
-	g_warning ("Unexpected val for dim %d", ms_type);
 	g_object_unref (val);
 }
 
@@ -2330,6 +2335,7 @@ ms_excel_read_chart_BOF (BiffQuery *q, MSContainer *container, SheetObject *sog)
 
 typedef struct {
 	BiffPut		*bp;
+	ExcelWriteState *ewb;
 	SheetObject	*so;
 	GogGraph	*gog;
 
@@ -2372,19 +2378,123 @@ chart_write_FBI (ExcelWriteChart *state, guint16 n)
 }
 
 static void
-chart_write_series (BiffPut *bp)
+chart_write_DATAFORMAT (BiffPut *bp, unsigned i)
 {
-#if 0
-	BIFF_CHART_series
-	chart_write_BEGIN (state);
-		BIFF_CHART_ai (labels, values, catagory, bubbles)
-		BIFF_CHART_dataformat
-		chart_write_BEGIN (state);
-			BIFF_CHART_3dbarshape (always box)
-		chart_write_END (state);
-		BIFF_CHART_sertocrt
-	chart_write_END (state);
-#endif
+	guint8 *data = ms_biff_put_len_next (bp, BIFF_CHART_dataformat, 8);
+	GSF_LE_SET_GUINT16 (data+0, 0xffff); /* entire series */
+	GSF_LE_SET_GUINT16 (data+2, i); /* index */
+	GSF_LE_SET_GUINT16 (data+4, i); /* visible index */
+	GSF_LE_SET_GUINT16 (data+6, 0); /* do not use XL 4 autocolor */
+	ms_biff_put_commit (bp);
+}
+
+static void
+chart_write_AI (ExcelWriteChart *s, GOData const *dim, unsigned n,
+		guint8 ref_type)
+{
+	guint8 buf[8], lendat[2];
+	unsigned len;
+
+	if (dim != NULL) {
+		GType const t = G_OBJECT_TYPE (dim);
+		if (t == GNM_GO_DATA_SCALAR_TYPE ||
+		    t == GNM_GO_DATA_VECTOR_TYPE)
+			ref_type = 2;
+	}
+	ms_biff_put_var_next (s->bp, BIFF_CHART_ai);
+	GSF_LE_SET_GUINT8  (buf+0, n);
+	GSF_LE_SET_GUINT8  (buf+1, ref_type);
+
+	/* no custom number format support for a dimension yet */
+	GSF_LE_SET_GUINT16 (buf+2, 0);
+	GSF_LE_SET_GUINT16 (buf+4, 0);
+
+	GSF_LE_SET_GUINT16 (buf+6, 0); /* placeholder length */
+	ms_biff_put_var_write (s->bp, buf, 8);
+
+	if (ref_type == 2) {
+		len = excel_write_formula (s->ewb,
+			gnm_go_data_get_expr (dim),
+			gnm_go_data_get_sheet (dim),
+			0, 0, EXCEL_CALLED_FROM_NAME);
+		ms_biff_put_var_seekto (s->bp, 6);
+		GSF_LE_SET_GUINT16 (lendat, len);
+		ms_biff_put_var_write (s->bp, lendat, 2);
+	}
+
+	ms_biff_put_commit (s->bp);
+}
+
+static void
+store_dim (GogSeries const *series, GogMSDimType t,
+	   guint8 *store_type, guint8 *store_count)
+{
+	GOData *dat = gog_dataset_get_dim (GOG_DATASET (series),
+		XL_gog_series_map_dim (series, t));
+	guint16 count, type;
+
+	if (dat == NULL) {
+		count = 0;
+		type = 1; /* numeric */
+	} else if (IS_GO_DATA_SCALAR (dat)) {
+		/* cheesy test to see if the content is strings or numbers */
+		double tmp = go_data_scalar_get_value (GO_DATA_SCALAR (dat));
+		type = finitegnum (tmp) ? 1 : 3;
+		count = 1;
+	} else if (IS_GO_DATA_VECTOR (dat)) {
+		/* cheesy test to see if the content is strings or numbers */
+		double tmp = go_data_vector_get_value (GO_DATA_VECTOR (dat), 0);
+		type = finitegnum (tmp) ? 1 : 3;
+		count = go_data_vector_get_len (GO_DATA_VECTOR (dat));
+		if (count > 30000) /* XL limit */
+			count = 30000;
+	} else {
+		g_warning ("How did this happen ?");
+		count = 0;
+		type = 1; /* numeric */
+	}
+	GSF_LE_SET_GUINT16 (store_type, type);
+	GSF_LE_SET_GUINT16 (store_count, count);
+}
+
+static void
+chart_write_series (ExcelWriteChart *s, GogSeries const *series, unsigned n)
+{
+	static guint8 const default_ref_type[] = { 1, 2, 0, 1 };
+	unsigned i;
+	guint8 *data;
+	
+	/* SERIES */
+	data = ms_biff_put_len_next (s->bp, BIFF_CHART_series,
+		(s->bp->version >= MS_BIFF_V8) ? 12: 8);
+	store_dim (series, GOG_MS_DIM_CATEGORIES, data+0, data+4);
+	store_dim (series, GOG_MS_DIM_VALUES, data+2, data+6);
+	if (s->bp->version >= MS_BIFF_V8)
+		store_dim (series, GOG_MS_DIM_BUBBLES, data+8, data+10);
+	ms_biff_put_commit (s->bp);
+
+	chart_write_BEGIN (s);
+	for (i = GOG_MS_DIM_LABELS; i <= GOG_MS_DIM_BUBBLES; i++)
+		chart_write_AI (s,
+			gog_dataset_get_dim (GOG_DATASET (series),
+				XL_gog_series_map_dim (series, i)),
+			i, default_ref_type[i]);
+
+	chart_write_DATAFORMAT (s->bp, n); /* ignore single elements for now */
+	chart_write_BEGIN (s);
+	ms_biff_put_2byte (s->bp, BIFF_CHART_3dbarshape, 0); /* box */
+	chart_write_END (s);
+
+	ms_biff_put_2byte (s->bp, BIFF_CHART_sertocrt, 0);
+	chart_write_END (s);
+}
+
+static void
+chart_write_AREAFORMAT (ExcelWriteChart *state, GogStyle const *style)
+{
+#warning areaformat
+	guint8 *data = ms_biff_put_len_next (state->bp, BIFF_CHART_areaformat, 12);
+	ms_biff_put_commit (state->bp);
 }
 
 static void
@@ -2419,9 +2529,20 @@ chart_write_LINEFORMAT (ExcelWriteChart *state,
 }
 
 static void
-chart_write_AREAFORMAT (ExcelWriteChart *state, GogStyle const *style)
+chart_write_MARKERFORMAT (ExcelWriteChart *state, GogStyle const *style)
 {
+#warning markerformat
+	guint8 *data = ms_biff_put_len_next (state->bp, BIFF_CHART_markerformat, 12);
+	ms_biff_put_commit (state->bp);
 }
+static void
+chart_write_PIEFORMAT (ExcelWriteChart *state, GogStyle const *style)
+{
+#warning pieformat
+	guint8 *data = ms_biff_put_len_next (state->bp, BIFF_CHART_pieformat, 12);
+	ms_biff_put_commit (state->bp);
+}
+
 static void
 chart_write_frame (ExcelWriteChart *state, gboolean calc_size)
 {
@@ -2433,6 +2554,65 @@ chart_write_frame (ExcelWriteChart *state, gboolean calc_size)
 	chart_write_BEGIN (state);
 	chart_write_LINEFORMAT (state, NULL, FALSE);
 	chart_write_AREAFORMAT (state, NULL);
+	chart_write_END (state);
+}
+
+static guint16
+xl_axis_set_elem (GogAxis const *axis,
+		  unsigned dim, guint16 flag, guint8 *data)
+{
+	gboolean user_defined = FALSE;
+	double val = gog_axis_get_entry (axis, dim, &user_defined);
+	gsf_le_set_double (data, user_defined ? val : 0.);
+	return user_defined ? flag : 0;
+}
+
+static void
+chart_write_axis (ExcelWriteChart *state, GogAxis const *axis, unsigned i)
+{
+	guint8 *data = ms_biff_put_len_next (state->bp, BIFF_CHART_axis, 18);
+	GSF_LE_SET_GUINT32 (data + 0, i);
+	memset (data+2, 0, 16);
+	ms_biff_put_commit (state->bp);
+
+	chart_write_BEGIN (state);
+	if (gog_axis_is_discrete (axis)) {
+		data = ms_biff_put_len_next (state->bp, BIFF_CHART_catserrange, 8);
+#warning catserrange
+#if 0
+		uint16 values_axis_crosses_at_cat_index
+		uint16 frequency_of_label;
+		uint16 frequency_of_tick;
+		uint16 flags;
+			01 == cross in middle of cat or between cats
+			02 == enum cross point from max not min
+			04 == cats in reverse order
+#endif
+		ms_biff_put_commit (state->bp);
+
+		data = ms_biff_put_len_next (state->bp, BIFF_CHART_axcext, 18);
+#warning axcext
+		ms_biff_put_commit (state->bp);
+	} else {
+		guint16 flags = 0;
+		data = ms_biff_put_len_next (state->bp, BIFF_CHART_valuerange, 42);
+		GSF_LE_SET_GUINT16 (data+40, flags);
+#if 0
+		flags |= 0x20; /* if log scale */
+		flags |= 0x40; /* invert */
+		flags |= 0x80; /* cross at max */
+#endif
+		flags |= xl_axis_set_elem (axis, AXIS_ELEM_MIN,	        0x01, data+ 0);
+		flags |= xl_axis_set_elem (axis, AXIS_ELEM_MAX,	        0x02, data+ 8);
+		flags |= xl_axis_set_elem (axis, AXIS_ELEM_MAJOR_TICK,  0x04, data+16);
+		flags |= xl_axis_set_elem (axis, AXIS_ELEM_MINOR_TICK,  0x08, data+24);
+		flags |= xl_axis_set_elem (axis, AXIS_ELEM_CROSS_POINT, 0x10, data+32);
+		ms_biff_put_commit (state->bp);
+	}
+#if 0
+	BIFF_CHART_tick
+#endif
+	ms_biff_put_2byte (state->bp, BIFF_CHART_axislineformat, 0); /* a real axis */
 	chart_write_END (state);
 }
 
@@ -2456,19 +2636,8 @@ chart_write_axis_sets (ExcelWriteChart *state)
 
 		chart_write_BEGIN (state);
 		/* BIFF_CHART_pos, optional we use auto positioning */
-		for (j = GOG_AXIS_X ; j <= GOG_AXIS_Y ; j++) {
-			data = ms_biff_put_len_next (state->bp, BIFF_CHART_axis, 18);
-			GSF_LE_SET_GUINT32 (data + 0, j);
-			memset (data+2, 0, 16);
-			chart_write_BEGIN (state);
-#if 0
-			if (is_discrete)
-				( BIFF_CHART_catserrange, BIFF_CHART_axcext, BIFF_CHART_tick | BIFF_CHART_axislineformat )
-			else
-				( BIFF_CHART_valuerange, BIFF_CHART_tick, BIFF_CHART_axislineformat )
-#endif
-			chart_write_END (state);
-		}
+		for (j = GOG_AXIS_X ; j <= GOG_AXIS_Y ; j++)
+			chart_write_axis (state, /* axis */ NULL, j);
 
 		if (i == 0) {
 			ms_biff_put_empty (state->bp, BIFF_CHART_plotarea);
@@ -2476,36 +2645,55 @@ chart_write_axis_sets (ExcelWriteChart *state)
 		}
 
 #if 0
-		BIFF_CHART_chartformat
-		chart_write_BEGIN (state);
-			BIFF_CHART_bar
-			BIFF_CHART_chartformatlink
-			(
-			BIFF_CHART_legend
+		foreach (plot in axis_set[i]) {
+			data = ms_biff_put_len_next (state->bp, BIFF_CHART_chartformat, 20);
+			/* guint8 zeros[16];
+			 * guint16 flags;
+			 * 		01 == vary color by point
+			 * guint16 z_pos;
+			 **/
+			memset (data, 0, 16);
+			ms_biff_put_commit (state->bp);
+
 			chart_write_BEGIN (state);
+			switch (plot->type) {
+				BIFF_CHART_area
+				BIFF_CHART_bar
+				BIFF_CHART_line
+				BIFF_CHART_pie
+				BIFF_CHART_radar
+				BIFF_CHART_radararea
+				BIFF_CHART_scatter
+			}
+			/* BIFF_CHART_chartformatlink documented as unnecessary */
+			if (i == 0 && legend != NULL) {
+				data = ms_biff_put_len_next (state->bp, BIFF_CHART_legend, 20);
+				ms_biff_put_commit (state->bp);
+				chart_write_BEGIN (state);
 				/* BIFF_CHART_pos, optional we use auto positioning */
 				BIFF_CHART_text
 				chart_write_BEGIN (state);
-					/* BIFF_CHART_pos, optional we use auto positioning */
-					BIFF_CHART_fontx
-					BIFF_CHART_ai
+				/* BIFF_CHART_pos, optional we use auto positioning */
+				BIFF_CHART_fontx
+				BIFF_CHART_ai
 				chart_write_END (state);
+				chart_write_END (state);
+			}
 			chart_write_END (state);
-			) only for first axis parent
-		chart_write_END (state);
+		}
 #endif
 		chart_write_END (state);
 	}
 }
 
 static void
-chart_write_chart (ExcelWriteChart *state, SheetObject *so)
+chart_write_chart (ExcelWriteChart *s, SheetObject *so)
 {
 	double pos[4];
 	guint8 *data;
 	guint32 tmp;
 
-	data = ms_biff_put_len_next (state->bp, BIFF_CHART_chart, 4*4);
+	data = ms_biff_put_len_next (s->bp, BIFF_CHART_chart, 4*4);
 	sheet_object_position_pts_get (so, pos);
 	GSF_LE_SET_GUINT32 (data + 0, 0);
 	GSF_LE_SET_GUINT32 (data + 4, 0);
@@ -2513,34 +2701,37 @@ chart_write_chart (ExcelWriteChart *state, SheetObject *so)
 	GSF_LE_SET_GUINT32 (data + 8, tmp);
 	tmp = (unsigned)(fabs (pos[3] - pos[1]) * (65535 * 72) + .5);
 	GSF_LE_SET_GUINT32 (data + 12, tmp);
-	ms_biff_put_commit (state->bp);
+	ms_biff_put_commit (s->bp);
 
-	chart_write_BEGIN (state);
-	excel_write_SCL	(state->bp, 1.0);
+	chart_write_BEGIN (s);
+	excel_write_SCL	(s->bp, 1.0);
 
-	if (state->bp->version >= MS_BIFF_V8) {
+	if (s->bp->version >= MS_BIFF_V8) {
 		/* zoom does not seem to effect it */
-		data = ms_biff_put_len_next (state->bp, BIFF_CHART_plotgrowth, 8);
+		data = ms_biff_put_len_next (s->bp, BIFF_CHART_plotgrowth, 8);
 		GSF_LE_SET_GUINT32 (data + 0, 1);
 		GSF_LE_SET_GUINT32 (data + 4, 1);
-		ms_biff_put_commit (state->bp);
+		ms_biff_put_commit (s->bp);
 	}
-	chart_write_frame (state, FALSE);
+	chart_write_frame (s, FALSE);
 #if 0
-		chart_write_series (state) x num_series;
+	for (i = 0 ; i < num_series ; i++);
+		chart_write_series (s, series, i);
 
-		{
-		BIFF_CHART_defaulttext
+	BIFF_CHART_shtprops
+	for (i = 2; i <= 3; i++) {
+		ms_biff_put_2byte (state.bp, BIFF_CHART_defaulttext, i);
 		BIFF_CHART_text
+		chart_write_BEGIN (s);
 			/* BIFF_CHART_pos, optional we use auto positioning */
 			BIFF_CHART_fontx
 			BIFF_CHART_ai
-		BIFF_CHART_end
-		} x (applicability 2 & 3)
+		chart_write_END (s);
+	}
 
 #endif
-	chart_write_axis_sets (state);
-	chart_write_END (state);
+	chart_write_axis_sets (s);
+	chart_write_END (s);
 
 #if 0 /* they seem optional */
 	BIFF_DIMENSIONS
@@ -2553,25 +2744,26 @@ ms_excel_write_chart (ExcelWriteState *ewb, SheetObject *so)
 {
 	ExcelWriteChart state;
 	state.bp  = ewb->bp;
+	state.ewb = ewb;
 	state.so  = so;
 	state.gog = sheet_object_graph_get_gog (so);
 	state.nest_level = 0;
 
 	g_return_if_fail (state.gog != NULL);
 
-	ms_biff_put_empty (ewb->bp, BIFF_HEADER);
-	ms_biff_put_empty (ewb->bp, BIFF_FOOTER);
-	ms_biff_put_2byte (ewb->bp, BIFF_HCENTER, 0);
-	ms_biff_put_2byte (ewb->bp, BIFF_VCENTER, 0);
+	ms_biff_put_empty (state.bp, BIFF_HEADER);
+	ms_biff_put_empty (state.bp, BIFF_FOOTER);
+	ms_biff_put_2byte (state.bp, BIFF_HCENTER, 0);
+	ms_biff_put_2byte (state.bp, BIFF_VCENTER, 0);
 	/* TODO : maintain this info on import */
-	excel_write_SETUP (ewb->bp, NULL);
+	excel_write_SETUP (state.bp, NULL);
 	/* undocumented always seems to be 3 */
-	ms_biff_put_2byte (ewb->bp, BIFF_PRINTSIZE, 3);
+	ms_biff_put_2byte (state.bp, BIFF_PRINTSIZE, 3);
 	chart_write_FBI (&state, 0x500);
 	chart_write_FBI (&state, 0x600);
 
-	ms_biff_put_2byte (ewb->bp, BIFF_PROTECT, 0);
-	ms_biff_put_2byte (ewb->bp, BIFF_CHART_units, 0);
+	ms_biff_put_2byte (state.bp, BIFF_PROTECT, 0);
+	ms_biff_put_2byte (state.bp, BIFF_CHART_units, 0);
 
 	chart_write_chart (&state, so);
 }

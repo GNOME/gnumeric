@@ -435,6 +435,12 @@ collect_unique_elements (GnmFilterField *field,
 }
 
 static void
+cb_focus_changed (GtkWindow *toplevel)
+{
+	g_warning (gtk_window_has_toplevel_focus (toplevel) ? "focus" : "no focus");
+}
+
+static void
 cb_filter_button_pressed (GtkButton *button, GnmFilterField *field)
 {
 	GObject	     *view = g_object_get_data (G_OBJECT (button), VIEW_ITEM_ID);
@@ -459,6 +465,9 @@ cb_filter_button_pressed (GtkButton *button, GnmFilterField *field)
 	gtk_widget_size_request (GTK_WIDGET (list), &req);
 	g_object_set_data (G_OBJECT (list), FIELD_ID, field);
 	g_object_set_data (G_OBJECT (list), WBCG_ID, scg_get_wbcg (scg));
+	g_signal_connect (G_OBJECT (wbcg_toplevel (scg_get_wbcg (scg))),
+		"notify::has-toplevel-focus",
+		G_CALLBACK (cb_focus_changed), list);
 
 	frame = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_OUT);

@@ -599,8 +599,8 @@ wbc_gtk_init_font_size (WBCgtk *gtk)
 static void
 cb_file_history_activate (GObject *action, WorkbookControlGUI *wbcg)
 {
-	const char *filename = g_object_get_data (action, "filename");
-	gui_file_read (wbcg, filename, NULL, NULL);
+	gui_file_read (wbcg,
+		g_object_get_data (action, "filename"), NULL, NULL);
 }
 
 static void

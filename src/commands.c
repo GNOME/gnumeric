@@ -127,8 +127,8 @@ typedef struct {
 	char const *cmd_descriptor;	/* A string to put in the menu */
 } GnmCommand;
 
-typedef gboolean (* UndoCmd)(GnmCommand *this, WorkbookControl *wbc);
-typedef gboolean (* RedoCmd)(GnmCommand *this, WorkbookControl *wbc);
+typedef gboolean (* UndoCmd)(GnmCommand *self, WorkbookControl *wbc);
+typedef gboolean (* RedoCmd)(GnmCommand *self, WorkbookControl *wbc);
 
 typedef struct {
 	GObjectClass parent_class;
@@ -234,10 +234,8 @@ undo_global_range_name (Sheet *sheet, GnmRange const *range)
  *
  *
  * Do not use this function unless the sheet is part of the
- * workbook with the given wbcg (otherwise the results may be strange)
- *
+ * workbook with the given wbc (otherwise the results may be strange)
  */
-
 static gboolean
 cmd_cell_range_is_locked_effective (Sheet *sheet, GnmRange *range,
 				    WorkbookControl *wbc, char const *cmd_name)
