@@ -25,6 +25,7 @@
 #include "load-ppt.h"
 #include "ppt-types.h"
 #include "god-drawing-ms-client-handler-ppt.h"
+#include "utils/go-units.h"
 
 #include <gsf/gsf-input-stdio.h>
 #include <gsf/gsf-input-memory.h>
@@ -87,7 +88,7 @@ static const GOMSParserRecordType types[] =
 	{	OutlineTextRefAtom,		"OutlineTextRefAtom",		FALSE,	FALSE,	-1,	-1	},
 	{	TextHeaderAtom,			"TextHeaderAtom",		FALSE,	TRUE,	4,	4	},
 	{	TextCharsAtom,			"TextCharsAtom",		FALSE,	TRUE,	-1,	-1	},
-	{	StyleTextPropAtom,		"StyleTextPropAtom",		FALSE,	FALSE,	-1,	-1	},
+	{	StyleTextPropAtom,		"StyleTextPropAtom",		FALSE,	TRUE,	-1,	-1	},
 	{	BaseTextPropAtom,		"BaseTextPropAtom",		FALSE,	FALSE,	-1,	-1	},
 	{	TxMasterStyleAtom,		"TxMasterStyleAtom",		FALSE,	FALSE,	-1,	-1	},
 	{	TxCFStyleAtom,			"TxCFStyleAtom",		FALSE,	FALSE,	-1,	-1	},
@@ -201,6 +202,32 @@ slide_list_with_text_parse_state_finish_slide (PresentPresentation *presentation
 #define STACK_TOP GO_MS_PARSER_STACK_TOP(stack)
 #define STACK_SECOND GO_MS_PARSER_STACK_SECOND(stack)
 
+enum {
+	TEXT_FIELD_PROPERTY_EXISTS_BOLD = 0x00000001,
+	TEXT_FIELD_PROPERTY_EXISTS_ITALIC = 0x00000002,
+	TEXT_FIELD_PROPERTY_EXISTS_UNDERLINE = 0x00000004,
+	TEXT_FIELD_PROPERTY_EXISTS_SHADOW = 0x00000010,
+	TEXT_FIELD_PROPERTY_EXISTS_RELIEF = 0x00000200,
+	TEXT_FIELD_PROPERTY_EXISTS_FONT = 0x00010000,
+	TEXT_FIELD_PROPERTY_EXISTS_FONT_SIZE = 0x00020000,
+	TEXT_FIELD_PROPERTY_EXISTS_COLOR = 0x00040000,
+	TEXT_FIELD_PROPERTY_EXISTS_OFFSET = 0x00080000,
+} TextFieldPropExists;
+
+enum {
+	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_ALIGNMENT     = 0x00000800,
+	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_SPACING_ABOVE = 0x00002000,
+	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_SPACING_BELOW = 0x00004000,
+	TEXT_FIELD_PARAGRAPH_PROPERTY_UNKNOWN_1            = 0x00200000,
+} TextFieldParagraphPropExists;
+
+enum {
+	PARAGRAPH_ALIGNMENT_LEFT = 0,
+	PARAGRAPH_ALIGNMENT_CENTER = 1,
+	PARAGRAPH_ALIGNMENT_RIGHT = 2,
+	PARAGRAPH_ALIGNMENT_JUSTIFY = 3,
+} ParagraphAlignment;
+
 static void
 handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInput *input, GError **err, gpointer user_data)
 {
@@ -280,6 +307,149 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 				char *text = g_strndup (data, record->length);
 				god_text_model_set_text (GOD_TEXT_MODEL (parse_state->current_text), text);
 				g_free (text);
+			}
+		}
+		break;
+	case StyleTextPropAtom:
+		{
+			SlideListWithTextParseState *parse_state;
+			ERROR (stack && STACK_TOP->opcode == SlideListWithText, "Placement Error");
+			parse_state = stack ? STACK_TOP->parse_state : NULL;
+			if (parse_state) {
+				int remain;
+				double space_before = 0;
+				double space_after = 0;
+				int indent_type = 0;
+				int i;
+				GodParagraphAttributes *para_attr;
+				remain = god_text_model_get_length (GOD_TEXT_MODEL (parse_state->current_text)) + 1;
+				i = 0;
+				while (remain > 0) {
+					int sublen = 0;
+					guint fields;
+					int section_length = GSF_LE_GET_GUINT32 (data + i);
+					remain -= section_length;
+					sublen += 4;
+					indent_type = GSF_LE_GET_GUINT16 (data + i + sublen);
+					sublen += 2;
+					fields = GSF_LE_GET_GUINT32 (data + i + sublen);
+					sublen += 4;
+
+					sublen += 12;
+					if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_ALIGNMENT) {
+#if 0
+						printf ("Alignment: ");
+						switch (GSF_LE_GET_GUINT16 (data + i + sublen)) {
+						case PARAGRAPH_ALIGNMENT_LEFT:
+							printf ("Left");
+							break;
+						case PARAGRAPH_ALIGNMENT_CENTER:
+							printf ("Center");
+							break;
+						case PARAGRAPH_ALIGNMENT_RIGHT:
+							printf ("Right");
+							break;
+						case PARAGRAPH_ALIGNMENT_JUSTIFY:
+							printf ("Justify");
+							break;
+						}
+						printf ("\n");
+#endif
+						sublen += 2;
+					}
+
+					sublen += 2;
+					if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_SPACING_ABOVE) {
+						int space;
+						space = GSF_LE_GET_GUINT16 (data + i + sublen);
+						if (space & 0x8000) {
+							space = 0x10000 - space;
+						}
+						space_before = space * (UN_PER_IN / 576.0);
+						sublen += 2;
+					}
+					if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_SPACING_BELOW) {
+						int space;
+						space = GSF_LE_GET_GUINT16 (data + i + sublen);
+						if (space & 0x8000) {
+							space = 0x10000 - space;
+						}
+						space_after = space * (UN_PER_IN / 576.0);
+						sublen += 2;
+					}
+					sublen += 2;
+					if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_UNKNOWN_1)
+						sublen += 2;
+					para_attr = god_paragraph_attributes_new ();
+					g_object_set (para_attr,
+						      "space_before", space_before,
+						      "space_after", space_after,
+						      "indent", (double) (indent_type * UN_PER_IN),
+						      NULL);
+					god_text_model_set_paragraph_attributes (GOD_TEXT_MODEL (parse_state->current_text),
+										 i,
+										 i + sublen,
+										 para_attr);
+					g_object_unref (para_attr);
+					i += sublen;
+				}
+#if 0
+				remain = text_length + 1;
+				while (remain > 0) {
+					int sublen = 0;
+					guint fields;
+					int section_length = GSF_LE_GET_GUINT32 (data + i);
+					printf ("length: %d\n", section_length);
+					remain -= section_length;
+					sublen += 4;
+					fields = GSF_LE_GET_GUINT32 (data + i + sublen);
+					printf ("fields: 0x%04x\n", fields);
+					sublen += 4;
+					if (fields & (TEXT_FIELD_PROPERTY_EXISTS_BOLD |
+						      TEXT_FIELD_PROPERTY_EXISTS_ITALIC |
+						      TEXT_FIELD_PROPERTY_EXISTS_UNDERLINE |
+						      TEXT_FIELD_PROPERTY_EXISTS_SHADOW |
+						      TEXT_FIELD_PROPERTY_EXISTS_RELIEF)) {
+						guint text_fields = GSF_LE_GET_GUINT16 (data + i + sublen);
+						if (text_fields & 0x1)
+							printf ("bold\n");
+						if (text_fields & 0x2)
+							printf ("italic\n");
+						if (text_fields & 0x4)
+							printf ("underline\n");
+						if (text_fields & 0x10)
+							printf ("shadow\n");
+						if (text_fields & 0x200)
+							printf ("relief\n");
+						sublen += 2;
+					}
+					if (fields & TEXT_FIELD_PROPERTY_EXISTS_FONT) {
+						printf ("Font: %s\n", font [GSF_LE_GET_GUINT16 (data + i + sublen)]);
+						sublen += 2;
+					}
+					if (fields & TEXT_FIELD_PROPERTY_EXISTS_FONT_SIZE) {
+						printf ("Font size: %d\n", GSF_LE_GET_GUINT16 (data + i + sublen));
+						sublen += 2;
+					}
+					if (fields & (TEXT_FIELD_PROPERTY_EXISTS_COLOR)) {
+						printf ("color: #");
+						printf ("%02X", data[i + sublen++]);
+						printf ("%02X", data[i + sublen++]);
+						printf ("%02X", data[i + sublen++]);
+						printf ("\n");
+						sublen ++;
+					}
+					if (fields & TEXT_FIELD_PROPERTY_EXISTS_OFFSET) {
+						int offset = GSF_LE_GET_GUINT16 (data + i + sublen - 2);
+						if (offset & 0x8000)
+							offset -= 0x10000;
+						printf ("offset: %d\n", offset);
+						sublen += 2;
+					}
+					gsf_mem_dump (data + i, sublen);
+					i += sublen;
+				}
+#endif
 			}
 		}
 		break;

@@ -419,7 +419,21 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 			g_print ("\n");
 			text_length = g_utf8_strlen (data, -1);
 			break;
+		case BaseTextPropAtom:
+			gsf_mem_dump (data, record->length);
+			remain = text_length + 1;
+			i = 0;
+			while (remain > 0) {
+				int section_length = GSF_LE_GET_GUINT32 (data + i);
+				printf ("length: %d\n", section_length);
+				remain -= section_length;
+				i += 4;
+				printf ("depth: %d\n", (guint32) GSF_LE_GET_GUINT16 (data + i));
+				i += 2;
+			}
+			break;
 		case StyleTextPropAtom:
+			gsf_mem_dump (data, record->length);
 			remain = text_length + 1;
 			i = 0;
 			while (remain > 0) {
@@ -519,9 +533,9 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 				}
 				if (fields & (TEXT_FIELD_PROPERTY_EXISTS_COLOR)) {
 					printf ("color: #");
-					printf ("%02x", data[i + sublen++]);
-					printf ("%02x", data[i + sublen++]);
-					printf ("%02x", data[i + sublen++]);
+					printf ("%02X", data[i + sublen++]);
+					printf ("%02X", data[i + sublen++]);
+					printf ("%02X", data[i + sublen++]);
 					printf ("\n");
 					sublen ++;
 				}

@@ -170,6 +170,55 @@ get_pixbuf (GodDrawingRendererGdk *renderer,
 	return ret_val;
 }
 
+typedef struct {
+	GodDrawingRendererGdk *renderer;
+	GdkRectangle *rect;
+	long long y_ofs;
+} DrawTextContext;
+
+static void
+draw_text (GodTextModel *text,
+	   GodTextModelParagraph *paragraph,
+	   gpointer user_data)
+{
+	int height;
+	PangoLayout *layout;
+	DrawTextContext *draw_context = user_data;
+	double space_before = 0;
+	double space_after = 0;
+	double indent = 0;
+	if (paragraph->para_attributes)
+		g_object_get (paragraph->para_attributes,
+			      "space_before", &space_before,
+			      "space_after", &space_after,
+			      "indent", &indent,
+			      NULL);
+	draw_context->y_ofs += space_before;
+	layout = pango_layout_new (gdk_pango_context_get_for_screen (gdk_screen_get_default()));
+	pango_layout_set_alignment (layout, PANGO_ALIGN_LEFT);
+	pango_layout_set_width (layout, draw_context->rect->width * PANGO_SCALE);
+	pango_layout_set_text (layout, paragraph->text, -1);
+	pango_layout_set_auto_dir (layout, FALSE);
+	gdk_draw_layout (draw_context->renderer->priv->drawable,
+			 draw_context->renderer->priv->gc,
+			 draw_context->rect->x + indent / draw_context->renderer->priv->x_units_per_pixel,
+			 draw_context->rect->y + draw_context->y_ofs / draw_context->renderer->priv->y_units_per_pixel,
+			 layout);
+
+	pango_layout_get_pixel_size (layout, NULL, &height);
+
+	draw_context->y_ofs += height * draw_context->renderer->priv->y_units_per_pixel;
+	draw_context->y_ofs += space_after;
+
+	g_print ("space before: %f\n", space_before);
+	g_print ("space after: %f\n", space_after);
+	g_print ("indent: %f\n", indent);
+	g_print ("x_units: %d\n", draw_context->renderer->priv->x_units_per_pixel);
+	g_print ("y_units: %d\n", draw_context->renderer->priv->y_units_per_pixel);
+
+	g_object_unref (layout);
+}
+
 static void
 god_drawing_renderer_gdk_render_shape (GodDrawingRendererGdk *renderer,
 				       GdkRectangle          *area,
@@ -201,7 +250,8 @@ god_drawing_renderer_gdk_render_shape (GodDrawingRendererGdk *renderer,
 		GodPropertyTable *prop_table;
 		gboolean filled;
 		GodFillType fill_type;
-		const char *text;
+		GodTextModel *text_model;
+		DrawTextContext *draw_context;
 
 		prop_table = god_shape_get_prop_table (shape);
 		filled = god_property_table_get_flag (prop_table,
@@ -289,23 +339,12 @@ god_drawing_renderer_gdk_render_shape (GodDrawingRendererGdk *renderer,
 
 			gdk_gc_set_foreground (renderer->priv->gc, &old_color);
 		}
-		text = god_shape_get_text (shape);
-		if (text) {
-			PangoLayout *layout;
-			int width, height;
-			layout = pango_layout_new (gdk_pango_context_get_for_screen(gdk_screen_get_default()));
-			pango_layout_set_text (layout, text, -1);
-			pango_layout_set_alignment (layout, PANGO_ALIGN_LEFT);
-			pango_layout_set_width (layout, rect.width*PANGO_SCALE);
-			pango_layout_get_pixel_size (layout, &width, &height);
-			gdk_draw_layout (renderer->priv->drawable,
-					 renderer->priv->gc,
-					 rect.x + (rect.width - width) / 2,
-					 rect.y + (rect.height - height) / 2,
-					 layout);
-
-			g_object_unref (layout);
-		}
+		text_model = god_shape_get_text_model (shape);
+		draw_context = g_new (DrawTextContext, 1);
+		draw_context->renderer = renderer;
+		draw_context->rect = &rect;
+		draw_context->y_ofs = 0;
+		god_text_model_paragraph_foreach (text_model, draw_text, draw_context);
 		g_object_unref (prop_table);
 	}
 

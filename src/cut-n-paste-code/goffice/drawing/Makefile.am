@@ -3,6 +3,8 @@ noinst_LTLIBRARIES = libgoffice-drawing.la
 libgoffice_drawing_la_SOURCES = 	\
 	god-anchor.c			\
 	god-anchor.h			\
+	god-paragraph-attributes.c	\
+	god-paragraph-attributes.h	\
 	god-drawing-group.c		\
 	god-drawing-group.h		\
 	god-drawing-renderer-gdk.c	\

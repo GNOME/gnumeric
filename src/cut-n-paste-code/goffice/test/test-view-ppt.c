@@ -50,6 +50,7 @@ main (int argc, char *argv[])
 		gtk_widget_show (GTK_WIDGET (view));
 
 		window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+		gtk_window_fullscreen (GTK_WINDOW (window));
 		gtk_container_add (GTK_CONTAINER (window), GTK_WIDGET (view));
 		gtk_widget_show (window);
 		g_object_unref (presentation);

@@ -1,3 +1,25 @@
+2004-06-29  Christopher James Lahey  <clahey@ximian.com>
+
+	* drawing/Makefile.am (libgoffice_drawing_la_SOURCES): Added
+	god-paragraph-attributes.c and god-paragraph-attributes.h.
+
+	* drawing/god-drawing-renderer-gdk.c (draw_text): Draw each
+	paragraph separately with some paragraph formatting.
+
+	* drawing/god-paragraph-attributes.c,
+	drawing/god-paragraph-attributes.h: New file to handle attributes
+	of a paragraph.
+
+	* drawing/god-text-model.c, drawing/god-text-model.h: Store as a
+	list of paragraphs.  Store some formatting information.
+
+	* libpresent/load-ppt.c: Load some of the paragraph formatting
+	from ppt.
+
+	* test/dump-ppt-records: Attempted to parse BaseTextPropAtom.
+
+	* test/test-view-ppt.c (main): Fullscreen the window.
+
 2004-06-23  Jean Brefort  <jean.brefort@ac-dijon.fr>
 
 	* Makefile.am: Added cut-n-paste subdir.
