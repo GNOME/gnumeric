@@ -20659,7 +20659,13 @@ msgstr "表計算 (スプレッドシート) アプリケーション"
 #. Translate the following string with the names of all translators for this locale.
 #: src/dialogs/dialog-about.c:117
 msgid "This is an untranslated version of Gnumeric."
-msgstr "この Gnumeric は未翻訳バージョンです。"
+msgstr ""
+"日本語翻訳:\n"
+"岡 充 <95i44@is.kochi-u.ac.jp>, 1998\n"
+"岡 充 <mitsu-o@is.aist-nara.ac.jp>, 1999-2000\n"
+"濱田 充男 <mhamada@redhat.com>, 2000\n"
+"中井 幸博 <nakai@gnome.gr.jp>, 2000-2001,2003\n"
+"相花 毅 <aihana@gnome.gr.jp>, 2000-2002"
 
 #: src/dialogs/dialog-about.c:123
 msgid "Gnumeric Home Page"
@@ -22470,14 +22476,12 @@ msgid "Slas_h (/)"
 msgstr "スラッシュ(/) (_H)"
 
 #: src/dialogs/dialog-stf.glade.h:50
-#, fuzzy
 msgid "Source Format"
-msgstr "ソース領域"
+msgstr "ソースフォーマット"
 
 #: src/dialogs/dialog-stf.glade.h:51
-#, fuzzy
 msgid "Source Locale:"
-msgstr "ソース領域"
+msgstr "ソースロケール:"
 
 #: src/dialogs/dialog-stf.glade.h:52
 msgid "Ta_b"
@@ -22488,17 +22492,16 @@ msgid "Te_xt indicator: "
 msgstr "テキスト・インジケータ(_X): "
 
 #: src/dialogs/dialog-stf.glade.h:54
-#, fuzzy
 msgid "Text indicator"
-msgstr "テキスト・インジケータ(_X): "
+msgstr "テキスト・インジケータ"
 
 #: src/dialogs/dialog-stf.glade.h:55
 msgid "The carriage return character (ASCII code 13) breaks lines"
-msgstr ""
+msgstr "復帰文字(アスキーコード 13)で改行"
 
 #: src/dialogs/dialog-stf.glade.h:56
 msgid "The line feed character (ASCII code 10) breaks lines"
-msgstr ""
+msgstr "改行文字(アスキーコード 10)で改行"
 
 #: src/dialogs/dialog-stf.glade.h:57
 msgid ""
@@ -22531,13 +22534,12 @@ msgid "_Colon (:)"
 msgstr "コロン(:) (_C)"
 
 #: src/dialogs/dialog-stf.glade.h:64
-#, fuzzy
 msgid "_Fixed width"
-msgstr "固定幅(_D)"
+msgstr "固定幅(_F)"
 
 #: src/dialogs/dialog-stf.glade.h:65
 msgid "_Macintosh (CR)"
-msgstr ""
+msgstr "マッキントッシュ(_M)(CR)"
 
 #: src/dialogs/dialog-stf.glade.h:67
 msgid "_Separated"
@@ -22549,15 +22551,15 @@ msgstr "終了行(_T): "
 
 #: src/dialogs/dialog-stf.glade.h:69
 msgid "_Unix (LF)"
-msgstr ""
+msgstr "Unix(_U)(LF)"
 
 #: src/dialogs/dialog-stf.glade.h:70
 msgid "_Windows (CR+LF)"
-msgstr ""
+msgstr "ウィンドウズ(_W)(CR+LF)"
 
 #: src/dialogs/dialog-stf.glade.h:72
 msgid "dialog1"
-msgstr ""
+msgstr "ダイアログ1"
 
 #: src/dialogs/dialog-tabulate.c:146
 msgid "Tabulation"
@@ -22609,26 +22611,27 @@ msgid ""
 "in GTK+, libgnomeui, libgnomeprintui, libbonoboui, and Gnumeric at the time "
 "of writing, ultimo May 2003."
 msgstr ""
+"GTK+, libgnomeui, libgnomeprintui, libbonobouiそしてGnumericの複数のバグの"
+"ため、先月(2003年5月)の時点ではGnumericでのマルチディスプレイサポートは"
+"オフになっています。"
 
 #: src/dialogs/dialog-view.c:93
 #, c-format
 msgid "Display \"%s\" could not be opened."
-msgstr ""
+msgstr "ディスプレイ \"%s\" は開けませんでした。"
 
 #: src/dialogs/dialog-view.c:164
-#, fuzzy
 msgid "This screen"
-msgstr "離散"
+msgstr "このスクリーン"
 
 #: src/dialogs/dialog-view.c:165
 #, c-format
 msgid "Screen %d [This screen]"
-msgstr ""
+msgstr "スクリーン %d [このスクリーン]"
 
 #: src/dialogs/dialog-view.c:166
-#, fuzzy, c-format
 msgid "Screen %d"
-msgstr "シート%d"
+msgstr "スクリーン %d"
 
 #: src/dialogs/dialog-zoom.glade.h:4
 #, no-c-format
@@ -22759,22 +22762,18 @@ msgid "_Series"
 msgstr "連続(_S)"
 
 #: src/dialogs/fill-series.glade.h:24
-#, fuzzy
 msgid "_Weekday"
-msgstr "水曜日"
+msgstr "平日(_W)"
 
 #: src/dialogs/fill-series.glade.h:25
-#, fuzzy
 msgid "_Year"
-msgstr "消去(_L)"
+msgstr "年(_Y)"
 
 #: src/dialogs/fill-series.glade.h:26
-#, fuzzy
 msgid "a _Column"
 msgstr "列(_C)"
 
 #: src/dialogs/fill-series.glade.h:27
-#, fuzzy
 msgid "a _Row"
 msgstr "行(_R)"
 
@@ -22791,9 +22790,8 @@ msgid "Size:"
 msgstr "サイズ:"
 
 #: src/dialogs/format-selector.glade.h:1
-#, fuzzy
 msgid "Ca_tegories:"
-msgstr "カテゴリ:"
+msgstr "カテゴリ(_T):"
 
 #: src/dialogs/format-selector.glade.h:2
 msgid "Deci_mal places:"
@@ -22839,31 +22837,28 @@ msgid "Display values with power-of-ten scaling."
 msgstr ""
 
 #: src/dialogs/format-selector.glade.h:12
-#, fuzzy
 msgid "Format c_ode:"
-msgstr "書式(_F):"
+msgstr "書式コード(_O):"
 
 #: src/dialogs/format-selector.glade.h:13
-#, fuzzy
 msgid "Negative number _format:"
-msgstr "負の数:"
+msgstr "負の数の書式(_F):"
 
 #: src/dialogs/format-selector.glade.h:14
-#, fuzzy
 msgid "Preview:"
-msgstr "プレビュー"
+msgstr "プレビュー:"
 
 #: src/dialogs/format-selector.glade.h:15
 msgid "S_ymbol:"
-msgstr "記号(_Y)"
+msgstr "記号(_Y):"
 
 #: src/dialogs/format-selector.glade.h:16
 msgid "Select an appropriate format automatically."
-msgstr ""
+msgstr "適切なフォーマットを自動的に選択します。"
 
 #: src/dialogs/format-selector.glade.h:17
 msgid "Specify an XL-style format directly"
-msgstr ""
+msgstr "エクセルスタイルのフォーマットを直接指定します"
 
 #: src/dialogs/format-selector.glade.h:18
 msgid "_Format:"
@@ -22882,9 +22877,8 @@ msgid "I_nverse"
 msgstr "逆関数(_N)"
 
 #: src/dialogs/function-select.glade.h:1
-#, fuzzy
 msgid "Category"
-msgstr "分類(_C)"
+msgstr "分類"
 
 #: src/dialogs/function-select.glade.h:4
 msgid "Function Selector"
@@ -22892,7 +22886,7 @@ msgstr "関数セレクタ"
 
 #: src/dialogs/function-select.glade.h:5
 msgid "Select a function to insert:"
-msgstr ""
+msgstr "挿入する関数を選択します:"
 
 #: src/dialogs/goalseek.glade.h:1
 msgid "(Ma_ximum):"
@@ -22904,11 +22898,11 @@ msgstr "(最小)(_M):"
 
 #: src/dialogs/goalseek.glade.h:4
 msgid "<span weight=\"bold\">Goal</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">ゴール</span>"
 
 #: src/dialogs/goalseek.glade.h:5
 msgid "<span weight=\"bold\">Last Result</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">最終結果</span>"
 
 #: src/dialogs/goalseek.glade.h:6
 msgid "Current Value:"
@@ -22989,21 +22983,18 @@ msgstr "最大(_X):"
 
 #: src/dialogs/histogram.glade.h:11 src/dialogs/mean-tests.glade.h:8
 #: src/dialogs/moving-averages.glade.h:8 src/dialogs/sampling.glade.h:7
-#, fuzzy
 msgid "New _Sheet"
-msgstr "新規のシート"
+msgstr "新規シート(_S)"
 
 #: src/dialogs/histogram.glade.h:12 src/dialogs/mean-tests.glade.h:9
 #: src/dialogs/moving-averages.glade.h:9 src/dialogs/sampling.glade.h:8
-#, fuzzy
 msgid "New _Workbook"
-msgstr "新規のワークブック"
+msgstr "新規ワークブック(_W)"
 
 #: src/dialogs/histogram.glade.h:14 src/dialogs/moving-averages.glade.h:11
 #: src/dialogs/sampling.glade.h:10
-#, fuzzy
 msgid "Output _Range:"
-msgstr "出力範囲(_O):"
+msgstr "出力範囲(_R):"
 
 #: src/dialogs/histogram.glade.h:15
 msgid "Pareto (_Sorted)"
@@ -23034,21 +23025,18 @@ msgid "_Calculated Bins"
 msgstr "貯蓄の計算(_C)"
 
 #: src/dialogs/histogram.glade.h:22
-#, fuzzy
 msgid "_Chart Output"
-msgstr "グラフの出力"
+msgstr "グラフの出力(_C)"
 
 #: src/dialogs/histogram.glade.h:23
-#, fuzzy
 msgid "_Clear Output Range"
-msgstr "出力範囲のクリア"
+msgstr "出力範囲のクリア(_C)"
 
 #: src/dialogs/histogram.glade.h:26
 msgid "_N:"
 msgstr "N(_N):"
 
 #: src/dialogs/histogram.glade.h:28
-#, fuzzy
 msgid "_Percentages"
 msgstr "パーセント(_P)"
 
@@ -23059,17 +23047,15 @@ msgstr "貯蓄の見積もり(_D)"
 
 #: src/dialogs/hyperlink.glade.h:2
 msgid "<small>Optional</small>"
-msgstr ""
+msgstr "<small>オプション</small>"
 
 #: src/dialogs/hyperlink.glade.h:3
-#, fuzzy
 msgid "Email _Address:"
-msgstr "アドレス"
+msgstr "電子メールアドレス(_A):"
 
 #: src/dialogs/hyperlink.glade.h:4
-#, fuzzy
 msgid "HyperLink"
-msgstr "削除(_R)"
+msgstr "ハイパーリンク"
 
 #: src/dialogs/hyperlink.glade.h:5
 #, fuzzy
@@ -23077,28 +23063,24 @@ msgid "Target _Range:"
 msgstr "範囲の結合:"
 
 #: src/dialogs/hyperlink.glade.h:6
-#, fuzzy
 msgid "_File:"
-msgstr "ファイル(_F)"
+msgstr "ファイル(_F):"
 
 #: src/dialogs/hyperlink.glade.h:7
-#, fuzzy
 msgid "_Subject:"
-msgstr "件名"
+msgstr "件名(_S):"
 
 #: src/dialogs/hyperlink.glade.h:8
-#, fuzzy
 msgid "_Tip:"
-msgstr "上(_T):"
+msgstr "チップ(_T):"
 
 #: src/dialogs/hyperlink.glade.h:9
-#, fuzzy
 msgid "_Web Address:"
-msgstr "アドレス"
+msgstr "Webアドレス(_W):"
 
 #: src/dialogs/insert-cells.glade.h:1
 msgid "<span weight=\"bold\">Insert Method</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">挿入方法</span>"
 
 #: src/dialogs/insert-cells.glade.h:2
 msgid "Insert _row(s)"
@@ -23173,23 +23155,20 @@ msgid "_Population Variances are:"
 msgstr "人口の変化:"
 
 #: src/dialogs/mean-tests.glade.h:27
-#, fuzzy
 msgid "_Populations"
-msgstr "オプション(_O)"
+msgstr "人口(_P)"
 
 #: src/dialogs/mean-tests.glade.h:28
-#, fuzzy
 msgid "_Test"
-msgstr "試験"
+msgstr "試験(_T)"
 
 #: src/dialogs/mean-tests.glade.h:29
 msgid "_Unequal"
 msgstr "不等号(_U)"
 
 #: src/dialogs/mean-tests.glade.h:30
-#, fuzzy
 msgid "_Unknown"
-msgstr "不明"
+msgstr "不明(_U)"
 
 #: src/dialogs/mean-tests.glade.h:31
 #, fuzzy
@@ -23197,18 +23176,16 @@ msgid "_Unpaired"
 msgstr "非対(_R)"
 
 #: src/dialogs/merge.glade.h:1
-#, fuzzy
 msgid "Merge _Range:"
-msgstr "範囲の結合:"
+msgstr "範囲の結合(_R):"
 
 #: src/dialogs/merge.glade.h:2
 msgid "Merge..."
 msgstr "結合..."
 
 #: src/dialogs/merge.glade.h:3
-#, fuzzy
 msgid "_Merge"
-msgstr "結合"
+msgstr "結合(_M)"
 
 #: src/dialogs/moving-averages.glade.h:2
 msgid "3"
@@ -23224,18 +23201,16 @@ msgid "Moving Average"
 msgstr "移動平均"
 
 #: src/dialogs/names.glade.h:2
-#, fuzzy
 msgid "Available Names"
-msgstr "利用可能シート"
+msgstr "利用可能名称"
 
 #: src/dialogs/names.glade.h:3
 msgid "Define names"
 msgstr "名前の定義"
 
 #: src/dialogs/names.glade.h:4
-#, fuzzy
 msgid "Definition"
-msgstr "対象(_D):"
+msgstr "定義"
 
 #: src/dialogs/names.glade.h:5
 msgid "Workbook"
@@ -23259,56 +23234,49 @@ msgstr "更新(_U)"
 
 #: src/dialogs/pivottable.glade.h:1
 msgid "Layout"
-msgstr ""
+msgstr "レイアウト"
 
 #: src/dialogs/pivottable.glade.h:2
 msgid "Layout:"
-msgstr ""
+msgstr "レイアウト:"
 
 #: src/dialogs/pivottable.glade.h:3
 msgid "PivotTable Guru : Gnumeric"
-msgstr ""
+msgstr "ピボットテーブル グル: Gnumeric"
 
 #: src/dialogs/pivottable.glade.h:5
 msgid "Subtotal By"
 msgstr ""
 
 #: src/dialogs/pivottable.glade.h:6
-#, fuzzy
 msgid "_Add:"
-msgstr "追加(_A)"
+msgstr "追加(_A):"
 
 #: src/dialogs/pivottable.glade.h:7
-#, fuzzy
 msgid "_Column"
 msgstr "列(_C)"
 
 #: src/dialogs/pivottable.glade.h:9
-#, fuzzy
 msgid "_Down"
-msgstr "既知(_K)"
+msgstr "下(_D)"
 
 #: src/dialogs/pivottable.glade.h:10
-#, fuzzy
 msgid "_Format"
-msgstr "書式設定(_F)"
+msgstr "書式(_F)"
 
 #: src/dialogs/pivottable.glade.h:11
-#, fuzzy
 msgid "_Page"
-msgstr "ページ"
+msgstr "ページ(_P)"
 
 #: src/dialogs/pivottable.glade.h:14
-#, fuzzy
 msgid "_Up"
-msgstr "更新(_U)"
+msgstr "上(_U)"
 
 #: src/dialogs/plugin-manager.glade.h:2
 msgid "Activate _new plugins by default"
 msgstr "新規プラグインをデフォルトで有効にする(_N)"
 
 #: src/dialogs/plugin-manager.glade.h:3
-#, fuzzy
 msgid "Directories"
 msgstr "ディレクトリ"
 
@@ -23322,7 +23290,6 @@ msgid "Plugin Details"
 msgstr "プラグイン詳細"
 
 #: src/dialogs/plugin-manager.glade.h:6
-#, fuzzy
 msgid "Plugin List"
 msgstr "プラグイン一覧"
 
@@ -23331,9 +23298,8 @@ msgid "Plugin Manager"
 msgstr "プラグイン・マネージャ"
 
 #: src/dialogs/plugin-manager.glade.h:8
-#, fuzzy
 msgid "Plugin directory:"
-msgstr "プラグイン詳細"
+msgstr "プラグインディレクトリ:"
 
 #: src/dialogs/plugin-manager.glade.h:9
 #, fuzzy
@@ -23347,24 +23313,20 @@ msgstr ""
 "か？"
 
 #: src/dialogs/plugin-manager.glade.h:10
-#, fuzzy
 msgid "_Activate All"
-msgstr "全てのプラグインを有効にする(_A)"
+msgstr "全て有効にする(_A)"
 
 #: src/dialogs/plugin-manager.glade.h:11
-#, fuzzy
 msgid "_Deactivate All"
-msgstr "全てのプラグインを無効にする(_D)"
+msgstr "全て無効にする(_D)"
 
 #: src/dialogs/preferences.glade.h:1
-#, fuzzy
 msgid "Gnumeric Preferences"
-msgstr "Gnumeric の設定を変更します"
+msgstr "Gnumericの設定"
 
 #: src/dialogs/print.glade.h:2
-#, fuzzy, no-c-format
 msgid "% of _normal size"
-msgstr "％ (標準サイズに対する比率)"
+msgstr "% (標準サイズに対する比率)"
 
 #: src/dialogs/print.glade.h:4
 msgid "Apply _to:"
@@ -23488,9 +23450,8 @@ msgid "_page(s) wide by"
 msgstr "ページの幅に"
 
 #: src/dialogs/print.glade.h:37
-#, fuzzy
 msgid "_tall"
-msgstr "高さ"
+msgstr "高さ(_t)"
 
 #: src/dialogs/random-generation.glade.h:6
 msgid "Number of _Variables:"
@@ -23596,9 +23557,8 @@ msgid "Comment:"
 msgstr "注釈:"
 
 #: src/dialogs/scenario-add.glade.h:4
-#, fuzzy
 msgid "Scenario name:"
-msgstr "連続名"
+msgstr "シナリオ名:"
 
 #: src/dialogs/scenario-manager.glade.h:2
 #, fuzzy
@@ -24013,14 +23973,13 @@ msgid "Prev. Sim. "
 msgstr ""
 
 #: src/dialogs/simulation.glade.h:14
-#, fuzzy
 msgid "Reporting: "
-msgstr "報告"
+msgstr "報告: "
 
 #. Fill in the header titles.
 #: src/dialogs/simulation.glade.h:15 src/tools/simulation.c:349
 msgid "Risk Simulation"
-msgstr ""
+msgstr "リスクシミュレーション"
 
 #: src/dialogs/simulation.glade.h:16
 #, fuzzy
@@ -24036,46 +23995,40 @@ msgid "Summary report grupped by rounds"
 msgstr ""
 
 #: src/dialogs/simulation.glade.h:19
-#, fuzzy
 msgid "Summary: "
-msgstr "要約"
+msgstr "要約: "
 
 #: src/dialogs/simulation.glade.h:20
-#, fuzzy
 msgid "Variables: "
-msgstr "変数"
+msgstr "変数: "
 
 #: src/dialogs/simulation.glade.h:22
 msgid "_Options"
 msgstr "オプション(_O)"
 
 #: src/dialogs/simulation.glade.h:23
-#, fuzzy
 msgid "_Output Range: "
-msgstr "出力範囲(_O):"
+msgstr "出力範囲(_O): "
 
 #: src/dialogs/simulation.glade.h:24
-#, fuzzy
 msgid "_Summary"
-msgstr "要約"
+msgstr "要約(_S)"
 
 #: src/dialogs/so-arrow.glade.h:1
 msgid "Arrow Length:"
-msgstr ""
+msgstr "矢印の長さ:"
 
 #: src/dialogs/so-arrow.glade.h:2
-#, fuzzy
 msgid "Arrow Tip:"
-msgstr "矢印"
+msgstr "矢印のチップ:"
 
 #: src/dialogs/so-arrow.glade.h:3
 msgid "Arrow Width:"
-msgstr ""
+msgstr "矢印の幅:"
 
 #: src/dialogs/so-arrow.glade.h:4
-#, fuzzy
 msgid "Arrow/Line Properties"
-msgstr "プロパティ(_R)..."
+msgstr "矢印/線のプロパティ"
 
 #: src/dialogs/so-arrow.glade.h:6
 msgid "Distance from tip of arrowhead to the center point"
@@ -24392,24 +24345,23 @@ msgstr "有視界(_V)"
 
 #: src/dialogs/variance-tests.glade.h:3
 msgid "<span weight=\"bold\">Input</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">入力</span>"
 
 #: src/dialogs/variance-tests.glade.h:4
 msgid "<span weight=\"bold\">Options</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">オプション</span>"
 
 #: src/dialogs/variance-tests.glade.h:5
 msgid "<span weight=\"bold\">Output</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">出力</span>"
 
 #: src/dialogs/variance-tests.glade.h:11
 msgid "Testing Equality of 2 Variances (F-Test)"
 msgstr "二つの変数の等号をテスト (F-検定)"
 
 #: src/dialogs/variance-tests.glade.h:14
-#, fuzzy
 msgid "_Alpha:"
-msgstr "α(_A) = "
+msgstr "α(_A):"
 
 #: src/dialogs/view.glade.h:2
 #, fuzzy
@@ -24421,9 +24373,8 @@ msgid "Elsewhere"
 msgstr ""
 
 #: src/dialogs/view.glade.h:4
-#, fuzzy
 msgid "Location"
-msgstr "場所(_L)"
+msgstr "場所"
 
 #: src/dialogs/view.glade.h:5
 msgid "New view will be opened on specified screen"
@@ -24443,14 +24394,12 @@ msgid "Views will share cursor position"
 msgstr ""
 
 #: src/dialogs/view.glade.h:9
-#, fuzzy
 msgid "_Shared"
-msgstr "新規シェアード(_S)"
+msgstr "シェアード(_S)"
 
 #: src/dialogs/view.glade.h:10
-#, fuzzy
 msgid "_Unshared"
-msgstr "新規アンシェアード(_U)"
+msgstr "アンシェアード(_U)"
 
 #: src/dialogs/workbook-attr.glade.h:2
 #, fuzzy
@@ -24518,7 +24467,7 @@ msgstr "演算"
 #: src/dialogs/workbook-attr.glade.h:16
 #, fuzzy
 msgid "_Manual"
-msgstr "不等号(_U)"
+msgstr "マニュアル(_M)"
 
 #: src/dialogs/workbook-attr.glade.h:17
 #, fuzzy
@@ -24607,42 +24556,34 @@ msgid "The target region is too small.  It should be at least %d rows high"
 msgstr "対象範囲が小さすぎます。最低 %d 行大きくする必要があります"
 
 #: src/format.c:610
-#, fuzzy
 msgid "Black"
-msgstr "Slack"
+msgstr "黒"
 
 #: src/format.c:611
-#, fuzzy
 msgid "Blue"
 msgstr "青"
 
 #: src/format.c:612
-#, fuzzy
 msgid "Cyan"
 msgstr "シアン"
 
 #: src/format.c:613
-#, fuzzy
 msgid "Green"
 msgstr "緑"
 
 #: src/format.c:614
-#, fuzzy
 msgid "Magenta"
-msgstr "赤紫"
+msgstr "マゼンタ"
 
 #: src/format.c:615
-#, fuzzy
 msgid "Red"
-msgstr "もう一度"
+msgstr "赤"
 
 #: src/format.c:616
-#, fuzzy
 msgid "White"
 msgstr "白"
 
 #: src/format.c:617
-#, fuzzy
 msgid "Yellow"
 msgstr "黄"
 
@@ -24658,790 +24599,663 @@ msgstr "配列"
 #. 2002/08/04 Updated to match iso 4217
 #: src/formats.c:389
 msgid "United Arab Emirates, Dirhams"
-msgstr ""
+msgstr "アラブ首長国連邦, ディルハム"
 
 #: src/formats.c:390
-#, fuzzy
 msgid "Afghanistan, Afghanis"
-msgstr "アフガニスタン・アフガニー"
+msgstr "アフガニスタン, アフガニ"
 
 #: src/formats.c:391
-#, fuzzy
 msgid "Albania, Leke"
-msgstr "アルバニア・レク"
+msgstr "アルバニア, レク"
 
 #: src/formats.c:392
 msgid "Armenia, Drams"
-msgstr ""
+msgstr "アルメニア, ドラム"
 
 #: src/formats.c:393
-#, fuzzy
 msgid "Netherlands Antilles, Guilders"
-msgstr "オランダ領アンティル・ギルダー"
+msgstr "オランダ領アンティル, ギルダー"
 
 #: src/formats.c:394
-#, fuzzy
 msgid "Angola, Kwanza"
-msgstr "アンゴラ・クワンザ"
+msgstr "アンゴラ, クワンザ"
 
 #: src/formats.c:395
-#, fuzzy
 msgid "Argentina, Pesos"
-msgstr "アルゼンチン・ペソ"
+msgstr "アルゼンチン, ペソ"
 
 #: src/formats.c:396
-#, fuzzy
 msgid "Australia, Dollars"
-msgstr "オーストラリア・ドル"
+msgstr "オーストラリア, ドル"
 
 #: src/formats.c:397
-#, fuzzy
 msgid "Aruba, Guilders"
-msgstr "アルバ・ギルダー"
+msgstr "アルバ, ギルダー"
 
 #: src/formats.c:398
 msgid "Azerbaijan, Manats"
-msgstr ""
+msgstr "アゼルバイジャン, マナト"
 
 #: src/formats.c:399
 msgid "Bosnia and Herzegovina, Convertible Marka"
-msgstr ""
+msgstr "ボスニア・ヘルツェゴビナ, 兌換マルカ"
 
 #: src/formats.c:400
-#, fuzzy
 msgid "Barbados, Dollars"
-msgstr "バルバドス・ドル"
+msgstr "バルバドス, ドル"
 
 #: src/formats.c:401
-#, fuzzy
 msgid "Bangladesh, Taka"
-msgstr "バングラデシュ・タカ"
+msgstr "バングラデシュ, タカ"
 
 #: src/formats.c:402
-#, fuzzy
 msgid "Bulgaria, Leva"
-msgstr "ブルガリア・レフ"
+msgstr "ブルガリア, レフ"
 
 #: src/formats.c:403
-#, fuzzy
 msgid "Bahrain, Dinars"
-msgstr "バーレーン・ディナール"
+msgstr "バーレーン, ディナール"
 
 #: src/formats.c:404
-#, fuzzy
 msgid "Burundi, Francs"
-msgstr "ブルンジ・フラン"
+msgstr "ブルンジ, フラン"
 
 #: src/formats.c:405
-#, fuzzy
 msgid "Bermuda, Dollars"
-msgstr "バーミューダ・ドル"
+msgstr "バーミューダ, ドル"
 
 #: src/formats.c:406
-#, fuzzy
 msgid "Brunei Darussalam, Dollars"
-msgstr "ブルネイ・ドル"
+msgstr "ブルネイ＝ダルサラーム, ドル"
 
 #: src/formats.c:407
-#, fuzzy
 msgid "Bolivia, Bolivianos"
-msgstr "ボリビア・ボリビアーノ"
+msgstr "ボリビア, ボリビアーノ"
 
 #: src/formats.c:408
-#, fuzzy
 msgid "Brazil, Brazil Real"
-msgstr "ブラジル・リアル"
+msgstr "ブラジル, ブラジルレアル"
 
 #: src/formats.c:409
-#, fuzzy
 msgid "Bahamas, Dollars"
-msgstr "バハマ・ドル"
+msgstr "バハマ, ドル"
 
 #: src/formats.c:410
-#, fuzzy
 msgid "Bhutan, Ngultrum"
-msgstr "ブータン・ニュルタム"
+msgstr "ブータン, ヌルタム"
 
 #: src/formats.c:411
-#, fuzzy
 msgid "Botswana, Pulas"
-msgstr "ボツワナ・プラ"
+msgstr "ボツワナ, プラ"
 
 #: src/formats.c:412
-#, fuzzy
 msgid "Belarus, Rubles"
-msgstr "ベラルーシ・ルーブル"
+msgstr "ベラルーシ, ルーブル"
 
 #: src/formats.c:413
-#, fuzzy
 msgid "Belize, Dollars"
-msgstr "ベリーズ・ドル"
+msgstr "ベリーズ, ドル"
 
 #: src/formats.c:414
-#, fuzzy
 msgid "Canada, Dollars"
-msgstr "カナダ・ドル"
+msgstr "カナダ, ドル"
 
 #: src/formats.c:415
 msgid "Congo/Kinshasa, Congolese Francs"
-msgstr ""
+msgstr "コンゴ/キンシャサ, コンゴフラン"
 
 #: src/formats.c:416
 msgid "Switzerland, Francs"
-msgstr ""
+msgstr "スイス, フラン"
 
 #: src/formats.c:417
-#, fuzzy
 msgid "Chile, Pesos"
-msgstr "チリ・ペソ"
+msgstr "チリ, ペソ"
 
 #: src/formats.c:418
-#, fuzzy
 msgid "China, Yuan Renminbi"
-msgstr "中国元"
+msgstr "中国, 元人民幣"
 
 #: src/formats.c:419
-#, fuzzy
 msgid "Colombia, Pesos"
-msgstr "コロンビア・ペソ"
+msgstr "コロンビア, ペソ"
 
 #: src/formats.c:420
-#, fuzzy
 msgid "Costa Rica, Colones"
-msgstr "コスタリカ・コロン"
+msgstr "コスタリカ, コロン"
 
 #: src/formats.c:421
-#, fuzzy
 msgid "Cuba, Pesos"
-msgstr "キューバ・ペソ"
+msgstr "キューバ, ペソ"
 
 #: src/formats.c:422
-#, fuzzy
 msgid "Cape Verde, Escudos"
-msgstr "カーボベルデ・エスクード"
+msgstr "カーボベルデ, エスクード"
 
 #: src/formats.c:423
-#, fuzzy
 msgid "Cyprus, Pounds"
-msgstr "キプロス・ポンド"
+msgstr "キプロス, ポンド"
 
 #: src/formats.c:424
-#, fuzzy
 msgid "Czech Republic, Koruny"
-msgstr "チェコ・クローナ"
+msgstr "チェコ共和国, コルナ"
 
 #: src/formats.c:425
-#, fuzzy
 msgid "Djibouti, Francs"
-msgstr "ジブチ・フラン"
+msgstr "ジブチ, フラン"
 
 #: src/formats.c:426
 msgid "Denmark, Kroner"
-msgstr ""
+msgstr "デンマーク, クローネ"
 
 #: src/formats.c:427
-#, fuzzy
 msgid "Dominican Republic, Pesos"
-msgstr "ドミニカ・ペソ"
+msgstr "ドミニカ共和国, ペソ"
 
 #: src/formats.c:428
-#, fuzzy
 msgid "Algeria, Algeria Dinars"
-msgstr "アルジェリア・ディナール"
+msgstr "アルジェリア, アルジェリア・ディナール"
 
 #: src/formats.c:429
 msgid "Estonia, Krooni"
-msgstr ""
+msgstr "エストニア, クローン"
 
 #: src/formats.c:430
-#, fuzzy
 msgid "Egypt, Pounds"
-msgstr "エジプト・ポンド"
+msgstr "エジプト, ポンド"
 
 #: src/formats.c:431
 msgid "Eritrea, Nakfa"
-msgstr ""
+msgstr "エリトリア, ナクファ"
 
 #: src/formats.c:432
-#, fuzzy
 msgid "Ethiopia, Birr"
-msgstr "エチオピア・ブル"
+msgstr "エチオピア, ブル"
 
 #: src/formats.c:433
 msgid "Euro Member Countries, Euro"
-msgstr ""
+msgstr "ユーロ加盟国, ユーロ"
 
 #: src/formats.c:434
-#, fuzzy
 msgid "Fiji, Dollars"
-msgstr "フィージー・ドル"
+msgstr "フィジー, ドル"
 
 #: src/formats.c:435
-#, fuzzy
 msgid "Falkland Islands (Malvinas), Pounds"
-msgstr "フォークランド諸島・ポンド"
+msgstr "フォークランド諸島(マルビナス), ポンド"
 
 #: src/formats.c:436
 msgid "United Kingdom, Pounds"
-msgstr ""
+msgstr "イギリス連合王国, ポンド"
 
 #: src/formats.c:437
 msgid "Georgia, Lari"
-msgstr ""
+msgstr "グルジア, ラリ"
 
 #: src/formats.c:438
-#, fuzzy
 msgid "Guernsey, Pounds"
-msgstr "スーダン・ポンド"
+msgstr "ガーンジー, ポンド"
 
 #: src/formats.c:439
-#, fuzzy
 msgid "Ghana, Cedis"
-msgstr "ガーナ・セディ"
+msgstr "ガーナ, セディ"
 
 #: src/formats.c:440
-#, fuzzy
 msgid "Gibraltar, Pounds"
-msgstr "ジブラルタル・ポンド"
+msgstr "ジブラルタル, ポンド"
 
 #: src/formats.c:441
-#, fuzzy
 msgid "Gambia, Dalasi"
-msgstr "ガンビア・ダラス"
+msgstr "ガンビア, ダラシ"
 
 #: src/formats.c:442
-#, fuzzy
 msgid "Guinea, Francs"
-msgstr "ギニア・フラン"
+msgstr "ギニア, フラン"
 
 #: src/formats.c:443
-#, fuzzy
 msgid "Guatemala, Quetzales"
-msgstr "グアテマラ・ケツァル"
+msgstr "グアテマラ, ケツァル"
 
 #: src/formats.c:444
-#, fuzzy
 msgid "Guyana, Dollars"
-msgstr "ギアナ・ドル"
+msgstr "ガイアナ, ドル"
 
 #: src/formats.c:445
-#, fuzzy
 msgid "Hong Kong, Dollars"
-msgstr "香港ドル"
+msgstr "香港, ドル"
 
 #: src/formats.c:446
-#, fuzzy
 msgid "Honduras, Lempiras"
-msgstr "ホンジュラス・レンピラ"
+msgstr "ホンジュラス, レンピラ"
 
 #: src/formats.c:447
-#, fuzzy
 msgid "Croatia, Kuna"
-msgstr "クロアチア・クーナ"
+msgstr "クロアチア, クーナ"
 
 #: src/formats.c:448
-#, fuzzy
 msgid "Haiti, Gourdes"
-msgstr "ハイチ・グールド"
+msgstr "ハイチ, グールド"
 
 #: src/formats.c:449
-#, fuzzy
 msgid "Hungary, Forint"
-msgstr "ハンガリー・フォリント"
+msgstr "ハンガリー, フォリント"
 
 #: src/formats.c:450
-#, fuzzy
 msgid "Indonesia, Rupiahs"
-msgstr "インドネシア・ルピア"
+msgstr "インドネシア, ルピア"
 
 #: src/formats.c:451
-#, fuzzy
 msgid "Israel, New Shekels"
-msgstr "イスラエル・シェケル"
+msgstr "イスラエル, 新シェケル"
 
 #: src/formats.c:452
 msgid "Isle of Man, Pounds"
-msgstr ""
+msgstr "マン島, ポンド"
 
 #: src/formats.c:453
-#, fuzzy
 msgid "India, Rupees"
-msgstr "インド・ルピー"
+msgstr "インド, ルピー"
 
 #: src/formats.c:454
-#, fuzzy
 msgid "Iraq, Dinars"
-msgstr "イラク・ディナール"
+msgstr "イラク, ディナール"
 
 #: src/formats.c:455
-#, fuzzy
 msgid "Iran, Rials"
-msgstr "イラン・リアル"
+msgstr "イラン, リアル"
 
 #: src/formats.c:456
-#, fuzzy
 msgid "Iceland, Kronur"
-msgstr "アイスランド・クローナ"
+msgstr "アイスランド, クローナ"
 
 #: src/formats.c:457
 msgid "Jersey, Pounds"
-msgstr ""
+msgstr "ジャージー, ポンド"
 
 #: src/formats.c:458
-#, fuzzy
 msgid "Jamaica, Dollars"
-msgstr "ジャマイカ・ドル"
+msgstr "ジャマイカ, ドル"
 
 #: src/formats.c:459
-#, fuzzy
 msgid "Jordan, Dinars"
-msgstr "ヨルダン・ディナール"
+msgstr "ヨルダン, ディナール"
 
 #: src/formats.c:460
-#, fuzzy
 msgid "Japan, Yen"
-msgstr "日本円"
+msgstr "日本, 円"
 
 #: src/formats.c:461
-#, fuzzy
 msgid "Kenya, Shillings"
-msgstr "ケニア・シリング"
+msgstr "ケニア, シリング"
 
 #: src/formats.c:462
 msgid "Kyrgyzstan, Soms"
-msgstr ""
+msgstr "キルギスタン, ソム"
 
 #: src/formats.c:463
 msgid "Cambodia, Riels"
-msgstr ""
+msgstr "カンボジア, リエル"
 
 #: src/formats.c:464
-#, fuzzy
 msgid "Comoros, Francs"
-msgstr "コモロ・フラン"
+msgstr "コモロ, フラン"
 
 #: src/formats.c:465
 msgid "Korea (North), Won"
-msgstr ""
+msgstr "北朝鮮, ウォン"
 
 #: src/formats.c:466
 msgid "Korea (South), Won"
-msgstr ""
+msgstr "韓国, ウォン"
 
 #: src/formats.c:467
-#, fuzzy
 msgid "Kuwait, Dinars"
-msgstr "クウェート・ディナール"
+msgstr "クウェート, ディナール"
 
 #: src/formats.c:468
-#, fuzzy
 msgid "Cayman Islands, Dollars"
-msgstr "ケイマン諸島・ドル"
+msgstr "ケイマン諸島, ドル"
 
 #: src/formats.c:469
-#, fuzzy
 msgid "Kazakstan, Tenge"
-msgstr "パキスタン・ルピー"
+msgstr "カザフスタン, テンゲ"
 
 #: src/formats.c:470
-#, fuzzy
 msgid "Laos, Kips"
-msgstr "ラオス・キープ"
+msgstr "ラオス, キップ"
 
 #: src/formats.c:471
-#, fuzzy
 msgid "Lebanon, Pounds"
-msgstr "レバノン・ポンド"
+msgstr "レバノン, ポンド"
 
 #: src/formats.c:472
-#, fuzzy
 msgid "Sri Lanka, Rupees"
-msgstr "スリランカ・ルピー"
+msgstr "スリランカ, ルピー"
 
 #: src/formats.c:473
-#, fuzzy
 msgid "Liberia, Dollars"
-msgstr "リベリア・ドル"
+msgstr "リベリア, ドル"
 
 #: src/formats.c:474
-#, fuzzy
 msgid "Lesotho, Maloti"
-msgstr "レソト・ロチ"
+msgstr "レソト, ロティ"
 
 #: src/formats.c:475
 msgid "Lithuania, Litai"
-msgstr ""
+msgstr "リトアニア, リタス"
 
 #: src/formats.c:476
 msgid "Latvia, Lati"
-msgstr ""
+msgstr "ラトビア, ラト"
 
 #: src/formats.c:477
-#, fuzzy
 msgid "Libya, Dinars"
-msgstr "リビア・ディナール"
+msgstr "リビア, ディナール"
 
 #: src/formats.c:478
-#, fuzzy
 msgid "Morocco, Dirhams"
-msgstr "モロッコ・ディルハム"
+msgstr "モロッコ, ディルハム"
 
 #: src/formats.c:479
-#, fuzzy
 msgid "Moldova, Lei"
-msgstr "モルドバ・レイ"
+msgstr "モルドバ, レイ"
 
 #: src/formats.c:480
-#, fuzzy
 msgid "Madagascar, Malagasy Francs"
-msgstr "マラガシー・フラン"
+msgstr "マダガスカル, マラガシー・フラン"
 
 #: src/formats.c:481
 msgid "Macedonia, Denars"
-msgstr ""
+msgstr "マケドニア, デナール"
 
 #: src/formats.c:482
-#, fuzzy
 msgid "Myanmar (Burma), Kyats"
-msgstr "ミャンマー・キャト"
+msgstr "ミャンマー(ビルマ), チャット"
 
 #: src/formats.c:483
-#, fuzzy
 msgid "Mongolia, Tugriks"
-msgstr "モンゴル・トゥグリク"
+msgstr "モンゴル, ツグリク"
 
 #: src/formats.c:484
-#, fuzzy
 msgid "Macau, Patacas"
-msgstr "マカオ・パタカ"
+msgstr "マカオ, パタカ"
 
 #: src/formats.c:485
-#, fuzzy
 msgid "Mauritania, Ouguiyas"
-msgstr "モーリタニア・ウギア"
+msgstr "モーリタニア, ウギア"
 
 #: src/formats.c:486
-#, fuzzy
 msgid "Malta, Liri"
-msgstr "マルタ島・リラ"
+msgstr "マルタ, リラ"
 
 #: src/formats.c:487
-#, fuzzy
 msgid "Mauritius, Rupees"
-msgstr "モーリシャス・ルピー"
+msgstr "モーリシャス, ルピー"
 
 #: src/formats.c:488
 msgid "Maldives (Maldive Islands), Rufiyaa"
-msgstr ""
+msgstr "モルジブ(モルジブ諸島), ルフィヤ"
 
 #: src/formats.c:489
-#, fuzzy
 msgid "Malawi, Kwachas"
-msgstr "マラウィ・クワチャ"
+msgstr "マラウィ, クワチャ"
 
 #: src/formats.c:490
-#, fuzzy
 msgid "Mexico, Pesos"
-msgstr "メキシコ・ペソ"
+msgstr "メキシコ, ペソ"
 
 #: src/formats.c:491
-#, fuzzy
 msgid "Malaysia, Ringgits"
-msgstr "マレーシア・リンギット"
+msgstr "マレーシア, リンギット"
 
 #: src/formats.c:492
-#, fuzzy
 msgid "Mozambique, Meticais"
-msgstr "モザンビーク・メティカル"
+msgstr "モザンビーク, メティカル"
 
 #: src/formats.c:493
-#, fuzzy
 msgid "Namibia, Dollars"
-msgstr "リベリア・ドル"
+msgstr "ナミビア, ドル"
 
 #: src/formats.c:494
-#, fuzzy
 msgid "Nigeria, Nairas"
-msgstr "ナイジェリア・ナイラ"
+msgstr "ナイジェリア, ナイラ"
 
 #: src/formats.c:495
-#, fuzzy
 msgid "Nicaragua, Gold Cordobas"
-msgstr "ニカラグア・コルドバ=オロ"
+msgstr "ニカラグア, コルドバ"
 
 #: src/formats.c:496
-#, fuzzy
 msgid "Norway, Krone"
-msgstr "ノルウェー・クローネ"
+msgstr "ノルウェー, クローネ"
 
 #: src/formats.c:497
-#, fuzzy
 msgid "Nepal, Nepal Rupees"
-msgstr "ネパール・ルピー"
+msgstr "ネパール, ネパール・ルピー"
 
 #: src/formats.c:498
-#, fuzzy
 msgid "New Zealand, Dollars"
-msgstr "ニュージーランド・ドル"
+msgstr "ニュージーランド, ドル"
 
 #: src/formats.c:499
 msgid "Oman, Rials"
-msgstr ""
+msgstr "オマーン, リアル"
 
 #: src/formats.c:500
-#, fuzzy
 msgid "Panama, Balboa"
-msgstr "パナマ・バルボア"
+msgstr "パナマ, バルボア"
 
 #: src/formats.c:501
 msgid "Peru, Nuevos Soles"
-msgstr ""
+msgstr "ペルー, 新ソル"
 
 #: src/formats.c:502
-#, fuzzy
 msgid "Papua New Guinea, Kina"
-msgstr "パプア=ニュー=ギニア・キナ"
+msgstr "パプアニューギニア, キナ"
 
 #: src/formats.c:503
-#, fuzzy
 msgid "Philippines, Pesos"
-msgstr "フィリピン・ペソ"
+msgstr "フィリピン, ペソ"
 
 #: src/formats.c:504
-#, fuzzy
 msgid "Pakistan, Rupees"
-msgstr "パキスタン・ルピー"
+msgstr "パキスタン, ルピー"
 
 #: src/formats.c:505
 msgid "Poland, Zlotych"
-msgstr ""
+msgstr "ポーランド, ズロチ"
 
 #: src/formats.c:506
-#, fuzzy
 msgid "Paraguay, Guarani"
-msgstr "パラグアイ・グアラニー"
+msgstr "パラグアイ, グアラニ"
 
 #: src/formats.c:507
-#, fuzzy
 msgid "Qatar, Rials"
-msgstr "カタール・リアル"
+msgstr "カタール, リヤル"
 
 #: src/formats.c:508
-#, fuzzy
 msgid "Romania, Lei"
-msgstr "ルーマニア・レイ"
+msgstr "ルーマニア, レイ"
 
 #: src/formats.c:509
-#, fuzzy
 msgid "Russia, Rubles"
-msgstr "ロシア・ルーブル"
+msgstr "ロシア, ルーブル"
 
 #: src/formats.c:510
-#, fuzzy
 msgid "Rwanda, Rwanda Francs"
-msgstr "ルワンダ・フラン"
+msgstr "ルワンダ, ルワンダ・フラン"
 
 #: src/formats.c:511
-#, fuzzy
 msgid "Saudi Arabia, Riyals"
-msgstr "サウジアラビア・リヤル"
+msgstr "サウジアラビア, リヤル"
 
 #: src/formats.c:512
-#, fuzzy
 msgid "Solomon Islands, Dollars"
-msgstr "ソロモン諸島・ドル"
+msgstr "ソロモン諸島, ドル"
 
 #: src/formats.c:513
-#, fuzzy
 msgid "Seychelles, Rupees"
-msgstr "セイシェル・ルピー"
+msgstr "セイシェル, ルピー"
 
 #: src/formats.c:514
 msgid "Sudan, Dinars"
-msgstr ""
+msgstr "スーダン, ディナール"
 
 #: src/formats.c:515
 msgid "Sweden, Kronor"
-msgstr ""
+msgstr "スウェーデン, クローナ"
 
 #: src/formats.c:516
-#, fuzzy
 msgid "Singapore, Dollars"
-msgstr "シンガポール・ドル"
+msgstr "シンガポール, ドル"
 
 #: src/formats.c:517
-#, fuzzy
 msgid "Saint Helena, Pounds"
-msgstr "セントヘレナ・ドル"
+msgstr "セントヘレナ, ポンド"
 
 #: src/formats.c:518
-#, fuzzy
 msgid "Slovenia, Tolars"
-msgstr "スロベニア トラー"
+msgstr "スロベニア, トラー"
 
 #: src/formats.c:519
-#, fuzzy
 msgid "Slovakia, Koruny"
-msgstr "スロベニア トラー"
+msgstr "スロバキア, コルナ"
 
 #: src/formats.c:520
-#, fuzzy
 msgid "Sierra Leone, Leones"
-msgstr "シエラレオネ・レオネ"
+msgstr "シエラレオネ, レオン"
 
 #: src/formats.c:521
-#, fuzzy
 msgid "Somalia, Shillings"
-msgstr "ソマリア・シリング"
+msgstr "ソマリア, シリング"
 
 #: src/formats.c:522
 msgid "Seborga, Luigini"
-msgstr ""
+msgstr "セボルガ, ルイジーニ"
 
 #: src/formats.c:523
-#, fuzzy
 msgid "Suriname, Guilders"
-msgstr "スリナム・ギルダー"
+msgstr "スリナム, ギルダー"
 
 #: src/formats.c:524
-#, fuzzy
 msgid "Sao Tome and Principe, Dobras"
-msgstr "サントメ=プリンチペ・ドブラ"
+msgstr "サントメ=プリンチペ, ドブラ"
 
 #: src/formats.c:525
-#, fuzzy
 msgid "El Salvador, Colones"
-msgstr "エルサルバドル・コロン"
+msgstr "エルサルバドル, コロン"
 
 #: src/formats.c:526
-#, fuzzy
 msgid "Syria, Pounds"
-msgstr "シリア・ポンド"
+msgstr "シリア, ポンド"
 
 #: src/formats.c:527
-#, fuzzy
 msgid "Swaziland, Emalangeni"
-msgstr "スワジランド・リランジェニンド"
+msgstr "スワジランド, リランゲニ"
 
 #: src/formats.c:528
-#, fuzzy
 msgid "Thailand, Baht"
-msgstr "タイ・バーツ"
+msgstr "タイ, バーツ"
 
 #: src/formats.c:529
-#, fuzzy
 msgid "Tajikistan, Rubles"
-msgstr "パキスタン・ルピー"
+msgstr "タジキスタン, ルーブル"
 
 #: src/formats.c:530
 msgid "Turkmenistan, Manats"
-msgstr ""
+msgstr "トルクメニスタン, マナト"
 
 #: src/formats.c:531
-#, fuzzy
 msgid "Tunisia, Dinars"
-msgstr "チュニジア・ディナール"
+msgstr "チュニジア, ディナール"
 
 #: src/formats.c:532
-#, fuzzy
 msgid "Tonga, Pa'anga"
-msgstr "トンガ・パ=アンガ"
+msgstr "トンガ, パアンガ"
 
 #: src/formats.c:533
-#, fuzzy
 msgid "Turkey, Liras"
-msgstr "トルコリラ"
+msgstr "トルコ, リラ"
 
 #: src/formats.c:534
-#, fuzzy
 msgid "Trinidad and Tobago, Dollars"
-msgstr "トリニダード=トバゴ・ドル"
+msgstr "トリニダード=トバゴ, ドル"
 
 #: src/formats.c:535
 msgid "Tuvalu, Tuvalu Dollars"
-msgstr ""
+msgstr "ツバル, ツバルドル"
 
 #: src/formats.c:536
-#, fuzzy
 msgid "Taiwan, New Dollars"
-msgstr "台湾ドル"
+msgstr "台湾, 新ドル"
 
 #: src/formats.c:537
-#, fuzzy
 msgid "Tanzania, Shillings"
-msgstr "タンザニア・シリング"
+msgstr "タンザニア, シリング"
 
 #: src/formats.c:538
-#, fuzzy
 msgid "Ukraine, Hryvnia"
-msgstr "ウクライナ・グリブナ"
+msgstr "ウクライナ, グリブナ"
 
 #: src/formats.c:539
-#, fuzzy
 msgid "Uganda, Shillings"
-msgstr "ウガンダ・シリング"
+msgstr "ウガンダ, シリング"
 
 #: src/formats.c:540
 msgid "United States of America, Dollars"
-msgstr ""
+msgstr "アメリカ合衆国, ドル"
 
 #: src/formats.c:541
-#, fuzzy
 msgid "Uruguay, Pesos"
-msgstr "ウルグアイ・ペソ"
+msgstr "ウルグアイ, ペソ"
 
 #: src/formats.c:542
 msgid "Uzbekistan, Sums"
-msgstr ""
+msgstr "ウズベキスタン, スム"
 
 #: src/formats.c:543
-#, fuzzy
 msgid "Venezuela, Bolivares"
-msgstr "ベネズエラ・ボリバル"
+msgstr "ベネズエラ, ボリバル"
 
 #: src/formats.c:544
-#, fuzzy
 msgid "Viet Nam, Dong"
-msgstr "ベトナム・ドン"
+msgstr "ベトナム, ドン"
 
 #: src/formats.c:545
-#, fuzzy
 msgid "Vanuatu, Vatu"
-msgstr "バヌアツ・バツ"
+msgstr "バヌアツ, バツ"
 
 #: src/formats.c:546
-#, fuzzy
 msgid "Samoa, Tala"
-msgstr "サモア・タラ"
+msgstr "サモア, タラ"
 
 #: src/formats.c:547
 msgid "Communaute Financiere Africaine BEAC, Francs"
-msgstr ""
+msgstr "アフリカ財政協同体(CFA) BEAC, フラン"
 
 #: src/formats.c:548
 msgid "Silver, Ounces"
-msgstr ""
+msgstr "銀, オンス"
 
 #: src/formats.c:549
 msgid "Gold, Ounces"
-msgstr ""
+msgstr "金, オンス"
 
 #: src/formats.c:550
-#, fuzzy
 msgid "East Caribbean Dollars"
 msgstr "東カリブ・ドル"
 
 #: src/formats.c:551
 msgid "International Monetary Fund (IMF) Special Drawing Rights"
-msgstr ""
+msgstr "国際通貨基金(IMF) 特別引き出し権(SDR)"
 
 #: src/formats.c:552
 msgid "Communaute Financiere Africaine BCEAO, Francs"
-msgstr ""
+msgstr "アフリカ財政協同体(CFA) BCEAO, フラン"
 
 #: src/formats.c:553
 msgid "Palladium, Ounces"
-msgstr ""
+msgstr "パラジウム, オンス"
 
 #: src/formats.c:554
 msgid "Comptoirs Francais du Pacifique Francs"
@@ -25449,35 +25263,29 @@ msgstr ""
 
 #: src/formats.c:555
 msgid "Platinum, Ounces"
-msgstr ""
+msgstr "プラチナ, オンス"
 
 #: src/formats.c:556
-#, fuzzy
 msgid "Yemen, Rials"
-msgstr "イエメン・リアル"
+msgstr "イエメン, リアル"
 
 #: src/formats.c:557
-#, fuzzy
 msgid "Yugoslavia, New Dinars"
-msgstr "ユーゴスラビア・ディナール"
+msgstr "ユーゴスラビア, ニューディナール"
 
 #: src/formats.c:558
-#, fuzzy
 msgid "South Africa, Rand"
-msgstr "南アフリカ・ランド"
+msgstr "南アフリカ, ランド"
 
 #: src/formats.c:559
-#, fuzzy
 msgid "Zambia, Kwacha"
-msgstr "ザンビア・クワチャ"
+msgstr "ザンビア, クワチャ"
 
 #: src/formats.c:560
-#, fuzzy
 msgid "Zimbabwe, Zimbabwe Dollars"
-msgstr "ジンバブエ・ドル"
+msgstr "ジンバブエ, ジンバブエ・ドル"
 
 #: src/func-builtin.c:34
-#, fuzzy
 msgid ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(value1, value2, ...)\n"
@@ -25496,7 +25304,7 @@ msgstr ""
 "@SYNTAX=SUM(値1, 値2, ...)\n"
 "@DESCRIPTION=SUM 関数は全ての値と引数リストで参照されたセルの合計を求めま"
 "す。\n"
-"この関数は Excel 互換です。\n"
+"* この関数は Excel 互換です。\n"
 "@EXAMPLES=\n"
 "セルA1, A2, ..., A5 がそれぞれ 11, 15, 17, 21, 43 とすると\n"
 "SUM(A1:A5) = 107 です。\n"
@@ -25903,14 +25711,12 @@ msgid "All entries in the set must be references"
 msgstr ""
 
 #: src/parser.y:459
-#, c-format
 msgid "Unknown sheet '%s'"
-msgstr "不明なシート '%s' です"
+msgstr "不明なシート '%s'"
 
 #: src/parser.y:555
-#, fuzzy
 msgid "() is an invalid expression"
-msgstr "不正な正規表現です"
+msgstr "()は不正な式です"
 
 #: src/parser.y:588 src/parser.y:610
 #, c-format
@@ -26028,14 +25834,12 @@ msgid "Module doesn't contain \"%s\" function."
 msgstr "モジュールには関数 \"%s\" が含まれていません。"
 
 #: src/plugin-loader-module.c:610
-#, fuzzy, c-format
 msgid "Unknown verb: %s"
-msgstr "バージョンが不明です"
+msgstr "不明な動詞: %s"
 
 #: src/plugin-loader.c:259 src/plugin-loader.c:299
-#, fuzzy, c-format
 msgid "Service '%s' not supported by loader."
-msgstr "ローダーがサポートしていないサービスです。"
+msgstr "サービス '%s' は、ローダーはサポートしていません。"
 
 #: src/plugin-service.c:163 src/plugin-service.c:253 src/plugin-service.c:1175
 msgid "Error while loading plugin service."
@@ -26051,31 +25855,27 @@ msgstr "プラグイン無いの関数のクリンナップでエラーが返さ
 
 #: src/plugin-service.c:274
 msgid "Clipboard"
-msgstr ""
+msgstr "クリップボード"
 
 #: src/plugin-service.c:447
-#, fuzzy
 msgid "File opener has no description"
-msgstr "ID=\"%s\" のファイルオープンナーには説明がありません"
+msgstr "ファイルオープナーには説明がありません"
 
 #: src/plugin-service.c:479
-#, fuzzy, c-format
 msgid "File opener - %s"
-msgstr "ファイル・オープンナーに ID がありません。"
+msgstr "ファイルオープナー - %s"
 
 #: src/plugin-service.c:600
 msgid "Error while reading file."
 msgstr "ファイルの読み込み中にエラーが発生しました。"
 
 #: src/plugin-service.c:754
-#, fuzzy
 msgid "File saver has no description"
-msgstr "ID=\"%s\" のファイルサーバーには説明がありません"
+msgstr "ファイルセーバーには説明がありません"
 
 #: src/plugin-service.c:800
-#, fuzzy, c-format
 msgid "File saver - %s"
-msgstr "ファイルサーバーには ID がありません"
+msgstr "ファイルセーバー - %s"
 
 #: src/plugin-service.c:862
 msgid "Error while saving file."
@@ -26086,9 +25886,8 @@ msgid "Missing function category name."
 msgstr "関数のカテゴリ名がありません。"
 
 #: src/plugin-service.c:1019
-#, fuzzy
 msgid "Function group is empty."
-msgstr "関数のグループID がありません。"
+msgstr "関数グループは空です。"
 
 #: src/plugin-service.c:1113
 #, fuzzy, c-format
@@ -26098,37 +25897,34 @@ msgstr "関数のカテゴリ名がありません。"
 #: src/plugin-service.c:1114
 #, c-format
 msgid "Group of %d functions in category \"%s\""
-msgstr ""
+msgstr "カテゴリ\"%s\"の%d関数グループ"
 
 #: src/plugin-service.c:1210
-#, fuzzy
 msgid "Plugin loader"
-msgstr "Python プラグイン・ローダー"
+msgstr "プラグイン・ローダー"
 
 #: src/plugin-service.c:1287
-#, fuzzy
 msgid "Missing file name."
-msgstr "%s ファイルが見当たりません"
+msgstr "ファイル名が見当たりません"
 
 #: src/plugin-service.c:1353
 #, fuzzy, c-format
 msgid "Cannot read UI description from XML file %s."
-msgstr "プラグイン情報ファイル (\"%s\") が読めません。"
+msgstr "XMLファイル %s からUI情報が読み取れません。"
 
 #: src/plugin-service.c:1390
 #, c-format
 msgid "User interface with %d action"
-msgstr ""
+msgstr "%dアクションのユーザインターフェース"
 
 #: src/plugin-service.c:1391
 #, c-format
 msgid "User interface with %d actions"
-msgstr ""
+msgstr "%dアクションのユーザインターフェース"
 
 #: src/plugin-service.c:1421
-#, fuzzy
 msgid "GObject loader"
-msgstr "オブジェクティブ値"
+msgstr "GObjectローダー"
 
 #: src/plugin-service.c:1528
 msgid "No \"type\" attribute on \"service\" element."
@@ -27126,15 +26922,13 @@ msgid "Result Cells:"
 msgstr "セルの結果"
 
 #: src/tools/scenarios.c:695 src/tools/scenarios.c:731
-#, fuzzy
 msgid "Scenario Summary"
-msgstr "プラグイン・マネージャ"
+msgstr "シナリオサマリ"
 
 #. Titles.
 #: src/tools/scenarios.c:698
-#, fuzzy
 msgid "Current Values"
-msgstr "現在の値:"
+msgstr "現在値"
 
 #: src/tools/scenarios.c:699
 #, fuzzy
@@ -27186,9 +26980,8 @@ msgid "Kurtosis"
 msgstr ""
 
 #: src/tools/simulation.c:263
-#, fuzzy
 msgid "Range"
-msgstr "範囲(_R)"
+msgstr "範囲"
 
 #: src/tools/simulation.c:264 src/workbook-control-gui.c:4767
 msgid "Count"
@@ -27197,29 +26990,27 @@ msgstr "回数"
 #: src/tools/simulation.c:265
 #, fuzzy
 msgid "Confidence (95 %)"
-msgstr "信頼レベル:"
+msgstr "信頼性 (95 %)"
 
 #: src/tools/simulation.c:266
 msgid "Lower Limit (95 %)"
-msgstr ""
+msgstr "下限 (95 %)"
 
 #: src/tools/simulation.c:267
 msgid "Upper Limit (95 %)"
-msgstr ""
+msgstr "上限 (95 %)"
 
 #: src/tools/simulation.c:335
 msgid "SUMMARY OF SIMULATION ROUND #"
 msgstr ""
 
 #: src/tools/simulation.c:349
-#, fuzzy
 msgid "Report"
 msgstr "報告"
 
 #: src/tools/simulation.c:396
-#, fuzzy
 msgid "(Input) "
-msgstr "入力"
+msgstr "(入力)"
 
 #: src/tools/simulation.c:411
 msgid "Maximum time exceeded. Simulation was not completed. "
