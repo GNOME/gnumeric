@@ -67,6 +67,8 @@ GNUMERIC_BASE_SOURCES =				\
 	eval.c					\
 	expr.c					\
 	expr.h					\
+	expr-name.c				\
+	expr-name.h				\
 	file.c					\
 	file.h					\
 	formats.h				\

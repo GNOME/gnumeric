@@ -28,6 +28,7 @@ Michael
 	 - Only Excel 95 likely to work
 	 - only basic numbers and text are stored.
 	* Fix writing code to preserve sheet order.
+	* Added 'name' support.
 
 Nick Lamb
 	* Lots of work adding excel function mappings.

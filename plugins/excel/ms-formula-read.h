@@ -13,9 +13,10 @@
 #include "ms-biff.h"
 
 ExprTree *
-ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
+ms_excel_parse_formula (MS_EXCEL_WORKBOOK *sheet, guint8 *mem,
 			int fn_col, int fn_row,
-			int shared, guint16 length) ;
+			int shared, guint16 length,
+			eBiff_version ver) ;
 
 /**
  * See S59E2B.HTM

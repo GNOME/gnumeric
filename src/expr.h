@@ -10,7 +10,9 @@ typedef struct _CellRef CellRef;
 #include "symbol.h"
 #include "numbers.h"
 #include "str.h"
+#include "expr-name.h"
 
+/* NB. If you add an Operation see do_expr_decode_tree.*/
 typedef enum {
 	OPER_EQUAL,		/* Compare value equal */
 	OPER_GT,		/* Compare value greather than  */
@@ -28,10 +30,13 @@ typedef enum {
 
 	OPER_FUNCALL,		/* Function call invocation */
 
+	OPER_NAME,		/* Name reference */
+
         OPER_CONSTANT,		/* Constant value */
 	OPER_VAR,		/* Cell content lookup (variable) */
 	OPER_NEG,		/* Sign inversion */
 } Operation;
+/* NB. If you add an Operation see do_expr_decode_tree.*/
 
 /* Shorthands for case statements.  Easy to read, easy to maintain.  */
 #define OPER_ANY_BINARY OPER_EQUAL: case OPER_GT: case OPER_LT: case OPER_GTE: \
@@ -90,6 +95,8 @@ struct _ExprTree {
 			Symbol *symbol;
 			GList  *arg_list;
 		} function;
+
+		ExprName *name;
 		
 		struct {
 			ExprTree *value_a;

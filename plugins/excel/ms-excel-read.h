@@ -11,13 +11,14 @@
 #include "ms-biff.h"
 #include "ms-excel-biff.h"
 
+typedef struct _MS_EXCEL_WORKBOOK MS_EXCEL_WORKBOOK;
+
 typedef struct _MS_EXCEL_SHEET
 {
 	int blank;
 	Sheet *gnum_sheet;
-	struct _MS_EXCEL_WORKBOOK *wb;
+	MS_EXCEL_WORKBOOK *wb;
 	eBiff_version ver;
-	GHashTable *shared_formulae;
 } MS_EXCEL_SHEET;
 
 typedef struct _BIFF_BOUNDSHEET_DATA
@@ -41,9 +42,9 @@ typedef struct {
 	guint32 data_len;
 } BIFF_SHARED_FORMULA;
 
-extern ExprTree *ms_excel_sheet_shared_formula (MS_EXCEL_SHEET *sheet,
-						int shr_col, int shr_row,
-						int col, int row);
+extern ExprTree *ms_excel_workbook_shared_formula (MS_EXCEL_WORKBOOK *wb,
+						   int shr_col, int shr_row,
+						   int col, int row);
 
 typedef struct _MS_EXCEL_PALETTE
 {
@@ -79,7 +80,7 @@ typedef struct _BIFF_FORMAT_DATA {
 	char *name;
 } BIFF_FORMAT_DATA;
 
-typedef struct _MS_EXCEL_WORKBOOK
+struct _MS_EXCEL_WORKBOOK
 {
 	GHashTable *boundsheet_data_by_stream;
 	GHashTable *boundsheet_data_by_index;
@@ -87,7 +88,7 @@ typedef struct _MS_EXCEL_WORKBOOK
 	GPtrArray  *XF_style_records;
 	GHashTable *font_data;
 	GHashTable *format_data;
-	GHashTable *name_data;
+	GPtrArray  *name_data;
 	int read_drawing_group;
 	GPtrArray *excel_sheets;
 	BIFF_EXTERNSHEET_DATA *extern_sheets;
@@ -95,15 +96,18 @@ typedef struct _MS_EXCEL_WORKBOOK
 	MS_EXCEL_PALETTE *palette;
 	char **global_strings;
 	int global_string_max;
+	/* Stored here for convenience but cleared / sheet */
+	GHashTable *shared_formulae;
+	eBiff_version ver;
 
 	/**
 	 * Gnumeric parallel workbook
    	 **/
 	Workbook *gnum_wb;
-} MS_EXCEL_WORKBOOK;
+};
 
 extern Sheet* biff_get_externsheet_name (MS_EXCEL_WORKBOOK *wb, guint16 idx, gboolean get_first);
 extern char* biff_get_text (BYTE *ptr, guint32 length, guint32 *byte_length);
 extern const char* biff_get_error_text (const guint8 err);
-extern char* biff_name_data_get_name (MS_EXCEL_SHEET *sheet, guint16 idx);
+extern ExprTree *biff_name_data_get_name (MS_EXCEL_WORKBOOK *wb, guint16 idx);
 #endif

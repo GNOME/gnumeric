@@ -1,8 +1,49 @@
 1999-06-07  Michael Meeks  <michael@edenproject.org>
 
+	* ms-excel-read.c (biff_name_data_new): Fixups for
+	external function names.
+	(biff_name_data_get_name): Change to return ExprTree.
+
+1999-06-05  Michael Meeks  <michael@edenproject.org>
+
+	* ms-excel-read.c (ms_excel_read_workbook): Added version
+	printout for convenience.
+	(biff_name_data_get_name): Added debug.
+
+	* ms-formula-read.c (formula_func_data): Add 'PI'
+
+1999-06-03  Michael Meeks  <michael@edenproject.org>
+
+	* ms-excel-read.c (biff_get_externsheet_name): Fix
+	silly bug in range-checking.
+
+1999-06-07  Michael Meeks  <michael@edenproject.org>
+
 	* ms-formula-read.c (formula_func_data): Fix ATAN2 -> PI
 
 1999-06-02  Michael Meeks  <michael@edenproject.org>
+
+	* ms-formula-read.c (ms_excel_parse_formula): Set
+	ptg_length on _PTG_NAME
+
+	* ms-excel-read.h: moved shared_formulae into
+	WORKBOOK from SHEET, will clear per sheet.
+
+	* ms-excel-read.c: Implement above throught,
+	add version to WORKBOOK.
+
+	* ms-formula-read.c (ms_excel_parse_formula):
+	Re-implemented the FORMULA_NAME, and updated _NAME_X
+	(ms_excel_parse_formula): Alter parameters to start
+	phasing out gratuitous SHEET * usage.
+	(getRefV8, getRefV7): Now use Sheet * to save broken
+	dereference.
+	Major work throught.
+
+	* ms-excel-read.h: Updated prototype for _get_name
+
+	* ms-excel-read.c (biff_name_data*): Use new name system,
+	pass WORKBOOK *
 
 	* ms-formula-read.c (ms_excel_parse_formula): Elucidate
 	error messages.

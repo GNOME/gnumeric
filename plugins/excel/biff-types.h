@@ -29,6 +29,7 @@
 #define BIFF_FOOTER                     0x15
 #define BIFF_EXTERNCOUNT                0x16
 #define BIFF_EXTERNSHEET                0x17
+#define BIFF_NAME                       0x18
 #define BIFF_WINDOWPROTECT              0x19
 #define BIFF_VERTICALPAGEBREAKS         0x1a
 #define BIFF_HORIZONTALPAGEBREAKS       0x1b
@@ -58,6 +59,8 @@
 #define BIFF_DCONNAME                   0x52
 #define BIFF_DEFCOLWIDTH                0x55
 
+#define BIFF_XCT                        0x59
+#define BIFF_CRN                        0x5a
 #define BIFF_FILESHARING                0x5b
 #define BIFF_WRITEACCESS                0x5c
 #define BIFF_OBJ                        0x5d
@@ -113,7 +116,6 @@
 #define BIFF_BOOLERR                   0x205
 #define BIFF_STRING                    0x207
 #define BIFF_INDEX                     0x20b
-#define BIFF_NAME                      0x218
 #define BIFF_DEFAULTROWHEIGHT	       0x225
 #define BIFF_WINDOW2                   0x23e
 #define BIFF_STYLE                     0x293

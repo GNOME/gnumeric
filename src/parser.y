@@ -337,6 +337,19 @@ return_symbol (Symbol *sym)
 	return type;
 }
 
+static int
+return_name (ExprName *exprn)
+{
+	ExprTree *e = p_new (ExprTree);
+	e->ref_count = 1;
+
+	e->oper = OPER_NAME;
+	e->u.name = exprn;
+	yylval.tree = e;
+
+	return CONSTANT;
+}
+
 /**
  * try_symbol:
  * @string: the string to try.
@@ -367,6 +380,13 @@ try_symbol (char *string, gboolean try_cellref)
 		sheet = sheet_lookup_by_name (parser_sheet, string);
 		if (sheet)
 			return return_sheetref (sheet);
+	}
+
+	{ /* Name ? */
+		ExprName *name = expr_name_lookup (parser_sheet->workbook,
+						   string);
+		if (name)
+			return return_name (name);
 	}
 	
 	return make_string_return (string);
@@ -709,6 +729,10 @@ dump_tree (ExprTree *tree)
 	case OPER_FUNCALL:
 		s = symbol_lookup (global_symbol_table, tree->u.function.symbol->str);
 		printf ("Function call: %s\n", s->str);
+		break;
+
+	case OPER_NAME:
+		printf ("Name : '%s'\n", tree->u.name->name);
 		break;
 
 	case OPER_ANY_BINARY:

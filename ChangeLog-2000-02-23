@@ -1,3 +1,39 @@
+1999-06-07  Michael Meeks  <michael@edenproject.org>
+
+	* src/eval.c (add_tree_deps): Add 'name' dependencies.
+
+	* src/workbook.c (workbook_do_destroy): Add name cleanup.
+
+1999-06-05  Michael Meeks  <michael@edenproject.org>
+
+	* src/expr.h: Added helpful reminder about the static list
+	of operator names in expr.c:do_expr_decode_tree ( Dork trap )
+
+1999-06-02  Michael Meeks  <michael@edenproject.org>
+
+	* src/expr.c (expr_decode_tree): remove restriction on sheet,
+	doesn't need to be != NULL.
+
+	* src/expr-name.[ch]: New files handling name support.
+
+	* src/parser.y (dump_tree): Added OPER_NAME support
+
+	* src/main.c (gnumeric_main): Added expr_name_init.
+
+	* src/parser.y (return_name): Added.
+	(try_symbol): Added check against names list.
+
+	* src/eval.c (add_tree_deps): Added warning, how to depend
+	on eg. sheet name ?
+
+	* src/expr.c (eval_expr, do_expr_tree_unref, do_expr_decode_tree),
+	(do_expr_tree_invalidate_references, do_expr_tree_fixup_references):
+	Implemente OPER_NAME.
+
+	* src/expr.h: Add OPER_NAME to Operation.
+
+	* src/Makefile.am: Added expr-name.[ch]
+
 1999-06-06  Michael Meeks  <michael@edenproject.org>
 
 	* src/expr.c (value_area_get_at_x_y): Add vital check for

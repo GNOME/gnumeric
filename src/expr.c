@@ -98,6 +98,9 @@ do_expr_tree_unref (ExprTree *tree)
 		break;
 	}
 
+	case OPER_NAME:
+		break;
+
 	case OPER_ANY_BINARY:
 		do_expr_tree_unref (tree->u.binary.value_a);
 		do_expr_tree_unref (tree->u.binary.value_b);
@@ -1186,7 +1189,12 @@ eval_expr (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 	}
 
 	case OPER_FUNCALL:
-		return eval_funcall (sheet, tree, eval_col, eval_row, error_string);
+		return eval_funcall (sheet, tree, eval_col, eval_row,
+				     error_string);
+
+	case OPER_NAME:
+		return eval_expr_name (sheet, tree->u.name, eval_col,
+				       eval_row, error_string);
 
 	case OPER_VAR: {
 		Sheet *cell_sheet;
@@ -1308,6 +1316,7 @@ do_expr_decode_tree (ExprTree *tree, Sheet *sheet, int col, int row, int paren_l
 		{ NULL, 0, 0, 0 },
 		{ NULL, 0, 0, 0 },
 		{ NULL, 0, 0, 0 },
+		{ NULL, 0, 0, 0 },
 		{ "-",  5, 0, 0 }
 	};
 	int op;
@@ -1398,6 +1407,9 @@ do_expr_decode_tree (ExprTree *tree, Sheet *sheet, int col, int row, int paren_l
 			return g_strconcat (fd->name, "()", NULL);
 	}
 
+	case OPER_NAME:
+		return g_strdup (tree->u.name->name);
+
 	case OPER_VAR: {
 		CellRef *cell_ref;
 
@@ -1463,8 +1475,7 @@ char *
 expr_decode_tree (ExprTree *tree, Sheet *sheet, int col, int row)
 {
 	g_return_val_if_fail (tree != NULL, NULL);
-	g_return_val_if_fail (sheet != NULL, NULL);
-	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+	g_return_val_if_fail ((sheet == NULL) || IS_SHEET (sheet), NULL);
 
 	return do_expr_decode_tree (tree, sheet, col, row, 0);
 }
@@ -1619,6 +1630,9 @@ do_expr_tree_invalidate_references (ExprTree *src, const struct expr_tree_frob_r
 		else
 			return NULL;
 	}
+
+	case OPER_NAME:
+		return NULL;
 
 	case OPER_CONSTANT: {
 		Value *v = src->u.constant;
@@ -1846,6 +1860,9 @@ do_expr_tree_fixup_references (ExprTree *src, const struct expr_tree_frob_refere
 
 		return dst;
 	}
+
+	case OPER_NAME:
+		return NULL;
 
 	case OPER_CONSTANT: {
 		Value *v = src->u.constant;

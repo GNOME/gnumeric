@@ -233,6 +233,13 @@ add_tree_deps (Cell *cell, ExprTree *tree)
 			add_tree_deps (cell, l->data);
 		return;
 
+	case OPER_NAME:
+		if (tree->u.name->builtin) {
+			/* What can we do ? */
+		} else
+			add_tree_deps (cell, tree->u.name->t.exprt);
+		return;
+
 	} /* switch */
 }
 

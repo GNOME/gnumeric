@@ -301,6 +301,8 @@ workbook_do_destroy (Workbook *wb)
 
 	symbol_table_destroy (wb->symbol_names);
 
+	expr_name_clean (wb);
+
 	g_free (wb);
 
 	if (workbook_count == 0)

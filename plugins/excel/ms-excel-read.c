@@ -409,6 +409,7 @@ biff_boundsheet_data_new (MS_EXCEL_WORKBOOK *wb, BIFF_QUERY * q, eBiff_version v
 
 	g_assert (ans->streamStartPos == BIFF_GETLONG (q->data)) ;
 	ans->sheet = ms_excel_sheet_new (wb, ans->name);
+	g_assert (ans->sheet);
 	ms_excel_workbook_attach (wb, ans->sheet);
 }
 
@@ -650,10 +651,8 @@ biff_format_data_destroy (gpointer key, BIFF_FORMAT_DATA *d, gpointer userdata)
 }
 
 typedef struct {
-	guint16 idx ;
 	char *name ;
-	guint8 *formula ;
-	guint16 formula_len ;
+	ExprName *exprn;
 } BIFF_NAME_DATA ;
 
 /**
@@ -663,40 +662,84 @@ typedef struct {
 static void
 biff_name_data_new (MS_EXCEL_SHEET *sheet, char *name, guint8 *formula, guint16 len)
 {
+	ExprName *tmp;
+	char *duff = "some error";
 	BIFF_NAME_DATA *bnd = g_new (BIFF_NAME_DATA, 1) ;
-	bnd->idx = g_hash_table_size (sheet->wb->name_data) + 1 ;
+
+	g_return_if_fail (sheet);
+	g_return_if_fail (sheet->wb);
+
 	bnd->name = name ;
-	if (formula) {
-		bnd->formula = g_new (guint8, len) ;
-		memcpy (bnd->formula, formula, len) ;
-		bnd->formula_len = len ;
+
+	if ((tmp = expr_name_lookup (sheet->wb->gnum_wb, name))) {
+#if EXCEL_DEBUG > 0 /* This happens a lot ! */
+		printf ("Duplicate name '%s'\n", name);
+#endif
+		bnd->exprn = tmp;
 	} else {
-		bnd->formula = 0 ;
-		bnd->formula_len = 0 ;
+		ExprTree *tree = 0;
+		if (formula)
+			tree = ms_excel_parse_formula (sheet->wb, formula,
+						       0, 0, 1, len, sheet->ver);
+		if (!tree) {
+			bnd->exprn = 0;
+#if EXCEL_DEBUG > 0
+			printf ("Duff tree on name '%s'\n", name);
+#endif
+		} else {
+			bnd->exprn = expr_name_add (sheet->wb->gnum_wb, name, tree, &duff);
+#if EXCEL_DEBUG > 0
+			if (!bnd->exprn)
+				printf ("Name: '%s'\n", duff);
+			else
+				printf ("Inserting '%s' into externname table at (%d)\n", bnd->name, sheet->wb->name_data->len) ;
+#endif
+		}
 	}
-	g_hash_table_insert (sheet->wb->name_data, &bnd->idx, bnd) ;
-/*	printf ("Inserting '%s' into externname table at (%d)\n", bnd->name, bnd->idx) ; */
+	g_ptr_array_add (sheet->wb->name_data, bnd);
 }
 
-char *
-biff_name_data_get_name (MS_EXCEL_SHEET *sheet, guint16 idx)
+ExprTree *
+biff_name_data_get_name (MS_EXCEL_WORKBOOK *wb, guint16 idx)
 {
-	BIFF_NAME_DATA *ptr = g_hash_table_lookup (sheet->wb->name_data, &idx) ;
-	if (ptr)
-		return ptr->name ;
-	else
-		return 0 ;
+	ExprTree *e;
+	BIFF_NAME_DATA *ptr = 0;
+	g_return_val_if_fail (wb, 0);
+
+	if (idx < wb->name_data->len)
+		ptr = g_ptr_array_index (wb->name_data, idx) ;
+
+	if (ptr) {
+		e = expr_tree_new ();
+		
+		if (!ptr->exprn) {
+			/* Magic for ms-formula-read.c: external functions */
+			e->oper       = OPER_CONSTANT;
+			e->u.constant = value_new_string (ptr->name);
+		} else {
+			e->oper = OPER_NAME;
+			e->u.name = ptr->exprn;
+		}
+		return e;
+	} else {
+#if EXCEL_DEBUG > 0
+		printf ("Error on name idx %d\n", idx);
+#endif	       
+		e = expr_tree_new ();
+		e->oper       = OPER_CONSTANT;
+		e->u.constant = value_new_string ("Duff Name");
+		return 0;
+	}
 }
 
-static gboolean 
-biff_name_data_destroy (gpointer key, BIFF_NAME_DATA *bnd, gpointer userdata)
+static void 
+biff_name_data_destroy (BIFF_NAME_DATA *bnd)
 {
 	g_free (bnd->name) ;
-	g_free (bnd->formula) ;
 	g_free (bnd) ;
-	return 1 ;
 }
 
+/* See: S59DC9.HTM */
 static MS_EXCEL_PALETTE *
 ms_excel_palette_new (BIFF_QUERY * q)
 {
@@ -715,9 +758,9 @@ ms_excel_palette_new (BIFF_QUERY * q)
 	for (lp = 0; lp < len; lp++){
 		LONG num = BIFF_GETLONG (q->data + 2 + lp * 4);
 
-		pal->red[lp] = (num & 0x00ff0000) >> 16;
-		pal->green[lp] = (num & 0x0000ff00) >> 8;
-		pal->blue[lp] = (num & 0x000000ff) >> 0;
+		pal->red[lp]   = (num & 0x00ff0000) >> 16;
+		pal->green[lp] = (num & 0x0000ff00) >>  8;
+		pal->blue[lp]  = (num & 0x000000ff) >>  0;
 #if EXCEL_DEBUG > 0
 			printf ("Colour %d : (%d,%d,%d)\n", lp, pal->red[lp], pal->green[lp], pal->blue[lp]);
 #endif
@@ -1182,6 +1225,23 @@ biff_xf_data_destroy (BIFF_XF_DATA *xf)
 	return 1 ;
 }
 
+static void
+ms_excel_workbook_shared_free (MS_EXCEL_WORKBOOK *wb)
+{
+	g_hash_table_foreach_remove (wb->shared_formulae,
+				     (GHRFunc)biff_shared_formula_destroy,
+				     wb) ;
+	g_hash_table_destroy (wb->shared_formulae) ;
+	wb->shared_formulae = NULL ;
+}
+
+static void
+ms_excel_workbook_shared_new (MS_EXCEL_WORKBOOK *wb)
+{
+	wb->shared_formulae = g_hash_table_new ((GHashFunc)biff_shared_formula_hash,
+						(GCompareFunc)biff_shared_formula_equal) ;
+}
+
 static MS_EXCEL_SHEET *
 ms_excel_sheet_new (MS_EXCEL_WORKBOOK * wb, char *name)
 {
@@ -1191,14 +1251,15 @@ ms_excel_sheet_new (MS_EXCEL_WORKBOOK * wb, char *name)
 	ans->blank = 1 ;
 	ans->wb = wb;
 
-	ans->shared_formulae = g_hash_table_new ((GHashFunc)biff_shared_formula_hash,
-						 (GCompareFunc)biff_shared_formula_equal) ;
+	if (wb->shared_formulae)
+		ms_excel_workbook_shared_free (wb);
+	ms_excel_workbook_shared_new (wb);
 
 	return ans;
 }
 
 ExprTree *
-ms_excel_sheet_shared_formula (MS_EXCEL_SHEET *sheet,
+ms_excel_workbook_shared_formula (MS_EXCEL_WORKBOOK *wb,
 			       int shr_col, int shr_row,
 			       int col, int row)
 {
@@ -1206,11 +1267,11 @@ ms_excel_sheet_shared_formula (MS_EXCEL_SHEET *sheet,
 	BIFF_SHARED_FORMULA *sf ;
 	k.col = shr_col ;
 	k.row = shr_row ;
-	sf = g_hash_table_lookup (sheet->shared_formulae, &k) ;
+	sf = g_hash_table_lookup (wb->shared_formulae, &k) ;
 	if (sf)
-		return ms_excel_parse_formula (sheet, sf->data,
+		return ms_excel_parse_formula (wb, sf->data,
 					       col, row, 1,
-					       sf->data_len) ;
+					       sf->data_len, wb->ver) ;
 #if EXCEL_DEBUG > 0
 		printf ("Duff shared formula index %d %d\n", col, row) ;
 #endif
@@ -1302,12 +1363,6 @@ ms_excel_sheet_append_comment (MS_EXCEL_SHEET * sheet, int col, int row, char *t
 static void
 ms_excel_sheet_destroy (MS_EXCEL_SHEET * sheet)
 {
-	g_hash_table_foreach_remove (sheet->shared_formulae,
-				     (GHRFunc)biff_shared_formula_destroy,
-				     sheet) ;
-	g_hash_table_destroy (sheet->shared_formulae) ;
-	sheet->shared_formulae = NULL ;
-
 	if (sheet->gnum_sheet)
 		sheet_destroy (sheet->gnum_sheet);
 	sheet->gnum_sheet = NULL ;
@@ -1316,7 +1371,7 @@ ms_excel_sheet_destroy (MS_EXCEL_SHEET * sheet)
 }
 
 static MS_EXCEL_WORKBOOK *
-ms_excel_workbook_new (void)
+ms_excel_workbook_new (eBiff_version ver)
 {
 	MS_EXCEL_WORKBOOK *ans = (MS_EXCEL_WORKBOOK *) g_malloc (sizeof (MS_EXCEL_WORKBOOK));
 
@@ -1332,14 +1387,15 @@ ms_excel_workbook_new (void)
 	ans->excel_sheets     = g_ptr_array_new ();
 	ans->XF_style_records = g_ptr_array_new ();
 	ans->XF_cell_records  = g_ptr_array_new ();
+	ans->name_data        = g_ptr_array_new ();
 	ans->format_data = g_hash_table_new ((GHashFunc)biff_guint16_hash,
 					     (GCompareFunc)biff_guint16_equal) ;
-	ans->name_data = g_hash_table_new ((GHashFunc)biff_guint16_hash,
-					   (GCompareFunc)biff_guint16_equal) ;
 	ans->palette = NULL;
-	ans->global_strings = NULL;
-	ans->global_string_max = 0;
+	ans->global_strings     = NULL;
+	ans->global_string_max  = 0;
 	ans->read_drawing_group = 0;
+	ans->shared_formulae    = 0;
+	ans->ver                = ver;
 	return ans;
 }
 
@@ -1409,16 +1465,18 @@ ms_excel_workbook_destroy (MS_EXCEL_WORKBOOK * wb)
 				     wb) ;
 	g_hash_table_destroy (wb->format_data) ;
 
-	g_hash_table_foreach_remove (wb->name_data,
-				     (GHRFunc)biff_name_data_destroy,
-				     wb) ;
-	g_hash_table_destroy (wb->name_data) ;
+	if (wb->name_data)
+		for (lp=0;lp<wb->name_data->len;lp++)
+			biff_name_data_destroy (g_ptr_array_index (wb->name_data, lp));
+	g_ptr_array_free (wb->name_data, TRUE);
 
 	if (wb->palette)
 		ms_excel_palette_destroy (wb->palette);
 
 	if (wb->extern_sheets)
 		g_free (wb->extern_sheets) ;
+
+	ms_excel_workbook_shared_free (wb);
 
 	g_free (wb);
 }
@@ -1671,14 +1729,14 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		
 		sf = biff_shared_formula_new (array_col_first, array_row_first,
 					      data, data_len) ;
-		g_hash_table_insert (sheet->shared_formulae, &sf->key, sf) ;
+		g_hash_table_insert (sheet->wb->shared_formulae, &sf->key, sf) ;
 
 		if (EXCEL_DEBUG>0)
 			printf ("Shared formula of extent %d %d %d %d\n",
 				array_col_first, array_row_first, array_col_last, array_row_last) ;
-		tr = ms_excel_parse_formula (sheet, data,
+		tr = ms_excel_parse_formula (sheet->wb, data,
 					      array_col_first, array_row_first,
-					      1, data_len) ;
+					      1, data_len, sheet->ver) ;
 		/* NB. This keeps the pre-set XF record */
 		if (tr) {
 			cell = sheet_cell_fetch (sheet->gnum_sheet,
@@ -1710,9 +1768,9 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		for (xlp=array_col_first;xlp<=array_col_last;xlp++)
 			for (ylp=array_row_first;ylp<=array_row_last;ylp++)
 			{
-				ExprTree *tr = ms_excel_parse_formula (sheet, data,
+				ExprTree *tr = ms_excel_parse_formula (sheet->wb, data,
 								       xlp, ylp, 
-								       0, data_len) ;
+								       0, data_len, sheet->ver) ;
 				/* NB. This keeps the pre-set XF record */
 				if (tr) {
 					Cell *cell = sheet_cell_fetch (sheet->gnum_sheet, xlp, ylp);
@@ -1733,9 +1791,9 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 				BIFF_GETWORD(q->data+20), q->length);
 			break;
 		}
-		tr = ms_excel_parse_formula (sheet, (q->data + 22),
+		tr = ms_excel_parse_formula (sheet->wb, (q->data + 22),
 					     EX_GETCOL (q), EX_GETROW (q),
-					     0, BIFF_GETWORD(q->data+20));
+					     0, BIFF_GETWORD(q->data+20), sheet->ver);
 		ms_excel_sheet_insert_form (sheet, EX_GETXF(q), EX_GETCOL(q), EX_GETROW(q), tr) ;
 		expr_tree_unref (tr);
 		break;
@@ -1789,58 +1847,6 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 	default:
 		switch (q->opcode)
 		{
-		case BIFF_NAME: /* FIXME: S59DA9.HTM */
-		{
-			guint16 flags = BIFF_GETWORD(q->data) ;
-			guint16 fn_grp_idx ;
-			guint8  kb_shortcut = BIFF_GETBYTE(q->data+2);
-			guint8  name_len = BIFF_GETBYTE(q->data+3) ;
-			guint16 name_def_len  = BIFF_GETWORD(q->data+4) ;
-			guint8* name_def_data = q->data+14+name_def_len ;
-			guint16 sheet_idx = BIFF_GETWORD(q->data+6) ;
-			guint16 ixals = BIFF_GETWORD(q->data+8) ; /* dup */
-			guint8  menu_txt_len = BIFF_GETBYTE(q->data+10) ;
-			guint8  descr_txt_len = BIFF_GETBYTE(q->data+11) ;
-			guint8  help_txt_len = BIFF_GETBYTE(q->data+12) ;
-			guint8  status_txt_len = BIFF_GETBYTE(q->data+13) ;
-			char *name, *menu_txt, *descr_txt, *help_txt, *status_txt ;
-			guint8 *ptr ;
-
-			g_assert (ixals==sheet_idx) ;
-			ptr = q->data + 14 ;
-			name = biff_get_text (ptr, name_len, NULL) ;
-			ptr+= name_len + name_def_len ;
-			menu_txt = biff_get_text (ptr, menu_txt_len, NULL) ;
-			ptr+= menu_txt_len ;
-			descr_txt = biff_get_text (ptr, descr_txt_len, NULL) ;
-			ptr+= descr_txt_len ;
-			help_txt = biff_get_text (ptr, help_txt_len, NULL) ;
-			ptr+= help_txt_len ;
-			status_txt = biff_get_text (ptr, status_txt_len, NULL) ;
-
-			printf ("Name record : '%s', '%s', '%s', '%s', '%s'\n", name, menu_txt, descr_txt,
-				help_txt, status_txt) ;
-			dump (name_def_data, name_def_len) ;
-
-			/* Unpack flags */
-			fn_grp_idx = (flags&0xfc0)>>6 ;
-			if ((flags&0x0001) != 0)
-				printf (" Hidden") ;
-			if ((flags&0x0002) != 0)
-				printf (" Function") ;
-			if ((flags&0x0004) != 0)
-				printf (" VB-Proc") ;
-			if ((flags&0x0008) != 0)
-				printf (" Proc") ;
-			if ((flags&0x0010) != 0)
-				printf (" CalcExp") ;
-			if ((flags&0x0020) != 0)
-				printf (" BuiltIn") ;
-			if ((flags&0x1000) != 0)
-				printf (" BinData") ;
-			printf ("\n") ;
-			break ;
-		}
 		case BIFF_STRING: /* FIXME: S59DE9.HTM */
 		{
 			char *txt ;
@@ -2008,7 +2014,7 @@ ms_excel_read_sheet (MS_EXCEL_SHEET *sheet, BIFF_QUERY * q, MS_EXCEL_WORKBOOK * 
 }
 
 Sheet *
-biff_get_externsheet_name(MS_EXCEL_WORKBOOK *wb, guint16 idx, gboolean get_first)
+biff_get_externsheet_name (MS_EXCEL_WORKBOOK *wb, guint16 idx, gboolean get_first)
 {
 	BIFF_EXTERNSHEET_DATA *bed ;
 	BIFF_BOUNDSHEET_DATA *bsd ;
@@ -2021,9 +2027,11 @@ biff_get_externsheet_name(MS_EXCEL_WORKBOOK *wb, guint16 idx, gboolean get_first
 	index = get_first ? bed->first_tab : bed->last_tab ;
 
 	bsd = g_hash_table_lookup (wb->boundsheet_data_by_index, &index) ;
-	if (!bsd)
+	if (!bsd) {
 		printf ("Duff sheet index %d\n", index);
-	return bsd->sheet->gnum_sheet;
+		return NULL;
+	} else
+		return bsd->sheet->gnum_sheet;
 }
 
 /**
@@ -2126,7 +2134,11 @@ ms_excel_read_workbook (MS_OLE * file)
 					ver->version = vv;
 
 				if (ver->type == eBiffTWorkbook) {
-					wb = ms_excel_workbook_new ();
+					if (ver->version >= eBiffV8)
+						printf ("Version Excel 97+\n");
+					else
+						printf ("Version Excel 95-\n");
+					wb = ms_excel_workbook_new (ver->version);
 					wb->gnum_wb = workbook_new ();
 				} else if (ver->type == eBiffTWorksheet) {
 					BIFF_BOUNDSHEET_DATA *bsh ;
@@ -2146,6 +2158,85 @@ ms_excel_read_workbook (MS_OLE * file)
 					printf ("Unknown BOF\n");
 			}
 			break;
+			case BIFF_NAME: /* FIXME: S59DA9.HTM */
+			{
+				guint16 flags = BIFF_GETWORD(q->data) ;
+				guint16 fn_grp_idx ;
+				guint8  kb_shortcut = BIFF_GETBYTE(q->data+2);
+				guint8  name_len = BIFF_GETBYTE(q->data+3) ;
+				guint16 name_def_len  = BIFF_GETWORD(q->data+4) ;
+				guint8* name_def_data = q->data+15+name_len ;
+				guint16 sheet_idx = BIFF_GETWORD(q->data+6) ;
+				guint16 ixals = BIFF_GETWORD(q->data+8) ; /* dup */
+				guint8  menu_txt_len = BIFF_GETBYTE(q->data+10) ;
+				guint8  descr_txt_len = BIFF_GETBYTE(q->data+11) ;
+				guint8  help_txt_len = BIFF_GETBYTE(q->data+12) ;
+				guint8  status_txt_len = BIFF_GETBYTE(q->data+13) ;
+				char *name, *menu_txt, *descr_txt, *help_txt, *status_txt ;
+				guint8 *ptr ;
+				ExprTree *tree;
+				char *duff = "some error";
+				BIFF_NAME_DATA *bnd = g_new (BIFF_NAME_DATA, 1) ;
+				
+/*				g_assert (ixals==sheet_idx) ; */
+				ptr = q->data + 14 ;
+				name = biff_get_text (ptr, name_len, NULL) ;
+				ptr+= name_len + name_def_len ;
+				menu_txt = biff_get_text (ptr, menu_txt_len, NULL) ;
+				ptr+= menu_txt_len ;
+				descr_txt = biff_get_text (ptr, descr_txt_len, NULL) ;
+				ptr+= descr_txt_len ;
+				help_txt = biff_get_text (ptr, help_txt_len, NULL) ;
+				ptr+= help_txt_len ;
+				status_txt = biff_get_text (ptr, status_txt_len, NULL) ;
+
+#if EXCEL_DEBUG > 0				
+				printf ("Name record : '%s', '%s', '%s', '%s', '%s'\n", name, menu_txt, descr_txt,
+					help_txt, status_txt) ;
+				dump (q->data, q->length);
+				
+				/* Unpack flags */
+				if ((flags&0x0001) != 0)
+					printf (" Hidden") ;
+				if ((flags&0x0002) != 0)
+					printf (" Function") ;
+				if ((flags&0x0004) != 0)
+					printf (" VB-Proc") ;
+				if ((flags&0x0008) != 0)
+					printf (" Proc") ;
+				if ((flags&0x0010) != 0)
+					printf (" CalcExp") ;
+				if ((flags&0x0020) != 0)
+					printf (" BuiltIn") ;
+				if ((flags&0x1000) != 0)
+					printf (" BinData") ;
+				printf ("\n") ;
+#endif
+
+				fn_grp_idx = (flags&0xfc0)>>6 ;
+				if (!wb || !ver) break;
+
+				tree = ms_excel_parse_formula (wb, name_def_data,
+							       0, 0, 1, name_def_len, ver->version);
+
+				bnd->name = name ;
+				if (tree) {
+					bnd->exprn = expr_name_add (wb->gnum_wb, name, tree, &duff);
+#if EXCEL_DEBUG > 0
+					if (!bnd->exprn)
+						printf ("Name: '%s' - '%s'\n", name, duff);
+					else
+						printf ("Inserting '%s' into name table at (%d)\n", bnd->name, wb->name_data->len) ;
+#endif
+				} else {
+					bnd->exprn = 0;
+#if EXCEL_DEBUG > 0
+					printf ("Duff tree on name '%s'", name);
+#endif
+				}
+				g_ptr_array_add (wb->name_data, bnd);
+				break ;
+			}
 			case BIFF_EOF:
 				printf ("End of worksheet spec.\n");
 				break;
