@@ -33,9 +33,7 @@ GENCAT = @GENCAT@
 GMSGFMT = PATH=../src:$$PATH @GMSGFMT@
 MSGFMT = @MSGFMT@
 XGETTEXT = PATH=../src:$$PATH @XGETTEXT@
-MSGMERGE = PATH=$(top_srcdir)/po:../src:$$PATH perl $(top_srcdir)/po/update.pl --dist
-GENPOT   = PATH=$(top_srcdir)/po:../src:$$PATH perl $(top_srcdir)/po/update.pl --pot
-GENHEAD  = PATH=$(top_srcdir)/po:../src:$$PATH perl $(top_srcdir)/po/update.pl --headers
+MSGMERGE = PATH=../src:$$PATH msgmerge
 
 DEFS = @DEFS@
 CFLAGS = @CFLAGS@
@@ -49,7 +47,7 @@ SOURCES = cat-id-tbl.c
 POFILES = @POFILES@
 GMOFILES = @GMOFILES@
 DISTFILES = ChangeLog Makefile.in.in POTFILES.in $(PACKAGE).pot \
-stamp-cat-id $(POFILES) $(GMOFILES) $(SOURCES) update.pl ui-extract.pl
+stamp-cat-id $(POFILES) $(GMOFILES) $(SOURCES)
 
 POTFILES = \
 
@@ -85,7 +83,12 @@ all-yes: cat-id-tbl.c $(CATALOGS)
 all-no:
 
 $(srcdir)/$(PACKAGE).pot: $(POTFILES)
-	$(GENPOT)
+	$(XGETTEXT) --default-domain=$(PACKAGE) --directory=$(top_srcdir) \
+	  --add-comments --keyword=_ --keyword=N_ \
+	  --files-from=$(srcdir)/POTFILES.in \
+	&& test ! -f $(PACKAGE).po \
+	   || ( rm -f $(srcdir)/$(PACKAGE).pot \
+		&& mv $(PACKAGE).po $(srcdir)/$(PACKAGE).pot )
 
 $(srcdir)/cat-id-tbl.c: stamp-cat-id; @:
 $(srcdir)/stamp-cat-id: $(PACKAGE).pot
@@ -211,21 +214,18 @@ update-po: Makefile
 	for cat in $$catalogs; do \
 	  cat=`basename $$cat`; \
 	  lang=`echo $$cat | sed 's/\$(CATOBJEXT)$$//'`; \
-	  cp $$lang.po $$lang.old.po; \
+	  mv $$lang.po $$lang.old.po; \
 	  echo "$$lang:"; \
-	  if $(MSGMERGE) $$lang; then \
-	  rm -f $$lang.old.po; \
+	  if $(MSGMERGE) $$lang.old.po $(PACKAGE).pot -o $$lang.po; then \
+	    rm -f $$lang.old.po; \
 	  else \
 	    echo "msgmerge for $$cat failed!"; \
+	    rm -f $$lang.po; \
 	    mv $$lang.old.po $$lang.po; \
 	  fi; \
 	done
 
-.headerlock:
-	$(GENHEAD)
-	touch .headerlock
-
-POTFILES: POTFILES.in .headerlock
+POTFILES: POTFILES.in
 	( if test 'x$(srcdir)' != 'x.'; then \
 	    posrcprefix='$(top_srcdir)/'; \
 	  else \
