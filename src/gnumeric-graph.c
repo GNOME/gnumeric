@@ -335,16 +335,11 @@ char *
 gnm_graph_vector_as_string (GnmGraphVector const *vector)
 {
 	ParsePos pp;
-	char *expr, *res;
 
 	g_return_val_if_fail (IS_GNUMERIC_GRAPH_VECTOR (vector), g_strdup ("ERROR"));
 
-	expr = expr_tree_as_string (vector->dep.expression,
+	return expr_tree_as_string (vector->dep.expression,
 		parse_pos_init_dep (&pp, &vector->dep));
-	res = g_strconcat ("=", expr, NULL);
-	g_free (expr);
-
-	return res;
 }
 
 void
@@ -1252,3 +1247,49 @@ gnm_graph_class_init (GtkObjectClass *object_class)
 
 E_MAKE_TYPE (gnm_graph, "GnmGraph", GnmGraph,
 	     gnm_graph_class_init, gnm_graph_init, SHEET_OBJECT_CONTAINER_TYPE)
+
+/*****************************************************************************/
+
+/**
+ * gnm_graph_series_get_dimension :
+ * @series : the xml node holding series info.
+ * @element : The name of the dimension we're looking for.
+ *
+ * A utility routine to find the child Dimension of @series with the correct @element.
+ */
+xmlNode *
+gnm_graph_series_get_dimension (xmlNode *series, xmlChar const *target)
+{
+	xmlNode *dim;
+	xmlChar *element;
+
+	/* attempt to find the matching dimension */
+	for (dim = series->xmlChildrenNode; dim; dim = dim->next) {
+		if (strcmp (dim->name, "Dimension"))
+			continue;
+		element = xmlGetProp (dim, "element");
+		if (element == NULL) {
+			g_warning ("Missing element name in series dimension");
+			continue;
+		}
+		if (strcmp (element, target)) {
+			xmlFree (element);
+			continue;
+		}
+		return dim;
+	}
+	return NULL;
+}
+
+/**
+ * gnm_graph_series_add_dimension :
+ * Add a properly formated child for an additional dimension.
+ * If we want to get fancy we could even check for duplicated here.
+ */
+xmlNode *
+gnm_graph_series_add_dimension (xmlNode *series, char const *element)
+{
+	xmlNode *res = xmlNewChild (series, series->ns, "Dimension", NULL);
+	xmlSetProp (res, "element", element);
+	return res;
+}

@@ -1,3 +1,9 @@
+2001-09-30  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-chart.c (excel_chart_series_write_xml) : Use
+	  gnm_graph_series_add_dimension.
+	(BC_R(seriestext)) : store constant labels as expresions.
+
 2001-09-28  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-chart.c (excel_chart_series_write_xml) : adjust to new xml

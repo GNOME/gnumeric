@@ -1,5 +1,9 @@
 2001-09-30  Jody Goldberg <jgoldberg@home.com>
 
+	* dialog-graph-guru.c (vector_state_fill) : Use gnm_graph_series_get_dimension.
+
+2001-09-30  Jody Goldberg <jgoldberg@home.com>
+
 	* analysis-tools.glade : manually tweak the size of the dialog and
 	  remove a few loose ends.  We will need to regenerate this with a
 	  newer glade after release.

@@ -108,7 +108,6 @@ static void
 vector_state_fill (VectorState *vs, xmlNode *series)
 {
 	xmlNode *dim;
-	xmlChar *element;
 	int id;
 
 	g_return_if_fail (!vs->state->updating);
@@ -120,20 +119,8 @@ vector_state_fill (VectorState *vs, xmlNode *series)
 		GNUM_EE_ABS_COL|GNUM_EE_ABS_ROW, GNUM_EE_MASK);
 	vs->state->updating = FALSE;
 
-	/* attempt to find the matching dimension */
-	for (dim = series->xmlChildrenNode; dim; dim = dim->next) {
-		if (strcmp (dim->name, "Dimension"))
-			continue;
-		element = xmlGetProp (dim, "element");
-		if (element == NULL) {
-			g_warning ("Missing element name in series dimension");
-			continue;
-		}
-		if (strcmp (vs->element, element)) {
-			xmlFree (element);
-			continue;
-		}
-
+	dim = gnm_graph_series_get_dimension (series, vs->element);
+	if (dim != NULL) {
 		id = e_xml_get_integer_prop_by_name_with_default (dim, "ID", -1);
 		if (id >= 0) {
 			char *content = gnm_graph_vector_as_string (

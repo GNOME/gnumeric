@@ -20,6 +20,7 @@
 #include <style-color.h>
 #include <format.h>
 #include <expr.h>
+#include <value.h>
 #include <gutils.h>
 
 #ifdef ENABLE_BONOBO
@@ -155,10 +156,8 @@ excel_chart_series_write_xml (ExcelChartSeries *series,
 	xmlAddChild (data, series->xml);
 	for (i = 0 ; i < MS_VECTOR_PURPOSE_MAX; i++ )
 		if (series->vector [i].remote_ID >= 0) {
-			v = xmlNewChild (series->xml, s->xml.ns,
-					 "Dimension", NULL);
-			xmlSetProp (v, "element",
-				    ms_vector_purpose_type_name [i]);
+			v = gnm_graph_series_add_dimension (series->xml,
+				ms_vector_purpose_type_name [i]);
 			e_xml_set_integer_prop_by_name (v, "ID",
 				series->vector [i].remote_ID);
 		}
@@ -1740,9 +1739,6 @@ BC_R(vector_details)(ExcelChartReadState *s, BiffQuery *q, ExcelChartSeries *ser
 }
 
 
-/*
- * Wrapper function to avoid leaking memory on failure
- */
 static gboolean
 BC_R(series)(ExcelChartHandler const *handle,
 	     ExcelChartReadState *s, BiffQuery *q)
@@ -1806,15 +1802,25 @@ BC_R(seriestext)(ExcelChartHandler const *handle,
 {
 	guint16 const id = MS_OLE_GET_GUINT16 (q->data);	/* must be 0 */
 	int const slen = MS_OLE_GET_GUINT8 (q->data + 2);
-	char *text = biff_get_text (q->data + 3, slen, NULL);
+	char *str = biff_get_text (q->data + 3, slen, NULL);
 
-	d (2, puts (text););
+	d (2, puts (str););
 
 	g_return_val_if_fail (id == 0, FALSE);
 
 	/* A quick heuristic */
-	if (s->currentSeries != NULL)
-		xmlSetProp (s->currentSeries->xml, "name", text); 
+	if (s->currentSeries != NULL &&
+	    s->currentSeries->vector [MS_VECTOR_PURPOSE_LABELS].remote_ID == -1) {
+#ifdef ENABLE_BONOBO
+		s->currentSeries->vector [MS_VECTOR_PURPOSE_LABELS].type = GNM_VECTOR_STRING;
+
+		s->currentSeries->vector [MS_VECTOR_PURPOSE_LABELS].remote_ID =
+			gnm_graph_add_vector (s->graph,
+				expr_tree_new_constant (value_new_string (str)),
+				GNM_VECTOR_STRING,
+				ms_container_sheet (s->parent));
+#endif
+	}
 
 	/* TODO : handle axis and chart titles */
 

@@ -42,4 +42,8 @@ GtkType	gnm_graph_vector_get_type    (void);
 char   *gnm_graph_vector_as_string   (GnmGraphVector const *vec);
 void	gnm_graph_vector_from_string (GnmGraphVector const *vec, char *);
 
+/* Some xml utilities */
+xmlNode *gnm_graph_series_get_dimension (xmlNode *series, xmlChar const *element);
+xmlNode *gnm_graph_series_add_dimension (xmlNode *series, char const *element);
+
 #endif /* GNUMERIC_GRAPH_H */

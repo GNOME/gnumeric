@@ -1,3 +1,10 @@
+2001-09-30  Jody Goldberg <jgoldberg@home.com>
+
+	* src/gnumeric-graph.c (gnm_graph_vector_as_string) : screw it.
+	  Simplify my life by treating constants as expressions.
+	(gnm_graph_series_get_dimension) : new utility.
+	(gnm_graph_series_add_dimension) : new utility.
+
 2001-09-28  Morten Welinder  <terra@diku.dk>
 
 	* src/regression.c (LUPDecomp): Revert last change.  This seems to
