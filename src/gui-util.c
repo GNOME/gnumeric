@@ -28,17 +28,15 @@ gnumeric_notice (char *str)
 int
 gtk_radio_group_get_selected (GSList *radio_group)
 {
-	int i, l;
+	int i;
 
 	g_return_val_if_fail (radio_group != NULL, 0);
 	
-	l = g_slist_length (radio_group);
-		
-	for (i = 0, l = group_type; l; l = l->next, i++){
-		GtkRadioButton *button = l->data;
+	for (i = 0; radio_group; radio_group = radio_group->next, i++){
+		GtkRadioButton *button = radio_group->data;
 
 		if (GTK_TOGGLE_BUTTON (button)->active){
-			return l - i;
+			return i;
 		}
 	}
 }

@@ -14,7 +14,7 @@ enum {
 };
 
 #define PASTE_ALL_TYPES (PASTE_FORMULAS | PASTE_VALUES | PASTE_FORMATS)
-#define PASTE_DEFAULT   PASTE_ALL
+#define PASTE_DEFAULT   PASTE_ALL_TYPES
 #define PASTE_OP_MASK   (PASTE_OP_ADD | PASTE_OP_SUB | PASTE_OP_MULT | PASTE_OP_DIV)
 
 CellRegion *clipboard_copy_cell_range    (Sheet *sheet,

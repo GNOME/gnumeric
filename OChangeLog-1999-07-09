@@ -1,3 +1,10 @@
+1998-08-14  Jaka Mocnik  <jaka.mocnik@kiss.uni-lj.si>
+
+	* src/clipboard.h: changed PASTE_ALL to PASTE_ALL_TYPES.
+	* src/gnumeric-util.c (gtk_radio_group_get_selected):
+	changed to work. I guess it is a bit weird trying to
+	access a next member of an int ;).
+
 1998-08-13  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/workbook.c (workbook_set_region_status): Support going to a
