@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
-"POT-Creation-Date: 1999-02-03 14:07-0600\n"
+"POT-Creation-Date: 1999-02-06 22:52-0600\n"
 "PO-Revision-Date: 1998-10-03 17:59+01:00\n"
 "Last-Translator: Nuno Ferreira <nmrf@rnl.ist.utl.pt>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
@@ -50,11 +50,11 @@ msgstr ""
 msgid "variance - division by 0"
 msgstr ""
 
-#: src/about.c:36
+#: src/about.c:37
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
-#: src/about.c:39
+#: src/about.c:40
 msgid ""
 "The GNOME spreadsheet.\n"
 "http://www.gnome.org/gnumeric"
@@ -342,19 +342,19 @@ msgstr "Usar cor sólida"
 msgid "Use a pattern"
 msgstr "Usar um padrão"
 
-#: src/dialog-cell-format.c:861
+#: src/dialog-cell-format.c:865
 msgid "Number"
 msgstr "Número"
 
-#: src/dialog-cell-format.c:862
+#: src/dialog-cell-format.c:866
 msgid "Alignment"
 msgstr "Alinhamento"
 
-#: src/dialog-cell-format.c:863
+#: src/dialog-cell-format.c:867
 msgid "Font"
 msgstr "Fonte"
 
-#: src/dialog-cell-format.c:864
+#: src/dialog-cell-format.c:868
 msgid "Coloring"
 msgstr ""
 
@@ -494,12 +494,12 @@ msgstr "Ampliar"
 msgid "Custom"
 msgstr "Customizada"
 
-#: src/dialog-zoom.c:83
+#: src/dialog-zoom.c:84
 #, c-format
 msgid "Zoom factor should be at least 50%"
 msgstr "Factor de ampliação deve ser no mínimo 50%"
 
-#: src/dialog-zoom.c:88
+#: src/dialog-zoom.c:90
 #, c-format
 msgid "Zoom factor should be at most 900%"
 msgstr "Factor de ampliação deve ser no máximo 900%"
@@ -532,11 +532,16 @@ msgstr "Divisão por zero"
 msgid "Unknown evaluation error"
 msgstr "Erro de avaliação desconhecido"
 
-#: src/file.c:154
+#: src/file.c:214
+#, fuzzy
+msgid "File format:"
+msgstr "Formato da célula"
+
+#: src/file.c:238
 msgid "Save workbook as"
 msgstr "Gravar livro de trabalho como"
 
-#: src/file.c:203
+#: src/file.c:293
 msgid "Load file"
 msgstr "Ler ficheiro"
 
@@ -1080,7 +1085,7 @@ msgstr ""
 msgid ""
 "@FUNCTION=CHAR\n"
 "@SYNTAX=CHAR(x)\n"
-"@DESCRIPTION=Returns the ascii character reprensented by the number x.\n"
+"@DESCRIPTION=Returns the ascii character represented by the number x.\n"
 "@SEEALSO=CODE"
 msgstr ""
 
@@ -1097,7 +1102,7 @@ msgid ""
 "@FUNCTION=EXACT\n"
 "@SYNTAX=EXACT(string1, string2)\n"
 "@DESCRIPTION=Returns true if string1 is exactly equal to string2 (this "
-"routine is case sensitive.\n"
+"routine is case sensitive).\n"
 "@SEEALSO="
 msgstr ""
 
@@ -1432,10 +1437,6 @@ msgstr ""
 msgid "Bricks"
 msgstr ""
 
-#: src/gnumeric-util.c:22
-msgid "Notice"
-msgstr ""
-
 #: src/item-cursor.c:554 src/item-grid.c:523 src/workbook.c:837
 msgid "Copy"
 msgstr "Copiar"
@@ -1472,7 +1473,7 @@ msgstr ""
 msgid "Cut"
 msgstr "Cortar"
 
-#: src/item-grid.c:524 src/sheet.c:2428 src/workbook.c:840
+#: src/item-grid.c:524 src/sheet.c:2432 src/workbook.c:840
 msgid "Paste"
 msgstr "Colar"
 
@@ -1484,19 +1485,19 @@ msgstr "Apagar conteúdo"
 msgid "Cell format"
 msgstr "Formato da célula"
 
-#: src/main.c:28
+#: src/main.c:36
 msgid "Dumps the function definitions"
 msgstr ""
 
-#: src/main.c:28
+#: src/main.c:36
 msgid "FILE"
 msgstr ""
 
-#: src/main.c:30
+#: src/main.c:38
 msgid "Enables some debugging functions"
 msgstr ""
 
-#: src/main.c:30
+#: src/main.c:38
 msgid "LEVEL"
 msgstr ""
 
@@ -1524,15 +1525,15 @@ msgstr "Adicionar..."
 msgid "unable to open module file: "
 msgstr ""
 
-#: src/plugin.c:44
+#: src/plugin.c:45
 msgid "Plugin must contain init_plugin function."
 msgstr ""
 
-#: src/plugin.c:49
+#: src/plugin.c:51
 msgid "init_plugin returned error"
 msgstr ""
 
-#: src/plugin.c:68
+#: src/plugin.c:71
 msgid "Plugin is still in use.\n"
 msgstr ""
 
@@ -1878,51 +1879,51 @@ msgstr ""
 msgid "Creates an ellipse object"
 msgstr ""
 
-#: src/workbook.c:954
+#: src/workbook.c:955
 msgid "You should introduce a valid cell name"
 msgstr "Deve digitar um nome de uma célula válido"
 
-#: src/workbook.c:960
+#: src/workbook.c:962
 msgid "Column out of range"
 msgstr ""
 
-#: src/workbook.c:965
+#: src/workbook.c:968
 msgid "Row number out of range"
 msgstr ""
 
-#: src/workbook.c:1071
+#: src/workbook.c:1074
 msgid "Sum"
 msgstr "Soma"
 
-#: src/workbook.c:1072
+#: src/workbook.c:1075
 msgid "Min"
 msgstr "Minimo"
 
-#: src/workbook.c:1073
+#: src/workbook.c:1076
 msgid "Max"
 msgstr "Maximo"
 
-#: src/workbook.c:1074
+#: src/workbook.c:1077
 msgid "Average"
 msgstr "Média"
 
-#: src/workbook.c:1075
+#: src/workbook.c:1078
 msgid "Count"
 msgstr "Contar"
 
-#: src/workbook.c:1259
+#: src/workbook.c:1268
 msgid "Untitled.gnumeric"
 msgstr ""
 
-#: src/workbook.c:1340
+#: src/workbook.c:1352
 msgid "Zoom out"
 msgstr "Reduzir"
 
-#: src/workbook.c:1347
+#: src/workbook.c:1359
 msgid "Zoom in"
 msgstr "Ampliar"
 
-#: src/workbook.c:1478 src/workbook.c:1499
+#: src/workbook.c:1490 src/workbook.c:1511
 #, c-format
 msgid "Sheet %d"
 msgstr "Folha %d"

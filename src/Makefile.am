@@ -110,10 +110,6 @@ GNUMERIC_CORBA_GENERATED =		\
 	Gnumeric-stubs.c		\
 	Gnumeric.h
 
-GNUMERIC_CORBA_SOURCES =		\
-	Gnumeric-impl.c			\
-	$(GNUMERIC_CORBA_GENERATED) 
-
 Gnumeric-impl.c: Gnumeric.h
 
 $(GNUMERIC_CORBA_GENERATED): Gnumeric.idl
@@ -127,7 +123,8 @@ gnumeric_SOURCES =			\
 gnumeric_corba_SOURCES = 		\
 	main.c				\
 	corba-args.c			\
-	$(GNUMERIC_CORBA_SOURCES)	\
+	Gnumeric-impl.c			\
+	$(GNUMERIC_CORBA_GENERATED)	\
 	$(GNUMERIC_BASE_SOURCES)
 
 gnumeric_LDFLAGS = -export-dynamic

@@ -531,7 +531,7 @@ cell_set_text_simple (Cell *cell, char *text)
 		cell->parsed_node = NULL;
 	}
 
- 	if (text [0] == '='){
+ 	if (text [0] == '=' && text [1] != 0){
 		cell_set_formula (cell, text); 
 	} else {
 		Value *v = g_new (Value, 1);
