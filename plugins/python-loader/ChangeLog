@@ -1,3 +1,8 @@
+2004-11-01  Jon K Hellan  <hellan@acm.org>
+
+	* python-loader.c (gplp_load_service_ui): Rename
+	<plugin_name>_ui_verbs to <plugin_name>_ui_actions.
+
 2004-10-29  Jon K Hellan  <hellan@acm.org>
 
 	* python-loader.c (gplp_func_exec_action): Fix order of arguments.

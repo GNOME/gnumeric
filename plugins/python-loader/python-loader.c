@@ -764,7 +764,7 @@ gplp_load_service_ui (GnmPluginLoader *loader,
 	GNM_INIT_RET_ERROR_INFO (ret_error);
 	gnm_py_interpreter_switch_to (loader_python->py_interpreter_info);
 	ui_action_names = g_strconcat (plugin_service_get_id (service), 
-				     "_ui_verbs", NULL);
+				     "_ui_actions", NULL);
 	ui_actions = PyDict_GetItemString (loader_python->main_module_dict,
 					   ui_action_names);
 	gnm_python_clear_error_if_needed (loader_python->py_object);
