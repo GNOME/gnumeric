@@ -647,8 +647,8 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 			 * then clear the selection and add it.
 			 */
 			if (!selection_contains_colrow (sheet, element, is_cols))
-				scg_colrow_select (item_bar->scg, is_cols, element,
-						   GDK_SHIFT_MASK);
+				scg_colrow_select (item_bar->scg, is_cols,
+						   element, e->button.state);
 
 			scg_context_menu (item_bar->scg, &e->button,
 					  is_cols, !is_cols);

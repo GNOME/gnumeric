@@ -1,20 +1,22 @@
-
-Hacking on Gnumeric
+Working in Gnumeric
 -------------------
 
-   When writing Gnumeric, I have tried to write the code with various
-goals in mind: 
+   When writing Gnumeric our priorities are
 
-	- Gnumeric code has to be maintainable.
-	- Gnumeric code needs to be documented.
-	- Gnumeric code has to be good.
-	- Gnumeric has to be extensible.
-	- Gnumeric code has to make sense.
+	1) Correct.
+	2) Maintainable & Documented
+	3) Modular and well designed
+	and a distant
+	4) Fast
 
     When you submit code to me for inclusion in Gnumeric, or when you
-modify the sources directly on the CVS repository, please keep those
-things in mind.  Specifically, this means:
+modify the sources directly on the CVS repository, please keep those things in
+mind.  While performance is important please note that we do not want to hand
+tune code to shave milliseconds at this point.  Well designed algorithms and
+data strucutures are fertile areas for development, obfuscated code it make a
+loop 3% faster is not.  Specifically, this means:
 
+	- Clarity of design and function are paramount
 	- Make sure your code does not generate warnings at all.
 	- Please follow the coding style used Gnumeric.
 
@@ -48,7 +50,7 @@ modular chunks (as detailed by Linus).
 
 	- Make sure your code does not have a single warning (with the
 	  default strong warnings that Gnumeric compiles with) before
-	  your code is submited.
+	  your code is submited. (Although we do not advocate -Werror)
 
 	- Every entry point to a public routine should use the
 	  g_return_if_fail and g_return_val_if_fail macros to verify
@@ -67,11 +69,10 @@ modular chunks (as detailed by Linus).
 
 	- Do not submit code that is just a temporary workaround for a
 	  full fledged feature.  i.e. don't submit a quick hack at
-	  "search text" which is not designed to be expanded upon.  I
-	  do not want to maintain limited features.
-
-	  It is better submit an implementation that has been designed
-	  to be expanded and enhanced, even if it is not completely finished.
+	  "search text" which is not designed to be expanded upon.  We
+	  do not want to maintain limited features.  It is better submit an
+	  implementation that has been designed to be expanded and enhanced,
+	  even if it is not completely finished.
 
 	- It is more important to be correct than to be fast.  
 
@@ -94,21 +95,6 @@ modular chunks (as detailed by Linus).
 		 * multi-line comments
 		 */
 
-	- Do not overuse const; there is a great danger that const
-	  will be overused and whilst this makes the code more robust
- 	  against idiot hackers, idiot hackers should not be committing.
-	  Furthermore const TypeName is strongly preferred to the synonym
-	  TypeName const.
-
-		ie. TypeName const * const non_array;	should be:
-
-		    const TypeName *non_array;          good.
-
-	- Your code should compile without warnings.
-
-	- When documenting a function in the comments, please follow
-	  the comment style of the existing code. 
-
 	- Gnumeric is intended to be run in various countries with
 	  different currency conventions, number formatting
 	  conventions and different languages.  Use the locale
@@ -128,8 +114,8 @@ CORBA service provision).
 break existing code.  By all means, code clean ups are always
 welcome. 
 
-Extra functions
----------------
+Extra Spreadsheet functions
+---------------------------
 
    When you write new functions, keep the following in mind:
 
@@ -230,9 +216,3 @@ aren't GnomeDialogs at all, and you have to do more work manually.
   set to "No". You should also not call gtk_widget_show / show_all on
   the dialog before calling gnumeric_dialog_run / gnome_dialog_run,
   because the dialog_run functions reposition the dialog.
-
-  
-Miguel de Icaza.
-October, 1998
-
-

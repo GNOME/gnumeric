@@ -154,7 +154,6 @@ write_wb_roff (IOContext *context, WorkbookView *wb_view, FILE *fp)
 						v_size = v_size > fontsize ? v_size :
 							fontsize;
 					}
-					mstyle_unref (mstyle);
 				}
 			}
 			fprintf (fp, ".\n");

@@ -394,7 +394,7 @@ set_italic (data_analysis_output_t *dao, int col1, int row1,
 	range.end.row   = row2 + row_inc;
 
 	mstyle_set_font_italic (mstyle, TRUE);
-	sheet_style_attach (dao->sheet, &range, mstyle);
+	sheet_style_apply_range (dao->sheet, &range, mstyle);
 }
 
 

@@ -457,19 +457,15 @@ range_has_header (const Sheet *sheet, const Range *src, gboolean top)
 		stylea = cell_get_mstyle (ca);
 		styleb = cell_get_mstyle (cb);
 
-		if (!mstyle_equal (stylea, styleb)) {
+		if (!mstyle_equal (stylea, styleb))
 			return TRUE;
-		}
-
-		mstyle_unref (stylea);
-		mstyle_unref (styleb);
 	}
 
 	return FALSE;
 }
 
 void
-range_dump (Range const *src)
+range_dump (Range const *src, char const *suffix)
 {
 	/*
 	 * keep these as 2 print statements, because
@@ -484,6 +480,7 @@ range_dump (Range const *src)
 		fprintf (stderr, ":%s%d",
 			col_name (src->end.col),
 			src->end.row + 1);
+	fprintf (stderr, suffix);
 }
 
 #ifdef RANGE_DEBUG
@@ -492,7 +489,7 @@ ranges_dump (GList *l, const char *txt)
 {
 	fprintf (stderr, "%s: ", txt);
 	for (; l; l = l->next) {
-		range_dump (l->data);
+		range_dump (l->data, "");
 		if (l->next)
 			fprintf (stderr, ", ");
 	}
@@ -856,15 +853,13 @@ range_fragment_list_clip (const GList *ra, const Range *clip)
 	if (clip) {
 #ifdef RANGE_DEBUG
 		fprintf (stderr, "Clip: ");
-		range_dump (clip);
-		fprintf (stderr, "\n");
+		range_dump (clip, "\n");
 #endif
 		for (a = ranges; a; a = a->next) {
 			if (!range_contained (a->data, clip)) {
 #ifdef RANGE_DEBUG
 				fprintf (stderr, "Uncontained: ");
-				range_dump (a->data);
-				fprintf (stderr, "\n");
+				range_dump (a->data, "\n");
 #endif
 				remove = g_list_prepend (remove, a->data);
 			}
@@ -1041,7 +1036,7 @@ static void
 range_style_apply_cb (Sheet *sheet, const Range *range, gpointer user_data)
 {
 	mstyle_ref ((MStyle *)user_data);
-	sheet_style_attach (sheet, range, (MStyle *)user_data);
+	sheet_style_apply_range (sheet, range, (MStyle *)user_data);
 }
 
 void

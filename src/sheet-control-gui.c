@@ -392,15 +392,13 @@ scg_colrow_select (SheetControlGUI *scg, gboolean is_cols,
 				gnumeric_sheet_rangesel_cursor_extend (gsheet,
 					index, -1);
 			else
-				sheet_selection_extend_to (sheet,
-					index, SHEET_MAX_ROWS-1);
+				sheet_selection_extend_to (sheet, index, -1);
 		} else {
 			if (rangesel)
 				gnumeric_sheet_rangesel_cursor_extend (gsheet,
 					-1, index);
 			else
-				sheet_selection_extend_to (sheet,
-					SHEET_MAX_COLS-1, index);
+				sheet_selection_extend_to (sheet, -1, index);
 		}
 	} else {
 		if (!rangesel && !(modifiers & GDK_CONTROL_MASK))

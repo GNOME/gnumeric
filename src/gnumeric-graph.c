@@ -446,7 +446,7 @@ graph_vector_new (Sheet *sheet, Range const *r, char *name)
 
 	vector = gtk_type_new (graph_vector_get_type ());
 
-	if (sheet_cell_foreach_range (sheet, FALSE,
+	if (sheet_foreach_cell_in_range (sheet, FALSE,
 				      r->start.col, r->start.row,
 				      r->end.col, r->end.row,
 				      &cb_check_range_for_pure_string,

@@ -703,8 +703,7 @@ handle_tree_deps (Dependent *dep, const CellPos *pos,
 			handle_cell_single_dep (dep, pos, &a, operation);
 		} else
 			/* Corner cell depends on the contents of the expr */
-			handle_tree_deps (dep, pos,
-					  tree->array.corner.func.expr, operation);
+			handle_tree_deps (dep, pos, tree->array.corner.expr, operation);
 		return;
 	default:
 		g_warning ("Unknown Operation type, dependencies lost");

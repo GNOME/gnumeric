@@ -46,7 +46,7 @@
  * Return value: a new RenderedValue
  **/
 RenderedValue *
-rendered_value_new (Cell *cell, MStyle *mstyle, gboolean dynamic_width)
+rendered_value_new (Cell *cell, MStyle const *mstyle, gboolean dynamic_width)
 {
 	RenderedValue	*res;
 	Sheet		*sheet;
@@ -144,9 +144,7 @@ void
 rendered_value_calc_size (Cell const *cell)
 {
 	MStyle *mstyle = cell_get_mstyle (cell);
-
 	rendered_value_calc_size_ext (cell, mstyle);
-	mstyle_unref (mstyle);
 }
 
 /*

@@ -20,7 +20,6 @@ typedef struct _ExcelSheet
 	Sheet *gnum_sheet;
 	struct _ExcelWorkbook *wb;
 	GHashTable *shared_formulae;
-	Range  style_optimize;
 	double base_char_width;
 	double base_char_width_default;
 } ExcelSheet;

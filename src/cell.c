@@ -232,25 +232,6 @@ cell_relocate (Cell *cell, ExprRewriteInfo *rwinfo)
 		if (cell_expr_is_linked (cell))
 			dependent_unlink (CELL_TO_DEP (cell), &cell->pos);
 
-		/*
-		 * WARNING WARNING WARNING
-		 *
-		 * This will only work if the new array cell has already
-		 * been inserted.
-		 *
-		 * WARNING WARNING WARNING
-		 */
-		/* If cell was part of an array, reset the corner pointer */
-		if (expr->any.oper == OPER_ARRAY) {
-			int const x = expr->array.x;
-			int const y = expr->array.y;
-			if (x != 0 || y != 0)
-				expr->array.corner.cell =
-					sheet_cell_get (cell->base.sheet,
-							cell->pos.col - x,
-							cell->pos.row - y);
-		}
-
 		/* bounds check, and adjust local references from the cell */
 		if (rwinfo != NULL) {
 			expr = expr_rewrite (expr, rwinfo);
@@ -301,7 +282,6 @@ cell_set_text (Cell *cell, char const *text)
 
 	mstyle = cell_get_mstyle (cell);
 	cformat = mstyle_get_format (mstyle);
-	mstyle_unref (mstyle);
 	format = parse_text_value_or_expr (eval_pos_init_cell (&pos, cell),
 					   text, &val, &expr, cformat);
 
@@ -541,8 +521,8 @@ cell_set_array_formula (Sheet *sheet,
 	g_return_if_fail (row_a <= row_b);
 
 	wrapper = expr_tree_new_array (0, 0, num_rows, num_cols);
-	wrapper->array.corner.func.value = NULL;
-	wrapper->array.corner.func.expr = formula;
+	wrapper->array.corner.value = NULL;
+	wrapper->array.corner.expr = formula;
 	cell_set_expr_internal (corner, wrapper, NULL);
 	expr_tree_unref (wrapper);
 
@@ -555,7 +535,6 @@ cell_set_array_formula (Sheet *sheet,
 
 			cell = sheet_cell_fetch (sheet, col_a + x, row_a + y);
 			wrapper = expr_tree_new_array (x, y, num_rows, num_cols);
-			wrapper->array.corner.cell = corner;
 			cell_set_expr_internal (cell, wrapper, NULL);
 			dependent_changed (CELL_TO_DEP (cell),
 					   &cell->pos, queue_recalc);
@@ -675,26 +654,16 @@ cell_render_value (Cell *cell, gboolean dynamic_width)
 	cell->rendered_value = rv;
 
 	rendered_value_calc_size_ext (cell, mstyle);
-	mstyle_unref (mstyle);
 }
 
 
 MStyle *
 cell_get_mstyle (Cell const *cell)
 {
-	return sheet_style_compute (cell->base.sheet,
-				    cell->pos.col,
-				    cell->pos.row);
-}
-
-void
-cell_set_mstyle (Cell const *cell, MStyle *mstyle)
-{
-	Range         range;
-
-	range.start = range.end = cell->pos;
-
-	sheet_style_attach (cell->base.sheet, &range, mstyle);
+	g_return_val_if_fail (cell != NULL, NULL);
+	return sheet_style_get (cell->base.sheet,
+				cell->pos.col,
+				cell->pos.row);
 }
 
 char *
@@ -727,7 +696,6 @@ cell_get_format (Cell const *cell)
 		}
 	}
 
-	mstyle_unref (mstyle);
 	return result;
 }
 
@@ -742,13 +710,16 @@ cell_get_format (Cell const *cell)
 void
 cell_set_format (Cell *cell, char const *format)
 {
+	Range r;
 	MStyle *mstyle = mstyle_new ();
 
 	g_return_if_fail (mstyle != NULL);
 
-	mstyle_set_format_text (mstyle, format);
-	cell_set_mstyle (cell, mstyle);
 	cell_dirty (cell);
+	mstyle_set_format_text (mstyle, format);
+
+	r.start = r.end = cell->pos;
+	sheet_style_apply_range (cell->base.sheet, &r, mstyle);
 }
 
 /**
@@ -784,3 +755,15 @@ cell_convert_expr_to_value (Cell *cell)
 
 	cell_dirty (cell);
 }
+guint
+cellpos_hash (CellPos const *key)
+{
+	return (key->row << 8) | key->col;
+}
+
+gint
+cellpos_cmp (CellPos const * a, CellPos const * b)
+{
+	return (a->row == b->row && a->col == b->col);
+}
+

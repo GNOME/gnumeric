@@ -90,15 +90,10 @@ struct _ExprArray {
 
 	int   x, y;
 	int   cols, rows;
-	union {
+	struct {
 		/* Upper left corner */
-		struct {
-			Value *value;	/* Last array result */
-			ExprTree *expr;	/* Real Expression */
-		} func;
-
-		/* Others refer to corner cell directly */
-		Cell *cell;
+		Value *value;	/* Last array result */
+		ExprTree *expr;	/* Real Expression */
 	} corner;
 };
 

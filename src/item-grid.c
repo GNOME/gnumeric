@@ -35,7 +35,7 @@
 
 #undef PAINT_DEBUG
 #if 0
-#define MERGE_DEBUG(range, str) do { range_dump (range); fprintf (stderr, str); } while (0)
+#define MERGE_DEBUG(range, str) do { range_dump (range, str); } while (0)
 #else
 #define MERGE_DEBUG(range, str)
 #endif
@@ -211,7 +211,7 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *grid,
 	Sheet *sheet  = grid->scg->sheet;
 	GdkGC  * const gc = grid->empty_gc;
 	Cell const *cell = sheet_cell_get (sheet, range->start.col, range->start.row);
-	MStyle *mstyle = sheet_style_compute (sheet, range->start.col, range->start.row);
+	MStyle *mstyle = sheet_style_get (sheet, range->start.col, range->start.row);
 	gboolean const is_selected = (sheet->edit_pos.col != range->start.col ||
 				      sheet->edit_pos.row != range->start.row) &&
 				     sheet_is_full_range_selected (sheet, range);
@@ -282,8 +282,6 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *grid,
 			   r - l - ci->margin_b - ci->margin_a,
 			   b - t - ri->margin_b - ri->margin_a);
 	}
-
-	mstyle_unref (mstyle);
 }
 
 static MStyle *
@@ -295,7 +293,7 @@ item_grid_draw_background (GdkDrawable *drawable, ItemGrid *item_grid,
 {
 	SheetControlGUI *scg  = item_grid->scg;
 	Sheet  *sheet  = scg->sheet;
-	MStyle *mstyle = sheet_style_compute (sheet, col, row);
+	MStyle *mstyle = sheet_style_get (sheet, col, row);
 	GdkGC  * const gc     = item_grid->empty_gc;
 	int const w    = ci->size_pixels;
 	int const h    = ri->size_pixels;
@@ -331,7 +329,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int draw_x, int dr
 {
 	GnomeCanvas *canvas = item->canvas;
 	GnumericSheet *gsheet = GNUMERIC_SHEET (canvas);
-	Sheet *sheet = gsheet->scg->sheet;
+	Sheet const *sheet = gsheet->scg->sheet;
 	Cell const * const edit_cell = gsheet->scg->wbcg->editing_cell;
 	ItemGrid *item_grid = ITEM_GRID (item);
 	GdkGC *grid_gc = item_grid->grid_gc;
@@ -355,7 +353,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int draw_x, int dr
 	g_return_if_fail (draw_x >= 0);
 	g_return_if_fail (draw_y >= 0);
 
-	/* 1. The default background */
+	/* 1. Fill entire region with default background (even past far edge) */
 	gdk_draw_rectangle (drawable, item_grid->fill_gc, TRUE,
 			    draw_x, draw_y, width, height);
 
@@ -447,6 +445,11 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int draw_x, int dr
 
 		first_row = FALSE;
 
+#if 0
+	sr.row    = row;	sr.start_col = start_col; sr.end_col = end_col;
+	sr.styles = styles;	sr.vertical  = vertical;
+	sr.top    = top;	sr.bottom    = bottom;
+#endif
 		/* DO NOT increment the column here, spanning cols are different */
 		while (x < end_x && col < SHEET_MAX_COLS) {
 			CellSpanInfo const * span;
@@ -496,7 +499,6 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int draw_x, int dr
 					cell_draw (cell, mstyle,
 						   item_grid->gc, drawable,
 						   x, y, -1, -1);
-				mstyle_unref (mstyle);
 
 				/* Increment the column
 				 * DO NOT move this outside the if, spanning
@@ -525,8 +527,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int draw_x, int dr
 						if (col == real_col) {
 							real_style = mstyle;
 							real_x = x;
-						} else
-							mstyle_unref (mstyle);
+						}
 
 						x += ci->size_pixels;
 					}
@@ -536,7 +537,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int draw_x, int dr
 				 * Compute the style, and offset
 				 */
 				if (real_style == NULL) {
-					real_style = sheet_style_compute (sheet, real_col, ri->pos);
+					real_style = sheet_style_get (sheet, real_col, ri->pos);
 					real_x = x + scg_colrow_distance_get (gsheet->scg, TRUE,
 									      col, cell->pos.col);
 				}
@@ -564,7 +565,6 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int draw_x, int dr
 						   item_grid->gc, drawable,
 						   tmp_x, y, tmp_width, -1);
 				}
-				mstyle_unref (real_style);
 			}
 		}
 		y += ri->size_pixels;

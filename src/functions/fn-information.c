@@ -182,10 +182,8 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 		 */
 		return value_new_error (ei->pos, _("Unimplemented"));
 	} else if (!g_strcasecmp (info_type, "format")) {
-		MStyle *mstyle = sheet_style_compute (ei->pos->sheet, ref.col, ref.row);
-		Value *val     = translate_cell_format (mstyle_get_format (mstyle));
-		mstyle_unref (mstyle);
-		return val;
+		MStyle *mstyle = sheet_style_get (ei->pos->sheet, ref.col, ref.row);
+		return translate_cell_format (mstyle_get_format (mstyle));
 	} else if (!g_strcasecmp (info_type, "prefix")) {
 		/* Text value corresponding to the "label prefix" of the cell.
 		 * Returns single quotation mark (') if the cell contains
@@ -595,7 +593,7 @@ gnumeric_isblank (FunctionEvalInfo *ei, GList *expr_node_list)
 	if (expr->any.oper == OPER_ARRAY) {
 		if (expr->array.rows != 1 || expr->array.cols != 1)
 			return value_new_bool (FALSE);
-		expr = expr->array.corner.func.expr;
+		expr = expr->array.corner.expr;
 	}
 
 	if (expr->any.oper == OPER_VAR) {

@@ -350,8 +350,9 @@ clipboard_paste_region (WorkbookControl *wbc,
 				boundary.start.row = top;
 				boundary.end.col   = left + src_cols - 1;
 				boundary.end.row   = top + src_rows - 1;
-				sheet_style_attach_list (pt->sheet, content->styles, &boundary.start,
-							 (pt->paste_flags & PASTE_TRANSPOSE));
+				sheet_style_set_list (pt->sheet, &boundary.start,
+						      (pt->paste_flags & PASTE_TRANSPOSE),
+						      content->styles);
 			}
 
 			for (l = content->list; l; l = l->next) {
@@ -387,8 +388,6 @@ clipboard_paste_region (WorkbookControl *wbc,
 						    &rwinfo, c_copy, pt->paste_flags);
 			}
 		}
-
-	sheet_style_optimize (pt->sheet, pt->range);
 
         if (pt->paste_flags & (PASTE_CONTENT | PASTE_AS_VALUES)) {
 		GList *deps = sheet_region_get_deps (pt->sheet, &pt->range);
@@ -445,12 +444,12 @@ clipboard_copy_range (Sheet *sheet, Range const *r)
 	 * the upper left corner.  We don't depend on whether it is
 	 * row-major or col-major.
 	 */
-	sheet_cell_foreach_range ( sheet, TRUE,
+	sheet_foreach_cell_in_range ( sheet, TRUE,
 		r->start.col, r->start.row,
 		r->end.col, r->end.row,
 		clipboard_prepend_cell, c);
 
-	c->styles = sheet_get_styles_in_range (sheet, r);
+	c->styles = sheet_style_get_list (sheet, r);
 
 	/* reverse the list so that upper left corner is first */
 	c->list = g_list_reverse (c->list);
@@ -509,7 +508,7 @@ clipboard_release (CellRegion *content)
 		g_free (this_cell);
 	}
 	if (content->styles != NULL) {
-		sheet_style_list_destroy (content->styles);
+		style_list_free (content->styles);
 		content->styles = NULL;
 	}
 

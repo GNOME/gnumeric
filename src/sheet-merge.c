@@ -43,7 +43,7 @@ range_row_cmp (Range const *a, Range const *b)
 /**
  * sheet_merge_add :
  *
- * @cc : command context
+ * @wbc : workbook control
  * @sheet : the sheet which will contain the region
  * @src : The region to merge
  *
@@ -51,7 +51,7 @@ range_row_cmp (Range const *a, Range const *b)
  * TRUE if there was an error.  Does not regen spans, redraw or render.
  */
 gboolean
-sheet_merge_add (CommandContext *cc, Sheet *sheet, Range const *range)
+sheet_merge_add (WorkbookControl *wbc, Sheet *sheet, Range const *range)
 {
 	GSList *test;
 	Range  *r_copy;
@@ -60,14 +60,12 @@ sheet_merge_add (CommandContext *cc, Sheet *sheet, Range const *range)
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (range != NULL, TRUE);
 
-	if (sheet_range_splits_array (sheet, range)) {
-		gnumeric_error_splits_array (cc, _("Merge"));
+	if (sheet_range_splits_array (sheet, range, wbc, _("Merge")))
 		return TRUE;
-	}
 
 	test = sheet_merge_get_overlap (sheet, range);
 	if (test != NULL) {
-		gnumeric_error_invalid (cc,
+		gnumeric_error_invalid (COMMAND_CONTEXT (wbc),
 			_("There is already a merged region that intersects"),
 			range_name (range));
 		g_slist_free (test);
@@ -92,15 +90,15 @@ sheet_merge_add (CommandContext *cc, Sheet *sheet, Range const *range)
 /**
  * sheet_merge_remove :
  *
- * @cc    : command context
+ * @wbc   : workbook control
  * @sheet : the sheet which will contain the region
- * @range     : The region
+ * @range : The region
  *
  * Remove a merged range.
  * returns TRUE if there was an error.
  */
 gboolean
-sheet_merge_remove (CommandContext *cc, Sheet *sheet, Range const *range)
+sheet_merge_remove (WorkbookControl *wbc, Sheet *sheet, Range const *range)
 {
 	Range *r_copy;
 	Cell *cell;

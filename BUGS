@@ -5,14 +5,22 @@ and longer term bugs.
 Release Critical
 ----------------
 
+- Styles
+    - get_extent
+    - uniform
+    - test persistance
+    - more tuning
+
 - Merged Cells
     - copy/paste (cut works)
     - fix undo ins/del row/col to restore lost merged regions
     - fill range should not put entries in
     - autofill should not fill in the invisible areas.
 
-- the selection cursor is confused by making selection via the item-bars
 - Fix Borders
+    - border style double_line does not handle all of the different
+      intersection cases.
+    - We are back to drawing just top and left
 
 - > 1. Rename Sheet1 to Sheet1a.
   > 2. Duplicate Sheet1a.
@@ -92,8 +100,6 @@ STF - pasting a single line should not invoke the importer
 
 - The implication of mixed mode references ($B$2:C3)
   is large.  All accesses to a RangeRef need to be normalized. (1/2 done)
-
-- border style double_line does not handle all of the different intersection cases.
 
 - Underline should scale with font size.  (Say, max (1, font->descent/4?)
   gnome-print has a function we could use for printing which returns the

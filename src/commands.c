@@ -624,10 +624,9 @@ cmd_area_set_text_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	g_return_val_if_fail (me != NULL, TRUE);
 
 	/* Check for array subdivision */
-	if (selection_check_for_array (me->pos.sheet, me->selection)) {
-		gnumeric_error_splits_array (COMMAND_CONTEXT (wbc), _("Set Text"));
+	if (selection_check_for_array (me->pos.sheet, me->selection,
+				       wbc, _("Set Text")))
 		return TRUE;
-	}
 
 	/*
 	 * Only enter an array formula if
@@ -1036,10 +1035,9 @@ cmd_clear_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	g_return_val_if_fail (me->old_content == NULL, TRUE);
 
 	/* Check for array subdivision */
-	if (selection_check_for_array (me->sheet, me->selection)) {
-		gnumeric_error_splits_array (COMMAND_CONTEXT (wbc), _("Undo Clear"));
+	if (selection_check_for_array (me->sheet, me->selection,
+				       wbc, _("Undo Clear")))
 		return TRUE;
-	}
 
 	for (l = me->selection ; l != NULL ; l = l->next) {
 		Range const * const r = l->data;
@@ -1121,7 +1119,7 @@ cmd_clear_selection (WorkbookControl *wbc, Sheet *sheet, int clear_flags)
 
 typedef struct {
 	CellPos pos;
-	GList  *styles;
+	StyleList *styles;
 } CmdFormatOldStyle;
 
 typedef struct {
@@ -1152,9 +1150,8 @@ cmd_format_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 		for (; l1; l1 = l1->next, l2 = l2->next) {
 			Range const *r;
 			CmdFormatOldStyle *os = l1->data;
-			SpanCalcFlags flags =
-				sheet_style_attach_list (me->sheet, os->styles,
-							 &os->pos, FALSE);
+			SpanCalcFlags flags = sheet_style_set_list (me->sheet,
+					    &os->pos, FALSE, os->styles);
 
 			g_return_val_if_fail (l2 && l2->data, TRUE);
 
@@ -1178,13 +1175,15 @@ cmd_format_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	g_return_val_if_fail (me != NULL, TRUE);
 
 	for (l = me->selection; l; l = l->next) {
-		if (me->borders)
-			sheet_range_set_border (me->sheet, l->data,
-						me->borders);
+		if (me->borders) {
+			sheet_style_apply_border (me->sheet, l->data,
+						  me->borders);
+			if (me->new_style == NULL)
+				sheet_redraw_range (me->sheet, l->data);
+		}
 		if (me->new_style) {
 			mstyle_ref (me->new_style);
-			sheet_style_apply_range (me->sheet, l->data,
-						 me->new_style);
+			sheet_apply_style (me->sheet, l->data, me->new_style);
 		}
 		sheet_flag_format_update_range (me->sheet, l->data);
 	}
@@ -1216,7 +1215,7 @@ cmd_format_destroy (GtkObject *cmd)
 			CmdFormatOldStyle *os = l->data;
 
 			if (os->styles)
-				sheet_style_list_destroy (os->styles);
+				style_list_free (os->styles);
 
 			g_free (os);
 		}
@@ -1278,7 +1277,7 @@ cmd_format (WorkbookControl *wbc, Sheet *sheet,
 
 		os = g_new (CmdFormatOldStyle, 1);
 
-		os->styles = sheet_get_styles_in_range (sheet, &range);
+		os->styles = sheet_style_get_list (sheet, &range);
 		os->pos = range.start;
 
 		me->parent.size += g_list_length (os->styles);
@@ -2150,16 +2149,25 @@ static gboolean
 cmd_autofill_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
 	GList *deps;
+	GSList *merged;
 	CmdAutofill *me = CMD_AUTOFILL (cmd);
 
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->content == NULL, TRUE);
 
 	/* Check for array subdivision */
-	if (sheet_range_splits_array (me->dst.sheet, &me->dst.range)) {
-		gnumeric_error_splits_array (COMMAND_CONTEXT (wbc), _("Autofill"));
+	if (sheet_range_splits_array (me->dst.sheet, &me->dst.range,
+				      wbc, _("Autofill")))
+		return TRUE;
+
+	merged = sheet_merge_get_overlap (me->dst.sheet, &me->dst.range);
+	if (merged) {
+		g_slist_free (merged);
+		gnumeric_error_invalid (COMMAND_CONTEXT (wbc), _("Autofill"),
+					_("Target region contains merged cells"));
 		return TRUE;
 	}
+
 
 	me->content = clipboard_copy_range (me->dst.sheet, &me->dst.range);
 	sheet_clear_region (wbc, me->dst.sheet,
@@ -2254,7 +2262,7 @@ cmd_autofill (WorkbookControl *wbc, Sheet *sheet,
 
 typedef struct {
 	CellPos pos;
-	GList  *styles;
+	StyleList *styles;
 } CmdAutoFormatOldStyle;
 
 typedef struct {
@@ -2284,9 +2292,8 @@ cmd_autoformat_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 		for (; l1; l1 = l1->next, l2 = l2->next) {
 			Range *r;
 			CmdAutoFormatOldStyle *os = l1->data;
-			SpanCalcFlags flags =
-				sheet_style_attach_list (me->sheet, os->styles,
-							 &os->pos, FALSE);
+			SpanCalcFlags flags = sheet_style_set_list (me->sheet,
+					    &os->pos, FALSE, os->styles);
 
 			g_return_val_if_fail (l2 && l2->data, TRUE);
 
@@ -2324,7 +2331,7 @@ cmd_autoformat_destroy (GtkObject *cmd)
 			CmdAutoFormatOldStyle *os = l->data;
 
 			if (os->styles)
-				sheet_style_list_destroy (os->styles);
+				style_list_free (os->styles);
 
 			g_free (os);
 		}
@@ -2383,7 +2390,7 @@ cmd_autoformat (WorkbookControl *wbc, Sheet *sheet, FormatTemplate *ft)
 
 		os = g_new (CmdFormatOldStyle, 1);
 
-		os->styles = sheet_get_styles_in_range (sheet, &range);
+		os->styles = sheet_style_get_list (sheet, &range);
 		os->pos = range.start;
 
 		me->old_styles = g_slist_append (me->old_styles, os);
@@ -2427,7 +2434,7 @@ cmd_unmerge_cells_undo_internal (GnumericCommand *cmd, WorkbookControl *wbc,
 
 	for (i = 0 ; i < me->unmerged_regions->len ; ++i) {
 		Range const *tmp = &(g_array_index (me->unmerged_regions, Range, i));
-		sheet_merge_add (COMMAND_CONTEXT (wbc), me->sheet, tmp);
+		sheet_merge_add (wbc, me->sheet, tmp);
 		if (re_span)
 			sheet_range_calc_spans (me->sheet, *tmp, SPANCALC_RE_RENDER);
 	}
@@ -2453,8 +2460,7 @@ cmd_unmerge_cells_redo_internal (GnumericCommand *cmd, WorkbookControl *wbc,
 		for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
 			Range tmp = *(Range *)(ptr->data);
 			g_array_append_val (me->unmerged_regions, tmp);
-			sheet_merge_remove (COMMAND_CONTEXT (wbc),
-					    me->sheet, &tmp);
+			sheet_merge_remove (wbc, me->sheet, &tmp);
 			if (re_span)
 				sheet_range_calc_spans (me->sheet, tmp,
 							SPANCALC_RE_RENDER);
@@ -2555,8 +2561,7 @@ cmd_merge_cells_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 	for (i = 0 ; i < me->unmerge.ranges->len ; ++i) {
 		Range const * r = &(g_array_index (me->unmerge.ranges, Range, i));
-		sheet_merge_remove (COMMAND_CONTEXT (wbc),
-				    me->unmerge.sheet, r);
+		sheet_merge_remove (wbc, me->unmerge.sheet, r);
 	}
 	cmd_unmerge_cells_undo_internal (cmd, wbc, FALSE);
 
@@ -2608,8 +2613,7 @@ cmd_merge_cells_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 					    CLEAR_VALUES | CLEAR_FORMATS |
 					    CLEAR_COMMENTS | CLEAR_NOCHECKARRAY);
 
-		sheet_merge_add (COMMAND_CONTEXT (wbc),
-				    me->unmerge.sheet, r);
+		sheet_merge_add (wbc, me->unmerge.sheet, r);
 	}
 
 	me->old_content = g_slist_reverse (me->old_content);

@@ -94,7 +94,7 @@ void        sheet_cell_remove		(Sheet *sheet, Cell *cell, gboolean redraw);
 
 /* Iteration utilities */
 /* See also : workbook_foreach_cell_in_range */
-Value      *sheet_cell_foreach_range	(Sheet *sheet, int only_existing,
+Value      *sheet_foreach_cell_in_range	(Sheet *sheet, gboolean only_existing,
 					 int start_col, int start_row,
 					 int end_col, int end_row,
 					 ForeachCellCB callback,
@@ -177,7 +177,8 @@ int     sheet_col_size_fit_pixels     (Sheet *sheet, int col);
 int     sheet_row_size_fit_pixels     (Sheet *sheet, int row);
 
 Range          sheet_get_extent                 (Sheet const *sheet);
-gboolean       sheet_range_splits_array   (Sheet const *sheet, Range const *r);
+gboolean       sheet_range_splits_array   (Sheet const *sheet, Range const *r,
+					   WorkbookControl *wbc, char const *cmd);
 
 /* Redraw */
 void        sheet_redraw_all              (Sheet const *sheet);
@@ -224,7 +225,7 @@ void sheet_cell_set_expr  (Cell *cell, ExprTree *expr);
 void sheet_cell_set_value (Cell *cell, Value *v, StyleFormat *opt_fmt);
 void sheet_cell_set_text  (Cell *cell, char const *str);
 void sheet_range_set_text (EvalPos const *pos, Range const *r, char const *str);
-
+void sheet_apply_style	  (Sheet  *sheet, Range const *range, MStyle *mstyle);
 void sheet_calc_spans	    (Sheet const *sheet,	SpanCalcFlags flags);
 void sheet_range_calc_spans (Sheet *sheet, Range r,	SpanCalcFlags flags);
 void sheet_cell_calc_span   (Cell const *cell,		SpanCalcFlags flags);

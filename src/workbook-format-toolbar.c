@@ -142,7 +142,7 @@ change_selection_font (WorkbookControlGUI *wbcg,
 	application_clipboard_unant ();
 
 	new_style = mstyle_new ();
-	current_style = sheet_style_compute (sheet,
+	current_style = sheet_style_get (sheet,
 		sheet->edit_pos.col,
 		sheet->edit_pos.row);
 
@@ -167,7 +167,6 @@ change_selection_font (WorkbookControlGUI *wbcg,
 		cmd_format (wbc, sheet, new_style, NULL);
 	else
 		mstyle_unref (new_style);
-	mstyle_unref (current_style);
 }
 
 /**
@@ -318,26 +317,23 @@ typedef char *(*format_modify_fn) (StyleFormat const *format);
 static Value *
 modify_cell_format (Sheet *sheet, int col, int row, Cell *cell, void *closure)
 {
-	MStyle *mstyle = sheet_style_compute (sheet, col, row);
+	MStyle *mstyle = sheet_style_get (sheet, col, row);
 	format_modify_fn modify_format = closure;
 	char *new_fmt;
 
 	new_fmt = (*modify_format) (mstyle_get_format (mstyle));
-	if (new_fmt == NULL) {
-		mstyle_unref (mstyle);
+	if (new_fmt == NULL)
 		return NULL;
-	}
 
 	cell_set_format (cell, new_fmt);
 	g_free (new_fmt);
-	mstyle_unref (mstyle);
 	return NULL;
 }
 
 static void
 cb_modify_cell_region (Sheet *sheet, Range const *r, void *closure)
 {
-	sheet_cell_foreach_range (
+	sheet_foreach_cell_in_range (
 		sheet, TRUE,
 		r->start.col, r->start.row, r->end.col, r->end.row,
 		modify_cell_format, closure);

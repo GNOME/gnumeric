@@ -69,18 +69,6 @@ sheet_redraw_headers (Sheet const *sheet,
 		sheet_view_redraw_headers (control, col, row, r););
 }
 
-static guint
-cellpos_hash (CellPos const *key)
-{
-	return (key->row << 8) | key->col;
-}
-
-static gint
-cellpos_cmp (CellPos const * a, CellPos const * b)
-{
-	return (a->row == b->row && a->col == b->col);
-}
-
 void
 sheet_rename (Sheet *sheet, const char *new_name)
 {
@@ -120,14 +108,6 @@ sheet_detach_sheet_view (SheetControlGUI *sheet_view)
 	sheet_view->sheet = NULL;
 }
 
-static void
-sheet_init_default_styles (Sheet *sheet)
-{
-	/* measurements are in pts including the margins and far grid line.  */
-	sheet_col_set_default_size_pts (sheet, 48);
-	sheet_row_set_default_size_pts (sheet, 12.75);
-}
-
 /*
  * sheet_new
  * @wb              Workbook
@@ -137,8 +117,6 @@ Sheet *
 sheet_new (Workbook *wb, const char *name)
 {
 	Sheet  *sheet;
-	MStyle *mstyle;
-	Range	full;
 
 	g_return_val_if_fail (wb != NULL, NULL);
 	g_return_val_if_fail (name != NULL, NULL);
@@ -166,7 +144,7 @@ sheet_new (Workbook *wb, const char *name)
 	sheet->workbook = wb;
 	sheet->name_unquoted = g_strdup (name);
 	sheet->name_quoted = sheet_name_quote (name);
-	sheet_create_styles (sheet);
+	sheet_style_init (sheet);
 
 	sheet->sheet_objects = NULL;
 
@@ -194,10 +172,8 @@ sheet_new (Workbook *wb, const char *name)
 	sheet->cell_hash = g_hash_table_new ((GHashFunc)&cellpos_hash,
 					     (GCompareFunc)&cellpos_cmp);
 
-	mstyle = mstyle_new_default ();
-	sheet_style_attach (sheet, range_init_full_sheet (&full), mstyle);
-
-	sheet_init_default_styles (sheet);
+	sheet_col_set_default_size_pts (sheet, 48);
+	sheet_row_set_default_size_pts (sheet, 12.75);
 
 	sheet_selection_add (sheet, 0, 0);
 
@@ -299,7 +275,7 @@ sheet_range_calc_spans (Sheet *sheet, Range r, SpanCalcFlags flags)
 				  r.start.col, r.start.row,
 				  r.end.col, r.end.row);
 
-	sheet_cell_foreach_range (sheet, TRUE,
+	sheet_foreach_cell_in_range (sheet, TRUE,
 				  r.start.col, r.start.row,
 				  r.end.col, r.end.row,
 				  cb_recalc_span1,
@@ -385,23 +361,24 @@ sheet_cell_calc_span (Cell const *cell, SpanCalcFlags flags)
 }
 
 /**
- * sheet_style_apply_range :
+ * sheet_apply_style :
  * @sheet: the sheet in which can be found
  * @range: the range to which should be applied
  * @style: the style
  *
- *   This routine attaches @style to the range, it swallows
- * the style reference.  Respans and redraws as necessary.
+ * A mid level routine that applies the supplied partial style @style to the
+ * target @range and performs the necessary respanning and redrawing.
+ *
+ * It absorbs the style reference.
  */
 void
-sheet_style_apply_range (Sheet       *sheet,
-			 const Range *range,
-			 MStyle      *style)
+sheet_apply_style (Sheet       *sheet,
+		   Range const *range,
+		   MStyle      *style)
 {
 	SpanCalcFlags const spanflags = required_updates_for_style (style);
 
-	sheet_style_attach   (sheet, range, style);
-	sheet_style_optimize (sheet, *range);
+	sheet_style_apply_range (sheet, range, style);
 	sheet_range_calc_spans (sheet, *range, spanflags);
 
 	if (spanflags != SPANCALC_SIMPLE)
@@ -559,38 +536,20 @@ sheet_row_add (Sheet *sheet, ColRowInfo *rp)
 ColRowInfo *
 sheet_col_get_info (Sheet const *sheet, int const col)
 {
-	ColRowInfo    *ci = NULL;
-	ColRowSegment *segment;
+	ColRowInfo *ci = sheet_col_get (sheet, col);
 
-	g_return_val_if_fail (col >= 0, NULL);
-	g_return_val_if_fail (col < SHEET_MAX_COLS, NULL);
-
-	segment = COLROW_GET_SEGMENT (&(sheet->cols), col);
-	if (segment != NULL) {
-		ci = segment->info[COLROW_SUB_INDEX (col)];
-		if (ci != NULL)
-			return ci;
-	}
-
+	if (ci != NULL)
+		return ci;
 	return (ColRowInfo *) &sheet->cols.default_style;
 }
 
 ColRowInfo *
 sheet_row_get_info (Sheet const *sheet, int const row)
 {
-	ColRowInfo    *ri = NULL;
-	ColRowSegment *segment;
+	ColRowInfo *ri = sheet_row_get (sheet, row);
 
-	g_return_val_if_fail (row >= 0, NULL);
-	g_return_val_if_fail (row < SHEET_MAX_ROWS, NULL);
-
-	segment = COLROW_GET_SEGMENT (&(sheet->rows), row);
-	if (segment != NULL) {
-		ri = segment->info[COLROW_SUB_INDEX (row)];
-		if (ri != NULL)
-			return ri;
-	}
-
+	if (ri != NULL)
+		return ri;
 	return (ColRowInfo *) &sheet->rows.default_style;
 }
 
@@ -991,7 +950,7 @@ sheet_get_extent (Sheet const *sheet)
 }
 
 /*
- * Callback for sheet_cell_foreach_range to find the maximum width
+ * Callback for sheet_foreach_cell_in_range to find the maximum width
  * in a range.
  */
 static Value *
@@ -1031,7 +990,7 @@ sheet_col_size_fit_pixels (Sheet *sheet, int col)
 	if (ci == NULL)
 		return 0;
 
-	sheet_cell_foreach_range (sheet, TRUE,
+	sheet_foreach_cell_in_range (sheet, TRUE,
 				  col, 0,
 				  col, SHEET_MAX_ROWS-1,
 				  (ForeachCellCB)&cb_max_cell_width, &max);
@@ -1046,7 +1005,7 @@ sheet_col_size_fit_pixels (Sheet *sheet, int col)
 }
 
 /*
- * Callback for sheet_cell_foreach_range to find the maximum height
+ * Callback for sheet_foreach_cell_in_range to find the maximum height
  * in a range.
  */
 static Value *
@@ -1080,7 +1039,7 @@ sheet_row_size_fit_pixels (Sheet *sheet, int row)
 	if (ri == NULL)
 		return 0;
 
-	sheet_cell_foreach_range (sheet, TRUE,
+	sheet_foreach_cell_in_range (sheet, TRUE,
 				  0, row,
 				  SHEET_MAX_COLS-1, row,
 				  (ForeachCellCB)&cb_max_cell_height, &max);
@@ -1164,7 +1123,7 @@ sheet_recompute_spans_for_col (Sheet *sheet, int col)
 /****************************************************************************/
 
 /*
- * Callback for sheet_cell_foreach_range to assign some text
+ * Callback for sheet_foreach_cell_in_range to assign some text
  * to a range.
  */
 typedef struct {
@@ -1212,7 +1171,7 @@ sheet_range_set_text (EvalPos const *pos, Range const *r, char const *str)
 		NULL /* TODO : Use edit_pos format ?? */);
 
 	/* Store the parsed result creating any cells necessary */
-	sheet_cell_foreach_range (pos->sheet, FALSE,
+	sheet_foreach_cell_in_range (pos->sheet, FALSE,
 				  r->start.col, r->start.row,
 				  r->end.col, r->end.row,
 				  (ForeachCellCB)&cb_set_cell_content,
@@ -1245,7 +1204,6 @@ sheet_cell_set_text (Cell *cell, char const *text)
 
 	mstyle = cell_get_mstyle (cell);
 	cformat = mstyle_get_format (mstyle);
-	mstyle_unref (mstyle);
 	format = parse_text_value_or_expr (eval_pos_init_cell (&pos, cell),
 					   text, &val, &expr, cformat);
 
@@ -1707,7 +1665,8 @@ cb_check_array_vertical (ColRowInfo *row, void *user)
  * returns TRUE is an array would be split.
  */
 gboolean
-sheet_range_splits_array (Sheet const *sheet, Range const *r)
+sheet_range_splits_array (Sheet const *sheet, Range const *r,
+			  WorkbookControl *wbc, char const *cmd)
 {
 	ArrayCheckData closure;
 
@@ -1827,7 +1786,7 @@ sheet_row_fetch (Sheet *sheet, int pos)
 #define SWAP_INT(a,b) do { int t; t = a; a = b; b = t; } while (0)
 
 /**
- * sheet_cell_foreach_range:
+ * sheet_foreach_cell_in_range:
  *
  * For each existing cell in the range specified, invoke the
  * callback routine.  If the only_existing flag is passed, then
@@ -1848,11 +1807,10 @@ sheet_row_fetch (Sheet *sheet, int pos)
  * comment near the call.
  */
 Value *
-sheet_cell_foreach_range (Sheet *sheet, gboolean only_existing,
-			  int start_col, int start_row,
-			  int end_col, int end_row,
-			  ForeachCellCB callback,
-			  void *closure)
+sheet_foreach_cell_in_range (Sheet *sheet, gboolean only_existing,
+			     int start_col, int start_row,
+			     int end_col,   int end_row,
+			     ForeachCellCB callback, void *closure)
 {
 	int i, j;
 	Value *cont;
@@ -1897,7 +1855,7 @@ sheet_cell_foreach_range (Sheet *sheet, gboolean only_existing,
 		}
 
 		for (j = start_col; j <= end_col; ++j) {
-			ColRowInfo *ri = sheet_col_get (sheet, j);
+			ColRowInfo const *ri = sheet_col_get (sheet, j);
 			Cell *cell = NULL;
 
 			if (ri != NULL)
@@ -1950,7 +1908,7 @@ sheet_is_region_empty_or_selected (Sheet *sheet, Range const *r)
 {
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 
-	return sheet_cell_foreach_range (
+	return sheet_foreach_cell_in_range (
 		sheet, TRUE, r->start.col, r->start.row, r->end.col, r->end.row,
 		fail_if_not_selected, NULL) == NULL;
 
@@ -1978,7 +1936,7 @@ sheet_is_region_empty (Sheet *sheet, Range const *r)
 {
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 
-	return sheet_cell_foreach_range (
+	return sheet_foreach_cell_in_range (
 		sheet, TRUE, r->start.col, r->start.row, r->end.col, r->end.row,
 		fail_if_exist, NULL) == NULL;
 }
@@ -2107,7 +2065,7 @@ sheet_cell_remove (Sheet *sheet, Cell *cell, gboolean redraw)
 }
 
 /*
- * Callback for sheet_cell_foreach_range to remove a set of cells.
+ * Callback for sheet_foreach_cell_in_range to remove a set of cells.
  */
 static Value *
 cb_free_cell (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
@@ -2136,7 +2094,7 @@ sheet_col_destroy (Sheet *sheet, int const col, gboolean free_cells)
 		return;
 
 	if (free_cells)
-		sheet_cell_foreach_range (sheet, TRUE,
+		sheet_foreach_cell_in_range (sheet, TRUE,
 					  col, 0,
 					  col, SHEET_MAX_ROWS-1,
 					  &cb_free_cell, NULL);
@@ -2169,7 +2127,7 @@ sheet_row_destroy (Sheet *sheet, int const row, gboolean free_cells)
 		return;
 
 	if (free_cells)
-		sheet_cell_foreach_range (sheet, TRUE,
+		sheet_foreach_cell_in_range (sheet, TRUE,
 					  0, row,
 					  SHEET_MAX_COLS-1, row,
 					  &cb_free_cell, NULL);
@@ -2327,7 +2285,7 @@ sheet_destroy (Sheet *sheet)
 	if (sheet == application_clipboard_sheet_get ())
 		application_clipboard_clear (TRUE);
 
-	sheet_destroy_styles (sheet);
+	sheet_style_shutdown (sheet);
 
 	g_hash_table_destroy (sheet->cell_hash);
 
@@ -2340,7 +2298,7 @@ sheet_destroy (Sheet *sheet)
 /*****************************************************************************/
 
 /*
- * cb_empty_cell: A callback for sheet_cell_foreach_range
+ * cb_empty_cell: A callback for sheet_foreach_cell_in_range
  *     removes/clear all of the cells in the specified region.
  *     Does NOT queue a redraw.
  *
@@ -2445,7 +2403,7 @@ sheet_regen_adjacent_spans (Sheet *sheet,
  * @clear_flags : If this is TRUE then styles are erased.
  *
  * We assemble a list of cells to destroy, since we will be making changes
- * to the structure being manipulated by the sheet_cell_foreach_range routine
+ * to the structure being manipulated by the sheet_foreach_cell_in_range routine
  */
 void
 sheet_clear_region (WorkbookControl *wbc, Sheet *sheet,
@@ -2466,11 +2424,8 @@ sheet_clear_region (WorkbookControl *wbc, Sheet *sheet,
 	r.end.row = end_row;
 
 	if (clear_flags & CLEAR_VALUES && !(clear_flags & CLEAR_NOCHECKARRAY) &&
-	    sheet_range_splits_array (sheet, &r)) {
-		gnumeric_error_splits_array (COMMAND_CONTEXT (wbc),
-					     _("Clear"));
+	    sheet_range_splits_array (sheet, &r, wbc, _("Clear")))
 		return;
-	}
 
 	/* Queue a redraw for cells being modified */
 	if (clear_flags & (CLEAR_VALUES|CLEAR_FORMATS))
@@ -2480,7 +2435,7 @@ sheet_clear_region (WorkbookControl *wbc, Sheet *sheet,
 
 	/* Clear the style in the region (new_default will ref the style for us). */
 	if (clear_flags & CLEAR_FORMATS) {
-		sheet_style_attach (sheet, &r, mstyle_new_default ());
+		sheet_style_set_range (sheet, &r, sheet_style_default (sheet));
 		sheet_range_calc_spans (sheet, r, SPANCALC_RE_RENDER|SPANCALC_RESIZE);
 		rows_height_update (sheet, &r);
 	}
@@ -2501,7 +2456,7 @@ sheet_clear_region (WorkbookControl *wbc, Sheet *sheet,
 		/* Remove or empty the cells depending on
 		 * whether or not there are comments
 		 */
-		sheet_cell_foreach_range (sheet, TRUE,
+		sheet_foreach_cell_in_range (sheet, TRUE,
 					  start_col, start_row, end_col, end_row,
 					  &cb_empty_cell,
 					  GINT_TO_POINTER (!(clear_flags & CLEAR_COMMENTS)));
@@ -2754,7 +2709,7 @@ sheet_lookup_by_name (Workbook *wb, const char *name)
 /****************************************************************************/
 
 /*
- * Callback for sheet_cell_foreach_range to remove a cell and
+ * Callback for sheet_foreach_cell_in_range to remove a cell and
  * put it in a temporary list.
  */
 static Value *
@@ -2769,7 +2724,7 @@ cb_collect_cell (Sheet *sheet, int col, int row, Cell *cell,
 }
 
 /*
- * Callback for sheet_cell_foreach_range to test whether a cell is in an
+ * Callback for sheet_foreach_cell_in_range to test whether a cell is in an
  * array-formula to the right of the leftmost column.
  */
 static Value *
@@ -2782,7 +2737,7 @@ avoid_dividing_array_horizontal (Sheet *sheet, int col, int row, Cell *cell,
 }
 
 /*
- * Callback for sheet_cell_foreach_range to test whether a cell is in an
+ * Callback for sheet_foreach_cell_in_range to test whether a cell is in an
  * array-formula below the top line.
  */
 static Value *
@@ -2821,7 +2776,7 @@ colrow_move (Sheet *sheet,
 		return;
 
 	/* Collect the cells */
-	sheet_cell_foreach_range (sheet, TRUE,
+	sheet_foreach_cell_in_range (sheet, TRUE,
 				  start_col, start_row,
 				  end_col, end_row,
 				  &cb_collect_cell, &cells);
@@ -2878,7 +2833,7 @@ sheet_insert_cols (WorkbookControl *wbc, Sheet *sheet,
 
 	/* 0. Walk cells in displaced col and ensure arrays aren't divided. */
 	if (col > 0)	/* No need to test leftmost column */
-		if (sheet_cell_foreach_range (sheet, TRUE, col, 0,
+		if (sheet_foreach_cell_in_range (sheet, TRUE, col, 0,
 					      col, SHEET_MAX_ROWS-1,
 					      &avoid_dividing_array_horizontal,
 					      NULL) != NULL){
@@ -2888,7 +2843,7 @@ sheet_insert_cols (WorkbookControl *wbc, Sheet *sheet,
 		}
 
 	/* Walk the right edge to make sure nothing is split due to over run.  */
-	if (sheet_cell_foreach_range (sheet, TRUE, SHEET_MAX_COLS-count, 0,
+	if (sheet_foreach_cell_in_range (sheet, TRUE, SHEET_MAX_COLS-count, 0,
 				      SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1,
 				      &avoid_dividing_array_horizontal,
 				      NULL) != NULL){
@@ -2919,7 +2874,7 @@ sheet_insert_cols (WorkbookControl *wbc, Sheet *sheet,
 	/* 4. Slide the StyleRegions and Merged regions to the right */
 	sheet_merge_relocate (&reloc_info);
 	sheet_relocate_objects (&reloc_info);
-	sheet_style_insert_colrow (sheet, col, count, TRUE);
+	sheet_style_insert_colrow (&reloc_info);
 
 	/* 5. Recompute dependencies */
 	sheet_recalc_dependencies (sheet);
@@ -2961,11 +2916,9 @@ sheet_delete_cols (WorkbookControl *wbc, Sheet *sheet,
 	reloc_info.row_offset = SHEET_MAX_ROWS; /*   to force invalidation */
 
 	/* 0. Walk cells in deleted cols and ensure arrays aren't divided. */
-	if (sheet_range_splits_array (sheet, &reloc_info.origin)) {
-		gnumeric_error_splits_array (COMMAND_CONTEXT (wbc),
-					     _("Delete Columns"));
+	if (sheet_range_splits_array (sheet, &reloc_info.origin,
+				      wbc, _("Delete Columns")))
 		return TRUE;
-	}
 
 	/* 1. Delete all columns (and their cells) that will fall off the end */
 	for (i = col + count ; --i >= col; )
@@ -2991,7 +2944,7 @@ sheet_delete_cols (WorkbookControl *wbc, Sheet *sheet,
 	/* 5. Slide the StyleRegions and Merge regions left */
 	sheet_merge_relocate (&reloc_info);
 	sheet_relocate_objects (&reloc_info);
-	sheet_style_delete_colrow (sheet, col, count, TRUE);
+	sheet_style_relocate (&reloc_info);
 
 	/* 6. Recompute dependencies */
 	sheet_recalc_dependencies (sheet);
@@ -3026,7 +2979,7 @@ sheet_insert_rows (WorkbookControl *wbc, Sheet *sheet,
 
 	/* 0. Walk cells in displaced row and ensure arrays aren't divided. */
 	if (row > 0)	/* No need to test leftmost column */
-		if (sheet_cell_foreach_range (sheet, TRUE,
+		if (sheet_foreach_cell_in_range (sheet, TRUE,
 					      0, row,
 					      SHEET_MAX_COLS-1, row,
 					      &avoid_dividing_array_vertical,
@@ -3037,7 +2990,7 @@ sheet_insert_rows (WorkbookControl *wbc, Sheet *sheet,
 		}
 
 	/* Walk the lower edge to make sure nothing is split due to over run.  */
-	if (sheet_cell_foreach_range (sheet, TRUE, 0, SHEET_MAX_ROWS-count,
+	if (sheet_foreach_cell_in_range (sheet, TRUE, 0, SHEET_MAX_ROWS-count,
 				      SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1,
 				      &avoid_dividing_array_vertical,
 				      NULL) != NULL){
@@ -3068,7 +3021,7 @@ sheet_insert_rows (WorkbookControl *wbc, Sheet *sheet,
 	/* 4. Slide the StyleRegions and Merge regions down */
 	sheet_merge_relocate (&reloc_info);
 	sheet_relocate_objects (&reloc_info);
-	sheet_style_insert_colrow (sheet, row, count, FALSE);
+	sheet_style_insert_colrow (&reloc_info);
 
 	/* 5. Recompute dependencies */
 	sheet_recalc_dependencies (sheet);
@@ -3110,11 +3063,9 @@ sheet_delete_rows (WorkbookControl *wbc, Sheet *sheet,
 	reloc_info.row_offset = SHEET_MAX_ROWS; /*   to force invalidation */
 
 	/* 0. Walk cells in deleted rows and ensure arrays aren't divided. */
-	if (sheet_range_splits_array (sheet, &reloc_info.origin)) {
-		gnumeric_error_splits_array (COMMAND_CONTEXT (wbc),
-					     _("Delete Rows"));
+	if (sheet_range_splits_array (sheet, &reloc_info.origin,
+				      wbc, _("Delete Rows")))
 		return TRUE;
-	}
 
 	/* 1. Delete all cols (and their cells) that will fall off the end */
 	for (i = row + count ; --i >= row; )
@@ -3140,7 +3091,7 @@ sheet_delete_rows (WorkbookControl *wbc, Sheet *sheet,
 	/* 5. Slide the StyleRegions and Merge regions up */
 	sheet_merge_relocate (&reloc_info);
 	sheet_relocate_objects (&reloc_info);
-	sheet_style_delete_colrow (sheet, row, count, FALSE);
+	sheet_style_relocate (&reloc_info);
 
 	/* 6. Recompute dependencies */
 	sheet_recalc_dependencies (sheet);
@@ -3228,7 +3179,7 @@ sheet_move_range (WorkbookControl *wbc,
 		workbook_expr_relocate (rinfo->origin_sheet->workbook, rinfo));
 
 	/* 3. Collect the cells */
-	sheet_cell_foreach_range (rinfo->origin_sheet, TRUE,
+	sheet_foreach_cell_in_range (rinfo->origin_sheet, TRUE,
 				  rinfo->origin.start.col,
 				  rinfo->origin.start.row,
 				  rinfo->origin.end.col,
@@ -3708,6 +3659,8 @@ sheet_clone_colrow_info (Sheet const *src, Sheet *dst)
 static void
 sheet_clone_styles (Sheet const *src, Sheet *dst)
 {
+#warning rewrite
+#if 0
 	GList *style_regions, *ptr;
 
 	style_regions = sheet_get_style_list (src);
@@ -3722,6 +3675,7 @@ sheet_clone_styles (Sheet const *src, Sheet *dst)
 	}
 
 	g_list_free (style_regions);
+#endif
 }
 
 static void
@@ -3815,7 +3769,7 @@ cb_sheet_cell_copy (gpointer unused, gpointer key, gpointer new_sheet_param)
 		ExprArray const* array = cell_is_array (cell);
 		if (array != NULL) {
 			if (array->x == 0 && array->y == 0) {
-				ExprTree *expr = array->corner.func.expr;
+				ExprTree *expr = array->corner.expr;
 				expr_tree_ref (expr);
 				cell_set_array_formula (dst,
 							cell->pos.row, cell->pos.col,

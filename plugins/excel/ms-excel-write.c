@@ -1409,6 +1409,7 @@ xf_free (ExcelWorkbook *wb)
 			}
 			two_way_table_free (wb->xf->two_way_table);
 		}
+		mstyle_unref (wb->xf->default_style);
 		g_free (wb->xf);
 		wb->xf = NULL;
 	}
@@ -1416,7 +1417,7 @@ xf_free (ExcelWorkbook *wb)
 
 /**
  * Callback called when putting MStyle to table. Print to debug log when
- * style is added. Free resources when it was already there.
+ * style is added. Add a reference when putting a style into the table.
  **/
 static void
 after_put_mstyle (MStyle *st, gboolean was_added, gint index, gpointer dummy)
@@ -1428,8 +1429,7 @@ after_put_mstyle (MStyle *st, gboolean was_added, gint index, gpointer dummy)
 			mstyle_dump (st);
 		}
 #endif
-	} else {
-		mstyle_unref (st);
+		mstyle_ref (st);
 	}
 }
 
@@ -1501,7 +1501,7 @@ pre_blank (ExcelSheet *sheet, int col, int row)
 {
 	ExcelCell *c = excel_cell_get (sheet, col, row);
 
-	MStyle *st = sheet_style_compute (sheet->gnum_sheet,
+	MStyle *st = sheet_style_get (sheet->gnum_sheet,
 				      col, row);
 
 #ifndef NO_DEBUG_EXCEL
@@ -1906,9 +1906,7 @@ build_xf_data (ExcelWorkbook *wb, BiffXFData *xfd, MStyle *st)
 	memset (xfd, 0, sizeof *xfd);
 
 	xfd->parentstyle  = XF_MAGIC;
-	xfd->mstyle[0]    = st;
-	xfd->mstyle[1]    = NULL;
-	xfd->mstyle[2]    = NULL;
+	xfd->mstyle       = st;
 	f = excel_font_new (st);
 	xfd->font_idx     = fonts_get_index (wb, f);
 	excel_font_free (f);
@@ -3395,6 +3393,8 @@ pre_pass (IOContext *context, ExcelWorkbook *wb)
 
 	/* The default style first */
 	put_mstyle (wb, wb->xf->default_style);
+	mstyle_unref (wb->xf->default_style); /* remove extra ref to style */
+
 	/* Its font and format */
 	put_font (wb->xf->default_style, NULL, wb);
 	put_format (wb->xf->default_style, NULL, wb);

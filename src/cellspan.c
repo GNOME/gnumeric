@@ -232,10 +232,8 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 	    mstyle_get_fit_in_cell (mstyle) ||
 	    mstyle_get_align_v (mstyle) == VALIGN_JUSTIFY) {
 		*col1 = *col2 = cell->pos.col;
-		mstyle_unref (mstyle);
 		return;
 	}
-	mstyle_unref (mstyle);
 
 	cell_width_pixel = cell_rendered_width (cell);
 
@@ -364,10 +362,9 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 				if (ci->visible) {
 					if (cell_is_empty (cell, tmp, ri)) {
 						MStyle * const mstyle =
-						    sheet_style_compute (cell->base.sheet, tmp, row);
+						    sheet_style_get (cell->base.sheet, tmp, row);
 						gboolean const res =
 						    (mstyle_get_align_h (mstyle) == HALIGN_CENTER_ACROSS_SELECTION);
-						mstyle_unref (mstyle);
 
 						if (res) {
 							left = tmp;
@@ -386,10 +383,9 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 				if (ci->visible) {
 					if (cell_is_empty (cell, tmp, ri)) {
 						MStyle * const mstyle =
-						    sheet_style_compute (cell->base.sheet, tmp, row);
+						    sheet_style_get (cell->base.sheet, tmp, row);
 						gboolean const res =
 						    (mstyle_get_align_h (mstyle) == HALIGN_CENTER_ACROSS_SELECTION);
-						mstyle_unref (mstyle);
 
 						if (res) {
 							right = tmp;

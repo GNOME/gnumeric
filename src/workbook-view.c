@@ -170,10 +170,11 @@ wb_view_format_feedback (WorkbookView *wbv, gboolean display)
 
 	sheet = wbv->current_sheet;
 	if (sheet != NULL) {
-		MStyle *mstyle = sheet_style_compute (sheet,
+		MStyle *mstyle = sheet_style_get (sheet,
 			sheet->edit_pos.col,
 			sheet->edit_pos.row);
 
+		mstyle_ref (mstyle);
 		if (wbv->current_format != NULL) {
 			mstyle_unref (wbv->current_format);
 			/* Cheap anti-flicker.

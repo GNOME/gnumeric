@@ -1331,7 +1331,7 @@ gnumeric_sheet_find_col (GnumericSheet *gsheet, int x, int *col_origin)
 			}
 		}
 		if (col_origin)
-			*col_origin = 1; /* there is a 1 pixel edge at the left */
+			*col_origin = 0;
 		return 0;
 	}
 
@@ -1375,7 +1375,7 @@ gnumeric_sheet_find_row (GnumericSheet *gsheet, int y, int *row_origin)
 			}
 		}
 		if (row_origin)
-			*row_origin = 1; /* there is a 1 pixel edge on top */
+			*row_origin = 0;
 		return 0;
 	}
 
@@ -1395,4 +1395,3 @@ gnumeric_sheet_find_row (GnumericSheet *gsheet, int y, int *row_origin)
 		*row_origin = pixel;
 	return SHEET_MAX_ROWS-1;
 }
-

@@ -1,3 +1,22 @@
+2001-01-08  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_sheet_obj_create) : remove stale debugging.
+
+2001-01-08  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-write.c (put_mstyle) : add a ref when the style is put in
+	  the table.
+	(xf_free) : release the default style.
+
+2000-12-31  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_set_xf) : remove cruft with triple styles.
+	(biff_xf_data_new) : Ditto.
+	(ms_excel_set_xf_segment) : Ditto.
+	(biff_xf_data_destroy) : Ditto.
+
+	* ms-excel-write.c (build_xf_data) : remove cruft with triple styles.
+
 2001-01-01  Jon K Hellan  <hellan@acm.org>
 
 	* ms-excel-write.c (write_window1): Take WorkbookView

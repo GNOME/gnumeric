@@ -54,8 +54,7 @@ thrash_scroll (Sheet *sheet)
 			for (k = 0; k < SCREEN_WIDTH; k++) {
 				MStyle *mstyle;
 
-				mstyle = sheet_style_compute (sheet, k, i + j);
-				mstyle_unref (mstyle);
+				mstyle = sheet_style_get (sheet, k, i + j);
 			}
 		}
 	}

@@ -3,9 +3,9 @@
 
 #include "gnumeric.h"
 
-gboolean     sheet_merge_add		(CommandContext *cc,
+gboolean     sheet_merge_add		(WorkbookControl *cc,
 					 Sheet *sheet, Range const *r);
-gboolean     sheet_merge_remove		(CommandContext *cc,
+gboolean     sheet_merge_remove		(WorkbookControl *cc,
 					 Sheet *sheet, Range const *r);
 GSList      *sheet_merge_get_overlap	(Sheet const *sheet, Range const *r);
 Range const *sheet_merge_contains_pos	(Sheet const *sheet, CellPos const *pos);

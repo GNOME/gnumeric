@@ -120,7 +120,7 @@ selection_is_simple (WorkbookControl *wbc, Sheet const *sheet,
 	}
 
 	if (!allow_arrays) {
-		if (sheet_cell_foreach_range ((Sheet *)sheet, TRUE,
+		if (sheet_foreach_cell_in_range ((Sheet *)sheet, TRUE,
 					      r->start.col, r->start.row,
 					      r->end.col, r->end.row,
 					      cb_cell_is_array, NULL)) {
@@ -145,18 +145,30 @@ selection_is_simple (WorkbookControl *wbc, Sheet const *sheet,
 void
 sheet_selection_extend_to (Sheet *sheet, int col, int row)
 {
+	int base_col, base_row;
+
 	g_return_if_fail (IS_SHEET (sheet));
 
+	if (col < 0) {
+		base_col = 0;
+		col = SHEET_MAX_COLS - 1;
+	} else
+		base_col = sheet->cursor.base_corner.col;
+	if (row < 0) {
+		base_row = 0;
+		row = SHEET_MAX_ROWS - 1;
+	} else
+		base_row = sheet->cursor.base_corner.row;
+
 	/* If nothing was going to change dont redraw */
-	if (sheet->cursor.move_corner.col == col && sheet->cursor.move_corner.row == row)
+	if (sheet->cursor.move_corner.col == col &&
+	    sheet->cursor.move_corner.row == row &&
+	    sheet->cursor.base_corner.col == base_col &&
+	    sheet->cursor.base_corner.row == base_row)
 		return;
 
-	sheet_selection_set (sheet,
-			     sheet->edit_pos.col,
-			     sheet->edit_pos.row,
-			     sheet->cursor.base_corner.col,
-			     sheet->cursor.base_corner.row,
-			     col, row);
+	sheet_selection_set (sheet, sheet->edit_pos.col, sheet->edit_pos.row,
+			     base_col, base_row, col, row); 
 
 	/*
 	 * FIXME : Does this belong here ?
@@ -668,10 +680,8 @@ sheet_selection_cut (WorkbookControl *wbc, Sheet *sheet)
 		return FALSE;
 
 	ss = sheet->selections->data;
-	if (sheet_range_splits_array (sheet, ss)) {
-		gnumeric_error_splits_array (COMMAND_CONTEXT (wbc), ("cut"));
+	if (sheet_range_splits_array (sheet, ss, wbc, ("cut")))
 		return FALSE;
-	}
 
 	application_clipboard_cut (wbc, sheet, ss);
 
@@ -731,10 +741,8 @@ selection_get_ranges (Sheet const *sheet, gboolean const allow_intersection)
 
 #ifdef DEBUG_SELECTION
 			fprintf (stderr, "a = ");
-			range_dump (a);
-			fprintf (stderr, "; b = ");
-			range_dump (b);
-			fprintf (stderr, "\n");
+			range_dump (a, "; b = ");
+			range_dump (b, "\n");
 #endif
 
 			col_intersect =
@@ -971,18 +979,21 @@ selection_get_ranges (Sheet const *sheet, gboolean const allow_intersection)
  * selection_check_for_array:
  * @sheet: the sheet.
  * @selection : A list of ranges to check.
+ * @wbc : The context that issued the command
+ * @cmd : The translated command name.
  *
- * Checks to see if any of the ranges are partial arrays.
+ * A utility to check whether the selection contains any partial arrays.
  */
 gboolean
-selection_check_for_array (Sheet const * sheet, GSList const *selection)
+selection_check_for_array (Sheet const * sheet, GSList const *selection,
+			   WorkbookControl *wbc, char const *cmd)
 {
 	GSList const *l;
 
 	/* Check for array subdivision */
 	for (l = selection; l != NULL; l = l->next) {
 		Range const *r = l->data;
-		if (sheet_range_splits_array (sheet, r))
+		if (sheet_range_splits_array (sheet, r, wbc, cmd))
 			return TRUE;
 	}
 	return FALSE;
@@ -1023,8 +1034,7 @@ selection_apply (Sheet *sheet, SelectionApplyFunc const func,
 			proposed = g_slist_remove (proposed, r);
 
 #ifdef DEBUG_SELECTION
-			range_dump (r);
-			fprintf (stderr, "\n");
+			range_dump (r, "\n");
 #endif
 
 			(*func) (sheet, r, closure);

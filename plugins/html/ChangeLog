@@ -1,3 +1,8 @@
+2001-01-08  Jody Goldberg <jgoldberg@home.com>
+
+	* html.c (html_write_wb_html32) : Don't leak style references.
+	(html_write_wb_html40) : ditto.
+
 2000-12-17 Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.61

@@ -273,7 +273,7 @@ fill_item_new (Sheet *sheet, int col, int row)
 
 	fi = g_new (FillItem, 1);
 	fi->type = FILL_EMPTY;
-	fi->style = sheet_style_compute (sheet, col, row);
+	mstyle_ref ((fi->style = sheet_style_get (sheet, col, row)));
 	merged = sheet_merge_is_corner (sheet, &pos);
 	if ((fi->is_merged = (merged != NULL))) {
 		fi->merged_size.col = merged->end.col - col;
@@ -737,7 +737,7 @@ sheet_autofill_dir (Sheet *sheet,
 		fi = m->data;
 
 		mstyle_ref (fi->style);
-		sheet_style_attach_single (sheet, col, row, fi->style);
+		sheet_style_set_pos (sheet, col, row, fi->style);
 
 		cell = sheet_cell_get (sheet, col, row);
 		if (fi->type == FILL_EMPTY){

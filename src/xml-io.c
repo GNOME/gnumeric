@@ -1688,7 +1688,7 @@ xml_read_style_region (XmlParseContext *ctxt, xmlNodePtr tree)
 	style = xml_read_style_region_ex (ctxt, tree, &range);
 
 	if (style)
-		sheet_style_attach (ctxt->sheet, &range, style);
+		sheet_style_apply_range (ctxt->sheet, &range, style);
 }
 
 /*
@@ -1956,8 +1956,8 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 						      GINT_TO_POINTER (style_idx));
 			if (mstyle) {
 				mstyle_ref (mstyle);
-				sheet_style_attach_single (ctxt->sheet, col, row,
-							   mstyle);
+				sheet_style_set_pos (ctxt->sheet, col, row,
+						     mstyle);
 			} /* else reading a newer version with style_idx == 0 */
 		}
 	} else {
@@ -1999,8 +1999,8 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 				MStyle *mstyle;
 				mstyle = xml_read_style (ctxt, child);
 				if (mstyle)
-					sheet_style_attach_single (ctxt->sheet, col, row,
-								   mstyle);
+					sheet_style_set_pos (ctxt->sheet, col, row,
+							     mstyle);
 			}
 		} else if (!strcmp (child->name, "Content")) {
 			content = xmlNodeGetContent (child);
@@ -2156,25 +2156,21 @@ xml_write_merged_regions (XmlParseContext const *ctxt,
 }
 
 static xmlNodePtr
-xml_write_styles (XmlParseContext *ctxt, GList *l)
+xml_write_styles (XmlParseContext *ctxt, StyleList *styles)
 {
+	StyleList *ptr;
 	xmlNodePtr cur;
 
-	if (!l)
-		return NULL;
-
-	/* Skip the "full sheet" style */
-
-	l = l->next;
-	if (!l)
+	if (!styles)
 		return NULL;
 
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Styles", NULL);
-	for (; l; l = l->next) {
-		StyleRegion *sr = l->data;
+	for (ptr = styles; ptr; ptr = ptr->next) {
+		StyleRegion *sr = ptr->data;
 
 		xmlAddChild (cur, xml_write_style_region (ctxt, sr));
 	}
+	style_list_free (styles);
 
 	return cur;
 }
@@ -2345,7 +2341,6 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet *sheet)
 	xmlNodePtr printinfo;
 	xmlNodePtr styles;
 	xmlNodePtr solver;
-	GList     *style_regions;
 	char *tstr;
 
 	/*
@@ -2385,10 +2380,7 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet *sheet)
 	/*
 	 * Styles
 	 */
-	style_regions = sheet_get_style_list (sheet);
-	style_regions = g_list_reverse (style_regions);
-	styles = xml_write_styles (ctxt, style_regions);
-	g_list_free (style_regions);
+	styles = xml_write_styles (ctxt, sheet_style_get_list (sheet, NULL));
 	if (styles)
 		xmlAddChild (cur, styles);
 
@@ -2502,17 +2494,13 @@ xml_write_selection_clipboard (XmlParseContext *ctxt, Sheet *sheet)
 
 	iterator = range_list;
 	while (iterator) {
-		GList *style_region_list;
 		Range *range = iterator->data;
 
-		style_region_list = sheet_get_styles_in_range (sheet, range);
-
-		styles = xml_write_styles (ctxt, style_region_list);
+		styles = xml_write_styles (ctxt,
+					   sheet_style_get_list (sheet, range));
 
 		if (styles)
 			xmlAddChild (cur, styles);
-
-		sheet_style_list_destroy (style_region_list);
 
 		iterator = g_slist_next (iterator);
 	}

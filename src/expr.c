@@ -155,9 +155,8 @@ expr_tree_new_array (int x, int y, int rows, int cols)
 	ans->y = y;
 	ans->rows = rows;
 	ans->cols = cols;
-	ans->corner.func.value = NULL;
-	ans->corner.func.expr = NULL;
-	ans->corner.cell = NULL;
+	ans->corner.value = NULL;
+	ans->corner.expr = NULL;
 	return (ExprTree *)ans;
 }
 
@@ -212,25 +211,20 @@ expr_parse_string (char const *expr, ParsePos const *pp,
 
 
 static ExprTree *
-expr_tree_array_formula_corner (ExprTree const *expr, EvalPos const *pos)
+expr_tree_array_formula_corner (ExprTree const *expr,
+				Sheet const *sheet, CellPos const *pos)
 {
-	Cell * corner = expr->array.corner.cell;
+	Cell *corner;
 
-	/* Attempt to set the corner if it is not already set */
-	if (corner == NULL) {
-		g_return_val_if_fail (pos != NULL, NULL);
-		g_return_val_if_fail (pos->sheet != NULL, NULL);
+	g_return_val_if_fail (pos != NULL, NULL);
 
-		corner = sheet_cell_get (pos->sheet,
-					 pos->eval.col - expr->array.x,
-					 pos->eval.row - expr->array.y);
-		((ExprTree *)expr)->array.corner.cell = corner;
-	}
-
-	g_return_val_if_fail (corner != NULL, NULL);
-	g_return_val_if_fail (cell_has_expr (corner), NULL);
+	corner = sheet_cell_get (sheet,
+				 pos->col - expr->array.x,
+				 pos->row - expr->array.y);
 
 	/* Sanity check incase the corner gets removed for some reason */
+	g_return_val_if_fail (corner != NULL, NULL);
+	g_return_val_if_fail (cell_has_expr (corner), NULL);
 	g_return_val_if_fail (corner->base.expression != (void *)0xdeadbeef, NULL);
 	g_return_val_if_fail (corner->base.expression->any.oper == OPER_ARRAY, NULL);
 	g_return_val_if_fail (corner->base.expression->array.x == 0, NULL);
@@ -289,9 +283,9 @@ do_expr_tree_unref (ExprTree *tree)
 		break;
 	case OPER_ARRAY:
 		if (tree->array.x == 0 && tree->array.y == 0) {
-			if (tree->array.corner.func.value)
-				value_release (tree->array.corner.func.value);
-			do_expr_tree_unref (tree->array.corner.func.expr);
+			if (tree->array.corner.value)
+				value_release (tree->array.corner.value);
+			do_expr_tree_unref (tree->array.corner.expr);
 		}
 		break;
 	default:
@@ -888,7 +882,7 @@ eval_expr_real (EvalPos const *pos, ExprTree const *tree,
 		int y = tree->array.y;
 		if (x == 0 && y == 0){
 			/* Release old value if necessary */
-			a = tree->array.corner.func.value;
+			a = tree->array.corner.value;
 			if (a != NULL)
 				value_release (a);
 
@@ -911,16 +905,16 @@ eval_expr_real (EvalPos const *pos, ExprTree const *tree,
 			 * array and iterate over the elements, but that theory
 			 * needs validation.
 			 */
-			a = eval_expr_real (pos, tree->array.corner.func.expr,
+			a = eval_expr_real (pos, tree->array.corner.expr,
 					    EVAL_PERMIT_NON_SCALAR);
 
 			/* Store real result (cast away const)*/
-			*((Value **)&(tree->array.corner.func.value)) = a;
+			*((Value **)&(tree->array.corner.value)) = a;
 		} else {
 			ExprTree const * const array =
-			    expr_tree_array_formula_corner (tree, pos);
+			    expr_tree_array_formula_corner (tree, pos->sheet, &pos->eval);
 			if (array)
-				a = array->array.corner.func.value;
+				a = array->array.corner.value;
 			else
 				a = NULL;
 		}
@@ -1287,21 +1281,21 @@ do_expr_tree_to_string (ExprTree const *tree, ParsePos const *pp,
 		int const y = tree->array.y;
 		char *res;
 		if (x != 0 || y != 0) {
-			ExprTree *array =
-			    expr_tree_array_formula_corner (tree, NULL);
+			ExprTree *array = expr_tree_array_formula_corner (tree,
+						pp->sheet, &pp->eval);
 			if (array) {
 				ParsePos tmp_pos;
 				tmp_pos.wb  = pp->wb;
 				tmp_pos.eval.col = pp->eval.col - x;
 				tmp_pos.eval.row = pp->eval.row - y;
 				res = do_expr_tree_to_string (
-					array->array.corner.func.expr,
+					array->array.corner.expr,
 					&tmp_pos, 0);
 			} else
 				res = g_strdup ("<ERROR>");
 		} else {
 			res = do_expr_tree_to_string (
-			    tree->array.corner.func.expr, pp, 0);
+			    tree->array.corner.expr, pp, 0);
 		}
 
 		return res;
@@ -1699,14 +1693,13 @@ expr_rewrite (ExprTree        const *expr,
 	case OPER_ARRAY: {
 		ExprArray const * a = &expr->array;
 		if (a->x == 0 && a->y == 0) {
-			ExprTree *func =
-				expr_rewrite (a->corner.func.expr, rwinfo);
+			ExprTree *func = expr_rewrite (a->corner.expr, rwinfo);
 
 			if (func != NULL) {
 				ExprTree *res =
 					expr_tree_new_array (0, 0, a->rows, a->cols);
-				res->array.corner.func.value = NULL;
-				res->array.corner.func.expr = func;
+				res->array.corner.value = NULL;
+				res->array.corner.expr = func;
 				return res;
 			}
 		}
@@ -1754,7 +1747,7 @@ expr_tree_first_func (ExprTree const *expr)
 		return expr_tree_first_func (expr->unary.value);
 
 	case OPER_ARRAY:
-		return expr_tree_first_func (expr->array.corner.func.expr);
+		return expr_tree_first_func (expr->array.corner.expr);
 	}
 
 	g_assert_not_reached ();

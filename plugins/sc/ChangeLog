@@ -1,3 +1,8 @@
+2001-01-08  Jody Goldberg <jgoldberg@home.com>
+
+	* sc.c (sc_parse_label) : cell_get_mstyle no longer bumps the ref
+	  count.
+
 2000-12-17 Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.61

@@ -171,7 +171,6 @@ stf_read_workbook (IOContext *context, WorkbookView *wbv, char const *filename)
 		dialogresult = stf_dialog (WORKBOOK_CONTROL_GUI (context->impl), filename, data);
 
 	if (dialogresult != NULL) {
-		Range range;
 		GSList *iterator;
 		int col, rowcount;
 
@@ -179,6 +178,7 @@ stf_read_workbook (IOContext *context, WorkbookView *wbv, char const *filename)
 		col = 0;
 		rowcount = stf_parse_get_rowcount (dialogresult->parseoptions, dialogresult->newstart);
 		while (iterator) {
+			Range range;
 			MStyle *style = mstyle_new ();
 
 			mstyle_set_format (style, iterator->data);
@@ -188,7 +188,7 @@ stf_read_workbook (IOContext *context, WorkbookView *wbv, char const *filename)
 			range.end.col   = col;
 			range.end.row   = rowcount;
 
-			sheet_style_attach (sheet, &range, style);
+			sheet_style_apply_range (sheet, &range, style);
 
 			iterator = g_slist_next (iterator);
 
@@ -207,10 +207,8 @@ stf_read_workbook (IOContext *context, WorkbookView *wbv, char const *filename)
 			return -1;
 		}
 
-		range = sheet_get_extent (sheet);
-		sheet_style_optimize (sheet, range);
 		workbook_recalc (book);
-		sheet_range_calc_spans (sheet, range, SPANCALC_RENDER);
+		sheet_calc_spans (sheet, SPANCALC_RENDER);
 		workbook_set_saveinfo (book, filename, FILE_FL_MANUAL,
 				       gnumeric_xml_write_workbook);
 	} else

@@ -163,7 +163,7 @@ get_xtn_lens (guint32 *pre_len, guint32 *end_len, const guint8 *ptr, gboolean ex
 
 		if (!warned)
 			printf ("FIXME: extended string support unimplemented:"
-				"ignoring %d bytes\n", len_ext_rst);
+				"ignoring %u bytes\n", len_ext_rst);
 		warned = TRUE;
 	}
 }
@@ -1173,42 +1173,7 @@ get_substitute_font (gchar *fontname)
 	return res;
 }
 
-static void
-style_optimize (ExcelSheet *sheet, int col, int row)
-{
-	g_return_if_fail (sheet != NULL);
-
-	if (col < 0) { /* Finish the job */
-		sheet_style_optimize (sheet->gnum_sheet, sheet->style_optimize);
-		return;
-	}
-	/*
-	 * Generate a range inside which to optimise cell style regions.
-	 */
-	if (row > sheet->style_optimize.start.row + 2) {
-		sheet_style_optimize (sheet->gnum_sheet, sheet->style_optimize);
-
-		sheet->style_optimize.start.col = col;
-		if (row > 0) /* Overlap upwards */
-			sheet->style_optimize.start.row = row - 1;
-		else
-			sheet->style_optimize.start.row = 0;
-		sheet->style_optimize.end.col   = col;
-		sheet->style_optimize.end.row   = row;
-	} else {
-		if (col > sheet->style_optimize.end.col)
-			sheet->style_optimize.end.col   = col;
-		if (col < sheet->style_optimize.start.col)
-			sheet->style_optimize.start.col = col;
-
-		if (row > sheet->style_optimize.end.row)
-			sheet->style_optimize.end.row   = row;
-		if (row < sheet->style_optimize.end.row)
-			sheet->style_optimize.start.row = row;
-	}
-}
-
-static MStyle * const *
+static MStyle *
 ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 {
 	BiffXFData const *xf = ms_excel_get_xf (sheet, xfidx);
@@ -1228,15 +1193,13 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 	g_return_val_if_fail (xf != NULL, NULL);
 
 	/* If we've already done the conversion use the cached style */
-	if (xf->mstyle[0] != NULL) {
-		mstyle_ref (xf->mstyle[0]);
-		mstyle_ref (xf->mstyle[1]);
-		mstyle_ref (xf->mstyle[2]);
+	if (xf->mstyle != NULL) {
+		mstyle_ref (xf->mstyle);
 		return xf->mstyle;
 	}
 
 	/* Create a new style and fill it in */
-	mstyle = mstyle_new ();
+	mstyle = mstyle_new_default ();
 
 	/* Format */
 	if (xf->style_format)
@@ -1405,7 +1368,7 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 	/* Borders */
 	for (i = 0; i < STYLE_ORIENT_MAX; i++) {
 		MStyle *tmp = mstyle;
-		MStyleElementType t;
+		MStyleElementType const t = MSTYLE_BORDER_TOP + i;
 		int const color_index = xf->border_color[i];
 		/* Handle auto colours */
 		StyleColor *color = (color_index == 64 || color_index == 65 || color_index == 127)
@@ -1417,22 +1380,13 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 			: ms_excel_palette_get (sheet->wb->palette,
 						color_index);
 
-		if (i == STYLE_BOTTOM) {
-			t = MSTYLE_BORDER_TOP;
-			mstyle_ref (((BiffXFData *)xf)->mstyle[1] = tmp = mstyle_new());
-		} else if (i == STYLE_RIGHT) {
-			t = MSTYLE_BORDER_LEFT;
-			mstyle_ref (((BiffXFData *)xf)->mstyle[2] = tmp = mstyle_new());
-		} else
-			t = MSTYLE_BORDER_TOP + i;
-
 		mstyle_set_border (tmp, t,
 				   style_border_fetch (xf->border_type [i],
 						       color, t));
 	}
 
 	/* Set the cache (const_cast) */
-	((BiffXFData *)xf)->mstyle[0] = mstyle;
+	((BiffXFData *)xf)->mstyle = mstyle;
 	mstyle_ref (mstyle);
 	return xf->mstyle;
 }
@@ -1440,86 +1394,25 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 static void
 ms_excel_set_xf (ExcelSheet *sheet, int col, int row, guint16 xfidx)
 {
-#if UNDERSTAND_DUAL_BORDERS
-	StyleBorder const * b;
-#endif
-	Range   range;
-	StyleBorder *border;
-	MStyle *existing_style, *restore_style = NULL;
-	MStyle *const * const mstyle  =
-	    ms_excel_get_style_from_xf (sheet, xfidx);
+	MStyle *const mstyle  = ms_excel_get_style_from_xf (sheet, xfidx);
 	if (mstyle == NULL)
 		return;
 
 #ifndef NO_DEBUG_EXCEL
-	if (ms_excel_color_debug > 2) {
-		printf ("%s!%s%d\n", sheet->gnum_sheet->name_unquoted,
-			col_name(col), row+1);
-	}
 	if (ms_excel_read_debug > 2) {
 		printf ("%s!%s%d = xf(%d)\n", sheet->gnum_sheet->name_unquoted,
 			col_name(col), row+1, xfidx);
 	}
 #endif
 
-	range.start.col = col;
-	range.start.row = row;
-	range.end       = range.start;
-
-	existing_style = sheet_style_compute (sheet->gnum_sheet, col, row);
-
-	/* if this region already had a border applied do not over ride it */
-	border = mstyle_get_border (existing_style, MSTYLE_BORDER_TOP);
-	if (border != NULL && border->line_type != STYLE_BORDER_NONE) {
-		restore_style = mstyle_new();
-		mstyle_set_border (restore_style, MSTYLE_BORDER_TOP,
-				   style_border_ref (border));
-	}
-
-	border = mstyle_get_border (existing_style, MSTYLE_BORDER_LEFT);
-	if (border != NULL && border->line_type != STYLE_BORDER_NONE) {
-		if (restore_style == NULL)
-			restore_style = mstyle_new();
-		mstyle_set_border (restore_style, MSTYLE_BORDER_LEFT,
-				   style_border_ref (border));
-	}
-
-	sheet_style_attach (sheet->gnum_sheet, &range, mstyle[0]);
-
-	if (restore_style != NULL)
-		sheet_style_attach (sheet->gnum_sheet, &range, restore_style);
-	mstyle_unref (existing_style);
-
-#if UNDERSTAND_DUAL_BORDERS
-	printf ("%s%d == %hd\n", col_name(col), row+1, xfidx);
-	b = mstyle_get_border (mstyle[0], MSTYLE_BORDER_LEFT);
-	printf ("Left = %d\n", b->line_type);
-#endif
-	if (mstyle[1] != NULL) {
-		range.start.col = col;
-		range.start.row = row+1;
-		range.end       = range.start;
-		sheet_style_attach (sheet->gnum_sheet, &range, mstyle[1]);
-	}
-	if (mstyle[2] != NULL) {
-#if UNDERSTAND_DUAL_BORDERS
-		b = mstyle_get_border (mstyle[2], MSTYLE_BORDER_LEFT);
-		printf ("Right = %d\n", b->line_type);
-#endif
-		range.start.col = col+1;
-		range.start.row = row;
-		range.end       = range.start;
-		sheet_style_attach (sheet->gnum_sheet, &range, mstyle[2]);
-	}
-	style_optimize (sheet, col, row);
+	sheet_style_set_pos (sheet->gnum_sheet, col, row, mstyle);
 }
 
 static void
 ms_excel_set_xf_segment (ExcelSheet *sheet, int start_col, int end_col, int row, guint16 xfidx)
 {
 	Range   range;
-	MStyle * const * const mstyle  =
-	    ms_excel_get_style_from_xf (sheet, xfidx);
+	MStyle * const mstyle  = ms_excel_get_style_from_xf (sheet, xfidx);
 	if (mstyle == NULL)
 		return;
 
@@ -1527,34 +1420,14 @@ ms_excel_set_xf_segment (ExcelSheet *sheet, int start_col, int end_col, int row,
 	range.start.row = row;
 	range.end.col   = end_col;
 	range.end.row   = row;
-	sheet_style_attach (sheet->gnum_sheet, &range, mstyle[0]);
+	sheet_style_set_range (sheet->gnum_sheet, &range, mstyle);
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug > 2) {
-		range_dump (&range);
+		range_dump (&range, "");
 		fprintf (stderr, " = xf(%d)\n", xfidx);
 	}
 #endif
-	if (mstyle[1] != NULL) {
-		if (row < SHEET_MAX_ROWS - 1) {
-			range.start.col = start_col;
-			range.start.row = row+1;
-			range.end.col   = end_col;
-			range.end.row   = row+1;
-			sheet_style_attach (sheet->gnum_sheet, &range, mstyle[1]);
-		} else
-			mstyle_unref (mstyle[1]);
-	}
-	if (mstyle[2] != NULL) {
-		if (end_col < SHEET_MAX_COLS - 1) {
-			range.start.col = start_col+1;
-			range.start.row = row;
-			range.end.col   = end_col+1;
-			range.end.row   = row;
-			sheet_style_attach (sheet->gnum_sheet, &range, mstyle[2]);
-		} else
-			mstyle_unref (mstyle[2]);
-	}
 }
 
 static StyleBorderType
@@ -1866,7 +1739,7 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, MsBiffVersion ver)
 	}
 
 	/* Init the cache */
-	xf->mstyle[0] = xf->mstyle[1] = xf->mstyle[2] = NULL;
+	xf->mstyle = NULL;
 
 	g_ptr_array_add (wb->XF_cell_records, xf);
 #ifndef NO_DEBUG_EXCEL
@@ -1885,13 +1758,14 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, MsBiffVersion ver)
 static gboolean
 biff_xf_data_destroy (BiffXFData *xf)
 {
-	int i;
-
-	if (xf->style_format)
+	if (xf->style_format) {
 		style_format_unref (xf->style_format);
-	for (i = 3; --i >= 0 ; )
-		if (xf->mstyle[i])
-			mstyle_unref (xf->mstyle[i]);
+		xf->style_format = NULL;
+	}
+	if (xf->mstyle) {
+		mstyle_unref (xf->mstyle);
+		xf->mstyle = NULL;
+	}
 	g_free (xf);
 	return 1;
 }
@@ -2370,7 +2244,6 @@ ms_sheet_obj_create (MSContainer *container, MSObj *obj)
 		printf ("EXCEL : unhandled excel object of type %s (0x%x) id = %d\n",
 			obj->excel_type_name, obj->excel_type, obj->id);
 		g_free(obj);
-		printf ("}; /* OBJ error 2 */\n");
 		return NULL;
 	}
 
@@ -2427,10 +2300,6 @@ ms_excel_sheet_new (ExcelWorkbook *wb, const char *name)
 	    g_hash_table_new ((GHashFunc)biff_shared_formula_hash,
 			      (GCompareFunc)biff_shared_formula_equal);
 
-	ans->style_optimize.start.col = 0;
-	ans->style_optimize.start.row = 0;
-	ans->style_optimize.end.col   = 0;
-	ans->style_optimize.end.row   = 0;
 	ans->base_char_width          = -1;
 	ans->base_char_width_default  = -1;
 
@@ -3510,8 +3379,7 @@ ms_excel_read_mergecells (BiffQuery *q, ExcelSheet *sheet)
 		sheet_merge_add (NULL, sheet->gnum_sheet, &r);
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_read_debug > 1) {
-			range_dump (&r);
-			fprintf(stderr, "\n");
+			range_dump (&r, "\n");
 		}
 	}
 #endif
@@ -3619,7 +3487,6 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb, WorkbookView *wb_view,
 
 		switch (q->ls_op) {
 		case BIFF_EOF:
-			style_optimize (sheet, -1, -1);
 			return TRUE;
 
 		case BIFF_OBJ: /* See: ms-obj.c and S59DAD.HTM */

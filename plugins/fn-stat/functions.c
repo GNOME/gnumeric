@@ -314,7 +314,7 @@ gnumeric_rank (FunctionEvalInfo *ei, Value **argv)
 	else
 	        p.order = 0;
 	p.rank = 1;
-	ret = sheet_cell_foreach_range (
+	ret = sheet_foreach_cell_in_range (
 	        eval_sheet (argv[1]->v_range.cell.a.sheet,
 			    ei->pos->sheet), TRUE,
 		argv[1]->v_range.cell.a.col,
@@ -2681,7 +2681,7 @@ gnumeric_steyx (FunctionEvalInfo *ei, Value **argv)
 	items_y.list = NULL;
 
         if (known_x->type == VALUE_CELLRANGE) {
-		ret = sheet_cell_foreach_range (
+		ret = sheet_foreach_cell_in_range (
 			eval_sheet (known_x->v_range.cell.a.sheet,
 				    ei->pos->sheet), TRUE,
 			known_x->v_range.cell.a.col,
@@ -2711,7 +2711,7 @@ gnumeric_steyx (FunctionEvalInfo *ei, Value **argv)
 					_("Array version not implemented!"));
 
         if (known_y->type == VALUE_CELLRANGE) {
-		ret = sheet_cell_foreach_range (
+		ret = sheet_foreach_cell_in_range (
 			eval_sheet (known_y->v_range.cell.a.sheet,
 				    ei->pos->sheet),TRUE,
 			known_y->v_range.cell.a.col,

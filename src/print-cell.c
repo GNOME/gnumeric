@@ -28,7 +28,7 @@
 #include "rendered-value.h"
 
 #if 0
-#define MERGE_DEBUG(range, str) do { range_dump (range); fprintf (stderr, str); } while (0)
+#define MERGE_DEBUG(range, str) do { range_dump (range, str); } while (0)
 #else
 #define MERGE_DEBUG(range, str)
 #endif
@@ -622,7 +622,7 @@ print_cell_background (GnomePrintContext *context, Sheet *sheet,
 		       int col, int row, double x, double y,
 		       gboolean const extended_left)
 {
-	MStyle *mstyle = sheet_style_compute (sheet, col, row);
+	MStyle *mstyle = sheet_style_get (sheet, col, row);
 	float const w    = ci->size_pts;
 	float const h    = ri->size_pts;
 
@@ -678,7 +678,7 @@ print_merged_range (GnomePrintContext *context, Sheet *sheet,
 	int tmp;
 	double l, r, t, b;
 	Cell const *cell = sheet_cell_get (sheet, range->start.col, range->start.row);
-	MStyle *mstyle = sheet_style_compute (sheet, range->start.col, range->start.row);
+	MStyle *mstyle = sheet_style_get (sheet, range->start.col, range->start.row);
 	gboolean const no_background = !(gnumeric_background_set_pc (mstyle, context));
 
 	/* FIXME : should not need the hack used in the drawing code of +-1 to
@@ -750,8 +750,6 @@ print_merged_range (GnomePrintContext *context, Sheet *sheet,
 			   r - l - ci->margin_b - ci->margin_a,
 			   t - b - ri->margin_b - ri->margin_a);
 	}
-
-	mstyle_unref (mstyle);
 }
 
 static gint
@@ -890,7 +888,7 @@ print_cell_range (GnomePrintContext *context,
 					? print_cell_background (
 						context, sheet, ci, ri,
 						col, row, x, y, FALSE)
-					: sheet_style_compute (sheet, col, row);
+					: sheet_style_get (sheet, col, row);
 
 				if (!cell_is_blank (cell)) {
 					printed = TRUE;
@@ -901,8 +899,6 @@ print_cell_range (GnomePrintContext *context,
 					if (!output)
 						printed |= mstyle_visible_in_blank (mstyle);
 				}
-
-				mstyle_unref (mstyle);
 
 				/* Increment the column
 				 * DO NOT move this outside the if, spanning
@@ -935,8 +931,7 @@ print_cell_range (GnomePrintContext *context,
 						if (col == real_col) {
 							real_style = mstyle;
 							real_x = x;
-						} else if (mstyle)
-							mstyle_unref (mstyle);
+						}
 
 						x += ci->size_pts;
 					}
@@ -946,7 +941,7 @@ print_cell_range (GnomePrintContext *context,
 				 * Compute the style, and offset
 				 */
 				if (real_style == NULL) {
-					real_style = sheet_style_compute (sheet, real_col, ri->pos);
+					real_style = sheet_style_get (sheet, real_col, ri->pos);
 					real_x = x + sheet_col_get_distance_pts (cell->base.sheet,
 										 col, cell->pos.col);
 				}
@@ -975,7 +970,6 @@ print_cell_range (GnomePrintContext *context,
 				}
 
 				printed = TRUE;
-				mstyle_unref (real_style);
 			}
 		}
 		y -= ri->size_pts;

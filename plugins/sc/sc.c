@@ -177,8 +177,6 @@ sc_parse_label (sc_file_state_t *src, const char *cmd, const char *str, int col,
 			mstyle_set_align_h (mstyle, HALIGN_LEFT);
 		else
 			mstyle_set_align_h (mstyle, HALIGN_RIGHT);
-
-		mstyle_unref (mstyle);
 	}
 
 	result = TRUE;

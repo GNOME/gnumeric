@@ -108,8 +108,8 @@ const char *mstyle_names[MSTYLE_ELEMENT_MAX] = {
 	"Border.Bottom",
 	"Border.Left",
 	"Border.Right",
-	"Border.Diagonal",
 	"Border.RevDiagonal",
+	"Border.Diagonal",
 	"Pattern",
 	"--MaxBlank--",
 	"Color.Fore",
@@ -526,19 +526,27 @@ mstyle_copy (const MStyle *style)
 }
 
 MStyle *
-mstyle_new_name (const gchar *name)
+mstyle_copy_merge (const MStyle *orig, const MStyle *overlay)
 {
-	MStyle *style = mstyle_new ();
+	int i;
+	MStyle *res = g_new0 (MStyle, 1);
 
-	if (name) {
-		g_warning ("names not yet supported");
-		style->name = g_strdup (name);
-	}
+	MStyleElement       *res_e;
+	const MStyleElement *orig_e;
+	const MStyleElement *overlay_e;
 
-	return style;
+	res->ref_count = 1;
+	res->name = NULL;
+	res_e = res->elements;
+	orig_e = orig->elements;
+	overlay_e = overlay->elements;
+
+	for (i = 0; i < MSTYLE_ELEMENT_MAX; i++)
+		res_e [i] = mstyle_element_ref (
+			(overlay_e [i].type ? overlay_e : orig_e) + i); 
+
+	return res;
 }
-
-static MStyle *default_mstyle = NULL;
 
 /**
  * mstyle_new_default:
@@ -552,14 +560,7 @@ static MStyle *default_mstyle = NULL;
 MStyle *
 mstyle_new_default (void)
 {
-	MStyle *mstyle;
-
-	if (default_mstyle) {
-		mstyle_ref (default_mstyle);
-		return default_mstyle;
-	}
-
-	mstyle = mstyle_new ();
+	MStyle *mstyle = mstyle_new ();
 
 	mstyle_set_format_text (mstyle, "General");
 	mstyle_set_align_v     (mstyle, VALIGN_BOTTOM);
@@ -598,8 +599,6 @@ mstyle_new_default (void)
 	/* This negates the back and pattern colors */
 	mstyle_set_pattern     (mstyle, 0);
 
-	default_mstyle = mstyle;
-
 	return mstyle;
 }
 
@@ -612,64 +611,22 @@ mstyle_ref (MStyle *style)
 }
 
 void
+mstyle_ref_multiple (MStyle *style, int count)
+{
+	g_return_if_fail (style->ref_count > 0);
+
+	style->ref_count += count;
+}
+
+void
 mstyle_unref (MStyle *style)
 {
 	g_return_if_fail (style->ref_count > 0);
 
 	style->ref_count--;
 
-	if (style->ref_count <= 0) {
-		if (default_mstyle == style)
-			default_mstyle = NULL;
+	if (style->ref_count <= 0)
 		mstyle_destroy (style);
-	}
-}
-
-MStyle *
-mstyle_do_merge (const GList *list, MStyleElementType max)
-{
-	const GList *l = list;
-
-	/* Find the intersection */
-	MStyle         *ans;
-	MStyleElement *mash;
-
-	g_return_val_if_fail (list != NULL,
-			      mstyle_new_default ());
-
-	g_return_val_if_fail (max <= MSTYLE_ELEMENT_MAX,
-			      mstyle_new_default ());
-	g_return_val_if_fail (max > 0,
-			      mstyle_new_default ());
-
-	/* Short circuit the common default case */
-	if (!list->next) {
-		mstyle_ref (list->data);
-		return list->data;
-	}
-
-	ans  = mstyle_new ();
-	mash = ans->elements;
-
-	while (l) {
-		guint j;
-		MStyle *style = l->data;
-		MStyleElement *e = style->elements;
-		MStyleElement *m = mash;
-
-		for (j = 0; j < MSTYLE_ELEMENT_MAX; j++) {
-
-			if (m->type == MSTYLE_ELEMENT_UNSET &&
-			    e->type != MSTYLE_ELEMENT_UNSET)
-
-				*m = mstyle_element_ref (e);
-			e++;
-			m++;
-		}
-		l = g_list_next (l);
-	}
-
-	return ans;
 }
 
 /**
@@ -686,7 +643,7 @@ mstyle_do_merge (const GList *list, MStyleElementType max)
  * Returns: the masked style.
  **/
 MStyle *
-mstyle_merge (MStyle *master, MStyle *slave)
+mstyle_merge (const MStyle *master, MStyle *slave)
 {
 	MStyle *psts;
 	int i;
@@ -1118,7 +1075,7 @@ mstyle_set_format_text (MStyle *style, const char *format)
 }
 
 StyleFormat *
-mstyle_get_format (MStyle *style)
+mstyle_get_format (MStyle const *style)
 {
 	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_FORMAT), NULL);
 

@@ -819,10 +819,10 @@ workbook_foreach_cell_in_range (EvalPos const *pos,
 	if (start_sheet != end_sheet)
 		g_warning ("3D references are not supported yet, using 1st sheet");
 
-	return sheet_cell_foreach_range (start_sheet, only_existing,
-					 r.start.col, r.start.row,
-					 r.end.col, r.end.row,
-					 handler, closure);
+	return sheet_foreach_cell_in_range (start_sheet, only_existing,
+					    r.start.col, r.start.row,
+					    r.end.col, r.end.row,
+					    handler, closure);
 }
 
 void

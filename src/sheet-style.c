@@ -1,1618 +1,1226 @@
-/*
- * Sheet-Style.c:  Implements the sheet's style optimizations.
- *
- * Author:
- *  Michael Meeks <mmeeks@gnu.org>
- */
+/* vim: set sw=8: */
 
+/*
+ * sheet-style.c: storage mechanism for styles and eventually cells.
+ *
+ * Copyright (C) 2000, 2001 Jody Goldberg (jgoldberg@home.com)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+ * USA
+ */
 #include <config.h>
-#include <ctype.h>
-#include <gnome.h>
-#include <string.h>
-#include "sheet.h"
 #include "sheet-style.h"
-#include "parse-util.h"
-#include "gnumeric-util.h"
-#include "eval.h"
-#include "number-match.h"
-#include "format.h"
-#include "selection.h"
 #include "ranges.h"
-#include "mstyle.h"
+#include "sheet.h"
 #include "expr.h"
-#include "main.h"
+#include "format.h"
+#include "style.h"
 #include "style-border.h"
+#include "cell.h"
 
-typedef enum {
-	STYLE_CACHE_FLUSH_HASH   = 0x1,
-	STYLE_CACHE_FLUSH_LIST   = 0x2,
-	STYLE_CACHE_FLUSH_ALL    = 0xff,
-	STYLE_CACHE_FLUSH_SHRINK = 0x800
-} CacheFlushType;
-
-/*
- *   The performance of the style code is rather affected by these
- * numbers, please do send me results of various combinations using
- * real sheets and timings of --quit --test_styles.
- */
-#define GROW_X               20
-#define GROW_Y               20
-#define STYLE_MAX_CACHE_SIZE 2048
-
-#define STYLE_DEBUG (style_debugging > 2)
-
-static guint32 stamp = 0;
-
-struct _SheetStyleData {
-	GList      *style_list; /* of StyleRegions */
-	GHashTable *style_cache;
-
-	Range       cached_range;
-	GList      *cached_list;
-};
-
-int style_cache_hits = 0;
-int style_cache_misses = 0;
-int style_cache_flushes = 0;
-int style_cache_range_hits = 0;
-
-/*
- * For xml-io only.
- */
-GList *
-sheet_get_style_list (Sheet const *sheet)
-{
-	g_return_val_if_fail (sheet != NULL, NULL);
-	g_return_val_if_fail (sheet->style_data != NULL, NULL);
-
-	return g_list_copy (sheet->style_data->style_list);
-}
-
-static guint
-cellpos_hash (gconstpointer key)
-{
-	const CellPos *ep = (const CellPos *) key;
-
-	return (ep->col << 8) ^ ep->row;
-}
-
-static gint
-cellpos_compare (CellPos const * a, CellPos const * b)
-{
-	return (a->row == b->row &&
-		a->col == b->col);
-}
-
-static inline MStyle *
-sheet_style_cache_lookup (const SheetStyleData *sd, int col, int row)
-{
-	CellPos cp;
-
-	if (!sd->style_cache)
-		return NULL;
-
-	cp.col = col;
-	cp.row = row;
-
-	return g_hash_table_lookup (sd->style_cache, &cp);
-}
-
-static gboolean
-scache_remove (CellPos *key, MStyle *mstyle, SheetStyleData *sd)
-{
-	g_return_val_if_fail (key    != NULL, FALSE);
-	g_return_val_if_fail (mstyle != NULL, FALSE);
-
-	g_free (key);
-	mstyle_unref (mstyle);
-	return TRUE;
-}
-
+/* Place holder until I merge in the new styles too */
 static void
-sheet_style_cache_flush (SheetStyleData *sd, CacheFlushType type)
+pstyle_set_border (MStyle *st, StyleBorder *border,
+		   StyleBorderLocation side)
 {
-	if (type & STYLE_CACHE_FLUSH_HASH) {
-		if (sd->style_cache) {
-			if (type & STYLE_CACHE_FLUSH_SHRINK)
-				/* We are a good size, this will wrap but heh. */
-				g_hash_table_freeze (sd->style_cache);
-
-			g_hash_table_foreach_remove (sd->style_cache,
-						     (GHRFunc)scache_remove, sd);
-			style_cache_flushes++;
-		}
-	}
-
-	if (type & STYLE_CACHE_FLUSH_LIST) {
-		if (sd->cached_list)
-			g_list_free (sd->cached_list);
-		sd->cached_list = NULL;
-	}
+	mstyle_set_border (st, MSTYLE_BORDER_TOP + side,
+			   style_border_ref (border));
 }
 
-static void
-sheet_style_cache_add (SheetStyleData *sd, int col, int row,
-		       MStyle *mstyle)
+/* Amortize the cost of applying a partial style over a large region
+ * by caching and rereferencing the merged result for repeated styles.
+ */
+typedef struct {
+	MStyle	   *new_style;
+	MStyle	   *pstyle;
+	GHashTable *cache;
+} ReplacementStyle;
+
+static ReplacementStyle *
+rstyle_ctor (ReplacementStyle *res, MStyle *new_style, MStyle *pstyle)
 {
-	CellPos *cp;
-
-	if (sd->style_cache &&
-	    g_hash_table_size (sd->style_cache) > STYLE_MAX_CACHE_SIZE)
-		sheet_style_cache_flush (sd, STYLE_CACHE_FLUSH_HASH & STYLE_CACHE_FLUSH_SHRINK);
-
-	if (!sd->style_cache)
-		sd->style_cache = g_hash_table_new ((GHashFunc)cellpos_hash,
-						    (GCompareFunc)cellpos_compare);
-
-	cp = g_new (CellPos, 1);
-	cp->col = col;
-	cp->row = row;
-	mstyle_ref (mstyle);
-
-	g_hash_table_insert (sd->style_cache, cp, mstyle);
-}
-
-/**
- * do_list_check_sorted:
- * @list: the list of StyleRegions.
- * @as_per_sheet: which direction the stamp order should be.
- *
- *   This function checks each StyleRegion's range, and its stamp
- * for correctness.
- *
- * Return value: FALSE if a sort error occurs.
- **/
-static gboolean
-do_list_check_sorted (const GList *list, gboolean as_per_sheet)
-{
-	const GList *l = list;
-
-	if (as_per_sheet) {
-		guint32 stamp = -1; /* max guint32 */
-
-		while (l) {
-			StyleRegion *sr = l->data;
-			if (!range_valid (l->data))
-				g_warning ("Invalid styleregion range");
-			if (sr->stamp > stamp)
-				return FALSE;
-			stamp = sr->stamp;
-			l = g_list_next (l);
-		}
+	if (pstyle == NULL) {
+		res->new_style = new_style;
+		res->pstyle = NULL;
+		res->cache = NULL;
 	} else {
-		guint32 stamp = 0;
-
-		while (l) {
-			StyleRegion *sr = l->data;
-			if (!range_valid (l->data))
-				g_warning ("Invalid styleregion range");
-			if (sr->stamp < stamp)
-				return FALSE;
-			stamp = sr->stamp;
-			l = g_list_next (l);
-		}
+		res->new_style = NULL;
+		res->pstyle = pstyle;
+		res->cache = g_hash_table_new (g_direct_hash, g_direct_equal);
 	}
-	return TRUE;
-}
-
-static inline gboolean
-list_check_sorted (const GList *list, gboolean as_per_sheet)
-{
-	if (style_debugging > 0)
-		return do_list_check_sorted (list, as_per_sheet);
-	return TRUE;
-}
-
-static inline StyleRegion *
-style_region_new (const Range *range, MStyle *mstyle)
-{
-	StyleRegion *sr;
-
-	sr = g_new (StyleRegion, 1);
-	sr->stamp = stamp++;
-	sr->range = *range;
-	sr->style = mstyle;
-
-	return sr;
-}
-
-static inline StyleRegion *
-style_region_copy (const StyleRegion *sra)
-{
-	StyleRegion *sr;
-
-	sr = g_new (StyleRegion, 1);
-	sr->stamp = sra->stamp;
-	sr->range = sra->range;
-	sr->style = sra->style;
-	mstyle_ref (sra->style);
-
-	return sr;
-}
-
-static inline void
-style_region_destroy (StyleRegion *sr)
-{
-	g_return_if_fail (sr != NULL);
-
-	mstyle_unref (sr->style);
-	sr->style = NULL;
-	g_free (sr);
-}
-
-/**
- * sheet_style_attach_single:
- * @sheet: the sheet
- * @col: col &
- * @row: reference of cell to optimise round.
- *
- * This optimizes style usage for this cell,
- * if this shows in your profile, you are doing
- * your style setting incorrectly, use ranges
- * instead to set styles instead of hammering
- * each cell individualy.
- **/
-void
-sheet_style_attach_single (Sheet *sheet, int col, int row,
-			   MStyle *mstyle)
-{
-	Range r;
-	r.start.col = col;
-	r.start.row = row;
-	r.end.col   = col;
-	r.end.row   = row;
-
-	sheet_style_attach (sheet, &r, mstyle);
-
-	/*
-	 * Expand to 3x3 patch.
-	 */
-	if (r.start.col > 0)
-		r.start.col--;
-	if (r.start.row > 0)
-		r.start.row--;
-	if (r.end.col < SHEET_MAX_COLS - 1)
-		r.end.col++;
-	if (r.end.row < SHEET_MAX_ROWS - 1)
-		r.end.row++;
-
-	sheet_style_optimize (sheet, r);
+	return res;
 }
 
 static void
-sheet_style_region_unlink (SheetStyleData *sd, StyleRegion *region)
+cb_style_unref (gpointer key, gpointer value, gpointer user_data)
 {
-	int len = 0;
-
-	if (STYLE_DEBUG)
-		len = g_list_length (sd->style_list);
-
-	sd->style_list = g_list_remove (sd->style_list, region);
-
-	if (STYLE_DEBUG) {
-		int len2 = g_list_length (sd->style_list);
-		if (len == len2)
-			g_warning ("Failed to remove style region.");
-	}
-
-	style_region_destroy (region);
-}
-
-static gint
-sheet_style_stamp_compare (gconstpointer a, gconstpointer b)
-{
-	if (((StyleRegion *)a)->stamp > ((StyleRegion *)b)->stamp)
-		return -1;
-	else if (((StyleRegion *)a)->stamp == ((StyleRegion *)b)->stamp)
-		return 0;
-	else
-		return 1;
+	mstyle_unref ((MStyle *)key);
+	mstyle_unref ((MStyle *)value);
 }
 
 static void
-sheet_style_region_link (SheetStyleData *sd, StyleRegion *region)
+rstyle_dtor (ReplacementStyle *rs)
 {
-	g_return_if_fail (sd != NULL);
-	g_return_if_fail (region != NULL);
-
-	if (!list_check_sorted (sd->style_list, TRUE))
-		g_warning ("order broken before insert");
-
-	sd->style_list = g_list_insert_sorted (sd->style_list, region,
-					       sheet_style_stamp_compare);
-	if (!list_check_sorted (sd->style_list, TRUE))
-		g_warning ("list_insert_sorted screwed order");
+	if (rs->cache != NULL) {
+		g_hash_table_foreach (rs->cache, cb_style_unref, NULL);
+		g_hash_table_destroy (rs->cache);
+		rs->cache = NULL;
+	}
 }
 
 /**
- * sheet_style_optimize:
- * @sheet: The sheet
- * @range: The range containing optimizable StyleRegions.
- *
- * This routine merges similar styles in the Range.
- * since this function is not only slow, but memory
- * intensive it should be used wisely & sparingly and
- * over small ranges.
- *
- * FIXME: This routine has space for some serious
- *        optimization.
- *
- **/
-void
-sheet_style_optimize (Sheet *sheet, Range range)
+ * rstyle_apply :  Utility routine that is at the core of applying partial
+ * styles or storing complete styles.  It will eventually be smarter
+ * and will maintain the cache of styles associated with each sheet
+ */
+static void
+rstyle_apply (MStyle **old, ReplacementStyle *rs)
 {
-	GList *l, *a;
-	GList *style_list;
-	int    overlapping = 0, len = 0, i;
-	SheetStyleData *sd;
+	MStyle *s;
+	g_return_if_fail (old != NULL);
+	g_return_if_fail (rs != NULL);
 
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (range_valid (&range));
+	s = rs->new_style;
+	if (rs->pstyle != NULL) {
+		g_return_if_fail (s == NULL);
 
-	sd = sheet->style_data;
-
-	if (STYLE_DEBUG)
-		g_warning ("Optimize (%d, %d):(%d, %d)",
-			   range.start.col, range.start.row,
-			   range.end.col,   range.end.row);
-
-	style_list = NULL;
- 	/* Look in the styles applied to the sheet */
-	for (l = sd->style_list; l && l->next; l = l->next) {
-		StyleRegion *sr = l->data;
-		if (range_overlap (&sr->range, &range) ||
-		    range_adjacent (&sr->range, &range)) {
-			if (STYLE_DEBUG) {
-				if (style_list) fprintf (stderr, ", ");
-				range_dump (&sr->range);
-			}
-			style_list = g_list_prepend (style_list, sr);
-			overlapping++;
-		}
-		len++;
-	}
-	if (STYLE_DEBUG)
-		g_warning ("\nThere are %d overlaps out of %d = %g%%",
-			   overlapping, len, (double)((100.0 * overlapping) / len));
-
-	if (!list_check_sorted (style_list, FALSE))
-		g_warning ("Styles not sorted");
-
-	/*
-	 * Merge any identical Range regions
-	 */
-	for (a = style_list; a; a = a->next) {
-		StyleRegion *sra = a->data;
-		GList       *b;
-		gboolean    intervening_style = FALSE;
-
-		if (!sra)
-			continue;
-
-		for (b = a->next; b && a->data; b = b->next) {
-			StyleRegion *srb = b->data;
-
-			if (!srb)
-				continue;
-
-			if (0 && STYLE_DEBUG) {
-				fprintf (stderr, "Compare equal iteration: ");
-				range_dump (&sra->range);
-				fprintf (stderr, " to ");
-				range_dump (&srb->range);
-				fprintf (stderr, "\n");
-			}
-
-			/*
-			 * This inner loop gets called a lot !
-			 */
-			/* FIXME: this needs to be range_contains */
-			if (range_equal (&sra->range, &srb->range)) {
-				StyleRegion *master, *slave;
-				GList *slavel;
-
-				if (intervening_style) {
-					/*
-					 * This should not be an equality test,
-					 * but really a subset test.
-					 */
-					if (!mstyle_equal (sra->style, srb->style))
-						continue;
-				}
-
-				if (sra->stamp >= srb->stamp) {
-					g_warning ("This can't happen");
-					master = sra;
-					slave  = srb;
-					slavel = b;
-				} else {
-					master = srb;
-					slave  = sra;
-					slavel = a;
-				}
-
-				if (STYLE_DEBUG) {
-					fprintf (stderr, "Merging two equal ranges:\n  Master: ");
-					range_dump (&master->range);
-					fprintf (stderr, " ");
-					mstyle_dump (master->style);
-					fprintf (stderr, "  Slave: ");
-					range_dump (&slave->range);
-					fprintf (stderr, " ");
-					mstyle_dump (slave->style);
-				}
-
-				slave->style = mstyle_merge (master->style, slave->style);
-
-				if (STYLE_DEBUG) {
-					fprintf (stderr, "  Residual slave: ");
-					range_dump (&slave->range);
-					fprintf (stderr, " ");
-					mstyle_dump (slave->style);
-				}
-
-				if (mstyle_empty (slave->style)) {
-					if (STYLE_DEBUG)
-						fprintf (stderr, "Unlinking empty slave style.\n");
-					slavel->data = NULL;
-					sheet_style_region_unlink (sd, slave);
-				}
-			} else if (!intervening_style &&
-				   range_overlap (&sra->range, &srb->range)) {
-				if (STYLE_DEBUG)
-					fprintf (stderr, "Intervening style detected.\n");
-				intervening_style = TRUE;
-			}
-		}
-	}
-
-	/*
-	 * Allow to coalesce in X sense, then again in Y sense.
-	 */
-	for (i = 0; i < 2; i++) {
-		/*
-		 * Cull adjacent identical Style ranges.
+		/* Cache the merged styles keeping a reference to the originals
+		 * just in case all instances change.
 		 */
-		for (a = style_list; a; a = a->next) {
-			StyleRegion *sra = a->data;
-			GList       *b;
-
-			if (!sra)
-				continue;
-
-			for (b = a->next; b && a->data; b = b->next) {
-				StyleRegion *srb = b->data;
-
-				if (!srb)
-					continue;
-
-				if (0 && STYLE_DEBUG) {
-					fprintf (stderr, "Compare adjacent iteration: ");
-					range_dump (&sra->range);
-					fprintf (stderr, " to ");
-					range_dump (&srb->range);
-					fprintf (stderr, "\n");
-				}
-
-				/*
-				 * As soon as there is a range that overlaps
-				 * the original we need to be more careful.
-				 * If we later find a range that is adjacent
-				 * we will break the ordering when we merge.
-				 */
-				if (range_overlap(&sra->range, &srb->range))
-					break;
-
-				if (range_adjacent (&sra->range, &srb->range)) {
-					if (mstyle_equal  ( sra->style,  srb->style)) {
-						StyleRegion *master, *slave;
-
-						if (sra->stamp >= srb->stamp) {
-							master = sra;
-							slave  = srb;
-							b->data = NULL;
-						} else {
-							master = srb;
-							slave  = sra;
-							a->data = NULL;
-						}
-						if (STYLE_DEBUG) {
-							fprintf (stderr, "Merging adjacent ranges: ");
-							range_dump (&sra->range);
-							fprintf (stderr, " to ");
-							range_dump (&srb->range);
-							fprintf (stderr, "\n");
-						}
-
-						master->range = range_merge (&master->range, &slave->range);
-						sheet_style_region_unlink (sd, slave);
-					} else if (STYLE_DEBUG)
-						fprintf (stderr, "Regions adjacent but not equal\n");
-				}
-			}
+		s = (MStyle *)g_hash_table_lookup (rs->cache, *old);
+		if (s == NULL) {
+			s = mstyle_copy_merge (*old, rs->pstyle);
+			mstyle_ref (*old);
+			g_hash_table_insert (rs->cache, *old, s);
 		}
 	}
 
-	g_list_free (style_list);
-
-	sheet_style_cache_flush (sd, STYLE_CACHE_FLUSH_ALL);
-}
-
-/**
- * sheet_style_attach:
- * @sheet: The sheet to attach to
- * @range: the range to attach to
- * @style: the style to attach.
- *
- *  This routine applies a set of style elements in 'style' to
- * a range in a sheet. This function needs some clever optimization
- * the current code is grossly simplistic.
- *
- * NOTE : DOES NOT REDRAW.
- **/
-void
-sheet_style_attach (Sheet  *sheet, Range const *range,
-		    MStyle *mstyle)
-{
-	StyleRegion    *sr;
-	SheetStyleData *sd;
-
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (mstyle != NULL);
-	g_return_if_fail (range_valid (range));
-	g_return_if_fail (mstyle_verify (mstyle));
-
-	sd = sheet->style_data;
-
-	/*
-	 * FIXME: We need some clever people here....
-	 *
-	 *  Compartmentalize the styles via a fast row/col. vector perhaps
-	 * to speedup lookups.
-	 *
-	 *  Optimize the range fragmentation code.
-	 *
-	 *  Can we afford to merge on the fly ?
-	 */
-
-	sr = style_region_new (range, mstyle);
-	sd->style_list = g_list_prepend (sd->style_list, sr);
-
-	if (STYLE_DEBUG) {
-		fprintf (stderr, "Attaching ");
-		mstyle_dump (sr->style);
-		fprintf (stderr, " to cell ");
-		range_dump (&sr->range);
-		fprintf (stderr, "\n");
+	if (*old != s) {
+		mstyle_ref (s);
+		if (*old)
+			mstyle_unref (*old);
+		*old = s;
 	}
+}
 
 #if 0
-	/* Try to handle set/get, set/get, set/get pattern without cache trashing */
-	if (range_overlap (range, &sd->cached_range)) {
-		sd->cached_list = g_list_prepend (sd->cached_list, sr);
-		sheet_style_cache_flush (sd, STYLE_CACHE_FLUSH_HASH);
-	} else
+/**
+ * sheet_style_lookup :
+ *
+ * @sheet : the sheet
+ * @s     : an optional style
+ * @ps    : an optional partial style
+ *
+ * Looks up (but does not reference) a style from the sheets collection.
+ */
+MStyle *
+sheet_style_lookup (Sheet *sheet, MStyle const *s, MStyle const *ps)
+{
+	return NULL;
+}
 #endif
-		sheet_style_cache_flush (sd, STYLE_CACHE_FLUSH_ALL);
-}
 
-MStyle *
-sheet_style_compute_from_list (GList *list, int col, int row)
-{
-	GList  *l;
-	GList  *style_list;
-	MStyle *mstyle;
+/****************************************************************************/
 
-	g_return_val_if_fail (list != NULL, mstyle_new_default ());
+/* if you change this change the tile_{widths,heights} here and in
+ * sheet_style_get */
+#define TILE_TOP_LEVEL	3
 
-	if (!list->next) { /* Short circuit */
-		StyleRegion *sr = list->data;
+#define	TILE_SIZE_COL	4
+#define	TILE_SIZE_ROW	16
 
-		mstyle_ref (sr->style);
-		return sr->style;
-	}
+typedef enum {
+	TILE_UNDEFINED	= -1,
+	TILE_SIMPLE	=  0,
+	TILE_COL	=  1,
+	TILE_ROW	=  2,
+	TILE_MATRIX	=  3,
+	TILE_PTR_MATRIX	=  4
+} CellTileType;
+static int const tile_size [] = {
+	1,				/* TILE_SIMPLE */
+	TILE_SIZE_COL,			/* TILE_COL */
+	TILE_SIZE_ROW,			/* TILE_ROW */
+	TILE_SIZE_COL * TILE_SIZE_ROW	/* TILE_MATRIX */
+};
+static int const tile_widths [] = {
+	1,
+	TILE_SIZE_COL,
+	TILE_SIZE_COL * TILE_SIZE_COL,
+	TILE_SIZE_COL * TILE_SIZE_COL * TILE_SIZE_COL,
+	TILE_SIZE_COL * TILE_SIZE_COL * TILE_SIZE_COL * TILE_SIZE_COL
+};
+static int const tile_heights [] = {
+	1,
+	TILE_SIZE_ROW,
+	TILE_SIZE_ROW * TILE_SIZE_ROW,
+	TILE_SIZE_ROW * TILE_SIZE_ROW * TILE_SIZE_ROW,
+	TILE_SIZE_ROW * TILE_SIZE_ROW * TILE_SIZE_ROW * TILE_SIZE_ROW
+};
 
-	style_list = NULL;
+typedef union _CellTile CellTile;
+typedef struct {
+	CellTileType const type;
+	MStyle *style [1];
+} CellTileStyleSimple;
+typedef struct {
+	CellTileType const type;
+	MStyle *style [TILE_SIZE_COL];
+} CellTileStyleCol;
+typedef struct {
+	CellTileType const type;
+	MStyle *style [TILE_SIZE_ROW];
+} CellTileStyleRow;
+typedef struct {
+	CellTileType const type;
+	MStyle *style [TILE_SIZE_COL * TILE_SIZE_ROW];
+} CellTileStyleMatrix;
+typedef struct {
+	CellTileType const type;
+	CellTile	*ptr [TILE_SIZE_COL * TILE_SIZE_ROW];
+} CellTilePtrMatrix;
 
-	for (l = list; l; l = l->next) {
-		StyleRegion *sr = l->data;
+union _CellTile {
+	CellTileType const type;
+	CellTileStyleSimple	style_any;
+	CellTileStyleSimple	style_simple;
+	CellTileStyleCol	style_col;
+	CellTileStyleRow	style_row;
+	CellTileStyleMatrix	style_matrix;
+	CellTilePtrMatrix	ptr_matrix;
+};
 
-		if (range_contains (&sr->range, col, row)) {
-/*			if (style_debugging > 5) {
-				range_dump (&sr->range);
-				mstyle_dump (sr->style);
-				}*/
-			style_list = g_list_prepend (style_list,
-						     sr->style);
-		}
-	}
-	style_list = g_list_reverse (style_list);
-
-	mstyle = mstyle_do_merge (style_list, MSTYLE_ELEMENT_MAX);
-	g_list_free (style_list);
-
-	return mstyle;
-}
-
-static GList *
-sheet_style_list_overlap (GList *list, const Range *range)
-{
-	GList  *l;
-	GList  *style_list = NULL;
-
-	for (l = list; l; l = l->next) {
-		StyleRegion *sr = l->data;
-
-		if (range_overlap (&sr->range, range))
-			style_list = g_list_prepend (style_list, sr);
-	}
-
-	return g_list_reverse (style_list);
-}
-
-/*
- *   Calculate a suitable range around this cell
- * that within which we can store the contained styles
- * for future reference.
- */
 static void
-calc_grown_range (SheetStyleData *sd, int col, int row)
+cell_tile_dtor (CellTile *tile)
 {
-	Range *r = &sd->cached_range;
+	CellTileType t;
 
-	if (col < GROW_X) {
-		r->start.col = 0;
-		r->end.col   = GROW_X * 2;
-	} else {
-		if (col + GROW_X > SHEET_MAX_COLS - 1) {
-			r->end.col   = SHEET_MAX_COLS - 1;
-			r->start.col = SHEET_MAX_COLS - 1 - GROW_X * 2;
-		} else {
-			r->start.col = col - GROW_X;
-			r->end.col   = col + GROW_X;
+	g_return_if_fail (tile != NULL);
+
+	t = tile->type;
+	if (t == TILE_PTR_MATRIX) {
+		int i = TILE_SIZE_COL * TILE_SIZE_ROW;
+		while (--i >= 0) {
+			cell_tile_dtor (tile->ptr_matrix.ptr [i]);
+			tile->ptr_matrix.ptr [i] = NULL;
 		}
-	}
-
-	if (row < GROW_Y) {
-		r->start.row = 0;
-		r->end.row   = GROW_Y * 2;
-	} else {
-		if (row + GROW_Y > SHEET_MAX_ROWS - 1) {
-			r->end.row   = SHEET_MAX_ROWS - 1;
-			r->start.row = SHEET_MAX_ROWS - 1 - GROW_Y * 2;
-		} else {
-			r->start.row = row - GROW_Y;
-			r->end.row   = row + GROW_Y;
+	} else if (TILE_SIMPLE <= t && t <= TILE_MATRIX) {
+		int i = tile_size [t];
+		while (--i >= 0) {
+			mstyle_unref (tile->style_any.style [i]);
+			tile->style_any.style [i] = NULL;
 		}
+	} else {
+		g_return_if_fail (FALSE); /* don't free anything */
 	}
 
-/*	r->start.col = MAX (col - GROW_X, 0);
-	r->end.col   = MIN (col + GROW_X, SHEET_MAX_COLS - 1);
-	r->start.row = MAX (row - GROW_Y, 0);
-	r->end.row   = MIN (row + GROW_Y, SHEET_MAX_ROWS - 1);*/
+	*((CellTileType *)&(tile->type)) = TILE_UNDEFINED; /* poison it */
+	g_free (tile);
 }
 
-/**
- * sheet_style_compute:
- * @sheet:	 Which sheet we are looking up
- * @col:	 column
- * @row:	 row
- * @mash:        an array [MSTYLE_ELEMENT_MAX]
- *
- *   The function merges all the requisite styles together
- * returning the merged result in the 'mash' array. In order
- * to generate a conventional Style use style_mstyle_new.
- *
- */
-MStyle *
-sheet_style_compute (const Sheet *sheet, int col, int row)
+static CellTile *
+cell_tile_style_new (MStyle *style, CellTileType t)
 {
-	MStyle         *mstyle;
-	SheetStyleData *sd;
+	CellTile *res;
 
-/*	g_return_val_if_fail (sheet != NULL, NULL);
-	g_return_val_if_fail (IS_SHEET (sheet), NULL);*/
+	switch (t) {
+	case TILE_SIMPLE : res = (CellTile *)g_new (CellTileStyleSimple, 1);
+			   break;
+	case TILE_COL :	   res = (CellTile *)g_new (CellTileStyleCol, 1);
+			   break;
+	case TILE_ROW :	   res = (CellTile *)g_new (CellTileStyleRow, 1);
+			   break;
+	case TILE_MATRIX : res = (CellTile *)g_new (CellTileStyleMatrix, 1);
+			   break;
+	default : g_return_val_if_fail (FALSE, NULL);
+	};
 
-	sd = sheet->style_data;
+	*((CellTileType *)&(res->type)) = t;
 
-	g_return_val_if_fail (sd != NULL, NULL);
-
-	if ((mstyle = sheet_style_cache_lookup (sd, col, row))) {
-		mstyle_ref (mstyle);
-
-		style_cache_hits++;
-
-		return mstyle;
+	if (style != NULL) {
+		int i = tile_size [t];
+		mstyle_ref_multiple (style, i);
+		while (--i >= 0)
+			res->style_any.style [i] = style;
 	}
 
-	if (!list_check_sorted (sd->style_list, TRUE))
-		g_warning ("Styles not sorted");
-
-	/* Look in the styles applied to the sheet */
-	if (sd->cached_list &&
-	    range_contains (&sd->cached_range, col, row))
-
-		style_cache_range_hits++;
-	else {
-		calc_grown_range (sd, col, row);
-
-		if (sd->cached_list)
-			g_list_free (sd->cached_list);
-
-		sd->cached_list = sheet_style_list_overlap (sd->style_list, &sd->cached_range);
-
-		style_cache_misses++;
-	}
-
-	mstyle = sheet_style_compute_from_list (sd->cached_list, col, row);
-
-	sheet_style_cache_add (sd, col, row, mstyle);
-
-	return mstyle;
+	return res;
 }
 
-/**
- * required_updates_for_style
- * @style: the style
- *
- * What changes are required after applying the supplied style.
- */
-SpanCalcFlags
-required_updates_for_style (MStyle *style)
+static CellTile *
+cell_tile_ptr_matrix_new (CellTile *t)
 {
-	gboolean const size_change =
-	    (mstyle_is_element_set  (style, MSTYLE_FONT_NAME) ||
-	     mstyle_is_element_set  (style, MSTYLE_FONT_BOLD) ||
-	     mstyle_is_element_set  (style, MSTYLE_FONT_ITALIC) ||
-	     mstyle_is_element_set  (style, MSTYLE_FONT_SIZE) ||
-	     mstyle_is_element_set  (style, MSTYLE_FIT_IN_CELL));
-	gboolean const format_change =
-	    mstyle_is_element_set (style, MSTYLE_FORMAT);
+	CellTilePtrMatrix *res;
 
-	return format_change
-	    ? SPANCALC_RE_RENDER|SPANCALC_RESIZE
-	    : size_change ? SPANCALC_RESIZE
-			  : SPANCALC_SIMPLE;
+	g_return_val_if_fail (t != NULL, NULL);
+	g_return_val_if_fail (TILE_SIMPLE <= t->type &&
+			      TILE_MATRIX >= t->type, NULL);
+
+	res = g_new (CellTilePtrMatrix, 1);
+	*((CellTileType *)&(res->type)) = TILE_PTR_MATRIX;
+
+	/* TODO :
+	 * If we wanted to get fancy we could you self similarity to decrease the
+	 * number of subtiles.  However, this would increase the cost of applying changes
+	 * later so I'm not sure it is worth the effort.
+	 */
+	switch (t->type) {
+	case TILE_SIMPLE : {
+		int i = TILE_SIZE_COL * TILE_SIZE_ROW;
+		while (--i >= 0)
+			res->ptr [i] = cell_tile_style_new (
+				t->style_simple.style [0], TILE_SIMPLE);
+		break;
+	}
+	case TILE_COL : {
+		int i, r, c;
+		for (i = r = 0 ; r < TILE_SIZE_ROW ; ++r)
+			for (c = 0 ; c < TILE_SIZE_COL ; ++c)
+				res->ptr [i++] = cell_tile_style_new (
+					t->style_col.style [c], TILE_SIMPLE);
+		break;
+	}
+	case TILE_ROW : {
+		int i, r, c;
+		for (i = r = 0 ; r < TILE_SIZE_ROW ; ++r)
+			for (c = 0 ; c < TILE_SIZE_COL ; ++c)
+				res->ptr [i++] = cell_tile_style_new (
+					t->style_row.style [r], TILE_SIMPLE);
+		break;
+	}
+	case TILE_MATRIX : {
+		int i = TILE_SIZE_COL * TILE_SIZE_ROW;
+		while (--i >= 0)
+			res->ptr [i] = cell_tile_style_new (
+				t->style_simple.style [i], TILE_SIMPLE);
+		break;
+	}
+	default : ;
+	};
+
+	return (CellTile *)res;
 }
+
+static CellTile *
+cell_tile_matrix_set (CellTile *t, Range const *indic, ReplacementStyle *rs)
+{
+	int i, r, c;
+	CellTileStyleMatrix *res;
+	MStyle *tmp;
+
+	g_return_val_if_fail (t != NULL, NULL);
+	g_return_val_if_fail (TILE_SIMPLE <= t->type &&
+			      TILE_MATRIX >= t->type, NULL);
+
+	res = (CellTileStyleMatrix *)((t->type != TILE_MATRIX)
+		? cell_tile_style_new (NULL, TILE_MATRIX) : t);
+
+	switch (t->type) {
+	case TILE_SIMPLE :
+		mstyle_ref_multiple (tmp = t->style_simple.style [0],
+				     i = TILE_SIZE_COL * TILE_SIZE_ROW);
+		while (--i >= 0)
+			res->style [i] = tmp;
+		break;
+
+	case TILE_COL :
+		for (i = r = 0 ; r < TILE_SIZE_ROW ; ++r)
+			for (c = 0 ; c < TILE_SIZE_COL ; ++c)
+				mstyle_ref (res->style [i++] =
+					    t->style_col.style [c]);
+		break;
+	case TILE_ROW :
+		for (i = r = 0 ; r < TILE_SIZE_ROW ; ++r) {
+			mstyle_ref_multiple (tmp = t->style_row.style [r],
+					     TILE_SIZE_COL);
+			for (c = 0 ; c < TILE_SIZE_COL ; ++c)
+				res->style [i++] = tmp;
+		}
+		break;
+	case TILE_MATRIX :
+	default :
+		break;
+	};
+
+	if (t->type != TILE_MATRIX)
+		cell_tile_dtor (t);
+
+	if (indic != NULL) {
+		MStyle **style = res->style;
+		r = indic->start.row;
+		style += r*TILE_SIZE_COL;
+		for ( ;r <= indic->end.row ; ++r, style += TILE_SIZE_COL)
+			for (c = indic->start.col ; c <= indic->end.col ; ++c)
+				rstyle_apply (style + c, rs);
+	}
+
+	return (CellTile *)res;
+}
+
+/****************************************************************************/
+
+struct _SheetStyleData {
+	GHashTable *style_hash;
+	CellTile   *styles;
+	MStyle	   *default_style;
+};
 
 void
-sheet_create_styles (Sheet *sheet)
+sheet_style_init (Sheet *sheet)
 {
-	SheetStyleData *sd;
-
-	g_return_if_fail (sheet != NULL);
-
-	sd = g_new (SheetStyleData, 1);
-
-	sd->style_list  = NULL;
-	sd->style_cache = NULL;
-	sd->cached_list = NULL;
-
-	sheet->style_data = sd;
-}
-
-void
-sheet_destroy_styles (Sheet *sheet)
-{
-	GList          *l;
-	SheetStyleData *sd;
-
-	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
-	sd = sheet->style_data;
+	sheet->style_data = g_new (SheetStyleData, 1);
+	sheet->style_data->style_hash =
+		g_hash_table_new (mstyle_hash, (GCompareFunc) mstyle_equal);
+	sheet->style_data->default_style = mstyle_new_default ();
+	sheet->style_data->styles =
+		cell_tile_style_new (sheet->style_data->default_style,
+				     TILE_SIMPLE);
+}
 
-	g_return_if_fail (sd != NULL);
+void
+sheet_style_shutdown (Sheet *sheet)
+{
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (sheet->style_data != NULL);
 
-	sheet_style_cache_flush (sd, STYLE_CACHE_FLUSH_ALL);
+	cell_tile_dtor (sheet->style_data->styles);
+	sheet->style_data->styles = NULL;
 
-	if (sd->style_cache)
-		g_hash_table_destroy (sd->style_cache);
+	g_hash_table_destroy (sheet->style_data->style_hash);
+	sheet->style_data->style_hash = NULL;
 
-	for (l = sd->style_list; l; l = l->next) {
-		StyleRegion *sr = l->data;
+	mstyle_unref (sheet->style_data->default_style);
 
-		mstyle_unref (sr->style);
-
-		sr->style = NULL;
-
-		g_free (sr);
-	}
-	g_list_free (sd->style_list);
-	sd->style_list = NULL;
-
-	g_free (sd);
+	g_free (sheet->style_data);
 	sheet->style_data = NULL;
 }
 
-void
-sheet_styles_dump (Sheet *sheet)
+/****************************************************************************/
+
+static MStyle *
+vector_apply_pstyle (MStyle **styles, int n, ReplacementStyle *rs)
 {
-	GList          *l;
-	int             i = 0;
-	SheetStyleData *sd;
+	gboolean is_uniform = TRUE;
+	MStyle *prev = NULL;
 
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-
-	sd = sheet->style_data;
-
-	for (l = sd->style_list; l; l = l->next) {
-		StyleRegion *sr = l->data;
-
-		fprintf (stderr, "Stamp %d Range: ", sr->stamp);
-		range_dump (&sr->range);
-		fprintf (stderr, " style ");
-		mstyle_dump (sr->style);
-		fprintf (stderr, "\n");
-		i++;
-	}
-	fprintf (stderr, "There were %d styles\n", i);
-}
-
-void
-sheet_style_delete_colrow (Sheet *sheet, int pos, int count,
-			   gboolean is_col)
-{
-	Range  del_range;
-	GList *l, *next;
-	SheetStyleData *sd;
-
-	g_return_if_fail (pos >= 0);
-	g_return_if_fail (count > 0);
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-
-	sd = sheet->style_data;
-
-	range_init_full_sheet (&del_range);
-	if (is_col) {
-		del_range.start.col = pos;
-		del_range.end.col   = pos + count - 1;
-	} else {
-		del_range.start.row = pos;
-		del_range.end.row   = pos + count - 1;
-	}
-
-	/* Don't touch the last 'global' range */
-	for (l = sd->style_list; l && l->next; l = next) {
-		StyleRegion *sr = (StyleRegion *)l->data;
-
-		next = g_list_next (l);
-
-		if (is_col) {
-			if (sr->range.start.col      >  del_range.end.col)
-				sr->range.start.col  -= count;
-			else if (sr->range.start.col >= del_range.start.col)
-				sr->range.start.col  =  pos;
-
-			if (sr->range.end.col        >= SHEET_MAX_COLS - 1)
-				;
-			else if (sr->range.end.col   >  del_range.end.col)
-				sr->range.end.col    -= count;
-			else if (sr->range.end.col   >= del_range.start.col)
-				sr->range.end.col    =  pos - 1;
-
-			if (sr->range.start.col > sr->range.end.col ||
-			    sr->range.start.col < 0 ||
-			    sr->range.end.col < 0)
-				sheet_style_region_unlink (sheet->style_data, sr);
-		} else { /* s/col/row/ */
-			if (sr->range.start.row      >  del_range.end.row)
-				sr->range.start.row  -= count;
-			else if (sr->range.start.row >= del_range.start.row)
-				sr->range.start.row  =  pos;
-
-			if (sr->range.end.row        >= SHEET_MAX_ROWS - 1)
-				;
-			else if (sr->range.end.row   >  del_range.end.row)
-				sr->range.end.row    -= count;
-			else if (sr->range.end.row   >= del_range.start.row)
-				sr->range.end.row    =  pos - 1;
-
-			if (sr->range.start.row > sr->range.end.row ||
-			    sr->range.start.row < 0 ||
-			    sr->range.end.row < 0)
-				sheet_style_region_unlink (sheet->style_data, sr);
+	while (--n >= 0) {
+		rstyle_apply (styles + n, rs);
+		if (is_uniform) {
+			if (prev == NULL)
+				prev = styles [n];
+			else if (prev != styles [n])
+				is_uniform = FALSE;
 		}
 	}
-
-	sheet_style_cache_flush (sd, STYLE_CACHE_FLUSH_ALL);
+	return is_uniform ? prev : NULL;
 }
 
-static void
-stylish_insert_colrow (Sheet *sheet, int pos, int count, gboolean is_col)
+static gboolean
+col_indicies (int corner_col, int w, Range const *apply_to,
+	      int *first_index, int *last_index)
 {
- 	GList *l, *next;
-	gint start, end;
-	SheetStyleData *sd;
+	int i, tmp;
 
-	sd = sheet->style_data;
+	i = apply_to->start.col - corner_col;
+	tmp = i / w;
+	if (i != (tmp * w))
+		return FALSE;
+	*first_index = (i >= 0) ? tmp : 0;
 
- 	/* Don't touch the last 'global' range */
- 	for (l = sd->style_list; l && l->next; l = next) {
- 		StyleRegion *sr = (StyleRegion *)l->data;
+	i = 1 + apply_to->end.col - corner_col;
+	tmp = i / w;
+	if (i != (tmp * w))
+		return FALSE;
+	*last_index = (tmp <= TILE_SIZE_COL) ? (tmp-1) : TILE_SIZE_COL -1;
 
- 		next = g_list_next (l);
-
-		if (is_col) {
-			start = sr->range.start.col;
-			end = sr->range.end.col;
-		} else {
-			start = sr->range.start.row;
-			end = sr->range.end.row;
-		}
-
-		/*  We can ignore anything at least 2 cells left or above of insert */
-		if (pos >= (end + 2))
- 			continue;
-
-		/* End will move for everything else. */
-		end += count;
-
-		/* Check if start should move too. */
-		if (pos <= start)
-			start += count;
-
-		if (is_col) {
- 			sr->range.start.col = MIN (start, SHEET_MAX_COLS - 1);
- 			sr->range.end.col = MIN (end, SHEET_MAX_COLS - 1);
-		} else {
- 			sr->range.start.row = MIN (start, SHEET_MAX_ROWS - 1);
- 			sr->range.end.row = MIN (end, SHEET_MAX_ROWS - 1);
- 		}
-
-	}
-
-	sheet_style_cache_flush (sd, STYLE_CACHE_FLUSH_ALL);
+	return TRUE;
 }
 
-static void
-styleless_insert_colrow (Sheet *sheet, int pos, int count, gboolean is_col)
+static gboolean
+row_indicies (int corner_row, int h, Range const *apply_to,
+	      int *first_index, int *last_index)
 {
-	Range  move_range, ignore_range;
-	GList *l, *next;
-	SheetStyleData *sd;
+	int i, tmp;
 
-	sd = sheet->style_data;
+	i = apply_to->start.row - corner_row;
+	tmp = i / h;
+	if (i != (tmp * h))
+		return FALSE;
+	*first_index = (i >= 0) ? tmp : 0;
 
-	range_init_full_sheet (&move_range);
-	range_init_full_sheet (&ignore_range);
-	if (is_col) {
-		move_range.start.col = pos;
-		ignore_range.end.col = MAX (pos - 1, 0);
-	} else {
-		move_range.start.row = pos;
-		ignore_range.end.row = MAX (pos - 1, 0);
-	}
+	i = 1 + apply_to->end.row - corner_row;
+	tmp = i / h;
+	if (i != (tmp * h))
+		return FALSE;
+	*last_index = (tmp <= TILE_SIZE_ROW) ? (tmp-1) : TILE_SIZE_ROW -1;
 
-	/* Don't touch the last 'global' range */
-	for (l = sd->style_list; l && l->next; l = next) {
-		StyleRegion *sr = (StyleRegion *)l->data;
-
-		next = g_list_next (l);
-
-		/* 1. We can ignore anything to left or above of insert */
-		if (pos > 0 && range_contained (&sr->range, &ignore_range))
-			continue;
-
-		/* 2. We simply translate the ranges completely to right or bottom */
-		if (pos == 0 || range_contained (&sr->range, &move_range)) {
-			if (is_col) {
-				sr->range.start.col = MIN (sr->range.start.col + count,
-							   SHEET_MAX_COLS - 1);
-				sr->range.end.col   = MIN (sr->range.end.col + count,
-							   SHEET_MAX_COLS - 1);
-			} else {
-				sr->range.start.row = MIN (sr->range.start.row + count,
-							   SHEET_MAX_ROWS - 1);
-				sr->range.end.row   = MIN (sr->range.end.row + count,
-							   SHEET_MAX_ROWS - 1);
-			}
-			continue;
-		}
-
-		/* 3. An awkward straddle case */
-		{
-			StyleRegion *frag;
-
-			/* 3.1 Create a new style Region */
-			frag = style_region_copy (sr);
-
-			/* 3.2 Split the ranges */
-			if (is_col) {
-				sr->range.end.col     = pos - 1;
-				frag->range.start.col = pos + count;
-				frag->range.end.col   = MIN (frag->range.end.col + count,
-							     SHEET_MAX_COLS - 1);
-			} else {
-				sr->range.end.row     = pos - 1;
-				frag->range.start.row = pos + count;
-				frag->range.end.row   = MIN (frag->range.end.row + count,
-							     SHEET_MAX_ROWS - 1);
-			}
-
-			/* 3.3 Insert in the correct stamp order */
-			if (is_col) {
-				if (frag->range.start.col <= frag->range.end.col)
-					sheet_style_region_link (sheet->style_data, frag);
-			} else {
-				if (frag->range.start.row <= frag->range.end.row)
-					sheet_style_region_link (sheet->style_data, frag);
-			}
-		}
-	}
-
-	sheet_style_cache_flush (sd, STYLE_CACHE_FLUSH_ALL);
-}
-
-void
-sheet_style_insert_colrow (Sheet *sheet, int pos, int count,
-			   gboolean is_col)
-{
-	gboolean stylish, was_default;
-
-	g_return_if_fail (pos >= 0);
-	g_return_if_fail (count > 0);
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-
-	/* Check if style preserving insert option is specified. */
-	gnome_config_push_prefix ("Gnumeric/Options/");
-	stylish = gnome_config_get_bool_with_default ("StylishInsert=true",
-							&was_default);
-
-	if (was_default) {
-		gnome_config_set_bool ("StylishInsert", stylish);
-		gnome_config_sync ();
-	}
-	gnome_config_pop_prefix ();
-
-	if (stylish)
-		stylish_insert_colrow (sheet, pos, count, is_col);
-	else
-		styleless_insert_colrow (sheet, pos, count, is_col);
-}
-
-void
-sheet_style_relocate (const ExprRelocateInfo *rinfo)
-{
-	GList *stored_regions = NULL;
-	GList *l, *next;
-	SheetStyleData *sd;
-	Range           dest;
-
-	g_return_if_fail (rinfo != NULL);
-	g_return_if_fail (rinfo->origin_sheet != NULL);
-	g_return_if_fail (rinfo->target_sheet != NULL);
-	g_return_if_fail (IS_SHEET (rinfo->origin_sheet));
-	g_return_if_fail (IS_SHEET (rinfo->target_sheet));
-
-	sd = rinfo->origin_sheet->style_data;
-
-/* 1. Fragment each StyleRegion against the original range */
-	for (l = sd->style_list; l && l->next; l = next) {
-		StyleRegion *sr = (StyleRegion *)l->data;
-		GList       *fragments;
-
-		next = l->next;
-
-		if (!range_overlap (&sr->range, &rinfo->origin))
-			continue;
-
-		fragments = range_split_ranges (&rinfo->origin, (Range *)sr,
-						(RangeCopyFn)style_region_copy);
-		stored_regions = g_list_concat (fragments, stored_regions);
-		sheet_style_region_unlink (rinfo->origin_sheet->style_data, sr);
-	}
-
-/* Make sure this doesn't screw up the ranges under our feet later */
-	dest = rinfo->origin;
-	range_translate (&dest, rinfo->col_offset, rinfo->row_offset);
-	sheet_style_attach (rinfo->target_sheet, &dest, mstyle_new_default ());
-
-/* 2 Either fold back or queue Regions */
-	for (l = stored_regions; l; l = l->next) {
-		StyleRegion *sr = (StyleRegion *)l->data;
-
-/*		printf ("Stored region ");
-		range_dump (&sr->range);
-		printf ("\n");*/
-
-		if (!range_overlap (&sr->range, &rinfo->origin)) {
-/* 2.1 Add back the fragments */
-			sheet_style_region_link (sd, sr);
-		} else {
-/* 2.2 Translate queued regions + re-stamp */
-			range_translate (&sr->range, rinfo->col_offset, rinfo->row_offset);
-			sr->stamp = stamp++;
-			sheet_style_region_link (rinfo->target_sheet->style_data, sr);
-		}
-	}
-	g_list_free (stored_regions);
-
-	sheet_style_cache_flush (rinfo->target_sheet->style_data, STYLE_CACHE_FLUSH_ALL);
-	if (rinfo->origin_sheet != rinfo->target_sheet)
-		sheet_style_cache_flush (rinfo->origin_sheet->style_data, STYLE_CACHE_FLUSH_ALL);
-}
-
-/*
- * sheet_get_styles_in_range :
- *
- * Returns the list of styles that intersect the supplied range @r.
- * NOTE : The list is in REVERSE ORDER.
- */
-GList *
-sheet_get_styles_in_range (Sheet *sheet, const Range *r)
-{
-	GList *ans = NULL;
-	GList *l, *next;
-	SheetStyleData *sd;
-
-	g_return_val_if_fail (sheet != NULL, NULL);
-	g_return_val_if_fail (IS_SHEET (sheet), NULL);
-
-	sd = sheet->style_data;
-
-/* 1. Fragment each StyleRegion against the original range */
-	for (l = sd->style_list; l; l = next) {
-		StyleRegion *sr = (StyleRegion *)l->data;
-		GList       *fragments, *f;
-
-		next = l->next;
-
-		if (!range_overlap (&sr->range, r))
-			continue;
-
-		fragments = range_split_ranges (r, (Range *)sr,
-						(RangeCopyFn)style_region_copy);
-
-/* 2. Iterate over each fragment */
-		for (f = fragments; f; f = f->next) {
-			StyleRegion *frag = (StyleRegion *)f->data;
-
-/* 2.1 If it is within our range of interest keep it */
-			if (range_overlap (&frag->range, r)) {
-/* 2.1.1 Translate the range so it it's origin is the TLC of 'r' */
-				range_translate (&frag->range,
-						 - r->start.col,
-						 - r->start.row);
-				ans = g_list_prepend (ans, frag);
-			} else
-/* 2.2 Else send it packing */
-				style_region_destroy (frag);
-		}
-		if (fragments)
-			g_list_free (fragments);
-	}
-
-	return ans;
-}
-
-void
-sheet_style_list_destroy (GList *list)
-{
-	GList *l;
-
-	g_return_if_fail (list != NULL);
-
-	for (l = list; l; l = g_list_next (l))
-		style_region_destroy (l->data);
-
-	g_list_free (list);
-}
-
-SpanCalcFlags
-sheet_style_attach_list (Sheet *sheet, const GList *list,
-			 const CellPos *corner, gboolean transpose)
-{
-	SpanCalcFlags spanflags = SPANCALC_SIMPLE;
-	const GList *l;
-
-	g_return_val_if_fail (sheet != NULL, spanflags);
-	g_return_val_if_fail (IS_SHEET (sheet), spanflags);
-
-	/* Sluggish but simple implementation for now */
-	for (l = list; l; l = g_list_next (l)) {
-		const StyleRegion *sr = l->data;
-		Range              r  = sr->range;
-
-		range_translate (&r, +corner->col, +corner->row);
-		if (transpose)
-			range_transpose (&r, corner);
-
-		mstyle_ref (sr->style);
-		sheet_style_attach (sheet, &r, sr->style);
-		spanflags |= required_updates_for_style (sr->style);
-	}
-	return spanflags;
-}
-
-static void
-do_apply_border (Sheet *sheet, const Range *r,
-		 MStyleElementType t, int idx, StyleBorder **borders)
-{
-	MStyle *mstyle;
-
-	if (borders [idx]) {
-		style_border_ref (borders [idx]);
-
-		mstyle = mstyle_new ();
-		mstyle_set_border (mstyle, t, borders [idx]);
-		sheet_style_attach (sheet, r, mstyle);
-	}
-}
-
-static void
-do_blank_border (Sheet *sheet, const Range *r,
-		 MStyleElementType t)
-{
-	MStyle *mstyle;
-
-	mstyle = mstyle_new ();
-	mstyle_set_border (mstyle, t,
-			   style_border_ref (style_border_none ()));
-	sheet_style_attach (sheet, r, mstyle);
+	return TRUE;
 }
 
 /**
- * sheet_range_set_border:
- * @sheet:
- * @range:
- * @borders: an array of border styles to apply
- *
- * Apply borders round the edge of a range.
- * ignore special corner cases; these are made by
- * an implicit StyleRegion overlap at present.
- *
- * 'Outer' borders are cleared if they have been set.
- *
- * The StyleBorder allocations are not swallowed
- *
- **/
-void
-sheet_range_set_border (Sheet         *sheet,
-			const Range   *range,
-			StyleBorder **borders)
+ * cell_tile_apply : This is the primary logic for making changing areas in the
+ * tree.  It could be further optimised if it becomes a bottle neck.
+ */
+static void
+cell_tile_apply (CellTile **tile, int level,
+		 int corner_col, int corner_row,
+		 Range const *apply_to,
+		 ReplacementStyle *rs)
 {
-	Range          r;
-	MStyle        *mstyle;
+	int const width = tile_widths [level+1];
+	int const height = tile_heights [level+1];
+	int const w = tile_widths [level];
+	int const h = tile_heights [level];
+	gboolean const full_width = (apply_to->start.col <= corner_col &&
+				     apply_to->end.col >= (corner_col+width-1));
+	gboolean const full_height = (apply_to->start.row <= corner_row &&
+				      apply_to->end.row >= (corner_row+height-1));
+	Range indic;
+	CellTile *res = NULL;
+	CellTileType type;
+	int c, r, i;
+
+	g_return_if_fail (TILE_TOP_LEVEL >= level && level >= 0);
+	g_return_if_fail (tile != NULL);
+	g_return_if_fail (*tile != NULL);
+
+	type = (*tile)->type;
+	g_return_if_fail (TILE_SIMPLE <= type && type <= TILE_PTR_MATRIX);
+
+	/* applying the same style to part of a simple-tile is a nop */
+	if (type == TILE_SIMPLE && 
+	    (*tile)->style_simple.style [0] == rs->new_style)
+		return;
+
+	/* Apply new style over top of the entire tile */
+	if (full_width && full_height) {
+		if (type == TILE_SIMPLE) {
+			rstyle_apply ((*tile)->style_simple.style, rs);
+			return;
+		}
+		if (rs->new_style != NULL) {
+			res = cell_tile_style_new (rs->new_style,
+						   (type = TILE_SIMPLE));
+			cell_tile_dtor (*tile);
+			*tile = res;
+		}
+		if (TILE_SIMPLE <= type && type <= TILE_MATRIX) {
+			MStyle *uniform = vector_apply_pstyle (
+				(*tile)->style_any.style, tile_size [type], rs);
+			if (uniform == NULL)
+				return;
+
+			res = cell_tile_style_new (uniform, TILE_SIMPLE);
+			cell_tile_dtor (*tile);
+			*tile = res;
+			return;
+		}
+	} else if (full_height) {
+		if (col_indicies (corner_col, w, apply_to,
+				  &indic.start.col, &indic.end.col)) {
+			if (type == TILE_SIMPLE) {
+				res = cell_tile_style_new (
+					(*tile)->style_simple.style [0],
+					(type = TILE_COL));
+				cell_tile_dtor (*tile);
+				*tile = res;
+			}
+			if (type == TILE_COL) {
+				int i = indic.start.col;
+				for (;i <= indic.end.col ; ++i)
+					rstyle_apply ((*tile)->style_col.style + i, rs);
+				return;
+			}
+			if (type != TILE_PTR_MATRIX) {
+				indic.start.row = 0;
+				indic.end.row = TILE_SIZE_ROW - 1;
+				*tile = cell_tile_matrix_set (*tile, &indic, rs);
+				return;
+			}
+		}
+	} else if (full_width) {
+		if (row_indicies (corner_row, h, apply_to,
+				  &indic.start.row, &indic.end.row)) {
+			if (type == TILE_SIMPLE) {
+				res = cell_tile_style_new (
+					(*tile)->style_simple.style [0],
+					(type = TILE_ROW));
+				cell_tile_dtor (*tile);
+				*tile = res;
+			}
+			if (type == TILE_ROW) {
+				int i = indic.start.row;
+				for (;i <= indic.end.row ; ++i)
+					rstyle_apply ((*tile)->style_row.style + i, rs);
+				return;
+			}
+			if (type != TILE_PTR_MATRIX) {
+				indic.start.col = 0;
+				indic.end.col = TILE_SIZE_COL - 1;
+				*tile = cell_tile_matrix_set (*tile, &indic, rs);
+				return;
+			}
+		}
+	} else {
+		if (col_indicies (corner_col, w, apply_to,
+				  &indic.start.col, &indic.end.col) &&
+		    row_indicies (corner_row, h, apply_to,
+				  &indic.start.row, &indic.end.row) &&
+		    type != TILE_PTR_MATRIX) {
+			*tile = cell_tile_matrix_set (*tile, &indic, rs);
+			return;
+		}
+	}
+
+	if (res == NULL && type != TILE_PTR_MATRIX) {
+		type = TILE_PTR_MATRIX;
+		res = cell_tile_ptr_matrix_new (*tile);
+		cell_tile_dtor (*tile);
+		*tile = res;
+	}
+
+	/* drill down */
+	g_return_if_fail (type == TILE_PTR_MATRIX);
+	level--;
+	for (i = r = 0 ; r < TILE_SIZE_ROW ; ++r, i += TILE_SIZE_COL) {
+		int const cr = corner_row + h*r;
+		if (cr > apply_to->end.row)
+			break;
+		if ((cr + h) <= apply_to->start.row)
+			continue;
+
+		for (c = 0 ; c < TILE_SIZE_COL ; ++c) {
+			int const cc = corner_col + w*c;
+			if (cc > apply_to->end.col)
+				break;
+			if ((cc + w) <= apply_to->start.col)
+				continue;
+
+			/* TODO : we could be smarter and merge things
+			 * if the sub tiles become uniform
+			 */
+			cell_tile_apply ((*tile)->ptr_matrix.ptr + i + c,
+					 level, cc, cr, apply_to, rs);
+		}
+	}
+}
+
+/**
+ * foreach_tile :
+ *
+ */
+static void
+foreach_tile (CellTile *tile, int level,
+	      int corner_col, int corner_row,
+	      Range const *apply_to,
+	      void (*handler) (MStyle *style,
+			       int corner_col, int corner_row, int width, int height,
+			       Range const *apply_to, gpointer user),
+	      gpointer user)
+{
+	int const width = tile_widths [level+1];
+	int const height = tile_heights [level+1];
+	int const w = tile_widths [level];
+	int const h = tile_heights [level];
+	int c, r, i;
+
+	g_return_if_fail (TILE_TOP_LEVEL >= level && level >= 0);
+	g_return_if_fail (tile != NULL);
+
+	switch (tile->type) {
+	case TILE_SIMPLE :
+	(*handler) (tile->style_simple.style [0],
+		    corner_col, corner_row, width, height,
+		    apply_to, user);
+	break;
+
+	case TILE_COL :
+	for (c = 0 ; c < TILE_SIZE_COL ; ++c)
+		(*handler) (tile->style_col.style [c],
+			    corner_col + c*w, corner_row, w, height,
+			    apply_to, user);
+	break;
+
+	case TILE_ROW :
+	for (r = 0 ; r < TILE_SIZE_ROW ; ++r)
+		(*handler) (tile->style_row.style [r],
+			    corner_col, corner_row + r*h, width, h,
+			    apply_to, user);
+	break;
+
+	case TILE_MATRIX :
+	case TILE_PTR_MATRIX :
+	for (i = r = 0 ; r < TILE_SIZE_ROW ; ++r, i += TILE_SIZE_COL) {
+		int const cr = corner_row + h*r;
+		if (apply_to) {
+			if (cr > apply_to->end.row)
+				break;
+			if ((cr + h) <= apply_to->start.row)
+				continue;
+		}
+
+		for (c = 0 ; c < TILE_SIZE_COL ; ++c) {
+			int const cc = corner_col + w*c;
+			if (apply_to) {
+				if (cc > apply_to->end.col)
+					break;
+				if ((cc + w) <= apply_to->start.col)
+					continue;
+			}
+
+			if (tile->type == TILE_MATRIX) {
+				(*handler) (tile->style_matrix.style [r*TILE_SIZE_COL+c],
+					    corner_col + c*w, corner_row + r*h,
+					    w, h, apply_to, user);
+			} else {
+				foreach_tile (
+				      tile->ptr_matrix.ptr [c + r*TILE_SIZE_COL],
+				      level-1, cc, cr, apply_to, handler, user);
+			}
+		}
+	}
+	break;
+
+	default :
+		g_warning ("Adaptive Quad Tree corruption !");
+	}
+}
+
+/**
+ * cell_tile_apply_pos : This is an simplified version of cell_tile_apply.  It
+ * does not need all the bells and whistles because it operates on single cells.
+ */
+static void
+cell_tile_apply_pos (CellTile **tile, int level,
+		     int col, int row,
+		     ReplacementStyle *rs)
+{
+	CellTile *tmp;
+	CellTileType type;
+
+tail_recursion :
+	g_return_if_fail (TILE_TOP_LEVEL >= level && level >= 0);
+	g_return_if_fail (tile != NULL);
+	g_return_if_fail (*tile != NULL);
+
+	tmp = *tile;
+	type = tmp->type;
+	g_return_if_fail (TILE_SIMPLE <= type && type <= TILE_PTR_MATRIX);
+
+	if (level > 0) {
+		int const w = tile_widths [level];
+		int const c = col / w;
+		int const h = tile_heights [level];
+		int const r = row / h;
+
+		if (type != TILE_PTR_MATRIX) {
+			tmp = cell_tile_ptr_matrix_new (tmp);
+			cell_tile_dtor (*tile);
+			*tile = tmp;
+		}
+		tile = tmp->ptr_matrix.ptr + r * TILE_SIZE_COL + c;
+		level--;
+		col -= c*w;
+		row -= r*h;
+		goto tail_recursion;
+	} else if (type != TILE_MATRIX)
+		*tile = tmp = cell_tile_matrix_set (tmp, NULL, NULL);
+
+	g_return_if_fail (tmp->type == TILE_MATRIX);
+	rstyle_apply (tmp->style_matrix.style + row*TILE_SIZE_COL + col, rs);
+}
+
+/**
+ * sheet_style_set_range
+ *
+ * @sheet :
+ * @range :
+ * @style
+ *
+ * Change the complete style for a region.
+ * This function absorbs a reference to the new @style.
+ */
+void
+sheet_style_set_range (Sheet *sheet, Range const *range,
+		       MStyle *style)
+{
+	ReplacementStyle rs;
+
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (range != NULL);
+
+	cell_tile_apply (&sheet->style_data->styles,
+			 TILE_TOP_LEVEL, 0, 0,
+			 range, rstyle_ctor (&rs, style, NULL));
+	mstyle_unref (style);
+}
+
+/**
+ * sheet_style_set_pos :
+ *
+ * @sheet :
+ * @col   :
+ * @row   :
+ * @style :
+ *
+ * Change the complete style for a single cell.
+ * This function absorbs a reference to the the new @style.
+ */
+void
+sheet_style_set_pos (Sheet *sheet, int col, int row,
+		     MStyle *style)
+{
+	ReplacementStyle rs;
+
+	g_return_if_fail (IS_SHEET (sheet));
+
+	cell_tile_apply_pos (&sheet->style_data->styles,
+			     TILE_TOP_LEVEL, col, row,
+			     rstyle_ctor (&rs, style, NULL));
+	mstyle_unref (style);
+}
+
+/**
+ * sheet_style_default :
+ *
+ */
+MStyle *
+sheet_style_default (Sheet const *sheet)
+{
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+	g_return_val_if_fail (sheet->style_data != NULL, NULL);
+
+	mstyle_ref (sheet->style_data->default_style);
+	return sheet->style_data->default_style;
+}
+
+/**
+ * sheet_style_get :
+ *
+ * @sheet :
+ * @col   :
+ * @row   :
+ *
+ * Find the fully qualified style applicable to the specified cellpos.
+ */
+MStyle *
+sheet_style_get (Sheet const *sheet, int col, int row)
+{
+	int width = TILE_SIZE_COL*TILE_SIZE_COL*TILE_SIZE_COL;
+	int height = TILE_SIZE_ROW*TILE_SIZE_ROW*TILE_SIZE_ROW;
+	int c, r, level = TILE_TOP_LEVEL;
+	CellTile *tile = sheet->style_data->styles;
+
+tail_recursion :
+	c = col / width;
+	r = row / height;
+
+	g_return_val_if_fail (tile != NULL, NULL);
+	g_return_val_if_fail (0 <= c && c < TILE_SIZE_COL, NULL);
+	g_return_val_if_fail (0 <= r && r < TILE_SIZE_ROW, NULL);
+
+	switch (tile->type) {
+	case TILE_SIMPLE : return tile->style_simple.style [0];
+	case TILE_COL :	   return tile->style_col.style [c];
+	case TILE_ROW :	   return tile->style_row.style [r];
+	case TILE_MATRIX : return tile->style_matrix.style [r*TILE_SIZE_COL+c];
+
+	case TILE_PTR_MATRIX :
+		g_return_val_if_fail (level > 0, NULL);
+
+		level--;
+		tile = tile->ptr_matrix.ptr [r*TILE_SIZE_COL + c];
+		col -= c * width;
+		row -= r * height;
+		width /= TILE_SIZE_COL;
+		height /= TILE_SIZE_ROW;
+		goto tail_recursion;
+
+	default :
+		break;
+	};
+
+	g_warning ("Adaptive Quad Tree corruption !");
+	return NULL;
+}
+
+static void
+style_row (MStyle *style, int start_col, int end_col, StyleRow *sr)
+{
+	StyleBorder *top, *bottom, *none = style_border_none ();
+	StyleBorder *left, *right, *v;
+	int const end = MIN (end_col, sr->end_col);
+	int i;
+
+	i = start_col - sr->start_col;
+	if (i < 0) {
+	} else
+		i = sr->start_col;
+
+	top = mstyle_get_border (style, MSTYLE_BORDER_TOP);
+	bottom = mstyle_get_border (style, MSTYLE_BORDER_TOP);
+	left = mstyle_get_border (style, MSTYLE_BORDER_LEFT);
+	right = mstyle_get_border (style, MSTYLE_BORDER_RIGHT);
+
+	if (sr->vertical [i] == NULL || sr->vertical [i] == none)
+		sr->vertical [i] = left;
+	v = (right != none) ? left : right;
+
+	while (i <= end) {
+		sr->styles [i] = style;
+		if (sr->top [i] == NULL || sr->top [i] == none)
+			sr->top [i] = top;
+		sr->bottom [i] = bottom;
+		sr->vertical [++i] = v;
+	}
+	if (right == none)
+		sr->vertical [i] = none;
+}
+
+static void
+get_style_row (CellTile const *tile, int level,
+	       int corner_col, int corner_row,
+	       StyleRow *sr)
+{
+	int const width = tile_widths [level+1];
+	int const w = tile_widths [level];
+	int const h = tile_heights [level];
+	int r = 0;
+	CellTileType t;
+
+	g_return_if_fail (TILE_TOP_LEVEL >= level && level >= 0);
+	g_return_if_fail (tile != NULL);
+
+	t = tile->type;
+
+	if (t != TILE_ROW && t != TILE_COL)
+		r = (sr->row - corner_row)/ h;
+
+	if (t == TILE_ROW || t == TILE_SIMPLE) {
+		style_row (tile->style_any.style [r],
+			   corner_col, corner_col + width - 1, sr);
+	} else {
+		/* find the start and end */
+		int c = (sr->start_col > corner_col)
+			? (sr->start_col - corner_col) / w : 0;
+		int last_c = (sr->end_col - corner_col) / w;
+		if (last_c >= TILE_SIZE_COL)
+			last_c = TILE_SIZE_COL-1;
+
+		if (t != TILE_PTR_MATRIX) {
+			MStyle * const *styles = tile->style_any.style + r*TILE_SIZE_COL;
+			for ( ; c <= last_c ; c++, corner_col += w)
+				style_row (styles [c], corner_col,
+					   corner_col + w - 1, sr);
+		} else {
+			CellTile * const *tiles = tile->ptr_matrix.ptr + r*TILE_SIZE_COL;
+			for ( level-- ; c <= last_c ; c++, corner_col += w)
+				get_style_row (tiles [c], level, corner_col,
+					       corner_col + w - 1, sr);
+		}
+	}
+}
+
+/**
+ * sheet_style_get_row :
+ * 
+ * @sheet :
+ * @sr    :
+ * @start_col:
+ * @end_col  :
+ * @styles   :
+ * @top      :
+ * @bottom   :
+ * @vertical :
+ */
+void
+sheet_style_get_row (Sheet const *sheet, StyleRow *sr)
+{
+
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (sr != NULL);
+	g_return_if_fail (sr->styles != NULL);
+	g_return_if_fail (sr->vertical != NULL);
+	g_return_if_fail (sr->top != NULL);
+	g_return_if_fail (sr->bottom != NULL);
+
+	get_style_row (sheet->style_data->styles, TILE_TOP_LEVEL, 0, 0, sr);
+}
+
+/**
+ * sheet_style_apply_range :
+ * @sheet :
+ * @range :
+ * @pstyle:
+ *
+ * Apply a partial style to a region.
+ * The routine absorbs a reference to the partial style.
+ */
+void
+sheet_style_apply_range (Sheet *sheet, Range const *range, MStyle *pstyle)
+{
+	ReplacementStyle rs;
+
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (range != NULL);
+
+	cell_tile_apply (&sheet->style_data->styles,
+			 TILE_TOP_LEVEL, 0, 0,
+			 range, rstyle_ctor (&rs, NULL, pstyle));
+	rstyle_dtor (&rs);
+	mstyle_unref (pstyle);
+}
+
+static void
+apply_border (Sheet *sheet, Range const *r,
+	      StyleBorderLocation side,
+	      StyleBorder *border)
+{
+	MStyle *pstyle = mstyle_new ();
+	pstyle_set_border (pstyle, border, side);
+	sheet_style_apply_range (sheet, r, pstyle);
+}
+
+/**
+ * sheet_style_apply_border :
+ *
+ * @sheet   :
+ * @range   :
+ * @borders :
+ *
+ * When a user applies a border to a region we attempt to remove the border
+ * from the opposing side to avoid overlapping border specifications.
+ * eg
+ * if we apply a top border to a range, we would clear the bottom border
+ * of the range offset upwards.
+ */
+void
+sheet_style_apply_border (Sheet       *sheet,
+			  Range const *range,
+			  StyleBorder **borders)
+{
+	MStyle *pstyle = NULL;
 
 	if (borders == NULL)
 		return;
 
 	if (borders [STYLE_BORDER_TOP]) {
-		/* 1.1 The top inner */
-		r = *range;
+		/* 1.1 top inner */
+		Range r = *range;
 		r.end.row = r.start.row;
-		do_apply_border (sheet, &r,
-				 MSTYLE_BORDER_TOP,
-				 STYLE_BORDER_TOP, borders);
+		apply_border (sheet, &r, STYLE_BORDER_TOP,
+			      borders [STYLE_BORDER_TOP]);
 
-		/* 1.2 The top outer */
+		/* 1.2 top outer */
 		r.start.row--;
-		r.end.row = r.start.row;
-		if (r.start.row >= 0)
-			do_blank_border (sheet, &r, MSTYLE_BORDER_BOTTOM);
-	}
-
-	/* 2   We prefer to paint Top of the row below */
-	if (borders [STYLE_BORDER_BOTTOM]) {
-		r = *range;
-		r.start.row = r.end.row;
-		if (r.start.row < SHEET_MAX_ROWS-1) {
-			/* 2.1 The bottom outer */
-			do_blank_border (sheet, &r, MSTYLE_BORDER_BOTTOM);
-
-			/* 2.1 The bottom inner */
-			++r.end.row;
-			r.start.row = r.end.row;
-			do_apply_border (sheet, &r,
-					 MSTYLE_BORDER_TOP,
-					 STYLE_BORDER_BOTTOM, borders);
-		} else
-			do_apply_border (sheet, &r,
-					 MSTYLE_BORDER_BOTTOM,
-					 STYLE_BORDER_BOTTOM, borders);
-	}
-
-	/* 3.1 The left inner */
-	r = *range;
-	r.end.col = r.start.col;
-	do_apply_border (sheet, &r,
-			 MSTYLE_BORDER_LEFT,
-			 STYLE_BORDER_LEFT, borders);
-	/* 3.2 The left outer */
-	if (borders [STYLE_BORDER_LEFT]) {
-		r.start.col--;
-		r.end.col = r.start.col;
-		if (r.start.col >= 0)
-			do_blank_border (sheet, &r, MSTYLE_BORDER_RIGHT);
-	}
-
-	/* 4.1 The right inner */
-	/* 4   We prefer to paint left of the col to the right */
-	if (borders [STYLE_BORDER_RIGHT]) {
-		r = *range;
-		r.start.col = r.end.col;
-		if (r.start.col < SHEET_MAX_COLS-1) {
-			/* 2.1 The bottom outer */
-			do_blank_border (sheet, &r, MSTYLE_BORDER_RIGHT);
-
-			/* 2.1 The bottom inner */
-			++r.end.col;
-			r.start.col = r.end.col;
-			do_apply_border (sheet, &r,
-					 MSTYLE_BORDER_LEFT,
-					 STYLE_BORDER_RIGHT, borders);
-		} else
-			do_apply_border (sheet, &r,
-					 MSTYLE_BORDER_RIGHT,
-					 STYLE_BORDER_RIGHT, borders);
-	}
-
-	/* 5.1 The horizontal interior top */
-	r = *range;
-	if (r.start.row != r.end.row) {
-		++r.start.row;
-		do_apply_border (sheet, &r,
-				 MSTYLE_BORDER_TOP,
-				 STYLE_BORDER_HORIZ, borders);
-	}
-	/* 5.2 The horizontal interior bottom */
-	r = *range;
-	if (r.start.row != r.end.row) {
-		--r.end.row;
-		do_apply_border (sheet, &r,
-				 MSTYLE_BORDER_BOTTOM,
-				 STYLE_BORDER_HORIZ, borders);
-	}
-
-	/* 6.1 The vertical interior left */
-	r = *range;
-	if (r.start.col != r.end.col) {
-		++r.start.col;
-		do_apply_border (sheet, &r,
-				 MSTYLE_BORDER_LEFT,
-				 STYLE_BORDER_VERT, borders);
-	}
-
-	/* 6.2 The vertical interior right */
-	r = *range;
-	if (r.start.col != r.end.col) {
-		--r.end.col;
-		do_apply_border (sheet, &r,
-				 MSTYLE_BORDER_RIGHT,
-				 STYLE_BORDER_VERT, borders);
-	}
-
-	/* 7. Diagonals */
-	mstyle = mstyle_new ();
-	if (borders [STYLE_BORDER_DIAG]) {
-		style_border_ref (borders  [STYLE_BORDER_DIAG]);
-		mstyle_set_border (mstyle, MSTYLE_BORDER_DIAGONAL,
-				   borders [STYLE_BORDER_DIAG]);
-	}
-	if (borders [STYLE_BORDER_REV_DIAG]) {
-		style_border_ref (borders  [STYLE_BORDER_REV_DIAG]);
-		mstyle_set_border (mstyle, MSTYLE_BORDER_REV_DIAGONAL,
-				   borders [STYLE_BORDER_REV_DIAG]);
-	}
-	if (mstyle_empty (mstyle))
-		mstyle_unref (mstyle);
-	else
-		sheet_style_attach (sheet, range, mstyle);
-
-	sheet_style_optimize (sheet, *range);
-	sheet_redraw_range (sheet, range);
-}
-
-/**
- * sheet_get_region_list_for_range:
- * @style_list:
- * @range:
- *
- * Returns a reversed order list of styles that overlap
- * with range.
- *
- * Return value:
- **/
-static inline GList *
-sheet_get_region_list_for_range (GList *style_list, const Range *range)
-{
-	GList *l, *overlap_list = NULL;
-
-	for (l = style_list; l; l = l->next) {
-		StyleRegion *sr = l->data;
-		if (range_overlap (&sr->range, range)) {
-			if (style_debugging > 0) {
-				range_dump (&sr->range);
-				mstyle_dump (sr->style);
-			}
-			overlap_list = g_list_prepend (overlap_list, sr);
+		if (r.start.row >= 0) {
+			r.end.row = r.start.row;
+			apply_border (sheet, &r, STYLE_BORDER_BOTTOM,
+				      style_border_none ());
 		}
 	}
-	return overlap_list;
+
+	if (borders [STYLE_BORDER_BOTTOM]) {
+		/* 2.1 bottom inner */
+		Range r = *range;
+		r.start.row = r.end.row;
+		apply_border (sheet, &r, STYLE_BORDER_BOTTOM,
+			      borders [STYLE_BORDER_BOTTOM]);
+
+		/* 2.2 bottom outer */
+		r.end.row++;
+		if (r.end.row < (SHEET_MAX_ROWS-1)) {
+			r.start.row = r.end.row;
+			apply_border (sheet, &r, STYLE_BORDER_TOP,
+				      style_border_none ());
+		}
+	}
+
+	if (borders [STYLE_BORDER_LEFT]) {
+		/* 3.1 left inner */
+		Range r = *range;
+		r.end.col = r.start.col;
+		apply_border (sheet, &r, STYLE_BORDER_LEFT,
+			      borders [STYLE_BORDER_LEFT]);
+
+		/* 3.2 left outer */
+		r.start.col--;
+		if (r.start.col >= 0) {
+			r.end.col = r.start.col;
+			apply_border (sheet, &r, STYLE_BORDER_RIGHT,
+				      style_border_none ());
+		}
+	}
+
+	if (borders [STYLE_BORDER_RIGHT]) {
+		/* 4.1 right inner */
+		Range r = *range;
+		r.start.col = r.end.col;
+		apply_border (sheet, &r, STYLE_BORDER_RIGHT,
+			      borders [STYLE_BORDER_RIGHT]);
+
+		/* 4.2 right outer */
+		r.end.col++;
+		if (r.end.col < (SHEET_MAX_COLS-1)) {
+			r.start.col = r.end.col;
+			apply_border (sheet, &r, STYLE_BORDER_LEFT,
+				      style_border_none ());
+		}
+	}
+
+	/* Interiors horizontal : prefer top */
+	if (borders [STYLE_BORDER_HORIZ] != NULL) {
+		/* 5.1 horizontal interior top */
+		if (range->start.row != range->end.row) {
+			Range r = *range;
+			++r.start.row;
+			apply_border (sheet, &r, STYLE_BORDER_TOP,
+				      borders [STYLE_BORDER_HORIZ]);
+		}
+		/* 5.2 interior bottom */
+		if (range->start.row != range->end.row) {
+			Range r = *range;
+			--r.end.row;
+			apply_border (sheet, &r, STYLE_BORDER_BOTTOM,
+				      style_border_none ());
+		}
+	}
+
+	/* Interiors vertical : prefer left */
+	if (borders [STYLE_BORDER_VERT] != NULL) {
+		/* 6.1 vertical interior left */
+		if (range->start.col != range->end.col) {
+			Range r = *range;
+			++r.start.col;
+			apply_border (sheet, &r, STYLE_BORDER_LEFT,
+				      borders [STYLE_BORDER_VERT]);
+		}
+
+		/* 6.2 The vertical interior right */
+		if (range->start.col != range->end.col) {
+			Range r = *range;
+			--r.end.col;
+			apply_border (sheet, &r, STYLE_BORDER_RIGHT,
+				      style_border_none ());
+		}
+	}
+
+	/* 7. Diagonals (apply both in one pass) */
+	if (borders [STYLE_BORDER_DIAG] != NULL) {
+		pstyle = mstyle_new ();
+		pstyle_set_border (pstyle, borders [STYLE_BORDER_DIAG],
+				   STYLE_BORDER_DIAG);
+	}
+	if (borders [STYLE_BORDER_REV_DIAG]) {
+		if (pstyle == NULL)
+			pstyle = mstyle_new ();
+		pstyle_set_border (pstyle, borders [STYLE_BORDER_REV_DIAG],
+				   STYLE_BORDER_REV_DIAG);
+	}
+	if (pstyle != NULL)
+		sheet_style_apply_range (sheet, range, pstyle);
 }
 
+/****************************************************************************/
+
 typedef struct {
-	MStyle        *mstyle;
-	StyleBorder  **borders;
-	gboolean       border_valid[STYLE_BORDER_EDGE_MAX];
-} UniqueClosure;
+	MStyle 		 *result;
+	StyleBorder	**borders;
+	gboolean	  border_valid[STYLE_BORDER_EDGE_MAX];
+} UniformStyleClosure;
 
 static void
-border_invalidate (UniqueClosure *cl, StyleBorderLocation location)
+border_invalidate (UniformStyleClosure *cl, StyleBorderLocation location)
 {
 	cl->border_valid [location] = FALSE;
 	style_border_unref (cl->borders [location]);
 	cl->borders [location] = NULL;
 }
 
-/**
- * border_mask:
- * @cl: unique data
- * @location: which border to deal with
- * @border: the border to mask against
- *
- * This masks the border at @cl->borders [@location]
- * it is marked invalid if the border != current value
- * note it doesn't much matter whether this is an inner
- * or an outer one since this should be transparent to the
- * user.
- *
- **/
 static void
-border_mask (UniqueClosure *cl, StyleBorderLocation location,
-	     const StyleBorder *border)
+border_mask (UniformStyleClosure *cl, StyleBorderLocation location,
+	     StyleBorder *border)
 {
+	g_return_if_fail (border == NULL);
+
 	if (cl->border_valid [location]) {
 		if (!cl->borders [location])
-			cl->borders [location] = style_border_ref ((StyleBorder *)border);
-
-		if (cl->borders [location] == style_border_none ()) {
+			cl->borders [location] = style_border_ref (border);
+		else if (cl->borders [location] == style_border_none ()) {
+			style_border_ref (border);
 			style_border_unref (cl->borders [location]);
-			cl->borders [location] = style_border_ref ((StyleBorder *)border);
+			cl->borders [location] = border;
 		} else if (border && border != cl->borders [location] &&
-			   border != style_border_none ()) {
+			   border != style_border_none ())
 			border_invalidate (cl, location);
-		}
 	}
 }
 
-/*
- * Plenty of room for optimization here
- */
 static void
-border_check (UniqueClosure *cl, GList *edge_list,
-	      const Range *edge_range, const Range *range, const Range *all,
-	      StyleBorderLocation location, gboolean do_outer)
+cb_filter_style (MStyle *style,
+		 int corner_col, int corner_row, int width, int height,
+		 Range const *apply_to, gpointer user)
 {
-	GList *frags, *l;
+	UniformStyleClosure *c = user;
+	gboolean top, bottom, left, right;
 
-	frags = range_fragment_list_clip (edge_list, edge_range);
-	for (l = frags; l; l = g_list_next (l)) {
-		Range  *r   = l->data;
-		MStyle *inner_style, *outer_style = NULL;
-		const StyleBorder *inner_border = NULL, *outer_border = NULL;
-		CellPos inner, outer;
+	mstyle_compare (c->result, style);
 
-		inner = r->start;
-		outer = r->start;
-		switch (location) {
-		case STYLE_BORDER_TOP:
-			if (inner.col < range->start.col)
-				inner.col = outer.col = range->start.col;
-			inner.row = range->start.row;
-			outer.row = all->start.row;
-			break;
-		case STYLE_BORDER_BOTTOM:
-			if (inner.col < range->start.col)
-				inner.col = outer.col = range->start.col;
-			inner.row = range->end.row;
-			outer.row = all->end.row;
-			break;
-		case STYLE_BORDER_LEFT:
-			if (inner.row < range->start.row)
-				inner.row = outer.row = range->start.row;
-			inner.col = range->start.col;
-			outer.col = all->start.col;
-			break;
-		case STYLE_BORDER_RIGHT:
-			if (inner.row < range->start.row)
-				inner.row = outer.row = range->start.row;
-			inner.col = range->end.col;
-			outer.col = all->end.col;
-			break;
-		default:
-			g_warning ("Serious internal style border error");
-			break;
-		}
-		if (!range_contains (range, inner.col, inner.row))
-			continue; /* an outer corner */
-
-		/* Calculate the respective styles */
-		inner_style = sheet_style_compute_from_list (edge_list,
-							     inner.col,
-							     inner.row);
-
-		if (do_outer)
-			outer_style = sheet_style_compute_from_list (edge_list,
-								     outer.col,
-								     outer.row);
-
-		/* Build up the border maps + do internal borders */
-		switch (location) {
-		case STYLE_BORDER_TOP:
-			inner_border = mstyle_get_border (inner_style, MSTYLE_BORDER_TOP);
-			if (do_outer)
-				outer_border = mstyle_get_border (outer_style, MSTYLE_BORDER_BOTTOM);
-			border_mask (cl, STYLE_BORDER_HORIZ,
-				     mstyle_get_border (inner_style, MSTYLE_BORDER_BOTTOM));
-			break;
-		case STYLE_BORDER_BOTTOM:
-			inner_border = mstyle_get_border (inner_style, MSTYLE_BORDER_BOTTOM);
-			if (do_outer)
-				outer_border = mstyle_get_border (outer_style, MSTYLE_BORDER_TOP);
-			border_mask (cl, STYLE_BORDER_HORIZ,
-				     mstyle_get_border (inner_style, MSTYLE_BORDER_TOP));
-			break;
-		case STYLE_BORDER_LEFT:
-			inner_border = mstyle_get_border (inner_style, MSTYLE_BORDER_LEFT);
-			if (do_outer)
-				outer_border = mstyle_get_border (outer_style, MSTYLE_BORDER_RIGHT);
-			border_mask (cl, STYLE_BORDER_VERT,
-				     mstyle_get_border (inner_style, MSTYLE_BORDER_RIGHT));
-			break;
-		case STYLE_BORDER_RIGHT:
-			inner_border = mstyle_get_border (inner_style, MSTYLE_BORDER_RIGHT);
-			if (do_outer)
-				outer_border = mstyle_get_border (outer_style, MSTYLE_BORDER_LEFT);
-			border_mask (cl, STYLE_BORDER_VERT,
-				     mstyle_get_border (inner_style, MSTYLE_BORDER_LEFT));
-			break;
-		default:
-			g_warning ("Serious internal style border error");
-			break;
-		}
-
-		if (do_outer)
-			border_mask (cl, location, outer_border);
-		border_mask (cl, location, inner_border);
-
-		/* If we have gone from nothing to something along an edge or vv. */
-		if (cl->border_valid [location] &&
-		    (!do_outer || outer_border == style_border_none ()) &&
-		    inner_border == style_border_none () &&
-		    cl->borders [location] != style_border_none ())
-			border_invalidate (cl, location);
-
-		/* Normal compare for styles */
-		mstyle_compare (cl->mstyle, inner_style);
-		mstyle_unref (inner_style);
-		if (do_outer)
-			mstyle_unref (outer_style);
+	if (width > 1) {
+		int end = corner_col + width - 1;
+		right = (end <= apply_to->end.col);
+		left  = (corner_col >= apply_to->start.col);
+	} else {
+		right = (corner_col < apply_to->end.col);
+		left  = (corner_col > apply_to->start.col);
 	}
-	range_fragment_free (frags);
+	if (height > 1) {
+		int end = corner_row + height - 1;
+		bottom = (end <= apply_to->end.row);
+		top    = (corner_row >= apply_to->start.row);
+	} else {
+		bottom = (corner_row < apply_to->end.row);
+		top    = (corner_row > apply_to->start.row);
+	}
 }
 
-static gboolean
-sheet_unique_cb (Sheet *sheet, Range const *range,
-		 gpointer user_data)
+/**
+ * sheet_style_get_uniform :
+ *
+ * @sheet   :
+ * @range   :
+ * @borders :
+ *
+ */
+void
+sheet_style_get_uniform	(Sheet const *sheet, Range const *range,
+			 MStyle **style, StyleBorder **borders)
 {
-	UniqueClosure *cl = (UniqueClosure *)user_data;
-	GList   *all_list, *middle_list, *frags;
-	GList   *edge_list[4], *l;
-	Range    edge[4], all, middle;
-	gboolean edge_valid[4], middle_valid;
-	int      i;
+	GHashTable *cache;
+	StyleBorderLocation i;
+	Range all;
+	UniformStyleClosure closure;
 
- 	/*
-	 * 1. Create the super range including outer
-	 *     + inner + ( unwanted corners )
-	 */
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (range != NULL);
+	g_return_if_fail (style != NULL);
+	g_return_if_fail (borders != NULL);
+
+ 	/* Create the range including a border of 1 cell where possible */
 	all = *range;
 	if (all.start.col > 0)
 		all.start.col--;
@@ -1622,193 +1230,286 @@ sheet_unique_cb (Sheet *sheet, Range const *range,
 		all.start.row--;
 	if (all.end.row < SHEET_MAX_ROWS)
 		all.end.row++;
-	all_list = sheet_get_region_list_for_range (sheet->style_data->style_list, &all);
 
-	/* 2. Create the middle range */
-	if (range->end.col > range->start.col + 1 &&
-	    range->end.row > range->start.row + 1) {
-		middle_valid = TRUE;
-		middle = *range;
-		middle.start.col++;
-		middle.end.col--;
-		middle.start.row++;
-		middle.end.row--;
+	/* init style set with a copy of the top left corner of the 1st range */
+	if (*style == NULL) {
+		MStyle const *tmp;
+
+		tmp = sheet_style_get (sheet, range->start.col, range->start.row);
+		*style = mstyle_copy (tmp);
+		for (i = STYLE_BORDER_TOP ; i < STYLE_BORDER_EDGE_MAX ; i++)
+			borders [i] = NULL;
+	}
+
+	/* init closure */
+	closure.result = *style;
+
+	cache = g_hash_table_new (g_direct_hash, g_direct_equal);
+	foreach_tile (sheet->style_data->styles,
+		      TILE_TOP_LEVEL, 0, 0, &all,
+		      cb_filter_style, &closure);
+
+	for (i = STYLE_BORDER_TOP ; i <= STYLE_BORDER_RIGHT ; i++)
+		borders [i] = style_border_none ();
+
+	/* copy over the diagonals */
+	for (i = STYLE_BORDER_REV_DIAG ; i <= STYLE_BORDER_DIAG ; i++)
+		if (!mstyle_is_element_conflict (*style, MSTYLE_BORDER_TOP+i))
+			borders [i] = style_border_ref (
+				mstyle_get_border (*style, MSTYLE_BORDER_TOP+i));
+		else
+			borders [i] = NULL;
+}
+
+/**
+ * sheet_style_relocate
+ *
+ * @rinfo :
+ */
+void
+sheet_style_relocate (ExprRelocateInfo const *rinfo)
+{
+	CellPos corner;
+	StyleList *styles;
+
+	g_return_if_fail (rinfo != NULL);
+
+	styles = sheet_style_get_list (rinfo->origin_sheet, &rinfo->origin);
+
+	sheet_style_set_range (rinfo->origin_sheet, &rinfo->origin,
+			       sheet_style_default (rinfo->origin_sheet));
+	corner.col = rinfo->origin.start.col + rinfo->col_offset;
+	corner.row = rinfo->origin.start.row + rinfo->row_offset;
+	sheet_style_set_list (rinfo->target_sheet, &corner, FALSE, styles);
+	style_list_free	(styles);
+}
+
+/**
+ * sheet_style_insert_colrow 
+ *
+ * @rinfo :
+ *
+ */
+void
+sheet_style_insert_colrow (ExprRelocateInfo const *rinfo)
+{
+	CellPos corner;
+	StyleList *ptr, *styles = NULL;
+	Range r;
+
+	g_return_if_fail (rinfo != NULL);
+	g_return_if_fail (rinfo->origin_sheet == rinfo->target_sheet);
+
+	/* 1) copy col/row to the top/left of the region, and extend it */
+	corner = rinfo->origin.start;
+	if (rinfo->col_offset != 0 && corner.col > 0) {
+		int const o = rinfo->col_offset - 1;
+		corner.row = 0;
+		styles = sheet_style_get_list (rinfo->origin_sheet,
+			       range_init (&r, corner.col-1, 0,
+					   corner.col-1, SHEET_MAX_ROWS-1));
+		if (o > 0)
+			for (ptr = styles ; ptr != NULL ; ptr = ptr->next)
+				((StyleRegion *)ptr->data)->range.end.col = o;
+
+	} else if (rinfo->row_offset != 0 && corner.row > 0) {
+		int const o = rinfo->row_offset - 1;
+		corner.col = 0;
+		styles = sheet_style_get_list (rinfo->origin_sheet,
+			       range_init (&r, 0, corner.row-1,
+					   SHEET_MAX_COLS-1, corner.row-1));
+		if (o > 0)
+			for (ptr = styles ; ptr != NULL ; ptr = ptr->next)
+				((StyleRegion *)ptr->data)->range.end.row = o;
+	}
+
+	sheet_style_relocate (rinfo);
+
+	if (styles != NULL) {
+		sheet_style_set_list (rinfo->target_sheet, &corner, FALSE, styles);
+		style_list_free	(styles);
+	}
+}
+
+void
+sheet_style_get_extent (Sheet const *sheet, Range *r)
+{
+#warning FIXME : trivial finish get_extent
+}
+
+/****************************************************************************/
+
+static StyleRegion *
+style_region_new (Range const *range, MStyle *mstyle)
+{
+	StyleRegion *sr;
+
+	sr = g_new (StyleRegion, 1);
+	sr->range = *range;
+	sr->style = mstyle;
+	mstyle_ref (mstyle);
+
+	return sr;
+}
+
+static void
+style_region_free (StyleRegion *sr)
+{
+	g_return_if_fail (sr != NULL);
+
+	mstyle_unref (sr->style);
+	sr->style = NULL;
+	g_free (sr);
+}
+
+static void
+cb_style_list_add_node (MStyle *style,
+			int corner_col, int corner_row, int width, int height,
+			Range const *apply_to, gpointer user)
+{
+	GHashTable *cache = user;
+	StyleRegion *sr = NULL;
+	CellPos	key;
+	Range range;
+
+	range.start.col = corner_col;
+	range.start.row = corner_row;
+	range.end.col = corner_col + width - 1;
+	range.end.row = corner_row + height - 1;
+	if (apply_to) {
+		range.start.col -= apply_to->start.col;
+		if (range.start.col < 0)
+			range.start.col = 0;
+		range.start.row -= apply_to->start.row;
+		if (range.start.row < 0)
+			range.start.row = 0;
+
+		if (range.end.col > apply_to->end.col)
+			range.end.col = apply_to->end.col;
+		range.end.col -= apply_to->start.col;
+		if (range.end.row > apply_to->end.row)
+			range.end.row = apply_to->end.row;
+		range.end.row -= apply_to->start.row;
+	}
+
+	/* Do some simple minded merging vertically */
+	key.col = range.end.col;
+	key.row = range.start.row - 1;
+	if (key.row >= 0 &&
+	    (sr = (StyleRegion *)g_hash_table_lookup (cache, &key)) != NULL &&
+	    sr->style == style && sr->range.start.col == range.start.col) {
+		g_hash_table_remove (cache, &key);
+		sr->range.end.row = range.end.row;
 	} else
-		middle_valid = FALSE;
+		sr = style_region_new (&range, style);
 
-	/*
-	 * 3. Create border ranges around the sides,
-	 * each is two cells thick.
-	 */
+	g_hash_table_insert (cache, &sr->range.end, sr);
+}
 
-	/* 3.1 Top */
-	i = STYLE_BORDER_TOP;
-	edge [i] = *range;
-	edge [i].end.row = edge [i].start.row;
-	edge_valid [i] = range_expand (&edge [i], 0, -1, 0, 0);
-
-	/* 3.2 Bottom */
-	i = STYLE_BORDER_BOTTOM;
-	edge [i] = *range;
-	edge [i].start.row = edge [i].end.row;
-	edge_valid [i] = range_expand (&edge [i], 0, 0, 0, +1);
-
-	/* 3.3 Left */
-	i = STYLE_BORDER_LEFT;
-	edge [i] = *range;
-	edge [i].end.col = edge [i].start.col;
-	edge_valid [i] = range_expand (&edge [i], -1, 0, 0, 0);
-
-	/* 3.4 Right */
-	i = STYLE_BORDER_RIGHT;
-	edge [i] = *range;
-	edge [i].start.col = edge [i].end.col;
-	edge_valid [i] = range_expand (&edge [i], 0, 0, +1, 0);
-
-	/* 4.1 Create Region list for edges */
-	for (i = STYLE_BORDER_TOP; i <= STYLE_BORDER_RIGHT; i++)
-		edge_list [i] = sheet_get_region_list_for_range (all_list,
-								 &edge [i]);
-
-	/* 4.2 Create region list for middle */
-	if (middle_valid)
-		middle_list = sheet_get_region_list_for_range (all_list, &middle);
-	else
-		middle_list = NULL;
-
-	/* 5.1 Check the middle range */
-	if (middle_valid) {
-		frags = range_fragment_list_clip (middle_list, &middle);
-		for (l = frags; l; l = g_list_next (l)) {
-			Range  *r   = l->data;
-			MStyle *tmp = sheet_style_compute_from_list (middle_list,
-								     r->start.col,
-								     r->start.row);
-			mstyle_compare (cl->mstyle, tmp);
-			mstyle_unref (tmp);
-		}
-		range_fragment_free (frags);
-	}
-
-	/* 5.2 Move the vert / horiz. data into the array */
-	if (middle_valid) {
-		/* 5.2.1 Vertical */
-		if (mstyle_is_element_conflict (cl->mstyle, MSTYLE_BORDER_LEFT) ||
-		    mstyle_is_element_conflict (cl->mstyle, MSTYLE_BORDER_RIGHT))
-			border_invalidate (cl, STYLE_BORDER_VERT);
-		else {
-			border_mask (cl, STYLE_BORDER_VERT,
-				     mstyle_get_border (cl->mstyle, MSTYLE_BORDER_LEFT));
-			border_mask (cl, STYLE_BORDER_VERT,
-				     mstyle_get_border (cl->mstyle, MSTYLE_BORDER_RIGHT));
-		}
-
-		/* 5.2.2 Horizontal */
-		if (mstyle_is_element_conflict (cl->mstyle, MSTYLE_BORDER_TOP) ||
-		    mstyle_is_element_conflict (cl->mstyle, MSTYLE_BORDER_BOTTOM))
-			border_invalidate (cl, STYLE_BORDER_HORIZ);
-		else {
-			border_mask (cl, STYLE_BORDER_HORIZ,
-				     mstyle_get_border (cl->mstyle, MSTYLE_BORDER_TOP));
-			border_mask (cl, STYLE_BORDER_HORIZ,
-				     mstyle_get_border (cl->mstyle, MSTYLE_BORDER_BOTTOM));
-		}
-	}
-
-	/* 5.3 Check the edges  */
-	for (i = STYLE_BORDER_TOP; i <= STYLE_BORDER_RIGHT; i++)
-		border_check (cl, edge_list [i], &edge [i],
-			      range, &all, i, edge_valid [i]);
-
-	/* 6. Free up resources */
-	g_list_free (middle_list);
-	g_list_free (all_list);
-	for (i = STYLE_BORDER_TOP; i <= STYLE_BORDER_RIGHT; i++)
-		g_list_free (edge_list [i]);
-
+static gboolean
+cb_hash_to_list (gpointer key, gpointer	value, gpointer	user_data)
+{
+	StyleList **res = user_data;
+	*res = g_list_prepend (*res, value);
 	return TRUE;
 }
 
 /**
- * sheet_selection_get_unique_style:
- * @sheet: the sheet.
- * @borders: An array [STYLE_BORDER_EDGE_MAX]
+ * sheet_style_get_list :
  *
- * Return a merged list of styles for the selection,
- * if a style is not unique then we get MSTYLE_ELEMENT_CONFLICT.
- * the borders array is used due to the rather intricate nature
- * of border setting. This causes a lot of the complexity in this
- * routine. Essentialy it is neccessary to check adjacent cells for
- * borders.
- *
- * Return value: the merged list; free this.
- **/
-MStyle *
-sheet_selection_get_unique_style (Sheet *sheet, StyleBorder **borders)
+ * @sheet :
+ * @range :
+ */
+StyleList *
+sheet_style_get_list (Sheet const *sheet, Range const *r)
 {
-	int           i;
-	UniqueClosure cl;
+	StyleList *res = NULL;
+	GHashTable *cache = g_hash_table_new ((GHashFunc)&cellpos_hash,
+					      (GCompareFunc)&cellpos_cmp);
+	foreach_tile (sheet->style_data->styles,
+		      TILE_TOP_LEVEL, 0, 0, r,
+		      cb_style_list_add_node, cache);
+	g_hash_table_foreach_remove (cache, cb_hash_to_list, &res);
+	g_hash_table_destroy (cache);
 
-	g_return_val_if_fail (sheet != NULL, NULL);
-	g_return_val_if_fail (borders != NULL, NULL);
-	g_return_val_if_fail (IS_SHEET (sheet), NULL);
-
-	/*
-	 * For each non-overlapping selection the contained style regions
-	 * must be fragmented into totaly overlapping regions. These must
-	 * then be merged down to MStyleElement arrays and then these must
-	 * be compared + conflicts tagged.
-	 */
-
-	cl.mstyle  = mstyle_new ();
-	cl.borders = borders;
-	for (i = STYLE_BORDER_TOP; i < STYLE_BORDER_EDGE_MAX; i++) {
-		cl.borders [i] = NULL;
-		cl.border_valid [i] = TRUE;
-	}
-
-	(void) selection_foreach_range (sheet, TRUE, sheet_unique_cb, &cl);
-
-	if (!mstyle_is_element_conflict (cl.mstyle, MSTYLE_BORDER_REV_DIAGONAL))
-		border_mask (&cl, STYLE_BORDER_REV_DIAG,
-			     mstyle_get_border (cl.mstyle, MSTYLE_BORDER_REV_DIAGONAL));
-	else
-		border_invalidate (&cl, STYLE_BORDER_REV_DIAG);
-
-	if (!mstyle_is_element_conflict (cl.mstyle, MSTYLE_BORDER_DIAGONAL))
-		border_mask (&cl, STYLE_BORDER_DIAG,
-			     mstyle_get_border (cl.mstyle, MSTYLE_BORDER_DIAGONAL));
-	else
-		border_invalidate (&cl, STYLE_BORDER_DIAG);
-
-	if (style_debugging > 0) {
-		fprintf (stderr, "Uniqe style is ");
-		mstyle_dump (cl.mstyle);
-		fprintf (stderr, "\n");
-	}
-
-	return cl.mstyle;
+	return res;
 }
 
 /**
- * sheet_style_get_extent:
- * @r: input / output range
- * @sheet: the sheet whose styles are being examined.
+ * sheet_style_set_list 
  *
- * The union of @r and all stylesregions that are visible in blank cells.
+ * @sheet     :
+ * @corner    :
+ * @transpose :
+ * @list      :
+ *
+ */
+SpanCalcFlags
+sheet_style_set_list (Sheet *sheet, CellPos const *corner,
+		      gboolean transpose, GList const *list)
+{
+	SpanCalcFlags spanflags = SPANCALC_SIMPLE;
+	GList const *l;
+
+	g_return_val_if_fail (sheet != NULL, spanflags);
+	g_return_val_if_fail (IS_SHEET (sheet), spanflags);
+
+	/* Sluggish but simple implementation for now */
+	for (l = list; l; l = l->next) {
+		StyleRegion const *sr = l->data;
+		Range              r  = sr->range;
+
+		range_translate (&r, +corner->col, +corner->row);
+		if (transpose)
+			range_transpose (&r, corner);
+
+		mstyle_ref (sr->style);
+		sheet_style_set_range (sheet, &r, sr->style);
+		spanflags |= required_updates_for_style (sr->style);
+	}
+	return spanflags;
+}
+
+/**
+ * style_list_free :
+ *
+ * @list : the list to free
+ *
+ * Free up the ressources in the style list.  Including unreferencing the
+ * styles.
  */
 void
-sheet_style_get_extent (Sheet const *sheet, Range *r)
+style_list_free (StyleList *list)
 {
-	SheetStyleData const *sd = sheet->style_data;
-	GList *l;
-	Range res = *r;
+	StyleList *l;
 
-	for (l = sd->style_list; l != NULL ; l = g_list_next (l)) {
-		StyleRegion const *sr = (StyleRegion const *)l->data;
+	for (l = list; l; l = l->next)
+		style_region_free (l->data);
+	g_list_free (list);
+}
 
-		if (mstyle_visible_in_blank (sr->style))
-			res = range_union (&res, &sr->range);
+/**
+ * style_list_get_style :
+ *
+ * @list : A style list.
+ * @pos  : The offset from the upper left corner.
+ *
+ * Attempts to find the style associated with the @pos offset within the 0,0
+ * based style list.
+ * The resulting style does not have its reference count bumped.
+ */
+MStyle const *
+style_list_get_style (StyleList const *list, CellPos const *pos)
+{
+	StyleList const *l;
+
+	g_return_val_if_fail (pos != NULL, NULL);
+
+	for (l = list; l; l = l->next) {
+		StyleRegion const *sr = l->data;
+		Range const *r = &sr->range;
+		if (range_contains (r, pos->col, pos->row))
+			return sr->style;
 	}
-	*r = res;
+	return NULL;
 }

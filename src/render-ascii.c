@@ -46,14 +46,12 @@ cell_region_render_ascii (CellRegion *cr)
 		char *v;
 
 		if (c_copy->type != CELL_COPY_TYPE_TEXT) {
-			MStyle *mstyle = sheet_style_compute_from_list (styles,
-				c_copy->u.cell->pos.col,
-				c_copy->u.cell->pos.row);
+			MStyle const *mstyle = style_list_get_style (styles,
+				&c_copy->u.cell->pos);
 			RenderedValue *rv = rendered_value_new (c_copy->u.cell,
 				mstyle, FALSE);
 			v = rendered_value_get_text (rv);
 			rendered_value_destroy (rv);
-			mstyle_unref (mstyle);
 		} else
 			v = g_strdup (c_copy->u.text);
 

@@ -485,12 +485,11 @@ Sheet_cell_get_format (PortableServer_Servant servant,
 	verify_col_val (col, NULL);
 	verify_row_val (row, NULL);
 
-	mstyle = sheet_style_compute (sheet, col, row);
+	mstyle = sheet_style_get (sheet, col, row);
 	/* FIXME : Can this be localized ?? */
 	fmt = style_format_as_XL (mstyle_get_format (mstyle), FALSE);
 	ans = CORBA_string_dup (fmt);
 	g_free (fmt);
-	mstyle_unref (mstyle);
 
 	return ans;
 }
@@ -526,9 +525,8 @@ Sheet_cell_get_font (PortableServer_Servant servant, const CORBA_long col, const
 	verify_col_val (col, NULL);
 	verify_row_val (row, NULL);
 
-	mstyle = sheet_style_compute (sheet, col, row);
+	mstyle = sheet_style_get (sheet, col, row);
 	ans = CORBA_string_dup (mstyle_get_font_name (mstyle));
-	mstyle_unref (mstyle);
 
 	return ans;
 }
@@ -648,9 +646,8 @@ Sheet_cell_get_pattern (PortableServer_Servant servant,
 	verify_col_val (col, 0);
 	verify_row_val (row, 0);
 
-	mstyle = sheet_style_compute (sheet, col, row);
+	mstyle = sheet_style_get (sheet, col, row);
 	ans = mstyle_get_pattern (mstyle);
-	mstyle_unref (mstyle);
 
 	return ans;
 }
@@ -741,7 +738,7 @@ Sheet_cell_get_alignment (PortableServer_Servant servant,
 	verify_col (col);
 	verify_row (row);
 
-	mstyle = sheet_style_compute (sheet_from_servant (servant), col, row);
+	mstyle = sheet_style_get (sheet_from_servant (servant), col, row);
 
 	switch (mstyle_get_align_h (mstyle)) {
 	case HALIGN_GENERAL:
@@ -795,8 +792,6 @@ Sheet_cell_get_alignment (PortableServer_Servant servant,
 	}
 	*orientation = mstyle_get_orientation (mstyle);
 	*auto_return = mstyle_get_fit_in_cell (mstyle);
-
-	mstyle_unref (mstyle);
 }
 
 static void

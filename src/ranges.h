@@ -99,7 +99,7 @@ gboolean    range_expand        (Range *range,
 gboolean    range_has_header    (const Sheet *sheet, const Range *src,
 				 gboolean top);
 const char *range_name          (const Range *src);
-void        range_dump          (const Range *src);
+void        range_dump          (const Range *src, char const *suffix);
 Range      *range_copy          (const Range *src);
 
 typedef     Range *(*RangeCopyFn) (const Range *r);

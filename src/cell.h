@@ -86,7 +86,6 @@ void cell_convert_expr_to_value	(Cell *cell);
  * Manipulate Cell attributes
  */
 MStyle *cell_get_mstyle		(Cell const *cell);
-void	cell_set_mstyle		(Cell const *cell, MStyle *mstyle);
 char *	cell_get_format		(Cell const *cell);
 void	cell_set_format		(Cell *cell, char const *format);
 
@@ -95,5 +94,8 @@ int	cell_rendered_width	(Cell const * cell);
 int	cell_rendered_height	(Cell const * cell);
 char *	cell_get_rendered_text	(Cell const * cell);
 char *	cell_get_entered_text	(Cell const * cell);
+
+guint cellpos_hash (CellPos const *key);
+gint  cellpos_cmp  (CellPos const *a, CellPos const *b);
 
 #endif /* GNUMERIC_CELL_H */

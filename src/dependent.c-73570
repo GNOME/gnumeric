@@ -370,7 +370,7 @@ dependent_debug_name (Dependent const *dep, FILE *out)
  * @input : A GList of dependents
  * @type : The type of dependent desired.
  *
- * Create a new list containint only dependents or the desired type.
+ * Create a new list containing only dependents of the desired type.
  */
 GList *
 dependent_list_filter (GList *input, DependentFlags type)

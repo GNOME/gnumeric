@@ -20,8 +20,8 @@ enum _MStyleElementType {
 	        MSTYLE_BORDER_BOTTOM,
 	        MSTYLE_BORDER_LEFT,
 	        MSTYLE_BORDER_RIGHT,
-	        MSTYLE_BORDER_DIAGONAL,
 	        MSTYLE_BORDER_REV_DIAGONAL,
+	        MSTYLE_BORDER_DIAGONAL,
 
 		MSTYLE_PATTERN,
 	/* Delimiter */
@@ -49,10 +49,11 @@ enum _MStyleElementType {
 };
 
 MStyle     *mstyle_new           (void);
-MStyle     *mstyle_new_name      (const gchar *name);
 MStyle     *mstyle_new_default   (void);
 MStyle     *mstyle_copy          (const MStyle *st);
+MStyle	   *mstyle_copy_merge	 (const MStyle *orig, const MStyle *overlay);
 void        mstyle_ref           (MStyle *st);
+void        mstyle_ref_multiple  (MStyle *st, int count);
 void        mstyle_unref         (MStyle *st);
 void        mstyle_destroy       (MStyle *st);
 gboolean    mstyle_equal         (const MStyle *a, const MStyle *b);
@@ -93,7 +94,7 @@ double              mstyle_get_font_size   (const MStyle *st);
 StyleFont          *mstyle_get_font        (const MStyle *st, double zoom);
 void                mstyle_set_format      (MStyle *st, StyleFormat *);
 void                mstyle_set_format_text (MStyle *st, const char *format);
-StyleFormat        *mstyle_get_format      (MStyle *st);
+StyleFormat        *mstyle_get_format      (const MStyle *st);
 void                mstyle_set_align_h     (MStyle *st, StyleHAlignFlags a);
 StyleHAlignFlags    mstyle_get_align_h     (const MStyle *st);
 void                mstyle_set_align_v     (MStyle *st, StyleVAlignFlags a);
@@ -107,10 +108,8 @@ gboolean            mstyle_get_fit_in_cell (const MStyle *st);
 
 gboolean            mstyle_visible_in_blank(const MStyle *st);
 
-MStyle     *mstyle_merge       (MStyle *master, MStyle *slave);
+MStyle     *mstyle_merge       (const MStyle *master, MStyle *slave);
 char       *mstyle_to_string   (const MStyle *st); /* Debug only ! leaks like a sieve */
 void        mstyle_dump        (const MStyle *st);
-
-MStyle     *mstyle_do_merge    (const GList *list, MStyleElementType max);
 
 #endif /* GNUMERIC_MSTYLE_H */

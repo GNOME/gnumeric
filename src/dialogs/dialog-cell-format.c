@@ -93,8 +93,9 @@ typedef struct _FormatState
 	GnomePropertyBox*dialog;
 
 	Sheet		*sheet;
-	MStyle		*style, *result;
 	Value		*value;
+	MStyle		*style, *result;
+	StyleBorder	*borders[STYLE_BORDER_EDGE_MAX];
 
 	int	 	 selection_mask;
 	gboolean	 enable_edit;
@@ -1995,8 +1996,7 @@ static void set_initial_focus (FormatState *state)
 }
 
 static void
-fmt_dialog_impl (FormatState *state, StyleBorder **borders,
-		 FormatDialogPosition_t pageno)
+fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 {
 	static GnomeHelpMenuEntry help_ref = { "gnumeric", "formatting.html" };
 	static struct {
@@ -2160,8 +2160,8 @@ fmt_dialog_impl (FormatState *state, StyleBorder **borders,
 		GtkWidget * tmp = init_button_image (state->gui, name);
 		if (tmp != NULL) {
 			init_border_button (state, i, tmp,
-					    borders [i]);
-			style_border_unref (borders [i]);
+					    state->borders [i]);
+			style_border_unref (state->borders [i]);
 		}
 	}
 
@@ -2248,11 +2248,15 @@ fmt_dialog_selection_type (Sheet *sheet,
 			   Range const *range,
 			   gpointer user_data)
 {
-	if (range->start.row != range->end.row)
-		*(int *)user_data |= 1;
-	if (range->start.col != range->end.col)
-		*(int *)user_data |= 2;
+	FormatState  *state = user_data;
 
+	if (range->start.row != range->end.row)
+		state->selection_mask |= 1;
+	if (range->start.col != range->end.col)
+		state->selection_mask |= 2;
+
+	sheet_style_get_uniform (state->sheet, range,
+				 &(state->style), state->borders);
 	return TRUE;
 }
 
@@ -2260,10 +2264,8 @@ void
 dialog_cell_format (WorkbookControlGUI *wbcg, Sheet *sheet, FormatDialogPosition_t pageno)
 {
 	GladeXML     *gui;
-	MStyle       *mstyle;
 	Value	     *sample_val;
 	Cell	     *edit_cell;
-	StyleBorder  *borders[STYLE_BORDER_EDGE_MAX];
 	FormatState  *state;
 
 	g_return_if_fail (wbcg != NULL);
@@ -2278,7 +2280,6 @@ dialog_cell_format (WorkbookControlGUI *wbcg, Sheet *sheet, FormatDialogPosition
 				    sheet->edit_pos.row);
 
 	sample_val = (edit_cell) ? edit_cell->value : NULL;
-	mstyle = sheet_selection_get_unique_style (sheet, borders);
 
 	/* Initialize */
 	state = g_new (FormatState, 1);
@@ -2286,18 +2287,18 @@ dialog_cell_format (WorkbookControlGUI *wbcg, Sheet *sheet, FormatDialogPosition
 	state->gui		= gui;
 	state->sheet		= sheet;
 	state->value		= sample_val;
-	state->style		= mstyle;
+	state->style		= NULL;
 	state->result		= mstyle_new ();
 	state->selection_mask	= 0;
 	state->dialog_changed	= NULL;
 	state->dialog_changed_user_data = NULL;
 
 	(void) selection_foreach_range (sheet, TRUE,
-					&fmt_dialog_selection_type,
-					&state->selection_mask);
+					fmt_dialog_selection_type,
+					state);
 	state->selection_mask	= 1 << state->selection_mask;
 
-	fmt_dialog_impl (state, borders, pageno);
+	fmt_dialog_impl (state, pageno);
 }
 
 GtkWidget *

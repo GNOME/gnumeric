@@ -248,7 +248,7 @@ html_write_wb_html32 (IOContext *context, WorkbookView *wb_view,
 			fprintf (fp, "<TR>\n");
 			for (col = r.start.col; col <= r.end.col; col++) {
 				cell = sheet_cell_get (sheet, col, row);
-				style = sheet_style_compute (sheet, col, row);
+				style = sheet_style_get (sheet, col, row);
 
 				html_write_cell32 (fp, cell, style);
 			}
@@ -317,7 +317,7 @@ html_write_wb_html40 (IOContext *context, WorkbookView *wb_view,
 			fprintf (fp, "<TR>\n");
 			for (col = r.start.col; col <= r.end.col; col++) {
 				cell  = sheet_cell_get (sheet, col, row);
-				style = sheet_style_compute (sheet, col, row);
+				style = sheet_style_get (sheet, col, row);
 
 				html_write_cell40 (fp, cell, style);
 			}
@@ -462,7 +462,7 @@ html_read (IOContext *context, WorkbookView *wb_view,
 					cell = sheet_cell_fetch (sheet, col, row);
 					if (str && cell) {
 						if (flags) {
-							MStyle *mstyle = mstyle_new ();
+							MStyle *mstyle = mstyle_new_default ();
 							/*
 							 * set the attributes of the cell
 							 */
@@ -475,9 +475,9 @@ html_read (IOContext *context, WorkbookView *wb_view,
 							if (flags & HTML_RIGHT)
 								mstyle_set_align_h (mstyle, HALIGN_CENTER);
 
-							sheet_style_attach_single (cell->base.sheet,
-										   cell->pos.col, cell->pos.row,
-										   mstyle);
+							sheet_style_set_pos (cell->base.sheet,
+									     cell->pos.col, cell->pos.row,
+									     mstyle);
 						}
 						/* set the content of the cell */
 						cell_set_text (cell, str);

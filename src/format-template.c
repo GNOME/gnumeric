@@ -1172,56 +1172,7 @@ cb_format_sheet_style (FormatTemplate *ft, Range *r, MStyle *mstyle, Sheet *shee
 	 * We need not unref the mstyle, sheet will
 	 * take care of the mstyle
 	 */
-	sheet_style_apply_range (sheet, r, mstyle);
-}
-
-static void
-cb_format_sheet_border (FormatTemplate *ft, Range *r, MStyle *mstyle, Sheet *sheet)
-{
-	StyleBorder *bottom;
-	StyleBorder *right;
-
-	g_return_if_fail (ft != NULL);
-	g_return_if_fail (r != NULL);
-	g_return_if_fail (mstyle != NULL);
-	g_return_if_fail (sheet != NULL);
-
-	mstyle = format_template_filter_style (ft, mstyle, FALSE);
-
-	bottom = mstyle_get_border (mstyle, MSTYLE_BORDER_BOTTOM);
-	right  = mstyle_get_border (mstyle, MSTYLE_BORDER_RIGHT);
-
-        /*
-	 * We need not unref the mstyles after binding them
-	 * to the sheet. The sheet will take care for them
-	 */
-	if (bottom != NULL && bottom->line_type != STYLE_BORDER_NONE) {
-		MStyle *mstyle_to_bottom = mstyle_new ();
-		Range br = *r;
-
-		br.end.row++;
-		br.start.row = br.end.row;
-
-		mstyle_set_border (mstyle_to_bottom, MSTYLE_BORDER_TOP,
-				   style_border_ref (bottom));
-
-		sheet_style_attach (sheet, &br, mstyle_to_bottom);
-	}
-
-	if (right != NULL && right->line_type != STYLE_BORDER_NONE) {
-		MStyle *mstyle_to_right = mstyle_new ();
-		Range rr = *r;
-
-		rr.end.col++;
-		rr.start.col = rr.end.col;
-
-		mstyle_set_border (mstyle_to_right, MSTYLE_BORDER_LEFT,
-				   style_border_ref (right));
-
-		sheet_style_attach (sheet, &rr, mstyle_to_right);
-	}
-
-	mstyle_unref (mstyle);
+	sheet_apply_style (sheet, r, mstyle);
 }
 
 /**
@@ -1258,18 +1209,10 @@ format_template_apply_to_sheet_regions (FormatTemplate *ft, Sheet *sheet, GSList
 	/*
 	 * Apply the template to all regions
 	 */
- 	region = regions;
-	while (region) {
+	for (region = regions; region != NULL ; region = region->next) {
 		Range s = *((Range const *) region->data);
-
-		/*
-		 * First apply styles and then do a second
-		 * pass for bottom and right borders
-		 */
-		format_template_calculate (ft, s, (PCalcCallback) cb_format_sheet_style, sheet);
-		format_template_calculate (ft, s, (PCalcCallback) cb_format_sheet_border, sheet);
-
-		region = g_slist_next (region);
+		format_template_calculate (ft, s,
+			(PCalcCallback) cb_format_sheet_style, sheet);
 	}
 }
 

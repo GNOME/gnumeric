@@ -524,7 +524,7 @@ gnumeric_countif (FunctionEvalInfo *ei, Value **argv)
 	}
 
 	sheet = eval_sheet (range->v_range.cell.a.sheet, ei->pos->sheet);
-	ret = sheet_cell_foreach_range (sheet,
+	ret = sheet_foreach_cell_in_range (sheet,
 		TRUE, /* Ignore empty cells */
 		range->v_range.cell.a.col,
 		range->v_range.cell.a.row,
@@ -646,7 +646,7 @@ gnumeric_sumif (FunctionEvalInfo *ei, Value **argv)
 
 	items.actual_range = (actual_range != NULL);
 
-	ret = sheet_cell_foreach_range (
+	ret = sheet_foreach_cell_in_range (
 		eval_sheet (range->v_range.cell.a.sheet, ei->pos->sheet),
 		/*
 		 * Do not ignore empty cells if there is a
@@ -683,7 +683,7 @@ gnumeric_sumif (FunctionEvalInfo *ei, Value **argv)
 	} else {
 	      items.current = items.list;
 	      items.sum = items.total_num = 0;
- 	      ret = sheet_cell_foreach_range (
+ 	      ret = sheet_foreach_cell_in_range (
 			eval_sheet (actual_range->v_range.cell.a.sheet,
 				    ei->pos->sheet),
 			/* Empty cells too.  Criteria and results must align */
@@ -2497,7 +2497,7 @@ gnumeric_sumx2my2 (FunctionEvalInfo *ei, Value **argv)
 	items_y.list = NULL;
 
         if (values_x->type == VALUE_CELLRANGE) {
-		ret = sheet_cell_foreach_range (
+		ret = sheet_foreach_cell_in_range (
 			eval_sheet (ei->pos->sheet, ei->pos->sheet), FALSE,
 			values_x->v_range.cell.a.col,
 			values_x->v_range.cell.a.row,
@@ -2517,7 +2517,7 @@ gnumeric_sumx2my2 (FunctionEvalInfo *ei, Value **argv)
 	}
 
         if (values_y->type == VALUE_CELLRANGE) {
-		ret = sheet_cell_foreach_range (
+		ret = sheet_foreach_cell_in_range (
 			eval_sheet (ei->pos->sheet, ei->pos->sheet), FALSE,
 			values_y->v_range.cell.a.col,
 			values_y->v_range.cell.a.row,
@@ -2610,7 +2610,7 @@ gnumeric_sumx2py2 (FunctionEvalInfo *ei, Value **argv)
 	items_y.list = NULL;
 
         if (values_x->type == VALUE_CELLRANGE) {
-		ret = sheet_cell_foreach_range (
+		ret = sheet_foreach_cell_in_range (
 			eval_sheet (ei->pos->sheet, ei->pos->sheet),
 			FALSE, /* include empties so that the lists align */
 			values_x->v_range.cell.a.col,
@@ -2630,7 +2630,7 @@ gnumeric_sumx2py2 (FunctionEvalInfo *ei, Value **argv)
 	}
 
         if (values_y->type == VALUE_CELLRANGE) {
-		ret = sheet_cell_foreach_range (
+		ret = sheet_foreach_cell_in_range (
 			eval_sheet (ei->pos->sheet, ei->pos->sheet),
 			FALSE, /* include empties so that the lists align */
 			values_y->v_range.cell.a.col,
@@ -2722,7 +2722,7 @@ gnumeric_sumxmy2 (FunctionEvalInfo *ei, Value **argv)
 	items_y.list = NULL;
 
         if (values_x->type == VALUE_CELLRANGE) {
-		ret = sheet_cell_foreach_range (
+		ret = sheet_foreach_cell_in_range (
 			eval_sheet (ei->pos->sheet, ei->pos->sheet),
 			FALSE, /* include empties so that the lists align */
 			values_x->v_range.cell.a.col,
@@ -2742,7 +2742,7 @@ gnumeric_sumxmy2 (FunctionEvalInfo *ei, Value **argv)
 	}
 
         if (values_y->type == VALUE_CELLRANGE) {
-		ret = sheet_cell_foreach_range (
+		ret = sheet_foreach_cell_in_range (
 			eval_sheet (ei->pos->sheet, ei->pos->sheet),
 			FALSE, /* include empties so that the lists align */
 			values_y->v_range.cell.a.col,
@@ -3063,7 +3063,7 @@ validate_range_numeric_matrix (const EvalPos *ep, Value * matrix,
 		return TRUE;
 	}
 
-	res = sheet_cell_foreach_range (
+	res = sheet_foreach_cell_in_range (
 		eval_sheet (matrix->v_range.cell.a.sheet, ep->sheet), TRUE,
 		matrix->v_range.cell.a.col,
 		matrix->v_range.cell.a.row,

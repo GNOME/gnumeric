@@ -1,3 +1,71 @@
+2001-01-11  Jody Goldberg <jgoldberg@home.com>
+
+	* src/mstyle.c (mstyle_ref_multiple) : new function.
+	(mstyle_copy_merge) : new function.
+	(mstyle_new_default) : Do not cache the result.  That is done at the
+	  sheet level.
+	(mstyle_do_merge) : delete.
+	(mstyle_get_format) : constness.
+
+	* src/format-template.c (cb_format_sheet_border) : delete.
+	(format_template_apply_to_sheet_regions) : borders are no longer special.
+
+	* src/expr.c (expr_tree_array_formula_corner) : do not store the
+	  corner anymore.
+	(expr_tree_new_array) : ditto.
+	(do_expr_tree_unref) : ditto.
+
+	* src/cell.c (cell_relocate) : Arrays are simplified.  No need to keep
+	  a pointer to the corner.  It made the system too brittle.
+	(cell_set_mstyle) : delete.
+
+	* src/Makefile.am : remove test.[ch]
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_find_{col,row}) : There is no
+	  1 pixel border.
+
+2001-01-09  Jody Goldberg <jgoldberg@home.com>
+
+	* src/mstyle.h : Change order of borders to match BorderLocation
+
+2001-01-08  Jody Goldberg <jgoldberg@home.com>
+
+	* src/ranges.c (range_has_header) : avoid leaking styles.
+
+	* src/cell.c (cell_get_mstyle) : Use sheet_style_get, and do not bump
+	  the ref count.
+	(cell_render_value) : Adjust.
+	(cell_get_format : Adjust.
+	(cell_set_text) : Adjust.
+
+	* src/functions/fn-information.c (gnumeric_cell) : sheet_style_get
+	  does not make a reference. Use it.
+	* src/workbook-format-toolbar.c (modify_cell_format) :  Ditto.
+	(change_selection_font) : Ditto.
+	* src/sheet-autofill.c (fill_item_new) : ditto.
+	* src/print-cell.c (print_cell_range) : ditto.
+	* src/cellspan.c (cell_calc_span) : ditto.
+	* src/sheet.c (sheet_cell_set_text) : ditto.
+	* src/rendered-value.c (rendered_value_calc_size) : ditto.
+	* src/workbook-view.c (wb_view_format_feedback) : ditto.
+
+2001-01-07  Jody Goldberg <jgoldberg@home.com>
+
+	* src/dialogs/dialog-cell-format.c (dialog_cell_format) :
+	  init initial style to NULL.
+	(fmt_dialog_selection_type) : call sheet_style_get_uniform here.
+
+	* src/commands.c (cmd_format_redo) : Now that apply_border is not
+	  doing a redraw we need to if there is no style applied.
+
+	* src/selection.c (sheet_selection_extend_to) : Add support akin to
+	  gnumeric_sheet_rangesel_cursor_extend to extend to full col/row.
+
+	* src/sheet-control-gui.c (scg_colrow_select) : extend to full col/row
+	  if necessary.
+
+	* src/item-bar.c (item_bar_event) : Set the selection, not extend it.
+
 2001-01-11  Morten Welinder  <terra@diku.dk>
 
 	* src/search.h: New file.
@@ -98,8 +166,8 @@
           when building from cvs. Please make sure that the macrofile 
           installed by xml-i18n-tools is installed so it's in aclocal's
           path. or do:
- 		
- 	  export ACLOCAL_FLAGS='-I /usr/local/share/aclocal'
+
+ 	  export ACLOCAL_FLAGS='-I <prefix>/share/aclocal'
 
 2001-01-04  Jon K Hellan  <hellan@acm.org>
 

@@ -164,7 +164,6 @@ html_write_wb_latex (IOContext *context, WorkbookView *wb_view,
 					if (mstyle_get_align_h (mstyle) & HALIGN_CENTER)
 						fprintf (fp, "}");
 					fprintf (fp, "\n");
-					mstyle_unref (mstyle);
 				}
 			}
 			fprintf (fp, "\\\\\\hline\n");
@@ -269,7 +268,6 @@ html_write_wb_latex2e (IOContext *context, WorkbookView *wb_view,
 					/* if (style->halign & HALIGN_CENTER) */
 					/* fprintf (fp, "\\hfill"); */
 					fprintf (fp, "\n");
-					mstyle_unref (mstyle);
 				}
 			}
 			fprintf (fp, "\\\\\\hline\n");

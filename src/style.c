@@ -351,3 +351,28 @@ style_shutdown (void)
 	g_hash_table_destroy (style_font_negative_hash);
 	style_font_negative_hash = NULL;
 }
+
+/**
+ * required_updates_for_style
+ * @style: the style
+ *
+ * What changes are required after applying the supplied style.
+ */
+SpanCalcFlags
+required_updates_for_style (MStyle *style)
+{
+	gboolean const size_change =
+	    (mstyle_is_element_set  (style, MSTYLE_FONT_NAME) ||
+	     mstyle_is_element_set  (style, MSTYLE_FONT_BOLD) ||
+	     mstyle_is_element_set  (style, MSTYLE_FONT_ITALIC) ||
+	     mstyle_is_element_set  (style, MSTYLE_FONT_SIZE) ||
+	     mstyle_is_element_set  (style, MSTYLE_FIT_IN_CELL));
+	gboolean const format_change =
+	    mstyle_is_element_set (style, MSTYLE_FORMAT);
+
+	return format_change
+	    ? SPANCALC_RE_RENDER|SPANCALC_RESIZE
+	    : size_change ? SPANCALC_RESIZE
+			  : SPANCALC_SIMPLE;
+}
+

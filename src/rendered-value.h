@@ -28,7 +28,7 @@ struct _RenderedValue {
 	gboolean      dynamic_width;
 };
 
-RenderedValue * rendered_value_new           (Cell *cell, MStyle *mstyle,
+RenderedValue * rendered_value_new           (Cell *cell, MStyle const *mstyle,
 					      gboolean dynamic_width);
 void            rendered_value_destroy       (RenderedValue *rv);
 void            rendered_value_calc_size     (Cell const *cell);

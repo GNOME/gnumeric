@@ -103,7 +103,7 @@ palette_from_color (StyleColor *color)
 static void
 real_set_style (Sheet *sheet, Range *range, MStyle *style)
 {
-	sheet_style_apply_range (sheet, range, style);
+	sheet_apply_style (sheet, range, style);
 }
 
 static gboolean
@@ -188,11 +188,9 @@ excel_gb_interior_get_arg (GBRunEvalContext *ec,
 		StyleColor *color;
 		long realcolor;
 
-		style = sheet_style_compute (interior->sheet, col, row);
+		style = sheet_style_get (interior->sheet, col, row);
 		color = mstyle_get_color (style, MSTYLE_COLOR_FORE);
 		realcolor = convert_rgb_to_color (color->red, color->green, color->blue);
-
-		mstyle_unref (style);
 
 		return (gb_value_new_long (realcolor));
 	}
@@ -200,7 +198,7 @@ excel_gb_interior_get_arg (GBRunEvalContext *ec,
 		StyleColor *color;
 		int index;
 
-		style = sheet_style_compute (interior->sheet, col, row);
+		style = sheet_style_get (interior->sheet, col, row);
 		color = mstyle_get_color (style, MSTYLE_COLOR_FORE);
 
 		index = palette_from_color (color);
@@ -211,18 +209,14 @@ excel_gb_interior_get_arg (GBRunEvalContext *ec,
 			return NULL;
 		}
 
-		mstyle_unref (style);
-
 		return (gb_value_new_int (index));
 	}
 	case PATTERN: {
 		int pattern;
 
-		style = sheet_style_compute (interior->sheet, col, row);
+		style = sheet_style_get (interior->sheet, col, row);
 
 		pattern = mstyle_get_pattern (style);
-
-		mstyle_unref (style);
 
 		return (gb_value_new_int (pattern));
 	}
@@ -231,11 +225,9 @@ excel_gb_interior_get_arg (GBRunEvalContext *ec,
 		StyleColor *color;
 		long realcolor;
 
-		style = sheet_style_compute (interior->sheet, col, row);
+		style = sheet_style_get (interior->sheet, col, row);
 		color = mstyle_get_color (style, MSTYLE_COLOR_BACK);
 		realcolor = convert_rgb_to_color (color->red, color->green, color->blue);
-
-		mstyle_unref (style);
 
 		return (gb_value_new_long (realcolor));
 	}
@@ -243,7 +235,7 @@ excel_gb_interior_get_arg (GBRunEvalContext *ec,
 		StyleColor *color;
 		int index;
 
-		style = sheet_style_compute (interior->sheet, col, row);
+		style = sheet_style_get (interior->sheet, col, row);
 		color = mstyle_get_color (style, MSTYLE_COLOR_FORE);
 
 		index = palette_from_color (color);
@@ -253,8 +245,6 @@ excel_gb_interior_get_arg (GBRunEvalContext *ec,
 				color->red, color->green, color->blue);
 			return NULL;
 		}
-
-		mstyle_unref (style);
 
 		return (gb_value_new_int (index));
 	}
