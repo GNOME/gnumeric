@@ -1,3 +1,7 @@
+2002-12-20  Morten Welinder  <terra@diku.dk>
+
+	* src/parser.y: Check for failure from build_intersect.
+
 2002-12-19  Morten Welinder  <terra@diku.dk>
 
 	* src/parse-util.h (GnmExprConventions): Add cell_ref_handler

@@ -537,7 +537,10 @@ exp:	  CONSTANT 	{ $$ = $1; }
 	| exp LTE exp	{ $$ = build_binop ($1, GNM_EXPR_OP_LTE,	$3); }
 	| exp AND exp	{ $$ = build_logical ($1, TRUE,	$3); }
 	| exp OR  exp	{ $$ = build_logical ($1, FALSE, $3); }
-	| exp ' ' exp	{ $$ = build_intersect ($1, $3); }
+	| exp ' ' exp	{
+		$$ = build_intersect ($1, $3);
+		if ($$ == NULL) { YYERROR; }
+	}
 
         | '-' exp %prec NEG {
 		GnmExpr *tmp = fold_negative ($2);
