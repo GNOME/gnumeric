@@ -283,8 +283,10 @@ static gboolean
 BC_R(areaformat)(ExcelChartHandler const *handle,
 		 ExcelChart *s, BiffQuery *q)
 {
+#if 0
 	StyleColor *fore = BC_R(color) (q->data, "Area Fore");
 	StyleColor *back = BC_R(color) (q->data+4, "Area Back");
+#endif
 	guint16 const pattern = MS_OLE_GET_GUINT16 (q->data+8);
 	guint16 const flags = MS_OLE_GET_GUINT16 (q->data+10);
 	gboolean const auto_format = (flags & 0x01) ? TRUE : FALSE;
@@ -720,11 +722,13 @@ static gboolean
 BC_R(dat)(ExcelChartHandler const *handle,
 	  ExcelChart *s, BiffQuery *q)
 {
+#if 0
 	gint16 const flags = MS_OLE_GET_GUINT16 (q->data);
 	gboolean const horiz_border = (flags&0x01) ? TRUE : FALSE;
 	gboolean const vert_border = (flags&0x02) ? TRUE : FALSE;
 	gboolean const border = (flags&0x04) ? TRUE : FALSE;
 	gboolean const series_keys = (flags&0x08) ? TRUE : FALSE;
+#endif
 	return FALSE;
 }
 static gboolean
@@ -742,8 +746,10 @@ BC_R(dataformat)(ExcelChartHandler const *handle,
 {
 	guint16 const pt_num = MS_OLE_GET_GUINT16 (q->data);
 	guint16 const series_index = MS_OLE_GET_GUINT16 (q->data+2);
+#if 0
 	guint16 const series_index_for_label = MS_OLE_GET_GUINT16 (q->data+4);
 	guint16 const excel4_auto_color = MS_OLE_GET_GUINT16 (q->data+6) & 0x01;
+#endif
 
 	if (pt_num == 0xffff)
 		printf ("All points");
@@ -838,8 +844,10 @@ static gboolean
 BC_R(fontx)(ExcelChartHandler const *handle,
 	    ExcelChart *s, BiffQuery *q)
 {
+#if 0
 	/* Child of TEXT, index into FONT table */
 	guint16 const font = MS_OLE_GET_GUINT16 (q->data);
+#endif
 	return FALSE;
 }
 
@@ -949,8 +957,10 @@ BC_R(legend)(ExcelChartHandler const *handle,
 	guint32 const width = MS_OLE_GET_GUINT32  (q->data+8);
 	guint32 const height = MS_OLE_GET_GUINT32 (q->data+12);
 	guint8 const tmp = MS_OLE_GET_GUINT8     (q->data+16);
+#if 0
 	guint8 const spacing = MS_OLE_GET_GUINT8  (q->data+17);
 	guint16 const flags = MS_OLE_GET_GUINT16  (q->data+18);
+#endif
 
 	MS_LEGEND_LOCATION location;
 	g_return_val_if_fail (tmp < MS_LEGEND_LOCATION_MAX &&

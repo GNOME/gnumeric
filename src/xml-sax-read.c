@@ -1570,7 +1570,7 @@ init_plugin (PluginInfo *pinfo, ErrorInfo **ret_error)
 	/* low priority for now */
 	xml2_opener_id = file_format_register_open (
 	                 1, _("EXPERIMENTAL Gnumeric (*.gnumeric) XML based file format"),
-	                 NULL, &xml2_open, NULL);
+	                 &xml2_probe, &xml2_open, NULL);
 
 #if 0
 	xml2_saver_id = file_format_register_save (

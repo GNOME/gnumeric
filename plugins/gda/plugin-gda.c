@@ -36,7 +36,6 @@ display_recordset (Gda_Recordset *recset)
 {
 	gint       position;
 	Value*     array = NULL;
-	Value*     tmp;
 	gint       col;
 	gint       cnt;
 	gint       fieldcount = 0;
@@ -134,18 +133,18 @@ gnumeric_execSQL (FunctionEvalInfo *ei, Value **args)
 	password = value_get_as_string(args[2]);
 	sql = value_get_as_string(args[3]);
 	if (!dsn_name || !sql)
-		return value_new_error(&ei->pos, _("Format: execSQL(dsn,user,password,sql)"));
+		return value_new_error(ei->pos, _("Format: execSQL(dsn,user,password,sql)"));
 
 	/* initialize connection pool if first time */
 	if (!IS_GDA_CONNECTION_POOL(connection_pool)) {
 		connection_pool = gda_connection_pool_new();
 		if (!connection_pool) {
-			return value_new_error(&ei->pos, _("Error: could not initialize connection pool"));
+			return value_new_error(ei->pos, _("Error: could not initialize connection pool"));
 		}
 	}
 	cnc = gda_connection_pool_open_connection(connection_pool, dsn_name, user_name, password);
 	if (!IS_GDA_CONNECTION(cnc)) {
-		return value_new_error(&ei->pos, _("Error: could not open connection to %s"));
+		return value_new_error(ei->pos, _("Error: could not open connection to %s"));
 	}
 	
 	/* execute command */

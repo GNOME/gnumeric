@@ -1,5 +1,21 @@
 2001-01-27  Zbigniew Chyla  <cyba@gnome.pl>
 
+	Making Gnumeric -Werror friendly (well, almost).
+
+	* plugins/excel/ms-chart.c: Added "#if 0/#endif" around declarations
+	of unused variables.
+
+	* plugins/gda/plugin-gda.c (display_recordset): Removed unused
+	variable, fixed some errors (that's why I use -Werror).
+
+	* plugins/xml2/xml2.c (init_plugin): Used xml2_probe function.
+
+	* src/search.c: Included "ranges.h".
+
+	* src/style.c: Included "sheet.h"
+
+2001-01-27  Zbigniew Chyla  <cyba@gnome.pl>
+
 	* src/dialogs/plugin-manager.glade: Set policy to AUTOMATIC for some
 	scrollbars.
 

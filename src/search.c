@@ -9,6 +9,7 @@
 #include <config.h>
 #include <gnome.h>
 #include <ctype.h>
+#include "ranges.h"
 #include "search.h"
 
 /* ------------------------------------------------------------------------- */

@@ -14,6 +14,7 @@
 #include "style-color.h"
 #include "application.h"
 #include "gnumeric-util.h"
+#include "sheet.h"
 
 #include <gal/widgets/e-colors.h>
 
