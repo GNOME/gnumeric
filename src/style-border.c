@@ -149,7 +149,7 @@ border_get_gc (MStyleBorder * border, GdkWindow * window)
 		gdk_gc_set_line_attributes (border->gc,
 					    style_border_data[i].width,
 					    style,
-					    GDK_CAP_BUTT, GDK_JOIN_MITER);
+					    GDK_CAP_ROUND, GDK_JOIN_MITER);
 
 		if (style_border_data[i].pattern != NULL) {
 			struct LineDotPattern const * const pat =
