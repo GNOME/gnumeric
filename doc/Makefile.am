@@ -11,5 +11,6 @@ EXTRA_DIST = 				\
 	README				\
 	saving.txt			\
 	writing-functions.sgml		\
-	linux-expo-99-gnumeric.tex
+	linux-expo-99-gnumeric.tex      \
+	guile-gnumeric.txt
 
