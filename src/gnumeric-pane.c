@@ -832,10 +832,10 @@ cb_sheet_object_canvas_event (GnomeCanvasItem *item, GdkEvent *event,
 }
 
 static void
-cb_sheet_object_view_destroy (GObject *view, SheetObject *so)
+cb_sheet_object_view_destroyed (GObject *view, SheetObject *so)
 {
-	SheetControlGUI	*scg =
-		SHEET_CONTROL_GUI (sheet_object_view_control (view));
+	SheetControl *sc = sheet_object_view_control (view);
+	SheetControlGUI	*scg = SHEET_CONTROL_GUI (sc);
 
 	g_return_if_fail (IS_SHEET_OBJECT (so));
 	g_return_if_fail (view != NULL);
@@ -884,7 +884,7 @@ gnm_pane_object_register (SheetObject *so, GnomeCanvasItem *view)
 	/* all gui views are gtkobjects */
 	g_signal_connect (G_OBJECT (view),
 		"destroy",
-		G_CALLBACK (cb_sheet_object_view_destroy), so);
+		G_CALLBACK (cb_sheet_object_view_destroyed), so);
 }
 
 /**

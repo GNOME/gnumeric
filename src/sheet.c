@@ -2837,7 +2837,7 @@ sheet_destroy_contents (Sheet *sheet)
  *
  * Destroys a Sheet.
  *
- * Please note that you need to unattach this sheet before
+ * Please note that you need to detach this sheet before
  * calling this routine or you will get a warning.
  */
 void
