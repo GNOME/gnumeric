@@ -1,3 +1,8 @@
+2002-03-15  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* solve.c: Changes related to the enumeration of the solver's
+	status type.
+
 2002-03-14  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* lpkit.[ch], solve.c: Fixed the name space bloating.

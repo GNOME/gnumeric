@@ -366,11 +366,11 @@ void       unscale (lprec *lp);
 /* Remove all scaling from the problem */
 #endif
 
-int        lp_solve_solve (lprec *lp);
+SolverStatus lp_solve_solve (lprec *lp);
 /* Solve the problem */
 
-int        lag_solve (lprec *lp, gnum_float start_bound, int num_iter,
-		      gboolean verbose);
+SolverStatus lag_solve (lprec *lp, gnum_float start_bound, int num_iter,
+			gboolean verbose);
 /* Do NumIter iterations with Lagrangian relaxation constraints */
 
 #if 0

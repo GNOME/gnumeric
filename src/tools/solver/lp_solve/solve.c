@@ -5,11 +5,11 @@
 #include "lp-solve-debug.h"
 
 /* Globals used by solver */
-static gboolean JustInverted;
-static short Status;
-static gboolean Doiter;
-static gboolean DoInvert;
-static gboolean Break_bb;
+static gboolean     JustInverted;
+static SolverStatus Status;
+static gboolean     Doiter;
+static gboolean     DoInvert;
+static gboolean     Break_bb;
 
 
 static void
@@ -563,7 +563,7 @@ colprim (lprec *lp,
 	if (*colnr == 0) {
 	        Doiter   = FALSE;
 		DoInvert = FALSE;
-		Status   = SOLVER_LP_OPTIMAL;
+		Status   = SolverOptimal;
 	}
 	return((*colnr) > 0);
 } /* colprim */
@@ -639,7 +639,7 @@ rowprim (lprec      *lp,
 	        if (lp->upbo[colnr] == lp->infinite) {
 		  Doiter   = FALSE;
 		  DoInvert = FALSE;
-		  Status   = SOLVER_LP_UNBOUNDED;
+		  Status   = SolverUnbounded;
 		} else {
 		        i = 1;
 			while (pcol[i] >= 0 && i <= lp->rows)
@@ -939,7 +939,7 @@ solvelp (lprec *lp)
 
 	lp->iter = 0;
 	minit    = FALSE;
-	Status   = SOLVER_LP_RUNNING;
+	Status   = SolverRunning;
 	DoInvert = FALSE;
 	Doiter   = FALSE;
 
@@ -986,7 +986,7 @@ solvelp (lprec *lp)
 
 	minit = FALSE;
 
-	while (Status == SOLVER_LP_RUNNING) {
+	while (Status == SolverRunning) {
 	        Doiter = FALSE;
 		DoInvert = FALSE;
 
@@ -1032,7 +1032,7 @@ solvelp (lprec *lp)
 								"Can't "
 								"reinvert, "
 								"failure\n");
-							Status = SOLVER_LP_FAILURE;
+							Status = SolverFailure;
 						}
 					} else {
 					        condensecol(lp, row_nr, Pcol);
@@ -1052,7 +1052,7 @@ solvelp (lprec *lp)
 							  (gnum_float) Pcol[row_nr];
 					}
 				} else
-				        Status = SOLVER_LP_INFEASIBLE;
+				        Status = SolverInfeasible;
 			} else {
 			        primal            = TRUE;
 				Doiter            = FALSE;
@@ -1304,9 +1304,10 @@ milpsolve (lprec      *lp,
 	   int        *sbas,
 	   gboolean   recursive)
 {
-        int        i, j, failure, is_worse;
-	int        notint = -1;
-	gnum_float theta, tmpreal;
+        int          i, j, is_worse;
+	int          notint = -1;
+	gnum_float   theta, tmpreal;
+	SolverStatus failure;
 
 	if (Break_bb)
 	        return(BREAK_BB);
@@ -1360,7 +1361,7 @@ milpsolve (lprec      *lp,
 
 	failure = solvelp(lp);
 
-	if (lp->anti_degen && (failure == SOLVER_LP_OPTIMAL)) {
+	if (lp->anti_degen && (failure == SolverOptimal)) {
 	        /* restore to original problem, solve again starting from
 		 * the basis found for the disturbed problem */
 
@@ -1385,17 +1386,17 @@ milpsolve (lprec      *lp,
 		failure = solvelp(lp); /* and solve again */
 	}
 
-	if (failure != SOLVER_LP_OPTIMAL)
+	if (failure != SolverOptimal)
 	        lp_solve_debug_print(lp, "this problem has no solution, it "
 				     "is %s",
-				     (failure == SOLVER_LP_UNBOUNDED) ?
+				     (failure == SolverUnbounded) ?
 				     "unbounded" : "infeasible");
 
-	if (failure == SOLVER_LP_INFEASIBLE && lp->verbose)
+	if (failure == SolverInfeasible && lp->verbose)
 	        fprintf(stderr, "level %d INF\n", lp_solve_Level);
 
-	if (failure == SOLVER_LP_OPTIMAL) { /* there is a good solution */
-	        construct_solution(lp);
+	if (failure == SolverOptimal) { /* there is a good solution */
+	        construct_solution (lp);
 		
 		/* because of reports of solution > upbo */
 		/* check_solution(lp, upbo, lowbo); get too many hits ?? */
@@ -1426,7 +1427,7 @@ milpsolve (lprec      *lp,
 					     "but it was worse than the best "
 					     "sofar, discarded");
 			lp_solve_Level--;
-			return (SOLVER_LP_MILP_FAIL);
+			return (SolverMilpFailure);
 		}
 
 		/* check if solution contains enough ints */
@@ -1494,12 +1495,12 @@ milpsolve (lprec      *lp,
 
 		if (notint) { /* there is at least one value not yet int */
 		        /* set up two new problems */
-		        gnum_float *new_upbo, *new_lowbo;
-			gnum_float new_bound;
-			char       *new_lower, *new_basis;
-			int        *new_bas;
-			int        resone, restwo;
-			
+		        gnum_float   *new_upbo, *new_lowbo;
+			gnum_float   new_bound;
+			char         *new_lower, *new_basis;
+			int          *new_bas;
+			SolverStatus resone, restwo;
+
 			/* allocate room for them */
 			new_upbo  = g_new (gnum_float,  lp->sum + 1);
 			new_lowbo = g_new (gnum_float,  lp->sum + 1);
@@ -1547,7 +1548,7 @@ milpsolve (lprec      *lp,
 							     "%g\n",
 							     (double) new_bound,
 							     (double) lowbo[notint]);
-					resone = SOLVER_LP_MILP_FAIL;
+					resone = SolverMilpFailure;
 				}
 				else { /* bound feasible */
 				        check_if_less(new_bound, upbo[notint],
@@ -1576,7 +1577,7 @@ milpsolve (lprec      *lp,
 							     "%g\n",
 							     (double) new_bound,
 							     (double) upbo[notint]);
-					restwo = SOLVER_LP_MILP_FAIL;
+					restwo = SolverMilpFailure;
 				}
 				else { /* bound feasible */
 				        check_if_less (lowbo[notint],
@@ -1609,7 +1610,7 @@ milpsolve (lprec      *lp,
 							     "%g\n",
 							     (double) new_bound,
 							     (double) upbo[notint]);
-					resone = SOLVER_LP_MILP_FAIL;
+					resone = SolverMilpFailure;
 				} else { /* bound feasible */
 				        check_if_less(lowbo[notint], new_bound,
 						      lp->solution[notint]);
@@ -1637,7 +1638,7 @@ milpsolve (lprec      *lp,
 							     "%g\n",
 							     (double) new_bound,
 							     (double) lowbo[notint]);
-					restwo = SOLVER_LP_MILP_FAIL;
+					restwo = SolverMilpFailure;
 				} else { /* bound feasible */
 				        check_if_less(new_bound, upbo[notint],
 						      lp->solution[notint]);
@@ -1659,9 +1660,9 @@ milpsolve (lprec      *lp,
 			}
 			if (resone && restwo) /* both failed and must have
 					       * been infeasible */
-			        failure = SOLVER_LP_INFEASIBLE;
+			        failure = SolverInfeasible;
 			else
-			        failure = SOLVER_LP_OPTIMAL;
+			        failure = SolverOptimal;
 			
 			g_free (new_upbo);
 			g_free (new_lowbo);
@@ -1710,13 +1711,13 @@ milpsolve (lprec      *lp,
 
 	lp_solve_Level--;
 
-	/* failure can have the values SOLVER_LP_OPTIMAL, SOLVER_LP_UNBOUNDED
-	 * and SOLVER_LP_INFEASIBLE. */
+	/* failure can have the values SolverOptimal, SolverUnbounded
+	 * and SolverInfeasible. */
 	return(failure);
 } /* milpsolve */
 
 
-int
+SolverStatus
 lp_solve_solve (lprec *lp)
 {
         int result, i;
@@ -1759,23 +1760,23 @@ lp_solve_solve (lprec *lp)
 	}
 
 	/* if we get here, isvalid(lp) failed. I suggest we return
-	 * SOLVER_LP_FAILURE
+	 * SolverFailure
 	 * fprintf (stderr, "Error, the current LP seems to be invalid\n");
 	 */
-	return (SOLVER_LP_FAILURE);
+	return (SolverFailure);
 } /* solve */
 
-int
+SolverStatus
 lag_solve (lprec *lp, gnum_float start_bound, int num_iter, gboolean verbose)
 {
-        int        i, j, result, citer;
-	short      status;
-	gboolean   OrigFeas, AnyFeas, same_basis;
-	gnum_float *OrigObj, *ModObj, *SubGrad, *BestFeasSol;
-	gnum_float Zub, Zlb, Ztmp, pie;
-	gnum_float rhsmod, Step, SqrsumSubGrad;
-	int        *old_bas;
-	char       *old_lower;
+        int          i, j, citer;
+	SolverStatus status, result;
+	gboolean     OrigFeas, AnyFeas, same_basis;
+	gnum_float   *OrigObj, *ModObj, *SubGrad, *BestFeasSol;
+	gnum_float   Zub, Zlb, Ztmp, pie;
+	gnum_float   rhsmod, Step, SqrsumSubGrad;
+	int          *old_bas;
+	char         *old_lower;
 
 	/* allocate mem */  
 	OrigObj     = g_new (gnum_float, lp->columns + 1);
@@ -1797,7 +1798,7 @@ lag_solve (lprec *lp, gnum_float start_bound, int num_iter, gboolean verbose)
 	        Zlb = -DEF_INFINITE;
 		Zub = start_bound;
 	}
-	status   = SOLVER_LP_RUNNING; 
+	status   = SolverRunning; 
 	Step     = 1;
 	OrigFeas = FALSE;
 	AnyFeas  = FALSE;
@@ -1806,7 +1807,7 @@ lag_solve (lprec *lp, gnum_float start_bound, int num_iter, gboolean verbose)
 	for (i = 0 ; i < lp->nr_lagrange; i++)
 	        lp->lambda[i] = 0;
 
-	while (status == SOLVER_LP_RUNNING) {
+	while (status == SolverRunning) {
 	        citer++;
 
 		for (i = 1; i <= lp->columns; i++) {
@@ -1872,17 +1873,17 @@ lag_solve (lprec *lp, gnum_float start_bound, int num_iter, gboolean verbose)
 		        fprintf(stderr, "result: %d  same basis: %d\n",
 				result, same_basis);
       
-		if (result == SOLVER_LP_UNBOUNDED) {
+		if (result == SolverUnbounded) {
 		        for (i = 1; i <= lp->columns; i++)
 			        fprintf(stderr, "%g ", (double) ModObj[i]);
 			exit(EXIT_FAILURE);
 		}
 
-		if (result == SOLVER_LP_FAILURE)
-		        status = SOLVER_LP_FAILURE;
+		if (result == SolverFailure)
+		        status = SolverFailure;
 
-		if (result == SOLVER_LP_INFEASIBLE)
-		        status = SOLVER_LP_INFEASIBLE;
+		if (result == SolverInfeasible)
+		        status = SolverInfeasible;
       
 		SqrsumSubGrad = 0;
 		for (i = 0; i < lp->nr_lagrange; i++) {
@@ -1936,7 +1937,7 @@ lag_solve (lprec *lp, gnum_float start_bound, int num_iter, gboolean verbose)
 		        Zlb = MAX(Zlb, rhsmod + lp->best_solution[0]);
 		
 		if (ABS(Zub-Zlb)<0.001) {  
-		        status = SOLVER_LP_OPTIMAL;
+		        status = SolverOptimal;
 		}
 		Step = pie * ((1.05*Zub) - Zlb) / SqrsumSubGrad;  
 		
@@ -1946,7 +1947,7 @@ lag_solve (lprec *lp, gnum_float start_bound, int num_iter, gboolean verbose)
 			        lp->lambda[i] = 0;
 		}
  
-		if (citer == num_iter && status == SOLVER_LP_RUNNING) {
+		if (citer == num_iter && status == SolverRunning) {
 		        if (AnyFeas)
 			        status = FEAS_FOUND;
 			else
