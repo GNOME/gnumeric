@@ -21,7 +21,7 @@
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include "dialog-stf.h"
-#include "formats.h"
+#include "format.h"
 
 /*************************************************************************************************
  * SIGNAL HANDLERS

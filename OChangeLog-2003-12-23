@@ -1,5 +1,26 @@
 2003-05-10  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* src/stf-parse.c (comp_term): handle multibyte terminals
+	(compare_terminator): check all terminators
+	(stf_parse_options_new): initialize terminator list
+	(stf_parse_options_free): free terminator list
+	(long_string_first): new
+	(stf_parse_options_set_line_terminator_char): deleted
+	(stf_parse_options_set_line_terminator): deleted
+	(stf_parse_options_clear_line_terminator): new
+	(stf_parse_options_add_line_terminator): new
+	(stf_parse_options_remove_line_terminator): new
+	* src/stf-parse.h: Change type of StfParseOptions_t->
+	  terminator
+	(stf_parse_options_set_line_terminator_char): deleted
+	(stf_parse_options_set_line_terminator): deleted
+	(stf_parse_options_clear_line_terminator): new
+	(stf_parse_options_add_line_terminator): new
+	(stf_parse_options_remove_line_terminator): new
+	
+
+2003-05-10  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=99649
 	* src/GNOME_Gnumeric.xml: insert separator between Open and 
 	  Save of the File menu. 

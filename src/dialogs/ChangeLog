@@ -1,3 +1,7 @@
+2003-05-10   Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-stf-csv-page.c: fix previously forgotten #include
+	
 2003-05-09   Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-stf-export-format-page.c 

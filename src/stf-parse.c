@@ -34,6 +34,7 @@
 #include "value.h"
 #include "mstyle.h"
 #include "number-match.h"
+#include "gutils.h"
 
 #include <ctype.h>
 #ifdef HAVE_WCTYPE_H
@@ -76,15 +77,25 @@ my_gptrarray_len (const GPtrArray *a)
 }
 
 static inline gboolean
-comp_term (gunichar const s, StfParseOptions_t *parseoptions)
+comp_term (gchar const *s, gchar const *term)
 {
-	return (parseoptions->terminator == s);
+	gchar const *this, *si = s;
+	
+	for (this = term; *term; term++, si++)
+		if (*term != *si)
+			return FALSE;
+	return TRUE;
+/* 	return !strncmp (s, term, strlen (term)); */
 }
 			
 static inline gboolean
 compare_terminator (char const *s, StfParseOptions_t *parseoptions)
 {
-        return comp_term (g_utf8_get_char (s), parseoptions);
+	GSList *term;
+	for (term = parseoptions->terminator; term; term = term->next) 
+		if (comp_term (s, (gchar const*)(term->data)))
+			return TRUE;
+	return FALSE;
 }
 
 
@@ -107,7 +118,9 @@ stf_parse_options_new (void)
 	StfParseOptions_t* parseoptions = g_new0 (StfParseOptions_t, 1);
 
 	parseoptions->parsetype   = PARSE_TYPE_NOTSET;
-	parseoptions->terminator  = '\n';
+
+	parseoptions->terminator  = g_create_slist (g_strdup("\r\n"), g_strdup("\n"), g_strdup("\r"), NULL);
+	
 	parseoptions->parselines  = -1;
 	parseoptions->trim_spaces = (TRIM_TYPE_RIGHT | TRIM_TYPE_LEFT);
 
@@ -145,6 +158,8 @@ stf_parse_options_free (StfParseOptions_t *parseoptions)
 
 	g_array_free (parseoptions->splitpositions, TRUE);
 
+	stf_parse_options_clear_line_terminator (parseoptions);
+
 	g_free (parseoptions);
 }
 
@@ -157,31 +172,71 @@ stf_parse_options_set_type (StfParseOptions_t *parseoptions, StfParseType_t cons
 	parseoptions->parsetype = parsetype;
 }
 
+static gint 
+long_string_first (gchar const *a, gchar const *b)
+{
+	glong la = g_utf8_strlen (a, -1);
+	glong lb = g_utf8_strlen (a, -1);
+	
+	if (la > lb)
+		return -1;
+	if (la == lb)
+		return 0;
+	return 1;
+}
+
+
 /**
- * stf_parse_options_set_line_terminator:
+ * stf_parse_options_add_line_terminator:
  *
- * This will set the line terminator, in both the Fixed width and CSV delimited importers
- * this indicates the end of a row. If you set this to '\0' the whole data will be treated
- * as on big line, note that '\n' (newlines) will not be parsed out if you set the
- * terminator to anything other than a newline
+ * This will add to the line terminators, in both the Fixed width and CSV delimited importers
+ * this indicates the end of a row. 
+ *
  **/
 void
-stf_parse_options_set_line_terminator (StfParseOptions_t *parseoptions, gunichar const terminator)
+stf_parse_options_add_line_terminator (StfParseOptions_t *parseoptions, char const *terminator)
 {
 	g_return_if_fail (parseoptions != NULL);
 
-	parseoptions->terminator = terminator;
+	GNM_SLIST_PREPEND(parseoptions->terminator, (gpointer)terminator);
+	GNM_SLIST_SORT(parseoptions->terminator, (GCompareFunc)long_string_first);
 }
 
+/**
+ * stf_parse_options_remove_line_terminator:
+ *
+ * This will remove from the line terminators, in both the Fixed width and CSV delimited importers
+ * this indicates the end of a row. 
+ *
+ **/
 void
-stf_parse_options_set_line_terminator_char (StfParseOptions_t *parseoptions, char const terminator)
+stf_parse_options_remove_line_terminator (StfParseOptions_t *parseoptions, char const *terminator)
 {
-	gunichar unichar = g_utf8_get_char_validated (&terminator, 1);
+	GSList*    in_list;
 	
-	g_return_if_fail (g_unichar_validate(unichar));
-	stf_parse_options_set_line_terminator (parseoptions, unichar);
+	g_return_if_fail (parseoptions != NULL);
+	
+	in_list = g_slist_find_custom (parseoptions->terminator, terminator, g_str_compare);
+
+	if (in_list)
+		GNM_SLIST_REMOVE(parseoptions->terminator, in_list->data);	
 }
 
+/**
+ * stf_parse_options_clear_line_terminator:
+ *
+ * This will clear the line terminator, in both the Fixed width and CSV delimited importers
+ * this indicates the end of a row. 
+ *
+ **/
+void
+stf_parse_options_clear_line_terminator (StfParseOptions_t *parseoptions)
+{
+	g_return_if_fail (parseoptions != NULL);
+
+	g_slist_free_custom (parseoptions->terminator, g_free);
+	parseoptions->terminator = NULL;
+}
 
 
 
