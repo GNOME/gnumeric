@@ -1,3 +1,8 @@
+1999-11-07  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_set_xf) : Remove debug
+	  statement accidentally left in.
+
 1999-11-06  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (black_or_white_contrast) : Revert to 50% as a

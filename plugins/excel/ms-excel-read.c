@@ -1138,7 +1138,6 @@ ms_excel_set_xf (ExcelSheet *sheet, int col, int row, guint16 xfidx)
 	Range   range;
 	MStyle *mstyle;
 
-	printf ("%s!%s%d : ", sheet->gnum_sheet->name, col_name(col), row+1);
 	mstyle = ms_excel_get_style_from_xf (sheet, xfidx);
 	if (mstyle == NULL)
 		return;
