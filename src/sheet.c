@@ -214,8 +214,8 @@ sheet_new (Workbook *wb, const char *name)
 	sheet->list_merged = NULL;
 	sheet->hash_merged = g_hash_table_new ((GHashFunc)&cellpos_hash,
 					       (GCompareFunc)&cellpos_cmp);
-#if 0
-	{
+
+	if (getenv ("GNUMERIC_DEBUG_MERGE")) {
 		/* some quick tests for merged cell support */
 		Range r1 = { { 3,3 }, { 5,5 } };
 		Range r2 = { { 7,4 }, { 9,6 } };
@@ -224,7 +224,7 @@ sheet_new (Workbook *wb, const char *name)
 		sheet_region_merge (NULL, sheet, &r2);
 		sheet_region_merge (NULL, sheet, &r3);
 	}
-#endif
+
 	sheet->deps	 = dependency_data_new ();
 	sheet->cell_hash = g_hash_table_new ((GHashFunc)&cellpos_hash,
 					     (GCompareFunc)&cellpos_cmp);
@@ -2163,6 +2163,13 @@ cb_remove_allcells (gpointer ignored, gpointer value, gpointer flags)
 	return TRUE;
 }
 
+
+static gboolean
+cb_dummy_remove_func (void *key, void *value, void *user)
+{
+	return TRUE;
+}
+
 void
 sheet_destroy_contents (Sheet *sheet)
 {
@@ -2172,6 +2179,26 @@ sheet_destroy_contents (Sheet *sheet)
 
 	int i;
 	gpointer tmp;
+
+	if (sheet->list_merged) {
+		GSList *l;
+
+		for (l = sheet->list_merged; l; l = l->next) {
+			Range *r;
+			r = l->data;
+			g_free (r);
+		}
+		g_slist_free (sheet->list_merged);
+		sheet->list_merged = NULL;
+
+		/*
+		 * Remove everything.  This is faster than removing the
+		 * list elements as we see them.
+		 */		   
+		g_hash_table_foreach_remove (sheet->hash_merged,
+					     cb_dummy_remove_func,
+					     NULL);
+	}
 
 	/* Clear the row spans 1st */
 	for (i = sheet->rows.max_used; i >= 0 ; --i)
@@ -2262,6 +2289,10 @@ sheet_destroy (Sheet *sheet)
 	expr_name_invalidate_refs_sheet (sheet);
 	sheet_destroy_contents (sheet);
 	sheet->names = expr_name_list_destroy (sheet->names);
+
+	g_hash_table_destroy (sheet->hash_merged);
+	sheet->hash_merged = NULL;
+	g_assert (sheet->list_merged == NULL);
 
 	/* Clear the cliboard to avoid dangling references to the deleted sheet */
 	if (sheet == application_clipboard_sheet_get ())

@@ -1,3 +1,10 @@
+2000-11-20  Morten Welinder  <terra@diku.dk>
+
+	* src/sheet.c (sheet_destroy_contents): Eliminate merged regions.
+	(sheet_destroy): Free data structures for merged regions.
+	(sheet_new): Activate temporary debugging code on
+ 	GNUMERIC_DEBUG_MERGE in environment.
+
 2000-11-19  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet.c (sheet_region_is_merge_cell) :
