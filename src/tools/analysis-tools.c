@@ -2485,7 +2485,8 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 		sum = 0;
 		std_err = 0;
 
-		for (row = 0; row < info->interval - 1; row++) {
+		for (row = 0; row < info->interval - 1 &&
+			      row < (gint)current->data->len; row++) {
 			prev[add_cursor] = g_array_index
 				(current->data, gnm_float, row);
 			sum += prev[add_cursor];

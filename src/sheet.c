@@ -406,6 +406,14 @@ sheet_apply_style (Sheet       *sheet,
 
 /****************************************************************************/
 
+static void
+cb_clear_rendered_cells (gpointer ignored, GnmCell *cell)
+{
+	if (cell->rendered_value != NULL) {
+		rendered_value_destroy (cell->rendered_value);
+		cell->rendered_value = NULL;
+	}
+}
 
 /**
  * sheet_set_zoom_factor : Change the zoom factor.
@@ -447,6 +455,7 @@ sheet_set_zoom_factor (Sheet *sheet, double f, gboolean force, gboolean update)
 	colrow_foreach (&sheet->rows, 0, SHEET_MAX_ROWS-1,
 			&cb_colrow_compute_pixels_from_pts, &closure);
 
+	g_hash_table_foreach (sheet->cell_hash, (GHFunc)&cb_clear_rendered_cells, NULL);
 	SHEET_FOREACH_CONTROL (sheet, view, control, sc_set_zoom_factor (control););
 
 	/*
@@ -2282,6 +2291,13 @@ sheet_foreach_cell_in_range (Sheet *sheet, CellIterFlags flags,
 	return NULL;
 }
 
+void
+sheet_foreach_cell (Sheet *sheet, GHFunc callback, gpointer data)
+{
+	g_return_if_fail (IS_SHEET (sheet));
+
+	g_hash_table_foreach (sheet->cell_hash, callback, data);
+}
 
 static GnmValue *
 cb_sheet_cells_collect (Sheet *sheet, int col, int row,

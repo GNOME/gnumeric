@@ -199,11 +199,45 @@ item_edit_point (FooCanvasItem *item, double c_x, double c_y, int cx, int cy,
 static int
 item_edit_event (FooCanvasItem *item, GdkEvent *event)
 {
-	/* FIXME : Handle mouse events here */
 	switch (event->type){
 	case GDK_ENTER_NOTIFY:
 		gnm_widget_set_cursor_type (GTK_WIDGET (item->canvas), GDK_XTERM);
 		return TRUE;
+
+	case GDK_BUTTON_PRESS:
+		if (event->button.button == 1) {
+			ItemEdit *ie = ITEM_EDIT (item);
+			GtkEditable *ed = GTK_EDITABLE (ie->entry);
+			double x = event->button.x, y = event->button.y;
+			int target_index, trailing;
+
+			x -= MIN (item->x1, item->x2);
+			y -= MIN (item->y1, item->y2);
+
+			if (pango_layout_xy_to_index (ie->layout,
+						      x * PANGO_SCALE, y * PANGO_SCALE,
+						      &target_index, &trailing)) {
+				int preedit = GNM_CANVAS (item->canvas)->preedit_length;
+				char const *text = pango_layout_get_text (ie->layout);
+				gint cur_index = gtk_editable_get_position (ed);
+				cur_index = g_utf8_offset_to_pointer (text, cur_index) - text;
+
+				if (target_index >= cur_index && preedit > 0) {
+					if (target_index < (cur_index + preedit)) {
+						target_index = cur_index;
+						trailing = 0;
+					} else
+						target_index -= preedit;
+				}
+				gtk_editable_set_position (GTK_EDITABLE (ie->entry),
+					g_utf8_pointer_to_offset (text, text + target_index)
+					+ trailing);
+
+				return TRUE;
+			}
+		}
+		break;
+
 	default :
 		break;
 	}
@@ -400,7 +434,7 @@ cb_item_edit_cursor_blink (ItemEdit *ie)
 
 	ie->cursor_visible = !ie->cursor_visible;
 
-	foo_canvas_item_request_update (item);
+	foo_canvas_item_request_redraw (item);
 	return TRUE;
 }
 

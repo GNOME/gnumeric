@@ -91,12 +91,12 @@ GnmCell       *sheet_cell_get		(Sheet const *sheet, int col, int row);
 GnmCell       *sheet_cell_fetch		(Sheet *sheet, int col, int row);
 GnmCell       *sheet_cell_new		(Sheet *sheet, int col, int row);
 void        sheet_cell_remove		(Sheet *sheet, GnmCell *cell, gboolean redraw);
-
 GnmValue   *sheet_foreach_cell_in_range	(Sheet *sheet, CellIterFlags flags,
 					 int start_col, int start_row,
 					 int end_col, int end_row,
 					 CellIterFunc callback,
 					 gpointer     closure);
+void	    sheet_foreach_cell	 (Sheet *sheet, GHFunc callback, gpointer data);
 GPtrArray  *sheet_cells                  (Sheet *sheet,
 					  int start_col, int start_row,
 					  int end_col, int end_row,

@@ -1,3 +1,9 @@
+2004-03-30  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=138533
+	* analysis-tools.c (analysis_tool_moving_average_engine_run) : handle
+	  insufficient data
+
 2004-03-16  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.2.8

@@ -63,7 +63,7 @@ SpanCalcFlags	 sheet_style_set_list	(Sheet *sheet, GnmCellPos const *corner,
 GnmStyleList *sheet_style_get_validation_list (Sheet const *sheet,
 					    GnmRange const *r);
 
-/* For internal use only */
 void	 sheet_style_unlink		(Sheet *sheet, GnmStyle *st);
+GnmStyle *sheet_style_find   (Sheet *sheet, GnmStyle *st);
 
 #endif /* GNUMERIC_SHEET_STYLE_H */

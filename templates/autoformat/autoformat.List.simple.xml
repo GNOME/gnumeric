@@ -13,7 +13,7 @@
       </gmr:Col>
       <gmr:Frequency direction="0" repeat="0" skip="0" edge="0"/>
       <gmr:Style HAlign="1" VAlign="2" Fit="0" Rotation="0" Shade="0" Fore="0:0:0" Back="FFFF:FFFF:FFFF" PatternColor="0:0:0" Format="General">
-        <gmr:Font Unit="9" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+        <gmr:Font Unit="9" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Arial</gmr:Font>
         <gmr:StyleBorder>
           <gmr:Top Style="2" Color="8585:8585:8585"/>
           <gmr:Bottom Style="2" Color="8585:8585:8585"/>
@@ -35,7 +35,7 @@
       </gmr:Col>
       <gmr:Frequency direction="0" repeat="0" skip="0" edge="0"/>
       <gmr:Style HAlign="1" VAlign="2" Fit="0" Rotation="0" Shade="0" Fore="0:19C5:A2E8" Back="FFFF:FFFF:FFFF" PatternColor="0:0:0" Format="General">
-        <gmr:Font Unit="9" Bold="1" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+        <gmr:Font Unit="9" Bold="1" Italic="0" Underline="0" StrikeThrough="0">Arial</gmr:Font>
         <gmr:StyleBorder>
           <gmr:Top Style="2" Color="8585:8585:8585"/>
           <gmr:Bottom Style="2" Color="8585:8585:8585"/>
@@ -57,7 +57,7 @@
       </gmr:Col>
       <gmr:Frequency direction="0" repeat="0" skip="0" edge="0"/>
       <gmr:Style HAlign="1" VAlign="2" Fit="0" Rotation="0" Shade="0" Fore="0:0:0" Back="FFFF:FFFF:FFFF" PatternColor="0:0:0" Format="General">
-        <gmr:Font Unit="9" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+        <gmr:Font Unit="9" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Arial</gmr:Font>
         <gmr:StyleBorder>
           <gmr:Top Style="0"/>
           <gmr:Bottom Style="1" Color="8585:8585:8585"/>
@@ -79,7 +79,7 @@
       </gmr:Col>
       <gmr:Frequency direction="0" repeat="0" skip="0" edge="0"/>
       <gmr:Style HAlign="1" VAlign="2" Fit="0" Rotation="0" Shade="0" Fore="0:19C5:A2E8" Back="FFFF:FFFF:FFFF" PatternColor="0:0:0" Format="General">
-        <gmr:Font Unit="9" Bold="0" Italic="1" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+        <gmr:Font Unit="9" Bold="0" Italic="1" Underline="0" StrikeThrough="0">Arial</gmr:Font>
         <gmr:StyleBorder>
           <gmr:Top Style="2" Color="8585:8585:8585"/>
           <gmr:Bottom Style="2" Color="8585:8585:8585"/>
@@ -101,7 +101,7 @@
       </gmr:Col>
       <gmr:Frequency direction="0" repeat="0" skip="0" edge="0"/>
       <gmr:Style HAlign="1" VAlign="2" Fit="0" Rotation="0" Shade="0" Fore="0:0:0" Back="FFFF:FFFF:FFFF" PatternColor="0:0:0" Format="General">
-        <gmr:Font Unit="9" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+        <gmr:Font Unit="9" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Arial</gmr:Font>
         <gmr:StyleBorder>
           <gmr:Top Style="2" Color="8585:8585:8585"/>
           <gmr:Bottom Style="2" Color="8585:8585:8585"/>

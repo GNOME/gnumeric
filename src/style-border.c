@@ -373,7 +373,7 @@ static inline gboolean
 style_border_set_pc (GnmBorder const * const border,
 		     GnomePrintContext *context)
 {
-	if (border == NULL)
+	if (border == NULL || border->line_type == STYLE_BORDER_NONE)
 		return FALSE;
 
 	gnome_print_gsave (context);
@@ -812,5 +812,45 @@ style_borders_row_print (GnmBorder const * const * prev_vert,
 				     y2 - o[0][1] - 1, border->width);
 			gnome_print_grestore (context);
 		}
+	}
+}
+
+void
+style_border_print_diag (GnmStyle const *style,
+			 GnomePrintContext *context,
+			 float x1, float y1, float x2, float y2)
+{
+	GnmBorder const *diag;
+
+	diag = mstyle_get_border (style, MSTYLE_BORDER_REV_DIAGONAL);
+	if (style_border_set_pc (diag, context)) {
+		if (diag->line_type == STYLE_BORDER_DOUBLE) {
+			gnome_print_moveto (context, x1+1.5,  y1-3.);
+			gnome_print_lineto (context, x2-2.,   y2+ .5);
+			gnome_print_stroke (context);
+			gnome_print_moveto (context, x1+ 3.,  y1-1.5);
+			gnome_print_lineto (context, x2-  .5, y2+2.);
+		} else {
+			gnome_print_moveto (context, x1+.5, y1-.5);
+			gnome_print_lineto (context, x2+.5, y2-.5);
+		}
+		gnome_print_stroke (context);
+		gnome_print_grestore (context);
+	}
+
+	diag = mstyle_get_border (style, MSTYLE_BORDER_DIAGONAL);
+	if (style_border_set_pc (diag, context)) {
+		if (diag->line_type == STYLE_BORDER_DOUBLE) {
+			gnome_print_moveto (context, x1+1.5, y2+2.);
+			gnome_print_lineto (context, x2-2.,  y1-1.5);
+			gnome_print_stroke (context);
+			gnome_print_moveto (context, x1+3.,  y2+ .5);
+			gnome_print_lineto (context, x2- .5, y1-3.);
+		} else {
+			gnome_print_moveto (context, x1+.5, y2-.5);
+			gnome_print_lineto (context, x2+.5, y1-.5);
+		}
+		gnome_print_stroke (context);
+		gnome_print_grestore (context);
 	}
 }

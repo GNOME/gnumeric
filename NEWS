@@ -1,17 +1,25 @@
-Gnumeric 1.2.10
-
-Morten:
-	* Fix crash related to database functions (#138600).
-	* Fix [h]:mm precision (#138182).
-
---------------------------------------------------------------------------
-
 Gnumeric 1.2.9
 
 Jody:
 	* Minor fix for xls import of cursor position with frozen panes
 	* Fix Excel warning about our exported h/v only frozen panes
 	* Fix Excel crash on our exported named expressions with no addins
+	http://bugzilla.gnome.org/show_bug.cgi?id=137818
+	* For immediate rerender, even for simple font changes.
+	* Direct editing of spinbutton in text importer, and cell format
+	http://bugzilla.gnome.org/show_bug.cgi?id=138533
+	* handle insufficient data in moving average tool
+	* Enable clicking in the sheet edit item.
+	* Restore printing for diagonal borders
+	* Fix redraw for hashed (####) values
+	* Fix redraw for alignment changes in spans
+	* Overlay falue_fmts on xls export because XL does not support them
+
+Morten:
+	http://bugzilla.gnome.org/show_bug.cgi?id=138600
+	* Fix crash related to database functions
+	http://bugzilla.gnome.org/show_bug.cgi?id=138182
+	* Fix [h]:mm precision
 
 --------------------------------------------------------------------------
 Gnumeric 1.2.8

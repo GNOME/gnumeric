@@ -107,6 +107,7 @@ cell_draw (GnmCell const *cell, GdkGC *gc, GdkDrawable *drawable,
 		pango_layout_set_text (layout, hashes,
 				       MIN (sizeof (hashes) - 1, strlen (text)));
 		rv->numeric_overflow = TRUE;
+		rv->variable_width = TRUE;
 		rv->hfilled = TRUE;
 	}
 

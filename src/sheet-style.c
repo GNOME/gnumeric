@@ -67,7 +67,7 @@ sheet_style_unlink (Sheet *sheet, GnmStyle *st)
  * Looks up a style from the sheets collection.  Linking if necessary.
  * ABSORBS the reference and adds a link.
  */
-static GnmStyle *
+GnmStyle *
 sheet_style_find (Sheet *sheet, GnmStyle *s)
 {
 	GnmStyle *res;

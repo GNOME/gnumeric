@@ -561,14 +561,18 @@ SpanCalcFlags
 required_updates_for_style (GnmStyle *style)
 {
 	gboolean const size_change =
-	    (mstyle_is_element_set  (style, MSTYLE_FONT_NAME) ||
-	     mstyle_is_element_set  (style, MSTYLE_FONT_BOLD) ||
-	     mstyle_is_element_set  (style, MSTYLE_FONT_ITALIC) ||
-	     mstyle_is_element_set  (style, MSTYLE_FONT_SIZE) ||
-	     mstyle_is_element_set  (style, MSTYLE_WRAP_TEXT));
+	    (mstyle_is_element_set (style, MSTYLE_FONT_NAME) ||
+	     mstyle_is_element_set (style, MSTYLE_FONT_BOLD) ||
+	     mstyle_is_element_set (style, MSTYLE_FONT_ITALIC) ||
+	     mstyle_is_element_set (style, MSTYLE_FONT_SIZE) ||
+	     mstyle_is_element_set (style, MSTYLE_WRAP_TEXT));
 	gboolean const format_change =
 	    (mstyle_is_element_set (style, MSTYLE_FORMAT) ||
-	     mstyle_is_element_set (style, MSTYLE_INDENT));
+	     mstyle_is_element_set (style, MSTYLE_FONT_STRIKETHROUGH) ||
+	     mstyle_is_element_set (style, MSTYLE_FONT_UNDERLINE) ||
+	     mstyle_is_element_set (style, MSTYLE_INDENT) ||
+	     mstyle_is_element_set (style, MSTYLE_ALIGN_H) ||
+	     mstyle_is_element_set (style, MSTYLE_COLOR_FORE));
 
 	return (format_change|size_change)
 		? (SPANCALC_RE_RENDER|SPANCALC_RESIZE)

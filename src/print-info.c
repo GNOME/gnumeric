@@ -540,7 +540,6 @@ render_path (GString *target, HFRenderInfo *info, char const *args)
 		char *filename_utf8 = workbook_get_filename_utf8 
 			(info->sheet->workbook, FALSE);
 		char *dir;
-		char *path;
 		char *path_n_file;
 
 		if (g_path_is_absolute (filename_utf8))

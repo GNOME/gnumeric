@@ -837,7 +837,7 @@ fmt_dialog_init_align_page (FormatState *state)
 
 	/* Catch changes to the spin box */
 	g_signal_connect (G_OBJECT (w),
-		"changed",
+		"value-changed",
 		G_CALLBACK (cb_indent_changed), state);
 
 	/* Catch <return> in the spin box */
@@ -852,7 +852,7 @@ fmt_dialog_init_align_page (FormatState *state)
 	w = glade_xml_get_widget (state->gui, "rotate_spinner");
 	state->align.rotate_spinner = GTK_SPIN_BUTTON (w);
 	g_signal_connect (G_OBJECT (w),
-		"changed",
+		"value-changed",
 		G_CALLBACK (cb_rotate_changed), state);
 
 	state->align.motion_handle = 0;

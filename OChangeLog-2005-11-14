@@ -1,3 +1,32 @@
+2004-04-01  Jody Goldberg <jody@gnome.org>
+
+	* src/item-edit.c (item_edit_event) : basic cursor position support.
+
+	* src/print-cell.c (print_cell_background) : draw diagonals.
+	* src/style-border.c (style_border_print_diag) : fill in.  Where did
+	  this code go ?  I could have sworn I implemented this years ago.
+
+2004-03-30  Jody Goldberg <jody@gnome.org>
+
+	Test case. Enter '1/2/2003' in a cell then shrink the column.  When
+	you grow the col again the hashes remain.
+	* src/cell-draw.c (cell_calc_layout) : mark hashed values as variable
+	  width so that they resize when columns change size.
+
+2004-03-30  Jody Goldberg <jody@gnome.org>
+
+	Test case.  Enter string into C3 that spans into E3 then change
+	alignment
+	* src/commands.c (cmd_format_undo) : be lazy, queue a full redraw in
+	  case spans changed.
+	(cmd_format_redo) : ditto.
+
+2004-03-25  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=137818
+	* src/style.c (required_updates_for_style) : redraw for h-align,
+	  striketrough, underline, and font colour changes.
+
 2004-04-01  Morten Welinder  <terra@gnome.org>
 
 	* src/format.c (append_hour_elapsed): Fix precision issues.
@@ -7,6 +36,10 @@
 
 	* src/value.c (parse_database_criteria): Since we're g_free-ing,
 	allocate with g_new and not g_alloca.
+
+2004-03-16  Jody Goldberg <jody@gnome.org>
+
+	* configure.in  : post release bump
 
 2004-03-16  Jody Goldberg <jody@gnome.org>
 
