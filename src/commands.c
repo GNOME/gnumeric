@@ -1982,18 +1982,18 @@ cmd_paste_cut_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 	range_check_sanity (&tmp);
 
+	sheet_move_range (wbc, &me->info, &me->reloc_storage);
+
+	cmd_paste_cut_update_origin (&me->info, wbc);
+
+	rows_height_update (me->info.target_sheet, &tmp);
+
 	/* Make sure the destination is selected */
 	if (me->move_selection)
 		sheet_selection_set (me->info.target_sheet,
 				     tmp.start.col, tmp.start.row,
 				     tmp.start.col, tmp.start.row,
 				     tmp.end.col, tmp.end.row);
-
-	sheet_move_range (wbc, &me->info, &me->reloc_storage);
-
-	cmd_paste_cut_update_origin (&me->info, wbc);
-
-	rows_height_update (me->info.target_sheet, &tmp);
 
 	return FALSE;
 }

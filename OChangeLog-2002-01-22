@@ -1,5 +1,13 @@
 2001-02-19  Jody Goldberg <jgoldberg@home.com>
 
+	* src/commands.c (cmd_paste_cut_redo) : update the selection after the
+	  move to handle merged cells.
+
+	* src/workbook-format-toolbar.c : Add a seperator and rename the
+	  callbacks to follow std conventions.
+
+2001-02-19  Jody Goldberg <jgoldberg@home.com>
+
 	* src/workbook-control-gui.c (wbcg_menu_state_enable_insert) : There
 	  has not been a need for the menu path for a while.  Why was this
 	  still here ?
