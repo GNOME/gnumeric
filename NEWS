@@ -9,6 +9,8 @@ Jody
 Morten:
 	* Spelling fixes all over.
 	* Add the ability to search expression results.
+	* Add parameter checks to RAYLEIGH, RAYLEIGHTAIL, EXPPOWDIST,
+	  LAPLACE, PARETO, LOGISTIC functions.
 
 J.H.M. Dassen (Ray):
 	* Updates to the build system.

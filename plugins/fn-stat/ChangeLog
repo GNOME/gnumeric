@@ -1,5 +1,14 @@
 2002-11-04  Morten Welinder  <terra@diku.dk>
 
+	* functions.c (gnumeric_rayleigh): Add parameter check.
+	(gnumeric_rayleightail): Ditto.
+	(gnumeric_exppowdist): Ditto.
+	(gnumeric_laplace): Ditto.
+	(gnumeric_pareto): Ditto.
+	(gnumeric_logistic): Ditto.
+
+2002-11-04  Morten Welinder  <terra@diku.dk>
+
 	* functions.c: Adapt to new autoformat specs.
 
 2002-11-01  Jody Goldberg <jody@gnome.org>

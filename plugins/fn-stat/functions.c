@@ -4980,6 +4980,9 @@ gnumeric_logistic (FunctionEvalInfo *ei, Value **argv)
 	gnum_float x = value_get_as_float (argv[0]);
 	gnum_float a = value_get_as_float (argv[1]);
 
+	if (a <= 0)
+		return value_new_error (ei->pos, gnumeric_err_NUM);
+
         return value_new_float (random_logistic_pdf (x, a));
 }
 
@@ -5014,6 +5017,9 @@ gnumeric_pareto (FunctionEvalInfo *ei, Value **argv)
 	gnum_float x = value_get_as_float (argv[0]);
 	gnum_float a = value_get_as_float (argv[1]);
 	gnum_float b = value_get_as_float (argv[2]);
+
+	if (a <= 0 || b <= 0)
+		return value_new_error (ei->pos, gnumeric_err_NUM);
 
         return value_new_float (random_pareto_pdf (x, a, b));
 }
@@ -5051,6 +5057,9 @@ gnumeric_rayleigh (FunctionEvalInfo *ei, Value **argv)
 {
 	gnum_float x     = value_get_as_float (argv[0]);
 	gnum_float sigma = value_get_as_float (argv[1]);
+
+	if (sigma <= 0)
+		return value_new_error (ei->pos, gnumeric_err_NUM);
 
         return value_new_float (random_rayleigh_pdf (x, sigma));
 }
@@ -5092,6 +5101,9 @@ gnumeric_rayleightail (FunctionEvalInfo *ei, Value **argv)
 	gnum_float a     = value_get_as_float (argv[1]);
 	gnum_float sigma = value_get_as_float (argv[2]);
 
+	if (sigma <= 0)
+		return value_new_error (ei->pos, gnumeric_err_NUM);
+
         return value_new_float (random_rayleigh_tail_pdf (x, a, sigma));
 }
 
@@ -5119,6 +5131,10 @@ gnumeric_exppowdist (FunctionEvalInfo *ei, Value **argv)
 	gnum_float a = value_get_as_float (argv[1]);
 	gnum_float b = value_get_as_float (argv[2]);
 
+	/* FIXME: Check this condition.  */
+	if (b <= 0)
+		return value_new_error (ei->pos, gnumeric_err_NUM);
+
         return value_new_float (random_exppow_pdf (x, a, b));
 }
 
@@ -5143,6 +5159,9 @@ gnumeric_laplace (FunctionEvalInfo *ei, Value **argv)
 {
 	gnum_float x = value_get_as_float (argv[0]);
 	gnum_float a = value_get_as_float (argv[1]);
+
+	if (a <= 0)
+		return value_new_error (ei->pos, gnumeric_err_NUM);
 
         return value_new_float (random_laplace_pdf (x, a));
 }

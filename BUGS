@@ -10,9 +10,6 @@ Release Critical
 - validate expression names to ensure that they are not simple values (eg TRUE)
 - height calculation in render value is hosed for embedded new lines
 
-- PARETO, RAYLEIGH, RAYLEIGHTAIL, EXPPOWDIST, LAPLACE, LOGISTIC parameter check.
-  (Mostly to defend against division by zero.)
-
 Pending Patches
 ---------------
     - ?? more work on D&D based sheet reorg ?
@@ -70,7 +67,7 @@ Pending Patches
 15) Notice mismatch between suffix and saver (eg .xls for gnumeric file)
 16) Decide whether to turn on the poor man's utf8 regexps.
 17) Outline mode
-    17.1) markers above/left isntead of below/right
+    17.1) markers above/left instead of below/right
     17.2) smarter handling for groups at the edge of selection
     17.3) implement 'clicked' for numbers callbacks
 18) 3D reference fixes on sheet deletion
