@@ -551,9 +551,6 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	}
 	savers = g_list_sort (savers, file_saver_description_cmp);
 
-	/* Make format chooser */
-	format_combo = GTK_COMBO_BOX (gtk_combo_box_new ());
-
 	fsel = GTK_FILE_CHOOSER
 		(g_object_new (GTK_TYPE_FILE_CHOOSER_DIALOG,
 			       "action", GTK_FILE_CHOOSER_ACTION_SAVE,
