@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
-"POT-Creation-Date: 2001-03-16 18:22+0000\n"
+"POT-Creation-Date: 2001-03-17 00:52-0500\n"
 "PO-Revision-Date: 2001-03-16 19:17+00:00\n"
 "Last-Translator: Andras TIMAR <timar@gnome.hu>\n"
 "Language-Team: Hungarian <hu@gnome.hu>\n"
@@ -2578,7 +2578,8 @@ msgstr "Megbízhatóság:"
 #: src/dialogs/dialog-analysis-tools.c:2059
 #: src/dialogs/dialog-analysis-tools.c:2067
 msgid "You should introduce a valid cell range in 'Input X Range'"
-msgstr "Érvényes cellatartományt kellene megani a 'Bemenõ X Tartomány:' mezõben"
+msgstr ""
+"Érvényes cellatartományt kellene megani a 'Bemenõ X Tartomány:' mezõben"
 
 #: src/dialogs/dialog-analysis-tools.c:2092
 msgid ""
@@ -3042,7 +3043,8 @@ msgid ""
 "restarting Gnumeric?"
 msgstr ""
 "A bõvítményt nem lehet deaktiválni, mert még használatban van.\n"
-"Szeretnéd kijelölni deaktiválásra, hogy a Gnumeri újraindítása után inaktív legyen?"
+"Szeretnéd kijelölni deaktiválásra, hogy a Gnumeri újraindítása után inaktív "
+"legyen?"
 
 #: src/dialogs/dialog-plugin-manager.c:339
 msgid "Errors while activating plugins"
@@ -3304,7 +3306,9 @@ msgstr "Adatok (%s-ból)"
 msgid ""
 "Actual processing will start at this line, any previous lines will be "
 "ignored."
-msgstr "A feldolgozás ennél a sornál kezdõdik, az ez elõtti sorok nem lesznek figyelembe véve."
+msgstr ""
+"A feldolgozás ennél a sornál kezdõdik, az ez elõtti sorok nem lesznek "
+"figyelembe véve."
 
 #: src/dialogs/dialog-stf.glade.h:4
 msgid "Add a new column"
@@ -3543,7 +3547,9 @@ msgstr "Levágás :"
 msgid ""
 "Trim leading and trailing spaces from each column, if you are unsure you "
 "should leave this at the default setting."
-msgstr "Levágja minden oszlopról a kezbõ és befejezõ szóközöket. Ha nem vagy biztos a dolgodban, hagyd ezt az alapértelmezett beállításon."
+msgstr ""
+"Levágja minden oszlopról a kezbõ és befejezõ szóközöket. Ha nem vagy biztos "
+"a dolgodban, hagyd ezt az alapértelmezett beállításon."
 
 #: src/dialogs/dialog-stf.glade.h:62
 msgid "_Adjacent text indicators escaped"
@@ -4366,7 +4372,9 @@ msgstr "Bármilyen érték"
 
 #: src/dialogs/validate.glade.h:2
 msgid "Apply these _changes to other cells with the same settings"
-msgstr "A _változtatások alkalmazása minden az adott celláéval azonos beállítású cellára"
+msgstr ""
+"A _változtatások alkalmazása minden az adott celláéval azonos beállítású "
+"cellára"
 
 #: src/dialogs/validate.glade.h:3
 msgid "Clear All"
@@ -5999,6 +6007,17 @@ msgstr ""
 "@DESCRIPTION=A DAVERAGE függvény átlagolja az adott listából vagy "
 "adatbázisból a megadott feltételnek megfelelõ értékeket.\n"
 
+#: src/functions/fn-database.c:499
+msgid ""
+"\n"
+"DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333.\n"
+"DAVERAGE(A1:C7, \"Age\", A9:A11) equals 39.\n"
+"DAVERAGE(A1:C7, \"Salary\", A9:B11) equals 40782.5.\n"
+"DAVERAGE(A1:C7, \"Age\", A9:B11) equals 36.\n"
+"\n"
+"@SEEALSO=DCOUNT"
+msgstr ""
+
 #: src/functions/fn-database.c:560
 msgid ""
 "@FUNCTION=DCOUNT\n"
@@ -6010,6 +6029,16 @@ msgstr ""
 "@SYNTAX=DCOUNT(adatbázis,mezõ,kritérium)\n"
 "@DESCRIPTION=A DCOUNT függvény megszámolja, hogy hány számokat tartalmazó "
 "cella felel meg a paraméterben megadott feltételnek.\n"
+
+#: src/functions/fn-database.c:568
+msgid ""
+"\n"
+"DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3.\n"
+"DCOUNT(A1:C7, \"Salary\", A9:B11) equals 2.\n"
+"DCOUNT(A1:C7, \"Name\", A9:B11) equals 0.\n"
+"\n"
+"@SEEALSO=DAVERAGE"
+msgstr ""
 
 #: src/functions/fn-database.c:621
 msgid ""
@@ -6023,6 +6052,16 @@ msgstr ""
 "@DESCRIPTION=A DCOUNTA függvény megszámolja, hogy hány adatot tartalmazó "
 "cella felel meg a paraméterben megadott feltételnek.\n"
 
+#: src/functions/fn-database.c:629
+msgid ""
+"\n"
+"DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3.\n"
+"DCOUNTA(A1:C7, \"Salary\", A9:B11) equals 2.\n"
+"DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2.\n"
+"\n"
+"@SEEALSO=DCOUNT"
+msgstr ""
+
 #: src/functions/fn-database.c:679
 msgid ""
 "@FUNCTION=DGET\n"
@@ -6034,6 +6073,17 @@ msgstr ""
 "@SYNTAX=DGET(adatbázis,mezõ,feltétel)\n"
 "@DESCRIPTION=A DGET függvény visszaad egy értéket abból az oszlopból, amely "
 "kielégíti a megadott feltételeket.\n"
+
+#: src/functions/fn-database.c:687
+msgid ""
+"\n"
+"DGET(A1:C7, \"Salary\", A9:A10) equals 34323.\n"
+"DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\".\n"
+"\n"
+"If none of the items match the conditions, DGET returns #VALUE! error. If "
+"more than one items match the conditions, DGET returns #NUM! error. \n"
+"@SEEALSO=DCOUNT"
+msgstr ""
 
 #: src/functions/fn-database.c:747
 msgid ""
@@ -6047,6 +6097,16 @@ msgstr ""
 "@DESCRIPTION=A DMAX függvény visszaadja azt a legnagyobb számot egy "
 "oszlopból, amelyre igaz a megadott feltétel.\n"
 
+#: src/functions/fn-database.c:755
+msgid ""
+"\n"
+"DMAX(A1:C7, \"Salary\", A9:A11) equals 47242.\n"
+"DMAX(A1:C7, \"Age\", A9:A11) equals 45.\n"
+"DMAX(A1:C7, \"Age\", A9:B11) equals 43.\n"
+"\n"
+"@SEEALSO=DMIN"
+msgstr ""
+
 #: src/functions/fn-database.c:818
 msgid ""
 "@FUNCTION=DMIN\n"
@@ -6059,6 +6119,15 @@ msgstr ""
 "@DESCRIPTION=A DMIN függvény visszaadja azt a legkisebb számot egy "
 "oszlopból, amelyre igaz a megadott feltétel.\n"
 
+#: src/functions/fn-database.c:826
+msgid ""
+"\n"
+"DMIN(A1:C7, \"Salary\", A9:B11) equals 34323.\n"
+"DMIN(A1:C7, \"Age\", A9:B11) equals 29.\n"
+"\n"
+"@SEEALSO=DMAX"
+msgstr ""
+
 #: src/functions/fn-database.c:888
 msgid ""
 "@FUNCTION=DPRODUCT\n"
@@ -6070,6 +6139,14 @@ msgstr ""
 "@SYNTAX=DPRODUCT(adatbázis,mezõ,feltétel)\n"
 "@DESCRIPTION=A DPRODUCT függvény visszaadja azoknak a számoknak a szorzatát "
 "egy oszlopból,amelyekre igaz a megadott feltétel.\n"
+
+#: src/functions/fn-database.c:896
+msgid ""
+"\n"
+"DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247.\n"
+"\n"
+"@SEEALSO=DSUM"
+msgstr ""
 
 #: src/functions/fn-database.c:955
 msgid ""
@@ -6085,6 +6162,15 @@ msgstr ""
 "alapján. A sokaságok azokból a számokból állnak, amelyekre igaz a megadott "
 "feltétel.\n"
 
+#: src/functions/fn-database.c:964
+msgid ""
+"\n"
+"DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949.\n"
+"DSTDEV(A1:C7, \"Salary\", A9:B11) equals 9135.112506.\n"
+"\n"
+"@SEEALSO=DSTDEVP"
+msgstr ""
+
 #: src/functions/fn-database.c:1021
 msgid ""
 "@FUNCTION=DSTDEVP\n"
@@ -6099,6 +6185,15 @@ msgstr ""
 "sokaság alapján. A sokaságok azokból a számokból állnak, amelyekre igaz a "
 "megadott feltétel.\n"
 
+#: src/functions/fn-database.c:1030
+msgid ""
+"\n"
+"DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7.\n"
+"DSTDEVP(A1:C7, \"Salary\", A9:B11) equals 6459.5.\n"
+"\n"
+"@SEEALSO=DSTDEV"
+msgstr ""
+
 #: src/functions/fn-database.c:1089
 msgid ""
 "@FUNCTION=DSUM\n"
@@ -6110,6 +6205,15 @@ msgstr ""
 "@SYNTAX=DSUM(adatbázis,mezõ,feltétel)\n"
 "@DESCRIPTION=A DSUM függvény visszaadja azoknak a számoknak az összegét egy "
 "oszlopból,amelyekre igaz a megadott feltétel.\n"
+
+#: src/functions/fn-database.c:1097
+msgid ""
+"\n"
+"DSUM(A1:C7, \"Age\", A9:B11) equals 72.\n"
+"DSUM(A1:C7, \"Salary\", A9:B11) equals 81565.\n"
+"\n"
+"@SEEALSO=DPRODUCT"
+msgstr ""
 
 #: src/functions/fn-database.c:1156
 msgid ""
@@ -6125,6 +6229,15 @@ msgstr ""
 "(varianciájára) egy minta alapján. A sokaság azokból a számokból áll, "
 "amelyekre igaz a megadott feltétel.\n"
 
+#: src/functions/fn-database.c:1165
+msgid ""
+"\n"
+"DVAR(A1:C7, \"Age\", A9:B11) equals 98.\n"
+"DVAR(A1:C7, \"Salary\", A9:B11) equals 83450280.5.\n"
+"\n"
+"@SEEALSO=DVARP"
+msgstr ""
+
 #: src/functions/fn-database.c:1224
 msgid ""
 "@FUNCTION=DVARP\n"
@@ -6138,6 +6251,15 @@ msgstr ""
 "@DESCRIPTION=A DVARP függvény megadja egy sokaság tapasztalati "
 "szórásnégyzetét (varianciáját). A sokaság azokból a számokból áll, amelyekre "
 "igaz a megadott feltétel.\n"
+
+#: src/functions/fn-database.c:1233
+msgid ""
+"\n"
+"DVARP(A1:C7, \"Age\", A9:B11) equals 49.\n"
+"DVARP(A1:C7, \"Salary\", A9:B11) equals 41725140.25.\n"
+"\n"
+"@SEEALSO=DVAR"
+msgstr ""
 
 #: src/functions/fn-database.c:1293
 msgid ""
@@ -12491,7 +12613,9 @@ msgstr "Ismeretlen bõvítménynév"
 #: src/plugin.c:512
 #, c-format
 msgid "Errors while reading loader info for plugin with id=\"%s\"."
-msgstr "Hibák történtek a \"%s\" azonosítójú bõvítmény betöltõjének lekérdezése közben."
+msgstr ""
+"Hibák történtek a \"%s\" azonosítójú bõvítmény betöltõjének lekérdezése "
+"közben."
 
 #: src/plugin.c:517
 #, c-format
@@ -13049,7 +13173,9 @@ msgstr "Érvénytelen sormagasság. Nagyobb kell legyen 0-nál"
 #: src/workbook-cmd-format.c:208
 msgid ""
 "You entered an invalid default column width value.  It must be bigger than 0"
-msgstr "Érvénytelen alapértelmezett oszlopszélességet adtál meg. Nagyobb kell legyen 0-nál"
+msgstr ""
+"Érvénytelen alapértelmezett oszlopszélességet adtál meg. Nagyobb kell legyen "
+"0-nál"
 
 #: src/workbook-cmd-format.c:236
 msgid ""

@@ -1,3 +1,7 @@
+2001-03-17  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.64
+
 2001-03-02  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-formula-read.c (getRefV8) : rewrite to handled sign extension
