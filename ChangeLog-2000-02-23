@@ -1,3 +1,18 @@
+2000-02-18  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/dialogs/analysis-tools.glade,
+ 	src/dialogs/dialog-analysis-tools.c: Implemented Glade dialogs for
+ 	T-Test tools.
+
+	* src/dialogs/dialog-autosave.c: Fixed a few bugs in
+ 	dialog_autosave (cancel caused segmentation fault at the next
+ 	run).  Made the prompt button unsensitive if the autosave is
+ 	turned off.
+
+	* src/analysis-tools.c: Made the titles to be printed in italic
+ 	style for Correlation, Covariance, F-Test, and T-Test tools.  In
+ 	addition, the columns are autosized.
+
 2000-02-16  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/widgets/widget-pixmap-combo.c (pixmap_combo_select_pixmap):

@@ -3,6 +3,8 @@
  *
  * Author:
  *  Jukka-Pekka Iivonen <iivonen@iki.fi>
+ *
+ * (C) Copyright 2000 by Jukka-Pekka Iivonen <iivonen@iki.fi>
  */
 
 #include <config.h>
@@ -247,6 +249,48 @@ prepare_output (Workbook *wb, data_analysis_output_t *dao, char *name)
 	}
 }
 
+static void
+autofit_column (data_analysis_output_t *dao, int col)
+{
+        int ideal_size, actual_col;
+
+	if (dao->type == NewSheetOutput ||
+	    dao->type == NewWorkbookOutput)
+	        actual_col = col;
+	else
+	        actual_col = dao->start_col + col;
+
+	ideal_size = sheet_col_size_fit_pixels (dao->sheet, actual_col);
+
+	if (ideal_size == 0)
+	        return;
+
+	sheet_col_set_size_pixels (dao->sheet, actual_col, ideal_size+5,
+				   TRUE);
+}
+
+static void
+set_italic (data_analysis_output_t *dao, int col1, int row1,
+	    int col2, int row2)
+{
+	MStyle *mstyle = mstyle_new ();
+	Range  range;
+	int    col_inc, row_inc;
+
+	if (dao->type == RangeOutput) {
+	        col_inc = dao->start_col;
+		row_inc = dao->start_row;
+	} else
+	        col_inc = row_inc= 0;
+
+	range.start.col = col1 + col_inc;
+	range.start.row = row1 + row_inc;
+	range.end.col   = col2 + col_inc;
+	range.end.row   = row2 + row_inc;
+
+	mstyle_set_font_italic (mstyle, TRUE);
+	sheet_style_attach (dao->sheet, range, mstyle);
+}
 
 /************* Correlation Tool *******************************************
  *
@@ -395,6 +439,16 @@ correlation_tool (Workbook *wb, Sheet *sheet,
 	        free_data_set (&data_sets[i]);
 	g_free (data_sets);
 
+	set_italic (dao, 0, 0, 0, vars+1);
+	set_italic (dao, 0, 0, vars+1, 0);
+
+	for (col=0; col<=vars; col++)
+	        autofit_column (dao, col);
+
+	sheet_set_dirty (dao->sheet, TRUE);
+	sheet_compute_visible_ranges (dao->sheet);
+	sheet_redraw_all (dao->sheet);
+
 	return 0;
 }
 
@@ -541,6 +595,16 @@ covariance_tool (Workbook *wb, Sheet *sheet,
 	for (i=0; i<vars; i++)
 	        free_data_set (&data_sets[i]);
 	g_free (data_sets);
+
+	set_italic (dao, 0, 0, 0, vars+1);
+	set_italic (dao, 0, 0, vars+1, 0);
+
+	for (col=0; col<=vars; col++)
+	        autofit_column (dao, col);
+
+	sheet_set_dirty (dao->sheet, TRUE);
+	sheet_compute_visible_ranges (dao->sheet);
+	sheet_redraw_all (dao->sheet);
 
 	return 0;
 }
@@ -1263,6 +1327,17 @@ ttest_paired_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
         free_data_set (&set_one);
         free_data_set (&set_two);
 
+	set_italic (dao, 0, 0, 0, 11);
+	set_italic (dao, 0, 0, 2, 0);
+
+	autofit_column (dao, 0);
+	autofit_column (dao, 1);
+	autofit_column (dao, 2);
+
+	sheet_set_dirty (dao->sheet, TRUE);
+	sheet_compute_visible_ranges (dao->sheet);
+	sheet_redraw_all (dao->sheet);
+
 	return 0;
 }
 
@@ -1389,6 +1464,17 @@ ttest_eq_var_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
         free_data_set (&set_one);
         free_data_set (&set_two);
 
+	set_italic (dao, 0, 0, 0, 11);
+	set_italic (dao, 0, 0, 2, 0);
+
+	autofit_column (dao, 0);
+	autofit_column (dao, 1);
+	autofit_column (dao, 2);
+
+	sheet_set_dirty (dao->sheet, TRUE);
+	sheet_compute_visible_ranges (dao->sheet);
+	sheet_redraw_all (dao->sheet);
+
 	return 0;
 }
 
@@ -1508,6 +1594,17 @@ ttest_neq_var_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
         free_data_set (&set_one);
         free_data_set (&set_two);
 
+	set_italic (dao, 0, 0, 0, 11);
+	set_italic (dao, 0, 0, 2, 0);
+
+	autofit_column (dao, 0);
+	autofit_column (dao, 1);
+	autofit_column (dao, 2);
+
+	sheet_set_dirty (dao->sheet, TRUE);
+	sheet_compute_visible_ranges (dao->sheet);
+	sheet_redraw_all (dao->sheet);
+
 	return 0;
 }
 
@@ -1621,6 +1718,17 @@ ftest_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 
         free_data_set (&set_one);
         free_data_set (&set_two);
+
+	set_italic (dao, 0, 0, 0, 11);
+	set_italic (dao, 0, 0, 2, 0);
+
+	autofit_column (dao, 0);
+	autofit_column (dao, 1);
+	autofit_column (dao, 2);
+
+	sheet_set_dirty (dao->sheet, TRUE);
+	sheet_compute_visible_ranges (dao->sheet);
+	sheet_redraw_all (dao->sheet);
 
 	return 0;
 }

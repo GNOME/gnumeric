@@ -15,28 +15,37 @@
 #include "gnumeric-util.h"
 #include "dialogs.h"
 
+
+typedef struct {
+        GtkWidget *minutes_entry;
+        GtkWidget *prompt_cb;
+} autosave_t;
+
 static void
-autosave_on_off_toggled(GtkWidget *widget, Workbook *wb)
+autosave_on_off_toggled(GtkWidget *widget, gboolean *flag)
 {
-	GtkWidget *entry = gtk_object_get_user_data (GTK_OBJECT (widget));
+	autosave_t *p = gtk_object_get_user_data (GTK_OBJECT (widget));
 	
-        wb->autosave = GTK_TOGGLE_BUTTON (widget)->active;
-	gtk_widget_set_sensitive (entry, wb->autosave);
+        *flag = GTK_TOGGLE_BUTTON (widget)->active;
+	gtk_widget_set_sensitive (p->minutes_entry, *flag);
+	gtk_widget_set_sensitive (p->prompt_cb, *flag);
 }
 
 static void
-prompt_on_off_toggled(GtkWidget *widget, Workbook *wb)
+prompt_on_off_toggled(GtkWidget *widget, gboolean *flag)
 {
-        wb->autosave_prompt = GTK_TOGGLE_BUTTON (widget)->active;
+        *flag = GTK_TOGGLE_BUTTON (widget)->active;
 }
 
 gboolean
 dialog_autosave_prompt (Workbook *wb)
 {
 	GtkWidget *dia;
-	GladeXML *gui = glade_xml_new (GNUMERIC_GLADEDIR "/autosave-prompt.glade", NULL);
+	GladeXML *gui;
 	gint v;
-	
+
+	gui = glade_xml_new (GNUMERIC_GLADEDIR "/autosave-prompt.glade",
+			     NULL);	
 	dia = glade_xml_get_widget (gui, "AutoSavePrompt");
 	if (!dia) {
 		printf("Corrupt file autosave-prompt.glade\n");
@@ -59,20 +68,12 @@ dialog_autosave (Workbook *wb)
 {
 	GladeXML  *gui = glade_xml_new (GNUMERIC_GLADEDIR "/autosave.glade",
 					NULL);
-	GtkWidget *dia;
-	GtkWidget *autosave_on_off; 
-	GtkWidget *minutes;
-	GtkWidget *prompt_on_off;
-	gchar     buf[20];
-	gint      v, old_autosave, old_prompt, old_minutes;
-
-	/*
-	 * FIXME: This is very wrong.  We should not "save" the values
-	 * and then reset them if the user cancels.
-	 */
-	old_autosave = wb->autosave;
-	old_prompt = wb->autosave_prompt;
-	old_minutes = wb->autosave_minutes;
+	GtkWidget  *dia;
+	GtkWidget  *autosave_on_off; 
+	gchar      buf[20];
+	gint       v;
+	gboolean   autosave_flag, prompt_flag;
+	autosave_t p;
 
 	if (wb->autosave_timer != 0)
 		gtk_timeout_remove (wb->autosave_timer);
@@ -88,53 +89,60 @@ dialog_autosave (Workbook *wb)
 		return;
 	}
 
-	minutes = glade_xml_get_widget (gui, "minutes");
+	p.minutes_entry = glade_xml_get_widget (gui, "minutes");
+	p.prompt_cb = glade_xml_get_widget (gui, "prompt_on_off");
 	sprintf(buf, "%d", wb->autosave_minutes);
-	gtk_entry_set_text (GTK_ENTRY (minutes), buf);
+	gtk_entry_set_text (GTK_ENTRY (p.minutes_entry), buf);
 
 	gnome_dialog_editable_enters (GNOME_DIALOG (dia),
-				      GTK_EDITABLE (minutes));
+				      GTK_EDITABLE (p.minutes_entry));
 
 	autosave_on_off = glade_xml_get_widget (gui, "autosave_on_off");
 
 	gtk_signal_connect (GTK_OBJECT (autosave_on_off), "toggled",
-			    GTK_SIGNAL_FUNC (autosave_on_off_toggled), wb);
-	gtk_object_set_user_data (GTK_OBJECT (autosave_on_off), minutes);
+			    GTK_SIGNAL_FUNC (autosave_on_off_toggled),
+			    &autosave_flag);
+	gtk_object_set_user_data (GTK_OBJECT (autosave_on_off), &p);
 	
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (autosave_on_off), wb->autosave);
-	if (!wb->autosave)
-		gtk_widget_set_sensitive (minutes, FALSE);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (autosave_on_off),
+				      wb->autosave);
+
+	if (!wb->autosave) {
+		gtk_widget_set_sensitive (p.minutes_entry, FALSE);
+		gtk_widget_set_sensitive (p.prompt_cb, FALSE);
+	}
 	
-	prompt_on_off = glade_xml_get_widget (gui, "prompt_on_off");
 	if (wb->autosave_prompt)
 	        gtk_toggle_button_set_active ((GtkToggleButton *)
-					      prompt_on_off,
+					      p.prompt_cb,
 					      wb->autosave_prompt);
-	gtk_signal_connect (GTK_OBJECT (prompt_on_off), "toggled",
-			    GTK_SIGNAL_FUNC (prompt_on_off_toggled), wb);
+	gtk_signal_connect (GTK_OBJECT (p.prompt_cb), "toggled",
+			    GTK_SIGNAL_FUNC (prompt_on_off_toggled),
+			    &prompt_flag);
 
 loop:	
 	v = gnumeric_dialog_run (wb, GNOME_DIALOG (dia));
 
 	if (v == 0) {
 		gchar *txt;
+		int   tmp;
 
-		txt = gtk_entry_get_text (GTK_ENTRY (minutes));
-		wb->autosave_minutes = atoi(txt);
-		if (wb->autosave_minutes <= 0) {
+		txt = gtk_entry_get_text (GTK_ENTRY (p.minutes_entry));
+		tmp = atoi (txt);
+		if (tmp <= 0) {
 		        gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
 					 _("You should introduce a proper "
 					   "number of minutes in the entry."));
-			gtk_widget_grab_focus (minutes);
+			gtk_widget_grab_focus (p.minutes_entry);
 			goto loop;
 		}
+		if (autosave_flag)
+		        workbook_autosave_set (wb, tmp, prompt_flag);
+		else
+		        workbook_autosave_cancel (wb);
 	} else if (v == 2) {
 		GnomeHelpMenuEntry help_ref = { "gnumeric", "autosave.html" };
-		
 		gnome_help_display (NULL, &help_ref);
-		
-	} else if (v == 1) {
-		workbook_autosave_set (wb, old_minutes, old_prompt);
 	}
 
 	if (v != -1)
