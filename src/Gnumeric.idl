@@ -1,8 +1,9 @@
+#pragma inhibit push
 #include <gnome-factory.idl>
+#pragma inhibit pop
 #include <Table.idl>
 
 module GNOME {
-
 	interface Spreadsheet : Table {
 		void   set_string (in string text, in long col, in long row)
 			raises (OutOfRange);
@@ -12,7 +13,6 @@ module GNOME {
 	};
 		
 	interface Gnumeric : Spreadsheet {
-		
 	};
 
 	interface GnumericFactory : GenericFactory {
