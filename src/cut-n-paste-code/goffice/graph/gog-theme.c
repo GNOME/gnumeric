@@ -491,6 +491,8 @@ gog_themes_init	(void)
 	/* Grid */
 	style = gog_style_new ();
 	style->fill.type  = GOG_FILL_STYLE_PATTERN;
+	style->outline.color = RGBA_BLACK;
+	style->outline.width = -1;
 	go_pattern_set_solid (&style->fill.pattern, RGBA_GREY (0xd0));
 	gog_theme_add_element (theme, style, NULL, "GogGrid", NULL);
 
@@ -556,6 +558,8 @@ gog_themes_init	(void)
 	/* Grid */
 	style = gog_style_new ();
 	style->fill.type  = GOG_FILL_STYLE_PATTERN;
+	style->outline.color = RGBA_BLACK;
+	style->outline.width = -1;
 	go_pattern_set_solid (&style->fill.pattern, RGBA_GREY (0xd0));
 	gog_theme_add_element (theme, style, NULL, "GogGrid", NULL);
 

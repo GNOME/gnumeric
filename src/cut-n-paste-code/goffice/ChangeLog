@@ -1,5 +1,11 @@
 2004-09-23  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
+	* graph/gog-axis.c (gog_axis_view_render): draw_minor and draw_major
+	only if line_width > 0.
+	* grapg/gog-theme.c (gog_themes_init): initialize GogGrid outline.
+
+2004-09-23  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
 	* graph/gog-axis.c (gog_axis_view_render): Calculate major_out even if
 	line_width <= 0, because it's needed for label positionning.
 

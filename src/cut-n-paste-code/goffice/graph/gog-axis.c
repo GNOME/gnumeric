@@ -2175,8 +2175,8 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 
 	gog_renderer_push_style (v->renderer, axis->base.style);
 
-	draw_major = axis->major.tick_in || axis->major.tick_out;
-	draw_minor = axis->minor.tick_in || axis->minor.tick_out;
+	draw_major = (axis->major.tick_in || axis->major.tick_out) && line_width > 0;
+	draw_minor = (axis->minor.tick_in || axis->minor.tick_out) && line_width > 0;
 
 	path[0].code = ART_MOVETO;
 	path[1].code = ART_LINETO;
