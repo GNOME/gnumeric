@@ -13,6 +13,10 @@ Andreas:
 	* Upon deleting of cells try to guess whether to move cells up 
           or to the left.
 
+Emmanuel Pacaud:
+	* Add clipping for plot areas.
+  	http://bugzilla.gnome.org/show_bug.cgi?id=125419
+
 Jean Brefort:
 	* Support text in SVG exporter
 

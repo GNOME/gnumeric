@@ -85,6 +85,32 @@ gog_renderer_gnome_print_finalize (GObject *obj)
 		(parent_klass->finalize) (obj);
 }
 
+/*
+ * print_make_rectangle_path
+ * @pc      print context
+ * @left    left side x coordinate
+ * @bottom  bottom side y coordinate
+ * @right   right side x coordinate
+ * @top     top side y coordinate
+ *
+ * Make a rectangular path.
+ * */
+
+static void
+print_make_rectangle_path (GnomePrintContext *pc,
+                           double left, double bottom,
+                           double right, double top)
+{
+        g_return_if_fail (pc != NULL);
+                                                                                
+        gnome_print_newpath   (pc);
+        gnome_print_moveto    (pc, left, bottom);
+        gnome_print_lineto    (pc, left, top);
+        gnome_print_lineto    (pc, right, top);
+        gnome_print_lineto    (pc, right, bottom);
+        gnome_print_closepath (pc);
+}
+
 static GnomeFont *
 get_font (GogRendererGnomePrint *prend, GOFont const *gf)
 {
@@ -117,6 +143,27 @@ set_color (GogRendererGnomePrint *prend, GOColor color)
 	double a = ((double) UINT_RGBA_A (color)) / 255.;
 	gnome_print_setrgbcolor (prend->gp_context, r, g, b);
 	gnome_print_setopacity (prend->gp_context, a);
+}
+
+static void
+gog_renderer_gnome_print_start_clipping (GogRenderer *rend)
+{
+	GogRendererGnomePrint *prend = GOG_RENDERER_GNOME_PRINT (rend);
+	
+	gnome_print_gsave (prend->gp_context);
+	print_make_rectangle_path (prend->gp_context, 
+				   rend->clip_rectangle.x, -rend->clip_rectangle.y,
+				   rend->clip_rectangle.w + rend->clip_rectangle.x, 
+				   -rend->clip_rectangle.h - rend->clip_rectangle.y);
+	gnome_print_clip (prend->gp_context);
+}
+
+static void
+gog_renderer_gnome_print_stop_clipping (GogRenderer *rend)
+{
+	GogRendererGnomePrint *prend = GOG_RENDERER_GNOME_PRINT (rend);
+
+	gnome_print_grestore (prend->gp_context);
 }
 
 static void
@@ -457,12 +504,14 @@ gog_renderer_gnome_print_class_init (GogRendererClass *rend_klass)
 	GObjectClass *gobject_klass   = (GObjectClass *) rend_klass;
 
 	parent_klass = g_type_class_peek_parent (rend_klass);
-	gobject_klass->finalize	  = gog_renderer_gnome_print_finalize;
-	rend_klass->draw_path	  = gog_renderer_gnome_print_draw_path;
-	rend_klass->draw_polygon  = gog_renderer_gnome_print_draw_polygon;
-	rend_klass->draw_text	  = gog_renderer_gnome_print_draw_text;
-	rend_klass->draw_marker	  = gog_renderer_gnome_print_draw_marker;
-	rend_klass->measure_text  = gog_renderer_gnome_print_measure_text;
+	gobject_klass->finalize	  	= gog_renderer_gnome_print_finalize;
+	rend_klass->start_clipping  	= gog_renderer_gnome_print_start_clipping;
+	rend_klass->stop_clipping 	= gog_renderer_gnome_print_stop_clipping;
+	rend_klass->draw_path	  	= gog_renderer_gnome_print_draw_path;
+	rend_klass->draw_polygon  	= gog_renderer_gnome_print_draw_polygon;
+	rend_klass->draw_text	  	= gog_renderer_gnome_print_draw_text;
+	rend_klass->draw_marker	  	= gog_renderer_gnome_print_draw_marker;
+	rend_klass->measure_text  	= gog_renderer_gnome_print_measure_text;
 }
 
 static void

@@ -198,6 +198,52 @@ gog_renderer_pop_style (GogRenderer *rend)
 }
 
 /**
+ * gog_renderer_start_clipping :
+ * @rend : #GogRenderer
+ * @region: #GogViewAllocation
+ *
+ * region defines the current clipping region. Only one layer of 
+ * clipping is allowed.
+ **/
+void
+gog_renderer_start_clipping (GogRenderer *rend, GogViewAllocation const *region)
+{
+	GogRendererClass *klass = GOG_RENDERER_GET_CLASS (rend);
+
+	g_return_if_fail (klass != NULL);
+	g_return_if_fail (rend->is_clipping == FALSE);
+
+	rend->clip_rectangle = *region;
+	rend->is_clipping = TRUE;
+
+	(klass->start_clipping) (rend);
+}
+
+/**
+ * gog_renderer_stop_clipping :
+ * @rend : #GogRenderer
+ *
+ * End clipping.
+ **/
+void
+gog_renderer_stop_clipping (GogRenderer *rend)
+{
+	GogRendererClass *klass = GOG_RENDERER_GET_CLASS (rend);
+
+	g_return_if_fail (klass != NULL);
+	g_return_if_fail (rend->is_clipping == TRUE);
+
+	(klass->stop_clipping) (rend);
+	
+	rend->is_clipping = FALSE;
+	rend->clip_rectangle.x =
+	rend->clip_rectangle.y = 
+	rend->clip_rectangle.w =
+	rend->clip_rectangle.h = 0.0;
+
+}
+
+/**
  * gog_renderer_draw_polygon :
  * @rend : #GogRenderer
  * @path  : #ArtVpath
@@ -379,6 +425,11 @@ gog_renderer_class_init (GogRendererClass *renderer_klass)
 static void
 gog_renderer_init (GogRenderer *rend)
 {
+	rend->is_clipping = FALSE;
+	rend->clip_rectangle.x =
+	rend->clip_rectangle.y =
+	rend->clip_rectangle.w =
+	rend->clip_rectangle.h = 0.0;
 	rend->needs_update = FALSE;
 	rend->cur_style    = NULL;
 	rend->style_stack  = NULL;

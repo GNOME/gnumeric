@@ -465,6 +465,7 @@ typedef struct {
 
 	/* indents */
 	double pre_x, post_x;
+
 } GogChartView;
 typedef GogOutlinedViewClass	GogChartViewClass;
 
@@ -577,6 +578,27 @@ gog_chart_view_size_allocate (GogView *view, GogViewAllocation const *allocation
 }
 
 static void
+gog_chart_view_render (GogView *view, GogViewAllocation const *bbox)
+{        
+	GSList *ptr;        
+	GogView *child;        
+	gboolean clipped = FALSE;        
+	
+	for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {                
+		child = ptr->data;                
+		/* All plots overlay the same region, simplify life                 
+		 * by clipping everything at once */                
+		if (!clipped && IS_GOG_PLOT (child->model)) {                        
+			gog_renderer_start_clipping (child->renderer, &child->allocation);                        
+			clipped = TRUE;                
+		}                
+		gog_view_render (child, bbox);        
+	}        
+	if (clipped)                
+		gog_renderer_stop_clipping (view->renderer);
+}
+
+static void
 gog_chart_view_init (GogChartView *cview)
 {
 	cview->pre_x = cview->post_x = 0.;
@@ -589,6 +611,7 @@ gog_chart_view_class_init (GogChartViewClass *gview_klass)
 
 	cview_parent_klass = g_type_class_peek_parent (gview_klass);
 	view_klass->size_allocate   = gog_chart_view_size_allocate;
+	view_klass->render = gog_chart_view_render;
 }
 
 static GSF_CLASS (GogChartView, gog_chart_view,

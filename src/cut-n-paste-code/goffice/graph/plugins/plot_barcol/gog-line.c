@@ -269,7 +269,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 			path[i][lengths[i] +1].code = ART_END;
 
 			gog_renderer_draw_path (view->renderer,
-				path[i], &view->allocation);
+				path[i], NULL);
 			for (j = 1; j <= lengths[i]; j++) {
 				x = path[i][j].x;
 				y = path[i][j].y;

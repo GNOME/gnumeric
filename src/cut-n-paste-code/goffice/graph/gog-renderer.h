@@ -24,6 +24,7 @@
 #include <goffice/graph/goffice-graph.h>
 #include <gtk/gtkenums.h>
 #include <libart_lgpl/libart.h>
+#include <gdk/gdk.h>
 
 #define GOG_RENDERER_TYPE	  (gog_renderer_get_type ())
 #define GOG_RENDERER(o)           (G_TYPE_CHECK_INSTANCE_CAST((o), GOG_RENDERER_TYPE, GogRenderer))
@@ -36,6 +37,9 @@ void  gog_renderer_request_update (GogRenderer *r);
 
 void  gog_renderer_push_style     (GogRenderer *r, GogStyle const *style);
 void  gog_renderer_pop_style      (GogRenderer *r);
+
+void  gog_renderer_start_clipping (GogRenderer *r, GogViewAllocation const *region);
+void  gog_renderer_stop_clipping  (GogRenderer *r);
 
 void  gog_renderer_draw_path      (GogRenderer *r, ArtVpath const *path,
 				   GogViewAllocation const *bound);

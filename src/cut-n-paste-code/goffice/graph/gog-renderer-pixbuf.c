@@ -44,12 +44,14 @@
 struct _GogRendererPixbuf {
 	GogRenderer base;
 
-	int w, h;
-	GdkPixbuf *buffer;
-	guchar    *pixels; /* from pixbuf */
-	int	   rowstride;
+	int 		 w, h;
+	int		 x_offset, y_offset;
+	GdkPixbuf 	*buffer;
+	GdkPixbuf	*buffer_cache;
+	guchar    	*pixels; /* from pixbuf */
+	int	   	 rowstride;
 
-	PangoContext *pango_context;
+	PangoContext 	*pango_context;
 };
 
 typedef GogRendererClass GogRendererPixbufClass;
@@ -60,6 +62,11 @@ static void
 gog_renderer_pixbuf_finalize (GObject *obj)
 {
 	GogRendererPixbuf *prend = GOG_RENDERER_PIXBUF (obj);
+
+	if (prend->buffer_cache != NULL) {
+		g_object_unref (prend->buffer_cache);
+		prend->buffer_cache = NULL;
+	}
 
 	if (prend->buffer != NULL) {
 		g_object_unref (prend->buffer);
@@ -73,6 +80,57 @@ gog_renderer_pixbuf_finalize (GObject *obj)
 
 	if (parent_klass != NULL && parent_klass->finalize != NULL)
 		(parent_klass->finalize) (obj);
+}
+
+static void
+gog_renderer_pixbuf_start_clipping (GogRenderer *rend)
+{
+	GdkRectangle graph_rect, clip_rect, res_rect;
+
+	GogRendererPixbuf *prend = GOG_RENDERER_PIXBUF (rend);
+
+	graph_rect.x = graph_rect.y = 0; 
+	graph_rect.width = gdk_pixbuf_get_width (prend->buffer);
+	graph_rect.height = gdk_pixbuf_get_height (prend->buffer);
+
+	clip_rect.x = prend->x_offset = rend->clip_rectangle.x + 1;
+	clip_rect.y = prend->y_offset = rend->clip_rectangle.y + 1;
+	clip_rect.width = rend->clip_rectangle.w;
+	clip_rect.height = rend->clip_rectangle.h;
+
+	if (gdk_rectangle_intersect (&graph_rect, &clip_rect, &res_rect)) {
+		prend->buffer_cache = prend->buffer;
+		prend->buffer = gdk_pixbuf_new_subpixbuf (prend->buffer_cache,
+							  res_rect.x, res_rect.y,
+							  res_rect.width, res_rect.height); 
+	}
+
+	if (prend->buffer == NULL)
+		g_warning ("Pixbuf renderer: invalid clipping region");
+
+	prend->pixels = gdk_pixbuf_get_pixels (prend->buffer);
+	prend->w = gdk_pixbuf_get_width (prend->buffer);
+	prend->h = gdk_pixbuf_get_height (prend->buffer);
+	prend->rowstride = gdk_pixbuf_get_rowstride (prend->buffer);
+}
+
+static void
+gog_renderer_pixbuf_stop_clipping (GogRenderer *rend)
+{
+	GogRendererPixbuf *prend = GOG_RENDERER_PIXBUF (rend);
+
+	if (prend->buffer_cache != NULL) {
+		if (prend->buffer != NULL)
+			g_object_unref (prend->buffer);
+		prend->buffer = prend->buffer_cache;
+	}
+	prend->pixels = gdk_pixbuf_get_pixels (prend->buffer);
+	prend->w = gdk_pixbuf_get_width (prend->buffer);
+	prend->h = gdk_pixbuf_get_height (prend->buffer);
+	prend->x_offset = 0;
+	prend->y_offset = 0;
+	prend->rowstride = gdk_pixbuf_get_rowstride (prend->buffer);
+	prend->buffer_cache = NULL;
 }
 
 static ArtSVP *
@@ -112,16 +170,22 @@ gog_renderer_pixbuf_draw_path (GogRenderer *rend, ArtVpath const *path,
 	}
 
 	go_color_render_svp (style->line.color, svp,
-		0, 0, prend->w, prend->h,
-		prend->pixels, prend->rowstride);
+			     prend->x_offset,
+			     prend->y_offset, 
+			     prend->w + prend->x_offset,
+			     prend->h + prend->y_offset,
+			     prend->pixels, prend->rowstride);
 	art_svp_free (svp);
 }
 
 static ArtRender *
 gog_art_renderer_new (GogRendererPixbuf *prend)
 {
-	return art_render_new (0, 0, prend->w, prend->h,
-		prend->pixels, prend->rowstride,
+	return art_render_new (prend->x_offset,
+			       prend->y_offset,
+			       prend->w + prend->x_offset,
+			       prend->h + prend->y_offset,
+			       prend->pixels, prend->rowstride,
 		gdk_pixbuf_get_n_channels (prend->buffer) - 1,
 		8, ART_ALPHA_SEPARATE, NULL);
 }
@@ -138,7 +202,7 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *rend, ArtVpath const *path,
 	ArtGradientLinear gradient;
 	ArtGradientStop stops[2];
 	GdkPixbuf *image;
-	gint i, j, imax, jmax, w, h, x, y;
+	gint i, j, imax, jmax;
 
 	if (!narrow && style->outline.width >= 0.) {
 		outline = art_svp_vpath_stroke ((ArtVpath *)path,
@@ -173,7 +237,11 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *rend, ArtVpath const *path,
 		switch (style->fill.type) {
 		case GOG_FILL_STYLE_PATTERN:
 			go_pattern_render_svp (&style->fill.u.pattern.pat,
-				fill, 0, 0, prend->w, prend->h,
+				fill, 
+				prend->x_offset,
+				prend->y_offset,
+				prend->w + prend->x_offset,
+				prend->h + prend->y_offset,
 				prend->pixels, prend->rowstride);
 			break;
 
@@ -195,49 +263,71 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *rend, ArtVpath const *path,
 			break;
 		}
 
-		case GOG_FILL_STYLE_IMAGE: {
-			double dx, dy;
+		case GOG_FILL_STYLE_IMAGE: { 
+			GdkRectangle path_rect, clip_rect, dest_rect;
 
 			image = style->fill.u.image.image;
 			if (image == NULL)
 				break;
 			
 			art_vpath_bbox_drect (path, &bbox);
-			dx = bbox.x1 - bbox.x0;
-			dy = bbox.y1 - bbox.y0;
-			switch (style->fill.u.image.type) {
-			case GOG_IMAGE_STRETCHED:
-				gdk_pixbuf_composite (image, prend->buffer,
-					bbox.x0, bbox.y0, dx, dy, bbox.x0, bbox.y0,
-					dx / gdk_pixbuf_get_width (image),
-					dy / gdk_pixbuf_get_height (image),
-					GDK_INTERP_HYPER, 255);
-				break;
 
-			case GOG_IMAGE_WALLPAPER:
-				imax = dx / (w = gdk_pixbuf_get_width (image));
-				jmax = dy / (h = gdk_pixbuf_get_height (image));
-				x = bbox.x0;
-				for (i = 0; i < imax; i++) {
-					y = bbox.y0;
-					for (j = 0; j < jmax; j++) {
-						gdk_pixbuf_copy_area (image, 0, 0, w, h,
-								      prend->buffer, x, y);
-						y += h;
+			path_rect.x = bbox.x0 - prend->x_offset;
+			path_rect.y = bbox.y0 - prend->y_offset;
+			path_rect.width = bbox.x1 - bbox.x0;
+			path_rect.height = bbox.y1 - bbox.y0;
+
+			clip_rect.x = clip_rect.y = 0;
+			clip_rect.width = prend->w;
+			clip_rect.height = prend->h;
+
+			if (gdk_rectangle_intersect (&path_rect, &clip_rect, &dest_rect)) { 
+				switch (style->fill.u.image.type) { 
+					case GOG_IMAGE_STRETCHED:
+						gdk_pixbuf_composite (image, prend->buffer,
+								      dest_rect.x, dest_rect.y, 
+								      dest_rect.width, dest_rect.height,
+								      path_rect.x, path_rect.y,
+								      path_rect.width / 
+								      (double)gdk_pixbuf_get_width (image),
+								      path_rect.height / 
+								      (double)gdk_pixbuf_get_height (image),
+								      GDK_INTERP_BILINEAR, 255);
+						break;
+
+					case GOG_IMAGE_WALLPAPER: {
+						GdkRectangle image_rect, copy_rect;
+
+						imax = path_rect.width / 
+							(image_rect.width = gdk_pixbuf_get_width (image));
+						jmax = path_rect.height / 
+							(image_rect.height = gdk_pixbuf_get_height (image));
+
+						image_rect.x = path_rect.x;
+						for (i = 0; i <= imax; i++)
+						{
+							image_rect.y = path_rect.y;
+							for (j = 0; j <= jmax; j++) {
+
+								if (gdk_rectangle_intersect (&image_rect,
+											     &dest_rect,
+											     &copy_rect))
+									gdk_pixbuf_copy_area (image, 
+											      copy_rect.x - image_rect.x,
+											      copy_rect.y - image_rect.y,
+											      copy_rect.width,
+											      copy_rect.height,
+											      prend->buffer,
+											      copy_rect.x,
+											      copy_rect.y);
+								image_rect.y += image_rect.height;
+							}
+							image_rect.x +=image_rect.width;
+
+						}
+						break; 
 					}
-					gdk_pixbuf_copy_area (image, 0, 0, w,
-							      prend->h % h, prend->buffer, x, y);
-					x += w;
-				}
-				y = bbox.y0;
-				for (j = 0; j < jmax; j++) {
-					gdk_pixbuf_copy_area (image, 0, 0, (int)dx % w, h,
-							      prend->buffer, x, y);
-					y += h;
-				}
-				gdk_pixbuf_copy_area (image, 0, 0, (int)dx % w, (int)dy % h,
-						      prend->buffer, x, y);
-				break;
+				} 
 			}
 			break;
 		}
@@ -251,8 +341,11 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *rend, ArtVpath const *path,
 
 	if (outline != NULL) {
 		go_color_render_svp (style->outline.color, outline,
-			0, 0, prend->w, prend->h,
-			prend->pixels, prend->rowstride);
+				     prend->x_offset,
+				     prend->y_offset,
+				     prend->w + prend->x_offset,
+				     prend->h + prend->y_offset,
+				     prend->pixels, prend->rowstride);
 		art_svp_free (outline);
 	}
 }
@@ -314,8 +407,8 @@ gog_renderer_pixbuf_draw_text (GogRenderer *rend, char const *text,
 	pango_layout_get_extents (layout, &rect, NULL);
 	rect.x = PANGO_PIXELS (rect.x);
 	rect.y = PANGO_PIXELS (rect.y);
-	x = (int)(pos->x * PANGO_SCALE);
-	y = (int)(pos->y * PANGO_SCALE);
+	x = (int)((pos->x - prend->x_offset) * PANGO_SCALE);
+	y = (int)((pos->y - prend->y_offset) * PANGO_SCALE);
 	switch (anchor) {
 	case GTK_ANCHOR_CENTER : case GTK_ANCHOR_N : case GTK_ANCHOR_S :
 		x -= rect.width / 2;
@@ -401,11 +494,11 @@ gog_renderer_pixbuf_draw_text (GogRenderer *rend, char const *text,
 }
 
 static void
-gog_renderer_pixbuf_draw_marker (GogRenderer *renderer, double x, double y)
+gog_renderer_pixbuf_draw_marker (GogRenderer *rend, double x, double y)
 {
 	GdkRectangle r1, r2, dest; 
-	GogStyle const *style = renderer->cur_style;
-	GogRendererPixbuf *prend = GOG_RENDERER_PIXBUF (renderer);
+	GogStyle const *style = rend->cur_style;
+	GogRendererPixbuf *prend = GOG_RENDERER_PIXBUF (rend);
 	GdkPixbuf const *marker_pixbuf = go_marker_get_pixbuf (style->marker);
 
 	if (marker_pixbuf == NULL)
@@ -417,8 +510,8 @@ gog_renderer_pixbuf_draw_marker (GogRenderer *renderer, double x, double y)
 
 	r1.width = gdk_pixbuf_get_width (marker_pixbuf);
 	r1.height = gdk_pixbuf_get_height (marker_pixbuf);
-	r1.x = x - r1.width / 2;
-	r1.y = y - r1.height / 2;
+	r1.x = x - r1.width / 2 - prend->x_offset;
+	r1.y = y - r1.height / 2 - prend->y_offset;
 
 	if (gdk_rectangle_intersect (&r1, &r2, &dest))
 		gdk_pixbuf_composite (marker_pixbuf, prend->buffer,
@@ -449,18 +542,21 @@ gog_renderer_pixbuf_class_init (GogRendererClass *rend_klass)
 	GObjectClass *gobject_klass   = (GObjectClass *) rend_klass;
 
 	parent_klass = g_type_class_peek_parent (rend_klass);
-	gobject_klass->finalize	  = gog_renderer_pixbuf_finalize;
-	rend_klass->draw_path	  = gog_renderer_pixbuf_draw_path;
-	rend_klass->draw_polygon  = gog_renderer_pixbuf_draw_polygon;
-	rend_klass->draw_text	  = gog_renderer_pixbuf_draw_text;
-	rend_klass->draw_marker	  = gog_renderer_pixbuf_draw_marker;
-	rend_klass->measure_text  = gog_renderer_pixbuf_measure_text;
+	gobject_klass->finalize	  	= gog_renderer_pixbuf_finalize;
+	rend_klass->start_clipping  	= gog_renderer_pixbuf_start_clipping;
+	rend_klass->stop_clipping     	= gog_renderer_pixbuf_stop_clipping;
+	rend_klass->draw_path	  	= gog_renderer_pixbuf_draw_path;
+	rend_klass->draw_polygon  	= gog_renderer_pixbuf_draw_polygon;
+	rend_klass->draw_text	  	= gog_renderer_pixbuf_draw_text;
+	rend_klass->draw_marker	  	= gog_renderer_pixbuf_draw_marker;
+	rend_klass->measure_text  	= gog_renderer_pixbuf_measure_text;
 }
 
 static void
 gog_renderer_pixbuf_init (GogRendererPixbuf *prend)
 {
 	prend->buffer = NULL;
+	prend->buffer_cache = NULL;
 	prend->w = prend->h = 1; /* jsut in case */
 }
 

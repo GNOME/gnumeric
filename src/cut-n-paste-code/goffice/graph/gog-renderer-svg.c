@@ -51,8 +51,11 @@ struct _GogRendererSvg {
 
 	xmlDocPtr doc;
 	xmlNodePtr defs;
+	xmlNodePtr current_node;
 	GHashTable *table;
 	gint grad, pat, img;
+
+	unsigned clip_counter;
 };
 
 typedef GogRendererClass GogRendererSvgClass;
@@ -60,6 +63,53 @@ typedef GogRendererClass GogRendererSvgClass;
 static GObjectClass *parent_klass;
 
 static GType gog_renderer_svg_get_type (void);
+
+static void
+gog_renderer_svg_start_clipping (GogRenderer *rend)
+{
+	GogRendererSvg *prend = GOG_RENDERER_SVG (rend);
+	char *buf;
+	xmlNodePtr child;
+	xmlNodePtr node;
+
+	prend->clip_counter++;
+	
+	node = xmlNewDocNode (prend->doc, NULL, CC2XML("clipPath"), NULL);
+	xmlAddChild (prend->defs, node);
+	buf = g_strdup_printf ("clip%i", prend->clip_counter);
+	xmlNewProp (node, CC2XML("id"), CC2XML(buf));
+	g_free (buf);
+	child = xmlNewDocNode (prend->doc, NULL, CC2XML("rect"), NULL);
+	xmlAddChild (node, child);
+	buf = g_strdup_printf ("%g", rend->clip_rectangle.x);
+	xmlNewProp (child, CC2XML("x"), CC2XML(buf));
+	g_free (buf);
+	buf = g_strdup_printf ("%g", rend->clip_rectangle.y);
+	xmlNewProp (child, CC2XML("y"), CC2XML(buf));
+	g_free (buf);
+	buf = g_strdup_printf ("%g", rend->clip_rectangle.w);
+	xmlNewProp (child, CC2XML("width"), CC2XML(buf));
+	g_free (buf);
+	buf = g_strdup_printf ("%g", rend->clip_rectangle.h);
+	xmlNewProp (child, CC2XML("height"), CC2XML(buf));
+	g_free (buf);
+	
+	node = xmlNewDocNode (prend->doc, NULL, CC2XML("g"), NULL);
+	xmlAddChild (prend->current_node, node);
+	buf = g_strdup_printf ("url(#clip%i)", prend->clip_counter);
+	xmlNewProp (node, CC2XML ("clip-path"), CC2XML (buf));
+	g_free (buf);
+
+	prend->current_node = node;
+}
+
+static void
+gog_renderer_svg_stop_clipping (GogRenderer *rend)
+{
+	GogRendererSvg *prend = GOG_RENDERER_SVG (rend);
+	
+	prend->current_node = prend->current_node->parent;
+}
 
 static void
 draw_path (GogRendererSvg *prend, ArtVpath const *path, GString *string)
@@ -78,7 +128,8 @@ draw_path (GogRendererSvg *prend, ArtVpath const *path, GString *string)
 }
 
 static void
-gog_renderer_svg_draw_path (GogRenderer *renderer, ArtVpath const *path)
+gog_renderer_svg_draw_path (GogRenderer *renderer, ArtVpath const *path,
+			    GogViewAllocation const *bound)
 {
 	GogRendererSvg *prend = GOG_RENDERER_SVG (renderer);
 	GogStyle const *style = renderer->cur_style;
@@ -89,7 +140,7 @@ gog_renderer_svg_draw_path (GogRenderer *renderer, ArtVpath const *path)
 	char *old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
 
 	setlocale (LC_NUMERIC, "C");
-	xmlAddChild (prend->doc->children, node);
+	xmlAddChild (prend->current_node, node);
 	string = g_string_new ("");
 	draw_path (prend, path, string);
 	xmlNewProp (node, CC2XML ("d"), CC2XML (string->str));
@@ -112,7 +163,8 @@ gog_renderer_svg_draw_path (GogRenderer *renderer, ArtVpath const *path)
 }
 
 static void
-gog_renderer_svg_draw_polygon (GogRenderer *renderer, ArtVpath const *path, gboolean narrow)
+gog_renderer_svg_draw_polygon (GogRenderer *renderer, ArtVpath const *path, 
+			       gboolean narrow, GogViewAllocation const *bound)
 {
 	GogRendererSvg *prend = GOG_RENDERER_SVG (renderer);
 	GogStyle const *style = renderer->cur_style;
@@ -126,7 +178,7 @@ gog_renderer_svg_draw_polygon (GogRenderer *renderer, ArtVpath const *path, gboo
 	if (style->fill.type != GOG_FILL_STYLE_NONE || with_outline) {
 		GString *string = g_string_new ("");
 		node = xmlNewDocNode (prend->doc, NULL, "path", NULL);
-		xmlAddChild (prend->doc->children, node);
+		xmlAddChild (prend->current_node, node);
 		draw_path (prend, path, string);
 		g_string_append (string, "z");
 		xmlNewProp (node, CC2XML ("d"), CC2XML (string->str));
@@ -313,7 +365,7 @@ gog_renderer_svg_draw_marker (GogRenderer *rend, double x, double y)
 	fill_path = art_vpath_affine_transform (fill_path_raw, affine);
 
 	node = xmlNewDocNode (prend->doc, NULL, "path", NULL);
-	xmlAddChild (prend->doc->children, node);
+	xmlAddChild (prend->current_node, node);
 	string = g_string_new ("");
 	draw_path (prend, fill_path, string);
 	g_string_append (string, "z");
@@ -331,7 +383,7 @@ gog_renderer_svg_draw_marker (GogRenderer *rend, double x, double y)
 	}
 
 	node = xmlNewDocNode (prend->doc, NULL, "path", NULL);
-	xmlAddChild (prend->doc->children, node);
+	xmlAddChild (prend->current_node, node);
 	string = g_string_new ("");
 	draw_path (prend, outline_path, string);
 	g_string_append (string, "z");
@@ -492,11 +544,13 @@ static void
 gog_renderer_svg_class_init (GogRendererClass *rend_klass)
 {
 	parent_klass = g_type_class_peek_parent (rend_klass);
-	rend_klass->draw_path	  = gog_renderer_svg_draw_path;
-	rend_klass->draw_polygon  = gog_renderer_svg_draw_polygon;
-	rend_klass->draw_text	  = gog_renderer_svg_draw_text;
-	rend_klass->draw_marker	  = gog_renderer_svg_draw_marker;
-	rend_klass->measure_text  = gog_renderer_svg_measure_text;
+	rend_klass->start_clipping	= gog_renderer_svg_start_clipping;
+	rend_klass->stop_clipping 	= gog_renderer_svg_stop_clipping;
+	rend_klass->draw_path	  	= gog_renderer_svg_draw_path;
+	rend_klass->draw_polygon  	= gog_renderer_svg_draw_polygon;
+	rend_klass->draw_text	  	= gog_renderer_svg_draw_text;
+	rend_klass->draw_marker	  	= gog_renderer_svg_draw_marker;
+	rend_klass->measure_text  	= gog_renderer_svg_measure_text;
 }
 
 static GSF_CLASS (GogRendererSvg, gog_renderer_svg,
@@ -536,6 +590,7 @@ gog_graph_export_to_svg (GogGraph *graph, GsfOutput *output,
 		   CC2XML ("svg"), CC2XML ("-//W3C//DTD SVG 1.1//EN"),
 		   CC2XML ("http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"));
 	prend->doc->children = xmlNewDocNode (prend->doc, NULL, CC2XML ("svg"), NULL);
+	prend->current_node = prend->doc->children;
 	prend->defs = xmlNewDocNode (prend->doc, NULL, CC2XML ("defs"), NULL);
 	xmlAddChild (prend->doc->children, prend->defs);
 	prend->table = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
@@ -556,6 +611,7 @@ gog_graph_export_to_svg (GogGraph *graph, GsfOutput *output,
 	setlocale (LC_NUMERIC, old_num_locale);
 	g_free (old_num_locale);
 
+	prend->clip_counter = 0;
 	allocation.x = 0.;
 	allocation.y = 0.;
 	allocation.w = width;
@@ -563,7 +619,8 @@ gog_graph_export_to_svg (GogGraph *graph, GsfOutput *output,
 	gog_view_size_allocate (prend->base.view, &allocation);
 	gog_view_render	(prend->base.view, NULL);
 
-	if (!g_hash_table_size (prend->table)) {
+	if ((!g_hash_table_size (prend->table)) &&
+	    (prend->clip_counter == 0)) {
 		xmlUnlinkNode (prend->defs);
 		xmlFreeNode (prend->defs);
 	}

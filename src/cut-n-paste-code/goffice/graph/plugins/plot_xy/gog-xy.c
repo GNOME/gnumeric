@@ -287,7 +287,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 					path[0].y = prev_y;
 					path[1].x = x;
 					path[1].y = y;
-					gog_renderer_draw_path (view->renderer, path, &view->residual);
+					gog_renderer_draw_path (view->renderer, path, NULL);
 				}
 
 				/* draw marker after line */

@@ -37,6 +37,9 @@ struct _GogRenderer {
 	double	  logical_height_pts;
 	float	  scale, scale_x, scale_y;
 	float	  zoom;
+	
+	GogViewAllocation clip_rectangle;
+	gboolean  is_clipping;
 
 	GClosure *font_watcher;
 	gboolean  needs_update;
@@ -49,20 +52,23 @@ typedef struct {
 	GObjectClass base;
 
 	/* Virtuals */
-	void (*font_removed)   (GogRenderer *renderer, GOFont const *font);
-	void (*push_style)     (GogRenderer *renderer, GogStyle const *style);
-	void (*pop_style)      (GogRenderer *renderer);
+	void (*font_removed)	(GogRenderer *renderer, GOFont const *font);
+	void (*push_style)     	(GogRenderer *renderer, GogStyle const *style);
+	void (*pop_style)      	(GogRenderer *renderer);
 
-	void (*draw_path)      (GogRenderer *renderer, ArtVpath const *path,
-				GogViewAllocation const *bound);
-	void (*draw_polygon)   (GogRenderer *renderer, ArtVpath const *path, gboolean narrow,
-				GogViewAllocation const *bound);
-	void (*draw_text)      (GogRenderer *rend, char const *text,
-				GogViewAllocation const *pos, GtkAnchorType anchor,
-				GogViewAllocation *result);
-	void (*draw_marker)    (GogRenderer *rend, double x, double y);
-	void (*measure_text)   (GogRenderer *rend, 
-				char const *text, GogViewRequisition *size);
+ 	void (*start_clipping)	(GogRenderer *renderer);
+ 	void (*stop_clipping) 	(GogRenderer *renderer);
+ 	
+	void (*draw_path)      	(GogRenderer *renderer, ArtVpath const *path,
+				 GogViewAllocation const *bound);
+	void (*draw_polygon)   	(GogRenderer *renderer, ArtVpath const *path, gboolean narrow,
+				 GogViewAllocation const *bound);
+	void (*draw_text)      	(GogRenderer *rend, char const *text,
+				 GogViewAllocation const *pos, GtkAnchorType anchor,
+				 GogViewAllocation *result);
+	void (*draw_marker)    	(GogRenderer *rend, double x, double y);
+	void (*measure_text)   	(GogRenderer *rend, 
+				 char const *text, GogViewRequisition *size);
 
 	/* Signals */
 	void (*request_update) (GogRenderer *renderer);
