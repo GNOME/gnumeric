@@ -150,17 +150,3 @@ ms_container_sheet (MSContainer const *c)
 	g_return_val_if_fail (c->vtbl->sheet != NULL, NULL);
 	return (*c->vtbl->sheet) (c);
 }
-
-/**
- * ms_container_workbook:
- *
- * @c : The container
- */
-Workbook *
-ms_container_workbook (MSContainer const *c)
-{
-	g_return_val_if_fail (c != NULL, NULL);
-	g_return_val_if_fail (c->vtbl != NULL, NULL);
-	g_return_val_if_fail (c->vtbl->workbook != NULL, NULL);
-	return (*c->vtbl->workbook) (c);
-}
