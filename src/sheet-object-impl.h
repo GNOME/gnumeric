@@ -48,6 +48,7 @@ typedef struct {
 				      xmlNodePtr	tree);
 	void                (*print) (SheetObject const *so,
 				      SheetObjectPrintInfo const *pi);
+	double	default_width_pts, default_height_pts;
 } SheetObjectClass;
 
 #define SHEET_OBJECT_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), SHEET_OBJECT_TYPE, SheetObjectClass))

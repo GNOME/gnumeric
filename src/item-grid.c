@@ -712,9 +712,9 @@ cb_obj_create_button_release (GnumericSheet *gsheet, GdkEventButton *event,
 					      pts + 2, pts + 3);
 	} else {
 	/* Otherwise translate default size to use release point as top left */
-		scg_object_view_position (scg, so, pts);
-		pts [2] -= pts [0]; pts [2] += (pts [0] = closure->x);
-		pts [3] -= pts [1]; pts [3] += (pts [1] = closure->y);
+		sheet_object_default_size (so, pts+2, pts+3);
+		pts [2] += (pts [0] = closure->x);
+		pts [3] += (pts [1] = closure->y);
 	}
 
 	scg_object_calc_position (scg, so, pts);

@@ -154,6 +154,10 @@ sheet_object_class_init (GtkObjectClass *object_class)
 	sheet_object_class->populate_menu = sheet_object_populate_menu;
 	sheet_object_class->print         = NULL;
 	sheet_object_class->user_config   = NULL;
+
+	/* Provide some defaults (derived classes may want to override) */
+	sheet_object_class->default_width_pts = 72.;	/* 1 inch */
+	sheet_object_class->default_height_pts = 36.;	/* 1/2 inch */
 }
 
 GNUMERIC_MAKE_TYPE (sheet_object, "SheetObject", SheetObject,
@@ -476,6 +480,7 @@ void
 sheet_object_position_pixels (SheetObject const *so,
 			      SheetControlGUI const *scg, int *coords)
 {
+	g_return_if_fail (IS_SHEET_OBJECT (so));
 	g_return_if_fail (so->sheet != NULL);
 
 	coords [0] = scg_colrow_distance_get (scg, TRUE, 0,
@@ -512,6 +517,25 @@ cell_offset_calc_pt (Sheet const *sheet, int i, gboolean is_col,
 }
 
 /**
+ * sheet_object_default_size 
+ * @so : The sheet object
+ * @w : a ptr into which to store the default_width.
+ * @h : a ptr into which to store the default_height.
+ *
+ * Measurements are in pts.
+ */
+void
+sheet_object_default_size (SheetObject *so, double *w, double *h)
+{
+	g_return_if_fail (IS_SHEET_OBJECT (so));
+	g_return_if_fail (w != NULL);
+	g_return_if_fail (h != NULL);
+
+	*w = SO_CLASS(so)->default_width_pts;
+	*h = SO_CLASS(so)->default_height_pts;
+}
+
+/**
  * sheet_object_position_pts :
  *
  * @so : The sheet object
@@ -523,6 +547,8 @@ cell_offset_calc_pt (Sheet const *sheet, int i, gboolean is_col,
 void
 sheet_object_position_pts (SheetObject const *so, double *coords)
 {
+	g_return_if_fail (IS_SHEET_OBJECT (so));
+
 	coords [0] = sheet_col_get_distance_pts (so->sheet, 0,
 		so->cell_bound.start.col);
 	coords [2] = coords [0] + sheet_col_get_distance_pts (so->sheet,

@@ -104,10 +104,13 @@ STF - pasting a single line should not invoke the importer
 - latex : multiline rows not handled properly.
         : nor are spans
 
-- SheetObjects  : Add data member to Class to indicate 'simple' object
-		  types that can be rubber banded directly.
-		: Add acetate_create virtual to handle shaped objects.
-- Other anchor types for sheet objects
+- SheetObjects
+    : Add data member to Class to indicate 'simple' object
+      types that can be rubber banded directly.
+    : Add acetate_create virtual to handle shaped objects.
+    : finish auto slide
+    : config dialog for arrows and graphic objects (set colour and arrow dir)
+    : Other anchor types for sheet objects
 
 Dialogs
 -------

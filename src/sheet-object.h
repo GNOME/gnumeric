@@ -25,6 +25,8 @@ typedef enum {
 	SO_ANCHOR_UNKNOWN			= 0x00,
 	SO_ANCHOR_PERCENTAGE_FROM_COLROW_START	= 0x10,
 	SO_ANCHOR_PERCENTAGE_FROM_COLROW_END	= 0x11,
+
+	/* TODO : implement these */
 	SO_ANCHOR_PTS_FROM_COLROW_START		= 0x20,
 	SO_ANCHOR_PTS_FROM_COLROW_END		= 0x21,
 	SO_ANCHOR_PTS_FROM_LEFT_ANCHOR		= 0x30,
@@ -50,6 +52,7 @@ void         sheet_object_position	  (SheetObject *so, CellPos const *pos);
 void	     sheet_object_position_pixels (SheetObject const *so,
 					   SheetControlGUI const *scg,
 					   int *pos);
+void	     sheet_object_default_size	  (SheetObject *so, double *w, double *h);
 void	     sheet_object_position_pts    (SheetObject const *so, double *pos);
 Range const *sheet_object_range_get	  (SheetObject const *so);
 void         sheet_object_range_set	  (SheetObject *so, Range const *r,

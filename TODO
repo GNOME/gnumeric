@@ -1,5 +1,7 @@
 -*-outline-*-
 
+See BUGS file too.
+
 Gnumeric Spread Sheet task list
 
 * Component
@@ -128,9 +130,6 @@ Gnumeric Spread Sheet task list
   - Improve error handling and display in file_read routines.
   - Add ability to send warnings, and progress while loading.
   - Improve handling of unknown fonts and functions when importing.
-
-* Display Engine
-  - drawing double line borders is broken
 
 * Unicode support throughout
 
