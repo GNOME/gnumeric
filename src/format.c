@@ -855,8 +855,21 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 			break;
 
 		case '*':
-			g_warning ("REPEAT FORMAT NOT YET SUPPORTED\n");
+		{
+			/* FIXME FIXME FIXME
+			 * this will require an interface change to pass in
+			 * the size of the cell being formated as well as a
+			 * minor reworking of the routines logic to fill in the
+			 * space later.
+			 */
+			static gboolean quiet_warning = FALSE;
+			if (quiet_warning)
+				break;
+			quiet_warning = TRUE;
+			g_warning ("REPEAT FORMAT NOT YET SUPPORTED '%s' %g\n",
+				   style_format_entry->format, number);
 			break;
+		}
 
 		case 'H':
 		case 'h':

@@ -129,7 +129,13 @@ documentation for these:
 
 	- Home: move to the beginning of the row.
 	
-	- Contorl-Home: move to the cell A1
+	- Control-Home: move to the cell A1
+
+	- Control-Enter: copies current edit text to the selected range.
+
+	- Control-Shift-Enter: If there is a single range selected and the
+	  current edit text is a formula, the formula is made into an
+	  'array-formula'
 
      o Auto-convert-on-input features: When you enter text in Gnumeric
        it is now matched against the known formats of Gnumeric and if
@@ -140,3 +146,11 @@ documentation for these:
        this: ="10-Jan"+45.  
 
        Autofill will also work on this.
+
+     o Gnumeric command line debug arguments.
+	- dump-func-defs
+	- debug
+	- debug_excel_read
+	- debug_excel_formulas
+	- debug_excel_color
+	- debug_excel_chart

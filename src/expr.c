@@ -260,6 +260,17 @@ expr_tree_get_const_int (ExprTree const * const expr)
 	return expr->u.constant->v.v_int;
 }
 
+char const *
+expr_tree_get_const_str (ExprTree const *const expr)
+{
+	g_return_val_if_fail (expr != NULL, NULL);
+	g_return_val_if_fail (expr->oper == OPER_CONSTANT, NULL);
+	g_return_val_if_fail (expr->u.constant, NULL);
+	g_return_val_if_fail (expr->u.constant->type == VALUE_STRING, NULL);
+
+	return expr->u.constant->v.str->str;
+}
+
 ExprTree *
 expr_parse_string (const char *expr, const EvalPosition *fp,
 		   const char **desired_format, char **error_msg)
@@ -1669,8 +1680,8 @@ eval_expr (FunctionEvalInfo *s, ExprTree *tree)
 			else
 				a = NULL;
 		}
-		g_return_val_if_fail (a != NULL,
-				      function_error (s, gnumeric_err_NA));
+		if (a == NULL) /* Seems like errors return NULL */
+			return NULL;
 
 		if (a->type == VALUE_CELLRANGE || a->type == VALUE_ARRAY){
 			int const num_x = value_area_get_width (&s->pos, a);
@@ -1907,7 +1918,7 @@ do_expr_decode_tree (ExprTree *tree, const EvalPosition *fp, int paren_level)
 				res = do_expr_decode_tree (
 					array->u.array.corner.func.expr,
 					&tmp_pos, 0);
-	}
+			}
 		} else
 		{
 			res = do_expr_decode_tree (
@@ -2084,9 +2095,22 @@ do_expr_tree_invalidate_references (ExprTree *src, const struct expr_tree_frob_r
 	}
 	case OPER_ARRAY:
 	{
-		/* FIXME FIXME FIXME : what should this do ? */
-		return NULL;
-		g_assert_not_reached ();
+		ArrayRef * a = &src->u.array;
+		if (a->x == 0 && a->y == 0)
+		{
+			ExprTree *func = do_expr_tree_invalidate_references (
+					    a->corner.func.expr, info);
+
+			if (func != NULL)
+			{
+				ExprTree *res =
+				    expr_tree_array_formula (0, 0,
+							     a->rows, a->cols);
+				res->u.array.corner.func.value = NULL;
+				res->u.array.corner.func.expr = func;
+				return res;
+			}
+		}
 		return NULL;
 	}
 	}
@@ -2098,7 +2122,7 @@ do_expr_tree_invalidate_references (ExprTree *src, const struct expr_tree_frob_r
 /*
  * Invalidate (== turn into error expressions) cell and range references that
  * will disappear completely during a deletions of columns or rows.  Note that
- * this is not intended for use when just the cell contents is delete.
+ * this is not intended for use when just the cell contents is deleted.
  */
 ExprTree *
 expr_tree_invalidate_references (ExprTree *src, EvalPosition *src_fp,
@@ -2296,12 +2320,23 @@ do_expr_tree_fixup_references (ExprTree *src, const struct expr_tree_frob_refere
 	}
 	case OPER_ARRAY:
 	{
-		/*
-		 * FIXME FIXME FIXME : This is the mirror of above.
-		 * Read and find out what they do
-		 */
-		return NULL;
-		g_assert_not_reached ();
+		ArrayRef * a = &src->u.array;
+		if (a->x == 0 && a->y == 0)
+		{
+			ExprTree *func =
+			    do_expr_tree_fixup_references (a->corner.func.expr,
+							   info);
+
+			if (func != NULL)
+			{
+				ExprTree *res =
+				    expr_tree_array_formula (0, 0,
+							     a->rows, a->cols);
+				res->u.array.corner.func.value = NULL;
+				res->u.array.corner.func.expr = func;
+				return res;
+			}
+		}
 		return NULL;
 	}
 	}

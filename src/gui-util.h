@@ -4,6 +4,7 @@
 #include "sheet.h"
 
 void       gnumeric_notice (Workbook *wb, const char *type, const char *str);
+void       gnumeric_no_modify_array_notice (Workbook *wb);
 
 /* A simple routine for making a popup menu */
 int        run_popup_menu  (GdkEvent *event, int button, char **strings);

@@ -12,7 +12,7 @@
 #define GNUMERIC_SHEET_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), GNUMERIC_TYPE_SHEET))
 #define GNUMERIC_IS_SHEET(o)    (GTK_CHECK_TYPE((o), GNUMERIC_TYPE_SHEET))
 
-#define GNUMERIC_SHEET_PATTERNS 13
+#define GNUMERIC_SHEET_PATTERNS 18
 typedef struct {
 	char *name;
 	char pattern [8];

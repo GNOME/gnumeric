@@ -102,6 +102,7 @@ col_name (int col)
 	char *p = buffer;
 	
 	g_assert (col < SHEET_MAX_COLS);
+	g_assert (col >= 0);
 
 	if (col <= 'Z'-'A'){
 		*p++ = col + 'A';

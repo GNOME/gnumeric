@@ -28,6 +28,10 @@
 
 /* The debugging level */
 int gnumeric_debugging = 0;
+extern int ms_excel_read_debug;
+extern int ms_excel_formula_debug;
+extern int ms_excel_color_debug;
+extern int ms_excel_chart_debug;
 
 static char *dump_file_name = NULL;
 static char **startup_files = NULL;
@@ -40,6 +44,23 @@ const struct poptOption gnumeric_popt_options [] = {
 	  N_("Dumps the function definitions"),   N_("FILE") },
 	{ "debug", '\0', POPT_ARG_INT, &gnumeric_debugging, 0,
 	  N_("Enables some debugging functions"), N_("LEVEL") },
+
+	{ "debug_excel_read", '\0', POPT_ARG_INT,
+	    &ms_excel_read_debug, 0,
+	  N_("Enables debugging mesgs while reading excel workbooks"),
+	  N_("LEVEL") },
+	{ "debug_excel_formulas", '\0', POPT_ARG_INT,
+	    &ms_excel_formula_debug, 0,
+	  N_("Enables debugging mesgs while reading excel functions"),
+	  N_("LEVEL") },
+	{ "debug_excel_color", '\0', POPT_ARG_INT,
+	    &ms_excel_color_debug, 0,
+	  N_("Enables debugging mesgs while reading excel colours & patterns"),
+	  N_("LEVEL") },
+	{ "debug_excel_chart", '\0', POPT_ARG_INT,
+	    &ms_excel_chart_debug, 0,
+	  N_("Enables debugging mesgs while reading excel charts"),
+	  N_("LEVEL") },
 	{ NULL, '\0', 0, NULL, 0 }
 };
 

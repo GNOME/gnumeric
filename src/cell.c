@@ -53,9 +53,9 @@ cell_set_formula (Cell *cell, const char *text)
 
 	cell_modified (cell);
 	new_expr = expr_parse_string (&text [1],
-					       eval_pos_cell (&fp, cell),
-					       &desired_format,
-					       &error_msg);
+				      eval_pos_cell (&fp, cell),
+				      &desired_format,
+				      &error_msg);
 	if (new_expr == NULL){
 		cell->parsed_node = NULL;
 		cell->flags |= CELL_ERROR;
@@ -67,31 +67,40 @@ cell_set_formula (Cell *cell, const char *text)
 		return;
 	}
 
-	if (new_expr->oper == OPER_ARRAY){
-		if (new_expr->u.array.x == 0 && new_expr->u.array.y == 0){
-			cell->parsed_node = new_expr;
-			cell_set_array_formula (cell->sheet,
-						cell->row->pos,
-						cell->col->pos,
-						cell->row->pos + new_expr->u.array.rows -1,
-						cell->col->pos + new_expr->u.array.cols -1,
-						new_expr->u.array.corner.func.expr);
-		} else
-			new_expr = NULL;
-	} else
-		cell->parsed_node = new_expr;
+	if (cell->flags & CELL_ERROR)
+		cell->flags &= ~CELL_ERROR;
 
-		if (cell->flags & CELL_ERROR)
-			cell->flags &= ~CELL_ERROR;
-
-	if (desired_format && strcmp (cell->style->format->format, "General") == 0){
+	if (desired_format &&
+	    strcmp (cell->style->format->format, "General") == 0){
 		style_format_unref (cell->style->format);
 		cell->style->format = style_format_new (desired_format);
 	}
 
-	/* Don't touch things if this was part of an array not at the corner */
-	if (new_expr)
-	cell_formula_changed (cell);
+	if (new_expr->oper == OPER_ARRAY){
+		/* The corner sets up the entire array block */
+		if (new_expr->u.array.x != 0 || new_expr->u.array.y != 0)
+		{
+			expr_tree_unref (new_expr);
+			return;
+		}
+
+		/* 
+		 * NOTE : The wrapper supplied by the parser will be released
+		 *        and recreated.  new_expr will NOT be valid on exit
+		 *        from cell_set_array_formula.
+		 */
+		cell->parsed_node = new_expr;
+		cell_set_array_formula (cell->sheet,
+					cell->row->pos, cell->col->pos,
+					cell->row->pos +
+					    new_expr->u.array.rows -1,
+					cell->col->pos +
+					    new_expr->u.array.cols -1,
+					new_expr->u.array.corner.func.expr);
+	} else {
+		cell->parsed_node = new_expr;
+		cell_formula_changed (cell);
+	}
 }
 
 /*
@@ -706,6 +715,7 @@ cell_content_changed (Cell *cell)
 		cell_queue_recalc_list (deps, TRUE);
 }
 
+
 /*
  * cell_set_text
  *
@@ -716,6 +726,12 @@ cell_set_text (Cell *cell, const char *text)
 {
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (text != NULL);
+
+	if (cell->parsed_node != NULL && cell->parsed_node->oper == OPER_ARRAY)
+	{
+		gnumeric_no_modify_array_notice (cell->sheet->workbook);
+		return;
+	}
 
 	cell_queue_redraw (cell);
 

@@ -167,7 +167,7 @@ struct _Sheet {
 	
 	gboolean    modified;
 	
-	/* For walking trough a selection */
+	/* For walking through a selection */
 	struct {
 		SheetSelection *current;
 	} walk_info;
@@ -384,7 +384,8 @@ void        sheet_set_mode_type           (Sheet *sheet, SheetModeType type);
 /*
  * Callback routines.
  */
-void        sheet_fill_selection_with     (Sheet *sheet, const char *text);
+void        sheet_fill_selection_with     (Sheet *sheet, const char *text,
+					   gboolean const is_array);
 
 /*
  * Hiding/showing the cursor

@@ -2213,7 +2213,8 @@ sheet_cell_add (Sheet *sheet, Cell *cell, int col, int row)
 	cell_calc_dimensions (cell);
 
 	sheet_cell_add_to_hash (sheet, cell);
-	cell->col->data = g_list_insert_sorted (cell->col->data, cell, CRowSort);
+	cell->col->data = g_list_insert_sorted (cell->col->data, cell,
+						&CRowSort);
 }
 
 Cell *
@@ -2350,7 +2351,8 @@ sheet_cell_formula_link (Cell *cell)
 	}
 #endif
 
-	sheet->workbook->formula_cell_list = g_list_prepend (sheet->workbook->formula_cell_list, cell);
+	sheet->workbook->formula_cell_list =
+		g_list_prepend (sheet->workbook->formula_cell_list, cell);
 	cell_add_dependencies (cell);
 }
 
@@ -2547,21 +2549,17 @@ sheet_clear_region (Sheet *sheet, int start_col, int start_row, int end_col, int
 	cb.end_row = end_row;
 	cb.l = NULL;
 	if (sheet_cell_foreach_range ( sheet, TRUE,
-		start_col, start_row,
-		end_col, end_row,
+				       start_col, start_row, end_col, end_row,
 				       assemble_clear_cell_list, &cb)){
 		for (l = cb.l; l; l = l->next){
-		Cell *cell = l->data;
+			Cell *cell = l->data;
 
-		sheet_cell_remove (sheet, cell);
-		cell_destroy (cell);
-	}
-	workbook_recalc (sheet->workbook);
+			sheet_cell_remove (sheet, cell);
+			cell_destroy (cell);
+		}
+		workbook_recalc (sheet->workbook);
 	} else 
-	{
-	    /* FIXME : put up a dialog ?? */
-	    g_warning ("Tell user not to try to delete subset of array\n");
-	}
+		gnumeric_no_modify_array_notice (sheet->workbook);
 	g_list_free (cb.l);
 }
 
@@ -2877,6 +2875,20 @@ sheet_move_column (Sheet *sheet, ColRowInfo *ci, int new_column)
 	g_list_free (column_cells);
 }
 
+/*
+ * Callback for sheet_cell_foreach_range to test whether a cell is in an
+ * array-formula to the right of the leftmost column.
+ */
+static int
+avoid_dividing_array_horizontal (Sheet *sheet, int col, int row, Cell *cell,
+				 void *user_data)
+{
+	return (cell == NULL ||
+		cell->parsed_node == NULL ||
+		cell->parsed_node->oper != OPER_ARRAY ||
+		cell->parsed_node->u.array.x <= 0);
+}
+
 /**
  * sheet_insert_col:
  * @sheet   The sheet
@@ -2896,6 +2908,16 @@ sheet_insert_col (Sheet *sheet, int col, int count)
 	col_count = g_list_length (sheet->cols_info);
 	if (col_count == 0)
 		return;
+
+	/* 0. Walk cells in displaced col and ensure arrays aren't divided. */
+	if (col > 0)	/* No need to test leftmost column */
+		if (!sheet_cell_foreach_range (sheet, TRUE, col, 0,
+					       col, SHEET_MAX_ROWS,
+					       &avoid_dividing_array_horizontal,
+					       NULL)){
+			gnumeric_no_modify_array_notice (sheet->workbook);
+			return;
+		}
 
 	/* FIXME: we should probably invalidate the rightmost `count' columns here.  */
 
@@ -2939,7 +2961,6 @@ sheet_insert_col (Sheet *sheet, int col, int count)
 
 	/* 3. Redraw */
 	sheet_redraw_all (sheet);
-
 }
 
 /*
@@ -3136,6 +3157,20 @@ sheet_shift_rows (Sheet *sheet, int col, int start_row, int end_row, int count)
 		sheet_shift_row (sheet, col, i, count);
 }
 
+/*
+ * Callback for sheet_cell_foreach_range to test whether a cell is in an
+ * array-formula below the top line.
+ */
+static int
+avoid_dividing_array_vertical (Sheet *sheet, int col, int row, Cell *cell,
+			       void *user_data)
+{
+	return (cell == NULL ||
+		cell->parsed_node == NULL ||
+		cell->parsed_node->oper != OPER_ARRAY ||
+		cell->parsed_node->u.array.y <= 0);
+}
+
 /**
  * sheet_insert_row:
  * @sheet   The sheet
@@ -3152,6 +3187,16 @@ sheet_insert_row (Sheet *sheet, int row, int count)
 	g_return_if_fail (count != 0);
 
 	cell_store = NULL;
+
+	/* 0. Walk cells in displaced row and ensure arrays aren't divided. */
+	if (row > 0)	/* No need to test top row */
+		if (!sheet_cell_foreach_range (sheet, TRUE, 0, row,
+					       SHEET_MAX_COLS, row,
+					       &avoid_dividing_array_vertical,
+					       NULL)){
+			gnumeric_no_modify_array_notice (sheet->workbook);
+			return;
+		}
 
 	/* FIXME: we should probably invalidate the bottom `count' rows here.  */
 
@@ -3580,30 +3625,84 @@ sheet_cursor_set (Sheet *sheet, int base_col, int base_row, int start_col, int s
 	sheet_load_cell_val (sheet);
 }
 
+static ArrayRef *
+sheet_is_cell_array (Sheet *sheet, int const col, int const row)
+{
+	Cell * const cell = sheet_cell_get (sheet, col, row);
+
+	if (cell != NULL &&
+	    cell->parsed_node != NULL &&
+	    cell->parsed_node->oper == OPER_ARRAY)
+		return &cell->parsed_node->u.array;
+
+	return NULL;
+}
+
+/**
+ * sheet_fill_selection_with:
+ * @sheet:   	 Which sheet we are operating on.
+ * @str:     	 The text to fill the selection with.
+ * @is_array:    A flag to differentiate between filling and array formulas.
+ *
+ * Checks to ensure that none of the ranges being filled contain a subset of
+ * and array-formula.
+ */
 void
-sheet_fill_selection_with (Sheet *sheet, const char *str)
+sheet_fill_selection_with (Sheet *sheet, const char *str,
+			   gboolean const is_array)
 {
 	GList *l;
+	int  col, row;
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (str != NULL);
 
-	/* Not a formula, just paste the results */
-	if (*str != '='){
-		int  col, row;
-
+	/*
+	 * FIXME FIXME FIXME
+	 * This should probably move into a standalone function so that it can
+	 * be shared by cut/copy/paste,  but I'll wait on that until I
+	 * understand that system better.
+	 */
 	for (l = sheet->selections; l; l = l->next){
+		/*
+		 * Check the outer edges of each range to ensure that if an
+		 * array is within it then the entire array is within the range.
+		 */
+		ArrayRef *a;
 		SheetSelection *ss = l->data;
+		gboolean valid = TRUE;
 
-		for (col = ss->start_col; col <= ss->end_col; col++)
-			for (row = ss->start_row; row <= ss->end_row; row++)
-				sheet_set_text (sheet, col, row, str);
+		/* Check top & bottom */
+		for (col = ss->start_col; col <= ss->end_col && valid; ++col){
+			if ((a=sheet_is_cell_array (sheet, col, ss->start_row)))
+				valid &= (a->y == 0);		/* Top */
+			if ((a=sheet_is_cell_array (sheet, col, ss->end_row)))
+				valid &= (a->y == (a->rows-1));	/* Bottom */
 		}
-		return;
+
+		/* Check left & right */
+		for (row = ss->start_row; row <= ss->end_row && valid; ++row){
+			if ((a=sheet_is_cell_array (sheet, ss->start_col, row)))
+				valid &= (a->x == 0);		/* Left */
+			if ((a=sheet_is_cell_array (sheet, ss->end_col, row)))
+				valid &= (a->x == (a->cols-1)); /* Right */
+		}
+
+		if (!valid)
+		{
+			gnumeric_no_modify_array_notice (sheet->workbook);
+			return;
+		}
 	}
 
-	/* Single range only */
-	if ((l = sheet->selections)) {
+	/*
+	 * Only enter an array formula if
+	 *   1) the text is a formula
+	 *   2) It's entered as an array formula
+	 *   3) There is only one 1 selection
+	 */
+	l = sheet->selections;
+	if (*str == '=' && is_array && l != NULL && l->next == NULL){
 		char *error_string = NULL;
 		SheetSelection *ss = l->data;
 		EvalPosition fp;
@@ -3613,14 +3712,28 @@ sheet_fill_selection_with (Sheet *sheet, const char *str)
 							  ss->start_col,
 							  ss->start_row),
 					   NULL, &error_string);
-		if (expr) {
+		if (expr){
 			cell_set_array_formula (sheet,
 						ss->start_row, ss->start_col,
 						ss->end_row, ss->end_col,
 						expr);
 			workbook_recalc (sheet->workbook);
-		} else
-			puts(error_string);
+			return;
+		}
+
+		/* Fall through and paste the error string */
+		str = error_string;
+
+		g_return_if_fail (str != NULL);
+	}
+
+	for (; l; l = l->next){
+		SheetSelection *ss = l->data;
+
+		for (col = ss->start_col; col <= ss->end_col; col++)
+			for (row = ss->start_row; row <=
+			     ss->end_row; row++)
+				sheet_set_text (sheet, col, row, str);
 	}
 }
 

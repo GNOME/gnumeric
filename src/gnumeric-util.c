@@ -13,6 +13,13 @@
 #include "style.h"
 
 void
+gnumeric_no_modify_array_notice (Workbook *wb)
+{
+	gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
+			 _("You cannot change part of an array."));
+}
+
+void
 gnumeric_notice (Workbook *wb, const char *type, const char *str)
 {
 	GtkWidget *dialog;

@@ -264,7 +264,8 @@ ExprTree   *expr_tree_fixup_references (ExprTree *src, EvalPosition *src_fp,
 					const EvalPosition *fp,
 					int coldelta, int rowdelta);
 
-int expr_tree_get_const_int (ExprTree const * const expr);
+int             expr_tree_get_const_int (ExprTree const *const expr);
+char const *	expr_tree_get_const_str (ExprTree const *const expr);
  
 /* Debugging */ 
 void expr_dump_tree (ExprTree *tree);

@@ -581,6 +581,9 @@ insert_cols_cmd (GtkWidget *unused, Workbook *wb)
 		return;
 
 	ss = sheet->selections->data;
+
+	/* FIXME FIXME : Have we have selected rows rather than columns */
+
 	cols = ss->end_col - ss->start_col + 1;
 	sheet_insert_col (sheet, ss->start_col, cols);
 }
@@ -597,6 +600,9 @@ insert_rows_cmd (GtkWidget *unused, Workbook *wb)
 		return;
 
 	ss = sheet->selections->data;
+
+	/* FIXME FIXME : Have we have selected columns rather than rows */
+
 	rows = ss->end_row - ss->start_row + 1;
 	sheet_insert_row (sheet, ss->start_row, rows);
 }

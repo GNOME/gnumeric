@@ -334,7 +334,7 @@ typedef struct {
 	int   end_col, end_row;
 	Sheet *sheet;
 	GList *list;
-} get_dep_closure_t;
+} get_range_dep_closure_t;
 
 static gboolean
 intersects (Sheet *sheet, int col, int row, DependencyRange *range)
@@ -347,10 +347,10 @@ intersects (Sheet *sheet, int col, int row, DependencyRange *range)
 }
 
 static void
-search_cell_deps (gpointer key, gpointer value, gpointer closure)
+search_range_deps (gpointer key, gpointer value, gpointer closure)
 {
 	DependencyRange *range = key;
-	get_dep_closure_t *c = closure;
+	get_range_dep_closure_t *c = closure;
 	Sheet *sheet = c->sheet;
 	GList *l;
 
@@ -372,7 +372,7 @@ search_cell_deps (gpointer key, gpointer value, gpointer closure)
 GList *
 region_get_dependencies (Sheet *sheet, int start_col, int start_row, int end_col, int end_row)
 {
-	get_dep_closure_t closure;
+	get_range_dep_closure_t closure;
 
 	if (!dependency_hash)
 		dependency_hash_init ();
@@ -384,23 +384,46 @@ region_get_dependencies (Sheet *sheet, int start_col, int start_row, int end_col
 	closure.sheet = sheet;
 	closure.list = NULL;
 
-	g_hash_table_foreach (dependency_hash, &search_cell_deps, &closure);
+	g_hash_table_foreach (dependency_hash, &search_range_deps, &closure);
 
 	return closure.list;
+}
+
+typedef struct {
+	int   col, row;
+	Sheet *sheet;
+	GList *list;
+} get_cell_dep_closure_t;
+
+static void
+search_cell_deps (gpointer key, gpointer value, gpointer closure)
+{
+	DependencyRange *range = key;
+	get_cell_dep_closure_t *c = closure;
+	Sheet *sheet = c->sheet;
+	GList *l;
+
+	/* No intersection is the common case */
+	if (!intersects (sheet, c->col, c->row, range))
+		return;
+
+	for (l = range->cell_list; l; l = l->next){
+		Cell *cell = l->data;
+
+		c->list = g_list_prepend (c->list, cell);
+	}
 }
 
 GList *
 cell_get_dependencies (Sheet *sheet, int col, int row)
 {
-	get_dep_closure_t closure;
+	get_cell_dep_closure_t closure;
 
 	if (!dependency_hash)
 		dependency_hash_init ();
 
-	closure.start_col = col;
-	closure.start_row = row;
-	closure.end_col = col;
-	closure.end_row = row;
+	closure.col = col;
+	closure.row = row;
 	closure.sheet = sheet;
 	closure.list = NULL;
 
@@ -539,14 +562,28 @@ workbook_recalc (Workbook *wb)
 
 		cell->generation = generation;
 		cell_eval (cell);
-		deps = cell_get_dependencies (cell->sheet, cell->col->pos, cell->row->pos);
+		deps = cell_get_dependencies (cell->sheet,
+					      cell->col->pos, cell->row->pos);
+
+#ifdef DEBUG_EVALUATION
+		printf ("\nDepends for %s:%s :\n",
+			cell->sheet->name,
+			cell_name(cell->col->pos, cell->row->pos));
+#endif
 
 		for (l = deps; l; l = l->next){
 			Cell *one_cell;
 
 			one_cell = l->data;
-			if (one_cell->generation != generation)
+			if (one_cell->generation != generation){
 				cell_queue_recalc (one_cell);
+#ifdef DEBUG_EVALUATION
+				printf ("\t%s:%s,\n",
+					one_cell->sheet->name,
+					cell_name(one_cell->col->pos,
+						  one_cell->row->pos));
+#endif
+			}
 		}
 		g_list_free (deps);
 	}

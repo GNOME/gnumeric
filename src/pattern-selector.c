@@ -12,8 +12,8 @@
 #include "gnumeric-sheet.h"
 #include "pattern-selector.h"
 
-#define PIXS_PER_SQUARE 30
-#define BORDER 4
+#define PIXS_PER_SQUARE 25
+#define BORDER 3
 
 void
 pattern_selector_select (PatternSelector *ps, int pattern)
@@ -24,8 +24,8 @@ pattern_selector_select (PatternSelector *ps, int pattern)
 	g_return_if_fail (IS_PATTERN_SELECTOR (ps));
 	g_return_if_fail (pattern >= 0 && pattern < GNUMERIC_SHEET_PATTERNS);
 
-	x = pattern % 7;
-	y = pattern / 7;
+	x = pattern % 6;
+	y = pattern / 6;
 	
 	if (ps->selector == NULL){
 		ps->selector = gnome_canvas_item_new (
@@ -56,8 +56,10 @@ pattern_selector_new (int initial_pattern)
 	ps = gtk_type_new (pattern_selector_get_type ());
 	canvas = GNOME_CANVAS (ps);
 	
-	gtk_widget_set_usize (GTK_WIDGET (canvas), 7*PIXS_PER_SQUARE, 2*PIXS_PER_SQUARE);
-	gnome_canvas_set_scroll_region (canvas, 0, 0, 7*PIXS_PER_SQUARE, 2*PIXS_PER_SQUARE);
+	gtk_widget_set_usize (GTK_WIDGET (canvas),
+			      6*PIXS_PER_SQUARE, 3*PIXS_PER_SQUARE);
+	gnome_canvas_set_scroll_region (canvas, 0, 0,
+					6*PIXS_PER_SQUARE, 3*PIXS_PER_SQUARE);
 	gnome_canvas_set_pixels_per_unit (canvas, 1.0);
 
 	pattern_selector_select (ps, initial_pattern);
@@ -97,9 +99,14 @@ pattern_selector_init (PatternSelector *pattern_selector)
 		GnomeCanvasRE *item;
 		int x, y;
 
-		x = i % 7;
-		y = i / 7;
+		x = i % 6;
+		y = i / 6;
 
+		/*
+		 * TODO TODO TODO
+		 * 1) How to make the background of the stipples white ?
+		 * 2) How to not have the border impinge upon the patterns
+		 */
 		stipple = gdk_bitmap_create_from_data (
 			NULL, gnumeric_sheet_patterns [i].pattern, 8, 8);
 		item = GNOME_CANVAS_RE (gnome_canvas_item_new (
@@ -110,14 +117,14 @@ pattern_selector_init (PatternSelector *pattern_selector)
 			"x2",           (double) (x + 1) * PIXS_PER_SQUARE - BORDER,
 			"y2",           (double) (y + 1) * PIXS_PER_SQUARE - BORDER,
 			"fill_color",   "black",
-			"width_pixels", (int) 1,
-			"outline_color","black",
+			"width_pixels", (int) 0,
 			"fill_stipple",  stipple,
 			NULL));
 
 		gdk_bitmap_unref (stipple);
 		gtk_signal_connect (GTK_OBJECT (item), "event",
-				    GTK_SIGNAL_FUNC (click_on_pattern), GINT_TO_POINTER (i));
+				    GTK_SIGNAL_FUNC (click_on_pattern),
+				    GINT_TO_POINTER (i));
 	}
 }
 
