@@ -846,7 +846,6 @@ change_menu_sensitivity (WorkbookControlGUI const *wbcg,
 static void
 change_menu_label (WorkbookControlGUI const *wbcg,
 		   char const *verb_path,
-		   char const *menu_path, /* FIXME we need verb level labels. */
 		   char const *prefix,
 		   char const *suffix)
 {
@@ -859,7 +858,7 @@ change_menu_label (WorkbookControlGUI const *wbcg,
 	CORBA_exception_init (&ev);
 
 	if (prefix == NULL) {
-		bonobo_ui_component_set_prop (wbcg->uic, menu_path, "label",
+		bonobo_ui_component_set_prop (wbcg->uic, verb_path, "label",
 					      suffix, &ev);
 	} else {
 		if (suffix == NULL) {
@@ -869,7 +868,7 @@ change_menu_label (WorkbookControlGUI const *wbcg,
 
 		text = g_strdup_printf ("%s : %s", prefix, suffix);
 
-		bonobo_ui_component_set_prop (wbcg->uic, menu_path,
+		bonobo_ui_component_set_prop (wbcg->uic, verb_path,
 					      "label", text, &ev);
 		bonobo_ui_component_set_prop (wbcg->uic, verb_path,
 					      "sensitive", sensitive ? "1" : "0", &ev);
@@ -961,7 +960,7 @@ wbcg_menu_state_update (WorkbookControl *wbc, Sheet const *sheet, int flags)
 				   NULL, label);
 #else
 		change_menu_label (wbcg, "/commands/ViewFreezeThawPanes",
-		                   "/menu/View/ViewFreezeThawPanes", NULL, label);
+		                   NULL, label);
 #endif
 	}
 }
@@ -1021,10 +1020,8 @@ wbcg_undo_redo_labels (WorkbookControl *wbc, char const *undo, char const *redo)
 	change_menu_label (wbcg->menu_item_undo, _("Undo"), undo);
 	change_menu_label (wbcg->menu_item_redo, _("Redo"), redo);
 #else
-	change_menu_label (wbcg, "/commands/EditUndo", "/menu/Edit/Undo",
-			   _("_Undo"), undo);
-	change_menu_label (wbcg, "/commands/EditRedo", "/menu/Edit/Redo",
-			   _("_Redo"), redo);
+	change_menu_label (wbcg, "/commands/EditUndo", _("_Undo"), undo);
+	change_menu_label (wbcg, "/commands/EditRedo", _("_Redo"), redo);
 #endif
 }
 

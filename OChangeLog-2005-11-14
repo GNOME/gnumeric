@@ -1,3 +1,10 @@
+2001-11-02  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-control-gui.c (change_menu_label) : Verb level labels
+	  appear to work now.
+	(wbcg_menu_state_update) : ditto.
+	(wbcg_undo_redo_labels) : ditto.
+
 2001-11-02  Morten Welinder  <terra@diku.dk>
 
 	* src/mathfunc.c (ML_NAN, ML_NEGINF, ML_POSINF): Attemp better
