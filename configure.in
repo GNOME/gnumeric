@@ -524,20 +524,44 @@ AC_SUBST(STRIP_BEGIN)
 AC_SUBST(STRIP_END)
 
 # i18n stuff
-# TRANSLATORS:  Please note that gtk+ has both po/ and po-functions/
-# directories.  If you add a new language to ALL_LINGUAS, please make
-# sure that both po/ and po-functions/ have .po files that correspond
-# to your language.  If you only add one to po/, the build will break
-# in po-functions/.
-ALL_LINGUAS="am az bg ca cs da de el en_CA en_GB es et fi fr ga gl he hr hu it ja ko lv ml mr ms nb nl nn no pl pt pt_BR ro ru sk sr sr@Latn sv tr uk vi zh_CN zh_TW"
-AC_SUBST(ALL_LINGUAS)
+ifelse([
 
-GETTEXT_PACKAGE=gnumeric
-AC_SUBST(GETTEXT_PACKAGE)
+  TRANSLATORS:
+  Please note that gtk+ has both po/ and po-functions/ directories.
+  If you add a new language to ALL_LINGUAS, please make sure that both
+  po/ and po-functions/ have .po files that correspond to your language.
+  If you only add one to po/, the build will break in po-functions/.
+])
+AC_SUBST(ALL_LINGUAS,
+"am az bg ca cs da de el en_CA en_GB es et fi fr ga gl he hr hu it ja ko lv ml mr ms nb nl nn no pl pt pt_BR ro ru sk sr sr@Latn sv tr uk vi zh_CN zh_TW")
+
+
+AC_SUBST(GETTEXT_PACKAGE, gnumeric)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE",
 	[The package name, for gettext]
 )
 AM_GLIB_GNU_GETTEXT
+
+#   Create po-functions/POTFILES.
+dnl
+dnl Note that po/POTFILES is also created by configure, not by config.status.
+dnl In fact, it is created in two iterations: first step was done just above
+dnl by AM_GLIB_GNU_GETTEXT, while the second step, which comes from
+dnl intltool.m4, is executed just before the creation of config.status.
+dnl (But po-functions/POTFILES is created in one step, here.)
+[
+  test -d po-functions || mkdir po-functions
+  rm -f po-functions/POTFILES
+  case "$srcdir" in
+	.)  top_srcdir=.. ;;
+	[\\/]* | ?:[\\/]* )  # Absolute name.
+		top_srcdir="$srcdir" ;;
+	*)  top_srcdir="../$srcdir" ;;
+  esac
+  sed <"$srcdir/po-functions/POTFILES.in" -e '/^#/d' -e 's/^[[].*[]] *//' \
+	 -e '/^[   ]*$/d' -e "s,^,       $top_srcdir/," | \
+        sed -e '$!s/$/ \\/' >po-functions/POTFILES
+]
 AC_OUTPUT_COMMANDS([case "$CONFIG_FILES" in *po-functions/Makefile.in*)
         sed -e "/POTFILES =/r po-functions/POTFILES" po-functions/Makefile.in > po-functions/Makefile
       esac])

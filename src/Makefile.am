@@ -1,5 +1,5 @@
 #
-# Gnumeric's Makefile.
+# Gnumeric's Makefile.am
 # Author: Miguel de Icaza (miguel@kernel.org)
 
 SUBDIRS = tools cut-n-paste-code
@@ -32,15 +32,17 @@ INCLUDES = 								\
 	-I$(top_srcdir)/src/cut-n-paste-code/foocanvas			\
 	$(GNUMERIC_CFLAGS)
 
-CLEANFILES = gnumeric-paths.h gnumeric.exe.a
-
+# A hint is needed to build these headers first:
 BUILT_SOURCES =					\
 	gnm-marshalers.h			\
-	gnm-marshalers.c			\
 	gnumeric-paths.h
 
+CLEANFILES = $(BUILT_SOURCES)			\
+	gnm-marshalers.c			\
+	gnumeric.exe.a
+
 GNUMERIC_BASE =					\
-	$(BUILT_SOURCES)			\
+	gnm-marshalers.list			\
 	application.c				\
 	application.h				\
 	auto-format.c				\
@@ -271,14 +273,14 @@ GNUMERIC_GNOME = 				\
 	sheet-object-item.c			\
 	sheet-object-item.h
 
-# old dead code that is archived in cvs
-# it was disabled when we jumped to GtkAction
-#	wbc-bonobo.c				\
-#	workbook-control-component.c		\
-#	workbook-control-component.h 		\
-#	workbook-control-component-priv.h
+## old dead code that is archived in cvs
+## it was disabled when we jumped to GtkAction
+##	wbc-bonobo.c				\
+##	workbook-control-component.c		\
+##	workbook-control-component.h 		\
+##	workbook-control-component-priv.h
 
-GNUMERIC_SOURCE	= $(GNUMERIC_BASE)
+GNUMERIC_SOURCE = $(GNUMERIC_BASE)
 
 gnumeric_SOURCES =				\
 	$(GNUMERIC_SOURCE)			\
@@ -325,20 +327,24 @@ ssindex_SOURCES =				\
 	$(GNUMERIC_SOURCE)			\
 	ssindex.c
 
-#test_pango_LDADD   = $(gnumeric_LDADD)
-#test_pango_LDFLAGS = -export-dynamic
-#test_pango_SOURCES =				\
-#	$(GNUMERIC_SOURCE) 			\
-#	test-pango.c
+##test_pango_LDADD   = $(gnumeric_LDADD)
+##test_pango_LDFLAGS = -export-dynamic
+##test_pango_SOURCES =				\
+##	$(GNUMERIC_SOURCE) 			\
+##	test-pango.c
+##nodist_test_pango_SOURCES = $(nodist_gnumeric_SOURCES)
 
-gnm-marshalers.h : gnm-marshalers.list $(GLIB_GENMARSHAL)
-	$(GLIB_GENMARSHAL) $< --header --prefix=gnm_ > $@
-gnm-marshalers.c : gnm-marshalers.list $(GLIB_GENMARSHAL)
-	$(GLIB_GENMARSHAL) $< --body --prefix=gnm_ > $@.tmp
-	echo '/* This file has been automatically generated.  Do not edit.  */' >$@
-	echo '#include "'$*.h'"' >>$@
-	cat $@.tmp >>$@
-	rm -f $@.tmp
+# Rules for the marshalers code:
+GENMARSHAL_COMMAND = $(GLIB_GENMARSHAL) --prefix=gnm_
+SUFFIXES = .list
+
+.list.h: $(GLIB_GENMARSHAL)
+	$(GENMARSHAL_COMMAND) --header $< >$@
+
+.list.c: $(GLIB_GENMARSHAL)
+	(echo '/* This file has been automatically generated.  Do not edit. */' && \
+	echo '#include "$*.h"' && \
+	$(GENMARSHAL_COMMAND) --body $< ) >$@
 
 gnumeric-paths.h: gnumeric-paths.sh
 	@sh $< > $@.tmp ;					\
@@ -362,28 +368,22 @@ uninstall-hook:
 	-cd $(DESTDIR)$(bindir) && \
 	rm -f gnumeric-$(VERSION)$(EXEEXT)
 
-# do not include the paths in the tarball
-dist-hook :
-	-rm -f $(distdir)/gnumeric-paths.h $(distdir)/gnumeric-paths.sh
-
 # include conditional files to ensure everything gets distributed no matter
 # what the build
 EXTRA_DIST = GNOME_Gnumeric-gtk.xml.in				\
-	    gnm-marshalers.list	                        	\
-	    main-application.c 					\
 	    main-component.c					\
 	    $(GNUMERIC_GNOME) README.gnm_float			\
-	    gnumeric-paths.sh.in ssconvert.c ssindex.c gnumeric.rc
+	    gnumeric-paths.sh.in gnumeric.rc
 
 DISTCLEANFILES = GNOME_Gnumeric-gtk.xml
 
-#number_match_SOURCES = number-match.c  formats.c dates.c number-match-test.c
+##number_match_SOURCES = number-match.c  formats.c dates.c number-match-test.c
 
-#number_match_LDADD = 			\
-#	$(GNOME_LIBDIR) 		\
-#	$(GNOMEUI_LIBS)			\
-#	$(GNOME_XML_LIB) 		\
-#	$(INTLLIBS)
+##number_match_LDADD = 			\
+##	$(GNOME_LIBDIR) 		\
+##	$(GNOMEUI_LIBS)			\
+##	$(GNOME_XML_LIB) 		\
+##	$(INTLLIBS)
 
 gtkactiondir=$(gnumeric_datadir)
 gtkaction_DATA = GNOME_Gnumeric-gtk.xml
@@ -391,18 +391,19 @@ gtkaction_DATA = GNOME_Gnumeric-gtk.xml
 GNOME_Gnumeric-gtk.xml: GNOME_Gnumeric-gtk.xml.in
 	sed -e 's/ _name *=/ name=/' <$<  >$@
 
-# Bonobo requires things to be in a subdir of this form
-#bonobo_component_uidir=$(gnumeric_datadir)/gnome-2.0/ui
-#bonobo_component_ui_DATA = GNOME_Gnumeric.xml GNOME_Gnumeric_Component.xml
-#if ENABLE_BONOBO_COMPONENT
-#libexec_PROGRAMS = gnumeric-component
-#gnumeric_component_SOURCES =			\
-#	$(GNUMERIC_SOURCE)			\
-#	main-component.c
-#
-#gnumeric_component_LDADD = $(gnumeric_LDADD)
-#
-#gnumeric_component_LDFLAGS = -export-dynamic
-#
-#gnumeric_component_app_libs = $(gnumeric_app_libs)
-#endif
+## Bonobo requires things to be in a subdir of this form
+##bonobo_component_uidir=$(gnumeric_datadir)/gnome-2.0/ui
+##bonobo_component_ui_DATA = GNOME_Gnumeric.xml GNOME_Gnumeric_Component.xml
+##if ENABLE_BONOBO_COMPONENT
+##libexec_PROGRAMS = gnumeric-component
+##gnumeric_component_SOURCES =			\
+##	$(GNUMERIC_SOURCE)			\
+##	main-component.c
+##nodist_gnumeric_component_SOURCES = $(nodist_gnumeric_SOURCES)
+##
+##gnumeric_component_LDADD = $(gnumeric_LDADD)
+##
+##gnumeric_component_LDFLAGS = -export-dynamic
+##
+##gnumeric_component_app_libs = $(gnumeric_app_libs)
+##endif

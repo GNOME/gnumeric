@@ -1,7 +1,7 @@
 noinst_LTLIBRARIES = libgoffice-utils.la
 
 libgoffice_utils_la_SOURCES =	\
-	$(BUILT_SOURCES)	\
+	go-marshalers.list	\
 	\
 	goffice-utils.h		\
 	go-color.c		\
@@ -42,19 +42,22 @@ libgoffice_utils_la_SOURCES =	\
 	go-libxml-extras.c	\
 	go-libxml-extras.h
 
-go-marshalers.h : go-marshalers.list $(GLIB_GENMARSHAL)
-	$(GLIB_GENMARSHAL) $< --header --prefix=go_ > $@
-go-marshalers.c : go-marshalers.list $(GLIB_GENMARSHAL)
-	$(GLIB_GENMARSHAL) $< --body --prefix=go_ > $@.tmp
-	echo '/* This file has been automatically generated.  Do not edit.  */' >$@
-	echo '#include "'$*.h'"' >>$@
-	cat $@.tmp >>$@
-	rm -f $@.tmp
-
-BUILT_SOURCES =				\
-	go-marshalers.h			\
+CLEANFILES =			\
+	go-marshalers.h		\
 	go-marshalers.c
 
-EXTRA_DIST = go-marshalers.list
+# A hint is needed to build the header first:
+BUILT_SOURCES = go-marshalers.h
+
+GENMARSHAL_COMMAND = $(GLIB_GENMARSHAL) --prefix=go_
+SUFFIXES = .list
+
+.list.h: $(GLIB_GENMARSHAL)
+	$(GENMARSHAL_COMMAND) --header $< >$@
+
+.list.c: $(GLIB_GENMARSHAL)
+	(echo '/* This file has been automatically generated.  Do not edit. */' && \
+	echo '#include "$*.h"' && \
+	$(GENMARSHAL_COMMAND) --body $< ) >$@
 
 include $(srcdir)/../goffice.mk

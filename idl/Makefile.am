@@ -52,12 +52,12 @@ CLEANFILES  = $(nodist_libGnumericIDL_a_SOURCES) \
 		stamp_Gnumeric_idl stamp_evolution_idl
 
 1.
-Franti¹ek Listopad
+Frantisek Listopad
 
-Bùh belhá klopýtá
-z komory do kuchynì
-vaøí bramboraèku
-opláchne starou l¾íci
+Buh belha klopyta
+z komory do kuchyne
+vari bramboracku
+oplachne starou lzici
 sedne si u okna
-dívá si udivenì
+diva si udivene
 To jsem to dopracoval

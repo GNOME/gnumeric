@@ -1,3 +1,11 @@
+2005-02-22  Stepan Kasal  <kasal@ucw.cz>
+
+	* configure.in: Fix creation of po-functions/POTFILES.
+	* src/Makefile.am: Fix declarations for generated sources.
+	* src/cut-n-paste-code/goffice/utils/Makefile.am: Likewise.
+	* plugins/corba/Makefile.am: Likewise.
+	* idl/Makefile.am: Likewise.
+
 2005-02-18  Morten Welinder  <terra@gnome.org>
 
 	* src/stf-parse.c (count_character): Ignore completely empty
