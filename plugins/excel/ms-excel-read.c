@@ -4707,7 +4707,7 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 		link = g_object_new (gnm_hlink_cur_wb_get_type (), NULL);
 		gnm_hlink_set_target (link, target);
 	} else {
-		g_warning ("Unknown hlink type");
+		g_warning ("Unknown hlink type 0x%x", options);
 	}
 
 #if 0
