@@ -34,7 +34,7 @@
 #include "print.h"
 #include "print-cell.h"
 #include "application.h"
-
+#include "sheet-style.h"
 
 extern int print_debugging;
 
