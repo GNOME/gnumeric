@@ -1,13 +1,15 @@
 1999-10-05  Jody Goldberg <jgoldberg@home.com>
 	From : Jon K Hellan  <Jon.K.Hellan@item.ntnu.no>
 
+	* src/plugin-manager.c (plugin_manager_new): 
+	  Go away on <Esc>, set initial focus.
+
 	* src/dialogs/sheet-rename.glade: Made OK button default.
 
-	* dialog-simple-input.c
-	(dialog_get_number) : gnome_dialog_run instead of run_and_close -
-	  otherwise entry widget is destroyed before it is read.  Make
-	  <Enter> in entry field activate default button.
-	(dialog_get_sheet_name) : As above
+	* dialog-simple-input.c (dialog_get_number): gnome_dialog_run instead
+	  of run_and_close - otherwise entry widget is destroyed before it is
+	  read.  Make <Enter> in entry field activate default button.
+	(dialog_get_sheet_name) : Ditto.
 
 	* src/workbook.c (workbook_rename_sheet): Update notebook label
 
