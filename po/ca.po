@@ -11,12 +11,948 @@ msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-02-12 12:32-0500\n"
-"PO-Revision-Date: 2005-1-5 18:34+0100\n"
+"PO-Revision-Date: 2005-03-25 18:48+0100\n"
 "Last-Translator: Softcatalà <tradgnome@softcatala.org>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: plugins/derivatives/options.c:2258 plugins/derivatives/options.c:2263
+#: plugins/derivatives/options.c:2268 plugins/derivatives/options.c:2273
+#: plugins/derivatives/options.c:2288
+msgid "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry"
+msgstr ""
+
+#: plugins/derivatives/options.c:2278 plugins/derivatives/options.c:2283
+msgid "spot, strike, time, rate, volatility, cost_of_carry"
+msgstr ""
+
+#: plugins/derivatives/options.c:2298
+msgid ""
+"call_put_flag, spot, strike, time, domestic_rate, foreign_rate, volatility"
+msgstr ""
+
+#: plugins/derivatives/options.c:2303
+msgid "call_put_flag, spot, strike, time, t2, rate, volatility, cost of carry"
+msgstr ""
+
+#: plugins/derivatives/options.c:2308
+msgid "call_put_flag, spot, strike, time, rate, volatility, lambda, gamma"
+msgstr ""
+
+#: plugins/derivatives/options.c:2313
+msgid ""
+"call_put_flag, spot, strike, time, rate, volatility, cost_of_carry, lambda"
+msgstr ""
+
+#: plugins/derivatives/options.c:2318 plugins/derivatives/options.c:2328
+msgid "call_put_flag, spot, strike, time, rate, cost_of_carry, volatility"
+msgstr ""
+
+#: plugins/derivatives/options.c:2323
+msgid ""
+"call_put_flag, p_t, f_t, x, t1, t2, v_s, v_e, v_f, rho_se, rho_sf, rho_ef, "
+"kappa_e, kappa_f)"
+msgstr ""
+
+#: plugins/derivatives/options.c:2333
+msgid "call_put_flag, spot, strike, t1, t2, rate, d, volatility"
+msgstr ""
+
+#: plugins/derivatives/options.c:2338
+msgid ""
+"call_put_flag, spot, alpha, time1, time, rate, volatility, cost_of_carry"
+msgstr ""
+
+#: plugins/derivatives/options.c:2343
+msgid ""
+"call_put_flag, spot, strike, a, time, m, dt, rate, cost_of_carry, volatility"
+msgstr ""
+
+#: plugins/derivatives/options.c:2348
+msgid "spot, strike, time1, time2, rate, cost_of_carry, volatility"
+msgstr ""
+
+#: plugins/derivatives/options.c:2353
+msgid ""
+"spot, strike_call, strike_put, time, time_call, time_put, rate, "
+"cost_of_carry, volatility"
+msgstr ""
+
+#: plugins/derivatives/options.c:2358 plugins/derivatives/options.c:2363
+msgid ""
+"type_flag, spot, strike1, strike2, time1, time2, rate, cost_of_carry, "
+"volatility"
+msgstr ""
+
+#: plugins/derivatives/options.c:2368
+msgid ""
+"type_flag, spot1, spot2, strike1, strike2, time, cost_of_carry1, "
+"cost_of_carry2, rate, volatility1, volatility2, rho"
+msgstr ""
+
+#: plugins/derivatives/options.c:2373 plugins/derivatives/options.c:2378
+msgid ""
+"spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,cost_of_carry2,volatility1,"
+"volatility2,rho"
+msgstr ""
+
+#: plugins/derivatives/options.c:2383
+msgid ""
+"call_put_flag,fut_price1,fut_price2,strike,time, rate,volatility1,"
+"volatility2,rho"
+msgstr ""
+
+#: plugins/derivatives/options.c:2388
+msgid "call_put_flag,spot,spot_min,spot_max,time,rate,cost_of_carry,volatility"
+msgstr ""
+
+#: plugins/derivatives/options.c:2393
+msgid ""
+"call_put_flag,spot,spot_min,spot_max,strike,time,rate,cost_of_carry,"
+"volatility"
+msgstr ""
+
+#: plugins/derivatives/options.c:2399
+msgid ""
+"amer_euro_flag,call_put_flag,num_time_steps, spot, strike, time, rate, "
+"volatility, cost_of_carry"
+msgstr ""
+
+# src/functions/fn-financial.c:2153
+#: plugins/derivatives/plugin.xml.in.h:1
+#: plugins/fn-financial/plugin.xml.in.h:1
+#: plugins/sample_datasource/plugin.xml.in.h:2
+msgid "Finance"
+msgstr "Finances"
+
+#: plugins/excel/ms-excel-read.c:3024
+#, c-format
+msgid ""
+"DDE links are not supported.\n"
+"Name '%s' will be lost.\n"
+msgstr ""
+"Els enllaços DDE no estan implementats.\n"
+"Es perdrà el nom '%s'.\n"
+
+#: plugins/excel/ms-excel-read.c:3030
+#, c-format
+msgid ""
+"OLE links are not supported.\n"
+"Name '%s' will be lost.\n"
+msgstr ""
+"Els enllaços OLE no estan implementats.\n"
+"Es perdrà el nom '%s'.\n"
+
+#: plugins/excel/ms-excel-write.c:4214
+#, c-format
+msgid ""
+"Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
+"d rows, and this workbook has %d"
+msgstr ""
+"Alguns continguts es perdran si es desa com a MS Excel (tm) 95. Només es "
+"permeten %d files, i aquest full en té %d"
+
+#: plugins/excel/ms-excel-write.c:4221
+#, c-format
+msgid ""
+"Some content will be lost when saving as MS Excel (tm). It only supports %d "
+"rows, and this workbook has %d"
+msgstr ""
+"Alguns continguts es perdran si es desa com a MS Excel (tm). Només es "
+"permeten %d files, i aquest full en té %d"
+
+#: plugins/excel/ms-formula-write.c:535
+#, c-format
+msgid ""
+"Too many arguments for function '%s', MS Excel expects exactly %d and we "
+"have %d"
+msgstr ""
+"Massa paràmetres per a la funció '%s'. MS Excel espera exactament %d però "
+"n'hi ha %d"
+
+#: plugins/excel/ms-formula-write.c:536
+#, c-format
+msgid ""
+"Too many arguments for function '%s', MS Excel can only handle %d not %d"
+msgstr ""
+"Massa paràmetres per a la funció '%s'. MS Excel només pot gestionar-ne %d, "
+"no %d"
+
+#
+#: plugins/excel/plugin.xml.in.h:6
+msgid "MS Excel (tm) 97/2000/XP &amp; 5.0/95"
+msgstr "MS Excel (tm) 97/2000/XP i 5.0/95"
+
+#: plugins/excel/plugin.xml.in.h:7
+msgid "MS Excel (tm) SpreadsheetML"
+msgstr "MS Excel (tm) SpreadsheetML"
+
+#: plugins/fn-erlang/functions.c:333 plugins/fn-erlang/functions.c:338
+msgid "traffic,circuits"
+msgstr ""
+
+#: plugins/fn-erlang/functions.c:343
+msgid "traffic,gos"
+msgstr ""
+
+#: plugins/fn-erlang/functions.c:348
+msgid "circuits,gos"
+msgstr ""
+
+#: plugins/fn-erlang/plugin.xml.in.h:1
+msgid "Erlang"
+msgstr "Erlang"
+
+#
+#: plugins/fn-erlang/plugin.xml.in.h:2
+msgid "Erlang Functions"
+msgstr "Funcions d'Erlang"
+
+#: plugins/fn-erlang/plugin.xml.in.h:3
+msgid "Functions to help Erlang Analysis"
+msgstr "Funcions d'ajuda per a l'anàlisi d'Erlang"
+
+# src/functions/fn-logical.c:231
+#: plugins/fn-logical/plugin.xml.in.h:2
+msgid "Logic"
+msgstr "Lògiques"
+
+#
+#: plugins/fn-logical/plugin.xml.in.h:3
+msgid "Logic Functions"
+msgstr "Funcions lògiques"
+
+#
+#: plugins/fn-math/plugin.xml.in.h:3 src/func-builtin.c:157
+msgid "Mathematics"
+msgstr "Matemàtiques"
+
+#: plugins/fn-random/functions.c:1232
+msgid "a,b,type"
+msgstr "a,b,tipus"
+
+#: plugins/fn-random/functions.c:1244
+msgid "c,alpha,beta"
+msgstr "c,alfa,beta"
+
+#: plugins/fn-random/functions.c:1283
+msgid "d1,d2,...,dN"
+msgstr "d1,d2,...,dN"
+
+#: plugins/fn-stat/functions.c:5987
+msgid "x,dof of num,dof of denom"
+msgstr ""
+
+#: plugins/fn-stat/functions.c:5990
+msgid "p,dof of num,dof of denom"
+msgstr ""
+
+#: plugins/fn-stat/functions.c:6028
+msgid "x,n,M,N,cumulative"
+msgstr "x,n,M,N,acumulatiu"
+
+#: plugins/fn-string/functions.c:1259
+msgid "search_string,text,start_num"
+msgstr ""
+
+#
+#: plugins/gda/plugin-gda.c:99
+msgid "Database Connection"
+msgstr "Connexió de base de dades"
+
+#: plugins/html/plugin.xml.in.h:1
+msgid "HTML &amp; TeX"
+msgstr "HTML i TeX"
+
+#
+#: plugins/html/plugin.xml.in.h:3
+msgid "HTML (*.html, *.htm)"
+msgstr "HTML (*.html, *.htm)"
+
+#
+#: plugins/html/plugin.xml.in.h:9
+msgid "XHTML (*.html)"
+msgstr "XHTML (*.html)"
+
+#
+#: plugins/lotus-123/plugin.xml.in.h:3
+msgid "Lotus 123 (*.wk1, *.wks, *.123)"
+msgstr "Lotus 123 (*.wk1, *.wks, *.123)"
+
+#: plugins/openoffice/openoffice-read.c:1446
+msgid "No stream named styles.xml found."
+msgstr "No s'ha trobat el fluxe de dades anomenat styles.xml."
+
+#: plugins/openoffice/openoffice-write.c:121
+#, c-format
+msgid ""
+"Some content will be lost when saving as OpenOffice .sxc. It only supports %"
+"d rows, and sheet '%s' has %d"
+msgstr ""
+"Alguns continguts es perdran si es desa com a .sxc d'OpenOffice. Només "
+"permet %d files, i aquest full («%s») en té %d"
+
+#: plugins/openoffice/openoffice-write.c:128
+#, c-format
+msgid ""
+"Some content will be lost when saving as OpenOffice .sxc. It only supports %"
+"d columns, and sheet '%s' has %d"
+msgstr ""
+"Alguns continguts es perdran si es desa com a .sxc d'OpenOffice(tm). Només "
+"permet %d columnes, i aquest full («%s») en té %d"
+
+#: plugins/openoffice/plugin.xml.in.h:4
+msgid "OpenOffice OASIS _UNFINISHED_"
+msgstr "OpenOffice OASIS _SENSE ACABAR_"
+
+#: plugins/paradox/paradox.c:72 plugins/paradox/paradox.c:121
+msgid "Error while opening paradox file."
+msgstr "S'ha produït un error en obrir el fitxer paradox."
+
+#
+#: plugins/paradox/paradox.c:119
+msgid "Could not allocate memory for record."
+msgstr "No s'ha pogut assignar memòria per al registre."
+
+#: plugins/paradox/paradox.c:219
+#, c-format
+msgid "Field type %d is not supported."
+msgstr "El tipus de camp %d no està implementat."
+
+#: plugins/paradox/plugin.xml.in.h:1
+msgid "Imports Paradox files"
+msgstr "Importa fitxers Paradox"
+
+#
+#: plugins/paradox/plugin.xml.in.h:2
+msgid "Paradox"
+msgstr "Paradox"
+
+#: plugins/paradox/plugin.xml.in.h:3
+msgid "Paradox database or primary index file"
+msgstr "Base de dades Paradox o fitxer d'índex primari"
+
+#
+#: plugins/perl/ext/Gnumeric.xs:144
+msgid "Perl plugin"
+msgstr "Connector de Perl"
+
+#
+#: plugins/perl-func/plugin.xml.in.h:2
+msgid "Perl functions"
+msgstr "Funcions de Perl"
+
+#: plugins/perl-func/plugin.xml.in.h:3
+msgid "Sample Perl plugin providing some (useless) functions."
+msgstr "Connector Perl amb funcions d'exemple."
+
+#: plugins/perl-loader/perl-loader.c:108
+msgid "Module name not given."
+msgstr "No s'ha donat el nom del mòdul."
+
+#: plugins/perl-loader/perl-loader.c:134
+msgid "perl_func.pl doesn't exist."
+msgstr "No existeix perl_func.pl."
+
+#: plugins/perl-loader/perl-loader.c:178 plugins/perl-loader/perl-loader.c:197
+#, c-format
+msgid "Perl error: %s\n"
+msgstr "Error de perl: %s\n"
+
+#
+#: plugins/perl-loader/perl-loader.c:256
+msgid "Perl error: "
+msgstr "Error de Perl: "
+
+#
+#: plugins/perl-loader/plugin.xml.in.h:1
+msgid "Perl plugin loader"
+msgstr "Carregador del connector de Perl"
+
+#: plugins/qpro/plugin.xml.in.h:2
+msgid "Quatro Pro (*.wb1, *.wb2, *.wb3)"
+msgstr "Quatro Pro (*.wb1, *.wb2, *.wb3)"
+
+# fitxer: schemas.ca.po
+#: schemas/gnumeric-dialogs.schemas.in.h:66
+msgid ""
+"This value determines the default number of pages a printout of the current "
+"sheet is suppposed to be high. 0 disables scaling. Please use the Print "
+"Setup dialog to edit this value."
+msgstr ""
+
+# fitxer: schemas.ca.po
+#: schemas/gnumeric-dialogs.schemas.in.h:67
+msgid ""
+"This value determines the default number of pages a printout of the current "
+"sheet is suppposed to be wide. 0 disables scaling. Please use the Print "
+"Setup dialog to edit this value."
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/app/file.c:513
+msgid "Not a valid UTF-8 filename."
+msgstr "No és un nom de fitxer UTF-8 válid."
+
+# fitxer: src.ca.po.4
+#: src/cut-n-paste-code/goffice/app/go-plugin-loader.c:107
+#: src/cut-n-paste-code/goffice/app/go-plugin-loader.c:145
+#, c-format
+msgid "Service '%s' not supported by l."
+msgstr ""
+
+# fitxer: src.ca.po.9
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1464
+msgid "Categories between _ticks"
+msgstr ""
+
+#
+# fitxer: src.ca.po.9
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1466
+msgid "_Cross at category #"
+msgstr ""
+
+# fitxer: src.ca.po.9
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1477
+msgid "Ma_jor Ticks"
+msgstr ""
+
+# fitxer: src.ca.po.9
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1478
+msgid "Mi_nor Ticks"
+msgstr ""
+
+# fitxer: src.ca.po.9
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1479
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:7
+msgid "_Cross"
+msgstr ""
+
+# fitxer: src.ca.po.9
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1539
+msgid "MinorGrid"
+msgstr ""
+
+# fitxer: src.ca.po.9
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1542
+msgid "MajorGrid"
+msgstr ""
+
+# fitxer: src.ca.po.9
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:1
+msgid "<b>Major ticks</b>"
+msgstr ""
+
+# fitxer: src.ca.po.9
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:3
+msgid "<b>Minor ticks</b>"
+msgstr ""
+
+# fitxer: src.ca.po.11
+#. Guppi
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:534
+msgid "Guppi"
+msgstr "Guppi"
+
+# fitxer: src.ca.po.11
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:3
+msgid "How far the bars/cols overlap as a percentage of the width"
+msgstr ""
+
+#
+# fitxer: src.ca.po.9
+#. xgettext : the base for how to name box-plot objects
+#. * eg The 2nd box-plot in a chart will be called
+#. * 	BoxPlot2
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/gog-boxplot.c:103
+msgid "Box-Plot"
+msgstr "Box-Plot"
+
+# fitxer: src.ca.po.4
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/gog-boxplot.c:340
+msgid "Invalid data."
+msgstr "Dades no vàlides."
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plot-types.xml.in.h:1
+msgid ""
+"Box-Plot. You must provide five values to the plot engine in this order: "
+"minimum, first quartile, median, third quartile, and maximum, not the raw "
+"data."
+msgstr ""
+"Box-plot. Heu de proporcionar cinc valors per al motor de dibuix, en aquest "
+"ordre: mínim, primer quartil, mediana, tercer quartil i màxima. No heu de "
+"proporcionar les dades."
+
+#
+# fitxer: src.ca.po.9
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plot-types.xml.in.h:2
+msgid "BoxPlot"
+msgstr "BoxPlot"
+
+#
+# fitxer: src.ca.po.9
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plot-types.xml.in.h:3
+msgid "BoxPlots"
+msgstr "BoxPlots"
+
+#
+# fitxer: src.ca.po.9
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plugin.xml.in.h:1
+msgid "Box-Plots"
+msgstr "Box-Plots"
+
+# fitxer: src.ca.po.10
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plugin.xml.in.h:2
+msgid "Box-plot plotting engine"
+msgstr "Motor de dibuix del box-plot"
+
+# fitxer: src.ca.po.10
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plugin.xml.in.h:3
+msgid "Charting : Box-Plots"
+msgstr "Gràfiques: box-plots"
+
+# fitxer: src.ca.po.10
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:2
+msgid "Interpolate between multi-dimensional points with Bezier splines."
+msgstr "Interpola entre punts multidimensionals amb corbes Bezier."
+
+# fitxer: src.ca.po.10
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:3
+msgid ""
+"Linearly interpolate between multi-dimensional points,with markers at each "
+"point."
+msgstr ""
+"Interpola linealment entre punts multidimensionals, amb marcadors a cada "
+"punt."
+
+# fitxer: src.ca.po.10
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:4
+msgid "Linearly interpolate between multi-dimensional points."
+msgstr "Interpola linealment entre punts multidimensionals."
+
+# fitxer: src.ca.po.10
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:6
+msgid "Multi-dimensional points with circle at each point."
+msgstr "Punts multidimensionals amb cercle a cada punt."
+
+# fitxer: src.ca.po.10
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:12
+msgid "XY Splines"
+msgstr "Corbes XY"
+
+#. xgettext: This text is used as a sample when selecting a font
+#. * please choose a translation that would produce common
+#. * characters specific to the target alphabet.
+#: src/cut-n-paste-code/goffice/gui-utils/go-font-sel.c:446
+msgid "AaBbCcDdEe12345"
+msgstr "AaBbCcDdEe12345"
+
+# fitxer: src.ca.po.4
+#: src/cut-n-paste-code/goffice/utils/formats.c:412
+msgid "Belarus, Rubles"
+msgstr "Bealorús, Rubles"
+
+# fitxer: src.ca.po.3
+#: src/cut-n-paste-code/goffice/utils/formats.c:461
+msgid "Kenya, Shillings"
+msgstr "Kenya, Xílings"
+
+# fitxer: src.ca.po.3
+#: src/cut-n-paste-code/goffice/utils/formats.c:480
+msgid "Madagascar, Malagasy Francs"
+msgstr ""
+
+# fitxer: src.ca.po.3
+#: src/cut-n-paste-code/goffice/utils/formats.c:505
+msgid "Poland, Zlotys"
+msgstr ""
+
+#
+# fitxer: src.ca.po.3
+#: src/cut-n-paste-code/goffice/utils/formats.c:509
+msgid "Russia, Rubles"
+msgstr "Rússia, Rubles"
+
+# fitxer: src.ca.po.3
+#: src/cut-n-paste-code/goffice/utils/formats.c:521
+msgid "Somalia, Shillings"
+msgstr "Somàlia, Xílings"
+
+# fitxer: src.ca.po.3
+#: src/cut-n-paste-code/goffice/utils/formats.c:537
+msgid "Tanzania, Shillings"
+msgstr "Tanzània, Xílings"
+
+# fitxer: src.ca.po.3
+#: src/cut-n-paste-code/goffice/utils/formats.c:539
+msgid "Uganda, Shillings"
+msgstr "Uganfa, Xílings"
+
+# fitxer: src.ca.po.3
+#: src/cut-n-paste-code/goffice/utils/formats.c:547
+msgid "Communaute Financiere Africaine BEAC, Francs"
+msgstr ""
+
+# fitxer: src.ca.po.3
+#: src/cut-n-paste-code/goffice/utils/formats.c:548
+msgid "Silver, Ounces"
+msgstr "Argent, Unces"
+
+# fitxer: src.ca.po.3
+#: src/cut-n-paste-code/goffice/utils/formats.c:549
+msgid "Gold, Ounces"
+msgstr "Or, Unces"
+
+# fitxer: src.ca.po.3
+#: src/cut-n-paste-code/goffice/utils/formats.c:551
+msgid "International Monetary Fund (IMF) Special Drawing Rights"
+msgstr ""
+
+# fitxer: src.ca.po.3
+#: src/cut-n-paste-code/goffice/utils/formats.c:552
+msgid "Communaute Financiere Africaine BCEAO, Francs"
+msgstr ""
+
+# fitxer: src.ca.po.3
+#: src/cut-n-paste-code/goffice/utils/formats.c:553
+msgid "Palladium, Ounces"
+msgstr "Pal·ladi, Unces"
+
+# fitxer: src.ca.po.3
+#: src/cut-n-paste-code/goffice/utils/formats.c:554
+msgid "Comptoirs Francais du Pacifique Francs"
+msgstr ""
+
+# fitxer: src.ca.po.3
+#: src/cut-n-paste-code/goffice/utils/formats.c:555
+msgid "Platinum, Ounces"
+msgstr "Platí, Unces"
+
+# fitxer: src.ca.po.12
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:234
+msgid "hourglass"
+msgstr ""
+
+# fitxer: src.ca.po.11
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:116
+#: src/dialogs/cell-format.glade.h:78
+msgid "Thatch"
+msgstr ""
+
+# fitxer: src.ca.po.13
+#: src/dialogs/consolidate.glade.h:3
+msgid "Data consolidation"
+msgstr ""
+
+# fitxer: src.ca.po.13
+#: src/dialogs/consolidate.glade.h:18
+msgid "The function to use when consolidating"
+msgstr ""
+
+# fitxer: src.ca.po.13
+#: src/dialogs/consolidate.glade.h:19
+msgid ""
+"The left column contains labels, these will not be consolidated, but used as "
+"key for comparison"
+msgstr ""
+
+# fitxer: src.ca.po.13
+#: src/dialogs/consolidate.glade.h:20
+msgid ""
+"The top row contains labels, these will not be consolidated, but used as key "
+"for comparison"
+msgstr ""
+
+#
+# fitxer: src.ca.po.12
+#: src/dialogs/dao.glade.h:5 src/dialogs/dialog-advanced-filter.c:197
+msgid "Filter _in-place"
+msgstr ""
+
+# fitxer: src.ca.po.12
+#: src/dialogs/dao.glade.h:9
+msgid "Retain output range _formatting"
+msgstr ""
+
+#
+# fitxer: src.ca.po.12
+#: src/dialogs/dao.glade.h:10
+msgid "Retain output range co_mments"
+msgstr ""
+
+# fitxer: src.ca.po.12
+#: src/dialogs/dialog-about.c:83
+msgid "Options pricers"
+msgstr ""
+
+# fitxer: src.ca.po.12
+#: src/dialogs/dialog-about.c:115
+msgid "Solver, lots of worksheet functions, and general trailblazer"
+msgstr ""
+
+# fitxer: src.ca.po.12
+#: src/dialogs/dialog-about.c:147
+msgid "Consolidation and Structured Text importer"
+msgstr ""
+
+# fitxer: src.ca.po.12
+#: src/dialogs/dialog-about.c:157
+msgid "All round powerhouse"
+msgstr ""
+
+#
+# fitxer: src.ca.po.13
+#: src/dialogs/dialog-consolidate.c:555
+msgid "Could not create the Consolidate dialog."
+msgstr ""
+
+#
+# fitxer: src.ca.po.13
+#: src/dialogs/dialog-goal-seek.c:387
+msgid "You should introduce a valid cell name in 'By Changing Cell:'!"
+msgstr ""
+
+#
+# fitxer: src.ca.po.13
+#: src/dialogs/dialog-goal-seek.c:400
+msgid "The cell named in 'By changing cell' must not contain a formula."
+msgstr ""
+
+# fitxer: src.ca.po.13
+#: src/dialogs/dialog-preferences.c:724
+msgid "The items on this page are related to copy. cut and paste."
+msgstr ""
+"Els elements en aquesta pàgina estan relacionats amb copiar, retallar i "
+"enganxar."
+
+# fitxer: src.ca.po.15
+#: src/dialogs/dialog-scenarios.c:130
+msgid "Invalid changing cells"
+msgstr ""
+
+# fitxer: src.ca.po.15
+#: src/dialogs/dialog-scenarios.c:138
+msgid "Changing cells should be on the current sheet only."
+msgstr ""
+
+# fitxer: src.ca.po.15
+#: src/dialogs/dialog-scenarios.c:182
+msgid ""
+"Changing cells contain at least one expression that is not just a value. "
+"Note that showing the scenario will overwrite the formula with it's current "
+"value."
+msgstr ""
+
+# fitxer: src.ca.po.14
+#: src/dialogs/dialog-stf-export.glade.h:32
+msgid ""
+"Transliterate\n"
+"Escape"
+msgstr ""
+"Translitera\n"
+"Escapa"
+
+# fitxer: src.ca.po.14
+#: src/dialogs/exp-smoothing.glade.h:9
+msgid "_Damping factor:"
+msgstr ""
+
+#
+# fitxer: src.ca.po.1
+#: src/dialogs/goalseek.glade.h:10
+msgid "_By Changing Cell:"
+msgstr ""
+
+#
+# fitxer: src.ca.po.1
+#: src/dialogs/goalseek.glade.h:11
+msgid "_Set Cell:"
+msgstr ""
+
+#
+# fitxer: src.ca.po.1
+#: src/dialogs/histogram.glade.h:2
+msgid "Bin _labels"
+msgstr ""
+
+#
+# fitxer: src.ca.po.1
+#: src/dialogs/histogram.glade.h:3
+msgid "Bin _range:"
+msgstr ""
+
+#
+# fitxer: src.ca.po.1
+#: src/dialogs/histogram.glade.h:13
+msgid "_Bins"
+msgstr ""
+
+# fitxer: src.ca.po.1
+#: src/dialogs/histogram.glade.h:14
+msgid "_Calculated bins"
+msgstr ""
+
+# fitxer: src.ca.po.1
+#: src/dialogs/histogram.glade.h:22
+msgid "_Predetermined bins"
+msgstr ""
+
+#
+# fitxer: src.ca.po.1
+#: src/dialogs/rank.glade.h:6
+msgid "Ties:"
+msgstr ""
+
+#
+# fitxer: src.ca.po.1
+#: src/dialogs/regression.glade.h:9
+msgid "_Force intercept to be zero"
+msgstr ""
+
+# fitxer: src.ca.po.1
+#: src/dialogs/scenario-add.glade.h:5
+msgid "_Changing cells:"
+msgstr ""
+
+# fitxer: src.ca.po.1
+#: src/dialogs/scenario-manager.glade.h:3
+msgid "<span weight=\"bold\">Changing Cells</span>"
+msgstr ""
+
+# fitxer: src.ca.po.2
+#: src/dialogs/solver.glade.h:5
+msgid "B_y Changing Cells: "
+msgstr ""
+
+# fitxer: src.ca.po.5
+#: src/tools/analysis-tools.c:226 src/tools/analysis-tools.c:415
+#, c-format
+msgid "Bin %i"
+msgstr ""
+
+# fitxer: src.ca.po.5
+#: src/tools/analysis-tools.c:5303
+msgid "Bin"
+msgstr ""
+
+# fitxer: src.ca.po.5
+#: src/tools/scenarios.c:694
+msgid "Changing Cells:"
+msgstr ""
+
+# fitxer: src.ca.po.7
+#: src/tools/solver/reports-write.c:748
+msgid "Data Sparsity"
+msgstr ""
+
+# fitxer: src.ca.po.7
+#. Print `Subject to' title.
+#: src/tools/solver/reports-write.c:924
+msgid "Subject to"
+msgstr ""
+
+# fitxer: src.ca.po.9
+#: src/widgets/gnumeric-optionmenu.c:206
+msgid "Size of dropdown indicator"
+msgstr "Mida de l'indicador de llista desplegable"
+
+# fitxer: src.ca.po.13
+#: src/commands.c:7137
+msgid "Left to Right"
+msgstr "Esquerre a dreta"
+
+#: src/commands.c:7137
+msgid "Right to Left"
+msgstr "Dreta a esquerra"
+
+# fitxer: src.ca.po.9
+#: src/consolidate.c:771
+#, c-format
+msgid "Consolidating to (%s)"
+msgstr ""
+
+# fitxer: src.ca.po.9
+#: src/consolidate.c:810 src/consolidate.c:813
+msgid "Data Consolidation"
+msgstr ""
+
+#
+# fitxer: src.ca.po.3
+#: src/mathfunc.c:7252
+msgid ""
+"This version of Gnumeric has been compiled with inadequate precision in "
+"gnm_yn."
+msgstr ""
+"Aquesta versió del Gnumeric ha estat compilada amb una precisió inadequada "
+"al gnm_yn."
+
+# fitxer: src.ca.po.6
+#: src/ssconvert.c:54
+msgid "Optionally specify which importer to use"
+msgstr "Especifica opcionalment quin importador utilitzar"
+
+# fitxer: src.ca.po.6
+#: src/ssconvert.c:149
+#, c-format
+msgid ""
+"Unknown importer '%s'.\n"
+"Try --list-importers to see a list of possibilities.\n"
+msgstr ""
+"L'importador '%s' és desconegut.\n"
+"Proveu --list-importers per a veure un llistat de possibilitats.\n"
+
+# fitxer: src.ca.po.6
+#: src/ssindex.c:196
+#, c-format
+msgid ""
+"ssindex version '%s'\n"
+"datadir := '%s'\n"
+"libdir := '%s'\n"
+msgstr ""
+"ssindex versió '%s'\n"
+"datadir := '%s'\n"
+"libdir := '%s'\n"
+
+# fitxer: src.ca.po.13
+#: src/wbcg-actions.c:1652
+msgid "Direction"
+msgstr "Direcció"
+
+#: src/wbcg-actions.c:1653
+msgid "Toggle sheet direction, left to right vs right to left"
+msgstr "Commuta la direcció del full, d'esquerra a dreta o a l'inrevés"
+
+# fitxer: src.ca.po.7
+#: src/wbcg-actions.c:1852
+msgid "_Consolidate..."
+msgstr ""
+
+# fitxer: src.ca.po.7
+#: src/wbcg-actions.c:1853
+msgid "Consolidate regions using a function"
+msgstr ""
+
+#
+# fitxer: src.ca.po.7
+#: src/wbcg-actions.c:1857
+msgid "_PivotTable..."
+msgstr ""
+
+# fitxer: src.ca.po.7
+#: src/wbcg-actions.c:1858
+msgid "Create a pivot table"
+msgstr ""
+
+# fitxer: templates.ca.po
+#: templates/autoformat/autoformat.Classical.trendy.xml.in.h:3
+msgid "Trendy"
+msgstr ""
+
+# fitxer: templates.ca.po
+#: templates/autoformat/autoformat.Colourful.blue.xml.in.h:1
+msgid "A colourful template with mainly blue and teal colours"
+msgstr ""
 
 #
 # fitxer: GNOME_Gnumeric.server.in.in.h.ca.po
@@ -54,29 +990,24 @@ msgstr "Full de càlcul"
 msgid "The GNOME Spreadsheet"
 msgstr "Full de càlcul del GNOME"
 
-# fitxer: plugins.ca.po.3
 #: plugins/applix/applix-read.c:106
 msgid "Parse error while reading Applix file."
 msgstr "S'ha produït un error d'anàlisi en llegir el fitxer Applix."
 
-# fitxer: plugins.ca.po.3
 #: plugins/applix/applix-read.c:246
 msgid "Missing characters for character encoding"
 msgstr "Falten caràcters per codificació de caràcters"
 
-# fitxer: plugins.ca.po.3
 #: plugins/applix/applix-read.c:250
 #, c-format
 msgid "Invalid characters for encoding '%c%c'"
 msgstr "Caràcters invàlids per a codificació '%c%c'"
 
-# fitxer: plugins.ca.po.3
 #: plugins/applix/applix-read.c:1087
 #, c-format
 msgid "Expression did not start with '=' ? '%s'"
 msgstr "L'expressió no comença amb '=' ? '%s'"
 
-# fitxer: plugins.ca.po.3
 #: plugins/applix/applix-read.c:1098
 #, c-format
 msgid ""
@@ -86,206 +1017,62 @@ msgstr ""
 "%s!%s : impossible d'analitzar '%s'\n"
 "     %s"
 
-# fitxer: plugins.ca.po.3
 #: plugins/applix/plugin.xml.in.h:1
 msgid "Applix"
 msgstr "Applix"
 
 #
-# fitxer: plugins.ca.po.3
 #: plugins/applix/plugin.xml.in.h:2
 msgid "Applix (*.as)"
 msgstr "Applix (*.as)"
 
-# fitxer: plugins.ca.po.3
 #: plugins/applix/plugin.xml.in.h:3
 msgid "Imports version 4.[234] spreadsheets"
 msgstr "Importa fulls de càlcul de la versió 4.[234]"
 
-# fitxer: plugins.ca.po.3
 #: plugins/corba/plugin.xml.in.h:1
 msgid "CORBA Interface"
 msgstr "Interfície CORBA"
 
-# fitxer: plugins.ca.po.3
 #: plugins/corba/plugin.xml.in.h:2
 msgid "Provides a CORBA scripting interface"
 msgstr "Proporciona una intefície d'ordres per a CORBA"
 
-# fitxer: plugins.ca.po.2
-#: plugins/derivatives/options.c:2258 plugins/derivatives/options.c:2263
-#: plugins/derivatives/options.c:2268 plugins/derivatives/options.c:2273
-#: plugins/derivatives/options.c:2288
-msgid "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry"
-msgstr ""
-
-# fitxer: plugins.ca.po.2
-#: plugins/derivatives/options.c:2278 plugins/derivatives/options.c:2283
-msgid "spot, strike, time, rate, volatility, cost_of_carry"
-msgstr ""
-
-# fitxer: plugins.ca.po.2
 #: plugins/derivatives/options.c:2293
 msgid "a, b, rho"
 msgstr "a, b, rho"
 
-# fitxer: plugins.ca.po.2
-#: plugins/derivatives/options.c:2298
-msgid ""
-"call_put_flag, spot, strike, time, domestic_rate, foreign_rate, volatility"
-msgstr ""
-
-# fitxer: plugins.ca.po.2
-#: plugins/derivatives/options.c:2303
-msgid "call_put_flag, spot, strike, time, t2, rate, volatility, cost of carry"
-msgstr ""
-
-# fitxer: plugins.ca.po.2
-#: plugins/derivatives/options.c:2308
-msgid "call_put_flag, spot, strike, time, rate, volatility, lambda, gamma"
-msgstr ""
-
-# fitxer: plugins.ca.po.2
-#: plugins/derivatives/options.c:2313
-msgid ""
-"call_put_flag, spot, strike, time, rate, volatility, cost_of_carry, lambda"
-msgstr ""
-
-# fitxer: plugins.ca.po.2
-#: plugins/derivatives/options.c:2318 plugins/derivatives/options.c:2328
-msgid "call_put_flag, spot, strike, time, rate, cost_of_carry, volatility"
-msgstr ""
-
-# fitxer: plugins.ca.po.2
-#: plugins/derivatives/options.c:2323
-msgid ""
-"call_put_flag, p_t, f_t, x, t1, t2, v_s, v_e, v_f, rho_se, rho_sf, rho_ef, "
-"kappa_e, kappa_f)"
-msgstr ""
-
-# fitxer: plugins.ca.po.2
-#: plugins/derivatives/options.c:2333
-msgid "call_put_flag, spot, strike, t1, t2, rate, d, volatility"
-msgstr ""
-
-# fitxer: plugins.ca.po.2
-#: plugins/derivatives/options.c:2338
-msgid ""
-"call_put_flag, spot, alpha, time1, time, rate, volatility, cost_of_carry"
-msgstr ""
-
-# fitxer: plugins.ca.po.2
-#: plugins/derivatives/options.c:2343
-msgid ""
-"call_put_flag, spot, strike, a, time, m, dt, rate, cost_of_carry, volatility"
-msgstr ""
-
-# fitxer: plugins.ca.po.2
-#: plugins/derivatives/options.c:2348
-msgid "spot, strike, time1, time2, rate, cost_of_carry, volatility"
-msgstr ""
-
-# fitxer: plugins.ca.po.2
-#: plugins/derivatives/options.c:2353
-msgid ""
-"spot, strike_call, strike_put, time, time_call, time_put, rate, "
-"cost_of_carry, volatility"
-msgstr ""
-
-# fitxer: plugins.ca.po.2
-#: plugins/derivatives/options.c:2358 plugins/derivatives/options.c:2363
-msgid ""
-"type_flag, spot, strike1, strike2, time1, time2, rate, cost_of_carry, "
-"volatility"
-msgstr ""
-
-# fitxer: plugins.ca.po.2
-#: plugins/derivatives/options.c:2368
-msgid ""
-"type_flag, spot1, spot2, strike1, strike2, time, cost_of_carry1, "
-"cost_of_carry2, rate, volatility1, volatility2, rho"
-msgstr ""
-
-# fitxer: plugins.ca.po.2
-#: plugins/derivatives/options.c:2373 plugins/derivatives/options.c:2378
-msgid ""
-"spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,cost_of_carry2,volatility1,"
-"volatility2,rho"
-msgstr ""
-
-# fitxer: plugins.ca.po.2
-#: plugins/derivatives/options.c:2383
-msgid ""
-"call_put_flag,fut_price1,fut_price2,strike,time, rate,volatility1,"
-"volatility2,rho"
-msgstr ""
-
-# fitxer: plugins.ca.po.2
-#: plugins/derivatives/options.c:2388
-msgid "call_put_flag,spot,spot_min,spot_max,time,rate,cost_of_carry,volatility"
-msgstr ""
-
-# fitxer: plugins.ca.po.2
-#: plugins/derivatives/options.c:2393
-msgid ""
-"call_put_flag,spot,spot_min,spot_max,strike,time,rate,cost_of_carry,"
-"volatility"
-msgstr ""
-
-# fitxer: plugins.ca.po.2
-#: plugins/derivatives/options.c:2399
-msgid ""
-"amer_euro_flag,call_put_flag,num_time_steps, spot, strike, time, rate, "
-"volatility, cost_of_carry"
-msgstr ""
-
-# src/functions/fn-financial.c:2153
-# fitxer: plugins.ca.po.2
-#: plugins/derivatives/plugin.xml.in.h:1
-#: plugins/fn-financial/plugin.xml.in.h:1
-#: plugins/sample_datasource/plugin.xml.in.h:2
-#, fuzzy
-msgid "Finance"
-msgstr "Financeres"
-
 # src/functions/fn-financial.c:2153
 #
-# fitxer: plugins.ca.po.2
 #: plugins/derivatives/plugin.xml.in.h:2
 msgid "Financial Derivatives"
 msgstr "Subproductes Financers"
 
-# fitxer: plugins.ca.po.2
 #: plugins/derivatives/plugin.xml.in.h:3
 msgid "Functions related to financial derivatives"
 msgstr "Les funcions relacionaven els subproductes financers"
 
-# fitxer: plugins.ca.po.2
 #: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5840
 #: plugins/mps/mps.c:547 src/xml-io.c:3986
 msgid "Reading file..."
 msgstr "S'està llegint el fitxer..."
 
-# fitxer: plugins.ca.po.2
 #: plugins/dif/dif.c:181
 #, c-format
 msgid "Syntax error at line %d. Ignoring."
 msgstr "S'ha produït un error de sintaxi a la línia %d. S'està ignorant."
 
-# fitxer: plugins.ca.po.2
 #: plugins/dif/dif.c:212
 #, c-format
 msgid "Unknown data value \"%s\" at line %d. Ignoring."
 msgstr ""
 "Es desconeix el valor de la dada \"%s\" a la línia %d. S'està ignorant."
 
-# fitxer: plugins.ca.po.2
 #: plugins/dif/dif.c:219
 #, c-format
 msgid "Unknown value type %d at line %d. Ignoring."
 msgstr "Es desconeix el tipus del valor %d a la línia %d. S'està ignorant."
 
-# fitxer: plugins.ca.po.2
 #: plugins/dif/dif.c:228
 #, c-format
 msgid ""
@@ -295,7 +1082,6 @@ msgstr ""
 "El fitxer DIF conté més que el nombre màxim de files %d. S'ignoren les "
 "filesrestants."
 
-# fitxer: plugins.ca.po.2
 #: plugins/dif/dif.c:232
 #, c-format
 msgid ""
@@ -305,7 +1091,6 @@ msgstr ""
 "El fitxer DIF conté més que el nombre màxim de columnes %d. S'ignoren les "
 "columnes restants."
 
-# fitxer: plugins.ca.po.2
 #: plugins/dif/dif.c:244
 #, c-format
 msgid "Unexpected end of file at line %d while reading header."
@@ -313,40 +1098,33 @@ msgstr ""
 "S'ha trobat un final de fitxer no esperat a la línia %d en llegir la "
 "capçalera."
 
-# fitxer: plugins.ca.po.2
 #: plugins/dif/dif.c:248
 #, c-format
 msgid "Unexpected end of file at line %d while reading data."
 msgstr ""
 "S'ha trobat un final de fitxer no esperat a la línia %d en llegir dades."
 
-# fitxer: plugins.ca.po.2
 #: plugins/dif/dif.c:266
 msgid "Error while reading DIF file."
 msgstr "S'ha produït un error en llegir el fitxer DIF."
 
-# fitxer: plugins.ca.po.2
 #: plugins/dif/dif.c:286
 msgid "Cannot get default sheet."
 msgstr "No es pot aconseguir el full per defecte."
 
-# fitxer: plugins.ca.po.2
 #: plugins/dif/dif.c:323
 msgid "Error while saving DIF file."
 msgstr "S'ha produït un error en desar el fitxer DIF."
 
-# fitxer: plugins.ca.po.2
 #: plugins/dif/plugin.xml.in.h:1
 msgid "Data Interchange Format (*.dif)"
 msgstr "Data Interchange Format (*.dif)"
 
 #
-# fitxer: plugins.ca.po.2
 #: plugins/dif/plugin.xml.in.h:2
 msgid "Data Interchange Format (DIF) module"
 msgstr "Mòdul Data Interchange Format (DIF)"
 
-# fitxer: plugins.ca.po.2
 #: plugins/dif/plugin.xml.in.h:3
 msgid ""
 "Reads and writes information stored in the Data Interchange Format (*.dif)"
@@ -354,40 +1132,33 @@ msgstr ""
 "Llegeix i escriu la informació desada en el format Data Interchange Format "
 "(*.dif)"
 
-# fitxer: plugins.ca.po.2
 #: plugins/excel/boot.c:181
 msgid "No Workbook or Book streams found."
 msgstr "No s'han trobat fluxos de llibres de treball ni de llibres."
 
-# fitxer: plugins.ca.po.2
 #: plugins/excel/boot.c:230
 msgid "Preparing to save..."
 msgstr "S'està preparant per desar..."
 
-# fitxer: plugins.ca.po.2
 #: plugins/excel/boot.c:242
 msgid "Saving file..."
 msgstr "S'està desant el fitxer..."
 
-# fitxer: plugins.ca.po.2
 #: plugins/excel/excel-xml-read.c:84 plugins/xml_sax/xml-sax-read.c:276
 #, c-format
 msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Atribut inesperat %s::%s == '%s'."
 
-# fitxer: plugins.ca.po.2
 #: plugins/excel/excel-xml-read.c:197
 #: plugins/openoffice/openoffice-read.c:1503
 #: plugins/xml_sax/xml-sax-read.c:1772
 msgid "XML document not well formed!"
 msgstr "No s'ha format bé el document XML!"
 
-# fitxer: plugins.ca.po.2
 #: plugins/excel/ms-excel-read.c:1028 src/value.c:60
 msgid "#UNKNOWN!"
 msgstr "#UNKNOWN!"
 
-# fitxer: plugins.ca.po.2
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
 #: plugins/excel/ms-excel-read.c:1110 plugins/excel/ms-excel-read.c:1122
@@ -397,67 +1168,39 @@ msgstr "#UNKNOWN!"
 msgid "Sheet%d"
 msgstr "Full%d"
 
-# fitxer: plugins.ca.po.2
 #: plugins/excel/ms-excel-read.c:1126
 #, c-format
 msgid "Macro%d"
 msgstr "Macro%d"
 
-# fitxer: plugins.ca.po.2
 #: plugins/excel/ms-excel-read.c:1130
 #, c-format
 msgid "Chart%d"
 msgstr "Quadre%d"
 
-# fitxer: plugins.ca.po.2
 #: plugins/excel/ms-excel-read.c:1133
 #, c-format
 msgid "Module%d"
 msgstr "Mòdul%d"
 
-# fitxer: plugins.ca.po.2
 #: plugins/excel/ms-excel-read.c:2928
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "S'ha produït un error analitzant el nom '%s'"
 
-# fitxer: plugins.ca.po.2
-#: plugins/excel/ms-excel-read.c:3024
-#, fuzzy, c-format
-msgid ""
-"DDE links are not supported.\n"
-"Name '%s' will be lost.\n"
-msgstr ""
-"No se suporten els enllaços DDE.\n"
-"El Nom '%s' es perdrà.\n"
-
-# fitxer: plugins.ca.po.2
-#: plugins/excel/ms-excel-read.c:3030
-#, fuzzy, c-format
-msgid ""
-"OLE links are not supported.\n"
-"Name '%s' will be lost.\n"
-msgstr ""
-"No se suporten els enllaços OLE.\n"
-"El Nom '%s' es perdrà.\n"
-
 #
-# fitxer: plugins.ca.po.2
 #: plugins/excel/ms-excel-read.c:5147
 msgid "external references"
 msgstr "Referències externes"
 
-# fitxer: plugins.ca.po.2
 #: plugins/excel/ms-excel-read.c:5171
 msgid "No password supplied"
 msgstr "No s'ha subministrat la contrasenya"
 
-# fitxer: plugins.ca.po.2
 #: plugins/excel/ms-excel-read.c:6066
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "No es pot trobar un llibre de treball de MS Excel vàlid"
 
-# fitxer: plugins.ca.po.2
 #: plugins/excel/ms-excel-write.c:208
 msgid ""
 "This is somewhat corrupt.\n"
@@ -468,105 +1211,45 @@ msgstr ""
 "Ja s'ha escrit una llargada per una cadena que serà tallada per problemes de "
 "codificació."
 
-# fitxer: plugins.ca.po.2
-#: plugins/excel/ms-excel-write.c:4214
-#, fuzzy, c-format
-msgid ""
-"Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
-"d rows, and this workbook has %d"
-msgstr ""
-"Alguns continguts es perdran si es grava com a MS Excel (tm) 95. Només "
-"suporta %d files, i aquesta fulla té %d"
-
-# fitxer: plugins.ca.po.2
-#: plugins/excel/ms-excel-write.c:4221
-#, fuzzy, c-format
-msgid ""
-"Some content will be lost when saving as MS Excel (tm). It only supports %d "
-"rows, and this workbook has %d"
-msgstr ""
-"Alguns continguts es perdran si es grava com a MS Excel (tm). Només suporta %"
-"d files, i aquesta fulla té %d"
-
-# fitxer: plugins.ca.po.2
 #: plugins/excel/ms-excel-write.c:4986
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "No es pot obrir el flux 'Book' per escriure\n"
 
-# fitxer: plugins.ca.po.2
 #: plugins/excel/ms-excel-write.c:5006
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "No es pot obrir el flux 'Korkbook' per escriure\n"
 
-# fitxer: plugins.ca.po.2
 #: plugins/excel/ms-formula-read.c:652
 msgid "Broken function"
 msgstr "Funció malmesa"
 
-# fitxer: plugins.ca.po.2
-#: plugins/excel/ms-formula-write.c:535
-#, fuzzy, c-format
-msgid ""
-"Too many arguments for function '%s', MS Excel expects exactly %d and we "
-"have %d"
-msgstr ""
-"Massa paràmetres per a la funció, MS Excel espera exactament %d i n'hi ha més"
-
-# fitxer: plugins.ca.po.2
-#: plugins/excel/ms-formula-write.c:536
-#, fuzzy, c-format
-msgid ""
-"Too many arguments for function '%s', MS Excel can only handle %d not %d"
-msgstr ""
-"Massa paràmetres per a la funció, MS Excel espera exactament %d i n'hi ha més"
-
 #
-# fitxer: plugins.ca.po.2
 #: plugins/excel/plugin.xml.in.h:1
 msgid "Imports/Exports MS Excel (tm) files"
 msgstr "Fitxers MS Excel (R) importats/exportats"
 
-# fitxer: plugins.ca.po.2
 #: plugins/excel/plugin.xml.in.h:2
 msgid "MS Excel (tm)"
 msgstr "MS Excel (R)"
 
 #
-# fitxer: plugins.ca.po.2
 #: plugins/excel/plugin.xml.in.h:3
 msgid "MS Excel (tm) (*.xls)"
 msgstr "MS Excel (R) (*.xls)"
 
-# fitxer: plugins.ca.po.2
 #: plugins/excel/plugin.xml.in.h:4
 msgid "MS Excel (tm) 5.0/95"
 msgstr "MS Excel (tm) 5.0/95"
 
 #
-# fitxer: plugins.ca.po.2
 #: plugins/excel/plugin.xml.in.h:5
 msgid "MS Excel (tm) 97/2000/XP"
 msgstr "MS Excel (tm) 97/2000/XP"
 
-#
-# fitxer: plugins.ca.po.2
-#: plugins/excel/plugin.xml.in.h:6
-#, fuzzy
-msgid "MS Excel (tm) 97/2000/XP &amp; 5.0/95"
-msgstr "MS Excel (tm) 97/2000/XP & 5.0/95"
-
-# fitxer: plugins.ca.po.2
-#: plugins/excel/plugin.xml.in.h:7
-#, fuzzy
-msgid "MS Excel (tm) SpreadsheetML"
-msgstr "MS Excel (tm) XML"
-
-# fitxer: plugins.ca.po.1
 #: plugins/fn-complex/functions.c:1603
 msgid "real,im,suffix"
 msgstr "real,im,sufix"
 
-# fitxer: plugins.ca.po.1
 #: plugins/fn-complex/functions.c:1606 plugins/fn-complex/functions.c:1609
 #: plugins/fn-complex/functions.c:1612 plugins/fn-complex/functions.c:1615
 #: plugins/fn-complex/functions.c:1618 plugins/fn-complex/functions.c:1624
@@ -588,30 +1271,25 @@ msgstr "real,im,sufix"
 msgid "inumber"
 msgstr "nombre i"
 
-# fitxer: plugins.ca.po.1
 #: plugins/fn-complex/functions.c:1621 plugins/fn-complex/functions.c:1636
 #: plugins/fn-complex/functions.c:1648 plugins/fn-complex/functions.c:1651
 #: plugins/fn-complex/functions.c:1664
 msgid "inumber,inumber"
 msgstr "nombre i,nombre i"
 
-# fitxer: plugins.ca.po.1
 #: plugins/fn-complex/plugin.xml.in.h:1
 msgid "Complex"
 msgstr "Complex"
 
 #
-# fitxer: plugins.ca.po.1
 #: plugins/fn-complex/plugin.xml.in.h:2
 msgid "Complex Functions"
 msgstr "Funcions complexes"
 
-# fitxer: plugins.ca.po.1
 #: plugins/fn-complex/plugin.xml.in.h:3
 msgid "Functions for complex numbers"
 msgstr "Funcions per a nombres complexos"
 
-# fitxer: plugins.ca.po.1
 #: plugins/fn-database/functions.c:1237 plugins/fn-database/functions.c:1240
 #: plugins/fn-database/functions.c:1243 plugins/fn-database/functions.c:1246
 #: plugins/fn-database/functions.c:1249 plugins/fn-database/functions.c:1252
@@ -621,29 +1299,24 @@ msgstr "Funcions per a nombres complexos"
 msgid "database,field,criteria"
 msgstr "base de dades,camp,criteri"
 
-# fitxer: plugins.ca.po.1
 #. XL stores in lookup
 #: plugins/fn-database/functions.c:1275
 msgid "pivot_table,field_name"
 msgstr "taula_pral,nom_camp"
 
-# fitxer: plugins.ca.po.1
 #: plugins/fn-database/plugin.xml.in.h:1 plugins/gda/plugin.xml.in.h:1
 msgid "Database"
 msgstr "Base de dades"
 
 #
-# fitxer: plugins.ca.po.1
 #: plugins/fn-database/plugin.xml.in.h:2
 msgid "Database Functions"
 msgstr "Funcions de base de dades"
 
-# fitxer: plugins.ca.po.1
 #: plugins/fn-database/plugin.xml.in.h:3
 msgid "Functions looking up values in databases"
 msgstr "Funcions que cerquen valors a bases de dades"
 
-# fitxer: plugins.ca.po.1
 #. Path of the current directory or folder.
 #. Absolute A1-style reference, as text, prepended with "$A:"
 #. * for Lotus 1-2-3 release 3.x compatibility. Returns the cell
@@ -655,22 +1328,18 @@ msgstr "Funcions que cerquen valors a bases de dades"
 msgid "Unimplemented"
 msgstr "No implementat"
 
-# fitxer: plugins.ca.po.1
 #: plugins/fn-date/functions.c:1291
 msgid "year,month,day"
 msgstr "any,mes,dia"
 
-# fitxer: plugins.ca.po.1
 #: plugins/fn-date/functions.c:1295
 msgid "date_str"
 msgstr "cadena_data"
 
-# fitxer: plugins.ca.po.5
 #: plugins/fn-date/functions.c:1299
 msgid "date1,date2,interval"
 msgstr "date1,date2,interval"
 
-# fitxer: plugins.ca.po.5
 #: plugins/fn-date/functions.c:1303 plugins/fn-date/functions.c:1327
 #: plugins/fn-date/functions.c:1355 plugins/fn-date/functions.c:1359
 #: plugins/fn-date/functions.c:1367 plugins/fn-date/functions.c:1371
@@ -679,158 +1348,102 @@ msgstr "date1,date2,interval"
 msgid "date"
 msgstr "data"
 
-# fitxer: plugins.ca.po.5
 #: plugins/fn-date/functions.c:1307
 msgid "date1,date2,method"
 msgstr "data1,data2,mètode"
 
-# fitxer: plugins.ca.po.5
 #: plugins/fn-date/functions.c:1311
 msgid "date,months"
 msgstr "data,mesos"
 
-# fitxer: plugins.ca.po.5
 #: plugins/fn-date/functions.c:1315
 msgid "start_date,months"
 msgstr "data_inici,mesos"
 
-# fitxer: plugins.ca.po.5
 #: plugins/fn-date/functions.c:1319 plugins/fn-date/functions.c:1323
 #: plugins/fn-date/functions.c:1339 src/print-info.c:480
 msgid "time"
 msgstr "hora"
 
-# fitxer: plugins.ca.po.5
 #: plugins/fn-date/functions.c:1331
 msgid "start_date,end_date,holidays"
 msgstr "data_inici,data_fi,vacances"
 
-# fitxer: plugins.ca.po.5
 #: plugins/fn-date/functions.c:1343
 msgid "hours,minutes,seconds"
 msgstr "hores,minuts,segons"
 
-# fitxer: plugins.ca.po.5
 #: plugins/fn-date/functions.c:1347
 msgid "timetext"
 msgstr "texthora"
 
-# fitxer: plugins.ca.po.5
 #: plugins/fn-date/functions.c:1363
 msgid "date,days,holidays"
 msgstr "data,dies,vacances"
 
-# fitxer: plugins.ca.po.5
 #: plugins/fn-date/functions.c:1376
 msgid "unixtime"
 msgstr "horaunix"
 
-# fitxer: plugins.ca.po.5
 #: plugins/fn-date/functions.c:1380
 msgid "serial"
 msgstr "consecutiu"
 
-# fitxer: plugins.ca.po.5
 #: plugins/fn-date/plugin.xml.in.h:1
 msgid "Date and Time Functions"
 msgstr "Funcions d'Hora i Data"
 
 #
-# fitxer: plugins.ca.po.5
 #: plugins/fn-date/plugin.xml.in.h:2
 msgid "Date/Time"
 msgstr "Data / Hora"
 
-# fitxer: plugins.ca.po.5
 #: plugins/fn-date/plugin.xml.in.h:3
 msgid "Functions manipulating dates and time"
 msgstr "Funcions de manupulació de dates i temps"
 
 # src/functions/fn-eng.c:1783 src/functions/fn-eng.c:1838
-# fitxer: plugins.ca.po.5
 #: plugins/fn-eng/functions.c:1262 plugins/fn-eng/functions.c:1319
 msgid "Impossible"
 msgstr "Impossible"
 
 # src/functions/fn-eng.c:1851
-# fitxer: plugins.ca.po.5
 #: plugins/fn-eng/plugin.xml.in.h:1
 msgid "Engineering"
 msgstr "Enginyeria"
 
 # src/functions/fn-eng.c:1851
 #
-# fitxer: plugins.ca.po.5
 #: plugins/fn-eng/plugin.xml.in.h:2
 msgid "Engineering Functions"
 msgstr "Funcions d'enginyeria"
 
-# fitxer: plugins.ca.po.5
 #: plugins/fn-eng/plugin.xml.in.h:3
 msgid "Functions for complex numbers, base conversions, and more"
 msgstr "Funcions per a números complexes, conversions de base, i més"
 
-# fitxer: plugins.ca.po.5
-#: plugins/fn-erlang/functions.c:333 plugins/fn-erlang/functions.c:338
-msgid "traffic,circuits"
-msgstr ""
-
-# fitxer: plugins.ca.po.5
-#: plugins/fn-erlang/functions.c:343
-msgid "traffic,gos"
-msgstr ""
-
-# fitxer: plugins.ca.po.5
-#: plugins/fn-erlang/functions.c:348
-msgid "circuits,gos"
-msgstr ""
-
-# fitxer: plugins.ca.po.5
-#: plugins/fn-erlang/plugin.xml.in.h:1
-#, fuzzy
-msgid "Erlang"
-msgstr "rang"
-
-#
-# fitxer: plugins.ca.po.5
-#: plugins/fn-erlang/plugin.xml.in.h:2
-#, fuzzy
-msgid "Erlang Functions"
-msgstr "Funcions de cadena"
-
-# fitxer: plugins.ca.po.5
-#: plugins/fn-erlang/plugin.xml.in.h:3
-#, fuzzy
-msgid "Functions to help Erlang Analysis"
-msgstr "Funcions per tractar cadenes"
-
 # src/functions/fn-financial.c:2153
 #
-# fitxer: plugins.ca.po.4
 #: plugins/fn-financial/plugin.xml.in.h:2
 msgid "Financial Functions"
-msgstr "Financeres"
+msgstr "Funcions financeres"
 
-# fitxer: plugins.ca.po.4
 #: plugins/fn-financial/plugin.xml.in.h:3
 msgid "Interest rate calculations"
-msgstr "Els càlculs de la taxa d'interés"
+msgstr "Els càlculs de la taxa d'interès"
 
 # src/functions/fn-information.c:297
-# fitxer: plugins.ca.po.4
 #: plugins/fn-info/functions.c:1319
 msgid "Unknown version"
 msgstr "Versió desconeguda"
 
 # src/functions/fn-information.c:299
-# fitxer: plugins.ca.po.4
 #: plugins/fn-info/functions.c:1321
 #, c-format
 msgid "%s version %s"
 msgstr "%s versió %s"
 
 # src/functions/fn-information.c:308 src/workbook-format-toolbar.c:649
-# fitxer: plugins.ca.po.4
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #. Color
 #: plugins/fn-info/functions.c:1334
@@ -844,13 +1457,11 @@ msgid "Automatic"
 msgstr "Automàtic"
 
 # src/functions/fn-information.c:317
-# fitxer: plugins.ca.po.4
 #: plugins/fn-info/functions.c:1344
 msgid "Unknown system"
 msgstr "Sistema desconegut"
 
 # src/functions/fn-information.c:209 src/functions/fn-information.c:327
-# fitxer: plugins.ca.po.4
 #: plugins/fn-info/functions.c:1360
 msgid "Unknown info_type"
 msgstr "Info_type desconegut"
@@ -861,17 +1472,14 @@ msgstr "Info_type desconegut"
 # src/functions/fn-information.c:772 src/functions/fn-information.c:837
 # src/functions/fn-logical.c:194 src/functions/fn-lookup.c:469
 # src/functions/fn-lookup.c:580 src/functions/fn-string.c:343
-# fitxer: plugins.ca.po.4
 #: plugins/fn-info/functions.c:1711 src/func.c:859
 msgid "Invalid number of arguments"
 msgstr "Nombre d'arguments no vàlid"
 
-# fitxer: plugins.ca.po.4
 #: plugins/fn-info/functions.c:1874
 msgid "info_type, cell"
 msgstr "cel la info_type"
 
-# fitxer: plugins.ca.po.4
 #: plugins/fn-info/functions.c:1877 plugins/fn-info/functions.c:1883
 #: plugins/fn-info/functions.c:1886 plugins/fn-info/functions.c:1889
 #: plugins/fn-info/functions.c:1892 plugins/fn-info/functions.c:1895
@@ -884,18 +1492,15 @@ msgid "value"
 msgstr "Valor"
 
 # src/functions/fn-information.c:209 src/functions/fn-information.c:327
-# fitxer: plugins.ca.po.4
 #: plugins/fn-info/functions.c:1880
 msgid "info_type"
 msgstr "Info_type"
 
-# fitxer: plugins.ca.po.4
 #. XL stores this in statistical ?
 #: plugins/fn-info/functions.c:1927
 msgid "range"
 msgstr "rang"
 
-# fitxer: plugins.ca.po.4
 #: plugins/fn-info/functions.c:1931 plugins/fn-string/functions.c:1208
 #: plugins/fn-string/functions.c:1211 plugins/fn-string/functions.c:1214
 #: plugins/fn-string/functions.c:1235 plugins/fn-string/functions.c:1238
@@ -905,30 +1510,25 @@ msgstr "rang"
 msgid "text"
 msgstr "text"
 
-# fitxer: plugins.ca.po.4
 #: plugins/fn-info/functions.c:1934
 msgid "cell"
-msgstr "cel la"
+msgstr "cel·la"
 
-# fitxer: plugins.ca.po.4
 #: plugins/fn-info/functions.c:1937
 msgid "string"
-msgstr "Cadena"
+msgstr "cadena"
 
-# fitxer: plugins.ca.po.4
 #: plugins/fn-info/plugin.xml.in.h:1
 msgid "Functions for inspecting values, cells, and more"
-msgstr "Funcions per a cel les i valors reconeguts"
+msgstr "Funcions per a cel·les i valors reconeguts"
 
 # src/functions/fn-information.c:847
-# fitxer: plugins.ca.po.4
 #: plugins/fn-info/plugin.xml.in.h:2
 msgid "Information"
 msgstr "Informació"
 
 # src/functions/fn-information.c:847
 #
-# fitxer: plugins.ca.po.4
 #: plugins/fn-info/plugin.xml.in.h:3
 msgid "Information Functions"
 msgstr "Funcions d'Informació"
@@ -940,12 +1540,10 @@ msgstr "Funcions d'Informació"
 # src/functions/fn-string.c:434 src/functions/fn-string.c:626
 # src/functions/fn-string.c:674 src/functions/fn-string.c:774
 # src/functions/fn-string.c:805
-# fitxer: plugins.ca.po.3
 #: plugins/fn-logical/functions.c:132
 msgid "Type Mismatch"
 msgstr "Tipus discordant"
 
-# fitxer: plugins.ca.po.3
 #: plugins/fn-logical/functions.c:354 plugins/fn-logical/functions.c:358
 #: plugins/fn-logical/functions.c:378 plugins/fn-math/functions.c:3457
 #: plugins/fn-stat/functions.c:5923 plugins/fn-stat/functions.c:5927
@@ -963,9 +1561,8 @@ msgstr "Tipus discordant"
 #: plugins/fn-stat/functions.c:6185 plugins/fn-stat/functions.c:6201
 #: src/func-builtin.c:136 src/func-builtin.c:142
 msgid "number,number,"
-msgstr "número,número,"
+msgstr "nombre,nombre"
 
-# fitxer: plugins.ca.po.3
 #. MS Excel puts this in the engineering functions
 #: plugins/fn-logical/functions.c:362 plugins/fn-math/functions.c:3289
 #: plugins/fn-math/functions.c:3293 plugins/fn-math/functions.c:3296
@@ -989,136 +1586,94 @@ msgstr "número,número,"
 #: plugins/fn-stat/functions.c:6092 plugins/fn-string/functions.c:1202
 #: plugins/fn-string/functions.c:1205
 msgid "number"
-msgstr "número"
+msgstr "nombre"
 
-# fitxer: plugins.ca.po.3
 #: plugins/fn-logical/functions.c:366
 msgid "condition,if true,if false"
-msgstr "condició, si cert,si fals"
+msgstr "condició,si cert,si fals"
 
-# fitxer: plugins.ca.po.3
 #: plugins/fn-logical/plugin.xml.in.h:1
 msgid "Functions for manipulating truth values"
 msgstr "Funcions per manipular valors certs"
 
-# src/functions/fn-logical.c:231
-# fitxer: plugins.ca.po.3
-#: plugins/fn-logical/plugin.xml.in.h:2
-#, fuzzy
-msgid "Logic"
-msgstr "Lògiques"
-
-#
-# fitxer: plugins.ca.po.3
-#: plugins/fn-logical/plugin.xml.in.h:3
-#, fuzzy
-msgid "Logic Functions"
-msgstr "Funcions lògiques"
-
-# fitxer: plugins.ca.po.3
 #: plugins/fn-lookup/functions.c:1266
 msgid "row_num,col_num,abs_num,a1,text"
 msgstr "fila_num,col_num,abs_num,a1,text"
 
 #
-# fitxer: plugins.ca.po.3
 #: plugins/fn-lookup/functions.c:1269
 msgid "reference"
 msgstr "referència"
 
-# fitxer: plugins.ca.po.3
 #: plugins/fn-lookup/functions.c:1272
 msgid "index,value,"
-msgstr "índex,valor"
+msgstr "índex,valor,"
 
-# fitxer: plugins.ca.po.3
 #: plugins/fn-lookup/functions.c:1275 plugins/fn-lookup/functions.c:1281
 #: plugins/fn-lookup/functions.c:1305 plugins/fn-lookup/functions.c:1308
 msgid "ref"
 msgstr "ref"
 
-# fitxer: plugins.ca.po.3
 #: plugins/fn-lookup/functions.c:1278
 msgid "colname"
 msgstr "nomcolumna"
 
-# fitxer: plugins.ca.po.3
 #: plugins/fn-lookup/functions.c:1284 plugins/fn-lookup/functions.c:1314
 msgid "val,range,col_idx,approx,as_index"
 msgstr "val,abast,col_idx,aprox,com_índex"
 
-# fitxer: plugins.ca.po.3
 #: plugins/fn-lookup/functions.c:1287
 msgid "link_location, label"
 msgstr "localització_enllaç, etiqueta"
 
-# fitxer: plugins.ca.po.3
 #: plugins/fn-lookup/functions.c:1290
 msgid "ref_string,format"
 msgstr "ref_cadena,format"
 
-# fitxer: plugins.ca.po.3
 #: plugins/fn-lookup/functions.c:1293
 msgid "reference,row,col,area"
 msgstr "referència,fila,col,area"
 
 #
-# fitxer: plugins.ca.po.3
 #: plugins/fn-lookup/functions.c:1296
 msgid "val,range,range"
 msgstr "val,abast,abast"
 
-# fitxer: plugins.ca.po.3
 #: plugins/fn-lookup/functions.c:1299
 msgid "val,range,approx"
 msgstr "val,abast,aprox"
 
-# fitxer: plugins.ca.po.3
 #: plugins/fn-lookup/functions.c:1302
 msgid "ref,row,col,height,width"
 msgstr "ref,fila,col,alt,ample"
 
-# fitxer: plugins.ca.po.3
 #: plugins/fn-lookup/functions.c:1311 plugins/fn-math/functions.c:3495
 msgid "array"
 msgstr "llista"
 
-# fitxer: plugins.ca.po.3
 #: plugins/fn-lookup/plugin.xml.in.h:1
 msgid "Functions for looking up values in ranges"
 msgstr "Funcions per a buscar valors en rangs"
 
-# src/functions/fn-lookup.c:1054
-#
-# fitxer: plugins.ca.po.3
 #: plugins/fn-lookup/plugin.xml.in.h:2
 msgid "Lookup"
-msgstr "Dades / Cerca "
+msgstr "Cerca"
 
-#
-# fitxer: plugins.ca.po.3
 #: plugins/fn-lookup/plugin.xml.in.h:3
 msgid "Lookup Functions"
-msgstr "Funcions Lookup"
+msgstr "Funcions de cerca"
 
-# src/functions/fn-math.c:2556 src/functions/fn-math.c:2571
-# src/functions/fn-math.c:2654 src/functions/fn-math.c:2669
-# src/functions/fn-math.c:2749 src/functions/fn-math.c:2764
-# src/functions/fn-stat.c:2698 src/functions/fn-stat.c:2728
-# fitxer: plugins.ca.po.7
 #: plugins/fn-math/functions.c:2543 plugins/fn-math/functions.c:2563
 #: plugins/fn-math/functions.c:2659 plugins/fn-math/functions.c:2679
 #: plugins/fn-math/functions.c:2773 plugins/fn-math/functions.c:2793
 #: plugins/fn-stat/functions.c:3120 plugins/fn-stat/functions.c:3150
 msgid "Array version not implemented!"
-msgstr "La versió de la llista no està implementada!"
+msgstr "La versió de la matriu no està implementada!"
 
-# fitxer: plugins.ca.po.7
 #: plugins/fn-math/functions.c:3311
 msgid "xnum,ynum"
 msgstr "xnum,ynum"
 
-# fitxer: plugins.ca.po.7
 #: plugins/fn-math/functions.c:3317 plugins/fn-math/functions.c:3320
 #: plugins/fn-random/functions.c:1196 plugins/fn-random/functions.c:1217
 #: plugins/fn-random/functions.c:1223 plugins/fn-random/functions.c:1262
@@ -1127,77 +1682,63 @@ msgid "a,b"
 msgstr "a,b"
 
 #
-# fitxer: plugins.ca.po.7
 #. MS Excel puts this in statistical
 #: plugins/fn-math/functions.c:3328
 msgid "range,criteria"
 msgstr "abast,criteri"
 
-# fitxer: plugins.ca.po.7
 #: plugins/fn-math/functions.c:3336
 msgid "number,significance"
 msgstr "nombre,significat"
 
-# fitxer: plugins.ca.po.7
 #: plugins/fn-math/functions.c:3364 plugins/fn-stat/functions.c:6107
 msgid "n,k"
 msgstr "n,k"
 
-# fitxer: plugins.ca.po.7
 #: plugins/fn-math/functions.c:3371
 msgid "number,number"
-msgstr "número,número"
+msgstr "nombre,nombre"
 
 #
-# fitxer: plugins.ca.po.7
 #: plugins/fn-math/functions.c:3390
 msgid "number,base"
-msgstr "número,base"
+msgstr "nombre,base"
 
-# fitxer: plugins.ca.po.7
 #: plugins/fn-math/functions.c:3399 plugins/fn-math/functions.c:3418
 msgid "numerator,denominator"
 msgstr "numerador,denominador"
 
-# fitxer: plugins.ca.po.7
 #: plugins/fn-math/functions.c:3402
 msgid "number,multiple"
-msgstr "número,múltiple"
+msgstr "nombre,múltiple"
 
-# fitxer: plugins.ca.po.7
 #: plugins/fn-math/functions.c:3412
 msgid "base,exponent"
 msgstr "base,exponent"
 
-# fitxer: plugins.ca.po.7
 #: plugins/fn-math/functions.c:3424
 msgid "number,type"
-msgstr "número,tipus"
+msgstr "nombre,tipus"
 
 #
-# fitxer: plugins.ca.po.7
 #: plugins/fn-math/functions.c:3427 plugins/fn-math/functions.c:3431
 #: plugins/fn-math/functions.c:3435 plugins/fn-math/functions.c:3485
 msgid "number,digits"
-msgstr "número,dígits"
+msgstr "nombre,dígits"
 
-# fitxer: plugins.ca.po.7
 #: plugins/fn-math/functions.c:3439
 msgid "x,n,m,coefficients"
 msgstr "x,n,m,coeficients"
 
-# fitxer: plugins.ca.po.7
 #: plugins/fn-math/functions.c:3461
 msgid "range,criteria,actual_range"
 msgstr "rang,criteri,rang_actual"
 
 #
-# fitxer: plugins.ca.po.7
 #: plugins/fn-math/functions.c:3464
 msgid "range,range,"
 msgstr "rang,rang,"
 
-# fitxer: plugins.ca.po.7
 #: plugins/fn-math/functions.c:3470 plugins/fn-math/functions.c:3473
 #: plugins/fn-math/functions.c:3476 plugins/fn-math/functions.c:3492
 #: plugins/fn-stat/functions.c:5966 plugins/fn-stat/functions.c:5975
@@ -1205,715 +1746,501 @@ msgstr "rang,rang,"
 msgid "array1,array2"
 msgstr "llista1,llista2"
 
-# fitxer: plugins.ca.po.7
 #: plugins/fn-math/functions.c:3498 plugins/fn-math/functions.c:3502
 msgid "array,matrix_type,bandsize"
 msgstr "llista.tipus de _matriu,bandsize"
 
 #
-# fitxer: plugins.ca.po.7
 #: plugins/fn-math/plugin.xml.in.h:1
 msgid "Math Functions"
 msgstr "Funcions matemàtiques"
 
-# fitxer: plugins.ca.po.7
 #: plugins/fn-math/plugin.xml.in.h:2
 msgid "Mathematical Functions"
 msgstr "Funcions matemàtiques"
 
-#
-# fitxer: plugins.ca.po.7
-#: plugins/fn-math/plugin.xml.in.h:3 src/func-builtin.c:157
-#, fuzzy
-msgid "Mathematics"
-msgstr "Coincidències"
-
-# fitxer: plugins.ca.po.6
 #: plugins/fn-random/functions.c:1193 plugins/fn-random/functions.c:1229
 #: plugins/fn-random/functions.c:1247 plugins/fn-stat/functions.c:6095
 msgid "p"
 msgstr "p"
 
-# fitxer: plugins.ca.po.6
 #: plugins/fn-random/functions.c:1199
 msgid "bottom,top"
 msgstr "inferior,superior"
 
-# fitxer: plugins.ca.po.6
 #: plugins/fn-random/functions.c:1202
 msgid "p,trials"
 msgstr "p,proves"
 
-# fitxer: plugins.ca.po.6
 #: plugins/fn-random/functions.c:1205 plugins/fn-random/functions.c:1241
 #: plugins/fn-random/functions.c:1250
 msgid "a"
 msgstr "a"
 
-# fitxer: plugins.ca.po.6
 #: plugins/fn-random/functions.c:1208 plugins/fn-random/functions.c:1274
 msgid "nu"
 msgstr "nu"
 
 #
-# fitxer: plugins.ca.po.6
 #: plugins/fn-random/functions.c:1211
 msgid "value_range,prob_range"
 msgstr "valor_rang,rang_prob"
 
-# fitxer: plugins.ca.po.6
 #: plugins/fn-random/functions.c:1214
 msgid "b"
 msgstr "b"
 
-# fitxer: plugins.ca.po.6
 #: plugins/fn-random/functions.c:1220
 msgid "nu1,nu2"
 msgstr "nu1,nu2"
 
-# fitxer: plugins.ca.po.6
 #: plugins/fn-random/functions.c:1226 plugins/fn-random/functions.c:1271
 msgid "a,sigma"
 msgstr "a,sigma"
 
-# fitxer: plugins.ca.po.6
-#: plugins/fn-random/functions.c:1232
-#, fuzzy
-msgid "a,b,type"
-msgstr "a,b[,tipus]"
-
-# fitxer: plugins.ca.po.6
 #: plugins/fn-random/functions.c:1235
 msgid "n1,n2,t"
 msgstr "n1,n2,t"
 
-# fitxer: plugins.ca.po.6
-#: plugins/fn-random/functions.c:1244
-#, fuzzy
-msgid "c,alpha,beta"
-msgstr "c,alfa[,beta]"
-
-# fitxer: plugins.ca.po.6
 #: plugins/fn-random/functions.c:1253
 msgid "zeta,sigma"
 msgstr "zeta,sigma"
 
-# fitxer: plugins.ca.po.6
 #: plugins/fn-random/functions.c:1256
 msgid "p,failures"
 msgstr "p,errades"
 
-# fitxer: plugins.ca.po.6
 #: plugins/fn-random/functions.c:1259
 msgid "mean,stdev"
 msgstr "mitja,stdev"
 
-# fitxer: plugins.ca.po.6
 #: plugins/fn-random/functions.c:1265
 msgid "lambda"
 msgstr "lambda"
 
-# fitxer: plugins.ca.po.6
 #: plugins/fn-random/functions.c:1268
 msgid "sigma"
 msgstr "sigma"
 
-# fitxer: plugins.ca.po.6
-#: plugins/fn-random/functions.c:1283
-#, fuzzy
-msgid "d1,d2,...,dN"
-msgstr "d1[,d2,...,dN]"
-
-# fitxer: plugins.ca.po.6
 #: plugins/fn-random/plugin.xml.in.h:1
 msgid "Functions for generating random numbers"
-msgstr "Funcions per manipular números aleatoris"
+msgstr "Funcions per a manipular nombres aleatoris"
 
-# fitxer: plugins.ca.po.6
 #: plugins/fn-random/plugin.xml.in.h:2
 msgid "Random Number Functions"
-msgstr "Funcions de Números Aleatoris"
+msgstr "Funcions de nombres aleatoris"
 
 #
-# fitxer: plugins.ca.po.6
 #: plugins/fn-random/plugin.xml.in.h:3 src/dialogs/random-generation.glade.h:6
 #: src/tools/random-generator.c:674 src/tools/random-generator.c:677
 msgid "Random Numbers"
-msgstr "Nombre de nombres aleatoris:"
+msgstr "Nombres aleatoris:"
 
-# fitxer: plugins.ca.po.10
 #: plugins/fn-stat/functions.c:5936 plugins/fn-stat/functions.c:6198
 msgid "k,p"
 msgstr "k,p"
 
-# fitxer: plugins.ca.po.10
 #: plugins/fn-stat/functions.c:5940
 msgid "x,alpha,beta,a,b"
 msgstr "x,alfa,beta,a,b"
 
-# fitxer: plugins.ca.po.10
 #: plugins/fn-stat/functions.c:5943
 msgid "p,alpha,beta,a,b"
 msgstr "p,alfa,beta,a,b"
 
-# fitxer: plugins.ca.po.10
 #: plugins/fn-stat/functions.c:5946
 msgid "n,t,p,c"
 msgstr "n,t,p,c"
 
-# fitxer: plugins.ca.po.10
 #: plugins/fn-stat/functions.c:5950
 msgid "x,a,cum"
 msgstr "x,a,cum"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-stat/functions.c:5954
 msgid "x,dof"
 msgstr "x,dof"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-stat/functions.c:5957 plugins/fn-stat/functions.c:6163
 msgid "p,dof"
 msgstr "p,dof"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-stat/functions.c:5960
 msgid "act_range,theo_range"
 msgstr "rang_act,range_teo"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-stat/functions.c:5963
 msgid "x,stddev,size"
 msgstr "x,stddev,mida"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-stat/functions.c:5978
 msgid "trials,p,alpha"
 msgstr "proves,p,alpha"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-stat/functions.c:5984
 msgid "x,y,cumulative"
 msgstr "x,y,acumulatiu"
 
-# fitxer: plugins.ca.po.9
-#: plugins/fn-stat/functions.c:5987
-msgid "x,dof of num,dof of denom"
-msgstr ""
-
-# fitxer: plugins.ca.po.9
-#: plugins/fn-stat/functions.c:5990
-msgid "p,dof of num,dof of denom"
-msgstr ""
-
-# fitxer: plugins.ca.po.9
 #: plugins/fn-stat/functions.c:5999
 msgid "x,known y's,known x's"
 msgstr "x,y és conegut,x és conegut"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-stat/functions.c:6002
 msgid "data_array,bins_array"
 msgstr "llista de _dades,llista de _binaris"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-stat/functions.c:6005
 msgid "arr1,arr2"
 msgstr "arr1,arr2"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-stat/functions.c:6008
 msgid "number,alpha,beta,cum"
-msgstr "número,alpha,beta,cum"
+msgstr "nombre,alpha,beta,cum"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-stat/functions.c:6011
 msgid "number,alpha,beta"
-msgstr "número,alpha,beta"
+msgstr "nombre,alpha,beta"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-stat/functions.c:6021 plugins/fn-stat/functions.c:6166
 msgid "known_y's,known_x's,new_x's,const"
 msgstr "y_coneguda,x_coneguda,nova_x's,const"
 
-# fitxer: plugins.ca.po.9
-#: plugins/fn-stat/functions.c:6028
-#, fuzzy
-msgid "x,n,M,N,cumulative"
-msgstr "x,y,acumulatiu"
-
-# fitxer: plugins.ca.po.9
 #: plugins/fn-stat/functions.c:6041 plugins/fn-stat/functions.c:6044
 #: plugins/fn-stat/functions.c:6056
 msgid "known_y's,known_x's,const,stat"
 msgstr "y_coneguda,x_coneguda,const,stat"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-stat/functions.c:6047 plugins/fn-stat/functions.c:6122
 #: plugins/fn-stat/functions.c:6151
 msgid "known_y's,known_x's"
 msgstr "y_coneguda,x_coneguda"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-stat/functions.c:6050 plugins/fn-stat/functions.c:6089
 msgid "p,mean,stddev"
-msgstr "p,mitja,stddev"
+msgstr "p,mitjana,stddev"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-stat/functions.c:6053 plugins/fn-stat/functions.c:6129
 msgid "x,mean,stddev"
-msgstr "x,mitja,stddev"
+msgstr "x,mitjana,stddev"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-stat/functions.c:6083
 msgid "f,t,p"
 msgstr "f,t,p"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-stat/functions.c:6086
 msgid "x,mean,stddev,cumulative"
-msgstr "x,mitja,stdev,acumulatiu"
+msgstr "x,mitjana,stdev,acumulatiu"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-stat/functions.c:6101
 msgid "array,k"
 msgstr "llista,k"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-stat/functions.c:6104
 msgid "array,x,significance"
 msgstr "llista,x,significat"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-stat/functions.c:6110
 msgid "x,mean,cumulative"
-msgstr "x,mitja,acumulatiu"
+msgstr "x,mitjana,acumulatiu"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-stat/functions.c:6113
 msgid "x_range,prob_range,lower_limit,upper_limit"
 msgstr "rang_x,rang_prob,límit_inferior,límit_superior"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-stat/functions.c:6116
 msgid "array,quart"
 msgstr "llista,quart"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-stat/functions.c:6132
 msgid "array,interval"
 msgstr "array,interval"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-stat/functions.c:6160
 msgid "x,dof,tails"
 msgstr "x,dof,cues"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-stat/functions.c:6169
 msgid "ref,fraction"
 msgstr "ref,fracció"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-stat/functions.c:6173
 msgid "array1,array2,tails,type"
 msgstr "llista1,llista2,cues,tipus"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-stat/functions.c:6188
 msgid "x.alpha,beta,cumulative"
 msgstr "x.alpha,beta,acumulatiu"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-stat/functions.c:6191
 msgid "ref,x"
 msgstr "ref,x"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-stat/functions.c:6195 plugins/fn-stat/functions.c:6213
 msgid "x,a,b"
 msgstr "x,a,b"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-stat/functions.c:6204
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:228
 msgid "x"
 msgstr "x"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-stat/functions.c:6207 plugins/fn-stat/functions.c:6210
 msgid "x,a"
 msgstr "x,a"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-stat/functions.c:6216
 msgid "x,sigma"
 msgstr "x,sigma"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-stat/functions.c:6219
 msgid "x,a,sigma"
 msgstr "x,a,sigma"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-stat/functions.c:6225
 msgid "function_nbr,ref,ref,"
 msgstr "funció_nbr,ref,ref,"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-stat/functions.c:6228
 msgid "ref,ref,"
 msgstr "ref,ref,"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-stat/plugin.xml.in.h:1
 msgid "Statistical Functions"
 msgstr "Funcions estadístiques"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-stat/plugin.xml.in.h:2 src/dialogs/descriptive-stats.glade.h:12
 msgid "Statistics"
 msgstr "Estadística"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-string/functions.c:804
 msgid "Arguments out of range"
-msgstr "Els argumnts queden fora del rang"
+msgstr "Els arguments estan fora del rang"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-string/functions.c:1217
 msgid "text,text,"
 msgstr "text,text"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-string/functions.c:1220
 msgid "num,decimals"
 msgstr "num,decimals"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-string/functions.c:1223
 msgid "text1,text2"
 msgstr "text1,text2"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-string/functions.c:1226
 msgid "text1,text2,num"
 msgstr "text1,text2,num"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-string/functions.c:1229
 msgid "num,decs,no_commas"
 msgstr "num,decs,sense_decimals"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-string/functions.c:1232 plugins/fn-string/functions.c:1256
 msgid "text,num_chars"
 msgstr "text,num_carac"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-string/functions.c:1244
 msgid "text,pos,num"
 msgstr "text,pos,num"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-string/functions.c:1250
 msgid "old,start,num,new"
 msgstr "vell,inici,num,nou"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-string/functions.c:1253
 msgid "text,num"
 msgstr "text,num"
 
-# fitxer: plugins.ca.po.9
-#: plugins/fn-string/functions.c:1259
-msgid "search_string,text,start_num"
-msgstr ""
-
-# fitxer: plugins.ca.po.9
 #: plugins/fn-string/functions.c:1262
 msgid "text,old,new,num"
 msgstr "text,vell,nou,num"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-string/functions.c:1268
 msgid "value,format_text"
 msgstr "valor,format_text"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-string/plugin.xml.in.h:1
 msgid "Functions for manipulating strings"
 msgstr "Funcions per tractar cadenes"
 
-# fitxer: plugins.ca.po.9
 #: plugins/fn-string/plugin.xml.in.h:2 src/dialogs/dialog-search.c:144
 #: src/func.c:743
 msgid "String"
-msgstr "Cadena de caràcters"
+msgstr "Cadena"
 
 #
-# fitxer: plugins.ca.po.9
 #: plugins/fn-string/plugin.xml.in.h:3
 msgid "String Functions"
 msgstr "Funcions de cadena"
 
-# fitxer: plugins.ca.po.9
 #: plugins/gb/plugin.c:131
 msgid "Unknown GB error"
 msgstr "Error desconegut de Basic de Gnome"
 
-# fitxer: plugins.ca.po.9
 #: plugins/gb/plugin.c:364
 #, c-format
 msgid "Error initializing gb '%s'"
-msgstr "S'ha produït un error en iniciar el bàsic de gnome '%s'"
+msgstr "S'ha produït un error en iniciar el bàsic del gnome '%s'"
 
-# fitxer: plugins.ca.po.9
 #: plugins/gb/plugin.c:379
 #, c-format
 msgid "Error in project '%s'"
 msgstr "S'ha produït un error en el projecte '%s'"
 
-# fitxer: plugins.ca.po.9
 #: plugins/gb/plugin.xml.in.h:1
 msgid "Enables Gnome Basic support"
 msgstr "Habilita el suport pel Basic de Gnome"
 
-# fitxer: plugins.ca.po.9
 #: plugins/gb/plugin.xml.in.h:2
 msgid "Gnome Basic"
 msgstr "Basic de Gnome"
 
-# fitxer: plugins.ca.po.9
 #: plugins/gda/plugin-gda.c:59
 msgid "Too much data returned"
 msgstr "S'han retornat massa dades"
 
-#
-# fitxer: plugins.ca.po.9
-#: plugins/gda/plugin-gda.c:99
-#, fuzzy
-msgid "Database Connection"
-msgstr "Funcions de Base de Dades"
-
-# fitxer: plugins.ca.po.9
 #: plugins/gda/plugin-gda.c:172
 msgid "Format: execSQL(dsn,user,password,sql)"
 msgstr "Format: execSQL(dsn,usuari,contrasenya,sql)"
 
-# fitxer: plugins.ca.po.8
 #: plugins/gda/plugin-gda.c:176 plugins/gda/plugin-gda.c:246
 #, c-format
 msgid "Error: could not open connection to %s"
 msgstr "Error: no s'ha pogut obrir la connexió a %s"
 
-# fitxer: plugins.ca.po.8
 #: plugins/gda/plugin-gda.c:186 plugins/gda/plugin-gda.c:256
 msgid "Error: no recordsets were returned"
 msgstr "Error: no s'ha retornat cap recordset"
 
-# fitxer: plugins.ca.po.8
 #: plugins/gda/plugin-gda.c:242
 msgid "Format: readDBTable(dsn,user,password,table)"
 msgstr "Format: readDBTable(dsn,usuari,contrasenya,taula)"
 
-# fitxer: plugins.ca.po.8
 #: plugins/gda/plugin.xml.in.h:2
 msgid "Database functions for retrieval of data from a database."
 msgstr ""
 "Funcions de bases de dades que permeten la recuperació de dades des d'una "
 "base de dades"
 
-# fitxer: plugins.ca.po.8
 #: plugins/gnome-db/plugin-gnomedb.c:26
 msgid "Could not run GNOME database configuration tool"
 msgstr ""
 "No s'ha pogut executar l'eina de configuració de bases de dades de GNOME"
 
-# fitxer: plugins.ca.po.8
 #: plugins/gnome-db/plugin.xml.in.h:1
 msgid "Database UI services plugin"
 msgstr "Connector del servei IU de base de dades"
 
-# fitxer: plugins.ca.po.8
 #: plugins/gnome-db/plugin.xml.in.h:2
 msgid "GNOME-DB"
 msgstr "BD-GNOME"
 
-# fitxer: plugins.ca.po.8
 #: plugins/gnome-glossary/plugin.xml.in.h:1
 msgid "Gnome Glossary"
 msgstr "Glossari del Gnome"
 
 #
-# fitxer: plugins.ca.po.8
 #: plugins/gnome-glossary/plugin.xml.in.h:2
 msgid "Gnome Glossary PO file format"
 msgstr "Format de fitxer Gnumeric XML"
 
-# fitxer: plugins.ca.po.8
 #: plugins/gnome-glossary/plugin.xml.in.h:3
 msgid "It provides support for saving Gnome Glossary in .po files."
 msgstr "Es proporciona suport per desar el Glossari del Gnome com a fitxers.po"
 
-#
-# fitxer: plugins.ca.po.8
 #: plugins/guile/plugin.c:107
 msgid "Guile error"
-msgstr "Errors múltiples"
+msgstr "Errors del Guile"
 
-#
-# fitxer: plugins.ca.po.8
 #: plugins/guile/plugin.xml.in.h:1
 msgid "Guile Plugin"
-msgstr "Connectors actius"
+msgstr "Connectors del Guile"
 
-# fitxer: plugins.ca.po.8
 #: plugins/guile/plugin.xml.in.h:2
 msgid "This plugin enables Guile(scheme) support in Gnumeric"
-msgstr "Aquest connector habilita el suport per Guile(scheme) a Gnumeric"
+msgstr "Aquest connector habilita el suport per al Guile(scheme) al Gnumeric"
 
-#
-# fitxer: plugins.ca.po.8
 #: plugins/guile/smob-value.c:102
 msgid "Unable to convert value from Guile"
-msgstr "No s'ha pogut tancar el fitxer del mòdul \"%s\": %s"
+msgstr "No s'ha pogut convertir el valor del Guile"
 
-# fitxer: plugins.ca.po.8
 #: plugins/guile/smob-value.c:163
 msgid "Not a Guile boolean"
 msgstr "No és un booleà Guile"
 
-#
-# fitxer: plugins.ca.po.8
 #: plugins/guile/smob-value.c:181
 msgid "Not a Guile number"
-msgstr "Nombre _negatiu:"
+msgstr "No és un nombre Guile"
 
-# fitxer: plugins.ca.po.8
 #: plugins/guile/smob-value.c:199
 msgid "Not a Guile string"
 msgstr "No és una cadena Guile"
 
-# fitxer: plugins.ca.po.8
 #: plugins/html/html_read.c:479
 msgid "Unable to parse the html."
-msgstr "No s'ha pogut analitzar el html."
+msgstr "No s'ha pogut analitzar l'html."
 
-# fitxer: plugins.ca.po.8
-#: plugins/html/plugin.xml.in.h:1
-#, fuzzy
-msgid "HTML &amp; TeX"
-msgstr "HTML i TeX"
-
-#
-# fitxer: plugins.ca.po.8
 #: plugins/html/plugin.xml.in.h:2
 msgid "HTML (*.html) fragment"
 msgstr "Fragment d'HTML (*.html)"
 
-#
-# fitxer: plugins.ca.po.8
-#: plugins/html/plugin.xml.in.h:3
-#, fuzzy
-msgid "HTML (*.html, *.htm)"
-msgstr "XHTML (*.xhtml)"
-
-#
-# fitxer: plugins.ca.po.8
 #: plugins/html/plugin.xml.in.h:4
 msgid "HTML 3.2 (*.html)"
 msgstr "Format de fitxer HTML 3.2 (*.html)"
 
-#
-# fitxer: plugins.ca.po.8
 #: plugins/html/plugin.xml.in.h:5
 msgid "HTML 4.0 (*.html)"
 msgstr "Format de fitxer HTML 4.0 (*.html)"
 
-#
-# fitxer: plugins.ca.po.8
 #: plugins/html/plugin.xml.in.h:6
 msgid "Import/Export of HTML, TeX, DVI, roff"
 msgstr "Importació/Exportació de HTML, TeX, DVI, roff i pdf"
 
-#
-# fitxer: plugins.ca.po.8
 #: plugins/html/plugin.xml.in.h:7
 msgid "LaTeX 2e (*.tex)"
-msgstr "Format de fitxer LaTeX2e (*.tex)"
+msgstr "LaTeX2e (*.tex)"
 
-#
-# fitxer: plugins.ca.po.8
 #: plugins/html/plugin.xml.in.h:8
 msgid "TROFF (*.me)"
-msgstr "Format de fitxer TROFF (*.me)"
+msgstr "TROFF (*.me)"
 
-#
-# fitxer: plugins.ca.po.8
-#: plugins/html/plugin.xml.in.h:9
-#, fuzzy
-msgid "XHTML (*.html)"
-msgstr "XHTML (*.xhtml)"
-
-# fitxer: plugins.ca.po.8
 #: plugins/html/plugin.xml.in.h:10
 msgid "XHTML range - for export to clipboard"
 msgstr "Rang XHTML - per a exportació al porta-retalls"
 
-# fitxer: plugins.ca.po.8
 #: plugins/lotus-123/boot.c:72
 msgid "Error while reading lotus workbook."
 msgstr "S'ha produït un error en llegir el llibre de treball del lotus."
 
-# fitxer: plugins.ca.po.8
 #: plugins/lotus-123/plugin.xml.in.h:1
 msgid "Imports Lotus 123 files"
 msgstr "Importa fitxers de Lotus 123"
 
-# fitxer: plugins.ca.po.8
 #: plugins/lotus-123/plugin.xml.in.h:2
 msgid "Lotus 123"
 msgstr "Lotus 123"
 
-#
-# fitxer: plugins.ca.po.8
-#: plugins/lotus-123/plugin.xml.in.h:3
-#, fuzzy
-msgid "Lotus 123 (*.wk1, *.wks, *.123)"
-msgstr "Lotus 123"
-
-# fitxer: plugins.ca.po.8
 #: plugins/mps/mps.c:181
 msgid "Program Name"
 msgstr "Nom del programa"
 
-#
-# fitxer: plugins.ca.po.8
 #. Print 'Status'.
 #: plugins/mps/mps.c:187
 msgid "Feasible"
 msgstr "Fallida"
 
-#
-# fitxer: plugins.ca.po.8
 #: plugins/mps/mps.c:221
 msgid "Objective Value"
 msgstr "Vaor objectiu"
 
-#
-# fitxer: plugins.ca.po.8
 #: plugins/mps/mps.c:227
 msgid "Objective function:"
 msgstr "Funció objectiu:"
 
-#
-# fitxer: plugins.ca.po.8
 #: plugins/mps/mps.c:234
 msgid "Constraints:"
 msgstr "Restriccions"
 
-# fitxer: plugins.ca.po.8
 #: plugins/mps/mps.c:245 src/cut-n-paste-code/goffice/graph/gog-guru.c:1065
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:379
 #: src/dialogs/dialog-define-names.c:497 src/dialogs/dialog-formula-guru.c:800
@@ -1928,15 +2255,12 @@ msgstr "Restriccions"
 msgid "Name"
 msgstr "Nom"
 
-# fitxer: plugins.ca.po.8
 #: plugins/mps/mps.c:272 src/dialogs/dialog-simulation.c:222
 #: src/tools/solver/reports-write.c:236 src/tools/solver/reports-write.c:282
 #: src/tools/solver/reports-write.c:394 src/tools/solver/reports-write.c:401
 msgid "Value"
 msgstr "Valor"
 
-#
-# fitxer: plugins.ca.po.8
 #.
 #. * Fill in the labels of `General Info' section.
 #.
@@ -1945,84 +2269,62 @@ msgstr "Valor"
 msgid "Type"
 msgstr "Tipus"
 
-# fitxer: plugins.ca.po.8
 #: plugins/mps/mps.c:274
 msgid "RHS"
 msgstr "RHS"
 
-# fitxer: plugins.ca.po.8
 #: plugins/mps/mps.c:275 src/tools/solver/reports-write.c:132
 msgid "Slack"
 msgstr "Fluix"
 
-#
-# fitxer: plugins.ca.po.8
 #: plugins/mps/mps.c:652
 msgid "Error while reading MPS file."
 msgstr "S'ha produït un error en llegir el fitxer MPS."
 
-# fitxer: plugins.ca.po.8
 #: plugins/mps/parser.c:547
 msgid "Problem name was not defined in the file."
 msgstr "El nom problema no es va definir al fitxer."
 
-#
-# fitxer: plugins.ca.po.8
 #: plugins/mps/parser.c:552
 msgid "Invalid ROWS section in the file."
 msgstr "Seccions de fila no vàlides al fitxer"
 
-#
-# fitxer: plugins.ca.po.8
 #: plugins/mps/parser.c:557
 msgid "Invalid COLUMNS section in the file."
 msgstr "Seccions de columna no vàlides al fitxer"
 
-#
-# fitxer: plugins.ca.po.8
 #: plugins/mps/parser.c:562
 msgid "Invalid RHS section in the file."
 msgstr "Seccions RHS no vàlides al fitxer"
 
-#
-# fitxer: plugins.ca.po.8
 #: plugins/mps/parser.c:567
 msgid "Invalid RANGES section in the file."
 msgstr "Secció RANGES invàlida en el fitxer."
 
-#
-# fitxer: plugins.ca.po.8
 #: plugins/mps/parser.c:572
 msgid "Invalid BOUNDS section in the file."
 msgstr "Seccions de BOUND no vàlides al fitxer"
 
-#
-# fitxer: plugins.ca.po.8
 #: plugins/mps/plugin.xml.in.h:1
 msgid "Linear and integer program (*.mps) file format"
 msgstr "Fitxer amb format de programa sencer i lineal (*.mps)"
 
-# fitxer: plugins.ca.po.8
 #: plugins/mps/plugin.xml.in.h:2
 msgid "Linear and integer program expression format (MPS) module"
 msgstr "Mòdul amb format d'expressió de programa sencer i lineal (MPS)"
 
-# fitxer: plugins.ca.po.8
 #: plugins/mps/plugin.xml.in.h:3
 msgid "Reads LP programs stored in the MPS format (*.mps)"
 msgstr "Programes LP desats en format MPS (*.mps)"
 
-# fitxer: plugins.ca.po.8
 #: plugins/numtheory/plugin.xml.in.h:1
 msgid "Bitwise Operations"
 msgstr "Operacions bit a bit"
 
-# fitxer: plugins.ca.po.8
 #: plugins/numtheory/plugin.xml.in.h:2
 msgid "Number Theory"
 msgstr "Teoria de nombres"
 
-# fitxer: plugins.ca.po.8
 #: plugins/numtheory/plugin.xml.in.h:3
 msgid ""
 "Several basic utilities for prime numbers, pi, phi, sigma. It also holds "
@@ -2031,57 +2333,45 @@ msgstr ""
 "Diverses utilitats bàsiques per nombres primers, pi, phi, sigma. També conté "
 "algunes operacions bit a bit bàsiques."
 
-# fitxer: plugins.ca.po.8
 #: plugins/oleo/plugin.xml.in.h:1
 msgid "GNU Oleo"
 msgstr "GNU Oleo"
 
-#
-# fitxer: plugins.ca.po.8
 #: plugins/oleo/plugin.xml.in.h:2
 msgid "GNU Oleo (*.oleo)"
 msgstr "Format de fitxer GNU Oleo (*.oleo)"
 
-# fitxer: plugins.ca.po.8
 #: plugins/oleo/plugin.xml.in.h:3
 msgid "Imports GNU Oleo documents"
 msgstr "Importa documents GNU Oleo"
 
-#
-# fitxer: plugins.ca.po.8
 #: plugins/openoffice/openoffice-read.c:536
 msgid "Missing expression"
 msgstr "Expressions perdudes"
 
-# fitxer: plugins.ca.po.8
 #: plugins/openoffice/openoffice-read.c:541
 #, c-format
 msgid "Expression '%s' does not start with a recognized character"
 msgstr "L'expressió '%s' no comença amb un caràcter reconegut"
 
-# fitxer: plugins.ca.po.8
 #: plugins/openoffice/openoffice-read.c:554
 #, c-format
 msgid "Unable to parse '%s' because '%s'"
 msgstr "No es pot processar '%s' perquè '%s'"
 
-# fitxer: plugins.ca.po.8
 #: plugins/openoffice/openoffice-read.c:625
 msgid "Invalid array expression does not specify number of columns."
 msgstr "L'expressió d'array invàlida no especifica el número de columnes."
 
-# fitxer: plugins.ca.po.8
 #: plugins/openoffice/openoffice-read.c:628
 msgid "Invalid array expression does not specify number of rows."
 msgstr "L'expressió d'array invàlida no especifica el número de files."
 
-# fitxer: plugins.ca.po.8
 #: plugins/openoffice/openoffice-read.c:1147
 #, c-format
 msgid "Unable to parse position for expression '%s' @ '%s' because '%s'"
 msgstr "No es pot analitzar la posició de l'expressió '%s' @ '%s' perquè '%s'"
 
-# fitxer: plugins.ca.po.8
 #: plugins/openoffice/openoffice-read.c:1160
 #, c-format
 msgid ""
@@ -2089,168 +2379,39 @@ msgid ""
 msgstr ""
 "No es pot analitzar la posició de l'expressió '%s' amb valor '%s' perquè '%s'"
 
-# fitxer: plugins.ca.po.8
 #: plugins/openoffice/openoffice-read.c:1439
 msgid "No stream named content.xml found."
 msgstr "No s'ha trobat l'stream anomenat content.xml."
 
-# fitxer: plugins.ca.po.8
-#: plugins/openoffice/openoffice-read.c:1446
-#, fuzzy
-msgid "No stream named styles.xml found."
-msgstr "No s'ha trobat l'stream anomenat content.xml."
-
-# fitxer: plugins.ca.po.8
-#: plugins/openoffice/openoffice-write.c:121
-#, fuzzy, c-format
-msgid ""
-"Some content will be lost when saving as OpenOffice .sxc. It only supports %"
-"d rows, and sheet '%s' has %d"
-msgstr ""
-"Alguns continguts es perdran si es grava com a MS Excel (tm). Només suporta %"
-"d files, i aquesta fulla té %d"
-
-# fitxer: plugins.ca.po.8
-#: plugins/openoffice/openoffice-write.c:128
-#, fuzzy, c-format
-msgid ""
-"Some content will be lost when saving as OpenOffice .sxc. It only supports %"
-"d columns, and sheet '%s' has %d"
-msgstr ""
-"Alguns continguts es perdran si es grava com a MS Excel (tm). Només suporta %"
-"d files, i aquesta fulla té %d"
-
-# fitxer: plugins.ca.po.8
 #: plugins/openoffice/plugin.xml.in.h:1
 msgid "Open/Star Calc (*.sxc)"
 msgstr "Obre/Star Calc (*.sxc)"
 
-# fitxer: plugins.ca.po.8
 #: plugins/openoffice/plugin.xml.in.h:2
 msgid "Open/Star Office spreadsheet"
 msgstr "Fulla de Càlcul Open/Star Office"
 
-# fitxer: plugins.ca.po.8
 #: plugins/openoffice/plugin.xml.in.h:3
 msgid "OpenCalc/StarCalc"
 msgstr "ObreCalculadora/StarCalc"
 
-# fitxer: plugins.ca.po.8
-#: plugins/openoffice/plugin.xml.in.h:4
-msgid "OpenOffice OASIS _UNFINISHED_"
-msgstr ""
-
-# fitxer: plugins.ca.po.8
-#: plugins/paradox/paradox.c:72 plugins/paradox/paradox.c:121
-#, fuzzy
-msgid "Error while opening paradox file."
-msgstr "S'ha produït un error mentre s'obria el fitxer xbase."
-
-#
-# fitxer: plugins.ca.po.8
-#: plugins/paradox/paradox.c:119
-#, fuzzy
-msgid "Could not allocate memory for record."
-msgstr "No s'ha pogut crear la fòrmula guru."
-
-# fitxer: plugins.ca.po.8
-#: plugins/paradox/paradox.c:219
-#, c-format
-msgid "Field type %d is not supported."
-msgstr ""
-
-# fitxer: plugins.ca.po.8
-#: plugins/paradox/plugin.xml.in.h:1
-#, fuzzy
-msgid "Imports Paradox files"
-msgstr "Importa fitxers SC/XSpread"
-
-#
-# fitxer: plugins.ca.po.8
-#: plugins/paradox/plugin.xml.in.h:2
-#, fuzzy
-msgid "Paradox"
-msgstr "Pareto"
-
-# fitxer: plugins.ca.po.7
-#: plugins/paradox/plugin.xml.in.h:3
-msgid "Paradox database or primary index file"
-msgstr ""
-
-#
-# fitxer: plugins.ca.po.7
-#: plugins/perl/ext/Gnumeric.xs:144
-#, fuzzy
-msgid "Perl plugin"
-msgstr "Connectors actius"
-
-# fitxer: plugins.ca.po.7
 #: plugins/perl-func/plugin.xml.in.h:1 plugins/perl/plugin.xml.in.h:2
 msgid "Perl"
 msgstr "Perl"
 
-#
-# fitxer: plugins.ca.po.7
-#: plugins/perl-func/plugin.xml.in.h:2
-#, fuzzy
-msgid "Perl functions"
-msgstr "Funcions de Python"
-
-# fitxer: plugins.ca.po.7
-#: plugins/perl-func/plugin.xml.in.h:3
-#, fuzzy
-msgid "Sample Perl plugin providing some (useless) functions."
-msgstr "Algunes funcions són proporcionades per mostres de connectors dePython"
-
-# fitxer: plugins.ca.po.7
-#: plugins/perl-loader/perl-loader.c:108
-#, fuzzy
-msgid "Module name not given."
-msgstr "No s'ha donat el nom del fitxer del mòdul."
-
-# fitxer: plugins.ca.po.7
-#: plugins/perl-loader/perl-loader.c:134
-#, fuzzy
-msgid "perl_func.pl doesn't exist."
-msgstr "El mòdul \"%s\" no existeix."
-
-# fitxer: plugins.ca.po.7
-#: plugins/perl-loader/perl-loader.c:178 plugins/perl-loader/perl-loader.c:197
-#, c-format
-msgid "Perl error: %s\n"
-msgstr ""
-
-#
-# fitxer: plugins.ca.po.7
-#: plugins/perl-loader/perl-loader.c:256
-#, fuzzy
-msgid "Perl error: "
-msgstr "Errors múltiples"
-
-#
-# fitxer: plugins.ca.po.7
-#: plugins/perl-loader/plugin.xml.in.h:1
-#, fuzzy
-msgid "Perl plugin loader"
-msgstr "Carregador de connectors"
-
-# fitxer: plugins.ca.po.10
 #: plugins/perl-loader/plugin.xml.in.h:2
 msgid "This plugin provides support for Perl plugins"
 msgstr "Aquest connector proporciona suport per als connectors de Perl"
 
 #
-# fitxer: plugins.ca.po.7
 #: plugins/perl/plugin.xml.in.h:1
 msgid "Enables the creation of functions in Perl"
 msgstr "Habilita la creació de funcions en PERL"
 
-# fitxer: plugins.ca.po.10
 #: plugins/plan-perfect/pln.c:504
 msgid "PLN : Spreadsheet is password encrypted"
 msgstr "PLN: el full de càlcul està xifrat amb contrasenya"
 
-# fitxer: plugins.ca.po.10
 #: plugins/plan-perfect/pln.c:571
 #, c-format
 msgid "Ignoring data that claims to be in row %u which is > max row %u"
@@ -2258,7 +2419,6 @@ msgstr ""
 "S'ignoren les dades que diuen estar a la fila %u, que és major que la màxima "
 "fila %u"
 
-# fitxer: plugins.ca.po.10
 #: plugins/plan-perfect/pln.c:575
 #, c-format
 msgid "Ignoring data that claims to be in column %u which is > max column %u"
@@ -2266,166 +2426,137 @@ msgstr ""
 "S'ignoren les dades que diuen estar a la columna %u, que és major que la "
 "màxima columna %u"
 
-# fitxer: plugins.ca.po.10
 #: plugins/plan-perfect/plugin.xml.in.h:1
 msgid "Imports Plan Perfect Formatted Documents"
 msgstr "Importa documents de format Plan Perfect"
 
 #
-# fitxer: plugins.ca.po.10
 #: plugins/plan-perfect/plugin.xml.in.h:2
 msgid "Plan Perfect"
 msgstr "Plan Perfect"
 
-# fitxer: plugins.ca.po.10
 #: plugins/plan-perfect/plugin.xml.in.h:3
 msgid "Plan Perfect Format (PLN) import"
 msgstr "Importa format Plan Perfect (PLN)"
 
 #
-# fitxer: plugins.ca.po.10
 #: plugins/psiconv/plugin.xml.in.h:1
 msgid "Imports Psion 5 series Sheet files"
 msgstr "Importa fitxers de fulls Psion de la sèrie 5"
 
-# fitxer: plugins.ca.po.10
 #: plugins/psiconv/plugin.xml.in.h:2
 msgid "Psiconv"
 msgstr "Psiconv"
 
-# fitxer: plugins.ca.po.10
 #: plugins/psiconv/plugin.xml.in.h:3
 msgid "Psion (*.psisheet)"
 msgstr "Psion (*.psisheet)"
 
 #
-# fitxer: plugins.ca.po.10
 #: plugins/psiconv/psiconv-read.c:608
 msgid "Error while reading psiconv file."
 msgstr "S'ha produït un error en llegir el fitxer psiconv."
 
 #
-# fitxer: plugins.ca.po.10
 #: plugins/psiconv/psiconv-read.c:618
 msgid "Error while parsing Psion file."
 msgstr "S'ha produït un error en analitzar el fitxer Psion."
 
 #
-# fitxer: plugins.ca.po.10
 #: plugins/psiconv/psiconv-read.c:626
 msgid "This Psion file is not a Sheet file."
 msgstr "Aquest fitxer Psion no és un fitxer de full."
 
-# fitxer: plugins.ca.po.10
 #: plugins/py-func/plugin.xml.in.h:1
 msgid "Python"
 msgstr "Python"
 
 #
-# fitxer: plugins.ca.po.10
 #: plugins/py-func/plugin.xml.in.h:2
 msgid "Python functions"
 msgstr "Funcions de Python"
 
-# fitxer: plugins.ca.po.10
 #: plugins/py-func/plugin.xml.in.h:3
 msgid "Sample Python plugin providing some (useless) functions."
 msgstr "Connector de mostra de Python amb funcions poc útils."
 
-# fitxer: plugins.ca.po.10
 #: plugins/python-loader/gnm-py-interpreter.c:258
 msgid "Default interpreter"
 msgstr "Intèrpret per defecte"
 
-# fitxer: plugins.ca.po.10
 #: plugins/python-loader/gnm-python.c:130
 #: plugins/python-loader/gnm-python.c:152
 #, c-format
 msgid "Could not import %s."
 msgstr "No s'ha pogut importar %s."
 
-# fitxer: plugins.ca.po.10
 #: plugins/python-loader/gnm-python.c:137
 #, c-format
 msgid "Could not find %s."
 msgstr "No s'ha pogut trobar %s."
 
-# fitxer: plugins.ca.po.10
 #: plugins/python-loader/gnm-python.c:145
 #, c-format
 msgid "Could not initialize Python bindings for Gtk+, etc: %s"
 msgstr "No s'ha pogut iniciar les vinculacions de Python amb Gtk+, etc: %s"
 
-# fitxer: plugins.ca.po.10
 #: plugins/python-loader/gnm-python.c:159
 #, c-format
 msgid "Could not find %s"
 msgstr "No s'ha pogut trobar %s"
 
 #
-# fitxer: plugins.ca.po.10
 #: plugins/python-loader/plugin.xml.in.h:1
 msgid "Python plugin loader"
 msgstr "Carregador del connector de Python"
 
-# fitxer: plugins.ca.po.10
 #: plugins/python-loader/plugin.xml.in.h:2
 msgid "This plugin provides support for Python plugins"
 msgstr "Aquest connector proporciona suport per als connectors Python"
 
-# fitxer: plugins.ca.po.10
 #: plugins/python-loader/py-console.c:91
 #, c-format
 msgid "*** Interpreter: %s\n"
 msgstr "*** Intèrpret: %s\n"
 
 #
-# fitxer: plugins.ca.po.10
 #: plugins/python-loader/py-console.c:160
 msgid "Gnumeric Python console"
 msgstr "Consola Python de Gnumeric"
 
 #
-# fitxer: plugins.ca.po.10
 #: plugins/python-loader/py-console.c:169
 msgid "E_xecute in:"
 msgstr "E_xecuta en:"
 
 #
-# fitxer: plugins.ca.po.10
 #: plugins/python-loader/py-console.c:214
 msgid "C_ommand:"
 msgstr "_Ordre:"
 
-# fitxer: plugins.ca.po.10
 #: plugins/python-loader/py-gnumeric.c:249
 msgid "Python list is not an array"
 msgstr "La llista Python no és un vector"
 
-# fitxer: plugins.ca.po.10
 #: plugins/python-loader/py-gnumeric.c:256
 #, c-format
 msgid "Unsupported Python type: %s"
 msgstr "No s'ha implementat el tipus del Python: %s"
 
-# fitxer: plugins.ca.po.10
 #: plugins/python-loader/py-gnumeric.c:283
 msgid "Unknown error"
 msgstr "Error desconegut"
 
-# fitxer: plugins.ca.po.10
 #: plugins/python-loader/py-gnumeric.c:289
 #, c-format
 msgid "Python exception (%s: %s)"
 msgstr "Excepció de Python (%s: %s)"
 
-# fitxer: plugins.ca.po.10
 #: plugins/python-loader/py-gnumeric.c:293
 #, c-format
 msgid "Python exception (%s)"
 msgstr "Excepció de Python (%s)"
 
-# fitxer: plugins.ca.po.10
 #: plugins/python-loader/python-loader.c:70
 msgid "Python module name not given."
 msgstr "No s'ha donat el nom del mòdul de Python."
@@ -2442,29 +2573,24 @@ msgstr "S'ha produït un error en obrir el fitxer \"%s\" per escriure'l."
 msgid "Error while opening file \"%s\" for reading."
 msgstr "S'ha produït un error en obrir el fitxer \"%s\" per llegir-lo."
 
-# fitxer: plugins.ca.po.10
 #: plugins/python-loader/python-loader.c:123
 msgid "Cannot create new Python interpreter."
 msgstr "No es pot crear un nou intèrpret de Python."
 
-# fitxer: plugins.ca.po.10
 #: plugins/python-loader/python-loader.c:144
 #, c-format
 msgid "Module \"%s\" doesn't exist."
 msgstr "El mòdul \"%s\" no existeix."
 
-# fitxer: plugins.ca.po.10
 #: plugins/python-loader/python-loader.c:162
 #, c-format
 msgid "Execution of module \"%s\" failed."
 msgstr "Ha fallat l'execució del mòdul \"%s\"."
 
-# fitxer: plugins.ca.po.10
 #: plugins/python-loader/python-loader.c:269
 msgid "Some name"
 msgstr "Algun nom"
 
-# fitxer: plugins.ca.po.10
 #: plugins/python-loader/python-loader.c:331
 #: plugins/python-loader/python-loader.c:424
 #: plugins/python-loader/python-loader.c:647
@@ -2473,7 +2599,6 @@ msgstr "Algun nom"
 msgid "Python file \"%s\" has invalid format."
 msgstr "El fitxer Python \"%s\" té un format invàlid."
 
-# fitxer: plugins.ca.po.10
 #: plugins/python-loader/python-loader.c:335
 #: plugins/python-loader/python-loader.c:429
 #: src/cut-n-paste-code/goffice/app/go-plugin-loader-module.c:244
@@ -2482,67 +2607,51 @@ msgstr "El fitxer Python \"%s\" té un format invàlid."
 msgid "File doesn't contain \"%s\" function."
 msgstr "El fitxer no conté la funció \"%s\"."
 
-# fitxer: plugins.ca.po.10
 #: plugins/python-loader/python-loader.c:652
 #: plugins/python-loader/python-loader.c:764
 #, c-format
 msgid "File doesn't contain \"%s\" dictionary."
 msgstr "El fitxer no conté el diccionari \"%s\"."
 
-# fitxer: plugins.ca.po.10
 #: plugins/python-loader/python-loader.c:657
 #: plugins/python-loader/python-loader.c:769
 #, c-format
 msgid "Object \"%s\" is not a dictionary."
 msgstr "L'objecte \"%s\" no és un diccionari."
 
-# fitxer: plugins.ca.po.10
 #: plugins/python-loader/python-loader.c:707 src/gnm-plugin.c:557
 #, c-format
 msgid "Unknown action: %s"
 msgstr "Acció desconeguda: %s"
 
-# fitxer: plugins.ca.po.10
 #: plugins/python-loader/python-loader.c:712
 #, c-format
 msgid "Not a valid function for action: %s"
 msgstr "No és una funció vàlida per a una acció: %s"
 
-# fitxer: plugins.ca.po.10
 #: plugins/qpro/plugin.xml.in.h:1
 msgid "Imports Quattro Pro (tm) files"
 msgstr "Importa fitxers Quattro Pro (tm)"
 
-# fitxer: plugins.ca.po.10
-#: plugins/qpro/plugin.xml.in.h:2
-#, fuzzy
-msgid "Quattro Pro (*.wb1, *.wb2, *.wb3)"
-msgstr "Quattro Pro (*.wb1, *.wb2, *.wb3)"
-
-# fitxer: plugins.ca.po.10
 #: plugins/qpro/plugin.xml.in.h:3
 msgid "Quattro Pro(tm)"
 msgstr "Quattro Pro(tm)"
 
-# fitxer: plugins.ca.po.10
 #: plugins/qpro/qpro-read.c:151
 #, c-format
 msgid "Invalid '%s' record of length %hd instead of %d"
 msgstr "Registre '%s' invàlid de longitud %hd en comptes de %d"
 
-# fitxer: plugins.ca.po.10
 #: plugins/qpro/qpro-read.c:775
 #, c-format
 msgid "Invalid zoom %hd %%"
 msgstr "Ampliació invàlida %hd %%"
 
-# fitxer: plugins.ca.po.10
 #: plugins/qpro/qpro-read.c:817
 #, c-format
 msgid "Invalid record %d of length %hd"
 msgstr "Registre invàlid %d de longitud %hd"
 
-# fitxer: plugins.ca.po.10
 #: plugins/qpro/qpro-read.c:849
 msgid ""
 "Unable to find the PerfectOffice_MAIN stream.  Is this really a Quattro Pro "
@@ -2551,39 +2660,32 @@ msgstr ""
 "No s'ha pogut trobar el flux PerfectOffice_MAIN. Assegureu-vos que es tracta "
 "d'un fitxer Quattro Pro"
 
-# fitxer: plugins.ca.po.10
 #: plugins/sample_datasource/plugin.xml.in.h:1
 msgid "A proof of concept external data source"
 msgstr "Una prova de concepte d'una font externa de dades"
 
-# fitxer: plugins.ca.po.10
 #: plugins/sample_datasource/plugin.xml.in.h:3
 msgid "Sample DataSource"
 msgstr "Mostra de font de dades"
 
-# fitxer: plugins.ca.po.10
 #: plugins/sc/plugin.xml.in.h:1
 msgid "Imports SC/XSpread files"
 msgstr "Importa fitxers SC/XSpread"
 
 #
-# fitxer: plugins.ca.po.10
 #: plugins/sc/plugin.xml.in.h:2
 msgid "SC/XSpread"
 msgstr "SC/XSpread"
 
 #
-# fitxer: plugins.ca.po.10
 #: plugins/sc/plugin.xml.in.h:3
 msgid "SC/xspread"
 msgstr "SC/xspread"
 
-# fitxer: plugins.ca.po.10
 #: plugins/sc/sc.c:376
 msgid "Error parsing line"
 msgstr "S'ha produït un error en analitzar la línia"
 
-# fitxer: plugins.ca.po.10
 #.
 #. * http://www.thule.no/haynie/cpumods/a2620/docs/commrc.sc.txt:
 #. * format B 20 2
@@ -2597,49 +2699,40 @@ msgstr "S'ha produït un error en analitzar la línia"
 msgid "Imports MultiPlan (SYLK) files"
 msgstr "Importa fitxers MultiPlan (SYLK)"
 
-# fitxer: plugins.ca.po.10
 #: plugins/sylk/plugin.xml.in.h:2
 msgid "MultiPlan (SYLK)"
 msgstr "MultiPlan (SYLK)"
 
-# fitxer: plugins.ca.po.10
 #: plugins/sylk/sylk.c:460
 msgid "Not SYLK file"
 msgstr "No és un fitxer SYLK"
 
-# fitxer: plugins.ca.po.10
 #: plugins/sylk/sylk.c:473
 msgid "error parsing line\n"
 msgstr "s'ha produït un error en analitzar la línia\n"
 
-# fitxer: plugins.ca.po.10
 #: plugins/sylk/sylk.c:529
 msgid "Error while reading sheet."
 msgstr "S'ha produït un error en llegir el full."
 
-# fitxer: plugins.ca.po.10
 #: plugins/uihello/plugin.xml.in.h:1
 msgid "Hello World plugin using ui service"
 msgstr "Connector 'Hola món' que usa el servei iu"
 
-# fitxer: plugins.ca.po.10
 #: plugins/uihello/plugin.xml.in.h:2
 msgid "UI Hello"
 msgstr "Hola"
 
-# fitxer: plugins.ca.po.10
 #: plugins/uihello/uihello.c:23
 #, c-format
 msgid "This is message from the \"%s\" plugin."
 msgstr "Aquest és el missatge del connector \"%s\"."
 
-# fitxer: plugins.ca.po.10
 #: plugins/xbase/boot.c:170
 msgid "Error while opening xbase file."
 msgstr "S'ha produït un error en obrir el fitxer xbase."
 
 # src/functions/fn-sheet.c:104
-# fitxer: plugins.ca.po.10
 #: plugins/xbase/boot.c:176 src/dialogs/dialog-goto-cell.c:289
 #: src/dialogs/dialog-search.c:409 src/dialogs/dialog-stf-export.c:444
 #: src/dialogs/print.glade.h:21 src/commands.c:4966 src/print-info.c:398
@@ -2647,7 +2740,6 @@ msgstr "S'ha produït un error en obrir el fitxer xbase."
 msgid "Sheet"
 msgstr "Full"
 
-# fitxer: plugins.ca.po.10
 #: plugins/xbase/boot.c:198
 #, c-format
 msgid ""
@@ -2659,56 +2751,46 @@ msgstr ""
 "resta del fitxer. Necessitareu un muntatge propi amb SHEET_MAX_ROWS "
 "incrementat per llegir aquest fitxer."
 
-# fitxer: plugins.ca.po.10
 #: plugins/xbase/plugin.xml.in.h:1
 msgid "Imports XBase files"
 msgstr "Importa fitxers XBase"
 
-# fitxer: plugins.ca.po.10
 #: plugins/xbase/plugin.xml.in.h:2
 msgid "XBase"
 msgstr "XBase"
 
-# fitxer: plugins.ca.po.10
 #: plugins/xbase/plugin.xml.in.h:3
 msgid "Xbase (*.dbf) file format"
 msgstr "Format de fitxer Xbase (*.dbf)"
 
-# fitxer: plugins.ca.po.10
 #: plugins/xbase/xbase.c:142
 msgid "Failed to read DBF header."
 msgstr "No s'ha pogut llegir la capçalera DBF."
 
 #
-# fitxer: plugins.ca.po.10
 #: plugins/xml_sax/plugin.xml.in.h:1
 msgid "EXPERIMENTAL SAX based Gnumeric (*.gnumeric)"
 msgstr "Gnumeric experimental basat en SAX (*.gnumeric)"
 
 #
-# fitxer: plugins.ca.po.10
 #: plugins/xml_sax/plugin.xml.in.h:2
 msgid "EXPERIMENTAL SAX based XML"
 msgstr "XML experimental basat en SAX"
 
 #
-# fitxer: plugins.ca.po.10
 #: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4114
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "XML Gnumeric (*.gnumeric)"
 
-# fitxer: plugins.ca.po.10
 #: plugins/xml_sax/plugin.xml.in.h:4
 msgid "The next generation sax based xml I/O subsystem"
 msgstr "La nova generació del subsistema d'E/S xml basat en sax"
 
-# fitxer: plugins.ca.po.10
 #: plugins/xml_sax/xml-sax-read.c:308
 #, c-format
 msgid "Multiple version specifications.  Assuming %d"
 msgstr "Múltiples especificacions de versions. S'assumeix %d"
 
-# fitxer: plugins.ca.po.10
 #: plugins/xml_sax/xml-sax-read.c:481
 msgid "File has inconsistent SheetNameIndex element."
 msgstr "El fitxer té inconsistències en l'element SheetNameIndex."
@@ -3102,22 +3184,6 @@ msgstr ""
 "Aquesta cadena dóna la regió predeterminada per repetir a la part superior "
 "de cada full imprés. Useu el diàleg de configuració d'impressió per editar "
 "aquest valor."
-
-# fitxer: schemas.ca.po
-#: schemas/gnumeric-dialogs.schemas.in.h:66
-msgid ""
-"This value determines the default number of pages a printout of the current "
-"sheet is suppposed to be high. 0 disables scaling. Please use the Print "
-"Setup dialog to edit this value."
-msgstr ""
-
-# fitxer: schemas.ca.po
-#: schemas/gnumeric-dialogs.schemas.in.h:67
-msgid ""
-"This value determines the default number of pages a printout of the current "
-"sheet is suppposed to be wide. 0 disables scaling. Please use the Print "
-"Setup dialog to edit this value."
-msgstr ""
 
 # fitxer: schemas.ca.po
 #: schemas/gnumeric-dialogs.schemas.in.h:68
@@ -3693,10 +3759,6 @@ msgstr ""
 msgid "Use UTF-8 in LaTeX Export"
 msgstr "Usa UTF-8 en exportar a LaTeX"
 
-#: src/cut-n-paste-code/goffice/app/file.c:513
-msgid "Not a valid UTF-8 filename."
-msgstr ""
-
 #
 # fitxer: src.ca.po.2
 #: src/cut-n-paste-code/goffice/app/file.c:523
@@ -3919,13 +3981,6 @@ msgid "Loader has no load_base method.\n"
 msgstr "El carregador no té mètode load_base.\n"
 
 # fitxer: src.ca.po.4
-#: src/cut-n-paste-code/goffice/app/go-plugin-loader.c:107
-#: src/cut-n-paste-code/goffice/app/go-plugin-loader.c:145
-#, fuzzy, c-format
-msgid "Service '%s' not supported by l."
-msgstr "El servei '%s' no està suportat pel carregador."
-
-# fitxer: src.ca.po.4
 #: src/cut-n-paste-code/goffice/app/go-plugin-loader-module.c:44
 msgid "Module file name not given."
 msgstr "No s'ha donat el nom del fitxer del mòdul."
@@ -4115,20 +4170,9 @@ msgid "Details"
 msgstr "Detalls"
 
 # fitxer: src.ca.po.9
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1464
-msgid "Categories between _ticks"
-msgstr ""
-
-# fitxer: src.ca.po.9
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1465
 msgid "Categories between _labels"
 msgstr "Categories entre eti_quetes"
-
-#
-# fitxer: src.ca.po.9
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1466
-msgid "_Cross at category #"
-msgstr ""
 
 # fitxer: src.ca.po.9
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1472
@@ -4148,22 +4192,6 @@ msgid "M_ax"
 msgstr "Mà_x"
 
 # fitxer: src.ca.po.9
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1477
-msgid "Ma_jor Ticks"
-msgstr ""
-
-# fitxer: src.ca.po.9
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1478
-msgid "Mi_nor Ticks"
-msgstr ""
-
-# fitxer: src.ca.po.9
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1479
-#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:7
-msgid "_Cross"
-msgstr ""
-
-# fitxer: src.ca.po.9
 #. TOO CHEESY to go into production
 #. * We need a way to toggle auto vs user formats
 #. * but the selector is too tall already
@@ -4181,29 +4209,9 @@ msgid "Label"
 msgstr "Etiqueta"
 
 # fitxer: src.ca.po.9
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1539
-msgid "MinorGrid"
-msgstr ""
-
-# fitxer: src.ca.po.9
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1542
-msgid "MajorGrid"
-msgstr ""
-
-# fitxer: src.ca.po.9
-#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:1
-msgid "<b>Major ticks</b>"
-msgstr ""
-
-# fitxer: src.ca.po.9
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:2
 msgid "<b>Mapping</b>"
 msgstr "<b>Correspondència</b>"
-
-# fitxer: src.ca.po.9
-#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:3
-msgid "<b>Minor ticks</b>"
-msgstr ""
 
 # fitxer: src.ca.po.9
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:4
@@ -4721,12 +4729,6 @@ msgid "Default"
 msgstr "Per defecte"
 
 # fitxer: src.ca.po.11
-#. Guppi
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:534
-msgid "Guppi"
-msgstr ""
-
-# fitxer: src.ca.po.11
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:335
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:231
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar.c:225
@@ -4765,11 +4767,6 @@ msgstr "Traçat bar/col"
 #, no-c-format
 msgid "%"
 msgstr "%"
-
-# fitxer: src.ca.po.11
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:3
-msgid "How far the bars/cols overlap as a percentage of the width"
-msgstr ""
 
 # fitxer: src.ca.po.11
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:4
@@ -5085,62 +5082,6 @@ msgstr "Motor de traçador de línia"
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:6
 msgid "Line, Area, Bar and Column plots"
 msgstr "Traçats de línia, d'àrees, de barres i de columnes."
-
-#
-# fitxer: src.ca.po.9
-#. xgettext : the base for how to name box-plot objects
-#. * eg The 2nd box-plot in a chart will be called
-#. * 	BoxPlot2
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/gog-boxplot.c:103
-#, fuzzy
-msgid "Box-Plot"
-msgstr "Traça"
-
-# fitxer: src.ca.po.4
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/gog-boxplot.c:340
-#, fuzzy
-msgid "Invalid data."
-msgstr "El patró de cerca és invàlid."
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plot-types.xml.in.h:1
-msgid ""
-"Box-Plot. You must provide five values to the plot engine in this order: "
-"minimum, first quartile, median, third quartile, and maximum, not the raw "
-"data."
-msgstr ""
-
-#
-# fitxer: src.ca.po.9
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plot-types.xml.in.h:2
-#, fuzzy
-msgid "BoxPlot"
-msgstr "Traça"
-
-#
-# fitxer: src.ca.po.9
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plot-types.xml.in.h:3
-#, fuzzy
-msgid "BoxPlots"
-msgstr "Traça"
-
-#
-# fitxer: src.ca.po.9
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plugin.xml.in.h:1
-#, fuzzy
-msgid "Box-Plots"
-msgstr "Traça"
-
-# fitxer: src.ca.po.10
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plugin.xml.in.h:2
-#, fuzzy
-msgid "Box-plot plotting engine"
-msgstr "Motor de traçador de bar/col"
-
-# fitxer: src.ca.po.10
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plugin.xml.in.h:3
-#, fuzzy
-msgid "Charting : Box-Plots"
-msgstr "Gràfic: traçats radials"
 
 # fitxer: src.ca.po.10
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plugin.xml.in.h:4
@@ -5556,37 +5497,9 @@ msgid "X Error bars"
 msgstr "Barres d'error X"
 
 # fitxer: src.ca.po.10
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:2
-#, fuzzy
-msgid "Interpolate between multi-dimensional points with Bezier splines."
-msgstr ""
-"Interpola linealment entre punts multidimensionals, amb marques a cada punt."
-
-# fitxer: src.ca.po.10
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:3
-#, fuzzy
-msgid ""
-"Linearly interpolate between multi-dimensional points,with markers at each "
-"point."
-msgstr ""
-"Interpola linealment entre punts multidimensionals, amb marques a cada punt."
-
-# fitxer: src.ca.po.10
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:4
-#, fuzzy
-msgid "Linearly interpolate between multi-dimensional points."
-msgstr "Interpola linealment entre punts multidimensionals."
-
-# fitxer: src.ca.po.10
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:5
 msgid "Markers at each point."
 msgstr "Marques a cada punt."
-
-# fitxer: src.ca.po.10
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:6
-#, fuzzy
-msgid "Multi-dimensional points with circle at each point."
-msgstr "Punts multidimensionals amb cercle a cada punt."
 
 # fitxer: src.ca.po.10
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:7
@@ -5608,12 +5521,6 @@ msgstr "Línies XY"
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:11
 msgid "XY Points"
 msgstr "Punts XY"
-
-# fitxer: src.ca.po.10
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:12
-#, fuzzy
-msgid "XY Splines"
-msgstr "Línies XY"
 
 # fitxer: src.ca.po.10
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:1
@@ -6118,13 +6025,6 @@ msgstr "Negreta cursiva"
 msgid "Italic"
 msgstr "Cursiva"
 
-#. xgettext: This text is used as a sample when selecting a font
-#. * please choose a translation that would produce common
-#. * characters specific to the target alphabet.
-#: src/cut-n-paste-code/goffice/gui-utils/go-font-sel.c:446
-msgid "AaBbCcDdEe12345"
-msgstr ""
-
 # fitxer: src.ca.po.11
 #: src/cut-n-paste-code/goffice/gui-utils/go-font-sel.glade.h:1
 #: src/dialogs/anova-two.glade.h:1 src/dialogs/autocorrect.glade.h:1
@@ -6561,11 +6461,6 @@ msgid "Botswana, Pulas"
 msgstr "Botswana, pulas"
 
 # fitxer: src.ca.po.4
-#: src/cut-n-paste-code/goffice/utils/formats.c:412
-msgid "Belarus, Rubles"
-msgstr ""
-
-# fitxer: src.ca.po.4
 #: src/cut-n-paste-code/goffice/utils/formats.c:413
 msgid "Belize, Dollars"
 msgstr "Belize, dòl·lars"
@@ -6806,11 +6701,6 @@ msgid "Japan, Yen"
 msgstr "Japò, iens"
 
 # fitxer: src.ca.po.3
-#: src/cut-n-paste-code/goffice/utils/formats.c:461
-msgid "Kenya, Shillings"
-msgstr ""
-
-# fitxer: src.ca.po.3
 #: src/cut-n-paste-code/goffice/utils/formats.c:462
 msgid "Kyrgyzstan, Soms"
 msgstr "Kyrgyzstan, soms"
@@ -6899,11 +6789,6 @@ msgstr "Marroc, dirhams"
 #: src/cut-n-paste-code/goffice/utils/formats.c:479
 msgid "Moldova, Lei"
 msgstr "Moldàvia, leis"
-
-# fitxer: src.ca.po.3
-#: src/cut-n-paste-code/goffice/utils/formats.c:480
-msgid "Madagascar, Malagasy Francs"
-msgstr ""
 
 # fitxer: src.ca.po.3
 #: src/cut-n-paste-code/goffice/utils/formats.c:481
@@ -7026,11 +6911,6 @@ msgid "Pakistan, Rupees"
 msgstr "Paquistan, rúpies"
 
 # fitxer: src.ca.po.3
-#: src/cut-n-paste-code/goffice/utils/formats.c:505
-msgid "Poland, Zlotys"
-msgstr ""
-
-# fitxer: src.ca.po.3
 #: src/cut-n-paste-code/goffice/utils/formats.c:506
 msgid "Paraguay, Guarani"
 msgstr "Paraguai, guaraní"
@@ -7044,12 +6924,6 @@ msgstr "Qatari, rials"
 #: src/cut-n-paste-code/goffice/utils/formats.c:508
 msgid "Romania, Lei"
 msgstr "Romania, leis"
-
-#
-# fitxer: src.ca.po.3
-#: src/cut-n-paste-code/goffice/utils/formats.c:509
-msgid "Russia, Rubles"
-msgstr ""
 
 # fitxer: src.ca.po.3
 #: src/cut-n-paste-code/goffice/utils/formats.c:510
@@ -7105,11 +6979,6 @@ msgstr "Eslovàquia, corones"
 #: src/cut-n-paste-code/goffice/utils/formats.c:520
 msgid "Sierra Leone, Leones"
 msgstr "Sierra Leone, leones"
-
-# fitxer: src.ca.po.3
-#: src/cut-n-paste-code/goffice/utils/formats.c:521
-msgid "Somalia, Shillings"
-msgstr ""
 
 # fitxer: src.ca.po.3
 #: src/cut-n-paste-code/goffice/utils/formats.c:522
@@ -7187,19 +7056,9 @@ msgid "Taiwan, New Dollars"
 msgstr "Taiwan, nou dòl·lar"
 
 # fitxer: src.ca.po.3
-#: src/cut-n-paste-code/goffice/utils/formats.c:537
-msgid "Tanzania, Shillings"
-msgstr ""
-
-# fitxer: src.ca.po.3
 #: src/cut-n-paste-code/goffice/utils/formats.c:538
 msgid "Ukraine, Hryvnia"
 msgstr "Ucraïna, hryvnia"
-
-# fitxer: src.ca.po.3
-#: src/cut-n-paste-code/goffice/utils/formats.c:539
-msgid "Uganda, Shillings"
-msgstr ""
 
 # fitxer: src.ca.po.3
 #: src/cut-n-paste-code/goffice/utils/formats.c:540
@@ -7237,49 +7096,9 @@ msgid "Samoa, Tala"
 msgstr "Samoa, tala"
 
 # fitxer: src.ca.po.3
-#: src/cut-n-paste-code/goffice/utils/formats.c:547
-msgid "Communaute Financiere Africaine BEAC, Francs"
-msgstr ""
-
-# fitxer: src.ca.po.3
-#: src/cut-n-paste-code/goffice/utils/formats.c:548
-msgid "Silver, Ounces"
-msgstr ""
-
-# fitxer: src.ca.po.3
-#: src/cut-n-paste-code/goffice/utils/formats.c:549
-msgid "Gold, Ounces"
-msgstr ""
-
-# fitxer: src.ca.po.3
 #: src/cut-n-paste-code/goffice/utils/formats.c:550
 msgid "East Caribbean Dollars"
 msgstr "Carib Oriental, dòl·lars"
-
-# fitxer: src.ca.po.3
-#: src/cut-n-paste-code/goffice/utils/formats.c:551
-msgid "International Monetary Fund (IMF) Special Drawing Rights"
-msgstr ""
-
-# fitxer: src.ca.po.3
-#: src/cut-n-paste-code/goffice/utils/formats.c:552
-msgid "Communaute Financiere Africaine BCEAO, Francs"
-msgstr ""
-
-# fitxer: src.ca.po.3
-#: src/cut-n-paste-code/goffice/utils/formats.c:553
-msgid "Palladium, Ounces"
-msgstr ""
-
-# fitxer: src.ca.po.3
-#: src/cut-n-paste-code/goffice/utils/formats.c:554
-msgid "Comptoirs Francais du Pacifique Francs"
-msgstr ""
-
-# fitxer: src.ca.po.3
-#: src/cut-n-paste-code/goffice/utils/formats.c:555
-msgid "Platinum, Ounces"
-msgstr ""
 
 # fitxer: src.ca.po.3
 #: src/cut-n-paste-code/goffice/utils/formats.c:556
@@ -7418,11 +7237,6 @@ msgid "butterfly"
 msgstr "papallona"
 
 # fitxer: src.ca.po.12
-#: src/cut-n-paste-code/goffice/utils/go-marker.c:234
-msgid "hourglass"
-msgstr ""
-
-# fitxer: src.ca.po.12
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:96
 #: src/dialogs/cell-format.glade.h:12
 #, no-c-format
@@ -7546,12 +7360,6 @@ msgstr "Cercles petits"
 #: src/dialogs/cell-format.glade.h:69
 msgid "Semi Circles"
 msgstr "Semicercles"
-
-# fitxer: src.ca.po.11
-#: src/cut-n-paste-code/goffice/utils/go-pattern.c:116
-#: src/dialogs/cell-format.glade.h:78
-msgid "Thatch"
-msgstr ""
 
 # fitxer: src.ca.po.11
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:117
@@ -8486,11 +8294,6 @@ msgid "Clear the list of source areas"
 msgstr "Neteja la llista d'àrees origen"
 
 # fitxer: src.ca.po.13
-#: src/dialogs/consolidate.glade.h:3
-msgid "Data consolidation"
-msgstr ""
-
-# fitxer: src.ca.po.13
 #: src/dialogs/consolidate.glade.h:4
 msgid "Delete the currently selected source area"
 msgstr "Suprimeix l'àrea d'origen seleccionada"
@@ -8529,25 +8332,6 @@ msgstr ""
 "STDEVP\n"
 "VAR\n"
 "VARP"
-
-# fitxer: src.ca.po.13
-#: src/dialogs/consolidate.glade.h:18
-msgid "The function to use when consolidating"
-msgstr ""
-
-# fitxer: src.ca.po.13
-#: src/dialogs/consolidate.glade.h:19
-msgid ""
-"The left column contains labels, these will not be consolidated, but used as "
-"key for comparison"
-msgstr ""
-
-# fitxer: src.ca.po.13
-#: src/dialogs/consolidate.glade.h:20
-msgid ""
-"The top row contains labels, these will not be consolidated, but used as key "
-"for comparison"
-msgstr ""
 
 #
 # fitxer: src.ca.po.13
@@ -8610,12 +8394,6 @@ msgstr "A_utoajusta les columnes"
 msgid "C_lear output range"
 msgstr "Neteja e_l rang de sortida"
 
-#
-# fitxer: src.ca.po.12
-#: src/dialogs/dao.glade.h:5 src/dialogs/dialog-advanced-filter.c:197
-msgid "Filter _in-place"
-msgstr ""
-
 # fitxer: src.ca.po.12
 #: src/dialogs/dao.glade.h:6
 msgid "New _sheet"
@@ -8630,17 +8408,6 @@ msgstr "Nou _llibre de treball"
 #: src/dialogs/dao.glade.h:8
 msgid "Output _range:"
 msgstr "_Rang de sortida:"
-
-# fitxer: src.ca.po.12
-#: src/dialogs/dao.glade.h:9
-msgid "Retain output range _formatting"
-msgstr ""
-
-#
-# fitxer: src.ca.po.12
-#: src/dialogs/dao.glade.h:10
-msgid "Retain output range co_mments"
-msgstr ""
 
 # fitxer: src.ca.po.12
 #: src/dialogs/dao.glade.h:11
@@ -8800,11 +8567,6 @@ msgid "Harald Ashburner"
 msgstr "Harald Ashburner"
 
 # fitxer: src.ca.po.12
-#: src/dialogs/dialog-about.c:83
-msgid "Options pricers"
-msgstr ""
-
-# fitxer: src.ca.po.12
 #: src/dialogs/dialog-about.c:84
 msgid "Sean Atkinson"
 msgstr "Sean Atkinson"
@@ -8961,11 +8723,6 @@ msgid "Jukka-Pekka Iivonen"
 msgstr "Jukka-Pekka Iivonen"
 
 # fitxer: src.ca.po.12
-#: src/dialogs/dialog-about.c:115
-msgid "Solver, lots of worksheet functions, and general trailblazer"
-msgstr ""
-
-# fitxer: src.ca.po.12
 #: src/dialogs/dialog-about.c:116
 msgid "Jakub Jelinek"
 msgstr "Jakub Jelinek"
@@ -9118,11 +8875,6 @@ msgid "Almer S. Tigelaar"
 msgstr "Almer S. Tigelaar"
 
 # fitxer: src.ca.po.12
-#: src/dialogs/dialog-about.c:147
-msgid "Consolidation and Structured Text importer"
-msgstr ""
-
-# fitxer: src.ca.po.12
 #: src/dialogs/dialog-about.c:148
 msgid "Bruno Unna"
 msgstr "Bruno Unna"
@@ -9170,11 +8922,6 @@ msgstr "Funcions financeres"
 #: src/dialogs/dialog-about.c:156
 msgid "Morten Welinder"
 msgstr "Morten Welinder"
-
-# fitxer: src.ca.po.12
-#: src/dialogs/dialog-about.c:157
-msgid "All round powerhouse"
-msgstr ""
 
 # fitxer: src.ca.po.12
 #: src/dialogs/dialog-about.c:158
@@ -9814,12 +9561,6 @@ msgstr "La regió d'origen %s se solapa amb la de destinació"
 msgid "The output range overlaps with the input ranges."
 msgstr "El rang de sortida se solapa amb els rangs d'entrada."
 
-#
-# fitxer: src.ca.po.13
-#: src/dialogs/dialog-consolidate.c:555
-msgid "Could not create the Consolidate dialog."
-msgstr ""
-
 # fitxer: src.ca.po.13
 #: src/dialogs/dialog-define-names.c:362
 msgid "Why would you want to define a name to be #NAME?"
@@ -9889,18 +9630,6 @@ msgstr "Heu d'introduir un nom de cel·la vàlid a 'Especifica la cel·la:'"
 msgid "The cell named in 'Set Cell:' must contain a formula!"
 msgstr ""
 "La cel·la referenciada a 'Especifica la cel·la:' ha de contenir una fórmula"
-
-#
-# fitxer: src.ca.po.13
-#: src/dialogs/dialog-goal-seek.c:387
-msgid "You should introduce a valid cell name in 'By Changing Cell:'!"
-msgstr ""
-
-#
-# fitxer: src.ca.po.13
-#: src/dialogs/dialog-goal-seek.c:400
-msgid "The cell named in 'By changing cell' must not contain a formula."
-msgstr ""
 
 # fitxer: src.ca.po.13
 #: src/dialogs/dialog-goal-seek.c:413
@@ -10325,14 +10054,6 @@ msgstr ""
 "eines del gnumeric."
 
 # fitxer: src.ca.po.13
-#: src/dialogs/dialog-preferences.c:724
-#, fuzzy
-msgid "The items on this page are related to copy. cut and paste."
-msgstr ""
-"Els elements en aquesta pàgina estan relacionats amb copiar, retallar i "
-"enganxar."
-
-# fitxer: src.ca.po.13
 #: src/dialogs/dialog-preferences.c:764
 msgid "Copy and Paste"
 msgstr "Copia i enganxa"
@@ -10699,16 +10420,6 @@ msgstr ""
 "weight='bold'>%s</span>"
 
 # fitxer: src.ca.po.15
-#: src/dialogs/dialog-scenarios.c:130
-msgid "Invalid changing cells"
-msgstr ""
-
-# fitxer: src.ca.po.15
-#: src/dialogs/dialog-scenarios.c:138
-msgid "Changing cells should be on the current sheet only."
-msgstr ""
-
-# fitxer: src.ca.po.15
 #: src/dialogs/dialog-scenarios.c:150
 msgid "Scenario name already used"
 msgstr "Ja s'utilitza el nom de l'escenari"
@@ -10717,14 +10428,6 @@ msgstr "Ja s'utilitza el nom de l'escenari"
 #: src/dialogs/dialog-scenarios.c:156
 msgid "Invalid scenario name"
 msgstr "Nom d'escenari invàlid"
-
-# fitxer: src.ca.po.15
-#: src/dialogs/dialog-scenarios.c:182
-msgid ""
-"Changing cells contain at least one expression that is not just a value. "
-"Note that showing the scenario will overwrite the formula with it's current "
-"value."
-msgstr ""
 
 #
 # fitxer: src.ca.po.15
@@ -11219,13 +10922,6 @@ msgstr ""
 "Punt i coma (;)\n"
 "Barra (/)\n"
 "Personalitzat"
-
-# fitxer: src.ca.po.14
-#: src/dialogs/dialog-stf-export.glade.h:32
-msgid ""
-"Transliterate\n"
-"Escape"
-msgstr ""
 
 # fitxer: src.ca.po.14
 #: src/dialogs/dialog-stf-export.glade.h:34
@@ -11848,11 +11544,6 @@ msgid "Exponential Smoothing"
 msgstr "Suavitzat exponencial"
 
 # fitxer: src.ca.po.14
-#: src/dialogs/exp-smoothing.glade.h:9
-msgid "_Damping factor:"
-msgstr ""
-
-# fitxer: src.ca.po.14
 #: src/dialogs/exp-smoothing.glade.h:13 src/dialogs/moving-averages.glade.h:13
 msgid "_Standard errors"
 msgstr "Errors e_stàndard"
@@ -12026,18 +11717,6 @@ msgstr "Solució:"
 
 #
 # fitxer: src.ca.po.1
-#: src/dialogs/goalseek.glade.h:10
-msgid "_By Changing Cell:"
-msgstr ""
-
-#
-# fitxer: src.ca.po.1
-#: src/dialogs/goalseek.glade.h:11
-msgid "_Set Cell:"
-msgstr ""
-
-#
-# fitxer: src.ca.po.1
 #: src/dialogs/goalseek.glade.h:12
 msgid "_To Value:"
 msgstr "_Fins el valor:"
@@ -12070,18 +11749,6 @@ msgstr "Secció inter_mitja:"
 #: src/dialogs/hf-config.glade.h:4
 msgid "_Right section:"
 msgstr "Secció d_reta:"
-
-#
-# fitxer: src.ca.po.1
-#: src/dialogs/histogram.glade.h:2
-msgid "Bin _labels"
-msgstr ""
-
-#
-# fitxer: src.ca.po.1
-#: src/dialogs/histogram.glade.h:3
-msgid "Bin _range:"
-msgstr ""
 
 # fitxer: src.ca.po.1
 #: src/dialogs/histogram.glade.h:4
@@ -12120,17 +11787,6 @@ msgstr "Pareto (_ordenat)"
 
 #
 # fitxer: src.ca.po.1
-#: src/dialogs/histogram.glade.h:13
-msgid "_Bins"
-msgstr ""
-
-# fitxer: src.ca.po.1
-#: src/dialogs/histogram.glade.h:14
-msgid "_Calculated bins"
-msgstr ""
-
-#
-# fitxer: src.ca.po.1
 #: src/dialogs/histogram.glade.h:15
 msgid "_Chart output"
 msgstr "Sortida de gràfi_c"
@@ -12145,11 +11801,6 @@ msgstr "_N:"
 #: src/dialogs/histogram.glade.h:21
 msgid "_Percentages"
 msgstr "_Percentatges"
-
-# fitxer: src.ca.po.1
-#: src/dialogs/histogram.glade.h:22
-msgid "_Predetermined bins"
-msgstr ""
 
 # fitxer: src.ca.po.1
 #: src/dialogs/hyperlink.glade.h:2
@@ -12734,12 +12385,6 @@ msgstr "Rang i percentil"
 
 #
 # fitxer: src.ca.po.1
-#: src/dialogs/rank.glade.h:6
-msgid "Ties:"
-msgstr ""
-
-#
-# fitxer: src.ca.po.1
 #: src/dialogs/rank.glade.h:8
 msgid "_Average rank"
 msgstr "R_ang de mitja"
@@ -12766,12 +12411,6 @@ msgstr "Nivell de confiança:"
 #: src/tools/analysis-tools.c:3612
 msgid "Regression"
 msgstr "Regressió"
-
-#
-# fitxer: src.ca.po.1
-#: src/dialogs/regression.glade.h:9
-msgid "_Force intercept to be zero"
-msgstr ""
 
 #
 # fitxer: src.ca.po.1
@@ -12858,16 +12497,6 @@ msgstr "Comentari:"
 #: src/dialogs/scenario-add.glade.h:4
 msgid "Scenario name:"
 msgstr "Nom de l'escenari:"
-
-# fitxer: src.ca.po.1
-#: src/dialogs/scenario-add.glade.h:5
-msgid "_Changing cells:"
-msgstr ""
-
-# fitxer: src.ca.po.1
-#: src/dialogs/scenario-manager.glade.h:3
-msgid "<span weight=\"bold\">Changing Cells</span>"
-msgstr ""
 
 # fitxer: src.ca.po.1
 #: src/dialogs/scenario-manager.glade.h:4
@@ -13507,11 +13136,6 @@ msgid "Automatic _Scaling"
 msgstr "E_scalat Automàtic"
 
 # fitxer: src.ca.po.2
-#: src/dialogs/solver.glade.h:5
-msgid "B_y Changing Cells: "
-msgstr ""
-
-# fitxer: src.ca.po.2
 #: src/dialogs/solver.glade.h:6 src/tools/solver/reports-write.c:197
 #: src/tools/solver/reports-write.c:358 src/tools/solver/reports-write.c:569
 #: src/tools/solver/reports-write.c:600
@@ -13947,12 +13571,6 @@ msgstr "Fila %i"
 #, c-format
 msgid "Column %i"
 msgstr "Columna %i"
-
-# fitxer: src.ca.po.5
-#: src/tools/analysis-tools.c:226 src/tools/analysis-tools.c:415
-#, c-format
-msgid "Bin %i"
-msgstr ""
 
 # fitxer: src.ca.po.5
 #: src/tools/analysis-tools.c:230 src/tools/analysis-tools.c:419
@@ -14416,11 +14034,6 @@ msgid "Too Large"
 msgstr "Massa Gran"
 
 # fitxer: src.ca.po.5
-#: src/tools/analysis-tools.c:5303
-msgid "Bin"
-msgstr ""
-
-# fitxer: src.ca.po.5
 #: src/tools/analysis-tools.c:5328
 msgid "Frequency"
 msgstr "Freqüència"
@@ -14538,11 +14151,6 @@ msgstr "Resum de l'escenari"
 #: src/tools/scenarios.c:693
 msgid "Current Values"
 msgstr "Valors actuals"
-
-# fitxer: src.ca.po.5
-#: src/tools/scenarios.c:694
-msgid "Changing Cells:"
-msgstr ""
 
 # fitxer: src.ca.po.5
 #: src/tools/simulation.c:94
@@ -15047,11 +14655,6 @@ msgid "Problem Size"
 msgstr "Mida del problema"
 
 # fitxer: src.ca.po.7
-#: src/tools/solver/reports-write.c:748
-msgid "Data Sparsity"
-msgstr ""
-
-# fitxer: src.ca.po.7
 #: src/tools/solver/reports-write.c:749
 msgid "Computing Time"
 msgstr "Temps de càlcul"
@@ -15090,12 +14693,6 @@ msgstr "Maximitza"
 #: src/tools/solver/reports-write.c:918
 msgid "Equal to"
 msgstr "Igual a"
-
-# fitxer: src.ca.po.7
-#. Print `Subject to' title.
-#: src/tools/solver/reports-write.c:924
-msgid "Subject to"
-msgstr ""
 
 # fitxer: src.ca.po.7
 #: src/tools/solver/reports-write.c:945 src/tools/solver/reports-write.c:958
@@ -15186,11 +14783,6 @@ msgstr "El menú d'opcions"
 #: src/widgets/gnumeric-optionmenu.c:205
 msgid "Indicator Size"
 msgstr "Mida de l'indicador"
-
-# fitxer: src.ca.po.9
-#: src/widgets/gnumeric-optionmenu.c:206
-msgid "Size of dropdown indicator"
-msgstr ""
 
 # fitxer: src.ca.po.9
 #: src/widgets/gnumeric-optionmenu.c:211
@@ -17164,27 +16756,6 @@ msgstr "Dependències de tabulació"
 msgid "Reconfigure Graph"
 msgstr "Reconfigurar el gràfic"
 
-# fitxer: src.ca.po.13
-#: src/commands.c:7137
-#, fuzzy
-msgid "Left to Right"
-msgstr "Esquerra-_Dreta"
-
-#: src/commands.c:7137
-msgid "Right to Left"
-msgstr ""
-
-# fitxer: src.ca.po.9
-#: src/consolidate.c:771
-#, c-format
-msgid "Consolidating to (%s)"
-msgstr ""
-
-# fitxer: src.ca.po.9
-#: src/consolidate.c:810 src/consolidate.c:813
-msgid "Data Consolidation"
-msgstr ""
-
 # fitxer: src.ca.po.2
 #: src/expr.c:719
 msgid "Unknown operator"
@@ -17889,17 +17460,6 @@ msgstr ""
 "libdir := '%s'\n"
 
 #
-# fitxer: src.ca.po.3
-#: src/mathfunc.c:7252
-#, fuzzy
-msgid ""
-"This version of Gnumeric has been compiled with inadequate precision in "
-"gnm_yn."
-msgstr ""
-"Aquesta versió del Gnumeric ha estat compilada amb una precisió inadequada a "
-"yngnum."
-
-#
 # fitxer: src.ca.po.4
 #: src/parser.y:298
 msgid "An array must have at least 1 element"
@@ -18480,12 +18040,6 @@ msgid "ENCODING"
 msgstr "Codificació"
 
 # fitxer: src.ca.po.6
-#: src/ssconvert.c:54
-#, fuzzy
-msgid "Optionally specify which importer to use"
-msgstr "Especifica opcionalment quin exportador utilitzar"
-
-# fitxer: src.ca.po.6
 #: src/ssconvert.c:56
 msgid "Optionally specify which exporter to use"
 msgstr "Especifica opcionalment quin exportador utilitzar"
@@ -18540,16 +18094,6 @@ msgstr ""
 "Proveu --list-exporters per veure un llistat de possibilitats.\n"
 
 # fitxer: src.ca.po.6
-#: src/ssconvert.c:149
-#, fuzzy, c-format
-msgid ""
-"Unknown importer '%s'.\n"
-"Try --list-importers to see a list of possibilities.\n"
-msgstr ""
-"L'exportador '%s' és desconegut.\n"
-"Proveu --list-exporters per veure un llistat de possibilitats.\n"
-
-# fitxer: src.ca.po.6
 #: src/ssconvert.c:166
 #, c-format
 msgid ""
@@ -18565,18 +18109,6 @@ msgstr ""
 #, c-format
 msgid ""
 "ssconvert version '%s'\n"
-"datadir := '%s'\n"
-"libdir := '%s'\n"
-msgstr ""
-"versió ssconvert '%s'\n"
-"datadir := '%s'\n"
-"libdir := '%s'\n"
-
-# fitxer: src.ca.po.6
-#: src/ssindex.c:196
-#, fuzzy, c-format
-msgid ""
-"ssindex version '%s'\n"
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 msgstr ""
@@ -19568,16 +19100,6 @@ msgstr "_Redueix"
 msgid "Decrease the zoom to make things smaller"
 msgstr "Redueix la visualització per disminuir de tamany"
 
-# fitxer: src.ca.po.13
-#: src/wbcg-actions.c:1652
-#, fuzzy
-msgid "Direction"
-msgstr "Direcció:"
-
-#: src/wbcg-actions.c:1653
-msgid "Toggle sheet direction, left to right vs right to left"
-msgstr ""
-
 # fitxer: src.ca.po.6
 #: src/wbcg-actions.c:1658
 msgid "Insert new cells"
@@ -20124,27 +19646,6 @@ msgstr "_Text a les columnes..."
 #: src/wbcg-actions.c:1850
 msgid "Parse the text in the selection into data"
 msgstr "Analitza el text de la selecció i genera dades"
-
-# fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1852
-msgid "_Consolidate..."
-msgstr ""
-
-# fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1853
-msgid "Consolidate regions using a function"
-msgstr ""
-
-#
-# fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1857
-msgid "_PivotTable..."
-msgstr ""
-
-# fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1858
-msgid "Create a pivot table"
-msgstr ""
 
 # fitxer: src.ca.po.7
 #. Data -> Outline
@@ -21232,11 +20733,6 @@ msgid "A classical yet colorful template"
 msgstr "Una plantilla clàssica però colorista"
 
 # fitxer: templates.ca.po
-#: templates/autoformat/autoformat.Classical.trendy.xml.in.h:3
-msgid "Trendy"
-msgstr ""
-
-# fitxer: templates.ca.po
 #: templates/autoformat/autoformat.Colourful.banana.xml.in.h:1
 msgid "A banana coloured template"
 msgstr "Una plantilla color plàtan"
@@ -21250,11 +20746,6 @@ msgstr "Plàtan"
 #: templates/autoformat/autoformat.Colourful.black.xml.in.h:3
 msgid "Template with a black background"
 msgstr "Una plantilla amb fons negre"
-
-# fitxer: templates.ca.po
-#: templates/autoformat/autoformat.Colourful.blue.xml.in.h:1
-msgid "A colourful template with mainly blue and teal colours"
-msgstr ""
 
 # fitxer: templates.ca.po
 #: templates/autoformat/autoformat.Colourful.orange.xml.in.h:2
@@ -21383,50 +20874,3 @@ msgstr "Plantilla de llista lila"
 #: templates/autoformat/autoformat.List.simple.xml.in.h:1
 msgid "A simple list template"
 msgstr "Una plantilla de llista senzilla"
-
-# fitxer: src.ca.po.4
-#~ msgid "No services defined for plugin with id=\"%s\"."
-#~ msgstr ""
-#~ "No s'ha definit cap servei per al connector amb l'identificador=\"%s\"."
-
-# fitxer: src.ca.po.4
-#~ msgid "File doesn't contain \"plugin_init_general\" function."
-#~ msgstr "El fitxer no conté la funció \"plugin_init_general\"."
-
-# fitxer: src.ca.po.4
-#~ msgid "File doesn't contain \"plugin_cleanup_general\" function."
-#~ msgstr "El fitxer no conté la funció \"plugin_cleanup_general\"."
-
-# fitxer: src.ca.po.4
-#~ msgid "Clipboard"
-#~ msgstr "Porta-retalls"
-
-# fitxer: src.ca.po.11
-#~ msgid ""
-#~ "\n"
-#~ "equals\n"
-#~ "does not equal\n"
-#~ "is greater than\n"
-#~ "is greater than or equal to\n"
-#~ "is_less_than\n"
-#~ "is less than or equal to\n"
-#~ "begins with\n"
-#~ "does not begin with\n"
-#~ "ends with\n"
-#~ "does not end with\n"
-#~ "contains\n"
-#~ "does not contain"
-#~ msgstr ""
-#~ "\n"
-#~ "és igual a\n"
-#~ "no és igual a\n"
-#~ "és més gran que\n"
-#~ "és més gran o igual que\n"
-#~ "és més petit que\n"
-#~ "és més petit o igual que\n"
-#~ "comença amb\n"
-#~ "no comença amb\n"
-#~ "acaba amb\n"
-#~ "no acaba amb\n"
-#~ "conté\n"
-#~ "no conté"

@@ -1,3 +1,7 @@
+2005-03-25  Josep Puigdemont  <josep@imatge-sintetica.com>
+
+	* ca.po: Updated Catalan translation by Xavier Conde Rueda.
+
 2005-03-23  Stepan Kasal  <kasal@ucw.cz>
 
 	* Makefile.in.in.own: Apply the patch from #171330, to fix the
