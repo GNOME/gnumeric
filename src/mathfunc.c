@@ -175,9 +175,14 @@ gnumeric_sub_epsilon (gnm_float x)
 gnm_float
 gnumeric_fake_floor (gnm_float x)
 {
-	return (x >= 0)
-		? floorgnum (gnumeric_add_epsilon (x))
-		: floorgnum (gnumeric_sub_epsilon (x));
+	static const gnm_float cutoff = 0.5 / GNUM_EPSILON;
+
+	if (gnumabs (x) < cutoff)
+		x = (x >= 0)
+			? gnumeric_add_epsilon (x)
+			: gnumeric_sub_epsilon (x);
+
+	return floorgnum (x);
 }
 
 /*
@@ -191,25 +196,28 @@ gnumeric_fake_floor (gnm_float x)
 gnm_float
 gnumeric_fake_ceil (gnm_float x)
 {
-	return (x >= 0)
-		? ceilgnum (gnumeric_sub_epsilon (x))
-		: ceilgnum (gnumeric_add_epsilon (x));
+	static const gnm_float cutoff = 0.5 / GNUM_EPSILON;
+
+	if (gnumabs (x) < cutoff)
+		x = (x >= 0)
+			? gnumeric_sub_epsilon (x)
+			: gnumeric_add_epsilon (x);
+
+	return ceilgnum (x);
 }
 
 gnm_float
 gnumeric_fake_round (gnm_float x)
 {
-	return (x >= 0)
-		? floorgnum (gnumeric_add_epsilon (x + 0.5))
-		: -floorgnum (gnumeric_add_epsilon (-x + 0.5));
+	gnm_float y = gnumeric_fake_floor (gnumabs (x) + 0.5);
+	return (x < 0) ? -y : y;
 }
 
 gnm_float
 gnumeric_fake_trunc (gnm_float x)
 {
-	return (x >= 0)
-		? floorgnum (gnumeric_add_epsilon (x))
-		: -floorgnum (gnumeric_add_epsilon (-x));
+	gnm_float y = gnumeric_fake_floor (gnumabs (x));
+	return (x < 0) ? -y : y;
 }
 
 /* ------------------------------------------------------------------------- */
