@@ -618,42 +618,21 @@ static Value *
 gnumeric_ceiling (struct FunctionDefinition *i,
 		  Value *argv [], char **error_string)
 {
-        float_t k=1;
-	float_t div, mod, ceiled;
-        float_t x, significance;
-	int     n, sign=1;
+        float_t number, s;
 
-	if (!VALUE_IS_NUMBER(argv[0]) ||
-	    !VALUE_IS_NUMBER(argv[1])) {
-		*error_string = gnumeric_err_VALUE;
-                return NULL;
+	number = value_get_as_float (argv[0]);
+	if (argv[1] == NULL)
+	        s = (number >= 0) ? 1.0 : -1.0;
+	else {
+	        s = value_get_as_float (argv[1]);
 	}
-	x = value_get_as_float (argv[0]);
-	significance = value_get_as_float (argv[1]);
-	if ((x < 0.0 && significance > 0.0) ||
-	    (x > 0.0 && significance < 0.0)) {
+
+	if (s == 0 || number / s < 0) {
 		*error_string = gnumeric_err_NUM;
-                return NULL;
+		return NULL;
 	}
-	if (significance < 0) {
-	        sign=-1;
-		x = -x;
-		significance = -significance;
-	}
-	/* Find significance level */
-	for (n=0; n<12; n++) {
-	        ceiled = ceil (significance * k);
-		if (fabs (ceiled - (significance * k)) < significance/2)
-		        break;
-		k *= 10;
-	}
-	ceiled *= 10;
 
-	div = ceil ((x * k * 10) / ceiled);
-	mod = ((x * k * 10) / ceiled) - div;
-
-	return value_new_float (sign * ceiled * div / (k*10) -
-			    sign * significance * (mod > 0));
+	return value_new_float (ceil (number / s) * s);
 }
 
 static char *help_cos = {
@@ -838,12 +817,11 @@ gnumeric_combin (struct FunctionDefinition *id,
 
 static char *help_floor = {
 	N_("@FUNCTION=FLOOR\n"
-	   "@SYNTAX=FLOOR(x)\n"
+	   "@SYNTAX=FLOOR(x,significance)\n"
 
 	   "@DESCRIPTION=The FLOOR function rounds x down to the next nearest "
-	   "integer."
+	   "multiple of @significance.  @significance defaults to 1."
 	   "\n"
-
 	   "Performing this function on a string or empty cell simply does nothing."
 	   "\n"
 	   "@SEEALSO=CEIL, ABS, INT")
@@ -853,7 +831,21 @@ static Value *
 gnumeric_floor (struct FunctionDefinition *i,
 		Value *argv [], char **error_string)
 {
-	return value_new_float (floor (value_get_as_float (argv [0])));
+        float_t number, s;
+
+	number = value_get_as_float (argv[0]);
+	if (argv[1] == NULL)
+	        s = (number >= 0) ? 1.0 : -1.0;
+	else {
+	        s = value_get_as_float (argv[1]);
+	}
+
+	if (s == 0 || number / s < 0) {
+		*error_string = gnumeric_err_NUM;
+		return NULL;
+	}
+
+	return value_new_float (floor (number / s) * s);
 }
 
 static char *help_int = {
@@ -2536,8 +2528,7 @@ FunctionDefinition math_functions [] = {
 	  NULL, gnumeric_factdouble },
 	{ "combin",  "ff",   "n,k",       &help_combin,
 	  NULL, gnumeric_combin },
-	{ "floor",   "f",    "number",    &help_floor,
-	  NULL, gnumeric_floor },
+	{ "floor",   "f|f",    "number",  &help_floor,   NULL, gnumeric_floor },
 	{ "gcd",     "ff",   "number1,number2", &help_gcd,
 	  NULL, gnumeric_gcd },
 	{ "int",     "f",    "number",    &help_int,     NULL, gnumeric_int },

@@ -17,7 +17,8 @@ Morten:
 	* Improved the recalculation engine.
 	* Shined up date calculations.
 	* Added WEEKDAY(), DAYS360(), TIMEVALUE().
-	* Fixed PROPER().
+	* Fixed PROPER(), FLOOR(), SERIESSUM(), ROUND(), ROUNDUP(),
+	  ROUNDDOWN(), ATAN2().
 	* Improved precision here and there.
 	* Fixed font-reusage when writing in Gnumeric's default file
 	  format.
