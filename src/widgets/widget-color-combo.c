@@ -1,7 +1,8 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * widget-color-combo.c - A color selector combo box
- * Copyright 2000, 2001, Ximian, Inc.
+ * Copyright 2000-2004, Ximian, Inc.
  *
  * Authors:
  *   Miguel de Icaza (miguel@kernel.org)
@@ -12,6 +13,7 @@
  *
  * And later revised and polished by:
  *   Almer S. Tigelaar (almer@gnome.org)
+ *   Jody Goldberg (jody@gnome.org)
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -32,10 +34,11 @@
 
 #include "widget-color-combo.h"
 #include <gnm-marshalers.h>
-#include <gsf/gsf-impl-utils.h>
 #include <gui-util.h>
 #include <style-color.h>
 
+#include <goffice/utils/go-color.h>
+#include <gsf/gsf-impl-utils.h>
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkimage.h>
 
@@ -46,12 +49,9 @@ enum {
 
 static guint color_combo_signals [LAST_SIGNAL] = { 0, };
 
-#define PARENT_TYPE GNM_COMBO_BOX_TYPE
 static GObjectClass *color_combo_parent_class;
 
 #define make_color(CC,COL) (((COL) != NULL) ? (COL) : ((CC) ? ((CC)->default_color) : NULL))
-#define RGBA_TO_UINT(r,g,b,a)	((((guint)(r))<<24)|(((guint)(g))<<16)|(((guint)(b))<<8)|(guint)(a))
-#define GDK_TO_UINT(c)	RGBA_TO_UINT(((c).red>>8), ((c).green>>8), ((c).blue>>8), 0xff)
 
 #define PREVIEW_SIZE 20
 
@@ -118,27 +118,6 @@ cb_screen_changed (ColorCombo *cc, GdkScreen *previous_screen)
 }
 
 static void
-color_combo_class_init (GObjectClass *object_class)
-{
-	color_combo_parent_class = g_type_class_ref (PARENT_TYPE);
-
-	color_combo_signals [CHANGED] =
-		g_signal_new ("color_changed",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ColorComboClass, color_changed),
-			      NULL, NULL,
-			      gnm__VOID__POINTER_BOOLEAN_BOOLEAN_BOOLEAN,
-			      G_TYPE_NONE, 4, G_TYPE_POINTER,
-			      G_TYPE_BOOLEAN, G_TYPE_BOOLEAN, G_TYPE_BOOLEAN);
-}
-
-GSF_CLASS(ColorCombo,color_combo,color_combo_class_init,NULL,PARENT_TYPE)
-
-/*
- * Fires signal "color_changed" with the current color as its param
- */
-static void
 emit_color_changed (ColorCombo *cc, GdkColor *color,
 		    gboolean is_custom, gboolean by_user, gboolean is_default)
 {
@@ -146,15 +125,6 @@ emit_color_changed (ColorCombo *cc, GdkColor *color,
 		       color_combo_signals [CHANGED], 0,
 		       color, is_custom, by_user, is_default);
 	gnm_combo_box_popup_hide (GNM_COMBO_BOX (cc));
-}
-
-static void
-cb_palette_color_changed (ColorPalette *P, GdkColor *color,
-		 gboolean custom, gboolean by_user, gboolean is_default,
-		 ColorCombo *cc)
-{
-	color_combo_set_color_internal (cc, color);
-	emit_color_changed (cc, color, custom, by_user, is_default);
 }
 
 static void
@@ -168,7 +138,7 @@ apply_current_color (ColorCombo *cc)
 }
 
 static void
-preview_clicked (GtkWidget *button, ColorCombo *cc)
+cb_preview_clicked (GtkWidget *button, ColorCombo *cc)
 {
 	if (_gnm_combo_is_updating (GNM_COMBO_BOX (cc)))
 		return;
@@ -176,6 +146,51 @@ preview_clicked (GtkWidget *button, ColorCombo *cc)
 		apply_current_color (cc);
 	else
 		gnm_combo_box_popup_display (GNM_COMBO_BOX (cc));
+}
+
+static void
+color_combo_init (ColorCombo *cc)
+{
+	cc->instant_apply = TRUE;
+	cc->preview_is_icon = FALSE;
+	cc->preview_button = gtk_toggle_button_new ();
+	gtk_button_set_relief (GTK_BUTTON (cc->preview_button), GTK_RELIEF_NONE);
+
+	g_signal_connect (G_OBJECT (cc),
+		"screen-changed",
+		G_CALLBACK (cb_screen_changed), NULL);
+	g_signal_connect (cc->preview_button,
+		"clicked",
+		G_CALLBACK (cb_preview_clicked), cc);
+}
+
+static void
+color_combo_class_init (GObjectClass *object_class)
+{
+	color_combo_parent_class = g_type_class_ref (GNM_COMBO_BOX_TYPE);
+
+	color_combo_signals [CHANGED] =
+		g_signal_new ("color_changed",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ColorComboClass, color_changed),
+			      NULL, NULL,
+			      gnm__VOID__POINTER_BOOLEAN_BOOLEAN_BOOLEAN,
+			      G_TYPE_NONE, 4, G_TYPE_POINTER,
+			      G_TYPE_BOOLEAN, G_TYPE_BOOLEAN, G_TYPE_BOOLEAN);
+}
+
+GSF_CLASS (ColorCombo, color_combo,
+	   color_combo_class_init, color_combo_init,
+	   GNM_COMBO_BOX_TYPE)
+
+static void
+cb_palette_color_changed (ColorPalette *P, GdkColor *color,
+		 gboolean custom, gboolean by_user, gboolean is_default,
+		 ColorCombo *cc)
+{
+	color_combo_set_color_internal (cc, color);
+	emit_color_changed (cc, color, custom, by_user, is_default);
 }
 
 static void
@@ -223,64 +238,6 @@ color_combo_box_set_preview_relief (ColorCombo *cc, GtkReliefStyle relief)
 	w = gnm_combo_box_get_arrow (GNM_COMBO_BOX (cc));
 	gtk_button_set_relief (GTK_BUTTON (w), relief);
 	gtk_button_set_relief (GTK_BUTTON (cc->preview_button), relief);
-}
-
-/*
- * Where the actual construction goes on
- */
-static void
-color_combo_construct (ColorCombo *cc, GdkPixbuf *icon,
-		       char const *no_color_label,
-		       ColorGroup *color_group)
-{
-	GdkColor *color;
-	GdkPixbuf *pixbuf = NULL;
-
-	g_return_if_fail (IS_COLOR_COMBO (cc));
-
-	/*
-	 * Our button with the gtk_image preview
-	 */
-	cc->preview_button = gtk_toggle_button_new ();
-	cc->preview_is_icon = FALSE;
-	
-	if (icon)
-		/* use icon only if size > 4*4 */
-		if ((gdk_pixbuf_get_width (icon) > 4) && 
-		    (gdk_pixbuf_get_height (icon) > 4))
-		{
-			cc->preview_is_icon = TRUE;
-			pixbuf = gdk_pixbuf_copy (icon);
-		}
-	
-	if (pixbuf == NULL)
-		pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB,
-					 TRUE, 8, 
-					 PREVIEW_SIZE, 
-					 PREVIEW_SIZE);
-
-	cc->preview_image = gtk_image_new_from_pixbuf (pixbuf);
-	g_object_unref (pixbuf);
-
-	gtk_button_set_relief (GTK_BUTTON (cc->preview_button), GTK_RELIEF_NONE);
-	gtk_widget_show (cc->preview_image);
-	
-	gtk_container_add (GTK_CONTAINER (cc->preview_button), cc->preview_image);
-	g_signal_connect (G_OBJECT (cc), "screen-changed", G_CALLBACK (cb_screen_changed), NULL);
-	g_signal_connect (cc->preview_button, "clicked",
-			  G_CALLBACK (preview_clicked), cc);
-
-	color_table_setup (cc, no_color_label, color_group);
-
-	gtk_widget_show_all (cc->preview_button);
-
-	gnm_combo_box_construct (GNM_COMBO_BOX (cc),
-	    cc->preview_button, GTK_WIDGET (cc->palette), GTK_WIDGET (cc->palette));
-
-	color = color_palette_get_current_color (cc->palette, NULL);
-	color_combo_set_color_internal (cc, color);
-	if (color) gdk_color_free (color);
-	cc->instant_apply = TRUE;
 }
 
 /* color_combo_get_color:
@@ -365,13 +322,36 @@ color_combo_new (GdkPixbuf *icon, char const *no_color_label,
 		 GdkColor const *default_color,
 		 ColorGroup *color_group)
 {
-	ColorCombo *cc;
-
-	cc = g_object_new (COLOR_COMBO_TYPE, NULL);
+	GdkColor  *color;
+	GdkPixbuf *pixbuf = NULL;
+	ColorCombo *cc = g_object_new (COLOR_COMBO_TYPE, NULL);
 
         cc->default_color = default_color ? (cc->default_color_save = *default_color), &cc->default_color_save : NULL;
 
-	color_combo_construct (cc, icon, no_color_label, color_group);
+	if (icon != NULL &&
+	    gdk_pixbuf_get_width (icon) > 4 && 
+	    gdk_pixbuf_get_height (icon) > 4) {
+		cc->preview_is_icon = TRUE;
+		pixbuf = gdk_pixbuf_copy (icon);
+	} else
+		pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, 
+					 PREVIEW_SIZE, PREVIEW_SIZE);
+
+	cc->preview_image = gtk_image_new_from_pixbuf (pixbuf);
+	g_object_unref (pixbuf);
+	gtk_widget_show (cc->preview_image);
+	gtk_container_add (GTK_CONTAINER (cc->preview_button), cc->preview_image);
+
+	color_table_setup (cc, no_color_label, color_group);
+	gtk_widget_show_all (cc->preview_button);
+
+	gnm_combo_box_construct (GNM_COMBO_BOX (cc),
+	    cc->preview_button, GTK_WIDGET (cc->palette), GTK_WIDGET (cc->palette));
+
+	color = color_palette_get_current_color (cc->palette, NULL);
+	color_combo_set_color_internal (cc, color);
+	if (color)
+		gdk_color_free (color);
 
 	return GTK_WIDGET (cc);
 }

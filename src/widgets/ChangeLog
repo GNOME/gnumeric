@@ -1,3 +1,12 @@
+2004-01-22  Jody Goldberg <jody@gnome.org>
+
+	* widget-pixmap-combo.c : Lots of rewriting to enable keynav, and make
+	  it work in the new framework.
+	* color-palette.c : some cleanup and enable the menu item
+	* gnm-combo-stack.c : delete there's no need to have this widget
+	  distinct from its action and it was completely rewritten to use
+	  TreeView
+
 2004-01-16  Jody Goldberg <jody@gnome.org>
 
 	* gnm-combo-stack.c (gnm_combo_stack_push) : typo.

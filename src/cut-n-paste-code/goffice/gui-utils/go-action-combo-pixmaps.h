@@ -31,12 +31,18 @@ G_BEGIN_DECLS
 #define IS_GO_ACTION_COMBO_PIXMAPS(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_ACTION_COMBO_PIXMAPS_TYPE))
 
 typedef struct _GOActionComboPixmaps	 GOActionComboPixmaps;
+typedef struct {
+	char const *untranslated_tooltip;
+	guint8 const *inline_gdkpixbuf;
+	int id;
+} GOActionComboPixmapsElement;
 
 GType	go_action_combo_pixmaps_get_type (void);
 GOActionComboPixmaps *
 	go_action_combo_pixmaps_new (char const *name,
-				     PixmapComboElement const *elements,
+				     GOActionComboPixmapsElement const *elements,
 				     int ncols, int nrows);
+int	go_action_combo_pixmaps_get_selection (GOActionComboPixmaps *action);
 
 G_END_DECLS
 

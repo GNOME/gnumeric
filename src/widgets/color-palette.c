@@ -105,16 +105,16 @@ color_palette_finalize (GObject *object)
 }
 
 static void
-color_palette_class_init (GObjectClass *object_class)
+color_palette_class_init (GObjectClass *gobject_class)
 {
-	object_class->finalize = color_palette_finalize;
-	((GtkObjectClass *)object_class)->destroy = color_palette_destroy;
+	gobject_class->finalize = color_palette_finalize;
+	((GtkObjectClass *)gobject_class)->destroy = color_palette_destroy;
 
-	color_palette_parent_class = g_type_class_peek_parent (object_class);
+	color_palette_parent_class = g_type_class_peek_parent (gobject_class);
 
 	color_palette_signals [COLOR_CHANGED] =
 		g_signal_new ("color_changed",
-			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_OBJECT_CLASS_TYPE (gobject_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ColorPaletteClass, color_changed),
 			      NULL, NULL,
@@ -145,7 +145,6 @@ emit_color_changed (ColorPalette *P, GdkColor const *color,
 	g_signal_emit (P, color_palette_signals [COLOR_CHANGED], 0,
 		       color, custom, by_user, is_default);
 }
-
 
 /*
  * Add the new custom color as the first custom color in the custom color rows
@@ -287,9 +286,9 @@ color_in_palette (ColorNamePair *set, GdkColor *color)
  * Utility function
  */
 static GtkWidget *
-color_palette_button_new(ColorPalette *P, GtkTable* table,
-			 GtkTooltips *tool_tip, ColorNamePair* color_name,
-			 gint col, gint row, int data)
+color_palette_button_new (ColorPalette *P, GtkTable* table,
+			  GtkTooltips *tool_tip, ColorNamePair* color_name,
+			  gint col, gint row, int data)
 {
         GtkWidget *button, *swatch, *box;
 	GdkColor   c;
@@ -628,6 +627,34 @@ color_palette_new (char const *no_color_label,
 					    color_group);
 }
 
+/***********************************************************************/
+
+typedef GtkMenu	GOMenuColor;
+typedef struct {
+	GtkMenuClass	base;
+	void (* color_changed) (GOMenuColor *menu, GdkColor *color,
+				gboolean custom, gboolean by_user, gboolean is_default);
+} GOMenuColorClass;
+
+static guint go_menu_color_signals [LAST_SIGNAL] = { 0, };
+static void
+go_menu_color_class_init (GObjectClass *gobject_class)
+{
+	go_menu_color_signals [COLOR_CHANGED] =
+		g_signal_new ("color_changed",
+			      G_OBJECT_CLASS_TYPE (gobject_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (GOMenuColorClass, color_changed),
+			      NULL, NULL,
+			      gnm__VOID__POINTER_BOOLEAN_BOOLEAN_BOOLEAN,
+			      G_TYPE_NONE, 4, G_TYPE_POINTER,
+			      G_TYPE_BOOLEAN, G_TYPE_BOOLEAN, G_TYPE_BOOLEAN);
+}
+
+static GSF_CLASS (GOMenuColor, go_menu_color,
+		  go_menu_color_class_init, NULL,
+		  GTK_TYPE_MENU)
+
 static GtkWidget *
 make_colored_menu_item (char const *label, GdkColor const *c)
 {
@@ -641,7 +668,25 @@ make_colored_menu_item (char const *label, GdkColor const *c)
 		gtk_image_new_from_pixbuf (pixbuf));
 	g_object_unref (pixbuf);
 	gtk_widget_show_all (button);
+
+	g_object_set_data_full (G_OBJECT (button), "gdk_color",
+		gdk_color_copy  (c), (GDestroyNotify) gdk_color_free);
 	return button;
+}
+
+static void
+cb_menu_default_activate (GtkWidget *button, GtkWidget *menu)
+{
+	g_signal_emit (menu, go_menu_color_signals [COLOR_CHANGED], 0,
+		       NULL, FALSE, TRUE, TRUE);
+}
+
+static void
+cb_menu_color_activate (GtkWidget *button, GtkWidget *menu)
+{
+	GdkColor const *color = g_object_get_data (G_OBJECT (button), "gdk_color");
+	g_signal_emit (menu, go_menu_color_signals [COLOR_CHANGED], 0,
+		       color, FALSE, TRUE, FALSE);
 }
 
 GtkWidget *
@@ -656,13 +701,18 @@ color_palette_make_menu (char const *no_color_label,
         GtkWidget *button, *submenu;
 	GdkColor   c;
 
-	submenu = gtk_menu_new ();
+	submenu = g_object_new (go_menu_color_get_type (), NULL);
+
 	if (no_color_label != NULL) {
 		if (default_color != NULL)
 			button = make_colored_menu_item (no_color_label, default_color);
 		else
 			button = gtk_menu_item_new_with_label (no_color_label);
 		gtk_menu_attach (GTK_MENU (submenu), button, 0, ncols, 0, 1);
+
+		g_signal_connect (G_OBJECT (button),
+			"activate",
+			G_CALLBACK (cb_menu_default_activate), submenu);
 		table_row++;
 	}
 	for (row = 0; row < nrows; row++, table_row++) {
@@ -678,6 +728,9 @@ color_palette_make_menu (char const *no_color_label,
 			button = make_colored_menu_item (" ", &c);
 			gtk_menu_attach (GTK_MENU (submenu), button,
 				col, col+1, table_row, table_row+1);
+			g_signal_connect (G_OBJECT (button),
+				"activate",
+				G_CALLBACK (cb_menu_color_activate), submenu);
 		}
 	}
 	gtk_widget_show (submenu);

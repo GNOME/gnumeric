@@ -26,12 +26,14 @@
 
 #include <gtk/gtkaction.h>
 #include <gtk/gtktoolitem.h>
+#include <gtk/gtkimagemenuitem.h>
+#include <gtk/gtkimage.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n.h>
 
 typedef struct {
 	GtkToolItem	 base;
-	PixmapCombo	*combo;	/* container has a ref, not us */
+	GOComboPixmaps	*combo;	/* container has a ref, not us */
 } GOToolComboPixmaps;
 typedef GtkToolItemClass GOToolComboPixmapsClass;
 
@@ -46,7 +48,7 @@ go_tool_combo_pixmaps_set_tooltip (GtkToolItem *tool_item, GtkTooltips *tooltips
 				   char const *tip_private)
 {
 	GOToolComboPixmaps *self = (GOToolComboPixmaps *)tool_item;
-	gtk_tooltips_set_tip (tooltips, self->combo->preview_button,
+	gtk_tooltips_set_tip (tooltips, go_combo_pixmaps_get_preview (self->combo),
 			      tip_text, tip_private);
 	gtk_tooltips_set_tip (tooltips, gnm_combo_box_get_arrow	(GNM_COMBO_BOX (self->combo)),
 			      tip_text, tip_private);
@@ -66,40 +68,96 @@ static GSF_CLASS (GOToolComboPixmaps, go_tool_combo_pixmaps,
 
 struct _GOActionComboPixmaps {
 	GtkAction	base;
-	PixmapComboElement const *elements;
+	GOActionComboPixmapsElement const *elements;
 	int ncols, nrows;
+
+	gboolean updating_proxies;
+	int selected_id;
 };
-typedef struct {
-	GtkActionClass	base;
-} GOActionComboPixmapsClass;
+typedef GtkActionClass GOActionComboPixmapsClass;
 
 static GObjectClass *combo_pixmaps_parent;
-#if 0
 static void
-go_action_combo_pixmaps_connect_proxy (GtkAction *action, GtkWidget *proxy)
+go_action_combo_pixmaps_connect_proxy (GtkAction *a, GtkWidget *proxy)
 {
+	if (GTK_IS_IMAGE_MENU_ITEM (proxy)) { /* set the icon */
+		GOActionComboPixmaps *paction = (GOActionComboPixmaps *)a;
+		GdkPixbuf *pixbuf = gdk_pixbuf_new_from_inline (-1,
+			paction->elements[0].inline_gdkpixbuf, TRUE, NULL);
+		GtkWidget *image = gtk_image_new_from_pixbuf (pixbuf);
+		g_object_unref (pixbuf);
+		gtk_widget_show (image);
+		gtk_image_menu_item_set_image (
+			GTK_IMAGE_MENU_ITEM (proxy), image);
+	}
 }
 
 static void
-go_action_combo_pixmaps_disconnect_proxy (GtkAction *action, GtkWidget *proxy)
+cb_selection_changed (GOComboPixmaps *combo, int id, GOActionComboPixmaps *paction)
 {
+	GSList *ptr;
+	if (paction->updating_proxies)
+		return;
+	paction->selected_id = id;
+
+	paction->updating_proxies = TRUE;
+	ptr = gtk_action_get_proxies (GTK_ACTION (paction));
+	for ( ; ptr != NULL ; ptr = ptr->next)
+		if (IS_GO_COMBO_PIXMAPS (ptr->data) &&
+		    go_combo_pixmaps_get_selected (ptr->data, NULL) != id)
+			go_combo_pixmaps_select_id (ptr->data, id);
+	paction->updating_proxies = FALSE;
+
+	gtk_action_activate (GTK_ACTION (paction));
 }
-#endif
 
 static GtkWidget *
 go_action_combo_pixmaps_create_tool_item (GtkAction *a)
 {
-	GOActionComboPixmaps *caction = (GOActionComboPixmaps *)a;
+	GOActionComboPixmaps *paction = (GOActionComboPixmaps *)a;
 	GOToolComboPixmaps *tool = g_object_new (GO_TOOL_COMBO_PIXMAPS_TYPE, NULL);
+	GOActionComboPixmapsElement const *el= paction->elements;
 
-	tool->combo = (PixmapCombo *)pixmap_combo_new (caction->elements,
-		caction->ncols, caction->nrows, TRUE);
+	tool->combo = go_combo_pixmaps_new (paction->ncols);
+	for ( ; el->inline_gdkpixbuf != NULL ; el++)
+		go_combo_pixmaps_add_element (tool->combo,
+			gdk_pixbuf_new_from_inline (-1, el->inline_gdkpixbuf, TRUE, NULL),
+			el->id, _(el->untranslated_tooltip));
+	go_combo_pixmaps_select_id (tool->combo, paction->selected_id);
 
 	gnm_widget_disable_focus (GTK_WIDGET (tool->combo));
 	gtk_container_add (GTK_CONTAINER (tool), GTK_WIDGET (tool->combo));
 	gtk_widget_show (GTK_WIDGET (tool->combo));
 	gtk_widget_show (GTK_WIDGET (tool));
+
+	g_signal_connect (G_OBJECT (tool->combo),
+		"changed",
+		G_CALLBACK (cb_selection_changed), a);
+
 	return GTK_WIDGET (tool);
+}
+
+static GtkWidget *
+go_action_combo_pixmaps_create_menu_item (GtkAction *a)
+{
+	GOActionComboPixmaps *paction = (GOActionComboPixmaps *)a;
+	GOMenuPixmaps *submenu = go_menu_pixmaps_new (paction->ncols);
+	GOActionComboPixmapsElement const *el= paction->elements;
+	GtkWidget *item;
+	
+	for ( ; el->inline_gdkpixbuf != NULL ; el++)
+		go_menu_pixmaps_add_element (submenu,
+			gdk_pixbuf_new_from_inline (-1, el->inline_gdkpixbuf, TRUE, NULL),
+			el->id);
+
+	item = gtk_image_menu_item_new ();
+	gtk_menu_item_set_submenu (GTK_MENU_ITEM (item), GTK_WIDGET (submenu));
+	gtk_widget_show (GTK_WIDGET (submenu));
+
+	g_signal_connect (G_OBJECT (submenu),
+		"changed",
+		G_CALLBACK (cb_selection_changed), a);
+	return item;
 }
 
 static void
@@ -117,11 +175,8 @@ go_action_combo_pixmaps_class_init (GtkActionClass *gtk_act_klass)
 	gobject_klass->finalize		= go_action_combo_pixmaps_finalize;
 
 	gtk_act_klass->create_tool_item = go_action_combo_pixmaps_create_tool_item;
-#if 0
-	gtk_act_klass->create_menu_item = Use the default
+	gtk_act_klass->create_menu_item = go_action_combo_pixmaps_create_menu_item;
 	gtk_act_klass->connect_proxy	= go_action_combo_pixmaps_connect_proxy;
-	gtk_act_klass->disconnect_proxy = go_action_combo_pixmaps_disconnect_proxy;
-#endif
 }
 
 GSF_CLASS (GOActionComboPixmaps, go_action_combo_pixmaps,
@@ -130,13 +185,30 @@ GSF_CLASS (GOActionComboPixmaps, go_action_combo_pixmaps,
 
 GOActionComboPixmaps *
 go_action_combo_pixmaps_new (char const *name,
-		       PixmapComboElement const *elements, int ncols, int nrows)
+			     GOActionComboPixmapsElement const *elements,
+			     int ncols, int nrows)
 {
-	GOActionComboPixmaps *res = g_object_new (go_action_combo_pixmaps_get_type (),
-					     "name", name,
-					     NULL);
-	res->elements = elements;
-	res->ncols = ncols;
-	res->nrows = nrows;
-	return res;
+	GOActionComboPixmaps *paction;
+
+	g_return_val_if_fail (ncols > 0, NULL);
+	g_return_val_if_fail (nrows > 0, NULL);
+	g_return_val_if_fail (elements != NULL, NULL);
+
+	paction = g_object_new (go_action_combo_pixmaps_get_type (),
+			    "name", name,
+			    NULL);
+	paction->elements = elements;
+	paction->ncols = ncols;
+	paction->nrows = nrows;
+	paction->selected_id = elements[0].id;
+
+	return paction;
+}
+
+int
+go_action_combo_pixmaps_get_selection (GOActionComboPixmaps *paction)
+{
+	g_return_val_if_fail (IS_GO_ACTION_COMBO_PIXMAPS (paction), 0);
+
+	return paction->selected_id;
 }

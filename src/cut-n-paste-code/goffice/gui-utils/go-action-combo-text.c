@@ -107,14 +107,14 @@ go_action_combo_create_tool_item (GtkAction *act)
 	if (caction->largest_elem != NULL)
 		w = gnm_measure_string (
 			gtk_widget_get_pango_context (GTK_WIDGET (tool->combo)),
-			tool->combo->entry->style->font_desc, 
+			gnm_combo_text_get_entry (tool->combo)->style->font_desc, 
 			caction->largest_elem);
 	for (ptr = caction->elements; ptr != NULL ; ptr = ptr->next) {
 		gnm_combo_text_add_item	(tool->combo, ptr->data);
 		if (caction->largest_elem == NULL) {
 			tmp = gnm_measure_string (
 				gtk_widget_get_pango_context (GTK_WIDGET (tool->combo)),
-				tool->combo->entry->style->font_desc, 
+				gnm_combo_text_get_entry (tool->combo)->style->font_desc, 
 				ptr->data);
 			if (w < tmp)
 				w = tmp;
@@ -123,7 +123,8 @@ go_action_combo_create_tool_item (GtkAction *act)
 				
 	gnm_combo_box_set_title (GNM_COMBO_BOX (tool->combo),
 		_(gtk_action_get_name (act)));
-	gtk_widget_set_size_request (tool->combo->entry, w, -1);
+	gtk_widget_set_size_request (
+		gnm_combo_text_get_entry (tool->combo), w, -1);
 	g_object_set (G_OBJECT (tool), "visible_vertical", FALSE, NULL);
 
 	gnm_widget_disable_focus (GTK_WIDGET (tool->combo));

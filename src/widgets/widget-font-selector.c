@@ -145,7 +145,7 @@ fs_fill_font_name_list (FontSelector *fs)
 		 GTK_SIGNAL_FUNC (list_mapped), NULL);
 }
 
-static const char *styles[] = {
+static char const *styles[] = {
 	 N_("Normal"),
 	 N_("Bold"),
 	 N_("Bold italic"),
@@ -316,8 +316,8 @@ fs_init (FontSelector *fs)
 		"size-allocate",
 		GTK_SIGNAL_FUNC (canvas_size_changed), fs);
 
-	fs_fill_font_style_list (fs);
 	fs_fill_font_name_list (fs);
+	fs_fill_font_style_list (fs);
 	fs_fill_font_size_list (fs);
 }
 

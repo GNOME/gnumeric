@@ -79,13 +79,11 @@
 #include <libgnomevfs/gnome-vfs-uri.h>
 
 #include <gsf/gsf-impl-utils.h>
-#include <widgets/widget-color-combo.h>
-#include <widgets/gnm-combo-stack.h>
 
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtkseparatormenuitem.h>
-#include <gtk/gtkcheckmenuitem.h>
 #include <gtk/gtkimage.h>
+#include <gtk/gtkhbox.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkframe.h>
 #include <gtk/gtkdnd.h>

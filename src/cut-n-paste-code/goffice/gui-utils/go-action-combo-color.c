@@ -99,9 +99,8 @@ cb_color_changed (GtkWidget *cc, GdkColor const *c,
 {
 	if (!by_user)
 		return;
-	caction->current_color = (is_default)
-		? caction->default_val
-		: color_combo_get_gocolor (cc, is_custom);
+	caction->current_color = is_default
+		? caction->default_val : GDK_TO_UINT (*c);
 	gtk_action_activate (GTK_ACTION (caction));
 }
 
@@ -111,6 +110,7 @@ go_action_combo_color_create_tool_item (GtkAction *a)
 	GOActionComboColor *caction = (GOActionComboColor *)a;
 	GOToolComboColor *tool = g_object_new (GO_TOOL_COMBO_COLOR_TYPE, NULL);
 	GdkColor gdk_default;
+
 	tool->combo = (ColorCombo *)color_combo_new (caction->icon,
 		caction->default_val_label,
 		go_color_to_gdk	(caction->default_val, &gdk_default),
@@ -139,6 +139,10 @@ go_action_combo_color_create_menu_item (GtkAction *a)
 	GtkWidget *item = gtk_image_menu_item_new ();
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (item), submenu);
 	gtk_widget_show (submenu);
+
+	g_signal_connect (G_OBJECT (submenu),
+		"color_changed",
+		G_CALLBACK (cb_color_changed), a);
 	return item;
 }
 

@@ -87,32 +87,33 @@ static GOPatternSpec const go_patterns [] = {
 
 static struct {
 	GOPatternType pattern;
-	char  const *name;
+	char const *label;
+	char const *name;
 } pattern_names[] = {
-	{ GO_PATTERN_SOLID,            "solid" },
-	{ GO_PATTERN_GREY75,           "grey75" },
-	{ GO_PATTERN_GREY50,           "grey50" },
-	{ GO_PATTERN_GREY25,           "grey25" },
-	{ GO_PATTERN_GREY125,          "grey12.5" },
-	{ GO_PATTERN_GREY625,          "grey6.25" },
-	{ GO_PATTERN_HORIZ,            "horiz" },
-	{ GO_PATTERN_VERT,             "vert" },
-	{ GO_PATTERN_REV_DIAG,         "rev-diag" },
-	{ GO_PATTERN_DIAG,             "diag" },
-	{ GO_PATTERN_DIAG_CROSS,       "diag-cross" },
-	{ GO_PATTERN_THICK_DIAG_CROSS, "thick-diag-cross" },
-	{ GO_PATTERN_THIN_HORIZ,       "thin-horiz" },
-	{ GO_PATTERN_THIN_VERT,        "thin-vert" },
-	{ GO_PATTERN_THIN_REV_DIAG,    "rev-diag" },
-	{ GO_PATTERN_THIN_DIAG,        "thin-diag" },
-	{ GO_PATTERN_THIN_HORIZ_CROSS, "thin-horiz-cross" },
-	{ GO_PATTERN_THIN_DIAG_CROSS,  "thin-diag-cross" },
-	{ GO_PATTERN_FOREGROUND_SOLID, "foreground-solid" },
-	{ GO_PATTERN_SMALL_CIRCLES,    "small-circles" },
-	{ GO_PATTERN_SEMI_CIRCLES,     "semi-circles" },
-	{ GO_PATTERN_THATCH,           "thatch" },
-	{ GO_PATTERN_LARGE_CIRCLES,    "large-circles" },
-	{ GO_PATTERN_BRICKS,           "bricks" }
+	{ GO_PATTERN_SOLID,            N_("Solid"),			"solid" },
+	{ GO_PATTERN_GREY75,           N_("75% Grey"),			"grey75" },
+	{ GO_PATTERN_GREY50,           N_("50% Grey"),			"grey50" },
+	{ GO_PATTERN_GREY25,           N_("25% Grey"),			"grey25" },
+	{ GO_PATTERN_GREY125,          N_("12.5% Grey"),		"grey12.5" },
+	{ GO_PATTERN_GREY625,          N_("6.25% Grey"),		"grey6.25" },
+	{ GO_PATTERN_HORIZ,            N_("Horizontal Stripe"),		"horiz" },
+	{ GO_PATTERN_VERT,             N_("Vertical Stripe"),		"vert" },
+	{ GO_PATTERN_REV_DIAG,         N_("Reverse Diagonal Stripe"),	"rev-diag" },
+	{ GO_PATTERN_DIAG,             N_("Diagonal Stripe"),		"diag" },
+	{ GO_PATTERN_DIAG_CROSS,       N_("Diagonal Crosshatch"),	"diag-cross" },
+	{ GO_PATTERN_THICK_DIAG_CROSS, N_("Thick Diagonal Crosshatch"),	"thick-diag-cross" },
+	{ GO_PATTERN_THIN_HORIZ,       N_("Thin Horizontal Stripe"),	"thin-horiz" },
+	{ GO_PATTERN_THIN_VERT,        N_("Thin Vertical Stripe"),	"thin-vert" },
+	{ GO_PATTERN_THIN_REV_DIAG,    N_("Thin Reverse Diagonal Stripe"), "rev-diag" },
+	{ GO_PATTERN_THIN_DIAG,        N_("Thin Diagonal Stripe"),	"thin-diag" },
+	{ GO_PATTERN_THIN_HORIZ_CROSS, N_("Thin Horizontal Crosshatch"),"thin-horiz-cross" },
+	{ GO_PATTERN_THIN_DIAG_CROSS,  N_("Thin Diagonal Crosshatch"),	"thin-diag-cross" },
+	{ GO_PATTERN_FOREGROUND_SOLID, N_("Foreground Solid"),		"foreground-solid" },
+	{ GO_PATTERN_SMALL_CIRCLES,    N_("Small Circles"),		"small-circles" },
+	{ GO_PATTERN_SEMI_CIRCLES,     N_("Semi Circles"),		"semi-circles" },
+	{ GO_PATTERN_THATCH,           N_("Thatch"),			"thatch" },
+	{ GO_PATTERN_LARGE_CIRCLES,    N_("Large Circles"),		"large-circles" },
+	{ GO_PATTERN_BRICKS,           N_("Bricks"),			"bricks"  }
 };
 
 
@@ -189,46 +190,25 @@ gpointer
 go_pattern_selector (GOColor fore, GOColor back,
 		     GOPatternType default_pat)
 {
-	static PixmapComboElement elements[] = {
-		{ N_("Solid"),				NULL, 11},
-		{ N_("75% Grey"),			NULL, 12},
-		{ N_("50% Grey"),			NULL, 13},
-		{ N_("25% Grey"),			NULL, 14},
-		{ N_("12.5% Grey"),			NULL, 15},
-		{ N_("6.25% Grey"),			NULL, 16},
-		{ N_("Horizontal Stripe"),		NULL, 21},
-		{ N_("Vertical Stripe"),		NULL, 22},
-		{ N_("Reverse Diagonal Stripe"),	NULL, 23},
-		{ N_("Diagonal Stripe"),		NULL, 24},
-		{ N_("Diagonal Crosshatch"),		NULL, 25},
-		{ N_("Thick Diagonal Crosshatch"),	NULL, 26},
-		{ N_("Thin Horizontal Stripe"),		NULL, 31},
-		{ N_("Thin Vertical Stripe"),		NULL, 32},
-		{ N_("Thin Reverse Diagonal Stripe"),	NULL, 33},
-		{ N_("Thin Diagonal Stripe"),		NULL, 34},
-		{ N_("Thin Horizontal Crosshatch"),	NULL, 35},
-		{ N_("Thin Diagonal Crosshatch"),	NULL, 36},
-		{ N_("Foreground Solid"),		NULL, 41},
-		{ N_("Small Circles"),			NULL, 42},
-		{ N_("Semi Circles"),			NULL, 43},
-		{ N_("Thatch"),				NULL, 44},
-		{ N_("Large Circles"),			NULL, 45},
-		{ N_("Bricks"),				NULL, 46},
-		{ NULL,				NULL, 50}
+	static GOPatternType const elements[] = {
+		GO_PATTERN_SOLID,	GO_PATTERN_GREY75,	GO_PATTERN_GREY50,	GO_PATTERN_GREY25,
+		GO_PATTERN_GREY125,	GO_PATTERN_GREY625,	GO_PATTERN_HORIZ,	GO_PATTERN_VERT,
+		GO_PATTERN_REV_DIAG,	GO_PATTERN_DIAG,	GO_PATTERN_DIAG_CROSS,	GO_PATTERN_THICK_DIAG_CROSS,
+		GO_PATTERN_THIN_HORIZ,		GO_PATTERN_THIN_VERT,
+		GO_PATTERN_THIN_REV_DIAG,	GO_PATTERN_THIN_DIAG,
+		GO_PATTERN_THIN_HORIZ_CROSS,	GO_PATTERN_THIN_DIAG_CROSS,
+		GO_PATTERN_FOREGROUND_SOLID,	GO_PATTERN_SMALL_CIRCLES,
+		GO_PATTERN_SEMI_CIRCLES, GO_PATTERN_THATCH,	GO_PATTERN_LARGE_CIRCLES,   GO_PATTERN_BRICKS,
+		GO_PATTERN_MAX	/* fill with auto */
 	};
-	int const H = 20;
-	int const W = 20;
-	GtkWidget *w;
-	GdkPixbuf *pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, W, H);
-	guchar    *buf = gdk_pixbuf_get_pixels (pixbuf);
-	unsigned   rowstride = gdk_pixbuf_get_rowstride (pixbuf);
-	unsigned   i;
-	gpointer   data;
-	GdkPixdata pixdata;
-	guint	   length;
-	GOPattern  pat;
-	ArtVpath   path[6];
-	ArtSVP    *svp;
+	int const W = 20, H = 20;
+	unsigned	 i;
+	gboolean	 is_auto;
+	GOComboPixmaps	*w;
+	GdkPixbuf	*pixbuf;
+	GOPattern	 pat;
+	ArtVpath	 path[6];
+	ArtSVP		*svp;
 
 	pat.fore = fore;
 	pat.back = back;
@@ -244,24 +224,31 @@ go_pattern_selector (GOColor fore, GOColor back,
 	path[0].y = path[3].y = path[4].y = 0;
 	path[1].y = path[2].y = H;
 	svp = art_svp_from_vpath (path);
-	for (i = 0; i < G_N_ELEMENTS (elements); i++) {
-		memset (buf, 0, rowstride * H);
-		pat.pattern = (i+1 == G_N_ELEMENTS (elements)) ? default_pat : i;
-		go_pattern_render_svp (&pat, svp, 0, 0, W, H, buf, rowstride);
-		data = gdk_pixdata_from_pixbuf (&pixdata, pixbuf, FALSE);
-		elements[i].inline_gdkpixbuf = gdk_pixdata_serialize (&pixdata, &length);
-		g_free (data);
-	}
-	g_object_unref (pixbuf);
-	art_svp_free (svp);
-	w = pixmap_combo_new (elements, 6, 4, TRUE);
-	for (i = 0; i < G_N_ELEMENTS (elements); i++)
-		g_free ((char *)elements[i].inline_gdkpixbuf);
+
+	w = go_combo_pixmaps_new (4);
 	gnm_combo_box_set_tearable (GNM_COMBO_BOX (w), FALSE);
+	for (i = 0; i < G_N_ELEMENTS (elements); i++) {
+		pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, W, H);
+		is_auto = elements[i] == GO_PATTERN_MAX;
+		pat.pattern = is_auto ? default_pat : i;
+		go_pattern_render_svp (&pat, svp, 0, 0, W, H,
+			gdk_pixbuf_get_pixels (pixbuf),
+			gdk_pixbuf_get_rowstride (pixbuf));
+		if (is_auto) {
+			/* xgettext : this will appear as 'Automatic (patternname)' */
+			char *name = g_strdup_printf (_("Automatic (%s)"),
+				_(pattern_names [default_pat].label));
+			go_combo_pixmaps_add_element (w, pixbuf,
+				-default_pat, name);
+			g_free (name);
+		} else
+			go_combo_pixmaps_add_element (w, pixbuf, pat.pattern,
+				_(pattern_names[pat.pattern].label));
+	}
+	art_svp_free (svp);
 	return w;
 }
 
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  *  A slightly modified version of art_rgb_svp to render into rgba buffer
  *

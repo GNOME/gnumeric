@@ -50,7 +50,7 @@ typedef enum {
 	GO_MARKER_HALF_BAR,
 	GO_MARKER_BUTTERFLY,
 	GO_MARKER_HOURGLASS,
-	GO_MARKER_LAST
+	GO_MARKER_MAX
 } GOMarkerShape;
 
 struct _GOMarker {
@@ -90,6 +90,8 @@ GOMarker * 	 go_marker_new 			(void);
 gpointer 	 go_marker_selector 		(GOColor outline_color, 
 						 GOColor fill_color,
 						 GOMarkerShape default_shape);
+GOMarkerShape	 go_marker_selector_get_shape	(gpointer selector,
+						 int index, gboolean *is_auto);
 	
 G_END_DECLS
 

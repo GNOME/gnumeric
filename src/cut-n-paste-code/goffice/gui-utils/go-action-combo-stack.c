@@ -99,7 +99,6 @@ cb_button_release_event (GtkWidget *list, GdkEventButton *e, gpointer data)
 {
 	GOComboStack *stack = GO_COMBO_STACK (data);
 
-//	go_combo_stack_clear_selection (stack);
 	gnm_combo_box_popup_hide (GNM_COMBO_BOX (stack));
 
 	if (stack->bottom > 0) {

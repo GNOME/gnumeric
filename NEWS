@@ -1,5 +1,16 @@
 Gnumeric 1.3.0
 
+Andreas:
+	* Make new strings translatable.
+	* Use new widget for output page of analysis tools.
+	* Add display indicating why the okay button is disabled
+	  to selected analysis tools.
+	http://bugzilla.gnome.org/show_bug.cgi?id=131343
+	* Use the paper selected in the print dialog [backported]
+
+Emmanuel Pacaud:
+	* Work on single point formating for charts.
+
 Jody:
 	* Drop gnome-app-helper in favour of GtkAction
 	http://bugzilla.gnome.org/show_bug.cgi?id=128524
@@ -22,14 +33,10 @@ Jody:
 	* ISNUMBER() should return false for blank references
 	http://bugzilla.gnome.org/show_bug.cgi?id=130172
 	* Do not convert blanks to int(0) for string args
-
-Andreas:
-	* Make new strings translatable.
-	* Use new widget for output page of analysis tools.
-	* Add display indicating why the okay button is disabled
-	  to selected analysis tools.
-	http://bugzilla.gnome.org/show_bug.cgi?id=131343
-	* Use the paper selected in the print dialog [backported]
+	* Allow optional args to receive empty even for booleans
+	* Install the executable as gnumeric-<version>
+	http://bugzilla.gnome.org/show_bug.cgi?id=132017
+	* Support double underline when importing from applix
 
 John Gill:
 	* Tool tips for the sort dialog.

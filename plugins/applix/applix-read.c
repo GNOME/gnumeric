@@ -602,7 +602,11 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 				++sep;
 				break;
 			case 'U' :
-				mstyle_set_font_uline (style, TRUE);
+				mstyle_set_font_uline (style, UNDERLINE_SINGLE);
+				++sep;
+				break;
+			case 'D' :
+				mstyle_set_font_uline (style, UNDERLINE_DOUBLE);
 				++sep;
 				break;
 			case 'f' :

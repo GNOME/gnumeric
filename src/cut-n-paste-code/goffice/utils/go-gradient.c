@@ -86,64 +86,38 @@ GtkWidget *
 go_gradient_selector (GOColor start, GOColor end)
 {
 #warning Add names to these after release
-	static PixmapComboElement elements[] = {
-		{ NULL, NULL, GO_GRADIENT_N_TO_S },
-		{ NULL, NULL, GO_GRADIENT_S_TO_N },
-		{ NULL, NULL, GO_GRADIENT_N_TO_S_MIRRORED },
-		{ NULL, NULL, GO_GRADIENT_S_TO_N_MIRRORED },
-		{ NULL, NULL, GO_GRADIENT_W_TO_E },
-		{ NULL, NULL, GO_GRADIENT_E_TO_W },
-		{ NULL, NULL, GO_GRADIENT_W_TO_E_MIRRORED },
-		{ NULL, NULL, GO_GRADIENT_E_TO_W_MIRRORED },
-		{ NULL, NULL, GO_GRADIENT_NW_TO_SE },
-		{ NULL, NULL, GO_GRADIENT_SE_TO_NW },
-		{ NULL, NULL, GO_GRADIENT_NW_TO_SE_MIRRORED },
-		{ NULL, NULL, GO_GRADIENT_SE_TO_NW_MIRRORED },
-		{ NULL, NULL, GO_GRADIENT_NE_TO_SW },
-		{ NULL, NULL, GO_GRADIENT_SW_TO_NE },
-		{ NULL, NULL, GO_GRADIENT_SW_TO_NE_MIRRORED },
-		{ NULL, NULL, GO_GRADIENT_NE_TO_SW_MIRRORED }	
+	static GOGradientDirection elements[] = {
+		GO_GRADIENT_N_TO_S,	GO_GRADIENT_S_TO_N,	GO_GRADIENT_N_TO_S_MIRRORED,	GO_GRADIENT_S_TO_N_MIRRORED,
+		GO_GRADIENT_W_TO_E,	GO_GRADIENT_E_TO_W,	GO_GRADIENT_W_TO_E_MIRRORED,	GO_GRADIENT_E_TO_W_MIRRORED,
+		GO_GRADIENT_NW_TO_SE,	GO_GRADIENT_SE_TO_NW,	GO_GRADIENT_NW_TO_SE_MIRRORED,	GO_GRADIENT_SE_TO_NW_MIRRORED,
+		GO_GRADIENT_NE_TO_SW,	GO_GRADIENT_SW_TO_NE,	GO_GRADIENT_SW_TO_NE_MIRRORED,	GO_GRADIENT_NE_TO_SW_MIRRORED
 	};
-	guint i, length;
-	GdkPixdata  pixdata;
-	GtkWidget  *w;
-	gpointer    data;
-	ArtRender *render;
+	int const W = 20, H = 20;
+	unsigned	 i;
+	GOComboPixmaps	*w;
+	GdkPixbuf	*pixbuf;
+	ArtRender	*render;
 	ArtGradientLinear gradient;
-	ArtGradientStop stops[2];
-	int const sizex = 20, sizey = 20;
-	GdkPixbuf *pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, sizex, sizey);
-	int rowstride = gdk_pixbuf_get_rowstride (pixbuf);
-	void *pixels = gdk_pixbuf_get_pixels (pixbuf);
-	int n_channels = gdk_pixbuf_get_n_channels (pixbuf);
+	ArtGradientStop	  stops[2];
 
-	for (i = 0; i < G_N_ELEMENTS (elements); i++) {
-		memset (pixels, 0, rowstride * sizey);
-		render = art_render_new (0, 0, sizex, sizey,
-					 pixels,
-					 rowstride,
-					 n_channels - 1,
-					 8, ART_ALPHA_SEPARATE, NULL);
-
-		go_gradient_setup (&gradient,
-				   i, start, end,
-				   0, 0, sizex, sizey,
-				   stops);
-
-		art_render_gradient_linear (render, &gradient,
-					    ART_FILTER_NEAREST);
-		art_render_invoke (render);
-
-		data = gdk_pixdata_from_pixbuf (&pixdata, pixbuf, FALSE);
-		elements[i].inline_gdkpixbuf = gdk_pixdata_serialize (&pixdata, &length);
-		g_free (data);
-	}
-	g_object_unref (pixbuf);
-	w = pixmap_combo_new (elements, 4, 4, TRUE);
-	for (i = 0; i < G_N_ELEMENTS (elements); i++)
-		g_free ((char *)elements[i].inline_gdkpixbuf);
+	w = go_combo_pixmaps_new (4);
 	gnm_combo_box_set_tearable (GNM_COMBO_BOX (w), FALSE);
-	return w;
+	for (i = 0; i < G_N_ELEMENTS (elements); i++) {
+		pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, W, H);
+		render = art_render_new (0, 0, W, H,
+			gdk_pixbuf_get_pixels (pixbuf),
+			gdk_pixbuf_get_rowstride (pixbuf),
+			gdk_pixbuf_get_n_channels (pixbuf) - 1,
+			8, ART_ALPHA_SEPARATE, NULL);
+		go_gradient_setup (&gradient, i, start, end, 0, 0,
+			W, H, stops);
+		art_render_gradient_linear (render,
+			&gradient, ART_FILTER_NEAREST);
+		art_render_invoke (render);
+		go_combo_pixmaps_add_element (w, pixbuf, elements[i], NULL);
+	}
+
+	return GTK_WIDGET (w);
 }
 
 void

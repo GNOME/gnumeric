@@ -142,24 +142,16 @@ wbc_gtk_init_zoom (WBCgtk *gtk)
 				  "name", "Zoom",
 				  NULL);
 	go_action_combo_text_set_width (gtk->zoom,  "10000%");
-	gtk_action_group_add_action (gtk->actions, GTK_ACTION (gtk->zoom));
+	for (i = 0; preset_zoom[i] != NULL ; ++i)
+		go_action_combo_text_add_item (gtk->zoom, preset_zoom[i]);
 
+#if 0
+	gnm_combo_box_set_title (GNM_COMBO_BOX (fore_combo), _("Foreground"));
+#endif
 	g_signal_connect (G_OBJECT (gtk->zoom),
 		"activate",
 		G_CALLBACK (cb_zoom_activated), gtk);
-
-#if 0
-	/* Set a reasonable default width */
-	entry = GNM_COMBO_TEXT (zoom)->entry;
-	len = gnm_measure_string (
-		gtk_widget_get_pango_context (GTK_WIDGET (wbcg->toplevel)),
-		entry->style->font_desc,
-		"%10000");
-	gtk_widget_set_size_request (entry, len, -1);
-#endif
-
-	for (i = 0; preset_zoom[i] != NULL ; ++i)
-		go_action_combo_text_add_item (gtk->zoom, preset_zoom[i]);
+	gtk_action_group_add_action (gtk->actions, GTK_ACTION (gtk->zoom));
 }
 
 static void
@@ -175,7 +167,7 @@ wbc_gtk_set_zoom_label (WorkbookControlGUI const *wbcg, char const *label)
 #include "pixmaps/gnumeric-stock-pixbufs.h"
 #include "style-border.h"
 
-static PixmapComboElement const border_combo_info[] = {
+static GOActionComboPixmapsElement const border_combo_info[] = {
 	{ N_("Left"),			gnm_border_left,		11 },
 	{ N_("Clear Borders"),		gnm_border_none,		12 },
 	{ N_("Right"),			gnm_border_right,		13 },
@@ -196,12 +188,13 @@ static PixmapComboElement const border_combo_info[] = {
 };
 
 static void
-cb_border_changed (PixmapCombo *pixmap_combo, int index, WorkbookControlGUI *wbcg)
+cb_border_activated (GOActionComboPixmaps *a, WorkbookControl *wbc)
 {
-	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+	Sheet *sheet = wb_control_cur_sheet (wbc);
 	GnmBorder *borders[STYLE_BORDER_EDGE_MAX];
 	int i;
-
+	int index = go_action_combo_pixmaps_get_selection (a);
+	
 	/* Init the list */
 	for (i = STYLE_BORDER_TOP; i < STYLE_BORDER_EDGE_MAX; i++)
 		borders[i] = NULL;
@@ -274,8 +267,7 @@ cb_border_changed (PixmapCombo *pixmap_combo, int index, WorkbookControlGUI *wbc
 		return;
 	}
 
-	cmd_selection_format (WORKBOOK_CONTROL (wbcg), NULL, borders,
-			      _("Set Borders"));
+	cmd_selection_format (wbc, NULL, borders, _("Set Borders"));
 }
 
 static void
@@ -286,18 +278,14 @@ wbc_gtk_init_borders (WBCgtk *gtk)
 		      "label", _("Borders"),
 		      "tooltip", _("Borders"),
 		      NULL);
-	gtk_action_group_add_action (gtk->actions, GTK_ACTION (gtk->borders));
-
 #if 0
-	/* Border combo box */
-
-	/* default to none */
-	pixmap_combo_select_pixmap (PIXMAP_COMBO (border_combo), 1);
-	g_signal_connect (G_OBJECT (border_combo),
-		"changed",
-		G_CALLBACK (cb_border_changed), wbcg);
-	disable_focus (border_combo, NULL);
+	gnm_combo_box_set_title (GNM_COMBO_BOX (fore_combo), _("Foreground"));
+	go_combo_pixmaps_select (gtk->borders, 1); /* default to none */
 #endif
+	g_signal_connect (G_OBJECT (gtk->borders),
+		"activate",
+		G_CALLBACK (cb_border_activated), gtk);
+	gtk_action_group_add_action (gtk->actions, GTK_ACTION (gtk->borders));
 }
 
 /****************************************************************************/
@@ -511,6 +499,9 @@ wbc_gtk_init_font_name (WBCgtk *gtk)
 		if (ptr->data) 
 			go_action_combo_text_add_item (gtk->font_name, ptr->data);
 
+#if 0
+	gnm_combo_box_set_title (GNM_COMBO_BOX (fore_combo), _("Foreground"));
+#endif
 	gtk_action_group_add_action (gtk->actions, GTK_ACTION (gtk->font_name));
 }
 /****************************************************************************/

@@ -1,3 +1,13 @@
+2004-01-22  Jody Goldberg <jody@gnome.org>
+
+	* gui-utils/go-action-combo-pixmaps.c : rewrite.
+
+2004-01-17  Jody Goldberg <jody@gnome.org>
+
+	* gui-utils/go-action-combo-color.c (cb_color_changed) : Use the
+	  supplied color directly.
+	(go_action_combo_color_create_menu_item) : connect up the activate signal.
+
 2004-01-22 Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 	* graph/gog-style.c (gog_style_editor) : edit a GogStyle, not
 	GogStyledObject.

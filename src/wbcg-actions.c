@@ -1523,7 +1523,7 @@ static GtkActionEntry actions[] = {
 		NULL, N_("Save the current workbook"),
 		G_CALLBACK (cb_file_save) },
 	{ "FileSaveAs", GTK_STOCK_SAVE_AS, NULL,
-		NULL, N_("Save the current workbook with a different name"),
+		"<control><shift>s", N_("Save the current workbook with a different name"),
 		G_CALLBACK (cb_file_save_as) },
 	{ "FileSend", "Gnumeric_Link_EMail", N_("Sen_d To..."),
 		NULL, N_("Send the current file via email"),
@@ -1568,11 +1568,9 @@ static GtkActionEntry actions[] = {
 	{ "EditSelectAll", NULL, N_("Select _All"),
 		"<control>a", N_("Select all cells in the spreadsheet"),
 		G_CALLBACK (cb_edit_select_all) },
-#warning "Check how to write space"
 	{ "EditSelectColumn", NULL, N_("Select _Column"),
 		"<control>space", N_("Select an entire column"),
 		G_CALLBACK (cb_edit_select_col) },
-#warning "Check how to write meta"
 	{ "EditSelectRow", NULL, N_("Select _Row"),
 		"<alt>space", N_("Select an entire row"),
 		G_CALLBACK (cb_edit_select_row) },
@@ -1692,14 +1690,12 @@ static GtkActionEntry actions[] = {
 		"<control>K", N_("Insert a Hyperlink"),
 		G_CALLBACK (cb_insert_hyperlink) },
 /* Insert -> Special */
-	/* Default <Ctrl-;> (control semi-colon) to insert the current date */
 	{ "InsertCurrentDate", NULL, N_("Current _date"),
-		"<control>;", N_("Insert the current date into the selected cell(s)"),
+		"<control>semicolon", N_("Insert the current date into the selected cell(s)"),
 		G_CALLBACK (cb_insert_current_date) },
 
-	/* Default <Ctrl-:> (control colon) to insert the current time */
 	{ "InsertCurrentTime", NULL, N_("Current _time"),
-		"<control>:", N_("Insert the current time into the selected cell(s)"),
+		"<control>colon", N_("Insert the current time into the selected cell(s)"),
 		G_CALLBACK (cb_insert_current_time) },
 
 /* Insert -> Name */
@@ -1988,20 +1984,19 @@ static GtkActionEntry actions[] = {
 	{ "FormatDecreasePrecision", "Gnumeric_FormatRemovePrecision", N_("Decrease Precision"),
 		NULL, N_("Decrease the number of decimals displayed"),
 		G_CALLBACK (cb_format_dec_precision) },
-#warning "Restore these when the gtk patch lands"
-#if 1
+#ifndef GTK_STOCK_INDENT
 	{ "FormatDecreaseIndent", GTK_STOCK_MISSING_IMAGE, N_("Decrease Indent"),
-		NULL, N_("Align the contents to the left and decrease the indent"),
+		NULL, N_("Decrease the indent, and align the contents to the left"),
 		G_CALLBACK (cb_format_dec_indent) },
 	{ "FormatIncreaseIndent", GTK_STOCK_MISSING_IMAGE, N_("Increase Indent"),
-		NULL, N_("Align the contents to the left and increase the indent"),
+		NULL, N_("Increase the indent, and align the contents to the left"),
 		G_CALLBACK (cb_format_inc_indent) },
 #else
 	{ "FormatDecreaseIndent", GTK_STOCK_UNINDENT, NULL,
-		NULL, N_("Align the contents to the left and decrease the indent"),
+		NULL, N_("Decrease the indent, and align the contents to the left"),
 		G_CALLBACK (cb_format_dec_indent) },
 	{ "FormatIncreaseIndent", GTK_STOCK_INDENT, NULL,
-		NULL, N_("Align the contents to the left and increase the indent"),
+		NULL, N_("Increase the indent, and align the contents to the left"),
 		G_CALLBACK (cb_format_inc_indent) },
 #endif
 /* Unattached */

@@ -218,7 +218,7 @@ typedef struct
 	ArtVpath const *fill_path;
 } MarkerShape;
 	
-static MarkerShape const marker_shapes[GO_MARKER_LAST] = {
+static MarkerShape const marker_shapes[GO_MARKER_MAX] = {
 	{ N_("none"),		NULL, NULL},
 	{ N_("square"),		square_path, square_path},
 	{ N_("diamond"),	diamond_path, diamond_path},
@@ -548,77 +548,42 @@ gpointer
 go_marker_selector (GOColor outline_color, GOColor fill_color,
 		    GOMarkerShape default_shape)
 {
-	static PixmapComboElement elements[] = {
-		{ NULL, NULL, GO_MARKER_NONE},
-		{ NULL, NULL, GO_MARKER_SQUARE },
-		{ NULL, NULL, GO_MARKER_DIAMOND},
-		{ NULL, NULL, GO_MARKER_TRIANGLE_DOWN},
-		{ NULL, NULL, GO_MARKER_TRIANGLE_UP},
-		{ NULL, NULL, GO_MARKER_TRIANGLE_RIGHT},
-		{ NULL, NULL, GO_MARKER_TRIANGLE_LEFT},
-		{ NULL, NULL, GO_MARKER_CIRCLE},
-		{ NULL, NULL, GO_MARKER_X},
-		{ NULL, NULL, GO_MARKER_CROSS},
-		{ NULL, NULL, GO_MARKER_ASTERISK},
-		{ NULL, NULL, GO_MARKER_BAR},
-		{ NULL, NULL, GO_MARKER_HALF_BAR},
-		{ NULL, NULL, GO_MARKER_BUTTERFLY},
-		{ NULL, NULL, GO_MARKER_HOURGLASS},
-		{ NULL, NULL, -1 } /* fill in with Auto */
+	static GOMarkerShape elements[] = {
+		GO_MARKER_NONE,		GO_MARKER_TRIANGLE_UP,	GO_MARKER_BUTTERFLY,
+		GO_MARKER_TRIANGLE_LEFT, GO_MARKER_DIAMOND,	GO_MARKER_TRIANGLE_RIGHT,
+		GO_MARKER_BAR,		GO_MARKER_TRIANGLE_DOWN, GO_MARKER_HOURGLASS,
+		GO_MARKER_HALF_BAR,	GO_MARKER_SQUARE,	GO_MARKER_CIRCLE,
+		GO_MARKER_X,		GO_MARKER_CROSS,	GO_MARKER_ASTERISK,
+		GO_MARKER_MAX /* fill with auto */
 	};
 
-	guint i, w, h,shape, length;
-	char const *shape_name;
-	gpointer data;
-	GdkPixdata pixdata;
-	GtkWidget *widget;
-	GdkPixbuf const *mbuf = NULL;
-	GdkPixbuf *pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, 
-					    TRUE, 8, 
-					    SELECTOR_PIXBUF_SIZE, 
-					    SELECTOR_PIXBUF_SIZE);
-	GOMarker *marker = go_marker_new ();
+	unsigned	 i;
+	gboolean	 is_auto;
+	GOComboPixmaps	*w;
+	GOMarker	*marker = go_marker_new ();
+	GOMarkerShape	 shape;
 
 	go_marker_set_fill_color (marker, fill_color);
 	go_marker_set_outline_color (marker, outline_color);
 	go_marker_set_size (marker, 15);
 
+	w = go_combo_pixmaps_new (4);
+	gnm_combo_box_set_tearable (GNM_COMBO_BOX (w), FALSE);
 	for (i = 0; i < G_N_ELEMENTS (elements); i++) {
-		if (i == G_N_ELEMENTS (elements) -1) {
-			elements[i].id = -default_shape;
-			shape = default_shape;
-			shape_name = g_strdup_printf ("%s (%s)",
-				_("Automatic"), /* avoid violating string freeze */
-				marker_shapes [shape].name);
-		} else {
-			shape = elements[i].id;
-			shape_name = marker_shapes [shape].name;
-		}
-
-		go_marker_set_shape (marker, shape);
-		mbuf = go_marker_get_pixbuf (marker);
-		gdk_pixbuf_fill (pixbuf, 0xffffff00);
-		if (mbuf != NULL)  {
-			w = gdk_pixbuf_get_width (mbuf);
-			h = gdk_pixbuf_get_height (mbuf);
-			gdk_pixbuf_copy_area (mbuf, 0, 0, w, h, pixbuf, 
-				(SELECTOR_PIXBUF_SIZE - w) / 2,
-				(SELECTOR_PIXBUF_SIZE - h) / 2);
-		}
-
-		data = gdk_pixdata_from_pixbuf (&pixdata, pixbuf, FALSE);
-		elements[i].inline_gdkpixbuf = gdk_pixdata_serialize (&pixdata, &length);
-		elements[i].untranslated_tooltip = shape_name;
-		g_free (data);
+		shape = elements[i];
+		is_auto = (shape == GO_MARKER_MAX);
+		go_marker_set_shape (marker, is_auto ? default_shape : shape);
+		if (is_auto) {
+			/* xgettext : this will appear as 'Automatic (shapename)' */
+			char *name = g_strdup_printf (_("Automatic (%s)"),
+				_(marker_shapes [default_shape].name));
+			go_combo_pixmaps_add_element (w, go_marker_get_pixbuf (marker),
+				-default_shape, name);
+		} else
+			go_combo_pixmaps_add_element (w, go_marker_get_pixbuf (marker),
+				shape, _(marker_shapes [shape].name));
 	}
 	g_object_unref (marker);
-	g_object_unref (pixbuf);
 
-	widget = pixmap_combo_new (elements, 4, 4, TRUE);
-	for (i = 0; i < G_N_ELEMENTS (elements); i++)
-		g_free ((char *)elements[i].inline_gdkpixbuf);
-	gnm_combo_box_set_tearable (GNM_COMBO_BOX (widget), FALSE);
-
-	g_free ((char *)elements [i-1].untranslated_tooltip);
-	return widget;
+	return GTK_WIDGET (w);
 }

@@ -12,27 +12,16 @@ G_BEGIN_DECLS
 
 typedef struct _GnmComboText	   GnmComboText;
 
-struct _GnmComboText {
-	GnmComboBox parent;
-
-	GCompareFunc cmp_func;
-
-	GtkWidget *entry;
-	GtkWidget *list;
-	GtkWidget *scroll;
-	GtkWidget *cached_entry;
-	GtkStateType cache_mouse_state;
-};
-
 typedef enum {		/* begin the search from : */
 	GNM_COMBO_TEXT_FROM_TOP,	/* the top of the list */
 	GNM_COMBO_TEXT_CURRENT,		/* the current selection */
 	GNM_COMBO_TEXT_NEXT		/* the next element after current */
 } GnmComboTextSearch;
 
-GType      gnm_combo_text_get_type	(void);
+GType      gnm_combo_text_get_type	 (void);
 GtkWidget *gnm_combo_text_new		 (GCompareFunc cmp_func);
 GtkWidget *gnm_combo_text_glade_new	 (void);
+GtkWidget *gnm_combo_text_get_entry	 (GnmComboText *ct);
 
 gboolean   gnm_combo_text_set_text	 (GnmComboText *ct, const gchar *label,
 					  GnmComboTextSearch start);

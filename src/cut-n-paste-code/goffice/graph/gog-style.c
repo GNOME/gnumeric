@@ -300,14 +300,14 @@ line_init (StylePrefState *state, gboolean enable)
 /************************************************************************/
 
 static void
-cb_pattern_type_changed (GtkWidget *cc, int index, StylePrefState const *state)
+cb_pattern_type_changed (GtkWidget *cc, int pattern, StylePrefState const *state)
 {
 	GogStyle *style = state->style;
+	gboolean is_auto = pattern < 0;
 
-	g_return_if_fail (style != NULL);
-
-	style->fill.u.pattern.pat.pattern =
-		(index / 10 - 1)  * 6 + index % 10 - 1;
+	if (is_auto)
+		pattern = -pattern;
+	style->fill.u.pattern.pat.pattern = pattern;
 	set_style (state);
 }
 
@@ -334,7 +334,7 @@ populate_pattern_combo (StylePrefState *state)
 
 	if (style->fill.type == GOG_FILL_STYLE_PATTERN)
 		type = style->fill.u.pattern.pat.pattern;
-	pixmap_combo_select_pixmap (PIXMAP_COMBO(combo), type);
+	go_combo_pixmaps_select_id (GO_COMBO_PIXMAPS(combo), type);
 	g_signal_connect (G_OBJECT (combo),
 		"changed",
 		G_CALLBACK (cb_pattern_type_changed), state);
@@ -409,10 +409,10 @@ fill_pattern_init (StylePrefState *state)
 /************************************************************************/
 
 static void
-cb_gradient_type_changed (GtkWidget *cc, int dir, StylePrefState const *state)
+cb_gradient_type_changed (GtkWidget *cc, int id, StylePrefState const *state)
 {
 	GogStyle *style = state->style;
-	style->fill.u.gradient.dir = dir; /* pre mapped */
+	style->fill.u.gradient.dir = id;
 	set_style (state);
 }
 
@@ -434,7 +434,8 @@ populate_gradient_combo (StylePrefState *state)
 	table = glade_xml_get_widget (state->gui, "fill_gradient_table");
 	gtk_table_attach (GTK_TABLE (table), combo, 1, 2, 0, 1, 0, 0, 0, 0);
 	if (style->fill.type == GOG_FILL_STYLE_GRADIENT)
-		pixmap_combo_select_pixmap (PIXMAP_COMBO (combo), style->fill.u.gradient.dir);
+		go_combo_pixmaps_select_id (GO_COMBO_PIXMAPS (combo),
+					    style->fill.u.gradient.dir);
 	g_signal_connect (G_OBJECT (combo),
 		"changed",
 		G_CALLBACK (cb_gradient_type_changed), state);
@@ -693,8 +694,8 @@ cb_fill_type_changed (GtkWidget *menu, StylePrefState *state)
 			color_combo_get_gocolor (state->fill.pattern.fore, FALSE);
 		style->fill.u.pattern.pat.back =
 			color_combo_get_gocolor (state->fill.pattern.back, FALSE);
-		style->fill.u.pattern.pat.pattern =
-			((PixmapCombo*)state->fill.pattern.combo)->last_index;
+		style->fill.u.pattern.pat.pattern = go_combo_pixmaps_get_selected (
+			(GOComboPixmaps*)state->fill.pattern.combo, NULL);
 		break;
 
 	case GOG_FILL_STYLE_GRADIENT:
@@ -702,8 +703,8 @@ cb_fill_type_changed (GtkWidget *menu, StylePrefState *state)
 			color_combo_get_gocolor (state->fill.gradient.start, FALSE);
 		style->fill.u.gradient.end =
 			color_combo_get_gocolor (state->fill.gradient.end, FALSE);
-		style->fill.u.gradient.dir =
-			((PixmapCombo*)state->fill.gradient.combo)->last_index;
+		style->fill.u.gradient.dir = go_combo_pixmaps_get_selected (
+			(GOComboPixmaps*)state->fill.gradient.combo, NULL);
 		w = glade_xml_get_widget (state->gui, "fill_gradient_type");
 		if (gtk_option_menu_get_history (GTK_OPTION_MENU (w))) {
 			w = glade_xml_get_widget (state->gui, "fill_gradient_brightness");
@@ -790,7 +791,7 @@ populate_marker_combo (StylePrefState *state)
 
 	table = glade_xml_get_widget (state->gui, "marker_table");
 	gtk_table_attach (GTK_TABLE (table), combo, 1, 2, 0, 1, 0, 0, 0, 0);
-	pixmap_combo_select_pixmap (PIXMAP_COMBO (combo), 
+	go_combo_pixmaps_select_id (GO_COMBO_PIXMAPS (combo), 
 		go_marker_get_shape (style->marker.mark));
 	g_signal_connect (G_OBJECT (combo),
 		"changed",

@@ -21,55 +21,35 @@
  * 02111-1307, USA.
  */
 
-#ifndef GNUMERIC_WIDGET_PIXMAP_COMBO_H
-#define GNUMERIC_WIDGET_PIXMAP_COMBO_H
+#ifndef GO_COMBO_PIXMAPS_H
+#define GO_COMBO_PIXMAPS_H
 
 #include <widgets/gnm-combo-box.h>
 #include <gtk/gtktooltips.h>
 
 G_BEGIN_DECLS
 
-#define PIXMAP_COMBO_TYPE     (pixmap_combo_get_type ())
-#define PIXMAP_COMBO(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), PIXMAP_COMBO_TYPE, PixmapCombo))
-#define PIXMAP_COMBO_CLASS(k) (G_TYPE_CHECK_CLASS_CAST(k), PIXMAP_COMBO_TYPE)
-#define IS_PIXMAP_COMBO(obj)  (G_TYPE_CHECK_INSTANCE_TYPE((obj), PIXMAP_COMBO_TYPE))
+#define GO_COMBO_PIXMAPS_TYPE	(go_combo_pixmaps_get_type ())
+#define GO_COMBO_PIXMAPS(o)	(G_TYPE_CHECK_INSTANCE_CAST((o), GO_COMBO_PIXMAPS_TYPE, GOComboPixmaps))
+#define IS_GO_COMBO_PIXMAPS(o)	(G_TYPE_CHECK_INSTANCE_TYPE((o), GO_COMBO_PIXMAPS_TYPE))
 
-typedef struct {
-	char const *untranslated_tooltip;
-	guint8 const *inline_gdkpixbuf;
-	int  id;
-} PixmapComboElement;
+typedef struct _GOComboPixmaps	GOComboPixmaps;
+typedef struct _GOMenuPixmaps	GOMenuPixmaps;
 
-typedef struct {
-	GnmComboBox     combo_box;
+GtkType    go_combo_pixmaps_get_type	 (void);
+GOComboPixmaps *go_combo_pixmaps_new		 (int ncols);
+void       go_combo_pixmaps_add_element  (GOComboPixmaps *combo,
+					  GdkPixbuf const *pixbuf, int id,
+					  char const *tooltip);
+gboolean   go_combo_pixmaps_select_index (GOComboPixmaps *combo, int index);
+gboolean   go_combo_pixmaps_select_id    (GOComboPixmaps *combo, int id);
+int        go_combo_pixmaps_get_selected (GOComboPixmaps const *combo, int *index);
+GtkWidget *go_combo_pixmaps_get_preview	 (GOComboPixmaps const *combo);
 
-	/* Static information */
-	int cols, rows;
-	int num_elements;
-	GdkPixbuf **pixbufs;
-	int *ids;
-
-	/* State info */
-	int last_index;
-
-	/* Interface elements */
-	GtkWidget    *combo_table, *preview_button;
-	GtkWidget    *preview_pixmap;
-	GtkTooltips  *tool_tip;
-} PixmapCombo;
-
-GtkType    pixmap_combo_get_type      (void);
-GtkWidget *pixmap_combo_new           (PixmapComboElement const *elements,
-				       int ncols, int nrows, gboolean copy_images);
-void       pixmap_combo_select_pixmap (PixmapCombo *combo, int index);
-
-typedef struct {
-	GnmComboBoxClass parent_class;
-
-	/* Signals emited by this widget */
-	void (* changed) (PixmapCombo *pixmap_combo, int index);
-} PixmapComboClass;
+GOMenuPixmaps *go_menu_pixmaps_new	 (int ncols);
+void       go_menu_pixmaps_add_element   (GOMenuPixmaps *menu,
+					  GdkPixbuf const *pixbuf, int id);
 
 G_END_DECLS
 
-#endif /* GNUMERIC_WIDGET_PIXMAP_COMBO_H */
+#endif /* GO_COMBO_PIXMAPS_H */

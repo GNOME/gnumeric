@@ -8,6 +8,7 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
+    http://bugzilla.gnome.org/show_bug.cgi?id=131588	[-O0 vs -O2 for rangesum]
     http://bugzilla.gnome.org/show_bug.cgi?id=97216	[sheet for graph creation]
     http://bugzilla.gnome.org/show_bug.cgi?id=127203	[x axis child pos]
     : X axis label seperation
@@ -50,8 +51,10 @@ Pending Patches
 	5.5.3) Support custom menu item
     5.6) GOActionStack (undo/redo)
 	5.6.1) stub					(DONE)	
-	5.6.2) Move to TreeModel to simplify sharing
-	5.6.3) Support custom menu item
+	5.6.2) Move to TreeModel to simplify sharing	(DONE)
+	5.6.3) Support custom menu item			(DONE)
+	5.6.4) Emit activate for toolbar
+	5.6.5) Emit activate for menu			(DONE)
     5.7) GOActionPixmaps (border)
 	5.7.1) stub					(DONE)	
 	5.7.2) Add some events
@@ -61,7 +64,7 @@ Pending Patches
 	5.8.2) Support custom menu item			(DONE)
 	5.8.3) Improve finger feel			(DONE)
 	5.8.4) emit activate for toolbar		(DONE)
-	5.8.5) emit activate for menu
+	5.8.5) emit activate for menu			(DONE)
 	5.8.6) history buttons in menu
 	5.8.7) custom button in menu
 	5.8.8) sync proxies

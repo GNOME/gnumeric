@@ -128,11 +128,14 @@ CFLAGS="$CFLAGS -DGDK_PIXBUF_DISABLE_DEPRECATED"
 CFLAGS="$CFLAGS -DGDK_DISABLE_DEPRECATED"
 CFLAGS="$CFLAGS -DGDK_MULTIHEAD_SAFE"
 CFLAGS="$CFLAGS -DGTK_DISABLE_DEPRECATED"
-CFLAGS="$CFLAGS -DGNOME_DISABLE_DEPRECATED"
 CFLAGS="$CFLAGS -DPANGO_DISABLE_DEPRECATED"
-CFLAGS="$CFLAGS -DBONOBO_DISABLE_DEPRECATED"
-CFLAGS="$CFLAGS -DBONOBO_UI_DISABLE_DEPRECATED"
 CFLAGS="$CFLAGS -DLIBGLADE_DISABLE_DEPRECATED"
+
+if test "x$gnome_msg" = "xyes"; then
+	CFLAGS="$CFLAGS -DGNOME_DISABLE_DEPRECATED"
+	CFLAGS="$CFLAGS -DBONOBO_DISABLE_DEPRECATED"
+	CFLAGS="$CFLAGS -DBONOBO_UI_DISABLE_DEPRECATED"
+fi
 
 dnl ****************************
 dnl prep the pixmap generator
@@ -414,12 +417,12 @@ AC_CHECK_HEADERS(langinfo.h)
 dnl iswprint/iswspace are sometimes in wctype.h
 AC_CHECK_HEADERS(wctype.h)
 
+AC_C_LONG_DOUBLE
 float_msg=double
 have_ld=no
 AC_ARG_WITH(long_double,
 	[--{with,without}-long-double		Use long double for floating point],
 	[if test "x$withval" = xyes; then
-		AC_C_LONG_DOUBLE
 		if test "x$ac_cv_c_long_double" != "xyes"; then
 			AC_MSG_ERROR([Long double type is not available.])
 		fi

@@ -1,10 +1,10 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * widget-pixmap-combo.c - A pixmap selector combo box
- * Copyright 2000, 2001, Ximian, Inc.
+ * go-combo-pixmaps.c - A pixmap selector combo box
+ * Copyright 2000-2004, Ximian, Inc.
  *
  * Authors:
- *   Jody Goldberg <jgoldberg@home.com>
+ *   Jody Goldberg <jody@gnome.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -23,222 +23,351 @@
 
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
-#include "gnm-combo-box.h"
 #include "widget-pixmap-combo.h"
-#include <gsf/gsf-impl-utils.h>
+#include "gnm-combo-box.h"
 #include <gtk/gtkwindow.h>
 #include <gtk/gtktable.h>
-#include <gtk/gtkbutton.h>
+#include <gtk/gtktogglebutton.h>
 #include <gtk/gtkimage.h>
+#include <gtk/gtkmenu.h>
+#include <gtk/gtkimagemenuitem.h>
+#include <gdk/gdkkeysyms.h>
+
+#include <gsf/gsf-impl-utils.h>
 
 #define PIXMAP_PREVIEW_WIDTH 15
 #define PIXMAP_PREVIEW_HEIGHT 15
+
+struct _GOComboPixmaps {
+	GnmComboBox     base;
+
+	int selected_index;
+	int cols;
+	GArray *elements;
+
+	GtkWidget    *table, *preview_button;
+	GtkWidget    *preview_image;
+	GtkTooltips  *tool_tip;
+};
+
+typedef struct {
+	GnmComboBoxClass base;
+	void (* changed) (GOComboPixmaps *pixmaps, int id);
+} GOComboPixmapsClass;
 
 enum {
 	CHANGED,
 	LAST_SIGNAL
 };
 
-static guint pixmap_combo_signals [LAST_SIGNAL] = { 0, };
+typedef struct {
+	GdkPixbuf *pixbuf;
+	int	   id;
+} Element;
 
-#define PARENT_TYPE GNM_COMBO_BOX_TYPE
-static GtkObjectClass *pixmap_combo_parent_class;
-
-/***************************************************************************/
+static guint go_combo_pixmaps_signals [LAST_SIGNAL] = { 0, };
+static GObjectClass *go_combo_pixmaps_parent_class;
 
 static void
-pixmap_combo_destroy (GtkObject *object)
+go_combo_pixmaps_finalize (GObject *object)
 {
-	PixmapCombo *pc = PIXMAP_COMBO (object);
-	int i;
+	GOComboPixmaps *combo = GO_COMBO_PIXMAPS (object);
 
-	if (pc->tool_tip) {
-		g_object_unref (pc->tool_tip);
-		pc->tool_tip = NULL;
+	if (combo->tool_tip) {
+		g_object_unref (combo->tool_tip);
+		combo->tool_tip = NULL;
 	}
 
-	if (pc->pixbufs) {
-		for (i = 0; i < pc->num_elements; i++)
-			if (pc->pixbufs[i])
-				g_object_unref (pc->pixbufs[i]);
-		g_free (pc->pixbufs);
-		pc->pixbufs = NULL;
+	if (combo->elements) {
+		g_array_free (combo->elements, TRUE);
+		combo->elements = NULL;
 	}
 
-	if (pc->ids) {
-		g_free (pc->ids);
-		pc->ids = NULL;
-	}
-
-	(*pixmap_combo_parent_class->destroy) (object);
+	(*go_combo_pixmaps_parent_class->finalize) (object);
 }
 
 static void
-cb_screen_changed (PixmapCombo *pc, GdkScreen *previous_screen)
+cb_screen_changed (GOComboPixmaps *combo, GdkScreen *previous_screen)
 {
-	GtkWidget *w = GTK_WIDGET (pc);
+	GtkWidget *w = GTK_WIDGET (combo);
 	GdkScreen *screen = gtk_widget_has_screen (w)
 		? gtk_widget_get_screen (w)
 		: NULL;
 
 	if (screen) {
-		GtkWidget *toplevel = gtk_widget_get_toplevel (pc->combo_table);
+		GtkWidget *toplevel = gtk_widget_get_toplevel (combo->table);
 		gtk_window_set_screen (GTK_WINDOW (toplevel), screen);
 	}
 }
 
 static void
-pixmap_combo_class_init (GtkObjectClass *object_class)
+emit_change (GOComboPixmaps *combo)
 {
-	object_class->destroy = pixmap_combo_destroy;
+	if (_gnm_combo_is_updating (GNM_COMBO_BOX (combo)))
+		return;
+	g_signal_emit (combo, go_combo_pixmaps_signals [CHANGED], 0,
+		g_array_index (combo->elements, Element, combo->selected_index).id);
+	gnm_combo_box_popup_hide (GNM_COMBO_BOX (combo));
+}
 
-	pixmap_combo_parent_class = g_type_class_ref (PARENT_TYPE);
+static void
+go_combo_pixmaps_init (GOComboPixmaps *combo)
+{
+	combo->elements = g_array_new (FALSE, FALSE, sizeof (Element));
+	combo->table = gtk_table_new (1, 1, 0);
 
-	pixmap_combo_signals [CHANGED] =
+	combo->tool_tip = gtk_tooltips_new ();
+	g_object_ref (combo->tool_tip);
+	gtk_object_sink (GTK_OBJECT (combo->tool_tip));
+
+	combo->preview_button = gtk_toggle_button_new ();
+	gtk_button_set_relief (GTK_BUTTON (combo->preview_button),
+		GTK_RELIEF_NONE);
+
+	combo->preview_image = gtk_image_new ();
+	gtk_container_add (GTK_CONTAINER (combo->preview_button),
+		GTK_WIDGET (combo->preview_image));
+
+	g_signal_connect (G_OBJECT (combo),
+		"screen-changed",
+		G_CALLBACK (cb_screen_changed), NULL);
+	g_signal_connect_swapped (combo->preview_button,
+		"clicked",
+		G_CALLBACK (emit_change), combo);
+
+	gtk_widget_show_all (combo->preview_button);
+	gtk_widget_show_all (combo->table);
+	gnm_combo_box_construct (GNM_COMBO_BOX (combo),
+		combo->preview_button, combo->table, combo->table);
+}
+
+static void
+go_combo_pixmaps_class_init (GObjectClass *gobject_class)
+{
+	go_combo_pixmaps_parent_class = g_type_class_ref (GNM_COMBO_BOX_TYPE);
+	gobject_class->finalize = go_combo_pixmaps_finalize;
+
+	go_combo_pixmaps_signals [CHANGED] =
 		g_signal_new ("changed",
-			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_OBJECT_CLASS_TYPE (gobject_class),
 			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (PixmapComboClass, changed),
+			      G_STRUCT_OFFSET (GOComboPixmapsClass, changed),
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__INT,
 			      G_TYPE_NONE, 1, G_TYPE_INT);
 }
 
-GSF_CLASS(PixmapCombo,pixmap_combo,pixmap_combo_class_init,NULL,PARENT_TYPE)
+GSF_CLASS (GOComboPixmaps, go_combo_pixmaps,
+	   go_combo_pixmaps_class_init, go_combo_pixmaps_init,
+	   GNM_COMBO_BOX_TYPE)
 
-static void
-emit_change (GtkWidget *button, PixmapCombo *pc)
+GOComboPixmaps *
+go_combo_pixmaps_new (int ncols)
 {
-	g_return_if_fail (pc != NULL);
-	g_return_if_fail (0 <= pc->last_index);
-	g_return_if_fail (pc->last_index < pc->num_elements);
+	GOComboPixmaps *combo;
 
-	g_signal_emit (pc, pixmap_combo_signals [CHANGED], 0,
-		       pc->ids[pc->last_index]);
-}
-
-static void
-pixmap_clicked (GtkWidget *button, PixmapCombo *pc)
-{
-	int index = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (button), "gal"));
-	pixmap_combo_select_pixmap (pc, index);
-	emit_change (button, pc);
-	gnm_combo_box_popup_hide (GNM_COMBO_BOX (pc));
-}
-
-static void
-pixmap_combo_construct (PixmapCombo *pc, PixmapComboElement const *elements,
-			int ncols, int nrows, gboolean copy_images)
-{
-	int row, col;
-
-	g_return_if_fail (pc != NULL);
-	g_return_if_fail (IS_PIXMAP_COMBO (pc));
-
-	/* Our table selector */
-	pc->cols = ncols;
-	pc->rows = nrows;
-	pc->pixbufs = g_new0 (GdkPixbuf *, ncols * nrows);
-	pc->ids = g_new0 (int, ncols * nrows);
-	pc->num_elements = 0;
-
-	pc->combo_table = gtk_table_new (ncols, nrows, 0);
-	pc->tool_tip = gtk_tooltips_new ();
-	g_object_ref (pc->tool_tip);
-	gtk_object_sink (GTK_OBJECT (pc->tool_tip));
-
-	for (row = 0; row < nrows; row++) {
-		for (col = 0; col < ncols; col++) {
-			PixmapComboElement const *element = elements + pc->num_elements;
-			guint8 const *data = element->inline_gdkpixbuf;
-			GtkWidget *button;
-			GdkPixbuf *pixbuf;
-
-			if (!data)
-				goto nomore;
-
-			pixbuf = gdk_pixbuf_new_from_inline (-1, data, copy_images, NULL);
-			pc->ids[pc->num_elements] = element->id;
-			pc->pixbufs[pc->num_elements] = pixbuf;
-
-			button = gtk_button_new ();
-			gtk_container_add (GTK_CONTAINER (button),
-					   gtk_image_new_from_pixbuf (pixbuf));
-			gtk_button_set_relief (GTK_BUTTON (button),
-					       GTK_RELIEF_NONE);
-			gtk_tooltips_set_tip (pc->tool_tip,
-					      button,
-					      gettext (element->untranslated_tooltip),
-					      "What goes here?");
-
-			gtk_table_attach (GTK_TABLE (pc->combo_table), button,
-					  col, col + 1,
-					  row + 1, row + 2,
-					  GTK_FILL, GTK_FILL, 1, 1);
-
-			g_signal_connect (button, "clicked",
-					  G_CALLBACK (pixmap_clicked), pc);
-			g_object_set_data (G_OBJECT (button), "gal",
-					   GINT_TO_POINTER (pc->num_elements));
-
-			pc->num_elements++;
-		}
-	}
- nomore:
-	gtk_widget_show_all (pc->combo_table);
-
-	pc->preview_button = gtk_button_new ();
-	gtk_button_set_relief (GTK_BUTTON (pc->preview_button), GTK_RELIEF_NONE);
-
-	pc->preview_pixmap = gtk_image_new_from_pixbuf (pc->pixbufs[0]);
-
-	gtk_container_add (GTK_CONTAINER (pc->preview_button), GTK_WIDGET (pc->preview_pixmap));
-	gtk_widget_set_size_request (GTK_WIDGET (pc->preview_pixmap), 24, 24);
-	g_signal_connect (G_OBJECT (pc), "screen-changed", G_CALLBACK (cb_screen_changed), NULL);
-	g_signal_connect (pc->preview_button, "clicked",
-			  G_CALLBACK (emit_change), pc);
-
-	gtk_widget_show_all (pc->preview_button);
-
-	gnm_combo_box_construct (GNM_COMBO_BOX (pc),
-		pc->preview_button, pc->combo_table, pc->combo_table);
-}
-
-GtkWidget *
-pixmap_combo_new (PixmapComboElement const *elements,
-		  int ncols, int nrows, gboolean copy_images)
-{
-	PixmapCombo *pc;
-
-	g_return_val_if_fail (elements != NULL, NULL);
 	g_return_val_if_fail (ncols > 0, NULL);
-	g_return_val_if_fail (nrows > 0, NULL);
 
-	pc = g_object_new (PIXMAP_COMBO_TYPE, NULL);
+	combo = g_object_new (GO_COMBO_PIXMAPS_TYPE, NULL);
+	combo->cols = ncols;
+	return combo;
+}
 
-	pixmap_combo_construct (pc, elements, ncols, nrows, copy_images);
+static gboolean
+swatch_activated (GOComboPixmaps *combo, GtkWidget *button)
+{
+	Element *el = g_object_get_data (G_OBJECT (button), "Element");
+	g_warning ("activated el = %p (id == %d)", el, el->id);
+	go_combo_pixmaps_select_id (combo, el->id);
+	emit_change (combo);
+	return TRUE;
+}
 
-	return GTK_WIDGET (pc);
+static gboolean
+cb_swatch_release_event (GtkWidget *button, GdkEventButton *event, GOComboPixmaps *combo)
+{
+#warning TODO do I want to check for which button ?
+	return swatch_activated (combo, button);
+}
+static gboolean
+cb_swatch_key_press (GtkWidget *button, GdkEventKey *event, GOComboPixmaps *combo)
+{
+	if (event->keyval == GDK_Return ||
+	    event->keyval == GDK_KP_Enter ||
+	    event->keyval == GDK_space)
+		return swatch_activated (combo, button);
+	else
+		return FALSE;
 }
 
 void
-pixmap_combo_select_pixmap (PixmapCombo *pc, int index)
+go_combo_pixmaps_add_element (GOComboPixmaps *combo,
+			      GdkPixbuf const *pixbuf, int id, char const *tooltip)
 {
-	g_return_if_fail (pc != NULL);
-	g_return_if_fail (IS_PIXMAP_COMBO (pc));
-	g_return_if_fail (0 <= index);
-	g_return_if_fail (index < pc->num_elements);
+	GtkWidget *button, *box;
+	Element tmp;
+	Element *el;
+	int col, row;
 
-	pc->last_index = index;
+	g_return_if_fail (IS_GO_COMBO_PIXMAPS (combo));
 
-	gtk_container_remove (
-		GTK_CONTAINER (pc->preview_button),
-		pc->preview_pixmap);
+	/* Wrap inside a vbox with a border so that we can see the focus indicator */
+	box = gtk_vbox_new (FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (box),
+		gtk_image_new_from_pixbuf ((GdkPixbuf *)pixbuf),
+		TRUE, TRUE, 0);
+	g_object_unref ((GdkPixbuf *)pixbuf);
 
-	pc->preview_pixmap =
-		gtk_image_new_from_pixbuf (pc->pixbufs[index]);
-	gtk_widget_show (pc->preview_pixmap);
+	button = gtk_button_new ();
+	gtk_container_set_border_width (GTK_CONTAINER (box), 2);
+	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
+	gtk_container_add (GTK_CONTAINER (button), box);
 
-	gtk_container_add (
-		GTK_CONTAINER (pc->preview_button), pc->preview_pixmap);
+	if (tooltip != NULL)
+		gtk_tooltips_set_tip (combo->tool_tip, button,
+			tooltip, NULL);
+
+	col = combo->elements->len;
+	row = col / combo->cols;
+	col = col % combo->cols;
+
+	tmp.pixbuf = (GdkPixbuf *)pixbuf;
+	tmp.id = id;
+	g_array_append_val (combo->elements, tmp);
+	el = &g_array_index (combo->elements, Element, combo->elements->len-1);
+	g_warning ("combo->element->len [%d] = %p (%d vs %d)", combo->elements->len, el, el->id, id);
+	g_object_set_data (G_OBJECT (button), "Element", el);
+	gtk_table_attach (GTK_TABLE (combo->table), button,
+		col, col + 1, row + 1, row + 2,
+		GTK_FILL, GTK_FILL, 1, 1);
+	gtk_widget_show_all (button);
+
+	g_object_connect (button,
+		"signal::button_release_event", G_CALLBACK (cb_swatch_release_event), combo,
+		"signal::key_press_event", G_CALLBACK (cb_swatch_key_press), combo,
+		NULL);
+}
+
+gboolean
+go_combo_pixmaps_select_index (GOComboPixmaps *combo, int i)
+{
+	g_return_val_if_fail (IS_GO_COMBO_PIXMAPS (combo), FALSE);
+	g_return_val_if_fail (0 <= i, FALSE);
+	g_return_val_if_fail (i < (int)combo->elements->len, FALSE);
+
+	combo->selected_index = i;
+	gtk_image_set_from_pixbuf (GTK_IMAGE (combo->preview_image),
+		g_array_index (combo->elements, Element, i).pixbuf);
+
+	return TRUE;
+}
+
+gboolean
+go_combo_pixmaps_select_id (GOComboPixmaps *combo, int id)
+{
+	unsigned i;
+
+	g_return_val_if_fail (IS_GO_COMBO_PIXMAPS (combo), FALSE);
+
+	for (i = 0 ; i < combo->elements->len ; i++)
+		if (g_array_index (combo->elements, Element, i).id == id)
+			break;
+
+	g_return_val_if_fail (i <combo->elements->len, FALSE);
+
+	combo->selected_index = i;
+	gtk_image_set_from_pixbuf (GTK_IMAGE (combo->preview_image),
+		g_array_index (combo->elements, Element, i).pixbuf);
+
+	return TRUE;
+}
+
+int
+go_combo_pixmaps_get_selected (GOComboPixmaps const *combo, int *index)
+{
+	Element *el;
+
+	g_return_val_if_fail (IS_GO_COMBO_PIXMAPS (combo), 0);
+	el = &g_array_index (combo->elements, Element, combo->selected_index);
+
+	if (index != NULL)
+		*index = combo->selected_index;
+	return el->id;
+}
+
+GtkWidget *
+go_combo_pixmaps_get_preview (GOComboPixmaps const *combo)
+{
+	g_return_val_if_fail (IS_GO_COMBO_PIXMAPS (combo), 0);
+	return combo->preview_button;
+}
+
+/************************************************************************/
+
+struct _GOMenuPixmaps {
+	GtkMenu base;
+	unsigned cols, n;
+};
+typedef struct {
+	GtkMenuClass	base;
+	void (* changed) (GOMenuPixmaps *pixmaps, int id);
+} GOMenuPixmapsClass;
+
+static guint go_menu_pixmaps_signals [LAST_SIGNAL] = { 0, };
+static void
+go_menu_pixmaps_class_init (GObjectClass *gobject_class)
+{
+	go_menu_pixmaps_signals [CHANGED] =
+		g_signal_new ("changed",
+			      G_OBJECT_CLASS_TYPE (gobject_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (GOMenuPixmapsClass, changed),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__INT,
+			      G_TYPE_NONE, 1, G_TYPE_INT);
+}
+
+static GSF_CLASS (GOMenuPixmaps, go_menu_pixmaps,
+		  go_menu_pixmaps_class_init, NULL,
+		  GTK_TYPE_MENU)
+
+GOMenuPixmaps *
+go_menu_pixmaps_new (int ncols)
+{
+        GOMenuPixmaps *submenu = g_object_new (go_menu_pixmaps_get_type (), NULL);
+	submenu->cols = ncols;
+	submenu->n = 0;
+	gtk_widget_show (GTK_WIDGET (submenu));
+	return submenu;
+}
+
+static void
+cb_menu_item_activate (GtkWidget *button, GtkWidget *menu)
+{
+	int id = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (button), "ItemID"));
+	g_signal_emit (menu, go_menu_pixmaps_signals [CHANGED], 0, id);
+}
+
+void
+go_menu_pixmaps_add_element (GOMenuPixmaps *menu,
+			     GdkPixbuf const *pixbuf, int id)
+{
+        GtkWidget *button;
+	int col, row;
+
+	col = menu->n++;
+	row = col / menu->cols;
+	col = col % menu->cols;
+
+	button = gtk_image_menu_item_new_with_label (" ");
+	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (button),
+		gtk_image_new_from_pixbuf ((GdkPixbuf *)pixbuf));
+	g_object_unref ((GdkPixbuf *)pixbuf);
+	g_object_set_data (G_OBJECT (button),
+		"ItemID", GINT_TO_POINTER (id));
+	gtk_menu_attach (GTK_MENU (menu), button,
+		col, col + 1, row + 1, row + 2);
+	g_signal_connect (G_OBJECT (button),
+		"activate",
+		G_CALLBACK (cb_menu_item_activate), menu);
 }

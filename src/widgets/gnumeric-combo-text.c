@@ -16,15 +16,26 @@
 #include <gtk/gtkscrolledwindow.h>
 #include <gsf/gsf-impl-utils.h>
 
-#define GNM_COMBO_TEXT_CLASS(klass) G_TYPE_CHECK_CLASS_CAST (klass, gnm_combo_text_get_type (), GnmComboTextClass)
-typedef struct _GnmComboTextClass   GnmComboTextClass;
+struct _GnmComboText {
+	GnmComboBox parent;
 
-struct _GnmComboTextClass {
-	GnmComboBoxClass parent_class;
+	GCompareFunc cmp_func;
+
+	GtkWidget *entry;
+	GtkWidget *list;
+	GtkWidget *scroll;
+	GtkWidget *cached_entry;
+	GtkStateType cache_mouse_state;
+};
+
+typedef struct {
+	GnmComboBoxClass	base;
 
 	gboolean (* selection_changed)	(GnmComboText *ct, GtkWidget *new_item);
 	gboolean (* entry_changed)	(GnmComboText *ct, char const *new_str);
-};
+} GnmComboTextClass;
+
+#define GNM_COMBO_TEXT_CLASS(klass) G_TYPE_CHECK_CLASS_CAST (klass, gnm_combo_text_get_type (), GnmComboTextClass)
 
 enum {
 	SELECTION_CHANGED,
@@ -358,6 +369,12 @@ gnm_combo_text_glade_new (void)
 GSF_CLASS (GnmComboText, gnm_combo_text,
 	   gnm_combo_text_class_init, gnm_combo_text_init,
 	   gnm_combo_box_get_type ())
+
+GtkWidget *
+gnm_combo_text_get_entry (GnmComboText *ct)
+{
+	return ct->entry;
+}
 
 /**
  * gnm_combo_text_set_text :
