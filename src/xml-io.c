@@ -2999,7 +2999,7 @@ xml_check_version (xmlDocPtr doc, GnumericXMLVersion *version)
 	xmlNsPtr gmr;
 	int i;
 
-	if (doc == NULL && doc->xmlRootNode == NULL)
+	if (doc == NULL || doc->xmlRootNode == NULL)
 		return NULL;
 
 	/* Do a bit of checking, get the namespaces, and check the top elem.  */
@@ -3315,9 +3315,9 @@ xml_probe (GnumFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 			 g_strcasecmp (extension, "xml") == 0));
 	}
 
-	/*
-	 * Do a silent call to the XML parser.
-	 */
+	/* Do a silent call to the XML parser. */
+	if (gsf_input_seek (input, 0, G_SEEK_SET))
+		return FALSE;
 	ctxt = gsf_xml_parser_context (input);
 	if (ctxt == NULL)
 		return FALSE;
@@ -3333,14 +3333,13 @@ xml_probe (GnumFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 	ctxt->sax = old;
 	xmlFreeParserCtxt (ctxt);
 
-	/*
-	 * This is not well formed.
-	 */
 	if (!ret) {
 		xmlFreeDoc (res);
 	        return FALSE;
 	}
 
+	if (res == NULL)
+		return FALSE;
 	if (res->xmlRootNode == NULL) {
 		xmlFreeDoc (res);
 		return FALSE;
@@ -3383,6 +3382,9 @@ gnumeric_xml_read_workbook (GnumFileOpener const *fo,
 	size_t len;
 
 	g_return_if_fail (input != NULL);
+
+	if (gsf_input_seek (input, 0, G_SEEK_SET))
+		return;
 
 	io_progress_message (context, _("Reading file..."));
 	io_progress_range_push (context, 0.0, 0.5);

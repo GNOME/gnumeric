@@ -696,12 +696,11 @@ print_range_down_then_right (PrintJobInfo const *pj, Sheet const *sheet,
 	usable_y_initial   = pj->y_points - pj->titles_used_y;
 	usable_y_repeating = usable_y_initial - pj->repeat_rows_used_y;
 
-
 	while (col <= r->end.col) {
 		int col_count;
 		int row = r->start.row;
 
-		if (col < pj->pi->repeat_left.range.end.col) {
+		if (col <= pj->pi->repeat_left.range.end.col) {
 			usable_x = usable_x_initial;
 			col = MIN (col,
 				   pj->pi->repeat_left.range.end.col);
@@ -715,7 +714,7 @@ print_range_down_then_right (PrintJobInfo const *pj, Sheet const *sheet,
 			Range range;
 			int row_count;
 
-			if (row < pj->pi->repeat_top.range.end.row) {
+			if (row <= pj->pi->repeat_top.range.end.row) {
 				usable_y = usable_y_initial;
 				row = MIN (row,
 					   pj->pi->repeat_top.range.end.row);

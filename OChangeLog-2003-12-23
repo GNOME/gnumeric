@@ -1,5 +1,16 @@
 2002-08-28  Jody Goldberg <jody@gnome.org>
 
+	* src/print.c (print_range_down_then_right) : fix fence post error.
+	  repeated cols/rows are part of the region if they start _on_ the
+	  coordinate, not just before.
+
+2002-08-28  Jody Goldberg <jody@gnome.org>
+
+	* src/xml-io.c (xml_check_version) : fix failure test.
+	(xml_probe) : ensure we are at the start of the stream.
+
+2002-08-28  Jody Goldberg <jody@gnome.org>
+
 	* src/func.c (function_marshal_arg) : begin work to support implicit
 	  iteration.
 
