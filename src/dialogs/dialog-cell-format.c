@@ -380,14 +380,12 @@ init_button_image (GladeXML *gui, char const * const name)
 /*****************************************************************************/
 
 static void
-draw_format_preview (FormatState *state)
+generate_format (FormatState *state)
 {
 	static char const * const zeros = "000000000000000000000000000000";
 	static char const * const qmarks = "??????????????????????????????";
 	FormatFamily const page = state->format.current_type;
 	GString		*new_format = g_string_new ("");
-	gchar		*preview;
-	StyleFormat	*sf = NULL;
 
 	/* Update the format based on the current selections and page */
 	switch (page) {
@@ -496,40 +494,39 @@ draw_format_preview (FormatState *state)
 	}
 
 	g_string_free (new_format, TRUE);
+}
+
+static void
+draw_format_preview (FormatState *state, gboolean regen_format)
+{
+	gchar		*preview;
+	StyleFormat	*sf = NULL;
+
+	if (regen_format)
+		generate_format (state);
 
 	/* Nothing to sample. */
 	if (state->value == NULL)
 		return;
-
-	/* The first time through lets initialize */
-	if (state->format.preview == NULL) {
-		state->format.preview =
-		    GTK_LABEL (glade_xml_get_widget (state->gui, "format_sample"));
-	}
-
-	g_return_if_fail (state->format.preview != NULL);
 
 	if (mstyle_is_element_set (state->result, MSTYLE_FORMAT))
 		sf = mstyle_get_format (state->result);
 	else if (!mstyle_is_element_conflict (state->style, MSTYLE_FORMAT))
 		sf = mstyle_get_format (state->style);
 
-	if (sf == NULL)
+	if (sf == NULL || state->value == NULL)
 		return;
 
-	if (state->value != NULL) {
-		if (style_format_is_general (sf) &&
-		    VALUE_FMT (state->value) != NULL)
-			sf = VALUE_FMT (state->value);
+	if (style_format_is_general (sf) &&
+	    VALUE_FMT (state->value) != NULL)
+		sf = VALUE_FMT (state->value);
 
-		preview = format_value (sf, state->value, NULL, -1);
+	preview = format_value (sf, state->value, NULL, -1);
+	if (strlen (preview) > FORMAT_PREVIEW_MAX)
+		strcpy (&preview[FORMAT_PREVIEW_MAX - 5], " ...");
 
-		if (strlen (preview) > FORMAT_PREVIEW_MAX)
-			strcpy (&preview[FORMAT_PREVIEW_MAX - 5], " ...");
-
-		gtk_label_set_text (state->format.preview, preview);
-		g_free (preview);
-	}
+	gtk_label_set_text (state->format.preview, preview);
+	g_free (preview);
 }
 
 static void
@@ -597,7 +594,7 @@ cb_decimals_changed (GtkEditable *editable, FormatState *state)
 	if (page == 1 || page == 2)
 		fillin_negative_samples (state, page);
 
-	draw_format_preview (state);
+	draw_format_preview (state, TRUE);
 }
 
 static void
@@ -607,7 +604,7 @@ cb_separator_toggle (GtkObject *obj, FormatState *state)
 		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (obj));
 	fillin_negative_samples (state, 1);
 
-	draw_format_preview (state);
+	draw_format_preview (state, TRUE);
 }
 
 static int
@@ -635,7 +632,7 @@ fmt_dialog_init_fmt_list (GtkCList *cl, char const * const *formats,
 static void
 fmt_dialog_enable_widgets (FormatState *state, int page)
 {
-	static FormatWidget contents[12][8] = {
+	static FormatWidget const contents[12][8] = {
 		/* General */
 		{ F_GENERAL, F_MAX_WIDGET },
 		/* Number */
@@ -741,7 +738,7 @@ fmt_dialog_enable_widgets (FormatState *state, int page)
 			fillin_negative_samples (state, page);
 	}
 
-	draw_format_preview (state);
+	draw_format_preview (state, TRUE);
 }
 
 /*
@@ -758,25 +755,19 @@ cb_format_changed (GtkObject *obj, FormatState *state)
 }
 
 static void
-cb_format_entry (GtkEditable *w, FormatState *state)
+cb_format_entry_changed (GtkEditable *w, FormatState *state)
 {
-	gchar const *tmp = gtk_entry_get_text (GTK_ENTRY (w));
-	char *fmt = style_format_delocalize (tmp);
-
-	/* If the format didn't change don't react */
-	if (!strcmp (state->format.spec->format, fmt)) {
-		g_free (fmt);
+	char *fmt;
+	if (!state->enable_edit)
 		return;
-	}
 
-	if (state->enable_edit) {
+	fmt = style_format_delocalize (gtk_entry_get_text (GTK_ENTRY (w)));
+	if (strcmp (state->format.spec->format, fmt)) {
 		style_format_unref (state->format.spec);
 		state->format.spec = style_format_new_XL (fmt, FALSE);
 		mstyle_set_format_text (state->result, fmt);
 		fmt_dialog_changed (state);
-		state->enable_edit = FALSE;
-		draw_format_preview (state);
-		state->enable_edit = TRUE;
+		draw_format_preview (state, FALSE);
 	} else
 		g_free (fmt);
 }
@@ -806,7 +797,7 @@ cb_format_currency_select (GtkEditable *w, FormatState *state)
 
 	if (page == 1 || page == 2)
 		fillin_negative_samples (state, state->format.current_type);
-	draw_format_preview (state);
+	draw_format_preview (state, TRUE);
 }
 
 /*
@@ -837,7 +828,7 @@ cb_format_negative_form_selected (GtkCList *clist, gint row, gint column,
 				  GdkEventButton *event, FormatState *state)
 {
 	state->format.negative_format = row;
-	draw_format_preview (state);
+	draw_format_preview (state, TRUE);
 }
 
 static gint
@@ -926,6 +917,7 @@ fmt_dialog_init_format_page (FormatState *state)
 	state->format.currency_index = info.currency_symbol_index;
 
 	state->format.box = GTK_BOX (glade_xml_get_widget (state->gui, "format_box"));
+	state->format.preview = GTK_LABEL (glade_xml_get_widget (state->gui, "format_sample"));
 
 	/* Collect all the required format widgets and hide them */
 	for (i = 0; (name = widget_names[i]) != NULL; ++i) {
@@ -1023,7 +1015,7 @@ fmt_dialog_init_format_page (FormatState *state)
 	/* Setup special handler for Custom */
 	g_signal_connect (G_OBJECT (state->format.widget[F_ENTRY]),
 		"changed",
-		G_CALLBACK (cb_format_entry), state);
+		G_CALLBACK (cb_format_entry_changed), state);
 	gnumeric_editable_enters (
 		GTK_WINDOW (state->dialog),
 		GTK_WIDGET (state->format.widget[F_ENTRY]));
@@ -1048,7 +1040,7 @@ fmt_dialog_init_format_page (FormatState *state)
 		}
 	}
 
-	draw_format_preview (state);
+	draw_format_preview (state, TRUE);
 }
 
 /*****************************************************************************/
@@ -1998,18 +1990,6 @@ fmt_dialog_init_protection_page (FormatState *state)
 
 /*****************************************************************************/
 
-static void
-validation_entry_from_expr (GnumericExprEntry *entry,
-			    ParsePos const *pp, ExprTree const *expr)
-{
-	if (expr != NULL) {
-		char *expr_str = expr_tree_as_string (expr, pp);
-		gtk_entry_set_text (GTK_ENTRY (entry), expr_str);
-		g_free (expr_str);
-	} else
-		gtk_entry_set_text (GTK_ENTRY (entry), "");
-}
-
 static ExprTree *
 validation_entry_to_expr (Sheet *sheet, GnumericExprEntry *gee)
 {
@@ -2253,10 +2233,10 @@ fmt_dialog_init_validation_page (FormatState *state)
 		gtk_toggle_button_set_active (state->validation.use_dropdown, v->use_dropdown);
 
 		parse_pos_init (&pp, state->sheet->workbook, state->sheet, 0, 0);
-		validation_entry_from_expr (state->validation.expr0.entry, &pp,
-			v->expr[0]);
-		validation_entry_from_expr (state->validation.expr1.entry, &pp,
-			v->expr[1]);
+		gnm_expr_entry_load_from_expr (state->validation.expr0.entry,
+			v->expr[0], &pp);
+		gnm_expr_entry_load_from_expr (state->validation.expr1.entry,
+			v->expr[1], &pp);
 	}
 
 	cb_validation_sensitivity (NULL, state);

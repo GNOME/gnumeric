@@ -1,3 +1,14 @@
+2002-02-28  Jody Goldberg <jody@gnome.org>
+
+	* dialog-cell-format.c (draw_format_preview) : split the format
+	  generation out into.
+	(generate_format) : here.
+	(cb_format_entry_changed) : don't regenerate the format.  This
+          callback is called during the assignment of the format.  so we were
+	  assigning things twice.  Simplify it while we're in here.
+	(fmt_dialog_init_validation_page) : Use gnm_expr_entry_load_from_expr.
+	(validation_entry_from_expr) : delete.
+
 2002-02-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-analysis-tools.c (error_in_entry) : gnumeric-expr-
