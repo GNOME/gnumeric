@@ -254,10 +254,13 @@ function_def_get_full_info_if_needed (FunctionDefinition *fn_def)
 		FunctionArgs *fn_args;
 		FunctionNodes *fn_nodes;
 		gboolean success;
+		FunctionGetFullInfoCallback callback;
 
-		success = fn_def->get_full_info_callback (fn_def,
-		                                          &args, &arg_names, &help,
-		                                          &fn_args, &fn_nodes);
+		callback = fn_def->get_full_info_callback;
+		fn_def->get_full_info_callback = NULL;
+
+		success = callback (fn_def, &args, &arg_names, &help,
+		                    &fn_args, &fn_nodes);
 		if (success) {
 			fn_def->named_arguments = arg_names;
 			fn_def->help = help;
@@ -277,8 +280,6 @@ function_def_get_full_info_if_needed (FunctionDefinition *fn_def)
 			fn_def->fn_type = FUNCTION_NODES;
 			fn_def->fn.fn_nodes = &error_function_no_full_info;
 		}
-
-		fn_def->get_full_info_callback = NULL;
 	}
 }
 

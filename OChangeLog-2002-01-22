@@ -1,3 +1,8 @@
+2001-06-03  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/func.c (function_def_get_full_info_if_needed): Protected against
+	stack overflow. Probably it doesn't really solve the problem though :(
+
 2001-06-03  Jody Goldberg <jgoldberg@home.com>
 
 	* src/cell-draw.c (draw_text) : limit length of cell text to avoid
