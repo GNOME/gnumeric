@@ -27,7 +27,7 @@ gnumeric.keys: gnumeric.keys.in Makefile
 	sed -e 's^\@icondir\@^$(appicondir)^g' < $(srcdir)/gnumeric.keys.in > gnumeric.keys.tmp \
 	&& mv gnumeric.keys.tmp gnumeric.keys 
 
-dist-hook:
+dist-hook: gnumeric.spec
 	mkdir $(distdir)/samples
 	cp $(srcdir)/samples/*gnumeric $(distdir)/samples	
 	cp gnumeric.spec $(distdir)
