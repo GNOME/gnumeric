@@ -49,7 +49,21 @@ cb_sheet_object_raise (GtkWidget *widget, GObject *so_view)
 	scg = sheet_object_view_control (so_view);
 	wbc = sc_wbc (SHEET_CONTROL (scg));
 
-	cmd_object_raise (wbc, so, 1);
+	cmd_object_raise (wbc, so, cmd_object_raise_up);
+}
+
+static void
+cb_sheet_object_raise_to_top (GtkWidget *widget, GObject *so_view)
+{
+	SheetObject *so;
+	SheetControlGUI *scg;
+	WorkbookControl *wbc;
+
+	so = sheet_object_view_obj (so_view);
+	scg = sheet_object_view_control (so_view);
+	wbc = sc_wbc (SHEET_CONTROL (scg));
+
+	cmd_object_raise (wbc, so, cmd_object_raise_top);
 }
 
 static void
@@ -63,7 +77,21 @@ cb_sheet_object_lower (GtkWidget *widget, GObject *so_view)
 	scg = sheet_object_view_control (so_view);
 	wbc = sc_wbc (SHEET_CONTROL (scg));
 
-	cmd_object_raise (wbc, so, -1);
+	cmd_object_raise (wbc, so, cmd_object_raise_down);
+}
+
+static void
+cb_sheet_object_lower_to_bottom (GtkWidget *widget, GObject *so_view)
+{
+	SheetObject *so;
+	SheetControlGUI *scg;
+	WorkbookControl *wbc;
+
+	so = sheet_object_view_obj (so_view);
+	scg = sheet_object_view_control (so_view);
+	wbc = sc_wbc (SHEET_CONTROL (scg));
+
+	cmd_object_raise (wbc, so, cmd_object_raise_bottom);
 }
 
 static void
@@ -118,16 +146,26 @@ sheet_object_populate_menu (SheetObject *so,
 		gtk_menu_append (menu, item);
 	}
 
+	item = gtk_image_menu_item_new_from_stock (GTK_STOCK_GOTO_TOP, NULL);
+	gtk_menu_append (menu, item);
+	g_signal_connect (G_OBJECT (item),
+			  "activate",
+			  G_CALLBACK (cb_sheet_object_raise_to_top), obj_view);
 	item = gtk_image_menu_item_new_from_stock (GTK_STOCK_GO_UP, NULL);
 	gtk_menu_append (menu, item);
 	g_signal_connect (G_OBJECT (item),
-		"activate",
-		G_CALLBACK (cb_sheet_object_raise), obj_view);
+			  "activate",
+			  G_CALLBACK (cb_sheet_object_raise), obj_view);
 	item = gtk_image_menu_item_new_from_stock (GTK_STOCK_GO_DOWN, NULL);
 	gtk_menu_append (menu, item);
 	g_signal_connect (G_OBJECT (item),
-		"activate",
-		G_CALLBACK (cb_sheet_object_lower), obj_view);
+			  "activate",
+			  G_CALLBACK (cb_sheet_object_lower), obj_view);
+	item = gtk_image_menu_item_new_from_stock (GTK_STOCK_GOTO_BOTTOM, NULL);
+	gtk_menu_append (menu, item);
+	g_signal_connect (G_OBJECT (item),
+			  "activate",
+			  G_CALLBACK (cb_sheet_object_lower_to_bottom), obj_view);
 	item = gtk_image_menu_item_new_from_stock (GTK_STOCK_DELETE, NULL);
 	gtk_menu_append (menu, item);
 	g_signal_connect (G_OBJECT (item),
@@ -1024,20 +1062,65 @@ sheet_object_anchor_init (SheetObjectAnchor *anchor,
 }
 
 gint 
-sheet_object_raise (SheetObject *so, gint dir)
+sheet_object_raise (SheetObject *so, gint positions)
 {
 	GList *l;
+	gint before = -1;
+	gint after = -1;
 
 	for (l = so->realized_list; l; l = l->next) {
-		switch (dir) {
-		case 1:
-			gnome_canvas_item_raise (GNOME_CANVAS_ITEM (l->data), 1);
-			break;
-		case -1:
-		default:
-			gnome_canvas_item_lower (GNOME_CANVAS_ITEM (l->data), 1);
-			break;
-		}
+		GnomeCanvasItem *item = GNOME_CANVAS_ITEM (l->data);
+		GnomeCanvasGroup *parent = GNOME_CANVAS_GROUP (item->parent);
+		GList *link = g_list_find (parent->item_list, item);
+		before = g_list_position (parent->item_list, link);
+		if (positions > 0)
+			gnome_canvas_item_raise (item, positions);
+		else
+			gnome_canvas_item_lower (item, - positions);
+		link = g_list_find (parent->item_list, item);
+		after = g_list_position (parent->item_list, link);
 	}
-	return dir;
+	return ((before == -1 || after == -1) ? positions :  (after - before));
+}
+
+gint 
+sheet_object_raise_top (SheetObject *so)
+{
+	GList *l;
+	gint before = -1;
+	gint after = -1;
+
+	for (l = so->realized_list; l; l = l->next) {
+		GnomeCanvasItem *item = GNOME_CANVAS_ITEM (l->data);
+		GnomeCanvasGroup *parent = GNOME_CANVAS_GROUP (item->parent);
+		GList *link = g_list_find (parent->item_list, item);
+		before = g_list_position (parent->item_list, link);
+
+		gnome_canvas_item_raise_to_top (item);
+
+		link = g_list_find (parent->item_list, item);
+		after = g_list_position (parent->item_list, link);
+	}
+	return ((before == -1 || after == -1) ? 0 :  (after - before));
+}
+
+gint 
+sheet_object_lower_bottom (SheetObject *so)
+{
+	GList *l;
+	gint before = -1;
+	gint after = -1;
+
+	for (l = so->realized_list; l; l = l->next) {
+		GnomeCanvasItem *item = GNOME_CANVAS_ITEM (l->data);
+		GnomeCanvasGroup *parent = GNOME_CANVAS_GROUP (item->parent);
+		GList *link = g_list_find (parent->item_list, item);
+		before = g_list_position (parent->item_list, link);
+
+		gnome_canvas_item_lower_to_bottom (item);
+
+		link = g_list_find (parent->item_list, item);
+		after = g_list_position (parent->item_list, link);
+	}
+	return ((before == -1 || after == -1) ? 0 :  (after - before));
 }

@@ -60,8 +60,9 @@ sheet_object_container_new_view (SheetObject *so, SheetControlGUI *scg)
 	}
 
 	view_widget = bonobo_view_frame_get_wrapper (view_frame);
+	gnome_canvas_item_raise_to_top (GNOME_CANVAS_ITEM (gcanvas->sheet_object_group));
 	view_item = gnome_canvas_item_new (
-		gcanvas->object_group,
+		gcanvas->sheet_object_group,
 		gnome_canvas_widget_get_type (),
 		"widget", view_widget,
 		"size_pixels", FALSE,

@@ -193,14 +193,15 @@ sheet_object_image_new_view (SheetObject *so, SheetControlGUI *scg)
 	g_return_val_if_fail (IS_SHEET_OBJECT_IMAGE (so), NULL);
 	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (scg), NULL);
 
+	gnome_canvas_item_raise_to_top (GNOME_CANVAS_ITEM (gcanvas->sheet_object_group));
 	pixbuf = soi_get_pixbuf (soi, 1.);
 	if (pixbuf != NULL)
-		item = gnome_canvas_item_new (gcanvas->object_group,
+		item = gnome_canvas_item_new (gcanvas->sheet_object_group,
 			GNOME_TYPE_CANVAS_PIXBUF,
 			"pixbuf", pixbuf,
 			NULL);
 	else
-		item = gnome_canvas_item_new (gcanvas->object_group,
+		item = gnome_canvas_item_new (gcanvas->sheet_object_group,
 			GNOME_TYPE_CANVAS_RECT,
 			"fill_color",		"white",
 			"outline_color",	"black",

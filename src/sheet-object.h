@@ -79,7 +79,9 @@ void sheet_object_position_pixels_get	   (SheetObject const *so,
 					    SheetControl const *sc, double *pos);
 void sheet_object_position_pixels_set	   (SheetObject const *so,
 					    SheetControl const *sc, double const *pos);
-gint sheet_object_raise	                   (SheetObject *so, gint dir);
+gint sheet_object_raise	                   (SheetObject *so, gint positions);
+gint sheet_object_raise_top                (SheetObject *so);
+gint sheet_object_lower_bottom	           (SheetObject *so);
 
 /* Object Management */
 void    sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean update);

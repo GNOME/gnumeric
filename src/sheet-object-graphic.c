@@ -137,10 +137,12 @@ sheet_object_graphic_new_view (SheetObject *so, SheetControlGUI *scg)
 
 	fill_color = (sog->fill_color != NULL) ? &sog->fill_color->color : NULL;
 
+	gnome_canvas_item_raise_to_top (GNOME_CANVAS_ITEM (gcanvas->sheet_object_group));
+
 	switch (sog->type) {
 	case SHEET_OBJECT_LINE:
 		item = gnome_canvas_item_new (
-			gcanvas->object_group,
+			gcanvas->sheet_object_group,
 			gnome_canvas_line_get_type (),
 			"fill_color_gdk", fill_color,
 			"width_units", sog->width,
@@ -149,7 +151,7 @@ sheet_object_graphic_new_view (SheetObject *so, SheetControlGUI *scg)
 
 	case SHEET_OBJECT_ARROW:
 		item = gnome_canvas_item_new (
-			gcanvas->object_group,
+			gcanvas->sheet_object_group,
 			gnome_canvas_line_get_type (),
 			"fill_color_gdk", fill_color,
 			"width_units", sog->width,
@@ -736,7 +738,9 @@ sheet_object_filled_new_view (SheetObject *so, SheetControlGUI *scg)
 	fill_color = (sog->fill_color != NULL) ? &sog->fill_color->color : NULL;
 	outline_color = (sof->outline_color != NULL) ? &sof->outline_color->color : NULL;
 
-	item = gnome_canvas_item_new (gcanvas->object_group,
+	gnome_canvas_item_raise_to_top (GNOME_CANVAS_ITEM (gcanvas->sheet_object_group));
+
+	item = gnome_canvas_item_new (gcanvas->sheet_object_group,
 		(sog->type == SHEET_OBJECT_OVAL) ?
 					GNOME_TYPE_CANVAS_ELLIPSE :
 					GNOME_TYPE_CANVAS_RECT,

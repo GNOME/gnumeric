@@ -108,6 +108,12 @@ gboolean cmd_merge_data        (WorkbookControl *wbc, Sheet *sheet,
 
 gboolean cmd_change_summary    (WorkbookControlGUI *wbcg, GSList *sin_changes);
 
-gboolean cmd_object_raise	(WorkbookControl *wbc, SheetObject *so, gint dir);
+typedef enum  {
+	cmd_object_raise_up ,
+	cmd_object_raise_down,
+	cmd_object_raise_top,
+	cmd_object_raise_bottom
+} CmdObjectRaiseSelector;
+gboolean cmd_object_raise (WorkbookControl *wbc, SheetObject *so, CmdObjectRaiseSelector dir);
 
 #endif /* GNUMERIC_COMMANDS_H */

@@ -28,10 +28,11 @@ sheet_object_item_new_view (SheetObject *so, SheetControlGUI *scg)
 	GnumericCanvas *gcanvas = scg_pane (scg, 0);
 	GnomeCanvasItem *so_view = NULL;
 
+	gnome_canvas_item_raise_to_top (GNOME_CANVAS_ITEM (gcanvas->sheet_object_group));
 	so_view = bonobo_client_site_new_item (
 		SHEET_OBJECT_BONOBO (so)->control_frame,
 		bonobo_ui_component_get_container (scg->wbcg->uic),
-		gcanvas->object_group);
+		gcanvas->sheet_object_group);
 
 	scg_object_register (so, so_view);
 	return GTK_OBJECT (so_view);

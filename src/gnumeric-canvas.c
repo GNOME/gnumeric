@@ -637,6 +637,10 @@ gnumeric_canvas_new (SheetControlGUI *scg, GnumericPane *pane)
 	root_group = GNOME_CANVAS_GROUP (GNOME_CANVAS (gcanvas)->root);
 	gcanvas->anted_group = root_group;
 	gcanvas->object_group = root_group;
+	gcanvas->sheet_object_group =  GNOME_CANVAS_GROUP (gnome_canvas_item_new (
+								   root_group,
+								   GNOME_TYPE_CANVAS_GROUP,
+								   NULL));
 
 	return gcanvas;
 }

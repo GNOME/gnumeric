@@ -4898,8 +4898,8 @@ typedef struct
 {
 	GnumericCommand parent;
 	SheetObject *so;
-	gint        dir;
-	gint        undo_dir;
+	CmdObjectRaiseSelector dir;
+	gint        changed_positions;
 } CmdObjectRaise;
 
 GNUMERIC_MAKE_COMMAND (CmdObjectRaise, cmd_object_raise);
@@ -4908,7 +4908,20 @@ static gboolean
 cmd_object_raise_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
 	CmdObjectRaise *me = CMD_OBJECT_RAISE (cmd);
-	me->undo_dir = - sheet_object_raise (me->so, me->dir);
+	switch (me->dir) {
+	case cmd_object_raise_up:
+		me->changed_positions = sheet_object_raise (me->so, 1);
+		break;
+	case cmd_object_raise_down:
+		me->changed_positions = sheet_object_raise (me->so, -1);
+		break;
+	case cmd_object_raise_top:
+		me->changed_positions = sheet_object_raise_top (me->so);
+		break;
+	case cmd_object_raise_bottom:
+		me->changed_positions = sheet_object_lower_bottom (me->so);
+		break;
+	}
 	return FALSE;
 }
 
@@ -4916,7 +4929,8 @@ static gboolean
 cmd_object_raise_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
 	CmdObjectRaise *me = CMD_OBJECT_RAISE (cmd);
-	me->dir = - sheet_object_raise (me->so, me->undo_dir);
+	if (me->changed_positions != 0)
+		sheet_object_raise (me->so, - me->changed_positions);
 	return FALSE;
 }
 
@@ -4929,7 +4943,7 @@ cmd_object_raise_finalize (GObject *cmd)
 }
 
 gboolean
-cmd_object_raise (WorkbookControl *wbc, SheetObject *so, gint dir)
+cmd_object_raise (WorkbookControl *wbc, SheetObject *so, CmdObjectRaiseSelector dir)
 {
 	GObject *object;
 	CmdObjectRaise *me;
@@ -4944,10 +4958,22 @@ cmd_object_raise (WorkbookControl *wbc, SheetObject *so, gint dir)
 
 	me->parent.sheet = sheet_object_get_sheet (so);
 	me->parent.size = 1;
-	me->parent.cmd_descriptor = ((dir == 1) ? g_strdup (_("Raise object")) 
-				     : g_strdup (_("Lower object")));
+	switch (dir) {
+	case cmd_object_raise_up:
+		me->parent.cmd_descriptor = g_strdup (_("Raise object"));
+		break;
+	case cmd_object_raise_down:
+		me->parent.cmd_descriptor = g_strdup (_("Lower object"));
+		break;
+	case cmd_object_raise_top:
+		me->parent.cmd_descriptor = g_strdup (_("Raise object to top"));
+		break;
+	case cmd_object_raise_bottom:
+		me->parent.cmd_descriptor = g_strdup (_("Lower object to bottom"));
+		break;
+	}
 	me->dir = dir;
-	me->undo_dir = - dir;
+	me->changed_positions = 0;
 
 	return command_push_undo (wbc, object);
 }
