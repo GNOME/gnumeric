@@ -96,7 +96,7 @@ where:
 
 @FUNCTION=RSQ
 @SYNTAX=RSQ(array1,array2)
-@DESCRIPTION=RSQ returns the square of the Pearson correllation coefficient of two data sets.
+@DESCRIPTION=RSQ returns the square of the Pearson correlation coefficient of two data sets.
 Strings and empty cells are simply ignored. This function is Excel compatible. 
 @EXAMPLES=
 
@@ -297,7 +297,7 @@ ASIN(1) equals 1.570797.
 
 @FUNCTION=PERCENTILE
 @SYNTAX=PERCENTILE(array,k)
-@DESCRIPTION=PERCENTILE function returns the k-th percentile of the given data points.  
+@DESCRIPTION=PERCENTILE function returns the 100*@k-th percentile of the given data points (that is, a number x such that a fraction @k of the data points are less than x).  
 If @array is empty, PERCENTILE returns #NUM! error. If @k < 0 or @k > 1, PERCENTILE returns #NUM! error. This function is Excel compatible.
 @EXAMPLES=
 Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.  Then
@@ -306,11 +306,19 @@ PERCENTILE(A1:A5,0.42) equals 20.02.
 @SEEALSO=QUARTILE
 
 @FUNCTION=TRIMMEAN
-@SYNTAX=TRIMMEAN(ref,percent)
-@DESCRIPTION=TRIMMEAN returns the mean of the interior of a data set. @ref is the list of numbers whose mean you want to calculate and @percent is the percentage of number excluded from the mean. For example, if @percent=0.2 and the data set contains 40 numbers, 8 numbers are trimmed from the data set (40 x 0.2), 4 from the top and 4 from the bottom of the set. This function is Excel compatible. 
+@SYNTAX=TRIMMEAN(ref,fraction)
+@DESCRIPTION=TRIMMEAN returns the mean of the interior of a data set. @ref is the list of numbers whose mean you want to calculate and @fraction is the fraction of the data set excluded from the mean. For example, if @fraction=0.2 and the data set contains 40 numbers, 8 numbers are trimmed from the data set (40 x 0.2), 4 from the top and 4 from the bottom of the set. This function is Excel compatible. 
 @EXAMPLES=
 
 @SEEALSO=AVERAGE,GEOMEAN,HARMEAN,MEDIAN,MODE
+
+@FUNCTION=TRUE
+@SYNTAX=TRUE()
+@DESCRIPTION=TRUE returns boolean value true.  This function is Excel compatible. 
+@EXAMPLES=
+TRUE() equals TRUE.
+
+@SEEALSO=FALSE
 
 @FUNCTION=FLOOR
 @SYNTAX=FLOOR(x,significance)
@@ -411,7 +419,7 @@ UPPER("canceled") equals "CANCELED".
 
 @FUNCTION=HARMEAN
 @SYNTAX=HARMEAN(b1, b2, ...)
-@DESCRIPTION=HARMEAN returns the harmonic mean of the N data points. This function is Excel compatible. 
+@DESCRIPTION=HARMEAN returns the harmonic mean of the N data points (that is, N divided by the sum of the inverses of the data points). This function is Excel compatible. 
 @EXAMPLES=
 Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.  Then
 HARMEAN(A1:A5) equals 19.529814427.
@@ -927,6 +935,14 @@ DGET(A1:C7, "Name", A9:A10) equals "Clark".
 If none of the items match the conditions, DGET returns #VALUE! error. If more than one items match the conditions, DGET returns #NUM! error. 
 @SEEALSO=DCOUNT
 
+@FUNCTION=FALSE
+@SYNTAX=FALSE()
+@DESCRIPTION=FALSE returns boolean value false.  This function is Excel compatible. 
+@EXAMPLES=
+FALSE() equals FALSE.
+
+@SEEALSO=TRUE
+
 @FUNCTION=DATEVALUE
 @SYNTAX=DATEVALUE(date_str)
 @DESCRIPTION=DATEVALUE returns the serial number of the date.  @date_str is the string that contains the date.  For example, DATEVALUE("1/1/1999") equals to 36160. 
@@ -952,7 +968,7 @@ AVERAGE(A1:A5) equals 23.2.
 
 @FUNCTION=CORREL
 @SYNTAX=CORREL(array1,array2)
-@DESCRIPTION=CORREL returns the correllation coefficient of two data sets.
+@DESCRIPTION=CORREL returns the correlation coefficient of two data sets.
 Strings and empty cells are simply ignored. This function is Excel compatible. 
 @EXAMPLES=
 Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, and 42.7.  Then
@@ -1097,7 +1113,7 @@ ATAN2(-0.5,2.0) equals 1.815775.
 
 @FUNCTION=MINA
 @SYNTAX=MINA(number1,number2,...)
-@DESCRIPTION=MINA returns the smallest value of the given arguments.  Numbers, text and logical values are included in the calculation too. If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0).  If the argument evaluates to TRUE, it is counted as one (1).  Note that empty cells are not counted. This function is Excel compatible. 
+@DESCRIPTION=MINA returns the smallest value of the given arguments.  Numbers, text and logical values are included in the calculation, blank cells are not.  If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0).  If the argument evaluates to TRUE, it is counted as one (1).  Note that empty cells are not counted. This function is Excel compatible. 
 @EXAMPLES=
 Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, 17.3, "missing", 25.9, and 40.1.  Then
 MAXA(A1:A5) equals 40.1.
@@ -1459,12 +1475,14 @@ BIN2DEC(101) equals 5.
 @SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX
 
 @FUNCTION=ERF
-@SYNTAX=ERF(lower limit[,upper_limit])
-@DESCRIPTION=ERF function returns the integral of the error function between the limits.  If the @upper_limit ommitted ERF returns the integral between zero and the @lower_limit.
-If either @lower_limit or @upper_limit are not numeric a #VALUE! error is returned.  If either @lower_limit or @upper_limit are < 0 a #NUM! error is returned. This function is Excel compatible. 
+@SYNTAX=ERF([lower limit,]upper_limit)
+@DESCRIPTION=With a single argument ERF returns the error function, defined as erf(x) = 2/sqrt(pi)* integral from 0 to x of exp(-t*t) dt. If two arguments are supplied, they are the lower and upper limits of the integral.
+If either @lower_limit or @upper_limit is not numeric a #VALUE! error is returned.  This function is upward-compatible with that in Excel. (If two arguments are supplied, Excel will not allow either to be negative.) 
 @EXAMPLES=
 ERF(0.4) equals 0.428392355.
+ERF(1.6448536269515/SQRT(2)) equals 0.90.
 
+The second example shows that a random variable with a normal distribution has a 90 percent chance of falling within approximately 1.645 standard deviations of the mean.
 @SEEALSO=ERFC
 
 @FUNCTION=MAX
@@ -1894,8 +1912,20 @@ DVARP(A1:C7, "Salary", A9:B11) equals 41725140.25.
 
 @SEEALSO=DVAR
 
+@FUNCTION=DATEDIF
+@SYNTAX=DATEDIF(date1,date2,interval)
+@DESCRIPTION=DATEDIF returns the difference between two dates.  @interval is one of six possible values:  "y", "m", "d", "ym", "md", and "yd".
+The first three options will return the number of complete years, months, or days, respectively, between the two dates specified.
+"ym" will return the number of full months between the two dates, not including the difference in years.
+"md" will return the number of full days between the two dates, not including the difference in months.
+"yd" will return the number of full days between the two dates, not including the difference in years.
+
+@EXAMPLES=
+
+@SEEALSO=DATE
+
 @FUNCTION=FINV
-@SYNTAX=TINV(p,dof)
+@SYNTAX=FINV(p,dof1,dof2)
 @DESCRIPTION=FINV function returns the inverse of the F probability distribution.
 If @p < 0 or @p > 1 FINV returns #NUM! error. If @dof1 < 1 or @dof2 < 1 FINV returns #NUM! error. This function is Excel compatible. 
 @EXAMPLES=
@@ -2227,7 +2257,7 @@ ABS(-3.14) equals 3.14.
 
 @FUNCTION=PEARSON
 @SYNTAX=PEARSON(array1,array2)
-@DESCRIPTION=PEARSON returns the Pearson correllation coefficient of two data sets.
+@DESCRIPTION=PEARSON returns the Pearson correlation coefficient of two data sets.
 Strings and empty cells are simply ignored. This function is Excel compatible. 
 @EXAMPLES=
 
@@ -2260,9 +2290,10 @@ ATANH(0.5) equals 0.549306.
 
 @FUNCTION=ERFC
 @SYNTAX=ERFC(x)
-@DESCRIPTION=The ERFC function returns the integral of the complimentary error function between the limits 0 and @x.
-If @x is not numeric a #VALUE! error is returned.  If @x < 0 a #NUM! error is returned.
+@DESCRIPTION=The ERFC function returns the complimentary error function, defined as 1 - erf(x). erfc(x) is calculated more accurately than erf(x) for arguments larger than about 0.5.
+If @x is not numeric a #VALUE! error is returned.  
 @EXAMPLES=
+ERFC(6) equals 2.15197367e-17.
 
 @SEEALSO=ERF
 
@@ -2275,7 +2306,7 @@ If @x is not numeric a #VALUE! error is returned.  If @x < 0 a #NUM! error is re
 
 @FUNCTION=WORKDAY
 @SYNTAX=WORKDAY (start_date,days,holidays)
-@DESCRIPTION=Returns the day which is @days working days from the @start_date.  Weekends and holidays optionaly supplied in @holidays are respected.
+@DESCRIPTION=Returns the day which is @days working days from the @start_date.  Weekends and holidays optionally supplied in @holidays are respected.
 Returns #NUM! if @start_date or @days are invalid.
 @EXAMPLES=
 
@@ -2364,7 +2395,7 @@ For example, if you deposit $10,000 in a savings account that earns an interest 
 
 @FUNCTION=NETWORKDAYS
 @SYNTAX=NETWORKDAYS (start_date,end_date,holidays)
-@DESCRIPTION=Returns the number of non-weekend non-holidays between @start_date and @end_date.  Holidays optionaly supplied in @holidays.
+@DESCRIPTION=Returns the number of non-weekend non-holidays between @start_date and @end_date.  Holidays optionally supplied in @holidays.
 Returns #NUM if start_date or end_date are invalid
 @EXAMPLES=
 
@@ -2513,6 +2544,13 @@ SUBSTITUTE("testing","test","wait") equals "waiting".
 @EXAMPLES=
 
 @SEEALSO=PV,PMT,PPMT
+
+@FUNCTION=GNUMERIC_VERSION
+@SYNTAX=GNUMERIC_VERSION()
+@DESCRIPTION=Return the version of gnumeric as a string.
+@EXAMPLES=
+
+@SEEALSO=
 
 @FUNCTION=PPMT
 @SYNTAX=PPMT(rate,per,nper,pv[,fv,type])
@@ -3230,14 +3268,6 @@ ACOSH(5.3) equals 2.35183.
 
 @SEEALSO=ACOS, ASINH, DEGREES, RADIANS 
 
-@FUNCTION=TRIM
-@SYNTAX=TRIM(text)
-@DESCRIPTION=TRIM returns @text with only single spaces between words.
-@EXAMPLES=
-TRIM("  a bbb  cc") equals "a bbb cc".
-
-@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE
-
 @FUNCTION=TRUNC
 @SYNTAX=TRUNC(number[,digits])
 @DESCRIPTION=TRUNC function returns the value of @number truncated to the number of digits specified. If @digits is omitted then @digits defaults to zero. This function is Excel compatible. 
@@ -3246,6 +3276,14 @@ TRUNC(3.12) equals 3.
 TRUNC(4.15,1) equals 4.1.
 
 @SEEALSO=INT
+
+@FUNCTION=TRIM
+@SYNTAX=TRIM(text)
+@DESCRIPTION=TRIM returns @text with only single spaces between words.
+@EXAMPLES=
+TRIM("  a bbb  cc") equals "a bbb cc".
+
+@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE
 
 @FUNCTION=PROB
 @SYNTAX=PROB(range_x,prob_range,lower_limit[,upper_limit])

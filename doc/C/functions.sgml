@@ -66,6 +66,7 @@
 <listitem><para><link linkend="gnumeric-CUMIPMT">CUMIPMT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-CUMPRINC">CUMPRINC</link></para></listitem>
 <listitem><para><link linkend="gnumeric-DATE">DATE</link></para></listitem>
+<listitem><para><link linkend="gnumeric-DATEDIF">DATEDIF</link></para></listitem>
 <listitem><para><link linkend="gnumeric-DATEVALUE">DATEVALUE</link></para></listitem>
 <listitem><para><link linkend="gnumeric-DAVERAGE">DAVERAGE</link></para></listitem>
 <listitem><para><link linkend="gnumeric-DAY">DAY</link></para></listitem>
@@ -109,6 +110,7 @@
 <listitem><para><link linkend="gnumeric-EXPRESSION">EXPRESSION</link></para></listitem>
 <listitem><para><link linkend="gnumeric-FACT">FACT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-FACTDOUBLE">FACTDOUBLE</link></para></listitem>
+<listitem><para><link linkend="gnumeric-FALSE">FALSE</link></para></listitem>
 <listitem><para><link linkend="gnumeric-FDIST">FDIST</link></para></listitem>
 <listitem><para><link linkend="gnumeric-FIND">FIND</link></para></listitem>
 <listitem><para><link linkend="gnumeric-FINV">FINV</link></para></listitem>
@@ -128,6 +130,7 @@
 <listitem><para><link linkend="gnumeric-GEOMEAN">GEOMEAN</link></para></listitem>
 <listitem><para><link linkend="gnumeric-GESTEP">GESTEP</link></para></listitem>
 <listitem><para><link linkend="gnumeric-GETPIVOTDATA">GETPIVOTDATA</link></para></listitem>
+<listitem><para><link linkend="gnumeric-GNUMERIC_VERSION">GNUMERIC_VERSION</link></para></listitem>
 <listitem><para><link linkend="gnumeric-GROWTH">GROWTH</link></para></listitem>
 <listitem><para><link linkend="gnumeric-G_PRODUCT">G_PRODUCT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-HARMEAN">HARMEAN</link></para></listitem>
@@ -320,6 +323,7 @@
 <listitem><para><link linkend="gnumeric-TREND">TREND</link></para></listitem>
 <listitem><para><link linkend="gnumeric-TRIM">TRIM</link></para></listitem>
 <listitem><para><link linkend="gnumeric-TRIMMEAN">TRIMMEAN</link></para></listitem>
+<listitem><para><link linkend="gnumeric-TRUE">TRUE</link></para></listitem>
 <listitem><para><link linkend="gnumeric-TRUNC">TRUNC</link></para></listitem>
 <listitem><para><link linkend="gnumeric-TTEST">TTEST</link></para></listitem>
 <listitem><para><link linkend="gnumeric-TYPE">TYPE</link></para></listitem>
@@ -643,7 +647,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>RSQ returns the square of the Pearson correllation coefficient of two data sets.</para>
+        <para>RSQ returns the square of the Pearson correlation coefficient of two data sets.</para>
         <para>Strings and empty cells are simply ignored. This function is Excel compatible. </para>
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -1239,7 +1243,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>PERCENTILE function returns the k-th percentile of the given data points.  </para>
+        <para>PERCENTILE function returns the 100*@k-th percentile of the given data points (that is, a number x such that a fraction @k of the data points are less than x).  </para>
         <para>If @array is empty, PERCENTILE returns #NUM! error. If @k < 0 or @k > 1, PERCENTILE returns #NUM! error. This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -1263,11 +1267,11 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>TRIMMEAN(ref,percent)</synopsis>
+      <synopsis>TRIMMEAN(ref,fraction)</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>TRIMMEAN returns the mean of the interior of a data set. @ref is the list of numbers whose mean you want to calculate and @percent is the percentage of number excluded from the mean. For example, if @percent=0.2 and the data set contains 40 numbers, 8 numbers are trimmed from the data set (40 x 0.2), 4 from the top and 4 from the bottom of the set. This function is Excel compatible. </para>
+        <para>TRIMMEAN returns the mean of the interior of a data set. @ref is the list of numbers whose mean you want to calculate and @fraction is the fraction of the data set excluded from the mean. For example, if @fraction=0.2 and the data set contains 40 numbers, 8 numbers are trimmed from the data set (40 x 0.2), 4 from the top and 4 from the bottom of the set. This function is Excel compatible. </para>
 
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -1280,6 +1284,34 @@
 ,         <link linkend="gnumeric-HARMEAN">HARMEAN</link>
 ,         <link linkend="gnumeric-MEDIAN">MEDIAN</link>
 ,         <link linkend="gnumeric-MODE">MODE</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-TRUE">TRUE</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>TRUE</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>TRUE()</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>TRUE returns boolean value true.  This function is Excel compatible. </para>
+
+    </refsect1>      <refsect1>
+        <title>Examples</title>
+        <para></para>
+        <para>TRUE() equals TRUE.</para>        <para></para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-FALSE">FALSE</link>
       </para>
     </refsect1>
   </refentry>
@@ -1614,7 +1646,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>HARMEAN returns the harmonic mean of the N data points. This function is Excel compatible. </para>
+        <para>HARMEAN returns the harmonic mean of the N data points (that is, N divided by the sum of the inverses of the data points). This function is Excel compatible. </para>
 
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -2967,6 +2999,34 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-FALSE">FALSE</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>FALSE</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>FALSE()</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>FALSE returns boolean value false.  This function is Excel compatible. </para>
+
+    </refsect1>      <refsect1>
+        <title>Examples</title>
+        <para></para>
+        <para>FALSE() equals FALSE.</para>        <para></para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-TRUE">TRUE</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-DATEVALUE">DATEVALUE</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -3063,7 +3123,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>CORREL returns the correllation coefficient of two data sets.</para>
+        <para>CORREL returns the correlation coefficient of two data sets.</para>
         <para>Strings and empty cells are simply ignored. This function is Excel compatible. </para>
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -3496,7 +3556,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>MINA returns the smallest value of the given arguments.  Numbers, text and logical values are included in the calculation too. If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0).  If the argument evaluates to TRUE, it is counted as one (1).  Note that empty cells are not counted. This function is Excel compatible. </para>
+        <para>MINA returns the smallest value of the given arguments.  Numbers, text and logical values are included in the calculation, blank cells are not.  If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0).  If the argument evaluates to TRUE, it is counted as one (1).  Note that empty cells are not counted. This function is Excel compatible. </para>
 
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -4598,16 +4658,16 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>ERF(lower limit[,upper_limit])</synopsis>
+      <synopsis>ERF([lower limit,]upper_limit)</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>ERF function returns the integral of the error function between the limits.  If the @upper_limit ommitted ERF returns the integral between zero and the @lower_limit.</para>
-        <para>If either @lower_limit or @upper_limit are not numeric a #VALUE! error is returned.  If either @lower_limit or @upper_limit are < 0 a #NUM! error is returned. This function is Excel compatible. </para>
+        <para>With a single argument ERF returns the error function, defined as erf(x) = 2/sqrt(pi)* integral from 0 to x of exp(-t*t) dt. If two arguments are supplied, they are the lower and upper limits of the integral.</para>
+        <para>If either @lower_limit or @upper_limit is not numeric a #VALUE! error is returned.  This function is upward-compatible with that in Excel. (If two arguments are supplied, Excel will not allow either to be negative.) </para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para>ERF(0.4) equals 0.428392355.</para>        <para></para>
+        <para>ERF(0.4) equals 0.428392355.</para>        <para>ERF(1.6448536269515/SQRT(2)) equals 0.90.</para>        <para></para>        <para>The second example shows that a random variable with a normal distribution has a 90 percent chance of falling within approximately 1.645 standard deviations of the mean.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-ERFC">ERFC</link>
@@ -5863,6 +5923,34 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-DATEDIF">DATEDIF</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>DATEDIF</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>DATEDIF(date1,date2,interval)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>DATEDIF returns the difference between two dates.  @interval is one of six possible values:  "y", "m", "d", "ym", "md", and "yd".</para>
+        <para>The first three options will return the number of complete years, months, or days, respectively, between the two dates specified.</para>        <para>"ym" will return the number of full months between the two dates, not including the difference in years.</para>        <para>"md" will return the number of full days between the two dates, not including the difference in months.</para>        <para>"yd" will return the number of full days between the two dates, not including the difference in years.</para>        <para></para>
+    </refsect1>      <refsect1>
+        <title>Examples</title>
+        <para></para>
+        <para></para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-DATE">DATE</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-FINV">FINV</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -5870,7 +5958,7 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>TINV(p,dof)</synopsis>
+      <synopsis>FINV(p,dof1,dof2)</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -6853,7 +6941,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>PEARSON returns the Pearson correllation coefficient of two data sets.</para>
+        <para>PEARSON returns the Pearson correlation coefficient of two data sets.</para>
         <para>Strings and empty cells are simply ignored. This function is Excel compatible. </para>
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -6976,12 +7064,12 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The ERFC function returns the integral of the complimentary error function between the limits 0 and @x.</para>
-        <para>If @x is not numeric a #VALUE! error is returned.  If @x < 0 a #NUM! error is returned.</para>
+        <para>The ERFC function returns the complimentary error function, defined as 1 - erf(x). erfc(x) is calculated more accurately than erf(x) for arguments larger than about 0.5.</para>
+        <para>If @x is not numeric a #VALUE! error is returned.  </para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para></para>
+        <para>ERFC(6) equals 2.15197367e-17.</para>        <para></para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-ERF">ERF</link>
@@ -7031,7 +7119,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Returns the day which is @days working days from the @start_date.  Weekends and holidays optionaly supplied in @holidays are respected.</para>
+        <para>Returns the day which is @days working days from the @start_date.  Weekends and holidays optionally supplied in @holidays are respected.</para>
         <para>Returns #NUM! if @start_date or @days are invalid.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -7257,7 +7345,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Returns the number of non-weekend non-holidays between @start_date and @end_date.  Holidays optionaly supplied in @holidays.</para>
+        <para>Returns the number of non-weekend non-holidays between @start_date and @end_date.  Holidays optionally supplied in @holidays.</para>
         <para>Returns #NUM if start_date or end_date are invalid</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -7743,6 +7831,33 @@
 ,         <link linkend="gnumeric-PMT">PMT</link>
 ,         <link linkend="gnumeric-PPMT">PPMT</link>
       </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-GNUMERIC_VERSION">GNUMERIC_VERSION</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>GNUMERIC_VERSION</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>GNUMERIC_VERSION()</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Return the version of gnumeric as a string.</para>
+
+    </refsect1>      <refsect1>
+        <title>Examples</title>
+        <para></para>
+        <para></para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>      </para>
     </refsect1>
   </refentry>
 
@@ -9790,6 +9905,34 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-TRUNC">TRUNC</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>TRUNC</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>TRUNC(number[,digits])</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>TRUNC function returns the value of @number truncated to the number of digits specified. If @digits is omitted then @digits defaults to zero. This function is Excel compatible. </para>
+
+    </refsect1>      <refsect1>
+        <title>Examples</title>
+        <para></para>
+        <para>TRUNC(3.12) equals 3.</para>        <para>TRUNC(4.15,1) equals 4.1.</para>        <para></para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-INT">INT</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-TRIM">TRIM</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -9813,34 +9956,6 @@
 ,         <link linkend="gnumeric-MID">MID</link>
 ,         <link linkend="gnumeric-REPLACE">REPLACE</link>
 ,         <link linkend="gnumeric-SUBSTITUTE">SUBSTITUTE</link>
-      </para>
-    </refsect1>
-  </refentry>
-
-
-
-  <refentry>
-    <refmeta>
-      <refentrytitle><anchor id="gnumeric-TRUNC">TRUNC</refentrytitle><refmiscinfo></refmiscinfo>
-    </refmeta>
-    <refnamediv>
-      <refname>TRUNC</refname>
-      <refpurpose></refpurpose>
-    </refnamediv>
-    <refsynopsisdiv>
-      <synopsis>TRUNC(number[,digits])</synopsis>
-    </refsynopsisdiv>
-      <refsect1>
-        <title>Description</title>
-        <para>TRUNC function returns the value of @number truncated to the number of digits specified. If @digits is omitted then @digits defaults to zero. This function is Excel compatible. </para>
-
-    </refsect1>      <refsect1>
-        <title>Examples</title>
-        <para></para>
-        <para>TRUNC(3.12) equals 3.</para>        <para>TRUNC(4.15,1) equals 4.1.</para>        <para></para>
-    </refsect1>
-    <refsect1><title>See also</title>
-      <para>        <link linkend="gnumeric-INT">INT</link>
       </para>
     </refsect1>
   </refentry>
