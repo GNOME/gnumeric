@@ -2,6 +2,7 @@ Gnumeric 1.1.9
 
 Jody:
 	* start enabling the graph guru.
+	* Begin to re-enable xls document metadata
 
 Morten:
 	* Leak plugging.
