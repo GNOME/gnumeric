@@ -35,7 +35,7 @@ void scg_comment_display	(SheetControlGUI *scg, CellComment *cc);
 void scg_comment_unselect	(SheetControlGUI *scg, CellComment *cc);
 
 void scg_select_all		(SheetControlGUI *scg);
-void scg_colrow_select		(SheetControlGUI *scg,
+gboolean scg_colrow_select	(SheetControlGUI *scg,
 				 gboolean is_cols, int index, int modifiers);
 void scg_colrow_size_set	(SheetControlGUI *scg,
 				 gboolean is_cols, int index, int new_size_pixels);

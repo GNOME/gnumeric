@@ -4179,12 +4179,12 @@ typedef struct
 } closure_clone_colrow;
 
 static gboolean
-sheet_clone_colrow_info_item (ColRowInfo *info, void *user_data)
+sheet_clone_colrow_info_item (ColRowInfo *src, void *user_data)
 {
 	closure_clone_colrow const *closure = user_data;
 	ColRowInfo *new_colrow = sheet_colrow_fetch (closure->sheet,
-		info->pos, closure->is_column);
-	colrow_copy (new_colrow, info);
+		src->pos, closure->is_column);
+	colrow_copy (new_colrow, src);
 	return FALSE;
 }
 

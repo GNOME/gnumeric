@@ -6,6 +6,9 @@ Almer:
 	  the "replace" function against invalid arguments.
 
 Jody:
+ 	http://bugzilla.gnome.org/show_bug.cgi?id=79925
+	* Handle inserting col/row if the first is hidden.
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=80134
 	* clone grouping and frozen status too.
 

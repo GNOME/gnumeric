@@ -79,4 +79,6 @@ gnm_simple_canvas_grab (GnomeCanvasItem *item, unsigned int event_mask,
 
 	/* Be extra paranoid.  Ensure that the grab is registered */
 	gdk_flush ();
+
+	return res;
 }

@@ -484,7 +484,7 @@ scg_select_all (SheetControlGUI *scg)
 	sheet_update (sheet);
 }
 
-void
+gboolean
 scg_colrow_select (SheetControlGUI *scg, gboolean is_cols,
 		   int index, int modifiers)
 {
@@ -494,7 +494,7 @@ scg_colrow_select (SheetControlGUI *scg, gboolean is_cols,
 
 	if (!rangesel)
 		if (!wbcg_edit_finish (scg->wbcg, TRUE))
-			return;
+			return FALSE;
 
 	if (modifiers & GDK_SHIFT_MASK) {
 		if (rangesel) {
@@ -538,6 +538,7 @@ scg_colrow_select (SheetControlGUI *scg, gboolean is_cols,
 
 	/* The edit pos, and the selection may have changed */
 	sheet_update (sheet);
+	return TRUE;
 }
 
 /***************************************************************************/
