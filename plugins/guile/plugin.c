@@ -182,31 +182,30 @@ scm_register_function (SCM scm_name, SCM scm_args, SCM scm_help, SCM scm_categor
 	return SCM_UNSPECIFIED;
 }
 
-static int
-no_unloading_for_me (PluginData *pd)
+gboolean
+can_deactivate_plugin (PluginInfo *pinfo)
 {
-	return 0;
+	return FALSE;
 }
 
-static void
-no_cleanup_for_me (PluginData *pd)
+gboolean
+cleanup_plugin (PluginInfo *pinfo)
 {
-	return;
+	return TRUE;
 }
 
-PluginInitResult
-init_plugin (CommandContext *context, PluginData *pd)
+gboolean
+init_plugin (Plugininfo *pinfo, ErrorInfo **ret_error)
 {
 	FunctionCategory *cat;
 	char *name, *dir;
 
-	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
-		return PLUGIN_QUIET_ERROR;
+	*ret_error = NULL;
 
 	if (!has_gnumeric_been_compiled_with_guile_support ()) {
-		gnumeric_error_plugin (context,
-			_("Gnumeric has not been compiled with support for guile."));
-		return PLUGIN_QUIET_ERROR;
+		*ret_error = error_info_new_str (
+		             _("Gnumeric has not been compiled with support for guile."));
+		return FALSE;
 	}
 
 	/* Initialize just in case. */
@@ -232,12 +231,5 @@ init_plugin (CommandContext *context, PluginData *pd)
 	g_free (name);
 	g_free (dir);
 
-	if (!plugin_data_init (pd, &no_unloading_for_me, &no_cleanup_for_me,
-			       _("Guile Plugin"),
-			       _("This plugin enables Guile(scheme) support in Gnumeric")))
-		return PLUGIN_ERROR;
-	else
-		return PLUGIN_OK;
+	return TRUE;
 }
-
-

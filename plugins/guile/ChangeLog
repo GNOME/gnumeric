@@ -1,3 +1,8 @@
+2001-01-27  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* Makefile.am, plugin.c, plugin.xml:
+	Conversion to new plugins code.
+
 2000-12-20  Morten Welinder  <terra@diku.dk>
 
 	* guile-support.c: Include <config.h>.
