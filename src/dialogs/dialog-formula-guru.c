@@ -131,7 +131,7 @@ dialog_formula_guru_update_this_parent (GtkTreeIter *parent, FormulaGuruState *s
 {
 	GString  *text = g_string_sized_new  (AV_FORMULA_SIZE);
 	gboolean is_non_fun;
-	FunctionDefinition const *fd;
+	GnmFunc const *fd;
 	GtkTreeIter iter;
 	char *argument;
 	gboolean not_first = FALSE;
@@ -147,7 +147,7 @@ dialog_formula_guru_update_this_parent (GtkTreeIter *parent, FormulaGuruState *s
 	g_return_if_fail (!is_non_fun);
 	g_return_if_fail (fd != NULL);
 
-	text = g_string_append (text, function_def_get_name (fd));
+	text = g_string_append (text, gnm_func_get_name (fd));
 	text = g_string_append (text, "(");
 
 	if (gtk_tree_model_iter_children (GTK_TREE_MODEL(state->model), &iter, parent)) {
@@ -241,7 +241,7 @@ dialog_formula_guru_update_this_child (GtkTreeIter *child, FormulaGuruState *sta
 
 
 static void
-dialog_formula_guru_adjust_children (GtkTreeIter *parent, FunctionDefinition const *fd,
+dialog_formula_guru_adjust_children (GtkTreeIter *parent, GnmFunc const *fd,
 				     FormulaGuruState *state)
 {
 	gboolean is_non_fun;
@@ -343,7 +343,7 @@ dialog_formula_guru_adjust_varargs (GtkTreeIter *iter, FormulaGuruState *state)
 
 
 static void
-dialog_formula_guru_load_fd (GtkTreePath *path, FunctionDefinition const *fd, 
+dialog_formula_guru_load_fd (GtkTreePath *path, GnmFunc const *fd, 
 			     FormulaGuruState *state)
 {
 	GtkTreeIter iter;
@@ -896,7 +896,7 @@ dialog_formula_guru_show (FormulaGuruState *state)
  * Pop up a function selector then a formula guru.
  */
 void
-dialog_formula_guru (WorkbookControlGUI *wbcg, FunctionDefinition const *fd)
+dialog_formula_guru (WorkbookControlGUI *wbcg, GnmFunc const *fd)
 {
 	SheetView *sv;
 	Cell	  *cell;

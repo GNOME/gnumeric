@@ -64,11 +64,11 @@ perl2value(SV *sv)
 {
     Value *v = NULL;
 
-    if (SvIOK(sv)){
-	v = value_new_int ((gnum_int) SvIV(sv));
-    } else if (SvNOK(sv)) {
+    if (SvIOK(sv))
+	v = value_new_int (SvIV(sv));
+    else if (SvNOK(sv))
 	v = value_new_float ((gnum_float) SvNV(sv));
-    } else if (SvPOK(sv)) {
+    else if (SvPOK(sv)) {
 	STRLEN size;
 	gchar *s,*tmp;
 
@@ -88,7 +88,7 @@ static Value *
 marshal_func (FunctionEvalInfo *ei, Value *argv[])
 {
     dSP;
-    FunctionDefinition const *fndef =
+    GnmFunc const *func =
 	gnm_expr_get_func_def ((GnmExpr const *)ei->func_call);
     GList *l;
     I32 r;
@@ -101,14 +101,14 @@ marshal_func (FunctionEvalInfo *ei, Value *argv[])
     SAVETMPS;
 
     PUSHMARK(sp);
-    function_def_count_args (fndef, &min, &max);
+    function_def_count_args (func, &min, &max);
 
     for (i = 0; i < max && argv[i] != NULL; i++) {
 	XPUSHs(sv_2mortal(value2perl(argv[i])));
     }
     PUTBACK;
 
-    r = perl_call_sv(function_def_get_user_data (fndef), G_SCALAR);
+    r = perl_call_sv (gnm_func_get_user_data (func), G_SCALAR);
     SPAGAIN;
     if (r != 1)
 	croak("uh oh, beter get maco");
@@ -124,25 +124,35 @@ marshal_func (FunctionEvalInfo *ei, Value *argv[])
 }
 
 MODULE = Gnumeric  PACKAGE = Gnumeric
+PROTOTYPES: ENABLE
 
 void
-register_function(name, args, named_args, help1, subref)
-  char * name
-  char * args
-  char * named_args
-  char * help1
-  SV * subref
-  PREINIT:
-    FunctionCategory *fncat;
-    FunctionDefinition *fndef;
-    char const **help = NULL;
-  CODE:
-    fncat = function_get_category ("Perl plugin");
+register_function(name, args, named_args, help, subref)
+    char *name
+    char *args
+    char *named_args
+    char *help
+    SV *subref
 
-    if (help1) {
-	    help = g_new (char const *, 1);
-            *help = g_strdup (help1);
-    }
-    fndef = function_add_args (fncat, g_strdup(name), g_strdup(args),
-			       g_strdup (named_args), help, marshal_func);
-    function_def_set_user_data (fndef, newSVsv(subref));
+ PREINIT:
+    FunctionCategory *fncat;
+    GnmFuncDescriptor desc;
+    GnmFunc *func;
+
+ CODE:
+    fncat = function_get_category ("Perl plugin");
+    desc.fn_name     = name;
+    desc.args	     = args;;
+    desc.arg_names   = named_args;
+    desc.help	     = (char const **)&help;
+    desc.fn_args     = &marshal_func;
+    desc.fn_nodes    = NULL;
+    desc.linker	     = NULL;
+    desc.unlinker    = NULL;
+    desc.flags	     = 0;
+    desc.impl_status = GNM_FUNC_IMPL_STATUS_NOT_IN_EXCEL;
+    desc.test_status = GNM_FUNC_TEST_STATUS_UNKNOWN;
+
+    func = gnm_func_add (fncat, &desc);
+    gnm_func_set_user_data (func, newSVsv (subref));
+

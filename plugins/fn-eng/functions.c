@@ -1152,7 +1152,7 @@ gnumeric_gestep (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-const ModulePluginFunctionInfo engineering_functions[] = {
+const GnmFuncDescriptor engineering_functions[] = {
         { "besseli",     "ff",   "xnum,ynum", &help_besseli,
 	  gnumeric_besseli, NULL, NULL, NULL },
         { "besselk",     "ff",   "xnum,ynum", &help_besselk,

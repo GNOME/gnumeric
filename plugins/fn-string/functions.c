@@ -1235,7 +1235,7 @@ match_again:
 
 /***************************************************************************/
 
-const ModulePluginFunctionInfo string_functions[] = {
+const GnmFuncDescriptor string_functions[] = {
         { "char",       "f",     N_("number"),                  &help_char,
 	  gnumeric_char, NULL, NULL, NULL },
         { "clean",      "S",     N_("text"),                    &help_clean,

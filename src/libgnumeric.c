@@ -141,15 +141,15 @@ gnm_common_init (void)
 }
 
 int
-gnm_dump_func_defs (char const* filename)
+gnm_dump_func_defs (char const* filename, gboolean def_or_state)
 {
 	int retval;
 	CommandContextStderr *ccs = command_context_stderr_new ();
 	
 	plugins_init (COMMAND_CONTEXT (ccs));
 	if ((retval = command_context_stderr_get_status (ccs)) == 0)
-		function_dump_defs (filename);
-	
+		function_dump_defs (filename, def_or_state);
+
 	return retval;
 }
 

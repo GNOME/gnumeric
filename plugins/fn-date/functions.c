@@ -1304,7 +1304,7 @@ gnumeric_weeknum (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-const ModulePluginFunctionInfo datetime_functions[] = {
+const GnmFuncDescriptor datetime_functions[] = {
 	{ "date",        "fff",  "year,month,day", &help_date,
 	  gnumeric_date, NULL, NULL, NULL },
 	{ "unix2date",   "f",    "unixtime", &help_unix2date,

@@ -48,7 +48,7 @@ symbol_install (SymbolTable *st, const char *str, SymbolType type, void *data)
 	g_return_val_if_fail (st != NULL, NULL);
 
 	sym = (Symbol *) g_hash_table_lookup (st->hash, str);
-	if (sym) printf ("(leak) Symbol [%s] redefined.\n", str);
+	if (sym) g_warning ("(leak) Symbol [%s] redefined.\n", str);
 
 	sym = g_new (Symbol, 1);
 	sym->ref_count = 1;
@@ -57,7 +57,7 @@ symbol_install (SymbolTable *st, const char *str, SymbolType type, void *data)
 	sym->str  = g_strdup (str);
 	sym->st   = st;
 
-	g_hash_table_insert (st->hash, sym->str, sym);
+	g_hash_table_replace (st->hash, sym->str, sym);
 
 	return sym;
 }

@@ -46,7 +46,7 @@ GnmExpr const *gnm_expr_new_constant	(Value *v);
 GnmExpr const *gnm_expr_new_unary	(GnmExprOp op, GnmExpr const *e);
 GnmExpr const *gnm_expr_new_binary	(GnmExpr const *l, GnmExprOp op,
 					 GnmExpr const *r);
-GnmExpr const *gnm_expr_new_funcall	(FunctionDefinition *func,
+GnmExpr const *gnm_expr_new_funcall	(GnmFunc *func,
 					 GnmExprList *args);
 GnmExpr const *gnm_expr_new_name	(GnmNamedExpr *name,
 					 Sheet *sheet_scope, Workbook *wb_scope);
@@ -57,7 +57,7 @@ GnmExpr const *gnm_expr_new_set		(GnmExprList *args);
 
 GnmExpr const *gnm_expr_first_func   (GnmExpr const *expr);
 Value	      *gnm_expr_get_range    (GnmExpr const *expr) ;
-FunctionDefinition *gnm_expr_get_func_def (GnmExpr const *expr);
+GnmFunc       *gnm_expr_get_func_def (GnmExpr const *expr);
 
 void	  gnm_expr_ref		     (GnmExpr const *expr);
 void	  gnm_expr_unref	     (GnmExpr const *expr);

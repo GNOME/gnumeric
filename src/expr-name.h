@@ -15,7 +15,7 @@ struct _GnmNamedExpr {
 	unsigned char builtin;
 	union {
 		GnmExpr const *expr_tree;
-		FunctionArgs   expr_func;
+		GnmFuncArgs    expr_func;
 	} t;
 };
 

@@ -355,7 +355,7 @@ gnumeric_false (FunctionEvalInfo *ei, Value **args)
 
 /***************************************************************************/
 
-const ModulePluginFunctionInfo logical_functions[] = {
+const GnmFuncDescriptor logical_functions[] = {
 	{ "and", 0, N_("number,number,"), &help_and, NULL,
 	  gnumeric_and, NULL, NULL },
 	{ "or", 0, N_("number,number,"), &help_or, NULL,

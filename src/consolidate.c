@@ -186,7 +186,7 @@ consolidate_free (Consolidate *cs)
 	g_return_if_fail (cs != NULL);
 
 	if (cs->fd) {
-		func_unref (cs->fd);
+		gnm_func_unref (cs->fd);
 		cs->fd = NULL;
 	}
 	if (cs->dst) {
@@ -203,16 +203,16 @@ consolidate_free (Consolidate *cs)
 }
 
 void
-consolidate_set_function (Consolidate *cs, FunctionDefinition *fd)
+consolidate_set_function (Consolidate *cs, GnmFunc *fd)
 {
 	g_return_if_fail (cs != NULL);
 	g_return_if_fail (fd != NULL);
 
 	if (cs->fd)
-		func_unref (cs->fd);
+		gnm_func_unref (cs->fd);
 
 	cs->fd = fd;
-	func_ref (fd);
+	gnm_func_ref (fd);
 }
 
 void
@@ -545,7 +545,7 @@ key_list_get (Consolidate *cs, gboolean is_cols)
  * useful either)
  **/
 static void
-simple_consolidate (FunctionDefinition *fd, GlobalRange const *dst, GSList const *src,
+simple_consolidate (GnmFunc *fd, GlobalRange const *dst, GSList const *src,
 		    gboolean is_col_or_row, int *end_col, int *end_row)
 {
 	GSList const *l;

@@ -27,9 +27,9 @@ excel_gb_worksheet_function_deref (GBEvalContext  *ec,
 				   gboolean        try_deref)
 {
 	ExcelGBWorksheetFunction *funcs = EXCEL_GB_WORKSHEET_FUNCTION (object);
-	FunctionDefinition *fd;
+	GnmFunc *fd;
 
-	if ((fd = func_lookup_by_name (ref->name, funcs->sheet->workbook))) {
+	if ((fd = gnm_func_lookup (ref->name, funcs->sheet->workbook))) {
 		GPtrArray *args = g_ptr_array_new ();
 		EvalPos    ep;
 		Value     *ret;

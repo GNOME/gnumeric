@@ -77,7 +77,7 @@ enum {
 static void
 dialog_function_load_recent_funcs (FunctionSelectState *state)
 {
-	FunctionDefinition *fd;
+	GnmFunc *fd;
 	GSList *recent_funcs, *this_funcs;
 
 	recent_funcs = gnm_app_prefs->recent_funcs;
@@ -85,7 +85,7 @@ dialog_function_load_recent_funcs (FunctionSelectState *state)
 	for (this_funcs = recent_funcs; this_funcs; this_funcs = this_funcs->next) {
 		char *name = this_funcs->data;
 		if (name) {
-			fd = func_lookup_by_name (name, NULL);
+			fd = gnm_func_lookup (name, NULL);
 			g_free (name);
 			if (fd)
 				state->recent_funcs = g_slist_prepend (state->recent_funcs, fd);
@@ -95,7 +95,7 @@ dialog_function_load_recent_funcs (FunctionSelectState *state)
 }
 
 static void
-dialog_function_write_recent_func (FunctionSelectState *state, FunctionDefinition const *fd)
+dialog_function_write_recent_func (FunctionSelectState *state, GnmFunc const *fd)
 {
 	GSList *rec_funcs;
 	GSList *gconf_value_list = NULL;
@@ -110,7 +110,7 @@ dialog_function_write_recent_func (FunctionSelectState *state, FunctionDefinitio
 	
 	for (rec_funcs = state->recent_funcs; rec_funcs; rec_funcs = rec_funcs->next) {
 		gconf_value_list = g_slist_prepend 
-			(gconf_value_list, g_strdup (function_def_get_name (rec_funcs->data)));
+			(gconf_value_list, g_strdup (gnm_func_get_name (rec_funcs->data)));
 	}
 	gnm_gconf_set_recent_funcs (gconf_value_list);
 	gnm_conf_sync ();
@@ -176,7 +176,7 @@ cb_dialog_function_select_ok_clicked (GtkWidget *button, FunctionSelectState *st
 {
 	GtkTreeIter  iter;
 	GtkTreeModel *model;
-	FunctionDefinition const *func;
+	GnmFunc const *func;
 	GtkTreeSelection *the_selection = gtk_tree_view_get_selection (state->treeview_f);
 
 	if (gtk_tree_selection_get_selected (the_selection, &model, &iter)) {
@@ -198,10 +198,10 @@ cb_dialog_function_select_ok_clicked (GtkWidget *button, FunctionSelectState *st
 static gint
 dialog_function_select_by_name (gconstpointer _a, gconstpointer _b)
 {
-	FunctionDefinition const * const a = (FunctionDefinition const * const)_a;
-	FunctionDefinition const * const b = (FunctionDefinition const * const)_b;
+	GnmFunc const * const a = (GnmFunc const * const)_a;
+	GnmFunc const * const b = (GnmFunc const * const)_b;
 
-	return strcmp (function_def_get_name (a), function_def_get_name (b));
+	return strcmp (gnm_func_get_name (a), gnm_func_get_name (b));
 }
 
 static void
@@ -236,7 +236,7 @@ cb_dialog_function_select_fun_selection_changed (GtkTreeSelection *the_selection
 {
 	GtkTreeIter  iter;
 	GtkTreeModel *model;
-	FunctionDefinition const *func;
+	GnmFunc const *func;
 
 	if (gtk_tree_selection_get_selected (the_selection, &model, &iter)) {
 		gtk_tree_model_get (model, &iter,
@@ -360,7 +360,7 @@ cb_dialog_function_select_cat_selection_changed (GtkTreeSelection *the_selection
 			funcs = g_list_sort (g_list_copy (cat->functions), 
 					     dialog_function_select_by_name);
 			for (this_func = funcs; this_func; this_func = this_func->next) {
-				FunctionDefinition const *a_func = this_func->data;
+				GnmFunc const *a_func = this_func->data;
 				TokenizedHelp *help = tokenized_help_new (a_func);
 				char const *f_syntax = tokenized_help_find (help, "SYNTAX");
 				
@@ -376,7 +376,7 @@ cb_dialog_function_select_cat_selection_changed (GtkTreeSelection *the_selection
 			GSList *rec_funcs;
 			for (rec_funcs = state->recent_funcs; rec_funcs; 
 			     rec_funcs = rec_funcs->next) {
-				FunctionDefinition const *a_func = rec_funcs->data;
+				GnmFunc const *a_func = rec_funcs->data;
 
 				TokenizedHelp *help = tokenized_help_new (a_func);
 				char const *f_syntax = tokenized_help_find (help, "SYNTAX");

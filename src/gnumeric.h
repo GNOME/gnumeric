@@ -89,7 +89,7 @@ typedef struct _EvalPos		        EvalPos;
 typedef struct _ParsePos	        ParsePos;
 typedef struct _ParseError	        ParseError;
 typedef struct _FunctionEvalInfo        FunctionEvalInfo;
-typedef struct _FunctionDefinition      FunctionDefinition;
+typedef struct _GnmFunc			GnmFunc;
 typedef struct _ErrorInfo		ErrorInfo;
 
 typedef struct _PrintInformation        PrintInformation;

@@ -585,7 +585,7 @@ name_sheet_title (FunctionEvalInfo *ei, Value **args)
 
 static struct {
 	gchar const *name;
-	FunctionArgs fn;
+	GnmFuncArgs fn;
 } const builtins[] =
 {
 	/* Consolidate_Area

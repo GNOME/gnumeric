@@ -176,7 +176,7 @@ ms_formula_build_pre_data (ExcelSheet *sheet, GnmExpr const *tree)
 	{
 		GnmExprList *l;
 		FormulaCacheEntry *fce;
-		const gchar *name = function_def_get_name (tree->func.func);
+		const gchar *name = gnm_func_get_name (tree->func.func);
 
 		for (l = tree->func.arg_list; l; l = l->next)
 			ms_formula_build_pre_data (sheet, l->data);
@@ -589,11 +589,11 @@ write_node (PolishData *pd, GnmExpr const *tree, int paren_level)
 		FormulaCacheEntry *fce;
 
 		fce = get_formula_index (pd->sheet,
-		                         function_def_get_name (tree->func.func));
+		                         gnm_func_get_name (tree->func.func));
 		if (fce)
 			write_funcall (pd, fce, tree);
 		else {
-			gchar const *name = function_def_get_name (tree->func.func);
+			gchar const *name = gnm_func_get_name (tree->func.func);
 			gchar *err = g_strdup_printf ("Untranslatable '%s'", name);
 #if FORMULA_DEBUG > 0
 			printf ("Untranslatable function '%s'\n", name);

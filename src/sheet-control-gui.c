@@ -960,64 +960,76 @@ scg_set_panes (SheetControl *sc)
 {
 	SheetControlGUI *scg = (SheetControlGUI *) sc;
 	gboolean const being_frozen = sv_is_frozen (sc->view);
-	gboolean const was_frozen = scg->pane[2].gcanvas != NULL;
+	gboolean const was_frozen =
+		scg->pane[1].gcanvas != NULL ||
+		scg->pane[3].gcanvas != NULL;
 
 	if (!being_frozen && !was_frozen)
 		return;
 
-	/* TODO : support just h or v split */
 	if (being_frozen) {
 		CellPos const *tl = &sc->view->frozen_top_left;
 		CellPos const *br = &sc->view->unfrozen_top_left;
 
-		gnm_pane_init (scg->pane + 1, scg, FALSE, 1);
-		gnm_pane_init (scg->pane + 2, scg, TRUE,  2);
-		gnm_pane_init (scg->pane + 3, scg, FALSE, 3);
-		scg->active_panes = 4;
 		gnm_pane_bound_set (scg->pane + 0,
 			br->col, br->row,
 			SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
-		gnm_pane_bound_set (scg->pane + 1,
-			tl->col, br->row, br->col-1, SHEET_MAX_ROWS-1);
-		gnm_pane_bound_set (scg->pane + 2,
-			tl->col, tl->row, br->col-1, br->row-1);
-		gnm_pane_bound_set (scg->pane + 3,
-			br->col, tl->row, SHEET_MAX_COLS-1, br->row-1);
 
-		gtk_table_attach (scg->inner_table,
-			GTK_WIDGET (scg->pane[2].col.canvas),
-			1, 2, 0, 1,
-			GTK_FILL | GTK_SHRINK,
-			GTK_FILL,
-			0, 0);
-		gtk_table_attach (scg->inner_table,
-			GTK_WIDGET (scg->pane[2].row.canvas),
-			0, 1, 1, 2,
-			GTK_FILL | GTK_SHRINK,
-			GTK_FILL,
-			0, 0);
-		gtk_table_attach (scg->inner_table,
-			GTK_WIDGET (scg->pane[2].gcanvas),
-			1, 2, 1, 2,
-			GTK_FILL | GTK_SHRINK,
-			GTK_FILL,
-			0, 0);
-		gtk_table_attach (scg->inner_table,
-			GTK_WIDGET (scg->pane[3].gcanvas),
-			2, 3, 1, 2,
-			GTK_EXPAND | GTK_FILL | GTK_SHRINK,
-			GTK_FILL | GTK_SHRINK,
-			0, 0);
-		gtk_table_attach (scg->inner_table,
-			GTK_WIDGET (scg->pane[1].gcanvas),
-			1, 2, 2, 3,
-			GTK_FILL | GTK_SHRINK,
-			GTK_EXPAND | GTK_FILL | GTK_SHRINK,
-			0, 0);
+		if (br->col > tl->col) {
+			scg->active_panes++;
+			gnm_pane_init (scg->pane + 1, scg, FALSE, 1);
+			gnm_pane_bound_set (scg->pane + 1,
+				tl->col, br->row, br->col-1, SHEET_MAX_ROWS-1);
+			gtk_table_attach (scg->inner_table,
+				GTK_WIDGET (scg->pane[1].gcanvas),
+				1, 2, 2, 3,
+				GTK_FILL | GTK_SHRINK,
+				GTK_EXPAND | GTK_FILL | GTK_SHRINK,
+				0, 0);
+		}
+		if (br->col > tl->col && br->row > tl->row) {
+			scg->active_panes++;
+			gnm_pane_init (scg->pane + 2, scg, TRUE,  2);
+			gnm_pane_bound_set (scg->pane + 2,
+				tl->col, tl->row, br->col-1, br->row-1);
+			gtk_table_attach (scg->inner_table,
+				GTK_WIDGET (scg->pane[2].col.canvas),
+				1, 2, 0, 1,
+				GTK_FILL | GTK_SHRINK,
+				GTK_FILL,
+				0, 0);
+			gtk_table_attach (scg->inner_table,
+				GTK_WIDGET (scg->pane[2].row.canvas),
+				0, 1, 1, 2,
+				GTK_FILL | GTK_SHRINK,
+				GTK_FILL,
+				0, 0);
+			gtk_table_attach (scg->inner_table,
+				GTK_WIDGET (scg->pane[2].gcanvas),
+				1, 2, 1, 2,
+				GTK_FILL | GTK_SHRINK,
+				GTK_FILL,
+				0, 0);
+		}
+		if (br->row > tl->row) {
+			scg->active_panes++;
+			gnm_pane_init (scg->pane + 3, scg, FALSE, 3);
+			gnm_pane_bound_set (scg->pane + 3,
+				br->col, tl->row, SHEET_MAX_COLS-1, br->row-1);
+			gtk_table_attach (scg->inner_table,
+				GTK_WIDGET (scg->pane[3].gcanvas),
+				2, 3, 1, 2,
+				GTK_EXPAND | GTK_FILL | GTK_SHRINK,
+				GTK_FILL | GTK_SHRINK,
+				0, 0);
+		}
 	} else {
-		gnm_pane_release (scg->pane + 1);
-		gnm_pane_release (scg->pane + 2);
-		gnm_pane_release (scg->pane + 3);
+		if (scg->pane[1].is_active)
+			gnm_pane_release (scg->pane + 1);
+		if (scg->pane[2].is_active)
+			gnm_pane_release (scg->pane + 2);
+		if (scg->pane[3].is_active)
+			gnm_pane_release (scg->pane + 3);
 		scg->active_panes = 1;
 		gnm_pane_bound_set (scg->pane + 0,
 			0, 0, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
@@ -1032,10 +1044,12 @@ scg_set_panes (SheetControl *sc)
 	if (being_frozen) {
 		CellPos const *tl = &sc->view->frozen_top_left;
 
-		gnm_canvas_set_left_col (scg->pane[1].gcanvas, tl->col);
-		gnm_canvas_set_top_row (scg->pane[3].gcanvas, tl->row);
-		gnm_canvas_set_top_left (scg->pane[2].gcanvas,
-					 tl->col, tl->row, TRUE);
+		if (scg->pane[1].is_active)
+			gnm_canvas_set_left_col (scg->pane[1].gcanvas, tl->col);
+		if (scg->pane[2].is_active)
+			gnm_canvas_set_top_left (scg->pane[2].gcanvas, tl->col, tl->row, TRUE);
+		if (scg->pane[3].is_active)
+			gnm_canvas_set_top_row (scg->pane[3].gcanvas, tl->row);
 	}
 }
 

@@ -1179,7 +1179,7 @@ gnumeric_transpose (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-const ModulePluginFunctionInfo lookup_functions[] = {
+const GnmFuncDescriptor lookup_functions[] = {
 	{ "address",   "ff|ffs", N_("row_num,col_num,abs_num,a1,text"),
 	  &help_address,  gnumeric_address, NULL, NULL, NULL },
 	{ "areas",	0,	N_("reference"),

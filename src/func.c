@@ -52,8 +52,8 @@ functions_shutdown (void)
 	g_assert ((unknown_cat == NULL) == (unknown_functions == NULL));
 
 	while (unknown_functions) {
-		FunctionDefinition *func = unknown_functions->data;
-		function_remove (unknown_cat, function_def_get_name (func));
+		GnmFunc *func = unknown_functions->data;
+		function_remove (unknown_cat, gnm_func_get_name (func));
 		unknown_functions = g_slist_remove (unknown_functions, func);
 	}
 
@@ -64,10 +64,10 @@ static void
 copy_hash_table_to_ptr_array (gpointer key, gpointer value, gpointer array)
 {
 	Symbol *sym = value;
-	FunctionDefinition *fd = sym->data;
+	GnmFunc *fd = sym->data;
 	if (sym->type == SYMBOL_FUNCTION && fd->name != NULL) {
-		if (fd->fn_type == FUNCTION_NAMEONLY)
-			func_def_load ((FunctionDefinition *) fd);
+		if (fd->fn_type == GNM_FUNC_TYPE_STUB)
+			gnm_func_load_stub ((GnmFunc *) fd);
 		if (fd->help != NULL)
 			g_ptr_array_add (array, fd);
 	}
@@ -76,14 +76,14 @@ copy_hash_table_to_ptr_array (gpointer key, gpointer value, gpointer array)
 static int
 func_def_cmp (gconstpointer a, gconstpointer b)
 {
-	FunctionDefinition const *fda = *(FunctionDefinition const **)a ;
-	FunctionDefinition const *fdb = *(FunctionDefinition const **)b ;
+	GnmFunc const *fda = *(GnmFunc const **)a ;
+	GnmFunc const *fdb = *(GnmFunc const **)b ;
 
 	return g_ascii_strcasecmp (fda->name, fdb->name);
 }
 
 void
-function_dump_defs (char const *filename)
+function_dump_defs (char const *filename, gboolean as_def)
 {
 	FILE *output_file;
 	unsigned i;
@@ -107,11 +107,14 @@ function_dump_defs (char const *filename)
 		       func_def_cmp);
 
 	for (i = 0; i < ordered->len; i++) {
-		FunctionDefinition const *fd = g_ptr_array_index (ordered, i);
-		fprintf (output_file, "%s\n\n", _( *(fd->help) ) );
+		GnmFunc const *fd = g_ptr_array_index (ordered, i);
+		if (as_def) {
+			fprintf (output_file, "%s\n\n", _(fd->help));
+		} else {
+		}
 	}
 
-	g_ptr_array_free (ordered,TRUE);
+	g_ptr_array_free (ordered, TRUE);
 	fclose (output_file);
 }
 
@@ -122,7 +125,7 @@ function_category_compare (gconstpointer a, gconstpointer b)
 {
 	FunctionCategory const *cat_a = a;
 	FunctionCategory const *cat_b = b;
-	gchar *str_a, *str_b;
+	char *str_a, *str_b;
 
 	g_return_val_if_fail (cat_a->display_name != NULL, 0);
 	g_return_val_if_fail (cat_b->display_name != NULL, 0);
@@ -141,17 +144,17 @@ function_category_compare (gconstpointer a, gconstpointer b)
 }
 
 FunctionCategory *
-function_get_category (gchar const *name)
+function_get_category (char const *name)
 {
 	return function_get_category_with_translation (name, _(name));
 }
 
 FunctionCategory *
-function_get_category_with_translation (gchar const *name,
-                                        gchar const *translation)
+function_get_category_with_translation (char const *name,
+                                        char const *translation)
 {
 	FunctionCategory *cat = NULL;
-	gchar *int_name;
+	char *int_name;
 	GList *l;
 
 	g_return_val_if_fail (name != NULL, NULL);
@@ -200,7 +203,7 @@ function_category_get_nth (int n)
 
 void
 function_category_add_func (FunctionCategory *category,
-			    FunctionDefinition *fn_def)
+			    GnmFunc *fn_def)
 {
 	g_return_if_fail (category != NULL);
 	g_return_if_fail (fn_def != NULL);
@@ -221,7 +224,7 @@ function_category_free (FunctionCategory *category)
 
 void
 function_category_remove_func (FunctionCategory *category,
-                               FunctionDefinition *fn_def)
+                               GnmFunc *fn_def)
 {
 	g_return_if_fail (category != NULL);
 	g_return_if_fail (fn_def != NULL);
@@ -236,7 +239,7 @@ function_category_remove_func (FunctionCategory *category,
 /******************************************************************************/
 
 static void
-extract_arg_types (FunctionDefinition *def)
+extract_arg_types (GnmFunc *def)
 {
 	int i;
 
@@ -256,215 +259,163 @@ error_function_no_full_info (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 }
 
 void
-func_def_load (FunctionDefinition *fn_def)
+gnm_func_load_stub (GnmFunc *func)
 {
-	gchar const *args;
-	gchar const *arg_names;
-	gchar const **help;
-	FunctionArgs	 fn_args;
-	FunctionNodes	 fn_nodes;
-	FuncLinkHandle	 fn_link;
-	FuncUnlinkHandle fn_unlink;
-	gboolean success;
+	GnmFuncDescriptor desc;
 
-	g_return_if_fail (fn_def->fn_type == FUNCTION_NAMEONLY);
+	g_return_if_fail (func->fn_type == GNM_FUNC_TYPE_STUB);
 
-	success = fn_def->get_full_info_callback (
-		  fn_def, &args, &arg_names, &help,
-		  &fn_args, &fn_nodes, &fn_link, &fn_unlink);
+	/* default the content to 0 in case we add new fields
+	 * later and the services do not fill them in
+	 */
+	memset (&desc, 0, sizeof (GnmFuncDescriptor));
 
-	if (success) {
-		fn_def->named_arguments = arg_names;
-		fn_def->help = help;
-		if (fn_args != NULL) {
-			fn_def->fn_type = FUNCTION_ARGS;
-			fn_def->fn.args.func = fn_args;
-			fn_def->fn.args.arg_spec = args;
-			extract_arg_types (fn_def);
-		} else if (fn_nodes != NULL) {
-			fn_def->fn_type = FUNCTION_NODES;
-			fn_def->fn.fn_nodes = fn_nodes;
+	if (func->fn.load_desc (func, &desc)) {
+		func->arg_names	 = desc.arg_names;
+		func->help	 = desc.help ? *desc.help : NULL;
+		if (desc.fn_args != NULL) {
+			func->fn_type		= GNM_FUNC_TYPE_ARGS;
+			func->fn.args.func	= desc.fn_args;
+			func->fn.args.arg_spec	= desc.arg_spec;
+			extract_arg_types (func);
+		} else if (desc.fn_nodes != NULL) {
+			func->fn_type		= GNM_FUNC_TYPE_NODES;
+			func->fn.nodes		= desc.fn_nodes;
 		} else {
-			g_assert_not_reached ();
+			g_warning ("Invalid function descriptor with no function");
 		}
-		fn_def->link = fn_link;
-		fn_def->unlink = fn_unlink;
+		func->linker	  = desc.linker;
+		func->unlinker	  = desc.unlinker;
+		func->impl_status = desc.impl_status;
+		func->test_status = desc.test_status;
+		func->flags	  = desc.flags;
 	} else {
-		fn_def->named_arguments = "";
-		fn_def->fn_type = FUNCTION_NODES;
-		fn_def->fn.fn_nodes = &error_function_no_full_info;
-		fn_def->link = NULL;
-		fn_def->unlink = NULL;
+		func->arg_names = "";
+		func->fn_type = GNM_FUNC_TYPE_NODES;
+		func->fn.nodes = &error_function_no_full_info;
+		func->linker   = NULL;
+		func->unlinker = NULL;
 	}
 }
 
 void
-func_ref (FunctionDefinition *fn_def)
+gnm_func_ref (GnmFunc *func)
 {
-	g_return_if_fail (fn_def != NULL);
+	g_return_if_fail (func != NULL);
 
-	fn_def->ref_count++;
-	if (fn_def->ref_count == 1 && fn_def->ref_notify != NULL) {
-		fn_def->ref_notify (fn_def, 1);
-	}
+	func->ref_count++;
+	if (func->ref_count == 1 && func->ref_notify != NULL)
+		func->ref_notify (func, 1);
 }
 
 void
-func_unref (FunctionDefinition *fn_def)
+gnm_func_unref (GnmFunc *func)
 {
-	g_return_if_fail (fn_def != NULL);
-	g_return_if_fail (fn_def->ref_count > 0);
+	g_return_if_fail (func != NULL);
+	g_return_if_fail (func->ref_count > 0);
 
-	fn_def->ref_count--;
-	if (fn_def->ref_count == 0 && fn_def->ref_notify != NULL) {
-		fn_def->ref_notify (fn_def, 0);
-	}
+	func->ref_count--;
+	if (func->ref_count == 0 && func->ref_notify != NULL)
+		func->ref_notify (func, 0);
 }
 
-gint
-func_get_ref_count (FunctionDefinition *fn_def)
+GnmFunc *
+gnm_func_lookup (char const *name, Workbook const *optional_scope)
 {
-	g_return_val_if_fail (fn_def != NULL, 0);
-
-	return fn_def->ref_count;
-}
-
-FunctionDefinition *
-func_lookup_by_name (gchar const *fn_name, Workbook const *optional_scope)
-{
-	Symbol *sym;
-
-	sym = symbol_lookup (global_symbol_table, fn_name);
-	if (sym != NULL) {
+	Symbol *sym = symbol_lookup (global_symbol_table, name);
+	if (sym != NULL)
 		return sym->data;
-	}
-
 	return NULL;
 }
 
 void
-function_remove (FunctionCategory *category, gchar const *name)
+function_remove (FunctionCategory *category, char const *name)
 {
-	FunctionDefinition *fn_def;
+	GnmFunc *func;
 	Symbol *sym;
 
 	g_return_if_fail (name != NULL);
 
-	fn_def = func_lookup_by_name (name, NULL);
-	g_return_if_fail (fn_def->ref_count == 0);
-	function_category_remove_func (category, fn_def);
+	func = gnm_func_lookup (name, NULL);
+
+	g_return_if_fail (func->ref_count == 0);
+
+	function_category_remove_func (category, func);
 	sym = symbol_lookup (global_symbol_table, name);
 	symbol_unref (sym);
 
-	switch (fn_def->fn_type) {
-	case FUNCTION_ARGS:
-		g_free (fn_def->fn.args.arg_types);
+	switch (func->fn_type) {
+	case GNM_FUNC_TYPE_ARGS:
+		g_free (func->fn.args.arg_types);
 		break;
 	default:
 		/* Nothing.  */
 		;
 	}
-	g_free (fn_def);
+	g_free (func);
 }
 
-static FunctionDefinition *
-fn_def_new (FunctionCategory *category,
-	    char const *name,
-	    char const *arg_names,
-	    char const **help,
-	    FuncRefNotify opt_ref_notify)
-{
-	FunctionDefinition *fn_def;
-
-	fn_def = g_new (FunctionDefinition, 1);
-	fn_def->get_full_info_callback = NULL;
-	fn_def->flags	= 0;
-	fn_def->name    = name;
-	fn_def->help    = help;
-	fn_def->named_arguments = arg_names;
-	fn_def->link	= NULL;
-	fn_def->unlink	= NULL;
-	fn_def->user_data = NULL;
-	fn_def->ref_count = 0;
-	fn_def->ref_notify = opt_ref_notify;
-
-	if (category != NULL)
-		function_category_add_func (category, fn_def);
-	symbol_install (global_symbol_table, name, SYMBOL_FUNCTION, fn_def);
-
-	return fn_def;
-}
-
-FunctionDefinition *
-function_add_args (FunctionCategory *category,
-		   char const *name,
-		   char const *args,
-		   char const *arg_names,
-		   char const **help,
-		   FunctionArgs fn,
-		   FuncRefNotify opt_ref_notify)
+#if 0
+function_add_args
+function_add_nodes
+#endif
+GnmFunc *
+gnm_func_add (FunctionCategory *category,
+	      GnmFuncDescriptor const *desc)
 {
 	static char const valid_tokens[] = "fsbraAS?|";
-	FunctionDefinition *fn_def;
+	GnmFunc *func;
 	char const *ptr;
 
-	g_return_val_if_fail (fn != NULL, NULL);
-	g_return_val_if_fail (args != NULL, NULL);
+	g_return_val_if_fail (category != NULL, NULL);
+	g_return_val_if_fail (desc != NULL, NULL);
 
-	/* Check those arguements */
-	for (ptr = args ; *ptr ; ptr++) {
-		g_return_val_if_fail (strchr (valid_tokens, *ptr), NULL);
+	func = g_new (GnmFunc, 1);
+	if (func == NULL)
+		return NULL;
+
+	func->name		= desc->name;
+	func->arg_names		= desc->arg_names;
+	func->help		= desc->help ? *desc->help : NULL;
+	func->linker		= desc->linker;
+	func->unlinker		= desc->unlinker;
+	func->ref_notify	= desc->ref_notify;
+	func->flags		= desc->flags;
+	func->impl_status	= desc->impl_status;
+	func->test_status	= desc->test_status;
+
+	func->user_data		= NULL;
+	func->ref_count		= 0;
+
+	if (desc->fn_args != NULL) {
+		/* Check those arguements */
+		for (ptr = desc->arg_spec ; *ptr ; ptr++) {
+			g_return_val_if_fail (strchr (valid_tokens, *ptr), NULL);
+		}
+
+		func->fn_type		= GNM_FUNC_TYPE_ARGS;
+		func->fn.args.func	= desc->fn_args;
+		func->fn.args.arg_spec	= desc->arg_spec;
+		extract_arg_types (func);
+	} else if (desc->fn_nodes != NULL) {
+
+		if (desc->arg_spec && *desc->arg_spec) {
+			g_warning ("Arg spec for node function -- why?");
+		}
+
+		func->fn_type  = GNM_FUNC_TYPE_NODES;
+		func->fn.nodes = desc->fn_nodes;
+	} else {
+		g_warning ("Invalid function has neither args nor nodes handler");
+		g_free (func);
+		return NULL;
 	}
 
-	fn_def = fn_def_new (category, name, arg_names, help, opt_ref_notify);
-	if (fn_def != NULL) {
-		fn_def->fn_type = FUNCTION_ARGS;
-		fn_def->fn.args.func = fn;
-		fn_def->fn.args.arg_spec = args;
-		extract_arg_types (fn_def);
-	}
-	return fn_def;
-}
+	if (category != NULL)
+		function_category_add_func (category, func);
+	symbol_install (global_symbol_table, func->name, SYMBOL_FUNCTION, func);
 
-FunctionDefinition *
-function_add_nodes (FunctionCategory *category,
-		    char const *name,
-		    char const *args,
-		    char const *arg_names,
-		    char const **help,
-		    FunctionNodes fn,
-		    FuncRefNotify opt_ref_notify)
-{
-	FunctionDefinition *fn_def;
-
-	g_return_val_if_fail (fn != NULL, NULL);
-	if (args && *args) {
-		g_warning ("Arg spec for node function -- why?");
-	}
-
-	fn_def = fn_def_new (category, name, arg_names, help, opt_ref_notify);
-	if (fn_def != NULL) {
-		fn_def->fn_type     = FUNCTION_NODES;
-		fn_def->fn.fn_nodes = fn;
-	}
-	return fn_def;
-}
-
-FunctionDefinition *
-function_add_name_only (FunctionCategory *category,
-                        gchar const *name,
-                        FunctionGetFullInfoCallback callback,
-                        FuncRefNotify opt_ref_notify)
-{
-	FunctionDefinition *fn_def;
-
-	fn_def = fn_def_new (category, name, NULL, NULL, opt_ref_notify);
-	if (fn_def != NULL) {
-		fn_def->fn_type = FUNCTION_NAMEONLY;
-		fn_def->get_full_info_callback = callback;
-	}
-
-	return fn_def;
+	return func;
 }
 
 /* Handle unknown functions on import without losing their names */
@@ -472,6 +423,28 @@ static Value *
 unknownFunctionHandler (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return value_new_error (ei->pos, gnumeric_err_NAME);
+}
+
+GnmFunc *
+gnm_func_add_stub (FunctionCategory *category,
+		   char const 	    *name,
+		   GnmFuncLoadDesc   load_desc,
+		   GnmFuncRefNotify  opt_ref_notify)
+{
+	GnmFunc *func = g_new0 (GnmFunc, 1);
+	if (func == NULL)
+		return NULL;
+
+	func->name		= name;
+	func->ref_notify	= opt_ref_notify;
+	func->fn_type		= GNM_FUNC_TYPE_STUB;
+	func->fn.load_desc	= load_desc;
+
+	if (category != NULL)
+		function_category_add_func (category, func);
+	symbol_install (global_symbol_table, func->name, SYMBOL_FUNCTION, func);
+
+	return func;
 }
 
 /*
@@ -482,26 +455,33 @@ unknownFunctionHandler (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
  *        and replace them with something else.  Possibly even reordering the
  *        arguments.
  */
-FunctionDefinition *
-function_add_placeholder (char const *name, char const *type)
+GnmFunc *
+gnm_func_add_placeholder (char const *name, char const *type,
+			  gboolean copy_name)
 {
-	FunctionDefinition *func = func_lookup_by_name (name, NULL);
-	const char *unknown_cat_name = N_("Unknown Function");
+	GnmFuncDescriptor desc;
+	GnmFunc *func = gnm_func_lookup (name, NULL);
+	char const *unknown_cat_name = N_("Unknown Function");
 
 	g_return_val_if_fail (func == NULL, func);
 
 	if (!unknown_cat)
 		unknown_cat = function_get_category (unknown_cat_name);
 
-	/*
-	 * TODO TODO TODO : should add a
-	 *    function_add_{nodes,args}_fake
-	 * This will allow a user to load a missing
-	 * plugin to supply missing functions.
-	 */
-	func = function_add_nodes (unknown_cat, g_strdup (name),
-				   0, "...", NULL,
-				   &unknownFunctionHandler, NULL);
+	memset (&desc, 0, sizeof (GnmFuncDescriptor));
+	desc.name	  = copy_name ? g_strdup (name) : name;
+	desc.arg_spec	  = NULL;
+	desc.arg_names	  = "...";
+	desc.help	  = NULL;
+	desc.fn_args	  = NULL;
+	desc.fn_nodes	  = &unknownFunctionHandler;
+	desc.linker	  = NULL;
+	desc.unlinker	  = NULL;
+	desc.flags	  = GNM_FUNC_IS_PLACEHOLDER;
+	desc.impl_status  = GNM_FUNC_IMPL_STATUS_EXISTS;
+	desc.test_status  = GNM_FUNC_TEST_STATUS_UNKNOWN;
+
+	func = gnm_func_add (unknown_cat, &desc);
 	unknown_functions = g_slist_prepend (unknown_functions, func);
 
 	/* WISHLIST : it would be nice to have a log if these. */
@@ -511,24 +491,23 @@ function_add_placeholder (char const *name, char const *type)
 }
 
 gpointer
-function_def_get_user_data (FunctionDefinition const *fn_def)
+gnm_func_get_user_data (GnmFunc const *func)
 {
-	g_return_val_if_fail (fn_def != NULL, NULL);
+	g_return_val_if_fail (func != NULL, NULL);
 
-	return fn_def->user_data;
+	return func->user_data;
 }
 
 void
-function_def_set_user_data (FunctionDefinition *fn_def,
-			    gpointer user_data)
+gnm_func_set_user_data (GnmFunc *func, gpointer user_data)
 {
-	g_return_if_fail (fn_def != NULL);
+	g_return_if_fail (func != NULL);
 
-	fn_def->user_data = user_data;
+	func->user_data = user_data;
 }
 
 char const *
-function_def_get_name (FunctionDefinition const *fn_def)
+gnm_func_get_name (GnmFunc const *fn_def)
 {
 	g_return_val_if_fail (fn_def != NULL, NULL);
 
@@ -549,7 +528,7 @@ function_def_get_name (FunctionDefinition const *fn_def)
  *
  **/
 void
-function_def_count_args (FunctionDefinition const *fn_def,
+function_def_count_args (GnmFunc const *fn_def,
                          int *min, int *max)
 {
 	char const *ptr;
@@ -560,14 +539,14 @@ function_def_count_args (FunctionDefinition const *fn_def,
 	g_return_if_fail (max != NULL);
 	g_return_if_fail (fn_def != NULL);
 
-	if (fn_def->fn_type == FUNCTION_NAMEONLY)
-		func_def_load ((FunctionDefinition *) fn_def);
+	if (fn_def->fn_type == GNM_FUNC_TYPE_STUB)
+		gnm_func_load_stub ((GnmFunc *) fn_def);
 
 	/*
 	 * FIXME: clearly for 'nodes' functions many of
 	 * the type fields will need to be filled.
 	 */
-	if (fn_def->fn_type == FUNCTION_NODES) {
+	if (fn_def->fn_type == GNM_FUNC_TYPE_NODES) {
 		*min = 0;
 		*max = G_MAXINT;
 		return;
@@ -587,26 +566,6 @@ function_def_count_args (FunctionDefinition const *fn_def,
 }
 
 /**
- * function_set_link_handlers :
- *
- * Add callbacks for a function to perform special handling as each instance
- * of the function is linked or unlinked from the sheet.
- */
-void
-function_set_link_handlers (FunctionDefinition *fn_def,
-			    FuncLinkHandle   link,
-			    FuncUnlinkHandle unlink)
-{
-	/* Be paranoid for now */
-	g_return_if_fail (fn_def != NULL);
-	g_return_if_fail (fn_def->link == NULL);
-	g_return_if_fail (fn_def->unlink == NULL);
-
-	fn_def->link = link;
-	fn_def->unlink = unlink;
-}
-
-/**
  * function_def_get_arg_type:
  * @fn_def: the fn defintion
  * @arg_idx: zero based argument offset
@@ -614,7 +573,7 @@ function_set_link_handlers (FunctionDefinition *fn_def,
  * Return value: the type of the argument
  **/
 char
-function_def_get_arg_type (FunctionDefinition const *fn_def,
+function_def_get_arg_type (GnmFunc const *fn_def,
                            int arg_idx)
 {
 	char const *ptr;
@@ -622,8 +581,8 @@ function_def_get_arg_type (FunctionDefinition const *fn_def,
 	g_return_val_if_fail (arg_idx >= 0, '?');
 	g_return_val_if_fail (fn_def != NULL, '?');
 
-	if (fn_def->fn_type == FUNCTION_NAMEONLY)
-		func_def_load ((FunctionDefinition *) fn_def);
+	if (fn_def->fn_type == GNM_FUNC_TYPE_STUB)
+		gnm_func_load_stub ((GnmFunc *) fn_def);
 
 	for (ptr = fn_def->fn.args.arg_spec; ptr && *ptr; ptr++) {
 		if (*ptr == '|')
@@ -642,7 +601,7 @@ function_def_get_arg_type (FunctionDefinition const *fn_def,
  * Return value: the type of the argument as a string
  **/
 char const *
-function_def_get_arg_type_string (FunctionDefinition const *fn_def,
+function_def_get_arg_type_string (GnmFunc const *fn_def,
 				  int arg_idx)
 {
 	switch (function_def_get_arg_type (fn_def, arg_idx)) {
@@ -675,26 +634,26 @@ function_def_get_arg_type_string (FunctionDefinition const *fn_def,
  * Return value: the name of the argument (must be freed)
  **/
 char*
-function_def_get_arg_name (FunctionDefinition const *fn_def,
+function_def_get_arg_name (GnmFunc const *fn_def,
                            int arg_idx)
 {
-	gchar **names, **o_names;
-	gchar *name;
-	gchar *translated_arguments;
-	gchar delimiter[2];
+	char **names, **o_names;
+	char *name;
+	char *translated_arguments;
+	char delimiter[2];
 
 	g_return_val_if_fail (arg_idx >= 0, NULL);
 	g_return_val_if_fail (fn_def != NULL, NULL);
 
-	if (fn_def->fn_type == FUNCTION_NAMEONLY)
-		func_def_load ((FunctionDefinition *) fn_def);
+	if (fn_def->fn_type == GNM_FUNC_TYPE_STUB)
+		gnm_func_load_stub ((GnmFunc *) fn_def);
 
-	if (!fn_def->named_arguments)
+	if (!fn_def->arg_names)
 		return NULL;
 
-	translated_arguments = _(fn_def->named_arguments);
+	translated_arguments = _(fn_def->arg_names);
 	delimiter[0] = 
-		strcmp (translated_arguments, fn_def->named_arguments) == 0
+		strcmp (translated_arguments, fn_def->arg_names) == 0
 		? ','
 		: format_get_arg_sep ();
 	delimiter[1] = 0;
@@ -738,7 +697,7 @@ Value *
 function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 			 GnmExprEvalFlags flags)
 {
-	FunctionDefinition const *fn_def;
+	GnmFunc const *fn_def;
 	int	  argc, i, optional, iter_count, iter_width = 0, iter_height = 0;
 	char	  arg_type;
 	Value	 **args, *tmp = NULL;
@@ -749,12 +708,12 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 	g_return_val_if_fail (ei->func_call != NULL, NULL);
 
 	fn_def = ei->func_call->func;
-	if (fn_def->fn_type == FUNCTION_NAMEONLY)
-		func_def_load ((FunctionDefinition *) fn_def);
+	if (fn_def->fn_type == GNM_FUNC_TYPE_STUB)
+		gnm_func_load_stub ((GnmFunc *) fn_def);
 
 	/* Functions that deal with ExprNodes */
-	if (fn_def->fn_type == FUNCTION_NODES)
-		return fn_def->fn.fn_nodes (ei, l);
+	if (fn_def->fn_type == GNM_FUNC_TYPE_NODES)
+		return fn_def->fn.nodes (ei, l);
 
 	/* Functions that take pre-computed Values */
 	argc = gnm_expr_list_length (l);
@@ -949,14 +908,14 @@ Value *
 function_call_with_values (EvalPos const *ep, char const *fn_name,
 			   int argc, Value *values [])
 {
-	FunctionDefinition *fn_def;
+	GnmFunc *fn_def;
 
 	g_return_val_if_fail (ep != NULL, NULL);
 	g_return_val_if_fail (fn_name != NULL, NULL);
 	g_return_val_if_fail (ep->sheet != NULL, NULL);
 
 	/* FIXME : support workbook local functions */
-	fn_def = func_lookup_by_name (fn_name, NULL);
+	fn_def = gnm_func_lookup (fn_name, NULL);
 	if (fn_def == NULL)
 		return value_new_error (ep, _("Function does not exist"));
 	return function_def_call_with_values (ep, fn_def, argc, values);
@@ -964,7 +923,7 @@ function_call_with_values (EvalPos const *ep, char const *fn_name,
 
 Value *
 function_def_call_with_values (EvalPos const *ep,
-                               FunctionDefinition const *fn_def,
+                               GnmFunc const *fn_def,
                                gint    argc,
                                Value  *values [])
 {
@@ -974,12 +933,12 @@ function_def_call_with_values (EvalPos const *ep,
 
 	fs.pos = ep;
 	fs.func_call = &ef;
-	ef.func = (FunctionDefinition *)fn_def;
+	ef.func = (GnmFunc *)fn_def;
 
-	if (fn_def->fn_type == FUNCTION_NAMEONLY)
-		func_def_load (ef.func);
+	if (fn_def->fn_type == GNM_FUNC_TYPE_STUB)
+		gnm_func_load_stub (ef.func);
 
-	if (fn_def->fn_type == FUNCTION_NODES) {
+	if (fn_def->fn_type == GNM_FUNC_TYPE_NODES) {
 		/*
 		 * If function deals with ExprNodes, create some
 		 * temporary ExprNodes with constants.
@@ -999,7 +958,7 @@ function_def_call_with_values (EvalPos const *ep,
 			}
 		}
 
-		retval = fn_def->fn.fn_nodes (&fs, l);
+		retval = fn_def->fn.nodes (&fs, l);
 
 		if (l != NULL)
 			gnm_expr_list_free (l);
@@ -1174,27 +1133,27 @@ function_iterate_argument_values (EvalPos const		*ep,
 /* ------------------------------------------------------------------------- */
 
 TokenizedHelp *
-tokenized_help_new (FunctionDefinition const *fn_def)
+tokenized_help_new (GnmFunc const *func)
 {
 	TokenizedHelp *tok;
 
-	g_return_val_if_fail (fn_def != NULL, NULL);
+	g_return_val_if_fail (func != NULL, NULL);
 
-	if (fn_def->fn_type == FUNCTION_NAMEONLY)
-		func_def_load ((FunctionDefinition *) fn_def);
+	if (func->fn_type == GNM_FUNC_TYPE_STUB)
+		gnm_func_load_stub ((GnmFunc *) func);
 
 	tok = g_new (TokenizedHelp, 1);
-	tok->fndef = fn_def;
+	tok->fndef = func;
 	tok->help_copy = NULL;
 	tok->sections = NULL;
 
-	if (fn_def->help != NULL && fn_def->help [0] != '\0') {
+	if (func->help != NULL && func->help != '\0') {
 		char *ptr, *start;
 		gboolean seek_at = TRUE;
 		gboolean last_newline = TRUE;
 
-		ptr = _(fn_def->help [0]);
-		tok->help_is_localized = ptr != fn_def->help [0];
+		ptr = _(func->help);
+		tok->help_is_localized = ptr != func->help;
 		tok->help_copy = g_strdup (ptr);
 		tok->sections = g_ptr_array_new ();
 

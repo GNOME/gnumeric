@@ -991,7 +991,7 @@ format_number (gnum_float number, int col_width, StyleFormatEntry const *entry)
 	gboolean time_display_elapsed = FALSE;
 	gboolean ignore_further_elapsed = FALSE;
 
-	char fill_char = '\0';
+	gunichar fill_char = 0;
 	int fill_start = -1;
 
 	struct tm *time_split = 0;
@@ -1008,7 +1008,7 @@ format_number (gnum_float number, int col_width, StyleFormatEntry const *entry)
 	info.scale = 1;
 
 	while (*format) {
-		int c = *format;
+		gunichar c = g_utf8_get_char (format);
 
 		switch (c) {
 
@@ -1023,7 +1023,7 @@ format_number (gnum_float number, int col_width, StyleFormatEntry const *entry)
 					else if (no_locale)
 						g_string_append_c (result, *format);
 				if (!*format)
-					--format;
+					continue;
 			} else if (!ignore_further_elapsed)
 				time_display_elapsed = TRUE;
 			break;
@@ -1074,7 +1074,8 @@ format_number (gnum_float number, int col_width, StyleFormatEntry const *entry)
 					/* NOTE : format-tmp is NEGATIVE */
 					info.scale = gpow10 (3*(format-tmp));
 				info.group_thousands = TRUE;
-				format = tmp-1;
+				format = tmp;
+				continue;
 			} else
 				g_string_append_c (result, format_get_thousand ());
 			break;
@@ -1113,18 +1114,22 @@ format_number (gnum_float number, int col_width, StyleFormatEntry const *entry)
 					do_render_number (number, &info, result);
 
 				format++;
-				g_string_append_c (result, *format);
+				g_string_append_len (result, format,
+					g_utf8_skip[*(format)]);
 			}
 			break;
 
 		case '"': {
+			guchar const *tmp = ++format;
 			if (can_render_number && !info.rendered)
 				do_render_number (number, &info, result);
 
-			for (format++; *format && *format != '"'; format++)
-				g_string_append_c (result, *format);
+			for (; *tmp && *tmp != '"'; tmp++)
+				;
+			g_string_append_len (result, format, tmp-format);
+			format = tmp;
 			if (!*format)
-				--format;
+				continue;
 			break;
 		}
 
@@ -1182,13 +1187,13 @@ format_number (gnum_float number, int col_width, StyleFormatEntry const *entry)
 
 		case ' ': /* eg # ?/? */
 		case '$':
-		case '£':
-		case '¥':
-		case '¤':
+		case 0x00A3 : /* pound */
+		case 0x00A5 : /* yen */
+		case 0x20AC : /* Euro */
 		case ')':
 			if (can_render_number && !info.rendered)
 				do_render_number (number, &info, result);
-			g_string_append_c (result, *format);
+			g_string_append_unichar (result, c);
 			break;
 
 		/* percent */
@@ -1222,7 +1227,8 @@ format_number (gnum_float number, int col_width, StyleFormatEntry const *entry)
 			if (format[1]) {
 				if (can_render_number && !info.rendered)
 					do_render_number (number, &info, result);
-				fill_char = *(++format);
+				++format;
+				fill_char = g_utf8_get_char (format);
 				fill_start = result->len;
 			}
 			break;
@@ -1357,7 +1363,7 @@ format_number (gnum_float number, int col_width, StyleFormatEntry const *entry)
 			 */
 			break;
 		}
-		format++;
+		format = g_utf8_next_char (format);
 	}
 
 	if (!info.rendered && can_render_number)
@@ -1367,7 +1373,7 @@ format_number (gnum_float number, int col_width, StyleFormatEntry const *entry)
 	if (fill_char != '\0') {
 		int count = col_width - result->len;
 		while (count-- > 0)
-			g_string_insert_c (result, fill_start, fill_char);
+			g_string_insert_unichar (result, fill_start, fill_char);
 	}
 
  finish:

@@ -9,7 +9,7 @@
 void     py_initgnumeric (GnmPyInterpreter *interpreter);
 
 Value    *call_python_function (PyObject *python_fn, const EvalPos *eval_pos, gint n_args, Value **args);
-PyObject *python_call_gnumeric_function (FunctionDefinition *fn_def, const EvalPos *opt_eval_pos, PyObject *args);
+PyObject *python_call_gnumeric_function (GnmFunc *fn_def, const EvalPos *opt_eval_pos, PyObject *args);
 Value    *convert_python_exception_to_gnumeric_value (const EvalPos *eval_pos);
 gchar    *convert_python_exception_to_string (void);
 PyObject *convert_gnumeric_value_to_python (const EvalPos *eval_pos, const Value *val);

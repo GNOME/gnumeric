@@ -83,7 +83,7 @@ generic_marshaller (FunctionEvalInfo *ei, GList *nodes)
 	g_return_val_if_fail (ei != NULL, NULL);
 	g_return_val_if_fail (ei->func_def != NULL, NULL);
 
-	wd = function_def_get_user_data (ei->func_def);
+	wd = gnm_func_get_user_data (ei->func_def);
 	g_return_val_if_fail (wd != NULL, NULL);
 
 	{ /* Register Excel objects with GB */
@@ -116,7 +116,7 @@ generic_marshaller (FunctionEvalInfo *ei, GList *nodes)
 
 	args = g_slist_reverse (args);
 
-	gb_ans = gbrun_project_invoke (wd->ec, wd->proj, function_def_get_name (ei->func_def), args);
+	gb_ans = gbrun_project_invoke (wd->ec, wd->proj, gnm_func_get_name (ei->func_def), args);
 	if (gb_ans)
 		ans = gb_to_value (gb_ans);
 
@@ -159,12 +159,12 @@ register_vb_function (Workbook         *opt_workbook,
 		      FunctionCategory *cat,
 		      GBWorkbookData   *wd)
 {
-	FunctionDefinition *fndef;
+	GnmFunc *fndef;
 
 	/* FIXME: we need per workbook names */
 	fndef = function_add_nodes (cat, name, "", NULL, NULL,
 				    generic_marshaller, NULL);
-	function_def_set_user_data (fndef, wd);
+	gnm_func_set_user_data (fndef, wd);
 }
 
 static gboolean

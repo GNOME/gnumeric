@@ -752,14 +752,14 @@ link_expr_dep (Dependent *dep, CellPos const *pos, GnmExpr const *tree)
 	case GNM_EXPR_OP_FUNCALL: {
 		GnmExprList *l;
 		DependentFlags flag = DEPENDENT_NO_FLAG;
-		if (tree->func.func->fn_type == FUNCTION_NAMEONLY)
-			func_def_load (tree->func.func);
-		if (tree->func.func->link) {
+		if (tree->func.func->fn_type == GNM_FUNC_TYPE_STUB)
+			gnm_func_load_stub (tree->func.func);
+		if (tree->func.func->linker) {
 			EvalPos		 ep;
 			FunctionEvalInfo fei;
 			fei.pos = eval_pos_init_dep (&ep, dep);
 			fei.func_call = (GnmExprFunction const *)tree;
-			flag = tree->func.func->link (&fei);
+			flag = tree->func.func->linker (&fei);
 		}
 		for (l = tree->func.arg_list; l; l = l->next)
 			flag |= link_expr_dep (dep, pos, l->data);
@@ -837,12 +837,12 @@ unlink_expr_dep (Dependent *dep, CellPos const *pos, GnmExpr const *tree)
 	 */
 	case GNM_EXPR_OP_FUNCALL: {
 		GnmExprList *l;
-		if (tree->func.func->unlink) {
+		if (tree->func.func->unlinker) {
 			EvalPos		 ep;
 			FunctionEvalInfo fei;
 			fei.pos = eval_pos_init_dep (&ep, dep);
 			fei.func_call = (GnmExprFunction const *)tree;
-			tree->func.func->unlink (&fei);
+			tree->func.func->unlinker (&fei);
 		}
 		for (l = tree->func.arg_list; l; l = l->next)
 			unlink_expr_dep (dep, pos, l->data);

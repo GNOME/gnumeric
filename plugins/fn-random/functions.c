@@ -1091,7 +1091,7 @@ gnumeric_simtable (FunctionEvalInfo *ei, GnmExprList *nodes)
 
 /***************************************************************************/
 
-const ModulePluginFunctionInfo random_functions[] = {
+const GnmFuncDescriptor random_functions[] = {
 	{ "rand",    "", "",           &help_rand,
 	  gnumeric_rand, NULL, NULL, NULL },
         { "randbernoulli", "f", N_("p"),   &help_randbernoulli,

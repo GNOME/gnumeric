@@ -18,7 +18,7 @@ void init_init (char const* gnumeric_binary);
 poptContext gnumeric_arg_parse (int argc, char *argv []);
 
 void gnm_common_init (void);
-int  gnm_dump_func_defs (char const* filename);
+int  gnm_dump_func_defs  (char const* filename, gboolean def_or_state);
 void gnm_shutdown (void);
 
 #endif

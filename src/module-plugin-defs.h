@@ -12,21 +12,6 @@
  */
 #define GNUMERIC_MODULE_PLUGIN_INFO_DECL     ModulePluginFileStruct plugin_file_struct = GNUMERIC_MODULE_PLUGIN_FILE_STRUCT_INITIALIZER
 
-/* This type is intended for use with "function_group" service.
- * Plugins should define arrays of structs of the form:
- * ModulePluginFunctionInfo <service-id>_functions[] = { ... };
- */
-typedef struct {
-	gchar const *fn_name;
-	gchar const *args;
-	gchar const *arg_names;
-	gchar const **help;
-	FunctionArgs	 fn_args;
-	FunctionNodes	 fn_nodes;
-	FuncLinkHandle	 link;
-	FuncUnlinkHandle unlink;
-} ModulePluginFunctionInfo;
-
 /* This type is intended for use with "ui" service.
  * Plugins should define arrays of structs of the form:
  * ModulePluginUIVerbInfo <service-id>_ui_verbs[] = { ... };

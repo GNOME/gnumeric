@@ -545,7 +545,7 @@ plugin_cleanup (void)
 	prime_table = NULL;
 }
 
-const ModulePluginFunctionInfo num_theory_functions[] = {
+const GnmFuncDescriptor num_theory_functions[] = {
 	{"ithprime", "f", "number", &help_ithprime,
 	 &gnumeric_ithprime, NULL, NULL, NULL },
 	{"nt_phi",   "f", "number", &help_phi,
@@ -563,7 +563,7 @@ const ModulePluginFunctionInfo num_theory_functions[] = {
 	{NULL}
 };
 
-const ModulePluginFunctionInfo bitwise_functions[] = {
+const GnmFuncDescriptor bitwise_functions[] = {
 	{"bitor",     "ff", "A,B", &help_bitor,
 	 &func_bitor,     NULL, NULL, NULL },
 	{"bitxor",    "ff", "A,B", &help_bitxor,

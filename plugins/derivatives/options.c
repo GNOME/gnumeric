@@ -27,9 +27,6 @@ c-basic-offset: 8 -*- */
  */
 #include <gnumeric-config.h>
 #include <gnumeric.h>
-#include <glib.h>
-#include <math.h>
-#include <string.h>
 
 
 #include "func.h"
@@ -39,7 +36,10 @@ c-basic-offset: 8 -*- */
 #include "value.h"
 #include "plugin-util.h"
 #include "module-plugin-defs.h"
+
 #include <libgnome/gnome-i18n.h>
+#include <math.h>
+#include <string.h>
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
@@ -1693,7 +1693,7 @@ static char const *help_opt_extendible_writer = {
 	   "OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
 };
 
-ModulePluginFunctionInfo const derivatives_functions [] = {
+GnmFuncDescriptor const derivatives_functions [] = {
 	{ "opt_bs",
 	  "sfffff|f","call_put_flag, spot, strike, time, rate, volatility, "
 	  "cost_of_carry",

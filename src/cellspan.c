@@ -392,12 +392,18 @@ row_calc_spans (ColRowInfo *rinfo, Sheet const *sheet)
 	int left, right, col, row = rinfo->pos;
 	Range const *merged;
 	Cell *cell;
+	int const last = sheet->cols.max_used;
 
 	row_destroy_span (rinfo);
-	for (col = 0 ; col < SHEET_MAX_COLS ; ) {
+	for (col = 0 ; col < last ; ) {
 		cell = sheet_cell_get (sheet, col, row);
 		if (cell == NULL) {
-			col++;
+			/* skip segments with no cells */
+			if (col == COLROW_SEGMENT_START (col) &&
+			    NULL == COLROW_GET_SEGMENT (&(sheet->cols), col))
+				col = COLROW_SEGMENT_END (col) + 1;
+			else
+				col++;
 			continue;
 		}
 

@@ -251,12 +251,12 @@ build_binop (GnmExpr *l, GnmExprOp op, GnmExpr *r)
 static GnmExpr *
 build_logical (GnmExpr *l, gboolean is_and, GnmExpr *r)
 {
-	static FunctionDefinition *and_func = NULL, *or_func = NULL;
+	static GnmFunc *and_func = NULL, *or_func = NULL;
 
 	if (and_func == NULL)
-		and_func = func_lookup_by_name ("AND", NULL);
+		and_func = gnm_func_lookup ("AND", NULL);
 	if (or_func == NULL)
-		or_func = func_lookup_by_name ("OR", NULL);
+		or_func = gnm_func_lookup ("OR", NULL);
 
 	unregister_allocation (r);
 	unregister_allocation (l);
@@ -267,9 +267,9 @@ build_logical (GnmExpr *l, gboolean is_and, GnmExpr *r)
 static GnmExpr *
 build_not (GnmExpr *expr)
 {
-	static FunctionDefinition *not_func = NULL;
+	static GnmFunc *not_func = NULL;
 	if (not_func == NULL)
-		not_func = func_lookup_by_name ("NOT", NULL);
+		not_func = gnm_func_lookup ("NOT", NULL);
 	unregister_allocation (expr);
 	return register_expr_allocation (gnm_expr_new_funcall (not_func,
 		    g_slist_prepend (NULL, expr)));
@@ -611,12 +611,12 @@ exp:	  CONSTANT 	{ $$ = $1; }
 
 function : STRING '(' arg_list ')' {
 		char const *name = $1->constant.value->v_str.val->str;
-		FunctionDefinition *f = func_lookup_by_name (name,
+		GnmFunc *f = gnm_func_lookup (name,
 			state->pos->wb);
 
 		/* THINK TODO: Do we want to make this workbook-local??  */
 		if (f == NULL && state->create_placeholder_for_unknown_func)
-			f = function_add_placeholder (name, "");
+			f = gnm_func_add_placeholder (name, "", TRUE);
 
 		unregister_allocation ($3);
 		unregister_allocation ($1); gnm_expr_unref ($1);

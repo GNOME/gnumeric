@@ -20,7 +20,7 @@ typedef enum {
 } FormatDialogPosition_t;
 
 void     dialog_graph_guru	(WorkbookControlGUI *wbcg, GnmGraph *graph, int page);
-void	 dialog_formula_guru	(WorkbookControlGUI *wbcg, FunctionDefinition const *);
+void	 dialog_formula_guru	(WorkbookControlGUI *wbcg, GnmFunc const *);
 void	 dialog_plugin_manager  (WorkbookControlGUI *wbcg);
 void	 dialog_goto_cell       (WorkbookControlGUI *wbcg);
 void	 dialog_cell_format     (WorkbookControlGUI *wbcg,

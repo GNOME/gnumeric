@@ -16,8 +16,8 @@ struct _GnmExprFunction {
 	GnmExprOp oper;
 	int       ref_count;
 
-	FunctionDefinition *func;
-	GnmExprList        *arg_list;
+	GnmFunc     *func;
+	GnmExprList *arg_list;
 };
 
 struct _GnmExprUnary {

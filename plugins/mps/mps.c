@@ -392,7 +392,7 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 
 		  cell = sheet_cell_fetch (sh, ecol + 1, r);
 		  expr = (GnmExpr *) gnm_expr_new_funcall
-			  (func_lookup_by_name ("SUMPRODUCT", NULL), args);
+			  (gnm_func_lookup ("SUMPRODUCT", NULL), args);
 		  cell_set_expr (cell, expr);
 		  cell_queue_recalc (cell);
 
@@ -406,7 +406,7 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 		  args = (GnmExprList *) g_list_append (NULL, (gpointer) expr);
 		  cell = sheet_cell_fetch (sh, ecol + 4, r);
 		  expr = (GnmExpr *) gnm_expr_new_funcall
-			  (func_lookup_by_name ("ABS", NULL), args);
+			  (gnm_func_lookup ("ABS", NULL), args);
 		  cell_set_expr (cell, expr);
 		  cell_queue_recalc (cell);
 

@@ -1820,7 +1820,7 @@ gnumeric_getenv (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-const ModulePluginFunctionInfo info_functions[] = {
+const GnmFuncDescriptor info_functions[] = {
 	{ "cell",	"sr", N_("info_type, cell"), &help_cell,
 	  gnumeric_cell, NULL, NULL, NULL },
         { "countblank",	"r",  N_("range"), &help_countblank,

@@ -66,16 +66,8 @@ typedef struct {
 GType plugin_service_function_group_get_type (void);
 typedef struct _PluginServiceFunctionGroup PluginServiceFunctionGroup;
 typedef struct {
-	gboolean (*plugin_func_get_full_function_info) (
-	         PluginService    *service,
-	         const gchar      *fn_name,
-	         const gchar     **args_ptr,
-	         const gchar     **arg_names_ptr,
-	         const gchar    ***help_ptr,
-	         FunctionArgs     *fn_args_ptr,
-	         FunctionNodes    *fn_nodes_ptr,
-	         FuncLinkHandle   *link,
-	         FuncUnlinkHandle *unlink);
+	gboolean (*func_desc_load) (PluginService *service, char const *name,
+				    GnmFuncDescriptor *res);
 } PluginServiceFunctionGroupCallbacks;
 
 

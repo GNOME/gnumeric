@@ -3088,7 +3088,7 @@ gnumeric_sumproduct (FunctionEvalInfo *ei, GnmExprList *args)
 
 /***************************************************************************/
 
-const ModulePluginFunctionInfo math_functions[] = {
+const GnmFuncDescriptor math_functions[] = {
 	{ "abs",     "f", N_("number"),    &help_abs,
 	  gnumeric_abs, NULL, NULL, NULL },
 	{ "acos",    "f", N_("number"),    &help_acos,

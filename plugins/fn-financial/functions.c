@@ -3703,7 +3703,7 @@ gnumeric_vdb (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-const ModulePluginFunctionInfo financial_functions[] = {
+const GnmFuncDescriptor financial_functions[] = {
 	{ "accrint", "???fff|f",
 	  "issue,first_interest,settlement,rate,par,frequency[,basis]",
 	  &help_accrint, gnumeric_accrint, NULL, NULL, NULL },

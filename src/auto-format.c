@@ -90,11 +90,11 @@ auto_format_function_result_by_name (const char *func, AutoFormatTypes res)
 }
 
 void
-auto_format_function_result (FunctionDefinition *fd, AutoFormatTypes res)
+auto_format_function_result (GnmFunc *fd, AutoFormatTypes res)
 {
 	g_return_if_fail (fd != NULL);
 
-	auto_format_function_result_by_name (function_def_get_name (fd), res);
+	auto_format_function_result_by_name (gnm_func_get_name (fd), res);
 }
 
 void
@@ -177,7 +177,7 @@ do_af_suggest (GnmExpr const *expr, const EvalPos *epos, StyleFormat **explicit)
 		AutoFormatTypes typ;
 		const char *name;
 
-		name = function_def_get_name (expr->func.func);
+		name = gnm_func_get_name (expr->func.func);
 		typ = (AutoFormatTypes)
 			GPOINTER_TO_INT
 			(g_hash_table_lookup (auto_format_function_hash, name));

@@ -5151,7 +5151,7 @@ gnumeric_laplace (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-const ModulePluginFunctionInfo stat_functions[] = {
+const GnmFuncDescriptor stat_functions[] = {
         { "avedev",       0,      N_("number,number,"),
 	  &help_avedev, NULL, gnumeric_avedev, NULL, NULL },
 	{ "average",      0,      N_("number,number,"),

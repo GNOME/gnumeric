@@ -1,6 +1,46 @@
-2002-10-12  Christian Neumair  <chris@gnome-de.org>
+2002-10-12  Jody Goldberg <jody@gnome.org>
 
-	* plugins/derivatives/options.c: Fixed function descriptions.
+	* src/func-builtin.c (func_builtin_init) : jump to the new interface.
+
+	* src/func.h : some renaming and api cleanup.
+	  The big one was
+	    s/ModulePluginFunctionInfo/GnmFuncDescriptor/
+	  Some extension of that structure to add additional fields (at the
+	  end) and api changes to use it pervasively.  This includes
+	  placeholders for function flags, and implementation and testing
+	  status.
+
+	  Some general cleanup with
+	    s/FunctionDefinition/GnmFunc/
+	    s/func_lookup_by_name/gnm_func_lookup/
+	    s/function_add_placeholder/gnm_func_add_placeholder/
+	    s/function_def_get_name/gnm_func_get_name/
+	    s/function_def_set_user_data/gnm_func_set_user_data/
+	    s/function_def_get_user_data/gnm_func_get_user_data/
+
+	  remove function_add_args vs function_add_nodes and replace them with
+	  a GnmFuncDescriptor based gnm_func_add
+
+2002-10-12  Jody Goldberg <jody@gnome.org>
+
+	* src/cellspan.c (row_calc_spans) : some simple optimizations
+	  to prune the length we check based on col/row maxima and sparseness.
+	  This can be significantly faster when we add per row maxima.
+	 
+	* src/symbol.c (symbol_install) : use g_warning and table_replace in
+	  case of a collison.
+
+	* src/format.c (format_number) : Make utf8 clean
+
+	* src/sheet-control-gui.c (scg_set_panes) : more initial work on
+	  supporting h/v only freezing.
+
+2002-10-11  Jody Goldberg <jody@gnome.org>
+
+	* src/libgnumeric.c (gnm_dump_func_defs) : add a flag to indicate
+	  dumping def or status
+	* src/func.c (function_dump_defs) : ditto.
+	* src/main-application.c (main) : add --func-state-dump
 
 2002-10-11  Morten Welinder  <terra@diku.dk>
 

@@ -274,7 +274,7 @@ static int
 wk1_std_func (GnmExprList **stack, Wk1Func const *f,
 	      guint8 const *data, int col, int row)
 {
-	FunctionDefinition *func = func_lookup_by_name (f->name, NULL);
+	GnmFunc *func = gnm_func_lookup (f->name, NULL);
 	int numargs, size;
 
 	if (f->args < 0) {
@@ -286,7 +286,7 @@ wk1_std_func (GnmExprList **stack, Wk1Func const *f,
 	}
 
 	if (func == NULL) {
-		func = function_add_placeholder (f->name, "Lotus ");
+		func = gnm_func_add_placeholder (f->name, "Lotus ", FALSE);
 		puts (cell_coord_name (col, row));
 	}
 	parse_list_push_expr (stack, gnm_expr_new_funcall (func,

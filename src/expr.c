@@ -116,7 +116,7 @@ gnm_expr_function_eq (GnmExprFunction const *a,
 #endif
 
 GnmExpr const *
-gnm_expr_new_funcall (FunctionDefinition *func, GnmExprList *args)
+gnm_expr_new_funcall (GnmFunc *func, GnmExprList *args)
 {
 	GnmExprFunction *ans;
 	g_return_val_if_fail (func, NULL);
@@ -127,7 +127,7 @@ gnm_expr_new_funcall (FunctionDefinition *func, GnmExprList *args)
 
 	ans->ref_count = 1;
 	ans->oper = GNM_EXPR_OP_FUNCALL;
-	func_ref (func);
+	gnm_func_ref (func);
 	ans->func = func;;
 	ans->arg_list = args;
 
@@ -352,7 +352,7 @@ do_gnm_expr_unref (GnmExpr const *expr)
 
 	case GNM_EXPR_OP_FUNCALL:
 		gnm_expr_list_unref (expr->func.arg_list);
-		func_unref (expr->func.func);
+		gnm_func_unref (expr->func.func);
 		break;
 
 	case GNM_EXPR_OP_NAME:
@@ -1196,9 +1196,9 @@ do_expr_as_string (GnmExpr const *expr, ParsePos const *pp,
 
 		if (arg_list != NULL)
 			return gnm_expr_list_as_string (arg_list, pp,
-				function_def_get_name (expr->func.func));
+				gnm_func_get_name (expr->func.func));
 		else
-			return g_strconcat (function_def_get_name (expr->func.func),
+			return g_strconcat (gnm_func_get_name (expr->func.func),
 					    "()", NULL);
 	}
 
@@ -1700,7 +1700,7 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 	return NULL;
 }
 
-FunctionDefinition *
+GnmFunc *
 gnm_expr_get_func_def (GnmExpr const *expr)
 {
 	g_return_val_if_fail (expr != NULL, NULL);

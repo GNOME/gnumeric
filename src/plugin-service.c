@@ -1053,61 +1053,33 @@ plugin_service_function_group_read_xml (PluginService *service, xmlNode *tree, E
 }
 
 static gboolean
-plugin_service_function_group_get_full_info_callback (
-	FunctionDefinition *fn_def,
-	const gchar       **args_ptr,
-	const gchar       **arg_names_ptr,
-	const gchar      ***help_ptr,
-	FunctionArgs       *fn_args_ptr,
-	FunctionNodes      *fn_nodes_ptr,
-	FuncLinkHandle     *fn_link_ptr,
-	FuncUnlinkHandle   *fn_unlink_ptr)
+plugin_service_function_group_func_desc_load (GnmFunc const *fn_def,
+					      GnmFuncDescriptor *res)
 {
 	PluginService *service;
 	PluginServiceFunctionGroup *service_function_group;
-	ErrorInfo *error =NULL;
+	ErrorInfo *error = NULL;
 
 	g_return_val_if_fail (fn_def != NULL, FALSE);
 
-	service = function_def_get_user_data (fn_def);
+	service = gnm_func_get_user_data (fn_def);
 	service_function_group = GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service);
 	plugin_service_load (service, &error);
-	if (error == NULL) {
-		const gchar	 *args;
-		const gchar	 *arg_names;
-		const gchar	**help;
-		FunctionArgs	 fn_args;
-		FunctionNodes	 fn_nodes;
-		FuncLinkHandle   fn_link;
-		FuncUnlinkHandle fn_unlink;
-
-		if (service_function_group->cbs.plugin_func_get_full_function_info (
-		    service, function_def_get_name (fn_def),
-		    &args, &arg_names, &help, &fn_args, &fn_nodes, &fn_link, &fn_unlink)) {
-			*args_ptr = args;
-			*arg_names_ptr = arg_names;
-			*help_ptr = help;
-			*fn_args_ptr	= fn_args;
-			*fn_nodes_ptr	= fn_nodes;
-			*fn_link_ptr	= fn_link;
-			*fn_unlink_ptr	= fn_unlink;
-			return TRUE;
-		} else {
-			return FALSE;
-		}
-	} else {
+	if (error != NULL) {
 		error_info_print (error);
 		error_info_free (error);
 		return FALSE;
 	}
+	return service_function_group->cbs.func_desc_load (service,
+		gnm_func_get_name (fn_def), res);
 }
 
 static void
-plugin_service_function_group_func_ref_notify  (FunctionDefinition *fn_def, int refcount)
+plugin_service_function_group_func_ref_notify  (GnmFunc *fn_def, int refcount)
 {
 	PluginService *service;
 
-	service = function_def_get_user_data (fn_def);
+	service = gnm_func_get_user_data (fn_def);
 	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_FUNCTION_GROUP (service));
 	if (refcount == 0) {
 		gnm_plugin_use_unref (service->plugin);
@@ -1126,13 +1098,13 @@ plugin_service_function_group_activate (PluginService *service, ErrorInfo **ret_
 		service_function_group->category_name,
 		service_function_group->translated_category_name);
 	GNM_SLIST_FOREACH (service_function_group->function_name_list, char, fname,
-		FunctionDefinition *fn_def;
+		GnmFunc *fn_def;
 
-		fn_def = function_add_name_only (
+		fn_def = gnm_func_add_stub (
 			service_function_group->category, fname,
-			plugin_service_function_group_get_full_info_callback,
+			plugin_service_function_group_func_desc_load,
 			plugin_service_function_group_func_ref_notify);
-		function_def_set_user_data (fn_def, service);
+		gnm_func_set_user_data (fn_def, service);
 	);
 	service->is_active = TRUE;
 }

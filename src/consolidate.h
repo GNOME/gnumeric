@@ -27,7 +27,7 @@ typedef enum {
 } ConsolidateMode;
 
 typedef struct _Consolidate {
-	FunctionDefinition *fd;
+	GnmFunc *fd;
 
 	GlobalRange *dst;
 	GSList      *src;
@@ -38,7 +38,7 @@ typedef struct _Consolidate {
 Consolidate *consolidate_new  (void);
 void         consolidate_free (Consolidate *cs);
 
-void         consolidate_set_function    (Consolidate *cs, FunctionDefinition *fd);
+void         consolidate_set_function    (Consolidate *cs, GnmFunc *fd);
 void         consolidate_set_mode        (Consolidate *cs, ConsolidateMode mode);
 
 gboolean     consolidate_set_destination (Consolidate *cs, Value *range);

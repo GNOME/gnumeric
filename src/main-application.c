@@ -35,7 +35,8 @@
 #endif
 
 static int gnumeric_show_version = FALSE;
-static char *dump_file_name = NULL;
+static char *func_def_file = NULL;
+static char *func_state_file = NULL;
 
 char const *gnumeric_lib_dir = GNUMERIC_LIBDIR;
 char const *gnumeric_data_dir = GNUMERIC_DATADIR;
@@ -49,7 +50,9 @@ gnumeric_popt_options[] = {
 	{ "data-dir", 'D', POPT_ARG_STRING, &gnumeric_data_dir, 0,
 	  N_("Adjust the root data directory"), NULL  },
 
-	{ "dump-func-defs", '\0', POPT_ARG_STRING, &dump_file_name, 0,
+	{ "dump-func-defs", '\0', POPT_ARG_STRING, &func_def_file, 0,
+	  N_("Dumps the function definitions"),   N_("FILE") },
+	{ "dump-func-state", '\0', POPT_ARG_STRING, &func_state_file, 0,
 	  N_("Dumps the function definitions"),   N_("FILE") },
 
 	{ "debug", '\0', POPT_ARG_INT, &gnumeric_debugging, 0,
@@ -132,8 +135,10 @@ main (int argc, char *argv [])
 
 	gnm_common_init ();
 
-	if (dump_file_name)
-		return gnm_dump_func_defs (dump_file_name);
+	if (func_def_file)
+		return gnm_dump_func_defs (func_def_file, TRUE);
+	if (func_state_file)
+		return gnm_dump_func_defs (func_state_file, FALSE);
 
 	/* Load selected files */
 	if (ctx)

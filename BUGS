@@ -10,6 +10,7 @@ Release Critical
 - figure out why error dialogs at startup get forced behind workbook
 - validate expression names to ensure that they are not simple values (eg TRUE)
 - check the implementation of seriessum returning NULL seems bad
+- find leak of 2 bools and 2 arrays when loading samples/excel/lookfuns.xls
 
 1.2 Targets
 -----------
@@ -48,6 +49,7 @@ UTF-8 :
     - Error messages (notably when files names are present).
     - Window titles.
     - function_category_compare
+    - format precompile
 
 Pending Patches
 ---------------
@@ -108,6 +110,7 @@ Misc stuff that should be fixed
 	  current cell.
     : Check xl import of unicode names
     : Check scoping changes.
+    : Is there such a thing as an array formula in a name ?
 
 - can_try_save_to uses access().  That's bogus in a number of ways: (a) it
   checks the wrong permissions in the set[gu]id case.  (b) It reports the

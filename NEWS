@@ -1,6 +1,5 @@
 Gnumeric 1.1.10
 
-
 Andreas:
 	* Add XHTML exporter
 	* Fix minor bug in the sort dialog
@@ -9,6 +8,12 @@ Andreas:
 
 Chris Benedict:
 	* Do not allow all sheets in a workbook to be deleted.
+
+dorami@bu.iij4u.or.jp:
+	* Add InputMethod support for better international key support
+
+Hal Ashburner:
+	* Rework derivative valuation routines
 
 Jody:
 	* Decrease GAL dependence.
@@ -34,6 +39,9 @@ Jody:
 	* Esoteric XL number formats #,,##0,,
 	* Simplify some dialog code
 	* Support Dynamic Depends (eg INDIRECT)
+	* Add AREAS so that we can finally finish off the lookup functions
+	* Clean up the function registration api
+	* Make format parsing utf8 clean
 
 Morten:
 	* Port search center from gal's e-table to gtk's treeview.
@@ -45,12 +53,6 @@ Morten:
 	* Fix minor leak in excel loader.
 	* Improve precision of GEOMEAN and PRODUCT.
 	* Fix MOD for non-integer (or just huge) args.
-
-dorami@bu.iij4u.or.jp:
-	* Add InputMethod support for better international key support
-
-Hal Ashburner:
-	* Rework derivative valuation routines
 
 Nicolas Peninguy:
 	* Use regexps to classify currency and accounting formats

@@ -131,24 +131,41 @@ static GSList *gnumericfuncs = NULL;
 void
 func_builtin_init (void)
 {
-	FunctionDefinition *def;
+	static GnmFuncDescriptor const builtins [] = {
+		{	"sum",		NULL,	N_("number,number,"),
+			&help_sum,	NULL,	gnumeric_sum,
+			NULL, NULL, NULL, 0,
+			GNM_FUNC_IMPL_STATUS_COMPLETE,
+			GNM_FUNC_TEST_STATUS_BASIC
+		},
+		{	"product",		NULL,	N_("number,number,"),
+			&help_product,	NULL,	gnumeric_product,
+			NULL, NULL, NULL, 0,
+			GNM_FUNC_IMPL_STATUS_COMPLETE,
+			GNM_FUNC_TEST_STATUS_BASIC
+		},
+		{	"gnumeric_version",	"",	"",
+			&help_gnumeric_version,	gnumeric_version, NULL,
+			NULL, NULL, NULL, 0,
+			GNM_FUNC_IMPL_STATUS_COMPLETE,
+			GNM_FUNC_TEST_STATUS_BASIC
+		},
+		{ NULL }
+	};
+
+	GnmFunc *func;
 	FunctionCategory *mathcat = function_get_category (mathcatname);
 	FunctionCategory *gnumericcat = function_get_category (gnumericcatname);
 
-	def = function_add_nodes (mathcat, "sum",     0,
-				  N_("number,number,"),
-				  &help_sum, gnumeric_sum, NULL);
-	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
-	mathfuncs = g_slist_prepend (mathfuncs, def);
+	func = gnm_func_add (mathcat, builtins + 0);
+	auto_format_function_result (func, AF_FIRST_ARG_FORMAT);
+	mathfuncs = g_slist_prepend (mathfuncs, func);
 
-	def = function_add_nodes (mathcat, "product", 0,
-				  N_("number,number,"),    
-				  &help_product, gnumeric_product, NULL);
-	mathfuncs = g_slist_prepend (mathfuncs, def);
+	func = gnm_func_add (mathcat, builtins + 1);
+	mathfuncs = g_slist_prepend (mathfuncs, func);
 
-	def = function_add_args (gnumericcat, "gnumeric_version", "",  "",
-				 &help_gnumeric_version, gnumeric_version, NULL);
-	gnumericfuncs = g_slist_prepend (gnumericfuncs, def);
+	func = gnm_func_add (gnumericcat, builtins + 2);
+	gnumericfuncs = g_slist_prepend (gnumericfuncs, func);
 }
 
 static void
@@ -158,9 +175,8 @@ shutdown_cat (const char *catname, GSList **funcs)
 	FunctionCategory *cat = function_get_category (catname);
 
 	for (tmp = *funcs; tmp; tmp = tmp->next) {
-		FunctionDefinition *def = tmp->data;
-		const char *name = function_def_get_name (def);
-
+		GnmFunc *def = tmp->data;
+		char const *name = gnm_func_get_name (def);
 		auto_format_function_result_remove (name);
 		function_remove (cat, name);
 	}

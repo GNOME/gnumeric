@@ -1476,7 +1476,7 @@ gnumeric_imsum (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 
 /***************************************************************************/
 
-const ModulePluginFunctionInfo complex_functions[] = {
+GnmFuncDescriptor const complex_functions[] = {
         { "complex",     "ff|s", "real,im[,suffix]", &help_complex,
 	  gnumeric_complex, NULL, NULL, NULL },
         { "imabs",       "?",    "inumber", &help_imabs,

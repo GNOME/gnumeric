@@ -326,7 +326,7 @@ wb_view_auto_expr (WorkbookView *wbv, char const *descr, char const *func_name)
 
 	wbv->auto_expr_desc = g_strdup (descr);
 	wbv->auto_expr = gnm_expr_new_funcall (
-		func_lookup_by_name (func_name, NULL), NULL);
+		gnm_func_lookup (func_name, NULL), NULL);
 
 	if (wbv->current_sheet != NULL)
 		wb_view_auto_expr_recalc (wbv, TRUE);

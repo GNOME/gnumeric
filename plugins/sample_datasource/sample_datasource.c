@@ -257,7 +257,7 @@ static const char *help_atl_last = {
 	   "@SEEALSO=")
 };
 
-ModulePluginFunctionInfo ATL_functions[] = {
+GnmFuncDescriptor const ATL_functions[] = {
 	{"atl_last", "s", "tag", &help_atl_last, atl_last, NULL, atl_last_link, atl_last_unlink },
 
 	{NULL}

@@ -95,7 +95,7 @@ gnumeric_plugin_loader_unload_service_function_group_real (GnumericPluginLoader 
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
 	cbs = plugin_service_get_cbs (service);
-	cbs->plugin_func_get_full_function_info = NULL;
+	cbs->func_desc_load = NULL;
 }
 
 static void

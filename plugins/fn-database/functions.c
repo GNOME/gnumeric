@@ -768,7 +768,7 @@ gnumeric_getpivotdata (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-const ModulePluginFunctionInfo database_functions[] = {
+const GnmFuncDescriptor database_functions[] = {
 	{ "daverage", "r?r", "database,field,criteria",
 	  &help_daverage,   gnumeric_daverage, NULL, NULL, NULL },
 	{ "dcount",   "r?r", "database,field,criteria",

@@ -139,7 +139,7 @@ gnm_guile_catcher (void *data, SCM tag, SCM throw_args)
 static Value*
 func_marshal_func (FunctionEvalInfo *ei, Value *argv[])
 {
-	FunctionDefinition const *fndef;
+	GnmFunc const *fndef;
 	SCM args = SCM_EOL, result, function;
 	CellRef dummy = { 0, 0, 0, 0 };
 	EvalPos const *old_eval_pos;
@@ -153,7 +153,7 @@ func_marshal_func (FunctionEvalInfo *ei, Value *argv[])
 	fndef = ei->func_call->func;
 	function_def_count_args (fndef, &min, &max);
 
-	function = (SCM) function_def_get_user_data (fndef);
+	function = (SCM) gnm_func_get_user_data (fndef);
 
 	for (i = min - 1; i >= 0; --i)
 		args = scm_cons (value_to_scm (argv [i], dummy), args);
@@ -179,10 +179,10 @@ func_marshal_func (FunctionEvalInfo *ei, Value *argv[])
 static SCM
 scm_register_function (SCM scm_name, SCM scm_args, SCM scm_help, SCM scm_category, SCM scm_function)
 {
-	FunctionDefinition *fndef;
+	GnmFunc *fndef;
 	FunctionCategory   *cat;
 	char const         **help;
-
+	GnmFuncDescriptor    desc;
 
 	SCM_ASSERT (SCM_NIMP (scm_name) && SCM_STRINGP (scm_name), scm_name, SCM_ARG1, "scm_register_function");
 	SCM_ASSERT (SCM_NIMP (scm_args) && SCM_STRINGP (scm_args), scm_args, SCM_ARG2, "scm_register_function");
@@ -193,14 +193,26 @@ scm_register_function (SCM scm_name, SCM scm_args, SCM scm_help, SCM scm_categor
 
 	scm_permanent_object (scm_function);
 
-	help  = g_new (char const *, 1);
+	desc.fn_name	= SCM_CHARS (scm_name);
+	desc.args	= SCM_CHARS (scm_args);
+	desc.arg_names	= NULL;
+				   help, func_marshal_func, NULL);
+	char const **help;
+	GnmFuncArgs	  fn_args;
+	GnmFuncNodes	  fn_nodes;
+	GnmFuncLink	  linker;
+	GnmFuncUnlink	  unlinker;
+	GnmFuncFlags	  flags;
+	GnmFuncImplStatus impl_status;
+	GnmFuncTestStatus test_status;
+	gboolean	  free_strings;
+};
+
 	*help = g_strdup (SCM_CHARS (scm_help));
 	cat   = function_get_category (SCM_CHARS (scm_category));
-	fndef = function_add_args (cat, g_strdup (SCM_CHARS (scm_name)),
-				   g_strdup (SCM_CHARS (scm_args)), NULL,
-				   help, func_marshal_func, NULL);
+	fndef = gnm_func_add (cat, &desc);
 
-	function_def_set_user_data (fndef, GINT_TO_POINTER (scm_function));
+	gnm_func_set_user_data (fndef, GINT_TO_POINTER (scm_function));
 
 	return SCM_UNSPECIFIED;
 }

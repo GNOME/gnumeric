@@ -154,7 +154,7 @@ plugin_cleanup (void)
 	}
 }
 
-ModulePluginFunctionInfo gdaif_functions[] = {
+GnmFuncDescriptor gdaif_functions[] = {
 	{"execSQL", "ssss", "dsn,username,password,sql", &help_execSQL, &gnumeric_execSQL, NULL, NULL, NULL },
 	{NULL}
 };

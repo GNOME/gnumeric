@@ -431,7 +431,7 @@ gnumeric_plugin_loader_module_load_service_file_saver (GnumericPluginLoader *loa
  */
 
 typedef struct {
-	ModulePluginFunctionInfo *module_fn_info_array;
+	GnmFuncDescriptor *module_fn_info_array;
 	GHashTable *function_indices;
 } ServiceLoaderDataFunctionGroup;
 
@@ -445,39 +445,24 @@ function_group_loader_data_free (gpointer data)
 }
 
 static gboolean
-gnumeric_plugin_loader_module_func_get_full_function_info (PluginService *service,
-                                                           const gchar *fn_name,
-                                                           const gchar **args_ptr,
-                                                           const gchar **arg_names_ptr,
-                                                           const gchar ***help_ptr,
-                                                           FunctionArgs	    *fn_args_ptr,
-                                                           FunctionNodes    *fn_nodes_ptr,
-							   FuncLinkHandle   *fn_link,
-							   FuncUnlinkHandle *fn_unlink)
+gnumeric_plugin_loader_module_func_desc_load (PluginService *service,
+					      char const *name,
+					      GnmFuncDescriptor *res)
 {
 	ServiceLoaderDataFunctionGroup *loader_data;
 	gpointer func_index_ptr;
 
 	g_return_val_if_fail (GNM_IS_PLUGIN_SERVICE_FUNCTION_GROUP (service), FALSE);
-	g_return_val_if_fail (fn_name != NULL, FALSE);
+	g_return_val_if_fail (name != NULL, FALSE);
 
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
-	if (g_hash_table_lookup_extended (loader_data->function_indices, (gpointer) fn_name,
+	if (g_hash_table_lookup_extended (loader_data->function_indices, (gpointer) name,
 	                                  NULL, &func_index_ptr)) {
-		ModulePluginFunctionInfo *fn_info;
-
-		fn_info = &loader_data->module_fn_info_array[GPOINTER_TO_INT (func_index_ptr)];
-		*args_ptr = fn_info->args;
-		*arg_names_ptr = fn_info->arg_names;
-		*help_ptr = fn_info->help;
-		*fn_args_ptr = fn_info->fn_args;
-		*fn_nodes_ptr = fn_info->fn_nodes;
-		*fn_link   = fn_info->link;
-		*fn_unlink = fn_info->unlink;
+		int i = GPOINTER_TO_INT (func_index_ptr);
+		*res = loader_data->module_fn_info_array[i];
 		return TRUE;
-	} else {
-		return FALSE;
 	}
+	return FALSE;
 }
 
 static void
@@ -487,7 +472,7 @@ gnumeric_plugin_loader_module_load_service_function_group (GnumericPluginLoader 
 {
 	GnumericPluginLoaderModule *loader_module = GNUMERIC_PLUGIN_LOADER_MODULE (loader);
 	gchar *fn_info_array_name;
-	ModulePluginFunctionInfo *module_fn_info_array = NULL;
+	GnmFuncDescriptor *module_fn_info_array = NULL;
 
 	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_FUNCTION_GROUP (service));
 
@@ -501,14 +486,14 @@ gnumeric_plugin_loader_module_load_service_function_group (GnumericPluginLoader 
 		gint i;
 
 		cbs = plugin_service_get_cbs (service);
-		cbs->plugin_func_get_full_function_info = &gnumeric_plugin_loader_module_func_get_full_function_info;
+		cbs->func_desc_load = &gnumeric_plugin_loader_module_func_desc_load;
 
 		loader_data = g_new (ServiceLoaderDataFunctionGroup, 1);
 		loader_data->module_fn_info_array = module_fn_info_array;
 		loader_data->function_indices = g_hash_table_new (&g_str_hash, &g_str_equal);
-		for (i = 0; module_fn_info_array[i].fn_name != NULL; i++) {
+		for (i = 0; module_fn_info_array[i].name != NULL; i++) {
 			g_hash_table_insert (loader_data->function_indices,
-			                     (gpointer) module_fn_info_array[i].fn_name,
+			                     (gpointer) module_fn_info_array[i].name,
 			                     GINT_TO_POINTER (i));
 		}
 		g_object_set_data_full (

@@ -125,7 +125,7 @@ Module Gnumeric:
 	PyCObject_AsVoidPtr (GNUMERIC_MODULE_GET ("Gnumeric_eval_pos")))
 
 PyObject *
-python_call_gnumeric_function (FunctionDefinition *fn_def, const EvalPos *opt_eval_pos, PyObject *args)
+python_call_gnumeric_function (GnmFunc *fn_def, const EvalPos *opt_eval_pos, PyObject *args)
 {
 	gint n_args, i;
 	Value **values, *ret_val;
@@ -1640,7 +1640,7 @@ PyTypeObject py_Workbook_object_type = {
 typedef struct _py_GnumericFunc_object py_GnumericFunc_object;
 struct _py_GnumericFunc_object {
 	PyObject_HEAD
-	FunctionDefinition *fn_def;
+	GnmFunc *fn_def;
 	EvalPos *eval_pos;
 };
 
@@ -1655,13 +1655,13 @@ py_GnumericFunc_call (py_GnumericFunc_object *self, PyObject *args, PyObject *ke
 static void
 py_GnumericFunc_object_dealloc (py_GnumericFunc_object *self)
 {
-	func_unref (self->fn_def);
+	gnm_func_unref (self->fn_def);
 	g_free (self->eval_pos);
 	free (self);
 }
 
 static PyObject *
-py_new_GnumericFunc_object (FunctionDefinition *fn_def, const EvalPos *opt_eval_pos)
+py_new_GnumericFunc_object (GnmFunc *fn_def, const EvalPos *opt_eval_pos)
 {
 	py_GnumericFunc_object *self;
 
@@ -1670,7 +1670,7 @@ py_new_GnumericFunc_object (FunctionDefinition *fn_def, const EvalPos *opt_eval_
 		return NULL;
 	}
 
-	func_ref (fn_def);
+	gnm_func_ref (fn_def);
 	self->fn_def = fn_def;
 	if (opt_eval_pos != NULL) {
 		self->eval_pos = g_new (EvalPos, 1);
@@ -1723,13 +1723,13 @@ static PyObject *
 py_GnumericFuncDict_subscript (py_GnumericFuncDict_object *self, PyObject *key)
 {
 	gchar *fn_name;
-	FunctionDefinition *fn_def;
+	GnmFunc *fn_def;
 
 	if (!PyArg_Parse(key, (char *) "s", &fn_name)) {
 		return NULL;
 	}
 
-	fn_def = func_lookup_by_name (fn_name, NULL);
+	fn_def = gnm_func_lookup (fn_name, NULL);
 	if (fn_def == NULL) {
 		/* Py_INCREF (key); FIXME?? */
 		PyErr_SetObject (PyExc_KeyError, key);

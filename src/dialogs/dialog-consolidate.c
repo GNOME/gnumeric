@@ -100,7 +100,7 @@ construct_consolidate (ConsolidateState *state)
 		g_warning ("Unknown function index!");
 	}
 
-	consolidate_set_function (cs, func_lookup_by_name (func, NULL));
+	consolidate_set_function (cs, gnm_func_lookup (func, NULL));
 
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->gui.labels_row)))
 		mode |= CONSOLIDATE_COL_LABELS;

@@ -653,7 +653,7 @@ sv_freeze_panes (SheetView *sv,
 }
 
 gboolean
-sv_is_frozen	(SheetView const *sv)
+sv_is_frozen (SheetView const *sv)
 {
 	g_return_val_if_fail (IS_SHEET_VIEW (sv), FALSE);
 

@@ -580,7 +580,7 @@ parse_list_free (GnmExprList **list)
 static gboolean
 make_function (GnmExprList **stack, int fn_idx, int numargs)
 {
-	FunctionDefinition *name = NULL;
+	GnmFunc *name = NULL;
 
 	if (fn_idx == 0xff) {
 		/*
@@ -612,9 +612,9 @@ make_function (GnmExprList **stack, int fn_idx, int numargs)
 		}
 
 		/* FIXME : Add support for workbook local functions */
-		name = func_lookup_by_name (f_name, NULL);
+		name = gnm_func_lookup (f_name, NULL);
 		if (name == NULL)
-			name = function_add_placeholder (f_name, "");
+			name = gnm_func_add_placeholder (f_name, "", TRUE);
 
 		gnm_expr_unref (tmp);
 		parse_list_push (stack, gnm_expr_new_funcall (name, args));
@@ -644,9 +644,9 @@ make_function (GnmExprList **stack, int fn_idx, int numargs)
 
 		args = parse_list_last_n (stack, numargs);
 		if (fd->prefix) {
-			name = func_lookup_by_name (fd->prefix, NULL);
+			name = gnm_func_lookup (fd->prefix, NULL);
 			if (name == NULL)
-				name = function_add_placeholder (fd->prefix, "Builtin ");
+				name = gnm_func_add_placeholder (fd->prefix, "Builtin ", FALSE);
 		}
 		/* This should not happen */
 		if (!name) {
