@@ -281,7 +281,6 @@ struct _PluginServiceFileOpener {
 	gint   default_importer_priority;
 	gchar *description;
 	GSList *file_patterns;      /* list of InputFilePattern */
-	InputFileSaveInfo *save_info;
 
 	GnumFileOpener *opener;
 	PluginServiceFileOpenerCallbacks cbs;
@@ -296,7 +295,6 @@ plugin_service_file_opener_init (GObject *obj)
 	GNM_PLUGIN_SERVICE (obj)->cbs_ptr = &service_file_opener->cbs;
 	service_file_opener->description = NULL;
 	service_file_opener->file_patterns = NULL;
-	service_file_opener->save_info = NULL;
 	service_file_opener->opener = NULL;
 	service_file_opener->cbs.plugin_func_file_probe = NULL;
 	service_file_opener->cbs.plugin_func_file_open = NULL;
@@ -312,13 +310,6 @@ input_file_pattern_free (gpointer data)
 }
 
 static void
-input_file_saver_info_free (InputFileSaveInfo *saver_info)
-{
-	g_free (saver_info->saver_id_str);
-	g_free (saver_info);
-}
-
-static void
 plugin_service_file_opener_finalize (GObject *obj)
 {
 	PluginServiceFileOpener *service_file_opener = GNM_PLUGIN_SERVICE_FILE_OPENER (obj);
@@ -328,10 +319,6 @@ plugin_service_file_opener_finalize (GObject *obj)
 	service_file_opener->description = NULL;
 	g_slist_free_custom (service_file_opener->file_patterns, input_file_pattern_free);
 	service_file_opener->file_patterns = NULL;
-	if (service_file_opener->save_info != NULL) {
-		input_file_saver_info_free (service_file_opener->save_info);
-		service_file_opener->save_info = NULL;
-	}
 	if (service_file_opener->opener != NULL) {
 		g_object_unref (service_file_opener->opener);
 		service_file_opener->opener = NULL;
@@ -339,24 +326,6 @@ plugin_service_file_opener_finalize (GObject *obj)
 
 	parent_class = g_type_class_peek (GNM_PLUGIN_SERVICE_TYPE);
 	parent_class->finalize (obj);
-}
-
-static InputFileSaveInfo *
-input_file_save_info_read (xmlNode *tree)
-{
-	InputFileSaveInfo *save_info = NULL;
-	gchar *saver_id_str, *format_level_str;
-
-	saver_id_str = e_xml_get_string_prop_by_name (tree, (xmlChar *)"saver_id");
-	format_level_str = e_xml_get_string_prop_by_name (tree, (xmlChar *)"format_level");
-
-	save_info = g_new (InputFileSaveInfo, 1);
-	save_info->saver_id_str = saver_id_str != NULL ? saver_id_str : g_strdup ("");
-	save_info->format_level = parse_format_level_str (format_level_str, FILE_FL_MANUAL);
-
-	g_free (format_level_str);
-
-	return save_info;
 }
 
 static void
@@ -392,9 +361,8 @@ plugin_service_file_opener_read_xml (PluginService *service, xmlNode *tree, Erro
 	}
 	if (description != NULL) {
 		GSList *file_patterns = NULL;
-		xmlNode *file_patterns_node, *save_info_node, *node;
+		xmlNode *file_patterns_node, *node;
 		PluginServiceFileOpener *service_file_opener = GNM_PLUGIN_SERVICE_FILE_OPENER (service);
-		InputFileSaveInfo *save_info;
 
 		file_patterns_node = e_xml_get_child_by_name (tree, (xmlChar *)"file_patterns");
 		if (file_patterns_node != NULL) {
@@ -424,13 +392,6 @@ plugin_service_file_opener_read_xml (PluginService *service, xmlNode *tree, Erro
 		}
 		GNM_SLIST_REVERSE (file_patterns);
 
-		save_info_node = e_xml_get_child_by_name (tree, (xmlChar *)"save_info");
-		if (save_info_node != NULL) {
-			save_info = input_file_save_info_read (save_info_node);
-		} else {
-			save_info = NULL;
-		}
-
 		service_file_opener->priority = priority;
 		service_file_opener->has_probe = has_probe;
 		service_file_opener->can_open = can_open;
@@ -441,7 +402,6 @@ plugin_service_file_opener_read_xml (PluginService *service, xmlNode *tree, Erro
 		}
 		service_file_opener->description = description;
 		service_file_opener->file_patterns = file_patterns;
-		service_file_opener->save_info = save_info;
 	} else {
 		*ret_error = error_info_new_str (_("File opener has no description"));
 	}
@@ -600,7 +560,6 @@ gnum_plugin_file_opener_open (GnumFileOpener const *fo, IOContext *io_context,
 {
 	GnumPluginFileOpener *pfo = GNUM_PLUGIN_FILE_OPENER (fo);
 	PluginServiceFileOpener *service_file_opener = GNM_PLUGIN_SERVICE_FILE_OPENER (pfo->service);
-	InputFileSaveInfo *save_info;
 	ErrorInfo *error = NULL;
 
 	g_return_if_fail (GSF_IS_INPUT (input));
@@ -614,22 +573,9 @@ gnum_plugin_file_opener_open (GnumFileOpener const *fo, IOContext *io_context,
 	}
 	g_return_if_fail (service_file_opener->cbs.plugin_func_file_open != NULL);
 
-	/* Set the saver info before we load so that the nascent
-	 * workbook has a reasonable file name
-	 */
-	save_info = service_file_opener->save_info;
-	if (save_info != NULL) {
-		GnumFileSaver	  *saver = NULL;
-
-		if (save_info->saver_id_str[0] != '\0') {
-			GHashTable *savers = get_plugin_file_savers_hash (pfo->service->plugin);
-			saver = g_hash_table_lookup (savers, save_info->saver_id_str);
-		}
-
-		workbook_set_saveinfo (wb_view_workbook (wbv),
-			gsf_input_name (input), save_info->format_level, saver);
-	}
-
+	/* Set name before loading so the nascent workbook is more readable */
+	if (NULL != gsf_input_name (input))
+		workbook_set_filename (wb_view_workbook (wbv), gsf_input_name (input));
 	service_file_opener->cbs.plugin_func_file_open (fo, pfo->service, io_context, wbv, input);
 }
 

@@ -296,7 +296,7 @@ print_hf_element (PrintJobInfo const *pj, char const *format,
 
 	len = gnome_font_get_width_utf8 (pj->decoration_font, text);
 
-	print_info_get_margins   (pj->pi, &header, &footer, &left, &right);	
+	print_info_get_margins   (pj->pi, &header, &footer, &left, &right);
 	switch (side){
 	case LEFT_HEADER:
 		x = left;
@@ -387,7 +387,7 @@ print_headers (PrintJobInfo const *pj)
 	double top, bottom, y, ascender;
 	double header = 0, footer = 0, left = 0, right = 0;
 
-	print_info_get_margins   (pj->pi, &header, &footer, &left, &right);	
+	print_info_get_margins   (pj->pi, &header, &footer, &left, &right);
 
 	ascender = gnome_font_get_ascender (pj->decoration_font);
 	y = pj->height - header - ascender;
@@ -413,7 +413,7 @@ print_footers (PrintJobInfo const *pj)
 	double top, bottom, y;
 	double header = 0, footer = 0, left = 0, right = 0;
 
-	print_info_get_margins   (pj->pi, &header, &footer, &left, &right);	
+	print_info_get_margins   (pj->pi, &header, &footer, &left, &right);
 
 	y = footer
 		- gnome_font_get_descender (pj->decoration_font);
@@ -997,7 +997,7 @@ workbook_print_all (PrintJobInfo *pj, Workbook *wb)
 }
 
 static void
-print_job_info_set_one_time_defaults (PrintJobInfo *pj) 
+print_job_info_set_one_time_defaults (PrintJobInfo *pj)
 {
 	gnome_print_config_set (pj->pi->print_config, "Settings.Transport.Backend",
 		gnm_app_prefs->printer_backend);
@@ -1013,9 +1013,9 @@ print_job_info_set_one_time_defaults (PrintJobInfo *pj)
 }
 
 static void
-print_job_info_save_one_time_defaults (PrintJobInfo *pj) 
+print_job_info_save_one_time_defaults (PrintJobInfo *pj)
 {
-	gnm_gconf_set_printer_backend 
+	gnm_gconf_set_printer_backend
 		(gnome_print_config_get (pj->pi->print_config, "Settings.Transport.Backend"));
 	gnm_gconf_set_printer_filename
 		(gnome_print_config_get (pj->pi->print_config, "Settings.Transport.Backend.FileName"));
@@ -1058,13 +1058,13 @@ print_job_info_get (Sheet *sheet, PrintRange range, gboolean const preview)
 	pj->current_output_sheet = 0;
 
 	/* Precompute information */
-	gnome_print_master_get_page_size_from_config (pj->pi->print_config, 
+	gnome_print_master_get_page_size_from_config (pj->pi->print_config,
 						      &width, &height);
 	pj->width = width;
 	pj->height = height;
 
 
-	print_info_get_margins   (pj->pi, &header, &footer, &left, &right);	
+	print_info_get_margins   (pj->pi, &header, &footer, &left, &right);
 	pj->x_points = pj->width - (left + right);
 	pj->y_points = pj->height -
 		(MAX (pm->top.points, header) +
@@ -1111,7 +1111,7 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
   	g_return_if_fail (IS_SHEET (sheet));
 
 	end  = workbook_sheet_count (sheet->workbook);
-	
+
 	pj = print_job_info_get (sheet, default_range, preview);
 
 	print_config = pj->pi->print_config;
@@ -1120,11 +1120,11 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
   	if (!preview) {
 		gnome_print_dialog = g_object_new (GNOME_TYPE_PRINT_DIALOG,
 						   "print_config", print_config,
-						   NULL); 
+						   NULL);
 
 		g_return_if_fail (gnome_print_dialog != NULL);
 
-		gnome_print_dialog_construct (GNOME_PRINT_DIALOG (gnome_print_dialog), 
+		gnome_print_dialog_construct (GNOME_PRINT_DIALOG (gnome_print_dialog),
 					      _("Print Sheets"),
 					      GNOME_PRINT_DIALOG_RANGE |
 					      GNOME_PRINT_DIALOG_COPIES);
@@ -1138,7 +1138,7 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 		toplevel = wbcg_toplevel (wbcg);
 		if (GTK_WINDOW (gnome_print_dialog)->transient_parent != toplevel)
 			gtk_window_set_transient_for (GTK_WINDOW (gnome_print_dialog), toplevel);
-		
+
 		switch (gtk_dialog_run (GTK_DIALOG(gnome_print_dialog))) {
 		case GNOME_PRINT_DIALOG_RESPONSE_PRINT:
 			break;
@@ -1151,7 +1151,7 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 			gtk_widget_destroy (gnome_print_dialog);
 			return;
 		}
-		gnome_print_dialog_get_copies (GNOME_PRINT_DIALOG (gnome_print_dialog), 
+		gnome_print_dialog_get_copies (GNOME_PRINT_DIALOG (gnome_print_dialog),
 					       &copies, &collate);
 		range = gnome_print_dialog_get_range_page (
 			GNOME_PRINT_DIALOG (gnome_print_dialog), &first, &end);
@@ -1179,7 +1179,7 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 	}
 
 	print_job_info_save_one_time_defaults (pj);
-	
+
 	gpm = gnome_print_master_new_from_config (print_config);
 	pj->print_context = gnome_print_master_get_context (gpm);
 	pj->range = default_range;

@@ -2,7 +2,7 @@
 #define GNUMERIC_PATTERN_H
 
 #include "style.h"
-#include <libgnomecanvas/gnome-canvas.h>
+#include <libfoocanvas/foo-canvas.h>
 #include <libgnomeprint/gnome-print.h>
 
 #define GNUMERIC_SHEET_PATTERNS 25
@@ -10,7 +10,7 @@
 GdkPixmap * gnumeric_pattern_get_stipple(gint index);
 
 gboolean    gnumeric_background_set_gc	(MStyle const *style,
-					 GdkGC *gc, GnomeCanvas *canvas,
+					 GdkGC *gc, FooCanvas *canvas,
 					 gboolean const is_selected);
 gboolean    gnumeric_background_set_pc	(MStyle const *style,
 					 GnomePrintContext *context);

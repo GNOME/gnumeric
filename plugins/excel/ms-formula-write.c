@@ -247,8 +247,7 @@ write_area (PolishData *pd, CellRef const *a, CellRef const *b)
 			gint16 ixals;
 
 			/* FIXME no external references for now */
-			g_return_if_fail (pd->sheet == NULL ||
-					  pd->sheet->workbook == a->sheet->workbook);
+			g_return_if_fail (pd->ewb->gnum_wb == a->sheet->workbook);
 
 			idx_a = a->sheet->index_in_wb + 1;
 			idx_b = (b->sheet != NULL)
@@ -304,8 +303,7 @@ write_ref (PolishData *pd, CellRef const *ref)
 			gint16 ixals;
 
 			/* FIXME no external references for now */
-			g_return_if_fail (pd->sheet == NULL ||
-					  pd->sheet->workbook == ref->sheet->workbook);
+			g_return_if_fail (pd->ewb->gnum_wb == ref->sheet->workbook);
 
 			idx_a = ref->sheet->index_in_wb + 1;
 			ixals = -(idx_a-1);

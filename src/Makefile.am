@@ -21,6 +21,7 @@ INCLUDES = 								\
 	-I$(srcdir)/widgets						\
 	-I$(srcdir)/dialogs						\
 	-I$(srcdir)/tools						\
+	-I$(top_srcdir)/src/cut-n-paste-code/foocanvas			\
 	$(GNUMERIC_CFLAGS)
 
 BUILT_SOURCES =					\
@@ -316,8 +317,7 @@ gnumeric_app_libs =				\
 	tools/solver/libsolver.a		\
 	tools/solver/glpk/source/libglpk.a	\
 	tools/solver/lp_solve/liblp_solve.a	\
-	cut-n-paste-code/egg/menu/libegg-menu.a
-
+	cut-n-paste-code/foocanvas/libfoocanvas/libfoocanvas.a
 
 if WITH_BONOBO
 gnumeric_component_SOURCES =			\

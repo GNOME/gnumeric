@@ -27,7 +27,7 @@
 #define GNUMERIC_ITEM "BAR"
 #include "item-debug.h"
 
-static GnomeCanvasItemClass *item_bar_parent_class;
+static FooCanvasItemClass *item_bar_parent_class;
 
 enum {
 	ARG_0,
@@ -36,7 +36,7 @@ enum {
 };
 
 struct _ItemBar {
-	GnomeCanvasItem  canvas_item;
+	FooCanvasItem  canvas_item;
 
 	GnmCanvas	*gcanvas;
 	GdkGC           *text_gc, *lines, *shade;
@@ -60,7 +60,7 @@ struct _ItemBar {
 };
 
 typedef struct {
-	GnomeCanvasItemClass parent_class;
+	FooCanvasItemClass parent_class;
 } ItemBarClass;
 
 static int
@@ -137,7 +137,7 @@ item_bar_calc_size (ItemBar *ib)
 		? ib_compute_pixels_from_indent (sheet, TRUE)
 		: ib_compute_pixels_from_indent (sheet, FALSE);
 
-	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (ib));
+	foo_canvas_item_request_update (FOO_CANVAS_ITEM (ib));
 
 	return ib->indent +
 		(ib->is_col_header ? ib->cell_height : ib->cell_width);
@@ -156,33 +156,33 @@ item_bar_indent	(ItemBar const *ib)
 }
 
 static void
-item_bar_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
+item_bar_update (FooCanvasItem *item,  double i2w_dx, double i2w_dy, int flags)
 {
 	ItemBar *ib = ITEM_BAR (item);
 
 	item->x1 = 0;
 	item->y1 = 0;
 	if (ib->is_col_header) {
-		item->x2 = INT_MAX;
+		item->x2 = INT_MAX/2;
 		item->y2 = (ib->cell_height + ib->indent);
 	} else {
 		item->x2 = (ib->cell_width  + ib->indent);
-		item->y2 = INT_MAX;
+		item->y2 = INT_MAX/2;
 	}
 
-	if (GNOME_CANVAS_ITEM_CLASS (item_bar_parent_class)->update)
-		(*GNOME_CANVAS_ITEM_CLASS (item_bar_parent_class)->update)(item, affine, clip_path, flags);
+	if (FOO_CANVAS_ITEM_CLASS (item_bar_parent_class)->update)
+		(*FOO_CANVAS_ITEM_CLASS (item_bar_parent_class)->update)(item, i2w_dx, i2w_dy, flags);
 }
 
 static void
-item_bar_realize (GnomeCanvasItem *item)
+item_bar_realize (FooCanvasItem *item)
 {
 	ItemBar *ib;
 	GdkWindow *window;
 	GtkStyle *style;
 
-	if (GNOME_CANVAS_ITEM_CLASS (item_bar_parent_class)->realize)
-		(*GNOME_CANVAS_ITEM_CLASS (item_bar_parent_class)->realize)(item);
+	if (FOO_CANVAS_ITEM_CLASS (item_bar_parent_class)->realize)
+		(*FOO_CANVAS_ITEM_CLASS (item_bar_parent_class)->realize)(item);
 
 	ib = ITEM_BAR (item);
 	window = GTK_WIDGET (item->canvas)->window;
@@ -208,7 +208,7 @@ item_bar_realize (GnomeCanvasItem *item)
 }
 
 static void
-item_bar_unrealize (GnomeCanvasItem *item)
+item_bar_unrealize (FooCanvasItem *item)
 {
 	ItemBar *ib = ITEM_BAR (item);
 
@@ -218,16 +218,16 @@ item_bar_unrealize (GnomeCanvasItem *item)
 	gdk_cursor_destroy (ib->change_cursor);
 	gdk_cursor_destroy (ib->normal_cursor);
 
-	if (GNOME_CANVAS_ITEM_CLASS (item_bar_parent_class)->unrealize)
-		(*GNOME_CANVAS_ITEM_CLASS (item_bar_parent_class)->unrealize)(item);
+	if (FOO_CANVAS_ITEM_CLASS (item_bar_parent_class)->unrealize)
+		(*FOO_CANVAS_ITEM_CLASS (item_bar_parent_class)->unrealize)(item);
 }
 
 static void
 ib_draw_cell (ItemBar const * const ib,
 	      GdkDrawable *drawable, ColRowSelectionType const type,
-	      char const * const str, GdkRectangle * rect)
+	      char const * const str, GdkRectangle *rect)
 {
-	GtkWidget	*canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (ib)->canvas);
+	GtkWidget	*canvas = GTK_WIDGET (FOO_CANVAS_ITEM (ib)->canvas);
 	GdkGC 		*gc;
 	StyleFont	*font;
 	PangoRectangle   size;
@@ -279,14 +279,14 @@ item_bar_group_size (ItemBar const *ib, int max_outline)
 }
 
 static void
-item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width, int height)
+item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expose)
 {
 	ItemBar const         *ib = ITEM_BAR (item);
 	GnmCanvas const	      *gcanvas = ib->gcanvas;
 	SheetControlGUI const *scg    = gcanvas->simple.scg;
 	Sheet const           *sheet  = ((SheetControl *) scg)->sheet;
 	SheetView const	      *sv     = ((SheetControl *) scg)->view;
-	GtkWidget *canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (item)->canvas);
+	GtkWidget *canvas = GTK_WIDGET (FOO_CANVAS_ITEM (item)->canvas);
 	ColRowInfo const *cri;
 	int pixels;
 	gboolean prev_visible;
@@ -296,14 +296,15 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 
 	if (ib->is_col_header) {
 		int const inc = item_bar_group_size (ib, sheet->cols.max_outline_level);
-		int const base_pos = .2 * inc - y;
+		int const base_pos = .2 * inc;
 		int const len = (inc > 4) ? 4 : inc;
+		int const end = expose->area.x + expose->area.width;
 
 		/* See comment above for explaination of the extra 1 pixel */
-		int total = 1 + gcanvas->first_offset.col - x;
+		int total = 1 + gcanvas->first_offset.col;
 		int col = gcanvas->first.col;
 
-		rect.y = ib->indent - y;
+		rect.y = ib->indent;
 		rect.height = ib->cell_height;
 
 		/* See comment below for explaination of the line */
@@ -363,7 +364,7 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 
 						if (!prev_visible || prev_level > level) {
 							int safety = 0;
-							int top = pos - base_pos - y;
+							int top = pos - base_pos;
 							int size = inc < pixels ? inc : pixels;
 
 							if (size > 15)
@@ -405,11 +406,12 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 			prev_visible = cri->visible;
 			prev_level = cri->outline_level;
 			++col;
-		} while (total < width);
+		} while (total < end);
 	} else {
 		int const inc = item_bar_group_size (ib, sheet->rows.max_outline_level);
-		int const base_pos = .2 * inc - x;
+		int const base_pos = .2 * inc;
 		int const len = (inc > 4) ? 4 : inc;
+		int const end = expose->area.y + expose->area.height;
 
 		/* Include a 1 pixel buffer.
 		 * To avoid overlaping the cells the shared pixel belongs to
@@ -421,10 +423,10 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 		 * compatible with the default colour used on the bottom of the
 		 * cell shadows.
 		 */
-		int total = 1 + gcanvas->first_offset.row - y;
+		int total = 1 + gcanvas->first_offset.row;
 		int row = gcanvas->first.row;
 
-		rect.x = ib->indent - x;
+		rect.x = ib->indent;
 		rect.width = ib->cell_width;
 
 		gdk_draw_line (drawable, ib->lines,
@@ -482,7 +484,7 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 
 						if (prev_level > level) {
 							int safety = 0;
-							int left = pos - base_pos - x;
+							int left = pos - base_pos;
 							int size = inc < pixels ? inc : pixels;
 
 							if (size > 15)
@@ -519,13 +521,13 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 			prev_visible = cri->visible;
 			prev_level = cri->outline_level;
 			++row;
-		} while (total < height);
+		} while (total < end);
 	}
 }
 
 static double
-item_bar_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
-		GnomeCanvasItem **actual_item)
+item_bar_point (FooCanvasItem *item, double x, double y, int cx, int cy,
+		FooCanvasItem **actual_item)
 {
 	*actual_item = item;
 	return 0.0;
@@ -592,7 +594,7 @@ is_pointer_on_division (ItemBar const *ib, int pos, int *the_total, int *the_ele
 static void
 ib_set_cursor (ItemBar *ib, int x, int y)
 {
-	GtkWidget *canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (ib)->canvas);
+	GtkWidget *canvas = GTK_WIDGET (FOO_CANVAS_ITEM (ib)->canvas);
 	GdkCursor *cursor = ib->normal_cursor;
 	int major, minor;
 
@@ -683,10 +685,10 @@ outline_button_press (ItemBar const *ib, int element, int pixel)
 }
 
 static gint
-item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
+item_bar_event (FooCanvasItem *item, GdkEvent *e)
 {
 	ColRowInfo const *cri;
-	GnomeCanvas	* const canvas = item->canvas;
+	FooCanvas	* const canvas = item->canvas;
 	ItemBar		* const ib = ITEM_BAR (item);
 	GnmCanvas	* const gcanvas = ib->gcanvas;
 	SheetControlGUI	* const scg = gcanvas->simple.scg;
@@ -702,12 +704,12 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 	 */
 	switch (e->type){
 	case GDK_ENTER_NOTIFY:
-		gnome_canvas_w2c (canvas, e->crossing.x, e->crossing.y, &x, &y);
+		foo_canvas_w2c (canvas, e->crossing.x, e->crossing.y, &x, &y);
 		ib_set_cursor (ib, x, y);
 		break;
 
 	case GDK_MOTION_NOTIFY:
-		gnome_canvas_w2c (canvas, e->motion.x, e->motion.y, &x, &y);
+		foo_canvas_w2c (canvas, e->motion.x, e->motion.y, &x, &y);
 
 		/* Do col/row resizing or incremental marking */
 		if (ib->colrow_being_resized != -1) {
@@ -751,7 +753,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 			scg_colrow_resize_move (scg, is_cols, pos);
 
 			/* Redraw the ItemBar to show nice incremental progress */
-			gnome_canvas_request_redraw (canvas, 0, 0, INT_MAX/2, INT_MAX/2);
+			foo_canvas_request_redraw (canvas, 0, 0, INT_MAX/2, INT_MAX/2);
 
 		} else if (ib->start_selection != -1) {
 
@@ -772,7 +774,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 		if (!wbcg_edit_has_guru (wbcg))
 			scg_mode_edit (sc);
 
-		gnome_canvas_w2c (canvas, e->button.x, e->button.y, &x, &y);
+		foo_canvas_w2c (canvas, e->button.x, e->button.y, &x, &y);
 		if (is_cols) {
 			pos = x;
 			other_pos = y;
@@ -885,10 +887,10 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 static void
 item_bar_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {
-	GnomeCanvasItem *item;
+	FooCanvasItem *item;
 	ItemBar *ib;
 
-	item = GNOME_CANVAS_ITEM (o);
+	item = FOO_CANVAS_ITEM (o);
 	ib = ITEM_BAR (o);
 
 	switch (arg_id){
@@ -899,7 +901,7 @@ item_bar_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		ib->is_col_header = GTK_VALUE_BOOL (*arg);
 		break;
 	}
-	item_bar_update (item, NULL, NULL, 0);
+	item_bar_update (item, 0., 0., 0);
 }
 
 static void
@@ -930,7 +932,7 @@ item_bar_destroy (GtkObject *object)
 static void
 item_bar_init (ItemBar *ib)
 {
-	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (ib);
+	FooCanvasItem *item = FOO_CANVAS_ITEM (ib);
 
 	item->x1 = 0;
 	item->y1 = 0;
@@ -957,12 +959,12 @@ static void
 item_bar_class_init (ItemBarClass *item_bar_class)
 {
 	GtkObjectClass  *object_class;
-	GnomeCanvasItemClass *item_class;
+	FooCanvasItemClass *item_class;
 
-	item_bar_parent_class = g_type_class_peek (gnome_canvas_item_get_type ());
+	item_bar_parent_class = g_type_class_peek (foo_canvas_item_get_type ());
 
 	object_class = (GtkObjectClass *) item_bar_class;
-	item_class = (GnomeCanvasItemClass *) item_bar_class;
+	item_class = (FooCanvasItemClass *) item_bar_class;
 
 	gtk_object_add_arg_type ("ItemBar::GnumericCanvas", GTK_TYPE_POINTER,
 				 GTK_ARG_WRITABLE, ARG_GNUMERIC_SHEET);
@@ -981,4 +983,4 @@ item_bar_class_init (ItemBarClass *item_bar_class)
 
 GSF_CLASS (ItemBar, item_bar,
 	   item_bar_class_init, item_bar_init,
-	   GNOME_TYPE_CANVAS_ITEM);
+	   FOO_TYPE_CANVAS_ITEM);

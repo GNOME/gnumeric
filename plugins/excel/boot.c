@@ -62,8 +62,8 @@ MsExcelReadGbFn ms_excel_read_gb = NULL;
 
 gboolean excel_file_probe (GnumFileOpener const *fo, GsfInput *input, FileProbeLevel pl);
 void excel_file_open (GnumFileOpener const *fo, IOContext *context, WorkbookView *wbv, GsfInput *input);
-void excel97_file_save (GnumFileSaver const *fs, IOContext *context, WorkbookView *wbv, const char *filename);
-void excel95_file_save (GnumFileSaver const *fs, IOContext *context, WorkbookView *wbv, const char *filename);
+void excel_biff7_file_save (GnumFileSaver const *fs, IOContext *context, WorkbookView *wbv, char const *filename);
+void excel_biff8_file_save (GnumFileSaver const *fs, IOContext *context, WorkbookView *wbv, char const *filename);
 void plugin_cleanup (void);
 
 gboolean
@@ -189,13 +189,14 @@ excel_file_open (GnumFileOpener const *fo, IOContext *context,
  * ExcelWorkbook in ms-excel-read.h.
  */
 static void
-excel_save (IOContext *context, WorkbookView *wbv, const char *filename,
+excel_save (IOContext *context, WorkbookView *wbv, char const *filename,
             MsBiffVersion ver)
 {
 	Workbook *wb;
 	GsfOutput *output, *content;
 	GsfOutfile *outfile;
-	ExcelWriteState *state;
+	ExcelWriteState *state_v7 = NULL;
+	ExcelWriteState *state_v8 = NULL;
 	GError    *err;
 	GsfStructuredBlob *macros;
 
@@ -211,16 +212,24 @@ excel_save (IOContext *context, WorkbookView *wbv, const char *filename,
 
 	io_progress_message (context, _("Preparing for save..."));
 	io_progress_range_push (context, 0.0, 0.1);
-	state = excel_write_init_v7 (context, wbv);
+	if (ver != MS_BIFF_V8)
+		state_v7 = excel_write_init_v7 (context, wbv);
+	if (ver != MS_BIFF_V7)
+		state_v8 = excel_write_init_v8 (context, wbv);
+
 	io_progress_range_pop (context);
-	if (state == NULL)
+	if (state_v7 == NULL && state_v8 == NULL)
 		return;
+
+	outfile = gsf_outfile_msole_new (output);
+	g_object_unref (G_OBJECT (output));
 
 	io_progress_message (context, _("Saving file..."));
 	io_progress_range_push (context, 0.1, 1.0);
-	outfile = gsf_outfile_msole_new (output);
-	g_object_unref (G_OBJECT (output));
-	excel_write_v7 (state, outfile);
+	if (state_v7 != NULL)
+		excel_write_v7 (state_v7, outfile);
+	if (state_v8 != NULL)
+		excel_write_v8 (state_v8, outfile);
 	io_progress_range_pop (context);
 
 	wb = wb_view_workbook (wbv);
@@ -246,15 +255,15 @@ excel_save (IOContext *context, WorkbookView *wbv, const char *filename,
 }
 
 void
-excel97_file_save (GnumFileSaver const *fs, IOContext *context,
-                   WorkbookView *wbv, const char *filename)
+excel_biff8_file_save (GnumFileSaver const *fs, IOContext *context,
+		       WorkbookView *wbv, char const *filename)
 {
 	excel_save (context, wbv, filename, MS_BIFF_V8);
 }
 
 void
-excel95_file_save (GnumFileSaver const *fs, IOContext *context,
-                   WorkbookView *wbv, const char *filename)
+excel_biff7_file_save (GnumFileSaver const *fs, IOContext *context,
+		       WorkbookView *wbv, char const *filename)
 {
 	excel_save (context, wbv, filename, MS_BIFF_V7);
 }

@@ -4,9 +4,19 @@ Andreas:
 	* Hide hidden cells in groff/troff export.
 	* Fix 78356.
 
-Jody:
-	* POISSON is defined for x == 0.
-	* Start work on rotated text.
+Evert Verhellen
+	* Buff up the function guru icon a touch
+
+J.H.M. Dassen (Ray):
+	* Updates to the build system.
+	* Some code janitor work.
+
+Jody
+	* POISSON is defined for x == 0
+	* Start work on rotated text
+	* Enable Excel97 basic export
+	* Have the importer designate the exporter directly
+	* Switch to foocanvas for performance
 
 Morten:
 	* Spelling fixes all over.
@@ -16,9 +26,8 @@ Morten:
 	* Plug leaks in function selector dialog.
 	* Improve memory usage in search centre slighly.
 
-J.H.M. Dassen (Ray):
-	* Updates to the build system.
-	* Some code janitor work.
+Nick Lamb:
+	* Initial support for pre-ole xls files.
 
 Olaf Till:
 	* Two new logarithmic regression functions, one of them

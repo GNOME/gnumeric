@@ -48,7 +48,7 @@
 
 #include <gsf/gsf-impl-utils.h>
 #include <libxml/globals.h>
-#include <libgnomecanvas/gnome-canvas-widget.h>
+#include <libfoocanvas/foo-canvas-widget.h>
 #include <gdk/gdkkeysyms.h>
 #include <math.h>
 
@@ -103,9 +103,9 @@ sheet_object_widget_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 	GnmCanvas *gcanvas = ((GnumericPane *)key)->gcanvas;
 	GtkWidget *view_widget = SOW_CLASS(so)->create_widget (
 		SHEET_OBJECT_WIDGET (so), SHEET_CONTROL_GUI (sc));
-	GnomeCanvasItem *view_item = gnome_canvas_item_new (
+	FooCanvasItem *view_item = foo_canvas_item_new (
 		gcanvas->object_group,
-		gnome_canvas_widget_get_type (),
+		foo_canvas_widget_get_type (),
 		"widget", view_widget,
 		"size_pixels", FALSE,
 		NULL);
@@ -123,22 +123,22 @@ static void
 sheet_object_widget_update_bounds (SheetObject *so, GObject *view_obj)
 {
 	double coords [4];
-	GnomeCanvasItem   *view = GNOME_CANVAS_ITEM (view_obj);
+	FooCanvasItem   *view = FOO_CANVAS_ITEM (view_obj);
 	SheetControlGUI	  *scg  =
 		SHEET_CONTROL_GUI (sheet_object_view_control (view_obj));
 
 	/* NOTE : far point is EXCLUDED so we add 1 */
  	scg_object_view_position (scg, so, coords);
-	gnome_canvas_item_set (view,
+	foo_canvas_item_set (view,
 		"x", coords [0], "y", coords [1],
 		"width",  coords [2] - coords [0] + 1.,
 		"height", coords [3] - coords [1] + 1.,
 		NULL);
 
 	if (so->is_visible)
-		gnome_canvas_item_show (view);
+		foo_canvas_item_show (view);
 	else
-		gnome_canvas_item_hide (view);
+		foo_canvas_item_hide (view);
 }
 
 static void
@@ -398,7 +398,7 @@ cb_frame_config_cancel_clicked (GtkWidget *button, FrameConfigState *state)
   	list = swc->sow.parent_object.realized_list;
   	for(;list!=NULL;list=list->next){
 		gtk_frame_set_label 
-			(GTK_FRAME(GNOME_CANVAS_WIDGET(list->data)->widget), 
+			(GTK_FRAME(FOO_CANVAS_WIDGET(list->data)->widget), 
 			 state->old_label);
   	}
   	
@@ -421,7 +421,7 @@ cb_frame_label_changed(GtkWidget *entry, FrameConfigState *state)
   	for (list = swc->sow.parent_object.realized_list; list != NULL; 
 	     list = list->next){
 		gtk_frame_set_label
-			(GTK_FRAME(GNOME_CANVAS_WIDGET(list->data)->widget),
+			(GTK_FRAME(FOO_CANVAS_WIDGET(list->data)->widget),
 			 text);
 	}
 }
@@ -1073,7 +1073,7 @@ sheet_widget_checkbox_set_active (SheetWidgetCheckbox *swc)
 
 	ptr = swc->sow.parent_object.realized_list;
 	for (; ptr != NULL ; ptr = ptr->next) {
-		GnomeCanvasWidget *item = GNOME_CANVAS_WIDGET (ptr->data);
+		FooCanvasWidget *item = FOO_CANVAS_WIDGET (ptr->data);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (item->widget),
 					      swc->value);
 	}
@@ -1312,7 +1312,7 @@ cb_checkbox_config_cancel_clicked (GtkWidget *button, CheckboxConfigState *state
 
  	list = swc->sow.parent_object.realized_list;
  	for (; list != NULL; list = list->next) {
- 		GnomeCanvasWidget *item = GNOME_CANVAS_WIDGET (list->data);
+ 		FooCanvasWidget *item = FOO_CANVAS_WIDGET (list->data);
  		g_return_if_fail (GTK_IS_CHECK_BUTTON (item->widget));
  		g_return_if_fail (GTK_IS_LABEL (GTK_BIN (item->widget)->child));
  		gtk_label_set_text (GTK_LABEL (GTK_BIN (item->widget)->child), state->old_label);
@@ -1337,7 +1337,7 @@ cb_checkbox_label_changed (GtkWidget *entry, CheckboxConfigState *state)
 
  	list = swc->sow.parent_object.realized_list;
  	for (; list != NULL; list = list->next) {
- 		GnomeCanvasWidget *item = GNOME_CANVAS_WIDGET (list->data);
+ 		FooCanvasWidget *item = FOO_CANVAS_WIDGET (list->data);
  		g_return_if_fail (GTK_IS_CHECK_BUTTON (item->widget));
  		g_return_if_fail (GTK_IS_LABEL (GTK_BIN (item->widget)->child));
  		gtk_label_set_text (GTK_LABEL (GTK_BIN (item->widget)->child), text);

@@ -456,7 +456,7 @@ clipboard_paste_region (CellRegion const *content,
 	sheet_regen_adjacent_spans (pt->sheet,
 		r->start.col,  r->start.row, r->end.col, r->end.row,
 		&min_col, &max_col);
-	sheet_range_calc_spans (pt->sheet, &pt->range,
+	sheet_range_calc_spans (pt->sheet, r,
 		(pt->paste_flags & PASTE_FORMATS) ? SPANCALC_RE_RENDER : SPANCALC_RENDER);
 	sheet_redraw_region (pt->sheet,
 		min_col, r->start.row, max_col, r->end.row);

@@ -107,7 +107,7 @@ gnumeric_pattern_get_stipple (gint index)
  */
 gboolean
 gnumeric_background_set_gc (MStyle const *mstyle, GdkGC *gc,
-			    GnomeCanvas *canvas,
+			    FooCanvas *canvas,
 			    gboolean const is_selected)
 {
 	int pattern;
@@ -134,7 +134,7 @@ gnumeric_background_set_gc (MStyle const *mstyle, GdkGC *gc,
 			gdk_gc_set_foreground (gc, &pat_col->color);
 			gdk_gc_set_background (gc, back);
 			gdk_gc_set_stipple (gc, gnumeric_pattern_get_stipple (pattern));
-			gnome_canvas_set_stipple_origin (canvas, gc);
+			foo_canvas_set_stipple_origin (canvas, gc);
 		} else {
 			gdk_gc_set_fill (gc, GDK_SOLID);
 			gdk_gc_set_foreground (gc, back);
@@ -224,7 +224,7 @@ gnumeric_background_set_pc (MStyle const *mstyle, GnomePrintContext *context)
 			gdk_gc_set_foreground (gc, &pat_col->color);
 			gdk_gc_set_background (gc, back);
 			gdk_gc_set_stipple (gc, gnumeric_pattern_get_stipple (pattern));
-			gnome_canvas_set_stipple_origin (canvas, gc);
+			foo_canvas_set_stipple_origin (canvas, gc);
 		} else {
 			gdk_gc_set_fill (gc, GDK_SOLID);
 			gdk_gc_set_foreground (gc, back);

@@ -35,13 +35,6 @@ typedef enum _StyleUnderlineType {
 	UNDERLINE_DOUBLE = 2
 } StyleUnderlineType;
 
-typedef enum _StyleOrientation {
-	ORIENT_HORIZ           = 1,
-	ORIENT_VERT_HORIZ_TEXT = 2,
-	ORIENT_VERT_VERT_TEXT  = 4,
-	ORIENT_VERT_VERT_TEXT2 = 8
-} StyleOrientation;
-
 struct _StyleFont {
 	int	 ref_count;
 	char	*font_name;

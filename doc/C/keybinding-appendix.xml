@@ -52,6 +52,12 @@
     </listitem>
     <listitem>
       <para>
+	<keycap>Ctl-F3</keycap> opens the <interface>Define Name</interface>
+	dialog window.
+      </para>
+    </listitem>
+    <listitem>
+      <para>
 	<keycap>F5</keycap> opens the <interface>Go to</interface>
 	dialog window which allows you to jump to a specified cell.
       </para>
@@ -72,5 +78,52 @@
 	strings.
       </para>
     </listitem>
+
+    <listitem>
+      <para>
+	<keycap>Ctl-~</keycap> Formats the current selection as a number.
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+	<keycap>Ctl-$</keycap> Formats the current selection with the default currency
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+	<keycap>Ctl-#</keycap> Formats the current selection with default date style
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+	<keycap>Ctl-^</keycap> Formats the current selection as using scientific notation
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+	<keycap>Ctl-@</keycap> Formats the current selection with the default time format
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+	<keycap>Ctl-!</keycap> Formats the current selection with the default accounting format
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+	<keycap>Ctl-&</keycap> Adds a thin border around the current selection
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+	<keycap>Ctl-_</keycap> Removes any borders around or in the current selection
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+	<keycap>Ctl-$</keycap> Formats the current selection as the default currency
+      </para>
+    </listitem>
+
   </itemizedlist>
 </sect1>

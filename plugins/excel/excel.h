@@ -18,6 +18,8 @@ void excel_read_workbook (IOContext *context, WorkbookView *new_wb,
 typedef struct _ExcelWriteState		ExcelWriteState;
 ExcelWriteState *excel_write_init_v7 (IOContext *context, WorkbookView *wbv);
 void		 excel_write_v7	     (ExcelWriteState *ewb, GsfOutfile *output);
+ExcelWriteState *excel_write_init_v8 (IOContext *context, WorkbookView *wbv);
+void		 excel_write_v8	     (ExcelWriteState *ewb, GsfOutfile *output);
 
 /* We need to use these for both read and write */
 typedef struct {

@@ -66,13 +66,6 @@ typedef enum {	/* Vertical alignment */
 	MS_BIFF_V_A_JUSTIFY = 3
 } MsBiffVAlign;
 
-typedef enum {	/* Text orientation */
-	MS_BIFF_O_HORIZ         = 0,
-	MS_BIFF_O_VERT_HORIZ = 1,
-	MS_BIFF_O_VERT_VERT  = 2,
-	MS_BIFF_O_VERT_VERT2 = 3
-} MsBiffOrient;
-
 typedef enum { /* Differences to parent styles */
 	MS_BIFF_D_FORMAT_BIT = 10,
 	MS_BIFF_D_FONT_BIT   = 11,

@@ -24,9 +24,9 @@
 #include <gsf/gsf-impl-utils.h>
 #include <gal/widgets/e-colors.h>
 #include <gal/widgets/widget-color-combo.h>
-#include <libgnomecanvas/gnome-canvas-line.h>
-#include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
-#include <libgnomecanvas/gnome-canvas-polygon.h>
+#include <libfoocanvas/foo-canvas-line.h>
+#include <libfoocanvas/foo-canvas-rect-ellipse.h>
+#include <libfoocanvas/foo-canvas-polygon.h>
 #include <math.h>
 
 #define SHEET_OBJECT_CONFIG_KEY "sheet-object-arrow-key"
@@ -74,7 +74,7 @@ sheet_object_graphic_fill_color_set (SheetObject *so, StyleColor *color)
 	sog->fill_color = color;
 
 	for (l = so->realized_list; l; l = l->next)
-		gnome_canvas_item_set (l->data, "fill_color_gdk", gdk, NULL);
+		foo_canvas_item_set (l->data, "fill_color_gdk", gdk, NULL);
 }
 
 static void
@@ -85,7 +85,7 @@ sheet_object_graphic_width_set (SheetObjectGraphic *sog, double width)
 
 	sog->width = width;
 	for (l = so->realized_list; l; l = l->next)
-		gnome_canvas_item_set (l->data, "width_units", width,
+		foo_canvas_item_set (l->data, "width_units", width,
 				       NULL);
 }
 
@@ -100,7 +100,7 @@ sheet_object_graphic_abc_set (SheetObjectGraphic *sog, double a, double b,
 	sog->b = b;
 	sog->c = c;
 	for (l = so->realized_list; l; l = l->next)
-		gnome_canvas_item_set (l->data, "arrow_shape_a", a,
+		foo_canvas_item_set (l->data, "arrow_shape_a", a,
 						"arrow_shape_b", b,
 						"arrow_shape_c", c, NULL);
 }
@@ -132,7 +132,7 @@ sheet_object_graphic_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 {
 	GnmCanvas *gcanvas = ((GnumericPane *)key)->gcanvas;
 	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (so);
-	GnomeCanvasItem *item = NULL;
+	FooCanvasItem *item = NULL;
 	GdkColor *fill_color;
 
 	g_return_val_if_fail (IS_SHEET_OBJECT (so), NULL);
@@ -141,22 +141,22 @@ sheet_object_graphic_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 
 	fill_color = (sog->fill_color != NULL) ? &sog->fill_color->color : NULL;
 
-	gnome_canvas_item_raise_to_top (GNOME_CANVAS_ITEM (gcanvas->sheet_object_group));
+	foo_canvas_item_raise_to_top (FOO_CANVAS_ITEM (gcanvas->sheet_object_group));
 
 	switch (sog->type) {
 	case SHEET_OBJECT_LINE:
-		item = gnome_canvas_item_new (
+		item = foo_canvas_item_new (
 			gcanvas->sheet_object_group,
-			gnome_canvas_line_get_type (),
+			foo_canvas_line_get_type (),
 			"fill_color_gdk", fill_color,
 			"width_units", sog->width,
 			NULL);
 		break;
 
 	case SHEET_OBJECT_ARROW:
-		item = gnome_canvas_item_new (
+		item = foo_canvas_item_new (
 			gcanvas->sheet_object_group,
-			gnome_canvas_line_get_type (),
+			foo_canvas_line_get_type (),
 			"fill_color_gdk", fill_color,
 			"width_units", sog->width,
 			"arrow_shape_a", sog->a,
@@ -177,19 +177,19 @@ sheet_object_graphic_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 static void
 sheet_object_graphic_update_bounds (SheetObject *so, GObject *view_obj)
 {
-	GnomeCanvasPoints *points = gnome_canvas_points_new (2);
-	GnomeCanvasItem   *view = GNOME_CANVAS_ITEM (view_obj);
+	FooCanvasPoints *points = foo_canvas_points_new (2);
+	FooCanvasItem   *view = FOO_CANVAS_ITEM (view_obj);
 	SheetControlGUI	  *scg  =
 		SHEET_CONTROL_GUI (sheet_object_view_control (view_obj));
 
 	scg_object_view_position (scg, so, points->coords);
-	gnome_canvas_item_set (view, "points", points, NULL);
-	gnome_canvas_points_free (points);
+	foo_canvas_item_set (view, "points", points, NULL);
+	foo_canvas_points_free (points);
 
 	if (so->is_visible)
-		gnome_canvas_item_show (view);
+		foo_canvas_item_show (view);
 	else
-		gnome_canvas_item_hide (view);
+		foo_canvas_item_hide (view);
 }
 
 static gboolean
@@ -361,7 +361,7 @@ typedef struct
 	GladeXML           *gui;
 	GtkWidget          *dialog;
 	GtkWidget *canvas;
-	GnomeCanvasItem *arrow;
+	FooCanvasItem *arrow;
 	GtkWidget *fill_color_combo;
 	GtkSpinButton *spin_arrow_tip;
 	GtkSpinButton *spin_arrow_length;
@@ -425,7 +425,7 @@ cb_adjustment_value_changed (GtkAdjustment *adj, DialogGraphicData *state)
 	sheet_object_graphic_width_set (state->sog,
 					gtk_spin_button_get_adjustment (
 						      state->spin_line_width)->value);
-	gnome_canvas_item_set (state->arrow,
+	foo_canvas_item_set (state->arrow,
 		"width_units", (double) gtk_spin_button_get_adjustment (
 						      state->spin_line_width)->value,
 		NULL);
@@ -439,7 +439,7 @@ cb_adjustment_value_changed (GtkAdjustment *adj, DialogGraphicData *state)
 					      gtk_spin_button_get_adjustment (
 						      state->spin_arrow_width)->value);
 
-		gnome_canvas_item_set (state->arrow,
+		foo_canvas_item_set (state->arrow,
 				       "arrow_shape_a", (double) gtk_spin_button_get_adjustment (
 					       state->spin_arrow_tip)->value,
 				       "arrow_shape_b", (double) gtk_spin_button_get_adjustment (
@@ -459,7 +459,7 @@ cb_fill_color_changed (ColorCombo *color_combo, GdkColor *color,
 	sheet_object_graphic_fill_color_set (so, color_combo_get_style_color (
 						     state->fill_color_combo));
 	
-	gnome_canvas_item_set (state->arrow, "fill_color_gdk", color, NULL);
+	foo_canvas_item_set (state->arrow, "fill_color_gdk", color, NULL);
 }
 
 static void
@@ -468,7 +468,7 @@ sheet_object_graphic_user_config (SheetObject *so, SheetControl *sc)
 	SheetObjectGraphic *sog= SHEET_OBJECT_GRAPHIC (so);
 	WorkbookControlGUI *wbcg = scg_get_wbcg (SHEET_CONTROL_GUI (sc));
 	DialogGraphicData *state;
-	GnomeCanvasPoints *points;
+	FooCanvasPoints *points;
 	GtkWidget *table;
 
 	g_return_if_fail (sog != NULL);
@@ -487,7 +487,7 @@ sheet_object_graphic_user_config (SheetObject *so, SheetControl *sc)
 	state->dialog = glade_xml_get_widget (state->gui, "SO-Arrow");
 
  	table = glade_xml_get_widget (state->gui, "table");
-	state->canvas = gnome_canvas_new ();
+	state->canvas = foo_canvas_new ();
 	gtk_table_attach_defaults (GTK_TABLE (table), state->canvas,
 				   2, 3, 0, (sog->type != SHEET_OBJECT_ARROW) ? 2 : 5);
 	gtk_widget_show (GTK_WIDGET (state->canvas));
@@ -533,26 +533,26 @@ sheet_object_graphic_user_config (SheetObject *so, SheetControl *sc)
 	} 
 	gtk_widget_show (state->dialog);
 
-	points = gnome_canvas_points_new (2);
+	points = foo_canvas_points_new (2);
 	points->coords [0] = state->canvas->allocation.width / 4.0;
 	points->coords [1] = 5.0;
 	points->coords [2] = state->canvas->allocation.width - points->coords [0];
 	points->coords [3] = state->canvas->allocation.height - points->coords [1];
 
 	if (sog->type != SHEET_OBJECT_ARROW)
-		state->arrow = gnome_canvas_item_new (
-			gnome_canvas_root (GNOME_CANVAS (state->canvas)),
-			GNOME_TYPE_CANVAS_LINE, "points", points,
+		state->arrow = foo_canvas_item_new (
+			foo_canvas_root (FOO_CANVAS (state->canvas)),
+			FOO_TYPE_CANVAS_LINE, "points", points,
 			"fill_color_gdk", sog->fill_color, NULL);
 	else
-		state->arrow = gnome_canvas_item_new (
-				gnome_canvas_root (GNOME_CANVAS (state->canvas)),
-				GNOME_TYPE_CANVAS_LINE, "points", points,
+		state->arrow = foo_canvas_item_new (
+				foo_canvas_root (FOO_CANVAS (state->canvas)),
+				FOO_TYPE_CANVAS_LINE, "points", points,
 				"fill_color_gdk", sog->fill_color,
 				"first_arrowhead", TRUE, NULL);
 
-	gnome_canvas_points_free (points);
-	gnome_canvas_set_scroll_region (GNOME_CANVAS (state->canvas),
+	foo_canvas_points_free (points);
+	foo_canvas_set_scroll_region (FOO_CANVAS (state->canvas),
 					0., 0., state->canvas->allocation.width,
 					state->canvas->allocation.height);
 	cb_adjustment_value_changed (NULL, state);
@@ -673,7 +673,7 @@ sheet_object_filled_outline_color_set (SheetObject *so, StyleColor *color)
 	sof->outline_color = color;
 
 	for (l = so->realized_list; l; l = l->next)
-		gnome_canvas_item_set (l->data, "outline_color_gdk", gdk, NULL);
+		foo_canvas_item_set (l->data, "outline_color_gdk", gdk, NULL);
 }
 
 SheetObject *
@@ -710,7 +710,7 @@ sheet_object_filled_update_bounds (SheetObject *so, GObject *view)
 
 	scg_object_view_position (scg, so, coords);
 
-	gnome_canvas_item_set (GNOME_CANVAS_ITEM (view),
+	foo_canvas_item_set (FOO_CANVAS_ITEM (view),
 		"x1", MIN (coords [0], coords [2]),
 		"x2", MAX (coords [0], coords [2]),
 		"y1", MIN (coords [1], coords [3]),
@@ -718,9 +718,9 @@ sheet_object_filled_update_bounds (SheetObject *so, GObject *view)
 		NULL);
 
 	if (so->is_visible)
-		gnome_canvas_item_show (GNOME_CANVAS_ITEM (view));
+		foo_canvas_item_show (FOO_CANVAS_ITEM (view));
 	else
-		gnome_canvas_item_hide (GNOME_CANVAS_ITEM (view));
+		foo_canvas_item_hide (FOO_CANVAS_ITEM (view));
 }
 
 static GObject *
@@ -729,7 +729,7 @@ sheet_object_filled_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 	GnmCanvas *gcanvas = ((GnumericPane *)key)->gcanvas;
 	SheetObjectGraphic *sog;
 	SheetObjectFilled  *sof;
-	GnomeCanvasItem *item;
+	FooCanvasItem *item;
 	GdkColor *fill_color, *outline_color;
 
 	g_return_val_if_fail (IS_SHEET_OBJECT_FILLED (so), NULL);
@@ -742,12 +742,12 @@ sheet_object_filled_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 	fill_color = (sog->fill_color != NULL) ? &sog->fill_color->color : NULL;
 	outline_color = (sof->outline_color != NULL) ? &sof->outline_color->color : NULL;
 
-	gnome_canvas_item_raise_to_top (GNOME_CANVAS_ITEM (gcanvas->sheet_object_group));
+	foo_canvas_item_raise_to_top (FOO_CANVAS_ITEM (gcanvas->sheet_object_group));
 
-	item = gnome_canvas_item_new (gcanvas->sheet_object_group,
+	item = foo_canvas_item_new (gcanvas->sheet_object_group,
 		(sog->type == SHEET_OBJECT_OVAL) ?
-					GNOME_TYPE_CANVAS_ELLIPSE :
-					GNOME_TYPE_CANVAS_RECT,
+					FOO_TYPE_CANVAS_ELLIPSE :
+					FOO_TYPE_CANVAS_RECT,
 		"fill_color_gdk",	fill_color,
 		"outline_color_gdk",	outline_color,
 		"width_units",		sog->width,
@@ -1154,7 +1154,7 @@ typedef struct {
 	StyleColor  *fill_color;
 	StyleColor  *outline_color;
 	double       outline_width;
-	GnomeCanvasPoints *points;
+	FooCanvasPoints *points;
 } SheetObjectPolygon;
 typedef struct {
 	SheetObjectClass parent_class;
@@ -1182,7 +1182,7 @@ sheet_object_polygon_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 {
 	GnmCanvas *gcanvas = ((GnumericPane *)key)->gcanvas;
 	SheetObjectPolygon *sop = SHEET_OBJECT_POLYGON (so);
-	GnomeCanvasItem *item = NULL;
+	FooCanvasItem *item = NULL;
 	GdkColor *fill_color, *outline_color;
 
 	g_return_val_if_fail (IS_SHEET_OBJECT (so), NULL);
@@ -1192,11 +1192,11 @@ sheet_object_polygon_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 	fill_color = (sop->fill_color != NULL) ? &sop->fill_color->color : NULL;
 	outline_color = (sop->outline_color != NULL) ? &sop->outline_color->color : NULL;
 
-	gnome_canvas_item_raise_to_top (GNOME_CANVAS_ITEM (gcanvas->sheet_object_group));
+	foo_canvas_item_raise_to_top (FOO_CANVAS_ITEM (gcanvas->sheet_object_group));
 
-	item = gnome_canvas_item_new (
+	item = foo_canvas_item_new (
 		gcanvas->sheet_object_group,
-		gnome_canvas_polygon_get_type (),
+		foo_canvas_polygon_get_type (),
 		"fill_color_gdk",	fill_color,
 		"outline_color_gdk",	outline_color,
 		"width_units",		sop->outline_width,
@@ -1211,8 +1211,8 @@ static void
 sheet_object_polygon_update_bounds (SheetObject *so, GObject *view_obj)
 {
 	double scale[6], translate[6], result[6];
-	GnomeCanvasPoints *points = gnome_canvas_points_new (2);
-	GnomeCanvasItem   *view = GNOME_CANVAS_ITEM (view_obj);
+	FooCanvasPoints *points = foo_canvas_points_new (2);
+	FooCanvasItem   *view = FOO_CANVAS_ITEM (view_obj);
 	SheetControlGUI	  *scg  =
 		SHEET_CONTROL_GUI (sheet_object_view_control (view_obj));
 
@@ -1226,13 +1226,14 @@ sheet_object_polygon_update_bounds (SheetObject *so, GObject *view_obj)
 		MIN (points->coords[1], points->coords[3]));
 	art_affine_multiply (result, scale, translate);
 
-	gnome_canvas_item_affine_absolute (view, result);
-	gnome_canvas_points_free (points);
+#warning FIXME without affines
+	/* foo_canvas_item_affine_absolute (view, result); */
+	foo_canvas_points_free (points);
 
 	if (so->is_visible)
-		gnome_canvas_item_show (view);
+		foo_canvas_item_show (view);
 	else
-		gnome_canvas_item_hide (view);
+		foo_canvas_item_hide (view);
 }
 
 static gboolean
@@ -1314,7 +1315,7 @@ sheet_object_polygon_init (GObject *obj)
 	sop->fill_color = style_color_new_name ("white");
 	sop->outline_color = style_color_new_name ("black");
 	sop->outline_width = .02;
-	sop->points = gnome_canvas_points_new (4);
+	sop->points = foo_canvas_points_new (4);
 
 	sop->points->coords[0] = 0.; sop->points->coords[1] = 0.;
 	sop->points->coords[2] = 1.; sop->points->coords[3] = 0.;
@@ -1331,7 +1332,7 @@ GSF_CLASS (SheetObjectPolygon, sheet_object_polygon,
 void
 sheet_object_polygon_set_points (SheetObject *so, GArray *pairs)
 {
-	GnomeCanvasPoints *points;
+	FooCanvasPoints *points;
 	unsigned i;
 	GList *l;
 	SheetObjectPolygon *sop;
@@ -1341,12 +1342,12 @@ sheet_object_polygon_set_points (SheetObject *so, GArray *pairs)
 
 	sop = SHEET_OBJECT_POLYGON (so);
 
-	points = gnome_canvas_points_new (pairs->len / 2);
+	points = foo_canvas_points_new (pairs->len / 2);
 	for (i = 0 ; i < pairs->len ; i++)
 		points->coords [i] = g_array_index (pairs, double, i);
 	for (l = so->realized_list; l; l = l->next)
-		gnome_canvas_item_set (l->data, "points", points, NULL);
-	gnome_canvas_points_free (sop->points);
+		foo_canvas_item_set (l->data, "points", points, NULL);
+	foo_canvas_points_free (sop->points);
 	sop->points = points;
 }
 
@@ -1363,7 +1364,7 @@ sheet_object_polygon_fill_color_set (SheetObject *so, StyleColor *color)
 	sop->fill_color = color;
 
 	for (l = so->realized_list; l; l = l->next)
-		gnome_canvas_item_set (l->data, "fill_color_gdk", gdk, NULL);
+		foo_canvas_item_set (l->data, "fill_color_gdk", gdk, NULL);
 }
 
 void
@@ -1379,5 +1380,5 @@ sheet_object_polygon_outline_color_set (SheetObject *so, StyleColor *color)
 	sop->outline_color = color;
 
 	for (l = so->realized_list; l; l = l->next)
-		gnome_canvas_item_set (l->data, "outline_color_gdk", gdk, NULL);
+		foo_canvas_item_set (l->data, "outline_color_gdk", gdk, NULL);
 }

@@ -11,7 +11,7 @@
 
 #include "gnumeric-canvas.h"
 
-#include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
+#include <libfoocanvas/foo-canvas-rect-ellipse.h>
 #include <gsf/gsf-impl-utils.h>
 #define GNUMERIC_ITEM "ACETATE"
 #include "item-debug.h"
@@ -19,15 +19,15 @@
 #define MARGIN	10
 
 typedef struct {
-	GnomeCanvasRect parent;
+	FooCanvasRect parent;
 } ItemAcetate;
 typedef struct {
-	GnomeCanvasRectClass parent;
+	FooCanvasRectClass parent;
 } ItemAcetateClass;
 
 static double
-item_acetate_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
-		    GnomeCanvasItem **actual_item)
+item_acetate_point (FooCanvasItem *item, double x, double y, int cx, int cy,
+		    FooCanvasItem **actual_item)
 {
 	if (cx < (item->x1 - MARGIN) ||
 	    cx > (item->x2 + MARGIN) ||
@@ -39,11 +39,11 @@ item_acetate_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
 }
 
 static void
-item_acetate_class_init (GnomeCanvasItemClass *item_class)
+item_acetate_class_init (FooCanvasItemClass *item_class)
 {
 	item_class->point = item_acetate_point;
 }
 
 GSF_CLASS (ItemAcetate, item_acetate,
 	   item_acetate_class_init, NULL,
-	   GNOME_TYPE_CANVAS_RECT);
+	   FOO_TYPE_CANVAS_RECT);

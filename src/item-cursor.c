@@ -40,7 +40,7 @@
 #define CLIP_SAFETY_MARGIN      (AUTO_HANDLE_SPACE + 5)
 
 struct _ItemCursor {
-	GnomeCanvasItem canvas_item;
+	FooCanvasItem canvas_item;
 
 	SheetControlGUI *scg;
 	Range		 pos;
@@ -79,7 +79,7 @@ struct _ItemCursor {
 	GdkColor  color;
 };
 
-static GnomeCanvasItem *item_cursor_parent_class;
+static FooCanvasItem *item_cursor_parent_class;
 
 enum {
 	ARG_0,
@@ -92,10 +92,10 @@ enum {
 static int
 cb_item_cursor_animation (ItemCursor *ic)
 {
-	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (ic);
+	FooCanvasItem *item = FOO_CANVAS_ITEM (ic);
 
 	ic->state = !ic->state;
-	gnome_canvas_item_request_update (item);
+	foo_canvas_item_request_update (item);
 	return TRUE;
 }
 
@@ -135,13 +135,13 @@ item_cursor_destroy (GtkObject *object)
 }
 
 static void
-item_cursor_realize (GnomeCanvasItem *item)
+item_cursor_realize (FooCanvasItem *item)
 {
 	ItemCursor *ic;
 	GdkWindow  *window;
 
-	if (GNOME_CANVAS_ITEM_CLASS (item_cursor_parent_class)->realize)
-		(*GNOME_CANVAS_ITEM_CLASS (item_cursor_parent_class)->realize)(item);
+	if (FOO_CANVAS_ITEM_CLASS (item_cursor_parent_class)->realize)
+		(*FOO_CANVAS_ITEM_CLASS (item_cursor_parent_class)->realize)(item);
 
 	ic = ITEM_CURSOR (item);
 	window = GTK_WIDGET (item->canvas)->window;
@@ -167,7 +167,7 @@ item_cursor_realize (GnomeCanvasItem *item)
  * Release all of the resources we allocated
  */
 static void
-item_cursor_unrealize (GnomeCanvasItem *item)
+item_cursor_unrealize (FooCanvasItem *item)
 {
 	ItemCursor *ic = ITEM_CURSOR (item);
 
@@ -179,27 +179,27 @@ item_cursor_unrealize (GnomeCanvasItem *item)
 		ic->stipple = NULL;
 	}
 
-	if (GNOME_CANVAS_ITEM_CLASS (item_cursor_parent_class)->unrealize)
-		(*GNOME_CANVAS_ITEM_CLASS (item_cursor_parent_class)->unrealize)(item);
+	if (FOO_CANVAS_ITEM_CLASS (item_cursor_parent_class)->unrealize)
+		(*FOO_CANVAS_ITEM_CLASS (item_cursor_parent_class)->unrealize)(item);
 }
 
 static void
 item_cursor_request_redraw (ItemCursor *ic)
 {
-	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (ic)->canvas;
+	FooCanvas *canvas = FOO_CANVAS_ITEM (ic)->canvas;
 	int const x = ic->cached_x;
 	int const y = ic->cached_y;
 	int const w = ic->cached_w;
 	int const h = ic->cached_h;
 
-	gnome_canvas_request_redraw (canvas, x - 2, y - 2, x + 2, y + h + 2);
-	gnome_canvas_request_redraw (canvas, x - 2, y - 2, x + w + 2, y + 2);
-	gnome_canvas_request_redraw (canvas, x + w - 2, y - 2, x + w + 5, y + h + 5);
-	gnome_canvas_request_redraw (canvas, x - 2, y + h - 2, x + w + 5, y + h + 5);
+	foo_canvas_request_redraw (canvas, x - 2, y - 2, x + 2, y + h + 2);
+	foo_canvas_request_redraw (canvas, x - 2, y - 2, x + w + 2, y + 2);
+	foo_canvas_request_redraw (canvas, x + w - 2, y - 2, x + w + 5, y + h + 5);
+	foo_canvas_request_redraw (canvas, x - 2, y + h - 2, x + w + 5, y + h + 5);
 }
 
 static void
-item_cursor_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
+item_cursor_update (FooCanvasItem *item, double i2w_dx, double i2w_dy, int flags)
 {
 	ItemCursor    *ic = ITEM_CURSOR (item);
 	GnmCanvas *gcanvas = GNM_CANVAS (item->canvas);
@@ -240,8 +240,8 @@ item_cursor_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, in
 #if 0
 	fprintf (stderr, "update %d,%d %d,%d\n", x, y, w,h);
 #endif
-	if (GNOME_CANVAS_ITEM_CLASS(item_cursor_parent_class)->update)
-		(*GNOME_CANVAS_ITEM_CLASS(item_cursor_parent_class)->update)(item, affine, clip_path, flags);
+	if (FOO_CANVAS_ITEM_CLASS(item_cursor_parent_class)->update)
+		(*FOO_CANVAS_ITEM_CLASS(item_cursor_parent_class)->update)(item, i2w_dx, i2w_dy, flags);
 }
 
 /*
@@ -254,8 +254,8 @@ item_cursor_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, in
  * In other words - a clipping region.
  */
 static void
-item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
-		  int x, int y, int width, int height)
+item_cursor_draw (FooCanvasItem *item, GdkDrawable *drawable,
+		  GdkEventExpose *expose)
 {
 	ItemCursor *ic = ITEM_CURSOR (item);
 	int dx0, dy0, dx1, dy1;
@@ -263,7 +263,6 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	int draw_thick, draw_handle;
 	int premove = 0;
 	GdkColor *fore = NULL, *back = NULL;
-	GdkRectangle clip_rect;
 	gboolean draw_stippled, draw_center, draw_external, draw_internal;
 
 	int const xd = ic->cached_x;
@@ -278,8 +277,8 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		return;
 
 	/* Top left and bottom right corner of cursor, in pixmap coordinates */
-	dx0 = xd - x;
-	dy0 = yd - y;
+	dx0 = xd;
+	dy0 = yd;
 	dx1 = dx0 + w;
 	dy1 = dy0 + h;
 
@@ -349,20 +348,16 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 	ic->auto_fill_handle_at_top = (draw_handle >= 2);
 
-	clip_rect.x = 0;
-	clip_rect.y = 0;
-	clip_rect.width = width;
-	clip_rect.height= height;
-	gdk_gc_set_clip_rectangle (ic->gc, &clip_rect);
+	gdk_gc_set_clip_rectangle (ic->gc, &expose->area);
 
 	/* Avoid guint16 overflow during line drawing.  We can change
 	 * the shape we draw, so long as no lines or parts of
 	 * rectangles are moved from outside to inside the clipping
 	 * region */
-	dx0 = MAX (dx0, - CLIP_SAFETY_MARGIN);
-	dy0 = MAX (dy0, - CLIP_SAFETY_MARGIN);
-	dx1 = MIN (dx1, width + CLIP_SAFETY_MARGIN);
-	dy1 = MIN (dy1, height + CLIP_SAFETY_MARGIN);
+	dx0 = MAX (dx0, expose->area.x - CLIP_SAFETY_MARGIN);
+	dy0 = MAX (dy0, expose->area.y - CLIP_SAFETY_MARGIN);
+	dx1 = MIN (dx1, expose->area.x + expose->area.width + CLIP_SAFETY_MARGIN);
+	dy1 = MIN (dy1, expose->area.y + expose->area.height + CLIP_SAFETY_MARGIN);
 
 	gdk_gc_set_line_attributes (ic->gc, 1,
 		GDK_LINE_SOLID, GDK_CAP_BUTT, GDK_JOIN_MITER);
@@ -501,7 +496,7 @@ item_cursor_bound_set (ItemCursor *ic, Range const *new_bound)
 
 	ic->pos = *new_bound;
 
-	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (ic));
+	foo_canvas_item_request_update (FOO_CANVAS_ITEM (ic));
 
 	return TRUE;
 }
@@ -515,17 +510,17 @@ item_cursor_bound_set (ItemCursor *ic, Range const *new_bound)
 void
 item_cursor_reposition (ItemCursor *ic)
 {
-	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (ic);
+	FooCanvasItem *item = FOO_CANVAS_ITEM (ic);
 
 	g_return_if_fail (item != NULL);
 
 	/* Request an update */
-	gnome_canvas_item_request_update (item);
+	foo_canvas_item_request_update (item);
 }
 
 static double
-item_cursor_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
-		   GnomeCanvasItem **actual_item)
+item_cursor_point (FooCanvasItem *item, double x, double y, int cx, int cy,
+		   FooCanvasItem **actual_item)
 {
 	ItemCursor const *ic = ITEM_CURSOR (item);
 
@@ -606,7 +601,7 @@ item_cursor_in_drag_handle (ItemCursor *ic, int x, int y)
 }
 
 static void
-item_cursor_set_cursor (GnomeCanvas *canvas, ItemCursor *ic, int x, int y)
+item_cursor_set_cursor (FooCanvas *canvas, ItemCursor *ic, int x, int y)
 {
 	int cursor;
 
@@ -631,16 +626,16 @@ cb_autofill_bound (Sheet *sheet, int col, int row,
 }
 
 static gint
-item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
+item_cursor_selection_event (FooCanvasItem *item, GdkEvent *event)
 {
-	GnomeCanvas	*canvas = item->canvas;
+	FooCanvas	*canvas = item->canvas;
 	GnmCanvas   *gcanvas = GNM_CANVAS (canvas);
 	ItemCursor *ic = ITEM_CURSOR (item);
 	int x, y;
 
 	switch (event->type) {
 	case GDK_ENTER_NOTIFY:
-		gnome_canvas_w2c (
+		foo_canvas_w2c (
 			canvas, event->crossing.x, event->crossing.y, &x, &y);
 
 		item_cursor_set_cursor (canvas, ic, x, y);
@@ -650,7 +645,7 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 		int style, button;
 		ItemCursor *special_cursor;
 
-		gnome_canvas_w2c (
+		foo_canvas_w2c (
 			canvas, event->motion.x, event->motion.y, &x, &y);
 
 		if (ic->drag_button < 0) {
@@ -712,9 +707,9 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 		}
 
 		if (scg_special_cursor_bound_set (ic->scg, &ic->pos))
-			gnome_canvas_update_now (canvas);
+			foo_canvas_update_now (canvas);
 
-		gnm_simple_canvas_grab (GNOME_CANVAS_ITEM (special_cursor),
+		gnm_simple_canvas_grab (FOO_CANVAS_ITEM (special_cursor),
 			GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK | GDK_BUTTON_PRESS_MASK,
 			NULL, event->button.time);
 		gnm_canvas_slide_init (gcanvas);
@@ -896,7 +891,7 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 static gboolean
 item_cursor_target_region_ok (ItemCursor *ic)
 {
-	GnomeCanvasItem *gci = GNOME_CANVAS_ITEM (ic);
+	FooCanvasItem *gci = FOO_CANVAS_ITEM (ic);
 	SheetControl	*sc = (SheetControl *) ic->scg;
 
 	g_return_val_if_fail (gci != NULL, FALSE);
@@ -1072,7 +1067,7 @@ item_cursor_set_bounds_visibly (ItemCursor *ic,
 				CellPos const *corner,
 				int end_col, int end_row)
 {
-	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (ic);
+	FooCanvasItem *item = FOO_CANVAS_ITEM (ic);
 	GnmCanvas  *gcanvas = GNM_CANVAS (item->canvas);
 	Range r;
 
@@ -1090,7 +1085,7 @@ item_cursor_set_bounds_visibly (ItemCursor *ic,
 	 */
 	range_init (&r, corner->col, corner->row, end_col, end_row);
 	if (scg_special_cursor_bound_set (ic->scg, &r))
-		gnome_canvas_update_now (GNOME_CANVAS (gcanvas));
+		foo_canvas_update_now (FOO_CANVAS (gcanvas));
 }
 
 void
@@ -1102,16 +1097,12 @@ item_cursor_set_visibility (ItemCursor *ic, gboolean visible)
 		return;
 
 	ic->visible = visible;
-	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (ic));
+	foo_canvas_item_request_update (FOO_CANVAS_ITEM (ic));
 }
 
 static void
 item_cursor_tip_setlabel (ItemCursor *ic)
 {
-	char buffer [32]; /* What if SHEET_MAX_ROWS or SHEET_MAX_COLS changes? */
-	int tmp;
-	Range const * src = &ic->pos;
-
 	if (ic->tip == NULL) {
 		ic->tip = gnumeric_create_tooltip ();
 		gnumeric_position_tooltip (ic->tip, TRUE);
@@ -1119,21 +1110,7 @@ item_cursor_tip_setlabel (ItemCursor *ic)
 	}
 
 	g_return_if_fail (ic->tip != NULL);
-
-	/*
-	 * keep these as 2 print statements, because
-	 * col_name uses a static buffer
-	 */
-	tmp = snprintf (buffer, sizeof (buffer), "%s%s",
-			col_name (src->start.col),
-			row_name (src->start.row));
-
-	if (src->start.col != src->end.col || src->start.row != src->end.row)
-		snprintf (buffer+tmp, sizeof (buffer)-tmp, ":%s%s",
-			  col_name (src->end.col),
-			  row_name (src->end.row));
-
-	gtk_label_set_text (GTK_LABEL (ic->tip), buffer);
+	gtk_label_set_text (GTK_LABEL (ic->tip), range_name (&ic->pos));
 }
 
 static gboolean
@@ -1168,7 +1145,7 @@ static void
 item_cursor_handle_motion (ItemCursor *ic, GdkEvent *event,
 			   GnmCanvasSlideHandler slide_handler)
 {
-	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (ic)->canvas;
+	FooCanvas *canvas = FOO_CANVAS_ITEM (ic)->canvas;
 
 	gnm_canvas_handle_motion (GNM_CANVAS (canvas),
 		canvas, &event->motion,
@@ -1177,7 +1154,7 @@ item_cursor_handle_motion (ItemCursor *ic, GdkEvent *event,
 }
 
 static gint
-item_cursor_drag_event (GnomeCanvasItem *item, GdkEvent *event)
+item_cursor_drag_event (FooCanvasItem *item, GdkEvent *event)
 {
 	ItemCursor *ic = ITEM_CURSOR (item);
 
@@ -1250,7 +1227,7 @@ cb_autofill_scroll (GnmCanvas *gcanvas, int col, int row, gpointer user_data)
 }
 
 static gint
-item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
+item_cursor_autofill_event (FooCanvasItem *item, GdkEvent *event)
 {
 	ItemCursor *ic = ITEM_CURSOR (item);
 	SheetControl *sc = (SheetControl *) ic->scg;
@@ -1286,7 +1263,7 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 }
 
 static gint
-item_cursor_event (GnomeCanvasItem *item, GdkEvent *event)
+item_cursor_event (FooCanvasItem *item, GdkEvent *event)
 {
 	ItemCursor *ic = ITEM_CURSOR (item);
 
@@ -1327,10 +1304,10 @@ item_cursor_event (GnomeCanvasItem *item, GdkEvent *event)
 static void
 item_cursor_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {
-	GnomeCanvasItem *item;
+	FooCanvasItem *item;
 	ItemCursor *ic;
 
-	item = GNOME_CANVAS_ITEM (o);
+	item = FOO_CANVAS_ITEM (o);
 	ic = ITEM_CURSOR (o);
 
 	switch (arg_id) {
@@ -1346,7 +1323,7 @@ item_cursor_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	case ARG_COLOR: {
 		GdkColor color;
 		char *color_name = GTK_VALUE_STRING (*arg);
-		if (gnome_canvas_get_color (item->canvas, color_name, &color)) {
+		if (foo_canvas_get_color (item->canvas, color_name, &color)) {
 			ic->color = color;
 			ic->use_color = 1;
 		}
@@ -1355,7 +1332,7 @@ item_cursor_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 }
 
 typedef struct {
-	GnomeCanvasItemClass parent_class;
+	FooCanvasItemClass parent_class;
 } ItemCursorClass;
 
 /*
@@ -1365,12 +1342,12 @@ static void
 item_cursor_class_init (ItemCursorClass *item_cursor_class)
 {
 	GtkObjectClass  *object_class;
-	GnomeCanvasItemClass *item_class;
+	FooCanvasItemClass *item_class;
 
-	item_cursor_parent_class = g_type_class_peek (gnome_canvas_item_get_type ());
+	item_cursor_parent_class = g_type_class_peek (foo_canvas_item_get_type ());
 
 	object_class = (GtkObjectClass *) item_cursor_class;
-	item_class = (GnomeCanvasItemClass *) item_cursor_class;
+	item_class = (FooCanvasItemClass *) item_cursor_class;
 
 	gtk_object_add_arg_type ("ItemCursor::SheetControlGUI", GTK_TYPE_POINTER,
 				 GTK_ARG_WRITABLE, ARG_SHEET_CONTROL_GUI);
@@ -1384,7 +1361,7 @@ item_cursor_class_init (ItemCursorClass *item_cursor_class)
 	object_class->set_arg = item_cursor_set_arg;
 	object_class->destroy = item_cursor_destroy;
 
-	/* GnomeCanvasItem method overrides */
+	/* FooCanvasItem method overrides */
 	item_class->update      = item_cursor_update;
 	item_class->realize     = item_cursor_realize;
 	item_class->unrealize   = item_cursor_unrealize;
@@ -1396,7 +1373,7 @@ item_cursor_class_init (ItemCursorClass *item_cursor_class)
 static void
 item_cursor_init (ItemCursor *ic)
 {
-	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (ic);
+	FooCanvasItem *item = FOO_CANVAS_ITEM (ic);
 
 	item->x1 = 0;
 	item->y1 = 0;
@@ -1426,4 +1403,4 @@ item_cursor_init (ItemCursor *ic)
 
 GSF_CLASS (ItemCursor, item_cursor,
 	   item_cursor_class_init, item_cursor_init,
-	   GNOME_TYPE_CANVAS_ITEM);
+	   FOO_TYPE_CANVAS_ITEM);

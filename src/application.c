@@ -574,7 +574,7 @@ gnumeric_application_setup_icons (void)
 
 		{ gnm_auto,				NULL,				"Gnumeric_AutoSum" },
 		{ gnm_equal,				NULL,				"Gnumeric_Equal" },
-		{ gnm_function_selector,		NULL,				"Gnumeric_FormulaGuru" },
+		{ gnm_formula_guru_24,			gnm_formula_guru_16,		"Gnumeric_FormulaGuru" },
 		{ gnm_insert_image_24,			gnm_insert_image_16,		"Gnumeric_InsertImage" },
 		{ gnm_bucket,				NULL,				"Gnumeric_Bucket" },
 		{ gnm_font,				NULL,				"Gnumeric_Font" },

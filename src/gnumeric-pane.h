@@ -2,15 +2,15 @@
 #define GNUMERIC_PANE_H
 
 #include "gui-gnumeric.h"
-#include <libgnomecanvas/gnome-canvas.h>
-#include <libgnomecanvas/gnome-canvas-util.h>
+#include <libfoocanvas/foo-canvas.h>
+#include <libfoocanvas/foo-canvas-util.h>
 
 struct _GnumericPane {
 	int		 index;
 	gboolean	 is_active;
 	GnmCanvas	*gcanvas;
 	struct {
-		GnomeCanvas *canvas;
+		FooCanvas *canvas;
 		ItemBar     *item;
 	} col, row;
 
@@ -18,7 +18,7 @@ struct _GnumericPane {
 	struct {
 		GtkObject         *guide;
 		GtkObject         *start;
-		GnomeCanvasPoints *points;
+		FooCanvasPoints *points;
 	} colrow_resize;
 
 	ItemGrid      *grid;
@@ -30,7 +30,7 @@ struct _GnumericPane {
 	GSList		*anted_cursors;
 
 	SheetObject	 *drag_object;
-	GnomeCanvasItem  *control_points [9]; /* Control points for the current item */
+	FooCanvasItem  *control_points [9]; /* Control points for the current item */
 
 	int	cursor_type;
 };
@@ -60,9 +60,9 @@ gboolean gnm_pane_special_cursor_bound_set	(GnumericPane *pane, Range const *r);
 void gnm_pane_special_cursor_start 		(GnumericPane *pane, int style, int button);
 void gnm_pane_special_cursor_stop		(GnumericPane *pane);
 
-void gnm_pane_object_register	  (SheetObject *so, GnomeCanvasItem *view);
+void gnm_pane_object_register	  (SheetObject *so, FooCanvasItem *view);
 void gnm_pane_widget_register	  (SheetObject *so, GtkWidget *widget,
-				   GnomeCanvasItem *view);
+				   FooCanvasItem *view);
 void gnm_pane_object_stop_editing (GnumericPane *pane);
 void gnm_pane_object_set_bounds   (GnumericPane *pane, SheetObject *so,
 				   double l, double t, double r, double b);

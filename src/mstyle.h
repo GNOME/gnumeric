@@ -40,9 +40,7 @@ typedef enum _MStyleElementType {
 	        MSTYLE_ALIGN_V,
 	        MSTYLE_ALIGN_H,
 	        MSTYLE_INDENT,
-
-		MSTYLE_ORIENTATION,
-
+		MSTYLE_ROTATION,
 		MSTYLE_WRAP_TEXT,
 		MSTYLE_SHRINK_TO_FIT,
 
@@ -115,8 +113,10 @@ void                mstyle_set_align_v     (MStyle *st, StyleVAlignFlags a);
 StyleVAlignFlags    mstyle_get_align_v     (const MStyle *st);
 void                mstyle_set_indent	   (MStyle *st, int i);
 int		    mstyle_get_indent	   (const MStyle *st);
-void                mstyle_set_orientation (MStyle *st, StyleOrientation o);
-StyleOrientation    mstyle_get_orientation (const MStyle *st);
+
+void                mstyle_set_rotation	   (MStyle *st, int r);
+int            	    mstyle_get_rotation    (const MStyle *st);
+
 void                mstyle_set_wrap_text   (MStyle *st, gboolean f);
 gboolean            mstyle_get_wrap_text   (const MStyle *st);
 void                mstyle_set_shrink_to_fit (MStyle *st, gboolean f);

@@ -3,14 +3,14 @@
 
 #include "gui-gnumeric.h"
 #include <gtk/gtkentry.h>
-#include <libgnomecanvas/gnome-canvas.h>
+#include <libfoocanvas/foo-canvas.h>
 
 #define ITEM_EDIT(obj)          (G_TYPE_CHECK_INSTANCE_CAST((obj), item_edit_get_type (), ItemEdit))
 #define ITEM_EDIT_CLASS(k)      (G_TYPE_CHECK_CLASS_CAST ((k), item_edit_get_type (), ItemEditClass))
 #define IS_ITEM_EDIT(o)         (G_TYPE_CHECK_INSTANCE_TYPE((o), item_edit_get_type ()))
 
 struct _ItemEdit {
-	GnomeCanvasItem canvas_item;
+	FooCanvasItem canvas_item;
 
 	SheetControlGUI *scg;
 	ItemGrid   	*item_grid;
@@ -34,7 +34,7 @@ struct _ItemEdit {
 	 * When editing, if the cursor is inside a cell name, or a
 	 * cell range, we highlight this on the spreadsheet.
 	 */
-	GnomeCanvasItem *feedback_cursor;
+	FooCanvasItem *feedback_cursor;
 	Range            feedback_region;
 	gboolean         feedback_disabled;
 };
@@ -45,7 +45,7 @@ void    item_edit_disable_highlight (ItemEdit *item_edit);
 void    item_edit_enable_highlight  (ItemEdit *item_edit);
 
 typedef struct {
-	GnomeCanvasItemClass parent_class;
+	FooCanvasItemClass parent_class;
 } ItemEditClass;
 
 #endif /* GNUMERIC_ITEM_EDIT_H */

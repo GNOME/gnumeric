@@ -37,7 +37,7 @@
 #include "hlink.h"
 #include "gui-util.h"
 
-#include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
+#include <libfoocanvas/foo-canvas-rect-ellipse.h>
 #include <gtk/gtkdnd.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtklabel.h>
@@ -53,7 +53,7 @@
 #define MERGE_DEBUG(range, str)
 #endif
 
-static GnomeCanvasItemClass *item_grid_parent_class;
+static FooCanvasItemClass *item_grid_parent_class;
 
 /* The arguments we take */
 enum {
@@ -69,7 +69,7 @@ typedef enum {
 } ItemGridSelectionType;
 
 struct _ItemGrid {
-	GnomeCanvasItem canvas_item;
+	FooCanvasItem canvas_item;
 
 	SheetControlGUI *scg;
 
@@ -87,7 +87,7 @@ struct _ItemGrid {
 	struct {
 		double x, y;
 		gboolean has_been_sized;
-		GnomeCanvasItem *item;
+		FooCanvasItem *item;
 	} obj_create;
 
 	/* information for tha cursor motion handler */
@@ -131,13 +131,13 @@ item_grid_destroy (GtkObject *object)
 }
 
 static void
-item_grid_realize (GnomeCanvasItem *item)
+item_grid_realize (FooCanvasItem *item)
 {
 	GdkWindow *window;
 	ItemGrid  *ig;
 
-	if (GNOME_CANVAS_ITEM_CLASS (item_grid_parent_class)->realize)
-		(*GNOME_CANVAS_ITEM_CLASS (item_grid_parent_class)->realize)(item);
+	if (FOO_CANVAS_ITEM_CLASS (item_grid_parent_class)->realize)
+		(*FOO_CANVAS_ITEM_CLASS (item_grid_parent_class)->realize)(item);
 
 	ig = ITEM_GRID (item);
 	window = GTK_WIDGET (item->canvas)->window;
@@ -156,7 +156,7 @@ item_grid_realize (GnomeCanvasItem *item)
 }
 
 static void
-item_grid_unrealize (GnomeCanvasItem *item)
+item_grid_unrealize (FooCanvasItem *item)
 {
 	ItemGrid *ig = ITEM_GRID (item);
 
@@ -165,20 +165,20 @@ item_grid_unrealize (GnomeCanvasItem *item)
 	gdk_gc_unref (ig->gc.empty);	ig->gc.empty = NULL;
 	gdk_gc_unref (ig->gc.bound);	ig->gc.bound = NULL;
 
-	if (GNOME_CANVAS_ITEM_CLASS (item_grid_parent_class)->unrealize)
-		(*GNOME_CANVAS_ITEM_CLASS (item_grid_parent_class)->unrealize)(item);
+	if (FOO_CANVAS_ITEM_CLASS (item_grid_parent_class)->unrealize)
+		(*FOO_CANVAS_ITEM_CLASS (item_grid_parent_class)->unrealize)(item);
 }
 
 static void
-item_grid_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
+item_grid_update (FooCanvasItem *item, double i2w_dx, double i2w_dy, int flags)
 {
-	if (GNOME_CANVAS_ITEM_CLASS (item_grid_parent_class)->update)
-		(* GNOME_CANVAS_ITEM_CLASS (item_grid_parent_class)->update) (item, affine, clip_path, flags);
+	if (FOO_CANVAS_ITEM_CLASS (item_grid_parent_class)->update)
+		(* FOO_CANVAS_ITEM_CLASS (item_grid_parent_class)->update) (item, i2w_dx, i2w_dy, flags);
 
 	item->x1 = 0;
 	item->y1 = 0;
-	item->x2 = INT_MAX;
-	item->y2 = INT_MAX;
+	item->x2 = INT_MAX/2;
+	item->y2 = INT_MAX/2;
 }
 
 /**
@@ -289,10 +289,14 @@ merged_col_cmp (Range const *a, Range const *b)
 }
 
 static void
-item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
-		int draw_x, int draw_y, int width, int height)
+item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
+		GdkEventExpose *expose)
 {
-	GnomeCanvas *canvas = item->canvas;
+	gint draw_x = expose->area.x;
+	gint draw_y = expose->area.y;
+	gint width  = expose->area.width;
+	gint height = expose->area.height;
+	FooCanvas *canvas = item->canvas;
 	GnmCanvas *gcanvas = GNM_CANVAS (canvas);
 	Sheet const *sheet = ((SheetControl *) gcanvas->simple.scg)->sheet;
 	Cell const * const edit_cell = gcanvas->simple.scg->wbcg->wb_control.editing_cell;
@@ -309,10 +313,10 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	int x, y, col, row, n;
 	int start_col = gnm_canvas_find_col (gcanvas, draw_x-2, &x);
 	int end_col = gnm_canvas_find_col (gcanvas, draw_x+width+2, NULL);
-	int const diff_x = x - draw_x;
+	int const diff_x = x;
 	int start_row = gnm_canvas_find_row (gcanvas, draw_y-2, &y);
 	int end_row = gnm_canvas_find_row (gcanvas, draw_y+height+2, NULL);
-	int const diff_y = y - draw_y;
+	int const diff_y = y;
 
 	StyleRow sr, next_sr;
 	MStyle const **styles;
@@ -331,8 +335,8 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		ig->scg->new_object == NULL;
 
 #if 0
-	printf ("%s%s:", col_name(start_col), row_name(start_row));
-	printf ("%s%s <= %d vs %d\n", col_name(end_col), row_name(end_row), y, draw_y);
+	fprintf (stderr, "%s%s:", col_name(start_col), row_name(start_row));
+	fprintf (stderr, "%s%s <= %d vs %d\n", col_name(end_col), row_name(end_row), y, draw_y);
 #endif
 
 	/* clip to bounds */
@@ -659,8 +663,8 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 }
 
 static double
-item_grid_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
-		 GnomeCanvasItem **actual_item)
+item_grid_point (FooCanvasItem *item, double x, double y, int cx, int cy,
+		 FooCanvasItem **actual_item)
 {
 	*actual_item = item;
 	return 0.0;
@@ -724,7 +728,7 @@ ig_obj_create_motion (ItemGrid *ig, gdouble new_x, gdouble new_y)
 
 		scg_object_calc_position (ig->scg, so, points);
 	} else
-		gnome_canvas_item_set (ig->obj_create.item,
+		foo_canvas_item_set (ig->obj_create.item,
 			"x1", x1, "y1", y1,
 			"x2", x2, "y2", y2,
 			NULL);
@@ -781,7 +785,7 @@ ig_obj_create_finish (ItemGrid *ig, GdkEventButton *event)
 static gboolean
 ig_obj_create_begin (ItemGrid *ig, GdkEventButton *event)
 {
-	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (ig);
+	FooCanvasItem *item = FOO_CANVAS_ITEM (ig);
 	GnmCanvas  *gcanvas = GNM_CANVAS (item->canvas);
 	SheetControlGUI *scg;
 	SheetObject *so;
@@ -800,9 +804,9 @@ ig_obj_create_begin (ItemGrid *ig, GdkEventButton *event)
 
 	so = scg->new_object;
 	if (!sheet_object_rubber_band_directly (so)) {
-		ig->obj_create.item = gnome_canvas_item_new (
+		ig->obj_create.item = foo_canvas_item_new (
 			gcanvas->object_group,
-			GNOME_TYPE_CANVAS_RECT,
+			FOO_TYPE_CANVAS_RECT,
 			"outline_color", "black",
 			"width_units",   2.0,
 			NULL);
@@ -850,8 +854,8 @@ drag_start (GtkWidget *widget, GdkEventButton *event, Sheet *sheet)
 static int
 item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 {
-	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (ig);
-	GnomeCanvas    *canvas = item->canvas;
+	FooCanvasItem *item = FOO_CANVAS_ITEM (ig);
+	FooCanvas    *canvas = item->canvas;
 	GnmCanvas *gcanvas = GNM_CANVAS (canvas);
 	SheetControlGUI *scg = ig->scg;
 	SheetControl *sc = (SheetControl *) scg;
@@ -862,7 +866,7 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 
 	gnm_canvas_slide_stop (gcanvas);
 
-	gnome_canvas_w2c (canvas, event->x, event->y, &x, &y);
+	foo_canvas_w2c (canvas, event->x, event->y, &x, &y);
 	pos.col = gnm_canvas_find_col (gcanvas, x, NULL);
 	pos.row = gnm_canvas_find_row (gcanvas, y, NULL);
 
@@ -1010,7 +1014,7 @@ cb_extend_object_creation (GnmCanvas *gcanvas, int col, int row, gpointer ignore
 	x += gcanvas->first_offset.col;
 	y = scg_colrow_distance_get (scg, FALSE, gcanvas->first.row, row);
 	y += gcanvas->first_offset.row;
-	gnome_canvas_c2w (GNOME_CANVAS (gcanvas), x, y, &new_x, &new_y);
+	foo_canvas_c2w (FOO_CANVAS (gcanvas), x, y, &new_x, &new_y);
 
 	ig_obj_create_motion (gcanvas->pane->grid, new_x, new_y);
 	return TRUE;
@@ -1020,7 +1024,7 @@ static gint
 cb_cursor_come_to_rest (ItemGrid *ig)
 {
 	Sheet const *sheet = ((SheetControl *) ig->scg)->view->sheet;
-	GnomeCanvas *canvas = ig->canvas_item.canvas;
+	FooCanvas *canvas = ig->canvas_item.canvas;
 	GnmCanvas *gcanvas = GNM_CANVAS (canvas);
 	GnmHLink *link;
 	int x, y;
@@ -1028,7 +1032,7 @@ cb_cursor_come_to_rest (ItemGrid *ig)
 
 	/* Be anal and look it up in case something has destroyed the link
 	 * since the last motion */
-	gnome_canvas_w2c (canvas, ig->last_x, ig->last_y, &x, &y);
+	foo_canvas_w2c (canvas, ig->last_x, ig->last_y, &x, &y);
 	pos.col = gnm_canvas_find_col (gcanvas, x, NULL);
 	pos.row = gnm_canvas_find_row (gcanvas, y, NULL);
 
@@ -1052,13 +1056,13 @@ static gint
 cb_cursor_motion (ItemGrid *ig)
 {
 	Sheet const *sheet = ((SheetControl *) ig->scg)->view->sheet;
-	GnomeCanvas *canvas = ig->canvas_item.canvas;
+	FooCanvas *canvas = ig->canvas_item.canvas;
 	GnmCanvas *gcanvas = GNM_CANVAS (canvas);
 	int x, y, cursor;
 	CellPos pos;
 	GnmHLink *old_link;
 
-	gnome_canvas_w2c (canvas, ig->last_x, ig->last_y, &x, &y);
+	foo_canvas_w2c (canvas, ig->last_x, ig->last_y, &x, &y);
 	pos.col = gnm_canvas_find_col (gcanvas, x, NULL);
 	pos.row = gnm_canvas_find_row (gcanvas, y, NULL);
 
@@ -1079,9 +1083,9 @@ cb_cursor_motion (ItemGrid *ig)
 }
 
 static gint
-item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
+item_grid_event (FooCanvasItem *item, GdkEvent *event)
 {
-	GnomeCanvas *canvas = item->canvas;
+	FooCanvas *canvas = item->canvas;
 	GnmCanvas *gcanvas = GNM_CANVAS (canvas);
 	ItemGrid *ig = ITEM_GRID (item);
 	SheetControlGUI *scg = ig->scg;
@@ -1209,7 +1213,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 static void
 item_grid_init (ItemGrid *ig)
 {
-	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (ig);
+	FooCanvasItem *item = FOO_CANVAS_ITEM (ig);
 
 	item->x1 = 0;
 	item->y1 = 0;
@@ -1248,20 +1252,20 @@ item_grid_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 }
 
 typedef struct {
-	GnomeCanvasItemClass parent_class;
+	FooCanvasItemClass parent_class;
 } ItemGridClass;
 
 static void
 item_grid_class_init (ItemGridClass *item_grid_class)
 {
 	GtkObjectClass  *object_class;
-	GnomeCanvasItemClass *item_class;
+	FooCanvasItemClass *item_class;
 
 	item_grid_parent_class =
-		g_type_class_peek (gnome_canvas_item_get_type ());
+		g_type_class_peek (foo_canvas_item_get_type ());
 
 	object_class = (GtkObjectClass *) item_grid_class;
-	item_class = (GnomeCanvasItemClass *) item_grid_class;
+	item_class = (FooCanvasItemClass *) item_grid_class;
 
 	gtk_object_add_arg_type ("ItemGrid::SheetControlGUI", GTK_TYPE_POINTER,
 				 GTK_ARG_WRITABLE, ARG_SHEET_CONTROL_GUI);
@@ -1280,4 +1284,4 @@ item_grid_class_init (ItemGridClass *item_grid_class)
 
 GSF_CLASS (ItemGrid, item_grid,
 	   item_grid_class_init, item_grid_init,
-	   GNOME_TYPE_CANVAS_ITEM);
+	   FOO_TYPE_CANVAS_ITEM);

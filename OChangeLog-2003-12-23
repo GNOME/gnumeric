@@ -1,3 +1,24 @@
+2002-11-06  Jody Goldberg <jody@gnome.org>
+
+	* src/item-*, src/*canvas* : convert to foocanvas
+
+	* src/application.c (gnumeric_application_setup_icons) : Use new
+	  scaled pngs for formula guru.
+	* src/pixmaps/Makefile.am : ditto.
+
+	* src/plugin.c (plugin_info_read) : add 'require_explicit_enabling' flag
+	  so that we don't auto enable specialized plugins.
+
+	* src/plugin-service.c (input_file_save_info_read) : delete.
+	(plugin_service_file_opener_read_xml) : don't call it here.
+	(gnum_plugin_file_opener_open) : And don't try to use it here.
+	  It is not useful to hard code the saver if the importer can handle
+	  multiple versions of the format.  Only the import process will know
+	  enough to be able to select the appropriate exporter.
+
+	* src/item-cursor.c (item_cursor_tip_setlabel) : simplify.
+	* src/auto-format.c : tidy up includes.
+
 2002-11-06   Andreas J. Guelzow  <aguelzow@taliesin.ca>
 	
 	http://bugzilla.gnome.org/show_bug.cgi?id=78356
@@ -54,6 +75,8 @@
 	(gnm_shutdown): No longer need to shut it down either.
 
 2002-11-03  Jody Goldberg <jody@gnome.org>
+
+	* src/mstyle.c : Add hooks for rotation.
 
 	* src/workbook-control-gui.c (workbook_setup_edit_area) : simplify.
 	(edit_area_button) : Use stock images, not stock items.

@@ -51,7 +51,7 @@
 #include <gsf/gsf-impl-utils.h>
 #include <gal/util/e-xml-utils.h>
 #include <libxml/parser.h>
-#include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
+#include <libfoocanvas/foo-canvas-rect-ellipse.h>
 #include <gtk/gtk.h>
 
 #define DISABLE_DEBUG
@@ -1029,14 +1029,14 @@ static GObject *
 gnm_graph_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 {
 	GnmCanvas *gcanvas = ((GnumericPane *)key)->gcanvas;
-	GnomeCanvasItem *item;
+	FooCanvasItem *item;
 
 	g_return_val_if_fail (gcanvas != NULL, NULL);
 
-	gnome_canvas_item_raise_to_top (GNOME_CANVAS_ITEM (gcanvas->sheet_object_group));
+	foo_canvas_item_raise_to_top (FOO_CANVAS_ITEM (gcanvas->sheet_object_group));
 
-	item = gnome_canvas_item_new (gcanvas->sheet_object_group,
-		GNOME_TYPE_CANVAS_RECT,
+	item = foo_canvas_item_new (gcanvas->sheet_object_group,
+		FOO_TYPE_CANVAS_RECT,
 		"fill_color",		"white",
 		"outline_color",	"black",
 		"width_units",		3.,
@@ -1055,7 +1055,7 @@ gnm_graph_update_bounds (SheetObject *so, GObject *view)
 
 	scg_object_view_position (scg, so, coords);
 
-	gnome_canvas_item_set (GNOME_CANVAS_ITEM (view),
+	foo_canvas_item_set (FOO_CANVAS_ITEM (view),
 		"x1", MIN (coords [0], coords [2]),
 		"x2", MAX (coords [0], coords [2]),
 		"y1", MIN (coords [1], coords [3]),
@@ -1063,9 +1063,9 @@ gnm_graph_update_bounds (SheetObject *so, GObject *view)
 		NULL);
 
 	if (so->is_visible)
-		gnome_canvas_item_show (GNOME_CANVAS_ITEM (view));
+		foo_canvas_item_show (FOO_CANVAS_ITEM (view));
 	else
-		gnome_canvas_item_hide (GNOME_CANVAS_ITEM (view));
+		foo_canvas_item_hide (FOO_CANVAS_ITEM (view));
 }
 
 static void

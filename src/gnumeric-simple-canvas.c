@@ -30,36 +30,36 @@ gnm_simple_canvas_key_release (GtkWidget *widget, GdkEventKey *event)
 static void
 gnm_simple_canvas_class_init (GtkWidgetClass *klass)
 {
-	parent = g_type_class_peek (gnome_canvas_get_type ());
+	parent = g_type_class_peek (foo_canvas_get_type ());
 	klass->key_press_event	 = gnm_simple_canvas_key_press;
 	klass->key_release_event = gnm_simple_canvas_key_release;
 }
 
 GSF_CLASS (GnmSimpleCanvas, gnm_simple_canvas,
 	   gnm_simple_canvas_class_init, NULL,
-	   GNOME_TYPE_CANVAS);
+	   FOO_TYPE_CANVAS);
 
-GnomeCanvas *
+FooCanvas *
 gnm_simple_canvas_new (SheetControlGUI *scg)
 {
 	GnmSimpleCanvas *gcanvas = g_object_new (GNM_SIMPLE_CANVAS_TYPE, NULL);
 	gcanvas->scg = scg;
 
 	/* YES! die die die */
-	gnome_canvas_set_center_scroll_region (GNOME_CANVAS (gcanvas), FALSE);
+	foo_canvas_set_center_scroll_region (FOO_CANVAS (gcanvas), FALSE);
 
-	return GNOME_CANVAS (gcanvas);
+	return FOO_CANVAS (gcanvas);
 }
 
 void
-gnm_simple_canvas_ungrab (GnomeCanvasItem *item, guint32 etime)
+gnm_simple_canvas_ungrab (FooCanvasItem *item, guint32 etime)
 {
 	GnmSimpleCanvas *gcanvas = GNM_SIMPLE_CANVAS(item->canvas);
 
 	g_return_if_fail (gcanvas != NULL);
 
 	gcanvas->scg->grab_stack--;
-	gnome_canvas_item_ungrab (item, etime);
+	foo_canvas_item_ungrab (item, etime);
 
 	/* We flush after the ungrab, to have the ungrab take effect
 	 * immediately operations might take a while, and we
@@ -69,7 +69,7 @@ gnm_simple_canvas_ungrab (GnomeCanvasItem *item, guint32 etime)
 }
 
 int
-gnm_simple_canvas_grab (GnomeCanvasItem *item, unsigned int event_mask,
+gnm_simple_canvas_grab (FooCanvasItem *item, unsigned int event_mask,
 			GdkCursor *cursor, guint32 etime)
 {
 	GnmSimpleCanvas *gcanvas = GNM_SIMPLE_CANVAS(item->canvas);
@@ -78,7 +78,7 @@ gnm_simple_canvas_grab (GnomeCanvasItem *item, unsigned int event_mask,
 	g_return_val_if_fail (gcanvas != NULL, TRUE);
 
 	gcanvas->scg->grab_stack++;
-	res = gnome_canvas_item_grab (item, event_mask, cursor, etime);
+	res = foo_canvas_item_grab (item, event_mask, cursor, etime);
 
 	/* Be extra paranoid.  Ensure that the grab is registered */
 	gdk_flush ();

@@ -44,7 +44,7 @@ sheet_object_container_new_view (SheetObject *so, SheetControlGUI *scg)
 	SheetObjectContainer *soc;
 	BonoboViewFrame *view_frame;
 	GtkWidget	*view_widget;
-	GnomeCanvasItem *view_item;
+	FooCanvasItem *view_item;
 
 	g_return_val_if_fail (IS_SHEET_OBJECT_CONTAINER (so), NULL);
 
@@ -59,10 +59,10 @@ sheet_object_container_new_view (SheetObject *so, SheetControlGUI *scg)
 	}
 
 	view_widget = bonobo_view_frame_get_wrapper (view_frame);
-	gnome_canvas_item_raise_to_top (GNOME_CANVAS_ITEM (gcanvas->sheet_object_group));
-	view_item = gnome_canvas_item_new (
+	foo_canvas_item_raise_to_top (FOO_CANVAS_ITEM (gcanvas->sheet_object_group));
+	view_item = foo_canvas_item_new (
 		gcanvas->sheet_object_group,
-		gnome_canvas_widget_get_type (),
+		foo_canvas_widget_get_type (),
 		"widget", view_widget,
 		"size_pixels", FALSE,
 		NULL);
@@ -89,16 +89,16 @@ sheet_object_container_update_bounds (SheetObject *so, GtkObject *view,
 
 	/* NOTE : far point is EXCLUDED so we add 1 */
 	scg_object_view_position (scg, so, coords);
-	gnome_canvas_item_set (GNOME_CANVAS_ITEM (view),
+	foo_canvas_item_set (FOO_CANVAS_ITEM (view),
 		"x", coords [0], "y", coords [1],
 		"width",  coords [2] - coords [0] + 1.,
 		"height", coords [3] - coords [1] + 1.,
 		NULL);
 
 	if (so->is_visible)
-		gnome_canvas_item_show (GNOME_CANVAS_ITEM (view));
+		foo_canvas_item_show (FOO_CANVAS_ITEM (view));
 	else
-		gnome_canvas_item_hide (GNOME_CANVAS_ITEM (view));
+		foo_canvas_item_hide (FOO_CANVAS_ITEM (view));
 }
 
 static void

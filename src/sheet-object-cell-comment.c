@@ -35,7 +35,7 @@
 #include <libxml/globals.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gal/widgets/e-cursors.h>
-#include <libgnomecanvas/gnome-canvas-polygon.h>
+#include <libfoocanvas/foo-canvas-polygon.h>
 
 struct _CellComment {
 	SheetObject	s_object;
@@ -73,10 +73,10 @@ cell_comment_finalize (GObject *object)
 }
 
 #define TRIANGLE_WIDTH 6
-static GnomeCanvasPoints *
+static FooCanvasPoints *
 comment_get_points (SheetControl *sc, SheetObject *so)
 {
-	GnomeCanvasPoints *points;
+	FooCanvasPoints *points;
 	int x, y, i, far_col;
 	Range const *r;
 	SheetControlGUI *scg = SHEET_CONTROL_GUI (sc);
@@ -94,7 +94,7 @@ comment_get_points (SheetControl *sc, SheetObject *so)
 	y = scg_colrow_distance_get (scg, FALSE, 0, so->anchor.cell_bound.start.row)+ 1;
 	x = scg_colrow_distance_get (scg, TRUE, 0, far_col);
 
-	points = gnome_canvas_points_new (3);
+	points = foo_canvas_points_new (3);
 	points->coords [0] = x - TRIANGLE_WIDTH;
 	points->coords [1] = y;
 	points->coords [2] = x;
@@ -104,7 +104,7 @@ comment_get_points (SheetControl *sc, SheetObject *so)
 
 	/* Just use pane 0 for sizing, it always exists */
 	for (i = 0; i < 3; i++)
-		gnome_canvas_c2w (GNOME_CANVAS (scg_pane (scg, 0)),
+		foo_canvas_c2w (FOO_CANVAS (scg_pane (scg, 0)),
 				  points->coords [i*2],
 				  points->coords [i*2+1],
 				  &(points->coords [i*2]),
@@ -116,20 +116,20 @@ comment_get_points (SheetControl *sc, SheetObject *so)
 static void
 cell_comment_update_bounds (SheetObject *so, GObject *view)
 {
-	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (view);
-	GnomeCanvasPoints *points = comment_get_points (
+	FooCanvasItem *item = FOO_CANVAS_ITEM (view);
+	FooCanvasPoints *points = comment_get_points (
 		sheet_object_view_control (view), so);
-	gnome_canvas_item_set (item, "points", points, NULL);
-	gnome_canvas_points_free (points);
+	foo_canvas_item_set (item, "points", points, NULL);
+	foo_canvas_points_free (points);
 
 	if (so->is_visible)
-		gnome_canvas_item_show (item);
+		foo_canvas_item_show (item);
 	else
-		gnome_canvas_item_hide (item);
+		foo_canvas_item_hide (item);
 }
 
 static int
-cell_comment_event (GnomeCanvasItem *view, GdkEvent *event, SheetControlGUI *scg)
+cell_comment_event (FooCanvasItem *view, GdkEvent *event, SheetControlGUI *scg)
 {
 	CellComment *cc;
 	SheetObject *so;
@@ -182,9 +182,9 @@ static GObject *
 cell_comment_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 {
 	GnmCanvas *gcanvas = ((GnumericPane *)key)->gcanvas;
-	GnomeCanvasPoints *points;
-	GnomeCanvasGroup *group;
-	GnomeCanvasItem *item = NULL;
+	FooCanvasPoints *points;
+	FooCanvasGroup *group;
+	FooCanvasItem *item = NULL;
 	SheetControlGUI *scg = SHEET_CONTROL_GUI (sc);
 	CellComment *cc = CELL_COMMENT (so);
 
@@ -192,14 +192,14 @@ cell_comment_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 	g_return_val_if_fail (scg != NULL, NULL);
 	g_return_val_if_fail (key != NULL, NULL);
 
-	group = GNOME_CANVAS_GROUP (GNOME_CANVAS (gcanvas)->root);
+	group = FOO_CANVAS_GROUP (FOO_CANVAS (gcanvas)->root);
 	points = comment_get_points (sc, so);
-	item = gnome_canvas_item_new (
-		group,		GNOME_TYPE_CANVAS_POLYGON,
+	item = foo_canvas_item_new (
+		group,		FOO_TYPE_CANVAS_POLYGON,
 		"points",	points,
 		"fill_color",	"red",
 		NULL);
-	gnome_canvas_points_free (points);
+	foo_canvas_points_free (points);
 
 	/* Do not use the standard handler, comments are not movable */
 	g_signal_connect (G_OBJECT (item),

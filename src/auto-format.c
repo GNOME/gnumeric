@@ -13,15 +13,14 @@
 #include "gnumeric.h"
 #include "auto-format.h"
 
-#include "gutils.h"
-#include "formats.h"
+#include "func.h"
+#include "cell.h"
+#include "value.h"
 #include "expr.h"
 #include "expr-impl.h"
-#include "cell.h"
 #include "sheet.h"
 #include "workbook.h"
 #include "format.h"
-#include "value.h"
 
 /* ------------------------------------------------------------------------- */
 /*

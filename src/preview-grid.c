@@ -40,7 +40,7 @@
 #include <gsf/gsf-impl-utils.h>
 
 struct _PreviewGrid {
-	GnomeCanvasItem canvas_item;
+	FooCanvasItem canvas_item;
 
 	struct { /* Gc's */
 		GdkGC *fill;	/* Default background fill gc */
@@ -57,7 +57,7 @@ struct _PreviewGrid {
 };
 
 typedef struct {
-	GnomeCanvasItemClass parent_class;
+	FooCanvasItemClass parent_class;
 
 	int      (* get_row_height) (PreviewGrid *pg, int row);
 	int      (* get_col_width)  (PreviewGrid *pg, int col);
@@ -67,7 +67,7 @@ typedef struct {
 
 #define PREVIEW_GRID_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), preview_grid_get_type (), PreviewGridClass))
 
-static GnomeCanvasItemClass *preview_grid_parent_class;
+static FooCanvasItemClass *preview_grid_parent_class;
 
 /* The arguments we take */
 enum {
@@ -310,14 +310,14 @@ preview_grid_destroy (GtkObject *object)
  * Realize handler
  **/
 static void
-preview_grid_realize (GnomeCanvasItem *item)
+preview_grid_realize (FooCanvasItem *item)
 {
 	GdkWindow   *window;
 	GtkStyle    *style;
 	PreviewGrid *pg;
 
-	if (GNOME_CANVAS_ITEM_CLASS (preview_grid_parent_class)->realize)
-		(*GNOME_CANVAS_ITEM_CLASS (preview_grid_parent_class)->realize)(item);
+	if (FOO_CANVAS_ITEM_CLASS (preview_grid_parent_class)->realize)
+		(*FOO_CANVAS_ITEM_CLASS (preview_grid_parent_class)->realize)(item);
 
 	pg = PREVIEW_GRID (item);
 	window = GTK_WIDGET (item->canvas)->window;
@@ -349,7 +349,7 @@ preview_grid_realize (GnomeCanvasItem *item)
  * Unrealize handler
  **/
 static void
-preview_grid_unrealize (GnomeCanvasItem *item)
+preview_grid_unrealize (FooCanvasItem *item)
 {
 	PreviewGrid *pg = PREVIEW_GRID (item);
 
@@ -362,8 +362,8 @@ preview_grid_unrealize (GnomeCanvasItem *item)
 
 	mstyle_unref (pg->def.style);
 
-	if (GNOME_CANVAS_ITEM_CLASS (preview_grid_parent_class)->unrealize)
-		(*GNOME_CANVAS_ITEM_CLASS (preview_grid_parent_class)->unrealize)(item);
+	if (FOO_CANVAS_ITEM_CLASS (preview_grid_parent_class)->unrealize)
+		(*FOO_CANVAS_ITEM_CLASS (preview_grid_parent_class)->unrealize)(item);
 }
 
 /**
@@ -372,10 +372,10 @@ preview_grid_unrealize (GnomeCanvasItem *item)
  * Update handler
  **/
 static void
-preview_grid_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
+preview_grid_update (FooCanvasItem *item,  double i2w_dx, double i2w_dy, int flags)
 {
-	if (GNOME_CANVAS_ITEM_CLASS (preview_grid_parent_class)->update)
-		(* GNOME_CANVAS_ITEM_CLASS (preview_grid_parent_class)->update) (item, affine, clip_path, flags);
+	if (FOO_CANVAS_ITEM_CLASS (preview_grid_parent_class)->update)
+		(* FOO_CANVAS_ITEM_CLASS (preview_grid_parent_class)->update) (item, i2w_dx, i2w_dy, flags);
 
 	item->x1 = 0;
 	item->y1 = 0;
@@ -451,9 +451,13 @@ pg_style_get_row (PreviewGrid *pg, StyleRow *sr)
  * The drawing routine does not support spanning.
  **/
 static void
-preview_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
-		   int draw_x, int draw_y, int width, int height)
+preview_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
+		   GdkEventExpose *expose)
 {
+	gint draw_x = expose->area.x;
+	gint draw_y = expose->area.y;
+	gint width  = expose->area.width;
+	gint height = expose->area.height;
  	PreviewGrid *pg = PREVIEW_GRID (item);
 
  	/* To ensure that far and near borders get drawn we pretend to draw +-2
@@ -552,8 +556,8 @@ preview_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
  * Return value: point
  **/
 static double
-preview_grid_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
-		    GnomeCanvasItem **actual_item)
+preview_grid_point (FooCanvasItem *item, double x, double y, int cx, int cy,
+		    FooCanvasItem **actual_item)
 {
 	*actual_item = item;
 	return 0.0;
@@ -568,7 +572,7 @@ preview_grid_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
 static void
 preview_grid_init (PreviewGrid *preview_grid)
 {
-	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (preview_grid);
+	FooCanvasItem *item = FOO_CANVAS_ITEM (preview_grid);
 
 	item->x1 = 0;
 	item->y1 = 0;
@@ -589,10 +593,10 @@ preview_grid_init (PreviewGrid *preview_grid)
 static void
 preview_grid_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {
-	GnomeCanvasItem *item;
+	FooCanvasItem *item;
 	PreviewGrid *pg;
 
-	item = GNOME_CANVAS_ITEM (o);
+	item = FOO_CANVAS_ITEM (o);
 	pg = PREVIEW_GRID (o);
 
 	switch (arg_id){
@@ -621,12 +625,12 @@ static void
 preview_grid_class_init (PreviewGridClass *preview_grid_class)
 {
 	GtkObjectClass  *klass;
-	GnomeCanvasItemClass *item_class;
+	FooCanvasItemClass *item_class;
 
-	preview_grid_parent_class = g_type_class_peek (gnome_canvas_item_get_type ());
+	preview_grid_parent_class = g_type_class_peek (foo_canvas_item_get_type ());
 
 	klass = (GtkObjectClass *) preview_grid_class;
-	item_class = (GnomeCanvasItemClass *) preview_grid_class;
+	item_class = (FooCanvasItemClass *) preview_grid_class;
 
 	/* Manipulation */
 	gtk_object_add_arg_type ("PreviewGrid::RenderGridlines", GTK_TYPE_BOOL,
@@ -639,7 +643,7 @@ preview_grid_class_init (PreviewGridClass *preview_grid_class)
 	klass->set_arg = preview_grid_set_arg;
 	klass->destroy = preview_grid_destroy;
 
-	/* GnomeCanvasItem method overrides */
+	/* FooCanvasItem method overrides */
 	item_class->update      = preview_grid_update;
 	item_class->realize     = preview_grid_realize;
 	item_class->unrealize   = preview_grid_unrealize;
@@ -684,4 +688,4 @@ preview_grid_class_init (PreviewGridClass *preview_grid_class)
 
 GSF_CLASS (PreviewGrid, preview_grid,
 	   preview_grid_class_init, preview_grid_init,
-	   GNOME_TYPE_CANVAS_ITEM);
+	   FOO_TYPE_CANVAS_ITEM);

@@ -537,9 +537,8 @@ xml_write_style (XmlParseContext *ctxt,
 	if (mstyle_is_element_set (style, MSTYLE_SHRINK_TO_FIT))
 		xml_node_set_int (cur, "ShrinkToFit",
 				  mstyle_get_shrink_to_fit (style));
-	if (mstyle_is_element_set (style, MSTYLE_ORIENTATION))
-		xml_node_set_int (cur, "Orient",
-				  mstyle_get_orientation (style));
+	if (mstyle_is_element_set (style, MSTYLE_ROTATION))
+		xml_node_set_int (cur, "Rotation", mstyle_get_rotation (style));
 	if (mstyle_is_element_set (style, MSTYLE_PATTERN))
 		xml_node_set_int (cur, "Shade", mstyle_get_pattern (style));
 	if (mstyle_is_element_set (style, MSTYLE_INDENT))
@@ -1370,8 +1369,8 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 	if (xml_node_get_int (tree, "VAlign", &val))
 		mstyle_set_align_v (mstyle, val);
 
-	if (xml_node_get_int (tree, "Orient", &val))
-		mstyle_set_orientation (mstyle, val);
+	if (xml_node_get_int (tree, "Rotation", &val))
+		mstyle_set_rotation (mstyle, val);
 
 	if (xml_node_get_int (tree, "Shade", &val))
 		mstyle_set_pattern (mstyle, val);

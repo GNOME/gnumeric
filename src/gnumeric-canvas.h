@@ -22,9 +22,9 @@ struct _GnmCanvas {
 
 	CellPos first, last_full, last_visible, first_offset;
 
-	GnomeCanvasGroup *anted_group;
-	GnomeCanvasGroup *object_group;
-	GnomeCanvasGroup *sheet_object_group;
+	FooCanvasGroup *anted_group;
+	FooCanvasGroup *object_group;
+	FooCanvasGroup *sheet_object_group;
 
 	/* Sliding scroll */
 	GnmCanvasSlideHandler slide_handler;
@@ -61,7 +61,7 @@ typedef enum {
 void	 gnm_canvas_slide_stop	  (GnmCanvas *gsheet);
 void	 gnm_canvas_slide_init	  (GnmCanvas *gsheet);
 gboolean gnm_canvas_handle_motion (GnmCanvas *gsheet,
-				   GnomeCanvas    *canvas,
+				   FooCanvas    *canvas,
 				   GdkEventMotion *event,
 				   GnmCanvasSlideFlags	 slide_flags,
 				   GnmCanvasSlideHandler handler,

@@ -31,7 +31,7 @@
 #include <libxml/globals.h>
 #include <gtk/gtkimagemenuitem.h>
 #include <gtk/gtkstock.h>
-#include <libgnomecanvas/gnome-canvas.h>
+#include <libfoocanvas/foo-canvas.h>
 #include <gsf/gsf-impl-utils.h>
 
 #include <string.h>
@@ -452,7 +452,7 @@ cb_sheet_object_view_finalized (SheetObject *so, GObject *view)
 /*
  * sheet_object_new_view
  *
- * Creates a GnomeCanvasItem for a SheetControlGUI and sets up the event
+ * Creates a FooCanvasItem for a SheetControlGUI and sets up the event
  * handlers.
  */
 void
@@ -1056,14 +1056,14 @@ sheet_object_raise (SheetObject *so, gint positions)
 	gint after = -1;
 
 	for (l = so->realized_list; l; l = l->next) {
-		GnomeCanvasItem *item = GNOME_CANVAS_ITEM (l->data);
-		GnomeCanvasGroup *parent = GNOME_CANVAS_GROUP (item->parent);
+		FooCanvasItem *item = FOO_CANVAS_ITEM (l->data);
+		FooCanvasGroup *parent = FOO_CANVAS_GROUP (item->parent);
 		GList *link = g_list_find (parent->item_list, item);
 		before = g_list_position (parent->item_list, link);
 		if (positions > 0)
-			gnome_canvas_item_raise (item, positions);
+			foo_canvas_item_raise (item, positions);
 		else
-			gnome_canvas_item_lower (item, - positions);
+			foo_canvas_item_lower (item, - positions);
 		link = g_list_find (parent->item_list, item);
 		after = g_list_position (parent->item_list, link);
 	}
@@ -1078,12 +1078,12 @@ sheet_object_raise_top (SheetObject *so)
 	gint after = -1;
 
 	for (l = so->realized_list; l; l = l->next) {
-		GnomeCanvasItem *item = GNOME_CANVAS_ITEM (l->data);
-		GnomeCanvasGroup *parent = GNOME_CANVAS_GROUP (item->parent);
+		FooCanvasItem *item = FOO_CANVAS_ITEM (l->data);
+		FooCanvasGroup *parent = FOO_CANVAS_GROUP (item->parent);
 		GList *link = g_list_find (parent->item_list, item);
 		before = g_list_position (parent->item_list, link);
 
-		gnome_canvas_item_raise_to_top (item);
+		foo_canvas_item_raise_to_top (item);
 
 		link = g_list_find (parent->item_list, item);
 		after = g_list_position (parent->item_list, link);
@@ -1099,12 +1099,12 @@ sheet_object_lower_bottom (SheetObject *so)
 	gint after = -1;
 
 	for (l = so->realized_list; l; l = l->next) {
-		GnomeCanvasItem *item = GNOME_CANVAS_ITEM (l->data);
-		GnomeCanvasGroup *parent = GNOME_CANVAS_GROUP (item->parent);
+		FooCanvasItem *item = FOO_CANVAS_ITEM (l->data);
+		FooCanvasGroup *parent = FOO_CANVAS_GROUP (item->parent);
 		GList *link = g_list_find (parent->item_list, item);
 		before = g_list_position (parent->item_list, link);
 
-		gnome_canvas_item_lower_to_bottom (item);
+		foo_canvas_item_lower_to_bottom (item);
 
 		link = g_list_find (parent->item_list, item);
 		after = g_list_position (parent->item_list, link);

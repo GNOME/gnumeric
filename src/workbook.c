@@ -581,7 +581,7 @@ workbook_metadata (Workbook *wb)
  * FIXME : Add a check to ensure the name is unique.
  */
 gboolean
-workbook_set_saveinfo (Workbook *wb, const gchar *file_name,
+workbook_set_saveinfo (Workbook *wb, gchar const *file_name,
                        FileFormatLevel level, GnumFileSaver *fs)
 {
 	g_return_val_if_fail (wb != NULL, FALSE);

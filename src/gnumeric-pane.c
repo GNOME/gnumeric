@@ -27,8 +27,8 @@
 #include "commands.h"
 #include "gui-util.h"
 
-#include <libgnomecanvas/gnome-canvas-line.h>
-#include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
+#include <libfoocanvas/foo-canvas-line.h>
+#include <libfoocanvas/foo-canvas-rect-ellipse.h>
 #include <gal/widgets/e-cursors.h>
 #include <math.h>
 #define GNUMERIC_ITEM "GnmPane"
@@ -44,9 +44,9 @@ static void
 gnumeric_pane_header_init (GnumericPane *pane, SheetControlGUI *scg,
 			   gboolean is_col_header)
 {
-	GnomeCanvas *canvas = gnm_simple_canvas_new (scg);
-	GnomeCanvasGroup *group = GNOME_CANVAS_GROUP (canvas->root);
-	GnomeCanvasItem *item = gnome_canvas_item_new (group,
+	FooCanvas *canvas = gnm_simple_canvas_new (scg);
+	FooCanvasGroup *group = FOO_CANVAS_GROUP (canvas->root);
+	FooCanvasItem *item = foo_canvas_item_new (group,
 		item_bar_get_type (),
 		"ItemBar::GnumericCanvas", pane->gcanvas,
 		"ItemBar::IsColHeader", is_col_header,
@@ -55,7 +55,7 @@ gnumeric_pane_header_init (GnumericPane *pane, SheetControlGUI *scg,
 	/* give a non-constraining default in case something scrolls before we
 	 * are realized
 	 */
-	gnome_canvas_set_scroll_region (canvas,
+	foo_canvas_set_scroll_region (canvas,
 		0, 0, GNUMERIC_CANVAS_FACTOR_X, GNUMERIC_CANVAS_FACTOR_Y);
 	if (is_col_header) {
 		pane->col.canvas = canvas;
@@ -89,8 +89,8 @@ void
 gnm_pane_init (GnumericPane *pane, SheetControlGUI *scg,
 	       gboolean col_headers, gboolean row_headers, int index)
 {
-	GnomeCanvasItem	 *item;
-	GnomeCanvasGroup *gcanvas_group;
+	FooCanvasItem	 *item;
+	FooCanvasGroup *gcanvas_group;
 	Sheet *sheet;
 	Range r;
 	int i;
@@ -101,14 +101,14 @@ gnm_pane_init (GnumericPane *pane, SheetControlGUI *scg,
 	pane->index     = index;
 	pane->is_active = TRUE;
 
-	gcanvas_group = GNOME_CANVAS_GROUP (GNOME_CANVAS (pane->gcanvas)->root);
-	item = gnome_canvas_item_new (gcanvas_group,
+	gcanvas_group = FOO_CANVAS_GROUP (FOO_CANVAS (pane->gcanvas)->root);
+	item = foo_canvas_item_new (gcanvas_group,
 		item_grid_get_type (),
 		"ItemGrid::SheetControlGUI", scg,
 		NULL);
 	pane->grid = ITEM_GRID (item);
 
-	item = gnome_canvas_item_new (gcanvas_group,
+	item = foo_canvas_item_new (gcanvas_group,
 		item_cursor_get_type (),
 		"ItemCursor::SheetControlGUI", scg,
 		NULL);
@@ -132,7 +132,7 @@ gnm_pane_init (GnumericPane *pane, SheetControlGUI *scg,
 		pane->row.canvas = NULL;
 
 	pane->drag_object = NULL;
-	i = sizeof (pane->control_points)/sizeof(GnomeCanvasItem *);
+	i = sizeof (pane->control_points)/sizeof(FooCanvasItem *);
 	while (i-- > 0)
 		pane->control_points[i] = NULL;
 
@@ -193,7 +193,7 @@ gnm_pane_bound_set (GnumericPane *pane,
 	g_return_if_fail (pane->gcanvas != NULL);
 
 	range_init (&r, start_col, start_row, end_col, end_row);
-	gnome_canvas_item_set (GNOME_CANVAS_ITEM (pane->grid),
+	foo_canvas_item_set (FOO_CANVAS_ITEM (pane->grid),
 			       "ItemGrid::Bound", &r,
 			       NULL);
 }
@@ -206,8 +206,8 @@ gnm_pane_colrow_resize_start (GnumericPane *pane,
 {
 	SheetControlGUI const *scg;
 	GnmCanvas const *gcanvas;
-	GnomeCanvasPoints *points;
-	GnomeCanvasItem *item;
+	FooCanvasPoints *points;
+	FooCanvasItem *item;
 	double zoom;
 
 	g_return_if_fail (pane != NULL);
@@ -217,9 +217,9 @@ gnm_pane_colrow_resize_start (GnumericPane *pane,
 
 	gcanvas = pane->gcanvas;
 	scg = gcanvas->simple.scg;
-	zoom = GNOME_CANVAS (gcanvas)->pixels_per_unit;
+	zoom = FOO_CANVAS (gcanvas)->pixels_per_unit;
 
-	points = pane->colrow_resize.points = gnome_canvas_points_new (2);
+	points = pane->colrow_resize.points = foo_canvas_points_new (2);
 	if (is_cols) {
 		double const x = scg_colrow_distance_get (scg, TRUE,
 					0, resize_pos) / zoom;
@@ -241,16 +241,16 @@ gnm_pane_colrow_resize_start (GnumericPane *pane,
 	}
 
 	/* Position the stationary only.  Guide line is handled elsewhere. */
-	item = gnome_canvas_item_new (pane->gcanvas->object_group,
-				      GNOME_TYPE_CANVAS_LINE,
+	item = foo_canvas_item_new (pane->gcanvas->object_group,
+				      FOO_TYPE_CANVAS_LINE,
 				      "points", points,
 				      "fill_color", "black",
 				      "width_pixels", 1,
 				      NULL);
 	pane->colrow_resize.start = GTK_OBJECT (item);
 
-	item = gnome_canvas_item_new (pane->gcanvas->object_group,
-				      GNOME_TYPE_CANVAS_LINE,
+	item = foo_canvas_item_new (pane->gcanvas->object_group,
+				      FOO_TYPE_CANVAS_LINE,
 				      "fill_color", "black",
 				      "width_pixels", 1,
 				      NULL);
@@ -263,7 +263,7 @@ gnm_pane_colrow_resize_stop (GnumericPane *pane)
 	g_return_if_fail (pane != NULL);
 
 	if (pane->colrow_resize.points != NULL) {
-		gnome_canvas_points_free (pane->colrow_resize.points);
+		foo_canvas_points_free (pane->colrow_resize.points);
 		pane->colrow_resize.points = NULL;
 	}
 	if (pane->colrow_resize.start != NULL) {
@@ -280,22 +280,22 @@ void
 gnm_pane_colrow_resize_move (GnumericPane *pane,
 			     gboolean is_cols, int resize_pos)
 {
-	GnomeCanvasItem *resize_guide;
-	GnomeCanvasPoints *points;
+	FooCanvasItem *resize_guide;
+	FooCanvasPoints *points;
 	double zoom;
 
 	g_return_if_fail (pane != NULL);
 
-	resize_guide = GNOME_CANVAS_ITEM (pane->colrow_resize.guide);
+	resize_guide = FOO_CANVAS_ITEM (pane->colrow_resize.guide);
 	points = pane->colrow_resize.points;
-	zoom = GNOME_CANVAS (pane->gcanvas)->pixels_per_unit;
+	zoom = FOO_CANVAS (pane->gcanvas)->pixels_per_unit;
 
 	if (is_cols)
 		points->coords [0] = points->coords [2] = resize_pos / zoom;
 	else
 		points->coords [1] = points->coords [3] = resize_pos / zoom;
 
-	gnome_canvas_item_set (resize_guide,
+	foo_canvas_item_set (resize_guide,
 			       "points",  points,
 			       NULL);
 }
@@ -334,9 +334,9 @@ gnm_pane_rangesel_bound_set (GnumericPane *pane, Range const *r)
 void
 gnm_pane_rangesel_start (GnumericPane *pane, Range const *r)
 {
-	GnomeCanvas *canvas = GNOME_CANVAS (pane->gcanvas);
-	GnomeCanvasItem *tmp;
-	GnomeCanvasGroup *group = GNOME_CANVAS_GROUP (canvas->root);
+	FooCanvas *canvas = FOO_CANVAS (pane->gcanvas);
+	FooCanvasItem *tmp;
+	FooCanvasGroup *group = FOO_CANVAS_GROUP (canvas->root);
 	SheetControl *sc = (SheetControl *) pane->gcanvas->simple.scg;
 
 	g_return_if_fail (pane->cursor.rangesel == NULL);
@@ -347,7 +347,7 @@ gnm_pane_rangesel_start (GnumericPane *pane, Range const *r)
 	if (sc_sheet (sc) != wb_control_cur_sheet (sc_wbc(sc)))
 		item_cursor_set_visibility (pane->cursor.std, FALSE);
 
-	tmp = gnome_canvas_item_new (group,
+	tmp = foo_canvas_item_new (group,
 		item_cursor_get_type (),
 		"SheetControlGUI", pane->gcanvas->simple.scg,
 		"Style", ITEM_CURSOR_ANTED, NULL);
@@ -388,12 +388,12 @@ gnm_pane_special_cursor_bound_set (GnumericPane *pane, Range const *r)
 void
 gnm_pane_special_cursor_start (GnumericPane *pane, int style, int button)
 {
-	GnomeCanvasItem *item;
-	GnomeCanvas *canvas = GNOME_CANVAS (pane->gcanvas);
+	FooCanvasItem *item;
+	FooCanvas *canvas = FOO_CANVAS (pane->gcanvas);
 
 	g_return_if_fail (pane->cursor.special == NULL);
-	item = gnome_canvas_item_new (
-		GNOME_CANVAS_GROUP (canvas->root),
+	item = foo_canvas_item_new (
+		FOO_CANVAS_GROUP (canvas->root),
 		item_cursor_get_type (),
 		"ItemCursor::SheetControlGUI", pane->gcanvas->simple.scg,
 		"ItemCursor::Style", style,
@@ -432,10 +432,10 @@ gnm_pane_edit_start (GnumericPane *pane)
 	    edit_pos->col <= gcanvas->last_visible.col &&
 	    edit_pos->row >= gcanvas->first.row &&
 	    edit_pos->row <= gcanvas->last_visible.row) {
-		GnomeCanvas *canvas = GNOME_CANVAS (gcanvas);
-		GnomeCanvasItem *item;
+		FooCanvas *canvas = FOO_CANVAS (gcanvas);
+		FooCanvasItem *item;
 
-		item = gnome_canvas_item_new (GNOME_CANVAS_GROUP (canvas->root),
+		item = foo_canvas_item_new (FOO_CANVAS_GROUP (canvas->root),
 			item_edit_get_type (),
 			"ItemEdit::SheetControlGUI",     gcanvas->simple.scg,
 			NULL);
@@ -535,14 +535,14 @@ cb_slide_handler (GnmCanvas *gcanvas, int col, int row, gpointer user)
 	x += gcanvas->first_offset.col;
 	y = scg_colrow_distance_get (scg, FALSE, gcanvas->first.row, row);
 	y += gcanvas->first_offset.row;
-	gnome_canvas_c2w (GNOME_CANVAS (gcanvas), x, y, &new_x, &new_y);
+	foo_canvas_c2w (FOO_CANVAS (gcanvas), x, y, &new_x, &new_y);
 	gnm_pane_object_move (scg, scg->current_object, user, new_x, new_y);
 
 	return TRUE;
 }
 
 static void
-display_object_menu (SheetObject *so, GnomeCanvasItem *view, GdkEvent *event)
+display_object_menu (SheetObject *so, FooCanvasItem *view, GdkEvent *event)
 {
 	GtkMenu *menu;
 	SheetControlGUI *scg =
@@ -563,8 +563,8 @@ display_object_menu (SheetObject *so, GnomeCanvasItem *view, GdkEvent *event)
  * Index & cursor type are stored as user data associated with the CanvasItem
  */
 static int
-cb_control_point_event (GnomeCanvasItem *ctrl_pt, GdkEvent *event,
-			GnomeCanvasItem *so_view)
+cb_control_point_event (FooCanvasItem *ctrl_pt, GdkEvent *event,
+			FooCanvasItem *so_view)
 {
 	SheetObject *so = sheet_object_view_obj (G_OBJECT (so_view));
 	GnumericPane *pane = sheet_object_view_key (G_OBJECT (so_view));
@@ -669,16 +669,16 @@ cb_control_point_event (GnomeCanvasItem *ctrl_pt, GdkEvent *event,
  *     |                     |
  *     5 -------- 6 -------- 7
  **/
-static GnomeCanvasItem *
+static FooCanvasItem *
 new_control_point (GObject *so_view, int idx, double x, double y,
 		   ECursorType ct)
 {
-	GnomeCanvasItem *item, *so_view_item = GNOME_CANVAS_ITEM (so_view);
+	FooCanvasItem *item, *so_view_item = FOO_CANVAS_ITEM (so_view);
 	GnmCanvas *gcanvas = GNM_CANVAS (so_view_item->canvas);
 
-	item = gnome_canvas_item_new (
+	item = foo_canvas_item_new (
 		gcanvas->object_group,
-		GNOME_TYPE_CANVAS_RECT,
+		FOO_TYPE_CANVAS_RECT,
 		"outline_color", "black",
 		"fill_color",    "white",
 		"width_pixels",  CTRL_PT_OUTLINE,
@@ -707,7 +707,7 @@ set_item_x_y (GnumericPane *pane, GObject *so_view, int idx,
 	if (pane->control_points [idx] == NULL)
 		pane->control_points [idx] = new_control_point (
 			so_view, idx, x, y, ct);
-	gnome_canvas_item_set (
+	foo_canvas_item_set (
 	       pane->control_points [idx],
 	       "x1", x - CTRL_PT_SIZE,
 	       "y1", y - CTRL_PT_SIZE,
@@ -715,9 +715,9 @@ set_item_x_y (GnumericPane *pane, GObject *so_view, int idx,
 	       "y2", y + CTRL_PT_SIZE,
 	       NULL);
 	if (visible)
-		gnome_canvas_item_show (pane->control_points [idx]);
+		foo_canvas_item_show (pane->control_points [idx]);
 	else
-		gnome_canvas_item_hide (pane->control_points [idx]);
+		foo_canvas_item_hide (pane->control_points [idx]);
 }
 
 #define normalize_high_low(d1,d2) if (d1<d2) { double tmp=d1; d1=d2; d2=tmp;}
@@ -726,7 +726,7 @@ static void
 set_acetate_coords (GnumericPane *pane, GObject *so_view,
 		    double l, double t, double r, double b)
 {
-	GnomeCanvasItem *so_view_item = GNOME_CANVAS_ITEM (so_view);
+	FooCanvasItem *so_view_item = FOO_CANVAS_ITEM (so_view);
 	GnmCanvas *gcanvas = GNM_CANVAS (so_view_item->canvas);
 
 	normalize_high_low (r, l);
@@ -740,17 +740,19 @@ set_acetate_coords (GnumericPane *pane, GObject *so_view,
 	if (pane->control_points [8] == NULL) {
 		static char diagonal [] = { 0xcc, 0x66, 0x33, 0x99, 0xcc, 0x66, 0x33, 0x99 };
 		GdkBitmap *stipple = gdk_bitmap_create_from_data (NULL, diagonal, 8, 8);
-		GnomeCanvasItem *item = gnome_canvas_item_new (
+		FooCanvasItem *item = foo_canvas_item_new (
 			gcanvas->object_group,
 			item_acetate_get_type (),
 			"fill_color",		NULL,
 			"width_pixels",		CTRL_PT_SIZE + CTRL_PT_OUTLINE,
 			"outline_color",	"black",
 			"outline_stipple",	stipple,
+#if 0
 			/* work around the screwup in canvas-item-shape that adds a large
-			 * border to anything that uses miter
-			 */
+			 * border to anything that uses miter (required for gnome-canvas
+			 * not foocanvas */
 			"join_style",		GDK_JOIN_ROUND,
+#endif
 			NULL);
 		gdk_bitmap_unref (stipple);
 		g_signal_connect (G_OBJECT (item),
@@ -762,7 +764,7 @@ set_acetate_coords (GnumericPane *pane, GObject *so_view,
 
 		pane->control_points [8] = item;
 	}
-	gnome_canvas_item_set (
+	foo_canvas_item_set (
 	       pane->control_points [8],
 	       "x1", l,
 	       "y1", t,
@@ -803,7 +805,7 @@ gnm_pane_object_set_bounds (GnumericPane *pane, SheetObject *so,
 }
 
 static int
-cb_sheet_object_canvas_event (GnomeCanvasItem *item, GdkEvent *event,
+cb_sheet_object_canvas_event (FooCanvasItem *item, GdkEvent *event,
 			      SheetObject *so)
 {
 	g_return_val_if_fail (IS_SHEET_OBJECT (so), FALSE);
@@ -872,7 +874,7 @@ cb_sheet_object_view_destroyed (GObject *view, SheetObject *so)
 
 static int
 cb_sheet_object_widget_canvas_event (GtkWidget *widget, GdkEvent *event,
-				     GnomeCanvasItem *view)
+				     FooCanvasItem *view)
 {
 	if (event->type == GDK_BUTTON_PRESS && event->button.button == 3) {
 		SheetObject *so = sheet_object_view_obj (G_OBJECT (view));
@@ -898,7 +900,7 @@ cb_sheet_object_widget_canvas_event (GtkWidget *widget, GdkEvent *event,
  * Setup some standard callbacks for manipulating a view of a sheet object.
  */
 void
-gnm_pane_object_register (SheetObject *so, GnomeCanvasItem *view)
+gnm_pane_object_register (SheetObject *so, FooCanvasItem *view)
 {
 	g_signal_connect (G_OBJECT (view),
 		"event",
@@ -921,7 +923,7 @@ gnm_pane_object_register (SheetObject *so, GnomeCanvasItem *view)
  */
 void
 gnm_pane_widget_register (SheetObject *so, GtkWidget *widget,
-			  GnomeCanvasItem *view)
+			  FooCanvasItem *view)
 {
 	g_signal_connect (G_OBJECT (widget),
 		"event",

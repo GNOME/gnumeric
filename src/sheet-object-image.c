@@ -15,8 +15,8 @@
 #include "gnumeric-pane.h"
 
 #include <gsf/gsf-impl-utils.h>
-#include <libgnomecanvas/gnome-canvas-pixbuf.h>
-#include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
+#include <libfoocanvas/foo-canvas-pixbuf.h>
+#include <libfoocanvas/foo-canvas-rect-ellipse.h>
 
 #include <math.h>
 #include <string.h>
@@ -185,23 +185,23 @@ sheet_object_image_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 {
 	GnmCanvas *gcanvas = ((GnumericPane *)key)->gcanvas;
 	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
-	GnomeCanvasItem *item = NULL;
+	FooCanvasItem *item = NULL;
 	GdkPixbuf	*pixbuf;
 
 	g_return_val_if_fail (IS_SHEET_OBJECT_IMAGE (so), NULL);
 	g_return_val_if_fail (IS_SHEET_CONTROL (sc), NULL);
 
-	gnome_canvas_item_raise_to_top (GNOME_CANVAS_ITEM (gcanvas->sheet_object_group));
+	foo_canvas_item_raise_to_top (FOO_CANVAS_ITEM (gcanvas->sheet_object_group));
 	pixbuf = soi_get_pixbuf (soi, 1.);
 	if (pixbuf != NULL) {
-		item = gnome_canvas_item_new (gcanvas->sheet_object_group,
-			GNOME_TYPE_CANVAS_PIXBUF,
+		item = foo_canvas_item_new (gcanvas->sheet_object_group,
+			FOO_TYPE_CANVAS_PIXBUF,
 			"pixbuf", pixbuf,
 			NULL);
 		g_object_unref (G_OBJECT (pixbuf));
 	} else
-		item = gnome_canvas_item_new (gcanvas->sheet_object_group,
-			GNOME_TYPE_CANVAS_RECT,
+		item = foo_canvas_item_new (gcanvas->sheet_object_group,
+			FOO_TYPE_CANVAS_RECT,
 			"fill_color",		"white",
 			"outline_color",	"black",
 			"width_units",		1.,
@@ -215,15 +215,15 @@ static void
 sheet_object_image_update_bounds (SheetObject *so, GObject *view_obj)
 {
 	double coords [4];
-	GnomeCanvasItem   *view = GNOME_CANVAS_ITEM (view_obj);
+	FooCanvasItem   *view = FOO_CANVAS_ITEM (view_obj);
 	SheetControlGUI	  *scg  =
 		SHEET_CONTROL_GUI (sheet_object_view_control (view_obj));
 
 	scg_object_view_position (scg, so, coords);
 
 	/* handle place holders */
-	if (GNOME_IS_CANVAS_PIXBUF (view))
-		gnome_canvas_item_set (view,
+	if (FOO_IS_CANVAS_PIXBUF (view))
+		foo_canvas_item_set (view,
 			"x",	  MIN (coords [0], coords [2]),
 			"y",	  MIN (coords [1], coords [3]),
 			"width",  fabs (coords [2] - coords [0]),
@@ -232,7 +232,7 @@ sheet_object_image_update_bounds (SheetObject *so, GObject *view_obj)
 			"height_set", TRUE,
 			NULL);
 	else
-		gnome_canvas_item_set (view,
+		foo_canvas_item_set (view,
 			"x1", MIN (coords [0], coords [2]),
 			"y1", MIN (coords [1], coords [3]),
 			"x2", MAX (coords [0], coords [2]),
@@ -240,9 +240,9 @@ sheet_object_image_update_bounds (SheetObject *so, GObject *view_obj)
 			NULL);
 
 	if (so->is_visible)
-		gnome_canvas_item_show (view);
+		foo_canvas_item_show (view);
 	else
-		gnome_canvas_item_hide (view);
+		foo_canvas_item_hide (view);
 }
 
 static gboolean

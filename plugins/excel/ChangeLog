@@ -1,3 +1,26 @@
+2002-11-05  Jody Goldberg <jody@gnome.org>
+
+	* plugin.xml.in : enable excel97
+
+	* ms-excel-write.c (excel_write_value) : use BIFF8 SST records.
+	(excel_write_state_free) : clean up SST here.
+	(excel_write_state_new) : shared routine for biff7 and biff8.
+	(excel_utf8_has_multibyte) : quicky utility.
+	(excel_write_SST) : initial basic implementation still needs unicode
+	  support.
+	(excel_write_BOF) : renamed from biff_bof_write and sync versions with
+	  XL 2k.
+
+2002-11-04  Jody Goldberg <jody@gnome.org>
+
+	* boot.c (excel_save) : prep for biff8 save, and double stream files.
+
+	* ms-excel-read.c (excel_read_XF) : fix rotation.
+	(excel_read_SST) : improve debug info.
+
+	* ms-excel-write.c (write_xf_record) : write the BIFF8 support.
+	(rotation_to_excel) : new.
+
 2002-11-04  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* ms-biff.c, ms-escher.c, ms-excel-read.c, ms-excel-write.c,

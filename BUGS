@@ -13,7 +13,6 @@ Release Critical
 Pending Patches
 ---------------
     - ?? more work on D&D based sheet reorg ?
-    - logest function
 
 1.2 Targets
 -----------
@@ -38,11 +37,12 @@ Pending Patches
         opencalc flags.
 6) XL
     6.1) biff7 externsheet records in charts			(DONE)
-    6.2) 97 export
-    6.3) Form import
-    6.4) Intersection, union and set export
-    6.5) fix name export now that we sorta understand it
-    6.6) non-ole import (Nick Lamb is working on this)		(Partial)
+    6.2) 97 export						(DONE)
+    6.3) Check xl import of unicode names			(DONE)
+    6.4) Form import
+    6.5) Intersection, union and set export
+    6.6) fix name export now that we sorta understand it
+    6.7) non-ole import (Nick Lamb is working on this)		(DONE)
 9) Manual recalc						(DONE)
     9.1) finish calculation ui in workbook attr dialog		(DONE)
 10) fix highlighting of completion code				(DONE)
@@ -109,7 +109,6 @@ Misc stuff that should be fixed
   (probably ok) and have gamma(x)=exp(lgamma(x)) (questionable).
 - We need to somehow add --export-dynamic to the gnumeric link line, or else
   plugins won't load on Solaris/gcc.  (This might just be my bastard libtool.)
-- Fix workbook_sheet_by_name with respect to letter case and UTF-8.
 
 - Remove duplication of code between analysis-tools.c and collect.c
 
@@ -131,7 +130,6 @@ Misc stuff that should be fixed
 	* We should start with the expr entry set to either the current cell,
 	  or by selecting the first named expression in scope that contains the
 	  current cell.
-    : Check xl import of unicode names
     : Check scoping changes.
     : Is there such a thing as an array formula in a name ?
     : Handle pasting an expression with an un-qualified sheet local name into

@@ -35,7 +35,7 @@ IMAGES = @STRIP_BEGIN@ 						\
 	\
 	auto-sum.xpm		\
 	equal-sign.xpm		\
-	function_selector.xpm	\
+	formula_guru_16.png		formula_guru_24.png	\
 	insert_image_16.png		insert_image_24.png	\
 	bucket.xpm		\
 	font.xpm		\
@@ -138,7 +138,8 @@ VARIABLES = @STRIP_BEGIN@ 									\
 	\
 	gnm_auto				$(srcdir)/auto-sum.xpm				\
 	gnm_equal				$(srcdir)/equal-sign.xpm			\
-	gnm_function_selector			$(srcdir)/function_selector.xpm			\
+	gnm_formula_guru_16			$(srcdir)/formula_guru_16.png			\
+	gnm_formula_guru_24			$(srcdir)/formula_guru_24.png			\
 	gnm_insert_image_16			$(srcdir)/insert_image_16.png			\
 	gnm_insert_image_24			$(srcdir)/insert_image_24.png			\
 	gnm_bucket				$(srcdir)/bucket.xpm				\

@@ -36,15 +36,14 @@ typedef struct _BiffXFData {
 	StyleVAlignFlags valign;
 	gboolean wrap_text;
 	gboolean shrink_to_fit;
-	guint8 rotation;
+	int rotation;
 	int indent;
-	StyleOrientation orientation;
 	MsBiffEastern eastern;
-	guint8 border_color[STYLE_ORIENT_MAX];
+	guint16 border_color[STYLE_ORIENT_MAX];
 	StyleBorderType border_type[STYLE_ORIENT_MAX];
-	guint8 fill_pattern_idx;
-	guint8 pat_foregnd_col;
-	guint8 pat_backgnd_col;
+	guint16 fill_pattern_idx;
+	guint16 pat_foregnd_col;
+	guint16 pat_backgnd_col;
 	guint16 differences;
 
 	MStyle *mstyle;

@@ -81,16 +81,16 @@ scg_redraw_all (SheetControl *sc, gboolean headers)
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
 	SCG_FOREACH_PANE (scg, pane, {
-		gnome_canvas_request_redraw (
-			GNOME_CANVAS (pane->gcanvas),
+		foo_canvas_request_redraw (
+			FOO_CANVAS (pane->gcanvas),
 			0, 0, INT_MAX, INT_MAX);
 		if (headers) {
 			if (NULL != pane->col.canvas)
-				gnome_canvas_request_redraw (
+				foo_canvas_request_redraw (
 					pane->col.canvas,
 					0, 0, INT_MAX, INT_MAX);
 			if (NULL != pane->row.canvas)
-				gnome_canvas_request_redraw (
+				foo_canvas_request_redraw (
 					pane->row.canvas,
 					0, 0, INT_MAX, INT_MAX);
 		}
@@ -143,7 +143,7 @@ scg_redraw_headers (SheetControl *sc,
 				}
 			}
 			/* Request excludes the far coordinate.  Add 1 to include them */
-			gnome_canvas_request_redraw (GNOME_CANVAS (pane->col.canvas),
+			foo_canvas_request_redraw (FOO_CANVAS (pane->col.canvas),
 				left, 0, right+1, INT_MAX);
 		}
 
@@ -161,7 +161,7 @@ scg_redraw_headers (SheetControl *sc,
 				}
 			}
 			/* Request excludes the far coordinate.  Add 1 to include them */
-			gnome_canvas_request_redraw (GNOME_CANVAS (pane->row.canvas),
+			foo_canvas_request_redraw (FOO_CANVAS (pane->row.canvas),
 				0, top, INT_MAX, bottom+1);
 		}
 	}
@@ -257,9 +257,9 @@ scg_resize (SheetControl *sc, gboolean force_scroll)
 		-1, btn_h, scg->row_group.buttons, scg->row_group.button_box);
 
 	if (scg->active_panes == 1) {
-		gnome_canvas_set_scroll_region (scg->pane[0].col.canvas,
+		foo_canvas_set_scroll_region (scg->pane[0].col.canvas,
 			0, 0, GNUMERIC_CANVAS_FACTOR_X / zoom, h / zoom);
-		gnome_canvas_set_scroll_region (scg->pane[0].row.canvas,
+		foo_canvas_set_scroll_region (scg->pane[0].row.canvas,
 			0, 0, w / zoom, GNUMERIC_CANVAS_FACTOR_Y / zoom);
 	} else {
 		CellPos const *tl = &sc->view->frozen_top_left;
@@ -295,7 +295,7 @@ scg_resize (SheetControl *sc, gboolean force_scroll)
 			 */
 			h = item_bar_calc_size (scg->pane[1].col.item);
 			gtk_widget_set_usize (GTK_WIDGET (scg->pane[1].col.canvas), r - l, h+1);
-			gnome_canvas_set_scroll_region (scg->pane[1].col.canvas,
+			foo_canvas_set_scroll_region (scg->pane[1].col.canvas,
 				0, 0, GNUMERIC_CANVAS_FACTOR_X / zoom, h / zoom);
 				/* l / zoom, 0, r / zoom, h / zoom); */
 		}
@@ -305,7 +305,7 @@ scg_resize (SheetControl *sc, gboolean force_scroll)
 			/* The item_bar_calcs should be equal */
 			w = item_bar_calc_size (scg->pane[3].row.item);
 			gtk_widget_set_usize (GTK_WIDGET (scg->pane[3].row.canvas), w+1, b - t);
-			gnome_canvas_set_scroll_region (scg->pane[3].row.canvas,
+			foo_canvas_set_scroll_region (scg->pane[3].row.canvas,
 				0, 0, w / zoom, GNUMERIC_CANVAS_FACTOR_Y / zoom);
 				/* 0, t / zoom, w / zoom, b / zoom); */
 		}
@@ -313,10 +313,10 @@ scg_resize (SheetControl *sc, gboolean force_scroll)
 		if (scg->pane[2].is_active)
 			gtk_widget_set_usize (GTK_WIDGET (scg->pane[2].gcanvas), r - l, b - t);
 
-		gnome_canvas_set_scroll_region (scg->pane[0].col.canvas,
+		foo_canvas_set_scroll_region (scg->pane[0].col.canvas,
 			0, 0, GNUMERIC_CANVAS_FACTOR_X / zoom, h / zoom);
 			/* r / zoom, 0, GNUMERIC_CANVAS_FACTOR_X / zoom, h / zoom); */
-		gnome_canvas_set_scroll_region (scg->pane[0].row.canvas,
+		foo_canvas_set_scroll_region (scg->pane[0].row.canvas,
 			0, 0, w / zoom, GNUMERIC_CANVAS_FACTOR_Y / zoom);
 			/* 0, b / zoom, w / zoom, GNUMERIC_CANVAS_FACTOR_Y / zoom); */
 	}
@@ -338,10 +338,10 @@ scg_set_zoom_factor (SheetControl *sc)
 	/* Set pixels_per_unit before the font.  The item bars look here for the number */
 	SCG_FOREACH_PANE (scg, pane, {
 		if (pane->col.canvas != NULL)
-			gnome_canvas_set_pixels_per_unit (pane->col.canvas, z);
+			foo_canvas_set_pixels_per_unit (pane->col.canvas, z);
 		if (pane->row.canvas != NULL)
-			gnome_canvas_set_pixels_per_unit (pane->row.canvas, z);
-		gnome_canvas_set_pixels_per_unit (GNOME_CANVAS (pane->gcanvas), z);
+			foo_canvas_set_pixels_per_unit (pane->row.canvas, z);
+		foo_canvas_set_pixels_per_unit (FOO_CANVAS (pane->gcanvas), z);
 	});
 
 	scg_resize (sc, TRUE);
@@ -641,7 +641,7 @@ gnm_canvas_update_inital_top_left (GnmCanvas const *gcanvas)
 static int
 bar_set_left_col (GnmCanvas *gcanvas, int new_first_col)
 {
-	GnomeCanvas *colc;
+	FooCanvas *colc;
 	int col_offset;
 
 	g_return_val_if_fail (0 <= new_first_col && new_first_col < SHEET_MAX_COLS, 0);
@@ -652,7 +652,7 @@ bar_set_left_col (GnmCanvas *gcanvas, int new_first_col)
 
 	/* Scroll the column headers */
 	if (NULL != (colc = gcanvas->pane->col.canvas))
-		gnome_canvas_scroll_to (colc, col_offset, gcanvas->first_offset.row);
+		foo_canvas_scroll_to (colc, col_offset, gcanvas->first_offset.row);
 
 	return col_offset;
 }
@@ -664,11 +664,11 @@ gnm_canvas_set_left_col (GnmCanvas *gcanvas, int new_first_col)
 	g_return_if_fail (0 <= new_first_col && new_first_col < SHEET_MAX_COLS);
 
 	if (gcanvas->first.col != new_first_col) {
-		GnomeCanvas * const canvas = GNOME_CANVAS(gcanvas);
+		FooCanvas * const canvas = FOO_CANVAS(gcanvas);
 		int const col_offset = bar_set_left_col (gcanvas, new_first_col);
 
 		gnm_canvas_compute_visible_region (gcanvas, FALSE);
-		gnome_canvas_scroll_to (canvas, col_offset, gcanvas->first_offset.row);
+		foo_canvas_scroll_to (canvas, col_offset, gcanvas->first_offset.row);
 		gnm_canvas_update_inital_top_left (gcanvas);
 	}
 }
@@ -701,7 +701,7 @@ scg_set_left_col (SheetControlGUI *scg, int col)
 static int
 bar_set_top_row (GnmCanvas *gcanvas, int new_first_row)
 {
-	GnomeCanvas *rowc;
+	FooCanvas *rowc;
 	int row_offset;
 
 	g_return_val_if_fail (0 <= new_first_row && new_first_row < SHEET_MAX_ROWS, 0);
@@ -712,7 +712,7 @@ bar_set_top_row (GnmCanvas *gcanvas, int new_first_row)
 
 	/* Scroll the row headers */
 	if (NULL != (rowc = gcanvas->pane->row.canvas))
-		gnome_canvas_scroll_to (rowc, gcanvas->first_offset.col, row_offset);
+		foo_canvas_scroll_to (rowc, gcanvas->first_offset.col, row_offset);
 
 	return row_offset;
 }
@@ -724,11 +724,11 @@ gnm_canvas_set_top_row (GnmCanvas *gcanvas, int new_first_row)
 	g_return_if_fail (0 <= new_first_row && new_first_row < SHEET_MAX_ROWS);
 
 	if (gcanvas->first.row != new_first_row) {
-		GnomeCanvas * const canvas = GNOME_CANVAS(gcanvas);
+		FooCanvas * const canvas = FOO_CANVAS(gcanvas);
 		int const row_offset = bar_set_top_row (gcanvas, new_first_row);
 
 		gnm_canvas_compute_visible_region (gcanvas, FALSE);
-		gnome_canvas_scroll_to (canvas, gcanvas->first_offset.col, row_offset);
+		foo_canvas_scroll_to (canvas, gcanvas->first_offset.col, row_offset);
 		gnm_canvas_update_inital_top_left (gcanvas);
 	}
 }
@@ -791,7 +791,7 @@ gnm_canvas_set_top_left (GnmCanvas *gcanvas,
 		return;
 
 	gnm_canvas_compute_visible_region (gcanvas, force_scroll);
-	gnome_canvas_scroll_to (GNOME_CANVAS (gcanvas), col_offset, row_offset);
+	foo_canvas_scroll_to (FOO_CANVAS (gcanvas), col_offset, row_offset);
 	gnm_canvas_update_inital_top_left (gcanvas);
 }
 
@@ -811,7 +811,7 @@ static void
 gnm_canvas_make_cell_visible (GnmCanvas *gcanvas, int col, int row,
 			      gboolean const force_scroll)
 {
-	GnomeCanvas *canvas;
+	FooCanvas *canvas;
 	Sheet *sheet;
 	int   new_first_col, new_first_row;
 
@@ -830,7 +830,7 @@ gnm_canvas_make_cell_visible (GnmCanvas *gcanvas, int col, int row,
 	g_return_if_fail (row < SHEET_MAX_ROWS);
 
 	sheet = ((SheetControl *) gcanvas->simple.scg)->sheet;
-	canvas = GNOME_CANVAS (gcanvas);
+	canvas = FOO_CANVAS (gcanvas);
 
 	/* Find the new gcanvas->first.col */
 	if (col < gcanvas->first.col) {
@@ -1252,7 +1252,7 @@ scg_ant (SheetControl *sc)
 		Range const *r = l->data;
 
 		SCG_FOREACH_PANE (scg, pane, {
-			ItemCursor *ic = ITEM_CURSOR (gnome_canvas_item_new (
+			ItemCursor *ic = ITEM_CURSOR (foo_canvas_item_new (
 				pane->gcanvas->anted_group,
 				item_cursor_get_type (),
 				"SheetControlGUI", scg,
@@ -1819,10 +1819,10 @@ scg_object_calc_position (SheetControlGUI *scg, SheetObject *so, double const *c
 
 	/* pane 0 always exists and the others are always use the same basis */
 	gcanvas = scg_pane (scg, 0);
-	gnome_canvas_w2c (GNOME_CANVAS (gcanvas),
+	foo_canvas_w2c (FOO_CANVAS (gcanvas),
 		tmp [0], tmp [1],
 		pixels + 0, pixels + 1);
-	gnome_canvas_w2c (GNOME_CANVAS (gcanvas),
+	foo_canvas_w2c (FOO_CANVAS (gcanvas),
 		tmp [2], tmp [3],
 		pixels + 2, pixels + 3);
 	anchor.cell_bound.start.col = calc_obj_place (gcanvas, pixels [0], TRUE,
@@ -1843,7 +1843,7 @@ scg_object_view_position (SheetControlGUI *scg, SheetObject *so, double *coords)
 	SheetObjectDirection direction;
 	double pixels [4];
 	/* pane 0 always exists and the others are always use the same basis */
-	GnomeCanvas *canvas = GNOME_CANVAS (scg_pane (scg, 0));
+	FooCanvas *canvas = FOO_CANVAS (scg_pane (scg, 0));
 
 	sheet_object_position_pixels_get (so, SHEET_CONTROL (scg), pixels);
 
@@ -1851,11 +1851,11 @@ scg_object_view_position (SheetControlGUI *scg, SheetObject *so, double *coords)
 	if (direction == SO_DIR_UNKNOWN)
 		direction = SO_DIR_DOWN_RIGHT;
 
-	gnome_canvas_c2w (canvas,
+	foo_canvas_c2w (canvas,
 		pixels [direction & SO_DIR_H_MASK  ? 0 : 2],
 		pixels [direction & SO_DIR_V_MASK  ? 1 : 3],
 		coords +0, coords + 1);
-	gnome_canvas_c2w (canvas,
+	foo_canvas_c2w (canvas,
 		pixels [direction & SO_DIR_H_MASK  ? 2 : 0],
 		pixels [direction & SO_DIR_V_MASK  ? 3 : 1],
 		coords +2, coords + 3);

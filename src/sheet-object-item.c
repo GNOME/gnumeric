@@ -25,9 +25,9 @@ static GtkObject *
 sheet_object_item_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 {
 	GnmCanvas *gcanvas = ((GnumericPan *)key)->gcanvas;
-	GnomeCanvasItem *so_view = NULL;
+	FooCanvasItem *so_view = NULL;
 
-	gnome_canvas_item_raise_to_top (GNOME_CANVAS_ITEM (gcanvas->sheet_object_group));
+	foo_canvas_item_raise_to_top (FOO_CANVAS_ITEM (gcanvas->sheet_object_group));
 	so_view = bonobo_client_site_new_item (
 		SHEET_OBJECT_BONOBO (so)->control_frame,
 		bonobo_ui_component_get_container (scg->wbcg->uic),
@@ -44,9 +44,9 @@ sheet_object_item_update_bounds (SheetObject *so, GtkObject *view,
 	/* FIXME : what goes here ?? */
 
 	if (so->is_visible)
-		gnome_canvas_item_show (GNOME_CANVAS_ITEM (view));
+		foo_canvas_item_show (FOO_CANVAS_ITEM (view));
 	else
-		gnome_canvas_item_hide (GNOME_CANVAS_ITEM (view));
+		foo_canvas_item_hide (FOO_CANVAS_ITEM (view));
 }
 
 static void

@@ -91,6 +91,7 @@ struct _GnmPlugin {
 
 	gchar   *name;
 	gchar   *description;
+	gboolean require_explicit_enabling;
 
 	gboolean is_active;
 	gint use_refcount; 
@@ -132,6 +133,7 @@ gnm_plugin_init (GObject *obj)
 	plugin->dir_name = NULL;
 	plugin->has_full_info = FALSE;
 	plugin->saved_textdomain = NULL;
+	plugin->require_explicit_enabling = FALSE;
 }
 
 static void
@@ -719,6 +721,7 @@ plugin_info_read (GnmPlugin *pinfo, const gchar *dir_name, ErrorInfo **ret_error
 	GSList *dependency_list;
 	gchar *loader_id;
 	GHashTable *loader_attrs;
+	gboolean require_explicit_enabling = FALSE;
 
 	g_return_if_fail (GNM_IS_PLUGIN (pinfo));
 	g_return_if_fail (dir_name != NULL);
@@ -765,6 +768,8 @@ plugin_info_read (GnmPlugin *pinfo, const gchar *dir_name, ErrorInfo **ret_error
 		} else {
 			description = NULL;
 		}
+		if (e_xml_get_child_by_name (tree, (xmlChar const *)"require_explicit_enabling"))
+			require_explicit_enabling = TRUE;
 	} else {
 		name = NULL;
 		description = NULL;
@@ -817,6 +822,7 @@ plugin_info_read (GnmPlugin *pinfo, const gchar *dir_name, ErrorInfo **ret_error
 		pinfo->id = id;
 		pinfo->name = name;
 		pinfo->description = description;
+		pinfo->require_explicit_enabling = require_explicit_enabling;
 		pinfo->is_active = FALSE;
 		pinfo->use_refcount = 0;
 		pinfo->dependencies = dependency_list;
@@ -1761,6 +1767,7 @@ plugins_init (CommandContext *context)
 		GnmPlugin *plugin;
 
 		plugin = plugins_get_plugin_by_id (plugin_id);
+		/* pinfo->require_explicit_enabling  */
 		if (plugin != NULL) {
 			GNM_SLIST_PREPEND (plugin_list, plugin);
 		}

@@ -245,7 +245,7 @@ workbook_edit_complete_notify (char const *text, void *closure)
 
 	SCG_FOREACH_PANE (scg, pane,
 		if (pane->editor != NULL)
-			gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (pane->editor)););
+			foo_canvas_item_request_update (FOO_CANVAS_ITEM (pane->editor)););
 }
 
 static void

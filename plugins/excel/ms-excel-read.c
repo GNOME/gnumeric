@@ -901,7 +901,9 @@ excel_read_SST (BiffQuery *q, ExcelWorkbook *ewb)
 	unsigned k;
 
 	d (4, {
-		fprintf (stderr,"SST\n");
+		fprintf (stderr, "SST total = %u, sst = %u\n",
+			 GSF_LE_GET_GUINT32 (q->data + 0),
+			 GSF_LE_GET_GUINT32 (q->data + 4));
 		gsf_mem_dump (q->data, q->length);
 	});
 
@@ -1095,9 +1097,9 @@ excel_read_BOUNDSHEET (BiffQuery *q, ExcelWorkbook *ewb, MsBiffVersion ver)
 	/* if (ans->type == MS_BIFF_TYPE_Worksheet) { } */
 
 	/* FIXME : Use this kruft instead */
-	if (ans->hidden == MS_BIFF_H_VISIBLE) {
+	if (ans->hidden == MS_BIFF_H_VISIBLE)
 		ans->sheet = excel_sheet_new (ewb, ans->name);
-	} else
+	else
 		ans->sheet = NULL;
 
 	ans->index = ewb->boundsheet_sheet_by_index->len;
@@ -1106,7 +1108,6 @@ excel_read_BOUNDSHEET (BiffQuery *q, ExcelWorkbook *ewb, MsBiffVersion ver)
 
 	d (1, fprintf (stderr,"Boundsheet: %d) '%s' %p, %d:%d\n", ans->index,
 		       ans->name, ans->sheet, ans->type, ans->hidden););
-
 }
 
 static void
@@ -1459,7 +1460,7 @@ excel_get_style_from_xf (ExcelSheet *esheet, guint16 xfidx)
 	mstyle_set_wrap_text (mstyle, xf->wrap_text);
 	mstyle_set_shrink_to_fit (mstyle, xf->shrink_to_fit);
 	mstyle_set_indent    (mstyle, xf->indent);
-	/* mstyle_set_orientation (mstyle, ); */
+	mstyle_set_rotation  (mstyle, xf->rotation);
 
 	/* Font */
 	fd = excel_get_font (esheet, xf->font_idx);
@@ -1823,34 +1824,20 @@ excel_read_XF (BiffQuery *q, ExcelWorkbook *ewb, MsBiffVersion ver)
 		fprintf (stderr,"Unknown valign %d\n", subdata);
 		break;
 	}
-	/*
-	 * FIXME: ignored bit 0x0080
-	 */
-	if (ver >= MS_BIFF_V8)
+
+	if (ver >= MS_BIFF_V8) {
 		xf->rotation = (data >> 8);
-	else {
+		if (xf->rotation == 0xff)
+			xf->rotation = -1;
+		else if (xf->rotation > 90)
+			xf->rotation = 360 + 90 - xf->rotation;
+	} else {
 		subdata = (data & 0x0300) >> 8;
 		switch (subdata) {
-		case 0:
-			xf->rotation = 0;
-			break;
-		case 1: /* vertical letters no rotation */
-			xf->rotation = 255;
-			break;
-		case 2: /* 90deg anti-clock */
-			xf->rotation = 90;
-			break;
-		case 3: /* 90deg clock */
-			xf->rotation = 180;
-			break;
-		}
-	}
-
-	if (xf->rotation != 0) {
-		static gboolean needs_warning = TRUE;
-		if (needs_warning) {
-			needs_warning = FALSE;
-			g_warning ("EXCEL: rotated text is not supported yet.");
+		case 0: xf->rotation =  0;	break;
+		case 1: xf->rotation = -1;	break;
+		case 2: xf->rotation = 90;	break;
+		case 3: xf->rotation = 270;	break;
 		}
 	}
 
@@ -4799,7 +4786,7 @@ excel_read_SUPBOOK (BiffQuery *q, ExcelWorkbook *ewb)
 	});
 
 	gsf_mem_dump (q->data + 4 + 1, len);
-	for (data = q->data + 4 + 1 + len, i = 0; i < numTabs > 0; i++) {
+	for (data = q->data + 4 + 1 + len, i = 0; i < numTabs ; i++) {
 		len = GSF_LE_GET_GUINT16 (data);
 		name = biff_get_text (data + 2, len, &byte_length);
 		fprintf (stderr,"\t-> %s\n", name);
@@ -4857,10 +4844,10 @@ excel_read_WINDOW1 (BiffQuery *q, WorkbookView *wb_view)
 
 static ExcelWorkbook *
 excel_read_BOF (BiffQuery	 *q,
-		ExcelWorkbook *ewb,
+		ExcelWorkbook	 *ewb,
 		WorkbookView	 *wb_view,
 		IOContext	 *context,
-		MsBiffBofData **version, int *current_sheet)
+		MsBiffBofData	**version, int *current_sheet)
 {
 	/* The first BOF seems to be OK, the rest lie ? */
 	MsBiffVersion vv = MS_BIFF_V_UNKNOWN;
@@ -4924,12 +4911,12 @@ excel_read_BOF (BiffQuery	 *q,
 		} else
 			fprintf (stderr,"Sheet offset in stream of %x not found in list\n", q->streamPos);
 	} else if (ver->type == MS_BIFF_TYPE_Chart) {
-				GObject *graph =
+		GObject *graph =
 #if 0
-					/* enable when we support workbooklevel objects */
-					gnm_graph_new (ewb->gnum_wb);
+			/* enable when we support workbooklevel objects */
+			gnm_graph_new (ewb->gnum_wb);
 #else
-					NULL;
+			NULL;
 #endif
 		ms_excel_chart (q, &ewb->container, ver->version,
 				graph);

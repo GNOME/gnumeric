@@ -34,7 +34,7 @@
 #include <gsf/gsf-impl-utils.h>
 #include <gdk/gdkkeysyms.h>
 
-static GnomeCanvasClass *gcanvas_parent_class;
+static FooCanvasClass *gcanvas_parent_class;
 
 static gboolean
 gnm_canvas_guru_key (WorkbookControlGUI const *wbcg, GdkEventKey *event)
@@ -92,7 +92,7 @@ gnm_check_ctrl_mask (GnmCanvas *gcanvas,guint keyval)
 		workbook_cmd_mutate_borders (WORKBOOK_CONTROL (wbcg), sheet, TRUE);
 		return TRUE;
 	case GDK_underscore :
-		workbook_cmd_mutate_borders (WORKBOOK_CONTROL (wbcg), sheet, TRUE);
+		workbook_cmd_mutate_borders (WORKBOOK_CONTROL (wbcg), sheet, FALSE);
 		return TRUE;
 	}
 
@@ -521,7 +521,7 @@ gnm_canvas_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 }
 
 typedef struct {
-	GnomeCanvasClass parent_class;
+	FooCanvasClass parent_class;
 } GnmCanvasClass;
 #define GNM_CANVAS_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k),	  GNM_CANVAS_TYPE))
 
@@ -538,11 +538,11 @@ gnm_canvas_class_init (GnmCanvasClass *klass)
 	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	GtkObjectClass *object_class;
 	GtkWidgetClass *widget_class;
-	GnomeCanvasClass *canvas_class;
+	FooCanvasClass *canvas_class;
 
 	object_class = (GtkObjectClass *) klass;
 	widget_class = (GtkWidgetClass *) klass;
-	canvas_class = (GnomeCanvasClass *) klass;
+	canvas_class = (FooCanvasClass *) klass;
 
 	gcanvas_parent_class = g_type_class_peek (GNM_SIMPLE_CANVAS_TYPE);
 
@@ -627,7 +627,7 @@ gnm_canvas_preedit_changed_cb (GtkIMContext *context, GnmCanvas *gcanvas)
 static void
 gnm_canvas_init (GnmCanvas *gcanvas)
 {
-	GnomeCanvas *canvas = GNOME_CANVAS (gcanvas);
+	FooCanvas *canvas = FOO_CANVAS (gcanvas);
 
 	gcanvas->first.col = gcanvas->last_full.col = gcanvas->last_visible.col = 0;
 	gcanvas->first.row = gcanvas->last_full.row = gcanvas->last_visible.row = 0;
@@ -662,7 +662,7 @@ GnmCanvas *
 gnm_canvas_new (SheetControlGUI *scg, GnumericPane *pane)
 {
 	GnmCanvas	 *gcanvas;
-	GnomeCanvasGroup *root_group;
+	FooCanvasGroup *root_group;
 
 	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (scg), NULL);
 
@@ -672,17 +672,17 @@ gnm_canvas_new (SheetControlGUI *scg, GnumericPane *pane)
 	gcanvas->pane = pane;
 
 	/* FIXME: figure out some real size for the canvas scrolling region */
-	gnome_canvas_set_center_scroll_region (GNOME_CANVAS (gcanvas), FALSE);
-	gnome_canvas_set_scroll_region (GNOME_CANVAS (gcanvas), 0, 0,
+	foo_canvas_set_center_scroll_region (FOO_CANVAS (gcanvas), FALSE);
+	foo_canvas_set_scroll_region (FOO_CANVAS (gcanvas), 0, 0,
 		GNUMERIC_CANVAS_FACTOR_X, GNUMERIC_CANVAS_FACTOR_Y);
 
 
-	root_group = GNOME_CANVAS_GROUP (GNOME_CANVAS (gcanvas)->root);
+	root_group = FOO_CANVAS_GROUP (FOO_CANVAS (gcanvas)->root);
 	gcanvas->anted_group = root_group;
 	gcanvas->object_group = root_group;
-	gcanvas->sheet_object_group =  GNOME_CANVAS_GROUP (gnome_canvas_item_new (
+	gcanvas->sheet_object_group =  FOO_CANVAS_GROUP (foo_canvas_item_new (
 								   root_group,
-								   GNOME_TYPE_CANVAS_GROUP,
+								   FOO_TYPE_CANVAS_GROUP,
 								   NULL));
 
 	return gcanvas;
@@ -790,7 +790,7 @@ gnm_canvas_compute_visible_region (GnmCanvas *gcanvas,
 {
 	SheetControlGUI const * const scg = gcanvas->simple.scg;
 	Sheet const * const sheet = ((SheetControl *) scg)->sheet;
-	GnomeCanvas   *canvas = GNOME_CANVAS (gcanvas);
+	FooCanvas   *canvas = FOO_CANVAS (gcanvas);
 	int pixels, col, row, width, height;
 
 	/* When col/row sizes change we need to do a full recompute */
@@ -798,16 +798,16 @@ gnm_canvas_compute_visible_region (GnmCanvas *gcanvas,
 		gcanvas->first_offset.col = scg_colrow_distance_get (scg,
 			TRUE, 0, gcanvas->first.col);
 		if (NULL != gcanvas->pane->col.canvas)
-			gnome_canvas_scroll_to (gcanvas->pane->col.canvas,
+			foo_canvas_scroll_to (gcanvas->pane->col.canvas,
 				gcanvas->first_offset.col, 0);
 
 		gcanvas->first_offset.row = scg_colrow_distance_get (scg,
 			FALSE, 0, gcanvas->first.row);
 		if (NULL != gcanvas->pane->row.canvas)
-			gnome_canvas_scroll_to (gcanvas->pane->row.canvas,
+			foo_canvas_scroll_to (gcanvas->pane->row.canvas,
 				0, gcanvas->first_offset.row);
 
-		gnome_canvas_scroll_to (GNOME_CANVAS (gcanvas),
+		foo_canvas_scroll_to (FOO_CANVAS (gcanvas),
 					gcanvas->first_offset.col,
 					gcanvas->first_offset.row);
 	}
@@ -889,14 +889,14 @@ void
 gnm_canvas_redraw_range (GnmCanvas *gcanvas, Range const *r)
 {
 	SheetControlGUI *scg;
-	GnomeCanvas *canvas;
+	FooCanvas *canvas;
 	int x1, y1, x2, y2;
 	Range tmp;
 
 	g_return_if_fail (GNM_IS_CANVAS (gcanvas));
 
 	scg = gcanvas->simple.scg;
-	canvas = GNOME_CANVAS (gcanvas);
+	canvas = FOO_CANVAS (gcanvas);
 
 	if ((r->end.col < gcanvas->first.col) ||
 	    (r->end.row < gcanvas->first.row) ||
@@ -931,7 +931,7 @@ gnm_canvas_redraw_range (GnmCanvas *gcanvas, Range const *r)
 	fprintf (stderr, "%s%s\n", col_name (max_col), row_name (last_row));
 #endif
 
-	gnome_canvas_request_redraw (GNOME_CANVAS (gcanvas), x1-2, y1-2, x2, y2);
+	foo_canvas_request_redraw (FOO_CANVAS (gcanvas), x1-2, y1-2, x2, y2);
 }
 
 /*****************************************************************************/
@@ -1141,7 +1141,7 @@ gcanvas_sliding_callback (gpointer data)
  */
 gboolean
 gnm_canvas_handle_motion (GnmCanvas *gcanvas,
-			      GnomeCanvas *canvas, GdkEventMotion *event,
+			      FooCanvas *canvas, GdkEventMotion *event,
 			      GnmCanvasSlideFlags slide_flags,
 			      GnmCanvasSlideHandler slide_handler,
 			      gpointer user_data)
@@ -1151,11 +1151,11 @@ gnm_canvas_handle_motion (GnmCanvas *gcanvas,
 	int dx = 0, dy = 0;
 
 	g_return_val_if_fail (GNM_IS_CANVAS (gcanvas), FALSE);
-	g_return_val_if_fail (GNOME_IS_CANVAS (canvas), FALSE);
+	g_return_val_if_fail (FOO_IS_CANVAS (canvas), FALSE);
 	g_return_val_if_fail (event != NULL, FALSE);
 	g_return_val_if_fail (slide_handler != NULL, FALSE);
 
-	gnome_canvas_w2c (canvas, event->x, event->y, &x, &y);
+	foo_canvas_w2c (canvas, event->x, event->y, &x, &y);
 
 	pane = gcanvas->pane->index;
 	left = gcanvas->first_offset.col;

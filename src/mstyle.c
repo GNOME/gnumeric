@@ -59,7 +59,7 @@ typedef struct {
 			guint16   h;
 		}                align;
 		int		 indent;
-		StyleOrientation orientation;
+		int		 rotation;
 		gboolean         wrap_text;
 		gboolean         shrink_to_fit;
 		gboolean         content_locked;
@@ -113,7 +113,8 @@ struct _MStyle {
 #define MSTYLE_ANY_GUINT16           MSTYLE_ALIGN_V: \
                                 case MSTYLE_ALIGN_H
 
-#define MSTYLE_ANY_GUINT32           MSTYLE_PATTERN
+#define MSTYLE_ANY_GUINT32           MSTYLE_PATTERN: \
+				case MSTYLE_ROTATION
 
 #define MSTYLE_ANY_FLOAT             MSTYLE_FONT_SIZE
 
@@ -142,7 +143,7 @@ const char *mstyle_names[MSTYLE_ELEMENT_MAX] = {
 	"Align.v",
 	"Align.h",
 	"Indent",
-	"Orientation",
+	"Rotation",
 	"WrapText",
 	"ShrinkToFit",
 	"Content.Locked",
@@ -202,9 +203,6 @@ mstyle_hash (gconstpointer st)
 		case MSTYLE_INDENT:
 			hash = hash ^ e->u.indent;
 			break;
-		case MSTYLE_ORIENTATION:
-			hash = hash ^ e->u.orientation;
-			break;
 		case MSTYLE_FONT_UNDERLINE:
 			hash = hash ^ e->u.font.underline;
 			break;
@@ -233,14 +231,30 @@ mstyle_element_dump (const MStyleElement *e)
 	case MSTYLE_ELEMENT_UNSET:
 		g_string_printf (ans, "Unset");
 		break;
-	case MSTYLE_COLOR_FORE:
-		g_string_printf (ans, "foregnd col");
-		break;
 	case MSTYLE_COLOR_BACK:
 		g_string_printf (ans, "backgnd col");
 		break;
 	case MSTYLE_COLOR_PATTERN:
 		g_string_printf (ans, "pattern col");
+		break;
+	case MSTYLE_BORDER_TOP:
+	case MSTYLE_BORDER_BOTTOM:
+	case MSTYLE_BORDER_LEFT:
+	case MSTYLE_BORDER_RIGHT:
+	case MSTYLE_BORDER_DIAGONAL:
+	case MSTYLE_BORDER_REV_DIAGONAL:
+		if (e->u.border.any)
+			g_string_printf (ans, "%s %d", mstyle_names[e->type], e->u.border.any->line_type);
+		else
+			g_string_printf (ans, "%s blank", mstyle_names[e->type]);
+		break;
+
+	case MSTYLE_PATTERN :
+		g_string_printf (ans, "pattern %d", e->u.pattern);
+		break;
+
+	case MSTYLE_COLOR_FORE:
+		g_string_printf (ans, "foregnd col");
 		break;
 	case MSTYLE_FONT_NAME:
 		g_string_printf (ans, "name '%s'", e->u.font.name->str);
@@ -278,18 +292,6 @@ mstyle_element_dump (const MStyleElement *e)
 		g_string_printf (ans, "size %f", e->u.font.size);
 		break;
 
-	case MSTYLE_BORDER_TOP:
-	case MSTYLE_BORDER_BOTTOM:
-	case MSTYLE_BORDER_LEFT:
-	case MSTYLE_BORDER_RIGHT:
-	case MSTYLE_BORDER_DIAGONAL:
-	case MSTYLE_BORDER_REV_DIAGONAL:
-		if (e->u.border.any)
-			g_string_printf (ans, "%s %d", mstyle_names[e->type], e->u.border.any->line_type);
-		else
-			g_string_printf (ans, "%s blank", mstyle_names[e->type]);
-		break;
-
 	case MSTYLE_FORMAT: {
 		char *fmt = style_format_as_XL (e->u.format, TRUE);
 		g_string_printf (ans, "format '%s'", fmt);
@@ -297,10 +299,31 @@ mstyle_element_dump (const MStyleElement *e)
 		break;
 	}
 
-	case MSTYLE_PATTERN :
-		g_string_printf (ans, "pattern %d", e->u.pattern);
+	case MSTYLE_ALIGN_V:
+		g_string_printf (ans, "valign %hd", e->u.align.v);
+		break;
+	case MSTYLE_ALIGN_H:
+		g_string_printf (ans, "halign %hd", e->u.align.h);
+		break;
+	case MSTYLE_INDENT:
+		g_string_printf (ans, "indent %d", e->u.indent);
+		break;
+	case MSTYLE_ROTATION:
+		g_string_printf (ans, "rotation %d", e->u.rotation);
 		break;
 
+	case MSTYLE_WRAP_TEXT :
+		g_string_printf (ans, "wrap text %d", e->u.wrap_text);
+		break;
+	case MSTYLE_SHRINK_TO_FIT :
+		g_string_printf (ans, "shrink to fit %d", e->u.shrink_to_fit);
+		break;
+	case MSTYLE_CONTENT_LOCKED :
+		g_string_printf (ans, "locked %d", e->u.content_locked);
+		break;
+	case MSTYLE_CONTENT_HIDDEN :
+		g_string_printf (ans, "hidden %d", e->u.content_hidden);
+		break;
 	case MSTYLE_VALIDATION :
 		g_string_printf (ans, "validation ref_count '%d'", e->u.validation->ref_count);
 		break;
@@ -361,8 +384,8 @@ mstyle_element_equal (MStyleElement const *a,
 		return (a->u.align.h == b->u.align.h);
 	case MSTYLE_INDENT:
 		return (a->u.indent == b->u.indent);
-	case MSTYLE_ORIENTATION:
-		return (a->u.orientation == b->u.orientation);
+	case MSTYLE_ROTATION:
+		return (a->u.rotation == b->u.rotation);
 	case MSTYLE_WRAP_TEXT:
 		return (a->u.wrap_text == b->u.wrap_text);
 	case MSTYLE_SHRINK_TO_FIT:
@@ -611,7 +634,7 @@ mstyle_new_default (void)
 	mstyle_set_align_v     (mstyle, VALIGN_BOTTOM);
 	mstyle_set_align_h     (mstyle, HALIGN_GENERAL);
 	mstyle_set_indent      (mstyle, 0);
-	mstyle_set_orientation (mstyle, ORIENT_HORIZ);
+	mstyle_set_rotation    (mstyle, 0);
 	mstyle_set_wrap_text   (mstyle, FALSE);
 	mstyle_set_shrink_to_fit (mstyle, FALSE);
 	mstyle_set_content_locked (mstyle, TRUE);
@@ -1336,20 +1359,20 @@ mstyle_get_indent (const MStyle *style)
 }
 
 void
-mstyle_set_orientation (MStyle *style, StyleOrientation o)
+mstyle_set_rotation (MStyle *style, int rot_deg)
 {
 	g_return_if_fail (style != NULL);
 
-	style->elements[MSTYLE_ORIENTATION].type = MSTYLE_ORIENTATION;
-	style->elements[MSTYLE_ORIENTATION].u.orientation = o;
+	style->elements[MSTYLE_ROTATION].type = MSTYLE_ROTATION;
+	style->elements[MSTYLE_ROTATION].u.rotation = rot_deg;
 }
 
-StyleOrientation
-mstyle_get_orientation (const MStyle *style)
+int
+mstyle_get_rotation (const MStyle *style)
 {
-	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_ORIENTATION), 0);
+	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_ROTATION), 0);
 
-	return style->elements[MSTYLE_ORIENTATION].u.orientation;
+	return style->elements[MSTYLE_ROTATION].u.rotation;
 }
 
 void

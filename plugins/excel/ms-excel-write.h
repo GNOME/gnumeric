@@ -60,6 +60,13 @@ struct _ExcelWriteState {
 	GPtrArray     *externnames;
 	GPtrArray     *names;
 	unsigned       streamPos;
+
+	/* no need to use a full fledged two table, we already know that the
+	 * Strings are unique. */
+	struct {
+		GHashTable *strings;
+		GPtrArray  *indicies;
+	} sst;
 };
 
 typedef enum {
@@ -78,7 +85,7 @@ typedef enum {
 #define PALETTE_WHITE 9
 #define PALETTE_AUTO_PATTERN 64
 #define PALETTE_AUTO_BACK 65
-#define PALETTE_AUTO_FONT 127
+#define PALETTE_AUTO_FONT 0x7fff
 #define FILL_NONE 0
 #define FILL_SOLID 1
 #define FILL_MAGIC FILL_NONE
