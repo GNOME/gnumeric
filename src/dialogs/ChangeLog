@@ -1,3 +1,10 @@
+2003-07-03  Jon K Hellan  <hellan@acm.org>
+
+	* dialog-sheet-order.c (dialog_sheet_order): Turn off color combo
+	tearoff behaviour in dialogs.
+
+	* dialog-cell-format.c (setup_color_pickers): Ditto.
+
 2003-07-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=116300
