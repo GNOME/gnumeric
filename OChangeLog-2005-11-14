@@ -1,3 +1,7 @@
+2004-08-11  Morten Welinder  <terra@gnome.org>
+
+	* src/ssconvert.c (main): Handle non-URI output destinations.
+
 2004-08-09  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* src/sheet-object-graph.c (cb_save_as) : Set zoom to 1.0 when

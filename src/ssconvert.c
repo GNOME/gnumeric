@@ -144,7 +144,7 @@ main (int argc, char *argv [])
 			}
 		} else if (args && args[0]) {
 			GnmFileSaver *fs = NULL;
-			char *outfile = (char *)args[1];
+			char *outfile = go_shell_arg_to_uri (args[1]);
 
 			if (ssconvert_export_id != NULL) {
 				fs = gnm_file_saver_for_id (ssconvert_export_id);
