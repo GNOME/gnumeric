@@ -1,3 +1,9 @@
+2004-05-26  Morten Welinder  <terra@gnome.org>
+
+	* src/parser.y (yylex): Ignore spaces in lots of places, notably
+	before and after operators.  (XL has chosen space as an operator,
+	but luckily it only makes sense in a few places.)
+
 2004-05-26  Jean Brefort  <jean.brefort@ac-dijon.fr>
 
 	* src/sheet-object-widget.c: (sheet_widget_combo_create_widget):

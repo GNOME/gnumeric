@@ -829,6 +829,58 @@ eat_space (ParserState *state, int res)
 	return res;
 }
 
+/*
+ * Do we want to ignore space before a given character?
+ */
+static gboolean
+ignore_space_before (gunichar c)
+{
+	switch (c) {
+	case '*': case '/': case '+': case '-': case '%': case '^': case '&':
+	case '>': case '<': case '=':
+	case ')':
+	case '#':
+	case '"': case '\'':  /* Refers to opening quote only.  */
+	case 0x00AC: /* NOT */
+	case 0x2215: /* '/' */
+	case 0x2227: /* AND */
+	case 0x2228: /* OR  */
+	case 0x2260: /* NE  */
+	case 0x2264: /* LTE */
+	case 0x2265: /* GTE */
+	case 0:
+		return TRUE;
+	default:
+		return FALSE;
+	}
+}
+
+/*
+ * Do we want to ignore space after a given character?
+ */
+static gboolean
+ignore_space_after (gunichar c)
+{
+	switch (c) {
+	case '*': case '/': case '+': case '-': case '%': case '^': case '&':
+	case '>': case '<': case '=':
+	case '(':
+	case '"': case '\'':  /* Refers to closing quote only [not actually hit].  */
+	case 0x00AC: /* NOT */
+	case 0x2215: /* '/' */
+	case 0x2227: /* AND */
+	case 0x2228: /* OR  */
+	case 0x2260: /* NE  */
+	case 0x2264: /* LTE */
+	case 0x2265: /* GTE */
+	case 0:
+		return TRUE;
+	default:
+		return FALSE;
+	}
+}
+
+
 static int
 yylex (void)
 {
@@ -843,15 +895,14 @@ yylex (void)
                 state->ptr = g_utf8_next_char (state->ptr);
 		is_space = TRUE;
 	}
-	if (is_space && !state->convs->ignore_whitespace)
-		return ' ';
+	if (is_space && !state->convs->ignore_whitespace) {
+		if (!ignore_space_before (g_utf8_get_char (state->ptr)))
+			return ' ';
+	}
 
 	start = state->ptr;
 	c = g_utf8_get_char (start);
 	state->ptr = g_utf8_next_char (state->ptr);
-
-	if (c == '(' || c == ')')
-		return c;
 
 	if (c == '&' && state->convs->decode_ampersands) {
 		if (!strncmp (state->ptr, "amp;", 4)) {
@@ -967,15 +1018,15 @@ yylex (void)
 	if (c == '#' && state->convs->accept_hash_logicals) {
 		if (!strncmp (state->ptr, "NOT#", 4)) {
 			state->ptr += 4;
-			return NOT;
+			return eat_space (state, NOT);
 		}
 		if (!strncmp (state->ptr, "AND#", 4)) {
 			state->ptr += 4;
-			return AND;
+			return eat_space (state, AND);
 		}
 		if (!strncmp (state->ptr, "OR#", 3)) {
 			state->ptr += 3;
-			return OR;
+			return eat_space (state, OR);
 		}
 	}
 
@@ -1160,11 +1211,11 @@ yylex (void)
 			GnmValue *v = value_new_error (NULL, s->str);
 			yylval.expr = register_expr_allocation (gnm_expr_new_constant (v));
 			g_string_free (s, TRUE);
-			return CONSTANT;
+			return eat_space (state, CONSTANT);
 		} else {
 			GnmValue *v = value_new_string_nocopy (g_string_free (s, FALSE));
 			yylval.expr = register_expr_allocation (gnm_expr_new_constant (v));
-			return QUOTED_STRING;
+			return eat_space (state, QUOTED_STRING);
 		}
 	}
 	}
@@ -1213,7 +1264,10 @@ yylex (void)
 	case 0x2265: return eat_space (state, GTE);
 	}
 
-	return c;
+	if (ignore_space_after (c))
+		return eat_space (state, c);
+	else
+		return c;
 }
 
 int

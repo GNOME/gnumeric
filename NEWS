@@ -78,6 +78,7 @@ Morten:
 	* Fix custom validation export.  [backported]
 	* New functions EXPM1 and LN1P.
 	* Fix image-inside-xls problem.  [backported]
+	* Ignore more spaces in expression entry.
 
 	(For those worrying over the pile of accuracy fixes above it should
 	be noted that prior versions of Gnumeric were already pretty good,
