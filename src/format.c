@@ -1576,10 +1576,10 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color,
 
 	/* Formatting a value as a text returns the entered text */
 	if (strcmp (entry.format, "@") == 0) {
-		if (entered_text != NULL)
-			return g_strdup (entered_text);
 		if (value->type == VALUE_STRING)
 			return g_strdup (value->v_str.val->str);
+		if (entered_text != NULL)
+			return g_strdup (entered_text);
 
 		/* FIXME : What does it mean to format a value as text
 		 * without specifying the entered text ??

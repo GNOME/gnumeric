@@ -1,5 +1,10 @@
 2000-11-03  Jody Goldberg <jgoldberg@home.com>
 
+	* src/format.c (format_value) : A string value takes precedence over
+	  the entered text.
+
+2000-11-03  Jody Goldberg <jgoldberg@home.com>
+
 	* src/dialogs/analysis-tools.glade : Rename 'Alpha' to '1 - Alpha'
 
 	* src/complete-sheet.c (text_matches) : Only use values that are strings
