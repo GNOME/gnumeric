@@ -15,6 +15,7 @@ double plnorm (double x, double logmean, double logsd);
 double qlnorm (double x, double logmean, double logsd);
 
 /* The gamma distribution.  */
+double dgamma (double x, double shape, double scale);
 double pgamma (double x, double p, double scale);
 double qgamma (double p, double alpha, double scale);
 

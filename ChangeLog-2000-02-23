@@ -1,3 +1,26 @@
+1999-05-27  Morten Welinder  <terra@diku.dk>
+
+	* src/fn-stat.c (callback_function_mode): Ignore strings as
+ 	advertised.
+	(callback_function_stat_inv_sum): Ditto.
+	(callback_function_rank): Ditto.
+	(callback_function_trimmean): Ditto.
+	(callback_function_covar): Ditto.
+	(callback_function_correl): Ditto.
+	(callback_function_stat_prod): Ditto.
+	(callback_function_skew_sum): Ditto.
+	(callback_function_kurt_sum): Ditto.
+	(callback_function_stat_avedev_sum): Ditto.
+	(callback_function_devsq_sum): Ditto.
+	(callback_function_median): Ditto.
+	(gnumeric_tinv): Fix meaning.
+	(callback_function_count): Cleanup.
+	(callback_function_stat_inv_sum): Ditto.  Also fix error case.
+	(gnumeric_normdist): Simplify using dnorm.
+	(gnumeric_gammadist): Use dgamma.
+
+	* src/mathfunc.c (dgamma): New function from R.
+
 1999-05-27  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/fn-stat.c: Added BETAINV() and CHITEST().  Added optional

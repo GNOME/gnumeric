@@ -301,7 +301,7 @@ static char *help_harmean = {
 	   "@SYNTAX=HARMEAN(b1, b2, ...)\n"
 
 	   "@DESCRIPTION="
-	   "HARMEAN returns the harmonic mean of the N data"
+	   "HARMEAN returns the harmonic mean of the N data points."
 	   "\n"
 	   "Performing this function on a string or empty cell simply does nothing."
 	   "\n"
@@ -309,7 +309,6 @@ static char *help_harmean = {
 };
 
 typedef struct {
-	int first;
 	guint32 num;
 	float_t sum;
 } stat_inv_sum_t;
@@ -319,30 +318,27 @@ callback_function_stat_inv_sum (Sheet *sheet, Value *value,
 				char **error_string, void *closure)
 {
 	stat_inv_sum_t *mm = closure;
+	float_t x;
 
-	switch (value->type){
+	switch (value->type) {
 	case VALUE_INTEGER:
-		mm->num++;
-		if (mm->first)
-			mm->sum = 1.0 / value->v.v_int;
-		else
-			mm->sum = mm->sum + 1.0 / value->v.v_int;
-		break;
-
 	case VALUE_FLOAT:
-		mm->num++;
-		if (mm->first)
-			mm->sum = 1.0 / value->v.v_float;
-		else
-			mm->sum = mm->sum + 1.0 / value->v.v_float;
+		x = value_get_as_float (value);
 		break;
 
 	default:
 		/* ignore strings */
-		break;
+		return TRUE;
 	}
-	mm->first = FALSE;
-	return TRUE;
+
+	if (x == 0) {
+		*error_string = _("#DIV/0");
+		return FALSE;
+	} else {
+		mm->num++;
+		mm->sum += 1.0 / x;
+		return TRUE;
+	}
 }
 
 static char *help_rank = {
@@ -405,7 +401,7 @@ callback_function_rank (Sheet *sheet, Value *value,
 
 	default:
 		/* ignore strings */
-		break;
+		return TRUE;
 	}
 	mm->first = FALSE;
 	return TRUE;
@@ -503,7 +499,7 @@ callback_function_trimmean (Sheet *sheet, Value *value,
 		break;
 	default:
 		/* ignore strings */
-		break;
+		return TRUE;
 	}
 	mm->first = FALSE;
 	return TRUE;
@@ -621,7 +617,7 @@ callback_function_covar (Sheet *sheet, Value *value,
 
 	default:
 		/* ignore strings */
-		break;
+		return TRUE;
 	}
 	mm->first = FALSE;
 	return TRUE;
@@ -746,7 +742,7 @@ callback_function_correl (Sheet *sheet, Value *value,
 
 	default:
 		/* ignore strings */
-		break;
+		return TRUE;
 	}
 	mm->first = FALSE;
 	return TRUE;
@@ -1043,7 +1039,7 @@ callback_function_mode (Sheet *sheet, Value *value,
 	       break;
        default:
                /* ignore strings */
-               break;
+	       return TRUE;
        }
 
        p = g_hash_table_lookup (mm->hash_table, &key);
@@ -1105,18 +1101,18 @@ gnumeric_harmean (Sheet *sheet, GList *expr_node_list,
 		  int eval_col, int eval_row, char **error_string)
 {
 	stat_inv_sum_t pr;
-	float_t num;
 
-	pr.first = TRUE;
 	pr.num   = 0;
 	pr.sum   = 0.0;
 
-	function_iterate_argument_values (sheet, callback_function_stat_inv_sum,
-					  &pr, expr_node_list,
-					  eval_col, eval_row, error_string);
-
-	num = (float_t)pr.num;
-	return value_new_float (1.0 / (1.0/num * pr.sum));
+	if (function_iterate_argument_values (sheet, callback_function_stat_inv_sum,
+					      &pr, expr_node_list,
+					      eval_col, eval_row, error_string)) {
+		float_t num;
+		num = (float_t)pr.num;
+		return value_new_float (1.0 / (1.0/num * pr.sum));
+	} else
+		return NULL;
 }
 
 static char *help_geomean = {
@@ -1159,7 +1155,7 @@ callback_function_stat_prod (Sheet *sheet, Value *value,
 		break;
 	default:
 		/* ignore strings */
-		break;
+		return TRUE;
 	}
 	mm->first = FALSE;
 	return TRUE;
@@ -1206,9 +1202,6 @@ callback_function_count (Sheet *sheet, Value *value,
 
 	switch (value->type){
 	case VALUE_INTEGER:
-		result->v.v_int++;
-		break;
-
 	case VALUE_FLOAT:
 		result->v.v_int++;
 		break;
@@ -1500,7 +1493,7 @@ callback_function_skew_sum (Sheet *sheet, Value *value,
 		break;
 	default:
 		/* ignore strings */
-		break;
+		return TRUE;
 	}
 	mm->first = FALSE;
 	return TRUE;
@@ -1603,6 +1596,10 @@ gnumeric_gammaln (struct FunctionDefinition *i,
 		return NULL;
 	}
 
+	/* FIXME: the gamma function is defined for all real numbers except
+	 * the integers 0, -1, -2, ...  It is positive (and log(gamma(x)) is
+	 * thus defined) when x>0 or -2<x<-1 or -4<x<-3 ...  */
+
 	x = value_get_as_float (argv [0]);
 	if (x<=0){
 		*error_string = _("#NUM!");
@@ -1645,8 +1642,7 @@ gnumeric_gammadist (struct FunctionDefinition *i, Value *argv [],
 	if (cum)
 	        return value_new_float (pgamma(x, alpha, beta));
 	else
-	        return value_new_float ((pow(x, alpha-1) * exp(-x/beta)) /
-				    (pow(beta, alpha) * exp(lgamma(alpha))));
+	        return value_new_float (dgamma(x, alpha, beta));
 }
 
 static char *help_gammainv = {
@@ -1998,8 +1994,8 @@ static char *help_tdist = {
 
 	   "@DESCRIPTION="
 	   "TDIST function returns the Student's t-distribution. @dof is "
-	   "the degree of freedom and @tails is 1 or 2 depending on wheater "
-	   "you want one-tailed or two-tailed distribution. "
+	   "the degree of freedom and @tails is 1 or 2 depending on whether "
+	   "you want one-tailed or two-tailed distribution."
 	   "\n"
 	   "If @dof < 1 TDIST returns #NUM! error. "
 	   "If @tails is neither 1 or 2 TDIST returns #NUM! error. "
@@ -2056,7 +2052,7 @@ gnumeric_tinv (struct FunctionDefinition *i, Value *argv [],
 		return NULL;
 	}
 
-	return value_new_float (qt (p, dof));
+	return value_new_float (qt (1 - p / 2, dof));
 }
 
 static char *help_fdist = {
@@ -2467,16 +2463,10 @@ gnumeric_normdist (struct FunctionDefinition *i,
                 return NULL;
         }
 
-        if (cuml) {
+        if (cuml)
 		return value_new_float (pnorm (x, mean, stdev));
-        } else {
-	        float_t tmp = x - mean;
-
-		tmp *= tmp;
-
-	        return value_new_float (1.0/(sqrt(2*M_PI) * stdev) * 
-					exp(-tmp/(2*stdev*stdev)));
-	}
+        else
+		return value_new_float (dnorm (x, mean, stdev));
 }
 
 static char *help_norminv = {
@@ -2559,7 +2549,7 @@ callback_function_kurt_sum (Sheet *sheet, Value *value,
                 break;
         default:
                 /* ignore strings */
-                break;
+		return TRUE;
         }
 	mm->first = FALSE;
 	return TRUE;
@@ -2638,7 +2628,7 @@ callback_function_stat_avedev_sum (Sheet *sheet, Value *value,
                 break;
         default:
                 /* ignore strings */
-                break;
+		return TRUE;
         }
         mm->first = FALSE;
         return TRUE;
@@ -2707,7 +2697,7 @@ callback_function_devsq_sum (Sheet *sheet, Value *value,
                 break;
         default:
                 /* ignore strings */
-                break;
+		return TRUE;
         }
         mm->first = FALSE;
         return TRUE;
@@ -2989,7 +2979,7 @@ callback_function_median (Sheet *sheet, Value *value,
 		break;
 	default:
 		/* ignore strings */
-		break;
+		return TRUE;
 	}
 	mm->first = FALSE;
 	return TRUE;
