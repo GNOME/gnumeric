@@ -44,16 +44,6 @@ GNOMEGNORBA_LIBS="$GNOMEGNORBA_LIBS"
 AC_SUBST(GNOMEGNORBA_LIBS)
 
 
-dnl
-dnl Compatibility with old Gtk+ (will be removed when new Gtk+ and gnome-libs go out).
-dnl
-OLD_LIBS="$LIBS"
-LIBS="$LIBS $GTK_LIBS"
-AC_CHECK_FUNC(gtk_selection_add_target, AC_DEFINE(HAVE_GTK_SELECTION_ADD_TARGET))
-LIBS="$OLD_LIBS"
-
-
-
 dnl **************************************************
 dnl * Check for Perl
 dnl **************************************************

@@ -615,7 +615,9 @@ col_row_distance (GList *list, int from, int to, int default_pixels)
 	return pixels;
 }
 
-/*
+/**
+ * sheet_col_get_distance:
+ *
  * Return the number of pixels between from_col to to_col
  */
 int
@@ -627,7 +629,9 @@ sheet_col_get_distance (Sheet *sheet, int from_col, int to_col)
 	return col_row_distance (sheet->cols_info, from_col, to_col, sheet->default_col_style.pixels);
 }
 
-/*
+/**
+ * sheet_row_get_distance:
+ *
  * Return the number of pixels between from_row to to_row
  */
 int
@@ -885,7 +889,7 @@ sheet_start_editing_at_cursor (Sheet *sheet)
 	}
 }
 
-/*
+/**
  * sheet_update_controls:
  *
  * This routine is ran every time the seleciton has changed.  It checks
@@ -1011,8 +1015,8 @@ sheet_selection_append (Sheet *sheet, int col, int row)
 	sheet_selection_append_range (sheet, col, row, col, row, col, row);
 }
 
-/*
- * sheet_selection_extend_to
+/**
+ * sheet_selection_extend_to:
  * @sheet: the sheet
  * @col:   column that gets covered
  * @row:   row that gets covered
@@ -1076,7 +1080,8 @@ sheet_selection_extend_to (Sheet *sheet, int col, int row)
 		sheet_redraw_rows (sheet);
 }
 
-/* sheet_select_all
+/**
+ * sheet_select_all:
  * Sheet: The sheet
  *
  * Selects all of the cells in the sheet
@@ -1285,8 +1290,9 @@ sheet_selection_change (Sheet *sheet, SheetSelection *old, SheetSelection *new)
 		sheet_redraw_rows (sheet);
 }
 
-/*
- * sheet_selection_extend_horizontal
+/**
+ * sheet_selection_extend_horizontal:
+ *
  * @sheet:  The Sheet *
  * @count:  units to extend the selection horizontally
  */
@@ -1408,8 +1414,8 @@ sheet_selection_reset_only (Sheet *sheet)
 	sheet_redraw_rows (sheet);
 }
 
-/*
- * sheet_selection_reset
+/**
+ * sheet_selection_reset:
  * sheet:  The sheet
  *
  * Clears all of the selection ranges and resets it to a
@@ -1632,7 +1638,9 @@ sheet_selection_to_list (Sheet *sheet)
 	return list;
 }
 
-/*
+/**
+ * sheet_col_get:
+ *
  * Returns an allocated column:  either an existing one, or a fresh copy
  */
 ColRowInfo *
@@ -1657,7 +1665,9 @@ sheet_col_get (Sheet *sheet, int pos)
 	return col;
 }
 
-/*
+/**
+ * sheet_row_get:
+ *
  * Returns an allocated row:  either an existing one, or a fresh copy
  */
 ColRowInfo *
@@ -1710,7 +1720,7 @@ gen_col_blanks (Sheet *sheet, int start_col, int end_col,
 }
 
 /**
- * sheet_cell_get
+ * sheet_cell_get:
  * @sheet:  The sheet where we want to locate the cell
  * @col:    the cell column
  * @row:    the cell row
@@ -1734,8 +1744,8 @@ sheet_cell_get (Sheet *sheet, int col, int row)
 	return cell;
 }
 
-/*
- * sheet_cell_fetch
+/**
+ * sheet_cell_fetch:
  * @sheet:  The sheet where we want to locate the cell
  * @col:    the cell column
  * @row:    the cell row
@@ -1758,7 +1768,9 @@ sheet_cell_fetch (Sheet *sheet, int col, int row)
 	return cell;
 }
 
-/*
+/**
+ * sheet_cell_foreach_range:
+ *
  * For each existing cell in the range specified, invoke the
  * callback routine.  If the only_existing flag is passed, then
  * callbacks are only invoked for existing cells.
@@ -1851,8 +1863,8 @@ CRowSort (gconstpointer a, gconstpointer b)
 	return ca->row->pos - cb->row->pos;
 }
 
-/*
- * sheet_cell_add_to_hash
+/**
+ * sheet_cell_add_to_hash:
  * @sheet The sheet where the cell is inserted
  * @cell  The cell, it should already have col/pos pointers
  *        initialized pointing to the correct ColRowInfo
@@ -1951,7 +1963,9 @@ sheet_cell_remove_internal (Sheet *sheet, Cell *cell)
 	cell_unrealize (cell);
 }
 
-/*
+/**
+ * sheet_cell_remove_to_eot:
+ *
  * Removes all of the cells from CELL_LIST point on.
  */
 static void
@@ -2041,7 +2055,9 @@ sheet_cell_formula_unlink (Cell *cell)
 	sheet->workbook->formula_cell_list = g_list_remove (sheet->workbook->formula_cell_list, cell);
 }
 
-/*
+/**
+ * sheet_col_destroy:
+ *
  * Destroys a ColRowInfo from the Sheet with all of its cells
  */
 static void
@@ -2125,7 +2141,9 @@ sheet_destroy (Sheet *sheet)
 }
 
 
-/*
+/**
+ * sheet_clear_region:
+ *
  * Clears are region of cells
  *
  * We assemble a list of cells to destroy, since we will be making changes
@@ -2417,6 +2435,7 @@ static void
 sheet_move_column (Sheet *sheet, ColRowInfo *ci, int new_column)
 {
 	GList *rows, *column_cells, *l;
+	int diff = new_column - ci->pos;
 	
 	/* remove the cells */
 	column_cells = NULL;
@@ -2436,14 +2455,13 @@ sheet_move_column (Sheet *sheet, ColRowInfo *ci, int new_column)
 		
 		sheet_cell_add_to_hash (sheet, cell);
 		
-		/* If there is a formula, re-render the entered text*/
-		cell_relocate (cell, new_column, cell->row->pos);
+		cell_relocate (cell, diff, 0);
 	}
 	g_list_free (column_cells);
 }
 
-/*
- * sheet_insert_col
+/**
+ * sheet_insert_col:
  * @sheet   The sheet
  * @col     At which position we want to insert
  * @count   The number of columns to be inserted
@@ -2560,7 +2578,9 @@ sheet_delete_col (Sheet *sheet, int col, int count)
 	sheet_redraw_all (sheet);
 }
 
-/*
+/**
+ * colrow_closest_above:
+ *
  * Returns the closest column (from above) to pos
  */
 static GList *
@@ -2575,8 +2595,8 @@ colrow_closest_above (GList *l, int pos)
 	return NULL;
 }
 
-/*
- * sheet_shift_row
+/**
+ * sheet_shift_row:
  * @sheet the sheet
  * @row   row where the shifting takes place
  * @col   first column
@@ -2662,7 +2682,7 @@ sheet_shift_row (Sheet *sheet, int col, int row, int count)
 		/* Relocate the cell */
 		sheet_cell_remove (sheet, cell);
 		sheet_cell_add (sheet, cell, new_column, row);
-		cell_relocate (cell, new_column, row);
+		cell_relocate (cell, count, 0);
 	}
 	g_list_free (l);
 	
@@ -2688,8 +2708,8 @@ sheet_shift_rows (Sheet *sheet, int col, int start_row, int end_row, int count)
 		sheet_shift_row (sheet, col, i, count);
 }
 
-/*
- * sheet_insert_row
+/**
+ * sheet_insert_row:
  * @sheet   The sheet
  * @row     At which position we want to insert
  * @count   The number of rows to be inserted
@@ -2766,7 +2786,7 @@ sheet_insert_row (Sheet *sheet, int row, int count)
 
 		sheet_cell_add_to_hash (sheet, cell);
 		
-		cell_relocate (cell, cell->col->pos, cell->row->pos);
+		cell_relocate (cell, 0, count);
 	}
 
 	g_list_free (cell_store);
@@ -2780,8 +2800,8 @@ sheet_insert_row (Sheet *sheet, int row, int count)
 	sheet_redraw_all (sheet);
 }
 
-/*
- * sheet_delete_row
+/**
+ * sheet_delete_row:
  * @sheet   The sheet
  * @row     At which position we want to delete
  * @count   The number of rows to be deleted
@@ -2856,7 +2876,7 @@ sheet_delete_row (Sheet *sheet, int row, int count)
 
 		sheet_cell_add_to_hash (sheet, cell);
 
-		cell_relocate (cell, cell->col->pos, cell->row->pos);
+		cell_relocate (cell, 0, -count);
 	}
 	g_list_free (cell_store);
 
@@ -2869,8 +2889,8 @@ sheet_delete_row (Sheet *sheet, int row, int count)
 	sheet_redraw_all (sheet);
 }
 
-/*
- * sheet_shift_col
+/**
+ * sheet_shift_col:
  * @sheet the sheet
  * @row   first row
  * @col   column where the shifting takes place
@@ -2953,7 +2973,7 @@ sheet_shift_col (Sheet *sheet, int col, int row, int count)
 		}
 
 		sheet_cell_add (sheet, cell, col, new_row);
-		cell_relocate (cell, col, new_row);
+		cell_relocate (cell, 0, count);
 	}
 	g_list_free (cell_list);
 
@@ -2965,8 +2985,8 @@ sheet_shift_col (Sheet *sheet, int col, int row, int count)
 	sheet_redraw_all (sheet);
 }
 
-/*
- * sheet_shift_cols
+/**
+ * sheet_shift_cols:
  * @sheet the sheet
  * @start_col first column
  * @end_col   end column
@@ -3009,8 +3029,8 @@ sheet_style_attach (Sheet *sheet, int start_col, int start_row, int end_col, int
 	sheet->style_list = g_list_prepend (sheet->style_list, sr);
 }
 
-/*
- * sheet_style_compute
+/**
+ * sheet_style_compute:
  * @sheet:   	 Which sheet we are looking up
  * @col:     	 column
  * @row:     	 row

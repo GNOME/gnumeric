@@ -29,6 +29,7 @@ typedef enum {
 	VALUE_FLOAT,
 	VALUE_CELLRANGE,
 	VALUE_ARRAY,
+	VALUE_CELLREF,
 } ValueType;
 
 typedef struct {
@@ -135,7 +136,8 @@ void        cell_get_abs_col_row (CellRef *cell_ref,
 
 ExprTree   *expr_parse_string    (char *expr, void *sheet, int col, int row,
 				  char **desired_format, char **error_msg);
-
+ExprTree   *expr_tree_duplicate  (ExprTree *expr);
+ExprTree   *expr_tree_relocate   (ExprTree *expr, int col_diff, int row_diff);
 char       *expr_decode_tree     (ExprTree *tree, void *sheet,
 				  int col, int row);
 

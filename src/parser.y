@@ -209,7 +209,8 @@ return_cellref (char *p)
 	e = p_new (ExprTree);
 	e->ref_count = 1;
 	v = v_new ();
-
+	v->type = VALUE_CELLREF;
+	
 	e->oper = OPER_VAR;
 
 	ref = &v->v.cell;
@@ -241,77 +242,6 @@ return_sheetref (Sheet *sheet)
 {
 	yylval.sheetref = sheet;
 	return SHEETREF;
-}
-
-static int
-old_return_symbol (char *string)
-{
-	ExprTree *e = p_new (ExprTree);
-	Symbol *sym;
-	int type;
-
-#warning remove me after testing the new code.
-	e->ref_count = 1;
-	sym = symbol_lookup (global_symbol_table, string);
-	type = STRING;
-	
-	if (!sym)
-	{
-		Value *v = v_new ();
-		double fv;
-		char *format;
-
-		/*
-		 * Try to match the entered text against any
-		 * of the known number formating codes, if this
-		 * succeeds, we store this as a float + format,
-		 * otherwise, we return a string.
-		 */
-		if (format_match (string, &fv, &format)){
-			v->type = VALUE_FLOAT;
-			v->v.v_float = fv;
-			if (!parser_desired_format)
-				parser_desired_format = format;
-		} else {
-			v->v.str = string_get (string);
-			v->type = VALUE_STRING;
-		}
-		
-		e->oper = OPER_CONSTANT;
-		e->u.constant = v;
-	}
-	else
-	{
-		symbol_ref (sym);
-		switch (sym->type){
-		case SYMBOL_FUNCTION:
-			e->oper = OPER_FUNCALL;
-			type = FUNCALL;
-			e->u.function.symbol = sym;
-			e->u.function.arg_list = NULL;
-			break;
-
-		case SYMBOL_VALUE:
-		case SYMBOL_STRING: {
-			Value *v, *dv;
-
-			/* Make a copy of the value */
-			dv = (Value *) sym->data;
-			v = v_new ();
-			value_copy_to (v, dv);
-			
-			e->oper = OPER_CONSTANT;
-			e->u.constant = v;
-			type = CONSTANT;
-			break;
-		}
-		
-		} /* switch */
-		register_symbol (sym);
-	}
-	
-	yylval.tree = e;
-	return type;
 }
 
 static int
@@ -483,7 +413,7 @@ int yylex (void)
 	case '"': {
 		char *string, *s;
 		int v;
-		char *quotes_end = c;
+		char quotes_end = c;
 		
                 p = parser_expr;
                 while(*parser_expr && *parser_expr != quotes_end) {

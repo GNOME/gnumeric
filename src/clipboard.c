@@ -30,7 +30,14 @@ typedef struct {
 	int         paste_flags;
 } clipboard_paste_closure_t;
 
-/*
+/**
+ * paste_cell:
+ * @dest_sheet:  The sheet where the pasting will be done
+ * @new_cell:    The cell to paste.
+ * @target_col:  Column to put the cell into
+ * @target_row:  Row to put the cell into.
+ * @paste_flags: Bit mask that describes the paste options.
+ *
  * Pastes a cell in the spreadsheet
  */
 static int
@@ -47,7 +54,7 @@ paste_cell (Sheet *dest_sheet, Cell *new_cell, int target_col, int target_row, i
 	
 	if (new_cell->parsed_node){
 		if (paste_flags & PASTE_FORMULAS)
-			cell_relocate (new_cell, target_col, target_row);
+			cell_relocate (new_cell, 0, 0);
 		else 
 			cell_make_value (new_cell);
 	}
@@ -92,7 +99,7 @@ paste_cell_flags (Sheet *dest_sheet, int target_col, int target_row,
 	return 0;
 }
 
-/*
+/**
  * do_clipboard_paste_cell_region:
  *
  * region:       a Cell Region that contains information to be pasted
@@ -185,7 +192,11 @@ new_node (GList *list, char *data, char *p, int col, int row)
 	return g_list_prepend (list, c_copy);
 }
 
-/*
+/**
+ * x_selection_to_cell_region:
+ * @data: points to an array of chars are received.
+ * @len:  The lenght of the @data buffer as received. 
+ *
  * Creates a CellRegion based on the X selection
  *
  * We use \t, ; and "," as cell separators
@@ -238,11 +249,7 @@ x_selection_to_cell_region (char *data, int len)
  * This is triggered by a call we do to gtk_selection_convert.
  */
 static void
-#ifdef HAVE_GTK_SELECTION_ADD_TARGET
 x_selection_received (GtkWidget *widget, GtkSelectionData *sel, guint time, gpointer data)
-#else
-x_selection_received (GtkWidget *widget, GtkSelectionData *sel, gpointer data)
-#endif
 {
 	SheetSelection *ss;
 	Workbook       *wb = data;
@@ -306,11 +313,7 @@ x_selection_received (GtkWidget *widget, GtkSelectionData *sel, gpointer data)
  * Callback invoked when another application requests we render the selection.
  */
 static void
-#ifdef HAVE_GTK_SELECTION_ADD_TARGET
 x_selection_handler (GtkWidget *widget, GtkSelectionData *selection_data, guint info, guint time, gpointer data)
-#else
-x_selection_handler (GtkWidget *widget, GtkSelectionData *selection_data, gpointer data)
-#endif
 {
 	Workbook *wb = (Workbook *) data;
 	char *rendered_selection;
@@ -359,16 +362,9 @@ x_clipboard_bind_workbook (Workbook *wb)
 		GTK_OBJECT (wb->toplevel), "selection_get",
 		GTK_SIGNAL_FUNC(x_selection_handler), wb);
 
-#ifdef HAVE_GTK_SELECTION_ADD_TARGET
 	gtk_selection_add_target (
 		wb->toplevel,
 		GDK_SELECTION_PRIMARY, GDK_SELECTION_TYPE_STRING, 0);
-#else
-	gtk_selection_add_handler (
-		wb->toplevel,
-		GDK_SELECTION_PRIMARY, GDK_SELECTION_TYPE_STRING,
-		x_selection_handler, wb);
-#endif
 }
 
 /**
@@ -493,13 +489,8 @@ clipboard_paste_region (CellRegion *region, Sheet *dest_sheet,
 		GtkSelectionData sel;
 
 		sel.length = -1;
-#ifdef HAVE_GTK_SELECTION_ADD_TARGET
 		x_selection_received (dest_sheet->workbook->toplevel, &sel,
 				      0, dest_sheet->workbook);
-#else
-                x_selection_received (dest_sheet->workbook->toplevel, &sel,
-				      dest_sheet->workbook);
-#endif
 		return;
 	}
 

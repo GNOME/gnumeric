@@ -192,6 +192,9 @@ value_string (Value *value)
 		
 	case VALUE_CELLRANGE:
 		return g_strdup ("Internal problem");
+
+	case VALUE_CELLREF:
+		g_assert_not_reached ();
 	}
 	return g_strdup (buffer);
 }
@@ -223,6 +226,9 @@ value_release (Value *value)
 	}
 	
 	case VALUE_CELLRANGE:
+		break;
+
+	case VALUE_CELLREF:
 		break;
 		
 	}
@@ -269,6 +275,10 @@ value_copy_to (Value *dest, Value *source)
 	}
 	case VALUE_CELLRANGE:
 		dest->v.cell_range = source->v.cell_range;
+		break;
+
+	case VALUE_CELLREF:
+		dest->v.cell = source->v.cell;
 		break;
 	}
 }
@@ -443,6 +453,14 @@ eval_cell_value (Sheet *sheet, Value *value)
 	case VALUE_CELLRANGE:
 		res->v.cell_range = value->v.cell_range;
 		break;
+
+	case VALUE_CELLREF:
+		/*
+		 * This case shoudl be handled as part of the OPER_VAR
+		 * case in the ExprTree, not here
+		 */
+		g_assert_not_reached ();
+
 	}
 	return res;
 }
@@ -873,10 +891,7 @@ eval_expr (void *asheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 	case OPER_FUNCALL:
 		return eval_funcall (sheet, tree, eval_col, eval_row, error_string);
 
-	case OPER_CONSTANT:
-		return eval_cell_value (sheet, tree->u.constant);
-
-	case OPER_VAR:{
+	case OPER_VAR: {
 		Sheet *cell_sheet;
 		CellRef *ref;
 		Cell *cell;
@@ -916,6 +931,10 @@ eval_expr (void *asheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 		res->v.v_int = 0;
 		return res;
 	}
+	
+	case OPER_CONSTANT:
+		return eval_cell_value (sheet, tree->u.constant);
+
 	case OPER_NEG:
 		a = eval_expr (sheet, tree->u.value,
 			       eval_col, eval_row, error_string);
@@ -1083,6 +1102,13 @@ do_expr_decode_tree (ExprTree *tree, void *sheet, int col, int row, Operation pa
 			return g_strconcat (fd->name, "()", NULL);
 	}
 	
+	case OPER_VAR: {
+		CellRef *cell_ref;
+		
+		cell_ref = &tree->u.constant->v.cell;
+		return cellref_name (cell_ref, sheet, col, row);
+	}
+
 	case OPER_CONSTANT: {
 		Value *v = tree->u.constant;
 
@@ -1105,13 +1131,6 @@ do_expr_decode_tree (ExprTree *tree, void *sheet, int col, int row, Operation pa
 				return value_string (v);
 		}
 	}
-	
-	case OPER_VAR: {
-		CellRef *cell_ref;
-
-		cell_ref = &tree->u.constant->v.cell;
-		return cellref_name (cell_ref, sheet, col, row);
-	}
 	}
 
 	g_warning ("ExprTree: This should not happen\n");
@@ -1128,3 +1147,101 @@ expr_decode_tree (ExprTree *tree, void *sheet, int col, int row)
 	return do_expr_decode_tree (tree, sheet, col, row, OPER_CONSTANT);
 }
 
+static ExprTree *
+do_expr_tree_relocate (ExprTree *tree, int coldiff, int rowdiff)
+{
+	ExprTree *new_tree;
+
+	new_tree = g_new (ExprTree, 1);
+	*new_tree = *tree;
+	
+	new_tree->ref_count = 1;
+	
+	switch (tree->oper){
+		/* The binary operations */
+	case OPER_EQUAL:
+	case OPER_NOT_EQUAL:
+	case OPER_GT:
+	case OPER_GTE:
+	case OPER_LT:
+	case OPER_LTE:
+	case OPER_ADD:
+	case OPER_SUB:
+	case OPER_MULT:
+	case OPER_DIV:
+	case OPER_EXP:
+	case OPER_CONCAT: {
+		ExprTree *a, *b;
+		
+		a = do_expr_tree_relocate (tree->u.binary.value_a, coldiff, rowdiff);
+		b = do_expr_tree_relocate (tree->u.binary.value_b, coldiff, rowdiff);
+
+		new_tree->u.binary.value_a = a;
+		new_tree->u.binary.value_b = b;
+		break;
+	}
+
+	case OPER_FUNCALL: {
+		GList *l, *arg_list;
+		GList *new_list = NULL;
+
+		tree->ref_count++;
+		
+		arg_list = tree->u.function.arg_list;
+
+		for (l = arg_list; l; l = l->next){
+			ExprTree *tree = l->data;
+
+			new_list = g_list_append (
+				new_list,
+				do_expr_tree_relocate (tree, coldiff, rowdiff));
+			new_tree->u.function.arg_list = new_list;
+		}
+		symbol_ref (tree->u.function.symbol);
+		break;
+	}
+
+	case OPER_VAR:
+	case OPER_CONSTANT: {
+		CellRef *ref;
+		
+		new_tree->u.constant = value_duplicate (tree->u.constant);
+
+		switch (new_tree->u.constant->type){
+		case VALUE_CELLREF:
+			ref = &new_tree->u.constant->v.cell;
+			ref->col -= coldiff;
+			ref->row -= rowdiff;
+			break;
+			
+		case VALUE_CELLRANGE:
+			ref = &new_tree->u.constant->v.cell_range.cell_a;
+			ref->col -= coldiff;
+			ref->row -= rowdiff;
+			
+			ref = &new_tree->u.constant->v.cell_range.cell_b;
+			ref->col -= coldiff;
+			ref->row -= rowdiff;
+			break;
+
+		default:
+		}
+		break;
+	}
+	
+	case OPER_NEG: 
+		new_tree->u.value = do_expr_tree_relocate (tree->u.value, coldiff, rowdiff);
+		break;
+
+	}
+	
+	return new_tree;
+}
+
+ExprTree *
+expr_tree_relocate (ExprTree *tree, int coldiff, int rowdiff)
+{
+	g_return_val_if_fail (tree != NULL, NULL);
+
+	return do_expr_tree_relocate (tree, coldiff, rowdiff);
+}

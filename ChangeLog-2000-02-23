@@ -1,3 +1,36 @@
+1999-01-10  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/eval.c (add_value_deps): Reorganization.  Hanlde
+	VALUE_CELLREF here and make OPER_VAR and OPER_CONSTANT call
+	add_value_deps. 
+
+	* src/expr.c (do_expr_tree_relocate, expr_tree_relocate): New
+	routine that returns an ExprTree relocated.
+	(value_copy_to): Handle the VALUE_CELLREF type.
+
+	* src/expr.h: define VALUE_CELLREF
+
+	* src/parser.y (yylex): Type fix.
+	When creating values of type VALUE_CELLREF, set this value. 
+
+1999-01-09  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/sheet.c (sheet_move_column): Update to new cell_relocate
+	semantics.
+	(sheet_shift_row): ditto.
+	(sheet_insert_row): ditto.
+	(sheet_delete_row): ditto.
+	(sheet_shift_col): ditto.
+
+	* src/clipboard.c: Update to new cell_relocate semantics.
+	Remove the old GTK compatibility code.
+
+	* src/cell.c (cell_relocate): We do not need to reference this
+	formula. 
+	This routine now takes delta-x and delta-y values for the
+	relocation, instead of absolute cordinates.  To implement the
+	proper semantics of cell movement that other spreadsheets implement
+
 1999-01-09  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet): Return the

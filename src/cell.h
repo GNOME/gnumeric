@@ -121,7 +121,7 @@ void        cell_set_alignment           (Cell *cell, int halign, int valign,
 void        cell_set_halign              (Cell *cell, StyleHAlignFlags halign);
 void        cell_set_rendered_text       (Cell *cell, char *rendered_text);
 void        cell_relocate                (Cell *cell,
-					  int target_col, int target_row);
+					  int col_diff, int row_diff);
 void        cell_get_span                (Cell *cell, int *col1, int *col2);
 char       *cell_get_text                (Cell *cell);
 char       *cell_get_content             (Cell *cell);

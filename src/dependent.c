@@ -164,6 +164,14 @@ add_value_deps (Cell *cell, Value *value)
 			&value->v.cell_range.cell_a,
 			&value->v.cell_range.cell_b);
 		break;
+
+	case VALUE_CELLREF:
+		add_cell_range_deps (
+			cell,
+			&value->v.cell,
+			&value->v.cell);
+		return;
+
 	}
 }
 
@@ -193,6 +201,7 @@ add_tree_deps (Cell *cell, ExprTree *tree)
 		add_tree_deps (cell, tree->u.binary.value_b);
 		return;
 
+	case OPER_VAR: 
 	case OPER_CONSTANT:
 		add_value_deps (cell, tree->u.constant);
 		return;
@@ -200,13 +209,6 @@ add_tree_deps (Cell *cell, ExprTree *tree)
 	case OPER_FUNCALL: 
 		for (l = tree->u.function.arg_list; l; l = l->next)
 			add_tree_deps (cell, l->data);
-		return;
-
-	case OPER_VAR: 
-		add_cell_range_deps (
-			cell,
-			&tree->u.constant->v.cell,
-			&tree->u.constant->v.cell);
 		return;
 
 	case OPER_NEG:
