@@ -33,6 +33,7 @@
 #include "expr.h"
 #include "value.h"
 #include "bonobo.h"
+#include "workbook-edit.h"
 
 #define SHEET_OBJECT_WIDGET_TYPE     (sheet_object_widget_get_type ())
 #define SHEET_OBJECT_WIDGET(obj)     (GTK_CHECK_CAST((obj), SHEET_OBJECT_WIDGET_TYPE, SheetObjectWidget))
@@ -40,12 +41,14 @@
 #define IS_SHEET_WIDGET_OBJECT(o)    (GTK_CHECK_TYPE((o), SHEET_OBJECT_WIDGET_TYPE))
 #define SOW_CLASS(so)	 	     (SHEET_OBJECT_WIDGET_CLASS (GTK_OBJECT(so)->klass))
 
-#define SOW_MAKE_TYPE(n1, n2) \
+#define SOW_MAKE_TYPE(n1, n2, config) \
 static void \
 sheet_widget_ ## n1 ## _class_init (GtkObjectClass *object_class) \
 { \
 	SheetObjectWidgetClass *sow_class = SHEET_OBJECT_WIDGET_CLASS (object_class); \
+	SheetObjectClass *so_class = SHEET_OBJECT_CLASS (object_class); \
 	sow_class->create_widget = & sheet_widget_ ## n1 ## _create_widget; \
+	so_class->user_config = config; \
 	object_class->destroy = & sheet_widget_ ## n1 ## _destroy; \
 } \
 static GNUMERIC_MAKE_TYPE(sheet_widget_ ## n1, "SheetWidget" #n2, SheetWidget ## n2, \
@@ -258,7 +261,7 @@ sheet_widget_label_create_widget (SheetObjectWidget *sow, SheetView *sview)
 	return gtk_label_new ("Label");
 }
 
-SOW_MAKE_TYPE(label, Label)
+SOW_MAKE_TYPE(label, Label, NULL)
 
 /****************************************************************************/
 static GtkType sheet_widget_frame_get_type (void);
@@ -288,7 +291,7 @@ sheet_widget_frame_create_widget (SheetObjectWidget *sow, SheetView *sview)
 	return gtk_frame_new ("Frame");
 }
 
-SOW_MAKE_TYPE(frame, Frame)
+SOW_MAKE_TYPE(frame, Frame, NULL)
 
 /****************************************************************************/
 static GtkType sheet_widget_button_get_type (void);
@@ -318,7 +321,7 @@ sheet_widget_button_create_widget (SheetObjectWidget *sow, SheetView *sview)
 	return gtk_button_new_with_label (_("Button"));
 }
 
-SOW_MAKE_TYPE(button, Button)
+SOW_MAKE_TYPE(button, Button, NULL)
 
 /****************************************************************************/
 static GtkType sheet_widget_checkbox_get_type (void);
@@ -337,6 +340,88 @@ typedef struct {
 typedef struct {
 	SheetObjectWidgetClass	sow;
 } SheetWidgetCheckboxClass;
+
+typedef struct {
+	GtkWidget *dialog;
+	GtkWidget *entry;
+
+	Workbook  *wb;
+} CheckboxConfigState;
+
+static gboolean
+cb_checkbox_config_destroy (GtkObject *w, CheckboxConfigState *state)
+{
+	g_return_val_if_fail (w != NULL, FALSE);
+	g_return_val_if_fail (state != NULL, FALSE);
+
+	workbook_edit_detach_guru (state->wb);
+
+	/* Handle window manger closing the dialog.
+	 * This will be ignored if we are being destroyed differently.
+	 */
+	workbook_finish_editing (state->wb, FALSE);
+
+	state->dialog = NULL;
+
+	g_free (state);
+	return FALSE;
+}
+
+static void
+cb_checkbox_config_focus (GtkWidget *w, GdkEventFocus *ev, CheckboxConfigState *state)
+{
+	workbook_set_entry (state->wb, GTK_ENTRY (state->entry));
+	workbook_edit_select_absolute (state->wb);
+}
+
+static void
+cb_checkbox_config_clicked (GnomeDialog *dialog, gint button_number)
+{
+	printf ("button %d\n", button_number);
+}
+
+static void
+sheet_widget_checkbox_user_config (SheetObject *so)
+{
+	CheckboxConfigState *state;
+	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (so);
+
+	g_return_if_fail (swc != NULL);
+
+	state = g_new (CheckboxConfigState, 1);
+	state->wb = so->sheet->workbook;
+	state->dialog = gnome_dialog_new (_("Checkbox Configure"),
+					  GNOME_STOCK_BUTTON_OK, 
+					  GNOME_STOCK_BUTTON_CANCEL, 
+					  NULL);
+	state->entry = gtk_entry_new ();
+	if (swc->dep.expression != NULL) {
+		ParsePos pp;
+		char *text = expr_tree_as_string (swc->dep.expression,
+			parse_pos_init (&pp, NULL, so->sheet, 0, 0));
+		gtk_entry_set_text (GTK_ENTRY (state->entry), text);
+	}
+
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (state->dialog)->vbox),
+			    state->entry, TRUE, TRUE, 5);
+	gnome_dialog_set_default (GNOME_DIALOG (state->dialog), 0);
+
+	gtk_signal_connect (GTK_OBJECT (state->entry), "focus-in-event",
+			    GTK_SIGNAL_FUNC (cb_checkbox_config_focus), state);
+	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
+			    GTK_SIGNAL_FUNC (cb_checkbox_config_destroy), state);
+	gtk_signal_connect (GTK_OBJECT (state->dialog), "clicked",
+			    GTK_SIGNAL_FUNC (cb_checkbox_config_clicked), state);
+ 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				  GTK_EDITABLE(state->entry));
+
+	gnumeric_non_modal_dialog (state->wb, GTK_WINDOW (state->dialog));
+	workbook_edit_attach_guru (state->wb, state->dialog);
+	gtk_window_set_position (GTK_WINDOW (state->dialog), GTK_WIN_POS_MOUSE);
+	gtk_window_set_focus (GTK_WINDOW (state->dialog),
+			      GTK_WIDGET (state->entry));
+	gtk_widget_show_all (state->dialog);
+}
 
 static void
 sheet_widget_checkbox_set_active (SheetWidgetCheckbox *swc)
@@ -472,7 +557,7 @@ sheet_widget_checkbox_create_widget (SheetObjectWidget *sow, SheetView *sview)
 	return button;
 }
 
-SOW_MAKE_TYPE(checkbox, Checkbox)
+SOW_MAKE_TYPE(checkbox, Checkbox, &sheet_widget_checkbox_user_config)
 
 /****************************************************************************/
 static GtkType sheet_widget_radio_button_get_type (void);
@@ -502,7 +587,7 @@ sheet_widget_radio_button_create_widget (SheetObjectWidget *sow, SheetView *svie
 	return gtk_radio_button_new_with_label (NULL, "RadioButton");
 }
 
-SOW_MAKE_TYPE(radio_button, RadioButton)
+SOW_MAKE_TYPE(radio_button, RadioButton, NULL)
 
 /****************************************************************************/
 static GtkType sheet_widget_list_get_type (void);
@@ -532,7 +617,7 @@ sheet_widget_list_create_widget (SheetObjectWidget *sow, SheetView *sview)
     return gtk_list_new ();
 }
 
-SOW_MAKE_TYPE(list, List)
+SOW_MAKE_TYPE(list, List, NULL)
 
 /****************************************************************************/
 static GtkType sheet_widget_combo_get_type (void);
@@ -562,4 +647,4 @@ sheet_widget_combo_create_widget (SheetObjectWidget *sow, SheetView *sview)
 	return gtk_combo_new ();
 }
 
-SOW_MAKE_TYPE(combo, Combo)
+SOW_MAKE_TYPE(combo, Combo, NULL)

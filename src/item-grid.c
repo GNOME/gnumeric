@@ -660,7 +660,10 @@ item_grid_button_1 (Sheet *sheet, GdkEventButton *event,
 	if (sheet->new_object != NULL)
 		return sheet_object_begin_creation (gsheet, event);
 
-	if (sheet->current_object != NULL)
+	/* If we are not configuring an object then clicking on the sheet
+	 * ends the edit.
+	 */
+	if (sheet->current_object != NULL && !workbook_edit_has_guru (sheet->workbook))
 		sheet_mode_edit	(sheet);
 
 	/*

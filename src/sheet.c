@@ -2483,6 +2483,7 @@ sheet_hide_cursor (Sheet *sheet)
 
 		sheet_view_hide_cursor (sheet_view);
 	}
+	sheet_selection_redraw (sheet);
 }
 
 void
@@ -2495,6 +2496,7 @@ sheet_show_cursor (Sheet *sheet)
 
 		sheet_view_show_cursor (sheet_view);
 	}
+	sheet_selection_redraw (sheet);
 }
 
 /**

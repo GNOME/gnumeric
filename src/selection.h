@@ -38,6 +38,7 @@ gboolean    selection_contains_colrow         (Sheet *sheet, int colrow, gboolea
 /* User visible actions */
 void        sheet_selection_ant               (Sheet *sheet);
 void        sheet_selection_unant             (Sheet *sheet);
+void        sheet_selection_redraw            (Sheet const *sheet);
 
 /* Utilities for operating on a selection */
 typedef void (*SelectionApplyFunc) (Sheet *sheet, 

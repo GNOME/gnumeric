@@ -24,6 +24,8 @@ Jody:
 	* Support for non-cell dependencies.
 	* Improve performance and decrease memory for large row/col resizes.
 	* Bug fixes for ins/del row/col & cut&paste
+	* Locale safe formating.
+	* Non Cell dependencies.
 
 John Gill:
 	* Double click fill support.

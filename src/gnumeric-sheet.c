@@ -231,17 +231,17 @@ selection_insert_selection_string (GnumericSheet *gsheet)
 
 	/* Get the new selection string */
 	buffer = g_strdup_printf ("%s%s%s%d",
-				  wb->use_absolute_cols ? "$" : "",
+				  wb->select_abs_col ? "$" : "",
 				  col_name (sel->pos.start.col),
-				  wb->use_absolute_rows ? "$" : "",
+				  wb->select_abs_row ? "$" : "",
 				  sel->pos.start.row+1);
 
 	if (!range_is_singleton (&sel->pos)) {
 		char *tmp = g_strdup_printf ("%s:%s%s%s%d",
 					      buffer,
-					      wb->use_absolute_cols ? "$": "",
+					      wb->select_abs_col ? "$": "",
 					      col_name (sel->pos.end.col),
-					      wb->use_absolute_rows ? "$": "",
+					      wb->select_abs_row ? "$": "",
 					      sel->pos.end.row+1);
 		g_free (buffer);
 		buffer = tmp;
@@ -741,8 +741,8 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 	case GDK_F4:
 		if (wb->editing && gsheet->sel_cursor) {
 			selection_remove_selection_string (gsheet);
-			wb->use_absolute_rows = (wb->use_absolute_rows == wb->use_absolute_cols);
-			wb->use_absolute_cols = !wb->use_absolute_cols;
+			wb->select_abs_row = (wb->select_abs_row == wb->select_abs_col);
+			wb->select_abs_col = !wb->select_abs_col;
 			selection_insert_selection_string (gsheet);
 		}
 		break;
@@ -803,7 +803,8 @@ gnumeric_sheet_key_press (GtkWidget *widget, GdkEventKey *event)
 	GnumericSheet *gsheet = GNUMERIC_SHEET (widget);
 	Sheet *sheet = gsheet->sheet_view->sheet;
 
-	if (sheet->current_object != NULL)
+	if (sheet->current_object != NULL ||
+	    sheet->new_object != NULL)
 		return gnumeric_sheet_key_mode_object (gsheet, event);
 	return gnumeric_sheet_key_mode_sheet (gsheet, event);
 }

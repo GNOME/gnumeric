@@ -8,7 +8,7 @@
 void       gnumeric_notice (Workbook *wb, const char *type, const char *str);
 void       gnumeric_no_modify_array_notice (Workbook *wb);
 
-void       gnumeric_non_modal_dialog (Workbook *wb, GtkDialog *dialog);
+void       gnumeric_non_modal_dialog (Workbook *wb, GtkWindow *dialog);
 gint       gnumeric_dialog_run (Workbook *wb, GnomeDialog *dialog);
 void       gnumeric_dialog_show (GtkObject *parent, GnomeDialog *dialog,
 				 gboolean click_closes,

@@ -57,7 +57,7 @@ typedef struct {
 	void        (*populate_menu) (SheetObject *sheet_object,
 				      GtkMenu     *menu);
 	void                (*print) (SheetObject *so, SheetObjectPrintInfo *pi);
-	GtkWidget *   (*user_config) (SheetObject *, SheetView *);
+	void	      (*user_config) (SheetObject *);
 	void           (*set_active) (SheetObject *so, gboolean val);
 } SheetObjectClass;
 

@@ -728,9 +728,9 @@ cb_non_modal_dialog_keypress (GtkWidget *w, GdkEventKey *e)
 }
 
 void
-gnumeric_non_modal_dialog (Workbook *wb, GtkDialog *dialog)
+gnumeric_non_modal_dialog (Workbook *wb, GtkWindow *dialog)
 {
-	gtk_window_set_transient_for (GTK_WINDOW (dialog),
+	gtk_window_set_transient_for (dialog,
 				      GTK_WINDOW (workbook_get_toplevel (wb)));
 	gtk_signal_connect (GTK_OBJECT (dialog), "key-press-event",
 			    (GtkSignalFunc) cb_non_modal_dialog_keypress, NULL);

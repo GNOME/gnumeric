@@ -15,6 +15,7 @@
 #include "gnumeric-util.h"
 #include "dialogs.h"
 #include "sheet-object.h"
+#include "workbook-edit.h"
 
 #include <gal/widgets/e-cursors.h>
 
@@ -42,6 +43,11 @@ sheet_object_destroy (GtkObject *object)
 	SheetObject *so = SHEET_OBJECT (object);
 	Sheet *sheet;
 
+	g_return_if_fail (so != NULL);
+
+	sheet = so->sheet;
+	g_return_if_fail (sheet != NULL);
+
 	if (sheet->current_object == so)
 		sheet_mode_edit (sheet);
 	else
@@ -52,8 +58,6 @@ sheet_object_destroy (GtkObject *object)
 		GnomeCanvasItem *item = so->realized_list->data;
 		gtk_object_destroy (GTK_OBJECT (item));
 	}
-
-	sheet = so->sheet;
 
 	/* If the object has already been inserted then mark sheet as dirty */
 	if (NULL != g_list_find	(sheet->sheet_objects, so)) {
@@ -473,8 +477,12 @@ sheet_mode_clear (Sheet *sheet)
 void
 sheet_mode_edit	(Sheet *sheet)
 {
+	g_return_if_fail (sheet != NULL);
+
 	sheet_mode_clear (sheet);
 	sheet_show_cursor (sheet);
+	if (workbook_edit_has_guru (sheet->workbook))
+		workbook_finish_editing (sheet->workbook, FALSE);
 }
 
 /*
@@ -518,8 +526,10 @@ sheet_mode_create_object (SheetObject *so)
 	g_return_if_fail (IS_SHEET_OBJECT (so));
 
 	sheet = so->sheet;
-	if (sheet_mode_clear (sheet))
+	if (sheet_mode_clear (sheet)) {
 		sheet->new_object = so;
+		sheet_hide_cursor (sheet);
+	}
 }
 
 /*
@@ -731,6 +741,9 @@ sheet_object_remove_cb (GtkWidget *widget, SheetObject *so)
 static void
 cb_sheet_object_configure (GtkWidget *widget, SheetObject *so)
 {
+	g_return_if_fail (so != NULL);
+
+	SO_CLASS(so)->user_config (so);
 }
 
 /**
@@ -743,18 +756,20 @@ cb_sheet_object_configure (GtkWidget *widget, SheetObject *so)
 static void
 sheet_object_populate_menu (SheetObject *so, GtkMenu *menu)
 {
-	GtkWidget *item = gtk_menu_item_new_with_label (_("Remove"));
+	GtkWidget *item = gnome_stock_menu_item (GNOME_STOCK_MENU_CLOSE,
+						 _("Delete"));
 
+	gtk_menu_append (menu, item);
 	gtk_signal_connect (GTK_OBJECT (item), "activate",
 			    GTK_SIGNAL_FUNC (sheet_object_remove_cb), so);
 
 	if (SO_CLASS(so)->user_config != NULL) {
-		item = gtk_menu_item_new_with_label (_("Configure"));
+		item = gnome_stock_menu_item (GNOME_STOCK_MENU_PROP,
+					      _("Configure"));
 		gtk_signal_connect (GTK_OBJECT (item), "activate",
 				    GTK_SIGNAL_FUNC (cb_sheet_object_configure), so);
 		gtk_menu_append (menu, item);
 	}
-	gtk_menu_append (menu, item);
 }
 
 static void

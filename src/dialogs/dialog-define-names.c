@@ -316,7 +316,7 @@ name_guru_init (NameGuruState *state, Workbook *wb)
 				  GTK_EDITABLE (state->value));
 	gnumeric_combo_enters (GTK_WINDOW (state->dialog),
 			       state->scope);
-	gnumeric_non_modal_dialog (state->wb, GTK_DIALOG (state->dialog));
+	gnumeric_non_modal_dialog (state->wb, GTK_WINDOW (state->dialog));
 
 	workbook_edit_attach_guru (state->wb, state->dialog);
 

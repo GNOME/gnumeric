@@ -2422,7 +2422,9 @@ workbook_init (GtkObject *object)
 	summary_info_default (wb->summary_info);
 
 	/* We are not in edit mode */
-	wb->use_absolute_cols = wb->use_absolute_rows = FALSE;
+	wb->select_abs_col = wb->select_abs_row = FALSE;
+	wb->select_full_col = wb->select_full_row = FALSE;
+	wb->select_single_cell = FALSE;
 	wb->editing = FALSE;
 	wb->editing_sheet = NULL;
 	wb->editing_cell = NULL;

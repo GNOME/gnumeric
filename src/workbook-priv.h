@@ -60,8 +60,11 @@ struct _Workbook {
 	Cell        *editing_cell;
 	Sheet       *editing_sheet;
 	gboolean     editing;
-	gboolean     use_absolute_cols;
-	gboolean     use_absolute_rows;
+	gboolean     select_abs_col;
+	gboolean     select_abs_row;
+	gboolean     select_full_col;
+	gboolean     select_full_row;
+	gboolean     select_single_cell;
 
 	/*
 	 * This is  used during the clipboard paste command to pass information

@@ -253,6 +253,9 @@ sheet_is_cell_selected (Sheet const * const sheet, int col, int row)
 {
 	GList *list;
 
+	if (sheet->current_object != NULL || sheet->new_object != NULL)
+		return FALSE;
+
 	for (list = sheet->selections; list; list = list->next){
 		SheetSelection const *ss = list->data;
 
@@ -260,6 +263,26 @@ sheet_is_cell_selected (Sheet const * const sheet, int col, int row)
 			return TRUE;
 	}
 	return FALSE;
+}
+
+void
+sheet_selection_redraw (Sheet const *sheet)
+{
+	GList *sel;
+
+	for (sel = sheet->selections; sel; sel = sel->next){
+		SheetSelection const *ss = sel->data;
+		Range const *r = &ss->user;
+		GList *view;
+
+		for (view = sheet->sheet_views; view; view = view->next){
+			SheetView *sheet_view = view->data;
+
+			sheet_view_redraw_cell_region (sheet_view,
+				r->start.col, r->start.row,
+				r->end.col, r->end.row);
+		}
+	}
 }
 
 /*

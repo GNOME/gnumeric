@@ -77,7 +77,7 @@ Almer. S. Tigelaar.
 
 		/* make some changes to the parseoptions with the set functions calls */
 
-		if (stf_parse_options_after_modification (parseoptions) == TRUE) {
+		if (stf_parse_options_after_modification (parseoptions)) {
 			/* The parse options contents have changed...do something */
 		}
 

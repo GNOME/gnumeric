@@ -1,3 +1,28 @@
+2000-09-21  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_hide_cursor) : redraw the selection.
+	* src/sheet.c (sheet_show_cursor) : redraw the selection.
+
+	* src/sheet-object.c : Improve framework for editing/creating objects.
+	  We are more consistent about hiding the selection, and when to make
+	  things visible again.
+
+	* src/sheet-object-widget.c : Begin framework for configuring the
+	  sheet widgets.
+
+	* src/selection.c (sheet_selection_redraw) : new function.
+
+	* src/item-grid.c (item_grid_button_1) : Don't cancel object editing
+	  if there is a guru up.  We could be configuring things.
+
+	* src/selection.c (sheet_is_cell_selected) : Do no show selections
+	  while objects are being edited.
+
+	* src/gnumeric-util.c (gnumeric_non_modal_dialog) : Change the
+	  signature.
+
+	* src/sheet-object.c (sheet_object_destroy) : Improve safety.
+
 2000-09-21  Lauris Kaplinski <lauris@helixcode.com>
 
 	* print-cell.c (print_show_iso8859_1): Transcode to UTF-8 instead

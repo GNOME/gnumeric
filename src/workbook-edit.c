@@ -257,7 +257,7 @@ workbook_start_editing_at_cursor (Workbook *wb, gboolean blankp,
 
 
 	/* TODO : Should we reset like this ? probably */
-	wb->use_absolute_cols = wb->use_absolute_rows = FALSE;
+	wb->select_abs_col = wb->select_abs_row = FALSE;
 
 	wb->editing = TRUE;
 	wb->editing_sheet = sheet;
@@ -354,7 +354,7 @@ workbook_edit_entry_redirect_p (Workbook const *wb)
 void
 workbook_edit_select_absolute (Workbook *wb)
 {
-	wb->use_absolute_cols = wb->use_absolute_rows = TRUE;
+	wb->select_abs_col = wb->select_abs_row = TRUE;
 }
 
 gboolean
