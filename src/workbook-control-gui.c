@@ -5211,15 +5211,15 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 		workbook_menu_view [2].widget;
 
 	wbcg->menu_item_sheet_display_formulas =
-		workbook_menu_format_sheet [2].widget;
-	wbcg->menu_item_sheet_hide_zero =
 		workbook_menu_format_sheet [3].widget;
-	wbcg->menu_item_sheet_hide_grid =
+	wbcg->menu_item_sheet_hide_zero =
 		workbook_menu_format_sheet [4].widget;
-	wbcg->menu_item_sheet_hide_col_header =
+	wbcg->menu_item_sheet_hide_grid =
 		workbook_menu_format_sheet [5].widget;
-	wbcg->menu_item_sheet_hide_row_header =
+	wbcg->menu_item_sheet_hide_col_header =
 		workbook_menu_format_sheet [6].widget;
+	wbcg->menu_item_sheet_hide_row_header =
+		workbook_menu_format_sheet [7].widget;
 
 	wbcg->menu_item_hide_detail =
 		workbook_menu_data_outline [0].widget;
@@ -5239,10 +5239,6 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 
 	wbcg->menu_item_sheet_remove =
 		workbook_menu_edit_sheet [3].widget;
-	wbcg->menu_item_sheets_edit_reorder =
-		workbook_menu_edit_sheet [4].widget;
-	wbcg->menu_item_sheets_format_reorder =
-		workbook_menu_format_sheet [1].widget;
 #else
 	bonobo_window_set_contents (BONOBO_WINDOW (wbcg->toplevel), wbcg->table);
 

@@ -1,3 +1,14 @@
+2003-07-07  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook-control-gui.c (workbook_control_gui_init): Fix
+	numbering after separator.
+	(workbook_control_gui_init): Remove assignments to members
+	menu_item_sheets_edit_reorder and menu_item_sheets_format_reorder.
+	(Wrong, but unused anyway.)
+
+	* src/workbook-view.c (wb_view_sendto): Fix encoding confusion.
+	(wb_view_sendto): Fix uninitialized use of "problem".
+
 2003-07-06  Jody Goldberg <jody@gnome.org>
 
 	For John Gill <jng@renre.com>
