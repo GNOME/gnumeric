@@ -71,9 +71,6 @@ gboolean initial_workbook_open_complete = FALSE;
 
 char *x_geometry;
 
-static GnumericApplication *app;
-
-
 /* Actions common to application and component init
    - to do before arg parsing */
 void
@@ -120,8 +117,7 @@ gnm_common_init (void)
 	gnome_window_icon_set_default_from_file (GNOME_ICONDIR"/gnome-gnumeric.png");
 #endif
 
-	app = g_object_new (GNUMERIC_APPLICATION_TYPE, NULL);
-	g_print ("refcount: %i\n", G_OBJECT(app)->ref_count);
+	g_object_new (GNUMERIC_APPLICATION_TYPE, NULL);
 	value_init ();
 	expr_init ();
 	cell_init ();
@@ -195,5 +191,5 @@ gnm_shutdown (void)
 	gnome_config_drop_all ();
 	application_release_gconf_client ();
 	
-	g_object_unref (app);
+	g_object_unref (gnumeric_application_get_app ());
 }

@@ -14,6 +14,7 @@
 typedef struct _GnumericApplication GnumericApplication;
 
 GType	     gnumeric_application_get_type (void);
+GObject     *gnumeric_application_get_app (void);
 
 void         application_release_gconf_client   (void);
 GConfClient *application_get_gconf_client       (void);

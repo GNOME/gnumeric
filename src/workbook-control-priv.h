@@ -8,6 +8,7 @@ struct _WorkbookControl {
 	CommandContext	context;
 
 	WorkbookView *wb_view;
+	gulong clipboard_changed_signal;
 };
 typedef struct {
 	CommandContextClass   context_class;

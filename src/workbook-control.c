@@ -23,6 +23,7 @@
 #include "gnumeric.h"
 #include "workbook-control-priv.h"
 
+#include "application.h"
 #include "workbook-view.h"
 #include "workbook.h"
 #include "sheet.h"
@@ -262,6 +263,12 @@ wb_control_parse_and_jump (WorkbookControl *wbc, const char *text)
 	return TRUE;
 }
 
+static void
+cb_wbc_clipboard_modified (GnumericApplication *app, WorkbookControl *wbc)
+{
+	wb_control_menu_state_update (wbc, MS_PASTE_SPECIAL);
+}
+
 /*****************************************************************************/
 
 static void
@@ -269,6 +276,10 @@ wbc_finalize (GObject *obj)
 {
 	GObjectClass *parent_class;
 	WorkbookControl *wbc = WORKBOOK_CONTROL (obj);
+	if (wbc->clipboard_changed_signal)
+		g_signal_handler_disconnect (gnumeric_application_get_app (), 
+					     wbc->clipboard_changed_signal);
+	wbc->clipboard_changed_signal = 0;
 	if (wbc->wb_view != NULL)
 		wb_view_detach_control (wbc);
 	parent_class = g_type_class_peek (COMMAND_CONTEXT_TYPE);
@@ -282,8 +293,19 @@ workbook_control_class_init (GObjectClass *object_class)
 	object_class->finalize = wbc_finalize;
 }
 
+static void
+workbook_control_init (GObject *obj)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (obj);
+
+	wbc->clipboard_changed_signal = g_signal_connect (
+		gnumeric_application_get_app (),
+		"clipboard_modified",
+		G_CALLBACK (cb_wbc_clipboard_modified), wbc);
+}
+
 E_MAKE_TYPE (workbook_control, "WorkbookControl", WorkbookControl,
-	     workbook_control_class_init, NULL, COMMAND_CONTEXT_TYPE);
+	     workbook_control_class_init, workbook_control_init, COMMAND_CONTEXT_TYPE);
 
 void
 workbook_control_set_view (WorkbookControl *wbc,

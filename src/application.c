@@ -62,6 +62,12 @@ static GObjectClass *gnumeric_application_parent_class;
 
 static GnumericApplication *app;
 
+GObject *
+gnumeric_application_get_app (void)
+{
+	return G_OBJECT (app);
+}
+
 static void
 add_icon (GtkIconFactory *factory,
 	  guchar const   *scalable_data,
@@ -117,8 +123,6 @@ application_workbook_list (void)
 void
 application_clipboard_clear (gboolean drop_selection)
 {
-	GList *ptr;
-
 	if (app->clipboard_copied_contents) {
 		cellregion_free (app->clipboard_copied_contents);
 		app->clipboard_copied_contents = NULL;
@@ -126,11 +130,7 @@ application_clipboard_clear (gboolean drop_selection)
 	if (app->clipboard_sheet_view != NULL) {
 		sv_unant (app->clipboard_sheet_view);
 
-		for (ptr = workbook_list; ptr; ptr = ptr->next){
-			Workbook *wb = ptr->data;
-			WORKBOOK_FOREACH_CONTROL (wb, view, control,
-				wb_control_menu_state_update (control, MS_PASTE_SPECIAL););
-		}
+		g_signal_emit (G_OBJECT (app), signals [CLIPBOARD_MODIFIED], 0);
 
 		sv_weak_unref (&(app->clipboard_sheet_view));
 
@@ -179,8 +179,6 @@ application_clipboard_cut_copy (WorkbookControl *wbc, gboolean is_cut,
 				SheetView *sv, Range const *area,
 				gboolean animate_cursor)
 {
-	GList *ptr;
-
 	g_return_if_fail (IS_SHEET_VIEW (sv));
 	g_return_if_fail (area != NULL);
 
@@ -195,11 +193,7 @@ application_clipboard_cut_copy (WorkbookControl *wbc, gboolean is_cut,
 			app->clipboard_copied_contents =
 				clipboard_copy_range (sheet, area);
 
-		for (ptr = workbook_list; ptr; ptr = ptr->next){
-			Workbook *wb = ptr->data;
-			WORKBOOK_FOREACH_CONTROL (wb, view, control,
-				wb_control_menu_state_update (control, MS_PASTE_SPECIAL););
-		}
+		g_signal_emit (G_OBJECT (app), signals [CLIPBOARD_MODIFIED], 0);
 
 		if (animate_cursor) {
 			GList *l = g_list_append (NULL, (gpointer)area);

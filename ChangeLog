@@ -1,3 +1,20 @@
+2002-06-21  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/application.h (gnumeric_application_get_app) : new
+	* src/application.c (gnumeric_application_get_app) : new
+	(application_clipboard_clear) : emit "clipboard_modified" rather than
+	  calling wb_control_menu_state_update on each control
+	(application_clipboard_cut_copy) : ditto
+	* src/libgnumeric.c (gnm_common_init) : remove debug spew, no need
+	  to keep an app pointer
+	(gnm_shutdown) : use gnumeric_application_get_app rather than a static 
+	  app pointer
+	* src/workbook-control-priv.h : new clipboard_changed_signal field in 
+	  WorkbookControl
+	* src/workbook-control.c (cb_wbc_clipboard_modified) : new
+	(wbc_finalize) : disconnect signal handler
+	(workbook_control_init) : new
+
 2002-06-21  Morten Welinder  <terra@diku.dk>
 
 	* configure.in: When checking for 2.96, use $CC.
