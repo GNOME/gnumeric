@@ -1,5 +1,11 @@
 2000-05-18  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet-style.c (sheet_style_optimize) : We can not merge (in any
+	  dimension) if there is an intervening style that partially overlaps.
+
+	* src/ranges.c (range_adjacent) : Tweak to increase readability,
+	  and delete dead code.
+
 	* src/sheet-object.c (sheet_button_press) : Minor patch so that
 	  objects begin with a non zero size.  This needs to be reworked into
 	  a more general technique so that a 0 sized object is not possible in

@@ -407,7 +407,8 @@ sheet_style_optimize (Sheet *sheet, Range range)
 				slave->style = mstyle_merge (master->style, slave->style);
 				if (mstyle_empty (slave->style))
 					sheet_style_region_unlink (sd, slave);
-			}
+			} else if (range_overlap(&sra->range, &srb->range))
+				break;
 		}
 	}
 
@@ -438,6 +439,15 @@ sheet_style_optimize (Sheet *sheet, Range range)
 					range_dump (&srb->range);
 					printf ("\n");
 				}
+
+				/*
+				 * As soon as there is a range that overlaps
+				 * the original we need to be more careful.
+				 * If we later find a range that is adjacent
+				 * we will break the ordering when we merge.
+				 */
+				if (range_overlap(&sra->range, &srb->range))
+					break;
 
 				if (range_adjacent (&sra->range, &srb->range)) {
 					if (mstyle_equal  ( sra->style,  srb->style)) {

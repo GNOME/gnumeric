@@ -5,7 +5,6 @@ and longer term bugs.
 Release Critical
 ----------------
 - FALSE is written in a locale specific format.  Apparently so are number formats.
-- Chema's style bug
 
 Long term breakage
 ------------------

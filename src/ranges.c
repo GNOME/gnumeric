@@ -293,31 +293,19 @@ range_list_foreach_area (Sheet *sheet, GSList *ranges,
 gboolean
 range_adjacent (Range const *a, Range const *b)
 {
-	int adx, bdx, ady, bdy;
-       
 	g_return_val_if_fail (a != NULL, FALSE);
 	g_return_val_if_fail (b != NULL, FALSE);
 	
-	adx = a->end.col - a->start.col;
-	bdx = b->end.col - b->start.col;
-	ady = a->end.row - a->start.row;
-	bdy = b->end.row - b->start.row;
-
 	if ((a->start.col == b->start.col) &&
-	    (a->end.col   == b->end.col)) {
-		if (a->end.row + 1 == b->start.row ||
-		    b->end.row + 1 == a->start.row)
-			return TRUE;
-		else
-			return FALSE;
-	} else if ((a->start.row == b->start.row) &&
-	    (a->end.row   == b->end.row)) {
-		if (a->end.col + 1 == b->start.col ||
-		    b->end.col + 1 == a->start.col)
-			return TRUE;
-		else
-			return FALSE;
-	}
+	    (a->end.col   == b->end.col))
+		return (a->end.row + 1 == b->start.row ||
+			b->end.row + 1 == a->start.row);
+
+	if ((a->start.row == b->start.row) &&
+	    (a->end.row   == b->end.row))
+		return (a->end.col + 1 == b->start.col ||
+			b->end.col + 1 == a->start.col);
+
 	return FALSE;
 }
 
