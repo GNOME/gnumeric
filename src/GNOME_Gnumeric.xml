@@ -596,6 +596,10 @@
 
 	    <submenu name="Filter" _label="_Filter">
 
+	        <menuitem name="DataAutoFilter" verb=""
+		    _label="Add _Auto Filter"
+		    _tip="Add or remove a filter"/>
+
 	        <menuitem name="DataFilterShowAll" verb=""
 		    _label="_Show All"
 		    _tip="Show all filtered and hidden rows"/>

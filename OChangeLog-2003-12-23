@@ -1,3 +1,11 @@
+2002-12-03  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-filter.c (cb_filter_button_release) : don't die when faced
+	  with unsupported filter types.
+
+	* src/GNOME_Gnumeric.xml : Add auto filter
+	* src/workbook-control-gui.c : ditto.
+
 2002-12-03  Jon K Hellan  <hellan@acm.org>
 
 	* src/sheet-filter.c (cb_filter_button_release): Check if event
@@ -44,6 +52,10 @@
 
 	* src/workbook-control-gui-priv.h (struct _WorkbookControlGUI):
 	Add font_desc.
+
+2002-12-03  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : bump gsf req
 
 2002-12-03  Jody Goldberg <jody@gnome.org>
 

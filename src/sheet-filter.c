@@ -201,15 +201,10 @@ cb_filter_button_press (GtkWidget *popup, GdkEventButton *event,
 static  gint
 cb_filter_button_release (GtkWidget *popup, GdkEventButton *event,
 			  GtkTreeView *list)
-			  /* GnmFilterField *field*/
 {
 	GtkTreeIter  iter;
 	GnmFilterField *field;
 	GnmFilterCondition *cond;
-
-	fprintf (stderr, "%g, %g : %d, %d : %d\n", event->x, event->y,
-		popup->allocation.width, popup->allocation.height,
-		GTK_WIDGET_MAPPED (popup));
 
 	/* A release inside popup accepts */
 	if (event->window != popup->window ||
@@ -223,7 +218,7 @@ cb_filter_button_release (GtkWidget *popup, GdkEventButton *event,
 	    gtk_tree_selection_get_selected (gtk_tree_view_get_selection (list),
 					     NULL, &iter)) {
 		char	*label;
-		gpointer val;
+		Value   *val;
 		int	 type;
 		gboolean set_condition = TRUE;
 
@@ -232,7 +227,8 @@ cb_filter_button_release (GtkWidget *popup, GdkEventButton *event,
 				    -1);
 
 		switch (type) {
-		case  0 :
+		case  0 : cond = gnm_filter_condition_new_single (
+				  GNM_FILTER_OP_EQUAL, value_duplicate (val));
 			set_condition = FALSE;
 			break;
 		case  1 : cond = NULL;	break; /* unfilter */
@@ -255,9 +251,11 @@ cb_filter_button_release (GtkWidget *popup, GdkEventButton *event,
 
 		g_free (label);
 
-		gnm_filter_set_condition (field->filter, field->i,
-				 cond, TRUE);
-		sheet_redraw_all (field->filter->dep.sheet, TRUE);
+		if (set_condition) {
+			gnm_filter_set_condition (field->filter, field->i,
+					 cond, TRUE);
+			sheet_redraw_all (field->filter->dep.sheet, TRUE);
+		}
 	}
 	gtk_widget_destroy (popup);
 	return TRUE;

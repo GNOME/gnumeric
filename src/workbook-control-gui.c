@@ -3723,7 +3723,7 @@ static GnomeUIInfo workbook_menu_data_external [] = {
 
 static GnomeUIInfo workbook_menu_data_filter [] = {
 	GNOMEUIINFO_ITEM_NONE (N_("Add _Auto Filter"),
-		N_("Add a filter"),
+		N_("Add or remove a filter"),
 		cb_auto_filter),
 	GNOMEUIINFO_ITEM_NONE (N_("_Show All"),
 		N_("Show all filtered and hidden rows"),
@@ -3978,6 +3978,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("RandomGenerator", cb_tools_random_generator),
 
 	BONOBO_UI_UNSAFE_VERB ("DataSort", cb_data_sort),
+	BONOBO_UI_UNSAFE_VERB ("DataAutoFilter", cb_auto_filter),
 	BONOBO_UI_UNSAFE_VERB ("DataFilterShowAll", cb_show_all),
 	BONOBO_UI_UNSAFE_VERB ("DataFilterAdvancedfilter", cb_data_filter),
 	BONOBO_UI_UNSAFE_VERB ("DataValidate", cb_data_validate),
