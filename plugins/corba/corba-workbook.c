@@ -246,8 +246,7 @@ wbcc_finalize (GObject *obj)
 	CORBA_exception_free (&ev);
 
 	parent_class = g_type_class_peek (WORKBOOK_CONTROL_TYPE);
-	if (parent_class->finalize)
-		parent_class->finalize (obj);
+	(*parent_class->finalize) (obj);
 }
 
 static void

@@ -312,9 +312,11 @@ static void
 gog_error_bar_finalize (GObject *obj)
 {
 	GogErrorBar *bar = GOG_ERROR_BAR (obj);
-	if (bar->style) g_object_unref (bar->style);
-	if (error_bar_parent_klass->finalize != NULL)
-		(error_bar_parent_klass->finalize) (obj);
+	if (bar->style) {
+		g_object_unref (bar->style);
+		bar->style = NULL;
+	}
+	(error_bar_parent_klass->finalize) (obj);
 }
 
 static void

@@ -1525,14 +1525,17 @@ wbcg_finalize (GObject *obj)
 
 	gtk_window_set_focus (GTK_WINDOW (wbcg->toplevel), NULL);
 
-	if (wbcg->toplevel != NULL)
+	if (wbcg->toplevel != NULL) {
 		gtk_object_destroy (GTK_OBJECT (wbcg->toplevel));
+		wbcg->toplevel = NULL;
+	}
 
-	if (wbcg->font_desc)
+	if (wbcg->font_desc) {
 		pango_font_description_free (wbcg->font_desc);
+		wbcg->font_desc = NULL;
+	}
 
-	if (parent_class != NULL && parent_class->finalize != NULL)
-		(parent_class)->finalize (obj);
+	(*parent_class->finalize) (obj);
 }
 
 /* protected */

@@ -1398,6 +1398,9 @@ typedef struct {
 
 	char *label;
 	PangoAttrList  *markup;
+	struct {
+		float top, bottom, left, right;
+	} margin_pts;
 } SheetObjectText;
 typedef struct {
 	SheetObjectFilledClass	parent;
@@ -1439,6 +1442,8 @@ static void
 sheet_object_text_init (SheetObjectText *sot)
 {
 	sot->markup = NULL;
+	sot->margin_pts.top = sot->margin_pts.bottom = 3;
+	sot->margin_pts.left = sot->margin_pts.right = 5;
 	sheet_object_text_init_full (sot, _("Label"));
 }
 
@@ -1479,8 +1484,8 @@ sheet_object_text_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 		"text",		sot->label,
 		"anchor",	GTK_ANCHOR_NW,
 		"clip",		TRUE,
-		"x",		0.,
-		"y",		0.,
+		"x",		sot->margin_pts.left,
+		"y",		sot->margin_pts.top,
 		"attributes",	sot->markup,
 		NULL);
 	back = sheet_object_filled_new_view_internal (so, sc, gcanvas, group);
@@ -1496,30 +1501,50 @@ sheet_object_text_update_bounds (SheetObject *so, GObject *view)
 	SheetControlGUI	  *scg  =
 		SHEET_CONTROL_GUI (sheet_object_view_control (view));
 	FooCanvasGroup *group = FOO_CANVAS_GROUP (view);
+	FooCanvasItem *item;
+	SheetObjectText *sot = SHEET_OBJECT_TEXT (so);
+	double h, w;
 
+	if (!so->is_visible) {
+		foo_canvas_item_hide (FOO_CANVAS_ITEM (view));
+		return;
+	}
+	foo_canvas_item_show (FOO_CANVAS_ITEM (view));
 	scg_object_view_position (scg, so, coords);
-
-	foo_canvas_item_set (FOO_CANVAS_ITEM (group->item_list->next->data),
-		"clip_width",  fabs (coords [0] - coords [2]),
-		"wrap_width",  fabs (coords [0] - coords [2]),
-		"clip_height", fabs (coords [1] - coords [3]),
-		NULL);
-	foo_canvas_item_set (FOO_CANVAS_ITEM (group->item_list->data),
-		"x1", 0.,
-		"y1", 0.,
-		"x2", fabs (coords [0] - coords [2]),
-		"y2", fabs (coords [1] - coords [3]),
-		NULL);
 
 	foo_canvas_item_set (FOO_CANVAS_ITEM (view),
 		"x", MIN (coords [0], coords [2]),
 		"y", MIN (coords [1], coords [3]),
 		NULL);
 
-	if (so->is_visible)
-		foo_canvas_item_show (FOO_CANVAS_ITEM (view));
-	else
-		foo_canvas_item_hide (FOO_CANVAS_ITEM (view));
+	w = fabs (coords [2] - coords [0]);
+	h = fabs (coords [3] - coords [1]);
+	foo_canvas_item_set (FOO_CANVAS_ITEM (group->item_list->data),
+		"x1", 0.,
+		"y1", 0.,
+		"x2", w,
+		"y2", h,
+		NULL);
+
+	item = FOO_CANVAS_ITEM (group->item_list->next->data);
+	w -= (sot->margin_pts.left + sot->margin_pts.right)
+		* item->canvas->pixels_per_unit;
+	h -= (sot->margin_pts.top + sot->margin_pts.bottom)
+		* item->canvas->pixels_per_unit;
+	if (h > 0. && w > 0.) {
+		foo_canvas_item_show (item);
+		foo_canvas_item_set (item,
+			"clip_width",  w,
+			"wrap_width",  w,
+			"clip_height", h,
+
+			/* cheap hack to force the attributes to regenerate for
+			 * the rare case where the repositioning was caused by
+			 * a change in zoom */
+			"underline_set", FALSE,
+			NULL);
+	} else
+		foo_canvas_item_hide (item);
 }
 
 static gboolean

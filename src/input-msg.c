@@ -53,8 +53,7 @@ gnm_input_msg_finalize (GObject *obj)
 	}
 
 	parent_class = g_type_class_peek (G_TYPE_OBJECT);
-	if (parent_class && parent_class->finalize)
-		parent_class->finalize (obj);
+	parent_class->finalize (obj);
 }
 
 static void

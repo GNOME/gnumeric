@@ -492,8 +492,7 @@ item_edit_finalize (GObject *gobject)
 		ie->style= NULL;
 	}
 
-	if (G_OBJECT_CLASS (parent_class)->finalize)
-		(G_OBJECT_CLASS (parent_class)->finalize) (gobject);
+	(G_OBJECT_CLASS (parent_class)->finalize) (gobject);
 }
 
 static int

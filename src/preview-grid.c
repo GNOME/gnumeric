@@ -508,8 +508,7 @@ preview_grid_finalize (GObject *obj)
 		pg->defaults.value = NULL;
 	}
 
-	if (G_OBJECT_CLASS (parent_klass)->finalize)
-		(*G_OBJECT_CLASS (parent_klass)->finalize) (obj);
+	(*G_OBJECT_CLASS (parent_klass)->finalize) (obj);
 }
 
 static void

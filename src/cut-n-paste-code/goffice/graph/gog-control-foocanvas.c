@@ -142,8 +142,7 @@ gog_control_foocanvas_finalize (GObject *obj)
 		g_object_unref (ctrl->renderer);
 		ctrl->renderer = NULL;
 	}
-	if (parent_klass != NULL && parent_klass->finalize)
-		(*parent_klass->finalize) (obj);
+	(*parent_klass->finalize) (obj);
 }
 
 static void

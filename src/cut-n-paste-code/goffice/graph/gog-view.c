@@ -186,8 +186,7 @@ gog_view_finalize (GObject *obj)
 	g_slist_free (view->children);
 	view->children = NULL;
 
-	if (parent_klass != NULL && parent_klass->finalize)
-		(*parent_klass->finalize) (obj);
+	(*parent_klass->finalize) (obj);
 }
 
 static void

@@ -57,8 +57,7 @@ complete_finalize (GObject *object)
 	}
 
 	parent = g_type_class_peek (PARENT_TYPE);
-	if (parent != NULL && parent->finalize != NULL)
-		(parent->finalize) (object);
+	(parent->finalize) (object);
 }
 
 static gint

@@ -113,8 +113,7 @@ item_cursor_finalize (GObject *obj)
 		ic->tip = NULL;
 	}
 
-	if (G_OBJECT_CLASS (parent_class)->finalize)
-		(*G_OBJECT_CLASS (parent_class)->finalize) (obj);
+	(*G_OBJECT_CLASS (parent_class)->finalize) (obj);
 }
 
 static void

@@ -78,8 +78,7 @@ gog_renderer_pixbuf_finalize (GObject *obj)
 		prend->pango_context = NULL;
 	}
 
-	if (parent_klass != NULL && parent_klass->finalize != NULL)
-		(parent_klass->finalize) (obj);
+	(*parent_klass->finalize) (obj);
 }
 
 static void

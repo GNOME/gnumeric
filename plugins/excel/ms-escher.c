@@ -1847,10 +1847,11 @@ ms_escher_read_ClientTextbox (MSEscherState *state, MSEscherHeader *h)
 	text = ms_read_TXO (state->q, state->container, &markup);
 	ms_escher_header_add_attr (h,
 		ms_obj_attr_new_ptr (MS_OBJ_ATTR_TEXT, text));
-	if (markup != NULL)
+	if (markup != NULL) {
 		ms_escher_header_add_attr (h,
 			ms_obj_attr_new_markup (MS_OBJ_ATTR_MARKUP, markup));
-	pango_attr_list_unref (markup);
+		pango_attr_list_unref (markup);
+	}
 	d (0, printf ("'%s';\n", text););
 	return FALSE;
 }

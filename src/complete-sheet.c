@@ -36,8 +36,7 @@ complete_sheet_finalize (GObject *object)
 		cs->current = NULL;
 	}
 	parent_class = g_type_class_peek (PARENT_TYPE);
-	if (parent_class && parent_class->finalize)
-		parent_class->finalize (object);
+	parent_class->finalize (object);
 }
 
 #define MAX_SCAN_SPACE 1024

@@ -344,8 +344,7 @@ gog_axis_finalize (GObject *obj)
 	}
 
 	gog_dataset_finalize (GOG_DATASET (axis));
-	if (parent_klass != NULL && parent_klass->finalize != NULL)
-		(parent_klass->finalize) (obj);
+	(parent_klass->finalize) (obj);
 }
 
 static double

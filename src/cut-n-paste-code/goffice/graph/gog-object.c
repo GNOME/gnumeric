@@ -54,8 +54,7 @@ gog_object_finalize (GObject *gobj)
 	g_slist_free (obj->children);
 	obj->children = NULL;
 
-	if (parent_klass != NULL && parent_klass->finalize != NULL)
-		(parent_klass->finalize) (gobj);
+	(parent_klass->finalize) (gobj);
 }
 
 static void

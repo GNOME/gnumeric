@@ -52,8 +52,7 @@ gog_plot_finalize (GObject *obj)
 
 	gog_plot_axis_clear (plot, GOG_AXIS_SET_ALL); /* just in case */
 
-	if (plot_parent_klass != NULL && plot_parent_klass->finalize != NULL)
-		(plot_parent_klass->finalize) (obj);
+	(*plot_parent_klass->finalize) (obj);
 }
 
 static gboolean

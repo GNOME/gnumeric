@@ -353,8 +353,7 @@ go_marker_finalize (GObject *obj)
 		marker->pixbuf = NULL;
 	}
 	
-	if (marker_parent_klass->finalize)
-		marker_parent_klass->finalize (obj);
+	marker_parent_klass->finalize (obj);
 }
 
 static void

@@ -980,7 +980,8 @@ foo_canvas_text_set_property (GObject            *object,
 
 	case PROP_WRAP_WIDTH: {
 		double w = fabs (g_value_get_double (value));
-		pango_layout_set_width (text->layout, w * PANGO_SCALE);
+		pango_layout_set_width (text->layout,
+			w * text->item.canvas->pixels_per_unit * PANGO_SCALE);
 		break;
 	}
 

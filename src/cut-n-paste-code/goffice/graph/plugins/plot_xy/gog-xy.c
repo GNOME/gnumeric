@@ -402,7 +402,7 @@ enum {
 
 static void
 gog_bubble_plot_set_property (GObject *obj, guint param_id,
-			   GValue const *value, GParamSpec *pspec)
+			      GValue const *value, GParamSpec *pspec)
 {
 	GogBubblePlot *bubble = GOG_BUBBLE_PLOT (obj);
 
@@ -713,7 +713,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 			/* draw error bars after line */
 			if (prev_valid) {
 				if (gog_error_bar_is_visible (series->x_errors)) {
-						const GogErrorBar* bar = series->x_errors;
+						GogErrorBar const *bar = series->x_errors;
 					 if (gog_error_bar_get_bounds (bar, i - 2, &xerrmin, &xerrmax)) {
 						xerrmax = x_off + x_scale * xerrmax;
 						xerrmin = x_off + x_scale * xerrmin;
@@ -721,7 +721,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 					 }
 				}
 				if (gog_error_bar_is_visible (series->y_errors)) {
-					const GogErrorBar* bar = series->y_errors;
+					GogErrorBar const *bar = series->y_errors;
 					 if (gog_error_bar_get_bounds (bar, i - 2, &yerrmin, &yerrmax)) {
 						yerrmax = y_off + y_scale * yerrmax;
 						yerrmin = y_off + y_scale * yerrmin;
@@ -743,7 +743,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 
 		/* draw error bars after line */
 		if (gog_error_bar_is_visible (series->x_errors)) {
-			const GogErrorBar* bar = series->x_errors;
+			GogErrorBar const *bar = series->x_errors;
 			if (gog_error_bar_get_bounds (bar, i - 2, &xerrmin, &xerrmax)) {
 				xerrmax = x_off + x_scale * xerrmax;
 				xerrmin = x_off + x_scale * xerrmin;
@@ -751,7 +751,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 			}
 		}
 		if (gog_error_bar_is_visible (series->y_errors)) {
-			const GogErrorBar* bar = series->y_errors;
+			GogErrorBar const *bar = series->y_errors;
 			if (gog_error_bar_get_bounds (bar, i - 2, &yerrmin, &yerrmax)) {
 				yerrmax = y_off + y_scale * yerrmax;
 				yerrmin = y_off + y_scale * yerrmin;
@@ -898,7 +898,7 @@ gog_xy_series_init_style (GogStyledObject *gso, GogStyle *style)
 
 static void
 gog_xy_series_set_property (GObject *obj, guint param_id,
-				GValue const *value, GParamSpec *pspec)
+			    GValue const *value, GParamSpec *pspec)
 {
 	GogXYSeries *series=  GOG_XY_SERIES (obj);
 	GogErrorBar* bar;

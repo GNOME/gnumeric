@@ -127,8 +127,7 @@ item_grid_finalize (GObject *object)
 	ig_clear_hlink_tip (ig);
 	ig->cur_link = NULL;
 
-	if (G_OBJECT_CLASS (parent_class)->finalize)
-		(*G_OBJECT_CLASS (parent_class)->finalize) (object);
+	(*G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 static void

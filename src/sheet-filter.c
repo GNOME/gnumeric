@@ -132,8 +132,7 @@ filter_field_finalize (GObject *object)
 	}
 
 	parent = g_type_class_peek (SHEET_OBJECT_TYPE);
-	if (parent != NULL && parent->finalize != NULL)
-		parent->finalize (object);
+	parent->finalize (object);
 }
 
 static void

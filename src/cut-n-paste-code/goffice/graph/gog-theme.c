@@ -97,8 +97,7 @@ gog_theme_finalize (GObject *obj)
 	if (theme->elem_hash_by_class_name)
 		g_hash_table_destroy (theme->elem_hash_by_class_name);
 
-	if (parent_klass != NULL && parent_klass->finalize != NULL)
-		(parent_klass->finalize) (obj);
+	(parent_klass->finalize) (obj);
 }
 
 static void

@@ -58,8 +58,7 @@ go_color_group_finalize (GObject *obj)
 		cg->name = NULL;
 	}
 
-	if (go_color_group_parent_class->finalize)
-		(go_color_group_parent_class->finalize) (obj);
+	(go_color_group_parent_class->finalize) (obj);
 }
 
 static void

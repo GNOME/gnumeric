@@ -60,8 +60,7 @@ static void
 gog_plot1_5d_finalize (GObject *obj)
 {
 	gog_plot_1_5d_clear_formats (GOG_PLOT1_5D (obj));
-	if (G_OBJECT_CLASS (plot1_5d_parent_klass)->finalize)
-		G_OBJECT_CLASS (plot1_5d_parent_klass)->finalize (obj);
+	G_OBJECT_CLASS (plot1_5d_parent_klass)->finalize (obj);
 }
 
 static void

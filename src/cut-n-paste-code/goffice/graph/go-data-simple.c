@@ -50,8 +50,7 @@ go_data_scalar_val_finalize (GObject *obj)
 		val->str = NULL;
 	}
 
-	if (scalar_val_parent_klass->finalize)
-		(*scalar_val_parent_klass->finalize) (obj);
+	(*scalar_val_parent_klass->finalize) (obj);
 }
 
 static GOData *
@@ -162,8 +161,7 @@ go_data_scalar_str_finalize (GObject *obj)
 		g_free ((char *)str->str);
 		str->str = NULL;
 	}
-	if (scalar_str_parent_klass->finalize)
-		(*scalar_str_parent_klass->finalize) (obj);
+	(*scalar_str_parent_klass->finalize) (obj);
 }
 
 static GOData *
@@ -283,8 +281,7 @@ go_data_vector_val_finalize (GObject *obj)
 {
 	/* GODataVectorVal *val = (GODataVectorVal *)obj; */
 
-	if (vector_val_parent_klass->finalize)
-		(*vector_val_parent_klass->finalize) (obj);
+	(*vector_val_parent_klass->finalize) (obj);
 }
 
 static GOData *
@@ -391,8 +388,7 @@ go_data_vector_str_finalize (GObject *obj)
 {
 	/* GODataVectorStr *str = (GODataVectorStr *)obj; */
 
-	if (vector_str_parent_klass->finalize)
-		(*vector_str_parent_klass->finalize) (obj);
+	(*vector_str_parent_klass->finalize) (obj);
 }
 
 static GOData *

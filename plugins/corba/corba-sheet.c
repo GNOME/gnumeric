@@ -155,8 +155,7 @@ scc_finalize (GObject *obj)
 	}
 
 	parent_class = g_type_class_peek (SHEET_CONTROL_TYPE);
-	if (parent_class->finalize)
-		parent_class->finalize (obj);
+	parent_class->finalize (obj);
 }
 
 static void

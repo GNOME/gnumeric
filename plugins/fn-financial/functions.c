@@ -364,7 +364,7 @@ gnumeric_accrint (FunctionEvalInfo *ei, GnmValue **argv)
 
         if (!is_valid_basis (basis)
 	    || !is_valid_freq (freq)
-	    || g_date_compare (&settlement, &first_interest) > 0
+	    || g_date_compare (&settlement, &first_interest) < 0
 	    || g_date_compare (&first_interest, &maturity) < 0)
 		return value_new_error_NUM (ei->pos);
 

@@ -70,8 +70,7 @@ cell_comment_finalize (GObject *object)
 			scg_comment_unselect ((SheetControlGUI *) control, cc););
 	}
 
-	if (parent_klass != NULL && parent_klass->finalize != NULL)
-		parent_klass->finalize (object);
+	parent_klass->finalize (object);
 }
 
 #define TRIANGLE_WIDTH 6

@@ -64,8 +64,7 @@ static void
 go_data_finalize (GOData *obj)
 {
 	g_warning ("finalize");
-	if (parent_klass->finalize)
-		(parent_klass->finalize) (obj);
+	(parent_klass->finalize) (obj);
 }
 #endif
 

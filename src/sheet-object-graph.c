@@ -116,8 +116,7 @@ sheet_object_graph_finalize (GObject *obj)
 		sog->graph = NULL;
 	}
 
-	if (parent_klass && parent_klass->finalize)
-		parent_klass->finalize (obj);
+	parent_klass->finalize (obj);
 }
 
 static GObject *

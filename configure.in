@@ -44,11 +44,11 @@ Please use another compiler, for example a gcc 2.95 series compiler.])
 fi
 
 gnumeric_reqs="
-glib-2.0		>= 2.3.2
+glib-2.0		>= 2.3.3
 gobject-2.0		>= 2.3.2
 gmodule-2.0		>= 2.0.0
 libgsf-1		>= 1.8.2
-gtk+-2.0		>= 2.3.2
+gtk+-2.0		>= 2.3.5
 libxml-2.0		>= 2.4.12
 libglade-2.0		>= 2.0.0
 libgnomecanvas-2.0	>= 2.0.0

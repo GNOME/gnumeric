@@ -50,8 +50,7 @@ wbcb_finalize (GObject *obj)
 	bonobo_object_unref (BONOBO_OBJECT (wbcb->uic));
 	wbcb->uic = NULL;
 
-	if (parent_class != NULL && parent_class->finalize != NULL)
-		(parent_class)->finalize (obj);
+	(parent_class)->finalize (obj);
 }
 
 static void

@@ -235,8 +235,7 @@ sheet_object_finalize (GObject *object)
 		so->sheet = NULL;
 	}
 
-	if (parent_klass != NULL && parent_klass->finalize != NULL)
-		(*parent_klass->finalize)(object);
+	(*parent_klass->finalize) (object);
 }
 
 static void

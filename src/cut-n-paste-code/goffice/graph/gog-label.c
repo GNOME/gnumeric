@@ -92,8 +92,7 @@ static void
 gog_label_finalize (GObject *obj)
 {
 	gog_dataset_finalize (GOG_DATASET (obj));
-	if (label_parent_klass->finalize != NULL)
-		(label_parent_klass->finalize) (obj);
+	(*label_parent_klass->finalize) (obj);
 }
 
 static gpointer

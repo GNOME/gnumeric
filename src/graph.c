@@ -216,8 +216,7 @@ gnm_go_data_scalar_finalize (GObject *obj)
 	g_free (scalar->val_str);
 	scalar->val_str = NULL;
 
-	if (scalar_parent_klass->finalize)
-		(*scalar_parent_klass->finalize) (obj);
+	(*scalar_parent_klass->finalize) (obj);
 }
 
 static double
@@ -321,8 +320,7 @@ gnm_go_data_vector_finalize (GObject *obj)
 		vec->base.values = NULL;
 	}
 
-	if (vector_parent_klass->finalize)
-		(*vector_parent_klass->finalize) (obj);
+	(*vector_parent_klass->finalize) (obj);
 }
 
 static void

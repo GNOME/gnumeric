@@ -289,8 +289,7 @@ wbc_finalize (GObject *obj)
 	wbc->clipboard_changed_signal = 0;
 	if (wbc->wb_view != NULL)
 		wb_view_detach_control (wbc);
-	if (parent_klass != NULL && parent_klass->finalize != NULL)
-		(parent_klass)->finalize (obj);
+	(*parent_klass->finalize) (obj);
 }
 
 static void

@@ -58,7 +58,7 @@
 
 #include <string.h>
 
-static SheetControlClass *scg_parent_class;
+static GObjectClass *scg_parent_class;
 
 static void scg_ant                    (SheetControl *sc);
 static void scg_unant                  (SheetControl *sc);
@@ -1255,8 +1255,7 @@ scg_finalize (GObject *object)
 		scg->table =NULL;
 	}
 
-	if (G_OBJECT_CLASS (scg_parent_class)->finalize)
-		(*G_OBJECT_CLASS (scg_parent_class)->finalize)(object);
+	(*scg_parent_class->finalize) (object);
 }
 
 static void

@@ -93,8 +93,7 @@ gog_styled_object_finalize (GObject *obj)
 		gso->style = NULL;
 	}
 
-	if (parent_klass != NULL && parent_klass->finalize != NULL)
-		(parent_klass->finalize) (obj);
+	(*parent_klass->finalize) (obj);
 }
 
 static gpointer
