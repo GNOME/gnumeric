@@ -1,3 +1,8 @@
+1999-02-22  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/sheet.c (sheet_cell_remove_internal): Queue recalcs for
+	cells that depend on cells that are being destroyed.
+
 1999-02-21  Michael Meeks <michael@imaginator.com>
 
 	* plugins/excel/ms-formula.c FORMULA_PTG_EXP: Fixed several bugs.

@@ -2003,31 +2003,18 @@ sheet_cell_remove_from_hash (Sheet *sheet, Cell *cell)
 static void
 sheet_cell_remove_internal (Sheet *sheet, Cell *cell)
 {
+	GList *deps;
+	
 	if (cell->parsed_node)
 		sheet_cell_formula_unlink (cell);
 
+	deps = cell_get_dependencies (sheet, cell->col->pos, cell->row->pos);
+	if (deps)
+		cell_queue_recalc_list (deps);
+	
 	sheet_cell_remove_from_hash (sheet, cell);
 
 	cell_unrealize (cell);
-}
-
-/**
- * sheet_cell_remove_to_eot:
- *
- * Removes all of the cells from CELL_LIST point on.
- */
-static void
-sheet_cell_remove_to_eot (Sheet *sheet, GList *cell_list)
-{
-	while (cell_list){
-		Cell *cell = cell_list->data;
-
-		if (cell->parsed_node)
-			sheet_cell_formula_unlink (cell);
-		
-		sheet_cell_remove_from_hash (sheet, cell);
-		cell_destroy (cell);
-	}
 }
 
 void
@@ -2048,6 +2035,25 @@ sheet_cell_remove (Sheet *sheet, Cell *cell)
 	sheet_redraw_cell_region (sheet,
 				  cell->col->pos, cell->row->pos,
 				  cell->col->pos, cell->row->pos);
+}
+
+/**
+ * sheet_cell_remove_to_eot:
+ *
+ * Removes all of the cells from CELL_LIST point on.
+ */
+static void
+sheet_cell_remove_to_eot (Sheet *sheet, GList *cell_list)
+{
+	while (cell_list){
+		Cell *cell = cell_list->data;
+
+		if (cell->parsed_node)
+			sheet_cell_formula_unlink (cell);
+		
+		sheet_cell_remove_from_hash (sheet, cell);
+		cell_destroy (cell);
+	}
 }
 
 void
@@ -2238,6 +2244,8 @@ sheet_clear_region (Sheet *sheet, int start_col, int start_row, int end_col, int
 		cell_destroy (cell);
 	}
 	g_list_free (destroyable_cells);
+
+	workbook_recalc (sheet->workbook);
 }
 
 void
@@ -2261,6 +2269,7 @@ static int
 clear_cell_content (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 {
 	cell_set_text (cell, "");
+
 	return TRUE;
 }
 
@@ -2290,6 +2299,8 @@ sheet_clear_region_content (Sheet *sheet, int start_col, int start_row, int end_
 		start_col, start_row,
 		end_col, end_row,
 		clear_cell_content, NULL);
+
+	workbook_recalc (sheet->workbook);
 }
 
 /**
