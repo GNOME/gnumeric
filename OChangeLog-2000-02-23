@@ -1,5 +1,8 @@
 1999-03-08  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/fn-misc.c (gnumeric_clean): Add check here: only loop until
+	the end of the string.
+
 	* src/sheet.c (sheet_cell_foreach_range): Revert the arguments if
 	they are in a different order.
 

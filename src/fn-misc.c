@@ -38,7 +38,7 @@ gnumeric_clean (FunctionDefinition *fn, Value *argv [], char **error_string)
 	p = argv [0]->v.str->str;
 	copy = q = g_malloc (strlen (p) + 1);
 	
-	while (p){
+	while (*p){
 		if (isprint (*p))
 			*q++ = *p;
 		p++;
