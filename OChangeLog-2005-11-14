@@ -1,3 +1,10 @@
+2003-05-07  Andreas Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=100529
+	* src/GNOME_Gnumeric.xml: Change `Open a....' to `Open a file'
+	  and `Create a new spreadsheet' to `Create a new workbook'
+	* src/workbook-control-gui.c: Change `Opena....' to `Opena file'
+
 2003-05-06  Jody Goldberg <jody@gnome.org>
 
 	* src/item-cursor.c (item_cursor_realize) : Use g_timeout_add

@@ -3223,7 +3223,7 @@ workbook_standard_toolbar_orient (GtkToolbar *toolbar,
 
 /* File menu */
 static GnomeUIInfo workbook_menu_file [] = {
-        GNOMEUIINFO_MENU_NEW_ITEM (N_("_New"), N_("Create a new spreadsheet"),
+        GNOMEUIINFO_MENU_NEW_ITEM (N_("_New"), N_("Create a new workbook"),
 				  cb_file_new, NULL),
 
 	GNOMEUIINFO_MENU_OPEN_ITEM (cb_file_open, NULL),
@@ -3863,7 +3863,7 @@ static GnomeUIInfo workbook_standard_toolbar [] = {
 		N_("New"), N_("Create a new workbook"),
 		cb_file_new, GTK_STOCK_NEW),
 	GNOMEUIINFO_ITEM_STOCK (
-		N_("Open"), N_("Open an existing workbook"),
+		N_("Open"), N_("Open a file"),
 		cb_file_open, GTK_STOCK_OPEN),
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Save"), N_("Save the current workbook"),

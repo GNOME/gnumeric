@@ -2,22 +2,22 @@
     <commands>
 	<cmd name="FileNew"
 	    _label="_New"
-	    _tip="Create a new spreadsheet"
+	    _tip="Create a new workbook"
 	    pixtype="stock" pixname="gtk-new"
 	    accel="*Control*n"/>
 	<cmd name="FileOpen"
 	    _label="_Open..."
-	    _tip="Open a spreadsheet"
+	    _tip="Open a file"
 	    pixtype="stock" pixname="gtk-open"
 	    accel="*Control*o"/>
 	<cmd name="FileSave"
 	    _label="_Save"
-	    _tip="Save the current file"
+	    _tip="Save the current workbook"
 	    pixtype="stock" pixname="gtk-save"
 	    accel="*Control*s"/>
 	<cmd name="FileSaveAs"
 	    _label="Save _As..."
-	    _tip="Save the current file with a different name"
+	    _tip="Save the current workbook with a different name"
 	    pixtype="stock" pixname="gtk-save-as"
 	    accel="*Shift**Control*s"/>
 
@@ -706,7 +706,7 @@
 	<toolitem name="Open"
 	    pixtype="stock" pixname="gtk-open"
 	    _label="Open"
-	    _tip="Open an existing workbook"
+	    _tip="Open a file"
 	    verb="FileOpen"/>
 
 	<toolitem name="Save"

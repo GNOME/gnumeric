@@ -4,6 +4,7 @@ Andreas:
 	* Add character encoding menus to the file selector
 	* Handle specified encoding for csv/tsv files
 	* Fix csv parsing (#80806), finally
+	* Fix #100529
 
 Jody:
 	* Improve handling of files with content type != extension
