@@ -138,9 +138,6 @@ sheet_new (Workbook *wb, char const *name)
 	sheet = g_new0 (Sheet, 1);
 	sheet->priv = g_new0 (SheetPrivate, 1);
 	sheet->sheet_views = NULL;
-#ifdef WITH_BONOBO
-	sheet->priv->corba_server = NULL;
-#endif
 
 	/* Init, focus, and load handle setting these if/when necessary */
 	sheet->priv->recompute_visibility = TRUE;
