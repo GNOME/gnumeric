@@ -9,7 +9,8 @@ Jody:
 	* Rename 'Summary' menu -> 'Properties'
 
 Morten:
-	* DATE2UNIX and UNIX2DATE.
+	* Added DATE2UNIX and UNIX2DATE.
+	* Added GETENV.
 
 --------------------------------------------------------------------------
 Gnumeric 1.0.0

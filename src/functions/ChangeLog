@@ -1,3 +1,7 @@
+2002-01-04  Morten Welinder  <terra@diku.dk>
+
+	* fn-information.c (gnumeric_getenv): New function.
+
 2002-01-03  Morten Welinder  <terra@diku.dk>
 
 	* fn-date.c (gnumeric_date2unix): New function.

@@ -975,6 +975,34 @@ gnumeric_type (FunctionEvalInfo *ei, ExprList *expr_node_list)
 
 /***************************************************************************/
 
+static char *help_getenv = {
+	N_("@FUNCTION=GETENV\n"
+	   "@SYNTAX=GETENV(string)\n"
+
+	   "@DESCRIPTION="
+	   "GETENV retrieves a value from the execution environment.\n"
+	   "\n"
+	   "If the variable specified by @STRING does not exist, #N/A! will "
+	   "be returned.  Note, that variable names are case sensitive.\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=")
+};
+
+static Value *
+gnumeric_getenv (FunctionEvalInfo *ei, Value **argv)
+{
+	const char *var = value_peek_string (argv[0]);
+	const char *val = getenv (var);
+
+	if (val)
+		return value_new_string (val);
+	else
+		return value_new_error (ei->pos, gnumeric_err_NA);
+}
+
+/***************************************************************************/
+
 void information_functions_init (void);
 
 void
@@ -1022,4 +1050,6 @@ information_functions_init (void)
 			    &help_na,      gnumeric_na);
 	function_add_nodes (cat, "type",   NULL, "value",
 			    &help_type, gnumeric_type);
+	function_add_args  (cat, "getenv", "s", "string",
+			    &help_getenv, gnumeric_getenv);
 }
