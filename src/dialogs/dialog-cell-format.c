@@ -200,6 +200,7 @@ typedef struct _FormatState
 			GtkImage      *image;
 		} error;
 		gboolean changed;
+		int      valid;
 	} validation;
 	struct {
 		GtkToggleButton *flag;
@@ -357,7 +358,7 @@ setup_color_pickers (ColorPicker *picker,
 		 wb_control_view (WORKBOOK_CONTROL (state->wbcg)));
 
 	def_gc = def_sc ? &def_sc->color : &gs_black;
-	
+
 	combo = color_combo_new (NULL, default_caption, def_gc, cg);
 	g_signal_connect (G_OBJECT (combo),
 		"color_changed",
@@ -372,7 +373,7 @@ setup_color_pickers (ColorPicker *picker,
 	picker->combo          = combo;
 	picker->preview_update = preview_update;
 
-	if (mcolor && !mcolor->is_auto) 
+	if (mcolor && !mcolor->is_auto)
 		color_combo_set_color (COLOR_COMBO (combo), &mcolor->color);
 	else
 		color_combo_set_color_to_default (COLOR_COMBO (combo));
@@ -1286,7 +1287,7 @@ cb_font_preview_color (ColorCombo *combo, GdkColor *c,
 		       FormatState *state)
 {
 	StyleColor *col;
-	
+
 	if (!state->enable_edit)
 		return;
 
@@ -1449,14 +1450,14 @@ cb_back_preview_color (ColorCombo *combo, GdkColor *c,
 		       FormatState *state)
 {
 	StyleColor *sc;
-	
+
 	g_return_if_fail (c);
-	
+
 	if (is_default)
 		sc = style_color_auto_back ();
 	else
 		sc = style_color_new (c->red, c->green, c->blue);
-	
+
 	mstyle_set_color (state->back.style, MSTYLE_COLOR_BACK, sc);
 	mstyle_set_pattern (state->back.style, state->back.pattern.cur_index);
 	draw_pattern_preview (state);
@@ -1472,7 +1473,7 @@ cb_pattern_preview_color (ColorCombo *combo, GdkColor *c,
 			   : style_color_new (c->red, c->green, c->blue));
 
 	mstyle_set_color (state->back.style, MSTYLE_COLOR_PATTERN, col);
-			  
+
 	draw_pattern_preview (state);
 }
 
@@ -2081,12 +2082,34 @@ validation_rebuild_validation (FormatState *state)
 		ValidationOp    op    = gnumeric_option_menu_get_selected_index (state->validation.op);
 		char *title = gtk_editable_get_chars (GTK_EDITABLE (state->validation.error.title), 0, -1);
 		char *msg   = gnumeric_textview_get_text (state->validation.error.msg);
-		mstyle_set_validation (state->result,
-			validation_new (style, type, op, title, msg,
-				validation_entry_to_expr (state->sheet, state->validation.expr0.entry),
-				validation_entry_to_expr (state->sheet, state->validation.expr1.entry),
-				gtk_toggle_button_get_active (state->validation.allow_blank),
-				gtk_toggle_button_get_active (state->validation.use_dropdown)));
+		GnmExpr const *expr0 = validation_entry_to_expr (state->sheet,
+								 state->validation.expr0.entry);
+		GnmExpr const *expr1 = NULL;
+
+
+
+		if (expr0 != NULL) {
+			if (op == VALIDATION_OP_BETWEEN || op == VALIDATION_OP_NOT_BETWEEN) {
+				expr1 = validation_entry_to_expr (state->sheet, state->validation.expr1.entry);
+				if (expr1 != NULL)
+					state->validation.valid = 2;
+				else {
+					state->validation.valid = -2;
+					gnm_expr_unref (expr0);
+				}
+			} else
+				state->validation.valid = 1;
+		} else
+			state->validation.valid = -1;
+
+		if (state->validation.valid > 0) {
+			mstyle_set_validation (state->result,
+					       validation_new (style, type, op, title, msg,
+							       expr0, expr1,
+							       gtk_toggle_button_get_active (state->validation.allow_blank),
+							       gtk_toggle_button_get_active (state->validation.use_dropdown)));
+		}
+
 		g_free (msg);
 		g_free (title);
 	} else {
@@ -2243,6 +2266,7 @@ fmt_dialog_init_validation_page (FormatState *state)
 
 	/* Setup widgets */
 	state->validation.changed	  = FALSE;
+	state->validation.valid 	  = 1;
 	state->validation.criteria_table  = GTK_TABLE          (glade_xml_get_widget (state->gui, "validation_criteria_table"));
 	state->validation.constraint_type = GTK_OPTION_MENU    (glade_xml_get_widget (state->gui, "validation_constraint_type"));
 	state->validation.operator_label  = GTK_LABEL          (glade_xml_get_widget (state->gui, "validation_operator_label"));
@@ -2369,6 +2393,24 @@ cb_fmt_dialog_dialog_buttons (GtkWidget *btn, FormatState *state)
 
 		if (state->validation.changed)
 			validation_rebuild_validation (state);
+
+		if (state->validation.valid < 0) {
+			if (gnumeric_dialog_question_yes_no (state->wbcg,
+							     _ ("The validation criteria are unusable. Disable validation?"), FALSE))
+			{
+				gtk_option_menu_set_history (state->validation.constraint_type, 0);
+				cb_validation_sensitivity (NULL, state);
+			} else {
+				gtk_notebook_set_page (state->notebook, FD_VALIDATION);
+
+				if (state->validation.valid == -1)
+					gnm_expr_entry_grab_focus (state->validation.expr0.entry, FALSE);
+				else
+					gnm_expr_entry_grab_focus (state->validation.expr1.entry, FALSE);
+				return;
+			}
+		}
+
 		if (state->protection.sheet_protected_changed) {
 			WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (state->wbcg));
 			wbv->is_protected = state->protection.sheet_protected_value;

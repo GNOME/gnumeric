@@ -1,5 +1,9 @@
 Gnumeric 1.1.4
 
+Almer:
+	* Implement validation criteria checking.
+          (http://bugzilla.gnome.org/show_bug.cgi?id=72554)
+
 Andreas:
 	* Improve printing dialogs.
 
@@ -96,7 +100,7 @@ Morten:
 	* Make fn-lookup a plugin.
 	* Make fn-math a plugin.
 	* Make fn-string a plugin.
-	* Partially untangle remaining fn-files. 
+	* Partially untangle remaining fn-files.
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.2
