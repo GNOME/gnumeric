@@ -20,7 +20,9 @@
   a given output range on a sheet of the current workbook.  To select the output method
   select one of the radio buttons inside the <guilabel>Output</guilabel>
   frame. If you have chosen <quote><guibutton>Output Range</guibutton></quote> you must also enter a single 
-  range in the entry field.</para>
+  range in the entry field.</para> 
+  <para>Select the <guilabel>Autofit Columns</guilabel> option to automatically adjust the 
+  widths of the columns in the output range.</para>
   <note><para>If the chosen output range is too
   small, some of the results will be lost.</para></note>
   <note><para>The
@@ -516,6 +518,10 @@
   <sect1 id="histogram-tool">
      <title>Histogram Tool</title>
 
+  <sect2 id="histogram-tool-intro">
+     <title>Introduction</title>
+     
+
   <figure id="histogram-tool-dialog">
     <title>Histogram Tool Dialog</title>
     <screenshot>
@@ -528,6 +534,14 @@
      variables. The types of histogram created are determined by the options
      selected.  
      </para>
+
+     <para>As shown in <xref linkend="histogram-tool-dialog">, the histogram dialog has four 
+     tabs. We will introduce them in sequence.</para>
+  </sect2>
+  <sect2 id="histogram-tool-inputtab">
+     <title>The <quote><guilabel>Input</guilabel></quote> Tab</title>
+     <para>The <quote><guilabel>Input</guilabel></quote> tab contains the field specifying the 
+     data to be used for the histogram.</para>
      <para>
      The <quote><guilabel>Input Range</guilabel></quote> entry contains a single range or a list of ranges, that
      can be grouped into variables by rows, columns, or areas. The <quote><guilabel>Bin Range</guilabel></quote>
@@ -538,24 +552,53 @@
      first field of each area contains labels,  the
      <quote><guibutton>Input Labels</guibutton></quote> option should be selected.
      </para>
-     <para>If the first column of the given bin range contains labels,  the
-     <quote><guibutton>Bin Labels</guibutton></quote> option should be selected.
-     </para>
-     <para> The remaining options modify the appearance of the histogram:</para>
+
+  </sect2>
+  <sect2 id="histogram-tool-binstab">
+     <title>The <quote><guilabel>Bins</guilabel></quote> Tab</title>
+  <figure id="histogram-tool-dialog-bins">
+    <title>Histogram Tool Dialog <quote><guilabel>Bins Tab</guilabel></quote></title>
+    <screenshot>
+	<graphic fileref="figures/analysistools-histogram-bins.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>
+
+  <para>The bins (or classes) for the histogram can either be predetermined by data 
+  contained in your workbook or calculated by the histogram tool.</para>
+
+  <para>Select the <quote><guilabel>Predetermined Bins</guilabel></quote> option to specify 
+  data on your worksheet in the <quote><guilabel>Bin Range:</guilabel></quote> entry. The
+  range should consist of a sigle column or two columns (the first one containing labels). If the 
+  first column of the bin range contains labels, select the <quote><guibutton>Bin 
+  Labels</guibutton></quote> option. The values in the last column are used as seprators between adjacent bins.</para> 
+
+  <para>Select the <quote><guilabel>Calculated Bins</guilabel></quote> option to have the 
+  bins determined by the tool. Enter the desired number of bins in the 
+  <quote><guilabel>N:</guilabel></quote> entry. It is recommended (but optional) that you 
+  specify the minimum and maximum cutoffs in the <quote><guilabel>Min:</guilabel></quote>
+  and <quote><guilabel>Max:</guilabel></quote> entries.</para>
+  </sect2>
+
+  <sect2 id="histogram-tool-optionstab">
+     <title>The <quote><guilabel>Options</guilabel></quote> Tab</title>
+
+     <para> The options in the options tab modify the appearance of the histogram:</para>
      <itemizedlist>
      <listitem>
-     <para> The <quote><guibutton>Pareto</guibutton></quote> option causes the bins to be sorted by decreasing 
+     <para> The <quote><guibutton>Pareto</guibutton></quote> option causes the bins to be 
+     sorted by decreasing 
      frequency of the first variable.
      </para>
      </listitem>
      <listitem>
-     <para> The <quote><guibutton>Percentage</guibutton></quote> option adds a histogram in terms of 
+     <para> The <quote><guibutton>Percentages</guibutton></quote> option adds a histogram in terms 
+     of 
      percentages rather than frequencies.
      </para>
      </listitem>
      <listitem>
-     <para> The <quote><guibutton>Cumulative Percentages</guibutton></quote> option adds a cumulative 
-     histogram.
+     <para> The <quote><guibutton>Cumulative Percentages</guibutton></quote> option adds a 
+     cumulative histogram.
      </para>
      </listitem>
      <listitem>
@@ -564,10 +607,24 @@
      </listitem>
      </itemizedlist>
 
+  </sect2>
+  <sect2 id="histogram-tool-outputtab">
+     <title>The <quote><guilabel>Output</guilabel></quote> Tab</title>
+     <para>The Output tab contains the standard output options and fields 
+     described in <xref linkend="overview">.</para>
+  </sect2>
+  <sect2 id="histogram-tool-example">
+  <title>A Histogram Example</title>
   <figure id="histogram-example-1">
     <title>Some Example Data</title>
     <screenshot>
 	<graphic fileref="figures/analysistools-histogram-ex1.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>
+  <figure id="histogram-example-3">
+    <title>Specifying Bins</title>
+    <screenshot>
+	<graphic fileref="figures/analysistools-histogram-ex3.png" format="PNG"></graphic>
     </screenshot>
   </figure>
 
@@ -580,7 +637,8 @@
      (see <xref linkend="histogram-example-1">).</para>
 <orderedlist>
      <listitem><para>
-     Enter A1:A21 in the <quote><guilabel>Input Range:</guilabel></quote> entry by typing 
+     Enter A1:A21 in the <quote><guilabel>Input Range:</guilabel></quote> entry 
+     of the <quote><guilabel>Input</guilabel></quote> tab by typing 
      this directly into the entry or clicking in the entry field and 
      then selecting that range on the sheet. In the latter case the 
      entry will also contain the sheet name. </para></listitem>
@@ -589,17 +647,23 @@
      <quote><guibutton>Columns</guibutton></quote> radio 
      button next to <quote><guilabel>Grouped By:</guilabel></quote>.
      </para></listitem>
+      <listitem><para> Select the <quote><guibutton>Input Labels</guibutton></quote>
+     option since the first cell of the Input Range contains a label.</para></listitem> 
      <listitem><para>
-     Enter C1:D5 in the <quote><guilabel>Bin Range:</guilabel></quote> entry. </para></listitem>
+     Enter C1:D5 in the <quote><guilabel>Bin Range:</guilabel></quote> entry
+     of the <quote><guilabel>Bins</guilabel></quote> tab. The 
+     <quote><guilabel>Predetermined Bins</guilabel></quote> option will now also be 
+     selected (see <xref linkend="histogram-example-3">). </para></listitem>
       <listitem><para> Select the <quote><guibutton>Bin Labels</guibutton></quote>
      option since the first column of the Bin Range contains labels. 
      </para></listitem>
      <listitem><para>
-     Select the <quote><guibutton>Percentage</guibutton></quote> and <quote><guibutton>Cumulative Percentages
-     </guibutton></quote> options.
+     Select the <quote><guibutton>Percentage</guibutton></quote> and 
+     <quote><guibutton>Cumulative Percentages</guibutton></quote> options
+     of the <quote><guilabel>Options</guilabel></quote> tab.
      </para></listitem>     
-     <listitem><para> Specify the output 
-     options as described above.</para></listitem>
+     <listitem><para> In the <quote><guilabel>Output</guilabel></quote> tab, specify the output 
+     options as described in <xref linkend="overview">.</para></listitem>
      <listitem><para> Press the OK button. </para></listitem>
 </orderedlist>
      <para> The results are shown in 
@@ -611,7 +675,7 @@
 	<graphic fileref="figures/analysistools-histogram-ex2.png" format="PNG"></graphic>
     </screenshot>
   </figure>
-
+  </sect2>
   </sect1>
 
   <sect1 id="moving-average-tool">

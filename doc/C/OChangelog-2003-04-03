@@ -1,5 +1,15 @@
 2002-01-11 Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* analysis-tools.sgml : update histogram documentation
+	* figures/analysistools-histogram-ex3.png : new
+	* figures/analysistools-fourier.png : new
+	* figures/analysistools-histogram-bins.png : new
+	* figures/analysistools-histogram-ex1.png : updated
+	* figures/analysistools-histogram.png : updated
+	* figures/analysistools-outputoptions.png : updated
+
+2002-01-11 Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* files.sgml : add short listing of formats to text import section
 
 2002-01-10  Alexander Kirillov  <kirillov@math.sunysb.edu>

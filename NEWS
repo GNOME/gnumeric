@@ -4,9 +4,10 @@ Andreas:
 	* Add `autofit columns' checkbox to all analysis tools.
 	* Add radio buttons to rank dialog to let user choose 
 	  behaviour in case of ties.
-	* Enable Standard Errors Checkbox in Moving Averages Dialog
-	* Implement calculated bins in Histogram Tool
-	* Implement Fourier Analysis Tool
+	* Enable Standard Errors Checkbox in Moving Averages Dialog.
+	* Implement calculated bins in Histogram Tool.
+	* Implement Fourier Analysis Tool.
+	* Updated documentation.
 
 Jody:
 	* Generate spans after importing a lotus 123 file.
