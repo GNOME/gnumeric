@@ -1,3 +1,19 @@
+1999-11-08  Jody Goldberg <jgoldberg@home.com>
+
+	* src/border.c (style_border_ref, style_border_unref) : NULL is
+	  permissible.
+
+	* src/format.c (format_get_thousand, format_get_decimal) : Init
+	  locale if necessary.
+
+	* src/formats.c (cell_format_is_number) : New function.
+
+	* src/mstyle.c (mstyle_new_default) : Init borders to NULL to indicate
+	  no borders.  This allows borders to be cleared.
+
+	* src/dialogs/dialog-cell-format.c : Use locale.
+	  Begin use of cell_format_classify.
+
 1999-11-07  Jody Goldberg <jgoldberg@home.com>
 
 	* src/selection.c (cb_set_row_height, sheet_selection_height_update) :

@@ -1368,12 +1368,18 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color)
 char *
 format_get_thousand ()
 {
-    return (lc)->thousands_sep[0] ? (lc)->thousands_sep : ",";
+	if (!lc)
+		lc = localeconv ();
+
+	return (lc)->thousands_sep[0] ? (lc)->thousands_sep : ",";
 }
 
 char *
 format_get_decimal ()
 {
+	if (!lc)
+		lc = localeconv ();
+
 	return (lc)->decimal_point[0] ? (lc)->decimal_point : ".";
 }
 

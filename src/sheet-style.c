@@ -983,7 +983,6 @@ typedef struct {
 static void
 do_apply_border (Sheet *sheet, const Range *r,
 		MStyleElementType t, MStyleBorder *border)
-	     
 {
 	MStyle *mstyle;
 

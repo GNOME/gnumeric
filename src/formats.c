@@ -10,6 +10,7 @@
 #include <config.h>
 #include <gnome.h>
 #include "formats.h"
+#include "format.h"
 
 /* The various formats */
 const char *cell_format_general [] = {
@@ -117,32 +118,117 @@ const char *cell_format_money [] = {
 
 };
 
-#if 0
-typedef enum
+/* Returns a+n if b[0..n-1] is a prefix to a */
+static char const *
+strncmp_inc (char const * const a, char const * const b, unsigned const n)
 {
-    FMT_UNKNOWN = -1,
+	if (strncmp (a, b, n) == 0)
+		return a+n;
+	return NULL;
+}
 
-    FMT_GENERAL = 0,
-    FMT_NUMBER,
-    FMT_CURRENCY,
-    FMT_ACCOUNT,
-    FMT_DATE,
-    FMT_TIME,
-    FMT_PERCENT,
-    FMT_FRACTION,
-    FMT_SCIENCE,
-    FMT_TEXT,
-    FMT_SPECIAL,
-} FormatFamily;
-
-typdef struct
+/* Returns a+strlen(b) if b is a prefix to a */
+static char const *
+strcmp_inc (char const * const a, char const * const b)
 {
-	gint	 catalog_element;
+	int const len = strlen (b);
+	if (strncmp (a, b, len) == 0)
+		return a+len;
+	return NULL;
+}
 
-	gboolean thousands_sep;
-	gint	 num_decimals;	/* 0 - 30 */
-	gint	 negative_fmt;	/* 0 - 3 */
-} FormatCharacteristics;
+static gboolean
+cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
+{
+	gboolean has_sep = FALSE;
+	int use_paren = 0;
+	int use_red = 0;
+	int num_decimals = 0;
+	char const *ptr = fmt, *end;
+
+	/* Check for thousands seperator */
+	if (ptr[0] == '#') {
+		ptr = strcmp_inc (ptr+1, format_get_thousand());
+		if (ptr == NULL)
+			return FALSE;
+		ptr = strncmp_inc (ptr, "##", 2);
+		if (ptr == NULL)
+			return FALSE;
+		has_sep = TRUE;
+	}
+
+	if (ptr[0] != '0')
+		return FALSE;
+	++ptr;
+
+	/* Check for decimals */
+	if (ptr[0] != ';' && ptr[0] != '_' && ptr[0]) {
+		int count = 0;
+		ptr = strcmp_inc (ptr, format_get_decimal());
+		if (ptr == NULL)
+			return FALSE;
+
+		while (ptr[count] == '0')
+			++count;
+
+		if (ptr[count] != ';' && ptr[count] != '_' && ptr[count])
+			return FALSE;
+		num_decimals = count;
+		ptr += count;
+	}
+
+	/* We have now handled decimals, and thousands seperators */
+	info->thousands_sep = has_sep;
+	info->num_decimals = num_decimals;
+	info->negative_fmt = 0; /* Temporary, we may change this below */
+
+	/* No special negative handling */
+	if (ptr[0] == '\0')
+		return TRUE;
+
+	/* Save this position */
+	end = ptr;
+
+	/* Handle Trailing '_)' */
+	if (ptr[0] == '_') {
+		if (ptr[1] != ')')
+			return FALSE;
+		ptr += 2;
+		use_paren = 2;
+	}
+
+	if (ptr[0] != ';')
+		return FALSE;
+	++ptr;
+
+	if (ptr[0] == '[') {
+		/* TODO : Do we handle 'Red' being translated ?? */
+		if (g_strncasecmp (N_("[Red]"), ptr, 5) != 0)
+			return FALSE;
+		ptr += 5;
+		use_red = 1;
+	}
+
+	if (use_paren) {
+		if (ptr[0] != '(')
+			return FALSE;
+		++ptr;
+	}
+
+	/* The next segment should match the original */
+	ptr = strncmp_inc (ptr, fmt, end-fmt);
+	if (ptr == NULL)
+		return FALSE;
+
+	if (use_paren) {
+		if (ptr[0] != ')')
+			return FALSE;
+		++ptr;
+	}
+
+	info->negative_fmt = use_paren + use_red;
+	return TRUE;
+}
 
 FormatFamily
 cell_format_classify (char const * const fmt, FormatCharacteristics *info)
@@ -156,18 +242,8 @@ cell_format_classify (char const * const fmt, FormatCharacteristics *info)
 		return FMT_GENERAL;
 	}
 
-	/* All number formats begin with 0 or # .*/
-	if (fmt[0] == '0' || fmt[0] == '#')
-	{
-		gboolean is_viable = TRUE;
-		if (fmt[0] == '#') {
-			prefix = g_strconcat ("#", format_get_thousand(), "###", NULL);
-			g_free (prefix);
-		}
-
-		is_viable = TRUE;
+	if (cell_format_is_number (fmt, info))
 		return FMT_NUMBER;
-	}
-}
 
-#endif
+	return FMT_UNKNOWN;
+}

@@ -18,6 +18,7 @@
 #include "gnumeric-sheet.h"
 #include "selection.h"
 #include "ranges.h"
+#include "format.h"
 #include "formats.h"
 #include "pattern.h"
 #include "mstyle.h"
@@ -116,6 +117,7 @@ typedef struct _FormatState
 		gchar 		*spec;
 		gint		 current_type;
 		int		 num_decimals;
+		int		 negative_format;
 		gboolean	 use_seperator;
 	} format;
 	struct
@@ -379,12 +381,13 @@ static void
 fillin_negative_samples (FormatState *state, int const page)
 {
 	static char const * const decimals = "098765432109876543210987654321";
-	char const * const sep = state->format.use_seperator ? "," : "";
+	char const * const sep = state->format.use_seperator
+	    ? format_get_thousand () : "";
 	int const n = 30 - state->format.num_decimals;
 
-	/* FIXME : Get from locale */
 	char const * const decimal =
-	    (state->format.num_decimals > 0) ? "." : "";
+	    (state->format.num_decimals > 0)
+	    ? format_get_decimal () : "";
 
 	char const * prefix = "";
 	char const * const *formats;
@@ -458,9 +461,8 @@ fm_dialog_init_fmt_list (GtkCList *cl, char const * const *formats,
 		gtk_clist_append (cl, t);
 
 		/* CHECK : Do we really want to be case insensitive ? */
-		if (!g_strcasecmp (formats[j], cur_format)) {
+		if (!g_strcasecmp (formats[j], cur_format))
 			select = j + *count;
-		}
 	}
 
 	*count += j;
@@ -499,6 +501,7 @@ fmt_dialog_enable_widgets (FormatState *state, int page)
 	};
 
 	static char const * const * catalogs[] = {
+		cell_format_general,
 		cell_format_numbers,
 		cell_format_money,
 		cell_format_percent,
@@ -550,10 +553,10 @@ fmt_dialog_enable_widgets (FormatState *state, int page)
 			int select = -1, start = 0, end = -1;
 			switch (page) {
 			case 4: case 5:
-				start = end = page+1;
+				start = end = page+2;
 				break;
 			case 7:
-				start = end = 4;
+				start = end = 5;
 				break;
 
 			case 11:
@@ -651,7 +654,9 @@ fmt_dialog_init_format_page (FormatState *state)
 	GtkWidget *tmp;
 	GtkCList *cl;
 	char const * name;
-	int i, j;
+	int i, j, page;
+
+	FormatCharacteristics info;
 
 	/* Get the current format */
 	StyleFormat *format = NULL;
@@ -659,12 +664,25 @@ fmt_dialog_init_format_page (FormatState *state)
 		format = mstyle_get_format (state->style);
 
 	state->format.canvas = NULL;
-
-	/* FIXME : Get this from the format */
 	state->format.spec = format->format;
 	state->format.current_type = -1;
 	state->format.num_decimals = 2;
+	state->format.negative_format = 0;
 	state->format.use_seperator = FALSE;
+
+	/* TODO : FIXME
+	 * This logic will need to move.
+	 * It should be able to support reclassifying formats selected via 'Custom */
+
+	/* If format is not recognized go to the custom page */
+	if ((page = cell_format_classify (state->format.spec, &info)) >= 0) {
+		if (page == 1) {
+			state->format.num_decimals = info.num_decimals;
+			state->format.use_seperator = info.thousands_sep;
+			state->format.negative_format = info.negative_fmt;
+		}
+	} else
+		page = 11;
 
 	state->format.box = GTK_BOX (glade_xml_get_widget (state->gui, "format_box"));
 
@@ -698,7 +716,12 @@ fmt_dialog_init_format_page (FormatState *state)
 		gtk_clist_set_cell_style (cl, 1, 0, style);
 		gtk_clist_set_cell_style (cl, 3, 0, style);
 		gtk_style_unref (style);
+
+		gtk_clist_select_row (cl, state->format.negative_format, 0);
 	}
+
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->format.widget[F_DECIMAL_SPIN]),
+				   state->format.num_decimals);
 
 	/* Catch changes to the spin box */
 	(void) gtk_signal_connect (
@@ -711,6 +734,8 @@ fmt_dialog_init_format_page (FormatState *state)
 		GNOME_DIALOG (state->dialog),
 		GTK_EDITABLE (state->format.widget[F_DECIMAL_SPIN]));
 
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->format.widget[F_SEPERATOR]),
+				      state->format.use_seperator);
 
 	/* Setup special handlers for : Numbers */
 	gtk_signal_connect (GTK_OBJECT (state->format.widget[F_SEPERATOR]),
@@ -749,14 +774,7 @@ fmt_dialog_init_format_page (FormatState *state)
 				    GTK_SIGNAL_FUNC (cb_format_changed),
 				    state);
 
-#if 0
-		state->format.spec,
-#endif
-		/* HACK : Start on Custom for now so that we can see what format is
-		 * selected.  When the regexps are ready we can go to the correct
-		 * page.
-		 */
-		if (i == 11)
+		if (i == page)
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (tmp), TRUE);
 	}
 }

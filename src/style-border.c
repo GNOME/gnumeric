@@ -203,15 +203,17 @@ style_border_get_gc (MStyleBorder *border, GdkWindow *window)
 MStyleBorder *
 style_border_ref (MStyleBorder *border)
 {
-	g_return_val_if_fail (border != NULL, NULL);
-	++border->ref_count;
+	if (border != NULL)
+		++border->ref_count;
 	return border;
 }
 
 void
 style_border_unref (MStyleBorder *border)
 {
-	g_return_if_fail (border != NULL);
+	if (border == NULL)
+		return;
+
 	g_return_if_fail (border->ref_count > 0);
 
 	border->ref_count--;

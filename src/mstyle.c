@@ -462,7 +462,15 @@ mstyle_new_default (void)
 	mstyle_set_color       (mstyle, MSTYLE_COLOR_PATTERN,
 				style_color_new (0, 0, 0));
 
-	/* This obviates the back and pattern colors */
+	/* To negate borders */
+	mstyle_set_border      (mstyle, MSTYLE_BORDER_TOP, NULL);
+	mstyle_set_border      (mstyle, MSTYLE_BORDER_LEFT, NULL);
+	mstyle_set_border      (mstyle, MSTYLE_BORDER_BOTTOM, NULL);
+	mstyle_set_border      (mstyle, MSTYLE_BORDER_RIGHT, NULL);
+	mstyle_set_border      (mstyle, MSTYLE_BORDER_DIAGONAL, NULL);
+	mstyle_set_border      (mstyle, MSTYLE_BORDER_REV_DIAGONAL, NULL);
+
+	/* This negates the back and pattern colors */
 	mstyle_set_pattern     (mstyle, 0);
 
 	default_mstyle = mstyle;
@@ -727,8 +735,8 @@ mstyle_set_border (MStyle *st, MStyleElementType t,
 		   MStyleBorder *border)
 {
 	g_return_if_fail (st != NULL);
-	g_return_if_fail (border != NULL);
 
+	/* NOTE : It is legal for border to be NULL */
 	switch (t) {
 	case MSTYLE_ANY_BORDER:
 		mstyle_element_unref (MSTYLE_ELEMENTS (st) [t]);
