@@ -1,5 +1,10 @@
 2000-09-10  Jody Goldberg <jgoldberg@home.com>
 
+	* src/graph-series.c (graph_series_destroy) : plug leak.
+	* src/sheet-object-widget.c (sheet_widget_checkbox_destroy) : Ditto.
+
+2000-09-10  Jody Goldberg <jgoldberg@home.com>
+
 	* src/xml-io.c (xml_read_sheet_object) : objects have their positions
 	  set after creation, not before.
 	NOTE : This routine is incomplete.  It does not handle all of the

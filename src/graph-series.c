@@ -303,8 +303,13 @@ static void
 graph_series_destroy (GtkObject *object)
 {
 	GraphSeries *series = GRAPH_SERIES(object);
+
 	printf ("Destroying %p\n", object);
 	dependent_unlink (&series->dep, NULL);
+	if (series->dep.expression != NULL) {
+		expr_tree_unref (series->dep.expression);
+		series->dep.expression = NULL;
+	}
 }
 
 static void

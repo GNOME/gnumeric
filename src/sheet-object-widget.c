@@ -422,6 +422,10 @@ sheet_widget_checkbox_destroy (GtkObject *obj)
 	g_free (swc->label);
 	swc->label = NULL;
 	dependent_unlink (&swc->dep, NULL);
+	if (swc->dep.expression != NULL) {
+		expr_tree_unref (swc->dep.expression);
+		swc->dep.expression = NULL;
+	}
 	(*sheet_object_widget_class->destroy)(obj);
 }
 
