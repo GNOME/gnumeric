@@ -45,10 +45,13 @@
 #include "dialogs.h"
 #include "sheet-control-gui.h"
 #include "parse-util.h"
+#include "gnumeric-canvas.h"
+#include "gnumeric-pane.h"
 
 #include <gsf/gsf-impl-utils.h>
 #include <gal/util/e-xml-utils.h>
 #include <libxml/parser.h>
+#include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 
 #define DISABLE_DEBUG
 #ifndef DISABLE_DEBUG
@@ -419,7 +422,7 @@ gnm_graph_clear_vectors_internal (GnmGraph *graph, gboolean unsubscribe)
 			continue;
 
 		vector->graph = NULL;
-		gtk_object_unref (GTK_OBJECT (vector));
+		g_object_unref (G_OBJECT (vector));
 	}
 	g_ptr_array_set_size (graph->vectors, 0);
 	if (unsubscribe) {
@@ -518,7 +521,7 @@ gnm_graph_add_vector (GnmGraph *graph, GnmExpr const *expr,
 		}
 	}
 
-	vector = gtk_type_new (gnm_graph_vector_get_type ());
+	vector = g_object_new (gnm_graph_vector_get_type (), NULL);
 	vector->dep.sheet = sheet;
 	vector->dep.flags = gnm_graph_vector_get_dep_type ();
 	vector->dep.expression = expr;
@@ -557,7 +560,7 @@ gnm_graph_add_vector (GnmGraph *graph, GnmExpr const *expr,
 	vector->type = type;
 	if ( /* !gnm_graph_vector_corba_init (vector) || */
 	    !gnm_graph_subscribe_vector (graph, vector)) {
-		gtk_object_unref (GTK_OBJECT (vector));
+		g_object_unref (G_OBJECT (vector));
 		vector = NULL;
 	} else {
 		d({
@@ -1018,6 +1021,49 @@ gnm_graph_write_xml (SheetObject const *so,
 	return FALSE;
 }
 
+static GObject *
+gnm_graph_new_view (SheetObject *so, SheetControl *sc, gpointer key)
+{
+	GnumericCanvas *gcanvas = ((GnumericPane *)key)->gcanvas;
+	GnomeCanvasItem *item;
+
+	g_return_val_if_fail (gcanvas != NULL, NULL);
+
+	gnome_canvas_item_raise_to_top (GNOME_CANVAS_ITEM (gcanvas->sheet_object_group));
+
+	item = gnome_canvas_item_new (gcanvas->sheet_object_group,
+		GNOME_TYPE_CANVAS_RECT,
+		"fill_color",		"white",
+		"outline_color",	"black",
+		"width_units",		3.,
+		NULL);
+
+	gnm_pane_object_register (so, item);
+	return G_OBJECT (item);
+}
+
+static void
+gnm_graph_update_bounds (SheetObject *so, GObject *view)
+{
+	double coords [4];
+	SheetControlGUI	  *scg  =
+		SHEET_CONTROL_GUI (sheet_object_view_control (view));
+
+	scg_object_view_position (scg, so, coords);
+
+	gnome_canvas_item_set (GNOME_CANVAS_ITEM (view),
+		"x1", MIN (coords [0], coords [2]),
+		"x2", MAX (coords [0], coords [2]),
+		"y1", MIN (coords [1], coords [3]),
+		"y2", MAX (coords [1], coords [3]),
+		NULL);
+
+	if (so->is_visible)
+		gnome_canvas_item_show (GNOME_CANVAS_ITEM (view));
+	else
+		gnome_canvas_item_hide (GNOME_CANVAS_ITEM (view));
+}
+
 static void
 gnm_graph_class_init (GObjectClass *object_class)
 {
@@ -1027,6 +1073,8 @@ gnm_graph_class_init (GObjectClass *object_class)
 	object_class->finalize = &gnm_graph_finalize;
 
 	sheet_object_class = SHEET_OBJECT_CLASS (object_class);
+	sheet_object_class->new_view	  = gnm_graph_new_view;
+	sheet_object_class->update_bounds = gnm_graph_update_bounds;
 	sheet_object_class->populate_menu = gnm_graph_populate_menu;
 	sheet_object_class->user_config   = gnm_graph_user_config;
 	sheet_object_class->read_xml	  = gnm_graph_read_xml;

@@ -622,7 +622,7 @@ gnumeric_canvas_new (SheetControlGUI *scg, GnumericPane *pane)
 
 	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (scg), NULL);
 
-	gcanvas = gtk_type_new (GNUMERIC_CANVAS_TYPE);
+	gcanvas = g_object_new (GNUMERIC_CANVAS_TYPE, NULL);
 
 	gcanvas->simple.scg = scg;
 	gcanvas->pane = pane;

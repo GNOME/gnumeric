@@ -1,3 +1,23 @@
+2002-09-11  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric-graph.c (gnm_graph_new_view) : stub so that sheets with
+	  graphs don't crash.
+	(gnm_graph_update_bounds) : ditto.
+
+2002-09-11  Jody Goldberg <jody@gnome.org>
+
+	* src/expr.c (gnm_expr_eval) : move support for implicit intersection
+	  here.
+
+	* src/func.c (function_call_with_list) : merge the marshalling into
+	  here in preparation for supporting implicit iteration.  Fix handling
+	  of optional arguments.
+
+2002-09-11  Jody Goldberg <jody@gnome.org>
+
+	Patch from Jiri Jirat <Jiri.Jirat@systinet.com>
+	* gnumeric.xsd  : fix schema errors
+
 2002-09-11  Morten Welinder  <terra@diku.dk>
 
 	* src/plugin-service.c (plugin_service_ui_activate): Plug leak.

@@ -12,6 +12,8 @@ Jody:
 	* Fix handling of files named .xml.gz
 	* Improvements for ExprEntry
 	* Make autocorrect unicode safe, and port dialog to treeview
+	* Fix 'address' so that we pass all of the tests
+	* Fix handling of optional scalar arguments.
 
 Morten:
 	* Leak plugging.

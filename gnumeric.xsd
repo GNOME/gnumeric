@@ -676,7 +676,7 @@
 
     <xsd:complexType name="Cells">
        <xsd:sequence>
-           <xsd:element name="Cell" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+           <xsd:element name="Cell" minOccurs="0" maxOccurs="unbounded">
                <xsd:complexType>
                        <!-- expressions are stored as entered, with a leading '='.
 			    Once a shared expression has been defined, subsequent
@@ -684,8 +684,10 @@
 			    use the "ExprID" attribute to indicate which shared
 			    expression is used, and no Content element is included
                        -->
+                   <xsd:sequence>
                        <xsd:element name="Content" type="xsd:string" minOccurs="0" maxOccurs="1"/>
                    </xsd:sequence>
+
                    <!-- Col and Row are sufficient for a cell that is an element of
                         an array of cells as long as it's not the top left cell
                    -->
@@ -722,7 +724,7 @@
 
     <xsd:complexType name="MergedRegions">
        <xsd:sequence>
-           <xsd:element name="Merge" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+           <xsd:element name="Merge" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
        </xsd:sequence>
     </xsd:complexType>
 
@@ -758,11 +760,15 @@
     </xsd:simpleType>
     
     <xsd:complexType name="SheetLayout">
-        <xsd:attribute name="TopLeft"   type="xsd:string" use="required"/>
-           <xsd:element name="FreezePanes" use="optional">
+      <xsd:sequence>
+           <xsd:element name="FreezePanes" minOccurs="0" maxOccurs="1">
+             <xsd:complexType>
 		<xsd:attribute name="FrozenTopLeft"   type="xsd:string" use="required"/>
 		<xsd:attribute name="UnfrozenTopLeft" type="xsd:string" use="required"/>
+             </xsd:complexType>
            </xsd:element>
+      </xsd:sequence>
+      <xsd:attribute name="TopLeft"   type="xsd:string" use="required"/>
     </xsd:complexType>
 
 </xsd:schema>

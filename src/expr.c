@@ -1113,9 +1113,21 @@ Value *
 gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 	       GnmExprEvalFlags flags)
 {
-	Value * res = expr_eval_real (expr, pos, flags);
+	Value *res = expr_eval_real (expr, pos, flags);
 
-	if (res == NULL)
+	if (res != NULL) {
+		if (!(flags & GNM_EXPR_EVAL_PERMIT_NON_SCALAR)) {
+			if (res->type == VALUE_CELLRANGE) {
+				res = value_intersection (res, pos);
+				if (res == NULL)
+					return value_new_error (pos, gnumeric_err_VALUE);
+			} else if (res->type == VALUE_ARRAY) {
+				res = gnm_expr_array_intersection (res);
+				if (res == NULL)
+					return value_new_error (pos, gnumeric_err_VALUE);
+			}
+		}
+	} else
 		return (flags & GNM_EXPR_EVAL_PERMIT_EMPTY)
 		    ? NULL : value_new_int (0);
 

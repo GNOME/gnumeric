@@ -108,7 +108,10 @@ function_dump_defs (char const *filename)
 
 	for (i = 0; i < ordered->len; i++) {
 		FunctionDefinition const *fd = g_ptr_array_index (ordered, i);
-		fprintf (output_file, "%s\n\n", _( *(fd->help) ) );
+		if (fd->fn_type == FUNCTION_ARGS)
+			fprintf (output_file, "%s : %s\n",
+				 fd->name,
+				 fd->fn.args.arg_types);
 	}
 
 	g_ptr_array_free (ordered,TRUE);
@@ -248,8 +251,6 @@ extract_arg_types (FunctionDefinition *def)
 		def->fn.args.arg_types[i] = function_def_get_arg_type (def, i);
 	def->fn.args.arg_types[i] = 0;
 }
-
-
 
 static Value *
 error_function_no_full_info (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
@@ -645,7 +646,7 @@ function_def_get_arg_type (FunctionDefinition const *fn_def,
  **/
 char const *
 function_def_get_arg_type_string (FunctionDefinition const *fn_def,
-                           int arg_idx)
+				  int arg_idx)
 {
 	switch (function_def_get_arg_type (fn_def, arg_idx)) {
 	case 'f':
@@ -656,14 +657,16 @@ function_def_get_arg_type_string (FunctionDefinition const *fn_def,
 		return _("Boolean");
 	case 'r':
 		return _("Cell Range");
-	case 'a':
-		return _("Array");
 	case 'A':
 		return _("Area");
 	case 'S':
 		return _("Scalar");
-	default:
+	case '?':
 		return _("Any");
+
+	default:
+		g_warning ("Unkown arg type");
+		return "Broken";
 	}
 }
 
@@ -714,131 +717,6 @@ function_def_get_arg_name (FunctionDefinition const *fn_def,
 
 /* ------------------------------------------------------------------------- */
 
-static inline Value *
-function_marshal_arg (FunctionEvalInfo *ei, GnmExprEvalFlags flags,
-		      GnmExpr         *t,
-		      char              arg_type,
-		      Value            **type_mismatch)
-{
-	Value *v;
-
-	*type_mismatch = NULL;
-
-	/* Don't dereference 'A1' by accident when all we want is a range  */
-	if (t->any.oper == GNM_EXPR_OP_CELLREF &&
-	    (arg_type == 'A' || arg_type == 'r'))
-		v = value_new_cellrange (&t->cellref.ref, &t->cellref.ref,
-					 ei->pos->eval.col,
-					 ei->pos->eval.row);
-	else
-		/* force scalars whenever we are certain */
-		v = gnm_expr_eval (t, ei->pos,
-			((flags & GNM_EXPR_EVAL_PERMIT_NON_SCALAR) ||
-			 arg_type == 'r' || arg_type == 'a' ||
-			 arg_type == 'A' || arg_type == '?')
-			       ? GNM_EXPR_EVAL_PERMIT_NON_SCALAR : GNM_EXPR_EVAL_STRICT);
-
-	switch (arg_type) {
-
-	case 'f':
-	case 'b':
-		if (v->type == VALUE_CELLRANGE)
-			v = value_intersection (v, ei->pos);
-		else if (v->type == VALUE_ARRAY)
-			v = gnm_expr_array_intersection (v);
-		if (v == NULL)
-			break;
-
-		if (v->type == VALUE_STRING) {
-			Value *newv = format_match_number (value_peek_string (v), NULL);
-			value_release (v);
-			v = newv;
-			break;
-		}
-
-		if (v->type == VALUE_ERROR) {
-			*type_mismatch = v;
-			v = NULL;
-			break;
-		}
-
-		if (v->type != VALUE_INTEGER &&
-		    v->type != VALUE_FLOAT &&
-		    v->type != VALUE_BOOLEAN) {
-			*type_mismatch = value_new_error (ei->pos,
-							  gnumeric_err_VALUE);
-		}
-		break;
-
-	case 's':
-		if (v->type == VALUE_CELLRANGE)
-			v = value_intersection (v, ei->pos);
-		else if (v->type == VALUE_ARRAY)
-			v = gnm_expr_array_intersection (v);
-		if (v == NULL)
-			break;
-
-		if (v->type == VALUE_ERROR) {
-			*type_mismatch = v;
-			v = NULL;
-		} else if (v->type != VALUE_STRING) {
-			*type_mismatch = value_new_error (ei->pos,
-							  gnumeric_err_VALUE);
-		}
-		break;
-
-	case 'r':
-		if (v->type != VALUE_CELLRANGE) {
-			*type_mismatch = value_new_error (ei->pos,
-							  gnumeric_err_VALUE);
-		} else {
-			cellref_make_abs (&v->v_range.cell.a,
-					  &v->v_range.cell.a,
-					  ei->pos);
-			cellref_make_abs (&v->v_range.cell.b,
-					  &v->v_range.cell.b,
-					  ei->pos);
-		}
-		break;
-
-	case 'a':
-		if (v->type != VALUE_ARRAY) {
-			*type_mismatch = value_new_error (ei->pos,
-							  gnumeric_err_VALUE);
-		}
-		break;
-
-	case 'A':
-		if (v->type != VALUE_ARRAY &&
-		    v->type != VALUE_CELLRANGE) {
-			*type_mismatch = value_new_error (ei->pos,
-							  gnumeric_err_VALUE);
-		}
-
-		if (v->type == VALUE_CELLRANGE) {
-			cellref_make_abs (&v->v_range.cell.a,
-					  &v->v_range.cell.a,
-					  ei->pos);
-			cellref_make_abs (&v->v_range.cell.b,
-					  &v->v_range.cell.b,
-					  ei->pos);
-		}
-		break;
-
-	case 'S':
-		if (v->type == VALUE_CELLRANGE)
-			v = value_intersection (v, ei->pos);
-		else if (v->type == VALUE_ARRAY)
-			v = gnm_expr_array_intersection (v);
-		break;
-
-	default :
-		break;
-	}
-
-	return v;
-}
-
 static inline void
 free_values (Value **values, int top)
 {
@@ -847,7 +725,6 @@ free_values (Value **values, int top)
 	for (i = 0; i < top; i++)
 		if (values [i])
 			value_release (values [i]);
-	g_free (values);
 }
 
 /**
@@ -865,9 +742,10 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 			 GnmExprEvalFlags flags)
 {
 	FunctionDefinition const *fn_def;
-	int argc, arg;
-	Value *v = NULL;
-	Value **values;
+	int	 argc, i, optional;
+	char	 arg_type;
+	Value	*tmp, **args;
+	GnmExpr *expr;
 
 	g_return_val_if_fail (ei != NULL, NULL);
 	g_return_val_if_fail (ei->func_call != NULL, NULL);
@@ -888,31 +766,96 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 					_("Invalid number of arguments"));
 	}
 
-	values = g_new (Value *, fn_def->fn.args.max_args);
+	optional = 0;
+	args = g_alloca (sizeof (Value *) * fn_def->fn.args.max_args);
+	for (i = 0; l; l = l->next, ++i) {
+		arg_type = fn_def->fn.args.arg_types[i];
+		expr = l->data;
 
-	for (arg = 0; l; l = l->next, ++arg) {
-		char  arg_type;
-		Value *type_mismatch;
+		if (i > fn_def->fn.args.min_args) 
+			optional = GNM_EXPR_EVAL_PERMIT_EMPTY;
 
-		arg_type = fn_def->fn.args.arg_types[arg];
+		if (arg_type == 'A' || arg_type == 'r') {
+			if (expr->any.oper == GNM_EXPR_OP_CELLREF) {
+				CellRef r;
+				cellref_make_abs (&r, &expr->cellref.ref, ei->pos);
+				args[i] = value_new_cellrange_unsafe (&r, &r);
+			} else {
+				tmp = args[i] = gnm_expr_eval (expr, ei->pos,
+					optional | GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
+				if (tmp->type == VALUE_CELLRANGE) {
+					cellref_make_abs (&tmp->v_range.cell.a,
+							  &tmp->v_range.cell.a,
+							  ei->pos);
+					cellref_make_abs (&tmp->v_range.cell.b,
+							  &tmp->v_range.cell.b,
+							  ei->pos);
+				} else if (tmp->type != VALUE_ARRAY || arg_type != 'A') {
+					free_values (args, i + 1);
+					return value_new_error (ei->pos, gnumeric_err_VALUE);
+				}
+			}
+			continue;
+		}
 
-		values[arg] = function_marshal_arg (ei, flags,
-			l->data, arg_type, &type_mismatch);
+		/* force scalars whenever we are certain */
+		tmp = args[i] = gnm_expr_eval (expr, ei->pos, optional |
+			((flags & GNM_EXPR_EVAL_PERMIT_NON_SCALAR) || arg_type == '?')
+			       ? GNM_EXPR_EVAL_PERMIT_NON_SCALAR : GNM_EXPR_EVAL_STRICT);
 
-		if (type_mismatch || values[arg] == NULL) {
-			free_values (values, arg + 1);
-			if (type_mismatch)
-				return type_mismatch;
-			else
+		/* Optional arguments can be empty */
+		if (tmp == NULL)
+			continue;
+
+		switch (arg_type) {
+		case 'f':
+		case 'b':
+			if (tmp->type == VALUE_STRING) {
+				tmp = format_match_number (value_peek_string (tmp), NULL);
+				if (tmp == NULL) {
+					free_values (args, i + 1);
+					return value_new_error (ei->pos, gnumeric_err_VALUE);
+				}
+				value_release (args [i]);
+				args[i] = tmp;
+			} else if (tmp->type == VALUE_ERROR) {
+				free_values (args, i);
+				return tmp;
+			}
+
+			if (tmp->type != VALUE_INTEGER &&
+			    tmp->type != VALUE_FLOAT &&
+			    tmp->type != VALUE_BOOLEAN) {
+				free_values (args, i+1);
 				return value_new_error (ei->pos, gnumeric_err_VALUE);
+			}
+			break;
+
+		case 's':
+			if (tmp->type == VALUE_ERROR) {
+				free_values (args, i);
+				return tmp; 
+			} else if (tmp->type != VALUE_STRING) {
+				free_values (args, i+1);
+				return value_new_error (ei->pos, gnumeric_err_VALUE);
+			}
+			break;
+
+		case 'S': /* nothing necessary */
+		case '?': /* nothing necessary */
+			break;
+		default :
+			g_warning ("Unknown argument type '%c'", arg_type);
+			break;
 		}
 	}
-	while (arg < fn_def->fn.args.max_args)
-		values [arg++] = NULL;
-	v = fn_def->fn.args.func (ei, values);
 
-	free_values (values, arg);
-	return v;
+	while (i < fn_def->fn.args.max_args)
+		args [i++] = NULL;
+	tmp = fn_def->fn.args.func (ei, args);
+
+	free_values (args, i);
+	return tmp;
 }
 
 /*
