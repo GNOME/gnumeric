@@ -21,7 +21,6 @@
 #ifdef WITH_GNOME
 #include "gnumeric.h"
 #include <gtk/gtk.h>
-#include <gdk/gdkx.h>
 #include <glib.h>
 #include "session.h"
 #include "application.h"

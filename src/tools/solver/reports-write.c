@@ -43,11 +43,9 @@
 #include "mathfunc.h"
 #include "analysis-tools.h"
 
-#include <math.h>
-#include <stdlib.h>
-#include <stdio.h>
+#ifdef HAVE_UNAME
 #include <sys/utsname.h>
-#include <string.h>
+#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -498,7 +496,6 @@ solver_performance_report (WorkbookControl *wbc,
 {
         data_analysis_output_t dao;
 	int                    mat_size, i;
-	struct                 utsname unamedata;
 	GnmValue              *v;
 
 	dao_init (&dao, NewSheetOutput);
@@ -679,18 +676,17 @@ solver_performance_report (WorkbookControl *wbc,
 	dao_set_cell (&dao, 3, 30, _("Unknown"));
 
 	/* Set the `OS Name'. */
-	if (uname (&unamedata) == -1) {
-	        char  *tmp = g_strdup_printf (_("Unknown"));
-		GnmValue *r = value_new_string (tmp);
-		g_free (tmp);
-		dao_set_cell_value (&dao, 4, 30, r);
-	} else {
-	        char  *tmp = g_strdup_printf (_("%s (%s)"),
-					      unamedata.sysname,
-					      unamedata.release);
-		GnmValue *r = value_new_string (tmp);
-		g_free (tmp);
-		dao_set_cell_value (&dao, 4, 30, r);
+	{
+#ifdef HAVE_UNAME
+		struct utsname unamedata;
+		if (uname (&unamedata) != -1) {
+			GnmValue *r = value_new_string_nocopy (
+				g_strdup_printf ("%s (%s)",
+				unamedata.sysname, unamedata.release));
+			dao_set_cell_value (&dao, 4, 30, r);
+		} else
+#endif
+			dao_set_cell (&dao, 4, 30, _("Unknown"));
 	}
 
 

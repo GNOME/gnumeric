@@ -241,12 +241,12 @@ gnumeric_cell (FunctionEvalInfo *ei, GnmValue **argv)
 	 * the worksheet name, but they can't make any other changes to CELL?!
 	 */
 	} else if (!g_ascii_strcasecmp (info_type, "filename")) {
-		char *name = workbook_get_uri (ei->pos->sheet->workbook);
+		char const *name = workbook_get_uri (ei->pos->sheet->workbook);
 
 		if (name == NULL)
 			return value_new_string ("");
 		else
-			return value_new_string_nocopy (name);
+			return value_new_string (name);
 
 	/* from CELL */
 	/* Backwards compatibility w/123 - unnecessary */

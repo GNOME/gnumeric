@@ -41,7 +41,6 @@
 #include <math.h>
 #include "foo-canvas-rect-ellipse.h"
 #include "foo-canvas-util.h"
-#include <gdk/gdkx.h>
 #include <string.h>
 
 #ifdef HAVE_RENDER

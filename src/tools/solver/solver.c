@@ -600,15 +600,21 @@ solver_run (WorkbookControl *wbc, Sheet *sheet,
 	SolverProgram     program;
 	SolverResults     *res;
 	GTimeVal          start, end;
+#ifdef HAVE_TIMES
 	struct tms        buf;
 
-	g_get_current_time (&start);
 	times (&buf);
+#warning what is the equivalent of times for win32
+#endif
+
+	g_get_current_time (&start);
 	if (check_program_definition_failures (sheet, param, &res, errmsg))
 	        return NULL;
 
+#ifdef HAVE_TIMES
 	res->time_user   = - buf.tms_utime / (gnm_float) sysconf (_SC_CLK_TCK);
 	res->time_system = - buf.tms_stime / (gnm_float) sysconf (_SC_CLK_TCK);
+#endif
 	res->time_real   = - (start.tv_sec +
 			      start.tv_usec / (gnm_float) G_USEC_PER_SEC);
 	save_original_values (res, param, sheet);
@@ -621,9 +627,14 @@ solver_run (WorkbookControl *wbc, Sheet *sheet,
 
         res->status = alg->solve_fn (program);
 	g_get_current_time (&end);
+#ifdef HAVE_TIMES
 	times (&buf);
 	res->time_user   += buf.tms_utime / (gnm_float) sysconf (_SC_CLK_TCK);
 	res->time_system += buf.tms_stime / (gnm_float) sysconf (_SC_CLK_TCK);
+#else
+	res->time_user   = 0;
+	res->time_system = 0;
+#endif
 	res->time_real   += end.tv_sec + end.tv_usec /
 	        (gnm_float) G_USEC_PER_SEC;
 	res->n_iterations = alg->get_iterations_fn (program);

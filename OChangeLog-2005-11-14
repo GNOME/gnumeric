@@ -1,3 +1,7 @@
+2004-07-02  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : Make gconf conditional and test for uname
+
 2004-07-01  Jody Goldberg <jody@gnome.org>
 
 	* src/cmd-edit.c (sv_select_cur_depends) : find deps even for empty

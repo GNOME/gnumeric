@@ -17,7 +17,6 @@
  */
 
 #include <gnumeric-config.h>
-#include <gdk/gdkx.h>
 #include "gnumeric-cell-renderer-expr-entry.h"
 #include "gnumeric-expr-entry.h"
 #include "workbook-edit.h"

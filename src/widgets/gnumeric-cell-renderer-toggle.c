@@ -21,7 +21,6 @@
  */
 
 #include <gnumeric-config.h>
-#include <gdk/gdkx.h>
 #include "gnumeric-cell-renderer-toggle.h"
 
 static void gnumeric_cell_renderer_toggle_get_property  (GObject         *object,

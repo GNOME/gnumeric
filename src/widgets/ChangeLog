@@ -1,3 +1,9 @@
+2004-07-02  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric-cell-renderer-expr-entry.c : remove unnecessary gdkx.h
+	* gnumeric-cell-renderer-text.c : ditto
+	* gnumeric-cell-renderer-toggle.c : ditto
+
 2004-06-01  Morten Welinder  <terra@gnome.org>
 
 	* widget-font-selector.c (size_selected): Plug leak.
