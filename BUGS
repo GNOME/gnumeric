@@ -12,8 +12,6 @@ Release Critical
 
 * Look into octave/matlab filters
 
-YIELDDISC	(test fails by alot)
-
 * Add a gsf-input-iconv
 * Use it to handle non ascii xml from 1.0.x with no known encoding
 * compartmentalize gconf support
@@ -375,7 +373,7 @@ Pending Patches
 Functions
     ODDFPRICE	(test fails)
     ODDFYEILD	(unimplementeD)
-    YIELDDISC	(test fails by alot)
+    YIELDDISC   (basis 1 seems differnent)
     Convert the code from sc to use our more accurate date routines
     WORKDAY	Add holiday support
     YEARFRAC	Implement
