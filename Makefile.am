@@ -1,4 +1,4 @@
-SUBDIRS = . intl po macros idl src plugins doc icons templates tools omf-install
+SUBDIRS = m4  . po macros idl src plugins doc icons templates tools omf-install
 
 XML_I18N_XML_KIND = --pass-through
 
@@ -39,7 +39,7 @@ oafdir = $(datadir)/oaf
 oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
 oaf_in_files = GNOME_Gnumeric.oaf.in
 
-EXTRA_DIST = \
+EXTRA_DIST = config.rpath  \
 	gnumeric.desktop.in gnumeric.spec.in gnumericConf.sh.in		\
 	gnumeric.keys.in gnumeric.mime $(appicon_DATA) 			\
 	gnumeric.xsd							\
@@ -89,3 +89,5 @@ dist-hook: gnumeric.spec
 
 
 
+
+ACLOCAL_AMFLAGS = -I m4

@@ -363,6 +363,7 @@ int
 x_clipboard_bind_workbook (WorkbookControlGUI *wbcg)
 {
 	GtkWidget *toplevel = GTK_WIDGET (wb_control_gui_toplevel (wbcg));
+	GdkAtom GDK_SELECTION_CLIPBOARD = gdk_atom_intern ("CLIPBOARD", FALSE);
 	GtkTargetEntry targets;
 
 	wbcg->clipboard_paste_callback_data = NULL;

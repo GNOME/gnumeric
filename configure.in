@@ -707,7 +707,7 @@ dnl = End tests for jw
 dnl ====================================
 
 
-AC_OUTPUT([
+AC_OUTPUT([ m4/Makefile 
 gnumeric.spec
 Makefile
 src/Makefile
@@ -756,7 +756,7 @@ plugins/applix/Makefile
 plugins/gda/Makefile
 plugins/psiconv/Makefile
 plugins/mps/Makefile
-intl/Makefile
+m4/Makefile
 po/Makefile.in
 templates/Makefile
 templates/english/Makefile
