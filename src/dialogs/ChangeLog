@@ -1,3 +1,8 @@
+2004-09-27  Jody Goldberg <jody@gnome.org>
+
+	* dialog-paste-special.c (cb_paste_special_response) : don't forget to
+	  destroy the dialog.
+
 2004-09-26  Jody Goldberg <jody@gnome.org>
 
 	From : Yukihiro Nakai  <nakai@gnome.gr.jp>

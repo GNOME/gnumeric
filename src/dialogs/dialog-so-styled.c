@@ -104,9 +104,8 @@ dialog_so_styled (WorkbookControlGUI *wbcg,
 			GNM_CMD_CONTEXT (wbcg), NULL, G_OBJECT (so)),
 		TRUE, TRUE, TRUE);
 	g_object_unref (default_style);
-	g_signal_connect (G_OBJECT (dialog),
-		"response", G_CALLBACK (cb_dialog_so_styled_response),
-		state);
+	g_signal_connect (G_OBJECT (dialog), "response",
+		G_CALLBACK (cb_dialog_so_styled_response), state);
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (dialog),
 		GNM_SO_STYLED_KEY);
 	g_object_set_data_full (G_OBJECT (dialog),

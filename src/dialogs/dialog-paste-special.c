@@ -170,6 +170,7 @@ cb_paste_special_response (GtkWidget *dialog,
 		SheetView *sv = wb_control_cur_sheet_view (wbc);
 		cmd_paste_to_selection (wbc, sv, result);
 	}
+	gtk_object_destroy (GTK_OBJECT (dialog));
 }
 
 void
@@ -252,9 +253,8 @@ dialog_paste_special (WorkbookControlGUI *wbcg)
 	gtk_widget_grab_focus (first_button);
 
 	/* a candidate for merging into attach guru */
-	g_signal_connect (G_OBJECT (state->dialog),
-		"response", G_CALLBACK (cb_paste_special_response),
-		state);
+	g_signal_connect (G_OBJECT (state->dialog), "response",
+		G_CALLBACK (cb_paste_special_response), state);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) cb_paste_special_free);
 	gnumeric_non_modal_dialog (wbcg_toplevel (state->wbcg),
