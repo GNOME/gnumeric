@@ -1,3 +1,13 @@
+2000-05-08  Jon K Hellan  <hellan@acm.org>
+
+	This change was committed a week ago, but I forgot the changelog:
+	
+	* src/dialogs/dialog-goto-cell.c (cb_row_selected): Make double
+	click on list work like "OK".
+
+	* src/dialogs/dialog-goto-cell.c (dialog_goto_cell): Remove
+	buttons which do not do anything yet.
+ 
 2000-05-07  Jon K Hellan  <hellan@acm.org>
 
 	* src/workbook.c (yield_focus): New callback: Give up focus when
