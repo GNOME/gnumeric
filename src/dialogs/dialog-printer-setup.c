@@ -1152,7 +1152,7 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 	pango_font_description_set_style (font_desc, PANGO_STYLE_NORMAL);
 	pango_font_description_set_variant (font_desc, PANGO_VARIANT_NORMAL);
 	pango_font_description_set_weight (font_desc, PANGO_WEIGHT_NORMAL);
-	pango_font_description_set_size (font_desc, 14);
+	pango_font_description_set_size (font_desc, 8 * PANGO_SCALE);
 
 	pi->left = foo_canvas_item_new (
 		foo_canvas_root (FOO_CANVAS (pi->canvas)),
