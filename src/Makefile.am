@@ -12,7 +12,6 @@ INCLUDES = 								\
 	-DGNUMERIC_DATADIR=\""$(gnumeric_datadir)"\"			\
 	-DGNUMERIC_LIBDIR=\""$(gnumeric_libdir)"\"			\
 	-DGNOME_ICONDIR=\""$(datadir)/pixmaps"\"			\
-	-DGNOME_DATADIR=\""$(datadir)"\"	 			\
 	-I$(includedir)				 			\
 	-I$(top_srcdir)							\
 	-I$(srcdir)							\
@@ -300,5 +299,6 @@ dist-hook:
 
 EXTRA_DIST = portability.h.in GNOME_Gnumeric.xml
 
-uidir=$(datadir)/gnome/ui
+# Bonobo requires things to be in a subdir of this form
+uidir=$(gnumeric_datadir)/gnome/ui
 ui_DATA = GNOME_Gnumeric.xml

@@ -1,3 +1,8 @@
+2001-06-26  Jody Goldberg <jgoldberg@home.com>
+
+	* fn-lookup.c (lookup_functions_init) : fix the args for hyperlink.
+	(help_hyperlink) : fix the arg descriptions.
+
 2001-06-25  Jody Goldberg <jgoldberg@home.com>
 
 	* fn-information.c (translate_table) : partial patch.  Should this be

@@ -3551,8 +3551,11 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 
 	bonobo_ui_component_add_verb_list_with_data (wbcg->uic, verbs, wbcg);
 
-	/* TODO : switch to gnumeric_sys_data_dir */
-	bonobo_ui_util_set_ui (wbcg->uic, GNOME_DATADIR, "GNOME_Gnumeric.xml", "gnumeric");
+	{
+		char const *dir = gnumeric_sys_data_dir (NULL);
+		bonobo_ui_util_set_ui (wbcg->uic,  dir,
+				       "GNOME_Gnumeric.xml", "gnumeric");
+	}
 
 	TOGGLE_REGISTER (display_formulas, SheetDisplayFormulas);
 	TOGGLE_REGISTER (hide_zero, SheetHideZeros);

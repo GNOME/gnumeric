@@ -1,3 +1,13 @@
+2001-06-26  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-control-gui.c (workbook_control_gui_init) : load the ui
+	  file from a version specific location.
+
+	* src/Makefile.am : No need for GNOME_DATADIR anymore.
+
+	* gnumeric.spec.in : Move the bonobo ui file into a version specific
+	  location.
+
 2001-06-25  Jody Goldberg <jgoldberg@home.com>
 
 	* src/xml-io.c (xml_not_used_old_array_spec) : fix a few warnings.

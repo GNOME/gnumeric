@@ -97,11 +97,12 @@ fi
 %config %{prefix}/share/gnome/apps/Applications/gnumeric.desktop
 %{prefix}/share/gnome/help/gnumeric/C/images/*
 %{prefix}/share/gnome/help/gnumeric/C/*.*
-%{prefix}/share/gnome/ui/GNOME_Gnumeric.xml
 %{prefix}/share/gnumeric/%{version}/autoformat-templates/*/*
 %{prefix}/share/gnumeric/%{version}/glade/*.glade
 %{prefix}/share/gnumeric/%{version}/python/*
 %{prefix}/share/gnumeric/%{version}/templates/*.gnumeric
+%{prefix}/share/gnumeric/%{version}/idl/*.idl
+%{prefix}/share/gnumeric/%{version}/gnome/ui/GNOME_Gnumeric.xml
 #%{prefix}/share/locale/*/LC_MESSAGES/*.mo
 %{prefix}/share/mc/templates/gnumeric.desktop
 %{prefix}/share/mime-info/gnumeric.keys
@@ -110,9 +111,10 @@ fi
 %{prefix}/share/pixmaps/gnumeric/*
 %{prefix}/share/pixmaps/*.png
 %{prefix}/lib/gnumericConf.sh
-%{prefix}/share/gnumeric/%{version}/idl/*.idl
 
 # Don't even think about it.  -MW
+# Gnumeric is not ready for a devel package yet.  Please wait until we split
+# out libgnumeric.
 #%files devel
 #%defattr (-, bin, bin)
 #%{prefix}/lib/gnumericConf.sh
@@ -121,6 +123,9 @@ fi
 ##%{prefix}/lib/gnumeric/%{version}/plugins/*/*.la
 
 %changelog
+* Tue Jun 26 2001 Jody Goldberg <jgoldberg@home.com>
+- load the bonobo ui file from a version specific location
+
 * Sat May 19 2001 Jody Goldberg <jgoldberg@home.com>
 - update the gal req
 

@@ -1054,7 +1054,7 @@ gnumeric_rows (FunctionEvalInfo *ei, Value **args)
 
 static char *help_hyperlink = {
 	N_("@FUNCTION=HYPERLINK\n"
-	   "@SYNTAX=HYPERLINK(reference)\n"
+	   "@SYNTAX=HYPERLINK(link_location, optional_label)\n"
 
 	   "@DESCRIPTION="
 	   "The HYPERLINK function currently returns its 2nd argument, "
@@ -1141,7 +1141,7 @@ lookup_functions_init (void)
 			    "?Af|b","val,range,col_idx,approx",
 			    &help_hlookup, gnumeric_hlookup);
 	function_add_args  (cat, "hyperlink",
-			    "s|?","link_location, contents",
+			    "s|s","link_location, optional_label",
 			    &help_hyperlink, gnumeric_hyperlink);
 	function_add_args  (cat, "indirect",  "s|b","ref_string,format",
 			    &help_indirect, gnumeric_indirect);
