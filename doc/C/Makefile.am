@@ -203,6 +203,7 @@ figures/number-format-buttonbar.png 	\
 figures/number-format-color-dialog.png 	\
 figures/number-format-dialog.png 	\
 figures/number-format-font-dialog.png 	\
+figures/number-format-justification.png 	\
 figures/number-format-justification-dialog-2.png 	\
 figures/number-format-border-dialog.png	\
 figures/number-format-protection.png	\
@@ -316,9 +317,17 @@ sgml_ents = 					\
 	toolbars.sgml				\
 	worksheet.sgml
 
+gnumeric_helpdir = $(datadir)/gnome/help/gnumeric/$(lang)
+gnumeric_help_DATA = topic.dat
 
-EXTRA_DIST = gnumeric.1
+EXTRA_DIST = gnumeric.1 topic.dat
 
 dist-hook : app-dist-hook
+
+CLEANFILES = omf_timestamp
+
+uninstall-hook:
+	$(RM) $(docdir)/*.css $(docdir)/*.html $(docdir)/*.sgml
+	cd $(docdir) && rm -f $(figs)
 
 include $(srcdir)/../gnumeric-doc.make
