@@ -14,3 +14,4 @@ config.status
 stamp-h
 Makefile
 stamp.h
+stamp-h.in
