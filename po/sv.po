@@ -6,31 +6,31 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.27\n"
-"POT-Creation-Date: 1999-07-12 18:18-0500\n"
-"PO-Revision-Date: 1999-06-22 19:12+0200\n"
+"POT-Creation-Date: 1999-07-18 12:40+0200\n"
+"PO-Revision-Date: 1999-07-18 14:30+0200\n"
 "Last-Translator: Richard Hult <rhult@hem2.passagen.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: plugins/excel/boot.c:67
+#: plugins/excel/boot.c:75
 msgid "Saving over old files disabled for safety"
 msgstr "Överskrivning av gamla filer är inaktiverad pga säkerhetskäl"
 
-#: plugins/excel/boot.c:75
+#: plugins/excel/boot.c:83
 msgid "Can't open"
 msgstr "Kan inte öppna"
 
-#: plugins/excel/boot.c:108
+#: plugins/excel/boot.c:116
 msgid "Microsoft(R) Excel file format"
 msgstr "Microsoft(R) Excel filformat"
 
-#: plugins/excel/boot.c:109
+#: plugins/excel/boot.c:117
 msgid "Excel(R) 97 file format"
 msgstr "Excel(R) 97 filformat"
 
-#: plugins/excel/boot.c:110
+#: plugins/excel/boot.c:118
 msgid "Excel(R) 95 file format"
 msgstr "Excel(R) 95 filformat"
 
@@ -38,8 +38,8 @@ msgstr "Excel(R) 95 filformat"
 msgid "Argument must be a Guile expression"
 msgstr "Argumentet måste vara ett Guile-uttryck"
 
-#: plugins/guile/plugin.c:237 src/expr.c:1145 src/fn-sheet.c:35
-#: src/fn-string.c:291
+#: plugins/guile/plugin.c:237 src/expr.c:1112 src/fn-sheet.c:35
+#: src/fn-string.c:292
 msgid "Invalid number of arguments"
 msgstr "Ogiltigt antal argument"
 
@@ -101,96 +101,88 @@ msgid "Miguel de Icaza, main programmer."
 msgstr "Miguel de Icaza, huvudprogrammerare."
 
 #: src/about.c:25
-#, fuzzy
-msgid "Adrian Likins, Documentation, debugging."
-msgstr "Adrian Likins, Dokumentation, felsökning"
+msgid "Sean Atkinson, Functions and X-Base importing."
+msgstr "Sean Atkinson, Excel-funktioner."
 
 #: src/about.c:26
-#, fuzzy
-msgid "Bruno Unna, Excel bits."
-msgstr "Bruno Unna, Excel-kod"
+msgid "Tom Dyas, Plugin support."
+msgstr "Tom Dyas, Tilläggsstöd."
 
 #: src/about.c:27
+msgid "Jody Goldberg, Excel hacker."
+msgstr "Jody Goldberg, Excel-hacker."
+
+#: src/about.c:28
+msgid "Jukka-Pekka Iivonen, numerous functions and tools."
+msgstr "Jukka-Pekka Iivonen, många funktioner."
+
+#: src/about.c:29
+msgid "Jakub Jelinek, Gnumeric hacker."
+msgstr "Jakub Jelinek, Gnumeric-hacker."
+
+#: src/about.c:30
 msgid "Chris Lahey, Number format engine."
 msgstr "Chris Lahey, Talformateringsmotor."
 
-#: src/about.c:28
-msgid "Daniel Veillard, XML support."
-msgstr "Daniel Veillard, XML-stöd."
+#: src/about.c:31
+msgid "Adrian Likins, Documentation, debugging."
+msgstr "Adrian Likins, Dokumentation, felsökning."
 
-#: src/about.c:29
+#: src/about.c:32
+msgid "Takashi Matsuda, simple text plugin."
+msgstr "Takashi Matsuda, enkel text-tillägg."
+
+#: src/about.c:33
 msgid "Federico Mena, Canvas support."
 msgstr "Federico Mena, Canvas-stöd."
 
-#: src/about.c:30
-msgid "Jody Goldberg, Excel hacker."
-msgstr ""
-
-#: src/about.c:31
-#, fuzzy
-msgid "Jukka-Pekka Iivonen, numerous functions and tools."
-msgstr "Jukka-Pekka Iivonen, många funktioner"
-
-#: src/about.c:32
-#, fuzzy
-msgid "Mark Probst, Guile support."
-msgstr "Mark Probst, Guile-stöd"
-
-#: src/about.c:33
-#, fuzzy
-msgid "Michael Meeks, Excel and OLE2 importing."
-msgstr "Michael Meeks, Excel- och OLE2-importering"
-
 #: src/about.c:34
-#, fuzzy
-msgid "Morten Welinder, Gnumeric hacker."
-msgstr "Morten Welinder, Gnumeric-hacker"
+msgid "Michael Meeks, Excel and OLE2 importing."
+msgstr "Michael Meeks, Excel- och OLE2-importering."
 
 #: src/about.c:35
-#, fuzzy
-msgid "Jakub Jelinek, Gnumeric hacker."
-msgstr "Jakub Jelinek, Gnumeric-hacker"
+msgid "Mark Probst, Guile support."
+msgstr "Mark Probst, Guile-stöd."
 
 #: src/about.c:36
 msgid "Rasca, HTML, troff, LaTeX exporters."
 msgstr ""
 
 #: src/about.c:37
-#, fuzzy
-msgid "Sean Atkinson, Functions and X-Base importing."
-msgstr "Sean Atkinson, Excel-funktioner"
+msgid "Vincent Renardias, CSV support, French localisation."
+msgstr "Vincent Renardias, CSV-stöd, fransk översättning."
 
 #: src/about.c:38
-#, fuzzy
-msgid "Takashi Matsuda, simple text plugin."
-msgstr "Takashi Matsuda, enkel text-tillägg"
+msgid "Bruno Unna, Excel bits."
+msgstr "Bruno Unna, Excel-kod."
 
 #: src/about.c:39
-msgid "Tom Dyas, Plugin support."
-msgstr "Tom Dyas, Tilläggsstöd."
+msgid "Daniel Veillard, XML support."
+msgstr "Daniel Veillard, XML-stöd."
 
 #: src/about.c:40
-#, fuzzy
 msgid "Vladimir Vuksan, financial functions."
-msgstr "Vladimir Vuksan, finansiella funktioner"
+msgstr "Vladimir Vuksan, finansiella funktioner."
 
 #: src/about.c:41
-#, fuzzy
-msgid "Vincent Renardias, CSV support."
-msgstr "Vincent Renardias, CSV-stöd"
+msgid "Morten Welinder, Gnumeric hacker."
+msgstr "Morten Welinder, Gnumeric-hacker."
 
 #: src/about.c:55
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
+#: src/about.c:56
+msgid "(C) 1998-1999 Miguel de Icaza"
+msgstr ""
+
 #: src/about.c:63
-#, fuzzy
 msgid "Gnumeric Home Page"
-msgstr "Gnumeric: "
+msgstr "Gnumeric hemsida"
 
 #: src/about.c:65
 msgid "Gnumeric Support page"
-msgstr ""
+msgstr "Gnumeric Supportsida"
 
 #: src/dates.c:14
 msgid "*Sun"
@@ -408,7 +400,7 @@ msgid "Left"
 msgstr "Vänster"
 
 #: src/dialog-cell-format.c:362 src/dialog-cell-format.c:371
-#: src/workbook.c:1041
+#: src/workbook.c:1052
 msgid "Center"
 msgstr "Centrera"
 
@@ -435,12 +427,12 @@ msgstr "Underkant"
 #. Vertical alignment
 #: src/dialog-cell-format.c:428 src/print.glade.h:9
 msgid "Vertical"
-msgstr "Vertikal"
+msgstr "Lodrätt"
 
 #. Horizontal alignment
 #: src/dialog-cell-format.c:432 src/print.glade.h:10
 msgid "Horizontal"
-msgstr "Horisontell"
+msgstr "Vågrätt"
 
 #: src/dialog-cell-format.c:435
 msgid "Auto return"
@@ -466,11 +458,11 @@ msgstr "Ingen ändring"
 
 #: src/dialog-cell-format.c:642
 msgid "Background configuration"
-msgstr "Bakgrundsinställning"
+msgstr "Cellskuggning"
 
 #: src/dialog-cell-format.c:650
 msgid "Use solid color"
-msgstr "Använd solid färg"
+msgstr "Använd helfylld färg"
 
 #: src/dialog-cell-format.c:652
 msgid "Use a pattern"
@@ -485,9 +477,8 @@ msgid "Alignment"
 msgstr "Justering"
 
 #: src/dialog-cell-format.c:925
-#, fuzzy
 msgid "Font"
-msgstr "Räkna"
+msgstr "Typsnitt"
 
 #: src/dialog-cell-format.c:926
 msgid "Coloring"
@@ -598,9 +589,8 @@ msgid "Formats"
 msgstr "Format"
 
 #: src/dialog-paste-special.c:29
-#, fuzzy
 msgid "Add "
-msgstr "Lägg till"
+msgstr "Addera "
 
 #: src/dialog-paste-special.c:30
 msgid "Substract"
@@ -640,8 +630,8 @@ msgstr "Egen"
 
 #: src/dialog-zoom.c:87
 #, c-format
-msgid "Zoom factor should be at least 50%"
-msgstr "Zoomfaktorn bör vara minst 50%"
+msgid "Zoom factor should be at least 25%"
+msgstr "Zoomfaktorn bör vara minst 25%"
 
 #: src/dialog-zoom.c:93
 #, c-format
@@ -653,73 +643,66 @@ msgstr "Zoomfaktorn bör inte vara över 900%"
 msgid "Can not create file %s\n"
 msgstr "Kan inte skapa fil %s\n"
 
-#: src/expr.c:133
-#, fuzzy
-msgid "Internal Error"
-msgstr "Syntaxfel"
-
-#: src/expr.c:288
+#: src/expr.c:255
 msgid "Syntax error"
 msgstr "Syntaxfel"
 
-#: src/expr.c:292
+#: src/expr.c:259
 msgid "Missing quote"
 msgstr "Apostrof saknas"
 
-#: src/expr.c:296
+#: src/expr.c:263
 msgid "Impossible!"
 msgstr "Omöjligt!"
 
-#: src/expr.c:1118
-#, fuzzy
+#: src/expr.c:1085
 msgid "Internal error"
-msgstr "Syntaxfel"
+msgstr "Internt fel"
 
-#: src/expr.c:1207 src/expr.c:1524 src/expr.c:1711 src/fn-misc.c:190
-#: src/fn-string.c:55 src/fn-string.c:77 src/fn-string.c:98
-#: src/fn-string.c:153 src/fn-string.c:187 src/fn-string.c:262
-#: src/fn-string.c:338 src/fn-string.c:373 src/fn-string.c:547
-#: src/fn-string.c:588 src/fn-string.c:649 src/fn-string.c:691
+#: src/expr.c:1174 src/expr.c:1491 src/expr.c:1678 src/fn-misc.c:194
+#: src/fn-string.c:56 src/fn-string.c:78 src/fn-string.c:99
+#: src/fn-string.c:154 src/fn-string.c:188 src/fn-string.c:263
+#: src/fn-string.c:339 src/fn-string.c:374 src/fn-string.c:548
+#: src/fn-string.c:589 src/fn-string.c:650
 msgid "Type mismatch"
 msgstr "Typerna stämmer inte överens"
 
-#: src/expr.c:1286
+#: src/expr.c:1253
 msgid "Function does not exist"
 msgstr "Funktionen existerar inte"
 
-#: src/expr.c:1290
+#: src/expr.c:1257
 msgid "Calling non-function"
 msgstr "Anropar icke-funktion"
 
-#: src/expr.c:1467
+#: src/expr.c:1434
 msgid "Type error"
 msgstr "Typfel"
 
-#: src/expr.c:1498
-#, fuzzy
+#: src/expr.c:1465
 msgid "Internal type error"
-msgstr "Typfel"
+msgstr "Internt typfel"
 
-#: src/expr.c:1692
+#: src/expr.c:1659
 msgid "Reference to newborn cell"
 msgstr "Referens till nyfödd cell"
 
-#: src/expr.c:1762
+#: src/expr.c:1731
 msgid "Unknown evaluation error"
 msgstr "Okänt evalueringsfel"
 
-#: src/expr.c:2119
+#: src/expr.c:2088
 msgid "#Reference to deleted cell!"
 msgstr "#Referens till nyfödd cell!"
 
-#: src/expr.c:2144
+#: src/expr.c:2113
 msgid "#Reference to deleted range!"
 msgstr "#Referens till nyfödd cell!"
 
 #: src/file.c:170
-#, fuzzy, c-format
+#, c-format
 msgid "Could not read file %s"
-msgstr "Kan inte skapa fil %s\n"
+msgstr "Kunde inte läsa filen %s"
 
 #: src/file.c:330
 msgid "File format:"
@@ -1676,11 +1659,11 @@ msgstr ""
 msgid "Maths / Trig."
 msgstr ""
 
-#: src/fn-misc.c:21
+#: src/fn-misc.c:22
 msgid "Argument mismatch"
 msgstr "Fel typ på argument"
 
-#: src/fn-misc.c:35
+#: src/fn-misc.c:36
 msgid ""
 "@FUNCTION=ISERROR\n"
 "@SYNTAX=ISERROR(exp)\n"
@@ -1689,7 +1672,7 @@ msgid ""
 "@SEEALSO=ERROR"
 msgstr ""
 
-#: src/fn-misc.c:62
+#: src/fn-misc.c:64
 msgid ""
 "@FUNCTION=ISNA\n"
 "@SYNTAX=ISNA()\n"
@@ -1697,7 +1680,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-misc.c:93
+#: src/fn-misc.c:97
 msgid ""
 "@FUNCTION=ISERR\n"
 "@SYNTAX=ISERR()\n"
@@ -1706,7 +1689,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-misc.c:121
+#: src/fn-misc.c:125
 msgid ""
 "@FUNCTION=ERROR.TYPE\n"
 "@SYNTAX=ERROR(exp)\n"
@@ -1714,7 +1697,7 @@ msgid ""
 "@SEEALSO=ISERROR"
 msgstr ""
 
-#: src/fn-misc.c:160
+#: src/fn-misc.c:164
 msgid ""
 "@FUNCTION=NA\n"
 "@SYNTAX=NA()\n"
@@ -1722,7 +1705,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-misc.c:176
+#: src/fn-misc.c:180
 msgid ""
 "@FUNCTION=ERROR\n"
 "@SYNTAX=ERROR(text)\n"
@@ -1731,7 +1714,7 @@ msgid ""
 "@SEEALSO=ISERROR"
 msgstr ""
 
-#: src/fn-misc.c:200
+#: src/fn-misc.c:201
 msgid "Miscellaneous"
 msgstr ""
 
@@ -1746,11 +1729,10 @@ msgid ""
 msgstr ""
 
 #: src/fn-sheet.c:75
-#, fuzzy
 msgid "Sheet"
-msgstr "_Blad"
+msgstr "Blad"
 
-#: src/fn-string.c:17
+#: src/fn-string.c:18
 msgid ""
 "@FUNCTION=CHAR\n"
 "@SYNTAX=CHAR(x)\n"
@@ -1758,7 +1740,7 @@ msgid ""
 "@SEEALSO=CODE"
 msgstr ""
 
-#: src/fn-string.c:39
+#: src/fn-string.c:40
 msgid ""
 "@FUNCTION=CODE\n"
 "@SYNTAX=CODE(char)\n"
@@ -1766,7 +1748,7 @@ msgid ""
 "@SEEALSO=CHAR"
 msgstr ""
 
-#: src/fn-string.c:62
+#: src/fn-string.c:63
 msgid ""
 "@FUNCTION=EXACT\n"
 "@SYNTAX=EXACT(string1, string2)\n"
@@ -1775,7 +1757,7 @@ msgid ""
 "@SEEALSO=LEN"
 msgstr ""
 
-#: src/fn-string.c:84
+#: src/fn-string.c:85
 msgid ""
 "@FUNCTION=LEN\n"
 "@SYNTAX=LEN(string)\n"
@@ -1783,7 +1765,7 @@ msgid ""
 "@SEEALSO=CHAR, CODE"
 msgstr ""
 
-#: src/fn-string.c:104
+#: src/fn-string.c:105
 msgid ""
 "@FUNCTION=LEFT\n"
 "@SYNTAX=LEFT(text[,num_chars])\n"
@@ -1792,7 +1774,7 @@ msgid ""
 "@SEEALSO=MID, RIGHT"
 msgstr ""
 
-#: src/fn-string.c:137
+#: src/fn-string.c:138
 msgid ""
 "@FUNCTION=LOWER\n"
 "@SYNTAX=LOWER(text)\n"
@@ -1800,7 +1782,7 @@ msgid ""
 "@SEEALSO=UPPER"
 msgstr ""
 
-#: src/fn-string.c:166
+#: src/fn-string.c:167
 msgid ""
 "@FUNCTION=MID\n"
 "@SYNTAX=MID(string, position, length)\n"
@@ -1809,11 +1791,11 @@ msgid ""
 "@SEEALSO=LEFT, RIGHT"
 msgstr ""
 
-#: src/fn-string.c:193 src/fn-string.c:595
+#: src/fn-string.c:194 src/fn-string.c:596
 msgid "Invalid arguments"
 msgstr "Ogiltiga argument"
 
-#: src/fn-string.c:209
+#: src/fn-string.c:210
 msgid ""
 "@FUNCTION=RIGHT\n"
 "@SYNTAX=RIGHT(text[,num_chars])\n"
@@ -1822,7 +1804,7 @@ msgid ""
 "@SEEALSO=MID, LEFT"
 msgstr ""
 
-#: src/fn-string.c:246
+#: src/fn-string.c:247
 msgid ""
 "@FUNCTION=UPPER\n"
 "@SYNTAX=UPPER(text)\n"
@@ -1830,7 +1812,7 @@ msgid ""
 "@SEEALSO=LOWER"
 msgstr ""
 
-#: src/fn-string.c:276
+#: src/fn-string.c:277
 msgid ""
 "@FUNCTION=CONCATENATE\n"
 "@SYNTAX=CONCATENATE(string1[,string2...])\n"
@@ -1838,7 +1820,7 @@ msgid ""
 "@SEEALSO=LEFT, MID, RIGHT"
 msgstr ""
 
-#: src/fn-string.c:321
+#: src/fn-string.c:322
 msgid ""
 "@FUNCTION=REPT\n"
 "@SYNTAX=REPT(string,num)\n"
@@ -1847,12 +1829,12 @@ msgid ""
 msgstr ""
 
 #. start position too high or low
-#: src/fn-string.c:340 src/fn-string.c:415 src/fn-string.c:420
-#: src/fn-string.c:457
+#: src/fn-string.c:341 src/fn-string.c:416 src/fn-string.c:421
+#: src/fn-string.c:458
 msgid "Invalid argument"
 msgstr "Ogiltigt argument"
 
-#: src/fn-string.c:356
+#: src/fn-string.c:357
 msgid ""
 "@FUNCTION=CLEAN\n"
 "@SYNTAX=CLEAN(string)\n"
@@ -1860,7 +1842,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-string.c:392
+#: src/fn-string.c:393
 msgid ""
 "@FUNCTION=FIND\n"
 "@SYNTAX=FIND(string1,string2[,start])\n"
@@ -1869,7 +1851,7 @@ msgid ""
 "@SEEALSO=EXACT, LEN, MID, SEARCH"
 msgstr ""
 
-#: src/fn-string.c:426
+#: src/fn-string.c:427
 msgid ""
 "@FUNCTION=FIXED\n"
 "@SYNTAX=FIXED(num, [decimals, no_commas])\n"
@@ -1878,7 +1860,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-string.c:530
+#: src/fn-string.c:531
 msgid ""
 "@FUNCTION=PROPER\n"
 "@SYNTAX=PROPER(string)\n"
@@ -1886,7 +1868,7 @@ msgid ""
 "@SEEALSO=LOWER, UPPER"
 msgstr ""
 
-#: src/fn-string.c:569
+#: src/fn-string.c:570
 msgid ""
 "@FUNCTION=REPLACE\n"
 "@SYNTAX=REPLACE(old,start,num,new)\n"
@@ -1894,7 +1876,7 @@ msgid ""
 "@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM"
 msgstr ""
 
-#: src/fn-string.c:615
+#: src/fn-string.c:616
 msgid ""
 "@FUNCTION=T\n"
 "@SYNTAX=T(value)\n"
@@ -1903,7 +1885,7 @@ msgid ""
 "@SEEALSO=CELL, N, VALUE"
 msgstr ""
 
-#: src/fn-string.c:633
+#: src/fn-string.c:634
 msgid ""
 "@FUNCTION=TRIM\n"
 "@SYNTAX=TRIM(text)\n"
@@ -1911,7 +1893,7 @@ msgid ""
 "@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE"
 msgstr ""
 
-#: src/fn-string.c:678
+#: src/fn-string.c:679
 msgid ""
 "@FUNCTION=VALUE\n"
 "@SYNTAX=VALUE(text)\n"
@@ -1919,7 +1901,7 @@ msgid ""
 "@SEEALSO=DOLLAR, FIXED, TEXT"
 msgstr ""
 
-#: src/fn-string.c:736
+#: src/fn-string.c:759
 msgid ""
 "@FUNCTION=SUBSTITUTE\n"
 "@SYNTAX=SUBSTITUTE(text, old, new [,num])\n"
@@ -1928,7 +1910,7 @@ msgid ""
 "@SEEALSO=REPLACE, TRIM"
 msgstr ""
 
-#: src/fn-string.c:807
+#: src/fn-string.c:830
 msgid ""
 "@FUNCTION=DOLLAR\n"
 "@SYNTAX=DOLLAR(num,[decimals])\n"
@@ -1936,7 +1918,7 @@ msgid ""
 "@SEEALSO=FIXED, TEXT, VALUE"
 msgstr ""
 
-#: src/fn-string.c:859
+#: src/fn-string.c:882
 msgid ""
 "@FUNCTION=SEARCH\n"
 "@SYNTAX=SEARCH(text,within[,start_num])\n"
@@ -1955,10 +1937,9 @@ msgid ""
 "@SEEALSO=FIND"
 msgstr ""
 
-#: src/fn-string.c:1084
-#, fuzzy
+#: src/fn-string.c:1105
 msgid "String"
-msgstr "Varning"
+msgstr "Sträng"
 
 #: src/format.c:397
 msgid "black"
@@ -2208,9 +2189,8 @@ msgid "$#,##0.00_);[red]($#,##0.00)"
 msgstr "$#,##0.00_);[röd]($#,##0.00)"
 
 #: src/gnumeric-sheet.c:914
-#, fuzzy
 msgid "Solid"
-msgstr "Fetstil"
+msgstr "Helfylld"
 
 #: src/gnumeric-sheet.c:917
 #, c-format
@@ -2228,73 +2208,66 @@ msgid "25%"
 msgstr "25%"
 
 #: src/gnumeric-sheet.c:926
-#, fuzzy, c-format
+#, c-format
 msgid "12.5%"
-msgstr "25%"
+msgstr "12,5%"
 
 #: src/gnumeric-sheet.c:929
-#, fuzzy, c-format
+#, c-format
 msgid "6.25%"
-msgstr "25%"
+msgstr "6.25%"
 
 #: src/gnumeric-sheet.c:932
-#, fuzzy
 msgid "Horizontal Stripe"
-msgstr "Horisontella linjer"
+msgstr "Vågräta ränder"
 
 #: src/gnumeric-sheet.c:935
-#, fuzzy
 msgid "Vertical Stripe"
-msgstr "Vertikala linjer"
+msgstr "Lodräta ränder"
 
 #: src/gnumeric-sheet.c:938
-msgid "Reverse Diagonal Stripe"
+msgid "Omvända diagonala ränder"
 msgstr ""
 
 #: src/gnumeric-sheet.c:941
-#, fuzzy
 msgid "Diagonal Stripe"
-msgstr "Diagonala linjer"
+msgstr "Diagonala ränder"
 
 #: src/gnumeric-sheet.c:944
-#, fuzzy
 msgid "Diagonal Crosshatch"
-msgstr "Diagonala linjer"
+msgstr "Diagonala rutor"
 
 #: src/gnumeric-sheet.c:947
 msgid "Thick Diagonal Crosshatch"
-msgstr ""
+msgstr "Tjocka diagonala rutor"
 
 #: src/gnumeric-sheet.c:950
-#, fuzzy
 msgid "Thin Horizontal Stripe"
-msgstr "Horisontella linjer"
+msgstr "Tunna vågräta ränder"
 
 #: src/gnumeric-sheet.c:953
-#, fuzzy
 msgid "Thin Vertical Stripe"
-msgstr "Vertikala linjer"
+msgstr "Tunna lodräta ränder"
 
 #: src/gnumeric-sheet.c:956
 msgid "Thin Reverse Diagonal Stripe"
-msgstr ""
+msgstr "Tunna omvända diagonala ränder"
 
 #: src/gnumeric-sheet.c:959
-#, fuzzy
 msgid "Thin Diagonal Stripe"
-msgstr "Diagonala linjer"
+msgstr "Tunna diagonala ränder"
 
 #: src/gnumeric-sheet.c:962
 msgid "Thin Crosshatch"
-msgstr ""
+msgstr "Tunna rutor"
 
 #: src/gnumeric-sheet.c:965
 msgid "Thin Diagonal Crosshatch"
-msgstr ""
+msgstr "Tunna diagonala rutor"
 
 #: src/gnumeric-util.c:19
 msgid "You cannot change part of an array."
-msgstr ""
+msgstr "Du kan inte ändra en del av ett fält."
 
 #: src/item-cursor.c:499
 msgid ""
@@ -2306,7 +2279,7 @@ msgstr ""
 "existerande cellerna i det området. Vill du ersätta\n"
 "innehållet i området?"
 
-#: src/item-cursor.c:580 src/item-grid.c:529 src/workbook.c:1029
+#: src/item-cursor.c:580 src/item-grid.c:529 src/workbook.c:1040
 msgid "Copy"
 msgstr "Kopiera"
 
@@ -2338,11 +2311,11 @@ msgstr "Flytta celler nedåt och flytta"
 msgid "Shift cells right and move"
 msgstr "Flytta celler åt höger och flytta"
 
-#: src/item-grid.c:528 src/workbook.c:1026
+#: src/item-grid.c:528 src/workbook.c:1037
 msgid "Cut"
 msgstr "Klipp ut"
 
-#: src/item-grid.c:530 src/workbook.c:1032
+#: src/item-grid.c:530 src/workbook.c:1043
 msgid "Paste"
 msgstr "Klistra in"
 
@@ -2375,22 +2348,21 @@ msgid "Enables debugging mesgs while reading excel workbooks"
 msgstr ""
 
 #: src/main.c:54
-#, fuzzy
 msgid "Enables debugging mesgs while reading excel functions"
-msgstr "Aktiverar felsökningsfunktioner"
+msgstr "Aktiverar felsökningsfunktioner för läsning av excel-funktioner"
 
 #: src/main.c:58
 msgid "Enables debugging mesgs while reading excel colours & patterns"
 msgstr ""
+"Aktiverar felsökningsfunktioner för läsning av excel-färger och -mönster"
 
 #: src/main.c:62
 msgid "Enables debugging mesgs while reading excel charts"
-msgstr ""
+msgstr "Aktiverar felsökningsfunktioner för läsning av excel-diagram"
 
 #: src/number-match.c:150
-#, fuzzy
 msgid "(([-+]?[0-9,]+)?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
-msgstr "(([-+]?[0-9,])?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
+msgstr "(([-+]?[0-9,]+)?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
 
 #: src/plugin-manager.c:95 src/plugin-manager.c:96
 msgid "Name"
@@ -2463,473 +2435,473 @@ msgstr "Kunde inte aktivera objekt %s"
 msgid "I was unable to the bind object"
 msgstr "Kunde inte binda objektet"
 
-#: src/workbook.c:377
+#: src/workbook.c:386
 msgid "Warning"
 msgstr "Varning"
 
-#: src/workbook.c:385
+#: src/workbook.c:394
 #, c-format
 msgid "Workbook %s has unsaved changes, save them?"
 msgstr "Arbetsboken %s har osparade ändringar, spara dem?"
 
-#: src/workbook.c:388
+#: src/workbook.c:397
 msgid "Workbook has unsaved changes, save them?"
 msgstr "Arbetsboken har osparade ändringar, spara dem?"
 
-#: src/workbook.c:577
+#: src/workbook.c:586
 msgid "Insert cols"
 msgstr "Infoga kolumner"
 
-#: src/workbook.c:596
+#: src/workbook.c:605
 msgid "Insert rows"
 msgstr "Infoga rader"
 
-#: src/workbook.c:692
+#: src/workbook.c:701
 msgid ">mm/dd/yyyy"
 msgstr ">mm/dd/åååå"
 
-#: src/workbook.c:711
+#: src/workbook.c:720
 msgid ">hh:mm"
 msgstr ">tt:mm"
 
-#: src/workbook.c:819
+#: src/workbook.c:828
 msgid "_New"
 msgstr "_Nytt"
 
-#: src/workbook.c:819
+#: src/workbook.c:828
 msgid "Create a new spreadsheet"
 msgstr "Skapa ett nytt kalkylark"
 
-#: src/workbook.c:823
-#, fuzzy
+#: src/workbook.c:832
 msgid "_Import"
-msgstr "_Sortera"
-
-#: src/workbook.c:823
-#, fuzzy
-msgid "Imports a file"
-msgstr "Omöjligt!"
+msgstr "_Importera"
 
 #: src/workbook.c:832
+msgid "Imports a file"
+msgstr "Importerar en fil"
+
+#: src/workbook.c:838
+msgid "Su_mmary..."
+msgstr ""
+
+#: src/workbook.c:838
+msgid "Summary information"
+msgstr ""
+
+#: src/workbook.c:843
 msgid "Plu_g-ins..."
 msgstr "Tillä_gg..."
 
-#: src/workbook.c:832
+#: src/workbook.c:843
 msgid "Gnumeric plugins"
 msgstr "Gnumeric-tillägg"
 
-#: src/workbook.c:853
+#: src/workbook.c:864
 msgid "_All"
 msgstr "_Allt"
 
-#: src/workbook.c:854
+#: src/workbook.c:865
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Ta bort markerade cellers formatering, kommentarer och innehåll"
 
-#: src/workbook.c:856
+#: src/workbook.c:867
 msgid "_Formats"
 msgstr "_Formatering"
 
-#: src/workbook.c:857
+#: src/workbook.c:868
 msgid "Clear the selected cells' formats"
 msgstr "Ta bort markerade cellers formatering"
 
-#: src/workbook.c:858
+#: src/workbook.c:869
 msgid "_Comments"
 msgstr "_Kommentarer"
 
-#: src/workbook.c:859
+#: src/workbook.c:870
 msgid "Clear the selected cells' comments"
 msgstr "Ta bort markerade cellers kommentarer"
 
-#: src/workbook.c:860
+#: src/workbook.c:871
 msgid "_Content"
 msgstr "_Innehåll"
 
-#: src/workbook.c:861
+#: src/workbook.c:872
 msgid "Clear the selected cells' contents"
 msgstr "Ta bort markerade cellers innehåll"
 
-#: src/workbook.c:869
+#: src/workbook.c:880
 msgid "P_aste special..."
 msgstr "Klistra in _special..."
 
-#: src/workbook.c:870
+#: src/workbook.c:881
 msgid "C_lear"
 msgstr "_Ta bort"
 
-#: src/workbook.c:871
+#: src/workbook.c:882
 msgid "Clear the selected cell(s)"
 msgstr "Ta bort markerade cell(er)"
 
-#: src/workbook.c:875
+#: src/workbook.c:886
 msgid "_Select All"
 msgstr "Markera _allt"
 
-#: src/workbook.c:876
+#: src/workbook.c:887
 msgid "Select all cells in the spreadsheet"
 msgstr "Markera alla celler på kalkylarket"
 
-#: src/workbook.c:878
-#, fuzzy
+#: src/workbook.c:889
 msgid "_Goto cell..."
 msgstr "_Gå till cell.."
 
-#: src/workbook.c:879
+#: src/workbook.c:890
 msgid "Jump to a specified cell"
 msgstr "Gå till specifierad cell"
 
-#: src/workbook.c:885
+#: src/workbook.c:896
 msgid "Insert object..."
 msgstr "Infoga objekt..."
 
-#: src/workbook.c:886
+#: src/workbook.c:897
 msgid "Inserts a Bonobo object"
 msgstr "Infogar ett Bonobo-objekt"
 
-#: src/workbook.c:893
+#: src/workbook.c:904
 msgid "_Define cell names"
 msgstr "_Definera cellnamn"
 
-#: src/workbook.c:897
+#: src/workbook.c:908
 msgid "_Recalculate"
 msgstr "_Räkna om"
 
-#: src/workbook.c:898
+#: src/workbook.c:909
 msgid "Recalculate the spreadsheet"
 msgstr "Räkna om kalkylbladet"
 
-#: src/workbook.c:906
+#: src/workbook.c:917
 msgid "_Zoom..."
 msgstr "_Zooma..."
 
-#: src/workbook.c:907
+#: src/workbook.c:918
 msgid "Zoom the spreadsheet in or out"
 msgstr "Zooma in eller ut i kalkylbladet"
 
-#: src/workbook.c:914
+#: src/workbook.c:925
 msgid "Current _date"
 msgstr "Dagens _datum"
 
-#: src/workbook.c:915
+#: src/workbook.c:926
 msgid "Insert the current data into the selected cell(s)"
 msgstr "Infoga dagens datum i markerade cell(er)"
 
-#: src/workbook.c:918
+#: src/workbook.c:929
 msgid "Current _time"
 msgstr "Nuvarande _klockslag"
 
-#: src/workbook.c:919
+#: src/workbook.c:930
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Infoga nuvarande tid i markerade cell(er)"
 
-#: src/workbook.c:926 src/workbook.c:972
+#: src/workbook.c:937 src/workbook.c:983
 msgid "_Sheet"
 msgstr "_Blad"
 
-#: src/workbook.c:926
+#: src/workbook.c:937
 msgid "Insert a new spreadsheet"
 msgstr "Infoga ett nytt kalkylblad"
 
-#: src/workbook.c:928 src/workbook.c:966
+#: src/workbook.c:939 src/workbook.c:977
 msgid "_Cells..."
 msgstr "_Celler..."
 
-#: src/workbook.c:928
+#: src/workbook.c:939
 msgid "Insert new cells"
 msgstr "Infoga nya celler"
 
-#: src/workbook.c:930
+#: src/workbook.c:941
 msgid "_Rows"
 msgstr "_Rader"
 
-#: src/workbook.c:930
+#: src/workbook.c:941
 msgid "Insert new rows"
 msgstr "Infoga nya rader"
 
-#: src/workbook.c:932
+#: src/workbook.c:943
 msgid "C_olumns"
 msgstr "_Kolumner"
 
-#: src/workbook.c:932
+#: src/workbook.c:943
 msgid "Insert new columns"
 msgstr "Infoga nya kolumner"
 
-#: src/workbook.c:937
-#, fuzzy
+#: src/workbook.c:948
 msgid "_Add/modify comment..."
-msgstr "_Lägg till/ändra kommentar"
+msgstr "_Lägg till/ändra kommentar..."
 
-#: src/workbook.c:938
+#: src/workbook.c:949
 msgid "Edit the selected cell's comment"
 msgstr "Ändra den markerade cellens kommentar"
 
-#: src/workbook.c:939
+#: src/workbook.c:950
 msgid "_Special"
 msgstr "_Special"
 
-#: src/workbook.c:948 src/workbook.c:954
+#: src/workbook.c:959 src/workbook.c:965
 msgid "_Autoadjust"
 msgstr "_Autojustera"
 
-#: src/workbook.c:949
+#: src/workbook.c:960
 msgid "_Width"
 msgstr "_Bredd"
 
-#: src/workbook.c:955
+#: src/workbook.c:966
 msgid "_Height"
 msgstr "_Höjd"
 
-#: src/workbook.c:960
+#: src/workbook.c:971
 msgid "_Change name"
 msgstr "_Ändra namn"
 
-#: src/workbook.c:967
+#: src/workbook.c:978
 msgid "Modify the formatting of the selected cells"
 msgstr "Ändra formateringen på markerade celler"
 
-#: src/workbook.c:970
+#: src/workbook.c:981
 msgid "C_olumn"
 msgstr "_Kolumn"
 
-#: src/workbook.c:971
+#: src/workbook.c:982
 msgid "_Row"
 msgstr "_Rad"
 
-#: src/workbook.c:979
-#, fuzzy
+#: src/workbook.c:990
 msgid "_Sort..."
-msgstr "_Problemlösare..."
+msgstr "_Sortera..."
 
-#: src/workbook.c:980
+#: src/workbook.c:991
 msgid "Sort the selected cells"
 msgstr "Sortera merkerade cell(er)"
 
-#: src/workbook.c:981
+#: src/workbook.c:992
 msgid "_Goal Seek..."
 msgstr "_Målsökning..."
 
-#: src/workbook.c:983
+#: src/workbook.c:994
 msgid "_Solver..."
 msgstr "_Problemlösare..."
 
-#: src/workbook.c:985
+#: src/workbook.c:996
 msgid "_Data Analysis..."
 msgstr ""
 
-#: src/workbook.c:1000
+#: src/workbook.c:1011
 msgid "_Insert"
 msgstr "_Infoga"
 
-#: src/workbook.c:1001
+#: src/workbook.c:1012
 msgid "F_ormat"
 msgstr "F_ormat"
 
-#: src/workbook.c:1002
+#: src/workbook.c:1013
 msgid "_Tools"
 msgstr "Verk_tyg"
 
-#: src/workbook.c:1011
+#: src/workbook.c:1022
 msgid "New"
 msgstr "Nytt"
 
-#: src/workbook.c:1011
+#: src/workbook.c:1022
 msgid "Creates a new sheet"
 msgstr "Skapar ett nytt kalkylblad"
 
-#: src/workbook.c:1014
+#: src/workbook.c:1025
 msgid "Open"
 msgstr "Öppna"
 
-#: src/workbook.c:1014
+#: src/workbook.c:1025
 msgid "Opens an existing workbook"
 msgstr "Öppnar en existerande arbetsbok"
 
-#: src/workbook.c:1017
+#: src/workbook.c:1028
 msgid "Save"
 msgstr "Spara"
 
-#: src/workbook.c:1017
+#: src/workbook.c:1028
 msgid "Saves the workbook"
 msgstr "Sparar arbetsboken"
 
 #: src/print.glade.h:19 src/print.glade.h:32 src/print.glade.h:40
-#: src/print.glade.h:48 src/print.glade.h:56 src/workbook.c:1020
-#, fuzzy
+#: src/print.glade.h:48 src/print.glade.h:56 src/workbook.c:1031
 msgid "Print"
-msgstr "Procent"
+msgstr "Skriv ut"
 
-#: src/workbook.c:1020
-#, fuzzy
+#: src/workbook.c:1031
 msgid "Prints the workbook"
-msgstr "Sparar arbetsboken"
+msgstr "Skriver ut arbetsboken"
 
-#: src/workbook.c:1026
+#: src/workbook.c:1037
 msgid "Cuts the selection to the clipboard"
 msgstr "Klipper ut markeringen till urklipp"
 
-#: src/workbook.c:1029
+#: src/workbook.c:1040
 msgid "Copies the selection to the clipboard"
 msgstr "Kopierar markeringen till urklipp"
 
-#: src/workbook.c:1032
+#: src/workbook.c:1043
 msgid "Pastes the clipboard"
 msgstr "Klistrar in från urklipp"
 
-#: src/workbook.c:1038
+#: src/workbook.c:1049
 msgid "Left align"
 msgstr "Vänsterjusterat"
 
-#: src/workbook.c:1038
+#: src/workbook.c:1049
 msgid "Left justifies the cell contents"
 msgstr "Vänsterjusterar cellinnehållet"
 
-#: src/workbook.c:1041
+#: src/workbook.c:1052
 msgid "Centers the cell contents"
 msgstr "Centrerar cellinnehållet"
 
-#: src/workbook.c:1044
+#: src/workbook.c:1055
 msgid "Right align"
 msgstr "Högerjustera"
 
-#: src/workbook.c:1044
+#: src/workbook.c:1055
 msgid "Right justifies the cell contents"
 msgstr "Högerjusterar cellinnehållet"
 
-#: src/workbook.c:1049
+#: src/workbook.c:1060
 msgid "Bold"
 msgstr "Fetstil"
 
-#: src/workbook.c:1049
+#: src/workbook.c:1060
 msgid "Sets the bold font"
 msgstr "Sätter fetstil på typsnittet"
 
-#: src/workbook.c:1052
+#: src/workbook.c:1063
 msgid "Italic"
 msgstr "Kursiv"
 
-#: src/workbook.c:1052
+#: src/workbook.c:1063
 msgid "Makes the font italic"
 msgstr "Gör typsnittet kursivt"
 
-#: src/workbook.c:1059
+#: src/workbook.c:1070
 msgid "Graphic"
 msgstr "Diagram"
 
-#: src/workbook.c:1059
+#: src/workbook.c:1070
 msgid "Creates a graphic in the spreadsheet"
 msgstr "Skapar ett diagram på kalkylbladet"
 
-#: src/workbook.c:1063
+#: src/workbook.c:1074
 msgid "Line"
 msgstr "Linje"
 
-#: src/workbook.c:1063
+#: src/workbook.c:1074
 msgid "Creates a line object"
 msgstr "Skapar ett linje-objekt"
 
-#: src/workbook.c:1066
+#: src/workbook.c:1077
 msgid "Arrow"
 msgstr "Pil"
 
-#: src/workbook.c:1066
+#: src/workbook.c:1077
 msgid "Creates an arrow object"
 msgstr "Skapar ett pil-objekt"
 
-#: src/workbook.c:1069
+#: src/workbook.c:1080
 msgid "Rectangle"
 msgstr "Rektangel"
 
-#: src/workbook.c:1069
+#: src/workbook.c:1080
 msgid "Creates a rectangle object"
 msgstr "Skapar ett rektangel-objekt"
 
-#: src/workbook.c:1072
+#: src/workbook.c:1083
 msgid "Ellipse"
 msgstr "Ellips"
 
-#: src/workbook.c:1072
+#: src/workbook.c:1083
 msgid "Creates an ellipse object"
 msgstr "Skapar ett ellips-objekt"
 
-#: src/workbook.c:1209
+#: src/workbook.c:1220
 msgid "You should introduce a valid cell name"
 msgstr "Du måste ange ett giltigt cellnamn"
 
-#: src/workbook.c:1218
+#: src/workbook.c:1229
 msgid "Column out of range"
 msgstr "Kolumn utanför giltigt område"
 
-#: src/workbook.c:1224
+#: src/workbook.c:1235
 msgid "Row number out of range"
 msgstr "Radnummer utanför giltigt område"
 
-#: src/workbook.c:1314
+#: src/workbook.c:1327
 msgid "Selection must be a single range"
 msgstr "Markeringen måste bestå av ett enkelt område"
 
-#: src/workbook.c:1422
+#: src/workbook.c:1433
 msgid "Sum"
 msgstr "Sum"
 
-#: src/workbook.c:1423
+#: src/workbook.c:1434
 msgid "Min"
 msgstr "Min"
 
-#: src/workbook.c:1424
+#: src/workbook.c:1435
 msgid "Max"
 msgstr "Max"
 
-#: src/workbook.c:1425
+#: src/workbook.c:1436
 msgid "Average"
 msgstr "Medelvärde"
 
-#: src/workbook.c:1426
+#: src/workbook.c:1437
 msgid "Count"
 msgstr "Räkna"
 
-#: src/workbook.c:1648
+#: src/workbook.c:1661
 msgid "Untitled.gnumeric"
 msgstr "Namnlös.gnumeric"
 
-#: src/workbook.c:1737
+#: src/workbook.c:1750
 msgid "Zoom out"
 msgstr "Zooma ut"
 
-#: src/workbook.c:1744
+#: src/workbook.c:1757
 msgid "Zoom in"
 msgstr "Zooma in"
 
-#: src/workbook.c:1839
+#: src/workbook.c:1852
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s' "
 msgstr "Är du säker på att du vill ta bort bladet med namn `%s' "
 
-#: src/workbook.c:1858
+#: src/workbook.c:1871
 msgid "Other sheets depend on the values on this sheet; I cannot remove it"
 msgstr "Andra blad refererar till värden på detta blad; kan inte ta bort det"
 
-#: src/workbook.c:1878
+#: src/workbook.c:1891
 msgid "Add another sheet"
 msgstr "Lägg till ett nytt blad"
 
-#: src/workbook.c:1879
+#: src/workbook.c:1892
 msgid "Remove this sheet"
 msgstr "Ta bort detta blad"
 
-#: src/workbook.c:2136 src/workbook.c:2171
-#, fuzzy, c-format
+#: src/workbook.c:2149 src/workbook.c:2184
+#, c-format
 msgid "Sheet%d"
-msgstr "Blad %d"
+msgstr "Blad%d"
 
-#: src/workbook.c:2244
+#: src/workbook.c:2257
 msgid "Gnumeric: "
 msgstr "Gnumeric: "
 
-#: src/xml-io.c:1822
-#, fuzzy
+#: src/xml-io.c:1922
 msgid "Old Gnumeric XML file format"
-msgstr "Gnumeric XML filformat"
+msgstr "Gammalt Gnumeric XML filformat"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -2941,169 +2913,155 @@ msgid "window2"
 msgstr ""
 
 #: src/print.glade.h:8
-#, fuzzy
 msgid "Orientation"
-msgstr "Åtgärd"
+msgstr "Orientering"
 
 #: src/print.glade.h:11
-#, fuzzy
 msgid "Scale"
-msgstr "Exempel:"
+msgstr "Skalning:"
 
 #: src/print.glade.h:12 src/print.glade.h:13
-#, fuzzy
 msgid "Adjust to"
-msgstr "_Autojustera"
+msgstr "Justera till"
 
 #: src/print.glade.h:14
 #, c-format
 msgid "% of the original size"
-msgstr ""
+msgstr "% av normalstorlek"
 
 #: src/print.glade.h:15
 msgid "pages wider by "
-msgstr ""
+msgstr "s. på bredden och"
 
 #: src/print.glade.h:16
 msgid "pages of height"
-msgstr ""
+msgstr "på höjden"
 
 #: src/print.glade.h:17
 msgid "Paper size:"
-msgstr ""
+msgstr "Pappersstorlek:"
 
 #: src/print.glade.h:18
 msgid "First page number:"
-msgstr ""
+msgstr "Börja sidnumrera från:"
 
 #: src/print.glade.h:20 src/print.glade.h:33 src/print.glade.h:41
 #: src/print.glade.h:57
 msgid "Print preview"
-msgstr ""
+msgstr "Förhandsgranskning"
 
 #: src/print.glade.h:21 src/print.glade.h:34 src/print.glade.h:42
 #: src/print.glade.h:58
-#, fuzzy
 msgid "Options"
-msgstr "Åtgärd"
+msgstr "Alternativ"
 
 #: src/print.glade.h:22 src/print.glade.h:59
-#, fuzzy
 msgid "Page"
-msgstr "Klistra in"
+msgstr "Sida"
 
 #: src/print.glade.h:23
 msgid "Superior:"
-msgstr ""
+msgstr "Överkant:"
 
 #: src/print.glade.h:24
 msgid "Header:"
-msgstr ""
+msgstr "Sidhuvud:"
 
 #: src/print.glade.h:25
 msgid "Lower:"
-msgstr ""
+msgstr "Underkant:"
 
 #: src/print.glade.h:26
-#, fuzzy
 msgid "Footer"
-msgstr "Typsnitt"
+msgstr "Sidfot"
 
 #: src/print.glade.h:27
-#, fuzzy
 msgid "Center on page"
 msgstr "Centrera"
 
 #: src/print.glade.h:28
-#, fuzzy
 msgid "Horizontally"
-msgstr "Horisontell"
+msgstr "Vågrätt"
 
 #: src/print.glade.h:29
-#, fuzzy
 msgid "Vertically"
-msgstr "Vertikal"
+msgstr "Lodrätt"
 
 #: src/print.glade.h:30
-#, fuzzy
 msgid "Left:"
-msgstr "Vänster"
+msgstr "Vänster:"
 
 #: src/print.glade.h:31
-#, fuzzy
 msgid "Right:"
-msgstr "Höger"
+msgstr "Höger:"
 
 #: src/print.glade.h:35
-#, fuzzy
 msgid "Margins"
-msgstr "Min"
+msgstr "Marginaler"
 
 #: src/print.glade.h:36
 msgid "sample goes here"
-msgstr ""
+msgstr "test här"
 
 #: src/print.glade.h:37
 msgid "Header"
-msgstr ""
+msgstr "Sidhuvud"
 
 #: src/print.glade.h:38
 msgid "Footer:"
-msgstr ""
+msgstr "Sidfot:"
 
 #: src/print.glade.h:39
 msgid "sample goes jere"
-msgstr ""
+msgstr "test här"
 
 #: src/print.glade.h:43
 msgid "Headers and footers"
-msgstr ""
+msgstr "Sidhuvud/sidfot"
 
 #: src/print.glade.h:44
 msgid "Print region:"
-msgstr ""
+msgstr "Utskriftsområde:"
 
 #: src/print.glade.h:45
 msgid "Titles to print"
-msgstr ""
+msgstr "Utskriftsrubriker"
 
 #: src/print.glade.h:46
 msgid "Rows to repear on the left side:"
-msgstr ""
+msgstr "Rader till vänster:"
 
 #: src/print.glade.h:47
 msgid "Rows to repeat on the upper region:"
-msgstr ""
+msgstr "Rader överst:"
 
 #: src/print.glade.h:49
-#, fuzzy
 msgid "Division lines"
 msgstr "Diagonala linjer"
 
 #: src/print.glade.h:50
 msgid "Black and white"
-msgstr ""
+msgstr "Svart och vit"
 
 #: src/print.glade.h:51
 msgid "Titles of rows and columns."
 msgstr ""
 
 #: src/print.glade.h:52
-#, fuzzy
 msgid "Comments"
-msgstr "_Kommentarer"
+msgstr "Kommentarer"
 
 #: src/print.glade.h:53
 msgid "Page order"
-msgstr ""
+msgstr "Utskriftsordning"
 
 #: src/print.glade.h:54
 msgid "Down, then right"
-msgstr ""
+msgstr "Ned, sedan höger"
 
 #: src/print.glade.h:55
 msgid "RIght, then down"
-msgstr ""
+msgstr "Höger, sedan ned"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -3131,7 +3089,7 @@ msgstr "Vänsterjusterat"
 #: src/hf-config.glade.h:8
 #, fuzzy
 msgid "Center section:"
-msgstr "Centrera"
+msgstr "Centrera på sidan"
 
 #: src/hf-config.glade.h:9
 #, fuzzy
@@ -3152,25 +3110,24 @@ msgid "window1"
 msgstr ""
 
 #: src/font-sel.glade.h:8
-#, fuzzy
 msgid "Font:"
-msgstr "Räkna"
+msgstr "Typsnitt:"
 
 #: src/font-sel.glade.h:9
 msgid "Font style:"
-msgstr ""
+msgstr "Stil:"
 
 #: src/font-sel.glade.h:10
 msgid "Size:"
-msgstr ""
+msgstr "Storlek:"
 
 #: src/font-sel.glade.h:11
 msgid "Preview:"
-msgstr ""
+msgstr "Förhandsgranskning:"
 
 #: src/font-sel.glade.h:12
 msgid "AaBbCcDdEe12345"
-msgstr ""
+msgstr "AaBbCcDdEe12345"
 
 #: src/font-sel.glade.h:13
 msgid "label7"
@@ -3183,25 +3140,3 @@ msgstr ""
 #: src/font-sel.glade.h:15
 msgid "label9"
 msgstr ""
-
-#~ msgid ""
-#~ "The GNOME spreadsheet.\n"
-#~ "http://www.gnome.org/gnumeric/"
-#~ msgstr ""
-#~ "GNOME kalkylprogram.\n"
-#~ "http://www.gnome.org/gnumeric/"
-
-#~ msgid "12%"
-#~ msgstr "12%"
-
-#~ msgid "6%"
-#~ msgstr "6%"
-
-#~ msgid "Crossed diagonals"
-#~ msgstr "Korsande diagonaler"
-
-#~ msgid "Bricks"
-#~ msgstr "Tegelstenar"
-
-#~ msgid "ERROR"
-#~ msgstr "FEL"
