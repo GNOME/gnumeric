@@ -96,7 +96,7 @@ static BIFF_BOUNDSHEET_DATA *new_biff_boundsheet_data (BIFF_QUERY *q, eBiff_vers
       int strlen = BIFF_GETBYTE(q->data+6) ;
       ans->name = ms_get_biff_text (q->data+7, strlen) ;
     }
-  printf ("Blocksheet : '%s', %d:%d offset %lx\n", ans->name, ans->type, ans->hidden, ans->streamStartPos) ;
+  //  printf ("Blocksheet : '%s', %d:%d offset %lx\n", ans->name, ans->type, ans->hidden, ans->streamStartPos) ;
   return ans ;
 }
 
@@ -104,6 +104,32 @@ static void free_biff_boundsheet_data (BIFF_BOUNDSHEET_DATA *d)
 {
   free (d->name) ;
   free (d) ;
+}
+
+static BIFF_FONT_DATA *new_biff_font_data (BIFF_QUERY *q)
+{
+  BIFF_FONT_DATA *fd = (BIFF_FONT_DATA *)malloc(sizeof(BIFF_FONT_DATA)) ;
+  WORD data ;
+
+  fd->height     = BIFF_GETWORD(q->data +  0) ;
+  data           = BIFF_GETWORD(q->data +  2) ;
+  fd->italic     = (data & 0x2) ;
+  fd->struck_out = (data & 0x8) ;
+  fd->color_idx  = BIFF_GETWORD(q->data +  4) ;
+  fd->boldness   = BIFF_GETWORD(q->data +  6) ;
+  data           = BIFF_GETWORD(q->data +  8) ;
+  fd->script     = ( ((data == 0) &  eBiffFSNone) |
+		     ((data == 1) &  eBiffFSSuper) |
+		     ((data == 2) &  eBiffFSSub) ) ;
+  data           = BIFF_GETWORD(q->data + 10) ;
+  fd->underline  = ( ((data ==    0) &  eBiffFUNone) |
+		     ((data ==    1) &  eBiffFUSingle) |
+		     ((data ==    2) &  eBiffFUDouble) |
+		     ((data == 0x21) &  eBiffFUSingleAcc) |
+		     ((data == 0x22) &  eBiffFUDoubleAcc) ) ;
+  fd->fontname   = ms_get_biff_text (q->data + 15, GETBYTE(q->data + 14)) ;
+  printf ("Insert fount '%s' size %5.2f\n", fd->fontname, fd->height*20.0) ;
+  return fd ;
 }
 
 static MS_EXCEL_PALETTE *new_ms_excel_palette (BIFF_QUERY *q)
@@ -175,11 +201,32 @@ static void ms_excel_set_cell_colors (MS_EXCEL_SHEET *sheet, Cell *cell, BIFF_XF
     printf ("BG col out of range %d\n", col) ;
 }
 
+static void ms_excel_set_cell_font (MS_EXCEL_SHEET *sheet, Cell *cell, BIFF_XF_DATA *xf)
+{
+  GList *ptr = g_list_first (sheet->wb->font_data) ;
+  int idx = 0 ;
+  
+  while (ptr)
+    {
+      if (idx==4) idx++ ;   // Backwards compatibility
+
+      if (idx==xf->font_idx)
+	{
+	  BIFF_FONT_DATA *fd = ptr->data ;
+	  StyleFont *sf ;
+	  printf ("Found font '%s'\n", fd->fontname) ;
+	  cell_set_font (cell, fd->fontname) ;	  
+	}
+      idx++ ;
+      ptr = ptr->next ;
+    }
+}
+
 static void ms_excel_set_cell_xf(MS_EXCEL_SHEET *sheet, Cell *cell, int xfidx)
 {
   GList *ptr ;
   int cnt ;
-
+  
   if (xfidx == 0)
     {
       printf ("Normal cell formatting\n") ;
@@ -206,6 +253,7 @@ static void ms_excel_set_cell_xf(MS_EXCEL_SHEET *sheet, Cell *cell, int xfidx)
 	  printf ("Found the style !\n") ;
 	  cell_set_alignment (cell, xf->halign, xf->valign, ORIENT_HORIZ, 1) ;
 	  ms_excel_set_cell_colors (sheet, cell, xf) ;
+	  ms_excel_set_cell_font (sheet, cell, xf) ;
 	  return ;
 	}
       //      printf ("Checking %d\n", cnt) ;
@@ -614,6 +662,13 @@ Workbook *ms_excelReadWorkbook(MS_OLE_FILE *file)
 	    printf ("READ PALETTE\n") ;
 	    wb->palette = new_ms_excel_palette (q) ;
 	    break;
+	  case BIFF_FONT:
+	    {
+	      BIFF_FONT_DATA *ptr = new_biff_font_data (q) ;
+	      printf ("Read Font\n") ;
+	      wb->font_data = g_list_append (wb->font_data, ptr) ;
+	    }
+	    break ;
 	  case BIFF_PRECISION: // FIXME:
 	    printf ("Opcode : 0x%x, length 0x%x\n", q->opcode, q->length) ;
 	    dump (q->data, q->length) ;
@@ -622,8 +677,8 @@ Workbook *ms_excelReadWorkbook(MS_OLE_FILE *file)
 	  case BIFF_XF:    
 	    {
 	      BIFF_XF_DATA *ptr = new_biff_xf_data(q, ver->version) ;
-	      printf ("Extended format:\n");
-	      //	      dump (q->data, q->length) ;
+	      // printf ("Extended format:\n");
+	      // dump (q->data, q->length) ;
 	      wb->XF_records = g_list_append (wb->XF_records, ptr) ;
 	    }
 	    break ;

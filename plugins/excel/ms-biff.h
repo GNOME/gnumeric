@@ -89,6 +89,14 @@ typedef enum _eBiff_border_linestyle // Magic numbers !
   eBiffBorderSlantedDashDot=13
 } eBiff_border_linestyle ;
 
+typedef enum _eBiffFontUnderline
+{
+  eBiffFUNone=1, eBiffFUSingle=2, eBiffFUDouble=3,
+  eBiffFUSingleAcc=4, eBiffFUDoubleAcc=5
+} eBiffFontUnderline ;
+
+typedef enum _eBiffFontScript { eBiffFSNone, eBiffFSSub, eBiffFSSuper } eBiffFontScript ;
+
 typedef struct _BIFF_BOF_DATA
 {
   eBiff_version version ;
@@ -112,6 +120,7 @@ extern void free_ms_biff_bof_data (BIFF_BOF_DATA *data) ;
 #define BIFF_EOF                        0x0a
 #define BIFF_PRECISION                  0x0e
 
+#define BIFF_FONT                       0x31
 #define BIFF_XF_OLD                     0x43
 
 #define BIFF_RK                         0x7e

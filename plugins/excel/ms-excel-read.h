@@ -37,11 +37,24 @@ typedef struct _MS_EXCEL_PALETTE
   int length ;
 } MS_EXCEL_PALETTE ;
 
+typedef struct _BIFF_FONT_DATA
+{
+  int height ;         // in 1/20ths of a point
+  int italic ;         // boolean
+  int struck_out ;     // boolean : strikethrough
+  int color_idx ;
+  int boldness ;       // 100->1000 dec, normal = 0x190, bold = 0x2bc
+  int script ;         // sub = -1, none = 0, super = 1
+  eBiffFontUnderline underline ;
+  char *fontname ;
+} BIFF_FONT_DATA ;
+
 typedef struct _MS_EXCEL_WORKBOOK
 {
   GList *boundsheet_data ;
   GList *XF_records ;
   GList *excel_sheets ;
+  GList *font_data ;
   MS_EXCEL_PALETTE *palette ;
   // Gnumeric parallel workbook
   Workbook *gnum_wb ;
