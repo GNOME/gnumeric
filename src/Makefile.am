@@ -246,7 +246,13 @@ GNUMERIC_BASE =					\
 	xml-io.h				\
 	xml-io-version.h			\
 	xml-io-autoft.c				\
-	xml-io-autoft.h	
+	xml-io-autoft.h
+
+GNUMERIC_BUILT =				\
+	gui-gtkmarshalers.h			\
+	gui-gtkmarshalers.c
+
+$(GNUMERIC_BASE) : $(GNUMERIC_BUILT)
 
 # TODO : split the bonobo and corba tests one day
 GNUMERIC_CORBA = 				\
@@ -264,16 +270,17 @@ GNUMERIC_BONOBO = 				\
 	sheet-object-container.h		\
 	sheet-object-item.c			\
 	sheet-object-item.h
-	# $(GNUMERIC_CORBA)
-	# embeddable-grid.c			
-	# embeddable-grid.h			
+#	 $(GNUMERIC_CORBA)
+#	 embeddable-grid.c			
+#	 embeddable-grid.h			
 
 if WITH_BONOBO
 gnumeric_SOURCES =				\
 	$(GNUMERIC_BASE)			\
+	$(GNUMERIC_BUILT)			\
 	$(GNUMERIC_BONOBO)			\
 	normal-args.c
-	# corba-args.c (use normal for now)
+#	 corba-args.c (use normal for now)
 
 gnumeric_LDADD =				\
 	$(gnumeric_app_libs)			\
@@ -283,6 +290,7 @@ gnumeric_LDADD =				\
 else
 gnumeric_SOURCES =				\
 	$(GNUMERIC_BASE)			\
+	$(GNUMERIC_BUILT)			\
 	normal-args.c
 
 gnumeric_LDADD = 				\
