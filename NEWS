@@ -8,6 +8,7 @@ Jody:
 	* Fix parsing 3d references
 	* More work on exporting names to xls
 	* Support the global outline buttons
+	* Optional outline markers at the begining rather than end
 
 Jon Kåre:
         * Separate GUI for showing progress and messages before first 

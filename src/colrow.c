@@ -792,19 +792,6 @@ colrow_set_outline (ColRowInfo *cri, int outline_level, gboolean is_collapsed)
 }
 
 /**
- * colrow_adjust_outline_dir
- * @colrows :
- * @pre_or_post :
- */
-void
-colrow_adjust_outline_dir (__attribute__((unused)) ColRowCollection *colrows,
-			   __attribute__((unused)) gboolean pre_or_post)
-{
-	/* excel pisses me off */
-	g_warning ("TODO : write me");
-}
-
-/**
  * colrow_find_outline_bound :
  *
  * find the next/prev col/row at the designated depth starting from the
@@ -885,9 +872,10 @@ void
 colrow_set_visibility (Sheet *sheet, gboolean is_cols,
 		       gboolean visible, int first, int last)
 {
-	int i, prev_outline   = 0;
-	gboolean prev_changed = FALSE;
+	int i, step, prev_outline   = 0;
+	gboolean changed = FALSE;
 	Range * const bound   = &sheet->priv->unhidden_region;
+	gboolean const fwd = is_cols ? sheet->outline_symbols_right : sheet->outline_symbols_below;
 
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (first <= last);
@@ -918,14 +906,22 @@ colrow_set_visibility (Sheet *sheet, gboolean is_cols,
 		}
 	}
 
-	for (i = first; i <= last ; ++i) {
+	if (fwd) {
+		i = first;
+		step = 1;
+	} else {
+		i = last;
+		step = -1;
+	}
+
+	for (; fwd ? (i <= last) : (i >= first) ; i += step) {
 		ColRowInfo * const cri = sheet_colrow_fetch (sheet, i, is_cols);
 
-		if (prev_changed && prev_outline > cri->outline_level && !visible)
+		if (changed && prev_outline > cri->outline_level && !visible)
 			cri->is_collapsed = FALSE;
 
-		prev_changed = (visible == 0) != (cri->visible == 0);
-		if (prev_changed) {
+		changed = (visible == 0) != (cri->visible == 0);
+		if (changed) {
 			cri->visible = visible;
 			prev_outline = cri->outline_level;
 			sheet->priv->recompute_visibility = TRUE;
@@ -940,9 +936,8 @@ colrow_set_visibility (Sheet *sheet, gboolean is_cols,
 		}
 	}
 
-	if (prev_changed && i < colrow_max (is_cols)) {
+	if (changed && 0 <= i && i < colrow_max (is_cols)) {
 		ColRowInfo * const cri = sheet_colrow_fetch (sheet, i, is_cols);
-
 		if (prev_outline > cri->outline_level)
 			cri->is_collapsed = !visible;
 	}

@@ -2984,19 +2984,28 @@ sheet_colrow_insdel_finish (GnmExprRelocateInfo const *rinfo, gboolean is_cols,
 static void
 sheet_colrow_set_collapse (Sheet *sheet, gboolean is_cols, int pos)
 {
-	ColRowInfo *a = NULL, *b = NULL;
-	if (pos > 0)
-		a = sheet_colrow_get (sheet, pos-1, is_cols);
-	if ((pos+1) < colrow_max (is_cols))
-		b = sheet_colrow_get (sheet, pos, is_cols);
-	if ((is_cols ? sheet->outline_symbols_right : sheet->outline_symbols_below)) {
-		ColRowInfo *tmp = a; a = b; b = tmp;
-	}
+	ColRowInfo *cri;
+	ColRowInfo const *vs = NULL;
 
-	if (a != NULL)
-		a->is_collapsed = (b != NULL &&
-				   !b->visible &&
-				   b->outline_level > a->outline_level);
+	if (pos < 0 || pos >= colrow_max (is_cols))
+		return;
+
+	/* grab the next or previous col/row */
+	if ((is_cols ? sheet->outline_symbols_right : sheet->outline_symbols_below)) {
+		if (pos > 0)
+			vs = sheet_colrow_get (sheet, pos-1, is_cols);
+	} else if ((pos+1) < colrow_max (is_cols))
+		vs = sheet_colrow_get (sheet, pos+1, is_cols);
+
+	/* handle the case where an empty col/row should be marked collapsed */
+	cri = sheet_colrow_get (sheet, pos, is_cols);
+	if (cri != NULL)
+		cri->is_collapsed = (vs != NULL && !vs->visible &&
+				     vs->outline_level > cri->outline_level);
+	else if (vs != NULL && !vs->visible && vs->outline_level > 0) {
+		cri = sheet_colrow_fetch (sheet, pos, is_cols);
+		cri->is_collapsed = TRUE;
+	}
 }
 
 static void
@@ -3944,14 +3953,12 @@ sheet_set_tab_color (Sheet *sheet, StyleColor *tab_color, StyleColor *text_color
 void
 sheet_adjust_outline_dir (Sheet *sheet, gboolean is_cols)
 {
+	unsigned i;
 	g_return_if_fail (IS_SHEET (sheet));
 
-	if (is_cols)
-		colrow_adjust_outline_dir (&sheet->cols,
-					   sheet->outline_symbols_right);
-	else
-		colrow_adjust_outline_dir (&sheet->rows,
-					   sheet->outline_symbols_below);
+	/* not particularly efficient, but this is not a hot spot */
+	for (i = colrow_max (is_cols); i-- > 0 ; )
+		sheet_colrow_set_collapse (sheet, is_cols, i);
 }
 
 /**

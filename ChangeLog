@@ -1,3 +1,15 @@
+2002-11-22  Jody Goldberg <jody@gnome.org>
+
+	* src/commands.c (cmd_global_outline_change) : don't push a useless
+	  command.
+	(cmd_selection_outline_change) : fix handling of collapse at start.
+
+	* src/item-bar.c (item_bar_draw) : optionally draw collapse markers
+	  at the start rather than the end.
+
+	* src/colrow.c (colrow_set_visibility) : Handle collapse at start vs
+	  at the end.
+
 2002-11-22  Christian Neumair  <chris@gnome-de.org>
 
 	* src/dialogs/autoformat.glade: Make the menu display mnemotics correctly.

@@ -9,6 +9,7 @@ Release Critical
     - referencing freed sheet if a sheet in a 3d ref is deleted
     - XL crashes importing our xls95 exports with names
     - referencing freed named expr from undo clipboard
+    - height calculation in render value is hosed for embedded new lines
 
 Pending Patches
 ---------------
@@ -19,7 +20,6 @@ Pending Patches
 -----------
 
 - validate expression names to ensure that they are not simple values (eg TRUE)
-- height calculation in render value is hosed for embedded new lines
 
 1) graphs
 2) stf
@@ -77,6 +77,8 @@ Pending Patches
     12.11) dif                                                  (DONE)
     12.12) psion                                                (DONE)
 
+13) export plugins UTF-8 -> ??
+
 14) Polish up Open and Save
     14.1) merge open and import dialogs				(DONE)
     14.2) Notice mismatch between suffix and saver		(DONE)
@@ -84,7 +86,7 @@ Pending Patches
     14.4) do we want to persist recently used ?
 15) Decide whether to turn on the poor man's UTF-8 regexps.     (DONE)
 16) Outline mode
-    16.1) optionally put markers above/left
+    16.1) optionally put markers above/left			(DONE)
     16.2) smarter handling for groups at the edge of selection
     16.3) implement 'clicked' for numbers callbacks		(DONE)
 17) 3D reference fixes on sheet deletion

@@ -2150,8 +2150,7 @@ cmd_selection_outline_change (WorkbookControl *wbc,
 		depth = d;
 
 	/* Nodes only collapse when selected directly, selecting at a lower
-	 * level is a standard toggle.
-	 */
+	 * level is a standard toggle. */
 	if (depth == d) {
 		if ((is_cols ? sheet->outline_symbols_right : sheet->outline_symbols_below)) {
 			if (index > 0) {
@@ -2173,7 +2172,7 @@ cmd_selection_outline_change (WorkbookControl *wbc,
 				visible = (depth == d && cri->is_collapsed);
 				first = index + 1;
 				last = colrow_find_outline_bound (sheet, is_cols,
-					first, d+1, TRUE);
+					first, d-1, TRUE);
 			}
 		}
 	}
@@ -2220,19 +2219,23 @@ cmd_global_outline_change (WorkbookControl *wbc, gboolean is_cols, int depth)
 {
 	GObject *obj;
 	CmdColRowHide *me;
+	ColRowVisList *hide, *show;
 	SheetView *sv	 = wb_control_cur_sheet_view (wbc);
+
+	colrow_get_global_outline (sv_sheet (sv), is_cols, depth, &show, &hide);
+
+	if (show == NULL && hide == NULL)
+		return TRUE;
 
 	obj = g_object_new (CMD_COLROW_HIDE_TYPE, NULL);
 	me = CMD_COLROW_HIDE (obj);
-
-	me->is_cols = is_cols;
-	colrow_get_global_outline (sv_sheet (sv), is_cols, depth,
-				   &me->show, &me->hide);
-
-	me->cmd.sheet = sv_sheet (sv);
+	me->is_cols	= is_cols;
+	me->hide	= hide;
+	me->show	= show;
+	me->cmd.sheet	= sv_sheet (sv);
 	me->cmd.size = 1 + g_slist_length (me->show) + g_slist_length (me->hide);
 	me->cmd.cmd_descriptor = g_strdup_printf (is_cols
-		? _("Show column outline %d") : _("Show row outline %d"));
+		? _("Show column outline %d") : _("Show row outline %d"), depth);
 
 	/* Register the command object */
 	return command_push_undo (wbc, obj);

@@ -287,11 +287,14 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 	Sheet const           *sheet  = ((SheetControl *) scg)->sheet;
 	SheetView const	      *sv     = ((SheetControl *) scg)->view;
 	GtkWidget *canvas = GTK_WIDGET (FOO_CANVAS_ITEM (item)->canvas);
-	ColRowInfo const *cri;
+	ColRowInfo const *cri, *next = NULL;
 	int pixels;
 	gboolean prev_visible;
+	gboolean const draw_below = sheet->outline_symbols_below;
+	gboolean const draw_right = sheet->outline_symbols_right;
 	int prev_level;
 	GdkRectangle rect;
+	GdkPoint points[3];
 	gboolean has_object = scg->new_object != NULL || scg->current_object != NULL;
 
 	if (ib->is_col_header) {
@@ -337,32 +340,40 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 				pixels = cri->size_pixels;
 
 			if (cri->visible) {
+				int level, i = 0, pos = base_pos;
+				int left = total;
+
 				total += pixels;
-				if (total >= 0) {
-					int level, i = 0, pos = base_pos;
-					int left = total - pixels;
+				rect.x = left;
+				rect.width = pixels;
+				ib_draw_cell (ib, drawable,
+					       has_object ? COL_ROW_NO_SELECTION
+					       : sheet_col_selection_type (sv, col),
+					       col_name (col), &rect);
 
-					rect.x = total - pixels;
-					rect.width = pixels;
-					ib_draw_cell (ib, drawable,
-						       has_object ? COL_ROW_NO_SELECTION
-						       : sheet_col_selection_type (sv, col),
-						       col_name (col), &rect);
+				if (len > 0) {
+					if (!draw_right) {
+						next = sheet_col_get_info (sheet, col + 1);
+						points[0].x = left;
+					} else
+						points[0].x = total;
 
-					if (len > 0) {
-						for (level = cri->outline_level; i++ < level ; pos += inc) {
-							if (i > prev_level)
-								gdk_draw_line (drawable, ib->lines,
-									       left+1, pos,
-									       left+1, pos+len);
-							else
-								left--; /* line loses 1 pixel */
+					/* draw the start or end marks and the vertical lines */
+					points[1].x = points[2].x = left + pixels/2;
+					for (level = cri->outline_level; i++ < level ; pos += inc) {
+						points[0].y = points[1].y = pos;
+						points[2].y		  = pos + len;
+						if (draw_right && i > prev_level)
+							gdk_draw_lines (drawable, ib->lines, points, 3);
+						else if (!draw_right && i > next->outline_level)
+							gdk_draw_lines (drawable, ib->lines, points, 3);
+						else
 							gdk_draw_line (drawable, ib->lines,
-								       left, pos,
-								       total+1, pos);
-						}
+								       left, pos, total, pos);
+					}
 
-						if (!prev_visible || prev_level > level) {
+					if (draw_right) {
+						if (prev_level > level) {
 							int safety = 0;
 							int top = pos - base_pos;
 							int size = inc < pixels ? inc : pixels;
@@ -384,13 +395,6 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 									gdk_draw_line (drawable, ib->lines,
 										       left+size/2, top+3,
 										       left+size/2, top+size-4);
-									/*
-									 * This fails miserably if grouped cols/rows are present, why
-									 * is this here? This is basically assuming that if col X is
-									 * not visible than col X + 1 must be collapsed ?!?
-									 */
-									if (!cri->is_collapsed)
-										g_warning ("expected collapsed %s", col_name (col));
 								}
 								gdk_draw_line (drawable, ib->lines,
 									       left+3,	    top+size/2,
@@ -398,15 +402,49 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 							}
 						} else if (level > 0)
 							gdk_draw_line (drawable, ib->lines,
-								       total-pixels/2, pos,
-								       total-pixels/2, pos+len);
+								       left+pixels/2, pos,
+								       left+pixels/2, pos+len);
+					} else {
+						if (next->outline_level > level) {
+							int safety = 0;
+							int top = pos - base_pos;
+							int size = inc < pixels ? inc : pixels;
+							int right;
+
+							if (size > 15)
+								size = 15;
+							else if (size < 6)
+								safety = 6 - size;
+
+							right = total - size;
+							top += 2; /* inside cell's shadow */
+							gtk_draw_shadow (canvas->style, drawable,
+									 GTK_STATE_NORMAL,
+									 next->visible ? GTK_SHADOW_OUT : GTK_SHADOW_IN,
+									 right, top+safety, size, size);
+							if (size > 9) {
+								if (!next->visible) {
+									top++;
+									right++;
+									gdk_draw_line (drawable, ib->lines,
+										       right+size/2, top+3,
+										       right+size/2, top+size-4);
+								}
+								gdk_draw_line (drawable, ib->lines,
+									       right+3,	    top+size/2,
+									       right+size-4, top+size/2);
+							}
+						} else if (level > 0)
+							gdk_draw_line (drawable, ib->lines,
+								       left+pixels/2, pos,
+								       left+pixels/2, pos+len);
 					}
 				}
 			}
 			prev_visible = cri->visible;
 			prev_level = cri->outline_level;
 			++col;
-		} while (total < end);
+		} while (total <= end);
 	} else {
 		int const inc = item_bar_group_size (ib, sheet->rows.max_outline_level);
 		int const base_pos = .2 * inc;
@@ -457,31 +495,39 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 				pixels = cri->size_pixels;
 
 			if (cri->visible) {
+				int level, i = 0, pos = base_pos;
+				int top = total;
+
 				total += pixels;
-				if (total >= 0) {
-					int level, i = 0, pos = base_pos;
-					int top = total - pixels;
+				rect.y = top;
+				rect.height = pixels;
+				ib_draw_cell (ib, drawable,
+					       has_object ? COL_ROW_NO_SELECTION
+					       : sheet_row_selection_type (sv, row),
+					       row_name (row), &rect);
 
-					rect.y = top;
-					rect.height = pixels;
-					ib_draw_cell (ib, drawable,
-						       has_object ? COL_ROW_NO_SELECTION
-						       : sheet_row_selection_type (sv, row),
-						       row_name (row), &rect);
+				if (len > 0) {
+					if (!draw_below) {
+						next = sheet_row_get_info (sheet, row + 1);
+						points[0].y = top;
+					} else
+						points[0].y = total;
 
-					if (len > 0) {
-						for (level = cri->outline_level; i++ < level ; pos += inc) {
-							if (i > prev_level)
-								gdk_draw_line (drawable, ib->lines,
-									       pos,     top+1,
-									       pos+len, top+1);
-							else
-								top--; /* line loses 1 pixel */
+					/* draw the start or end marks and the vertical lines */
+					points[1].y = points[2].y = top + pixels/2;
+					for (level = cri->outline_level; i++ < level ; pos += inc) {
+						points[0].x = points[1].x = pos;
+						points[2].x		  = pos + len;
+						if (draw_below && i > prev_level)
+							gdk_draw_lines (drawable, ib->lines, points, 3);
+						else if (!draw_below && i > next->outline_level)
+							gdk_draw_lines (drawable, ib->lines, points, 3);
+						else
 							gdk_draw_line (drawable, ib->lines,
-								       pos, top,
-								       pos, total+1);
-						}
+								       pos, top, pos, total);
+					}
 
+					if (draw_below) {
 						if (prev_level > level) {
 							int safety = 0;
 							int left = pos - base_pos;
@@ -504,8 +550,6 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 									gdk_draw_line (drawable, ib->lines,
 										       left+size/2, top+3,
 										       left+size/2, top+size-4);
-									if (!cri->is_collapsed)
-										g_warning ("expected collapsed %s", row_name (row));
 								}
 								gdk_draw_line (drawable, ib->lines,
 									       left+3,	    top+size/2,
@@ -513,15 +557,49 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 							}
 						} else if (level > 0)
 							gdk_draw_line (drawable, ib->lines,
-								       pos,      total-pixels/2,
-								       pos+len,  total-pixels/2);
+								       pos,      top+pixels/2,
+								       pos+len,  top+pixels/2);
+					} else {
+						if (next->outline_level > level) {
+							int safety = 0;
+							int left = pos - base_pos;
+							int size = inc < pixels ? inc : pixels;
+							int bottom;
+
+							if (size > 15)
+								size = 15;
+							else if (size < 6)
+								safety = 6 - size;
+
+							bottom = total - size;
+							top += 2; /* inside cell's shadow */
+							gtk_draw_shadow (canvas->style, drawable,
+									 GTK_STATE_NORMAL,
+									 next->visible ? GTK_SHADOW_OUT : GTK_SHADOW_IN,
+									 left+safety, bottom, size, size);
+							if (size > 9) {
+								if (!next->visible) {
+									left++;
+									top++;
+									gdk_draw_line (drawable, ib->lines,
+										       left+size/2, bottom+3,
+										       left+size/2, bottom+size-4);
+								}
+								gdk_draw_line (drawable, ib->lines,
+									       left+3,	    bottom+size/2,
+									       left+size-4, bottom+size/2);
+							}
+						} else if (level > 0)
+							gdk_draw_line (drawable, ib->lines,
+								       pos,      top+pixels/2,
+								       pos+len,  top+pixels/2);
 					}
 				}
 			}
 			prev_visible = cri->visible;
 			prev_level = cri->outline_level;
 			++row;
-		} while (total < end);
+		} while (total <= end);
 	}
 }
 
