@@ -1,3 +1,9 @@
+2005-02-04  Morten Welinder  <terra@gnome.org>
+
+	* graph/gog-renderer-pixbuf.c (gog_renderer_pixbuf_finalize):
+	Remove old #ifdef HAVE_foo stuff.
+	* graph/gog-renderer-gnome-print.c: Ditto.
+
 2005-02-03  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* graph/gog-axis.c: (map_linear_auto_bound): change < to >, fix #164593.

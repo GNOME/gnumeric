@@ -39,9 +39,7 @@
 #include <math.h>
 #include <string.h>
 
-#ifdef HAVE_GNOME_PRINT_PANGO_CREATE_LAYOUT
 #include <libgnomeprint/gnome-print-pango.h>
-#endif
 
 #define GOG_RENDERER_GNOME_PRINT_TYPE	(gog_renderer_gnome_print_get_type ())
 #define GOG_RENDERER_GNOME_PRINT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_RENDERER_GNOME_PRINT_TYPE, GogRendererGnomePrint))
@@ -500,7 +498,6 @@ gog_renderer_gnome_print_draw_text (GogRenderer *rend, char const *text,
 
 	if (text[0]) {
 		double x, y, w, h;
-#ifdef HAVE_GNOME_PRINT_PANGO_CREATE_LAYOUT
 		int iw, ih;
 		const double dummy_dpi = 300; /* FIXME: What exactly is this?  */
 		PangoFontDescription *pango_font =   /* FIXME: can i get the pango font directly ? */
@@ -511,12 +508,6 @@ gog_renderer_gnome_print_draw_text (GogRenderer *rend, char const *text,
 		pango_layout_get_size (prend->layout, &iw, &ih);
 		w = iw / (double)PANGO_SCALE;
 		h = ih / (double)PANGO_SCALE;
-#else
-		/* This code will die when we require libgnomeprint 2.8  */
-		double font_ascent = gnome_font_get_ascender (gfont);
-		w = gnome_font_get_width_utf8 (gfont, text);
-		h = font_ascent + gnome_font_get_descender (gfont);
-#endif	
 		x = pos->x;
 		switch (anchor) {
 		case GTK_ANCHOR_CENTER : case GTK_ANCHOR_N : case GTK_ANCHOR_S :
@@ -545,16 +536,9 @@ gog_renderer_gnome_print_draw_text (GogRenderer *rend, char const *text,
 		
 #warning "add clipping"
 
-#ifdef HAVE_GNOME_PRINT_PANGO_CREATE_LAYOUT
 		gnome_print_moveto (prend->gp_context,x, -y);
 		gnome_print_pango_layout (prend->gp_context, prend->layout);
 		pango_font_description_free (pango_font);
-#else	
-		/* This code will die when we require libgnomeprint 2.8  */		
-		gnome_print_setfont (prend->gp_context, gfont);
-		gnome_print_moveto (prend->gp_context, x, -y - font_ascent);
-		gnome_print_show (prend->gp_context, text);
-#endif	
 		if (result != NULL) {
 			result->x = x;
 			result->y = y;
@@ -570,7 +554,6 @@ gog_renderer_gnome_print_measure_text (GogRenderer *rend,
 {
 	GogRendererGnomePrint *prend = GOG_RENDERER_GNOME_PRINT (rend);
 	GnomeFont *gfont = get_font (prend,  rend->cur_style->font.font);
-#ifdef HAVE_GNOME_PRINT_PANGO_CREATE_LAYOUT
 	int iw, ih;
 	const double dummy_dpi = 300; /* FIXME: What exactly is this?  */
 	PangoFontDescription *pango_font =   /* FIXME: can i get the pango font directly ? */
@@ -581,10 +564,6 @@ gog_renderer_gnome_print_measure_text (GogRenderer *rend,
 	pango_layout_get_size (prend->layout, &iw, &ih);
 	size->w = iw / (double)PANGO_SCALE;
 	size->h = ih / (double)PANGO_SCALE;
-#else
-	size->w = gnome_font_get_width_utf8 (gfont, text);
-	size->h = gnome_font_get_ascender (gfont) - gnome_font_get_descender (gfont);
-#endif
 }
 
 static void
@@ -675,11 +654,7 @@ gog_graph_print_to_gnome_print (GogGraph *graph,
 			      "zoom", 1.,
 			      NULL);
 	prend->gp_context = g_object_ref (gp_context);
-#ifdef HAVE_GNOME_PRINT_PANGO_CREATE_LAYOUT
 	prend->layout = gnome_print_pango_create_layout (prend->gp_context);
-#else
-	prend->layout = 0;
-#endif
 	allocation.x = 0.;
 	allocation.y = 0.;
 	allocation.w = width;
