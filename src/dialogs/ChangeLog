@@ -1,5 +1,8 @@
 2001-10-31  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
+	* analysis-tools.glade, dialog-analysis-tools.c: Added `Help'
+	button to the tool selection dialog.
+
 	* advanced-filter.glade, dialog-advanced-filter.c: Added `Help'
 	button.
 

@@ -2,10 +2,10 @@
  * dialog-analysis-tools.c:
  *
  * Authors:
- *  Jukka-Pekka Iivonen <iivonen@iki.fi>
+ *  Jukka-Pekka Iivonen <jiivonen@hutcs.cs.hut.fi>
  *  Andreas J. Guelzow  <aguelzow@taliesin.ca>
  *
- * (C) Copyright 2000 by Jukka-Pekka Iivonen <iivonen@iki.fi>
+ * (C) Copyright 2000, 2001 by Jukka-Pekka Iivonen <jiivonen@hutcs.cs.hut.fi>
  */
 
 #include <config.h>
@@ -3749,13 +3749,25 @@ selection_made (GtkWidget *clist, gint row, gint column,
 	}
 }
 
+static void
+dialog_help_cb(GtkWidget *button, gchar *helpfile)
+{
+        if (helpfile != NULL) {
+	        GnomeHelpMenuEntry help_ref;
+		help_ref.name = "gnumeric";
+		help_ref.path = helpfile;
+		gnome_help_display (NULL, &help_ref);
+	}
+}
+
 void
 dialog_data_analysis (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
         GladeXML  *gui;
 	GtkWidget *dialog;
 	GtkWidget *tool_list;
-
+	GtkWidget *helpbutton;
+	gchar     *helpfile = "analysis-tools.html";
 	int       i, selection;
 
  dialog_loop:
@@ -3769,7 +3781,11 @@ dialog_data_analysis (WorkbookControlGUI *wbcg, Sheet *sheet)
                 return;
         }
 
-        tool_list = glade_xml_get_widget (gui, "clist1");
+        helpbutton = glade_xml_get_widget(gui, "helpbutton");
+	gtk_signal_connect (GTK_OBJECT (helpbutton), "clicked",
+			    GTK_SIGNAL_FUNC (dialog_help_cb), helpfile);
+
+	tool_list = glade_xml_get_widget (gui, "clist1");
 	gtk_signal_connect (GTK_OBJECT(tool_list), "select_row",
 			    GTK_SIGNAL_FUNC(selection_made), NULL);
 
@@ -3785,7 +3801,12 @@ dialog_data_analysis (WorkbookControlGUI *wbcg, Sheet *sheet)
 	gtk_widget_grab_focus (GTK_WIDGET(tool_list));
 
 	/* Run the dialog */
+ loop:
 	selection = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
+
+	if (selection == 2)
+	        goto loop;
+
 	gtk_object_unref (GTK_OBJECT (gui));
 
 	if (selection == -1)
