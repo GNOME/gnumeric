@@ -3,10 +3,10 @@
  * fn-information.c:  Information built-in functions
  *
  * Authors:
- *  Jukka-Pekka Iivonen (iivonen@iki.fi)
- *  Jody Goldberg (jody@gnome.org)
- *  Morten Welinder (terra@diku.dk)
- *  Almer S. Tigelaar (almer@gnome.org)
+ *   Jukka-Pekka Iivonen (iivonen@iki.fi)
+ *   Jody Goldberg (jody@gnome.org)
+ *   Morten Welinder (terra@diku.dk)
+ *   Almer S. Tigelaar (almer@gnome.org)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -45,6 +45,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <libgnome/gnome-i18n.h>
+
+#include "plugin.h"
+#include "plugin-util.h"
+#include "module-plugin-defs.h"
+
+GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 enum Value_Class {
 	VALUE_CLASS_NUMBER  = 1,
@@ -1019,53 +1025,27 @@ gnumeric_getenv (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-void information_functions_init (void);
-
-void
-information_functions_init (void)
-{
-	FunctionCategory *cat = function_get_category_with_translation ("Information", _("Information"));
-
-	function_add_args  (cat, "cell", "sr", "info_type, cell",
-			    &help_cell, gnumeric_cell);
-        function_add_args  (cat, "countblank", "r",  "range",
-			    &help_countblank, gnumeric_countblank);
-	function_add_args  (cat, "error",   "s",  "text",
-			    &help_error,   gnumeric_error);
-	function_add_nodes (cat, "error.type", NULL, "",
-			    &help_error_type, gnumeric_error_type);
-	function_add_args  (cat, "expression", "r",   "cell",
-			    &help_expression, gnumeric_expression);
-	function_add_args  (cat, "info", "s", "info_type",
-			    &help_info, gnumeric_info);
-	function_add_nodes (cat, "isblank", NULL, "value",
-			    &help_isblank, gnumeric_isblank);
-	function_add_nodes (cat, "iserr", NULL,   "",
-			    &help_iserr,   gnumeric_iserr);
-	function_add_nodes (cat, "iserror", NULL,   "",
-			    &help_iserror, gnumeric_iserror);
-	function_add_args  (cat, "iseven", "?", "value",
-			    &help_iseven, gnumeric_iseven);
-	function_add_nodes (cat, "islogical", NULL, "value",
-			    &help_islogical, gnumeric_islogical);
-	function_add_nodes (cat, "isna", NULL,   "",
-			    &help_isna,    gnumeric_isna);
-	function_add_nodes (cat, "isnontext", NULL, "value",
-			    &help_isnontext, gnumeric_isnontext);
-	function_add_nodes (cat, "isnumber", NULL, "value",
-			    &help_isnumber, gnumeric_isnumber);
-	function_add_args  (cat, "isodd", "?", "value",
-			    &help_isodd, gnumeric_isodd);
-	function_add_nodes (cat, "isref", NULL, "value",
-			    &help_isref, gnumeric_isref);
-	function_add_nodes (cat, "istext", NULL, "value",
-			    &help_istext, gnumeric_istext);
-	function_add_args  (cat, "n", "?", "value",
-			    &help_n, gnumeric_n);
-	function_add_args  (cat, "na",      "",  "",
-			    &help_na,      gnumeric_na);
-	function_add_nodes (cat, "type",   NULL, "value",
-			    &help_type, gnumeric_type);
-	function_add_args  (cat, "getenv", "s", "string",
-			    &help_getenv, gnumeric_getenv);
-}
+const ModulePluginFunctionInfo info_functions[] = {
+	{ "cell", "sr", "info_type, cell", &help_cell, gnumeric_cell, NULL, NULL, NULL },
+        { "countblank", "r",  "range", &help_countblank, gnumeric_countblank, NULL, NULL, NULL },
+	{ "error",   "s",  "text", &help_error,   gnumeric_error, NULL, NULL, NULL },
+	{ "error.type", NULL, "", &help_error_type, NULL, gnumeric_error_type, NULL, NULL },
+	{ "expression", "r",   "cell", &help_expression, gnumeric_expression, NULL, NULL, NULL },
+	{ "info", "s", "info_type", &help_info, gnumeric_info, NULL, NULL, NULL },
+	{ "isblank", NULL, "value", &help_isblank, NULL, gnumeric_isblank, NULL, NULL },
+	{ "iserr", NULL,   "", &help_iserr,   NULL, gnumeric_iserr, NULL, NULL },
+	{ "iserror", NULL,   "", &help_iserror, NULL, gnumeric_iserror, NULL, NULL },
+	{ "iseven", "?", "value", &help_iseven, gnumeric_iseven, NULL, NULL, NULL },
+	{ "islogical", NULL, "value", &help_islogical, NULL, gnumeric_islogical, NULL, NULL },
+	{ "isna", NULL,   "", &help_isna,    NULL, gnumeric_isna, NULL, NULL },
+	{ "isnontext", NULL, "value", &help_isnontext, NULL, gnumeric_isnontext, NULL, NULL },
+	{ "isnumber", NULL, "value", &help_isnumber, NULL, gnumeric_isnumber, NULL, NULL },
+	{ "isodd", "?", "value", &help_isodd, gnumeric_isodd, NULL, NULL, NULL },
+	{ "isref", NULL, "value", &help_isref, NULL, gnumeric_isref, NULL, NULL },
+	{ "istext", NULL, "value", &help_istext, NULL, gnumeric_istext, NULL, NULL },
+	{ "n", "?", "value", &help_n, gnumeric_n, NULL, NULL, NULL },
+	{ "na",      "",  "", &help_na,      gnumeric_na, NULL, NULL, NULL },
+	{ "type",   NULL, "value", &help_type, NULL, gnumeric_type, NULL, NULL },
+	{ "getenv", "s", "string", &help_getenv, gnumeric_getenv, NULL, NULL, NULL },
+        {NULL}
+};
