@@ -1,3 +1,8 @@
+2004-10-01  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* welcome.xml: Removed "trademark" tag as it is not allowed inside
+	guilabel.
+
 2004-10-01  Adrian Custer <acuster@gnome.org>
 
 	* NEWS Reorg then hide the sections.
