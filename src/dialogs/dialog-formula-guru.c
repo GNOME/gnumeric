@@ -163,7 +163,6 @@ dialog_formula_guru_update_this_parent (GtkTreeIter *parent, FormulaGuruState *s
 
 			if (not_first) {
 				text = g_string_append_c (text, format_get_arg_sep ());
-				text = g_string_append_c (text, ' ');
 			}
 
 			if (find_origin && origin != NULL) {
