@@ -3461,6 +3461,7 @@ sheet_insert_cols (WorkbookControl *wbc, Sheet *sheet,
 		colrow_move (sheet, i, 0, i, SHEET_MAX_ROWS-1,
 			     &sheet->cols, i, i + count);
 
+	solver_insert_cols (sheet, col, count);
 	sheet_colrow_insert_finish (&reloc_info, TRUE, col, count, states);
 	return FALSE;
 }
@@ -3571,6 +3572,7 @@ sheet_insert_rows (WorkbookControl *wbc, Sheet *sheet,
 		colrow_move (sheet, 0, i, SHEET_MAX_COLS-1, i,
 			     &sheet->rows, i, i+count);
 
+	solver_insert_rows (sheet, row, count);
 	sheet_colrow_insert_finish (&reloc_info, FALSE, row, count, states);
 	return FALSE;
 }

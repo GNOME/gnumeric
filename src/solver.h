@@ -249,5 +249,7 @@ Cell*            solver_get_input_var (SolverResults *res, int n);
 /* Retruns a pointer to a constraint. */
 SolverConstraint* solver_get_constraint (SolverResults *res, int n);
 
+void              solver_insert_cols    (Sheet *sheet, int col, int count);
+void              solver_insert_rows    (Sheet *sheet, int row, int count);
 
 #endif
