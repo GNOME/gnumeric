@@ -36,7 +36,7 @@ static ExcelSheet *ms_excel_sheet_new       (ExcelWorkbook *wb,
 static void        ms_excel_workbook_attach (ExcelWorkbook *wb,
 					     ExcelSheet *ans);
 
-static guint16
+/*static guint16
 ms_bug_get_padding (const BiffQuery *q, guint16 opcode)
 {
 	guint8 ls_op = (opcode & 0x00ff);
@@ -62,7 +62,7 @@ ms_bug_get_padding (const BiffQuery *q, guint16 opcode)
 		opcode, ans);
 #endif
 	return ans;
-}
+}*/
 
 void
 ms_excel_unexpected_biff (BiffQuery *q, char const *const state)
@@ -162,6 +162,13 @@ biff_get_text (guint8 const *pos, guint32 length, guint32 *byte_length)
 		return 0;
 	}
 
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_read_debug > 1) {
+		printf ("String :\n");
+		dump (pos, length);
+	}
+#endif
+
 	ans = (char *) g_new (char, length + 2);
 
 	header = biff_string_get_flags (pos,
@@ -192,7 +199,7 @@ biff_get_text (guint8 const *pos, guint32 length, guint32 *byte_length)
 		ptr+= 4;
 		printf ("FIXME: extended string support unimplemented: ignoring %d bytes\n", len_ext_rst);
 	}
-	(*byte_length) += length * (high_byte ? 2 : 1);
+
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug > 4) {
 		printf ("String len %d, byte length %d: %d %d %d:\n",
@@ -203,16 +210,38 @@ biff_get_text (guint8 const *pos, guint32 length, guint32 *byte_length)
 
 	for (lp = 0; lp < length; lp++) {
 		guint16 c;
-		if (high_byte) {
-			c = MS_OLE_GET_GUINT16(ptr);
-			ptr+=2;
-		} else {
-			c = MS_OLE_GET_GUINT8(ptr);
+		guint8  header;
+		if (((header = MS_OLE_GET_GUINT8 (ptr)) & 0xf2) == 0) {
+			static int already_warned = FALSE;
+			high_byte  = (header & 0x1) != 0;
+			ext_str    = (header & 0x4) != 0;
+			rich_str   = (header & 0x8) != 0;
+			if (rich_str || ext_str)
+				g_warning ("Panic: ahhh... sill string");
+			/* This can wait until the big unicode clean ;-) */
+			if (!already_warned) {
+				g_warning ("Fixme: eventualy we need to re-architecture string reading");
+				already_warned = TRUE;
+			}
 			ptr+=1;
+			lp--;
+			(*byte_length) += 1;
+		} else if (high_byte) {
+			c = MS_OLE_GET_GUINT16 (ptr);
+			ptr+=2;
+			ans[lp] = (char)c;
+			(*byte_length) += 2;
+		} else {
+			c = MS_OLE_GET_GUINT8 (ptr);
+			ptr+=1;
+			ans[lp] = (char)c;
+			(*byte_length) += 1;
 		}
-		ans[lp] = (char)c;
 	}
-	ans[lp] = 0;
+	if (lp > 0)
+		ans[lp] = 0;
+	else
+		g_warning ("Warning unterminated string floating");
 	return ans;
 }
 
@@ -1577,7 +1606,11 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 		val = value_new_string ("MISSING Value");
 	}
 	if (cell->value != NULL) {
-		g_warning ("EXCEL : How does cell already have value?\n");
+		static gboolean already_warned = FALSE;
+		if (!already_warned) {
+			g_warning ("EXCEL : How does cell already have value?\n");
+			already_warned = TRUE;
+		}
 		value_release (cell->value);
 	}
 
@@ -2680,17 +2713,10 @@ ms_excel_read_workbook (MsOle *file)
 				wb->gnum_wb = workbook_new ();
 				if (ver->version >= eBiffV8) {
 					guint32 ver = MS_OLE_GET_GUINT32 (q->data + 4);
-					if (ver == 0x07cc0dbb) {
-						guint hist = MS_OLE_GET_GUINT32 (q->data + 8);
-						/* Very very magic bit :-) I hope to understand this some day */
-						/* not even 'reserved' :-) see S59D5D.HTM */
-						if ((hist & 0xff) == 0x49) {
-							ms_biff_query_set_quirk (q, ms_bug_get_padding);
-							printf (" quirky 0x%x ", hist);
-						}
-						printf ("Excel 97 +\n");
-					} else if (ver == 0x4107cd18)
+					if (ver == 0x4107cd18)
 						printf ("Excel 2000 ?\n");
+					else
+						printf ("Excel 97 +\n");
 				} else if (ver->version >= eBiffV7)
 					printf ("Excel 95\n");
 				else if (ver->version >= eBiffV5)
@@ -2818,9 +2844,9 @@ ms_excel_read_workbook (MsOle *file)
 						 */
 						printf ("FIXME: Serious SST overrun lost %d of 0x%x strings!\n",
 							wb->global_string_max - k, wb->global_string_max);
-						printf ("Last string was '%s' with length 0x%x 0x%x of 0x%x > 0x%x\n",
+/*						printf ("Last string was '%s' with length 0x%x 0x%x of 0x%x > 0x%x\n",
 							(wb->global_strings[k-1] ? wb->global_strings[k-1] : "(null)"),
-							length, byte_len, tot_len, q->length);
+							length, byte_len, tot_len, q->length);*/
 						wb->global_string_max = k;
 						break;
 					}

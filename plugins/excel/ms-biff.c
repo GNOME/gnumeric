@@ -27,8 +27,6 @@
  *  a) Speed optimisation of passing a raw pointer to the mapped stream back
  *  b) Merging continues, if a record is too large for a single BIFF record
  *     ie. 0xffff bytes ( or more usu. 0x2000 ) it is split into continues.
- *  c) However continues do not always behave as specified requiring an arbitary
- *     number of padding bytes occasionaly ( see ms_bug_get_padding ).
  **/
 
 /*******************************************************************************/
@@ -73,11 +71,11 @@ dump_biff (BiffQuery *bq)
 /*                                 Read Side                                   */
 /*******************************************************************************/
 
-static guint16
+/*static guint16
 no_quirks (const BiffQuery *q, guint16 op)
 {
 	return 0;
-}
+}*/
 
 BiffQuery *
 ms_biff_query_new (MsOleStream *ptr)
@@ -89,23 +87,23 @@ ms_biff_query_new (MsOleStream *ptr)
 	bq->opcode        = 0;
 	bq->length        = 0;
 	bq->data_malloced = 0;
-	bq->padding       = 0;
+/*	bq->padding       = 0; */
 	bq->num_merges    = 0;
 	bq->pos           = ptr;
-	bq->quirk         = no_quirks;
+/*	bq->quirk         = no_quirks;*/
 #if BIFF_DEBUG > 0
 	dump_biff(bq);
 #endif
 	return bq;
 }
 
-void
+/*void
 ms_biff_query_set_quirk (BiffQuery *bq, BiffQuirkFn *quirk)
 {
 	g_return_if_fail (bq != NULL);
 
 	bq->quirk = quirk;
-}
+}*/
 
 BiffQuery *
 ms_biff_query_copy (const BiffQuery *p)
@@ -150,7 +148,7 @@ ms_biff_merge_continues (BiffQuery *bq, guint32 len)
 	total_len = chunk.length;
 	g_array_append_val (contin, chunk);
 
-	bq->padding = bq->quirk (bq, bq->opcode);
+/*	bq->padding = bq->quirk (bq, bq->opcode); */
 
 	/* Subsequent continue blocks */
 	chunk.length = len;
@@ -166,7 +164,7 @@ ms_biff_merge_continues (BiffQuery *bq, guint32 len)
 #endif
 		tmp[0] = 0; tmp[1] = 0; tmp[2] = 0; tmp[3] = 0;
 		bq->pos->read_copy (bq->pos, tmp, 4);	
-		total_len   += chunk.length - bq->padding;
+		total_len   += chunk.length/* - bq->padding*/;
 		g_array_append_val (contin, chunk);
 
 		chunk.length = MS_OLE_GET_GUINT16 (tmp+2);
@@ -188,8 +186,8 @@ ms_biff_merge_continues (BiffQuery *bq, guint32 len)
 		g_assert ((d-bq->data)+chunk.length<=total_len);
 #endif
 		if (lp) {
-			memcpy (d, chunk.data+bq->padding, chunk.length-bq->padding);
-			d+=chunk.length-bq->padding;
+			memcpy (d, chunk.data/*+bq->padding*/, chunk.length/*-bq->padding*/);
+			d+=chunk.length/*-bq->padding*/;
 		} else {
 			memcpy (d, chunk.data, chunk.length);
 			d+=chunk.length;
@@ -237,7 +235,7 @@ ms_biff_query_next_merge (BiffQuery *bq, gboolean do_merge)
 	if (bq->data_malloced) { /* always true for merged records*/
 		g_free (bq->data);
 		bq->num_merges    = 0;
-		bq->padding       = 0;
+/*		bq->padding       = 0;*/
 		bq->data_malloced = 0;
 	}
 	g_assert (bq->num_merges == 0);
@@ -287,7 +285,7 @@ ms_biff_query_unmerge (BiffQuery *bq)
 {
 	if (!bq || !bq->num_merges)
 		return;
-	bq->pos->lseek (bq->pos, -(4*(bq->num_merges+1) - (bq->num_merges*bq->padding)
+	bq->pos->lseek (bq->pos, -(4*(bq->num_merges+1)/* - (bq->num_merges*bq->padding)*/
 				   + bq->length), MsOleSeekCur);
 	ms_biff_query_next_merge (bq, FALSE);
 }
@@ -323,11 +321,11 @@ ms_biff_put_new (MsOleStream *s)
 	bp->length        = 0;
 	bp->streamPos     = s->tell (s);
 	bp->num_merges    = 0;
-	bp->padding       = 0;
+/*	bp->padding       = 0;*/
 	bp->data_malloced = 0;
 	bp->len_fixed     = 0;
 	bp->pos           = s;
-	bp->quirk         = no_quirks;
+/*	bp->quirk         = no_quirks;*/
 	return bp;
 }
 
@@ -351,7 +349,7 @@ ms_biff_put_len_next   (BiffPut *bp, guint16 opcode, guint32 len)
 	bp->ms_op      = (opcode >>   8);
 	bp->ls_op      = (opcode & 0xff);
 	bp->length     = len;
-	bp->padding    = 0;
+/*	bp->padding    = 0;*/
 	bp->num_merges = 0;
 	bp->streamPos  = bp->pos->tell (bp->pos);
 	if (len > 0)
@@ -371,7 +369,7 @@ ms_biff_put_var_next   (BiffPut *bp, guint16 opcode)
 	bp->len_fixed  = 0;
 	bp->ms_op      = (opcode >>   8);
 	bp->ls_op      = (opcode & 0xff);
-	bp->padding    = 0;
+/*	bp->padding    = 0;*/
 	bp->num_merges = 0;
 	bp->curpos     = 0;
 	bp->length     = 0;

@@ -1,3 +1,7 @@
+1999-07-31  Michael Meeks  <michael@edenproject.org>
+
+	* src/fn-information.c (gnumeric_isref): Implemented.
+
 1999-07-30  James Youngman  <jay@gnu.org>
 
 	* src/fn-eng.c (gnumeric_besseli): Implemented.

@@ -42,7 +42,7 @@ struct _BiffQuery {
 	guint8  *data;
 	guint32 streamPos;
 	guint16 num_merges;
-	gint16  padding;
+/*	gint16  padding;*/
 	int     data_malloced; /* is *data a copy ? */
 	MsOleStream *pos;
 	BiffQuirkFn *quirk;    /* Ugly ! */
@@ -50,8 +50,8 @@ struct _BiffQuery {
  
 /* Sets up a query on a stream */
 extern BiffQuery  *ms_biff_query_new         (MsOleStream *);
-extern void        ms_biff_query_set_quirk   (BiffQuery *,
-					      BiffQuirkFn *);
+/*extern void        ms_biff_query_set_quirk   (BiffQuery *,
+  BiffQuirkFn *);*/
 /* Duplicates this query, so chaining can re-commence here */
 extern BiffQuery  *ms_biff_query_copy        (const BiffQuery *p);
 /* Updates the BiffQuery structure with the next BIFF record
@@ -76,7 +76,7 @@ typedef struct _BiffPut
 	MsOlePos   streamPos;
 	MsOlePos   curpos; /* Curpos is offset from beggining of header */
 	guint16        num_merges;      
-	gint16         padding;
+/*	gint16         padding;*/
 	int            data_malloced;
 	int            len_fixed;
 	MsOleStream *pos;

@@ -404,13 +404,18 @@ static char *help_isref = {
 };
 
 static Value *
-gnumeric_isref (FunctionEvalInfo *ei, Value **argv)
+gnumeric_isref (FunctionEvalInfo *ei, GList *expr_node_list)
 {
-	int result = 0;
-	/* TODO TODO TODO
-	 * Fill in the blank
-	 */
-	return value_new_bool (result);
+	ExprTree *t;
+
+	if (g_list_length (expr_node_list) != 1)
+		return value_new_error (&ei->pos, _("Invalid number of arguments"));
+
+	t = expr_node_list->data;
+	if (!t)
+		return NULL;
+
+	return value_new_bool (t->oper == OPER_VAR);
 }
 
 
@@ -517,7 +522,7 @@ void information_functions_init()
 
 	function_add_args  (cat, "isodd", "?", "value",
 			    &help_isodd, gnumeric_isodd);
-	function_add_args  (cat, "isref", "?", "value",
+	function_add_nodes (cat, "isref", "?", "value",
 			    &help_isref, gnumeric_isref);
 
 	/* Handles args manually */

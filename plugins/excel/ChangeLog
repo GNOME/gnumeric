@@ -1,3 +1,17 @@
+1999-07-31  Michael Meeks  <michael@edenproject.org>
+
+	* ms-excel-read.c (biff_get_text): Hacked to deal with continues
+	nicely.
+	(ms_excel_read_workbook): Fixed up nasty version stuff.
+	Commented out ms_bug_padd stuff.
+
+	* ms-biff.[ch]: Commented out all padding and quirks stuff.
+
+1999-07-30  Michael Meeks  <michael@edenproject.org>
+
+	* ms-excel-read.c (ms_excel_read_formula): quiet wierd
+	warning... why is this suddenly prevalent.
+
 1999-07-28  Michael Meeks  <michael@edenproject.org>
 
 	* ms-excel-write.c (biff_put_text): kill warnings.
