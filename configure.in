@@ -1,6 +1,6 @@
 -*- mode: m4 -*-
 AC_PREREQ(2.52)
-AC_INIT(gnumeric, 1.1.10,
+AC_INIT(gnumeric, 1.1.11,
 	http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric)
 
 AC_CONFIG_SRCDIR(src/sheet.h)
@@ -41,7 +41,7 @@ gnumeric_reqs="
 glib-2.0	>= 2.0.0
 gobject-2.0	>= 2.0.0
 gmodule-2.0	>= 2.0.0
-libgsf-1	>= 1.4.0
+libgsf-1	>= 1.5.0
 gtk+-2.0	>= 2.0.0
 libxml-2.0	>= 2.4.12
 libglade-2.0	>= 1.99.7
