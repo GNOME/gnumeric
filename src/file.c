@@ -502,18 +502,19 @@ void
 unregister_file_opener (GnumFileOpener *fo)
 {
 	gint pos;
+	GList *l;
 	const gchar *id;
 
 	g_return_if_fail (IS_GNUM_FILE_OPENER (fo));
 
 	pos = g_list_index (file_opener_list, fo);
 	g_return_if_fail (pos != -1);
-	file_opener_list = g_list_remove_link (
-	                   file_opener_list,
-	                   g_list_nth (file_opener_list, pos));
-	file_opener_priority_list = g_list_remove_link (
-	                            file_opener_priority_list,
-	                            g_list_nth (file_opener_priority_list, pos));
+	l = g_list_nth (file_opener_list, pos);
+	file_opener_list = g_list_remove_link (file_opener_list, l);
+	g_list_free_1 (l);
+	l = g_list_nth (file_opener_priority_list, pos);
+	file_opener_priority_list = g_list_remove_link (file_opener_priority_list, l);
+	g_list_free_1 (l);
 
 	id = gnum_file_opener_get_id (fo);
 	if (id != NULL) {
@@ -546,7 +547,8 @@ unregister_file_opener_as_importer (GnumFileOpener *fo)
 
 	l = g_list_find (file_importer_list, fo);
 	g_return_if_fail (l != NULL);
-	file_importer_list = g_list_remove_link (file_importer_list,  l);
+	file_importer_list = g_list_remove_link (file_importer_list, l);
+	g_list_free_1 (l);
 
 	id = gnum_file_opener_get_id (fo);
 	if (id != NULL) {
@@ -566,14 +568,6 @@ default_file_saver_cmp_priority (gconstpointer a, gconstpointer b)
 	const DefaultFileSaver *dfs_a = a, *dfs_b = b;
 
 	return dfs_b->priority - dfs_a->priority;
-}
-
-static gint
-default_file_saver_cmp_saver (gconstpointer a, gconstpointer b)
-{
-	const DefaultFileSaver *dfs_a = a, *dfs_b = b;
-
-	return dfs_a->saver != dfs_b->saver;
 }
 
 /**
@@ -659,6 +653,7 @@ unregister_file_saver (GnumFileSaver *fs)
 	l = g_list_find (file_saver_list, fs);
 	g_return_if_fail (l != NULL);
 	file_saver_list = g_list_remove_link (file_saver_list, l);
+	g_list_free_1 (l);
 
 	id = gnum_file_saver_get_id (fs);
 	if (id != NULL) {
@@ -669,9 +664,14 @@ unregister_file_saver (GnumFileSaver *fs)
 		}
 	}
 
-	l = g_list_find_custom (default_file_saver_list, fs,
-	                        default_file_saver_cmp_saver);
-	default_file_saver_list = g_list_remove_link (default_file_saver_list, l);
+	for (l = default_file_saver_list; l != NULL; l = l->next) {
+		if (((DefaultFileSaver *) l->data)->saver == fs) {
+			default_file_saver_list = g_list_remove_link (default_file_saver_list, l);
+			g_list_free_1 (l);
+			g_free (l->data);
+			break;
+		}
+	}
 
 	gtk_object_unref (GTK_OBJECT (fs));
 }

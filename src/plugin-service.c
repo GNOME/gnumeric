@@ -664,6 +664,8 @@ plugin_service_file_saver_read (xmlNode *tree, ErrorInfo **ret_error)
 		service_file_saver->description = description;
 		service_file_saver->format_level = parse_format_level_str (format_level_str,
 		                                                           FILE_FL_WRITE_ONLY);
+		service_file_saver->default_saver_priority = e_xml_get_integer_prop_by_name_with_default (
+		                                             tree, "default_saver_priority", -1);
 		service_file_saver->plugin_func_file_save = NULL;
 
 		g_free (format_level_str);
@@ -710,7 +712,12 @@ plugin_service_file_saver_initialize (PluginService *service, ErrorInfo **ret_er
 	*ret_error = NULL;
 	service_file_saver = &service->t.file_saver;
 	service_file_saver->saver = GNUM_FILE_SAVER (gnum_plugin_file_saver_new (service));
-	register_file_saver (service_file_saver->saver);
+	if (service_file_saver->default_saver_priority < 0) {
+		register_file_saver (service_file_saver->saver);
+	} else {
+		register_file_saver_as_default (service_file_saver->saver,
+		                                service_file_saver->default_saver_priority);
+	}
 	file_savers_hash = plugin_info_peek_services_data (service->plugin)->file_savers_hash;
 	g_assert (g_hash_table_lookup (file_savers_hash, service_file_saver->id) == NULL);
 	g_hash_table_insert (file_savers_hash, service_file_saver->id, service_file_saver->saver);

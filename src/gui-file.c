@@ -169,7 +169,8 @@ fill_save_menu (WorkbookControlGUI *wbcg, GtkOptionMenu *omenu, GtkMenu *menu)
 	}
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), GTK_WIDGET (menu));
 
-	if (wbcg->current_saver == NULL) {
+	if (wbcg->current_saver == NULL ||
+	    g_list_find (savers, wbcg->current_saver) == NULL) {
 		wbcg->current_saver = get_default_file_saver ();
 	}
 	gtk_option_menu_set_history (omenu,
