@@ -1,3 +1,14 @@
+1999-09-15  Frank Chiulli  <fchiulli@home.com>
+	
+	* plugins/excel/boot.c (excel_save): Add a call to ms_summary_write
+	(ms-summary.c) to write out the SummaryInformation stream.
+
+	* plugins/excel/ms-summary.h: Make ms_summary_write public.
+	
+	* plugins/excel/ms-summary.c (ms_summary_write, sum_name_to_excel,
+	set_summary_item): New routines to support writing the 
+	SummaryInformation stream.
+	
 1999-09-17  Michael Meeks  <michael@nuclecu.unam.mx>
 
 	* ole.c (main, do_draw, dump_escher): dump raw data.

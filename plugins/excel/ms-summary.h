@@ -7,4 +7,6 @@
 
 #include "summary.h"
 
-extern void ms_summary_read (MsOle *f, SummaryInfo *sin);
+extern void ms_summary_read  (MsOle *f, SummaryInfo *sin);
+
+extern void ms_summary_write (MsOle *f, SummaryInfo *sin);

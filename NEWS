@@ -15,7 +15,10 @@ Miguel:
 	* New format apply buttons for money, percent.
 	* More commands to format/row/col/sheet
 	* Bumped row limit to 64k
-	* 
+
+Frank:
+	* Excel summary info export.
+
 --------------------------------------------------------------------------
 
 Gnumeric 0.33, 0.34, 0.35

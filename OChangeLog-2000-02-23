@@ -1,3 +1,12 @@
+1999-09-17  Michael Meeks  <michael@nuclecu.unam.mx>
+
+	* src/dialogs/dialog-summary.c (dialog_summary_update): Change to
+	workbook argument, and reparent to toplevel.
+
+	* src/dialogs/dialogs.h: ditto.
+
+	* src/workbook.c (summary_cmd): ditto.
+
 1999-09-17  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/widgets/gnumeric-toolbar.c (gnumeric_toolbar_class_init):

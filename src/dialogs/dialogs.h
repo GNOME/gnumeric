@@ -92,7 +92,7 @@ char   	*dialog_function_wizard (Workbook  *wb, FunctionDefinition *fd);
 void   	 dialog_goal_seek       (Workbook  *wb, Sheet *sheet);
 void   	 dialog_solver          (Workbook  *wb, Sheet *sheet);
 void   	 dialog_printer_setup   (Workbook  *wb, Sheet *sheet);
-void   	 dialog_summary_update  (GtkWidget *w, SummaryInfo *sin);
+void   	 dialog_summary_update  (Workbook  *wb, SummaryInfo *sin);
 void     dialog_data_analysis   (Workbook *wb, Sheet *sheet);
 char   	*dialog_get_sheet_name  (Workbook *wb, const char *name);
 gboolean dialog_get_number      (Workbook *wb,

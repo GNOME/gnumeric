@@ -110,7 +110,7 @@ file_save_as_cmd (GtkWidget *widget, Workbook *wb)
 static void
 summary_cmd (GtkWidget *widget, Workbook *wb)
 {
-	dialog_summary_update (widget, wb->summary_info);
+	dialog_summary_update (wb, wb->summary_info);
 }
 
 static void

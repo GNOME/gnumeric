@@ -1,5 +1,5 @@
 /**
- * ms-ole-summary.h: MS Office OLE support
+ * ms-ole-summary.c: MS Office OLE support
  *
  * Author:
  *    Michael Meeks (michael@imaginator.com)
@@ -10,6 +10,8 @@
  **/
 
 #include <glib.h>
+#include <stdio.h>
+
 #include "ms-ole.h"
 #include "ms-ole-summary.h"
 
@@ -67,16 +69,26 @@ typedef struct {
 	guint8          *data;
 } write_item_t;
 
+
+#define PROPERTY_HDR_LEN	8
+#define PROPERTY_DESC_LEN	8
 static void
 write_items (MsOleSummary *si)
 {
-	MsOlePos pos   = 48; /* magic offset see: _create_stream */
-	guint32  bytes = 0;
-	guint8   data[8];
+	MsOlePos pos = 48; /* magic offset see: _create_stream */
+	guint8   data[PROPERTY_DESC_LEN];
+	guint8   fill_data[] = {0, 0, 0, 0};
+	guint32  bytes = PROPERTY_HDR_LEN;
 	guint32  i, num;
+	guint32  fill;
+	guint32  offset = 0;
 	GList   *l;
 
-	si->s->lseek (si->s, pos + 8, MsOleSeekSet);
+	/*
+	 *  Write out the property descriptors.
+	 *  Keep track of the number of properties and number of bytes for the properties.
+	 */
+	si->s->lseek (si->s, pos + PROPERTY_HDR_LEN, MsOleSeekSet);
 
 	l = si->write_items;
 	num = g_list_length (l);
@@ -84,30 +96,55 @@ write_items (MsOleSummary *si)
 	while (l) {
 		write_item_t *w = l->data;
 		g_return_if_fail (w != NULL);
-		
-		MS_OLE_SET_GUINT32 (data + 0, w->id&0xff);
-		MS_OLE_SET_GUINT32 (data + 4, bytes + num*8);
-		si->s->write (si->s, data, 8);
 
-		bytes+= w->len;
+		/*
+		 *  The offset is calculated from the start of the 
+		 *  properties header.  The offset must be on a 
+		 * 4-byte boundary.
+		 */
+		offset = bytes + num * PROPERTY_DESC_LEN;
+		fill   = 0;
+		if ((offset & 0x3) > 0) {
+			offset += 4 - (offset & 0x3);
+			fill    = 4 - (offset & 0x3);
+		}
+			
+		MS_OLE_SET_GUINT32 (data + 0, w->id & 0xff);
+		MS_OLE_SET_GUINT32 (data + 4, offset);
+		si->s->write (si->s, data, PROPERTY_DESC_LEN);
+
+		bytes += w->len + fill;
 		i++;
 
 		l = g_list_next (l);
 	}
 
-	g_return_if_fail (i != num);
+	g_return_if_fail (i == num);
 	
+	/*
+	 *  Write out the item descriptors and the section header.
+	 */
 	si->s->lseek (si->s, pos, MsOleSeekSet);
 	MS_OLE_SET_GUINT32 (data + 0, bytes);
 	MS_OLE_SET_GUINT32 (data + 4, i);
-	si->s->write (si->s, data, 8);
+	si->s->write (si->s, data, PROPERTY_HDR_LEN);
 
-	si->s->lseek (si->s, pos + 8 + num*8, MsOleSeekSet);
+	/*
+	 *  Write out the property values.
+	 */
+	si->s->lseek (si->s, pos + PROPERTY_HDR_LEN + num*PROPERTY_DESC_LEN, MsOleSeekSet);
 	l = si->write_items;
 	while (l) {
 		write_item_t *w = l->data;
 		si->s->write (si->s, w->data, w->len);
 		l = g_list_next (l);
+
+		/*
+		 * Write out any fill.
+		 */
+		if ((w->len & 0x3) > 0)
+			si->s->write (si->s, fill_data, 4 - (w->len & 0x3));
+
 	}
 }
 
@@ -143,7 +180,7 @@ ms_ole_summary_open_stream (MsOleStream *s)
 
 	os_version        = MS_OLE_GET_GUINT32 (data + 4);
 
-	for (i=0;i<16;i++)
+	for (i = 0; i < 16; i++)
 		si->class_id[i] = data[8 + i];
 
 	sections          = MS_OLE_GET_GUINT32 (data + 24);
@@ -157,7 +194,7 @@ ms_ole_summary_open_stream (MsOleStream *s)
 
 	for (i = 0; i < sections; i++) {
 		section_t sect;
-		if (!s->read_copy (s, data, 16+4)) {
+		if (!s->read_copy (s, data, 16 + 4)) {
 			ms_ole_summary_close (si);
 			return NULL;
 		}
@@ -238,18 +275,38 @@ ms_ole_summary_create_stream (MsOleStream *s)
 	return si;
 }
 
+
+/**
+ *  ms_ole_summary_create
+ *
+ *  Create a MS SummaryInformation stream.
+ *
+**/
 MsOleSummary *
 ms_ole_summary_create (MsOle *f)
 {
-	MsOleStream *s;
+	MsOleDirectory	*dir;
+	MsOleStream	*s;
+
 	g_return_val_if_fail (f != NULL, NULL);
 
-	s = ms_ole_stream_open_name (f, "SummaryInformation", 'w');
-	if (!s)
+	dir = ms_ole_directory_create (ms_ole_get_root (f),
+				       "SummaryInformation",
+				       MsOlePPSStream);
+	if (!dir) {
+		printf ("ms_ole_summary_create: Can't create stream\n");
 		return NULL;
+	}
+
+	s = ms_ole_stream_open (dir, 'w');
+	if (!s) {
+		printf ("ms_ole_summary_create: Can't open stream for writing\n");
+		return NULL;
+	}
 
 	return ms_ole_summary_create_stream (s);
 }
+
 
 GArray *
 ms_ole_summary_get_properties (MsOleSummary *si)
@@ -584,11 +641,10 @@ ms_ole_summary_set_string (MsOleSummary *si, MsOleSummaryPID id,
 
 	g_return_if_fail (si != NULL);
 	g_return_if_fail (str != NULL);
-	g_return_if_fail (si->read_mode);
+	g_return_if_fail (!si->read_mode);
 
 	w       = write_item_t_new (si, id);
-
-	len     = strlen (str);
+	len     = strlen (str) + 1;
 	w->len  = len + 8;
 	w->data = g_new (guint8, len + 8);
 	
@@ -597,4 +653,3 @@ ms_ole_summary_set_string (MsOleSummary *si, MsOleSummaryPID id,
 
 	memcpy (w->data + 8, str, len);
 }
-

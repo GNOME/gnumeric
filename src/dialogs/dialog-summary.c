@@ -72,7 +72,7 @@ summary_put (GladeXML *gui, SummaryInfo *sin)
 }
 
 void
-dialog_summary_update (GtkWidget *w, SummaryInfo *sin)
+dialog_summary_update (Workbook *wb, SummaryInfo *sin)
 {
 	GladeXML  *gui = glade_xml_new (GNUMERIC_GLADEDIR "/summary.glade", NULL);
 	GtkWidget *dia;
@@ -89,6 +89,8 @@ dialog_summary_update (GtkWidget *w, SummaryInfo *sin)
 		return;
 	}
 	
+	gnome_dialog_set_parent (GNOME_DIALOG (dia),
+				 GTK_WINDOW (wb->toplevel));
 	summary_put (gui, sin);
 
 	v = gnome_dialog_run (GNOME_DIALOG (dia));

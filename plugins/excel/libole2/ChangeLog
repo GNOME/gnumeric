@@ -1,3 +1,15 @@
+1999-09-17  Michael Meeks  <michael@nuclecu.unam.mx>
+
+	* ms-ole-summary.c (ms_ole_summary_set_string): Remove verbose
+	comments; various cleans.
+
+1999-09-15  Frank Chiulli  <fchiulli@home.com>
+
+	* plugins/excel/libole2/ms-ole-summary.c (write_items): Calculate
+	offsets correctly - properties must start on a 32-bit (4-byte)
+	boundary.
+	(ms_ole_summary_set_string): Strings are null-terminated.
+
 1999-09-08  Michael Meeks  <michael@nuclecu.unam.mx>
 
 	* ms-ole.c (ms_ole_open, extend_file): Added trap for MAP_FAILED.
