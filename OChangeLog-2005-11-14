@@ -1,3 +1,11 @@
+2003-05-19  Morten Welinder  <terra@gnome.org>
+
+	* src/gui-util.c (gnumeric_position_tooltip): Use gtk_window_move,
+	not deprecated gtk_widget_set_uposition.
+	(gnumeric_clist_moveto): Use "void *" as arg instead of deprecated
+	"GtkCList *" so the many includers of gui-util.h do not get
+	punished.
+
 2003-05-18  Morten Welinder  <terra@gnome.org>
 
 	* src/*.c: Eliminate obvious deprecated stuff.

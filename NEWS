@@ -32,6 +32,7 @@ Morten:
 	* Handle character set aliases, more or less.
 	* Improve remote-DISPLAY start-up time by getting rid of calls to
 	  deprecated gtk_style_get_font function.
+	* Start getting rid of use of deprecated features.
 
 --------------------------------------------------------------------------
 

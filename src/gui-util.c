@@ -724,7 +724,7 @@ cb_clist_moveto (GtkWidget *clist, gpointer row)
  * mapped.
  */
 void
-gnumeric_clist_moveto (GtkCList *clist, gint row)
+gnumeric_clist_moveto (/*GtkCList*/ void *clist, gint row)
 {
 	if (GTK_WIDGET_DRAWABLE (clist))
 		clist_moveto (clist, row);
@@ -772,19 +772,21 @@ gnumeric_position_tooltip (GtkWidget *tip, int horizontal)
 
 	gtk_widget_size_request (tip, &req);
 	gdk_window_get_pointer (NULL, &x, &y, NULL);
+
 	if (horizontal){
-		x = x - req.width/2;
-		y = y - req.height - 20;
+		x -= req.width / 2;
+		y -= req.height + 20;
 	} else {
-		x = x - req.width - 20;
-		y = y - req.height/2;
+		x -= req.width + 20;
+		y -= req.height / 2;
 	}
 
 	if (x < 0)
 		x = 0;
 	if (y < 0)
 		y = 0;
-	gtk_widget_set_uposition (gtk_widget_get_toplevel (tip), x, y);
+
+	gtk_window_move (GTK_WINDOW (gtk_widget_get_toplevel (tip)), x, y);
 }
 
 /**
