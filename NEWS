@@ -19,6 +19,7 @@ Jody:
 	* POISSON is defined for x == 0
  	* Support the global outline buttons
 	* typo in subtotal's help
+	* Use the back port of the new xml parser in libxml1 (thanks DV)
 
 Morten:
 	* Fix GAMMAINV.

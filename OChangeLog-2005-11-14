@@ -1,6 +1,7 @@
 2002-11-24  Jody Goldberg <jody@gnome.org>
 
-	* src/xml-io.c (gnumeric_xml_read_workbook) : Use the new parser.
+	* src/xml-io.c (gnumeric_xml_read_workbook) : Use the new parser
+	  as suggested by Daniel.
 
 2002-11-22  Jody Goldberg <jody@gnome.org>
 
