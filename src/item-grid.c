@@ -1262,8 +1262,7 @@ item_grid_class_init (ItemGridClass *item_grid_class)
 	GtkObjectClass  *object_class;
 	FooCanvasItemClass *item_class;
 
-	item_grid_parent_class =
-		g_type_class_peek (foo_canvas_item_get_type ());
+	item_grid_parent_class = g_type_class_peek_parent (item_grid_class);
 
 	object_class = (GtkObjectClass *) item_grid_class;
 	item_class = (FooCanvasItemClass *) item_grid_class;

@@ -45,11 +45,12 @@ typedef struct {
 	SheetObjectClass s_object_class;
 } CellCommentClass;
 
+static GObjectClass *parent_klass;
+
 static void
 cell_comment_finalize (GObject *object)
 {
 	CellComment *cc = CELL_COMMENT (object);
-	GObjectClass *parent;
 
 	g_return_if_fail (cc != NULL);
 
@@ -66,9 +67,8 @@ cell_comment_finalize (GObject *object)
 	SHEET_FOREACH_CONTROL (cc->s_object.sheet, view, control,
 		scg_comment_unselect ((SheetControlGUI *) control, cc););
 
-	parent = g_type_class_peek (SHEET_OBJECT_TYPE);
-	if (parent != NULL && parent->finalize != NULL)
-		parent->finalize (object);
+	if (parent_klass != NULL && parent_klass->finalize != NULL)
+		parent_klass->finalize (object);
 }
 
 #define TRIANGLE_WIDTH 6
@@ -266,6 +266,8 @@ static void
 cell_comment_class_init (GObjectClass *object_class)
 {
 	SheetObjectClass *sheet_object_class = SHEET_OBJECT_CLASS (object_class);
+
+	parent_klass = g_type_class_peek_parent (object_class);
 
 	/* Object class method overrides */
 	object_class->finalize = cell_comment_finalize;

@@ -12,11 +12,4 @@ install-data-local:
 		done \
 	fi
 
-xml_in_files = plot-types.xml.in
-xml_DATA = $(xml_in_files:.xml.in=.xml)
-
-@INTLTOOL_XML_RULE@
-
-xmldir = $(gnumeric_datadir)
-EXTRA_DIST = $(schema_DATA) $(xml_in_files)
-DISTCLEANFILES = $(xml_DATA)
+EXTRA_DIST = $(schema_DATA)

@@ -273,10 +273,10 @@ cb_wbc_clipboard_modified (GnumericApplication *app, WorkbookControl *wbc)
 
 /*****************************************************************************/
 
+static GObjectClass *parent_klass;
 static void
 wbc_finalize (GObject *obj)
 {
-	GObjectClass *parent_class;
 	WorkbookControl *wbc = WORKBOOK_CONTROL (obj);
 	if (wbc->clipboard_changed_signal)
 		g_signal_handler_disconnect (gnumeric_application_get_app (), 
@@ -284,14 +284,14 @@ wbc_finalize (GObject *obj)
 	wbc->clipboard_changed_signal = 0;
 	if (wbc->wb_view != NULL)
 		wb_view_detach_control (wbc);
-	parent_class = g_type_class_peek (COMMAND_CONTEXT_TYPE);
-	if (parent_class != NULL && parent_class->finalize != NULL)
-		(parent_class)->finalize (obj);
+	if (parent_klass != NULL && parent_klass->finalize != NULL)
+		(parent_klass)->finalize (obj);
 }
 
 static void
 workbook_control_class_init (GObjectClass *object_class)
 {
+	parent_klass = g_type_class_peek_parent (object_class);
 	object_class->finalize = wbc_finalize;
 }
 

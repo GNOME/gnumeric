@@ -1053,7 +1053,7 @@ item_bar_class_init (ItemBarClass *item_bar_class)
 	GtkObjectClass  *object_class;
 	FooCanvasItemClass *item_class;
 
-	item_bar_parent_class = g_type_class_peek (foo_canvas_item_get_type ());
+	item_bar_parent_class = g_type_class_peek_parent (item_bar_class);
 
 	object_class = (GtkObjectClass *) item_bar_class;
 	item_class = (FooCanvasItemClass *) item_bar_class;

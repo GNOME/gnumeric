@@ -400,6 +400,9 @@ struct _FooCanvas {
 	/* Whether items need update at next idle loop iteration */
 	unsigned int need_update : 1;
 
+	/* Are we in the midst of an update */
+	unsigned int doing_update : 1;
+
 	/* Whether the canvas needs redrawing at the next idle loop iteration */
 	unsigned int need_redraw : 1;
 

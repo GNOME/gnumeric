@@ -88,7 +88,7 @@ static void group_add                   (FooCanvasGroup *group,
 					 FooCanvasItem  *item);
 static void group_remove                (FooCanvasGroup *group,
 					 FooCanvasItem  *item);
-
+static void redraw_and_repick_if_mapped (FooCanvasItem *item);
 
 /*** FooCanvasItem ***/
 
@@ -98,7 +98,8 @@ static void group_remove                (FooCanvasGroup *group,
 
 enum {
 	ITEM_PROP_0,
-	ITEM_PROP_PARENT
+	ITEM_PROP_PARENT,
+	ITEM_PROP_VISIBLE
 };
 
 enum {
@@ -208,14 +209,13 @@ item_post_create_setup (FooCanvasItem *item)
 
 	group_add (FOO_CANVAS_GROUP (item->parent), item);
 
-	foo_canvas_item_request_redraw (item);
-	item->canvas->need_repick = TRUE;
+	redraw_and_repick_if_mapped (item);
 }
 
 /* Set_property handler for canvas items */
 static void
 foo_canvas_item_set_property (GObject *gobject, guint param_id,
-				const GValue *value, GParamSpec *pspec)
+			      const GValue *value, GParamSpec *pspec)
 {
 	FooCanvasItem *item;
 
@@ -234,6 +234,13 @@ foo_canvas_item_set_property (GObject *gobject, guint param_id,
 			item_post_create_setup (item);
 		}
 		break;
+	case ITEM_PROP_VISIBLE:
+		if (g_value_get_boolean (value)) {
+			foo_canvas_item_show (item);
+		} else {
+			foo_canvas_item_hide (item);
+		}
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, param_id, pspec);
 		break;
@@ -243,7 +250,7 @@ foo_canvas_item_set_property (GObject *gobject, guint param_id,
 /* Get_property handler for canvas items */
 static void
 foo_canvas_item_get_property (GObject *gobject, guint param_id,
-				GValue *value, GParamSpec *pspec)
+			      GValue *value, GParamSpec *pspec)
 {
 	FooCanvasItem *item;
 
@@ -252,6 +259,9 @@ foo_canvas_item_get_property (GObject *gobject, guint param_id,
 	item = FOO_CANVAS_ITEM (gobject);
 
 	switch (param_id) {
+	case ITEM_PROP_VISIBLE:
+		g_value_set_boolean (value, item->object.flags & FOO_CANVAS_ITEM_VISIBLE);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, param_id, pspec);
 		break;
@@ -269,7 +279,7 @@ foo_canvas_item_get_property (GObject *gobject, guint param_id,
  **/
 void
 foo_canvas_item_construct (FooCanvasItem *item, FooCanvasGroup *parent,
-			     const gchar *first_arg_name, va_list args)
+			   const gchar *first_arg_name, va_list args)
 {
 	g_return_if_fail (FOO_IS_CANVAS_GROUP (parent));
 	g_return_if_fail (FOO_IS_CANVAS_ITEM (item));
@@ -283,13 +293,15 @@ foo_canvas_item_construct (FooCanvasItem *item, FooCanvasGroup *parent,
 }
 
 
-/* If the item is visible, requests a redraw of it. */
 static void
-redraw_if_visible (FooCanvasItem *item)
+redraw_and_repick_if_mapped (FooCanvasItem *item)
 {
-	if (item->object.flags & FOO_CANVAS_ITEM_VISIBLE)
+	if (item->object.flags & FOO_CANVAS_ITEM_MAPPED) {
 		foo_canvas_item_request_redraw (item);
+		item->canvas->need_repick = TRUE;
+	}
 }
+
 
 /* Standard object dispose function for canvas items */
 static void
@@ -301,7 +313,7 @@ foo_canvas_item_dispose (GObject *object)
 
 	item = FOO_CANVAS_ITEM (object);
 
-	redraw_if_visible (item);
+	foo_canvas_item_request_redraw (item);
 
 	/* Make the canvas forget about us */
 
@@ -341,6 +353,12 @@ foo_canvas_item_dispose (GObject *object)
 static void
 foo_canvas_item_realize (FooCanvasItem *item)
 {
+	if (item->parent && !(item->parent->object.flags & FOO_CANVAS_ITEM_REALIZED))
+		(* FOO_CANVAS_ITEM_GET_CLASS (item->parent)->realize) (item->parent);
+
+	if (item->parent == NULL && !GTK_WIDGET_REALIZED (GTK_WIDGET (item->canvas)))
+		gtk_widget_realize (GTK_WIDGET (item->canvas));
+
 	GTK_OBJECT_SET_FLAGS (item, FOO_CANVAS_ITEM_REALIZED);
 
 	foo_canvas_item_request_update (item);
@@ -375,8 +393,6 @@ foo_canvas_item_update (FooCanvasItem *item, double i2w_dx, double i2w_dy, int f
 	GTK_OBJECT_UNSET_FLAGS (item, FOO_CANVAS_ITEM_NEED_DEEP_UPDATE);
 }
 
-#define noHACKISH_AFFINE
-
 /*
  * This routine invokes the update method of the item
  * Please notice, that we take parent to canvas pixel matrix as argument
@@ -392,9 +408,9 @@ foo_canvas_item_update (FooCanvasItem *item, double i2w_dx, double i2w_dy, int f
 
 static void
 foo_canvas_item_invoke_update (FooCanvasItem *item,
-				 double i2w_dx,
-				 double i2w_dy,
-				 int flags)
+			       double i2w_dx,
+			       double i2w_dy,
+			       int flags)
 {
 	int child_flags;
 
@@ -413,13 +429,13 @@ foo_canvas_item_invoke_update (FooCanvasItem *item,
 		if (FOO_CANVAS_ITEM_GET_CLASS (item)->update)
 			FOO_CANVAS_ITEM_GET_CLASS (item)->update (item, i2w_dx, i2w_dy, child_flags);
 	}
+
+	g_return_if_fail (!(item->object.flags & FOO_CANVAS_ITEM_NEED_UPDATE));
 }
 
 /*
  * This routine invokes the point method of the item.
  * The arguments x, y should be in the parent item local coordinates.
- *
- * This is potentially evil, as we are relying on matrix inversion (Lauris)
  */
 
 static double
@@ -471,7 +487,7 @@ foo_canvas_item_set_valist (FooCanvasItem *item, const gchar *first_arg_name, va
 
 #if 0
 	/* I commented this out, because item implementations have to schedule update/redraw */
-	redraw_if_visible (item);
+	foo_canvas_item_request_redraw (item);
 #endif
 
 	item->canvas->need_repick = TRUE;
@@ -503,7 +519,8 @@ foo_canvas_item_move (FooCanvasItem *item, double dx, double dy)
 
         (* FOO_CANVAS_ITEM_GET_CLASS (item)->translate) (item, dx, dy);
 
-        item->canvas->need_repick = TRUE;
+	if (item->object.flags & FOO_CANVAS_ITEM_MAPPED)
+		item->canvas->need_repick = TRUE;
 
 	if (!(item->object.flags & FOO_CANVAS_ITEM_NEED_DEEP_UPDATE)) {
 		item->object.flags |= FOO_CANVAS_ITEM_NEED_DEEP_UPDATE;
@@ -603,8 +620,7 @@ foo_canvas_item_raise (FooCanvasItem *item, int positions)
 		before = parent->item_list_end;
 
 	if (put_item_after (link, before)) {
-		redraw_if_visible (item);
-		item->canvas->need_repick = TRUE;
+		redraw_and_repick_if_mapped (item);
 	}
 }
 
@@ -641,8 +657,7 @@ foo_canvas_item_lower (FooCanvasItem *item, int positions)
 		before = NULL;
 
 	if (put_item_after (link, before)) {
-		redraw_if_visible (item);
-		item->canvas->need_repick = TRUE;
+		redraw_and_repick_if_mapped (item);
 	}
 }
 
@@ -669,8 +684,7 @@ foo_canvas_item_raise_to_top (FooCanvasItem *item)
 	g_assert (link != NULL);
 
 	if (put_item_after (link, parent->item_list_end)) {
-		redraw_if_visible (item);
-		item->canvas->need_repick = TRUE;
+		redraw_and_repick_if_mapped (item);
 	}
 }
 
@@ -697,8 +711,7 @@ foo_canvas_item_lower_to_bottom (FooCanvasItem *item)
 	g_assert (link != NULL);
 
 	if (put_item_after (link, NULL)) {
-		redraw_if_visible (item);
-		item->canvas->need_repick = TRUE;
+		redraw_and_repick_if_mapped (item);
 	}
 }
 
@@ -760,8 +773,21 @@ foo_canvas_item_show (FooCanvasItem *item)
 
 	if (!(item->object.flags & FOO_CANVAS_ITEM_VISIBLE)) {
 		item->object.flags |= FOO_CANVAS_ITEM_VISIBLE;
-		foo_canvas_item_request_redraw (item);
-		item->canvas->need_repick = TRUE;
+
+		if (!(item->object.flags & FOO_CANVAS_ITEM_REALIZED))
+			(* FOO_CANVAS_ITEM_GET_CLASS (item)->realize) (item);
+
+		if (item->parent != NULL) {
+			if (!(item->object.flags & FOO_CANVAS_ITEM_MAPPED) &&
+			    item->parent->object.flags & FOO_CANVAS_ITEM_MAPPED)
+				(* FOO_CANVAS_ITEM_GET_CLASS (item)->map) (item);
+		} else {
+			if (!(item->object.flags & FOO_CANVAS_ITEM_MAPPED) &&
+			    GTK_WIDGET_MAPPED (GTK_WIDGET (item->canvas)))
+				(* FOO_CANVAS_ITEM_GET_CLASS (item)->map) (item);
+		}
+
+		redraw_and_repick_if_mapped (item);
 	}
 }
 
@@ -780,8 +806,13 @@ foo_canvas_item_hide (FooCanvasItem *item)
 
 	if (item->object.flags & FOO_CANVAS_ITEM_VISIBLE) {
 		item->object.flags &= ~FOO_CANVAS_ITEM_VISIBLE;
-		foo_canvas_item_request_redraw (item);
-		item->canvas->need_repick = TRUE;
+
+		redraw_and_repick_if_mapped (item);
+
+		if (item->object.flags & FOO_CANVAS_ITEM_MAPPED)
+			(* FOO_CANVAS_ITEM_GET_CLASS (item)->unmap) (item);
+
+		/* No need to unrealize when we just want to hide */
 	}
 }
 
@@ -815,7 +846,7 @@ foo_canvas_item_grab (FooCanvasItem *item, guint event_mask, GdkCursor *cursor, 
 	if (item->canvas->grabbed_item)
 		return GDK_GRAB_ALREADY_GRABBED;
 
-	if (!(item->object.flags & FOO_CANVAS_ITEM_VISIBLE))
+	if (!(item->object.flags & FOO_CANVAS_ITEM_MAPPED))
 		return GDK_GRAB_NOT_VIEWABLE;
 
 	retval = gdk_pointer_grab (item->canvas->layout.bin_window,
@@ -951,7 +982,7 @@ foo_canvas_item_reparent (FooCanvasItem *item, FooCanvasGroup *new_group)
 
 	g_object_ref (GTK_OBJECT (item)); /* protect it from the unref in group_remove */
 
-	redraw_if_visible (item);
+	foo_canvas_item_request_redraw (item);
 
 	group_remove (FOO_CANVAS_GROUP (item->parent), item);
 	item->parent = FOO_CANVAS_ITEM (new_group);
@@ -959,8 +990,7 @@ foo_canvas_item_reparent (FooCanvasItem *item, FooCanvasGroup *new_group)
 
 	/* Redraw and repick */
 
-	redraw_if_visible (item);
-	item->canvas->need_repick = TRUE;
+	redraw_and_repick_if_mapped (item);
 
 	g_object_unref (GTK_OBJECT (item));
 }
@@ -1058,6 +1088,8 @@ foo_canvas_item_get_bounds (FooCanvasItem *item, double *x1, double *y1, double 
 void
 foo_canvas_item_request_update (FooCanvasItem *item)
 {
+	g_return_if_fail (!item->canvas->doing_update);
+
 	if (item->object.flags & FOO_CANVAS_ITEM_NEED_UPDATE)
 		return;
 
@@ -1082,9 +1114,10 @@ foo_canvas_item_request_update (FooCanvasItem *item)
 void
 foo_canvas_item_request_redraw (FooCanvasItem *item)
 {
-	foo_canvas_request_redraw (item->canvas,
-				   item->x1, item->y1,
-				   item->x2 + 1, item->y2 + 1);
+	if (item->object.flags & FOO_CANVAS_ITEM_MAPPED)
+		foo_canvas_request_redraw (item->canvas,
+					   item->x1, item->y1,
+					   item->x2 + 1, item->y2 + 1);
 }
 
 
@@ -1116,7 +1149,6 @@ static void   foo_canvas_group_update      (FooCanvasItem *item,
 					      double           i2w_dx,
 					      double           i2w_dy,
 					      int              flags);
-static void   foo_canvas_group_realize     (FooCanvasItem *item);
 static void   foo_canvas_group_unrealize   (FooCanvasItem *item);
 static void   foo_canvas_group_map         (FooCanvasItem *item);
 static void   foo_canvas_group_unmap       (FooCanvasItem *item);
@@ -1205,7 +1237,6 @@ foo_canvas_group_class_init (FooCanvasGroupClass *class)
 	object_class->destroy = foo_canvas_group_destroy;
 
 	item_class->update = foo_canvas_group_update;
-	item_class->realize = foo_canvas_group_realize;
 	item_class->unrealize = foo_canvas_group_unrealize;
 	item_class->map = foo_canvas_group_map;
 	item_class->unmap = foo_canvas_group_unmap;
@@ -1363,26 +1394,6 @@ foo_canvas_group_update (FooCanvasItem *item, double i2w_dx, double i2w_dy, int 
 	item->y2 = bbox_y1;
 }
 
-/* Realize handler for canvas groups */
-static void
-foo_canvas_group_realize (FooCanvasItem *item)
-{
-	FooCanvasGroup *group;
-	GList *list;
-	FooCanvasItem *i;
-
-	group = FOO_CANVAS_GROUP (item);
-
-	for (list = group->item_list; list; list = list->next) {
-		i = list->data;
-
-		if (!(i->object.flags & FOO_CANVAS_ITEM_REALIZED))
-			(* FOO_CANVAS_ITEM_GET_CLASS (i)->realize) (i);
-	}
-
-	(* group_parent_class->realize) (item);
-}
-
 /* Unrealize handler for canvas groups */
 static void
 foo_canvas_group_unrealize (FooCanvasItem *item)
@@ -1416,8 +1427,13 @@ foo_canvas_group_map (FooCanvasItem *item)
 	for (list = group->item_list; list; list = list->next) {
 		i = list->data;
 
-		if (!(i->object.flags & FOO_CANVAS_ITEM_MAPPED))
+		if (i->object.flags & FOO_CANVAS_ITEM_VISIBLE &&
+		    !(i->object.flags & FOO_CANVAS_ITEM_MAPPED)) {
+			if (!(i->object.flags & FOO_CANVAS_ITEM_MAPPED))
+				(* FOO_CANVAS_ITEM_GET_CLASS (i)->realize) (i);
+
 			(* FOO_CANVAS_ITEM_GET_CLASS (i)->map) (i);
+		}
 	}
 
 	(* group_parent_class->map) (item);
@@ -1457,7 +1473,7 @@ foo_canvas_group_draw (FooCanvasItem *item, GdkDrawable *drawable,
 	for (list = group->item_list; list; list = list->next) {
 		child = list->data;
 
-		if ((child->object.flags & FOO_CANVAS_ITEM_VISIBLE) &&
+		if ((child->object.flags & FOO_CANVAS_ITEM_MAPPED) &&
 		    (FOO_CANVAS_ITEM_GET_CLASS (child)->draw)) {
 			GdkRectangle child_rect;
 
@@ -1475,7 +1491,7 @@ foo_canvas_group_draw (FooCanvasItem *item, GdkDrawable *drawable,
 /* Point handler for canvas groups */
 static double
 foo_canvas_group_point (FooCanvasItem *item, double x, double y, int cx, int cy,
-			  FooCanvasItem **actual_item)
+			FooCanvasItem **actual_item)
 {
 	FooCanvasGroup *group;
 	GList *list;
@@ -1508,7 +1524,7 @@ foo_canvas_group_point (FooCanvasItem *item, double x, double y, int cx, int cy,
 
 		point_item = NULL; /* cater for incomplete item implementations */
 
-		if ((child->object.flags & FOO_CANVAS_ITEM_VISIBLE)
+		if ((child->object.flags & FOO_CANVAS_ITEM_MAPPED)
 		    && FOO_CANVAS_ITEM_GET_CLASS (child)->point) {
 			dist = foo_canvas_item_invoke_point (child, gx, gy, cx, cy, &point_item);
 			has_point = TRUE;
@@ -1560,7 +1576,7 @@ foo_canvas_group_bounds (FooCanvasItem *item, double *x1, double *y1, double *x2
 	for (list = group->item_list; list; list = list->next) {
 		child = list->data;
 
-		if (child->object.flags & FOO_CANVAS_ITEM_VISIBLE) {
+		if (child->object.flags & FOO_CANVAS_ITEM_MAPPED) {
 			set = TRUE;
 			foo_canvas_item_get_bounds (child, &minx, &miny, &maxx, &maxy);
 			break;
@@ -1581,7 +1597,7 @@ foo_canvas_group_bounds (FooCanvasItem *item, double *x1, double *y1, double *x2
 	for (; list; list = list->next) {
 		child = list->data;
 
-		if (!(child->object.flags & FOO_CANVAS_ITEM_VISIBLE))
+		if (!(child->object.flags & FOO_CANVAS_ITEM_MAPPED))
 			continue;
 
 		foo_canvas_item_get_bounds (child, &tx1, &ty1, &tx2, &ty2);
@@ -1627,11 +1643,14 @@ group_add (FooCanvasGroup *group, FooCanvasItem *item)
 	} else
 		group->item_list_end = g_list_append (group->item_list_end, item)->next;
 
-	if (group->item.object.flags & FOO_CANVAS_ITEM_REALIZED)
-		(* FOO_CANVAS_ITEM_GET_CLASS (item)->realize) (item);
+	if (item->object.flags & FOO_CANVAS_ITEM_VISIBLE &&
+	    group->item.object.flags & FOO_CANVAS_ITEM_MAPPED) {
+		if (!(item->object.flags & FOO_CANVAS_ITEM_REALIZED))
+			(* FOO_CANVAS_ITEM_GET_CLASS (item)->realize) (item);
 
-	if (group->item.object.flags & FOO_CANVAS_ITEM_MAPPED)
-		(* FOO_CANVAS_ITEM_GET_CLASS (item)->map) (item);
+		if (!(item->object.flags & FOO_CANVAS_ITEM_MAPPED))
+			(* FOO_CANVAS_ITEM_GET_CLASS (item)->map) (item);
+	}
 }
 
 /* Removes an item from a group */
@@ -2072,6 +2091,7 @@ foo_canvas_init (FooCanvas *canvas)
 						    canvas);
 
 	canvas->need_repick = TRUE;
+	canvas->doing_update = FALSE;
 }
 
 /* Convenience function to remove the idle handler of a canvas */
@@ -2167,7 +2187,9 @@ foo_canvas_map (GtkWidget *widget)
 
 	/* Map items */
 
-	if (FOO_CANVAS_ITEM_GET_CLASS (canvas->root)->map)
+	if (canvas->root->object.flags & FOO_CANVAS_ITEM_VISIBLE &&
+	    !(canvas->root->object.flags & FOO_CANVAS_ITEM_MAPPED) &&
+	    FOO_CANVAS_ITEM_GET_CLASS (canvas->root)->map)
 		(* FOO_CANVAS_ITEM_GET_CLASS (canvas->root)->map) (canvas->root);
 }
 
@@ -2589,7 +2611,7 @@ pick_current_item (FooCanvas *canvas, GdkEvent *event)
 		foo_canvas_c2w (canvas, cx, cy, &x, &y);
 
 		/* find the closest item */
-		if (canvas->root->object.flags & FOO_CANVAS_ITEM_VISIBLE)
+		if (canvas->root->object.flags & FOO_CANVAS_ITEM_MAPPED)
 			foo_canvas_item_invoke_point (canvas->root, x, y, cx, cy,
 							&canvas->new_current_item);
 		else
@@ -2822,7 +2844,14 @@ foo_canvas_expose (GtkWidget *widget, GdkEventExpose *event)
 		canvas->idle_id = 0;
 	}
 	if (canvas->need_update) {
+		g_return_val_if_fail (!canvas->doing_update, FALSE);
+
+		canvas->doing_update = TRUE;
 		foo_canvas_item_invoke_update (canvas->root, 0, 0, 0);
+
+		g_return_val_if_fail (canvas->doing_update, FALSE);
+
+		canvas->doing_update = FALSE;
 
 		canvas->need_update = FALSE;
 	}
@@ -2835,7 +2864,7 @@ foo_canvas_expose (GtkWidget *widget, GdkEventExpose *event)
 		       event->area.x, event->area.y,
 		       event->area.width, event->area.height);
 
-	if (canvas->root->object.flags & FOO_CANVAS_ITEM_VISIBLE)
+	if (canvas->root->object.flags & FOO_CANVAS_ITEM_MAPPED)
 		(* FOO_CANVAS_ITEM_GET_CLASS (canvas->root)->draw) (canvas->root,
 								      canvas->layout.bin_window,
 								      event);
@@ -2850,7 +2879,7 @@ foo_canvas_expose (GtkWidget *widget, GdkEventExpose *event)
 
 static void
 foo_canvas_draw_background (FooCanvas *canvas,
-			      int x, int y, int width, int height)
+			    int x, int y, int width, int height)
 {
 	/* By default, we use the style background. */
 	gdk_gc_set_foreground (canvas->pixmap_gc,
@@ -2868,7 +2897,14 @@ do_update (FooCanvas *canvas)
 	/* Cause the update if necessary */
 
 	if (canvas->need_update) {
+		g_return_if_fail (!canvas->doing_update);
+
+		canvas->doing_update = TRUE;
 		foo_canvas_item_invoke_update (canvas->root, 0, 0, 0);
+
+		g_return_if_fail (canvas->doing_update);
+
+		canvas->doing_update = FALSE;
 
 		canvas->need_update = FALSE;
 	}
@@ -3387,7 +3423,7 @@ foo_canvas_window_to_world (FooCanvas *canvas, double winx, double winy,
  **/
 void
 foo_canvas_world_to_window (FooCanvas *canvas, double worldx, double worldy,
-			      double *winx, double *winy)
+			    double *winx, double *winy)
 {
 	g_return_if_fail (FOO_IS_CANVAS (canvas));
 
@@ -3892,6 +3928,12 @@ foo_canvas_item_class_init (FooCanvasItemClass *class)
 		(gobject_class, ITEM_PROP_PARENT,
 		 g_param_spec_object ("parent", NULL, NULL,
 				      FOO_TYPE_CANVAS_ITEM,
+				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+
+	g_object_class_install_property
+		(gobject_class, ITEM_PROP_VISIBLE,
+		 g_param_spec_boolean ("visible", NULL, NULL,
+				      TRUE,
 				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
 
 	item_signals[ITEM_EVENT] =

@@ -64,9 +64,7 @@ typedef struct
 
 } GnumericApplicationClass;
 
-static GObjectClass *gnumeric_application_parent_class;
-
-
+static GObjectClass *parent_klass;
 static GnumericApplication *app;
 
 GObject *
@@ -621,16 +619,16 @@ static void
 gnumeric_application_finalize (GObject *object)
 {
 	app = NULL;
-	G_OBJECT_CLASS (gnumeric_application_parent_class)->finalize (object);
+	G_OBJECT_CLASS (parent_klass)->finalize (object);
 }
 
 static void
-gnumeric_application_class_init (GObjectClass *object_class)
+gnumeric_application_class_init (GObjectClass *klass)
 {
-	gnumeric_application_parent_class = g_type_class_peek (G_TYPE_OBJECT);
+	parent_klass = g_type_class_peek_parent (klass);
 
 	/* Object class method overrides */
-	object_class->finalize = gnumeric_application_finalize;
+	klass->finalize = gnumeric_application_finalize;
 
 	signals [WORKBOOK_ADDED] = g_signal_new ("workbook_added",
 		GNUMERIC_APPLICATION_TYPE,

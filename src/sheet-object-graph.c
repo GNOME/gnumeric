@@ -34,7 +34,7 @@
 #include "workbook-edit.h"
 
 #ifdef NEW_GRAPHS
-#include <goffice-graph/go-graph-item.h>
+#include <goffice/graph/go-graph-item.h>
 #endif
 
 #include <gdk/gdkkeysyms.h>
@@ -61,13 +61,21 @@ typedef struct {
 	SheetObjectClass base;
 } SheetObjectGraphClass;
 
+static GObjectClass *parent_klass;
 
 #ifdef NEW_GRAPHS
+/**
+ * sheet_object_graph_new :
+ * @graph : #GOGraph
+ *
+ * Adds a reference to @graph and creates a gnumeric sheet object wrapper
+ **/
 SheetObject *
 sheet_object_graph_new (GOGraph *graph)
 {
 	SheetObjectGraph *so = g_object_new (SHEET_OBJECT_GRAPH_TYPE, NULL);
 	so->graph = graph;
+	g_object_ref (G_OBJECT (so->graph));
 
 	return SHEET_OBJECT (so);
 }
@@ -77,7 +85,6 @@ static void
 sheet_object_graph_finalize (GObject *obj)
 {
 	SheetObjectGraph *graph = SHEET_OBJECT_GRAPH (obj);
-	GObjectClass     *parent;
 
 #ifdef NEW_GRAPHS
 	if (graph->graph != NULL) {
@@ -86,9 +93,8 @@ sheet_object_graph_finalize (GObject *obj)
 	}
 #endif
 
-	parent = g_type_class_peek (SHEET_OBJECT_TYPE);
-	if (parent && parent->finalize)
-		parent->finalize (obj);
+	if (parent_klass && parent_klass->finalize)
+		parent_klass->finalize (obj);
 }
 
 static GObject *
@@ -98,7 +104,7 @@ sheet_object_graph_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 	GnmCanvas *gcanvas = ((GnumericPane *)key)->gcanvas;
 	SheetObjectGraph *graph = SHEET_OBJECT_GRAPH (so);
 	FooCanvasItem *item = go_graph_item_new_view  (GO_GRAPH_ITEM (graph->graph),
-		"FooCanvas", (gpointer)gcanvas->sheet_object_group);
+		(gpointer)gcanvas->sheet_object_group);
 	foo_canvas_item_raise_to_top (FOO_CANVAS_ITEM (gcanvas->sheet_object_group));
 
 	gnm_pane_object_register (so, item);
@@ -192,12 +198,14 @@ sheet_object_graph_user_config (SheetObject *so, SheetControl *sc)
 }
 
 static void
-sheet_object_graph_class_init (GObjectClass *object_class)
+sheet_object_graph_class_init (GObjectClass *klass)
 {
-	SheetObjectClass	*so_class  = SHEET_OBJECT_CLASS (object_class);
+	SheetObjectClass	*so_class  = SHEET_OBJECT_CLASS (klass);
+
+	parent_klass = g_type_class_peek_parent (klass);
 
 	/* Object class method overrides */
-	object_class->finalize = sheet_object_graph_finalize;
+	klass->finalize = sheet_object_graph_finalize;
 
 	/* SheetObject class method overrides */
 	so_class->new_view	= sheet_object_graph_new_view;
@@ -208,6 +216,10 @@ sheet_object_graph_class_init (GObjectClass *object_class)
 	so_class->user_config   = sheet_object_graph_user_config;
 	so_class->print         = sheet_object_graph_print;
 	so_class->rubber_band_directly = FALSE;
+
+	/* Provide some defaults (derived classes may want to override) */
+	so_class->default_width_pts = 72. * 3;	/* 3 inch */
+	so_class->default_height_pts = 72. * 3;	/* 3 inch */
 }
 
 static void

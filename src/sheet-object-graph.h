@@ -3,7 +3,7 @@
 
 #include "sheet-object.h"
 #ifdef NEW_GRAPHS
-#include <goffice-graph/goffice-graph.h>
+#include <goffice/graph/goffice-graph.h>
 #endif
 
 #define SHEET_OBJECT_GRAPH_TYPE  (sheet_object_graph_get_type ())

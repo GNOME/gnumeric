@@ -43,6 +43,7 @@
 #define	SO_VIEW_OBJECT_KEY		"SheetObject"
 #define	SO_VIEW_KEY			"Key"
 
+GObjectClass *parent_klass;
 static void
 cb_sheet_object_raise (GtkWidget *widget, GObject *so_view)
 {
@@ -208,7 +209,6 @@ sheet_objects_max_extent (Sheet *sheet)
 static void
 sheet_object_finalize (GObject *object)
 {
-	GObjectClass *parent;
 	SheetObject *so = SHEET_OBJECT (object);
 
 	g_return_if_fail (so != NULL);
@@ -231,9 +231,8 @@ sheet_object_finalize (GObject *object)
 		so->sheet = NULL;
 	}
 
-	parent = g_type_class_peek (G_TYPE_OBJECT);
-	if (parent != NULL && parent->finalize != NULL)
-		(*parent->finalize)(object);
+	if (parent_klass != NULL && parent_klass->finalize != NULL)
+		(*parent_klass->finalize)(object);
 }
 
 static void
@@ -258,11 +257,12 @@ sheet_object_init (GObject *object)
 }
 
 static void
-sheet_object_class_init (GObjectClass *object_class)
+sheet_object_class_init (GObjectClass *klass)
 {
-	SheetObjectClass *sheet_object_class = SHEET_OBJECT_CLASS (object_class);
+	SheetObjectClass *sheet_object_class = SHEET_OBJECT_CLASS (klass);
 
-	object_class->finalize = sheet_object_finalize;
+	parent_klass = g_type_class_peek_parent (klass);
+	klass->finalize = sheet_object_finalize;
 	sheet_object_class->update_bounds        = NULL;
 	sheet_object_class->populate_menu        = sheet_object_populate_menu;
 	sheet_object_class->print                = NULL;

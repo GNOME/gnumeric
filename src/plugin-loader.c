@@ -257,7 +257,7 @@ gnumeric_plugin_loader_load_service (GnumericPluginLoader *loader, PluginService
 		load_service_method = NULL;
 	} else {
 		*ret_error = error_info_new_printf (_("Service '%s' not supported by loader."),
-			g_type_name_from_instance ((GTypeInstance*)service));
+			G_OBJECT_TYPE_NAME (service));
 	}
 	if (load_service_method != NULL)
 		load_service_method (loader, service, ret_error);
@@ -297,7 +297,7 @@ gnumeric_plugin_loader_unload_service (GnumericPluginLoader *loader, PluginServi
 		unload_service_method = NULL;
 	} else
 		*ret_error = error_info_new_printf (_("Service '%s' not supported by loader."),
-			g_type_name_from_instance ((GTypeInstance*)service));
+			G_OBJECT_TYPE_NAME (service));
 
 	if (unload_service_method != NULL)
 		unload_service_method (loader, service, &error);

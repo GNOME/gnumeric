@@ -187,7 +187,7 @@ sheet_view_class_init (GObjectClass *klass)
 
 	g_return_if_fail (wbc_class != NULL);
 
-	parent_class = g_type_class_peek (G_TYPE_OBJECT);
+	parent_class = g_type_class_peek_parent (klass);
 	klass->finalize = s_view_finalize;
 }
 

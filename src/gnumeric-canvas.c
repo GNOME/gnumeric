@@ -33,7 +33,7 @@
 #include <gsf/gsf-impl-utils.h>
 #include <gdk/gdkkeysyms.h>
 
-static FooCanvasClass *gcanvas_parent_class;
+static FooCanvasClass *parent_klass;
 
 static gboolean
 gnm_canvas_guru_key (WorkbookControlGUI const *wbcg, GdkEventKey *event)
@@ -406,10 +406,9 @@ gnm_canvas_key_press (GtkWidget *widget, GdkEventKey *event)
 	if (wbcg_edit_has_guru (scg->wbcg) == NULL  &&
 	    (scg->current_object != NULL || scg->new_object != NULL))
 		res = gnm_canvas_key_mode_object (gcanvas, event);
-	else{
+	else {
 		gcanvas->mask_state = event->state;
-		if (gtk_im_context_filter_keypress (gcanvas->im_context,event))
-		{
+		if (gtk_im_context_filter_keypress (gcanvas->im_context,event)) {
 			gcanvas->need_im_reset = TRUE;
 			return TRUE;
 		}
@@ -427,7 +426,7 @@ gnm_canvas_key_press (GtkWidget *widget, GdkEventKey *event)
 			return TRUE;
 	}
 
-	return (*GTK_WIDGET_CLASS (gcanvas_parent_class)->key_press_event) (widget, event);
+	return (*GTK_WIDGET_CLASS (parent_klass)->key_press_event) (widget, event);
 }
 
 static gint
@@ -456,7 +455,7 @@ gnm_canvas_key_release (GtkWidget *widget, GdkEventKey *event)
 		wb_view_selection_desc (wb_control_view (
 			sc->wbc), TRUE, NULL);
 
-	return (*GTK_WIDGET_CLASS (gcanvas_parent_class)->key_release_event) (widget, event);
+	return (*GTK_WIDGET_CLASS (parent_klass)->key_release_event) (widget, event);
 }
 
 /* Focus in handler for the canvas */
@@ -465,7 +464,7 @@ gnm_canvas_focus_in (GtkWidget *widget, GdkEventFocus *event)
 {
 	GNM_CANVAS (widget)->need_im_reset = TRUE;
 	gtk_im_context_focus_in (GNM_CANVAS (widget)->im_context);
-	return (*GTK_WIDGET_CLASS (gcanvas_parent_class)->focus_in_event) (widget, event);
+	return (*GTK_WIDGET_CLASS (parent_klass)->focus_in_event) (widget, event);
 }
 
 /* Focus out handler for the canvas */
@@ -474,7 +473,7 @@ gnm_canvas_focus_out (GtkWidget *widget, GdkEventFocus *event)
 {
 	GNM_CANVAS (widget)->need_im_reset = TRUE;
 	gtk_im_context_focus_out (GNM_CANVAS (widget)->im_context);
-	return (*GTK_WIDGET_CLASS (gcanvas_parent_class)->focus_out_event) (widget, event);
+	return (*GTK_WIDGET_CLASS (parent_klass)->focus_out_event) (widget, event);
 }
 
 static void
@@ -482,8 +481,8 @@ gnm_canvas_realize (GtkWidget *w)
 {
 	GtkStyle  *style;
 
-	if (GTK_WIDGET_CLASS (gcanvas_parent_class)->realize)
-		(*GTK_WIDGET_CLASS (gcanvas_parent_class)->realize) (w);
+	if (GTK_WIDGET_CLASS (parent_klass)->realize)
+		(*GTK_WIDGET_CLASS (parent_klass)->realize) (w);
 
 	/* Set the default background color of the canvas itself to white.
 	 * This makes the redraws when the canvas scrolls flicker less. */
@@ -507,13 +506,13 @@ gnm_canvas_unrealize (GtkWidget *widget)
 	gtk_im_context_set_client_window (GNM_CANVAS (widget)->im_context,
 		gtk_widget_get_toplevel (widget)->window);
 
-	(*GTK_WIDGET_CLASS (gcanvas_parent_class)->unrealize)(widget);
+	(*GTK_WIDGET_CLASS (parent_klass)->unrealize)(widget);
 }
 
 static void
 gnm_canvas_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 {
-	(*GTK_WIDGET_CLASS (gcanvas_parent_class)->size_allocate)(widget, allocation);
+	(*GTK_WIDGET_CLASS (parent_klass)->size_allocate)(widget, allocation);
 
 	gnm_canvas_compute_visible_region (GNM_CANVAS (widget), FALSE);
 }
@@ -527,7 +526,7 @@ static void
 gnm_canvas_finalize (GObject *object)
 {
 	g_object_unref (G_OBJECT (GNM_CANVAS (object)->im_context));
-	G_OBJECT_CLASS (gcanvas_parent_class)->finalize (object);
+	G_OBJECT_CLASS (parent_klass)->finalize (object);
 }
 
 static void
@@ -542,7 +541,7 @@ gnm_canvas_class_init (GnmCanvasClass *klass)
 	widget_class = (GtkWidgetClass *) klass;
 	canvas_class = (FooCanvasClass *) klass;
 
-	gcanvas_parent_class = g_type_class_peek (GNM_SIMPLE_CANVAS_TYPE);
+	parent_klass = g_type_class_peek_parent (klass);
 
 	gobject_class->finalize = gnm_canvas_finalize;
 

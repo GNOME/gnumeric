@@ -3122,13 +3122,24 @@ cb_sort_descending (GtkWidget *widget, WorkbookControlGUI *wbcg)
 }
 
 #ifdef NEW_GRAPHS
-#include <goffice-graph/go-graph-guru.h>
+#include <goffice/graph/go-graph-guru.h>
+#include <goffice/graph/go-plot-data.h>
+#include <sheet-object-graph.h>
+static void
+cb_add_graph (GOGraph *graph, gpointer wbcg)
+{
+	SheetControlGUI *scg = wbcg_cur_scg (WORKBOOK_CONTROL_GUI (wbcg));
+	scg_mode_create_object (scg, sheet_object_graph_new (graph));
+}
+
 #endif
 static void
 cb_launch_graph_guru (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 #ifdef NEW_GRAPHS
-	go_graph_guru (NULL, wbcg, wbcg);
+	go_graph_guru (NULL, GO_PLOT_DATA_ALLOCATOR (wbcg),
+		       COMMAND_CONTEXT (wbcg), wbcg_toplevel (wbcg),
+		       cb_add_graph, (gpointer)wbcg);
 #endif
 }
 
@@ -4407,10 +4418,10 @@ cb_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page,
 	}
 }
 
+static GObjectClass *parent_class;
 static void
 wbcg_finalize (GObject *obj)
 {
-	GObjectClass *parent_class;
 	WorkbookControlGUI *wbcg = WORKBOOK_CONTROL_GUI (obj);
 
 	/* Disconnect signals that would attempt to change things during
@@ -4441,7 +4452,6 @@ wbcg_finalize (GObject *obj)
 	if (wbcg->font_desc)
 		pango_font_description_free (wbcg->font_desc);
 
-	parent_class = g_type_class_peek (WORKBOOK_CONTROL_TYPE);
 	if (parent_class != NULL && parent_class->finalize != NULL)
 		(parent_class)->finalize (obj);
 }
@@ -5259,7 +5269,7 @@ wbcg_validation_msg (WorkbookControl *wbc, ValidationStyle v,
 }
 
 static void
-workbook_control_gui_ctor_class (GObjectClass *object_class)
+workbook_control_gui_class_init (GObjectClass *object_class)
 {
 	CommandContextClass  *cc_class =
 		COMMAND_CONTEXT_CLASS (object_class);
@@ -5270,6 +5280,7 @@ workbook_control_gui_ctor_class (GObjectClass *object_class)
 
 	g_return_if_fail (wbc_class != NULL);
 
+	parent_class = g_type_class_peek_parent (object_class);
 	object_class->finalize = wbcg_finalize;
 
 	cc_class->get_password		= wbcg_get_password;
@@ -5325,7 +5336,7 @@ workbook_control_gui_ctor_class (GObjectClass *object_class)
 
 /***************************************************************************/
 #ifdef NEW_GRAPHS
-#include <goffice-graph/go-plot-data-impl.h>
+#include <goffice/graph/go-plot-data-impl.h>
 
 static void
 wbcg_plot_data_allocator_allocate (GOPlotDataAllocator *dalloc, GOPlot *plot)
@@ -5348,7 +5359,7 @@ wbcg_plot_data_allocator_edit_end (GOPlotDataAllocator *dalloc)
 }
 
 static GtkWidget *
-wbcg_plot_data_allocator_editor (GOPlotDataAllocator *a, GOPlotDataVector *vec)
+wbcg_plot_data_allocator_editor (GOPlotDataAllocator *a, GOPlotData *data)
 {
 #warning TODO
 	return NULL;
@@ -5366,12 +5377,12 @@ wbcg_go_plot_data_allocator_init (GOPlotDataAllocatorClass *iface)
 /***************************************************************************/
 
 GSF_CLASS_FULL (WorkbookControlGUI, workbook_control_gui,
-		workbook_control_gui_ctor_class, NULL,
+		workbook_control_gui_class_init, NULL,
 		WORKBOOK_CONTROL_TYPE, 0,
 		GSF_INTERFACE (wbcg_go_plot_data_allocator_init, GO_PLOT_DATA_ALLOCATOR_TYPE))
 #else
 GSF_CLASS (WorkbookControlGUI, workbook_control_gui,
-	   workbook_control_gui_ctor_class, NULL,
+	   workbook_control_gui_class_init, NULL,
 	   WORKBOOK_CONTROL_TYPE)
 #endif
 

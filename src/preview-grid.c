@@ -634,10 +634,9 @@ preview_grid_class_init (PreviewGridClass *preview_grid_class)
 	GtkObjectClass  *klass;
 	FooCanvasItemClass *item_class;
 
-	preview_grid_parent_class = g_type_class_peek (foo_canvas_item_get_type ());
-
 	klass = (GtkObjectClass *) preview_grid_class;
 	item_class = (FooCanvasItemClass *) preview_grid_class;
+	preview_grid_parent_class = g_type_class_peek_parent (klass);
 
 	/* Manipulation */
 	gtk_object_add_arg_type ("PreviewGrid::RenderGridlines", GTK_TYPE_BOOL,

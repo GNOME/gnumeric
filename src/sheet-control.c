@@ -55,7 +55,7 @@ sc_finalize (GObject *obj)
 static void
 sc_class_init (GObjectClass *object_class)
 {
-	parent_class = g_type_class_peek (G_TYPE_OBJECT);
+	parent_class = g_type_class_peek_parent (object_class);
 	object_class->finalize = sc_finalize;
 }
 

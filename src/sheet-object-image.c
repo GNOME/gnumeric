@@ -351,7 +351,7 @@ sheet_object_image_class_init (GObjectClass *object_class)
 {
 	SheetObjectClass *sheet_object_class;
 
-	sheet_object_image_parent_class = g_type_class_peek (SHEET_OBJECT_TYPE);
+	sheet_object_image_parent_class = g_type_class_peek_parent (object_class);
 
 	/* Object class method overrides */
 	object_class->finalize = sheet_object_image_finalize;

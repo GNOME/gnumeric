@@ -148,7 +148,7 @@ sheet_object_widget_class_init (GtkObjectClass *object_class)
 	SheetObjectWidgetClass *sow_class = SHEET_OBJECT_WIDGET_CLASS (object_class);
 
 	sheet_object_widget_class = G_OBJECT_CLASS (object_class);
-	sheet_object_widget_parent_class = g_type_class_peek (sheet_object_get_type ());
+	sheet_object_widget_parent_class = g_type_class_peek_parent (object_class);
 
 	/* SheetObject class method overrides */
 	so_class->new_view	= sheet_object_widget_new_view;

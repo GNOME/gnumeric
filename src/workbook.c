@@ -373,7 +373,7 @@ workbook_init (GObject *object)
 static void
 workbook_class_init (GObjectClass *object_class)
 {
-	workbook_parent_class = g_type_class_peek (G_TYPE_OBJECT);
+	workbook_parent_class = g_type_class_peek_parent (object_class);
 
 	object_class->finalize = workbook_finalize;
 
