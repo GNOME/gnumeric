@@ -549,6 +549,7 @@ sheet_object_read_xml (XmlParseContext const *ctxt, xmlNodePtr tree)
 		so->anchor.direction = SO_DIR_UNKNOWN;
 
 	sheet_object_set_sheet (so, ctxt->sheet);
+	g_object_unref (G_OBJECT (so));
 	return so;
 }
 

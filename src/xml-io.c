@@ -1,6 +1,6 @@
 /* vim: set sw=8: */
 /*
- * xml-io.c: save/read gnumeric Sheets using an XML encoding.
+ * xml-io.c: save/read gnumeric workbooks using gnumeric-1.0 style xml.
  *
  * Authors:
  *   Daniel Veillard <Daniel.Veillard@w3.org>
@@ -11,6 +11,7 @@
 #include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "xml-io.h"
+#include "xml-io-version.h"
 
 #include "style-color.h"
 #include "style-border.h"
@@ -91,34 +92,12 @@ gnumeric_xml_get_saver (void)
 /* ------------------------------------------------------------------------- */
 
 XmlParseContext *
-xml_parse_ctx_new_full (xmlDocPtr             doc,
-			xmlNsPtr              ns,
-			WorkbookView	     *wb_view,
-			GnumericXMLVersion    version,
-			XmlSheetObjectReadFn  read_fn,
-			XmlSheetObjectWriteFn write_fn,
-			gpointer              user_data)
+xml_parse_ctx_new (xmlDocPtr             doc,
+		   xmlNsPtr              ns,
+		   WorkbookView	     *wb_view)
 {
 	XmlParseContext *ctxt = g_new0 (XmlParseContext, 1);
 
-	ctxt->version      = version;
-	ctxt->doc          = doc;
-	ctxt->ns           = ns;
-	ctxt->expr_map     = g_hash_table_new (g_direct_hash, g_direct_equal);
-	ctxt->shared_exprs = g_ptr_array_new ();
-
-	ctxt->write_fn     = write_fn;
-	ctxt->read_fn      = read_fn;
-	ctxt->user_data    = user_data;
-
-	ctxt->wb_view      = wb_view;
-
-	return ctxt;
-}
-
-XmlParseContext *
-xml_parse_ctx_new (xmlDocPtr doc, xmlNsPtr  ns, WorkbookView *wb_view)
-{
 	/* HACK : For now we cheat.
 	 * We should always be able to read versions from 1.0.x
 	 * That means that older 1.0.x should read newer 1.0.x
@@ -126,8 +105,14 @@ xml_parse_ctx_new (xmlDocPtr doc, xmlNsPtr  ns, WorkbookView *wb_view)
 	 * Old versions fail reading things from the future.
 	 * Freeze the exported version at V9 for now.
 	 */
-	return xml_parse_ctx_new_full (
-		doc, ns, wb_view, GNUM_XML_V9, NULL, NULL, NULL);
+	ctxt->version      = GNUM_XML_V9;
+	ctxt->doc          = doc;
+	ctxt->ns           = ns;
+	ctxt->expr_map     = g_hash_table_new (g_direct_hash, g_direct_equal);
+	ctxt->shared_exprs = g_ptr_array_new ();
+	ctxt->wb_view      = wb_view;
+
+	return ctxt;
 }
 
 void
@@ -178,11 +163,11 @@ xml_node_get_int (xmlNodePtr node, char const *name, int *val)
 		return FALSE;
 
 	errno = 0; /* strto(ld) sets errno, but does not clear it.  */
-	*val = strtol ((const char *)buf, &end, 10);
+	*val = strtol ((char const *)buf, &end, 10);
 	xmlFree (buf);
 
 	/* FIXME: it is, strictly speaking, now valid to use buf here.  */
-	return ((const char *)buf != end) && (errno != ERANGE);
+	return ((char const *)buf != end) && (errno != ERANGE);
 }
 
 void
@@ -204,11 +189,11 @@ xml_node_get_double (xmlNodePtr node, char const *name, double *val)
 		return FALSE;
 
 	errno = 0; /* strto(ld) sets errno, but does not clear it.  */
-	*val = strtod ((const char *)buf, &end);
+	*val = strtod ((char const *)buf, &end);
 	xmlFree (buf);
 
 	/* FIXME: it is, strictly speaking, now valid to use buf here.  */
-	return ((const char *)buf != end) && (errno != ERANGE);
+	return ((char const *)buf != end) && (errno != ERANGE);
 }
 
 void
@@ -238,7 +223,7 @@ xml_node_get_color (xmlNodePtr node, char const *name)
 	color = xmlGetProp (node, (xmlChar const *)name);
 	if (color == NULL)
 		return 0;
-	if (sscanf ((const char *)color, "%X:%X:%X", &red, &green, &blue) == 3)
+	if (sscanf ((char const *)color, "%X:%X:%X", &red, &green, &blue) == 3)
 		res = style_color_new (red, green, blue);
 	xmlFree (color);
 	return res;
@@ -262,7 +247,7 @@ xml_node_get_cellpos (xmlNodePtr node, char const *name, CellPos *val)
 	buf = xml_node_get_cstr (node, name);
 	if (val == NULL)
 		return FALSE;
-	res = cellpos_parse ((const char *)buf, val, TRUE, &dummy);
+	res = cellpos_parse ((char const *)buf, val, TRUE, &dummy);
 	xmlFree (buf);
 	return res;
 }
@@ -287,7 +272,7 @@ xml_node_set_print_unit (xmlNodePtr node, char const *name,
 			 PrintUnit const *pu)
 {
 	xmlNodePtr  child;
-	const char *txt = "points";
+	char const *txt = "points";
 	xmlChar       *tstr;
 
 	if (pu == NULL || name == NULL)
@@ -313,7 +298,7 @@ xml_node_set_print_unit (xmlNodePtr node, char const *name,
 	xml_node_set_points (child, "Points", pu->points);
 
 	tstr = xmlEncodeEntitiesReentrant (node->doc, (xmlChar const *)txt);
-	xml_node_set_cstr (child, "PrefUnit", (const char *)tstr);
+	xml_node_set_cstr (child, "PrefUnit", (char const *)tstr);
 	if (tstr) xmlFree (tstr);
 }
 
@@ -322,7 +307,7 @@ xml_node_set_print_margins (xmlNodePtr node, char const *name,
 			    double points)
 {
 	xmlNodePtr  child;
-	const char *txt = "points";
+	char const *txt = "points";
 	xmlChar       *tstr;
 
 	if (name == NULL)
@@ -333,7 +318,7 @@ xml_node_set_print_margins (xmlNodePtr node, char const *name,
 	xml_node_set_points (child, "Points", points);
 
 	tstr = xmlEncodeEntitiesReentrant (node->doc, (xmlChar const *)txt);
-	xml_node_set_cstr (child, "PrefUnit", (const char *)tstr);
+	xml_node_set_cstr (child, "PrefUnit", (char const *)tstr);
 	if (tstr) xmlFree (tstr);
 }
 
@@ -658,13 +643,13 @@ xml_write_style (XmlParseContext *ctxt,
 
 		if (v->title != NULL && v->title->str[0] != '\0') {
 			tstr = xmlEncodeEntitiesReentrant (ctxt->doc, (xmlChar const *)(v->title->str));
-			xml_node_set_cstr (child, "Title", (const char *)tstr);
+			xml_node_set_cstr (child, "Title", (char const *)tstr);
 			if (tstr) xmlFree (tstr);
 		}
 
 		if (v->msg != NULL && v->msg->str[0] != '\0') {
 			tstr = xmlEncodeEntitiesReentrant (ctxt->doc, (xmlChar const *)(v->msg->str));
-			xml_node_set_cstr (child, "Message", (const char *)tstr);
+			xml_node_set_cstr (child, "Message", (char const *)tstr);
 			if (tstr) xmlFree (tstr);
 		}
 
@@ -727,11 +712,12 @@ xml_read_names (XmlParseContext *ctxt, xmlNodePtr tree,
 		Workbook *wb, Sheet *sheet)
 {
 	xmlNode *id;
-	xmlNode *expr;
+	xmlNode *expr_node;
 	xmlNode *position;
 	xmlNode *name = e_xml_get_child_by_name (tree, (xmlChar const *)"Names");
 	xmlChar *name_str;
 	char	*expr_str;
+	GnmExpr const *expr;
 
 	if (name == NULL)
 		return;
@@ -745,13 +731,13 @@ xml_read_names (XmlParseContext *ctxt, xmlNodePtr tree,
 			continue;
 
 		id = e_xml_get_child_by_name (name, (xmlChar const *)"name");
-		expr = e_xml_get_child_by_name (name, (xmlChar const *)"value");
+		expr_node = e_xml_get_child_by_name (name, (xmlChar const *)"value");
 		position = e_xml_get_child_by_name (name, (xmlChar const *)"position");
 
-		g_return_if_fail (id != NULL && expr != NULL);
+		g_return_if_fail (id != NULL && expr_node != NULL);
 
 		name_str = xml_node_get_cstr (id, NULL);
-		expr_str = (char *)xml_node_get_cstr (expr, NULL);
+		expr_str = (char *)xml_node_get_cstr (expr_node, NULL);
 		g_return_if_fail (name_str != NULL && expr_str != NULL);
 
 		parse_pos_init (&pp, wb, sheet, 0, 0);
@@ -759,7 +745,7 @@ xml_read_names (XmlParseContext *ctxt, xmlNodePtr tree,
 			xmlChar *pos_txt = xml_node_get_cstr (position, NULL);
 			if (pos_txt != NULL) {
 				CellRef tmp;
-				char const *res = cellref_parse (&tmp, (const char *)pos_txt, &pp.eval);
+				char const *res = cellref_parse (&tmp, (char const *)pos_txt, &pp.eval);
 				if (res != NULL && *res == '\0') {
 					pp.eval.col = tmp.col;
 					pp.eval.row = tmp.row;
@@ -769,8 +755,15 @@ xml_read_names (XmlParseContext *ctxt, xmlNodePtr tree,
 		}
 
 		parse_error_init (&perr);
-		if (!expr_name_create (&pp, (const char *)name_str, expr_str, &perr))
-			g_warning (perr.message);
+		expr = gnm_expr_parse_str (expr_str, &pp,
+			GNM_EXPR_PARSE_DEFAULT, gnm_1_0_rangeref_parse, &perr);
+		if (exp != NULL) {
+			char const *err = NULL;
+			expr_name_add (&pp, (char const *)name_str, expr, &err);
+			if (err != NULL)
+				gnm_io_warning (ctxt->io_context, err);
+		} else
+			gnm_io_warning (ctxt->io_context, perr.message);
 		parse_error_free (&perr);
 
 		xmlFree (name_str);
@@ -1136,7 +1129,7 @@ xml_read_print_margins (XmlParseContext *ctxt, xmlNodePtr tree)
 
 static void
 xml_read_print_repeat_range (XmlParseContext *ctxt, xmlNodePtr tree,
-			     const char *name, PrintRepeatRange *range)
+			     char const *name, PrintRepeatRange *range)
 {
 	xmlNodePtr child;
 
@@ -1152,7 +1145,7 @@ xml_read_print_repeat_range (XmlParseContext *ctxt, xmlNodePtr tree,
 
 		if (s) {
 			Range r;
-			if (parse_range ((const char *)s, &r)) {
+			if (parse_range ((char const *)s, &r)) {
 				range->range = r;
 				range->use   = TRUE;
 			}
@@ -1470,7 +1463,9 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 			if (e_node != NULL) {
 				char *content = (char *)xml_node_get_cstr (e_node, NULL);
 				if (content != NULL) {
-					expr0 = gnm_expr_parse_str_simple (content, &pp);
+					expr0 = gnm_expr_parse_str (content, &pp,
+							GNM_EXPR_PARSE_DEFAULT,
+							&gnm_1_0_rangeref_parse, NULL);
 					xmlFree (content);
 				}
 			}
@@ -1478,7 +1473,9 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 			if (e_node != NULL) {
 				char *content = (char *)xml_node_get_cstr (e_node, NULL);
 				if (content != NULL) {
-					expr1 = gnm_expr_parse_str_simple (content, &pp);
+					expr1 = gnm_expr_parse_str (content, &pp,
+							GNM_EXPR_PARSE_DEFAULT,
+							&gnm_1_0_rangeref_parse, NULL);
 					xmlFree (content);
 				}
 			}
@@ -1721,8 +1718,9 @@ xml_cell_set_array_expr (Cell *cell, char const *text,
 			 int const rows, int const cols)
 {
 	ParsePos pp;
-	GnmExpr const *expr = gnm_expr_parse_str_simple (text,
-		parse_pos_init_cell (&pp, cell));
+	GnmExpr const *expr = gnm_expr_parse_str (text,
+		parse_pos_init_cell (&pp, cell),
+		GNM_EXPR_PARSE_DEFAULT, &gnm_1_0_rangeref_parse, NULL);
 
 	g_return_if_fail (expr != NULL);
 	cell_set_array_formula (cell->base.sheet,
@@ -1936,7 +1934,8 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 				if (NULL != expr_start && *expr_start)
 					expr = gnm_expr_parse_str (expr_start,
 						parse_pos_init_cell (&pos, cell),
-						GNM_EXPR_PARSE_DEFAULT, NULL);
+						GNM_EXPR_PARSE_DEFAULT,
+						&gnm_1_0_rangeref_parse, NULL);
 				if (expr != NULL) {
 					cell_set_expr (cell, expr);
 					gnm_expr_unref (expr);
@@ -2753,18 +2752,20 @@ xml_read_cell_copy (XmlParseContext *ctxt, xmlNodePtr tree,
 
 			g_return_if_fail (content[0] == '=');
 
-			expr = gnm_expr_parse_str_simple ((const char *)content, &pp);
+			expr = gnm_expr_parse_str ((char const *)content, &pp,
+				GNM_EXPR_PARSE_DEFAULT,
+				&gnm_1_0_rangeref_parse, NULL);
 
 			g_return_if_fail (expr != NULL);
 #warning TODO : arrays
 		} else if (is_value)
-			cell->value = value_new_from_string (value_type, (const char *)content, value_fmt);
+			cell->value = value_new_from_string (value_type, (char const *)content, value_fmt);
 		else {
 			Value *val;
 			GnmExpr const *expr;
 
 			parse_text_value_or_expr (&pp,
-						  (const char *)content,
+						  (char const *)content,
 						  &val, &expr, value_fmt);
 
 			if (val != NULL) {	/* String was a value */
@@ -2787,7 +2788,7 @@ xml_read_cell_copy (XmlParseContext *ctxt, xmlNodePtr tree,
 					 */
 					cell->base.expression = gnm_expr_new_constant (
 						value_new_string (
-							  gnm_expr_char_start_p ((const char *)content)));
+							  gnm_expr_char_start_p ((char const *)content)));
 					cell->base.flags |= CELL_HAS_EXPRESSION;
 					value_release (cell->value);
 					cell->value = value_new_empty ();
@@ -3136,7 +3137,7 @@ xml_sheet_create (XmlParseContext *ctxt, xmlNodePtr node)
 		g_return_if_fail (name != NULL);
 
 		workbook_sheet_attach (ctxt->wb,
-				       sheet_new (ctxt->wb, (const char *)name),
+				       sheet_new (ctxt->wb, (char const *)name),
 				       NULL);
 		xmlFree (name);
 	}

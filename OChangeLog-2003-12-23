@@ -1,3 +1,30 @@
+2002-09-29  Jody Goldberg <jody@gnome.org>
+
+	* src/parse-util.c (wbref_parse) : document and fix a bit.  still
+	  untested.
+	(rangeref_parse) : touch up a bit.
+	(gnm_1_0_rangeref_parse) : new, untested.
+
+	* src/parser.y (gnm_expr_parse_str) : add
+	  GNM_EXPR_PARSE_USE_OPENCALC_CONVENTIONS.  To hard code the
+	  seperators rather than extracting them from the locale.  Its quick
+	  and dirty, but will do the job for now.  Later it would be nice to
+	  abstract the parse state a bit more so that we don't need to
+	  re-initialize every time.
+	(yylex) : handle xml escaping for opencalc. 
+
+	* src/parse-util.c (row_parse) : fix.
+
+2002-09-27  Jody Goldberg <jody@gnome.org>
+
+	* src/expr-name.c (expr_name_create) : delete because it was hard
+	  coding which rangeref parser to use.
+
+2002-09-27  Jody Goldberg <jody@gnome.org>
+
+	* src/parser.y : remove bogus error message and fix the other message
+	  to be correct when faced with the wrong type of array seperator.
+
 2002-09-27  Jody Goldberg <jody@gnome.org>
 
 	* src/value.c (value_coerce_to_number) : new.

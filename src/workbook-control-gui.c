@@ -71,6 +71,7 @@
 #include "sheet-object-image.h"
 #include "gnumeric-gconf.h"
 #include "filter.h"
+#include "io-context.h"
 
 #ifdef WITH_BONOBO
 #include "sheet-object-container.h"

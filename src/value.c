@@ -772,6 +772,38 @@ value_get_as_float (Value const *v)
 	return 0.0;
 }
 
+/**
+ * value_coerce_to_number :
+ * @v :
+ * @valid :
+ *
+ * If the value can be used as a number return that number
+ * otherwise free it at return an appropriate error
+ **/
+Value *
+value_coerce_to_number (Value *v, gboolean *valid, EvalPos const *ep)
+{
+	g_return_val_if_fail (v != NULL, NULL);
+
+	*valid = FALSE;
+	if (v->type == VALUE_STRING) {
+		Value *tmp = format_match_number (value_peek_string (v), NULL);
+		value_release (v);
+		if (tmp == NULL)
+			return value_new_error (ep, gnumeric_err_VALUE);
+		v = tmp;
+	} else if (v->type == VALUE_ERROR)
+		return v;
+
+	if (!VALUE_IS_NUMBER (v)) {
+		value_release (v);
+		return value_new_error (ep, gnumeric_err_VALUE);
+	}
+
+	*valid = TRUE;
+	return v;
+}
+
 void
 value_array_set (Value *array, int col, int row, Value *v)
 {

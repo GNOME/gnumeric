@@ -53,7 +53,7 @@ Value *		 cell_is_error		(Cell const *cell);
 gboolean	 cell_is_number		(Cell const *cell);
 gboolean	 cell_is_zero		(Cell const *cell);
 gboolean	 cell_is_partial_array	(Cell const *cell);
-GnmExprArray const *cell_is_array		(Cell const *cell);
+GnmExprArray const *cell_is_array	(Cell const *cell);
 
 /**
  * Utilities to assign the contents of a cell

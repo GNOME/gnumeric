@@ -310,41 +310,6 @@ expr_name_add (ParsePos const *pp, char const *name,
 	return nexpr;
 }
 
-/**
- * expr_name_create:
- * @pp:
- * @name:
- * @value:
- * @error:
- *
- * Parses a textual name in @value, and enters the value
- * either as a workbook name if @sheet == NULL or a sheet
- * name if @wb == NULL.
- *
- * Return value: The created GnmNamedExpr.
- **/
-GnmNamedExpr *
-expr_name_create (ParsePos const *pp, char const *name,
-		  char const *value, ParseError *error)
-{
-	GnmNamedExpr *res;
-	char const *err = NULL;
-	GnmExpr const *expr = gnm_expr_parse_str (value, pp,
-		GNM_EXPR_PARSE_DEFAULT, error);
-
-	if (expr == NULL)
-		return NULL;
-
-	/* We know there has been no parse error, but set the
-	 * use the message part of the struct to pass a name
-	 * creation error back to the calling routine
-	 */
-	res = expr_name_add (pp, name, expr, &err);
-	if (err != NULL)
-		error->message = g_strdup (err);
-	return res;
-}
-
 void
 expr_name_ref (GnmNamedExpr *nexpr)
 {

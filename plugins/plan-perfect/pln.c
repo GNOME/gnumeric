@@ -626,7 +626,7 @@ pln_parse_sheet (GsfInput *input, PlanPerfectImport *state)
 
 				if (expr_txt != NULL) {
 					expr = gnm_expr_parse_str (expr_txt, &pp,
-						GNM_EXPR_PARSE_DEFAULT, NULL);
+						GNM_EXPR_PARSE_DEFAULT, &rangeref_parse, NULL);
 					if (expr == NULL) {
 						if (v != NULL)
 							value_release (v);

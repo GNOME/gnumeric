@@ -1,9 +1,8 @@
 #ifndef GNUMERIC_FILE_H
 #define GNUMERIC_FILE_H
 
-#include <gtk/gtktypeutils.h>
-#include "io-context.h"
 #include "gnumeric.h"
+#include <glib-object.h>
 #include <gsf/gsf.h>
 
 /*

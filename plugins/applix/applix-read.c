@@ -50,6 +50,7 @@
 #include <workbook-view.h>
 #include <workbook.h>
 #include <error-info.h>
+#include <parse-util.h>
 
 #include <gsf/gsf-input-textline.h>
 #include <ctype.h>
@@ -139,6 +140,60 @@ applix_parse_value (char *buf, char **follow)
 	}
 
 	return buf;
+}
+
+static char const *
+applix_rangeref_parse (RangeRef *res, char const *start, ParsePos const *pp)
+{
+	char const *ptr = start, *tmp1, *tmp2;
+	Workbook *wb = pp->wb;
+
+	g_return_val_if_fail (start != NULL, start);
+	g_return_val_if_fail (pp != NULL, start);
+
+	/* TODO : Does not handle external references */
+
+	ptr = sheetref_parse (start, &res->a.sheet, wb, TRUE);
+	/* just in case a sheet has a valid reference as a name */
+	if (ptr != start && *ptr != '!')
+		ptr = start;
+	else
+		ptr++;
+	tmp1 = col_parse (++ptr, &res->a.col, &res->a.col_relative);
+	if (tmp1++ == ptr)
+		return start;
+	tmp2 = row_parse (tmp1, &res->a.row, &res->a.row_relative);
+	if (tmp2 == tmp1)
+		return start;
+
+	/* prepare as if its a singleton, in case we want to fall back */
+	if (res->a.col_relative)
+		res->a.col -= pp->eval.col;
+	if (res->a.row_relative)
+		res->a.row -= pp->eval.row;
+	if (tmp2[0] != '.' || tmp2[1] != '.') {
+		res->b = res->a;
+		return tmp2;
+	}
+	start = tmp2;
+	ptr = sheetref_parse (start+2, &res->b.sheet, wb, TRUE);
+	/* just in case a sheet has a valid reference as a name */
+	if (ptr != start+2 && *ptr != '!')
+		ptr = start+2;
+	else
+		ptr++;
+	tmp1 = col_parse (++ptr, &res->b.col, &res->b.col_relative);
+	if (tmp1++ == ptr)
+		return start;
+	tmp2 = row_parse (tmp1, &res->b.row, &res->b.row_relative);
+	if (tmp2 == tmp1)
+		return start;
+
+	if (res->b.col_relative)
+		res->b.col -= pp->eval.col;
+	if (res->b.row_relative)
+		res->b.row -= pp->eval.row;
+	return tmp2;
 }
 
 static unsigned char *
@@ -1003,8 +1058,9 @@ applix_read_cells (ApplixReadState *state)
 				} else
 					expr = gnm_expr_parse_str (expr_string+1,
 						parse_pos_init_cell (&pos, cell),
-						GNM_EXPR_PARSE_USE_APPLIX_REFERENCE_CONVENTIONS |
+						GNM_EXPR_PARSE_USE_APPLIX_CONVENTIONS |
 						GNM_EXPR_PARSE_CREATE_PLACEHOLDER_FOR_UNKNOWN_FUNC,
+						&applix_rangeref_parse,
 						&perr);
 
 				if (expr == NULL) {
@@ -1153,8 +1209,9 @@ applix_read_relative_name (ApplixReadState *state, char *buffer)
 #if 0
 	GnmExpr *expr = gnm_expr_parse_str (expr_string+1,
 		parse_pos_init_cell (&pos, cell),
-		GNM_EXPR_PARSE_USE_APPLIX_REFERENCE_CONVENTIONS |
+		GNM_EXPR_PARSE_USE_APPLIX_CONVENTIONS |
 		GNM_EXPR_PARSE_CREATE_PLACEHOLDER_FOR_UNKNOWN_FUNC,
+		&applix_rangeref_parse,
 		&perr);
 #endif
 	puts (buffer);

@@ -127,14 +127,15 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 			parse_pos_init_editpos (&pp, sv);
 			parse_error_init (&perr);
 			expr = gnm_expr_parse_str (expr_txt,
-				&pp, GNM_EXPR_PARSE_DEFAULT, &perr);
+				&pp, GNM_EXPR_PARSE_DEFAULT, &rangeref_parse, &perr);
 			/* Try adding a single extra closing paren to see if it helps */
 			if (expr == NULL && perr.id == PERR_MISSING_PAREN_CLOSE) {
 				ParseError tmp_err;
 				char *tmp = g_strconcat (txt, ")", NULL);
 				parse_error_init (&tmp_err);
 				expr = gnm_expr_parse_str (gnm_expr_char_start_p (tmp),
-					&pp, GNM_EXPR_PARSE_DEFAULT, &tmp_err);
+					&pp, GNM_EXPR_PARSE_DEFAULT,
+					&rangeref_parse, &tmp_err);
 				parse_error_free (&tmp_err);
 
 				if (expr != NULL)

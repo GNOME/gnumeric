@@ -17,6 +17,7 @@
 #include <module-plugin-defs.h>
 #include <error-info.h>
 #include <gutils.h>
+#include <io-context.h>
 
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-utils.h>

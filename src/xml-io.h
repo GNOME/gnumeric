@@ -8,16 +8,6 @@
 #include <libxml/tree.h>
 #include <libxml/xmlmemory.h>
 
-typedef struct _XmlParseContext XmlParseContext;
-
-typedef gboolean (*XmlSheetObjectWriteFn) (xmlNodePtr   cur,
-					   SheetObject const *object,
-					   gpointer     user_data);
-typedef gboolean (*XmlSheetObjectReadFn)  (xmlNodePtr   tree,
-					   SheetObject *object,
-					   Sheet       *sheet,
-					   gpointer     user_data);
-
 struct _XmlParseContext {
 	xmlDocPtr doc;		/* Xml document */
 	xmlNsPtr  ns;		/* Main name space */
@@ -35,39 +25,16 @@ struct _XmlParseContext {
 	GPtrArray *shared_exprs;/*
 				 * When reading this is a map from index -> expr pointer
 				 */
-	XmlSheetObjectWriteFn write_fn;
-	XmlSheetObjectReadFn  read_fn;
-	gpointer              user_data;
 	GnumericXMLVersion    version;
 };
 
-GnumFileOpener *gnumeric_xml_get_opener (void);
-GnumFileSaver  *gnumeric_xml_get_saver (void);
+XmlParseContext *xml_parse_ctx_new     (xmlDoc		*doc,
+				        xmlNs		*ns,
+				        WorkbookView	*wb_view);
+void		 xml_parse_ctx_destroy (XmlParseContext *ctxt);
 
-void gnumeric_xml_read_workbook (GnumFileOpener const *fo, IOContext *context,
-				 WorkbookView *wb_view, GsfInput *input);
-void gnumeric_xml_write_workbook (GnumFileSaver const *fs, IOContext *context,
-                                  WorkbookView *wbv, gchar const *filename);
 
-XmlParseContext *xml_parse_ctx_new      (xmlDocPtr             doc,
-					 xmlNsPtr              ns,
-					 WorkbookView	      *wb_view);
-XmlParseContext *xml_parse_ctx_new_full (xmlDocPtr             doc,
-					 xmlNsPtr              ns,
-					 WorkbookView	      *wb_view,
-					 GnumericXMLVersion    version,
-					 XmlSheetObjectReadFn  read_fn,
-					 XmlSheetObjectWriteFn write_fn,
-					 gpointer              user_data);
-void             xml_parse_ctx_destroy  (XmlParseContext      *ctxt);
-
-xmlNodePtr       xml_workbook_write     (XmlParseContext      *ctx);
-gboolean         xml_workbook_read      (IOContext            *context,
-					 XmlParseContext      *ctx,
-					 xmlNodePtr           tree);
-
-xmlNsPtr         xml_check_version      (xmlDocPtr            doc,
-					 GnumericXMLVersion  *version);
+xmlNodePtr   xml_write_style    (XmlParseContext *ctxt, MStyle *style);
 
 xmlChar	   *xml_cellregion_write (WorkbookControl *context,
 				  CellRegion *cr, int *size);
@@ -88,5 +55,8 @@ xmlNodePtr   xml_write_style    (XmlParseContext *ctxt, MStyle *style);
 MStyle      *xml_read_style     (XmlParseContext *ctxt, xmlNodePtr tree);
 
 void      xml_init (void);
+
+GnumFileOpener *gnumeric_xml_get_opener (void);
+GnumFileSaver  *gnumeric_xml_get_saver (void);
 
 #endif /* GNUMERIC_XML_IO_H */

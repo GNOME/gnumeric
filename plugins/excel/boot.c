@@ -1,10 +1,12 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /**
  * boot.c: MS Excel support for Gnumeric
  *
  * Author:
  *    Michael Meeks (michael@ximian.com)
+ *    Jody Goldberg (jody@gnome.org)
  *
- * (C) 1998-2001 Michael Meeks
+ * (C) 1998-2002 Michael Meeks
  **/
 #include <gnumeric-config.h>
 #include <gnumeric-i18n.h>
@@ -30,6 +32,7 @@
 #include <gsf/gsf-output-stdio.h>
 #include <gsf/gsf-outfile.h>
 #include <gsf/gsf-outfile-msole.h>
+#include <gsf/gsf-structured-blob.h>
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
@@ -56,9 +59,9 @@ gint ms_excel_object_debug = 0;
 MsExcelReadGbFn ms_excel_read_gb = NULL;
 
 gboolean excel_file_probe (GnumFileOpener const *fo, GsfInput *input, FileProbeLevel pl);
-void excel_file_open (GnumFileOpener const *fo, IOContext *context, WorkbookView *new_wb_view, GsfInput *input);
-void excel97_file_save (GnumFileSaver const *fs, IOContext *context, WorkbookView *wb_view, const char *filename);
-void excel95_file_save (GnumFileSaver const *fs, IOContext *context, WorkbookView *wb_view, const char *filename);
+void excel_file_open (GnumFileOpener const *fo, IOContext *context, WorkbookView *wbv, GsfInput *input);
+void excel97_file_save (GnumFileSaver const *fs, IOContext *context, WorkbookView *wbv, const char *filename);
+void excel95_file_save (GnumFileSaver const *fs, IOContext *context, WorkbookView *wbv, const char *filename);
 void plugin_cleanup (void);
 
 gboolean
@@ -114,11 +117,17 @@ excel_read_metadata (GsfInfile *ole, char const *name, IOContext *context)
  */
 void
 excel_file_open (GnumFileOpener const *fo, IOContext *context,
-                 WorkbookView *new_wb_view, GsfInput *input)
+                 WorkbookView *wbv, GsfInput *input)
 {
+	static char const * const content[] = {
+		"Workbook",	"WORKBOOK",	"workbook"
+		"Book",		"BOOK",		"book"
+	};
+
 	GsfInput *stream = NULL;
 	GError   *err = NULL;
 	GsfInfile *ole = gsf_infile_msole_new (input, &err);
+	unsigned i = 0;
 
 	if (ole == NULL) {
 		g_return_if_fail (err != NULL);
@@ -127,10 +136,9 @@ excel_file_open (GnumFileOpener const *fo, IOContext *context,
 		return;
 	}
 
-	stream = gsf_infile_child_by_name (ole, "Workbook");
-	if (stream == NULL)
-		stream = gsf_infile_child_by_name (ole, "Book");
-
+	do {
+		stream = gsf_infile_child_by_name (ole, content[i++]);
+	} while (stream == NULL && i < G_N_ELEMENTS (content));
 	if (stream == NULL) {
 		gnumeric_io_error_read (context,
 			 _("No Workbook or Book streams found."));
@@ -138,11 +146,20 @@ excel_file_open (GnumFileOpener const *fo, IOContext *context,
 		return;
 	}
 
-	ms_excel_read_workbook (context, new_wb_view, stream);
+	ms_excel_read_workbook (context, wbv, stream);
 	g_object_unref (G_OBJECT (stream));
 
 	excel_read_metadata (ole, "\05SummaryInformation", context);
 	excel_read_metadata (ole, "\05DocumentSummaryInformation", context);
+
+	/* See if there are any macros to keep around */
+	stream = gsf_infile_child_by_name (ole, "_VBA_PROJECT_CUR");
+	if (stream != NULL) {
+		Workbook *wb = wb_view_workbook (wbv);
+		g_object_set_data_full (G_OBJECT (wb), "MS_EXCEL_MACROS",
+			gsf_structured_blob_read (stream), g_object_unref);
+		g_object_unref (G_OBJECT (stream));
+	}
 
 	g_object_unref (G_OBJECT (ole));
 }
@@ -155,18 +172,20 @@ excel_file_open (GnumFileOpener const *fo, IOContext *context,
  * ExcelWorkbook in ms-excel-read.h.
  */
 static void
-excel_save (IOContext *context, WorkbookView *wb_view, const char *filename,
+excel_save (IOContext *context, WorkbookView *wbv, const char *filename,
             MsBiffVersion ver)
 {
+	Workbook *wb;
 	GsfOutput *output;
 	GsfOutfile *outfile;
 	void *state = NULL;
 	GError    *err;
 	gint res;
+	GsfStructuredBlob *macros;
 
 	io_progress_message (context, _("Preparing for save..."));
 	io_progress_range_push (context, 0.0, 0.1);
-	res = ms_excel_check_write (context, &state, wb_view, ver);
+	res = ms_excel_check_write (context, &state, wbv, ver);
 	io_progress_range_pop (context);
 
 	if (res != 0) {
@@ -192,27 +211,34 @@ excel_save (IOContext *context, WorkbookView *wb_view, const char *filename,
 	ms_excel_write_workbook (context, outfile, state, ver);
 	io_progress_range_pop (context);
 
+	wb = wb_view_workbook (wbv);
 #warning re-enable when gsf meta data generator is ready
 #if 0
-	Workbook *wb = wb_view_workbook (wb_view);
+	Workbook *wb = wb_view_workbook (wbv);
 	ms_summary_write (f, wb->summary_info);
 #endif
+
+	/* restore the macros we loaded */
+	macros = g_object_get_data (G_OBJECT (wb), "MS_EXCEL_MACROS");
+	if (macros != NULL)
+		gsf_structured_blob_write (macros, outfile);
+
 	gsf_output_close (GSF_OUTPUT (outfile));
 	g_object_unref (G_OBJECT (outfile));
 }
 
 void
 excel97_file_save (GnumFileSaver const *fs, IOContext *context,
-                   WorkbookView *wb_view, const char *filename)
+                   WorkbookView *wbv, const char *filename)
 {
-	excel_save (context, wb_view, filename, MS_BIFF_V8);
+	excel_save (context, wbv, filename, MS_BIFF_V8);
 }
 
 void
 excel95_file_save (GnumFileSaver const *fs, IOContext *context,
-                   WorkbookView *wb_view, const char *filename)
+                   WorkbookView *wbv, const char *filename)
 {
-	excel_save (context, wb_view, filename, MS_BIFF_V7);
+	excel_save (context, wbv, filename, MS_BIFF_V7);
 }
 
 

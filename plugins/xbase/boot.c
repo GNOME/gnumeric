@@ -22,6 +22,7 @@
 #include <ranges.h>
 #include <mstyle.h>
 #include <sheet-style.h>
+#include <io-context.h>
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 

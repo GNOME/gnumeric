@@ -9,7 +9,8 @@
 typedef struct _CommandContext		CommandContext;
 typedef struct _CommandContextStderr	CommandContextStderr;
 
-typedef struct _IOContext		IOContext; /*for future use */
+typedef struct _IOContext		IOContext;
+typedef struct _XmlParseContext		XmlParseContext;
 
 typedef struct _Workbook		Workbook;
 typedef struct _WorkbookView		WorkbookView;

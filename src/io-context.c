@@ -25,7 +25,6 @@
 #include <sys/time.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include <stdarg.h>
 
 #define PROGRESS_UPDATE_STEP        0.01
 #define PROGRESS_UPDATE_PERIOD_SEC  0.20

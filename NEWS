@@ -30,8 +30,9 @@ Jody:
 	* Make the location status box smarter about named ranges
 	* Begin support for intersection
 	* Start parsing range sets
-	* Simple OpenOffice importer (lots more to do)
+	* Simple OpenOffice importer (expr and content but no formating)
 	* Support multi-region version of INDEX
+	* Handle obscure corner case in xbase importer
 
 Michael Meeks:
 	* Spruce up the CORBA code to use some bonobo utils.

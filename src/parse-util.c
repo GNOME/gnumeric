@@ -631,7 +631,7 @@ parse_text_value_or_expr (ParsePos const *pos, char const *text,
 	expr_start = gnm_expr_char_start_p (text);
 	if (NULL != expr_start && *expr_start) {
 		*expr = gnm_expr_parse_str (expr_start, pos,
-			GNM_EXPR_PARSE_DEFAULT, NULL);
+			GNM_EXPR_PARSE_DEFAULT, &rangeref_parse, NULL);
 		if (*expr != NULL)
 			return;
 	}
@@ -692,22 +692,32 @@ unquote (char *dst, char const *src, int n)
 	*dst = 0;
 }
 
+/**
+ * wbref_parse :
+ * @start :
+ * @wb :
+ *
+ * Returns : NULL if there is a valid workbook name but it is unknown.
+ *           If the string is a valid workbook known name it returns a pointer
+ *           the end of the name.
+ *           Otherwise returns @start and does not modify @wb.
+ * **/
 char const *
 wbref_parse (char const *start, Workbook **wb)
 {
 	/* Is this an external reference ? */
 	if (*start == '[') {
 		int num_escapes;
-		char const *end = check_quoted (start, &num_escapes);
+		char const *end = check_quoted (start+1, &num_escapes);
 		char *name;
 
-		if (end == start) {
+		if (end == start+1) {
 			end = strchr (start, ']');
 			if (end == NULL)
 				return start;
 		}
 		if (*end != ']')
-			return NULL;
+			return start;
 
 		/* might be too big if quoted (remember leading [' */
 		name = g_alloca (1 + end - start - 2);
@@ -716,13 +726,25 @@ wbref_parse (char const *start, Workbook **wb)
 			name [end-start-1] = '\0';
 		} else
 			unquote (name, start+2, end-start-2);
-#warning TODO
+#warning TODO return NULL if wb name is unknown
 		return end + 1;
 	}
 
 	return start;
 }
 
+/**
+ * sheetref_parse :
+ * @start :
+ * @sheet :
+ * @wb    :
+ * @allow_3d :
+ *
+ * Returns : NULL if there is a valid sheet name but it is unknown.
+ *           If the string is a valid sheet known name it returns a pointer
+ *           the end of the name.
+ *           Otherwise returns @start and does not modify @sheet.
+ **/
 char const *
 sheetref_parse (char const *start, Sheet **sheet, Workbook const *wb,
 		gboolean allow_3d)
@@ -756,17 +778,17 @@ sheetref_parse (char const *start, Sheet **sheet, Workbook const *wb,
 char const *
 row_parse (char const *str, int *res, unsigned char *relative)
 {
-	char const *ptr = str;
+	char const *end, *ptr = str;
 	int row;
 
 	if (!(*relative = (*ptr != '$')))
 		ptr++;
 
 	errno = 0;
-	row = strtol (str, (char **)&ptr, 10);
-	if (ptr != str && 0 < row && row <= SHEET_MAX_ROWS && errno != ERANGE) {
+	row = strtol (ptr, (char **)&end, 10);
+	if (ptr != end && 0 < row && row <= SHEET_MAX_ROWS && errno != ERANGE) {
 		*res = row - 1;
-		return ptr;
+		return end;
 	} else
 		return str;
 }
@@ -837,9 +859,10 @@ rangeref_parse (RangeRef *res, char const *start, ParsePos const *pp)
 		res->a.col -= pp->eval.col;
 	if (res->a.row_relative)
 		res->a.row -= pp->eval.row;
-	res->b = res->a;
-	if (*tmp2 != ':')
+	if (*tmp2 != ':') {
+		res->b = res->a;
 		return tmp2;
+	}
 	ptr = tmp2;
 
 	tmp1 = col_parse (ptr+1, &res->b.col, &res->b.col_relative);
@@ -848,6 +871,61 @@ rangeref_parse (RangeRef *res, char const *start, ParsePos const *pp)
 	tmp2 = row_parse (tmp1, &res->b.row, &res->b.row_relative);
 	if (tmp2 == tmp1)
 		return ptr;	/* strange, but valid singleton */
+
+	if (res->b.col_relative)
+		res->b.col -= pp->eval.col;
+	if (res->b.row_relative)
+		res->b.row -= pp->eval.row;
+	return tmp2;
+}
+
+
+char const *
+gnm_1_0_rangeref_parse (RangeRef *res, char const *start, ParsePos const *pp)
+{
+	char const *ptr = start, *tmp1, *tmp2;
+	Workbook *wb;
+
+	g_return_val_if_fail (start != NULL, start);
+	g_return_val_if_fail (pp != NULL, start);
+
+	/* TODO : Does not handle external references */
+
+	ptr = sheetref_parse (start, &res->a.sheet, wb, TRUE);
+	/* just in case a sheet has a valid reference as a name */
+	if (ptr != start && *ptr != '!')
+		ptr = start;
+	else
+		ptr++;
+	tmp1 = col_parse (++ptr, &res->a.col, &res->a.col_relative);
+	if (tmp1++ == ptr)
+		return start;
+	tmp2 = row_parse (tmp1, &res->a.row, &res->a.row_relative);
+	if (tmp2 == tmp1)
+		return start;
+
+	/* prepare as if its a singleton, in case we want to fall back */
+	if (res->a.col_relative)
+		res->a.col -= pp->eval.col;
+	if (res->a.row_relative)
+		res->a.row -= pp->eval.row;
+	if (*tmp2 != ':') {
+		res->b = res->a;
+		return tmp2;
+	}
+	start = tmp2;
+	ptr = sheetref_parse (start+1, &res->b.sheet, wb, TRUE);
+	/* just in case a sheet has a valid reference as a name */
+	if (ptr != start+1 && *ptr != '!')
+		ptr = start+1;
+	else
+		ptr++;
+	tmp1 = col_parse (++ptr, &res->b.col, &res->b.col_relative);
+	if (tmp1++ == ptr)
+		return start;
+	tmp2 = row_parse (tmp1, &res->b.row, &res->b.row_relative);
+	if (tmp2 == tmp1)
+		return start;
 
 	if (res->b.col_relative)
 		res->b.col -= pp->eval.col;

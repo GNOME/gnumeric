@@ -127,6 +127,8 @@ char       *value_get_as_string       (Value const *v);
 char const *value_peek_string         (Value const *v);
 int         value_get_as_int          (Value const *v);
 gnum_float  value_get_as_float        (Value const *v);
+Value	   *value_coerce_to_number    (Value *v, gboolean *valid,
+				       EvalPos const *ep);
 
 Value       *value_error_set_pos      (ValueErr *err, EvalPos const *pos);
 

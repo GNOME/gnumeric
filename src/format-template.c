@@ -31,6 +31,7 @@
 #include "command-context.h"
 #include "ranges.h"
 #include "xml-io.h"
+#include "io-context.h"
 #include "plugin-util.h"	/* for gnumeric_fopen */
 #include <string.h>
 #include <libxml/parser.h>

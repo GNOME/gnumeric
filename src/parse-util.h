@@ -24,8 +24,16 @@ char	   *rangeref_as_string	(RangeRef const *ref, ParsePos const *pp);
 char const *rangeref_parse	(RangeRef *res, char const *in,
 				 ParsePos const *pp);
 
+char const *sheetref_parse	(char const *start, Sheet **sheet,
+				 Workbook const *wb, gboolean allow_3d);
+
 char const *cell_coord_name	(int col, int row);
 char const *cell_name		(Cell const *cell);
+
+/* backwards compatibility versions that will move to a plugin */
+char	   *gnm_1_0_rangeref_as_string	(RangeRef const *ref, ParsePos const *pp);
+char const *gnm_1_0_rangeref_parse	(RangeRef *res, char const *in,
+					 ParsePos const *pp);
 
 typedef enum {
 	PERR_NONE,
@@ -59,17 +67,23 @@ void        parse_error_free (ParseError *pe);
 
 typedef enum {
 	GNM_EXPR_PARSE_DEFAULT = 0, /* default is Excel */
-	GNM_EXPR_PARSE_USE_APPLIX_REFERENCE_CONVENTIONS	   = 1 << 0,
-	GNM_EXPR_PARSE_CREATE_PLACEHOLDER_FOR_UNKNOWN_FUNC = 1 << 1,
-	GNM_EXPR_PARSE_FORCE_ABSOLUTE_COL_REFERENCES	   = 1 << 2,
-	GNM_EXPR_PARSE_FORCE_ABSOLUTE_ROW_REFERENCES	   = 1 << 3,
-	GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES	   = 1 << 4,
-	GNM_EXPR_PARSE_PERMIT_MULTIPLE_EXPRESSIONS	   = 1 << 5
+	GNM_EXPR_PARSE_USE_APPLIX_CONVENTIONS	   	   = 1 << 0,
+	GNM_EXPR_PARSE_USE_OPENCALC_CONVENTIONS		   = 1 << 1,
+	GNM_EXPR_PARSE_CREATE_PLACEHOLDER_FOR_UNKNOWN_FUNC = 1 << 2,
+	GNM_EXPR_PARSE_FORCE_ABSOLUTE_COL_REFERENCES	   = 1 << 3,
+	GNM_EXPR_PARSE_FORCE_ABSOLUTE_ROW_REFERENCES	   = 1 << 4,
+	GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES	   = 1 << 5,
+	GNM_EXPR_PARSE_PERMIT_MULTIPLE_EXPRESSIONS	   = 1 << 6
 } GnmExprParseFlags;
+
+typedef char const *(*GnmRangeRefParse) (RangeRef *res, char const *in,
+					 ParsePos const *pp);
+
 #define gnm_expr_parse_str_simple(expr_text, pp) \
-	gnm_expr_parse_str (expr_text, pp, GNM_EXPR_PARSE_DEFAULT, NULL)
+	gnm_expr_parse_str (expr_text, pp, GNM_EXPR_PARSE_DEFAULT, &rangeref_parse, NULL)
 GnmExpr const *gnm_expr_parse_str (char const *expr, ParsePos const *pp,
 				   GnmExprParseFlags flags,
+				   GnmRangeRefParse ref_parser,
 				   ParseError *error);
 
 /* Is this string potentially the start of an expression */

@@ -50,6 +50,7 @@
 #include "error-info.h"
 
 #include <gsf/gsf-libxml.h>
+#include <gsf/gsf-input.h>
 #include <libxml/tree.h>
 #include <libxml/parser.h>
 #include <libxml/parserInternals.h>
@@ -249,6 +250,7 @@ typedef struct {
 
 	/* expressions with ref > 1 a map from index -> expr pointer */
 	GHashTable *expr_map;
+	GList *delayed_names;
 } XMLSaxParseState;
 
 /****************************************************************************/
@@ -1250,66 +1252,18 @@ xml_sax_object (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 }
 
 static void
-xml_sax_finish_parse_wb_names_name (GsfXmlSAXState *gsf_state)
-{
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
-
-	g_return_if_fail (state->name.name != NULL);
-	g_return_if_fail (state->name.value != NULL);
-
-	if (state->version >= GNUM_XML_V7) {
-		ParseError  perr;
-		ParsePos    pos;
-
-		parse_pos_init (&pos, NULL, state->sheet, 0, 0);
-		if (state->name.position) {
-			CellRef tmp;
-			char const *res;
-			res = cellref_parse (&tmp, state->name.position, &pos.eval);
-			if (res != NULL && *res == '\0') {
-				pos.eval.col = tmp.col;
-				pos.eval.row = tmp.row;
-			}
-		}
-		parse_error_init (&perr);
-		if (!expr_name_create (&pos, state->name.name,
-				       state->name.value, &perr))
-			g_warning (perr.message);
-		parse_error_free (&perr);
-	} else {
-		/*
-		 * We can't do this for versions < V7. The problem
-		 * is that we really need the SheetNameIndex for this
-		 * to function correctly.
-		 * FIXME: We should fallback to the xml DOM parser
-		 * when this fails.
-		 */
-		g_warning ("Can't process named expression '%s'. Ignoring!", state->name.name);
-	}
-
-	if (state->name.position) {
-		g_free (state->name.position);
-		state->name.position = NULL;
-	}
-
-	g_free (state->name.value);
-	state->name.value = NULL;
-	g_free (state->name.name);
-	state->name.name = NULL;
-}
-
-static void
-xml_sax_finish_parse_sheet_names_name (GsfXmlSAXState *gsf_state)
+xml_sax_named_expr_end (GsfXmlSAXState *gsf_state)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
 	ParseError  perr;
 	ParsePos    pos;
+	GnmExpr const	*expr;
 
 	g_return_if_fail (state->name.name != NULL);
 	g_return_if_fail (state->name.value != NULL);
 
-	parse_pos_init (&pos, NULL, state->sheet, 0, 0);
+	parse_pos_init (&pos, state->wb, state->sheet, 0, 0);
 	if (state->name.position) {
 		CellRef tmp;
 		char const *res = cellref_parse (&tmp, state->name.position, &pos.eval);
@@ -1320,9 +1274,18 @@ xml_sax_finish_parse_sheet_names_name (GsfXmlSAXState *gsf_state)
 	}
 
 	parse_error_init (&perr);
-	if (!expr_name_create (&pos, state->name.name,
-			       state->name.value, &perr))
-		g_warning (perr.message);
+	expr = gnm_expr_parse_str (state->name.value, &pos,
+		GNM_EXPR_PARSE_DEFAULT, gnm_1_0_rangeref_parse, &perr);
+	if (expr != NULL) {
+		char const *err = NULL;
+		expr_name_add (&pos, state->name.name, expr, &err);
+		if (err != NULL)
+			gnm_io_warning (state->context, err);
+	} else
+		state->delayed_names = g_list_prepend (state->delayed_names,
+			expr_name_add (&pos, state->name.name, 
+				gnm_expr_new_constant (value_new_string (state->name.value)), NULL));
+
 	parse_error_free (&perr);
 
 	if (state->name.position) {
@@ -1336,7 +1299,7 @@ xml_sax_finish_parse_sheet_names_name (GsfXmlSAXState *gsf_state)
 }
 
 static void
-xml_sax_name (GsfXmlSAXState *gsf_state)
+xml_sax_named_expr_prop (GsfXmlSAXState *gsf_state)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
@@ -1382,10 +1345,10 @@ GSF_XML_SAX_NODE (START, WB, "gmr:Workbook", FALSE, &xml_sax_wb, NULL, 0),
     GSF_XML_SAX_NODE (WB_SHEETNAME_INDEX, WB_SHEETNAME, "gmr:SheetName", TRUE, NULL, &xml_sax_wb_sheetname, 0),
 
   GSF_XML_SAX_NODE (WB, WB_NAMED_EXPRS, "gmr:Names", FALSE, NULL, NULL, 0),
-    GSF_XML_SAX_NODE (WB_NAMED_EXPRS, WB_NAMED_EXPR, "gmr:Name", FALSE, NULL, &xml_sax_finish_parse_wb_names_name, 0),
-      GSF_XML_SAX_NODE (WB_NAMED_EXPR, WB_NAMED_EXPR_NAME,	"gmr:name",	TRUE, NULL, &xml_sax_name, 0),
-      GSF_XML_SAX_NODE (WB_NAMED_EXPR, WB_NAMED_EXPR_VALUE,	"gmr:value",    TRUE, NULL, &xml_sax_name, 1),
-      GSF_XML_SAX_NODE (WB_NAMED_EXPR, WB_NAMED_EXPR_POSITION,	"gmr:position", TRUE, NULL, &xml_sax_name, 2),
+    GSF_XML_SAX_NODE (WB_NAMED_EXPRS, WB_NAMED_EXPR, "gmr:Name", FALSE, NULL, &xml_sax_named_expr_end, 0),
+      GSF_XML_SAX_NODE (WB_NAMED_EXPR, WB_NAMED_EXPR_NAME,	"gmr:name",	TRUE, NULL, &xml_sax_named_expr_prop, 0),
+      GSF_XML_SAX_NODE (WB_NAMED_EXPR, WB_NAMED_EXPR_VALUE,	"gmr:value",    TRUE, NULL, &xml_sax_named_expr_prop, 1),
+      GSF_XML_SAX_NODE (WB_NAMED_EXPR, WB_NAMED_EXPR_POSITION,	"gmr:position", TRUE, NULL, &xml_sax_named_expr_prop, 2),
 
   GSF_XML_SAX_NODE (WB, WB_SHEETS, "gmr:Sheets", FALSE, NULL, NULL, 0),
     GSF_XML_SAX_NODE (WB_SHEETS, SHEET, "gmr:Sheet", FALSE, &xml_sax_sheet_start, &xml_sax_sheet_end, 0),
@@ -1394,10 +1357,10 @@ GSF_XML_SAX_NODE (START, WB, "gmr:Workbook", FALSE, &xml_sax_wb, NULL, 0),
       GSF_XML_SAX_NODE (SHEET, SHEET_MAXROW, "gmr:MaxRow", FALSE, NULL, NULL, 0),
       GSF_XML_SAX_NODE (SHEET, SHEET_ZOOM, "gmr:Zoom", TRUE, NULL, &xml_sax_sheet_zoom, 0),
       GSF_XML_SAX_NODE (SHEET, SHEET_NAMED_EXPRS, "gmr:Names", FALSE, NULL, NULL, 0),
-	GSF_XML_SAX_NODE (SHEET_NAMED_EXPRS, SHEET_NAMED_EXPR, "gmr:Name", FALSE, NULL, &xml_sax_finish_parse_sheet_names_name, 0),
-	  GSF_XML_SAX_NODE (SHEET_NAMED_EXPR, SHEET_NAMED_EXPR_NAME,	 "gmr:name",     TRUE, NULL, &xml_sax_name, 0),
-	  GSF_XML_SAX_NODE (SHEET_NAMED_EXPR, SHEET_NAMED_EXPR_VALUE,	 "gmr:value",    TRUE, NULL, &xml_sax_name, 1),
-	  GSF_XML_SAX_NODE (SHEET_NAMED_EXPR, SHEET_NAMED_EXPR_POSITION, "gmr:position", TRUE, NULL, &xml_sax_name, 2),
+	GSF_XML_SAX_NODE (SHEET_NAMED_EXPRS, SHEET_NAMED_EXPR, "gmr:Name", FALSE, NULL, &xml_sax_named_expr_end, 0),
+	  GSF_XML_SAX_NODE (SHEET_NAMED_EXPR, SHEET_NAMED_EXPR_NAME,	 "gmr:name",     TRUE, NULL, &xml_sax_named_expr_prop, 0),
+	  GSF_XML_SAX_NODE (SHEET_NAMED_EXPR, SHEET_NAMED_EXPR_VALUE,	 "gmr:value",    TRUE, NULL, &xml_sax_named_expr_prop, 1),
+	  GSF_XML_SAX_NODE (SHEET_NAMED_EXPR, SHEET_NAMED_EXPR_POSITION, "gmr:position", TRUE, NULL, &xml_sax_named_expr_prop, 2),
 
       GSF_XML_SAX_NODE (SHEET, SHEET_PRINTINFO, "gmr:PrintInformation", FALSE, NULL, NULL, 0),
 	GSF_XML_SAX_NODE (SHEET_PRINTINFO, PRINT_MARGINS, "gmr:Margins", FALSE, NULL, NULL, 0),
@@ -1500,6 +1463,7 @@ xml_sax_file_open (GnumFileOpener const *fo, IOContext *io_context,
 	state.validation.title = state.validation.msg = NULL;
 	state.validation.expr[0] = state.validation.expr[1] = NULL;
 	state.expr_map = g_hash_table_new (g_direct_hash, g_direct_equal);
+	state.delayed_names = NULL;
 
 	state.base.root = gnumeric_1_0_dtd;
 	if (!gsf_xmlSAX_parse (input, &state.base))

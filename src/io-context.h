@@ -3,7 +3,7 @@
 
 #include "gnumeric.h"
 #include <glib-object.h>
-#include <stdio.h>
+#include <stdarg.h>
 
 /* typedef struct _IOContext IOContext; */
 typedef struct _IOContextClass IOContextClass;

@@ -204,10 +204,12 @@ typedef struct {
 
 	/* flags */
 	gboolean use_excel_reference_conventions;
+	gboolean use_opencalc_conventions;
 	gboolean create_placeholder_for_unknown_func;
 	gboolean force_absolute_col_references;
 	gboolean force_absolute_row_references;
 	gboolean force_explicit_sheet_references;
+	GnmRangeRefParse ref_parser;
 
 	/* The suggested format to use for this expression */
 	GnmExprList *result;
@@ -735,6 +737,12 @@ array_row: array_exp {
 		$$ = g_slist_prepend (NULL, $1);
 		register_expr_list_allocation ($$);
         }
+
+	/* Some locales use {1\2\3;4\5\6} rather than {1,2,3;4,5,6}
+	 * but the lexer will call ',' or ';' SEPERATOR depending on locale
+	 * which does not work here.  So we fake it and have _two_ productions
+	 * then test the seperator at parse time.
+	 */
 	| array_exp SEPARATOR array_row {
 		if (state->array_col_separator == ',') {
 			unregister_allocation ($3);
@@ -743,8 +751,8 @@ array_row: array_exp {
 			register_expr_list_allocation ($$);
 		} else {
 			gnumeric_parse_error (state, PERR_INVALID_ARRAY_SEPARATOR,
-				g_strdup_printf (_("The character %c cannot be used to separate array elements"),
-				state->array_col_separator), state->expr_text - state->expr_backup + 1, 1);
+				g_strdup (_("This locale uses '\\' rather than ',' to separate array columns.")),
+				state->expr_text - state->expr_backup + 1, 1);
 			YYERROR;
 		}
 	}
@@ -755,10 +763,9 @@ array_row: array_exp {
 			$$ = g_slist_prepend ($3, $1);
 			register_expr_list_allocation ($$);
 		} else {
-			/* FIXME: Is this the right error to display? */
 			gnumeric_parse_error (state, PERR_INVALID_ARRAY_SEPARATOR,
-				g_strdup_printf (_("The character %c cannot be used to separate array elements"),
-				state->array_col_separator), state->expr_text - state->expr_backup + 1, 1);
+				g_strdup (_("This locale uses ',' rather than '\\' to separate array columns.")),
+				state->expr_text - state->expr_backup + 1, 1);
 			YYERROR;
 		}
 	}
@@ -844,6 +851,67 @@ yylex (void)
 			return RANGE_SEP;
 		if (c == '!')
 			return SHEET_SEP;
+	} else if (state->use_opencalc_conventions) {
+		if (c == '&') {
+			if (!strncmp (state->expr_text, "amp;", 4)) {
+				state->expr_text += 4;
+				return '&';
+			}
+			if (!strncmp (state->expr_text, "lt;", 3)) {
+				state->expr_text += 3;
+				if (*state->expr_text == '='){
+					state->expr_text++;
+					return LTE;
+				}
+				if (!strncmp (state->expr_text, "&gt;", 4)) {
+					state->expr_text += 4;
+					return NE;
+				}
+				return '<';
+			}
+			if (!strncmp (state->expr_text, "gt;", 3)) {
+				state->expr_text += 3;
+				if (*state->expr_text == '='){
+					state->expr_text++;
+					return GTE;
+				}
+				return '>';
+			}
+			if (!strncmp (state->expr_text, "apos;", 5) ||
+			    !strncmp (state->expr_text, "quot;", 5)) {
+				char const *quotes_end = (*state->expr_text == 'q') ? "&quot;" : "&apos;";
+				char const *p;
+				char *string, *s;
+				Value *v;
+
+				state->expr_text += 5;
+				p = state->expr_text;
+				state->expr_text = strstr (state->expr_text, quotes_end);
+				if (!*state->expr_text) {
+					gnumeric_parse_error (state, PERR_MISSING_CLOSING_QUOTE,
+						g_strdup (_("Could not find matching closing quote")),
+						(p - state->expr_backup) + 1, 1);
+					return INVALID_TOKEN;
+				}
+
+				s = string = (char *) g_alloca (1 + state->expr_text - p);
+				while (p != state->expr_text)
+					if (*p == '\\') {
+						int n = g_utf8_skip [*(guchar *)(++p)];
+						strncpy (s, p, n);
+						s += n;
+						p += n;
+					} else
+						*s++ = *p++;
+
+				*s = 0;
+				state->expr_text += 6;
+
+				v = value_new_string (string);
+				yylval.expr = register_expr_allocation (gnm_expr_new_constant (v));
+				return QUOTED_STRING;
+			}
+		}
 	} else {
 		/* Treat '..' as range sep (A1..C3) */
 		if (c == '.' && *state->expr_text == '.') {
@@ -871,7 +939,7 @@ yylex (void)
 	if (c == state->separator)
 		return SEPARATOR;
 
-	if (start != (end = rangeref_parse (&ref, start, state->pos))) {
+	if (start != (end = state->ref_parser (&ref, start, state->pos))) {
 		state->expr_text = end;
 		if ((ref.b.sheet == NULL || ref.b.sheet == ref.a.sheet) &&
 		    ref.a.col		== ref.b.col &&
@@ -1082,26 +1150,36 @@ yyerror (const char *s)
 GnmExpr const *
 gnm_expr_parse_str (char const *expr_text, ParsePos const *pos,
 		    GnmExprParseFlags flags,
+		    GnmRangeRefParse ref_parser,
 		    ParseError *error)
 {
 	GnmExpr const *expr;
 	ParserState pstate;
 
 	g_return_val_if_fail (expr_text != NULL, NULL);
+	g_return_val_if_fail (ref_parser != NULL, NULL);
 
 	pstate.expr_text   = expr_text;
 	pstate.expr_backup = expr_text;
 	pstate.pos	   = pos;
 
-	pstate.decimal_point	   = format_get_decimal ();
-	pstate.separator 	   = format_get_arg_sep ();
-	pstate.array_col_separator = format_get_col_sep ();
-
-	pstate.use_excel_reference_conventions	   	= !(flags & GNM_EXPR_PARSE_USE_APPLIX_REFERENCE_CONVENTIONS);
+	pstate.use_excel_reference_conventions	   	= !(flags & (GNM_EXPR_PARSE_USE_APPLIX_CONVENTIONS | GNM_EXPR_PARSE_USE_OPENCALC_CONVENTIONS));
+	pstate.use_opencalc_conventions			= flags & GNM_EXPR_PARSE_USE_OPENCALC_CONVENTIONS;
 	pstate.create_placeholder_for_unknown_func	= flags & GNM_EXPR_PARSE_CREATE_PLACEHOLDER_FOR_UNKNOWN_FUNC;
 	pstate.force_absolute_col_references		= flags & GNM_EXPR_PARSE_FORCE_ABSOLUTE_COL_REFERENCES;
 	pstate.force_absolute_row_references		= flags & GNM_EXPR_PARSE_FORCE_ABSOLUTE_ROW_REFERENCES;
 	pstate.force_explicit_sheet_references		= flags & GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES;
+	pstate.ref_parser				= ref_parser;
+
+	if (pstate.use_opencalc_conventions) {
+		pstate.decimal_point	   = '.';
+		pstate.separator 	   = ';';
+		pstate.array_col_separator = ',';
+	} else {
+		pstate.decimal_point	   = format_get_decimal ();
+		pstate.separator 	   = format_get_arg_sep ();
+		pstate.array_col_separator = format_get_col_sep ();
+	}
 
 	pstate.result = NULL;
 	pstate.error = error;

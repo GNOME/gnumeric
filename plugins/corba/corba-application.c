@@ -31,6 +31,7 @@
 #include <workbook-view.h>
 #include <plugin-util.h>
 #include <module-plugin-defs.h>
+#include <io-context.h>
 #include <command-context.h>
 #include <command-context-stderr.h>
 #include <gnumeric-i18n.h>

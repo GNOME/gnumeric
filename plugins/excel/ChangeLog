@@ -1,3 +1,10 @@
+2002-09-27  Jody Goldberg <jody@gnome.org>
+
+	* boot.c (excel_save) : restore macros.
+
+	* boot.c (excel_file_open) : handle confused files that misname the
+	  streams.  Store macros if they exist.
+
 2002-09-26  Jody Goldberg <jody@gnome.org>
 
 	* ms-formula-read.c (ms_excel_parse_formula) : fix handling of 26 & 27. 

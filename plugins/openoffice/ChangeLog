@@ -1,3 +1,20 @@
+2002-09-29  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (oo_cell_start) : handle array expressions,
+	  and saved booleans, numbers, and strings (errors handled elsewhere)
+	  TODO : dates
+	(xml_sax_attr_bool) : use oo_warning
+	(xml_sax_attr_int) : use oo_warning
+	(xml_sax_attr_float) : use oo_warning
+
+2002-09-29  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (oo_warning) : new utility.
+	(oo_cellref_parse) : new.
+	(oo_rangeref_parse) : new.
+	(oo_cell_start) : initial support for expressions.  Still need to
+	  restore the saved values.
+
 2002-09-26  Jody Goldberg <jody@gnome.org>
 
 	* openoffice-read.c : whip up a quick initial version that ignores

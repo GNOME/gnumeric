@@ -9,6 +9,7 @@
 #include <io-context.h>
 
 #include <string.h>
+#include <stdio.h>
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-utils.h>
 
