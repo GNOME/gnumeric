@@ -1,3 +1,8 @@
+2002-10-24  Morten Welinder  <terra@diku.dk>
+
+	* import-R (import_file): Take care of lgamma variants.
+	Improve precision of constant quotients.
+
 2002-10-14  Morten Welinder  <terra@diku.dk>
 
 	* import-R (import_file): Don't create floor calls, but floorgnum

@@ -75,10 +75,9 @@
 #define fmax2(_x,_y) MAX(_x, _y)
 #define imax2(_x,_y) MAX(_x, _y)
 
-#define lgammafn(_x) lgamma (_x)
-#define gammafn(_x) expgnum (lgammafn (_x))
+#define gammafn(_x) expgnum (lgammagnum (_x))
 #define gamma_cody(_x) gammafn (_x)
-#define lfastchoose(_n,_k) (lgammafn((_n) + 1.0) - lgammafn((_k) + 1.0) - lgammafn((_n) - (_k) + 1.0))
+#define lfastchoose(_n,_k) (lgammagnum((_n) + 1.0) - lgammagnum((_k) + 1.0) - lgammagnum((_n) - (_k) + 1.0))
 
 #define MATHLIB_STANDALONE
 #define ML_ERR_return_NAN { return ML_NAN; }
@@ -1058,7 +1057,7 @@ static gnum_float stirlerr(gnum_float n)
     if (n <= 15.0) {
 	nn = n + n;
 	if (nn == (int)nn) return(sferr_halves[(int)nn]);
-	return(lgammafn(n + 1.) - (n + 0.5)*loggnum(n) + n - M_LN_SQRT_2PI);
+	return(lgammagnum(n + 1.) - (n + 0.5)*loggnum(n) + n - M_LN_SQRT_2PI);
     }
 
     nn = n*n;
@@ -1258,8 +1257,8 @@ gnum_float dgamma(gnum_float x, gnum_float shape, gnum_float scale, gboolean giv
 
     x /= scale;
     return give_log ?
-	   ((shape - 1) * loggnum(x) - lgammafn(shape) - x) - loggnum(scale) :
-	expgnum((shape - 1) * loggnum(x) - lgammafn(shape) - x) / scale;
+	   ((shape - 1) * loggnum(x) - lgammagnum(shape) - x) - loggnum(scale) :
+	expgnum((shape - 1) * loggnum(x) - lgammagnum(shape) - x) / scale;
 
 #else /* new dpois() based code */
 
@@ -1369,7 +1368,7 @@ gnum_float pgamma(gnum_float x, gnum_float alph, gnum_float scale, gboolean lowe
     /* use a normal approximation if alph > alphlimit */
 
     if (alph > alphlimit) {
-	pn1 = sqrtgnum(alph) * 3. * (powgnum(x/alph, 1./3.) + 1. / (9. * alph) - 1.);
+	pn1 = sqrtgnum(alph) * 3. * (powgnum(x/alph, GNUM_const(1.)/3.) + 1. / (9. * alph) - 1.);
 	return pnorm(pn1, 0., 1., lower_tail, log_p);
     }
 
@@ -1382,7 +1381,7 @@ gnum_float pgamma(gnum_float x, gnum_float alph, gnum_float scale, gboolean lowe
 
 	pearson = 1;/* use pearson's series expansion. */
 
-	arg = alph * loggnum(x) - x - lgammafn(alph + 1.);
+	arg = alph * loggnum(x) - x - lgammagnum(alph + 1.);
 #ifdef DEBUG_p
 	REprintf("Pearson  arg=%" GNUM_FORMAT_g " ", arg);
 #endif
@@ -1400,7 +1399,7 @@ gnum_float pgamma(gnum_float x, gnum_float alph, gnum_float scale, gboolean lowe
 
 	pearson = 0;/* use a continued fraction expansion */
 
-	arg = alph * loggnum(x) - x - lgammafn(alph);
+	arg = alph * loggnum(x) - x - lgammagnum(alph);
 #ifdef DEBUG_p
 	REprintf("Cont.Fract. arg=%" GNUM_FORMAT_g " ", arg);
 #endif
@@ -1517,9 +1516,9 @@ gnum_float qgamma(gnum_float p, gnum_float alpha, gnum_float scale, gboolean low
 #define pMAX (1-1e-12)/* was 0.999998 = 1 - 2e-6 */
 
     const gnum_float
-	i420  = 1./ 420.,
-	i2520 = 1./ 2520.,
-	i5040 = 1./ 5040;
+	i420  = GNUM_const(1.)/ 420.,
+	i2520 = GNUM_const(1.)/ 2520.,
+	i5040 = GNUM_const(1.)/ 5040;
 
     gnum_float p_, a, b, c, ch, g, p1, v;
     gnum_float p2, q, s1, s2, s3, s4, s5, s6, t, x;
@@ -1542,7 +1541,7 @@ gnum_float qgamma(gnum_float p, gnum_float alpha, gnum_float scale, gboolean low
     v = 2*alpha;
 
     c = alpha-1;
-    g = lgammafn(alpha);/* loggnum Gamma(v/2) */
+    g = lgammagnum(alpha);/* loggnum Gamma(v/2) */
 
 
 /*----- Phase I : Starting Approximation */
@@ -1906,7 +1905,7 @@ static gnum_float lbeta(gnum_float a, gnum_float b)
     else if (q >= 10) {
 	/* p is small, but q is big. */
 	corr = lgammacor(q) - lgammacor(p + q);
-	return lgammafn(p) + corr + p - p * loggnum(p + q)
+	return lgammagnum(p) + corr + p - p * loggnum(p + q)
 		+ (q - 0.5) * log1pgnum(-p / (p + q));
     }
     else
@@ -2174,7 +2173,7 @@ gnum_float qbeta(gnum_float alpha, gnum_float p, gnum_float q, gboolean lower_ta
 	s = 1. / (pp + pp - 1.);
 	t = 1. / (qq + qq - 1.);
 	h = 2. / (s + t);
-	w = y * sqrtgnum(h + r) / h - (t - s) * (r + 5. / 6. - 2. / (3. * h));
+	w = y * sqrtgnum(h + r) / h - (t - s) * (r + GNUM_const(5.) / 6. - 2. / (3. * h));
 	xinbta = pp / (pp + qq * expgnum(w + w));
     } else {
 	r = qq + qq;

@@ -2721,6 +2721,7 @@ excel_read_NAME (BiffQuery *q, ExcelWorkbook *ewb)
 
 		nexpr = excel_parse_name (ewb, sheet,
 			name, expr_data, expr_len);
+		g_free (name);
 	}
 
 	/* nexpr is potentially NULL if there was an error */
@@ -2828,7 +2829,7 @@ excel_read_XCT (BiffQuery *q, ExcelWorkbook *ewb)
 				 data += 9;
 				 break;
 			case  2: len = data[1];
-				 value_new_string_nocopy (
+				 v = value_new_string_nocopy (
 					biff_get_text (data + 2, len, NULL));
 				 data += 2 + len;
 				 break;

@@ -368,7 +368,7 @@ AC_ARG_WITH(long_double,
 
 		need_sunmath=no
 		for ldfunc in fabsl sqrtl expl expm1l logl log10l log1pl ceill floorl powl hypotl \
-				sinl cosl tanl asinl acosl atanl atan2l fmodl \
+				sinl cosl tanl asinl acosl atanl atan2l fmodl lgammal \
 				sinhl coshl tanhl asinhl acoshl atanhl \
 				isnanl finitel; do
 			AC_CHECK_FUNC($ldfunc,

@@ -1,5 +1,9 @@
 2002-10-24  Morten Welinder  <terra@diku.dk>
 
+	* configure.in (with_long_double): Check for lgammal.
+
+	* src/numbers.h (lgammagnum): define.
+
 	* src/search.c (search_replace_string): Avoid matching the empty
 	string at the end of the source after we have done a replacement.
 	(Replace ".*" by "42" in "0.988" should not yield two copies

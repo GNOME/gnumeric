@@ -93,6 +93,7 @@ gnum_float yngnum (int n, gnum_float x);
 #define gnumabs fabsl
 #define hypotgnum hypotl
 #define isnangnum isnanl
+#define lgammagnum lgammal
 #define log10gnum log10l
 #define log1pgnum log1pl
 #define loggnum logl
@@ -141,6 +142,7 @@ typedef double gnum_float;
 #define hypotgnum hypot
 #define isnangnum isnan
 #define ldexpgnum ldexp
+#define lgammagnum lgamma
 #define log10gnum log10
 #define log1pgnum log1p
 #define loggnum log
