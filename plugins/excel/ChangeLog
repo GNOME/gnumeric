@@ -1,5 +1,8 @@
 1999-10-08  Jody Goldberg <jgoldberg@home.com>
 
+	* ms-excel-read.c : More minor tweaking of adjustment ratios.
+	  We need some real documentation on this stuff.
+
 	* ms-escher.c (ms_escher_get_data) : Use printf instead of
 	  g_return_if_fail.  It makes it easier to debug when the messages ar
 	  in line.
@@ -8,6 +11,9 @@
 	  possible.
 	(ms_obj_read_biff8_obj) : Looks like a PictOpt record in an object
 	  signifies that the next BIFF record after the OBJ must be an IMDATA.
+	(ms_obj_parse_anchor) : Move the zoom application back here until we
+	  split the anchors into distance and cell pairs.  The old code was
+	  zooming the col/row distances twice.
 
 1999-10-08  Morten Welinder  <terra@diku.dk>
 

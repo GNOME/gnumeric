@@ -919,21 +919,18 @@ typedef enum
 /*  LengthMeasure - the type of a (length) measurement */
 typedef enum
 {
-    msodztypeMin          = 0,
-    msodztypeDefault      = 0,  /*  Default size, ignore the values */
-    msodztypeA            = 1,  /*  Values are in EMUs */
-    msodztypeV            = 2,  /*  Values are in pixels */
-    msodztypeShape        = 3,  /*  Values are 16.16 fractions of shape size */
-    msodztypeFixedAspect  = 4,  /*  Aspect ratio is fixed */
-    msodztypeAFixed       = 5,  /*  EMUs, fixed aspect ratio */
-    msodztypeVFixed       = 6,  /*  Pixels, fixed aspect ratio */
-    msodztypeShapeFixed   = 7,  /*  Proportion of shape, fixed aspect ratio */
-    msodztypeFixedAspectEnlarge
-	= 8,  /*  Aspect ratio is fixed, favor larger size */
-    msodztypeAFixedBig    = 9,  /*  EMUs, fixed aspect ratio */
-    msodztypeVFixedBig    = 10, /*  Pixels, fixed aspect ratio */
-    msodztypeShapeFixedBig= 11, /*  Proportion of shape, fixed aspect ratio */
-    msodztypeMax         = 11
+    measure_Default      = 0,  /*  Default size, ignore the values */
+    measure_A            = 1,  /*  Values are in EMUs */
+    measure_V            = 2,  /*  Values are in pixels */
+    measure_Shape        = 3,  /*  Values are 16.16 fractions of shape size */
+    measure_FixedAspect  = 4,  /*  Aspect ratio is fixed */
+    measure_AFixed       = 5,  /*  EMUs, fixed aspect ratio */
+    measure_VFixed       = 6,  /*  Pixels, fixed aspect ratio */
+    measure_ShapeFixed   = 7,  /*  Proportion of shape, fixed aspect ratio */
+    measure_FixedAspectEnlarge = 8,  /*  Aspect ratio is fixed, favor larger size */
+    measure_AFixedBig    = 9,  /*  EMUs, fixed aspect ratio */
+    measure_VFixedBig    = 10, /*  Pixels, fixed aspect ratio */
+    measure_ShapeFixedBig= 11, /*  Proportion of shape, fixed aspect ratio */
 } LengthMeasure;
 
 typedef enum
@@ -955,23 +952,19 @@ typedef enum
 /*  Colours in a shaded fill. */
 typedef enum
 {
-    msoshadeNone  = 0,        /*  Interpolate without correction between RGBs */
-    msoshadeGamma = 1,        /*  Apply gamma correction to colors */
-    msoshadeSigma = 2,        /*  Apply a sigma transfer function to position */
-    msoshadeBand  = 4,        /*  Add a flat band at the start of the shade */
-    msoshadeOneColor = 8,     /*  This is a one color shade */
+	shade_None  = 0,        /*  Interpolate without correction between RGBs */
+	shade_Gamma = 1,        /*  Apply gamma correction to colors */
+	shade_Sigma = 2,        /*  Apply a sigma transfer function to position */
+	shade_Band  = 4,        /*  Add a flat band at the start of the shade */
+	shade_OneColor = 8,     /*  This is a one color shade */
 
-    /* A parameter for the band or sigma function can be stored in the top
-       16 bits of the value - this is a proportion of *each* band of the
-       shade to make flat (or the approximate equal value for a sigma
-       function).  NOTE: the parameter is not used for the sigma function,
-       instead a built in value is used.  This value should not be changed
-       from the default! */
-    msoshadeParameterShift = 16,
-    msoshadeParameterMask  = 0xffff0000,
+	/* It looks like the top 16 bits of the val can be used as a parameter.
+	 * The Sigma shade style seems to hard code that to be 0x4000 ??
+	 */
+	shade_ParamShift = 16,
+	shade_ParamMask  = 0xffff0000,
 
-    msoshadeDefault = (msoshadeGamma|msoshadeSigma|
-		       (16384<<msoshadeParameterShift))
+	shade_Default = (shade_Gamma|shade_Sigma|(0x4000<<shade_ParamShift))
 } ShadeType;
 
 /*    LineStyle - compound line style */
@@ -1322,7 +1315,7 @@ ms_escher_read_OPT (MSEscherState * state, MSEscherHeader * h)
 		case 403 : name = "long fillRectRight"; break;
 		/* 0 :  */
 		case 404 : name = "long fillRectBottom"; break;
-		/* Default :  */
+		/* measure_Default :  */
 		case 405 : name = "LengthMeasure fillDztype"; break;
 		/* 0 : Special shades */
 		case 406 : name = "long fillShadePreset"; break;
@@ -1336,7 +1329,7 @@ ms_escher_read_OPT (MSEscherState * state, MSEscherHeader * h)
 		case 410 : name = "long fillShapeOriginX"; break;
 		/* 0 :  */
 		case 411 : name = "long fillShapeOriginY"; break;
-		/* Default : Type of shading, if a shaded (gradient) fill. */
+		/* shade_Default : Type of shading, if a shaded (gradient) fill. */
 		case 412 : name = "ShadeType fillShadeType"; break;
 		/* TRUE : Is shape filled? */
 		case 443 : name = "bool fFilled"; break;
@@ -1369,7 +1362,7 @@ ms_escher_read_OPT (MSEscherState * state, MSEscherHeader * h)
 		case 456 : name = "long lineFillWidth"; break;
 		/* 0 :  */
 		case 457 : name = "long lineFillHeight"; break;
-		/* Default : How to interpret fillWidth/Height numbers. */
+		/* measure_Default : How to interpret fillWidth/Height numbers. */
 		case 458 : name = "LengthMeasure lineFillDztype"; break;
 		/* 9525 : A units; 1pt == 12700 EMUs */
 		case 459 : name = "long lineWidth"; break;

@@ -2175,12 +2175,12 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 #endif
 		/* FIXME : the height is specified in 1/20 of a point.
 		 * but we can not assume that 1pt = 1pixel.
-		 * MS seems to assume that it is closer to 1point = .7 pixels
+		 * MS seems to assume that it is closer to 1point = .75 pixels
 		 * verticaly.
 		 */
 		if ((height&0x8000) == 0)
 			sheet_row_set_height (sheet->gnum_sheet, row,
-					      height/(20 * .7), TRUE);
+					      height/(20 * .75), TRUE);
 
 		if (flags & 0x80) {
 #ifndef NO_DEBUG_EXCEL
@@ -2225,11 +2225,12 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 		 * FIXME FIXME FIXME
 		 * 1) As a default 12 seems seems to match the sheet I
 		 *    calibrated against.
-		 * 2) the docs say charwidth not height.  Is this correct ?
+		 * 2) the docs say charwidth not height. Assume that
+		 *    width = 1.2 * height ?
 		 */
 		if ((xf = ms_excel_get_xf (sheet, cols_xf)) != NULL &&
 		    (fd = ms_excel_get_font (sheet, xf->font_idx)))
-			char_width = fd->height / 20.;
+			char_width = 1.2 *fd->height / 20.;
 		else
 			char_width = 12.;
 

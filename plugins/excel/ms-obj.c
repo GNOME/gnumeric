@@ -37,14 +37,12 @@ extern int ms_excel_read_debug;
 #define GR_COMMON_OBJ_DATA    0x15
 
 /*
- * Attempt to install ab object in supplied work book.
- * NOTE : The MSObj is freed by this routine
+ * Attempt to install an object in supplied work book.
  */
 gboolean
 ms_obj_realize (MSObj *obj, ExcelWorkbook *wb, ExcelSheet *sheet)
 {
-	int   *anchor = NULL, i;
-	float   zoom;
+	int   *anchor = NULL;
 
 	g_return_val_if_fail (sheet != NULL, TRUE);
 
@@ -52,10 +50,6 @@ ms_obj_realize (MSObj *obj, ExcelWorkbook *wb, ExcelSheet *sheet)
 		return TRUE;
 
 	anchor = obj->anchor;
-
-	zoom = sheet->gnum_sheet->last_zoom_factor_used;
-	for (i = 0; i < 4; i++)
-		anchor[i] *= zoom;
 
 	switch (obj->gnumeric_type) {
 	case SHEET_OBJECT_BUTTON :
@@ -165,6 +159,7 @@ ms_parse_object_anchor (int anchor[4],
 	/* Words 0, 4, 8, 12 : The row/col of the corners */
 	/* Words 2, 6, 10, 14 : distance from cell edge measured in 1/1024 of an inch */
 	int	i;
+	float   const zoom = sheet->last_zoom_factor_used;
 
 	/* FIXME : How to handle objects not in sheets ?? */
 	g_return_val_if_fail (sheet != NULL, TRUE);
@@ -173,26 +168,32 @@ ms_parse_object_anchor (int anchor[4],
 		guint16 const pos = MS_OLE_GET_GUINT16 (data + 4 * i);
 		/* FIXME : we are slightly off.  Tweak the pixels/inch ratio
 		 * to make this come out on my screen for pic.xls.
-		 * 66 pixels/inch seems correct ???
+		 * See BIFF_COLINFO or BIFF_ROW for more info
 		 *
 		 * This constant should be made into a std routine somewhere.
 		 */
-		float margin = (MS_OLE_GET_GUINT16 (data + 4 * i + 2) / (1024. / 66.));
+		float margin = (MS_OLE_GET_GUINT16 (data + 4 * i + 2) / (1024. / 72.));
+		int tmp;
 
-		float const tmp = (i&1) /* odds are rows */
-		    ? sheet_row_get_unit_distance (sheet, 0, pos)
-		    : sheet_col_get_unit_distance (sheet, 0, pos);
+		if (i&1) { /* odds are rows */
+		    tmp = sheet_row_get_unit_distance (sheet, 0, pos);
+		    margin /= .75;
+		} else {
+		    tmp = sheet_col_get_unit_distance (sheet, 0, pos);
+		    margin *= .75;
+		}
 #ifndef NO_DEBUG_EXCEL
-		if (ms_excel_read_debug > 1) {
 			printf ("%f units (%d pixels) from ",
 				margin, (int)(margin));
 			if (i & 1)
 				printf ("row %d;\n", pos + 1);
 			else
 				printf ("col %s (%d);\n", col_name(pos), pos);
+		if (ms_excel_read_debug > 1) {
 		}
 #endif
 
+		margin *= zoom;
 		margin += tmp;
 
 		anchor[i] = (int)margin;
@@ -370,10 +371,24 @@ ms_obj_read_biff8_obj (BiffQuery *q, ExcelWorkbook * wb, Sheet * sheet, MSObj * 
 			break;
 
 		case GR_PICTURE_OPTIONS:
-			ms_obj_dump (data, len, "PictOpt");
+		{
+			guint16 pict_opt;
+			g_return_val_if_fail (len == 2, TRUE);
 
-			next_biff_record_is_imdata = TRUE;
+			pict_opt = MS_OLE_GET_GUINT16(data+4);
+
+#ifndef NO_DEBUG_EXCEL
+			if (ms_excel_read_debug >= 1) {
+				printf ("{ /* PictOpt */\n");
+				printf ("value = %d;\n", pict_opt);
+				printf ("}; /* PictOpt */\n");
+			}
+#endif
+
+			/* A value of 2 seems to indicate an IMDATA follows */
+			next_biff_record_is_imdata = (pict_opt == 2);
 			break;
+		}
 
 		case GR_PICTURE_FORMULA:
 			ms_obj_dump (data, len, "PictFormula");
