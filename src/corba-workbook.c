@@ -13,6 +13,7 @@
 #include "Gnumeric.h"
 #include "xml-io.h"
 #include "corba.h"
+#include "commands.h"
 #include "command-context-corba.h"
 #include "workbook-private.h"
 
@@ -134,7 +135,8 @@ Workbook_sheet_rename (PortableServer_Servant servant,
 {
 	Workbook *workbook = workbook_from_servant (servant);
 	
-	return cmd_rename_sheet (workbook, old_name, new_name);
+	return cmd_rename_sheet (command_context_corba (workbook),
+				 workbook, old_name, new_name);
 }
 
 static void

@@ -266,19 +266,19 @@ func_scm_apply (FunctionEvalInfo *ei, GList *expr_node_list)
 		result;
 
 	if (g_list_length(expr_node_list) < 1)
-		return value_new_error (&ei->pos, _("Invalid number of arguments"));
+		return value_new_error (ei->pos, _("Invalid number of arguments"));
 
-	value = eval_expr(ei, (ExprTree*)expr_node_list->data);
+	value = eval_expr(ei->pos, (ExprTree*)expr_node_list->data);
 	if (value == NULL)
-		return value_new_error (&ei->pos, _("First argument to SCM must be a Guile expression"));
+		return value_new_error (ei->pos, _("First argument to SCM must be a Guile expression"));
 
 	symbol = value_get_as_string (value);
 	if (symbol == NULL)
-		return value_new_error (&ei->pos, _("First argument to SCM must be a Guile expression"));
+		return value_new_error (ei->pos, _("First argument to SCM must be a Guile expression"));
 
 	function = scm_eval_0str(symbol);
 	if (SCM_UNBNDP(function))
-		return value_new_error (&ei->pos, _("Undefined scheme function"));
+		return value_new_error (ei->pos, _("Undefined scheme function"));
 
 	value_release(value);
 
@@ -286,15 +286,15 @@ func_scm_apply (FunctionEvalInfo *ei, GList *expr_node_list)
 	{
 		CellRef eval_cell;
 
-		eval_cell.col = ei->pos.eval.col;
-		eval_cell.row = ei->pos.eval.row;
+		eval_cell.col = ei->pos->.eval.col;
+		eval_cell.row = ei->pos->eval.row;
 		eval_cell.col_relative = 0;
 		eval_cell.row_relative = 0;
 		eval_cell.sheet = NULL;
 
 		value = eval_expr(ei, (ExprTree*)g_list_nth(expr_node_list, i)->data);
 		if (value == NULL)
-			return value_new_error (&ei->pos, _("Could not evaluate argument"));
+			return value_new_error (ei->pos, _("Could not evaluate argument"));
 
 		args = scm_cons(value_to_scm(value, eval_cell), args);
 		value_release(value);
@@ -401,7 +401,7 @@ static Value*
 func_marshal_func (FunctionEvalInfo *ei, Value *argv[])
 {
 	GList *l;
-	FunctionDefinition *fndef = ei->func_def;
+	FunctionDefinition const *fndef = ei->func_def;
 	SCM args = SCM_EOL, result, function;
 	CellRef dummy = { 0, 0, 0, 0 };
 	EvalPosition *old_eval_pos;
@@ -411,7 +411,7 @@ func_marshal_func (FunctionEvalInfo *ei, Value *argv[])
 
 	l = g_list_find_custom(funclist, fndef, (GCompareFunc)fndef_compare);
 	if (l == NULL)
-		return value_new_error (&ei->pos, _("Unable to lookup Guile function."));
+		return value_new_error (ei->pos, _("Unable to lookup Guile function."));
 
 	function = ((FuncData*)l->data)->function;
 
@@ -419,7 +419,7 @@ func_marshal_func (FunctionEvalInfo *ei, Value *argv[])
 		args = scm_cons(value_to_scm(argv[i], dummy), args);
 
 	old_eval_pos = eval_pos;
-	eval_pos = &ei->pos;
+	eval_pos = ei->pos;
 	result = scm_apply(function, args, SCM_EOL);
 	eval_pos = old_eval_pos;
 

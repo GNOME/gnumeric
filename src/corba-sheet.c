@@ -16,6 +16,7 @@
 #include "utils.h"
 #include "ranges.h"
 #include "selection.h"
+#include "commands.h"
 #include "command-context-corba.h"
 
 #define verify(cond)          if (!(cond)){ out_of_range (ev); return; }
