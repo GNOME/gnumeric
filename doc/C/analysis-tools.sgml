@@ -2,8 +2,8 @@
   <title>An Overview</title>
   <para>The data analysis tools package contains tools for
   statistical data analysis, random number generation and data
-  sampling.  To use these tools select the `Data Analysis...' item
-  in the `Tools' menu.  This yields a list of tools to choose
+  sampling.  To use these tools select the <quote>Data Analysis...</quote> item
+  in the <quote>Tools</quote> menu.  This yields a list of tools to choose
   from.  Select one of the tools from the list and press the OK
   button or double-click on the tool.  The tools are described below.</para>
 
@@ -27,8 +27,8 @@ Data Analysis Tools
   The results can
   be printed into a new sheet, into a new workbook, or into
   a given output range on a sheet of the current workbook.  To select the output method
-  select one of the radio buttons inside the `Output'
-  frame. If you have chosen `Output Range' you must also enter a single 
+  select one of the radio buttons inside the <quote>Output</quote>
+  frame. If you have chosen <quote>Output Range</quote> you must also enter a single 
   range in the entry field.</para>
   <note><para>If the chosen output range is too
   small, some of the results will be lost.</para></note>
@@ -81,18 +81,20 @@ Common output options of the data analysis tools
 
      <para>Use this tool to perform a single factor analysis of the
      variances of given variables. The variables are specified by the
-     `Input Range:' entry.  The given range can be grouped into the variables either
-     by columns, by rows or by areas.  The `Alpha:' entry specifies the 
+     <quote>Input Range:</quote> entry.  The given range can be grouped 
+     into the variables either
+     by columns, by rows or by areas.  The <quote>Alpha:</quote> entry specifies the 
      significance level which is by default 5&#037;.</para>
 
      <para>If the first row or first column of the given range, or the 
-     first field of each area contains labels, check the `Labels' button. The names of 
+     first field of each area contains labels, check the <quote>Labels
+     </quote> button. The names of 
      the variables will be included in the  output table.</para>
 
      <para>The results of this analysis of variance are presented in 
-     a standard ANOVA table. The `F critical'
+     a standard ANOVA table. The <quote>F critical</quote>
      value is the largest value of F that is statistically significant
-     using the given significance level ('Alpha').</para>
+     using the given significance level (<quote>Alpha</quote>).</para>
 
      <para>This tool also calculates the count, sum, average,
      and the variance of each variable.</para>
@@ -116,9 +118,9 @@ Common output options of the data analysis tools
      factor while each row is interpreted as a level of the second factor.
      </para>
      <para>The first row and column of the range may contain labels for 
-     these levels. In this case the `Labels' checkbox should be checked.
+     these levels. In this case the <quote>Labels</quote> option should be selected.
      </para>
-     <para> The `Alpha:' entry specifies the 
+     <para> The <quote>Alpha:</quote> entry specifies the 
      significance level which is by default 5&#037;.</para>
      <para>See <xref linkend="anova-two-factor-without-tool-ex1"> for an example 
      of a completed dialog and <xref linkend="anova-two-factor-without-tool-ex2">
@@ -158,13 +160,13 @@ Common output options of the data analysis tools
      performs a two factor fixed effects ANOVA with replication. Each
      column of the input range is interpreted as a level of the first 
      factor while groups of rows (the number of rows in each group given 
-     by the `number of rows per sample' value) are interpreted as levels 
+     by the <quote>number of rows per sample</quote> value) are interpreted as levels 
      of the second factor.
      </para>
      <para>The first row and column of the range may contain labels for 
-     these levels. In this case the `Labels' checkbox should be checked.
+     these levels. In this case the <quote>Labels</quote> option should be selected.
      </para>
-     <para> The `Alpha:' entry specifies the 
+     <para> The <quote>Alpha:</quote> entry specifies the 
      significance level which is by default 5&#037;.</para>
      <para>See <xref linkend="anova-two-factor-with-tool-ex1"> for an example 
      of a completed dialog and <xref linkend="anova-two-factor-with-tool-ex2">
@@ -227,14 +229,14 @@ Common output options of the data analysis tools
      correlation coefficients of the
      given variables.  Use this tool to calculate any number of
      correlation coefficients at the same time.  The variables for
-     which the correlations are calculated are specified by the `Input
-     Range:' entry. The input range can consist of either a single 
+     which the correlations are calculated are specified by the <quote>Input
+     Range:</quote> entry. The input range can consist of either a single 
      range or a comma separated list of ranges. The given range or 
      ranges can be grouped by columns, by rows, or by areas.</para>
 
      <para>If the first row or column of the given ranges, or the 
      first field of each area contains labels,  the
-     `Labels' checkbox should be checked.
+     <quote>Labels</quote> option should be selected.
      </para>
 
   <figure id="correlation-example-1">
@@ -259,15 +261,15 @@ Common output options of the data analysis tools
      (see <xref linkend="correlation-example-1">).</para>
 <orderedlist>
      <listitem><para>
-     Enter A1:B11 in the `Input Range:' entry by typing 
+     Enter A1:B11 in the <quote>Input Range:</quote> entry by typing 
      this directly into the entry or clicking in the entry field and 
      then selecting that range on the sheet. In the latter case the 
      entry will also contain the sheet name. </para></listitem>
      <listitem><para>
-     Select the `Columns' radio button next to `Grouped By:', 
+     Select the <quote>Columns</quote> radio button next to <quote>Grouped By:</quote>, 
      since each variable is in its own column.</para></listitem>
-     <listitem><para> Check the `Labels'
-     checkbox since the first row contains labels. (see 
+     <listitem><para> Check the <quote>Labels</quote>
+     option since the first row contains labels. (see 
      <xref linkend="correlation-example-2">).</para></listitem>
      <listitem><para> Specify the output 
      options as described above.</para></listitem>
@@ -330,14 +332,14 @@ Common output options of the data analysis tools
      covariance coefficients of the
      given variables.  Use this tool to calculate any number of
      covariance coefficients at the same time.  The variables for
-     which the covariances are calculated are specified by the `Input
-     Range:' entry. The input range can consist of either a single 
+     which the covariances are calculated are specified by the <quote>Input
+     Range:</quote> entry. The input range can consist of either a single 
      range or a comma separated list of ranges. The given range or 
      ranges can be grouped by columns, by rows, or by areas.</para>
 
      <para>If the first row or column of the given ranges, or the 
      first field of each area contains labels,  the
-     `Labels' checkbox should be checked.
+     <quote>Labels</quote> option should be selected.
      </para>
 
   <figure id="covariance-example-1">
@@ -362,15 +364,15 @@ Common output options of the data analysis tools
      (see <xref linkend="covariance-example-1">).</para>
 <orderedlist>
      <listitem><para>
-     Enter A1:B11 in the `Input Range:' entry by typing 
+     Enter A1:B11 in the <quote>Input Range:</quote> entry by typing 
      this directly into the entry or clicking in the entry field and 
      then selecting that range on the sheet. In the latter case the 
      entry will also contain the sheet name. </para></listitem>
      <listitem><para>
-     Select the `Columns' radio button next to `Grouped By:', 
+     Select the <quote>Columns</quote> radio button next to <quote>Grouped By:</quote>, 
      since each variable is in its own column.</para></listitem>
-     <listitem><para> Check the `Labels'
-     checkbox since the first row contains labels.
+     <listitem><para> Check the <quote>Labels</quote>
+     option since the first row contains labels.
      </para></listitem>
      <listitem><para> Specify the output 
      options as described above.</para></listitem>
@@ -419,22 +421,22 @@ Common output options of the data analysis tools
 
      <para>The descriptive statistics tool calculates various statistics 
      for the given variables and a confidence interval for the population
-     mean. The variables are specified via the `Input
-     Range:' entry.  The given range or list of ranges can be grouped into 
+     mean. The variables are specified via the <quote>Input
+     Range:</quote> entry.  The given range or list of ranges can be grouped into 
      variables by columns, rows, or areas.</para>
 
      <para>This tool can produce four different kinds of statistical
      data.
      </para>
      <itemizedlist>
-     <listitem><para>If the `Summary Statistics' checkbutton is checked,  
+     <listitem><para>If the <quote>Summary Statistics</quote> option is selected,  
      this tool calculates the
      mean, standard error, median, mode, standard deviation, sample
      variance, kurtosis, skewness, range, minimum, maximum, sum, and
      count for each variable.</para>
      </listitem>
-     <listitem><para>If the `Confidence Interval for the Mean' button is 
-     checked, the tool calculates  confidence intervals for the population
+     <listitem><para>If the <quote>Confidence Interval for the Mean</quote> button is 
+     selected, the tool calculates  confidence intervals for the population
      mean of each variable.
      Specify the confidence level in the entry box.  The default confidence 
      level is 95&#037;.</para> 
@@ -445,20 +447,20 @@ Common output options of the data analysis tools
      estimates the population standard deviation using the sample standard
      deviation.</para></note></listitem>
 
-     <listitem><para>If the `Kth Largest:' button is checked, the tool finds
+     <listitem><para>If the <quote>Kth Largest:</quote> button is selected, the tool finds
      the <parameter>k</parameter>th largest value of each of the variables.  Specify 
      <parameter>k</parameter> in
      the entry box next to the check button. The default is 1.
      </para></listitem>
 
-     <listitem><para>If the `Kth Smallest:' button is checked, the tool finds
+     <listitem><para>If the <quote>Kth Smallest:</quote> button is selected, the tool finds
      the <parameter>k</parameter>th smallest value of each of the variables.  Specify 
      <parameter>k</parameter> in
      the entry box next to the check button. The default is 1.
      </para></listitem>
      </itemizedlist>
      <para>If the first entry for each variable contains the label,
-     check the `Labels' button.
+     check the <quote>Labels</quote> button.
      </para>
   <figure id="descstats-example-1">
     <title>Some Example Data</title>
@@ -504,7 +506,7 @@ Common output options of the data analysis tools
      value in the original data set.</para>
 
      <para>You can define the prior forecast adjustment in the
-     `Damping factor' entry.  A good value could be, for example,
+     <quote>Damping factor</quote> entry.  A good value could be, for example,
      between 0.2 and 0.3 representing 20 to 30 percent error
      adjustment in the prior forecast.</para>
 
@@ -535,12 +537,13 @@ Common output options of the data analysis tools
      variances are different against the null hypothesis that
      they are not.</para>
 
-     <para>Specify the variables in the `Variable 1 Range:'
-     and `Variable 2 Range:' entries. The `Alpha:' entry contains the 
+     <para>Specify the variables in the <quote>Variable 1 Range:</quote>
+     and <quote>Variable 2 Range:</quote> entries. The <quote>Alpha:</quote> 
+     entry contains the 
      significance level which is by default 5&#037;.</para>
 
      <para>If the first field of each range contains labels, 
-     check the `Labels' button. The names of 
+     check the <quote>Labels</quote> button. The names of 
      the variables will be included in the  output table.</para>
 
      <para>The results are given in a table.  This table contains
@@ -549,12 +552,12 @@ Common output options of the data analysis tools
      the one-tailed probability for the F-value, and the F Critical
      value for one-tailed test and the corresponding values for a two 
      tailed test. The one-tailed probability for the
-     F-value (`P(F&lt;=f) one-tail' row) is the probability of making a
+     F-value (<quote>P(F&lt;=f) one-tail</quote> row) is the probability of making a
      Type I error in the one-tailed test. Similarly, the two-tailed 
-     probability for the F-value (`P two-tail' row)
+     probability for the F-value (<quote>P two-tail</quote> row)
      is the probability of making a Type I error in the two-tailed test.
      Since in the two-tailed F-Test both critical values are positive, the
-     `F Critical two-tail' row contains two numbers.</para>
+     <quote>F Critical two-tail</quote> row contains two numbers.</para>
 
      <para>If the output is directed into a specific output range, that
      range should contain at least three columns and eight rows.</para>
@@ -596,7 +599,122 @@ Common output options of the data analysis tools
   <sect1 id="histogram-tool">
      <title>Histogram Tool</title>
 
-     <para>WriteMe</para>
+  <figure id="histogram-tool-dialog">
+    <title>Histogram Tool Dialog</title>
+    <screenshot>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/analysistools-histogram.png" format="PNG">
+</imageobject>
+<textobject>
+<phrase>Screenshot of the histogram tool dialog</phrase>
+</textobject>
+</mediaobject>
+    </screenshot>
+  </figure>
+
+     <para>
+     The histogram calculates several kinds of histograms for one or more 
+     variables. The types of histogram created are determined by the options
+     selected.  
+     </para>
+     <para>
+     The <quote>Input Range</quote> entry contains a single range or a list of ranges, that
+     can be grouped into variables by rows, columns, or areas. The <quote>Bin Range</quote>
+     entry contains a single range of cutoff values. Both rnages may also include 
+     lables.
+     </para>
+     <para>If the first row or column of the given input ranges, or the 
+     first field of each area contains labels,  the
+     <quote>Input Labels</quote> option should be selected.
+     </para>
+     <para>If the first column of the given bin range contains labels,  the
+     <quote>Bin Labels</quote> option should be selected.
+     </para>
+     <para> The remaining options modify the appearance of the histogram:</para>
+     <itemizedlist>
+     <listitem>
+     <para> The <quote>Pareto</quote> option causes the bins to be sorted by decreasing 
+     frequency of the first variable.
+     </para>
+     </listitem>
+     <listitem>
+     <para> The <quote>Percentage</quote> option adds a histogram in terms of 
+     percentages rather than frequencies.
+     </para>
+     </listitem>
+     <listitem>
+     <para> The <quote>Cumulative Percentages</quote> option adds a cumulative 
+     histogram.
+     </para>
+     </listitem>
+     <listitem>
+     <para> The <quote>Chart</quote> option is not implemented.
+     </para>
+     </listitem>
+     </itemizedlist>
+
+  <figure id="histogram-example-1">
+    <title>Some Example Data</title>
+    <screenshot>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/analysistools-histogram-ex1.png" format="PNG">
+</imageobject>
+<textobject>
+<phrase>Some example data</phrase>
+</textobject>
+</mediaobject>
+    </screenshot>
+  </figure>
+
+ <example id="usinghistogramtool">
+ <title>Using the Histogram Tool</title>
+    <para>For example, you want to calculate a histogram and a cumulative 
+    histogram in perventages for a the number of successes in several 
+    sequences of trials. The numbers of successes are recorded in column A 
+    and the classes of interest in column D with labels in column C
+     (see <xref linkend="histogram-example-1">).</para>
+<orderedlist>
+     <listitem><para>
+     Enter A1:A21 in the <quote>Input Range:</quote> entry by typing 
+     this directly into the entry or clicking in the entry field and 
+     then selecting that range on the sheet. In the latter case the 
+     entry will also contain the sheet name. </para></listitem>
+     <listitem><para>
+     Since you only have one variable select the <quote>Areas</quote> or 
+     <quote>Columns</quote> radio 
+     button next to <quote>Grouped By:</quote>.
+     </para></listitem>
+     <listitem><para>
+     Enter C1:D5 in the <quote>Bin Range:</quote> entry. </para></listitem>
+      <listitem><para> Select the <quote>Bin Labels</quote>
+     option since the first column of the Bin Range contains labels. 
+     </para></listitem>
+     <listitem><para>
+     Select the <quote>Percentage</quote> and <quote>Cumulative Percentages</quote> options.
+     </para></listitem>     
+     <listitem><para> Specify the output 
+     options as described above.</para></listitem>
+     <listitem><para> Press the OK button. </para></listitem>
+</orderedlist>
+     <para> The results are shown in 
+     <xref linkend="histogram-example-2">.</para>
+ </example>
+  <figure id="histogram-example-2">
+    <title>Histogram Tool Output</title>
+    <screenshot>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/analysistools-histogram-ex2.png" format="PNG">
+</imageobject>
+<textobject>
+<phrase>Screenshot of the results output</phrase>
+</textobject>
+</mediaobject>
+    </screenshot>
+  </figure>
+
   </sect1>
 
   <sect1 id="moving-average-tool">
@@ -610,15 +728,15 @@ Common output options of the data analysis tools
      prize.</para>
 
      <para>To use this tool, first specify the cells containing the
-     values whose moving averages you want to calculate in the `Input
-     Range' entry.  Then specify the `Interval' for the moving
+     values whose moving averages you want to calculate in the <quote>Input
+     Range</quote> entry.  Then specify the <quote>Interval</quote> for the moving
      average.  The interval specifies the number of values to be
      included in the moving average.</para>
 
      <para>The results are given in a column.  Each row represents the
      moving average for the corresponding row in the input range.  The
-     moving average cannot be calculated for the first `k' rows in the
-     input range where `k' is smaller than the given interval.</para>
+     moving average cannot be calculated for the first <quote>k</quote> rows in the
+     input range where <quote>k</quote> is smaller than the given interval.</para>
 
   </sect1>
 
@@ -630,7 +748,7 @@ Common output options of the data analysis tools
      probability distributions.</para>
 
      <para>To use this tool, first specify the number of variables in
-     the `Number of Variables:' entry box.  This determines the
+     the <quote>Number of Variables:</quote> entry box.  This determines the
      number of columns of random values to be produced.  Secondly,
      specify the number of random numbers.  This determines the number
      of rows of random values to be produced.  Thirdly specify the
@@ -644,8 +762,8 @@ Common output options of the data analysis tools
         <title>Random Distributions</title>
 
         <para>For Discrete random distribution, specify the value and
-	probability input range in the `Value and Probability Input
-	Range:' entry box.  That is a table consisting of two columns
+	probability input range in the <quote>Value and Probability Input
+	Range:</quote> entry box.  That is a table consisting of two columns
 	and any number of rows.  The first column specifies the
 	discrete random values and the second column the probabilities
 	for them.  The discrete random values do not have to be
@@ -660,16 +778,16 @@ Common output options of the data analysis tools
 	mean and 1 for standard deviation.</para>
 
 	<para>For Poisson random distribution, specify the lambda in
-	the `Lambda' entry.</para>
+	the <quote>Lambda</quote> entry.</para>
 
 	<para>For Exponential random distribution, specify the b in
-	the `b Value' entry.</para>
+	the <quote>b Value</quote> entry.</para>
 
 	<para>For Binomial random distribution, specify the
-	probability of success in `p Value' entry.  Also specify the
-	number of trials in the `Number of Trials' entry.  Binomial
+	probability of success in <quote>p Value</quote> entry.  Also specify the
+	number of trials in the <quote>Number of Trials</quote> entry.  Binomial
 	distribution is a discrete distribution in which the
-	experiment consists of `n' identical trials, where `n' is
+	experiment consists of <quote>n</quote> identical trials, where <quote>n</quote> is
 	fixed in advance.  Each trial is independent of other trials
 	and has two possible outcomes, a success or a failure.  The
 	probability of success is constant from one trial to another.
@@ -677,27 +795,27 @@ Common output options of the data analysis tools
 	is E(X) = np, and the variance is var(X) = np(1-p).</para>
 
 	<para>For Negative Binomial distribution, specify the
-	probability of success in `p Value' entry.  Also specify the
-	number of failures in the `Number of Failures' entry.
+	probability of success in <quote>p Value</quote> entry.  Also specify the
+	number of failures in the <quote>Number of Failures</quote> entry.
 	Negative Binomial distribution is a discrete distribution in
 	which the experiment consists of a sequence of independent
 	trials.  Each trial has two possible outcomes, a success or a
 	failure.  The probability of success is constant from one
-	trial to another.  The experiment continues until `r' failures
-	are observed, where `r' is fixed in advance.  The mean of a
+	trial to another.  The experiment continues until <quote>r</quote> failures
+	are observed, where <quote>r</quote> is fixed in advance.  The mean of a
 	random variable that has a Negative Binomial distribution is
 	E(X) = r(1-p)/p, and the variance is var(X) =
 	r(1-p)/p^2.</para>
 
-        <para>For Bernoulli random distribution, specify the `p
-        Value'.  This is a probability value between 0 and 1.
+        <para>For Bernoulli random distribution, specify the <quote>p
+        Value</quote>.  This is a probability value between 0 and 1.
         Bernoulli distribution has two random values 0 and 1, and the
-        `p Value' specifies the probability of value 1.  The mean of
+        <quote>p Value</quote> specifies the probability of value 1.  The mean of
         a random variable that has a Bernoulli distribution is E(X) =
         1(p) + 0(1-p) = p, and the variance is var(X) = p(1-p).</para>
 
         <para>For Uniform random distribution, specify the range of
-        the random variables by filling the `Between:' and `And:'
+        the random variables by filling the <quote>Between:</quote> and <quote>And:</quote>
         entries.  The default values for them are 0 and 1 that gives
         random numbers between zero and one.</para>
      </sect2>
@@ -722,7 +840,7 @@ Common output options of the data analysis tools
 
      <para>Use this tool to rank given data and to calculate the
      percentiles of each data point.   The variables for
-     are specified by the `Input  Range:' entry.  
+     are specified by the <quote>Input  Range:</quote> entry.  
      The given range can be grouped either by columns or by rows.</para>
 
      <para>For each variable, the tool creates three columns in the 
@@ -733,7 +851,7 @@ Common output options of the data analysis tools
 
      <para>If you have labels, for example the names of the variables,
      in the first row (or column) of the given range, you should check the
-     `Labels' button.  This leaves the first row (or column)  of
+     <quote>Labels</quote> button.  This leaves the first row (or column)  of
      the input range out of the analysis.  In addition, the names of
      the variables are printed in the output table.</para>
   </sect1>
@@ -753,13 +871,13 @@ Common output options of the data analysis tools
      taken to the sample.</para>
 
      <para>To use this tool, first specify the data set by setting the
-     `Input Range:' entry.  Then select the sampling method which
+     <quote>Input Range:</quote> entry.  Then select the sampling method which
      can be either periodic or random.  Periodic sampling requires
-     that you specify the period by typing a number to the `Period:'
+     that you specify the period by typing a number to the <quote>Period:</quote>
      entry.  For example, if you specify the period to be three then
      you will get a sample that has every third value of the original
      data set.  Random sampling requires that you specify the size of
-     the random sample in `Number of Samples:' entry.  The size
+     the random sample in <quote>Number of Samples:</quote> entry.  The size
      cannot be larger than the original data set since each value of
      the original data set is taken at most once to the sample.</para>
   </sect1>
@@ -789,15 +907,15 @@ Common output options of the data analysis tools
 
      <para>Use the z-Test tool to analyze whether the means of two
      variables are significantly different or not.  The values of the
-     first variable are specified in the `Variable 1 Range:' entry.
+     first variable are specified in the <quote>Variable 1 Range:</quote> entry.
      Correspondingly, the values of the second variable are given in
-     the `Variable 2 Range:' entry.  You should also specify the
-     variances of both variables in the `Variable 1 Variance
-     (known):' and `Variable 2 Variance (known):' entries.</para>
+     the <quote>Variable 2 Range:</quote> entry.  You should also specify the
+     variances of both variables in the <quote>Variable 1 Variance
+     (known):</quote> and <quote>Variable 2 Variance (known):</quote> entries.</para>
 
      <para>If you want to test whether the difference of the means is
-     larger than a given value, specify also the `Hypothesized Mean
-     Difference:' entry.  `Alpha:' entry specifies the level of
+     larger than a given value, specify also the <quote>Hypothesized Mean
+     Difference:</quote> entry.  <quote>Alpha:</quote> entry specifies the level of
      significance which is by default 95&percnt;.</para>
 
      <para>If the output is printed into a range, it should have at
@@ -808,7 +926,7 @@ Common output options of the data analysis tools
      both variables.  It also calculates the z-value, the one-tailed
      and two-tailed probability for the z-value, and the z Critical
      value for one-tailed and two-tailed tests.  The one-tailed
-     probability for the z-value (`P(Z&lt;=z) one-tail' row) describes
+     probability for the z-value (<quote>P(Z&lt;=z) one-tail</quote> row) describes
      the risk of making a Type I error of one-tailed test.</para>
   </sect2>
 </sect1>
