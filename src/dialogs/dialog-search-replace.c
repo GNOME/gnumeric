@@ -22,7 +22,9 @@
 typedef struct {
 	WorkbookControlGUI *wbcg;
 	GladeXML *gui;
-	GnomeDialog *dialog;
+	GtkDialog *dialog;
+	GnomeEntry *search_text;
+	GnomeEntry *replace_text;
 	GnumericExprEntry *rangetext;
 	SearchDialogCallback cb;
 } DialogState;
@@ -69,46 +71,36 @@ set_checked (GladeXML *gui, const char *name, gboolean checked)
 	return gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), checked);
 }
 
-static char *
-get_text (GladeXML *gui, const char *name)
-{
-	GtkWidget *w = glade_xml_get_widget (gui, name);
-	return g_strdup (gtk_entry_get_text (GTK_ENTRY (w)));
-}
-
 static void
 ok_clicked (GtkWidget *widget, DialogState *dd)
 {
 	GladeXML *gui = dd->gui;
-	GnomeDialog *dialog = dd->dialog;
+	GtkDialog *dialog = dd->dialog;
 	WorkbookControlGUI *wbcg = dd->wbcg;
 	SearchDialogCallback cb = dd->cb;
 	SearchReplace *sr;
 	char *err;
 	int i;
-	GtkWidget *gentry;  /* Gnome Entry containing search text. */
 
 	sr = search_replace_new ();
 
-	sr->search_text = get_text (gui, "searchtext");
-	sr->replace_text = get_text (gui, "replacetext");
+	sr->search_text = g_strdup (gtk_entry_get_text 
+				    (GTK_ENTRY (gnome_entry_gtk_entry (dd->search_text))));
+	sr->replace_text = g_strdup (gtk_entry_get_text 
+				     (GTK_ENTRY (gnome_entry_gtk_entry (dd->replace_text))));
 
 	/* Save the contents of both gnome-entry's. */
-	gentry = glade_xml_get_widget (gui, "search_entry");
-	gnome_entry_set_history_id (GNOME_ENTRY (gentry), "search_entry");
-	gnome_entry_append_history (GNOME_ENTRY (gentry), TRUE, sr->search_text);
-
-	gentry = glade_xml_get_widget (gui, "replace_entry");
-	gnome_entry_set_history_id (GNOME_ENTRY (gentry), "replace_entry");
-	gnome_entry_append_history (GNOME_ENTRY (gentry), TRUE, sr->replace_text);
+	gnome_entry_append_history (dd->search_text, TRUE, sr->search_text);
+	gnome_entry_append_history (dd->replace_text, TRUE, sr->replace_text);
 
 	i = gnumeric_glade_group_value (gui, search_type_group);
 	sr->is_regexp = (i == 1);
 
 	i = gnumeric_glade_group_value (gui, scope_group);
 	sr->scope = (i == -1) ? SRS_sheet : (SearchReplaceScope)i;
-	sr->range_text = g_strdup (
-		gtk_entry_get_text (GTK_ENTRY (dd->rangetext)));
+
+	/* FIXME: parsing of an gnm_expr_entry should happen by the gee */
+	sr->range_text = g_strdup (gnm_expr_entry_get_text (dd->rangetext));
 	sr->curr_sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
 
 	sr->query = is_checked (gui, "query");
@@ -153,7 +145,7 @@ ok_clicked (GtkWidget *widget, DialogState *dd)
 static void
 cancel_clicked (GtkWidget *widget, DialogState *dd)
 {
-	GnomeDialog *dialog = dd->dialog;
+	GtkDialog *dialog = dd->dialog;
 
 	gtk_widget_destroy (GTK_WIDGET (dialog));
 }
@@ -178,8 +170,8 @@ range_focused (GtkWidget *widget, GdkEventFocus   *event, DialogState *dd)
 }
 
 static void
-non_model_dialog (WorkbookControlGUI *wbcg,
-		  GnomeDialog *dialog,
+non_modal_dialog (WorkbookControlGUI *wbcg,
+		  GtkDialog *dialog,
 		  const char *key)
 {
 	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (dialog), key);
@@ -193,10 +185,9 @@ dialog_search_replace (WorkbookControlGUI *wbcg,
 		       SearchDialogCallback cb)
 {
 	GladeXML *gui;
-	GnomeDialog *dialog;
-	GtkBox *hbox;
+	GtkDialog *dialog;
 	DialogState *dd;
-	GtkWidget *gentry;  /* Gnome Entry containing search text. */
+	GtkTable *table;
 
 	g_return_if_fail (wbcg != NULL);
 
@@ -211,7 +202,7 @@ dialog_search_replace (WorkbookControlGUI *wbcg,
         if (gui == NULL)
                 return;
 
-	dialog = GNOME_DIALOG (glade_xml_get_widget (gui, "search_replace_dialog"));
+	dialog = GTK_DIALOG (glade_xml_get_widget (gui, "search_replace_dialog"));
 
 	dd = g_new (DialogState, 1);
 	dd->wbcg = wbcg;
@@ -219,27 +210,31 @@ dialog_search_replace (WorkbookControlGUI *wbcg,
 	dd->cb = cb;
 	dd->dialog = dialog;
 
-	gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, FALSE);
+	table = GTK_TABLE (glade_xml_get_widget (gui, "search_table"));
+	dd->search_text = GNOME_ENTRY (gnome_entry_new ("search_entry"));
+	gtk_table_attach (table, GTK_WIDGET (dd->search_text),
+			  1, 4, 0, 1,
+			  GTK_EXPAND | GTK_FILL, 0,
+			  0, 0);
+	gnumeric_editable_enters
+		(GTK_WINDOW (dialog), gnome_entry_gtk_entry (dd->search_text));
 
-	/* Load the contents of both gnome-entry's. */
-	{
-		GValue val = {0, };
-		g_value_init (&val, G_TYPE_STRING);
+	dd->replace_text = GNOME_ENTRY (gnome_entry_new ("replace_entry"));
+	gtk_table_attach (table, GTK_WIDGET (dd->replace_text),
+			  1, 4, 1, 2,
+			  GTK_EXPAND | GTK_FILL, 0,
+			  0, 0);
+	gnumeric_editable_enters
+		(GTK_WINDOW (dialog), gnome_entry_gtk_entry (dd->replace_text));
 
-		gentry = glade_xml_get_widget (gui, "search_entry");
-		g_value_set_static_string (&val, "search_entry");
-		g_object_set_property (G_OBJECT (gentry), "history_id", &val);
-
-		gentry = glade_xml_get_widget (gui, "replace_entry");
-		g_value_set_static_string (&val, "replace_entry");
-		g_object_set_property (G_OBJECT (gentry), "history_id", &val);
-	}
-
+	table = GTK_TABLE (glade_xml_get_widget (gui, "scope_table"));
 	dd->rangetext = gnumeric_expr_entry_new (wbcg, TRUE);
 	gnm_expr_entry_set_flags (dd->rangetext, 0, GNUM_EE_MASK);
-	hbox = GTK_BOX (glade_xml_get_widget (gui, "range_hbox"));
-	gtk_box_pack_start (hbox, GTK_WIDGET (dd->rangetext),
-			    TRUE, TRUE, 0);
+	gnm_expr_entry_set_scg (dd->rangetext, wbcg_cur_scg (wbcg));
+	gtk_table_attach (table, GTK_WIDGET (dd->rangetext),
+			  1, 2, 2, 3,
+			  GTK_EXPAND | GTK_FILL, 0,
+			  0, 0);
 	gtk_widget_show (GTK_WIDGET (dd->rangetext));
 
 	g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "ok_button")),
@@ -251,15 +246,20 @@ dialog_search_replace (WorkbookControlGUI *wbcg,
 	g_signal_connect (G_OBJECT (dialog),
 		"destroy",
 		G_CALLBACK (dialog_destroy), dd);
-	g_signal_connect (GTK_OBJECT (dd->rangetext),
+	g_signal_connect (GTK_OBJECT (gnm_expr_entry_get_entry (dd->rangetext)),
 		"focus-in-event",
 		G_CALLBACK (range_focused), dd);
 
-	gtk_widget_show_all (dialog->vbox);
-	gnm_expr_entry_set_scg (dd->rangetext, wbcg_cur_scg (wbcg));
-	wbcg_edit_attach_guru (wbcg, GTK_WIDGET (dialog));
+/* FIXME: Add correct helpfile address */
+	gnumeric_init_help_button (
+		glade_xml_get_widget (gui, "help_button"),
+		"search-replace.html");
 
-	non_model_dialog (wbcg, dialog, SEARCH_REPLACE_KEY);
+	gtk_widget_show_all (dialog->vbox);
+	gtk_widget_grab_focus (gnome_entry_gtk_entry (dd->search_text));
+
+	wbcg_edit_attach_guru (wbcg, GTK_WIDGET (dialog));
+	non_modal_dialog (wbcg, dialog, SEARCH_REPLACE_KEY);
 }
 
 int
@@ -272,6 +272,7 @@ dialog_search_replace_query (WorkbookControlGUI *wbcg,
 	GladeXML *gui;
 	GtkDialog *dialog;
 	int res;
+	GtkWindow *toplevel;
 
 	g_return_val_if_fail (wbcg != NULL, 0);
 
@@ -289,23 +290,42 @@ dialog_search_replace_query (WorkbookControlGUI *wbcg,
 			    new_text);
 	set_checked (gui, "qd_query", sr->query);
 
-	gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, FALSE);
 
-	gtk_widget_show_all (dialog->vbox);
+	toplevel = wbcg_toplevel (wbcg);
+	if (GTK_WINDOW (dialog)->transient_parent != toplevel)
+		gtk_window_set_transient_for (GTK_WINDOW (dialog), toplevel);
 
-	res = gnumeric_dialog_run (wbcg, dialog);
+	gtk_tooltips_set_tip (gtk_tooltips_new (),
+			      gtk_dialog_add_button (dialog, GTK_STOCK_CANCEL, 
+						     GTK_RESPONSE_CANCEL),
+			      _("Perform no more replacements"), NULL);
+	gtk_tooltips_set_tip (gtk_tooltips_new (),
+			      gtk_dialog_add_button (dialog, GTK_STOCK_NO, 
+						     GTK_RESPONSE_NO),
+			      _("Do not perform this replacement"), NULL);
+	gtk_tooltips_set_tip (gtk_tooltips_new (),
+			      gtk_dialog_add_button (dialog, GTK_STOCK_YES, 
+						     GTK_RESPONSE_YES),
+			      _("Perform this replacemen"), NULL);
+	
+	gtk_widget_show_all (GTK_WIDGET (dialog));
+	res = gtk_dialog_run (dialog);
 
 	/* Unless cancel is pressed, propagate the query setting back.  */
-	if (res != -1)
+	if (res != GTK_RESPONSE_CANCEL && res != GTK_RESPONSE_NONE &&
+	    res != GTK_RESPONSE_DELETE_EVENT)
 		sr->query = is_checked (gui, "qd_query");
 
-	if (res != -1)
-		gtk_widget_destroy (GTK_WIDGET (dialog));
+	gtk_widget_destroy (GTK_WIDGET (dialog));
 
-	if (res == 2)
-		res = -1;
+/*FIXME: rather than recoding the result value we should change the tests down stream */
 
-	return res;
+	if (res == GTK_RESPONSE_YES)
+		return 0;
+	if (res == GTK_RESPONSE_NO)
+		return 1;
+
+	return -1;
 }
 
 /* ------------------------------------------------------------------------- */

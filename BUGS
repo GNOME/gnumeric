@@ -11,12 +11,11 @@ Release Critical
 - We need to somehow add --export-dynamic to the gnumeric link line, or else
   plugins won't load on Solaris/gcc.
 - Why doesn't float_range_function2 use its "flags" argument?
-- Search/replace dialog is currently shot.
 - Printing dialogs are shot.
 - Text-import dialog crashes.
 - Summary dialog is non-functional.
 - Function selection dialog is broken, and it sucks.
-- Go-to cell dialog is shot, make it a guru.
+- Go-to cell dialog is shot, make it a guru.        (Andreas: I am on it.)
 - 3D reference fixes on sheet deletion
 
 1.2 Targets
@@ -111,9 +110,6 @@ Long term breakage
   have their background color set are drawn incorrectly.
   An off-by-one pixel problem. For details see :
   http://bugzilla.gnome.org/show_bug.cgi?id=52240
-
-- Search-and-replace.
-  - It is doubtful whether the regexp selection belongs on the first page.
 
 - The max row/col canvas scroll size is still hard coded.
 

@@ -1,3 +1,9 @@
+2002-03-17  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/dialogs/dialog-search-replace.c : ported to gnome2
+	* src/dialogs/search-replace.glade : ported to gnome2 and 
+	  redesigned
+
 2002-03-17  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* solver.glade, dialog-solver.c : Added BOOL constraint support.
