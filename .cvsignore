@@ -5,6 +5,8 @@ config.guess
 config.sub
 ltconfig
 ltmain.sh
+mkinstalldirs
+config.rpath
 gnumeric-config.h.in
 gnumeric-config.h
 config.log
@@ -25,6 +27,7 @@ gnumericConf.sh
 ID
 tags
 xml-i18n-*
+intltool-*
 intl
 ABOUT-NLS
 GNOME_Gnumeric.oaf
