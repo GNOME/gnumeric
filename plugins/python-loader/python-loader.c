@@ -274,7 +274,7 @@ typedef struct {
 } ServiceLoaderDataFileOpener;
 
 static gboolean
-gnumeric_plugin_loader_python_func_file_probe (FileOpener const *fo, PluginService *service,
+gnumeric_plugin_loader_python_func_file_probe (GnumFileOpener const *fo, PluginService *service,
                                                const gchar *file_name)
 {
 	ServiceLoaderDataFileOpener *loader_data;
@@ -299,7 +299,7 @@ gnumeric_plugin_loader_python_func_file_probe (FileOpener const *fo, PluginServi
 }
 
 static void
-gnumeric_plugin_loader_python_func_file_open (FileOpener const *fo, PluginService *service,
+gnumeric_plugin_loader_python_func_file_open (GnumFileOpener const *fo, PluginService *service,
                                               IOContext *io_context, WorkbookView *wb_view,
                                               const gchar *file_name)
 {
@@ -401,7 +401,7 @@ typedef struct {
 } ServiceLoaderDataFileSaver;
 
 static void
-gnumeric_plugin_loader_python_func_file_save (FileSaver const *fs, PluginService *service,
+gnumeric_plugin_loader_python_func_file_save (GnumFileSaver const *fs, PluginService *service,
                                               IOContext *io_context, WorkbookView *wb_view,
                                               const gchar *file_name)
 {
