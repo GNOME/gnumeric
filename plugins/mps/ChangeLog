@@ -1,3 +1,7 @@
+2001-10-26  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* mps.c: Added the i18n stuff that got lost in previous commit.
+
 2001-10-25  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* mps.c: Moved to character position based scanning since many MPS
