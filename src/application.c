@@ -50,7 +50,7 @@ application_clipboard_clear (void)
 		Sheet *sheet = app.clipboard_sheet;
 
 		sheet_selection_unant (sheet);
-		workbook_view_set_paste_state (sheet->workbook, 0);
+		workbook_view_set_paste_special_state (sheet->workbook, FALSE);
 		app.clipboard_sheet = NULL;
 	}
 }
@@ -83,9 +83,7 @@ application_clipboard_copy (Sheet *sheet, Range const *area)
 				       area->start.col, area->start.row,
 				       area->end.col,   area->end.row);
 
-	workbook_view_set_paste_state (sheet->workbook,
-				       WORKBOOK_VIEW_PASTE_ITEM |
-				       WORKBOOK_VIEW_PASTE_SPECIAL_ITEM);
+	workbook_view_set_paste_special_state (sheet->workbook, TRUE);
 
 	sheet_selection_ant (sheet);
 }
@@ -109,7 +107,7 @@ application_clipboard_cut (Sheet *sheet, Range const *area)
 	app.clipboard_cut_range = *area;
 
 	/* No paste special for copies */
-	workbook_view_set_paste_state (sheet->workbook, WORKBOOK_VIEW_PASTE_ITEM);
+	workbook_view_set_paste_special_state (sheet->workbook, TRUE);
 
 	sheet_selection_ant (sheet);
 }

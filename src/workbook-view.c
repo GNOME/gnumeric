@@ -16,17 +16,13 @@
 #include "gnumeric-util.h"
 
 void
-workbook_view_set_paste_state (Workbook *wb, int flags)
+workbook_view_set_paste_special_state (Workbook *wb, gboolean enable)
 {
 	g_return_if_fail (wb != NULL);
 
 #ifndef ENABLE_BONOBO
 	gtk_widget_set_sensitive (
-		wb->priv->menu_item_paste,
-		flags & WORKBOOK_VIEW_PASTE_ITEM);
-	gtk_widget_set_sensitive (
-		wb->priv->menu_item_paste_special,
-		flags & WORKBOOK_VIEW_PASTE_SPECIAL_ITEM);
+		wb->priv->menu_item_paste_special, enable);
 #else
 	/* gnome_ui_handler_menu_set_sensitivity (); */
 #endif

@@ -1,3 +1,24 @@
+2000-01-02  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/clipboard.c (x_selection_to_cell_region): the last element
+	of a paste was being dropped. 
+
+2000-01-02  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/workbook-view.c (workbook_view_set_paste_special_state):
+	Renamed this function to suit better its new purpose: only manage
+	the paste special item, as paste can pull the information from the
+	X clipboard.
+
+	* src/parser.y (release_const_tree): New routine used to release
+	exprtrees that we discard during parsing.
+
+	array_expressions: The various NUMBERS used in this rule are
+	never actually linked into the ExprTree, we are only interested in
+	them to pull a couple of integers from it.  We now release them
+	after we construct the formula.  This fixes the leaks reported by
+	Morten. 
+
 2000-01-02  Jody Goldberg <jgoldberg@home.com>
 
 	* src/application.h : Add application_clipboard_unant now that

@@ -258,6 +258,8 @@ x_selection_to_cell_region (char *data, int len)
 				list = new_node (list, data, p, cur_col, rows);
 
 			if (*p == '\n'){
+				if (p != data)
+					list = new_node (list, data, p, cur_col, rows);
 				rows++;
 				cur_col = 0;
 			} else {
@@ -637,7 +639,11 @@ clipboard_paste_region (CommandContext *context,
 		return;
 	}
 
-	/* Now, trigger a grab of the X selection */
+	/*
+	 * Now, trigger a grab of the X selection.
+	 *
+	 * This will callback x_selection_received
+	 */
 	gtk_selection_convert (
 		dest_sheet->workbook->toplevel, GDK_SELECTION_PRIMARY,
 		GDK_TARGET_STRING, time);

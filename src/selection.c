@@ -685,13 +685,12 @@ sheet_selection_paste (CommandContext *context, Sheet *sheet,
 	content = application_clipboard_contents_get ();
 
 	/* If contents are null this was a cut */
-	if (content == NULL) {
+	if (content == NULL && area != NULL) {
 		struct expr_relocate_info rinfo;
 		Sheet * src_sheet = application_clipboard_sheet_get ();
 		Range const *sel = selection_first_range (sheet, FALSE);
 
 		g_return_if_fail (sel != NULL);
-		g_return_if_fail (area != NULL);
 
 		/* FIXME FIXME : This should not be a dialog.
 		 *

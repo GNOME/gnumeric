@@ -674,9 +674,6 @@ paste_cmd (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet;
 
-	/* These menu items should be insensitive when there is nothing to paste */
-	g_return_if_fail (!application_clipboard_is_empty ());
-
 	sheet = workbook_get_current_sheet (wb);
 	sheet_selection_paste (workbook_command_context_gui (wb), sheet,
 			       sheet->cursor_col, sheet->cursor_row,
@@ -2173,7 +2170,6 @@ workbook_new (void)
 	 */
 	wb->priv->menu_item_undo	  = workbook_menu_edit[0].widget;
 	wb->priv->menu_item_redo	  = workbook_menu_edit[1].widget;
-	wb->priv->menu_item_paste         = workbook_menu_edit[5].widget;
 	wb->priv->menu_item_paste_special = workbook_menu_edit[6].widget;
 #else
 	{
@@ -2197,7 +2193,7 @@ workbook_new (void)
 	 * Disable paste & paste special, they will be enabled when
 	 * there is something to paste
 	 */
-	workbook_view_set_paste_state (wb, 0);
+	workbook_view_set_paste_special_state (wb, FALSE);
 
  	workbook_create_toolbars (wb);
 
