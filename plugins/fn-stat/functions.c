@@ -309,6 +309,82 @@ gnumeric_geomean (void *tsheet, GList *expr_node_list, int eval_col, int eval_ro
 	return value_float (pow (pr.product, 1.0/num)) ;
 }
 
+static char *help_skew = {
+	N_("@FUNCTION=SKEW\n"
+	   "@SYNTAX=SKEW(n1, n2, ...)\n"
+
+	   "@DESCRIPTION="
+	   "SKEW returns the skewness of a distribution. "
+	   "\n"
+	   "Strings and empty cells are simply ignored."
+	   "\n"
+	   "If less than three numbers are given SKEW returns #DIV/0! error. "
+	   "@SEEALSO=VAR")
+};
+
+typedef struct {
+	int first ;
+	guint32 num ;
+        float_t mean ;
+        float_t stddev ;
+	float_t sum ;
+} stat_skew_sum_t;
+
+static int
+callback_function_skew_sum (Sheet *sheet, Value *value, char **error_string, void *closure)
+{
+	stat_skew_sum_t *mm = closure;
+	float tmp;
+
+	switch (value->type){
+	case VALUE_INTEGER:
+	        tmp = (value->v.v_int - mm->mean) / mm->stddev;
+		mm->num++ ;
+		mm->sum += tmp * tmp * tmp;
+		break;
+
+	case VALUE_FLOAT:
+	        tmp = (value->v.v_float - mm->mean) / mm->stddev;
+		mm->num++ ;
+		mm->sum += tmp * tmp * tmp;
+		break ;
+	default:
+		/* ignore strings */
+		break;
+	}
+	mm->first = FALSE ;
+	return TRUE;
+}
+
+static Value *
+gnumeric_skew (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+{
+	stat_skew_sum_t pr;
+	Sheet *sheet = (Sheet *) tsheet;
+	float_t num ;
+
+	pr.first   = TRUE ;
+
+	pr.mean = value_get_as_double(gnumeric_average
+	        (tsheet, expr_node_list, eval_col, eval_row, error_string));
+	pr.stddev = value_get_as_double(gnumeric_stdev
+	        (tsheet, expr_node_list, eval_col, eval_row, error_string));
+	pr.num  = 0 ;
+	pr.sum  = 0.0 ;
+
+	function_iterate_argument_values (sheet, callback_function_skew_sum,
+					  &pr, expr_node_list,
+					  eval_col, eval_row, error_string);
+
+	if (pr.num < 3) {
+		*error_string = _("#NUM!") ;
+		return NULL;
+	}
+
+	num = (float_t)pr.num ;
+	return value_float ((pr.num / ((pr.num-1.0) * (pr.num-2.0))) * pr.sum) ;
+}
+
 static char *help_expondist = {
 	N_("@FUNCTION=EXPONDIST\n"
 	   "@SYNTAX=EXPONDIST(x,y,cumulative)\n"
@@ -400,8 +476,6 @@ static char *help_binomdist = {
 	   "@SEEALSO=POISSON")
 };
 
-float_t combin (int n, int k);
-
 static Value *
 gnumeric_binomdist (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
@@ -436,6 +510,91 @@ gnumeric_binomdist (struct FunctionDefinition *i, Value *argv [], char **error_s
 				    pow(1-p, trials-n));
 }
 
+static char *help_critbinom = {
+       N_("@FUNCTION=CRITBINOM\n"
+          "@SYNTAX=CRITBINOM(trials,p,alpha)\n"
+
+          "@DESCRIPTION="
+          "The CRITBINOM function returns the smallest value for which the"
+          "cumulative is creater than or equal to a given value. "
+          "@n is the number of trials, @p is the probability of success in "
+          "trials, and @alpha is the criterion value. "
+	  "Performing this function on a string or empty cell simply does nothing. "
+          "\n"
+          "if trials is a non-integer it is truncated. "
+          "if trials < 0 CRITBINOM returns #NUM! error. "
+          "if p < 0 or p > 1 CRITBINOM returns #NUM! error. "
+          "if alpha < 0 or alpha > 1 CRITBINOM returns #NUM! error. "
+          "\n"
+          "@SEEALSO=BINOMDIST")
+};
+
+static Value *
+gnumeric_critbinom (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+        int trials;
+        float_t p, alpha, sum;
+        int x;
+
+        if (!VALUE_IS_NUMBER(argv[0]) ||
+            !VALUE_IS_NUMBER(argv[1]) ||
+            !VALUE_IS_NUMBER(argv[2])){
+                *error_string = _("#VALUE!") ;
+                return NULL;
+        }
+        trials = value_get_as_int (argv [0]);
+        p = value_get_as_double (argv[1]);
+        alpha = value_get_as_double (argv[2]);
+
+        if (trials<0 || p<0 || p>1 || alpha<0 || alpha>1) {
+	        *error_string = _("#NUM!") ;
+		return NULL;
+	}
+
+	sum = 0;
+	for (x=0; sum<alpha; x++)
+                sum += (combin(trials, x) * pow(p, x) * pow(1-p, trials-x));
+	return value_int (x-1);
+}
+
+static char *help_permut = {
+	N_("@FUNCTION=PERMUT\n"
+	   "@SYNTAX=PERMUT(n,k)\n"
+
+	   "@DESCRIPTION="
+	   "The PERMUT function returns the number of permutations. "
+           "@n is the number of objects, @k is the number of objects in each "
+           "permutation. "
+	   "\n"
+	   "Performing this function on a string or empty cell returns an error."
+	   "if n or k is non-integer PERMUT returns #VALUE! error. "
+	   "if n = 0 PERMUT returns #NUM! error. "
+	   "if n < k PERMUT returns #NUM! error. "
+	   "\n"
+	   "@SEEALSO=COMBIN")
+};
+
+static Value *
+gnumeric_permut (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+	int n, k;
+
+	if (argv[0]->type != VALUE_INTEGER ||
+	    argv[1]->type != VALUE_INTEGER){
+		*error_string = _("#VALUE!") ;
+		return NULL;
+	}
+	n = value_get_as_int (argv [0]);
+	k = value_get_as_int (argv [1]);
+
+	if (n<k || n==0){
+		*error_string = _("#NUM!") ;
+		return NULL;
+	}
+
+	return value_float (fact(n) / fact(n-k));
+}
+
 static char *help_hypgeomdist = {
 	N_("@FUNCTION=HYPGEOMDIST\n"
 	   "@SYNTAX=HYPGEOMDIST(x,n,M,N)\n"
@@ -458,7 +617,6 @@ static Value *
 gnumeric_hypgeomdist (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
 	int x, n, M, N;
-	int err;
 
 	if (!VALUE_IS_NUMBER(argv[0]) ||
 	    !VALUE_IS_NUMBER(argv[1]) ||
@@ -477,6 +635,481 @@ gnumeric_hypgeomdist (struct FunctionDefinition *i, Value *argv [], char **error
 	}
 
 	return value_float ((combin(M, x) * combin(N-M, n-x)) / combin(N,n));
+}
+
+static char *help_confidence = {
+	N_("@FUNCTION=CONFIDENCE\n"
+	   "@SYNTAX=CONFIDENCE(x,stddev,size)\n"
+
+	   "@DESCRIPTION="
+	   "The CONFIDENCE function returns the confidence interval for a mean. "
+	   "@x is the significance level, @stddev is the standard deviation, "
+	   "and @size is the size of the sample."
+	   "\n"
+	   "Performing this function on a string or empty cell returns an error."
+	   "if size is non-integer it is truncated. "
+	   "if size < 0 CONFIDENCE returns #NUM! error. "
+	   "if size is 0 CONFIDENCE returns #DIV/0! error. "
+	   "\n"
+	   "@SEEALSO=AVERAGE")
+};
+
+static Value *
+gnumeric_confidence (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+	float_t x, stddev;
+	int size;
+
+	if (!VALUE_IS_NUMBER(argv[0]) ||
+	    !VALUE_IS_NUMBER(argv[1]) ||
+	    !VALUE_IS_NUMBER(argv[2])){
+		*error_string = _("#VALUE!") ;
+		return NULL;
+	}
+	x = value_get_as_double (argv [0]);
+	stddev = value_get_as_double (argv [1]);
+	size = value_get_as_int (argv [2]);
+	if (size == 0) {
+		*error_string = _("#DIV/0!") ;
+		return NULL;
+	}
+	if (size < 0) {
+		*error_string = _("#NUM!") ;
+		return NULL;
+	}
+	/* Only 95% confidence implemented */
+	return value_float (1.96 * (stddev/sqrt(size)));
+}
+
+static char *help_standardize = {
+	N_("@FUNCTION=STANDARDIZE\n"
+	   "@SYNTAX=STANDARDIZE(x,mean,stdev)\n"
+
+	   "@DESCRIPTION="
+	   "The STANDARDIZE function returns a normalized value. "
+	   "@x is the number to be normalized, @mean is the mean of the "
+	   "distribution, @stdev is the standard deviation of the distribution."
+	   "\n"
+	   "Performing this function on a string or empty cell returns an error."
+	   "if stddev is 0 STANDARDIZE returns #DIV/0! error. "
+	   "\n"
+	   "@SEEALSO=AVERAGE")
+};
+
+static Value *
+gnumeric_standardize (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+	float_t x, mean, stddev;
+
+	if (!VALUE_IS_NUMBER(argv[0]) ||
+	    !VALUE_IS_NUMBER(argv[1]) ||
+	    !VALUE_IS_NUMBER(argv[2])){
+		*error_string = _("#VALUE!") ;
+		return NULL;
+	}
+	x = value_get_as_double (argv [0]);
+	mean = value_get_as_double (argv [1]);
+	stddev = value_get_as_double (argv [2]);
+	if (stddev == 0) {
+		*error_string = _("#DIV/0!") ;
+		return NULL;
+	}
+
+	return value_float ((x-mean) / stddev) ;
+}
+
+static char *help_weibull = {
+        N_("@FUNCTION=WEIBULL\n"
+           "@SYNTAX=WEIBULL(x,alpha,beta,cumulative)\n"
+
+           "@DESCRIPTION="
+           "The WEIBULL function returns the Weibull distribution. "
+           "If the cumulative boolean is true it will return: "
+           "1 - exp (-(x/beta)^alpha), otherwise it will return "
+           "(alpha/beta^alpha) * x^(alpha-1) * exp(-(x/beta^alpha)). "
+           "\n"
+           "Performing this function on a string or empty cell simply does nothing. "
+           "if x < 0 WEIBULL returns #NUM! error. "
+           "if alpha <= 0 or beta <= 0 WEIBULL returns #NUM! error. "
+           "\n"
+           "@SEEALSO=POISSON")
+};
+
+static Value *
+gnumeric_weibull (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+        float_t x, alpha, beta;
+        int cuml, err=0 ;
+
+        x = value_get_as_double (argv [0]);
+        alpha = value_get_as_double (argv [1]);
+        beta = value_get_as_double (argv [2]);
+        if (x<0 || alpha<=0 || beta<=0) {
+                *error_string = _("#NUM!") ;
+                return NULL;
+        }
+        cuml = value_get_bool (argv[3], &err) ;
+        if (err) {
+                *error_string = _("#VALUE!") ;
+                return NULL;
+        }
+
+        if (cuml)
+                return value_float (1.0 - exp(-pow(x/beta, alpha))) ;
+        else
+                return value_float ((alpha/pow(beta, alpha))* 
+                                   pow(x, alpha-1)*exp(-pow(x/beta, alpha)));
+}
+
+static char *help_normdist = {
+        N_("@FUNCTION=NORMDIST\n"
+           "@SYNTAX=NORMDIST(x,mean,stdev,cumulative)\n"
+
+           "@DESCRIPTION="
+           "The NORMDIST function returns the normal cumulative distribution. "
+	   "@x is the value for which you want the distribution, @mean is "
+	   "the mean of the distribution, @stdev is the standard deviation. "
+           "\n"
+           "Performing this function on a string or empty cell simply does nothing. "
+           "if stdev=0 NORMDIST returns #DIV/0! error. "
+           "\n"
+           "@SEEALSO=POISSON")
+};
+
+/* In the long run we will need better accuracy or a fast algorithm to
+ * calculate these.
+ */
+static const float_t normdist_tbl[] = {
+	.5000, .5040, .5080, .5120, .5160, .5199, .5239, .5279, .5319, .5359,
+	.5398, .5438, .5478, .5517, .5557, .5596, .5636, .5675, .5714, .5753,
+	.5793, .5832, .5871, .5910, .5948, .5987, .6026, .6064, .6103, .6141,
+	.6179, .6217, .6255, .6293, .6331, .6368, .6406, .6443, .6480, .6517,
+	.6554, .6591, .6628, .6664, .6700, .6736, .6772, .6808, .6844, .6879,
+	
+	.6915, .6950, .6985, .7019, .7054, .7088, .7123, .7157, .7190, .7224,
+	.7257, .7291, .7324, .7357, .7389, .7422, .7454, .7486, .7517, .7549,
+	.7580, .7611, .7642, .7673, .7704, .7734, .7764, .7794, .7823, .7852,
+	.7881, .7910, .7939, .7967, .7995, .8023, .8051, .8078, .8106, .8133,
+	.8159, .8186, .8212, .8238, .8264, .8289, .8315, .8340, .8365, .8389,
+	
+	.8413, .8438, .8461, .8485, .8508, .8531, .8554, .8577, .8599, .8621,
+	.8643, .8665, .8686, .8708, .8729, .8749, .8770, .8790, .8810, .8830,
+	.8849, .8869, .8888, .8907, .8925, .8944, .8962, .8980, .8997, .9015,
+	.9032, .9049, .9066, .9082, .9099, .9115, .9131, .9147, .9162, .9177,
+	.9192, .9207, .9222, .9236, .9251, .9265, .9279, .9292, .9306, .9319,
+	
+	.9332, .9345, .9357, .9370, .9382, .9394, .9406, .9418, .9429, .9441,
+	.9452, .9463, .9474, .9484, .9495, .9505, .9515, .9525, .9535, .9545,
+	.9554, .9564, .9573, .9582, .9591, .9599, .9608, .9616, .9625, .9633,
+	.9641, .9649, .9656, .9664, .9671, .9678, .9686, .9693, .9699, .9706,
+	.9713, .9719, .9726, .9732, .9738, .9744, .9750, .9756, .9761, .9767,
+	
+	.9772, .9778, .9783, .9788, .9793, .9798, .9803, .9808, .9812, .9817,
+	.9821, .9826, .9830, .9834, .9838, .9842, .9846, .9850, .9854, .9857,
+	.9861, .9864, .9868, .9871, .9875, .9878, .9881, .9884, .9887, .9890,
+	.9893, .9896, .9898, .9901, .9904, .9906, .9909, .9911, .9913, .9916,
+	.9918, .9920, .9922, .9925, .9927, .9929, .9931, .9932, .9934, .9936,
+	
+	.9938, .9940, .9941, .9943, .9945, .9946, .9948, .9949, .9951, .9952,
+	.9953, .9955, .9956, .9957, .9959, .9960, .9961, .9962, .9963, .9964,
+	.9965, .9966, .9967, .9968, .9969, .9970, .9971, .9972, .9973, .9974,
+	.9974, .9975, .9976, .9977, .9977, .9978, .9979, .9979, .9980, .9981,
+	.9981, .9982, .9982, .9983, .9984, .9984, .9985, .9985, .9986, .9986,
+	
+	.9987, .9987, .9987, .9988, .9988, .9989, .9989, .9989, .9990, .9990,
+	.9990, .9991, .9991, .9991, .9992, .9992, .9992, .9992, .9993, .9993,
+	.9993, .9993, .9994, .9994, .9994, .9994, .9994, .9995, .9995, .9995,
+	.9995, .9995, .9995, .9996, .9996, .9996, .9996, .9996, .9996, .9997,
+	.9997, .9997, .9997, .9997, .9997, .9997, .9997, .9997, .9997, .9998,
+	
+	.9998, .9998, .9998, .9998, .9998, .9998, .9998, .9998, .9998, .9998,
+	.9998, .9998, .9999, .9999, .9999, .9999, .9999, .9999, .9999, .9999,
+	.9999, .9999, .9999, .9999, .9999, .9999, .9999, .9999, .9999, .9999,
+	.9999, .9999, .9999, .9999, .9999, .9999, .9999, .9999, .9999, .9999,
+};
+
+static float_t get_positive_normdist(float_t x)
+{
+        if (x >= 3.895)
+	        return 1.0;
+	return normdist_tbl[(int) ((x+0.005) * 100)]; 
+}
+
+static Value *
+gnumeric_normdist (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+        float_t x, mean, stdev ;
+        int cuml, err=0 ;
+
+        x = value_get_as_double (argv [0]);
+        mean = value_get_as_double (argv [1]);
+        stdev = value_get_as_double (argv [2]);
+        if (stdev==0) {
+                *error_string = _("#DIV/0!") ;
+                return NULL;
+        }
+        cuml = value_get_bool (argv[3], &err) ;
+        if (err) {
+                *error_string = _("#VALUE!") ;
+                return NULL;
+        }
+
+        if (cuml) {
+        	x = ((x-mean) / stdev) ;
+	        if (x < 0)
+		        return value_float (1.0 - 
+					    get_positive_normdist(fabs(x))) ;
+		else
+		        return value_float (get_positive_normdist(x)) ;
+        } else {
+		*error_string = _("Unimplemented") ;
+		return NULL;
+        }
+}
+
+static char *help_kurt = {
+        N_("@FUNCTION=KURT\n"
+           "@SYNTAX=KURT(n1, n2, ...)\n"
+
+           "@DESCRIPTION="
+           "KURT returns the kurtosis of a data set. "
+           "\n"
+           "Strings and empty cells are simply ignored."
+           "\n"
+           "If fewer than four numbers are given or all of them are equal "
+           "KURT returns #DIV/0! error. "
+           "@SEEALSO=VAR")
+};
+
+typedef struct {
+        int first ;
+        guint32 num ;
+        float_t mean ;
+        float_t stddev ;
+        float_t sum ;
+} stat_kurt_sum_t;
+
+static int
+callback_function_kurt_sum (Sheet *sheet, Value *value, char **error_string, void *closure)
+{
+        stat_kurt_sum_t *mm = closure;
+        float_t tmp;
+
+        switch (value->type){
+        case VALUE_INTEGER:
+                tmp = (value->v.v_int - mm->mean) / mm->stddev;
+                tmp *= tmp;
+                mm->num++ ;
+                mm->sum += tmp * tmp;
+                break;
+
+        case VALUE_FLOAT:
+                tmp = (value->v.v_float - mm->mean) / mm->stddev;
+                tmp *= tmp;
+                mm->num++ ;
+                mm->sum += tmp * tmp;
+                break ;
+        default:
+                /* ignore strings */
+                break;
+        }
+	mm->first = FALSE ;
+	return TRUE;
+}
+
+static Value *
+gnumeric_kurt (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+{
+        stat_kurt_sum_t pr;
+	Sheet *sheet = (Sheet *) tsheet;
+	float_t n, d, num, dem ;
+
+	pr.first = TRUE ;
+	pr.mean = value_get_as_double(gnumeric_average
+                (tsheet, expr_node_list, eval_col, eval_row, error_string));
+	pr.stddev = value_get_as_double(gnumeric_stdev
+                (tsheet, expr_node_list, eval_col, eval_row, error_string));
+	pr.num  = 0 ;
+	pr.sum  = 0.0 ;
+
+	if (pr.stddev == 0.0) {
+	        *error_string = _("#NUM!") ;
+                return NULL;
+	}
+	function_iterate_argument_values (sheet, callback_function_kurt_sum,
+                                          &pr, expr_node_list,
+                                          eval_col, eval_row, error_string);
+
+	if (pr.num < 4) {
+                *error_string = _("#NUM!") ;
+                return NULL;
+	}
+
+	n = (float_t) pr.num;
+	num = (n*(n+1.0));
+	dem = ((n-1.0) * (n-2.0) * (n-3.0));
+	d = (3*(n-1)*(n-1)) / ((n-2) * (n-3));
+
+	return value_float ((pr.sum) * (num/dem) - d) ;
+}
+
+static char *help_avedev = {
+        N_("@FUNCTION=AVEDEV\n"
+           "@SYNTAX=AVEDEV(n1, n2, ...)\n"
+
+           "@DESCRIPTION="
+           "AVEDEV returns the average of the absolute deviations of a data "
+	   "set from their mean. "
+           "\n"
+           "Performing this function on a string or empty cell simply does nothing."
+           "\n"
+           "@SEEALSO=STDEV")
+};
+
+typedef struct {
+        int first ;
+        guint32 num ;
+        float_t mean ;
+        float_t sum ;
+} stat_avedev_sum_t;
+
+static int
+callback_function_stat_avedev_sum (Sheet *sheet, Value *value, char **error_string, void *closure)
+{
+        stat_avedev_sum_t *mm = closure;
+
+	switch (value->type){
+	case VALUE_INTEGER:
+	        mm->num++ ;
+                mm->sum += fabs(value->v.v_int - mm->mean);
+                break;
+        case VALUE_FLOAT:
+                mm->num++ ;
+                mm->sum += fabs(value->v.v_float - mm->mean);
+                break ;
+        default:
+                /* ignore strings */
+                break;
+        }
+        mm->first = FALSE ;
+        return TRUE;
+}
+
+static Value *
+gnumeric_avedev (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+{
+        stat_avedev_sum_t pr;
+        Sheet *sheet = (Sheet *) tsheet;
+        float_t ans, num ;
+
+        pr.first = TRUE ;
+        pr.num   = 0 ;
+        pr.sum   = 0.0 ;
+        pr.mean  = value_get_as_double(gnumeric_average
+	 			       (tsheet, expr_node_list,
+				        eval_col, eval_row, error_string));
+
+	function_iterate_argument_values (sheet, callback_function_stat_avedev_sum,
+					  &pr, expr_node_list,
+					  eval_col, eval_row, error_string);
+
+	num = (float_t)pr.num ;
+	return value_float ((1.0/num) * pr.sum) ;
+}
+
+static char *help_devsq = {
+        N_("@FUNCTION=DEVSQ\n"
+           "@SYNTAX=DEVSQ(n1, n2, ...)\n"
+
+           "@DESCRIPTION="
+           "DEVSQ returns the sum of squares of deviations of a data set from "
+           "the sample mean. "
+           "\n"
+           "Strings and empty cells are simply ignored."
+           "\n"
+           "@SEEALSO=STDEV")
+};
+
+typedef struct {
+        int first ;
+        guint32 num ;
+        float_t mean ;
+        float_t sum ;
+} stat_devsq_sum_t;
+
+static int
+callback_function_devsq_sum (Sheet *sheet, Value *value, char **error_string, void *closure)
+{
+        stat_devsq_sum_t *mm = closure;
+        float_t tmp;
+
+        switch (value->type){
+        case VALUE_INTEGER:
+                tmp = value->v.v_int - mm->mean;
+                mm->num++ ;
+                mm->sum += tmp * tmp;
+                break;
+        case VALUE_FLOAT:
+                tmp = value->v.v_int - mm->mean;
+                mm->num++ ;
+                mm->sum += tmp * tmp;
+                break ;
+        default:
+                /* ignore strings */
+                break;
+        }
+        mm->first = FALSE ;
+        return TRUE;
+}
+
+static Value *
+gnumeric_devsq (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+{
+        stat_devsq_sum_t pr;
+        Sheet *sheet = (Sheet *) tsheet;
+
+        pr.first = TRUE ;
+
+        pr.mean = value_get_as_double(gnumeric_average
+                (tsheet, expr_node_list, eval_col, eval_row, error_string));
+        pr.num  = 0 ;
+        pr.sum  = 0.0 ;
+
+        function_iterate_argument_values (sheet, callback_function_devsq_sum,
+                                          &pr, expr_node_list,
+                                          eval_col, eval_row, error_string);
+
+        return value_float (pr.sum) ;
+}
+
+static char *help_fisher = {
+        N_("@FUNCTION=FISHER\n"
+           "@SYNTAX=FISHER(x)\n"
+
+           "@DESCRIPTION="
+           "The FISHER function returns the Fisher transformation at x. "
+           "\n"
+           "If x is not-number FISHER returns #VALUE! error."
+           "If x<=-1 or x>=1 FISHER returns #NUM! error"
+           "\n"
+           "@SEEALSO=SKEW")
+};
+
+static Value *
+gnumeric_fisher (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+        float_t x;
+
+        if (!VALUE_IS_NUMBER(argv [0])) {
+                *error_string = _("#VALUE!") ;
+                return NULL;
+        }
+        x = value_get_as_double (argv [0]);
+        if (x <= -1.0 || x >= 1.0) {
+                *error_string = _("#NUM!") ;
+                return NULL;
+        }
+        return value_float (0.5 * log((1.0+x) / (1.0-x))) ;
 }
 
 static char *help_poisson = {
@@ -528,17 +1161,28 @@ gnumeric_poisson (struct FunctionDefinition *i, Value *argv [], char **error_str
 }
 
 FunctionDefinition stat_functions [] = {
-	{ "binomdist", "fffb", "n,t,p,c",   &help_poisson,   NULL, gnumeric_binomdist },
+        { "avedev",    0,      "",          &help_avedev,    gnumeric_avedev, NULL },
+	{ "binomdist", "fffb", "n,t,p,c",   &help_binomdist, NULL, gnumeric_binomdist },
+	{ "confidence", "fff",  "x,stddev,size", &help_confidence, NULL, gnumeric_confidence },
+	{ "critbinom",  "fff",  "trials,p,alpha", &help_critbinom, NULL, gnumeric_critbinom },
+        { "devsq",      0,      "",         &help_devsq,     gnumeric_devsq, NULL },
+	{ "permut",    "ff",  "n,k",        &help_permut,    NULL, gnumeric_permut },
 	{ "poisson",   "ffb",  "",          &help_poisson,   NULL, gnumeric_poisson },
 	{ "expondist", "ffb",  "",          &help_expondist, NULL, gnumeric_expondist },
+        { "fisher",    "f",    "",          &help_fisher,    NULL, gnumeric_fisher },
 	{ "gammaln",   "f",    "number",    &help_gammaln,   NULL, gnumeric_gammaln },
 	{ "geomean",   0,      "",          &help_geomean,   gnumeric_geomean, NULL },
 	{ "harmean",   0,      "",          &help_harmean,   gnumeric_harmean, NULL },
 	{ "hypgeomdist", "ffff", "x,n,M,N", &help_hypgeomdist, NULL, gnumeric_hypgeomdist },
+        { "kurt",      0,      "",          &help_kurt,      gnumeric_kurt, NULL },
+	{ "normdist",   "fffb",  "",        &help_normdist,  NULL, gnumeric_normdist },
+	{ "skew",      0,      "",          &help_skew,      gnumeric_skew, NULL },
+	{ "standardize", "fff",  "x,mean,stddev", &help_standardize, NULL, gnumeric_standardize },
 	{ "stdev",     0,      "",          &help_stdev,     gnumeric_stdev, NULL },
 	{ "stdevp",    0,      "",          &help_stdevp,    gnumeric_stdevp, NULL },
 	{ "var",       0,      "",          &help_var,       gnumeric_var, NULL },
 	{ "varp",      0,      "",          &help_varp,      gnumeric_varp, NULL },
+        { "weibull", "fffb",  "",           &help_weibull, NULL, gnumeric_weibull },
 	{ NULL, NULL },
 };
 

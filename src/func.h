@@ -60,5 +60,10 @@ Value      *function_def_call_with_values (Sheet              *sheet,
 
 void install_symbols (FunctionDefinition *functions);
 
+float_t combin (int n, int k);
+float_t fact (int n);
+Value *
+gnumeric_average (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string);
+
 #endif /* GNUMERIC_FUNC_H */
 

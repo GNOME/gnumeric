@@ -1,3 +1,11 @@
+1999-03-21  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-stat.c: avedev, confidence, critbinom, devsq, fisher,
+ 	kurt, normdist, permut, skew, standardize, and weibull added.
+	
+	* src/fn-math.c, src/func.h: gnumeric_average and fact made public
+ 	(used in src/fn-stat.c).
+
 1999-03-17  Vladimir Vuksan <vuksan@veus.hr>
  
  	* src/fn-financial.c: Added new functions gnumeric_ipmt,

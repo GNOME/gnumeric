@@ -331,7 +331,7 @@ static char *help_average = {
 	   "@SEEALSO=SUM, COUNT")
 };
 
-static Value *
+Value *
 gnumeric_average (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
 {
 	Value *result;
@@ -512,7 +512,7 @@ gnumeric_exp (struct FunctionDefinition *i, Value *argv [], char **error_string)
 	return value_float (exp (value_get_as_double (argv [0])));
 }
 
-static float_t
+float_t
 fact (int n)
 {
 	if (n == 0)
