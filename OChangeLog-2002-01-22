@@ -1,3 +1,9 @@
+2000-03-07  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/Vector.idl: Move the vector interfaces here.
+	
+	* src/Makefile.am: Arrange for compilation linking of Vector code.
+
 2000-03-07  Almer. S. Tigelaar.  <almer1@dds.nl>
 
 	Gnumeric instances can now eXchange data in a gnumeric

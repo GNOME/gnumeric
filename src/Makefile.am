@@ -42,6 +42,11 @@ GNUMERIC_CORBA_GENERATED = 			\
 	Gnumeric-skels.c			\
 	Gnumeric-stubs.c			\
 	Gnumeric.h
+
+noinst_LIBRARIES = libGnumeric.a
+
+libGnumeric_a_SOURCES = $(GNUMERIC_CORBA_GENERATED)
+
 else
 GNUMERIC_CORBA_GENERATED = 
 endif
@@ -217,8 +222,10 @@ GNUMERIC_BONOBO_SOURCES = 			\
 
 Gnumeric-impl.o: Gnumeric.h
 
+Vector-impl.o: Vector.h
+
 $(GNUMERIC_CORBA_GENERATED): Gnumeric.idl 
-	orbit-idl -I`$(GNOME_CONFIG) --datadir`/idl -I$(srcdir) $(srcdir)/Gnumeric.idl -D__GNUMERIC_COMPILATION
+	orbit-idl -I`$(GNOME_CONFIG) --datadir`/idl -I$(srcdir) $(srcdir)/Gnumeric.idl 
 
 gnumeric_SOURCES =					\
 	main.c						\
@@ -227,6 +234,8 @@ gnumeric_SOURCES =					\
 
 corba-sheet.c corba-workbook-factory.c corba-workbook.c Gnumeric-impl.c \
 embeddable-grid.c: Gnumeric.h
+
+sheet-vector.h: Vector.h
 
 gnumeric_bonobo_SOURCES =				\
 	main.c						\
@@ -256,11 +265,12 @@ gnumeric_LDADD = 					\
 gnumeric_bonobo_LDADD =					\
 	$(gnumeric_libs)				\
 	../wizards/graphics/libwizard_graphics.a	\
+	libGnumeric.a					\
+	../graph/libGraph.a				\
 	$(EXTRA_GNOME_LIBS)				\
 	$(GNOME_XML_LIB) 				\
 	$(GUILE_LIBS)					\
 	$(INTLLIBS)
-
 
 wc:
 	wc -l $(gnumeric_SOURCES)
@@ -287,3 +297,4 @@ idl_DATA = Gnumeric.idl Gnumeric-value.idl
 MYHACKAROUNDAUTOMAKE=$(shell echo $(GNUMERIC_CORBA_GENERATED))
 
 EXTRA_DIST = $(idl_DATA) $(MYHACKAROUNDAUTOMAKE) portability.h.in
+

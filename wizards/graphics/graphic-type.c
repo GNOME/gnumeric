@@ -8,7 +8,6 @@
  */
 #include <config.h>
 #include <gnome.h>
-#define Gnumeric_H
 #include "gnumeric.h"
 #include <glade/glade.h>
 #include "../../graph/Graph.h"
@@ -311,16 +310,16 @@ graphic_type_set_chart_mode (GNOME_Graph_Chart chart, PlotParameters *par)
 
 	CORBA_exception_init (&ev);
 
-	GNOME_Graph_Chart__set_chart_type   (chart, par->chart_type);
-	GNOME_Graph_Chart__set_plot_mode    (chart, par->plot_mode);
-	GNOME_Graph_Chart__set_col_bar_mode (chart, par->col_bar_mode);
-	GNOME_Graph_Chart__set_direction    (chart, par->direction);
-	GNOME_Graph_Chart__set_line_mode    (chart, par->line_mode);
-	GNOME_Graph_Chart__set_pie_mode     (chart, pr->pie_mode);
-	GNOME_Graph_Chart__set_pie_dim      (chart, pr->pie_dim);
-	GNOME_Graph_Chart__set_scatter_mode (chart, pr->scatter_mode);
-	GNOME_Graph_Chart__set_scatter_conn (chart, pr->scatter_conn);
-	GNOME_Graph_Chart__set_surface_mode (chart, pr->surface_mode);
+	GNOME_Graph_Chart__set_chart_type   (chart, par->chart_type, &ev);
+	GNOME_Graph_Chart__set_plot_mode    (chart, par->plot_mode, &ev);
+	GNOME_Graph_Chart__set_col_bar_mode (chart, par->col_bar_mode, &ev);
+	GNOME_Graph_Chart__set_direction    (chart, par->direction, &ev);
+	GNOME_Graph_Chart__set_line_mode    (chart, par->line_mode, &ev);
+	GNOME_Graph_Chart__set_pie_mode     (chart, par->pie_mode, &ev);
+	GNOME_Graph_Chart__set_pie_dim      (chart, par->pie_dim, &ev);
+	GNOME_Graph_Chart__set_scatter_mode (chart, par->scatter_mode, &ev);
+	GNOME_Graph_Chart__set_scatter_conn (chart, par->scatter_conn, &ev);
+	GNOME_Graph_Chart__set_surface_mode (chart, par->surface_mode, &ev);
 
 	CORBA_exception_free (&ev);
 }
@@ -332,7 +331,7 @@ graph_type_button_clicked (GtkWidget *widget, subtype_info_t *type)
 	GtkLabel *label = GTK_LABEL (glade_xml_get_widget (gc->gui, "plot-description"));
 
 	gtk_label_set_text (label, type->description);
-	graph_type_set_chart_mode (gc->chart, &type->par);
+	graphic_type_set_chart_mode (gc->chart, &type->par);
 }
 
 static void
@@ -451,5 +450,5 @@ graphic_type_boot (GladeXML *gui, WizardGraphicContext *gc)
 void
 graphic_type_init_preview (WizardGraphicContext *gc)
 {
-	graphic_type_set_chart_mode (gc->chart, &column_subtypes [0]->par);
+	graphic_type_set_chart_mode (gc->chart, &column_subtypes [0].par);
 }

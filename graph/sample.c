@@ -269,6 +269,7 @@ create_test (BonoboUIHandler *uih)
 		GNOME_Graph_Layout_add_series (
 			layout,
 			bonobo_object_corba_objref (BONOBO_OBJECT (vecs [i].vector)),
+			"Name",
 			&ev);
 		if (ev._major != CORBA_NO_EXCEPTION){
 			g_error ("Error while setting the vectors");

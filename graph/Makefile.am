@@ -11,14 +11,17 @@ bin_PROGRAMS = graph
 
 noinst_PROGRAMS = sample
 
+noinst_LIBRARIES = libGraph.a
+
 GRAPH_CORBA_GENERATED = 		\
 	Graph-common.c			\
 	Graph-skels.c			\
 	Graph-stubs.c			\
 	Graph.h
 
+libGraph_a_SOURCES = $(GRAPH_CORBA_GENERATED)
+
 graph_SOURCES =			\
-	$(GRAPH_CORBA_GENERATED)\
 	graph.c			\
 	graph.h			\
 	graph-vector.c		\
@@ -45,6 +48,8 @@ graph_SOURCES =			\
 
 graph_LDADD =			\
 	$(EXTRA_GNOME_LIBS)	\
+	../src/libGnumeric.a	\
+	libGraph.a		\
 	$(INTLLIBS)
 
 sample_SOURCES =		\
@@ -55,6 +60,7 @@ sample_SOURCES =		\
 
 sample_LDADD =			\
 	$(EXTRA_GNOME_LIBS)	\
+	../src/libGnumeric.a	\
 	$(INTLLIBS)
 
 $(GRAPH_CORBA_GENERATED): Graph.idl $(top_srcdir)/src/Gnumeric-value.idl $(top_srcdir)/src/Gnumeric.idl

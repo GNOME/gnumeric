@@ -16,6 +16,7 @@
 #include <glade/glade.h>
 #include <bonobo.h>
 #include "graphic-context.h"
+#include "graphic-type.h"
 #include "sheet.h"
 #include "utils.h"
 #include "expr.h"
@@ -142,6 +143,12 @@ graphic_context_data_range_count (WizardGraphicContext *gc)
 	return g_list_length (gc->data_range_list);
 }
 
+GNOME_Gnumeric_Vector
+vector_from_data_range (DataRange *data_range)
+{
+	return (GNOME_Gnumeric_Vector) bonobo_object_corba_objref (BONOBO_OBJECT (data_range->vector));
+}
+
 static void
 graphic_context_auto_guess_series (WizardGraphicContext *gc)
 {
@@ -178,7 +185,7 @@ graphic_context_auto_guess_series (WizardGraphicContext *gc)
 		GNOME_Gnumeric_Vector vector;
 
 		vector  = vector_from_data_range (vector_list->data);
-		GNOME_Graph_Layout_add_series (gc->layout, vector, &ev);
+		GNOME_Graph_Layout_add_series (gc->layout, vector, "FIXME", &ev);
 		vector_list = vector_list->next;
 	}
 
@@ -193,6 +200,8 @@ graphic_context_new (Workbook *wb, GladeXML *gui)
 	BonoboClientSite     *client_site;
 	BonoboObjectClient   *object_server;
 	CORBA_Environment     ev;
+	GNOME_Graph_Layout    layout;
+	GNOME_Graph_Layout    chart;
 	
 	g_return_val_if_fail (wb != NULL, NULL);
 
@@ -215,13 +224,13 @@ graphic_context_new (Workbook *wb, GladeXML *gui)
 	if (!bonobo_client_site_bind_embeddable (client_site, object_server))
 		goto error_binding;
 
-	gc->layout = bonobo_object_query_interface (BONOBO_OBJECT (object_server),
+	layout = bonobo_object_query_interface (BONOBO_OBJECT (object_server),
 						    "IDL:GNOME/Graph/Layout:1.0");
-	if (gc->layout == CORBA_OBJECT_NIL)
+	if (layout == CORBA_OBJECT_NIL)
 		goto error_qi;
 
 	CORBA_exception_init (&ev);
-	gc->chart = GNOME_Graph_Layout_get_chart (gc->layout, &ev);
+	chart = GNOME_Graph_Layout_get_chart (layout, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION)
 		goto error_get_chart;
 	CORBA_exception_free (&ev);
@@ -231,6 +240,8 @@ graphic_context_new (Workbook *wb, GladeXML *gui)
 	 */
 	gc = g_new0 (WizardGraphicContext, 1);
 	gc->workbook = wb;
+	gc->layout = layout;
+	gc->chart = chart;
 	gc->signature = GC_SIGNATURE;
 	gc->current_page = 0;
 	gc->gui = gui;
@@ -357,7 +368,7 @@ graphic_context_set_data_range (WizardGraphicContext *gc,
 	g_return_if_fail (gc != NULL);
 	g_return_if_fail (data_range_spec != NULL);
 
-	graphics_context_data_range_clear (gc);
+	graphic_context_data_range_clear (gc);
 
 }
 

@@ -8,7 +8,13 @@
  */
 
 #include <Bonobo.idl>
+
+%{
+#pragma include_defs src/Gnumeric.h
+%}
+#pragma inhibit push
 #include "src/Gnumeric.idl"
+#pragma inhibit pop
 
 module GNOME {
 
