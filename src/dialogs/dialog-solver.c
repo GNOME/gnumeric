@@ -59,6 +59,7 @@ typedef struct {
 	GtkWidget           *add_button;
 	GtkWidget           *change_button;
 	GtkWidget           *delete_button;
+	GtkWidget           *model_button;
 	GnumericExprEntry   *lhs_entry;
 	GnumericExprEntry   *rhs_entry;
 	GtkOptionMenu       *type_combo;
@@ -91,15 +92,19 @@ static char const * constraint_strs_untranslated[] = {
 };
 #endif
 
+
+
 typedef struct {
-	char const            *name;
-	SolverLPAlgorithmType type;
+	char const          *name;
+	SolverAlgorithmType alg;
+	SolverModelType     type;
 } algorithm_def_t;
 
 static algorithm_def_t algorithm_defs [] = {
-	{ N_("Revised Simplex (GLPK 3.2)"), GLPKSimplex },
-	{ N_("Simplex (LP Solve 3.2)"), LPSolve },
-	{ NULL, 0 }
+	{ N_("Revised Simplex (GLPK 3.2)"), GLPKSimplex, SolverLPModel },
+	{ N_("Simplex (LP Solve 3.2)"), LPSolve, SolverLPModel },
+	{ N_("< Not available >"), QPDummy, SolverQPModel },
+	{ NULL, 0, 0 }
 };
 
 typedef struct {
@@ -128,6 +133,9 @@ static const char *model_type_group[] = {
 	"nlp_model_button",
 	0
 };
+
+static GList *lp_alg_name_list = NULL;
+static GList *qp_alg_name_list = NULL;
 
 /**
  * is_hom_row_or_col_ref:
@@ -386,6 +394,44 @@ cb_dialog_set_rhs_sensitivity (GtkWidget *dummy, SolverState *state)
 		gtk_widget_set_sensitive (GTK_WIDGET (state->rhs_entry), FALSE);
 	} else {
 		gtk_widget_set_sensitive (GTK_WIDGET (state->rhs_entry), TRUE);
+	}
+}
+
+/**
+ * cb_dialog_lp_clicked:
+ * @button:
+ * @state:
+ *
+ *
+ **/
+static void
+cb_dialog_model_type_clicked (GtkWidget *button, SolverState *state)
+{
+	SolverModelType type;
+
+	type = gnumeric_glade_group_value (state->gui, model_type_group);
+	switch (type) {
+	case SolverLPModel:
+		gtk_combo_set_popdown_strings
+			(GTK_COMBO (state->algorithm_combo), lp_alg_name_list);
+		gtk_widget_set_sensitive (GTK_WIDGET (state->solve_button),
+					  TRUE);
+		break;
+	case SolverQPModel:
+		gtk_combo_set_popdown_strings
+			(GTK_COMBO (state->algorithm_combo), qp_alg_name_list);
+		gtk_widget_set_sensitive (GTK_WIDGET (state->solve_button),
+					  FALSE);
+		gnumeric_notice_nonmodal ((GtkWindow *) state->dialog,
+					  &(state->warning_dialog),
+					  GTK_MESSAGE_INFO, 
+					  _("Looking for a subject for your "
+					    "thesis? Maybe you would like to "
+					    "write a QP solver for "
+					    "Gnumeric?"));
+		break;
+	default:
+		break;
 	}
 }
 
@@ -864,10 +910,12 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 			(GTK_COMBO (state->algorithm_combo)->entry);
 		G_CONST_RETURN gchar *name = gtk_entry_get_text (entry);
 
-		if (strcmp (algorithm_defs [i].name, name) == 0) {
-			param->options.algorithm = algorithm_defs [i].type;
-			break;
-		}
+		if (param->options.model_type == algorithm_defs [i].type)
+			if (strcmp (algorithm_defs [i].name, name) == 0) {
+				param->options.algorithm =
+					algorithm_defs [i].alg;
+				break;
+			}
 	}
 
 	param->options.assume_non_negative = gtk_toggle_button_get_active
@@ -976,18 +1024,27 @@ dialog_init (SolverState *state)
 	GtkTable                *table;
 	constraint_conversion_t conv;
 	SolverParameters        *param;
-	static GList            *alg_name_list = NULL;
-
-	if (alg_name_list == NULL) {
-		int i;
-
-		for (i = 0; algorithm_defs [i].name; i++)
-			alg_name_list = g_list_append
-				(alg_name_list,
-				 (gpointer) algorithm_defs [i].name);
-	}
+	int                     i;
 
 	param = state->sheet->solver_parameters;
+
+	if (lp_alg_name_list == NULL) {
+		for (i = 0; algorithm_defs [i].name; i++)
+			switch (algorithm_defs [i].type) {
+			case SolverLPModel:
+				lp_alg_name_list = g_list_append
+					(lp_alg_name_list,
+					 (gpointer) algorithm_defs [i].name);
+				break;
+			case SolverQPModel:
+				qp_alg_name_list = g_list_append
+					(qp_alg_name_list,
+					 (gpointer) algorithm_defs [i].name);
+				break;
+			default:
+				break;
+			}
+	}
 
 	state->gui = gnumeric_glade_xml_new (state->wbcg, "solver.glade");
         if (state->gui == NULL)
@@ -1070,8 +1127,22 @@ dialog_init (SolverState *state)
 	/* Algorithm */
 	state->algorithm_combo = GTK_OPTION_MENU
 		(glade_xml_get_widget (state->gui, "algorithm_combo"));
-	gtk_combo_set_popdown_strings (GTK_COMBO (state->algorithm_combo),
-				       alg_name_list);
+	switch (param->options.model_type) {
+	case SolverLPModel:
+		gtk_combo_set_popdown_strings
+			(GTK_COMBO (state->algorithm_combo), lp_alg_name_list);
+		break;
+	case SolverQPModel:
+		gtk_combo_set_popdown_strings
+			(GTK_COMBO (state->algorithm_combo), qp_alg_name_list);
+		break;
+	default:
+		break;
+	}
+	state->model_button =
+		glade_xml_get_widget(state->gui, "lp_model_button");
+	g_signal_connect (G_OBJECT (state->model_button), "clicked",
+			  G_CALLBACK (cb_dialog_model_type_clicked), state);
 
 	/* Options */
 	state->max_iter_entry = glade_xml_get_widget (state->gui,
@@ -1188,12 +1259,10 @@ dialog_init (SolverState *state)
 			param->problem_type == SolverMinimize);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
 		glade_xml_get_widget(state->gui, "lp_model_button")),
-			param->options.model_type
-				      == SolverLPModel);
+			param->options.model_type == SolverLPModel);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
 		glade_xml_get_widget(state->gui, "qp_model_button")),
-			param->options.model_type
-				      == SolverQPModel);
+			param->options.model_type == SolverQPModel);
 
 	conv.c_listing = state->constraint_list;
 	conv.c_list    = param->constraints;

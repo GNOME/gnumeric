@@ -46,8 +46,8 @@ typedef enum {
 } SolverConstraintType;
 
 typedef enum {
-        LPSolve = 0, GLPKSimplex
-} SolverLPAlgorithmType;
+        LPSolve = 0, GLPKSimplex, QPDummy
+} SolverAlgorithmType;
 
 typedef enum {
         SolverOptAssumeNonNegative, SolverOptAutomaticScaling, SolverOptMaxIter,
@@ -124,20 +124,20 @@ typedef enum {
 } SolverModelType;
 
 struct _SolverOptions {
-        int                   max_time_sec;
-        int                   max_iter;
-        SolverModelType       model_type;
-        gboolean              assume_non_negative;
-        gboolean              assume_discrete;
-        gboolean              automatic_scaling;
-        gboolean              show_iter_results;
-        gboolean              answer_report;
-        gboolean              sensitivity_report;
-        gboolean              limits_report;
-        gboolean              performance_report;
-        gboolean              program_report;
-        gboolean              dual_program_report;
-        SolverLPAlgorithmType algorithm;
+        int                 max_time_sec;
+        int                 max_iter;
+        SolverModelType     model_type;
+        gboolean            assume_non_negative;
+        gboolean            assume_discrete;
+        gboolean            automatic_scaling;
+        gboolean            show_iter_results;
+        gboolean            answer_report;
+        gboolean            sensitivity_report;
+        gboolean            limits_report;
+        gboolean            performance_report;
+        gboolean            program_report;
+        gboolean            dual_program_report;
+        SolverAlgorithmType algorithm;
 };
 
 struct _SolverConstraint {

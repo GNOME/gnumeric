@@ -1,5 +1,9 @@
 2002-08-17  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
+	* dialog-solver.c: Algorithm selection works now for QP too.
+
+2002-08-17  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
 	* dialog-solver.c (dialog_init): Implemented the algorithm
 	selection.
 

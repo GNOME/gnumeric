@@ -20,7 +20,7 @@ Jukka:
 	    much better than lp-solve if the model is large, see
 	    a benchmark in ftp://plato.la.asu.edu/pub/lpsimp.txt.
 	  - Added the algorithm selection into the dialog.
-	  - Solver dialog improvements.
+	  - Other dialog improvements.
 
 Morten:
 	* Add poor man's utf8 regexp routines.
