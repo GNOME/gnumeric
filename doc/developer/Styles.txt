@@ -11,7 +11,9 @@ adopted. This document breaks roughly into two parts. First the 'user'
 
 1.1	The raw mechanics.
 
-	In order to apply a style to a region the following steps are needed
+1.1.1	Applying a style to a region
+
+	Simply apply the following steps
 
 	a) Create the style:
 
@@ -46,6 +48,28 @@ adopted. This document breaks roughly into two parts. First the 'user'
 	   sheet_style_attach        (sheet, range, mstyle);
 	   sheet_style_attach_single (sheet, col, row, mstyle)
 	   cell_set_mstyle           (cell, mstyle);
+
+1.1.2	Getting a style
+
+	    Simply use:
+
+	MStyle *mstyle = sheet_style_compute (sheet, col, row);
+
+	    or
+
+	MStyle *mstyle = cell_get_mstyle (cell);
+
+	    Remember you are passed a reference to this style which you are
+	responsible for unreferencing. Hence after fiddling with it eg.
+
+	if (mstyle_get_font_bold (mstyle))
+		printf ("Its bold\n");
+
+	    You _must_ unref it:
+
+	mstyle_unref (mstyle);
+
+	    If this sounds strange read on to section 1.4.
 	
 1.2	Fragmentation
 
@@ -84,6 +108,40 @@ adopted. This document breaks roughly into two parts. First the 'user'
 	but happens in real code ( often when subroutines are used ). If
 	you need to build up a style for a range pass an MStyle * around
 	and build it up before applying it once.
+
+1.4	Ref counting for dummies.
+
+	    Since the only efficient way to keep copies of styles around is
+	to reference count them the followings ( standard ) conventions are
+	used namely:
+
+	MStyle *mstyle = mstyle_new ();
+
+	    Creating an mstyle in this way hands you a single reference.
+
+	sheet_mstyle_attach (sheet, col, row, mstyle)
+
+	    Attaching a style passes that reference on to the style code.
+	The way to acertain whether a style reference has been handed on is
+	to examine the prototype for the function. Should the MStyle *
+	parameter be 'const' the reference is _not_ passed, otherwise in
+	general it is ( don't get hung up on that rule ). Of course non const
+	parameters are needed for eg. mstyle_set_font_name, but these have
+	no concievable reason to fiddle with the ref-count so they don't.
+
+	    The real gotchas happen when you decide to add a cache to your
+	code to speed up style allocation. In general this is what you want
+	where 'cache' denotes an MStyle * cache item.
+
+	if (!cache) {
+		cache = mstyle_new ();
+		mstyle_set_good (cache, "grief");
+	}
+	mstyle_ref (cache);
+	return cache;
+	
+	NB. we 'leave' a reference in the cache. This then must be removed when
+	we flush the cache with a simple mstyle_unref.
 
 2	Discission of how it works
 

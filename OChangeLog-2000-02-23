@@ -1,3 +1,20 @@
+1999-10-25  Michael Meeks  <mmeeks@gnu.org>
+
+	* TODO: Prune scads of completed work out, + add some guff about
+	sorting out cell spans; another fun fun project :-)
+
+	* src/cell.c (cell_style_changed): implement.
+
+	* src/sheet.c (sheet_new): use get_full_range clean.
+	(sheet_set_zoom_factor): Add sheet_cells_update to re-calc bits.
+
+	* src/sheet-style.c (sheet_cells_update, re_dimension_cells_cb): Create.
+	(sheet_selection_apply_style_cb): Add sheet_cells_update.
+	(sheet_get_full_range): implement for convenience.
+
+	* doc/Styles.txt: Add "ref-counting for dummies" and "Getting a Style"
+	sections.
+
 1999-10-25  Morten Welinder  <terra@diku.dk>
 
 	* src/complex.h: Fix typo.  thanks to Tim Mooney.

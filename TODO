@@ -53,9 +53,8 @@ Gnumeric Spread Sheet task list
     * GROWTH, INDEX, LINEST, LOGEST, MATCH, TREND, and VLOOKUP
 
 * Printing
-  * Save print information in workbook
-  * Load print information from workbook
   * Preview
+    * Stroke support for zoom etc.
   * Print setup: 
     * Options buttons
     * Improve layout 
@@ -109,14 +108,6 @@ Gnumeric Spread Sheet task list
 
    double click on the magic little copy box fills the current
    column to the depth of the column to the left ??
-
-** Cell drawing
-
-   We should compute the style for non-existing cells and draw these. 
-   This has been partially implemented, run with gnumeric_debugging > 0
-   
-   Code is in gnumeric/src/item-grid.c.  But it is not working
-   properly with selection.
 
 ** Headers for Columns and Rows
 
@@ -173,8 +164,6 @@ Gnumeric Spread Sheet task list
 
   Borders:
 
-  - Color/patterns differentiate pattern foreground & background
-  - Remember when a color is selected as a contrast to the another.
   - pattern selector needs tooltips, button like appearance, and
     white backgrounds for the patterns.
 
@@ -221,13 +210,7 @@ current clipboard code to find the clipboard.
 
 * Sheet Objects
 
-Rewrite the entire support for sheet objects.  I do not like the code
-at *all*.
-
-* Styles
-
-Rewrite all cell style support, for memory efficiency and speed.
-Rewrite background pixmap handling to take 2 colours: FG & BG.
+  * Load / save, print of all objects + Bonobo objects.
 
 * Office compatibility
 
@@ -236,11 +219,6 @@ Office 2000 and 'explorer' compatibility.
 
 * Internals
 
-  * Kill cell_set_font in its current way, the font used to encode
-    type, size, boldness and italicness.  This is not the case
-    anymore.  We should kill this and only use
-    cell_set_font_from_style.
-
   * Exceptions.
 
     Currently some code is refusing to make changes when an array
@@ -248,17 +226,7 @@ Office 2000 and 'explorer' compatibility.
     client might find this problem without being able to do anything
     about it, nor knowing about the error condition.
 
-  * Improved style architecture
-
-    Possibly needed for better Excel export
-
-  * Hack R[-1]C[3] style references into the parser.
-
-  * Hack Array support into the parser.
-
-Selection
- - Move selection code into a new file
- - Handle multiple overlapping selections without double counting.
+  * Hack R[-1]C[3] type references into the parser.
 
 * Internals
 
@@ -268,3 +236,12 @@ Selection
    we are taking ages.  In those cases, we could probably:
 
       1. Preallocate all cells.
+
+* Rendering
+
+  * Sort out the mess with cell span's
+
+    * Have a 'merged cell' structure that can be overridden
+    * have a 'user-set' feature for 'merge cells'
+    * Store merges as ( ranges a la. styles ) or GPtrArray's
+      linked from the leftmost existing cell.

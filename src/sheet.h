@@ -304,6 +304,8 @@ void           sheet_destroy_styles             (Sheet *sheet);
 GList         *sheet_get_style_list             (Sheet *sheet);
 void           sheet_zoom_styles                (Sheet *sheet, double factor);
 void           sheet_styles_dump                (Sheet *sheet);
+void           sheet_cells_update               (Sheet *sheet, Range r);
+Range          sheet_get_full_range             (void);
 
 /* Redraw */
 void        sheet_compute_visible_ranges  (Sheet const *sheet);

@@ -176,7 +176,6 @@ sheet_new (Workbook *wb, const char *name)
 	GtkWidget *sheet_view;
 	Sheet  *sheet;
 	MStyle *mstyle;
-	Range   r;
 
 	g_return_val_if_fail (wb != NULL, NULL);
 	g_return_val_if_fail (name != NULL, NULL);
@@ -200,11 +199,7 @@ sheet_new (Workbook *wb, const char *name)
 					     (GCompareFunc)&cell_compare);
 
 	mstyle = mstyle_new_default ();
-	r.start.col = 0;
-	r.start.row = 0;
-	r.end.col = SHEET_MAX_COLS - 1;
-	r.end.row = SHEET_MAX_ROWS - 1;
-	sheet_style_attach (sheet, r, mstyle);
+	sheet_style_attach (sheet, sheet_get_full_range (), mstyle);
 
 	sheet_init_default_styles (sheet);
 
@@ -314,6 +309,12 @@ sheet_set_zoom_factor (Sheet *sheet, double factor)
 
 		cell_comment_reposition (cell);
 	}
+
+	/*
+	 * FIXME: this slugs zoom performance and should not
+	 * be neccessary if we get rendering right IMHO.
+	 */
+	sheet_cells_update (sheet, sheet_get_full_range ());
 }
 
 /*

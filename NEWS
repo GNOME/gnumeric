@@ -1,5 +1,9 @@
 Gnumeric 0.42
 
+Michael:
+
+	* Totaly re-wrote style engine.
+
 Jukka:
 	* Fixed the handling of the database function criterias
 	* Fixed the non-numeric return values of DGET

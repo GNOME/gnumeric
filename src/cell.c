@@ -742,11 +742,11 @@ void
 cell_thaw_redraws (void)
 {
 	redraws_frozen--;
-	if (redraws_frozen < 0){
+	if (redraws_frozen < 0) {
 		g_warning ("unbalanced freeze/thaw\n");
 		return;
 	}
-	if (redraws_frozen == 0){
+	if (redraws_frozen == 0) {
 		g_hash_table_foreach (cell_hash_queue, call_cell_queue_redraw, NULL);
 		g_hash_table_destroy (cell_hash_queue);
 		cell_hash_queue = NULL;
@@ -783,7 +783,7 @@ cell_queue_redraw (Cell *cell)
 
 	g_return_if_fail (cell != NULL);
 
-	if (redraws_frozen){
+	if (redraws_frozen) {
 		queue_cell (cell);
 		return;
 	}
@@ -1372,3 +1372,33 @@ cell_set_mstyle (const Cell *cell, MStyle *mstyle)
 	sheet_style_attach (cell->sheet, range, mstyle);
 }
 
+/**
+ * cell_style_changed:
+ * @cell: 
+ * 
+ * Re-draws as neccessary on a cells span, and re-calcs dimensions.
+ * to test, enter a long string in a cell & alter
+ * the horizontal alignment.
+ **/
+void
+cell_style_changed (Cell *cell)
+{
+	int a, b;
+	int width;
+
+	g_return_if_fail (cell != NULL);
+	g_return_if_fail (cell->sheet != NULL);
+
+	cell_calc_dimensions (cell);
+	cell_get_span (cell, &a, &b);
+
+	/*
+	 * Paranoid; re-draw the max. old span possible.
+	 */
+
+	width = b - a;
+	if (width)
+		sheet_redraw_cell_region (cell->sheet, cell->col->pos - width,
+					  cell->col->pos + width,
+					  cell->row->pos, cell->row->pos);
+}

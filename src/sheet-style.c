@@ -418,6 +418,7 @@ sheet_selection_apply_style_cb (Sheet *sheet,
 	mstyle_ref           (user_data);
 	sheet_style_attach   (sheet, *range, user_data);
 	sheet_style_optimize (sheet, *range);
+	sheet_cells_update   (sheet, *range);
 }
 
 /**
@@ -604,4 +605,44 @@ sheet_styles_dump (Sheet *sheet)
 		i++;
 	}
 	printf ("There were %d styles\n", i);
+}
+
+static Value *
+re_dimension_cells_cb (Sheet *sheet, int col, int row, Cell *cell,
+		       gpointer dummy)
+{
+	cell_style_changed (cell);
+	return NULL;
+}
+
+
+/**
+ * sheet_cells_update:
+ * @sheet: The sheet,
+ * @r:     the region to update.
+ * 
+ * This is used to re-calculate cell dimensions 
+ **/
+void
+sheet_cells_update (Sheet *sheet, Range r)
+{
+	sheet->modified = TRUE;
+	sheet_cell_foreach_range (sheet, TRUE,
+				  r.start.col, r.start.row,
+				  r.end.col, r.end.row,
+				  re_dimension_cells_cb,
+				  NULL);
+}
+
+Range
+sheet_get_full_range (void)
+{
+	Range r;
+
+	r.start.col = 0;
+	r.start.row = 0;
+	r.end.col = SHEET_MAX_COLS - 1;
+	r.end.row = SHEET_MAX_ROWS - 1;
+
+	return r;
 }
