@@ -100,6 +100,7 @@ Value       *value_new_float            (gnum_float f);
 Value       *value_new_error            (EvalPos const *pos, char const *mesg);
 Value       *value_new_error_str        (EvalPos const *pos, String *mesg);
 Value       *value_new_string           (char const *str);
+Value       *value_new_string_nocopy    (char *str);
 Value       *value_new_string_str       (String *str);
 Value       *value_new_cellrange_unsafe (CellRef const *a, CellRef const *b);
 Value       *value_new_cellrange        (CellRef const *a, CellRef const *b,

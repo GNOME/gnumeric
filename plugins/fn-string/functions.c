@@ -232,8 +232,6 @@ static const char *help_mid = {
 static Value *
 gnumeric_mid (FunctionEvalInfo *ei, Value **argv)
 {
-	Value      *v;
-	GString    *res;
 	char       *upos;
 	char const *source;
 	int         pos, len, ulen, slen;
@@ -242,25 +240,21 @@ gnumeric_mid (FunctionEvalInfo *ei, Value **argv)
 	len = value_get_as_int (argv[2]);
 
 	if (len < 0 || pos <= 0)
-		return value_new_error (ei->pos, _("Invalid arguments"));
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	source = value_peek_string (argv[0]);
 	slen   = g_utf8_strlen (source, -1);
 
 	if (pos > slen)
-		return value_new_error (ei->pos, _ ("Arguments out of range"));
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	pos--;  /* Make pos zero-based.  */
 
-	len  = MIN (len, (int) slen - pos);
+	len  = MIN (len, slen - pos);
 	upos = g_utf8_offset_to_pointer (source, pos);
-	ulen = g_utf8_offset_to_pointer (source, pos + len) - upos;
+	ulen = g_utf8_offset_to_pointer (upos, len) - upos;
 
-	res = g_string_new_len (upos, ulen);
-
-	v = value_new_string (res->str);
-	g_string_free (res, TRUE);
-	return v;
+	return value_new_string_nocopy (g_strndup (upos, ulen));
 }
 
 /***************************************************************************/
@@ -284,7 +278,6 @@ static const char *help_right = {
 static Value *
 gnumeric_right (FunctionEvalInfo *ei, Value **argv)
 {
-	Value *v;
 	int count, slen;
 	char const *os;
 	char *s;
@@ -292,19 +285,20 @@ gnumeric_right (FunctionEvalInfo *ei, Value **argv)
 	count = argv[1] ? value_get_as_int (argv[1]) : 1;
 
 	if (count < 0)
-		return value_new_error (ei->pos, _("Invalid arguments"));
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
-	os   = value_get_as_string (argv[0]);
+	os   = value_peek_string (argv[0]);
 	slen = g_utf8_strlen (os, -1);
 
 	if (count < slen)
 		s = g_strdup (g_utf8_offset_to_pointer (os, slen - count));
-	else
+	else {
+		/* We could just duplicate the arg, but that would not ensure
+		   that the result was a string.  */
 		s = g_strdup (os);
+	}
 
-	v = value_new_string (s);
-	g_free (s);
-	return v;
+	return value_new_string_nocopy (s);
 }
 
 /***************************************************************************/
@@ -326,14 +320,7 @@ static const char *help_upper = {
 static Value *
 gnumeric_upper (FunctionEvalInfo *ei, Value **argv)
 {
-	Value *v;
-	char *s;
-
-	s = g_utf8_strup (value_peek_string (argv[0]), -1);
-	v = value_new_string (s);
-	g_free (s);
-
-	return v;
+	return value_new_string_nocopy (g_utf8_strup (value_peek_string (argv[0]), -1));
 }
 
 /***************************************************************************/
@@ -379,7 +366,6 @@ static const char *help_rept = {
 static Value *
 gnumeric_rept (FunctionEvalInfo *ei, Value **argv)
 {
-	Value      *v;
 	GString    *res;
 	const char *source;
 	int         num;
@@ -391,7 +377,7 @@ gnumeric_rept (FunctionEvalInfo *ei, Value **argv)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	source = value_peek_string (argv[0]);
-	len    = g_utf8_strlen (source, -1);
+	len    = strlen (source);
 
 	/* Fast special case.  =REPT ("",2^30) should not take long.  */
 	if (len == 0 || num == 0)
@@ -401,13 +387,11 @@ gnumeric_rept (FunctionEvalInfo *ei, Value **argv)
 	if (num >= INT_MAX / len)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
-	res = g_string_sized_new ((g_utf8_offset_to_pointer (source, len) - source) * num);
+	res = g_string_sized_new (len * num);
 	for (i = 0; i < num; i++)
 		g_string_append (res, source);
 
-	v = value_new_string (res->str);
-	g_string_free (res, TRUE);
-	return v;
+	return value_new_string_nocopy (g_string_free (res, FALSE));
 }
 
 /***************************************************************************/
@@ -428,9 +412,8 @@ static const char *help_clean = {
 static Value *
 gnumeric_clean (FunctionEvalInfo *ei, Value **argv)
 {
-	Value   *v;
-	char    *s   = value_get_as_string (argv[0]);
-	GString *res = g_string_sized_new (g_utf8_strlen (s, -1));
+	const char *s = value_peek_string (argv[0]);
+	GString *res = g_string_sized_new (strlen (s));
 
 	while (*s) {
 		gunichar uc = g_utf8_get_char (s);
@@ -441,9 +424,7 @@ gnumeric_clean (FunctionEvalInfo *ei, Value **argv)
 		s = g_utf8_next_char (s);
 	}
 
-	v = value_new_string (res->str);
-	g_string_free (res, TRUE);
-	return v;
+	return value_new_string_nocopy (g_string_free (res, FALSE));
 }
 
 /***************************************************************************/
@@ -593,7 +574,6 @@ static const char *help_proper = {
 static Value *
 gnumeric_proper (FunctionEvalInfo *ei, Value **argv)
 {
-	Value               *v;
 	unsigned char const *p;
 	GString             *res    = g_string_new ("");
 	gboolean             inword = FALSE;
@@ -617,9 +597,7 @@ gnumeric_proper (FunctionEvalInfo *ei, Value **argv)
 		p = g_utf8_next_char (p);
 	}
 
-	v = value_new_string (res->str);
-	g_string_free (res, TRUE);
-	return v;
+	return value_new_string_nocopy (g_string_free (res, FALSE));
 }
 
 /***************************************************************************/
@@ -641,8 +619,7 @@ static const char *help_replace = {
 static Value *
 gnumeric_replace (FunctionEvalInfo *ei, Value **argv)
 {
-	Value *v;
-	GString *s;
+	GString *res;
 	gint start, num, oldlen;
 	char const *old;
 	char const *new;
@@ -664,13 +641,11 @@ gnumeric_replace (FunctionEvalInfo *ei, Value **argv)
 
 	new = value_peek_string (argv[3]);
 
-	s = g_string_new (old);
-	g_string_erase (s, start, num);
-	g_string_insert (s, start, new);
+	res = g_string_new (old);
+	g_string_erase (res, start, num);
+	g_string_insert (res, start, new);
 
-	v = value_new_string (s->str);
-	g_string_free (s, TRUE);
-	return v;
+	return value_new_string_nocopy (g_string_free (res, FALSE));
 }
 
 /***************************************************************************/
@@ -768,13 +743,12 @@ static const char *help_trim = {
 static Value *
 gnumeric_trim (FunctionEvalInfo *ei, Value **argv)
 {
-	Value    *v;
-	char     *s;
+	const char *s;
 	GString  *res   = g_string_new ("");
 	gboolean  space = TRUE;
 	int       len;
 
-	s = value_get_as_string (argv[0]);
+	s = value_peek_string (argv[0]);
 	while (*s) {
 		gunichar uc = g_utf8_get_char (s);
 
@@ -795,13 +769,12 @@ gnumeric_trim (FunctionEvalInfo *ei, Value **argv)
 		s = g_utf8_next_char (s);
 	}
 
+	g_warning ("FIXME: this looks bogus.");
 	len = g_utf8_strlen (res->str, -1);
 	if (space && len > 0)
 		g_string_truncate (res, len - 1);
 
-	v = value_new_string (res->str);
-	g_string_free (res, TRUE);
-	return v;
+	return value_new_string_nocopy (g_string_free (res, FALSE));
 }
 
 /***************************************************************************/
@@ -831,15 +804,13 @@ gnumeric_value (FunctionEvalInfo *ei, Value **argv)
 
 	default: {
 		Value *v;
-		unsigned char *p, *arg = (unsigned char *)value_get_as_string (argv[0]);
+		const char *p, *arg = value_peek_string (argv[0]);
 
 		/* Skip leading spaces */
 		for (p = arg; *p && g_unichar_isspace (g_utf8_get_char (p));
 		     p = g_utf8_next_char (p))
 			;
-
-		v = format_match_number ((char *)p, NULL);
-		g_free (arg);
+		v = format_match_number (p, NULL);
 
 		if (v != NULL)
 			return v;

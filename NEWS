@@ -32,6 +32,7 @@ Morten:
 	* Make fn-stat a plugin.
 	* Improve goal seek for the case without a proper df.
 	* Fix XIRR.
+	* Plug leaks and improve speed of string functions.
 
 Jon Kåre:
 	* Install bonobo control

@@ -1,3 +1,16 @@
+2002-05-10  Morten Welinder  <terra@diku.dk>
+
+	* functions.c (gnumeric_mid): Fix error codes.  Speed up.  Avoid
+	unnecessary memory allocation.
+	(gnumeric_right): Ditto.  Also plug leak.
+	(gnumeric_upper): Ditto.
+	(gnumeric_clean): Ditto.  Also plug leak.
+	(gnumeric_rept): Ditto.
+	(gnumeric_trim): Ditto.  Also plug leak.
+	(gnumeric_value): Ditto.
+	(gnumeric_clean): Use strlen here, not g_utf8_strlen.
+	(gnumeric_rept): Undo utf8 work.  The original was utf8 safe.
+
 2002-05-09  Almer S. Tigelaar  <almer@gnome.org>
 
 	* functions.c (gnumeric_exact) : Port to utf8.

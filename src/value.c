@@ -129,15 +129,6 @@ value_error_set_pos (ValueErr *err, EvalPos const *pos)
 }
 
 static gnm_mem_chunk *value_string_pool;
-Value *
-value_new_string (char const *str)
-{
-	ValueStr *v = CHUNK_ALLOC (ValueStr, value_string_pool);
-	*((ValueType *)&(v->type)) = VALUE_STRING;
-	v->fmt = NULL;
-	v->val = string_get (str);
-	return (Value *)v;
-}
 
 /* NOTE : absorbs the reference */
 Value *
@@ -148,6 +139,18 @@ value_new_string_str (String *str)
 	v->fmt = NULL;
 	v->val = str;
 	return (Value *)v;
+}
+
+Value *
+value_new_string (char const *str)
+{
+	return value_new_string_str (string_get (str));
+}
+
+Value *
+value_new_string_nocopy (char *str)
+{
+	return value_new_string_str (string_get_nocopy (str));
 }
 
 static gnm_mem_chunk *value_range_pool;
