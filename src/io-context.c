@@ -281,65 +281,6 @@ io_progress_range_pop (IOContext *io_context)
 }
 
 void
-file_io_progress_set (IOContext *io_context, const gchar *file_name, FILE *f)
-{
-	struct stat sbuf;
-
-	g_return_if_fail (IS_IO_CONTEXT (io_context));
-	g_return_if_fail (file_name != NULL && f != NULL);
-
-	io_context->helper.helper_type = GNUM_PROGRESS_HELPER_FILE;
-	io_context->helper.v.file.f = f;
-	if (stat (file_name, &sbuf) == 0) {
-		io_context->helper.v.file.size = MAX ((glong)sbuf.st_size, (glong)1);
-	} else {
-		io_context->helper.v.file.size = LONG_MAX;
-	}
-}
-
-void
-file_io_progress_update (IOContext *io_context)
-{
-	glong pos;
-	gdouble complete;
-
-	g_return_if_fail (IS_IO_CONTEXT (io_context));
-	g_return_if_fail (io_context->helper.helper_type == GNUM_PROGRESS_HELPER_FILE);
-
-	pos = ftell (io_context->helper.v.file.f);
-	if (pos == -1) {
-		pos = io_context->helper.v.file.size;
-	}
-	complete = 1.0 * pos / io_context->helper.v.file.size;
-	io_progress_update (io_context, complete);
-}
-
-void
-memory_io_progress_set (IOContext *io_context, gpointer mem_start, gint mem_size)
-{
-	g_return_if_fail (IS_IO_CONTEXT (io_context));
-	g_return_if_fail (mem_start != NULL && mem_size >= 0);
-
-	io_context->helper.helper_type = GNUM_PROGRESS_HELPER_MEM;
-	io_context->helper.v.mem.start = mem_start;
-	io_context->helper.v.mem.size = MAX (mem_size, 1);
-}
-
-void
-memory_io_progress_update (IOContext *io_context, void *mem_current)
-{
-	gchar *cur = mem_current;
-	gdouble complete;
-
-	g_return_if_fail (IS_IO_CONTEXT (io_context));
-	g_return_if_fail (io_context->helper.helper_type == GNUM_PROGRESS_HELPER_MEM);
-
-	complete = 1.0 * (cur - io_context->helper.v.mem.start)
-	           / io_context->helper.v.mem.size;
-	io_progress_update (io_context, complete);
-}
-
-void
 value_io_progress_set (IOContext *io_context, gint total, gint step)
 {
 	g_return_if_fail (IS_IO_CONTEXT (io_context));

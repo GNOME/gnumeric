@@ -88,8 +88,8 @@ int                 stf_parse_get_longest_row_width                   (StfParseO
 int                 stf_parse_get_colwidth                            (StfParseOptions_t *parseoptions,
 								       const char *data, int const index);
 
-gboolean            stf_parse_convert_to_unix                         (char *data);
-char const         *stf_parse_is_valid_data                           (char const *data);
+int	            stf_parse_convert_to_unix                         (char *data);
+char const         *stf_parse_is_valid_data                           (char const *data, int len);
 
 void                stf_parse_options_fixed_autodiscover              (StfParseOptions_t *parseoptions,
 								       int const data_lines, char const *data);

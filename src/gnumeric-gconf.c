@@ -273,10 +273,13 @@ gnm_gconf_add_notification_autocorrect (GConfClientNotifyFunc func)
 gnum_float
 gnm_gconf_get_horizontal_dpi (void)
 {
+	return 96.;
+#if 0
 	gnum_float val =  gconf_client_get_float (application_get_gconf_client (), 
 						  GNUMERIC_GCONF_GUI_RES_H,
 						  NULL);
 	return ((val == 0.0) ? 96.0 : val);
+#endif
 }
 
 void
@@ -290,10 +293,13 @@ gnm_gconf_set_horizontal_dpi  (gnum_float val)
 gnum_float
 gnm_gconf_get_vertical_dpi (void)
 {
+	return 96.;
+#if 0
 	gnum_float val =  gconf_client_get_float (application_get_gconf_client (), 
 						  GNUMERIC_GCONF_GUI_RES_V,
 						  NULL);
 	return ((val == 0.0) ? 96.0 : val);
+#endif
 }
 
 void

@@ -45,12 +45,6 @@ void       io_progress_update       (IOContext *io_context, gdouble f);
 void       io_progress_range_push   (IOContext *io_context, gdouble min, gdouble max);
 void       io_progress_range_pop    (IOContext *io_context);
 
-void       file_io_progress_set    (IOContext *io_context, const gchar *file_name, FILE *f);
-void       file_io_progress_update (IOContext *io_context);
-
-void       memory_io_progress_set    (IOContext *io_context, void *mem_start, gint mem_size);
-void       memory_io_progress_update (IOContext *io_context, void *mem_current);
-
 void       count_io_progress_set    (IOContext *io_context, gint total, gint step);
 void       count_io_progress_update (IOContext *io_context, gint inc);
 

@@ -50,13 +50,13 @@ x_clipboard_to_cell_region (WorkbookControlGUI *wbcg,
 	memcpy (data, src, len);
 	data[len] = 0;
 
-	if (!stf_parse_convert_to_unix (data)) {
+	if (stf_parse_convert_to_unix (data) < 0) {
 		g_free (data);
 		g_warning (_("Error while trying to pre-convert clipboard data"));
 		return cellregion_new (NULL);
 	}
 
-	if ((c = stf_parse_is_valid_data (data)) != NULL) {
+	if ((c = stf_parse_is_valid_data (data, len)) != NULL) {
 		char *message;
 
 		message = g_strdup_printf (_("The data on the clipboard does not seem to be valid text.\nThe character '%c' (ASCII decimal %d) was encountered.\nMost likely your locale settings are wrong."),

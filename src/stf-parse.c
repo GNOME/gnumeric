@@ -823,15 +823,15 @@ stf_parse_get_colwidth (StfParseOptions_t *parseoptions, char const *data, int c
  * In addition to that form feed (\F) characters will be removed.
  * NOTE: This will not resize the buffer
  *
- * returns: TRUE on success, FALSE otherwise.
+ * returns: number of characters in the clean buffer or -1 on failure
  **/
-gboolean
+int
 stf_parse_convert_to_unix (char *data)
 {
 	char *s, *d;
 
 	if (!data)
-		return FALSE;
+		return -1;
 
 	for (s = d = data; *s != '\0';) {
 		if (*s == '\r') {
@@ -849,7 +849,7 @@ stf_parse_convert_to_unix (char *data)
 	}
 	*d = '\0';
 
-	return TRUE;
+	return d - data;
 }
 
 /**
@@ -861,7 +861,7 @@ stf_parse_convert_to_unix (char *data)
  * returns : NULL if valid, a pointer to the invalid character otherwise
  **/
 char const *
-stf_parse_is_valid_data (char const *data)
+stf_parse_is_valid_data (char const *data, int buf_len)
 {
 	char const *s;
 	wchar_t wstr;
@@ -869,7 +869,7 @@ stf_parse_is_valid_data (char const *data)
 	int len;
 #endif
 
-	for (s = data; *s != '\0';) {
+	for (s = data; buf_len-- > 0;) {
 #ifdef HAVE_WCTYPE_H
 		len = mblen(s, MB_CUR_MAX);
 		if (len == -1)

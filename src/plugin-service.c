@@ -33,7 +33,7 @@
 
 #include <string.h>
 
-typedef enum {FILE_PATTERN_SHELL, FILE_PATTERN_REGEXP, FILE_PATTERN_LAST} InputFilePatternType;
+typedef enum {FILE_PATTERN_SHELL, FILE_PATTERN_LAST} InputFilePatternType;
 
 struct _InputFilePattern {
 	InputFilePatternType pattern_type;
@@ -240,8 +240,6 @@ gnum_plugin_file_opener_probe (GnumFileOpener const *fo, GsfInput *input,
 					g_strdown (strcpy (name_str, base_file_name));
 					match = fnmatch (pattern_str, name_str, FNM_PATHNAME) == 0;
 				}
-			} else if (pattern->pattern_type == FILE_PATTERN_REGEXP) {
-				g_warning ("Not implemented");
 			} else {
 				g_assert_not_reached ();
 			}
@@ -449,8 +447,6 @@ plugin_service_file_opener_read (xmlNode *tree, ErrorInfo **ret_error)
 					file_pattern->pattern_type = FILE_PATTERN_SHELL;
 					file_pattern->case_sensitive = e_xml_get_bool_prop_by_name_with_default (
 					                               node, (xmlChar *)"case_sensitive", FALSE);
-				} else if (g_strcasecmp (type_str, "regexp") == 0) {
-					file_pattern->pattern_type = FILE_PATTERN_REGEXP;
 				} else {
 					file_pattern->pattern_type = FILE_PATTERN_SHELL;
 				}

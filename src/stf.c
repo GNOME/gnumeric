@@ -80,6 +80,7 @@ stf_preparse (IOContext *context, GsfInput *input)
 {
 	char *data = stf_open_and_read (input);
 	unsigned char const *c;
+	int len;
 
 	if (!data) {
 		if (context)
@@ -88,7 +89,8 @@ stf_preparse (IOContext *context, GsfInput *input)
 		return NULL;
 	}
 
-	if (!stf_parse_convert_to_unix (data)) {
+	len = stf_parse_convert_to_unix (data);
+	if (len < 0) {
 		/*
 		 * Note this buffer was allocated with malloc, not g_malloc
 		 */
@@ -99,7 +101,7 @@ stf_preparse (IOContext *context, GsfInput *input)
 		return NULL;
 	}
 
-	if ((c = stf_parse_is_valid_data (data)) != NULL) {
+	if ((c = stf_parse_is_valid_data (data, len)) != NULL) {
 		if (context) {
 			char *message = g_strdup_printf (_("This file does not seem to be a valid text file.\nThe character '%c' (ASCII decimal %d) was encountered.\nMost likely your locale settings are wrong."),
 							 *c, (int) *c);
@@ -293,11 +295,15 @@ static gboolean
 stf_read_default_probe (GnumFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 {
 	guint8 const *data;
-	
+	int len;
+
 	if (gsf_input_seek (input, 0, GSF_SEEK_SET))
 		return FALSE;
-	data = gsf_input_read (input, STF_PROBE_SIZE, NULL);
-	return (data != NULL) && (stf_parse_is_valid_data (data) == NULL);
+	len = gsf_input_remaining (input);
+	if (len > STF_PROBE_SIZE)
+		len = STF_PROBE_SIZE;
+	data = gsf_input_read (input, len, NULL);
+	return (data != NULL) && (stf_parse_is_valid_data (data, len) == NULL);
 }
 
 #ifndef PAGE_SIZE
