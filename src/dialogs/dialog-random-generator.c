@@ -163,7 +163,7 @@ static const DistributionStrs distribution_strs[] = {
      	{ RayleighTailDistribution,
 	  N_("Rayleigh Tail"), N_("_a Value:"), N_("_Sigma:"), FALSE },
 	{ TdistDistribution,
-	  N_("T"), N_("nu Value:"), NULL, FALSE },
+	  N_("Student t"), N_("nu Value:"), NULL, FALSE },
 	{ WeibullDistribution,
 	  N_("Weibull"), N_("_a Value:"), N_("_b Value:"), FALSE },
         { 0, NULL, NULL, NULL, FALSE }

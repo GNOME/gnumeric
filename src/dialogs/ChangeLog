@@ -1,7 +1,7 @@
 2002-07-26  Morten Welinder  <terra@diku.dk>
 
 	* dialog-random-generator.c (distribution_strs): Move the Gumbel
-	distributions to "G".
+	distributions to "G".  Make it "Student t", not "T".
 
 2002-07-26  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
