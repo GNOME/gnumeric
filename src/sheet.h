@@ -53,7 +53,6 @@ struct _Workbook {
   
 	/* The auto-expression */
 	char       *auto_expr_text;
-	ExprTree   *auto_expr_tree;
 	String     *auto_expr_desc;
 	GnomeCanvasItem  *auto_expr_label;
 	
@@ -424,9 +423,6 @@ void        workbook_focus_sheet         (Sheet *sheet);
 Sheet      *workbook_get_current_sheet   (Workbook *wb);
 char       *workbook_sheet_get_free_name (Workbook *wb);
 void        workbook_auto_expr_label_set (Workbook *wb, const char *text);
-char       *workbook_set_auto_expr       (Workbook *wb, Sheet *sheet,
-					  const char *description,
-					  const char *expression);
 void        workbook_next_generation     (Workbook *wb);
 void        workbook_set_region_status   (Workbook *wb, const char *str);
 int         workbook_parse_and_jump      (Workbook *wb, const char *text);

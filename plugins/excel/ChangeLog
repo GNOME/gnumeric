@@ -1,3 +1,37 @@
+1999-06-27  Michael Meeks  <michael@edenproject.org>
+
+	* ms-excel-read.c: excel_builtin_formats: Populated with
+	NULL's in sensible places to clean maintainability.
+
+	* ms-formula-read.c (ms_excel_parse_formula): Add fix for
+	broken array formulae causing infinite loop.
+
+	* ms-excel-read.c (ms_excel_read_cell): Fix Morten's fatal
+	cock-up in value_new_string (NULL).
+
+	* ms-excel-write.c (write_mulblank): Implemented.
+	(write_sheet): Started to get DBCELL / Index type code in
+	place.
+	Cleaned nasty cell hash iterator, and closure. We now rely
+	on the optimal handling of max_col/row_used in the sheet.
+
+	* ms-excel-read.c (ms_excel_read_cell): Insert blank into
+	the correct column, not just the same one all the time.
+
+	* ms-excel-write.c (write_palette): Write default palette.
+
+	* ms-excel-read.c: Externalised default palette, and format
+	data.
+
+	* excel.h: ditto.
+
+1999-06-25  Michael Meeks  <michael@edenproject.org>
+
+	* ms-excel-read.c: Minor fiddles setting blank flag in some new
+	places, and types changed to gboolean.
+	
+	* ms-excel-read.h (_MS_EXCEL_SHEET): changed 'blank' to gboolean.
+
 1999-06-26  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* ms-excel-read.c (biff_font_data_get_style_font): Use

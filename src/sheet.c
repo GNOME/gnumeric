@@ -784,9 +784,11 @@ sheet_selection_equal (SheetSelection *a, SheetSelection *b)
 void
 sheet_update_auto_expr (Sheet *sheet)
 {
-	Workbook *wb = sheet->workbook;
 	Value *v;
+	Workbook *wb = sheet->workbook;
 	FunctionEvalInfo ei;
+	ExprTree *tree;
+	char *error = NULL;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
@@ -795,13 +797,11 @@ sheet_update_auto_expr (Sheet *sheet)
 	v = NULL;
 	func_eval_info_init (&ei, sheet, 0, 0);
 
-	if (wb->auto_expr_text)
-		workbook_set_auto_expr (wb, sheet,
-					wb->auto_expr_desc->str,
-					wb->auto_expr_text);
+	tree = expr_parse_string (wb->auto_expr_text, &ei.pos,
+				  NULL, &error);
 
-	if (wb->auto_expr_tree)
-		v = eval_expr (&ei, wb->auto_expr_tree);
+	if (tree)
+		v = eval_expr (&ei, tree);
 
 	if (v) {
 		char *s;
@@ -813,6 +813,7 @@ sheet_update_auto_expr (Sheet *sheet)
 	} else
 		workbook_auto_expr_label_set (wb, error_message_txt(ei.error));
 
+	expr_tree_unref (tree);
 	error_message_free (ei.error);
 }
 

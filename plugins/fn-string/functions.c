@@ -1077,7 +1077,7 @@ match_again:
 void
 string_functions_init ()
 {
-	FunctionCategory *cat = function_get_category (_("Date / Time"));
+	FunctionCategory *cat = function_get_category (_("String"));
 
 	function_add_args  (cat, "char",       "f",    "number",
 			    &help_char,       gnumeric_char);

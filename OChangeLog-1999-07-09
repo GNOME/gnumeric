@@ -1,3 +1,40 @@
+1999-06-25  Michael Meeks  <michael@edenproject.org>
+
+	* src/dialog-function-wizard.c: Re-vamped table layout.
+
+	* src/fn-string.c (string_functions_init): Change category
+	name to 'String'; silly me.
+
+	* src/dialog-function-select.c (function_definition_update): Fixed
+	old & broken function pointer code.
+
+	* src/expr.c (eval_funcall): Updated to use union.
+	(function_def_call_with_values): ditto.
+
+	* src/func.c (function_add_nodes): ditto.
+	(function_add_args): ditto.
+
+	* src/expr.h: Changed void *fn pointer to a slicker union.
+
+	* src/plugin.h: Added a prototype for the one external function
+	every plugin must have ( kills some plugins warnings ).
+
+	* src/workbook.c (workbook_new): Updated call to set_auto_expr
+	(change_auto_expr): ditto.
+	(workbook_do_destroy): Update.
+	(workbook_set_auto_expr): Updated, just to set text leaving heavy
+	lifting for sheet.c. This removes possible error checking of our
+	quick-functions, but an error will be displayed in the status bar
+	having set the function, and the functionality wasn't used.
+
+	* src/sheet.h: Removed previously extern'd workbook_set_auto_expr,
+	this should be internal.
+	Remove auto_expr_tree from Workbook *.
+
+	* src/sheet.c (sheet_update_auto_expr): Moved auto_expr parsing
+	into sheet_update_auto_expr. Rational; neater, and not performace
+	critical.
+
 1999-06-26  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/pixmaps.h: Removed unused pixmaps.

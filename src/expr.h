@@ -205,7 +205,10 @@ struct _FunctionDefinition {
 	char  *named_arguments;
 	char  **help;
 	FuncType fn_type;
-	void    *fn;
+	union {
+		FunctionNodes *fn_nodes;
+		FunctionArgs  *fn_args;
+	} fn;
 };
 
 void        cell_get_abs_col_row   (const CellRef *cell_ref,

@@ -68,20 +68,17 @@ function_definition_update (SelectorState *selector_state)
 	
 	cat = g_list_nth_data (selector_state->cats, selector_state->selected_cat);
 	p = cat->functions;
-	max = 0;
 	
 	while (p) {
 		gchar *cols [1];
 		FunctionDefinition *fn = p->data;
 		
-		cols [0] = fn [i].name;
+		cols [0] = fn->name;
 		gtk_clist_append (cl, cols);
 		
-		if (i == selector_state->selected_func){
-			fd = &fn [i];
+		if (i == selector_state->selected_func)
 			gtk_clist_select_row (cl, i, 0);
-		}
-		max++;
+
 		i++;
 		p = g_list_next (p);
 	}
@@ -110,8 +107,8 @@ category_select_row (GtkCList *clist, gint row, gint col,
 	gtk_widget_show_all (GTK_WIDGET(state->dialog_box));
 }
 
-#define USIZE_WIDTH  100
-#define USIZE_HEIGHT 150
+#define USIZE_WIDTH  150
+#define USIZE_HEIGHT 200
 
 static void
 function_select_create (SelectorState *selector_state)
@@ -203,12 +200,11 @@ dialog_function_select (Workbook *wb)
 
 	function_select_create (&selector_state);
 
-	if (gnome_dialog_run (GNOME_DIALOG(dialog)) == 0){
+	if (gnome_dialog_run_and_close (GNOME_DIALOG(dialog)) == 0){
 		FunctionCategory *cat = g_list_nth_data (selector_state.cats,
 							 selector_state.selected_cat);
 		ans = g_list_nth_data (cat->functions, selector_state.selected_func);
 	}
 	
-	gtk_object_unref (GTK_OBJECT (dialog));
 	return ans;
 }

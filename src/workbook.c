@@ -239,11 +239,8 @@ workbook_do_destroy (Workbook *wb)
 	 */
 	g_hash_table_foreach (wb->sheets, cb_sheet_do_erase, NULL);
 
-	if (wb->auto_expr_tree) {
-		expr_tree_unref (wb->auto_expr_tree);
-		wb->auto_expr_tree = NULL;
+	if (wb->auto_expr_desc)
 		string_unref (wb->auto_expr_desc);
-	}
 	if (wb->auto_expr_text) {
 		g_free (wb->auto_expr_text);
 		wb->auto_expr_text = NULL;
@@ -1395,33 +1392,17 @@ static struct {
  * Sets the expression that gets evaluated whenever the
  * selection in the sheet changes
  */
-char *
-workbook_set_auto_expr (Workbook *wb, Sheet *sheet, const char *description, const char *expression)
+static void
+workbook_set_auto_expr (Workbook *wb, const char *description, const char *expression)
 {
-	char *error = NULL;
-	EvalPosition ep;
-	
-	if (wb->auto_expr_tree){
-		g_assert (wb->auto_expr_tree->ref_count == 1);
-		expr_tree_unref (wb->auto_expr_tree);
+	if (wb->auto_expr_desc)
 		string_unref (wb->auto_expr_desc);
-	}
 
-	if (sheet) { /* We _must_ have a valid sheet ( context ) */
-		wb->auto_expr_tree = expr_parse_string (expression, eval_pos_init (&ep, sheet, 0, 0),
-							NULL, &error);
-		if (wb->auto_expr_text)
-			g_free (wb->auto_expr_text);
-		wb->auto_expr_text = NULL;
-	} else {
-		if (wb->auto_expr_text)
-			g_free (wb->auto_expr_text);
-		wb->auto_expr_text = g_strdup (expression); /* Parse it later */
-	}
+	if (wb->auto_expr_text)
+		g_free (wb->auto_expr_text);
 
+	wb->auto_expr_text = g_strdup (expression);
 	wb->auto_expr_desc = string_get (description);
-
-	return error;
 }
 
 static void
@@ -1432,7 +1413,7 @@ change_auto_expr (GtkWidget *item, Workbook *wb)
 
 	expr = gtk_object_get_data (GTK_OBJECT (item), "expr");
 	name = gtk_object_get_data (GTK_OBJECT (item), "name");
-	workbook_set_auto_expr (wb, sheet, name, expr);
+	workbook_set_auto_expr (wb, name, expr);
 	sheet_update_auto_expr (sheet);
 }
 
@@ -1646,10 +1627,8 @@ workbook_new (void)
 
 	/* Set the default operation to be performed over selections */
 	wb->auto_expr_text = NULL;
-	wb->auto_expr_tree = NULL;
 	wb->auto_expr_desc = NULL;
-	workbook_set_auto_expr (
-		wb, NULL, 
+	workbook_set_auto_expr (wb,
 		_(quick_compute_routines [0].displayed_name),
 		quick_compute_routines [0].function);
 

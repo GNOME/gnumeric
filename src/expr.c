@@ -952,7 +952,7 @@ eval_funcall (FunctionEvalInfo *s, ExprTree *tree)
 
 	if (fd->fn_type == FUNCTION_NODES) {
 		/* Functions that deal with ExprNodes */		
-		v = ((FunctionNodes *)fd->fn) (s, l);
+		v = fd->fn.fn_nodes (s, l);
 	} else {
 		/* Functions that take pre-computed Values */
 		Value **values;
@@ -1044,7 +1044,7 @@ eval_funcall (FunctionEvalInfo *s, ExprTree *tree)
 		}
 		while (arg < fn_argc_max)
 			values [arg++] = NULL;
-		v = ((FunctionArgs *)fd->fn) (s, values);
+		v = fd->fn.fn_args (s, values);
 
 	free_list:
 		free_values (values, arg);
@@ -1086,7 +1086,7 @@ function_def_call_with_values (const EvalPosition *ep,
 			}
 		}
 
-		retval = ((FunctionNodes *)fd->fn) (&s, l);
+		retval = fd->fn.fn_nodes (&s, l);
 
 		if (tree){
 			g_free (tree);
@@ -1094,7 +1094,7 @@ function_def_call_with_values (const EvalPosition *ep,
 		}
 
 	} else
-		retval = ((FunctionArgs *)fd->fn) (&s, values);
+		retval = fd->fn.fn_args (&s, values);
 
 	return retval;
 }

@@ -318,8 +318,8 @@ FunctionDefinition *function_add_nodes (FunctionCategory *parent,
 	fd = g_new (FunctionDefinition, 1);
 	fn_def_init (fd, name, args, arg_names, help);
 
-	fd->fn_type   = FUNCTION_NODES;
-	fd->fn        = fn;
+	fd->fn_type     = FUNCTION_NODES;
+	fd->fn.fn_nodes = fn;
 	parent->functions = g_list_append (parent->functions, fd);
 	return fd;
 }
@@ -339,8 +339,8 @@ FunctionDefinition *function_add_args (FunctionCategory *parent,
 	fd = g_new (FunctionDefinition, 1);
 	fn_def_init (fd, name, args, arg_names, help);
 
-	fd->fn_type   = FUNCTION_ARGS;
-	fd->fn        = fn;
+	fd->fn_type    = FUNCTION_ARGS;
+	fd->fn.fn_args = fn;
 	parent->functions = g_list_append (parent->functions, fd);
 	return fd;
 }
@@ -365,13 +365,13 @@ functions_init (void)
 /* Initialize temporarily with statics.  The real versions from the locale
  * will be setup in constants_init
  */
-char * gnumeric_err_NULL = "#NULL!";
-char * gnumeric_err_DIV0 = "#DIV/0!";
-char * gnumeric_err_VALUE = "#VALUE!";
-char * gnumeric_err_REF = "#REF!";
-char * gnumeric_err_NAME = "#NAME?";
-char * gnumeric_err_NUM = "#NUM!";
-char * gnumeric_err_NA = "#N/A";
+char *gnumeric_err_NULL  = "#NULL!";
+char *gnumeric_err_DIV0  = "#DIV/0!";
+char *gnumeric_err_VALUE = "#VALUE!";
+char *gnumeric_err_REF   = "#REF!";
+char *gnumeric_err_NAME  = "#NAME?";
+char *gnumeric_err_NUM   = "#NUM!";
+char *gnumeric_err_NA    = "#N/A";
 
 void
 constants_init (void)

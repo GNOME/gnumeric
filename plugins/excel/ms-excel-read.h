@@ -13,7 +13,7 @@
 
 typedef struct _MS_EXCEL_SHEET
 {
-	int blank;
+	gboolean blank;
 	Sheet *gnum_sheet;
 	struct _MS_EXCEL_WORKBOOK *wb;
 	eBiff_version ver;

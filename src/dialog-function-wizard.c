@@ -191,17 +191,15 @@ function_input (GtkWidget *widget, ARG_DATA *ad)
 	g_free (txt);
 }
 
-static GtkWidget *
-function_type_input (ARG_DATA *ad)
+static void
+function_type_input (GtkTable *table, int row, ARG_DATA *ad)
 {
-	GtkBox   *box;
 	GtkButton *button;
 	GtkWidget *pix;
 	gchar *txt = NULL, *label;
 
-	g_return_val_if_fail (ad, NULL);
-
-	box  = GTK_BOX (gtk_hbox_new (0, 0));
+	g_return_if_fail (ad);
+	g_return_if_fail (table);
 
 	switch (ad->type){
 	case 's':
@@ -229,12 +227,12 @@ function_type_input (ARG_DATA *ad)
 		txt = _("Unknown");
 		break;
 	}
-	gtk_box_pack_start (box, gtk_label_new (ad->arg_name),
-			    TRUE, TRUE, 0);
+	gtk_table_attach_defaults (table, gtk_label_new (ad->arg_name),
+				   0, 1, row, row+1);
 
 	ad->entry = GTK_ENTRY (gtk_entry_new ());
-	gtk_box_pack_start (box, GTK_WIDGET(ad->entry),
-			    FALSE, FALSE, 0);
+	gtk_table_attach_defaults (table, GTK_WIDGET(ad->entry),
+				   1, 2, row, row+1);
 
 	if (ad->optional) 
 		label = g_strconcat ("(", txt, ")", NULL);
@@ -249,31 +247,28 @@ function_type_input (ARG_DATA *ad)
 	gtk_signal_connect (GTK_OBJECT (button), "clicked",
 			    GTK_SIGNAL_FUNC(function_input), ad);
 	
-	gtk_box_pack_start (box, GTK_WIDGET(button),
-			    TRUE, TRUE, 0);
-	gtk_box_pack_start (box, gtk_label_new (label),
-			    TRUE, TRUE, 0);
+	gtk_table_attach_defaults (table, GTK_WIDGET(button),
+				   2, 3, row, row+1);
+	gtk_table_attach_defaults (table, gtk_label_new (label),
+				   3, 4, row, row+1);
 	g_free (label);
-
-	return GTK_WIDGET(box);
 }
 
 static void
 function_wizard_create (State *state)
 {
 	GtkWidget *vbox, *description;
+	GtkTable *table;
 	int lp;
 
 	g_return_if_fail (state->args);
 	vbox = gtk_vbox_new (0, 2);
 
-	for (lp = 0; lp < state->args->len; lp++){
-		GtkWidget *widget;
+	table = GTK_TABLE (gtk_table_new (3, state->args->len, FALSE));
+	for (lp = 0; lp < state->args->len; lp++)
+		function_type_input (table, lp, g_ptr_array_index (state->args, lp));
 
-		widget = function_type_input (g_ptr_array_index (state->args, lp));
-		gtk_box_pack_start (state->dialog_box, widget,
-				    FALSE, FALSE, 0);
-	}
+	gtk_box_pack_start (GTK_BOX(vbox), GTK_WIDGET (table), TRUE, TRUE, 0);
 
 	description = create_description (state->fd);
 	gtk_box_pack_start (GTK_BOX(vbox), description,
@@ -352,7 +347,9 @@ dialog_function_wizard (Workbook *wb, FunctionDefinition *fd)
 	if (gnome_dialog_run (GNOME_DIALOG(dialog)) == 0)
 		ans = get_text_value (&state);
 	
-	gtk_object_unref (GTK_OBJECT (dialog));
+	gnome_dialog_close (GNOME_DIALOG(dialog));
+
 	tokenized_help_destroy (state.tok);
 	return ans;
 }
+
