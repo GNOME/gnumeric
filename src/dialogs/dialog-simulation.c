@@ -187,13 +187,12 @@ update_log (SimulationState *state, simulation_t *sim)
 			g_string_append_printf (buf, "%d", sim->n_output_vars);
 			break;
 		case 4:
-			g_string_append_printf 
-				(buf, "%.2g",
-				 (double) (sim->end.tv_sec - 
-					   sim->start.tv_sec +
-					   (sim->end.tv_usec -
-					    sim->start.tv_usec) /
-					   (gnm_float) G_USEC_PER_SEC));
+			g_string_append_printf (buf, "%.2" GNM_FORMAT_g,
+						sim->end.tv_sec -
+						sim->start.tv_sec +
+						(sim->end.tv_usec -
+						 sim->start.tv_usec) /
+						(gnm_float) G_USEC_PER_SEC);
 			break;
 		case 5:
 			dao_append_date (buf);
@@ -237,11 +236,12 @@ update_results_view (simulation_t *sim)
 	g_string_append_printf (buf, "%-20s %10s %10s %10s\n", _("Variable"),
 			   _("Min"), _("Average"), _("Max"));
 	for (i = 0; i < sim->n_vars; i++)
-		g_string_append_printf (buf, "%-20s %10g %10g %10g\n",
+		g_string_append_printf (buf, "%-20s %10" GNM_FORMAT_g " %10"
+					GNM_FORMAT_G " %10" GNM_FORMAT_g "\n",
 				   sim->cellnames [i],
-				   (double) sim->stats [results_sim_index]->min [i],
-				   (double) sim->stats [results_sim_index]->mean [i],
-				   (double) sim->stats [results_sim_index]->max [i]);
+				   sim->stats [results_sim_index]->min [i],
+				   sim->stats [results_sim_index]->mean [i],
+				   sim->stats [results_sim_index]->max [i]);
 
 	gtk_text_buffer_set_text (results_buffer, buf->str, strlen (buf->str));
 	g_string_free (buf, FALSE);

@@ -1,3 +1,8 @@
+2005-02-10  Jon K Hellan  <hellan@acm.org>
+
+	* dialog-simulation.c (update_log, update_results_view): USe
+	GNM_FORMAT_g format for gnm_float in printf.
+
 2005-02-09  Jon K Hellan  <hellan@acm.org>
 
 	* dialog-simulation.c (simulation_update_sensitivity_cb) 
