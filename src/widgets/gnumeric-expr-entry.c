@@ -52,7 +52,7 @@ static char *make_rangesel_text	  (GnumericExprEntry *expr_entry);
 static void  update_rangesel_text (GnumericExprEntry *expr_entry, char *text);
 
 static void
-gnumeric_expr_entry_finalize (GtkObject *object)
+gnumeric_expr_entry_destroy (GtkObject *object)
 {
 	GnumericExprEntry *expr_entry = GNUMERIC_EXPR_ENTRY (object);
 
@@ -60,7 +60,7 @@ gnumeric_expr_entry_finalize (GtkObject *object)
 		gtk_signal_disconnect (GTK_OBJECT (expr_entry->scg),
 				       expr_entry->id_cb_scg_destroy);
 
-	GTK_OBJECT_CLASS (gnumeric_expr_entry_parent_class)->finalize (object);
+	GTK_OBJECT_CLASS (gnumeric_expr_entry_parent_class)->destroy (object);
 }
 
 static gint
@@ -212,7 +212,7 @@ gnumeric_expr_entry_class_init (GtkObjectClass *object_class)
 	gnumeric_expr_entry_parent_class
 		= gtk_type_class (gtk_entry_get_type());
 
-	object_class->finalize		= gnumeric_expr_entry_finalize;
+	object_class->destroy		= gnumeric_expr_entry_destroy;
 	widget_class->key_press_event   = gnumeric_expr_entry_key_press_event;
 }
 
