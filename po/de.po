@@ -40,8 +40,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.53cvs\n"
-"POT-Creation-Date: 2000-05-20 18:56-0400\n"
-"PO-Revision-Date: 2000-05-18 06:28+02:00\n"
+"POT-Creation-Date: 2000-05-21 15:26+0200\n"
+"PO-Revision-Date: 2000-05-21 15:57+02:00\n"
 "Last-Translator: Karl Eichwalder <ke@suse.de>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -98,13 +98,22 @@ msgstr "DIF : Laden des Blattes fehlgeschlagen"
 msgid "Unable to mmap the file"
 msgstr "Kann Datei nicht in den Speicherbereich (mmap) legen"
 
-#: plugins/dif/dif.c:422
-msgid "Data Interchange Format (DIF) import"
-msgstr "Data Interchange Format Import (DIF)"
+#: plugins/dif/dif.c:418
+msgid "Data Interchange Format (*.dif) file format"
+msgstr "Dateiformat: Data Interchange Format (*.dif)"
 
-#: plugins/dif/dif.c:425
+#: plugins/dif/dif.c:421
 msgid "Data Interchange Format (*.dif)"
 msgstr "Data Interchange Format (*.dif)"
+
+#: plugins/dif/dif.c:425
+msgid "Data Interchange Format (CSV) module"
+msgstr "Modul: Data Interchange Format Import (CSV)"
+
+#: plugins/dif/dif.c:426
+msgid ""
+"Reads and writes information stored in the Data Interchange Format (*.dif)"
+msgstr "Lesen und Schreiben von Informationen, die im Data Interchange Format (*.dif) gespeichert sind"
 
 #: plugins/excel/boot.c:122
 msgid "Saving over old files disabled for safety"
@@ -115,15 +124,15 @@ msgstr ""
 msgid "Can't open"
 msgstr "Kann nicht öffnen"
 
-#: plugins/excel/boot.c:171
+#: plugins/excel/boot.c:173
 msgid "Microsoft(R) Excel file format"
 msgstr "Microsoft(R) Excel Dateiformat"
 
-#: plugins/excel/boot.c:172
+#: plugins/excel/boot.c:177
 msgid "Excel(R) 97 file format"
 msgstr "Excel(R) 97 Dateiformat"
 
-#: plugins/excel/boot.c:173
+#: plugins/excel/boot.c:181
 msgid "Excel(R) 95 file format"
 msgstr "Excel(R) 95 Dateiformat"
 
@@ -214,6 +223,14 @@ msgstr ""
 msgid "Enables Gnome Basic support"
 msgstr ""
 
+#: plugins/gda/plugin-gda.c:259
+msgid "Database Access"
+msgstr "Datenbank-Zugriff"
+
+#: plugins/gda/plugin-gda.c:260
+msgid "Enables database access"
+msgstr "Datenbank-Zugriff aktivieren"
+
 #: plugins/guile/plugin.c:281 src/func.c:433
 #: src/functions/fn-information.c:574 src/functions/fn-information.c:642
 #: src/functions/fn-information.c:669 src/functions/fn-information.c:695
@@ -236,49 +253,61 @@ msgstr "Nicht definierte Scheme-Funktion"
 msgid "Could not evaluate argument"
 msgstr "Konnte das Argument nicht auswerten"
 
-#: plugins/guile/plugin.c:481
+#: plugins/guile/plugin.c:478
 msgid "Gnumeric has not been compiled with support for guile."
 msgstr "Gnumeric wurde ohne Unterstützung für Guile compiliert."
 
-#: plugins/html/boot.c:75
+#: plugins/guile/plugin.c:507
+msgid "Guile Plugin"
+msgstr "Guile-Plugin"
+
+#: plugins/guile/plugin.c:508
+msgid "This plugin enables Guile(scheme) support in Gnumeric"
+msgstr "Dieses Plugin aktiviert Guile-Unterstützung (Scheme) in Gnumeric"
+
+#: plugins/html/boot.c:74
 msgid "HTML 3.2 file format (*.html)"
 msgstr "HTML 3.2 Dateiformat (*.html)"
 
-#: plugins/html/boot.c:79
+#: plugins/html/boot.c:78
 msgid "HTML 4.0 file format (*.html)"
 msgstr "HTML 4.0 Dateiformat (*.html)"
 
-#: plugins/html/boot.c:83
+#: plugins/html/boot.c:82
 msgid "HTML file made by gnumeric"
 msgstr "HTML-Datei, erzeugt von Gnumeric"
 
-#: plugins/html/boot.c:87
+#: plugins/html/boot.c:86
 msgid "LaTeX file format (*.tex)"
 msgstr "LaTeX-Dateiformat (*.tex)"
 
-#: plugins/html/boot.c:91
+#: plugins/html/boot.c:90
 msgid "LaTeX2e file format (*.tex)"
 msgstr "LaTeX2e-Dateiformat (*.tex)"
 
-#: plugins/html/boot.c:95
-msgid "PS file format (via groff)"
-msgstr "PS-Dateiformat (über groff)"
-
-#: plugins/html/boot.c:99
+#: plugins/html/boot.c:94
 msgid "DVI TeX file format (via groff)"
 msgstr "DVI-TeX-Dateiformat (über groff)"
 
-#: plugins/html/boot.c:103
+#: plugins/html/boot.c:98
 msgid "TROFF file format (*.me)"
 msgstr "TROFF Dateiformat (*.me)"
 
-#: plugins/html/boot.c:107
+#: plugins/html/boot.c:102
 msgid "PDF file format (via groff/gs)"
 msgstr "PDF-Dateiformat (über groff/gs)"
 
-#: plugins/html/boot.c:112
+#: plugins/html/boot.c:107
 msgid "EPS file format (*.eps)"
 msgstr "EPS-Dateiformat (*.eps)"
+
+#: plugins/html/boot.c:125
+msgid "HTML"
+msgstr "HTML"
+
+#: plugins/html/boot.c:126
+msgid "Import/Export of HTML, TeX, DVI, roff and pdf"
+msgstr "Import/Export von HTML, TeX, DVI, roff und pdf"
 
 #: plugins/html/html.c:409 plugins/lotus-123/lotus.c:224
 #: plugins/oleo/oleo.c:44 src/workbook.c:3210
@@ -286,9 +315,17 @@ msgstr "EPS-Dateiformat (*.eps)"
 msgid "Sheet%d"
 msgstr "Blatt%d"
 
-#: plugins/lotus-123/boot.c:86
+#: plugins/lotus-123/boot.c:87
 msgid "Lotus file format (*.wk1)"
 msgstr "Lotus Dateiformat (*.wk1)"
+
+#: plugins/lotus-123/boot.c:91
+msgid "Lotus 123"
+msgstr "Lotus 123"
+
+#: plugins/lotus-123/boot.c:92
+msgid "Imports Lotus 123 files"
+msgstr "Importiert »Lotus 123«-Dateien"
 
 #: plugins/numtheory/numtheory.c:179
 msgid ""
@@ -352,13 +389,35 @@ msgid ""
 "@SEEALSO=ITHPRIME, NT_PHI, NT_D, NT_SIGMA"
 msgstr ""
 
-#: plugins/numtheory/numtheory.c:412
+#: plugins/numtheory/numtheory.c:409 plugins/numtheory/numtheory.c:425
 msgid "Number Theory"
 msgstr "Zahlentheorie"
 
-#: plugins/oleo/boot.c:86
+#: plugins/numtheory/numtheory.c:426
+msgid ""
+"Adds several basic number theory functions, including utilities for prime "
+"numbers, pi, phi and sigma."
+msgstr ""
+
+#: plugins/oleo/boot.c:87
 msgid "GNU Oleo (*.oleo) file format"
 msgstr "GNU-Oleo-Dateiformat (*.oleo)"
+
+#: plugins/oleo/boot.c:91
+msgid "GNU Oleo"
+msgstr "GNU Oleo"
+
+#: plugins/oleo/boot.c:92
+msgid "Imports GNU Oleo documents"
+msgstr "»GNU Oleo«-Dokumenten importieren"
+
+#: plugins/perl/perl.c:54
+msgid "Perl"
+msgstr "Perl"
+
+#: plugins/perl/perl.c:55
+msgid "Enables the creation of functions in PERL"
+msgstr "Erzeugen von Funktionen in Perl einschalten"
 
 #: plugins/plan-perfect/pln.c:715
 #, c-format
@@ -377,9 +436,17 @@ msgstr "PLN : Keine PlanPerfect-Datei"
 msgid "PLN : Spreadsheet is password encrypted"
 msgstr "PLN : Das Arbeitsblatt ist mit einem Passwort verschlüsselt"
 
-#: plugins/plan-perfect/pln.c:959
+#: plugins/plan-perfect/pln.c:954
 msgid "Plan Perfect Format (PLN) import"
-msgstr "PlanPerfect-Import (PLN)"
+msgstr "»Plan Perfect«-Import (PLN)"
+
+#: plugins/plan-perfect/pln.c:958
+msgid "Plan Perfect"
+msgstr "Plan Perfect"
+
+#: plugins/plan-perfect/pln.c:959
+msgid "Imports Plan Perfect Formatted Documents"
+msgstr "Dokumente im »Plan Perfect«-Format (PLN) importieren"
 
 #: plugins/python/python.c:45
 msgid "Python exception"
@@ -397,13 +464,25 @@ msgstr "Kann Python-Codeobjekt nicht finden."
 msgid "object must be callable"
 msgstr "Objekt muss aufrufbar sein"
 
-#: plugins/sample/plugin-sample.c:53
+#: plugins/sample/plugin-sample.c:50 plugins/sample/plugin-sample.c:55
 msgid "Sample Plugin"
 msgstr "Sample-Plugin"
 
-#: plugins/sc/sc.c:455
+#: plugins/sample/plugin-sample.c:54
+msgid "PlusOne"
+msgstr "PlusOne"
+
+#: plugins/sc/sc.c:458
 msgid "SC/xspread file import"
 msgstr "SC/xspread-Import"
+
+#: plugins/sc/sc.c:462
+msgid "SC/XSpread "
+msgstr "SC/XSpread "
+
+#: plugins/sc/sc.c:463
+msgid "Imports SC/XSpread files"
+msgstr "Importiert SC/XSpread-Dateien"
 
 #: plugins/sylk/sylk.c:406
 msgid "Not SYLK file"
@@ -413,9 +492,17 @@ msgstr "Keine SYLK-Datei"
 msgid "error parsing line\n"
 msgstr "Fehler beim Auseinanderklamüsern von Zeile\n"
 
-#: plugins/sylk/sylk.c:510
+#: plugins/sylk/sylk.c:507
 msgid "MultiPlan (SYLK) import"
 msgstr "MultiPlan-Import (SYLK)"
+
+#: plugins/sylk/sylk.c:511
+msgid "MultiPlan (SYLK)"
+msgstr "MultiPlan (SYLK)"
+
+#: plugins/sylk/sylk.c:512
+msgid "Imports MultiPlan (SYLK) files"
+msgstr "Import von MultiPlan-Dateien (SYLK)"
 
 #: plugins/text/text-io.c:312
 msgid "Empty file"
@@ -437,9 +524,17 @@ msgstr ""
 msgid "Read/Write workbooks using a simple text format."
 msgstr "Arbeitsbücher mittels eines einfachen Textformats lesen/schreiben"
 
-#: plugins/xbase/boot.c:205
+#: plugins/xbase/boot.c:207
 msgid "Xbase (*.dbf) file format"
 msgstr "Xbase (*.dbf) Dateiformat"
+
+#: plugins/xbase/boot.c:211
+msgid "XBase"
+msgstr "XBase"
+
+#: plugins/xbase/boot.c:212
+msgid "Imports XBase files"
+msgstr "Import von XBase-Dateien"
 
 #: src/about.c:25
 msgid "Miguel de Icaza, main programmer."
@@ -695,7 +790,7 @@ msgstr "Bekannte Varianz"
 #: src/analysis-tools.c:1386 src/analysis-tools.c:1522
 #: src/analysis-tools.c:1659 src/analysis-tools.c:2000
 msgid "Observations"
-msgstr ""
+msgstr "Beobachtungen"
 
 #: src/analysis-tools.c:1100 src/analysis-tools.c:1231
 #: src/analysis-tools.c:1388 src/analysis-tools.c:1523
@@ -704,7 +799,7 @@ msgstr "Hypothetische Mitteldifferenz"
 
 #: src/analysis-tools.c:1101
 msgid "z"
-msgstr ""
+msgstr "z"
 
 #: src/analysis-tools.c:1102
 msgid "P (Z<=z) one-tail"
@@ -876,12 +971,12 @@ msgstr ""
 #: src/analysis-tools.c:2025
 #, c-format
 msgid "Lower 95%"
-msgstr ""
+msgstr "Unter 95%"
 
 #: src/analysis-tools.c:2026
 #, c-format
 msgid "Upper 95%"
-msgstr ""
+msgstr "Über 95%"
 
 #: src/analysis-tools.c:2246
 msgid "Moving Averages"
@@ -2604,17 +2699,17 @@ msgid "Goal seeking with cell %s found a solution"
 msgstr "Zielsuche mit Zelle %s war erfolgreich"
 
 #: src/dialogs/dialog-goal-seek.c:204
-#, c-format
+#, c-format, ycp-format
 msgid "Target value:   %12.2f"
 msgstr "Zielwert:       %12.2f"
 
 #: src/dialogs/dialog-goal-seek.c:207
-#, c-format
+#, c-format, ycp-format
 msgid "Current value:  %12.2f"
 msgstr "Aktueller Wert: %12.2f"
 
 #: src/dialogs/dialog-goal-seek.c:210
-#, c-format
+#, c-format, ycp-format
 msgid "Solution:       %12.2f"
 msgstr "Lösung:         %12.2f"
 
@@ -2831,7 +2926,7 @@ msgstr "Datei %s ist nicht vorhanden"
 #.
 #: src/dialogs/dialog-stf-export.glade.h:7
 msgid "Gnumeric : Exporting structured text"
-msgstr ""
+msgstr "Gnumeric : Strukturierten Text exportieren"
 
 #: src/dialogs/dialog-stf-export.glade.h:8
 msgid "Choose sheets to export"
@@ -2841,7 +2936,7 @@ msgstr "Zu exportierende Blätter wählen"
 msgid ""
 "Please select which sheets you want to export from the current workbook. "
 "They will be exported in the same order as in the export list."
-msgstr ""
+msgstr "Bitte wählen Sie, welche Blättern Sie vom aktuellen Arbeitsbuch exportieren möchten.  Die Blätter werden in der gleichen Reihenfolge exportiert, wie sie in der Exportliste aufgeführt sind."
 
 #: src/dialogs/dialog-stf-export.glade.h:10 src/dialogs/import.glade.h:9
 msgid "label2"
@@ -2888,7 +2983,7 @@ msgstr ""
 
 #: src/dialogs/dialog-stf-export.glade.h:20
 msgid "Line termination :"
-msgstr ""
+msgstr "Zeilenende:"
 
 #: src/dialogs/dialog-stf-export.glade.h:21
 msgid ""
@@ -2896,6 +2991,9 @@ msgid ""
 "Macintosh (carriage return)\n"
 "Windows (carriage return + linefeed)\n"
 msgstr ""
+"Unix (Linefeed)\n"
+"Macintosh (Carriage Return)\n"
+"Windows (Carriage Return + Linefeed)\n"
 
 #: src/dialogs/dialog-stf-export.glade.h:25
 msgid "Separator :"
@@ -3019,7 +3117,7 @@ msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:20
 msgid "C_ustom"
-msgstr ""
+msgstr "Ben_utzerdefiniert"
 
 #: src/dialogs/dialog-stf.glade.h:21
 msgid "H_yphen (-)"
@@ -3059,7 +3157,7 @@ msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:30
 msgid "Misc"
-msgstr ""
+msgstr "Sonstiges"
 
 #: src/dialogs/dialog-stf.glade.h:31
 msgid "S_ee two separators as one"
@@ -3092,7 +3190,7 @@ msgstr "Spalte"
 
 #: src/dialogs/dialog-stf.glade.h:44
 msgid "End"
-msgstr ""
+msgstr "Ende"
 
 #: src/dialogs/dialog-stf.glade.h:45
 msgid "Co_lumn end : "
@@ -4756,7 +4854,7 @@ msgstr ""
 
 #: src/formats.c:230
 msgid "Israeli shekel"
-msgstr ""
+msgstr "Israelischer Schekel"
 
 #: src/formats.c:231
 msgid "[$INR]"
@@ -5556,17 +5654,6 @@ msgstr ""
 "@DESCRIPTION=Die Funktion DAVERAGE gibt das Mittel der Werte in einer Liste "
 "oder Datenbank zurück, die den angegebenen Kriterien entsprechen.\n"
 
-#: src/functions/fn-database.c:499
-msgid ""
-"\n"
-"DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333.\n"
-"DAVERAGE(A1:C7, \"Age\", A9:A11) equals 39.\n"
-"DAVERAGE(A1:C7, \"Salary\", A9:B11) equals 40782.5.\n"
-"DAVERAGE(A1:C7, \"Age\", A9:B11) equals 36.\n"
-"\n"
-"@SEEALSO=DCOUNT"
-msgstr ""
-
 #: src/functions/fn-database.c:560
 msgid ""
 "@FUNCTION=DCOUNT\n"
@@ -5578,16 +5665,6 @@ msgstr ""
 "@SYNTAX=DCOUNT(datenbank,feld,kriterien)\n"
 "@DESCRIPTION=Die Funktion DCOUNT zählt die Zellen, die Zahlen in einer "
 "Datenbank enthalten, die den angegebenen Bedingungen entsprechen.\n"
-
-#: src/functions/fn-database.c:568
-msgid ""
-"\n"
-"DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3.\n"
-"DCOUNT(A1:C7, \"Salary\", A9:B11) equals 2.\n"
-"DCOUNT(A1:C7, \"Name\", A9:B11) equals 0.\n"
-"\n"
-"@SEEALSO=DAVERAGE"
-msgstr ""
 
 #: src/functions/fn-database.c:621
 msgid ""
@@ -5601,16 +5678,6 @@ msgstr ""
 "@DESCRIPTION=Die Funktion DCOUNTA zählt die Zellen, die Daten in einer "
 "Datenbank enthalten, die den angegebenen Bedingungen entsprechen.\n"
 
-#: src/functions/fn-database.c:629
-msgid ""
-"\n"
-"DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3.\n"
-"DCOUNTA(A1:C7, \"Salary\", A9:B11) equals 2.\n"
-"DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2.\n"
-"\n"
-"@SEEALSO=DCOUNT"
-msgstr ""
-
 #: src/functions/fn-database.c:679
 msgid ""
 "@FUNCTION=DGET\n"
@@ -5622,17 +5689,6 @@ msgstr ""
 "@SYNTAX=DGET(datenbank,feld,kriterien)\n"
 "@DESCRIPTION=Die Funktion DGET gibt den einzelnen Wert einer Spalte zurück, "
 "die den angegebenen Kriterien entspricht.\n"
-
-#: src/functions/fn-database.c:687
-msgid ""
-"\n"
-"DGET(A1:C7, \"Salary\", A9:A10) equals 34323.\n"
-"DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\".\n"
-"\n"
-"If none of the items match the conditions, DGET returns #VALUE! error. If "
-"more than one items match the conditions, DGET returns #NUM! error. \n"
-"@SEEALSO=DCOUNT"
-msgstr ""
 
 #: src/functions/fn-database.c:747
 msgid ""
@@ -5646,16 +5702,6 @@ msgstr ""
 "@DESCRIPTION=Die Funktion DMAX gibt die höchste Zahl in einer Spalte zurück, "
 "die den angegebenen Kriterien entspricht.\n"
 
-#: src/functions/fn-database.c:755
-msgid ""
-"\n"
-"DMAX(A1:C7, \"Salary\", A9:A11) equals 47242.\n"
-"DMAX(A1:C7, \"Age\", A9:A11) equals 45.\n"
-"DMAX(A1:C7, \"Age\", A9:B11) equals 43.\n"
-"\n"
-"@SEEALSO=DMIN"
-msgstr ""
-
 #: src/functions/fn-database.c:818
 msgid ""
 "@FUNCTION=DMIN\n"
@@ -5667,15 +5713,6 @@ msgstr ""
 "@SYNTAX=DMIN(datenbank,feld,kriterien)\n"
 "@DESCRIPTION=Die Funktion DMIN gibt die niedrigste Zahl in einer Spalte "
 "zurück, die den angegebenen Kriterien entspricht.\n"
-
-#: src/functions/fn-database.c:826
-msgid ""
-"\n"
-"DMIN(A1:C7, \"Salary\", A9:B11) equals 34323.\n"
-"DMIN(A1:C7, \"Age\", A9:B11) equals 29.\n"
-"\n"
-"@SEEALSO=DMAX"
-msgstr ""
 
 #: src/functions/fn-database.c:888
 msgid ""
@@ -5689,14 +5726,6 @@ msgstr ""
 "@DESCRIPTION=Die Funktion DPRODUCT gibt das Produkt der Zahlen in einer "
 "Spalte zurück, die den angegebenen Kriterien entspricht.\n"
 
-#: src/functions/fn-database.c:896
-msgid ""
-"\n"
-"DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247.\n"
-"\n"
-"@SEEALSO=DSUM"
-msgstr ""
-
 #: src/functions/fn-database.c:955
 msgid ""
 "@FUNCTION=DSTDEV\n"
@@ -5706,15 +5735,6 @@ msgid ""
 "match conditions specified. \n"
 msgstr ""
 
-#: src/functions/fn-database.c:964
-msgid ""
-"\n"
-"DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949.\n"
-"DSTDEV(A1:C7, \"Salary\", A9:B11) equals 9135.112506.\n"
-"\n"
-"@SEEALSO=DSTDEVP"
-msgstr ""
-
 #: src/functions/fn-database.c:1021
 msgid ""
 "@FUNCTION=DSTDEVP\n"
@@ -5722,15 +5742,6 @@ msgid ""
 "@DESCRIPTION=DSTDEVP function returns the standard deviation of a population "
 "based on the entire populations. The populations consists of numbers that "
 "match conditions specified. \n"
-msgstr ""
-
-#: src/functions/fn-database.c:1030
-msgid ""
-"\n"
-"DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7.\n"
-"DSTDEVP(A1:C7, \"Salary\", A9:B11) equals 6459.5.\n"
-"\n"
-"@SEEALSO=DSTDEV"
 msgstr ""
 
 #: src/functions/fn-database.c:1089
@@ -5745,15 +5756,6 @@ msgstr ""
 "@DESCRIPTION=Die Funktion DSUM gibt die Summe der Zahlen in einer Spalte "
 "zurück, die den angegebenen Kriterien entspricht.\n"
 
-#: src/functions/fn-database.c:1097
-msgid ""
-"\n"
-"DSUM(A1:C7, \"Age\", A9:B11) equals 72.\n"
-"DSUM(A1:C7, \"Salary\", A9:B11) equals 81565.\n"
-"\n"
-"@SEEALSO=DPRODUCT"
-msgstr ""
-
 #: src/functions/fn-database.c:1156
 msgid ""
 "@FUNCTION=DVAR\n"
@@ -5763,15 +5765,6 @@ msgid ""
 "specified. \n"
 msgstr ""
 
-#: src/functions/fn-database.c:1165
-msgid ""
-"\n"
-"DVAR(A1:C7, \"Age\", A9:B11) equals 98.\n"
-"DVAR(A1:C7, \"Salary\", A9:B11) equals 83450280.5.\n"
-"\n"
-"@SEEALSO=DVARP"
-msgstr ""
-
 #: src/functions/fn-database.c:1224
 msgid ""
 "@FUNCTION=DVARP\n"
@@ -5779,15 +5772,6 @@ msgid ""
 "@DESCRIPTION=DVARP function returns the variance of a population based on "
 "the entire populations. The populations consists of numbers that match "
 "conditions specified. \n"
-msgstr ""
-
-#: src/functions/fn-database.c:1233
-msgid ""
-"\n"
-"DVARP(A1:C7, \"Age\", A9:B11) equals 49.\n"
-"DVARP(A1:C7, \"Salary\", A9:B11) equals 41725140.25.\n"
-"\n"
-"@SEEALSO=DVAR"
 msgstr ""
 
 #: src/functions/fn-database.c:1293
@@ -11315,7 +11299,7 @@ msgstr "Fehler beim Schließen der Datei, Fehler : %s"
 #: src/plugin-util.c:178
 #, c-format
 msgid "Unable to mmap the file, error : %s"
-msgstr ""
+msgstr "Kann Datei nicht in den Speicher legen, Fehler: %s"
 
 #. Note: we cannot have spaces in page numbers.
 #: src/print.c:366
@@ -12619,11 +12603,11 @@ msgstr "Abbrechen"
 
 #: wizards/graphics/graphics.glade.h:9
 msgid "<< _Previous"
-msgstr ""
+msgstr "<< _Zurück"
 
 #: wizards/graphics/graphics.glade.h:10
 msgid "_Next step >>"
-msgstr ""
+msgstr "_Weiter >>"
 
 #: wizards/graphics/graphics.glade.h:11
 msgid "_Finish"
@@ -12799,7 +12783,7 @@ msgstr ""
 
 #: wizards/graphics/graphics.glade.h:59
 msgid "_Corner"
-msgstr ""
+msgstr "_Ecke"
 
 #: wizards/graphics/graphics.glade.h:60
 msgid "_Up"
