@@ -17,9 +17,6 @@ struct _SheetSelection {
         Range user;
 };
 
-#define SHEET_MAX_ROWS (64 * 1024)
-#define SHEET_MAX_COLS 256	/* 0 - 255 inclusive */
-
 /* The size, mask, and shift must be kept in sync */
 #define COLROW_SEGMENT_SIZE	0x80
 #define COLROW_SUB_INDEX(i)	((i) & 0x7f)

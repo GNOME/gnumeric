@@ -958,7 +958,7 @@ gnumeric_sheet_new (SheetView *sheet_view, ItemBar *colbar, ItemBar *rowbar)
 
 	/* FIXME: figure out some real size for the canvas scrolling region */
 	gnome_canvas_set_scroll_region (GNOME_CANVAS (gsheet), 0, 0,
-					1000000, 1200000);
+					GNUMERIC_SHEET_FACTOR_X, GNUMERIC_SHEET_FACTOR_Y);
 
 	/* handy shortcuts */
 	gsheet_canvas = GNOME_CANVAS (gsheet);

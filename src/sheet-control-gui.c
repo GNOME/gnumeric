@@ -211,11 +211,11 @@ sheet_view_set_zoom_factor (SheetView *sheet_view, double factor)
 
 	gtk_widget_set_usize (GTK_WIDGET (sheet_view->col_canvas), -1, h);
 	gnome_canvas_set_scroll_region (GNOME_CANVAS (sheet_view->col_canvas), 0, 0,
-					1000000*factor, h);
+					GNUMERIC_SHEET_FACTOR_X * factor, h);
 
 	gtk_widget_set_usize (GTK_WIDGET (sheet_view->row_canvas), w, -1);
 	gnome_canvas_set_scroll_region (GNOME_CANVAS (sheet_view->row_canvas), 0, 0,
-					w, 1200000*factor);
+					w, GNUMERIC_SHEET_FACTOR_Y * factor);
 
 	/* Recalibrate the starting offsets */
 	gsheet->col_offset.first =

@@ -1,3 +1,19 @@
+2000-11-09  Morten Welinder  <terra@diku.dk>
+
+	* src/gnumeric-sheet.h (GNUMERIC_SHEET_FACTOR_X,
+ 	GNUMERIC_SHEET_FACTOR_Y): 1000000 and 2000000.  Still ugly, but
+ 	now central.
+
+	* src/sheet-view.c (sheet_view_set_zoom_factor): Don't hard-code
+ 	scroll region sizes multiple places.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_new): Ditto.
+
+	* src/sheet-control.c (sheet_control_set_zoom_factor): Ditto.
+
+	* src/sheet.h (SHEET_MAX_ROWS, SHEET_MAX_COLS): Remove duplicate
+ 	macros.
+
 2000-11-09  Jody Goldberg <jgoldberg@home.com>
 
 	* src/stf.c (stf_read_workbook) : We are passing an IOContext.
