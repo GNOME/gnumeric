@@ -391,7 +391,11 @@ go_file_is_writable (char const *uri, GtkWindow *parent)
 	if (!filename)
 		return TRUE;  /* Just assume writable.  */
 
-	if (filename [strlen (filename) - 1] == G_DIR_SEPARATOR ||
+#ifndef G_IS_DIR_SEPARATOR
+/* Recent glib 2.6 addition.  */
+#define G_IS_DIR_SEPARATOR(c) ((c) == G_DIR_SEPARATOR || (c) == '/')
+#endif
+	if (G_IS_DIR_SEPARATOR (filename [strlen (filename) - 1]) ||
 	    g_file_test (filename, G_FILE_TEST_IS_DIR)) {
 		char *msg = g_strdup_printf (_("%s\nis a directory name"), uri);
 		gnumeric_notice (parent, GTK_MESSAGE_ERROR, msg);
