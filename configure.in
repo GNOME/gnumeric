@@ -51,9 +51,14 @@ GNOME_XML_CHECK
 
 dnl
 dnl alloca tests
-dnl;
+dnl
+dnl with autoconf 2.50 and later, the cache value changed,
+dnl so we test against both possible cache values -- if either of them
+dnl are yes, then we know we have a usable alloca.h
+dnl
 AC_FUNC_ALLOCA
-if test $ac_cv_header_alloca_h = yes; then
+if test X"$ac_cv_header_alloca_h" = X"yes" \
+	|| test X"$ac_cv_working_alloca_h" = X"yes" ; then
         GNUMERIC_HAVE_ALLOCA_H=1
 else
         GNUMERIC_HAVE_ALLOCA_H=0

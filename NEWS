@@ -19,6 +19,8 @@ Jody:
 	* Some autoscroll bugs with panes.
 	* Cursor support for panes.
 	* Improve INDIRECT.
+	* Add some new icons from the Evolution team.
+	* merge in several contributions to improve configure.in
 
 Morten:
 	* Fix MODE.

@@ -1,3 +1,8 @@
+2001-07-19  Tim Mooney <mooney@dogbert.cc.ndsu.NoDak.edu>
+
+	* configure.in: fix the GNUMERIC_HAVE_ALLOCA_H test to handle the
+	new cache value used by autoconf 2.50+.
+
 2001-08-02  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* configure.in: Use the new improved (functional) guile tests.
