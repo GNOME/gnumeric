@@ -207,7 +207,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 			if (j > lengths[i])
 				continue;
 
-			value = finite (vals[i][j-1]) ? vals[i][j-1] : 0.0;
+			value = (vals[i] && finite (vals[i][j-1])) ? vals[i][j-1] : 0.0;
 			k = 2 * lengths[i] - j + 1;
 
 			if (is_area_plot && (type != GOG_1_5D_NORMAL)) {

@@ -1,5 +1,9 @@
 2003-09-29  Morten Welinder  <terra@gnome.org>
 
+	* graph/plugins/plot_barcol/gog-line.c (gog_line_view_render):
+	Survive getting a NULL vals, even though that might be a symptom
+	of something else.
+
 	* graph/gog-object.c (gog_object_dup): Plug leak.
 
 	* graph/gog-object-xml.c (gog_object_new_from_xml): Plug leaks.
