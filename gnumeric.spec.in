@@ -90,27 +90,25 @@ fi
 %defattr (0555, bin, bin)
 %{prefix}/bin/gnumeric
 %{prefix}/lib/gnumeric/%{version}/plugins/*/*.so
+%{prefix}/lib/gnumericConf.sh
 
 %defattr (0444, bin, bin, 0555)
 %doc HACKING AUTHORS ChangeLog NEWS BUGS README COPYING TODO
 %{prefix}/lib/gnumeric/%{version}/plugins/*/*.xml
-%config %{prefix}/share/gnome/apps/Applications/gnumeric.desktop
+%config %{prefix}/share/gnome/apps/Applications/*
 %{prefix}/share/gnome/help/gnumeric/C/images/*
 %{prefix}/share/gnome/help/gnumeric/C/*.*
 %{prefix}/share/gnumeric/%{version}/autoformat-templates/*/*
-%{prefix}/share/gnumeric/%{version}/glade/*.glade
-%{prefix}/share/gnumeric/%{version}/python/*
-%{prefix}/share/gnumeric/%{version}/templates/*.gnumeric
+%{prefix}/share/gnumeric/%{version}/glade/*
+%{prefix}/share/gnumeric/%{version}/gnome/ui/*
 %{prefix}/share/gnumeric/%{version}/idl/*.idl
-%{prefix}/share/gnumeric/%{version}/gnome/ui/GNOME_Gnumeric.xml
+%{prefix}/share/gnumeric/%{version}/templates/*
 #%{prefix}/share/locale/*/LC_MESSAGES/*.mo
-%{prefix}/share/mc/templates/gnumeric.desktop
-%{prefix}/share/mime-info/gnumeric.keys
-%{prefix}/share/mime-info/gnumeric.mime
-%{prefix}/share/oaf/GNOME_Gnumeric.oaf
+%{prefix}/share/mc/templates/*
+%{prefix}/share/mime-info/*
+%{prefix}/share/oaf/*
 %{prefix}/share/pixmaps/gnumeric/*
-%{prefix}/share/pixmaps/*.png
-%{prefix}/lib/gnumericConf.sh
+%{prefix}/share/pixmaps/*.*
 
 # Don't even think about it.  -MW
 # Gnumeric is not ready for a devel package yet.  Please wait until we split
@@ -123,6 +121,18 @@ fi
 ##%{prefix}/lib/gnumeric/%{version}/plugins/*/*.la
 
 %changelog
+* Wed Jun 27 2001 John Gotts <jgotts@linuxsavvy.com>
+- Note that the most important reason for -devel RPM's is to exclude files that+  aren't needed on the majority of systems.  The reason that the "premature"
+  and "useless" files were moved to a -devel RPM wasn't to highlight their
+  usefulness for software development, it was to facilitate their exclusion
+  from the vast majority of installations.  It would be better to not install
+  these files in the first place, but spec files should follow the principle of
+  least surprise and mirror what a "make install" would do.
+- Used some more wildcards for easier maintainability.
+- Re-alphabetize.
+- gnumericConf.sh shouldn't have its executable bit stripped.
+- The python plugin doesn't seem to be getting built by default anymore.
+
 * Tue Jun 26 2001 Jody Goldberg <jgoldberg@home.com>
 - load the bonobo ui file from a version specific location
 

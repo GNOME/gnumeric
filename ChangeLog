@@ -1,3 +1,7 @@
+2001-06-27  John Gotts <jgotts@linuxsavvy.com>
+
+	* gnumeric.spec.in : minor updates.
+
 2001-06-27  Jody Goldberg <jgoldberg@home.com>
 
 	* configure.in : bump version to 0.67.
