@@ -1490,16 +1490,20 @@ static ExprTree *
 cellrange_relocate (const Value *v,
 		    const ExprRelocateInfo *rinfo)
 {
-	/* TODO : Figure out the logic of 1 ref error 1 ok */
+	/*
+	 * If either end is an error then the whole range is an error.
+	 * If both ends need relocation relocate
+	 * otherwise remain static
+	 */
 	CellRef ref_a = v->v_range.cell.a;
 	CellRef ref_b = v->v_range.cell.b;
-	gboolean needs_reloc = FALSE;
+	int needs_reloc = 0;
 
 	switch (cellref_relocate (&ref_a, rinfo)) {
 	case CELLREF_NO_RELOCATE :
 		break;
 	case CELLREF_RELOCATE :
-		needs_reloc = TRUE;
+		needs_reloc++;
 		break;
 
 	case CELLREF_RELOCATE_ERR :
@@ -1509,14 +1513,15 @@ cellrange_relocate (const Value *v,
 	case CELLREF_NO_RELOCATE :
 		break;
 	case CELLREF_RELOCATE :
-		needs_reloc = TRUE;
+		needs_reloc++;
 		break;
 
 	case CELLREF_RELOCATE_ERR :
 		return expr_tree_new_constant (value_new_error (NULL, gnumeric_err_REF));
 	}
 
-	if (needs_reloc) {
+	/* Only relocate if both ends of the range need relocation */
+	if (needs_reloc == 2) {
 		Value *res;
 		/* Dont allow creation of 3D references */
 		if (ref_a.sheet == ref_b.sheet)

@@ -1,5 +1,10 @@
 2000-05-29  Jody Goldberg <jgoldberg@home.com>
 
+	* src/expr.c (cellrange_relocate) : Only relocate a range if both
+	  elements need relocation.
+
+2000-05-29  Jody Goldberg <jgoldberg@home.com>
+
 	* src/xml-io.c (xml_workbook_write) : Arrrggh.  textdomain seems to
 	  use a static buffer.  We need to strdup the result.  A more thorough
 	  reading of the docs suggests that changing the textdomain is
