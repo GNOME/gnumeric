@@ -1,4 +1,12 @@
+2000-05-06  Jody Goldberg <jgoldberg@home.com>
+
+	* src/parse-util.c (parse_text_value_or_expr) : Be sure the clear the
+	  expr if we are returning a value.
+
 2000-05-05  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_set_zoom_factor) : Need to recalc cell
+	  sizes when zooming changes.
 
 	* src/functions/fn-math.c (gnumeric_countif) :
 	    Make code match comment.  We can safely ignore blanks.

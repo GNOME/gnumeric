@@ -517,8 +517,10 @@ parse_text_value_or_expr (EvalPos const * pos, char const * const text,
 				*val = value_new_error (pos, error_msg);
 			else
 				*val = NULL;
-		} else
+		} else {
 			*val = value_new_string (text);
+			*expr = NULL;
+		}
 	} else {
 		/* Does it match any formats */
 		*val = format_match (text, &desired_format);
