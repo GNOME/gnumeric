@@ -2268,6 +2268,93 @@ gnumeric_small (void *tsheet, GList *expr_node_list, int eval_col, int eval_row,
 	return value_float (r);
 }
 
+static char *help_ztest = {
+	N_("@FUNCTION=ZTEST\n"
+	   "@SYNTAX=ZTEST(ref,x)\n"
+
+	   "@DESCRIPTION="
+	   "ZTEST returns the two-tailed probability of a z-test. "
+	   "\n"
+	   "@ref is the data set and @x is the value to be tested. "
+	   "\n"
+	   "If ref contains less than two data items ZTEST "
+	   "returns #DIV/0! error. "
+	   "\n"
+	   "@SEEALSO=CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,"
+	   "STANDARDIZE")
+};
+
+typedef struct {
+	guint32 num;
+        float_t x;
+        float_t sum;
+        float_t sqrsum;
+} stat_ztest_t;
+
+static int
+callback_function_ztest (Sheet *sheet, Value *value, char **error_string, void *closure)
+{
+	stat_ztest_t *mm = closure;
+	float_t last;
+
+	switch (value->type){
+	case VALUE_INTEGER:
+	        last = value->v.v_int;
+		break;
+	case VALUE_FLOAT:
+	        last = value->v.v_float;
+		break;
+	default:
+		return FALSE;
+	}
+	if (mm->num == 0)
+	        mm->x = last;
+	else {
+	        mm->sum += mm->x;
+		mm->sqrsum += mm->x * mm->x;
+		mm->x = last;
+	}
+	mm->num++;
+	return TRUE;
+}
+
+static Value *
+gnumeric_ztest (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+{
+	stat_ztest_t p;
+	Sheet        *sheet = (Sheet *) tsheet;
+	int          status;
+	float_t      stdev;
+
+	p.num    = 0;
+	p.sum    = 0;
+	p.sqrsum = 0;
+
+	status = function_iterate_argument_values (sheet,
+						   callback_function_ztest,
+						   &p, expr_node_list,
+						   eval_col, eval_row,
+						   error_string);
+
+	if (status == FALSE) {
+	        *error_string = _("#VALUE!");
+		return NULL;
+	}
+	p.num--;
+	if (p.num < 2) {
+	        *error_string = _("#DIV/0!");
+		return NULL;
+	}
+	stdev = sqrt((p.sqrsum - p.sum*p.sum/p.num) / (p.num - 1));
+	if (stdev == 0) {
+	        *error_string = _("#DIV/0!");
+		return NULL;
+	}
+
+	return value_float (1 - phi ((p.sum/p.num - p.x) /
+				     (stdev / sqrt(p.num))));
+}
+
 
 FunctionDefinition stat_functions [] = {
         { "avedev",    0,      "",          &help_avedev,    gnumeric_avedev, NULL },
@@ -2306,5 +2393,6 @@ FunctionDefinition stat_functions [] = {
 	{ "var",       0,      "",          &help_var,       gnumeric_var, NULL },
 	{ "varp",      0,      "",          &help_varp,      gnumeric_varp, NULL },
         { "weibull", "fffb",  "",           &help_weibull, NULL, gnumeric_weibull },
+	{ "ztest",  0,      "",             &help_ztest,  gnumeric_ztest, NULL },
 	{ NULL, NULL },
 };
