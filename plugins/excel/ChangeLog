@@ -1,3 +1,8 @@
+2004-08-21  Jon K Hellan  <hellan@acm.org>
+
+	* ms-excel-read.c (excel_read_IMDATA): Add comment about OS/2 BMP
+	format.
+
 2004-08-20  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.c (excel_read_BOUNDSHEET) : Fix differentiation

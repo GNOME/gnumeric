@@ -3599,6 +3599,10 @@ excel_read_COLINFO (BiffQuery *q, ExcelReadSheet *esheet)
 				       firstcol, lastcol);
 }
 
+/* See: S59D8F.HTM */
+/* When IMDATA or BG_PIC is bitmap, the format is OS/2 BMP, but the
+ * 14 bytes header is missing.
+ */
 GdkPixbuf *
 excel_read_IMDATA (BiffQuery *q, gboolean keep_image)
 {
