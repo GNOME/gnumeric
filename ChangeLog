@@ -1,3 +1,15 @@
+2003-06-11  Morten Welinder  <terra@gnome.org>
+
+	* src/stf-parse.h (StfParseOptions_t): Remove parselines member.
+
+	* src/stf-parse.c (stf_parse_get_longest_row_width): Take a
+	data_end pointer too.  Callers changed.
+	(stf_parse_general): Ditto.
+	(stf_parse_sheet): Ditto, but optional.
+	(stf_parse_region): Ditto, but optional.
+	(stf_parse_options_fixed_autodiscover): Ditto.  Remove data_lines arg.
+	(stf_parse_options_set_lines_to_parse): Delete.
+
 2003-06-11  Jody Goldberg <jody@gnome.org>
 
 	* schemas/gnumeric-general.schemas.in : Make the default number of

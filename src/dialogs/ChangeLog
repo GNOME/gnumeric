@@ -1,5 +1,8 @@
 2003-06-11  Morten Welinder  <terra@gnome.org>
 
+	* dialog-stf.c (stf_dialog): Nul-terminate result.
+	* dialog-stf.h (DruidPageData_t): Add cur_end member.
+
 	* dialog-stf.h (MainInfo_t): Add parse options member.
 
 	* dialog-stf-main-page.c (main_page_startrow_changed): Treat line

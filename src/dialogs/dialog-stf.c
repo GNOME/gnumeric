@@ -499,6 +499,7 @@ stf_dialog (WorkbookControlGUI *wbcg,
 		dialogresult = g_new (DialogStfResult_t, 1);
 
 		dialogresult->text = pagedata.utf8_data;
+		*((char *)pagedata.cur_end) = 0;
 		strcpy (dialogresult->text, pagedata.cur);
 		pagedata.cur = pagedata.utf8_data = NULL;
 

@@ -126,7 +126,6 @@ stf_parse_options_new (void)
 
 	parseoptions->terminator  = g_create_slist (g_strdup("\r\n"), g_strdup("\n"), g_strdup("\r"), NULL);
 
-	parseoptions->parselines  = -1;
 	parseoptions->trim_spaces = (TRIM_TYPE_RIGHT | TRIM_TYPE_LEFT);
 
 	parseoptions->splitpositions    = g_array_new (FALSE, FALSE, sizeof (int));
@@ -242,25 +241,6 @@ stf_parse_options_clear_line_terminator (StfParseOptions_t *parseoptions)
 
 	g_slist_free_custom (parseoptions->terminator, g_free);
 	parseoptions->terminator = NULL;
-}
-
-
-
-/**
- * stf_parse_options_set_lines_to_parse:
- *
- * This forces the parser to stop after parsing @lines lines, if you set @lines
- * to -1, which is the default, the parser will parse until it encounters a '\0'
- **/
-void
-stf_parse_options_set_lines_to_parse (StfParseOptions_t *parseoptions, int const lines)
-{
-	g_return_if_fail (parseoptions != NULL);
-
-	if (lines != -1)
-		parseoptions->parselines = lines;
-	else
-		parseoptions->parselines = -1;
 }
 
 /**
@@ -710,7 +690,8 @@ stf_parse_general_free (GPtrArray *lines)
  * stf_parse_general_free.
  **/
 GPtrArray *
-stf_parse_general (StfParseOptions_t *parseoptions, char const *data)
+stf_parse_general (StfParseOptions_t *parseoptions,
+		   char const *data, char const *data_end)
 {
 	GPtrArray *lines;
 	Source_t src;
@@ -718,6 +699,7 @@ stf_parse_general (StfParseOptions_t *parseoptions, char const *data)
 
 	g_return_val_if_fail (parseoptions != NULL, NULL);
 	g_return_val_if_fail (data != NULL, NULL);
+	g_return_val_if_fail (data_end != NULL, NULL);
 	g_return_val_if_fail (stf_parse_options_valid (parseoptions), NULL);
 	g_return_val_if_fail (g_utf8_validate (data, -1, NULL), NULL);
 
@@ -725,17 +707,13 @@ stf_parse_general (StfParseOptions_t *parseoptions, char const *data)
 	row = 0;
 
 	lines = g_ptr_array_new ();
-	while (*src.position != '\0') {
+	while (*src.position != '\0' && src.position < data_end) {
 		GPtrArray *line;
 
 		if (++row >= SHEET_MAX_ROWS) {
 				g_warning (WARN_TOO_MANY_ROWS, row);
 				break;
 		}
-
-		if (parseoptions->parselines != -1)
-			if (row > parseoptions->parselines)
-				break;
 
 		line = parseoptions->parsetype == PARSE_TYPE_CSV
 			? stf_parse_csv_line (&src, parseoptions)
@@ -779,38 +757,54 @@ stf_parse_lines (StfParseOptions_t *parseoptions, const char *data, gboolean wit
 	return lines;
 }
 
+const char *
+stf_parse_find_line (StfParseOptions_t *parseoptions,
+		     const char *data,
+		     int line)
+{
+	while (line > 0) {
+		int termlen = compare_terminator (data, parseoptions);
+		if (termlen > 0) {
+			data += termlen;
+			line--;
+		} else if (*data == 0) {
+			return data;
+		} else {
+			data = g_utf8_next_char (data);
+		}
+	}
+	return data;
+}
+
+
 /**
  * stf_parse_get_longest_row_width:
  *
  * Returns the largest number of characters found in a line/row
  **/
 int
-stf_parse_get_longest_row_width (StfParseOptions_t *parseoptions, char const *data)
+stf_parse_get_longest_row_width (StfParseOptions_t *parseoptions,
+				 char const *data, char const *data_end)
 {
 	char const *s;
 	int len = 0;
 	int longest = 0;
-	int row = 0;
 
 	g_return_val_if_fail (parseoptions != NULL, 0);
 	g_return_val_if_fail (data != NULL, 0);
+	g_return_val_if_fail (data_end != NULL, 0);
 
-	for (s = data; *s; ) {
+	for (s = data; *s && s < data_end; ) {
 		int termlen = compare_terminator (s, parseoptions);
 		if (termlen > 0 || s[1] == '\0') {
 			if (len > longest)
 				longest = len;
 			len = 0;
-			row++;
 			s += termlen;
 		} else {
 			len++;
 			s = g_utf8_next_char (s);
 		}
-
-		if (parseoptions->parselines != -1)
-			if (row > parseoptions->parselines)
-				break;
 	}
 
 	return longest;
@@ -830,7 +824,8 @@ stf_parse_get_longest_row_width (StfParseOptions_t *parseoptions, char const *da
  *        Think hard of a better more flexible solution...
  **/
 void
-stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int const data_lines, char const *data)
+stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions,
+				      char const *data, char const *data_end)
 {
 	char const *iterator = data;
 	GSList *list = NULL;
@@ -847,7 +842,7 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int const
 	/*
 	 * First take a look at all possible white space combinations
 	 */
-	while (*iterator) {
+	while (*iterator && iterator < data_end) {
 		gboolean begin_recorded = FALSE;
 		AutoDiscovery_t *disc = NULL;
 		int position = 0;
@@ -891,9 +886,6 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int const
 			effective_lines++;
 
 		lines++;
-
-		if (lines >= data_lines)
-			break;
 	}
 
 	list       = g_slist_reverse (list);
@@ -954,7 +946,7 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int const
 
 			iterator = data;
 			lines = 0;
-			while (*iterator) {
+			while (*iterator && iterator < data_end) {
 				gboolean trigger = FALSE;
 				gboolean space_trigger = FALSE;
 				int pos = 0;
@@ -995,9 +987,6 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int const
 					iterator++;
 
 				lines++;
-
-				if (lines >= data_lines)
-					break;
 			}
 
 			/*
@@ -1027,7 +1016,7 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int const
 
 			iterator = data;
 			lines = 0;
-			while (*iterator) {
+			while (*iterator && iterator < data_end) {
 				gboolean trigger = FALSE;
 				int pos = 0;
 
@@ -1050,9 +1039,6 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int const
 					iterator++;
 
 				lines++;
-
-				if (lines >= data_lines)
-					break;
 			}
 
 			/*
@@ -1083,8 +1069,9 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int const
  *******************************************************************************************************/
 
 gboolean
-stf_parse_sheet (StfParseOptions_t *parseoptions, char const *data, Sheet *sheet,
-		 int start_col, int start_row)
+stf_parse_sheet (StfParseOptions_t *parseoptions,
+		 char const *data, char const *data_end,
+		 Sheet *sheet, int start_col, int start_row)
 {
 	int row;
 	unsigned int lrow;
@@ -1097,7 +1084,9 @@ stf_parse_sheet (StfParseOptions_t *parseoptions, char const *data, Sheet *sheet
 
 	date_conv = workbook_date_conv (sheet->workbook);
 
-	lines = stf_parse_general (parseoptions, data);
+	if (!data_end)
+		data_end = data + strlen (data);
+	lines = stf_parse_general (parseoptions, data, data_end);
 	for (row = start_row, lrow = 0; lrow < lines->len ; row++, lrow++) {
 		unsigned int lcol;
 		GPtrArray *line = g_ptr_array_index (lines, lrow);
@@ -1125,7 +1114,7 @@ stf_parse_sheet (StfParseOptions_t *parseoptions, char const *data, Sheet *sheet
 }
 
 CellRegion *
-stf_parse_region (StfParseOptions_t *parseoptions, char const *data)
+stf_parse_region (StfParseOptions_t *parseoptions, char const *data, char const *data_end)
 {
 	CellRegion *cr;
 	CellCopyList *content = NULL;
@@ -1135,7 +1124,9 @@ stf_parse_region (StfParseOptions_t *parseoptions, char const *data)
 	g_return_val_if_fail (parseoptions != NULL, NULL);
 	g_return_val_if_fail (data != NULL, NULL);
 
-	lines = stf_parse_general (parseoptions, data);
+	if (!data_end)
+		data_end = data + strlen (data);
+	lines = stf_parse_general (parseoptions, data, data_end);
 	for (row = 0; row < lines->len; row++) {
 		GPtrArray *line = g_ptr_array_index (lines, row);
 		unsigned int col;

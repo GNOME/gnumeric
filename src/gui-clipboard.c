@@ -104,8 +104,7 @@ text_to_cell_region (WorkbookControlGUI *wbcg,
 		if (dialogresult != NULL) {
 			int col;
 
-			stf_parse_options_set_lines_to_parse (dialogresult->parseoptions, dialogresult->lines);
-			cr = stf_parse_region (dialogresult->parseoptions, dialogresult->text);
+			cr = stf_parse_region (dialogresult->parseoptions, dialogresult->text, NULL);
 
 			if (cr == NULL) {
 				g_free (data);

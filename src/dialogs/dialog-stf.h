@@ -100,6 +100,7 @@ typedef struct {
 	const char            *raw_data;     /* Raw bytes, not UTF-8.  */
 	char                  *utf8_data;    /* raw_data converted into UTF-8.  */
 	const char            *cur;          /* Pointer pointing to position in utf8_data to start parsing */
+	const char            *cur_end;      /* Pointer pointing to position in utf8_data to stop parsing */
 
 	const char            *filename;     /* File we are reading from */
 	int                   importlines;   /* Number of lines to import */

@@ -44,7 +44,8 @@ fixed_page_autodiscover (DruidPageData_t *pagedata)
 	guint i = 1;
 	char *tset[2];
 
-	stf_parse_options_fixed_autodiscover (pagedata->fixed.parseoptions, pagedata->importlines, (char *) pagedata->cur);
+	stf_parse_options_fixed_autodiscover (pagedata->fixed.parseoptions,
+					      pagedata->cur, pagedata->cur_end);
 
 	gtk_clist_clear (pagedata->fixed.fixed_collist);
 	while (i < pagedata->fixed.parseoptions->splitpositions->len) {
@@ -203,7 +204,9 @@ fixed_page_update_preview (DruidPageData_t *pagedata)
 	}
 
 	stf_preview_set_lines (renderdata,
-			       stf_parse_general (parseoptions, pagedata->cur));
+			       stf_parse_general (parseoptions,
+						  pagedata->cur,
+						  pagedata->cur_end));
 	stf_preview_render (renderdata);
 
 	for (i = 0; i < renderdata->colcount; i++) {
@@ -420,14 +423,15 @@ fixed_page_prepare (G_GNUC_UNUSED GnomeDruidPage *page,
 	GtkAdjustment *spinadjust;
 
 	stf_parse_options_set_trim_spaces (pagedata->fixed.parseoptions, TRIM_TYPE_NEVER);
-	stf_parse_options_set_lines_to_parse (pagedata->fixed.parseoptions, pagedata->importlines);
 #if 0
 	stf_preview_set_startrow (pagedata->fixed.renderdata, GTK_RANGE (pagedata->fixed.fixed_scroll)->adjustment->value);
 #endif
 
 	spinadjust = gtk_spin_button_get_adjustment (pagedata->fixed.fixed_colend);
 	spinadjust->lower = 1;
-	spinadjust->upper = stf_parse_get_longest_row_width (pagedata->fixed.parseoptions, pagedata->cur);
+	spinadjust->upper = stf_parse_get_longest_row_width (pagedata->fixed.parseoptions,
+							     pagedata->cur,
+							     pagedata->cur_end);
 	gtk_spin_button_set_adjustment (pagedata->fixed.fixed_colend, spinadjust);
 
 	fixed_page_update_preview (pagedata);

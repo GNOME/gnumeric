@@ -173,44 +173,28 @@ encodings_changed_cb (CharmapSelector *cs, char const *new_charmap,
 static void
 main_page_startrow_changed (GtkSpinButton* button, DruidPageData_t *data)
 {
-	const char *cur = data->utf8_data;
-	int startrow = gtk_spin_button_get_value_as_int (button) - 1;
+	StfParseOptions_t *parseoptions = data->main.parseoptions;
+	int line = gtk_spin_button_get_value_as_int (button) - 1;
 
-#warning "FIXME: this should match stf_parse_lines."
-	while (startrow > 0) {
-		switch (*cur) {
-		case 0:
-			startrow = 0;
-			break;
-		case '\n':
-			startrow--;
-			cur++;
-			break;
-		case '\r':
-			startrow--;
-			cur++;
-			if (*cur == '\n') cur++;
-			break;
-		default:
-			cur++;
-		}
-	}
-	data->cur = cur;
-
+	data->cur = stf_parse_find_line (parseoptions, data->utf8_data, line);
 	main_page_import_range_changed (data);
 }
 
 /**
- * main_page_startrow_changed
+ * main_page_stoprow_changed
  * @button : the spinbutton the event handler is attached to
  * @data : mother struct
  *
  * returns : nothing
  **/
 static void
-main_page_stoprow_changed (G_GNUC_UNUSED GtkSpinButton* button,
+main_page_stoprow_changed (GtkSpinButton* button,
 			   DruidPageData_t *data)
 {
+	StfParseOptions_t *parseoptions = data->main.parseoptions;
+	int line = gtk_spin_button_get_value_as_int (button) - 1;
+
+	data->cur_end = stf_parse_find_line (parseoptions, data->utf8_data, line + 1);
 	main_page_import_range_changed (data);
 }
 
@@ -218,6 +202,7 @@ static void
 main_page_stringindicator_change (G_GNUC_UNUSED GtkWidget *widget,
 			DruidPageData_t *data)
 {
+#warning "FIXME: csv?"
 	StfParseOptions_t *parseoptions = data->csv.parseoptions;
 	char *textfieldtext;
 	gunichar str_ind;
@@ -245,8 +230,6 @@ main_page_source_format_toggled (G_GNUC_UNUSED GtkWidget *widget,
 	gtk_widget_set_sensitive (GTK_WIDGET (data->main.main_2x_indicator), active);
 	gtk_widget_set_sensitive (GTK_WIDGET (data->main.main_textindicator), active);
 	gtk_widget_set_sensitive (GTK_WIDGET (data->main.main_textfield), active);
-
-	main_page_stoprow_changed (NULL, data);
 }
 
 /**
@@ -387,6 +370,7 @@ stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	g_signal_connect (G_OBJECT (pagedata->main.charmap_selector),
 			  "charmap_changed",
 			  G_CALLBACK (encodings_changed_cb), pagedata);
-	
+
 	main_page_startrow_changed (pagedata->main.main_startrow, pagedata);
+	main_page_stoprow_changed (pagedata->main.main_stoprow, pagedata);
 }

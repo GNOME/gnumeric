@@ -121,8 +121,6 @@ stf_store_results (DialogStfResult_t *dialogresult,
 {
 	unsigned int ui;
 
-	stf_parse_options_set_lines_to_parse (dialogresult->parseoptions, dialogresult->lines);
-
 	for (ui = 0; ui < dialogresult->formats->len; ui++) {
 		StyleFormat *sf = g_ptr_array_index (dialogresult->formats, ui);
 		Range range;
@@ -139,7 +137,7 @@ stf_store_results (DialogStfResult_t *dialogresult,
 	}
 
 	return stf_parse_sheet (dialogresult->parseoptions,
-				dialogresult->text, sheet,
+				dialogresult->text, NULL, sheet,
 				start_col, start_row);
 }
 
@@ -340,7 +338,6 @@ stf_read_workbook_auto_csvtab (GnmFileOpener const *fo, gchar const *enc,
 
 	stf_parse_options_set_type (po, PARSE_TYPE_CSV);
 	stf_parse_options_set_trim_spaces (po, TRIM_TYPE_LEFT | TRIM_TYPE_RIGHT);
-        stf_parse_options_set_lines_to_parse (po, -1);
 	stf_parse_options_csv_set_stringindicator (po, '"');
 	stf_parse_options_csv_set_indicator_2x_is_single (po, TRUE);
 	stf_parse_options_csv_set_duplicates (po, FALSE);
@@ -373,7 +370,7 @@ stf_read_workbook_auto_csvtab (GnmFileOpener const *fo, gchar const *enc,
 	if (tab > lines || tab >= sep)
 		stf_parse_options_csv_set_separators (po, "\t", NULL);
 
-	if (!stf_parse_sheet (po, data, sheet, 0, 0)) {
+	if (!stf_parse_sheet (po, data, NULL, sheet, 0, 0)) {
 
 		workbook_sheet_detach (book, sheet);
 		g_free (data);

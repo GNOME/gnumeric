@@ -93,7 +93,8 @@ format_page_update_preview (DruidPageData_t *pagedata)
 
 	stf_preview_set_lines (renderdata,
 			       stf_parse_general (pagedata->format.parseoptions,
-						  pagedata->cur));
+						  pagedata->cur,
+						  pagedata->cur_end));
 	stf_preview_render (renderdata);
 
 	for (i = 0; i < renderdata->colcount; i++) {
