@@ -1678,6 +1678,8 @@ scg_mode_edit (SheetControl *sc)
 
 	if (wbcg_edit_has_guru (scg->wbcg))
 		wbcg_edit_finish (scg->wbcg, FALSE, NULL);
+	wb_control_menu_state_update (WORKBOOK_CONTROL (scg->wbcg),
+		MS_CLIPBOARD);
 }
 
 /*
@@ -1715,6 +1717,8 @@ scg_mode_edit_object (SheetControlGUI *scg, SheetObject *so)
 		scg_cursor_visible (scg, FALSE);
 		scg_object_update_bbox (scg, so, NULL);
 		scg_set_display_cursor (scg);
+		wb_control_menu_state_update (WORKBOOK_CONTROL (scg->wbcg),
+			MS_CLIPBOARD);
 	}
 	g_object_unref (G_OBJECT (so));
 }
@@ -1736,6 +1740,8 @@ scg_mode_create_object (SheetControlGUI *scg, SheetObject *so)
 		scg->new_object = so;
 		scg_cursor_visible (scg, FALSE);
 		scg_set_display_cursor (scg);
+		wb_control_menu_state_update (WORKBOOK_CONTROL (scg->wbcg),
+			MS_CLIPBOARD);
 	}
 }
 

@@ -152,7 +152,7 @@ wbcg_sheet_to_page_index (WorkbookControlGUI *wbcg, Sheet *sheet,
 	if (res)
 		*res = NULL;
 
-	if (sheet == NULL)
+	if (sheet == NULL || wbcg->notebook == NULL)
 		return -1;
 
 	g_return_val_if_fail (IS_SHEET (sheet), -1);
@@ -1412,9 +1412,12 @@ static void
 wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 {
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
+	SheetControlGUI *scg = wbcg_cur_scg (wbcg);
+	SheetView const *sv  = wb_control_cur_sheet_view (wbc);
 	Sheet const *sheet = wb_control_cur_sheet (wbc);
-	SheetView const *sv = wb_control_cur_sheet_view (wbc);
 	gboolean has_filtered_rows = sheet->has_filtered_rows;
+	gboolean edit_object = scg != NULL &&
+		(scg->current_object != NULL || scg->new_object != NULL);
 
 	if (!has_filtered_rows) {
 		GSList *ptr = sheet->filters;
@@ -1441,10 +1444,20 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 		change_menu_sensitivity (wbcg->menu_item_hide_detail,
 					 sheet->priv->enable_showhide_detail);
 	}
+	if (MS_CLIPBOARD & flags) {
+		change_menu_sensitivity (wbcg->tool_item_cut, !edit_object);
+		change_menu_sensitivity (wbcg->tool_item_copy, !edit_object);
+		change_menu_sensitivity (wbcg->tool_item_paste, !edit_object);
+		change_menu_sensitivity (wbcg->menu_item_cut, !edit_object);
+		change_menu_sensitivity (wbcg->menu_item_copy, !edit_object);
+		change_menu_sensitivity (wbcg->menu_item_paste, !edit_object);
+	}
+
 	if (MS_PASTE_SPECIAL & flags)
 		change_menu_sensitivity (wbcg->menu_item_paste_special,
 			!application_clipboard_is_empty () &&
-			!application_clipboard_is_cut ());
+			!application_clipboard_is_cut () &&
+			!edit_object);
 	if (MS_PRINT_SETUP & flags)
 		change_menu_sensitivity (wbcg->menu_item_page_setup,
 					 !wbcg_edit_has_guru (wbcg));
@@ -1476,10 +1489,16 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 		change_menu_sensitivity (wbcg, "/commands/DataOutlineHideDetail",
 					 sheet->priv->enable_showhide_detail);
 	}
+	if (MS_PRINT_CLIPBOARD & flags) {
+		change_menu_sensitivity (wbcg, "/commands/EditCut", !editing_object);
+		change_menu_sensitivity (wbcg, "/commands/EditCopy", !editing_object);
+		change_menu_sensitivity (wbcg, "/commands/EditPaste", !editing_object);
+	}
 	if (MS_PASTE_SPECIAL & flags)
 		change_menu_sensitivity (wbcg, "/commands/EditPasteSpecial",
 			!application_clipboard_is_empty () &&
-			!application_clipboard_is_cut ());
+			!application_clipboard_is_cut () &&
+			!edit_object);
 	if (MS_PRINT_SETUP & flags)
 		change_menu_sensitivity (wbcg, "/commands/FilePageSetup",
 					 !wbcg_edit_has_guru (wbcg));
@@ -2120,18 +2139,8 @@ static void
 cb_edit_cut (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	Sheet *sheet = wb_control_cur_sheet (wbc);
-	SheetControlGUI *scg;
-
-	if (wbcg_sheet_to_page_index (wbcg, sheet, &scg) >= 0) {
-		SheetControl *sc = (SheetControl *) scg;
-		/* FIXME : Add clipboard support for objects */
-		if (scg->current_object != NULL) {
-			cmd_object_delete (wbc, scg->current_object);
-			scg_mode_edit (sc);
-		} else
-			sv_selection_cut (sc_view (sc), wbc);
-	}
+	SheetView *sv = wb_control_cur_sheet_view (wbc);
+	sv_selection_cut (sv, wbc);
 }
 
 static void
@@ -4206,6 +4215,9 @@ workbook_create_standard_toolbar (WorkbookControlGUI *wbcg)
 
 	wbcg->standard_toolbar = gnumeric_toolbar_new (wbcg,
 		workbook_standard_toolbar, "StandardToolbar", 1, 0, 0);
+	wbcg->tool_item_cut   = workbook_standard_toolbar [7].widget;
+	wbcg->tool_item_copy  = workbook_standard_toolbar [8].widget;
+	wbcg->tool_item_paste = workbook_standard_toolbar [9].widget;
 	gnumeric_toolbar_insert_with_eventbox (
 		GTK_TOOLBAR (wbcg->standard_toolbar),
 					       undo, _("Undo the last action"), NULL, TB_UNDO_POS);
@@ -5175,6 +5187,13 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 		workbook_menu_edit [0].widget;
 	wbcg->menu_item_redo =
 		workbook_menu_edit [1].widget;
+
+	wbcg->menu_item_cut =
+		workbook_menu_edit [3].widget;
+	wbcg->menu_item_copy =
+		workbook_menu_edit [4].widget;
+	wbcg->menu_item_paste =
+		workbook_menu_edit [5].widget;
 	wbcg->menu_item_paste_special =
 		workbook_menu_edit [6].widget;
 	wbcg->menu_item_search_replace =

@@ -1,3 +1,27 @@
+2003-08-27  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-control-gui.c (scg_mode_edit) : reset the menu/toolbar.
+	(scg_mode_edit_object) : ditto.
+	(scg_mode_create_object) : ditto.
+
+	* src/workbook-control-gui.c (wbcg_sheet_to_page_index) : handle
+	  invocation before there is a notebook.
+	(wbcg_menu_state_update) : enable and disable clipboard operations
+	  depending on object editing state.
+	(cb_edit_cut) : remove asymetry of deleting during the cut command.
+	(workbook_create_standard_toolbar) : store the clipboard toolbar
+	  widgets for the non-bonobo case.
+	(workbook_control_gui_init) : store the clipboard menu items for the
+	  non-bonobo case.
+
+	* src/dependent.c (dependent_link) : keep a tail pointer and append
+	  new dependents to the list.  This is a slightly better fit to the
+	  common idiom of starting at the top and working down, and papers
+	  over the most common case of ultra deep recursion blowing the stack.
+	  We'll need to solve this more rigorously during 1.3.
+	(dependent_unlink) : ditto.
+	(gnm_dep_container_new) : ditto.
+
 2003-08-27  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/gui-util.c (gnm_pixbuf_intelligent_scale): new

@@ -1051,12 +1051,14 @@ dependent_link (Dependent *dep, CellPos const *pos)
 
 	sheet = dep->sheet;
 
-	/* Make this the new head of the dependent list.  */
-	dep->prev_dep = NULL;
-	dep->next_dep = sheet->deps->dependent_list;
-	if (dep->next_dep)
-		dep->next_dep->prev_dep = dep;
-	sheet->deps->dependent_list = dep;
+	/* Make this the new tail of the dependent list.  */
+	dep->prev_dep = sheet->deps->tail;
+	dep->next_dep = NULL;
+	if (dep->prev_dep)
+		dep->prev_dep->next_dep = dep;
+	else
+		sheet->deps->head = dep; /* first element */
+	sheet->deps->tail = dep;
 	dep->flags |=
 		DEPENDENT_IS_LINKED |
 		link_expr_dep (dep, pos, dep->expression);
@@ -1076,6 +1078,8 @@ dependent_link (Dependent *dep, CellPos const *pos)
 void
 dependent_unlink (Dependent *dep, CellPos const *pos)
 {
+	GnmDepContainer *contain;
+
 	g_return_if_fail (dep != NULL);
 	g_return_if_fail (dependent_is_linked (dep));
 	g_return_if_fail (dep->expression != NULL);
@@ -1085,9 +1089,12 @@ dependent_unlink (Dependent *dep, CellPos const *pos)
 		pos = (dependent_is_cell (dep)) ? &DEP_TO_CELL(dep)->pos : &dummy;
 
 	unlink_expr_dep (dep, pos, dep->expression);
-	if (dep->sheet->deps != NULL) {
-		if (dep->sheet->deps->dependent_list == dep)
-			dep->sheet->deps->dependent_list = dep->next_dep;
+	contain = dep->sheet->deps;
+	if (contain != NULL) {
+		if (contain->head == dep)
+			contain->head = dep->next_dep;
+		if (contain->tail == dep)
+			contain->tail = dep->prev_dep;
 		if (dep->next_dep)
 			dep->next_dep->prev_dep = dep->prev_dep;
 		if (dep->prev_dep)
@@ -2090,7 +2097,7 @@ gnm_dep_container_new (void)
 {
 	GnmDepContainer *deps = g_new (GnmDepContainer, 1);
 
-	deps->dependent_list = NULL;
+	deps->head = deps->tail = NULL;
 
 	deps->range_hash  = g_new0 (GHashTable *,
 				    (SHEET_MAX_ROWS-1)/BUCKET_SIZE + 1);

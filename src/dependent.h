@@ -55,7 +55,7 @@ typedef enum {
 #define dependent_is_linked(dep)	((dep)->flags & DEPENDENT_IS_LINKED)
 
 struct _GnmDepContainer {
-	Dependent *dependent_list;
+	Dependent *head, *tail;
 
 	/* Large ranges hashed on 'range' to accelerate duplicate culling. This
 	 * is tranversed by g_hash_table_foreach mostly.
@@ -117,7 +117,7 @@ void		 gnm_dep_container_dump	(GnmDepContainer const *deps);
 
 #define DEPENDENT_CONTAINER_FOREACH_DEPENDENT(dc, dep, code)	\
   do {								\
-	Dependent *dep = (dc)->dependent_list;			\
+	Dependent *dep = (dc)->head;				\
 	while (dep) {						\
 		Dependent *_next = dep->next_dep;		\
 		code;						\

@@ -88,6 +88,14 @@ struct _WorkbookControlGUI {
 	/* Menu items that get enabled/disabled */
 	GtkWidget  *menu_item_undo;
 	GtkWidget  *menu_item_redo;
+
+	GtkWidget  *tool_item_cut;
+	GtkWidget  *tool_item_copy;
+	GtkWidget  *tool_item_paste;
+	GtkWidget  *menu_item_cut;
+	GtkWidget  *menu_item_copy;
+	GtkWidget  *menu_item_paste;
+
 	GtkWidget  *menu_item_paste_special;
 	GtkWidget  *menu_item_insert_rows;
 	GtkWidget  *menu_item_insert_cols;

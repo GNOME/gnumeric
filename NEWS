@@ -11,6 +11,8 @@ Jody:
 	* Get the lifecycle of copied GogGraphs running smoothly.
 	* Fix printing of graphs.
 	* Fix expr relocation with cross sheet references.
+	* Paper over the most common technique for blowing the stack.
+	* Disable clipboard operations during object editing.
 
 Morten:
 	* Support End+Home key sequence.
