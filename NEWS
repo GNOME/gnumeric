@@ -7,6 +7,10 @@ Jukka:
 	* Improved function documentation.
 	* Implemented Exponential Smoothing tool.
 
+Morten:
+	* Leak plugging.
+	* Fix memory overrun in function guru.
+
 --------------------------------------------------------------------------
 Gnumeric 0.75
 
@@ -20,7 +24,7 @@ Jody:
 	* Enable per sheet style management to support
 	  validation, conditionals, and simply XL export.
 	* re-enable compression for .gnumeric files.
-	* Make cell formt dialog only pseudo-modal.
+	* Make cell format dialog only pseudo-modal.
 	* Fix support for cancel on window manager quit.
 	* Fix non-bonobo View menu
 	* Fix sheet extent calculation new complex objects.
