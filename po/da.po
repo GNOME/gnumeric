@@ -9712,7 +9712,7 @@ msgstr "Side: "
 
 #: src/print-preview.c:498
 msgid "_First page"
-msgstr "_Første side
+msgstr "_Første side"
 
 #: src/print-preview.c:498 src/print-preview.c:526
 msgid "Shows the first page"
