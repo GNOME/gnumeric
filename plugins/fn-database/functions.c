@@ -356,11 +356,11 @@ find_cells_that_match (Sheet *sheet, Value *database,
 				Cell const *tmp = sheet_cell_get (sheet,
 					cond->column, row);
 
-				if (tmp != NULL && tmp->value != NULL) {
-					if (!cond->fun (tmp->value, cond->x)) {
+				if (tmp == NULL ||  
+				    tmp->value == NULL || 
+				    !cond->fun (tmp->value, cond->x)) {
 						add_flag = FALSE;
 						break;
-					}
 				}
 			}
 

@@ -1,3 +1,8 @@
+2001-10-17  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* fn-database.c (find_cells_that_match) : Undefined cells should not satisfy
+	  criteria.
+
 2001-10-16  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* fn-financial.c (coupdaybs): Fixed the frequency 1 for basis 0
