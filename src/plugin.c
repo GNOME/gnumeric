@@ -23,8 +23,6 @@ plugin_load (gchar *modfile)
 
 	g_return_val_if_fail (modfile != NULL, NULL);
 	
-	g_print("Loading plugin '%s'.\n", modfile);
-	
 	data = g_new0 (PluginData, 1);
 	if (!data){
 		g_print ("allocation error");
@@ -33,23 +31,21 @@ plugin_load (gchar *modfile)
 	
 	data->handle = g_module_open (modfile, 0);
 	if (!data->handle) {
-		g_print ("unable to open module file: %s\n", g_module_error());
+		char *str;
+		str = g_copy_strings("unable to open module file: ", g_module_error(), NULL);
+		gnumeric_notice(str);
+		g_free(str);
 		g_free(data);
 		return NULL;
 	}
 	
 	if (!g_module_symbol (data->handle, "init_plugin", (gpointer *) &data->init_plugin)){
-		g_print ("module must contain init_plugin function");
+		gnumeric_notice ("Plugin must contain init_plugin function.");
 		goto error;
 	}
 	
-	if (!g_module_symbol (data->handle, "cleanup_plugin", (gpointer *) &data->cleanup_plugin)){
-		g_print("module must contain cleanup_plugin funciton");
-		goto error;
-	}
-
 	if (data->init_plugin (data) < 0){
-		g_print ("init_plugin returned error");
+		gnumeric_notice ("init_plugin returned error");
 		goto error;
 	}
 
@@ -63,14 +59,12 @@ plugin_load (gchar *modfile)
 }
 
 void
-plugin_unload (struct PluginData *pd)
+plugin_unload (PluginData *pd)
 {
 	g_return_if_fail (pd != NULL);
 	
-	g_print ("unloading plugin %s\n", g_module_name (pd->handle));
-
-	if (pd->refcount > 0) {
-		g_print ("unload_plugin: refcount is positve, cannot unload\n");
+	if (pd->can_unload && !pd->can_unload(pd)) {
+		gnumeric_notice("Plugin is still in use.\n");
 		return;
 	}
 	
@@ -81,7 +75,6 @@ plugin_unload (struct PluginData *pd)
 
 	g_module_close (pd->handle);
 	g_free (pd);
-	g_print ("unload_plugin: plugin is unloaded\n");
 }
 
 static void
@@ -113,8 +106,6 @@ plugins_init(void)
 	
 	if (!g_module_supported())
 		return;
-
-	g_print ("plugins_init()\n");
 
 	/* Load the user plugins */
 	plugin_dir = g_copy_strings (home_dir ? home_dir : "", "/.gnumeric/plugins/", NULL);

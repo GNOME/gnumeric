@@ -12,7 +12,7 @@
 #include "../../src/plugin.h"
 
 static Value *
-func_plusone (Value *argv [], char **error_string)
+func_plusone (FunctionDefinition * fndef, Value *argv [], char **error_string)
 {
 	Value *v = g_new (Value, 1);
 	
@@ -27,22 +27,33 @@ static FunctionDefinition plugin_functions [] = {
 	{ NULL, NULL },
 };
 
-int init_plugin (PluginData * pd)
+static int
+can_unload (PluginData *pd)
 {
-	g_print("plugin-one.c: initializing\n");
-	install_symbols (plugin_functions);
-	pd->title = g_strdup ("PlusOne Plugin");
-	return 0;
+	Symbol *sym;
+	
+	sym = symbol_lookup ("plusone");
+	return sym->ref_count <= 1;
 }
-
-void cleanup_plugin (PluginData *pd)
+  
+static void
+cleanup_plugin (PluginData *pd)
 {
 	Symbol *sym;
 	
 	g_free (pd->title);
-	
 	sym = symbol_lookup ("plusone");
 	if (sym) {
 		symbol_unref(sym);
 	}
 }
+
+int init_plugin (PluginData * pd)
+{
+	install_symbols (plugin_functions);
+	pd->can_unload = can_unload;
+	pd->cleanup_plugin = cleanup_plugin;
+	pd->title = g_strdup ("PlusOne Plugin");
+	return 0;
+}
+

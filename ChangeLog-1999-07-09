@@ -1,3 +1,13 @@
+1998-09-17  Tom Dyas  <tdyas@vger.rutgers.edu>
+
+	* plugins/sample/plugin-sample.c: Update to the new plugin API.
+
+	* src/plugin.c (plugin_load,plugin_unload): Replaced g_print's
+	with gnumeric_notice. Call new API function "can_unload" to see if
+	a plugin is still in use.
+
+	* src/plugin.h: New API function "can_unload". Removed refcount.
+
 1998-09-17  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/sheet-view.c (sheet_view_row_size_changed,
