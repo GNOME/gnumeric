@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.54+\n"
-"POT-Creation-Date: 2000-06-30 18:19+0000\n"
-"PO-Revision-Date: 2000-06-30 18:21+00:00\n"
+"POT-Creation-Date: 2000-07-03 20:14+0000\n"
+"PO-Revision-Date: 2000-07-03 20:55+00:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -46,9 +46,8 @@ msgstr "Соединение рассеивания"
 #.
 #. * Add Sheet
 #.
-#: plugins/dif/dif.c:270 plugins/ff-csv/csv-io.c:166
-#: plugins/plan-perfect/pln.c:901 plugins/sc/sc.c:413 plugins/sylk/sylk.c:446
-#: plugins/text/text-io.c:322 src/stf.c:150
+#: plugins/dif/dif.c:270 plugins/plan-perfect/pln.c:901 plugins/sc/sc.c:413
+#: plugins/sylk/sylk.c:446 src/stf.c:150
 #, c-format
 msgid "Imported %s"
 msgstr "Импорт %s"
@@ -142,44 +141,6 @@ msgstr "Ошибочная функция"
 #: plugins/excel/ms-formula-read.c:1454
 msgid " Unknown formula"
 msgstr " Неизвестная формула"
-
-#: plugins/ff-csv/csv-io.c:52
-#, c-format
-msgid ""
-"Invalid CSV file - \n"
-"unexpected end of line at line %d"
-msgstr ""
-"Испорченый CSV-файл,\n"
-"неожиданный конец строки в строке %d"
-
-#: plugins/ff-csv/csv-io.c:113
-#, c-format
-msgid ""
-"Invalid CSV file has more than the maximum\n"
-"number of %s %d"
-msgstr ""
-"Испорченый CSV-файл, содержит больше максимального\n"
-"числа %s %d"
-
-#: plugins/ff-csv/csv-io.c:120 plugins/plan-perfect/pln.c:808
-msgid "rows"
-msgstr "cтроки"
-
-#: plugins/ff-csv/csv-io.c:134
-msgid "columns"
-msgstr "cтолбцы"
-
-#: plugins/ff-csv/csv-io.c:317
-msgid "Comma Separated Value (CSV) import"
-msgstr "Импорт разделенных запятыми значений (CSV)"
-
-#: plugins/ff-csv/csv-io.c:321
-msgid "Comma Separated Value format (*.csv)"
-msgstr "Формат с разделенными запятыми значениями (*.csv)"
-
-#: plugins/ff-csv/csv-io.c:325
-msgid "Comma Separated Value (CSV) module"
-msgstr "Модуль значений разделенных запятыми (CSV)"
 
 #: plugins/gb/plugin.c:219
 msgid "Unknown GB error"
@@ -440,6 +401,10 @@ msgstr "PLN: файл не PlanPerfect"
 msgid "PLN : Spreadsheet is password encrypted"
 msgstr "PLN: таблица защищена паролем"
 
+#: plugins/plan-perfect/pln.c:808
+msgid "rows"
+msgstr "cтроки"
+
 #: plugins/plan-perfect/pln.c:954
 msgid "Plan Perfect Format (PLN) import"
 msgstr "Импорт формата Plan Perfect (PLN)"
@@ -467,14 +432,6 @@ msgstr "Hе удалось найти обьект кода Python"
 #: plugins/python/python.c:813
 msgid "object must be callable"
 msgstr "обьект должен быть вызываемым"
-
-#: plugins/sample/plugin-sample.c:50 plugins/sample/plugin-sample.c:55
-msgid "Sample Plugin"
-msgstr "Пример дополнения"
-
-#: plugins/sample/plugin-sample.c:54
-msgid "PlusOne"
-msgstr "Добавить один"
 
 #: plugins/sc/sc.c:458
 msgid "SC/xspread file import"
@@ -507,27 +464,6 @@ msgstr "MultiPlan (SYLK)"
 #: plugins/sylk/sylk.c:512
 msgid "Imports MultiPlan (SYLK) files"
 msgstr "Импорт файлов MultiPlan (SYLK)"
-
-#: plugins/text/text-io.c:312
-msgid "Empty file"
-msgstr "Пустой файл"
-
-#: plugins/text/text-io.c:316
-msgid "File is too large"
-msgstr "Файл слишком большой"
-
-#: plugins/text/text-io.c:387
-msgid "Simple Text"
-msgstr "Простой текст"
-
-#: plugins/text/text-io.c:418
-msgid "Basic Text I/O"
-msgstr "Основной ввод/вывод текста"
-
-#: plugins/text/text-io.c:419
-msgid "Read/Write workbooks using a simple text format."
-msgstr ""
-"Чтение/Запись рабочих книг с использованием простого текстового формата."
 
 #: plugins/xbase/boot.c:207
 msgid "Xbase (*.dbf) file format"
@@ -672,7 +608,7 @@ msgstr "Строка %d"
 msgid "Covariances"
 msgstr "Ковариации"
 
-#: src/analysis-tools.c:723 src/dialogs/dialog-analysis-tools.c:308
+#: src/analysis-tools.c:723 src/dialogs/dialog-analysis-tools.c:311
 msgid "Summary Statistics"
 msgstr "Суммарная статистика"
 
@@ -724,12 +660,13 @@ msgid "Maximum"
 msgstr "Максимум"
 
 #: src/analysis-tools.c:740 src/analysis-tools.c:2321
-#: src/analysis-tools.c:2487 src/workbook.c:1544 src/workbook.c:2016
+#: src/analysis-tools.c:2487 src/analysis-tools.c:2733 src/workbook.c:1544
+#: src/workbook.c:2016
 msgid "Sum"
 msgstr "Сумма"
 
 #: src/analysis-tools.c:741 src/analysis-tools.c:2320
-#: src/analysis-tools.c:2486 src/workbook.c:2020
+#: src/analysis-tools.c:2486 src/analysis-tools.c:2732 src/workbook.c:2020
 msgid "Count"
 msgstr "Количество"
 
@@ -759,8 +696,8 @@ msgstr "К-ое наименьшее:"
 msgid "Smallest (%d)"
 msgstr "Наименьшее (%d)"
 
-#: src/analysis-tools.c:960 src/dialogs/cell-format.glade.h:19
-#: src/dialogs/cell-format.glade.h:123
+#: src/analysis-tools.c:960 src/analysis-tools.c:2748
+#: src/dialogs/cell-format.glade.h:19 src/dialogs/cell-format.glade.h:123
 msgid "Sample"
 msgstr "Выборка"
 
@@ -823,6 +760,7 @@ msgstr "t-Тест"
 #: src/analysis-tools.c:1206 src/analysis-tools.c:1344
 #: src/analysis-tools.c:1461 src/analysis-tools.c:1580
 #: src/analysis-tools.c:2323 src/analysis-tools.c:2489
+#: src/analysis-tools.c:2735
 msgid "Variance"
 msgstr "Дисперсия"
 
@@ -833,7 +771,7 @@ msgstr "Корреляция Пирсона"
 #: src/analysis-tools.c:1210 src/analysis-tools.c:1348
 #: src/analysis-tools.c:1464 src/analysis-tools.c:1582
 #: src/analysis-tools.c:1912 src/analysis-tools.c:2393
-#: src/analysis-tools.c:2584
+#: src/analysis-tools.c:2584 src/analysis-tools.c:2755
 msgid "df"
 msgstr "ст. свободы"
 
@@ -872,6 +810,7 @@ msgstr "F-Тест"
 
 #: src/analysis-tools.c:1583 src/analysis-tools.c:1915
 #: src/analysis-tools.c:2395 src/analysis-tools.c:2586
+#: src/analysis-tools.c:2757
 msgid "F"
 msgstr "F"
 
@@ -883,7 +822,7 @@ msgstr "P (F<=f) одностороннее"
 msgid "F Critical one-tail"
 msgstr "F-критическое одностроннее"
 
-#: src/analysis-tools.c:1660 src/dialogs/dialog-analysis-tools.c:398
+#: src/analysis-tools.c:1660 src/dialogs/dialog-analysis-tools.c:401
 msgid "Random"
 msgstr "Случайное"
 
@@ -895,8 +834,8 @@ msgstr "Еще не реализовано.\n"
 #. value in the checkbox instead of this
 #. global, but I don't know GTK very well
 #: src/analysis-tools.c:1891 src/analysis-tools.c:1903
-#: src/dialogs/dialog-analysis-tools.c:94
-#: src/dialogs/dialog-analysis-tools.c:1978
+#: src/dialogs/dialog-analysis-tools.c:97
+#: src/dialogs/dialog-analysis-tools.c:1981
 msgid "Regression"
 msgstr "Регрессия"
 
@@ -921,7 +860,7 @@ msgid "Adjusted R Square"
 msgstr "Подобранный коэффициент детерминации"
 
 #: src/analysis-tools.c:1902 src/analysis-tools.c:2390
-#: src/analysis-tools.c:2581
+#: src/analysis-tools.c:2581 src/analysis-tools.c:2746
 msgid "ANOVA"
 msgstr "Дисперсионный анализ"
 
@@ -930,7 +869,8 @@ msgid "Residual"
 msgstr "Остаток"
 
 #: src/analysis-tools.c:1905 src/analysis-tools.c:2400
-#: src/analysis-tools.c:2592
+#: src/analysis-tools.c:2592 src/analysis-tools.c:2675
+#: src/analysis-tools.c:2730 src/analysis-tools.c:2752
 msgid "Total"
 msgstr "Итого"
 
@@ -944,12 +884,12 @@ msgid "X Variable %d"
 msgstr "X переменная %d"
 
 #: src/analysis-tools.c:1913 src/analysis-tools.c:2392
-#: src/analysis-tools.c:2583
+#: src/analysis-tools.c:2583 src/analysis-tools.c:2754
 msgid "SS"
 msgstr "Сумма квадратов"
 
 #: src/analysis-tools.c:1914 src/analysis-tools.c:2394
-#: src/analysis-tools.c:2585
+#: src/analysis-tools.c:2585 src/analysis-tools.c:2756
 msgid "MS"
 msgstr "Квадрат среднего"
 
@@ -962,7 +902,7 @@ msgid "Coefficients"
 msgstr "Коэффициенты"
 
 #: src/analysis-tools.c:1921 src/analysis-tools.c:2396
-#: src/analysis-tools.c:2587
+#: src/analysis-tools.c:2587 src/analysis-tools.c:2758
 msgid "P-value"
 msgstr "P-значения"
 
@@ -998,15 +938,17 @@ msgid "Percent"
 msgstr "Процент"
 
 #: src/analysis-tools.c:2312 src/analysis-tools.c:2479
+#: src/analysis-tools.c:2656
 msgid "Anova"
 msgstr "Дисперсионный анализ"
 
 #: src/analysis-tools.c:2317 src/dialogs/analysis-tools.glade.h:52
-#: src/dialogs/dialog-analysis-tools.c:76
+#: src/dialogs/dialog-analysis-tools.c:77
 msgid "Anova: Single Factor"
 msgstr "Дисперсионный анализ: однофакторный"
 
 #: src/analysis-tools.c:2318 src/analysis-tools.c:2485
+#: src/analysis-tools.c:2659
 msgid "SUMMARY"
 msgstr "ИТОГО"
 
@@ -1014,11 +956,13 @@ msgstr "ИТОГО"
 msgid "Groups"
 msgstr "Группы"
 
-#: src/analysis-tools.c:2322 src/analysis-tools.c:2488 src/workbook.c:2019
+#: src/analysis-tools.c:2322 src/analysis-tools.c:2488
+#: src/analysis-tools.c:2734 src/workbook.c:2019
 msgid "Average"
 msgstr "Среднее"
 
 #: src/analysis-tools.c:2391 src/analysis-tools.c:2582
+#: src/analysis-tools.c:2747
 msgid "Source of Variation"
 msgstr "Источник дисперсии"
 
@@ -1035,22 +979,38 @@ msgid "Within Groups"
 msgstr "В группах"
 
 #: src/analysis-tools.c:2484 src/dialogs/analysis-tools.glade.h:64
-#: src/dialogs/dialog-analysis-tools.c:78
+#: src/dialogs/dialog-analysis-tools.c:81
 msgid "Anova: Two-Factor Without Replication"
 msgstr "Дисперсионный анализ: двухфакторный без воспроизведения"
 
-#: src/analysis-tools.c:2589 src/dialogs/dialog-analysis-tools.c:392
+#: src/analysis-tools.c:2589 src/dialogs/dialog-analysis-tools.c:395
 msgid "Rows"
 msgstr "Строки"
 
-#: src/analysis-tools.c:2590 src/dialogs/dialog-analysis-tools.c:391
-#: src/dialogs/dialog-stf.glade.h:50
+#: src/analysis-tools.c:2590 src/analysis-tools.c:2749
+#: src/dialogs/dialog-analysis-tools.c:394 src/dialogs/dialog-stf.glade.h:50
 msgid "Columns"
 msgstr "Столбцы"
 
 #: src/analysis-tools.c:2591
 msgid "Error"
 msgstr "Ошибка"
+
+#: src/analysis-tools.c:2658 src/dialogs/dialog-analysis-tools.c:79
+msgid "Anova: Two-Factor With Replication"
+msgstr "Дисперсионный анализ: двухфакторный c воспроизведением"
+
+#: src/analysis-tools.c:2750
+msgid "Interaction"
+msgstr "Взаимодействие"
+
+#: src/analysis-tools.c:2751
+msgid "Within"
+msgstr "В"
+
+#: src/analysis-tools.c:2759
+msgid "F crit"
+msgstr "F-критическое"
 
 #: src/clipboard.c:127
 #, c-format
@@ -1483,7 +1443,7 @@ msgstr "Анализ данных"
 msgid "Analysis Tools"
 msgstr "Средства анализа"
 
-#: src/dialogs/analysis-tools.glade.h:9 src/dialogs/dialog-analysis-tools.c:86
+#: src/dialogs/analysis-tools.glade.h:9 src/dialogs/dialog-analysis-tools.c:89
 msgid "F-Test: Two-Sample for Variances"
 msgstr "F-тест: Two-Sample for Variances"
 
@@ -1624,7 +1584,7 @@ msgid "_Input Range:"
 msgstr "Входной диапазон:"
 
 #: src/dialogs/analysis-tools.glade.h:73
-#: src/dialogs/dialog-analysis-tools.c:88
+#: src/dialogs/dialog-analysis-tools.c:91
 msgid "Moving Average"
 msgstr "Скользящее среднее"
 
@@ -1637,22 +1597,22 @@ msgid "_Standard Errors"
 msgstr "Стандартные ошибки"
 
 #: src/dialogs/analysis-tools.glade.h:83
-#: src/dialogs/dialog-analysis-tools.c:80
+#: src/dialogs/dialog-analysis-tools.c:83
 msgid "Correlation"
 msgstr "Корреляция"
 
 #: src/dialogs/analysis-tools.glade.h:94
-#: src/dialogs/dialog-analysis-tools.c:82
+#: src/dialogs/dialog-analysis-tools.c:85
 msgid "Covariance"
 msgstr "Ковариация"
 
 #: src/dialogs/analysis-tools.glade.h:105
-#: src/dialogs/dialog-analysis-tools.c:92
+#: src/dialogs/dialog-analysis-tools.c:95
 msgid "Rank and Percentile"
 msgstr "Ранг и Percentile"
 
 #: src/dialogs/analysis-tools.glade.h:116
-#: src/dialogs/dialog-analysis-tools.c:90
+#: src/dialogs/dialog-analysis-tools.c:93
 msgid "Random Number Generation"
 msgstr "Генерация случайных чисел"
 
@@ -2277,7 +2237,7 @@ msgstr "Расширенные параметры сортировки"
 msgid "Sort by"
 msgstr "Сортировать по"
 
-#: src/dialogs/cell-sort.glade.h:17 src/solver-lp.c:1056 src/solver-lp.c:1106
+#: src/dialogs/cell-sort.glade.h:17 src/solver-lp.c:1065 src/solver-lp.c:1115
 msgid "Value"
 msgstr "Значения"
 
@@ -2358,258 +2318,260 @@ msgstr ""
 "Вы должны ввести одинаковое число столбцов в 'Диапазон списка:' и в "
 "'Диапазон критерия:'"
 
-#: src/dialogs/dialog-analysis-tools.c:84
-#: src/dialogs/dialog-analysis-tools.c:904
+#: src/dialogs/dialog-analysis-tools.c:87
+#: src/dialogs/dialog-analysis-tools.c:907
 msgid "Descriptive Statistics"
 msgstr "Описательные статистики"
 
-#: src/dialogs/dialog-analysis-tools.c:96
-#: src/dialogs/dialog-analysis-tools.c:790
+#: src/dialogs/dialog-analysis-tools.c:99
+#: src/dialogs/dialog-analysis-tools.c:793
 msgid "Sampling"
 msgstr "Выборка"
 
-#: src/dialogs/dialog-analysis-tools.c:98
+#: src/dialogs/dialog-analysis-tools.c:101
 msgid "t-Test: Paired Two Sample for Means"
 msgstr "t-Тест: сравнение средних для двух выборок"
 
-#: src/dialogs/dialog-analysis-tools.c:100
+#: src/dialogs/dialog-analysis-tools.c:103
 msgid "t-Test: Two-Sample Assuming Equal Variances"
 msgstr "t-Тест: две выборки с предположительно равными дисперсиями"
 
-#: src/dialogs/dialog-analysis-tools.c:102
+#: src/dialogs/dialog-analysis-tools.c:105
 msgid "t-Test: Two-Sample Assuming Unequal Variances"
 msgstr "t-Тест: две выборки с предположительно неравными дисперсиями"
 
-#: src/dialogs/dialog-analysis-tools.c:104
-#: src/dialogs/dialog-analysis-tools.c:1003
+#: src/dialogs/dialog-analysis-tools.c:107
+#: src/dialogs/dialog-analysis-tools.c:1006
 msgid "z-Test: Two Sample for Means"
 msgstr "z-Тест: средние двух выборок"
 
-#: src/dialogs/dialog-analysis-tools.c:112
+#: src/dialogs/dialog-analysis-tools.c:115
 msgid "Discrete"
 msgstr "Дискретное"
 
-#: src/dialogs/dialog-analysis-tools.c:112
+#: src/dialogs/dialog-analysis-tools.c:115
 msgid "_Value and probability input range:"
 msgstr "Входной диапазон значений и вероятностей:"
 
-#: src/dialogs/dialog-analysis-tools.c:114
+#: src/dialogs/dialog-analysis-tools.c:117
 #: src/widgets/widget-font-selector.c:129
 msgid "Normal"
 msgstr "Нормальное"
 
-#: src/dialogs/dialog-analysis-tools.c:114
+#: src/dialogs/dialog-analysis-tools.c:117
 msgid "_Mean:"
 msgstr "Среднее:"
 
-#: src/dialogs/dialog-analysis-tools.c:114
+#: src/dialogs/dialog-analysis-tools.c:117
 msgid "_Standard deviation:"
 msgstr "Стандартное отклонение:"
 
-#: src/dialogs/dialog-analysis-tools.c:116
+#: src/dialogs/dialog-analysis-tools.c:119
 msgid "Poisson"
 msgstr "Пуассон"
 
-#: src/dialogs/dialog-analysis-tools.c:116
+#: src/dialogs/dialog-analysis-tools.c:119
 msgid "_Lambda:"
 msgstr "Лямбда:"
 
-#: src/dialogs/dialog-analysis-tools.c:118
+#: src/dialogs/dialog-analysis-tools.c:121
 msgid "Exponential"
 msgstr "Экспоненциальное"
 
-#: src/dialogs/dialog-analysis-tools.c:118
+#: src/dialogs/dialog-analysis-tools.c:121
 msgid "_b value:"
 msgstr "b значение:"
 
-#: src/dialogs/dialog-analysis-tools.c:120
+#: src/dialogs/dialog-analysis-tools.c:123
 msgid "Binomial"
 msgstr "Биномиальное"
 
-#: src/dialogs/dialog-analysis-tools.c:120
-#: src/dialogs/dialog-analysis-tools.c:122
+#: src/dialogs/dialog-analysis-tools.c:123
 #: src/dialogs/dialog-analysis-tools.c:125
+#: src/dialogs/dialog-analysis-tools.c:128
 msgid "_p value:"
 msgstr "p значение:"
 
-#: src/dialogs/dialog-analysis-tools.c:120
+#: src/dialogs/dialog-analysis-tools.c:123
 msgid "N_umber of trials"
 msgstr "Число испытаний"
 
-#: src/dialogs/dialog-analysis-tools.c:122
+#: src/dialogs/dialog-analysis-tools.c:125
 msgid "Negative Binomial"
 msgstr "Отрицательное биномиальное"
 
-#: src/dialogs/dialog-analysis-tools.c:123
+#: src/dialogs/dialog-analysis-tools.c:126
 msgid "N_umber of failures"
 msgstr "Число неудач"
 
-#: src/dialogs/dialog-analysis-tools.c:125
+#: src/dialogs/dialog-analysis-tools.c:128
 msgid "Bernoulli"
 msgstr "Бернулли"
 
-#: src/dialogs/dialog-analysis-tools.c:127
+#: src/dialogs/dialog-analysis-tools.c:130
 msgid "Uniform"
 msgstr "Однородное"
 
-#: src/dialogs/dialog-analysis-tools.c:127
+#: src/dialogs/dialog-analysis-tools.c:130
 msgid "_Lower bound:"
 msgstr "Нижний предел:"
 
-#: src/dialogs/dialog-analysis-tools.c:127
+#: src/dialogs/dialog-analysis-tools.c:130
 msgid "_Upper bound:"
 msgstr "Верхний предел:"
 
-#: src/dialogs/dialog-analysis-tools.c:310
+#: src/dialogs/dialog-analysis-tools.c:313
 msgid "Confidence Level for Mean"
 msgstr "Доверительный уровень для значения"
 
-#: src/dialogs/dialog-analysis-tools.c:311
+#: src/dialogs/dialog-analysis-tools.c:314
 msgid "0.95"
 msgstr "0.95"
 
-#: src/dialogs/dialog-analysis-tools.c:312
+#: src/dialogs/dialog-analysis-tools.c:315
 msgid "Kth Largest:"
 msgstr "К-ое наибольшее:"
 
-#: src/dialogs/dialog-analysis-tools.c:313
-#: src/dialogs/dialog-analysis-tools.c:315
+#: src/dialogs/dialog-analysis-tools.c:316
+#: src/dialogs/dialog-analysis-tools.c:318
 msgid "1"
 msgstr "1"
 
-#: src/dialogs/dialog-analysis-tools.c:314
+#: src/dialogs/dialog-analysis-tools.c:317
 msgid "Kth Smallest:"
 msgstr "К-ое наименьшее:"
 
-#: src/dialogs/dialog-analysis-tools.c:320
+#: src/dialogs/dialog-analysis-tools.c:323
 msgid "Labels in First Row"
 msgstr "Метки в первой строке"
 
-#: src/dialogs/dialog-analysis-tools.c:326
+#: src/dialogs/dialog-analysis-tools.c:329
 msgid "Force Intercept to Be Zero"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:397
+#: src/dialogs/dialog-analysis-tools.c:400
 msgid "Periodic"
 msgstr "Периодически"
 
-#: src/dialogs/dialog-analysis-tools.c:486
-#: src/dialogs/dialog-analysis-tools.c:640
+#: src/dialogs/dialog-analysis-tools.c:489
+#: src/dialogs/dialog-analysis-tools.c:643
 msgid "You should introduce a valid cell range in 'Input Range:'"
 msgstr "Вы должны ввести подходящий диапазон ячеек в поле 'Входной диапазон:'"
 
-#: src/dialogs/dialog-analysis-tools.c:516
+#: src/dialogs/dialog-analysis-tools.c:519
 msgid "Output options:"
 msgstr "Параметры вывода:"
 
-#: src/dialogs/dialog-analysis-tools.c:518
+#: src/dialogs/dialog-analysis-tools.c:521
 msgid "New Sheet"
 msgstr "Новая таблица"
 
 #. hbox = gtk_hbox_new (FALSE, 0);
-#: src/dialogs/dialog-analysis-tools.c:522
+#: src/dialogs/dialog-analysis-tools.c:525
 msgid "New Workbook"
 msgstr "Новая книга"
 
-#: src/dialogs/dialog-analysis-tools.c:527
+#: src/dialogs/dialog-analysis-tools.c:530
 msgid "Output Range:"
 msgstr "Диапазон вывода:"
 
-#: src/dialogs/dialog-analysis-tools.c:551
+#: src/dialogs/dialog-analysis-tools.c:554
 msgid "Grouped By:"
 msgstr "Группировать по:"
 
-#: src/dialogs/dialog-analysis-tools.c:651
-#: src/dialogs/dialog-analysis-tools.c:751
-#: src/dialogs/dialog-analysis-tools.c:1210
-#: src/dialogs/dialog-analysis-tools.c:1343
-#: src/dialogs/dialog-analysis-tools.c:1477
-#: src/dialogs/dialog-analysis-tools.c:1603
-#: src/dialogs/dialog-analysis-tools.c:1929
-#: src/dialogs/dialog-analysis-tools.c:2177
-#: src/dialogs/dialog-analysis-tools.c:2283
-#: src/dialogs/dialog-analysis-tools.c:2392
-#: src/dialogs/dialog-analysis-tools.c:2502
+#: src/dialogs/dialog-analysis-tools.c:654
+#: src/dialogs/dialog-analysis-tools.c:754
+#: src/dialogs/dialog-analysis-tools.c:1213
+#: src/dialogs/dialog-analysis-tools.c:1346
+#: src/dialogs/dialog-analysis-tools.c:1480
+#: src/dialogs/dialog-analysis-tools.c:1606
+#: src/dialogs/dialog-analysis-tools.c:1932
+#: src/dialogs/dialog-analysis-tools.c:2180
+#: src/dialogs/dialog-analysis-tools.c:2286
+#: src/dialogs/dialog-analysis-tools.c:2395
+#: src/dialogs/dialog-analysis-tools.c:2505
+#: src/dialogs/dialog-analysis-tools.c:2612
 msgid "You should introduce a valid cell range in 'Output Range:'"
 msgstr "Вы должны ввести подходящий диапазон ячеек в 'Диапазон вывода:'"
 
-#: src/dialogs/dialog-analysis-tools.c:740
-#: src/dialogs/dialog-analysis-tools.c:862
-#: src/dialogs/dialog-analysis-tools.c:955
-#: src/dialogs/dialog-analysis-tools.c:2166
-#: src/dialogs/dialog-analysis-tools.c:2272
-#: src/dialogs/dialog-analysis-tools.c:2381
-#: src/dialogs/dialog-analysis-tools.c:2491
+#: src/dialogs/dialog-analysis-tools.c:743
+#: src/dialogs/dialog-analysis-tools.c:865
+#: src/dialogs/dialog-analysis-tools.c:958
+#: src/dialogs/dialog-analysis-tools.c:2169
+#: src/dialogs/dialog-analysis-tools.c:2275
+#: src/dialogs/dialog-analysis-tools.c:2384
+#: src/dialogs/dialog-analysis-tools.c:2494
+#: src/dialogs/dialog-analysis-tools.c:2603
 msgid "You should introduce a valid cell range in 'Range:'"
 msgstr "Вы должны ввести подходящий диапазон ячеек в 'Диапазон:'"
 
-#: src/dialogs/dialog-analysis-tools.c:797
-#: src/dialogs/dialog-analysis-tools.c:911
-#: src/dialogs/dialog-analysis-tools.c:1010
-#: src/dialogs/dialog-analysis-tools.c:1981
+#: src/dialogs/dialog-analysis-tools.c:800
+#: src/dialogs/dialog-analysis-tools.c:914
+#: src/dialogs/dialog-analysis-tools.c:1013
+#: src/dialogs/dialog-analysis-tools.c:1984
 msgid "Input:"
 msgstr "Ввод:"
 
-#: src/dialogs/dialog-analysis-tools.c:800
-#: src/dialogs/dialog-analysis-tools.c:914
+#: src/dialogs/dialog-analysis-tools.c:803
+#: src/dialogs/dialog-analysis-tools.c:917
 msgid "Input Range:"
 msgstr "Входной диапазон:"
 
-#: src/dialogs/dialog-analysis-tools.c:802
+#: src/dialogs/dialog-analysis-tools.c:805
 msgid "Sampling Method:"
 msgstr "Метод выборки:"
 
-#: src/dialogs/dialog-analysis-tools.c:814
+#: src/dialogs/dialog-analysis-tools.c:817
 msgid "Period:"
 msgstr "Период:"
 
-#: src/dialogs/dialog-analysis-tools.c:817
+#: src/dialogs/dialog-analysis-tools.c:820
 msgid "Number of Samples:"
 msgstr "Число испытаний:"
 
-#: src/dialogs/dialog-analysis-tools.c:1013
+#: src/dialogs/dialog-analysis-tools.c:1016
 msgid "Variable 1 Range:"
 msgstr "Диапазон переменной 1:"
 
-#: src/dialogs/dialog-analysis-tools.c:1016
+#: src/dialogs/dialog-analysis-tools.c:1019
 msgid "Variable 2 Range:"
 msgstr "Диапазон переменной 2:"
 
-#: src/dialogs/dialog-analysis-tools.c:1019
+#: src/dialogs/dialog-analysis-tools.c:1022
 msgid "Hypothesized Mean Difference:"
 msgstr "Гипотетическая разность средних:"
 
-#: src/dialogs/dialog-analysis-tools.c:1022
+#: src/dialogs/dialog-analysis-tools.c:1025
 msgid "Variable 1 Variance (known):"
 msgstr "Дисперсия переменной 1 (известная):"
 
-#: src/dialogs/dialog-analysis-tools.c:1025
+#: src/dialogs/dialog-analysis-tools.c:1028
 msgid "Variable 2 Variance (known):"
 msgstr "Дисперсия переменной 2 (известная):"
 
-#: src/dialogs/dialog-analysis-tools.c:1028
+#: src/dialogs/dialog-analysis-tools.c:1031
 msgid "Alpha:"
 msgstr "Альфа:"
 
-#: src/dialogs/dialog-analysis-tools.c:1060
-#: src/dialogs/dialog-analysis-tools.c:1184
-#: src/dialogs/dialog-analysis-tools.c:1317
-#: src/dialogs/dialog-analysis-tools.c:1451
-#: src/dialogs/dialog-analysis-tools.c:1580
-#: src/dialogs/dialog-analysis-tools.c:2027
+#: src/dialogs/dialog-analysis-tools.c:1063
+#: src/dialogs/dialog-analysis-tools.c:1187
+#: src/dialogs/dialog-analysis-tools.c:1320
+#: src/dialogs/dialog-analysis-tools.c:1454
+#: src/dialogs/dialog-analysis-tools.c:1583
+#: src/dialogs/dialog-analysis-tools.c:2030
 msgid "You should introduce a valid cell range in 'Variable 1:'"
 msgstr "Вы должны ввести подходящий диапазон ячеек в поле \"Переменная 1:\""
 
-#: src/dialogs/dialog-analysis-tools.c:1071
-#: src/dialogs/dialog-analysis-tools.c:1195
-#: src/dialogs/dialog-analysis-tools.c:1328
-#: src/dialogs/dialog-analysis-tools.c:1462
-#: src/dialogs/dialog-analysis-tools.c:1591
-#: src/dialogs/dialog-analysis-tools.c:2035
+#: src/dialogs/dialog-analysis-tools.c:1074
+#: src/dialogs/dialog-analysis-tools.c:1198
+#: src/dialogs/dialog-analysis-tools.c:1331
+#: src/dialogs/dialog-analysis-tools.c:1465
+#: src/dialogs/dialog-analysis-tools.c:1594
+#: src/dialogs/dialog-analysis-tools.c:2038
 msgid "You should introduce a valid cell range in 'Variable 2:'"
 msgstr "Вы должны ввести подходящий диапазон ячеек в поле \"Переменная 2:\""
 
-#: src/dialogs/dialog-analysis-tools.c:1910
+#: src/dialogs/dialog-analysis-tools.c:1913
 msgid ""
 "You should introduce a valid cell range in 'Value and probability input "
 "Range:'"
@@ -2617,19 +2579,19 @@ msgstr ""
 "Вы должны ввести подходящий диапазон ячейек для \"Входного диапазона "
 "значений и вероятностей\""
 
-#: src/dialogs/dialog-analysis-tools.c:1987
+#: src/dialogs/dialog-analysis-tools.c:1990
 msgid "Input Y Range:"
 msgstr "Входной диапазон Y:"
 
-#: src/dialogs/dialog-analysis-tools.c:1990
+#: src/dialogs/dialog-analysis-tools.c:1993
 msgid "Input X Range:"
 msgstr "Входной диапазон X:"
 
-#: src/dialogs/dialog-analysis-tools.c:1993
+#: src/dialogs/dialog-analysis-tools.c:1996
 msgid "Confidence Level:"
 msgstr "Доверительный уровень:"
 
-#: src/dialogs/dialog-analysis-tools.c:2059
+#: src/dialogs/dialog-analysis-tools.c:2062
 msgid ""
 "There are too few data points to conduct this regression.\n"
 "There must be at least as many data points as free variables."
@@ -2637,18 +2599,32 @@ msgstr ""
 "Слишком мало точек данных для проведения этой регрессии.\n"
 "Должно быть хотя бы столько же сколько свободных переменных."
 
-#: src/dialogs/dialog-analysis-tools.c:2065
+#: src/dialogs/dialog-analysis-tools.c:2068
 msgid ""
 "Two or more of the independent variables are linearly dependent,\n"
 "and the regression cannot be calculated. Remove one of these\n"
 "variables and try the regression again."
 msgstr " "
 
-#: src/dialogs/dialog-analysis-tools.c:2072
+#: src/dialogs/dialog-analysis-tools.c:2075
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
 msgstr ""
 "Число значений для каждой переменной в регрессии должно быть одинаковым."
+
+#: src/dialogs/dialog-analysis-tools.c:2634
+msgid "Each sample should contain the same number of rows (`Rows per sample:')"
+msgstr "Каждая выборка должна содержать равное число строк (\"Строк на выборку:\")"
+
+#: src/dialogs/dialog-analysis-tools.c:2639
+msgid "Given input range contains non-numeric data."
+msgstr "Заданный входной диапазон содержит нечисловые данные."
+
+#: src/dialogs/dialog-analysis-tools.c:2644
+msgid ""
+"The given input range should contain at least two columns of data and the "
+"labels."
+msgstr "Заданный входной диапазон должен содержать хотя бы два столбца данных и метки."
 
 #: src/dialogs/dialog-autosave.c:136
 msgid "You should introduce a proper number of minutes in the entry."
@@ -2731,7 +2707,7 @@ msgstr "сортировать"
 msgid "then by"
 msgstr "затем по"
 
-#: src/dialogs/dialog-define-names.c:181
+#: src/dialogs/dialog-define-names.c:168
 msgid "You can not redefine a builtin name."
 msgstr "Вы не можете переопределить встроенное имя."
 
@@ -2832,8 +2808,8 @@ msgstr "Ячейка названная в 'Изменяя ячейку' должна не содержать формул"
 msgid "Goal seek did not find a solution!"
 msgstr "Поиск цели не привел к решению!"
 
-#: src/dialogs/dialog-goto-cell.c:45 src/solver-lp.c:896 src/solver-lp.c:922
-#: src/solver-lp.c:957 src/solver-lp.c:1054 src/solver-lp.c:1104
+#: src/dialogs/dialog-goto-cell.c:45 src/solver-lp.c:905 src/solver-lp.c:931
+#: src/solver-lp.c:966 src/solver-lp.c:1063 src/solver-lp.c:1113
 msgid "Cell"
 msgstr "Ячейка"
 
@@ -2917,7 +2893,8 @@ msgstr "Размер: %ld байт"
 msgid "Modified:"
 msgstr "Изменен:"
 
-#: src/dialogs/dialog-plugin-manager.c:108
+#. get rid of '\n'
+#: src/dialogs/dialog-plugin-manager.c:110
 #, c-format
 msgid "Modified: %s"
 msgstr "Изменен: %s"
@@ -2951,7 +2928,7 @@ msgstr "="
 msgid "Int"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:250 src/dialogs/dialog-solver.c:432
+#: src/dialogs/dialog-solver.c:246 src/dialogs/dialog-solver.c:439
 msgid ""
 "The constraints having cell ranges in LHS and RHS should have the same "
 "number of columns and rows in both sides."
@@ -2959,19 +2936,24 @@ msgstr ""
 "Ограничения содержащие диапазоны ячеек в левой и правой сторонах должны "
 "иметь одинаковое число столбцов и строк с обеих сторон."
 
-#: src/dialogs/dialog-solver.c:260 src/dialogs/dialog-solver.c:442
+#: src/dialogs/dialog-solver.c:256 src/dialogs/dialog-solver.c:449
 msgid "The cell range in LHS or RHS should have only one column or row."
 msgstr ""
 "Диапазон ячеек с левой или правой стороны должен иметь только один столбец "
 "или строку."
 
-#: src/dialogs/dialog-solver.c:848
+#: src/dialogs/dialog-solver.c:865
 msgid "You should introduce a valid cell name for 'Target cell'"
 msgstr "Вы должны ввести подходящее название ячейки для 'Целевой ячейки'"
 
-#: src/dialogs/dialog-solver.c:871
+#: src/dialogs/dialog-solver.c:888
 msgid "You should introduce a valid cell names in 'By changing cells'"
 msgstr "Вы должны ввести подходящее название для ячейки в \"Изменяя ячейки\""
+
+#: src/dialogs/dialog-solver.c:912
+#, c-format
+msgid "Constraint `%s' is for a cell that is not an input cell."
+msgstr "Ограничение \"%s\" для ячейки не являющейся входной."
 
 #: src/dialogs/dialog-stf-export-sheet-page.c:356
 msgid "You need to select at least one sheet to export"
@@ -4086,7 +4068,7 @@ msgstr ""
 "Книга %s уже существует\n"
 "Хотите сохранить поверх нее?"
 
-#: src/file.c:577
+#: src/file.c:579
 #, c-format
 msgid ""
 "%s\n"
@@ -4095,7 +4077,7 @@ msgstr ""
 "%s\n"
 "это название каталога"
 
-#: src/file.c:586
+#: src/file.c:588
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -4104,7 +4086,7 @@ msgstr ""
 "У вас не достаточно прав для сохранения в\n"
 "%s"
 
-#: src/file.c:610
+#: src/file.c:613
 msgid ""
 "Please enter a file name,\n"
 "not a directory"
@@ -4112,7 +4094,7 @@ msgstr ""
 "Пожалуйста введите название файла,\n"
 "а не каталога"
 
-#: src/file.c:617
+#: src/file.c:620
 msgid ""
 "Sorry, there are no file savers loaded,\n"
 "I cannot save"
@@ -4120,7 +4102,7 @@ msgstr ""
 "К сожалению, модуль для сохранения файлов\n"
 "не загружен, сохранение невозможно"
 
-#: src/file.c:633 src/file.c:716
+#: src/file.c:636 src/file.c:719
 msgid ""
 "Could not save to file %s\n"
 "%%s"
@@ -4128,47 +4110,47 @@ msgstr ""
 "Невозможно сохранить файл %s\n"
 "%%s"
 
-#: src/file.c:661
+#: src/file.c:664
 msgid "Save workbook as"
 msgstr "Сохранить книгу как..."
 
-#: src/file.c:739
+#: src/file.c:742
 msgid "Load file"
 msgstr "Загрузить файл"
 
-#: src/format.c:440 src/widgets/widget-color-combo.c:454
+#: src/format.c:440 src/widgets/widget-color-combo.c:562
 msgid "black"
 msgstr "черный"
 
-#: src/format.c:441 src/widgets/widget-color-combo.c:469
-#: src/widgets/widget-color-combo.c:522
+#: src/format.c:441 src/widgets/widget-color-combo.c:577
+#: src/widgets/widget-color-combo.c:630
 msgid "blue"
 msgstr "синий"
 
-#: src/format.c:442 src/widgets/widget-color-combo.c:488
-#: src/widgets/widget-color-combo.c:518
+#: src/format.c:442 src/widgets/widget-color-combo.c:596
+#: src/widgets/widget-color-combo.c:626
 msgid "cyan"
 msgstr "голубой"
 
-#: src/format.c:443 src/widgets/widget-color-combo.c:487
+#: src/format.c:443 src/widgets/widget-color-combo.c:595
 msgid "green"
 msgstr "зеленый"
 
-#: src/format.c:444 src/widgets/widget-color-combo.c:484
-#: src/widgets/widget-color-combo.c:516
+#: src/format.c:444 src/widgets/widget-color-combo.c:592
+#: src/widgets/widget-color-combo.c:624
 msgid "magenta"
 msgstr "пурпурный"
 
-#: src/format.c:445 src/widgets/widget-color-combo.c:474
+#: src/format.c:445 src/widgets/widget-color-combo.c:582
 msgid "red"
 msgstr "красный"
 
-#: src/format.c:446 src/widgets/widget-color-combo.c:501
+#: src/format.c:446 src/widgets/widget-color-combo.c:609
 msgid "white"
 msgstr "белый"
 
-#: src/format.c:447 src/widgets/widget-color-combo.c:486
-#: src/widgets/widget-color-combo.c:517
+#: src/format.c:447 src/widgets/widget-color-combo.c:594
+#: src/widgets/widget-color-combo.c:625
 msgid "yellow"
 msgstr "желтый"
 
@@ -7497,7 +7479,7 @@ msgstr ""
 msgid "Engineering"
 msgstr "Инженерные"
 
-#: src/functions/fn-financial.c:223
+#: src/functions/fn-financial.c:258
 msgid ""
 "@FUNCTION=ACCRINT\n"
 "@SYNTAX=ACCRINT(issue,first_interest,settlement,rate,par,frequency[,basis])\n"
@@ -7522,7 +7504,7 @@ msgid ""
 "@SEEALSO=ACCRINTM"
 msgstr ""
 
-#: src/functions/fn-financial.c:281
+#: src/functions/fn-financial.c:316
 msgid ""
 "@FUNCTION=ACCRINTM\n"
 "@SYNTAX=ACCRINTM(issue,maturity,rate[,par,basis])\n"
@@ -7548,7 +7530,7 @@ msgid ""
 "@SEEALSO=ACCRINT"
 msgstr ""
 
-#: src/functions/fn-financial.c:331
+#: src/functions/fn-financial.c:366
 msgid ""
 "@FUNCTION=INTRATE\n"
 "@SYNTAX=INTRATE(settlement,maturity,investment,redemption[,basis])\n"
@@ -7576,7 +7558,7 @@ msgid ""
 "@SEEALSO=RECEIVED, DATE"
 msgstr ""
 
-#: src/functions/fn-financial.c:391
+#: src/functions/fn-financial.c:426
 msgid ""
 "@FUNCTION=RECEIVED\n"
 "@SYNTAX=RECEIVED(settlement,maturity,investment,rate[,basis])\n"
@@ -7599,7 +7581,7 @@ msgid ""
 "@SEEALSO=INTRATE"
 msgstr ""
 
-#: src/functions/fn-financial.c:443
+#: src/functions/fn-financial.c:478
 msgid ""
 "@FUNCTION=PRICEDISC\n"
 "@SYNTAX=PRICEDISC(settlement,maturity,discount,redemption[,basis])\n"
@@ -7624,7 +7606,7 @@ msgid ""
 "@SEEALSO=PRICEMAT"
 msgstr ""
 
-#: src/functions/fn-financial.c:493
+#: src/functions/fn-financial.c:528
 msgid ""
 "@FUNCTION=PRICEMAT\n"
 "@SYNTAX=PRICEMAT(settlement,maturity,issue,rate,yield[,basis])\n"
@@ -7647,7 +7629,7 @@ msgid ""
 "@SEEALSO=PRICEDISC"
 msgstr ""
 
-#: src/functions/fn-financial.c:548
+#: src/functions/fn-financial.c:583
 msgid ""
 "@FUNCTION=DISC\n"
 "@SYNTAX=DISC(settlement,maturity,par,redemption[,basis])\n"
@@ -7688,7 +7670,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:594
+#: src/functions/fn-financial.c:629
 msgid ""
 "@FUNCTION=EFFECT\n"
 "@SYNTAX=EFFECT(r,nper)\n"
@@ -7732,11 +7714,11 @@ msgstr ""
 "\n"
 "@SEEALSO=NOMINAL"
 
-#: src/functions/fn-financial.c:635
+#: src/functions/fn-financial.c:670
 msgid "effect - domain error"
 msgstr "effect - ошибка диапазона"
 
-#: src/functions/fn-financial.c:643
+#: src/functions/fn-financial.c:678
 msgid ""
 "@FUNCTION=NOMINAL\n"
 "@SYNTAX=NOMINAL(r,nper)\n"
@@ -7768,11 +7750,11 @@ msgstr ""
 "\n"
 "@SEEALSO=EFFECT"
 
-#: src/functions/fn-financial.c:673
+#: src/functions/fn-financial.c:708
 msgid "nominal - domain error"
 msgstr "nominal - ошибка диапазона"
 
-#: src/functions/fn-financial.c:682
+#: src/functions/fn-financial.c:717
 msgid ""
 "@FUNCTION=ISPMT\n"
 "@SYNTAX=ISPMT(rate,per,nper,pv)\n"
@@ -7791,7 +7773,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV"
 
-#: src/functions/fn-financial.c:716
+#: src/functions/fn-financial.c:751
 msgid ""
 "@FUNCTION=DB\n"
 "@SYNTAX=DB(cost,salvage,life,period[,month])\n"
@@ -7817,7 +7799,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DDB,SLN,SYD"
 
-#: src/functions/fn-financial.c:770
+#: src/functions/fn-financial.c:805
 msgid ""
 "@FUNCTION=DDB\n"
 "@SYNTAX=DDB(cost,salvage,life,period[,factor])\n"
@@ -7845,7 +7827,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SLN,SYD"
 
-#: src/functions/fn-financial.c:818
+#: src/functions/fn-financial.c:853
 msgid ""
 "@FUNCTION=SLN\n"
 "@SYNTAX=SLN(cost,salvage_value,life)\n"
@@ -7886,11 +7868,11 @@ msgstr ""
 "SLN(10000,700,10) равняется $930\n"
 "@SEEALSO=SYD"
 
-#: src/functions/fn-financial.c:862
+#: src/functions/fn-financial.c:897
 msgid "sln - domain error"
 msgstr "sln - ошибка диапазона"
 
-#: src/functions/fn-financial.c:870
+#: src/functions/fn-financial.c:905
 msgid ""
 "@FUNCTION=SYD\n"
 "@SYNTAX=SYD(cost,salvage_value,life,period)\n"
@@ -7936,11 +7918,11 @@ msgstr ""
 "SYD(5000, 200, 5, 2) равняется 1280.00\n"
 "@SEEALSO=SLN"
 
-#: src/functions/fn-financial.c:916
+#: src/functions/fn-financial.c:951
 msgid "syd - domain error"
 msgstr "syd - ошибка диапазона"
 
-#: src/functions/fn-financial.c:926
+#: src/functions/fn-financial.c:961
 msgid ""
 "@FUNCTION=DOLLARDE\n"
 "@SYNTAX=DOLLARDE(fractional_dollar,fraction)\n"
@@ -7962,7 +7944,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLARFR"
 
-#: src/functions/fn-financial.c:968
+#: src/functions/fn-financial.c:1003
 msgid ""
 "@FUNCTION=DOLLARFR\n"
 "@SYNTAX=DOLLARFR(decimal_dollar,fraction)\n"
@@ -7984,7 +7966,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLARDE"
 
-#: src/functions/fn-financial.c:1010
+#: src/functions/fn-financial.c:1045
 msgid ""
 "@FUNCTION=MIRR\n"
 "@SYNTAX=MIRR(values,finance_rate,reinvest_rate)\n"
@@ -8002,7 +7984,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NPV"
 
-#: src/functions/fn-financial.c:1069
+#: src/functions/fn-financial.c:1104
 msgid ""
 "@FUNCTION=TBILLEQ\n"
 "@SYNTAX=TBILLEQ(settlement,maturity,discount)\n"
@@ -8017,7 +7999,7 @@ msgid ""
 "@SEEALSO=TBILLPRICE,TBILLYIELD"
 msgstr ""
 
-#: src/functions/fn-financial.c:1114
+#: src/functions/fn-financial.c:1149
 msgid ""
 "@FUNCTION=TBILLPRICE\n"
 "@SYNTAX=TBILLPRICE(settlement,maturity,discount)\n"
@@ -8033,7 +8015,7 @@ msgid ""
 "@SEEALSO=TBILLEQ,TBILLYIELD"
 msgstr ""
 
-#: src/functions/fn-financial.c:1155
+#: src/functions/fn-financial.c:1190
 msgid ""
 "@FUNCTION=TBILLYIELD\n"
 "@SYNTAX=TBILLYIELD(settlement,maturity,pr)\n"
@@ -8048,7 +8030,7 @@ msgid ""
 "@SEEALSO=TBILLEQ,TBILLPRICE"
 msgstr ""
 
-#: src/functions/fn-financial.c:1196
+#: src/functions/fn-financial.c:1231
 msgid ""
 "@FUNCTION=RATE\n"
 "@SYNTAX=RATE(nper,pmt,pv[,fv,type,guess])\n"
@@ -8064,7 +8046,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV,FV"
 
-#: src/functions/fn-financial.c:1291
+#: src/functions/fn-financial.c:1326
 msgid ""
 "@FUNCTION=IRR\n"
 "@SYNTAX=IRR(values[,guess])\n"
@@ -8099,7 +8081,7 @@ msgstr ""
 "IRR(A1:A8) равняется 0.04375.\n"
 "@SEEALSO=FV,NPV,PV"
 
-#: src/functions/fn-financial.c:1396
+#: src/functions/fn-financial.c:1431
 msgid ""
 "@FUNCTION=PV\n"
 "@SYNTAX=PV(rate,nper,pmt,fv,type)\n"
@@ -8124,11 +8106,11 @@ msgstr ""
 "\n"
 "@SEEALSO=FV,PMT,PPMT"
 
-#: src/functions/fn-financial.c:1425
+#: src/functions/fn-financial.c:1460
 msgid "pv - domain error"
 msgstr "pv - ошибка диапазона"
 
-#: src/functions/fn-financial.c:1441
+#: src/functions/fn-financial.c:1476
 msgid ""
 "@FUNCTION=NPV\n"
 "@SYNTAX=NPV(rate,v1,v2,...)\n"
@@ -8152,7 +8134,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV,XNPV"
 
-#: src/functions/fn-financial.c:1495
+#: src/functions/fn-financial.c:1530
 msgid ""
 "@FUNCTION=XNPV\n"
 "@SYNTAX=XNPV(rate,values,dates)\n"
@@ -8177,7 +8159,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NPV,PV"
 
-#: src/functions/fn-financial.c:1554
+#: src/functions/fn-financial.c:1589
 msgid ""
 "@FUNCTION=XIRR\n"
 "@SYNTAX=XIRR(values,dates[,guess])\n"
@@ -8218,7 +8200,7 @@ msgstr ""
 "0.224838.\n"
 "@SEEALSO=IRR,XNPV"
 
-#: src/functions/fn-financial.c:1658
+#: src/functions/fn-financial.c:1693
 msgid ""
 "@FUNCTION=FV\n"
 "@SYNTAX=FV(rate,term,pmt,pv,type)\n"
@@ -8244,7 +8226,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV,PMT,PPMT"
 
-#: src/functions/fn-financial.c:1697
+#: src/functions/fn-financial.c:1732
 msgid ""
 "@FUNCTION=PMT\n"
 "@SYNTAX=PMT(rate,nper,pv[,fv,type])\n"
@@ -8255,7 +8237,7 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1726
+#: src/functions/fn-financial.c:1761
 msgid ""
 "@FUNCTION=IPMT\n"
 "@SYNTAX=IPMT(rate,per,nper,pv,fv,type)\n"
@@ -8271,7 +8253,7 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1773
+#: src/functions/fn-financial.c:1808
 msgid ""
 "@FUNCTION=PPMT\n"
 "@SYNTAX=PPMT(rate,per,nper,pv[,fv,type])\n"
@@ -8287,7 +8269,7 @@ msgid ""
 "@SEEALSO=IPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1822
+#: src/functions/fn-financial.c:1857
 msgid ""
 "@FUNCTION=NPER\n"
 "@SYNTAX=NPER(rate,pmt,pv,fv,type)\n"
@@ -8321,7 +8303,7 @@ msgstr ""
 "можете удвоить свои сбережения только к концу 12-ого года.\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: src/functions/fn-financial.c:1871
+#: src/functions/fn-financial.c:1906
 msgid ""
 "@FUNCTION=DURATION\n"
 "@SYNTAX=DURATION(rate,pv,fv)\n"
@@ -8343,7 +8325,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: src/functions/fn-financial.c:1908
+#: src/functions/fn-financial.c:1943
 msgid ""
 "@FUNCTION=FVSCHEDULE\n"
 "@SYNTAX=FVSCHEDULE(principal,schedule)\n"
@@ -8358,7 +8340,7 @@ msgid ""
 "@SEEALSO=PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1952
+#: src/functions/fn-financial.c:1987
 msgid ""
 "@FUNCTION=EURO\n"
 "@SYNTAX=EURO(currency)\n"
@@ -8404,7 +8386,7 @@ msgstr ""
 "EURO(\"DEM\") возвращает 1.95583.\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2034
+#: src/functions/fn-financial.c:2069
 msgid ""
 "@FUNCTION=PRICE\n"
 "@SYNTAX=PRICE(settle,mat,rate,yield,redemption_price,frequency,basis)\n"
@@ -8420,7 +8402,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2058
+#: src/functions/fn-financial.c:2093
 msgid ""
 "@FUNCTION=YIELD\n"
 "@SYNTAX=YIELD(settle,mat,rate,price,redemption_price,frequency,basis)\n"
@@ -8436,7 +8418,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2076
+#: src/functions/fn-financial.c:2111
 msgid ""
 "@FUNCTION=YIELDDISC\n"
 "@SYNTAX=YIELDDISC(settlement,maturity,pr,redemption,basis)\n"
@@ -8452,7 +8434,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2094
+#: src/functions/fn-financial.c:2129
 msgid ""
 "@FUNCTION=YIELDMAT\n"
 "@SYNTAX=YIELDMAT(settlement,maturity,issue,rate,pr,basis)\n"
@@ -8468,7 +8450,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2112
+#: src/functions/fn-financial.c:2147
 msgid ""
 "@FUNCTION=ODDFPRICE\n"
 "@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,yld,redemption,"
@@ -8486,7 +8468,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2130
+#: src/functions/fn-financial.c:2165
 msgid ""
 "@FUNCTION=ODDFYIELD\n"
 "@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,redemption,f"
@@ -8504,7 +8486,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2148
+#: src/functions/fn-financial.c:2183
 msgid ""
 "@FUNCTION=ODDLPRICE\n"
 "@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,frequ"
@@ -8522,7 +8504,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2166
+#: src/functions/fn-financial.c:2201
 msgid ""
 "@FUNCTION=ODDLYIELD\n"
 "@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,freque"
@@ -8540,7 +8522,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2184
+#: src/functions/fn-financial.c:2219
 msgid ""
 "@FUNCTION=AMORDEGRC\n"
 "@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate,basis)"
@@ -8559,7 +8541,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AMORLINC"
 
-#: src/functions/fn-financial.c:2202
+#: src/functions/fn-financial.c:2237
 msgid ""
 "@FUNCTION=AMORLINC\n"
 "@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate,basis)\n"
@@ -8576,7 +8558,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AMORDEGRC"
 
-#: src/functions/fn-financial.c:2220
+#: src/functions/fn-financial.c:2255
 msgid ""
 "@FUNCTION=COUPDAYBS\n"
 "@SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis])\n"
@@ -8594,7 +8576,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2239
+#: src/functions/fn-financial.c:2274
 msgid ""
 "@FUNCTION=COUPDAYS\n"
 "@SYNTAX=COUPDAYS(settlement,maturity,frequency[,basis])\n"
@@ -8611,7 +8593,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2281
+#: src/functions/fn-financial.c:2319
 msgid ""
 "@FUNCTION=COUPDAYSNC\n"
 "@SYNTAX=COUPDAYSNC(settlement,maturity,frequency[,basis])\n"
@@ -8629,7 +8611,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2300
+#: src/functions/fn-financial.c:2338
 msgid ""
 "@FUNCTION=COUPNCD\n"
 "@SYNTAX=COUPNCD(settlement,maturity,frequency[,basis])\n"
@@ -8645,7 +8627,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HOUR"
 
-#: src/functions/fn-financial.c:2318
+#: src/functions/fn-financial.c:2356
 msgid ""
 "@FUNCTION=COUPPCD\n"
 "@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis])\n"
@@ -8661,7 +8643,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2336
+#: src/functions/fn-financial.c:2374
 msgid ""
 "@FUNCTION=COUPNUM\n"
 "@SYNTAX=COUPNUM(settlement,maturity,frequency[,basis])\n"
@@ -8679,7 +8661,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2355
+#: src/functions/fn-financial.c:2415
 msgid ""
 "@FUNCTION=CUMIPMT\n"
 "@SYNTAX=CUMIPMT(rate,nper,pv,start_period,end_period,type)\n"
@@ -8697,7 +8679,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HOUR"
 
-#: src/functions/fn-financial.c:2374
+#: src/functions/fn-financial.c:2434
 msgid ""
 "@FUNCTION=CUMPRINC\n"
 "@SYNTAX=CUMPRINC(rate,nper,pv,start_period,end_period,type)\n"
@@ -8715,7 +8697,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2393
+#: src/functions/fn-financial.c:2453
 msgid ""
 "@FUNCTION=MDURATION\n"
 "@SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency[,basis])\n"
@@ -8733,7 +8715,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2412
+#: src/functions/fn-financial.c:2472
 msgid ""
 "@FUNCTION=VDB\n"
 "@SYNTAX=VDB(cost,salvage,life,start_period,end_period[,factor,switch])\n"
@@ -8751,7 +8733,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DB"
 
-#: src/functions/fn-financial.c:2435
+#: src/functions/fn-financial.c:2495
 msgid "Financial"
 msgstr "Финансовые"
 
@@ -9313,7 +9295,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=FALSE\n"
 "@SYNTAX=FALSE()\n"
-"@DESCRIPTION=Возвращает значение логической лжи (FALSE). Эта функция Excel-совместима. \n"
+"@DESCRIPTION=Возвращает значение логической лжи (FALSE). Эта функция "
+"Excel-совместима. \n"
 "@EXAMPLES=\n"
 "FALSE() равняется FALSE.\n"
 "\n"
@@ -14597,121 +14580,121 @@ msgstr "Вставить строки"
 msgid "Delete Rows"
 msgstr "Удалить строки"
 
-#: src/solver-lp.c:888
+#: src/solver-lp.c:897
 msgid "Answer Report"
 msgstr "Итоговый отчет"
 
-#: src/solver-lp.c:889
+#: src/solver-lp.c:898
 msgid "Gnumeric Solver Answer Report"
 msgstr "Итоговый отчет Gnumeric Solver"
 
-#: src/solver-lp.c:893
+#: src/solver-lp.c:902
 msgid "Target Cell (Maximize)"
 msgstr "Целевая ячейка (Максимизировать)"
 
-#: src/solver-lp.c:895
+#: src/solver-lp.c:904
 msgid "Target Cell (Minimize)"
 msgstr "Целевая ячейка (Минимизировать)"
 
-#: src/solver-lp.c:897 src/solver-lp.c:923 src/solver-lp.c:958
-#: src/solver-lp.c:1055 src/solver-lp.c:1105
+#: src/solver-lp.c:906 src/solver-lp.c:932 src/solver-lp.c:967
+#: src/solver-lp.c:1064 src/solver-lp.c:1114
 msgid "Name"
 msgstr "Название"
 
-#: src/solver-lp.c:898 src/solver-lp.c:924
+#: src/solver-lp.c:907 src/solver-lp.c:933
 msgid "Original Value"
 msgstr "Исходное значение"
 
-#: src/solver-lp.c:899 src/solver-lp.c:925
+#: src/solver-lp.c:908 src/solver-lp.c:934
 msgid "Final Value"
 msgstr "Итоговое значение"
 
-#: src/solver-lp.c:921 src/solver-lp.c:1048
+#: src/solver-lp.c:930 src/solver-lp.c:1057
 msgid "Adjustable Cells"
 msgstr "Настраиваемые ячейки"
 
-#: src/solver-lp.c:956 src/solver-lp.c:1096
+#: src/solver-lp.c:965 src/solver-lp.c:1105
 msgid "Constraints"
 msgstr "Ограничения"
 
-#: src/solver-lp.c:959
+#: src/solver-lp.c:968
 msgid "Cell Value"
 msgstr "Значение ячейки"
 
-#: src/solver-lp.c:960
+#: src/solver-lp.c:969
 msgid "Formula"
 msgstr "Формула"
 
-#: src/solver-lp.c:961
+#: src/solver-lp.c:970
 msgid "Status"
 msgstr "Состояние"
 
-#: src/solver-lp.c:962
+#: src/solver-lp.c:971
 msgid "Slack"
 msgstr "Допуск"
 
-#: src/solver-lp.c:1010
+#: src/solver-lp.c:1019
 msgid "Binding"
 msgstr "Связывание"
 
-#: src/solver-lp.c:1012
+#: src/solver-lp.c:1021
 msgid "Not Binding"
 msgstr "Без связывания"
 
-#: src/solver-lp.c:1046
+#: src/solver-lp.c:1055
 msgid "Sensitivity Report"
 msgstr ""
 
-#: src/solver-lp.c:1047
+#: src/solver-lp.c:1056
 msgid "Gnumeric Solver Sensitivity Report"
 msgstr ""
 
-#: src/solver-lp.c:1049 src/solver-lp.c:1098
+#: src/solver-lp.c:1058 src/solver-lp.c:1107
 msgid "Final"
 msgstr "Финальный"
 
-#: src/solver-lp.c:1050
+#: src/solver-lp.c:1059
 msgid "Reduced"
 msgstr "Уменьшенный"
 
-#: src/solver-lp.c:1051
+#: src/solver-lp.c:1060
 msgid "Objective"
 msgstr "Целевой"
 
-#: src/solver-lp.c:1052 src/solver-lp.c:1053 src/solver-lp.c:1101
-#: src/solver-lp.c:1102
+#: src/solver-lp.c:1061 src/solver-lp.c:1062 src/solver-lp.c:1110
+#: src/solver-lp.c:1111
 msgid "Allowable"
 msgstr "Позволительный"
 
-#: src/solver-lp.c:1057
+#: src/solver-lp.c:1066
 msgid "Cost"
 msgstr "Стоимость"
 
-#: src/solver-lp.c:1058
+#: src/solver-lp.c:1067
 msgid "Coefficient"
 msgstr "Коэффициент"
 
-#: src/solver-lp.c:1059 src/solver-lp.c:1109
+#: src/solver-lp.c:1068 src/solver-lp.c:1118
 msgid "Increase"
 msgstr "Увеличить"
 
-#: src/solver-lp.c:1060 src/solver-lp.c:1110
+#: src/solver-lp.c:1069 src/solver-lp.c:1119
 msgid "Decrease"
 msgstr "Уменьшить"
 
-#: src/solver-lp.c:1099
+#: src/solver-lp.c:1108
 msgid "Shadow"
 msgstr "Тень"
 
-#: src/solver-lp.c:1100
+#: src/solver-lp.c:1109
 msgid "Constraint"
 msgstr "Ограничение"
 
-#: src/solver-lp.c:1107
+#: src/solver-lp.c:1116
 msgid "Price"
 msgstr "Цена"
 
-#: src/solver-lp.c:1108
+#: src/solver-lp.c:1117
 msgid "R.H. Side"
 msgstr "Правая сторона"
 
@@ -14768,152 +14751,157 @@ msgstr "невозможно найти в ожидаемом месте"
 msgid "Terminate"
 msgstr "Закончить"
 
+#. This is the default custom color
+#: src/widgets/widget-color-combo.c:396
+msgid "custom"
+msgstr "другой"
+
 #. "Custom" color - we'll pop up a GnomeColorPicker
-#: src/widgets/widget-color-combo.c:331
+#: src/widgets/widget-color-combo.c:435
 msgid "Custom Color:"
 msgstr "Цвет по выбору:"
 
-#: src/widgets/widget-color-combo.c:337
+#: src/widgets/widget-color-combo.c:441
 msgid "Choose Custom Color"
 msgstr "Выбрать цвет"
 
-#: src/widgets/widget-color-combo.c:455
+#: src/widgets/widget-color-combo.c:563
 msgid "light brown"
 msgstr "светлокоричневый"
 
-#: src/widgets/widget-color-combo.c:456
+#: src/widgets/widget-color-combo.c:564
 msgid "brown gold"
 msgstr "коричневый с золотом"
 
-#: src/widgets/widget-color-combo.c:457
+#: src/widgets/widget-color-combo.c:565
 msgid "dark green #2"
 msgstr "темнозеленый #2"
 
-#: src/widgets/widget-color-combo.c:458
+#: src/widgets/widget-color-combo.c:566
 msgid "navy"
 msgstr "нави"
 
-#: src/widgets/widget-color-combo.c:459 src/widgets/widget-color-combo.c:515
+#: src/widgets/widget-color-combo.c:567 src/widgets/widget-color-combo.c:623
 msgid "dark blue"
 msgstr "темносиний"
 
-#: src/widgets/widget-color-combo.c:460
+#: src/widgets/widget-color-combo.c:568
 msgid "purple #2"
 msgstr "пурпурный #2"
 
-#: src/widgets/widget-color-combo.c:461
+#: src/widgets/widget-color-combo.c:569
 msgid "very dark gray"
 msgstr "очень темный серый"
 
-#: src/widgets/widget-color-combo.c:464 src/widgets/widget-color-combo.c:520
+#: src/widgets/widget-color-combo.c:572 src/widgets/widget-color-combo.c:628
 msgid "dark red"
 msgstr "темнокрасный"
 
-#: src/widgets/widget-color-combo.c:465
+#: src/widgets/widget-color-combo.c:573
 msgid "red-orange"
 msgstr "красно-оранжевый"
 
-#: src/widgets/widget-color-combo.c:466
+#: src/widgets/widget-color-combo.c:574
 msgid "gold"
 msgstr "золотой"
 
-#: src/widgets/widget-color-combo.c:467
+#: src/widgets/widget-color-combo.c:575
 msgid "dark green"
 msgstr "темнозеленый"
 
-#: src/widgets/widget-color-combo.c:468 src/widgets/widget-color-combo.c:521
+#: src/widgets/widget-color-combo.c:576 src/widgets/widget-color-combo.c:629
 msgid "dull blue"
 msgstr "блеклосиний"
 
-#: src/widgets/widget-color-combo.c:470
+#: src/widgets/widget-color-combo.c:578
 msgid "dull purple"
 msgstr "блеклопурпурный"
 
-#: src/widgets/widget-color-combo.c:471
+#: src/widgets/widget-color-combo.c:579
 msgid "dark grey"
 msgstr "темносерый"
 
-#: src/widgets/widget-color-combo.c:475
+#: src/widgets/widget-color-combo.c:583
 msgid "orange"
 msgstr "оранжевый"
 
-#: src/widgets/widget-color-combo.c:476
+#: src/widgets/widget-color-combo.c:584
 msgid "lime"
 msgstr "лимонный"
 
-#: src/widgets/widget-color-combo.c:477
+#: src/widgets/widget-color-combo.c:585
 msgid "dull green"
 msgstr "блеклозеленый"
 
-#: src/widgets/widget-color-combo.c:478
+#: src/widgets/widget-color-combo.c:586
 msgid "dull blue #2"
 msgstr "блеклосиний #2"
 
-#: src/widgets/widget-color-combo.c:479
+#: src/widgets/widget-color-combo.c:587
 msgid "sky blue #2"
 msgstr "небесносиний #2"
 
-#: src/widgets/widget-color-combo.c:480 src/widgets/widget-color-combo.c:519
+#: src/widgets/widget-color-combo.c:588 src/widgets/widget-color-combo.c:627
 msgid "purple"
 msgstr "пурпурный"
 
-#: src/widgets/widget-color-combo.c:481
+#: src/widgets/widget-color-combo.c:589
 msgid "gray"
 msgstr "серый"
 
-#: src/widgets/widget-color-combo.c:485
+#: src/widgets/widget-color-combo.c:593
 msgid "bright orange"
 msgstr "яркооранжевый"
 
-#: src/widgets/widget-color-combo.c:489
+#: src/widgets/widget-color-combo.c:597
 msgid "bright blue"
 msgstr "яркосиний"
 
-#: src/widgets/widget-color-combo.c:490 src/widgets/widget-color-combo.c:507
+#: src/widgets/widget-color-combo.c:598 src/widgets/widget-color-combo.c:615
 msgid "red purple"
 msgstr "краснопурпурный"
 
-#: src/widgets/widget-color-combo.c:491
+#: src/widgets/widget-color-combo.c:599
 msgid "light grey"
 msgstr "светлосерый"
 
-#: src/widgets/widget-color-combo.c:494 src/widgets/widget-color-combo.c:511
+#: src/widgets/widget-color-combo.c:602 src/widgets/widget-color-combo.c:619
 msgid "pink"
 msgstr "розовый"
 
-#: src/widgets/widget-color-combo.c:495
+#: src/widgets/widget-color-combo.c:603
 msgid "light orange"
 msgstr "светлооранжевый"
 
-#: src/widgets/widget-color-combo.c:496 src/widgets/widget-color-combo.c:508
+#: src/widgets/widget-color-combo.c:604 src/widgets/widget-color-combo.c:616
 msgid "light yellow"
 msgstr "светложелтый"
 
-#: src/widgets/widget-color-combo.c:497
+#: src/widgets/widget-color-combo.c:605
 msgid "light green"
 msgstr "светлозеленый"
 
-#: src/widgets/widget-color-combo.c:498
+#: src/widgets/widget-color-combo.c:606
 msgid "light cyan"
 msgstr "светлоголубой"
 
-#: src/widgets/widget-color-combo.c:499 src/widgets/widget-color-combo.c:509
+#: src/widgets/widget-color-combo.c:607 src/widgets/widget-color-combo.c:617
 msgid "light blue"
 msgstr "светлосиний"
 
-#: src/widgets/widget-color-combo.c:500 src/widgets/widget-color-combo.c:513
+#: src/widgets/widget-color-combo.c:608 src/widgets/widget-color-combo.c:621
 msgid "light purple"
 msgstr "светлопурпурный"
 
-#: src/widgets/widget-color-combo.c:506
+#: src/widgets/widget-color-combo.c:614
 msgid "purplish blue"
 msgstr "пурпурносиний"
 
-#: src/widgets/widget-color-combo.c:510
+#: src/widgets/widget-color-combo.c:618
 msgid "dark purple"
 msgstr "темнопурпурный"
 
-#: src/widgets/widget-color-combo.c:512
+#: src/widgets/widget-color-combo.c:620
 msgid "sky blue"
 msgstr "небесносиний"
 
@@ -15699,19 +15687,19 @@ msgstr "Переименовать этот лист"
 msgid "Re-order sheets"
 msgstr "Переупорядочить листы"
 
-#: src/xml-io.c:3112
+#: src/xml-io.c:3110
 msgid "Invalid xml clipboard data. Tree is empty ?"
 msgstr "Неправильные XML данные в буфере обмена. Дерево пусто?"
 
-#: src/xml-io.c:3153
+#: src/xml-io.c:3151
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Испорченный XML-файл. Дерево пусто?"
 
-#: src/xml-io.c:3167
+#: src/xml-io.c:3165
 msgid "Is not an Workbook file"
 msgstr "Это не файл книги"
 
-#: src/xml-io.c:3232
+#: src/xml-io.c:3230
 msgid "Gnumeric XML file format"
 msgstr "Формат файла Gnumeric XML"
 
