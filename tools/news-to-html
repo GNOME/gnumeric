@@ -6,6 +6,9 @@
 my $version = $ARGV[0];
 die "$0: must specify version number as argument.\n" unless $version;
 
+my $version2 = $version;
+$version2 =~ s/^(\d+\.\d+)\..*/$1/;
+
 my $bug_prefix = "http://bugzilla.gnome.org/show_bug.cgi?id=";
 
 &prolog ();
@@ -115,7 +118,7 @@ sub prolog {
 # -----------------------------------------------------------------------------
 
 sub epilog {
-    my $link = "http://ftp.gnome.org/pub/GNOME/sources/gnumeric/1.4/";
+    my $link = "http://ftp.gnome.org/pub/GNOME/sources/gnumeric/$version2/";
 
     print "  </ul>\n";
 
