@@ -718,10 +718,14 @@ range_trim (Sheet const *sheet, Range *range, gboolean cols)
 		start = range->start.col;
 		move = &range->end.col;
 		range->start.col = *move;
+		if (*move > sheet->cols.max_used)
+			*move = sheet->cols.max_used;
 	} else {
 		start = range->start.row;
 		move = &range->end.row;
 		range->start.row = *move;
+		if (*move > sheet->rows.max_used)
+			*move = sheet->rows.max_used;
 	}
 
 	for (; *move >= start ; (*move)--)

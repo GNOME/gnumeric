@@ -1,3 +1,8 @@
+2003-04-25  Jody Goldberg <jody@gnome.org>
+
+	* src/ranges.c (range_trim) : do a pre-emptive clip to the existing
+	  region to ameliorate the cost.
+
 2003-04-25  Morten Welinder  <terra@gnome.org>
 
 	* src/Makefile (gnm-marshalers.c): Add an #include to the

@@ -97,7 +97,7 @@
 #define BIFF_SAVERECALC			0x5f	/* 0 */
 #define BIFF_TEMPLATE			0x60	/* 0, NOT 1,10 */
 #define BIFF_INTL			0x61	/* Undocumented */
-#define BIFF_TAB_COLOR			0x62	/* 8 Undocumented */
+#define BIFF_TAB_COLOR			0x62	/* 8 Undocumented, OO calls it SHEETLAYOUT */
 #define BIFF_OBJPROTECT			0x63	/* 0, NOT 10 */
 #define BIFF_COLINFO			0x7d	/* 0 */
 #define BIFF_RK				0x7e	/* 0 */
@@ -236,7 +236,9 @@
 #define BIFF_XL9FILE			0x1c0	/* ONLY 1 */
 #define BIFF_RECALCID			0x1c1	/* ONLY 1 */
 #define BIFF_LINK_TIP			0x800	/* ONLY 1, follows an hlink */
-#define BIFF_UNKNOWN_1			0x810	/* what this is */
+#define BIFF_UNKNOWN_1			0x810	/* what is this ? */
+#define BIFF_SHEETPROTECTION		0x867	/* OO named it, and has docs */
+#define BIFF_RANGEPROTECTION		0x868	/* OO named it, no docs yet */
 
 /* Chart Specific */
 /* These must be here for the ole program to work, and the suffixes must be

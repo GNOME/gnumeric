@@ -35,6 +35,8 @@
 
 #ifdef NEW_GRAPHS
 #include <goffice/graph/go-graph-item.h>
+#include <goffice/graph/go-graph.h>
+#include <graph.h>
 #endif
 
 #include <gdk/gdkkeysyms.h>
@@ -184,17 +186,34 @@ sheet_object_graph_print (SheetObject const *so, GnomePrintContext *ctx,
 static void
 sheet_object_graph_user_config (SheetObject *so, SheetControl *sc)
 {
-	SheetObjectGraph *graph;
-	WorkbookControlGUI *wbcg;
-
-	graph = SHEET_OBJECT_GRAPH (so);
-	wbcg  = scg_get_wbcg (SHEET_CONTROL_GUI (sc));
+	SheetObjectGraph *graph = SHEET_OBJECT_GRAPH (so);
+	WorkbookControlGUI *wbcg = scg_get_wbcg (SHEET_CONTROL_GUI (sc));
 
 	g_return_if_fail (graph != NULL);
 
 	/* Only pop up one copy per workbook */
 	if (gnumeric_dialog_raise_if_exists (wbcg, SHEET_OBJECT_CONFIG_KEY))
 		return;
+}
+
+static gboolean
+sheet_object_graph_set_sheet (SheetObject *so, Sheet *sheet)
+{
+	SheetObjectGraph *graph = SHEET_OBJECT_GRAPH (so);
+
+#ifdef NEW_GRAPHS
+	if (graph->graph != NULL) {
+		GSList *ptr = go_graph_get_inputs (graph->graph);
+		for (; ptr != NULL ; ptr = ptr->next) {
+			if (IS_GNM_GO_DATA_SCALAR (ptr->data))
+				gnm_go_data_scalar_set_sheet (GNM_GO_DATA_SCALAR (ptr->data), sheet);
+			else if (IS_GNM_GO_DATA_VECTOR (ptr->data))
+				gnm_go_data_vector_set_sheet (GNM_GO_DATA_VECTOR (ptr->data), sheet);
+		}
+	}
+#endif
+
+	return FALSE;
 }
 
 static void
@@ -214,6 +233,7 @@ sheet_object_graph_class_init (GObjectClass *klass)
 	so_class->write_xml	= sheet_object_graph_write_xml;
 	so_class->clone         = sheet_object_graph_clone;
 	so_class->user_config   = sheet_object_graph_user_config;
+	so_class->assign_to_sheet = sheet_object_graph_set_sheet;
 	so_class->print         = sheet_object_graph_print;
 	so_class->rubber_band_directly = FALSE;
 

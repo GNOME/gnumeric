@@ -1245,7 +1245,50 @@ sv_selection_walk_step (SheetView *sv,
 #include <goffice/graph/go-plot-data.h>
 #include <goffice/graph/go-plot.h>
 #include <expr.h>
+#include <graph.h>
 #endif
+
+/* characterize a vector based on the last non-blank cell in the range.
+ * optionally expand the vector to merge multiple string vectors */
+static gboolean
+characterize_vec (Sheet *sheet, Range *vector,
+		  gboolean as_cols, gboolean expand_text)
+{
+	Cell *cell;
+	Value const*v;
+	Range tmp;
+	int dx = 0, dy = 0;
+	gboolean is_string = FALSE;
+
+	while (1) {
+		tmp = *vector;
+		if (!range_trim (sheet, &tmp, as_cols)) {
+			cell = sheet_cell_get (sheet, tmp.end.col+dx, tmp.end.row+dy);
+			cell_eval (cell);
+			v = cell->value;
+
+			if (v == NULL || !VALUE_IS_STRING(v))
+				return is_string;
+			is_string = TRUE;
+			if (!expand_text)
+				return TRUE;
+			if (as_cols) {
+				if (vector->end.col >= SHEET_MAX_COLS-1)
+					return TRUE;
+				vector->end.col += dx;
+				dx = 1;
+			} else {
+				if (vector->end.row >= SHEET_MAX_ROWS-1)
+					return TRUE;
+				vector->end.row += dy;
+				dy = 1;
+			}
+		} else
+			return is_string;
+	}
+
+	return is_string; /* NOTREACHED */
+}
 
 /* FIXME cheat to avoid having graph types in public headers
  * change the gpointer to a GOPlot soon
@@ -1254,30 +1297,36 @@ void
 sv_selection_to_plot (SheetView *sv, gpointer go_plot)
 {
 #ifdef NEW_GRAPHS
+	/* the first range controls which direction to associate with rectangles */
 	GList *ptr = g_list_last (sv->selections);
 	Range const *r = ptr->data;
 	int num_cols = range_width (r);
 	int num_rows = range_height (r);
+
 	Sheet *sheet = sv_sheet (sv);
 	CellRef header;
 	GOPlot *plot = go_plot;
-	GOPlotDesc const *plot_desc;
+	GOPlotDesc const *desc;
 	GOPlotSeries *series;
+	gboolean is_string_vec, first_series = TRUE, first_value_dim = TRUE;
+	unsigned i, count, cur_dim = 0, num_series = 1;
+	gboolean has_header, as_cols;
 
 	/* Excel docs claim that rows == cols uses rows */
 	gboolean default_to_cols = (num_cols < num_rows);
 
-	plot_desc = go_plot_description (plot);
+	desc = go_plot_description (plot);
 	series = go_plot_new_series (plot);
 
 	header.sheet = sheet;
 	header.col_relative = header.row_relative = FALSE;
 
-	/* selections are in reverse order */
+	/* selections are in reverse order so walk them bacwards */
 	ptr = g_list_last (sv->selections);
+
+/* FIXME : a cheesy quick implementation */
+	cur_dim = 0;
 	for (; ptr != NULL; ptr = ptr->prev) {
-		int i, count;
-		gboolean has_header, as_cols;
 		Range vector = *((Range const *)ptr->data);
 
 		/* Special case the handling of a vector rather than a range.
@@ -1285,10 +1334,8 @@ sv_selection_to_plot (SheetView *sv, gpointer go_plot)
 		 */
 		as_cols = (vector.start.col == vector.end.col || default_to_cols);
 		has_header = range_has_header (sheet, &vector, as_cols, TRUE);
-		if (has_header) {
-			header.col = vector.start.col;
-			header.row = vector.start.row;
-		}
+		header.col = vector.start.col;
+		header.row = vector.start.row;
 
 		if (as_cols) {
 			if (has_header)
@@ -1302,17 +1349,59 @@ sv_selection_to_plot (SheetView *sv, gpointer go_plot)
 			vector.end.row = vector.start.row;
 		}
 
-		for (i = 0 ; i <= count ; i++) {
-			gnm_expr_new_constant (value_new_cellrange_r (sheet, &vector));
+		for (i = 0 ; i <= count ; ) {
+			if (cur_dim > desc->series.num_dim) {
+				if (num_series >= desc->num_series_max)
+					break;
 
-			if (has_header)
-				gnm_expr_new_cellref (&header);
+				series = go_plot_new_series (plot);
+				first_series = FALSE;
+				first_value_dim = TRUE;
+				cur_dim = 0;
+				num_series++;
+			}
 
-			if (as_cols)
+			/* skip over shared dimensions already assigned */
+			while (cur_dim < desc->series.num_dim &&
+			       !first_series && desc->series.dim[cur_dim].is_shared)
+				++cur_dim;
+
+			is_string_vec = characterize_vec (sheet, &vector, as_cols,
+				desc->series.dim[cur_dim].val_type == GO_GRAPH_DIM_LABEL);
+
+			if ((desc->series.dim[cur_dim].val_type == GO_GRAPH_DIM_LABEL && !is_string_vec) ||
+			    (desc->series.dim[cur_dim].val_type == GO_GRAPH_DIM_VALUE && is_string_vec)) {
+				/* type mismatch we don't have much choice here, even if the dim is non optional we
+				 * can't assign to it.  Be smarter in the future and maybe reallocate preceding
+				 * optional dimensions, start a new plot for unexpected strings  */
+				goto skip;
+			}
+
+			go_plot_series_set_dim (series, cur_dim,
+				gnm_go_data_vector_new_expr (sheet, as_cols,
+					gnm_expr_new_constant (
+						value_new_cellrange_r (sheet, &vector))), NULL);
+
+			if (has_header && first_value_dim &&
+			    desc->series.dim[cur_dim].val_type == GO_GRAPH_DIM_VALUE) {
+				first_value_dim = FALSE;
+				go_plot_series_set_name (series,
+					gnm_go_data_scalar_new_expr (sheet,
+						gnm_expr_new_cellref (&header)), NULL);
+			}
+			cur_dim++;
+
+skip :
+			if (as_cols) {
+				i += range_width (&vector);
 				header.col = vector.start.col = ++vector.end.col;
-			else
+			} else {
+				i += range_height (&vector);
 				header.row = vector.start.row = ++vector.end.row;
+			}
 		}
 	}
+
+#warning TODO is last series is incomplete try to shift data out of optional dimensions
 #endif
 }
