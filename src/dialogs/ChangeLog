@@ -1,3 +1,7 @@
+2001-11-05  Morten Welinder  <terra@diku.dk>
+
+	* dialog-summary.c (summary_get): Plug leak.
+
 2001-11-05  Jody Goldberg <jgoldberg@home,com>
 
 	* Release 0.75

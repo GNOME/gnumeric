@@ -8,6 +8,15 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
+- Check strcpy()s in font_change_component_1: purify says one is overlapping
+  and thus undefined.
+
+- 1. C5=22
+  2. Select C5:E7
+  3. Format-Row->Hide
+  ==> ** CRITICAL **: file item-grid.c: line 580 (item_grid_draw): assertion `merged_unused == NULL' failed.
+  (One per screen redraw)
+
 Pending Patches
 ---------------
 
@@ -16,6 +25,8 @@ Pending Patches
 
 Long term breakage
 ------------------
+
+- Should cb_merge_cells free the ranges and not just the list?  (It leaks.)
 
 - Missing undo/redo for
     - Add/duplicate sheet.

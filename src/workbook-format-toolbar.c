@@ -341,6 +341,7 @@ modify_format (WorkbookControlGUI *wbcg,
 		MStyle *style = mstyle_new ();
 		mstyle_set_format_text (style, new_fmt);
 		cmd_format (wbc, sheet, style, NULL, descriptor);
+		g_free (new_fmt);
 	}
 }
 

@@ -44,6 +44,7 @@ summary_get (GladeXML *gui, SummaryInfo *sin)
 
 			sit = summary_item_new_string (summary_item_name[lp], txt);
 			summary_info_add (sin, sit);
+			g_free (txt);
 		}
 		g_free (name);
 	}
