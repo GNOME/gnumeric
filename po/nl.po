@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
-"POT-Creation-Date: 2001-08-12 02:36+0200\n"
+"POT-Creation-Date: 2001-08-11 16:20-0400\n"
 "PO-Revision-Date: 2001-08-12 04:10+0200\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -4278,10 +4278,6 @@ msgstr "label op _Y-as:"
 msgid "_Z axis"
 msgstr "_Z-as"
 
-#: src/dialogs/graph-guru.glade.h:43
-msgid "label27"
-msgstr "label27"
-
 #: src/dialogs/hf-config.glade.h:1
 msgid "Center section:"
 msgstr "Middelste sectie:"
@@ -5109,42 +5105,34 @@ msgid "_Title :"
 msgstr "_Titel :"
 
 #: src/dialogs/validate.glade.h:32
-msgid "label11"
-msgstr "label11"
-
-#: src/dialogs/validate.glade.h:33
-msgid "label12"
-msgstr "label12"
-
-#: src/dialogs/validate.glade.h:34
 msgid "min <= val <= max         (between)"
 msgstr "min <= waarde<=max        (tussen)"
 
-#: src/dialogs/validate.glade.h:35
+#: src/dialogs/validate.glade.h:33
 msgid "val != bound                  (not equal to)"
 msgstr "waarde != gebonden        (niet gelijk aan)"
 
-#: src/dialogs/validate.glade.h:36
+#: src/dialogs/validate.glade.h:34
 msgid "val >  bound                  (greater than)"
 msgstr "waarde >  gebonden             (groter dan)"
 
-#: src/dialogs/validate.glade.h:37
+#: src/dialogs/validate.glade.h:35
 msgid "val >=bound                  (greater than or equal to)"
 msgstr "waarde >=gebonden            (groter of gelijk aan)"
 
-#: src/dialogs/validate.glade.h:38
+#: src/dialogs/validate.glade.h:36
 msgid "val <  bound                  (less than)"
 msgstr "waarde <  gebonden         (kleiner dan)"
 
-#: src/dialogs/validate.glade.h:39
+#: src/dialogs/validate.glade.h:37
 msgid "val <= min || max <= val (not between)"
 msgstr "waarde <= min || max <= waarde (niet tussen)"
 
-#: src/dialogs/validate.glade.h:40
+#: src/dialogs/validate.glade.h:38
 msgid "val <=bound                  (less than or equal to)"
 msgstr "waarde <=gebonden           (kleiner of gelijk aan)"
 
-#: src/dialogs/validate.glade.h:41
+#: src/dialogs/validate.glade.h:39
 msgid "val == bound                 (equal to)"
 msgstr "waarde == gebonden        (gelijk aan)"
 
@@ -10899,11 +10887,12 @@ msgstr ""
 "@SEEALSO=EXP,·LOG2,·LOG"
 
 #: src/functions/fn-math.c:1145
+#, fuzzy
 msgid ""
 "@FUNCTION=MOD\n"
 "@SYNTAX=MOD(number,divisor)\n"
-"@DESCRIPTION=MOD function returns the remainder when @number is divided by "
-"@divisor. This function is Excel compatible. \n"
+"@DESCRIPTION=MOD function returns the remainder when @divisor is divided "
+"into @number. This function is Excel compatible. \n"
 "MOD returns #DIV/0! if divisor is zero.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -10913,7 +10902,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=MOD\n"
 "@SYNTAX=MOD(getal,deler)\n"
-"@DESCRIPTION=MOD geeft de rest als @getal gedeeld wordt door @deler. Deze functie is compatibel met Excel.\n"
+"@DESCRIPTION=MOD geeft de rest als @getal gedeeld wordt door @deler. Deze "
+"functie is compatibel met Excel.\n"
 "MOD geeft #DIV/0! als de deler nul is.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -11013,8 +11003,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=RandBinom\n"
 "@SYNTAX=RandBinom(p;trials)\n"
-"@DESCRIPTION=RandBinom geeft een willekeurig getal volgens een binomiale distributie. \n"
-"Als @p < 0 of @p > 1 geeft RandBinom een #GETAL! foutmelding. Als @trials < 0 geeft RandBinom een #GETAL! foutmelding. \n"
+"@DESCRIPTION=RandBinom geeft een willekeurig getal volgens een binomiale "
+"distributie. \n"
+"Als @p < 0 of @p > 1 geeft RandBinom een #GETAL! foutmelding. Als @trials < "
+"0 geeft RandBinom een #GETAL! foutmelding. \n"
 "@EXAMPLES=\n"
 "RandBinom(0,5;2)\n"
 "\n"
@@ -11035,8 +11027,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=RANDNEGBINOM\n"
 "@SYNTAX=RANDNEGBINOM(p;mislukkingen)\n"
-"@DESCRIPTION=RANDNEGBINOM geeft een willekeurig getal volgens een negatief Binomiale distributie. \n"
-"Als @p < 0 of @p > 1, geeft RANDNEGBINOM een #GETAL! foutmelding. Als @mislukkingen < 0 geeft RANDNEGBINOM een #GETAL! foutmelding.\n"
+"@DESCRIPTION=RANDNEGBINOM geeft een willekeurig getal volgens een negatief "
+"Binomiale distributie. \n"
+"Als @p < 0 of @p > 1, geeft RANDNEGBINOM een #GETAL! foutmelding. Als "
+"@mislukkingen < 0 geeft RANDNEGBINOM een #GETAL! foutmelding.\n"
 "@EXAMPLES=\n"
 "RANDNEGBINOM(0,5;2)\n"
 "\n"
@@ -11650,11 +11644,16 @@ msgid ""
 msgstr ""
 "@FUNCTION=SUMX2MY2\n"
 "@SYNTAX=SUMX2MY2(array1;array2)\n"
-"@DESCRIPTION=SUMX2MY2 geeft de som van het verschil tussen de kwadraten van correspnderende waarden in twee arrays. @array1 is de eerste array of waardenbereik, en @array2 is de tweede array of waardebereik . De vergelijking voor SUMX2MY2 is SUM (x^2-y^2).\n"
+"@DESCRIPTION=SUMX2MY2 geeft de som van het verschil tussen de kwadraten van "
+"correspnderende waarden in twee arrays. @array1 is de eerste array of "
+"waardenbereik, en @array2 is de tweede array of waardebereik . De "
+"vergelijking voor SUMX2MY2 is SUM (x^2-y^2).\n"
 "tekenreeksen en lege cellen worden genegeerd.\n"
-"Als @array1 en @array2 een verschillend aantal waarden bevatten, geeft SUMX2MY2 een #N/B! foutmelding. Deze functie is compatibel met Excel. \n"
+"Als @array1 en @array2 een verschillend aantal waarden bevatten, geeft "
+"SUMX2MY2 een #N/B! foutmelding. Deze functie is compatibel met Excel. \n"
 "@EXAMPLES=\n"
-"Als de cellen A1, A2, ..., A5 de getallen 11, 15, 17, 21, en 43 bevatten, en \n"
+"Als de cellen A1, A2, ..., A5 de getallen 11, 15, 17, 21, en 43 bevatten, "
+"en \n"
 "de cellen B1, B2, ..., B5 de getallen 13, 22, 31, 33, en 39, dan geldt\n"
 "SUMX2MY2(A1:A5;B1:B5) is -1299\n"
 "\n"
@@ -13523,7 +13522,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=TRIM\n"
 "@SYNTAX=TRIM(tekst)\n"
-"@DESCRIPTION=TRIM geeft de @tekst maar dan met een enkele spatie tussen woorden.\n"
+"@DESCRIPTION=TRIM geeft de @tekst maar dan met een enkele spatie tussen "
+"woorden.\n"
 "@EXAMPLES=\n"
 "TRIM(\"  a bbb  cc\") is \"a bbb cc\".\n"
 "\n"
@@ -16410,6 +16410,15 @@ msgstr "Gnumeric XML bestandsformaat"
 #: gnumeric.desktop.in.h:2
 msgid "The GNOME Spreadsheet"
 msgstr "De Spreadsheet van GNOME"
+
+#~ msgid "label27"
+#~ msgstr "label27"
+
+#~ msgid "label11"
+#~ msgstr "label11"
+
+#~ msgid "label12"
+#~ msgstr "label12"
 
 #~ msgid "Error executing groff+gs."
 #~ msgstr "Fout bij uitvoeren groff+gs."

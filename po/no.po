@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.66\n"
-"POT-Creation-Date: 2001-08-08 23:19+0200\n"
+"POT-Creation-Date: 2001-08-11 16:20-0400\n"
 "PO-Revision-Date: 2001-08-08 23:44+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 msgid "Parse error while reading Applix file."
 msgstr "Feil i tolking under lesing av Applix-fil."
 
-#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4175
+#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4176
 msgid "Reading file..."
 msgstr "Leser fil..."
 
@@ -41,14 +41,18 @@ msgstr "Ukjent verditype %d ved linje %d. Ignorerer."
 msgid ""
 "DIF file has more than the maximum number of rows %d. Ignoring remaining "
 "rows."
-msgstr "DIF-filen har flere enn maksimum antall rader %d. Ignorerer gjenstående rader."
+msgstr ""
+"DIF-filen har flere enn maksimum antall rader %d. Ignorerer gjenstående "
+"rader."
 
 #: plugins/dif/dif.c:298
 #, c-format
 msgid ""
 "DIF file has more than the maximum number of columns %d. Ignoring remaining "
 "columns."
-msgstr "DIF-filen har flere enn maksimum antall kolonner %d. Ignorerer gjenstående kolonner."
+msgstr ""
+"DIF-filen har flere enn maksimum antall kolonner %d. Ignorerer gjenstående "
+"kolonner."
 
 #: plugins/dif/dif.c:310
 #, c-format
@@ -106,16 +110,16 @@ msgstr "#UKJENT!"
 msgid "Sheet%d"
 msgstr "Ark%d"
 
-#: plugins/excel/ms-excel-read.c:4170
+#: plugins/excel/ms-excel-read.c:4171
 msgid "No book or workbook streams found."
 msgstr "Ingen bok- eller arbeidsbokstream funnet."
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4363
+#: plugins/excel/ms-excel-read.c:4364
 msgid "Password protected workbooks are not supported yet."
 msgstr "Passordbeskyttede arbeidsbøker er ikke støttet ennå."
 
-#: plugins/excel/ms-excel-read.c:4486
+#: plugins/excel/ms-excel-read.c:4487
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Kunne ikke finne en gyldig MS Excel arbeidsbok"
 
@@ -913,7 +917,7 @@ msgstr "Kumulativ %"
 msgid "Error '%s' opening workbook stream"
 msgstr "Feil '%s' under åpning av arbeidsbok-strøm"
 
-#: src/bonobo-io.c:466 src/xml-io-autoft.c:417 src/xml-io.c:3402
+#: src/bonobo-io.c:466 src/xml-io-autoft.c:417 src/xml-io.c:3434
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Ugyldig xml fil. Treet er tomt ?"
 
@@ -1298,11 +1302,16 @@ msgstr "Zoom %s til %.0f%%"
 msgid "Insert object"
 msgstr "Sett inn objekt"
 
-#: src/commands.c:4132
+#: src/commands.c:4134
+#, fuzzy
+msgid "Resize object"
+msgstr "Slett objekt"
+
+#: src/commands.c:4136
 msgid "Move object"
 msgstr "Flytt objekt"
 
-#: src/commands.c:4208
+#: src/commands.c:4213
 msgid "Delete object"
 msgstr "Slett objekt"
 
@@ -3071,8 +3080,8 @@ msgstr "En feil oppstod under lesing av kategori-listen"
 
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
-#: src/dialogs/dialog-autoformat.c:956 src/format.c:1701 src/format.c:1790
-#: src/format.c:1799 src/format.c:1868
+#: src/dialogs/dialog-autoformat.c:956 src/format.c:1704 src/format.c:1793
+#: src/format.c:1802 src/format.c:1871
 msgid "General"
 msgstr "Generelt"
 
@@ -4449,7 +4458,7 @@ msgid "Scale"
 msgstr "Skaler"
 
 #: src/dialogs/print.glade.h:27 src/functions/fn-sheet.c:136
-#: src/workbook.c:1057 src/xml-io.c:3024
+#: src/workbook.c:1057 src/xml-io.c:3056
 msgid "Sheet"
 msgstr "Ark"
 
@@ -5170,51 +5179,51 @@ msgstr "Feil under lesing av midlertidig fil."
 msgid "Exception occured while saving to stream."
 msgstr "Et unntak oppstod under lagring til strøm."
 
-#: src/format.c:607
+#: src/format.c:610
 msgid "black"
 msgstr "sort"
 
-#: src/format.c:608
+#: src/format.c:611
 msgid "blue"
 msgstr "blå"
 
-#: src/format.c:609
+#: src/format.c:612
 msgid "cyan"
 msgstr "cyan"
 
-#: src/format.c:610
+#: src/format.c:613
 msgid "green"
 msgstr "grønn"
 
-#: src/format.c:611
+#: src/format.c:614
 msgid "magenta"
 msgstr "magenta"
 
-#: src/format.c:612
+#: src/format.c:615
 msgid "red"
 msgstr "rød"
 
-#: src/format.c:613
+#: src/format.c:616
 msgid "white"
 msgstr "hvit"
 
-#: src/format.c:614
+#: src/format.c:617
 msgid "yellow"
 msgstr "gul"
 
 #. Is it a boolean?
-#: src/format.c:1608 src/number-match.c:990 src/value-sheet.c:32
+#: src/format.c:1611 src/number-match.c:990 src/value-sheet.c:32
 #: src/value.c:246 src/value.c:479
 msgid "TRUE"
 msgstr "SANN"
 
-#: src/format.c:1608 src/number-match.c:992 src/value-sheet.c:32
+#: src/format.c:1611 src/number-match.c:992 src/value-sheet.c:32
 #: src/value.c:248 src/value.c:479
 msgid "FALSE"
 msgstr "USANN"
 
 #. Array of arrays ??
-#: src/format.c:1636
+#: src/format.c:1639
 msgid "ARRAY"
 msgstr "TABELL"
 
@@ -15245,9 +15254,9 @@ msgstr "S_pesial"
 msgid "Save"
 msgstr "Lagre"
 
-#: src/GNOME_Gnumeric.xml.h:173
-msgid "Save _As"
-msgstr "L_agre som"
+#: src/GNOME_Gnumeric.xml.h:173 src/workbook-control-gui.c:2294
+msgid "Save _As..."
+msgstr "L_agre som..."
 
 #: src/GNOME_Gnumeric.xml.h:174
 msgid "Save the current file"
@@ -15897,26 +15906,7 @@ msgstr ""
 msgid "Enables extra consistency checking while reading ole files"
 msgstr "Slår på ekstra sjekk for enhetlighet under lesing av ole filer"
 
-#: src/main.c:153
-#, c-format
-msgid ""
-"gnumeric version '%s'\n"
-"datadir := '%s'\n"
-"libdir := '%s'\n"
-msgstr ""
-"gnumeric versjon '%s'\n"
-"datakatalog := '%s'\n"
-"bibliotekkatalog := '%s'\n"
-
-#: src/main.c:204
-msgid "Could not initialize Workbook factory"
-msgstr "Kunne ikke initiere arbeidsbok-\"factory\""
-
-#: src/main.c:208
-msgid "Could not initialize EmbeddableGrid factory"
-msgstr "Kunne ikke initialisere EmbeddableGrid-\"factory\""
-
-#: src/main.c:254
+#: src/main.c:129
 msgid ""
 "Thank you for using Gnumeric!\n"
 "\n"
@@ -15939,6 +15929,25 @@ msgstr ""
 "Se http://www.gnumeric.org/ for detaljer.\n"
 "\n"
 "-- Gnumeric utviklerene."
+
+#: src/main.c:183
+#, c-format
+msgid ""
+"gnumeric version '%s'\n"
+"datadir := '%s'\n"
+"libdir := '%s'\n"
+msgstr ""
+"gnumeric versjon '%s'\n"
+"datakatalog := '%s'\n"
+"bibliotekkatalog := '%s'\n"
+
+#: src/main.c:234
+msgid "Could not initialize Workbook factory"
+msgstr "Kunne ikke initiere arbeidsbok-\"factory\""
+
+#: src/main.c:238
+msgid "Could not initialize EmbeddableGrid factory"
+msgstr "Kunne ikke initialisere EmbeddableGrid-\"factory\""
 
 #: src/number-match.c:618
 msgid "#NULL!"
@@ -15984,7 +15993,7 @@ msgstr "Ukjent ark '%s'"
 
 #: src/parser.y:587 src/parser.y:601
 #, c-format
-msgid "The character %c can not be used to separate array elements"
+msgid "The character %c cannot be used to separate array elements"
 msgstr ""
 
 #: src/parser.y:750 src/parser.y:762 src/parser.y:790
@@ -16433,11 +16442,13 @@ msgid "Target region contains merged cells"
 msgstr "Målområde inneholder sammenføyde celler"
 
 #: src/sheet.c:2250
-msgid "can not operate on merged cells"
+#, fuzzy
+msgid "cannot operate on merged cells"
 msgstr "kan ikke arbeide på sammenføyde celler"
 
 #: src/sheet.c:2261
-msgid "can not operate on array formulae"
+#, fuzzy
+msgid "cannot operate on array formulae"
 msgstr "kan ikke arbeide på matriseformularer"
 
 #: src/sheet.c:3062
@@ -16951,10 +16962,6 @@ msgid "Ungroup"
 msgstr "Fjern gruppering"
 
 #: src/workbook-control-gui.c:2294
-msgid "Save _As..."
-msgstr "L_agre som..."
-
-#: src/workbook-control-gui.c:2294
 msgid "Save with a new name or format"
 msgstr "Lagre med nytt navn eller format"
 
@@ -17360,33 +17367,36 @@ msgstr "Feil under forsøk på å bygge tre fra autoformat malfil"
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3150
+#: src/xml-io.c:3182
 msgid "Processing XML tree..."
 msgstr "Prosesserer XML-treet..."
 
-#: src/xml-io.c:3313
+#: src/xml-io.c:3345
 msgid "Invalid xml clipboard data. Tree is empty ?"
 msgstr "Ugyldig xml data fra utklippstavlen. Treet er tomt ?"
 
-#: src/xml-io.c:3365 src/xml-io.c:3376
+#: src/xml-io.c:3397 src/xml-io.c:3408
 msgid "Not enough memory to create zlib decompression state."
 msgstr "Ikke nok minne til å opprette zlib dekomprimeringstilstand."
 
-#: src/xml-io.c:3379
+#: src/xml-io.c:3411
 msgid "Parsing XML file..."
 msgstr "Leser XML-fil..."
 
-#: src/xml-io.c:3411
+#: src/xml-io.c:3443
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Er ikke en Gnumeric arbeidsbok"
 
-#: src/xml-io.c:3469
+#: src/xml-io.c:3501
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML filformat"
 
 #: gnumeric.desktop.in.h:2
 msgid "The GNOME Spreadsheet"
 msgstr "Regnearkprogram"
+
+#~ msgid "Save _As"
+#~ msgstr "L_agre som"
 
 #~ msgid "Covariances"
 #~ msgstr "Kovarianser"

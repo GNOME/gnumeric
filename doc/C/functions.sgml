@@ -2400,7 +2400,7 @@
       <refsect1>
         <title>Description</title>
         <para>PERCENTRANK function returns the rank of a data point in a data set.  @array is the range of numeric values, @x is the data point which you want to rank, and the optional @significance indentifies the number of significant digits for the returned value.  If @significance is omitted, PERCENTRANK uses three digits.</para>
-        <para>If @array contains not data points, PERCENTRANK returns #NUM! error. If @significance is less than one, PERCENTRANK returns #NUM! error. If @x does not match any of the values in @array or @x matches more than once, PERCENTRANK interpolates the returned value.</para>
+        <para>If @array contains no data points, PERCENTRANK returns #NUM! error. If @significance is less than one, PERCENTRANK returns #NUM! error. If @x does not match any of the values in @array or @x matches more than once, PERCENTRANK interpolates the returned value.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>

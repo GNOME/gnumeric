@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.66\n"
-"POT-Creation-Date: 2001-08-10 19:21+0400\n"
+"POT-Creation-Date: 2001-08-11 16:20-0400\n"
 "PO-Revision-Date: 2001-08-10 20:12+0400\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -940,7 +940,7 @@ msgstr "Кумулятивный %"
 msgid "Error '%s' opening workbook stream"
 msgstr "Ошибка \"%s\" при открытии потока рабочей книги"
 
-#: src/bonobo-io.c:466 src/xml-io-autoft.c:417 src/xml-io.c:3402
+#: src/bonobo-io.c:466 src/xml-io-autoft.c:417 src/xml-io.c:3434
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Испорченный XML-файл. Дерево пусто?"
 
@@ -4266,10 +4266,6 @@ msgstr "Метка осей Y:"
 msgid "_Z axis"
 msgstr "Оси Z"
 
-#: src/dialogs/graph-guru.glade.h:43
-msgid "label27"
-msgstr "Метка"
-
 #: src/dialogs/hf-config.glade.h:1
 msgid "Center section:"
 msgstr "Отцентрировать:"
@@ -4496,7 +4492,7 @@ msgid "Scale"
 msgstr "Масштаб"
 
 #: src/dialogs/print.glade.h:27 src/functions/fn-sheet.c:136
-#: src/workbook.c:1057 src/xml-io.c:3024
+#: src/workbook.c:1057 src/xml-io.c:3056
 msgid "Sheet"
 msgstr "Таблица"
 
@@ -5099,42 +5095,34 @@ msgid "_Title :"
 msgstr "Заглавие:"
 
 #: src/dialogs/validate.glade.h:32
-msgid "label11"
-msgstr "Метка"
-
-#: src/dialogs/validate.glade.h:33
-msgid "label12"
-msgstr "Метка"
-
-#: src/dialogs/validate.glade.h:34
 msgid "min <= val <= max         (between)"
 msgstr "мин. <= значение <= макс.  (между)"
 
-#: src/dialogs/validate.glade.h:35
+#: src/dialogs/validate.glade.h:33
 msgid "val != bound                  (not equal to)"
 msgstr "значение != bound  (не равно)                         "
 
-#: src/dialogs/validate.glade.h:36
+#: src/dialogs/validate.glade.h:34
 msgid "val >  bound                  (greater than)"
 msgstr "значение > bound  (больше чем)"
 
-#: src/dialogs/validate.glade.h:37
+#: src/dialogs/validate.glade.h:35
 msgid "val >=bound                  (greater than or equal to)"
 msgstr "значение >= bound  (больше чем или равно)"
 
-#: src/dialogs/validate.glade.h:38
+#: src/dialogs/validate.glade.h:36
 msgid "val <  bound                  (less than)"
 msgstr "значение < bound  (меньше чем)                         "
 
-#: src/dialogs/validate.glade.h:39
+#: src/dialogs/validate.glade.h:37
 msgid "val <= min || max <= val (not between)"
 msgstr "значение <= мин. || макс. <= значение (не между)"
 
-#: src/dialogs/validate.glade.h:40
+#: src/dialogs/validate.glade.h:38
 msgid "val <=bound                  (less than or equal to)"
 msgstr "значение <= bound  (меньше чем или равно)"
 
-#: src/dialogs/validate.glade.h:41
+#: src/dialogs/validate.glade.h:39
 msgid "val == bound                 (equal to)"
 msgstr "значение == bound  (равно)                         "
 
@@ -10836,7 +10824,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=ACOSH\n"
 "@SYNTAX=ACOSH(x)\n"
-"@DESCRIPTION=Функция ACOSH(х) вычисляет обратный гиперболический косинус @x; гиперболический косинус этой величины равен @x. Если @x меньше чем 1.0, ACOSH() возвращает ошибку #NUM!. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=Функция ACOSH(х) вычисляет обратный гиперболический косинус @x; "
+"гиперболический косинус этой величины равен @x. Если @x меньше чем 1.0, ACOSH"
+"() возвращает ошибку #NUM!. Эта функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "ACOSH(2) равняется 1.31696.\n"
 "ACOSH(5.3) равняется 2.35183.\n"
@@ -14849,7 +14839,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=EXACT\n"
 "@SYNTAX=EXACT(string1, string2)\n"
-"@DESCRIPTION=Возвращает TRUE(истина), если @string1 совпадает со @string2 (эта функция учитывает регистр).\n"
+"@DESCRIPTION=Возвращает TRUE(истина), если @string1 совпадает со @string2 "
+"(эта функция учитывает регистр).\n"
 "@EXAMPLES=\n"
 "EXACT(\"KEY\",\"KEY\") равняется TRUE.\n"
 "EXACT(\"key\",\"Key\") равняется FALSE.\n"
@@ -15939,9 +15930,9 @@ msgstr "Специальный"
 msgid "Save"
 msgstr "Сохранить"
 
-#: src/GNOME_Gnumeric.xml.h:173
-msgid "Save _As"
-msgstr "Сохранить как"
+#: src/GNOME_Gnumeric.xml.h:173 src/workbook-control-gui.c:2294
+msgid "Save _As..."
+msgstr "Сохранить как..."
 
 #: src/GNOME_Gnumeric.xml.h:174
 msgid "Save the current file"
@@ -16598,26 +16589,7 @@ msgid "Enables extra consistency checking while reading ole files"
 msgstr ""
 "Разрешить дополнительную проверку согласованности при чтении ole-файлов"
 
-#: src/main.c:153
-#, c-format
-msgid ""
-"gnumeric version '%s'\n"
-"datadir := '%s'\n"
-"libdir := '%s'\n"
-msgstr ""
-"Версия gnumeric \"%s\"\n"
-"каталог данных := \"%s\"\n"
-"каталог библиотек := \"%s\"\n"
-
-#: src/main.c:204
-msgid "Could not initialize Workbook factory"
-msgstr "Невозможно инициализировать Gnumeric Workbook factory"
-
-#: src/main.c:208
-msgid "Could not initialize EmbeddableGrid factory"
-msgstr "Невозможно инициализировать EmbeddableGrid factory"
-
-#: src/main.c:254
+#: src/main.c:129
 msgid ""
 "Thank you for using Gnumeric!\n"
 "\n"
@@ -16640,6 +16612,25 @@ msgstr ""
 "Подробности можно найти по адресу http://www.gnumeric.org/\n"
 "\n"
 "-- Команда разработчиков Gnumeric."
+
+#: src/main.c:183
+#, c-format
+msgid ""
+"gnumeric version '%s'\n"
+"datadir := '%s'\n"
+"libdir := '%s'\n"
+msgstr ""
+"Версия gnumeric \"%s\"\n"
+"каталог данных := \"%s\"\n"
+"каталог библиотек := \"%s\"\n"
+
+#: src/main.c:234
+msgid "Could not initialize Workbook factory"
+msgstr "Невозможно инициализировать Gnumeric Workbook factory"
+
+#: src/main.c:238
+msgid "Could not initialize EmbeddableGrid factory"
+msgstr "Невозможно инициализировать EmbeddableGrid factory"
 
 #: src/number-match.c:618
 msgid "#NULL!"
@@ -16684,8 +16675,8 @@ msgid "Unknown sheet '%s'"
 msgstr "Неизвестный лист \"%s\""
 
 #: src/parser.y:587 src/parser.y:601
-#, c-format
-msgid "The character %c can not be used to separate array elements"
+#, fuzzy, c-format
+msgid "The character %c cannot be used to separate array elements"
 msgstr "Символ %c не может быть использован для разделения элементов массива"
 
 #: src/parser.y:750 src/parser.y:762 src/parser.y:790
@@ -17140,11 +17131,13 @@ msgid "Target region contains merged cells"
 msgstr "Область назначения содержит объединенные ячейки"
 
 #: src/sheet.c:2250
-msgid "can not operate on merged cells"
+#, fuzzy
+msgid "cannot operate on merged cells"
 msgstr "невозможно действовать на объединенных ячейках"
 
 #: src/sheet.c:2261
-msgid "can not operate on array formulae"
+#, fuzzy
+msgid "cannot operate on array formulae"
 msgstr "невозможно действовать на формулах массива"
 
 #: src/sheet.c:3062
@@ -17661,10 +17654,6 @@ msgid "Ungroup"
 msgstr "Разгруппировать"
 
 #: src/workbook-control-gui.c:2294
-msgid "Save _As..."
-msgstr "Сохранить как..."
-
-#: src/workbook-control-gui.c:2294
 msgid "Save with a new name or format"
 msgstr "Сохранить с новым названием или форматом"
 
@@ -18068,30 +18057,42 @@ msgstr "Ошибка при попытке построить файл шаблона автоформатирования"
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3150
+#: src/xml-io.c:3182
 msgid "Processing XML tree..."
 msgstr "Обработка дерева XML..."
 
-#: src/xml-io.c:3313
+#: src/xml-io.c:3345
 msgid "Invalid xml clipboard data. Tree is empty ?"
 msgstr "Неправильные XML данные в буфере обмена. Дерево пусто?"
 
-#: src/xml-io.c:3365 src/xml-io.c:3376
+#: src/xml-io.c:3397 src/xml-io.c:3408
 msgid "Not enough memory to create zlib decompression state."
 msgstr ""
 
-#: src/xml-io.c:3379
+#: src/xml-io.c:3411
 msgid "Parsing XML file..."
 msgstr "Синтаксический анализ файла XML..."
 
-#: src/xml-io.c:3411
+#: src/xml-io.c:3443
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Это не файл рабочей книги Gnumeric"
 
-#: src/xml-io.c:3469
+#: src/xml-io.c:3501
 msgid "Gnumeric XML file format"
 msgstr "Формат файла Gnumeric XML"
 
 #: gnumeric.desktop.in.h:2
 msgid "The GNOME Spreadsheet"
 msgstr "Электронная таблица GNOME"
+
+#~ msgid "label27"
+#~ msgstr "Метка"
+
+#~ msgid "label11"
+#~ msgstr "Метка"
+
+#~ msgid "label12"
+#~ msgstr "Метка"
+
+#~ msgid "Save _As"
+#~ msgstr "Сохранить как"

@@ -1,3 +1,7 @@
+2001-08-11  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.69
+
 2001-08-07  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (ms_excel_read_setup) : print scaling is stored as a

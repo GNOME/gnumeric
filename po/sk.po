@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.68\n"
-"POT-Creation-Date: 2001-08-07 10:24+0200\n"
+"POT-Creation-Date: 2001-08-11 16:20-0400\n"
 "PO-Revision-Date: 2001-08-07 11:19CET\n"
 "Last-Translator: Stanislav Visnovsky <visnovsky@nenya.ms.mff.cuni.cz>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "Parse error while reading Applix file."
 msgstr "Chyba pri preklade súboru Applix."
 
-#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4175
+#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4176
 msgid "Reading file..."
 msgstr "Čítam súbor..."
 
@@ -114,16 +114,16 @@ msgstr "#UNKNOWN!"
 msgid "Sheet%d"
 msgstr "List %d"
 
-#: plugins/excel/ms-excel-read.c:4170
+#: plugins/excel/ms-excel-read.c:4171
 msgid "No book or workbook streams found."
 msgstr "Neboli nájdené žiadne zošitové kanále."
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4363
+#: plugins/excel/ms-excel-read.c:4364
 msgid "Password protected workbooks are not supported yet."
 msgstr "Zošity chránené heslom zatiaľ nie sú podporované."
 
-#: plugins/excel/ms-excel-read.c:4486
+#: plugins/excel/ms-excel-read.c:4487
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Nepodarilo sa nájsť platný zošit MS Excel"
 
@@ -241,10 +241,11 @@ msgstr ""
 "@SEEALSO=NT_D, ITHPRIME, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:233
+#, fuzzy
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=The NT_MU function (Möbius mu function) returns \n"
+"@DESCRIPTION=The NT_MU function (Mbius mu function) returns \n"
 "0  if @n is divisible by the square of a prime .\n"
 "Otherwise it returns: \n"
 "-1 if @n has an odd  number of different prime factors .\n"
@@ -776,7 +777,8 @@ msgstr "/df/SS/MS/F/Významnosť F"
 
 #: src/analysis-tools.c:2009
 msgid "/Coefficients/Standard Error/t Stat/P-value/Lower 95%/Upper 95%"
-msgstr "/Koeficienty/Smerodajná chyba/t štatistika/P-hodnota/Dolných 95%/Horných 95%"
+msgstr ""
+"/Koeficienty/Smerodajná chyba/t štatistika/P-hodnota/Dolných 95%/Horných 95%"
 
 #: src/analysis-tools.c:2207
 msgid "Moving Averages"
@@ -938,7 +940,7 @@ msgstr "Kumulatívne %"
 msgid "Error '%s' opening workbook stream"
 msgstr "Chyba '%s' pri otváraní kanálu zošitu"
 
-#: src/bonobo-io.c:466 src/xml-io-autoft.c:417 src/xml-io.c:3402
+#: src/bonobo-io.c:466 src/xml-io-autoft.c:417 src/xml-io.c:3434
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Neplatný XML súbor. Strom je prázdny?"
 
@@ -1025,91 +1027,91 @@ msgstr "Posunúť stĺpce %s"
 msgid "Shift column %s"
 msgstr "Posunúť stĺpec %s"
 
-#: src/commands.c:633 src/commands.c:728
+#: src/commands.c:635 src/commands.c:730
 msgid "Set Text"
 msgstr "Nastavenie textu"
 
-#: src/commands.c:659
+#: src/commands.c:661
 #, c-format
 msgid "Typing \"%s%s\" in %s"
 msgstr "Napísanie \"%s%s\" v %s"
 
-#: src/commands.c:837
+#: src/commands.c:839
 #, c-format
 msgid "Typing \"%s%s\""
 msgstr "Napísanie \"%s%s\""
 
-#: src/commands.c:1098
+#: src/commands.c:1100
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "Vloženie %d stĺpcov pred %s"
 
-#: src/commands.c:1099
+#: src/commands.c:1101
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "Vloženie %d stĺpec pred %s"
 
-#: src/commands.c:1110
+#: src/commands.c:1112
 #, c-format
 msgid "Inserting %d rows before %s"
 msgstr "Vloženie %d riadkov pred %s"
 
-#: src/commands.c:1111
+#: src/commands.c:1113
 #, c-format
 msgid "Inserting %d row before %s"
 msgstr "Vloženie %d riadok pred %s"
 
-#: src/commands.c:1122
+#: src/commands.c:1124
 #, c-format
 msgid "Deleting columns %s"
 msgstr "Odstránenie stĺpcov %s"
 
-#: src/commands.c:1123
+#: src/commands.c:1125
 #, c-format
 msgid "Deleting column %s"
 msgstr "Odstránenie stĺpec %s"
 
-#: src/commands.c:1133
+#: src/commands.c:1135
 #, c-format
 msgid "Deleting rows %s"
 msgstr "Odstránenie riadkov %s"
 
-#: src/commands.c:1134
+#: src/commands.c:1136
 #, c-format
 msgid "Deleting row %s"
 msgstr "Odstránenie riadku %s"
 
-#: src/commands.c:1209
+#: src/commands.c:1211
 msgid "Undo Clear"
 msgstr "Vrátiť mazanie"
 
-#: src/commands.c:1292
+#: src/commands.c:1294
 msgid "contents"
 msgstr "obsah"
 
-#: src/commands.c:1294
+#: src/commands.c:1296
 msgid "formats"
 msgstr "formáty"
 
-#: src/commands.c:1296
+#: src/commands.c:1298
 msgid "comments"
 msgstr "komentáre"
 
-#: src/commands.c:1312
+#: src/commands.c:1314
 msgid "all"
 msgstr "všetko"
 
-#: src/commands.c:1319
+#: src/commands.c:1321
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "Vyčistenie %s v %s"
 
-#: src/commands.c:1518
+#: src/commands.c:1520
 #, c-format
 msgid "Changing format of %s"
 msgstr "Zmena formátu %s"
 
-#: src/commands.c:1594
+#: src/commands.c:1596
 #, c-format
 msgid "Rename sheet '%s' '%s'"
 msgstr "Premenovanie listu '%s' '%s'"
@@ -1121,203 +1123,222 @@ msgstr "Premenovanie listu '%s' '%s'"
 #. * translators should be aware that the leading character of the
 #. * result will be ignored.
 #.
-#: src/commands.c:1668
+#: src/commands.c:1670
 msgid ">mm/dd/yyyy"
 msgstr ">dd/mm/yyyy"
 
 #. FIXME : See comment above
-#: src/commands.c:1673
+#: src/commands.c:1675
 msgid ">hh:mm"
 msgstr ">hh:mm"
 
-#: src/commands.c:1714
+#: src/commands.c:1716
 msgid "Set Date/Time"
 msgstr "Nastavenie dátumu/času"
 
-#: src/commands.c:1731
+#: src/commands.c:1733
 #, c-format
 msgid "Setting current date in %s"
 msgstr "Vloženie aktuálneho dátumu do %s"
 
-#: src/commands.c:1732
+#: src/commands.c:1734
 #, c-format
 msgid "Setting current time in %s"
 msgstr "Vloženie aktuálneho času v %s"
 
-#: src/commands.c:1840
+#: src/commands.c:1842
 #, c-format
 msgid "Autofitting column %s"
 msgstr "Automatická uprava veľkosti stĺpca %s"
 
-#: src/commands.c:1841
+#: src/commands.c:1843
 #, c-format
 msgid "Autofitting row %s"
 msgstr "Automatická úprava veľkosti riadku %s"
 
-#: src/commands.c:1844
+#: src/commands.c:1846
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "Nastavenie šírky stĺpcov %s na %d bodov"
 
-#: src/commands.c:1846
+#: src/commands.c:1848
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "Nastavenie výšky riadkov %s na %d bodov"
 
-#: src/commands.c:1851 src/commands.c:1852
+#: src/commands.c:1853 src/commands.c:1854
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "Automatická uprava veľkosti stĺpcov %s"
 
-#: src/commands.c:1855
+#: src/commands.c:1857
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "Nastavenie šírky stĺpcov %s na %d bodov"
 
-#: src/commands.c:1857
+#: src/commands.c:1859
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "Nastavenie výšky riadkov %s na %d bodov"
 
-#: src/commands.c:1941
+#: src/commands.c:1943
 #, c-format
 msgid "Sorting %s"
 msgstr "Triedenie %s"
 
-#: src/commands.c:2069
+#: src/commands.c:2071
 msgid "Unhide columns"
 msgstr "Zobrazenie skrytých stĺpcov"
 
-#: src/commands.c:2069
+#: src/commands.c:2071
 msgid "Hide columns"
 msgstr "Skrytie stĺpcov"
 
-#: src/commands.c:2070
+#: src/commands.c:2072
 msgid "Unhide rows"
 msgstr "Zobrazenie skrytých riadkov"
 
-#: src/commands.c:2070
+#: src/commands.c:2072
 msgid "Hide rows"
 msgstr "Skrytie riadkov"
 
-#: src/commands.c:2154
+#: src/commands.c:2156
 msgid "Expand columns"
 msgstr "Rozbalenie stĺpcov"
 
-#: src/commands.c:2154
+#: src/commands.c:2156
 msgid "Collapse columns"
 msgstr "Zabalenie stĺpcov"
 
-#: src/commands.c:2155
+#: src/commands.c:2157
 msgid "Expand rows"
 msgstr "Rozbalenie riadkov"
 
-#: src/commands.c:2155
+#: src/commands.c:2157
 msgid "Collapse rows"
 msgstr "Zabalenie riadkov"
 
-#: src/commands.c:2256
+#: src/commands.c:2258
 msgid "Those columns are already grouped"
 msgstr "Tieto stĺpce už sú v skupine"
 
-#: src/commands.c:2257
+#: src/commands.c:2259
 msgid "Those rows are already grouped"
 msgstr "Tieto riadky už sú v skupine"
 
-#: src/commands.c:2260
+#: src/commands.c:2262
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "Tieto stĺpce nie sú v skupine, takže ich nemôžete rozoskupiť"
 
-#: src/commands.c:2261
+#: src/commands.c:2263
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "Tieto riadky nie sú v skupine, takže ich nemôžete rozoskupiť"
 
-#: src/commands.c:2272
+#: src/commands.c:2274
 #, c-format
 msgid "Group columns %s"
 msgstr "Zoskupiť stĺpce %s"
 
-#: src/commands.c:2272
+#: src/commands.c:2274
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Rozoskupiť stĺpce %s"
 
-#: src/commands.c:2274
+#: src/commands.c:2276
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Zoskupiť riadky %d:%d"
 
-#: src/commands.c:2274
+#: src/commands.c:2276
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Rozoskupiť riadky %d:%d"
 
-#: src/commands.c:2477
+#: src/commands.c:2479
 #, c-format
 msgid "Moving %s"
 msgstr "Presun %s"
 
-#: src/commands.c:2486 src/commands.c:2670
+#: src/commands.c:2488 src/commands.c:2672
 msgid "is beyond sheet boundaries"
 msgstr "je mimo okraje listu"
 
 #. FIXME?
-#: src/commands.c:2641
+#: src/commands.c:2643
 #, c-format
 msgid "Pasting into %s"
 msgstr "Vloženie do %s"
 
 #. Check arrays or merged regions
-#: src/commands.c:2806
+#: src/commands.c:2808
 msgid "Autofill"
 msgstr "Automatické vyplňovanie"
 
 #. Changed in initial redo.
-#: src/commands.c:2827
+#: src/commands.c:2829
 #, c-format
 msgid "Autofilling %s"
 msgstr "Automatické vyplňovanie %s"
 
-#: src/commands.c:2980
+#: src/commands.c:2982
 #, c-format
 msgid "Autoformatting %s"
 msgstr "Automatický formát %s"
 
-#: src/commands.c:3089
+#: src/commands.c:3091
 #, c-format
 msgid "Unmerging %s"
 msgstr "Zrušenie spojenia buniek %s"
 
-#: src/commands.c:3227
+#: src/commands.c:3229
 #, c-format
 msgid "Merging %s"
 msgstr "Spojenie %s"
 
 #. Corrected below.
-#: src/commands.c:3661 src/dialogs/search-replace.glade.h:41
+#: src/commands.c:3663 src/dialogs/search-replace.glade.h:41
 msgid "Search and Replace"
 msgstr "Nájsť a nahradiť"
 
-#: src/commands.c:3757
+#: src/commands.c:3759
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Nastavenie štandardnej šírky stĺpcov na %.2f bodov"
 
-#: src/commands.c:3758
+#: src/commands.c:3760
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Nastavenie štandardnej výšky riadkov na %.2f bodov"
 
 #. Changed in initial redo.
-#: src/commands.c:3843
+#: src/commands.c:3845
 #, c-format
 msgid "Consolidating to %s!%s"
 msgstr "Konzolidujem do %s!%s"
 
-#: src/commands.c:3958
+#: src/commands.c:3960
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Zväčšiť %s na %.0f%%"
+
+#: src/commands.c:4042
+#, fuzzy
+msgid "Insert object"
+msgstr "Vloží Bonobo objekt"
+
+#: src/commands.c:4134
+#, fuzzy
+msgid "Resize object"
+msgstr "Vytvorí objekt čiara"
+
+#: src/commands.c:4136
+msgid "Move object"
+msgstr ""
+
+#: src/commands.c:4213
+#, fuzzy
+msgid "Delete object"
+msgstr "Odstrániť riadky"
 
 #: src/corba-args.c:28
 msgid "Oaf options"
@@ -2449,7 +2470,7 @@ msgid "_Put :"
 msgstr "_Vložiť:"
 
 #: src/dialogs/delete-cells.glade.h:1 src/dialogs/sheet-order.glade.h:2
-#: src/sheet-object.c:74
+#: src/sheet-object.c:86
 msgid "Delete"
 msgstr "Zmazať"
 
@@ -2942,7 +2963,8 @@ msgstr ""
 "premenných a skúste to znovu."
 
 #: src/dialogs/dialog-analysis-tools.c:2144
-msgid "There must be an equal number of entries for each variable in the regression."
+msgid ""
+"There must be an equal number of entries for each variable in the regression."
 msgstr "Pre každú premennú regresie musí byť rovnaký počet položiek."
 
 #: src/dialogs/dialog-analysis-tools.c:2372
@@ -2964,7 +2986,8 @@ msgstr "Zadaný rozsah tried obsahuje nečíselné dáta."
 
 #: src/dialogs/dialog-analysis-tools.c:2954
 msgid "Each sample should contain the same number of rows (`Rows per sample:')"
-msgstr "Každý výber by mal obsahovať rovnaký počet riadkov ('Riadkov na výber:')"
+msgstr ""
+"Každý výber by mal obsahovať rovnaký počet riadkov ('Riadkov na výber:')"
 
 #: src/dialogs/dialog-analysis-tools.c:2964
 msgid ""
@@ -3085,8 +3108,8 @@ msgstr "Nastala chyba pri načítavaní zoznamu kategórií"
 
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
-#: src/dialogs/dialog-autoformat.c:956 src/format.c:1701 src/format.c:1790
-#: src/format.c:1799 src/format.c:1868
+#: src/dialogs/dialog-autoformat.c:956 src/format.c:1704 src/format.c:1793
+#: src/format.c:1802 src/format.c:1871
 msgid "General"
 msgstr "Všeobecné"
 
@@ -3704,7 +3727,8 @@ msgstr ""
 msgid ""
 "Actual processing will start at this line, any previous lines will be "
 "ignored."
-msgstr "Spracovanie začne na tomto riadku, všetky predchádzajúce budú ignorované."
+msgstr ""
+"Spracovanie začne na tomto riadku, všetky predchádzajúce budú ignorované."
 
 #: src/dialogs/dialog-stf.glade.h:4
 msgid "Add a new column"
@@ -3786,7 +3810,8 @@ msgstr "Definovať šírku každého stĺpca ručne."
 msgid ""
 "Each column in the text is separated by a 'separation' character, e.g. a "
 "semicolon."
-msgstr "Každý stĺpec v texte je oddelený oddeľovacím znakom, napr. bodkočiarkou."
+msgstr ""
+"Každý stĺpec v texte je oddelený oddeľovacím znakom, napr. bodkočiarkou."
 
 #: src/dialogs/dialog-stf.glade.h:23
 msgid "End"
@@ -3891,8 +3916,10 @@ msgid "See two successive separators as one."
 msgstr "Dva za sebou idúce oddeľovače chápať ako jeden."
 
 #: src/dialogs/dialog-stf.glade.h:48
-msgid "See two successive text indicators as one that does not terminate the cell."
-msgstr "Dva za sebou idúce označovače textu chápať ako jeden, ktorý nekončí bunku."
+msgid ""
+"See two successive text indicators as one that does not terminate the cell."
+msgstr ""
+"Dva za sebou idúce označovače textu chápať ako jeden, ktorý nekončí bunku."
 
 #: src/dialogs/dialog-stf.glade.h:49
 msgid ""
@@ -4460,7 +4487,7 @@ msgid "Scale"
 msgstr "Veľkosť"
 
 #: src/dialogs/print.glade.h:27 src/functions/fn-sheet.c:136
-#: src/workbook.c:1057 src/xml-io.c:3024
+#: src/workbook.c:1057 src/xml-io.c:3056
 msgid "Sheet"
 msgstr "List"
 
@@ -5175,51 +5202,51 @@ msgstr "Chyba pri čítaní dočasného súboru."
 msgid "Exception occured while saving to stream."
 msgstr "Nastala výminka pri ukladaní do streamu."
 
-#: src/format.c:607
+#: src/format.c:610
 msgid "black"
 msgstr "čierna"
 
-#: src/format.c:608
+#: src/format.c:611
 msgid "blue"
 msgstr "modrá"
 
-#: src/format.c:609
+#: src/format.c:612
 msgid "cyan"
 msgstr "modrozelená"
 
-#: src/format.c:610
+#: src/format.c:613
 msgid "green"
 msgstr "zelená"
 
-#: src/format.c:611
+#: src/format.c:614
 msgid "magenta"
 msgstr "fialová"
 
-#: src/format.c:612
+#: src/format.c:615
 msgid "red"
 msgstr "červená"
 
-#: src/format.c:613
+#: src/format.c:616
 msgid "white"
 msgstr "biela"
 
-#: src/format.c:614
+#: src/format.c:617
 msgid "yellow"
 msgstr "žltá"
 
 #. Is it a boolean?
-#: src/format.c:1608 src/number-match.c:990 src/value-sheet.c:32
+#: src/format.c:1611 src/number-match.c:990 src/value-sheet.c:32
 #: src/value.c:246 src/value.c:479
 msgid "TRUE"
 msgstr "TRUE"
 
-#: src/format.c:1608 src/number-match.c:992 src/value-sheet.c:32
+#: src/format.c:1611 src/number-match.c:992 src/value-sheet.c:32
 #: src/value.c:248 src/value.c:479
 msgid "FALSE"
 msgstr "FALSE"
 
 #. Array of arrays ??
-#: src/format.c:1636
+#: src/format.c:1639
 msgid "ARRAY"
 msgstr "POLE"
 
@@ -6554,8 +6581,10 @@ msgstr "[Red]"
 
 #: src/format-template.c:881
 #, c-format
-msgid "The target region is too small, is should be at least %d rows by %d columns"
-msgstr "Cieľová oblasť je príliš malá, mala by byť aspoň %d riadkov a %d stĺpcov"
+msgid ""
+"The target region is too small, is should be at least %d rows by %d columns"
+msgstr ""
+"Cieľová oblasť je príliš malá, mala by byť aspoň %d riadkov a %d stĺpcov"
 
 #: src/format-template.c:884
 #, c-format
@@ -15914,7 +15943,8 @@ msgstr "Opakovane prepočítava pre nájdenie cieľovej hodnoty"
 
 #: src/GNOME_Gnumeric.xml.h:115 src/workbook-control-gui.c:2635
 msgid "Iteratively recalculate with constraints to approach a target value"
-msgstr "Opakovane prepočítava s obmedzeniami, až kým nedosiahne cieľovú hodnotu"
+msgstr ""
+"Opakovane prepočítava s obmedzeniami, až kým nedosiahne cieľovú hodnotu"
 
 #: src/GNOME_Gnumeric.xml.h:116 src/workbook-control-gui.c:2426
 msgid "Jump to a specified cell"
@@ -16118,9 +16148,9 @@ msgstr "_Iné"
 msgid "Save"
 msgstr "Uložiť"
 
-#: src/GNOME_Gnumeric.xml.h:173
-msgid "Save _As"
-msgstr "Uložiť _ako"
+#: src/GNOME_Gnumeric.xml.h:173 src/workbook-control-gui.c:2294
+msgid "Save _As..."
+msgstr "Uložiť _ako..."
 
 #: src/GNOME_Gnumeric.xml.h:174
 msgid "Save the current file"
@@ -16328,7 +16358,7 @@ msgstr "_Konzolidovať..."
 msgid "_Content"
 msgstr "_Obsah"
 
-#: src/GNOME_Gnumeric.xml.h:226 src/item-cursor.c:1016
+#: src/GNOME_Gnumeric.xml.h:226 src/item-cursor.c:1020
 #: src/sheet-control-gui.c:1308
 msgid "_Copy"
 msgstr "_Kopírovať"
@@ -16598,7 +16628,7 @@ msgstr "Formát súboru:"
 msgid "Import file"
 msgstr "Importuje súbor"
 
-#: src/gui-file.c:144
+#: src/gui-file.c:148
 #, c-format
 msgid ""
 "%s\n"
@@ -16607,7 +16637,7 @@ msgstr ""
 "%s\n"
 "je meno priečinku"
 
-#: src/gui-file.c:150
+#: src/gui-file.c:154
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -16616,7 +16646,7 @@ msgstr ""
 "Nemáte práva pre ukladanie do\n"
 "%s"
 
-#: src/gui-file.c:157
+#: src/gui-file.c:161
 #, c-format
 msgid ""
 "Workbook %s already exists.\n"
@@ -16625,7 +16655,7 @@ msgstr ""
 "Zošit %s už existuje.\n"
 "Chcete ho prepísať?"
 
-#: src/gui-file.c:178
+#: src/gui-file.c:182
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -16639,7 +16669,7 @@ msgstr ""
 "iný formát súborov.\n"
 "Chcete uložiť iba aktuálny list?"
 
-#: src/gui-file.c:202
+#: src/gui-file.c:206
 msgid ""
 "Please enter a file name,\n"
 "not a directory"
@@ -16648,15 +16678,15 @@ msgstr ""
 "nie priečinku"
 
 #. Pack it into file selector
-#: src/gui-file.c:247
+#: src/gui-file.c:251
 msgid "Save workbook as"
 msgstr "Uložiť zošit ako"
 
-#: src/gui-file.c:303
+#: src/gui-file.c:307
 msgid "Load file"
 msgstr "Načítať súbor"
 
-#: src/gui-file.c:354
+#: src/gui-file.c:358
 msgid "Which file format would you like?"
 msgstr "Ktorý formát súboru chcete?"
 
@@ -16684,7 +16714,7 @@ msgstr "Šírka: %.2f bodov (%d pixelov)"
 msgid "Height: %.2f pts (%d pixels)"
 msgstr "Výška: %.2f bodov (%d pixelov)"
 
-#: src/item-cursor.c:903
+#: src/item-cursor.c:907
 msgid ""
 "The cells dragged will overwrite the contents of the\n"
 "existing cells in that range.  Do you want me to replace\n"
@@ -16693,35 +16723,35 @@ msgstr ""
 "Presúvané bunky prepíšu obsah existujúcich buniek\n"
 "v tomto rozsahu. Chcete nahradiť obsah buniek v tomto regióne?"
 
-#: src/item-cursor.c:1013
+#: src/item-cursor.c:1017
 msgid "_Move"
 msgstr "_Presunúť"
 
-#: src/item-cursor.c:1019
+#: src/item-cursor.c:1023
 msgid "Copy _Formats"
 msgstr "Kopírovať _formát"
 
-#: src/item-cursor.c:1021
+#: src/item-cursor.c:1025
 msgid "Copy _Values"
 msgstr "Kopírovať _hodnoty"
 
-#: src/item-cursor.c:1026
+#: src/item-cursor.c:1030
 msgid "Shift _Down and Copy"
 msgstr "Posunúť bunky _dolu a kopírovať"
 
-#: src/item-cursor.c:1028
+#: src/item-cursor.c:1032
 msgid "Shift _Right and Copy"
 msgstr "Posunúť bunky dop_rava a kopírovať"
 
-#: src/item-cursor.c:1030
+#: src/item-cursor.c:1034
 msgid "Shift Dow_n and Move"
 msgstr "Posunúť bunky do_lu a presunúť"
 
-#: src/item-cursor.c:1032
+#: src/item-cursor.c:1036
 msgid "Shift Righ_t and Move"
 msgstr "Posunúť bunky dopra_va a presunúť"
 
-#: src/item-cursor.c:1037
+#: src/item-cursor.c:1041
 msgid "C_ancel"
 msgstr "_Zrušiť"
 
@@ -16769,26 +16799,7 @@ msgstr "Skončiť hneď po načítaní vybraných zošitov (výhodné pri testov
 msgid "Enables extra consistency checking while reading ole files"
 msgstr "Povoliť extra kontrolu konzistencie počas čítania súborov ole"
 
-#: src/main.c:153
-#, c-format
-msgid ""
-"gnumeric version '%s'\n"
-"datadir := '%s'\n"
-"libdir := '%s'\n"
-msgstr ""
-"Verzia gnumericu '%s'\n"
-"datadir := '%s'\n"
-"libdir := '%s'\n"
-
-#: src/main.c:204
-msgid "Could not initialize Workbook factory"
-msgstr "Nemôžem inicializovať factory pre zošit"
-
-#: src/main.c:208
-msgid "Could not initialize EmbeddableGrid factory"
-msgstr "Nemôžem inicializovať factory EmbeddableGrid"
-
-#: src/main.c:254
+#: src/main.c:129
 msgid ""
 "Thank you for using Gnumeric!\n"
 "\n"
@@ -16812,6 +16823,25 @@ msgstr ""
 "Detaily nájdete na http://www.gnumeric.org.\n"
 "\n"
 "-- Tím Gnumericu."
+
+#: src/main.c:183
+#, c-format
+msgid ""
+"gnumeric version '%s'\n"
+"datadir := '%s'\n"
+"libdir := '%s'\n"
+msgstr ""
+"Verzia gnumericu '%s'\n"
+"datadir := '%s'\n"
+"libdir := '%s'\n"
+
+#: src/main.c:234
+msgid "Could not initialize Workbook factory"
+msgstr "Nemôžem inicializovať factory pre zošit"
+
+#: src/main.c:238
+msgid "Could not initialize EmbeddableGrid factory"
+msgstr "Nemôžem inicializovať factory EmbeddableGrid"
 
 #: src/number-match.c:618
 msgid "#NULL!"
@@ -16856,8 +16886,8 @@ msgid "Unknown sheet '%s'"
 msgstr "Neznámy list '%s'"
 
 #: src/parser.y:587 src/parser.y:601
-#, c-format
-msgid "The character %c can not be used to separate array elements"
+#, fuzzy, c-format
+msgid "The character %c cannot be used to separate array elements"
 msgstr "Znak %c nie je možné použiť pre oddelenie hodnôt poľa"
 
 #: src/parser.y:750 src/parser.y:762 src/parser.y:790
@@ -17129,8 +17159,8 @@ msgstr "Nemôžem získať veľkosť súboru."
 msgid "Initializing function inside plugin returned error."
 msgstr "Inicializačná funkcia v module vrátila chybu."
 
-#: src/plugin-service.c:127 src/plugin-service.c:1030
-#: src/plugin-service.c:1258
+#: src/plugin-service.c:127 src/plugin-service.c:1039
+#: src/plugin-service.c:1267
 msgid "Error while loading plugin service."
 msgstr "Chyba počas načítavania modulu služby."
 
@@ -17142,41 +17172,41 @@ msgstr "Upratovacia funkcia v module vrátila chybu."
 msgid "Error while reading file."
 msgstr "Chyba pri čítaní súboru."
 
-#: src/plugin-service.c:462
+#: src/plugin-service.c:466
 msgid "File opener has no id"
 msgstr "Otvárač súborov nemá id."
 
-#: src/plugin-service.c:465
+#: src/plugin-service.c:469
 #, c-format
 msgid "File opener with id=\"%s\" has no description"
 msgstr "Otvárač súborov s id=\"%s\" nemá popis"
 
-#: src/plugin-service.c:590
+#: src/plugin-service.c:599
 msgid "Error while saving file."
 msgstr "Chyba pri ukladaní súboru."
 
-#: src/plugin-service.c:674
+#: src/plugin-service.c:683
 msgid "File saver has no id"
 msgstr "Ukladač súborov nemá id"
 
-#: src/plugin-service.c:677
+#: src/plugin-service.c:686
 #, c-format
 msgid "File saver with id=\"%s\" has no description"
 msgstr "Ukladač súborov s id=\"%s\" nemá popis"
 
-#: src/plugin-service.c:821
+#: src/plugin-service.c:830
 msgid "Missing function group id."
 msgstr "Chýbajúce id skupiny funkcie."
 
-#: src/plugin-service.c:826 src/plugin-service.c:831
+#: src/plugin-service.c:835 src/plugin-service.c:840
 msgid "Missing function category name."
 msgstr "Chýbajúce meno kategórie funkcie."
 
-#: src/plugin-service.c:990
+#: src/plugin-service.c:999
 msgid "Missing loader id."
 msgstr "Chýbajúce id otvárača."
 
-#: src/plugin-service.c:1153
+#: src/plugin-service.c:1162
 #, c-format
 msgid "Error while reading service of type \"%s\"."
 msgstr "Chyby pri čítaní služieb typu \"%s\"."
@@ -17301,11 +17331,13 @@ msgid "Target region contains merged cells"
 msgstr "Cieľová oblasť obsahuje spojené bunky"
 
 #: src/sheet.c:2250
-msgid "can not operate on merged cells"
+#, fuzzy
+msgid "cannot operate on merged cells"
 msgstr "nedá sa vykonať na spojených bunkách"
 
 #: src/sheet.c:2261
-msgid "can not operate on array formulae"
+#, fuzzy
+msgid "cannot operate on array formulae"
 msgstr "nedá sa vykonať na poli vzorcov"
 
 #: src/sheet.c:3062
@@ -17391,7 +17423,7 @@ msgstr "_Výška riadku..."
 msgid "There is already a merged region that intersects"
 msgstr "Už existuje spojená oblasť, ktorá sa pretína"
 
-#: src/sheet-object.c:82
+#: src/sheet-object.c:94
 msgid "Configure"
 msgstr "Nastavenie"
 
@@ -17684,11 +17716,13 @@ msgid "You entered an invalid row height value.  It must be bigger than 0"
 msgstr "Zadali ste neplatnú výšku riadku. Musí byť väčšia ako 0"
 
 #: src/workbook-cmd-format.c:234
-msgid "You entered an invalid default column width value.  It must be bigger than 0"
+msgid ""
+"You entered an invalid default column width value.  It must be bigger than 0"
 msgstr "Zadali ste neplatnú štandardnú šírku stĺpca. Musí byť väčšia ako 0"
 
 #: src/workbook-cmd-format.c:262
-msgid "You entered an invalid default row height value.  It must be bigger than 0"
+msgid ""
+"You entered an invalid default row height value.  It must be bigger than 0"
 msgstr "Zadali ste neplatnú štandardnú výšku riadku. Musí byť väčšia ako 0"
 
 #: src/workbook-control.c:190
@@ -17814,10 +17848,6 @@ msgstr "Zoskupiť"
 #: src/workbook-control-gui.c:2105
 msgid "Ungroup"
 msgstr "Zrušiť zoskupenie"
-
-#: src/workbook-control-gui.c:2294
-msgid "Save _As..."
-msgstr "Uložiť _ako..."
 
 #: src/workbook-control-gui.c:2294
 msgid "Save with a new name or format"
@@ -18219,27 +18249,27 @@ msgstr "Chyba pri vytváraní stromu z šablóny autoformátu"
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3150
+#: src/xml-io.c:3182
 msgid "Processing XML tree..."
 msgstr "Spracovávam strom XML..."
 
-#: src/xml-io.c:3313
+#: src/xml-io.c:3345
 msgid "Invalid xml clipboard data. Tree is empty ?"
 msgstr "Neplatné XML dáta v schránke. Strom je prázdny ?"
 
-#: src/xml-io.c:3365 src/xml-io.c:3376
+#: src/xml-io.c:3397 src/xml-io.c:3408
 msgid "Not enough memory to create zlib decompression state."
 msgstr "Nedostatok pamäti pre vytvorenie zlib rozbaleného stavu."
 
-#: src/xml-io.c:3379
+#: src/xml-io.c:3411
 msgid "Parsing XML file..."
 msgstr "Spracovávam súbor XML..."
 
-#: src/xml-io.c:3411
+#: src/xml-io.c:3443
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Nie je súbor so zošitom Gnumeric"
 
-#: src/xml-io.c:3469
+#: src/xml-io.c:3501
 msgid "Gnumeric XML file format"
 msgstr "Súborový formát Gnumeric XML"
 
@@ -18247,3 +18277,5 @@ msgstr "Súborový formát Gnumeric XML"
 msgid "The GNOME Spreadsheet"
 msgstr "GNOME tabuľka"
 
+#~ msgid "Save _As"
+#~ msgstr "Uložiť _ako"

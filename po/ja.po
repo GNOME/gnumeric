@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.66\n"
-"POT-Creation-Date: 2001-08-07 16:54+0900\n"
+"POT-Creation-Date: 2001-08-11 16:20-0400\n"
 "PO-Revision-Date: 2001-08-08 19:38-0500\n"
 "Last-Translator: Yukihiro Nakai <nakai@gnome.gr.jp>\n"
 "Language-Team: Japanese <translation@gnome.gr.jp>\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "Parse error while reading Applix file."
 msgstr "Applixファイルの読み込み中にパースエラー"
 
-#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4175
+#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4176
 msgid "Reading file..."
 msgstr "ファイルを読み込んでいます..."
 
@@ -110,16 +110,16 @@ msgstr "#UNKNOWN!"
 msgid "Sheet%d"
 msgstr "シート%d"
 
-#: plugins/excel/ms-excel-read.c:4170
+#: plugins/excel/ms-excel-read.c:4171
 msgid "No book or workbook streams found."
 msgstr "ブックあるいはワークブックストリームが見つかりませんでした。"
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4363
+#: plugins/excel/ms-excel-read.c:4364
 msgid "Password protected workbooks are not supported yet."
 msgstr "パスワード保護されたワークブックは、まだサポートされていません。"
 
-#: plugins/excel/ms-excel-read.c:4486
+#: plugins/excel/ms-excel-read.c:4487
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "有効な MS Excel のワークブックが見つかりません"
 
@@ -237,6 +237,7 @@ msgstr ""
 "@SEEALSO=NT_D, ITHPRIME, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:233
+#, fuzzy
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
@@ -913,7 +914,7 @@ msgstr "進捗 %"
 msgid "Error '%s' opening workbook stream"
 msgstr "ワークブックストリームを開くときにエラー'%s'が起きました"
 
-#: src/bonobo-io.c:466 src/xml-io-autoft.c:417 src/xml-io.c:3402
+#: src/bonobo-io.c:466 src/xml-io-autoft.c:417 src/xml-io.c:3434
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "不正な xml ファイルです。ツリーが空ですか?"
 
@@ -1080,6 +1081,7 @@ msgid "Clearing %s in %s"
 msgstr "%2$sの%1$sを消去"
 
 #: src/commands.c:1520
+#, c-format
 msgid "Changing format of %s"
 msgstr "%sのフォーマットを変更できません"
 
@@ -1297,11 +1299,16 @@ msgstr "%sを%.0f%%にズーム"
 msgid "Insert object"
 msgstr "オブジェクト挿入"
 
-#: src/commands.c:4132
+#: src/commands.c:4134
+#, fuzzy
+msgid "Resize object"
+msgstr "オブジェクト削除"
+
+#: src/commands.c:4136
 msgid "Move object"
 msgstr "オブジェクト移動"
 
-#: src/commands.c:4208
+#: src/commands.c:4213
 msgid "Delete object"
 msgstr "オブジェクト削除"
 
@@ -3066,8 +3073,8 @@ msgstr "分類一覧を読み込み中にエラーが発生しました。"
 
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
-#: src/dialogs/dialog-autoformat.c:956 src/format.c:1701 src/format.c:1790
-#: src/format.c:1799 src/format.c:1868
+#: src/dialogs/dialog-autoformat.c:956 src/format.c:1704 src/format.c:1793
+#: src/format.c:1802 src/format.c:1871
 msgid "General"
 msgstr "標準"
 
@@ -4077,7 +4084,6 @@ msgid "place holder no need to translate"
 msgstr "プレースホルダを翻訳する必要はありません"
 
 #: src/dialogs/graph-guru.glade.h:1
-
 msgid " Location "
 msgstr " 場所 "
 
@@ -4446,7 +4452,7 @@ msgid "Scale"
 msgstr "拡大"
 
 #: src/dialogs/print.glade.h:27 src/functions/fn-sheet.c:136
-#: src/workbook.c:1057 src/xml-io.c:3024
+#: src/workbook.c:1057 src/xml-io.c:3056
 msgid "Sheet"
 msgstr "シート"
 
@@ -5133,6 +5139,7 @@ msgid "Error: no sheet"
 msgstr "エラー: シートがありません"
 
 #: src/file-autoft.c:142
+#, c-format
 msgid "Invalid template file: %s"
 msgstr "不適切なテンプレートファイル: %s"
 
@@ -5161,51 +5168,51 @@ msgstr "一時ファイルの読み込み中にエラー。"
 msgid "Exception occured while saving to stream."
 msgstr "分類一覧を読み込み中にエラーが発生しました。"
 
-#: src/format.c:607
+#: src/format.c:610
 msgid "black"
 msgstr "黒"
 
-#: src/format.c:608
+#: src/format.c:611
 msgid "blue"
 msgstr "青"
 
-#: src/format.c:609
+#: src/format.c:612
 msgid "cyan"
 msgstr "シアン"
 
-#: src/format.c:610
+#: src/format.c:613
 msgid "green"
 msgstr "緑"
 
-#: src/format.c:611
+#: src/format.c:614
 msgid "magenta"
 msgstr "赤紫"
 
-#: src/format.c:612
+#: src/format.c:615
 msgid "red"
 msgstr "赤"
 
-#: src/format.c:613
+#: src/format.c:616
 msgid "white"
 msgstr "白"
 
-#: src/format.c:614
+#: src/format.c:617
 msgid "yellow"
 msgstr "黄"
 
 #. Is it a boolean?
-#: src/format.c:1608 src/number-match.c:990 src/value-sheet.c:32
+#: src/format.c:1611 src/number-match.c:990 src/value-sheet.c:32
 #: src/value.c:246 src/value.c:479
 msgid "TRUE"
 msgstr "TRUE"
 
-#: src/format.c:1608 src/number-match.c:992 src/value-sheet.c:32
+#: src/format.c:1611 src/number-match.c:992 src/value-sheet.c:32
 #: src/value.c:248 src/value.c:479
 msgid "FALSE"
 msgstr "FALSE"
 
 #. Array of arrays ??
-#: src/format.c:1636
+#: src/format.c:1639
 msgid "ARRAY"
 msgstr "配列"
 
@@ -14988,8 +14995,9 @@ msgstr "特別(_P)"
 msgid "Save"
 msgstr "保存"
 
-#: src/GNOME_Gnumeric.xml.h:173
-msgid "Save _As"
+#: src/GNOME_Gnumeric.xml.h:173 src/workbook-control-gui.c:2294
+#, fuzzy
+msgid "Save _As..."
 msgstr "名前を変えて保存(_A)"
 
 #: src/GNOME_Gnumeric.xml.h:174
@@ -15646,26 +15654,7 @@ msgstr "選択されたブックをロード後即座に終了する(テスト時に便利です)。"
 msgid "Enables extra consistency checking while reading ole files"
 msgstr "oleファイルを読み込むときによけいな矛盾がないかのチェックを有効にする"
 
-#: src/main.c:153
-#, c-format
-msgid ""
-"gnumeric version '%s'\n"
-"datadir := '%s'\n"
-"libdir := '%s'\n"
-msgstr ""
-"gnumeric バージョン '%s'\n"
-"データディレクトリ := '%s'\n"
-"ライブラリディレクトリ := '%s'\n"
-
-#: src/main.c:204
-msgid "Could not initialize Workbook factory"
-msgstr "ワークブックファクトリを初期化できませんでした"
-
-#: src/main.c:208
-msgid "Could not initialize EmbeddableGrid factory"
-msgstr "埋め込みグリッドファクトリを初期化できませんでした"
-
-#: src/main.c:254
+#: src/main.c:129
 msgid ""
 "Thank you for using Gnumeric!\n"
 "\n"
@@ -15687,6 +15676,25 @@ msgstr ""
 "詳しくは http://www.gnumeric.org/ をご覧ください。\n"
 "\n"
 "-- Gnumericチーム"
+
+#: src/main.c:183
+#, c-format
+msgid ""
+"gnumeric version '%s'\n"
+"datadir := '%s'\n"
+"libdir := '%s'\n"
+msgstr ""
+"gnumeric バージョン '%s'\n"
+"データディレクトリ := '%s'\n"
+"ライブラリディレクトリ := '%s'\n"
+
+#: src/main.c:234
+msgid "Could not initialize Workbook factory"
+msgstr "ワークブックファクトリを初期化できませんでした"
+
+#: src/main.c:238
+msgid "Could not initialize EmbeddableGrid factory"
+msgstr "埋め込みグリッドファクトリを初期化できませんでした"
 
 #: src/number-match.c:618
 msgid "#NULL!"
@@ -15732,7 +15740,7 @@ msgstr "未知のシステムです"
 
 #: src/parser.y:587 src/parser.y:601
 #, c-format
-msgid "The character %c can not be used to separate array elements"
+msgid "The character %c cannot be used to separate array elements"
 msgstr ""
 
 #: src/parser.y:750 src/parser.y:762 src/parser.y:790
@@ -16183,11 +16191,13 @@ msgid "Target region contains merged cells"
 msgstr "対象範囲は結合セルを含んでいます"
 
 #: src/sheet.c:2250
-msgid "can not operate on merged cells"
+#, fuzzy
+msgid "cannot operate on merged cells"
 msgstr "結合セルを操作できません"
 
 #: src/sheet.c:2261
-msgid "can not operate on array formulae"
+#, fuzzy
+msgid "cannot operate on array formulae"
 msgstr "配列式を操作できません"
 
 #: src/sheet.c:3062
@@ -16708,11 +16718,6 @@ msgid "Ungroup"
 msgstr "グループ解除"
 
 #: src/workbook-control-gui.c:2294
-#, fuzzy
-msgid "Save _As..."
-msgstr "名前を変えて保存(_A)"
-
-#: src/workbook-control-gui.c:2294
 msgid "Save with a new name or format"
 msgstr ""
 
@@ -17114,33 +17119,36 @@ msgstr "自動書式テンプレートからツリーの構築中にエラー"
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3150
+#: src/xml-io.c:3182
 msgid "Processing XML tree..."
 msgstr "XMLツリーを読み込んでいます..."
 
-#: src/xml-io.c:3313
+#: src/xml-io.c:3345
 msgid "Invalid xml clipboard data. Tree is empty ?"
 msgstr "不正な xml クリップボードデータです。ツリーが空ですか?"
 
-#: src/xml-io.c:3365 src/xml-io.c:3376
+#: src/xml-io.c:3397 src/xml-io.c:3408
 msgid "Not enough memory to create zlib decompression state."
 msgstr "zlib解凍状態を作成するのに十分なメモリがありません。"
 
-#: src/xml-io.c:3379
+#: src/xml-io.c:3411
 msgid "Parsing XML file..."
 msgstr "XMLファイルをパースしています..."
 
-#: src/xml-io.c:3411
+#: src/xml-io.c:3443
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Gnumericワークブックファイルではありません"
 
-#: src/xml-io.c:3469
+#: src/xml-io.c:3501
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML ファイル形式"
 
 #: gnumeric.desktop.in.h:2
 msgid "The GNOME Spreadsheet"
 msgstr "表計算プログラム"
+
+#~ msgid "Save _As"
+#~ msgstr "名前を変えて保存(_A)"
 
 #~ msgid "Covariances"
 #~ msgstr "共分散"
