@@ -1,18 +1,18 @@
 # Gnumeric Czech translation
 # Copyright (c) 1999,2000,2001,2002 The Free Software Foundation
-# Copyright (C) 2003 Miloslav Trmac <mitr@volny.cz>
+# Copyright (C) 2003, 2004 Miloslav Trmac <mitr@volny.cz>
 # Petr Vyhnalek <petr.vyhnalek@email.cz>, 1999.
 # David Sauer <davids@penguin.cz>, 1999.
 # Partially based on Slovak translation by Stanislav Visnovsky <visnovsky@nenya.ms.mff.cuni.cz>, 2002.
 # Michal Bukovjan <bukm@centrum.cz>, 2002,2003.
-# Miloslav Trmac <mitr@volny.cz>, 2003.
+# Miloslav Trmac <mitr@volny.cz>, 2003, 2004.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2003-12-29 15:34+0100\n"
-"PO-Revision-Date: 2003-12-29 19:31+0100\n"
+"PO-Revision-Date: 2004-01-26 22:36+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1221,17 +1221,21 @@ msgid "Broken function"
 msgstr "Poškozená funkce"
 
 #: plugins/excel/ms-formula-write.c:535
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Too many arguments for function '%s', MS Excel expects exactly %d and we "
 "have %d"
-msgstr "Příliš mnoho parametrů pro funkci '%s', MS Excel očekává přesně %d a my jich máme %d"
+msgstr ""
+"Příliš mnoho parametrů pro funkci, aplikace MS Excel očekává přesně %d a my "
+"jich máme více"
 
 #: plugins/excel/ms-formula-write.c:536
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Too many arguments for function '%s', MS Excel can only handle %d not %d"
-msgstr "Příliš mnoho parametrů pro funkci '%s', MS Excel očekává přesně %d, ne %d"
+msgstr ""
+"Příliš mnoho parametrů pro funkci, aplikace MS Excel očekává přesně %d a my "
+"jich máme více"
 
 #: plugins/excel/plugin.xml.in.h:1
 msgid "Imports/Exports MS Excel (tm) files"
@@ -11327,7 +11331,7 @@ msgstr ""
 #: plugins/fn-math/functions.c:2572 plugins/fn-math/functions.c:2592
 #: plugins/fn-stat/functions.c:2920 plugins/fn-stat/functions.c:2950
 msgid "Array version not implemented!"
-msgstr "Verze pro pole není implementovaná!"
+msgstr "Verze pro pole není implementována!"
 
 #: plugins/fn-math/functions.c:2406
 msgid ""
@@ -17725,7 +17729,7 @@ msgstr "Zásuvný modul Ahoj světe používající službu ui"
 
 #: plugins/uihello/plugin.xml.in.h:2
 msgid "UI Hello"
-msgstr "UI Anoj"
+msgstr "UI Ahoj"
 
 #: plugins/uihello/uihello.c:24
 #, c-format
@@ -18019,7 +18023,7 @@ msgstr "Prodleva automatického přepočítávání výrazů"
 
 #: schemas/gnumeric-general.schemas.in.h:2
 msgid "Autocomplete"
-msgstr "Automatické doplnění"
+msgstr "Automatické doplňování"
 
 #: schemas/gnumeric-general.schemas.in.h:3
 msgid ""
@@ -18123,21 +18127,14 @@ msgid ""
 "Setting this option will cause the sort buttons on the toolbar to perform a "
 "case-sensitive sort and determine the initial state of the case-sensitive "
 "checkbox in the sort dialog."
-msgstr ""
-"Nastavení této volby způsobí, že všechna tlačítka třídění na nástrojové "
-"liště budou provádět třídění s rozlišením malých a velkých písmen, a ovlivní "
-"úvodní nastavení zaškrtávacího okénka pro rozlišování velkých a malých "
-"písmen v dialogu třídění."
+msgstr "Nastavení této volby způsobí, že všechna tlačítka třídění na liště nástrojů budou provádět třídění s rozlišením malých a velkých písmen, a ovlivní úvodní nastavení zaškrtávacího okénka pro rozlišování velkých a malých písmen v dialogu třídění."
 
 #: schemas/gnumeric-general.schemas.in.h:26
 msgid ""
 "Setting this option will cause the sort buttons on the toolbar to preserve "
 "the cell formats while sorting and determines the initial state of the "
 "preserve-formats checkbox in the sort dialog."
-msgstr ""
-"Nastavení této volby způsobí, že tlačítka třídění na nástrojové liště budou "
-"zachovávat formát buňky při třídění, ovlivní úvodní nastavení zaškrtávacího "
-"okénka pro zachování formátu v dialogu třídění."
+msgstr "Nastavení této volby způsobí, že tlačítka třídění na liště nástrojů budou zachovávat formát buňky při třídění, ovlivní úvodní nastavení zaškrtávacího okénka pro zachování formátu v dialogu třídění."
 
 #: schemas/gnumeric-general.schemas.in.h:27
 msgid "Show Sheet Name in Undo List"
@@ -18299,12 +18296,11 @@ msgstr "Tato proměnná určuje, jestli jsou zapnuty klávesy přechodu."
 
 #: schemas/gnumeric-general.schemas.in.h:53
 msgid "Toolbar Style"
-msgstr "Styl nástrojové lišty"
+msgstr "Styl lišty nástrojů"
 
 #: schemas/gnumeric-general.schemas.in.h:54
 msgid "Toolbar Style. Valid values are both, both_horiz, icon, and text"
-msgstr ""
-"Styl nástrojové lišty. Platné hodnoty jsou both, both_horiz, icon a text"
+msgstr "Styl lišty nástrojů. Platné hodnoty jsou both, both_horiz, icon a text"
 
 #: schemas/gnumeric-general.schemas.in.h:55
 msgid "Transition Keys"
@@ -18316,7 +18312,7 @@ msgstr "Vertikální DPI"
 
 #: schemas/gnumeric-general.schemas.in.h:57
 msgid "Warn When Exporting Into Single Sheet Format"
-msgstr "Varování při exportu do formátu s jediným listem"
+msgstr "Varovat při exportu do formátu s jediným listem"
 
 #: schemas/gnumeric-general.schemas.in.h:58
 msgid ""
@@ -18565,7 +18561,7 @@ msgstr "Porovnání rozptylu dvou statistických souborů"
 
 #: src/GNOME_Gnumeric.xml.h:49
 msgid "Configure toolbars"
-msgstr "Nastavení nástrojových lišt"
+msgstr "Nastavení lišt nástrojů"
 
 #: src/GNOME_Gnumeric.xml.h:50 src/workbook-control-gui.c:3947
 msgid "Consolidate regions using a function"
@@ -18701,11 +18697,11 @@ msgstr "Sníží počet zobrazovaných desetinných míst"
 
 #: src/GNOME_Gnumeric.xml.h:81 src/workbook-control-gui.c:3668
 msgid "Display _Formulas"
-msgstr "Zobrazit _vzorce"
+msgstr "Zobrazovat _vzorce"
 
 #: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:3887
 msgid "Display _Outlines"
-msgstr "Zobrazit _přehledy"
+msgstr "Zobrazovat _přehledy"
 
 #: src/GNOME_Gnumeric.xml.h:83 src/workbook-control-gui.c:3669
 msgid "Display the value of a formula or the formula itself"
@@ -18753,7 +18749,7 @@ msgstr "Předp_ovídání"
 
 #: src/GNOME_Gnumeric.xml.h:94 src/workbook-control-gui.c:3973
 msgid "F_ormat"
-msgstr "F_ormát"
+msgstr "_Formát"
 
 #: src/GNOME_Gnumeric.xml.h:95 src/workbook-control-gui.c:3431
 msgid "Fill according to a linear or exponential series"
@@ -18822,19 +18818,19 @@ msgstr "_Výška..."
 
 #: src/GNOME_Gnumeric.xml.h:109 src/workbook-control-gui.c:3686
 msgid "Hide _Column Headers"
-msgstr "Skrýt hlavičky sloup_ců"
+msgstr "Skrývat hlavičky sloup_ců"
 
 #: src/GNOME_Gnumeric.xml.h:110 src/workbook-control-gui.c:3680
 msgid "Hide _Gridlines"
-msgstr "Skrýt _mřížku"
+msgstr "Skrývat _mřížku"
 
 #: src/GNOME_Gnumeric.xml.h:111 src/workbook-control-gui.c:3692
 msgid "Hide _Row Headers"
-msgstr "Sk_rýt hlavičky řádků"
+msgstr "Sk_rývat hlavičky řádků"
 
 #: src/GNOME_Gnumeric.xml.h:112 src/workbook-control-gui.c:3674
 msgid "Hide _Zeros"
-msgstr "Skrýt _nuly"
+msgstr "Skrývat _nuly"
 
 #: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:3628
 msgid "Hide the selected columns"
@@ -19162,7 +19158,7 @@ msgstr "Rozložení, umístění a percentily"
 #: src/GNOME_Gnumeric.xml.h:189 src/workbook-control-gui.c:3464
 #: src/workbook-control-gui.c:3662
 msgid "Re_name"
-msgstr "Přejme_novat"
+msgstr "_Přejmenovat"
 
 #: src/GNOME_Gnumeric.xml.h:190 src/workbook-control-gui.c:3527
 msgid "Recalculate"
@@ -19219,7 +19215,7 @@ msgstr "Uložit"
 
 #: src/GNOME_Gnumeric.xml.h:203
 msgid "Save _As..."
-msgstr "Uložit j_ako..."
+msgstr "Uložit _jako..."
 
 #: src/GNOME_Gnumeric.xml.h:204 src/workbook-control-gui.c:3988
 msgid "Save the current workbook"
@@ -19532,7 +19528,7 @@ msgstr "_Konsolidovat..."
 
 #: src/GNOME_Gnumeric.xml.h:277 src/workbook-control-gui.c:3380
 msgid "_Contents"
-msgstr "O_bsah"
+msgstr "_Obsah"
 
 #: src/GNOME_Gnumeric.xml.h:278 src/item-cursor.c:1021
 #: src/sheet-control-gui.c:1488
@@ -19718,7 +19714,7 @@ msgstr "U_končit"
 
 #: src/GNOME_Gnumeric.xml.h:321 src/workbook-control-gui.c:3433
 msgid "_Random Generator..."
-msgstr "Gene_rátor náhodných čísel..."
+msgstr "_Generátor náhodných čísel..."
 
 #: src/GNOME_Gnumeric.xml.h:322 src/workbook-control-gui.c:1575
 msgid "_Redo"
@@ -19731,7 +19727,7 @@ msgstr "_Regrese..."
 #: src/GNOME_Gnumeric.xml.h:324 src/dialogs/autocorrect.glade.h:13
 #: src/dialogs/pivottable.glade.h:12 src/workbook-control-gui.c:3460
 msgid "_Remove"
-msgstr "Odst_ranit"
+msgstr "_Odstranit"
 
 #: src/GNOME_Gnumeric.xml.h:325 src/dialogs/fill-series.glade.h:17
 #: src/dialogs/pivottable.glade.h:13 src/workbook-control-gui.c:3708
@@ -19808,11 +19804,11 @@ msgstr "_Text do sloupců..."
 
 #: src/GNOME_Gnumeric.xml.h:341
 msgid "_Toolbars..."
-msgstr "Nástrojové _lišty..."
+msgstr "_Lišty nástrojů..."
 
 #: src/GNOME_Gnumeric.xml.h:342 src/workbook-control-gui.c:3974
 msgid "_Tools"
-msgstr "Nás_troje"
+msgstr "_Nástroje"
 
 #: src/GNOME_Gnumeric.xml.h:343 src/workbook-control-gui.c:3741
 msgid "_Two Factor..."
@@ -20630,7 +20626,7 @@ msgstr "Graf GNOME Office"
 #: src/dialogs/autocorrect.glade.h:12 src/dialogs/names.glade.h:6
 #: src/dialogs/solver.glade.h:26
 msgid "_Add"
-msgstr "Přid_at"
+msgstr "_Přidat"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:3
 #: src/dialogs/autoformat.glade.h:20 src/dialogs/cell-format.glade.h:95
@@ -20644,7 +20640,7 @@ msgstr "_Snížení"
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:5
 #: src/dialogs/names.glade.h:7 src/dialogs/solver.glade.h:30
 msgid "_Delete"
-msgstr "O_dstranit"
+msgstr "_Odstranit"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:6
 msgid "_Increase"
@@ -20671,7 +20667,7 @@ msgstr "Data"
 
 #: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:52
 msgid "Plot Engine"
-msgstr "Kreslící engine"
+msgstr "Kreslicí engine"
 
 #: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:230
 msgid "Plot Type"
@@ -20964,15 +20960,15 @@ msgstr ""
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:13
 #: src/func.c:679
 msgid "Area"
-msgstr "Oblast"
+msgstr "Plocha"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:14
 msgid "Area plot."
-msgstr "Graf oblasti."
+msgstr "Plošný graf."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:15
 msgid "Areas"
-msgstr "Oblasti"
+msgstr "Plochy"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:16
 msgid "Bar"
@@ -21213,13 +21209,11 @@ msgstr "Více-koláčů-a-pruhů"
 msgid ""
 "Percentage of each contributor displayed in ring for each serie with wedges "
 "of the last ring split apart."
-msgstr ""
-"Procenta každého přispěvatele zobrazovan v prstenci pro každou sérii s díly "
-"posledního prstence oddělenými."
+msgstr "Procenta každého přispěvatele zobrazovaná v prstenci pro každou sérii s díly posledního prstence oddělenými."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:8
 msgid "Percentage of each contributor displayed in ring for each serie."
-msgstr "Procenta každého přispěvatele zobrazovan v prstenci pro každou sérii."
+msgstr "Procenta každého přispěvatele zobrazovaná v prstenci pro každou sérii."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:9
 msgid "Percentage of each contributor in 3D pie."
@@ -21686,14 +21680,17 @@ msgid "Output"
 msgstr "Výstup"
 
 #: src/dialogs/advanced-filter.glade.h:4
+#, fuzzy
 msgid "_Criteria range:"
 msgstr "O_blast kritérií:"
 
 #: src/dialogs/advanced-filter.glade.h:5
+#, fuzzy
 msgid "_List range:"
 msgstr "Ob_last seznamu:"
 
 #: src/dialogs/advanced-filter.glade.h:6
+#, fuzzy
 msgid "_Unique records only"
 msgstr "Pouze _unikátní záznamy"
 
@@ -21731,8 +21728,9 @@ msgstr "ANOVA - Jeden faktor"
 #: src/dialogs/anova-one.glade.h:4 src/dialogs/exp-smoothing.glade.h:4
 #: src/dialogs/histogram.glade.h:5 src/dialogs/moving-averages.glade.h:3
 #: src/dialogs/regression.glade.h:4 src/dialogs/sampling.glade.h:3
+#, fuzzy
 msgid "Grouped by:"
-msgstr "Seskupeno podle:"
+msgstr "Seskupit podle:"
 
 #: src/dialogs/anova-one.glade.h:5 src/dialogs/anova-two.glade.h:7
 #: src/dialogs/descriptive-stats.glade.h:11
@@ -21768,6 +21766,7 @@ msgstr "V_stup"
 
 #: src/dialogs/anova-one.glade.h:10 src/dialogs/exp-smoothing.glade.h:9
 #: src/dialogs/moving-averages.glade.h:9
+#, fuzzy
 msgid "_Input range:"
 msgstr "Vs_tupní oblast:"
 
@@ -21804,16 +21803,19 @@ msgid "ANOVA - Two-Factor"
 msgstr "ANOVA - Dva faktory"
 
 #: src/dialogs/anova-two.glade.h:5 src/dialogs/histogram.glade.h:7
+#, fuzzy
 msgid "Input _range:"
 msgstr "Vs_tupní oblast:"
 
 #: src/dialogs/anova-two.glade.h:6
+#, fuzzy
 msgid "Number of rows per _sample:"
 msgstr "Počet řádků _na vzorek:"
 
 #: src/dialogs/anova-two.glade.h:8
+#, fuzzy
 msgid "_Alpha: "
-msgstr "_Alfa: "
+msgstr "_Alfa:"
 
 #: src/dialogs/autocorrect.glade.h:2
 msgid "Auto Correct"
@@ -22187,7 +22189,7 @@ msgstr "V seznamu"
 
 #: src/dialogs/cell-format.glade.h:51
 msgid "Information (allow invalid input)"
-msgstr "Informace (umožňuje neplatný vstup)"
+msgstr "Informace (umožnit neplatný vstup)"
 
 #: src/dialogs/cell-format.glade.h:52
 msgid "Input Message"
@@ -22283,7 +22285,7 @@ msgstr "_Titulek:"
 
 #: src/dialogs/cell-format.glade.h:90
 msgid "Underline:"
-msgstr "Podtržené:"
+msgstr "Podtržení:"
 
 #: src/dialogs/cell-format.glade.h:91
 msgid "Validation"
@@ -22299,7 +22301,7 @@ msgstr "Celá čísla"
 
 #: src/dialogs/cell-format.glade.h:97
 msgid "_General"
-msgstr "_Všeobecné"
+msgstr "_Obecné"
 
 #: src/dialogs/cell-format.glade.h:98
 msgid "_Indent:"
@@ -22555,14 +22557,17 @@ msgid "_Input Range:"
 msgstr "Vs_tupní oblast:"
 
 #: src/dialogs/dao.glade.h:1
+#, fuzzy
 msgid "A_utofit columns"
-msgstr "A_utomaticky přizpůsobovat sloupce"
+msgstr "A_utomatická úprava šířky sloupců"
 
 #: src/dialogs/dao.glade.h:2
+#, fuzzy
 msgid "Clear output range"
 msgstr "Vyčistit výstupní oblast"
 
 #: src/dialogs/dao.glade.h:3 src/dialogs/dialog-advanced-filter.c:197
+#, fuzzy
 msgid "Filter _in-place"
 msgstr "_Filtrovat na místě"
 
@@ -22571,24 +22576,29 @@ msgid "Formulas"
 msgstr "Vzorce"
 
 #: src/dialogs/dao.glade.h:5
+#, fuzzy
 msgid "New _sheet"
 msgstr "Nový _list"
 
 #: src/dialogs/dao.glade.h:6
+#, fuzzy
 msgid "New _workbook"
 msgstr "Nový _sešit"
 
 #: src/dialogs/dao.glade.h:7
+#, fuzzy
 msgid "Output _range:"
 msgstr "Výstupní _oblast:"
 
 #: src/dialogs/dao.glade.h:8
+#, fuzzy
 msgid "Retain output range comments"
-msgstr "Zachovat komentáře ve výstupní oblasti"
+msgstr "Neměnit komentáře ve výstupní oblasti"
 
 #: src/dialogs/dao.glade.h:9
+#, fuzzy
 msgid "Retain output range formatting"
-msgstr "Zachovat formát ve výstupní oblasti"
+msgstr "Neměnit formát ve výstupní oblasti"
 
 #: src/dialogs/dao.glade.h:11
 msgid "_Put:"
@@ -22616,7 +22626,7 @@ msgstr "Posunout buňky do_leva"
 
 #: src/dialogs/delete-cells.glade.h:6
 msgid "Shift cells _up"
-msgstr "Posunout buňky nahor_u"
+msgstr "Posunout buňky na_horu"
 
 #: src/dialogs/descriptive-stats.glade.h:1
 msgid "(1 - alpha) = "
@@ -23318,7 +23328,7 @@ msgstr "_Interní odkaz"
 
 #: src/dialogs/dialog-hyperlink.c:197
 msgid "Jump to specific cells or named range in the current workbook"
-msgstr "Přejde na specifické buňky nebo pojmenovanou oblast v aktuálním sešitě"
+msgstr "Přejít na specifické buňky nebo pojmenovanou oblast v aktuálním sešitě"
 
 #: src/dialogs/dialog-hyperlink.c:201
 msgid "_External Link"
@@ -23326,7 +23336,7 @@ msgstr "_Externí odkaz"
 
 #: src/dialogs/dialog-hyperlink.c:203
 msgid "Open an external file with the specified name"
-msgstr "Otevře externí soubor se zadaným názvem"
+msgstr "Otevřít externí soubor se zadaným názvem"
 
 #: src/dialogs/dialog-hyperlink.c:207
 msgid "Send _Email"
@@ -23342,7 +23352,7 @@ msgstr "Odkaz na _WWW"
 
 #: src/dialogs/dialog-hyperlink.c:213
 msgid "Browse to the specified URL"
-msgstr "Prohlížení zadaného URL"
+msgstr "Prohlížet zadané URL"
 
 #: src/dialogs/dialog-hyperlink.c:284
 msgid "Add Hyperlink"
@@ -23453,7 +23463,7 @@ msgstr "Vložit odkaz"
 
 #: src/dialogs/dialog-paste-special.c:134
 msgid "Paste type"
-msgstr "Typ vložení"
+msgstr "Typ vkládání"
 
 #: src/dialogs/dialog-paste-special.c:138
 msgid "Operation"
@@ -23544,9 +23554,7 @@ msgstr "Položky na této stránce upravují chování systému kroků zpět."
 msgid ""
 "The items on this page customize the inital settings of the sort dialog and "
 "the behaviour of the sort toolbar buttons."
-msgstr ""
-"Položky na této stránce upravují počáteční nastavení v dialogu třídění a "
-"chování tlačítek třídění v nástrojových lištách."
+msgstr "Položky na této stránce upravují počáteční nastavení v dialogu třídění a chování tlačítek třídění v lištách nástrojů."
 
 #: src/dialogs/dialog-preferences.c:1111
 msgid "The items on this page customize the new default workbook."
@@ -23575,7 +23583,7 @@ msgstr "Různé"
 
 #: src/dialogs/dialog-preferences.c:1506
 msgid "Internal"
-msgstr "Interval"
+msgstr "Interní"
 
 #: src/dialogs/dialog-preferences.c:1507
 msgid "Header/Footer"
@@ -23604,7 +23612,7 @@ msgstr "Rovnoměrné"
 #: src/dialogs/dialog-random-generator.c:108
 #: src/dialogs/dialog-random-generator.c:110
 msgid "_Lower Bound:"
-msgstr "Do_lní hranice:"
+msgstr "_Dolní hranice:"
 
 #: src/dialogs/dialog-random-generator.c:108
 #: src/dialogs/dialog-random-generator.c:110
@@ -24331,8 +24339,7 @@ msgstr "Kopírovat formát doprava"
 #: src/dialogs/dialog-stf-format-page.c:398
 msgid ""
 "If this checkbox is selected, the column will be imported into Gnumeric."
-msgstr ""
-"Je-li toto zaškrtávací pole vybáno, bude sloupec importován do Gnumericu."
+msgstr "Je-li toto zaškrtávací pole vybráno, bude sloupec importován do Gnumericu."
 
 #: src/dialogs/dialog-stf-format-page.c:401
 msgid "At most 256 columns can be imported at one time."
@@ -24352,7 +24359,7 @@ msgstr "%d z %d řádků pro import"
 #: src/dialogs/dialog-stf-main-page.c:171
 #, c-format
 msgid "The data is not valid in encoding %s; please select another encoding."
-msgstr "Data nejsou v kódování %s platná; vyberte prosíém jiné kódování."
+msgstr "Data nejsou v kódování %s platná; vyberte prosím jiné kódování."
 
 #: src/dialogs/dialog-stf-main-page.c:394
 #, c-format
@@ -24535,7 +24542,7 @@ msgstr "Indikátor te_xtu:"
 
 #: src/dialogs/dialog-stf.glade.h:47
 msgid "Text Import Configuration"
-msgstr "Nastavní importu textu"
+msgstr "Nastavení importu textu"
 
 #: src/dialogs/dialog-stf.glade.h:48
 msgid "Text indicator"
@@ -24737,6 +24744,7 @@ msgid "_Damping factor:"
 msgstr "Faktor _tlumení:"
 
 #: src/dialogs/exp-smoothing.glade.h:13 src/dialogs/moving-averages.glade.h:13
+#, fuzzy
 msgid "_Standard errors"
 msgstr "_Směrodatné chyby"
 
@@ -24758,14 +24766,17 @@ msgid "Series in:"
 msgstr "Řada v:"
 
 #: src/dialogs/fill-series.glade.h:7
+#, fuzzy
 msgid "Start value: "
 msgstr "Počáteční hodnota: "
 
 #: src/dialogs/fill-series.glade.h:8
+#, fuzzy
 msgid "Step value: "
 msgstr "Hodnota kroku: "
 
 #: src/dialogs/fill-series.glade.h:9
+#, fuzzy
 msgid "Stop value: "
 msgstr "Koncová hodnota: "
 
@@ -24799,7 +24810,7 @@ msgstr "_Řady"
 
 #: src/dialogs/fill-series.glade.h:19
 msgid "_Weekday"
-msgstr "_Den v týdnu"
+msgstr "Den v _týdnu"
 
 #: src/dialogs/fill-series.glade.h:20
 msgid "_Year"
@@ -24847,7 +24858,7 @@ msgstr "Zobrazovat číselné hodnoty s pevným počtem desetinných míst."
 
 #: src/dialogs/format-selector.glade.h:8
 msgid "Display times of day."
-msgstr "Zobrazit časy."
+msgstr "Zobrazovat časy."
 
 #: src/dialogs/format-selector.glade.h:9
 msgid "Display values as closest fractional approximation."
@@ -24855,7 +24866,7 @@ msgstr "Zobrazovat hodnoty jako nejbližší finanční aproximaci."
 
 #: src/dialogs/format-selector.glade.h:10
 msgid "Display values as percentages."
-msgstr "Zobrazit hodnotu jako procenta."
+msgstr "Zobrazovat hodnotu jako procenta."
 
 #: src/dialogs/format-selector.glade.h:11
 msgid "Display values with power-of-ten scaling."
@@ -24891,7 +24902,7 @@ msgstr "_Formát:"
 
 #: src/dialogs/format-selector.glade.h:19
 msgid "_Use Separator for 1000's"
-msgstr "Po_užít oddělovač pro tisíce"
+msgstr "Po_užívat oddělovač pro tisíce"
 
 #: src/dialogs/formula-guru.glade.h:1
 msgid "Formula Guru"
@@ -24978,14 +24989,17 @@ msgid "_Right section:"
 msgstr "_Pravá část:"
 
 #: src/dialogs/histogram.glade.h:2
+#, fuzzy
 msgid "Bin _labels"
 msgstr "Popisky _tříd"
 
 #: src/dialogs/histogram.glade.h:3
+#, fuzzy
 msgid "Bin _range:"
 msgstr "Oblast _tříd:"
 
 #: src/dialogs/histogram.glade.h:4
+#, fuzzy
 msgid "C_umulative percentages"
 msgstr "_Kumulativní procenta"
 
@@ -25003,18 +25017,21 @@ msgid "Ma_x:"
 msgstr "Ma_x:"
 
 #: src/dialogs/histogram.glade.h:11
+#, fuzzy
 msgid "Pareto (_sorted)"
-msgstr "Pareto (_tříděná)"
+msgstr "Pareto (_Tříděná)"
 
 #: src/dialogs/histogram.glade.h:13
 msgid "_Bins"
 msgstr "_Třídy"
 
 #: src/dialogs/histogram.glade.h:14
+#, fuzzy
 msgid "_Calculated bins"
 msgstr "_Vypočtené třídy"
 
 #: src/dialogs/histogram.glade.h:15
+#, fuzzy
 msgid "_Chart output"
 msgstr "_Výstup grafu"
 
@@ -25027,6 +25044,7 @@ msgid "_Percentages"
 msgstr "_Procenta"
 
 #: src/dialogs/histogram.glade.h:22
+#, fuzzy
 msgid "_Predetermined bins"
 msgstr "Pře_dem určené třídy"
 
@@ -25060,7 +25078,7 @@ msgstr "_Tip:"
 
 #: src/dialogs/hyperlink.glade.h:9
 msgid "_Web Address:"
-msgstr "_Webová adresa:"
+msgstr "_WWW adresa:"
 
 #: src/dialogs/insert-cells.glade.h:1
 msgid "<span weight=\"bold\">Insert Method</span>"
@@ -25091,10 +25109,12 @@ msgid "E_qual"
 msgstr "_Shodné"
 
 #: src/dialogs/mean-tests.glade.h:5
+#, fuzzy
 msgid "Hypothesized mean _difference:"
 msgstr "H_ypotetický rozdíl průměrů:"
 
 #: src/dialogs/mean-tests.glade.h:6
+#, fuzzy
 msgid "Population variances are:"
 msgstr "Rozptyly populací jsou:"
 
@@ -25103,18 +25123,22 @@ msgid "Testing the Difference of 2 Means"
 msgstr "Test rozdílu dvou průměrů"
 
 #: src/dialogs/mean-tests.glade.h:8
+#, fuzzy
 msgid "Variable _1 population variance:"
 msgstr "Rozptyl populace proměnné _1:"
 
 #: src/dialogs/mean-tests.glade.h:9 src/dialogs/variance-tests.glade.h:4
+#, fuzzy
 msgid "Variable _1 range:"
 msgstr "Oblast proměnné _1:"
 
 #: src/dialogs/mean-tests.glade.h:10
+#, fuzzy
 msgid "Variable _2 population variance:"
 msgstr "Rozptyl populace proměnné _2:"
 
 #: src/dialogs/mean-tests.glade.h:11 src/dialogs/variance-tests.glade.h:5
+#, fuzzy
 msgid "Variable _2 range:"
 msgstr "Oblast proměnné _2:"
 
@@ -25135,6 +25159,7 @@ msgid "_Paired"
 msgstr "_Párové"
 
 #: src/dialogs/mean-tests.glade.h:19
+#, fuzzy
 msgid "_Population variances are:"
 msgstr "_Rozptyly populací jsou:"
 
@@ -25160,7 +25185,7 @@ msgstr "Nepá_rové"
 
 #: src/dialogs/merge.glade.h:1
 msgid "Merge _Range:"
-msgstr "Spojit _oblast:"
+msgstr "Sloučit _oblast:"
 
 #: src/dialogs/merge.glade.h:2
 msgid "Merge..."
@@ -25209,11 +25234,11 @@ msgstr "_Název:"
 
 #: src/dialogs/names.glade.h:10
 msgid "_Scope:"
-msgstr "Roz_sah:"
+msgstr "_Rozsah:"
 
 #: src/dialogs/names.glade.h:11
 msgid "_Update"
-msgstr "Akt_ualizovat"
+msgstr "_Aktualizovat"
 
 #: src/dialogs/pivottable.glade.h:1
 msgid "Layout"
@@ -25233,7 +25258,7 @@ msgstr "Mezisoučet"
 
 #: src/dialogs/pivottable.glade.h:6
 msgid "_Add:"
-msgstr "Přid_at:"
+msgstr "_Přidat:"
 
 #: src/dialogs/pivottable.glade.h:9
 msgid "_Down"
@@ -25295,7 +25320,7 @@ msgstr "_Aktivovat vše"
 
 #: src/dialogs/plugin-manager.glade.h:11
 msgid "_Deactivate All"
-msgstr "D_eaktivovat vše"
+msgstr "_Deaktivovat vše"
 
 #: src/dialogs/preferences.glade.h:1
 msgid "Gnumeric Preferences"
@@ -25402,7 +25427,7 @@ msgstr "_Zápatí:"
 
 #: src/dialogs/print.glade.h:30
 msgid "_Grid lines"
-msgstr "_Mřížka"
+msgstr "_Mřížku"
 
 #: src/dialogs/print.glade.h:31
 msgid "_Header:"
@@ -25433,6 +25458,7 @@ msgid "_tall"
 msgstr "_vysoké"
 
 #: src/dialogs/random-generation.glade.h:3
+#, fuzzy
 msgid "Number of _variables:"
 msgstr "P_očet proměnných:"
 
@@ -25441,6 +25467,7 @@ msgid "Random Number Generation"
 msgstr "Generátor náhodných čísel"
 
 #: src/dialogs/random-generation.glade.h:6
+#, fuzzy
 msgid "Size of _sample:"
 msgstr "Velikost _vzorku:"
 
@@ -25473,6 +25500,7 @@ msgid "0.95"
 msgstr "0,95"
 
 #: src/dialogs/regression.glade.h:3
+#, fuzzy
 msgid "Confidence level:"
 msgstr "Úroveň spolehlivosti:"
 
@@ -25482,14 +25510,17 @@ msgid "Regression"
 msgstr "Regrese"
 
 #: src/dialogs/regression.glade.h:9
+#, fuzzy
 msgid "_Force intercept to be zero"
 msgstr "_Vynutit průchod nulou"
 
 #: src/dialogs/regression.glade.h:14
+#, fuzzy
 msgid "_X variables:"
 msgstr "Proměnné _X:"
 
 #: src/dialogs/regression.glade.h:15
+#, fuzzy
 msgid "_Y variable:"
 msgstr "Proměnná _Y:"
 
@@ -25502,6 +25533,7 @@ msgid "_Row height (pt.):"
 msgstr "_Výška řádku (pt.):"
 
 #: src/dialogs/sampling.glade.h:4
+#, fuzzy
 msgid "N_umber of samples:"
 msgstr "P_očet pokusů:"
 
@@ -25514,16 +25546,19 @@ msgid "Sampling"
 msgstr "Vzorky"
 
 #: src/dialogs/sampling.glade.h:8
+#, fuzzy
 msgid "Sampling method:"
 msgstr "Metoda výběru:"
 
 #: src/dialogs/sampling.glade.h:9
+#, fuzzy
 msgid "Size of sample:"
 msgstr "Velikost vzorku:"
 
 #: src/dialogs/sampling.glade.h:13
+#, fuzzy
 msgid "_Input range: "
-msgstr "Vs_tupní rozsah: "
+msgstr "Vs_tupní rozsah:"
 
 #: src/dialogs/sampling.glade.h:16
 msgid "_Periodic"
@@ -25772,11 +25807,11 @@ msgstr "_Zachovat velikost písmen"
 
 #: src/dialogs/search-replace.glade.h:50
 msgid "_Query"
-msgstr "D_otaz"
+msgstr "P_tát se"
 
 #: src/dialogs/search-replace.glade.h:51
 msgid "_Replace by"
-msgstr "Na_hradit čím"
+msgstr "Nah_radit čím"
 
 #: src/dialogs/search-replace.glade.h:52
 msgid "_Replacing"
@@ -25792,7 +25827,7 @@ msgstr "_Hledat"
 
 #: src/dialogs/search-replace.glade.h:55 src/dialogs/search.glade.h:40
 msgid "_Strings"
-msgstr "_Textové"
+msgstr "_Text"
 
 #: src/dialogs/search.glade.h:2
 msgid "C_olumn major"
@@ -25824,7 +25859,7 @@ msgstr "Nalézt text ve vypočítaných hodnotách výrazů"
 
 #: src/dialogs/search.glade.h:10
 msgid "Match _whole words only"
-msgstr "Pouze _celá slova"
+msgstr "Pouze celá _slova"
 
 #: src/dialogs/search.glade.h:11
 msgid "Matches"
@@ -25880,7 +25915,7 @@ msgstr "_Výsledky"
 
 #: src/dialogs/search.glade.h:39
 msgid "_Search for:"
-msgstr "Hle_dat:"
+msgstr "_Hledat:"
 
 #: src/dialogs/sheet-order.glade.h:1
 msgid "Manage Sheets..."
@@ -25915,12 +25950,14 @@ msgid "   <span weight=\"bold\">Limits</span>"
 msgstr "   <span weight=\"bold\">Omezení</span>"
 
 #: src/dialogs/simulation.glade.h:4
+#, fuzzy
 msgid "<b>Simulation summary:</b>"
-msgstr "<b>Shrnutí simulace:</b>"
+msgstr "Shrnutí simulace:"
 
 #: src/dialogs/simulation.glade.h:5
+#, fuzzy
 msgid "<b>Summary of results:</b>"
-msgstr "<b>Shrnutí výsledků:</b>"
+msgstr "Shrnutí výsledků:"
 
 #: src/dialogs/simulation.glade.h:6
 msgid "Find Max."
@@ -25931,22 +25968,26 @@ msgid "Find Min."
 msgstr "Nalézt min."
 
 #: src/dialogs/simulation.glade.h:8
+#, fuzzy
 msgid "First round #:"
-msgstr "Č. prvního kola:"
+msgstr "První kolo #: "
 
 #: src/dialogs/simulation.glade.h:9
+#, fuzzy
 msgid "Input variables:"
-msgstr "Vstupní proměnné:"
+msgstr "# vstupních proměnných"
 
 #: src/dialogs/simulation.glade.h:10
 msgid "Iterations:"
 msgstr "Iterace:"
 
 #: src/dialogs/simulation.glade.h:11
+#, fuzzy
 msgid "Last round #:"
-msgstr "Č. posledního kola:"
+msgstr "Poslední kolo #:"
 
 #: src/dialogs/simulation.glade.h:12
+#, fuzzy
 msgid "Max time:"
 msgstr "Max čas:"
 
@@ -25955,8 +25996,9 @@ msgid "Next Sim."
 msgstr "Další sim."
 
 #: src/dialogs/simulation.glade.h:16
+#, fuzzy
 msgid "Output variables:"
-msgstr "Výstupní proměnné:"
+msgstr "# výstupních proměnných"
 
 #: src/dialogs/simulation.glade.h:17
 msgid "Prev. Sim."
@@ -26154,7 +26196,7 @@ msgstr "_Odpověď"
 
 #: src/dialogs/solver.glade.h:28
 msgid "_Change"
-msgstr "_Změna"
+msgstr "_Změnit"
 
 #: src/dialogs/solver.glade.h:29
 msgid "_Create a scenario if the optimal solution is found"
@@ -26275,7 +26317,7 @@ msgstr "Přejít dolů pro první zdroj, vpravo pro druhý a další listy pro t
 
 #: src/dialogs/tabulate.glade.h:12
 msgid "_Coordinate"
-msgstr "Souřadni_ce"
+msgstr "_Souřadnice"
 
 #: src/dialogs/tabulate.glade.h:13
 msgid "_Visual"
@@ -26323,11 +26365,11 @@ msgstr "_Nesdílený"
 
 #: src/dialogs/workbook-attr.glade.h:2
 msgid "A_uto Complete Text in Cells"
-msgstr "A_utomatické doplňování textu v buňkách"
+msgstr "_Automaticky doplňovat text v buňkách"
 
 #: src/dialogs/workbook-attr.glade.h:3
 msgid "A_utomatic"
-msgstr "A_utomatický"
+msgstr "_Automaticky"
 
 #: src/dialogs/workbook-attr.glade.h:4
 msgid "Calculation"
@@ -26351,7 +26393,7 @@ msgstr "Záložky no_tesu pro Listy"
 
 #: src/dialogs/workbook-attr.glade.h:9
 msgid "Pa_ssword:"
-msgstr "He_slo:"
+msgstr "_Heslo:"
 
 #: src/dialogs/workbook-attr.glade.h:11
 msgid "Recalculation:"
@@ -28095,7 +28137,7 @@ msgstr "Tisknuté listy"
 
 #: src/print.c:1246
 msgid "Act_ive sheet"
-msgstr "Akt_ivní list"
+msgstr "_Aktivní list"
 
 #: src/print.c:1246
 msgid "S_heets"
@@ -28175,7 +28217,7 @@ msgstr "Vložit j_inak"
 #.
 #: src/sheet-control-gui.c:1504
 msgid "_Insert..."
-msgstr "Vlož_it..."
+msgstr "_Vložit..."
 
 #: src/sheet-control-gui.c:1508
 msgid "_Insert Column(s)"
@@ -28304,7 +28346,7 @@ msgid ""
 "name.  Expect weirdness."
 msgstr ""
 "Toto je speciální verze aplikace Gnumeric. Byla sestavena\n"
-"s podporou velmi velkého počtu sloupcí. Přístup ke sloupci\n"
+"s podporou velmi velkého počtu sloupců. Přístup ke sloupci\n"
 "s názvem TRUE může kolidovat s konstantou stejného názvu.\n"
 "Očekávejte podivné chování."
 
@@ -29978,7 +30020,7 @@ msgstr "Unicode (UTF-32LE)"
 
 #: src/widgets/widget-charmap-selector.c:191
 msgid "User Defined"
-msgstr "Uživetelem definované"
+msgstr "Uživatelem definované"
 
 #: src/widgets/widget-charmap-selector.c:192
 msgid "Vietnamese (TCVN)"
@@ -30502,7 +30544,7 @@ msgstr "Korea (ko_KR)"
 
 #: src/widgets/widget-locale-selector.c:207
 msgid "Great Britain/Cornish (kw_GB)"
-msgstr "Velká Britínie/cornwallština (kw_GB)"
+msgstr "Velká Británie/cornwallština (kw_GB)"
 
 #: src/widgets/widget-locale-selector.c:208
 msgid "Lithuania (lt_LT)"
@@ -30514,7 +30556,7 @@ msgstr "Lotyšsko (lv_LV)"
 
 #: src/widgets/widget-locale-selector.c:210
 msgid "New Zealand/Maori (mi_NZ)"
-msgstr "Nový zéland/maorština (mi_NZ)"
+msgstr "Nový Zéland/maorština (mi_NZ)"
 
 #: src/widgets/widget-locale-selector.c:211
 msgid "Macedonia (mk_MK)"
@@ -30698,7 +30740,7 @@ msgstr " : Gnumeric"
 
 #: src/workbook-control-gui.c:643
 msgid "Manage sheets..."
-msgstr "Správa listů..."
+msgstr "Spravovat listy..."
 
 #: src/workbook-control-gui.c:646
 msgid "Append"
@@ -31225,6 +31267,127 @@ msgstr ""
 "ssconvert verze '%s'\n"
 "datadir := '%s'\n"
 "libdir := '%s'\n"
+
+#~ msgid "List _Range:"
+#~ msgstr "O_blast seznamu:"
+
+#~ msgid "N_ew Workbook"
+#~ msgstr "Nový s_ešit"
+
+#~ msgid "_New Sheet"
+#~ msgstr "_Nový list"
+
+#~ msgid "_Output Range:"
+#~ msgstr "Výstupní _oblast:"
+
+#~ msgid "Var_iable 1 Range:"
+#~ msgstr "Rozsah proměnné _1:"
+
+#~ msgid "_Variable 2 Range:"
+#~ msgstr "Rozsah proměnné _2:"
+
+#~ msgid "Var_iable 1 Range"
+#~ msgstr "Rozsah proměnné _1"
+
+#~ msgid "_Variable 2 Range"
+#~ msgstr "Rozsah proměnné _2"
+
+#~ msgid "_Inputs:"
+#~ msgstr "Vstup_y:"
+
+#~ msgid "_Outputs:"
+#~ msgstr "_Výstupy:"
+
+#~ msgid "a _Column"
+#~ msgstr "Sloupe_c"
+
+#~ msgid "a _Row"
+#~ msgstr "Řá_dek"
+
+#~ msgid "Input _Labels"
+#~ msgstr "Popisky _vstupu"
+
+#~ msgid "Retain Output Range _Comments"
+#~ msgstr "Neměnit _komentáře ve výstupní oblasti"
+
+#~ msgid "Retain Output Range _Formatting"
+#~ msgstr "Neměnit _formát ve výstupní oblasti"
+
+#~ msgid "_Autofit Columns"
+#~ msgstr "A_utomaticky přizpůsobit šířku sloupců"
+
+#~ msgid "_Clear Output Range"
+#~ msgstr "_Vyčistit výstupní oblast"
+
+#~ msgid "_Alpha ="
+#~ msgstr "_Alfa = "
+
+#~ msgid "Inputs:"
+#~ msgstr "Vstupy:"
+
+#~ msgid "Outputs:"
+#~ msgstr "Výstupy:"
+
+#~ msgid "_Options"
+#~ msgstr "_Možnosti"
+
+#~ msgid "_Variables"
+#~ msgstr "_Proměnné"
+
+#~ msgid ""
+#~ "Interpolate between multi-dimensional points,with markers at each point."
+#~ msgstr "Interpolovat mezi vícerozměrnými body s označeními v každém bodě."
+
+#~ msgid "Interpolate between multi-dimensional points."
+#~ msgstr "Interpolovat mezi vícerozměrnými body."
+
+#~ msgid "Interpolated points"
+#~ msgstr "Interpolované body"
+
+#~ msgid "Linearly interpolated points"
+#~ msgstr "Lineárně interpolované body"
+
+#~ msgid "Marked linearly interpolated points"
+#~ msgstr "Označené lineárně interpolované body"
+
+#~ msgid "Plot one series per axis."
+#~ msgstr "Kreslit jednu sérii pro každou osu."
+
+#~ msgid "Results:"
+#~ msgstr "Výsledky:"
+
+#~ msgid "Changing cells:"
+#~ msgstr "Měnící se buňky:"
+
+#~ msgid "Scenarios:"
+#~ msgstr "Scénáře:"
+
+#~ msgid "Summary Report:"
+#~ msgstr "Souhrnný výkaz:"
+
+#~ msgid "Max Time:       "
+#~ msgstr "Max čas:       "
+
+#~ msgid "Output: "
+#~ msgstr "Výstup: "
+
+#~ msgid "Reporting: "
+#~ msgstr "Výkazy: "
+
+#~ msgid "Summary report grupped by rounds"
+#~ msgstr "Výsledné výkazy seskupené podle kol"
+
+#~ msgid "Summary: "
+#~ msgstr "Souhrn: "
+
+#~ msgid "Variables: "
+#~ msgstr "Proměnné: "
+
+#~ msgid "_Output Range: "
+#~ msgstr "Výstupní _oblast: "
+
+#~ msgid "_Summary"
+#~ msgstr "_Souhrn"
 
 #~ msgid "Sheet 1"
 #~ msgstr "List 1"
@@ -31763,27 +31926,14 @@ msgstr ""
 #~ msgid "Unknown tag '%s' on line %d char %d"
 #~ msgstr "Neznámá značka '%s' na řádku %d znak %d"
 
-#~ msgid "The orientation of the toolbar"
-#~ msgstr "Orientace nástrojové lišty"
-
-#~ msgid "How to draw the toolbar"
-#~ msgstr "Jakým způsobem kreslit nástrojovou lištu"
-
 #~ msgid "Show Arrow"
 #~ msgstr "Zobrazovat šipku"
-
-#~ msgid "If an arrow should be shown if the toolbar doesn't fit"
-#~ msgstr "Jestli se má zobrazovat šipka, pokud se nástrojová lišta nevleze"
 
 #~ msgid "Spacer size"
 #~ msgstr "Velikost oddělovače"
 
 #~ msgid "Size of spacers"
 #~ msgstr "Velikost oddělovačů"
-
-#~ msgid "Amount of border space between the toolbar shadow and the buttons"
-#~ msgstr ""
-#~ "Množství prostoru okolo okraje mezi stínem nástrojové lišty a tlačítky"
 
 #~ msgid "Space style"
 #~ msgstr "Styl mezer"
@@ -31794,14 +31944,8 @@ msgstr ""
 #~ msgid "Button relief"
 #~ msgstr "Reliéf tlačítek"
 
-#~ msgid "Type of bevel around toolbar buttons"
-#~ msgstr "Typ ohraničení okolo tlačítek nástrojové lišty"
-
 #~ msgid "Shadow type"
 #~ msgstr "Typ stínu"
-
-#~ msgid "Style of bevel around the toolbar"
-#~ msgstr "Styl ohraničení okolo nástrojové lišty"
 
 #~ msgid "Text to show in the item."
 #~ msgstr "Text zobrazený v položce."
@@ -31827,32 +31971,11 @@ msgstr ""
 #~ msgid "Visible when horizontal"
 #~ msgstr "Viditelná když horizontální"
 
-#~ msgid ""
-#~ "Whether the toolbar item is visible when the toolbar is in a horizontal "
-#~ "orientation."
-#~ msgstr ""
-#~ "Jestli má být položka nástrojové lišty viditelná, pokud je nástrojová "
-#~ "lišta horizontálně orientovaná."
-
 #~ msgid "Visible when vertical"
 #~ msgstr "Viditelná když vertikální"
 
-#~ msgid ""
-#~ "Whether the toolbar item is visible when the toolbar is in a vertical "
-#~ "orientation."
-#~ msgstr ""
-#~ "Jestli má být položka nástrojové lišty viditelná, pokud je nástrojová "
-#~ "lišta vertikálně orientovaná."
-
 #~ msgid "Homogeneous size"
 #~ msgstr "Homogenní velikost"
-
-#~ msgid ""
-#~ "Whether the toolbar item should be the same size as other homogeneous "
-#~ "items."
-#~ msgstr ""
-#~ "Jestli má být položka nástrojové lišty stejné velikosti jako ostatní "
-#~ "stejnorodé položky."
 
 #~ msgid "Basic Types"
 #~ msgstr "Základní typy"
