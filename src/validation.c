@@ -59,6 +59,12 @@ validation_new (ValidationStyle style,
 {
 	GnmValidation *v;
 
+	if (type == VALIDATION_TYPE_CUSTOM && op != VALIDATION_OP_NONE) {
+		/* This can happen if an .xls file was saved as a .gnumeric.  */
+		g_warning ("VALIDATION_TYPE_CUSTOM needs to go with VALIDATION_OP_NONE.  Fixing.");
+		op = VALIDATION_OP_NONE;
+	}
+
 	v = g_new0 (GnmValidation, 1);
 	v->ref_count = 1;
 
@@ -85,13 +91,13 @@ validation_ref (GnmValidation *v)
 void
 validation_unref (GnmValidation *v)
 {
-	int i;
-
 	g_return_if_fail (v != NULL);
 
 	v->ref_count--;
 
 	if (v->ref_count < 1) {
+		int i;
+
 		if (v->title != NULL) {
 			gnm_string_unref (v->title);
 			v->title = NULL;
@@ -212,6 +218,7 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 			expr = v->expr[0];
 			if (expr == NULL)
 				return VALIDATION_STATUS_VALID;
+			gnm_expr_ref (expr);
 			break;
 		}
 
@@ -254,8 +261,7 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 			value_release (val);
 
 			if (valid && v->op != VALIDATION_OP_BETWEEN) {
-				if (v->type != VALIDATION_TYPE_CUSTOM)
-					gnm_expr_unref (expr);
+				gnm_expr_unref (expr);
 				return VALIDATION_STATUS_VALID;
 			}
 
