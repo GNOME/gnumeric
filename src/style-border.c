@@ -207,8 +207,8 @@ style_border_fetch (StyleBorderType const	 line_type,
 	StyleBorder *border;
 	StyleBorder key;
 
-	g_return_val_if_fail (line_type >= STYLE_BORDER_NONE, 0);
-	g_return_val_if_fail (line_type < STYLE_BORDER_MAX, 0);
+	g_return_val_if_fail (line_type >= STYLE_BORDER_NONE, NULL);
+	g_return_val_if_fail (line_type < STYLE_BORDER_MAX, NULL);
 
 	if (line_type == STYLE_BORDER_NONE) {
 		if (color)

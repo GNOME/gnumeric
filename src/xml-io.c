@@ -252,7 +252,7 @@ xml_node_get_color (xmlNodePtr node, char const *name)
 
 	color = xmlGetProp (node, CC2XML (name));
 	if (color == NULL)
-		return 0;
+		return NULL;
 	if (sscanf (CXML2C (color), "%X:%X:%X", &red, &green, &blue) == 3)
 		res = style_color_new (red, green, blue);
 	xmlFree (color);

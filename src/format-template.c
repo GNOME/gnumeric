@@ -732,7 +732,7 @@ format_template_save (FormatTemplate const *ft, CommandContext *cc)
 	IOContext *io_context;
 	gboolean success = FALSE;
 
-	g_return_val_if_fail (ft != NULL, -1);
+	g_return_val_if_fail (ft != NULL, TRUE);
 
 	io_context = gnumeric_io_context_new (cc);
 	file = gnumeric_fopen (io_context, ft->filename, "w");

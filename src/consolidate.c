@@ -715,7 +715,7 @@ row_consolidate (Consolidate *cs, WorkbookView *wbv)
  * Consolidates a list of regions which all specify a single
  * column and share the same key into a single target range.
  **/
-static int
+static gboolean
 cb_col_tree (Value const *key, TreeItem *ti, ConsolidateContext *cc)
 {
 	Consolidate *cs;

@@ -1449,7 +1449,7 @@ workbook_sheet_reorganize (Workbook *wb,
 GnmDateConventions const *
 workbook_date_conv (Workbook const *wb)
 {
-	g_return_val_if_fail (wb != NULL, FALSE);
+	g_return_val_if_fail (wb != NULL, NULL);
 	return &wb->date_conv;
 }
 

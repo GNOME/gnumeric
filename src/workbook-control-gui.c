@@ -1540,13 +1540,13 @@ workbook_close_if_user_permits (WorkbookControlGUI *wbcg,
 	Workbook  *wb = wb_view_workbook (wb_view);
 	static int in_can_close;
 
-	g_return_val_if_fail (IS_WORKBOOK (wb), TRUE);
+	g_return_val_if_fail (IS_WORKBOOK (wb), 0);
 
 	if (!close_clean && !workbook_is_dirty (wb))
 		return 2;
 
 	if (in_can_close)
-		return FALSE;
+		return 0;
 	in_can_close = TRUE;
 
 	if (!ask_user) {

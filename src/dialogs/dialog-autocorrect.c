@@ -203,7 +203,7 @@ cb_autocorrect_destroy (G_GNUC_UNUSED GtkObject *w,
 	return TRUE;
 }
 
-static  gint
+static gint
 cb_autocorrect_key_press (G_GNUC_UNUSED GtkWidget *widget,
 			  GdkEventKey *event,
 			  AutoCorrectState *state)

@@ -1,3 +1,22 @@
+2003-03-05  Morten Welinder  <terra@diku.dk>
+
+	* src/format-template.c (format_template_save): Fix grave
+	integer/gboolean confusion.
+
+	* src/workbook-control-gui.c (workbook_close_if_user_permits): Fix
+	grave integer/gboolean confusion.
+
+	* src/xml-io.c (xml_node_set_color): Fix pointer/integer
+	confusion.
+
+	* src/consolidate.c (cb_col_tree): Fix return type.
+
+	* src/style-border.c (style_border_fetch): Fix pointer/integer
+	confusion.
+
+	* src/workbook.c (workbook_date_conv): Fix pointer/gboolean
+	confusion.
+
 2003-02-28  Morten Welinder  <terra@diku.dk>
 
 	* src/mathfunc.c (random_01): Get larger chunks of randomness.
