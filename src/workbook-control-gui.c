@@ -1947,8 +1947,7 @@ TOGGLE_HANDLER (display_formulas,{
 	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	WORKBOOK_FOREACH_DEPENDENT
 		(wb, dep, {
-			int const t = (dep->flags & DEPENDENT_TYPE_MASK);
-			if (t == DEPENDENT_CELL)
+			if (DEPENDENT_TYPE (dep) == DEPENDENT_CELL)
 				sheet_cell_calc_span (DEP_TO_CELL (dep), SPANCALC_RE_RENDER);
 		});
 	sheet_adjust_preferences (sheet, TRUE, FALSE);

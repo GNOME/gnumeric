@@ -158,7 +158,7 @@ do {										\
   do {							\
 	Dependent *dep = (wb)->dependents;		\
 	while (dep) {					\
-		Dependent *_next = dep->next;		\
+		Dependent *_next = dep->next_dep;	\
 		code;					\
 		dep = _next;				\
 	}						\

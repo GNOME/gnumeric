@@ -35,15 +35,15 @@
 #include "cell.h"
 #include "sheet.h"
 
-#define UNLINK_DEP(wb,dep)					\
-  do {								\
-	if (wb->dependents == dep)				\
-		wb->dependents = dep->next;			\
-	if (dep->next)						\
-		dep->next->prev = dep->prev;			\
-	if (dep->prev)						\
-		dep->prev->next = dep->next;			\
-	/* Note, that ->prev and ->next are still valid.  */	\
+#define UNLINK_DEP(wb,dep)						\
+  do {									\
+	if (wb->dependents == dep)					\
+		wb->dependents = dep->next_dep;				\
+	if (dep->next_dep)						\
+		dep->next_dep->prev_dep = dep->prev_dep;		\
+	if (dep->prev_dep)						\
+		dep->prev_dep->next_dep = dep->next_dep;		\
+	/* Note, that ->prev_dep and ->next_dep are still valid.  */	\
   } while (0)
 
 
@@ -101,7 +101,7 @@ dependent_type_register (DependentClass const *klass)
 void
 dependent_set_expr (Dependent *dep, ExprTree *expr)
 {
-	int const t = (dep->flags & DEPENDENT_TYPE_MASK);
+	int const t = DEPENDENT_TYPE (dep);
 
 	if (t == DEPENDENT_CELL) {
 		/*
@@ -124,19 +124,22 @@ dependent_set_expr (Dependent *dep, ExprTree *expr)
  * Marks @dep as needing recalculation
  * NOTE : it does NOT recursively dirty dependencies.
  */
-#define dependent_queue_recalc(dep) dep->flags |= DEPENDENT_NEEDS_RECALC
+#define dependent_queue_recalc(dep) \
+  do { (dep)->flags |= DEPENDENT_NEEDS_RECALC; } while (0)
 
-void
-cb_dependent_queue_recalc (Dependent *dep, gpointer ignore)
+static void
+cb_cell_list_deps (Dependent *dep, gpointer user)
 {
-	g_return_if_fail (dep != NULL);
+	GSList **list = (GSList **)user;
+	*list = g_slist_prepend (*list, dep);
+}
 
-	if (!(dep->flags & DEPENDENT_NEEDS_RECALC)) {
-		dependent_queue_recalc (dep);
-		if ((dep->flags & DEPENDENT_TYPE_MASK) == DEPENDENT_CELL)
-			cell_foreach_dep (DEP_TO_CELL (dep),
-				cb_dependent_queue_recalc, NULL);
-	}
+static GSList *
+cell_list_deps (const Cell *cell)
+{
+	GSList *deps = NULL;
+	cell_foreach_dep (cell, cb_cell_list_deps, &deps);
+	return deps;
 }
 
 
@@ -146,28 +149,79 @@ cb_dependent_queue_recalc (Dependent *dep, gpointer ignore)
  * @recurse : optionally recursively dirty things
  *
  * Queues any elements of @list for recalc that are not already queued,
- * and marks all elements as needing a recalc.  Yes this code is the same as
- * above, but this is a high volume operation.
+ * and marks all elements as needing a recalc.
  */
 static void
-dependent_queue_recalc_list (GSList const *list, gboolean recurse)
+dependent_queue_recalc_list (GSList *list, gboolean recurse)
 {
+	GSList *work = NULL;
+
 	for (; list != NULL ; list = list->next) {
 		Dependent *dep = list->data;
-
 		if (!(dep->flags & DEPENDENT_NEEDS_RECALC)) {
 			dependent_queue_recalc (dep);
-
-			/* FIXME : it would be better if we queued the entire list then
-			 * recursed.  That would save time, but we need to keep track
-			 * of deps that are already queued
-			 */
-			if (recurse &&
-			    (dep->flags & DEPENDENT_TYPE_MASK) == DEPENDENT_CELL)
-				cell_foreach_dep (DEP_TO_CELL (dep),
-						  cb_dependent_queue_recalc, NULL);
+			if (recurse)
+				work = g_slist_prepend (work, dep);
 		}
 	}
+
+	/*
+	 * Work is now a list of marked cells whose dependencies need
+	 * to be marked.  Marking early guarentees that we will not
+	 * get duplicates.  (And it thus limits the length of the list.)
+	 * We treat work as a stack.
+	 */
+
+	while (work) {
+		Dependent *dep = work->data;
+
+		/* Pop the top element.  */
+		list = work;
+		work = work->next;
+		g_slist_free_1 (list);
+
+		if ((DEPENDENT_TYPE (dep)) == DEPENDENT_CELL) {
+			GSList *deps = cell_list_deps (DEP_TO_CELL (dep));
+			for (list = deps; list != NULL ; list = list->next) {
+				Dependent *dep = list->data;
+				if (!(dep->flags & DEPENDENT_NEEDS_RECALC)) {
+					dependent_queue_recalc (dep);
+					work = g_slist_prepend (work, dep);
+				}
+			}
+			g_slist_free (deps);
+		}
+	}
+}
+
+
+void
+cb_dependent_queue_recalc (Dependent *dep, gpointer ignore)
+{
+	g_return_if_fail (dep != NULL);
+
+	if (!(dep->flags & DEPENDENT_NEEDS_RECALC)) {
+		GSList *list = g_slist_prepend (NULL, dep);
+		dependent_queue_recalc_list (list, TRUE);
+		g_slist_free (list);
+	}
+}
+
+
+/*
+ * dependent_unqueue:
+ * @dep: the dependent to remove from the recomputation queue
+ *
+ * Removes a dependent that has been previously added to the recalc
+ * queue.  Used internally when a dependent that was queued is changed or
+ * removed.
+ */
+void
+dependent_unqueue (Dependent *dep)
+{
+	g_return_if_fail (dep != NULL);
+
+	dep->flags &= ~(DEPENDENT_NEEDS_RECALC);
 }
 
 /**************************************************************************
@@ -513,10 +567,10 @@ dependent_link (Dependent *dep, CellPos const *pos)
 	wb = dep->sheet->workbook;
 
 	/* Make this the new head of the dependent list.  */
-	dep->prev = NULL;
-	dep->next = wb->dependents;
-	if (dep->next)
-		dep->next->prev = dep;
+	dep->prev_dep = NULL;
+	dep->next_dep = wb->dependents;
+	if (dep->next_dep)
+		dep->next_dep->prev_dep = dep;
 	wb->dependents = dep;
 	dep->flags |= DEPENDENT_IN_EXPR_LIST;
 
@@ -662,9 +716,14 @@ cell_queue_recalc (Cell const *cell)
 	g_return_if_fail (cell != NULL);
 
 	if (!cell_needs_recalc (cell)) {
+		GSList *deps;
+
 		if (cell_has_expr (cell))
 			dependent_queue_recalc (CELL_TO_DEP (cell));
-		cell_foreach_dep (cell, cb_dependent_queue_recalc, NULL);
+
+		deps = cell_list_deps (cell);
+		dependent_queue_recalc_list (deps, TRUE);
+		g_slist_free (deps);
 	}
 }
 
@@ -814,7 +873,7 @@ sheet_region_queue_recalc (Sheet const *sheet, Range const *r)
 		WORKBOOK_FOREACH_DEPENDENT (sheet->workbook, dep, {
 				 Cell *cell = DEP_TO_CELL (dep);
 				 if (dep->sheet == sheet &&
-				     ((dep->flags & DEPENDENT_TYPE_MASK) == DEPENDENT_CELL) &&
+				     (DEPENDENT_TYPE (dep) == DEPENDENT_CELL) &&
 				     range_contains (r, cell->pos.col, cell->pos.row))
 					 dependent_queue_recalc (dep);
 			});
@@ -1000,8 +1059,9 @@ void
 workbook_queue_all_recalc (Workbook *wb)
 {
 	/* FIXME : warning what about dependents in other workbooks */
-	WORKBOOK_FOREACH_DEPENDENT (wb, dep,
-		dependent_queue_recalc (dep););
+
+	WORKBOOK_FOREACH_DEPENDENT
+		(wb, dep, { dependent_queue_recalc (dep); });
 }
 
 /*
@@ -1015,7 +1075,7 @@ workbook_recalc (Workbook *wb)
 
 	WORKBOOK_FOREACH_DEPENDENT (wb, dep,
 		if (dep->flags & DEPENDENT_NEEDS_RECALC) {
-			int const t = (dep->flags & DEPENDENT_TYPE_MASK);
+			int const t = DEPENDENT_TYPE (dep);
 
 			if (t != DEPENDENT_CELL) {
 				DependentClass *klass = g_ptr_array_index (dep_classes, t);
@@ -1204,7 +1264,7 @@ dependent_debug_name (Dependent const *dep, FILE *out)
 	else
 		g_warning ("Invalid dep, missing sheet");
 
-	t = (dep->flags & DEPENDENT_TYPE_MASK);
+	t = DEPENDENT_TYPE (dep);
 	if (t != DEPENDENT_CELL) {
 		DependentClass *klass = g_ptr_array_index (dep_classes, t);
 

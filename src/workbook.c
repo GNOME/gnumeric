@@ -694,7 +694,7 @@ workbook_expr_relocate (Workbook *wb, ExprRelocateInfo const *info)
 		newtree = expr_rewrite (dep->expression, &rwinfo);
 
 		if (newtree) {
-			int const t = (dep->flags & DEPENDENT_TYPE_MASK);
+			int const t = DEPENDENT_TYPE (dep);
 
 			/* Don't store relocations if they were inside the region
 			 * being moved.  That is handled elsewhere */

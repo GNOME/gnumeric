@@ -1,3 +1,18 @@
+2001-08-29  Morten Welinder  <terra@diku.dk>
+
+	* src/eval.c (workbook_queue_all_recalc): Avoid listifying.
+	(cb_dependent_queue_recalc, cell_queue_recalc): Recast in terms of
+ 	dependent_queue_recalc_list.
+	(dependent_queue_recalc_list): Eliminate recursion which used to
+ 	be unbounded deep.
+
+	* src/eval.h (struct _Dependent): Name next to next_dep and prev
+ 	to prev_dep.  (Because we might need a similar list for evaluation
+ 	at some point.)
+
+	(DEPENDENT_TYPE): New macro type hide most uses of the ugly
+ 	DEPENDENT_TYPE_MASK.  All such uses fixed.
+
 2001-08-29  Jody Goldberg <jgoldberg@home.com>
 
 	* src/eval.c (dependent_queue_recalc_list) : fix my breakage and don't

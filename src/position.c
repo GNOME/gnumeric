@@ -45,7 +45,7 @@ eval_pos_init_dep (EvalPos *eval_pos, Dependent const *dep)
 {
 	g_return_val_if_fail (dep != NULL, NULL);
 
-	if (DEPENDENT_CELL == (dep->flags & DEPENDENT_TYPE_MASK)) {
+	if (DEPENDENT_TYPE (dep) == DEPENDENT_CELL) {
 		Cell const *cell = DEP_TO_CELL (dep);
 		return eval_pos_init (eval_pos, dep->sheet, &cell->pos);
 	} else {

@@ -149,7 +149,7 @@ cb_compare_deps (gconstpointer a, gconstpointer b)
 static void
 cb_collect_deps (Dependent *dep, gpointer user)
 {
-	if ((dep->flags & DEPENDENT_TYPE_MASK) == DEPENDENT_CELL) {
+	if (DEPENDENT_TYPE (dep) == DEPENDENT_CELL) {
 		GList **list = (GList **)user;
 		*list = g_list_prepend (*list, dep);
 	}

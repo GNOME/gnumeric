@@ -11,7 +11,7 @@ struct _Dependent
 	ExprTree *expression;
 
 	/* Double-linked list.  */
-	struct _Dependent *next, *prev;
+	struct _Dependent *next_dep, *prev_dep;
 };
 
 typedef struct {
@@ -30,6 +30,8 @@ typedef enum {
 	DEPENDENT_CELL 		  = 0x00000001,
 	DEPENDENT_TYPE_MASK	  = 0x00000fff,
 } DependentFlags;
+
+#define DEPENDENT_TYPE(dep) ((dep)->flags & DEPENDENT_TYPE_MASK)
 
 typedef void (*DepFunc) (Dependent *dep, gpointer user);
 
