@@ -1,3 +1,9 @@
+2003-06-25  Jon K Hellan  <hellan@acm.org>
+
+	* src/gui-clipboard.c (x_clipboard_get_cb): Use
+	gtk_selection_data_set_text when pasting as string. Makes pasting
+	non Latin-1 work.
+
 2003-06-24  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=115853
