@@ -1,3 +1,8 @@
+1999-01-08  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/workbook.c (workbook_setup_status_area): We do not use the
+	progress bar feature currently.
+
 1999-01-07  Nat Friedman  <nat@nat.org>
 
 	* src/workbook.c: Added hints to the rest of the custom menu items.

@@ -684,7 +684,7 @@ static GnomeUIInfo workbook_menu_file [] = {
 
 static GnomeUIInfo workbook_menu_edit_clear [] = {
 	{ GNOME_APP_UI_ITEM, N_("_All"),
-  N_("Clear the selected cells' formats, comments, and contents"),
+	  N_("Clear the selected cells' formats, comments, and contents"),
 	  NULL, clear_all_cmd },
 	{ GNOME_APP_UI_ITEM, N_("_Formats"),
 	  N_("Clear the selected cells' formats"), clear_formats_cmd },
@@ -1205,10 +1205,10 @@ workbook_setup_status_area (Workbook *wb)
 	/*
 	 * Create the GnomeAppBar
 	 */
-	wb->appbar = GNOME_APPBAR(gnome_appbar_new(TRUE, TRUE,
-						   GNOME_PREFERENCES_USER));
-	gnome_app_set_statusbar(GNOME_APP(wb->toplevel),
-				GTK_WIDGET(wb->appbar));
+	wb->appbar = GNOME_APPBAR (gnome_appbar_new (FALSE, TRUE,
+						    GNOME_PREFERENCES_USER));
+	gnome_app_set_statusbar (GNOME_APP (wb->toplevel),
+				 GTK_WIDGET (wb->appbar));
 }
 
 void

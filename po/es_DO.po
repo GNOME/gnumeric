@@ -276,7 +276,7 @@ msgid "Left"
 msgstr ""
 
 #: src/dialog-cell-format.c:355 src/dialog-cell-format.c:364
-#: src/workbook.c:851
+#: src/workbook.c:830
 msgid "Center"
 msgstr ""
 
@@ -503,31 +503,31 @@ msgid "Missing quote"
 msgstr ""
 
 #. Type checking
-#: src/expr.c:467 src/fn-sheet.c:25 src/fn-sheet.c:59
+#: src/expr.c:478 src/fn-sheet.c:25 src/fn-sheet.c:59
 msgid "Invalid number of arguments"
 msgstr ""
 
-#: src/expr.c:695
+#: src/expr.c:706
 msgid "Type error"
 msgstr ""
 
-#: src/expr.c:753 src/expr.c:911 src/fn-misc.c:40 src/fn-misc.c:67
+#: src/expr.c:764 src/expr.c:922 src/fn-misc.c:40 src/fn-misc.c:67
 msgid "Type mismatch"
 msgstr ""
 
-#: src/expr.c:779 src/expr.c:815
+#: src/expr.c:790 src/expr.c:826
 msgid "Division by zero"
 msgstr ""
 
-#: src/expr.c:926
+#: src/expr.c:937
 msgid "Unknown evaluation error"
 msgstr ""
 
-#: src/file.c:28
+#: src/file.c:154
 msgid "Save workbook as"
 msgstr ""
 
-#: src/file.c:76
+#: src/file.c:202
 msgid "Load file"
 msgstr ""
 
@@ -1042,7 +1042,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-string.c:101
+#: src/fn-string.c:96
 msgid ""
 "@FUNCTION=LEFT\n"
 "@SYNTAX=LEFT(text[,num_chars])\n"
@@ -1051,7 +1051,7 @@ msgid ""
 "@SEEALSO=MID, RIGHT"
 msgstr ""
 
-#: src/fn-string.c:160
+#: src/fn-string.c:153
 msgid ""
 "@FUNCTION=RIGHT\n"
 "@SYNTAX=RIGHT(text[,num_chars])\n"
@@ -1342,7 +1342,7 @@ msgstr ""
 msgid "Notice"
 msgstr ""
 
-#: src/item-cursor.c:554 src/item-grid.c:522 src/workbook.c:839
+#: src/item-cursor.c:554 src/item-grid.c:522 src/workbook.c:818
 msgid "Copy"
 msgstr ""
 
@@ -1374,11 +1374,11 @@ msgstr ""
 msgid "Shift cells right and move"
 msgstr ""
 
-#: src/item-grid.c:521 src/workbook.c:836
+#: src/item-grid.c:521 src/workbook.c:815
 msgid "Cut"
 msgstr ""
 
-#: src/item-grid.c:523 src/sheet.c:2396 src/workbook.c:842
+#: src/item-grid.c:523 src/sheet.c:2396 src/workbook.c:821
 msgid "Paste"
 msgstr ""
 
@@ -1390,11 +1390,11 @@ msgstr ""
 msgid "Cell format"
 msgstr ""
 
-#: src/main.c:22
+#: src/main.c:24
 msgid "Dumps the function definitions"
 msgstr ""
 
-#: src/main.c:22
+#: src/main.c:24
 msgid "FILE"
 msgstr ""
 
@@ -1442,350 +1442,354 @@ msgstr ""
 msgid "Column: %s"
 msgstr ""
 
-#: src/workbook.c:301
+#: src/workbook.c:280
 msgid "Warning"
 msgstr ""
 
-#: src/workbook.c:312
+#: src/workbook.c:291
 msgid "Workbook "
 msgstr ""
 
-#: src/workbook.c:313
+#: src/workbook.c:292
 msgid " has unsaved changes, save them?"
 msgstr ""
 
-#: src/workbook.c:502 src/workbook.c:518
+#: src/workbook.c:481 src/workbook.c:497
 msgid "Insert rows"
 msgstr ""
 
-#: src/workbook.c:605
+#: src/workbook.c:584
 msgid ">mm/dd/yyyy"
 msgstr ">dd/mm/yyyy"
 
-#: src/workbook.c:624
+#: src/workbook.c:603
 msgid ">hh:mm"
 msgstr ">hh:mm"
 
-#: src/workbook.c:680
+#: src/workbook.c:659
 msgid "_New"
 msgstr ""
 
-#: src/workbook.c:682
+#: src/workbook.c:661
 msgid "_Open..."
 msgstr ""
 
-#: src/workbook.c:684
+#: src/workbook.c:663
 msgid "_Save"
 msgstr ""
 
-#: src/workbook.c:686
+#: src/workbook.c:665
 msgid "Save _as..."
 msgstr ""
 
-#: src/workbook.c:691
+#: src/workbook.c:670
 msgid "Plu_g-ins..."
 msgstr ""
 
-#: src/workbook.c:695
+#: src/workbook.c:674
 msgid "_Close"
 msgstr ""
 
-#: src/workbook.c:697
+#: src/workbook.c:676
 msgid "E_xit"
 msgstr ""
 
-#: src/workbook.c:705
+#: src/workbook.c:684
 msgid "_All"
 msgstr ""
 
-#: src/workbook.c:706
+#: src/workbook.c:685
 msgid "_Formats"
 msgstr ""
 
-#: src/workbook.c:707
+#: src/workbook.c:686
 msgid "_Comments"
 msgstr ""
 
-#: src/workbook.c:708
+#: src/workbook.c:687
 msgid "_Content"
 msgstr ""
 
-#: src/workbook.c:713
+#: src/workbook.c:692
 msgid "Cu_t"
 msgstr ""
 
-#: src/workbook.c:715
+#: src/workbook.c:694
 msgid "_Copy"
 msgstr ""
 
-#: src/workbook.c:717
+#: src/workbook.c:696
 msgid "_Paste"
 msgstr ""
 
-#: src/workbook.c:719
+#: src/workbook.c:698
 msgid "P_aste special..."
 msgstr ""
 
-#: src/workbook.c:720
+#: src/workbook.c:699
 msgid "C_lear"
 msgstr ""
 
-#: src/workbook.c:724
+#: src/workbook.c:703
 msgid "_Select All"
 msgstr ""
 
-#: src/workbook.c:726
+#: src/workbook.c:705
 msgid "_Goto cell.."
 msgstr ""
 
-#: src/workbook.c:732
+#: src/workbook.c:711
 msgid "_Define cell names"
 msgstr ""
 
-#: src/workbook.c:736
+#: src/workbook.c:715
 msgid "_Recalculate"
 msgstr ""
 
-#: src/workbook.c:744
+#: src/workbook.c:723
 msgid "_Zoom..."
 msgstr ""
 
-#: src/workbook.c:751
+#: src/workbook.c:730
 msgid "Current _date"
 msgstr ""
 
-#: src/workbook.c:753
+#: src/workbook.c:732
 msgid "Current _time"
 msgstr ""
 
-#: src/workbook.c:759 src/workbook.c:799
+#: src/workbook.c:738 src/workbook.c:778
 msgid "_Sheet"
 msgstr ""
 
-#: src/workbook.c:760 src/workbook.c:794
+#: src/workbook.c:739 src/workbook.c:773
 msgid "_Cells..."
 msgstr ""
 
-#: src/workbook.c:761
+#: src/workbook.c:740
 msgid "_Rows"
 msgstr ""
 
-#: src/workbook.c:762
+#: src/workbook.c:741
 msgid "C_olumns"
 msgstr ""
 
-#: src/workbook.c:766
+#: src/workbook.c:745
 msgid "_Add/Modify comment"
 msgstr ""
 
-#: src/workbook.c:767
+#: src/workbook.c:746
 msgid "_Special"
 msgstr ""
 
-#: src/workbook.c:776 src/workbook.c:782
+#: src/workbook.c:755 src/workbook.c:761
 msgid "_Autoadjust"
 msgstr ""
 
-#: src/workbook.c:777
+#: src/workbook.c:756
 msgid "_Width"
 msgstr ""
 
-#: src/workbook.c:783
+#: src/workbook.c:762
 msgid "_Height"
 msgstr ""
 
-#: src/workbook.c:788
+#: src/workbook.c:767
 msgid "_Change name"
 msgstr ""
 
-#: src/workbook.c:797
+#: src/workbook.c:776
 msgid "C_olumn"
 msgstr ""
 
-#: src/workbook.c:798
+#: src/workbook.c:777
 msgid "_Row"
 msgstr ""
 
-#: src/workbook.c:805
+#: src/workbook.c:784
 msgid "_About Gnumeric..."
 msgstr ""
 
-#: src/workbook.c:811
+#: src/workbook.c:790
 msgid "_File"
 msgstr ""
 
-#: src/workbook.c:812
+#: src/workbook.c:791
 msgid "_Edit"
 msgstr ""
 
-#: src/workbook.c:813
+#: src/workbook.c:792
 msgid "_View"
 msgstr ""
 
-#: src/workbook.c:814
+#: src/workbook.c:793
 msgid "_Insert"
 msgstr ""
 
-#: src/workbook.c:815
+#: src/workbook.c:794
 msgid "F_ormat"
 msgstr ""
 
-#: src/workbook.c:816
+#: src/workbook.c:795
 msgid "_Help"
 msgstr ""
 
-#: src/workbook.c:824
+#: src/workbook.c:803
 msgid "New"
 msgstr ""
 
-#: src/workbook.c:824
+#: src/workbook.c:803
 msgid "Create a new sheet"
 msgstr ""
 
-#: src/workbook.c:827
+#: src/workbook.c:806
 msgid "Open"
 msgstr ""
 
-#: src/workbook.c:827
+#: src/workbook.c:806
 msgid "Opens an existing workbook"
 msgstr ""
 
-#: src/workbook.c:830
+#: src/workbook.c:809
 msgid "Save"
 msgstr ""
 
-#: src/workbook.c:830
+#: src/workbook.c:809
 msgid "Saves the workbook"
 msgstr ""
 
-#: src/workbook.c:836
+#: src/workbook.c:815
 msgid "Cuts the selection to the clipboard"
 msgstr ""
 
-#: src/workbook.c:839
+#: src/workbook.c:818
 msgid "Copies the selection to the clipboard"
 msgstr ""
 
-#: src/workbook.c:842
+#: src/workbook.c:821
 msgid "Pastes the clipboard"
 msgstr ""
 
-#: src/workbook.c:848
+#: src/workbook.c:827
 msgid "Left align"
 msgstr ""
 
-#: src/workbook.c:848
+#: src/workbook.c:827
 msgid "Sets the cell alignment to the left"
 msgstr ""
 
-#: src/workbook.c:851
+#: src/workbook.c:830
 msgid "Centers the cell contents"
 msgstr ""
 
-#: src/workbook.c:854
+#: src/workbook.c:833
 msgid "Right align"
 msgstr ""
 
-#: src/workbook.c:854
+#: src/workbook.c:833
 msgid "Sets the cell alignment to the right"
 msgstr ""
 
-#: src/workbook.c:860
+#: src/workbook.c:838
 msgid "Bold"
 msgstr ""
 
-#: src/workbook.c:860
+#: src/workbook.c:838
 msgid "Sets the bold attribute on the cell"
 msgstr ""
 
-#: src/workbook.c:864
+#: src/workbook.c:841
 msgid "Italic"
 msgstr ""
 
-#: src/workbook.c:864
+#: src/workbook.c:841
 msgid "Sets the italic attribute on the cell"
 msgstr ""
 
-#: src/workbook.c:870
+#: src/workbook.c:847
 msgid "Line"
 msgstr ""
 
-#: src/workbook.c:870
+#: src/workbook.c:847
 msgid "Creates a line object"
 msgstr ""
 
-#: src/workbook.c:873
+#: src/workbook.c:850
 msgid "Arrow"
 msgstr ""
 
-#: src/workbook.c:873
+#: src/workbook.c:850
 msgid "Creates an arrow object"
 msgstr ""
 
-#: src/workbook.c:876
+#: src/workbook.c:853
 msgid "Rectangle"
 msgstr ""
 
-#: src/workbook.c:876
+#: src/workbook.c:853
 msgid "Creates a rectangle object"
 msgstr ""
 
-#: src/workbook.c:879
+#: src/workbook.c:856
 msgid "Ellipse"
 msgstr ""
 
-#: src/workbook.c:879
+#: src/workbook.c:856
 msgid "Creates an ellipse object"
 msgstr ""
 
-#: src/workbook.c:958
+#: src/workbook.c:935
 msgid "You should introduce a valid cell name"
 msgstr ""
 
-#: src/workbook.c:964
+#: src/workbook.c:941
 msgid "Column out of range"
 msgstr ""
 
-#: src/workbook.c:969
+#: src/workbook.c:946
 msgid "Row number out of range"
 msgstr ""
 
-#: src/workbook.c:1075
+#: src/workbook.c:1052
 msgid "Sum"
 msgstr ""
 
-#: src/workbook.c:1076
+#: src/workbook.c:1053
 msgid "Min"
 msgstr ""
 
-#: src/workbook.c:1077
+#: src/workbook.c:1054
 msgid "Max"
 msgstr ""
 
-#: src/workbook.c:1078
+#: src/workbook.c:1055
 msgid "Average"
 msgstr ""
 
-#: src/workbook.c:1079
+#: src/workbook.c:1056
 msgid "Count"
 msgstr ""
 
-#: src/workbook.c:1235
+#: src/workbook.c:1212
 msgid "Untitled.gnumeric"
 msgstr ""
 
-#: src/workbook.c:1315
+#: src/workbook.c:1292
 msgid "Zoom out"
 msgstr ""
 
-#: src/workbook.c:1322
+#: src/workbook.c:1299
 msgid "Zoom in"
 msgstr ""
 
-#: src/workbook.c:1371 src/workbook.c:1392
+#: src/workbook.c:1348 src/workbook.c:1369
 msgid "Sheet %d"
 msgstr ""
 
-#: src/xml-io.c:1415
+#: src/xml-io.c:1416
 msgid "NoName"
+msgstr ""
+
+#: src/xml-io.c:1606
+msgid "Gnumeric XML file format"
 msgstr ""
