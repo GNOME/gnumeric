@@ -1,3 +1,9 @@
+2002-12-06  Jody Goldberg <jody@gnome.org>
+
+	* src/regutf8.c (gnumeric_regcomp_XL) : moved from
+	  plugins/fn-string/functions.c:search_pattern_to_regexp and turned into
+	  a wrapper.
+
 2002-12-05  Morten Welinder  <terra@diku.dk>
 
 	* src/xml-io.c: Eliminate most char casts.

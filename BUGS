@@ -84,7 +84,7 @@ Pending Patches
     21.9)  visual cue that a field is active			(DONE)
     21.10) select the current condition in the combos		(DONE)
     21.11) expression filters
-    21.12) expression dialog
+    21.12) expression dialog					(DONE)
     21.13) Handle range changes (cut-n-paste or ins/del col/row)
     21.14) Handle the relationship between groups and filters	(DONE)
     21.15) xml import/export

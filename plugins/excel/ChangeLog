@@ -1,3 +1,8 @@
+2002-12-06  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (excel_read_AUTOFILTER) : don't forget the unicode
+	  header for biff8.
+
 2002-12-03  Morten Welinder  <terra@diku.dk>
 
 	* ms-excel-read.c (excel_print_unit_init_inch): Convert to

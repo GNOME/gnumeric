@@ -1021,47 +1021,6 @@ static const char *help_search = {
 	   "@SEEALSO=FIND")
 };
 
-static char *
-search_pattern_to_regexp (const char *pattern)
-{
-	GString *res = g_string_new ("");
-
-	while (*pattern) {
-		switch (*pattern) {
-		case '~':
-			pattern++;
-			if (*pattern == '*')
-				g_string_append (res, "\\*");
-			else
-				g_string_append_c (res, *pattern);
-			if (*pattern) pattern++;
-			break;
-
-		case '*':
-			g_string_append (res, ".*");
-			pattern++;
-			break;
-
-		case '?':
-			g_string_append_c (res, '.');
-			pattern++;
-			break;
-
-		case '.': case '[': case '\\':
-		case '^': case '$':
-			g_string_append_c (res, '\\');
-			g_string_append_c (res, *pattern++);
-			break;
-
-		default:
-			g_string_append_unichar (res, g_utf8_get_char (pattern));
-			pattern = g_utf8_next_char (pattern);
-		}
-	}
-
-	return g_string_free (res, FALSE);
-}
-
 static Value *
 gnumeric_search (FunctionEvalInfo *ei, Value **argv)
 {
@@ -1069,7 +1028,6 @@ gnumeric_search (FunctionEvalInfo *ei, Value **argv)
 	const char *haystack = value_peek_string (argv[1]);
 	int start = argv[2] ? value_get_as_int (argv[2]) : 1;
 	const char *hay2;
-	char *needle_regexp;
 	gnumeric_regex_t r;
 	regmatch_t rm;
 	Value *res = NULL;
@@ -1084,29 +1042,22 @@ gnumeric_search (FunctionEvalInfo *ei, Value **argv)
 		hay2 = g_utf8_next_char (hay2);
 	}
 
-	needle_regexp = search_pattern_to_regexp (needle);
-
-	if (gnumeric_regcomp (&r, needle_regexp, REG_ICASE) !=
-	    REG_OK) {
-		g_assert_not_reached ();
-		goto out;
+	if (gnumeric_regcomp_XL (&r, needle, REG_ICASE) == REG_OK) {
+		switch (gnumeric_regexec (&r, hay2, 1, &rm, 0)) {
+		case REG_NOMATCH: break;
+		case REG_OK:
+			res = value_new_int (1 + start + rm.rm_so);
+			break;
+		default:
+			g_warning ("Unexpected regexec result");
+		}
+		gnumeric_regfree (&r);
+	} else {
+		g_warning ("Unexpected regcomp result");
 	}
 
-	switch (gnumeric_regexec (&r, hay2, 1, &rm, 0)) {
-	case REG_NOMATCH:
-		break;
-	case REG_OK:
-		res = value_new_int (1 + start + rm.rm_so);
-		break;
-	default:
-		g_assert_not_reached ();
-		break;
-	}
-
- out:
-	if (!res) res = value_new_error (ei->pos, gnumeric_err_VALUE);
-	g_free (needle_regexp);
-	gnumeric_regfree (&r);
+	if (res == NULL)
+		res = value_new_error (ei->pos, gnumeric_err_VALUE);
 	return res;
 }
 

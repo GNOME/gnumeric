@@ -4245,9 +4245,6 @@ read_DOPER (guint8 const *doper, gboolean is_equal,
 	g_return_val_if_fail (doper[1] > 0 && doper [1] <=6, NULL);
 	*op = ops [doper [1] - 1];
 
-	if (*op == GNM_FILTER_OP_EQUAL && !is_equal)
-		*op = GNM_FILTER_OP_REGEXP_MATCH;
-
 	return res;
 }
 
@@ -4284,18 +4281,21 @@ excel_read_AUTOFILTER (BiffQuery *q, ExcelSheet *esheet)
 			v0 = value_new_string_nocopy (
 				biff_get_text (data, len0, NULL));
 			data += len0;
+			if (esheet->container.ver >= MS_BIFF_V8)
+				data += 1; /* the header */
 		}
-		if (len1 > 0) {
+		if (len1 > 0)
 			v1 = value_new_string_nocopy (
 				biff_get_text (data, len1, NULL));
-		}
 
 		if (op1 == GNM_FILTER_UNUSED) {
 			cond = gnm_filter_condition_new_single (op0, v0);
 			if (v1 != NULL) value_release (v1); /* paranoia */
-		} else
+		} else {
+			/* NOTE : Docs are backwards */
 			cond = gnm_filter_condition_new_double (
-				    op0, v0, (flags & 1) ? TRUE : FALSE, op1, v1);
+				    op0, v0, (flags & 3) ? FALSE : TRUE, op1, v1);
+		}
 	}
 
 	gnm_filter_set_condition (filter,

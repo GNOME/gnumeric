@@ -53,13 +53,15 @@ typedef struct {
 	size_t *parens;
 } gnumeric_regex_t;
 
-int gnumeric_regcomp (gnumeric_regex_t *preg, const char *pattern, int cflags);
-int gnumeric_regexec (const gnumeric_regex_t *preg, const char *string,
+int gnumeric_regcomp (gnumeric_regex_t       *preg, char const *pattern, int cflags);
+int gnumeric_regexec (gnumeric_regex_t const *preg, char const *string,
 		      size_t nmatch, regmatch_t pmatch[], int eflags);
-size_t gnumeric_regerror (int errcode, const gnumeric_regex_t *preg,
+size_t gnumeric_regerror (int errcode, gnumeric_regex_t const *preg,
 			  char *errbuf, size_t errbuf_size);
 void gnumeric_regfree (gnumeric_regex_t *preg);
 
 #endif
+
+int gnumeric_regcomp_XL (gnumeric_regex_t *preg, char const *pattern, int cflags);
 
 #endif

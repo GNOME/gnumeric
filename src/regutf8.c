@@ -461,3 +461,47 @@ main (int argc, char **argv)
 
 #endif /* HAVE_UTF8_REGEXP */
 
+int
+gnumeric_regcomp_XL (gnumeric_regex_t *preg, char const *pattern, int cflags)
+{
+	GString *res = g_string_new ("");
+	int retval;
+
+	while (*pattern) {
+		switch (*pattern) {
+		case '~':
+			pattern++;
+			if (*pattern == '*')
+				g_string_append (res, "\\*");
+			else
+				g_string_append_c (res, *pattern);
+			if (*pattern) pattern++;
+			break;
+
+		case '*':
+			g_string_append (res, ".*");
+			pattern++;
+			break;
+
+		case '?':
+			g_string_append_c (res, '.');
+			pattern++;
+			break;
+
+		case '.': case '[': case '\\':
+		case '^': case '$':
+			g_string_append_c (res, '\\');
+			g_string_append_c (res, *pattern++);
+			break;
+
+		default:
+			g_string_append_unichar (res, g_utf8_get_char (pattern));
+			pattern = g_utf8_next_char (pattern);
+		}
+	}
+
+	retval = gnumeric_regcomp (preg, res->str, cflags);
+	g_string_free (res, TRUE);
+	return retval;
+}
+

@@ -29,8 +29,7 @@
 #include <workbook.h>
 #include <workbook-edit.h>
 #include <sheet.h>
-#include <sheet-view.h>
-#include <workbook-cmd-format.h>
+#include <value.h>
 #include <sheet-filter.h>
 
 #include <glade/glade.h>
@@ -68,6 +67,12 @@ cb_autofilter_ok (G_GNUC_UNUSED GtkWidget *button,
 	GtkWidget *w;
 
 	if (state->is_expr) {
+		int bottom, percentage, count;
+		w = glade_xml_get_widget (state->gui, "op0");
+		bottom = gtk_option_menu_get_history (GTK_OPTION_MENU (w));
+
+		w = glade_xml_get_widget (state->gui, "op1");
+		percentage = gtk_option_menu_get_history (GTK_OPTION_MENU (w));
 	} else {
 		int bottom, percentage, count;
 
@@ -109,6 +114,44 @@ cb_top10_type_changed (GtkOptionMenu *menu,
 		(gtk_option_menu_get_history (menu) > 0) ? 100. : 500.);
 }
 
+static void
+init_operator (AutoFilterState *state, GnmFilterOp op, Value const *v,
+	       char const *op_widget, char const *val_widget)
+{
+	GtkWidget *w = glade_xml_get_widget (state->gui, op_widget);
+	int i;
+
+	switch (op) {
+	case GNM_FILTER_OP_EQUAL:	i = 1; break;
+	case GNM_FILTER_OP_GT:		i = 3; break;
+	case GNM_FILTER_OP_LT:		i = 5; break;
+	case GNM_FILTER_OP_GTE:		i = 4; break;
+	case GNM_FILTER_OP_LTE:		i = 6; break;
+	case GNM_FILTER_OP_NOT_EQUAL:	i = 2; break;
+	default :
+		return;
+	};
+
+	if (v != NULL && v->type == VALUE_STRING && (i == 1 || i == 2)) {
+		char const *str = v->v_str.val->str;
+		unsigned const len = strlen (str);
+		/* there needs to be at least 1 letter */
+		gboolean starts = (len > 1 && str[0] == '*');
+		gboolean ends   = (len > 1 && str[len-1] == '*' && str[len-2] != '~');
+
+		if (starts)
+			i += (ends ? 10 : 8);
+		else if (ends)
+			i += 6;
+	}
+	gtk_option_menu_set_history (GTK_OPTION_MENU (w), i);
+
+	if (v != NULL) {
+		w = glade_xml_get_widget (state->gui, val_widget);
+		gtk_entry_set_text (GTK_ENTRY (w), value_peek_string (v));
+	}
+}
+
 void
 dialog_auto_filter (WorkbookControlGUI *wbcg,
 		    GnmFilter *filter, int field,
@@ -144,6 +187,14 @@ dialog_auto_filter (WorkbookControlGUI *wbcg,
 	if (cond != NULL) {
 		GnmFilterOp const op = cond->op[0];
 		if (is_expr && 0 == (op & GNM_FILTER_OP_TYPE_MASK)) {
+			init_operator (state, cond->op[0],
+				       cond->value[0], "op0", "value0");
+			if (cond->op[1] != GNM_FILTER_UNUSED)
+				init_operator (state, cond->op[1],
+					       cond->value[1], "op1", "value1");
+			w = glade_xml_get_widget (state->gui,
+				cond->is_and ? "and_button" : "or_button");
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TRUE);
 		} else if (!is_expr &&
 			   GNM_FILTER_OP_TOP_N == (op & GNM_FILTER_OP_TYPE_MASK)) {
 			w = glade_xml_get_widget (state->gui, "top_vs_bottom_option_menu");
