@@ -79,6 +79,7 @@
 	    <class>GtkButton</class>
 	    <name>help_button</name>
 	    <border_width>4</border_width>
+	    <sensitive>False</sensitive>
 	    <can_focus>True</can_focus>
 	    <stock_button>GNOME_STOCK_BUTTON_HELP</stock_button>
 	    <child>

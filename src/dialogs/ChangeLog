@@ -1,3 +1,15 @@
+2000-06-18  Jon K Hellan  <hellan@acm.org>
+
+	* dialog-function-select.c (dialog_function_select_impl): Make
+	column titles passive. Do not close on help.
+	(function_select_row): Make double click in function column mean
+	"OK".
+
+	* function-select.glade: Change to browse select in the
+	lists. Move help button to the far right. Make it insensitive.
+	
+	* formula-guru.glade: Make help button insensitive.
+
 2000-06-18  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-function-wizard.c (cb_formula_guru_entry_focus_in) :

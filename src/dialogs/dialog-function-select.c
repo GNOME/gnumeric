@@ -1,5 +1,5 @@
 /*
- * dialog-function-wizard.c:  Implements the function wizard
+ * dialog-function-select.c:  Implements the function selector
  *
  * Author:
  *  Michael Meeks <michael@imaginator.com>
@@ -12,6 +12,8 @@
 #include "func.h"
 #include "dialogs.h"
 #include "workbook.h"
+
+#define HELP_BUTTON (GNOME_CANCEL + 1)
 
 typedef struct {
 	GtkWidget *dialog;
@@ -85,12 +87,9 @@ static void
 function_select_row (GtkCList *clist, gint row, gint col,
 		     GdkEvent *event, FunctionSelectState *state)
 {
-#if 0
 	if (event && event->type == GDK_2BUTTON_PRESS)
 		gtk_signal_emit_by_name (GTK_OBJECT (state->dialog),
 					 "clicked", 0);
-#endif
-
 	state->selected_func = row;
 	state->func = g_list_nth_data (state->cat->functions, row);
 	if (state->func_help != NULL)
@@ -146,17 +145,23 @@ dialog_function_select_impl (Workbook *wb, GladeXML *gui)
 	state.selected_cat  = state.selected_func = 0;
 	category_list_fill (&state);
 
-	/* Bring up the dialog */
-	res = gnumeric_dialog_run (wb, GNOME_DIALOG (state.dialog));
+	gtk_clist_column_titles_passive (GTK_CLIST (state.categories));
+	gtk_clist_column_titles_passive (GTK_CLIST (state.functions));
+
+	do 
+		/* Bring up the dialog */
+		res = gnumeric_dialog_run (wb, GNOME_DIALOG (state.dialog));
+	while (res == HELP_BUTTON);
 
 	if (state.func_help != NULL)
 		tokenized_help_destroy (state.func_help);
 
-	/* If the user closed the dialog with prejudice, its already destroyed */
+	/* If the user closed the dialog with prejudice,
+	   its already destroyed */
 	if (res >= 0)
 		gnome_dialog_close (GNOME_DIALOG (state.dialog));
 
-	if (res == 1) {
+	if (res == GNOME_OK) {
 		FunctionCategory const * const cat = state.cat;
 		return g_list_nth_data (cat->functions, state.selected_func);
 	}
