@@ -1,3 +1,13 @@
+2001-12-26 Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* files.sgml : add example images
+	* figures/files-xml-example.png : new figure
+	* figures/files-latex-example.png : new figure
+	* figures/files-html32-example.png : new figure
+	* figures/files-html40-example.png : new figure
+	* figures/files-html-example.png : new figure
+	* figures/files-dvi-example.png : new figure
+
 2001-12-25  Jody Goldberg <jody@gnome.org>
 
 	* Release 0.99.1

@@ -157,6 +157,27 @@
   been installed. If a complete TeX installation is available it is probably advisable 
   to use the LaTeX format (<xref linkend="file-format-latex">) instead, since the
   created LaTeX file can be extensively customized before creating the dvi file from it.</para>
+
+   <figure id="file-format-dvi-ex1">
+    <title>Gnumeric Sample Screenshot</title>
+    <screenshot>
+	<graphic fileref="figures/files-xml-example.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>
+<example id="file-format-dvi-example">
+ <title>Saving as DVI TeX</title>
+     <para>The screenshot <xref linkend="file-format-dvi-ex1"> shows an example 
+     Gnumeric file. If we save this file in DVI TeX format and open it using 
+     <keycap>xdvi</keycap> we obtain <xref linkend="file-format-dvi-ex2">.
+     </para>
+ </example>
+  <figure id="file-format-dvi-ex2">
+    <title><keycap>xdvi</keycap> Screenshot of DVI TeX File</title>
+    <screenshot>
+	<graphic fileref="figures/files-dvi-example.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>
+
   </sect2>
   <sect2 id="file-format-xl">
   <title><trademark>Excel</trademark> (R) 95 File Format</title>
@@ -179,8 +200,20 @@
   The tables in the HTML 3.2 file contain all cells, whether visible or not, including merged
   cells and spans. Horizontal as well as vertical alignment is preserved, as are font colours 
   and some font characteristics (italic, bold). These files also include an appropriate 
-  preamble.
-  </para> 
+  preamble.</para>
+  <example id="file-format-html32-example">
+  <title>Saving as HTML 3.2</title>
+     <para>The screenshot <xref linkend="file-format-dvi-ex1"> shows an example 
+     Gnumeric file. If we save this file in HTML 3.2 format and open it using 
+     <keycap>Mozilla 0.95</keycap> we obtain <xref linkend="file-format-html32-ex1">.
+     </para>
+  </example>
+  <figure id="file-format-html32-ex1">
+    <title><keycap>Mozilla</keycap> Screenshot of HTML 3.2 File</title>
+    <screenshot>
+	<graphic fileref="figures/files-html32-example.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>
   </sect3>
   <sect3 id="file-format-html40">
   <title>HTML 4.0 File Format</title>
@@ -189,16 +222,42 @@
   cells and spans. Horizontal as well as vertical alignment is preserved, as are some font 
   characteristics (italic, bold) and cell background colours. These files also include an 
   appropriate preamble.</para>
+  <example id="file-format-html40-example">
+  <title>Saving as HTML 4.0</title>
+     <para>The screenshot <xref linkend="file-format-dvi-ex1"> shows an example 
+     Gnumeric file. If we save this file in HTML 4.0 format and open it using 
+     <keycap>Mozilla 0.95</keycap> we obtain <xref linkend="file-format-html40-ex1">.
+     </para>
+  </example>
+  <figure id="file-format-html40-ex1">
+    <title><keycap>Mozilla</keycap> Screenshot of HTML 4.0 File</title>
+    <screenshot>
+	<graphic fileref="figures/files-html40-example.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>
   </sect3>
   <sect3 id="file-format-html40f">
   <title>HTML Fragment Format</title>
-  <para>Gnumeric can create HTML 4.0 fragments. All sheets of the current workbook are exported. 
+  <para>Gnumeric can create HTML fragments. All sheets of the current workbook are exported. 
   The tables in such a fragment file contain all cells, whether visible or not, including merged
   cells and spans. Horizontal as well as vertical alignment is preserved, as are some font 
   characteristics (italic, bold) as well as  cell background and font colours. These files 
-  do <emphasis>not</emphasis> contain any preamble. Note that each tag used in these files is valid 
-  in some HTML version, the combination of these tags in a gnumeric generated HTML fragment may 
-  not be. </para>
+  do <emphasis>not</emphasis> contain any preamble. Note that each tag used in these files is 
+  valid in some HTML version, the combination of these tags in a gnumeric generated HTML 
+  fragment may not be. </para>
+  <example id="file-format-html-example">
+  <title>Saving as HTML fragment</title>
+     <para>The screenshot <xref linkend="file-format-dvi-ex1"> shows an example 
+     Gnumeric file. If we save this file as an HTML fragment and open it using 
+     <keycap>Mozilla 0.95</keycap> we obtain <xref linkend="file-format-html-ex1">.
+     </para>
+  </example>
+  <figure id="file-format-html-ex1">
+    <title><keycap>Mozilla</keycap> Screenshot of HTML Fragment</title>
+    <screenshot>
+	<graphic fileref="figures/files-html-example.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>
   </sect3>
   </sect2>
   <sect2 id="file-format-latex">
@@ -206,6 +265,29 @@
   <para>This format is supported by the <quote>HTML &amp; TeX</quote> plug-in.</para>
   <para>The created LaTeX file can either be input into another LaTeX file or latexed 
   independently. See the content of the created file for various customization options. </para>
+  <para>Only the top sheet of the current workbook is exported.</para>
+  <example id="file-format-latex-example">
+  <title>Saving as LaTeX file</title>
+     <para>The screenshot <xref linkend="file-format-dvi-ex1"> shows an example 
+     Gnumeric file. If we save this file as LaTeX file, tex it using 
+     <keycap>pdflatex</keycap> and open it using 
+     <keycap>xpdf</keycap> we obtain <xref linkend="file-format-latex-ex1">.
+     </para>
+  </example>
+  <figure id="file-format-latex-ex1">
+    <title><keycap>xpdf</keycap> Screenshot of LaTeX file</title>
+    <screenshot>
+	<graphic fileref="figures/files-latex-example.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>
+  </sect2>
+  <sect2 id="file-format-pdf">
+  <title>PDF Format</title>
+  <para>Currently, Gnumeric cannot save directly as a PDF file; but, provided a standard 
+  <keycap>tetex</keycap> installation is available, the gnumeric file can be saved as a 
+  LaTeX file (see <xref linkend="file-format-latex">), and turned into a PDF file using 
+  <keycap>pdflatex</keycap>.</para>
+  <para> See <xref linkend="file-format-latex-ex1"> for an example of a created PDF file.</para>
   </sect2>
   <sect2 id="file-format-csv">
   <title>Text Format</title>
