@@ -56,6 +56,10 @@ struct _ExcelWorkbook {
 
 extern int ms_excel_write_ExcelWorkbook (MS_OLE *file, ExcelWorkbook *wb,
 				    eBiff_version ver);
+extern int ms_excel_write_get_sheet_idx (ExcelWorkbook *wb, Sheet *gnum_sheet);
+extern int ms_excel_write_get_externsheet_idx (ExcelWorkbook *wb,
+					       Sheet *gnum_sheeta,
+					       Sheet *gnum_sheetb);
 
 typedef enum { AS_PER_VER, SIXTEEN_BIT, EIGHT_BIT } PutType;
 extern int

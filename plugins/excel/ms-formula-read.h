@@ -4,8 +4,8 @@
  * Author:
  *    Michael Meeks (michael@imaginator.com)
  */
-#ifndef GNUMERIC_MS_FORMULA_H
-#define GNUMERIC_MS_FORMULA_H
+#ifndef GNUMERIC_MS_FORMULA_R_H
+#define GNUMERIC_MS_FORMULA_R_H
 
 #include <glib.h>
 

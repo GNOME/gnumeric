@@ -119,7 +119,8 @@ push_guint32 (PolishData *pd, guint32 b)
 }
 
 static void
-write_cellref_v7 (PolishData *pd, const CellRef *ref, guint8 *out_col, guint16 *out_row)
+write_cellref_v7 (PolishData *pd, const CellRef *ref, 
+		  guint8 *out_col, guint16 *out_row)
 {
 	guint    row, col;
 
@@ -133,19 +134,152 @@ write_cellref_v7 (PolishData *pd, const CellRef *ref, guint8 *out_col, guint16 *
 		row = ref->row;
 
 	if (ref->col_relative)
-		row|=0x8000;
+		row |= 0x4000;
 	if (ref->row_relative)
-		row|=0x4000;
+		row |= 0x8000;
 
 	BIFF_SET_GUINT16 (out_row, row);
 	BIFF_SET_GUINT8  (out_col, col);
 }
 
 static void
+write_cellref_v8 (PolishData *pd, const CellRef *ref,
+		  guint16 *out_col, guint16 *out_row)
+{
+	guint    row, col;
+
+	if (ref->col_relative)
+		col = ref->col + pd->col;
+	else
+		col = ref->col;
+	if (ref->row_relative)
+		row = ref->row + pd->row;
+	else
+		row = ref->row;
+
+	if (ref->col_relative)
+		col |= 0x4000;
+	if (ref->row_relative)
+		col |= 0x8000;
+
+	BIFF_SET_GUINT16 (out_row, row);
+	BIFF_SET_GUINT16 (out_col, col);
+}
+
+static void
 write_string (PolishData *pd, gchar *txt)
 {
-	push_guint8 (pd, FORMULA_PTG_STR);
-	biff_put_text (pd->bp, txt, eBiffV8, TRUE, SIXTEEN_BIT);
+	if (!txt || txt[0] == '\0')
+		push_guint8 (pd, FORMULA_PTG_MISSARG);
+	else {
+		push_guint8 (pd, FORMULA_PTG_STR);
+		biff_put_text (pd->bp, txt, eBiffV8, TRUE, SIXTEEN_BIT);
+	}
+}
+
+static void
+write_area (PolishData *pd, const CellRef *a, const CellRef *b)
+{
+	guint8 data[24];
+
+	if (!a->sheet || !b->sheet ||
+	    (a->sheet == pd->sheet->gnum_sheet &&
+	     a->sheet == b->sheet)) {
+		push_guint8 (pd, FORMULA_PTG_AREA);
+		if (pd->ver <= eBiffV7) {
+			write_cellref_v7 (pd, a,
+					  data + 4, (guint16 *)(data + 0));
+			write_cellref_v7 (pd, b,
+					  data + 5, (guint16 *)(data + 2));
+			ms_biff_put_var_write (pd->bp, data, 6);
+		} else {
+			write_cellref_v8 (pd, a,
+					  (guint16 *)(data + 4), (guint16 *)(data + 0));
+			write_cellref_v8 (pd, b,
+					  (guint16 *)(data + 6), (guint16 *)(data + 2));
+			ms_biff_put_var_write (pd->bp, data, 8);
+		}
+	} else {
+		guint16 first_idx, second_idx;
+		if (a->sheet)
+			first_idx  = ms_excel_write_get_sheet_idx (pd->sheet->wb,
+								   a->sheet);
+		else
+			first_idx  = ms_excel_write_get_sheet_idx (pd->sheet->wb,
+								   pd->sheet->gnum_sheet);
+		if (b->sheet)
+			second_idx = ms_excel_write_get_sheet_idx (pd->sheet->wb,
+								   b->sheet);
+		else
+			second_idx = first_idx;
+
+		push_guint8 (pd, FORMULA_PTG_AREA_3D);
+		if (pd->ver <= eBiffV7) {
+			BIFF_SET_GUINT16 (data, 0); /* FIXME ? */
+			BIFF_SET_GUINT32 (data +  2, 0x0);
+			BIFF_SET_GUINT32 (data +  6, 0x0);
+			BIFF_SET_GUINT16 (data + 10, first_idx);
+			BIFF_SET_GUINT16 (data + 12, second_idx);
+			write_cellref_v7 (pd, a,
+					  data + 18, (guint16 *)(data + 14));
+			write_cellref_v7 (pd, b,
+					  data + 19, (guint16 *)(data + 16));
+			ms_biff_put_var_write (pd->bp, data, 20);
+		} else {
+			guint16 extn_idx = ms_excel_write_get_externsheet_idx (pd->sheet->wb,
+									       a->sheet,
+									       b->sheet);
+			BIFF_SET_GUINT16 (data, extn_idx);
+			write_cellref_v8 (pd, a,
+					  (guint16 *)(data + 6), (guint16 *)(data + 2));
+			write_cellref_v8 (pd, b,
+					  (guint16 *)(data + 8), (guint16 *)(data + 4));
+			ms_biff_put_var_write (pd->bp, data, 10);			
+		}
+	}
+}
+
+static void
+write_ref (PolishData *pd, const CellRef *ref)
+{
+	guint8 data[24];
+		
+	g_return_if_fail (pd);
+	g_return_if_fail (ref);
+
+	if (!ref->sheet ||
+	    ref->sheet == pd->sheet->gnum_sheet) {
+		push_guint8 (pd, FORMULA_PTG_REF);
+		if (pd->ver <= eBiffV7) {
+			write_cellref_v7 (pd, ref, data + 2, (guint16 *)data);
+			ms_biff_put_var_write (pd->bp, data, 3);
+		} else { /* Duff docs */
+			write_cellref_v8 (pd, ref, (guint16 *)(data + 2), (guint16 *)data);
+			ms_biff_put_var_write (pd->bp, data, 4);
+		}
+	} else {
+		push_guint8 (pd, FORMULA_PTG_REF_3D);
+		if (pd->ver <= eBiffV7) {
+			guint16 extn_idx = ms_excel_write_get_sheet_idx (pd->sheet->wb,
+									 ref->sheet);
+			BIFF_SET_GUINT16 (data, 0); /* FIXME ? */
+			BIFF_SET_GUINT32 (data +  2, 0x0);
+			BIFF_SET_GUINT32 (data +  6, 0x0);
+			BIFF_SET_GUINT16 (data + 10, extn_idx);
+			BIFF_SET_GUINT16 (data + 12, extn_idx);
+			write_cellref_v7 (pd, ref, data + 16,
+					  (guint16 *)(data + 14));
+			ms_biff_put_var_write (pd->bp, data, 17);
+		} else {
+			guint16 extn_idx = ms_excel_write_get_externsheet_idx (pd->sheet->wb,
+									       ref->sheet,
+									       NULL);
+			BIFF_SET_GUINT16 (data, extn_idx);
+			write_cellref_v8 (pd, ref, (guint16 *)(data + 2),
+					  (guint16 *)(data + 1));
+			ms_biff_put_var_write (pd->bp, data, 6);
+		}
+	}
 }
 
 /**
@@ -277,11 +411,28 @@ write_node (PolishData *pd, ExprTree *tree)
 			break;
 		case VALUE_CELLRANGE:
 		{ /* FIXME: Could be 3D ! */
-			guint8 data[6];
-			push_guint8 (pd, FORMULA_PTG_AREA);
-			write_cellref_v7 (pd, &v->v.cell_range.cell_a, &data[4], (guint16 *)&data[0]);
-			write_cellref_v7 (pd, &v->v.cell_range.cell_b, &data[5], (guint16 *)&data[2]);
-			ms_biff_put_var_write (pd->bp, data, 6);
+			write_area (pd, &v->v.cell_range.cell_a,
+				    &v->v.cell_range.cell_b);
+			break;
+		}
+                /* See S59E2B.HTM for some really duff docs */
+		case VALUE_ARRAY: /* Guestimation */
+		{
+			guint8 data[11];
+			
+			if (v->v.array.x > 256 ||
+			    v->v.array.y > 65536)
+				g_warning ("Array far too big");
+
+			BIFF_SET_GUINT8  (data + 0, FORMULA_PTG_ARRAY);
+			BIFF_SET_GUINT8  (data + 1, v->v.array.x - 1);
+			BIFF_SET_GUINT16 (data + 2, v->v.array.y - 1);
+			BIFF_SET_GUINT32 (data + 4, 0x0); /* ? */
+			BIFF_SET_GUINT16 (data + 8, 0x0); /* ? */
+			BIFF_SET_GUINT8  (data +10, 0x0); /* ? */
+			ms_biff_put_var_write (pd->bp, data, 11);
+
+			pd->arrays = g_list_append (pd->arrays, v);
 			break;
 		}
 		default:
@@ -302,13 +453,8 @@ write_node (PolishData *pd, ExprTree *tree)
 		push_guint8 (pd, FORMULA_PTG_U_MINUS);
 		break;
 	case OPER_VAR:
-	{
-		guint8 data[3];
-		push_guint8 (pd, FORMULA_PTG_REF);
-		write_cellref_v7 (pd, &tree->u.ref, &data[2], (guint16 *)&data[0]);
-		ms_biff_put_var_write (pd->bp, data, 3);
+		write_ref (pd, &tree->u.ref);
 		break;
-	}
 	case OPER_ARRAY:
 	default:
 	{
@@ -323,15 +469,51 @@ write_node (PolishData *pd, ExprTree *tree)
 	}
 }
 
-void
+/* Writes the array and moves to next one */
+/* See S59E2B.HTM for some really duff docs */
+static void
+write_arrays (PolishData *pd)
+{
+	Value   *array;
+	guint16  lpx, lpy;
+	guint8   data[8];
+
+	g_return_if_fail (pd);
+	g_return_if_fail (pd->arrays);
+
+	array = pd->arrays->data;
+	g_return_if_fail (array->type == VALUE_ARRAY);
+
+	for (lpy=0; lpy < array->v.array.y; lpy++) {
+		for (lpx=0; lpx < array->v.array.x; lpx++) {
+			const Value *v = array->v.array.vals[lpx][lpy];
+			
+			if (VALUE_IS_NUMBER (v)) {
+				push_guint8 (pd, 1);
+				BIFF_SETDOUBLE (data, value_get_as_float (v));
+				ms_biff_put_var_write (pd->bp, data, 8);
+			} else { /* Can only be a string */
+				push_guint8 (pd, 2);
+				biff_put_text (pd->bp, value_get_as_string (v),
+					       pd->ver, TRUE, AS_PER_VER);
+			}
+		}
+	}
+
+	pd->arrays = g_list_next (pd->arrays);
+}
+
+guint32
 ms_excel_write_formula (BIFF_PUT *bp, ExcelSheet *sheet, ExprTree *expr,
 			int fn_col, int fn_row)
 {
 	PolishData *pd;
+	ms_ole_pos_t start;
+	guint32 len;
 	
-	g_return_if_fail (bp);
-	g_return_if_fail (expr);
-	g_return_if_fail (sheet);
+	g_return_val_if_fail (bp, 0);
+	g_return_val_if_fail (expr, 0);
+	g_return_val_if_fail (sheet, 0);
 
 	pd = g_new (PolishData, 1);
 	pd->col    = fn_col;
@@ -341,5 +523,12 @@ ms_excel_write_formula (BIFF_PUT *bp, ExcelSheet *sheet, ExprTree *expr,
 	pd->arrays = NULL;
 	pd->ver    = sheet->wb->ver;
 
+	start = bp->length;
 	write_node (pd, expr);
+	len = bp->length - start;
+
+	while (pd->arrays)
+		write_arrays (pd);
+
+	return len;
 }

@@ -2895,11 +2895,12 @@ ms_excel_read_workbook (MS_OLE * file)
 #endif
 
 	cell_deep_thaw_redraws ();
-
-	if (wb)
-	{
-		workbook_recalc (wb->gnum_wb);
-		return wb->gnum_wb;
+	
+	if (wb) {
+		Workbook *ans = wb->gnum_wb;
+		ms_excel_workbook_destroy (wb);
+		workbook_recalc (ans);
+		return ans;
 	}
 	return 0;
 }

@@ -25,6 +25,7 @@
 #include "sheet-object.h"
 #include "style.h"
 #include "main.h"
+#include "utils.h"
 
 #include "ms-ole.h"
 #include "ms-biff.h"
@@ -32,7 +33,7 @@
 #include "ms-excel-write.h"
 #include "ms-formula-write.h"
 
-#define EXCEL_DEBUG 1
+#define EXCEL_DEBUG 0
 
 /**
  *  This function writes simple strings...
@@ -373,6 +374,29 @@ write_bits (BIFF_PUT *bp, eBiff_version ver)
 	data = ms_biff_put_len_next (bp, BIFF_BOOKBOOL, 2);
 	BIFF_SET_GUINT16 (data, 0x0);
 	ms_biff_put_commit (bp);
+}
+
+int
+ms_excel_write_get_sheet_idx (ExcelWorkbook *wb, Sheet *gnum_sheet)
+{
+	guint lp;
+	for (lp=0;lp<wb->sheets->len;lp++) {
+		ExcelSheet *sheet = g_ptr_array_index (wb->sheets, lp);
+		g_return_val_if_fail (sheet, 0);
+		if (sheet->gnum_sheet == gnum_sheet)
+			return lp;
+	}
+	g_warning ("No associated sheet for %p\n", gnum_sheet);
+	return 0;
+}
+
+int
+ms_excel_write_get_externsheet_idx (ExcelWorkbook *wb,
+				    Sheet *sheeta,
+				    Sheet *sheetb)
+{
+	g_warning ("Get Externsheet not implemented yet\n");
+	return 0;
 }
 
 /**
@@ -802,6 +826,15 @@ write_cell (BIFF_PUT *bp, ExcelSheet *sheet, Cell *cell)
 	col = cell->col->pos;
 	row = cell->row->pos;
 
+#if EXCEL_DEBUG > 2
+	{
+		EvalPosition tmp;
+		printf ("Cell at %s '%s' = '%s'\n", cell_name (col, row),
+			cell->parsed_node?expr_decode_tree (cell->parsed_node,
+							    eval_pos_init (&tmp, sheet->gnum_sheet, col, row)):"none",
+			cell->value?value_get_as_string (cell->value):"empty");
+	}
+#endif
 	if (cell->parsed_node) {
 		guint8 data[22];
 		guint8 lendat[2];
@@ -821,10 +854,8 @@ write_cell (BIFF_PUT *bp, ExcelSheet *sheet, Cell *cell)
 		BIFF_SET_GUINT32 (data + 16, 0x0);
 		BIFF_SET_GUINT16 (data + 20, 0x0);
 		ms_biff_put_var_write (bp, data, 22);
-		ms_excel_write_formula (bp, sheet, cell->parsed_node,
-					col, row);
-	       
-		len = bp->length - 22;
+		len = ms_excel_write_formula (bp, sheet, cell->parsed_node,
+					      col, row);
 		g_assert (len <= 0xffff);
 		ms_biff_put_var_seekto (bp, 20);
 		BIFF_SET_GUINT16 (lendat, len);
@@ -1070,13 +1101,14 @@ write_index (MS_OLE_STREAM *s, ExcelSheet *sheet, ms_ole_pos_t pos)
 	for (lp=0;lp<sheet->dbcells->len;lp++) {
 		ms_ole_pos_t pos = g_array_index (sheet->dbcells, ms_ole_pos_t, lp);
 		BIFF_SET_GUINT32 (data, pos - sheet->wb->streamPos);
+#if EXCEL_DEBUG > 1
 		printf ("writing index record 0x%4x - 0x%4x = 0x%4x\n",
 			pos, sheet->wb->streamPos, pos - sheet->wb->streamPos);
+#endif
 		s->write (s, data, 4);
 	}
 
 	s->lseek (s, oldpos, MS_OLE_SEEK_SET);
-
 }
 
 /* See: S59DDB.HTM */
@@ -1129,6 +1161,9 @@ write_sheet (BIFF_PUT *bp, ExcelSheet *sheet)
 	ms_ole_pos_t index_off;
 
 	sheet->streamPos = biff_bof_write (bp, sheet->wb->ver, eBiffTWorksheet);
+
+	if (sheet->maxy > 4096)
+		g_error ("Sheet seems impossibly big");
 	
 	if (sheet->wb->ver >= eBiffV8) {
 		guint8 *data = ms_biff_put_len_next (bp, BIFF_INDEX,
@@ -1169,11 +1204,12 @@ write_sheet (BIFF_PUT *bp, ExcelSheet *sheet)
 			Cell *cell = sheet_cell_get (sheet->gnum_sheet, x, y);
 			if (!cell)
 				run_size++;
-			else if (run_size) {
-				write_mulblank (bp, sheet, x, y, run_size);
+			else {
+				if (run_size)
+					write_mulblank (bp, sheet, x, y, run_size);
 				run_size = 0;
-			} else
 				write_cell (bp, sheet, cell);
+			}
 		}
 		if (run_size)
 			write_mulblank (bp, sheet, x, y, run_size);

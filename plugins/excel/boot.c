@@ -11,6 +11,7 @@
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "file.h"
+#include "main.h"
 
 #include "excel.h"
 #include "boot.h"

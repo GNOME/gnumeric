@@ -1,3 +1,37 @@
+1999-07-02  Michael Meeks  <michael@edenproject.org>
+
+	* boot.c: Added 'main.h' to include debug symbol.
+
+1999-07-02  Michael Meeks  <michael@edenproject.org>
+
+	* ms-excel-read.c (ms_excel_read_workbook): Actually
+	insert the workbook_destroy at the end ( Huge leak ).
+
+1999-07-01  Michael Meeks  <michael@edenproject.org>
+
+	* ms-excel-write.c (ms_excel_write_get_externsheet_idx):
+	Stubbed.
+	(write_cell): More, verbose debug.
+	(write_index): shut it up.
+	(write_sheet): Fix a rather serious logic error that was
+	loosing us cells.
+	(write_sheet): Added error message for huge sheets... needs
+	more cunning indexing code.
+
+	* ms-formula-write.c (write_cellref_v[78]): Fixed
+	order of relative col/row bits. Implemented latter.
+	(write_ref): Implemented BiffV8 support.
+	(write_string): Added MISSARG support.
+	(write_area): Implemented BiffV8 support, and 
+	3D area support.
+
+	* ms-formula-write.c (write_node): Split out
+	(write_ref): attempted to implement inter-sheet
+	references.
+	
+	* ms-excel-write.c (ms_excel_write_get_sheet_idx):
+	Created.
+
 1999-07-01  Morten Welinder  <terra@diku.dk>
 
 	* boot.c: Clean out an incredible accumulation of #includes.
