@@ -66,6 +66,7 @@ expr_tree_new_funcall (FunctionDefinition *func, GList *args)
 
 	ans->ref_count = 1;
 	*((Operation *)&(ans->oper)) = OPER_FUNCALL;
+	func_ref (func);
 	ans->func = func;;
 	ans->arg_list = args;
 
