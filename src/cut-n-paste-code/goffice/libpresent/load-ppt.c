@@ -101,7 +101,7 @@ static const GOMSParserRecordType types[] =
 	{	TxSIStyleAtom,			"TxSIStyleAtom",		FALSE,	FALSE,	-1,	-1	},
 	{	TextSpecInfoAtom,		"TextSpecInfoAtom",		FALSE,	FALSE,	-1,	-1	},
 	{	DefaultRulerAtom,		"DefaultRulerAtom",		FALSE,	FALSE,	-1,	-1	},
-	{	FontEntityAtom,			"FontEntityAtom",		FALSE,	FALSE,	-1,	-1	},
+	{	FontEntityAtom,			"FontEntityAtom",		FALSE,	TRUE,	-1,	-1	},
 	{	FontEmbeddedData,		"FontEmbeddedData",		FALSE,	FALSE,	-1,	-1	},
 	{	CString,			"CString",			FALSE,	FALSE,	-1,	-1	},
 	{	MetaFile,			"MetaFile",			FALSE,	FALSE,	-1,	-1	},
@@ -172,6 +172,7 @@ typedef struct {
 typedef struct {
 	PresentPresentation *presentation;
 	int slides_read;
+	GPtrArray *fonts;
 } ParseUserData;
 
 static void
@@ -235,6 +236,13 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 {
 	ParseUserData *parse_user_data = user_data;
 	switch (record->opcode) {
+	case FontEntityAtom:
+		if (record->inst >= parse_user_data->fonts->len)
+			g_ptr_array_set_size (parse_user_data->fonts, record->inst + 1);
+		if (g_ptr_array_index (parse_user_data->fonts, record->inst))
+			g_free (g_ptr_array_index (parse_user_data->fonts, record->inst));
+		g_ptr_array_index (parse_user_data->fonts, record->inst) = g_utf16_to_utf8 ((gunichar2 *) data, record->length / 2, NULL, NULL, NULL);
+		break;
 	case TxMasterStyleAtom:
 		{
 			int indentation_levels;
@@ -332,8 +340,15 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 				i += 4;
 				if (fields & 0x0000ffff)
 					i += 2; /* Bit Field */
-				if (fields & 0x00010000)
-					i += 2; /* Font */
+				if (fields & 0x00010000) {
+					guint font_index = GSF_LE_GET_GUINT16 (data + i);
+					if (font_index < parse_user_data->fonts->len &&
+					    g_ptr_array_index (parse_user_data->fonts, font_index)) {
+						pango_attributes = g_list_prepend (pango_attributes,
+										   pango_attr_family_new (g_ptr_array_index (parse_user_data->fonts, font_index)));
+					}
+					i += 2;
+				}
 				if (fields & 0x00200000)
 					i += 2; /* Asian or Complex Font */
 				if (fields & 0x00400000)
@@ -416,7 +431,6 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 			parse_state = stack ? STACK_TOP->parse_state : NULL;
 			if (parse_state) {
 				slide_list_with_text_parse_state_finish_text (parse_user_data->presentation, parse_state);
-				g_print ("Text type: %d\n", GSF_LE_GET_GUINT32(data));
 				parse_state->current_text = PRESENT_TEXT (present_text_new (record->inst, GSF_LE_GET_GUINT32(data)));
 				g_object_set (parse_state->current_text,
 					      "presentation", parse_user_data->presentation,
@@ -584,7 +598,12 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 						sublen += 2;
 					}
 					if (fields & TEXT_FIELD_PROPERTY_EXISTS_FONT) {
-						/* printf ("Font: %s\n", font [GSF_LE_GET_GUINT16 (data + i + sublen)]);*/
+						guint font_index = GSF_LE_GET_GUINT16 (data + i + sublen);
+						if (font_index < parse_user_data->fonts->len &&
+						    g_ptr_array_index (parse_user_data->fonts, font_index)) {
+							attrs = g_list_append (attrs, pango_attr_family_new
+									       (g_ptr_array_index (parse_user_data->fonts, font_index)));
+						}
 						sublen += 2;
 					}
 					if (fields & TEXT_FIELD_PROPERTY_EXISTS_FONT_SIZE) {
@@ -732,6 +751,7 @@ parse_stream (GsfInput *input, guint length)
 
 	user_data.presentation = present_presentation_new ();
 	user_data.slides_read = 0;
+	user_data.fonts = g_ptr_array_new();
 
 	go_ms_parser_read (input,
 			   length,
@@ -740,6 +760,9 @@ parse_stream (GsfInput *input, guint length)
 			   &callbacks,
 			   &user_data,
 			   NULL);
+
+	g_ptr_array_foreach (user_data.fonts, (GFunc) g_free, NULL);
+	g_ptr_array_free (user_data.fonts, TRUE);
 
 	return user_data.presentation;
 }

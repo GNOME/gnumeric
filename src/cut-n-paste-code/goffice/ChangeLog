@@ -1,3 +1,10 @@
+2004-07-13  Christopher James Lahey  <clahey@ximian.com>
+
+	* libpresent/load-ppt.c (handle_atom): Parse fonts.
+
+	* test/dump-ppt-records.c (handle_atom): Print a bunch of info
+	about default attributes.
+
 2004-07-12  Jody Goldberg <jody@gnome.org>
 
 	* graph/plugins/plot_pie/gog-pie.c (gog_pie_view_info_at_point) :

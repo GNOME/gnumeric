@@ -460,14 +460,21 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 
 				if (fields & 0x000f)
 					i += 2; /* Bullet Flags */
-				if (fields & 0x0080)
+				if (fields & 0x0080) {
+					printf ("Bullet Char: %d\n", (int) GSF_LE_GET_GUINT16 (data + i));
 					i += 2; /* Bullet Char */
-				if (fields & 0x0010)
+				}
+				if (fields & 0x0010) {
+					printf ("Bullet Font: %d=%s\n", (int) GSF_LE_GET_GUINT16 (data + i), font [GSF_LE_GET_GUINT16 (data + i)]);
 					i += 2; /* Bullet Font */
-				if (fields & 0x0040)
+				}
+				if (fields & 0x0040) {
+					printf ("Bullet Height: %d\n", (int) GSF_LE_GET_GUINT16 (data + i));
 					i += 2; /* Bullet Height */
-				if (fields & 0x0020)
+				}
+				if (fields & 0x0020) {
 					i += 4; /* Bullet Color */
+				}
 				if (first) {
 					if (fields & 0x0f00)
 						i += 2; /* Justification last 2 bits */
@@ -482,10 +489,14 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 				if (fields & 0x4000)
 					i += 2; /* lower dist */
 				if (first) {
-					if (fields & 0x8000)
+					if (fields & 0x8000) {
+						printf ("Text Offset: %d\n", (int) GSF_LE_GET_GUINT16 (data + i));
 						i += 2; /* Text offset */
-					if (fields & 0x00010000)
+					}
+					if (fields & 0x00010000) {
+						printf ("Bullet Offset: %d\n", (int) GSF_LE_GET_GUINT16 (data + i));
 						i += 2; /* Bullet offset */
+					}
 					if (fields & 0x00020000) 
 						i += 2; /* Default tab */
 					if (fields & 0x00200000) {
@@ -501,12 +512,16 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 				} else {
 					if (fields & 0x8000)
 						i += 2; /* Unknown */
-					if (fields & 0x0100)
+					if (fields & 0x0100) {
+						printf ("Text Offset: %d\n", (int) GSF_LE_GET_GUINT16 (data + i));
 						i += 2; /* Text offset */
+					}
 					if (fields & 0x0200)
 						i += 2; /* Unknown */
-					if (fields & 0x0400)
+					if (fields & 0x0400) {
+						printf ("Bullet Offset: %d\n", (int) GSF_LE_GET_GUINT16 (data + i));
 						i += 2; /* Bullet offset */
+					}
 					if (fields & 0x00010000)
 						i += 2; /* Unknown */
 					if (fields & 0x000e0000)
@@ -526,8 +541,10 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 				i += 4;
 				if (fields & 0x0000ffff)
 					i += 2; /* Bit Field */
-				if (fields & 0x00010000)
+				if (fields & 0x00010000) {
+					printf ("Font: %d=%s\n", (int) GSF_LE_GET_GUINT16 (data + i), font [GSF_LE_GET_GUINT16 (data + i)]);
 					i += 2; /* Font */
+				}
 				if (fields & 0x00200000)
 					i += 2; /* Asian or Complex Font */
 				if (fields & 0x00400000)
@@ -647,7 +664,7 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 					sublen += 2;
 				}
 				if (fields & TEXT_FIELD_PROPERTY_EXISTS_FONT) {
-					printf ("Font: %s\n", font [GSF_LE_GET_GUINT16 (data + i + sublen)]);
+					printf ("Font: %d=%s\n", (int) GSF_LE_GET_GUINT16 (data + i + sublen), font [GSF_LE_GET_GUINT16 (data + i + sublen)]);
 					sublen += 2;
 				}
 				if (fields & TEXT_FIELD_PROPERTY_EXISTS_FONT_SIZE) {
@@ -674,6 +691,7 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 			}
 		case FontEntityAtom:
 			font[record->inst] = g_utf16_to_utf8 ((gunichar2 *) data, record->length / 2, NULL, NULL, NULL);
+			printf ("Font %d = %s\n", record->inst, font[record->inst]);
 			break;
 		default:
 			if (record->length > 0) {
