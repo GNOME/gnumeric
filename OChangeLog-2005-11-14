@@ -1,3 +1,7 @@
+2002-04-01  Morten Welinder  <terra@diku.dk>
+
+	* src/mathfunc.c (gnumeric_fake_trunc): Fix for negative valus.
+
 2002-03-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/commands.c : use workbook signals

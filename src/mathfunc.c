@@ -75,55 +75,55 @@ static void pnorm_both(gnum_float x, gnum_float *cum, gnum_float *ccum, int i_ta
 gnum_float
 gnumeric_add_epsilon (gnum_float x)
 {
-  if (!finitegnum (x) || x == 0)
-    return x;
-  else {
-    int exp;
-    gnum_float mant = frexpgnum (gnumabs (x), &exp);
-    gnum_float absres = ldexpgnum (mant + GNUM_EPSILON, exp);
-    return (x < 0) ? -absres : absres;
-  }
+	if (!finitegnum (x) || x == 0)
+		return x;
+	else {
+		int exp;
+		gnum_float mant = frexpgnum (gnumabs (x), &exp);
+		gnum_float absres = ldexpgnum (mant + GNUM_EPSILON, exp);
+		return (x < 0) ? -absres : absres;
+	}
 }
 
 gnum_float
 gnumeric_sub_epsilon (gnum_float x)
 {
-  if (!finitegnum (x) || x == 0)
-    return x;
-  else {
-    int exp;
-    gnum_float mant = frexpgnum (gnumabs (x), &exp);
-    gnum_float absres = ldexpgnum (mant - GNUM_EPSILON, exp);
-    return (x < 0) ? -absres : absres;
-  }
+	if (!finitegnum (x) || x == 0)
+		return x;
+	else {
+		int exp;
+		gnum_float mant = frexpgnum (gnumabs (x), &exp);
+		gnum_float absres = ldexpgnum (mant - GNUM_EPSILON, exp);
+		return (x < 0) ? -absres : absres;
+	}
 }
 
 gnum_float
 gnumeric_fake_floor (gnum_float x)
 {
-  return floorgnum (gnumeric_add_epsilon (x));
+	return floorgnum (gnumeric_add_epsilon (x));
 }
 
 gnum_float
 gnumeric_fake_ceil (gnum_float x)
 {
-  return ceilgnum (gnumeric_sub_epsilon (x));
+	return ceilgnum (gnumeric_sub_epsilon (x));
 }
 
 gnum_float
 gnumeric_fake_round (gnum_float x)
 {
-  return (x >= 0)
-    ? gnumeric_fake_floor (x + 0.5)
-    : -gnumeric_fake_floor (-x + 0.5);
+	return (x >= 0)
+		? gnumeric_fake_floor (x + 0.5)
+		: -gnumeric_fake_floor (-x + 0.5);
 }
 
 gnum_float
 gnumeric_fake_trunc (gnum_float x)
 {
-  return (x >= 0)
-    ? gnumeric_fake_floor (x)
-    : gnumeric_fake_ceil (x);
+	return (x >= 0)
+		? gnumeric_fake_floor (x)
+		: -gnumeric_fake_floor (-x);
 }
 
 /* When R 1.5 comes out, their pweibull should be ok.  */
