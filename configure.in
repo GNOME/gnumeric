@@ -816,7 +816,7 @@ AC_SUBST(gnumeric_with_gnome)
 dnl ==============================================
 dnl GNOME Specific extensions
 with_corba=false
-if test "x${gnumeric_with_gnome}" = "xyes"; then
+if test "x${gnumeric_with_gnome}" = "xtrue"; then
 
 dnl ==============================================
 dnl Special GConf section  (stolen from libgnome)

@@ -1,3 +1,7 @@
+2004-09-05  Jon K Hellan  <hellan@acm.org>
+
+	* configure.in (GConf): Fix typo.
+
 2004-09-04  Jon K Hellan  <hellan@acm.org>
 
 	* src/wbc-gtk.c (wbc_gtk_init_undo_redo): Update action group of
