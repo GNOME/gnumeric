@@ -14,6 +14,7 @@
 #include "gnumeric.h"
 #include "utils.h"
 #include "func.h"
+#include "mathfunc.h"
 
 #if 0
 /* help template */
@@ -383,10 +384,10 @@ gnumeric_besseli (FunctionEvalInfo *ei, Value **argv)
 	x = value_get_as_float (argv[0]);	/* value to evaluate I_n at. */
 	order = value_get_as_float (argv[1]);	/* the order */
 
-	if (order<0)
+	if (order < 0)
 		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
-	result = bessel_i(x, order, 1.0);
+	result = bessel_i (x, order, 1.0);
 	return value_new_float (result);
 }
 
@@ -419,10 +420,10 @@ gnumeric_besselk (FunctionEvalInfo *ei, Value **argv)
 	x = value_get_as_float (argv[0]);	/* value to evaluate K_n at. */
 	order = value_get_as_float (argv[1]);	/* the order */
 
-	if (order<0)
+	if (order < 0)
 		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
-	result = bessel_k(x, order, 1.0);
+	result = bessel_k (x, order, 1.0);
 	return value_new_float (result);
 }
 

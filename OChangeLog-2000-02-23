@@ -3,6 +3,7 @@
 	* src/fn-eng.c (gnumeric_besseli): Implemented.
 	(gnumeric_besselk): Implemented.
 	(eng_functions_init): Add relevant inits.
+	Include mathfunc.h
 
 1999-07-30  Morten Welinder  <terra@diku.dk>
 
