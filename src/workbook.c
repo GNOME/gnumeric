@@ -100,13 +100,12 @@ workbook_history_update (GList *wl, gchar *filename)
 }
 
 static void
-cb_saver_destroy_event (GtkObject *obj, gpointer *data)
+cb_saver_finalize (GnumFileSaver *saver, Workbook *wb)
 {
-	g_return_if_fail (IS_GNUM_FILE_SAVER (obj));
-	g_return_if_fail (IS_WORKBOOK (data));
-
-	WORKBOOK (data)->file_saver = NULL;
-	WORKBOOK (data)->file_saver_sig_id = 0;
+	g_return_if_fail (IS_GNUM_FILE_SAVER (saver));
+	g_return_if_fail (IS_WORKBOOK (wb));
+	g_return_if_fail (wb->file_saver == saver);
+	wb->file_saver = NULL;
 }
 
 static void
@@ -117,9 +116,10 @@ workbook_finalize (GObject *wb_object)
 
 	wb->priv->during_destruction = TRUE;
 
-	if (wb->file_saver_sig_id != 0) {
-		gtk_signal_disconnect (GTK_OBJECT (wb->file_saver), wb->file_saver_sig_id);
-		wb->file_saver_sig_id = 0;
+	if (wb->file_saver != NULL) {
+		g_object_weak_unref (G_OBJECT (wb->file_saver),
+				     (GWeakNotify) cb_saver_finalize, wb);
+		wb->file_saver = NULL;
 	}
 
 	/* Remove all the sheet controls to avoid displaying while we exit */
@@ -422,7 +422,6 @@ workbook_new (void)
 	} while (!is_unique);
 	wb->file_format_level = FILE_FL_NEW;
 	wb->file_saver        = NULL;
-	wb->file_saver_sig_id = 0;
 
 	wb->priv->during_destruction = FALSE;
 
@@ -540,22 +539,21 @@ workbook_set_saveinfo (Workbook *wb, const gchar *file_name,
 	g_return_val_if_fail (wb != NULL, FALSE);
 	g_return_val_if_fail (file_name != NULL, FALSE);
 	g_return_val_if_fail (level > FILE_FL_NONE && level <= FILE_FL_AUTO,
-	                      FALSE);
+			      FALSE);
 
 	if (level < wb->file_format_level ||
-	    !workbook_set_filename (wb, file_name)) {
+	    !workbook_set_filename (wb, file_name))
 		return FALSE;
-	}
 
 	wb->file_format_level = level;
-	if (wb->file_saver_sig_id != 0)
-		gtk_signal_disconnect (GTK_OBJECT (wb->file_saver), wb->file_saver_sig_id);
+	if (wb->file_saver != NULL)
+		g_object_weak_unref (G_OBJECT (wb->file_saver),
+				     (GWeakNotify) cb_saver_finalize, wb);
 
 	wb->file_saver = fs;
-	wb->file_saver_sig_id = (wb->file_saver == NULL) ? 0
-		: g_signal_connect (G_OBJECT (wb->file_saver),
-			"destroy",
-			G_CALLBACK (cb_saver_destroy_event), wb);
+	if (fs != NULL)
+		g_object_weak_ref (G_OBJECT (fs),
+				   (GWeakNotify) cb_saver_finalize, wb);
 
 	return TRUE;
 }

@@ -721,9 +721,8 @@ clist_moveto (GtkCList *clist, gint row)
 static void
 cb_clist_moveto (GtkWidget *clist, gpointer row)
 {
-	gtk_signal_disconnect_by_func (GTK_OBJECT (clist),
-				       GTK_SIGNAL_FUNC (cb_clist_moveto),
-				       row);
+	g_signal_handlers_disconnect_by_func (G_OBJECT (clist),
+		G_CALLBACK (cb_clist_moveto), row);
 
 	clist_moveto (GTK_CLIST (clist), GPOINTER_TO_INT (row));
 }

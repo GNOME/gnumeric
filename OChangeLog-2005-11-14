@@ -1,5 +1,12 @@
 2002-02-15  Jody Goldberg <jody@gnome.org>
 
+	* src/widgets/gnumeric-combo-text.c (gnm_combo_text_destroy) : more
+	  g_signal-ification.
+
+	* src/workbook.c (workbook_set_saveinfo) : use a weak_ref.
+
+2002-02-15  Jody Goldberg <jody@gnome.org>
+
 	* src/item-cursor.c (item_cursor_tip_setlabel) : enable now that the
 	  canvas bug is fixed.
 

@@ -317,9 +317,9 @@ static void
 gee_detach_scg (GnumericExprEntry *gee)
 {
 	if (gee->scg != NULL) {
-		  g_object_weak_unref (G_OBJECT (gee->scg),
-			(GWeakNotify) cb_scg_destroy, gee);
-		  gee->scg = NULL;
+		g_object_weak_unref (G_OBJECT (gee->scg),
+				     (GWeakNotify) cb_scg_destroy, gee);
+		gee->scg = NULL;
 	}
 }
 

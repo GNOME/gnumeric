@@ -29,7 +29,6 @@ struct _Workbook {
 	gchar          *filename;
 	FileFormatLevel file_format_level;
 	GnumFileSaver  *file_saver;
-	gint            file_saver_sig_id;
 
 	/* Undo support */
 	GSList	   *undo_commands;

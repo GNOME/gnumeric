@@ -251,7 +251,7 @@ gnm_combo_text_destroy (GtkObject *object)
 
 	gtk_signal_disconnect_by_func (GTK_OBJECT (ct),
 		G_CALLBACK (cb_pop_down), NULL);
-	gtk_signal_disconnect_by_func (GTK_OBJECT (ct->list),
+	g_signal_handlers_disconnect_by_func (GTK_OBJECT (ct->list),
 		G_CALLBACK (cb_list_unselect), ct);
 
 	parent = g_type_class_peek (gtk_combo_box_get_type ());
