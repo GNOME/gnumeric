@@ -792,15 +792,21 @@ static char const *help_days360 = {
 	   "DAYS360 returns the number of days from @date1 to @date2 following "
 	   "a 360-day calendar in which all months are assumed to have 30 days."
 	   "\n\n"
-	   "* If @method is true, the European method will be used.  In this "
+	   "* If @method is 1, the European method will be used.  In this "
 	   "case, if the day of the month is 31 it will be considered as 30."
 	   "\n"
-	   "* If @method is false or omitted, the US method will be used.  "
-	   "This is a somewhat complicated industry standard method.\n"
+	   "* If @method is 0 or omitted, the XL US method will be used.  "
+	   "This is a somewhat complicated industry standard method "
+	   "where the last day of February is considered to be the 30th day "
+	   "of the month, but only for the first date."
+	   "\n"
+	   "* If @method is 2, a saner version of the US method is "
+	   "used in which both dates get the same February treatment."
+	   "\n"
 	   "* Note that Gnumeric will perform regular string to serial "
 	   "number conversion for you, so you can enter a date as a "
 	   "string.\n"
-	   "* This function is Excel compatible.\n"
+	   "* This function is mostly Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "DAYS360(DATE(2003, 2, 3), DATE(2007, 4, 2)) equals 1499.\n"
@@ -811,25 +817,19 @@ static char const *help_days360 = {
 static Value *
 gnumeric_days360 (FunctionEvalInfo *ei, Value **argv)
 {
-	enum { METHOD_US, METHOD_EUROPE } method;
+	enum Method { METHOD_US_XL = 0, METHOD_EUROPE = 1, METHOD_US_SANE = 2 } method;
 	GDate *date1, *date2;
 	int day1, day2, month1, month2, year1, year2, result;
 	gboolean flipped;
-	gnum_float serial1, serial2;
 
-	if (argv[2]) {
-		gboolean err;
-		method = value_get_as_bool (argv[2], &err)
-			? METHOD_EUROPE
-			: METHOD_US;
-		if (err)
-			return value_new_error (ei->pos,
-						_("Unsupported method"));
-	} else
-		method = METHOD_US;
+	gnum_float serial1 = datetime_value_to_serial (argv[0]);
+	gnum_float serial2 = datetime_value_to_serial (argv[1]);
+	int imethod = argv[2] ? value_get_as_int (argv[2]) : 0;
 
-	serial1 = datetime_value_to_serial (argv[0]);
-	serial2 = datetime_value_to_serial (argv[1]);
+	method = (imethod >= 0 && imethod <= METHOD_US_SANE)
+		? (enum Method)imethod
+		: METHOD_EUROPE;
+
 	if ((flipped = (serial1 > serial2))) {
 		gnum_float tmp = serial1;
 		serial1 = serial2;
@@ -846,13 +846,17 @@ gnumeric_days360 (FunctionEvalInfo *ei, Value **argv)
 	year2  = g_date_get_year (date2);
 
 	switch (method) {
-	case METHOD_US:
+	case METHOD_US_SANE:
+		if (month1 == 2 && month2 == 2 &&
+		    g_date_is_last_of_month (date1) &&
+		    g_date_is_last_of_month (date2))
+			day2 = 30;
+		/* Fall through.  */
+
+	case METHOD_US_XL:
 		if (month1 == 2 && g_date_is_last_of_month (date1)) {
 			day1 = 30;
 
-			/* No matter how sane this looks, XL does not do it.  */
-			if (0 && month2 == 2 && g_date_is_last_of_month (date2))
-				day2 = 30;
 		}
 
 		if (day2 == 31 && day1 >= 30)

@@ -1,5 +1,9 @@
 2002-11-25  Morten Welinder  <terra@diku.dk>
 
+	* functions.c (gnumeric_days360): Add a sane method also.
+
+2002-11-25  Morten Welinder  <terra@diku.dk>
+
 	* functions.c (gnumeric_days360): Don't be sane, be compatible.
 
 2002-11-15  Jody Goldberg <jody@gnome.org>
