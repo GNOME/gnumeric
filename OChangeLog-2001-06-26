@@ -1,3 +1,8 @@
+2000-07-04  Morten Welinder  <terra@diku.dk>
+
+	* src/clipboard.c (x_selection_received): Update current sheet,
+ 	not a NULL sheet.
+
 2000-07-04  Almer. S. Tigelaar.  <almer1@dds.nl>
 
 	* autogen.sh:

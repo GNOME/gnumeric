@@ -487,7 +487,6 @@ static void
 x_selection_received (GtkWidget *widget, GtkSelectionData *sel, guint time, gpointer data)
 {
 	Workbook       *wb = data;
-	Sheet	       *sheet = NULL;
 	CommandContext *context = workbook_command_context_gui (wb);
 	GdkAtom atom_targets  = gdk_atom_intern (TARGETS_ATOM_NAME, FALSE);
 	GdkAtom atom_gnumeric = gdk_atom_intern (GNUMERIC_ATOM_NAME, FALSE);
@@ -589,7 +588,7 @@ x_selection_received (GtkWidget *widget, GtkSelectionData *sel, guint time, gpoi
 	 */
 	if (region_pastable) {
 		workbook_recalc (wb);
-		sheet_update (sheet);
+		sheet_update (wb->current_sheet);
 	}
 }
 
