@@ -164,8 +164,10 @@ format_page_sublist_select_row (GtkCList *clist, int row, int column, GdkEventBu
 	
 	gtk_clist_get_text (clist, row, column, t);
 
+	info->format_run_sublist_select = FALSE;
 	if (strcmp (t[0], _("Custom")) != 0)  
 		gtk_entry_set_text (info->format_format, t[0]);
+	info->format_run_sublist_select = TRUE;
 }
 
 /**
@@ -207,20 +209,21 @@ format_page_format_changed (GtkEntry *entry, DruidPageData_t *data)
 					    1,
 					    gtk_clist_optimal_column_width (info->format_collist, 1));
 
-		found = 0;
-		for (i = 0; i < info->format_sublist->rows; i++) {
-			gtk_clist_get_text (info->format_sublist, i, 0, t);
-			if (strcmp (t[0], format) == 0) {
-				found = i;
-				break;
+
+		if (info->format_run_sublist_select) {
+			found = 0;
+			for (i = 0; i < info->format_sublist->rows; i++) {
+				gtk_clist_get_text (info->format_sublist, i, 0, t);
+				if (strcmp (t[0], format)==0) {
+					found = i;
+					break;
+				}
 			}
+
+			info->format_run_manual_change = TRUE;
+			gtk_clist_select_row (info->format_sublist, found, 0);
+			gnumeric_clist_moveto (info->format_sublist, found);
 		}
-
-		info->format_run_manual_change = TRUE;
-		gtk_clist_select_row (info->format_sublist, found, 0);
-		gnumeric_clist_moveto (info->format_sublist, found);
-
-		g_free (format);
 	}
 
 	format_page_update_preview (data);
@@ -250,7 +253,7 @@ stf_dialog_format_page_prepare (GnomeDruidPage *page, GnomeDruid *druid, DruidPa
 	data->colcount = stf_parse_get_colcount (info->format_run_parseoptions, data->cur);
 
 	listcount = g_slist_length (info->format_run_list);
-
+	
 	/* If necessary add new items (non-visual) */
 	while (listcount <= data->colcount) {
 		info->format_run_list = g_slist_append (info->format_run_list,
@@ -359,6 +362,7 @@ stf_dialog_format_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	info->format_run_list          = NULL;
 	info->format_run_index         = -1;
 	info->format_run_manual_change = FALSE;
+	info->format_run_sublist_select = TRUE;
 	info->format_run_displayrows   = stf_preview_get_displayed_rowcount (info->format_run_renderdata);
 	info->format_run_cacheoptions  = stf_cache_options_new ();
 	info->format_run_parseoptions  = NULL; /*  stf_parse_options_new (); */

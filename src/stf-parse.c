@@ -47,6 +47,12 @@ typedef struct {
 	int linepos;           /* Position on the current line */
 } Source_t;
 
+/* Struct used for autodiscovery */
+typedef struct {
+	int start;
+	int stop;
+} AutoDiscovery_t;
+
 /*******************************************************************************************************
  * STF PARSE OPTIONS : StfParseOptions related
  *******************************************************************************************************/
@@ -1408,6 +1414,176 @@ stf_parse_is_valid_data (const char *data)
 	}
 
 	return valid;
+}
+
+/**
+ * stf_parse_options_fixed_autodiscover:
+ * @parseoptions: a Parse options struct.
+ * @data_lines : The number of lines to look at in @data.
+ * @data : The actual data.
+ * 
+ * Automatically try to discover columns in the text to be parsed.
+ * We ignore empty lines (only containing parseoptions->terminator)
+ * 
+ **/
+void
+stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int data_lines, char *data)
+{
+	char *iterator = data;
+	GSList *list = NULL;
+	GSList *list_start = NULL;
+	int lines = 0;
+	int effective_lines = 0;
+	int max_line_length = 0;
+	int *line_begin_hits = NULL;
+	int *line_end_hits = NULL;
+	int i;
+
+	stf_parse_options_fixed_splitpositions_clear (parseoptions);
+
+	/*
+	 * First take a look at all possible white space combinations
+	 */
+	while (*iterator) {
+		gboolean begin_recorded = FALSE;
+		AutoDiscovery_t *disc = NULL;
+		int position = 0;
+
+		while (*iterator && *iterator != parseoptions->terminator) {
+			
+			if (!begin_recorded && *iterator == ' ') {
+
+				disc = g_new0 (AutoDiscovery_t, 1);
+
+				disc->start = position;
+
+				begin_recorded = TRUE;
+			} else if (begin_recorded && *iterator != ' ') {
+			
+				disc->stop = position;
+				list = g_slist_prepend (list, disc);
+
+				begin_recorded = FALSE;
+				disc = NULL;
+			}
+
+			position++;
+			iterator++;
+		}
+
+		if (position > max_line_length)
+			max_line_length = position;
+
+		/*
+		 * If there are excess spaces at the end of
+		 * the line : ignore them
+		 */
+		if (disc)
+			g_free (disc);
+
+		/*
+		 * Hop over the terminator
+		 */
+		if (*iterator)
+			iterator++;
+
+		if (position != 0)
+			effective_lines++;
+			
+		lines++;
+
+		if (lines >= data_lines)
+			break;
+	}
+
+	list       = g_slist_reverse (list);
+	list_start = list;
+
+	/*
+	 * Kewl stuff :
+	 * Look at the number of hits at each line position
+	 * if the number of hits equals the number of lines
+	 * we can be pretty sure this is the start or end
+	 * of a column, we filter out empty columns
+	 * later
+	 */
+	line_begin_hits = g_new0 (int, max_line_length + 1);
+	line_end_hits   = g_new0 (int, max_line_length + 1);
+	
+	while (list) {
+		AutoDiscovery_t *disc = list->data;
+
+		line_begin_hits[disc->start]++;
+		line_end_hits[disc->stop]++;
+
+		g_free (disc);
+		
+		list = g_slist_next (list);
+	}
+	g_slist_free (list_start);
+
+	for (i = 0; i < max_line_length + 1; i++) {
+
+		if (line_begin_hits[i] == effective_lines || line_end_hits[i] == effective_lines) {
+
+			stf_parse_options_fixed_splitpositions_add (parseoptions, i);
+		}
+
+	}
+
+	/*
+	 * Remove empty columns here if needed
+	 */
+	if (parseoptions->splitpositions->len > 0) {
+	
+		for (i = 0; i < parseoptions->splitpositions->len - 1; i++) {
+			int begin = g_array_index (parseoptions->splitpositions, int, i);
+			int end = g_array_index (parseoptions->splitpositions, int, i + 1);
+			gboolean only_spaces = TRUE;
+
+			iterator = data;
+			lines = 0;
+			while (*iterator) {
+				gboolean trigger = FALSE;
+				int pos = 0;
+			
+				while (*iterator && *iterator != parseoptions->terminator) {
+
+					if (pos == begin)
+						trigger = TRUE;
+					else if (pos == end)
+						trigger = FALSE;
+
+					if (trigger) {
+				
+						if (*iterator != ' ')
+							only_spaces = FALSE;
+					}
+
+					iterator++;
+					pos++;
+				}
+
+				if (*iterator)
+					iterator++;
+
+				lines++;
+			
+				if (lines >= data_lines)
+					break;
+			}
+
+			/*
+			 * The column only contains spaces
+			 * remove it
+			 */
+			if (only_spaces)
+				g_array_remove_index (parseoptions->splitpositions, i);
+		}
+	}
+	
+	g_free (line_begin_hits);
+	g_free (line_end_hits);
 }
 
 /*******************************************************************************************************

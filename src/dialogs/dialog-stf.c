@@ -17,7 +17,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- * Almer. S. Tigelaar <almer1@dds.nl>
  */
 
 #include <config.h>
@@ -214,8 +213,15 @@ stf_dialog_druid_page_next (GnomeDruidPage *page, GnomeDruid *druid, DruidPageDa
         case DPG_FIXED  : {
 		newpos = DPG_FORMAT;
 
-		if (data->format_info->format_run_parseoptions != data->fixed_info->fixed_run_parseoptions)
+		/*
+		 * Set trim type here, we never want trimming on
+		 * the fixed width page of the druid because of
+		 * columns getting mangled
+		 */
+		stf_parse_options_set_trim_spaces (data->fixed_info->fixed_run_parseoptions, data->trim);
+		if (data->format_info->format_run_parseoptions != data->fixed_info->fixed_run_parseoptions) {
 			stf_cache_options_set_data  (data->format_info->format_run_cacheoptions, data->fixed_info->fixed_run_parseoptions, data->cur);
+		}
 		else
 			stf_cache_options_invalidate (data->format_info->format_run_cacheoptions);
 			

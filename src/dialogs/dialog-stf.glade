@@ -984,7 +984,7 @@ On right side only
 	    <class>GtkLabel</class>
 	    <name>label16</name>
 	    <width>505</width>
-	    <label>Customize the columns using the add/remove buttons or the mouse : left click to create a new column, right click on a colum border to delete an existing column and hold the left mouse button on a column border and drag to resize a column.</label>
+	    <label>Customize the columns using the add/remove buttons or the mouse : left click to create a new column, right click on a colum border to delete an existing column and hold the left mouse button on a column border and drag to resize a column. Auto column discovery will try to recognize columns in the text automatically.</label>
 	    <justify>GTK_JUSTIFY_LEFT</justify>
 	    <wrap>True</wrap>
 	    <xalign>7.45058e-09</xalign>
@@ -1211,6 +1211,38 @@ On right side only
 			<can_focus>True</can_focus>
 			<label>_Remove</label>
 		      </widget>
+
+		      <widget>
+			<class>GtkButton</class>
+			<name>fixed_clear</name>
+			<can_default>True</can_default>
+			<can_focus>True</can_focus>
+			<label>_Clear</label>
+		      </widget>
+		    </widget>
+		  </widget>
+
+		  <widget>
+		    <class>GtkHButtonBox</class>
+		    <name>hbuttonbox2</name>
+		    <layout_style>GTK_BUTTONBOX_START</layout_style>
+		    <spacing>30</spacing>
+		    <child_min_width>85</child_min_width>
+		    <child_min_height>40</child_min_height>
+		    <child_ipad_x>7</child_ipad_x>
+		    <child_ipad_y>0</child_ipad_y>
+		    <child>
+		      <padding>0</padding>
+		      <expand>False</expand>
+		      <fill>True</fill>
+		    </child>
+
+		    <widget>
+		      <class>GtkButton</class>
+		      <name>fixed_auto</name>
+		      <can_default>True</can_default>
+		      <can_focus>True</can_focus>
+		      <label>Auto Column _Discovery</label>
 		    </widget>
 		  </widget>
 		</widget>

@@ -14,6 +14,10 @@ Morten:
 	* Cleanup analysis tool code.
 	* Eliminate many fixed limits in the code.  (Still some to go.)
 
+Almer:
+	* Fix stf importer bugs
+	* Add "Autodiscovery" feature to stf fixed width importer.
+
 Translations:
 	* Updated: de (Karl), no (Kjartan), maybe more.
 	* Update not new, but not mentioned the last time: pl (Zbigniew).

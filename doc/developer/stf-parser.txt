@@ -228,6 +228,13 @@ Almer. S. Tigelaar.
 		stf_parse_options_fixed_splitpositions_add   (parseoptions, 20);
 		stf_parse_options_fixed_splitpositions_add   (parseoptions, 24);
 
+	Alternatively you can also call the autodiscovery function :
+
+		stf_parse_options_fixed_autodiscover (parseoptions, lines, text);
+
+	This function will try to recognize columns in the text and adjust the
+	splitpositions accordingly.
+
 	after that we'll call a parsing routine (for the example I'll call the general one)
 	(normally you don't call the stf_parse_general and stf_parse_general_cached directly,
 	 you create a separate function which parses the GSList returned by stf_parse_general or

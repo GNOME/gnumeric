@@ -63,7 +63,7 @@ typedef struct {
 typedef struct {
 	GtkCList      *fixed_collist;
 	GtkSpinButton *fixed_colend;
-	GtkButton     *fixed_add, *fixed_remove;
+	GtkButton     *fixed_add, *fixed_remove, *fixed_clear, *fixed_auto;
 	GnomeCanvas   *fixed_canvas;
 	GtkVScrollbar *fixed_scroll;
 
@@ -95,6 +95,7 @@ typedef struct {
 	GSList            *format_run_list; /* List of StyleFormat * */
 	int                format_run_index;
 	gboolean           format_run_manual_change;
+	gboolean           format_run_sublist_select;
 	int                format_run_displayrows;   /* Number of rows to display in the preview window */
 } FormatInfo_t;
 

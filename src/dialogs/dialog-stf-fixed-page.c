@@ -13,6 +13,62 @@
  *************************************************************************************************/
 
 /**
+ * fixed_page_autodiscover:
+ * @pagedata: a mother struct
+ * 
+ * Use the STF's autodiscovery function and put the
+ * result in the fixed_collist
+ **/
+static void
+fixed_page_autodiscover (DruidPageData_t *pagedata)
+{
+	FixedInfo_t *info = pagedata->fixed_info;
+	int i = 0;
+	char *tset[2];
+	
+	stf_parse_options_fixed_autodiscover (info->fixed_run_parseoptions, pagedata->importlines, (char *) pagedata->cur);
+
+	gtk_clist_clear (info->fixed_collist);
+
+	while (i < info->fixed_run_parseoptions->splitpositions->len) {
+	
+		tset[0] = g_strdup_printf ("%d", i);
+		tset[1] = g_strdup_printf ("%d", g_array_index (info->fixed_run_parseoptions->splitpositions,
+								int,
+								i));
+		gtk_clist_append (info->fixed_collist, tset);
+		
+		g_free (tset[0]);
+		g_free (tset[1]);
+
+		i++;
+	}
+
+	tset[0] = g_strdup_printf ("%d", i);
+	tset[1] = g_strdup_printf ("%d", -1);
+	
+	gtk_clist_append (info->fixed_collist, tset);
+		
+	g_free (tset[0]);
+	g_free (tset[1]);
+
+	/*
+	 * If there are no splitpositions than apparantly
+	 * no columns where found
+	 */
+
+	if (info->fixed_run_parseoptions->splitpositions->len < 1) {
+		GtkWidget *dialog;
+      
+		dialog = gnome_ok_dialog_parented (_("Autodiscovery did not find any columns in the text. Try manually"), 
+						   pagedata->window);
+
+
+		gnome_dialog_run (GNOME_DIALOG (dialog));
+	}
+}
+
+/**
  * fixed_page_update_preview
  * @pagedata : mother struct
  *
@@ -420,6 +476,48 @@ fixed_page_remove_clicked (GtkButton *button, DruidPageData_t *data)
 	fixed_page_update_preview (data);
 }
 
+/**
+ * fixed_page_clear_clicked:
+ * @button: GtkButton
+ * @data: mother struct
+ * 
+ * Will clear all entries in fixed_collist
+ **/
+static void
+fixed_page_clear_clicked (GtkButton *button, DruidPageData_t *data)
+{
+	FixedInfo_t *info = data->fixed_info;
+	char *tset[2];
+	
+	gtk_clist_clear (info->fixed_collist);
+
+	tset[0] = g_strdup ("0");
+	tset[1] = g_strdup ("-1");
+	
+	gtk_clist_append (info->fixed_collist, tset);
+		
+	g_free (tset[0]);
+	g_free (tset[1]);
+		
+	fixed_page_update_preview (data);
+}
+
+/**
+ * fixed_page_auto_clicked:
+ * @button: GtkButton
+ * @data: mother struct
+ * 
+ * Will try to automatically recognize columns in the
+ * text.
+ **/
+static void
+fixed_page_auto_clicked (GtkButton *button, DruidPageData_t *data)
+{
+	fixed_page_autodiscover (data);
+
+	fixed_page_update_preview (data);
+}
+
 /*************************************************************************************************
  * FIXED EXPORTED FUNCTIONS
  *************************************************************************************************/
@@ -448,8 +546,8 @@ stf_dialog_fixed_page_prepare (GnomeDruidPage *page, GnomeDruid *druid, DruidPag
 		stf_cache_options_set_data (info->fixed_run_cacheoptions, info->fixed_run_parseoptions, pagedata->cur);
 	}
 
-	stf_parse_options_set_trim_spaces (info->fixed_run_parseoptions, pagedata->trim);
-	
+	stf_parse_options_set_trim_spaces (info->fixed_run_parseoptions, TRIM_TYPE_NEVER);
+
 	stf_cache_options_invalidate (info->fixed_run_cacheoptions);
 
 	pagedata->colcount = stf_parse_get_colcount (info->fixed_run_parseoptions, pagedata->cur);
@@ -462,7 +560,7 @@ stf_dialog_fixed_page_prepare (GnomeDruidPage *page, GnomeDruid *druid, DruidPag
 	spinadjust->lower = 1;
 	spinadjust->upper = stf_parse_get_longest_row_width (info->fixed_run_parseoptions, pagedata->cur);
 	gtk_spin_button_set_adjustment (info->fixed_colend, spinadjust);
-	
+
 	fixed_page_update_preview (pagedata);
 }
 
@@ -517,6 +615,8 @@ stf_dialog_fixed_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	info->fixed_colend  = GTK_SPIN_BUTTON (glade_xml_get_widget (gui, "fixed_colend"));
 	info->fixed_add     = GTK_BUTTON      (glade_xml_get_widget (gui, "fixed_add"));
 	info->fixed_remove  = GTK_BUTTON      (glade_xml_get_widget (gui, "fixed_remove"));
+	info->fixed_clear   = GTK_BUTTON      (glade_xml_get_widget (gui, "fixed_clear"));
+	info->fixed_auto    = GTK_BUTTON      (glade_xml_get_widget (gui, "fixed_auto"));
 	info->fixed_canvas  = GNOME_CANVAS    (glade_xml_get_widget (gui, "fixed_canvas"));
 	info->fixed_scroll  = GTK_VSCROLLBAR  (glade_xml_get_widget (gui, "fixed_scroll"));
 
@@ -557,6 +657,14 @@ stf_dialog_fixed_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	gtk_signal_connect (GTK_OBJECT (info->fixed_remove),
 			    "clicked",
 			    GTK_SIGNAL_FUNC (fixed_page_remove_clicked),
+			    pagedata);
+	gtk_signal_connect (GTK_OBJECT (info->fixed_clear),
+			    "clicked",
+			    GTK_SIGNAL_FUNC (fixed_page_clear_clicked),
+			    pagedata);
+	gtk_signal_connect (GTK_OBJECT (info->fixed_auto),
+			    "clicked",
+			    GTK_SIGNAL_FUNC (fixed_page_auto_clicked),
 			    pagedata);
 			    
 	gtk_signal_connect (GTK_OBJECT (info->fixed_canvas),

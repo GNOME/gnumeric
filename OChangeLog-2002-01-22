@@ -1,3 +1,23 @@
+2000-07-04  Almer. S. Tigelaar.  <almer1@dds.nl>
+
+	* src/dialogs/dialog-stf.c, src/dialogs/dialog-stf-fixed-page.c :
+	Fix column mangling in fixed width import.
+
+	* src/dialogs/dialog-stf-format-page.c :
+	Fix USB (==Ugly Selection Bug).
+
+	* src/stf-parse.c, src/stf-parse.h :
+	(stf_parse_options_fixed_autodiscover) : New!
+	Column autodiscovery for fixed width.
+
+	* src/dialogs/dialog-stf.glade :
+	Add clear and autodiscovery buttons
+	
+	* src/dialogs/dialog-stf-fixed-page.c : 
+	(fixed_page_autodiscover) : Autodiscovery routine.
+	(fixed_page_clear_clicked) : Clear click handler
+	(fixed_page_auto_clicked) : Autodiscovery click handler
+	
 2000-07-04  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* samples/excel/infofuns.xls: Changed the third test case of
