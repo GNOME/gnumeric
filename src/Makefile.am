@@ -24,7 +24,7 @@ idl_DATA = Gnumeric.idl
 gladedir   = $(datadir)/gnumeric/glade
 glade_DATA = print.glade import.glade
 
-EXTRA_DIST = $(idl_DATA)
+EXTRA_DIST = $(idl_DATA) $(glade_DATA)
 
 
 if BONOBO

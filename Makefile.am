@@ -1,4 +1,4 @@
-SUBDIRS = intl po macros plugins src doc corba-test
+SUBDIRS = intl po macros plugins src doc
 
 EXTRA_DIST = \
 	gnumeric.desktop README HACKING gnumeric.spec.in 	\

@@ -12,6 +12,7 @@ libexcel_a_SOURCES =		\
 	boot.c			\
 	boot.h			\
 	excel.h			\
+	formula-types.h		\
 	ms-excel-biff.h		\
 	ms-biff.c		\
 	ms-biff.h		\

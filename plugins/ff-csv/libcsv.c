@@ -176,14 +176,14 @@ int csv_load_table(FILE *f, struct csv_table *ptr)
 		width = count_fields(linebuf);
 		if(width < 1)
 			width = 1;
-		ptr->row[length].data=(char **)malloc(width*sizeof(char *));
+		ptr->row[length].data=(char **)malloc((width+1)*sizeof(char *));
 		ptr->row[length].width = width;
 		if(ptr->row[length].data==NULL)
 		{
 			csv_error="out of memory";
 			return -1;
 		}
-		memset(ptr->row[length].data, 0, width*sizeof(char *));
+		memset(ptr->row[length].data, 0, (width+1)*sizeof(char *));
 		
 		if(smash_fields(linebuf, ptr->row[length].data, width)==-1)
 			return -1;
