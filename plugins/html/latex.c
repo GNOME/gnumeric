@@ -540,6 +540,7 @@ latex2e_write_multicolumn_cell (FILE *fp, Cell const *cell, int num_merged_cols,
 
 	/* Print the cell according to its style. */
 	MStyle *mstyle = cell_get_mstyle (cell);
+	gboolean hidden = mstyle_get_content_hidden (mstyle);
 
 	g_return_if_fail (mstyle != NULL);
 
@@ -686,7 +687,11 @@ latex2e_write_multicolumn_cell (FILE *fp, Cell const *cell, int num_merged_cols,
 
 		/* Establish the font's style for the styles that can be addressed by LaTeX.
 		 * More complicated efforts (like changing fonts) are left to the user.
-		 */
+      		 */
+
+		if (hidden)
+		  fprintf (fp, "\\phantom{");
+
 		if (font_is_monospaced (mstyle))
 			fprintf (fp, "\\texttt{");
 		else if (font_is_sansserif (mstyle))
@@ -730,6 +735,8 @@ latex2e_write_multicolumn_cell (FILE *fp, Cell const *cell, int num_merged_cols,
 			fprintf (fp, "}");
 		else if (font_is_sansserif (mstyle))
 			fprintf (fp, "}");
+		if (hidden)
+		  fprintf (fp, "}");
 		if (r != 0 || g != 0 || b != 0)
 			fprintf (fp, "}");
 	}

@@ -6,6 +6,9 @@ Adrian:
 Andreas:
 	* Fix 97246
 
+Dustin Mudryk:
+	* Hide hidden cells in LaTeX export
+
 Jody:
 	* Store current sheet in both spots for xls export
 	* Fix multiple name invalidation within 1 expr on sheet delete
