@@ -26,7 +26,7 @@ You need:
 	libglade	>= 0.16
 	gal		>= 0.8
 	gnome-print	>= 0.25
-	gnome-xml   	>= 1.8.12     (gnome-xml 2.x not supported yet)
+	gnome-xml   	>= 1.8.14     (gnome-xml 2.x not supported yet)
 	NOTE : gnome-xml is also known as libxml
 	libole2	    	>= 0.2.3
 	NOTE : libole2 is also known as libgnomeole2
