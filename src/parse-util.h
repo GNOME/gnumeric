@@ -31,6 +31,9 @@ void	    parse_text_value_or_expr (ParsePos const *pos,
 				      char const *text,
 				      Value **val, GnmExpr const **expr,
 				      StyleFormat *current_format /* can be NULL */);
+gboolean   parse_surrounding_ranges  (char const *text, gint cursor, Sheet *sheet,
+				      gboolean single_range_only, gint *from, gint *to,
+				      RangeRef **range);
 
 /* Is this string potentially the start of an expression */
 char const * gnumeric_char_start_expr_p (char const * c);

@@ -356,93 +356,50 @@ void
 gnm_expr_entry_rangesel_start (GnumericExprEntry *gee)
 {
 	int cursor, start, last, end;
+	int from, to;
 	char const *text;
-	char *test;
+	RangeRef *range;
 	Rangesel *rs;
 	gboolean single = (gee->flags & (GNUM_EE_SINGLE_RANGE != 0));
-	gboolean last_was_alnum = FALSE;
 
 	rs = &gee->rangesel;
 	text = gtk_entry_get_text (gee->entry);
 	cursor = gtk_editable_get_position (GTK_EDITABLE (gee->entry));
-	last = (text == NULL) ? 0 : strlen (text);
 	rs->abs_col = (gee->flags & GNUM_EE_ABS_COL) != 0;
 	rs->abs_row = (gee->flags & GNUM_EE_ABS_ROW) != 0;
 	rs->sheet = gee->target_sheet;
 	if (text == NULL)
 		return;
+	last = strlen (text);
 
-	for (start = 0;
-	     start <= cursor;
-	     start = g_utf8_next_char (text + start) - text) {
-		int next_end = -1;
-		gboolean next_was_alnum = FALSE;
-		gunichar c = g_utf8_get_char (text + start);
-		gboolean is_alnum = g_unichar_isalnum (c);
-
-		/* A range does not start in the middle of a word.  */
-		if (last_was_alnum && is_alnum)
-			continue;
-		last_was_alnum = is_alnum;
-		/* A range starts with a letter, a quote, or a dollar sign.  */
-		if (is_alnum ? g_unichar_isdigit (c) : (c != '\'' && c != '$'))
-			continue;
-
-		for (end = last; end >= MAX (cursor, start + 1); end = next_end) {
-			GSList *ranges;
-			gunichar c_end;
-			gboolean is_alnum;
-
-			next_end = g_utf8_prev_char (text + end) - text;
-			c_end = g_utf8_get_char (text + next_end);
-			is_alnum = g_unichar_isalnum (c_end);
-
-			/* A range does not end in the middle of a word.  */
-			if (is_alnum && next_was_alnum)
-				continue;
-			next_was_alnum = is_alnum;
-			/* A range ends in a letter, digit, or quote.  */
-			if (!is_alnum && c_end != '\'')
-				continue;
-
-			test = g_strndup (text + start, end - start);
-#if 0
-			g_warning ("Parsing [%s]", test);
-#endif
-			ranges = global_range_list_parse (gee->target_sheet, test);
-			g_free (test);
-
-			if (ranges != NULL) {
-				if ((ranges->next == NULL) || single) {
-					Sheet *start_sheet, *end_sheet;
-					EvalPos ep;
-
-				       /* Note:
-					* If single is not true, we just have one range here!
-					**/
-					Value *value;
-					value = (Value *) ((g_slist_last (ranges))->data);
-					rs->abs_col = !value->v_range.cell.a.col_relative;
-					rs->abs_row = !value->v_range.cell.a.row_relative;
-					ep.eval.col = 0;
-					ep.eval.row = 0;
-					ep.sheet = NULL;
-					value_cellrange_normalize (&ep, value,
-								   &start_sheet, &end_sheet,
-								   &rs->range);
-					rs->text_start = start;
-					rs->text_end = end;
-					if (single) {
-						rs->text_start = 0;
-						rs->text_end = last;
-					}
-					range_list_destroy (ranges);
-					return;
-				}
-				range_list_destroy (ranges);
-			}
+	if (parse_surrounding_ranges  (text, cursor, rs->sheet, 
+				       !single, &from, &to,
+				       &range))
+	{
+		Sheet *start_sheet, *end_sheet;
+		EvalPos ep;
+		
+		/* Note:
+		 * If single is not true, we just have one range here!
+		 **/
+		rs->abs_col = !range->a.col_relative;
+		rs->abs_row = !range->a.row_relative;
+		ep.eval.col = 0;
+		ep.eval.row = 0;
+		ep.sheet = NULL;
+		
+		rangeref_normalize (&ep, range, &start_sheet, &end_sheet,
+				    &rs->range);
+		g_free (range);
+		rs->text_start = from;
+		rs->text_end = to;
+		if (single) {
+			rs->text_start = 0;
+			rs->text_end = last;
 		}
+		return;
 	}
+
 	if (single) {
 		rs->text_start = 0;
 		rs->text_end = last;

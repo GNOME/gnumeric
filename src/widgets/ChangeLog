@@ -1,3 +1,8 @@
+2002-04-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* gnumeric-expr-entry.c (gnm_expr_entry_rangesel_start) extract
+	  parsing into src/parse-util.c 
+
 2002-04-02  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* gnumeric-cell-renderer-expr-entry.[ch] : make this widget a subclass

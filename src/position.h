@@ -60,4 +60,8 @@ void      cellref_get_abs_pos	(CellRef const *cell_ref,
 				 CellPos *res);
 guint     cellref_hash          (CellRef const *cr);
 
+RangeRef *value_to_rangeref    (Value *v, gboolean release);
+void      rangeref_normalize   (EvalPos const *ep, RangeRef const *ref,
+				Sheet **start_sheet, Sheet **end_sheet, Range *dest);
+
 #endif /* GNUMERIC_POSITION_H */

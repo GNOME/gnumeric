@@ -79,6 +79,7 @@ gboolean    range_translate     (Range *range, int col_offset, int row_offset);
 gboolean    range_transpose     (Range *range, CellPos const *origin);
 
 gboolean    setup_range_from_value (Range *range, Value *v, gboolean release);
+gboolean    setup_range_from_range_ref (Range *range, RangeRef *v, gboolean release);
 
 /* TODO : Do these 2 belong here ? or in sheet.h
  * Probably sheet.h but that is overfull.

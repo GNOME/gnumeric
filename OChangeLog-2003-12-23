@@ -1,3 +1,18 @@
+2002-04-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/parse-util.c (parse_surrounding_ranges) : new, code extracted
+	  from src/widgets/gnumeric-expr-entry.c 
+	* src/parse-util.h (parse_surrounding_ranges) : new
+	* src/item-edit.c (scan_at) : deleted
+	(point_is_inside_range) : use arse_surrounding_ranges
+	* src/position.c (value_to_rangeref) : new
+	(rangeref_normalize) : new
+	* src/position.h (value_to_rangeref, rangeref_normalize) : new
+	* src/ranges.c (setup_range_from_value) : use setup_range_from_range_ref
+	(setup_range_from_range_ref) : new
+	* src/ranges.h (setup_range_from_range_ref) : new
+	* src/value-sheet.c (value_cellrange_normalize) : use rangeref_normalize
+
 2002-04-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/ranges.h (setup_range_from_value) : new

@@ -535,3 +535,76 @@ parse_error_free (ParseError *pe)
 		pe->message = NULL;
 	}
 }
+
+
+gboolean   parse_surrounding_ranges  (char const *text, gint cursor, Sheet *sheet, 
+				      gboolean single_range_only, gint *from, gint *to,
+				      RangeRef **range)
+{
+	int start, end, last;
+	gchar *test;
+	gboolean last_was_alnum = FALSE;
+	
+	if (text == NULL)
+		return FALSE;
+	
+	last = strlen (text);
+	for (start = 0;
+	     start <= cursor;
+	     start = g_utf8_next_char (text + start) - text) {
+		int next_end = -1;
+		gboolean next_was_alnum = FALSE;
+		gunichar c = g_utf8_get_char (text + start);
+		gboolean is_alnum = g_unichar_isalnum (c);
+
+		/* A range does not start in the middle of a word.  */
+		if (last_was_alnum && is_alnum)
+			continue;
+		last_was_alnum = is_alnum;
+		/* A range starts with a letter, a quote, or a dollar sign.  */
+		if (is_alnum ? g_unichar_isdigit (c) : (c != '\'' && c != '$'))
+			continue;
+
+		for (end = last; end >= MAX (cursor, start + 1); end = next_end) {
+			GSList *ranges;
+			gunichar c_end;
+			gboolean is_alnum;
+
+			next_end = g_utf8_prev_char (text + end) - text;
+			c_end = g_utf8_get_char (text + next_end);
+			is_alnum = g_unichar_isalnum (c_end);
+
+			/* A range does not end in the middle of a word.  */
+			if (is_alnum && next_was_alnum)
+				continue;
+			next_was_alnum = is_alnum;
+			/* A range ends in a letter, digit, or quote.  */
+			if (!is_alnum && c_end != '\'')
+				continue;
+
+			test = g_strndup (text + start, end - start);
+#if 0
+			g_warning ("Parsing [%s]", test);
+#endif
+			ranges = global_range_list_parse (sheet, test);
+			g_free (test);
+
+			if (ranges != NULL) {
+				if ((ranges->next != NULL) && single_range_only) { 
+					range_list_destroy (ranges);
+					continue;
+				}
+				*from = start;
+				*to = end;
+				if (range) {
+					*range = value_to_rangeref 
+						((Value *) ((g_slist_last 
+							     (ranges))->data), FALSE);
+				}
+				range_list_destroy (ranges);
+				return TRUE;
+			}
+		}
+	}
+	return FALSE;
+}

@@ -252,3 +252,38 @@ cellref_hash (const CellRef *cr)
 	if (cr->row_relative) h |= 2;
 	return h;
 }
+
+RangeRef *value_to_rangeref    (Value *v, gboolean release)
+{
+	RangeRef *gr;
+
+	g_return_val_if_fail (v->type == VALUE_CELLRANGE, NULL);
+
+	gr = g_new0 (RangeRef, 1);
+	*gr = v->v_range.cell;
+
+	if (release)
+		value_release (v);
+	
+	return gr;
+	
+}
+
+/**
+ * range_ref_normalize :  Take a range_ref and normalize it
+ *     by converting to absolute coords and handling inversions.
+ */
+void
+rangeref_normalize (EvalPos const *ep, RangeRef const *ref,
+			   Sheet **start_sheet, Sheet **end_sheet, Range *dest)
+{
+	g_return_if_fail (ref != NULL);
+	g_return_if_fail (ep != NULL);
+
+	cellref_get_abs_pos (&ref->a, &ep->eval, &dest->start);
+	cellref_get_abs_pos (&ref->b, &ep->eval, &dest->end);
+	range_normalize (dest);
+
+	*start_sheet = eval_sheet (ref->a.sheet, ep->sheet);
+	*end_sheet = eval_sheet (ref->b.sheet, ep->sheet);
+}

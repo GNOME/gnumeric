@@ -42,62 +42,28 @@ enum {
 	ARG_SHEET_CONTROL_GUI,	/* The SheetControlGUI * argument */
 };
 
-static void
-scan_at (const char *text, int *scan)
-{
-	int i;
-	for (i = *scan ; i > 0 ; i--) {
-		unsigned char const c = text [i-1];
-
-		if (!(c == ':' || c == '$' || isalnum (c)))
-			break;
-	}
-	*scan = i;
-}
-
-/*
- * This routine could definitely be better.
- *
- * Currently it will not handle ranges like R[-1]C1, nor named ranges,
- * nor will it detect whether something is part of an expression or a
- * string .
- */
 static gboolean
 point_is_inside_range (ItemEdit *item_edit, const char *text, Range *range)
 {
-	Value *v;
 	Sheet *sheet = ((SheetControl *) item_edit->scg)->sheet;
-	int cursor_pos, scan;
+	int cursor_pos;
+	int from, to;
+	RangeRef *ref = NULL;
 
 	if ((text = gnumeric_char_start_expr_p (text)) == NULL)
 		return FALSE;
 
 	cursor_pos = gtk_editable_get_position (GTK_EDITABLE (item_edit->entry));
-	if (cursor_pos == 0)
-		return FALSE;
-	cursor_pos--;
 
-	scan = cursor_pos;
-	scan_at (text, &scan);
-
-	/* If the range is on another sheet ignore it */
-	if (scan > 0 && text [scan-1] == '!')
-		return FALSE;
-
-	if ((v = range_parse (sheet, &text [scan], FALSE)) != NULL)
-		return setup_range_from_value (range, v, TRUE);
-
-	if (scan == cursor_pos && scan > 0)
-		scan--;
-	scan_at (text, &scan);
-
-	/* If the range is on another sheet ignore it */
-	if (scan > 0 && text [scan-1] == '!')
-		return FALSE;
-
-	if ((v = range_parse (sheet, &text [scan], FALSE)) != NULL)
-		return setup_range_from_value (range, v, TRUE);
-
+	if (parse_surrounding_ranges  (text, cursor_pos, sheet,
+				       TRUE, &from, &to, &ref)) {
+		/* If the range is on another sheet ignore it */
+		if (ref->a.sheet != sheet && ref->b.sheet != sheet) {
+			g_free (ref);
+			return FALSE;
+		}
+		return setup_range_from_range_ref (range, ref, TRUE);
+	}
 	return FALSE;
 }
 
