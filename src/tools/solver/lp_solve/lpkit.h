@@ -321,8 +321,6 @@ void       str_add_constraint (lprec *lp, char *row_string,
 			       gnum_float rh);
 /* The same, but with string input */
 
-void       add_lag_con (lprec *lp, gnum_float *row,
-			SolverConstraintType con_type, gnum_float rhs);
 /* add a Lagrangian constraint of form Row' x contype Rhs */
 void       str_add_lag_con (lprec *lp, char *row,
 			    SolverConstraintType con_type, gnum_float rhs);
@@ -437,11 +435,10 @@ void lp_solve_set_constr_mat (lprec *lp, int col, int row, gnum_float value);
 void lp_solve_set_constr_rhs (lprec *lp, int row, gnum_float value);
 void lp_solve_set_constr_type (lprec *lp, int row, SolverConstraintType type);
 
+void lpkit_set_minim (lprec *lp);
+void lpkit_set_maxim (lprec *lp);
 
 /* functions used internaly by the lp toolkit */
-void       inc_mat_space (lprec *lp, int max_extra);
-void       inc_row_space (lprec *lp);
-void       inc_col_space (lprec *lp);
 void       unscale_columns (lprec *lp);
 void       btran (lprec *lp, gnum_float *row);
 void       invert (lprec *lp);

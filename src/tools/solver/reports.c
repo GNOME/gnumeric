@@ -31,6 +31,7 @@
 #include <time.h>
 #include <libgnome/gnome-i18n.h>
 #include <sys/utsname.h>
+#include <string.h>
 
 /* ------------------------------------------------------------------------- */
 
@@ -108,7 +109,7 @@ fill_header_titles (data_analysis_output_t *dao, gchar *title, Sheet *sheet)
 	GDate     date;
 	GTimeVal  t;
 	struct tm tm_s;
-	gchar     str[256], *tmp;
+	gchar     *tmp;
 
 	buf = g_string_new ("");
 	g_string_sprintfa (buf, "%s %s %s", 
