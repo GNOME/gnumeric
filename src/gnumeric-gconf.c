@@ -464,7 +464,8 @@ gnm_gconf_set_prefer_clipboard_selection (gboolean val)
 }
 
 
-void    gnm_gconf_set_printer_config (gchar *str)
+void
+gnm_gconf_set_printer_config (gchar *str)
 {
 	gconf_client_set_string  (application_get_gconf_client (),
 				  PRINTING_GCONF_PRINTER_CONFIG,

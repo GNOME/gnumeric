@@ -974,7 +974,7 @@ gnm_canvas_slide_stop (GnmCanvas *gcanvas)
 	if (gcanvas->sliding == -1)
 		return;
 
-	gtk_timeout_remove (gcanvas->sliding);
+	g_source_remove (gcanvas->sliding);
 	gcanvas->slide_handler = NULL;
 	gcanvas->slide_data = NULL;
 	gcanvas->sliding = -1;

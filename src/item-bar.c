@@ -27,6 +27,7 @@
 #include "parse-util.h"
 #include "commands.h"
 
+#include <string.h>
 #include <gsf/gsf-impl-utils.h>
 #define GNUMERIC_ITEM "BAR"
 #include "item-debug.h"
