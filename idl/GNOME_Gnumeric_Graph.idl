@@ -15,7 +15,7 @@ module GNOME {
 
 		typedef sequence<double>   SeqScalar;
 		interface VectorScalarNotify : VectorNotify {
-			void changed (in short start, in SeqScalar new_values);
+			oneway void changed (in short start, in SeqScalar new_values);
 		};
 		interface VectorScalar : VectorScalarNotify {
 			void value (out SeqScalar values, out string name);
@@ -23,7 +23,7 @@ module GNOME {
 
 		typedef sequence<long>   SeqDate;
 		interface VectorDateNotify : VectorNotify {
-			void changed (in short start, in SeqDate new_values);
+			oneway void changed (in short start, in SeqDate new_values);
 		};
 		interface VectorDate : VectorDateNotify {
 			void value (out SeqDate values, out string name);
@@ -31,7 +31,7 @@ module GNOME {
 
 		typedef sequence<string>   SeqString;
 		interface VectorStringNotify : VectorNotify {
-			void changed (in short start, in SeqString new_values);
+			oneway void changed (in short start, in SeqString new_values);
 		};
 		interface VectorString : VectorStringNotify {
 			void value (out SeqString values, out string name);
