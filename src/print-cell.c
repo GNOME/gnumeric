@@ -650,7 +650,7 @@ print_cell_range (GnomePrintContext *context,
 			}
 		}
 
-		/* its safe to const_cast because only the a non-default row
+		/* it is safe to const_cast because only the a non-default row
 		 * will ever get flagged.
 		 */
 		if (ri->needs_respan)

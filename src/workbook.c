@@ -153,7 +153,7 @@ workbook_finalize (GObject *wb_object)
 		sheet_destroy_contents (sheet);
 		/*
 		 * We need to put this test BEFORE we detach
-		 * the sheet from the workbook.  Its ugly, but should
+		 * the sheet from the workbook.  It is ugly, but should
 		 * be ok for debug code.
 		 */
 		if (gnumeric_debugging > 0)

@@ -126,7 +126,7 @@ stf_preparse (CommandContext *context, GsfInput *input)
 			char *invalid_char = g_locale_to_utf8 (c, 1, NULL, NULL, NULL);
 
 			/* if locale conversion failed try 8859-1 as a fallback
-			 * its ok to do this for an error message */
+			 * it is ok to do this for an error message */
 			if (invalid_char == NULL)
 				invalid_char = g_convert (c, 1, "UTF-8", "ISO-8859-1", NULL, NULL, NULL);
 			if (invalid_char != NULL) {

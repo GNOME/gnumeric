@@ -427,7 +427,7 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 			}
 		}
 
-		/* its safe to const_cast because only the a non-default row
+		/* it is safe to const_cast because only the a non-default row
 		 * will ever get flagged.
 		 */
 		if (ri->needs_respan)

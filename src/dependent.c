@@ -1641,7 +1641,7 @@ dependents_relocate (GnmExprRelocateInfo const *info)
 
 		eval_pos_init_dep (&rwinfo.u.relocate.pos, dep);
 
-		/* its possible nothing changed for contained deps
+		/* it is possible nothing changed for contained deps
 		 * using absolute references
 		 */
 		newtree = gnm_expr_rewrite (dep->expression, &rwinfo);

@@ -834,7 +834,7 @@ rangeref_parse (RangeRef *res, char const *start, ParsePos const *pp)
 	if (res->a.row_relative)
 		res->a.row -= pp->eval.row;
 
-	/* prepare as if its a singleton, in case we want to fall back */
+	/* prepare as if it's a singleton, in case we want to fall back */
 	res->b.col = res->a.col;
 	res->b.row = res->a.row;
 	res->b.col_relative = res->a.col_relative;
@@ -887,7 +887,7 @@ gnm_1_0_rangeref_parse (RangeRef *res, char const *start, ParsePos const *pp)
 	if (res->a.row_relative)
 		res->a.row -= pp->eval.row;
 
-	/* prepare as if its a singleton, in case we want to fall back */
+	/* prepare as if it's a singleton, in case we want to fall back */
 	res->b = res->a;
 	if (*tmp2 != ':')
 		return tmp2;
