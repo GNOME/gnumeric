@@ -728,6 +728,13 @@ workbook_autorecalc_enable (Workbook *wb, gboolean enable)
 	wb->recalc_auto = enable;
 }
 
+gboolean
+workbook_autorecalc (Workbook *wb)
+{
+	g_return_val_if_fail (IS_WORKBOOK (wb), FALSE);
+	return wb->recalc_auto;
+}
+
 void
 workbook_iteration_enabled (Workbook *wb, gboolean enable)
 {
