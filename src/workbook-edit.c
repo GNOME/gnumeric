@@ -37,11 +37,9 @@ workbook_auto_complete_destroy (Workbook *wb)
 		wb_priv->edit_line.signal_changed = -1;
 	}
 	
-	if (application_use_auto_complete_get ()){
-		    if (wb_priv->auto_complete) {
-			    gtk_object_unref (GTK_OBJECT (wb_priv->auto_complete));
-			    wb_priv->auto_complete = NULL;
-		    }
+	if (wb_priv->auto_complete){
+		gtk_object_unref (GTK_OBJECT (wb_priv->auto_complete));
+		wb_priv->auto_complete = NULL;
 	} else
 		g_assert (wb_priv->auto_complete == NULL);
 
@@ -185,9 +183,15 @@ workbook_start_editing_at_cursor (Workbook *wb, gboolean blankp,
 {
 	Sheet *sheet;
 	Cell *cell;
-
+	static int inside_editing = 0;
+		
 	g_return_if_fail (wb != NULL);
 
+	if (inside_editing)
+		return;
+
+	inside_editing = 1;
+	
 	sheet = wb->current_sheet;
 	g_return_if_fail (sheet != NULL);
 
@@ -259,6 +263,8 @@ workbook_start_editing_at_cursor (Workbook *wb, gboolean blankp,
 	wb->priv->edit_line.signal_changed = gtk_signal_connect (
 		GTK_OBJECT (workbook_get_entry (wb)), "changed",
 		GTK_SIGNAL_FUNC (entry_changed), wb);
+
+	inside_editing = 0;
 }
 
 GtkEntry *
