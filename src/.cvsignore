@@ -3,3 +3,4 @@ Makefile
 .deps
 gnumeric
 test-format
+test-parser parser.c
