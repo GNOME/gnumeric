@@ -31,7 +31,7 @@ INCLUDES = 						\
 	-I$(includedir)				 	\
 	-I$(top_srcdir)/libglade			\
 	$(GNOME_INCLUDEDIR)				\
-	-I/gnome/include/libgnomeprint			\
+	`gnome-config --cflags print`			\
 	$(GUILE_INCS)
 
 GNUMERIC_BASE_SOURCES =			\
@@ -149,7 +149,7 @@ GNUMERIC_BASE_SOURCES =			\
 	widget-editable-label.c		\
 	widget-editable-label.h		\
 	workbook.c			\
-	xml-io.c			\
+	xml-io.c
 
 GNUMERIC_CORBA_GENERATED = 			\
 	Gnumeric-common.c			\
@@ -186,6 +186,7 @@ gnumeric_bonobo_SOURCES =			\
 gnumeric_LDFLAGS = -export-dynamic
 
 gnumeric_LDADD = 				\
+	$(GNOME_PRINT_LIBS)			\
 	../plugins/excel/libexcel.a		\
 	../plugins/excel/libole2/libole2.a 	\
 	../libglade/glade/libglade.a		\
@@ -197,6 +198,7 @@ gnumeric_LDADD = 				\
 	$(INTLLIBS)
 
 gnumeric_bonobo_LDADD =				\
+	$(GNOME_PRINT_LIBS)			\
 	../plugins/excel/libexcel.a		\
 	../plugins/excel/libole2/libole2.a 	\
 	../libglade/glade/libglade.a		\

@@ -63,7 +63,7 @@ struct _PrintInformation {
 	PrintHF          *header;
 	PrintHF          *footer;
 
-	void             *print_config_dialog_data;
+	GnomePaper       *paper;
 };
 
 PrintInformation *print_info_new  (void);

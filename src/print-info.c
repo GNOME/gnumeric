@@ -67,7 +67,7 @@ print_info_new (void)
 
 	/* Scaling */
 	pi->scaling.type = PERCENTAGE;
-	pi->scaling.u.percentage = 100.0;
+	pi->scaling.percentage = 100.0;
 
 	/* Margins */
 	pi->margins.top    = METERS_TO_POINTS (0.01);
@@ -80,5 +80,7 @@ print_info_new (void)
 	pi->header = print_hf_new (NULL, _("Sheet &[NUM]"), NULL);
 	pi->footer = print_hf_new (NULL, _("Page &[NUM]"), NULL);
 
+	pi->paper = gnome_paper_with_name (gnome_paper_name_default ());
+	
 	return pi;
 }
