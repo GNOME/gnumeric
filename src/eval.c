@@ -679,10 +679,20 @@ dependent_unlink (Dependent *dep, CellPos const *pos)
 		g_return_if_fail (IS_SHEET (dep->sheet));
 
 		/* see note in do_deps_destroy */
+		/* NOTE That notion is wrong it is only viable for removing
+		 * dependents within the sheet or book being destroyed.
+		 * If we are deleting a sheet with references outside that sheet
+		 * we need to drop those dependencies.  A good idea would be to
+		 * flag dependents with links outside the current sheet and
+		 * book (both) and use that to save time later.
+		 */
+
 		if (dep->sheet->deps != NULL) {
 			handle_tree_deps (dep, pos, dep->expression, REMOVE_DEPS);
 			UNLINK_DEP (dep);
-		}
+/* FIXME FIXME FIXME : Massive hack !  rework dependent linkage cycle after release */
+		} if (!dependent_is_cell (dep))
+			handle_tree_deps (dep, pos, dep->expression, REMOVE_DEPS);
 
 		dep->flags &= ~(DEPENDENT_IN_EXPR_LIST | DEPENDENT_NEEDS_RECALC);
 	}
@@ -760,7 +770,7 @@ cell_add_dependencies (Cell *cell)
  * cell_drop_dependencies:
  * @cell:
  *
- * Remove the Cell from the DependencyRange hash tables
+ *
  **/
 void
 cell_drop_dependencies (Cell *cell)

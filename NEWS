@@ -11,6 +11,7 @@ Jody:
 	* Do not register commands for pasting a cut onto itself.
 	* Fix cloning checkboxes.
 	* Make all openers available on the import menu, just in case.
+	* Fix sheet objects as inter-sheet dependents.
 
 --------------------------------------------------------------------------
 Gnumeric 0.99.1

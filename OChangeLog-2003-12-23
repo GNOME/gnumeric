@@ -1,3 +1,12 @@
+2001-12-28  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet.c (sheet_destroy) : be more forgiving about exit errors.
+	(sheet_destroy_contents) : Remove stupid hash clearing.  Just delete
+	  the thing.
+
+	* src/eval.c (dependent_unlink) : Add a bogus krufty nasty unpleasant
+	  hack to disable the unlink optimization for sheet objects.
+
 2001-12-27  Jody Goldberg <jody@gnome.org>
 
 	* plugins/*/plugins.xml.in : make the probable openers available from

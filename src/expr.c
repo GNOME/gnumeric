@@ -1608,6 +1608,7 @@ expr_rewrite (ExprTree const *expr, ExprRewriteInfo const *rwinfo)
 		return NULL;
 	}
 	case OPER_SET:
+		return NULL;
 	}
 
 	g_assert_not_reached ();

@@ -2781,12 +2781,6 @@ cb_remove_allcells (gpointer ignored, gpointer value, gpointer flags)
 	return TRUE;
 }
 
-static gboolean
-cb_dummy_remove_func (void *key, void *value, void *user)
-{
-	return TRUE;
-}
-
 void
 sheet_destroy_contents (Sheet *sheet)
 {
@@ -2796,6 +2790,14 @@ sheet_destroy_contents (Sheet *sheet)
 
 	int i;
 	gpointer tmp;
+
+	/* A simple test to see if this has already been run. */
+	if (sheet->hash_merged == NULL)
+		return;
+
+	/* The memory is managed by Sheet::list_merged */
+	g_hash_table_destroy (sheet->hash_merged);
+	sheet->hash_merged = NULL;
 
 	if (sheet->list_merged) {
 		GSList *l;
@@ -2807,14 +2809,6 @@ sheet_destroy_contents (Sheet *sheet)
 		}
 		g_slist_free (sheet->list_merged);
 		sheet->list_merged = NULL;
-
-		/*
-		 * Remove everything.  This is faster than removing the
-		 * list elements as we see them.
-		 */
-		g_hash_table_foreach_remove (sheet->hash_merged,
-					     cb_dummy_remove_func,
-					     NULL);
 	}
 
 	/* Clear the row spans 1st */
@@ -2899,9 +2893,12 @@ sheet_destroy (Sheet *sheet)
 	sheet_destroy_contents (sheet);
 	sheet->names = expr_name_list_destroy (sheet->names);
 
-	g_hash_table_destroy (sheet->hash_merged);
-	sheet->hash_merged = NULL;
-	g_assert (sheet->list_merged == NULL);
+	if (sheet->list_merged != NULL) {
+		g_warning ("Merged list should be NULL");
+	}
+	if (sheet->hash_merged != NULL) {
+		g_warning ("Merged hash should be NULL");
+	}
 
 	/* Clear the cliboard to avoid dangling references to the deleted sheet */
 	if (sheet == application_clipboard_sheet_get ())
