@@ -36,7 +36,7 @@ estos métodos son equivalentes.</para>
 	  <listitem>
 	    <para>
 	    <guiicon>
-		<inlinegraphic fileref="../C/images/stock_save.gif"></inlinegraphic>
+		<inlinegraphic fileref="../C/images/stock-save.png"></inlinegraphic>
 		Guardar
 	      </guiicon>
 	    </para>
@@ -86,7 +86,7 @@ nuevo nombre para el archivo y una dirección donde guardarlo.</para>
 	  <listitem>
 	    <para>
 	      <guiicon>
-		<inlinegraphic fileref="../C/images/stock_save.gif"></inlinegraphic>
+		<inlinegraphic fileref="../C/images/stock-save.png"></inlinegraphic>
 		Guardar
 	      </guiicon>
 		  Cuando estemos con un archivo anónimo, con este

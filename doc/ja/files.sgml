@@ -36,7 +36,7 @@
 	  <listitem>
 	    <para>
 	      <guiicon>
-		<inlinegraphic fileref="images/stock_save.gif"></inlinegraphic>
+		<inlinegraphic fileref="images/stock-save.png"></inlinegraphic>
 		Save
 	      </guiicon>
 	    </para>
@@ -84,7 +84,7 @@
 	  <listitem>
 	    <para>
 	      <guiicon>
-		<inlinegraphic fileref="images/stock_save.gif"></inlinegraphic>
+		<inlinegraphic fileref="images/stock-save.png"></inlinegraphic>
 		Save
 	      </guiicon>
 	      このボタンバーを使うと、名前の付いていない新しいファイルに対して <guimenuitem>Save as...</guimenuitem> を呼び出すことができます。ファイル名を変更する場合は、メニューかキーボード・ショートカットを使う必要があります。

@@ -37,7 +37,7 @@
 	  <listitem>
 	    <para>
 	      <guiicon>
-		<inlinegraphic fileref="images/stock_save.gif"></inlinegraphic>
+		<inlinegraphic fileref="images/stock-save.png"></inlinegraphic>
 		Save
 	      </guiicon>
 	    </para>
@@ -89,7 +89,7 @@
 	  <listitem>
 	    <para>
 	      <guiicon>
-		<inlinegraphic fileref="images/stock_save.gif"></inlinegraphic>
+		<inlinegraphic fileref="images/stock-save.png"></inlinegraphic>
 		Save
 	      </guiicon>
 	      This calls <guimenuitem>Save as...</guimenuitem> for new unnamed files. To rename a file, the menu

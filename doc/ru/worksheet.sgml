@@ -180,7 +180,7 @@
     <variablelist>
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/stock_new.gif"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="images/stock-new.png"></inlinegraphic>
 	    Новый файл.
 	  </guiicon>
 	</term>
@@ -191,7 +191,7 @@
       
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/stock_open.gif"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="images/stock-open.png"></inlinegraphic>
 	    Открыть
 	  </guiicon>
 	</term>
@@ -202,7 +202,7 @@
 
       <varlistentry>
 	<term
-	  <guiicon><inlinegraphic fileref="images/stock_save.gif"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="images/stock-save.png"></inlinegraphic>
 	    Сохранить
 	  </guiicon>
 	</term>
@@ -213,7 +213,7 @@
 
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/stock_cut.gif"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="images/stock-cut.png"></inlinegraphic>
 	    Вырезать
 	  </guiicon>
 	</term>
@@ -225,7 +225,7 @@
       
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/stock_copy.gif"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="images/stock-copy.png"></inlinegraphic>
 	    Скопировать
 	  </guiicon>
 	</term>
@@ -237,7 +237,7 @@
       
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/stock_paste.gif"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="images/stock-paste.png"></inlinegraphic>
 	    Вставить
 	  </guiicon>
 	</term>
@@ -249,7 +249,7 @@
       
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/align-left.gif"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="images/align-left.png"></inlinegraphic>
 	    Выключка влево..
 	  </guiicon>
 	</term>
@@ -259,7 +259,7 @@
       </varlistentry>
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/align-center.gif"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="images/align-center.png"></inlinegraphic>
 	    Выключка по центру
 	  </guiicon>
 	</term>
@@ -271,7 +271,7 @@
       
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/align-right.gif"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="images/align-right.png"></inlinegraphic>
 	    Выключка вправо...
 	  </guiicon>
 	</term>
@@ -282,7 +282,7 @@
 
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/bold.gif"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="images/bold.png"></inlinegraphic>
 	    Полужирный
 	  </guiicon>
 	</term>
@@ -294,7 +294,7 @@
 
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/italic.gif"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="images/italic.png"></inlinegraphic>
 	    Наклонный
 	  </guiicon>
 	</term>
@@ -305,7 +305,7 @@
 
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/line.gif"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="images/line.png"></inlinegraphic>
 	    Линия
 	  </guiicon>
 	</term>
@@ -316,7 +316,7 @@
 
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/arrow.gif"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="images/arrow.png"></inlinegraphic>
 	    Стрелка
 	  </guiicon>
 	</term>
@@ -327,7 +327,7 @@
 
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/rect.gif"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="images/rect.png"></inlinegraphic>
 	    Прямоугольник
 	  </guiicon>
 	</term>
@@ -338,7 +338,7 @@
 
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/oval.gif"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="images/oval.png"></inlinegraphic>
 	    Эллипс
 	  </guiicon>
 	</term>

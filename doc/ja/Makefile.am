@@ -65,7 +65,7 @@ dist-hook:
 	-cp gnumeric/*.html gnumeric/*.css $(distdir)/gnumeric
 	-cp gnumeric.html $(distdir)
 	mkdir $(distdir)/images
-	-cp images/*.gif images/*.jpg $(distdir)/images
+	-cp images/*.png images/*.jpg $(distdir)/images
 
 install-data-local: gnumeric.html
 	$(mkinstalldirs) $(gnumeric_helpdir)/images

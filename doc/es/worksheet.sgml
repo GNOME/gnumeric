@@ -201,7 +201,7 @@ objetivo es proporcionar un acceso rápido a estas herramientas.</para>
     <variablelist>
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="../C/images/stock_new.gif"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="../C/images/stock-new.png"></inlinegraphic>
 	    Nuevo Archivo.
 	  </guiicon>
 	</term>
@@ -212,7 +212,7 @@ objetivo es proporcionar un acceso rápido a estas herramientas.</para>
       
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="../C/images/stock_open.gif"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="../C/images/stock-open.png"></inlinegraphic>
 	    Abrir
 	  </guiicon>
 	</term>
@@ -223,7 +223,7 @@ objetivo es proporcionar un acceso rápido a estas herramientas.</para>
 
       <varlistentry>
 	<term
-	  <guiicon><inlinegraphic fileref="../C/images/stock_save.gif"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="../C/images/stock-save.png"></inlinegraphic>
 	    Guardar
 	  </guiicon>
 	</term>
@@ -234,7 +234,7 @@ objetivo es proporcionar un acceso rápido a estas herramientas.</para>
 
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="../C/images/stock_cut.gif"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="../C/images/stock-cut.png"></inlinegraphic>
 	    Cortar
 	  </guiicon>
 	</term>
@@ -246,7 +246,7 @@ objetivo es proporcionar un acceso rápido a estas herramientas.</para>
       
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="../C/images/stock_copy.gif"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="../C/images/stock-copy.png"></inlinegraphic>
 	    Copiar
 	  </guiicon>
 	</term>
@@ -259,7 +259,7 @@ búfer.</para>
       
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="../C/images/stock_paste.gif"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="../C/images/stock-paste.png"></inlinegraphic>
 	    Pegar
 	  </guiicon>
 	</term>
@@ -272,7 +272,7 @@ activa.</para>
       
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="../C/images/align-left.gif"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="../C/images/align-left.png"></inlinegraphic>
 	    Justificar a la izquierda.
 	  </guiicon>
 	</term>
@@ -283,7 +283,7 @@ izquierda.</para>
       </varlistentry>
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="../C/images/align-center.gif"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="../C/images/align-center.png"></inlinegraphic>
 	    Centrar
 	  </guiicon>
 	</term>
@@ -295,7 +295,7 @@ izquierda.</para>
       
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="../C/images/align-right.gif"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="../C/images/align-right.png"></inlinegraphic>
 	    Justificar a la derecha
 	  </guiicon>
 	</term>
@@ -307,7 +307,7 @@ derecha.</para>
 
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="../C/images/bold.gif"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="../C/images/bold.png"></inlinegraphic>
 	    Negrita
 	  </guiicon>
 	</term>
@@ -320,7 +320,7 @@ la negrita en caso de que estuviese activada.</para>
 
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="../C/images/italic.gif"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="../C/images/italic.png"></inlinegraphic>
 	    Itálica
 	  </guiicon>
 	</term>
@@ -332,7 +332,7 @@ itálica.</para>
 
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="../C/images/line.gif"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="../C/images/line.png"></inlinegraphic>
 	    Línea
 	  </guiicon>
 	</term>
@@ -343,7 +343,7 @@ itálica.</para>
 
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="../C/images/arrow.gif"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="../C/images/arrow.png"></inlinegraphic>
 	    Flecha
 	  </guiicon>
 	</term>
@@ -354,7 +354,7 @@ itálica.</para>
 
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="../C/images/rect.gif"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="../C/images/rect.png"></inlinegraphic>
 	    Caja
 	  </guiicon>
 	</term>
@@ -365,7 +365,7 @@ itálica.</para>
 
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="../C/images/oval.gif"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="../C/images/oval.png"></inlinegraphic>
 	    Elipse
 	  </guiicon>
 	</term>

@@ -34,7 +34,7 @@
 	  <listitem>
 	    <para>
 	    <guiicon>
-		<inlinegraphic fileref="images/stock_save.gif"></inlinegraphic>
+		<inlinegraphic fileref="images/stock-save.png"></inlinegraphic>
 		Сохранить
 	      </guiicon>
 	    </para>
@@ -84,7 +84,7 @@
 	  <listitem>
 	    <para>
 	      <guiicon>
-		<inlinegraphic fileref="images/stock_save.gif"></inlinegraphic>
+		<inlinegraphic fileref="images/stock-save.png"></inlinegraphic>
 		Сохранить
 	      </guiicon>
 		  Эта кнопка вызывает <guimenuitem>Сохранить как...</guimenuitem> для новых неназванных файлов. Чтобы переименовать файл,

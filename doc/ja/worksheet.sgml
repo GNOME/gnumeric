@@ -175,7 +175,7 @@ Gnumeric ¤ò³«¤¯¤È¡¢¥ï¡¼¥¯¥·¡¼¥È¤Î¥Ó¥å¡¼¤¬É½¼¨¤µ¤ì¤Þ¤¹¡£¤³¤³¤Ç¡¢¥¹¥×¥ì¥Ã¥É¥·¡¼¥È¤
     <variablelist>
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/stock_new.gif"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="images/stock-new.png"></inlinegraphic>
 	    New File.
 	  </guiicon>
 	</term>
@@ -186,7 +186,7 @@ Gnumeric ¤ò³«¤¯¤È¡¢¥ï¡¼¥¯¥·¡¼¥È¤Î¥Ó¥å¡¼¤¬É½¼¨¤µ¤ì¤Þ¤¹¡£¤³¤³¤Ç¡¢¥¹¥×¥ì¥Ã¥É¥·¡¼¥È¤
       
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/stock_open.gif"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="images/stock-open.png"></inlinegraphic>
 	    Open
 	  </guiicon>
 	</term>
@@ -197,7 +197,7 @@ Gnumeric ¤ò³«¤¯¤È¡¢¥ï¡¼¥¯¥·¡¼¥È¤Î¥Ó¥å¡¼¤¬É½¼¨¤µ¤ì¤Þ¤¹¡£¤³¤³¤Ç¡¢¥¹¥×¥ì¥Ã¥É¥·¡¼¥È¤
 
       <varlistentry>
 	<term
-	  <guiicon><inlinegraphic fileref="images/stock_save.gif"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="images/stock-save.png"></inlinegraphic>
 	    Save
 	  </guiicon>
 	</term>
@@ -208,7 +208,7 @@ Gnumeric ¤ò³«¤¯¤È¡¢¥ï¡¼¥¯¥·¡¼¥È¤Î¥Ó¥å¡¼¤¬É½¼¨¤µ¤ì¤Þ¤¹¡£¤³¤³¤Ç¡¢¥¹¥×¥ì¥Ã¥É¥·¡¼¥È¤
 
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/stock_cut.gif"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="images/stock-cut.png"></inlinegraphic>
 	    Cut
 	  </guiicon>
 	</term>
@@ -220,7 +220,7 @@ Gnumeric ¤ò³«¤¯¤È¡¢¥ï¡¼¥¯¥·¡¼¥È¤Î¥Ó¥å¡¼¤¬É½¼¨¤µ¤ì¤Þ¤¹¡£¤³¤³¤Ç¡¢¥¹¥×¥ì¥Ã¥É¥·¡¼¥È¤
       
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/stock_copy.gif"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="images/stock-copy.png"></inlinegraphic>
 	    Copy
 	  </guiicon>
 	</term>
@@ -233,7 +233,7 @@ Gnumeric ¤ò³«¤¯¤È¡¢¥ï¡¼¥¯¥·¡¼¥È¤Î¥Ó¥å¡¼¤¬É½¼¨¤µ¤ì¤Þ¤¹¡£¤³¤³¤Ç¡¢¥¹¥×¥ì¥Ã¥É¥·¡¼¥È¤
       
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/stock_paste.gif"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="images/stock-paste.png"></inlinegraphic>
 	    Paste
 	  </guiicon>
 	</term>
@@ -245,7 +245,7 @@ Gnumeric ¤ò³«¤¯¤È¡¢¥ï¡¼¥¯¥·¡¼¥È¤Î¥Ó¥å¡¼¤¬É½¼¨¤µ¤ì¤Þ¤¹¡£¤³¤³¤Ç¡¢¥¹¥×¥ì¥Ã¥É¥·¡¼¥È¤
       
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/align-left.gif"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="images/align-left.png"></inlinegraphic>
 	    Left justify..
 	  </guiicon>
 	</term>
@@ -255,7 +255,7 @@ Gnumeric ¤ò³«¤¯¤È¡¢¥ï¡¼¥¯¥·¡¼¥È¤Î¥Ó¥å¡¼¤¬É½¼¨¤µ¤ì¤Þ¤¹¡£¤³¤³¤Ç¡¢¥¹¥×¥ì¥Ã¥É¥·¡¼¥È¤
       </varlistentry>
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/align-center.gif"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="images/align-center.png"></inlinegraphic>
 	    Center
 	  </guiicon>
 	</term>
@@ -267,7 +267,7 @@ Gnumeric ¤ò³«¤¯¤È¡¢¥ï¡¼¥¯¥·¡¼¥È¤Î¥Ó¥å¡¼¤¬É½¼¨¤µ¤ì¤Þ¤¹¡£¤³¤³¤Ç¡¢¥¹¥×¥ì¥Ã¥É¥·¡¼¥È¤
       
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/align-right.gif"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="images/align-right.png"></inlinegraphic>
 	    Right Justify
 	  </guiicon>
 	</term>
@@ -278,7 +278,7 @@ Gnumeric ¤ò³«¤¯¤È¡¢¥ï¡¼¥¯¥·¡¼¥È¤Î¥Ó¥å¡¼¤¬É½¼¨¤µ¤ì¤Þ¤¹¡£¤³¤³¤Ç¡¢¥¹¥×¥ì¥Ã¥É¥·¡¼¥È¤
 
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/bold.gif"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="images/bold.png"></inlinegraphic>
 	    Bold
 	  </guiicon>
 	</term>
@@ -290,7 +290,7 @@ Gnumeric ¤ò³«¤¯¤È¡¢¥ï¡¼¥¯¥·¡¼¥È¤Î¥Ó¥å¡¼¤¬É½¼¨¤µ¤ì¤Þ¤¹¡£¤³¤³¤Ç¡¢¥¹¥×¥ì¥Ã¥É¥·¡¼¥È¤
 
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/italic.gif"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="images/italic.png"></inlinegraphic>
 	    Italic
 	  </guiicon>
 	</term>
@@ -301,7 +301,7 @@ Gnumeric ¤ò³«¤¯¤È¡¢¥ï¡¼¥¯¥·¡¼¥È¤Î¥Ó¥å¡¼¤¬É½¼¨¤µ¤ì¤Þ¤¹¡£¤³¤³¤Ç¡¢¥¹¥×¥ì¥Ã¥É¥·¡¼¥È¤
 
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/line.gif"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="images/line.png"></inlinegraphic>
 	    Line
 	  </guiicon>
 	</term>
@@ -312,7 +312,7 @@ Gnumeric ¤ò³«¤¯¤È¡¢¥ï¡¼¥¯¥·¡¼¥È¤Î¥Ó¥å¡¼¤¬É½¼¨¤µ¤ì¤Þ¤¹¡£¤³¤³¤Ç¡¢¥¹¥×¥ì¥Ã¥É¥·¡¼¥È¤
 
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/arrow.gif"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="images/arrow.png"></inlinegraphic>
 	    Arrow
 	  </guiicon>
 	</term>
@@ -323,7 +323,7 @@ Gnumeric ¤ò³«¤¯¤È¡¢¥ï¡¼¥¯¥·¡¼¥È¤Î¥Ó¥å¡¼¤¬É½¼¨¤µ¤ì¤Þ¤¹¡£¤³¤³¤Ç¡¢¥¹¥×¥ì¥Ã¥É¥·¡¼¥È¤
 
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/rect.gif"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="images/rect.png"></inlinegraphic>
 	    Box
 	  </guiicon>
 	</term>
@@ -334,7 +334,7 @@ Gnumeric ¤ò³«¤¯¤È¡¢¥ï¡¼¥¯¥·¡¼¥È¤Î¥Ó¥å¡¼¤¬É½¼¨¤µ¤ì¤Þ¤¹¡£¤³¤³¤Ç¡¢¥¹¥×¥ì¥Ã¥É¥·¡¼¥È¤
 
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/oval.gif"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="images/oval.png"></inlinegraphic>
 	    Ellipse
 	  </guiicon>
 	</term>
