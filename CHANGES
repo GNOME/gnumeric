@@ -11,6 +11,7 @@ And fixed these:
 
 Morten:
 	* Found everyone else's bugs.
+	* Reworked the insert/delete column/row again.
 
 Miguel
 	*

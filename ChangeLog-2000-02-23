@@ -1,3 +1,28 @@
+1999-05-21  Morten Welinder  <terra@diku.dk>
+
+	* src/sheet-autofill.c (autofill_cell): Add FIXME.
+
+	* src/sheet.h (IS_SHEET): Remove cast.
+
+	* src/expr.h: Delete expr_tree_relocate.
+
+	* src/expr.c (fixup_calc_new_cellref): New function.
+	(do_expr_tree_fixup_references): Simplify using
+ 	fixup_calc_new_cellref.
+	(do_expr_tree_relocate): Delete.
+	(expr_tree_relocate): Delete.
+
+	* src/sheet.c (sheet_cell_formula_link): Add debug code.
+	(sheet_insert_col, sheet_delete_col, sheet_insert_row,
+ 	sheet_delete_row): Do fixups early.
+
+	* src/cell.c (cell_relocate): Don't relocate cell -- fixup handles
+ 	all that is needed.
+
+	* src/color.c (gs_white, gs_black, gs_light_gray, gs_dark_gray,
+ 	gs_red): Moved from src/gnumeric-sheet.c.
+	(gnumeric_color_context): make static.
+
 1999-05-21  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/fn-stat.c: PERCENTRANK() added.

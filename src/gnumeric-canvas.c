@@ -17,13 +17,8 @@
 #include "cursors.h"
 #include "utils.h"
 
-#define CURSOR_COL(gsheet) gsheet->sheet_view->sheet->cursor_col
-#define CURSOR_ROW(gsheet) gsheet->sheet_view->sheet->cursor_row
-
-/* Public colors: shared by all of our items in Gnumeric */
-
-GdkColor gs_white, gs_black, gs_light_gray, gs_dark_gray, gs_red;
-
+#define CURSOR_COL(gsheet) (gsheet)->sheet_view->sheet->cursor_col
+#define CURSOR_ROW(gsheet) (gsheet)->sheet_view->sheet->cursor_row
 
 static GnomeCanvasClass *sheet_parent_class;
 
@@ -1227,4 +1222,3 @@ gnumeric_sheet_get_type (void)
 
 	return gnumeric_sheet_type;
 }
-

@@ -173,7 +173,7 @@ struct _Sheet {
 };
 
 #define SHEET_SIGNATURE 0x12349876
-#define IS_SHEET(x) (((Sheet *) x)->signature == SHEET_SIGNATURE)
+#define IS_SHEET(x) ((x)->signature == SHEET_SIGNATURE)
 
 typedef  void (*sheet_col_row_callback)(Sheet *sheet, ColRowInfo *ci,
 					void *user_data);

@@ -20,6 +20,8 @@
 #    include <libgnorba/gnorba.h>
 #endif
 
+#undef DEBUG_CELL_FORMULA_LIST
+
 #define GNUMERIC_SHEET_VIEW(p) GNUMERIC_SHEET (SHEET_VIEW(p)->sheet_view);
 
 /* Used to locate cells in a sheet */
@@ -2194,6 +2196,16 @@ sheet_cell_formula_link (Cell *cell)
 
 	sheet = cell->sheet;
 
+#ifdef DEBUG_CELL_FORMULA_LIST
+	if (g_list_find (sheet->workbook->formula_cell_list, cell)) {
+		/* Anything that shows here is a bug.  */
+		g_warning ("Cell %s %p re-linked\n",
+			   cell_name (cell->col->pos, cell->row->pos),
+			   cell);
+		return;
+	}
+#endif
+
 	sheet->workbook->formula_cell_list = g_list_prepend (sheet->workbook->formula_cell_list, cell);
 	cell_add_dependencies (cell);
 }
@@ -2693,6 +2705,9 @@ sheet_insert_col (Sheet *sheet, int col, int count)
 
 	/* FIXME: we should probably invalidate the rightmost `count' columns here.  */
 
+	/* Fixup all references to point at cells' new location.  */
+	workbook_fixup_references (sheet->workbook, sheet, col, 0, count, 0);
+
 	/* 1. Start scaning from the last column toward the goal column
 	 *    moving all of the cells to their new location
 	 */
@@ -2722,8 +2737,6 @@ sheet_insert_col (Sheet *sheet, int col, int count)
 		/* 1.4 Go to the next column */
 		cur_col = cur_col->prev;
 	} while (cur_col);
-
-	workbook_fixup_references (sheet->workbook, sheet, col, 0, count, 0);
 
 	/* 2. Recompute dependencies */
 	deps = region_get_dependencies (sheet, col, 0, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
@@ -2757,6 +2770,9 @@ sheet_delete_col (Sheet *sheet, int col, int count)
 	/* Invalidate all references to cells being deleted.  */
 	workbook_invalidate_references (sheet->workbook, sheet, col, 0, count, 0);
 
+	/* Fixup all references to point at cells' new location.  */
+	workbook_fixup_references (sheet->workbook, sheet, col, 0, -count, 0);
+
 	/* Assemble the list of columns to destroy */
 	destroy_list = NULL;
 	for (cols = sheet->cols_info; cols; cols = cols->next){
@@ -2788,8 +2804,6 @@ sheet_delete_col (Sheet *sheet, int col, int count)
 		sheet_move_column (sheet, ci, ci->pos-count);
 	}
 
-	workbook_fixup_references (sheet->workbook, sheet, col, 0, -count, 0);
-
 	/* Recompute dependencies */
 	deps = region_get_dependencies (sheet, col, 0, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
 	cell_queue_recalc_list (deps);
@@ -2820,7 +2834,7 @@ colrow_closest_above (GList *l, int pos)
  * @sheet the sheet
  * @row   row where the shifting takes place
  * @col   first column
- * @count numbers of columns to shift.  anegative numbers will
+ * @count numbers of columns to shift.  negative numbers will
  *        delete count columns, positive number will insert
  *        count columns.
  */
@@ -2947,6 +2961,9 @@ sheet_insert_row (Sheet *sheet, int row, int count)
 
 	/* FIXME: we should probably invalidate the bottom `count' rows here.  */
 
+	/* Fixup all references to point at cells' new location.  */
+	workbook_fixup_references (sheet->workbook, sheet, 0, row, 0, count);
+
 	/* 1. Walk every column, see which cells are out of range */
 	for (cols = sheet->cols_info; cols; cols = cols->next){
 		ColRowInfo *ci = cols->data;
@@ -3013,8 +3030,6 @@ sheet_insert_row (Sheet *sheet, int row, int count)
 
 	g_list_free (cell_store);
 
-	workbook_fixup_references (sheet->workbook, sheet, 0, row, 0, count);
-
 	/* 4. Recompute any changes required */
 	deps = region_get_dependencies (sheet, 0, row, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
 	cell_queue_recalc_list (deps);
@@ -3042,6 +3057,9 @@ sheet_delete_row (Sheet *sheet, int row, int count)
 	/* Invalidate all references to cells being deleted.  */
 	workbook_invalidate_references (sheet->workbook, sheet, 0, row, 0, count);
 
+	/* Fixup all references to point at cells' new location.  */
+	workbook_fixup_references (sheet->workbook, sheet, 0, row, 0, -count);
+
 	/* 1. Remove cells from hash tables and grab all dangling rows */
 	cell_store = NULL;
 	for (cols = sheet->cols_info; cols; cols = cols->next){
@@ -3056,7 +3074,7 @@ sheet_delete_row (Sheet *sheet, int row, int count)
 				continue;
 
 			if (cell->parsed_node)
-			  sheet_cell_formula_unlink (cell);
+				sheet_cell_formula_unlink (cell);
 
 			sheet_cell_remove_from_hash (sheet, cell);
 
@@ -3109,8 +3127,6 @@ sheet_delete_row (Sheet *sheet, int row, int count)
 		cell_relocate (cell, 0, -count);
 	}
 	g_list_free (cell_store);
-
-	workbook_fixup_references (sheet->workbook, sheet, 0, row, 0, -count);
 
 	/* 4. Recompute dependencies */
 	deps = region_get_dependencies (sheet, 0, row, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);

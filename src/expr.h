@@ -159,7 +159,6 @@ ParseErr    gnumeric_expr_parser (const char *expr, Sheet *sheet,
 				  ExprTree **tree);
 
 ExprTree   *expr_tree_duplicate  (ExprTree *expr);
-ExprTree   *expr_tree_relocate   (ExprTree *expr, int col_diff, int row_diff);
 char       *expr_decode_tree     (ExprTree *tree, Sheet *sheet,
 				  int col, int row);
 

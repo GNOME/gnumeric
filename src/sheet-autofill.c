@@ -516,6 +516,8 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 	}
 		
 	case FILL_FORMULA: {
+		/* FIXME: we should invalidate cell refs that are now outside
+		   the valid range.  */
 		cell_set_formula_tree (cell, fi->v.formula);
 		return;
 	}

@@ -1451,132 +1451,6 @@ expr_decode_tree (ExprTree *tree, Sheet *sheet, int col, int row)
 	return do_expr_decode_tree (tree, sheet, col, row, 0);
 }
 
-static ExprTree *
-do_expr_tree_relocate (ExprTree *tree, int coldiff, int rowdiff)
-{
-	switch (tree->oper){
-	case OPER_ANY_BINARY: {
-		ExprTree *a, *b, *new_tree;
-
-		a = do_expr_tree_relocate (tree->u.binary.value_a, coldiff, rowdiff);
-		b = do_expr_tree_relocate (tree->u.binary.value_b, coldiff, rowdiff);
-		if (!a && !b) return NULL;
-
-		if (!a)
-			expr_tree_ref ((a = tree->u.binary.value_a));
-		if (!b)
-			expr_tree_ref ((b = tree->u.binary.value_b));
-
-		new_tree = g_new (ExprTree, 1);
-		new_tree->oper = tree->oper;
-		new_tree->ref_count = 1;
-		new_tree->u.binary.value_a = a;
-		new_tree->u.binary.value_b = b;
-		return new_tree;
-	}
-
-	case OPER_ANY_UNARY: {
-		ExprTree *a, *new_tree;
-
-		a = do_expr_tree_relocate (tree->u.value, coldiff, rowdiff);
-		if (!a) return NULL;
-
-		new_tree = g_new (ExprTree, 1);
-		new_tree->oper = tree->oper;
-		new_tree->ref_count = 1;
-		new_tree->u.value = a;
-		return new_tree;
-	}
-
-	case OPER_FUNCALL: {
-		gboolean any = FALSE;
-		GList *new_args = NULL;
-		GList *l;
-
-		for (l = tree->u.function.arg_list; l; l = l->next) {
-			ExprTree *arg = do_expr_tree_relocate (l->data, coldiff, rowdiff);
-			new_args = g_list_append (new_args, arg);
-			if (arg) any = TRUE;
-		}
-
-		if (any) {
-			ExprTree *new_tree;
-			GList *m;
-
-			for (l = tree->u.function.arg_list, m = new_args; l; l = l->next, m = m->next) {
-				if (m->data == NULL)
-					expr_tree_ref ((m->data = l->data));
-			}
-
-			new_tree = g_new (ExprTree, 1);
-			new_tree->oper = OPER_FUNCALL;
-			new_tree->ref_count = 1;
-			symbol_ref ((new_tree->u.function.symbol = tree->u.function.symbol));
-			new_tree->u.function.arg_list = new_args;
-
-			return new_tree;
-		} else {
-			g_list_free (new_args);
-			return NULL;
-		}
-	}
-
-	case OPER_VAR: {
-		ExprTree *new_tree;
-
-		new_tree = g_new (ExprTree, 1);
-		new_tree->oper = tree->oper;
-		new_tree->ref_count = 1;
-		new_tree->u.ref = tree->u.ref;
-		new_tree->u.ref.col -= coldiff;
-		new_tree->u.ref.row -= rowdiff;
-		return new_tree;
-	}
-
-	case OPER_CONSTANT: {
-		if (tree->u.constant->type == VALUE_CELLRANGE) {
-			ExprTree *new_tree;
-			CellRef *ref;
-
-			new_tree = g_new (ExprTree, 1);
-			new_tree->oper = tree->oper;
-			new_tree->ref_count = 1;
-			new_tree->u.constant = value_duplicate (tree->u.constant);
-
-			ref = &new_tree->u.constant->v.cell_range.cell_a;
-			ref->col -= coldiff;
-			ref->row -= rowdiff;
-
-			ref = &new_tree->u.constant->v.cell_range.cell_b;
-			ref->col -= coldiff;
-			ref->row -= rowdiff;
-
-			return new_tree;
-		} else
-			return NULL;
-	}
-	}
-
-	g_assert_not_reached ();
-	return NULL;
-}
-
-/*
- * Create a copy of an expression they way it should look after being
- * moved (coldiff,rowdiff) with a sheet.
- *
- * A return value of NULL means "no change necessary".  If a copy really
- * is desired in that case, a simple expr_tree_ref should do.
- */
-
-ExprTree *
-expr_tree_relocate (ExprTree *tree, int coldiff, int rowdiff)
-{
-	g_return_val_if_fail (tree != NULL, NULL);
-
-	return do_expr_tree_relocate (tree, coldiff, rowdiff);
-}
-
 
 static ExprTree *
 build_error_string (const char *txt)
@@ -1620,7 +1494,7 @@ struct expr_tree_frob_references {
 	/* Relative move (fixup only).  */
 	int coldelta, rowdelta;
 
-                /* In this sheet */
+	/* In this sheet */
 	Sheet *sheet;
 
 	/* Are we deleting?  (fixup only).  */
@@ -1819,6 +1693,46 @@ expr_tree_invalidate_references (ExprTree *src, Sheet *src_sheet,
 	return dst;
 }
 
+
+static gboolean
+fixup_calc_new_cellref (CellRef *crp, const struct expr_tree_frob_references *info)
+{
+	CellRef oldcr = *crp;
+	int src_col = info->src_col;
+	int src_row = info->src_row;
+	cell_ref_make_absolute (crp, src_col, src_row);
+
+	if (info->deleting) {
+		if (info->colcount) {
+			if (crp->col >= info->col)
+				crp->col = MAX (crp->col - info->colcount, info->col);
+			if (src_col >= info->col)
+				src_col = MAX (src_col - info->colcount, info->col);
+		} else {
+			if (crp->row >= info->row)
+				crp->row = MAX (crp->row - info->rowcount, info->row);
+			if (src_row >= info->row)
+				src_row = MAX (src_row - info->rowcount, info->row);
+		}
+	} else {
+		if (info->colcount) {
+			if (crp->col >= info->col)
+				crp->col += info->colcount;
+			if (src_col >= info->col)
+				src_col += info->colcount;
+		} else {
+			if (crp->row >= info->row)
+				crp->row += info->rowcount;
+			if (src_row >= info->row)
+				src_row += info->rowcount;
+		}
+	}
+
+	cell_ref_restore_absolute (crp, &oldcr, src_col, src_row);
+	return (crp->col != oldcr.col || crp->row != oldcr.row);
+}
+
+
 static ExprTree *
 do_expr_tree_fixup_references (ExprTree *src, const struct expr_tree_frob_references *info)
 {
@@ -1897,30 +1811,22 @@ do_expr_tree_fixup_references (ExprTree *src, const struct expr_tree_frob_refere
 	}
 
 	case OPER_VAR: {
+		ExprTree *dst;
 		CellRef cr = src->u.ref; /* Copy a structure, not a pointer.  */
 
-                                /* If the sheet is wrong, do nothing.  */
+		/* If the sheet is wrong, do nothing.  */
 		if (cr.sheet != info->sheet)
 			return NULL;
 
-		cell_ref_make_absolute (&cr, info->src_col, info->src_row);
-
-		if (cr.col >= info->col && cr.row >= info->row) {
-			ExprTree *dst;
-
-			cr.col += info->coldelta;
-			cr.row += info->rowdelta;
-
-			cell_ref_restore_absolute (&cr, &src->u.ref, info->src_col, info->src_row);
-
-			dst = g_new (ExprTree, 1);
-			dst->oper = src->oper;
-			dst->ref_count = 1;
-			dst->u.ref = cr;
-
-			return dst;
-		} else
+		if (!fixup_calc_new_cellref (&cr, info))
 			return NULL;
+
+		dst = g_new (ExprTree, 1);
+		dst->oper = src->oper;
+		dst->ref_count = 1;
+		dst->u.ref = cr;
+
+		return dst;
 	}
 
 	case OPER_CONSTANT: {
@@ -1933,7 +1839,9 @@ do_expr_tree_fixup_references (ExprTree *src, const struct expr_tree_frob_refere
 			return NULL;
 
 		case VALUE_CELLRANGE: {
-			gboolean any = FALSE;
+			gboolean a_changed, b_changed;
+			ExprTree *dst;
+			Value *nv;
 
 			CellRef ca = v->v.cell_range.cell_a; /* Copy a structure, not a pointer.  */
 			CellRef cb = v->v.cell_range.cell_b; /* Copy a structure, not a pointer.  */
@@ -1942,55 +1850,23 @@ do_expr_tree_fixup_references (ExprTree *src, const struct expr_tree_frob_refere
 			if (ca.sheet != info->sheet)
 				return NULL;
 
-			cell_ref_make_absolute (&ca, info->src_col, info->src_row);
-			cell_ref_make_absolute (&cb, info->src_col, info->src_row);
+			a_changed = fixup_calc_new_cellref (&ca, info);
+			b_changed = fixup_calc_new_cellref (&cb, info);
 
-			if (ca.col >= info->col && ca.row >= info->row) {
-				any = TRUE;
-				if (info->deleting && cell_in_range (&ca, info)) {
-					if (info->colcount)
-						ca.col = info->col;
-					else
-						ca.row = info->row;
-				} else {
-					ca.col += info->coldelta;
-					ca.row += info->rowdelta;
-				}
-			}
-
-			if (cb.col >= info->col && cb.row >= info->row) {
-				any = TRUE;
-				if (info->deleting && cell_in_range (&cb, info)) {
-					if (info->colcount)
-						cb.col = info->col - 1;
-					else
-						cb.row = info->row - 1;
-				} else {
-					cb.col += info->coldelta;
-					cb.row += info->rowdelta;
-				}
-			}
-
-			if (any) {
-				ExprTree *dst;
-				Value *nv;
-
-				cell_ref_restore_absolute (&ca, &v->v.cell_range.cell_a, info->src_col, info->src_row);
-				cell_ref_restore_absolute (&cb, &v->v.cell_range.cell_b, info->src_col, info->src_row);
-
-				nv = g_new (Value, 1);
-				nv->type = v->type;
-				nv->v.cell_range.cell_a = ca;
-				nv->v.cell_range.cell_b = cb;
-
-				dst = g_new (ExprTree, 1);
-				dst->oper = src->oper;
-				dst->ref_count = 1;
-				dst->u.constant = nv;
-
-				return dst;
-			} else
+			if (!a_changed && !b_changed)
 				return NULL;
+
+			nv = g_new (Value, 1);
+			nv->type = v->type;
+			nv->v.cell_range.cell_a = ca;
+			nv->v.cell_range.cell_b = cb;
+
+			dst = g_new (ExprTree, 1);
+			dst->oper = src->oper;
+			dst->ref_count = 1;
+			dst->u.constant = nv;
+
+			return dst;
 		}
 		case VALUE_ARRAY:
 			fprintf (stderr, "Reminder: FIXME in do_expr_tree_fixup_references\n");
