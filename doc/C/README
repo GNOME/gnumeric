@@ -10,6 +10,9 @@ The TODO list can be obtained by
 
 grep -in todo *.xml
 
+add TODO items as self contained comments begining at the start of the
+line. 
+
 
 
 Adding and removing files:

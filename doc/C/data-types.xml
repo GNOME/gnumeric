@@ -206,6 +206,8 @@
 <sect2 id="sect-data-numbers">
   <title>Number Data Elements</title>
 
+<!-- TODO: add influence of locale (decimal, thousands sep) on number format. -->
+
   <para>
     Number data elements include a variety of data all of which are
     stored and manipulated by <application>Gnumeric</application> as

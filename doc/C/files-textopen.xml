@@ -780,6 +780,8 @@
 	    column width definition area.
 	    </term>
 	    <listitem>
+<!-- TODO: add mention of dbl-click to locate the start of the
+	    column. -->
 	      <para>
 	        This area acts as both a preview area and an area
 	        where users can define the columns widths.
@@ -941,6 +943,7 @@
 	        others. These locales generally then use the other
 	        character as the spacer grouping the digits in
 	        thousands. 
+<!-- TODO: add xref to localization discuss and to number formats. -->
 	      </para>
 	    </listitem>
           </varlistentry>
@@ -1021,9 +1024,9 @@
 
   </sect2>
 
+<!-- TODO: v4.3 change middle <step>s into <stepalternative>s -->
 
 <!-- TODO: add section 'Procedure to use the text importer'.
-
   <sect2 id="sect-file-textImport-druid-process">
     <title>
       The procedure to use the <interface>Text Import</interface>
@@ -1034,6 +1037,10 @@
       
     </para>
 
+    <para>
+      Explain the optional-ness of the options.  
+    </para>
+
     <procedure>
       <title>
 	The procedure to use the <interface>Text Import</interface>
@@ -1042,22 +1049,254 @@
 
       <step>
 	<title>
-	  Step title
+	  Open the File using the "Text import (configurable)" format.
 	</title>
 	<para>
 	  Step description
 	</para>
+	<substeps>
+          <step>
+	    <title>
+	      Launch the <interface>File Open</interface> dialog.
+	    </title>
+	    <para>
+	      Substep description
+	    </para>
+          </step>
+          <step>
+	    <title>
+	      Select the folder and file to be opened.
+	    </title>
+	    <para>
+	      Substep description
+	    </para>
+          </step>
+          <step>
+	    <title>
+	      Select the "Text import (configurable)" format type.
+	    </title>
+	    <para>
+	      Substep description
+	    </para>
+          </step>
+          <step>
+	    <title>
+	      (Optional) Select the character encoding scheme.
+	    </title>
+	    <para>
+	      Substep description
+	    </para>
+          </step>
+          <step>
+	    <title>
+	      Open the file.
+	    </title>
+	    <para>
+	      Click on the <guibutton>Open</guibutton> button to open
+	      the file using the <interface>Text Importer</interface>.
+	    </para>
+          </step>
+	</substeps>
       </step>
 
-    </procedure>
+
+       <step>
+	<title>
+	  Configure the 1<superscript>st</superscript> panel.
+	</title>
+	<para>
+	  Step description: encoding, line break, data structuring
+	  scheme, line selection.
+	</para>
+	<substeps>
+          <step>
+	    <title>
+	      Re-define the character encoding.
+	    </title>
+	    <para>
+	      Substep description
+	    </para>
+          </step>
+          <step>
+	    <title>
+	      Define the line break separator character sequences.
+	    </title>
+	    <para>
+	      Substep description
+	    </para>
+          </step>
+          <step>
+	    <title>
+	      Select the data field structuring scheme.
+	    </title>
+	    <para>
+	      Substep description
+	    </para>
+          </step>
+          <step>
+	    <title>
+	      Select the line region to import.
+	    </title>
+	    <para>
+	      Substep description
+	    </para>
+          </step>
+          <step>
+	    <title>
+	      Move to the next panel
+	    </title>
+	    <para>
+	      Click on the <guibutton>Forward</guibutton> to move to
+	      the next panel. The panel which will appear will be
+	      different for the two types of data structuring
+	      strategies. There are two sections below describing the
+	      second panel, section 3 and section 4, one for each of
+	      the two data structuring schemes.
+	    </para>
+          </step>
+	</substeps>
+      </step>
+      <step>
+	<title>
+	  (Separated value structured file) 
+	    Configure the 2<superscript>nd</superscript> panel. 
+	</title>
+	<para>
+	  Step description
+	</para>
+	<substeps>
+          <step>
+	    <title>
+	      Define the character sequences acting as separators.
+	    </title>
+	    <para>
+	      pick any combo of individual chars
+	    </para>
+	    <para>
+	      define a char sequence.
+	    </para>
+	    <para>
+	      Combine 2?
+	    </para>
+          </step>
+          <step>
+	    <title>
+	      Define the characters used to braket text fields.
+	    </title>
+	    <para>
+	      Substep description
+	    </para>
+          </step>
+          <step>
+	    <title>
+	      Move to the next panel
+	    </title>
+	    <para>
+	      Click on the <guibutton>Forward</guibutton> to move to
+	      the third panel.
+	    </para>
+          </step>
+	</substeps>
+      </step>
+
+      <step>
+	<title>
+	  (Fixed width structured file)
+	    Configure the 2<superscript>nd</superscript> panel. 
+	</title>
+	<para>
+	  Step description
+	</para>
+	<substeps>
+          <step>
+	    <title>
+	      Define the fixed-width columns.
+	    </title>
+	    <para>
+	      In this process, can restart at any time using the reset
+	    button but CAUTION can't undo a reset.
+	    </para>
+	    <para>
+	      Use the automatic column detection button.
+	    </para>
+	    <para>
+	      Define the columns manually. Dbl click.
+	    </para>
+          </step>
+          <step>
+	    <title>
+	      Move to the next panel
+	    </title>
+	    <para>
+	      Click on the <guibutton>Forward</guibutton> to move to
+	      the third panel.
+	    </para>
+          </step>
+	</substeps>
+      </step>
+
+      <step>
+	<title>
+	  Configure the 3<superscript>rd</superscript> panel.
+	</title>
+	<para>
+	  Step description
+	</para>
+	<substeps>
+          <step>
+	    <title>
+	      Select which empty outer columns to trim during import.
+	    </title>
+	    <para>
+	      Substep description
+	    </para>
+          </step>
+          <step>
+	    <title>
+	      Configure the locale settings used to interpret data values.
+	    </title>
+	    <para>
+	      Substep description
+	    </para>
+          </step>
+          <step>
+	    <title>
+	      Select the columns to be imported.
+	    </title>
+	    <para>
+	      Substep description
+	    </para>
+          </step>
+          <step>
+	    <title>
+	      Preselect the data formats for the elements in each column.
+	    </title>
+	    <para>
+	      Substep description
+	    </para>
+          </step>
+          <step>
+	    <title>
+	      Import the file.
+	    </title>
+	    <para>
+	      Click on the <guibutton>Finish</guibutton> button to
+	      import the file using all the settings as currently
+	      configured.
+	    </para>
+          </step>
+	</substeps>
+      </step>
+
+   </procedure>
 
     <para>
      The file will be opened
     </para>
 
-  </sect2>
 
--->
+  </sect2>
+section end comment to block out section -->
 
 
 

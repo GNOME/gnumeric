@@ -1,5 +1,14 @@
 2004-10-01  Adrian Custer <acuster@gnome.org>
 
+	* NEWS 
+
+	* README: Tweak.
+	* data-types.xml: add TODO comment.
+	* files-opening.xml: change pseudo substeps into alternatives.
+	* files-textopen.xml: add procedure skeleton.
+
+2004-10-01  Adrian Custer <acuster@gnome.org>
+
 	* NEWS: Minor tweaks.
 
 	* README: Added 'TODO List'.
