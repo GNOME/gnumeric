@@ -2408,7 +2408,7 @@ xml_read_solver (XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	SolverConstraint *c;
 	xmlNodePtr       child;
-	int              col, row;
+	int              col, row, ptype;
 	xmlChar          *s;
 	Sheet *sheet = ctxt->sheet;
 	SolverParameters *param = sheet->solver_parameters;
@@ -2417,16 +2417,13 @@ xml_read_solver (XmlParseContext *ctxt, xmlNodePtr tree)
 	if (tree == NULL)
 		return;
 
-	xml_node_get_int (tree, "TargetCol", &col);
-	xml_node_get_int (tree, "TargetRow", &row);
-	if (col >= 0 && row >= 0)
+	if (xml_node_get_int (tree, "TargetCol", &col) && col >= 0 &&
+	    xml_node_get_int (tree, "TargetRow", &row) && row >= 0)
 	        param->target_cell = sheet_cell_fetch (sheet, col, row);
 
-	{
-		int ptype;
-		xml_node_get_int (tree, "ProblemType", &ptype);
+	if (xml_node_get_int (tree, "ProblemType", &ptype))
 		param->problem_type = (SolverProblemType)ptype;
-	}
+
 	s = xml_node_get_cstr (tree, "Inputs");
 	g_free (param->input_entry_str);
 	param->input_entry_str = g_strdup ((const gchar *)s);
