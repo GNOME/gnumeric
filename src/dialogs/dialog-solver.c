@@ -59,6 +59,7 @@ typedef struct {
 	GtkWidget           *change_button;
 	GtkWidget           *delete_button;
 	GtkWidget           *model_button;
+	GtkWidget           *scenario_name_entry;
 	GnumericExprEntry   *lhs_entry;
 	GnumericExprEntry   *rhs_entry;
 	GtkOptionMenu       *type_combo;
@@ -838,6 +839,20 @@ solver_reporting (SolverState *state, SolverResults *res, gchar *errmsg)
 			 &(state->warning_dialog), GTK_MESSAGE_WARNING, err);
 }
 
+static void
+solver_add_scenario (SolverState *state, SolverResults *res, gchar *name)
+{
+	SolverOptions *opt = &res->param->options;
+	Value         *input_range;
+	const gchar   *comment = _("Optimal solution created by solver.\n");
+
+	input_range = gnm_expr_entry_parse_as_value (state->change_cell_entry,
+						     state->sheet);
+
+	scenario_add_new (g_strdup (name), input_range,
+			  g_strdup (state->sheet->solver_parameters->input_entry_str),
+			  g_strdup (comment), state->sheet);
+}
 
 /**
  * cb_dialog_solve_clicked:
@@ -963,6 +978,10 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 		glade_xml_get_widget (state->gui, "program")));
 	param->options.program_report = program;
 
+	param->options.add_scenario = gtk_toggle_button_get_active
+		(GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui,
+							  "optimal_scenario")));
+
 	dual_program = FALSE;
 	param->options.dual_program_report = dual_program;
 
@@ -1012,6 +1031,9 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 
 	if (res != NULL) {
 		solver_reporting (state, res, errmsg);
+		if (param->options.add_scenario)
+			solver_add_scenario (state, res,
+					     param->options.scenario_name);
 		solver_results_free (res);
 	} else
 		gnumeric_notice_nonmodal (GTK_WINDOW (state->dialog),
@@ -1278,6 +1300,19 @@ dialog_init (SolverState *state)
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
 		glade_xml_get_widget(state->gui, "qp_model_button")),
 			param->options.model_type == SolverQPModel);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
+		glade_xml_get_widget(state->gui, "no_scenario")),
+			! param->options.add_scenario);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
+		glade_xml_get_widget(state->gui, "optimal_scenario")),
+			param->options.add_scenario);
+
+	state->scenario_name_entry = glade_xml_get_widget
+		(state->gui, "scenario_name_entry");
+	if (state->scenario_name_entry == NULL)
+		return TRUE;
+	gtk_entry_set_text (GTK_ENTRY (state->scenario_name_entry), 
+			    param->options.scenario_name);
 
 	conv.c_listing = state->constraint_list;
 	conv.c_list    = param->constraints;

@@ -1,5 +1,11 @@
 2003-04-16  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
+	* dialog-solver.c (solver_add_scenario): Wrote.
+	(cb_dialog_solve_clicked, dialog_init): Added the handling of add
+	scenario buttons and entry.
+
+	* solver.glade: Added buttons and an entry for a scenario output.
+	
 	* tool-dialogs.h: Renamed scenario_buttons_t to scenario_state_t
 	and added/moved scenario fields there.
 
