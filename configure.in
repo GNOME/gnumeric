@@ -652,7 +652,7 @@ dnl ====================================
 dnl = End tests for jw
 dnl ====================================
 
-AC_CONFIG_FILES([
+AC_OUTPUT([
 gnumeric.spec
 GNOME_Gnumeric.server.in
 Makefile
@@ -734,7 +734,6 @@ templates/english/Makefile
 templates/autoformat/Makefile
 stamp.h
 ])
-AC_OUTPUT
 
 
 echo "

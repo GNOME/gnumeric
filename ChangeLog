@@ -1,3 +1,9 @@
+2002-08-29  Morten Welinder  <terra@diku.dk>
+
+	* src/plugin.c (plugins_init): Plug leak.  Careful with
+	g_slist_reverse.
+	(plugins_shutdown): Ditto.
+
 2002-08-29  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : bump gal version req

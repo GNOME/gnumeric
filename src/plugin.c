@@ -1766,7 +1766,8 @@ plugins_init (CommandContext *context)
 		}
 	);
 	g_slist_free_custom (saved_active_ids, g_free);
-	plugin_db_activate_plugin_list (g_slist_reverse (plugin_list), &error);
+	plugin_list = g_slist_reverse (plugin_list);
+	plugin_db_activate_plugin_list (plugin_list, &error);
 	g_slist_free (plugin_list);
 	if (error != NULL) {
 		GNM_SLIST_PREPEND (error_list, error_info_new_str_with_details (
@@ -1818,7 +1819,8 @@ plugins_shutdown (void)
 			GNM_SLIST_PREPEND (active_list, (gpointer) gnm_plugin_get_id (plugin));
 		}
 	);
-	gnm_gconf_set_active_plugins (g_slist_reverse (active_list));
+	active_list = g_slist_reverse (active_list);
+	gnm_gconf_set_active_plugins (active_list);
 	g_slist_free (active_list);
 
 	if (plugins_marked_for_deactivation_hash != NULL) {
