@@ -599,7 +599,7 @@ xml_read_style_border (parse_xml_context_t *ctxt, xmlNodePtr tree)
 {
 	StyleBorder *ret;
  	StyleBorderType style [4] = { BORDER_NONE, BORDER_NONE, BORDER_NONE, BORDER_NONE };
- 	StyleColor *color [4] = { NULL, NULL, NULL, NULL };
+	StyleColor *color [4] = { NULL, NULL, NULL, NULL };
 	xmlNodePtr side;
 	int lp;
 
@@ -663,7 +663,9 @@ xml_write_style (parse_xml_context_t *ctxt, Style *style, int style_idx)
 		child = xmlNewChild (cur, ctxt->ns, "Font", 
 				     xmlEncodeEntities(ctxt->doc,
 						       style->font->font_name));
-		xml_set_value_int (child, "Unit", style->font->size);
+		xml_set_value_double (child, "Unit", style->font->size);
+		xml_set_value_int (child, "Bold", style->font->is_bold);
+		xml_set_value_int (child, "Italic", style->font->is_italic);
 
 	}
 
@@ -674,6 +676,63 @@ xml_write_style (parse_xml_context_t *ctxt, Style *style, int style_idx)
 	}
 
 	return cur;
+}
+
+static const char *
+font_component (const char *fontname, int idx)
+{
+	int i = 0;
+	const char *p = fontname;
+	
+	for (; *p && i < idx; p++){
+		if (*p == '-')
+			i++;
+	}
+	if (*p == '-')
+		p++;
+
+	return p;
+}
+
+/**
+ * style_font_new_from_x11:
+ * @fontname: an X11-like font name.
+ * @scale: scale desired
+ *
+ * Tries to guess the fontname, the weight and italization parameters
+ * to invoke style_font_new
+ *
+ * Returns: A valid style font.
+ */
+static StyleFont *
+style_font_new_from_x11 (const char *fontname, double units, double scale)
+{
+	StyleFont *sf;
+	char *typeface = "Helvetica";
+	int is_bold = 0;
+	int is_italic = 0;
+	char *c;
+
+	/*
+	 * FIXME: we should do something about the typeface instead
+	 * of hardcoding it to helvetica.
+	 */
+	
+	c = font_component (fontname, 2);
+	if (strncmp (c, "bold", 4) == 0)
+		is_bold = 1;
+
+	c = font_component (fontname, 3);
+	if (strncmp (c, "o", 1) == 0)
+		is_italic = 1;
+	if (strncmp (c, "i", 1) == 0)
+		is_italic = 1;
+
+	sf = style_font_new (typeface, units, scale, is_bold, is_italic);
+	if (sf == NULL)
+		sf = style_font_new_from (gnumeric_default_font, scale);
+
+	return sf;
 }
 
 /*
@@ -739,12 +798,28 @@ xml_read_style (parse_xml_context_t *ctxt, xmlNodePtr tree, Style * ret)
 	while (child != NULL){
 		if (!strcmp (child->name, "Font")){
 			char *font;
-			int units = 14;
+			double units = 14;
+			int is_bold = 0;
+			int is_italic = 0;
+			int t;
+				
+			xml_get_value_double (child, "Unit", &units);
 
-			xml_get_value_int (child, "Unit", &units);
+			if (xml_get_value_int (child, "Bold", &t))
+				is_bold = t;
+			if (xml_get_value_int (child, "Italic", &t))
+				is_italic = t;
+			
 			font = xmlNodeGetContent(child);
 			if (font != NULL) {
-				ret->font = style_font_new (font, units, 1.0, 0, 0);
+				StyleFont *sf;
+
+				if (*font == '-'){
+					sf = style_font_new_from_x11 (font, units, 1.0);
+				} else
+					sf = style_font_new (font, units, 1.0, is_bold, is_italic);
+
+				ret->font = sf;
 				free(font);
 			}
 			if (ret->font){
@@ -1046,8 +1121,20 @@ xml_read_cell (parse_xml_context_t *ctxt, xmlNodePtr tree)
 		style_read = TRUE;
 		s = g_hash_table_lookup (ctxt->style_table, GINT_TO_POINTER (style_idx));
 		if (s){
+			Style *copy;
+
+			/*
+			 * The main style is the style we read, but this
+			 * style might be incomplete (ie, older formats might
+			 * not have full styles.
+			 *
+			 * so we merge the missing bits from the current cell
+			 * style
+			 */
+			copy = style_duplicate (s);
+			style_merge_to (copy, ret->style);
 			style_destroy (ret->style);
-			ret->style = style_duplicate (s);
+			ret->style = copy;
 		} else {
 			printf ("Error: could not find style %d\n", style_idx);
 		}
@@ -1541,6 +1628,9 @@ xml_probe (const char *filename)
 	}
 
 	gmr = xmlSearchNsByHref (res, res->root, "http://www.gnome.org/gnumeric/");
+	if (gmr == NULL)
+		gmr = xmlSearchNsByHref (res, res->root, "http://www.gnome.org/gnumeric/v2");
+	
 	if (res->root->name == NULL || strcmp (res->root->name, "Workbook") || (gmr == NULL)){
 		xmlFreeDoc (res);
 		return FALSE;
@@ -1669,6 +1759,8 @@ gnumeric_xml_read_workbook (const char *filename)
 	 * Do a bit of checking, get the namespaces, and chech the top elem.
 	 */
 	gmr = xmlSearchNsByHref (res, res->root, "http://www.gnome.org/gnumeric/");
+	if (gmr == NULL)
+		gmr = xmlSearchNsByHref (res, res->root, "http://www.gnome.org/gnumeric/v2");
 	if (strcmp (res->root->name, "Workbook") || (gmr == NULL)){
 		fprintf (stderr, "gnumeric_xml_read_workbook %s: not an Workbook file\n",
 			 filename);

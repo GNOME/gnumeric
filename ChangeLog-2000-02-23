@@ -1,10 +1,25 @@
+1999-06-25  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/xml-io.c (xml_read_cell): Merge the style we just read with
+	the existing information from the cell (which are the defaults).
+	This is only for compatibility with the old format
+
 1999-06-24  Miguel de Icaza  <miguel@gnu.org>
 
-	* src/xml-io.c (xml_read_cell): Add new style reading code.  It is
+	* src/xml-io.c (style_font_new_from_x11): Implemented 
+
+	* src/style.c (style_font_new): Improved matching of the font.
+
+	* src/xml-io.c 	(xml_write_style): Save Bold and Italic
+	properties.  Save Units as double.
+	(xml_read_style): Add conversion hook from old format.
+	(xml_read_style): Load properly italic and bold properties.
+
+	(xml_read_cell): Add new style reading code.  It is
 	compatible with the old Style reading code.
 	(xml_read_rows_info, xml_read_cols_info, xml_read_styles): Moved
 	Cols, Rows and Styles loading code here, for code clarity.
-
+	
 	* src/style.c (style_font_new_simple): Include the scale in the
 	key lookup variable.
 

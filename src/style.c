@@ -3,7 +3,7 @@
  *
  * Author:
  *  Miguel de Icaza (miguel@gnu.org)
- *  (C) 1998 Miguel de Icaza
+ *  (C) 1998, 1999 Miguel de Icaza
  */
 #include <config.h>
 #include <gnome.h>
@@ -129,7 +129,12 @@ style_font_new (const char *font_name, double size, double scale, int bold, int 
 
 	font = style_font_new_simple (font_name, size, scale, bold, italic);
 	if (!font){
-		font = gnumeric_default_font;
+		if (bold)
+			font = gnumeric_default_bold_font;
+		else if (italic)
+			font = gnumeric_default_italic_font;
+		else
+			font = gnumeric_default_font;
 		style_font_ref (font);
 	}
 
@@ -615,19 +620,24 @@ font_init (void)
 	if (!gnumeric_default_font)
 		g_error ("Could not load the default font");
 
-	g_warning ("Using hard coded 14!\n");
-	
-	gnumeric_default_bold_font = style_font_new (DEFAULT_FONT, 14, 1.0, TRUE, FALSE);
-	gnumeric_default_italic_font = style_font_new (DEFAULT_FONT, 14, 1.0, FALSE, TRUE);
+	/*
+	 * Load bold font
+	 */
+	gnumeric_default_bold_font = style_font_new_simple (
+		DEFAULT_FONT, DEFAULT_SIZE, 1.0, TRUE, FALSE);
+	if (gnumeric_default_bold_font == NULL){
+	    gnumeric_default_bold_font = gnumeric_default_font;
+	    style_font_ref (gnumeric_default_bold_font);
+	}
 
-	printf ("Font: %s\n", gnumeric_default_bold_font->dfont->x_font_name);
-	{
-		static int warning_shown;
-
-		if (!warning_shown){
-			g_warning ("Style created with scale is 1.0");
-			warning_shown = TRUE;
-		}
+	/*
+	 * Load italic font
+	 */
+	gnumeric_default_italic_font = style_font_new_simple (
+		DEFAULT_FONT, DEFAULT_SIZE, 1.0, FALSE, TRUE);
+	if (gnumeric_default_italic_font == NULL){
+		gnumeric_default_italic_font = gnumeric_default_font;
+		style_font_ref (gnumeric_default_italic_font);
 	}
 }
 
