@@ -1,3 +1,13 @@
+2001-09-02  Jody Goldberg <jgoldberg@home.com>
+
+	* src/eval.c (dependent_eval) : split from workbook_recalc.
+	(cell_eval) : change return type.  no one was using it.
+
+2001-08-31  Jody Goldberg <jgoldberg@home.com>
+
+	* src/format.c (format_number) : add a way to force 12 hour mode
+	  without showing am/pm
+
 2001-09-02  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/style-condition.[ch]: Implementation of conditionals.

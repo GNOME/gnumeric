@@ -710,17 +710,19 @@ cell_drop_dependencies (Cell *cell)
 				  cell->base.expression, REMOVE_DEPS);
 }
 
-gboolean
+void
 cell_eval (Cell *cell)
 {
-	g_return_val_if_fail (cell != NULL, TRUE);
-	if (cell->base.flags & DEPENDENT_NEEDS_RECALC) {
-		if (cell_eval_content (cell))
-			cell->base.flags &= ~DEPENDENT_NEEDS_RECALC;
-		else
-			return FALSE;
+	g_return_if_fail (cell != NULL);
+
+	if (cell_needs_recalc (cell)) {
+		gboolean finished = cell_eval_content (cell);
+
+		/* This should always be the top of the stack */
+		g_return_if_fail (finished);
+
+		cell->base.flags &= ~DEPENDENT_NEEDS_RECALC;
 	}
-	return TRUE;
 }
 
 /**
@@ -1061,34 +1063,49 @@ workbook_queue_all_recalc (Workbook *wb)
 		(wb, dep, { dependent_queue_recalc (dep); });
 }
 
-/*
- * Computes all of the cells pending computation and
- * any dependency.
+/**
+ * dependent_eval :
+ * @dep :
+ *
+ */
+void
+dependent_eval (Dependent *dep)
+{
+	if (dep->flags & DEPENDENT_NEEDS_RECALC) {
+		int const t = DEPENDENT_TYPE (dep);
+
+		if (t != DEPENDENT_CELL) {
+			DependentClass *klass = g_ptr_array_index (dep_classes, t);
+
+			g_return_if_fail (klass);
+			(*klass->eval) (dep);
+		} else {
+			gboolean finished = cell_eval_content (DEP_TO_CELL (dep));
+
+			/* This should always be the top of the stack */
+			g_return_if_fail (finished);
+		}
+
+		/* Don't clear flag until after in case we iterate */
+		dep->flags &= ~DEPENDENT_NEEDS_RECALC;
+	}
+}
+
+/**
+ * workbook_recalc :
+ * @wb : 
+ *
+ * Computes all dependents in @wb that have been flags as requiring
+ * recomputation.
+ *
+ * NOTE! This does not recalc dependents in other workbooks.
  */
 void
 workbook_recalc (Workbook *wb)
 {
 	g_return_if_fail (IS_WORKBOOK (wb));
 
-	WORKBOOK_FOREACH_DEPENDENT (wb, dep,
-		if (dep->flags & DEPENDENT_NEEDS_RECALC) {
-			int const t = DEPENDENT_TYPE (dep);
-
-			if (t != DEPENDENT_CELL) {
-				DependentClass *klass = g_ptr_array_index (dep_classes, t);
-
-				g_return_if_fail (klass);
-				(*klass->eval) (dep);
-			} else {
-				gboolean finished = cell_eval_content (DEP_TO_CELL (dep));
-
-				/* This should always be the top of the stack */
-				g_return_if_fail (finished);
-			}
-
-			/* Don't clear flag until after in case we iterate */
-			dep->flags &= ~DEPENDENT_NEEDS_RECALC;
-		});
+	WORKBOOK_FOREACH_DEPENDENT (wb, dep, dependent_eval (dep););
 }
 
 /**

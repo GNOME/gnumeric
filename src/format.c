@@ -1365,8 +1365,14 @@ format_number (gdouble number, int col_width, StyleFormatEntry const *entry)
 				ignore_further_elapsed = TRUE;
 				append_hour_elapsed (result, n, time_split, number);
 			} else
+				/* h == hour optionally in 24 hour mode
+				 * h followed by am/pm puts it in 12 hout mode
+				 *
+				 * multiple h eg 'hh' force 12 hour mode.
+				 * NOTE : This is a non-XL extension
+				 */
 				append_hour (result, n, time_split,
-					     entry->want_am_pm);
+					     entry->want_am_pm || (n > 1));
 			hour_seen = TRUE;
 			break;
 		}

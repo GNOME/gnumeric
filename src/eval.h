@@ -59,6 +59,7 @@ void dependent_set_expr		 (Dependent *dependent, ExprTree *expr);
 void dependent_link		 (Dependent *dep, CellPos const *pos);
 void dependent_unlink		 (Dependent *dep, CellPos const *pos);
 void dependent_unlink_sheet	 (Sheet *sheet);
+void dependent_eval		 (Dependent *dep);
 void dependent_changed		 (Dependent *dep, CellPos const *pos,
 				  gboolean queue_recalc);
 void cb_dependent_queue_recalc	 (Dependent *dep, gpointer ignore);
@@ -67,7 +68,7 @@ void cell_add_dependencies	 (Cell *cell);
 void cell_drop_dependencies	 (Cell *cell);
 void cell_queue_recalc		 (Cell const *cell);
 void cell_foreach_dep		 (Cell const *cell, DepFunc func, gpointer user);
-gboolean cell_eval		 (Cell *cell);
+void cell_eval		 	 (Cell *cell);
 
 void sheet_region_queue_recalc	 (Sheet const *sheet, Range const *range);
 /* Do we need this ?
