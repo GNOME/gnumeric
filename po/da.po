@@ -39,8 +39,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.71\n"
-"POT-Creation-Date: 2001-10-20 06:24-0400\n"
-"PO-Revision-Date: 2001-10-20 00:56+0200\n"
+"POT-Creation-Date: 2001-10-21 06:19-0400\n"
+"PO-Revision-Date: 2001-10-21 09:56+0200\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -954,7 +954,7 @@ msgstr "Fed"
 msgid "Borders"
 msgstr "Kanter"
 
-#: src/GNOME_Gnumeric.xml.h:14 src/sheet-object-widget.c:408
+#: src/GNOME_Gnumeric.xml.h:14 src/sheet-object-widget.c:413
 #: src/workbook-object-toolbar.c:149
 msgid "Button"
 msgstr "Knap"
@@ -1249,7 +1249,7 @@ msgstr "Formatér de valgte celler som valuta"
 msgid "Format the selected cells as percentages"
 msgstr "Formatér de valgte celler som procentdele"
 
-#: src/GNOME_Gnumeric.xml.h:84 src/sheet-object-widget.c:311
+#: src/GNOME_Gnumeric.xml.h:84 src/sheet-object-widget.c:316
 #: src/workbook-object-toolbar.c:144
 msgid "Frame"
 msgstr "Ramme"
@@ -1386,7 +1386,7 @@ msgstr ""
 msgid "Jump to a specified cell"
 msgstr "Spring til en angivet celle"
 
-#: src/GNOME_Gnumeric.xml.h:117 src/sheet-object-widget.c:214
+#: src/GNOME_Gnumeric.xml.h:117 src/sheet-object-widget.c:219
 #: src/workbook-object-toolbar.c:141
 msgid "Label"
 msgstr "Etiket"
@@ -3496,7 +3496,7 @@ msgstr "_Centrum"
 msgid "Center _across selection"
 msgstr "Centrér _over hele markeringen"
 
-#: src/dialogs/cell-format.glade.h:23 src/sheet-object-graphic.c:454
+#: src/dialogs/cell-format.glade.h:23 src/sheet-object-graphic.c:459
 msgid "Color"
 msgstr "Farver"
 
@@ -4872,33 +4872,37 @@ msgstr "Skalar"
 msgid "Any"
 msgstr "Enhver"
 
-#: src/dialogs/dialog-goal-seek.c:364
+#: src/dialogs/dialog-goal-seek.c:367
 msgid "You should introduce a valid cell name in 'Set Cell:'!"
 msgstr "Du skal angive et gyldig cellenavn i 'Sæt celle:'!"
 
-#: src/dialogs/dialog-goal-seek.c:372
+#: src/dialogs/dialog-goal-seek.c:375
 msgid "The cell named in 'Set Cell:' must contain a formula!"
 msgstr "Cellen angivet i 'Sæt celle:' skal indeholde en formel!"
 
-#: src/dialogs/dialog-goal-seek.c:380
+#: src/dialogs/dialog-goal-seek.c:383
 msgid "You should introduce a valid cell name in 'By Changing Cell:'!"
 msgstr "Du skal angive et gyldigt cellenavn i 'Ved at ændre celle:'!"
 
-#: src/dialogs/dialog-goal-seek.c:389
-msgid "The cell named in 'By changing cell' must not contain a formula"
-msgstr "Cellen angivet i \"Ved at ændre celle\" må ikke indeholde en formel"
+#: src/dialogs/dialog-goal-seek.c:392
+msgid "The cell named in 'By changing cell' must not contain a formula."
+msgstr "Cellen angivet i \"Ved at ændre celle\" må ikke indeholde en formel."
 
-#: src/dialogs/dialog-goal-seek.c:459
+#: src/dialogs/dialog-goal-seek.c:405
+msgid "The value given in 'To Value:' is not valid."
+msgstr "Værdien givet i 'Til værdi:' er ikke gyldig."
+
+#: src/dialogs/dialog-goal-seek.c:482
 #, c-format
 msgid "Goal seeking with cell %s found a solution."
 msgstr "Målsøgning med celle %s fandt en løsning."
 
-#: src/dialogs/dialog-goal-seek.c:475
+#: src/dialogs/dialog-goal-seek.c:498
 #, c-format
 msgid "Goal seeking with cell %s did not find a solution."
 msgstr "Målsøgning med celle %s fandt ikke en løsning."
 
-#: src/dialogs/dialog-goal-seek.c:643
+#: src/dialogs/dialog-goal-seek.c:667
 msgid "Could not create the Goal-Seek dialog."
 msgstr "Kunne ikke oprette målsøgnings-dialogen."
 
@@ -5760,16 +5764,16 @@ msgid "Last Result:"
 msgstr "Seneste resultat:"
 
 #: src/dialogs/goalseek.glade.h:8
+msgid "Remaining Error:"
+msgstr "Tilbageværende fejl:"
+
+#: src/dialogs/goalseek.glade.h:9
 msgid "Set Cell:"
 msgstr "Sæt celle:"
 
-#: src/dialogs/goalseek.glade.h:9
+#: src/dialogs/goalseek.glade.h:10
 msgid "Solution:"
 msgstr "Løsning:"
-
-#: src/dialogs/goalseek.glade.h:10
-msgid "Target Value:"
-msgstr "Målværdi:"
 
 #: src/dialogs/goalseek.glade.h:11
 msgid "To Value:"
@@ -18065,79 +18069,79 @@ msgstr "Der er allerede et flettet område der overlapper"
 msgid "Open..."
 msgstr "Åbn..."
 
-#: src/sheet-object-container.c:179
+#: src/sheet-object-container.c:184
 #, c-format
 msgid "can't create object for '%s'"
 msgstr "Kan ikke oprette objekt for '%s'"
 
-#: src/sheet-object-container.c:187
+#: src/sheet-object-container.c:192
 #, c-format
 msgid "Could not load file: %s"
 msgstr "Kunne ikke åbne fil: %s"
 
-#: src/sheet-object-graphic.c:440
+#: src/sheet-object-graphic.c:445
 msgid "Configure line or arrow"
 msgstr "Konfigurationslinje eller -pil"
 
-#: src/sheet-object-graphic.c:456
+#: src/sheet-object-graphic.c:461
 msgid "Line Width"
 msgstr "Linjebredde"
 
-#: src/sheet-object-graphic.c:460
+#: src/sheet-object-graphic.c:465
 msgid "Arrow tip"
 msgstr "Pilespids"
 
-#: src/sheet-object-graphic.c:462
+#: src/sheet-object-graphic.c:467
 msgid "Arrow length"
 msgstr "Længde på pil"
 
-#: src/sheet-object-graphic.c:464
+#: src/sheet-object-graphic.c:469
 msgid "Arrow width"
 msgstr "Bredde på pil"
 
-#: src/sheet-object-graphic.c:477 src/sheet-object-graphic.c:853
-#: src/sheet-object-graphic.c:859
+#: src/sheet-object-graphic.c:482 src/sheet-object-graphic.c:863
+#: src/sheet-object-graphic.c:869
 msgid "Transparent"
 msgstr "Gennemsigtig"
 
-#: src/sheet-object-graphic.c:498
+#: src/sheet-object-graphic.c:503
 msgid "Distance from tip of arrowhead to the center point"
 msgstr "Afstanden fra spidsen af pilen til centrumspunktet"
 
-#: src/sheet-object-graphic.c:500
+#: src/sheet-object-graphic.c:505
 msgid "Distance from tip of arrowhead to trailing point, measured along shaft"
 msgstr ""
 "Afstanden fra spidsen af pilen til det bagerste punkt, målt langs skaftet"
 
-#: src/sheet-object-graphic.c:503
+#: src/sheet-object-graphic.c:508
 msgid "Distance of trailing point from outside edge of shaft"
 msgstr "Afstanden til det bagerste punkt fra den ydre kant af skaftet"
 
-#: src/sheet-object-graphic.c:831
+#: src/sheet-object-graphic.c:841
 msgid "Configure filled object"
 msgstr "Konfigurér udfyldt objekt"
 
-#: src/sheet-object-graphic.c:843
+#: src/sheet-object-graphic.c:853
 msgid "Outline color"
 msgstr "Omridsfarve"
 
-#: src/sheet-object-graphic.c:845
+#: src/sheet-object-graphic.c:855
 msgid "Fill color"
 msgstr "Udfyldningsfarve"
 
-#: src/sheet-object-graphic.c:847
+#: src/sheet-object-graphic.c:857
 msgid "Border width"
 msgstr "Kantbredde"
 
-#: src/sheet-object-widget.c:796
+#: src/sheet-object-widget.c:801
 msgid "Checkbox Configure"
 msgstr "Konfigurér afkrydsningsboks"
 
-#: src/sheet-object-widget.c:809
+#: src/sheet-object-widget.c:814
 msgid "Cell :"
 msgstr "Celle:"
 
-#: src/sheet-object-widget.c:812
+#: src/sheet-object-widget.c:817
 msgid "Label :"
 msgstr "Etiket:"
 
@@ -18145,35 +18149,35 @@ msgstr "Etiket:"
 msgid "Properties..."
 msgstr "Egenskaber..."
 
-#: src/sheet.c:2213
+#: src/sheet.c:2186
 msgid "Target region contains merged cells"
 msgstr "Målregion indeholder flettede celler"
 
-#: src/sheet.c:2275
+#: src/sheet.c:2248
 msgid "cannot operate on merged cells"
 msgstr "kan ikke behandle flettede celler"
 
-#: src/sheet.c:2286
+#: src/sheet.c:2259
 msgid "cannot operate on array formulae"
 msgstr "kan ikke behandle matrixformler"
 
-#: src/sheet.c:3087
+#: src/sheet.c:3060
 msgid "Clear"
 msgstr "Ryd"
 
-#: src/sheet.c:3456
+#: src/sheet.c:3429
 msgid "Insert Columns"
 msgstr "Indsæt kolonner"
 
-#: src/sheet.c:3524
+#: src/sheet.c:3497
 msgid "Delete Columns"
 msgstr "Slet kolonner"
 
-#: src/sheet.c:3588
+#: src/sheet.c:3561
 msgid "Insert Rows"
 msgstr "Indsæt rækker"
 
-#: src/sheet.c:3656
+#: src/sheet.c:3629
 msgid "Delete Rows"
 msgstr "Slet rækker"
 
@@ -19014,6 +19018,9 @@ msgstr "Gnumeric XML-filformat"
 #: gnumeric.desktop.in.h:2
 msgid "The GNOME Spreadsheet"
 msgstr "Regneark"
+
+#~ msgid "Target Value:"
+#~ msgstr "Målværdi:"
 
 #~ msgid "You should introduce a valid cell range in 'Input Range:'"
 #~ msgstr "Du skal angive et gyldigt celleinterval i \"Inddatainterval\""
