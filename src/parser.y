@@ -20,7 +20,7 @@
 #include "expr-name.h"
 #include "workbook.h"
 #include "sheet.h"
-#include "format.h"
+#include "gnm-format.h"
 #include "application.h"
 #include "parse-util.h"
 #include "gutils.h"
