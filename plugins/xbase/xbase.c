@@ -257,7 +257,7 @@ xbase_open (GsfInput *input, ErrorInfo **ret_error)
 
 	ans->fields = 0;
 	ans->format = NULL;
-	while ((field = xbase_field_new (ans)) != NULL) {
+	while (ans->fields < (SHEET_MAX_COLS-1) && (field = xbase_field_new (ans)) != NULL) {
 		ans->format = g_renew (XBfield *, ans->format, ans->fields + 1);
 		/* FIXME: allocate number of field formats from file size? */
 		ans->format[ans->fields++] = field;

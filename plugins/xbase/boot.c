@@ -193,6 +193,14 @@ xbase_file_open (GnmFileOpener const *fo, IOContext *io_context,
 	record = record_new (file);
 	row = 1;
 	do {
+		if (row >= SHEET_MAX_ROWS) {
+			g_warning (_("This build of Gnumeric can only hold %d "
+				   "rows.  Ignoring the rest of this file.  You "
+				   "will need a custom build with SHEET_MAX_ROWS "
+				   "increased to read this file."),
+				   SHEET_MAX_ROWS);
+			break;
+		}
 		for (i = 0; i < file->fields ; i++) {
 			field = record->file->format [i];
 			val = xbase_field_as_value (
