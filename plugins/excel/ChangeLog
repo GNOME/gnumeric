@@ -1,5 +1,16 @@
 1999-07-08  Michael Meeks  <michael@edenproject.org>
 
+	* ms-excel-read.c (ms_excel_read_formula): Turn error into
+	warning.
+
+	* ms-excel-write.c (biff_put_text): Fiddled, this needs serious
+	fixing ...
+
+	* ms-excel-read.c (biff_name_data_get_name): Removed daft
+	debug churning out.
+
+1999-07-08  Michael Meeks  <michael@edenproject.org>
+
 	* ms-excel-read.h (_ExcelWorkbook): Removed internal_names and
 	comments.
 

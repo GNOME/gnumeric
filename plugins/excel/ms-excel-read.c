@@ -627,7 +627,6 @@ biff_name_data_get_name (ExcelSheet *sheet, guint16 idx)
 				bnd->type   = BNDName;
 				g_free (bnd->v.store.data);
 				bnd->v.name = NULL;
-				printf ("Serious error parsing '%s'\n", bnd->name);
 			} else {
 				bnd->type = BNDName;
 				g_free (bnd->v.store.data);
@@ -1549,8 +1548,8 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 			 * Docs say that there should be a STRING
 			 * record here
 			 */
-			g_error ("Excel import error, "
-				 "missing STRING record");
+			g_warning ("Excel import error, "
+				   "missing STRING record");
 		}
 	}
 

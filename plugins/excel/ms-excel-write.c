@@ -49,62 +49,73 @@ biff_put_text (BiffPut *bp, char *txt, eBiff_version ver,
 	guint8 data[BLK_LEN];
 	guint32 chunks, pos, lpc, lp, len, ans;
 
+	gboolean sixteen_bit_len;
+	gboolean unicode;
+	guint32  off;
+
 	g_return_val_if_fail (bp, 0);
 	g_return_val_if_fail (txt, 0);
 
 	len = strlen (txt);
 /*	printf ("Write '%s' len = %d\n", txt, len); */
-	if (how == AS_PER_VER) {
-		if (ver >= eBiffV8) { /* Write header & word length*/
-			data[0] = 0;
-			if (write_len) {
-				BIFF_SET_GUINT16(data+1, len);
-				ms_biff_put_var_write (bp, data, 3);
-				ans = len + 3;
-			} else {
-				ms_biff_put_var_write (bp, data, 1);
-				ans = len;
-			}
-		} else { /* Byte length */
-			if (write_len) {
-				g_return_val_if_fail (len<256, 0);
-				BIFF_SET_GUINT8(data, len);
-				ms_biff_put_var_write (bp, data, 1);
-				ans = len + 1;
-			} else
-				ans = len;
+
+	if ((how == AS_PER_VER &&
+	     ver >= eBiffV8) ||
+	    how == SIXTEEN_BIT)
+		sixteen_bit_len = TRUE;
+	else
+		sixteen_bit_len = FALSE; /* 8 bit */
+	
+	if (ver >= eBiffV8)
+		unicode = TRUE;
+	else
+		unicode = FALSE;
+
+	off = 0;
+	if (write_len)
+		if (sixteen_bit_len) {
+			BIFF_SET_GUINT16 (data, len);
+			off = 2;
+		} else {
+			g_return_val_if_fail (len<256, 0);
+			BIFF_SET_GUINT8  (data, len);
+			off = 1;
 		}
-	} else if (how == EIGHT_BIT) {
-		BIFF_SET_GUINT8(data, len);
-		ms_biff_put_var_write (bp, data, 1);
-		ans = len + 1;
-	} else if (how == SIXTEEN_BIT) {
-		BIFF_SET_GUINT16(data, len);
-		ms_biff_put_var_write (bp, data, 2);
-		ans = len + 2;
+
+	if (unicode) {
+		BIFF_SET_GUINT8  (data + off, 0x0);
+		off++;
 	}
+	ms_biff_put_var_write (bp, data, off);
+
+/* You got it coming */
+	for (lp=0; lp<len;lp++) {
+		BIFF_SET_GUINT16 (data, txt[lp]);
+		ms_biff_put_var_write (bp, data, unicode?2:1);
+	}
+	return off + len*(unicode?2:1);
 
 	/* An attempt at efficiency */
-	chunks = len/BLK_LEN;
+/*	chunks = len/BLK_LEN;
 	pos    = 0;
 	for (lpc=0;lpc<chunks;lpc++) {
 		for (lp=0;lp<BLK_LEN;lp++,pos++)
 			data[lp] = txt[pos];
-/*		data[BLK_LEN] = '\0';
-		printf ("Writing chunk '%s'\n", data); */
+		data[BLK_LEN] = '\0';
+		printf ("Writing chunk '%s'\n", data); 
 		ms_biff_put_var_write (bp, data, BLK_LEN);
 	}
 	len = len-pos;
 	if (len > 0) {
 	        for (lp=0;lp<len;lp++,pos++)
 			data[lp] = txt[pos];
-/*		data[lp] = '\0';
-		printf ("Writing chunk '%s'\n", data); */
+		data[lp] = '\0';
+		printf ("Writing chunk '%s'\n", data);
 		ms_biff_put_var_write (bp, data, lp);
 	}
-/* ans is the length but do we need it ? */
+ ans is the length but do we need it ? 
+	return ans;*/
 #undef BLK_LEN
-	return ans;
 }
 
 /**

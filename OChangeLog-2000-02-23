@@ -1,3 +1,13 @@
+1999-07-08  Michael Meeks  <michael@edenproject.org>
+
+	* src/func.c (function_iterate_do_value): Fix for NULL CellRef
+	Sheet *, fallback to EvalPosition's Sheet *
+
+	* src/fn-math.c (gnumeric_countif): ditto.
+
+	* src/fn-math.c (gnumeric_seriessum): Add check for NULL nodes
+	pointer.
+
 1999-07-08  Jody Goldberg  <jgoldberg@home.com>
 
 	* src/cell-draw.c (cell_split_text) : Honour embedded newlines.

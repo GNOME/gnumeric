@@ -76,22 +76,22 @@ iterate_cellrange_callback (Sheet *sheet, int col, int row, Cell *cell, void *us
  * Helper routine for function_iterate_argument_values.
  */
 int
-function_iterate_do_value (const EvalPosition      *fp,
+function_iterate_do_value (const EvalPosition      *ep,
 			   FunctionIterateCallback callback,
 			   void                    *closure,
 			   Value                   *value,
 			   ErrorMessage            *error,
 			   gboolean                strict)
 {
-	int eval_col = fp->eval_col;
-	int eval_row = fp->eval_row;
+	int eval_col = ep->eval_col;
+	int eval_row = ep->eval_row;
 	int ret = TRUE;
 
 	switch (value->type){
 	case VALUE_INTEGER:
 	case VALUE_FLOAT:
 	case VALUE_STRING:
-		ret = (*callback)(fp, value, error, closure);
+		ret = (*callback)(ep, value, error, closure);
 			break;
 
 	case VALUE_ARRAY:
@@ -101,7 +101,7 @@ function_iterate_do_value (const EvalPosition      *fp,
 		for (x = 0; x < value->v.array.x; x++) {
 			for (y = 0; y < value->v.array.y; y++) {
 				ret = function_iterate_do_value (
-					fp, callback, closure,
+					ep, callback, closure,
 					value->v.array.vals [x][y],
 					error, strict);
 				if (ret == FALSE)
@@ -112,6 +112,7 @@ function_iterate_do_value (const EvalPosition      *fp,
 	}
 	case VALUE_CELLRANGE: {
 		IterateCallbackClosure data;
+		Sheet *sheet;
 		int start_col, start_row, end_col, end_row;
 
 		data.callback = callback;
@@ -127,8 +128,10 @@ function_iterate_do_value (const EvalPosition      *fp,
 				      eval_col, eval_row,
 				      &end_col, &end_row);
 
+		if (!(sheet = value->v.cell_range.cell_a.sheet))
+			sheet = ep->sheet;
 		ret = sheet_cell_foreach_range (
-			value->v.cell_range.cell_a.sheet, TRUE,
+			sheet, TRUE,
 			start_col, start_row,
 			end_col, end_row,
 			iterate_cellrange_callback,

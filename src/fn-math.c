@@ -493,6 +493,7 @@ gnumeric_countif (FunctionEvalInfo *ei, Value **argv)
 {
         Value           *range = argv[0];
 	Value           *tmpvalue = NULL;
+	Sheet           *sheet;
 
 	math_criteria_t items;
 	int             ret;
@@ -515,8 +516,10 @@ gnumeric_countif (FunctionEvalInfo *ei, Value **argv)
 		tmpvalue = items.test_value;
 	}
 
+	if (!(sheet = range->v.cell_range.cell_a.sheet))
+		sheet = ei->pos.sheet;
 	ret = sheet_cell_foreach_range (
-		range->v.cell_range.cell_a.sheet, TRUE,
+		sheet, TRUE,
 		range->v.cell_range.cell_a.col,
 		range->v.cell_range.cell_a.row,
 		range->v.cell_range.cell_b.col,
@@ -2274,7 +2277,10 @@ gnumeric_seriessum (FunctionEvalInfo *ei, GList *nodes)
 
 	n = value_get_as_int(val);
 	value_release (val);
+
 	nodes = nodes->next;
+	if (nodes == NULL)
+		return function_error (ei, gnumeric_err_NUM);
 
 	/* Get m */
 	tree = (ExprTree *) nodes->data;
