@@ -21,10 +21,10 @@
 #include <config.h>
 #include <gda-client.h>
 
-#include "src/gnumeric.h"
-#include "src/func.h"
-#include "src/plugin.h"
-#include "src/expr.h"
+#include "gnumeric.h"
+#include "func.h"
+#include "plugin.h"
+#include "expr.h"
 
 char* help_execSQL = "execSQL: Execute SQL statement and display values";
 

@@ -1,3 +1,7 @@
+2000-11-16  Rodrigo Moya <rodrigo@linuxave.net>
+
+	* fixed include paths
+
 2000-11-13  Jody Goldberg <jgoldberg@home.com>
 
         * Release 0.58
