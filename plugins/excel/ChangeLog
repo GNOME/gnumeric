@@ -19,7 +19,7 @@
 
 2001-03-28  Jody Goldberg <jgoldberg@home.com>
 
-	* ms-obj.c (ms_read_TXO) : Fix the minor memory overrun morton found.
+	* ms-obj.c (ms_read_TXO) : Fix the minor memory overrun Morten found.
 
 2001-03-18  Jody Goldberg <jgoldberg@home.com>
 
@@ -3820,7 +3820,7 @@ Tue Apr 20 16:34:38 1999  Morten Welinder  <terra@diku.dk>
 	(biff_font_data_destroy): Free after last use.
 	(biff_get_rk): Changed IEEEx10 to IEEEx100
 	(ms_excel_read_cell): COL_INFO: Fixed width cast.
-	Thanks to great bug reports by Morton Welinder.
+	Thanks to great bug reports by Morten Welinder.
 
 	* ms-excel.h: Add const to biff_error_get_text.
 
@@ -4641,7 +4641,7 @@ Tue Apr 20 16:34:38 1999  Morten Welinder  <terra@diku.dk>
 	(biff_font_data_destroy): Free after last use.
 	(biff_get_rk): Changed IEEEx10 to IEEEx100
 	(ms_excel_read_cell): COL_INFO: Fixed width cast.
-	Thanks to great bug reports by Morton Welinder.
+	Thanks to great bug reports by Morten Welinder.
 
 	* ms-excel.h: Add const to biff_error_get_text.
 
