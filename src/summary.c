@@ -101,8 +101,13 @@ summary_item_new_time (gchar const *name, GTimeVal t)
 SummaryItem *
 summary_item_new_string (gchar const *name, gchar const *string, gboolean copy)
 {
-	SummaryItem *sit = summary_item_new (name, SUMMARY_STRING);
-	sit->v.txt = copy ? g_strdup (string) : (char *)string;
+	SummaryItem *sit = NULL;
+	gboolean valid = g_utf8_validate (string, -1, NULL);
+	
+	if (valid) {
+		sit = summary_item_new (name, SUMMARY_STRING);
+		sit->v.txt = copy ? g_strdup (string) : (char *)string;
+	}
 	return sit;
 }
 
@@ -270,7 +275,7 @@ summary_info_default (SummaryInfo *sin)
 	g_return_if_fail (sin != NULL);
 
 	sit = summary_item_new_string (summary_item_name [SUMMARY_I_AUTHOR],
-				       g_get_real_name (), TRUE);
+				       gnm_get_real_name (), TRUE);
 	summary_info_add (sin, sit);
 
 	sit = summary_item_new_string (summary_item_name [SUMMARY_I_APP],

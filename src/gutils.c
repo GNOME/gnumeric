@@ -910,3 +910,22 @@ gnm_guess_encoding (const char *raw, size_t len, const char *user_guess,
 		g_error_free (error);
 	}
 }
+
+const char*
+gnm_get_real_name (void)
+{
+	static char *gnm_real_name = NULL;
+
+	if (!gnm_real_name) {
+		char *name = getenv ("NAME");
+		if (!name) {
+			name = (char *) g_get_real_name ();
+			if (name) {
+				const char *enc = gnm_guess_encoding 
+					(name, strlen (name), NULL, 
+					 &gnm_real_name);
+			}
+		}
+	}
+	return gnm_real_name;
+}

@@ -3968,7 +3968,7 @@ excel_write_WRITEACCESS (BiffPut *bp)
 {
 	guint8   pad [112];
 	unsigned len;
-	gchar *utf8_name = g_locale_to_utf8 (g_get_real_name (), -1, NULL, NULL, NULL);
+	gchar *utf8_name = gnm_get_real_name ();
 
 	if (utf8_name == NULL)
 		utf8_name = g_strdup ("");

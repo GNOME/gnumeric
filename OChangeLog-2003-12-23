@@ -1,3 +1,12 @@
+2003-12-19  Jon K Hellan  <hellan@acm.org>
+
+	* src/format-template.c (format_template_new): Use gnm_get_real_name.
+
+	* src/summary.c (summary_info_default): UTF-8 encode author name.
+	(summary_item_new_string): Validate string as utf-8.
+
+	* src/gutils.[ch] (gnm_get_real_name): New function.
+
 2003-12-18  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-control-gui.c (wbcg_scroll_wheel_support_cb) : support

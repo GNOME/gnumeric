@@ -1,3 +1,8 @@
+2003-12-19  Jon K Hellan  <hellan@acm.org>
+
+	* ms-excel-write.c (excel_write_WRITEACCESS): Use
+	gnm_get_real_name to get user name.
+
 2003-12-18  Jody Goldberg <jody@gnome.org>
 
 	* ms-chart.c (XL_gog_series_set_dim) : Don't leak data we're not
