@@ -251,6 +251,7 @@ GNUMERIC_BASE =					\
 	style-border.h				\
 	style-color.c				\
 	style-color.h				\
+	style-font.h				\
 	summary.c				\
 	summary.h				\
 	symbol.h				\

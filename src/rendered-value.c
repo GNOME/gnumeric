@@ -30,6 +30,7 @@
 #include "cell.h"
 #include "style.h"
 #include "style-color.h"
+#include "style-font.h"
 #include "number-match.h"
 #include "sheet.h"
 #include "sheet-merge.h"

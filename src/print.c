@@ -31,6 +31,7 @@
 #include "sheet-style.h"
 #include "ranges.h"
 #include "style.h"
+#include "style-font.h"
 #include "gnumeric-gconf.h"
 
 #include <libgnomeprint/gnome-print-job.h>

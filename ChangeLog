@@ -1,3 +1,32 @@
+2005-01-12  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=163223
+	* src/style.c (style_font_string_width) : take a layout directly.
+	(calc_font_width) : ditto.
+	(style_font_new_simple) : keep the PangoFontMetrics and PangoLayout
+	  here rather than as data members with no real purpose.  It should
+	  make it easier to remove the scaling in here.
+	NOTE : remove the prescaling of the font size.  It did not belong
+	  here.  We use a scale attribute while measuring.  Eventually we can
+	  split the calculation of metrics out and remove the ugly scale/zoom
+	  param entirely.
+	(style_font_unref) : we got rid of some data members.
+
+	* src/style-font.h : A new header to make cleaning up the definition
+	  of GnmFont easier.
+
+	* src/mstyle.c (mstyle_get_pango_attrs) : Add a scale attribute
+	  wrapper to scale all of the font sizes
+
+2005-01-12  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=163198
+	* src/item-edit.c (get_top_left) : new function to get the top left
+	  point based on the vertical alignment.
+	(item_edit_draw) : the code was taken from here.
+	(item_edit_event) : and used here to give pango_layout_xy_to_index a
+	  reasonable coordinate.
+
 2005-01-12  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/gui-file.c: (gui_get_image_save_info): test if file exists after
@@ -5,6 +34,10 @@
 	(gui_file_save_as): don't exit when file exists and
 	user do not want to overwrite. Back to the file chooser instead.
 	
+2005-01-12  Jody Goldberg <jody@gnome.org>
+
+	* src/wbcg-actions.c (cb_help_docs) : minor warning suppression
+
 2005-01-11  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook-edit.c (gnm_pango_attr_list_splice): New function

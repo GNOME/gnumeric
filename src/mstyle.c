@@ -15,6 +15,7 @@
 #include "str.h"
 #include "style-border.h"
 #include "style-color.h"
+#include "style-font.h"
 #include "validation.h"
 #include "pattern.h"
 #include "format.h"
@@ -1667,6 +1668,7 @@ mstyle_get_pango_attrs (const GnmStyle *mstyle,
 		style_font_unref (font);
 	}
 
+	add_attr (l, pango_attr_scale_new (zoom));
 	pango_attr_list_ref (l);
 	return l;
 }

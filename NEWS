@@ -33,6 +33,8 @@ Jody:
 	* XLS export for booleans and errors in arrays
 	* Make SUMPRODUCT ignore booleans and strings to match XL, and SUM
 	* Fix sizes of Bitstream Vera for xls export [#163406]
+	* Mouse events while editing with other vertical alignments [#163198]
+	* Fix zoom for rich text with explicit size [#163223]
 
 Morten:
 	* Improve accuracy of pgamma and thus pchisq, ppois, qgamma,

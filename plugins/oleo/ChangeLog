@@ -1,3 +1,7 @@
+2005-01-12  Jody Goldberg <jody@gnome.org>
+
+	* oleo.c : include stdlib.h to remove warning about strtol
+
 2004-12-09  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.4.1

@@ -42,6 +42,7 @@
 #include "print-info.h"
 #include "mstyle.h"
 #include "style-color.h"
+#include "style-font.h"
 #include "application.h"
 #include "commands.h"
 #include "cellspan.h"

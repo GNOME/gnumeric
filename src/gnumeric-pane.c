@@ -1126,7 +1126,8 @@ static int
 cb_sheet_object_widget_canvas_event (GtkWidget *widget, GdkEvent *event,
 				     FooCanvasItem *view)
 {
-	if (event->type == GDK_BUTTON_PRESS && event->button.button == 3)
+	if (event->type == GDK_ENTER_NOTIFY ||
+	    (event->type == GDK_BUTTON_PRESS && event->button.button == 3))
 		return cb_sheet_object_canvas_event (view, event,
 			sheet_object_view_get_so (SHEET_OBJECT_VIEW (view)));
 	if (event->type == GDK_2BUTTON_PRESS && event->button.button == 1) {

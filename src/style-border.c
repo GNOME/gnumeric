@@ -28,6 +28,7 @@
 #include "style.h"
 #include "sheet-style.h"
 #include "sheet.h"
+#include <gdk/gdk.h>
 
 struct LineDotPattern {
 	const gint elements;

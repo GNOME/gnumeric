@@ -20,8 +20,8 @@
  */
 
 #include <goffice/goffice-config.h>
-/* <style.h> is only needed for gnm_font_find_closest_from_weight_slant */
-#include <style.h>
+/* <style-font.h> is only needed for gnm_font_find_closest_from_weight_slant */
+#include <style-font.h>
 #include <goffice/graph/gog-renderer-gnome-print.h>
 #include <goffice/graph/gog-renderer-impl.h>
 #include <goffice/graph/gog-style.h>

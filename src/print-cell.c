@@ -13,6 +13,7 @@
 #include "dependent.h"
 #include "format.h"
 #include "style-color.h"
+#include "style-font.h"
 #include "parse-util.h"
 #include "cell.h"
 #include "value.h"

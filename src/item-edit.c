@@ -26,6 +26,7 @@
 #include "value.h"
 #include "ranges.h"
 #include "style.h"
+#include "style-font.h"
 #include "style-color.h"
 #include "pattern.h"
 #include "parse-util.h"
@@ -44,7 +45,7 @@
 static FooCanvasItemClass *parent_class;
 
 struct _ItemEdit {
-	FooCanvasItem canvas_item;
+	FooCanvasItem item;
 
 	SheetControlGUI *scg;
 	GtkEntry   	*entry;		/* Utility pointer to the workbook entry */
@@ -122,46 +123,51 @@ ie_scan_for_range (ItemEdit *ie)
 }
 
 static void
+get_top_left (ItemEdit const *ie, int *top, int *left)
+{
+	StyleVAlignFlags const align = mstyle_get_align_v (ie->style);
+	ColRowInfo const *ci = sheet_col_get_info (
+		sc_sheet (SHEET_CONTROL (ie->scg)), ie->pos.col);
+
+	*left = ((int)ie->item.x1) + ci->margin_a;
+	*top  = (int)ie->item.y1;
+
+	if (align == VALIGN_CENTER || align == VALIGN_BOTTOM) {
+		int text_height, height = (int)(ie->item.y2 - ie->item.y1);
+		pango_layout_get_pixel_size (ie->layout, NULL, &text_height);
+		*top += (align == VALIGN_CENTER)
+			? (height - text_height + 1)/2
+			: (height - text_height + 1);
+	}
+}
+
+static void
 item_edit_draw (FooCanvasItem *item, GdkDrawable *drawable,
 		GdkEventExpose *expose)
 {
-	ItemEdit  *ie		= ITEM_EDIT (item);
-	GtkWidget *canvas	= GTK_WIDGET (item->canvas);
-	ColRowInfo const *ci	= sheet_col_get_info (
-					sc_sheet (SHEET_CONTROL (ie->scg)),
-					ie->pos.col);
-	int const left_pos	= ((int)item->x1) + ci->margin_a;
-	int top_pos 	  	= (int)item->y1;
-	StyleVAlignFlags align;
+	ItemEdit  const *ie	= ITEM_EDIT (item);
+	GdkGC *black_gc 	= GTK_WIDGET (item->canvas)->style->black_gc;
+	int top, left;
 
 	if (ie->style == NULL)
 		return;
 
        	/* Draw the background (recall that gdk_draw_rectangle excludes far coords) */
 	gdk_draw_rectangle (drawable, ie->fill_gc, TRUE,
-		(int)item->x1, (int)item->y1,
-		(int)(item->x2 - item->x1), (int)(item->y2 - item->y1));
+		(int)item->x1,			(int)item->y1,
+		(int)(item->x2 - item->x1),	(int)(item->y2 - item->y1));
 
-	align = mstyle_get_align_v (ie->style);
-	if (align == VALIGN_CENTER || align == VALIGN_BOTTOM) {
-		int text_height, height = (int)(item->y2 - item->y1);
-		pango_layout_get_pixel_size (ie->layout, NULL, &text_height);
-		top_pos += (align == VALIGN_CENTER)
-			? (height - text_height + 1)/2
-			: (height - text_height + 1);
-	}
-
-	gdk_draw_layout (drawable, canvas->style->black_gc,
-		left_pos, top_pos, ie->layout);
+	get_top_left (ie, &top, &left);
+	gdk_draw_layout (drawable, black_gc, left, top, ie->layout);
 	if (ie->cursor_visible) {
 		PangoRectangle pos;
 		char const *text = gtk_entry_get_text (ie->entry);
 		int cursor_pos = gtk_editable_get_position (GTK_EDITABLE (ie->entry));
 		pango_layout_index_to_pos (ie->layout,
 			g_utf8_offset_to_pointer (text, cursor_pos) - text, &pos);
-		gdk_draw_line (drawable, canvas->style->black_gc,
-			left_pos + PANGO_PIXELS (pos.x), top_pos + PANGO_PIXELS (pos.y),
-			left_pos + PANGO_PIXELS (pos.x), top_pos + PANGO_PIXELS (pos.y + pos.height) - 1);
+		gdk_draw_line (drawable, black_gc,
+			left + PANGO_PIXELS (pos.x), top + PANGO_PIXELS (pos.y),
+			left + PANGO_PIXELS (pos.x), top + PANGO_PIXELS (pos.y + pos.height) - 1);
 	}
 }
 
@@ -190,10 +196,11 @@ item_edit_event (FooCanvasItem *item, GdkEvent *event)
 			ItemEdit *ie = ITEM_EDIT (item);
 			GtkEditable *ed = GTK_EDITABLE (ie->entry);
 			double x = event->button.x, y = event->button.y;
-			int target_index, trailing;
+			int target_index, trailing, top, left;
 
-			x -= MIN (item->x1, item->x2);
-			y -= MIN (item->y1, item->y2);
+			get_top_left (ie, &top, &left);
+			y -= top;
+			x -= left;
 
 			if (pango_layout_xy_to_index (ie->layout,
 						      x * PANGO_SCALE, y * PANGO_SCALE,
@@ -414,7 +421,7 @@ item_edit_cursor_blink_start (ItemEdit *ie)
 	int	 blink_time;
 
 	g_object_get (gtk_widget_get_settings (
-		GTK_WIDGET (ie->canvas_item.canvas)),
+		GTK_WIDGET (ie->item.canvas)),
 		"gtk-cursor-blink-time",	&blink_time,
 		"gtk-cursor-blink", 		&blink,
 		NULL);

@@ -4,12 +4,13 @@
  *
  * Author:
  *  Miguel de Icaza (miguel@gnu.org)
- *  (C) 1998-2002 Miguel de Icaza
+ *  (C) 1998-2004 Miguel de Icaza
  */
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
 #include "gnumeric.h"
 #include "style.h"
+#include "style-font.h"
 
 #include "format.h"
 #include "style-color.h"
@@ -24,6 +25,7 @@
 #include "gnumeric-gconf.h"
 
 #include <pango/pangoft2.h>
+#include <gdk/gdkpango.h>
 #include <gtk/gtkmain.h>
 #include <string.h>
 
@@ -76,16 +78,16 @@ get_substitute_font (gchar const *fontname)
 }
 
 static int
-style_font_string_width (GnmFont const *font, char const *str)
+style_font_string_width (PangoLayout *layout, char const *str)
 {
 	int w;
-	pango_layout_set_text (font->pango.layout, str, -1);
-	pango_layout_get_pixel_size (font->pango.layout, &w, NULL);
+	pango_layout_set_text (layout, str, -1);
+	pango_layout_get_pixel_size (layout, &w, NULL);
 	return w;
 }
 
 static double
-calc_font_width (GnmFont const *font, char const *teststr)
+calc_font_width (PangoLayout *layout, char const *teststr)
 {
 	char const *p1, *p2;
 	int w = 0, w1, w2, dw;
@@ -94,11 +96,11 @@ calc_font_width (GnmFont const *font, char const *teststr)
 	for (p1 = teststr; *p1; p1++) {
 		buf[0] = *p1;
 		buf[1] = 0;
-		w1 = style_font_string_width (font, buf);
+		w1 = style_font_string_width (layout, buf);
 		for (p2 = teststr; *p2; p2++) {
 			buf[1] = *p2;
 			buf[2] = 0;
-			w2 = style_font_string_width (font, buf);
+			w2 = style_font_string_width (layout, buf);
 			dw = w2 - w1;
 			if (dw > w) {
 				w = dw;
@@ -120,7 +122,6 @@ style_font_new_simple (PangoContext *context,
 {
 	GnmFont *font;
 	GnmFont key;
-	int height;
 
 	if (font_name == NULL) {
 		g_warning ("font_name == NULL, using %s", DEFAULT_FONT);
@@ -140,8 +141,11 @@ style_font_new_simple (PangoContext *context,
 
 	font = (GnmFont *) g_hash_table_lookup (style_font_hash, &key);
 	if (font == NULL) {
-		PangoFontDescription *desc;
+		PangoFontDescription	*desc;
+		PangoFontMetrics	*metrics;
+		PangoLayout		*layout;
 		double pts_scale;
+		int height;
 
 		if (g_hash_table_lookup (style_font_negative_hash, &key))
 			return NULL;
@@ -156,17 +160,13 @@ style_font_new_simple (PangoContext *context,
 		font->ref_count = 2;
 
 		g_object_ref (context);
-		font->pango.context = context;
 		desc = pango_context_get_font_description (context);
 		pango_font_description_set_family (desc, font_name);
 		pango_font_description_set_weight (desc,
 			bold ? PANGO_WEIGHT_BOLD : PANGO_WEIGHT_NORMAL);
 		pango_font_description_set_style (desc,
 			italic ? PANGO_STYLE_ITALIC : PANGO_STYLE_NORMAL);
-		/* FIXME: set scale separately?  */
-		pango_font_description_set_size (desc,
-						 size_pts * scale *
-						 PANGO_SCALE);
+		pango_font_description_set_size (desc, size_pts * PANGO_SCALE);
 
 		font->pango.font = pango_context_load_font (context, desc);
 		if (font->pango.font == NULL) {
@@ -180,7 +180,6 @@ style_font_new_simple (PangoContext *context,
 
 			if (font->pango.font == NULL) {
 				g_object_unref (context);
-				font->pango.context = NULL;
 				font->pango.font_descr = NULL;
 				g_hash_table_insert (style_font_negative_hash,
 						     font, font);
@@ -193,34 +192,32 @@ style_font_new_simple (PangoContext *context,
 
 		font->pango.font_descr = pango_font_describe (font->pango.font);
 
-		font->pango.layout  = pango_layout_new (context);
-		pango_layout_set_font_description (font->pango.layout,
-						   font->pango.font_descr);
-
-		font->pango.metrics = pango_font_get_metrics (font->pango.font,
-							      gtk_get_default_language ());
-
-		height = pango_font_metrics_get_ascent (font->pango.metrics) +
-			 pango_font_metrics_get_descent (font->pango.metrics);
+		metrics = pango_font_get_metrics (font->pango.font,
+				gtk_get_default_language ());
+		height = pango_font_metrics_get_ascent (metrics) +
+			 pango_font_metrics_get_descent (metrics);
 		font->height = PANGO_PIXELS (height);
-		font->approx_width.pixels.digit = calc_font_width (font, "0123456789");
-		font->approx_width.pixels.decimal = calc_font_width (font, ".,");
-		font->approx_width.pixels.hash = calc_font_width (font, "#");
-		font->approx_width.pixels.sign = calc_font_width (font, "-+");
-		font->approx_width.pixels.E = calc_font_width (font, "E");
-		font->approx_width.pixels.e = calc_font_width (font, "e");
+		pango_font_metrics_unref (metrics);
+
+		layout = pango_layout_new (context);
+		pango_layout_set_font_description (layout,
+			font->pango.font_descr);
 
 		pts_scale = 72. / (gnm_app_display_dpi_get (TRUE) * scale);
-		font->approx_width.pts.digit =
-			font->approx_width.pixels.digit * pts_scale;
-		font->approx_width.pts.decimal =
-			font->approx_width.pixels.decimal * pts_scale;
-		font->approx_width.pts.sign =
-			font->approx_width.pixels.sign * pts_scale;
-		font->approx_width.pts.E =
-			font->approx_width.pixels.E * pts_scale;
-		font->approx_width.pts.e =
-			font->approx_width.pixels.e * pts_scale;
+		/* TODO : ?? Can we pango_font_metrics_get_approximate_digit_width */
+		font->approx_width.pts.digit = pts_scale *
+			(font->approx_width.pixels.digit = calc_font_width (layout, "0123456789"));
+		font->approx_width.pts.decimal = pts_scale *
+			(font->approx_width.pixels.decimal = calc_font_width (layout, ".,"));
+		font->approx_width.pixels.hash = pts_scale *
+			(font->approx_width.pixels.hash = calc_font_width (layout, "#"));
+		font->approx_width.pixels.sign = pts_scale *
+			(font->approx_width.pixels.sign = calc_font_width (layout, "-+"));
+		font->approx_width.pixels.E = pts_scale *
+			(font->approx_width.pixels.E = calc_font_width (layout, "E"));
+		font->approx_width.pixels.e = pts_scale *
+			(font->approx_width.pixels.e = calc_font_width (layout, "e"));
+		g_object_unref (layout);
 
 		g_hash_table_insert (style_font_hash, font, font);
 	} else
@@ -310,14 +307,6 @@ style_font_unref (GnmFont *sf)
 	if (sf->ref_count != 0)
 		return;
 
-	if (sf->pango.context != NULL) {
-		g_object_unref (G_OBJECT (sf->pango.context));
-		sf->pango.context = NULL;
-	}
-	if (sf->pango.layout != NULL) {
-		g_object_unref (G_OBJECT (sf->pango.layout));
-		sf->pango.layout = NULL;
-	}
 	if (sf->pango.font != NULL) {
 		g_object_unref (G_OBJECT (sf->pango.font));
 		sf->pango.font = NULL;
@@ -325,10 +314,6 @@ style_font_unref (GnmFont *sf)
 	if (sf->pango.font_descr != NULL) {
 		pango_font_description_free (sf->pango.font_descr);
 		sf->pango.font_descr = NULL;
-	}
-	if (sf->pango.metrics != NULL) {
-		pango_font_metrics_unref (sf->pango.metrics);
-		sf->pango.metrics = NULL;
 	}
 	if (sf->gnome_print_font != NULL) {
 		gnome_font_unref (sf->gnome_print_font);
@@ -391,9 +376,11 @@ gnm_pango_context_get (void)
 
 	if (screen != NULL) {
 		context = gdk_pango_context_get_for_screen (screen);
-		/* FIXME: barf!  */
+#ifndef GDK_DISABLE_DEPRECATED
+		/* this function is deprecated in newer gtk */
 		gdk_pango_context_set_colormap (context,
 			gdk_screen_get_default_colormap (screen));
+#endif
 	} else {
 		PangoFontMap *fontmap = pango_ft2_font_map_new ();
 		pango_ft2_font_map_set_resolution (PANGO_FT2_FONT_MAP (fontmap), 96, 96);
