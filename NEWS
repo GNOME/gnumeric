@@ -16,7 +16,9 @@ Andreas:
 	  (http://bugzilla.gnome.org/show_bug.cgi?id=81087).
 	* Persist printer information
 	* Fix bug:
-	http://bugzilla.gnome.org/show_bug.cgi?id=80126
+	  http://bugzilla.gnome.org/show_bug.cgi?id=80126
+	* Add GUI to plugin manager to add/remove extra plugin
+	  directories
 
 Jody:
 	http://bugzilla.gnome.org/show_bug.cgi?id=79925

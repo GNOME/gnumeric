@@ -1,3 +1,17 @@
+2002-05-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-plugin-manager.c (pm_delete_dir) : new
+	(pm_add_dir) : new
+	(cb_pm_button_directory_add_clicked) : new
+	(cb_pm_button_directory_delete_clicked) : new
+	(pm_dialog_init) : add button signals
+	(pm_gui_load_directories) : new
+	(pm_gui_load_directory_page) : new
+	(cb_pm_dir_selection_changed) : new
+	(cb_dir_changed_notification) : new
+	(dialog_plugin_manager) : Setup directory configuration GUI
+	* plugin-manager.glade : Add directory configuration GUI
+
 2002-05-10  Jon K Hellan  <hellan@acm.org>
 
 	* dialog-preferences.c, dialogs.h (dialog_preferences): Add wbcg

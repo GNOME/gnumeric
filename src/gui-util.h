@@ -11,6 +11,7 @@ gboolean   gnumeric_dialog_question_yes_no (WorkbookControlGUI *wbcg,
                                             const gchar *message,
                                             gboolean default_answer);
 gboolean   gnumeric_dialog_file_selection (WorkbookControlGUI *wbcg, GtkFileSelection *fsel);
+gboolean   gnumeric_dialog_dir_selection (WorkbookControlGUI *wbcg, GtkFileSelection *fsel);
 void       gnumeric_notice (WorkbookControlGUI *wbcg, GtkMessageType type, const char *str);
 void       gnumeric_notice_nonmodal (GtkWindow *parent, GtkWidget **ref,
 				     GtkMessageType type, char const *str);

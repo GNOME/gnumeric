@@ -5,10 +5,10 @@
 #include <numbers.h>
 
 void     gnm_conf_sync (void);
+guint    gnm_gconf_rm_notification (guint id);
 
 /* autocorrect */
 guint    gnm_gconf_add_notification_autocorrect (GConfClientNotifyFunc func);
-guint    gnm_gconf_rm_notification_autocorrect (guint id);
 
 gboolean gnm_gconf_get_autocorrect_init_caps (void);
 void     gnm_gconf_set_autocorrect_init_caps (gboolean val);
@@ -46,6 +46,8 @@ GSList * gnm_gconf_get_file_history_files (void);
 void     gnm_gconf_set_file_history_files (GSList *list);
 
 /* plugins */
+guint    gnm_gconf_add_notification_plugin_directories (GConfClientNotifyFunc func, gpointer data);
+
 GSList * gnm_gconf_get_plugin_file_states (void);
 void     gnm_gconf_set_plugin_file_states (GSList *list);
 

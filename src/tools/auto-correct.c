@@ -80,7 +80,7 @@ autocorrect_init (void)
 void
 autocorrect_shutdown (void)
 {
-	autocorrect.notification_id = gnm_gconf_rm_notification_autocorrect (
+	autocorrect.notification_id = gnm_gconf_rm_notification (
 		autocorrect.notification_id);
 
 	e_free_string_slist (autocorrect.exceptions.first_letter);

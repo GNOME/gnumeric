@@ -47,18 +47,22 @@ typedef struct {
 	WorkbookControlGUI *wbcg;
 	GtkDialog *dialog_pm;
 	GtkNotebook *gnotebook;
-	gint plugin_list_page_no, plugin_details_page_no;
 	GtkListStore  *model_plugins;
 	GtkTreeView   *list_plugins;
 	GtkTreeSelection   *selection;
 	GtkButton *button_activate_plugin, *button_deactivate_plugin,
 	          *button_activate_all, *button_deactivate_all,
 	          *button_install_plugin;
+	GtkButton *button_directory_add, *button_directory_delete;
 	GtkCheckButton *checkbutton_install_new;
 	GtkEntry *entry_name, *entry_directory, *entry_id;
 	GtkTextBuffer *text_description;
 	GtkListStore  *model_extra_info;
 	gchar *current_plugin_id;
+	GtkListStore  *model_directories;
+	GtkTreeView   *list_directories;
+	GtkTreeSelection   *selection_directory;
+	guint directories_changed_notification;
 } PluginManagerGUI;
 
 enum {
@@ -73,6 +77,11 @@ enum {
 	EXTRA_NAME,
 	EXTRA_VALUE,
 	EXTRA_NUM_COLMNS
+};
+enum {
+	DIR_NAME,
+	DIR_IS_SYSTEM,
+	DIR_NUM_COLMNS
 };
 
 typedef enum {
@@ -281,6 +290,71 @@ cb_pm_checkbutton_install_new_toggled (GtkCheckButton *checkbutton, PluginManage
 }
 
 static void
+pm_delete_dir (char *dir_name)
+{
+	GSList *plugin_dirs;
+	GSList *directory;
+	
+	plugin_dirs = gnm_gconf_get_plugin_extra_dirs ();
+	directory = g_slist_find_custom (plugin_dirs, dir_name, g_str_compare);
+	g_free (dir_name);
+	if (directory) {
+		plugin_dirs = g_slist_delete_link (plugin_dirs, directory);
+		gnm_gconf_set_plugin_extra_dirs (plugin_dirs);
+		e_free_string_slist (plugin_dirs);
+	}
+}
+
+static void
+pm_add_dir (char *dir_name)
+{
+	GSList *plugin_dirs;
+	
+	plugin_dirs = gnm_gconf_get_plugin_extra_dirs ();
+	if (g_slist_find_custom (plugin_dirs, dir_name, g_str_compare)) 
+		g_free (dir_name);
+	else {
+		plugin_dirs = g_slist_prepend (plugin_dirs, dir_name);
+		plugin_dirs = g_slist_sort (plugin_dirs, g_str_compare);
+		gnm_gconf_set_plugin_extra_dirs (plugin_dirs);
+		e_free_string_slist (plugin_dirs);
+	}
+}
+
+static void
+cb_pm_button_directory_add_clicked (GtkButton *button, PluginManagerGUI *pm_gui)
+{
+	GtkFileSelection *fs;
+	char *dir_name;
+
+	fs = GTK_FILE_SELECTION (gtk_file_selection_new ("Select directory"));
+	if (gnumeric_dialog_dir_selection (pm_gui->wbcg, fs)) {
+		dir_name = g_path_get_dirname (gtk_file_selection_get_filename (fs));
+		pm_add_dir (dir_name);
+	}
+	gtk_widget_destroy (GTK_WIDGET (fs));
+}
+
+static void
+cb_pm_button_directory_delete_clicked (GtkButton *button, PluginManagerGUI *pm_gui)
+{
+	GtkTreeIter iter;
+	char *name = NULL;
+	gboolean is_system = TRUE;
+	if (gtk_tree_selection_get_selected (pm_gui->selection_directory, NULL, &iter)) {
+		gtk_tree_model_get (GTK_TREE_MODEL (pm_gui->model_directories),
+				    &iter, 
+				    DIR_NAME, &name,
+				    DIR_IS_SYSTEM, &is_system,
+				    -1);
+		if (is_system) 
+			g_free (name);
+		else
+			pm_delete_dir (name);
+	}
+}
+
+static void
 cb_pm_selection_changed (GtkTreeSelection *selection, PluginManagerGUI *pm_gui)
 {
 	PluginInfo *pinfo;
@@ -336,6 +410,12 @@ pm_dialog_init (PluginManagerGUI *pm_gui)
 	g_signal_connect (G_OBJECT (pm_gui->button_install_plugin),
 		"clicked",
 		G_CALLBACK (cb_pm_button_install_plugin_clicked), pm_gui);
+	g_signal_connect (G_OBJECT (pm_gui->button_directory_add),
+		"clicked",
+		G_CALLBACK (cb_pm_button_directory_add_clicked), pm_gui);
+	g_signal_connect (G_OBJECT (pm_gui->button_directory_delete),
+		"clicked",
+		G_CALLBACK (cb_pm_button_directory_delete_clicked), pm_gui);
 	g_signal_connect (G_OBJECT (pm_gui->checkbutton_install_new),
 		"toggled",
 		G_CALLBACK (cb_pm_checkbutton_install_new_toggled), pm_gui);
@@ -480,14 +560,87 @@ update_plugin_details_view (PluginManagerGUI *pm_gui)
 	}
 }
 
+static void
+pm_gui_load_directories (PluginManagerGUI *pm_gui, GSList *plugin_dirs, gboolean is_conf)
+{
+	for (; plugin_dirs; plugin_dirs = plugin_dirs->next) {
+		GtkTreeIter iter;
+		gtk_list_store_append (pm_gui->model_directories, &iter);
+		gtk_list_store_set (pm_gui->model_directories, &iter,
+				    DIR_NAME, (char *) plugin_dirs->data,
+				    DIR_IS_SYSTEM, !is_conf,
+				    -1);
+	}
+}
+
+static void
+pm_gui_load_directory_page (PluginManagerGUI *pm_gui)
+{
+	GtkTreeIter iter;
+	char * sys_plugins = gnumeric_sys_plugin_dir ();
+	char * usr_plugins = gnumeric_usr_plugin_dir ();
+	GSList *plugin_dirs;
+	gchar const *plugin_path_env;
+
+	gtk_list_store_clear (pm_gui->model_directories);
+
+	gtk_list_store_append (pm_gui->model_directories, &iter);
+	gtk_list_store_set (pm_gui->model_directories, &iter,
+			    DIR_NAME, sys_plugins,
+			    DIR_IS_SYSTEM, TRUE,
+			    -1);
+	g_free (sys_plugins);
+	gtk_list_store_append (pm_gui->model_directories, &iter);
+	gtk_list_store_set (pm_gui->model_directories, &iter,
+			    DIR_NAME, usr_plugins,
+			    DIR_IS_SYSTEM, TRUE,
+			    -1);
+	g_free (usr_plugins);
+	
+	plugin_path_env = g_getenv ("GNUMERIC_PLUGIN_PATH");
+	if (plugin_path_env != NULL) {
+		plugin_dirs = g_strsplit_to_slist (plugin_path_env, ":");
+		pm_gui_load_directories (pm_gui, plugin_dirs, FALSE);
+		e_free_string_slist (plugin_dirs);
+	}
+	plugin_dirs = gnm_gconf_get_plugin_extra_dirs ();
+	pm_gui_load_directories (pm_gui, plugin_dirs, TRUE);
+	e_free_string_slist (plugin_dirs);
+}
+
+static void
+cb_pm_dir_selection_changed (GtkTreeSelection *ignored, PluginManagerGUI *pm_gui)
+{
+	GtkTreeIter  iter;
+	gboolean is_system;
+
+	if (!gtk_tree_selection_get_selected (pm_gui->selection_directory, NULL, &iter)) {
+		gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_directory_delete), FALSE);
+		return;
+	}
+
+	gtk_tree_model_get (GTK_TREE_MODEL (pm_gui->model_directories), &iter,
+			    DIR_IS_SYSTEM, &is_system, -1);
+
+	gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_directory_delete), !is_system);
+}
+
+static void
+cb_dir_changed_notification (GConfClient *gconf, guint cnxn_id, GConfEntry *entry, 
+			    PluginManagerGUI *pm_gui)
+{
+	pm_gui_load_directory_page (pm_gui);	
+}
+
 void
 dialog_plugin_manager (WorkbookControlGUI *wbcg)
 {
 	PluginManagerGUI *pm_gui;
 	GladeXML *gui;
-	GtkWidget *page_plugin_list, *page_plugin_details;
 	GtkWidget *scrolled;
 	GtkWidget *scrolled_extra;
+	GtkWidget *scrolled_directories;
+	GtkWidget *table;
 	GtkTreeViewColumn *column;
 	GtkTreeView   *extra_list_view;
 
@@ -499,6 +652,9 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 	pm_gui = g_new (PluginManagerGUI, 1);
 	pm_gui->wbcg = wbcg;
 	pm_gui->dialog_pm = GTK_DIALOG (glade_xml_get_widget (gui, "dialog_plugin_manager"));
+
+	/* Set-up plugin list  page */
+
 	pm_gui->button_activate_plugin = GTK_BUTTON (glade_xml_get_widget
 						     (gui, "button_activate_plugin"));
 	pm_gui->button_deactivate_plugin = GTK_BUTTON (glade_xml_get_widget
@@ -511,28 +667,6 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 						    (gui, "button_install_plugin"));
 	pm_gui->checkbutton_install_new = GTK_CHECK_BUTTON (glade_xml_get_widget
 							    (gui, "checkbutton_install_new"));
-	pm_gui->entry_name = GTK_ENTRY (glade_xml_get_widget (gui, "entry_name"));
-	pm_gui->entry_directory = GTK_ENTRY (glade_xml_get_widget (gui, "entry_directory"));
-	pm_gui->text_description = gtk_text_view_get_buffer (GTK_TEXT_VIEW (
-				           glade_xml_get_widget (gui, "text_description")));
-	pm_gui->entry_id = GTK_ENTRY (glade_xml_get_widget (gui, "entry_id"));
-	page_plugin_list = glade_xml_get_widget (gui, "page_plugin_list");
-	page_plugin_details = glade_xml_get_widget (gui, "page_plugin_details");
-	scrolled = glade_xml_get_widget (gui, "scrolled_plugin_list");
-	scrolled_extra = glade_xml_get_widget (gui, "scrolled_extra_info");
-
-	g_return_if_fail (pm_gui->dialog_pm != NULL &&
-	                  scrolled != NULL &&
-	                  scrolled_extra != NULL &&
-	                  pm_gui->button_activate_plugin != NULL &&
-	                  pm_gui->button_deactivate_plugin != NULL &&
-	                  pm_gui->button_install_plugin != NULL &&
-	                  pm_gui->checkbutton_install_new != NULL &&
-	                  pm_gui->entry_name != NULL && pm_gui->entry_directory != NULL &&
-	                  pm_gui->text_description != NULL &&
-	                  pm_gui->entry_id != NULL &&
-	                  page_plugin_list != NULL &&
-	                  page_plugin_details != NULL);
 
 	pm_gui->model_plugins = gtk_list_store_new (NUM_COLMNS, G_TYPE_STRING, G_TYPE_STRING,
 						    G_TYPE_INT,
@@ -554,14 +688,23 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 							   "text", PLUGIN_NAME, NULL);
 	gtk_tree_view_column_set_sort_column_id (column, PLUGIN_NAME);
 	gtk_tree_view_append_column (pm_gui->list_plugins, column);
+	scrolled = glade_xml_get_widget (gui, "scrolled_plugin_list");
 	gtk_container_add (GTK_CONTAINER (scrolled), GTK_WIDGET (pm_gui->list_plugins));
+
+	/* Set-up plugin details page */
+
+	pm_gui->entry_name = GTK_ENTRY (glade_xml_get_widget (gui, "entry_name"));
+	pm_gui->entry_directory = GTK_ENTRY (glade_xml_get_widget (gui, "entry_directory"));
+	pm_gui->text_description = gtk_text_view_get_buffer (GTK_TEXT_VIEW (
+				           glade_xml_get_widget (gui, "text_description")));
+	pm_gui->entry_id = GTK_ENTRY (glade_xml_get_widget (gui, "entry_id"));
+
+	scrolled_extra = glade_xml_get_widget (gui, "scrolled_extra_info");
 
 	pm_gui->model_extra_info = gtk_list_store_new (EXTRA_NUM_COLMNS, G_TYPE_STRING,
 						       G_TYPE_STRING);
 	extra_list_view = GTK_TREE_VIEW (
 		gtk_tree_view_new_with_model (GTK_TREE_MODEL (pm_gui->model_extra_info)));
-/* 	pm_gui->selection = gtk_tree_view_get_selection (pm_gui->list_plugins); */
-/* 	gtk_tree_selection_set_mode (pm_gui->selection, GTK_SELECTION_BROWSE); */
 	column = gtk_tree_view_column_new_with_attributes (_("Name"),
 							   gtk_cell_renderer_text_new (),
 							   "text", EXTRA_NAME, NULL);
@@ -574,23 +717,54 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 	gtk_tree_view_append_column (extra_list_view, column);
 	gtk_container_add (GTK_CONTAINER (scrolled_extra), GTK_WIDGET (extra_list_view));
 
+	/* Set-up directories page */
+
+	table = glade_xml_get_widget (gui, "directory-table");
+	pm_gui->model_directories = gtk_list_store_new (DIR_NUM_COLMNS, G_TYPE_STRING, 
+							G_TYPE_BOOLEAN);
+	pm_gui->list_directories = GTK_TREE_VIEW (
+		gtk_tree_view_new_with_model (GTK_TREE_MODEL (pm_gui->model_directories)));
+	pm_gui->selection_directory = gtk_tree_view_get_selection (pm_gui->list_directories);
+	gtk_tree_selection_set_mode (pm_gui->selection_directory, GTK_SELECTION_BROWSE);
+	column = gtk_tree_view_column_new_with_attributes (_("Directory"),
+							   gtk_cell_renderer_text_new (),
+							   "text", DIR_NAME, 
+							   NULL);
+	gtk_tree_view_column_set_sort_column_id (column, DIR_NAME);
+	gtk_tree_view_append_column (pm_gui->list_directories, column);
+	scrolled_directories = glade_xml_get_widget (gui, "scrolled_directories");
+	gtk_container_add (GTK_CONTAINER (scrolled_directories), 
+			   GTK_WIDGET (pm_gui->list_directories));
+
+	pm_gui->button_directory_add = GTK_BUTTON (glade_xml_get_widget
+						  (gui, "button_directory_add"));
+	gtk_button_stock_alignment_set (GTK_BUTTON (pm_gui->button_directory_add),
+					0., .5, 0., 0.);
+	pm_gui->button_directory_delete = GTK_BUTTON (glade_xml_get_widget
+						  (gui, "button_directory_delete"));
+	gtk_button_stock_alignment_set (GTK_BUTTON (pm_gui->button_directory_delete),
+					0., .5, 0., 0.);
+
+	cb_pm_dir_selection_changed (NULL, pm_gui);
+	g_signal_connect (pm_gui->selection_directory,
+		"changed",
+		G_CALLBACK (cb_pm_dir_selection_changed), pm_gui);
+
+	/* Done setting up pages */
+
 	pm_gui->gnotebook = GTK_NOTEBOOK (glade_xml_get_widget (gui, "notebook1"));
-	gtk_notebook_set_tab_label (GTK_NOTEBOOK (pm_gui->gnotebook),
-	                            page_plugin_list,
-	                            gtk_label_new (_("Plugin list")));
-	gtk_notebook_set_tab_label (GTK_NOTEBOOK (pm_gui->gnotebook),
-	                            page_plugin_details,
-	                            gtk_label_new (_("Plugin details")));
-	pm_gui->plugin_list_page_no = 0;
-	pm_gui->plugin_details_page_no = 1;
+
 	gtk_widget_show_all (GTK_WIDGET (pm_gui->gnotebook));
 
 	pm_gui->current_plugin_id = NULL;
+	pm_gui_load_directory_page (pm_gui);
+	pm_gui->directories_changed_notification = gnm_gconf_add_notification_plugin_directories (
+			(GConfClientNotifyFunc) cb_dir_changed_notification, pm_gui);
 	pm_dialog_init (pm_gui);
 	(void) gnumeric_dialog_run (wbcg, pm_gui->dialog_pm);
-	gconf_client_suggest_sync (application_get_gconf_client (), NULL);
-
-
+	pm_gui->directories_changed_notification = gnm_gconf_rm_notification 
+		(pm_gui->directories_changed_notification);
+	
 	free_plugin_id (pm_gui->current_plugin_id);
 	g_free (pm_gui);
 

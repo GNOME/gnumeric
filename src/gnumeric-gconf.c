@@ -37,6 +37,13 @@ gnm_conf_sync (void)
 	gconf_client_suggest_sync (application_get_gconf_client (), NULL);
 }
 
+guint
+gnm_gconf_rm_notification (guint id)
+{
+	gconf_client_notify_remove (application_get_gconf_client (), id);
+	return 0;
+}
+
 GSList *
 gnm_gconf_get_plugin_file_states (void)
 {
@@ -67,6 +74,13 @@ gnm_gconf_set_plugin_extra_dirs (GSList *list)
 	gconf_client_set_list (application_get_gconf_client (), 
 			       PLUGIN_GCONF_EXTRA_DIRS,
 			       GCONF_VALUE_STRING, list, NULL);
+}
+
+guint
+gnm_gconf_add_notification_plugin_directories (GConfClientNotifyFunc func, gpointer data)
+{
+	return gconf_client_notify_add (application_get_gconf_client (), PLUGIN_GCONF_EXTRA_DIRS,
+					func, data, NULL, NULL);
 }
 
 GSList *
@@ -254,13 +268,6 @@ gnm_gconf_add_notification_autocorrect (GConfClientNotifyFunc func)
 {
 	return gconf_client_notify_add (application_get_gconf_client (), AUTOCORRECT_DIRECTORY,
 					func, NULL, NULL, NULL);
-}
-
-guint
-gnm_gconf_rm_notification_autocorrect (guint id)
-{
-	gconf_client_notify_remove (application_get_gconf_client (), id);
-	return 0;
 }
 
 gnum_float

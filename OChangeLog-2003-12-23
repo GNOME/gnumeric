@@ -1,3 +1,13 @@
+2002-05-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/gnumeric-gconf.c (gnm_gconf_rm_notification_autocorrect) : 
+	  renamed to gnm_gconf_rm_notification
+	(nm_gconf_add_notification_plugin_directories) : new
+	* src/gnumeric-gconf.h : ditto 	
+	* src/gui-util.c (fsel_dir_handle_ok) : new
+	(gnumeric_dialog_dir_selection) : new
+	* src/gui-util.h (gnumeric_dialog_dir_selection) : new
+
 2002-05-10  Jon K Hellan  <hellan@acm.org>
 
 	* src/workbook-control-gui.c (cb_file_preferences): Add wbcg

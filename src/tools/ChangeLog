@@ -1,3 +1,8 @@
+2002-05-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/tools/auto-correct.c (autocorrect_shutdown) : change
+	  gnm_gconf_rm_notification_autocorrect to gnm_gconf_rm_notification
+
 2002-05-03  Morten Welinder  <terra@diku.dk>
 
 	* goal-seek.c (fake_df): More debug.  Handle things that come out
