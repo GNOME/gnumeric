@@ -1,5 +1,11 @@
 2002-12-03  Jody Goldberg <jody@gnome.org>
 
+	* src/sheet-filter.c (cb_filter_blanks) : Use colrow_set_visibility.
+	(cb_filter_non_blanks) : ditto.
+	(gnm_filter_set_condition) : ditto.
+
+2002-12-03  Jody Goldberg <jody@gnome.org>
+
 	* src/sheet-filter.c (cb_filter_button_release) : don't die when faced
 	  with unsupported filter types.
 

@@ -82,7 +82,7 @@ Pending Patches
     21.10 expression dialog
     21.11) Handle range changes (cut-n-paste or ins/del col/row)
     21.12) xml import/export
-    21.13) Handle the relationship between groups and filters
+    21.13) Handle the relationship between groups and filters	(DONE)
 
 22) Add dirty flags to workbook too, adding a sheet should
     make workbook dirty not the new sheet.

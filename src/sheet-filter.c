@@ -560,10 +560,8 @@ static Value *
 cb_filter_blanks (Sheet *sheet, int col, int row, Cell *cell, gpointer data)
 {
 	if (cell_is_blank (cell) ||
-	    (cell->value->type == VALUE_STRING && *(cell->value->v_str.val->str) == '\0')) {
-		ColRowInfo *ri = sheet_row_fetch (sheet, row);
-		ri->visible = FALSE;
-	}
+	    (cell->value->type == VALUE_STRING && *(cell->value->v_str.val->str) == '\0'))
+		colrow_set_visibility (sheet, FALSE, FALSE, row, row);
 	return NULL;
 }
 
@@ -572,7 +570,7 @@ cb_filter_non_blanks (Sheet *sheet, int col, int row, Cell *cell, gpointer data)
 {
 	if (!cell_is_blank (cell) &&
 	    !(cell->value->type == VALUE_STRING && *(cell->value->v_str.val->str) == '\0'))
-		cell->row_info->visible = FALSE;
+		colrow_set_visibility (sheet, FALSE, FALSE, row, row);
 	return NULL;
 }
 
@@ -682,7 +680,7 @@ gnm_filter_new (Sheet *sheet, Range const *r)
 	filter->fields = g_ptr_array_new ();
 
 	tmp.start.row = tmp.end.row = r->start.row;
-	for (i = 0 ; i <= range_width (r); i++) {
+	for (i = 0 ; i < range_width (r); i++) {
 		field = g_object_new (filter_field_get_type (), NULL);
 		field->filter = filter;
 		field->i      = i;
@@ -769,7 +767,7 @@ gnm_filter_set_condition (GnmFilter *filter, unsigned i,
 			for (r = filter->r.start.row; ++r <= filter->r.end.row ; ) {
 				ColRowInfo *ri = sheet_row_get (filter->dep.sheet, r);
 				if (ri != NULL)
-					ri->visible = TRUE;
+					colrow_set_visibility (sheet, FALSE, TRUE, r, r);
 			}
 			for (i = 0 ; i < filter->fields->len ; i++)
 				filter_field_apply (g_ptr_array_index (filter->fields, i));
