@@ -1,3 +1,12 @@
+1999-10-09  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/mstyle.c (mstyle_element_copy): implement.
+	(mstyle_element_destroy): ditto.
+
+	* src/sheet-style.c (sheet_style_attach): Complicate :-)
+
+	* src/mstyle.h (MSTYLE_ANY_COLOR, MSTYLE_ANY_BORDER): add to help.
+
 1999-10-08  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/sheet-style.c (sheet_selection_apply_style_cb): add.

@@ -187,7 +187,8 @@ mstyle_merge (const MStyle *sta, const MStyle *stb)
 		psts = (PrivateStyle *)sta;
 	}
 
-	g_warning ("Merge unimplemented");
+	g_warning ("Merge unimplemented - this needs to use the new"
+		   "mstyle_element_copy / destroy API");
 	return NULL;
 }
 
@@ -340,4 +341,47 @@ render_merge_blank (const GList *styles)
 	mstyle_do_merge (styles, MSTYLE_ELEMENT_MAX_BLANK, mash, FALSE);
 
 	return style_mstyle_new (mash, MSTYLE_ELEMENT_MAX_BLANK);
+}
+
+MStyleElement
+mstyle_element_copy (MStyleElement e)
+{
+	switch (e.type) {
+	case MSTYLE_ANY_COLOR:
+		style_color_ref (e.u.color.fore);
+		break;
+	case MSTYLE_ANY_BORDER:
+		style_color_ref (e.u.border.top.color);
+		break;
+	case MSTYLE_FONT_NAME:
+		e.u.font.name = g_strdup (e.u.font.name);
+		break;
+	case MSTYLE_FORMAT:
+		style_format_ref (e.u.format);
+		break;
+	default:
+		break;
+	}
+	return e;
+}
+
+void
+mstyle_element_destroy (MStyleElement e)
+{
+	switch (e.type) {
+	case MSTYLE_ANY_COLOR:
+		style_color_unref (e.u.color.fore);
+		break;
+	case MSTYLE_ANY_BORDER:
+		style_color_unref (e.u.border.top.color);
+		break;
+	case MSTYLE_FONT_NAME:
+		g_free (e.u.font.name);
+		break;
+	case MSTYLE_FORMAT:
+		style_format_unref (e.u.format);
+		break;
+	default:
+		break;
+	}
 }

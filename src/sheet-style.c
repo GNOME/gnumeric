@@ -25,11 +25,23 @@
 #include "ranges.h"
 #include "mstyle.h"
 
+/**
+ * sheet_style_attach:
+ * @sheet: The sheet to attach to
+ * @range: the range to attach to
+ * @style: the style to attach.
+ * 
+ *  This routine applies a set of style elements in 'style' to
+ * a range in a sheet. This function needs some clever optimization
+ * the current code is grossly simplistic.
+ **/
 void
 sheet_style_attach (Sheet *sheet, Range range,
 		    MStyle *style)
 {
+	GList       *l;
 	StyleRegion *sr;
+	gboolean     add;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
@@ -37,13 +49,38 @@ sheet_style_attach (Sheet *sheet, Range range,
 	g_return_if_fail (range.start.col <= range.end.col);
 	g_return_if_fail (range.start.row <= range.end.row);
 
-	/* FIXME: Some serious work needs to be done here */
-	sr = g_new (StyleRegion, 1);
-	sr->range = range;
-	sr->style = style;
+	/*
+	 * FIXME: We need some clever people here....
+	 *
+	 *  Compartmentalize the styles via a fast row/col. vector perhaps
+	 * to speedup lookups.
+	 *
+	 *  Optimize the range fragmentation code.
+	 */
 
-	sheet->style_list = g_list_prepend (sheet->style_list, sr);
+	add = TRUE;
+	for (l = sheet->style_list; l; l = g_list_next (l)) {
+		StyleRegion *sr = l->data;
+		if (range_equal (&sr->range, &range)) {
+			MStyle *tmp;
 
+			g_warning ("Merging overlapping regions");
+			tmp = sr->style;
+			sr->style = mstyle_merge (tmp, style);
+			mstyle_unref (tmp);
+
+			add = FALSE;
+		}
+	}
+
+	if (add) {
+		sr = g_new (StyleRegion, 1);
+		sr->range = range;
+		sr->style = style;
+		
+		sheet->style_list = g_list_prepend (sheet->style_list, sr);
+	}
+		
 	/* FIXME: Need to clip range against view port */
 	sheet_redraw_cell_region (sheet,
 				  range.start.col, range.start.row,
@@ -168,7 +205,7 @@ sheet_selection_get_uniq_style (Sheet *sheet)
 	/* Look in the styles applied to the sheet */
 	for (l = sheet->style_list; l; l = l->next) {
 		StyleRegion *sr = l->data;
-		if (range_overlap (&sr->range, &range)) {
+		if (range_overlap (&sr->range, range)) {
 			range_dump (&sr->range);
 			mstyle_dump (sr->style);
 			style_list = g_list_prepend (style_list,

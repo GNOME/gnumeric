@@ -44,6 +44,13 @@ enum _MStyleElementType {
 	/* Delimiter */
 	MSTYLE_ELEMENT_MAX
 };
+#define MSTYLE_ANY_COLOR             MSTYLE_COLOR_FORE: \
+				case MSTYLE_COLOR_BACK
+#define MSTYLE_ANY_BORDER            MSTYLE_BORDER_TOP: \
+				case MSTYLE_BORDER_BOTTOM: \
+				case MSTYLE_BORDER_LEFT: \
+				case MSTYLE_BORDER_RIGHT
+
 extern const char *mstyle_names[MSTYLE_ELEMENT_MAX];
 
 /**
@@ -97,6 +104,9 @@ struct _MStyleElement {
 		gboolean         fit_in_cell;
 	} u;
 };
+
+MStyleElement mstyle_element_copy    (MStyleElement e);
+void          mstyle_element_destroy (MStyleElement e);
 
 MStyle     *mstyle_new         (const gchar *name);
 MStyle     *mstyle_new_elem    (const gchar *name, MStyleElement e);
