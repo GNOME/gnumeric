@@ -17,35 +17,19 @@ gchar *s = N_("Te_xt");
 gchar *s = N_("S_pecial");
 gchar *s = N_("C_ustom");
 gchar *s = N_("Sample");
-gchar *s = N_("General format cells attempt to\n"
-              "select an appropriate format\n"
-              "depending on the value of the cell.");
+gchar *s = N_("General format cells attempt to select an appropriate format depending on the value of the cell.");
 gchar *s = N_("_Decimal places:");
 gchar *s = N_("_Use Seperator for 1000's");
-gchar *s = N_("_Negative number:");
-gchar *s = N_("_Decimal places:");
 gchar *s = N_("_Symbol:");
 gchar *s = N_("$\n"
               "None\n"
               "");
 gchar *s = N_("$");
 gchar *s = N_("_Negative number:");
-gchar *s = N_("_Decimal places:");
-gchar *s = N_("_Symbol:");
-gchar *s = N_("None\n"
-              "$\n"
-              "");
-gchar *s = N_("None");
-gchar *s = N_("_Type:");
-gchar *s = N_("_Type:");
-gchar *s = N_("_Decimal places:");
-gchar *s = N_("_Type:");
-gchar *s = N_("_Decimal places:");
-gchar *s = N_("Display the value exactly as it was entered");
-gchar *s = N_("_Type:");
 gchar *s = N_("_Type:");
 gchar *s = N_("_Delete format");
-gchar *s = N_("label54");
+gchar *s = N_("_Type:");
+gchar *s = N_("Display the value exactly as it was entered");
 gchar *s = N_("Number");
 gchar *s = N_("Alignment");
 gchar *s = N_("_Horizontal");
