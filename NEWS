@@ -21,7 +21,10 @@ Jody:
 	  realized.
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=81766
-	* Handle undocumented XL-ism.
+	* Handle some XL export breakage cause by TagoH's patch.
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=82847
+	* Fix advanced filter of value based implied enums.
 
 	* gdk_flush after all grab/ungrab events so that long running
 	  operations that do not update the display are certain to ungrab
@@ -30,6 +33,7 @@ Jody:
 J.H.M. Dassen (Ray):
 	* Some gda plugin warnings.
 	* correct the help references in a few languages
+	* Fix some gcc-3 warnings.
 
 --------------------------------------------------------------------------
 Gnumeric 1.0.6
