@@ -8,6 +8,9 @@ Release Critical
 ----------------
 
 - name refering to deleted sheet
+- validation is not being stored in the cell format dialog
+- research reports graph data guru crash
+- Changing the summary info does not dirty a workbook.
 
 Pending Patches
 ---------------
