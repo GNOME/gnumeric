@@ -1569,40 +1569,48 @@ workbook_close_if_user_permits (WorkbookControlGUI *wbcg,
 		if (wb->filename) {
 			char *base = g_path_get_basename (wb->filename);
 			msg = g_strdup_printf (
-				_("Workbook '%s' has unsaved changes :"),
+				_("Save changes to workbook '%s' before closing?"),
 				base);
 			g_free (base);
 		} else
-			msg = g_strdup (_("Workbook has unsaved changes :"));
+			msg = g_strdup (_("Save changes to workbook before closing?"));
 
-		d = gtk_message_dialog_new (wbcg_toplevel (wbcg),
-					    GTK_DIALOG_DESTROY_WITH_PARENT,
-					    GTK_MESSAGE_WARNING,
-					    GTK_BUTTONS_NONE,
-					    msg);
+		d = gnumeric_message_dialog_new (wbcg_toplevel (wbcg),
+						 GTK_DIALOG_DESTROY_WITH_PARENT,
+						 GTK_MESSAGE_WARNING,
+						 msg,
+						 _("If you close without saving, changes will be discarded."));
+						 
 		if (exiting) {
 			int n_of_wb = g_list_length (application_workbook_list ());
 			if (n_of_wb > 1)
-				gtk_dialog_add_buttons (GTK_DIALOG (d),
-							_("Don't Quit"),  GTK_RESPONSE_CANCEL,
-							_("Discard All"), - GTK_RESPONSE_NO,
-							_("Discard"),	  GTK_RESPONSE_NO,
-							_("Save All"),	  - GTK_RESPONSE_YES,
-							GTK_STOCK_SAVE,   GTK_RESPONSE_YES,
-							NULL);
+			{
+			  	gnumeric_dialog_add_button (GTK_DIALOG(d), _("Discard all"), 
+							    GTK_STOCK_DELETE, - GTK_RESPONSE_NO);
+				gnumeric_dialog_add_button (GTK_DIALOG(d), _("Discard"), 
+							    GTK_STOCK_DELETE, GTK_RESPONSE_NO);
+				gnumeric_dialog_add_button (GTK_DIALOG(d), _("Save all"), 
+							    GTK_STOCK_SAVE, - GTK_RESPONSE_YES);
+				gnumeric_dialog_add_button (GTK_DIALOG(d), _("Don't quit"), 
+							    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
+			}
 			else
-				gtk_dialog_add_buttons (GTK_DIALOG (d),
-							_("Don't Quit"),  GTK_RESPONSE_CANCEL,
-							_("Discard"),	  GTK_RESPONSE_NO,
-							GTK_STOCK_SAVE,   GTK_RESPONSE_YES,
-							NULL);
-		} else
-			gtk_dialog_add_buttons (GTK_DIALOG (d),
-						_("Don't Close"),  GTK_RESPONSE_CANCEL,
-						_("Discard"),	  GTK_RESPONSE_NO,
-						GTK_STOCK_SAVE,   GTK_RESPONSE_YES,
-						NULL);
+			{
+				gnumeric_dialog_add_button (GTK_DIALOG(d), _("Discard"),
+							    GTK_STOCK_DELETE, GTK_RESPONSE_NO);
+				gnumeric_dialog_add_button (GTK_DIALOG(d), _("Don't quit"), 
+							    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
+			}
+		} 
+		else
+		{
+			gnumeric_dialog_add_button (GTK_DIALOG(d), _("Discard"), 
+						    GTK_STOCK_DELETE, GTK_RESPONSE_NO);
+			gnumeric_dialog_add_button (GTK_DIALOG(d), _("Don't close"), 
+						    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
+		}
 
+		gtk_dialog_add_button (GTK_DIALOG(d), GTK_STOCK_SAVE, GTK_RESPONSE_YES);
 		gtk_dialog_set_default_response (GTK_DIALOG (d), GTK_RESPONSE_YES);
 		button = gnumeric_dialog_run (wbcg, GTK_DIALOG (d));
 		g_free (msg);

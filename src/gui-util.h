@@ -152,4 +152,13 @@ typedef enum {
 } GnmCursorType;
 void gnm_cursor_set_widget (GtkWidget *w, GnmCursorType c);
 
+GtkWidget * gnumeric_button_new_with_stock_image (const gchar* text, const gchar* stock_id);
+GtkWidget * gnumeric_dialog_add_button (GtkDialog *dialog, const gchar* text, const gchar* stock_id,
+					gint response_id);
+GtkWidget * gnumeric_message_dialog_new (GtkWindow * parent,
+					 GtkDialogFlags flags,
+					 GtkMessageType type,
+					 gchar const * primary_message,
+					 gchar const * secondary_message);
+
 #endif /* GNUMERIC_GUI_UTIL_H */

@@ -1658,3 +1658,207 @@ gnm_cursor_set_widget (GtkWidget *w, GnmCursorType c)
 }
 
 /* ------------------------------------------------------------------------- */
+
+/**
+ * gnumeric_button_new_with_stock_image
+ *
+ * Code from gedit
+ *
+ * Creates a new GtkButton with custom label and stock image.
+ * 
+ * text : button label
+ * sotck_id : id for stock icon
+ *
+ * return : newly created button
+ *
+ **/
+
+GtkWidget* 
+gnumeric_button_new_with_stock_image (const gchar* text, const gchar* stock_id)
+{
+	GtkWidget *button;
+	GtkStockItem item;
+	GtkWidget *label;
+	GtkWidget *image;
+	GtkWidget *hbox;
+	GtkWidget *align;
+
+	button = gtk_button_new ();
+
+	if (GTK_BIN (button)->child)
+		gtk_container_remove (GTK_CONTAINER (button),
+				      GTK_BIN (button)->child);
+
+	if (gtk_stock_lookup (stock_id, &item)) {
+		label = gtk_label_new_with_mnemonic (text);
+
+		gtk_label_set_mnemonic_widget (GTK_LABEL (label), GTK_WIDGET (button));
+
+		image = gtk_image_new_from_stock (stock_id, GTK_ICON_SIZE_BUTTON);
+		hbox = gtk_hbox_new (FALSE, 2);
+
+		align = gtk_alignment_new (0.5, 0.5, 0.0, 0.0);
+
+		gtk_box_pack_start (GTK_BOX (hbox), image, FALSE, FALSE, 0);
+		gtk_box_pack_end (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+
+		gtk_container_add (GTK_CONTAINER (button), align);
+		gtk_container_add (GTK_CONTAINER (align), hbox);
+		gtk_widget_show_all (align);
+
+		return button;
+	}
+
+	label = gtk_label_new_with_mnemonic (text);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label), GTK_WIDGET (button));
+
+	gtk_misc_set_alignment (GTK_MISC (label), 0.5, 0.5);
+
+	gtk_widget_show (label);
+	gtk_container_add (GTK_CONTAINER (button), label);
+
+	return button;
+}
+
+/**
+ * gnumeric_dialog_add_button
+ *
+ * Code from gedit
+ *
+ * Creates and adds a button with stock image to the action area of an existing dialog.
+ * 
+ * dialog : dialog you want to add a button
+ * text : button label
+ * sotck_id : stock icon id
+ * response_id : respond id when button clicked
+ *
+ * return : newly created button
+ *
+ **/
+
+GtkWidget*
+gnumeric_dialog_add_button (GtkDialog *dialog, const gchar* text, const gchar* stock_id,
+			    gint response_id)
+{
+	GtkWidget *button;
+
+	g_return_val_if_fail (GTK_IS_DIALOG (dialog), NULL);
+	g_return_val_if_fail (text != NULL, NULL);
+	g_return_val_if_fail (stock_id != NULL, NULL);
+
+	button = gnumeric_button_new_with_stock_image (text, stock_id);
+	g_return_val_if_fail (button != NULL, NULL);
+
+	GTK_WIDGET_SET_FLAGS (button, GTK_CAN_DEFAULT);
+
+	gtk_widget_show (button);
+
+	gtk_dialog_add_action_widget (dialog, button, response_id);	
+
+	return button;
+}
+
+/**
+ * gnumeric_message_dialog_new :
+ *
+ * A convenience fonction to build HIG compliant message dialogs.
+ *
+ *   parent : transient parent, or NULL for none.
+ *   flags 
+ *   type : type of dialog
+ *   primary_message : message displayed in bold
+ *   secondary_message : message displayed below
+ *
+ *   return : a GtkDialog, without buttons.
+ **/
+
+GtkWidget *
+gnumeric_message_dialog_new (GtkWindow * parent,
+			     GtkDialogFlags flags,
+			     GtkMessageType type,
+			     gchar const * primary_message,
+			     gchar const * secondary_message)
+{
+	GtkWidget * dialog;
+	GtkWidget * label;
+	GtkWidget * image;
+	GtkWidget * hbox;
+	gchar * message;
+	const gchar *stock_id = NULL;
+	GtkStockItem item;
+
+	dialog = gtk_dialog_new_with_buttons ("", parent, flags, NULL);
+
+	if (dialog) {
+		image = gtk_image_new (); 
+
+		switch (type) {
+		case GTK_MESSAGE_INFO:
+			stock_id = GTK_STOCK_DIALOG_INFO;
+			break;
+
+		case GTK_MESSAGE_QUESTION:
+			stock_id = GTK_STOCK_DIALOG_QUESTION;
+			break;
+
+		case GTK_MESSAGE_WARNING:
+			stock_id = GTK_STOCK_DIALOG_WARNING;
+			break;
+
+		case GTK_MESSAGE_ERROR:
+			stock_id = GTK_STOCK_DIALOG_ERROR;
+			break;
+
+		default:
+			g_warning ("Unknown GtkMessageType %d", type);
+			break;
+		}
+
+		if (stock_id == NULL)
+			stock_id = GTK_STOCK_DIALOG_INFO;
+
+		if (gtk_stock_lookup (stock_id, &item)) {
+			gtk_image_set_from_stock (GTK_IMAGE (image), stock_id,
+						  GTK_ICON_SIZE_DIALOG);
+
+			gtk_window_set_title (GTK_WINDOW (dialog), item.label);
+		} else
+			g_warning ("Stock dialog ID doesn't exist?");  
+
+		if (primary_message) {
+			if (secondary_message) {
+				message = g_strdup_printf ("<b>%s</b>\n\n%s",
+							   primary_message,
+							   secondary_message);
+			} else {
+				message = g_strdup_printf ("<b>%s</b>",
+							   primary_message);
+			}
+		} else {
+			message = g_strdup_printf (secondary_message);
+		}
+		label = gtk_label_new (message);
+		g_free (message);
+
+		hbox = gtk_hbox_new (FALSE, 0);
+		gtk_box_pack_start (GTK_BOX (hbox), image, FALSE, TRUE, 0);
+		gtk_box_pack_start_defaults (GTK_BOX (hbox),
+					     label);
+		gtk_box_pack_start_defaults (GTK_BOX (GTK_DIALOG (dialog)->vbox),
+					     hbox);
+
+		gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
+		gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
+		gtk_misc_set_alignment (GTK_MISC (label), 0.0 , 0.0);
+		gtk_misc_set_alignment (GTK_MISC (label), 0.0 , 0.0);
+		gtk_box_set_spacing (GTK_BOX (hbox), 12);
+		gtk_container_set_border_width (GTK_CONTAINER (hbox), 6);
+		gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->vbox), 12);
+		gtk_container_set_border_width (GTK_CONTAINER (dialog), 6);
+		gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
+		gtk_window_set_resizable (GTK_WINDOW(dialog), FALSE);
+		gtk_widget_show_all (GTK_WIDGET (GTK_DIALOG (dialog)->vbox));
+	}
+
+	return dialog;
+}

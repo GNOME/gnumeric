@@ -1,5 +1,17 @@
 2003-06-03  Jody Goldberg <jody@gnome.org>
 
+	For Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+	http://bugzilla.gnome.org/show_bug.cgi?id=112713
+	* src/gui-utils.[ch] 
+	(gnumeric_button_new_with_stock_image) : new
+	(gnumeric_add_dialog_button) : new
+	(gnumeric_message_dialog_new) : new
+	* src/workbook-control-gui.c
+	(workbook_close_if_user_permits) : build a HIG compliant 
+	confirmation dialog
+
+2003-06-03  Jody Goldberg <jody@gnome.org>
+
 	* src/sheet.c (sheet_row_size_fit_pixels) : delete the old hack to
 	  work around granular font sizes and take out the +1 for the grid
 	  line
