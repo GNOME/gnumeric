@@ -656,12 +656,14 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 		gdk_flush ();
 		
 		if (!((item_cursor->end_col == item_cursor->base_col + item_cursor->base_cols) &&
-		      (item_cursor->end_row == item_cursor->base_row + item_cursor->base_rows)))
+		      (item_cursor->end_row == item_cursor->base_row + item_cursor->base_rows))){
+
+			sheet_accept_pending_output (sheet);
 			sheet_autofill (sheet, 
 					item_cursor->base_col,    item_cursor->base_row,
 					item_cursor->base_cols+1, item_cursor->base_rows+1,
 					item_cursor->end_col,     item_cursor->end_row);
-
+		}
 		sheet_cursor_set (sheet,
 				  item_cursor->base_col, item_cursor->base_row,
 				  item_cursor->end_col,  item_cursor->end_row);

@@ -22,6 +22,7 @@ INCLUDES = 						\
 	-I$(GNUMERIC_SRC_DIR)				\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
 	-I$(includedir)					\
+	$(PYTHON_CFLAGS)				\
 	$(GNOME_INCLUDEDIR)
 
-libpython_la_LDADD = -l$(PYTHON_LIBS)
+libpython_la_LIBADD = -l$(PYTHON_LIBS)

@@ -528,7 +528,7 @@ sheet_autofill_dir (Sheet *sheet,
 	l = all_items;
 	m = NULL;
 	loops = sub_index = group_count = 0;
-	for (pos = region_count; pos < end_pos; pos++){
+	for (pos = start_pos + region_count; pos < end_pos; pos++){
 		FillItem *fi;
 		Cell *cell;
 

@@ -1,0 +1,28 @@
+Gnumeric -- The GNOME spreadsheet program
+Miguel de Icaza <miguel@kernel.org>
+
+This is the Gnumeric, the GNOME spreadsheet program.  
+
+The goal of this spreadsheet is to become as powerful as other
+spreadsheets on the market and do this cleanly and smartly.  We have
+to do this while being as compatible as possible with Excel.
+
+   If you are familiar with Excel, you should be ready to use
+Gnumeric.  We have tried to clone all of the good features and stay as
+compatible as possible with Excel in terms of usability.  
+
+   Gnumeric is still a young program and it is advancing steadily.  If
+you are interested in contributing to the development of Gnumeric, you
+probably will want to read the doc/Design file.  I have scribbled my
+ideas on how Gnumeric should be developed in the future in the file
+doc/Future-Roadmap.  
+
+Mailing lists:
+
+    There is a mailing list used to discuss Gnumeric, to subscribe
+send a mail to:
+
+	gnumeric-list-request@gnome.org
+
+    And in the body of the message write "subscribe"
+
