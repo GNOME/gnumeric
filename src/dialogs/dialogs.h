@@ -42,6 +42,7 @@ void     dialog_simulation	(WorkbookControlGUI *wbcg, Sheet *sheet);
 void	 dialog_printer_setup	(WorkbookControlGUI *wbcg, Sheet *sheet);
 void     dialog_autocorrect	(WorkbookControlGUI *wbcg);
 void	 dialog_advanced_filter	(WorkbookControlGUI *wbcg);
+void	 dialog_shuffle	        (WorkbookControlGUI *wbcg);
 void	 dialog_auto_filter	(WorkbookControlGUI *wbcg, GnmFilter *f, int i,
 				 gboolean is_expr, GnmFilterCondition *cur);
 void	 dialog_autosave	(WorkbookControlGUI *wbcg);

@@ -58,6 +58,7 @@ base_files =					\
 	dialog-search.c				\
 	dialog-search-replace.c			\
 	dialog-sheet-order.c			\
+	dialog-shuffle.c			\
 	dialog-simulation.c			\
 	dialog-solver.c				\
 	dialog-stf.c				\
@@ -131,6 +132,7 @@ glade_DATA = 				\
 	search.glade			\
 	search-replace.glade		\
 	sheet-order.glade		\
+	shuffle.glade			\
 	so-arrow.glade			\
 	so-checkbox.glade		\
 	so-fill.glade			\
