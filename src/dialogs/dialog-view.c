@@ -124,21 +124,6 @@ cb_view_destroy (ViewState *state)
 	g_free (state);
 }
 
-static void
-cb_focus_to_location_display_name (GtkToggleButton *togglebutton, ViewState *state)
-{
-	if (gtk_toggle_button_get_active (togglebutton))
-		gtk_widget_grab_focus (GTK_WIDGET (state->location_display_name));
-}
-
-static gboolean
-cb_display_name_selected (G_GNUC_UNUSED GtkWidget *widget,
-			  G_GNUC_UNUSED GdkEventFocus *event, ViewState *state)
-{
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->location_elsewhere), TRUE);
-	return FALSE;
-}
-
 void
 dialog_new_view (WorkbookControlGUI *wbcg)
 {
@@ -200,12 +185,9 @@ dialog_new_view (WorkbookControlGUI *wbcg)
 			  "clicked",
 			  G_CALLBACK (cb_view_cancel_clicked), state);
 
-	g_signal_connect (G_OBJECT (state->location_elsewhere),
-			  "clicked", G_CALLBACK (cb_focus_to_location_display_name),
-			  (gpointer) state);
-	g_signal_connect (G_OBJECT (state->location_display_name),
-			  "focus_in_event",
-			  G_CALLBACK (cb_display_name_selected), state);
+	gnm_link_button_and_entry (GTK_WIDGET (state->location_elsewhere),
+				   GTK_WIDGET (state->location_display_name));
+
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->location_display_name));
 	

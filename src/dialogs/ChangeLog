@@ -1,3 +1,7 @@
+2003-06-02  Morten Welinder  <terra@gnome.org>
+
+	* dialog-view.c (dialog_new_view): Use gnm_link_button_and_entry.
+
 2003-05-31  Jody Goldberg <jody@gnome.org>
 
 	* dialog-shuffle.c (dialog_shuffle) : fix yesterday's change.
