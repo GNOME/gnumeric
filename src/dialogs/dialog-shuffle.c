@@ -47,7 +47,7 @@
 
 typedef GenericToolState ShuffleState;
 
-static const char *shuffle_by[] = {
+static char const *shuffle_by[] = {
 	"shuffle_cols",
 	"shuffle_rows",
 	"shuffle_area",
@@ -65,21 +65,17 @@ static void
 shuffle_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 			       ShuffleState *state)
 {
-        Value *input_range    = NULL;
-
-        input_range = gnm_expr_entry_parse_as_value (
+        Value *input_range = gnm_expr_entry_parse_as_value (
 		GNM_EXPR_ENTRY (state->input_entry), state->sheet);
 	if (input_range == NULL) {
 		gtk_label_set_text (GTK_LABEL (state->warning),
 				    _("The input range is invalid."));
 		gtk_widget_set_sensitive (state->ok_button, FALSE);
-		return;
-	} else
+	} else {
 		value_release (input_range);
-
-	gtk_label_set_text (GTK_LABEL (state->warning), "");
-	gtk_widget_set_sensitive (state->ok_button, TRUE);
-	return;
+		gtk_label_set_text (GTK_LABEL (state->warning), "");
+		gtk_widget_set_sensitive (state->ok_button, TRUE);
+	}
 }
 
 /**
@@ -116,8 +112,6 @@ shuffle_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button, ShuffleState *state)
 
 	value_release (input);
 	gtk_widget_destroy (state->dialog);
-
-	return;
 }
 
 /**
@@ -133,6 +127,9 @@ dialog_shuffle (WorkbookControlGUI *wbcg)
 {
         ShuffleState    *state;
 	WorkbookControl *wbc;
+	GtkWidget *w;
+	char const *type;
+	Range const *r;
 
 	g_return_if_fail (wbcg != NULL);
 
@@ -158,6 +155,17 @@ dialog_shuffle (WorkbookControlGUI *wbcg)
 	shuffle_update_sensitivity_cb (NULL, state);
 	state->output_entry = NULL;
 	tool_load_selection ((GenericToolState *)state, FALSE);
+
+	r = selection_first_range (state->sv, NULL, NULL);
+	if (range_width (r) == 1)
+		type = "shuffle_cols";
+	else if (range_height (r) == 1)
+		type = "shuffle_rows";
+	else
+		type = "shuffle_area";
+	w = glade_xml_get_widget (state->gui, type);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TRUE);
+
 	gtk_widget_show (state->dialog);
 
         return;
