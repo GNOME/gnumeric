@@ -965,7 +965,7 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 			if (ms_excel_formula_debug > 1) {
 				printf ("An Array how interesting: (%d,%d)\n",
 					cols, rows);
-				dump (mem, length);
+				ms_ole_dump (mem, length);
 			}
 #endif
 			array_data += 3;
@@ -1010,7 +1010,7 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 					} else {
 						printf ("FIXME: Duff array item type %d @ %s%d\n",
 							opts, col_name(fn_col), fn_row+1);
-						dump (array_data+1, 8);
+						ms_ole_dump (array_data+1, 8);
 						error = TRUE;
 						goto really_duff;
 						break;
@@ -1162,7 +1162,7 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 #ifndef NO_DEBUG_EXCEL
 				if (ms_excel_formula_debug > 2) {
 					printf ("Optimised IF 0x%x 0x%x\n", grbit, w) ;
-					dump (mem, length) ;
+					ms_ole_dump (mem, length) ;
 				}
 #endif
 				if (w)
@@ -1183,7 +1183,7 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 #ifndef NO_DEBUG_EXCEL
 				if (ms_excel_formula_debug > 1) {
 					printf ("'Optimised' choose\n");
-					dump (mem,length);
+					ms_ole_dump (mem,length);
 				}
 #endif
 				for (lp=0;lp<w;lp++) { /* w = wCases */
@@ -1208,7 +1208,7 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 				if (ms_excel_formula_debug > 2) {
 					printf ("Goto %d: cur = 0x%x\n", w,
 						(int)(cur-mem)) ;
-					dump (mem, length) ;
+					ms_ole_dump (mem, length) ;
 				}
 #endif
 				ptg_length = w ;
@@ -1277,7 +1277,7 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 		{
 			char *str;
 			guint32 len;
-/*			dump (mem, length) ;*/
+/*			ms_ole_dump (mem, length) ;*/
 			if (wb->ver >= eBiffV8)
 			{
 				str = biff_get_text (cur+2, MS_OLE_GET_GUINT16(cur), &len) ;
@@ -1392,7 +1392,7 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 			} else {
 				printf ("-------------------\n");
 				printf ("XL : Extended ptg %x\n", eptg_type);
-				dump (mem+2, length-2);
+				ms_ole_dump (mem+2, length-2);
 				printf ("-------------------\n");
 			}
 		}
@@ -1434,7 +1434,7 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 				cell_name (fn_col,fn_row),
 				(shared?" (shared)":""));
 			printf ("formula data : \n") ;
-			dump (mem, length) ;
+			ms_ole_dump (mem, length) ;
 		}
 #endif
 		

@@ -61,7 +61,7 @@ ms_excel_unexpected_biff (BiffQuery *q, char const *const state)
 		printf ("Unexpected Opcode in %s : 0x%x, length 0x%x\n",
 			state, q->opcode, q->length);
 		if (ms_excel_read_debug > 2)
-			dump (q->data, q->length);
+			ms_ole_dump (q->data, q->length);
 	}
 #endif
 }
@@ -154,7 +154,7 @@ biff_get_text (guint8 const *pos, guint32 length, guint32 *byte_length)
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug > 1) {
 		printf ("String :\n");
-		dump (pos, length+1);
+		ms_ole_dump (pos, length+1);
 	}
 #endif
 
@@ -205,7 +205,7 @@ biff_get_text (guint8 const *pos, guint32 length, guint32 *byte_length)
 	if (ms_excel_read_debug > 4) {
 		printf ("String len %d, byte length %d: %d %d %d:\n",
 			length, (*byte_length), high_byte, rich_str, ext_str);
-		dump (pos, *byte_length);
+		ms_ole_dump (pos, *byte_length);
 	}
 #endif
 
@@ -298,7 +298,7 @@ ms_biff_bof_data_new (BiffQuery *q)
 				if (ms_excel_read_debug > 2) {
 					printf ("Complicated BIFF version %d\n",
 						MS_OLE_GET_GUINT16 (q->data));
-					dump (q->data, q->length);
+					ms_ole_dump (q->data, q->length);
 				}
 #endif
 				switch (MS_OLE_GET_GUINT16 (q->data))
@@ -654,7 +654,7 @@ biff_name_data_new (ExcelWorkbook *wb, char const *name,
 			wb->name_data->len, sheet_index, bnd->name);
 	}
 	if (ms_excel_read_debug > 2)
-		dump (bnd->v.store.data, bnd->v.store.len);
+		ms_ole_dump (bnd->v.store.data, bnd->v.store.len);
 #endif
 	g_ptr_array_add (wb->name_data, bnd);
 }
@@ -1848,7 +1848,7 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 					sheet->gnum_sheet->name,
 					cell_name (cell->col->pos, cell->row->pos));
 				if (ms_excel_read_debug > 5)
-					dump (q->data+6, 8);
+					ms_ole_dump (q->data+6, 8);
 			}
 #endif
 			val = value_new_empty ();
@@ -2285,7 +2285,7 @@ ms_excel_read_name (BiffQuery *q, ExcelSheet *sheet)
 			descr_txt ? descr_txt : "(null)",
 			help_txt ? help_txt : "(null)",
 			status_txt ? status_txt : "(null)");
-		dump (name_def_data, name_def_len);
+		ms_ole_dump (name_def_data, name_def_len);
 
 		/* Unpack flags */
 		if ((flags&0x0001) != 0)
@@ -2749,7 +2749,7 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_read_debug > 2) {
 			printf ("RK number : 0x%x, length 0x%x\n", q->opcode, q->length);
-			dump (q->data, q->length);
+			ms_ole_dump (q->data, q->length);
 		}
 #endif
 		ms_excel_sheet_insert_val (sheet, EX_GETXF (q), EX_GETCOL (q),
@@ -2765,7 +2765,7 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 		Value *v;
 
 /*		printf ("MULRK\n");
-		dump (q->data, q->length); */
+		ms_ole_dump (q->data, q->length); */
 
 		row = MS_OLE_GET_GUINT16(q->data);
 		col = MS_OLE_GET_GUINT16(q->data+2);
@@ -3660,7 +3660,7 @@ ms_excel_read_workbook (Workbook *workbook, MsOle *file)
 #ifndef NO_DEBUG_EXCEL
 			if (ms_excel_read_debug>4) {
 				printf ("SST\n");
-				dump (q->data, q->length);
+				ms_ole_dump (q->data, q->length);
 			}
 #endif
 			wb->global_string_max = MS_OLE_GET_GUINT32(q->data+4);
@@ -3724,7 +3724,7 @@ ms_excel_read_workbook (Workbook *workbook, MsOle *file)
 
 				wb->num_extern_sheets = numXTI;
 				/* printf ("ExternSheet (%d entries)\n", numXTI);
-				   dump (q->data, q->length); */
+				   ms_ole_dump (q->data, q->length); */
 
 				wb->extern_sheets = g_new (BiffExternSheetData, numXTI+1);
 
@@ -3743,7 +3743,7 @@ ms_excel_read_workbook (Workbook *workbook, MsOle *file)
 		{
 			BiffFormatData *d = g_new(BiffFormatData,1);
 			/*				printf ("Format data 0x%x %d\n", q->ms_op, ver->version);
-							dump (q->data, q->length);*/
+							ms_ole_dump (q->data, q->length);*/
 			if (ver->version == eBiffV7) { /* Totaly guessed */
 				d->idx = MS_OLE_GET_GUINT16(q->data);
 				d->name = biff_get_text(q->data+3, MS_OLE_GET_GUINT8(q->data+2), NULL);

@@ -1,3 +1,13 @@
+1999-12-14 Valerie A Henson  <val@nmt.edu>
+
+	* ms-obj.c: s/dump/ms_ole_dump/
+
+	* ms-biff.c: s/dump/ms_ole_dump/
+
+	* ms-formula-read.c: s/dump/ms_ole_dump/
+
+	* ms-excel-read.c: s/dump/ms_ole_dump/
+
 1999-12-09  Jon K Hellan  <hellan@acm.org>
 
 	* ms-excel-write.c (excel_font_hash, excel_font_equal, excel_font_free):

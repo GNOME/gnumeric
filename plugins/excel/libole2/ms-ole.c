@@ -964,7 +964,7 @@ pps_decode_tree (MsOle *f, PPS_IDX p, PPS *parent)
 	
 #if OLE_DEBUG > 1
 	printf ("PPS decode : '%s'\n", pps->name?pps->name:"Null");
-	dump (mem, PPS_BLOCK_SIZE);
+	ms_ole_dump (mem, PPS_BLOCK_SIZE);
 #endif
 	return;
 }
@@ -1073,7 +1073,7 @@ pps_encode_tree_initial (MsOle *f, GList *list, PPS_IDX *p)
 
 #if OLE_DEBUG > 1
 	printf ("Encode '%s' as \n", pps->name);
-	dump (mem, PPS_BLOCK_SIZE);
+	ms_ole_dump (mem, PPS_BLOCK_SIZE);
 #endif
 
 	if (pps->children)
@@ -1122,10 +1122,10 @@ pps_encode_tree_chain (MsOle *f, GList *list)
 #if OLE_DEBUG > 1
 		printf ("tenix3 Final encode '%s' as \n",
 			((PPS *)(parent))->name);
-		dump (mem_parent, PPS_BLOCK_SIZE);
+		ms_ole_dump (mem_parent, PPS_BLOCK_SIZE);
 		printf ("tenix3 Final encode '%s' as \n",
 			((PPS *)(lchildren->data))->name);
-		dump (get_pps_ptr (f, ((PPS *)(lchildren->data))->idx, FALSE),
+		ms_ole_dump (get_pps_ptr (f, ((PPS *)(lchildren->data))->idx, FALSE),
 		      PPS_BLOCK_SIZE);
 #endif
 
@@ -1178,7 +1178,7 @@ pps_encode_tree_chain (MsOle *f, GList *list)
 #if OLE_DEBUG > 1
 			printf ("tenix1 Final encode '%s' as \n",
 				((PPS *)(children))->name);
-			dump (mem, PPS_BLOCK_SIZE);
+			ms_ole_dump (mem, PPS_BLOCK_SIZE);
 #endif
 
 		i++;
@@ -1186,7 +1186,7 @@ pps_encode_tree_chain (MsOle *f, GList *list)
 
 #if OLE_DEBUG > 1
 	printf ("tenix2 Final encode '%s' as \n", ((PPS *)(parent))->name);
-	dump (mem_parent, PPS_BLOCK_SIZE);
+	ms_ole_dump (mem_parent, PPS_BLOCK_SIZE);
 #endif
 }
 
@@ -1738,7 +1738,7 @@ ms_ole_destroy (MsOle **ptr)
 }
 
 void
-dump (guint8 const *ptr, guint32 len)
+ms_ole_dump (guint8 const *ptr, guint32 len)
 {
 	guint32 lp,lp2;
 	guint32 off;
@@ -1784,7 +1784,7 @@ check_stream (MsOleStream *s)
 			g_assert (g_array_index (s->blocks, BLP, idx) ==
 				  blk);
 #if OLE_DEBUG > 2
-			dump (GET_SB_R_PTR(f, blk), SB_BLOCK_SIZE);
+			ms_ole_dump (GET_SB_R_PTR(f, blk), SB_BLOCK_SIZE);
 #endif
 			blk = NEXT_SB (f, blk);
 			idx++;
@@ -1794,7 +1794,7 @@ check_stream (MsOleStream *s)
 			g_assert (g_array_index (s->blocks, BLP, idx) ==
 				  blk);
 #if OLE_DEBUG > 2
-			dump (BB_R_PTR(f, blk), BB_BLOCK_SIZE);
+			ms_ole_dump (BB_R_PTR(f, blk), BB_BLOCK_SIZE);
 #endif
 			blk = NEXT_BB (f, blk);
 			idx++;

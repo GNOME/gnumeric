@@ -320,7 +320,7 @@ ms_obj_dump (guint8 const * const data, int const len, char const * const name)
 		return;
 
 	printf ("{ %s \n", name);
-	dump (data+4, len);
+	ms_ole_dump (data+4, len);
 	printf ("}; /* %s */\n", name);
 #endif
 }

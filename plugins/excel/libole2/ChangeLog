@@ -1,3 +1,9 @@
+1999-12-14 Valerie A Henson  <val@nmt.edu>
+
+	* ms-ole.c: s/dump/ms_ole_dump.
+
+	* ms-ole.h: ditto.
+
 1999-12-13  Arturo Tena  <arturo@directmail.org>
 
 	* ms-ole-summary.c (ms_ole_summary_create, ms_ole_docsummary_create):

@@ -68,7 +68,7 @@ dump_biff (BiffQuery *bq)
 {
 	printf ("Opcode 0x%x length %d malloced? %d\nData:\n", bq->opcode, bq->length, bq->data_malloced);
 	if (bq->length>0)
-		dump (bq->data, bq->length);
+		ms_ole_dump (bq->data, bq->length);
 /*	dump_stream (bq->pos); */
 }
 

@@ -1,3 +1,9 @@
+1999-12-14  Joe Sakosky <josak@ibm.net>
+
+	* src/file.c: privatized FileOpener FileSaver.
+
+	* src/file.h:  ditto
+	
 1999-12-15  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/workbook.c (workbook_bonobo_setup): kill goadid.

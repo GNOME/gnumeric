@@ -146,7 +146,7 @@ struct _MsOleSysWrappers {
 };
 
 
-extern void dump (guint8 const *ptr, guint32 len) ;
+extern void ms_ole_dump (guint8 const *ptr, guint32 len) ;
 
 /* Do not use */
 extern void ms_ole_debug (MsOle *f, int magic);

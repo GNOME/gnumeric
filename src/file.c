@@ -14,6 +14,19 @@
 #include "file.h"
 #include <locale.h>
 
+struct _FileOpener {
+	int             priority;
+	char           *format_description;
+	FileFormatProbe probe;
+	FileFormatOpen  open;
+};
+struct _FileSaver {
+	char            *extension;
+	char            *format_description;
+	FileFormatSave  save;
+};
+
+/* A GList of FileOpener structures */
 static GList *gnumeric_file_savers = NULL;
 static GList *gnumeric_file_openers = NULL;
 static FileSaver *current_saver = NULL;
