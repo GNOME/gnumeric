@@ -1,5 +1,12 @@
 2001-08-17  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet.c (sheet_freeze_panes) : set the initial top_left position
+	  based on the frozen pane when unfreezing.
+
+	* src/sheet-control-gui.c (scg_set_panes) : prepare for h/v only splits.
+	  Reformat.  Remove code to set the topleft after the panes are
+	  created or removed.  That is handled by sheet.
+
 	* src/GNOME_Gnumeric.xml : enable the font accelerators in the bonobo
 	  build by making them standalone rather than associating them with
 	  toolbuttons.  It appears as if bonobo does not support accelerators

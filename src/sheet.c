@@ -4515,6 +4515,7 @@ sheet_freeze_panes (Sheet *sheet,
 		    sheet->unfrozen_top_left.row < 0)
 			return;
 
+		sheet->initial_top_left = sheet->frozen_top_left;
 		sheet->frozen_top_left.col = sheet->frozen_top_left.row =
 		sheet->unfrozen_top_left.col = sheet->unfrozen_top_left.row = -1;
 	}
