@@ -21771,9 +21771,13 @@ msgid "Iterations"
 msgstr "迭代"
 
 #: src/dialogs/dialog-simulation.c:158
-msgid "msgstr "
+msgid "# Input variables"
+msgstr ""
+
 #: src/dialogs/dialog-simulation.c:159
-msgid "msgstr "
+msgid "# Output variables"
+msgstr ""
+
 #: src/dialogs/dialog-simulation.c:159
 msgid "Runtime"
 msgstr "运行时间"
@@ -23822,7 +23826,8 @@ msgstr "第一轮 #："
 #: src/dialogs/simulation.glade.h:9
 #, fuzzy
 msgid "Input variables:"
-msgstr "
+msgstr ""
+
 #: src/dialogs/simulation.glade.h:10
 #, fuzzy
 msgid "Iterations:"
@@ -23845,7 +23850,8 @@ msgstr ""
 #: src/dialogs/simulation.glade.h:16
 #, fuzzy
 msgid "Output variables:"
-msgstr "
+msgstr ""
+
 #: src/dialogs/simulation.glade.h:17
 msgid "Prev. Sim."
 msgstr ""
@@ -27027,12 +27033,14 @@ msgstr "更改单元格："
 #: src/tools/simulation.c:101
 msgid ""
 "Input variable did not yield to a numeric value. Check the model (maybe your "
-"last round msgstr ""
+"last round # is too high)."
+msgstr ""
 
 #: src/tools/simulation.c:126
 msgid ""
 "Output variable did not yield to a numeric value. Check the output variables "
-"in your model (maybe your last round msgstr ""
+"in your model (maybe your last round # is too high)."
+msgstr ""
 
 #: src/tools/simulation.c:242
 msgid "Simulation Report"
