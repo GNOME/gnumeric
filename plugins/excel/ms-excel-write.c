@@ -3748,14 +3748,14 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *gnum_sheet,
 
 	if (extent.end.row >= maxrows) {
 		gnm_io_warning (ewb->io_context,
-				_("Some content will be lost when saving as MS Excel (tm) 95."
+				_("Some content will be lost when saving as MS Excel (tm) 95. "
 				  "It only supports %d rows, and this workbook has %d"),
 			  maxrows, extent.end.row);
 		extent.end.row = maxrows;
 	}
 	if (extent.end.col >= 256) {
 		gnm_io_warning (ewb->io_context,
-				_("Some content will be lost when saving as MS Excel (tm)."
+				_("Some content will be lost when saving as MS Excel (tm). "
 				  "It only supports %d rows, and this workbook has %d"),
 			  256, extent.end.col);
 		extent.end.col = 256;
