@@ -1,3 +1,8 @@
+2003-08-12  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-filter.c (filter_expr_init): Set ->date_conv before we
+	use it.
+
 2003-08-11  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-private.h : Add filters_changed flag.

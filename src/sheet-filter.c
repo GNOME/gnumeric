@@ -620,6 +620,8 @@ filter_expr_init (FilterExpr *fexpr, unsigned i,
 		  GnmFilter const *filter)
 {
 	Value *tmp = cond->value[i];
+	fexpr->date_conv = workbook_date_conv (filter->sheet->workbook);
+
 	if (VALUE_IS_STRING (tmp)) {
 		GnmFilterOp op = cond->op[i];
 		char const *str = value_peek_string (tmp);
@@ -631,7 +633,6 @@ filter_expr_init (FilterExpr *fexpr, unsigned i,
 			return;
 	}
 	fexpr->val[i] = value_duplicate (tmp);
-	fexpr->date_conv = workbook_date_conv (filter->sheet->workbook);
 }
 
 static void
@@ -932,7 +933,7 @@ gnm_filter_add_field (GnmFilter *filter, int i)
 	sheet_object_set_sheet (&field->parent, filter->sheet);
 
 	g_ptr_array_add (filter->fields, NULL);
-	for (n = filter->fields->len; n-- > i ; )
+	for (n = filter->fields->len; --n > i ; )
 		g_ptr_array_index (filter->fields, n) =
 			g_ptr_array_index (filter->fields, n-1);
 	g_ptr_array_index (filter->fields, n) = field;
