@@ -1,5 +1,8 @@
 2000-01-05  Morten Welinder  <terra@diku.dk>
 
+	* src/expr.c (eval_expr_real): Fix OPER_EXP operand test for the
+ 	float_t case.
+
 	* src/parser.y (register_allocation, unregister_allocation):
  	Ignore NULLs.
 

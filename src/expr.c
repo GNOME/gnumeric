@@ -887,7 +887,8 @@ eval_expr_real (FunctionEvalInfo * const s, ExprTree const * const tree)
 				    : value_new_float (va / vb);
 
 			case OPER_EXP:
-				if (va == 0 && vb <= 0)
+				if ((va == 0 && vb <= 0) ||
+				    (va < 0 && vb != (int)vb))
 					return value_new_error (&s->pos, gnumeric_err_NUM);
 				return value_new_float (pow (va, vb));
 
