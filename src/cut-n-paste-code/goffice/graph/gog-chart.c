@@ -375,7 +375,7 @@ gog_chart_get_axis (GogChart const *chart, GogAxisType target)
 	GogAxis *axis;
 	int type;
 
-	g_return_val_if_fail (GOG_CHART (chart) != NULL, FALSE);
+	g_return_val_if_fail (GOG_CHART (chart) != NULL, NULL);
 
 	for (ptr = GOG_OBJECT (chart)->children ; ptr != NULL ; ptr = ptr->next) {
 		axis = ptr->data;
