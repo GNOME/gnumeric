@@ -20,7 +20,7 @@ You need:				Debian package name
 	glib		>= 2.0.0	libglib2.0-dev
 	gtk+		>= 2.0.0	libgtk2.0-dev
 	libgnome	>= 2.0.0	libgnome2-dev
-	libgnomeui	>= 2.0.0	libgnomeui-dev
+	libgnomeui	>= 2.3.3	libgnomeui-dev
 	libbonobo	>= 2.0.0	libbonobo2-dev
 	libbonoboui	>= 2.0.0	libbonoboui2-dev
 	libgnomeprint	>= 2.4.2	libgnomeprint2.4-dev

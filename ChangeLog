@@ -1,5 +1,13 @@
 2004-08-19  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=148759
+	* configure.in, README: Bumped libgnomeui requirement as
+	main-application.c depends on
+	libgnomeui/gnome-authentication-manager.h, which was added to
+	libgnomeui in version 2.3.3.
+
+2004-08-19  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
 	* configure.in: Bring the libgsf-gnome-1 requirment for the
 	bonobo enabled build in line with the regular libgsf-1 and
 	libgsf-gnome-1 requirements.
