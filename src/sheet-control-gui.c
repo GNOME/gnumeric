@@ -2022,6 +2022,7 @@ scg_stop_range_selection (SheetControlGUI *scg, gboolean clear_string)
 {
 
 	gnumeric_sheet_stop_range_selection (GNUMERIC_SHEET (scg->canvas));
+	scg_stop_sliding (scg);
 	gnumeric_expr_entry_rangesel_stopped (
 		GNUMERIC_EXPR_ENTRY (workbook_get_entry_logical (scg->wbcg)),
 		clear_string);

@@ -1,3 +1,9 @@
+2001-04-23  Jon K Hellan  <hellan@acm.org>
+
+	* src/sheet-control-gui.c (scg_stop_range_selection): Stop
+	sliding. This was a race condition. The slide handler would think
+	we were still range selecting.
+
 2001-04-23  Morten Welinder  <terra@diku.dk>
 
 	* src/parse-util.c (gnumeric_char_start_expr_p): Handle initial
