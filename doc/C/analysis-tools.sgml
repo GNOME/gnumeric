@@ -401,17 +401,52 @@
   <sect1 id="exp-smoothing-tool">
      <title>Exponential Smoothing Tool</title>
 
-     <para>The Exponential Smoothing tool does the exponential
-     smoothing for the given set of values.  Each value in the new
+  <figure id="smoothing-tool-dialog">
+    <title>Exponential Smoothing Tool Dialog</title>
+    <screenshot>
+	<graphic fileref="figures/analysistools-smoothing.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>
+
+     <para>The Exponential Smoothing tool performs the exponential
+     smoothing for the given set or sets of values.  Each value in the
      smoothed set is predicted based on the forecast for the prior
-     period.  The formula to calculate the forecast is: F(t+1) = F(t)
-     + (1 - dampingFactor) * (A(t) - F(t)), where A(t) is the t'th
+     period.  The formula to calculate the forecast is: 
+     <parameter>F(t+1) = F(t) + (1 - <guilabel>dampingFactor</guilabel>) 
+     * (A(t) - F(t))</parameter>, 
+     where <parameter>A(t)</parameter> is the <parameter>t</parameter>th
      value in the original data set.</para>
 
-     <para>You can define the prior forecast adjustment in the
-     <quote><guilabel>Damping factor</guilabel></quote> entry.  A good value could be, for example,
-     between 0.2 and 0.3 representing 20 to 30 percent error
+     <para>Specify the cells containing the datasets in the <quote><guilabel>Input
+     Range</guilabel></quote> entry. The entered range or ranges are grouped into 
+     datasets either by rows or by columns.</para> 
+
+     <para>If you have labels
+     in the first cell of each data set, select the
+     <quote><guilabel>Labels</guilabel></quote> option.</para>
+
+     <para>Specify prior forecast adjustment value in the
+     <quote><guilabel>Damping factor</guilabel></quote> entry.  
+     A value, for example, between 0.2 and 0.3 represents 20 to 30 percent error
      adjustment in the prior forecast.</para>
+
+   <figure id="smoothing-example-1">
+    <title>Some Example Data for the Exponential Smoothing Tool</title>
+    <screenshot>
+	<graphic fileref="figures/analysistools-smoothing-ex1.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>
+ <example id="usingsmoothingtool"><title>Using the Exponential Smoothing Tool</title>
+     <para><xref linkend="smoothing-example-1"> shows some example data and 
+     <xref linkend="smoothing-example-2"> the corresponding output.
+     </para>
+</example>
+  <figure id="smoothing-example-2">
+    <title>Exponential Smoothing Tool Output</title>
+    <screenshot>
+	<graphic fileref="figures/analysistools-smoothing-ex2.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>
 
   </sect1>
 
@@ -582,24 +617,55 @@
   <sect1 id="moving-average-tool">
      <title>Moving Average Tool</title>
 
+  <figure id="moving-tool-dialog">
+    <title>Moving Average Tool Dialog</title>
+    <screenshot>
+	<graphic fileref="figures/analysistools-moving-average.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>
+
      <para>Use the moving average tool to calculate moving averages of
-     the data set.  A moving average provides useful trend information
+     one or more data sets.  A moving average provides useful trend information
      of the data that is lost in a simple average.  In addition,
      moving averages can be used to eliminate random variance.  For
      example, use this tool to create a smoother curve of a stock
      prize.</para>
 
-     <para>To use this tool, first specify the cells containing the
-     values whose moving averages you want to calculate in the <quote><guilabel>Input
-     Range</guilabel></quote> entry.  Then specify the <quote><guilabel>Interval</guilabel></quote> for the moving
-     average.  The interval specifies the number of values to be
-     included in the moving average.</para>
+     <para>Specify the cells containing the datasets in the <quote><guilabel>Input
+     Range</guilabel></quote> entry. The entered range or ranges are grouped into 
+     datasets either by rows or by columns.</para> 
 
-     <para>The results are given in a column.  Each row represents the
-     moving average for the corresponding row in the input range.  The
+     <para>If you have labels
+     in the first cell of each data set, select the
+     <quote><guilabel>Labels</guilabel></quote> option.</para>
+
+     <para>Specify the <quote><guilabel>Interval</guilabel></quote> for the moving
+     average.  The interval <parameter>i</parameter> is the number of consecutive values to be
+     included in each moving average.</para>
+
+     <para>The results are given in one column for each dataset  Each row represents the
+     moving average of the corresponding row or column in the input range.  The
      moving average cannot be calculated for the first <parameter>k</parameter> rows in the
-     input range where <parameter>k</parameter> is smaller than the given interval.</para>
+     input range where <parameter>k</parameter> is smaller than the given interval 
+     <parameter>i</parameter>.</para>
 
+   <figure id="moving-example-1">
+    <title>Some Example Data for the Moving Average Tool</title>
+    <screenshot>
+	<graphic fileref="figures/analysistools-moving-average-ex1.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>
+ <example id="usingmovingtool"><title>Using the Moving Average Tool</title>
+     <para><xref linkend="moving-example-1"> shows some example data and 
+     <xref linkend="moving-example-2"> the corresponding output.
+     </para>
+</example>
+  <figure id="moving-example-2">
+    <title>Moving Averages Tool Output</title>
+    <screenshot>
+	<graphic fileref="figures/analysistools-moving-average-ex2.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>
   </sect1>
 
   <sect1 id="random-number-generation-tool">

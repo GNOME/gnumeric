@@ -1,5 +1,16 @@
 2001-12-22 Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* analysis-tools.sgml : Improve and add example to
+	  Moving Average and Exponential Smoothing Documentation
+	* figures/analysistools-moving-average.png : new figure
+	* figures/analysistools-moving-average-ex1.png : new figure
+	* figures/analysistools-moving-average-ex2.png : new figure
+	* figures/analysistools-smoothing.png : new figure
+	* figures/analysistools-smoothing-ex1.png : new figure
+	* figures/analysistools-smoothing-ex2.png : new figure
+
+2001-12-22 Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* analysis-tools.sgml : Improve and add example to Sampling
 	  Tool and Rank and Percentile Tool Documentation
 	* figures/analysistools-sampling.png : new figure
