@@ -528,8 +528,8 @@ check_program_definition_failures (Sheet            *sheet,
 	(*res)->constraints_array = constraints_array;
 	(*res)->obj_coeff = g_new0 (gnum_float, param->n_variables);
 
-	(*res)->constr_coeff = g_new (gnum_float *, param->n_constraints
-				      + param->n_int_bool_constraints);
+	(*res)->constr_coeff = g_new0 (gnum_float *, param->n_constraints
+				       + param->n_int_bool_constraints);
 	for (i = 0; i < param->n_constraints
 	       + param->n_int_bool_constraints; i++)
 	        (*res)->constr_coeff[i] = g_new0 (gnum_float,
@@ -695,7 +695,7 @@ solver (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg)
 			        lp_algorithm[param->options.algorithm]
 			                .get_shadow_prize_fn (program, i);
 		}
-		if (param->options.limits_report)
+		if (param->options.limits_report && ! res->ilp_flag)
 		        calculate_limits (sheet, param, res);
 	}
 

@@ -1,5 +1,9 @@
 2002-03-16  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
+	* solver.c (solver): Fix crash with INT constraints.
+
+	* reports.c: Fixed reporting with INT constraints.
+
 	* solver.c (get_col_nbr): New function.
 	(lp_solver_init): Fixed the `Int' constraints.
 

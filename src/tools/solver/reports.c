@@ -237,10 +237,15 @@ solver_answer_report (WorkbookControl *wbc,
 	        /* Set `Formula' column */
 	        dao_set_cell (&dao, 4, 16 + vars + i, c->str);
 
+		if (c->type == SolverINT || c->type == SolverBOOL) {
+		        dao_set_cell (&dao, 5, 16 + vars + i, _("Binding"));
+		        continue;
+		}
+
 		/* Set `Status' column */
 		cell = sheet_cell_get (sheet, c->rhs.col, c->rhs.row);
 		rhs = value_get_as_float (cell->value);
-		if (gnumabs (lhs - rhs) < 0.001)
+		if (gnumabs (lhs - rhs) < 0.001  /* FIXME */)
 		        dao_set_cell (&dao, 5, 16 + vars + i, _("Binding"));
 		else
 		        dao_set_cell (&dao, 5, 16 + vars + i, _("Not Binding"));
@@ -800,7 +805,7 @@ solver_program_report (WorkbookControl *wbc,
 {
         data_analysis_output_t dao;
 	Cell                   *cell;
-	int                    i, col, max_col, n, vars;
+	int                    i, col, row, max_col, n, vars;
 
 	dao_init (&dao, NewSheetOutput);
         dao_prepare_output (wbc, &dao, _("Program Report"));
@@ -843,28 +848,31 @@ solver_program_report (WorkbookControl *wbc,
 
 
 	/* Print the constraints. */
+	row = 10;
 	for (i = 0; i < res->param->n_constraints +
 	       res->param->n_int_bool_constraints; i++) {
 	        SolverConstraint *c = res->constraints_array[i];
 
 		/* Print the constraint function. */
 		col = 0;
+		if (c->type == SolverINT || c->type == SolverBOOL)
+		        continue;
 		for (n = 0; n < res->param->n_variables; n++) {
 		        if (res->constr_coeff[i][n] != 0) {
 			        /* Print the sign. */
 			        if (res->constr_coeff[i][n] < 0)
-				        dao_set_cell (&dao, 1 + col*3, 10 + i, "-");
+				        dao_set_cell (&dao, 1 + col*3, row, "-");
 				else if (col > 0)
-				        dao_set_cell (&dao, 1 + col*3, 10 + i, "+");
+				        dao_set_cell (&dao, 1 + col*3, row, "+");
 
 				/* Print the coefficent. */
 				if (gnumabs (res->constr_coeff[i][n]) != 1)
-				        dao_set_cell_float (&dao, 2 + col*3, 10 + i,
+				        dao_set_cell_float (&dao, 2 + col*3, row,
 					     gnumabs (res->constr_coeff[i][n]));
 
 				/* Print the name of the variable. */
 				cell = get_solver_input_var (res, n);
-				dao_set_cell (&dao, 3 + col*3, 10 + i,
+				dao_set_cell (&dao, 3 + col*3, row,
 					  find_name (sheet, cell->pos.col,
 						     cell->pos.row));
 				col++;
@@ -877,17 +885,17 @@ solver_program_report (WorkbookControl *wbc,
 		/* Print the type. */
 		switch (c->type) {
 		case SolverLE:
-		        dao_set_cell (&dao, col*3 + 1, 10 + i, "<");
-			dao_set_underlined (&dao, col*3 + 1, 10 + i,
-					    col*3 + 1, 10 + i);
+		        dao_set_cell (&dao, col*3 + 1, row, "<");
+			dao_set_underlined (&dao, col*3 + 1, row,
+					    col*3 + 1, row);
 		        break;
 		case SolverGE:
-		        dao_set_cell (&dao, col*3 + 1, 10 + i, ">");
-			dao_set_underlined (&dao, col*3 + 1, 10 + i,
-					    col*3 + 1, 10 + i);
+		        dao_set_cell (&dao, col*3 + 1, row, ">");
+			dao_set_underlined (&dao, col*3 + 1, row,
+					    col*3 + 1, row);
 		        break;
 		case SolverEQ:
-		        dao_set_cell (&dao, col*3 + 1, 10 + i, "=");
+		        dao_set_cell (&dao, col*3 + 1, row, "=");
 		        break;
 		case SolverINT:
 		        break;
@@ -899,8 +907,9 @@ solver_program_report (WorkbookControl *wbc,
 
 		/* Set RHS column. */
 		cell = sheet_cell_get (sheet, c->rhs.col, c->rhs.row);
-		dao_set_cell_value (&dao, col*3 + 2, 10 + i,
-				value_duplicate (cell->value));
+		dao_set_cell_value (&dao, col*3 + 2, row,
+				    value_duplicate (cell->value));
+		row++;
 	}
 
 

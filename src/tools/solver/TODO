@@ -13,6 +13,7 @@ Usability fixes:
   * computing performance improvements:
     - make the getting of LP coefficents faster
     - the limits reporting slows things
+  * fix constraint change button
 
 Feature enhancements:
   * fix assume non-negative being off
