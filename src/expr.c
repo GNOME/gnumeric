@@ -1,6 +1,7 @@
 #include <config.h>
 #include <gnome.h>
 #include <math.h>
+#include <string.h>
 #include "gnumeric.h"
 #include "expr.h"
 
@@ -59,6 +60,12 @@ eval_expr_release (ExprTree *tree)
 		symbol_unref (tree->u.function.symbol);
 		break;
 
+	case OP_EQUAL:
+	case OP_GT:
+	case OP_LT:
+	case OP_GTE:
+	case OP_LTE:
+	case OP_NOT_EQUAL:
 	case OP_ADD:
 	case OP_SUB:
 	case OP_MULT:
@@ -72,9 +79,6 @@ eval_expr_release (ExprTree *tree)
 	case OP_NEG:
 		eval_expr_release (tree->u.value);
 		break;
-		
-	default:
-		g_warning ("Unknown ExprTree type passed to eval_expr_release\n");
 	}
 	g_free (tree);
 }
@@ -128,8 +132,6 @@ value_release (Value *value)
 	case VALUE_CELLRANGE:
 		break;
 		
-	default:
-		g_warning ("Unknown value type passed to value_release\n");
 	}
 	g_free (value);
 }
@@ -325,17 +327,92 @@ eval_funcall (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **e
 	return v;
 }
 
-enum {
+typedef enum {
 	IS_EQUAL,
 	IS_LESS,
-	IS_BIGGER,
-};
+	IS_GREATER,
+	TYPE_ERROR
+} compare_t;
 
-static int
+static compare_t
+compare_int_int (int a, int b)
+{
+	if (a == b)
+		return IS_EQUAL;
+	else if (a < b)
+		return IS_LESS;
+	else
+		return IS_GREATER;
+}
+
+static compare_t
+compare_float_float (float_t a, float_t b)
+{
+	if (a == b)
+		return IS_EQUAL;
+	else if (a < b)
+		return IS_LESS;
+	else
+		return IS_GREATER;
+}
+
+/*
+ * Compares two (Value *) and returns one of compare_t
+ */
+static compare_t
 compare (Value *a, Value *b)
 {
-	g_warning ("Value comparission is not yet implemented\n");
-	return IS_EQUAL;
+	if (a->type == VALUE_INTEGER){
+		int f;
+		
+		switch (b->type){
+		case VALUE_INTEGER:
+			return compare_int_int (a->v.v_int, b->v.v_int);
+
+		case VALUE_FLOAT:
+			return compare_float_float (a->v.v_int, b->v.v_float);
+
+		case VALUE_STRING:
+			f = value_get_as_double (b);
+			return compare_float_float (a->v.v_int, f);
+
+		default:
+			return TYPE_ERROR;
+		}
+	}
+	
+	if (a->type == VALUE_FLOAT){
+		float_t f;
+
+		switch (b->type){
+		case VALUE_INTEGER:
+			return compare_float_float (a->v.v_float, b->v.v_int);
+
+		case VALUE_FLOAT:
+			return compare_float_float (a->v.v_float, b->v.v_float);
+
+		case VALUE_STRING:
+			f = value_get_as_double (b);
+			return compare_float_float (a->v.v_float, f);
+
+		default:
+			return TYPE_ERROR;
+		}
+	}
+
+	if (a->type == VALUE_STRING && b->type == VALUE_STRING){
+		int t;
+
+		t = strcasecmp (a->v.str->str, b->v.str->str);
+		if (t == 0)
+			return IS_EQUAL;
+		else if (t > 0)
+			return IS_GREATER;
+		else
+			return IS_LESS;
+	}
+
+	return TYPE_ERROR;
 }
 
 Value *
@@ -374,13 +451,20 @@ eval_expr (void *asheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 
 		comp = compare (a, b);
 
+		if (comp == TYPE_ERROR){
+			value_release (a);
+			value_release (b);
+			*error_string = _("Type error");
+			return NULL;
+		}
+		
 		switch (tree->oper){
 		case OP_EQUAL:
 			res->v.v_int = comp == IS_EQUAL;
 			break;
 
 		case OP_GT:
-			res->v.v_int = comp == IS_BIGGER;
+			res->v.v_int = comp == IS_GREATER;
 			break;
 
 		case OP_LT:
@@ -392,7 +476,7 @@ eval_expr (void *asheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 			break;
 
 		case OP_GTE:
-			res->v.v_int = (comp == IS_EQUAL || comp == IS_BIGGER);
+			res->v.v_int = (comp == IS_EQUAL || comp == IS_GREATER);
 			break;
 
 		case OP_NOT_EQUAL:
@@ -507,10 +591,35 @@ eval_expr (void *asheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 		value_release (b);
 		return res;
 		
-	case OP_CONCAT:
-		g_warning ("Concat not implemented yet\n");
-		*error_string = _("OOPS");
-		return NULL;
+	case OP_CONCAT: {
+		char *sa, *sb, *tmp;
+
+		a = eval_expr (sheet, tree->u.binary.value_a,
+			       eval_col, eval_row, error_string);
+		if (!a)
+			return NULL;
+		b = eval_expr (sheet, tree->u.binary.value_b,
+			       eval_col, eval_row, error_string);
+		if (!b){
+			value_release (a);
+			return NULL;
+		}
+
+		res = g_new (Value, 1);
+		res->type = VALUE_STRING;
+		sa = value_string (a);
+		sb = value_string (b);
+		
+		tmp = g_copy_strings (sa, sb, NULL);
+		res->v.str = string_get (tmp);
+		g_free (sa);
+		g_free (sb);
+		g_free (tmp);
+
+		value_release (a);
+		value_release (b);
+		return res;
+	}
 
 	case OP_FUNCALL:
 		return eval_funcall (sheet, tree, eval_col, eval_row, error_string);

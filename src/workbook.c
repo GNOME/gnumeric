@@ -156,6 +156,77 @@ workbook_setup_edit_area (Workbook *wb)
 			    wb);
 }
 
+
+struct {
+	char *displayed_name;
+	char *function;
+} quick_compute_routines [] = {
+	{ N_("Sum"),   	       "SUM(SELECTION())" },
+	{ N_("Min"),   	       "MIN(SELECTION())" },
+	{ N_("Max"),   	       "MAX(SELECTION())" },
+	{ N_("Average"),       "AVERAGE(SELECTION())" },
+	{ N_("Count"),         "COUNT(SELECTION())" },
+	{ NULL, NULL }
+};
+
+/*
+ * Sets the expression that gets evaluated whenever the
+ * selection in the sheet changes
+ */
+static char *
+workbook_set_auto_expr (Workbook *wb, char *description, char *expression)
+{
+	char *error = NULL;
+	
+	if (wb->auto_expr){
+		g_assert (wb->auto_expr->ref_count == 1);
+		expr_tree_unref (wb->auto_expr);
+		string_unref (wb->auto_expr_desc);
+	}
+	wb->auto_expr = expr_parse_string (expression, 0, 0, &error);
+	wb->auto_expr_desc = string_get (description);
+
+	return error;
+}
+
+static void
+change_auto_expr (GtkWidget *item, Workbook *wb)
+{
+	char *expr, *name;
+
+	expr = gtk_object_get_data (GTK_OBJECT (item), "expr");
+	name = gtk_object_get_data (GTK_OBJECT (item), "name");
+	workbook_set_auto_expr (wb, name, expr);
+	sheet_update_auto_expr (workbook_get_current_sheet (wb));
+}
+
+static void
+change_auto_expr_menu (GtkWidget *widget, GdkEventButton *event, Workbook *wb)
+{
+	static GtkWidget *menu;
+
+	if (!menu){
+		GtkWidget *item;
+		int i;
+		
+		menu = gtk_menu_new ();
+
+		for (i = 0; quick_compute_routines [i].displayed_name; i++){
+			item = gtk_menu_item_new_with_label (
+				_(quick_compute_routines [i].displayed_name));
+			gtk_menu_append (GTK_MENU (menu), item);
+			gtk_widget_show (item);
+			gtk_signal_connect (GTK_OBJECT (item), "activate",
+					    GTK_SIGNAL_FUNC(change_auto_expr), wb);
+			gtk_object_set_data (GTK_OBJECT (item), "expr",
+					     quick_compute_routines [i].function);
+			gtk_object_set_data (GTK_OBJECT (item), "name",
+					     quick_compute_routines [i].displayed_name);
+		}
+	}
+	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, 0, NULL, 1, event->time);
+}
+
 static void
 workbook_setup_status_area (Workbook *wb)
 {
@@ -169,7 +240,8 @@ workbook_setup_status_area (Workbook *wb)
 
 	canvas = gnome_canvas_new ();
 	gtk_widget_set_usize (canvas, 1, 1);
-	
+
+	/* The canvas that displays text */
 	root = GNOME_CANVAS_GROUP (GNOME_CANVAS (canvas)->root);
 	wb->auto_expr_label = GNOME_CANVAS_ITEM (gnome_canvas_item_new (
 		root, gnome_canvas_text_get_type (),
@@ -182,43 +254,36 @@ workbook_setup_status_area (Workbook *wb)
 		NULL));
 	
 	gtk_table_attach (GTK_TABLE (t), canvas, 1, 2, 0, 1,
-			  GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 0, 0);
-	gtk_table_attach (GTK_TABLE (t), gtk_label_new ("SUM="), 0, 1, 0, 1,
+			  GTK_FILL, GTK_FILL, 0, 0);
+	/* The following is just a trick to get the canvas to "adjust" his
+	 * size to the proper value (as we created it with 1,1 and
+	 * GTK_FILL options for X and Y
+	 */
+	gtk_table_attach (GTK_TABLE (t), gtk_label_new ("WWWWWWWWW"), 1, 2, 0, 1,
+			  GTK_FILL, GTK_FILL, 0, 0);
+	gtk_signal_connect (GTK_OBJECT (canvas), "button_press_event",
+			    GTK_SIGNAL_FUNC (change_auto_expr_menu), wb);
+	
+	gtk_table_attach (GTK_TABLE (t), gtk_label_new ("Info"), 0, 1, 0, 1,
 			  GTK_FILL | GTK_EXPAND, 0, 0, 0);
 	gtk_widget_show_all (t);
 }
 
-/*
- * Sets the expression that gets evaluated whenever the
- * selection in the sheet changes
- */
-static char *
-workbook_set_auto_expr (Workbook *wb, char *expression)
+void
+workbook_auto_expr_label_set (Workbook *wb, char *text)
 {
-	char *error = NULL;
+	char *res;
+
+	g_return_if_fail (wb != NULL);
+	g_return_if_fail (text != NULL);
 	
-	if (wb->auto_expr){
-		g_assert (wb->auto_expr->ref_count == 1);
-		expr_tree_unref (wb->auto_expr);
-		wb->auto_expr = NULL;
-	}
-	wb->auto_expr = expr_parse_string (expression, 0, 0, &error);
-
-	return error;
+	res = g_copy_strings (wb->auto_expr_desc->str, "=",
+			      text, NULL);
+	gnome_canvas_item_set (wb->auto_expr_label,
+			       "text", res,
+			       NULL);
+	g_free (res);
 }
-
-struct {
-	char *displayed_name;
-	char *function;
-} quick_compute_routines [] = {
-	{ N_("Sum"),   	       "SUM(SELECTION())" },
-	{ N_("Min"),   	       "MIN(SELECTION())" },
-	{ N_("Max"),   	       "MAX(SELECTION())" },
-	{ N_("Average"),       "AVERAGE(SELECTION())" },
-	{ N_("Count"),         "COUNT(SELECTION())" },
-	{ N_("Count numbers"), "COUNTNUMBERS(SELECTION())" },
-	{ NULL, NULL }
-};
 
 /*
  * Sets up the workbook.
@@ -244,7 +309,7 @@ workbook_new (void)
 	gnome_app_create_menus (GNOME_APP (wb->toplevel), workbook_menu);
 
 	/* Set the default operation to be performed over selections */
-	workbook_set_auto_expr (wb, "MIN(SELECTION())");
+	workbook_set_auto_expr (wb, "SUM", "SUM(SELECTION())");
 
 	gtk_widget_show_all (wb->table);
 	return wb;

@@ -115,6 +115,7 @@ symbol_unref (Symbol *sym)
 	g_return_if_fail (sym->ref_count > 0);
 	
 	if (--(sym->ref_count) == 0){
+		g_hash_table_remove (symbol_hash_table, sym->str);
 		g_free (sym->str);
 		g_free (sym);
 	}

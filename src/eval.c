@@ -27,9 +27,9 @@ cell_eval (Cell *cell)
 		return;
 	
 	cell->iteration++;
-		
+
 	if (cell->text)
-		string_unref_ptr (&cell->text);
+		string_unref (cell->text);
 	
 	v = eval_expr (cell->sheet, cell->parsed_node,
 		       cell->col->pos,
@@ -51,6 +51,8 @@ cell_eval (Cell *cell)
 		g_free (str);
 	}
 
+	cell_calc_dimensions (cell);
+	
 	sheet_redraw_cell_region (cell->sheet,
 				  cell->col->pos, cell->row->pos,
 				  cell->col->pos, cell->row->pos);
@@ -143,7 +145,7 @@ add_cell_range_deps (Cell *cell, CellRef *a, CellRef *b)
 	*result = range;
 	result->ref_count = 1;
 	result->cell_list = g_list_prepend (NULL, cell);
-	
+
 	g_hash_table_insert (dependency_hash, result, result);
 }
 
@@ -319,10 +321,9 @@ search_cell_deps (gpointer key, gpointer value, gpointer closure)
 
 	for (l = range->cell_list; l; l = l->next){
 		Cell *cell = l->data;
-		
-		c->list = g_list_prepend (c->list, cell);
 
-		printf ("Cell: %d,%d\n", cell->col->pos, cell->row->pos);
+		printf ("Found dependenat: %d, %d\n", cell->col->pos, cell->row->pos);
+		c->list = g_list_prepend (c->list, cell);
 	}
 }
 
@@ -339,7 +340,6 @@ cell_get_dependencies (Sheet *sheet, int col, int row)
 	closure.sheet = sheet;
 	closure.list = NULL;
 
-	printf ("Looking for dependencies of %d,%d\n", col, row);
 	g_hash_table_foreach (dependency_hash, &search_cell_deps, &closure);
 
 	return closure.list;
@@ -388,9 +388,12 @@ void
 workbook_recalc (Workbook *wb)
 {
 	Cell *cell;
+	GList *deps;
 	
 	while ((cell = pick_next_cell_from_queue (wb))){
-		printf ("Processing %d %d\n", cell->col->pos, cell->row->pos);
 		cell_eval (cell);
+		deps = cell_get_dependencies (cell->sheet, cell->col->pos, cell->row->pos);
+		if (deps)
+			cell_queue_recalc_list (deps);
 	}
 }

@@ -1,3 +1,20 @@
+1998-08-10  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/eval.c (workbook_recalc): Queue computation for cells that
+	have been recomputed.
+
+	* src/expr.c (eval_expr): Implement the concatenation operator. 
+
+1998-08-09  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/expr.c (eval_expr): Implement comparission.
+
+	* src/str.c (string_unref_ptr, string_unref): Remove the string
+	from the string_hash_table when the refcount reaches zero.
+
+	* src/symbol.c (symbol_unref): Remove the symbol from the hash
+	table when the refcount reaches zero.
+
 1998-08-07  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/gnumeric-sheet.c: Renamed all references to (GnumericSheet

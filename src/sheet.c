@@ -595,31 +595,37 @@ sheet_selection_equal (SheetSelection *a, SheetSelection *b)
 	return 1;
 }
 
-static void
-workbook_label_set (Workbook *wb, char *text)
+void
+sheet_update_auto_expr (Sheet *sheet)
 {
-	gnome_canvas_item_set (wb->auto_expr_label,
-			       "text", text,
-			       NULL);
+	Workbook *wb = sheet->workbook;
+	Value *v;
+	char  *error;
+
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+		
+	/* defaults */
+	v = NULL;
+	error = "ERROR";
+	if (wb->auto_expr)
+		v = eval_expr (sheet, wb->auto_expr, 0, 0, &error);
+	
+	if (v){
+		char *s;
+
+		s = value_string (v);
+		workbook_auto_expr_label_set (wb, s);
+		g_free (s);
+		value_release (v);
+	} else
+		workbook_auto_expr_label_set (wb, error);
 }
 
 static void
 sheet_selection_changed_hook (Sheet *sheet)
 {
-	Workbook *wb = sheet->workbook;
-	Value *v;
-	char  *error;
-	
-	v = eval_expr (sheet, wb->auto_expr, 0, 0, &error);
-	if (v){
-		char *s;
-
-		s = value_string (v);
-		workbook_label_set (wb, s);
-		g_free (s);
-		value_release (v);
-	} else
-		workbook_label_set (wb, error);
+	sheet_update_auto_expr (sheet);
 }
 
 void

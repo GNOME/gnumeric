@@ -337,11 +337,14 @@ cancel_pending_input (GnumericSheet *gsheet)
 {
 	stop_cell_selection (gsheet);
 	
-	if (gsheet->item_editor){
+	if (!gsheet->item_editor)
+		return;
+
+	if (gsheet->editing_cell){
 		cell_set_text (gsheet->editing_cell,
 			       gsheet->editing_saved_text->str);
-		destroy_item_editor (gsheet);
 	}
+	destroy_item_editor (gsheet);
 }
 
 static void

@@ -20,6 +20,7 @@ typedef struct {
 
 	/* The auto-expression */
 	ExprTree   *auto_expr;
+	String     *auto_expr_desc;
 	GnomeCanvasItem  *auto_expr_label;
 	
 	/* Styles */
@@ -156,6 +157,8 @@ void        sheet_redraw_cell_region  (Sheet *sheet, int start_col, int start_ro
 void        sheet_redraw_selection    (Sheet *sheet, SheetSelection *ss);
 void        sheet_redraw_all          (Sheet *sheet);
 
+void        sheet_update_auto_expr    (Sheet *sheet);
+
 /*
  * Workbook
  */
@@ -164,6 +167,7 @@ Workbook   *workbook_new_with_sheets     (int sheet_count);
 void        workbook_attach_sheet        (Workbook *, Sheet *);
 Sheet      *workbook_focus_current_sheet (Workbook *wb);
 Sheet      *workbook_get_current_sheet   (Workbook *wb);
+void        workbook_auto_expr_label_set (Workbook *wb, char *text);
 
 /*
  * Does any pending recalculations

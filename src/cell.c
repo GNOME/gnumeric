@@ -26,7 +26,7 @@ cell_set_formula (Cell *cell, char *text)
 
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (text != NULL);
-	
+
 	cell->parsed_node = expr_parse_string (&text [1],
 					       cell->col->pos,
 					       cell->row->pos,
@@ -44,10 +44,25 @@ cell_set_formula (Cell *cell, char *text)
 }
 
 void
+cell_calc_dimensions (Cell *cell)
+{
+	char    *rendered_text;
+	GdkFont *font;
+
+	g_return_if_fail (cell != NULL);
+	
+	rendered_text = CELL_TEXT_GET (cell);
+	
+	font = cell->style->font->font;
+	
+	cell->width = cell->col->margin_a + cell->col->margin_b + 
+		gdk_text_width (font, rendered_text, strlen (rendered_text));
+	cell->height = font->ascent + font->descent;
+}
+
+void
 cell_set_text (Cell *cell, char *text)
 {
-	GdkFont *font;
-	char    *rendered_text;
 	GList   *deps;
 	
 	g_return_if_fail (cell != NULL);
@@ -55,12 +70,16 @@ cell_set_text (Cell *cell, char *text)
 
 	/* The value entered */
 	if (cell->entered_text)
-		string_unref_ptr (&cell->entered_text);
+		string_unref (cell->entered_text);
+
 	cell->entered_text = string_get (text);
 	
 	if (cell->parsed_node){
 		cell_drop_dependencies (cell);
+		cell_formula_unlink (cell);
+
 		expr_tree_unref (cell->parsed_node);
+		cell->parsed_node = NULL;
 	}
 	
 	if (text [0] == '='){
@@ -71,7 +90,7 @@ cell_set_text (Cell *cell, char *text)
 		char *p;
 		
 		if (cell->text)
-			string_unref_ptr (&cell->text);
+			string_unref (cell->text);
 
 		cell->text = string_get (text);
 
@@ -105,6 +124,7 @@ cell_set_text (Cell *cell, char *text)
 			/* In this case we need to format the text */
 		}
 		cell->value = v;
+		cell_calc_dimensions (cell);
 	}
 
 	/* Queue all of the dependencies for this cell */
@@ -117,12 +137,4 @@ cell_set_text (Cell *cell, char *text)
 	
 	/* Finish setting the values for this cell */
 	cell->flags = 0;
-
-	rendered_text = CELL_TEXT_GET (cell);
-	
-	font = cell->style->font->font;
-	
-	cell->width = cell->col->margin_a + cell->col->margin_b + 
-		gdk_text_width (font, rendered_text, strlen (rendered_text));
-	cell->height = font->ascent + font->descent;
 }
