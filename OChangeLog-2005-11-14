@@ -1,3 +1,10 @@
+2004-11-06  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/gnumeric-gconf.h (gnm_gconf_set_gui_resolution_h): new
+	(gnm_gconf_set_gui_resolution_v): new
+	* src/gnumeric-gconf.c (gnm_gconf_set_gui_resolution_h): new
+	(gnm_gconf_set_gui_resolution_v): new
+	
 2004-11-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/gnumeric-gconf.h (gnm_gconf_set_file_overwrite): new

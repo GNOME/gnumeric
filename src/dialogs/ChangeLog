@@ -1,3 +1,12 @@
+2004-11-06  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-preferences.c (pref_screen_page_open): new
+	(pref_screen_page_initializer): new
+	(page_info): add `screen' page and reorder
+	(pref_file_page_initializer): reorder items
+	(int_pref_create_widget): adjust spacing
+	(double_pref_create_widget): adjust spacing
+	
 2004-11-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-preferences.c: add setter function arguments to all calls to

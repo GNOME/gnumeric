@@ -1107,3 +1107,24 @@ gnm_gconf_set_file_single_sheet_save (gboolean val)
 			  val != FALSE);
 }
 
+void    
+gnm_gconf_set_gui_resolution_h (gnm_float val)
+{
+	if (val < 50)
+		val = 50;
+	if (val > 250)
+		val = 250;
+	prefs.horizontal_dpi = val;
+	go_conf_set_double (GNM_CONF_GUI_RES_H, val);
+}
+
+void     
+gnm_gconf_set_gui_resolution_v (gnm_float val)
+{
+	if (val < 50)
+		val = 50;
+	if (val > 250)
+		val = 250;
+	prefs.vertical_dpi = val;
+	go_conf_set_double (GNM_CONF_GUI_RES_V, val);
+}

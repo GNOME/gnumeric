@@ -227,10 +227,13 @@ int_pref_create_widget (char const *key, GtkWidget *table, gint row,
 	g_free (desc);
 
 	gtk_label_set_justify (GTK_LABEL (item), GTK_JUSTIFY_LEFT);
-	gtk_table_attach (GTK_TABLE (table), item, 0, 1, row, row + 1, 0,
-			  GTK_FILL, 5, 5);
+	gtk_misc_set_alignment (GTK_MISC (item), 0, 0);
+	gtk_table_attach (GTK_TABLE (table), item, 0, 1, row, row + 1, 
+			  GTK_FILL | GTK_EXPAND,
+			  GTK_FILL | GTK_SHRINK, 5, 2);
 	item = gtk_spin_button_new (GTK_ADJUSTMENT (
-				    gtk_adjustment_new (val, from, to, step, step, step)),
+				    gtk_adjustment_new (val, from, to, step, 
+							step, step)),
 				    1, 0);
 	int_pref_conf_to_widget (key, GTK_SPIN_BUTTON (item));
 	g_signal_connect (G_OBJECT (item),
@@ -238,7 +241,7 @@ int_pref_create_widget (char const *key, GtkWidget *table, gint row,
 			  G_CALLBACK (int_pref_widget_to_conf), (gpointer) setter);
 	gtk_table_attach (GTK_TABLE (table), item,
 		1, 2, row, row + 1,
-		GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_SHRINK, 5, 5);
+		GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_SHRINK, 5, 2);
 
 	connect_notification (key, (GOConfMonitorFunc)int_pref_conf_to_widget,
 			      item, table);
@@ -273,8 +276,10 @@ double_pref_create_widget (char const *key, GtkWidget *table, gint row,
 	g_free (desc);
 
 	gtk_label_set_justify (GTK_LABEL (item), GTK_JUSTIFY_LEFT);
-	gtk_table_attach (GTK_TABLE (table), item, 0, 1, row, row + 1, 0,
-			  GTK_FILL, 5, 5);
+	gtk_misc_set_alignment (GTK_MISC (item), 0, 0);
+	gtk_table_attach (GTK_TABLE (table), item, 0, 1, row, row + 1,
+			  GTK_FILL | GTK_EXPAND,
+			  GTK_FILL | GTK_SHRINK, 5, 2);
 	item =  gtk_spin_button_new (GTK_ADJUSTMENT (
 				     gtk_adjustment_new (val, from, to, step, step, step)),
 				     1, digits);
@@ -285,7 +290,7 @@ double_pref_create_widget (char const *key, GtkWidget *table, gint row,
 			  (gpointer) setter);
 	gtk_table_attach (GTK_TABLE (table), item,
 		1, 2, row, row + 1,
-		GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_SHRINK, 5, 5);
+		GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_SHRINK, 5, 2);
 
 	connect_notification (key, (GOConfMonitorFunc)double_pref_conf_to_widget,
 			      item, table);
@@ -324,12 +329,10 @@ static pref_tree_data_t pref_tree_data[] = {
 	{ NULL, NULL, NULL}
 };
 
-static pref_tree_data_t pref_tree_data_danger[] = {
-	{ GNM_CONF_GUI_RES_H, NULL, NULL },
-	{ GNM_CONF_GUI_RES_V, NULL, NULL },
+/* static pref_tree_data_t pref_tree_data_danger[] = { */
 /* 	{ GNM_CONF_GUI_ED_RECALC_LAG, NULL, NULL }, */
-	{ NULL, NULL, NULL }
-};
+/* 	{ NULL, NULL, NULL } */
+/* }; */
 
 #define OBJECT_DATA_PATH_MODEL "treeview %i"
 
@@ -744,6 +747,8 @@ pref_window_page_initializer (PrefState *state,
 
 	bool_pref_create_widget (GNM_CONF_GUI_ED_TRANSITION_KEYS,
 		page, row++, gnm_gconf_set_gui_transition_keys);
+	bool_pref_create_widget (GNM_CONF_GUI_ED_LIVESCROLLING,
+		page, row++, gnm_gconf_set_gui_livescrolling);
 	double_pref_create_widget (GNM_CONF_GUI_WINDOW_Y,
 		page, row++, 0.75, 0.25, 1, 0.05, 2, gnm_gconf_set_gui_window_y);
 	double_pref_create_widget (GNM_CONF_GUI_WINDOW_X,
@@ -752,8 +757,6 @@ pref_window_page_initializer (PrefState *state,
 		page, row++, 1.00, 0.10, 5.00, 0.05, 2, gnm_gconf_set_gui_zoom);
 	int_pref_create_widget (GNM_CONF_WORKBOOK_NSHEETS,
 		page, row++, 1, 1, 64, 1, gnm_gconf_set_workbook_nsheets);
-	bool_pref_create_widget (GNM_CONF_GUI_ED_LIVESCROLLING,
-		page, row++, gnm_gconf_set_gui_livescrolling);
 
 	gtk_widget_show_all (page);
 	return page;
@@ -798,6 +801,38 @@ pref_file_page_initializer (PrefState *state,
 }
 
 /*******************************************************************************************/
+/*                     Screen Preferences Page                                           */
+/*******************************************************************************************/
+
+static void
+pref_screen_page_open (PrefState *state, G_GNUC_UNUSED gpointer data,
+		     G_GNUC_UNUSED GtkNotebook *notebook,
+		     G_GNUC_UNUSED gint page_num)
+{
+	dialog_pref_load_description (state,
+				      _("The items on this page are related to "
+					"the screen layout and resolution."));
+}
+
+static GtkWidget *
+pref_screen_page_initializer (PrefState *state,
+			    G_GNUC_UNUSED gpointer data,
+			    G_GNUC_UNUSED GtkNotebook *notebook,
+			    G_GNUC_UNUSED gint page_num)
+{
+	GtkWidget *page = gtk_table_new (2, 2, FALSE);
+	gint row = 0;
+
+	double_pref_create_widget (GNM_CONF_GUI_RES_H, page, row++,
+				   96, 50, 250, 1, 1, gnm_gconf_set_gui_resolution_h);
+	double_pref_create_widget (GNM_CONF_GUI_RES_V, page, row++,
+				   96, 50, 250, 1, 1, gnm_gconf_set_gui_resolution_v);
+
+	gtk_widget_show_all (page);
+	return page;
+}
+
+/*******************************************************************************************/
 /*               General Preference Dialog Routines                                        */
 /*******************************************************************************************/
 
@@ -814,12 +849,13 @@ typedef struct {
 
 static page_info_t page_info[] = {
 	{N_("Font"),          GTK_STOCK_ITALIC,	         NULL, &pref_font_initializer,		&pref_font_page_open,	NULL},
-	{N_("Windows"),       "Gnumeric_ObjectCombo",	 NULL, &pref_window_page_initializer,	&pref_window_page_open,	NULL},
 	{N_("Files"),         GTK_STOCK_FLOPPY,	         NULL, &pref_file_page_initializer,	&pref_file_page_open,	NULL},
-	{N_("Undo"),          GTK_STOCK_UNDO,		 NULL, &pref_undo_page_initializer,	&pref_undo_page_open,	NULL},
+	{N_("Screen"),        GTK_STOCK_EXECUTE,         NULL, &pref_screen_page_initializer,	&pref_screen_page_open,	NULL},
 	{N_("Sorting"),       GTK_STOCK_SORT_ASCENDING,  NULL, &pref_sort_page_initializer,	&pref_sort_page_open,	NULL},
+	{N_("Undo"),          GTK_STOCK_UNDO,		 NULL, &pref_undo_page_initializer,	&pref_undo_page_open,	NULL},
 	{N_("Various"),       GTK_STOCK_PREFERENCES,     NULL, &pref_tree_initializer,		&pref_tree_page_open,	pref_tree_data},
-	{N_("Internal"),      GTK_STOCK_DIALOG_ERROR,    "5",  &pref_tree_initializer,		&pref_tree_page_open,	pref_tree_data_danger},
+	{N_("Windows"),       "Gnumeric_ObjectCombo",	 NULL, &pref_window_page_initializer,	&pref_window_page_open,	NULL},
+/* 	{N_("Internal"),      GTK_STOCK_DIALOG_ERROR,    "5",  &pref_tree_initializer,		&pref_tree_page_open,	pref_tree_data_danger}, */
 	{N_("Header/Footer"), GTK_STOCK_ITALIC,	         "0",  &pref_font_hf_initializer,	&pref_font_hf_page_open, NULL},
 	{NULL, NULL, NULL, NULL, NULL, NULL},
 };

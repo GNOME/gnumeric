@@ -144,6 +144,8 @@ void     gnm_gconf_set_gui_window_y (gnm_float val);
 void     gnm_gconf_set_gui_zoom (gnm_float val);
 void     gnm_gconf_set_gui_transition_keys (gboolean value);
 void     gnm_gconf_set_gui_livescrolling (gboolean value);
+void     gnm_gconf_set_gui_resolution_h (gnm_float val);
+void     gnm_gconf_set_gui_resolution_v (gnm_float val);
 
 /* default font */
 void     gnm_gconf_set_default_font_size (gnm_float val);

@@ -6,6 +6,8 @@ Andreas:
 	* Fix preference dialog window fraction selection. [#157239]
 	* Make various preferences setting changes apply to the current 
 	  gnumeric instance
+	* Add screen page to preference dialog and fine-tune its general 
+	  layout
 
 Jody:
 	* Fix perl and python tests in configure
