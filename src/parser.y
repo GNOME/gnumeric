@@ -233,17 +233,18 @@ report_err (ParserState *state, GError *err,
 static GnmExpr *
 fold_negative (GnmExpr *expr)
 {
-	Value const *v = expr->constant.value;
+	if (expr->any.oper == GNM_EXPR_OP_CONSTANT) {
+		Value const *v = expr->constant.value;
 
-	g_return_val_if_fail (expr->any.oper == GNM_EXPR_OP_CONSTANT, NULL);
-
-	if (v->type == VALUE_INTEGER)
-		((Value *)v)->v_int.val   = -v->v_int.val;
-	else if (v->type == VALUE_FLOAT)
-		((Value *)v)->v_float.val = -v->v_float.val;
-	else
+		if (v->type == VALUE_INTEGER)
+			((Value *)v)->v_int.val   = -v->v_int.val;
+		else if (v->type == VALUE_FLOAT)
+			((Value *)v)->v_float.val = -v->v_float.val;
+		else
+			return NULL;
+		return expr;
+	} else
 		return NULL;
-	return expr;
 }
 
 static GnmExpr *
