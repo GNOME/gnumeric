@@ -24,6 +24,7 @@
 #include "color.h"
 #include "sheet-object.h"
 #include "style.h"
+#include "main.h"
 
 #include "ms-ole.h"
 #include "ms-biff.h"
@@ -1917,7 +1918,8 @@ ms_excel_read_sheet (MS_EXCEL_SHEET *sheet, BIFF_QUERY * q, MS_EXCEL_WORKBOOK * 
 			break ;
 		}
 		case BIFF_MS_O_DRAWING: /* FIXME: See: ms-escher.c and S59DA4.HTM */
-			ms_escher_hack_get_drawing (q);
+			if (gnumeric_debugging>0)
+				ms_escher_hack_get_drawing (q);
 			break;
 		case BIFF_NOTE: /* See: S59DAB.HTM */
 		{
@@ -2136,8 +2138,10 @@ ms_excelReadWorkbook (MS_OLE * file)
 			case BIFF_PRECISION:	/*
 						 * FIXME: 
 						 */
-				printf ("Opcode : 0x%x, length 0x%x\n", q->opcode, q->length);
-				dump (q->data, q->length);
+				if (EXCEL_DEBUG>0) {
+					printf ("Opcode : 0x%x, length 0x%x\n", q->opcode, q->length);
+					dump (q->data, q->length);
+				}
 				break;
 			case BIFF_XF_OLD:	/*
 						 * FIXME: see S59E1E.HTM 
@@ -2185,8 +2189,10 @@ ms_excelReadWorkbook (MS_OLE * file)
 				/* Can be safely ignored on read side */
 				break;
 			case BIFF_MS_O_DRAWING_GROUP: /* FIXME: See: S59DA5.HTM */
-				printf ("FIXME: MS Drawing Group\n");
-				ms_escher_hack_get_drawing (q);
+				if (gnumeric_debugging>0) {
+					printf ("FIXME: MS Drawing Group\n");
+					ms_escher_hack_get_drawing (q);
+				}
 				break;
 			case BIFF_EXTERNSHEET:
 			{

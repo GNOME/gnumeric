@@ -159,7 +159,7 @@ FORMULA_FUNC_DATA formula_func_data[] =
 	{ "ATAN2", 2 },
 	{ "ASIN", 1 },
 	{ "ACOS", 1 },
-	{ "0x64", 8 },
+	{ "CHOOSE", -1 },
 	{ "HLOOKUP", -1 },
 	{ "VLOOKUP", -1 },
 	{ "0x67", 8 },
@@ -207,7 +207,7 @@ FORMULA_FUNC_DATA formula_func_data[] =
 	{ "0x91", 8 },
 	{ "0x92", 8 },
 	{ "0x93", 8 },
-	{ "0x94", 8 },
+	{ "INDIRECT", -1 },
 	{ "0x95", 8 },
 	{ "0x96", 8 },
 	{ "0x97", 8 },
@@ -974,13 +974,18 @@ char *ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 		case FORMULA_PTG_NAME:
 		{
 			guint16 name_idx ; /* 1 based */
+			char *txt;
 			if (sheet->ver == eBiffV8)
 				name_idx = BIFF_GETWORD(cur+2) ;
 			else
 				name_idx = BIFF_GETWORD(cur) ;
-			printf ("FIXME: Ptg Name: %d\n", name_idx) ;
-			dump(mem, length) ;
-			parse_list_push_raw (stack, g_strdup("Unknown name"), NO_PRECEDENCE) ;
+			txt = biff_name_data_get_name (sheet, name_idx);
+			if (!txt) {
+				printf ("FIXME: Ptg Name not found: %d\n", name_idx) ;
+				dump(mem, length) ;
+				parse_list_push_raw (stack, g_strdup("Unknown name"), NO_PRECEDENCE) ;
+			} else
+				parse_list_push_raw (stack, g_strdup(txt), NO_PRECEDENCE) ;
 		}
 		case FORMULA_PTG_EXP:
 		{
@@ -992,7 +997,7 @@ char *ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 							      fn_col, fn_row) ;
 			txt[0] = ' ' ; /* Kill '=' */
 			parse_list_push_raw (stack, txt, NO_PRECEDENCE) ;
-			ptg_length = 4 ;
+			ptg_length = length; /* Force it to be the only token 4 ; */
 			break ;
 		}
 		case FORMULA_PTG_PAREN:
@@ -1028,6 +1033,32 @@ char *ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 				txt[0] = ' ' ; /* Kill the = */
 				parse_list_push_raw (stack, txt, NO_PRECEDENCE) ;
 				ptg_length += w ;
+			} else if (grbit & 0x04) { /* AttrChoose 'optimised' my foot. */
+				guint16 len, lp;
+				guint32 offset=0;
+				guint8 *data=cur+3;
+				char *txt;
+
+				if (FORMULA_DEBUG>1) {
+					printf ("'Optimised' choose\n");
+					dump (mem,length);
+				}
+				for (lp=0;lp<w;lp++) { /* w = wCases */
+					offset= BIFF_GETWORD(data);
+					len = BIFF_GETWORD(data+2) - offset;
+					if (FORMULA_DEBUG>1)
+						printf ("Get from %d len %d [ = 0x%x ]\n",
+							ptg_length+offset, len, *(cur+ptg_length+offset));
+					txt = ms_excel_parse_formula (sheet, cur+ptg_length+offset,
+								      fn_col, fn_row, shared,
+								      len);
+					txt[0] = ' ';
+					data+=2;
+					if (FORMULA_DEBUG>1)
+						printf ("Parsed to '%s'\n", txt);
+					parse_list_push_raw (stack, txt, NO_PRECEDENCE);
+				}
+				ptg_length+=BIFF_GETWORD(data);
 			} else if (grbit & 0x08) { /* AttrGoto */
 				if (FORMULA_DEBUG>2) {
 					printf ("Goto %d: cur = 0x%x\n", w, (int)(cur-mem)) ;

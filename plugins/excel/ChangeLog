@@ -1,5 +1,17 @@
 1999-04-15  Michael Meeks  <michael@mejm2.dow.cam.ac.uk>
 
+	* ms-excel.c (ms_excelReadWorkbook): Put PRECISION
+	output conditional on debug.
+	Put escher_hack_get_drawing on condition of --debug
+
+	* ms-formula.c (ms_excel_parse_formula): Added
+	'Optimised Choose' functionality.
+	(formula_func_data): Inserted CHOOSE.
+	(ms_excel_parse_formula): Patch for broken MS files.
+	Updated 'Name' records.
+
+1999-04-15  Michael Meeks  <michael@mejm2.dow.cam.ac.uk>
+
 	* boot.c: Fixed includes to remove annoying warning.
 	(excel_load): Add workbook_set_filename for style.
 
