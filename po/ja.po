@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.0.7\n"
 "POT-Creation-Date: 2002-06-02 23:36-0400\n"
-"PO-Revision-Date: 2002-05-28 01:54+0900\n"
+"PO-Revision-Date: 2002-06-04 01:12+0900\n"
 "Last-Translator: Takeshi Aihana <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -18,9 +18,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: gnumeric.desktop.in.h:1
-#, fuzzy
 msgid "Gnumeric Spreadsheet"
-msgstr "新規にスプレッドシートを作成します"
+msgstr "Gnumeric スプレッドシート"
 
 #: gnumeric.desktop.in.h:2
 msgid "The GNOME Spreadsheet"
@@ -664,22 +663,20 @@ msgstr ""
 "このプラグインは Gnumeric で Guile (scheme言語) のサポートを可能にします"
 
 #: plugins/guile/smob-value.c:102
-#, fuzzy
 msgid "Unable to convert value from Guile"
-msgstr "モジュールファイル \"%s\" を閉じれません。"
+msgstr "Guile から値に変換できません"
 
 #: plugins/guile/smob-value.c:163
 msgid "Not a Guile boolean"
-msgstr ""
+msgstr "Guile の論理値ではありません"
 
 #: plugins/guile/smob-value.c:181
-#, fuzzy
 msgid "Not a Guile number"
-msgstr "負の数:"
+msgstr "Guile の数値ではありません"
 
 #: plugins/guile/smob-value.c:199
 msgid "Not a Guile string"
-msgstr ""
+msgstr "Guile の文字列ではありません"
 
 #: plugins/html/plugin.xml.in.h:1
 msgid "DVI TeX (via groff)"
@@ -4372,38 +4369,32 @@ msgid "_Wrap text"
 msgstr "折り返し(_W)"
 
 #: src/dialogs/cell-format.glade.h:129
-#, fuzzy
 msgid "min &lt;= val &lt;= max         (between)"
-msgstr "最小値 <= 値 <= 最大値     (範囲内)"
+msgstr "最小値 &lt;= 値 &lt;= 最大値    (範囲内)"
 
 #: src/dialogs/cell-format.glade.h:130
 msgid "val != bound                  (not equal to)"
 msgstr "値 != 境界値                   (等しくない)"
 
 #: src/dialogs/cell-format.glade.h:131
-#, fuzzy
 msgid "val &gt;  bound                  (greater than)"
-msgstr "値 > 境界値                        (大きい)"
+msgstr "値  &gt;  境界値                 (大きい)"
 
 #: src/dialogs/cell-format.glade.h:132
-#, fuzzy
 msgid "val &gt;=bound                  (greater than or equal to)"
-msgstr "値 >= 境界値                      (大きいまたは等しい)"
+msgstr "値  &gt;= 境界値                (大きいまたは等しい)"
 
 #: src/dialogs/cell-format.glade.h:133
-#, fuzzy
 msgid "val &lt;  bound                  (less than)"
-msgstr "値 < 境界値                     (小さい)"
+msgstr "値  &lt; 境界値                  (小さい)"
 
 #: src/dialogs/cell-format.glade.h:134
-#, fuzzy
 msgid "val &lt;= min || max &lt;= val (not between)"
-msgstr "値 <= 最小値 || 最大値 <= 値  (範囲外)"
+msgstr "値  &lt;= 最小値 || 最大値 &lt;= 値 (範囲外)"
 
 #: src/dialogs/cell-format.glade.h:135
-#, fuzzy
 msgid "val &lt;=bound                  (less than or equal to)"
-msgstr "値 <= 境界値                    (小さいまたは等しい)"
+msgstr "値  &lt;= 境界値                (小さいまたは等しい)"
 
 #: src/dialogs/cell-format.glade.h:136
 msgid "val == bound                 (equal to)"
@@ -5714,28 +5705,24 @@ msgid "\""
 msgstr "\""
 
 #: src/dialogs/dialog-stf-export.glade.h:2
-#, fuzzy
 msgid "&lt;- Remove"
-msgstr "<- 削除"
+msgstr "&lt;- 削除"
 
 #: src/dialogs/dialog-stf-export.glade.h:3
-#, fuzzy
 msgid "&lt;- Remove all"
-msgstr "<- 全て削除"
+msgstr "&lt;- 全て削除"
 
 #: src/dialogs/dialog-stf-export.glade.h:4 src/dialogs/dialog-stf.glade.h:2
 msgid "'"
 msgstr "'"
 
 #: src/dialogs/dialog-stf-export.glade.h:5
-#, fuzzy
 msgid "Add -&gt;"
-msgstr "追加 ->"
+msgstr "追加 -&gt;"
 
 #: src/dialogs/dialog-stf-export.glade.h:6
-#, fuzzy
 msgid "Add all -&gt;"
-msgstr "全て追加 ->"
+msgstr "全て追加 -&gt;"
 
 #: src/dialogs/dialog-stf-export.glade.h:7
 msgid "Always"
@@ -7215,11 +7202,11 @@ msgstr "シートの名前を変更"
 
 #: src/dialogs/solver.glade.h:1
 msgid "&gt;="
-msgstr ""
+msgstr "&gt;="
 
 #: src/dialogs/solver.glade.h:2
 msgid "&lt;="
-msgstr ""
+msgstr "&lt;="
 
 #: src/dialogs/solver.glade.h:4
 msgid "Assume _Linear Model"
@@ -19961,7 +19948,7 @@ msgstr "csv ファイルの書き出しに失敗しました"
 
 #: src/stf.c:456
 msgid "Text import (auto-detect CSV or tab-delimited)"
-msgstr ""
+msgstr "テキストのインポート (CSV/タブ区切りテキストの自動検出)"
 
 #: src/stf.c:460
 msgid "Text import (configurable)"
@@ -20683,33 +20670,3 @@ msgstr "Gnumericワークブックファイルではありません"
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML ファイル形式"
 
-#~ msgid "PLN : Not a PlanPerfect File"
-#~ msgstr "PLN : PlanPerfect ではありません"
-
-#~ msgid "PLN : Spreadsheet is password encrypted"
-#~ msgstr "PLN : スプレッドシートがパスワードで暗号化されています"
-
-#~ msgid ""
-#~ "Invalid PLN file has more than the maximum\n"
-#~ "number of %s %d"
-#~ msgstr ""
-#~ "無効な PLN ファイルです\n"
-#~ "%s の最大行数 %d 以上あります"
-
-#~ msgid "rows"
-#~ msgstr "行"
-
-#~ msgid "Unable to mmap the file"
-#~ msgstr "ファイルをメモリにマップできません"
-
-#~ msgid "Imports Plan Perfect Formatted Documents"
-#~ msgstr "Plan Perfect 形式のドキュメントをインポートします"
-
-#~ msgid "Plan Perfect"
-#~ msgstr "Plan Perfect"
-
-#~ msgid "Plan Perfect Format (PLN) import"
-#~ msgstr "Plan Perfect 形式 (PLN) インポート"
-
-#~ msgid "Text import (defaults to csv)"
-#~ msgstr "テキストのインポート (デフォルト csv)"
