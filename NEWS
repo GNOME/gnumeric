@@ -26,6 +26,8 @@ Jody:
 	http://bugzilla.gnome.org/show_bug.cgi?id=125045
 	* Fix tick spacing with manual axis bounds
 	* Tune clipboard to avoid ultra deep recalc stacks
+	http://bugzilla.gnome.org/show_bug.cgi?id=125230
+	* Add epsilon _before_ we scale formats with elapsed hours
 
 Morten:
 	* Fix crash with STF import and gazillions of columns.

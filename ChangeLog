@@ -5,6 +5,11 @@
 
 2003-10-24  Jody Goldberg <jody@gnome.org>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=125230
+	* src/format.c (append_hour_elapsed) : Add epsilon _before_ we scale
+
+2003-10-24  Jody Goldberg <jody@gnome.org>
+
 	* src/clipboard.c (clipboard_paste_region) : Fill in increasing order
 	  to avoid the dreaded ultra deep stack caused by recalcing starting
 	  at the end.  It is a bandaid.  During 1.3 we'll need something more
