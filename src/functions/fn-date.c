@@ -30,9 +30,10 @@ static char *help_date = {
 	   "@SEEALSO=TODAY, NOW")
 };
 
-static Value *
-gnumeric_date (struct FunctionDefinition *fd, Value *argv [], char **error_string)
+static FuncReturn *
+gnumeric_date (FuncScratch *s)
 {
+	Value **argv = s->a.args;
 	Value *v;
 	int year, month, day;
 	GDate date;
@@ -49,7 +50,7 @@ gnumeric_date (struct FunctionDefinition *fd, Value *argv [], char **error_strin
 
         if (!g_date_valid_dmy(1, month, year))
           {
-                  *error_string = _("Invalid month or year");
+                  s->error_string = _("Invalid month or year");
                   return NULL;
           }
 
@@ -64,13 +65,13 @@ gnumeric_date (struct FunctionDefinition *fd, Value *argv [], char **error_strin
 
         if (!g_date_valid(&date))
           {
-                  *error_string = _("Invalid day");
+                  s->error_string = _("Invalid day");
                   return NULL;
           }
 
 	v = value_new_int (g_date_serial (&date));
 
-	return v;
+	return (FuncReturn *)v;
 }
 
 
@@ -87,25 +88,25 @@ static char *help_datevalue = {
 	   "@SEEALSO=DATE")
 };
 
-static Value *
-gnumeric_datevalue (struct FunctionDefinition *fd,
-		    Value *argv [], char **error_string)
+static FuncReturn *
+gnumeric_datevalue (FuncScratch *s)
 {
+	Value **argv = s->a.args;
 	const gchar *datestr;
 	GDate       date;
 
 	if (argv[0]->type != VALUE_STRING) {
-                  *error_string = _("#NUM!");
+                  s->error_string = _("#NUM!");
                   return NULL;
 	}
 	datestr = argv[0]->v.str->str;
 	g_date_set_parse (&date, datestr);
 	if (!g_date_valid(&date)) {
-                  *error_string = _("#VALUE!");
+                  s->error_string = _("#VALUE!");
                   return NULL;
 	}
 
-	return value_new_int (g_date_serial (&date));
+	return (FuncReturn *)value_new_int (g_date_serial (&date));
 }
 
 static char *help_edate = {
@@ -124,10 +125,10 @@ static char *help_edate = {
 	   "@SEEALSO=DATE")
 };
 
-static Value *
-gnumeric_edate (struct FunctionDefinition *fd,
-		Value *argv [], char **error_string)
+static FuncReturn *
+gnumeric_edate (FuncScratch *s)
 {
+	Value **argv = s->a.args;
 	int    serial, months;
 	GDate* date;
 
@@ -137,7 +138,7 @@ gnumeric_edate (struct FunctionDefinition *fd,
 	date = g_date_new_serial (serial);
 
 	if (!g_date_valid(date)) {
-                  *error_string = _("#VALUE!");
+                  s->error_string = _("#VALUE!");
                   return NULL;
 	}
 
@@ -147,11 +148,11 @@ gnumeric_edate (struct FunctionDefinition *fd,
 	        g_date_subtract_months (date, -months);
 
 	if (!g_date_valid(date)) {
-                  *error_string = _("#NUM!");
+                  s->error_string = _("#NUM!");
                   return NULL;
 	}
 
-	return value_new_int (g_date_serial (date));
+	return (FuncReturn *)value_new_int (g_date_serial (date));
 }
 
 static char *help_today = {
@@ -167,15 +168,15 @@ static char *help_today = {
 	   "@SEEALSO=TODAY, NOW")
 };
 
-static Value *
-gnumeric_today (FunctionDefinition *fd, Value *argv [], char **error_string)
+static FuncReturn *
+gnumeric_today (FuncScratch *s)
 {
 	GDate date;
 
         g_date_clear(&date, 1);
 	g_date_set_time (&date, time (NULL));
 
-	return value_new_int (g_date_serial (&date));
+	return (FuncReturn *)value_new_int (g_date_serial (&date));
 }
 
 static char *help_now = {
@@ -199,8 +200,8 @@ static char *help_now = {
 	   "@SEEALSO=TODAY, NOW")
 };
 
-static Value *
-gnumeric_now (FunctionDefinition *fd, Value *argv [], char **error_string)
+static FuncReturn *
+gnumeric_now (FuncScratch *s)
 {
 	time_t t = time (NULL);
 	struct tm *tm = localtime (&t);
@@ -211,7 +212,7 @@ gnumeric_now (FunctionDefinition *fd, Value *argv [], char **error_string)
 	g_date_set_time (&date, t);
 
 	secs = tm->tm_hour * 3600 + tm->tm_min * 60 + tm->tm_sec;
-	return value_new_float (g_date_serial (&date) + secs / (double)DAY_SECONDS);
+	return (FuncReturn *)value_new_float (g_date_serial (&date) + secs / (double)DAY_SECONDS);
 }
 
 static char *help_time = {
@@ -226,16 +227,17 @@ static char *help_time = {
 	   "@SEEALSO=HOUR")
 };
 
-static Value *
-gnumeric_time (FunctionDefinition *fd, Value *argv [], char **error_string)
+static FuncReturn *
+gnumeric_time (FuncScratch *s)
 {
+	Value **argv = s->a.args;
 	float_t hours, minutes, seconds;
 
 	hours   = value_get_as_float (argv [0]);
 	minutes = value_get_as_float (argv [1]);
 	seconds = value_get_as_float (argv [2]);
 
-	return value_new_float ((hours * 3600 + minutes * 60 + seconds) / DAY_SECONDS);
+	return (FuncReturn *)value_new_float ((hours * 3600 + minutes * 60 + seconds) / DAY_SECONDS);
 }
 
 
@@ -251,11 +253,11 @@ static char *help_timevalue = {
 	   "@SEEALSO=HOUR")
 };
 
-static Value *
-gnumeric_timevalue (FunctionDefinition *fd, Value *argv [], char **error_string)
+static FuncReturn *
+gnumeric_timevalue (FuncScratch *s)
 {
 	/* FIXME: is this really right?  */
-	return gnumeric_time (fd, argv, error_string);
+	return gnumeric_time (s);
 }
 
 
@@ -274,14 +276,15 @@ static char *help_hour = {
 	   "@SEEALSO=MINUTE, NOW, TIME, SECOND")
 };
 
-static Value *
-gnumeric_hour (FunctionDefinition *fd, Value *argv [], char **error_string)
+static FuncReturn *
+gnumeric_hour (FuncScratch *s)
 {
+	Value **argv = s->a.args;
 	float_t serial = value_get_as_float (argv [0]);
 	int secs;
 
 	secs = (int)((serial - floor (serial)) * DAY_SECONDS + 0.5);
-	return value_new_int (secs / 3600);
+	return (FuncReturn *)value_new_int (secs / 3600);
 }
 
 
@@ -300,14 +303,15 @@ static char *help_minute = {
 	   "@SEEALSO=HOUR, NOW, TIME, SECOND")
 };
 
-static Value *
-gnumeric_minute (FunctionDefinition *fd, Value *argv [], char **error_string)
+static FuncReturn *
+gnumeric_minute (FuncScratch *s)
 {
+	Value **argv = s->a.args;
 	float_t serial = value_get_as_float (argv [0]);
 	int secs;
 
 	secs = (int)((serial - floor (serial)) * DAY_SECONDS + 0.5);
-	return value_new_int ((secs / 60) % 60);
+	return (FuncReturn *)value_new_int ((secs / 60) % 60);
 }
 
 
@@ -326,14 +330,15 @@ static char *help_second = {
 	   "@SEEALSO=HOUR, MINUTE, NOW, TIME")
 };
 
-static Value *
-gnumeric_second (FunctionDefinition *fd, Value *argv [], char **error_string)
+static FuncReturn *
+gnumeric_second (FuncScratch *s)
 {
+	Value **argv = s->a.args;
 	float_t serial = value_get_as_float (argv [0]);
 	int secs;
 
 	secs = (int)((serial - floor (serial)) * DAY_SECONDS + 0.5);
-	return value_new_int (secs % 60);
+	return (FuncReturn *)value_new_int (secs % 60);
 }
 
 
@@ -351,14 +356,15 @@ static char *help_year = {
 	   "@SEEALSO=DAY, MONTH, TIME, NOW")
 };
 
-static Value *
-gnumeric_year (FunctionDefinition *fd, Value *argv [], char **error_string)
+static FuncReturn *
+gnumeric_year (FuncScratch *s)
 {
+	Value **argv = s->a.args;
 	int res;
 	GDate *date = g_date_new_serial (floor (value_get_as_float (argv [0])));
 	res = g_date_year (date);
 	g_date_free (date);
-	return value_new_int (res);
+	return (FuncReturn *)value_new_int (res);
 }
 
 
@@ -376,14 +382,15 @@ static char *help_month = {
 	   "@SEEALSO=DAY, TIME, NOW, YEAR")
 };
 
-static Value *
-gnumeric_month (FunctionDefinition *fd, Value *argv [], char **error_string)
+static FuncReturn *
+gnumeric_month (FuncScratch *s)
 {
+	Value **argv = s->a.args;
 	int res;
 	GDate *date = g_date_new_serial (floor (value_get_as_float (argv [0])));
 	res = g_date_month (date);
 	g_date_free (date);
-	return value_new_int (res);
+	return (FuncReturn *)value_new_int (res);
 }
 
 
@@ -401,14 +408,15 @@ static char *help_day = {
 	   "@SEEALSO=MONTH, TIME, NOW, YEAR")
 };
 
-static Value *
-gnumeric_day (FunctionDefinition *fd, Value *argv [], char **error_string)
+static FuncReturn *
+gnumeric_day (FuncScratch *s)
 {
+	Value **argv = s->a.args;
 	int res;
 	GDate *date = g_date_new_serial (floor (value_get_as_float (argv [0])));
 	res = g_date_day (date);
 	g_date_free (date);
-	return value_new_int (res);
+	return (FuncReturn *)value_new_int (res);
 }
 
 
@@ -426,14 +434,15 @@ static char *help_weekday = {
 	   "@SEEALSO=MONTH, TIME, NOW, YEAR")
 };
 
-static Value *
-gnumeric_weekday (FunctionDefinition *fd, Value *argv [], char **error_string)
+static FuncReturn *
+gnumeric_weekday (FuncScratch *s)
 {
+	Value **argv = s->a.args;
 	int res;
 	GDate *date = g_date_new_serial (floor (value_get_as_float (argv [0])));
 	res = (g_date_weekday (date) + 1) % 7;
 	g_date_free (date);
-	return value_new_int (res);
+	return (FuncReturn *)value_new_int (res);
 }
 
 
@@ -451,50 +460,46 @@ static char *help_days360 = {
 	   "@SEEALSO=MONTH, TIME, NOW, YEAR")
 };
 
-static Value *
-gnumeric_days360 (FunctionDefinition *fd, Value *argv [], char **error_string)
+static FuncReturn *
+gnumeric_days360 (FuncScratch *s)
 {
-	*error_string = _("Unimplemented function");
+	s->error_string = _("Unimplemented function");
 	return NULL;
 }
 
-
-
-FunctionDefinition date_functions [] = {
-	{ "date",      "fff",  "year,month,day",        &help_date,
-	  NULL, gnumeric_date  },
-	{ "datevalue", "s",    "date_str",              &help_datevalue,
-	  NULL, gnumeric_datevalue  },
-	{ "day",       "f",    "serial_number",         &help_day,
-	  NULL, gnumeric_day  },
-	{ "days360",   "ff",   "serial1,serial2",       &help_days360,
-	  NULL, gnumeric_days360  },
-	{ "edate",     "ff",   "serial_number,months",  &help_edate,
-	  NULL, gnumeric_edate  },
-	{ "hour",      "f",    "serial_number",         &help_hour,
-	  NULL, gnumeric_hour },
-	{ "minute",    "f",    "serial_number",         &help_minute,
-	  NULL, gnumeric_minute },
-	{ "month",     "f",    "serial_number",         &help_month,
-	  NULL, gnumeric_month  },
-	{ "now",       "",     "",                      &help_now,
-	  NULL, gnumeric_now },
-	{ "second",    "f",    "serial_number",         &help_second,
-	  NULL, gnumeric_second },
-	{ "time",      "fff",  "hours,minutes,seconds", &help_time,
-	  NULL, gnumeric_time },
-	{ "timevalue", "fff",  "hours,minutes,seconds", &help_timevalue,
-	  NULL, gnumeric_timevalue },
-	{ "today",     "",     "",                      &help_today,
-	  NULL, gnumeric_today },
-	{ "weekday",   "f",    "serial_number",         &help_weekday,
-	  NULL, gnumeric_weekday  },
-	{ "year",      "f",    "serial_number",         &help_year,
-	  NULL, gnumeric_year  },
-	{ NULL, NULL },
-};
-
-void date_functions_init()
+void
+date_functions_init(void)
 {
 	FunctionCategory *cat = function_get_category (_("Date / Time"));
+
+	function_new (cat,  "date",      "fff",  "year,month,day",        &help_date,
+		      FUNCTION_ARGS, gnumeric_date);
+	function_new (cat,  "datevalue", "s",    "date_str",              &help_datevalue,
+		      FUNCTION_ARGS, gnumeric_datevalue);
+	function_new (cat,  "day",       "f",    "serial_number",         &help_day,
+		      FUNCTION_ARGS, gnumeric_day);
+	function_new (cat,  "days360",   "ff",   "serial1,serial2",       &help_days360,
+		      FUNCTION_ARGS, gnumeric_days360);
+	function_new (cat,  "edate",     "ff",   "serial_number,months",  &help_edate,
+		      FUNCTION_ARGS, gnumeric_edate);
+	function_new (cat,  "hour",      "f",    "serial_number",         &help_hour,
+		      FUNCTION_ARGS, gnumeric_hour );
+	function_new (cat,  "minute",    "f",    "serial_number",         &help_minute,
+		      FUNCTION_ARGS, gnumeric_minute );
+	function_new (cat,  "month",     "f",    "serial_number",         &help_month,
+		      FUNCTION_ARGS, gnumeric_month);
+	function_new (cat,  "now",       "",     "",                      &help_now,
+		      FUNCTION_ARGS, gnumeric_now );
+	function_new (cat,  "second",    "f",    "serial_number",         &help_second,
+		      FUNCTION_ARGS, gnumeric_second );
+	function_new (cat,  "time",      "fff",  "hours,minutes,seconds", &help_time,
+		      FUNCTION_ARGS, gnumeric_time );
+	function_new (cat,  "timevalue", "fff",  "hours,minutes,seconds", &help_timevalue,
+		      FUNCTION_ARGS, gnumeric_timevalue );
+	function_new (cat,  "today",     "",     "",                      &help_today,
+		      FUNCTION_ARGS, gnumeric_today );
+	function_new (cat,  "weekday",   "f",    "serial_number",         &help_weekday,
+		      FUNCTION_ARGS, gnumeric_weekday);
+	function_new (cat,  "year",      "f",    "serial_number",         &help_year,
+		      FUNCTION_ARGS, gnumeric_year);
 }

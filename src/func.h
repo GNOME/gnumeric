@@ -4,18 +4,18 @@
 #include "expr.h"
 #include "sheet.h"
 
-extern void math_functions_init();
-extern void sheet_functions_init();
-extern void misc_functions_init();
-extern void date_functions_init();
-extern void string_functions_init();
-extern void stat_functions_init();
-extern void finance_functions_init();
-extern void eng_functions_init();
-extern void lookup_functions_init();
-extern void logical_functions_init();
-extern void database_functions_init();
-extern void information_functions_init();
+extern void math_functions_init(void);
+extern void sheet_functions_init(void);
+extern void misc_functions_init(void);
+extern void date_functions_init(void);
+extern void string_functions_init(void);
+extern void stat_functions_init(void);
+extern void finance_functions_init(void);
+extern void eng_functions_init(void);
+extern void lookup_functions_init(void);
+extern void logical_functions_init(void);
+extern void database_functions_init(void);
+extern void information_functions_init(void);
 
 typedef int (*FunctionIterateCallback)(Sheet *sheet, Value *value, char **error_string, void *);
 
