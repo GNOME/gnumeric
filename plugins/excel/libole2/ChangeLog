@@ -1,5 +1,9 @@
 1999-10-10  Arturo Tena <arturo@directmail.org>
 
+	* Makefile.am: make libole2.a not installed if compiling gnumeric.
+
+1999-10-10  Arturo Tena <arturo@directmail.org>
+
 	* Makefile.am (INCLUDES): moved to the conditional section, because it
 	  is needed only by gnumeric.
 

@@ -22,7 +22,7 @@ INCLUDES = 						\
 	-I$(includedir)				 	\
 	-I$(top_srcdir)/src				\
 	$(GNOME_INCLUDEDIR)
-lib_LIBRARIES = libole2.a
+noinst_LIBRARIES = libole2.a
 libole2_a_SOURCES =		\
 	$(libole2_sources)
 endif
