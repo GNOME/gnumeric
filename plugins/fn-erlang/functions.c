@@ -47,9 +47,6 @@
 #include "plugin-util.h"
 #include "module-plugin-defs.h"
 
-#define ERLANG_LIMIT	100000
-#define MOVING_FACTOR	5E-4
-
 /*
  * comp_gos == 1 - gos
  */
@@ -272,36 +269,53 @@ static char const *help_offcap = {
 	   "@SEEALSO=DIMCIRC, OFFTRAF, PROBBLOCK")
 };
 
-static GnmValue *
-gnumeric_offcap(FunctionEvalInfo *ei, GnmValue **argv)
+typedef struct {
+	gnm_float circuits, des_gos;
+} gnumeric_offcap_t;
+
+static GoalSeekStatus
+gnumeric_offcap_f (gnm_float traffic, gnm_float *y, void *user_data)
 {
-	int    first_fac = 0;
-	gnm_float inc_fac = 0.0;
-	gnm_float traffic = 0.0;
-	gnm_float oldtraf = 0.0;
+	gnumeric_offcap_t *pudata = user_data;
+	gnm_float gos = calculate_gos (traffic, pudata->circuits, FALSE);
+	if (gos < 0)
+		return GOAL_SEEK_ERROR;
+	*y = gos - pudata->des_gos;
+	return GOAL_SEEK_OK;
+}
+
+static GnmValue *
+gnumeric_offcap (FunctionEvalInfo *ei, GnmValue **argv)
+{
 	gnm_float circuits = value_get_as_float (argv[0]);
 	gnm_float des_gos  = value_get_as_float (argv[1]);
+	gnm_float traffic0;
+	GoalSeekData data;
+	GoalSeekStatus status;
+	gnumeric_offcap_t udata;
 
-	/* What about <0 ? */
-	if (des_gos > 1)
+	if (des_gos > 1 || des_gos <= 0)
 		return value_new_error_VALUE (ei->pos);
 
-	/* again, checks for crazy values here */
-	if (circuits > ERLANG_LIMIT)
-		return value_new_float (-1);
-	
-	first_fac = circuits/2;
-	if (first_fac % 2) first_fac += 1.0;
-	inc_fac = (gnm_float) first_fac;
-
-	while (inc_fac > MOVING_FACTOR) {
-		traffic += inc_fac;
-		if (calculate_gos (traffic, circuits, FALSE) > des_gos)
-			traffic = oldtraf;
-		inc_fac /= 2;
-		oldtraf  = traffic;
+	goal_seek_initialize (&data);
+	data.xmin = 0;
+	data.xmax = 2 * circuits;
+	udata.circuits = circuits;
+	udata.des_gos = des_gos;
+	traffic0 = circuits / 2;
+	/* Newton search from guess.  */
+	status = goal_seek_newton (&gnumeric_offcap_f, NULL,
+				   &data, &udata, traffic0);
+	if (status != GOAL_SEEK_OK) {
+		(void)goal_seek_point (&gnumeric_offcap_f, &data, &udata, data.xmin);
+		(void)goal_seek_point (&gnumeric_offcap_f, &data, &udata, data.xmax);
+		status = goal_seek_bisection (&gnumeric_offcap_f, &data, &udata);
 	}
-	return value_new_float (traffic);
+
+	if (status == GOAL_SEEK_OK)
+		return value_new_float (data.root);
+	else
+		return value_new_error_VALUE (ei->pos);
 }
 
 GnmFuncDescriptor const erlang_functions[] = {

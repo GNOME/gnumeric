@@ -1,3 +1,7 @@
+2004-10-26  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_offcap): Use goal seek.
+
 2004-10-23  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (guess_carried_traffic): Take complementary gos
