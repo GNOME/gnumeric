@@ -632,6 +632,8 @@ print_cell_range (GnomePrintContext *context,
 				int const end_span_col = span->right;
 				int real_x = -1;
 				MStyle *real_style = NULL;
+				gboolean const is_visible =
+				    cell->row_info->visible && cell->col_info->visible;
 
 				/* Paint the backgrounds & borders */
 				for (; col <= MIN (end_col, end_span_col) ; ++col) {
@@ -643,7 +645,7 @@ print_cell_range (GnomePrintContext *context,
 						mstyle = print_cell_background (
 							context, sheet, ci, ri,
 							col, row, x, y,
-							col != start_span_col);
+							col != start_span_col && is_visible);
 						
 						if (col == real_col) {
 							real_style = mstyle;
@@ -664,10 +666,10 @@ print_cell_range (GnomePrintContext *context,
 										 col, cell->col_info->pos);
 				}
 
-				if (output){
+				if (is_visible && output)
 					print_cell (cell, real_style, span,
 						    context, real_x, y);
-				}
+
 				printed = TRUE;
 				mstyle_unref (real_style);
 			}

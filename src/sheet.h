@@ -135,7 +135,7 @@ void        sheet_cursor_set             (Sheet *sheet,
 					  int edit_col, int edit_row,
 					  int base_col, int base_row,
 					  int move_col, int move_row);
-void	    sheet_update_cursor_pos	 (Sheet *sheet);
+void	    sheet_update_cursor_pos	 (Sheet const *sheet);
 void        sheet_set_edit_pos           (Sheet *sheet, int col, int row);
 void        sheet_make_cell_visible      (Sheet *sheet, int col, int row);
 

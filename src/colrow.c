@@ -45,22 +45,22 @@ cb_row_col_visibility (Sheet *sheet,
 	}
 
 	/* Find the begining of a segment that will be toggled */
-	while (i <= end) {
-		ColRowInfo *cri = (*fetch) (sheet, i++);
-		if (visible ^ cri->visible) {
+	for (;i <= end ; ++i) {
+		ColRowInfo *cri = (*fetch) (sheet, i);
+		if ((visible == 0) != (cri->visible == 0)) {
 			struct pair_int *res = g_new(struct pair_int, 1);
 
 			/* Find the end */
-			for (j = i; j <= end ;) {
-				ColRowInfo * cri = (*fetch) (sheet, j++);
-				if (visible ^ cri->visible)
+			for (j = i+1; j <= end ; ++j) {
+				ColRowInfo * cri = (*fetch) (sheet, j);
+				if ((visible == 0) == (cri->visible == 0))
 					break;
 			}
-			res->index = i - 1;
-			res->count = j - i + 1;
+			res->index = i;
+			res->count = j - i;
 
-#if 0
 			printf ("%d %d\n", res->index, res->count);
+#if 0
 #endif
 			dat->elements = g_slist_prepend (dat->elements, res);
 			i = j;

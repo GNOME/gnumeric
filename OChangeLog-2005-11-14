@@ -1,4 +1,11 @@
-2000-05-19  Jody Goldberg <jgoldberg@home.com>
+2000-05-20  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-grid.c (item_grid_draw) : Do not draw the contents of
+	  hidden spanning rows/cols.
+	* src/print-cell.c (print_cell_range) : Ditto.
+
+	* src/colrow.c (cb_row_col_visibility) : Be careful not to compare
+	  TRUE for equality.
 
 	* src/cell.c (cell_copy) : Ref the format if one exists.
 	(cell_set_format) : Apply the format to a NEW style, not the current
@@ -10,6 +17,12 @@
 	  spans and sizes of the contents.
 	(sheet_update_cursor_pos) : New function.
 	(sheet_row_col_visible) : changing the status of a row/col changes visibility.
+	(sheet_update_cursor_pos) : warning suppression.
+	(sheet_row_col_visible) : Be careful not to compare TRUE for equality.
+	(sheet_clear_region) : respan both sides of a singleton row/col.
+	  Check for cells to either side even if there is no span,  if we are
+	  directly adjacent to a cell it would have no span even if it wanted
+	  one.
 
 	* src/sheet-view.c (sheet_view_update_cursor_pos) : New function split
 	  out from sheet_view_set_zoom_factor.

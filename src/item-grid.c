@@ -397,6 +397,8 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 				int const end_span_col = span->right;
 				int real_x = -1;
 				MStyle *real_style = NULL;
+				gboolean const is_visible =
+				    cell->row_info->visible && cell->col_info->visible;
 
 				/* Paint the backgrounds & borders */
 				for (; x_paint < end_x && col <= end_span_col ; ++col) {
@@ -405,7 +407,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 						MStyle *mstyle = item_grid_draw_background (
 							drawable, item_grid, ci, ri,
 							col, row, x_paint, y_paint,
-							col != start_span_col);
+							col != start_span_col && is_visible);
 						if (col == real_col) {
 							real_style = mstyle;
 							real_x = x_paint;
@@ -426,8 +428,9 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 									   col, cell->col_info->pos);
 				}
 
-				cell_draw (cell, real_style, span,
-					   item_grid->gc, drawable, real_x, y_paint);
+				if (is_visible)
+					cell_draw (cell, real_style, span,
+						   item_grid->gc, drawable, real_x, y_paint);
 				mstyle_unref (real_style);
 			}
 		}

@@ -2330,7 +2330,7 @@ sheet_clear_region (CommandContext *context, Sheet *sheet,
 			 * able to continue.
 			 */
 			test[0] = (start_col > 0);
-			test[1] = (start_col != end_col && end_col < SHEET_MAX_ROWS-1);
+			test[1] = (end_col < SHEET_MAX_ROWS-1);
 			col[0] = start_col - 1;
 			col[1] = end_col + 1;
 			for (row = start_row; row <= end_row ; ++row) {
@@ -2345,17 +2345,22 @@ sheet_clear_region (CommandContext *context, Sheet *sheet,
 					if (!test[i])
 						continue;
 
-					span = row_span_get (ri, col[i]);
-				
-					if (span == NULL)
-						continue;
-
-					cell = span->cell;
-					cell_calc_span (cell, &left, &right);
-					if (left != span->left || right != span->right) {
-						cell_unregister_span (cell);
-						cell_register_span (cell, left, right);
+					cell = sheet_cell_get (sheet, col[i], ri->pos);
+					if (cell == NULL) {
+						span = row_span_get (ri, col[i]);
+						if (span == NULL)
+							continue;
+						cell = span->cell;
 					}
+
+					cell_calc_span (cell, &left, &right);
+					if (span) {
+						if (left != span->left || right != span->right) {
+							cell_unregister_span (cell);
+							cell_register_span (cell, left, right);
+						}
+					} else if (left != right)
+						cell_register_span (cell, left, right);
 
 					/* We would not need to redraw the old span, just the new one */
 					if (min_col > left)
@@ -2472,7 +2477,7 @@ sheet_cursor_set (Sheet *sheet,
 }
 
 void
-sheet_update_cursor_pos (Sheet *sheet)
+sheet_update_cursor_pos (Sheet const *sheet)
 {
 	GList *l;
 
@@ -3315,7 +3320,7 @@ sheet_row_col_visible (Sheet *sheet, gboolean const is_col, gboolean const visib
 		    ? sheet_col_fetch (sheet, index++)
 		    : sheet_row_fetch (sheet, index++);
 
-		if (visible ^ cri->visible) {
+		if ((visible == 0) != (cri->visible == 0)) {
 			cri->visible = visible;
 			sheet->priv->recompute_visibility = TRUE;
 		}
