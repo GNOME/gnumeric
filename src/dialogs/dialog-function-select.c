@@ -222,7 +222,7 @@ dialog_function_select_load_tree (FunctionSelectState *state)
 	while ((cat = function_category_get_nth (i++)) != NULL) {
 		gtk_tree_store_append (state->model, &p_iter, NULL);
 		gtk_tree_store_set (state->model, &p_iter,
-				    CAT_NAME, cat->display_name->str,
+				    CAT_NAME, _(cat->display_name->str),
 				    CATEGORY, cat,
 				    -1);
 	}

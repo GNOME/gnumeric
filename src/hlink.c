@@ -75,6 +75,9 @@ gnm_hlink_finalize (GObject *obj)
 	GObjectClass *parent_class;
 	GnmHLink *lnk = (GnmHLink *)obj;
 
+	g_free (lnk->target);
+	lnk->target = NULL;
+
 	g_free (lnk->tip);
 	lnk->tip = NULL;
 
@@ -92,10 +95,30 @@ static void
 gnm_hlink_init (GObject *obj)
 {
 	GnmHLink *lnk = (GnmHLink * )obj;
+	lnk->target = NULL;
 	lnk->tip = NULL;
 }
 GSF_CLASS_ABSTRACT (GnmHLink, gnm_hlink,
 		    gnm_hlink_class_init, gnm_hlink_init, G_TYPE_OBJECT)
+
+guchar const *
+gnm_hlink_get_target (GnmHLink const *lnk)
+{
+	g_return_val_if_fail (GNM_IS_HLINK (lnk), NULL);
+	return lnk->target;
+}
+
+void
+gnm_hlink_set_target (GnmHLink *lnk, guchar const *target)
+{
+	guchar *tmp;
+
+	g_return_if_fail (GNM_IS_HLINK (lnk));
+
+	tmp = g_strdup (target);
+	g_free (lnk->target);
+	lnk->target = tmp;
+}
 
 guchar const *
 gnm_hlink_get_tip (GnmHLink const *l)
@@ -121,33 +144,30 @@ gnm_hlink_set_tip (GnmHLink *l, guchar const *tip)
 typedef struct { GnmHLinkClass hlink; } GnmHLinkCurWBClass;
 typedef struct {
 	GnmHLink hlink;
-	/* just parse it as necessary, no worries about maintaining link */
-	char *target;
 } GnmHLinkCurWB;
 #define GNM_HLINK_CUR_WB(o) (G_TYPE_CHECK_INSTANCE_CAST ((o), gnm_hlink_cur_wb_get_type (), GnmHLinkCurWB))
 
 static gboolean
 gnm_hlink_cur_wb_activate (GnmHLink *lnk, WorkbookControl *wbc)
 {
-	GnmHLinkCurWB *cur_wb = (GnmHLinkCurWB *)lnk;
 	RangeRef const *r;
 	CellPos tmp;
 	Sheet	  *sheet = wb_control_cur_sheet      (wbc);
 	SheetView *sv	 = wb_control_cur_sheet_view (wbc);
-	Value *target = global_range_parse (sheet, cur_wb->target);
+	Value *target = global_range_parse (sheet, lnk->target);
 
 	/* not an address, is it a name ? */
 	if (target == NULL) {
 		ParsePos pp;
 		GnmNamedExpr *nexpr = expr_name_lookup (
-			parse_pos_init (&pp, NULL, sheet, 0, 0), cur_wb->target);
+			parse_pos_init (&pp, NULL, sheet, 0, 0), lnk->target);
 
 		if (nexpr != NULL) {
 			if (!nexpr->builtin)
 				target = gnm_expr_get_range (nexpr->t.expr_tree);
 			if (target == NULL) {
 				gnumeric_error_invalid (COMMAND_CONTEXT (wbc), _("Link target"),
-							cur_wb->target);
+							lnk->target);
 				return FALSE;
 			}
 		}
@@ -166,59 +186,16 @@ gnm_hlink_cur_wb_activate (GnmHLink *lnk, WorkbookControl *wbc)
 }
 
 static void
-gnm_hlink_cur_wb_finalize (GObject *obj)
-{
-	GObjectClass *parent_class;
-	GnmHLinkCurWB *lnk = (GnmHLinkCurWB *)obj;
-
-	g_free (lnk->target);
-	lnk->target = NULL;
-
-	parent_class = g_type_class_peek (GNM_HLINK_TYPE);
-	if (parent_class && parent_class->finalize)
-		parent_class->finalize (obj);
-}
-
-static void
 gnm_hlink_cur_wb_class_init (GObjectClass *object_class)
 {
 	GnmHLinkClass *hlink_class = (GnmHLinkClass *) object_class;
 
 	hlink_class->Activate	   = gnm_hlink_cur_wb_activate;
-	object_class->finalize	   = gnm_hlink_cur_wb_finalize;
-}
-static void
-gnm_hlink_cur_wb_init (GObject *obj)
-{
-	GnmHLinkCurWB *lnk = (GnmHLinkCurWB* )obj;
-	lnk->target = NULL;
 }
 
 GSF_CLASS (GnmHLinkCurWB, gnm_hlink_cur_wb,
-	   gnm_hlink_cur_wb_class_init, gnm_hlink_cur_wb_init,
+	   gnm_hlink_cur_wb_class_init, NULL,
 	   GNM_HLINK_TYPE)
-
-guchar const *
-gnm_hlink_cur_wb_get_target (GnmHLink const *lnk)
-{
-	GnmHLinkCurWB const *cur_wb = GNM_HLINK_CUR_WB (lnk);
-
-	g_return_val_if_fail (cur_wb != NULL, NULL);
-	return cur_wb->target;
-}
-
-void
-gnm_hlink_cur_wb_set_target (GnmHLink *lnk, guchar const *target)
-{
-	GnmHLinkCurWB *cur_wb = GNM_HLINK_CUR_WB (lnk);
-	guchar *tmp;
-
-	g_return_if_fail (cur_wb != NULL);
-
-	tmp = g_strdup (target);
-	g_free (cur_wb->target);
-	cur_wb->target = tmp;
-}
 
 /***************************************************************************/
 /* Link to arbitrary urls */
@@ -232,17 +209,16 @@ typedef struct {
 static gboolean
 gnm_hlink_url_activate (GnmHLink *lnk, WorkbookControl *wbc)
 {
-	GnmHLinkURL *url = (GnmHLinkURL *)lnk;
 	GError *err = NULL;
 	gboolean res;
 
-	if (url->url == NULL)
+	if (lnk->target == NULL)
 		return FALSE;
 
-	res = gnome_url_show (url->url, &err);
+	res = gnome_url_show (lnk->target, &err);
 
 	if (err != NULL) {
-		char *msg = g_strdup_printf(_("Unable to activate the url '%s'"), url->url);
+		char *msg = g_strdup_printf(_("Unable to activate the url '%s'"), lnk->target);
 		gnumeric_error_invalid (COMMAND_CONTEXT (wbc), msg, err->message);
 		g_free (msg);
 		g_error_free (err);
@@ -250,46 +226,18 @@ gnm_hlink_url_activate (GnmHLink *lnk, WorkbookControl *wbc)
 
 	return res;
 }
-static void
-gnm_hlink_url_finalize (GObject *obj)
-{
-	GObjectClass *parent_class;
-	GnmHLinkURL *lnk = (GnmHLinkURL *)obj;
 
-	g_free (lnk->url);
-	lnk->url = NULL;
-
-	parent_class = g_type_class_peek (GNM_HLINK_TYPE);
-	if (parent_class && parent_class->finalize)
-		parent_class->finalize (obj);
-}
 static void
 gnm_hlink_url_class_init (GObjectClass *object_class)
 {
 	GnmHLinkClass *hlink_class = (GnmHLinkClass *) object_class;
 
 	hlink_class->Activate  = gnm_hlink_url_activate;
-	object_class->finalize = gnm_hlink_url_finalize;
-}
-static void
-gnm_hlink_url_init (GObject *obj)
-{
-	GnmHLinkURL *lnk = (GnmHLinkURL* )obj;
-	lnk->url = NULL;
 }
 
 GSF_CLASS (GnmHLinkURL, gnm_hlink_url,
-	   gnm_hlink_url_class_init, gnm_hlink_url_init,
+	   gnm_hlink_url_class_init, NULL,
 	   GNM_HLINK_TYPE)
-
-guchar const *
-gnm_hlink_url_get_url (GnmHLink const *lnk)
-{
-	GnmHLinkURL const *url = GNM_HLINK_URL (lnk);
-
-	g_return_val_if_fail (url != NULL, NULL);
-	return url->url;
-}
 
 void
 gnm_hlink_url_set_target (GnmHLink *lnk, guchar const *target)

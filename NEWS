@@ -3,6 +3,8 @@ Gnumeric 1.1.9
 Jody:
 	* start enabling the graph guru.
 	* Begin to re-enable xls document metadata
+	* Fix translations in the bonobo build
+	* Enable translation of function category names
 
 Morten:
 	* Leak plugging.

@@ -620,13 +620,16 @@ xml_write_style (XmlParseContext *ctxt,
 	if (mstyle_is_element_set (style, MSTYLE_HLINK)) {
 		GnmHLink *link = mstyle_get_hlink (style);
 
-			child = xmlNewChild (cur, ctxt->ns,
-				(xmlChar const *)"HyperLink", NULL);
-			xml_node_set_cstr (child, "type",
-				(xmlChar const *) g_type_name (G_OBJECT_TYPE (link)));
-			/* xml_node_set_cstr (child, "target",	v->style); */
-			if (gnm_hlink_get_tip (link) != NULL)
-				xml_node_set_cstr (child, "tip", gnm_hlink_get_tip (link));
+		child = xmlNewChild (cur, ctxt->ns,
+			(xmlChar const *)"HyperLink", NULL);
+		xml_node_set_cstr (child, "type",
+			(xmlChar const *) g_type_name (G_OBJECT_TYPE (link)));
+		xml_node_set_cstr (child, "target",
+			gnm_hlink_get_target (link));
+
+		if (gnm_hlink_get_tip (link) != NULL)
+			xml_node_set_cstr (child, "tip",
+				gnm_hlink_get_tip (link));
 	}
 
 	if (mstyle_is_element_set (style, MSTYLE_VALIDATION)) {

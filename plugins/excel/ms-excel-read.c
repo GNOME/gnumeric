@@ -3920,7 +3920,7 @@ ms_excel_read_hlink (BiffQuery *q, ExcelSheet *esheet)
 
 		url = read_utf16_str (len/2, data);
 		link = g_object_new (gnm_hlink_url_get_type (), NULL);
-		gnm_hlink_url_set_target (link, url);
+		gnm_hlink_set_target (link, url);
 		g_free (url);
 	} else if ((options & 0x1e1) == 0x001 && !memcmp (data, file_guid, sizeof (file_guid))) {
 		range_dump (&r, " <-- local file\n");
@@ -3939,7 +3939,7 @@ ms_excel_read_hlink (BiffQuery *q, ExcelSheet *esheet)
 		range_dump (&r, " <-- unc file\n");
 	} else if ((options & 0x1eb) == 0x008) {
 		link = g_object_new (gnm_hlink_cur_wb_get_type (), NULL);
-		gnm_hlink_cur_wb_set_target (link, target);
+		gnm_hlink_set_target (link, target);
 	} else {
 		g_warning ("Unknown hlink type");
 	}

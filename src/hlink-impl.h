@@ -7,6 +7,7 @@
 struct _GnmHLink {
 	GObject obj;
 	guchar *tip;
+	guchar *target;
 };
 
 typedef struct {
