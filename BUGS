@@ -7,7 +7,6 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-applic-read.c:260 0 needs to become '0'
 sylk.c:89: need to read fgetc into an int var.  *s cannot hold EOF.
 
 
