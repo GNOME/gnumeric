@@ -1,3 +1,9 @@
+1999-05-26  Michael Meeks  <michael@imaginator.com>
+
+	* ms-excel-write.c (ms_excel_write_workbook): Force Big
+	Block file.
+	(write_value): Set vesion on biff_put_text for RSTRING to V7.
+
 1999-05-24  Michael Meeks  <michael@imaginator.com>
 
 	* ole.c (main): Added 'debug' option to dump allocation.

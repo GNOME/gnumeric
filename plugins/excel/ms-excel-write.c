@@ -280,7 +280,8 @@ write_value (BIFF_PUT *bp, Value *v, eBiff_version ver, guint32 col, guint32 row
 		char data[16];
 		g_return_if_fail (v->v.str->str);
 
-		if (ver == eBiffV8); /* Use SST stuff in fulness of time */
+		if (ver >= eBiffV8); /* Use SST stuff in fulness of time */
+
 		/* See: S59DDC.HTM */
 		ms_biff_put_var_next   (bp, BIFF_RSTRING);
 		EX_SETXF (data, xf);
@@ -288,7 +289,7 @@ write_value (BIFF_PUT *bp, Value *v, eBiff_version ver, guint32 col, guint32 row
 		EX_SETROW(data, row);
 		EX_SETSTRLEN (data, strlen(v->v.str->str));
 		ms_biff_put_var_write  (bp, data, 8);
-		biff_put_text (bp, v->v.str->str, ver, FALSE);
+		biff_put_text (bp, v->v.str->str, eBiffV7, FALSE);
 		ms_biff_put_var_commit (bp);
 		break;
 	}
@@ -435,8 +436,14 @@ ms_excel_write_workbook (MS_OLE *file, Workbook *wb,
 	}
 
 	bp = ms_biff_put_new (str);
+
 	write_workbook (bp, wb, ver);
-	ms_biff_put_destroy (bp);
+
+	/* Kludge to make sure the file is a Big Block file */
+	ms_biff_put_len_next   (bp, 0,0x1000);
+	ms_biff_put_len_commit (bp);
+
+	ms_biff_put_destroy    (bp);
 
 	ms_ole_stream_close (str);
 	ms_ole_directory_destroy (dir);

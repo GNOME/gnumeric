@@ -620,6 +620,11 @@ pps_encode_tree_initial (MS_OLE *f, GList *list, PPS_IDX *p)
 	g_return_if_fail (list->data);
 	
 	pps = list->data;
+
+#if OLE_DEBUG > 0
+	printf ("encoding '%s' as %d\n", pps->name, pps->idx);
+#endif
+
 	pps->idx = *p;
 	(*p)++;
 	mem = get_pps_ptr (f, pps->idx);
@@ -653,10 +658,6 @@ pps_encode_tree_initial (MS_OLE *f, GList *list, PPS_IDX *p)
 	PPS_SET_NEXT (mem, PPS_END_OF_CHAIN);
 	PPS_SET_PREV (mem, PPS_END_OF_CHAIN);
 	PPS_SET_DIR  (mem, PPS_END_OF_CHAIN);
-
-#if OLE_DEBUG > 0
-	printf ("encoding '%s' as %d\n", pps->name, pps->idx);
-#endif
 
 	if (pps->children)
 		pps_encode_tree_initial (f, pps->children, p);
@@ -1131,7 +1132,8 @@ ms_ole_create (const char *name)
 		p->start    = END_OF_CHAIN;
 		p->type     = MS_OLE_PPS_ROOT;
 		p->size     = 0;
-		p->children = 0;
+		p->children = NULL;
+		p->parent   = NULL;
 		f->pps = g_list_append (0, p);
 		f->num_pps = 1;
 	}
@@ -1973,10 +1975,12 @@ ms_ole_directory_create (MS_OLE_DIRECTORY *d, char *name, PPS_TYPE type)
 
 	dp = d->pps->data;
 	p  = g_new (PPS, 1);
-	p->name = g_strdup (name);
-	p->type  = type;
-	p->size  = 0;
-	p->start = END_OF_CHAIN;
+	p->name     = g_strdup (name);
+	p->type     = type;
+	p->size     = 0;
+	p->start    = END_OF_CHAIN;
+	p->children = NULL;
+	p->parent   = dp;
 	
 	dp->children = g_list_insert_sorted (dp->children, p,
 					     (GCompareFunc)pps_compare_func);
@@ -1991,4 +1995,5 @@ ms_ole_directory_destroy (MS_OLE_DIRECTORY *d)
 	if (d)
 		g_free (d);
 }
+
 

@@ -1,3 +1,8 @@
+1999-05-26  Michael Meeks  <michael@imaginator.com>
+
+	* ms-ole.c (ms_ole_create): Set parent corectly.
+	(ms_ole_directory_create): Set children correctly.
+
 1999-05-25  Michael Meeks  <michael@imaginator.com>
 
 	* ms-ole.c: Really large overhaul of directory stuff, now
