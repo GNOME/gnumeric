@@ -889,12 +889,31 @@ cmd_ins_del_colrow_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 		: range_init (&r, 0, first, SHEET_MAX_COLS-1, last));
 
 	if (me->is_insert) {
+		int i, resize[me->count];
+
+		for (i = me->index; i < me->index + me->count; i++) {
+			ColRowInfo *info = me->is_cols ?
+				sheet_col_get_info (me->sheet, i) :
+				sheet_row_get_info (me->sheet, i);
+
+			resize[i - me->index] = info->size_pixels;
+		}
+
 		if (me->is_cols)
 			trouble = sheet_insert_cols (wbc, me->sheet, me->index,
 						     me->count, &me->reloc_storage);
 		else
 			trouble = sheet_insert_rows (wbc, me->sheet, me->index,
 						     me->count, &me->reloc_storage);
+		/*
+		 * The newly inserted columns should mirror the sizes of the
+		 * original cols/rows that were there
+		 */
+		for (i = me->index; i < me->index + me->count; i++)
+			if (me->is_cols)
+				sheet_col_set_size_pixels (me->sheet, i, resize[i - me->index], FALSE);
+			else
+				sheet_row_set_size_pixels (me->sheet, i, resize[i - me->index], FALSE);
 	} else {
 		if (me->is_cols)
 			trouble = sheet_delete_cols (wbc, me->sheet, me->index,

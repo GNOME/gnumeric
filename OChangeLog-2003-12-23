@@ -1,6 +1,13 @@
 2001-03-25  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/commands.c
+	(cmd_ins_del_colrow_redo): Resize inserted columns/rows
+	to have the same size of the columns/rows that previously
+	occupied the same space.
+
+2001-03-25  Almer S. Tigelaar  <almer@gnome.org>
+
+	* src/commands.c
 	(cmd_ins_del_colrow_undo): Re-ant the original cut selection.
 	(cmd_ins_del_colrow_redo): Re-ant accounting for the shift in
 	columns/rows.
