@@ -155,8 +155,11 @@ typedef struct _PARSE_DATA
 
 static PARSE_DATA *parse_data_new (char *buffer, int precedence)
 {
-	PARSE_DATA *ans = (PARSE_DATA *)g_malloc(sizeof(PARSE_DATA)) ;
-	ans->name = buffer ;
+	PARSE_DATA *ans = g_new (PARSE_DATA, 1) ;
+	if (!buffer)
+		ans->name = g_strdup("") ;
+	else
+		ans->name = buffer ;
 	ans->precedence = precedence ;
 	return ans ;
 }
@@ -184,7 +187,7 @@ static PARSE_LIST *parse_list_new ()
 
 static void parse_list_push (PARSE_LIST *list, PARSE_DATA *pd)
 {
-	/*  printf ("Pushing '%s'\n", pd->name) ; */
+/*	printf ("Pushing '%s'\n", pd->name) ; */
 	list->data = g_list_append (list->data, pd) ;
 	list->length++ ;
 }
@@ -249,7 +252,6 @@ parse_list_comma_delimit_n (PARSE_LIST *stack, char *prefix,
 		put += sprintf (put, "%c%s", lp?',':' ', args[lp]) ;
 
 	strcat (put, suffix) ;
-
 	parse_list_push_raw (stack, ans, precedence) ;
 }
 
@@ -310,7 +312,7 @@ get_inter_sheet_ref (MS_EXCEL_WORKBOOK *wb, guint16 extn_idx)
 					   extn_idx, 1) ;
 	last  = biff_get_externsheet_name (wb,
 					   extn_idx, 0) ;
-	ans = g_malloc (first?strlen(first):0 + last?strlen(last):0 + 3) ;
+	ans = g_malloc ((first?strlen(first):0) + (last?strlen(last):0) + 3) ;
 	ans[0] = 0 ;
 	if (first!=last && first)
 	{
@@ -439,16 +441,20 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 			if (sheet->ver == eBiffV8)
 			{
 				guint16 extn_idx = BIFF_GETWORD(cur) ;
-				char ans[4096], *intertxt, *ptr ; /* FIXME */
+				char *ans, *intertxt, *ptr ;
 
 				intertxt = get_inter_sheet_ref (sheet->wb, extn_idx) ;
-				strcpy (ans, intertxt) ;
-				g_free (intertxt) ;
 				ref = getRefV8 (sheet, BIFF_GETWORD(cur+2), BIFF_GETWORD(cur + 4), fn_col, fn_row) ;
-				strcat (ans, (ptr = cellref_name (ref, sheet->gnum_sheet, fn_col, fn_row))) ;
-				g_free (ptr) ;
+				ptr = cellref_name (ref, sheet->gnum_sheet, fn_col, fn_row) ;
+
+				ans = g_new (char, strlen(intertxt)+strlen(ptr)+1) ;
+				strcpy (ans, intertxt) ;
+				strcat (ans, ptr) ;
+
 				printf("Answer : '%s'\n", ans) ;
-				parse_list_push_raw (stack, g_strdup(ans), NO_PRECEDENCE) ;
+				parse_list_push_raw (stack, ans, NO_PRECEDENCE) ;
+				g_free (intertxt) ;
+				g_free (ptr) ;
 				ptg_length = 6 ;
 			}
 			else
@@ -471,22 +477,26 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 			{
 				guint16 extn_idx = BIFF_GETWORD(cur) ;
 				char *intertxt ;
-				char buffer[4096], *ptr ;  /* FIXME */
+				char *buffer, *fstr, *lstr ;
 				CellRef *first, *last ;
 
 				intertxt = get_inter_sheet_ref (sheet->wb, extn_idx) ; 
-				strcpy (buffer, intertxt) ;
-				g_free (intertxt) ;
-
 				first = getRefV8(sheet, BIFF_GETBYTE(cur+2), BIFF_GETWORD(cur+6), fn_col, fn_row) ;
 				last  = getRefV8(sheet, BIFF_GETBYTE(cur+4), BIFF_GETWORD(cur+8), fn_col, fn_row) ;
 
-				strcat (buffer, (ptr = cellref_name (first, sheet->gnum_sheet, fn_col, fn_row))) ;
-				g_free (ptr) ;
+				fstr = cellref_name (first, sheet->gnum_sheet, fn_col, fn_row) ;
+				lstr = cellref_name (last, sheet->gnum_sheet, fn_col, fn_row) ;
+
+				buffer = g_new (char, strlen(intertxt) + strlen(fstr) + 1
+						+ strlen(lstr) + 1 ) ;
+				strcpy (buffer, intertxt) ;
+				strcat (buffer, fstr) ;
 				strcat (buffer, ":") ;
-				strcat (buffer, (ptr=cellref_name (last, sheet->gnum_sheet, fn_col, fn_row))) ;
-				g_free (ptr) ;
-				parse_list_push_raw(stack, g_strdup (buffer), NO_PRECEDENCE) ;
+				strcat (buffer, lstr) ;
+				parse_list_push_raw(stack, buffer, NO_PRECEDENCE) ;
+				g_free (intertxt) ;
+				g_free (fstr) ;
+				g_free (lstr) ;
 				g_free (first) ;
 				g_free (last) ;
 				
@@ -506,8 +516,7 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 		case FORMULA_PTG_AREA:
 		{
 			CellRef *first, *last ;
-			char buffer[64] ;
-			char *ptr ;
+			char *fstr, *lstr, *buffer ;
 			if (sheet->ver == eBiffV8)
 			{
 				first = getRefV8(sheet, BIFF_GETBYTE(cur+0), BIFF_GETWORD(cur+4), fn_col, fn_row) ;
@@ -520,13 +529,17 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 				last  = getRefV7(sheet, BIFF_GETBYTE(cur+5), BIFF_GETWORD(cur+2), fn_col, fn_row) ;
 				ptg_length = 6 ;
 			}
-			strcpy (buffer, (ptr = cellref_name (first, sheet->gnum_sheet, fn_col, fn_row))) ;
-			g_free (ptr) ;
+			fstr = cellref_name (first, sheet->gnum_sheet, fn_col, fn_row) ;
+			lstr = cellref_name (last, sheet->gnum_sheet, fn_col, fn_row) ;
+			buffer = g_new (char, strlen(fstr) + 1 + strlen(lstr) + 1) ;
+
+			strcpy (buffer, fstr) ;
 			strcat (buffer, ":") ;
-			strcat (buffer, (ptr=cellref_name (last, sheet->gnum_sheet, fn_col, fn_row))) ;
-			g_free (ptr) ;
-			parse_list_push_raw(stack, g_strdup (buffer), NO_PRECEDENCE) ;
-/*	    printf ("%s\n", buffer) ; */
+			strcat (buffer, lstr) ;
+			parse_list_push_raw(stack, buffer, NO_PRECEDENCE) ;
+
+			g_free (fstr) ;
+			g_free (lstr) ;
 			g_free (first) ;
 			g_free (last) ;
 		}
@@ -657,24 +670,37 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 				{
 					PARSE_DATA *arg1=0, *arg2 ;
 					GList *tmp ;
-					char buffer[2048] ;
+					char *buffer=0 ;
+					gint len = 0 ;
 					FORMULA_OP_DATA *fd = &formula_op_data[lp] ;
 					int bracket_arg2 ;
 					int bracket_arg1 ;
 					
-					buffer[0] = '\0' ; /* Terminate string */
 					arg2 = parse_list_pop (stack) ;
 					bracket_arg2 = arg2->precedence<fd->precedence ;
+					len = strlen(arg2->name) + (fd->mid?strlen(fd->mid):0) + 
+					      (bracket_arg2?2:0) + 1 ;
+
 					if (fd->infix)
 					{
 						arg1 = parse_list_pop (stack) ;
-						bracket_arg1 = arg1->precedence<fd->precedence ; 
+						bracket_arg1 = arg1->precedence<fd->precedence ;
+						len += strlen (arg1->name) + (bracket_arg1?2:0) ;
+						buffer = g_new (char, len) ;
+						buffer[0] = '\0' ;
+
 						if (bracket_arg1)
 							strcat (buffer, "(") ;
 						strcat (buffer, arg1->name) ;
 						if (bracket_arg1)
 							strcat (buffer, ")") ;
 					}
+					else
+					{
+						buffer = g_new (char, len) ;
+						buffer[0] = '\0' ;
+					}
+
 					strcat (buffer, fd->mid?fd->mid:"") ;
 					if (bracket_arg2)
 						strcat (buffer, "(") ;
@@ -683,7 +709,7 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 						strcat (buffer, ")") ;
 					
 /*		    printf ("Op : '%s'\n", buffer) ; */
-					parse_list_push_raw(stack, g_strdup (buffer), fd->precedence) ;
+					parse_list_push_raw(stack, buffer, fd->precedence) ;
 					if (fd->infix)
 						parse_data_free (arg1) ;
 					parse_data_free (arg2) ;
