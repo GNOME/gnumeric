@@ -1,3 +1,8 @@
+2004-12-14  Morten Welinder  <terra@gnome.org>
+
+	* import-R (import_file): Handle fraction of doubles.  Handle
+	#undef.
+
 2004-12-09  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.4.1

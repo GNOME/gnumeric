@@ -4,6 +4,11 @@ J.H.M. Dassen (Ray):
 	* XLS import for paper sizes for which gnome-print doesn't have a
 	  name.
 
+Morten:
+	* Improve accuracy of pgamma and thus pchisq, ppois, qgamma,
+	qchisq, qpois, and more for extreme arguments.
+
+--------------------------------------------------------------------------
 Gnumeric 1.4.1
 
 Jody:
