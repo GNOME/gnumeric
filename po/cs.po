@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2003-06-25 19:48-0400\n"
-"PO-Revision-Date: 2003-06-27 17:54+0200\n"
+"PO-Revision-Date: 2003-06-29 13:39+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -6340,7 +6340,6 @@ msgstr ""
 
 # FIXME: @issue?
 #: plugins/fn-financial/functions.c:2124
-#, fuzzy
 msgid ""
 "@FUNCTION=DURATION\n"
 "@SYNTAX=DURATION(settlement,maturity,coup,yield,freq[,basis])\n"
@@ -28164,9 +28163,8 @@ msgid "dark green"
 msgstr "tmavě zelená"
 
 #: src/widgets/color-palette.c:572 src/widgets/color-palette.c:625
-#, fuzzy
 msgid "dull blue"
-msgstr "Hodnota buňky"
+msgstr "matně modrá"
 
 #: src/widgets/color-palette.c:573 src/widgets/color-palette.c:626
 msgid "blue"
@@ -28174,7 +28172,7 @@ msgstr "modrá"
 
 #: src/widgets/color-palette.c:574
 msgid "dull purple"
-msgstr ""
+msgstr "matně fialová"
 
 #: src/widgets/color-palette.c:575
 msgid "dark gray"
@@ -28189,17 +28187,16 @@ msgid "orange"
 msgstr "oranžová"
 
 #: src/widgets/color-palette.c:580
-#, fuzzy
 msgid "lime"
-msgstr "čas"
+msgstr "citrusová"
 
 #: src/widgets/color-palette.c:581
 msgid "dull green"
-msgstr ""
+msgstr "matně zelená"
 
 #: src/widgets/color-palette.c:582
 msgid "dull blue #2"
-msgstr ""
+msgstr "matně modrá #2"
 
 #: src/widgets/color-palette.c:583
 msgid "sky blue #2"
@@ -28796,7 +28793,7 @@ msgstr "Jižní Afrika Afrikaans (af_ZA)"
 
 #: src/widgets/widget-locale-selector.c:104
 msgid "Ethiopia/Amharic (am_ET)"
-msgstr ""
+msgstr "Etiopie/amharic (am_ET)"
 
 #: src/widgets/widget-locale-selector.c:105
 msgid "United Arab Emirates (ar_AE)"
@@ -29093,7 +29090,7 @@ msgstr "Finsko/finština (fi_FI)"
 
 #: src/widgets/widget-locale-selector.c:178
 msgid "Faroe Islands (fo_FO)"
-msgstr ""
+msgstr "Faerské ostrovy (fo_FO)"
 
 #: src/widgets/widget-locale-selector.c:179
 msgid "Belgium/French (fr_BE)"
@@ -29121,11 +29118,11 @@ msgstr "Velká Británie/Skotská galština (gd_GB)"
 
 #: src/widgets/widget-locale-selector.c:185
 msgid "Spain/Galician (gl_ES)"
-msgstr ""
+msgstr "Španělsko/Galičtina (gl_ES)"
 
 #: src/widgets/widget-locale-selector.c:186
 msgid "Great Britain/Manx Gaelic (gv_GB)"
-msgstr ""
+msgstr "Velká Británie/Manština (gv_GB)"
 
 #: src/widgets/widget-locale-selector.c:187
 msgid "India/Hindu (hi_IN)"
@@ -29189,7 +29186,7 @@ msgstr "Korea (ko_KR)"
 
 #: src/widgets/widget-locale-selector.c:202
 msgid "Great Britain/Cornish (kw_GB)"
-msgstr ""
+msgstr "Velká Britínie/cornwallština (kw_GB)"
 
 #: src/widgets/widget-locale-selector.c:203
 msgid "Lithuania (lt_LT)"
@@ -29237,7 +29234,7 @@ msgstr "Norsko/Bokmal (no_NO)"
 
 #: src/widgets/widget-locale-selector.c:214
 msgid "France/Occitan (oc_FR)"
-msgstr ""
+msgstr "Francie/occitan (oc_FR)"
 
 #: src/widgets/widget-locale-selector.c:215
 msgid "Poland (pl_PL)"
@@ -29313,11 +29310,11 @@ msgstr "Eritrea (ti_ER)"
 
 #: src/widgets/widget-locale-selector.c:233
 msgid "Ethiopia/Tigrinya (ti_ET)"
-msgstr ""
+msgstr "Etiopie/Tigrinya (ti_ET)"
 
 #: src/widgets/widget-locale-selector.c:234
 msgid "Philippines/Tagalog (tl_PH)"
-msgstr ""
+msgstr "Filipíny/tagalog (tl_PH)"
 
 #: src/widgets/widget-locale-selector.c:235
 msgid "Turkey (tr_TR)"
@@ -29349,7 +29346,7 @@ msgstr "Belgie/valonština (wa_BE)"
 
 #: src/widgets/widget-locale-selector.c:242
 msgid "United States/Yiddish (yi_US)"
-msgstr ""
+msgstr "Spojené státy americké/yiddish (yi_US)"
 
 #: src/widgets/widget-locale-selector.c:243
 msgid "China (zh_CN)"
@@ -29828,17 +29825,11 @@ msgstr "Souborový formát Gnumeric XML"
 #~ msgid "serial_number,months"
 #~ msgstr "sériové_číslo,měsíce"
 
-#~ msgid "Maths / Trig."
-#~ msgstr "Matematické / Trigonometrické"
-
 #~ msgid "Is not an Gnumeric Workbook file"
 #~ msgstr "Není soubor se sešitem Gnumeric"
 
 #~ msgid "_Add / Modify comment..."
 #~ msgstr "Přid_at / upravit komentář..."
-
-#~ msgid "A unique name for the action."
-#~ msgstr "Unikátní název pro akci"
 
 #~ msgid "The label used for menu items and buttons that activate this action."
 #~ msgstr ""
@@ -29847,14 +29838,8 @@ msgstr "Souborový formát Gnumeric XML"
 #~ msgid "Short label"
 #~ msgstr "Krátký titulek"
 
-#~ msgid "A shorter label that may be used on toolbar buttons."
-#~ msgstr "Kratší titulek, který lze použít na tlačítkách nástrojové lišty"
-
 #~ msgid "Tooltip"
 #~ msgstr "Tip"
-
-#~ msgid "A tooltip for this action."
-#~ msgstr "Tip pro tuto akci"
 
 #~ msgid "Stock Icon"
 #~ msgstr "Standardní ikona"
@@ -30017,14 +30002,8 @@ msgstr "Souborový formát Gnumeric XML"
 #~ msgid "_Time"
 #~ msgstr "Č_as"
 
-#~ msgid "K:"
-#~ msgstr "K:"
-
 #~ msgid "Mrt"
 #~ msgstr "Bře"
-
-#~ msgid "_URL"
-#~ msgstr "_URL"
 
 #~ msgid "Column formatting"
 #~ msgstr "Formátování sloupců"
@@ -30086,9 +30065,6 @@ msgstr "Souborový formát Gnumeric XML"
 
 #~ msgid ";[Red]"
 #~ msgstr ";[Červeně]"
-
-#~ msgid "_);("
-#~ msgstr "_);("
 
 #~ msgid "_);[Red]("
 #~ msgstr "_);[Červeně]("
