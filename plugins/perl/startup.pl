@@ -13,13 +13,13 @@ sub foobar
 }
 
 $help_foobar = <<'EOS';
-@FUNCTION=PERL_ADDER
-@SYNTAX=PERL_ADDER(a,b)
+@FUNCTION=PERL_ADDER_OLD
+@SYNTAX=PERL_ADDER_OLD(a,b)
 @DESCRIPTION=
 Adds two numbers. It is just an example function.
 EOS
 
-Gnumeric::register_function("perl_adder", "ff", "a,b", $help_foobar, \&foobar);
+Gnumeric::register_function("perl_adder_old", "ff", "a,b", $help_foobar, \&foobar);
 
 print "Hello World.\n";
 
