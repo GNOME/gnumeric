@@ -59,8 +59,9 @@ static gboolean
 BC_R(3dbarshape)(ExcelChartHandler const *handle,
 		 ExcelChartState *s, BiffQuery *q)
 {
-	/* All the charts I've seen have this record with value 0x0000
-	 *its probably an enum of sorts.
+	/*
+	 * All the charts I've seen have this record with value 0x0000
+	 * its probably an enum of sorts.
 	 */
 	guint16 const type = BIFF_GET_GUINT16 (q->data);
 	printf ("shape %d\n", type);
@@ -232,9 +233,19 @@ BC_R(area)(ExcelChartHandler const *handle,
 	gboolean const stacked = (flags & 0x01) ? TRUE : FALSE;
 	gboolean const as_percentage = (flags & 0x02) ? TRUE : FALSE;
 
+	if (as_percentage)
+		/* TODO : test theory that percentage implies stacked */
+		printf ("Stacked Percentage. (%d should be TRUE)\n", stacked);
+	else if (stacked)
+		printf ("Stacked Percentage values\n");
+	else
+		printf ("Overlayed values\n");
+
 	if (s->ver >= eBiffV8)
 	{
 		gboolean const has_shadow = (flags & 0x04) ? TRUE : FALSE;
+		if (has_shadow)
+			puts ("in 3D");
 	}
 	return FALSE;
 }
@@ -252,17 +263,24 @@ static gboolean
 BC_R(areaformat)(ExcelChartHandler const *handle,
 		 ExcelChartState *s, BiffQuery *q)
 {
+#if 0
 	StyleColor *fore = BC_R(color) (q->data, "Area Fore");
 	StyleColor *back = BC_R(color) (q->data+4, "Area Back");
 	guint16 const pattern = BIFF_GET_GUINT16 (q->data+8);
 	guint16 const flags = BIFF_GET_GUINT16 (q->data+10);
-	gboolean const auto_format = flags & 0x01;
+	gboolean const auto_format = (flags & 0x01) ? TRUE : FALSE;
 	gboolean const swap_color_for_negative = flags & 0x02;
+#endif
 
 	if (s->ver >= eBiffV8)
 	{
 		guint16 const fore_index = BIFF_GET_GUINT16 (q->data+12);
 		guint16 const back_index = BIFF_GET_GUINT16 (q->data+14);
+
+		/* TODO : Ignore result for now,
+		 * Which to use, fore and back, or these ? */
+		ms_excel_palette_get (s->wb->palette, fore_index, NULL);
+		ms_excel_palette_get (s->wb->palette, back_index, NULL);
 	}
 	return FALSE;
 }
@@ -427,6 +445,31 @@ static gboolean
 BC_R(bar)(ExcelChartHandler const *handle,
 	  ExcelChartState *s, BiffQuery *q)
 {
+	/* percent of bar width */
+	guint16 const space_between_bar = BIFF_GET_GUINT16(q->data);
+	guint16 const space_between_categories = BIFF_GET_GUINT16(q->data+2);
+
+	guint16 const flags = BIFF_GET_GUINT16(q->data+4);
+
+	gboolean const horizontal_bar = (flags&0x01) ? TRUE : FALSE;
+	gboolean const stacked = (flags&0x02) ? TRUE : FALSE;
+	gboolean const as_percentage = (flags&0x04) ? TRUE : FALSE;
+
+	printf ( (horizontal_bar) ? "Horizontal " : "Vertical ");
+	if (as_percentage)
+		/* TODO : test theory that percentage implies stacked */
+		printf ("Stacked Percentage. (%d should be TRUE)\n", stacked);
+	else if (stacked)
+		printf ("Stacked Percentage values\n");
+	else
+		printf ("Overlayed values\n");
+
+	if (s->ver >= eBiffV8)
+	{
+		gboolean const has_shadow = (flags & 0x04) ? TRUE : FALSE;
+		if (has_shadow)
+			puts ("in 3D");
+	}
 	return FALSE;
 }
 
@@ -461,6 +504,16 @@ static gboolean
 BC_R(boppop)(ExcelChartHandler const *handle,
 	     ExcelChartState *s, BiffQuery *q)
 {
+#if 0
+	guint8 const type = BIFF_GET_GUINT8 (q->data); /* 0-2 */
+	gboolean const use_default_split = (BIFF_GET_GUINT8 (q->data+1) == 1);
+	guint16 const split_type = BIFF_GET_GUINT8 (q->data+2); /* 0-3 */
+#endif
+
+	gboolean const is_3d = (BIFF_GET_GUINT16 (q->data+16) == 1);
+	if (is_3d)
+		puts("in 3D");
+
 	return FALSE;
 }
 static gboolean
@@ -476,8 +529,10 @@ static gboolean
 BC_R(boppopcustom)(ExcelChartHandler const *handle,
 		   ExcelChartState *s, BiffQuery *q)
 {
+#if 0
 	gint16 const count = BIFF_GET_GUINT16 (q->data);
-	/* TODO TODO : figure out the bitfield */
+	/* TODO TODO : figure out the bitfield array */
+#endif
 	return FALSE;
 }
 
@@ -561,6 +616,7 @@ static gboolean
 BC_R(chartformatlink)(ExcelChartHandler const *handle,
 		      ExcelChartState *s, BiffQuery *q)
 {
+	/* ignored */
 	return FALSE;
 }
 
@@ -568,6 +624,7 @@ static gboolean
 BC_W(chartformatlink)(ExcelChartHandler const *handle,
 		      GuppiChartState *s, BiffPut *os)
 {
+	/* ignored */
 	return FALSE;
 }
 

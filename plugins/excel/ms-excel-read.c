@@ -1364,8 +1364,15 @@ ms_excel_formula_shared (BiffQuery *q, ExcelSheet *sheet, Cell *cell)
 							 !is_array, data_len,
 							 NULL);
 		BiffSharedFormula *sf = g_new (BiffSharedFormula, 1);
-		sf->key.col = array_col_first;
-		sf->key.row = array_row_first;
+
+		/*
+		 * WARNING : Do NOT use the upper left corner as the hashkey.
+		 *     For some bizzare reason XL appears to sometimes not
+		 *     flag the formula as shared until later.
+		 *  Use the location of the cell we are reading as the key.
+		 */
+		sf->key.col = cell->col->pos; /* array_col_first; */
+		sf->key.row = cell->row->pos; /* array_row_first; */
 		sf->is_array = is_array;
 		if (data_len > 0) {
 			sf->data = g_new (guint8, data_len);
@@ -1556,6 +1563,11 @@ ms_excel_sheet_shared_formula (ExcelSheet *sheet, int const col, int const row)
 	BiffSharedFormulaKey k;
 	k.col = col;
 	k.row = row;
+
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_read_debug > 5)
+		printf ("FIND SHARED : %s%d\n", col_name(col), row+1);
+#endif
 	return g_hash_table_lookup (sheet->shared_formulae, &k);
 }
 
@@ -2643,6 +2655,8 @@ ms_excel_read_workbook (MsOle *file)
 				}
 			} else if (ver->type == eBiffTChart)
 				ms_excel_chart (q, wb, ver);
+			else if (ver->type == eBiffTVBModule)
+				printf ("VB Module.\n");
 			else
 				printf ("Unknown BOF (%x)\n",ver->type);
 		}
@@ -2669,22 +2683,22 @@ ms_excel_read_workbook (MsOle *file)
 				biff_font_data_new (wb, q);
 			}
 			break;
-		case BIFF_PRECISION:	/*
-					 * FIXME:
-					 */
-#ifndef NO_DEBUG_EXCEL
-			if (ms_excel_read_debug > 0) {
-				printf ("Precision : \n");
-				dump (q->data, q->length);
-			}
+		case BIFF_PRECISION:
+			{
+#if 0
+				/* FIXME : implement in gnumeric */
+				/* state of 'Precision as Displayed' option */
+				guint16 const data = BIFF_GET_GUINT16(q->data);
+				gboolean const prec_as_displayed = (data == 0);
 #endif
+			}
 			break;
-		case BIFF_XF_OLD:	/*
-					 * FIXME: see S59E1E.HTM
-					 */
+
+		case BIFF_XF_OLD: /* see S59E1E.HTM */
 		case BIFF_XF:
 			biff_xf_data_new (wb, q, ver->version);
 			break;
+
 		case BIFF_SST: /* see S59DE7.HTM */
 			{
 				guint32 length, k, tot_len;
@@ -2899,9 +2913,10 @@ ms_excel_read_workbook (MsOle *file)
 		case BIFF_SCL :
 			break;
 
-		case BIFF_MS_O_DRAWING: /* FIXME: See: ms-escher.c and S59DA4.HTM */
-			if (gnumeric_debugging>0)
-				ms_escher_hack_get_drawing (q);
+		case BIFF_MS_O_DRAWING:
+		case BIFF_MS_O_DRAWING_GROUP:
+		case BIFF_MS_O_DRAWING_SELECTION:
+			ms_escher_hack_get_drawing (q);
 			break;
 
 		default:

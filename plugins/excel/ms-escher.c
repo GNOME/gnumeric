@@ -518,12 +518,12 @@ ms_escher_read (guint8 *data, gint32 length)
 	ESH_HEADER *h =	esh_header_new (data, length);
 	while (esh_header_next(h)) {
 		switch (h->type) {
-		case DggContainer:	read_DggContainer (h);
-			break;
-		case DgContainer:	read_DgContainer (h);
-			break;
-		case OPT:		OPT_new (h);
-			break;
+		case DggContainer: 	read_DggContainer (h); break;
+		case DgContainer:	read_DgContainer (h); break;
+		case SpContainer:	break;
+		case Selection:		break;
+		case OPT:		OPT_new (h); break;
+
 		default:
 			printf ("Unknown Dissstr Header: type 0x%x, inst 0x%x ver 0x%x len 0x%x\n",
 				h->type, h->instance, h->ver, h->length);

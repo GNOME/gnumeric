@@ -1,3 +1,18 @@
+1999-07-12  Jody Goldberg  <jgoldberg@home.com>
+
+	* ms-chart.c : More record types.
+
+	* ms-escher.c : More record types.
+
+	* ms-excel-read.c (ms_excel_formula_shared) : For some reason XL
+	  periodicly :
+	    - creates a shared formula
+	    - declares its use in a range
+	    - then doesn't use it in the upper left corner of the range
+	    - and refers to the formula by a different cell in the range ??
+	(BIFF_PRECISION) : remove dump, and #if 0, for now until gnumeric
+	    supports this.
+
 1999-07-11  Jody Goldberg  <jgoldberg@home.com>
 
 	* ms-excel-read.c (biff_font_data_new) : don't delay creation of
