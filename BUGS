@@ -9,6 +9,7 @@ Release Critical
 
 - when only graph is selected but it only has 1 chart allow going backward
 - check why 
+- legend does not redraw when item name changes
 
 * When we release 1.1.18, we should ask people to nominate certain foreign
   encodings as major.

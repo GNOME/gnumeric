@@ -1,5 +1,11 @@
 2003-07-28  Jody Goldberg <jody@gnome.org>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=118261
+	* src/sheet-object-image.c (sheet_object_image_update_bounds) : fix
+	  when there really is an image.
+
+2003-07-28  Jody Goldberg <jody@gnome.org>
+
 	* src/graph.c (gnm_go_data_scalar_eq) : handle the delayed connection
 	  to the sheet where the expression is still NULL because we have not
 	  parsed it yet.
