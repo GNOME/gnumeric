@@ -55,7 +55,6 @@
 #include "ranges.h"
 #include "value.h"
 #include "validation.h"
-#include "history.h"
 #include "style-color.h"
 #include "str.h"
 #include "cell.h"

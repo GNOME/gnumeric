@@ -3570,7 +3570,7 @@ static void
 excel_read_SELECTION (BiffQuery *q, ExcelReadSheet *esheet)
 {
 	GnmCellPos edit_pos, tmp;
-	int const pane_number	= GSF_LE_GET_GUINT8 (q->data);
+	unsigned const pane_number = GSF_LE_GET_GUINT8 (q->data);
 	int i, j = GSF_LE_GET_GUINT16 (q->data + 5);
 	int num_refs = GSF_LE_GET_GUINT16 (q->data + 7);
 	guint8 *refs;

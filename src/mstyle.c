@@ -854,7 +854,7 @@ link_border_colors (GnmStyle *style, GnmColor *auto_color, gboolean make_copy)
  * link_xxxxx_color functions tell whether or not to copy.
  */
 GnmStyle *
-mstyle_link_sheet (GnmStyle *style, Sheet *sheet)
+mstyle_link_sheet (GnmStyle *style, Sheet const *sheet)
 {
 	GnmColor *auto_color;
 	gboolean style_is_orig = TRUE;

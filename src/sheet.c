@@ -2282,6 +2282,13 @@ sheet_foreach_cell_in_range (Sheet *sheet, CellIterFlags flags,
 	return NULL;
 }
 
+void
+sheet_foreach_cell (Sheet *sheet, GHFunc callback, gpointer data)
+{
+	g_return_if_fail (IS_SHEET (sheet));
+
+	g_hash_table_foreach (sheet->cell_hash, callback, data);
+}
 
 static GnmValue *
 cb_sheet_cells_collect (Sheet *sheet, int col, int row,

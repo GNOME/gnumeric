@@ -75,32 +75,32 @@ struct _Sheet {
 #define SHEET_SIGNATURE 0x12349876
 #define IS_SHEET(x) (((x) != NULL) && ((x)->signature == SHEET_SIGNATURE))
 
-Sheet      *sheet_new			(Workbook *wb, char const *name);
-Sheet      *sheet_dup			(Sheet const *source_sheet);
-void        sheet_destroy		(Sheet *sheet);
-void        sheet_destroy_contents	(Sheet *sheet);
-void        sheet_rename		(Sheet *sheet, char const *new_name);
-void	    sheet_set_tab_color		(Sheet *sheet, GnmColor *tab_color,
-					 GnmColor *text_color);
+Sheet    *sheet_new		 (Workbook *wb, char const *name);
+Sheet    *sheet_dup		 (Sheet const *source_sheet);
+void      sheet_destroy		 (Sheet *sheet);
+void      sheet_destroy_contents (Sheet *sheet);
+void      sheet_rename		 (Sheet *sheet, char const *new_name);
+void	  sheet_set_tab_color	 (Sheet *sheet, GnmColor *tab_color,
+				  GnmColor *text_color);
 
-void        sheet_set_zoom_factor	(Sheet *sheet, double factor,
-					 gboolean force, gboolean respan);
+void      sheet_set_zoom_factor	 (Sheet *sheet, double factor,
+				  gboolean force, gboolean respan);
 
 /* GnmCell management */
-GnmCell       *sheet_cell_get		(Sheet const *sheet, int col, int row);
-GnmCell       *sheet_cell_fetch		(Sheet *sheet, int col, int row);
-GnmCell       *sheet_cell_new		(Sheet *sheet, int col, int row);
-void        sheet_cell_remove		(Sheet *sheet, GnmCell *cell, gboolean redraw);
-
-GnmValue   *sheet_foreach_cell_in_range	(Sheet *sheet, CellIterFlags flags,
-					 int start_col, int start_row,
-					 int end_col, int end_row,
-					 CellIterFunc callback,
-					 gpointer     closure);
-GPtrArray  *sheet_cells                  (Sheet *sheet,
-					  int start_col, int start_row,
-					  int end_col, int end_row,
-					  gboolean comments);
+GnmCell  *sheet_cell_get	 (Sheet const *sheet, int col, int row);
+GnmCell  *sheet_cell_fetch	 (Sheet *sheet, int col, int row);
+GnmCell  *sheet_cell_new	 (Sheet *sheet, int col, int row);
+void      sheet_cell_remove	 (Sheet *sheet, GnmCell *cell, gboolean redraw);
+GnmValue *sheet_foreach_cell_in_range	(Sheet *sheet, CellIterFlags flags,
+				  int start_col, int start_row,
+				  int end_col, int end_row,
+				  CellIterFunc callback,
+				  gpointer     closure);
+void	    sheet_foreach_cell	 (Sheet *sheet, GHFunc callback, gpointer data);
+GPtrArray  *sheet_cells          (Sheet *sheet,
+				  int start_col, int start_row,
+				  int end_col, int end_row,
+				  gboolean comments);
 
 void        sheet_recompute_spans_for_col     (Sheet *sheet, int col);
 

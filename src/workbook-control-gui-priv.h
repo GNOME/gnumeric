@@ -17,13 +17,12 @@ struct _WorkbookControlGUI {
 	GtkNotebook *notebook;
 	GtkWidget   *progress_bar;
 
-	unsigned file_history_size;
-
 	struct {
 		GnmExprEntry *entry; /* The real edit line */
 		GnmExprEntry *temp_entry; /* A tmp overlay eg from a guru */
 		GtkWidget*guru;
-		int       signal_changed;
+		gulong         signal_changed, signal_insert, signal_delete;
+		PangoAttrList *markup;
 	} edit_line;
 
 	/* While editing these should be visible */

@@ -62,7 +62,7 @@ GnmStyle	   *mstyle_copy_merge	 (const GnmStyle *orig, const GnmStyle *overlay);
 void        mstyle_ref           (GnmStyle *st);
 void        mstyle_unref         (GnmStyle *st);
 
-GnmStyle	   *mstyle_link_sheet    (GnmStyle *st, Sheet *sheet);
+GnmStyle   *mstyle_link_sheet    (GnmStyle *st, Sheet const *sheet);
 void        mstyle_link          (GnmStyle *st);
 void        mstyle_link_multiple (GnmStyle *st, int count);
 void        mstyle_unlink        (GnmStyle *st);

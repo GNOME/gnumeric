@@ -496,6 +496,7 @@ format_template_new_from_file (char const *filename, GnmCmdContext *cc)
 	return ft;
 }
 
+#if 0
 static xmlNode *
 format_colrow_info_write_xml (FormatColRowInfo const *info,
 			      xmlNode *parent, xmlChar const *type,
@@ -569,6 +570,7 @@ xml_write_format_template_members (XmlParseContext *ctxt, FormatTemplate const *
 
 	return root;
 }
+#endif
 
 /**
  * format_template_attach_member:

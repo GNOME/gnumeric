@@ -20,6 +20,8 @@ gboolean    wbcg_edit_entry_redirect_p	(WorkbookControlGUI const *wbcg);
 gboolean    wbcg_auto_completing        (WorkbookControlGUI const *wbcg);
 void	    wbcg_auto_complete_destroy  (WorkbookControlGUI *wbcg);
 char const *wbcg_edit_get_display_text	(WorkbookControlGUI *wbcg);
+void	    wbcg_edit_add_markup	(WorkbookControlGUI *wbcg, PangoAttribute *attr);
+PangoAttrList *wbcg_edit_get_markup	(WorkbookControlGUI *wbcg);
 
 GtkEntry     *wbcg_get_entry  	     (WorkbookControlGUI const  *wbcg);
 GnmExprEntry *wbcg_get_entry_logical (WorkbookControlGUI const  *wbcg);

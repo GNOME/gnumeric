@@ -67,8 +67,10 @@
 
 #include "widgets/widget-editable-label.h"
 #include <gtk/gtkactiongroup.h>
+#include <gtk/gtktoggleaction.h>
 #include <gtk/gtkstock.h>
 #include <glib/gi18n.h>
+#include <gsf/gsf-input.h>
 #include <string.h>
 
 static GNM_ACTION_DEF (cb_file_new)
@@ -1040,25 +1042,20 @@ static GNM_ACTION_DEF (cb_autosum)
 
 static GNM_ACTION_DEF (cb_insert_image)
 {
-	SheetControlGUI *scg = wbcg_cur_scg (wbcg);
 	char *filename = gui_image_file_select (wbcg, NULL, FALSE);
 
 	if (filename) {
-#warning "Why doesn't this simply use libgsf?"
-		int fd, file_size;
-		IOContext *ioc = gnumeric_io_context_new (GNM_CMD_CONTEXT (wbcg));
-		unsigned char const *data = gnumeric_mmap_open (ioc,
-			filename, &fd, &file_size);
+		GError *err = NULL;
+		GsfInput *input = go_file_open (filename, &err);
 
-		if (data != NULL) {
-			SheetObject *so = sheet_object_image_new ("",
-				(guint8 *)data, file_size, TRUE);
-			gnumeric_mmap_close (ioc, data, fd, file_size);
-			scg_mode_create_object (scg, so);
+		if (input != NULL) {
+			unsigned len = gsf_input_size (input);
+			guint8 const *data = gsf_input_read (input, len, NULL);
+			scg_mode_create_object (wbcg_cur_scg (wbcg),
+				sheet_object_image_new ("", (guint8 *)data, len, TRUE));
+			g_object_unref (input);
 		} else
-			gnumeric_io_error_display (ioc);
-
-		g_object_unref (G_OBJECT (ioc));
+			gnm_cmd_context_error (GNM_CMD_CONTEXT (wbcg), err);
 
 		g_free (filename);
 	}
@@ -1274,15 +1271,12 @@ static GNM_ACTION_DEF (cb_unmerge_cells)
 }
 
 static void
-toggle_current_font_attr (WorkbookControlGUI *wbcg,
-			  gboolean bold,	gboolean italic,
-			  gboolean underline,	gboolean double_underline,
-			  gboolean strikethrough)
+toggle_font_attr (WorkbookControlGUI *wbcg, GtkToggleAction *act,
+		  MStyleElementType t, unsigned true_val, unsigned false_val)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	Sheet *sheet = wb_control_cur_sheet (wbc);
-	SheetView *sv = wb_control_cur_sheet_view (wbc);
-	GnmStyle *new_style, *current_style;
+	GnmStyle *new_style;
+	unsigned val;
 
 	/* If the user did not initiate this action ignore it.
 	 * This happens whenever the ui updates and the current cell makes a
@@ -1291,63 +1285,51 @@ toggle_current_font_attr (WorkbookControlGUI *wbcg,
 	if (wbcg->updating_ui)
 		return;
 
+	val = gtk_toggle_action_get_active (act) ? true_val : false_val;
 	if (wbcg_is_editing (wbcg)) {
-		g_warning ("rich text entry is under development");
+		PangoAttribute *attr = NULL;
+		switch (t) {
+		default :
+		case MSTYLE_FONT_BOLD:
+			attr = pango_attr_weight_new (val ? PANGO_WEIGHT_BOLD : PANGO_WEIGHT_NORMAL);
+			break;
+		case MSTYLE_FONT_ITALIC:
+			attr = pango_attr_style_new (val ?  PANGO_STYLE_ITALIC : PANGO_STYLE_NORMAL);
+			break;
+		case MSTYLE_FONT_UNDERLINE:
+			attr = pango_attr_underline_new ((val == UNDERLINE_SINGLE) ? PANGO_UNDERLINE_SINGLE
+				: ((val == UNDERLINE_DOUBLE) ? PANGO_UNDERLINE_DOUBLE : PANGO_UNDERLINE_NONE));
+			break;
+		case MSTYLE_FONT_STRIKETHROUGH:
+			attr = pango_attr_strikethrough_new (val);
+			break;
+		}
+		wbcg_edit_add_markup (wbcg, attr);
 		return;
 	}
 
 	new_style = mstyle_new ();
-	current_style = sheet_style_get (sheet,
-		sv->edit_pos.col,
-		sv->edit_pos.row);
+	switch (t) {
+	default :
+	case MSTYLE_FONT_BOLD:	 	mstyle_set_font_bold (new_style, val); break;
+	case MSTYLE_FONT_ITALIC:	mstyle_set_font_italic (new_style, val); break;
+	case MSTYLE_FONT_UNDERLINE:	mstyle_set_font_uline (new_style, val); break;
+	case MSTYLE_FONT_STRIKETHROUGH: mstyle_set_font_strike (new_style, val); break;
+	};
 
-	if (bold)
-		mstyle_set_font_bold (new_style,
-			!mstyle_get_font_bold (current_style));
-
-	if (italic)
-		mstyle_set_font_italic (new_style,
-			!mstyle_get_font_italic (current_style));
-
-	if (underline)
-		mstyle_set_font_uline (new_style,
-			(mstyle_get_font_uline (current_style) == UNDERLINE_NONE)
-			? UNDERLINE_SINGLE : UNDERLINE_NONE);
-	if (double_underline)
-		mstyle_set_font_uline (new_style,
-			(mstyle_get_font_uline (current_style) == UNDERLINE_DOUBLE)
-			? UNDERLINE_DOUBLE : UNDERLINE_NONE);
-
-	if (strikethrough)
-		mstyle_set_font_strike (new_style,
-					!mstyle_get_font_strike (current_style));
-
-	if (bold || italic || underline || strikethrough)
-		cmd_selection_format (wbc, new_style, NULL,
-			    _("Set Font Style"));
-	else
-		mstyle_unref (new_style);
+	cmd_selection_format (wbc, new_style, NULL, _("Set Font Style"));
 }
 
-/**
- * Pop up cell format dialog at font page. Used from font select toolbar
- * button, which is displayed in vertical mode instead of font name / font
- * size controls.
- */
-#ifdef WITH_BONOBO
-static GNM_ACTION_DEF (cb_font_name)
-	{ dialog_cell_format (wbcg, FD_FONT); }
-#endif
-static GNM_ACTION_DEF (cb_font_bold)
-	{ toggle_current_font_attr (wbcg, TRUE, FALSE, FALSE, FALSE, FALSE); }
-static GNM_ACTION_DEF (cb_font_italic)
-	{ toggle_current_font_attr (wbcg, FALSE, TRUE, FALSE, FALSE, FALSE); }
-static GNM_ACTION_DEF (cb_font_underline)
-	{ toggle_current_font_attr (wbcg, FALSE, FALSE, TRUE, FALSE, FALSE); }
-static GNM_ACTION_DEF (cb_font_double_underline)
-	{ toggle_current_font_attr (wbcg, FALSE, FALSE, FALSE, TRUE, FALSE); }
-static GNM_ACTION_DEF (cb_font_strikethrough)
-	{ toggle_current_font_attr (wbcg, FALSE, FALSE, FALSE, FALSE, TRUE); }
+static void cb_font_bold (GtkToggleAction *act, WorkbookControlGUI *wbcg)
+	{ toggle_font_attr (wbcg, act, MSTYLE_FONT_BOLD, TRUE, FALSE); }
+static void cb_font_italic (GtkToggleAction *act, WorkbookControlGUI *wbcg)
+	{ toggle_font_attr (wbcg, act, MSTYLE_FONT_ITALIC, TRUE, FALSE); }
+static void cb_font_underline (GtkToggleAction *act, WorkbookControlGUI *wbcg)
+	{ toggle_font_attr (wbcg, act, MSTYLE_FONT_UNDERLINE, UNDERLINE_SINGLE, UNDERLINE_NONE); }
+static void cb_font_double_underline (GtkToggleAction *act, WorkbookControlGUI *wbcg)
+	{ toggle_font_attr (wbcg, act, MSTYLE_FONT_UNDERLINE, UNDERLINE_DOUBLE, UNDERLINE_NONE); }
+static void cb_font_strikethrough (GtkToggleAction *act, WorkbookControlGUI *wbcg)
+	{ toggle_font_attr (wbcg, act, MSTYLE_FONT_STRIKETHROUGH, TRUE, FALSE); }
 
 static void
 apply_number_format (WorkbookControlGUI *wbcg,
@@ -1854,7 +1836,7 @@ static GtkActionEntry actions[] = {
 		G_CALLBACK (cb_data_ungroup) },
 
 /* Data -> Filter */
-	{ "DataAutoFilter", NULL, N_("Add _Auto Filter"),
+	{ "DataAutoFilter", "Gnumeric_AutoFilter", N_("Add _Auto Filter"),
 		NULL, N_("Add or remove a filter"),
 		G_CALLBACK (cb_auto_filter) },
 	{ "DataFilterShowAll", NULL, N_("_Show All"),
@@ -2087,181 +2069,3 @@ wbcg_register_actions (WorkbookControlGUI *wbcg,
 	  gtk_action_group_add_toggle_actions (font_group,
 		font_toggle_actions, G_N_ELEMENTS (font_toggle_actions), wbcg);
 }
-
-#ifdef WITH_BONOBO
-static BonoboUIVerb verbs [] = {
-
-	BONOBO_UI_UNSAFE_VERB ("FileNew", cb_file_new),
-	BONOBO_UI_UNSAFE_VERB ("FileOpen", cb_file_open),
-	BONOBO_UI_UNSAFE_VERB ("FileSave", cb_file_save),
-	BONOBO_UI_UNSAFE_VERB ("FileSaveAs", cb_file_save_as),
-	BONOBO_UI_UNSAFE_VERB ("FileSend", cb_file_sendto),
-	BONOBO_UI_UNSAFE_VERB ("FilePageSetup", cb_file_page_setup),
-	BONOBO_UI_UNSAFE_VERB ("FilePrint", cb_file_print),
-	BONOBO_UI_UNSAFE_VERB ("FilePrintPreview", cb_file_print_preview),
-	BONOBO_UI_UNSAFE_VERB ("FileSummary", cb_file_summary),
-	BONOBO_UI_UNSAFE_VERB ("FilePreferences", cb_file_preferences),
-	BONOBO_UI_UNSAFE_VERB ("FileClose", cb_file_close),
-	BONOBO_UI_UNSAFE_VERB ("FileQuit", cb_file_quit),
-
-	BONOBO_UI_UNSAFE_VERB ("EditClearAll", cb_edit_clear_all),
-	BONOBO_UI_UNSAFE_VERB ("EditClearFormats", cb_edit_clear_formats),
-	BONOBO_UI_UNSAFE_VERB ("EditClearComments", cb_edit_clear_comments),
-	BONOBO_UI_UNSAFE_VERB ("EditClearContent", cb_edit_clear_content),
-
-	BONOBO_UI_UNSAFE_VERB ("EditSelectAll", cb_edit_select_all),
-	BONOBO_UI_UNSAFE_VERB ("EditSelectRow", cb_edit_select_row),
-	BONOBO_UI_UNSAFE_VERB ("EditSelectColumn", cb_edit_select_col),
-	BONOBO_UI_UNSAFE_VERB ("EditSelectArray", cb_edit_select_array),
-	BONOBO_UI_UNSAFE_VERB ("EditSelectDepends", cb_edit_select_depends),
-	BONOBO_UI_UNSAFE_VERB ("EditSelectInputs", cb_edit_select_inputs),
-
-	/* BONOBO_UI_UNSAFE_VERB ("Undo", cb_edit_undo), */
-	/* BONOBO_UI_UNSAFE_VERB ("Redo", cb_edit_redo), */
-	BONOBO_UI_UNSAFE_VERB ("EditCut", cb_edit_cut),
-	BONOBO_UI_UNSAFE_VERB ("EditCopy", cb_edit_copy),
-	BONOBO_UI_UNSAFE_VERB ("EditPaste", cb_edit_paste),
-	BONOBO_UI_UNSAFE_VERB ("EditPasteSpecial", cb_edit_paste_special),
-	BONOBO_UI_UNSAFE_VERB ("EditDelete", cb_edit_delete),
-	BONOBO_UI_UNSAFE_VERB ("EditDuplicateSheet", cb_edit_duplicate_sheet),
-	BONOBO_UI_UNSAFE_VERB ("EditFillAutofill", cb_edit_fill_autofill),
-	BONOBO_UI_UNSAFE_VERB ("EditFillSeries", cb_edit_fill_series),
-	BONOBO_UI_UNSAFE_VERB ("EditSearch", cb_edit_search),
-	BONOBO_UI_UNSAFE_VERB ("EditSearchReplace", cb_edit_search_replace),
-	BONOBO_UI_UNSAFE_VERB ("EditGoto", cb_edit_goto),
-	BONOBO_UI_UNSAFE_VERB ("EditRecalc", cb_edit_recalc),
-
-	BONOBO_UI_UNSAFE_VERB ("ViewNew", cb_view_new),
-	BONOBO_UI_UNSAFE_VERB ("ViewZoom", cb_view_zoom),
-	BONOBO_UI_UNSAFE_VERB ("ViewFreezeThawPanes", cb_view_freeze_panes),
-
-	BONOBO_UI_UNSAFE_VERB ("InsertCurrentDate", cb_insert_current_date),
-	BONOBO_UI_UNSAFE_VERB ("InsertCurrentTime", cb_insert_current_time),
-	BONOBO_UI_UNSAFE_VERB ("EditNames", cb_define_name),
-
-	BONOBO_UI_UNSAFE_VERB ("InsertSheet", wbcg_insert_sheet),
-	BONOBO_UI_UNSAFE_VERB ("InsertSheetAtEnd", wbcg_append_sheet),
-	BONOBO_UI_UNSAFE_VERB ("InsertRows", cb_insert_rows),
-	BONOBO_UI_UNSAFE_VERB ("InsertColumns", cb_insert_cols),
-	BONOBO_UI_UNSAFE_VERB ("InsertCells", cb_insert_cells),
-	BONOBO_UI_UNSAFE_VERB ("InsertFormula", cb_formula_guru),
-	BONOBO_UI_UNSAFE_VERB ("InsertComment", cb_insert_comment),
-	BONOBO_UI_UNSAFE_VERB ("InsertImage", cb_insert_image),
-	BONOBO_UI_UNSAFE_VERB ("InsertHyperlink", cb_insert_hyperlink),
-
-	BONOBO_UI_UNSAFE_VERB ("ColumnAutoSize", workbook_cmd_format_column_auto_fit),
-	BONOBO_UI_UNSAFE_VERB ("ColumnSize", sheet_dialog_set_column_width),
-	BONOBO_UI_UNSAFE_VERB ("ColumnHide", workbook_cmd_format_column_hide),
-	BONOBO_UI_UNSAFE_VERB ("ColumnUnhide", workbook_cmd_format_column_unhide),
-	BONOBO_UI_UNSAFE_VERB ("ColumnDefaultSize", workbook_cmd_format_column_std_width),
-
-	BONOBO_UI_UNSAFE_VERB ("RowAutoSize", workbook_cmd_format_row_auto_fit),
-	BONOBO_UI_UNSAFE_VERB ("RowSize", sheet_dialog_set_row_height),
-	BONOBO_UI_UNSAFE_VERB ("RowHide", workbook_cmd_format_row_hide),
-	BONOBO_UI_UNSAFE_VERB ("RowUnhide", workbook_cmd_format_row_unhide),
-	BONOBO_UI_UNSAFE_VERB ("RowDefaultSize", workbook_cmd_format_row_std_height),
-
-	BONOBO_UI_UNSAFE_VERB ("SheetChangeName", cb_sheet_name),
-	BONOBO_UI_UNSAFE_VERB ("SheetReorder", cb_sheet_order),
-	BONOBO_UI_UNSAFE_VERB ("SheetRemove", cb_sheet_remove),
-
-	BONOBO_UI_UNSAFE_VERB ("FormatCells", cb_format_cells),
-	BONOBO_UI_UNSAFE_VERB ("FormatAuto", cb_autoformat),
-	BONOBO_UI_UNSAFE_VERB ("FormatWorkbook", cb_workbook_attr),
-	BONOBO_UI_UNSAFE_VERB ("FormatGnumeric", cb_format_preferences),
-
-	BONOBO_UI_UNSAFE_VERB ("ToolsPlugins", cb_tools_plugins),
-	BONOBO_UI_UNSAFE_VERB ("ToolsAutoCorrect", cb_tools_autocorrect),
-	BONOBO_UI_UNSAFE_VERB ("ToolsAutoSave", cb_tools_auto_save),
-	BONOBO_UI_UNSAFE_VERB ("ToolsGoalSeek", cb_tools_goal_seek),
-	BONOBO_UI_UNSAFE_VERB ("ToolsTabulate", cb_tools_tabulate),
-	BONOBO_UI_UNSAFE_VERB ("ToolsMerge", cb_tools_merge),
-	BONOBO_UI_UNSAFE_VERB ("ToolsSolver", cb_tools_solver),
-        BONOBO_UI_UNSAFE_VERB ("ToolsScenarioAdd", cb_tools_scenario_add),
-        BONOBO_UI_UNSAFE_VERB ("ToolsScenarios", cb_tools_scenarios),
-	BONOBO_UI_UNSAFE_VERB ("ToolsSimulation", cb_tools_simulation),
-
-	BONOBO_UI_UNSAFE_VERB ("ToolsANOVAoneFactor", cb_tools_anova_one_factor),
-	BONOBO_UI_UNSAFE_VERB ("ToolsANOVAtwoFactor", cb_tools_anova_two_factor),
-	BONOBO_UI_UNSAFE_VERB ("ToolsCorrelation", cb_tools_correlation),
-	BONOBO_UI_UNSAFE_VERB ("ToolsCovariance", cb_tools_covariance),
-	BONOBO_UI_UNSAFE_VERB ("ToolsDescStatistics", cb_tools_desc_statistics),
-	BONOBO_UI_UNSAFE_VERB ("ToolsExpSmoothing", cb_tools_exp_smoothing),
-	BONOBO_UI_UNSAFE_VERB ("ToolsAverage", cb_tools_average),
-	BONOBO_UI_UNSAFE_VERB ("ToolsFourier", cb_tools_fourier),
-	BONOBO_UI_UNSAFE_VERB ("ToolsHistogram", cb_tools_histogram),
-	BONOBO_UI_UNSAFE_VERB ("ToolsRanking", cb_tools_ranking),
-	BONOBO_UI_UNSAFE_VERB ("ToolsRegression", cb_tools_regression),
-	BONOBO_UI_UNSAFE_VERB ("ToolsSampling", cb_tools_sampling),
-	BONOBO_UI_UNSAFE_VERB ("ToolTTestPaired", cb_tools_ttest_paired),
-	BONOBO_UI_UNSAFE_VERB ("ToolTTestEqualVar", cb_tools_ttest_equal_var),
-	BONOBO_UI_UNSAFE_VERB ("ToolTTestUnequalVar", cb_tools_ttest_unequal_var),
-	BONOBO_UI_UNSAFE_VERB ("ToolZTest", cb_tools_ztest),
-	BONOBO_UI_UNSAFE_VERB ("ToolsFTest", cb_tools_ftest),
-	BONOBO_UI_UNSAFE_VERB ("RandomGenerator", cb_tools_random_generator),
-
-	BONOBO_UI_UNSAFE_VERB ("DataSort", cb_data_sort),
-	BONOBO_UI_UNSAFE_VERB ("DataShuffle", cb_data_shuffle),
-	BONOBO_UI_UNSAFE_VERB ("DataAutoFilter", cb_auto_filter),
-	BONOBO_UI_UNSAFE_VERB ("DataFilterShowAll", cb_show_all),
-	BONOBO_UI_UNSAFE_VERB ("DataFilterAdvancedfilter", cb_data_filter),
-	BONOBO_UI_UNSAFE_VERB ("DataValidate", cb_data_validate),
-	BONOBO_UI_UNSAFE_VERB ("DataTextToColumns", cb_data_text_to_columns),
-	BONOBO_UI_UNSAFE_VERB ("DataConsolidate", cb_data_consolidate),
-	BONOBO_UI_UNSAFE_VERB ("DataImportText", cb_data_import_text),
-	BONOBO_UI_UNSAFE_VERB ("DataOutlineHideDetail", cb_data_hide_detail),
-	BONOBO_UI_UNSAFE_VERB ("DataOutlineShowDetail", cb_data_show_detail),
-	BONOBO_UI_UNSAFE_VERB ("DataOutlineGroup", cb_data_group),
-	BONOBO_UI_UNSAFE_VERB ("DataOutlineUngroup", cb_data_ungroup),
-
-#ifdef ENABLE_PIVOTS
-	BONOBO_UI_UNSAFE_VERB ("PivotTable", cb_data_pivottable),
-#endif
-
-	BONOBO_UI_UNSAFE_VERB ("AutoSum", cb_autosum),
-	BONOBO_UI_UNSAFE_VERB ("FunctionGuru", cb_formula_guru),
-	BONOBO_UI_UNSAFE_VERB ("SortAscending", cb_sort_ascending),
-	BONOBO_UI_UNSAFE_VERB ("SortDescending", cb_sort_descending),
-	BONOBO_UI_UNSAFE_VERB ("ChartGuru", cb_launch_chart_guru),
-
-	BONOBO_UI_UNSAFE_VERB ("HelpAbout", cb_help_about),
-
-	BONOBO_UI_UNSAFE_VERB ("CreateLabel", cmd_create_label),
-	BONOBO_UI_UNSAFE_VERB ("CreateFrame", cmd_create_frame),
-
-	BONOBO_UI_UNSAFE_VERB ("CreateButton", cmd_create_button),
-	BONOBO_UI_UNSAFE_VERB ("CreateRadioButton", cmd_create_radiobutton),
-	BONOBO_UI_UNSAFE_VERB ("CreateCheckbox", cmd_create_checkbox),
-
-	BONOBO_UI_UNSAFE_VERB ("CreateScrollbar", cmd_create_scrollbar),
-	BONOBO_UI_UNSAFE_VERB ("CreateSlider", cmd_create_slider),
-	BONOBO_UI_UNSAFE_VERB ("CreateSpinButton", cmd_create_spinbutton),
-	BONOBO_UI_UNSAFE_VERB ("CreateList", cmd_create_list),
-	BONOBO_UI_UNSAFE_VERB ("CreateCombo", cmd_create_combo),
-	BONOBO_UI_UNSAFE_VERB ("CreateLine", cmd_create_line),
-	BONOBO_UI_UNSAFE_VERB ("CreateArrow", cmd_create_arrow),
-	BONOBO_UI_UNSAFE_VERB ("CreateRectangle", cmd_create_rectangle),
-	BONOBO_UI_UNSAFE_VERB ("CreateEllipse", cmd_create_ellipse),
-
-	BONOBO_UI_UNSAFE_VERB ("FontSelect",              &cb_font_name),
-	BONOBO_UI_UNSAFE_VERB ("FontBold",		  &cb_font_bold),
-	BONOBO_UI_UNSAFE_VERB ("FontItalic",		  &cb_font_italic),
-	BONOBO_UI_UNSAFE_VERB ("FontUnderline",	   	  &cb_font_underline),
-	BONOBO_UI_UNSAFE_VERB ("AlignLeft",		  &cb_align_left),
-	BONOBO_UI_UNSAFE_VERB ("AlignCenter",		  &cb_align_center),
-	BONOBO_UI_UNSAFE_VERB ("AlignRight",		  &cb_align_right),
-	BONOBO_UI_UNSAFE_VERB ("CenterAcrossSelection",	  &cb_center_across_selection),
-	BONOBO_UI_UNSAFE_VERB ("FormatMergeCells",	  &cb_merge_cells),
-	BONOBO_UI_UNSAFE_VERB ("FormatUnmergeCells",	  &cb_unmerge_cells),
-	BONOBO_UI_UNSAFE_VERB ("FormatAsMoney",	          &cb_format_as_money),
-	BONOBO_UI_UNSAFE_VERB ("FormatAsPercent",	  &cb_format_as_percent),
-	BONOBO_UI_UNSAFE_VERB ("FormatWithThousands",	  &cb_format_with_thousands),
-	BONOBO_UI_UNSAFE_VERB ("FormatIncreasePrecision", &cb_format_inc_precision),
-	BONOBO_UI_UNSAFE_VERB ("FormatDecreasePrecision", &cb_format_dec_precision),
-	BONOBO_UI_UNSAFE_VERB ("FormatIncreaseIndent",	  &cb_format_inc_indent),
-	BONOBO_UI_UNSAFE_VERB ("FormatDecreaseIndent",	  &cb_format_dec_indent),
-
-	BONOBO_UI_VERB_END
-};
-#endif /* WITH_GNOME */
-

@@ -55,7 +55,8 @@ struct _ExcelWriteState {
 
 	struct {
 		TwoWayTable *two_way_table;
-		GnmStyle      *default_style;
+		GnmStyle    *default_style;
+		GHashTable  *value_fmt_styles;
 	} xf;
 	struct {
 		TwoWayTable *two_way_table;

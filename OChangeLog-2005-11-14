@@ -1,3 +1,12 @@
+2004-03-25  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=137818
+	* src/style.c (required_updates_for_style) : redraw for h-align,
+	  striketrough, underline, and font colour changes.
+
+	* src/application.c (gnumeric_application_setup_icons) : pull in some
+	  icons
+
 2004-03-20  Jody Goldberg <jody@gnome.org>
 
 	* src/wbcg-actions.c : Move the font actions into a distinct group.

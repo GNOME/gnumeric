@@ -676,6 +676,9 @@ gnumeric_application_setup_icons (void)
 		{ gnm_link_internal_24,			gnm_link_internal_16,		"Gnumeric_Link_Internal" },
 		{ gnm_link_email_24,			gnm_link_email_16,		"Gnumeric_Link_EMail" },
 		{ gnm_link_url_24,			gnm_link_url_16,		"Gnumeric_Link_URL" },
+
+		{ gnm_autofilter_24,			gnm_autofilter_16,		"Gnumeric_AutoFilter" },
+		{ gnm_autofilter_delete_24,		gnm_autofilter_delete_16,	"Gnumeric_AutoFilterDelete" }
 	};
 	static gboolean done = FALSE;
 

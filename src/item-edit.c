@@ -222,7 +222,7 @@ ie_layout (FooCanvasItem *item)
 	GnmRange	   const *merged;
 	int end_col, end_row, tmp, width, height, col_size;
 	char const *text, *entered_text;
-	PangoAttrList	*attrs;
+	PangoAttrList	*attrs, *markup;
 	PangoAttribute  *attr;
 	int cursor_pos = gtk_editable_get_position (GTK_EDITABLE (ie->entry));
 
@@ -240,8 +240,6 @@ ie_layout (FooCanvasItem *item)
 	pango_layout_set_width (ie->layout, (int)(item->x2 - item->x1)*PANGO_SCALE);
 
  	attrs = pango_attr_list_new ();
-	pango_layout_set_attributes (ie->layout, attrs);
-	pango_attr_list_unref (attrs);
 
 	{
 		GnmColor *fore = mstyle_get_color (ie->style, MSTYLE_COLOR_FORE);
@@ -289,12 +287,22 @@ ie_layout (FooCanvasItem *item)
 	default :
 		break;
 	};
+
 	if (mstyle_get_font_strike (ie->style)){
 		attr = pango_attr_strikethrough_new (TRUE);
 		attr->start_index = 0;
 		attr->end_index = -1;
 		pango_attr_list_insert (attrs, attr);
 	}
+
+	markup = wbcg_edit_get_markup (scg_get_wbcg (ie->scg));
+	if (markup != NULL)
+		pango_attr_list_splice (attrs, markup, 0, 0);
+	pango_layout_set_attributes (ie->layout, attrs);
+	pango_attr_list_unref (attrs);
+
+	text = wbcg_edit_get_display_text (scg_get_wbcg (ie->scg));
+
 	if (GNM_CANVAS (canvas)->preedit_length) {
 		PangoAttrList *tmp_attrs = pango_attr_list_new ();
 		pango_attr_list_splice (tmp_attrs, GNM_CANVAS (canvas)->preedit_attrs,

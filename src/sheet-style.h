@@ -17,8 +17,9 @@ struct _GnmRow {
 	GnmBorder const **vertical;
 };
 
-GnmStyle	*sheet_style_default		(Sheet const *sheet);
-GnmStyle	*sheet_style_get		(Sheet const *sheet, int col, int row);
+GnmStyle *sheet_style_default		(Sheet const *sheet);
+GnmStyle *sheet_style_get		(Sheet const *sheet, int col, int row);
+GnmStyle *sheet_style_find   		(Sheet const *sheet, GnmStyle *st);
 void	 sheet_style_get_row		(Sheet const *sheet, GnmRow *sr);
 void	 sheet_style_apply_range	(Sheet *sheet, GnmRange const *r,
 					 GnmStyle *style);
@@ -64,6 +65,6 @@ GnmStyleList *sheet_style_get_validation_list (Sheet const *sheet,
 					    GnmRange const *r);
 
 /* For internal use only */
-void	 sheet_style_unlink		(Sheet *sheet, GnmStyle *st);
+void	  sheet_style_unlink (Sheet *sheet, GnmStyle *st);
 
 #endif /* GNUMERIC_SHEET_STYLE_H */

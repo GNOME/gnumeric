@@ -1668,6 +1668,8 @@ xf_init (ExcelWriteState *ewb)
 						   XF_RESERVED,
 						   NULL);
 	ewb->xf.default_style = get_default_mstyle ();
+	ewb->xf.value_fmt_styles = g_hash_table_new_full (
+		g_direct_hash, g_direct_equal, NULL, (GDestroyNotify)mstyle_unlink);
 }
 
 static void
@@ -1678,6 +1680,7 @@ xf_free (ExcelWriteState *ewb)
 		ewb->xf.two_way_table = NULL;
 		mstyle_unref (ewb->xf.default_style);
 		ewb->xf.default_style = NULL;
+		g_hash_table_destroy (ewb->xf.value_fmt_styles);
 	}
 }
 
@@ -1692,27 +1695,29 @@ xf_get_mstyle (ExcelWriteState *ewb, gint idx)
 }
 
 static void
-after_put_mstyle (GnmStyle *st, gboolean was_added, gint index, gconstpointer dummy)
-{
-	if (was_added) {
-		d (1, fprintf (stderr, "Found unique mstyle %d %p\n", index, st); );
-	}
-}
-
-/**
- * Add an GnmStyle to table if it is not already there.
- **/
-static gint
-put_mstyle (ExcelWriteState *ewb, GnmStyle *st)
-{
-	return two_way_table_put (ewb->xf.two_way_table, st, TRUE,
-				  (AfterPutFunc) after_put_mstyle, NULL);
-}
-
-static void
 cb_accum_styles (GnmStyle *st, gconstpointer dummy, ExcelWriteState *ewb)
 {
-	put_mstyle (ewb, st);
+	two_way_table_put (ewb->xf.two_way_table, st, TRUE, NULL, NULL);
+}
+
+/* XL has no notion of value format.  We need to create imaginary styles
+ * with the value format substituted into the current style.  Otherwise
+ * an entry like '10:00' gets loaded as a raw number.
+ */
+static void
+cb_collect_value_fmts (GnmCellPos const *pos, GnmCell *cell, ExcelWriteState *ewb)
+{
+	GnmStyle *style;
+
+	if (cell->value == NULL || VALUE_FMT (cell->value) == NULL)
+		return;
+	style = cell_get_mstyle (cell);
+	if (!style_format_is_general (mstyle_get_format (style)))
+		return;
+	style = mstyle_copy (style);
+	mstyle_set_format (style, VALUE_FMT (cell->value));
+	g_hash_table_insert (ewb->xf.value_fmt_styles, cell, 
+		sheet_style_find (cell->base.sheet, style));
 }
 
 static void
@@ -1724,6 +1729,10 @@ gather_styles (ExcelWriteState *ewb)
 
 	for (i = 0; i < ewb->sheets->len; i++) {
 		esheet = g_ptr_array_index (ewb->sheets, i);
+
+		sheet_foreach_cell (esheet->gnum_sheet,
+			(GHFunc) &cb_collect_value_fmts, ewb);
+
 		sheet_style_foreach (esheet->gnum_sheet, (GHFunc)cb_accum_styles, ewb);
 		for (col = 0; col < esheet->max_col; col++)
 			esheet->col_xf [col] = two_way_table_key_to_idx (ewb->xf.two_way_table,
@@ -3614,7 +3623,7 @@ static guint32
 excel_sheet_write_block (ExcelWriteSheet *esheet, guint32 begin, int nrows,
 			 GArray *dbcells)
 {
-	GnmStyle *mstyle;
+	GnmStyle *style;
 	ExcelWriteState *ewb = esheet->ewb;
 	int max_col = esheet->max_col;
 	int col, row, max_row;
@@ -3647,11 +3656,15 @@ excel_sheet_write_block (ExcelWriteSheet *esheet, guint32 begin, int nrows,
 		has_content = TRUE;
 		for (col = 0; col < max_col; col++) {
 			cell = sheet_cell_get (sheet, col, row);
-			mstyle = sheet_style_get (sheet, col, row);
-			xf = two_way_table_key_to_idx (twt, mstyle);
+
+			/* check for a magic value_fmt override*/
+			style = g_hash_table_lookup (ewb->xf.value_fmt_styles, cell);
+			if (style == NULL)
+				style = sheet_style_get (sheet, col, row);
+			xf = two_way_table_key_to_idx (twt, style);
 			if (xf < 0) {
 				g_warning ("Can't find style %p for cell %s!%s",
-					   mstyle, sheet->name_unquoted, cell_name (cell));
+					   style, sheet->name_unquoted, cell_name (cell));
 				xf = 0;
 			}
 			if (cell == NULL) {
@@ -3865,8 +3878,8 @@ gather_style_info (ExcelWriteState *ewb)
 	if (ewb->sheets->len == 0)
 		return TRUE;
 
-	/* The default style first */
-	put_mstyle (ewb, ewb->xf.default_style);
+	two_way_table_put (ewb->xf.two_way_table, ewb->xf.default_style,
+		TRUE, NULL, NULL); /* The default style first */
 
 	/* Its font and format */
 	put_font (ewb->xf.default_style, NULL, ewb);

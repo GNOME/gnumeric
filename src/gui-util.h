@@ -16,8 +16,7 @@
 #include <glade/glade-xml.h>
 
 #define GNM_ACTION_DEF(name)			\
-	void name (G_GNUC_UNUSED gpointer p,	\
-		   WorkbookControlGUI *wbcg)
+	void name (GtkAction *a, WorkbookControlGUI *wbcg)
 gboolean   gnumeric_dialog_question_yes_no (WorkbookControlGUI *wbcg,
                                             char const *message,
                                             gboolean default_answer);

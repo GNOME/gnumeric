@@ -3,7 +3,7 @@
 /*
  * sheet-style.c: storage mechanism for styles and eventually cells.
  *
- * Copyright (C) 2000-2002 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2000-2004 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of version 2 of the GNU General Public License as published
@@ -67,8 +67,8 @@ sheet_style_unlink (Sheet *sheet, GnmStyle *st)
  * Looks up a style from the sheets collection.  Linking if necessary.
  * ABSORBS the reference and adds a link.
  */
-static GnmStyle *
-sheet_style_find (Sheet *sheet, GnmStyle *s)
+GnmStyle *
+sheet_style_find (Sheet const *sheet, GnmStyle *s)
 {
 	GnmStyle *res;
 	res = g_hash_table_lookup (sheet->style_data->style_hash, s);

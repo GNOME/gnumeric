@@ -4,9 +4,6 @@
 
 SUBDIRS = pixmaps dialogs widgets tools cut-n-paste-code
 
-if ENABLE_BONOBO_COMPONENT
-libexec_PROGRAMS = gnumeric-component
-endif
 bin_PROGRAMS = gnumeric
 check_PROGRAMS = test-pango ssconvert # number-match
 
@@ -314,18 +311,6 @@ gnumeric_app_libs =				\
 	cut-n-paste-code/foocanvas/libfoocanvas/libfoocanvas.a	\
 	widgets/libwidgets.a
 
-if ENABLE_BONOBO_COMPONENT
-gnumeric_component_SOURCES =			\
-	$(GNUMERIC_SOURCE)			\
-	main-component.c
-
-gnumeric_component_LDADD = $(gnumeric_LDADD)
-
-gnumeric_component_LDFLAGS = $(gnumeric_LDFLAGS)
-
-gnumeric_component_app_libs = $(gnumeric_app_libs)
-endif
-
 ssconvert_LDADD   = $(gnumeric_LDADD)
 ssconvert_LDFLAGS = $(gnumeric_LDFLAGS)
 ssconvert_SOURCES =				\
@@ -367,7 +352,6 @@ dist-hook :
 # include conditional files to ensure everything gets distributed no matter
 # what the build
 EXTRA_DIST = GNOME_Gnumeric-gtk.xml				\
-	    GNOME_Gnumeric.xml GNOME_Gnumeric_Component.xml	\
 	    gnm-marshalers.list	                        	\
 	    main-application.c 					\
 	    main-component.c					\
@@ -386,5 +370,17 @@ gtkactiondir=$(gnumeric_datadir)
 gtkaction_DATA = GNOME_Gnumeric-gtk.xml
 
 # Bonobo requires things to be in a subdir of this form
-bonobo_component_uidir=$(gnumeric_datadir)/gnome-2.0/ui
-bonobo_component_ui_DATA = GNOME_Gnumeric.xml GNOME_Gnumeric_Component.xml
+#bonobo_component_uidir=$(gnumeric_datadir)/gnome-2.0/ui
+#bonobo_component_ui_DATA = GNOME_Gnumeric.xml GNOME_Gnumeric_Component.xml
+#if ENABLE_BONOBO_COMPONENT
+#libexec_PROGRAMS = gnumeric-component
+#gnumeric_component_SOURCES =			\
+#	$(GNUMERIC_SOURCE)			\
+#	main-component.c
+#
+#gnumeric_component_LDADD = $(gnumeric_LDADD)
+#
+#gnumeric_component_LDFLAGS = $(gnumeric_LDFLAGS)
+#
+#gnumeric_component_app_libs = $(gnumeric_app_libs)
+#endif

@@ -26,6 +26,9 @@
 #include <gsf/gsf-output.h>
 #include <gsf/gsf-output-stdio.h>
 #include <gsf/gsf-impl-utils.h>
+#include <gsf/gsf-input-memory.h>
+#include <gsf/gsf-input-stdio.h>
+#include <gsf/gsf-output-stdio.h>
 #include <gsf/gsf-utils.h>
 #include <string.h>
 
@@ -882,4 +885,33 @@ GList *
 get_file_openers (void)
 {
 	return file_opener_list;
+}
+
+/**
+ * go_file_open :
+ * @path :
+ * @err : #GError
+ *
+ * Try all available methods to open a file or return an error
+ **/
+#warning this belongs in gsf
+GsfInput *
+go_file_open (char const *path, GError **err)
+{
+	GsfInputMemory *in_mem;
+	GsfInputStdio  *in_stdio;
+
+	if (err != NULL)
+		*err = NULL;
+
+	in_mem = gsf_input_mmap_new (path, NULL);
+	if (in_mem != NULL)
+		return GSF_INPUT (in_mem);
+
+	/* Only report error if stdio fails too */
+	in_stdio = gsf_input_stdio_new (path, &err);
+	if (in_stdio != NULL)
+		return GSF_INPUT (in_stdio);
+
+	return NULL; 
 }

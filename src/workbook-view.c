@@ -26,7 +26,6 @@
 
 #include "workbook-control-priv.h"
 #include "workbook.h"
-#include "history.h"
 #include "application.h"
 #include "sheet.h"
 #include "sheet-view.h"
@@ -48,12 +47,10 @@
 #include "gutils.h"
 #include "io-context.h"
 
-#include <gsf/gsf-input-memory.h>
-#include <gsf/gsf-input-stdio.h>
-#include <gsf/gsf-output-stdio.h>
-#include <gsf/gsf-utils.h>
-
+#include <gsf/gsf.h>
 #include <gsf/gsf-impl-utils.h>
+#include <gsf/gsf-output-stdio.h>
+#include <gsf/gsf-input.h>
 #include <locale.h>
 #include <string.h>
 #include <unistd.h>
@@ -919,20 +916,10 @@ wb_view_new_from_file (char const *filename,
 
 	if (filename_utf8) {
 		GError *err = NULL;
-		GsfInputMemory *in_mem;
-		GsfInputStdio  *in_stdio;
-		GsfInput *input = NULL;
-
-		/* Only report error if stdio fails too */
-		in_mem = gsf_input_mmap_new (filename, NULL);
-		if (in_mem == NULL) {
-			in_stdio = gsf_input_stdio_new (filename, &err);
-			if (in_stdio != NULL)
-				input = GSF_INPUT (in_stdio);
-		} else
-			input = GSF_INPUT (in_mem);
+		GsfInput *input = go_file_open (filename, &err);
 
 		puts (filename);
+
 		if (input != NULL) {
 			WorkbookView *res = wb_view_new_from_input (input,
 								    optional_fmt, io_context,

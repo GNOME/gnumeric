@@ -20,11 +20,6 @@
 
 #include <gtk/gtkmain.h>
 
-#ifdef WITH_BONOBO
-#include <bonobo/bonobo-main.h>
-#include <bonobo/bonobo-ui-main.h>
-#endif
-
 int gnumeric_no_splash = TRUE;
 char const *gnumeric_lib_dir = GNUMERIC_LIBDIR;
 char const *gnumeric_data_dir = GNUMERIC_DATADIR;
@@ -95,9 +90,6 @@ main (int argc, char *argv [])
  	plugins_init (GNM_CMD_CONTEXT (ioc));
 	g_object_unref (ioc);
 
-#ifdef WITH_BONOBO
-	bonobo_activate ();
-#endif
 	initial_workbook_open_complete = TRUE; /* make the last unref exit */
 
 	wbc = workbook_control_gui_new (NULL, workbook_new_with_sheets (1), NULL);
@@ -107,10 +99,6 @@ main (int argc, char *argv [])
 	gtk_main ();
 
 	gnm_shutdown ();
-
-#ifdef WITH_BONOBO
-	bonobo_ui_debug_shutdown ();
-#endif
 
 	return 0;
 }

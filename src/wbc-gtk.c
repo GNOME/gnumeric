@@ -30,6 +30,8 @@
 #include "sheet.h"
 #include "sheet-style.h"
 #include "commands.h"
+#include "application.h"
+#include "history.h"
 #include "style-color.h"
 #include "global-gnome-font.h"
 #include "workbook-edit.h"
@@ -57,7 +59,11 @@ struct _WBCgtk {
 
 	GtkWidget	 *status_area;
 	GtkUIManager     *ui;
-	GtkActionGroup   *menus, *actions, *font_actions, *file_history;
+	GtkActionGroup   *menus, *actions, *font_actions;
+	struct {
+		GtkActionGroup   *actions;
+		guint		  merge_id;
+	} file_history;
 
 	GOActionComboStack	*undo_action, *redo_action;
 	GOActionComboColor	*fore_color, *back_color;
@@ -579,39 +585,54 @@ wbc_gtk_init_font_size (WBCgtk *gtk)
 static void
 cb_file_history_activate (GObject *action, WorkbookControlGUI *wbcg)
 {
-	gui_file_read (wbcg, g_object_get_data (action, "file") , NULL, NULL);
+	char *url = NULL;
+	g_object_get (action, "tooltip", &url, NULL);
+	gui_file_read (wbcg, url , NULL, NULL);
+	g_free (url);
 }
 
 static void
 wbc_gtk_reload_recent_file_menu (WorkbookControlGUI const *wbcg)
 {
-#if 0
-GList          *gtk_action_group_list_actions            (GtkActionGroup       *action_group);
-	/* remove the old items including the seperator */
-	if (wbcg->file_history_size > 0) {
-		char *label = history_item_label ((gchar *)ptr->data, 1);
-		char *path = g_strconcat (_("File/"), label, NULL);
-		gnome_app_remove_menu_range (GNOME_APP (wbcg->toplevel),
-			seperator_path, 1, wbcg->file_history_size + 1);
-		g_free (path);
-		g_free (label);
+	WBCgtk *gtk = (WBCgtk *)wbcg;
+	GtkActionEntry entry;
+	GSList const *ptr = gnm_app_history_get_list (FALSE);
+	char *name;
+	unsigned i;
+
+	if (gtk->file_history.merge_id != 0)
+		gtk_ui_manager_remove_ui (gtk->ui, gtk->file_history.merge_id);
+	gtk->file_history.merge_id = gtk_ui_manager_new_merge_id (gtk->ui);
+
+	if (gtk->file_history.actions != NULL)
+		g_object_unref (gtk->file_history.actions);
+	gtk->file_history.actions = gtk_action_group_new ("FileHistory");
+
+	/* create the actions */
+	ptr = gnm_app_history_get_list (FALSE);
+	for (i = 1; ptr != NULL ; ptr = ptr->next, i++) {
+		entry.name = g_strdup_printf ("FileHistoryEntry%d", i);
+		entry.stock_id = NULL;
+		entry.label = history_item_label (ptr->data, i);
+		entry.accelerator = NULL;
+		entry.tooltip = ptr->data;
+		entry.callback = G_CALLBACK (cb_file_history_activate);
+		gtk_action_group_add_actions (gtk->file_history.actions,
+			&entry, 1, (WorkbookControlGUI *)wbcg);
+		g_free ((gpointer)entry.name);
+		g_free ((gpointer)entry.label);
 	}
 
-	for (accel_number = 1; ptr != NULL ; ptr = ptr->next, accel_number++) {
-		char *label = history_item_label (ptr->data, accel_number);
-		info [0].hint = ptr->data;;
-		info [0].label = label;
-		info [0].user_data = wbcg;
+	gtk_ui_manager_insert_action_group (gtk->ui, gtk->file_history.actions, 0);
 
-		gnome_app_fill_menu (GTK_MENU_SHELL (sep), info,
-			GNOME_APP (wbcg->toplevel)->accel_group, TRUE,
-			sep_pos++);
-		gnome_app_install_menu_hints (GNOME_APP (wbcg->toplevel), info);
-		g_object_set_data (G_OBJECT (info[0].widget),
-			UGLY_GNOME_UI_KEY, ptr->data);
-		g_free (label);
+	/* merge them in */
+	while (i-- > 1) {
+		name = g_strdup_printf ("FileHistoryEntry%d", i);
+		gtk_ui_manager_add_ui (gtk->ui, gtk->file_history.merge_id,
+			"/menubar/File/FileHistory", 
+			name, name, GTK_UI_MANAGER_AUTO, TRUE);
+		g_free (name);
 	}
-#endif
 }
 
 /****************************************************************************/
@@ -937,8 +958,6 @@ wbc_gtk_init (GObject *obj)
 	gtk_action_group_set_translation_domain (gtk->actions, NULL);
 	gtk->font_actions = gtk_action_group_new ("FontActions");
 	gtk_action_group_set_translation_domain (gtk->font_actions, NULL);
-	gtk->file_history = gtk_action_group_new ("FileHistory");
-	gtk_action_group_set_translation_domain (gtk->file_history, NULL);
 
 	wbcg_register_actions (wbcg, gtk->menus, gtk->actions, gtk->font_actions);
 
@@ -967,7 +986,6 @@ wbc_gtk_init (GObject *obj)
 	gtk_ui_manager_insert_action_group (gtk->ui, gtk->menus, 0);
 	gtk_ui_manager_insert_action_group (gtk->ui, gtk->actions, 0);
 	gtk_ui_manager_insert_action_group (gtk->ui, gtk->font_actions, 0);
-	gtk_ui_manager_insert_action_group (gtk->ui, gtk->file_history, 0);
 
 	gtk_window_add_accel_group (wbcg->toplevel, 
 		gtk_ui_manager_get_accel_group (gtk->ui));
@@ -978,6 +996,10 @@ wbc_gtk_init (GObject *obj)
 		g_error_free (error);
 	}
 	g_free (uifile);
+
+	gtk->file_history.actions = NULL;
+	gtk->file_history.merge_id = 0;
+	wbc_gtk_reload_recent_file_menu (wbcg);
 
 	gtk_ui_manager_ensure_update (gtk->ui);
 	gtk_widget_show (gtk->everything);

@@ -45,10 +45,10 @@ wbcg_auto_complete_destroy (WorkbookControlGUI *wbcg)
 	g_free (wbcg->auto_complete_text);
 	wbcg->auto_complete_text = NULL;
 
-	if (wbcg->edit_line.signal_changed >= 0) {
+	if (wbcg->edit_line.signal_changed) {
 		g_signal_handler_disconnect (GTK_OBJECT (wbcg_get_entry (wbcg)),
 			wbcg->edit_line.signal_changed);
-		wbcg->edit_line.signal_changed = -1;
+		wbcg->edit_line.signal_changed = 0;
 	}
 
 	if (wbcg->auto_complete != NULL) {
@@ -105,9 +105,9 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept,
 		return TRUE;
 	}
 
-	g_return_val_if_fail (IS_SHEET (wbcg->wb_control.editing_sheet), TRUE);
+	g_return_val_if_fail (IS_SHEET (wbc->editing_sheet), TRUE);
 
-	sheet = wbcg->wb_control.editing_sheet;
+	sheet = wbc->editing_sheet;
 	sv = sheet_get_view (sheet, wbv);
 
 	/* Save the results before changing focus */
@@ -224,14 +224,24 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept,
 	}
 
 	/* Stop editing */
-	wbcg->wb_control.editing = FALSE;
-	wbcg->wb_control.editing_sheet = NULL;
-	wbcg->wb_control.editing_cell = NULL;
+	wbc->editing = FALSE;
+	wbc->editing_sheet = NULL;
+	wbc->editing_cell = NULL;
 
 	if (wbcg->edit_line.guru != NULL) {
 		GtkWidget *w = wbcg->edit_line.guru;
 		wbcg_edit_detach_guru (wbcg);
 		gtk_widget_destroy (w);
+	}
+	if (wbcg->edit_line.markup != NULL) {
+		pango_attr_list_unref (wbcg->edit_line.markup);
+		wbcg->edit_line.markup = NULL;
+		g_signal_handler_disconnect (GTK_OBJECT (wbcg_get_entry (wbcg)),
+			wbcg->edit_line.signal_insert);
+		wbcg->edit_line.signal_insert = 0;
+		g_signal_handler_disconnect (GTK_OBJECT (wbcg_get_entry (wbcg)),
+			wbcg->edit_line.signal_delete);
+		wbcg->edit_line.signal_delete = 0;
 	}
 	wb_control_edit_set_sensitive (wbc, FALSE, TRUE);
 
@@ -239,16 +249,17 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept,
 	 * on a different page.  Do no go through the view, rangesel is
 	 * specific to the control.
 	 */
-	wb_control_sheet_focus (WORKBOOK_CONTROL (wbcg), sheet);
+	wb_control_sheet_focus (wbc, sheet);
 
 	/* Only the edit sheet has an edit cursor */
 	scg_edit_stop (wbcg_cur_scg (wbcg));
 
 	wbcg_auto_complete_destroy (wbcg);
+	wb_control_style_feedback (wbc, NULL); /* in case markup messed with things */
 
 	/* really necessary ? the commands should have taken care of it */
 	if (accept && sheet->workbook->recalc_auto)
-		workbook_recalc (wb_control_workbook (WORKBOOK_CONTROL (wbcg)));
+		workbook_recalc (wb_control_workbook (wbc));
 
 	return TRUE;
 }
@@ -412,7 +423,7 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 	/* If this assert fails, it means editing was not shut down
 	 * properly before
 	 */
-	g_return_val_if_fail (wbcg->edit_line.signal_changed == -1, TRUE);
+	g_return_val_if_fail (wbcg->edit_line.signal_changed == 0, TRUE);
 	wbcg->edit_line.signal_changed = g_signal_connect (
 		G_OBJECT (wbcg_get_entry (wbcg)),
 		"changed",
@@ -626,5 +637,65 @@ wbcg_edit_ctor (WorkbookControlGUI *wbcg)
 					      NULL);
 	wbcg->edit_line.temp_entry = NULL;
 	wbcg->edit_line.guru = NULL;
-	wbcg->edit_line.signal_changed = -1;
+	wbcg->edit_line.signal_changed = 0;
+	wbcg->edit_line.markup = NULL;
+}
+
+static void
+cb_entry_insert_text (GtkEditable    *editable,
+		      const gchar    *text,
+		      gint            length,
+		      gint           *position,
+		      WorkbookControlGUI *wbcg)
+{
+}
+
+static void
+cb_entry_delete_text (GtkEditable    *editable,
+		      gint            start_pos,
+		      gint            end_pos,
+		      WorkbookControlGUI *wbcg)
+{
+}
+
+/**
+ * wbcg_edit_add_markup :
+ * @wbcg : #WorkbookControlGUI
+ * @attr : #PangoAttribute
+ *
+ * Absorb the ref to @attr and merge it into the list
+ **/
+void
+wbcg_edit_add_markup (WorkbookControlGUI *wbcg, PangoAttribute *attr)
+{
+	if (wbcg->edit_line.markup == NULL) {
+		wbcg->edit_line.markup = pango_attr_list_new ();
+		wbcg->edit_line.signal_insert = g_signal_connect (
+			G_OBJECT (wbcg_get_entry (wbcg)),
+			"insert_text",
+			G_CALLBACK (cb_entry_insert_text), wbcg);
+		wbcg->edit_line.signal_delete = g_signal_connect (
+			G_OBJECT (wbcg_get_entry (wbcg)),
+			"delete_text",
+			G_CALLBACK (cb_entry_delete_text), wbcg);
+	}
+
+	if (gtk_editable_get_selection_bounds (GTK_EDITABLE (wbcg_get_entry (wbcg)),
+					       &attr->start_index, &attr->end_index))
+		pango_attr_list_change (wbcg->edit_line.markup, attr);
+	else
+		pango_attribute_destroy (attr);
+}
+
+/**
+ * wbcg_edit_get_markup :
+ * @wbcg : #WorkbookControlGUI
+ *
+ * Returns a potentially NULL PangoAttrList of the current markup while
+ * editing.  The list belongs to @wbcg and should not be freed.
+ **/
+PangoAttrList *
+wbcg_edit_get_markup (WorkbookControlGUI *wbcg)
+{
+	return wbcg->edit_line.markup;
 }

@@ -15,8 +15,9 @@
       <menuitem action="FileSend"/>
       <menuitem action="FileSummary"/>
       <menuitem action="FilePreferences"/>
-      <placeholder name="FileHistory" />
       <separator name="file-sep4"/>
+      <placeholder name="FileHistory" />
+      <separator name="file-sep5"/>
       <menuitem action="FileClose"/>
       <menuitem action="FileQuit"/>
     </menu>

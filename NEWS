@@ -87,6 +87,8 @@ Jody:
 	* Fix xls import of cursor position for frozen panes
 	* Fix xls export of h/v only frozen panes
 	* Fix xls 97 export of named expressions without addins
+	http://bugzilla.gnome.org/show_bug.cgi?id=137818
+	* For immediate rerender, even for simple font changes.
 
 J.H.M. Dassen (Ray):
 	http://bugzilla.gnome.org/show_bug.cgi?id=135044

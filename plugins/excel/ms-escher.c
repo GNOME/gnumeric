@@ -1174,7 +1174,7 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		case 131 : name = "long dxTextRight"; break;
 		/* 1/20" :  */
 		case 132 : name = "long dyTextBottom"; break;
-		/* FALSE */
+		/* Square */
 		case 133 : name = "WrapMode wrap_test_at_margin"; break;
 		/* 0 : Text zoom/scale (used if fFitTextToShape) */
 		case 134 : name = "long scaleText"; break;
@@ -1188,6 +1188,7 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		case 138 : name = "MSOHSP hspNext"; break;
 		/* LTR : Bi-Di Text direction */
 		case 139 : name = "TextDirection txdir"; break;
+
 		/* TRUE : TRUE if single click selects text, FALSE if two clicks */
 		case 187 : name = "bool fSelectText"; break;
 		/* FALSE : use host's margin calculations */
@@ -1212,6 +1213,7 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		case 196 : name = "long gtextSpacing"; break;
 		/* NULL : font family name */
 		case 197 : name = "wchar* gtextFont"; break;
+
 		/* FALSE : Reverse row order */
 		case 240 : name = "bool gtextFReverseRows"; break;
 		/* FALSE : Has text effect */
@@ -1292,6 +1294,7 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		case 272 : name = "wchar * pibPrintName"; break;
 		/* Comment Blip flags */
 		case 273 : name = "BlipType pibPrintFlags"; break;
+
 		/* FALSE : Do not hit test the picture */
 		case 316 : name = "bool fNoHitTestPicture"; break;
 		/* FALSE : grayscale display */
@@ -1339,6 +1342,7 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		case 335 : name = "long adjust9Value"; break;
 		/* 0 :  */
 		case 336 : name = "long adjust10Value"; break;
+
 		/* TRUE : Shadow may be set */
 		case 378 : name = "bool fShadowOK"; break;
 		/* TRUE : 3D may be set */
@@ -1425,6 +1429,8 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		case 411 : name = "long fillShapeOriginY"; break;
 		/* shade_Default : Type of shading, if a shaded (gradient) fill. */
 		case 412 : name = "ShadeType fillShadeType"; break;
+
+
 		/* TRUE : Is shape filled? */
 		case 443 : name = "bool fFilled"; break;
 		/* TRUE : Should we hit test fill?  */
