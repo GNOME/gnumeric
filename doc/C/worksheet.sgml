@@ -13,7 +13,7 @@
   <figure id="worksheet-all-1.jpg">
     <title>A example of the entire worksheet.</title>
     <screenshot>
-      <graphic fileref="images/worksheet-all-1.jpg"></graphic>
+      <graphic fileref="figures/worksheet-all-1.jpg"></graphic>
     </screenshot>
   </figure>
   
@@ -183,7 +183,7 @@
     <variablelist>
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/stock-new.png"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="figures/stock-new.png"></inlinegraphic>
 	    New File.
 	  </guiicon>
 	</term>
@@ -194,7 +194,7 @@
       
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/stock-open.png"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="figures/stock-open.png"></inlinegraphic>
 	    Open
 	  </guiicon>
 	</term>
@@ -205,7 +205,7 @@
 
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/stock-save.png"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="figures/stock-save.png"></inlinegraphic>
 	    Save
 	  </guiicon>
 	</term>
@@ -216,7 +216,7 @@
 
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/stock-cut.png"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="figures/stock-cut.png"></inlinegraphic>
 	    Cut
 	  </guiicon>
 	</term>
@@ -228,7 +228,7 @@
       
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/stock-copy.png"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="figures/stock-copy.png"></inlinegraphic>
 	    Copy
 	  </guiicon>
 	</term>
@@ -240,7 +240,7 @@
       
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/stock-paste.png"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="figures/stock-paste.png"></inlinegraphic>
 	    Paste
 	  </guiicon>
 	</term>
@@ -252,7 +252,7 @@
       
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/align-left.png"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="figures/align-left.png"></inlinegraphic>
 	    Left justify..
 	  </guiicon>
 	</term>
@@ -262,7 +262,7 @@
       </varlistentry>
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/align-center.png"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="figures/align-center.png"></inlinegraphic>
 	    Center
 	  </guiicon>
 	</term>
@@ -274,7 +274,7 @@
       
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/align-right.png"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="figures/align-right.png"></inlinegraphic>
 	    Right Justify
 	  </guiicon>
 	</term>
@@ -285,7 +285,7 @@
 
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/bold.png"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="figures/bold.png"></inlinegraphic>
 	    Bold
 	  </guiicon>
 	</term>
@@ -297,7 +297,7 @@
 
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/italic.png"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="figures/italic.png"></inlinegraphic>
 	    Italic
 	  </guiicon>
 	</term>
@@ -308,7 +308,7 @@
 
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/line.png"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="figures/line.png"></inlinegraphic>
 	    Line
 	  </guiicon>
 	</term>
@@ -319,7 +319,7 @@
 
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/arrow.png"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="figures/arrow.png"></inlinegraphic>
 	    Arrow
 	  </guiicon>
 	</term>
@@ -330,7 +330,7 @@
 
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/rect.png"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="figures/rect.png"></inlinegraphic>
 	    Box
 	  </guiicon>
 	</term>
@@ -341,7 +341,7 @@
 
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/oval.png"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="figures/oval.png"></inlinegraphic>
 	    Ellipse
 	  </guiicon>
 	</term>
@@ -369,7 +369,7 @@
     <figure id="worksheet-data-1">
       <title>The Data Entry area.</title>
       <screenshot>
-	<graphic fileref="images/worksheet-data-1.jpg"></graphic>
+	<graphic fileref="figures/worksheet-data-1.jpg"></graphic>
       </screenshot>
     </figure>
     
@@ -388,7 +388,7 @@
       <figure id="worksheet-data-2">
 	<title>The Current Cell Indicator.</title>
 	<screenshot>
-	  <graphic fileref="images/worksheet-data-2.jpg"></graphic>
+	  <graphic fileref="figures/worksheet-data-2.jpg"></graphic>
 	</screenshot>
       </figure>
       
@@ -400,7 +400,7 @@
       <para>While entering data in the entry area, you can confirm the
 	current cell contents by pressing the green return button
 	<guibutton>
-	  <inlinegraphic fileref="images/worksheet-data-3.jpg">
+	  <inlinegraphic fileref="figures/worksheet-data-3.jpg">
 	  </inlinegraphic>
 	</guibutton>.
       </para>
@@ -416,7 +416,7 @@
 	data being entered into the cell can be canceled by pressing
 	the red X button
 	<guibutton>
-	  <inlinegraphic fileref="images/worksheet-data-4.jpg">
+	  <inlinegraphic fileref="figures/worksheet-data-4.jpg">
 	  </inlinegraphic>
 	</guibutton>.
       </para>
@@ -443,14 +443,14 @@
     <figure id="worksheet-cols-1">
       <title>The column labels at the top of the worksheet.</title>
       <screenshot>
-	<graphic fileref="images/worksheet-cols-1.jpg"></graphic>
+	<graphic fileref="figures/worksheet-cols-1.jpg"></graphic>
       </screenshot>
     </figure>
     
     <figure id="worksheet-rows-1">
       <title>The row labels at the left side of the worksheet.</title>
       <screenshot>
-	<graphic fileref="images/worksheet-rows-1.jpg"></graphic>
+	<graphic fileref="figures/worksheet-rows-1.jpg"></graphic>
       </screenshot>
     </figure>
     
@@ -467,7 +467,7 @@
     <figure id="worksheet-info-1">
       <title>The info area.</title>
       <screenshot>
-	<graphic fileref="images/worksheet-info-1.jpg"></graphic>
+	<graphic fileref="figures/worksheet-info-1.jpg"></graphic>
       </screenshot>
     </figure>
     
@@ -490,14 +490,14 @@
       <figure id="worksheet-zoomin-1">
 	<title>The Zoom in button.</title>
 	<screenshot>
-	  <graphic fileref="images/worksheet-zoomin-1.jpg"></graphic>
+	  <graphic fileref="figures/worksheet-zoomin-1.jpg"></graphic>
 	</screenshot>
       </figure>
       
       <figure id="worksheet-zoomout-1">
 	<title>The Zoom out button</title>
 	<screenshot>
-	  <graphic fileref="images/worksheet-zoomout-1.jpg"></graphic>
+	  <graphic fileref="figures/worksheet-zoomout-1.jpg"></graphic>
 	</screenshot>
       </figure>
       
@@ -515,7 +515,7 @@
       <figure id="worksheet-running-calc-1">
 	<title>The running calculation area.</title>
 	<screenshot>
-	  <graphic fileref="images/worksheet-running-calc-1.jpg"></graphic>
+	  <graphic fileref="figures/worksheet-running-calc-1.jpg"></graphic>
 	</screenshot>
       </figure>
     </sect3>

@@ -13,7 +13,7 @@
      <title><interface>Print Dialog</interface></title>
      <screenshot>
       <screeninfo><interface>Print Dialog</interface></screeninfo>
-      <graphic fileref="images/print-worksheet" format="png"
+      <graphic fileref="figures/print-worksheet" format="png"
        srccredit="Thomas Canty">
       </graphic>
      </screenshot>
@@ -36,7 +36,7 @@
      <title><interface>Print Setup Dialog - Page</interface></title>
      <screenshot>
       <screeninfo><interface>Print Setup Dialog - Page</interface></screeninfo>
-      <graphic fileref="images/printing-setup-page-1" format="png"
+      <graphic fileref="figures/printing-setup-page-1" format="png"
        srccredit="Thomas Canty">
       </graphic>
      </screenshot>
@@ -48,7 +48,7 @@
      <title><interface>Print Setup Dialog - Margins</interface></title>
      <screenshot>
       <screeninfo><interface>Print Dialog - Margins</interface></screeninfo>
-      <graphic fileref="images/printing-setup-margins" format="png"
+      <graphic fileref="figures/printing-setup-margins" format="png"
        srccredit="Thomas Canty">
       </graphic>
      </screenshot>
@@ -60,7 +60,7 @@
      <title><interface>Print Dialog</interface></title>
      <screenshot>
       <screeninfo><interface>Print Dialog</interface></screeninfo>
-      <graphic fileref="images/printing-setup-header" format="png"
+      <graphic fileref="figures/printing-setup-header" format="png"
        srccredit="Thomas Canty">
       </graphic>
      </screenshot>
@@ -72,7 +72,7 @@
      <title><interface>Print Setup Dialog - Page</interface></title>
      <screenshot>
       <screeninfo><interface>Print Setup Dialog - Page</interface></screeninfo>
-      <graphic fileref="images/printing-setup-page" format="png"
+      <graphic fileref="figures/printing-setup-page" format="png"
        srccredit="Thomas Canty">
       </graphic>
      </screenshot>
@@ -92,7 +92,7 @@
      <title><interface>Print Preview Dialog</interface></title>
      <screenshot>
       <screeninfo><interface>Print Preview Dialog</interface></screeninfo>
-      <graphic fileref="images/printing-preview" format="png"
+      <graphic fileref="figures/printing-preview" format="png"
        srccredit="Thomas Canty">
       </graphic>
      </screenshot>
@@ -178,7 +178,7 @@
    <variablelist>
       <varlistentry>
         <term>
-          <guiicon><inlinegraphic fileref="images/print-large.png"></inlinegraphic>
+          <guiicon><inlinegraphic fileref="figures/print-large.png"></inlinegraphic>
             Print
           </guiicon>
         </term>
@@ -189,7 +189,7 @@
 
        <varlistentry>
         <term>
-          <guiicon><inlinegraphic fileref="images/print-preview-first.png"></inlinegraphic>
+          <guiicon><inlinegraphic fileref="figures/print-preview-first.png"></inlinegraphic>
           First
           </guiicon>
         </term>
@@ -200,7 +200,7 @@
 
         <varlistentry>
         <term>
-          <guiicon><inlinegraphic fileref="images/print-preview-back.png"></inlinegraphic>
+          <guiicon><inlinegraphic fileref="figures/print-preview-back.png"></inlinegraphic>
           Back
           </guiicon>
         </term>
@@ -211,7 +211,7 @@
  
         <varlistentry>
         <term>
-          <guiicon><inlinegraphic fileref="images/print-preview-next.png"></inlinegraphic>
+          <guiicon><inlinegraphic fileref="figures/print-preview-next.png"></inlinegraphic>
           Next
           </guiicon>
         </term>
@@ -222,7 +222,7 @@
 
          <varlistentry>
         <term>
-          <guiicon><inlinegraphic fileref="images/print-preview-last.png"></inlinegraphic>
+          <guiicon><inlinegraphic fileref="figures/print-preview-last.png"></inlinegraphic>
           Last
           </guiicon>
         </term>
@@ -233,7 +233,7 @@
   
        <varlistentry>
         <term>
-          <guiicon><inlinegraphic fileref="images/print-preview-zoomin.png"></inlinegraphic>
+          <guiicon><inlinegraphic fileref="figures/print-preview-zoomin.png"></inlinegraphic>
           Zoom in
           </guiicon>
         </term>
@@ -244,7 +244,7 @@
 
        <varlistentry>
         <term>
-          <guiicon><inlinegraphic fileref="images/print-preview-zoomout.png"></inlinegraphic>
+          <guiicon><inlinegraphic fileref="figures/print-preview-zoomout.png"></inlinegraphic>
           Zoom out
           </guiicon>
         </term>
@@ -255,7 +255,7 @@
 
        <varlistentry>
         <term>
-          <guiicon><inlinegraphic fileref="images/print-preview-fit.png"></inlinegraphic>
+          <guiicon><inlinegraphic fileref="figures/print-preview-fit.png"></inlinegraphic>
           Fit
           </guiicon>
         </term>
@@ -266,7 +266,7 @@
 
        <varlistentry>
         <term>
-          <guiicon><inlinegraphic fileref="images/print-preview-fitwide.png"></inlinegraphic>
+          <guiicon><inlinegraphic fileref="figures/print-preview-fitwide.png"></inlinegraphic>
           Fit Wide
           </guiicon>
         </term>
@@ -277,7 +277,7 @@
 
        <varlistentry>
         <term>
-          <guiicon><inlinegraphic fileref="images/print-preview-fittall.png"></inlinegraphic>
+          <guiicon><inlinegraphic fileref="figures/print-preview-fittall.png"></inlinegraphic>
           Fit Tall
           </guiicon>
         </term>

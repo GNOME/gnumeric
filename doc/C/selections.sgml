@@ -28,7 +28,7 @@
     <figure id="activecell">
       <title>An Active cell.</title>
       <screenshot>
-	<graphic fileref="images/selection-2" format="png"></graphic>
+	<graphic fileref="figures/selection-2" format="png"></graphic>
       </screenshot>
     </figure>
     
@@ -39,7 +39,7 @@
     <figure id="activecellcursor">
       <title>The active cell with the cursor.</title>
       <screenshot>
-	<graphic fileref="images/selection-1" format="png"></graphic>
+	<graphic fileref="figures/selection-1" format="png"></graphic>
       </screenshot>
     </figure>   
   </sect2>
@@ -54,7 +54,7 @@
     <figure id="multicellselect">
       <title>A multi-cell selection</title>
       <screenshot>
-	<graphic fileref="images/selection-3" format="png"></graphic>
+	<graphic fileref="figures/selection-3" format="png"></graphic>
       </screenshot>
     </figure>
     
@@ -65,7 +65,7 @@
     <figure id="multicellsect2">
       <title>Multiple cells being selected with the cursor.</title> 
       <screenshot>
-        <graphic fileref="images/selection-4" format="png"></graphic>
+        <graphic fileref="figures/selection-4" format="png"></graphic>
       </screenshot>
     </figure>
 
@@ -82,7 +82,7 @@
     <figure id="dicontselect">
       <title>A discontinuous selection of cells.</title>
       <screenshot>
-	<graphic fileref="images/selection-5" format="png"></graphic>
+	<graphic fileref="figures/selection-5" format="png"></graphic>
       </screenshot>
     </figure> 
   </sect2>
@@ -102,7 +102,7 @@
  <figure id="selectrow">
       <title>An entire row being selected.</title>
       <screenshot>
-	<graphic fileref="images/selection-8" format="png"></graphic>
+	<graphic fileref="figures/selection-8" format="png"></graphic>
       </screenshot>
     </figure>
     
@@ -115,7 +115,7 @@
     <figure id="selectcol">
       <title>An entire column being selected.</title>
       <screenshot>
-	<graphic fileref="images/selection-9" format="png"></graphic>
+	<graphic fileref="figures/selection-9" format="png"></graphic>
       </screenshot>
     </figure>
     
@@ -126,7 +126,7 @@
     <figure id="selectall">
       <title>The entire worksheet being selected.</title>
       <screenshot>
-	<graphic fileref="images/selection-10" format="png"></graphic>
+	<graphic fileref="figures/selection-10" format="png"></graphic>
       </screenshot>
     </figure>
     
@@ -179,14 +179,14 @@
     <figure id="cellselectfillbefore">
       <title>A selection of several cells.</title>
       <screenshot>
-	<graphic fileref="images/selection-6" format="png"></graphic>
+	<graphic fileref="figures/selection-6" format="png"></graphic>
       </screenshot>
     </figure>  
     
     <figure id="cellselectfillafter">
       <title>A selection of several cells, filled with the same values.</title>
       <screenshot>
-	<graphic fileref="images/selection-7" format="png"></graphic> 
+	<graphic fileref="figures/selection-7" format="png"></graphic> 
       </screenshot>
     </figure>
     

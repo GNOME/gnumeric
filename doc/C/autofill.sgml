@@ -37,14 +37,14 @@
   <figure id="celltobautofilled">
     <title>A cell with the seed for an autofill.</title>
     <screenshot>
-       <graphic fileref="images/autofill-1" format="png"></graphic>
+       <graphic fileref="figures/autofill-1" format="png"></graphic>
     </screenshot>
   </figure>
   
   <figure id="cellsautofilled">
     <title>A set of cells being autofilled</title>
     <screenshot>
-      <graphic fileref="images/autofill-2" format="png"></graphic>
+      <graphic fileref="figures/autofill-2" format="png"></graphic>
     </screenshot>
   </figure>
   
@@ -63,14 +63,14 @@ selection in order to
   <figure id="seedcellautofillsequence">
     <title>A seed cell for a date autofill.</title>
     <screenshot>
-      <graphic fileref="images/autofill-3" format="png"></graphic>
+      <graphic fileref="figures/autofill-3" format="png"></graphic>
     </screenshot>
   </figure>
   
   <figure id="autofillsequence">
     <title>A set of cells being filled with a sequence.</title>
     <screenshot>
-      <graphic fileref="images/autofill-4" format="png"></graphic>
+      <graphic fileref="figures/autofill-4" format="png"></graphic>
     </screenshot>
   </figure>
 
@@ -96,21 +96,21 @@ selection in order to
    <figure id="datefillseed">
       <title>A cell with a date in it, ready to be the seed for a fill.</title>
       <screenshot> 
-	<graphic fileref="images/autofill-5" format="png"></graphic>
+	<graphic fileref="figures/autofill-5" format="png"></graphic>
       </screenshot>
     </figure>
     
     <figure id="datebeingfilled">
       <title>A set of cells being filled.</title>
       <screenshot>
-	<graphic fileref="images/autofill-6" format="png"></graphic>
+	<graphic fileref="figures/autofill-6" format="png"></graphic>
       </screenshot>
     </figure>
     
     <figure id="cellsfilled">
       <title>A range of cells autofilled with the months.</title>
       <screenshot>
-	<graphic fileref="images/autofill-7" format="png"></graphic>
+	<graphic fileref="figures/autofill-7" format="png"></graphic>
       </screenshot>
  </figure>
     
@@ -134,7 +134,7 @@ selection in order to
     <figure id="autofillexamples">
       <title>Some simple autofill examples.</title>
       <screenshot>
-	<graphic fileref="images/autofill-8" format="png"></graphic>
+	<graphic fileref="figures/autofill-8" format="png"></graphic>
       </screenshot>
     </figure>
   </sect2>
@@ -153,14 +153,14 @@ selection in order to
     <figure id="autofillfunction1">
       <title>Formula to be autofilled.</title>
       <screenshot>
-	<graphic fileref="images/autofill-9" format="png"></graphic>
+	<graphic fileref="figures/autofill-9" format="png"></graphic>
       </screenshot>
     </figure> 
     
     <figure id="autofillfunction2">
       <title>Formula autofilled to several cells.</title>
       <screenshot>
-	<graphic fileref="images/autofill-10" format="png"></graphic>
+	<graphic fileref="figures/autofill-10" format="png"></graphic>
       </screenshot>
     </figure> 
     

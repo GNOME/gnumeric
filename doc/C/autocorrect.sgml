@@ -10,7 +10,7 @@
   <figure id="autocorrect-figure">
     <title>The Auto Correct Tool dialog.</title>
     <screenshot>
-      <graphic fileref="images/auto-correct.png"></graphic>
+      <graphic fileref="figures/auto-correct.png"></graphic>
     </screenshot>
   </figure>
 

@@ -1,3 +1,12 @@
+2001-12-14  Gregory Leblanc  <gleblanc@linuxweasel.com>
+
+	* configure.in: added a check for 'jw' for docs
+	* doc/C/Makefile.am: rewrote to use the sgmldocs.make template
+	* doc/C/*.sgml: renamed images/ to figures/, to save me from
+	hacking makefiles.
+	* doc/sgmldocs.make: added this file from the GDP to make building
+	docs easier/workable.
+
 2001-12-13  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 	* src/cellspan.c (cellspan_is_empty) : handle empty but defined 
 	  cells (#66658)

@@ -16,7 +16,7 @@
   <figure id="stringnumber">
     <title>Entering strings and numbers.</title>
     <screenshot>
-      <graphic fileref="images/editing-1" format="png"></graphic>
+      <graphic fileref="figures/editing-1" format="png"></graphic>
     </screenshot>
   </figure>
 
@@ -137,7 +137,7 @@
   <figure id="editing-cell-selection">
     <title>The highlighted selection</title>
     <screenshot>
-      <graphic fileref="images/editing-cell-selection-1" format="png"></graphic>
+      <graphic fileref="figures/editing-cell-selection-1" format="png"></graphic>
     </screenshot>
   </figure>
   

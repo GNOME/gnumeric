@@ -14,7 +14,7 @@ Data Analysis Tools
 <screenshot id="analysistools-shot">
 <mediaobject>
 <imageobject>
-<imagedata fileref="images/analysistools-tools.png" format="PNG">
+<imagedata fileref="figures/analysistools-tools.png" format="PNG">
 </imageobject>
 <textobject>
 <phrase>Screenshot of the Data Analysis Tools dialog</phrase>
@@ -42,7 +42,7 @@ Common output options of the data analysis tools
 <screenshot id="outputoptions-shot">
 <mediaobject>
 <imageobject>
-<imagedata fileref="images/analysistools-outputoptions.png" format="PNG">
+<imagedata fileref="figures/analysistools-outputoptions.png" format="PNG">
 </imageobject>
 <textobject>
 <phrase>Common output options of the data analysis tools</phrase>
@@ -60,7 +60,7 @@ Common output options of the data analysis tools
     <screenshot>
 <mediaobject>
 <imageobject>
-<imagedata fileref="images/analysistools-ranges.png" format="PNG">
+<imagedata fileref="figures/analysistools-ranges.png" format="PNG">
 </imageobject>
 <textobject>
 <phrase>An example how to specify ranges</phrase>
@@ -129,7 +129,7 @@ Common output options of the data analysis tools
     <screenshot>
 <mediaobject>
 <imageobject>
-<imagedata fileref="images/analysistools-ANOVA2wo-ex1.png" format="PNG">
+<imagedata fileref="figures/analysistools-ANOVA2wo-ex1.png" format="PNG">
 </imageobject>
 <textobject>
 <phrase>A completed 2-factor ANOVA without replication dialog</phrase>
@@ -142,7 +142,7 @@ Common output options of the data analysis tools
     <screenshot>
 <mediaobject>
 <imageobject>
-<imagedata fileref="images/analysistools-ANOVA2wo-ex2.png" format="PNG">
+<imagedata fileref="figures/analysistools-ANOVA2wo-ex2.png" format="PNG">
 </imageobject>
 <textobject>
 <phrase>The output from a 2-factor ANOVA without replication</phrase>
@@ -175,7 +175,7 @@ Common output options of the data analysis tools
     <screenshot>
 <mediaobject>
 <imageobject>
-<imagedata fileref="images/analysistools-ANOVA2w-ex1.png" format="PNG">
+<imagedata fileref="figures/analysistools-ANOVA2w-ex1.png" format="PNG">
 </imageobject>
 <textobject>
 <phrase>A completed 2-factor ANOVA with replication dialog</phrase>
@@ -188,7 +188,7 @@ Common output options of the data analysis tools
     <screenshot>
 <mediaobject>
 <imageobject>
-<imagedata fileref="images/analysistools-ANOVA2w-ex2.png" format="PNG">
+<imagedata fileref="figures/analysistools-ANOVA2w-ex2.png" format="PNG">
 </imageobject>
 <textobject>
 <phrase>The output from a 2-factor ANOVA with replication</phrase>
@@ -214,7 +214,7 @@ Common output options of the data analysis tools
     <screenshot>
 <mediaobject>
 <imageobject>
-<imagedata fileref="images/analysistools-correlation.png" format="PNG">
+<imagedata fileref="figures/analysistools-correlation.png" format="PNG">
 </imageobject>
 <textobject>
 <phrase>Screenshot of the correlation tool dialog</phrase>
@@ -242,7 +242,7 @@ Common output options of the data analysis tools
     <screenshot>
 <mediaobject>
 <imageobject>
-<imagedata fileref="images/analysistools-correlation-ex1.png" format="PNG">
+<imagedata fileref="figures/analysistools-correlation-ex1.png" format="PNG">
 </imageobject>
 <textobject>
 <phrase>Some example data</phrase>
@@ -286,7 +286,7 @@ Common output options of the data analysis tools
     <screenshot>
 <mediaobject>
 <imageobject>
-<imagedata fileref="images/analysistools-correlation-ex2.png" format="PNG">
+<imagedata fileref="figures/analysistools-correlation-ex2.png" format="PNG">
 </imageobject>
 <textobject>
 <phrase>Screenshot of the completed correlation tool dialog</phrase>
@@ -299,7 +299,7 @@ Common output options of the data analysis tools
     <screenshot>
 <mediaobject>
 <imageobject>
-<imagedata fileref="images/analysistools-correlation-ex3.png" format="PNG">
+<imagedata fileref="figures/analysistools-correlation-ex3.png" format="PNG">
 </imageobject>
 <textobject>
 <phrase>Screenshot of the results output</phrase>
@@ -317,7 +317,7 @@ Common output options of the data analysis tools
     <screenshot>
 <mediaobject>
 <imageobject>
-<imagedata fileref="images/analysistools-covariance.png" format="PNG">
+<imagedata fileref="figures/analysistools-covariance.png" format="PNG">
 </imageobject>
 <textobject>
 <phrase>Screenshot of the covariance tool dialog</phrase>
@@ -345,7 +345,7 @@ Common output options of the data analysis tools
     <screenshot>
 <mediaobject>
 <imageobject>
-<imagedata fileref="images/analysistools-covariance-ex1.png" format="PNG">
+<imagedata fileref="figures/analysistools-covariance-ex1.png" format="PNG">
 </imageobject>
 <textobject>
 <phrase>Some example data</phrase>
@@ -389,7 +389,7 @@ Common output options of the data analysis tools
     <screenshot>
 <mediaobject>
 <imageobject>
-<imagedata fileref="images/analysistools-covariance-ex2.png" format="PNG">
+<imagedata fileref="figures/analysistools-covariance-ex2.png" format="PNG">
 </imageobject>
 <textobject>
 <phrase>Screenshot of the results output</phrase>
@@ -408,7 +408,7 @@ Common output options of the data analysis tools
     <screenshot>
 <mediaobject>
 <imageobject>
-<imagedata fileref="images/analysistools-descstats.png" format="PNG">
+<imagedata fileref="figures/analysistools-descstats.png" format="PNG">
 </imageobject>
 <textobject>
 <phrase>Screenshot of the descriptive statistics tools dialog</phrase>
@@ -465,7 +465,7 @@ Common output options of the data analysis tools
     <screenshot>
 <mediaobject>
 <imageobject>
-<imagedata fileref="images/analysistools-descstats-ex1.png" format="PNG">
+<imagedata fileref="figures/analysistools-descstats-ex1.png" format="PNG">
 </imageobject>
 <textobject>
 <phrase>Some example data</phrase>
@@ -483,7 +483,7 @@ Common output options of the data analysis tools
     <screenshot>
 <mediaobject>
 <imageobject>
-<imagedata fileref="images/analysistools-descstats-ex2.png" format="PNG">
+<imagedata fileref="figures/analysistools-descstats-ex2.png" format="PNG">
 </imageobject>
 <textobject>
 <phrase>Screenshot of the results output</phrase>
@@ -523,7 +523,7 @@ Common output options of the data analysis tools
     <screenshot>
 <mediaobject>
 <imageobject>
-<imagedata fileref="images/analysistools-ftest.png" format="PNG">
+<imagedata fileref="figures/analysistools-ftest.png" format="PNG">
 </imageobject>
 <textobject>
 <phrase>Screenshot of the F-test tool dialog</phrase>
@@ -564,7 +564,7 @@ Common output options of the data analysis tools
     <screenshot>
 <mediaobject>
 <imageobject>
-<imagedata fileref="images/analysistools-ftest-ex1.png" format="PNG">
+<imagedata fileref="figures/analysistools-ftest-ex1.png" format="PNG">
 </imageobject>
 <textobject>
 <phrase>Some example data</phrase>
@@ -582,7 +582,7 @@ Common output options of the data analysis tools
     <screenshot>
 <mediaobject>
 <imageobject>
-<imagedata fileref="images/analysistools-ftest-ex2.png" format="PNG">
+<imagedata fileref="figures/analysistools-ftest-ex2.png" format="PNG">
 </imageobject>
 <textobject>
 <phrase>Screenshot of the results output</phrase>
@@ -711,7 +711,7 @@ Common output options of the data analysis tools
     <screenshot>
 <mediaobject>
 <imageobject>
-<imagedata fileref="images/analysistools-rank.png" format="PNG">
+<imagedata fileref="figures/analysistools-rank.png" format="PNG">
 </imageobject>
 <textobject>
 <phrase>Screenshot of the Rank and Percentile Tool dialog</phrase>

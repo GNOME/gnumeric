@@ -15,7 +15,7 @@
   <figure id="worksheet-all-1.png">
     <title>A example of the entire worksheet.</title>
     <screenshot>
-      <graphic fileref="images/worksheet-all-1" format="png"></graphic>
+      <graphic fileref="figures/worksheet-all-1" format="png"></graphic>
     </screenshot>
   </figure>
   </sect2>
@@ -730,7 +730,7 @@
      <title>The <interface>toolbar</interface></title>
      <screenshot>
       <screeninfo>The <interface>toobar</interface></screeninfo>
-      <graphic fileref="images/toolbar" format="png"
+      <graphic fileref="figures/toolbar" format="png"
        srccredit="Thomas Canty">
       </graphic>
      </screenshot>
@@ -739,7 +739,7 @@
     <variablelist>
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/stock-new.png"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="figures/stock-new.png"></inlinegraphic>
 	    New File.
 	  </guiicon>
 	</term>
@@ -750,7 +750,7 @@
       
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/stock-open.png"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="figures/stock-open.png"></inlinegraphic>
 	    Open
 	  </guiicon>
 	</term>
@@ -761,7 +761,7 @@
 
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/stock-save.png"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="figures/stock-save.png"></inlinegraphic>
 	    Save
 	  </guiicon>
 	</term>
@@ -772,7 +772,7 @@
 
        <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/print.png"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="figures/print.png"></inlinegraphic>
           Print
 	  </guiicon>
 	</term>
@@ -783,7 +783,7 @@
      
        <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/print-preview.png"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="figures/print-preview.png"></inlinegraphic>
           Print Setup
 	  </guiicon>
 	</term>
@@ -794,7 +794,7 @@
      
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/stock-cut.png"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="figures/stock-cut.png"></inlinegraphic>
 	    Cut
 	  </guiicon>
 	</term>
@@ -806,7 +806,7 @@
       
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/stock-copy.png"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="figures/stock-copy.png"></inlinegraphic>
 	    Copy
 	  </guiicon>
 	</term>
@@ -818,7 +818,7 @@
       
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/stock-paste.png"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="figures/stock-paste.png"></inlinegraphic>
 	    Paste
 	  </guiicon>
 	</term>
@@ -829,7 +829,7 @@
 
        <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/undo.png"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="figures/undo.png"></inlinegraphic>
 	   Undo 
 	  </guiicon>
 	</term>
@@ -840,7 +840,7 @@
 
         <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/redo.png"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="figures/redo.png"></inlinegraphic>
 	   Redo 
 	  </guiicon>
 	</term>
@@ -851,7 +851,7 @@
 
          <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/auto-sum.png"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="figures/auto-sum.png"></inlinegraphic>
 	   Sum into the current cell 
 	  </guiicon>
 	</term>
@@ -862,7 +862,7 @@
 
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/sort-ascending.png"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="figures/sort-ascending.png"></inlinegraphic>
 	   Sort Ascending 
 	  </guiicon>
 	</term>
@@ -874,7 +874,7 @@
 
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/sort-descending.png"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="figures/sort-descending.png"></inlinegraphic>
 	    Sort Descending
 	  </guiicon>
 	</term>
@@ -887,7 +887,7 @@
 
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/align-left.png"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="figures/align-left.png"></inlinegraphic>
 	    Left justify..
 	  </guiicon>
 	</term>
@@ -897,7 +897,7 @@
       </varlistentry>
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/align-center.png"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="figures/align-center.png"></inlinegraphic>
 	    Center
 	  </guiicon>
 	</term>
@@ -909,7 +909,7 @@
       
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/align-right.png"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="figures/align-right.png"></inlinegraphic>
 	    Right Justify
 	  </guiicon>
 	</term>
@@ -920,7 +920,7 @@
 
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/bold.png"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="figures/bold.png"></inlinegraphic>
 	    Bold
 	  </guiicon>
 	</term>
@@ -932,7 +932,7 @@
 
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/italic.png"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="figures/italic.png"></inlinegraphic>
 	    Italic
 	  </guiicon>
 	</term>
@@ -943,7 +943,7 @@
 
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/underline.png"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="figures/underline.png"></inlinegraphic>
 	   Underline
 	  </guiicon>
 	</term>
@@ -954,7 +954,7 @@
 
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/line.png"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="figures/line.png"></inlinegraphic>
 	    Line
 	  </guiicon>
 	</term>
@@ -965,7 +965,7 @@
 
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/arrow.png"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="figures/arrow.png"></inlinegraphic>
 	    Arrow
 	  </guiicon>
 	</term>
@@ -976,7 +976,7 @@
 
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/rect.png"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="figures/rect.png"></inlinegraphic>
 	    Box
 	  </guiicon>
 	</term>
@@ -987,7 +987,7 @@
 
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/oval.png"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="figures/oval.png"></inlinegraphic>
 	    Ellipse
 	  </guiicon>
 	</term>
@@ -998,7 +998,7 @@
 
        <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/money.png"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="figures/money.png"></inlinegraphic>
 	    Money
 	  </guiicon>
 	</term>
@@ -1009,7 +1009,7 @@
       
         <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/percentage.png"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="figures/percentage.png"></inlinegraphic>
 	    Percentage
 	  </guiicon>
 	</term>
@@ -1020,7 +1020,7 @@
       
          <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/thousands.png"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="figures/thousands.png"></inlinegraphic>
 	    Thousands separator
 	  </guiicon>
 	</term>
@@ -1031,7 +1031,7 @@
       
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/add-decimals.png"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="figures/add-decimals.png"></inlinegraphic>
 	    Add decimals
 	  </guiicon>
 	</term>
@@ -1042,7 +1042,7 @@
       
       <varlistentry>
 	<term>
-	  <guiicon><inlinegraphic fileref="images/remove-decimals.png"></inlinegraphic>
+	  <guiicon><inlinegraphic fileref="figures/remove-decimals.png"></inlinegraphic>
           Remove decimals
 	  </guiicon>
 	</term>
@@ -1070,7 +1070,7 @@
     <figure id="worksheet-data-1">
       <title>The Data Entry area.</title>
       <screenshot>
-	<graphic fileref="images/worksheet-data-1" format="png"></graphic>
+	<graphic fileref="figures/worksheet-data-1" format="png"></graphic>
       </screenshot>
     </figure>
     
@@ -1089,7 +1089,7 @@
       <figure id="worksheet-data-2">
 	<title>The Current Cell Indicator.</title>
 	<screenshot>
-	  <graphic fileref="images/worksheet-data-2" format="png"></graphic>
+	  <graphic fileref="figures/worksheet-data-2" format="png"></graphic>
 	</screenshot>
       </figure>
       
@@ -1101,7 +1101,7 @@
       <para>While entering data in the entry area, you can confirm the
 	current cell contents by pressing the green return button
 	<guibutton>
-	  <inlinegraphic fileref="images/worksheet-data-3" format="png">
+	  <inlinegraphic fileref="figures/worksheet-data-3" format="png">
 	  </inlinegraphic>
 	</guibutton>.
       </para>
@@ -1117,7 +1117,7 @@
 	data being entered into the cell can be canceled by pressing
 	the red X button
 	<guibutton>
-	  <inlinegraphic fileref="images/worksheet-data-4.png">
+	  <inlinegraphic fileref="figures/worksheet-data-4.png">
 	  </inlinegraphic>
 	</guibutton>.
       </para>
@@ -1144,14 +1144,14 @@
     <figure id="worksheet-cols-1">
       <title>The column labels at the top of the worksheet.</title>
       <screenshot>
-	<graphic fileref="images/worksheet-cols-1" format="png"></graphic>
+	<graphic fileref="figures/worksheet-cols-1" format="png"></graphic>
       </screenshot>
     </figure>
     
     <figure id="worksheet-rows-1">
       <title>The row labels at the left side of the worksheet.</title>
       <screenshot>
-	<graphic fileref="images/worksheet-rows-1" format="png"></graphic>
+	<graphic fileref="figures/worksheet-rows-1" format="png"></graphic>
       </screenshot>
     </figure>
     
@@ -1168,7 +1168,7 @@
     <figure id="worksheet-info-1">
       <title>The info area.</title>
       <screenshot>
-	<graphic fileref="images/worksheet-info-1" format="png"></graphic>
+	<graphic fileref="figures/worksheet-info-1" format="png"></graphic>
       </screenshot>
     </figure>
     
@@ -1191,7 +1191,7 @@
       <figure id="worksheet-running-calc-1">
 	<title>The running calculation area.</title>
 	<screenshot>
-	  <graphic fileref="images/worksheet-running-calc-1" format="png"></graphic>
+	  <graphic fileref="figures/worksheet-running-calc-1" format="png"></graphic>
 	</screenshot>
       </figure>
     </sect3>

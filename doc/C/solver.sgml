@@ -77,7 +77,7 @@
     <figure id="linear-program-example">
       <title>Linear programming example</title>
       <screenshot>
-        <graphic fileref="images/solver-01.png"></graphic>
+        <graphic fileref="figures/solver-01.png"></graphic>
       </screenshot>
     </figure>
 
@@ -102,7 +102,7 @@
     <figure id="solver-dialog-1">
       <title>The empty Solver dialog.</title>
       <screenshot>
-        <graphic fileref="images/solver-02.png"></graphic>
+        <graphic fileref="figures/solver-02.png"></graphic>
       </screenshot>
     </figure>
 
@@ -118,7 +118,7 @@
     <figure id="solver-add-constraint-dialog">
       <title>Add constraint dialog.</title>
       <screenshot>
-        <graphic fileref="images/solver-03.png"></graphic>
+        <graphic fileref="figures/solver-03.png"></graphic>
       </screenshot>
     </figure>
 
@@ -142,7 +142,7 @@
     <figure id="solver-dialog-2">
       <title>The solver dialog</title>
       <screenshot>
-        <graphic fileref="images/solver-04.png"></graphic>
+        <graphic fileref="figures/solver-04.png"></graphic>
       </screenshot>
     </figure>
 
@@ -162,7 +162,7 @@
     <figure id="solver-results">
       <title>The Solver results dialog</title>
       <screenshot>
-        <graphic fileref="images/solver-05.png"></graphic>
+        <graphic fileref="figures/solver-05.png"></graphic>
       </screenshot>
     </figure>
 
