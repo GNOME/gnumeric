@@ -1,3 +1,7 @@
+2002-10-05  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.10
+
 2002-08-28  Jody Goldberg <jody@gnome.org>
 
 	* src/print.c (print_range_down_then_right) : fix fence post error.
@@ -14,14 +18,6 @@
 
 	* src/sheet-object.c (cb_sheet_object_remove) : remove unncecessary
 	  unref Morten found.
-
-2002-09-12  gettextize  <bug-gnu-gettext@gnu.org>
-
-	* Makefile.am (SUBDIRS): Add m4.
-	(SUBDIRS): Remove intl.
-	(ACLOCAL_AMFLAGS): New variable.
-	(EXTRA_DIST): Add config.rpath.
-	* configure.in (AC_OUTPUT): Add m4/Makefile.
 
 2002-09-11  Jody Goldberg <jody@gnome.org>
 

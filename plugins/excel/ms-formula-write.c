@@ -493,9 +493,8 @@ write_funcall (PolishData *pd, FormulaCacheEntry *fce, ExprTree *tree)
 		num_args++;
 		args = args->next;
 		if (args != NULL && num_args == fce->u.std.fd->num_args) {
-			gnm_io_warning (pd->sheet->wb->io_context, 
-				_("Too many arguments for function, MS Excel expects exactly %d and we have more"),
-				fce->u.std.fd->num_args);
+			g_warning ("Too many arguments for function, MS Excel expects exactly %d and we have more",
+				   fce->u.std.fd->num_args);
 		}
 	}
 

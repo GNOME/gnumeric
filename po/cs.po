@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.40\n"
-"POT-Creation-Date: 2002-07-18 14:05-0400\n"
+"POT-Creation-Date: 2002-10-05 22:17-0400\n"
 "PO-Revision-Date: 1999-10-22 21:20+02:00\n"
 "Last-Translator: Petr Vyyhnalek <petr.vyhnalek@email.cz>\n"
 "Language-Team: \n"
@@ -248,7 +248,7 @@ msgid ""
 "opt_bs_gamma"
 msgstr ""
 
-#: plugins/derivatives/plugin.xml.in.h:1 src/functions/fn-financial.c:3128
+#: plugins/derivatives/plugin.xml.in.h:1 src/functions/fn-financial.c:3131
 msgid "Financial"
 msgstr ""
 
@@ -406,7 +406,7 @@ msgstr ""
 msgid "Broken function"
 msgstr "Chybná funkce"
 
-#: plugins/excel/ms-formula-read.c:1467
+#: plugins/excel/ms-formula-read.c:1475
 msgid " Unknown formula"
 msgstr " Chybný vzorec"
 
@@ -4693,7 +4693,7 @@ msgstr ""
 msgid "Correlation"
 msgstr "Korelace"
 
-#: src/dialogs/delete-cells.glade.h:1 src/sheet-object.c:92
+#: src/dialogs/delete-cells.glade.h:1 src/sheet-object.c:83
 msgid "Delete"
 msgstr "Mazání"
 
@@ -4892,7 +4892,7 @@ msgstr "Gnumeric"
 
 #: src/dialogs/dialog-about.c:82
 #, fuzzy
-msgid "(C) 1998-2001 Miguel de Icaza"
+msgid "(C) 1998-2000 Miguel de Icaza, 2001-2002 Jody Goldberg"
 msgstr "(C) 1998-1999 Miguel de Icaza"
 
 #: src/dialogs/dialog-about.c:90
@@ -7740,31 +7740,31 @@ msgstr "Horizontální èára"
 msgid "_Vertical Scrollbar"
 msgstr "Vertikální èára"
 
-#: src/expr-name.c:241
+#: src/expr-name.c:249
 #, fuzzy
 msgid "already defined in sheet"
 msgstr "ji¾ definován"
 
-#: src/expr-name.c:245
+#: src/expr-name.c:253
 #, fuzzy
 msgid "already defined in workbook"
 msgstr "ji¾ definován"
 
-#: src/expr-name.c:249
+#: src/expr-name.c:257
 #, fuzzy
 msgid "already globally defined "
 msgstr "ji¾ definován"
 
-#: src/expr-name.c:255
+#: src/expr-name.c:263
 #, fuzzy, c-format
 msgid "'%s' has a circular reference"
 msgstr "Reference v kruhu"
 
-#: src/expr-name.c:418
+#: src/expr-name.c:426
 msgid "Builtin"
 msgstr ""
 
-#: src/expr-name.c:516 src/expr-name.c:528
+#: src/expr-name.c:525 src/expr-name.c:537
 msgid "Error: no sheet"
 msgstr ""
 
@@ -11056,7 +11056,7 @@ msgid ""
 "@SEEALSO=IRR,XNPV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1867
+#: src/functions/fn-financial.c:1870
 msgid ""
 "@FUNCTION=FV\n"
 "@SYNTAX=FV(rate,term,pmt,pv,type)\n"
@@ -11071,7 +11071,7 @@ msgid ""
 "@SEEALSO=PV,PMT,PPMT"
 msgstr ""
 
-#: src/functions/fn-financial.c:1906
+#: src/functions/fn-financial.c:1909
 msgid ""
 "@FUNCTION=PMT\n"
 "@SYNTAX=PMT(rate,nper,pv[,fv,type])\n"
@@ -11088,7 +11088,7 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1944
+#: src/functions/fn-financial.c:1947
 msgid ""
 "@FUNCTION=IPMT\n"
 "@SYNTAX=IPMT(rate,per,nper,pv,fv,type)\n"
@@ -11104,7 +11104,7 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1991
+#: src/functions/fn-financial.c:1994
 msgid ""
 "@FUNCTION=PPMT\n"
 "@SYNTAX=PPMT(rate,per,nper,pv[,fv,type])\n"
@@ -11120,7 +11120,7 @@ msgid ""
 "@SEEALSO=IPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2040
+#: src/functions/fn-financial.c:2043
 msgid ""
 "@FUNCTION=NPER\n"
 "@SYNTAX=NPER(rate,pmt,pv,fv,type)\n"
@@ -11139,7 +11139,7 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2089
+#: src/functions/fn-financial.c:2092
 msgid ""
 "@FUNCTION=DURATION\n"
 "@SYNTAX=DURATION(rate,pv,fv)\n"
@@ -11152,7 +11152,7 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2126
+#: src/functions/fn-financial.c:2129
 msgid ""
 "@FUNCTION=FVSCHEDULE\n"
 "@SYNTAX=FVSCHEDULE(principal,schedule)\n"
@@ -11167,7 +11167,7 @@ msgid ""
 "@SEEALSO=PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2170
+#: src/functions/fn-financial.c:2173
 msgid ""
 "@FUNCTION=EURO\n"
 "@SYNTAX=EURO(currency)\n"
@@ -11193,7 +11193,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2257
+#: src/functions/fn-financial.c:2260
 msgid ""
 "@FUNCTION=PRICE\n"
 "@SYNTAX=PRICE(settle,mat,rate,yield,redemption_price,frequency[,basis])\n"
@@ -11217,7 +11217,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2347
+#: src/functions/fn-financial.c:2350
 msgid ""
 "@FUNCTION=YIELD\n"
 "@SYNTAX=YIELD(settle,mat,rate,price,redemption_price,frequency[,basis])\n"
@@ -11240,7 +11240,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2437
+#: src/functions/fn-financial.c:2440
 msgid ""
 "@FUNCTION=YIELDDISC\n"
 "@SYNTAX=YIELDDISC(settlement,maturity,pr,redemption[,basis])\n"
@@ -11264,7 +11264,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2473
+#: src/functions/fn-financial.c:2476
 msgid ""
 "@FUNCTION=YIELDMAT\n"
 "@SYNTAX=YIELDMAT(settlement,maturity,issue,rate,pr[,basis])\n"
@@ -11289,7 +11289,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2510
+#: src/functions/fn-financial.c:2513
 msgid ""
 "@FUNCTION=ODDFPRICE\n"
 "@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,yld,redemption,"
@@ -11315,7 +11315,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2613
+#: src/functions/fn-financial.c:2616
 msgid ""
 "@FUNCTION=ODDFYIELD\n"
 "@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,redemption,"
@@ -11340,7 +11340,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2650
+#: src/functions/fn-financial.c:2653
 msgid ""
 "@FUNCTION=ODDLPRICE\n"
 "@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,"
@@ -11366,7 +11366,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2687
+#: src/functions/fn-financial.c:2690
 msgid ""
 "@FUNCTION=ODDLYIELD\n"
 "@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,"
@@ -11391,7 +11391,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2724
+#: src/functions/fn-financial.c:2727
 msgid ""
 "@FUNCTION=AMORDEGRC\n"
 "@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate[,"
@@ -11415,7 +11415,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2758
+#: src/functions/fn-financial.c:2761
 msgid ""
 "@FUNCTION=AMORLINC\n"
 "@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate[,"
@@ -11439,7 +11439,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2792
+#: src/functions/fn-financial.c:2795
 msgid ""
 "@FUNCTION=COUPDAYBS\n"
 "@SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis])\n"
@@ -11472,7 +11472,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2834
+#: src/functions/fn-financial.c:2837
 msgid ""
 "@FUNCTION=COUPDAYS\n"
 "@SYNTAX=COUPDAYS(settlement,maturity,frequency[,basis,eom])\n"
@@ -11506,7 +11506,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2877
+#: src/functions/fn-financial.c:2880
 msgid ""
 "@FUNCTION=COUPDAYSNC\n"
 "@SYNTAX=COUPDAYSNC(settlement,maturity,frequency[,basis,eom])\n"
@@ -11539,7 +11539,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2919
+#: src/functions/fn-financial.c:2922
 msgid ""
 "@FUNCTION=COUPNCD\n"
 "@SYNTAX=COUPNCD(settlement,maturity,frequency[,basis,eom])\n"
@@ -11571,7 +11571,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2960
+#: src/functions/fn-financial.c:2963
 msgid ""
 "@FUNCTION=COUPPCD\n"
 "@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis,eom])\n"
@@ -11603,7 +11603,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3001
+#: src/functions/fn-financial.c:3004
 msgid ""
 "@FUNCTION=COUPNUM\n"
 "@SYNTAX=COUPNUM(settlement,maturity,frequency[,basis,eom])\n"
@@ -11633,7 +11633,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3041
+#: src/functions/fn-financial.c:3044
 msgid ""
 "@FUNCTION=CUMIPMT\n"
 "@SYNTAX=CUMIPMT(rate,nper,pv,start_period,end_period,type)\n"
@@ -11644,7 +11644,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3061
+#: src/functions/fn-financial.c:3064
 msgid ""
 "@FUNCTION=CUMPRINC\n"
 "@SYNTAX=CUMPRINC(rate,nper,pv,start_period,end_period,type)\n"
@@ -11655,7 +11655,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3081
+#: src/functions/fn-financial.c:3084
 msgid ""
 "@FUNCTION=MDURATION\n"
 "@SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency[,basis])\n"
@@ -11666,7 +11666,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3102
+#: src/functions/fn-financial.c:3105
 msgid ""
 "@FUNCTION=VDB\n"
 "@SYNTAX=VDB(cost,salvage,life,start_period,end_period[,factor,switch])\n"
@@ -15152,7 +15152,11 @@ msgstr "Procenta"
 msgid "File \"%s\" has unknown format."
 msgstr ""
 
-#: src/gnumeric-graph.c:1075
+#: src/gnumeric-graph.c:766
+msgid "Unable to run graphing component.  Do you have Guppi installed ?"
+msgstr ""
+
+#: src/gnumeric-graph.c:1088
 #, fuzzy
 msgid "Data..."
 msgstr "Datum"
@@ -16106,7 +16110,7 @@ msgstr ""
 msgid "Label :"
 msgstr "Jméno"
 
-#: src/sheet-object.c:86
+#: src/sheet-object.c:77
 #, fuzzy
 msgid "Properties..."
 msgstr "Nastavení..."

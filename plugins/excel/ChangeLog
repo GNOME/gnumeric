@@ -1,5 +1,9 @@
 2002-10-05  Jody Goldberg <jody@gnome.org>
 
+	* Release 1.0.10
+
+2002-10-05  Jody Goldberg <jody@gnome.org>
+
 	* ms-formula-write.c (write_funcall) : back port some fixes for
 	  handling missing arguments.
 

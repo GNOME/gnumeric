@@ -1,3 +1,7 @@
+2002-10-05  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.10
+
 2002-09-26  Jody Goldberg <jody@gnome.org>
 
 	* cell-format.glade : allow dialog to grow.

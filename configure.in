@@ -1,7 +1,7 @@
 AC_INIT(src/gnumeric.h)
 
 AM_CONFIG_HEADER(gnumeric-config.h)
-AM_INIT_AUTOMAKE(gnumeric,1.0.9)
+AM_INIT_AUTOMAKE(gnumeric,1.0.10)
 AM_MAINTAINER_MODE
 AM_ACLOCAL_INCLUDE(macros)
 AM_PROG_XML_I18N_TOOLS
@@ -707,7 +707,7 @@ dnl = End tests for jw
 dnl ====================================
 
 
-AC_OUTPUT([ m4/Makefile 
+AC_OUTPUT([
 gnumeric.spec
 Makefile
 src/Makefile
@@ -756,7 +756,7 @@ plugins/applix/Makefile
 plugins/gda/Makefile
 plugins/psiconv/Makefile
 plugins/mps/Makefile
-m4/Makefile
+intl/Makefile
 po/Makefile.in
 templates/Makefile
 templates/english/Makefile

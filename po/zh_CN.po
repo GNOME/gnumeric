@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.70\n"
-"POT-Creation-Date: 2002-07-18 14:05-0400\n"
+"POT-Creation-Date: 2002-10-05 22:17-0400\n"
 "PO-Revision-Date: 2001-08-10 11:05-0400\n"
 "Last-Translator: Donald Park <xlpark@kankou.cs.uec.ac.jp>\n"
 "Language-Team: Chinese Team\n"
@@ -245,7 +245,7 @@ msgid ""
 "opt_bs_gamma"
 msgstr ""
 
-#: plugins/derivatives/plugin.xml.in.h:1 src/functions/fn-financial.c:3128
+#: plugins/derivatives/plugin.xml.in.h:1 src/functions/fn-financial.c:3131
 msgid "Financial"
 msgstr "财政金融"
 
@@ -403,7 +403,7 @@ msgstr "不能打开写入流\n"
 msgid "Broken function"
 msgstr "失效的函数"
 
-#: plugins/excel/ms-formula-read.c:1467
+#: plugins/excel/ms-formula-read.c:1475
 msgid " Unknown formula"
 msgstr "未知的公式"
 
@@ -4909,7 +4909,7 @@ msgid "Correlation"
 msgstr "相关"
 
 # src/dialog-delete-cells.c:32 src/item-grid.c:532
-#: src/dialogs/delete-cells.glade.h:1 src/sheet-object.c:92
+#: src/dialogs/delete-cells.glade.h:1 src/sheet-object.c:83
 msgid "Delete"
 msgstr "删除"
 
@@ -5121,7 +5121,8 @@ msgid "Gnumeric"
 msgstr "Gnumeric"
 
 #: src/dialogs/dialog-about.c:82
-msgid "(C) 1998-2001 Miguel de Icaza"
+#, fuzzy
+msgid "(C) 1998-2000 Miguel de Icaza, 2001-2002 Jody Goldberg"
 msgstr "(C) 1998-2001 Miguel de Icaza"
 
 #: src/dialogs/dialog-about.c:90
@@ -8111,30 +8112,30 @@ msgstr "水平滚动条(_H)"
 msgid "_Vertical Scrollbar"
 msgstr "垂直滚动条(_V)"
 
-#: src/expr-name.c:241
+#: src/expr-name.c:249
 msgid "already defined in sheet"
 msgstr "表中已定义"
 
 # src/dialog-define-names.c:42
-#: src/expr-name.c:245
+#: src/expr-name.c:253
 msgid "already defined in workbook"
 msgstr "在工作簿中已定义"
 
-#: src/expr-name.c:249
+#: src/expr-name.c:257
 #, fuzzy
 msgid "already globally defined "
 msgstr "表中已定义"
 
-#: src/expr-name.c:255
+#: src/expr-name.c:263
 #, fuzzy, c-format
 msgid "'%s' has a circular reference"
 msgstr "循环参照"
 
-#: src/expr-name.c:418
+#: src/expr-name.c:426
 msgid "Builtin"
 msgstr "内嵌"
 
-#: src/expr-name.c:516 src/expr-name.c:528
+#: src/expr-name.c:525 src/expr-name.c:537
 msgid "Error: no sheet"
 msgstr "错误: 无表"
 
@@ -12555,7 +12556,7 @@ msgstr ""
 "XIRR(A1:A5,B1:B5) 返回 0.224838. \n"
 "@SEEALSO=IRR,XNPV"
 
-#: src/functions/fn-financial.c:1867
+#: src/functions/fn-financial.c:1870
 msgid ""
 "@FUNCTION=FV\n"
 "@SYNTAX=FV(rate,term,pmt,pv,type)\n"
@@ -12579,7 +12580,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV,PMT,PPMT"
 
-#: src/functions/fn-financial.c:1906
+#: src/functions/fn-financial.c:1909
 #, fuzzy
 msgid ""
 "@FUNCTION=PMT\n"
@@ -12605,7 +12606,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FV"
 
-#: src/functions/fn-financial.c:1944
+#: src/functions/fn-financial.c:1947
 msgid ""
 "@FUNCTION=IPMT\n"
 "@SYNTAX=IPMT(rate,per,nper,pv,fv,type)\n"
@@ -12632,7 +12633,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: src/functions/fn-financial.c:1991
+#: src/functions/fn-financial.c:1994
 msgid ""
 "@FUNCTION=PPMT\n"
 "@SYNTAX=PPMT(rate,per,nper,pv[,fv,type])\n"
@@ -12659,7 +12660,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IPMT,PV,FV"
 
-#: src/functions/fn-financial.c:2040
+#: src/functions/fn-financial.c:2043
 msgid ""
 "@FUNCTION=NPER\n"
 "@SYNTAX=NPER(rate,pmt,pv,fv,type)\n"
@@ -12690,7 +12691,7 @@ msgstr ""
 "前, 你的存款可以成为两倍.\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: src/functions/fn-financial.c:2089
+#: src/functions/fn-financial.c:2092
 msgid ""
 "@FUNCTION=DURATION\n"
 "@SYNTAX=DURATION(rate,pv,fv)\n"
@@ -12711,7 +12712,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: src/functions/fn-financial.c:2126
+#: src/functions/fn-financial.c:2129
 msgid ""
 "@FUNCTION=FVSCHEDULE\n"
 "@SYNTAX=FVSCHEDULE(principal,schedule)\n"
@@ -12735,7 +12736,7 @@ msgstr ""
 "FVSCHEDULE(3000,A1:A5) = 4942.7911611.\n"
 "@SEEALSO=PV,FV"
 
-#: src/functions/fn-financial.c:2170
+#: src/functions/fn-financial.c:2173
 #, fuzzy
 msgid ""
 "@FUNCTION=EURO\n"
@@ -12782,7 +12783,7 @@ msgstr ""
 "EURO(\"DEM\") 返回 1.95583.\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2257
+#: src/functions/fn-financial.c:2260
 #, fuzzy
 msgid ""
 "@FUNCTION=PRICE\n"
@@ -12824,7 +12825,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2347
+#: src/functions/fn-financial.c:2350
 #, fuzzy
 msgid ""
 "@FUNCTION=YIELD\n"
@@ -12865,7 +12866,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2437
+#: src/functions/fn-financial.c:2440
 #, fuzzy
 msgid ""
 "@FUNCTION=YIELDDISC\n"
@@ -12907,7 +12908,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2473
+#: src/functions/fn-financial.c:2476
 #, fuzzy
 msgid ""
 "@FUNCTION=YIELDMAT\n"
@@ -12951,7 +12952,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PRICEDISC"
 
-#: src/functions/fn-financial.c:2510
+#: src/functions/fn-financial.c:2513
 #, fuzzy
 msgid ""
 "@FUNCTION=ODDFPRICE\n"
@@ -12995,7 +12996,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2613
+#: src/functions/fn-financial.c:2616
 #, fuzzy
 msgid ""
 "@FUNCTION=ODDFYIELD\n"
@@ -13038,7 +13039,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2650
+#: src/functions/fn-financial.c:2653
 #, fuzzy
 msgid ""
 "@FUNCTION=ODDLPRICE\n"
@@ -13082,7 +13083,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2687
+#: src/functions/fn-financial.c:2690
 #, fuzzy
 msgid ""
 "@FUNCTION=ODDLYIELD\n"
@@ -13125,7 +13126,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2724
+#: src/functions/fn-financial.c:2727
 #, fuzzy
 msgid ""
 "@FUNCTION=AMORDEGRC\n"
@@ -13167,7 +13168,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2758
+#: src/functions/fn-financial.c:2761
 #, fuzzy
 msgid ""
 "@FUNCTION=AMORLINC\n"
@@ -13209,7 +13210,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2792
+#: src/functions/fn-financial.c:2795
 #, fuzzy
 msgid ""
 "@FUNCTION=COUPDAYBS\n"
@@ -13260,7 +13261,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2834
+#: src/functions/fn-financial.c:2837
 #, fuzzy
 msgid ""
 "@FUNCTION=COUPDAYS\n"
@@ -13312,7 +13313,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2877
+#: src/functions/fn-financial.c:2880
 #, fuzzy
 msgid ""
 "@FUNCTION=COUPDAYSNC\n"
@@ -13363,7 +13364,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2919
+#: src/functions/fn-financial.c:2922
 #, fuzzy
 msgid ""
 "@FUNCTION=COUPNCD\n"
@@ -13413,7 +13414,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2960
+#: src/functions/fn-financial.c:2963
 #, fuzzy
 msgid ""
 "@FUNCTION=COUPPCD\n"
@@ -13463,7 +13464,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3001
+#: src/functions/fn-financial.c:3004
 #, fuzzy
 msgid ""
 "@FUNCTION=COUPNUM\n"
@@ -13511,7 +13512,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3041
+#: src/functions/fn-financial.c:3044
 #, fuzzy
 msgid ""
 "@FUNCTION=CUMIPMT\n"
@@ -13530,7 +13531,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3061
+#: src/functions/fn-financial.c:3064
 #, fuzzy
 msgid ""
 "@FUNCTION=CUMPRINC\n"
@@ -13549,7 +13550,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3081
+#: src/functions/fn-financial.c:3084
 #, fuzzy
 msgid ""
 "@FUNCTION=MDURATION\n"
@@ -13567,7 +13568,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3102
+#: src/functions/fn-financial.c:3105
 msgid ""
 "@FUNCTION=VDB\n"
 "@SYNTAX=VDB(cost,salvage,life,start_period,end_period[,factor,switch])\n"
@@ -19360,8 +19361,12 @@ msgstr "作为可选择数字格式化"
 msgid "File \"%s\" has unknown format."
 msgstr "文件 \"%s\" 中有未知的格式."
 
+#: src/gnumeric-graph.c:766
+msgid "Unable to run graphing component.  Do you have Guppi installed ?"
+msgstr ""
+
 # src/dialog-cell-format.c:68
-#: src/gnumeric-graph.c:1075
+#: src/gnumeric-graph.c:1088
 #, fuzzy
 msgid "Data..."
 msgstr "数据(_D)"
@@ -20353,7 +20358,7 @@ msgid "Label :"
 msgstr "标签 :"
 
 # src/dialog-paste-special.c:65
-#: src/sheet-object.c:86
+#: src/sheet-object.c:77
 #, fuzzy
 msgid "Properties..."
 msgstr "选项..."
