@@ -16,6 +16,14 @@
 	* plugins/excel/ms-formula.c: Added support for slightly different
 	array formula BIFF layout.
 
+1998-11-11  Bruno Unna       <bruno@iac.com.mx>
+
+	* src/gnumeric-util.c: Added function font_get_italic_name, 
+	analogous to font_get_bold_name.
+
+	* plugins/excel/ms-excel.c: added enhanced support for styles 
+	(bold & italic). Included gnumeric-util.h.
+
 1998-11-11  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/gnumeric-util.c (font_get_italic_name): Missing function.
