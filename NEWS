@@ -5,6 +5,7 @@ Andreas:
 	  strange handling for negative numbers. [#162682]
 	  This breaks backwards compatibility to earlier Gnumeric versions
 	  for these functions.
+	* Fix text colour in selected item in sheet manage dialog [#170462]
 
 David J Craigon:
 	* Allow ssimport to specify importer. [#160069]

@@ -1,3 +1,10 @@
+2005-03-16  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=170462
+	* gnumeric-cell-renderer-text.c (gnumeric_cell_renderer_text_render):
+	  Make the gtk-cell-renderer think we aren't selected if the 
+	  foreground colour is set.
+	
 2005-03-15  Morten Welinder  <terra@gnome.org>
 
 	* gnumeric-lazy-list.c (gnumeric_lazy_list_new): Add n_rows

@@ -89,6 +89,8 @@ gnumeric_cell_renderer_text_render (GtkCellRenderer     *cell,
 
 		gdk_gc_set_rgb_fg_color (gc, &color);
 
+		if (expose_area)               
+			gdk_gc_set_clip_rectangle (gc, expose_area);
 		gdk_draw_rectangle (window,
 				    gc,
 				    TRUE,
@@ -96,6 +98,8 @@ gnumeric_cell_renderer_text_render (GtkCellRenderer     *cell,
 				    background_area->y + cell->ypad,
 				    background_area->width,
 				    background_area->height - 2 * cell->ypad);
+		if (expose_area)               
+			gdk_gc_set_clip_rectangle (gc, NULL);
 	}
 
 	gdk_gc_set_rgb_fg_color (gc, &widget->style->bg[
@@ -113,8 +117,15 @@ gnumeric_cell_renderer_text_render (GtkCellRenderer     *cell,
 
 	g_object_unref (G_OBJECT (gc));
 
-	GTK_CELL_RENDERER_CLASS (parent_class)->render (cell, window, widget, background_area,
-							cell_area, expose_area, flags);
+	
+	if (celltext->foreground_set) {
+		GTK_CELL_RENDERER_CLASS (parent_class)->render
+			(cell, window, widget, background_area,
+			 cell_area, expose_area, 0);
+	} else
+		GTK_CELL_RENDERER_CLASS (parent_class)->render
+			(cell, window, widget, background_area,
+			 cell_area, expose_area, flags);
 }
 
 static void
