@@ -7,7 +7,6 @@
 typedef struct {
 	FooCanvas   canvas;
 	SheetControlGUI *scg;
-	GnmPane		*pane;
 } GnmSimpleCanvas;
 
 typedef struct {
@@ -18,7 +17,7 @@ typedef struct {
 #define GNM_SIMPLE_CANVAS(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), GNM_SIMPLE_CANVAS_TYPE, GnmSimpleCanvas))
 
 GType	     gnm_simple_canvas_get_type (void);
-FooCanvas *gnm_simple_canvas_new      (SheetControlGUI *scg, GnmPane *pane);
+FooCanvas *gnm_simple_canvas_new      (SheetControlGUI *scg);
 
 void gnm_simple_canvas_ungrab (FooCanvasItem *item, guint32 etime);
 int  gnm_simple_canvas_grab   (FooCanvasItem *item, unsigned int event_mask,

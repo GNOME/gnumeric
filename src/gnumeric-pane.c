@@ -49,7 +49,7 @@ static void
 gnumeric_pane_header_init (GnmPane *pane, SheetControlGUI *scg,
 			   gboolean is_col_header)
 {
-	FooCanvas *canvas = gnm_simple_canvas_new (scg, pane);
+	FooCanvas *canvas = gnm_simple_canvas_new (scg);
 	FooCanvasGroup *group = FOO_CANVAS_GROUP (canvas->root);
 	FooCanvasItem *item = foo_canvas_item_new (group,
 		item_bar_get_type (),
@@ -1055,6 +1055,7 @@ cb_sheet_object_canvas_event (FooCanvasItem *view, GdkEvent *event,
 
 	case GDK_BUTTON_PRESS: {
 		SheetControlGUI	*scg = GNM_SIMPLE_CANVAS (view->canvas)->scg;
+		GnmPane *pane = GNM_CANVAS (view->canvas)->pane;
 
 		/* Ignore mouse wheel events */
 		if (event->button.button > 3)
@@ -1068,8 +1069,6 @@ cb_sheet_object_canvas_event (FooCanvasItem *view, GdkEvent *event,
 			return FALSE;
 
 		if (event->button.button < 3) {
-			GnmPane *pane = GNM_SIMPLE_CANVAS (view->canvas)->pane;
-
 			g_return_val_if_fail (pane->drag_object == NULL, FALSE);
 			pane->drag_object = so;
 
@@ -1085,7 +1084,7 @@ cb_sheet_object_canvas_event (FooCanvasItem *view, GdkEvent *event,
 			gnm_canvas_slide_init (GNM_CANVAS (view->canvas));
 			gnm_widget_set_cursor_type (GTK_WIDGET (view->canvas), GDK_HAND2);
 		} else
-			display_object_menu (GNM_SIMPLE_CANVAS (view->canvas)->pane, so, event);
+			display_object_menu (pane, so, event);
 		break;
 	}
 

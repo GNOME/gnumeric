@@ -1,5 +1,10 @@
 2004-09-26  Jody Goldberg <jody@gnome.org>
 
+	* src/gnumeric-pane.c (cb_sheet_object_canvas_event) : Use the pane in
+	  GnmCanvas rather than adding one to GnmSimpleCanvas
+
+2004-09-26  Jody Goldberg <jody@gnome.org>
+
 	* src/gnumeric-pane.c (gnm_pane_object_move) :  handle symetric
 	  movement via ctrl-click and object duplicate via ctrl-click on
 	  acetate
