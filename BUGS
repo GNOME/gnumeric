@@ -4,10 +4,9 @@ and longer term bugs.
 
 Release Critical
 ----------------
-- Many of the Value -> date routines do not handle error arguments properly.
 - expressions -> strings loose the format used to parse values.
 - saving the entered_text then parsing in locale C on restore is broken.
-- We should save per row/col maximums.
+- We should save per block maximums.
 - Changing the size of all rows/cols creates big xml files, and slows
   calculations to a crawl
 - Saving xml should not rely on changing the textdomain to disable translation
