@@ -114,8 +114,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-02 21:26+0200\n"
-"PO-Revision-Date: 2003-09-05 04:16+0200\n"
+"POT-Creation-Date: 2003-09-06 20:24+0200\n"
+"PO-Revision-Date: 2003-09-07 02:58+0200\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: nl <vertaling@nl.linux.org>\n"
 "MIME-Version: 1.0\n"
@@ -188,7 +188,7 @@ msgid "Provides a CORBA scripting interface"
 msgstr "Levert een CORBA script interface"
 
 #: plugins/derivatives/options.c:143
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=CUM_BIV_NORM_DIST\n"
 "@SYNTAX=CUM_BIV_NORM_DIST(a,b,rho)\n"
@@ -204,7 +204,9 @@ msgstr ""
 "@FUNCTION=CUM_BIV_NORM_DIST\n"
 "@SYNTAX=CUM_BIV_NORM_DIST(a;b;rho)\n"
 "@DESCRIPTION=CUM_BIV_NORM_DIST berekent de cumulatieve bivariantnormale "
-"distributie met parameters a, b en rho"
+"distributie met parameters a, b en rho.  De resultaatwaarde is de kans dat "
+"twee willekeurige variabelen met correlatie @rho, elk kleiner zijn dan "
+"respectievelijk @a en @b."
 
 #: plugins/derivatives/options.c:202
 #, fuzzy
@@ -1089,7 +1091,7 @@ msgstr "Financieel Afgeleiden"
 msgid "Functions related to financial derivatives"
 msgstr "Functies gerelateerd aan financieel afgeleiden"
 
-#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5150
+#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5151
 #: plugins/mps/mps.c:549 src/xml-io.c:3927
 msgid "Reading file..."
 msgstr "Bezig bestand te lezen..."
@@ -1213,12 +1215,12 @@ msgstr "Kaart%d"
 msgid "Module%d"
 msgstr "Module%d"
 
-#: plugins/excel/ms-excel-read.c:2695
+#: plugins/excel/ms-excel-read.c:2696
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Fout bij verwerken naar '%s'"
 
-#: plugins/excel/ms-excel-read.c:2751
+#: plugins/excel/ms-excel-read.c:2752
 #, c-format
 msgid ""
 "DDE links are no supported.\n"
@@ -1227,7 +1229,7 @@ msgstr ""
 "DDE-links worden niet ondersteund.\n"
 "Naam '%s' zal verloren gaan.\n"
 
-#: plugins/excel/ms-excel-read.c:2757
+#: plugins/excel/ms-excel-read.c:2758
 #, c-format
 msgid ""
 "OLE links are no supported.\n"
@@ -1236,23 +1238,23 @@ msgstr ""
 "OLE-links worden niet ondersteund.\n"
 "Naam '%s' zal verloren gaan.\n"
 
-#: plugins/excel/ms-excel-read.c:2809
+#: plugins/excel/ms-excel-read.c:2810
 msgid "Failure parsing AutoFilter."
 msgstr "Verwerken Autofilter mislukt"
 
-#: plugins/excel/ms-excel-read.c:4568
+#: plugins/excel/ms-excel-read.c:4569
 msgid "external references"
 msgstr "externe verwijzingen"
 
-#: plugins/excel/ms-excel-read.c:5296
+#: plugins/excel/ms-excel-read.c:5297
 msgid "No password supplied"
 msgstr "Geen wachtwoord opgegeven"
 
-#: plugins/excel/ms-excel-read.c:5300
+#: plugins/excel/ms-excel-read.c:5301
 msgid "Invalid password"
 msgstr "Ongeldig wachtwoord"
 
-#: plugins/excel/ms-excel-read.c:5401
+#: plugins/excel/ms-excel-read.c:5402
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Niet in staat om een geldig MS Excel werkmap te vinden"
 
@@ -8526,8 +8528,9 @@ msgstr "%s versie %s "
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1308
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:207
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:103
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:208
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:7
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:104
 #: src/dialogs/dialog-cell-format.c:2265 src/dialogs/dialog-cell-format.c:2270
 #: src/dialogs/dialog-cell-format.c:2280 src/workbook-format-toolbar.c:836
 msgid "Automatic"
@@ -9474,13 +9477,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=VLOOKUP\n"
 "@SYNTAX=VLOOKUP(zoekwaarde;bereik;kolom[;benaderen;als_index])\n"
-"@DESCRIPTION=VLOOKUP vindt de rij waarvan de eerste kolom-cel dezelfde "
-"waarde heeft als de @zoekwaarde. Het zoeken vindt plaats in het opgegeven "
-"@bereik. Als @benaderen ONWAAR is wordt gezocht naar een exacte "
-"overeenkomst. Als @benaderen WAAR is, moeten de waarden in de eerste kolom "
-"van het @bereik gesorteerd zijn in oplopende volgorde. In dat geval vindt "
-"het de rijwaarde die kleiner is dan de @zoekwaarde. @als_index geeft de "
-"verschuiving van de overeenkomst in plaats van de waarde.\n"
+"@DESCRIPTION=VLOOKUP vindt in het @bereik, de rij waarvan de eerste kolom-"
+"cel dezelfde waarde heeft als de @zoekwaarde. Als @benaderen ONWAAR is wordt "
+"gezocht naar een exacte overeenkomst. Als @benaderen WAAR is, moeten de "
+"waarden in de eerste kolom van het @bereik gesorteerd zijn in oplopende "
+"volgorde. In dat geval vindt het de rijwaarde die kleiner is dan de "
+"@zoekwaarde. @als_index geeft de verschuiving van de overeenkomst in plaats "
+"van de waarde.\n"
 "\n"
 "* VLOOKUP geeft een #GETAL! foutmelding als @kolom < 0.\n"
 "* VLOOKUP geeft een #VERW! als @kolom buiten het @bereik valt.\n"
@@ -9527,7 +9530,6 @@ msgstr ""
 "@SEEALSO=VLOOKUP"
 
 #: plugins/fn-lookup/functions.c:674
-#, fuzzy
 msgid ""
 "@FUNCTION=LOOKUP\n"
 "@SYNTAX=LOOKUP(value,vector1[,vector2])\n"
@@ -9546,10 +9548,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=LOOKUP\n"
 "@SYNTAX=LOOKUP(waarde;vector1;vector2)\n"
-"@DESCRIPTION=LOOKUP zoekt de rij index van 'waarde' in @vector1 en geeft de "
-"inhoud van @vector2 bij die rij index. Als het celbereik langer is dan dat "
-"het breed is, wordt de zoekrichting geroteerd. Er kan ook een enkele array "
-"worden gebruikt.\n"
+"@DESCRIPTION=LOOKUP zoekt de rij-index van @waarde in @vector1 en geeft de "
+"inhoud van @vector2 bij die rij-index. Er kan ook een enkele array worden "
+"gebruikt voor @vector1. Als het celbereik langer is dan dat het breed is, "
+"wordt de zoekrichting geroteerd. Er kan ook een enkele array worden "
+"gebruikt.\n"
 "\n"
 "* Als LOOPUP de @waarde niet kan vinden, gebruikt het de waarde die net "
 "lager dan @waarde is.\n"
@@ -9562,7 +9565,6 @@ msgstr ""
 "@SEEALSO=VLOOKUP,HLOOKUP"
 
 #: plugins/fn-lookup/functions.c:737
-#, fuzzy
 msgid ""
 "@FUNCTION=MATCH\n"
 "@SYNTAX=MATCH(seek,vector[,type])\n"
@@ -9587,16 +9589,17 @@ msgid ""
 msgstr ""
 "@FUNCTION=MATCH\n"
 "@SYNTAX=MATCH(zoekwaarde;vector[;type])\n"
-"@DESCRIPTION=MATCH zoekt de rij index van zoekwaarde in @vector.\n"
+"@DESCRIPTION=MATCH geeft als resultaat de rij-index van de @zoekwaarde in "
+"@vector.\n"
 "\n"
 "Als het celbereik langer is dan dat het breed is, wordt de zoekrichting "
 "geroteerd. Er kan ook een enkele array worden gebruikt.\n"
 "\n"
-"* De @type parameter, die standaard +1 is, geeft het soort zoekopdracht "
+"* De parmeter: @type, die standaard +1 is, geeft het soort zoekopdracht "
 "aan:\n"
-"* Als @type = 1,  zoek de grootste waarde <= @zoekwaarde.\n"
-"* Als @type = 0,  zoek de eerste waarde == @zoekwaarde.\n"
-"* Als @type = -1, zoek de kleinste waarde >= @zoekwaarde.\n"
+"* Als @type = 1,  zoekt MATCH de grootste waarde <= @zoekwaarde.\n"
+"* Als @type = 0,  zoekt MATCH de eerste waarde == @zoekwaarde.\n"
+"* Als @type = -1, zoekt MATCH de kleinste waarde >= @zoekwaarde.\n"
 "* Voor type 0, mogen de gegevens in elke volgorde staan. Voor types -1 en +1 "
 "moeten de gegevens gesorteerd zijn. (En in dat geval gebruikt MATCH een "
 "binaire zoekopdracht om de index te vinden)\n"
@@ -9955,7 +9958,6 @@ msgid "Lookup Functions"
 msgstr "Opzoekfuncties"
 
 #: plugins/fn-math/functions.c:141
-#, fuzzy
 msgid ""
 "@FUNCTION=GCD\n"
 "@SYNTAX=GCD(number1,number2,...)\n"
@@ -9975,7 +9977,7 @@ msgstr ""
 "@SYNTAX=GCD(getal1;getal2;...)\n"
 "@DESCRIPTION=GCD geeft de grootste gemene deler van de gegeven getallen.\n"
 "\n"
-"* Als een van de argumenten kleiner dan 0 is, geeft GCD een #GETAL! "
+"* Als een van de argumenten kleiner dan 1 is, geeft GCD een #GETAL! "
 "foutmelding.\n"
 "* Als een van de argumenten geen geheel getal is, wordt deze afgekapt.\n"
 "* Deze functie is compatibel met Excel.\n"
@@ -10584,7 +10586,6 @@ msgstr ""
 "@SEEALSO=BETALN,GAMMALN"
 
 #: plugins/fn-math/functions.c:949
-#, fuzzy
 msgid ""
 "@FUNCTION=BETALN\n"
 "@SYNTAX=BETALN(a,b)\n"
@@ -10603,10 +10604,12 @@ msgstr ""
 "@DESCRIPTION=BETALN geeft de natuurlijk logaritme van de absolute waarde van "
 "de beta-functie.\n"
 "\n"
-"* Als @a of @b niet-positieve gehele getallen zijn geeft BETALN een #GETAL! "
-"foutmelding.\n"
+"* Als @a, @b of (@a + @b) niet-positieve gehele getallen zijn geeft BETALN "
+"een #GETAL! foutmelding.\n"
 "\n"
 "@EXAMPLES=\n"
+"BETALN(2;3) is -2,48\n"
+"BETALN(-0,5;0,5) is #GETAL!\n"
 "\n"
 "@SEEALSO=BETA,GAMMALN"
 
@@ -11317,7 +11320,6 @@ msgstr ""
 "@SEEALSO=FACT"
 
 #: plugins/fn-math/functions.c:1767
-#, fuzzy
 msgid ""
 "@FUNCTION=QUOTIENT\n"
 "@SYNTAX=QUOTIENT(numerator,denominator)\n"
@@ -11332,9 +11334,9 @@ msgid ""
 "@SEEALSO=MOD"
 msgstr ""
 "@FUNCTION=QUOTIENT\n"
-"@SYNTAX=QUOTIENT(getal;deler)\n"
-"@DESCRIPTION=QUOTIENT geeft het gehele deel van een deling.  @getal wordt "
-"gedeeld door @deler.\n"
+"@SYNTAX=QUOTIENT(teller;noemer)\n"
+"@DESCRIPTION=QUOTIENT geeft het gehele deel van een deling.  @teller wordt "
+"gedeeld door @noemer.\n"
 "\n"
 "* Deze functie is compatibel met Excel.\n"
 "\n"
@@ -11751,7 +11753,6 @@ msgstr ""
 "@SEEALSO=SUMSQ,SUMX2MY2,SUMX2PY2"
 
 #: plugins/fn-math/functions.c:2649
-#, fuzzy
 msgid ""
 "@FUNCTION=SERIESSUM\n"
 "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
@@ -11770,12 +11771,12 @@ msgid ""
 "@SEEALSO=COUNT,SUM"
 msgstr ""
 "@FUNCTION=SERIESSUM\n"
-"@SYNTAX=SERIESSUM(x;n;m;coefficienten)\n"
+"@SYNTAX=SERIESSUM(x;n;m;coëficienten)\n"
 "@DESCRIPTION=SERIESSUM geeft de som van een machtreeks. @x is de basis \n"
-"van de machtreek, @n is the initiele macht waarmee @x wordt verheft, @m is \n"
-"de toename van de macht voor elke term in de reeks, en @coefficienten zijn "
+"van de machtreek, @n is the initiële macht waarmee @x wordt verheft, @m is \n"
+"de toename van de macht voor elke term in de reeks, en @coëfficienten zijn "
 "de\n"
-"coefficienten waarmee elke opvolgende macht van  @x wordt vermenigvuldigd. \n"
+"coëfficienten waarmee elke opvolgende macht van  @x wordt vermenigvuldigd. \n"
 "\n"
 "* Deze functie is compatibel met Excel.\n"
 "\n"
@@ -12026,7 +12027,6 @@ msgstr ""
 "@SEEALSO=RANDBETWEEN"
 
 #: plugins/fn-random/functions.c:72
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDUNIFORM\n"
 "@SYNTAX=RANDUNIFORM(a,b)\n"
@@ -12048,8 +12048,8 @@ msgstr ""
 "@DESCRIPTION=RANDUNIFORM geeft een willekeurig getal vanuit een uniforme "
 "(vlakke) distributie van a naar b. De distributie is:\n"
 "\n"
-"\tp(x) dx = {1 over (b-a)} dx. voor a <= x < b \n"
-"\t\t  = 0\t\t\t\t\t\t\tin andere gevallen.\n"
+"\tp(x) dx = {1 over (b-a)} dx: voor a <= x < b \n"
+"\tp(x) dx = 0 : voor x < a of b <= x\n"
 "\n"
 "* Als @a > @b geeft RANDUNIFORM een #GETAL! foutmelding.\n"
 "\n"
@@ -12102,7 +12102,6 @@ msgstr ""
 "@SEEALSO=RAND,RANDBETWEEN\""
 
 #: plugins/fn-random/functions.c:259
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDPOISSON\n"
 "@SYNTAX=RANDPOISSON(lambda)\n"
@@ -12237,7 +12236,6 @@ msgstr ""
 "@SEEALSO=RAND,RANDBETWEEN"
 
 #: plugins/fn-random/functions.c:411
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDNORM\n"
 "@SYNTAX=RANDNORM(mean,stdev)\n"
@@ -12250,20 +12248,19 @@ msgid ""
 "\n"
 "@SEEALSO=RAND"
 msgstr ""
-"@FUNCTION=RANDGAUSSIAN\n"
-"@SYNTAX=RANDGAUSSIAN(gemiddelde;stdev)\n"
-"@DESCRIPTION=RANDGAUSSIAN geeft een willekeurig getal volgens een Gaussische "
+"@FUNCTION=RANDNORM\n"
+"@SYNTAX=RANDNORM(gemiddelde;stdev)\n"
+"@DESCRIPTION=RANDGAUSSIAN geeft een willekeurig getal volgens een normale "
 "distributie.\n"
 "\n"
-"* Als @stdev < 0 geeft RANDGAUSSIAN een #WAARDE! foutmelding.\n"
+"* Als @stdev < 0 geeft RANDNORM een #WAARDE! foutmelding.\n"
 "\n"
 "@EXAMPLES=\n"
-"RANDGAUSSIAN(0;1)\n"
+"RANDNORM(0;1)\n"
 "\n"
 "@SEEALSO=RAND\""
 
 #: plugins/fn-random/functions.c:440
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDCAUCHY\n"
 "@SYNTAX=RANDCAUCHY(a)\n"
@@ -12280,7 +12277,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=RANDCAUCHY\n"
 "@SYNTAX=RANDCAUCHY(a)\n"
-"@DESCRIPTION=RANDCAUCHY geeft een willekeurig getal volgens een cauchy-"
+"@DESCRIPTION=RANDCAUCHY geeft een willekeurig getal volgens een Cauchy-"
 "distributie met schaalparameter a. De Cauchy-distributie is ook bekend onder "
 "de naam Lorentz-distributie.\n"
 "\n"
@@ -12591,7 +12588,6 @@ msgstr ""
 "@SEEALSO=RAND"
 
 #: plugins/fn-random/functions.c:782
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDLOG\n"
 "@SYNTAX=RANDLOG(p)\n"
@@ -12604,15 +12600,15 @@ msgid ""
 "\n"
 "@SEEALSO=RAND"
 msgstr ""
-"@FUNCTION=RANDGAMMA\n"
-"@SYNTAX=RANDGAMMA(a;b)\n"
-"@DESCRIPTION=RANDGAMMA geeft een willekeurig getal volgens een Gamma-"
-"distributie\n"
+"@FUNCTION=RANDLOG\n"
+"@SYNTAX=RANDLOG(p)\n"
+"@DESCRIPTION=RANDLOG geeft een willekeurig getal volgens een logaritmische "
+"distributie.\n"
 "\n"
-"* Als @a <= 0 geeft RANDGAMMA een #GETAL! foutmelding.\n"
+"* Als @p < 0 of @p > 1 geeft RANDLOG        een #GETAL! foutmelding.\n"
 "\n"
 "@EXAMPLES=\n"
-"RANDGAMMA(1;2)\n"
+"RANDLOG(0,72)\n"
 "\n"
 "@SEEALSO=RAND"
 
@@ -13285,9 +13281,21 @@ msgid ""
 "\n"
 "@SEEALSO=NORMDIST,NORMINV,NORMSDIST,STANDARDIZE,ZTEST"
 msgstr ""
+"@FUNCTION=NORMSINV\n"
+"@SYNTAX=NORMSINV(p)\n"
+"@DESCRIPTION=NORMSINV geeft de inverse van de standaard normale cumulatieve "
+"distributie. @p is de gegeven waarschijnlijkheid die correspondeert met de "
+"normale distributie.\n"
+"\n"
+"* Als @p < 0 of @p > 1 geeft NORMSINV een #GETAL! foutmelding.\n"
+"* Deze functie is compatibel met Excel.\n"
+"\n"
+"@EXAMPLES=\n"
+"NORMSINV(0,2) is -0,841621234\n"
+"\n"
+"@SEEALSO=NORMDIST,NORMINV,NORMSDIST,STANDARDIZE,ZTEST"
 
 #: plugins/fn-stat/functions.c:633
-#, fuzzy
 msgid ""
 "@FUNCTION=LOGNORMDIST\n"
 "@SYNTAX=LOGNORMDIST(x,mean,stddev)\n"
@@ -13311,7 +13319,7 @@ msgstr ""
 "distributie, @stdev is de standaard deviatie.\n"
 "\n"
 "* Als @stdev = 0, geeft LOGNORMDIST een #DIV/0! foutmelding.\n"
-"* Als @x < 0, @gemiddelde < 0 of @stdev < 0 geeft LOGNORMDIST een #GETAL! "
+"* Als @x <= 0, @gemiddelde < 0 of @stdev < 0 geeft LOGNORMDIST een #GETAL! "
 "foutmelding.\n"
 "* Deze functie is compatibel met Excel.\n"
 "\n"
@@ -18378,6 +18386,9 @@ msgid ""
 "case-sensitive sort and determine the initial state of the case-sensitive "
 "checkbox in the sort dialog."
 msgstr ""
+"Deze optie zorgt dat de sorterings-knoppen op de werkbalk "
+"hoofdlettergevoelig sorteren. Ook zal hiermee het vinkje in het "
+"sorteringsdialoogvenster standaard bij: 'hooflettergevoelig' staan."
 
 #: schemas/gnumeric-general.schemas.in.h:26
 msgid ""
@@ -18385,6 +18396,9 @@ msgid ""
 "the cell formats while sorting and determines the initial state of the "
 "preserve-formats checkbox in the sort dialog."
 msgstr ""
+"Deze optie zort dat de sorteringsknoppen op de werkbalk bij het sorteren de "
+"opmaak van de cellen behouden. Ook zal hiermee het vinkje in het "
+"sorteringsdialoogvenster standaard bij: 'opmaak behouden' staan"
 
 #: schemas/gnumeric-general.schemas.in.h:27
 msgid "Show Sheet Name in Undo List"
@@ -18403,7 +18417,7 @@ msgstr ""
 #: schemas/gnumeric-general.schemas.in.h:29 src/GNOME_Gnumeric.xml.h:231
 #: src/workbook-control-gui.c:3995
 msgid "Sort Ascending"
-msgstr "Sorteer Oplopend"
+msgstr "Oplopend sorteeren"
 
 #: schemas/gnumeric-general.schemas.in.h:30
 msgid "Sort is Case-Sensitive"
@@ -18415,7 +18429,7 @@ msgstr "Sorteren behoudt opmaak"
 
 #: schemas/gnumeric-general.schemas.in.h:32
 msgid "The default font is bold."
-msgstr "De standaard lettertype is vet."
+msgstr "Het standaard lettertype is vet."
 
 #: schemas/gnumeric-general.schemas.in.h:33
 msgid "The default font is italic."
@@ -18423,11 +18437,11 @@ msgstr "Het standaard lettertype is schuin."
 
 #: schemas/gnumeric-general.schemas.in.h:34
 msgid "The default font name for new workbooks."
-msgstr "Het standaard lettertype-naam voor nieuwe werkbladen."
+msgstr "De naam van het standaard lettertype voor nieuwe werkmappen."
 
 #: schemas/gnumeric-general.schemas.in.h:35
 msgid "The default font size for new workbooks."
-msgstr "Het standaard lettertypegrootte voor nieuwe werkbladen."
+msgstr "Het groote van het standaard lettertype voor nieuwe werkmappen."
 
 #: schemas/gnumeric-general.schemas.in.h:36
 msgid ""
@@ -19017,7 +19031,7 @@ msgid "Filter data with given criteria"
 msgstr "Filter de gegevens met de opgegeven criteria."
 
 #: src/GNOME_Gnumeric.xml.h:97
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:668
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:739
 #: src/dialogs/cell-format.glade.h:43 src/dialogs/dialog-preferences.c:1395
 #: src/workbook-format-toolbar.c:411
 msgid "Font"
@@ -19213,7 +19227,7 @@ msgid "Jump to a specified cell"
 msgstr "Spring naar een specifieke cel"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:236
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:237
 #: src/sheet-object-graphic.c:1434 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Label"
@@ -19434,8 +19448,11 @@ msgstr "De spreadsheet opnieuw berekenen"
 msgid "Rectangle"
 msgstr "Rechthoek"
 
+# betekenis: undo the undo. Het is dus wat verwarrend:
+# Je voert een bewerking uit.
+# Je herstelt de bewerking.
+# Je besluit om toch de bewerking uit te voeren.
 #: src/GNOME_Gnumeric.xml.h:193 src/workbook-control-gui.c:4227
-#, fuzzy
 msgid "Redo the undone action"
 msgstr "Herhaalt de ingreep"
 
@@ -20713,28 +20730,28 @@ msgstr "Afhankelijkhedeb tabuleren"
 msgid "Reconfigure Graph"
 msgstr "Configureer knoppenbalken"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:189
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:190
 #: src/dialogs/solver.glade.h:14
 msgid "M_in"
 msgstr "M_in"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:189
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:190
 msgid "M_ax"
 msgstr "M_ax"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:190
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:191
 msgid "Ma_jor Ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:191
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:192
 msgid "Mi_nor Ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:214
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:215
 msgid "Bounds"
 msgstr "Grenzen"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:218
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:219
 msgid "Details"
 msgstr "Details"
 
@@ -20744,7 +20761,7 @@ msgstr "Legenda"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:171
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:172
-#: src/cut-n-paste-code/goffice/graph/gog-legend.c:159
+#: src/cut-n-paste-code/goffice/graph/gog-legend.c:165
 msgid "Title"
 msgstr "Titel"
 
@@ -20916,145 +20933,213 @@ msgid "<b>Marker</b>"
 msgstr "<b>Markering</b>"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:5
-#, fuzzy
 msgid "<b>Outline</b>"
-msgstr "<b>Lijn</b>"
+msgstr "<b>Omtrek</b>"
+
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:6
+msgid "Asterisk"
+msgstr "Sterretje"
 
 # helheid?
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:6
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:8
 msgid "Brightness"
 msgstr "Helderheid"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:7
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:9
+msgid "Butterfly"
+msgstr "Vlindertje"
+
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:10
 msgid "C_olor:"
 msgstr "Kle_ur:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:8
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:11
+msgid "Circle"
+msgstr "Cirkel"
+
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:12
+msgid "Cross"
+msgstr "Kruis"
+
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:13
+msgid "Diamond"
+msgstr "Ruit"
+
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:14
 msgid "Fill from start color to end color"
 msgstr "Vullen van beginkleur tot eindkleur"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:9
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:15
 msgid "Fill from start colour to a darker/lighter version of that color"
 msgstr "Vullen van beginkleur tot een donkere/lichtere versie van die kleur"
 
 # Kleurverloop
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:10
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:16
 msgid "Gradient"
 msgstr "Kleurverloop"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:11
+# Type markering voor punten in een grafiek
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:17
+msgid "Half bar"
+msgstr "Halve balk"
+
+# Type markering voor punten in een grafiek
+# Diabolo?
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:18
+msgid "Hourglass"
+msgstr "Zandloper"
+
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:19
 msgid "Image"
 msgstr "Afbeelding"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:12
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:20
 #: src/dialogs/cell-format.glade.h:60 src/dialogs/dialog-cell-format.c:72
 #: src/dialogs/dialog-paste-special.c:48 src/tools/solver/reports-write.c:722
 msgid "None"
 msgstr "Geen"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:13
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:21
 #: src/dialogs/dialog-cell-format.c:2280
 msgid "Pattern"
 msgstr "Patroon"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:14
-msgid "S_ize:"
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:22
+msgid "Si_ze:"
 msgstr "Gr_ootte:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:15
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:23
+msgid "Square"
+msgstr "Vierkant"
+
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:24
 msgid "T_ype:"
 msgstr "T_ype:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:16
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:25
+msgid "Triangle down"
+msgstr "Driehoek onder"
+
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:26
+msgid "Triangle left"
+msgstr "Driehoek links"
+
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:27
+msgid "Triangle right"
+msgstr "Driehoek rechts"
+
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:28
+msgid "Triangle up"
+msgstr "Driehoek boven"
+
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:29
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:128
+msgid "X"
+msgstr "X"
+
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:30
 msgid "_Background:"
 msgstr "_Achtergrond:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:17
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:31
 msgid "_Direction:"
 msgstr "_Richting:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:18
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:32
 msgid "_End:"
 msgstr "_Einde:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:19
+# vulkleur/opvulkleur
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:33
+msgid "_Fill color:"
+msgstr "_Vulkleur:"
+
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:34
 msgid "_Fit:"
 msgstr "_Passen:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:20
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:35
 msgid "_Foreground:"
 msgstr "_Voorgrond:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:21
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:36
+msgid "_Outline color:"
+msgstr "Kleur o_mtrek:"
+
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:37
 msgid "_Pattern:"
 msgstr "_Patroon:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:22
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:38
 msgid "_Select..."
 msgstr "_Selecteren..."
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:23
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:39
+msgid "_Shape:"
+msgstr "_Vorm:"
+
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:40
 msgid "_Size:"
 msgstr "_Grootte:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:24
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:41
 msgid "_Start:"
 msgstr "_Begin:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:25
-msgid "_Style:"
-msgstr "_Stijl:"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:26
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:42
 #: src/dialogs/solver.glade.h:42
 msgid "_Type:"
 msgstr "_Type:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:27
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:43
 msgid "_brighter"
 msgstr "_lichter"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:28
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:44
 msgid "_darker"
 msgstr "_donkerder"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:29
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:45
+msgid "bar"
+msgstr "balk"
+
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:46
 msgid "pts"
 msgstr "pts"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:30
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:47
 msgid "stretched"
 msgstr "uitgerekt"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:31
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:48
 msgid "wallpaper"
 msgstr "behang"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:163
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:164
 #: src/widgets/preview-file-selection.c:167
 #, c-format
 msgid "%d x %d"
 msgstr "%d x %d"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:451
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:452
 #: src/workbook-control-gui.c:3100
 msgid "Select an image"
 msgstr "Een afbeelding selecteren"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:716
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:787
 #: src/dialogs/pivottable.glade.h:4
 msgid "Style"
 msgstr "Stijl"
 
 #. TODO : have a look at apple's themes
 #. An MS Excel-ish theme
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:338
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:378
 #: src/dialogs/dialog-sheet-order.c:953 src/dialogs/dialog-sheet-order.c:966
 msgid "Default"
 msgstr "Standaard"
 
 #. Guppi
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:385
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:425
 msgid "Guppi"
 msgstr "Guppi"
 
@@ -21269,9 +21354,8 @@ msgid "1.5d Charts"
 msgstr "Cirkeldiagrammen"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:2
-#, fuzzy
 msgid "Area plotting engine"
-msgstr "Cirkel plot-motor"
+msgstr "Gebied plot-motor"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:3
 msgid "Bar/Col plotting engine"
@@ -21283,9 +21367,8 @@ msgid "Default 1.5d plot types"
 msgstr "Standaard Balk/Kolom plot-types"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:5
-#, fuzzy
 msgid "Line plotting engine"
-msgstr "Cirkel plot-motor"
+msgstr "Lijn plot-motor"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:6
 msgid "Line, Area, Bar and Column charts"
@@ -21299,7 +21382,7 @@ msgstr "Aantal graden kloksgewijs vanaf 3 uur."
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:4
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:5
 msgid "Slices start _at:"
-msgstr "Punten beginnen bij:"
+msgstr "Punten beginnen _bij:"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:5
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:6
@@ -21313,12 +21396,12 @@ msgstr ""
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:6
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:7
 msgid "_Slice Separation:"
-msgstr "Schijf-scheiding:"
+msgstr "_Schijf-scheiding:"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:7
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:8
 msgid "_Vary colors by slice"
-msgstr ""
+msgstr "Elke schijf een andere _kleur"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:8
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:9
@@ -21329,22 +21412,21 @@ msgstr "graden"
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:103
 #, fuzzy
 msgid "PlotPie"
-msgstr "Tekenen"
+msgstr "Cirkeldiagram"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:189
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:190
 #: src/dialogs/consolidate.glade.h:12
 msgid "Labels"
 msgstr "Labels"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:191
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
 #: src/dialogs/consolidate.glade.h:27
 msgid "Values"
 msgstr "Waarden"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:262
-#, fuzzy
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:263
 msgid "PlotRing"
-msgstr "Niets"
+msgstr "Ringdiagram"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:3
 #, fuzzy
@@ -21386,23 +21468,23 @@ msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:8
 msgid "Percentage of each contributor displayed in ring for each serie."
-msgstr ""
+msgstr "Percentage van elk deel behorend bij de ring van de serie."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:9
 msgid "Percentage of each contributor in 3D pie."
-msgstr ""
+msgstr "Percentage van elk deel in een 3D cirkel."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:10
 msgid "Percentage of each contributor with 3D wedges split apart."
-msgstr ""
+msgstr "Percentage van elk deel met de 3D punten van elkaar gescheiden."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:11
 msgid "Percentage of each contributor with wedges split apart."
-msgstr ""
+msgstr "Percentage van elk deel met de punten van elkaar gescheiden."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:12
 msgid "Percentage of each contributor."
-msgstr ""
+msgstr "Percentage van elk deel."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:13
 msgid "Pie"
@@ -21444,10 +21526,6 @@ msgstr "Ring plot-motor"
 msgid "PlotXY"
 msgstr "XY-plot"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:128
-msgid "X"
-msgstr "X"
-
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:130
 msgid "Y"
 msgstr "Y"
@@ -21460,6 +21538,7 @@ msgstr "Bellen"
 msgid ""
 "Interpolate between multi-dimensional points,with markers at each point."
 msgstr ""
+"Interpoleren tussen multidimensionale punten, met markeringen bij elk punt."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:3
 msgid "Interpolate between multi-dimensional points."
@@ -21467,7 +21546,7 @@ msgstr "Interpoleren tussen mulitdimensionale punten."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:4
 msgid "Interpolated points"
-msgstr "Punten Interpoleren"
+msgstr "Punten interpoleren"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:5
 msgid ""
@@ -21481,15 +21560,15 @@ msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:7
 msgid "Linearly interpolated points"
-msgstr ""
+msgstr "Lineair geïnterpoleerde punten"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:8
 msgid "Marked interpolated points"
-msgstr ""
+msgstr "Gemarkeerde geïnterpoleerde punten"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:9
 msgid "Marked linearly interpolated points"
-msgstr ""
+msgstr "Gemarkeerde lineair geïnterpoleerde punten"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:10
 msgid "Plot X, Y and bubble size."
@@ -21518,7 +21597,7 @@ msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:4
 msgid "XY Charts"
-msgstr ""
+msgstr "XY-diagrammen"
 
 #: src/dates.c:16
 msgid "*Sun"
@@ -21935,7 +22014,7 @@ msgstr "Eerste Letter"
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
 #: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:659
-#: src/format.c:2113 src/format.c:2242 src/format.c:2248 src/format.c:2324
+#: src/format.c:2117 src/format.c:2246 src/format.c:2252 src/format.c:2328
 #: src/plugin-service.c:199 src/widgets/widget-format-selector.c:68
 msgid "General"
 msgstr "Algemeen"
@@ -23687,14 +23766,14 @@ msgid "Directory"
 msgstr "Map"
 
 #. Is it a boolean?
-#: src/dialogs/dialog-preferences.c:411 src/format.c:1964
-#: src/number-match.c:1089 src/value-sheet.c:33 src/value.c:404
+#: src/dialogs/dialog-preferences.c:411 src/format.c:1968
+#: src/number-match.c:1094 src/value-sheet.c:33 src/value.c:404
 #: src/value.c:818
 msgid "TRUE"
 msgstr "WAAR"
 
-#: src/dialogs/dialog-preferences.c:412 src/format.c:1964
-#: src/number-match.c:1091 src/value-sheet.c:33 src/value.c:405
+#: src/dialogs/dialog-preferences.c:412 src/format.c:1968
+#: src/number-match.c:1096 src/value-sheet.c:33 src/value.c:405
 #: src/value.c:818
 msgid "FALSE"
 msgstr "ONWAAR"
@@ -24575,14 +24654,14 @@ msgid "C_ustom"
 msgstr "Aangepast"
 
 #: src/dialogs/dialog-stf.glade.h:10
-#, fuzzy
 msgid ""
 "Character interpreted as quote character. If a termination or separation "
 "character is encountered within quotes it will be considered part of the "
 "column text."
 msgstr ""
-"Karakter geïnterpreteerd als aanhalingsteken. Als het scheidingsteken wordt "
-"aangetroffen tussen de aanhalingstekens zal deze worden genegeerd."
+"Teken is geïnterpreteerd als aanhalingsteken. Als een 'einde'-teken of een "
+"scheidingsteken wordt aangetroffen tussen de aanhalingstekens, zal deze "
+"beschouwd worden als onderdeel van de kolomtekst."
 
 #: src/dialogs/dialog-stf.glade.h:11
 msgid "Clear list of columns"
@@ -24597,21 +24676,20 @@ msgid "Columns"
 msgstr "Kolommen"
 
 #: src/dialogs/dialog-stf.glade.h:14
-#, fuzzy
 msgid "Custom separator, this can be any character."
-msgstr "Aangepast scheidingsteken, dit kan elk willekeurig karakter zijn"
+msgstr "Aangepast scheidingsteken, dit kan elk willekeurig teken zijn."
 
 #: src/dialogs/dialog-stf.glade.h:16
 msgid "Define the width of each column manually."
-msgstr "Zet handmatig de breedte van elke kolom."
+msgstr "De breedte van elke kolom handmatig instellen."
 
 #: src/dialogs/dialog-stf.glade.h:17
 msgid ""
 "Each column in the text is separated by a 'separation' character, e.g. a "
 "semicolon."
 msgstr ""
-"Elke kolom in de tekst is gescheiden door een 'scheidings' teken, "
-"bijvoorbeeld een puntkomma."
+"Elke kolom in de tekst is gescheiden door een scheidingsteken, bijvoorbeeld "
+"een puntkomma."
 
 #: src/dialogs/dialog-stf.glade.h:18
 msgid "Encoding:"
@@ -24666,9 +24744,8 @@ msgid "Original data type:"
 msgstr "Oorspronkelijk gegevenstype:"
 
 #: src/dialogs/dialog-stf.glade.h:32
-#, fuzzy
 msgid "Overall formatting"
-msgstr "Per kolom formatteren"
+msgstr "Algemene opmaak"
 
 #: src/dialogs/dialog-stf.glade.h:33
 msgid "P_ipe (|)"
@@ -25031,43 +25108,43 @@ msgstr "Deci_malen:"
 
 #: src/dialogs/format-selector.glade.h:3
 msgid "Display amounts in traditional accounting styles."
-msgstr ""
+msgstr "Hoeveelheden weergeven in traditionele boekhoudstijl"
 
 #: src/dialogs/format-selector.glade.h:4
 msgid "Display and input values as strings with no interpretation."
-msgstr ""
+msgstr "Waarden weergeven en invoeren als tekenreeksen zonder interpretatie."
 
 #: src/dialogs/format-selector.glade.h:5
 msgid "Display currency amounts."
-msgstr ""
+msgstr "Geldbedragen weergeven."
 
 #: src/dialogs/format-selector.glade.h:6
 msgid "Display dates and optionally times of day."
-msgstr ""
+msgstr "Datums en optioneel ook tijden weergeven."
 
 #: src/dialogs/format-selector.glade.h:7
 msgid "Display numeric values with a fixed number of decimals."
-msgstr ""
+msgstr "Numerieke waarden met een vast aantal decimalen weergeven."
 
 #: src/dialogs/format-selector.glade.h:8
 msgid "Display times of day."
-msgstr ""
+msgstr "Tijd weergeven."
 
 #: src/dialogs/format-selector.glade.h:9
 msgid "Display values as closest fractional approximation."
-msgstr ""
+msgstr "Waarden als breuk-benadering weergeven"
 
 #: src/dialogs/format-selector.glade.h:10
 msgid "Display values as percentages."
-msgstr "Waardes weergevan als percentages."
+msgstr "Waarden weergevan als percentages."
 
 #: src/dialogs/format-selector.glade.h:11
 msgid "Display values with power-of-ten scaling."
-msgstr "Waardes weergeven in machten van tien."
+msgstr "Waarden weergeven in machten van tien."
 
 #: src/dialogs/format-selector.glade.h:12
 msgid "Format c_ode:"
-msgstr ""
+msgstr "Opmaak_code:"
 
 #: src/dialogs/format-selector.glade.h:13
 msgid "Negative number _format:"
@@ -25085,9 +25162,10 @@ msgstr "S_ymbool:"
 msgid "Select an appropriate format automatically."
 msgstr "Automatisch een geschikte opmaak kiezen."
 
+# BUG: wat betekent XL hier? moet dat Excel zijn? 
 #: src/dialogs/format-selector.glade.h:17
 msgid "Specify an XL-style format directly"
-msgstr ""
+msgstr "Zelf een opmaak in XL-stijl opgeven "
 
 #: src/dialogs/format-selector.glade.h:18
 msgid "_Format:"
@@ -25230,14 +25308,12 @@ msgid "Pareto (_Sorted)"
 msgstr "_Pareto (gesorteerd)"
 
 #: src/dialogs/histogram.glade.h:16
-#, fuzzy
 msgid "Retain Output Range _Comments"
-msgstr "Uitvoerbereik-commentaar Behouden"
+msgstr "Uitvoerbereik-_commentaar behouden"
 
 #: src/dialogs/histogram.glade.h:17
-#, fuzzy
 msgid "Retain Output Range _Formatting"
-msgstr "Uitvoerbereik-opmaak Behouden"
+msgstr "Uitvoerbereik-_opmaak behouden"
 
 #: src/dialogs/histogram.glade.h:19
 #, fuzzy
@@ -25848,9 +25924,8 @@ msgid "Fail without any changes actually being done to any cell"
 msgstr "Stop, zonder iets te vervangen"
 
 #: src/dialogs/search-replace.glade.h:12
-#, fuzzy
 msgid "Ma_ke string value"
-msgstr "_Produceer een string"
+msgstr "_Produceer een tekenreeks"
 
 #: src/dialogs/search-replace.glade.h:13
 msgid "Ma_tch whole words only"
@@ -26054,7 +26129,7 @@ msgstr "Zoekresulaten"
 
 #: src/dialogs/search.glade.h:12
 msgid "Miscellaneous"
-msgstr "Allerlei"
+msgstr "Overig"
 
 #: src/dialogs/search.glade.h:15
 msgid "Search Center"
@@ -26109,6 +26184,7 @@ msgstr "Zoeken _naar:"
 msgid "Manage Sheets..."
 msgstr "Bladen Beheren..."
 
+# Gegevens verschuiven
 #: src/dialogs/shuffle.glade.h:1
 msgid "Data Shuffling"
 msgstr ""
@@ -26118,6 +26194,7 @@ msgid "Input Range: "
 msgstr "_Invoerbereik: "
 
 # husselmethode? schudden
+# verschuiven
 #: src/dialogs/shuffle.glade.h:3
 msgid "Shuffle Method: "
 msgstr ""
@@ -26750,7 +26827,7 @@ msgid "Yellow"
 msgstr "Geel"
 
 #. Array of arrays ??
-#: src/format.c:2007
+#: src/format.c:2011
 msgid "ARRAY"
 msgstr "REEKS"
 
@@ -29138,9 +29215,8 @@ msgid "Current Values"
 msgstr "Huidige waardes"
 
 #: src/tools/scenarios.c:699
-#, fuzzy
 msgid "Changing Cells:"
-msgstr "Door Cellen te _Veranderen: "
+msgstr "Cellen veranderen:"
 
 #: src/tools/simulation.c:101
 msgid ""
@@ -31385,9 +31461,9 @@ msgid "Internal ERROR"
 msgstr "Interne FOUT"
 
 #: src/workbook-view.c:576
-#, fuzzy, c-format
+#, c-format
 msgid "Can't open '%s' for writing: %s"
-msgstr "Kan '%s' niet openen: %s"
+msgstr "Kan '%s' niet openen voor schrijven: %s"
 
 #: src/workbook-view.c:601
 #, c-format
@@ -31470,6 +31546,12 @@ msgstr "Fout bij opslaan bestand"
 #: src/xml-io.c:4040
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML bestandsformaat"
+
+#~ msgid "S_ize:"
+#~ msgstr "Gr_ootte:"
+
+#~ msgid "_Style:"
+#~ msgstr "_Stijl:"
 
 #~ msgid "Sans"
 #~ msgstr "Sans"
