@@ -1535,14 +1535,14 @@ ms_excel_set_xf_segment (ExcelSheet *sheet, int start_col, int end_col, int row,
 		fprintf (stderr, " = xf(%d)\n", xfidx);
 	}
 #endif
-	if (mstyle[1] != NULL) {
+	if (mstyle[1] != NULL && row < (SHEET_MAX_ROWS-1)) {
 		range.start.col = start_col;
 		range.start.row = row+1;
 		range.end.col   = end_col;
 		range.end.row   = row+1;
 		sheet_style_attach (sheet->gnum_sheet, range, mstyle[1]);
 	}
-	if (mstyle[2] != NULL) {
+	if (mstyle[2] != NULL && end_col < (SHEET_MAX_COLS-1)) {
 		range.start.col = start_col+1;
 		range.start.row = row;
 		range.end.col   = end_col+1;
@@ -2998,7 +2998,7 @@ ms_excel_read_row (BiffQuery *q, ExcelSheet *sheet)
 		col_row_set_visibility (sheet->gnum_sheet, FALSE, FALSE, row, row);
 
 	if (flags & 0x80) {
-		ms_excel_set_xf_segment (sheet, 0, SHEET_MAX_COLS, row, xf);
+		ms_excel_set_xf_segment (sheet, 0, SHEET_MAX_COLS-1, row, xf);
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_read_debug > 1) {
 			printf ("row %d has flags 0x%x a default style %hd;\n",
