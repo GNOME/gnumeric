@@ -121,8 +121,6 @@ unsigned excel_write_string_len (guint8 const *txt, unsigned *bytes);
 unsigned excel_write_string	(BiffPut *bp, guint8 const *txt,
 				 WriteStringFlags flags);
 
-int excel_write_workbook (ExcelWriteState *wb, GsfOutfile *file);
-
 int excel_write_get_externsheet_idx (ExcelWriteState *wb,
 				     Sheet *gnum_sheeta,
 				     Sheet *gnum_sheetb);

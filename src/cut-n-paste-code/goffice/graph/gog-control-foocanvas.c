@@ -81,7 +81,8 @@ gog_control_foocanvas_set_property (GObject *gobject, guint param_id,
 		if (ctrl->renderer != NULL)
 			g_object_unref (ctrl->renderer);
 		ctrl->renderer = GOG_RENDERER_PIXBUF (g_value_get_object (value));
-		g_object_ref (ctrl->renderer);
+		if (ctrl->renderer != NULL)
+			g_object_ref (ctrl->renderer);
 		break;
 	case CTRL_FOO_PROP_LOGICAL_WIDTH_PTS :
 		g_object_set_property (G_OBJECT (ctrl->renderer),

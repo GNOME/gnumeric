@@ -96,6 +96,11 @@ Pending Patches
     6.9) Store value formats in table and reference them
     6.10) Store styles in table and reference them from regions
 
+7) Lockdown (from libgnome/schemas/desktop_gnome_lockdown.schemas)
+    7.1) /desktop/gnome/lockdown/disable_save_to_disk
+    7.2) /desktop/gnome/lockdown/disable_printing
+    7.3) /desktop/gnome/lockdown/disable_print_setup
+
 -------------------------------------------------------------------------------
 1.3 Target Features
 -------------------

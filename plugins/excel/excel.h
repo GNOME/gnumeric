@@ -1,13 +1,14 @@
 /**
  * excel.h: Excel support interface to gnumeric
  *
- * Author:
+ * Authors:
  *    Michael Meeks (michael@ximian.com)
+ *    Jody Goldberg (jody@gnome.org)
  *
- * (C) 1998, 1999, 2000 Michael Meeks
+ * (C) 1998-2004 Michael Meeks, Jody Goldberg
  **/
-#ifndef GNUMERIC_EXCEL_H
-#define GNUMERIC_EXCEL_H
+#ifndef GNM_MS_EXCEL_H
+#define GNM_MS_EXCEL_H
 
 #include "gnumeric.h"
 #include <gsf/gsf.h>
@@ -23,7 +24,6 @@ ExcelWriteState *excel_write_state_new  (IOContext *context, WorkbookView const 
 void excel_write_v7 (ExcelWriteState *ewb, GsfOutfile *output);
 void excel_write_v8 (ExcelWriteState *ewb, GsfOutfile *output);
 
-/* We need to use these for both read and write */
 typedef struct {
 	guint8 r, g, b;
 } ExcelPaletteEntry;
@@ -35,4 +35,6 @@ extern  char const *excel_builtin_formats[];
 
 #define ROW_BLOCK_MAX_LEN 32
 
-#endif /* GNUMERIC_EXCEL_H */
+#define	CODENAME_KEY	"XL_CODENAME_utf8"
+
+#endif /* GNM_MS_EXCEL_H */

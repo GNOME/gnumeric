@@ -241,8 +241,10 @@ graph_typeselect_minor_x_y (GraphGuruTypeSelector *typesel,
 	FooCanvasItem *item = foo_canvas_get_item_at (
 		FOO_CANVAS (typesel->canvas), x, y);
 
-	if (item != NULL && item != typesel->selector) {
-		graph_typeselect_minor (typesel, item);
+	if (item != NULL) {
+		if(item != typesel->selector)
+			graph_typeselect_minor (typesel, item);
+		foo_canvas_item_grab_focus (item);
 		return TRUE;
 	}
 
@@ -1133,13 +1135,30 @@ graph_guru_init_button (GraphGuruState *s, char const *widget_name)
 	return button;
 }
 
+static void
+typesel_set_selection_color (GraphGuruTypeSelector *typesel)
+{
+	GtkWidget *w = gtk_entry_new ();
+	GdkColor  *color = &w->style->base [GTK_WIDGET_HAS_FOCUS (typesel->canvas)
+		? GTK_STATE_SELECTED : GTK_STATE_ACTIVE];
+	guint32    select_color = 0;
+
+	select_color |= ((color->red >> 8) & 0xff)   << 24;
+	select_color |= ((color->green >> 8) & 0xff) << 16;
+	select_color |= ((color->blue >> 8) & 0xff)  << 8;
+	select_color |= 0x40; /* alpha of 25% */
+	foo_canvas_item_set (typesel->selector,
+		"fill_color_rgba",	select_color,
+		NULL);
+	gtk_object_destroy (GTK_OBJECT (w));
+}
+
 static GtkWidget *
 graph_guru_type_selector_new (GraphGuruState *s)
 {
 	GtkTreeSelection *selection;
 	GraphGuruTypeSelector *typesel;
 	GtkWidget *tmp, *vbox, *hbox;
-	guint32 select_color;
 
 	typesel = g_new0 (GraphGuruTypeSelector, 1);
 	typesel->state = s;
@@ -1179,31 +1198,25 @@ graph_guru_type_selector_new (GraphGuruState *s)
 
 	/* Setup an canvas to display the sample image & the sample plot. */
 	typesel->canvas = foo_canvas_new ();
-	g_signal_connect (G_OBJECT (typesel->canvas),
-		"realize",
-		G_CALLBACK (cb_canvas_realized), typesel);
-
 	typesel->graph_group = FOO_CANVAS_GROUP (foo_canvas_item_new (
 		foo_canvas_root (FOO_CANVAS (typesel->canvas)),
 		foo_canvas_group_get_type (),
 		"x", 0.0,
 		"y", 0.0,
 		NULL));
-	g_signal_connect (G_OBJECT (typesel->canvas),
-		"size_allocate",
-		G_CALLBACK (cb_typesel_sample_plot_resize), typesel);
+	g_object_connect (typesel->canvas,
+		"signal::realize", G_CALLBACK (cb_canvas_realized), typesel,
+		"signal::size_allocate", G_CALLBACK (cb_typesel_sample_plot_resize), typesel,
+		"signal_after::key_press_event", G_CALLBACK (cb_key_press_event), typesel,
+		"signal::button_press_event", G_CALLBACK (cb_button_press_event), typesel,
+		"swapped_signal::focus_in_event", G_CALLBACK (typesel_set_selection_color), typesel,
+		"swapped_signal::focus_out_event", G_CALLBACK (typesel_set_selection_color), typesel,
+		NULL);
 
 	gtk_widget_set_size_request (typesel->canvas,
 		MINOR_PIXMAP_WIDTH*3 + BORDER*5,
 		MINOR_PIXMAP_HEIGHT*3 + BORDER*5);
 	foo_canvas_scroll_to (FOO_CANVAS (typesel->canvas), 0, 0);
-
-	g_signal_connect_after (G_OBJECT (typesel->canvas),
-		"key_press_event",
-		G_CALLBACK (cb_key_press_event), typesel);
-	g_signal_connect (GTK_OBJECT (typesel->canvas),
-		"button_press_event",
-		G_CALLBACK (cb_button_press_event), typesel);
 
 	tmp = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (tmp), GTK_SHADOW_IN);
@@ -1214,28 +1227,14 @@ graph_guru_type_selector_new (GraphGuruState *s)
 	g_hash_table_foreach ((GHashTable *)gog_plot_families (),
 		(GHFunc) cb_plot_families_init, typesel);
 
-#if 1
-	/* hard code for now until I figure out where to get a decent colour */
-	select_color = 0xe090f840;
-#else
-	{
-		GdkColor *color = typesel->canvas->style->base + GTK_STATE_SELECTED;
-
-		select_color |= ((color->red >> 8) & 0xff)   << 24;
-		select_color |= ((color->green >> 8) & 0xff) << 16;
-		select_color |= ((color->blue >> 8) & 0xff)  << 8;
-		select_color = 0x40; /* alpha of 25% */
-	}
-#endif
-
 	/* The alpha blended selection box */
 	typesel->selector = foo_canvas_item_new (
 		foo_canvas_root (FOO_CANVAS (typesel->canvas)),
 		foo_canvas_rect_get_type (),
-		"fill_color_rgba",	select_color,
 		"outline_color_rgba",	0x000000ff,	/* black */
 		"width_pixels", 1,
 		NULL);
+	typesel_set_selection_color (typesel);
 
 	/* Setup the description label */
 	typesel->label = GTK_LABEL (gtk_label_new (""));

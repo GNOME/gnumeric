@@ -59,14 +59,18 @@
 #include "sheet-filter.h"
 #include "pivottable.h"
 #include "scenarios.h"
-#include <glib/gi18n.h>
-#include <gtk/gtkmain.h>
 
+#include <glib/gi18n.h>
+#include <gsf/gsf-impl-utils.h>
 #include <stdlib.h>
 #include <string.h>
 
 static void sheet_redraw_partial_row (Sheet const *sheet, int row,
 				      int start_col, int end_col);
+
+/* quick and simple */
+typedef GObjectClass SheetClass;
+static GSF_CLASS (Sheet, sheet, NULL, NULL, G_TYPE_OBJECT);
 
 void
 sheet_redraw_all (Sheet const *sheet, gboolean headers)
@@ -148,7 +152,7 @@ sheet_new (Workbook *wb, char const *name)
 	g_return_val_if_fail (wb != NULL, NULL);
 	g_return_val_if_fail (name != NULL, NULL);
 
-	sheet = g_new0 (Sheet, 1);
+	sheet = g_object_new (sheet_get_type (), NULL);
 	sheet->priv = g_new0 (SheetPrivate, 1);
 	sheet->sheet_views = NULL;
 
@@ -2735,7 +2739,7 @@ sheet_destroy (Sheet *sheet)
 	g_free (sheet->name_unquoted_collate_key);
 	g_free (sheet->name_case_insensitive);
 	g_free (sheet->priv);
-	g_free (sheet);
+	g_object_unref (sheet);
 }
 
 /*****************************************************************************/

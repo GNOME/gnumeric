@@ -4,6 +4,11 @@
 
 2004-02-04  Jody Goldberg <jody@gnome.org>
 
+	* src/sheet.c : Make Sheet a cheesy sort of GObject.  Leave the macros
+	  as the old signature based variants for now.
+
+2004-02-04  Jody Goldberg <jody@gnome.org>
+
 	* src/gui-file.c (gui_file_open) : add a label and mnemonic for the
 	  type selector.
 

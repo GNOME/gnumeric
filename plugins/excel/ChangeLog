@@ -1,3 +1,15 @@
+2004-02-04  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (excel_read_CODENAME) : new routine to store the
+	  codename for later use while round tripping.
+	(excel_read_sheet) : use it here.
+	(excel_read_workbook) : use it here.
+
+	* ms-excel-write.c (excel_write_CODENAME) : new routine to use the
+	  stored codename rather than generating one on the fly.
+	(excel_write_sheet) : use it here.
+	(excel_write_workbook) : and here.
+
 2004-01-29  Jody Goldberg <jody@gnome.org>
 
 	From Nick Lamb <njl98r@ecs.soton.ac.uk>
