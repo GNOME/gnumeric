@@ -20,6 +20,9 @@
 #include "workbook-view.h"
 #include "ranges.h"
 
+#include "dialog-stf.h"
+#include "stf-parse.h"
+
 /*
  * Callback information.
  *
@@ -189,92 +192,90 @@ do_clipboard_paste_cell_region (CommandContext *context,
 		cell_queue_recalc_list (deps, TRUE);
 }
 
-static GList *
-new_node (GList *list, char const *data, char const *p, int col, int row)
-{
-	CellCopy *c_copy;
-
-	/* Eliminate spaces */
-	while (*data == ' ' && *data)
-		data++;
-
-	c_copy = g_new (CellCopy, 1);
-	c_copy->type = CELL_COPY_TYPE_TEXT;
-	c_copy->col_offset = col;
-	c_copy->row_offset = row;
-	c_copy->u.text = g_strndup (data, p-data);
-
-	return g_list_prepend (list, c_copy);
-}
-
-/**
- * x_selection_to_cell_region:
- * @data: points to an array of chars are received.
- * @len:  The length of the @data buffer as received.
- *
- * Creates a CellRegion based on the X selection
- *
- * We use \t, ; and "," as cell separators
- * \n is a line separator
- */
 static CellRegion *
 x_selection_to_cell_region (char const * data, int len)
 {
-	CellRegion *cr;
-	int cols = 1, cur_col = 0;
-	int rows = 0;
-	GList *list = NULL;
-	char const *p = data;
-	gboolean not_comma_decimal, not_semicolon_decimal;
+	DialogStfResult_t *dialogresult;
+	CellRegion *cr = NULL;
+	CellRegion *crerr;
+	
+	crerr         = g_new (CellRegion, 1);
+	crerr->list   = NULL;
+	crerr->cols   = -1;
+	crerr->rows   = 0;
+	crerr->styles = NULL;
+	
+	/* End of FIXME */
+	
+	if (!stf_parse_convert_to_unix (data)) {
+	
+		g_free ( (char*) data);	
+		g_warning (_("Error while trying to pre-convert clipboard data"));
+		return crerr;
+	}
 
-	/* Points to the locale information for number display */
-	static struct lconv *lc = NULL;
+	if (!stf_parse_is_valid_data (data)) {
 
-	if (!lc)
-		lc = localeconv ();
-	g_return_val_if_fail (lc != NULL, NULL);
+		g_free ( (char*) data);
+		g_warning (_("This data on the clipboard does not seem to be valid text"));
+		return crerr;
+	}
 
-	/* Do not use something as a seperator if it is a decimal point.
-	 * This is not perfect.  There is no way to handle thousands seperators
-	 */
-	not_comma_decimal     = NULL == strchr (lc->decimal_point, ',');
-	not_semicolon_decimal = NULL == strchr (lc->decimal_point, ';');
+	dialogresult = dialog_stf (NULL, "clipboard", data);
 
-	for (;--len >= 0; p++){
-		if (*p == '\t' || *p == '\n' ||
-		    (*p == ',' && not_comma_decimal) ||
-		    (*p == ';' && not_semicolon_decimal)) {
-			if (p != data)
-				list = new_node (list, data, p, cur_col, rows);
+	if (dialogresult != NULL) {
+		GSList *iterator;
+		int col, rowcount;
+	
+		cr = stf_parse_region (dialogresult->parseoptions, dialogresult->newstart);
+		
+		if (cr == NULL) {
 
-			cur_col++;
-			if (cur_col > cols)
-				cols = cur_col;
-			if (*p == '\n'){
-				if (p [1])
-					rows++;
-				cur_col = 0;
-			}
-
-			data = p+1;
+			g_free ( (char*) data);
+			g_warning (_("Parse error while trying to parse data into cellregion"));
+			return crerr;
 		}
+
+		iterator = dialogresult->formats;
+		col = 0;
+		rowcount = stf_parse_get_rowcount (dialogresult->parseoptions, dialogresult->newstart);
+		while (iterator) {
+			StyleRegion *region = g_new (StyleRegion, 1);
+			MStyle *style = mstyle_new ();
+			Range range;
+
+			mstyle_set_format (style, iterator->data);
+
+			range.start.col = col;
+			range.start.row = 0;
+			range.end.col   = col;
+			range.end.row   = rowcount;
+		
+			region->style = style;
+			region->range  = range;
+
+			/* FIXME : I Wonder who actually frees these StyleRegions, I am not
+			 * sure if this is done automatically... (I think it should though)
+			 * my observation is that neither sheet_paste_selection nor sheet_style_attach_list
+			 * frees these structs...
+			 * IS THIS A MEMORY LEAK?
+			 */
+			cr->styles = g_list_prepend (cr->styles, region);
+			
+			iterator = g_slist_next (iterator);
+
+			col++;
+		}
+
+		dialog_stf_result_free (dialogresult);
+	}
+	else {
+	
+		return crerr;
 	}
 
-	/* Handle the remainings */
-	if (p != data) {
-		list = new_node (list, data, p, cur_col, rows);
-		cur_col++;
-		if (cur_col > cols)
-			cols = cur_col;
-	}
-
-	/* Return the CellRegion */
-	cr = g_new (CellRegion, 1);
-	cr->list   = list;
-	cr->cols   = cols ? cols : 1;
-	cr->rows   = rows + 1;
-	cr->styles = NULL;
-
+	g_free (crerr);
+	
 	return cr;
 }
 
@@ -290,6 +291,10 @@ sheet_paste_selection (CommandContext *context, Sheet *sheet,
 	int        paste_height, paste_width;
 	int        end_col, end_row;
 
+	/* If 'cols' is set to -1 then there is _nothing_ to paste */
+	if (content->cols == -1)
+		return;
+	
 	/* Compute the bigger bounding box (selection u clipboard-region) */
 	if (ss->user.end.col - ss->user.start.col + 1 > content->cols)
 		paste_width = ss->user.end.col - ss->user.start.col + 1;

@@ -330,7 +330,6 @@ plugins/xbase/Makefile
 plugins/html/Makefile
 plugins/dif/Makefile
 plugins/plan-perfect/Makefile
-plugins/ff-stf/Makefile
 intl/Makefile
 po/Makefile.in
 macros/Makefile

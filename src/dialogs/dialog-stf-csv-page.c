@@ -1,0 +1,290 @@
+/*
+ * dialog-stf.c : Controls the widget on the CSV (Comma Separated Value) page of the druid
+ *
+ * Almer. S. Tigelaar <almer1@dds.nl>
+ *
+ */
+
+#include <config.h>
+#include <gnome.h>
+#include <glade/glade.h>
+
+#include "dialog-stf.h"
+
+/*************************************************************************************************
+ * MISC UTILITY FUNCTIONS
+ *************************************************************************************************/
+
+/*************************************************************************************************
+ * SIGNAL HANDLERS
+ *************************************************************************************************/
+
+/**
+ * csv_page_global_change
+ * @widget : the widget which emmited the signal
+ * @data : mother struct
+ *
+ * This will update the preview based on the state of
+ * the widgets on the csv page
+ *
+ * returns : nothing
+ **/
+static void
+csv_page_global_change (GtkWidget *widget, DruidPageData_t *data)
+{
+	CsvInfo_t *info = data->csv_info;
+	StfParseOptions_t *parseoptions = info->csv_run_parseoptions;
+	GSList *list;
+	char *textfieldtext;
+	gboolean customvalid = FALSE;
+
+	stf_parse_options_before_modification (parseoptions);
+	
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_custom))) {
+		char *csvcustomtext = gtk_editable_get_chars (GTK_EDITABLE (info->csv_customseparator), 0, -1);
+
+		if (strcmp (csvcustomtext, "") != 0) {
+			stf_parse_options_csv_set_customfieldseparator (parseoptions, csvcustomtext[0]);
+			customvalid = TRUE;
+		}
+	}
+
+	stf_parse_options_csv_set_separators (parseoptions,
+					      gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_tab)),
+					      gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_colon)),
+					      gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_comma)),
+					      gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_space)),
+					      customvalid);
+
+	textfieldtext = gtk_editable_get_chars (GTK_EDITABLE (info->csv_textfield), 0, -1);
+	stf_parse_options_csv_set_stringindicator (parseoptions, textfieldtext[0]);
+
+	stf_parse_options_csv_set_duplicates (parseoptions,
+					      gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_duplicates)));
+
+	/* Check if we actually changed something and invalidate the cache if necessary */
+	if (stf_parse_options_after_modification (parseoptions)) {
+		int i;
+
+		data->colcount = stf_parse_get_colcount (parseoptions, data->cur);
+			
+		stf_cache_options_invalidate (info->csv_run_cacheoptions);
+
+		stf_preview_colwidths_clear (info->csv_run_renderdata);
+		for (i = 0; i < data->colcount + 1; i++)
+			stf_preview_colwidths_add (info->csv_run_renderdata, stf_parse_get_colwidth (parseoptions, data->cur, i));
+	}
+					      
+	/* actually do the parsing and rendering */
+	stf_cache_options_set_range (info->csv_run_cacheoptions,
+				     info->csv_run_renderdata->startrow - 1,
+				     (info->csv_run_renderdata->startrow - 1) + info->csv_run_displayrows);
+				     				     
+	list = stf_parse_general_cached (parseoptions,
+					 info->csv_run_cacheoptions);
+			   
+	stf_preview_render (info->csv_run_renderdata,
+			    list,
+			    info->csv_run_displayrows,
+			    data->colcount);
+}
+
+/**
+ * csv_page_scroll_value_changed
+ * @adjustment : The gtkadjustment that emitted the signal
+ * @data : a mother struct
+ *
+ * This signal responds to changes in the scrollbar and
+ * will force a redraw of the preview
+ *
+ * returns : nothing
+ **/
+static void
+csv_page_scroll_value_changed (GtkAdjustment *adjustment, DruidPageData_t *data)
+{
+	CsvInfo_t *info = data->csv_info;
+
+	stf_preview_set_startrow (info->csv_run_renderdata, adjustment->value);
+	csv_page_global_change (NULL, data);
+}
+
+/**
+ * csv_page_custom_toggled
+ * @button : the Checkbutton that emmited the signal
+ * @data : a mother struct
+ *
+ * This will nicely activate the @data->csv_info->csv_customseparator widget
+ * so the user can enter text into it.
+ * It will also gray out this widget if the @button is not selected.
+ *
+ * returns : nothing
+ **/
+static void
+csv_page_custom_toggled (GtkCheckButton *button, DruidPageData_t *data)
+{
+	CsvInfo_t *info = data->csv_info;
+
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button))) {
+		gtk_widget_set_sensitive   (GTK_WIDGET (info->csv_customseparator), TRUE);
+		gtk_widget_grab_focus      (GTK_WIDGET (info->csv_customseparator));
+		gtk_editable_select_region (GTK_EDITABLE (info->csv_customseparator), 0, -1);
+		
+	}
+	else {
+		gtk_widget_set_sensitive (GTK_WIDGET (info->csv_customseparator), FALSE);
+		gtk_editable_select_region (GTK_EDITABLE (info->csv_customseparator), 0, 0); /* If we don't use this the selection will remain blue */
+	}
+
+	csv_page_global_change (NULL, data);
+}
+
+/*************************************************************************************************
+ * CSV EXPORTED FUNCTIONS
+ *************************************************************************************************/
+
+/**
+ * csv_page_prepare
+ * @page : The druidpage that emmitted the signal
+ * @druid : The gnomedruid that houses @page
+ * @data : mother struct
+ *
+ * Will prepare the csv page
+ *
+ * returns : nothing
+ **/
+void
+csv_page_prepare (GnomeDruidPage *page, GnomeDruid *druid, DruidPageData_t *pagedata)
+{
+	CsvInfo_t *info = pagedata->csv_info;
+
+	if (pagedata->cur != info->csv_run_cacheoptions->data || pagedata->importlines != info->csv_run_parseoptions->parselines) {
+	
+		stf_parse_options_set_lines_to_parse (info->csv_run_parseoptions, pagedata->importlines);
+		stf_cache_options_set_data  (info->csv_run_cacheoptions, info->csv_run_parseoptions, pagedata->cur);
+	}
+	stf_cache_options_invalidate (info->csv_run_cacheoptions);
+
+	pagedata->colcount = stf_parse_get_colcount (info->csv_run_parseoptions, pagedata->cur);
+		
+	GTK_RANGE (info->csv_scroll)->adjustment->upper = stf_parse_get_rowcount (info->csv_run_parseoptions, pagedata->cur) + 1;
+
+	gtk_adjustment_changed (GTK_RANGE (info->csv_scroll)->adjustment);
+	stf_preview_set_startrow (info->csv_run_renderdata, GTK_RANGE (info->csv_scroll)->adjustment->value);
+
+	/* Calling this routine will also automatically call global change which updates the preview too */
+	csv_page_custom_toggled (info->csv_custom, pagedata);
+
+	/* Calling this routine will also automatically call global change which updates the preview too */
+	csv_page_custom_toggled (info->csv_custom, pagedata);
+}
+
+/**
+ * csv_page_cleanup
+ * @pagedata : mother struct
+ *
+ * Will cleanup csv page run-time data
+ *
+ * returns : nothing
+ **/
+void
+csv_page_cleanup (DruidPageData_t *pagedata)
+{
+	CsvInfo_t *info = pagedata->csv_info;
+
+	stf_cache_options_free (info->csv_run_cacheoptions);
+	info->csv_run_cacheoptions = NULL;
+
+	if (info->csv_run_parseoptions) {	
+		stf_parse_options_free (info->csv_run_parseoptions);
+		info->csv_run_parseoptions = NULL;
+	}
+	
+	stf_preview_free (info->csv_run_renderdata);
+	info->csv_run_renderdata = NULL;
+}
+ 
+/**
+ * csv_page_init
+ * @gui : The glade gui of the dialog
+ * @pagedata : pagedata mother struct passed to signal handlers etc.
+ *
+ * This routine prepares/initializes all widgets on the CSV Page of the
+ * Druid.
+ *
+ * returns : nothing
+ **/
+void
+csv_page_init (GladeXML *gui, DruidPageData_t *pagedata)
+{
+	CsvInfo_t *info;
+
+	g_return_if_fail (gui != NULL);
+	g_return_if_fail (pagedata != NULL);
+	g_return_if_fail (pagedata->csv_info != NULL);
+
+	info = pagedata->csv_info;
+	
+	/* Create/get object and fill information struct */
+	info->csv_tab             = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "csv_tab"));
+	info->csv_colon           = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "csv_colon"));
+	info->csv_comma           = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "csv_comma"));
+	info->csv_space           = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "csv_space"));
+	info->csv_custom          = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "csv_custom"));
+	info->csv_customseparator = GTK_ENTRY        (glade_xml_get_widget (gui, "csv_customseparator"));
+
+	info->csv_duplicates    = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "csv_duplicates"));
+	info->csv_textindicator = GTK_COMBO        (glade_xml_get_widget (gui, "csv_textindicator"));
+	info->csv_textfield     = GTK_ENTRY        (glade_xml_get_widget (gui, "csv_textfield"));
+
+	info->csv_canvas = GNOME_CANVAS   (glade_xml_get_widget (gui, "csv_canvas"));
+	info->csv_scroll = GTK_VSCROLLBAR (glade_xml_get_widget (gui, "csv_scroll"));
+	
+	/* Set properties */
+	info->csv_run_renderdata    = stf_preview_new (info->csv_canvas, FALSE);
+	info->csv_run_parseoptions  = stf_parse_options_new ();
+	info->csv_run_cacheoptions  = stf_cache_options_new ();
+	info->csv_run_displayrows   = stf_preview_get_displayed_rowcount (info->csv_run_renderdata);
+
+	stf_parse_options_set_type  (info->csv_run_parseoptions, PARSE_TYPE_CSV);
+	stf_cache_options_set_data  (info->csv_run_cacheoptions, info->csv_run_parseoptions, pagedata->cur);
+	
+	/* Connect signals */
+	gtk_signal_connect (GTK_OBJECT (info->csv_tab),
+			    "toggled",
+			    GTK_SIGNAL_FUNC (csv_page_global_change),
+			    pagedata);
+	gtk_signal_connect (GTK_OBJECT (info->csv_colon),
+			    "toggled",
+			    GTK_SIGNAL_FUNC (csv_page_global_change),
+			    pagedata);
+	gtk_signal_connect (GTK_OBJECT (info->csv_comma),
+			    "toggled",
+			    GTK_SIGNAL_FUNC (csv_page_global_change),
+			    pagedata);
+	gtk_signal_connect (GTK_OBJECT (info->csv_space),
+			    "toggled",
+			    GTK_SIGNAL_FUNC (csv_page_global_change),
+			    pagedata);
+	gtk_signal_connect (GTK_OBJECT (info->csv_custom),
+			    "toggled",
+			    GTK_SIGNAL_FUNC (csv_page_custom_toggled),
+			    pagedata);
+	gtk_signal_connect (GTK_OBJECT (info->csv_customseparator),
+			    "changed",
+			    GTK_SIGNAL_FUNC (csv_page_global_change),
+			    pagedata);
+	gtk_signal_connect (GTK_OBJECT (info->csv_duplicates),
+			    "toggled",
+			    GTK_SIGNAL_FUNC (csv_page_global_change),
+			    pagedata);
+	gtk_signal_connect (GTK_OBJECT (info->csv_textfield),
+			    "changed",
+			    GTK_SIGNAL_FUNC (csv_page_global_change),
+			    pagedata);
+	
+	gtk_signal_connect (GTK_OBJECT (GTK_RANGE (info->csv_scroll)->adjustment),
+			    "value_changed",
+			    GTK_SIGNAL_FUNC (csv_page_scroll_value_changed),
+			    pagedata);
+}
+

@@ -37,6 +37,14 @@ libdialogs_a_SOURCES =				\
 	dialog-printer-setup.c			\
 	dialog-simple-input.c			\
 	dialog-solver.c				\
+	dialog-stf.c				\
+	dialog-stf.h				\
+	dialog-stf-main-page.c			\
+	dialog-stf-csv-page.c			\
+	dialog-stf-fixed-page.c			\
+	dialog-stf-format-page.c		\
+	dialog-stf-preview.c			\
+	dialog-stf-preview.h			\
 	dialog-summary.c			\
 	dialog-zoom.c				\
 	utils-dialog.c                          \
@@ -69,6 +77,7 @@ glade_DATA = 				\
 	delete-cells.glade		\
 	cell-format.glade		\
 	cell-sort.glade			\
+	dialog-stf.glade		\
 	plugin-manager.glade
 
 glade_msgs = 				\
@@ -94,6 +103,7 @@ glade_msgs = 				\
 	dialog-zoom.glade.h		\
 	cell-format.glade.h		\
 	cell-sort.glade.h		\
+	dialog-stf.glade.h		\
 	plugin-manager.glade.h
 
 EXTRA_DIST = $(glade_DATA) $(glade_msgs)

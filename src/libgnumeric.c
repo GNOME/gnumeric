@@ -10,6 +10,7 @@
 #include <gnome.h>
 #include "gnumeric.h"
 #include "xml-io.h"
+#include "stf.h"
 #include "plugin.h"
 #include "format.h"
 #include "workbook.h"
@@ -128,6 +129,7 @@ gnumeric_main (void *closure, int argc, char *argv [])
 	/* The statically linked in file formats */
 	xml_init ();
 	excel_init ();
+	stf_init ();
 
 	global_gnome_font_init ();
 

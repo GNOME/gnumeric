@@ -1,3 +1,15 @@
+2000-02-18  Miguel de Icaza  <miguel@gnu.org>
+
+	* configure.in (EXTRA_GNOME_CFLAGS): Remove stf plugin from here. 
+	* plugins/Makefile.am (SUBDIRS): And from here.
+
+	* src/stf.c (stf_open_and_read): Use malloc instead of g_malloc0
+	because g_malloc aborts execution if the buffer is too large
+	(which it might likely be).
+	(stf_read_workbook): Release using free, not g_free here.
+	(stf_read_workbook): Fix sheet object memory leak.
+	(stf_init): Kill old and unused code.
+
 2000-02-18  Michael Meeks  <michael@helixcode.com>
 
 	* src/workbook.c (workbook_new): setup view history.

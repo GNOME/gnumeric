@@ -172,6 +172,10 @@ GNUMERIC_BASE_SOURCES =				\
 	sort.h					\
 	str.c					\
 	str.h					\
+	stf.c					\
+	stf.h					\
+	stf-parse.c				\
+	stf-parse.h				\
 	style.c					\
 	style.h					\
 	summary.c				\
