@@ -1,3 +1,11 @@
+2002-06-27  Jody Goldberg <jody@gnome.org>
+
+	* src/gui-util.c : add missing include.
+
+2002-06-26  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : bump the gsf version req
+
 2002-06-26  Jody Goldberg <jody@gnome.org>
 
 	* src/expr.c (do_gnm_expr_unref) : add missing break.

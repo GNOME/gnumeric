@@ -19,6 +19,7 @@
 #include "number-match.h"
 #include "format.h"
 #include "application.h"
+#include "workbook.h"
 
 #include <string.h>
 #include <gal/widgets/e-colors.h>
