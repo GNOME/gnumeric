@@ -32,7 +32,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric HEAD\n"
 "POT-Creation-Date: 2003-05-12 17:26-0400\n"
-"PO-Revision-Date: 2002-12-05 07:36+0100\n"
+"PO-Revision-Date: 2003-05-14 20:20-0600\n"
 "Last-Translator: Christian Neumair <chris@gnome-de.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -16186,13 +16186,12 @@ msgid "Xbase (*.dbf) file format"
 msgstr "Xbase (*.dbf) Dateiformat"
 
 #: plugins/xml_sax/plugin.xml.in.h:1
-#, fuzzy
 msgid "EXPERIMENTAL Gnumeric XML (*.gnumeric)"
 msgstr "EXPERIMENTELLES Gnumeric-XML-Dateiformat (*.gnumeric)"
 
 #: plugins/xml_sax/plugin.xml.in.h:2
 msgid "EXPERIMENTAL SAX based Gnumeric (*.gnumeric)"
-msgstr "EXPERIMENTELLES Gnumeric-XML-Dateiformat (*.gnumeric)"
+msgstr "EXPERIMENTELLES Gnumeric-SAX-XML-Dateiformat (*.gnumeric)"
 
 #: plugins/xml_sax/plugin.xml.in.h:3
 msgid "EXPERIMENTAL SAX based XML"
@@ -16276,9 +16275,8 @@ msgid "Maximum Length of Recently Used Functions List"
 msgstr "Maximale Einträge in der Liste zuletzt verwendeter Funktionen"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:17
-#, fuzzy
 msgid "Print Config"
-msgstr "Bereich drucken"
+msgstr "Drucken Configurieren"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:18
 msgid ""
@@ -16774,7 +16772,6 @@ msgstr ""
 "Unterkategorien, gruppiert nach Hauptkategorien."
 
 #: schemas/plot-types.xml.in.h:11
-#, fuzzy
 msgid ""
 "Minor categories stacked in lines grouped by major category, with markers at "
 "each point."
@@ -16783,7 +16780,6 @@ msgstr ""
 "werden, wobei sie an jedem Punkt markiert sind."
 
 #: schemas/plot-types.xml.in.h:12
-#, fuzzy
 msgid "Minor categories stacked in lines grouped by major category."
 msgstr ""
 "In Linien gestapelte Unterkategorien, die nach den Hauptkategorien gruppiert "
@@ -17072,7 +17068,6 @@ msgid "Create a new workbook"
 msgstr "Eine neues Arbeitsbuch anlegen"
 
 #: src/GNOME_Gnumeric.xml.h:61
-#, fuzzy
 msgid "Create a pivot table"
 msgstr "Eine Pivot-Tabelle erzeugen."
 
@@ -17514,9 +17509,8 @@ msgid "Open"
 msgstr "Öffnen"
 
 #: src/GNOME_Gnumeric.xml.h:164 src/workbook-control-gui.c:3871
-#, fuzzy
 msgid "Open a file"
-msgstr "Einen Filter entfernen"
+msgstr "Eine Datei üffnen"
 
 #: src/GNOME_Gnumeric.xml.h:165 src/workbook-control-gui.c:3780
 msgid "Outlines _Below"
@@ -17693,7 +17687,6 @@ msgid "Save the current workbook"
 msgstr "Das aktuelle Arbeitsbuch speichern"
 
 #: src/GNOME_Gnumeric.xml.h:205
-#, fuzzy
 msgid "Save the current workbook with a different name"
 msgstr "Die aktuelle Datei unter einem anderen Namen speichern."
 
@@ -17939,9 +17932,8 @@ msgid "_Add / Modify comment..."
 msgstr "Kommentar _hinzufügen/ändern..."
 
 #: src/GNOME_Gnumeric.xml.h:261 src/workbook-control-gui.c:3618
-#, fuzzy
 msgid "_Add..."
-msgstr "_Hinzufügen"
+msgstr "_Hinzufügen..."
 
 #: src/GNOME_Gnumeric.xml.h:262 src/workbook-control-gui.c:3268
 msgid "_All"
@@ -18219,9 +18211,8 @@ msgid "_Select"
 msgstr "_Markieren"
 
 #: src/GNOME_Gnumeric.xml.h:323
-#, fuzzy
 msgid "_Series..."
-msgstr "Reihen"
+msgstr "Reihen..."
 
 # CHECK, meaning of shaped unclear, ("geformt") --miq
 #: src/GNOME_Gnumeric.xml.h:324
@@ -18308,9 +18299,8 @@ msgid "_View"
 msgstr "_Ansicht"
 
 #: src/GNOME_Gnumeric.xml.h:343 src/workbook-control-gui.c:3615
-#, fuzzy
 msgid "_View..."
-msgstr "_Ansicht"
+msgstr "_Ansicht..."
 
 #: src/GNOME_Gnumeric.xml.h:344 src/workbook-control-gui.c:3509
 msgid "_Width..."
@@ -18327,7 +18317,6 @@ msgid "_Zoom..."
 msgstr "_Vergrößerung..."
 
 #: src/GNOME_Gnumeric_Component.xml.h:1
-#, fuzzy
 msgid "About the Gnumeric spreadsheet program"
 msgstr "Info zum Gnumeric-Tabellenkalkulationsprogramm"
 
@@ -19429,7 +19418,6 @@ msgstr "Formatierung im Ausgabebereich beibehalten"
 
 #: src/dialogs/anova-one.glade.h:13 src/dialogs/anova-two.glade.h:13
 #: src/dialogs/mean-tests.glade.h:24 src/dialogs/variance-tests.glade.h:14
-#, fuzzy
 msgid "_Alpha:"
 msgstr "_Alpha:"
 
@@ -19493,7 +19481,6 @@ msgid "Correct _TWo INitial CApitals                           "
 msgstr "_ZWei GRoße ANfangsbuchstaben korrigieren"
 
 #: src/dialogs/autocorrect.glade.h:6
-#, fuzzy
 msgid "Do _not capitalize after:"
 msgstr "_Nicht groß schreiben nach:"
 
@@ -19502,7 +19489,6 @@ msgid "Do _not correct:"
 msgstr "_Nicht korrigieren:"
 
 #: src/dialogs/autocorrect.glade.h:8
-#, fuzzy
 msgid "First Letter"
 msgstr "E_rster Buchstabe"
 
@@ -19515,7 +19501,6 @@ msgid "General"
 msgstr "Allgemein"
 
 #: src/dialogs/autocorrect.glade.h:10
-#, fuzzy
 msgid "INitial CApitals"
 msgstr "_ANfangsbuchstaben"
 
@@ -19729,9 +19714,8 @@ msgid "Auto Save"
 msgstr "Automatisch speichern"
 
 #: src/dialogs/autosave.glade.h:3
-#, fuzzy
 msgid "_Automatically save every"
-msgstr "_Automatisch alle speichern"
+msgstr "_Automatisch speicher alle"
 
 #: src/dialogs/autosave.glade.h:4
 msgid "_Prompt Before Saving"
@@ -19788,9 +19772,8 @@ msgid "Any Value     (no validation)"
 msgstr "Alle Werte                     (Keine Validierung)"
 
 #: src/dialogs/cell-format.glade.h:17
-#, fuzzy
 msgid "Background Color"
-msgstr "Hintergrundfarbe:"
+msgstr "Hintergrundfarbe"
 
 #: src/dialogs/cell-format.glade.h:18 src/dialogs/dialog-cell-format.c:2879
 msgid "Border"
@@ -19813,9 +19796,8 @@ msgid "Co_lor:"
 msgstr "Fa_rbe:"
 
 #: src/dialogs/cell-format.glade.h:24
-#, fuzzy
 msgid "Color"
-msgstr "Farbe:"
+msgstr "Farbe"
 
 #: src/dialogs/cell-format.glade.h:25 src/dialogs/so-arrow.glade.h:5
 msgid "Color:"
@@ -19840,7 +19822,6 @@ msgid "Date"
 msgstr "Datum"
 
 #: src/dialogs/cell-format.glade.h:30
-#, fuzzy
 msgid "De_lete Format"
 msgstr "_Format löschen"
 
@@ -19907,7 +19888,6 @@ msgid "In a list"
 msgstr "In einer Liste"
 
 #: src/dialogs/cell-format.glade.h:46
-#, fuzzy
 msgid "In-cell _dropdown"
 msgstr "Dropdown-Menüs in _Zellen"
 
@@ -20168,7 +20148,6 @@ msgid "_Justify"
 msgstr "Aus_richten"
 
 #: src/dialogs/cell-format.glade.h:115
-#, fuzzy
 msgid "_Lock"
 msgstr "S_perren"
 
@@ -20258,9 +20237,8 @@ msgid "<span weight=\"bold\">Sort Specification</span>"
 msgstr ""
 
 #: src/dialogs/cell-sort.glade.h:3
-#, fuzzy
 msgid "Direction:"
-msgstr "Verzeichnis"
+msgstr "Richtung"
 
 #: src/dialogs/cell-sort.glade.h:4
 #, fuzzy
@@ -20292,7 +20270,6 @@ msgid "Column Width"
 msgstr "Spaltenbreite"
 
 #: src/dialogs/col-width.glade.h:2
-#, fuzzy
 msgid "_Column width (pt.):"
 msgstr "_Spaltenbreite (Punkte):"
 
@@ -20458,7 +20435,6 @@ msgid "Shift cells _up"
 msgstr "Zellen nach _oben versetzen"
 
 #: src/dialogs/descriptive-stats.glade.h:1
-#, fuzzy
 msgid "(1 - alpha):"
 msgstr "1 - _Alpha:"
 
@@ -21170,7 +21146,7 @@ msgstr "Der Gehe zu-Dialog konnte nicht erzeugt werden."
 
 #: src/dialogs/dialog-hyperlink.c:133
 msgid "Not a range or name"
-msgstr ""
+msgstr "Weder ein Bereich noch ein Name"
 
 #: src/dialogs/dialog-hyperlink.c:185
 msgid "_Internal Link"
@@ -21261,15 +21237,18 @@ msgid "Merge Field"
 msgstr "Zusammenführungsfeld"
 
 #: src/dialogs/dialog-password.c:30
-#, fuzzy, c-format
+#, c-format
 msgid "%s is encrypted"
-msgstr "Diese Datei ist verschlüsselt"
+msgstr "Die Datei %s ist verschlüsselt"
 
 #: src/dialogs/dialog-password.c:32
 msgid ""
 "Encrypted files require a password\n"
 "before they can be opened."
 msgstr ""
+"Ein Passwort wird benötigt\n"
+"bevor eine verschlüsselte Datei\n"
+"geöffnet werden kann."
 
 #: src/dialogs/dialog-password.c:64
 msgid "Password :"
@@ -21990,7 +21969,7 @@ msgstr "Einschränkung »%s« gilt für eine Zelle, die keine Eingabezelle ist."
 
 #: src/dialogs/dialog-solver.c:1007
 msgid "No constraints defined for the problem."
-msgstr ""
+msgstr "Das Problem hat keine Einschränkungen."
 
 #: src/dialogs/dialog-solver.c:1057
 msgid ""
@@ -22213,7 +22192,7 @@ msgstr "Eine neue Spalte einfügen"
 
 #: src/dialogs/dialog-stf.glade.h:6
 msgid "Always (Both Sides)"
-msgstr ""
+msgstr "Immer auf beiden Seiten"
 
 #: src/dialogs/dialog-stf.glade.h:7
 msgid "Attempt to recognize columns in the text automatically."
@@ -22299,7 +22278,7 @@ msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:24
 msgid "End"
-msgstr ""
+msgstr "Ende"
 
 #: src/dialogs/dialog-stf.glade.h:25
 msgid "Example"
@@ -22358,11 +22337,11 @@ msgstr "Anzahl der zu importierenden Zeilen"
 
 #: src/dialogs/dialog-stf.glade.h:38
 msgid "On left side only"
-msgstr ""
+msgstr "Nur auf der linken Seite"
 
 #: src/dialogs/dialog-stf.glade.h:39
 msgid "On right side only"
-msgstr ""
+msgstr "Nur auf der rechten Seite"
 
 #: src/dialogs/dialog-stf.glade.h:40
 msgid "Original data type:"
@@ -22613,7 +22592,7 @@ msgstr "_p-Wert:"
 
 #: src/dialogs/fill-series.glade.h:4
 msgid "D_ay"
-msgstr ""
+msgstr "T_ag"
 
 #: src/dialogs/fill-series.glade.h:5
 #, fuzzy
@@ -22694,11 +22673,11 @@ msgstr "(_Minimum):"
 
 #: src/dialogs/goalseek.glade.h:4
 msgid "<span weight=\"bold\">Goal</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Ziel</span>"
 
 #: src/dialogs/goalseek.glade.h:5
 msgid "<span weight=\"bold\">Last Result</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Letztes Resultat</span>"
 
 #: src/dialogs/goalseek.glade.h:6
 msgid "Current Value:"
@@ -23359,7 +23338,7 @@ msgstr ""
 
 #: src/dialogs/search-replace.glade.h:4
 msgid "<span weight=\"bold\">Search Text Type</span>"
-msgstr ""
+msgstr "Typ des Suchtextes"
 
 #: src/dialogs/search-replace.glade.h:5 src/dialogs/search.glade.h:1
 #, fuzzy
@@ -23771,22 +23750,20 @@ msgstr "_Zusammenfassung"
 
 #: src/dialogs/so-arrow.glade.h:1
 msgid "Arrow Length:"
-msgstr ""
+msgstr "Pfeillänge:"
 
 #: src/dialogs/so-arrow.glade.h:2
-#, fuzzy
 msgid "Arrow Tip:"
-msgstr "Pfeil"
+msgstr "Pfeilspitze"
 
 #: src/dialogs/so-arrow.glade.h:3
 msgid "Arrow Width:"
-msgstr ""
+msgstr "Pfeilbreite"
 
 # CHECK
 #: src/dialogs/so-arrow.glade.h:4
-#, fuzzy
 msgid "Arrow/Line Properties"
-msgstr "Eigenschaften des Rahmens"
+msgstr "Eigenschaften des Pfeils oder der Linie"
 
 #: src/dialogs/so-arrow.glade.h:6
 msgid "Distance from tip of arrowhead to the center point"
@@ -26289,7 +26266,6 @@ msgid "Error while trying to write csv file"
 msgstr "Beim Versuch, eine csv-Datei zu schreiben, ist ein Fehler aufgetreten"
 
 #: src/stf.c:538
-#, fuzzy
 msgid "Comma or tab separated files (CSV/TSV)"
 msgstr "Durch Kommata oder Tabulatoren unterteilte Dateien (CSV/TSV))"
 
@@ -26876,11 +26852,9 @@ msgid "(Input) "
 msgstr "(Eingabe)"
 
 #: src/tools/simulation.c:411
-#, fuzzy
 msgid "Maximum time exceeded. Simulation was not completed. "
-msgstr "Maximale Anzahl an Iterationen verstrichen: Optimierung unterbrochen"
+msgstr "Maximale Zeit ist verstrichen: Simulation wurde unterbrochen"
 
-# CHECK, imho "Ergebnis" better than "Antwort" --miq
 #: src/tools/solver/reports-write.c:67 src/tools/solver/reports-write.c:195
 msgid "Answer Report"
 msgstr "Ergebnisbericht"
@@ -27341,77 +27315,64 @@ msgid "Expecting a single range"
 msgstr "Einfache Reichweite erwartet"
 
 #: src/widgets/widget-charmap-selector.c:68
-#, fuzzy
 msgid "Arabic"
-msgstr "Bereich %i"
+msgstr "Arabisch"
 
 #: src/widgets/widget-charmap-selector.c:69
-#, fuzzy
 msgid "Baltic"
-msgstr "Kursiv"
+msgstr "Baltisch"
 
 #: src/widgets/widget-charmap-selector.c:70
-#, fuzzy
 msgid "Central European"
-msgstr "Auf der Seite zentrieren"
+msgstr "Zentraleuropäisch"
 
 #: src/widgets/widget-charmap-selector.c:71
-#, fuzzy
 msgid "Chinese"
-msgstr "Chisq"
+msgstr "Chinesisch"
 
 #: src/widgets/widget-charmap-selector.c:72
 msgid "Cyrillic"
 msgstr ""
 
 #: src/widgets/widget-charmap-selector.c:73
-#, fuzzy
 msgid "Greek"
-msgstr "grün"
+msgstr "Griechisch"
 
 #: src/widgets/widget-charmap-selector.c:74
 msgid "Hebrew"
-msgstr ""
+msgstr "Hebräisch"
 
 #: src/widgets/widget-charmap-selector.c:75
-#, fuzzy
 msgid "Indian"
-msgstr "Median"
+msgstr "Indisch"
 
 #: src/widgets/widget-charmap-selector.c:76
-#, fuzzy
 msgid "Japanese"
-msgstr "Japanischer Yen"
+msgstr "Japanisch"
 
 #: src/widgets/widget-charmap-selector.c:77
-#, fuzzy
 msgid "Korean"
-msgstr "Wahrheitswert"
+msgstr "Koreanisch"
 
 #: src/widgets/widget-charmap-selector.c:78
-#, fuzzy
 msgid "Turkish"
-msgstr "Türkische Lire"
+msgstr "Türkisch"
 
 #: src/widgets/widget-charmap-selector.c:79
-#, fuzzy
 msgid "Unicode"
-msgstr "_Hervorholen"
+msgstr "Unicode"
 
 #: src/widgets/widget-charmap-selector.c:80
-#, fuzzy
 msgid "Vietnamese"
-msgstr "Namen festlegen"
+msgstr "Vietnamesisch"
 
 #: src/widgets/widget-charmap-selector.c:81
-#, fuzzy
 msgid "Western"
-msgstr "West"
+msgstr "Westeuropäisch"
 
 #: src/widgets/widget-charmap-selector.c:82
-#, fuzzy
 msgid "Other"
-msgstr "Oktober"
+msgstr "Sonstige"
 
 #: src/widgets/widget-charmap-selector.c:87
 msgid "Arabic (IBM-864)"
@@ -27463,55 +27424,53 @@ msgstr ""
 
 #: src/widgets/widget-charmap-selector.c:99
 msgid "Central European (IBM-852)"
-msgstr ""
+msgstr "Zentraleuropäisch (IBM-852)"
 
 #: src/widgets/widget-charmap-selector.c:100
 msgid "Central European (ISO-8859-2)"
-msgstr ""
+msgstr "Zentraleuropäisch (ISO-8859-2)"
 
 #: src/widgets/widget-charmap-selector.c:101
 msgid "Central European (MacCE)"
-msgstr ""
+msgstr "Zentraleuropäisch (MacCE)"
 
 #: src/widgets/widget-charmap-selector.c:102
 msgid "Central European (Windows-1250)"
-msgstr ""
+msgstr "Zentraleuropäisch (Windows-1250)"
 
 #: src/widgets/widget-charmap-selector.c:103
 msgid "Chinese Simplified (GB18030)"
-msgstr ""
+msgstr "Vereinfachtes Chinesisch (GB18030)"
 
 # CHECK
 #: src/widgets/widget-charmap-selector.c:104
-#, fuzzy
 msgid "Chinese Simplified (GB2312)"
-msgstr "Simplex, überarbeitet (GLPK 3.2)"
+msgstr "Vereinfachtes Chinesisch (GB2312)"
 
 # CHECK
 #: src/widgets/widget-charmap-selector.c:105
-#, fuzzy
 msgid "Chinese Simplified (GBK)"
-msgstr "Simplex, überarbeitet (GLPK 3.2)"
+msgstr "Vereinfachtes Chinesisch (GBK)"
 
 #: src/widgets/widget-charmap-selector.c:106
 msgid "Chinese Simplified (HZ)"
-msgstr ""
+msgstr "Vereinfachtes Chinesisch (HZ)"
 
 #: src/widgets/widget-charmap-selector.c:107
 msgid "Chinese Simplified (Windows-936)"
-msgstr ""
+msgstr "Vereinfachtes Chinesisch (Windows-936)"
 
 #: src/widgets/widget-charmap-selector.c:108
 msgid "Chinese Traditional (Big5)"
-msgstr ""
+msgstr "Traditionelles Chinesisch (Big5)"
 
 #: src/widgets/widget-charmap-selector.c:109
 msgid "Chinese Traditional (Big5-HKSCS)"
-msgstr ""
+msgstr "Traditionelles Chinesisch (Big5-HKSCS)"
 
 #: src/widgets/widget-charmap-selector.c:110
 msgid "Chinese Traditional (EUC-TW)"
-msgstr ""
+msgstr "Traditionelles Chinesisch (EUC-TW)"
 
 #: src/widgets/widget-charmap-selector.c:111
 msgid "Croatian (MacCroatian)"
@@ -27543,7 +27502,7 @@ msgstr ""
 
 #: src/widgets/widget-charmap-selector.c:118
 msgid "Russian (CP-866)"
-msgstr ""
+msgstr "Russisch (CP-866)"
 
 #: src/widgets/widget-charmap-selector.c:119
 msgid "Ukrainian (KOI8-U)"
@@ -27555,7 +27514,7 @@ msgstr ""
 
 #: src/widgets/widget-charmap-selector.c:121
 msgid "English (US-ASCII)"
-msgstr ""
+msgstr "Englisch (US-ASCII)"
 
 #: src/widgets/widget-charmap-selector.c:122
 msgid "Farsi (MacFarsi)"
@@ -27567,15 +27526,15 @@ msgstr ""
 
 #: src/widgets/widget-charmap-selector.c:124
 msgid "Greek (ISO-8859-7)"
-msgstr ""
+msgstr "Griechisch (ISO-8859-7)"
 
 #: src/widgets/widget-charmap-selector.c:125
 msgid "Greek (MacGreek)"
-msgstr ""
+msgstr "Griechisch (MacGreek)"
 
 #: src/widgets/widget-charmap-selector.c:126
 msgid "Greek (Windows-1253)"
-msgstr ""
+msgstr "Griechisch (Windows-1253)"
 
 #: src/widgets/widget-charmap-selector.c:127
 msgid "Gujarati (MacGujarati)"
@@ -27587,23 +27546,23 @@ msgstr ""
 
 #: src/widgets/widget-charmap-selector.c:129
 msgid "Hebrew (IBM-862)"
-msgstr ""
+msgstr "Hebräisch (IBM-862)"
 
 #: src/widgets/widget-charmap-selector.c:130
 msgid "Hebrew (ISO-8859-8-E)"
-msgstr ""
+msgstr "Hebräisch (ISO-8859-8-E)"
 
 #: src/widgets/widget-charmap-selector.c:131
 msgid "Hebrew (ISO-8859-8-I)"
-msgstr ""
+msgstr "Hebräisch (ISO-8859-8-I)"
 
 #: src/widgets/widget-charmap-selector.c:132
 msgid "Hebrew (MacHebrew)"
-msgstr ""
+msgstr "Hebräisch (MacHebrew)"
 
 #: src/widgets/widget-charmap-selector.c:133
 msgid "Hebrew (Windows-1255)"
-msgstr ""
+msgstr "Hebräisch (Windows-1255)"
 
 #: src/widgets/widget-charmap-selector.c:134
 msgid "Hindi (MacDevanagari)"
@@ -27655,7 +27614,7 @@ msgstr ""
 
 #: src/widgets/widget-charmap-selector.c:146
 msgid "South European (ISO-8859-3)"
-msgstr ""
+msgstr "Südeuropäisch (ISO-8859-3)"
 
 #: src/widgets/widget-charmap-selector.c:147
 msgid "Thai (TIS-620)"
@@ -27679,11 +27638,11 @@ msgstr ""
 
 #: src/widgets/widget-charmap-selector.c:152
 msgid "Unicode (UTF-7)"
-msgstr ""
+msgstr "Unicode (UTF-7)"
 
 #: src/widgets/widget-charmap-selector.c:153
 msgid "Unicode (UTF-8)"
-msgstr ""
+msgstr "Unicode (UTF-8)"
 
 #: src/widgets/widget-charmap-selector.c:154
 msgid "Unicode (UTF-16BE)"
@@ -27702,9 +27661,8 @@ msgid "Unicode (UTF-32LE)"
 msgstr ""
 
 #: src/widgets/widget-charmap-selector.c:158
-#, fuzzy
 msgid "User Defined"
-msgstr "Unterschrift verwenden"
+msgstr "Benutzer definiert"
 
 #: src/widgets/widget-charmap-selector.c:159
 msgid "Vietnamese (TCVN)"
