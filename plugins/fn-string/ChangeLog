@@ -1,3 +1,8 @@
+2004-01-08  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=130172
+	* functions.c (gnumeric_text) : improve compatiblity.
+
 2003-12-23  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.2.3

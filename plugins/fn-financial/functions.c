@@ -2357,15 +2357,13 @@ static char const *help_euroconvert = {
 static GnmValue *
 gnumeric_euroconvert (FunctionEvalInfo *ei, GnmValue **argv)
 {
-	gnm_float n     = value_get_as_float (argv[0]);
-        char const *str1 = value_peek_string (argv[1]);
-        char const *str2 = value_peek_string (argv[2]);
-	gnm_float c1    = one_euro (str1);
-	gnm_float c2    = one_euro (str2);
+	gnm_float c1 = one_euro (value_peek_string (argv[1]));
+	gnm_float c2 = one_euro (value_peek_string (argv[2]));
 
-	if (c1 >= 0 && c2 >= 0)
+	if (c1 >= 0 && c2 >= 0) {
+		gnm_float n  = value_get_as_float (argv[0]);
 		return value_new_float (n * c2 / c1);
-	else
+	} else
 		return value_new_error_VALUE (ei->pos);
 }
 

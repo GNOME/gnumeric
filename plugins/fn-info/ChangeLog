@@ -1,3 +1,8 @@
+2004-01-08  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (gnumeric_isblank) : huge simplification
+	  now that we can use 'E'
+
 2004-01-07  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=130835

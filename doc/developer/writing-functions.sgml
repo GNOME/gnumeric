@@ -248,9 +248,10 @@ Function Tokens
 
 With intersection and iteration support
     b : boolean		identical to f, Do we need this ?
-    f : float 		no errors, string conversion attempted
-    s : string		no errors
-    S : scalar		any scalar non-error, non blank value
+    f : float 		no errors, string conversion attempted, blanks
+			converted to int 0
+    s : string		no errors, blanks accepted and passed as empty
+    S : scalar		any scalar non-error, blanks passed as empty
     E : scalar		any scalar non blank value
     B : scalar		any scalar even a blank
 

@@ -1,3 +1,25 @@
+2004-01-08  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=130172
+	* src/func.c (function_call_with_list) : A major change
+	  Do not do the empty conversion to int(0) in expr_eval
+	  ALLOW scalars to return empty/NULL, the convert them to empty for
+	  most types, and int(0) for float/bool.  Which makes
+	  'S' the same as 's' for all purposes accept documentation.
+
+	* src/GNOME_Gnumeric-gtk.xml : No need to name items their action is
+	  sufficient as long as they are unique in their parent.
+
+	* src/cell.h (CELL_HAS_NEW_EXPR) : AARRRGGH.  Actually a sign a
+	  _unique_ value to it.
+
+	* src/gnumeric-pane.c (cb_control_point_event) : change the cursor
+	  when dragging.  Only start dragging on button 1 down.  Ignore other
+	  buttons while dragging.
+	(cb_sheet_object_canvas_event) : ditto.
+
+	* src/main-application.c (main) : set the app name.
+
 2004-01-07  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=130700

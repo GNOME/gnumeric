@@ -170,6 +170,8 @@ main (int argc, char *argv [])
 	if (func_state_file)
 		return gnm_dump_func_defs (func_state_file, FALSE);
 
+	/* Keep in sync with .desktop file */
+	g_set_application_name (_("Gnumeric Spreadsheet"));
  	plugins_init (GNM_CMD_CONTEXT (ioc));
 
 	/* Load selected files */

@@ -812,36 +812,27 @@ static char const *help_text = {
 static GnmValue *
 gnumeric_text (FunctionEvalInfo *ei, GnmValue **args)
 {
-	GnmFormat *format = style_format_new_XL (value_peek_string (args[1]),
-						   TRUE);
-	GnmValue       *res, *tmp = NULL;
-	GnmValue const *arg  = args[0];
-	gboolean    ok = FALSE;
+	GnmValue       *res, *match = NULL;
+	GnmValue const *v  = args[0];
+	GnmFormat *fmt;
 	GnmDateConventions const *conv =
 		workbook_date_conv (ei->pos->sheet->workbook);
 
-	if (arg->type == VALUE_STRING) {
-		GnmValue *match = format_match (value_peek_string (arg), NULL, conv);
-		ok = (match != NULL);
-		if (ok)
-			tmp = match;
-	} else
-		ok = VALUE_IS_NUMBER (arg);
+	if (v->type == VALUE_STRING) {
+		match = format_match (value_peek_string (v), NULL, conv);
+		if (match != NULL)
+			v = match;
+	}
+	fmt = style_format_new_XL (value_peek_string (args[1]), TRUE);
+	res = value_new_string_nocopy (
+		format_value (fmt, v, NULL, -1, conv));
+	style_format_unref (fmt);
 
-	if (ok) {
-		char *str = format_value (format,
-					  (tmp != NULL) ? tmp : arg,
-					  NULL, -1, conv);
-		res = value_new_string_nocopy (str);
-	} else
-		res = value_new_error (ei->pos, _("Type mismatch"));
+	if (match != NULL)
+		value_release (match);
 
-	if (tmp != NULL)
-		value_release (tmp);
-	style_format_unref (format);
 	return res;
 }
-
 
 /***************************************************************************/
 

@@ -827,13 +827,12 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 		tmp = args[i] = gnm_expr_eval (expr, ei->pos,
 		       ((iter_count >= 0 || arg_type == '?')
 			       ? GNM_EXPR_EVAL_PERMIT_NON_SCALAR
-			       : ((arg_type == 'B')
-					? GNM_EXPR_EVAL_PERMIT_EMPTY
-					: GNM_EXPR_EVAL_SCALAR_NON_EMPTY)));
+			       : GNM_EXPR_EVAL_PERMIT_EMPTY));
 
-		if (tmp == NULL ||	/* Optional arguments can be empty */
-		    arg_type == '?')	/* '?' arguments are unrestriced */
+		if (arg_type == '?')	/* '?' arguments are unrestriced */
 			continue;
+		if (tmp == NULL)
+			tmp = args[i] = value_new_empty ();
 
 		/* Handle implicit intersection or iteration depending on flags */
 		if (tmp->type == VALUE_CELLRANGE || tmp->type == VALUE_ARRAY) {
@@ -875,6 +874,9 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 			} else if (tmp->type == VALUE_ERROR) {
 				free_values (args, i);
 				return tmp;
+			} else if (tmp->type == VALUE_EMPTY) {
+				value_release (args [i]);
+				tmp = args[i] = value_new_int (0);
 			}
 
 			if (tmp->type != VALUE_INTEGER &&
@@ -886,15 +888,6 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 			break;
 
 		case 's':
-			if (tmp->type == VALUE_ERROR) {
-				free_values (args, i);
-				return tmp;
-			} else if (tmp->type != VALUE_STRING) {
-				free_values (args, i+1);
-				return value_new_error_VALUE (ei->pos);
-			}
-			break;
-
 		case 'S':
 			if (tmp->type == VALUE_ERROR) {
 				free_values (args, i);

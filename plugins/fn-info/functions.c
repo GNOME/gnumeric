@@ -1497,43 +1497,9 @@ static char const *help_isblank = {
 };
 
 static GnmValue *
-gnumeric_isblank (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
+gnumeric_isblank (FunctionEvalInfo *ei, GnmValue **argv)
 {
-	gboolean result = FALSE;
-	GnmExpr const *expr;
-	if (gnm_expr_list_length (expr_node_list) != 1)
-		return value_new_error (ei->pos,
-					_("Invalid number of arguments"));
-
-	expr = expr_node_list->data;
-
-	/* How can this happen ? */
-	if (expr == NULL)
-		return value_new_bool (FALSE);
-
-	/* Handle pointless arrays */
-	if (expr->any.oper == GNM_EXPR_OP_ARRAY) {
-		if (expr->array.rows != 1 || expr->array.cols != 1)
-			return value_new_bool (FALSE);
-		expr = expr->array.corner.expr;
-	}
-
-	if (expr->any.oper == GNM_EXPR_OP_CELLREF) {
-		GnmCellRef const *ref = &expr->cellref.ref;
-		Sheet const *sheet = eval_sheet (ref->sheet, ei->pos->sheet);
-		GnmCellPos pos;
-		GnmCell *cell;
-
-		cellref_get_abs_pos (ref, &ei->pos->eval, &pos);
-		cell = sheet_cell_get (sheet, pos.col, pos.row);
-
-		if (cell != NULL) {
-			cell_eval (cell);
-			result = cell_is_empty (cell);
-		} else
-			result = TRUE;
-	}
-	return value_new_bool (result);
+	return value_new_bool (argv[0]->type == VALUE_EMPTY);
 }
 
 /***************************************************************************/
@@ -1830,8 +1796,8 @@ const GnmFuncDescriptor info_functions[] = {
 	{ "info",	"s", N_("info_type"), &help_info,
 	  gnumeric_info, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "isblank",	NULL, N_("value"), &help_isblank,
-	  NULL, gnumeric_isblank, NULL, NULL, NULL,
+	{ "isblank",	"E", N_("value"), &help_isblank,
+	  gnumeric_isblank, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "iserr",	"E",   N_("value"), &help_iserr,
 	  gnumeric_iserr, NULL, NULL, NULL, NULL,

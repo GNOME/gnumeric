@@ -11,6 +11,8 @@ typedef enum {
 	CELL_IN_SHEET_LIST  = 0x10000000,
 	/* Is the top left corner of a merged region */
 	CELL_IS_MERGED	    = 0x20000000,
+	/* Cells expression was changed, recalc before rendering */
+	CELL_HAS_NEW_EXPR    = 0x40000000
 } GnmCellFlags;
 
 /* Definition of a GnmCell */
@@ -53,6 +55,14 @@ gboolean    cell_is_number	  (GnmCell const *cell);
 gboolean    cell_is_zero	  (GnmCell const *cell);
 gboolean    cell_is_partial_array (GnmCell const *cell);
 GnmExprArray const *cell_is_array (GnmCell const *cell);
+
+#define cell_eval(cell)							\
+{									\
+	if (cell_needs_recalc (cell)) {					\
+		cell_eval_content (cell);				\
+		cell->base.flags &= ~(DEPENDENT_NEEDS_RECALC | CELL_HAS_NEW_EXPR );		\
+	}								\
+}
 
 /**
  * Utilities to assign the contents of a cell

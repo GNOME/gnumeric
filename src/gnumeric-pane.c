@@ -591,17 +591,16 @@ cb_control_point_event (FooCanvasItem *ctrl_pt, GdkEvent *event,
 		return FALSE;
 
 	switch (event->type) {
-	case GDK_ENTER_NOTIFY: {
-		GdkCursorType ct = GPOINTER_TO_UINT
-			(g_object_get_data (G_OBJECT (ctrl_pt), "cursor"));
-		gnm_widget_set_cursor_type (GTK_WIDGET (ctrl_pt->canvas), ct);
+	case GDK_ENTER_NOTIFY:
+		gnm_widget_set_cursor_type (GTK_WIDGET (ctrl_pt->canvas),
+			GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (ctrl_pt), "cursor")));
 
 		if (pane->control_points [8] != ctrl_pt)
 			foo_canvas_item_set (ctrl_pt,
 				"fill_color",    "green",
 				NULL);
 		break;
-	}
+
 	case GDK_LEAVE_NOTIFY:
 		scg_set_display_cursor (scg);
 		if (pane->control_points [8] != ctrl_pt)
@@ -611,7 +610,7 @@ cb_control_point_event (FooCanvasItem *ctrl_pt, GdkEvent *event,
 		break;
 
 	case GDK_BUTTON_RELEASE:
-		if (pane->drag_object != so)
+		if (pane->drag_object != so || event->button.button != 1)
 			return FALSE;
 
 		cmd_object_move (wbc, so, &scg->old_anchor,
@@ -619,11 +618,14 @@ cb_control_point_event (FooCanvasItem *ctrl_pt, GdkEvent *event,
 		gnm_canvas_slide_stop (gcanvas);
 		pane->drag_object = NULL;
 		gnm_simple_canvas_ungrab (ctrl_pt, event->button.time);
+		gnm_widget_set_cursor_type (GTK_WIDGET (ctrl_pt->canvas),
+			GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (ctrl_pt), "cursor")));
 		sheet_object_update_bounds (so, NULL);
 		break;
 
 	case GDK_BUTTON_PRESS:
-		gnm_canvas_slide_stop (gcanvas);
+		if (pane->drag_object != NULL)
+			return FALSE;
 
 		switch (event->button.button) {
 		case 1:
@@ -637,6 +639,7 @@ cb_control_point_event (FooCanvasItem *ctrl_pt, GdkEvent *event,
 			scg->last_x = event->button.x;
 			scg->last_y = event->button.y;
 			gnm_canvas_slide_init (gcanvas);
+			gnm_widget_set_cursor_type (GTK_WIDGET (ctrl_pt->canvas), GDK_HAND2);
 			break;
 
 		case 3: display_object_menu (so, so_view, event);
@@ -875,6 +878,7 @@ cb_sheet_object_canvas_event (FooCanvasItem *item, GdkEvent *event,
 			scg->last_x = event->button.x;
 			scg->last_y = event->button.y;
 			gnm_canvas_slide_init (GNM_CANVAS (item->canvas));
+			gnm_widget_set_cursor_type (GTK_WIDGET (item->canvas), GDK_HAND2);
 		} else
 			display_object_menu (so, item, event);
 		break;

@@ -330,6 +330,7 @@ cell_set_expr_internal (GnmCell *cell, GnmExpr const *expr)
 
 	cell_cleanout (cell);
 
+	cell->base.flags |= CELL_HAS_NEW_EXPR;
 	cell->base.expression = expr;
 
 	/* Until the value is recomputed, we put in this value.  */

@@ -845,10 +845,6 @@ cmd_set_text_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		}
 	}
 
-	/* even for manual recalc we need to calc the new cell */
-	if (expr != NULL && !me->pos.sheet->workbook->recalc_auto)
-		cell_eval (cell);
-
 	return FALSE;
 }
 

@@ -1,3 +1,7 @@
+2004-01-08  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (gnumeric_euroconvert) : slight cleanup.  Nothing major.
+
 2003-12-23  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.2.3

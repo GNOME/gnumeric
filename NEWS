@@ -20,6 +20,8 @@ Jody:
 	* Better compatibility with MS Excel's handling of minus sign
 	http://bugzilla.gnome.org/show_bug.cgi?id=130835
 	* ISNUMBER() should return false for blank references
+	http://bugzilla.gnome.org/show_bug.cgi?id=130172
+	* Do not convert blanks to int(0) for string args
 
 Andreas:
 	* Make new strings translatable.
