@@ -75,7 +75,8 @@ char *gnumeric_data_dir = GNUMERIC_DATADIR;
 
 poptContext ctx;
 
-const struct poptOption gnumeric_popt_options [] = {
+const struct poptOption
+gnumeric_popt_options[] = {
 	{ "version", 'v', POPT_ARG_NONE, &gnumeric_show_version, 0,
 	  N_("Display Gnumeric's version"), NULL  },
 	{ "lib-dir", 'L', POPT_ARG_STRING, &gnumeric_lib_dir, 0,
@@ -162,8 +163,8 @@ gnumeric_check_for_components (void)
  * FIXME: We hardcode the GUI command context. Change once we are able
  * to tell whether we are in GUI or not.
  */
-static void
-gnumeric_main (void *closure, int argc, char *argv [])
+int
+main (int argc, char *argv [])
 {
 	gboolean opened_workbook = FALSE;
 	WorkbookControl *wbc;
@@ -293,14 +294,6 @@ gnumeric_main (void *closure, int argc, char *argv [])
 	global_gnome_font_shutdown ();
 
 	gnome_config_drop_all ();
-}
 
-	
-
-	
-int
-main (int argc, char *argv [])
-{
-	gnumeric_main (0, argc, argv);
 	return 0;
 }

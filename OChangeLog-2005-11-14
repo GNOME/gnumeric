@@ -1,3 +1,8 @@
+2001-09-06  Morten Welinder  <terra@diku.dk>
+
+	* src/main.c (main): Delete.
+	(main): Renamed from gnumeric_main.  Return type changed to int.
+
 2001-09-05  Jody Goldberg <jgoldberg@home.com>
 
 	* src/commands.c (cmd_ins_del_colrow) : don't store the clipboard if
