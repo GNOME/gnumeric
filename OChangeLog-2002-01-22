@@ -1,3 +1,7 @@
+2000-05-26  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_update) : SPANCALC_NO_DRAW exists now.
+
 2000-05-26  Michael Meeks  <michael@helixcode.com>
 
 	* src/sheet.c (sheet_update): corrent SPANCALC_NO_DRAW to

@@ -712,7 +712,7 @@ sheet_update (Sheet const *sheet)
 		p->recompute_spans = FALSE;
 		sheet_calc_spans (sheet, SPANCALC_RESIZE |
 				  (p->recompute_visibility ?
-				   SPANCALC_RESIZE : SPANCALC_SIMPLE));
+				   SPANCALC_NO_DRAW : SPANCALC_SIMPLE));
 	}
 
 	if (p->reposition_row_comment < SHEET_MAX_ROWS ||
