@@ -20,6 +20,8 @@
 #include "format.h"
 #include "sheet.h"
 #include "commands.h"
+#include "style-border.h"
+#include "style-color.h"
 
 /* Adds borders to all the selected regions on the sheet.
  * FIXME: This is a little more simplistic then it should be, it always

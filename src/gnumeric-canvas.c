@@ -12,7 +12,6 @@
 #include "sheet-control-gui-priv.h"
 #include "gnumeric-util.h"
 #include "mstyle.h"
-#include "style-border.h"
 #include "style-color.h"
 #include "selection.h"
 #include "parse-util.h"
@@ -23,7 +22,9 @@
 #include "workbook-edit.h"
 #include "workbook-control-gui-priv.h"
 #include "workbook.h"
+#include "workbook-cmd-format.h"
 #include "commands.h"
+#include "formats.h"
 #include "cmd-edit.h"
 #include "clipboard.h"
 
@@ -75,44 +76,44 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 	}
 
 	if ((event->state & GDK_CONTROL_MASK) && (event->state & GDK_SHIFT_MASK)) {
-		char *fmt = NULL;
-		char *desc = NULL;
+		char const *fmt = NULL;
+		char const *desc = NULL;
 		
 		switch (event->keyval) {
 		case GDK_asciitilde :
-			fmt = "0";
+			fmt = cell_formats [FMT_NUMBER][0];
 			desc = _("Format as Number");
 			break;
 		case GDK_dollar :
-			fmt = "$0.00_);($0.00)";
+			fmt = cell_formats [FMT_CURRENCY][0];
 			desc = _("Format as Currency");
 			break;
 		case GDK_percent :
-			fmt = "0%";
+			fmt = cell_formats [FMT_PERCENT][0];
 			desc = _("Format as Percentage");
 			break;
 		case GDK_asciicircum :
-			fmt = "0.00E+00";
+			fmt = cell_formats [FMT_SCIENCE][0];
 			desc = _("Format as Scientific");
 			break;
 		case GDK_numbersign :
-			fmt = "d-mmm-yy";
+			fmt = cell_formats [FMT_DATE][0];
 			desc = _("Format as Date");
 			break;
 		case GDK_at :
-			fmt = "h:mm AM/PM";
+			fmt = cell_formats [FMT_TIME][0];
 			desc = _("Format as Time");
 			break;
 		case GDK_exclam :
-			fmt = "#,##0.00";
+			fmt = cell_formats [FMT_ACCOUNT][0];
 			desc = _("Format as alternative Number"); /* FIXME: Better descriptor */
 			break;
 
 		case GDK_ampersand :
-			workbook_cmd_mutate_borders (WORBOOK_CONTROL (wbc), sheet, TRUE);
+			workbook_cmd_mutate_borders (WORKBOOK_CONTROL (wbcg), sheet, TRUE);
 			return TRUE;
 		case GDK_underscore :
-			workbook_cmd_mutate_borders (WORBOOK_CONTROL (wbc), sheet, TRUE);
+			workbook_cmd_mutate_borders (WORKBOOK_CONTROL (wbcg), sheet, TRUE);
 			return TRUE;
 		}
 
