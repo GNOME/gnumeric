@@ -1675,6 +1675,13 @@ cmd_paste_cut_undo (GnumericCommand *cmd, CommandContext *context)
 				PASTE_ALL_TYPES, GDK_CURRENT_TIME);
 	clipboard_release (me->contents);
 	me->contents = NULL;
+
+	/* Force update of the status area */
+	sheet_flag_status_update_range (me->info.target_sheet, NULL /* force update */);
+
+	sheet_set_dirty (me->info.target_sheet, TRUE);
+	sheet_update (me->info.target_sheet);
+
 	return FALSE;
 }
 
@@ -1682,18 +1689,33 @@ static gboolean
 cmd_paste_cut_redo (GnumericCommand *cmd, CommandContext *context)
 {
 	CmdPasteCut *me = CMD_PASTE_CUT(cmd);
+	Range tmp;
 
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->contents == NULL, TRUE);
 
+	tmp = me->info.origin;
+	range_translate (&tmp, me->info.col_offset, me->info.row_offset);
+
+	/* Store the original contents */
 	me->contents =
-	    clipboard_copy_cell_range (
-		me->info.target_sheet, 
-		me->info.origin.start.col + me->info.col_offset,
-		me->info.origin.start.row + me->info.row_offset,
-		me->info.origin.end.col + me->info.col_offset,
-		me->info.origin.end.row + me->info.row_offset);
+	    clipboard_copy_cell_range (me->info.target_sheet, 
+				       tmp.start.col, tmp.start.row,
+				       tmp.end.col, tmp.end.row);
+
+	/* Make sure the destination is selected */
+	sheet_selection_set (me->info.target_sheet,
+			     tmp.start.col, tmp.start.row,
+			     tmp.start.col, tmp.start.row,
+			     tmp.end.col, tmp.end.row);
+
+	sheet_set_dirty (me->info.target_sheet, TRUE);
 	sheet_move_range (context, &me->info);
+
+	/* Force update of the status area */
+	sheet_flag_status_update_range (me->info.target_sheet, NULL /* force update */);
+
+	sheet_update (me->info.target_sheet);
 
 	return FALSE;
 }

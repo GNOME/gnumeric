@@ -509,7 +509,7 @@ sheet_flag_status_update_cell (Sheet const *sheet,
  *    the selected region.
  *
  * @sheet :
- * @range :
+ * @range : If NULL then force an update.
  *
  * Will cause the format toolbar, the edit area, and the auto expressions to be
  * updated if appropriate.
@@ -518,6 +518,13 @@ void
 sheet_flag_status_update_range (Sheet const *sheet,
 				Range const * const range)
 {
+	/* Force an update */
+	if (range == NULL) {
+		sheet->private->selection_content_changed = TRUE;
+		sheet->private->edit_pos_changed = TRUE;
+		return;
+	}
+
 	/* if a part of the selected region changed value update
 	 * the auto expressions
 	 */

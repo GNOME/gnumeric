@@ -113,7 +113,8 @@ sheet_selection_add_range (Sheet *sheet,
 	sheet_redraw_range (sheet, &ss->user);
 	sheet_redraw_headers (sheet, TRUE, TRUE, &ss->user);
 
-	sheet_selection_changed_hook (sheet);
+	/* Force update of the status area */
+	sheet_flag_status_update_range (sheet, NULL /* force update */);
 }
 
 /**
@@ -675,27 +676,6 @@ sheet_selection_cut (CommandContext *context, Sheet *sheet)
 	return TRUE;
 }
 
-static void
-sheet_selection_move (ExprRelocateInfo *rinfo)
-{
-	Sheet * const sheet = rinfo->target_sheet;
-	Range r = rinfo->origin;
-
-	range_translate (&r, rinfo->col_offset, rinfo->row_offset);
-
-	sheet_selection_set (sheet,
-			     r.start.col, r.start.row,
-			     r.start.col, r.start.row,
-			     r.end.col, r.end.row);
-
-	/* NOTE : This is not XL compatible.  It does not
-	 *  clear the selection on a different sheet.
-	 *  However, this seems like a better idea.
-	 */
-	if (rinfo->origin_sheet != rinfo->target_sheet)
-		sheet_selection_reset (rinfo->origin_sheet);
-}
-
 void
 sheet_selection_paste (CommandContext *context, Sheet *sheet,
 		       int dest_col, int dest_row,
@@ -748,7 +728,6 @@ sheet_selection_paste (CommandContext *context, Sheet *sheet,
 		rinfo.target_sheet = sheet;
 
 		cmd_paste_cut (context, &rinfo);
-		sheet_selection_move  (&rinfo);
 		application_clipboard_clear ();
 	} else {
 		/* Pasting a Copy or from the X selection */
@@ -757,8 +736,8 @@ sheet_selection_paste (CommandContext *context, Sheet *sheet,
 					paste_flags, time);
 
 		workbook_recalc (sheet->workbook);
+		sheet_update (sheet);
 	}
-	sheet_load_cell_val (sheet);
 }
 
 /**

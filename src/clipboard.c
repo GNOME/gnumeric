@@ -479,8 +479,14 @@ x_selection_received (GtkWidget *widget, GtkSelectionData *sel, guint time, gpoi
 			g_free (wb->clipboard_paste_callback_data);
 			wb->clipboard_paste_callback_data = NULL;
 		}
-		
+	}
+
+	/* Be careful to release memory BEFORE update and recalc.
+	 * this will be more friendly in low memory environments
+	 */
+	if (region_pastable) {
 		workbook_recalc (wb);
+		sheet_update (pc->dest_sheet);
 	}
 }
 
@@ -710,7 +716,6 @@ clipboard_paste_region (CommandContext *context,
 {
 	clipboard_paste_closure_t *data;
 	
-	g_return_if_fail (region != NULL);
 	g_return_if_fail (dest_sheet != NULL);
 	g_return_if_fail (IS_SHEET (dest_sheet));
 
@@ -721,15 +726,6 @@ clipboard_paste_region (CommandContext *context,
 	data->dest_row     = dest_row;
 	data->paste_flags  = paste_flags;
 
-	{
-		/* Flag potential changes in the status area */
-		Range tmp;
-		tmp.start.col = dest_col;
-		tmp.start.row = dest_row;
-		tmp.end.col = dest_col + region->cols;
-		tmp.end.row = dest_row + region->rows;
-		sheet_flag_status_update_range (dest_sheet, &tmp);
-	}
 	/*
 	 * If we own the selection, there is no need to ask X for
 	 * the selection: we do the paste from our internal buffer.

@@ -1,3 +1,24 @@
+2000-04-05  Jody Goldberg <jgoldberg@home.com>
+
+	* src/commands.c (cmd_paste_cut_undo) : Use sheet_update and force a
+	  status update.
+	(cmd_paste_cut_redo) : Ditto. Change the selection here.
+
+	* src/sheet.c (sheet_flag_status_update_range) : Handle NULL ranges.
+
+	* src/selection.c (sheet_selection_add_range) : Use
+	  sheet_flag_status_update_range rather than an immediate call
+	  to selection_changed_hook (that is deprecated).
+	(sheet_selection_move) : Delete.
+	(sheet_selection_paste) : Use sheet_update.
+
+	* src/clipboard.c (clipboard_paste_region) : Remove unnecessary and
+	  incorrect code to do status updates.  The selection mechanism
+	  handles it already.
+	(x_selection_received) : Use sheet_update.
+
+	* src/about.c (dialog_about) : Add Almer.
+
 2000-04-05  Michael Meeks  <michael@helixcode.com>
 
 	* src/sheet-style.c (sheet_style_compute): kill leak.
