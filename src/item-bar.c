@@ -12,13 +12,14 @@
 #include "gnumeric-sheet.h"
 #include "item-bar.h"
 #include "item-debug.h"
+#include "utils.h"
 
 /* Marshal forward declarations */
 static void   item_bar_marshal      (GtkObject *,
 				     GtkSignalFunc,
 				     gpointer,
 				     GtkArg *);
- 
+
 /* The signal signatures */
 typedef void (*ItemBarSignal1) (GtkObject *, gint arg1, gpointer data);
 typedef void (*ItemBarSignal2) (GtkObject *, gint arg1, gint arg2, gpointer data);
@@ -65,7 +66,7 @@ item_bar_realize (GnomeCanvasItem *item)
 
 	item_bar = ITEM_BAR (item);
 	window = GTK_WIDGET (item->canvas)->window;
-	
+
 	/* Configure our gc */
 	item_bar->gc = gc = gdk_gc_new (window);
 	gnome_canvas_get_color (item->canvas, "black", &c);
@@ -108,37 +109,20 @@ item_bar_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int f
 	gnome_canvas_group_child_bounds (GNOME_CANVAS_GROUP (item->parent), item);
 }
 
-static char *
+static const char *
 get_row_name (int n)
 {
 	static char x [4 * sizeof (int)];
 
-	g_assert (n < SHEET_MAX_ROWS);
+	g_assert (n >= 0 && n < SHEET_MAX_ROWS);
 
 	sprintf (x, "%d", n + 1);
 	return x;
 }
 
-static char *
-get_col_name (int n)
-{
-	static char x [3];
-
-	g_assert (n < SHEET_MAX_COLS);
-	
-	if (n <= 'z'-'a') {
-		x [0] = n + 'A';
-		x [1] = 0;
-	} else {
-		x [0] = (n / ('z'-'a'+1) - 1) + 'A';
-		x [1] = (n % ('z'-'a'+1)) + 'A';
-		x [2] = 0;
-	}
-	return x;
-}
-
 static void
-bar_draw_cell (ItemBar *item_bar, GdkDrawable *drawable, ItemBarSelectionType type, char *str, int x1, int y1, int x2, int y2)
+bar_draw_cell (ItemBar *item_bar, GdkDrawable *drawable, ItemBarSelectionType type,
+	       const char *str, int x1, int y1, int x2, int y2)
 {
 	GtkWidget *canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (item_bar)->canvas);
 	GdkFont *font = canvas->style->font;
@@ -166,7 +150,7 @@ bar_draw_cell (ItemBar *item_bar, GdkDrawable *drawable, ItemBarSelectionType ty
 		break;
 	}
 	gdk_draw_rectangle (drawable, gc, TRUE, x1 + 1, y1 + 1, x2-x1-2, y2-y1-2);
-	gtk_draw_shadow (canvas->style, drawable, GTK_STATE_NORMAL, shadow, 
+	gtk_draw_shadow (canvas->style, drawable, GTK_STATE_NORMAL, shadow,
 			 x1, y1, x2-x1, y2-y1);
 	gdk_draw_string (drawable, font, item_bar->gc,
 			 x1 + ((x2 - x1) - len) / 2,
@@ -181,23 +165,23 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 	Sheet   *sheet = item_bar->sheet_view->sheet;
 	ColRowInfo *cri;
 	int element, total, pixels, limit;
-	char *str;
-	
+	const char *str;
+
 	element = item_bar->first_element;
 
 	if (item_bar->orientation == GTK_ORIENTATION_VERTICAL)
 		limit = y + height;
 	else
 		limit = x + width;
-	
+
 	total = 0;
 
 	do {
 		if (item_bar->orientation == GTK_ORIENTATION_VERTICAL){
-			
+
 			if (element >= SHEET_MAX_ROWS){
 				GtkWidget *canvas = GTK_WIDGET (item->canvas);
-				
+
 				gtk_draw_shadow (canvas->style, drawable,
 						 GTK_STATE_NORMAL, GTK_SHADOW_OUT,
 						 x, y, width, height);
@@ -208,7 +192,7 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 				pixels = item_bar->resize_width;
 			else
 				pixels = cri->pixels;
-			
+
 			if (total + pixels >= y){
 				str = get_row_name (element);
 				bar_draw_cell (item_bar, drawable,
@@ -220,7 +204,7 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 		} else {
 			if (element >= SHEET_MAX_COLS){
 				GtkWidget *canvas = GTK_WIDGET (item->canvas);
-				
+
 				gtk_draw_shadow (canvas->style, drawable,
 						 GTK_STATE_NORMAL, GTK_SHADOW_OUT,
 						 x, y, width, height);
@@ -233,7 +217,7 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 				pixels = cri->pixels;
 
 			if (total + pixels >= x){
-				str = get_col_name (element);
+				str = col_name (element);
 				bar_draw_cell (item_bar, drawable,
 					       sheet_col_selection_type (sheet, element),
 					       str, 1 + total - x, -y,
@@ -241,7 +225,7 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 					       GTK_WIDGET (item->canvas)->allocation.height - y);
 			}
 		}
-		
+
 		total += pixels;
 		element++;
 	} while (total < limit);
@@ -267,10 +251,10 @@ is_pointer_on_division (ItemBar *item_bar, int pos, int *the_total, int *the_ele
 	ColRowInfo *cri;
 	Sheet *sheet;
 	int i, total;
-	
+
 	total = 0;
 	sheet = item_bar->sheet_view->sheet;
-	
+
 	for (i = item_bar->first_element; total < pos; i++){
 		if (item_bar->orientation == GTK_ORIENTATION_VERTICAL)
 			cri = sheet_row_get_info (sheet, i);
@@ -304,7 +288,7 @@ set_cursor (ItemBar *item_bar, int pos)
 	/* We might be invoked before we are realized */
 	if (!canvas->window)
 		return;
-	
+
 	if (is_pointer_on_division (item_bar, pos, NULL, NULL))
 		gdk_window_set_cursor(canvas->window, item_bar->change_cursor);
 	else
@@ -313,33 +297,40 @@ set_cursor (ItemBar *item_bar, int pos)
 
 /*
  * Returns the GnomeCanvasPoints for a line at position in the
- * correct orientation.  
+ * correct orientation.
  */
 static GnomeCanvasPoints *
-item_bar_get_line_points (ItemBar *item_bar, gdouble position)
+item_bar_get_line_points (GnomeCanvas *gcanvas, ItemBar *item_bar, int position)
 {
 	GnomeCanvasPoints *points;
 	GtkWidget *canvas = GTK_WIDGET (item_bar->sheet_view->sheet_view);
-	
-	points = gnome_canvas_points_new (2);
+	double x1, y1, x2, y2;
 
 	if (item_bar->orientation == GTK_ORIENTATION_VERTICAL){
-		points->coords [0] = 0.0;
-		points->coords [1] = position;
-		points->coords [2] = canvas->allocation.width;
-		points->coords [3] = position;
+		gnome_canvas_window_to_world
+			(gcanvas, canvas->allocation.width, position,
+			 &x2, &y2);
+		x1 = 0.0;
+		y1 = y2;
 	} else {
-		points->coords [0] = position;
-		points->coords [1] = 0.0;
-		points->coords [2] = position;
-		points->coords [3] = canvas->allocation.height;
+		gnome_canvas_window_to_world
+			(gcanvas, position, canvas->allocation.height,
+			 &x2, &y2);
+		x1 = x2;
+		y1 = 0.0;
 	}
+
+	points = gnome_canvas_points_new (2);
+	points->coords [0] = x1;
+	points->coords [1] = y1;
+	points->coords [2] = x2;
+	points->coords [3] = y2;
 
 	return points;
 }
 
 static void
-item_bar_start_resize (ItemBar *item_bar, int pos, int pixels)
+item_bar_start_resize (ItemBar *item_bar, int pos)
 {
 	GnomeCanvasPoints *points;
 	GnomeCanvasGroup *group;
@@ -347,27 +338,22 @@ item_bar_start_resize (ItemBar *item_bar, int pos, int pixels)
 	GnumericSheet *gsheet;
 	Sheet *sheet;
 	int division_pos;
-	double division_pos_d;
+	GnomeCanvas *canvas;
 
 	sheet = item_bar->sheet_view->sheet;
 	gsheet = GNUMERIC_SHEET (item_bar->sheet_view->sheet_view);
-	group = GNOME_CANVAS_GROUP (GNOME_CANVAS (gsheet)->root);
+	canvas = GNOME_CANVAS (gsheet);
+	group = GNOME_CANVAS_GROUP (canvas->root);
 
-	if (item_bar->orientation == GTK_ORIENTATION_VERTICAL){
+	if (item_bar->orientation == GTK_ORIENTATION_VERTICAL)
 		division_pos = sheet_row_get_distance (
 			sheet, gsheet->top_row, pos+1);
-	} else {
+	else
 		division_pos = sheet_col_get_distance (
 			sheet, gsheet->top_col, pos+1);
-	}
 
-	/* division_pos is in pixels, convert to canvas units */
-	gnome_canvas_window_to_world (GNOME_CANVAS (gsheet), division_pos, 0, &division_pos_d, NULL);
-	
-	points = item_bar_get_line_points (item_bar, division_pos_d);
-	
-	item_bar->resize_guide_offset = division_pos_d - pixels;
-		
+	points = item_bar_get_line_points (canvas, item_bar, division_pos);
+
 	item = gnome_canvas_item_new (
 		group,
 		gnome_canvas_line_get_type (),
@@ -386,7 +372,7 @@ get_col_from_pos (ItemBar *item_bar, int pos)
 	ColRowInfo *cri;
 	Sheet *sheet;
 	int i, total;
-	
+
 	total = 0;
 	sheet = item_bar->sheet_view->sheet;
 	for (i = item_bar->first_element; total < pos; i++){
@@ -424,7 +410,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 			pos = x;
 		set_cursor (item_bar, pos);
 		break;
-		
+
 	case GDK_MOTION_NOTIFY:
 		convert (canvas, e->motion.x, e->motion.y, &x, &y);
 		if (item_bar->orientation == GTK_ORIENTATION_VERTICAL)
@@ -445,18 +431,20 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 			item_bar->resize_width = npos;
 
 			resize_guide = GNOME_CANVAS_ITEM (item_bar->resize_guide);
-			points = item_bar_get_line_points (item_bar, pos);
+
+			points = item_bar_get_line_points (canvas, item_bar, pos);
+
 			gnome_canvas_item_set (resize_guide, "points",  points, NULL);
 			gnome_canvas_points_free (points);
 
 			/* Redraw the ItemBar to show nice incremental progress */
 			gnome_canvas_request_redraw (
 				canvas, 0, 0, INT_MAX, INT_MAX);
-			
+
 		}
 		else if (ITEM_BAR_IS_SELECTING (item_bar))
 		{
-			
+
 			element = get_col_from_pos (item_bar, pos);
 
 			gtk_signal_emit (
@@ -486,14 +474,14 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 			if (element > SHEET_MAX_COLS-1)
 				break;
 		}
-		
+
 		if (cri){
 			/* Record the important bits */
 			item_bar->resize_pos = element;
 			item_bar->resize_start_pos = start - cri->pixels;
 			item_bar->resize_width = cri->pixels;
 
-			item_bar_start_resize (item_bar, element, pos);
+			item_bar_start_resize (item_bar, element);
 			gnome_canvas_item_grab (item,
 						GDK_POINTER_MOTION_MASK |
 						GDK_BUTTON_RELEASE_MASK,
@@ -524,7 +512,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 		gnome_canvas_item_ungrab (item, e->button.time);
 		item_bar->start_selection = -1;
 		break;
-		
+
 	default:
 		return FALSE;
 	}
@@ -538,12 +526,12 @@ static void
 item_bar_init (ItemBar *item_bar)
 {
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_bar);
-	
+
 	item->x1 = 0;
 	item->y1 = 0;
 	item->x2 = 0;
 	item->y2 = 0;
-	
+
 	item_bar->first_element = 0;
 	item_bar->orientation = GTK_ORIENTATION_VERTICAL;
 	item_bar->resize_pos = -1;
@@ -556,10 +544,10 @@ item_bar_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	GnomeCanvasItem *item;
 	ItemBar *item_bar;
 	int v;
-	
+
 	item = GNOME_CANVAS_ITEM (o);
 	item_bar = ITEM_BAR (o);
-	
+
 	switch (arg_id){
 	case ARG_SHEET_VIEW:
 		item_bar->sheet_view = GTK_VALUE_POINTER (*arg);
@@ -588,15 +576,15 @@ item_bar_class_init (ItemBarClass *item_bar_class)
 	GnomeCanvasItemClass *item_class;
 
 	item_bar_parent_class = gtk_type_class (gnome_canvas_item_get_type());
-	
+
 	object_class = (GtkObjectClass *) item_bar_class;
 	item_class = (GnomeCanvasItemClass *) item_bar_class;
 
-	gtk_object_add_arg_type ("ItemBar::SheetView", GTK_TYPE_POINTER, 
+	gtk_object_add_arg_type ("ItemBar::SheetView", GTK_TYPE_POINTER,
 				 GTK_ARG_WRITABLE, ARG_SHEET_VIEW);
-	gtk_object_add_arg_type ("ItemBar::Orientation", GTK_TYPE_INT, 
+	gtk_object_add_arg_type ("ItemBar::Orientation", GTK_TYPE_INT,
 				 GTK_ARG_WRITABLE, ARG_ORIENTATION);
-	gtk_object_add_arg_type ("ItemBar::First", GTK_TYPE_INT, 
+	gtk_object_add_arg_type ("ItemBar::First", GTK_TYPE_INT,
 				 GTK_ARG_WRITABLE, ARG_FIRST_ELEMENT);
 
 	item_bar_signals [SELECTION_CHANGED] =
@@ -622,7 +610,7 @@ item_bar_class_init (ItemBarClass *item_bar_class)
 	/* Register our signals */
 	gtk_object_class_add_signals (object_class, item_bar_signals,
 				      LAST_SIGNAL);
-	
+
 	/* Method overrides */
 	object_class->destroy = item_bar_destroy;
 	object_class->set_arg = item_bar_set_arg;
@@ -671,7 +659,7 @@ item_bar_marshal (GtkObject     *object,
 		  GtkArg        *args)
 {
 	ItemBarSignal2 rfunc;
-	
+
 	rfunc = (ItemBarSignal2) func;
 	(*rfunc) (object,
 		  GTK_VALUE_INT (args [0]),

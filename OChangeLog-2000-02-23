@@ -1,3 +1,13 @@
+1999-06-03  Morten Welinder  <terra@diku.dk>
+
+	* src/item-bar.c (item_bar_event): Handle zoom.
+	(item_bar_get_line_points): Handle zoom.
+	(item_bar_start_resize): Handle zoom better.
+	(get_col_name): Delete.  Use col_name instead.
+	(bar_draw_cell): Constify.
+
+	* src/item-bar.h (ItemBar): Delete member resize_guide_offset.
+
 1999-06-02  Morten Welinder  <terra@diku.dk>
 
 	* src/fn-date.c (gnumeric_days360): New (unimplemented) function.
