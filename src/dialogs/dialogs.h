@@ -52,6 +52,8 @@ void     dialog_sheet_order     (WorkbookControlGUI *wbcg);
 gboolean dialog_get_number      (WorkbookControlGUI *wbcg,
 				 const char *glade_file,
 				 double *init_and_return_value);
+gboolean dialog_choose_cols_vs_rows (WorkbookControlGUI *wbcg, const char *title,
+				     gboolean *is_cols);
 
 typedef gboolean (*SearchReplaceDialogCallback) (WorkbookControlGUI *wbcg, SearchReplace *sr);
 void dialog_search_replace (WorkbookControlGUI *wbcg,

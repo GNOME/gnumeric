@@ -1,3 +1,9 @@
+2001-06-02  Almer S. Tigelaar  <almer@gnome.org>
+
+	* (ms_excel_read_row): Set outline using
+	new functions.
+	(ms_excel_read_colinfo): Idem.
+
 2001-05-31  Karl Eichwalder  <ke@suse.de>
 
 	* boot.c (excel_save): Add dot.

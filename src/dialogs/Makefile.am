@@ -84,6 +84,7 @@ glade_DATA = 				\
 	cell-format.glade		\
 	cell-sort.glade			\
 	col-width.glade			\
+	colrow.glade			\
 	delete-cells.glade		\
 	dialog-stf-export.glade		\
 	dialog-stf.glade		\

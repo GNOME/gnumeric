@@ -366,6 +366,11 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 									gdk_draw_line (drawable, item_bar->lines,
 										       left+size/2, top+3,
 										       left+size/2, top+size-4);
+									/*
+									 * This fails miserably if grouped cols/rows are present, why
+									 * is this here? This is basically assuming that if col X is
+									 * not visible than col X + 1 must be collapsed ?!?
+									 */
 									if (!cri->is_collapsed)
 										g_warning ("expected collapsed %s", col_name (col));
 								}

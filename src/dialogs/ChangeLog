@@ -1,3 +1,11 @@
+2001-06-02  Almer S. Tigelaar  <almer@gnome.org>
+
+	* colrow.glade: New simple dialog.
+	
+	* dialog-simple-input.c, dialogs.h
+	(dialog_choose_cols_vs_rows): New, let user choose
+	between columns or rows.
+
 2001-05-27  Almer S. Tigelaar  <almer@gnome.org>
 
 	* validate.glade: Make non-modal.

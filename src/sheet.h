@@ -197,12 +197,14 @@ void    sheet_row_set_default_size_pixels (Sheet *sheet, int height_pixels);
 int     sheet_col_size_fit_pixels	  (Sheet *sheet, int col);
 int     sheet_row_size_fit_pixels	  (Sheet *sheet, int row);
 
-void    sheet_col_row_set_outline_level	  (Sheet *sheet, int index,
-					   gboolean is_cols, int outline,
-					   gboolean is_collapsed);
-void    sheet_col_row_gutter		  (Sheet *sheet,
-					   int max_col_indent,
-					   int max_row_indent);
+gboolean sheet_col_row_can_group         (Sheet *sheet, int from,
+					  int to, gboolean is_cols);
+gboolean sheet_col_row_group_ungroup     (Sheet *sheet, int from,
+					  int to, gboolean is_cols,
+					  gboolean inc, gboolean is_collapsed);
+void     sheet_col_row_gutter		 (Sheet *sheet,
+					  int max_col_indent,
+					  int max_row_indent);
 
 gboolean sheet_range_splits_array    (Sheet const *sheet,
 				      Range const *r, Range const *ignore,

@@ -2170,6 +2170,126 @@ cmd_colrow_outline_change (WorkbookControl *wbc, Sheet *sheet,
 
 /******************************************************************/
 
+#define CMD_GROUP_TYPE        (cmd_group_get_type ())
+#define CMD_GROUP(o)          (GTK_CHECK_CAST ((o), CMD_GROUP_TYPE, CmdGroup))
+
+typedef struct
+{
+	GnumericCommand parent;
+
+	Sheet         *sheet;
+
+	Range          range;
+	gboolean       is_cols;
+	gboolean       group;
+	int            gutter_size;
+} CmdGroup;
+
+GNUMERIC_MAKE_COMMAND (CmdGroup, cmd_group);
+
+static gboolean
+cmd_group_undo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdGroup *me = CMD_GROUP (cmd);
+
+	/*
+	 * No need to worry about failure, cmd_group handles this
+	 */
+	sheet_col_row_group_ungroup (me->sheet,
+				     me->is_cols ? me->range.start.col : me->range.start.row,
+				     me->is_cols ? me->range.end.col : me->range.end.row,
+				     me->is_cols, !me->group, FALSE);
+
+	if (me->is_cols)
+		sheet_col_row_gutter (me->sheet, me->gutter_size, me->sheet->rows.max_outline_level);
+	else
+		sheet_col_row_gutter (me->sheet, me->sheet->cols.max_outline_level, me->gutter_size);
+	
+	g_return_val_if_fail (me != NULL, TRUE);
+
+	return FALSE;
+}
+
+static gboolean
+cmd_group_redo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdGroup *me = CMD_GROUP (cmd);
+	
+	g_return_val_if_fail (me != NULL, TRUE);
+
+	/* Save gutter level */
+	me->gutter_size = me->is_cols
+		? me->sheet->cols.max_outline_level
+		: me->sheet->rows.max_outline_level;
+
+	/*
+	 * No need to worry about failure, cmd_group handles this.
+	 */
+	sheet_col_row_group_ungroup (me->sheet,
+				     me->is_cols ? me->range.start.col : me->range.start.row,
+				     me->is_cols ? me->range.end.col : me->range.end.row,
+				     me->is_cols, me->group, FALSE);
+				     	
+	return FALSE;
+}
+
+static void
+cmd_group_destroy (GtkObject *cmd)
+{
+	gnumeric_command_destroy (cmd);
+}
+
+gboolean
+cmd_group (WorkbookControl *wbc, Sheet *sheet,
+	   gboolean is_cols, gboolean group)
+{
+	GtkObject *obj;
+	CmdGroup *me;
+
+	g_return_val_if_fail (wbc != NULL, TRUE);	
+	g_return_val_if_fail (sheet != NULL, TRUE);
+
+	obj = gtk_type_new (CMD_GROUP_TYPE);
+	me = CMD_GROUP (obj);
+	
+	me->sheet = sheet;
+	me->range = *selection_first_range (sheet, NULL, NULL);
+
+	/* Check if this really is possible and display an error if it's not */
+	if (sheet_col_row_can_group (sheet,
+				     is_cols ? me->range.start.col : me->range.start.row,
+				     is_cols ? me->range.end.col : me->range.end.row,
+				     is_cols) != group) {
+
+		if (group)
+			gnumeric_error_system (COMMAND_CONTEXT (wbc), is_cols
+					       ? _("Those columns are already grouped")
+					       : _("Those rows are already grouped"));
+		else
+			gnumeric_error_system (COMMAND_CONTEXT (wbc), is_cols
+					       ? _("Those columns are not grouped, you can't ungroup them")
+					       : _("Those rows are not grouped, you can't ungroup them"));					       
+		cmd_group_destroy (GTK_OBJECT (me));
+		return TRUE;
+	}
+	
+	me->is_cols = is_cols;
+	me->group = group;
+	
+	me->parent.sheet = sheet;
+	me->parent.size = 1;
+	me->parent.cmd_descriptor = is_cols
+		? g_strdup_printf (group ? _("Group columns %s") : _("Ungroup columns %s"),
+				   cols_name (me->range.start.col, me->range.end.col))
+		: g_strdup_printf (group ? _("Group rows %d:%d") : _("Ungroup rows %d:%d"),
+				   me->range.start.row + 1, me->range.end.row + 1);
+
+	/* Register the command object */
+	return command_push_undo (wbc, obj);
+}
+
+/******************************************************************/
+
 #define CMD_PASTE_CUT_TYPE        (cmd_paste_cut_get_type ())
 #define CMD_PASTE_CUT(o)          (GTK_CHECK_CAST ((o), CMD_PASTE_CUT_TYPE, CmdPasteCut))
 

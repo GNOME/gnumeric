@@ -4,6 +4,7 @@
  *
  * Author:
  *   Miguel de Icaza (miguel@gnu.org)
+ *   Almer S. Tigelaar (almer@gnome.org)
  */
 #include <config.h>
 #include <math.h>
@@ -13,6 +14,47 @@
 #include "gnumeric-util.h"
 #include "dialogs.h"
 #include "workbook.h"
+
+gboolean
+dialog_choose_cols_vs_rows (WorkbookControlGUI *wbcg, const char *title,
+			    gboolean *is_cols)
+{
+	GladeXML *gui;
+	GnomeDialog *dialog;
+	GtkToggleButton *rows;
+	gboolean res = FALSE;
+
+	gui = gnumeric_glade_xml_new (wbcg, "colrow.glade");
+        if (gui == NULL)
+                return FALSE;
+
+	dialog = GNOME_DIALOG (glade_xml_get_widget (gui, "dialog1"));
+	if (dialog == NULL){
+		g_warning ("Can not find the `dialog1' widget in colrow.glade");
+		gtk_object_destroy (GTK_OBJECT (gui));
+		return FALSE;
+	}
+	
+	rows = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "rows"));
+	gtk_window_set_title (GTK_WINDOW (dialog), title);
+		
+	switch (gnumeric_dialog_run (wbcg, dialog)){
+	case 1:		/* cancel */
+		res = FALSE;
+		break;
+	case -1:		/* window manager close */
+		gtk_object_destroy (GTK_OBJECT (gui));
+		return FALSE;
+	default:
+		res = TRUE;
+		*is_cols = !gtk_toggle_button_get_active (rows);
+	}
+	
+	gnome_dialog_close (dialog);
+	gtk_object_destroy (GTK_OBJECT (gui));
+	
+	return res;
+}
 
 gboolean
 dialog_get_number (WorkbookControlGUI *wbcg,

@@ -17,7 +17,6 @@ Long term breakage
 
 - outline mode
     : finish implementing optionally putting markers above/left
-    : implement group/ungroup menu items (with undo, Almer is working on this)
     : connect the hide/show menu items
 
 - It is possible to navigate to hidden cols/rows at the start/end of the sheet.

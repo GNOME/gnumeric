@@ -1909,13 +1909,40 @@ static void
 cb_data_show_detail (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 }
+
+static void
+group_ungroup_colrow (WorkbookControlGUI *wbcg, gboolean group)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	Sheet *sheet = wb_control_cur_sheet (wbc);
+	char const *operation = group ? _("Group") : _("Ungroup");
+	Range const *r = selection_first_range (sheet, wbc, operation);
+	gboolean is_cols;
+
+	/* We only operate on a single selection */
+	if (r == NULL)
+		return;
+
+	/* Do we need to ask the user what he/she wants to group/ungroup? */
+	if (range_is_full (r, TRUE) ^ range_is_full (r, FALSE))
+		is_cols = !range_is_full (r, TRUE);
+	else
+		if (!dialog_choose_cols_vs_rows (wbcg, operation, &is_cols))
+			return;
+
+	cmd_group (wbc, sheet, is_cols, group);
+}
+
 static void
 cb_data_group (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
+	group_ungroup_colrow (wbcg, TRUE);
 }
+
 static void
 cb_data_ungroup (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
+	group_ungroup_colrow (wbcg, FALSE);
 }
 
 static void

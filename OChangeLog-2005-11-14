@@ -1,3 +1,28 @@
+2001-06-02  Almer S. Tigelaar  <almer@gnome.org>
+ 
+        * src/commands.[ch] (cmd_group_undo): Implement group undo/redo
+  	(cmd_group_redo): Idem.
+  	(cmd_group_destroy): Idem.
+  	(cmd_group): Idem.
+  
+  	* src/workbook-control-gui.c (cb_data_group): Implement.
+  	(cb_data_ungroup): Idem.
+  	(group_ungroup_colrow): Utility function to determine if
+  	columns or rows need to be grouped/ungrouped.
+ 
+  	* src/sheet.[ch] (sheet_col_row_group_ungroup): New, high level routine
+ 	for adjusting outlines.
+ 	(sheet_col_row_fit_gutter): Dynamically adjust gutter size.
+ 	(cb_outline_level): Callback for the above.
+ 	(sheet_col_row_can_group): Query if a range of cols/rows
+ 	can actually group/ungroup.
+ 	(sheet_col_row_set_outline_level): Deprecated, remove.
+ 
+ 	* src/colrow.[ch] (colrow_set_outline): Set outline on a col/row.
+ 	
+  	* src/GNOME_Gnumeric.xml: DataOutlineUnGroup change to
+  	DataOutlineUngroup.
+
 2001-06-02  Jody Goldberg <jgoldberg@home.com>
 
 	* src/main.c (handle_paint_events) : be consistent and don't block.

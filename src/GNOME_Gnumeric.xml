@@ -471,7 +471,7 @@
 		    _label="_Group"
 		    _tip="Add an outline group"/>
 
-		<menuitem name="DataOutlineUnGroup" verb=""
+		<menuitem name="DataOutlineUngroup" verb=""
 		    pixtype="stock" pixname="Gnumeric_Ungroup"
 		    _label="_Ungroup"
 		    _tip="Remove an outline group"/>

@@ -964,20 +964,124 @@ sheet_cell_fetch (Sheet *sheet, int col, int row)
 }
 
 /**
- * sheet_col_row_set_indent :
- */
-void
-sheet_col_row_set_outline_level (Sheet *sheet, int index, gboolean is_cols,
-				 int outline_level, gboolean is_collapsed)
+ * sheet_col_row_can_group:
+ * 
+ * Returns TRUE if @from to @to can be grouped, return
+ * FALSE otherwise. You can invert the result if you need
+ * to find out if a group can be ungrouped.
+ **/
+gboolean
+sheet_col_row_can_group (Sheet *sheet, int from, int to, gboolean is_cols)
 {
-	ColRowInfo *cri = is_cols
-		? sheet_col_fetch (sheet, index)
-		: sheet_row_fetch (sheet, index);
-	cri->outline_level = outline_level;
-	cri->is_collapsed = (is_collapsed != 0);
-#if 0
-	printf ("%d = %d %d\n", index+1, outline_level, is_collapsed);
-#endif
+	ColRowInfo *from_cri, *to_cri;
+	
+	g_return_val_if_fail (sheet != NULL, FALSE);
+	g_return_val_if_fail (from >= 0, FALSE);
+	g_return_val_if_fail (is_cols ? to < SHEET_MAX_COLS : to < SHEET_MAX_ROWS, FALSE);
+
+	from_cri = is_cols
+		? sheet_col_fetch (sheet, from)
+		: sheet_row_fetch (sheet, from);
+
+	to_cri = is_cols
+		? sheet_col_fetch (sheet, to)
+		: sheet_row_fetch (sheet, to);
+
+	/* Groups on outline level 0 (no outline) may always be formed */
+	if (from_cri->outline_level == 0 || to_cri->outline_level == 0)
+		return TRUE;
+
+	/* We just won't group a group that already exists (or doesn't), it's useless */
+	if (colrow_find_outline_bound (sheet, is_cols, from, from_cri->outline_level, FALSE) != from
+	    || colrow_find_outline_bound (sheet, is_cols, to, to_cri->outline_level, TRUE) != to)
+		return TRUE;
+	else
+		return FALSE;
+}
+
+static gboolean
+cb_outline_level (ColRowInfo *info, int *outline_level)
+{
+	return (info->outline_level > *outline_level);
+}
+
+/**
+ * sheet_col_row_fit_gutter:
+ * @sheet: Sheet to change for.
+ * @outline_level: The new outline level.
+ * @is_cols: Column gutter or row gutter?
+ * @group: Was the change to @outline_level a result of a group or an ungroup
+ *         operation? (important to set this right)
+ *
+ * Attempts to change the gutter's size to fit @outline_level if possible.
+ *
+ * Returns : TRUE if the gutter's size was adjusted, FALSE otherwise.
+ **/
+static gboolean
+sheet_col_row_fit_gutter (Sheet *sheet, int outline_level, gboolean is_cols, gboolean group)
+{
+	int gutter_size = is_cols
+		? sheet->cols.max_outline_level
+		: sheet->rows.max_outline_level;
+	int new_gutter_size = outline_level > 0 ? outline_level + 1 : outline_level;
+	gboolean adjust = FALSE;
+
+	/* If the outline_level has been decreased we check all other
+	 * outline levels and if possible decrease the indent of the gutter.
+	 * If the level has been increased we check if the gutter is currently
+	 * big enough to hold this outline_level and if not we increase the
+	 * gutter's indent
+	 */
+	if (!group)
+		adjust = !colrow_foreach (is_cols ? &sheet->cols : &sheet->rows,
+					  0, (is_cols ? SHEET_MAX_COLS : SHEET_MAX_ROWS) - 1,
+					  (ColRowHandler) cb_outline_level, &outline_level);
+	else if (group && new_gutter_size > gutter_size)
+		adjust = TRUE;
+
+	if (adjust) {
+		if (is_cols)
+			sheet_col_row_gutter (sheet, new_gutter_size, sheet->rows.max_outline_level);
+		else
+			sheet_col_row_gutter (sheet, sheet->cols.max_outline_level, new_gutter_size);
+	}
+	
+	return adjust;
+}
+			  
+gboolean
+sheet_col_row_group_ungroup (Sheet *sheet, int from, int to, gboolean is_cols,
+			     gboolean inc, gboolean is_collapsed)
+{
+	int i;
+	int highest;
+	
+	g_return_val_if_fail (sheet != NULL, FALSE);
+	g_return_val_if_fail (from >= 0, FALSE);
+	g_return_val_if_fail (is_cols ? to < SHEET_MAX_COLS : to < SHEET_MAX_ROWS, FALSE);
+
+	/* Can we group/ungroup ? */	
+	if (inc != sheet_col_row_can_group (sheet, from, to, is_cols))
+		return FALSE;
+
+	/* Set new outline for each col/row and find highest outline level */
+	for (highest = -1, i = from; i <= to; i++) {
+		ColRowInfo *cri = is_cols
+			? sheet_col_fetch (sheet, i)
+			: sheet_row_fetch (sheet, i);
+		int newlevel = colrow_set_outline (cri, is_cols, inc ? +1 : -1, TRUE, is_collapsed);
+
+		if (newlevel > highest)
+			highest = newlevel;
+	}
+
+	/* Adjust the gutter's size if possible, make sure we redraw if the gutter
+	 * was not changed.
+	 */
+	if (!sheet_col_row_fit_gutter (sheet, highest, is_cols, inc))
+		SHEET_FOREACH_CONTROL (sheet, control, scg_resize (control););
+
+	return TRUE;
 }
 
 /**

@@ -2899,9 +2899,11 @@ ms_excel_read_row (BiffQuery *q, ExcelSheet *sheet)
 		}
 #endif
 	}
-	sheet_col_row_set_outline_level (sheet->gnum_sheet, row, FALSE,
-					 (unsigned)(flags&0x7),
-					 flags & 0x10);
+
+	if ((unsigned)(flags&0x7) > 0) {
+		ColRowInfo *cri = sheet_row_fetch (sheet->gnum_sheet, row);
+		colrow_set_outline (cri, FALSE, (unsigned)(flags&0x7), FALSE, flags & 0x10);
+	}
 }
 
 /**
@@ -2957,8 +2959,10 @@ ms_excel_read_colinfo (BiffQuery *q, ExcelSheet *sheet)
 		lastcol = SHEET_MAX_COLS-1;
 	for (lp = firstcol; lp <= lastcol; ++lp) {
 		sheet_col_set_size_pts (sheet->gnum_sheet, lp, col_width, TRUE);
-		sheet_col_row_set_outline_level (sheet->gnum_sheet, lp, TRUE,
-						 outline_level, collapsed);
+		if (outline_level > 0) {
+			ColRowInfo *cri = sheet_col_fetch (sheet->gnum_sheet, lp);
+			colrow_set_outline (cri, TRUE, outline_level, FALSE, collapsed);
+		}
 	}
 
 	if (xf != 0)

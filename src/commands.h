@@ -63,6 +63,9 @@ gboolean cmd_colrow_hide_selection (WorkbookControl *wbc, Sheet *sheet,
 gboolean cmd_colrow_outline_change (WorkbookControl *wbc, Sheet *sheet,
 				    gboolean is_cols, int index, int depth);
 
+gboolean cmd_group              (WorkbookControl *wbc, Sheet *sheet,
+				 gboolean is_cols, gboolean group);
+
 gboolean cmd_merge_cells	(WorkbookControl *wbc, Sheet *sheet,
 				 GSList const *selection);
 gboolean cmd_unmerge_cells	(WorkbookControl *wbc, Sheet *sheet,

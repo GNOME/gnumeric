@@ -711,6 +711,30 @@ colrow_set_visibility_list (Sheet *sheet, gboolean const is_cols,
 }
 
 /**
+ * colrow_set_outline :
+ *
+ * Sets the outline level for a col/row.
+ * Returns the new outline level of @index.
+ */
+int
+colrow_set_outline (ColRowInfo *cri, gboolean is_cols,
+		    int outline_level, gboolean relative,
+		    gboolean is_collapsed)
+{
+	int newlevel = relative ? cri->outline_level + outline_level : outline_level;
+
+	cri->is_collapsed = (is_collapsed != 0);  /* needed for XL plugin */
+	g_return_val_if_fail (newlevel >= 0, 0);
+	
+	cri->outline_level = newlevel;	
+#if 0
+	printf ("%d = %d %d\n", index+1, outline_level, is_collapsed);
+#endif
+
+	return cri->outline_level;
+}
+
+/**
  * colrow_adjust_outline_dir 
  * @colrows :
  * @pre_or_post :
