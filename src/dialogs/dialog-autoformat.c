@@ -29,8 +29,6 @@
 #include <glade/glade.h>
 
 #include <math.h>
-#include <dirent.h>
-#include <errno.h>
 
 #include "gnumeric.h"
 #include "gnumeric-util.h"
@@ -42,6 +40,7 @@
 
 #include "preview-grid-controller.h"
 #include "format-template.h"
+#include "file-autoft.h"
 
 #include "command-context.h"
 #include "workbook.h"
@@ -219,75 +218,6 @@ cb_get_cell_style (int row, int col, gpointer data)
 /********************************************************************************
  * UTILITY FUNCTIONS
  ********************************************************************************/
- 
-/**
- * load_categories:
- * 
- * Loads the list of categories available
- * 
- * Return value: NULL on failure or a pointer to a list with categories on success.
- **/
-static GList *
-load_categories (void)
-{
-	DIR *dir;
-	struct dirent *ent;
-	int count = 0;
-	GList *list = NULL;
-
-	dir = opendir (GNUMERIC_AUTOFORMATDIR);
-	if (dir == NULL && errno == ENOENT) {
-		g_warning ("The autoformat template directory %s, does not exist!", GNUMERIC_AUTOFORMATDIR);
-		return NULL;
-	}
-	
-	while ((ent = readdir (dir))) {
-
-		if (strcmp (ent->d_name, ".") != 0 && strcmp (ent->d_name, "..") != 0) {
-		
-			list = g_list_append (list, g_strdup (ent->d_name));
-			count++;
-		}
-	}
-
-	if (errno) {
-	
-		g_warning ("Error while reading listing of %s", GNUMERIC_AUTOFORMATDIR);	
-		closedir (dir);
-		g_list_free (list);
-		return NULL;
-	} else if (count == 0) {
-	
-		g_warning ("The autoformat template directory %s, has no category subdirectories!", GNUMERIC_AUTOFORMATDIR);
-		closedir (dir);
-		g_list_free (list);
-		return NULL;
-	}
-	
-	closedir (dir);
-	return list;
-}
-
-/**
- * free_categories:
- * @list: A GList
- * 
- * Free the category list
- **/
-static void
-free_categories (GList *list)
-{
-	GList *iterator = list;
-
-	while (iterator) {
-	
-		g_free (iterator->data);
-	
-		iterator = g_list_next (iterator);
-	}
-
-	g_list_free (list);
-}
 
 /**
  * templates_free:
@@ -329,57 +259,53 @@ templates_free (AutoFormatInfo *info)
 static gboolean
 templates_load (AutoFormatInfo *info)
 {
-	DIR *dir;
-	struct dirent *ent;
-        char *directory;
 	int count = 0;
 	gboolean error = FALSE;
+	GList *template_list, *iterator;;
 
 	g_return_val_if_fail (info != NULL, FALSE);
-	g_return_val_if_fail (info->templates == NULL, FALSE);
-
+	
 	if (g_list_length (info->categories) == 0)
 		return FALSE;
 	
-	directory = g_strdup_printf ("%s%s/", GNUMERIC_AUTOFORMATDIR, info->current_category);
-	
-	dir = opendir (directory);
-	if (dir == NULL) {
-		g_warning ("Error opening directory %s", directory);
-		error = TRUE;
-	}
+	template_list = template_list_load ();
 
-	if (dir) {
-		while ((ent = readdir (dir))) {
-	
-			if (strcmp (ent->d_name, ".") != 0 && strcmp (ent->d_name, "..") != 0) {
-				FormatTemplate *ft;
-				char *filename;
+	iterator = template_list;
+	while (iterator) {
+		char *filename = iterator->data;
+		char **array = g_strsplit (g_basename (filename), ".", -1);
+		char *category = array[1];
 
-				filename = g_strdup_printf ("%s%s", directory, ent->d_name);
-				ft = format_template_new_from_file (workbook_command_context_gui (info->wb),
-								    filename);
+		/*
+		 * Load it if it belongs in the currently active category
+		 */
+		if (strcmp (info->current_category, category) == 0) {
+			FormatTemplate *ft;
+
+			ft = format_template_new_from_file (workbook_command_context_gui (info->wb),
+							    filename);
 								    
-				format_template_set_size (ft, 0, 0, PREVIEW_COLS - 1, PREVIEW_ROWS - 1);
+			format_template_set_size (ft, 0, 0, PREVIEW_COLS - 1, PREVIEW_ROWS - 1);
 				
-				if (ft == NULL) {
+			if (ft == NULL) {
 				
-					g_warning ("Error while reading %s", filename);
-					error = TRUE;
-					break;
-				}
-
-				g_free (filename);
-				
-				info->templates      = g_slist_prepend (info->templates, ft);
-				count++;
+				g_warning ("Error while reading %s", filename);
+				error = TRUE;
+				break;
 			}
-		}
-		info->templates      = g_slist_reverse (info->templates);
-	}
 
-	g_free (directory);
-	closedir (dir);
+			info->templates = g_slist_prepend (info->templates, ft);
+			count++;
+		}
+
+		g_strfreev (array);
+		
+		iterator = g_list_next (iterator);
+	}
+	
+	template_list_free (template_list);
+	
+	info->templates = g_slist_reverse (info->templates);	
 
 	/*
 	 * We need to temporary lock the preview loading/freeing or
@@ -1061,7 +987,7 @@ dialog_autoformat (Workbook *wb)
 	/*
 	 * Fill category list
 	 */
-	if ((info->categories = load_categories ()) == NULL) {
+	if ((info->categories = category_list_load ()) == NULL) {
 		GtkWidget *wdialog;
       
 		wdialog = gnome_warning_dialog_parented (_("An error occured while reading the category list"), 
@@ -1109,7 +1035,7 @@ dialog_autoformat (Workbook *wb)
 
 	gtk_object_unref (GTK_OBJECT (info->tooltips));
 
-	free_categories (info->categories);
+	category_list_free (info->categories);
 	
 	gtk_widget_destroy (GTK_WIDGET (info->dialog));
 	gtk_object_unref (GTK_OBJECT (gui));

@@ -24,19 +24,20 @@ endif
 
 #noinst_PROGRAMS = number-match
 
-INCLUDES = 						\
-	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
-	-DGNUMERIC_DATADIR=\""$(gnumeric_datadir)"\"	\
-	-DGNUMERIC_LIBDIR=\""$(gnumeric_libdir)"\"	\
-	-DGNOME_ICONDIR=\""$(datadir)/pixmaps"\"	\
-	-DGNOME_DATADIR=\""$(datadir)"\"	 	\
-	-I$(includedir)				 	\
-	-I$(top_srcdir)/				\
-	-I$(srcdir)/					\
-	-I$(srcdir)/widgets				\
-	-I$(srcdir)/functions				\
-	-I$(srcdir)/dialogs				\
-	$(EXTRA_GNOME_CFLAGS)				\
+INCLUDES = 								\
+	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 			\
+	-DGNUMERIC_DATADIR=\""$(gnumeric_datadir)"\"			\
+	-DGNUMERIC_LIBDIR=\""$(gnumeric_libdir)"\"			\
+	-DGNUMERIC_AUTOFORMATDIR=\""$(gnumeric_autoformatdir)"\"	\
+	-DGNOME_ICONDIR=\""$(datadir)/pixmaps"\"			\
+	-DGNOME_DATADIR=\""$(datadir)"\"	 			\
+	-I$(includedir)				 			\
+	-I$(top_srcdir)/						\
+	-I$(srcdir)/							\
+	-I$(srcdir)/widgets						\
+	-I$(srcdir)/functions						\
+	-I$(srcdir)/dialogs						\
+	$(EXTRA_GNOME_CFLAGS)						\
 	$(GUILE_INCS)
 
 GNUMERIC_BASE_SOURCES =				\
@@ -96,6 +97,8 @@ GNUMERIC_BASE_SOURCES =				\
 	expr-name.h				\
 	file.c					\
 	file.h					\
+	file-autoft.c				\
+	file-autoft.h				\
 	format-template.h			\
 	format-template.c			\
 	formats.h				\

@@ -1,3 +1,30 @@
+2000-10-01  Almer S. Tigelaar  <almer1@dds.nl>
+
+	* templates/autoformat/, templates/autoformat/Makefile.am:
+	Remove subdirectories, convert into a flat directory with structured 
+	filenames.
+	
+	* configure.in:
+	Remove templates/autoformat subdirectories
+
+	* gnumeric.spec.in:
+	Adjust to cope with new autoformat directory structure
+	
+	* src/dialogs/Makefile.am:
+	Remove -DGNUMERIC_AUTOFORMATDIR
+
+	* src/Makefile.am
+	Add -DGNUMERIC_AUTOFORMATDIR
+	
+	* src/file-autoft.c, src/file-autoft.h:
+	New, functions for loading special listings of the autoformat
+	directory.
+
+	* src/dialogs/dialog-autoformat:
+	(categories_load): Remove
+	(categories_free): Remove
+	(templates_load): Adjust to use template_list_load
+
 2000-09-30  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook.c (workbook_create_toolbars) : All three toolbars are

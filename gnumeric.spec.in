@@ -86,12 +86,7 @@ fi
 %{prefix}/share/pixmaps/gnumeric/*
 %{prefix}/share/pixmaps/gnome-gnumeric.png
 %{prefix}/share/gnumeric/@VERSION@/templates/*.gnumeric
-%{prefix}/share/gnumeric/@VERSION@/autoformat-templates/General/*.template
-%{prefix}/share/gnumeric/@VERSION@/autoformat-templates/Classical/*.template
-%{prefix}/share/gnumeric/@VERSION@/autoformat-templates/Colourful/*.template
-%{prefix}/share/gnumeric/@VERSION@/autoformat-templates/Financial/*.template
-%{prefix}/share/gnumeric/@VERSION@/autoformat-templates/List/*.template
-%{prefix}/share/gnumeric/@VERSION@/autoformat-templates/3D/*.template
+%{prefix}/share/gnumeric/@VERSION@/autoformat-templates/*.xml
 %{prefix}/share/mime-info/gnumeric.keys
 %{prefix}/share/mime-info/gnumeric.mime
 %{prefix}/share/mc/templates/gnumeric.desktop
@@ -104,6 +99,9 @@ fi
 %doc HACKING AUTHORS ChangeLog NEWS BUGS README COPYING TODO
 
 %changelog
+* Sun Oct 01 2000 Almer S. Tigelaar <almer1@dds.nl>
+- Make some minor adjustments for the autoformatter
+
 * Thu Sept 28 2000 Jody Goldberg <jgoldberg@home.com>
 - Updated version requirements for gnome-print
 

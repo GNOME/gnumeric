@@ -495,12 +495,6 @@ po/Makefile.in
 templates/Makefile
 templates/english/Makefile
 templates/autoformat/Makefile
-templates/autoformat/General/Makefile
-templates/autoformat/3D/Makefile
-templates/autoformat/Classical/Makefile
-templates/autoformat/Colourful/Makefile
-templates/autoformat/Financial/Makefile
-templates/autoformat/List/Makefile
 macros/Makefile
 gnumeric.desktop
 stamp.h
