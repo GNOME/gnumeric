@@ -1,3 +1,8 @@
+2000-09-27  Morten Welinder  <terra@diku.dk>
+
+	* src/print-info.c (load_formats): Fix from Chema.  Don't forget
+ 	to pop the prefix.
+
 2000-09-26  Jody Goldberg <jgoldberg@home.com>
 
 	* src/main.c (gnumeric_main) : Do not init the currency_date routines

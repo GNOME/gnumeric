@@ -188,18 +188,17 @@ static void
 load_formats (void)
 {
 	int format_count;
-	int i;
-	
+
 	/* Fetch header/footer formats */
 	gnome_config_push_prefix ("/Gnumeric/Headers_and_Footers/");
 
 	format_count = gnome_config_get_int ("formats=0");
 	if (format_count == 0) {
 		int i;
-		
+
 		for (i = 0; predefined_formats [i].left_format; i++) {
 			PrintHF *format;
-			
+
 			format = print_hf_new (
 				predefined_formats [i].left_format[0]?
 				_(predefined_formats [i].left_format):"",
@@ -210,21 +209,21 @@ load_formats (void)
 
 			hf_formats = g_list_prepend (hf_formats, format);
 		}
-		hf_formats = g_list_reverse (hf_formats);
-		return;
+	} else {
+		int i;
+
+		for (i = 0; i < format_count; i++) {
+			char *str = g_strdup_printf ("FormatHF-%d", i);
+			PrintHF *format;
+
+			format = load_hf (str, "", "", "");
+			hf_formats = g_list_prepend (hf_formats, format);
+
+			g_free (str);
+		}
 	}
 
-	for (i = 0; i < format_count; i++) {
-		char *str = g_strdup_printf ("FormatHF-%d", i);
-		PrintHF *format;
-
-		format = load_hf (str, "", "", "");
-		hf_formats = g_list_prepend (hf_formats, format);
-
-		g_free (str);
-	}
 	hf_formats = g_list_reverse (hf_formats);
-	
 	gnome_config_pop_prefix ();
 }
 
