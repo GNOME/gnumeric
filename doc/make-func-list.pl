@@ -47,6 +47,7 @@ while (<>) {
 	$state = 2;
 	next;
     } 
+
     if (/^\@SEEALSO=(.*)/) {
 	my $linktxt = $1;
 	$linktxt =~ s/\s//g;
