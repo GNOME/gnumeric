@@ -564,7 +564,7 @@ autofill_create_fill_items (Sheet *sheet, gboolean singleton_increment,
 			fi->group_last = last_fi;
 		}
 
-		autofill_compute_delta (last_item, gboolean singleton_increment);
+		autofill_compute_delta (last_item, singleton_increment);
 	}
 
 	return all_items;
