@@ -2574,8 +2574,8 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
     <title>Text File Formats</title>
 
     <para>
-      Files in the text file format are text, <empahsis
-      role="italic">i.e.</empahsis> not binary files, with various
+      Files in the text file format are text, <emphasis
+      role="italic">i.e.</emphasis> not binary files, with various
       encodings.
     </para>
  
