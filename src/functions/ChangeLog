@@ -1,3 +1,7 @@
+2002-09-17  Morten Welinder  <terra@diku.dk>
+
+	* fn-financial.c (gnumeric_xirr): Back-port range fix from 1.1.
+
 2002-07-18  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.0.9

@@ -1,3 +1,8 @@
+2002-09-17  Morten Welinder  <terra@diku.dk>
+
+	* src/goal-seek.c (goal_seek_newton): Back-port step-size fix from
+	1.1.
+
 2002-09-13  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-object.c (cb_sheet_object_remove) : remove unncecessary
