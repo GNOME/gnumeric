@@ -807,18 +807,18 @@ mps_parse_rows (MpsInputContext *ctxt)
 		if (isspace ((unsigned char)*ctxt->line)) {
 		        line = ctxt->line + 1;
 			if (*line == 'E') {
-			        if (!mps_add_row (ctxt, EqualityRow, line+1))
+			        if (!mps_add_row (ctxt, EqualityRow, line + 1))
 				        return FALSE;
 			} else if (*line == 'L') {
 			        if (!mps_add_row (ctxt, LessOrEqualRow,
-						  line+1))
+						  line + 1))
 				  return FALSE;
 			} else if (*line == 'G') {
 			        if (!mps_add_row (ctxt, GreaterOrEqualRow,
-						  line+1))
+						  line + 1))
 				  return FALSE;
 			} else if (*line == 'N') {
-			        if (!mps_add_row (ctxt, ObjectiveRow, line+1))
+			        if (!mps_add_row (ctxt, ObjectiveRow, line + 1))
 				        return FALSE;
 			} else
 			        return FALSE;
@@ -972,17 +972,21 @@ static void
 mps_parse_sheet (MpsInputContext *ctxt)
 {
         if (!mps_parse_name (ctxt)) {
-	        gnumeric_io_error_info_set (ctxt->io_context, error_info_new_printf (
-										     _("Problem name was not defined in the file.")));
+	        gnumeric_io_error_info_set (ctxt->io_context,
+					    error_info_new_printf (
+						    _("Problem name was not defined in the file.")));
 	} else if (!mps_parse_rows (ctxt)) {
-	        gnumeric_io_error_info_set (ctxt->io_context, error_info_new_printf (
-										     _("Invalid ROWS section in the file.")));
+	        gnumeric_io_error_info_set (ctxt->io_context,
+					    error_info_new_printf (
+						    _("Invalid ROWS section in the file.")));
 	} else if (!mps_parse_columns (ctxt)) {
-	        gnumeric_io_error_info_set (ctxt->io_context, error_info_new_printf (
-										     _("Invalid COLUMNS section in the file.")));
+	        gnumeric_io_error_info_set (ctxt->io_context,
+					    error_info_new_printf (
+						    _("Invalid COLUMNS section in the file.")));
 	} else if (!mps_parse_rhs (ctxt)) {
-	        gnumeric_io_error_info_set (ctxt->io_context, error_info_new_printf (
-										     _("Invalid RHS section in the file.")));
+	        gnumeric_io_error_info_set (ctxt->io_context,
+					    error_info_new_printf (
+						    _("Invalid RHS section in the file.")));
 	}
 }
 
