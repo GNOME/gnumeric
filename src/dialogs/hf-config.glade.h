@@ -4,7 +4,7 @@
  * DO NOT compile it as part of your application.
  */
 
-gchar *s = N_("Left section:");
+gchar *s = N_("Left section");
 gchar *s = N_("Center section:");
 gchar *s = N_("Right section:");
 gchar *s = N_("Enter the format strings for each section:");

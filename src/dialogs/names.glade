@@ -2,6 +2,8 @@
 <GTK-Interface>
 
 <project>
+  <name>Dialogs</name>
+  <program_name>dialogs</program_name>
   <directory></directory>
   <source_directory>src</source_directory>
   <pixmaps_directory>pixmaps</pixmaps_directory>
@@ -19,41 +21,45 @@
   <handler_header_file>callbacks.h</handler_header_file>
   <support_source_file>support.c</support_source_file>
   <support_header_file>support.h</support_header_file>
-  <translatable_strings_file></translatable_strings_file>
+  <output_translatable_strings>True</output_translatable_strings>
+  <translatable_strings_file>names.glade.h</translatable_strings_file>
 </project>
 
 <widget>
   <class>GnomeDialog</class>
   <name>NamesDialog</name>
   <title>Define Name</title>
-  <auto_close>False</auto_close>
-  <hide_on_close>False</hide_on_close>
+  <type>GTK_WINDOW_TOPLEVEL</type>
+  <position>GTK_WIN_POS_NONE</position>
+  <modal>False</modal>
   <allow_shrink>False</allow_shrink>
   <allow_grow>False</allow_grow>
   <auto_shrink>False</auto_shrink>
+  <auto_close>False</auto_close>
+  <hide_on_close>False</hide_on_close>
 
   <widget>
     <class>GtkVBox</class>
     <child_name>GnomeDialog:vbox</child_name>
     <name>dialog-vbox1</name>
+    <homogeneous>False</homogeneous>
+    <spacing>8</spacing>
     <child>
       <padding>4</padding>
       <expand>True</expand>
       <fill>True</fill>
     </child>
-    <homogeneous>False</homogeneous>
-    <spacing>8</spacing>
 
     <widget>
       <class>GtkVBox</class>
       <name>vbox2</name>
+      <homogeneous>False</homogeneous>
+      <spacing>0</spacing>
       <child>
 	<padding>0</padding>
 	<expand>True</expand>
 	<fill>True</fill>
       </child>
-      <homogeneous>False</homogeneous>
-      <spacing>0</spacing>
 
       <widget>
 	<class>GtkHSeparator</class>
@@ -68,11 +74,6 @@
       <widget>
 	<class>GtkLabel</class>
 	<name>label3</name>
-	<child>
-	  <padding>5</padding>
-	  <expand>False</expand>
-	  <fill>False</fill>
-	</child>
 	<label>Names in workbook:</label>
 	<justify>GTK_JUSTIFY_LEFT</justify>
 	<wrap>False</wrap>
@@ -80,25 +81,31 @@
 	<yalign>1</yalign>
 	<xpad>0</xpad>
 	<ypad>0</ypad>
+	<child>
+	  <padding>5</padding>
+	  <expand>False</expand>
+	  <fill>False</fill>
+	</child>
       </widget>
 
       <widget>
 	<class>GtkTable</class>
 	<name>table2</name>
-	<child>
-	  <padding>0</padding>
-	  <expand>True</expand>
-	  <fill>True</fill>
-	</child>
 	<rows>6</rows>
 	<columns>2</columns>
 	<homogeneous>False</homogeneous>
 	<row_spacing>0</row_spacing>
 	<column_spacing>0</column_spacing>
+	<child>
+	  <padding>0</padding>
+	  <expand>True</expand>
+	  <fill>True</fill>
+	</child>
 
 	<widget>
 	  <class>GtkList</class>
 	  <name>name_list</name>
+	  <selection_mode>GTK_SELECTION_SINGLE</selection_mode>
 	  <child>
 	    <left_attach>0</left_attach>
 	    <right_attach>1</right_attach>
@@ -113,12 +120,14 @@
 	    <xfill>True</xfill>
 	    <yfill>True</yfill>
 	  </child>
-	  <selection_mode>GTK_SELECTION_SINGLE</selection_mode>
 	</widget>
 
 	<widget>
 	  <class>GtkButton</class>
 	  <name>ok</name>
+	  <has_default>True</has_default>
+	  <can_focus>True</can_focus>
+	  <stock_button>GNOME_STOCK_BUTTON_OK</stock_button>
 	  <child>
 	    <left_attach>1</left_attach>
 	    <right_attach>2</right_attach>
@@ -133,14 +142,14 @@
 	    <xfill>True</xfill>
 	    <yfill>False</yfill>
 	  </child>
-	  <has_default>True</has_default>
-	  <can_focus>True</can_focus>
-	  <stock_button>GNOME_STOCK_BUTTON_OK</stock_button>
 	</widget>
 
 	<widget>
 	  <class>GtkButton</class>
 	  <name>add</name>
+	  <height>24</height>
+	  <can_focus>True</can_focus>
+	  <label>Add</label>
 	  <child>
 	    <left_attach>1</left_attach>
 	    <right_attach>2</right_attach>
@@ -155,14 +164,13 @@
 	    <xfill>True</xfill>
 	    <yfill>False</yfill>
 	  </child>
-	  <height>24</height>
-	  <can_focus>True</can_focus>
-	  <label>Add</label>
 	</widget>
 
 	<widget>
 	  <class>GtkButton</class>
 	  <name>close</name>
+	  <can_focus>True</can_focus>
+	  <stock_button>GNOME_STOCK_BUTTON_CLOSE</stock_button>
 	  <child>
 	    <left_attach>1</left_attach>
 	    <right_attach>2</right_attach>
@@ -177,13 +185,16 @@
 	    <xfill>True</xfill>
 	    <yfill>False</yfill>
 	  </child>
-	  <can_focus>True</can_focus>
-	  <stock_button>GNOME_STOCK_BUTTON_CLOSE</stock_button>
 	</widget>
 
 	<widget>
 	  <class>GtkEntry</class>
 	  <name>name</name>
+	  <can_focus>True</can_focus>
+	  <editable>True</editable>
+	  <text_visible>True</text_visible>
+	  <text_max_length>0</text_max_length>
+	  <text></text>
 	  <child>
 	    <left_attach>0</left_attach>
 	    <right_attach>1</right_attach>
@@ -198,16 +209,14 @@
 	    <xfill>True</xfill>
 	    <yfill>False</yfill>
 	  </child>
-	  <can_focus>True</can_focus>
-	  <editable>True</editable>
-	  <text_visible>True</text_visible>
-	  <text_max_length>0</text_max_length>
-	  <text></text>
 	</widget>
 
 	<widget>
 	  <class>GtkButton</class>
 	  <name>delete</name>
+	  <height>24</height>
+	  <can_focus>True</can_focus>
+	  <label>Delete</label>
 	  <child>
 	    <left_attach>1</left_attach>
 	    <right_attach>2</right_attach>
@@ -222,20 +231,12 @@
 	    <xfill>True</xfill>
 	    <yfill>False</yfill>
 	  </child>
-	  <height>24</height>
-	  <can_focus>True</can_focus>
-	  <label>Delete</label>
 	</widget>
       </widget>
 
       <widget>
 	<class>GtkLabel</class>
 	<name>label4</name>
-	<child>
-	  <padding>5</padding>
-	  <expand>False</expand>
-	  <fill>False</fill>
-	</child>
 	<label>Refers to:</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
@@ -243,21 +244,26 @@
 	<yalign>0.5</yalign>
 	<xpad>0</xpad>
 	<ypad>0</ypad>
-      </widget>
-
-      <widget>
-	<class>GtkEntry</class>
-	<name>value</name>
 	<child>
 	  <padding>5</padding>
 	  <expand>False</expand>
 	  <fill>False</fill>
 	</child>
+      </widget>
+
+      <widget>
+	<class>GtkEntry</class>
+	<name>value</name>
 	<can_focus>True</can_focus>
 	<editable>True</editable>
 	<text_visible>True</text_visible>
 	<text_max_length>0</text_max_length>
 	<text></text>
+	<child>
+	  <padding>5</padding>
+	  <expand>False</expand>
+	  <fill>False</fill>
+	</child>
       </widget>
     </widget>
 
@@ -265,18 +271,18 @@
       <class>GtkHButtonBox</class>
       <child_name>GnomeDialog:action_area</child_name>
       <name>dialog-action_area1</name>
-      <child>
-	<padding>0</padding>
-	<expand>False</expand>
-	<fill>True</fill>
-	<pack>GTK_PACK_END</pack>
-      </child>
       <layout_style>GTK_BUTTONBOX_END</layout_style>
       <spacing>8</spacing>
       <child_min_width>85</child_min_width>
       <child_min_height>27</child_min_height>
       <child_ipad_x>7</child_ipad_x>
       <child_ipad_y>0</child_ipad_y>
+      <child>
+	<padding>0</padding>
+	<expand>False</expand>
+	<fill>True</fill>
+	<pack>GTK_PACK_END</pack>
+      </child>
     </widget>
   </widget>
 </widget>

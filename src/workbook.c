@@ -207,6 +207,15 @@ create_graphic_cmd (GtkWidget *widget, Workbook *wb)
 #endif
 
 static void
+create_button_cmd (GtkWidget *widget, Workbook *wb)
+{
+	Sheet *sheet;
+
+	sheet = workbook_get_current_sheet (wb);
+	sheet_set_mode_type (sheet, SHEET_MODE_CREATE_BUTTON);
+}
+
+static void
 create_line_cmd (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet;
@@ -1147,6 +1156,9 @@ static GnomeUIInfo workbook_toolbar [] = {
 		N_("Graphic"), N_("Creates a graphic in the spreadsheet"),
 		create_graphic_cmd, NULL, graphic_xpm),
 #endif
+	GNOMEUIINFO_ITEM_DATA (
+		N_("Button"), N_("Creates a button object"),
+		create_button_cmd, NULL, button_xpm),
 	GNOMEUIINFO_ITEM_DATA (
 		N_("Line"), N_("Creates a line object"),
 		create_line_cmd, NULL, line_xpm),

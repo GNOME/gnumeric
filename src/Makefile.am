@@ -128,6 +128,8 @@ GNUMERIC_BASE_SOURCES =				\
 	sheet-autofill.h			\
 	sheet-object.c				\
 	sheet-object.h				\
+	sheet-object-widget.c			\
+	sheet-object-widget.h			\
 	sheet-object-graphic.c			\
 	sheet-object-graphic.h			\
 	sheet-view.c				\

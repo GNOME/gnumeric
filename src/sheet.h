@@ -74,6 +74,8 @@ typedef enum {
 	/* Selection for the region for a Graphics object */
 	SHEET_MODE_CREATE_GRAPHIC,
 
+	SHEET_MODE_CREATE_BUTTON,
+	
 	/* Object is selected */
 	SHEET_MODE_OBJECT_SELECTED,
 } SheetModeType;

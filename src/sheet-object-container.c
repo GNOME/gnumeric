@@ -435,10 +435,10 @@ sheet_object_container_new (Sheet *sheet,
 	g_return_val_if_fail (x1 <= x2, NULL);
 	g_return_val_if_fail (y1 <= y2, NULL);
 
+#if 0
 	if (!object_server)
 		return NULL;
 
-#if 0
 	{
 		CORBA_Environment ev;
 		GNOME_Plot_VectorFactory vf;

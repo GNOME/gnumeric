@@ -8,5 +8,6 @@
 #ifdef ENABLE_BONOBO
 #include "pixmaps/graphic.xpm"
 #endif
+#include "pixmaps/button.xpm"
 
 #endif /* GNUMERIC_PIXMAPS_H */

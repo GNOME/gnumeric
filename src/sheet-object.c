@@ -17,6 +17,7 @@
 #ifdef ENABLE_BONOBO
 #    include "sheet-object-container.h"
 #endif
+#include "sheet-object-widget.h"
 
 /* Pulls the GnumericSheet from a SheetView */
 #define GNUMERIC_SHEET_VIEW(p) GNUMERIC_SHEET (SHEET_VIEW(p)->sheet_view);
@@ -261,6 +262,20 @@ sheet_object_unrealize (SheetObject *object)
 }
 
 /*
+ * Only for demostration purposes
+ */
+static GtkWidget *
+button_widget_create (SheetObjectWidget *sow, SheetView *sheet_view)
+{
+	GtkWidget *button;
+
+	button = gtk_button_new_with_label (_("Button"));
+	gtk_widget_show (button);
+	
+	return button;
+}
+
+/*
  * create_object
  *
  * Creates an object with the data stored from the creation or
@@ -319,6 +334,11 @@ create_object (Sheet *sheet, gdouble to_x, gdouble to_y)
 			sheet, x1, y1, x2, y2);
 		break;
 #endif
+
+	case SHEET_MODE_CREATE_BUTTON:
+		o = sheet_object_widget_new (
+			sheet, x1, y1, x2, y2, button_widget_create, NULL);
+		break;
 		
 	case SHEET_MODE_SHEET:
 	case SHEET_MODE_OBJECT_SELECTED:
@@ -520,6 +540,7 @@ sheet_set_mode_type (Sheet *sheet, SheetModeType mode)
 	case SHEET_MODE_CREATE_OVAL:
 	case SHEET_MODE_CREATE_BOX:
 	case SHEET_MODE_CREATE_GRAPHIC:
+	case SHEET_MODE_CREATE_BUTTON:
 		for (l = sheet->sheet_views; l; l = l->next){
 			SheetView *sheet_view = l->data;
 			GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
