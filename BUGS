@@ -8,8 +8,6 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    - defining file patterns in plugin spec overrides 'has_probe' flag silently.
-
     - smarter support for unicode characters that do not convert to the
       current encoding during XL import.
 
@@ -22,6 +20,7 @@ Long term breakage
     : connect the hide/show menu items
 
 - defining file patterns in plugin spec overrides 'has_probe' flag silently.
+  (Zbigniew is working on it)
 
 Names :
     : Fix XL named expr import for sheet local names
