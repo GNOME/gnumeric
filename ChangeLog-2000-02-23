@@ -1,3 +1,11 @@
+2000-01-18  Jody Goldberg <jgoldberg@home.com>
+
+	* src/clipboard.c (x_selection_handler) : Add some preconditions to
+	  make code more robust.
+
+	* src/application.c (application_clipboard_clear) : Release ownership
+	  of the selection when the clipboard is cleared.
+
 2000-01-18  Jon K Hellan  <hellan@acm.org>
 
 	* src/dialogs/autocorrect.glade, src/dialogs/autosave.glade,
