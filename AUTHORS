@@ -1,1 +1,11 @@
-Miguel de Icaza <miguel@kernel.org>
+Main Gnumeric engine:
+	Miguel de Icaza <miguel@kernel.org> 
+
+XML file loading and saving:
+	Daniel Viellard (Daniel.Viellard@w3c.org)
+
+Plugin system:
+	Tom Dyas (tdyas@romulus.rutgers.edu)
+
+Number formatting code:
+	Chris Lahey 
