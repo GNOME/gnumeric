@@ -47,6 +47,7 @@
 #include <libfoocanvas/foo-canvas-text.h>
 #include <libfoocanvas/foo-canvas-rect-ellipse.h>
 #include <glade/glade.h>
+#include <stdio.h>
 
 /* FIXME: do not hardcode pixel counts.  */
 #define PREVIEW_X 170

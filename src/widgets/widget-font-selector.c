@@ -29,7 +29,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <libgnomeprint/gnome-font.h>
 #include <gtk/gtkhbox.h>
 #include <glade/glade.h>
 

@@ -25,7 +25,7 @@
 
 #include <gnumeric-config.h>
 #include <gtk/gtk.h>
-#include <libgnome/gnome-i18n.h>
+#include <gnumeric-i18n.h>
 #include "gtk-combo-box.h"
 #include "widget-pixmap-combo.h"
 #include <gnm-marshalers.h>

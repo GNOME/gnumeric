@@ -1,9 +1,19 @@
+2003-07-02  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-control-gui.c (scg_comment_display) : Use gtk_window_move
+	  in place of the deprecated gtk_widget_set_uposition.
+
 2003-07-02  Morten Welinder  <terra@gnome.org>
 
 	* src/datetime.c (yearfrac): Swap args if incorrectly ordered.
 	Make it clear that we're counting February 29ths, not leap days.
 	(Leap days are February 24ths, if you must know.)  Get the less
 	than one year special case right.
+
+2003-07-02  Jody Goldberg <jody@gnome.org>
+
+	* po/Makefile.in.in : As suggested by tino, try to do a release
+	  without the .gmo files.
 
 2003-07-02  Jody Goldberg <jody@gnome.org>
 

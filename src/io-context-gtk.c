@@ -24,6 +24,7 @@
 #include <gtk/gtkprogressbar.h>
 #include <gtk/gtkvbox.h>
 #include <gtk/gtkwindow.h>
+#include <stdlib.h>
 
 extern int gnumeric_no_splash;
 

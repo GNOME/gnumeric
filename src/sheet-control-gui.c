@@ -1930,7 +1930,7 @@ scg_comment_display (SheetControlGUI *scg, CellComment *cc)
 
 		scg->comment.item = gtk_window_new (GTK_WINDOW_POPUP);
 		gdk_window_get_pointer (NULL, &x, &y, NULL);
-		gtk_widget_set_uposition (scg->comment.item, x+10, y+10);
+		gtk_window_move (GTK_WINDOW (scg->comment.item), x+10, y+10);
 
 		label = gtk_text_view_new ();
 		gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW(label), GTK_WRAP_NONE);

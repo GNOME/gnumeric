@@ -39,6 +39,8 @@
 #include <widgets/gtk-combo-box.h>
 #include <widgets/widget-color-combo.h>
 #include <widgets/widget-pixmap-combo.h>
+#include <libgnomeui/gnome-app-helper.h>
+#include <libgnomeui/gnome-stock-icons.h>
 
 #include <string.h>
 

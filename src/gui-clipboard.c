@@ -35,6 +35,7 @@
 #include <libxml/globals.h>
 #include <locale.h>
 #include <string.h>
+#include <unistd.h>
 
 typedef struct {
 	WorkbookControlGUI *wbcg;

@@ -42,7 +42,7 @@ libfoocanvas_a_SOURCES =			\
 
 foo-canvas-marshal.h: foo-canvas-marshal.list $(GLIB_GENMARSHAL)
 	$(GLIB_GENMARSHAL) $< --header --prefix=foo_canvas_marshal > $@
-foo-canvas-marshal.c: foo-canvas-marshal.list $(GLIB_GENMARSHAL)
+foo-canvas-marshal.c: foo-canvas-marshal.list $(GLIB_GENMARSHAL) foo-canvas-marshal.h
 	$(GLIB_GENMARSHAL) $< --body --prefix=foo_canvas_marshal > $@.tmp
 	echo '/* This file has been automatically generated.  Do not edit.  */' >$@
 	echo '#include "'$*.h'"' >>$@

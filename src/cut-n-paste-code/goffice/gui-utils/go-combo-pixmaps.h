@@ -26,9 +26,6 @@
 #ifndef GNUMERIC_WIDGET_PIXMAP_COMBO_H
 #define GNUMERIC_WIDGET_PIXMAP_COMBO_H
 
-#include <gtk/gtk.h>
-#include <libgnomecanvas/gnome-canvas.h>
-#include <libgnomeui/gnome-pixmap.h>
 #include <widgets/gtk-combo-box.h>
 
 G_BEGIN_DECLS

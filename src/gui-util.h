@@ -8,10 +8,6 @@
 #include <gtk/gtk.h>
 #include <glade/glade-xml.h>
 
-#if 1 /* go away when we switch to eggmenu */
-#include <libgnomeui/libgnomeui.h>
-#endif
-
 gboolean   gnumeric_dialog_question_yes_no (WorkbookControlGUI *wbcg,
                                             const gchar *message,
                                             gboolean default_answer);
@@ -98,7 +94,7 @@ void gnumeric_create_popup_menu (GnumericPopupMenuElement const *elements,
 
 StyleColor *color_combo_get_style_color (GtkWidget *color_combo);
 
-GtkWidget *gnumeric_toolbar_new (WorkbookControlGUI *wbcg, GnomeUIInfo *info,
+GtkWidget *gnumeric_toolbar_new (WorkbookControlGUI *wbcg, gpointer info,
 				  char const *name, gint band_num, gint band_position, gint offset);
 GtkWidget *gnumeric_toolbar_get_widget (GtkToolbar *toolbar, int pos);
 

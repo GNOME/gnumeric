@@ -68,7 +68,7 @@ struct _GtkComboBoxPrivate {
 
 	GtkWidget *toplevel;	/* Popup's toplevel when not torn off */
 	GtkWidget *tearoff_window; /* Popup's toplevel when torn off */
-	guint torn_off;
+	gboolean torn_off;
 
 	GtkWidget *tearable;	/* The tearoff "button" */
 	GtkWidget *popup;	/* Popup */
@@ -280,6 +280,7 @@ gtk_combo_box_popup_hide (GtkComboBox *combo_box)
 gtk_combo_box_get_pos (GtkComboBox *combo_box, int *x, int *y)
 {
 	GtkWidget *wcombo = GTK_WIDGET (combo_box);
+	GdkScreen *screen = gtk_widget_get_screen (wcombo);
 	int ph, pw;
 
 	gdk_window_get_origin (wcombo->window, x, y);
@@ -289,11 +290,11 @@ gtk_combo_box_get_pos (GtkComboBox *combo_box, int *x, int *y)
 	ph = combo_box->priv->popup->allocation.height;
 	pw = combo_box->priv->popup->allocation.width;
 
-	if ((*y + ph) > gdk_screen_height ())
-		*y = gdk_screen_height () - ph;
+	if ((*y + ph) > gdk_screen_get_height (screen))
+		*y = gdk_screen_get_height (screen) - ph;
 
-	if ((*x + pw) > gdk_screen_width ())
-		*x = gdk_screen_width () - pw;
+	if ((*x + pw) > gdk_screen_get_width (screen))
+		*x = gdk_screen_get_width (screen) - pw;
 }
 
 /* protected */ void
@@ -336,7 +337,7 @@ gtk_combo_box_popup_display (GtkComboBox *combo_box)
 
 	gtk_combo_box_get_pos (combo_box, &x, &y);
 
-	gtk_widget_set_uposition (combo_box->priv->toplevel, x, y);
+	gtk_window_move (GTK_WINDOW (combo_box->priv->toplevel), x, y);
 	gtk_widget_realize (combo_box->priv->popup);
 	gtk_widget_show (combo_box->priv->popup);
 	gtk_widget_realize (combo_box->priv->toplevel);
@@ -444,8 +445,10 @@ gtk_combo_box_init (GtkComboBox *combo_box)
 	combo_box->priv->toplevel = gtk_window_new (GTK_WINDOW_POPUP);
 	gtk_widget_ref (combo_box->priv->toplevel);
 	gtk_object_sink (GTK_OBJECT (combo_box->priv->toplevel));
-	gtk_window_set_policy (GTK_WINDOW (combo_box->priv->toplevel),
-			       FALSE, TRUE, FALSE);
+	g_object_set (G_OBJECT (combo_box->priv->toplevel),
+		"allow_shrink",	FALSE,
+		"allow_grow",	TRUE,
+		NULL);
 
 	combo_box->priv->popup = gtk_event_box_new ();
 	gtk_container_add (GTK_CONTAINER (combo_box->priv->toplevel),
@@ -542,8 +545,10 @@ gtk_combo_popup_tear_off (GtkComboBox *combo, gboolean set_position)
 					   "gtk-combo-title");
 		if (title)
 			gdk_window_set_title (tearoff->window, title);
-		gtk_window_set_policy (GTK_WINDOW (tearoff),
-				       FALSE, TRUE, FALSE);
+		g_object_set (G_OBJECT (tearoff),
+			"allow_shrink",	FALSE,
+			"allow_grow",	TRUE,
+			NULL);
 		gtk_window_set_transient_for
 			(GTK_WINDOW (tearoff),
 			 GTK_WINDOW (gtk_widget_get_toplevel
@@ -566,7 +571,7 @@ gtk_combo_popup_tear_off (GtkComboBox *combo, gboolean set_position)
 
 	if (set_position) {
 		gtk_combo_box_get_pos (combo, &x, &y);
-		gtk_widget_set_uposition (combo->priv->tearoff_window, x, y);
+		gtk_window_move (GTK_WINDOW (combo->priv->tearoff_window), x, y);
 	}
 	gtk_widget_show (GTK_WIDGET (combo->priv->popup));
 	gtk_widget_show (combo->priv->tearoff_window);

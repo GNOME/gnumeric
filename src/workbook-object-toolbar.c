@@ -34,6 +34,8 @@
 #include "sheet-object-graph.h"
 #include "gui-util.h"
 
+#include <libgnomeui/gnome-app-helper.h>
+#include <libgnomeui/gnome-stock-icons.h>
 #ifdef WITH_BONOBO
 #include <bonobo.h>
 #endif

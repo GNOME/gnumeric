@@ -1,3 +1,16 @@
+2003-07-02  Jody Goldberg <jody@gnome.org>
+
+	* widget-font-selector.c : remove gnome-print include
+
+	* widget-pixmap-combo.h : Cleanup the includes
+
+	* gtk-combo-box.c (gtk_combo_box_init) : Use GObject properties in
+	  place of deprecated gtk_window_set_policy.
+	(gtk_combo_popup_tear_off) : ditto.
+	(gtk_combo_box_popup_display) : Use gtk_window_move in place of
+	  deprecated gtk_window_set_uposition.
+	(gtk_combo_box_get_pos) : Make multi head safe.
+
 2003-07-02  Jon K Hellan  <hellan@acm.org>
 
 	* gtk-combo-stack.c (gtk_combo_stack_push_item): Focus pushed item

@@ -36,6 +36,8 @@
 
 #include <gdk/gdkkeysyms.h>
 #include <libgnome/gnome-help.h>
+#include <libgnomeui/gnome-app.h>
+#include <libgnomeui/gnome-app-helper.h>
 
 gboolean
 gnumeric_dialog_question_yes_no (WorkbookControlGUI *wbcg,
@@ -998,7 +1000,7 @@ color_combo_get_style_color (GtkWidget *color_combo)
 
 GtkWidget *
 gnumeric_toolbar_new (WorkbookControlGUI *wbcg,
-		      GnomeUIInfo *info,
+		      gpointer info, /* GnomeUIInfo *info */
 		      char const *name,
 		      gint band_num,
 		      gint band_position,

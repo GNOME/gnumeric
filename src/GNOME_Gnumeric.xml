@@ -21,6 +21,10 @@
 	    _tip="Save the current workbook with a different name"
 	    pixtype="stock" pixname="gtk-save-as"
 	    accel="*Shift**Control*s"/>
+	<cmd name="FileSend"
+	    _label="Sen_d To..."
+	    _tip="Send the current file via email"
+	    pixtype="stock" pixname="New Mail"/>
 
 	<cmd name="FilePageSetup"
 	    _label="Page Set_up..."
@@ -173,6 +177,7 @@
 
 	    <separator/>
 
+	    <menuitem name="FileSend" verb=""/>
 	    <menuitem name="FileSummary" verb=""/>
 	    <menuitem name="FilePreferences" verb=""/>
 	    <placeholder name="FileHistory" delimit="top"/>

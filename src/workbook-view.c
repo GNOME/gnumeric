@@ -683,6 +683,11 @@ wb_view_save (WorkbookView *wbv, CommandContext *context)
 	return !has_error;
 }
 
+gboolean
+wb_view_sendto (WorkbookView *wbv, CommandContext *context)
+{
+}
+
 WorkbookView *
 wb_view_new_from_input  (GsfInput *input,
 			 GnmFileOpener const *optional_fmt,

@@ -494,7 +494,7 @@ gnm_gconf_set_printer_header (gchar const *left, gchar const *middle,
 	gconf_client_set_list (application_get_gconf_client (),
 			       PRINTSETUP_GCONF_HEADER,
 			       GCONF_VALUE_STRING, list, NULL);
-	g_slist_free_custom (prefs.printer_header, g_free);
+	g_slist_free_custom ((GSList *)prefs.printer_header, g_free);
 	prefs.printer_header = list;
 }
 
@@ -509,7 +509,7 @@ gnm_gconf_set_printer_footer (gchar const *left, gchar const *middle,
 	gconf_client_set_list (application_get_gconf_client (),
 			       PRINTSETUP_GCONF_FOOTER,
 			       GCONF_VALUE_STRING, list, NULL);
-	g_slist_free_custom (prefs.printer_footer, g_free);
+	g_slist_free_custom ((GSList *)prefs.printer_footer, g_free);
 	prefs.printer_footer = list;
 }
 

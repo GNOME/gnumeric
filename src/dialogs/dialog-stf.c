@@ -347,7 +347,7 @@ stf_dialog (WorkbookControlGUI *wbcg,
 	pagedata.wbcg = wbcg;
 	pagedata.source = source;
 	pagedata.raw_data = data;
-	pagedata.raw_data_len = data_len < 0 ? strlen (data) : data_len;
+	pagedata.raw_data_len = data_len < 0 ? (int)strlen (data) : data_len;
 	pagedata.utf8_data = NULL;
 	pagedata.cur = NULL;
 

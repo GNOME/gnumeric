@@ -81,19 +81,19 @@
 #ifdef WITH_BONOBO
 #include <bonobo/bonobo-ui-component.h>
 #include "sheet-object-container.h"
-#ifdef ENABLE_EVOLUTION
-#include <idl/Evolution-Composer.h>
-#include <bonobo/bonobo-stream-memory.h>
-#endif
 #endif
 
 #include <gsf/gsf-impl-utils.h>
 #include <widgets/widget-color-combo.h>
 #include <widgets/gtk-combo-stack.h>
 
+#include <libgnomeui/gnome-app-helper.h>
+#include <libgnomeui/gnome-stock-icons.h>
 #include <libgnomevfs/gnome-vfs-uri.h>
+#include <gdk/gdkkeysyms.h>
 
 #include <string.h>
+#include <errno.h>
 
 #define WBCG_CLASS(o) WORKBOOK_CONTROL_GUI_CLASS (G_OBJECT_GET_CLASS (o))
 #define WBCG_VIRTUAL_FULL(func, handle, arglist, call)		\
@@ -1888,6 +1888,12 @@ cb_file_save_as (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	gui_file_save_as (wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg)));
 	wbcg_focus_cur_scg (wbcg); /* force focus back to sheet */
 }
+static void
+cb_file_sendto (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	wb_view_sendto (wb_control_view (WORKBOOK_CONTROL (wbcg)),
+		COMMAND_CONTEXT (wbcg));
+}
 
 static void
 cb_file_page_setup (GtkWidget *widget, WorkbookControlGUI *wbcg)
@@ -3292,6 +3298,9 @@ static GnomeUIInfo workbook_menu_file [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
+	GNOMEUIINFO_ITEM_STOCK (N_("Sen_d To..."),
+				N_("Send the current file via email"),
+				cb_file_sendto, "Gnumeric_Link_EMail"),
 	GNOMEUIINFO_ITEM_STOCK (N_("Proper_ties..."),
 			       N_("Edit descriptive information"),
 			       cb_file_summary, GTK_STOCK_PROPERTIES),
@@ -3990,9 +3999,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("FileOpen", cb_file_open),
 	BONOBO_UI_UNSAFE_VERB ("FileSave", cb_file_save),
 	BONOBO_UI_UNSAFE_VERB ("FileSaveAs", cb_file_save_as),
-#ifdef ENABLE_EVOLUTION
 	BONOBO_UI_UNSAFE_VERB ("FileSend", cb_file_send),
-#endif
 	BONOBO_UI_UNSAFE_VERB ("FilePageSetup", cb_file_page_setup),
 	BONOBO_UI_UNSAFE_VERB ("FilePrint", cb_file_print),
 	BONOBO_UI_UNSAFE_VERB ("FilePrintPreview", cb_file_print_preview),
@@ -5067,11 +5074,6 @@ cb_wbcg_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 	g_free (target_type);
 }
 
-/*
- * NOTE: Keep the two strings below in sync - send_menu_item_i18n array must
- * always contain values of _label and _tip properties from XML inside
- * send_menu_item.
- */
 #ifdef ENABLE_EVOLUTION
 static gchar send_menu_item[] =
 "<placeholder name=\"FileOperations\">"
@@ -5216,10 +5218,6 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 		bonobo_ui_util_set_ui (wbcg->uic, dir,
 			"GNOME_Gnumeric.xml", "gnumeric", NULL);
 	}
-#ifdef ENABLE_EVOLUTION
-	bonobo_ui_component_set_translate (wbcg->uic, "/menu/File",
-	                                   send_menu_item, NULL);
-#endif
 
 	TOGGLE_REGISTER (display_formulas, SheetDisplayFormulas);
 	TOGGLE_REGISTER (hide_zero, SheetHideZeros);

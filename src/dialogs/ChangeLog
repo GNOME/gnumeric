@@ -1,3 +1,8 @@
+2003-07-02  Jody Goldberg <jody@gnome.org>
+
+	* dialog-tabulate.c (dialog_tabulate) : Use GObject properties in
+	  place of deprecated gtk_window_set_policy.
+
 2003-07-02  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* format-selector.glade: remove some translatable nonsense text
