@@ -19,7 +19,7 @@
 	    pixtype="stock" pixname="Gnumeric_Save"
 	    accel="*Control*s"/>
 	<cmd name="FileSaveAs"
-	    _label="Save _As"
+	    _label="Save _As..."
 	    _tip="Save the current file with a different name"
 	    pixtype="stock" pixname="Gnumeric_SaveAs"/>
 
