@@ -1306,8 +1306,8 @@ enum {
 	CONTEXT_ROW_HIDE,
 	CONTEXT_ROW_UNHIDE,
 	CONTEXT_COMMENT_EDIT,
-	CONTEXT_HYPERLINK_ADD,
 	CONTEXT_HYPERLINK_EDIT,
+	CONTEXT_HYPERLINK_ADD,
 	CONTEXT_HYPERLINK_REMOVE
 };
 static gboolean
@@ -1320,6 +1320,8 @@ context_menu_handler (GnumericPopupMenuElement const *element,
 	Sheet		*sheet = sc->sheet;
 	WorkbookControlGUI *wbcg = scg->wbcg;
 	WorkbookControl *wbc = sc->wbc;
+	GnmHLink	*link = NULL;
+	GList		*l;
 
 	g_return_val_if_fail (element != NULL, TRUE);
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
@@ -1373,9 +1375,23 @@ context_menu_handler (GnumericPopupMenuElement const *element,
 	case CONTEXT_COMMENT_EDIT:
 		dialog_cell_comment (wbcg, sheet, &sv->edit_pos);
 		break;
-	case CONTEXT_HYPERLINK_ADD:
+
 	case CONTEXT_HYPERLINK_EDIT:
-	case CONTEXT_HYPERLINK_REMOVE:
+		for (l = sc->view->selections; l != NULL; l = l->next)
+			if (NULL != (link = sheet_style_region_contains_link (sheet, l->data)))
+				break;
+		/* fall through */
+	case CONTEXT_HYPERLINK_ADD:
+		dialog_hyperlink (wbcg, link);
+		break;
+
+	case CONTEXT_HYPERLINK_REMOVE: {
+		MStyle *style = mstyle_new ();
+		mstyle_set_hlink (style, NULL);
+		cmd_selection_format (wbc, style, NULL,
+			_("Remove Hyperlink"));
+		break;
+	}
 	default :
 		break;
 	};
@@ -1493,9 +1509,8 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 
 	wbcg_edit_finish (scg->wbcg, FALSE);
 
-	/*
-	 * Now see if there is some selection which selects a
-	 * whole row or a whole column and disable the insert/delete col/row menu items
+	/* Now see if there is some selection which selects a whole row or a
+	 * whole column and disable the insert/delete col/row menu items
 	 * accordingly
 	 */
 	for (l = sc->view->selections; l != NULL; l = l->next) {

@@ -753,7 +753,7 @@ static char const *
 col_parse (char const *str, int *res, unsigned char *relative)
 {
 	char const *ptr = str;
-	int col = 0;
+	int col = -1;
 
 	if (!(*relative = (*ptr != '$')))
 		ptr++;
@@ -762,7 +762,7 @@ col_parse (char const *str, int *res, unsigned char *relative)
 		if (('a' <= *ptr && *ptr <= 'z'))
 			col = col * 26 + (*ptr - 'a');
 		else if (('A' <= *ptr && *ptr <= 'Z'))
-			col = col * 26 + (*ptr - 'A');
+			col = 26*(col + 1)  + (*ptr - 'A');
 		else if (ptr != str && col < SHEET_MAX_COLS) {
 			*res = col;
 			return ptr;

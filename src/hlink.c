@@ -54,11 +54,11 @@
  * Return TRUE if the link successfully activated.
  **/
 gboolean
-gnm_hlink_activate (GnmHLink *lnk, WorkbookControl *wbv)
+gnm_hlink_activate (GnmHLink *lnk, WorkbookControl *wbc)
 {
 	g_return_val_if_fail (GNM_IS_HLINK (lnk), FALSE);
 
-	return GET_CLASS (lnk)->Activate (lnk, wbv);
+	return GET_CLASS (lnk)->Activate (lnk, wbc);
 }
 
 GnmHLink *
@@ -201,9 +201,7 @@ GSF_CLASS (GnmHLinkCurWB, gnm_hlink_cur_wb,
 typedef struct { GnmHLinkClass hlink; } GnmHLinkURLClass;
 typedef struct {
 	GnmHLink hlink;
-	char *url;
 } GnmHLinkURL;
-#define GNM_HLINK_URL(o) (G_TYPE_CHECK_INSTANCE_CAST ((o), gnm_hlink_url_get_type (), GnmHLinkURL))
 
 static gboolean
 gnm_hlink_url_activate (GnmHLink *lnk, WorkbookControl *wbc)
@@ -238,15 +236,52 @@ GSF_CLASS (GnmHLinkURL, gnm_hlink_url,
 	   gnm_hlink_url_class_init, NULL,
 	   GNM_HLINK_TYPE)
 
-void
-gnm_hlink_url_set_target (GnmHLink *lnk, guchar const *target)
+/***************************************************************************/
+/* email is just a url, but it is cleaner to stick it in a distinct type   */
+typedef struct { GnmHLinkURLClass hlink; } GnmHLinkEMailClass;
+typedef struct {
+	GnmHLinkURL hlink;
+} GnmHLinkEMail;
+
+GSF_CLASS (GnmHLinkEMail, gnm_hlink_email,
+	   NULL, NULL,
+	   gnm_hlink_url_get_type ())
+
+/***************************************************************************/
+/* Link to arbitrary urls */
+typedef struct { GnmHLinkClass hlink; } GnmHLinkExternalClass;
+typedef struct {
+	GnmHLink hlink;
+} GnmHLinkExternal;
+
+static gboolean
+gnm_hlink_external_activate (GnmHLink *lnk, WorkbookControl *wbc)
 {
-	GnmHLinkURL *url = GNM_HLINK_URL (lnk);
-	guchar *tmp;
+	GError *err = NULL;
+	gboolean res = FALSE;
 
-	g_return_if_fail (url != NULL);
+	if (lnk->target == NULL)
+		return FALSE;
 
-	tmp = g_strdup (target);
-	g_free (url->url);
-	url->url = tmp;
+#warning TODO
+	if (err != NULL) {
+		char *msg = g_strdup_printf(_("Unable to open '%s'"), lnk->target);
+		gnumeric_error_invalid (COMMAND_CONTEXT (wbc), msg, err->message);
+		g_free (msg);
+		g_error_free (err);
+	}
+
+	return res;
 }
+
+static void
+gnm_hlink_external_class_init (GObjectClass *object_class)
+{
+	GnmHLinkClass *hlink_class = (GnmHLinkClass *) object_class;
+
+	hlink_class->Activate  = gnm_hlink_external_activate;
+}
+
+GSF_CLASS (GnmHLinkExternal, gnm_hlink_external,
+	   gnm_hlink_external_class_init, NULL,
+	   GNM_HLINK_TYPE)

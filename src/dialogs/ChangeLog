@@ -1,3 +1,10 @@
+2002-09-20  Jody Goldberg <jody@gnome.org>
+
+	* Makefile.am : Add dialog-hyperlink.c
+	  and hyperlink.glade
+	(EXTRA_DIST) : no need to have the graph guru any more, it is always
+	  available.
+
 2002-09-16  Christian Neumair  <chris@gnome-de.org>
 
 	* *.glade: Made most dialogs HIG compliant.

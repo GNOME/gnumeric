@@ -41,6 +41,7 @@ base_files =					\
 	dialog-goal-seek.c			\
 	dialog-goto-cell.c			\
 	dialog-graph-guru.c			\
+	dialog-hyperlink.c			\
 	dialog-insert-cells.c			\
 	dialog-define-names.c			\
 	dialog-delete-cells.c			\
@@ -107,6 +108,7 @@ glade_DATA = 				\
 	goto.glade			\
 	hf-config.glade			\
 	histogram.glade			\
+	hyperlink.glade			\
 	insert-cells.glade		\
 	mean-tests.glade		\
 	merge.glade			\
@@ -134,4 +136,4 @@ glade_DATA = 				\
 	variance-tests.glade		\
 	workbook-attr.glade
 
-EXTRA_DIST = $(glade_DATA) dialog-graph-guru.c
+EXTRA_DIST = $(glade_DATA)

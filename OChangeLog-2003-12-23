@@ -1,3 +1,12 @@
+2002-09-22  Jody Goldberg <jody@gnome.org>
+
+	* src/parse-util.c (col_parse) : doh!
+
+2002-09-20  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-control-gui.c (context_menu_handler) : support clearing a
+	  link and contect to the link editor dialog to add or edit one.
+
 2002-09-20  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : extend the tests for graphing libraries.

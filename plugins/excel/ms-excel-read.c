@@ -3865,7 +3865,7 @@ ms_excel_read_hlink (BiffQuery *q, ExcelSheet *esheet)
 	guint32 options, len;
 	guint16 next_opcode;
 	guint8 const *data = q->data;
-	guchar *description = NULL;
+	guchar *label = NULL;
 	guchar *target = NULL;
 	guchar *tip = NULL;
 	GnmHLink *link = NULL;
@@ -3881,12 +3881,12 @@ ms_excel_read_hlink (BiffQuery *q, ExcelSheet *esheet)
 	g_return_if_fail (!memcmp (data + 8, stdlink_guid, sizeof (stdlink_guid)));
 
 	data += 32;
-	/* description */
+	/* label */
 	if (options & 0x14) {
 		len = GSF_LE_GET_GUINT32 (data);
 		data += 4;
 		g_return_if_fail (data + len*2 - q->data <= (int)q->length);
-		description = read_utf16_str (len, data);
+		label = read_utf16_str (len, data);
 		data += len*2;
 	}
 
@@ -3946,7 +3946,7 @@ ms_excel_read_hlink (BiffQuery *q, ExcelSheet *esheet)
 			gnm_hlink_set_tip  (link, tip);
 	}
 
-	g_free (description);
+	g_free (label);
 	g_free (target);
 	g_free (tip);
 }

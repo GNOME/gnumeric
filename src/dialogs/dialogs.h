@@ -49,6 +49,7 @@ void     dialog_consolidate     (WorkbookControlGUI *wbcg);
 void     dialog_sheet_order     (WorkbookControlGUI *wbcg);
 void     dialog_row_height      (WorkbookControlGUI *wbcg, gboolean set_default);
 void     dialog_col_width       (WorkbookControlGUI *wbcg, gboolean set_default);
+void     dialog_hyperlink	(WorkbookControlGUI *wbcg, GnmHLink *link);
 
 typedef void (* ColRowCallback_t) (WorkbookControlGUI *wbcg, gboolean is_cols, gpointer data);
 GtkWidget *dialog_col_row       (WorkbookControlGUI *wbcg, char const *operation,
