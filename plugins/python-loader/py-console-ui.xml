@@ -1,0 +1,19 @@
+<Root>
+<commands>
+	<cmd name="Clear" _label="Clear" _tip="Clear the console"
+         pixtype="stock" pixname="Trash"/>
+</commands>
+<menu id="MenuBar">
+	<submenu name="Edit" _label="_Edit">
+		<menuitem name="Clear" verb=""/>
+	</submenu>
+</menu>
+<dockitem name="MainToolbar" band_num="1" behavior="exclusive"
+          homogeneous="0" look="icon" relief="none" verb="MainToolbar">
+<control name="InterpreterSelector" _tip="Current Python interpreter"/>
+<toolitem name="Clear" verb=""/>
+</dockitem>
+<keybindings>
+	<accel name="*Control*l" verb="Clear"/>
+</keybindings>
+</Root>

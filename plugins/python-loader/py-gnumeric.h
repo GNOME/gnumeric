@@ -2,18 +2,11 @@
 #define PLUGIN_PY_GNUMERIC_H
 
 #include <Python.h>
+#include <glib.h>
+#include <plugin.h>
+#include "gnm-py-interpreter.h"
 
-typedef struct {
-	PyThreadState *py_thread_state;
-	PyObject *Gnumeric_module, *Gnumeric_module_dict;
-	PyObject *GnumericError;
-	EvalPos *eval_pos;
-} InterpreterInfo;
-
-InterpreterInfo *create_python_interpreter (GnmPlugin *pinfo);
-void             destroy_python_interpreter (InterpreterInfo *py_interpreter_info);
-void             switch_python_interpreter_if_needed (InterpreterInfo *interpreter_info);
-void             clear_python_error_if_needed (void);
+void     py_initgnumeric (GnmPyInterpreter *interpreter);
 
 Value    *call_python_function (PyObject *python_fn, const EvalPos *eval_pos, gint n_args, Value **args);
 PyObject *python_call_gnumeric_function (FunctionDefinition *fn_def, const EvalPos *opt_eval_pos, PyObject *args);

@@ -1,0 +1,12 @@
+<Root>
+<commands>
+	<cmd name="ShowConsole"
+         _label="Python console"
+         _tip="Open the Python console"/>
+</commands>
+<menu>
+	<submenu name="Tools">
+		<menuitem name="ShowConsole" verb=""/>
+	</submenu>
+</menu>
+</Root>

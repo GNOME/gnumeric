@@ -10,6 +10,7 @@
 #include <Python.h>
 #include <glib.h>
 #include <libgnome/libgnome.h>
+#include "application.h"
 #include "workbook.h"
 #include "cell.h"
 #include "mstyle.h"
@@ -21,6 +22,8 @@
 #include "func.h"
 #include "str.h"
 #include "plugin.h"
+#include "gnm-python.h"
+#include "gnm-py-interpreter.h"
 #include "py-gnumeric.h"
 
 /*
@@ -111,70 +114,16 @@ Module Gnumeric:
 
 */
 
-static InterpreterInfo *current_interpreter_info;
-
-static PyObject *py_initgnumeric (GnmPlugin *pinfo);
-
-static const gchar *plugin_argv[] = {"gnumeric", NULL};
-
-
-InterpreterInfo *
-create_python_interpreter (GnmPlugin *pinfo)
-{
-	InterpreterInfo *interpreter_info;
-	PyThreadState *py_thread_state;
-	PyObject *Gnumeric_module;
-
-	py_thread_state = Py_NewInterpreter ();
-	if (py_thread_state == NULL) {
-		return NULL;
-	}
-	PySys_SetArgv (sizeof plugin_argv / sizeof plugin_argv[0] - 1,
-		       (char **) plugin_argv);
-	Gnumeric_module = py_initgnumeric (pinfo);
-
-	interpreter_info = g_new (InterpreterInfo, 1);
-	interpreter_info->py_thread_state = py_thread_state;
-	interpreter_info->Gnumeric_module = Gnumeric_module;
-	interpreter_info->Gnumeric_module_dict = PyModule_GetDict (Gnumeric_module);
-	interpreter_info->GnumericError = PyDict_GetItemString (
-	                                  interpreter_info->Gnumeric_module_dict,
-	                                  (char *) "GnumericError");
-	interpreter_info->eval_pos = NULL;
-
-	current_interpreter_info = interpreter_info;
-
-	return interpreter_info;
-}
-
-void
-destroy_python_interpreter (InterpreterInfo *py_interpreter_info)
-{
-	g_return_if_fail (py_interpreter_info != NULL);
-
-	Py_EndInterpreter (py_interpreter_info->py_thread_state);
-	g_free (py_interpreter_info);
-}
-
-void
-switch_python_interpreter_if_needed (InterpreterInfo *interpreter_info)
-{
-	if (current_interpreter_info == NULL ||
-	    current_interpreter_info != interpreter_info) {
-		(void) PyThreadState_Swap (interpreter_info->py_thread_state);
-		current_interpreter_info = interpreter_info;
-		g_print ("Python interpreter switched to %p\n",
-		         (gpointer) interpreter_info->py_thread_state);
-	}
-}
-
-void
-clear_python_error_if_needed (void)
-{
-	if (PyErr_Occurred () != NULL) {
-		PyErr_Clear ();
-	}
-}
+#define INTERPRETER \
+	(gnm_python_get_current_interpreter ())
+#define GNUMERIC_MODULE \
+	(g_object_get_data (G_OBJECT (INTERPRETER), "Gnumeric_module"))
+#define GNUMERIC_MODULE_GET(key) \
+	(PyDict_GetItemString (PyModule_GetDict (GNUMERIC_MODULE), (char *) (key)))
+#define SET_EVAL_POS(val) \
+	(g_object_set_data (G_OBJECT (INTERPRETER), "eval_pos", val))
+#define EVAL_POS \
+	(g_object_get_data (G_OBJECT (INTERPRETER), "eval_pos"))
 
 PyObject *
 python_call_gnumeric_function (FunctionDefinition *fn_def, const EvalPos *opt_eval_pos, PyObject *args)
@@ -190,10 +139,10 @@ python_call_gnumeric_function (FunctionDefinition *fn_def, const EvalPos *opt_ev
 	if (opt_eval_pos != NULL) {
 		eval_pos = opt_eval_pos;
 	} else {
-		eval_pos = current_interpreter_info->eval_pos;
+		eval_pos = EVAL_POS;
 	}
 	if (eval_pos == NULL) {
-		PyErr_SetString (current_interpreter_info->GnumericError,
+		PyErr_SetString (GNUMERIC_MODULE_GET ("GnumericError"),
 		                 "Missing Evaluation Position.");
 		return NULL;
 	}
@@ -235,10 +184,10 @@ call_python_function (PyObject *python_fn, const EvalPos *eval_pos, gint n_args,
 	for (i = 0; i < n_args; i++) {
 		(void) PyTuple_SetItem (python_args, i, convert_gnumeric_value_to_python (eval_pos, args[i]));
 	}
-	if (current_interpreter_info->eval_pos != NULL) {
+	if (EVAL_POS != NULL) {
 		eval_pos_set = FALSE;
 	} else {
-		current_interpreter_info->eval_pos = (EvalPos *) eval_pos;
+		SET_EVAL_POS ((EvalPos *) eval_pos);
 		eval_pos_set = TRUE;
 	}
 	python_ret_value = PyObject_CallObject (python_fn, python_args);
@@ -247,10 +196,10 @@ call_python_function (PyObject *python_fn, const EvalPos *eval_pos, gint n_args,
 		ret_value = convert_python_to_gnumeric_value (eval_pos, python_ret_value);
 	} else {
 		ret_value = convert_python_exception_to_gnumeric_value (eval_pos);
-		clear_python_error_if_needed ();
+		gnm_python_clear_error_if_needed ();
 	}
 	if (eval_pos_set) {
-		current_interpreter_info->eval_pos = NULL;
+		SET_EVAL_POS (NULL);
 	}
 
 	return ret_value;
@@ -266,7 +215,7 @@ convert_python_exception_to_string (void)
 	g_return_val_if_fail (PyErr_Occurred () != NULL, NULL);
 
 	PyErr_Fetch (&exc_type, &exc_value, &exc_traceback);
-	if (PyErr_GivenExceptionMatches (exc_type, current_interpreter_info->GnumericError)) {
+	if (PyErr_GivenExceptionMatches (exc_type, GNUMERIC_MODULE_GET ("GnumericError"))) {
 		if (exc_value != NULL) {
 			exc_value_str = PyObject_Str (exc_value);
 			g_assert (exc_value_str != NULL);
@@ -306,7 +255,7 @@ convert_python_exception_to_gnumeric_value (const EvalPos *eval_pos)
 	g_return_val_if_fail (PyErr_Occurred () != NULL, NULL);
 
 	PyErr_Fetch (&exc_type, &exc_value, &exc_traceback);
-	if (PyErr_GivenExceptionMatches (exc_type, current_interpreter_info->GnumericError)) {
+	if (PyErr_GivenExceptionMatches (exc_type, GNUMERIC_MODULE_GET ("GnumericError"))) {
 		if (exc_value != NULL) {
 			exc_value_str = PyObject_Str (exc_value);
 			g_assert (exc_value_str != NULL);
@@ -407,7 +356,7 @@ convert_python_to_gnumeric_value (const EvalPos *eval_pos, PyObject *py_val)
 
 	py_val_type = PyObject_Type (py_val);
 	if (py_val_type == NULL) {
-		clear_python_error_if_needed ();
+		gnm_python_clear_error_if_needed ();
 		ret_val = value_new_empty ();
 	} else if (py_val == Py_None) {
 		ret_val = value_new_empty ();
@@ -2044,24 +1993,46 @@ py_gnumeric_MStyle_method (PyObject *self, PyObject *args)
 	return result;
 }
 
+static PyObject *
+py_gnumeric_Workbooks_method (PyObject *self, PyObject *args)
+{
+	GList *workbooks, *l;
+	int len, i;
+	PyObject *result;
+
+	if (!PyArg_ParseTuple (args, (char *) ":Workbooks")) {
+		return NULL;
+	}
+
+	workbooks = application_workbook_list ();
+	len = g_list_length (workbooks);
+	result = PyTuple_New (len);
+	for (l = workbooks, i = 0; i < len; l = l->next, i++) {
+		PyTuple_SetItem (result, i, py_new_Workbook_object (l->data));
+	}
+
+	return result;
+}
+
 static PyMethodDef GnumericMethods[] = {
 	{ (char *) "Boolean", py_gnumeric_Boolean_method, METH_VARARGS },
 	{ (char *) "CellPos", py_gnumeric_CellPos_method, METH_VARARGS },
 	{ (char *) "Range",   py_gnumeric_Range_method,   METH_VARARGS },
 	{ (char *) "MStyle",  py_gnumeric_MStyle_method,  METH_VARARGS },
+ 	{ (char *) "Workbooks", py_gnumeric_Workbooks_method, METH_VARARGS },
 	{ NULL, NULL },
 };
 
 
-static PyObject *
-py_initgnumeric (GnmPlugin *pinfo)
+void
+py_initgnumeric (GnmPyInterpreter *interpreter)
 {
 	PyObject *module, *module_dict;
 
 	PyImport_AddModule ((char *) "Gnumeric");
 	module = Py_InitModule ((char *) "Gnumeric", GnumericMethods);
 	module_dict = PyModule_GetDict (module);
-	g_assert (module_dict != NULL);
+	g_object_set_data (G_OBJECT (interpreter), "Gnumeric_module", module);
 
 	(void) PyDict_SetItemString
 		(module_dict, (char *) "TRUE", py_new_Boolean_object (TRUE));
@@ -2103,7 +2074,5 @@ py_initgnumeric (GnmPlugin *pinfo)
 
 	(void) PyDict_SetItemString
 		(module_dict, (char *) "plugin_info",
-		 py_new_GnmPlugin_object (pinfo));
-
-	return module;
+		py_new_GnmPlugin_object (gnm_py_interpreter_get_plugin (interpreter)));
 }

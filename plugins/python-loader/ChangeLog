@@ -1,3 +1,42 @@
+2002-08-20  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* Makefile.am
+	(INCLUDES): Define PLUGIN_ID
+	(gnumeric_plugin_python_loader_DATA):
+	Set to "ui-console-menu.xml py-console-ui.xml"
+	(python_loader_la_SOURCES): Added python-loader.h, gnm-python.h,
+	gnm-python.c, gnm-py-interpreter.h, gnm-py-interpreter.c,
+	py-interpreter-selector.c, py-interpreter-selector.h,
+	py-command-line.c, py-command-line.h, py-console.c, py-console.h,
+	boot.c.
+	(EXTRA_DIST): Added $(gnumeric_plugin_python_loader_DATA)
+
+	* plugin.xml.in: Added Python console using "ui" service
+
+	* python-loader.c:
+	Adjusted to plugin-loader.h (conversion from GtkObject to GObject).
+	Register GnumericPluginLoader as dynamic class (using PLUGIN_CLASS)
+	to allow unloading the plugin.
+	(initialize_python_if_needed): Moved to gnum-python.c and renamed
+	(python_get_loader_type): Moved to boot.c
+
+	* py-gnumeric.h
+	(struct InterpreterInfo, create_python_interpreter,
+	destroy_python_interpreter, switch_python_interpreter_if_needed,
+	clear_python_error_if_needed): Moved to gnum-python.c and renamed.
+
+	* py-gnumeric.c
+	(create_python_interpreter, destroy_python_interpreter,
+	switch_python_interpreter_if_needed, clear_python_error_if_needed):
+	Moved to gnum-python.c and renamed.
+	(py_gnumeric_Workbooks_method): New.
+	(py_initgnumeric): Made non-static.
+
+	* python-loader.h, gnm-python.h, gnm-python.c, gnm-py-interpreter.h,
+	gnm-py-interpreter.c, py-interpreter-selector.c,
+	py-interpreter-selector.h, py-command-line.c, py-command-line.h,
+	py-console.c, py-console.h, boot.c: New
+
 2002-08-12  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.7
