@@ -1,3 +1,10 @@
+1999-07-25  Karsten Weiss  <karsten@addx.au.s.shuttle.de>
+
+	* src/print.glade.h: Fixed three typos.
+	* src/hf-config.glade.h: Fixed a typo.
+	Is this the right place to fix the typos or are they auto-generated
+	from some other source?
+	
 1999-07-21  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/dialog-printer-setup.c (preview_page_destroy): Clear the
