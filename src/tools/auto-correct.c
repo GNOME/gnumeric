@@ -384,6 +384,11 @@ autocorrect_names_of_days (const char *src)
 }
 
 
+/*
+ * NOTE: If in the future this is extended with methods that insert or
+ * delete characters (bytes to be precise), the there might need to be
+ * rich text corrections.
+ */
 char *
 autocorrect_tool (char const *src)
 {
