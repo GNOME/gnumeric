@@ -336,71 +336,6 @@ gtk_radio_group_get_selected (GSList *radio_group)
 	return 0;
 }
 
-void
-gtk_radio_button_select (GSList *group, int n)
-{
-	GSList *l;
-	int len = g_slist_length (group);
-
-	g_return_if_fail ((n >= 0) && n < len);
-
-	l = g_slist_nth (group, len - n - 1);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (l->data), 1);
-}
-
-static void
-popup_menu_item_activated (GtkWidget *item, void *value)
-{
-	int *dest = gtk_object_get_user_data (GTK_OBJECT (item));
-
-	*dest = GPOINTER_TO_INT (value);
-	gtk_main_quit ();
-}
-
-int
-run_popup_menu (GdkEvent *event, int button, char **strings)
-{
-	GtkWidget *menu;
-	int i;
-
-	g_return_val_if_fail (event != NULL, -1);
-	g_return_val_if_fail (strings != NULL, -1);
-
-	/* Create the popup menu */
-	menu = gtk_menu_new ();
-	for (i = 0;*strings; strings++, i++){
-		GtkWidget *item;
-
-		item = gtk_menu_item_new_with_label (_(*strings));
-
-		gtk_widget_show (item);
-		gtk_signal_connect (
-			GTK_OBJECT (item), "activate",
-			GTK_SIGNAL_FUNC (popup_menu_item_activated), GINT_TO_POINTER (i));
-
-		/* Pass a pointer where we want the result stored */
-		gtk_object_set_user_data (GTK_OBJECT (item), &i);
-
-		gtk_menu_append (GTK_MENU (menu), item);
-	}
-
-	i = -1;
-
-	/* Configure it: */
-	gtk_signal_connect (GTK_OBJECT (menu), "deactivate",
-			    GTK_SIGNAL_FUNC (gtk_main_quit), NULL);
-
-	/* popup the menu */
-	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL,
-			event->button.button, event->button.time);
-	gtk_main ();
-
-	gtk_widget_destroy (menu);
-
-	return i;
-}
-
-
 static char *
 font_change_component_1 (const char *fontname, int idx,
 			 const char *newvalue, char const **end)
@@ -512,7 +447,12 @@ gnumeric_popup_menu (GtkMenu *menu, GdkEventButton *event)
 	g_return_if_fail (GTK_IS_MENU (menu));
 
 	gnumeric_auto_kill_popup_menu_on_hide (menu);
-	gtk_menu_popup (menu, NULL, NULL, 0, NULL, event->button, event->time);
+
+	/* Do NOT pass the button used to create the menu.
+	 * instead pass 0.  Otherwise bringing up a menu with
+	 * the right button will disable clicking on the menu with the left.
+	 */
+	gtk_menu_popup (menu, NULL, NULL, 0, NULL, 0, event->time);
 }
 
 /*
@@ -759,3 +699,97 @@ gnumeric_inject_widget_into_bonoboui (Workbook *wb, GtkWidget *widget, char cons
 		NULL);
 }
 #endif
+
+static void
+popup_item_activate (GtkWidget *item, gpointer *user_data)
+{
+	GnumericPopupMenuElement const *elem =
+		gtk_object_get_data (GTK_OBJECT (item), "descriptor");
+	GnumericPopupMenuHandler handler =
+		gtk_object_get_data (GTK_OBJECT (item), "handler");
+
+	g_return_if_fail (elem != NULL);
+	g_return_if_fail (handler != NULL);
+
+	if (handler (elem, user_data))
+		gtk_widget_destroy (gtk_widget_get_toplevel (item));
+}
+
+void
+gnumeric_create_popup_menu (GnumericPopupMenuElement const *elements,
+			    GnumericPopupMenuHandler handler,
+			    gpointer user_data,
+			    int display_filter, int sensitive_filter,
+			    GdkEventButton *event)
+{
+	GtkWidget *menu, *item;
+	int i;
+
+	menu = gtk_menu_new ();
+
+	for (i = 0; elements [i].name != NULL; i++) {
+		char const * const name = elements [i].name;
+		char const * const pix_name = elements [i].pixmap;
+
+		item = NULL;
+
+		if (elements [i].display_filter != 0 &&
+		    elements [i].display_filter != display_filter)
+			continue;
+
+		if (name != NULL && *name != '\0') {
+			/* ICK ! There should be a utility routine for this in gnome or gtk */
+			GtkWidget *label;
+			guint label_accel;
+
+			label = gtk_accel_label_new ("");
+			label_accel = gtk_label_parse_uline (
+				GTK_LABEL (label), _(name));
+
+			gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+			gtk_widget_show (label);
+
+			item = gtk_pixmap_menu_item_new	();
+			gtk_container_add (GTK_CONTAINER (item), label);
+
+			if (label_accel != GDK_VoidSymbol) {
+				gtk_widget_add_accelerator (
+					item,
+					"activate_item",
+					gtk_menu_ensure_uline_accel_group (GTK_MENU (menu)),
+					label_accel, 0,
+					GTK_ACCEL_LOCKED);
+			}
+		} else
+			item = gtk_menu_item_new ();
+
+		if (elements [i].sensitive_filter != 0 &&
+		    elements [i].sensitive_filter != sensitive_filter)
+			gtk_widget_set_sensitive (GTK_WIDGET (item), FALSE);
+
+		if (pix_name != NULL) {
+			GtkWidget *pixmap =
+				gnome_stock_pixmap_widget (GTK_WIDGET (item),
+							   pix_name);
+			gtk_widget_show (pixmap);
+			gtk_pixmap_menu_item_set_pixmap (
+				GTK_PIXMAP_MENU_ITEM (item),
+				pixmap);
+		}
+		if (elements [i].index != 0) {
+			gtk_signal_connect (
+				GTK_OBJECT (item), "activate",
+				GTK_SIGNAL_FUNC (&popup_item_activate),
+				user_data);
+			gtk_object_set_data (
+				GTK_OBJECT (item), "descriptor", (gpointer)(elements + i));
+			gtk_object_set_data (
+				GTK_OBJECT (item), "handler", (gpointer)handler);
+		}
+
+		gtk_widget_show (item);
+		gtk_menu_append (GTK_MENU (menu), item);
+	}
+
+	gnumeric_popup_menu (GTK_MENU (menu), event);
+}

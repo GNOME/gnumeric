@@ -33,7 +33,6 @@ int        run_popup_menu  (GdkEvent *event, int button, char **strings);
 
 /* Utility routine as Gtk does not have any decent routine to do this */
 int        gtk_radio_group_get_selected (GSList *radio_group);
-void       gtk_radio_button_select      (GSList *group, int n);
 
 char      *x11_font_get_bold_name       (const char *fontname, int units);
 char      *x11_font_get_italic_name     (const char *fontname, int units);
@@ -68,5 +67,24 @@ GladeXML   *gnumeric_glade_xml_new (CommandContext *context, char const * gladef
 void 	    gnumeric_inject_widget_into_bonoboui (Workbook *wb,
 						  GtkWidget *widget,
 						  char const *path);
+
+typedef struct {
+	char const * name;
+	char const * pixmap;
+	int display_filter;
+	int sensitive_filter;
+
+	int index;
+} GnumericPopupMenuElement;
+
+typedef gboolean (*GnumericPopupMenuHandler) (GnumericPopupMenuElement const *e,
+					      gpointer user_data);
+
+void gnumeric_create_popup_menu (GnumericPopupMenuElement const *elements,
+				 GnumericPopupMenuHandler handler,
+				 gpointer user_data,
+				 int display_filter,
+				 int sensitive_filter,
+				 GdkEventButton *event);
 
 #endif /* GNUMERIC_GNUMERIC_UTIL_H */

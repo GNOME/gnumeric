@@ -1,3 +1,8 @@
+2000-10-11  Jody Goldberg <jgoldberg@home.com>
+
+	* src/gnumeric-util.c (gnumeric_create_popup_menu) : Generalized and
+	  moved from item-grid.c
+
 2000-10-11  Jon K Hellan  <hellan@acm.org>
 
 	* src/history.c (file_history_cmd): Removed yet another vestige of
@@ -17,9 +22,6 @@
 	* src/gnumeric-util.c (run_popup_menu) : Delete.
 	(popup_menu_item_activated) : Delete.
 	(gtk_radio_button_select) : Delete.
-
-	* src/item-bar.c (item_bar_event) : Adjust to changes
-	  in item_grid_popup_menu.
 
 	* src/item-cursor.c (item_cursor_do_drop) : Use item_grid_popup_menu.
 

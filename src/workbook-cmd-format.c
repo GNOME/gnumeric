@@ -59,7 +59,7 @@ workbook_cmd_format_column_auto_fit (GtkWidget *widget, Workbook *wb)
 }
 
 void
-sheet_dialog_set_column_width (GtkWidget *widget, Workbook *wb)
+sheet_dialog_set_column_width (GtkWidget *ignored, Workbook *wb)
 {
 	Sheet *sheet = wb->current_sheet;
 	GList *l;
@@ -124,7 +124,7 @@ workbook_cmd_format_row_auto_fit (GtkWidget *widget, Workbook *wb)
 }
 
 void
-sheet_dialog_set_row_height (GtkWidget *widget, Workbook *wb)
+sheet_dialog_set_row_height (GtkWidget *ignored, Workbook *wb)
 {
 	Sheet *sheet = wb->current_sheet;
 	GList *l;

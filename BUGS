@@ -4,18 +4,15 @@ and longer term bugs.
 
 Release Critical
 ----------------
+- Parser : The single character '%' is parsed as an expression '0%'
 
-Post 0.57 Changes
------------------
-- Model View Controller
-- Fix Borders
+- format.c: we should resolve all the separators at gnumeric_setlocale time,
+  not every time we need them.
 
-Long term breakage
-------------------
-- locale : Saving xml should not rely on changing the textdomain to
-           disable translation of TRUE/FALSE in expressions.
-	 : Support parsing and displaying locale specific function
-	   names.
+- when guessing the format of a possible value we should try the format
+  associated with the cell FIRST rather than later.  eg enter '10-1' (without
+  quotes) in a cell with an assigned format of Text.  This should be treated as
+  text.  Instead It parses as a Date (Oct 1) and gets converted.
 
 - We should put the sensitization/desensitization of the toolbars
   on a timer/idle hander so that it will not trigger until a second
@@ -33,6 +30,18 @@ Long term breakage
   font size and things like that.
 - Copy sheet, and insert new sheet both append to the end of the sheet list
   rather than inserting before the current sheet.
+
+- Model View Controller
+- Fix Borders
+
+Long term breakage
+------------------
+STF - pasting a single line should not invoke the importer
+
+- locale : Saving xml should not rely on changing the textdomain to
+           disable translation of TRUE/FALSE in expressions.
+	 : Support parsing and displaying locale specific function
+	   names.
 
 - formats with AM/PM need to be internationalized.
 
@@ -56,13 +65,8 @@ Long term breakage
 
 - 'General' numbers need to be formated based on the width of the cell.
 
-- when guessing the format of a possible value we should try the format
-  associated with the cell FIRST rather than later.  eg enter '10-1' (without
-  quotes) in a cell with an assigned format of Text.  This should be treated as
-  text.  Instead It parses as a Date (Oct 1) and gets converted.
-
 - The File->Print Preview icon is too big.  Use the stock version when the next
-  release of gnome-libs is made. (tigert is adding to gnome-libs)
+  release of gnome-libs is made.
 
 - Underline should scale with font size.  (Say, max (1, font->descent/4?)
   gnome-print has a function we could use for printing which returns the
@@ -82,11 +86,6 @@ Long term breakage
 		      bounding_box_remove
 		  to handle shaped objects.
 
-- Parser : The single character '%' is parsed as an expression '0%'
-
-- format.c: we should resolve all the separators at gnumeric_setlocale time,
-  not every time we need them.
-
 Dialogs
 -------
 - Use color combos in format dialog.
@@ -105,7 +104,6 @@ Function Breakage
 - Index  : does not support 0,0 or reference syntax.
 - ftest : Needs auditing.  All calls to eval_pos_init_cellref are questionable.
 - address : This code is a duplicate.  Have the function use the standard routines.
-- chitest : See why this crashes.
 
 Printing
 --------

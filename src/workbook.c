@@ -3201,7 +3201,6 @@ struct {
 
 /**
  * sheet_menu_label_run:
- *
  */
 static void
 sheet_menu_label_run (Sheet *sheet, GdkEventButton *event)

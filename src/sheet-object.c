@@ -777,16 +777,19 @@ menu_unrealize_cb (GtkMenu *menu, SheetObject *so)
 {
 }
 
-static GtkMenu *
-create_popup_menu (SheetObject *so)
+static void
+display_object_menu (SheetObject *so, GdkEvent *event)
 {
-	GtkMenu *menu = GTK_MENU (gtk_menu_new ());
+	GtkMenu *menu;
 
+	sheet_mode_edit_object (so);
+	menu = GTK_MENU (gtk_menu_new ());
 	SO_CLASS (so)->populate_menu (so, menu);
 	gtk_signal_connect (GTK_OBJECT (menu), "unrealize",
 			    GTK_SIGNAL_FUNC (menu_unrealize_cb), so);
 
-	return menu;
+	gtk_widget_show_all (GTK_WIDGET (menu));
+	gnumeric_popup_menu (menu, &event->button);
 }
 
 /*
@@ -822,24 +825,19 @@ control_point_handle_event (GnomeCanvasItem *item, GdkEvent *event,
 		switch (event->button.button) {
 		case 1:
 		case 2:
-		so->dragging = TRUE;
-		gnome_canvas_item_grab (item,
-					GDK_POINTER_MOTION_MASK |
-					GDK_BUTTON_RELEASE_MASK,
-					NULL, event->button.time);
-		last_x = event->button.x;
-		last_y = event->button.y;
-		break;
-		case 3:
-		{
-			GtkMenu *menu;
-
-			sheet_mode_edit_object (so);
-			menu = create_popup_menu (so);
-			gtk_widget_show_all (GTK_WIDGET (menu));
-			gnumeric_popup_menu (menu, &event->button);
+			so->dragging = TRUE;
+			gnome_canvas_item_grab (item,
+						GDK_POINTER_MOTION_MASK |
+						GDK_BUTTON_RELEASE_MASK,
+						NULL, event->button.time);
+			last_x = event->button.x;
+			last_y = event->button.y;
 			break;
-		}
+
+		case 3:
+			display_object_menu (so, event);
+			break;
+
 		default:
 			/* Ignore mouse wheel events */
 			return FALSE;
@@ -962,15 +960,9 @@ sheet_object_canvas_event (GnomeCanvasItem *item, GdkEvent *event,
 			event_total_y = 0;
 			break;
 		case 3:
-		{
-			GtkMenu *menu;
-
-			sheet_mode_edit_object (so);
-			menu = create_popup_menu (so);
-			gtk_widget_show_all (GTK_WIDGET (menu));
-			gnumeric_popup_menu (menu, &event->button);
+			display_object_menu (so, event);
 			break;
-		}
+
 		default:
 			/* Ignore mouse wheel events */
 			return FALSE;

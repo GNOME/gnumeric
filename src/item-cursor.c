@@ -684,9 +684,9 @@ item_cursor_target_region_ok (ItemCursor *item_cursor)
 }
 
 typedef enum {
-	ACTION_NONE = -1,
+	ACTION_NONE = 0,
+	ACTION_MOVE_CELLS = 1,
 	ACTION_COPY_CELLS,
-	ACTION_MOVE_CELLS,
 	ACTION_COPY_FORMATS,
 	ACTION_COPY_VALUES,
 	ACTION_SHIFT_DOWN_AND_COPY,
@@ -701,18 +701,15 @@ item_cursor_do_action (ItemCursor *item_cursor, ActionType action, guint32 time)
 	Sheet *sheet = item_cursor->sheet_view->sheet;
 	Workbook *wb = sheet->workbook;
 	PasteTarget pt;
-	Range const *target = selection_first_range (sheet, FALSE);
 
-	if (target != NULL && range_equal (target, &item_cursor->pos))
+	if (action == ACTION_NONE)
 		return;
 
-	switch (action){
-	case ACTION_NONE:
+	if (!item_cursor_target_region_ok (item_cursor))
 		return;
 
+	switch (action) {
 	case ACTION_COPY_CELLS:
-		if (!item_cursor_target_region_ok (item_cursor))
-			return;
 		if (!sheet_selection_copy (workbook_command_context_gui (wb), sheet))
 			return;
 		cmd_paste (workbook_command_context_gui (wb),
@@ -721,8 +718,6 @@ item_cursor_do_action (ItemCursor *item_cursor, ActionType action, guint32 time)
 		return;
 
 	case ACTION_MOVE_CELLS:
-		if (!item_cursor_target_region_ok (item_cursor))
-			return;
 		if (!sheet_selection_cut (workbook_command_context_gui (wb), sheet))
 			return;
 		cmd_paste (workbook_command_context_gui (wb),
@@ -731,8 +726,6 @@ item_cursor_do_action (ItemCursor *item_cursor, ActionType action, guint32 time)
 		return;
 
 	case ACTION_COPY_FORMATS:
-		if (!item_cursor_target_region_ok (item_cursor))
-			return;
 		if (!sheet_selection_copy (workbook_command_context_gui (wb), sheet))
 			return;
 		cmd_paste (workbook_command_context_gui (wb),
@@ -741,8 +734,6 @@ item_cursor_do_action (ItemCursor *item_cursor, ActionType action, guint32 time)
 		return;
 
 	case ACTION_COPY_VALUES:
-		if (!item_cursor_target_region_ok (item_cursor))
-			return;
 		if (!sheet_selection_copy (workbook_command_context_gui (wb), sheet))
 			return;
 		cmd_paste (workbook_command_context_gui (wb),
@@ -755,38 +746,81 @@ item_cursor_do_action (ItemCursor *item_cursor, ActionType action, guint32 time)
 	case ACTION_SHIFT_DOWN_AND_MOVE:
 	case ACTION_SHIFT_RIGHT_AND_MOVE:
 		g_warning ("Operation not yet implemented\n");
+		break;
+
+	default :
+		g_warning ("Invalid Operation %d\n", action);
 	}
 }
 
-static char *drop_context_actions [] = {
-	N_("Copy"),
-	N_("Move"),
-	N_("Copy formats"),
-	N_("Copy values"),
-	N_("Shift cells down and copy"),
-	N_("Shift cells right and copy"),
-	N_("Shift cells down and move"),
-	N_("Shift cells right and move"),
-	NULL,
-};
+static gboolean
+context_menu_hander (GnumericPopupMenuElement const *element,
+		     gpointer ic)
+{
+    g_return_val_if_fail (element != NULL, TRUE);
+
+    item_cursor_do_action (ic, element->index, GDK_CURRENT_TIME);
+    return TRUE;
+}
+
+static void
+item_cursor_popup_menu (ItemCursor *ic, GdkEventButton *event)
+{
+	static GnumericPopupMenuElement const popup_elements[] = {
+		{ N_("_Move"),		NULL,
+		    0, 0, ACTION_MOVE_CELLS },
+
+		{ N_("_Copy"),		GNOME_STOCK_PIXMAP_COPY,
+		    0, 0, ACTION_COPY_CELLS },
+
+		{ N_("Copy _Formats"),		NULL,
+		    0, 0, ACTION_COPY_FORMATS },
+		{ N_("Copy _Values"),		NULL,
+		    0, 0, ACTION_COPY_VALUES },
+
+		{ "", NULL, 0, 0, 0 },
+
+		{ N_("Shift _Down and Copy"),		NULL,
+		    0, 0, ACTION_SHIFT_DOWN_AND_COPY },
+		{ N_("Shift _Right and Copy"),		NULL,
+		    0, 0, ACTION_SHIFT_RIGHT_AND_COPY },
+		{ N_("Shift Dow_n and Move"),		NULL,
+		    0, 0, ACTION_SHIFT_DOWN_AND_MOVE },
+		{ N_("Shift Righ_t and Move"),		NULL,
+		    0, 0, ACTION_SHIFT_RIGHT_AND_MOVE },
+
+		{ "", NULL, 0, 0, 0 },
+
+		{ N_("C_ancel"),		NULL,
+		    0, 0, ACTION_NONE },
+
+		{ NULL, NULL, 0, 0, 0 }
+	};
+
+	gnumeric_create_popup_menu (popup_elements,
+				    &context_menu_hander, ic,
+				    0, 0, event);
+}
 
 /*
  * Invoked when the item has been dropped
  */
 static void
-item_cursor_do_drop (ItemCursor *item_cursor, GdkEventButton *event)
+item_cursor_do_drop (ItemCursor *ic, GdkEventButton *event)
 {
-	ActionType action;
+	/* Only do the operation if something moved */
+	Sheet const *sheet = ic->sheet_view->sheet;
+	Range const *target = selection_first_range (sheet, FALSE);
 
-	/* Find out what to do */
+	if (target == NULL || range_equal (target, &ic->pos))
+		return;
+
 	if (event->button == 3)
-		action = (ActionType) run_popup_menu ((GdkEvent *)event, 1, drop_context_actions);
-	else if (event->state & GDK_CONTROL_MASK)
-		action = ACTION_COPY_CELLS;
+		item_cursor_popup_menu (ic, event);
 	else
-		action = ACTION_MOVE_CELLS;
-
-	item_cursor_do_action (item_cursor, action, event->time);
+		item_cursor_do_action (ic, (event->state & GDK_CONTROL_MASK)
+				       ? ACTION_COPY_CELLS : ACTION_MOVE_CELLS,
+				       event->time);
 }
 
 static void

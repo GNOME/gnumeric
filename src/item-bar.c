@@ -672,10 +672,8 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 						 item_bar_signals [SELECTION_CHANGED],
 						 element, e->button.state | GDK_BUTTON1_MASK);
 
-			if (is_vertical)
-				item_grid_popup_menu (sheet, e, 0, element, FALSE, TRUE);
-			else
-				item_grid_popup_menu (sheet, e, element, 0, TRUE, FALSE);
+			item_grid_popup_menu (sheet, &e->button,
+					      !is_vertical, is_vertical);
 		} else if (cri) {
 			/*
 			 * Record the important bits.
