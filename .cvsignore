@@ -1,7 +1,7 @@
 ABOUT-NLS
 Makefile.in
 aclocal.m4
-autom4te.cache
+autom4te*.cache
 configure
 config.sub
 config.log
@@ -13,7 +13,7 @@ ltmain.sh
 libtool
 gnumeric-config.h.in
 gnumeric-config.h
-stamp-h
+stamp-h*
 Makefile
 stamp.h
 stamp-h.in
