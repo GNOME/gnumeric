@@ -22,6 +22,7 @@
 
 #include <libgnome/gnome-config.h>
 #include <string.h>
+#include <locale.h>
 
 GList *hf_formats = NULL;
 
