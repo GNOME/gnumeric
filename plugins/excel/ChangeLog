@@ -1,3 +1,8 @@
+2000-06-05  Michael Meeks  <michael@helixcode.com>
+
+	* ms-excel-read.c (sst_bound_check): Update so we can't miss
+	adjacent records and we check for continues.
+
 2000-06-03  Michael Meeks  <michael@helixcode.com>
 
 	* ms-obj.c (ms_read_TXO): fix memory corruption bug with continue.

@@ -72,21 +72,28 @@ ms_excel_unexpected_biff (BiffQuery *q, char const *const state)
  **/
 static guint
 biff_guint16_hash (const guint16 *d)
-{ return *d*2; }
+{
+	return *d*2;
+}
+
 static guint
 biff_guint32_hash (const guint32 *d)
-{ return *d*2; }
+{
+	return *d*2;
+}
 
 static gint
 biff_guint16_equal (const guint16 *a, const guint16 *b)
 {
-	if (*a == *b) return 1;
+	if (*a == *b)
+		return 1;
 	return 0;
 }
 static gint
 biff_guint32_equal (const guint32 *a, const guint32 *b)
 {
-	if (*a == *b) return 1;
+	if (*a == *b)
+		return 1;
 	return 0;
 }
 
@@ -276,11 +283,16 @@ sst_bound_check (BiffQuery *q, guint32 offset)
 {
 	if (offset >= q->length) {
 		guint32 d = offset - q->length;
+		guint16 opcode;
+		
+		if (!ms_biff_query_peek_next (q, &opcode) ||
+		    opcode != BIFF_CONTINUE)
+			return 0;
 		
 		if (!ms_biff_query_next (q))
 			return 0;
-		else
-			return d;
+
+		return d;
 	} else
 		return offset;
 }
