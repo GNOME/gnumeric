@@ -718,7 +718,7 @@ wb_view_sendto (WorkbookView *wbv, GnmCmdContext *context)
 
 	io_context = gnumeric_io_context_new (context);
 	if (fs != NULL) {
-		char *template, *full_name, uri;
+		char *template, *full_name, *uri;
 		char *basename = g_path_get_basename (workbook_get_uri (wb));
 
 #define GNM_SEND_DIR	".gnm-sendto-"
