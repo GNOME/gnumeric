@@ -86,6 +86,12 @@ typedef struct {
 	PrintHF *footer;
 } dialog_print_info_t;
 
+typedef struct
+{
+    dialog_print_info_t *dpi;
+    UnitInfo *target;
+} UnitInfo_cbdata;
+
 static void fetch_settings (dialog_print_info_t *dpi);
 
 #if 0
@@ -149,7 +155,8 @@ make_line (GnomeCanvasGroup *g, double x1, double y1, double x2, double y2)
 }
 
 static void
-draw_margin (UnitInfo *uinfo)
+draw_margin (UnitInfo *uinfo,
+	     dialog_print_info_t *dpi)
 {
 	double x1, y1, x2, y2;
 	double val = unit_convert (uinfo->value,
@@ -182,6 +189,7 @@ draw_margin (UnitInfo *uinfo)
 			y2 = y1;
 		else
 			y1 = y2;
+		draw_margin (&dpi->margins.header, dpi);
 		break;
 	case MARGIN_BOTTOM:
 		y2 -= uinfo->pi->scale * val;
@@ -189,11 +197,22 @@ draw_margin (UnitInfo *uinfo)
 			y2 = y1;
 		else
 			y1 = y2;
+		draw_margin (&dpi->margins.footer, dpi);
 		break;
 	case MARGIN_HEADER:
+		y1 += (uinfo->pi->scale * unit_convert (dpi->margins.top.value,
+							dpi->margins.top.unit,
+							UNIT_POINTS)
+		       + uinfo->pi->scale * val);
+		y2 = y1;
+		break;
 	case MARGIN_FOOTER:
-#warning FIXME: proper rendering of headers/footers
+		y2 -= (uinfo->pi->scale * unit_convert (dpi->margins.bottom.value,
+							dpi->margins.bottom.unit,
+							UNIT_POINTS)
+		       + uinfo->pi->scale * val);
 		y1 = y2;
+		break;
 	}
 
 	move_line (uinfo->line, x1, y1, x2, y2);
@@ -208,7 +227,6 @@ create_margin (dialog_print_info_t *dpi,
 	       double x2, double y2)
 {
 	GnomeCanvasGroup *g = GNOME_CANVAS_GROUP (dpi->preview.group);
-	PreviewInfo *pi = &dpi->preview;
 
 	uinfo->pi = &dpi->preview;
 	uinfo->line = make_line (g, x1 + 8, y1, x1 + 8, y2);
@@ -218,13 +236,17 @@ create_margin (dialog_print_info_t *dpi,
 	uinfo->bound_x2 = x2;
 	uinfo->bound_y2 = y2;
 	
-	draw_margin (uinfo);
+	draw_margin (uinfo, dpi);
 }
 
 static void
 draw_margins (dialog_print_info_t *dpi, double x1, double y1, double x2, double y2)
 {
-	GnomeCanvasGroup *g = GNOME_CANVAS_GROUP (dpi->preview.group);
+	/* Headers & footers */
+	create_margin (dpi, &dpi->margins.header, MARGIN_HEADER,
+		       x1, y1, x2, y2);
+	create_margin (dpi, &dpi->margins.footer, MARGIN_FOOTER,
+		       x1, y1, x2, y2);
 
 	/* Margins */
 	create_margin (dpi, &dpi->margins.left, MARGIN_LEFT,
@@ -235,13 +257,6 @@ draw_margins (dialog_print_info_t *dpi, double x1, double y1, double x2, double 
 		       x1, y1, x2, y2);
 	create_margin (dpi, &dpi->margins.bottom, MARGIN_BOTTOM,
 		       x1, y1, x2, y2);
-
-	/* Headers & footers */
-	dpi->margins.header.line = make_line (g, x1, y1 + 13, x2, y1 + 13);
-	dpi->margins.header.orientation = MARGIN_TOP;
-	dpi->margins.footer.line = make_line (g, x1, y2 - 13, x2, y2 - 13);
-	dpi->margins.footer.orientation = MARGIN_TOP;
-
 }
 
 static void
@@ -380,12 +395,12 @@ add_unit (GtkWidget *menu, int i, dialog_print_info_t *dpi,
 }
 
 static void
-unit_changed (GtkSpinButton *spin_button, UnitInfo *target)
+unit_changed (GtkSpinButton *spin_button, UnitInfo_cbdata *data)
 {
-	target->value = target->adj->value;
+	data->target->value = data->target->adj->value;
 
 	/* Adjust the display to the current values */
-	draw_margin (target);
+	draw_margin (data->target, data->dpi);
 }
 
 static void
@@ -393,7 +408,8 @@ unit_editor_configure (UnitInfo *target, dialog_print_info_t *dpi,
 		       char *spin_name, double init_points, UnitName unit)
 {
 	GtkSpinButton *spin;
-
+	UnitInfo_cbdata *cbdata;
+	
 	spin = GTK_SPIN_BUTTON (glade_xml_get_widget (dpi->gui, spin_name));
 
 	target->unit = unit;
@@ -407,9 +423,13 @@ unit_editor_configure (UnitInfo *target, dialog_print_info_t *dpi,
 	gnome_dialog_editable_enters (GNOME_DIALOG (dpi->dialog),
 				      GTK_EDITABLE (spin));
 	gtk_widget_set_usize (GTK_WIDGET (target->spin), 60, 0);
+
+	cbdata = g_new (UnitInfo_cbdata, 1);
+	cbdata->dpi = dpi;
+	cbdata->target = target;
 	gtk_signal_connect (
 		GTK_OBJECT (target->spin), "changed",
-		GTK_SIGNAL_FUNC (unit_changed), target);
+		GTK_SIGNAL_FUNC (unit_changed), cbdata);
 	dpi->conversion_listeners
 		= g_list_append (dpi->conversion_listeners, (gpointer) target);
 }
