@@ -556,22 +556,32 @@ about_cmd (GtkWidget *widget, Workbook *wb)
 	dialog_about ();
 }
 
+/* File menu */
+
 static GnomeUIInfo workbook_menu_file [] = {
 	{ GNOME_APP_UI_ITEM, N_("_New"), NULL, new_cmd, NULL, NULL,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_NEW, GDK_n, GDK_CONTROL_MASK },
-	{ GNOME_APP_UI_ITEM, N_("_Open"), NULL, open_cmd, NULL, NULL,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_OPEN, GDK_o, GDK_CONTROL_MASK },
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_NEW, 'n', GDK_CONTROL_MASK },
+	{ GNOME_APP_UI_ITEM, N_("_Open..."), NULL, open_cmd, NULL, NULL,
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_OPEN, 'o', GDK_CONTROL_MASK },
 	{ GNOME_APP_UI_ITEM, N_("_Save"), NULL, save_cmd, NULL, NULL,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_SAVE, GDK_s, GDK_CONTROL_MASK },
-	{ GNOME_APP_UI_ITEM, N_("S_ave as..."), NULL, save_as_cmd, NULL, NULL,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_SAVE },
-	{ GNOME_APP_UI_ITEM, N_("_Plugins..."), NULL, plugins_cmd },
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_SAVE, 's', GDK_CONTROL_MASK },
+	{ GNOME_APP_UI_ITEM, N_("Save _as..."), NULL, save_as_cmd, NULL, NULL,
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_SAVE_AS },
+
+	GNOMEUIINFO_SEPARATOR,
+
+	{ GNOME_APP_UI_ITEM, N_("Plu_g-ins..."), NULL, plugins_cmd },
+
+	GNOMEUIINFO_SEPARATOR,
+
 	{ GNOME_APP_UI_ITEM, N_("_Close"), NULL, close_cmd, NULL, NULL,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_EXIT, GDK_w, GDK_CONTROL_MASK },
-	{ GNOME_APP_UI_ITEM, N_("_Quit"), NULL, quit_cmd, NULL, NULL,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_EXIT, GDK_q, GDK_CONTROL_MASK },
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_CLOSE, 'w', GDK_CONTROL_MASK },
+	{ GNOME_APP_UI_ITEM, N_("E_xit"), NULL, quit_cmd, NULL, NULL,
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_EXIT, 'q', GDK_CONTROL_MASK },
 	GNOMEUIINFO_END
 };
+
+/* Edit menu */
 
 static GnomeUIInfo workbook_menu_edit_clear [] = {
 	{ GNOME_APP_UI_ITEM, N_("_All"),     NULL, clear_all_cmd },
@@ -581,37 +591,43 @@ static GnomeUIInfo workbook_menu_edit_clear [] = {
 };
 
 static GnomeUIInfo workbook_menu_edit [] = {
-	{ GNOME_APP_UI_ITEM, N_("_Cut"), NULL, cut_cmd, NULL, NULL,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_CUT, GDK_x, GDK_CONTROL_MASK },
-	{ GNOME_APP_UI_ITEM, N_("C_opy"), NULL, copy_cmd, NULL, NULL,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_COPY, GDK_c, GDK_CONTROL_MASK },
+	{ GNOME_APP_UI_ITEM, N_("Cu_t"), NULL, cut_cmd, NULL, NULL,
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_CUT, 'x', GDK_CONTROL_MASK },
+	{ GNOME_APP_UI_ITEM, N_("_Copy"), NULL, copy_cmd, NULL, NULL,
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_COPY, 'c', GDK_CONTROL_MASK },
 	{ GNOME_APP_UI_ITEM, N_("_Paste"), NULL, paste_cmd, NULL, NULL,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_PASTE, GDK_v, GDK_CONTROL_MASK },
-	{ GNOME_APP_UI_ITEM, N_("P_aste special"), NULL, paste_special_cmd, NULL, NULL,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_PASTE },
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_PASTE, 'v', GDK_CONTROL_MASK },
+	{ GNOME_APP_UI_ITEM, N_("P_aste special..."), NULL, paste_special_cmd },
+	{ GNOME_APP_UI_SUBTREE, N_("C_lear"), NULL, workbook_menu_edit_clear },
+
+	GNOMEUIINFO_SEPARATOR,
+
 	{ GNOME_APP_UI_ITEM, N_("_Select All"), NULL, select_all_cmd, NULL, NULL,
-	  0, 0, GDK_a, GDK_CONTROL_MASK },
-	GNOMEUIINFO_SEPARATOR,
-	{ GNOME_APP_UI_SUBTREE, N_("C_lear"), NULL, &workbook_menu_edit_clear },
-	GNOMEUIINFO_SEPARATOR,
+	  0, 0, 'a', GDK_CONTROL_MASK },
 	{ GNOME_APP_UI_ITEM, N_("_Goto cell.."), NULL, goto_cell_cmd, NULL, NULL,
-	  0, 0, GDK_i, GDK_CONTROL_MASK },
+	  0, 0, 'i', GDK_CONTROL_MASK },
+
 	GNOMEUIINFO_SEPARATOR,
-	{ GNOME_APP_UI_ITEM, N_("_Recalc"), NULL, recalc_cmd, NULL, NULL,
+
+	{ GNOME_APP_UI_ITEM, N_("_Recalculate"), NULL, recalc_cmd, NULL, NULL,
 	  0, 0, GDK_F9, 0 },
 	GNOMEUIINFO_END
 };
+
+/* View menu */
 
 static GnomeUIInfo workbook_menu_view [] = {
 	{ GNOME_APP_UI_ITEM, N_("_Zoom..."), NULL, zoom_cmd },
 	GNOMEUIINFO_END
 };
 
+/* Insert menu */
+
 static GnomeUIInfo workbook_menu_insert_special [] = {
-	{ GNOME_APP_UI_ITEM, N_("Current _date"), NULL, &insert_current_date_cmd,
+	{ GNOME_APP_UI_ITEM, N_("Current _date"), NULL, insert_current_date_cmd,
 	  NULL, NULL, 0, 0, ';', GDK_CONTROL_MASK },
-	{ GNOME_APP_UI_ITEM, N_("Current _time"), NULL, &insert_current_time_cmd,
-	  NULL, NULL, 0, 0, ':', GDK_CONTROL_MASK },
+	{ GNOME_APP_UI_ITEM, N_("Current _time"), NULL, insert_current_time_cmd,
+	  NULL, NULL, 0, 0, ';', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
 	GNOMEUIINFO_END
 };
 
@@ -619,11 +635,14 @@ static GnomeUIInfo workbook_menu_insert [] = {
 	{ GNOME_APP_UI_ITEM, N_("_Cells..."), NULL, insert_cells_cmd },
 	{ GNOME_APP_UI_ITEM, N_("_Rows"),     NULL, insert_rows_cmd },
 	{ GNOME_APP_UI_ITEM, N_("C_olumns"),  NULL, insert_cols_cmd },
+
 	GNOMEUIINFO_SEPARATOR,
-	{ GNOME_APP_UI_SUBTREE, N_("_Special"), NULL, &workbook_menu_insert_special },
-	GNOMEUIINFO_SEPARATOR,
+
+	{ GNOME_APP_UI_SUBTREE, N_("_Special"), NULL, workbook_menu_insert_special },
 	GNOMEUIINFO_END
 };
+
+/* Format menu */
 
 #if 0
 static GnomeUIInfo workbook_menu_format_column [] = {
@@ -645,29 +664,29 @@ static GnomeUIInfo workbook_menu_format_sheet [] = {
 #endif
 
 static GnomeUIInfo workbook_menu_format [] = {
-	{ GNOME_APP_UI_ITEM, N_("_Cells.."),   NULL, format_cells_cmd, NULL, NULL,
+	{ GNOME_APP_UI_ITEM, N_("_Cells..."),   NULL, format_cells_cmd, NULL, NULL,
 	  0, 0, GDK_1, GDK_CONTROL_MASK },
 #if 0
-	{ GNOME_APP_UI_SUBTREE, N_("C_olumn"), NULL, &workbook_menu_format_column },
-	{ GNOME_APP_UI_SUBTREE, N_("_Row"),    NULL, &workbook_menu_format_row },
-	{ GNOME_APP_UI_SUBTREE, N_("_Sheet"),  NULL, &workbook_menu_format_sheet },
+	{ GNOME_APP_UI_SUBTREE, N_("C_olumn"), NULL, workbook_menu_format_column },
+	{ GNOME_APP_UI_SUBTREE, N_("_Row"),    NULL, workbook_menu_format_row },
+	{ GNOME_APP_UI_SUBTREE, N_("_Sheet"),  NULL, workbook_menu_format_sheet },
 #endif
 	GNOMEUIINFO_END
 };
 
 static GnomeUIInfo workbook_menu_help [] = {
-	{ GNOME_APP_UI_ITEM, N_("_About Gnumeric"), NULL, about_cmd, NULL, NULL,
+	{ GNOME_APP_UI_ITEM, N_("_About Gnumeric..."), NULL, about_cmd, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_ABOUT, 0, 0, NULL },
 	GNOMEUIINFO_END
 };
 
 static GnomeUIInfo workbook_menu [] = {
-	{ GNOME_APP_UI_SUBTREE, N_("_File"),   NULL, &workbook_menu_file },
-	{ GNOME_APP_UI_SUBTREE, N_("_Edit"),   NULL, &workbook_menu_edit },
-	{ GNOME_APP_UI_SUBTREE, N_("_View"),   NULL, &workbook_menu_view },
-	{ GNOME_APP_UI_SUBTREE, N_("_Insert"), NULL, &workbook_menu_insert },
-	{ GNOME_APP_UI_SUBTREE, N_("F_ormat"), NULL, &workbook_menu_format },
-	{ GNOME_APP_UI_SUBTREE, N_("_Help"),   NULL, &workbook_menu_help },
+	{ GNOME_APP_UI_SUBTREE, N_("_File"),   NULL, workbook_menu_file },
+	{ GNOME_APP_UI_SUBTREE, N_("_Edit"),   NULL, workbook_menu_edit },
+	{ GNOME_APP_UI_SUBTREE, N_("_View"),   NULL, workbook_menu_view },
+	{ GNOME_APP_UI_SUBTREE, N_("_Insert"), NULL, workbook_menu_insert },
+	{ GNOME_APP_UI_SUBTREE, N_("F_ormat"), NULL, workbook_menu_format },
+	{ GNOME_APP_UI_SUBTREE, N_("_Help"),   NULL, workbook_menu_help },
 	GNOMEUIINFO_END
 };
 
