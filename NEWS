@@ -7,6 +7,7 @@ Almer:
 
 Andreas:
 	* Improve numerical precision in single factor ANOVA
+	* fix NETWORKDAYS (#73491)
 
 Jody:
 	* Make names created in the goto box absolute.
