@@ -2654,7 +2654,7 @@ static GnomeUIInfo workbook_menu_edit_fill [] = {
 		N_("Automatically fill the current selection"),
 		cb_edit_fill_autofill),
 	GNOMEUIINFO_ITEM_NONE (N_("Merge..."),
-		N_("Merges columnar data into a sheet creating dupicate sheets for each row."),
+		N_("Merges columnar data into a sheet creating duplicate sheets for each row."),
 		cb_tools_merge),
 	GNOMEUIINFO_ITEM_NONE (N_("_Tabulate Dependency..."),
 		N_("Make a table of a cell's value as a function of other cells"),

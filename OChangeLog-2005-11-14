@@ -1,5 +1,9 @@
 2002-03-18  Jody Goldberg <jody@gnome.org>
 
+	* src/workbook-control-gui.c : typo. (Thanks frob)
+
+2002-03-18  Jody Goldberg <jody@gnome.org>
+
 	* configure.in : bumpcanvas req topull in the canvas fixes changes.
 
 	* src/xml-io.c (xml_sheet_read) : look for sheet names in the right
