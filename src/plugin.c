@@ -13,6 +13,7 @@
 #include <gmodule.h>
 #include <gnome.h>
 #include <string.h>
+#include <sys/stat.h>
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "plugin.h"
@@ -33,6 +34,8 @@ struct _PluginData
 
 	gchar   *title;
         gchar   *descr;
+        off_t    size;
+        time_t   modified;
 
         gboolean initialized;
         gboolean version_checked;
@@ -101,6 +104,7 @@ plugin_load (CommandContext *context, const gchar *modfile)
 {
 	PluginData *data;
 	PluginInitResult res = PLUGIN_OK; /* start out optimistic */
+	struct stat sbuf;
 
 	g_return_val_if_fail (modfile != NULL, NULL);
 	
@@ -128,6 +132,15 @@ plugin_load (CommandContext *context, const gchar *modfile)
 					       _("Plugin must contain init_plugin function."));
 		goto error;
 	}
+
+	if (stat (data->file_name, &sbuf) < 0) {
+	        gnumeric_error_plugin_problem (context,
+					       _("Couldn't determine size or modification date"));
+		goto error;
+	} else {
+	        data->size = sbuf.st_size;
+		data->modified = sbuf.st_ctime;
+	}	
 	
 	res = data->init_plugin (context, data);
 	if (res != PLUGIN_OK) {
@@ -291,4 +304,23 @@ void *
 plugin_data_get_user_data (PluginData *pd)
 {
         return pd->user_data;
+}
+
+/*
+ * Returns the size of the plugin in bytes
+ */
+off_t
+plugin_data_get_size (PluginData *pd)
+{
+        return pd->size;
+}
+
+/*
+ * Returns the last modification date of the plugin
+ * In UNIX-like time
+ */
+time_t
+plugin_data_last_modified (PluginData *pd)
+{
+        return pd->modified;
 }

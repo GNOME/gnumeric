@@ -1,5 +1,29 @@
 2000-03-25  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet.c (sheet_{col,row}_set_size_pts) : Set the update flags.
+
+	* src/workbook.c : Add undo/redo elements.
+
+2000-03-25  Jody Goldberg <jgoldberg@home.com>
+
+	For Dom Lachowicz <cinamod@hotmail.com>
+
+	* src/plugin.[ch] (plugin_data_get_size,
+	  plugin_data_last_modified) : New functions.
+	(plugin_load): updated
+
+	* src/dialogs/dialog-plugin-manager.c
+	(dialog-plugin-manager-impl, refresh-right-frame): updated.
+
+	* src/dialogs/plugin-manager.glade,
+	  src/dialogs/plugin-manager.glade.h
+	  New layout, enabled word-wrap in description,
+	  Other aesthetic changes
+
+2000-03-25  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook.c : Add undo/redo elements to the toolbar.
+
 	* src/workbook-format-toolbar.c (change_font_in_selection_cmd) :
 	  Switch to the gnumeric gtk-combo-text.
 	(workbook_create_format_toolbar) : Pass in a default colour.

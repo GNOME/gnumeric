@@ -5,10 +5,12 @@
  */
 
 gchar *s = N_("Gnumeric Plugin Manager");
-gchar *s = N_("Plugin Title");
-gchar *s = N_("File name:");
-gchar *s = N_("File size:");
-gchar *s = N_("Compiled on:");
-gchar *s = N_("Description:");
 gchar *s = N_("Add");
 gchar *s = N_("Remove");
+gchar *s = N_("Plugin Title");
+gchar *s = N_("Description:");
+gchar *s = N_("Basic");
+gchar *s = N_("Size:");
+gchar *s = N_("Modified:");
+gchar *s = N_("Advanced");
+gchar *s = N_("File name:");

@@ -32,6 +32,7 @@ Jody:
 	* Parse interbook references.
 	* Mostly correct sizing of MS Excel cols/rows and objects.
 	* Printing improvements.
+	* Selecting ranges for formulas on other sheets.
 
 Jon:
 	* GUI polishing.

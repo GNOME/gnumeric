@@ -597,6 +597,7 @@ workbook_create_format_toolbar (Workbook *wb)
 			    GTK_SIGNAL_FUNC (cb_border_changed), wb);
 	disable_focus (wb->priv->border_combo, NULL);
 
+	/* Draw an outline for the default */
 	wb->priv->back_combo = color_combo_new (bucket_xpm, _("Clear Background"),
 						NULL);
 	gtk_widget_show (wb->priv->back_combo);

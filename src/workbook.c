@@ -1394,8 +1394,17 @@ static GnomeUIInfo workbook_standard_toolbar [] = {
 		paste_cmd, GNOME_STOCK_PIXMAP_PASTE),
 
 	GNOMEUIINFO_SEPARATOR,
-	
+
+	GNOMEUIINFO_ITEM_STOCK (
+		N_("Undo"), N_("Undo"),
+		undo_cmd, GNOME_STOCK_PIXMAP_UNDO),
+	GNOMEUIINFO_ITEM_STOCK (
+		N_("Redo"), N_("Reo"),
+		undo_cmd, GNOME_STOCK_PIXMAP_REDO),
+
 #ifdef ENABLE_BONOBO
+	GNOMEUIINFO_SEPARATOR,
+	
 	GNOMEUIINFO_ITEM_DATA (
 		N_("Creates a graphic"), N_("Invokes the graphic wizard to create a graphic"),
 		launch_graphics_wizard_cmd, NULL, graphic_xpm),

@@ -15,7 +15,7 @@ Description                                             Difficulty  Integration
   functions to samples/regress.gnumeric so we can be
   sure that we are returning the right error code.
 
-- Finish making the new combo boxes tear-off-able	Low	    Low
+- Finish making the new combo boxes tear-off-able	Medium      Low
 
 - Save/Restore the values of the last selected colours	Low	    Low
   from the toolbar for background or font.
@@ -34,6 +34,9 @@ Description                                             Difficulty  Integration
 - Audit the help text for all the functions.  Some are	Low	    Low
   missing or do not conform to the style guides, 
 
+- Add dynamic tooltips to the toolbar combo boxes	Medium	    Low
+
+-------------------------------------------------------------------------------
 Difficulty: an estimate of how hard the task would be for the average hacker.
   (This is not an estimate of project size; a project can be very big, but
    easy at the same time.)

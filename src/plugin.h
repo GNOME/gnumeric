@@ -7,6 +7,8 @@ typedef struct _PluginData PluginData;
 #include "gnumeric.h"
 #include <gmodule.h>
 
+#include <sys/types.h>
+
 typedef enum {
 	PLUGIN_OK,
 	PLUGIN_ERROR,	/* Display an error */
@@ -40,5 +42,7 @@ gboolean       plugin_data_init      (PluginData *pd, PluginCanUnloadFn can_unlo
 const gchar    *plugin_data_get_filename (PluginData *pd);
 const gchar    *plugin_data_get_title    (PluginData *pd);
 const gchar    *plugin_data_get_descr    (PluginData *pd);
+off_t           plugin_data_get_size     (PluginData *pd);
+time_t          plugin_data_last_modified(PluginData *pd);
 
 #endif /* GNUMERIC_PLUGIN_H */

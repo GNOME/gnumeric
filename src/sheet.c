@@ -469,6 +469,13 @@ sheet_update (Sheet const *sheet)
 	}
 
 	if (p->recompute_visibility) {
+		/* TODO : There is room for some opimization
+		 * We only need to force complete visibility recalculation
+		 * (which we do in sheet_compute_visible_ranges by passing TRUE)
+		 * if a row or col before the start of the visible range.
+		 * If we are REALLY smart we could even accumulate the size differential
+		 * and use that.
+		 */
 		p->recompute_visibility = FALSE;
 		sheet_compute_visible_ranges (sheet);
 		sheet_redraw_all (sheet);
@@ -3281,6 +3288,10 @@ sheet_col_set_size_pts (Sheet *sheet, int col, double width_pts,
 	ci->hard_size |= set_by_user;
 	ci->size_pts = width_pts;
 	colrow_compute_pixels_from_pts (sheet, ci, (void*)TRUE);
+
+	sheet->private->recompute_visibility = TRUE;
+	if (sheet->private->reposition_col_comment > col)
+		sheet->private->reposition_col_comment = col;
 }
 
 void
@@ -3427,6 +3438,10 @@ sheet_row_set_size_pts (Sheet *sheet, int row, double height_pts,
 	ri->hard_size |= set_by_user;
 	ri->size_pts = height_pts;
 	colrow_compute_pixels_from_pts (sheet, ri, (void*)FALSE);
+
+	sheet->private->recompute_visibility = TRUE;
+	if (sheet->private->reposition_row_comment > row)
+		sheet->private->reposition_row_comment = row;
 }
 
 /**
