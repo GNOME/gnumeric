@@ -2376,11 +2376,15 @@ sheet_destroy_contents (Sheet *sheet)
 
 	/* Free segments too */
 	for (i = COLROW_SEGMENT_INDEX(max_col); i >= 0 ; --i)
-		if ((tmp = g_ptr_array_index (sheet->cols.info, i)) != NULL)
+		if ((tmp = g_ptr_array_index (sheet->cols.info, i)) != NULL) {
 			g_free (tmp);
+			g_ptr_array_index (sheet->cols.info, i) = NULL;
+		}
 	for (i = COLROW_SEGMENT_INDEX(max_row); i >= 0 ; --i)
-		if ((tmp = g_ptr_array_index (sheet->rows.info, i)) != NULL)
+		if ((tmp = g_ptr_array_index (sheet->rows.info, i)) != NULL) {
 			g_free (tmp);
+			g_ptr_array_index (sheet->cols.info, i) = NULL;
+		}
 }
 
 /**

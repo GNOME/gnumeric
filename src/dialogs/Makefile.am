@@ -49,7 +49,9 @@ glade_DATA = 				\
 	row-height.glade		\
 	sheet-rename.glade		\
 	summary.glade			\
-	dialog-zoom.glade
+	dialog-zoom.glade		\
+	insert-cells.glade		\
+	delete-cells.glade
 
 glade_msgs = 				\
 	col-width.glade.h		\

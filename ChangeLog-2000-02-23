@@ -1,5 +1,16 @@
 1999-10-05  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_destroy_contents) : Mark freed segments with
+	  NULL.
+
+	* src/selection.c (selection_contains_colrow) : New function.
+	* src/item-bar.c (item_bar_event) : Use it.
+
 	From : Jon K Hellan  <Jon.K.Hellan@item.ntnu.no>
+
+	* src/dialogs/{insert,delete}-cells.glade : New files.
+	* src/dialogs/dialog-{insert,delete}-cells.c : Switch from using
+	  Cauldron to using libglade.
 
 	* src/plugin-manager.c (plugin_manager_new): 
 	  Go away on <Esc>, set initial focus.

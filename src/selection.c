@@ -1022,3 +1022,41 @@ selection_to_list (Sheet *sheet, gboolean allow_intersection)
 			 allow_intersection, &list);
 	return list;
 }
+
+/*****************************************************************************/
+
+/*
+ * selection_contains_colrow :
+ * @sheet : The whose selection we are interested in.
+ * @colrow: The column or row number we are interested in.
+ * @is_col: A flag indicating whether this it is a column or a row.
+ *
+ * Searches the selection list to see whether the entire col/row specified is
+ * contained by the section regions.  Since the selection is stored as the set
+ * overlapping user specifed regions we can safely search for the range directly.
+ *
+ * Eventually to be completely correct and deal with the case of someone manually
+ * selection an entire col/row, in seperate chunks,  we will need to do something
+ * more advanced.
+ */
+gboolean
+selection_contains_colrow (Sheet *sheet, int colrow, gboolean is_col)
+{
+	GList *l;
+	for (l = sheet->selections; l != NULL; l = l->next) {
+		SheetSelection const *ss = l->data;
+
+		if (is_col) {
+			if (ss->user.start.row == 0 &&
+			    ss->user.end.row >= SHEET_MAX_ROWS-1 &&
+			    ss->user.start.col <= colrow && colrow <= ss->user.end.col)
+				return TRUE;
+		} else {
+			if (ss->user.start.col == 0 &&
+			    ss->user.end.col >= SHEET_MAX_COLS-1 &&
+			    ss->user.start.row <= colrow && colrow <= ss->user.end.row)
+				return TRUE;
+		}
+	}
+	return FALSE;
+}
