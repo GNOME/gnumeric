@@ -3720,9 +3720,8 @@ msgid "date,days,holidays"
 msgstr ""
 
 #: plugins/fn-date/functions.c:1302
-#, fuzzy
 msgid "unixtime"
-msgstr "時間"
+msgstr "UNIX時間"
 
 #: plugins/fn-date/functions.c:1306
 #, fuzzy
@@ -16583,9 +16582,8 @@ msgid "C_ells..."
 msgstr "セル(_E)..."
 
 #: src/GNOME_Gnumeric.xml.h:21 src/workbook-control-gui.c:3551
-#, fuzzy
 msgid "C_hart..."
-msgstr "並べ替え(_S)..."
+msgstr "図(_H)"
 
 #: src/GNOME_Gnumeric.xml.h:22 src/workbook-control-gui.c:3443
 msgid "C_lear"
@@ -20452,7 +20450,7 @@ msgstr "相関"
 
 #: src/dialogs/delete-cells.glade.h:1
 msgid "<span weight=\"bold\">Delete Method</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">削除方法</span>"
 
 #: src/dialogs/delete-cells.glade.h:2
 msgid "Delete _column(s)"
@@ -21373,28 +21371,24 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/dialog-plugin-manager.c:596
-#, fuzzy, c-format
 msgid "Error while deactivating plugin \"%s\"."
-msgstr "複数のプラグイン無効中にエラー"
+msgstr "プラグイン\"%s\"の無効化中にエラーが発生しました。"
 
 #: src/dialogs/dialog-plugin-manager.c:600
-#, fuzzy, c-format
 msgid "Error while activating plugin \"%s\"."
-msgstr "プラグインの有効中にエラーが発生しました。"
+msgstr "プラグイン\"%s\"の有効化中にエラーが発生しました。"
 
 #: src/dialogs/dialog-plugin-manager.c:655
-#, fuzzy
 msgid "Active"
 msgstr "有効"
 
 #: src/dialogs/dialog-plugin-manager.c:660
-#, fuzzy
 msgid "Plugin name"
-msgstr "プラグイン・マネージャ"
+msgstr "プラグイン名"
 
 #: src/dialogs/dialog-plugin-manager.c:683
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: src/dialogs/dialog-plugin-manager.c:703
 msgid "Directory"
@@ -21440,14 +21434,12 @@ msgstr ""
 "このページにあるアイテムは \"ファイルを開く/保存する\" に影響を与えます。"
 
 #: src/dialogs/dialog-preferences.c:1394
-#, fuzzy
 msgid "Windows"
-msgstr "行を隠す"
+msgstr "ウィンドウ"
 
 #: src/dialogs/dialog-preferences.c:1395
-#, fuzzy
 msgid "Files"
-msgstr "ファイル(_F)"
+msgstr "ファイル"
 
 #: src/dialogs/dialog-preferences.c:1396 src/workbook-control-gui.c:1554
 #: src/workbook-control-gui.c:3975 src/workbook-control-gui.c:4206
@@ -21460,9 +21452,8 @@ msgid "Various"
 msgstr "変数"
 
 #: src/dialogs/dialog-preferences.c:1399
-#, fuzzy
 msgid "Internal"
-msgstr "間隔(_T):"
+msgstr "内部"
 
 #: src/dialogs/dialog-printer-setup.c:854
 msgid "Customize header"
@@ -23282,10 +23273,9 @@ msgstr "ディレクトリ"
 
 #: src/dialogs/plugin-manager.glade.h:4
 msgid "Do _not activate this plugin next time I start Gnumeric"
-msgstr ""
+msgstr "次回Gnumeric起動時にこのプラグインを有効にしない(_N)"
 
 #: src/dialogs/plugin-manager.glade.h:5
-#, fuzzy
 msgid "Plugin Details"
 msgstr "プラグイン詳細"
 
@@ -23302,15 +23292,15 @@ msgid "Plugin directory:"
 msgstr "プラグインディレクトリ:"
 
 #: src/dialogs/plugin-manager.glade.h:9
-#, fuzzy
 msgid ""
 "The plugin cannot be deactivated now because it is in use. However, if you "
 "use the check button below, the plugin won't be activated after restarting "
 "Gnumeric (unless needed by another plugin)."
 msgstr ""
-"プラグインは未だ使用中なので無効にすることができません。\n"
-"このプラグインが Gnumeric の再起動後に動作しないよう、無効マークを付与します"
-"か？"
+"プラグインはまだ使用中なので無効にすることができません。\n"
+"もし下のチェックボタンを使うと、Gnumericを再起動したときに"
+"このプラグインは(他のプラグインに必要とされないかぎり)"
+"有効にならなくなります。"
 
 #: src/dialogs/plugin-manager.glade.h:10
 msgid "_Activate All"
