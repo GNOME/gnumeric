@@ -360,7 +360,7 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 	obj->excel_type = MS_OLE_GET_GUINT16(q->data + 4);
 	obj->id         = MS_OLE_GET_GUINT32(q->data + 6);
 
-	return TRUE;
+	return FALSE;
 }
 
 /* S59DAD.HTM */

@@ -1,3 +1,8 @@
+2002-03-14  Jody Goldberg <jody@gnome.org>
+
+	* ms-obj.c (ms_obj_read_pre_biff8_obj) : doh! Fix sense of result so
+	  that reading works.
+
 2002-03-11  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.c (ms_excel_externname) : Store the name for use as a
