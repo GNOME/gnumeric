@@ -1,3 +1,11 @@
+2002-07-22  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* gsl-pdf.c (random_gamma_pdf, random_beta_pdf, 
+	random_exponential_pdf): Imported from GSL.
+
+	* functions.c: Added PDFBETA(), PDFEXP(), PDFEXPPOW(), PDFGAMMA(),
+	PDFLAPLACE().
+
 2002-07-21  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* functions.c: Added RANDGAUSSIANTAIL().

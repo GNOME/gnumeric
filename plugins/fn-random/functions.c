@@ -36,6 +36,7 @@
 #include "plugin.h"
 #include "plugin-util.h"
 #include "module-plugin-defs.h"
+#include "gsl-pdf.h"
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
@@ -120,6 +121,31 @@ gnumeric_randexp (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
+static const char *help_pdfexp = {
+        N_("@FUNCTION=PDFEXP\n"
+           "@SYNTAX=PDFEXP(x,mu)\n"
+
+           "@DESCRIPTION="
+           "PDFEXP returns the probability density p(x) at @x for "
+	   "Exponential distribution with mean @mu. "
+           "\n"
+           "@EXAMPLES=\n"
+           "PDFEXP(0.4,1).\n"
+           "\n"
+           "@SEEALSO=RANDEXP")
+};
+
+static Value *
+gnumeric_pdfexp (FunctionEvalInfo *ei, Value **argv)
+{
+	gnum_float x  = value_get_as_float (argv[0]);
+	gnum_float mu = value_get_as_float (argv[1]);
+
+        return value_new_float (random_exponential_pdf (x, mu));
+}
+
+/***************************************************************************/
+
 static const char *help_randpoisson = {
         N_("@FUNCTION=RANDPOISSON\n"
            "@SYNTAX=RANDPOISSON(lambda)\n"
@@ -182,7 +208,8 @@ static const char *help_randbetween = {
 
 	   "@DESCRIPTION="
 	   "RANDBETWEEN function returns a random integer number "
-	   "between and including @bottom and @top.\n"
+	   "between and including @bottom and @top."
+           "\n"
 	   "If @bottom or @top is non-integer, they are truncated. "
 	   "If @bottom > @top, RANDBETWEEN returns #NUM! error.\n"
 	   "This function is Excel compatible. "
@@ -401,6 +428,31 @@ gnumeric_randlaplace (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
+static const char *help_pdflaplace = {
+        N_("@FUNCTION=PDFLAPLACE\n"
+           "@SYNTAX=PDFLAPLACE(x,a)\n"
+
+           "@DESCRIPTION="
+           "PDFLAPLACE returns the probability density p(x) at @x for "
+	   "Laplace distribution with mean @a. "
+           "\n"
+           "@EXAMPLES=\n"
+           "PDFLAPLACE(0.4,1).\n"
+           "\n"
+           "@SEEALSO=RANDLAPLACE")
+};
+
+static Value *
+gnumeric_pdflaplace (FunctionEvalInfo *ei, Value **argv)
+{
+	gnum_float x = value_get_as_float (argv[0]);
+	gnum_float a = value_get_as_float (argv[1]);
+
+        return value_new_float (random_laplace_pdf (x, a));
+}
+
+/***************************************************************************/
+
 static const char *help_randrayleigh = {
         N_("@FUNCTION=RANDRAYLEIGH\n"
            "@SYNTAX=RANDRAYLEIGH(sigma)\n"
@@ -480,6 +532,37 @@ gnumeric_randgamma (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
+static const char *help_pdfgamma = {
+        N_("@FUNCTION=PDFGAMMA\n"
+           "@SYNTAX=PDFGAMMA(x,a,b)\n"
+
+           "@DESCRIPTION="
+           "PDFGAMMA returns the probability density p(x) at @x for "
+	   "Gamma distribution with parameters @a and @b. "
+           "\n"
+           "If @a <= 0 PDFGAMMA returns #NUM! error. "
+	   "\n"
+           "@EXAMPLES=\n"
+           "PDFGAMMA(0.7,0.4,1).\n"
+           "\n"
+           "@SEEALSO=RANDGAMMA")
+};
+
+static Value *
+gnumeric_pdfgamma (FunctionEvalInfo *ei, Value **argv)
+{
+	gnum_float x = value_get_as_float (argv[0]);
+	gnum_float a = value_get_as_float (argv[1]);
+	gnum_float b = value_get_as_float (argv[2]);
+
+	if (a <= 0)
+		return value_new_error (ei->pos, gnumeric_err_NUM);
+
+        return value_new_float (random_gamma_pdf (x, a, b));
+}
+
+/***************************************************************************/
+
 static const char *help_randpareto = {
         N_("@FUNCTION=RANDPARETO\n"
            "@SYNTAX=RANDPARETO(a,b)\n"
@@ -548,6 +631,32 @@ gnumeric_randbeta (FunctionEvalInfo *ei, Value **argv)
 	gnum_float b = value_get_as_float (argv[1]);
 
         return value_new_float (random_beta (a, b));
+}
+
+/***************************************************************************/
+
+static const char *help_pdfbeta = {
+        N_("@FUNCTION=PDFBETA\n"
+           "@SYNTAX=PDFBETA(x,a,b)\n"
+
+           "@DESCRIPTION="
+           "PDFBETA returns the probability density p(x) at @x for "
+	   "Beta distribution with parameters @a and @b. "
+           "\n"
+           "@EXAMPLES=\n"
+           "PDFBETA(0.7,0.4,1).\n"
+           "\n"
+           "@SEEALSO=RANDBETA")
+};
+
+static Value *
+gnumeric_pdfbeta (FunctionEvalInfo *ei, Value **argv)
+{
+	gnum_float x = value_get_as_float (argv[0]);
+	gnum_float a = value_get_as_float (argv[1]);
+	gnum_float b = value_get_as_float (argv[2]);
+
+        return value_new_float (random_beta_pdf (x, a, b));
 }
 
 /***************************************************************************/
@@ -787,10 +896,10 @@ static const char *help_randexppow = {
            "@DESCRIPTION="
            "RANDLEVY returns a random variate from the exponential power "
 	   "distribution with scale parameter @a and exponent @b. The "
-	   "distribution is, p(x) dx = {1 over 2 a Gamma(1+1/b)} exp(-|x/a|^b) "
-	   "dx, for x >= 0. For b = 1 this reduces to the Laplace distribution. "
-	   "For b = 2 it has the same form as a gaussian distribution, but "
-	   "with a = sqrt{2} sigma. "
+	   "distribution is, p(x) dx = {1 over 2 a Gamma(1+1/b)} exp(-|x/a|^b)"
+	   " dx, for x >= 0. For b = 1 this reduces to the Laplace "
+	   "distribution. For b = 2 it has the same form as a gaussian "
+	   "distribution, but with a = sqrt{2} sigma. "
            "\n"
            "@EXAMPLES=\n"
            "RANDEXPPOW(0.5,0.1).\n"
@@ -809,18 +918,45 @@ gnumeric_randexppow (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
+static const char *help_pdfexppow = {
+        N_("@FUNCTION=PDFEXPPOW\n"
+           "@SYNTAX=PDFEXPPOW(x,a,b)\n"
+
+           "@DESCRIPTION="
+           "PDFEXPPOW returns the probability density p(x) at @x for "
+	   "Exponential Power distribution with scale parameter @a and "
+	   "exponent @b. "
+           "\n"
+           "@EXAMPLES=\n"
+           "PDFEXPPOW(0.4,1,2).\n"
+           "\n"
+           "@SEEALSO=RANDEXPPOW")
+};
+
+static Value *
+gnumeric_pdfexppow (FunctionEvalInfo *ei, Value **argv)
+{
+	gnum_float x = value_get_as_float (argv[0]);
+	gnum_float a = value_get_as_float (argv[1]);
+	gnum_float b = value_get_as_float (argv[2]);
+
+        return value_new_float (random_exppow_pdf (x, a, b));
+}
+
+/***************************************************************************/
+
 static const char *help_randlandau = {
         N_("@FUNCTION=RANDLANDAU\n"
            "@SYNTAX=RANDLANDAU()\n"
 
            "@DESCRIPTION="
            "RANDLANDAU returns a random variate from the Landau distribution. "
-	   "The probability distribution for Landau random variates is defined "
-	   "analytically by the complex integral, p(x) = (1/(2 pi i)) "
+	   "The probability distribution for Landau random variates is "
+	   "defined analytically by the complex integral, p(x) = (1/(2 pi i)) "
 	   "int_{c-i infty}^{c+i infty} ds exp(s log(s) + x s). For numerical "
-	   "purposes it is more convenient to use the following equivalent form "
-	   "of the integral, p(x) = (1/pi) int_0^ infty dt exp(-t log(t) - x t) "
-	   "sin(\pi t)."
+	   "purposes it is more convenient to use the following equivalent "
+	   "form of the integral, p(x) = (1/pi) int_0^ infty dt "
+	   "exp(-t log(t) - x t) sin(pi t)."
            "\n"
            "@EXAMPLES=\n"
            "RANDLANDAU().\n"
@@ -845,12 +981,12 @@ static const char *help_randgaussiantail = {
 	   "of a Gaussian distribution with standard deviation sigma. The "
 	   "values returned are larger than the lower limit a, which must be "
 	   "positive. The method is based on Marsaglia's famous "
-	   "rectangle-wedge-tail algorithm (Ann Math Stat 32, 894-899 (1961)), "
-	   "with this aspect explained in Knuth, v2, 3rd ed, p139,586 "
-	   "(exercise 11)."
+	   "rectangle-wedge-tail algorithm (Ann Math Stat 32, 894-899 "
+	   "(1961)), with this aspect explained in Knuth, v2, 3rd ed, p139, "
+	   "586 (exercise 11)."
 	   "\n"
-	   "The probability distribution for Gaussian tail random variates is, "
-	   "p(x) dx = {1 over N(a;sigma)} exp (- x^2/(2 sigma^2)) dx, "
+	   "The probability distribution for Gaussian tail random variates "
+	   "is, p(x) dx = {1 over N(a;sigma)} exp (- x^2/(2 sigma^2)) dx, "
 	   "for x > a where N(a;sigma) is the normalization constant, "
 	   "N(a;sigma) = (1/2) erfc(a / sqrt(2 sigma^2)). "
            "\n"
@@ -872,6 +1008,16 @@ gnumeric_randgaussiantail (FunctionEvalInfo *ei, Value **argv)
 /***************************************************************************/
 
 const ModulePluginFunctionInfo random_functions[] = {
+        { "pdfbeta", "fff", N_("x,a,b"),         &help_pdfbeta,
+	  gnumeric_pdfbeta, NULL, NULL, NULL },
+        { "pdfexp", "ff", N_("x,mu"),         &help_pdfexp,
+	  gnumeric_pdfexp, NULL, NULL, NULL },
+        { "pdfexppow", "fff", N_("x,a,b"),         &help_pdfexppow,
+	  gnumeric_pdfexppow, NULL, NULL, NULL },
+        { "pdfgamma", "fff", N_("x,a,b"),         &help_pdfgamma,
+	  gnumeric_pdfgamma, NULL, NULL, NULL },
+        { "pdflaplace", "ff", N_("x,a"), &help_pdflaplace,
+	  gnumeric_pdflaplace, NULL, NULL, NULL },
 	{ "rand",    "", "",           &help_rand,
 	  gnumeric_rand, NULL, NULL, NULL },
         { "randbernoulli", "f", N_("p"),   &help_randbernoulli,

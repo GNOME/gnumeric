@@ -3,7 +3,8 @@ Gnumeric 1.1.7
 Jukka:
 	* New random distribution functions (mostly integrated from the 
 	  GNU Scientific Library with some minor modifications):
-	  RANDGAUSSIANTAIL() and RANDLANDAU().
+	  PDFBETA(), PDFEXP(), PDFEXPPOW(), PDFGAMMA(), PDFLAPLACE(),
+	  RANDGAUSSIANTAIL(), and RANDLANDAU().
 	* New random distributions for the random number generation tool:
 	  Gaussian Tail, Landau, and Uniform integer.
 	* New financial functions (integrated from the OpenOffice with

@@ -138,6 +138,10 @@ gnum_float random_exppow         (gnum_float a, gnum_float b);
 gnum_float random_landau         (void);
 gnum_float random_gaussian_tail  (gnum_float a, gnum_float sigma);
 
+/* The probability density functions. */
+gnum_float random_exppow_pdf     (gnum_float x, gnum_float a, gnum_float b);
+gnum_float random_laplace_pdf    (gnum_float x, gnum_float a);
+
 /* ------------------------------------------------------------------------- */
 
 /* Matrix functions. */

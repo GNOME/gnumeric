@@ -7,7 +7,7 @@ gnumeric_plugin_fnrandomdir = $(gnumeric_plugindir)/fn-random
 xmldir = $(gnumeric_plugin_fnrandomdir)
 gnumeric_plugin_fnrandom_LTLIBRARIES = plugin.la
 plugin_la_LDFLAGS = -module -avoid-version
-plugin_la_SOURCES = functions.c
+plugin_la_SOURCES = functions.c gsl-pdf.c gsl-pdf.h
 
 xml_in_files = plugin.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml)
