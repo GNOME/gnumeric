@@ -1,5 +1,8 @@
 2002-10-25  Morten Welinder  <terra@diku.dk>
 
+	* src/sheet-object-image.c (sheet_object_image_new_view): Plug
+	leak.
+
 	* src/position.c (cellref_make_abs): Fix col/row confusion.
 
 2002-10-24  Morten Welinder  <terra@diku.dk>

@@ -193,12 +193,13 @@ sheet_object_image_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 
 	gnome_canvas_item_raise_to_top (GNOME_CANVAS_ITEM (gcanvas->sheet_object_group));
 	pixbuf = soi_get_pixbuf (soi, 1.);
-	if (pixbuf != NULL)
+	if (pixbuf != NULL) {
 		item = gnome_canvas_item_new (gcanvas->sheet_object_group,
 			GNOME_TYPE_CANVAS_PIXBUF,
 			"pixbuf", pixbuf,
 			NULL);
-	else
+		g_object_unref (G_OBJECT (pixbuf));
+	} else
 		item = gnome_canvas_item_new (gcanvas->sheet_object_group,
 			GNOME_TYPE_CANVAS_RECT,
 			"fill_color",		"white",
