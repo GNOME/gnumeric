@@ -61,9 +61,6 @@ void       gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet,
 void       gnumeric_sheet_make_cell_visible      (GnumericSheet *gsheet,
 						  int col, int row,
 						  gboolean const force_scroll);
-void       gnumeric_sheet_get_cell_bounds        (GnumericSheet *gsheet,
-						  int col, int row,
-						  int *x, int *y, int *w, int *h);
 void       gnumeric_sheet_create_editing_cursor  (GnumericSheet *gsheet);
 void       gnumeric_sheet_stop_editing           (GnumericSheet *gsheet);
 

@@ -450,6 +450,18 @@ item_cursor_set_bounds (ItemCursor *item_cursor, int start_col, int start_row, i
 	item_cursor->pos.start.row = start_row;
 	item_cursor->pos.end.row   = end_row;
 
+	/* HACK HACK HACK
+	 * FIXME FIXME FIXME
+	 * I do not understand why, but when the coloured range marker
+	 * from item-edit is displayed the canvas seems to forget to do updates
+	 * for the item-cursor.  If I manually FORCE the update flags for the
+	 * item and its parent to be clear then the request is honoured.
+	 *
+	 * WHY???!?!!?
+	 */
+	GTK_OBJECT_UNSET_FLAGS (item, GNOME_CANVAS_ITEM_NEED_UPDATE);
+	GTK_OBJECT_UNSET_FLAGS (item->parent, GNOME_CANVAS_ITEM_NEED_UPDATE);
+
 	/* Request an update */
 	gnome_canvas_item_request_update (item);
 }

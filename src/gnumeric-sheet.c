@@ -57,23 +57,6 @@ gnumeric_sheet_create (SheetView *sheet_view, GtkWidget *entry)
 	return gsheet;
 }
 
-void
-gnumeric_sheet_get_cell_bounds (GnumericSheet *gsheet, int col, int row, int *x, int *y, int *w, int *h)
-{
-	Sheet *sheet;
-
-	g_return_if_fail (gsheet != NULL);
-	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
-
-	sheet = gsheet->sheet_view->sheet;
-
-	*x = sheet_col_get_distance_pixels (sheet, gsheet->col.first, col);
-	*y = sheet_row_get_distance_pixels (sheet, gsheet->row.first, row);
-
-	*w = sheet_col_get_distance_pixels (sheet, col, col + 1);
-	*h = sheet_row_get_distance_pixels (sheet, row, row + 1);
-}
-
 /*
  * move_cursor:
  * @gsheet:   The sheet where the cursor is located

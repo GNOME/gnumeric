@@ -392,6 +392,7 @@ item_edit_init (ItemEdit *item_edit)
 	item_edit->font_height = 1;
 	item_edit->cursor_visible = TRUE;
 	item_edit->feedback_disabled = FALSE;
+	item_edit->feedback_cursor = NULL;
 }
 
 static void
