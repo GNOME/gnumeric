@@ -1,5 +1,9 @@
 2002-08-29  Morten Welinder  <terra@diku.dk>
 
+	* src/plugin-service.c (plugin_service_ui_activate): Plug leak.
+
+2002-08-29  Morten Welinder  <terra@diku.dk>
+
 	* src/gutils.c (gnm_mem_chunk_free): Plug a minor leak.
 
 2002-08-29  Morten Welinder  <terra@diku.dk>

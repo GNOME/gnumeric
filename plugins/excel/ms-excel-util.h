@@ -28,9 +28,10 @@ typedef void (*AfterPutFunc) (gconstpointer key,
 			      gconstpointer closure);
 
 TwoWayTable *
-two_way_table_new (GHashFunc    hash_func,
-		   GCompareFunc key_compare_func,
-		   gint   base);
+two_way_table_new (GHashFunc      hash_func,
+		   GCompareFunc   key_compare_func,
+		   gint           base,
+		   GDestroyNotify key_destroy_func);
 
 void
 two_way_table_free (TwoWayTable *table);

@@ -1412,6 +1412,7 @@ plugin_service_ui_activate (PluginService *service, ErrorInfo **ret_error)
 	service_ui->ui = register_xml_ui (
 		xml_ui, textdomain, service_ui->verbs, ui_verb_fn, service);
 	service->is_active = TRUE;
+	g_free (xml_ui);
 }
 
 static void

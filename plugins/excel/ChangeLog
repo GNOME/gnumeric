@@ -1,5 +1,13 @@
 2002-08-29  Morten Welinder  <terra@diku.dk>
 
+	* ms-excel-util.c (two_way_table_new): Take an extra arg for
+	getting rid of keys.  All callers changed.
+
+	* ms-excel-write.c (formats_init): Supply an unreffer to
+	two_way_table_new.
+
+2002-08-29  Morten Welinder  <terra@diku.dk>
+
 	* ms-excel-write.c (free_workbook): Plug leaks.
 
 2002-08-28  Jody Goldberg <jody@gnome.org>

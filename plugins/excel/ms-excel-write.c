@@ -896,7 +896,9 @@ palette_init (ExcelWorkbook *wb)
 {
 	wb->pal = g_new (Palette, 1);
 	wb->pal->two_way_table 	= two_way_table_new (g_direct_hash,
-						     g_direct_equal, 0);
+						     g_direct_equal,
+						     0,
+						     NULL);
 	palette_put_defaults (wb);
 
 }
@@ -1200,7 +1202,8 @@ fonts_init (ExcelWorkbook *wb)
 {
 	wb->fonts = g_new (Fonts, 1);
 	wb->fonts->two_way_table
-		= two_way_table_new (excel_font_hash, excel_font_equal, 0);
+		= two_way_table_new (excel_font_hash, excel_font_equal,
+				     0, NULL);
 }
 
 /**
@@ -1440,7 +1443,8 @@ formats_init (ExcelWorkbook *wb)
 
 	wb->formats = g_new (Formats, 1);
 	wb->formats->two_way_table
-		= two_way_table_new (g_direct_hash, g_direct_equal, 0);
+		= two_way_table_new (g_direct_hash, g_direct_equal, 0,
+				     (GDestroyNotify)style_format_unref);
 
 	formats_put_magic (wb);
 }
@@ -1602,7 +1606,9 @@ xf_init (ExcelWorkbook *wb)
 	wb->xf = g_new (XF, 1);
 	/* Excel starts at XF_RESERVED for user defined xf */
 	wb->xf->two_way_table = two_way_table_new (mstyle_hash,
-		(GCompareFunc) mstyle_equal_XL, XF_RESERVED);
+						   (GCompareFunc) mstyle_equal_XL,
+						   XF_RESERVED,
+						   NULL);
 	wb->xf->default_style = get_default_mstyle ();
 }
 

@@ -58,14 +58,16 @@
  * Makes a TwoWayTable. Returns the table.
  */
 TwoWayTable *
-two_way_table_new (GHashFunc    hash_func,
-		   GCompareFunc key_compare_func,
-		   gint         base)
+two_way_table_new (GHashFunc      hash_func,
+		   GCompareFunc   key_compare_func,
+		   gint           base,
+		   GDestroyNotify key_destroy_func)
 {
 	TwoWayTable *table = g_new (TwoWayTable, 1);
 
 	g_return_val_if_fail (base >= 0, NULL);
-	table->all_keys    = g_hash_table_new (g_direct_hash, g_direct_equal);
+	table->all_keys    = g_hash_table_new_full (g_direct_hash, g_direct_equal,
+						    key_destroy_func, NULL);
 	table->unique_keys = g_hash_table_new (hash_func, key_compare_func);
 	table->idx_to_key  = g_ptr_array_new ();
 	table->base        = base;
@@ -176,7 +178,6 @@ two_way_table_key_to_idx (const TwoWayTable *table, gconstpointer key)
 gpointer
 two_way_table_idx_to_key (const TwoWayTable *table, gint idx)
 {
-
 	g_return_val_if_fail (idx - table->base >= 0, NULL);
 	g_return_val_if_fail (idx - table->base < (int)table->idx_to_key->len,
 			      NULL);
