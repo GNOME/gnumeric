@@ -83,7 +83,7 @@ struct _ItemGrid {
 		FooCanvasItem *item;
 	} obj_create;
 
-	/* information for tha cursor motion handler */
+	/* information for the cursor motion handler */
 	guint cursor_timer;
 	double last_x, last_y;
 	GnmHLink *cur_link; /* do not derference, just a pointer */
@@ -1069,9 +1069,10 @@ cb_cursor_motion (ItemGrid *ig)
 	FooCanvas *canvas = ig->canvas_item.canvas;
 	GnmCanvas *gcanvas = GNM_CANVAS (canvas);
 	int x, y;
-	GnmCursorType cursor;
+	GdkCursor *cursor;
 	CellPos pos;
 	GnmHLink *old_link;
+	GdkDisplay *display;
 
 	foo_canvas_w2c (canvas, ig->last_x, ig->last_y, &x, &y);
 	pos.col = gnm_canvas_find_col (gcanvas, x, NULL);
@@ -1079,13 +1080,23 @@ cb_cursor_motion (ItemGrid *ig)
 
 	old_link = ig->cur_link;
 	ig->cur_link = sheet_hlink_find (sheet, &pos);
-	cursor = (NULL == ig->cur_link) ? GNM_CURSOR_FAT_CROSS : GNM_CURSOR_PRESS;
-
-	ig->cursor_timer = 0;
-	if (gcanvas->pane->cursor_type != cursor) {
-		gcanvas->pane->cursor_type = cursor;
+	display = gtk_widget_get_display (GTK_WIDGET (canvas));
+	if (ig->cur_link)
+		cursor = gdk_cursor_new_for_display (display, GDK_HAND2);
+	else
+		cursor = gnm_fat_cross_cursor (display);
+						     
+	if (gcanvas->pane->mouse_cursor != cursor) {
+		gnm_pane_mouse_cursor_set (gcanvas->pane, cursor);
 		scg_set_display_cursor (ig->scg);
 	}
+	gdk_cursor_unref (cursor);
+
+	if (ig->cursor_timer != 0) {
+		g_source_remove (ig->cursor_timer);
+		ig->cursor_timer = 0;
+	}
+
 	if (old_link != ig->cur_link && ig->tip != NULL) {
 		gtk_widget_destroy (gtk_widget_get_toplevel (ig->tip));
 		ig->tip = NULL;

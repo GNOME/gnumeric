@@ -57,6 +57,8 @@ struct _GnumericApplication {
 	GtkWidget       *pref_dialog;
 
 	GList		*workbook_list;
+
+	GHashTable      *named_pixbufs;
 };
 
 typedef struct {
@@ -474,6 +476,16 @@ application_release_gconf_client (void)
 	app->gconf_client = NULL;
 }
 
+/*
+ * Get a named pixbuf.
+ */
+GdkPixbuf *
+application_get_pixbuf (const char *name)
+{
+	return g_hash_table_lookup (app->named_pixbufs, name);
+}
+
+
 gpointer
 application_get_pref_dialog (void)
 {
@@ -494,9 +506,31 @@ application_release_pref_dialog (void)
 }
 
 static void
+gnumeric_application_setup_pixbufs (GnumericApplication *app)
+{
+	static struct {
+		guchar const   *scalable_data;
+		gchar const    *name;
+	} const entry [] = {
+		{ gnm_cursor_cross, "cursor_cross" },
+		{ gnm_bucket, "bucket" },
+		{ gnm_font, "font" }
+	};
+	unsigned int ui;
+
+	for (ui = 0; ui < G_N_ELEMENTS (entry); ui++) {
+		GdkPixbuf *pixbuf = gdk_pixbuf_new_from_inline
+			(-1, entry[ui].scalable_data, FALSE, NULL);
+		g_hash_table_insert (app->named_pixbufs,
+				     (char *)entry[ui].name,
+				     pixbuf);
+	}
+}
+
+static void
 gnumeric_application_setup_icons (void)
 {
-	static struct GnumericStockPixmap{
+	static struct {
 		guchar const   *scalable_data;
 		guchar const   *sized_data;
 		gchar const    *stock_id;
@@ -570,14 +604,18 @@ gnumeric_application_setup_icons (void)
 		{ gnm_link_email_24,			gnm_link_email_16,		"Gnumeric_Link_EMail" },
 		{ gnm_link_url_24,			gnm_link_url_16,		"Gnumeric_Link_URL" },
 	};
-	unsigned i = 0;
-	GtkIconFactory *factory = gtk_icon_factory_new ();
+	static gboolean done = FALSE;
 
-	for (i = 0; i < G_N_ELEMENTS (entry) ; i++)
-		add_icon (factory, entry[i].scalable_data,
-			  entry[i].sized_data, entry[i].stock_id);
-	gtk_icon_factory_add_default (factory);
-	g_object_unref (G_OBJECT (factory));
+	if (!done) {
+		unsigned int ui = 0;
+		GtkIconFactory *factory = gtk_icon_factory_new ();
+		for (ui = 0; ui < G_N_ELEMENTS (entry) ; ui++)
+			add_icon (factory, entry[ui].scalable_data,
+				  entry[ui].sized_data, entry[ui].stock_id);
+		gtk_icon_factory_add_default (factory);
+		g_object_unref (G_OBJECT (factory));
+		done = TRUE;
+	}
 }
 
 static void
@@ -588,6 +626,7 @@ gnumeric_application_finalize (GObject *obj)
 	g_slist_foreach (application->history_list, (GFunc)g_free, NULL);
 	g_slist_free (application->history_list);
 	application->history_list = NULL;
+	g_hash_table_destroy (application->named_pixbufs);
 	app = NULL;
 	G_OBJECT_CLASS (parent_klass)->finalize (obj);
 }
@@ -650,14 +689,19 @@ gnumeric_application_init (GObject *obj)
 {
 	GnumericApplication *gnm_app = GNUMERIC_APPLICATION (obj);
 
-	gnumeric_application_setup_icons ();
-
 	gnm_app->clipboard_copied_contents = NULL;
 	gnm_app->clipboard_sheet_view = NULL;
 
 	gnm_app->gconf_client = NULL;
 
 	gnm_app->workbook_list = NULL;
+
+	gnm_app->named_pixbufs = g_hash_table_new_full (g_str_hash, g_str_equal,
+							NULL,
+							(GDestroyNotify)g_object_unref);
+
+	gnumeric_application_setup_pixbufs (gnm_app);
+	gnumeric_application_setup_icons ();
 
 	app = gnm_app;
 }

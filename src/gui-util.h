@@ -132,16 +132,9 @@ int gnm_measure_string (PangoContext *context, const PangoFontDescription *font_
 
 void gnm_link_button_and_entry (GtkWidget *button, GtkWidget *entry);
 
-/* Refugees from GAL.  */
-typedef enum {
-	GNM_CURSOR_FAT_CROSS,
-	GNM_CURSOR_THIN_CROSS,
-	GNM_CURSOR_ARROW,
-	GNM_CURSOR_PRESS,
-	GNM_CURSOR_NUM_CURSORS
-} GnmCursorType;
-void gnm_cursor_set_widget (GtkWidget *w, GnmCursorType c);
-void gnm_widget_set_cursor (GtkWidget *w, GdkCursorType ct);
+void gnm_widget_set_cursor_type (GtkWidget *w, GdkCursorType ct);
+void gnm_widget_set_cursor (GtkWidget *w, GdkCursor *ct);
+GdkCursor *gnm_fat_cross_cursor (GdkDisplay *display);
 
 GtkWidget * gnumeric_button_new_with_stock_image (const gchar* text, const gchar* stock_id);
 GtkWidget * gnumeric_dialog_add_button (GtkDialog *dialog, const gchar* text, const gchar* stock_id,

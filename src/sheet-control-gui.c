@@ -2231,22 +2231,24 @@ scg_rangesel_stop (SheetControlGUI *scg, gboolean clear_string)
 void
 scg_set_display_cursor (SheetControlGUI *scg)
 {
-	GnmCursorType cursor = (GnmCursorType)-1;
-	gboolean have_cursor = FALSE;
+	GdkCursorType cursor = GDK_CURSOR_IS_PIXMAP;
 
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
-	if (scg->new_object != NULL) {
-		have_cursor = TRUE;
-		cursor = GNM_CURSOR_THIN_CROSS;
-	} else if (scg->current_object != NULL) {
-		have_cursor = TRUE;
-		cursor = GNM_CURSOR_ARROW;
-	}
+	if (scg->new_object != NULL)
+		cursor = GDK_CROSSHAIR;
+	else if (scg->current_object != NULL)
+		cursor = GDK_ARROW;
 
 	SCG_FOREACH_PANE (scg, pane, {
-		GnmCursorType c = have_cursor ? cursor : pane->cursor_type;
-		gnm_cursor_set_widget (GTK_WIDGET (pane->gcanvas), c);});
+		GtkWidget *w = GTK_WIDGET (pane->gcanvas);
+		if (w->window) {
+			if (cursor == GDK_CURSOR_IS_PIXMAP)
+				gnm_widget_set_cursor (w, pane->mouse_cursor);
+			else
+				gnm_widget_set_cursor_type (w, cursor);
+		}
+	});
 }
 
 void

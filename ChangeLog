@@ -1,3 +1,36 @@
+2003-06-24  Morten Welinder  <terra@gnome.org>
+
+	* src/application.c (application_get_pixbuf): New function.
+
+	* src/pixmaps/Makefile.am (VARIABLES): Extra gnm_cursor_cross from
+	gui-util.c.
+
+	* src/sheet-control-gui.c (scg_set_display_cursor): Use
+	gnm_widget_set_cursor methods.
+
+	* src/item-grid.c (cb_cursor_motion): Use
+	gnm_pane_mouse_cursor_set.
+
+	* src/gnumeric-pane.h (GnumericPane): Replace cursor_type member
+	by mouse_cursor.
+
+	* src/gnumeric-pane.c (gnm_pane_release): Free mouse_cursor.
+	(gnm_pane_mouse_cursor_set): New function.
+
+	* src/gui-util.c (gdk_cursor_new_from_pixbuf)
+	[!HAVE_GDK_CURSOR_NEW_FROM_PIXBUF]: New function.
+	(CursorDef, cursor_cross_xpm, gnm_cursor_init1, gnm_cursor_create,
+	gnm_cursor_set_widget): Delete.
+	(gnm_widget_set_cursor_type): Rename from gnm_widget_set_cursor.
+	All callers changed.
+	(gnm_widget_set_cursor): New function.
+	(gnm_fat_cross_cursor): New function.
+
+	* configure.in: Check for gdk_cursor_new_from_pixbuf.
+
+	* src/workbook-format-toolbar.c (workbook_create_format_toolbar):
+	Use application_get_pixbuf to get icons for color_combo_new.
+
 2003-06-24  Jon K Hellan  <hellan@acm.org>
 
 	* src/plugin-service.c (plugin_service_file_saver_read_xml):

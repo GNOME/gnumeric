@@ -473,6 +473,8 @@ dnl Check for gtk-2.1 things
 SAVE_LIBS=$LIBS
 LIBS="$LIBS $GNUMERIC_LIBS"
 AC_CHECK_FUNCS(gdk_screen_get_monitor_geometry gtk_settings_get_for_screen)
+# This one isn't in GTK+ yet.
+AC_CHECK_FUNCS(gdk_cursor_new_from_pixbuf)
 LIBS=$SAVE_LIBS
 
 dnl **************************************************

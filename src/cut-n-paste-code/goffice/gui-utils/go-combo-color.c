@@ -1,5 +1,3 @@
-/* File import from gal to gnumeric by import-gal.  Do not edit.  */
-
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * widget-color-combo.c - A color selector combo box
@@ -220,7 +218,6 @@ color_combo_construct (ColorCombo *cc, GdkPixbuf *icon,
 			"y",      0.0,
 			"anchor", GTK_ANCHOR_NW,
 			NULL);
-		g_object_unref (icon);
 
 		cc->preview_color_item = foo_canvas_item_new (
 			FOO_CANVAS_GROUP (foo_canvas_root (cc->preview_canvas)),

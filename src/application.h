@@ -4,6 +4,7 @@
 #include "gnumeric.h"
 #include <gconf/gconf-client.h>
 #include <glib-object.h>
+#include <gdk-pixbuf/gdk-pixbuf.h>
 
 #define GNUMERIC_APPLICATION_TYPE (gnumeric_application_get_type ())
 #define GNUMERIC_APPLICATION(o) (G_TYPE_CHECK_INSTANCE_CAST((o), GNUMERIC_APPLICATION_TYPE, GnumericApplication))
@@ -18,6 +19,8 @@ GObject     *gnumeric_application_get_app (void);
 
 void         application_release_gconf_client   (void);
 GConfClient *application_get_gconf_client       (void);
+
+GdkPixbuf   *application_get_pixbuf             (const char *name);
 
 void         application_release_pref_dialog    (void);
 gpointer     application_get_pref_dialog        (void);

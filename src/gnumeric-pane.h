@@ -12,13 +12,13 @@ struct _GnumericPane {
 	GnmCanvas	*gcanvas;
 	struct {
 		FooCanvas *canvas;
-		ItemBar     *item;
+		ItemBar   *item;
 	} col, row;
 
 	/* Lines for resizing cols and rows */
 	struct {
-		GtkObject         *guide;
-		GtkObject         *start;
+		GtkObject       *guide;
+		GtkObject       *start;
 		FooCanvasPoints *points;
 	} colrow_resize;
 
@@ -30,10 +30,10 @@ struct _GnumericPane {
 	} cursor;
 	GSList		*anted_cursors;
 
-	SheetObject	 *drag_object;
-	FooCanvasItem  *control_points [9]; /* Control points for the current item */
+	SheetObject	*drag_object;
+	FooCanvasItem   *control_points [9]; /* Control points for the current item */
 
-	GnmCursorType	cursor_type;
+	GdkCursor	*mouse_cursor;
 };
 
 void gnm_pane_init	(GnumericPane *pane, SheetControlGUI *scg,
@@ -60,6 +60,7 @@ void gnm_pane_rangesel_stop			(GnumericPane *pane);
 gboolean gnm_pane_special_cursor_bound_set	(GnumericPane *pane, Range const *r);
 void gnm_pane_special_cursor_start 		(GnumericPane *pane, int style, int button);
 void gnm_pane_special_cursor_stop		(GnumericPane *pane);
+void gnm_pane_mouse_cursor_set                  (GnumericPane *pane, GdkCursor *c);
 
 void gnm_pane_object_register	  (SheetObject *so, FooCanvasItem *view);
 void gnm_pane_widget_register	  (SheetObject *so, GtkWidget *widget,

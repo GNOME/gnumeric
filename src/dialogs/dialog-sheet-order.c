@@ -37,9 +37,9 @@
 #include <sheet.h>
 #include <style-color.h>
 #include <commands.h>
+#include <application.h>
 #include <widgets/gnumeric-cell-renderer-text.h>
 #include <widgets/gnumeric-cell-renderer-toggle.h>
-#include "../pixmaps/gnumeric-stock-pixbufs.h"
 
 #include <glade/glade.h>
 #include <widgets/widget-color-combo.h>
@@ -922,9 +922,9 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 
 	vbox = GTK_BOX (glade_xml_get_widget (gui,"sheet_order_buttons_vbox"));
 	cg = color_group_fetch ("back_color_group", wb_control_view (WORKBOOK_CONTROL (wbcg)));
-	state->ccombo_back = color_combo_new  (gdk_pixbuf_new_from_inline (-1, gnm_bucket,
-									   FALSE, NULL),
-					       _("Default"), NULL, cg);
+	state->ccombo_back = color_combo_new (
+		application_get_pixbuf ("bucket"),
+		_("Default"), NULL, cg);
 	gtk_box_pack_start (vbox, state->ccombo_back, 0, 0, 0);
 	gtk_widget_set_sensitive (state->ccombo_back, FALSE);
 	gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (state->ccombo_back), GTK_RELIEF_NORMAL);
@@ -933,9 +933,9 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 		(COLOR_COMBO (state->ccombo_back), FALSE);
 
 	cg = color_group_fetch ("fore_color_group", wb_control_view (WORKBOOK_CONTROL (wbcg)));
-	state->ccombo_fore = color_combo_new  (gdk_pixbuf_new_from_inline (-1, gnm_font,
-									   FALSE, NULL),
-					       _("Default"), NULL, cg);
+	state->ccombo_fore = color_combo_new (
+		application_get_pixbuf ("font"),
+		_("Default"), NULL, cg);
 	gtk_box_pack_start (vbox, state->ccombo_fore, 1, 1, 0);
 	gtk_widget_set_sensitive (state->ccombo_fore, FALSE);
 	gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (state->ccombo_fore), GTK_RELIEF_NORMAL);

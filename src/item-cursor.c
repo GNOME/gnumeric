@@ -600,7 +600,7 @@ item_cursor_set_cursor (FooCanvas *canvas, ItemCursor *ic, int x, int y)
 	else
 		cursor = GDK_ARROW;
 
-	gnm_widget_set_cursor (GTK_WIDGET (canvas), cursor);
+	gnm_widget_set_cursor_type (GTK_WIDGET (canvas), cursor);
 }
 
 static Value *

@@ -197,7 +197,7 @@ item_edit_event (FooCanvasItem *item, GdkEvent *event)
 	/* FIXME : Handle mouse events here */
 	switch (event->type){
 	case GDK_ENTER_NOTIFY:
-		gnm_widget_set_cursor (GTK_WIDGET (item->canvas), GDK_XTERM);
+		gnm_widget_set_cursor_type (GTK_WIDGET (item->canvas), GDK_XTERM);
 		return TRUE;
 	default :
 		break;

@@ -818,7 +818,7 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 	/* Create the background colour combo box */
 	cg = color_group_fetch ("back_color_group", wb_control_view (WORKBOOK_CONTROL (wbcg)));
 	wbcg->back_color = back_combo = color_combo_new (
-		gdk_pixbuf_new_from_inline (-1, gnm_bucket, FALSE, NULL),
+		application_get_pixbuf ("bucket"),
 		_("Clear Background"),
 		/* Draw an outline for the default */
 		NULL, cg);
@@ -845,7 +845,7 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 	/* Create the font colour combo box.  */
 	cg = color_group_fetch ("fore_color_group", wb_control_view (WORKBOOK_CONTROL (wbcg)));
 	wbcg->fore_color = fore_combo = color_combo_new (
-		gdk_pixbuf_new_from_inline (-1, gnm_font, FALSE, NULL),
+		application_get_pixbuf ("font"),
 		_("Automatic"),	&sc_auto_font->color, cg);
 	g_signal_connect (G_OBJECT (fore_combo),
 		"color_changed",

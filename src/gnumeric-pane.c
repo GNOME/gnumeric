@@ -143,7 +143,8 @@ gnm_pane_init (GnumericPane *pane, SheetControlGUI *scg,
 			sheet_object_new_view (ptr->data, SHEET_CONTROL (scg),
 					       (gpointer)pane);
 	}
-	pane->cursor_type = GNM_CURSOR_FAT_CROSS;
+
+	pane->mouse_cursor = NULL;
 }
 
 void
@@ -168,6 +169,11 @@ gnm_pane_release (GnumericPane *pane)
 	if (pane->anted_cursors != NULL) {
 		g_slist_free (pane->anted_cursors);
 		pane->anted_cursors = NULL;
+	}
+
+	if (pane->mouse_cursor) {
+		gdk_cursor_unref (pane->mouse_cursor);
+		pane->mouse_cursor = NULL;
 	}
 
 	/* Be anal just in case we somehow manage to remove a pane
@@ -411,6 +417,15 @@ gnm_pane_special_cursor_stop (GnumericPane *pane)
 	pane->cursor.special = NULL;
 }
 
+void
+gnm_pane_mouse_cursor_set (GnumericPane *pane, GdkCursor *c)
+{
+	gdk_cursor_ref (c);
+	if (pane->mouse_cursor)
+		gdk_cursor_unref (pane->mouse_cursor);
+	pane->mouse_cursor = c;
+}
+
 /****************************************************************************/
 
 void
@@ -579,7 +594,7 @@ cb_control_point_event (FooCanvasItem *ctrl_pt, GdkEvent *event,
 	case GDK_ENTER_NOTIFY: {
 		GdkCursorType ct = GPOINTER_TO_UINT
 			(g_object_get_data (G_OBJECT (ctrl_pt), "cursor"));
-		gnm_widget_set_cursor (GTK_WIDGET (ctrl_pt->canvas), ct);
+		gnm_widget_set_cursor_type (GTK_WIDGET (ctrl_pt->canvas), ct);
 
 		if (pane->control_points [8] != ctrl_pt)
 			foo_canvas_item_set (ctrl_pt,
@@ -823,9 +838,10 @@ cb_sheet_object_canvas_event (FooCanvasItem *item, GdkEvent *event,
 
 	switch (event->type) {
 	case GDK_ENTER_NOTIFY:
-		gnm_cursor_set_widget (GTK_WIDGET (item->canvas),
-			(so->type == SHEET_OBJECT_ACTION_STATIC)
-			? GNM_CURSOR_ARROW : GNM_CURSOR_PRESS);
+		gnm_widget_set_cursor_type (GTK_WIDGET (item->canvas),
+					    (so->type == SHEET_OBJECT_ACTION_STATIC)
+					    ? GDK_ARROW
+					    : GDK_HAND2);
 		break;
 
 	case GDK_BUTTON_PRESS: {

@@ -1340,165 +1340,101 @@ gnm_link_button_and_entry (GtkWidget *button, GtkWidget *entry)
 }
 
 /* ------------------------------------------------------------------------- */
-/* Refugees from GAL.  */
 
-#define GDK_INTERNAL_CURSOR -1
-
-typedef struct {
-	GdkCursor *cursor;
-	int       hot_x, hot_y;
-	const char **xpm;
-	GdkBitmap *bitmap, *mask;
-	GdkDrawable *last_drawable;
-} CursorDef;
-
-/* Hack so we don't have to change the xpms below.  */
-#define char const char
-
-/* XPM */
-static char * cursor_cross_xpm[] = {
-"32 32 3 1",
-" 	c None",
-".	c #000000",
-"+	c #FFFFFF",
-"                                ",
-"                                ",
-"                                ",
-"                                ",
-"                                ",
-"                                ",
-"                                ",
-"             .......            ",
-"             .+++++..           ",
-"             .+++++..           ",
-"             .+++++..           ",
-"             .+++++..           ",
-"        ......+++++......       ",
-"        .+++++++++++++++..      ",
-"        .+++++++++++++++..      ",
-"        .+++++++++++++++..      ",
-"        .+++++++++++++++..      ",
-"        .+++++++++++++++..      ",
-"        ......+++++.......      ",
-"         .....+++++.......      ",
-"             .+++++..           ",
-"             .+++++..           ",
-"             .+++++..           ",
-"             ........           ",
-"              .......           ",
-"                                ",
-"                                ",
-"                                ",
-"                                ",
-"                                ",
-"                                ",
-"                                "};
-
-
-#undef char
-
-static CursorDef
-cursors [] = {
-	{ NULL, 17, 17, cursor_cross_xpm },
-	{ NULL, GDK_INTERNAL_CURSOR,   GDK_CROSSHAIR,         NULL },
-	{ NULL, GDK_INTERNAL_CURSOR,   GDK_ARROW,             NULL },
-	{ NULL, GDK_INTERNAL_CURSOR,   GDK_HAND2,             NULL },
-	{ NULL, 0,    0,  NULL }
-};
-
-static void
-gnm_cursor_init1 (GdkDrawable *drawable, int i)
+void
+gnm_widget_set_cursor (GtkWidget *w, GdkCursor *cursor)
 {
-	int height, width, colors;
-	char pixmap_buffer [(32 * 32)/8];
-	char mask_buffer [(32 * 32)/8];
-	int x, y, pix, yofs;
-	int transparent_color, black_color;
-	const char **xpm = cursors[i].xpm;
-
-	sscanf (xpm [0], "%d %d %d %d", &height, &width, &colors, &pix);
-
-	g_assert (height == 32);
-	g_assert (width  == 32);
-	g_assert (colors <= 3);
-
-	transparent_color = ' ';
-	black_color = '.';
-	
-	yofs = colors + 1;
-	for (y = 0; y < 32; y++){
-		for (x = 0; x < 32;){
-			char value = 0, maskv = 0;
-			
-			for (pix = 0; pix < 8; pix++, x++){
-				if (xpm [y + yofs][x] != transparent_color){
-					maskv |= 1 << pix;
-
-					/*
-					 * Invert the colours here because it seems
-					 * to workaround a bug the Matrox G100 Xserver?
-					 * We reverse the foreground & background in the next
-					 * routine to compensate.
-					 */
-					if (xpm [y + yofs][x] == black_color){
-						value |= 1 << pix;
-					}
-				}
-			}
-			pixmap_buffer [(y * 4 + x/8)-1] = value;
-			mask_buffer [(y * 4 + x/8)-1] = maskv;
-		}
-	}
-
-	cursors[i].bitmap = gdk_bitmap_create_from_data (drawable, pixmap_buffer, 32, 32);
-	cursors[i].mask   = gdk_bitmap_create_from_data (drawable, mask_buffer, 32, 32);
-}
-
-static GdkCursor *
-gnm_cursor_create (GdkDrawable *drawable, GnmCursorType c)
-{
-	g_return_val_if_fail (c >= 0 && c < GNM_CURSOR_NUM_CURSORS, NULL);
-
-	if (cursors[c].hot_x == GDK_INTERNAL_CURSOR) {
-		GdkDisplay *display = gdk_drawable_get_display (drawable);
-		GdkCursorType typ = cursors[c].hot_y;
-		return gdk_cursor_new_for_display (display, typ);
-	} else {
-		if (drawable != cursors[c].last_drawable) {
-			if (cursors[c].bitmap)
-				g_object_unref (cursors[c].bitmap);
-			if (cursors[c].mask)
-				g_object_unref (cursors[c].mask);
-			gnm_cursor_init1 (drawable, c);
-			cursors[c].last_drawable = drawable;
-		}
-
-		return gdk_cursor_new_from_pixmap (
-			cursors[c].bitmap,
-			cursors[c].mask,
-			&gs_black, &gs_white,
-			cursors[c].hot_x,
-			cursors[c].hot_y);
-	}
+	gdk_window_set_cursor (w->window, cursor);
 }
 
 void
-gnm_cursor_set_widget (GtkWidget *w, GnmCursorType c)
-{
-	if (w->window) {
-		GdkCursor *cursor = gnm_cursor_create (w->window, c);
-		gdk_window_set_cursor (w->window, cursor);
-		gdk_cursor_unref (cursor);
-	}
-}
-
-void
-gnm_widget_set_cursor (GtkWidget *w, GdkCursorType ct)
+gnm_widget_set_cursor_type (GtkWidget *w, GdkCursorType ct)
 {
 	GdkDisplay *display = gdk_drawable_get_display (w->window);
 	GdkCursor *cursor = gdk_cursor_new_for_display (display, ct);
-	gdk_window_set_cursor (w->window, cursor);
+	gnm_widget_set_cursor (w, cursor);
 	gdk_cursor_unref (cursor);
+}
+
+#ifndef HAVE_GDK_CURSOR_NEW_FROM_PIXBUF
+/* See http://bugzilla.gnome.org/showattachment.cgi?attach_id=17695 */
+static GdkCursor *
+gdk_cursor_new_from_pixbuf (GdkDisplay *display, 
+			    GdkPixbuf  *pixbuf,
+			    gint        x,
+			    gint        y)
+{
+  GdkCursor *cursor;
+  GdkPixmap *pixmap, *mask;
+  guint width, height, n_channels, rowstride, i, j;
+  guint8 *data, *mask_data, *pixels;
+  GdkColor fg = { 0, 0, 0, 0 };
+  GdkColor bg = { 0, 0xffff, 0xffff, 0xffff };
+  GdkScreen *screen;
+
+  g_return_val_if_fail (GDK_IS_DISPLAY (display), NULL);
+  g_return_val_if_fail (GDK_IS_PIXBUF (pixbuf), NULL);
+
+  width = gdk_pixbuf_get_width (pixbuf);
+  height = gdk_pixbuf_get_height (pixbuf);
+
+  g_return_val_if_fail (0 <= x && (guint)x < width, NULL);
+  g_return_val_if_fail (0 <= y && (guint)y < height, NULL);
+
+  n_channels = gdk_pixbuf_get_n_channels (pixbuf);
+  rowstride = gdk_pixbuf_get_rowstride (pixbuf);
+  pixels = gdk_pixbuf_get_pixels (pixbuf);
+
+  data = g_new0 (guint8, (width + 7) / 8 * height);
+  mask_data = g_new0 (guint8, (width + 7) / 8 * height);
+
+  for (j = 0; j < height; j++)
+    {
+      guint8 *src = pixels + j * rowstride;
+      guint8 *d = data + (width + 7) / 8 * j;
+      guint8 *md = mask_data + (width + 7) / 8 * j;
+	
+      for (i = 0; i < width; i++)
+	{
+	  if (src[1] < 0x80)
+	    *d |= 1 << (i % 8);
+	  
+	  if (n_channels == 3 || src[3] >= 0x80) {
+	    *md |= 1 << (i % 8);
+	  }
+
+	  src += n_channels;
+	  if (i % 8 == 7)
+		  d++, md++;
+	}
+    }
+      
+  screen = gdk_display_get_default_screen (display);
+  pixmap = gdk_bitmap_create_from_data (gdk_screen_get_root_window (screen), 
+					data, width, height);
+ 
+  mask = gdk_bitmap_create_from_data (gdk_screen_get_root_window (screen),
+				      mask_data, width, height);
+   
+  cursor = gdk_cursor_new_from_pixmap (pixmap, mask, &fg, &bg, x, y);
+   
+  g_object_unref (pixmap);
+  g_object_unref (mask);
+  
+  return cursor;
+}
+#endif
+
+GdkCursor *
+gnm_fat_cross_cursor (GdkDisplay *display)
+{
+	/* We don't actually own a ref, but that's ok.  */
+	static GdkPixbuf *pixbuf = NULL;
+
+	if (!pixbuf)
+		pixbuf = application_get_pixbuf ("cursor_cross");
+
+	return gdk_cursor_new_from_pixbuf (display, pixbuf, 17, 17);
 }
 
 /* ------------------------------------------------------------------------- */
