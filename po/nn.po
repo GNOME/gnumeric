@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.69\n"
-"POT-Creation-Date: 2001-10-29 20:11+0100\n"
+"POT-Creation-Date: 2001-10-29 19:04-0500\n"
 "PO-Revision-Date: 2001-10-29 05:51GMT\n"
 "Last-Translator: Roy-Magne Mo <rmo@sunnmore.net>\n"
 "Language-Team: nynorsk <nn@li.org>\n"
@@ -41,7 +41,7 @@ msgstr "Finansielle avleiingar"
 msgid "Functions related to financial derivatives"
 msgstr "Funksjonar relatert finansielle avleiingar"
 
-#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4254 src/xml-io.c:3449
+#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4249 src/xml-io.c:3449
 msgid "Reading file..."
 msgstr "Les fil ..."
 
@@ -135,16 +135,16 @@ msgstr "#UKJEND!"
 msgid "Sheet%d"
 msgstr "Ark%d"
 
-#: plugins/excel/ms-excel-read.c:4249
+#: plugins/excel/ms-excel-read.c:4244
 msgid "No book or workbook streams found."
 msgstr "Ingen bok eller arbeidsbok straumer funne"
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4413
+#: plugins/excel/ms-excel-read.c:4408
 msgid "Password protected workbooks are not supported yet."
 msgstr "Passordsikra arbeidsbøker er ikkje implentert enno."
 
-#: plugins/excel/ms-excel-read.c:4526
+#: plugins/excel/ms-excel-read.c:4521
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Finn ikkje gyldig MS Excel arbeidsbok"
 
@@ -480,7 +480,9 @@ msgstr "Nummer teori"
 msgid ""
 "Several basic utilities for prime numbers, pi, phi, sigma. It also hold some "
 "simple bitwise operations"
-msgstr "Fleire grunnleggande verkty for primtal, pi, phi, sigma. Den iinhel også enkle bitvise operasjonar."
+msgstr ""
+"Fleire grunnleggande verkty for primtal, pi, phi, sigma. Den iinhel også "
+"enkle bitvise operasjonar."
 
 #: plugins/oleo/plugin.xml.in.h:1
 msgid "GNU Oleo"
@@ -1990,8 +1992,8 @@ msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
 "Skewness/Range/Minimum/Maximum/Sum/Count"
 msgstr ""
-"/Middelverdi/Standard Feil/Median/Modus/Standard avvik/Prøve varians/"
-"Kurtose/Forskyvning/Område/Minumu/Maksimum/Sum/Telling"
+"/Middelverdi/Standard Feil/Median/Modus/Standard avvik/Prøve varians/Kurtose/"
+"Forskyvning/Område/Minumu/Maksimum/Sum/Telling"
 
 #: src/analysis-tools.c:1211
 msgid "Confidence Interval for the Mean"
@@ -6664,12 +6666,14 @@ msgstr "Eit unntak oppstod ved lagring til stram."
 
 #: src/file.c:493
 msgid "Saving over old files of this type is disabled for safety."
-msgstr "Lagring over gamle filer av denne typa er ikkje mogleg av tryggleiksgrunnar."
+msgstr ""
+"Lagring over gamle filer av denne typa er ikkje mogleg av tryggleiksgrunnar."
 
 #: src/file.c:495
 msgid ""
 "You can turn this safety feature off by editing appropriate plugin.xml file."
-msgstr "Du kan slå av denne tryggleiksfunksjonen ved å redigere rett plugin.xml fil."
+msgstr ""
+"Du kan slå av denne tryggleiksfunksjonen ved å redigere rett plugin.xml fil."
 
 #: src/format-template.c:883
 #, c-format
@@ -6720,12 +6724,12 @@ msgid "yellow"
 msgstr "gul"
 
 #. Is it a boolean?
-#: src/format.c:1609 src/number-match.c:1064 src/value-sheet.c:34
+#: src/format.c:1609 src/number-match.c:1063 src/value-sheet.c:34
 #: src/value.c:247 src/value.c:485
 msgid "TRUE"
 msgstr "SANT"
 
-#: src/format.c:1609 src/number-match.c:1066 src/value-sheet.c:34
+#: src/format.c:1609 src/number-match.c:1065 src/value-sheet.c:34
 #: src/value.c:249 src/value.c:485
 msgid "FALSE"
 msgstr "USANT"
@@ -13844,35 +13848,35 @@ msgstr "Kunne ikkje starte arbeidsbok-fabrikken"
 msgid "Could not initialize EmbeddableGrid factory"
 msgstr "Kunne ikkje starte arbeidsbok-fabrikken"
 
-#: src/number-match.c:674
+#: src/number-match.c:673
 msgid "#NULL!"
 msgstr "#NULL!"
 
-#: src/number-match.c:675
+#: src/number-match.c:674
 msgid "#DIV/0!"
 msgstr "#DIV/0"
 
-#: src/number-match.c:676
+#: src/number-match.c:675
 msgid "#VALUE!"
 msgstr "#VALUE!"
 
-#: src/number-match.c:677
+#: src/number-match.c:676
 msgid "#REF!"
 msgstr "#REF!"
 
-#: src/number-match.c:678
+#: src/number-match.c:677
 msgid "#NAME?"
 msgstr "#NAME?"
 
-#: src/number-match.c:679
+#: src/number-match.c:678
 msgid "#NUM!"
 msgstr "#NUM!"
 
-#: src/number-match.c:680
+#: src/number-match.c:679
 msgid "#N/A"
 msgstr "#I/T"
 
-#: src/number-match.c:681
+#: src/number-match.c:680
 msgid "#RECALC!"
 msgstr "#RECALC!"
 
@@ -14450,7 +14454,9 @@ msgstr "Avstand frå spissen av pilhovudet til sentrum"
 
 #: src/sheet-object-graphic.c:505
 msgid "Distance from tip of arrowhead to trailing point, measured along shaft"
-msgstr "Avstanden frå spissen av pilhovuded til etterfølgande punkt, målt langs skaftet"
+msgstr ""
+"Avstanden frå spissen av pilhovuded til etterfølgande punkt, målt langs "
+"skaftet"
 
 #: src/sheet-object-graphic.c:508
 msgid "Distance of trailing point from outside edge of shaft"

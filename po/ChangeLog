@@ -1,3 +1,15 @@
+2001-10-29  gettextize  <bug-gnu-utils@gnu.org>
+
+	* Makefile.in.in: Upgrade to gettext-0.10.40.
+
+2001-10-29  gettextize  <bug-gnu-utils@gnu.org>
+
+	* Makefile.in.in: Upgrade to gettext-0.10.40.
+
+2001-10-29  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.74
+
 2001-10-29 Roy-Magne Mo <rmo@sunnmore.net>
 	* nn.po: Updated Norwegian (nynorsk) translation.
 

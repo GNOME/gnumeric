@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2001-10-29 02:53-0500\n"
+"POT-Creation-Date: 2001-10-29 19:04-0500\n"
 "PO-Revision-Date: 2000-05-16 23:20+0200\n"
 "Last-Translator: Jesús Bravo Álvarez <jba@pobox.com>\n"
 "Language-Team: Galician <gpul-traduccion@ceu.fi.udc.es>\n"
@@ -48,7 +48,7 @@ msgstr ""
 msgid "Functions related to financial derivatives"
 msgstr ""
 
-#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4254 src/xml-io.c:3449
+#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4249 src/xml-io.c:3449
 msgid "Reading file..."
 msgstr ""
 
@@ -144,16 +144,16 @@ msgstr "#DESCOÑECIDO!"
 msgid "Sheet%d"
 msgstr "Folla%d"
 
-#: plugins/excel/ms-excel-read.c:4249
+#: plugins/excel/ms-excel-read.c:4244
 msgid "No book or workbook streams found."
 msgstr ""
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4413
+#: plugins/excel/ms-excel-read.c:4408
 msgid "Password protected workbooks are not supported yet."
 msgstr "Os libros protexidos con clave aínda non están soportados."
 
-#: plugins/excel/ms-excel-read.c:4526
+#: plugins/excel/ms-excel-read.c:4521
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Non se pode atopar un libro de MS Excel válido"
 
@@ -7037,12 +7037,12 @@ msgid "yellow"
 msgstr "amarelo"
 
 #. Is it a boolean?
-#: src/format.c:1609 src/number-match.c:1064 src/value-sheet.c:34
+#: src/format.c:1609 src/number-match.c:1063 src/value-sheet.c:34
 #: src/value.c:247 src/value.c:485
 msgid "TRUE"
 msgstr ""
 
-#: src/format.c:1609 src/number-match.c:1066 src/value-sheet.c:34
+#: src/format.c:1609 src/number-match.c:1065 src/value-sheet.c:34
 #: src/value.c:249 src/value.c:485
 msgid "FALSE"
 msgstr ""
@@ -14474,35 +14474,35 @@ msgstr ""
 msgid "Could not initialize EmbeddableGrid factory"
 msgstr ""
 
-#: src/number-match.c:674
+#: src/number-match.c:673
 msgid "#NULL!"
 msgstr "#NULL!"
 
-#: src/number-match.c:675
+#: src/number-match.c:674
 msgid "#DIV/0!"
 msgstr "#DIV/0!"
 
-#: src/number-match.c:676
+#: src/number-match.c:675
 msgid "#VALUE!"
 msgstr "#VALOR!"
 
-#: src/number-match.c:677
+#: src/number-match.c:676
 msgid "#REF!"
 msgstr ""
 
-#: src/number-match.c:678
+#: src/number-match.c:677
 msgid "#NAME?"
 msgstr "#NOME?"
 
-#: src/number-match.c:679
+#: src/number-match.c:678
 msgid "#NUM!"
 msgstr "#NÚM!"
 
-#: src/number-match.c:680
+#: src/number-match.c:679
 msgid "#N/A"
 msgstr "#N/D"
 
-#: src/number-match.c:681
+#: src/number-match.c:680
 msgid "#RECALC!"
 msgstr ""
 

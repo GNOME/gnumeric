@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.66\n"
-"POT-Creation-Date: 2001-10-29 02:53-0500\n"
+"POT-Creation-Date: 2001-10-29 19:04-0500\n"
 "PO-Revision-Date: 2001-10-07 19:38-0500\n"
 "Last-Translator: Yukihiro Nakai <nakai@gnome.gr.jp>\n"
 "Language-Team: Japanese <translation@gnome.gr.jp>\n"
@@ -44,7 +44,7 @@ msgstr "金融デリバティブ"
 msgid "Functions related to financial derivatives"
 msgstr "金融デリバティブ関連の関数"
 
-#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4254 src/xml-io.c:3449
+#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4249 src/xml-io.c:3449
 msgid "Reading file..."
 msgstr "ファイルを読み込んでいます..."
 
@@ -134,16 +134,16 @@ msgstr "#UNKNOWN!"
 msgid "Sheet%d"
 msgstr "シート%d"
 
-#: plugins/excel/ms-excel-read.c:4249
+#: plugins/excel/ms-excel-read.c:4244
 msgid "No book or workbook streams found."
 msgstr "ブックあるいはワークブックストリームが見つかりませんでした。"
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4413
+#: plugins/excel/ms-excel-read.c:4408
 msgid "Password protected workbooks are not supported yet."
 msgstr "パスワード保護されたワークブックは、まだサポートされていません。"
 
-#: plugins/excel/ms-excel-read.c:4526
+#: plugins/excel/ms-excel-read.c:4521
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "有効な MS Excel のワークブックが見つかりません"
 
@@ -6895,12 +6895,12 @@ msgid "yellow"
 msgstr "黄"
 
 #. Is it a boolean?
-#: src/format.c:1609 src/number-match.c:1064 src/value-sheet.c:34
+#: src/format.c:1609 src/number-match.c:1063 src/value-sheet.c:34
 #: src/value.c:247 src/value.c:485
 msgid "TRUE"
 msgstr "TRUE"
 
-#: src/format.c:1609 src/number-match.c:1066 src/value-sheet.c:34
+#: src/format.c:1609 src/number-match.c:1065 src/value-sheet.c:34
 #: src/value.c:249 src/value.c:485
 msgid "FALSE"
 msgstr "FALSE"
@@ -16754,35 +16754,35 @@ msgstr "ワークブックファクトリを初期化できませんでした"
 msgid "Could not initialize EmbeddableGrid factory"
 msgstr "埋め込みグリッドファクトリを初期化できませんでした"
 
-#: src/number-match.c:674
+#: src/number-match.c:673
 msgid "#NULL!"
 msgstr "#NULL!"
 
-#: src/number-match.c:675
+#: src/number-match.c:674
 msgid "#DIV/0!"
 msgstr "#DIV/0!"
 
-#: src/number-match.c:676
+#: src/number-match.c:675
 msgid "#VALUE!"
 msgstr "#VALUE!"
 
-#: src/number-match.c:677
+#: src/number-match.c:676
 msgid "#REF!"
 msgstr "#REF!"
 
-#: src/number-match.c:678
+#: src/number-match.c:677
 msgid "#NAME?"
 msgstr "#NAME?"
 
-#: src/number-match.c:679
+#: src/number-match.c:678
 msgid "#NUM!"
 msgstr "#NUM!"
 
-#: src/number-match.c:680
+#: src/number-match.c:679
 msgid "#N/A"
 msgstr "#N/A"
 
-#: src/number-match.c:681
+#: src/number-match.c:680
 msgid "#RECALC!"
 msgstr "#RECALC!"
 
