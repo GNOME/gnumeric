@@ -17,7 +17,8 @@
 	  options
 	(stf_parse_options_csv_set_stringindicator): the string
 	  indicator could be a non-ascii character
-	* src/stf.c
+	* src/stf.c (stf_read_workbook_auto_csvtab): stf_parse_next_token
+	  now needs a parseoption
 
 2003-05-12  Jody Goldberg <jody@gnome.org>
 
