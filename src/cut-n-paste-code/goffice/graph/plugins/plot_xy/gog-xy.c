@@ -583,7 +583,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 				n = tmp;
 		}
 		style = GOG_STYLED_OBJECT (series)->style;
-		if (model->base.desc.series.num_dim == 3) {
+		if (GOG_IS_BUBBLE_PLOT (model)) {
 			double zmin;
 			go_data_vector_get_minmax (GO_DATA_VECTOR (series->base.values[2].data), &zmin, &zmax);
 			if ((! finite (zmax)) || (zmax <= 0)) continue;
@@ -636,7 +636,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 #warning "move map into axis"
 				x = x_off + x_scale * x;
 				y = y_off + y_scale * y;
-				if (model->base.desc.series.num_dim == 3) {
+				if (GOG_IS_BUBBLE_PLOT(model)) {
 					z = *z_vals++;
 					if (!finite (z)) continue;
 					if (z < 0) {

@@ -64,7 +64,7 @@ GType gog_xy_plot_get_type (void);
 
 #define GOG_BUBBLE_PLOT_TYPE	(gog_bubble_plot_get_type ())
 #define GOG_BUBBLE_PLOT(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_BUBBLE_PLOT_TYPE, GogBubblePlot))
-#define GOG_IS_BUBBLE_PLOT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_XY_PLOT_TYPE))
+#define GOG_IS_BUBBLE_PLOT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_BUBBLE_PLOT_TYPE))
 
 GType gog_bubble_plot_get_type (void);
 

@@ -1,3 +1,9 @@
+2004-02-09  Jean Brefort  <jean.brefort@ac-dijon.fr>
+
+	* graph/plugins/plot_xy/gog-xy.c: (gog_xy_view_render): replaced
+	test series.num_dim == 3 by GOG_IS_BUBBLE_PLOT
+	* graph/plugins/plot_xy/gog-xy.h: fixed GOG_IS_BUBBLE_PLOT
+
 2004-02-04  Jody Goldberg <jody@gnome.org>
 
 	* gui-utils/go-color-palette.c (cb_menu_custom_activate) : don't show
