@@ -1,3 +1,7 @@
+2004-11-30  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric-simple-canvas.c (gnm_simple_canvas_x_w2c) : new.
+
 2004-11-30  Morten Welinder  <terra@gnome.org>
 
 	* src/gnm-so-line.c (so_line_view_set_bounds): Make sure sheet

@@ -85,3 +85,9 @@ gnm_simple_canvas_grab (FooCanvasItem *item, unsigned int event_mask,
 
 	return res;
 }
+
+int
+gnm_simple_canvas_x_w2c (FooCanvas const *canvas, int x_pos_in_world_coords)
+{
+	return -(int)(x_pos_in_world_coords + canvas->scroll_x1 + .5);
+}
