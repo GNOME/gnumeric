@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-17 13:37+0100\n"
-"PO-Revision-Date: 2004-10-17 13:47+0100\n"
+"POT-Creation-Date: 2004-10-18 20:58+0100\n"
+"PO-Revision-Date: 2004-10-18 21:06+0100\n"
 "Last-Translator: David Lodge <dave@cirt.net>\n"
 "Language-Team: English/GB <en_GB@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -413,7 +413,7 @@ msgid ""
 "@spot is the spot price of the underlying asset.\n"
 "@strike is the strike price of the option.\n"
 "@time is the time to maturity of the option expressed in years.\n"
-"@rate is the annualised rate of interest.\n"
+"@rate is the annualized rate of interest.\n"
 "@volatility is the annualized volatility of the underlying asset.\n"
 "@lambda is expected number of 'jumps' per year.\n"
 "@gamma is proportion of volatility explained by the 'jumps.'\n"
@@ -496,7 +496,7 @@ msgid ""
 "@strike is the strike price at which the option is struck.\n"
 "@t1 is the time to the dividend payout.\n"
 "@t2 is the time to option expiration.\n"
-"@rate is the annualised rate of interest.\n"
+"@rate is the annualized rate of interest.\n"
 "@d is the amount of the dividend to be paid.\n"
 "@volatility is the annualized rate of volatility of the underlying asset.\n"
 "\n"
@@ -530,9 +530,9 @@ msgid ""
 "@spot is the spot price of the underlying asset.\n"
 "@strike is the strike price at which the option is struck.\n"
 "@time is the number of days to maturity of the option.\n"
-"@rate is the risk annualised free rate of interest.\n"
+"@rate is the risk annualized free rate of interest.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield.\n"
-"@volatility is the annualised volatility in price of the underlying asset.\n"
+"@volatility is the annualized volatility in price of the underlying asset.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -563,8 +563,8 @@ msgid ""
 "@spot is the spot price of the underlying asset.\n"
 "@strike is the strike price at which the option is struck.\n"
 "@time is the number of days to maturity of the option.\n"
-"@rate is the risk annualised free rate of interest.\n"
-"@volatility is the annualised volatility in price of the underlying asset.\n"
+"@rate is the risk annualized free rate of interest.\n"
+"@volatility is the annualized volatility in price of the underlying asset.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -596,8 +596,8 @@ msgid ""
 "@spot is the spot price of the underlying asset.\n"
 "@strike is the strike price at which the option is struck.\n"
 "@time is the number of days to maturity of the option.\n"
-"@rate is the risk annualised free rate of interest.\n"
-"@volatility is the annualised volatility in price of the underlying asset.\n"
+"@rate is the risk annualized free rate of interest.\n"
+"@volatility is the annualized volatility in price of the underlying asset.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield.\n"
 "@lambda is the jump rate for executives. The model assumes executives forfeit their options if they leave the company.\n"
 "\n"
@@ -632,8 +632,8 @@ msgid ""
 "@alpha is a fraction that set the strike price the future date @time1.\n"
 "@time1 is the number of days until the option starts.\n"
 "@time is the number of days to maturity of the option.\n"
-"@rate is the risk annualised free rate of interest.\n"
-"@volatility is the annualised volatility in price of the underlying asset.\n"
+"@rate is the risk annualized free rate of interest.\n"
+"@volatility is the annualized volatility in price of the underlying asset.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield.\n"
 "@EXAMPLES=\n"
 "\n"
@@ -668,7 +668,7 @@ msgid ""
 "@time is the maturity of the option in years.\n"
 "@m is the number of time units the option has already met the condition.\n"
 "@dt is the agreed upon discrete time period (often a day) expressed as a fraction of a year.\n"
-"@rate is the risk annualised free rate of interest.\n"
+"@rate is the risk annualized free rate of interest.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield.\n"
 "@EXAMPLES=\n"
 "\n"
@@ -702,7 +702,7 @@ msgid ""
 "@strike is the strike price at which the option is struck.\n"
 "@time1 is the time in years until the holder chooses a put or a call option.\n"
 "@time2 is the time in years until the the chosen option expires.\n"
-"@rate is the risk annualised free rate of interest.\n"
+"@rate is the risk annualized free rate of interest.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield.\n"
 "@EXAMPLES=\n"
 "\n"
@@ -735,9 +735,9 @@ msgid ""
 "@time is the time in years until the holder chooses a put or a call option. \n"
 "@time_call is the time in years to maturity of the call option if chosen.\n"
 "@time_put is the time in years  to maturity of the put option if chosen.\n"
-"@rate is the risk annualised free rate of interest.\n"
+"@rate is the risk annualized free rate of interest.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield.\n"
-"@volatility is the annualised volatility in price of the underlying asset.\n"
+"@volatility is the annualized volatility in price of the underlying asset.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -774,9 +774,9 @@ msgid ""
 "@time1 is the time in years to maturity of the option.\n"
 "@time2 is the time in years to the maturity of the underlying option.\n"
 "(@time2 >= @time1).\n"
-"@rate is the risk annualised free rate of interest.\n"
+"@rate is the risk annualized free rate of interest.\n"
 "@cost_of_carry is the leakage in value of the underlying asset of the underlying option.for common stocks, this would be the dividend yield.\n"
-"@volatility is the annualised volatility in price of the underlying asset of the underlying option.\n"
+"@volatility is the annualized volatility in price of the underlying asset of the underlying option.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -812,9 +812,9 @@ msgid ""
 "@strike2 is the strike price at which the option is re-struck if out of the money at @time1.\n"
 "@time1 is the initial maturity of the option in years.\n"
 "@time2 is the is the extended maturity in years if chosen.\n"
-"@rate is the risk annualised free rate of interest.\n"
+"@rate is the risk annualized free rate of interest.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield.\n"
-"@volatility is the annualised volatility in price of the underlying asset.\n"
+"@volatility is the annualized volatility in price of the underlying asset.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -849,9 +849,9 @@ msgid ""
 "@spot1 & @spot2 are the spot prices of the underlying assets.\n"
 "@strike1 & @strike2 are the strike prices at which the option is struck.\n"
 "@time is the initial maturity of the option in years.\n"
-"@rate is the risk annualised free rate of interest.\n"
+"@rate is the risk annualized free rate of interest.\n"
 "@cost_of_carry1 & @cost_of_carry2 are the leakage in value of the underlying assets, for common stocks, this would be the dividend yield.\n"
-"@volatility1 & @volatility2 are the annualised volatility in price of the underlying assets.\n"
+"@volatility1 & @volatility2 are the annualized volatility in price of the underlying assets.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -868,7 +868,7 @@ msgstr ""
 "@time is the initial maturity of the option in years.\n"
 "@rate is the risk annualised free rate of interest.\n"
 "@cost_of_carry1 & @cost_of_carry2 are the leakage in value of the underlying assets, for common stocks, this would be the dividend yield.\n"
-"@volatility1 & @volatility2 are the annualised volatility in price of the underlying assets.\n"
+"@volatility1 & @volatility2 are the annualized volatility in price of the underlying assets.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -881,9 +881,9 @@ msgid ""
 "@SYNTAX=OPT_EURO_EXCHANGE(spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,cost_of_carry2,volatility1,volatility2,rho)\n"
 "@DESCRIPTION=OPT_EURO_EXCHANGE models the theoretical price of a European option to exchange one asset with quantity @qty2 and spot price @spot2 for another, with quantity @qty1 and spot price @spot1.\n"
 "@time is the initial maturity of the option in years.\n"
-"@rate is the risk annualised free rate of interest.\n"
+"@rate is the risk annualized free rate of interest.\n"
 "@cost_of_carry1 & @cost_of_carry2 are the leakage in value of the underlying assets, for common stocks, this would be the dividend yield.\n"
-"@volatility1 & @volatility2 are the annualised volatility in price of the underlying assets.\n"
+"@volatility1 & @volatility2 are the annualized volatility in price of the underlying assets.\n"
 "@rho is the correlation between the two assets.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -910,9 +910,9 @@ msgid ""
 "@SYNTAX=OPT_AMER_EXCHANGE(spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,cost_of_carry2,volatility1, volatility2, rho)\n"
 "@DESCRIPTION=OPT_AMER_EXCHANGE models the theoretical price of an American option to exchange one asset with quantity @qty2 and spot price @spot2 for another, with quantity @qty1 and spot price @spot1.\n"
 "@time is the initial maturity of the option in years.\n"
-"@rate is the risk annualised free rate of interest.\n"
+"@rate is the risk annualized free rate of interest.\n"
 "@cost_of_carry1 & @cost_of_carry2 are the leakage in value of the underlying assets, for common stocks, this would be the dividend yield.\n"
-"@volatility1 & @volatility2 are the annualised volatility in price of the underlying assets.\n"
+"@volatility1 & @volatility2 are the annualized volatility in price of the underlying assets.\n"
 "@rho is the correlation between the two assets.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -942,8 +942,8 @@ msgid ""
 "@fut_price1 & @fut_price2 are the prices of the two futures contracts.\n"
 "@strike is the strike price at which the option is struck \n"
 "@time is the initial maturity of the option in years.\n"
-"@rate is the risk annualised free rate of interest.\n"
-"@volatility1 & @volatility2 are the annualised volatility in price of the underlying futures contracts.\n"
+"@rate is the risk annualized free rate of interest.\n"
+"@volatility1 & @volatility2 are the annualized volatility in price of the underlying futures contracts.\n"
 "@rho is the correlation between the two futures contracts.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -976,9 +976,9 @@ msgid ""
 "@spot_min is the minimum spot price of the underlying asset so far observed.\n"
 "@spot_max is the maximum spot price of the underlying asset so far observed.\n"
 "@time is the initial maturity of the option in years.\n"
-"@rate is the risk annualised free rate of interest.\n"
+"@rate is the risk annualized free rate of interest.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield.\n"
-"@volatility is the annualised volatility in price of the underlying asset.\n"
+"@volatility is the annualized volatility in price of the underlying asset.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -1012,9 +1012,9 @@ msgid ""
 "@spot_max is the maximum spot price of the underlying asset so far observed.\n"
 "@strike is the strike prices at which the option is struck.\n"
 "@time is the initial maturity of the option in years.\n"
-"@rate is the risk annualised free rate of interest.\n"
+"@rate is the risk annualized free rate of interest.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield.\n"
-"@volatility is the annualised volatility in price of the underlying asset.\n"
+"@volatility is the annualized volatility in price of the underlying asset.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -1049,8 +1049,8 @@ msgid ""
 "@spot is the spot price of the underlying asset.\n"
 "@strike is the strike price at which the option is struck.\n"
 "@time is the initial maturity of the option in years.\n"
-"@rate is the risk annualised free rate of interest.\n"
-"@volatility is the annualised volatility in price of the underlying asset.\n"
+"@rate is the risk annualized free rate of interest.\n"
+"@volatility is the annualized volatility in price of the underlying asset.\n"
 "@cost_of_carry is the leakage in value of the underlying asset.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -1181,7 +1181,7 @@ msgid "Functions related to financial derivatives"
 msgstr "Functions related to financial derivatives"
 
 #: plugins/dif/dif.c:66
-#: plugins/excel/ms-excel-read.c:5692
+#: plugins/excel/ms-excel-read.c:5743
 #: plugins/mps/mps.c:547
 #: src/xml-io.c:4192
 msgid "Reading file..."
@@ -1265,7 +1265,7 @@ msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Unexpected attribute %s::%s == '%s'."
 
 #: plugins/excel/excel-xml-read.c:198
-#: plugins/openoffice/openoffice-read.c:1165
+#: plugins/openoffice/openoffice-read.c:1479
 #: plugins/xml_sax/xml-sax-read.c:1649
 msgid "XML document not well formed!"
 msgstr "XML document not well formed!"
@@ -1324,15 +1324,15 @@ msgstr ""
 "OLE links are not supported.\n"
 "Name '%s' will be lost.\n"
 
-#: plugins/excel/ms-excel-read.c:5042
+#: plugins/excel/ms-excel-read.c:5093
 msgid "external references"
 msgstr "external references"
 
-#: plugins/excel/ms-excel-read.c:5065
+#: plugins/excel/ms-excel-read.c:5116
 msgid "No password supplied"
 msgstr "No password supplied"
 
-#: plugins/excel/ms-excel-read.c:5918
+#: plugins/excel/ms-excel-read.c:5969
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Unable to locate valid MS Excel workbook"
 
@@ -15705,41 +15705,45 @@ msgstr "GNU Oleo (*.oleo)"
 msgid "Imports GNU Oleo documents"
 msgstr "Imports GNU Oleo documents"
 
-#: plugins/openoffice/openoffice-read.c:507
+#: plugins/openoffice/openoffice-read.c:536
 msgid "Missing expression"
 msgstr "Missing expression"
 
-#: plugins/openoffice/openoffice-read.c:512
+#: plugins/openoffice/openoffice-read.c:541
 #, c-format
 msgid "Expression '%s' does not start with a recognized character"
 msgstr "Expression '%s' does not start with a recognised character"
 
-#: plugins/openoffice/openoffice-read.c:525
+#: plugins/openoffice/openoffice-read.c:554
 #, c-format
 msgid "Unable to parse '%s' because '%s'"
 msgstr "Unable to parse '%s' because '%s'"
 
-#: plugins/openoffice/openoffice-read.c:582
+#: plugins/openoffice/openoffice-read.c:625
 msgid "Invalid array expression does not specify number of columns."
 msgstr "Invalid array expression does not specify number of columns."
 
-#: plugins/openoffice/openoffice-read.c:585
+#: plugins/openoffice/openoffice-read.c:628
 msgid "Invalid array expression does not specify number of rows."
 msgstr "Invalid array expression does not specify number of rows."
 
-#: plugins/openoffice/openoffice-read.c:916
+#: plugins/openoffice/openoffice-read.c:1148
 #, c-format
 msgid "Unable to parse position for expression '%s' @ '%s' because '%s'"
 msgstr "Unable to parse position for expression '%s' @ '%s' because '%s'"
 
-#: plugins/openoffice/openoffice-read.c:929
+#: plugins/openoffice/openoffice-read.c:1161
 #, c-format
 msgid "Unable to parse position for expression '%s' with value '%s' because '%s'"
 msgstr "Unable to parse position for expression '%s' with value '%s' because '%s'"
 
-#: plugins/openoffice/openoffice-read.c:1115
+#: plugins/openoffice/openoffice-read.c:1415
 msgid "No stream named content.xml found."
 msgstr "No stream named content.xml found."
+
+#: plugins/openoffice/openoffice-read.c:1422
+msgid "No stream named styles.xml found."
+msgstr "No stream named styles.xml found."
 
 #: plugins/openoffice/openoffice-write.c:122
 #, c-format
@@ -20174,147 +20178,319 @@ msgstr "Art"
 msgid "Packaging"
 msgstr "Packaging"
 
+#: src/dialogs/dialog-about.c:82
+msgid "Harald Ashburner"
+msgstr "Harald Ashburner"
+
 #: src/dialogs/dialog-about.c:83
 msgid "Options pricers"
 msgstr "Options pricers"
 
+#: src/dialogs/dialog-about.c:84
+msgid "Sean Atkinson"
+msgstr "Sean Atkinson"
+
 #: src/dialogs/dialog-about.c:85
 msgid "Functions and X-Base importing."
 msgstr "Functions and X-Base importing."
+
+#: src/dialogs/dialog-about.c:86
+msgid "Michel Berkelaar"
+msgstr "Michel Berkelaar"
 
 #: src/dialogs/dialog-about.c:87
 #: src/dialogs/dialog-about.c:101
 msgid "Simplex algorithm for Solver (LP Solve)."
 msgstr "Simplex algorithm for Solver (LP Solve)."
 
+#: src/dialogs/dialog-about.c:88
+msgid "Jean Brefort"
+msgstr "Jean Brefort"
+
 #: src/dialogs/dialog-about.c:89
 msgid "Core charting engine."
 msgstr "Core charting engine."
+
+#: src/dialogs/dialog-about.c:90
+msgid "Grandma Chema Celorio"
+msgstr "Grandma Chema Celorio"
 
 #: src/dialogs/dialog-about.c:91
 msgid "Quality Assurance and sheet copy."
 msgstr "Quality Assurance and sheet copy."
 
+#: src/dialogs/dialog-about.c:92
+msgid "Frank Chiulli"
+msgstr "Frank Chiulli"
+
 #: src/dialogs/dialog-about.c:93
 msgid "OLE2 support."
 msgstr "OLE2 support."
+
+#: src/dialogs/dialog-about.c:94
+msgid "Kenneth Christiansen"
+msgstr "Kenneth Christiansen"
 
 #: src/dialogs/dialog-about.c:95
 msgid "Localization."
 msgstr "Localisation."
 
+#: src/dialogs/dialog-about.c:96
+msgid "Zbigniew Chyla"
+msgstr "Zbigniew Chyla"
+
 #: src/dialogs/dialog-about.c:97
 msgid "Plugin system, localization."
 msgstr "Plugin system, localisation."
+
+#: src/dialogs/dialog-about.c:98
+msgid "J.H.M. Dassen (Ray)"
+msgstr "J.H.M. Dassen (Ray)"
 
 #: src/dialogs/dialog-about.c:99
 msgid "Debian packaging."
 msgstr "Debian packaging."
 
+#: src/dialogs/dialog-about.c:100
+msgid "Jeroen Dirks"
+msgstr "Jeroen Dirks"
+
+#: src/dialogs/dialog-about.c:102
+msgid "Tom Dyas"
+msgstr "Tom Dyas"
+
 #: src/dialogs/dialog-about.c:103
 msgid "Original plugin engine."
 msgstr "Original plugin engine."
+
+#: src/dialogs/dialog-about.c:104
+msgid "Gergo Erdi"
+msgstr "Gergo Erdi"
 
 #: src/dialogs/dialog-about.c:105
 msgid "Custom UI tools"
 msgstr "Custom UI tools"
 
+#: src/dialogs/dialog-about.c:106
+msgid "John Gotts"
+msgstr "John Gotts"
+
 #: src/dialogs/dialog-about.c:107
 msgid "RPM packaging"
 msgstr "RPM packaging"
+
+#: src/dialogs/dialog-about.c:108
+msgid "Andreas J. Gülzow"
+msgstr "Andreas J. Gülzow"
 
 #: src/dialogs/dialog-about.c:109
 msgid "Statistics and GUI master"
 msgstr "Statistics and GUI master"
 
+#: src/dialogs/dialog-about.c:110
+msgid "Jon Kåre Hellan"
+msgstr "Jon Kåre Hellan"
+
 #: src/dialogs/dialog-about.c:111
 msgid "UI Polish and all round bug fixer"
 msgstr "UI Polish and all round bug fixer"
+
+#: src/dialogs/dialog-about.c:112
+msgid "Ross Ihaka"
+msgstr "Ross Ihaka"
 
 #: src/dialogs/dialog-about.c:113
 msgid "Special functions"
 msgstr "Special functions"
 
+#: src/dialogs/dialog-about.c:114
+msgid "Jukka-Pekka Iivonen"
+msgstr "Jukka-Pekka Iivonen"
+
 #: src/dialogs/dialog-about.c:115
 msgid "Solver, lots of worksheet functions, and general trailblazer"
 msgstr "Solver, lots of worksheet functions, and general trailblazer"
+
+#: src/dialogs/dialog-about.c:116
+msgid "Jakub Jelinek"
+msgstr "Jakub Jelinek"
 
 #: src/dialogs/dialog-about.c:117
 msgid "One of the original core contributors"
 msgstr "One of the original core contributors"
 
+#: src/dialogs/dialog-about.c:118
+msgid "Jakub Steiner"
+msgstr "Jakub Steiner"
+
 #: src/dialogs/dialog-about.c:119
 msgid "Icons and Images"
 msgstr "Icons and Images"
+
+#: src/dialogs/dialog-about.c:120
+msgid "Chris Lahey"
+msgstr "Chris Lahey"
 
 #: src/dialogs/dialog-about.c:121
 msgid "The original value format engine and libgoffice work"
 msgstr "The original value format engine and libgoffice work"
 
+#: src/dialogs/dialog-about.c:122
+msgid "Takashi Matsuda"
+msgstr "Takashi Matsuda"
+
 #: src/dialogs/dialog-about.c:123
 msgid "The original text plugin"
 msgstr "The original text plugin"
+
+#: src/dialogs/dialog-about.c:124
+msgid "Michael Meeks"
+msgstr "Michael Meeks"
 
 #: src/dialogs/dialog-about.c:125
 msgid "Started the MS Excel import/export engine, and 'GnmStyle'"
 msgstr "Started the MS Excel import/export engine, and 'GnmStyle'"
 
+#: src/dialogs/dialog-about.c:126
+msgid "Lutz Muller"
+msgstr "Lutz Muller"
+
 #: src/dialogs/dialog-about.c:127
 msgid "SheetObject improvement"
 msgstr "SheetObject improvement"
+
+#: src/dialogs/dialog-about.c:128
+msgid "Yukihiro Nakai"
+msgstr "Yukihiro Nakai"
 
 #: src/dialogs/dialog-about.c:129
 msgid "Support for non-Latin languages"
 msgstr "Support for non-Latin languages"
 
+#: src/dialogs/dialog-about.c:130
+msgid "Emmanuel Pacaud"
+msgstr "Emmanuel Pacaud"
+
 #: src/dialogs/dialog-about.c:131
 msgid "Many plot types for charting engine."
 msgstr "Many plot types for charting engine."
 
+#: src/dialogs/dialog-about.c:132
+msgid "Federico M. Quintero"
+msgstr "Federico M. Quintero"
+
 #: src/dialogs/dialog-about.c:133
 msgid "canvas support"
 msgstr "canvas support"
+
+#: src/dialogs/dialog-about.c:134
+msgid "Mark Probst"
+msgstr "Mark Probst"
 
 #: src/dialogs/dialog-about.c:135
 #: src/dialogs/dialog-about.c:141
 msgid "Guile support"
 msgstr "Guile support"
 
+#: src/dialogs/dialog-about.c:136
+msgid "Rasca"
+msgstr "Rasca"
+
 #: src/dialogs/dialog-about.c:137
 msgid "HTML, troff, LaTeX exporters"
 msgstr "HTML, troff, LaTeX exporters"
+
+#: src/dialogs/dialog-about.c:138
+msgid "Vincent Renardias"
+msgstr "Vincent Renardias"
 
 #: src/dialogs/dialog-about.c:139
 msgid "original CSV support, French localization"
 msgstr "original CSV support, French localisation"
 
+#: src/dialogs/dialog-about.c:140
+msgid "Ariel Rios"
+msgstr "Ariel Rios"
+
+#: src/dialogs/dialog-about.c:142
+msgid "Uwe Steinmann"
+msgstr "Uwe Steinmann"
+
 #: src/dialogs/dialog-about.c:143
 msgid "Paradox Importer"
 msgstr "Paradox Importer"
+
+#: src/dialogs/dialog-about.c:144
+msgid "Arturo Tena"
+msgstr "Arturo Tena"
 
 #: src/dialogs/dialog-about.c:145
 msgid "Initial work on OLE2 for libgsf"
 msgstr "Initial work on OLE2 for libgsf"
 
+#: src/dialogs/dialog-about.c:146
+msgid "Almer S. Tigelaar"
+msgstr "Almer S. Tigelaar"
+
 #: src/dialogs/dialog-about.c:147
 msgid "Consolidation and Structured Text importer"
 msgstr "Consolidation and Structured Text importer"
+
+#: src/dialogs/dialog-about.c:148
+msgid "Bruno Unna"
+msgstr "Bruno Unna"
 
 #: src/dialogs/dialog-about.c:149
 msgid "Pieces of MS Excel import"
 msgstr "Pieces of MS Excel import"
 
+#: src/dialogs/dialog-about.c:150
+msgid "Daniel Veillard"
+msgstr "Daniel Veillard"
+
 #: src/dialogs/dialog-about.c:151
 msgid "Initial XML support"
 msgstr "Initial XML support"
+
+#: src/dialogs/dialog-about.c:152
+msgid "Vladimir Vuksan"
+msgstr "Vladimir Vuksan"
 
 #: src/dialogs/dialog-about.c:153
 msgid "Some financial functions"
 msgstr "Some financial functions"
 
+#: src/dialogs/dialog-about.c:154
+msgid "Morten Welinder"
+msgstr "Morten Welinder"
+
 #: src/dialogs/dialog-about.c:155
 msgid "All round powerhouse"
 msgstr "All round powerhouse"
+
+#: src/dialogs/dialog-about.c:156
+msgid "Kevin Breit"
+msgstr "Kevin Breit"
+
+#: src/dialogs/dialog-about.c:157
+msgid "Thomas Canty"
+msgstr "Thomas Canty"
+
+#: src/dialogs/dialog-about.c:158
+msgid "Adrian Custer"
+msgstr "Adrian Custer"
+
+#: src/dialogs/dialog-about.c:159
+msgid "Adrian Likins"
+msgstr "Adrian Likins"
+
+#: src/dialogs/dialog-about.c:160
+msgid "Aaron Weber"
+msgstr "Aaron Weber"
+
+#: src/dialogs/dialog-about.c:161
+msgid "Alexander Kirillov"
+msgstr "Alexander Kirillov"
 
 #: src/dialogs/dialog-about.c:263
 msgid "About Gnumeric"
@@ -25792,12 +25968,12 @@ msgstr "Paste _Special"
 #. * 	eg : Insert 4 rows
 #. * This is hard for now because there is no memory management for the label
 #: src/sheet-control-gui.c:1520
-msgid "_Insert..."
-msgstr "_Insert..."
+msgid "_Insert Cells..."
+msgstr "_Insert Cells..."
 
 #: src/sheet-control-gui.c:1522
-msgid "_Delete..."
-msgstr "_Delete..."
+msgid "_Delete Cells..."
+msgstr "_Delete Cells..."
 
 #: src/sheet-control-gui.c:1524
 msgid "_Insert Column(s)"
