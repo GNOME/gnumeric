@@ -7,28 +7,39 @@
 #
 # Thanks for improvements to "Andreas J. Guelzow" <aguelzow@taliesin.ca>, 2001.
 #
-# Future translators, please take care to translate error messages correctly:
-# #3D MULT? == #3D-MULT?
-# #ARG! == #ARG!
-# #DIV/0! == #DIV/0!
-# #N/A == #-/-
-# #NAME? == #NAME?
-# #NULL! == #NULL!
-# #NUM! == #ZAHL!
-# #RECALC! == #NEU-BER!
-# #REF! == #BEZUG!
-# #UNKNOWN! == #UNBEKANNT!
-# #VALUE! == #WERT!
+# NOTICE
+#     - Please take care to translate error messages correctly:
+# 	#3D MULT? == #3D-MULT?
+# 	#ARG! == #ARG!
+# 	#DIV/0! == #DIV/0!
+# 	#N/A == #-/-
+# 	#NAME? == #NAME?
+# 	#NULL! == #NULL!
+# 	#NUM! == #ZAHL!
+# 	#RECALC! == #NEU-BER!
+# 	#REF! == #BEZUG!
+# 	#UNKNOWN! == #UNBEKANNT!
+# 	#VALUE! == #WERT!
+#
+#     - Please notice that we have to use ";" instead of "," as
+#       argument separator in some function descriptions because
+#       "," is used as the decimal point in the German locale. Take
+#       a look e.g. at the translation of the DATE() function.
 #
 # TODO:
-#     - find a better translation for "formats" (currently "Format")
-#     - find a better translation for "outline" (currently "Überblick")
+#     - Find a better translation for "formats" (currently "Format")
+#     - Find a better translation for "outline" (currently "Überblick")
 #       (make sure you know what the word means in gnumeric's context!)
-#     - fix "configure toolbars" dialog. where are these strings?
-#     - fix the inconsistent translations of "array" (Arrary, Feld, Bereich)
-#     - check strings marked with "CHECK" in their comment
-#     - check for consistency
-#     - Decide what to do with the function descriptions.
+#     - Fix "configure toolbars" dialog. where are these strings?
+#     - Fix the inconsistent translations of "array" (Arrary, Feld, Bereich)
+#     - Check strings marked with "CHECK" in their comment
+#     - Check for consistency
+#     - Translate all the function description (now that Jody told us that
+#       it's okay to do so). BTW: Please test the output of the function
+#       examples with a Gnumeric running with the German locale.
+#
+# 2002-02-26  Karsten Weiss <knweiss@gmx.de>
+# 	* Clean-up of the function description mess.
 #
 # 2002-02-02  Karsten Weiss <knweiss@gmx.de>
 # 	* selection="Auswahl", mark="Markierung"
@@ -54,7 +65,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.0.x\n"
 "POT-Creation-Date: 2002-02-26 17:50+0100\n"
-"PO-Revision-Date: 2002-02-26 20:00+0100\n"
+"PO-Revision-Date: 2002-02-26 22:26+0100\n"
 "Last-Translator: Karsten Weiss <knweiss@gmx.de>\n"
 "Language-Team: GNOME-DE <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -9424,7 +9435,7 @@ msgstr ""
 "@SEEALSO="
 
 # CHECK ME: Fehler im Originalstring ("year" <-> "years").
-# Datumsformat in der dt. Beschreibung ist falsch.
+# Achtung: In der dt. Locale müssen wir ";" statt "," benutzen!
 #: src/functions/fn-date.c:27
 msgid ""
 "@FUNCTION=DATE\n"
@@ -9446,17 +9457,17 @@ msgid ""
 "@SEEALSO=TODAY, NOW"
 msgstr ""
 "@FUNCTION=DATE\n"
-"@SYNTAX=DATE (Jahr,Monat,Tag)\n"
+"@SYNTAX=DATE (Jahr;Monat;Tag)\n"
 "@DESCRIPTION=Berechnet die Anzahl Tage seit dem 1. Januar 1900 (die Datumsseriennummer) für die gegebenen Jahr, Monat und Tag.\n"
 "\n"
 "Wenn @Monat < 1 oder @Monat > 12, dann wird das Jahr korrigiert. Eine ähnliche Korrektur findet für Tage statt.\n"
 "\n"
 "Das @Jahr sollte mindestens 1900 sein. Wenn @Jahr < 1900, dann wird 1900 + @Jahr angenommen.\n"
 "\n"
-"Wenn das gegebene Datum nicht gültig ist, dann gibt DATE den Fehler #ZAHL! zurürck.\n"
+"Wenn das übergebene Datum nicht gültig ist, dann gibt DATE den Fehler #ZAHL! zurürck.\n"
 "Diese Funktion ist Excel-kompatibel.\n"
 "@EXAMPLES=\n"
-"DATE(2001, 3, 30) ergibt \"Mär 30, 2001\".\n"
+"DATE(2001; 3; 30) ergibt \"30/3/01\".\n"
 "\n"
 "@SEEALSO=TODAY, NOW"
 
