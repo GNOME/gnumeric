@@ -153,7 +153,7 @@ oleo_deal_with_cell (char *str, Sheet *sheet, int *ccol, int *crow)
 			oleo_insert_value (sheet, *ccol, *crow,
 					   value_new_int (result));
 		else {
-			double double_result = strtod (cval, &error);
+			double double_result = g_strtod (cval, &error);
 		        if (!*error)
 		     		oleo_insert_value (sheet, *ccol, *crow,
 						   value_new_float (double_result));

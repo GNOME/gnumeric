@@ -151,7 +151,7 @@ sylk_parse_value (sylk_file_state_t *src, const char *str,
 		/* floats */
 		if (strchr (str, '.')) {
 			src->val_type = VALUE_FLOAT;
-			src->val_d = strtod (str, NULL);
+			src->val_d = g_strtod (str, NULL);
 		}
 
 		/* ints */

@@ -1,3 +1,7 @@
+2000-04-24  Jody Goldberg <jgoldberg@home.com>
+
+	* oleo.c (oleo_deal_with_cell) : Use g_strtod, instead of strtod.
+
 2000-04-20  Jody Goldberg <jgoldberg@home.com>
 
 	* oleo.c : remove cell_deep_freeze_redraws.
