@@ -31,78 +31,104 @@ be a comma seperated list, an array, or any combination thereof.</para>
 <para>A comma seperated list of cell references can be used to
 indicate cells that are discontinous.</para>
 
-
-    <example id="cellrefermutiplecells">
-   <title>Some examples of function syntax</title>
-    <programlisting>
-	    =SUM(A1,B2,C4)
-
-            =MIN(A1,B2, C4,C5,D6)
-            
-    </programlisting>
-    </example>
-
-
- <screenshot>
-       <screeninfo>Figure 10. 
-	 </screeninfo>
-       <graphic fileref="images/cells-1.jpg"></graphic>
-  </screenshot>
- 
-</sect3>
-
-<sect3>
-<title>Referencing a continous region of cells</title>
-
-<para>For functions that take more than one argument, it is often
-easier to reference the cells as a group. This can include
-cells in sets horizontally, vertically, or in arrays.</para>
-
-<para>The ':' operator is used to indicate a range of cells. The basic
-syntax is upperleft corner:bottom rigth corner. </para>
-
-    <example id="cellrefercontin">
-	<title>Referencing blocks of cells</title>
-    <programlisting>
- 		=SUM(A1:E1)
-
-		=AVERAGE(B4:E7)
-
-	        =MIN(A1:A5)            
-    </programlisting>
-    </example>
-
-
-<screenshot>
-       <screeninfo>Figure 10. 
-	 </screeninfo>
-       <graphic fileref="images/cells-2.jpg"></graphic>
-  </screenshot>
- </sect3>
-
-<sect3>
-<title>Referencing non-continous regions</title>
-
-<para>For referencing cells that are in non-continous regions
-you can use any combination of the above methods to get
-the needed cells.</para>
-
-
-   <example id="cellreferdiscontin">
-	<title>Referencing blocks of cells</title>
-    <programlisting>
-		=SUM(A1:E1, B19, L14:L17)
-
-		=AVERAGE(A1,A3, A5:C5)
-
-    </programlisting>
-    </example>
-
-
-</sect3>
-
-
-
-</sect2>
-
+      
+      <sect2>
+	<title>Referencing multiple cells</title>
+	
+	<para>Many functions can take multiple cells as arguments. This can either
+	  be a comma separated list, an array, or any combination thereof.</para>
+	
+	<sect3>
+	  <title>Multiple individual cells</title>
+	  
+	  <para>A comma separated list of cell references can be used to
+	    indicate cells that are discontinuous.</para>
+	  
+	  
+      <example id="cellrefermutiplecells">
+	    <title>Some examples of function syntax</title>
+	    <programlisting>
+	      =SUM(A1,B2,C4)
+	      
+	      =MIN(A1,B2, C4,C5,D6)
+	      
+	    </programlisting>
+	  </example>
+	  
+	  
+	  <screenshot>
+	    <graphic fileref="images/cells-1.jpg"></graphic>
+	  </screenshot>
+	  
+	</sect3>
+	
+	<sect3>
+	  <title>Referencing a continuous region of cells</title>
+	  
+	  <para>For functions that take more than one argument, it is often
+	    easier to reference the cells as a group. This can include
+	    cells in sets horizontally, vertically, or in arrays.</para>
+	  
+	  <para>The ':' operator is used to indicate a range of cells. The basic
+	    syntax is upper left corner:bottom right corner. </para>
+	  
+	  <example id="cellrefercontin">
+	    <title>Referencing blocks of cells</title>
+	    <programlisting>
+	      =SUM(A1:E1)
+	      
+	      =AVERAGE(B4:E7)
+	      
+	      =MIN(A1:A5)            
+	    </programlisting>
+	  </example>
+	  
+	  
+	  <screenshot>
+	<graphic fileref="images/cells-2.jpg"></graphic>
+	  </screenshot>
+	</sect3>
+	
+	<sect3>
+	  <title>Referencing non-continuous regions</title>
+	  
+	  <para>For referencing cells that are in non-continuous regions
+	    you can use any combination of the above methods to get
+	    the needed cells.</para>
+	  
+	  
+	  <example id="cellreferdiscontin">
+	    <title>Referencing blocks of cells</title>
+	    <programlisting>
+	      =SUM(A1:E1, B19, L14:L17)
+	      
+	      =AVERAGE(A1,A3, A5:C5)
+	      
+	    </programlisting>
+	  </example>
+	  
+	  
+	</sect3>
+	
+	
+    
+      </sect2>
+      
 </sect1>
+
+
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: sgml
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:2
+sgml-indent-data:t
+sgml-parent-document:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->                         

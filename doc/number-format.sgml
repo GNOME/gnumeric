@@ -1,29 +1,112 @@
 <sect1>
-  <title>Formatting numbers</title>
+  <title>Cell Formatting</title>
 
+  <para>Cell formats allow you to change the way cell data appears in the 
+    spreadsheet. It is important to keep in mind that it only alters the way the 
+    data is presented, and does not change the value of the data. </para>
+  
+  <para>The formatting options allows for monetary units, scientific options,
+     dates, times, fractions,and more. Positive and negative values can have different colors and formats
+    for aiding in keeping track of values. There are also a large variety of
+    date and time formats for virtually any time and date format one can think of.
+    </para>
+    
   <para>To change the formatting style for a cell or a range of cells,
-  you only need to select the range of cells (see <xref linkend="editing-selections">)
-   where you want to
-  apply/change the format and then select from the
-  Format/Cells/Numbers menu (or from the context sensitive popup menu
-  bound to the right mouse button) the appropriate format.</para>
-
+    you only need to select the range of cells (see <xref linkend="editing-selections">)
+      where you want to
+      apply/change the format and then select from the
+      <guimenu>Format</guimenu>/<guimenuitem>Cells</guimenuitem>/Numbers menu 
+      (or from the context sensitive popup menu
+      bound to the right mouse button) the appropriate format.</para>
+  
   <para>Gnumeric provides a wide range of predetermined formatting
-  styles.  These formatting styles are shown by categorie in the
-  Cell/Style dialog box.  Just choose one of the display formats and
-  accept the changes to change the display format for your
-  cells.</para>
-
+    styles.  These formatting styles are shown by category in the
+    Cell/Style dialog box.  Just choose one of the display formats and
+    accept the changes to change the display format for your
+    cells.</para>
+  
   <para>If none of the predetermined formatting styles fits your
-  needs, you can define your own number formatting style by using a
-  custom formatting expression: the custom formatting expressions give
-  you more flexibility in number display.</para>
+    needs, you can define your own number formatting style by using a
+    custom formatting expression: the custom formatting expressions give
+    you more flexibility in number display.</para>
 
-  <sect2><title>Number formatting expressions</title>
+<sect2>
+  <title>The Format Dialog</title>
+
+  <para>The number formatting dialog (see <xref linkend="number-format-dialog"> ) 
+      provides a wide range of options for 
+      formatting numbers. The primary use of the dialog is to select from
+      one of the many preset number formatting rules. These formatting styles
+      should be more than adequate for the vast majority of cases. If none
+      of these meet the needs of the user, it is possible to create your own
+      formats. </para>
+  
+  <figure id="number-format-dialog">
+      <title>The main number formatting dialog.</title>
+      <screenshot>
+	<graphic fileref="images/number-format-dialog.jpg"></graphic>
+      </screenshot>
+    </figure>
+    
+  <para>The main dialog is split into two list, a list of formatting
+    categories, and a list of formats in each category.</para>
+
+    <para>There is also a Sample output of what the new formatting should
+      look like, and the example of what the formatting code looks like.</para>
+</sect2>    
+
+</sect1>
+
+  
+<sect1><title>Number formatting expressions</title>
     <para>The number formatting engine in Gnumeric is very powerful: it
       can be used to display numbers in various format as well as
       providing the user with the ability to specify colors based on
       various conditions.</para>
-    
-  </sect2>
+
+  <para> <xref linkend="formula-example-1"> is an example of some of 
+      the many variations of formatting one can apply to a number with 
+      the preset formats. </para>
+  
+  <example id="formula-example-1">
+    <title>Some examples of number formatting</title>
+    <programlisting>
+      
+      For the number 600
+      
+      Numbers
+         General:                                           600.12
+             0.0:                                           600.1
+      Accounting
+          _($*#,##0_);_($*(#,##0);_($*"-"_);_(@_)           $600
+          _($*#,##0.00_);_($*(#,##0.00);_($*"-"??_);_(@_)   $600.12
+      Scientific
+           0.00E+00                                         600.123
+      
+    </programlisting>
+      </example>
+      
+  </sect1>
+
+<sect1>
+<title>Date and Time formatting</title>
+ <para>Nothing here yet</para>
+
 </sect1>
+  
+    
+<!-- Keep this comment at the end of the file
+    Local variables:
+mode: sgml
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:2
+sgml-indent-data:t
+sgml-parent-document:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->                         

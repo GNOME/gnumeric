@@ -1,3 +1,17 @@
+1998-09-39 Adrian Likins <adrian@gimp.org>
+
+	* doc/autofill.sgml, sell_refer.sgml, editing.sgml,
+	  gnumeric.sgml, number-format.sgml, worksheet.sgml:
+	    Minor updates, new info on formatting, spelling
+	    and formatting fixes.
+
+	* doc/selection.sgml, selections.sgml: removed selection.sgml
+	and added selections.sgml. 
+
+	* doc/images/worksheet-data-[1234].jpg,
+	worksheet-running-calc-1.jpg, number-format-dialog-1.jpg:
+	more pics to go along with the docs.
+
 1998-09-30  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/workbook.c (quick_compute_routines): Made static
