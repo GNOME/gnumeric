@@ -20,6 +20,7 @@ Jody:
 	* Clean up some workbook view life cycle issues
 	* Begin support for auto-filters
 	* Begin support for pivot tables
+	* Full support for SUBTOTAL magic
 
 Jon Kåre:
         * Separate GUI for showing progress and messages before first 

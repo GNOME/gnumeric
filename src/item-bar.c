@@ -227,8 +227,8 @@ item_bar_unrealize (FooCanvasItem *item)
 }
 
 static void
-ib_draw_cell (ItemBar const * const ib,
-	      GdkDrawable *drawable, ColRowSelectionType const type,
+ib_draw_cell (ItemBar const * const ib, GdkDrawable *drawable,
+	      GdkGC *text_gc, ColRowSelectionType const type,
 	      char const * const str, GdkRectangle *rect)
 {
 	GtkWidget	*canvas = GTK_WIDGET (FOO_CANVAS_ITEM (ib)->canvas);
@@ -265,12 +265,12 @@ ib_draw_cell (ItemBar const * const ib,
 			    rect->x + 1, rect->y + 1, rect->width-2, rect->height-2);
 	gtk_draw_shadow (canvas->style, drawable, GTK_STATE_NORMAL, shadow,
 			 rect->x, rect->y, rect->width, rect->height);
-	gdk_gc_set_clip_rectangle (ib->text_gc, rect);
+	gdk_gc_set_clip_rectangle (text_gc, rect);
 
 	ascent = PANGO_PIXELS (pango_font_metrics_get_ascent (font->pango.metrics));
 	pango_shape (str, strlen (str), &(ib->pango.item->analysis), ib->pango.glyphs);
 	pango_glyph_string_extents (ib->pango.glyphs, font->pango.font, NULL, &size);
-	gdk_draw_glyphs (drawable, ib->text_gc, font->pango.font,
+	gdk_draw_glyphs (drawable, text_gc, font->pango.font,
 		rect->x + (rect->width - PANGO_PIXELS (size.width)) / 2,
 		rect->y + (rect->height - PANGO_PIXELS (size.height)) / 2 + ascent + 1,
 		ib->pango.glyphs);
@@ -350,7 +350,7 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 				total += pixels;
 				rect.x = left;
 				rect.width = pixels;
-				ib_draw_cell (ib, drawable,
+				ib_draw_cell (ib, drawable, ib->text_gc,
 					       has_object ? COL_ROW_NO_SELECTION
 					       : sheet_col_selection_type (sv, col),
 					       col_name (col), &rect);
@@ -506,9 +506,12 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 				rect.y = top;
 				rect.height = pixels;
 				ib_draw_cell (ib, drawable,
-					       has_object ? COL_ROW_NO_SELECTION
-					       : sheet_row_selection_type (sv, row),
-					       row_name (row), &rect);
+					      cri->in_filter
+						      ? ib->filter_gc : ib->text_gc,
+					      has_object
+						      ? COL_ROW_NO_SELECTION
+						      : sheet_row_selection_type (sv, row),
+					      row_name (row), &rect);
 
 				if (len > 0) {
 					if (!draw_below) {

@@ -2184,6 +2184,7 @@ sheet_foreach_cell_in_range (Sheet *sheet, CellIterFlags flags,
 	Value *cont;
 	gboolean const visiblity_matters = (flags & CELL_ITER_IGNORE_HIDDEN);
 	gboolean const only_existing = (flags & CELL_ITER_IGNORE_BLANK);
+	gboolean const subtotal_magic = (flags & CELL_ITER_IGNORE_SUBTOTAL);
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (callback != NULL, NULL);
@@ -2202,10 +2203,10 @@ sheet_foreach_cell_in_range (Sheet *sheet, CellIterFlags flags,
 	}
 
 	for (i = start_row; i <= end_row; ++i) {
-		ColRowInfo *ci = sheet_row_get (sheet, i);
+		ColRowInfo *ri = sheet_row_get (sheet, i);
 
 		/* no need to check visiblity, that would require a colinfo to exist */
-		if (ci == NULL) {
+		if (ri == NULL) {
 			if (only_existing) {
 				/* skip segments with no cells */
 				if (i == COLROW_SEGMENT_START (i)) {
@@ -2225,7 +2226,9 @@ sheet_foreach_cell_in_range (Sheet *sheet, CellIterFlags flags,
 			continue;
 		}
 
-		if (visiblity_matters && !ci->visible)
+		if (visiblity_matters && !ri->visible)
+			continue;
+		if (subtotal_magic && ri->in_filter && !ri->visible)
 			continue;
 
 		for (j = start_col; j <= end_col; ++j) {

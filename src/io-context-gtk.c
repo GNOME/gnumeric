@@ -189,12 +189,8 @@ static void
 icg_error_error_info (G_GNUC_UNUSED CommandContext *cc,
 		      ErrorInfo *error)
 {
-	IOContextGtk *icg = IO_CONTEXT_GTK (cc);
 	GtkWidget *dialog = gnumeric_error_info_dialog_new (error);
-
-	if (icg->window == NULL)
-		icg_show_gui (icg);
-	gtk_window_set_transient_for (GTK_WINDOW (dialog), icg->window);
+	gtk_widget_show_all (GTK_WIDGET (dialog));
 	gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);
 }

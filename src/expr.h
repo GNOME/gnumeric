@@ -69,6 +69,7 @@ gboolean  gnm_expr_equal	     (GnmExpr const *a, GnmExpr const *b);
 char	 *gnm_expr_as_string	     (GnmExpr const *expr, ParsePos const *fp);
 void	  gnm_expr_get_boundingbox   (GnmExpr const *expr, Range *bound);
 GSList	 *gnm_expr_referenced_sheets (GnmExpr const *expr);
+gboolean  gnm_expr_containts_subtotal(GnmExpr const *expr);
 
 struct _GnmExprRelocateInfo {
 	EvalPos pos;

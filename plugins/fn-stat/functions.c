@@ -5091,7 +5091,7 @@ gnumeric_slope (FunctionEvalInfo *ei, Value **argv)
 
 static const char *help_subtotal = {
 	N_("@FUNCTION=SUBTOTAL\n"
-	   "@SYNTAX=SUMIF(function_nbr,ref1,ref2,...)\n"
+	   "@SYNTAX=SUBTOTAL(function_nbr,ref1,ref2,...)\n"
 
 	   "@DESCRIPTION="
 	   "SUBTOTAL function returns a subtotal of given list of arguments. "
@@ -5126,18 +5126,20 @@ static const char *help_subtotal = {
 static Value *
 gnumeric_subtotal (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
-        const GnmExpr *tree;
+        GnmExpr const *expr;
 	Value *val;
 	int   fun_nbr;
+	float_range_function_t func;
+	char const *err = gnumeric_err_DIV0;
 
 	if (expr_node_list == NULL)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	tree = expr_node_list->data;
-	if (tree == NULL)
+	expr = expr_node_list->data;
+	if (expr == NULL)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	val = gnm_expr_eval (tree, ei->pos, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+	val = gnm_expr_eval (expr, ei->pos, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 	if (val->type == VALUE_ERROR)
 		return val;
 	fun_nbr = value_get_as_int (val);
@@ -5147,19 +5149,42 @@ gnumeric_subtotal (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 	expr_node_list = expr_node_list->next;
 
 	switch (fun_nbr) {
-	case 1:  return gnumeric_average (ei, expr_node_list);
-	case 2:  return gnumeric_count (ei, expr_node_list);
-	case 3:  return gnumeric_counta (ei, expr_node_list);
-	case 4:  return gnumeric_max (ei, expr_node_list);
-	case 5:  return gnumeric_min (ei, expr_node_list);
-	case 6:  return gnumeric_product (ei, expr_node_list);
-	case 7:  return gnumeric_stdev (ei, expr_node_list);
-	case 8:  return gnumeric_stdevp (ei, expr_node_list);
-	case 9:  return gnumeric_sum (ei, expr_node_list);
-	case 10: return gnumeric_var (ei, expr_node_list);
-	case 11: return gnumeric_varp (ei, expr_node_list);
-	default: return value_new_error (ei->pos, gnumeric_err_NUM);
+	case 2: val = value_new_int (0);
+		/* no need to check for error, this is not strict */
+		function_iterate_argument_values (ei->pos,
+			callback_function_count, val, expr_node_list,
+			FALSE, CELL_ITER_IGNORE_BLANK | CELL_ITER_IGNORE_SUBTOTAL);
+		return val;
+
+	case 3: val = value_new_int (0);
+		/* no need to check for error, this is not strict */
+		function_iterate_argument_values (ei->pos,
+			callback_function_counta, val, expr_node_list,
+			FALSE, CELL_ITER_IGNORE_BLANK | CELL_ITER_IGNORE_SUBTOTAL);
+		return val;
+
+	case  1: func = range_average;		break;
+	case  4: err = gnumeric_err_VALUE;
+		 func = range_max0;		break;
+	case  5: err = gnumeric_err_VALUE;
+		 func = range_min0;		break;
+	case  6: err = gnumeric_err_VALUE;
+		 func = range_product;		break;
+	case  7: func = range_stddev_est;	break;
+	case  8: func = range_stddev_pop;	break;
+	case  9: err = gnumeric_err_VALUE;
+		 func = range_sum;		break;
+	case 10: func = range_var_est;		break;
+	case 11: func = range_var_pop;		break;
+
+	default:
+		return value_new_error (ei->pos, gnumeric_err_NUM);
 	}
+
+	return float_range_function (expr_node_list, ei, func,
+		COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS |
+		COLLECT_IGNORE_BLANKS | COLLECT_IGNORE_SUBTOTAL,
+		err);
 }
 
 /***************************************************************************/
@@ -5848,7 +5873,7 @@ const GnmFuncDescriptor stat_functions[] = {
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "subtotal",     0,  N_("function_nbr,ref,ref,"),
 	  &help_subtotal,    NULL, gnumeric_subtotal, NULL, NULL, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNDER_DEVELOPMENT, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "cronbach",        0,      N_("ref,ref,"),
 	  &help_cronbach, NULL, gnumeric_cronbach, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },

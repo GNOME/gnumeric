@@ -1840,7 +1840,7 @@ do_referenced_sheets (GnmExpr const *expr, GSList *sheets)
 	case GNM_EXPR_OP_INTERSECT:
 	case GNM_EXPR_OP_ANY_BINARY:
 		return do_referenced_sheets (
-			expr->binary.value_b,
+			expr->binary.value_a,
 			do_referenced_sheets (
 				expr->binary.value_b,
 				sheets));
@@ -1897,6 +1897,53 @@ gnm_expr_referenced_sheets (GnmExpr const *expr)
 {
 	g_return_val_if_fail (expr != NULL, NULL);
 	return do_referenced_sheets (expr, NULL);
+}
+
+/**
+ * gnm_expr_containts_subtotal :
+ * @expr :
+ *
+ * return TRUE if the expression calls the SUBTOTAL function
+ **/
+gboolean
+gnm_expr_containts_subtotal (GnmExpr const *expr)
+{
+	switch (expr->any.oper) {
+	case GNM_EXPR_OP_RANGE_CTOR:
+	case GNM_EXPR_OP_INTERSECT:
+	case GNM_EXPR_OP_ANY_BINARY:
+		return gnm_expr_containts_subtotal (expr->binary.value_a) ||
+		       gnm_expr_containts_subtotal (expr->binary.value_b);
+	case GNM_EXPR_OP_ANY_UNARY:
+		return gnm_expr_containts_subtotal (expr->unary.value);
+
+	case GNM_EXPR_OP_FUNCALL: {
+		GnmExprList *l;
+		if (!strcmp (expr->func.func->name, "subtotal"))
+			return TRUE;
+		for (l = expr->func.arg_list; l; l = l->next)
+			if (gnm_expr_containts_subtotal (l->data))
+				return TRUE;
+		return FALSE;
+	}
+	case GNM_EXPR_OP_SET: {
+		GnmExprList *l;
+		for (l = expr->set.set; l; l = l->next)
+			if (gnm_expr_containts_subtotal (l->data))
+				return TRUE;
+		return FALSE;
+	}
+
+	case GNM_EXPR_OP_NAME:
+		if (expr->name.name->active)
+			return gnm_expr_containts_subtotal (expr->name.name->expr_tree);
+
+	case GNM_EXPR_OP_CELLREF:
+	case GNM_EXPR_OP_CONSTANT:
+	case GNM_EXPR_OP_ARRAY:
+		;
+	}
+	return FALSE;
 }
 
 /**

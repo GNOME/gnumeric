@@ -494,6 +494,7 @@ value_cmp (void const *ptr_a, void const *ptr_b)
 	case IS_LESS :  return -1;
 	case IS_GREATER :  return 1;
 	default :
+		break;
 	};
 	return a->type - b->type;
 }

@@ -124,6 +124,9 @@ callback_function_collect (EvalPos const *ep, Value *value, void *closure)
  *                 COLLECT_IGNORE_BOOLS: silently ignore bools.
  *                 COLLECT_ZEROONE_BOOLS: count FALSE as 0, TRUE as 1.
  *                   (Alternative: return #VALUE!.)
+ *		   COLLECT_IGNORE_SUBTOTAL : ignore expressions that include
+ *		   	the function SUBTOTAL directly and ignore any content
+ *		   	in filtered rows.
  * n:              Output parameter for number of floats.
  *
  * Return value:
@@ -140,6 +143,10 @@ collect_floats (GnmExprList *exprlist, EvalPos const *ep, CollectFlags flags,
 {
 	Value * err;
 	collect_floats_t cl;
+	CellIterFlags iter_flags = (flags & COLLECT_IGNORE_BLANKS)
+		? CELL_ITER_IGNORE_BLANK : CELL_ITER_ALL;
+	if (flags & COLLECT_IGNORE_SUBTOTAL)
+		iter_flags |= CELL_ITER_IGNORE_SUBTOTAL;
 
 	if (info) {
 		flags = flags | COLLECT_INFO;
@@ -154,8 +161,7 @@ collect_floats (GnmExprList *exprlist, EvalPos const *ep, CollectFlags flags,
 	cl.info = NULL;
 
 	err = function_iterate_argument_values (ep, &callback_function_collect,
-		&cl, exprlist,
-		TRUE, (flags & COLLECT_IGNORE_BLANKS) ?  CELL_ITER_IGNORE_BLANK : CELL_ITER_ALL);
+		&cl, exprlist, TRUE, iter_flags);
 
 	if (err) {
 		g_assert (err->type == VALUE_ERROR);

@@ -613,7 +613,7 @@ excel_write_MERGECELLS (BiffPut *bp, ExcelSheet *esheet)
 }
 
 static int
-excel_write_builtin_name (char const *ptr)
+excel_write_builtin_name (char const *ptr, MsBiffVersion version)
 {
 	static char const *builtins [] = {
 		"Consolidate_Area",	"Auto_Open",
@@ -622,9 +622,13 @@ excel_write_builtin_name (char const *ptr)
 		"Print_Area",		"Print_Titles",
 		"Recorder",		"Data_Form",
 		"Auto_Activate",	"Auto_Deactivate",
-		"Sheet_Title",		"AutoFilter"
+		"Sheet_Title",		"_FilterDatabase"
 	};
 	int i = G_N_ELEMENTS (builtins);
+
+	/* _FilterDatabase does not seem to be in 95 */
+	if (version < MS_BIFF_V8)
+		i--;
 	while (i-- > 0)
 		if (!strcmp (builtins[i], ptr))
 			return i;
@@ -656,7 +660,7 @@ excel_write_NAME_v7 (gpointer key, GnmNamedExpr *nexpr, ExcelWriteState *ewb)
 	if (nexpr->pos.sheet != NULL) /* sheet local */
 		GSF_LE_SET_GUINT16 (data + 6, nexpr->pos.sheet->index_in_wb +1);
 
-	builtin_index = excel_write_builtin_name (name);
+	builtin_index = excel_write_builtin_name (name, ewb->bp->version);
 	if (builtin_index >= 0) {
 		GSF_LE_SET_GUINT16 (data + 0, 0x20); /* flag builtin */
 		GSF_LE_SET_GUINT8  (data + 3, 1);    /* name_len */

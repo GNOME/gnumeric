@@ -661,6 +661,7 @@ biff_guint16_equal (guint16 const *a, guint16 const *b)
 		return 1;
 	return 0;
 }
+
 static gint
 biff_guint32_equal (guint32 const *a, guint32 const *b)
 {
@@ -2178,8 +2179,7 @@ excel_read_FORMULA (BiffQuery *q, ExcelSheet *esheet)
 
 		case 2: { /* Error */
 			guint8 const v = GSF_LE_GET_GUINT8 (q->data + val_offset + 2);
-			char const *err_str = biff_get_error_text (v);
-			val = value_new_error (NULL, err_str);
+			val = value_new_error (NULL, biff_get_error_text (v));
 			break;
 		}
 
@@ -4195,46 +4195,105 @@ excel_read_BG_PIC (BiffQuery *q, ExcelSheet *esheet)
 	/* Looks like a bmp.  OpenCalc has a basic parser for 24 bit files */
 }
 
-static void
-read_DOPER (guint8 const *data, int index, ExcelSheet *esheet)
+static Value *
+read_DOPER (guint8 const *doper, gboolean is_equal,
+	    unsigned *str_len, GnmFilterOp *op)
 {
-	static GnmExprOp const ops [] = {
-		GNM_EXPR_OP_LT,
-		GNM_EXPR_OP_EQUAL,
-		GNM_EXPR_OP_LTE,
-		GNM_EXPR_OP_GT,
-		GNM_EXPR_OP_NOT_EQUAL,
-		GNM_EXPR_OP_GTE
+	static GnmFilterOp const ops [] = {
+		GNM_FILTER_OP_LT,
+		GNM_FILTER_OP_EQUAL,
+		GNM_FILTER_OP_LTE,
+		GNM_FILTER_OP_GT,
+		GNM_FILTER_OP_NOT_EQUAL,
+		GNM_FILTER_OP_GTE
 	};
-	GnmExprOp op;
+	Value *res;
 
-	switch (data [0]) {
-	case 0: /* ignore */
-		return;
-	case 2: /* RK */
-	case 4: /* IEEE float */
-	case 6: /* string */
-	case 8: /* bool / err */
-	case 0xC: /* match blanks */
+	*str_len = 0;
+	*op = GNM_FILTER_UNUSED;
+	switch (doper [0]) {
+	case 0: return NULL; /* ignore */
+
+	case 2: res = biff_get_rk (doper + 2);
 		break;
-	case 0xE: /* match non-blanks */
+	case 4: res = value_new_float (GSF_LE_GET_DOUBLE (doper+2));
 		break;
+	case 6: *str_len = doper[6];
+		break;
+
+	case 8: if (doper [2])
+			res = value_new_error (NULL,
+				    biff_get_error_text (doper [3]));
+		else
+			res = value_new_bool (doper [3] ? TRUE : FALSE);
+		break;
+
+	case 0xC: *op = GNM_FILTER_OP_BLANKS;
+		return NULL;
+	case 0xE: *op = GNM_FILTER_OP_NON_BLANKS;
+		return NULL;
 	};
 
-	g_return_if_fail (data[1] > 0 && data [1] <=6);
-	op = ops [data [1]];
+	g_return_val_if_fail (doper[1] > 0 && doper [1] <=6, NULL);
+	*op = ops [doper [1] - 1];
+
+	if (*op == GNM_FILTER_OP_EQUAL && !is_equal)
+		*op = GNM_FILTER_OP_REGEXP_MATCH;
+
+	return res;
 }
 
 static void
 excel_read_AUTOFILTER (BiffQuery *q, ExcelSheet *esheet)
 {
-	guint16 const active_filter = GSF_LE_GET_GUINT16 (q->data);
 	guint16 const flags = GSF_LE_GET_GUINT16 (q->data + 2);
-	read_DOPER (q->data +  4, 0, esheet);
-	read_DOPER (q->data + 14, 1, esheet);
+	GnmFilterCondition *cond = NULL;
+	GnmFilter	   *filter;
 
-	printf ("%hu\n", active_filter);
+	/* XL only supports 1 filter per sheet */
+	g_return_if_fail (esheet->sheet->filters != NULL);
+	g_return_if_fail (esheet->sheet->filters->data != NULL);
+	g_return_if_fail (esheet->sheet->filters->next == NULL);
+
+	filter = esheet->sheet->filters->data;
+
+	if (esheet->container.ver >= MS_BIFF_V8 && flags & 0x10)
+		/* its a top/bottom n */
+		cond = gnm_filter_condition_new_bucket (
+			    (flags & 0x20) ? TRUE  : FALSE,
+			    (flags & 0x40) ? FALSE : TRUE,
+			    (flags >> 7) & 0x1ff);
+
+	if (cond == NULL) {
+		unsigned     len0, len1;
+		GnmFilterOp  op0,  op1;
+		guint8 const *data;
+		Value *v0 = read_DOPER (q->data + 4,  flags & 4, &len0, &op0);
+		Value *v1 = read_DOPER (q->data + 14, flags & 8, &len1, &op1);
+
+		data = q->data + 24;
+		if (len0 > 0) {
+			v0 = value_new_string_nocopy (
+				biff_get_text (data, len0, NULL));
+			data += len0;
+		}
+		if (len1 > 0) {
+			v1 = value_new_string_nocopy (
+				biff_get_text (data, len1, NULL));
+		}
+
+		if (op1 == GNM_FILTER_UNUSED) {
+			cond = gnm_filter_condition_new_single (op0, v0);
+			if (v1 != NULL) value_release (v1); /* paranoia */
+		} else
+			cond = gnm_filter_condition_new_double (
+				    op0, v0, (flags & 1) ? TRUE : FALSE, op1, v1);
+	}
+
+	gnm_filter_set_condition (filter,
+		GSF_LE_GET_GUINT16 (q->data), cond, FALSE);
 }
+
 static void
 excel_read_SCL (BiffQuery *q, ExcelSheet *esheet)
 {

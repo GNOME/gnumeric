@@ -1019,18 +1019,18 @@ function_def_call_with_values (EvalPos const *ep,
 		 * If function deals with ExprNodes, create some
 		 * temporary ExprNodes with constants.
 		 */
-		GnmExprConstant *tree = NULL;
+		GnmExprConstant *expr = NULL;
 		GnmExprList *l = NULL;
 		int i;
 
 		if (argc) {
-			tree = g_alloca (argc * sizeof (GnmExprConstant));
+			expr = g_alloca (argc * sizeof (GnmExprConstant));
 			for (i = 0; i < argc; i++) {
-				tree [i].oper = GNM_EXPR_OP_CONSTANT;
-				tree [i].value = values [i];
-				tree [i].ref_count = 1;
+				expr [i].oper = GNM_EXPR_OP_CONSTANT;
+				expr [i].value = values [i];
+				expr [i].ref_count = 1;
 
-				l = gnm_expr_list_append (l, tree + i);
+				l = gnm_expr_list_append (l, expr + i);
 			}
 		}
 
@@ -1048,8 +1048,9 @@ function_def_call_with_values (EvalPos const *ep,
 
 typedef struct {
 	FunctionIterateCB  callback;
-	void                     *closure;
-	gboolean                 strict;
+	void              *closure;
+	gboolean           strict;
+	gboolean           ignore_subtotal;
 } IterateCallbackClosure;
 
 /*
@@ -1073,6 +1074,10 @@ cb_iterate_cellrange (Sheet *sheet, int col, int row,
 		ep.eval.row = row;
 		return (*data->callback)(&ep, NULL, data->closure);
 	}
+
+	if (data->ignore_subtotal && cell_has_expr (cell) &&
+	    gnm_expr_containts_subtotal (cell->base.expression))
+		return NULL;
 
 	cell_eval (cell);
 	eval_pos_init_cell (&ep, cell);
@@ -1138,6 +1143,7 @@ function_iterate_do_value (EvalPos const *ep,
 		data.callback = callback;
 		data.closure  = closure;
 		data.strict   = strict;
+		data.ignore_subtotal = (iter_flags & CELL_ITER_IGNORE_SUBTOTAL);
 
 		res = workbook_foreach_cell_in_range (ep, value, iter_flags,
 						      cb_iterate_cellrange,
@@ -1183,12 +1189,16 @@ function_iterate_argument_values (EvalPos const		*ep,
 
 	for (; result == NULL && expr_node_list;
 	     expr_node_list = expr_node_list->next) {
-		GnmExpr const * tree = expr_node_list->data;
+		GnmExpr const *expr = expr_node_list->data;
 		Value *val;
+
+		if (iter_flags & CELL_ITER_IGNORE_SUBTOTAL &&
+		    gnm_expr_containts_subtotal (expr))
+			continue;
 
 		/* Permit empties and non scalars. We don't know what form the
 		 * function wants its arguments */
-		val = gnm_expr_eval (tree, ep, GNM_EXPR_EVAL_PERMIT_NON_SCALAR|GNM_EXPR_EVAL_PERMIT_EMPTY);
+		val = gnm_expr_eval (expr, ep, GNM_EXPR_EVAL_PERMIT_NON_SCALAR|GNM_EXPR_EVAL_PERMIT_EMPTY);
 
 		if (val == NULL)
 			continue;

@@ -39,10 +39,18 @@
 #include <gsf/gsf-impl-utils.h>
 #include <gnumeric-i18n.h>
 
+struct _GnmFilterCondition {
+	GnmFilterOp op[2];
+	Value	*value[2];
+	gboolean is_and;
+	int	 count;
+};
+
 typedef struct {
 	SheetObject parent;
 
-	GnmFilter   *filter;
+	GnmFilterCondition *condition;
+	GnmFilter   	   *filter;
 	int i;
 } GnmFilterField;
 
@@ -63,6 +71,49 @@ struct _GnmFilter {
 #define	VIEW_ITEM	"view-item"
 
 static GType filter_field_get_type (void);
+
+
+GnmFilterCondition *
+gnm_filter_condition_new_single (GnmFilterOp op, Value *v)
+{
+	if (v != NULL) {
+		if (v->type == VALUE_STRING)
+			puts (value_peek_string (v));
+		value_release (v);
+	}
+	return NULL;
+}
+
+GnmFilterCondition *
+gnm_filter_condition_new_double (GnmFilterOp op1, Value *v1,
+				 gboolean join_with_and,
+				 GnmFilterOp op2, Value *v2)
+{
+	if (v1 != NULL) {
+		if (v1->type == VALUE_STRING)
+			puts (value_peek_string (v1));
+		value_release (v1);
+	}
+	if (v2 != NULL) {
+		if (v2->type == VALUE_STRING)
+			puts (value_peek_string (v2));
+		value_release (v2);
+	}
+	return NULL;
+}
+
+GnmFilterCondition *
+gnm_filter_condition_new_bucket (gboolean top, gboolean absolute, unsigned n)
+{
+	return NULL;
+}
+
+void
+gnm_filter_condition_unref (GnmFilterCondition *cond)
+{
+}
+
+/**********************************************************************************/
 
 static void
 filter_field_finalize (GObject *object)
@@ -451,6 +502,10 @@ gnm_filter_new (Sheet *sheet, Range const *r)
 	dependent_link (&filter->dep, &dummy);
 	sheet->filters = g_slist_prepend (sheet->filters, filter);
 
+	for (i = r->start.row; ++i <= r->end.row ; ) {
+		ColRowInfo *ri = sheet_row_fetch (sheet, i);
+		ri->in_filter = TRUE;
+	}
 	return filter;
 }
 
@@ -475,12 +530,26 @@ gnm_filter_remove (GnmFilter *filter)
 {
 	static CellPos const dummy = { 0, 0 };
 	Sheet *sheet;
+	int i;
 
 	g_return_if_fail (filter != NULL);
 
 	sheet = filter->dep.sheet;
 	sheet->filters = g_slist_remove (sheet->filters, filter);
 	dependent_unlink (&filter->dep, &dummy);
+
+	for (i = filter->r.start.row; ++i <= filter->r.end.row ; ) {
+		ColRowInfo *ri = sheet_row_fetch (sheet, i);
+		ri->in_filter = FALSE;
+	}
+}
+
+void
+gnm_filter_set_condition (GnmFilter *filter, unsigned i,
+			  GnmFilterCondition *cond,
+			  gboolean apply)
+{
+	gnm_filter_condition_unref (cond);
 }
 
 /**

@@ -142,9 +142,12 @@ struct _GlobalRange {
 };
 
 typedef enum {
-	CELL_ITER_ALL 		= 0,
-	CELL_ITER_IGNORE_BLANK  = 1 << 0,
-	CELL_ITER_IGNORE_HIDDEN = 1 << 1
+	CELL_ITER_ALL 		  = 0,
+	CELL_ITER_IGNORE_BLANK    = 1 << 0,
+	CELL_ITER_IGNORE_HIDDEN	  = 1 << 1, /* hidden manually */
+
+	/* contains SUBTOTAL, or hidden row in a filter */
+	CELL_ITER_IGNORE_SUBTOTAL = 1 << 2 
 } CellIterFlags;
 typedef Value *(*CellIterFunc) (Sheet *sheet, int col, int row,
 				Cell *cell, gpointer user_data);

@@ -1,3 +1,18 @@
+2002-11-30  Jody Goldberg <jody@gnome.org>
+
+	* src/expr-name.c (cb_check_name) : ignore hidden names.
+
+	* src/io-context-gtk.c (icg_error_error_info) : no need to display the
+	  splash if we ar egoing to pop up an error.  Something was screwing
+	  up and I don't feel like tracing it.
+
+	* src/expr.c (do_referenced_sheets) : fix nasty typo.
+	(gnm_expr_containts_subtotal) : new.
+
+	* src/collect.c (collect_floats) : start support for SUBTOTAL
+	* src/sheet.c (sheet_foreach_cell_in_range) : ditto.
+	* src/func.c (function_iterate_argument_values) : ditto.
+
 2002-11-29  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-control-gui.c (wbcg_menu_state_update) : add auto

@@ -1,3 +1,8 @@
+2002-11-30  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (excel_read_AUTOFILTER) : finish.
+	(read_DOPER) : finish.
+
 2002-11-29  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-write.c (excel_write_WINDOW1) : make view const
