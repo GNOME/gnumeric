@@ -136,7 +136,7 @@ static int smash_fields(char *ptr, char **array, int len)
 }
 
 
-static char * read_line(FILE *f)
+char * read_line(FILE *f)
 {
 	int n;
 	if(fgets(linebuf, sizeof(linebuf),f)==NULL)
@@ -228,6 +228,7 @@ void csv_destroy_table(struct csv_table *table)
 int main(int argc, char *argv)
 {
 	struct csv_table t;
-	printf("Got %d\n", parse_table(stdin, &t));
+	printf("Got %d\n", csv_load_table(stdin, &t));
+	csv_destroy_table (&t);
 }
 #endif

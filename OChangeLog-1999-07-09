@@ -1,3 +1,24 @@
+1999-07-05  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/print.c: Only print the headers and sides 
+	
+	* plugins/text/text-io.c (text_cleanup_plugin): Kill probing here.
+	(text_init): kill probing here as well.
+	(text_parse_file): kill probing support here as well.
+	(text_parse_file): Do not use first line as sheet name.
+
+	* src/file.c (workbook_import): Added import dialog box.
+	(workbook_read): Now does only probe for existing probe routines.
+	(file_format_register_open): probe function being NULL now means
+	that this is not an auto-probe filter, but an import filter (ie,
+	the user has to manually select the file).
+
+1999-07-04  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/file.c (file_format_register_open): Allow the probe_fn to be NULL.
+
+	* src/workbook.c (import_file_cmd): Added import menu item.
+
 1999-07-05  Michael Meeks  <michael@edenproject.org>
 
 	* src/sheet.c (sheet_update_auto_expr): Removed parsing.

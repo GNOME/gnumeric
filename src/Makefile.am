@@ -22,7 +22,7 @@ idldir   = $(datadir)/idl
 idl_DATA = Gnumeric.idl
 
 gladedir   = $(datadir)/gnumeric/glade
-glade_DATA = print.glade
+glade_DATA = print.glade import.glade
 
 EXTRA_DIST = $(idl_DATA)
 

@@ -203,16 +203,20 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
 		/*
 		 * Print the repeated rows and columns
 		 */
-		print_page_repeated_rows (
-			sheet, start_col, start_row, end_col, end_row,
-			x + pj->repeat_cols_used_x, y, print_width, print_height, pj);
-		y += pj->repeat_rows_used_y;
+		if (pj->pi->repeat_left.use){
+			print_page_repeated_rows (
+				sheet, start_col, start_row, end_col, end_row,
+				x + pj->repeat_cols_used_x, y, print_width, print_height, pj);
+			y += pj->repeat_rows_used_y;
+		}
 
-		print_page_repeated_cols (
-			sheet, start_col, start_row, end_col, end_row,
-			x, y, print_width, print_height, pj);
-
-		x += pj->repeat_cols_used_x;
+		if (pj->pi->repeat_top.use){
+			print_page_repeated_cols (
+				sheet, start_col, start_row, end_col, end_row,
+				x, y, print_width, print_height, pj);
+			
+			x += pj->repeat_cols_used_x;
+		}
 		
 		/*
 		 * Print the body of the data

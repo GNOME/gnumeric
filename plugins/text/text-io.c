@@ -206,7 +206,7 @@ insert_cell (Sheet* sheet, char *string, int start, int end, int col, int row)
 
 static gint
 text_parse_file (gchar *file, gint flen, gint start,
-		 Sheet *sheet, gboolean probe)
+		 Sheet *sheet)
 {
 	gint     idx, lindex;
 	gint     crow = 0, ccol = 0, mcol = 0; /* current/max col/row */
@@ -237,23 +237,16 @@ text_parse_file (gchar *file, gint flen, gint start,
 
 			case '\n':
 			case '\f':
-				if (sheet_name){
-					if (data && !probe)
-						change_sheet_name (sheet, file,
-								   lindex, idx);
-					sheet_name = FALSE;
-				} else {
-					if (data && !probe)
-						insert_cell (sheet, file,
-							     lindex, idx,
-							     crow, ccol);
-					if (ccol > mcol)
-						mcol = ccol;
-					ccol = 0;
-					crow ++;
-				}
+				if (data)
+					insert_cell (sheet, file,
+						     lindex, idx,
+						     crow, ccol);
+				if (ccol > mcol)
+					mcol = ccol;
+				ccol = 0;
+				crow ++;
 				if (file[idx] == '\f')
-				sheet_end = TRUE;
+					sheet_end = TRUE;
 				data = 0;
 				idx ++;
 				lindex = idx;
@@ -261,7 +254,7 @@ text_parse_file (gchar *file, gint flen, gint start,
 				break;
 
 			case '\t':
-				if(data && !probe){  /* Non empty cell */
+				if(data){  /* Non empty cell */
 					insert_cell (sheet, file,
 						     lindex, idx, crow, ccol);
 				}
@@ -280,15 +273,13 @@ text_parse_file (gchar *file, gint flen, gint start,
 		}
 	}
 
-	if (!probe){
-		if (data && idx >= 0){
-			insert_cell (sheet, file, lindex, idx, crow, ccol);
-			crow ++;
-		}
-
-		sheet->max_col_used = mcol;
-		sheet->max_row_used = crow;
+	if (data && idx >= 0){
+		insert_cell (sheet, file, lindex, idx, crow, ccol);
+		crow ++;
 	}
+
+	sheet->max_col_used = mcol;
+	sheet->max_row_used = crow;
 
 	return idx;
 }
@@ -339,23 +330,19 @@ readTextWorkbook (const char* filename, gboolean probe)
 		return NULL;
 	}
 
-	if (!probe){
-		book = workbook_new ();
-		if (book == NULL)
-			return NULL;
-	}
+	book = workbook_new ();
+	if (book == NULL)
+		return NULL;
 
 	idx = 0;
 	while (idx >= 0 && idx < flen){
-		if (!probe){
-			sheet = sheet_new (book, _("NoName"));
-			if (sheet == NULL)
+		sheet = sheet_new (book, _("NoName"));
+		if (sheet == NULL)
 			break;
-		}
 
-		idx = text_parse_file (file, flen, idx, sheet, probe);
+		idx = text_parse_file (file, flen, idx, sheet);
 
-		if (!probe && idx >= 0){
+		if (idx >= 0){
 			sheet->modified = FALSE;
 			workbook_attach_sheet (book, sheet);
 		}
@@ -363,12 +350,6 @@ readTextWorkbook (const char* filename, gboolean probe)
 
 	munmap (file, flen);
 	close (fd);
-
-	if (probe){
-	book = NULL;
-	if (idx >= 0)
-	book ++;
-	}
 
 	return book;
 }
@@ -386,12 +367,6 @@ text_read_workbook (const char* filename)
 	}
 
 	return wb;
-}
-
-static gboolean
-text_probe_workbook (const char* filename)
-{
-	return readTextWorkbook (filename, TRUE) != NULL;
 }
 
 #if 0
@@ -455,7 +430,7 @@ text_init (void)
 	char *desc = _("Simple Text Format");
 
 	file_format_register_open (0, desc,
-				   text_probe_workbook,
+				   NULL,
 				   text_read_workbook);
 
 	file_format_register_save (".txt", desc,
@@ -465,7 +440,7 @@ text_init (void)
 static void
 text_cleanup_plugin (PluginData *pd)
 {
-	file_format_unregister_open (text_probe_workbook, text_read_workbook);
+	file_format_unregister_open (NULL, text_read_workbook);
 	file_format_unregister_save (text_write_workbook);
 }
 

@@ -6,6 +6,7 @@
  */
 #include <config.h>
 #include <gnome.h>
+#include <glade/glade.h>
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "dialogs.h"
@@ -36,6 +37,10 @@ file_priority_sort (gconstpointer a, gconstpointer b)
  * The priority is used to give it a higher precendence to a format.
  * The higher the priority, the sooner it will be tried, gnumeric registers
  * its XML-based format at priority 50.
+ *
+ * If the probe_fn is NULL, we consider it a format importer, so that
+ * it gets only listed in the "Import..." menu, and it is not auto-probed
+ * at file open time.
  */
 void
 file_format_register_open (int priority, const char *desc,
@@ -43,7 +48,6 @@ file_format_register_open (int priority, const char *desc,
 {
 	FileOpener *fo = g_new (FileOpener, 1);
 
-	g_return_if_fail (probe_fn != NULL);
 	g_return_if_fail (open_fn != NULL);
 
 	fo->priority = priority;
@@ -138,6 +142,7 @@ workbook_read (const char *filename)
 	GList *l;
 	char *oldlocale;
 	Workbook *w = NULL;
+	char *s;
 
 	g_return_val_if_fail (filename != NULL, NULL);
 
@@ -147,18 +152,99 @@ workbook_read (const char *filename)
 	for (l = gnumeric_file_openers; l; l = l->next){
 		const FileOpener *fo = l->data;
 
+		if (fo->probe == NULL)
+			continue;
+		
 		if ((*fo->probe) (filename)){
 			w = (*fo->open) (filename);
 
 			if (w) {
 				workbook_mark_clean (w);
 				break;
-			}
+			} 
 		}
 	}
 
+	if (w == NULL){
+		s = g_strdup_printf (
+			N_("Could not read file %s"), filename);
+		
+		gnumeric_notice (
+			NULL,
+			GNOME_MESSAGE_BOX_ERROR, s);
+		g_free (s);
+	}
 	setlocale (LC_NUMERIC, oldlocale);
 	g_free (oldlocale);
+	return w;
+}
+
+/*
+ * Lets the user choose an import filter for @filename, and
+ * uses that to load the file
+ */
+Workbook *
+workbook_import (Workbook *parent, const char *filename)
+{
+	Workbook *w = NULL;
+	GladeXML *gui;
+	GtkWidget *dialog;
+	GtkCList *clist;
+	int ret, row;
+	GList *l;
+	
+	gui = glade_xml_new (GNUMERIC_GLADEDIR "/import.glade", NULL);
+	if (!gui){
+		g_warning ("Missing import.glade file");
+		return NULL;
+	}
+
+	dialog = glade_xml_get_widget (gui, "import-dialog");
+	if (parent != NULL)
+		gnome_dialog_set_parent (GNOME_DIALOG (dialog),
+					 GTK_WINDOW (parent->toplevel));
+
+	clist = GTK_CLIST (glade_xml_get_widget (gui, "import-clist"));
+	gtk_clist_set_selection_mode (clist, GTK_SELECTION_SINGLE);
+	
+	for (row = 0, l = gnumeric_file_openers; l; l = l->next){
+		FileOpener *fo = l->data;
+		char *text [1];
+		
+		if (fo->probe != NULL)
+			continue;
+
+		text [0] = fo->format_description;
+		gtk_clist_append (clist, text);
+		gtk_clist_set_row_data (clist, row, l->data);
+		row++;
+	}
+	gtk_widget_show (dialog);
+	ret = gnome_dialog_run (GNOME_DIALOG (dialog));
+
+	if (ret == 0){
+		char *oldlocale;
+		
+		if (clist->selection){
+			FileOpener *fo;
+			int sel_row = GPOINTER_TO_INT (clist->selection->data);
+
+			/* Files are expected to be in standard C format.  */
+			oldlocale = g_strdup (setlocale (LC_NUMERIC, "C"));
+
+			fo = gtk_clist_get_row_data (clist, sel_row);
+			w = fo->open (filename);
+			if (w != NULL)
+				workbook_mark_clean (w);
+			
+			setlocale (LC_NUMERIC, oldlocale);
+			g_free (oldlocale);
+
+			return w;
+		}
+	}
+	gtk_object_destroy (GTK_OBJECT (gui));
+	gtk_object_destroy (GTK_OBJECT (dialog));
 	return w;
 }
 

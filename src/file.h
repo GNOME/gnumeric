@@ -37,4 +37,7 @@ void file_format_register_save   (char           *extension,
 				  FileFormatSave save_fn);
 void file_format_unregister_save (FileFormatSave save);
 
+Workbook *workbook_import        (Workbook *parent_dlg, const char *filename);
+Workbook *workbook_import_with   (const char *filename, FileFormatOpen open_fn);
+
 #endif /* GNUMERIC_FILE_H */

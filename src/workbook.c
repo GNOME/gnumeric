@@ -46,7 +46,7 @@ new_cmd (void)
 }
 
 static void
-open_cmd (GtkWidget *widget, Workbook *wb)
+file_open_cmd (GtkWidget *widget, Workbook *wb)
 {
 	char *fname = dialog_query_load_file (wb);
 	Workbook *new_wb;
@@ -56,13 +56,27 @@ open_cmd (GtkWidget *widget, Workbook *wb)
 }
 
 static void
-save_cmd (GtkWidget *widget, Workbook *wb)
+file_import_cmd (GtkWidget *widget, Workbook *wb)
+{
+	char *fname = dialog_query_load_file (wb);
+	Workbook *new_wb;
+
+	if (!fname)
+		return;
+
+       new_wb = workbook_import (wb, fname);
+       if (new_wb)
+	       gtk_widget_show (new_wb->toplevel);
+}
+
+static void
+file_save_cmd (GtkWidget *widget, Workbook *wb)
 {
 	workbook_save (wb);
 }
 
 static void
-save_as_cmd (GtkWidget *widget, Workbook *wb)
+file_save_as_cmd (GtkWidget *widget, Workbook *wb)
 {
 	workbook_save_as (wb);
 }
@@ -742,7 +756,7 @@ print_setup_cmd (GtkWidget *widget, Workbook *wb)
 }
 
 static void
-print_cmd (GtkWidget *widget, Workbook *wb)
+file_print_cmd (GtkWidget *widget, Workbook *wb)
 {
 	workbook_print (wb);
 }
@@ -794,21 +808,23 @@ static GnomeUIInfo workbook_menu_file [] = {
         GNOMEUIINFO_MENU_NEW_ITEM(N_("_New"), N_("Create a new spreadsheet"),
 				  new_cmd, NULL),
 
-	GNOMEUIINFO_MENU_OPEN_ITEM(open_cmd, NULL),
+	GNOMEUIINFO_MENU_OPEN_ITEM(file_open_cmd, NULL),
+	GNOMEUIINFO_ITEM_STOCK (N_("_Import"), N_("Imports a file"),
+				file_import_cmd, GNOME_STOCK_PIXMAP_OPEN),
+	GNOMEUIINFO_MENU_SAVE_ITEM(file_save_cmd, NULL),
 
-	GNOMEUIINFO_MENU_SAVE_ITEM(save_cmd, NULL),
-
-	GNOMEUIINFO_MENU_SAVE_AS_ITEM(save_as_cmd, NULL),
+	GNOMEUIINFO_MENU_SAVE_AS_ITEM(file_save_as_cmd, NULL),
 
 	GNOMEUIINFO_SEPARATOR,
 
+	
 	{ GNOME_APP_UI_ITEM, N_("Plu_g-ins..."), N_("Gnumeric plugins"),
 	  plugins_cmd },
 
 	GNOMEUIINFO_SEPARATOR,
 
 	GNOMEUIINFO_MENU_PRINT_SETUP_ITEM(print_setup_cmd, NULL),
-	GNOMEUIINFO_MENU_PRINT_ITEM(print_cmd, NULL),
+	GNOMEUIINFO_MENU_PRINT_ITEM(file_print_cmd, NULL),
 	
 	GNOMEUIINFO_SEPARATOR,
 	
@@ -985,13 +1001,13 @@ static GnomeUIInfo workbook_toolbar [] = {
 		new_cmd, GNOME_STOCK_PIXMAP_NEW),
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Open"), N_("Opens an existing workbook"),
-		open_cmd, GNOME_STOCK_PIXMAP_OPEN),
+		file_open_cmd, GNOME_STOCK_PIXMAP_OPEN),
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Save"), N_("Saves the workbook"),
-		save_cmd, GNOME_STOCK_PIXMAP_SAVE),
+		file_save_cmd, GNOME_STOCK_PIXMAP_SAVE),
 	GNOMEUIINFO_ITEM_STOCK(
 		N_("Print"), N_("Prints the workbook"),
-		print_cmd, GNOME_STOCK_PIXMAP_PRINT),
+		file_print_cmd, GNOME_STOCK_PIXMAP_PRINT),
 	
 	GNOMEUIINFO_SEPARATOR,
 
