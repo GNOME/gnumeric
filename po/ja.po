@@ -2593,22 +2593,22 @@ msgstr "\"%s%s\"を入力"
 #: src/commands.c:1081
 #, c-format
 msgid "Inserting %d columns before %s"
-msgstr "%2$s の前に %1$d 列を挿入"
+msgstr "%d列を%sの前に挿入"
 
 #: src/commands.c:1082
 #, c-format
 msgid "Inserting %d column before %s"
-msgstr "%2$s の前に %1$d 列を挿入"
+msgstr "%d列を%sの前に挿入"
 
 #: src/commands.c:1093
 #, c-format
 msgid "Inserting %d rows before %s"
-msgstr "%2$s の前に %1$d 行の挿入"
+msgstr "%d行を%sの前に挿入"
 
 #: src/commands.c:1094
 #, c-format
 msgid "Inserting %d row before %s"
-msgstr "%2$s の前に %1$d 行の挿入"
+msgstr "%d行を%sの前に挿入"
 
 #: src/commands.c:1105
 #, c-format
