@@ -20,17 +20,12 @@ Jody:
 	* Initial port to gnome2.
 	* Enable microhash depend mechanism.
 	* Rework the range relocation logic.
+	* Rework sheet order dialog and make it a guru.
+	* Clean sheet object widget creation.
+	* Improve key handling when there are gurus.
 
---------------------------------------------------------------------------
-Gnumeric 1.0.4
-
-Andreas:
-	* Fix LaTeX and HTML exporter crashes	
-	* Fix http://bugzilla.gnome.org/show_bug.cgi?id=69832
-	  (crash in goalseek)
-
-Jody:
-	http://bugzilla.gnome.org/show_bug.cgi?id=69400
+Joshua R. Odom:
+	* Reorganize the custom pixmaps.
 
 --------------------------------------------------------------------------
 Gnumeric 1.0.3
