@@ -1,0 +1,112 @@
+Hello,
+
+   A new version of Gnumeric has been released: 0.48 is out on the FTP
+site now.
+
+   This version of gnumeric is pretty impressive.  The Gnumeric
+hackers have worked very hard in many areas to improve the
+spreadsheet.   
+
+   The major visible feature in this release is the beginning of the
+Undo support written by Jody Goldberg.  Jody also did a number of
+impressive hacks on this release that are detailed below.
+
+   This version does require gnome-xml 1.8.5 to compile, as a small
+problem was found in the previous version that made people's
+spreadsheets not load.
+
+* Availability:
+
+	ftp://ftp.gnome.org/pub/GNOME/stable/sources/gnumeric
+
+* New in this release
+
+   * Major visible features
+
+	* Undo/Redo support for some actions.  It is not complete, and
+	  you should not assume Gnumeric can undo everything right
+	  now, as this will still take some time.  (Jody did the
+	  infrastructure, JP, Michael and Morten helped out with some
+	  of the commands).
+
+	* Hide/show column/rows support (Jody).
+
+	* Auto-save feature (Jukka)
+
+	* The beginning of an Auto-correct tool (Jukka).
+
+	* Show-formulas support.
+
+   * User interfave improvements
+
+	* Keep cursor visible at all times;  Alt-PgUp, Alt-PgDn
+	  support (Jody).
+
+	* Auto-format feature: Now expressions and functions will hint
+	  a format to be used as a result, so functions that return
+	  dates will hint automatically a date-format; Functions that
+	  return percentages will hint percentage format and so on
+	  (Morten).
+
+	* Clipboard, selection and border fixes (Jody).
+
+	* Selection redraw speed up, it should no longer feel slugish
+	  when you deal with large selectins on the screen (Miguel).
+
+	* Solver got improved (Jukka).
+
+	* Jon has cleaned up and enhanced various of our dialog boxes
+	  again. 
+
+   * Internal changes
+
+	* New memory management system for the parser: easier to
+	  understand, reuses existing code, less likely to leak
+	  memory (Morten).
+
+	* Rewrote the internal dependencies engine, which makes
+	  Gnumeric a lot faster now for recomputing and loading
+	  (Michael). 
+
+	* Tracked down a few memory leaks in the parser (me).
+
+	* Cleanup Excel export code (Jon).
+
+	* Python plugin update, enables users to invoke Gnumeric
+	  functions  (Jon).
+
+	* Handles =+X properly (some Excel functions expect that to be
+	  0+X). 
+
+	* Improved Excel Summary import/export (Frank Chulli)
+
+   * Function changes
+
+	* PRODUCT() has been made compatible with Excel at the expense
+	  of breaking it.  G_PRODUCT() introduced to fix the error
+	  (Morten).
+	  
+    * Bug fixes:
+
+	* Many bugs were fixed (check bugs.gnome.org for details) and
+	  patches accepted form the list.
+
+	* Small ui improvements from Mike Kestner
+
+	* XML IO loading of font sizes works correctly now (Jon).
+
+	* VALUE_BOOL is properly handled in the Guile plugin.
+
+	* XML loading of files fixed (Daniel)
+
+	* Enable internal function names in strings (Martin
+	  Sheppard).  
+
+    * Doc fixes
+
+	* Valek and Sergey updated the function descriptions.
+	
+	* New screenshots for documentation in PNG format (Nick Lamb).
+
+Enjoy,
+miguel.
