@@ -5955,7 +5955,6 @@ msgstr ""
 "@SEEALSO=TBILLEQ,TBILLPRICE"
 
 #: plugins/fn-financial/functions.c:1359
-#, fuzzy
 msgid ""
 "@FUNCTION=RATE\n"
 "@SYNTAX=RATE(nper,pmt,pv[,fv,type,guess])\n"
@@ -5969,8 +5968,12 @@ msgid ""
 "@SEEALSO=PV,FV"
 msgstr ""
 "@FUNCTION=RATE\n"
-"@SYNTAX=RATE(支払回数,定期支払額,現在価値[,将来価値,支払期日,推定値])\n"
+"@SYNTAX=RATE(期間,定期支払額,現在価値[,将来価値,支払期日,推定値])\n"
 "@DESCRIPTION=RATE 関数は投資の利率を返します。\n"
+"\n"
+"* もし @期間 <= 0 なら、RATE関数は#NUM!エラーを返します。\n"
+"* もし @支払期日 != 0 かつ @支払期日 != 1なら、RATE関数は#VALUE!エラーを返します。\n"
+"\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=PV,FV"
@@ -28055,9 +28058,8 @@ msgid "_Select"
 msgstr "選択(_S)"
 
 #: src/wbcg-actions.c:1436
-#, fuzzy
 msgid "F_ill"
-msgstr "繰り返し(_F)"
+msgstr "フィル(_I)"
 
 #: src/wbcg-actions.c:1437
 msgid "_View"
@@ -28284,7 +28286,6 @@ msgid "C_ells..."
 msgstr "セル(_E)..."
 
 #: src/wbcg-actions.c:1553
-#, fuzzy
 msgid "Delete the selected cells, shifting others into their place"
 msgstr "選択されたセルを削除して、その場所に他のセルをずらします"
 
@@ -28329,9 +28330,8 @@ msgid "Select _Inputs"
 msgstr "入力の選択(_I)"
 
 #: src/wbcg-actions.c:1574
-#, fuzzy
 msgid "Select all the cells are used by the current edit cell"
-msgstr "編集中のセルに依存する全てのセルを選択します"
+msgstr "編集中のセルが使用している全てのセルを選択します"
 
 #. Edit -> Fill
 #: src/wbcg-actions.c:1578
