@@ -1,6 +1,6 @@
-A discussion of the new Style code
+A discussion of the new style code, version 0.1
+by Michael Meeks <mmeeks@gnu.org>
 
-  Michael Meeks <mmeeks@gnu.org>
 
 	In order to solve several of the problems associated with blank cells
 and to simplify the way styles are handled a new approach to styles has been
@@ -45,8 +45,8 @@ adopted. This document breaks roughly into two parts. First the 'user'
 
 	d) Attach it to the sheet:
 
-	   sheet_style_attach        (sheet, range, mstyle);
-	   sheet_style_attach_single (sheet, col, row, mstyle)
+	   sheet_style_attach        (sheet, range, mstyle);      or
+	   sheet_style_attach_single (sheet, col, row, mstyle);   or
 	   cell_set_mstyle           (cell, mstyle);
 
 1.1.2	Getting a style
@@ -70,7 +70,17 @@ adopted. This document breaks roughly into two parts. First the 'user'
 	mstyle_unref (mstyle);
 
 	    If this sounds strange read on to section 1.4.
+
+	    NB. it is important not to try and set elements on a style you
+	have obtained in this way. The way to attach elements is via
+	sheet_style_attach ie.
+
+		MStyle *mstyle = cell_get_mstyle (cell);	BAD
+		mstyle_set_font_size (mstyle, 12.0);		CODE
 	
+	    Do _not_ even think of doing the above, it will produce whacky
+	results; perhaps we should constify this shortly.
+
 1.2	Fragmentation
 
 	It is important to realise that styles are stored as ranges internally,
