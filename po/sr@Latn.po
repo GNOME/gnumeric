@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-10-26 05:08+0100\n"
-"PO-Revision-Date: 2003-10-26 05:22+0100\n"
+"POT-Creation-Date: 2003-10-26 23:10+0100\n"
+"PO-Revision-Date: 2003-10-26 23:18+0100\n"
 "Last-Translator: Slobodan Sredojević <ssl@uns.ns.ac.yu>\n"
 "Language-Team: Serbian (sr) <serbiangnome-lista@nongnu.org>\n"
 "MIME-Version: 1.0\n"
@@ -11107,13 +11107,17 @@ msgstr ""
 msgid ""
 "This value determines whether the default font for headers and footers is "
 "bold."
-msgstr "Ova vrednost govori da li je podebljani font podrazumevan za zaglavlja i podnožja."
+msgstr ""
+"Ova vrednost govori da li je podebljani font podrazumevan za zaglavlja i "
+"podnožja."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:45
 msgid ""
 "This value determines whether the default font for headers and footers is "
 "italic."
-msgstr "Ova vrednost govori da li je kurzivni font podrazumevan za zaglavlja i podnožja."
+msgstr ""
+"Ova vrednost govori da li je kurzivni font podrazumevan za zaglavlja i "
+"podnožja."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:46
 msgid ""
@@ -11863,7 +11867,7 @@ msgstr "Filtriraj podatke sa zadatim kriterijumom"
 
 #: src/GNOME_Gnumeric.xml.h:97
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:863
-#: src/dialogs/cell-format.glade.h:43 src/dialogs/dialog-preferences.c:1407
+#: src/dialogs/cell-format.glade.h:43 src/dialogs/dialog-preferences.c:1500
 #: src/workbook-format-toolbar.c:412
 msgid "Font"
 msgstr "Pismo"
@@ -13231,7 +13235,7 @@ msgstr "Postavljam širinu kolona %s na podrazumevanu vrednost"
 msgid "Setting height of rows %s to default"
 msgstr "Postavljam visinu vrsta %s na podrazumevanu vrednost"
 
-#: src/commands.c:2013 src/dialogs/dialog-preferences.c:1411
+#: src/commands.c:2013 src/dialogs/dialog-preferences.c:1504
 msgid "Sorting"
 msgstr "Pravljenje poretka"
 
@@ -16657,12 +16661,12 @@ msgstr "ID"
 msgid "Directory"
 msgstr "Direktorijum"
 
-#: src/dialogs/dialog-preferences.c:721
+#: src/dialogs/dialog-preferences.c:814
 msgid "The items on this page customize the behaviour of the undo/redo system."
 msgstr ""
 "Stavke na ovoj stranici prilagođavaju ponašanje „Opozovi“/„Ponovi“ sistema."
 
-#: src/dialogs/dialog-preferences.c:871
+#: src/dialogs/dialog-preferences.c:964
 msgid ""
 "The items on this page customize the inital settings of the sort dialog and "
 "the behaviour of the sort toolbar buttons."
@@ -16670,34 +16674,38 @@ msgstr ""
 "Stavke na ovoj stranici prilagođavaju početna podešavanja poredak prozorčeta "
 "i ponašanje dugmadi za poredak linije sa alatkama"
 
-#: src/dialogs/dialog-preferences.c:1018
+#: src/dialogs/dialog-preferences.c:1111
 msgid "The items on this page customize the new default workbook."
 msgstr "Stavke na ovoj stranici prilagođavaju novu podrazumevanu radnu svesku."
 
-#: src/dialogs/dialog-preferences.c:1234
+#: src/dialogs/dialog-preferences.c:1327
 msgid "The items on this page are related to the saving and opening of files."
 msgstr "Stavke na ovoj stranici su povezane sa čuvanjem i otvaranjem datoteka."
 
-#: src/dialogs/dialog-preferences.c:1408
+#: src/dialogs/dialog-preferences.c:1501
 msgid "Windows"
 msgstr "Prozori"
 
-#: src/dialogs/dialog-preferences.c:1409
+#: src/dialogs/dialog-preferences.c:1502
 msgid "Files"
 msgstr "Datoteke"
 
-#: src/dialogs/dialog-preferences.c:1410 src/workbook-control-gui.c:1571
+#: src/dialogs/dialog-preferences.c:1503 src/workbook-control-gui.c:1571
 #: src/workbook-control-gui.c:4007 src/workbook-control-gui.c:4235
 msgid "Undo"
 msgstr "Opozovi"
 
-#: src/dialogs/dialog-preferences.c:1412
+#: src/dialogs/dialog-preferences.c:1505
 msgid "Various"
 msgstr "Razno"
 
-#: src/dialogs/dialog-preferences.c:1413
+#: src/dialogs/dialog-preferences.c:1506
 msgid "Internal"
 msgstr "Unutrašnje"
+
+#: src/dialogs/dialog-preferences.c:1507
+msgid "Header/Footer"
+msgstr "Zaglavlje i podnožje"
 
 #: src/dialogs/dialog-printer-setup.c:860
 msgid "Customize header"
@@ -16982,7 +16990,7 @@ msgid ""
 "Changing cells contain at least one expression that is not just a value. "
 "Note that showing the scenario will overwrite the formula with it's current "
 "value."
-msgstr ""
+msgstr "Izmenjene ćelije sadrže bar jedan izraz koji nije jednostavna vrednost. Primetite da će prikaz scenarija presnimiti formulu tekućom vrednošću."
 
 #: src/dialogs/dialog-scenarios.c:210
 msgid "Could not create the Scenario Add dialog."
@@ -17056,13 +17064,13 @@ msgstr "Novi naziv"
 
 #: src/dialogs/dialog-sheet-order.c:661
 msgid "You may not delete all sheets in a workbook!"
-msgstr ""
+msgstr "Ne možete obrisati sve tabele u radnoj svesci!"
 
 #: src/dialogs/dialog-sheet-order.c:666
 msgid ""
 "To replace all exisiting sheets, please delete the current workbook and "
 "create a new one!"
-msgstr ""
+msgstr "Da zamenite sve postojeće tabele, obrišite tekuću radnu svesku i napravite novu!"
 
 #: src/dialogs/dialog-sheet-order.c:898
 msgid "The sheet order has changed. Do you want to update the list?"
@@ -17165,7 +17173,7 @@ msgstr "< Nedostupni >"
 msgid ""
 "Looking for a subject for your thesis? Maybe you would like to write a QP "
 "solver for Gnumeric?"
-msgstr ""
+msgstr "Tražite temu za vaše istraživanje? Možda treba da napišete QP rešavača za Gnumerika?"
 
 #: src/dialogs/dialog-solver.c:777
 msgid ""
@@ -17421,11 +17429,11 @@ msgstr ""
 
 #: src/dialogs/dialog-stf-fixed-page.c:68
 msgid "Delete and Merge _Left"
-msgstr ""
+msgstr "Obriši i spoji _levo"
 
 #: src/dialogs/dialog-stf-fixed-page.c:70
 msgid "Delete and Merge _Right"
-msgstr ""
+msgstr "Obriši i spoji _desno"
 
 #: src/dialogs/dialog-stf-fixed-page.c:73
 msgid "_Split"
@@ -17518,9 +17526,10 @@ msgstr "Pokušaj automatskog raspoznavanja kolona u tekstu."
 msgid "Ban_g (!)"
 msgstr "Uzvični_k (!)"
 
+# Zarezom razdvojene vrednosti
 #: src/dialogs/dialog-stf.glade.h:8
 msgid "CSV"
-msgstr ""
+msgstr "ZRV"
 
 #: src/dialogs/dialog-stf.glade.h:9
 msgid "C_ustom"
@@ -17870,7 +17879,7 @@ msgstr "U_klopi označeno %"
 
 #: src/dialogs/exp-smoothing.glade.h:2
 msgid "0.2"
-msgstr "0.2"
+msgstr "0,2"
 
 #: src/dialogs/exp-smoothing.glade.h:5 src/tools/analysis-tools.c:2689
 #: src/tools/analysis-tools.c:2692
@@ -17879,7 +17888,7 @@ msgstr "Eksponencijalno uglađivanje"
 
 #: src/dialogs/exp-smoothing.glade.h:12
 msgid "_Damping factor:"
-msgstr ""
+msgstr "Činilac _prigušenja:"
 
 #: src/dialogs/exp-smoothing.glade.h:20 src/dialogs/moving-averages.glade.h:20
 msgid "_Standard Errors"
@@ -18060,7 +18069,7 @@ msgstr "Izbor funkcija"
 
 #: src/dialogs/function-select.glade.h:5
 msgid "Select a function to insert:"
-msgstr ""
+msgstr "Izaberite funkciju za ubacivanje:"
 
 #: src/dialogs/goalseek.glade.h:1
 msgid "(Ma_ximum):"
@@ -18272,7 +18281,7 @@ msgstr "Jedna_ko"
 
 #: src/dialogs/mean-tests.glade.h:7
 msgid "Hypothesized Mean _Difference:"
-msgstr ""
+msgstr "Pretpostavljena srednja _razlika:"
 
 #: src/dialogs/mean-tests.glade.h:10
 msgid "Population Variances are:"
@@ -18545,7 +18554,7 @@ msgstr "Zaglavlja vrsta i kolona"
 
 #: src/dialogs/print.glade.h:19
 msgid "Save as Default Settings"
-msgstr ""
+msgstr "Sačuvaj kao podrazumevana podešavanja"
 
 #: src/dialogs/print.glade.h:20
 msgid "Scale"
@@ -18609,7 +18618,7 @@ msgstr "_Uspravno"
 
 #: src/dialogs/print.glade.h:36
 msgid "_page(s) wide by"
-msgstr ""
+msgstr "_strane širine"
 
 #: src/dialogs/print.glade.h:37
 msgid "_tall"
@@ -18666,7 +18675,7 @@ msgstr "Regresija"
 
 #: src/dialogs/regression.glade.h:14
 msgid "_Force Intercept To Be Zero"
-msgstr ""
+msgstr "_Prisili da presretanje bude nula"
 
 #: src/dialogs/row-height.glade.h:1
 msgid "Row Height"
@@ -19164,15 +19173,15 @@ msgstr "Osobine strelice/linije"
 
 #: src/dialogs/so-arrow.glade.h:6
 msgid "Distance from tip of arrowhead to the center point"
-msgstr ""
+msgstr "Rastojanje vrha strelice do središnje tačke"
 
 #: src/dialogs/so-arrow.glade.h:7
 msgid "Distance from tip of arrowhead to trailing point, measured along shaft"
-msgstr ""
+msgstr "Rastojanje vrha strelice do krajnje tačke, mereno duž kraka"
 
 #: src/dialogs/so-arrow.glade.h:8
 msgid "Distance of trailing point from outside edge of shaft"
-msgstr ""
+msgstr "Rastojanje vrha strelice do krajnje tačke, mereno od spoljne ivice kraka"
 
 #: src/dialogs/so-arrow.glade.h:9
 msgid "Line Width:"
@@ -20074,11 +20083,11 @@ msgstr "Mauricijus, rupje"
 
 #: src/formats.c:488
 msgid "Maldives (Maldive Islands), Rufiyaa"
-msgstr ""
+msgstr "Maldivi (Maldivska ostrva), Rufija"
 
 #: src/formats.c:489
 msgid "Malawi, Kwachas"
-msgstr ""
+msgstr "Malavi, Kvače"
 
 #: src/formats.c:490
 msgid "Mexico, Pesos"
@@ -20210,7 +20219,7 @@ msgstr "Somalija, šilinzi"
 
 #: src/formats.c:522
 msgid "Seborga, Luigini"
-msgstr ""
+msgstr "Seborga, Luiđini"
 
 #: src/formats.c:523
 msgid "Suriname, Guilders"
@@ -20310,7 +20319,7 @@ msgstr "Samoa, tale"
 
 #: src/formats.c:547
 msgid "Communaute Financiere Africaine BEAC, Francs"
-msgstr ""
+msgstr "Komunaute Finansijere Afrikane BEAC, Franks"
 
 #: src/formats.c:548
 msgid "Silver, Ounces"
@@ -20326,11 +20335,11 @@ msgstr "Istočnokaripski dolari"
 
 #: src/formats.c:551
 msgid "International Monetary Fund (IMF) Special Drawing Rights"
-msgstr ""
+msgstr "Naročita prava povlačenja Međunarodnog monetarnog fonda (MMF)"
 
 #: src/formats.c:552
 msgid "Communaute Financiere Africaine BCEAO, Francs"
-msgstr ""
+msgstr "Communaute Financiere Africaine BCEAO, Francs"
 
 #: src/formats.c:553
 msgid "Palladium, Ounces"
@@ -20338,7 +20347,7 @@ msgstr "Paladijum, unce"
 
 #: src/formats.c:554
 msgid "Comptoirs Francais du Pacifique Francs"
-msgstr ""
+msgstr "Comptoirs Francais du Pacifique Francs"
 
 #: src/formats.c:555
 msgid "Platinum, Ounces"
@@ -20797,7 +20806,7 @@ msgstr "Broj je van opsega"
 
 #: src/parser.y:1134
 msgid "Improperly formatted error token"
-msgstr ""
+msgstr "Neodgovarajuće oblikovan element greške"
 
 #: src/parser.y:1296
 msgid "Multiple expressions are not supported in this context"
@@ -20993,7 +21002,7 @@ msgstr ""
 #: src/plugin-util.c:127
 #, c-format
 msgid "Unable to unmap the file, error : %s"
-msgstr ""
+msgstr "Ne mogu da unmap()-ujem datoteku, greška: %s"
 
 #: src/plugin-util.c:136
 #, c-format
@@ -21003,7 +21012,7 @@ msgstr "Greška prilikom zatvaranja datoteke, greška : %s"
 #: src/plugin-util.c:190
 #, c-format
 msgid "Unable to mmap the file, error : %s"
-msgstr ""
+msgstr "Ne mogu da mmap()-ujem datoteku, greška: %s"
 
 #: src/plugin-util.c:229
 #, c-format
@@ -21758,7 +21767,7 @@ msgstr ""
 msgid ""
 "Probability of an observation's absolute value being larger than the t-"
 "value's"
-msgstr ""
+msgstr "Verovatnoća da uočena apsolutna vrednost bude veća od t-vrednosti"
 
 #: src/tools/analysis-tools.c:2403
 msgid ""
@@ -23814,7 +23823,7 @@ msgstr "Singapur/kineski (zh_SG)"
 msgid "Taiwan (zh_TW)"
 msgstr "Tajvan (zh_TW)"
 
-#: src/widgets/widget-locale-selector.c:440
+#: src/widgets/widget-locale-selector.c:452
 msgid "Current Locale: "
 msgstr "Tekući lokalitet: "
 
