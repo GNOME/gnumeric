@@ -1,5 +1,10 @@
 2002-10-30  Morten Welinder  <terra@diku.dk>
 
+	* src/cell-draw.c (cell_split_text): Fix isspace check and
+	eliminate ctype.h usage.
+	* src/print-cell.c (cell_split_text): Ditto.
+	* src/rendered-value.c (rendered_value_calc_size_ext): Ditto.
+
 	* src/gutils.c (gnm_mem_chunk_free): Debugging improvement.
 
 	* src/mathfunc.c (qgamma): New implementation.

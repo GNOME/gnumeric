@@ -41,7 +41,6 @@
 #include "str.h"
 
 #include <math.h>
-#include <ctype.h>
 
 #ifndef USE_RV_POOLS
 #define USE_RV_POOLS 1
@@ -265,8 +264,7 @@ rendered_value_calc_size_ext (Cell const *cell, MStyle *mstyle)
 				last_whitespace = p;
 				first_whitespace = p+1;
 				prev_was_space = TRUE;
-#warning utf8_isspace
-			} else if (isspace (*(unsigned char *)p)) {
+			} else if (g_unichar_isspace (g_utf8_get_char (p))) {
 				used_last_space = used;
 				last_whitespace = p;
 				if (!prev_was_space)

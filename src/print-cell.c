@@ -26,7 +26,6 @@
 #include "rendered-value.h"
 #include "str.h"
 
-#include <ctype.h>
 #include <string.h>
 #include <locale.h>
 
@@ -150,8 +149,7 @@ cell_split_text (GnomeFont *font, char const *text, int const width)
 			last_whitespace = p;
 			first_whitespace = p+1;
 			prev_was_space = TRUE;
-#warning utf8_isspace
-		} else if (isspace (*(unsigned char *)p)) {
+		} else if (g_unichar_isspace (g_utf8_get_char (p))) {
 			used_last_space = used;
 			last_whitespace = p;
 			if (!prev_was_space)
