@@ -983,7 +983,11 @@ ms_excel_get_xf (ExcelSheet *sheet, int const xfidx)
 	BiffXFData *xf;
 	GPtrArray const * const p = sheet->wb->XF_cell_records;
 
-	g_return_val_if_fail (p && 0 <= xfidx && xfidx < p->len, NULL);
+	g_return_val_if_fail (p != NULL, NULL);
+	if (0 > xfidx || xfidx >= p->len) {
+		g_warning ("XL : Xf index 0x%x is not in the range [0..0x%x)", xfidx, p->len);
+		return NULL;
+	}
 	xf = g_ptr_array_index (p, xfidx);
 
 	g_return_val_if_fail (xf, NULL);
@@ -2452,6 +2456,9 @@ get_row_height_units (guint16 height)
 static double
 get_units_net_of_margins (double units, const ColRowInfo * cri)
 {
+	/* Return an arbitary non 0 value on catastrophic failure */
+	g_return_val_if_fail (cri != NULL, 1.);
+
 	units -= (cri->margin_a_pt + cri->margin_b_pt);
 	if (units < 0)
 		units = 0;
@@ -2528,6 +2535,8 @@ ms_excel_read_colinfo (BiffQuery *q, ExcelSheet *sheet)
 			"%f characters\n", firstcol, lastcol, width/256.0);
 	}
 #endif
+	g_return_if_fail (firstcol < SHEET_MAX_COLS);
+
 	char_width = get_base_char_width (sheet);
 
 	if (width >> 8 == 0) {
