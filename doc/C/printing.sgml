@@ -177,7 +177,7 @@
    <title>Toolbar</title>
    <variablelist>
       <varlistentry>
-        <term
+        <term>
           <guiicon><inlinegraphic fileref="images/print-large.png"></inlinegraphic>
             Print
           </guiicon>
@@ -188,7 +188,7 @@
       </varlistentry>
 
        <varlistentry>
-        <term
+        <term>
           <guiicon><inlinegraphic fileref="images/print-preview-first.png"></inlinegraphic>
           First
           </guiicon>
@@ -199,7 +199,7 @@
       </varlistentry>
 
         <varlistentry>
-        <term
+        <term>
           <guiicon><inlinegraphic fileref="images/print-preview-back.png"></inlinegraphic>
           Back
           </guiicon>
@@ -210,7 +210,7 @@
       </varlistentry>
  
         <varlistentry>
-        <term
+        <term>
           <guiicon><inlinegraphic fileref="images/print-preview-next.png"></inlinegraphic>
           Next
           </guiicon>
@@ -221,7 +221,7 @@
       </varlistentry>
 
          <varlistentry>
-        <term
+        <term>
           <guiicon><inlinegraphic fileref="images/print-preview-last.png"></inlinegraphic>
           Last
           </guiicon>
@@ -232,7 +232,7 @@
       </varlistentry>
   
        <varlistentry>
-        <term
+        <term>
           <guiicon><inlinegraphic fileref="images/print-preview-zoomin.png"></inlinegraphic>
           Zoom in
           </guiicon>
@@ -243,7 +243,7 @@
       </varlistentry>
 
        <varlistentry>
-        <term
+        <term>
           <guiicon><inlinegraphic fileref="images/print-preview-zoomout.png"></inlinegraphic>
           Zoom out
           </guiicon>
@@ -254,7 +254,7 @@
       </varlistentry>
 
        <varlistentry>
-        <term
+        <term>
           <guiicon><inlinegraphic fileref="images/print-preview-fit.png"></inlinegraphic>
           Fit
           </guiicon>
@@ -265,7 +265,7 @@
       </varlistentry>
 
        <varlistentry>
-        <term
+        <term>
           <guiicon><inlinegraphic fileref="images/print-preview-fitwide.png"></inlinegraphic>
           Fit Wide
           </guiicon>
@@ -276,7 +276,7 @@
       </varlistentry>
 
        <varlistentry>
-        <term
+        <term>
           <guiicon><inlinegraphic fileref="images/print-preview-fittall.png"></inlinegraphic>
           Fit Tall
           </guiicon>
