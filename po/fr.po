@@ -498,7 +498,7 @@ msgstr ""
 #: src/dialogs/dialog-analysis-tools.c:85
 #: src/dialogs/dialog-analysis-tools.c:1627
 msgid "Moving Average"
-msgstr "Moyenne mobille"
+msgstr "Moyenne mobile"
 
 #: src/dialogs/dialog-analysis-tools.c:87
 #: src/dialogs/dialog-analysis-tools.c:1336
@@ -798,11 +798,11 @@ msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:1536
 msgid "Input Y Range:"
-msgstr "Intervalle d'entré Y :"
+msgstr "Intervalle d'entrée Y :"
 
 #: src/dialogs/dialog-analysis-tools.c:1539
 msgid "Input X Range:"
-msgstr "Intervalle d'entré X :"
+msgstr "Intervalle d'entrée X :"
 
 #: src/dialogs/dialog-analysis-tools.c:1541
 msgid "Confidence Level:"
@@ -844,7 +844,7 @@ msgstr "_);[Red]("
 
 #: src/dialogs/dialog-cell-format.c:1955
 msgid "Format Cells"
-msgstr "Formatter cellules"
+msgstr "Formater cellules"
 
 #: src/dialogs/dialog-cell-sort.c:133
 msgid "Ascending"
@@ -864,7 +864,7 @@ msgstr "Impossible d'ajouter plus que la longueur de la sélection."
 
 #: src/dialogs/dialog-cell-sort.c:456
 msgid "Maximum number of clauses has been reached."
-msgstr "Le nombre maximal de clauses a été atteinds."
+msgstr "Le nombre maximal de clauses a été atteind."
 
 #: src/dialogs/dialog-cell-sort.c:588 src/print.c:508 src/workbook.c:1501
 msgid "Selection must be a single range"
@@ -1820,7 +1820,7 @@ msgstr "Vertical"
 
 #: src/dialogs/cell-format.glade.h:73
 msgid "Inside"
-msgstr "Interieur"
+msgstr "Intérieur"
 
 #: src/dialogs/cell-format.glade.h:74
 #, fuzzy
@@ -1951,7 +1951,7 @@ msgstr "Fond"
 
 #: src/dialogs/cell-format.glade.h:110
 msgid "_Locked"
-msgstr "_Vérouillé"
+msgstr "_Verrouillé"
 
 #: src/dialogs/cell-format.glade.h:111
 msgid "_Hidden"
@@ -1960,7 +1960,7 @@ msgstr "Cac_hé"
 #: src/dialogs/cell-format.glade.h:112
 msgid "Locking cells or hiding formulas only affects protected worksheets."
 msgstr ""
-"Vérouiller des cellules ou cacher des formules affecte seulement les "
+"Verrouiller des cellules ou cacher des formules affecte seulement les "
 "feuilles de calcul protégées."
 
 #: src/dialogs/cell-format.glade.h:113
@@ -2347,7 +2347,7 @@ msgid ""
 "@SEEALSO=DATE"
 msgstr ""
 "@FUNCTION=EDATE\n"
-"@SYNTAX=EDATE(date_serialisée,mois)\n"
+"@SYNTAX=EDATE(date_sérialisée,mois)\n"
 "@DESCRIPTION=EDATE retourne la valeur sérialisée de la date, correspondant "
 "au nombre spécifié de mois avant ou après la date donnée.  @date est la date "
 "sérialisée initiale et @mois est le nombre de mois avant (nombre négatif) ou "
