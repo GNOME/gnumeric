@@ -1,3 +1,7 @@
+2003-09-07  Adrian Custer <acuster@gnome.org>
+
+	* xmldocs.make added a /share/ because gnueric-bonobo looks there.
+
 2003-08-21  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.20
