@@ -1,23 +1,53 @@
 <?xml version="1.0"?>
-<plugin id="Gnumeric_fnlogical">
+<plugin id="Gnumeric_fncomplex">
 	<information>
-		<_name>Logical Functions</_name>
-		<_description>Functions for manipulating truth values</_description>
+		<_name>Complex Functions</_name>
+		<_description>Functions for complex numbers</_description>
 	</information>
 	<loader type="g_module">
 		<attribute name="module_file" value="plugin.la"/>
 	</loader>
 	<services>
-		<service type="function_group" id="logical">
-			<_category>Logical</_category>
+		<service type="function_group" id="complex">
+			<_category>Complex</_category>
 			<functions>
-				<function name="and"/>
-				<function name="or"/>
-				<function name="xor"/>
-				<function name="not"/>
-				<function name="if"/>
-				<function name="true"/>
-				<function name="false"/>
+                                <function name="complex"/>
+                                <function name="imabs"/>
+                                <function name="imaginary"/>
+                                <function name="imargument"/>
+                                <function name="imconjugate"/>
+                                <function name="imcos"/>
+	                        <function name="imtan"/>
+                                <function name="imarcsin"/>
+                                <function name="imarccos"/>
+                                <function name="imarctan"/>
+                                <function name="imarcsec"/>
+                                <function name="imarccsc"/>
+                                <function name="imarccot"/>
+                                <function name="imarcsinh"/>
+                                <function name="imarccosh"/>
+                                <function name="imarctanh"/>
+                                <function name="imarcsech"/>
+                                <function name="imarccsch"/>
+                                <function name="imarccoth"/>
+                                <function name="imsinh"/>
+                                <function name="imcosh"/>
+                                <function name="imtanh"/>
+                                <function name="imsech"/>
+                                <function name="imcsch"/>
+                                <function name="imcoth"/>
+                                <function name="imdiv"/>
+                                <function name="imexp"/>
+                                <function name="imln"/>
+                                <function name="imlog10"/>
+                                <function name="imlog2"/>
+                                <function name="impower"/>
+                                <function name="improduct"/>
+                                <function name="imreal"/>
+                                <function name="imsin"/>
+                                <function name="imsqrt"/>
+                                <function name="imsub"/>
+                                <function name="imsum"/>
 			</functions>
 		</service>
 	</services>

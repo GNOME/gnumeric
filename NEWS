@@ -34,9 +34,17 @@ Jukka:
 	  some modifications and clean up):
 	  AMORDEGRC(), AMORLINC(), CUMIPMT(), CUMPRINC(), MDURATION(),
 	  ODDLPRICE(), ODDLYIELD(), and YIELDMAT().
-	  Renamed Gnumeric's DURATION() as G_DURATION() and implemented
-	  DURATION() like in XL.
-	  Fixed YIELD().
+	* Renamed Gnumeric's DURATION() as G_DURATION() and implemented
+	  DURATION() like in XL (using OpenOffice code).
+	* Fixed YIELD().
+	* Moved all complex number functions from fn-eng plug-in to a
+	  separate plug-in for complex numbers.
+	* New complex number functions (integrated from the GNU Scientific 
+	  Library with some minor modifications):
+	  IMARCSIN(), IMARCCOS(), IMARCTAN(), IMARCSEC(), IMARCCSC(),
+	  IMARCCOT(), IMSINH(), IMCOSH(), IMTANH(), IMSECH(), IMCSCH(),
+	  IMCOTH(), IMARCSINH(), IMARCCOSH(), IMARCTANH(), IMARCSECH(),
+	  IMARCCSCH(), and IMARCCOTH().
 
 Morten:
 	* Improve the Applix importer.
