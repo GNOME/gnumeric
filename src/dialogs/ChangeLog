@@ -1,3 +1,8 @@
+2002-03-12  Morten Welinder  <terra@diku.dk>
+
+	* dialog-search.c (dialog_search): Drop the dummy state.  Newest
+	gal no longer needs it.
+
 2002-03-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-search.c : hook-up help button

@@ -9,7 +9,6 @@
 
 2002-03-08  Jody Goldberg <jody@gnome.org>
 
-
 	* ms-excel-read.c (ms_excel_workbook_new) : store an iocontext.
 	  init the delayed name list for xl95.
 	(ms_excel_parse_NAME) : split out of.

@@ -418,13 +418,6 @@ dialog_search (WorkbookControlGUI *wbcg)
   <ETableColumn model_col=\"1\" _title=\"Cell\" minimum_width=\"40\" resizable=\"true\" cell=\"string\" compare=\"string\"/>\n\
   <ETableColumn model_col=\"2\" _title=\"Type\" minimum_width=\"70\" resizable=\"true\" cell=\"string\" compare=\"string\"/>\n\
   <ETableColumn model_col=\"3\" _title=\"Content\" minimum_width=\"300\" resizable=\"true\" cell=\"string\" compare=\"string\"/>\n\
-  <ETableState>\n\
-      <column source=\"0\"/>\n\
-      <column source=\"1\"/>\n\
-      <column source=\"2\"/>\n\
-      <column source=\"3\"/>\n\
-      <grouping></grouping>\n\
-  </ETableState>\n\
 </ETableSpecification>";
 
 	g_return_if_fail (wbcg != NULL);
