@@ -90,11 +90,15 @@ static void
 main_page_set_spin_button_adjustment (GtkSpinButton* spinbutton, int min, int max)
 {
 	GtkAdjustment *spinadjust;
+	int digits;
 
 	spinadjust = gtk_spin_button_get_adjustment (spinbutton);
 	spinadjust->lower = min;
 	spinadjust->upper = max;
 	gtk_spin_button_set_adjustment (spinbutton, spinadjust);
+
+	digits = (max >= 10000) ? 1 + (int)log10 (max + 0.5) : 4;
+	gtk_entry_set_width_chars (GTK_ENTRY (spinbutton), digits + 1);
 }
 
 /**

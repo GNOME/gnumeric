@@ -1,3 +1,8 @@
+2003-06-30  Morten Welinder  <terra@gnome.org>
+
+	* dialog-stf-main-page.c (main_page_set_spin_button_adjustment):
+	Auto-size spinbutton entries.
+
 2003-06-28  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* dialog-stf-format-page.c (cb_col_check_clicked): new

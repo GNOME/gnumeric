@@ -174,7 +174,7 @@ gog_pie_plot_class_init (GogPlotClass *plot_klass)
 
 	g_object_class_install_property (gobject_klass, PLOT_PROP_INITIAL_ANGLE,
 		g_param_spec_float ("initial_angle", "initial_angle",
-			"Degrees counterclockwise from 3oclock.",
+			"Degrees counter-clockwise from 3 O'Clock.",
 			0, G_MAXFLOAT, 0.,
 			G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_klass, PLOT_PROP_DEFAULT_SEPARATION,
@@ -549,7 +549,7 @@ gog_pie_series_class_init (GObjectClass *gobject_klass)
 	gobject_klass->get_property = gog_pie_series_get_property;
 	g_object_class_install_property (gobject_klass, SERIES_PROP_INITIAL_ANGLE,
 		g_param_spec_float ("initial_angle", "initial_angle",
-			"Degrees counterclockwise from 3oclock.",
+			"Degrees counter-clockwise from 3 O'Clock.",
 			0, G_MAXFLOAT, 0.,
 			G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_klass, SERIES_PROP_SEPARATION,
