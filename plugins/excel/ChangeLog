@@ -1,5 +1,7 @@
 2002-12-24  Jody Goldberg <jody@gnome.org>
 
+	* ms-excel-read.c (excel_read_NAME) : arrrggghh MS kills me.
+
 	* ms-formula-read.c (excel_parse_formula) : disabled a bit too much
 	  debug info and broke the code.
 

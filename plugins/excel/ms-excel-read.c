@@ -2805,8 +2805,20 @@ excel_read_NAME (BiffQuery *q, ExcelWorkbook *ewb)
 		/* #!%&@ The header is before the id byte, and the len does not
 		 * include the header */
 		if (builtin_name) {
-			name = g_strdup (excel_builtin_name (ptr+1));
-			name_len = 2;
+			/* those !#$^ dipsticks put suffixes on builtins */
+			char const *builtin = excel_builtin_name (ptr+1);
+			if (name_len > 1) {
+				/* NOTE : Assume no builtins with unicode suffixes */
+				char *tmp = biff_get_text (ptr+2, name_len-1, &name_len);
+				g_warning ("foo");
+				name = g_strconcat (builtin, tmp, NULL);
+				name_len += 2;
+				g_free (tmp);
+			} else {
+				name = g_strdup (builtin);
+				name_len = 2;
+			}
+
 		}
 	} else if (ewb->container.ver >= MS_BIFF_V7) {
 		/* opencalc docs claim 8 is the right one, XL docs say 6 == 8
