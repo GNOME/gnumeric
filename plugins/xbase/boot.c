@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /**
  * boot.c: XBase support for Gnumeric
  *
@@ -14,6 +15,10 @@
 #include <plugin-util.h>
 #include <module-plugin-defs.h>
 #include <sheet.h>
+#include <datetime.h>
+#include <ranges.h>
+#include <mstyle.h>
+#include <sheet-style.h>
 
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
@@ -22,7 +27,7 @@
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 void xbase_file_open (GnumFileOpener const *fo, IOContext *io_context,
-                      WorkbookView *wb_view, const char *filename);
+                      WorkbookView *wb_view, char const *filename);
 
 #if G_BYTE_ORDER == G_LITTLE_ENDIAN
 
@@ -39,7 +44,7 @@ void xbase_file_open (GnumFileOpener const *fo, IOContext *io_context,
 #endif
 
 static double
-xb_getdouble (const guint8 *p)
+xb_getdouble (guint8 const *p)
 {
     double d;
     int i;
@@ -68,11 +73,10 @@ xb_setdouble (guint8 *p, double d)
 #endif
 
 static Value *
-xbase_field_as_value (XBrecord *record, guint num)
+xbase_field_as_value (guint8 *content, XBfield *field)
 {
-	gint8 *s = g_strdup (record_get_field (record, num));
+	guint8 *s = g_strndup (content, field->len);
 	Value *val;
-	XBfield *field = record->file->format[num-1];
 
 	switch (field->type) {
 	case 'C':
@@ -101,10 +105,18 @@ xbase_field_as_value (XBrecord *record, guint num)
 				return value_new_string (str);
 			}
 		}
-	case 'D':
-		val = value_new_string (s);
+	case 'D': {
+		/* double check that the date is stored according to spec */
+		int year, month, day;
+		if (sscanf (s, "%4d%2d%2d", &year, &month, &day)) {
+			GDate *date = g_date_new_dmy (day, month, year);
+			val = value_new_int (datetime_g_to_serial (date));
+			g_date_free (date);
+		} else
+			val = value_new_string (s);
 		g_free (s);
 		return val;
+	}
 	case 'I':
 		val = value_new_int (GINT32_FROM_LE (*(gint32 *)s));
 		g_free (s);
@@ -133,17 +145,18 @@ xbase_field_as_value (XBrecord *record, guint num)
 
 void
 xbase_file_open (GnumFileOpener const *fo, IOContext *io_context,
-                 WorkbookView *wb_view, const char *filename)
+                 WorkbookView *wb_view, char const *filename)
 {
-	Workbook *wb = wb_view_workbook (wb_view);
-	XBfile *file;
-	XBrecord *rec;
-	guint row, field;
-	char *name;
-	Sheet *sheet = NULL;
-	Cell *cell;
-	Value *val;
+	Workbook  *wb;
+	XBfile	  *file;
+	XBrecord  *record;
+	char	  *name;
+	Sheet	  *sheet = NULL;
+	Cell	  *cell;
+	Value	  *val;
+	XBfield	  *field;
 	ErrorInfo *open_error;
+	guint row, i;
 
 	if ((file = xbase_open (filename, &open_error)) == NULL) {
 		gnumeric_io_error_info_set (io_context, error_info_new_str_with_details (
@@ -156,30 +169,38 @@ xbase_file_open (GnumFileOpener const *fo, IOContext *io_context,
 
 	*((gchar *) g_extension_pointer (name)) = '\0'; /* remove "dbf" */
 
-	rec = record_new (file);
+	wb = wb_view_workbook (wb_view);
 	sheet = sheet_new (wb, g_basename (name));
 	g_free (name);
 	workbook_sheet_attach (wb, sheet, NULL);
 
-	field = 0;
-	while (field < file->fields) {
-		cell = sheet_cell_fetch (sheet, field, 0);
-		cell_set_text (cell, file->format[field++]->name);
-		/* FIXME: apply StyleFont gnumeric-default_bold_font */
+	i = 0;
+	for (i = 0 ; i < file->fields ; i++) {
+		cell = sheet_cell_fetch (sheet, i, 0);
+		cell_set_text (cell, file->format [i]->name);
+	}
+	{
+		Range r;
+		MStyle *bold = mstyle_new ();
+		mstyle_set_font_bold (bold, TRUE);
+		sheet_style_apply_range	(sheet,
+			range_init (&r, 0, 0, file->fields-1, 0), bold);
 	}
 
+	record = record_new (file);
 	row = 1;
 	do {
-		field = 0;
-		while (field < file->fields) {
-			cell = sheet_cell_fetch (sheet, field, row);
-			val = xbase_field_as_value (rec, ++field);
-			cell_set_value (cell, val, NULL);
+		for (i = 0; i < file->fields ; i++) {
+			field = record->file->format [i];
+			val = xbase_field_as_value (
+				record_get_field (record, i), field);
+			cell = sheet_cell_fetch (sheet, i, row);
+			cell_set_value (cell, val, field->fmt);
 		}
 		row++;
-	} while (record_seek (rec, SEEK_CUR, 1));
+	} while (record_seek (record, SEEK_CUR, 1));
 
-	record_free (rec);
+	record_free (record);
 	xbase_close (file);
 
 	sheet_flag_recompute_spans (sheet);

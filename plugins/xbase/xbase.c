@@ -1,7 +1,9 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 #include <config.h>
 #include "xbase.h"
 
 #include <format.h>
+#include <formats.h>
 #include <gutils.h>
 #include <io-context.h>
 
@@ -9,13 +11,13 @@
 
 #define XBASE_DEBUG 0
 
-static const char *field_types = "CNLDMF?BGPYTI";
+static char const * const field_types = "CNLDMF?BGPYTI";
 
 #if XBASE_DEBUG > 0
-static const char *field_type_descriptions [] = { /* FIXME: fix array size from field_types*/
-  "Character", "Number", "Logical", "Date", "Memo", "Floating point",
-  "Character name variable", "Binary", "General", "Picture", "Currency",
-  "DateTime", "Integer"
+static char const * const field_type_descriptions [] = {
+	"Character", "Number", "Logical", "Date", "Memo", "Floating point",
+	"Character name variable", "Binary", "General", "Picture", "Currency",
+	"DateTime", "Integer"
 };
 #endif
 
@@ -81,11 +83,11 @@ record_free (XBrecord *record)
  * Points to binary data for num'th field in record's data.
  */
 guint8 *
-record_get_field (const XBrecord *record, guint num)
+record_get_field (XBrecord const *record, guint num)
 {
-	if (num > record->file->fields)
+	if (num >= record->file->fields)
 		return NULL;
-	return record->data + record->file->format[num-1]->pos;
+	return record->data + record->file->format [num]->pos;
 }
 
 static gboolean
@@ -96,7 +98,6 @@ xbase_read_header (XBfile *x)
 		g_warning ("Header short");
 		return TRUE;
 	}
-	fprintf (stderr, "Version:\t");
 	switch (hdr[0]) { /* FIXME: assuming dBASE III+, not IV */
 	case 0x02:
 		fprintf (stderr, "FoxBase\n");
@@ -160,18 +161,18 @@ xbase_read_header (XBfile *x)
 }
 
 static XBfield *
-xbase_read_field (XBfile *file)
+xbase_field_new (XBfile *file)
 {
-	XBfield *ans;
-	guint8 buf[33];
+	XBfield *field;
+	guint8   buf[33];
 	char *p;
-	if (fread(buf, sizeof(buf[0]), 2, file->f) != 2) { /* 1 byte out ? */
-		g_warning ("xbase_read_field: fread error");
+	if (fread (buf, sizeof (guint8), 2, file->f) != 2) { /* 1 byte out ? */
+		g_warning ("xbase_field_new: fread error");
 		return NULL;
 	} else if (buf[0] == 0x0D || buf[0] == 0) { /* field array terminator */
 		if (buf[1] == 0) { /* FIXME: crude test, not in spec */
 			if (fseek(file->f, 263, SEEK_CUR)) /* skip DBC */
-				g_warning ("xbase_read_field: fseek error");
+				g_warning ("xbase_field_new: fseek error");
 		}
 		file->offset = ftell (file->f);
 		return NULL;
@@ -184,31 +185,37 @@ xbase_read_field (XBfile *file)
 	fprintf (stderr, "Field:\t'%s'\n", buf);
 #endif
 
-	ans = g_new (XBfield, 1);
-	ans->len = buf[16];
+	field = g_new (XBfield, 1);
+	field->len = buf[16];
 
-	strncpy(ans->name, buf, 10);
-	ans->name[10] = '\0';
-	if ((p = strchr (field_types, ans->type = buf[11])) == NULL)
-		g_warning ("Unrecognised field type '%c'", ans->type);
+	strncpy(field->name, buf, 10);
+	field->name[10] = '\0';
+	if ((p = strchr (field_types, field->type = buf[11])) == NULL)
+		g_warning ("Unrecognised field type '%c'", field->type);
 #if XBASE_DEBUG > 0
 	else
-		fprintf (stderr, "Type:\t%c (%s)\n", ans->type,
+		fprintf (stderr, "Type:\t%c (%s)\n", field->type,
 			field_type_descriptions [p-field_types]);
 	fprintf (stderr, "Data address:\t0x%.8X\n", gnumeric_get_le_uint32 (buf + 12));
-	fprintf (stderr, "Length:\t%d\n", ans->len);
+	fprintf (stderr, "Length:\t%d\n", field->len);
 	fprintf (stderr, "Decimal count:\t%d\n", buf[17]);
 #endif
 	if (file->fields) {
 		XBfield *tmp = file->format[file->fields-1];
-		ans->pos = tmp->pos + tmp->len;
+		field->pos = tmp->pos + tmp->len;
 	} else
-		ans->pos = 0;
-	return ans; /* FIXME: use more of buf if needed ? */
+		field->pos = 0;
+
+	if (field->type == 'D')
+		field->fmt = style_format_new_XL (cell_formats [FMT_DATE][0], FALSE);
+	else
+		field->fmt = NULL;
+
+	return field; /* FIXME: use more of buf if needed ? */
 }
 
 XBfile *
-xbase_open (const char *filename, ErrorInfo **ret_error)
+xbase_open (char const *filename, ErrorInfo **ret_error)
 {
 	FILE *f;
 	XBfile *ans;
@@ -228,7 +235,7 @@ xbase_open (const char *filename, ErrorInfo **ret_error)
 				  * and handle errors */
 	ans->fields = 0;
 	ans->format = NULL;
-	while ((field = xbase_read_field (ans)) != NULL) {
+	while ((field = xbase_field_new (ans)) != NULL) {
 		ans->format = g_renew (XBfield *, ans->format, ans->fields + 1);
 		/* FIXME: allocate number of field formats from file size? */
 		ans->format[ans->fields++] = field;
@@ -241,10 +248,13 @@ xbase_close (XBfile *x)
 {
 	unsigned i;
 
-	fprintf (stderr, "Closing Xbase file\n");
 	fclose (x->f);
-	for (i = 0; i < x->fields; i++)
-		g_free (x->format[i]);
+	for (i = 0; i < x->fields; i++) {
+		XBfield *field = x->format[i];
+		if (field->fmt != NULL)
+			style_format_unref (field->fmt);
+		g_free (field);
+	}
 	g_free (x->format);
 	g_free (x);
 }

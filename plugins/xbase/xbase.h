@@ -10,6 +10,7 @@ typedef struct { /* field format */
 	guint8 type; /* type (single ASCII char) */
 	guint8 len; /* byte length */
 	guint  pos; /* position in record */
+	StyleFormat *fmt;
 } XBfield;
 
 typedef struct { /* database instance */

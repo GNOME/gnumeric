@@ -1,3 +1,15 @@
+2001-11-01  Jody Goldberg <jgoldberg@home.com>
+
+	* xbase.c (record_get_field) : fix bone headed indexing scheme.
+	(xbase_close) : release the fmt.
+	(xbase_field_new) : renamed to make sense and supply a style for dates.
+
+	* boot.c (xbase_field_as_value) : now that record_get_field is less
+	  bizzare use a sane indexing scheme here to.  Support dates.
+	  Use the field length so that strings don't magicly enclude the
+	  entire record.
+	(xbase_file_open) : use a nice sane indexing scheme here too.
+
 2001-10-29  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.74
