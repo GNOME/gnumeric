@@ -41,7 +41,7 @@ graph_compute_divisions (Graph *graph)
 	int i;
 	int len = 0;
 
-	/* Compute max lenght */
+	/* Compute max length */
 	for (i = 0; i < n; i++){
 		int l;
 
@@ -151,12 +151,12 @@ graph_compute_scatter_dimensions (Graph *graph)
 	
 	count = graph_vector_count (x_vector);
 	boundaries_set = FALSE;
-	for (xi = 0; xi < count; xi++){
+	for (xi = 0; xi < count; xi++) {
 		double val;
 		
 		val = graph_vector_get_double (x_vector, xi);
 
-		if (!boundaries_set){
+		if (!boundaries_set) {
 			boundaries_set = TRUE;
 			vmin = val;
 			vmax = val;
@@ -174,7 +174,7 @@ graph_compute_scatter_dimensions (Graph *graph)
 void
 graph_update_dimensions (Graph *graph)
 {
-	switch (graph->chart_type){
+	switch (graph->chart_type) {
 	case GNOME_Graph_CHART_TYPE_CLUSTERED:
 		graph_compute_dimensions (graph, 0);
 		break;

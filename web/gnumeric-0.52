@@ -1,0 +1,52 @@
+
+Version 0.52 of Gnumeric is out.
+
+* Notes
+
+    This version of Gnumeric requires Gnome Print 0.18 to compile
+
+* New in this version
+
+    GUI improvements
+
+        Tearoff combo boxes work (Jon)
+
+        Editor handles boundaries and spans correctly now (Jody)
+
+        Accelerators work on the History display (Jon)
+
+        Various dialogs reworked to use Glade and various dialogs GUIs
+        have been enhanced and retouched (Jon)
+
+        Various feedback changes that make the UI more pleasant (Jody)
+
+    Engine improvements
+
+        Made auto-format work for sheet-relative cellrefs, i.e.,
+        "=sum(a1:a10)" now takes a default format from the range (Morten).
+
+        Reworked the update mechanism in Gnumeric to have defered and
+        optimized updates (Jody).  
+
+    Printing
+
+        Made generated postscript files (print to file) contain enough
+        information to let ghostview go back and forth in them (Morten).
+
+        Made landscape previews readable (need new GnomePrint).
+
+   Bug fixing
+
+        Jody has been keeping the bug count low.  Pretty much every
+        issue has been solved.
+
+        Many memory leak fixes have been fixed by Morten.  
+
+        IMPT, PPMT arguments corrected (Morten)
+
+        RATE, IRR, XIRR can use supplied guesses now (Morten)
+
+        IRR has improved precision now (Morten)
+
+        Various STF bug fixes (Almer)
+

@@ -1,0 +1,9 @@
+
+   Gnumeric 0.51 has been released.  It fixes the built problem
+reported earlier, as well as fixing the print-preview crash problem
+reported earlier.
+
+   The major change is actually in just requiring the new versions of
+Gtk+ and Gnome Print, as they correct various bugs.    I encourage you
+to upgrade to Gnumeric 0.51 so you can upgrade to Gnome Print 0.16 and
+Gtk 1.2.7.   Yes, I think thats it.

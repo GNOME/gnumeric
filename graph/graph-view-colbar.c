@@ -411,7 +411,8 @@ graph_view_draw_area (ViewDrawCtx *ctx, int first, int last, int draw_flags)
 }
 
 void
-graph_view_colbar_draw (GraphView *graph_view, GdkDrawable *drawable, int x, int y, int width, int height)
+graph_view_colbar_draw (GraphView *graph_view, GdkDrawable *drawable,
+			int x, int y, int width, int height)
 {
 	ViewDrawCtx ctx;
 	int first, last, i, slots;

@@ -1,11 +1,15 @@
+2000-04-15  Michael Meeks  <michael@helixcode.com>
+
+	* src/Makefile.am (GNUMERIC_BASE_SOURCES): kill print-preview.[ch], it
+	has gone into gnome-print.
+
 2000-04-15  Karl EICHWALDER  <ke@suse.de>
 
 	* src/dialogs/dialog-cell-sort.c (order_box_new): Mark as translatable.
 
 2000-04-15  Morten Welinder  <terra@diku.dk>
 
-	* src/Makefile.am (GNUMERIC_BASE_SOURCES): Delete
- 	print-preview.[ch]
+	* src/Makefile.am (GNUMERIC_BASE_SOURCES): Delete print-preview.[ch]
 
 	* src/print.c: Kill many #includes.
 
