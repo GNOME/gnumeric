@@ -1,5 +1,22 @@
 1999-07-12  Jody Goldberg  <jgoldberg@home.com>
 
+	* ms-excel-read.[ch] : Remove XF_style_records.  All XF records are
+	  kept in one list.  The fixes the indexing problems we've been
+	  having with XF records. No more XF_MAGIC_OFFSET !!
+	(biff_name_data_get_name) : Pre-Biff5 seems to use 0 based names, post
+	  seems to be 1 base ??  Check this.
+
+	* ms-formula-read.c (excel_formula_build_dummy_handler) : New function.
+	(make_function) : split out from here and used for external and builtin
+	  functions.
+	(MATCH) : correct the number of arguments.
+	(ms_excel_parse_formula) : The size of the array is stored at the end
+	  too.  This fixes formulas with multiple arrays.
+	
+	* *.[ch] make the data streams const while reading.
+
+1999-07-12  Jody Goldberg  <jgoldberg@home.com>
+
 	* ms-excel-read.c (biff_name_data_get_name) : Off by one error in the
 	  range check.  Improve debug notification when something bad happens.
 	(ms_excel_get_xf) : Improve debug messages to help find the problem

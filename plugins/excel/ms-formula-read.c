@@ -129,7 +129,7 @@ FormulaFuncData formula_func_data[FORMULA_FUNC_DATA_LEN] =
 /* 61 */	{ "MIRR", 3 },
 /* 62 */	{ "IRR", -1 },	/* guess is optional */
 /* 63 */	{ "RAND", 0 },
-/* 64 */	{ "MATCH", -1 },/* match_type is optional */
+/* 64 */	{ "MATCH", 3 },/* match_type is optional */
 /* 65 */	{ "DATE", 3 },
 /* 66 */	{ "TIME", 3 },
 /* 67 */	{ "DAY", 1 },
@@ -140,7 +140,7 @@ FormulaFuncData formula_func_data[FORMULA_FUNC_DATA_LEN] =
 /* 72 */	{ "MINUTE", 1 },
 /* 73 */	{ "SECOND", 1 },
 /* 74 */	{ "NOW", 0 },
-/* 75 */	{ "AREAS", 1 },
+/* 75 */	{ "AREAS", -1 },
 /* 76 */	{ "ROWS", 1 },
 /* 77 */	{ "COLUMNS", 1 },
 /* 78 */	{ "OFFSET", -1 },
@@ -637,6 +637,35 @@ unknownFunctionHandler (FunctionEvalInfo *ei, GList *expr_node_list)
 	return function_error (ei, gnumeric_err_NAME);
 }
 
+static Symbol *
+excel_formula_build_dummy_handler(char const * const name,
+				  char const * const type)
+{
+	Symbol * symbol = symbol_lookup (global_symbol_table, name);
+	if (!symbol) {
+		FunctionCategory *cat =
+			function_get_category (_("Unknown Function"));
+		/*
+		 * TODO TODO TODO : should add a
+		 *    function_add_{nodes,args}_fake
+		 * This will allow a user to load a missing
+		 * plugin to supply missing functions.
+		 */
+		function_add_nodes (cat, g_strdup (name),
+				    "", "...", NULL,
+				    &unknownFunctionHandler);
+		symbol = symbol_lookup (global_symbol_table,
+					name);
+
+		/* We just added it, it better be there */
+		g_assert (symbol);
+
+		/* WISHLIST : it would be nice to have a log if these. */
+		g_warning ("EXCEL unknown %sfunction : %s", type, name);
+	}
+
+	return symbol;
+}
 static gboolean
 make_function (ParseList **stack, int fn_idx, int numargs)
 {
@@ -665,27 +694,9 @@ make_function (ParseList **stack, int fn_idx, int numargs)
 		f_name = tmp->u.constant->v.str->str;
 
 		name = symbol_lookup (global_symbol_table, f_name);
-		if (!name) {
-			FunctionCategory *cat =
-				function_get_category (_("Unknown Function"));
-			/*
-			 * TODO TODO TODO : should add a
-			 *    function_add_{nodes,args}_fake
-			 * This will allow a user to load a missing
-			 * plugin to supply missing functions.
-			 */
-			function_add_nodes (cat, g_strdup (f_name),
-					    "", "...", NULL,
-					    &unknownFunctionHandler);
-			name = symbol_lookup (global_symbol_table,
-					      f_name);
+		if (!name)
+			name = excel_formula_build_dummy_handler(f_name, "");
 
-			/* We just added it, it better be there */
-			g_assert (name);
-
-			/* WISHLIST : it would be nice to have a log if these. */
-			g_warning ("EXCEL unknown function : %s", f_name);
-		}
 		expr_tree_unref (tmp);
 		symbol_ref (name);
 		parse_list_push (stack, expr_tree_new_funcall (name, args));
@@ -713,7 +724,9 @@ make_function (ParseList **stack, int fn_idx, int numargs)
 
 		args = parse_list_last_n (stack, numargs);
 		if (fd->prefix)
-			name = symbol_lookup (global_symbol_table, fd->prefix);
+			name = excel_formula_build_dummy_handler(fd->prefix,
+								 "Builtin ");
+		/* This should not happen */
 		if (!name) {
 			char *txt;
 			txt = g_strdup_printf ("[Function '%s']", 
@@ -749,15 +762,18 @@ make_function (ParseList **stack, int fn_idx, int numargs)
  * Return a dynamicly allocated ExprTree containing the formula, or NULL
  **/
 ExprTree *
-ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 *mem,
+ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 			int fn_col, int fn_row, gboolean const shared,
 			guint16 length,
 			gboolean *const array_element)
 {
 	/* so that the offsets and lengths match the documentation */
-	guint8 *cur = mem + 1 ;
+	guint8 const *cur = mem + 1 ;
+
+	/* Array sizes and values are stored at the end of the stream */
+	guint8 const *array_data = mem + length;
+
 	int len_left = length ;
-	guint8 *array_data = mem + 3 + length; /* Sad but true */
 	ParseList *stack = NULL;
 	gboolean error = FALSE ;
 	
@@ -922,13 +938,13 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 *mem,
 		}
 		case FORMULA_PTG_ARRAY:
 		{
-			Value *v;
-			guint32 cols=BIFF_GET_GUINT8(cur+0)+1; /* NB. the spec. is wrong here, these */
-			guint32 rows=BIFF_GET_GUINT16(cur+1)+1; /*     are zero offset numbers */ 
+			/* NB. the spec. is wrong here, these are zero offset */ 
+			guint32 const cols=BIFF_GET_GUINT8(array_data)+1;
+			guint32 const rows=BIFF_GET_GUINT16(array_data+1)+1;
 			guint16 lpx,lpy;
-			
-			v = value_array_new (cols, rows);
+			Value *v = value_array_new (cols, rows);
 			ptg_length = 7;
+
 #ifndef NO_DEBUG_EXCEL
 			if (ms_excel_formula_debug > 1) {
 				printf ("An Array how interesting: (%d,%d)\n",
@@ -936,6 +952,7 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 *mem,
 				dump (mem, length);
 			}
 #endif
+			array_data += 3;
 			for (lpy=0;lpy<rows;lpy++) {
 				for (lpx=0;lpx<cols;lpx++) {
 					Value *set_val=0;
@@ -946,7 +963,8 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 *mem,
 					}
 #endif
 					if (opts == 1) {
-						set_val = value_new_float (BIFF_GETDOUBLE(array_data+1));
+						double const v = BIFF_GETDOUBLE(array_data+1);
+						set_val = value_new_float (v);
 						array_data+=9;
 					} else if (opts == 2) {
 						guint32 len;
@@ -974,7 +992,9 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 *mem,
 						} else
 							set_val = value_new_string ("");
 					} else {
-						printf ("FIXME: Duff array item type\n");
+						printf ("FIXME: Duff array item type %d @ %s%d\n",
+							opts, col_name(fn_col), fn_row+1);
+						dump (array_data+1, 8);
 						error = TRUE;
 						goto really_duff;
 						break;
@@ -1143,7 +1163,7 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 *mem,
 			} else if (grbit & 0x04) { /* AttrChoose 'optimised' my foot. */
 				guint16 len, lp;
 				guint32 offset=0;
-				guint8 *data=cur+3;
+				guint8 const *data=cur+3;
 				ExprTree *tr;
 
 #ifndef NO_DEBUG_EXCEL

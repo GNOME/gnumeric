@@ -84,7 +84,6 @@ typedef struct _ExcelWorkbook
 	GHashTable *boundsheet_data_by_stream;
 	GHashTable *boundsheet_data_by_index;
 	GPtrArray  *XF_cell_records;
-	GPtrArray  *XF_style_records;
 	GHashTable *font_data;
 	GHashTable *format_data; /* leave as a hash */
 	GPtrArray  *name_data;
@@ -109,9 +108,9 @@ typedef struct _ExcelWorkbook
 } ExcelWorkbook;
 
 extern Sheet* biff_get_externsheet_name (ExcelWorkbook *wb, guint16 idx, gboolean get_first);
-extern char* biff_get_text (guint8 *ptr, guint32 length, guint32 *byte_length);
+extern char* biff_get_text (guint8 const *ptr, guint32 length, guint32 *byte_length);
 extern const char* biff_get_error_text (const guint8 err);
-extern ExprTree* biff_name_data_get_name (ExcelSheet *sheet, guint16 idx);
+extern ExprTree* biff_name_data_get_name (ExcelSheet *sheet, int idx);
 
 extern BIFF_BOF_DATA * ms_biff_bof_data_new (BiffQuery * q);
 extern void ms_biff_bof_data_destroy (BIFF_BOF_DATA * data);

@@ -14,10 +14,6 @@
 
 #include "utils.h"	/* for cell_name */
 
-/* This many styles are reserved */
-/* FIXME FIXME FIXME : Is this version specific ?? Older biffs may need more */
-#define XF_MAGIC_OFFSET (16 + 4)
-
 /* #define NO_DEBUG_EXCEL */
 
 /* Used in src/main.c to toggle debug messages on & off */
@@ -81,7 +77,7 @@ biff_guint32_equal (const guint32 *a, const guint32 *b)
  * and sets various flags from it
  **/
 static gboolean
-biff_string_get_flags (guint8 *ptr,
+biff_string_get_flags (guint8 const *ptr,
 		       gboolean *word_chars,
 		       gboolean *extended,
 		       gboolean *rich)
@@ -113,11 +109,11 @@ biff_string_get_flags (guint8 *ptr,
  *  FIXME: see S59D47.HTM for full description
  **/
 char *
-biff_get_text (guint8 *pos, guint32 length, guint32 *byte_length)
+biff_get_text (guint8 const *pos, guint32 length, guint32 *byte_length)
 {
 	guint32 lp;
 	char *ans;
-	guint8 *ptr;
+	guint8 const *ptr;
 	guint32 byte_len;
 	gboolean header;
 	gboolean high_byte;
@@ -598,7 +594,7 @@ biff_name_data_new (ExcelWorkbook *wb, char *name,
 }
 
 ExprTree *
-biff_name_data_get_name (ExcelSheet *sheet, guint16 idx)
+biff_name_data_get_name (ExcelSheet *sheet, int idx)
 {
 	BiffNameData *bnd;
 	GPtrArray    *a;
@@ -608,7 +604,12 @@ biff_name_data_get_name (ExcelSheet *sheet, guint16 idx)
 
 	a = sheet->wb->name_data;
 
-	if (a && 0 < idx && idx <= a->len && (bnd = g_ptr_array_index (a, idx-1))) {
+	/* FIXME : This is a guess. Pre XL95 seems to be zero based, anyone
+	 * have some confirmation ? */
+	if (sheet->ver >= eBiffV5)
+		--idx;
+
+	if (a && 0 <= idx && idx < a->len && (bnd = g_ptr_array_index (a, idx))) {
 		if (bnd->type == BNDStore && bnd->v.store.data) {
 			char     *duff = "Some Error";
 			ExprTree *tree;
@@ -643,7 +644,7 @@ biff_name_data_get_name (ExcelSheet *sheet, guint16 idx)
 			return expr_tree_new_constant (value_new_string (bnd->name));
 	} else
 	{
-		g_warning ("EXCEL : %x (of %x) UNKNOWN name\n", idx-1, a->len);
+		g_warning ("EXCEL : %x (of %x) UNKNOWN name\n", idx, a->len);
 		return expr_tree_new_constant (value_new_string("Unknown name"));
 	}
 }
@@ -918,11 +919,10 @@ ms_excel_set_cell_font (ExcelSheet *sheet, Cell *cell, BiffXFData const *xf)
 }
 
 static BiffXFData const *
-ms_excel_get_xf (ExcelSheet *sheet, int const xfidx, Cell *cell)
+ms_excel_get_xf (ExcelSheet *sheet, int const xfidx)
 {
 	BiffXFData const *xf;
 	GPtrArray const * const p = sheet->wb->XF_cell_records;
-	int const idx = xfidx - XF_MAGIC_OFFSET;
 
 	/* Normal cell formatting */
 	if (xfidx == 0)
@@ -932,15 +932,8 @@ ms_excel_get_xf (ExcelSheet *sheet, int const xfidx, Cell *cell)
 	if (xfidx == 15)
     		return NULL;
 
-	/* FIXME : Put in some verbose debug until we figure this out */
-	if (p == NULL ||  0 > idx || idx >= p->len)
-	{
-	    printf ("%s : MISSING XF.  requested %d out of %d\n",
-		    cell_name(cell->col->pos, cell->row->pos),
-		    idx, p->len);
-	}
-	g_return_val_if_fail (p && 0 <= idx && idx < p->len, NULL);
-	xf = g_ptr_array_index (p, idx);
+	g_return_val_if_fail (p && 0 <= xfidx && xfidx < p->len, NULL);
+	xf = g_ptr_array_index (p, xfidx);
 
 	g_return_val_if_fail (xf, NULL);
 	g_return_val_if_fail (xf->xftype == eBiffXCell, NULL);
@@ -950,7 +943,7 @@ ms_excel_get_xf (ExcelSheet *sheet, int const xfidx, Cell *cell)
 static void
 ms_excel_set_cell_xf (ExcelSheet *sheet, Cell *cell, guint16 xfidx)
 {
-	BiffXFData const *xf = ms_excel_get_xf (sheet, xfidx, cell);
+	BiffXFData const *xf = ms_excel_get_xf (sheet, xfidx);
 	StyleColor *fore, *back, *basefore;
 	int back_index;
 
@@ -1282,13 +1275,7 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, eBiff_version ver)
 		xf->border_color[STYLE_RIGHT] = (subdata & 0x7f);
 	}
 
-	if (xf->xftype == eBiffXCell) {
-		/*printf ("Inserting into Cell XF hash with : %d\n", wb->XF_cell_records->len); */
-		g_ptr_array_add (wb->XF_cell_records, xf);
-	} else {
-		/* printf ("Inserting into style XF hash with : %d\n", wb->XF_style_records->len); */
-		g_ptr_array_add (wb->XF_style_records, xf);
-	}
+	g_ptr_array_add (wb->XF_cell_records, xf);
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug > 2) {
 		printf ("XF : Fore %d, Back %d\n",
@@ -1688,7 +1675,6 @@ ms_excel_workbook_new (eBiff_version ver)
 	ans->font_data        = g_hash_table_new ((GHashFunc)biff_guint16_hash,
 						  (GCompareFunc)biff_guint16_equal);
 	ans->excel_sheets     = g_ptr_array_new ();
-	ans->XF_style_records = g_ptr_array_new ();
 	ans->XF_cell_records  = g_ptr_array_new ();
 	ans->name_data        = g_ptr_array_new ();
 	ans->chart.series     = NULL; /* Init if/when its needed */
@@ -1750,10 +1736,6 @@ ms_excel_workbook_destroy (ExcelWorkbook *wb)
 				     wb);
 	g_hash_table_destroy (wb->boundsheet_data_by_index);
 	g_hash_table_destroy (wb->boundsheet_data_by_stream);
-	if (wb->XF_style_records)
-		for (lp=0;lp<wb->XF_style_records->len;lp++)
-			biff_xf_data_destroy (g_ptr_array_index (wb->XF_style_records, lp));
-	g_ptr_array_free (wb->XF_style_records, TRUE);
 	if (wb->XF_cell_records)
 		for (lp=0;lp<wb->XF_cell_records->len;lp++)
 			biff_xf_data_destroy (g_ptr_array_index (wb->XF_cell_records, lp));
@@ -1797,7 +1779,7 @@ ms_excel_workbook_destroy (ExcelWorkbook *wb)
  * Unpacks a MS Excel RK structure,
  **/
 static Value *
-biff_get_rk (guint8 *ptr)
+biff_get_rk (guint8 const *ptr)
 {
 	gint32 number;
 	enum eType {
@@ -1856,7 +1838,7 @@ ms_excel_read_name (BiffQuery *q, ExcelSheet *sheet)
 	guint8  help_txt_len   = BIFF_GET_GUINT8  (q->data + 12);
 	guint8  status_txt_len = BIFF_GET_GUINT8  (q->data + 13);
 	char *name, *menu_txt, *descr_txt, *help_txt, *status_txt;
-	guint8   *ptr;
+	guint8 const *ptr;
 
 /*	g_assert (ixals==sheet_idx); */
 	ptr = q->data + 14;
@@ -1985,7 +1967,7 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 			} else {
 				int row, col, lastcol;
 				int incr;
-				guint8 *ptr;
+				guint8 const *ptr;
 
 				/*
 				 * dump (ptr, q->length);
@@ -2067,7 +2049,7 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 		 *    calibrated against.
 		 * 2) the docs say charwidth not height.  Is this correct ?
 		 */
-		if ((xf = ms_excel_get_xf (sheet, cols_xf, NULL)) != NULL &&
+		if ((xf = ms_excel_get_xf (sheet, cols_xf)) != NULL &&
 		    (fd = ms_excel_get_font (sheet, xf->font_idx))) {
 			divisor = fd->height / 10;
 		} else
@@ -2102,7 +2084,7 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 	case BIFF_MULRK: /* S59DA8.HTM */
 	{
 		guint32 col, row, lastcol;
-		guint8 *ptr = q->data;
+		guint8 const *ptr = q->data;
 		Value *v;
 
 /*		printf ("MULRK\n");

@@ -13,7 +13,8 @@
 #include "ms-biff.h"
 
 ExprTree *
-ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 *mem,
+ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet,
+			guint8 const *mem,
 			int fn_col, int fn_row,
 			gboolean const shared, guint16 length,
 			gboolean *const array_element) ;
