@@ -141,7 +141,8 @@ typedef enum {
 	SPANCALC_SIMPLE 	= 0x0,	/* Just calc spans */
 	SPANCALC_RESIZE		= 0x1,	/* Calculate sizes of all cells */
 	SPANCALC_RE_RENDER	= 0x2,	/* Render and Size all cells */
-	SPANCALC_RENDER		= 0x4	/* Render and Size any unrendered cells */
+	SPANCALC_RENDER		= 0x4,	/* Render and Size any unrendered cells */
+	SPANCALC_ROW_HEIGHT	= 0x8	/* Resize the row height */
 } SpanCalcFlags;
 
 typedef enum {

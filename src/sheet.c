@@ -418,7 +418,7 @@ sheet_cell_calc_span (GnmCell *cell, SpanCalcFlags flags)
  * target @range and performs the necessary respanning and redrawing.
  *
  * It absorbs the style reference.
- */
+ **/
 void
 sheet_apply_style (Sheet       *sheet,
 		   GnmRange const *range,
@@ -429,7 +429,7 @@ sheet_apply_style (Sheet       *sheet,
 	sheet_style_apply_range (sheet, range, style);
 	sheet_range_calc_spans (sheet, range, spanflags);
 
-	if (spanflags != SPANCALC_SIMPLE)
+	if ((spanflags & SPANCALC_ROW_HEIGHT))
 		rows_height_update (sheet, range, TRUE);
 
 	sheet_redraw_range (sheet, range);
@@ -454,7 +454,7 @@ cb_clear_rendered_cells (gpointer ignored, GnmCell *cell)
  * @force : Force the zoom to change irrespective of its current value.
  *          Most callers will want to say FALSE.
  * @update : recalculate the spans too
- */
+ **/
 void
 sheet_set_zoom_factor (Sheet *sheet, double f, gboolean force, gboolean update)
 {
@@ -596,7 +596,7 @@ sheet_reposition_objects (Sheet const *sheet, GnmCellPos const *pos)
  *
  * Will cause the format toolbar, the edit area, and the auto expressions to be
  * updated if appropriate.
- */
+ **/
 void
 sheet_flag_status_update_cell (GnmCell const *cell)
 {
@@ -615,7 +615,7 @@ sheet_flag_status_update_cell (GnmCell const *cell)
  *
  * Will cause the format toolbar, the edit area, and the auto expressions to be
  * updated if appropriate.
- */
+ **/
 void
 sheet_flag_status_update_range (Sheet const *sheet, GnmRange const *range)
 {
@@ -629,7 +629,7 @@ sheet_flag_status_update_range (Sheet const *sheet, GnmRange const *range)
  * @range : the range that is changing.
  *
  * Flag format changes that will require updating the format indicators.
- */
+ **/
 void
 sheet_flag_format_update_range (Sheet const *sheet, GnmRange const *range)
 {
@@ -680,7 +680,7 @@ sheet_colrow_fit_gutter (Sheet const *sheet, gboolean is_cols)
  *
  * Should be called after a logical command has finished processing
  * to request redraws for any pending events
- */
+ **/
 void
 sheet_update_only_grid (Sheet const *sheet)
 {

@@ -551,14 +551,17 @@ style_shutdown (void)
  * What changes are required after applying the supplied style.
  */
 SpanCalcFlags
-required_updates_for_style (GnmStyle *style)
+required_updates_for_style (GnmStyle const *style)
 {
-	gboolean const size_change =
-	    (mstyle_is_element_set  (style, MSTYLE_FONT_NAME) ||
-	     mstyle_is_element_set  (style, MSTYLE_FONT_BOLD) ||
-	     mstyle_is_element_set  (style, MSTYLE_FONT_ITALIC) ||
+	SpanCalcFlags res = SPANCALC_SIMPLE;
+
+	gboolean const row_height =
 	     mstyle_is_element_set  (style, MSTYLE_FONT_SIZE) ||
-	     mstyle_is_element_set  (style, MSTYLE_WRAP_TEXT));
+	     mstyle_is_element_set  (style, MSTYLE_WRAP_TEXT);
+	gboolean const size_change = row_height ||
+	     mstyle_is_element_set  (style, MSTYLE_FONT_NAME) ||
+	     mstyle_is_element_set  (style, MSTYLE_FONT_BOLD) ||
+	     mstyle_is_element_set  (style, MSTYLE_FONT_ITALIC);
 	gboolean const format_change =
 	    (mstyle_is_element_set (style, MSTYLE_FORMAT) ||
 	     mstyle_is_element_set (style, MSTYLE_INDENT) ||
@@ -568,9 +571,11 @@ required_updates_for_style (GnmStyle *style)
 	     mstyle_is_element_set (style, MSTYLE_FONT_UNDERLINE) ||
 	     mstyle_is_element_set (style, MSTYLE_COLOR_FORE));
 
-	return (format_change|size_change)
-		? (SPANCALC_RE_RENDER|SPANCALC_RESIZE)
-		: SPANCALC_SIMPLE;
+	if (row_height)
+		res |= SPANCALC_ROW_HEIGHT;
+	if (format_change || size_change)
+		res |= SPANCALC_RE_RENDER | SPANCALC_RESIZE;
+	return res;
 }
 
 /**

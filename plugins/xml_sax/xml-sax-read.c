@@ -1350,15 +1350,17 @@ xml_sax_named_expr_prop (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
-xml_sax_orientation (GsfXMLIn *gsf_state, xmlChar const **attrs)
+xml_sax_orientation (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 	char const *content = state->base.content->str;
 
-	g_return_if_fail(state->sheet->print_info != NULL);
-	if (!strcmp(content, "portrait")) {
+	g_return_if_fail (state->sheet != NULL);
+	g_return_if_fail (state->sheet->print_info != NULL);
+
+	if (!strcmp (content, "portrait")) {
 		print_info_set_orientation (state->sheet->print_info, PRINT_ORIENT_VERTICAL);
-	} else if (!strcmp(content, "landscape")) {
+	} else if (!strcmp (content, "landscape")) {
 		print_info_set_orientation (state->sheet->print_info, PRINT_ORIENT_HORIZONTAL);
 	} else {
 		g_warning ("Invalid content for orientation");
@@ -1366,12 +1368,13 @@ xml_sax_orientation (GsfXMLIn *gsf_state, xmlChar const **attrs)
 }
 
 static void
-xml_sax_paper (GsfXMLIn *gsf_state, xmlChar const **attrs)
+xml_sax_paper (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 	char const *content = state->base.content->str;
 
-	g_return_if_fail(state->sheet->print_info != NULL);
+	g_return_if_fail (state->sheet != NULL);
+	g_return_if_fail (state->sheet->print_info != NULL);
 
 	print_info_set_paper (state->sheet->print_info, content);
 }
@@ -1397,6 +1400,7 @@ static GsfXMLInNS content_ns[] = {
 static GsfXMLInNode gnumeric_1_0_dtd[] = {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, FALSE, FALSE, TRUE, NULL, NULL, 0),
 GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", FALSE, TRUE, FALSE, &xml_sax_wb, NULL, 0),
+  GSF_XML_IN_NODE (WB, WB_VERSION, GNM, "Version", FALSE, NULL, NULL),
   GSF_XML_IN_NODE (WB, WB_ATTRIBUTES, GNM, "Attributes", FALSE, NULL, NULL),
     GSF_XML_IN_NODE (WB_ATTRIBUTES, WB_ATTRIBUTE, GNM, "Attribute", FALSE, NULL, &xml_sax_finish_parse_wb_attr),
       GSF_XML_IN_NODE_FULL (WB_ATTRIBUTE, WB_ATTRIBUTE_NAME, GNM, "name",   TRUE, FALSE, FALSE, NULL, &xml_sax_attr_elem, 0),
@@ -1452,8 +1456,8 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", FALSE, TRUE, FALSE, &xml_sax_w
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_HEADER,	    GNM, "Footer",	FALSE, NULL, NULL),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_FOOTER,	    GNM, "Header",	FALSE, NULL, NULL),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_ORDER,	    GNM, "order",	TRUE,  NULL, NULL),
-	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_PAPER,	    GNM, "paper",	TRUE,  &xml_sax_paper, NULL),
-	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_ORIENT,	    GNM, "orientation",	TRUE,  &xml_sax_orientation, NULL),
+	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_PAPER,	    GNM, "paper",	TRUE,  NULL, &xml_sax_paper),
+	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_ORIENT,	    GNM, "orientation",	TRUE,  NULL, &xml_sax_orientation),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_ONLY_STYLE, GNM, "even_if_only_styles", TRUE, NULL, NULL),
 
       GSF_XML_IN_NODE (SHEET, SHEET_STYLES, GNM, "Styles", FALSE, NULL, NULL),

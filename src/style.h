@@ -72,7 +72,7 @@ void style_font_unref        (GnmFont *sf);
 guint          style_font_hash_func (gconstpointer v);
 gint           style_font_equal (gconstpointer v, gconstpointer v2);
 
-SpanCalcFlags	 required_updates_for_style (GnmStyle *style);
+SpanCalcFlags	 required_updates_for_style (GnmStyle const *style);
 StyleHAlignFlags style_default_halign (GnmStyle const *mstyle, GnmCell const *c);
 
 extern double gnumeric_default_font_width;

@@ -216,7 +216,7 @@ if test "x${gnumeric_with_gnome}" = "xtrue"; then
 	dnl Special GConf section  (stolen from libgnome)
 	dnl ==============================================
 
-	AC_ARG_VAR(GCONFTOOL, [The gconftool-2 executable; comes with GConf.])
+	AC_ARG_VAR(GCONFTOOL, [Absolute path of the gconftool-2 executable (part of GConf).])
 	AC_PATH_PROG(GCONFTOOL, gconftool-2)
 	if test x"$GCONFTOOL" = x; then
 		AC_MSG_ERROR([gconftool-2 executable not found in your path - should be installed with GConf])
@@ -245,9 +245,9 @@ dnl ****************************
 dnl prep the pixmap generator
 dnl ****************************
 
-AC_ARG_VAR(GLIB_GENMARSHAL, [The glib-genmarshal executable.])
+AC_ARG_VAR(GLIB_GENMARSHAL, [Absolute path of the glib-genmarshal executable.])
 AC_PATH_PROG(GLIB_GENMARSHAL, glib-genmarshal)
-AC_ARG_VAR(GDK_PIXBUF_CSOURCE, [The gdk-pixbuf-csource executable.])
+AC_ARG_VAR(GDK_PIXBUF_CSOURCE, [Absolute path of the gdk-pixbuf-csource executable.])
 AC_PATH_PROG(GDK_PIXBUF_CSOURCE, gdk-pixbuf-csource)
 
 ## this should come after `AC_PROG_CC'
@@ -705,7 +705,7 @@ dnl **************************************************
 dnl * Check for Perl
 dnl **************************************************
 dnl
-perl_msg=yes
+perl_msg=no
 AC_ARG_WITH(perl, [--{with,without}-perl   Compile the Perl plugin loader])
 AC_ARG_VAR(PERL, [The Perl executable.])
 if test "x$with_perl" != xno; then
@@ -724,7 +724,7 @@ if test "x$with_perl" != xno; then
 	perl_msg="could not find perl"
     fi
 else
-    perl_msg="Disabled by request"
+    perl_msg="Disabled by default"
 fi
 
 AM_CONDITIONAL(WITH_PERL, test "x$perl_msg" = xyes)

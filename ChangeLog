@@ -1,3 +1,22 @@
+2004-11-10  Jody Goldberg <jody@gnome.org>
+
+	* src/style.c (required_updates_for_style) : for font size, and wrap
+	  changes add a flag to resize row heights.
+	* src/sheet.c (sheet_apply_style) : use the new SPANCALC_ROW_HEIGHT to
+	  decide when to autosize the rows. (debian #228105)
+
+2004-11-10  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : leave the old perl plugin disabled by default
+	  distros can enable it if desired using --with-perl.
+	  There are just too many build issues with it right now.
+
+2004-11-09  Stepan Kasal  <kasal@ucw.cz>
+
+	* configure.in (GCONFTOOL, GLIB_GENMARSHAL, GDK_PIXBUF_CSOURCE):
+	  Clarify descriptions of these variables to say that the absolute
+	  path is required.
+
 2004-11-09  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	for Harald Ashburner <hal.ashburner@gmail.com>:
