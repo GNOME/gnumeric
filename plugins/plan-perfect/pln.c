@@ -19,6 +19,7 @@
 #include <math.h>
 #include <gnome.h>
 #include "plugin.h"
+#include "numbers.h"
 #include "plugin-util.h"
 #include "module-plugin-defs.h"
 #include "error-info.h"
@@ -161,25 +162,22 @@ static const char* formula2[] =
 	"CHOOSE"
 };
 
-static double
-pln_get_number(const char* ch)
+static gnum_float
+pln_get_number (const char* ch)
 {
 	int exp;
-	double dvalue;
+	gnum_float dvalue, scale = 256.0;
 	int i;
 
 	dvalue = 0.0;
-	exp = PLN_BYTE(ch);
-	for (i = 1; i <= 7; i++)
-	{
-		dvalue = dvalue + 1.0 *
-			PLN_BYTE(ch + i) / pow(256, i);
+	exp = PLN_BYTE (ch);
+	for (i = 1; i <= 7; i++) {
+		dvalue += PLN_BYTE (ch + i) / scale;
+		scale *= 256;
 	}
-	dvalue = dvalue * pow(16.0, ((exp & 127) - 64));
 	if (exp & 128)
-	{
 		dvalue = -dvalue;
-	}
+	dvalue = ldexpgnum (dvalue, ((exp & 127) - 64) * 4);
 
 	return dvalue;
 }
@@ -719,7 +717,7 @@ pln_parse_sheet (FileSource_t *src, ErrorInfo **ret_error)
 	int crow, ccol, ctype, cformat, chelp, clength, cattr, cwidth;
 	int cextra;
 	Cell *cell = NULL;
-	double dvalue;
+	gnum_float dvalue;
 	char* svalue;
 	int lastrow = SHEET_MAX_ROWS;
 	int lastcol = SHEET_MAX_COLS;

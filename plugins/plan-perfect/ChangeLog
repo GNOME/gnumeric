@@ -1,3 +1,8 @@
+2002-02-26  Morten Welinder  <terra@diku.dk>
+
+	* pln.c (pln_get_number): Increase precision and speed.  Too bad I
+	cannot test this.
+
 2002-02-18  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.0
