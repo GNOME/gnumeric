@@ -10,13 +10,18 @@ Release Critical
 
     - Add an idle handler at start up to check for availablity of
       evo and guppi.  They should only be enabled if they are available.
+    - non-bonobo frozen menu accelerator
+    - bonobo toolbar undo/redo sensitivity after edit
     - Almer's reported autoscroll bound bug.
 
 Pending Patches
 ---------------
 
+
 Long term breakage
 ------------------
+
+- gnumeric_error_invalid change call sequence to use printf argument style.
 
 - Clean out the wasteful searching in every xml util.
 
