@@ -31,7 +31,7 @@
 # custom -> selvvalgt, brugerdefineret (afhængig af sammenhæng)
 # paste special -> avanceret indsætning
 # df (degree freedom) -> fg (frihedsgrader)
-# formulae/formulas -> formler (ikke "formularer", altsaa "blanketter")
+# formulae/formulas -> formler (ikke "formularer", altså "blanketter")
 #
 # Formater og formatér er med ét 't'. Eksemplerne under tekstrutinerne
 # er danskificerede. Den mærkelige mani med at sætte et mellemrum foran
@@ -48,8 +48,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.71\n"
-"POT-Creation-Date: 2001-12-26 00:56-0500\n"
-"PO-Revision-Date: 2001-12-15 11:04+0100\n"
+"POT-Creation-Date: 2001-12-27 16:14+0100\n"
+"PO-Revision-Date: 2001-12-27 16:37+0100\n"
 "Last-Translator: Ole Laursen <olau@hardworking.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -369,9 +369,8 @@ msgid "HTML & TeX"
 msgstr "HTML og TeX"
 
 #: plugins/html/plugin.xml.in.h:3
-#, fuzzy
 msgid "HTML (*.html) fragment"
-msgstr "HTML 4.0 (*.html)"
+msgstr "HTML-fragment (*.html)"
 
 #: plugins/html/plugin.xml.in.h:4
 msgid "HTML 3.2 (*.html)"
@@ -2081,11 +2080,9 @@ msgstr "_Målsøgning..."
 msgid "_Goto cell..."
 msgstr "_Gå til celle..."
 
-# udsagnsord
 #: src/GNOME_Gnumeric.xml.h:244
-#, fuzzy
 msgid "_Graph"
-msgstr "_Gruppér"
+msgstr "_Graf"
 
 # udsagnsord
 #: src/GNOME_Gnumeric.xml.h:245
@@ -3905,28 +3902,28 @@ msgid "val != bound                  (not equal to)"
 msgstr "værdi != grænse           (forskellig fra)"
 
 #: src/dialogs/cell-format.glade.h:130
-msgid "val <  bound                  (less than)"
-msgstr "værdi < grænse            (mindre end)"
-
-#: src/dialogs/cell-format.glade.h:131
-msgid "val <= min || max <= val (not between)"
-msgstr "værdi <= min || maks <= værdi (ikke mellem)"
-
-#: src/dialogs/cell-format.glade.h:132
-msgid "val <=bound                  (less than or equal to)"
-msgstr "værdi <= grænse           (mindre end eller lig med)"
-
-#: src/dialogs/cell-format.glade.h:133
-msgid "val == bound                 (equal to)"
-msgstr "værdi == grænse           (lig med)"
-
-#: src/dialogs/cell-format.glade.h:134
 msgid "val >  bound                  (greater than)"
 msgstr "værdi > grænse            (større end)"
 
-#: src/dialogs/cell-format.glade.h:135
+#: src/dialogs/cell-format.glade.h:131
 msgid "val >=bound                  (greater than or equal to)"
 msgstr "værdi >= grænse           (større end eller lig med)"
+
+#: src/dialogs/cell-format.glade.h:132
+msgid "val <  bound                  (less than)"
+msgstr "værdi < grænse            (mindre end)"
+
+#: src/dialogs/cell-format.glade.h:133
+msgid "val <= min || max <= val (not between)"
+msgstr "værdi <= min || maks <= værdi (ikke mellem)"
+
+#: src/dialogs/cell-format.glade.h:134
+msgid "val <=bound                  (less than or equal to)"
+msgstr "værdi <= grænse           (mindre end eller lig med)"
+
+#: src/dialogs/cell-format.glade.h:135
+msgid "val == bound                 (equal to)"
+msgstr "værdi == grænse           (lig med)"
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "A header"
@@ -5198,15 +5195,15 @@ msgstr "Du skal vælge nogle celletyper at søge efter"
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Er du sikker på at du ønsker af fjerne arket '%s'?"
 
-#: src/dialogs/dialog-solver.c:65 src/dialogs/solver.glade.h:1
+#: src/dialogs/dialog-solver.c:65 src/dialogs/solver.glade.h:2
 msgid "<="
 msgstr "<="
 
-#: src/dialogs/dialog-solver.c:66 src/dialogs/solver.glade.h:3
+#: src/dialogs/dialog-solver.c:66 src/dialogs/solver.glade.h:1
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:2
+#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:3
 msgid "="
 msgstr "="
 
@@ -5249,21 +5246,21 @@ msgstr "Du skal vælge mindst ét ark til eksportering"
 msgid "Are you sure you want to cancel?"
 msgstr "Er du sikker på at du ønsker at annullere?"
 
-#: src/dialogs/dialog-stf-export.glade.h:1 src/dialogs/dialog-stf.glade.h:1
-msgid "\""
-msgstr "\""
-
-#: src/dialogs/dialog-stf-export.glade.h:2 src/dialogs/dialog-stf.glade.h:2
-msgid "'"
-msgstr "'"
-
-#: src/dialogs/dialog-stf-export.glade.h:3
+#: src/dialogs/dialog-stf-export.glade.h:1
 msgid "<- Remove"
 msgstr "<- Fjern"
 
-#: src/dialogs/dialog-stf-export.glade.h:4
+#: src/dialogs/dialog-stf-export.glade.h:2
 msgid "<- Remove all"
 msgstr "<- Fjern alle"
+
+#: src/dialogs/dialog-stf-export.glade.h:3 src/dialogs/dialog-stf.glade.h:1
+msgid "\""
+msgstr "\""
+
+#: src/dialogs/dialog-stf-export.glade.h:4 src/dialogs/dialog-stf.glade.h:2
+msgid "'"
+msgstr "'"
 
 #: src/dialogs/dialog-stf-export.glade.h:5
 msgid "Add ->"
@@ -8707,7 +8704,6 @@ msgstr ""
 "@SEEALSO="
 
 #: src/functions/fn-date.c:27
-#, fuzzy
 msgid ""
 "@FUNCTION=DATE\n"
 "@SYNTAX=DATE (year,month,day)\n"
@@ -8729,20 +8725,20 @@ msgid ""
 msgstr ""
 "@FUNCTION=DATE\n"
 "SYNTAX=DATE(år,måned,dag)\n"
-"@DESCRIPTION=DATE beregner antallet af dage siden 1. januar 1900 "
-"(datoserienummeret) for opgivet år, måned og dag.\n"
-"@dag kan være negativ (for at tælle bagud) og den er relativ til forudgående "
-"@måned. @år bør være mindst 1900. Hvis @år <= 30, antages det at være 2000 + "
-"@år. Hvis 30 < @år < 100, antages det at være 1900 + @år. \n"
-"Hvis den givne dato ikke er gyldig, returnerer DATE en #VÆRDI!-fejl. Denne "
-"funktion er Excel-kompatibel. \n"
+"@DESCRIPTION=DATE beregner antallet af dage siden 1. januar 1900 (datoserienummeret) for opgivet år, måned og dag.\n"
+"\n"
+"Hvis @måned < 1 eller @måned > 12, vil året blive rettet. En lignende rettelse foregår ved dage.\n"
+"\n"
+"@år bør være mindst 1900. Hvis @år < 1900, antages det at være 1900 + @år\n"
+"\n"
+"Hvis den givne dato ikke er gyldig, returnerer DATE en #TAL!-fejl.\n"
+"Denne funktion er Excel-kompatibel. \n"
 "@EXAMPLES=\n"
 "DATE(2001, 3, 30) returnerer 'Mar 30, 2001'.\n"
 " \n"
 "@SEEALSO=TODAY, NOW"
 
 #: src/functions/fn-date.c:97
-#, fuzzy
 msgid ""
 "@FUNCTION=DATEVALUE\n"
 "@SYNTAX=DATEVALUE(date_str)\n"
@@ -8755,8 +8751,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=DATEVALUE\n"
 "@SYNTAX=DATEVALUE(datotekst)\n"
-"@DESCRIPTION=DATEVALUE returnerer datoens serienummer. @datotekst er "
-"strengen som indeholder datoen. Denne funktion er Excel-kompatibel. \n"
+"@DESCRIPTION=DATEVALUE returnerer datoens serienummer. @datotekst er strengen som indeholder datoen.\n"
+"Denne funktion er Excel-kompatibel. \n"
 "@EXAMPLES=\n"
 "DATEVALUE(\"1/1/1999\") er lig med 36160.\n"
 "@SEEALSO=DATE"
@@ -10740,7 +10736,6 @@ msgstr ""
 "@SEEALSO="
 
 #: src/functions/fn-financial.c:1414
-#, fuzzy
 msgid ""
 "@FUNCTION=EFFECT\n"
 "@SYNTAX=EFFECT(r,nper)\n"
@@ -10766,22 +10761,17 @@ msgid ""
 msgstr ""
 "@FUNCTION=EFFECT\n"
 "@SYNTAX=EFFECT(r,nper)\n"
-"@DESCRIPTION=EFFECT beregner den effektive rente fra en given nominel "
-"rente.\n"
+"@DESCRIPTION=EFFECT beregner den effektive rente fra en given nominel rente.\n"
 "Den effektive rente beregnes ved hjælp af denne formel:\n"
 "\n"
-"         @r( 1 + ------ ) ^ @nper - 1       @nper\n"
+"         (1 + @r / @nper) ^ @nper - 1\n"
 "hvor:\n"
 "\n"
 "@r = nominel rente (opgivet på årlig basis)\n"
 "@nper = antal opgørelsesperioder\n"
 "@EXAMPLES=\n"
-"Eksempelvis vil kreditkort opgive en årlig rente som er en nominel rente. Så "
-"hvis du ønsker at finde ud af hvor meget du faktisk betaler i rente på et "
-"kreditkort med en opgivet årlig rente på 19 % som opgøres månedligt, skal du "
-"indtaste:\n"
-"=EFFECT(.19,12) og du vil få .2075 eller 20,75 %. Dette er den effektive "
-"procentsats som du betaler på dit lån.\n"
+"Eksempelvis vil kreditkort opgive en årlig rente som er en nominel rente. Så hvis du ønsker at finde ud af hvor meget du faktisk betaler i rente på et kreditkort med en opgivet årlig rente på 19 % som opgøres månedligt, skal du indtaste:\n"
+"=EFFECT(.19,12) og du vil få .2075 eller 20,75 %. Dette er den effektive procentsats som du betaler på dit lån.\n"
 "\n"
 "@SEEALSO=NOMINAL"
 
@@ -17985,9 +17975,8 @@ msgid "Unable to open file '%s'"
 msgstr "kan ikke åbne filen '%s'"
 
 #: src/gui-validation.c:45
-#, fuzzy
 msgid "The value you entered :\n"
-msgstr "Værdien du indtaster:\n"
+msgstr "Den indtastede værdi:\n"
 
 #: src/gui-validation.c:78
 #, c-format
@@ -18065,9 +18054,8 @@ msgid "Can be blank\n"
 msgstr "Kan være blankt\n"
 
 #: src/gui-validation.c:146
-#, fuzzy
 msgid "Re-Edit"
-msgstr "R_edigér"
+msgstr "Ret igen"
 
 #: src/gui-validation.c:146 src/gui-validation.c:151
 msgid "Discard"
@@ -19158,27 +19146,24 @@ msgid "Remove borders"
 msgstr "Fjern kanter"
 
 #: src/workbook-cmd-format.c:132
-#, fuzzy, c-format
+#, c-format
 msgid "You entered an invalid column width value.  It must be bigger than %d"
-msgstr ""
-"Du indtastede en ugyldig værdi for kolonnebredden - den skal være større end "
-"0."
+msgstr "Du indtastede en ugyldig værdi for kolonnebredden - den skal være større end %d."
 
 #: src/workbook-cmd-format.c:195
-#, fuzzy, c-format
+#, c-format
 msgid "You entered an invalid row height value.  It must be bigger than %d"
-msgstr ""
-"Du indtastede en ugyldig værdi for rækkehøjden - den skal være større end 0."
+msgstr "Du indtastede en ugyldig værdi for rækkehøjden - den skal være større end %d."
 
 #: src/workbook-cmd-format.c:246
-#, fuzzy, c-format
+#, c-format
 msgid "The default column width must be > %d."
-msgstr "Ændr standardbredden på kolonnerne"
+msgstr "Standardkolonnebredden skal være større end %d"
 
 #: src/workbook-cmd-format.c:276
-#, fuzzy, c-format
+#, c-format
 msgid "The default row height must be > %d."
-msgstr "Ændr standardhøjden på rækkerne"
+msgstr "Standardrækkehøjden skal være større end %d"
 
 #: src/workbook-control-gui.c:291
 msgid " : Gnumeric"
@@ -19464,15 +19449,16 @@ msgid "Discard Expression"
 msgstr "Forkast udtryk"
 
 #: src/workbook-edit.c:165
-#, fuzzy
 msgid "Gnumeric : Validation"
-msgstr "Kilde til variation"
+msgstr "Gnumeric: validering"
 
 #: src/workbook-edit.c:167
 msgid ""
 "That value is invalid.\n"
 "Restrictions have been placed on this cell's content."
 msgstr ""
+"Den værdi er ugyldig.\n"
+"Der er blevet lavet restriktioner for denne celles indhold."
 
 #: src/workbook-format-toolbar.c:86
 msgid "Set Horizontal Alignment"
@@ -19741,14 +19727,12 @@ msgid "Error while trying to build tree from autoformat template file"
 msgstr "Fejl ved forsøg på at bygge træ fra autoformateringsskabelonfil"
 
 #: src/xml-io.c:2871
-#, fuzzy
 msgid "Unparsable xml in clipboard"
-msgstr "Indsæt fra klippebordet"
+msgstr "Ufortolkeligt XML på klippebordet"
 
 #: src/xml-io.c:2878
-#, fuzzy
 msgid "Clipboard is in unknown format"
-msgstr "Filen '%s' har et ugyldigt format."
+msgstr "Klippebordet er i et ukendt format."
 
 #.
 #. * Pass 2: read the contents
@@ -19771,10 +19755,7 @@ msgstr "Gnumeric XML-filformat"
 
 #: gnumeric.desktop.in.h:2
 msgid "The GNOME Spreadsheet"
-msgstr "Regneark"
-
-#~ msgid "Finance"
-#~ msgstr "Finansiel"
+msgstr "Regneark til Gnome"
 
 #~ msgid ""
 #~ "@FUNCTION=INDEX\n"
@@ -19814,12 +19795,6 @@ msgstr "Regneark"
 #~ msgid "Invalid day"
 #~ msgstr "Ugyldig dag"
 
-#~ msgid "Invalid xml clipboard data. Tree is empty ?"
-#~ msgstr "Ugyldig xml-klippebordsdata. Er træet tomt?"
-
-#~ msgid "LaTeX 2.09 (*.tex)"
-#~ msgstr "LaTeX 2.09 (*.tex)"
-
 #~ msgid "Row %d"
 #~ msgstr "Række: %d"
 
@@ -19857,9 +19832,6 @@ msgstr "Regneark"
 
 #~ msgid "_Open"
 #~ msgstr "_Åbn"
-
-#~ msgid "X Variable %d"
-#~ msgstr "X-variabel %d"
 
 #~ msgid ">mm/dd/yyyy"
 #~ msgstr ">dd/mm-yyyy"
@@ -19911,8 +19883,7 @@ msgstr "Regneark"
 #~ msgstr ""
 #~ "@FUNCTION=DISC\n"
 #~ "@SYNTAX=DISC(anbringelse,forfald,pari,reststol[,basis])\n"
-#~ "@DESCRIPTION=DISC beregner og returnerer diskonteringsrenten for et "
-#~ "værdipapir. @basis er den type rentedagsberegning du vil bruge:\n"
+#~ "@DESCRIPTION=DISC beregner og returnerer diskonteringsrenten for et værdipapir. @basis er den type rentedagsberegning du vil bruge:\n"
 #~ "\n"
 #~ "0  amerikansk 30/360\n"
 #~ "1  faktiske dage/faktiske dage\n"
@@ -19920,11 +19891,7 @@ msgstr "Regneark"
 #~ "3  faktiske dage/365\n"
 #~ "4  europæisk 30/360\n"
 #~ "\n"
-#~ "Hvis @basis udelades, anvendes amerikansk 30/360. Hvis dato for "
-#~ "@anbringelse eller @forfald ikke er gyldig, returnerer DISC en #TAL!-"
-#~ "fejl. Hvis @basis < 0 eller @basis > 4, returnerer DISC en #TAL!-fejl. "
-#~ "Hvis dato for @anbringelse er efter dato for @forfald eller de er ens, "
-#~ "returnerer DISC også en #TAL!-fejl. \n"
+#~ "Hvis @basis udelades, anvendes amerikansk 30/360. Hvis dato for @anbringelse eller @forfald ikke er gyldig, returnerer DISC en #TAL!-fejl. Hvis @basis < 0 eller @basis > 4, returnerer DISC en #TAL!-fejl. Hvis dato for @anbringelse er efter dato for @forfald eller de er ens, returnerer DISC også en #TAL!-fejl. \n"
 #~ "@EXAMPLES=\n"
 #~ "\n"
 #~ "@SEEALSO="
