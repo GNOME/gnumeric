@@ -1,3 +1,13 @@
+1999-12-20  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook.c (file_open_cmd) : Handle failed opens.
+	(file_import_cmd) : Handle failed imports.
+
+	* src/item-bar.c (item_bar_start_resize) : Add resize marker on the
+	  other side of the row/col being resized.
+	(item_bar_init) : Init the marker to NULL.
+	(item_bar_end_resize) : Clear the marker.
+
 1999-12-19  Jody Goldberg <jgoldberg@home.com>
 
 	* src/selection.c (sheet_selection_cut) : Fix Typo.

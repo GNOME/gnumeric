@@ -229,13 +229,6 @@ Office 2000 and 'explorer' compatibility.
 
 * Internals
 
-  * Exceptions.
-
-    Currently some code is refusing to make changes when an array
-    operation is acted on.  This code is inside the core, and a CORBA
-    client might find this problem without being able to do anything
-    about it, nor knowing about the error condition.
-
   * Hack R[-1]C[3] type references into the parser.
 
 * Internals
@@ -264,7 +257,7 @@ Office 2000 and 'explorer' compatibility.
   * Rework 'Name' dependencies so we can re-express names.
   * Think about allowing a formula to specify that it does not depend on the
     contents of a reference, only the adress (ie the AREAS function)
-  * Dependancies for - INDIRECT and CELL functions.
+  * Dependancies for - CELL functions.
 		     - Sheet objects
   * Teach dependencies about implicit intersections
     ( big speedup (assesed2.xls))

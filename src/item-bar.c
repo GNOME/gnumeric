@@ -361,7 +361,7 @@ item_bar_start_resize (ItemBar *bar)
 	GnomeCanvasGroup * const group = GNOME_CANVAS_GROUP (canvas->root);
 	GnomeCanvasPoints * const points =
 	    bar->resize_points = gnome_canvas_points_new (2);
-	GnomeCanvasItem * const item =
+	GnomeCanvasItem * item =
 	    gnome_canvas_item_new ( group,
 				    gnome_canvas_line_get_type (),
 				    "fill_color", "black",
@@ -369,20 +369,36 @@ item_bar_start_resize (ItemBar *bar)
 				    NULL);
 	bar->resize_guide = GTK_OBJECT (item);
 
-	/* NOTE : Do not set the position of the line here.
-	 * Do that later based on the motion coordinates
+	/* NOTE : Set the position of the stationary line here.
+	 * Set the guide line later based on the motion coordinates.
 	 */
 	if (bar->orientation == GTK_ORIENTATION_VERTICAL) {
+		double const y =
+		    sheet_row_get_distance (sheet, 0, bar->resize_pos) / zoom;
 		points->coords [0] =
 		    sheet_col_get_distance (sheet, 0, gsheet->left_col) / zoom;
+		points->coords [1] = y;
 		points->coords [2] =
 		    sheet_col_get_distance (sheet, 0, gsheet->last_visible_col+1) / zoom;
+		points->coords [3] = y;
 	} else {
+		double const x =
+		    sheet_col_get_distance (sheet, 0, bar->resize_pos) / zoom;
+		points->coords [0] = x;
 		points->coords [1] =
 		    sheet_row_get_distance (sheet, 0, gsheet->top_row) / zoom;
+		points->coords [2] = x;
 		points->coords [3] =
 		    sheet_row_get_distance (sheet, 0, gsheet->last_visible_row+1) / zoom;
 	}
+
+	item = gnome_canvas_item_new ( group,
+				       gnome_canvas_line_get_type (),
+				       "points", points,
+				       "fill_color", "black",
+				       "width_pixels", 1,
+				       NULL);
+	bar->resize_start = GTK_OBJECT (item);
 }
 
 static int
@@ -446,6 +462,8 @@ item_bar_end_resize (ItemBar *item_bar, int new_size)
 		item_bar->resize_points = NULL;
 	}
 	if (item_bar->resize_guide) {
+		gtk_object_destroy (item_bar->resize_start);
+		item_bar->resize_start = NULL;
 		gtk_object_destroy (item_bar->resize_guide);
 		item_bar->resize_guide = NULL;
 	}
@@ -664,6 +682,7 @@ item_bar_init (ItemBar *item_bar)
 	item_bar->normal_font = NULL;
 	item_bar->bold_font = NULL;
 	item_bar->resize_guide = NULL;
+	item_bar->resize_start = NULL;
 	item_bar->resize_points = NULL;
 }
 

@@ -30,6 +30,7 @@ typedef struct {
 	int		   resize_width;
 	int		   resize_start_pos;
 	GtkObject         *resize_guide;
+	GtkObject         *resize_start;
 	GnomeCanvasPoints *resize_points;
 
 	int             dragging : 1;

@@ -72,17 +72,23 @@ file_open_cmd (GtkWidget *widget, Workbook *wb)
 	char *fname = dialog_query_load_file (wb);
 	Workbook *new_wb;
 
-	if (fname && (new_wb = workbook_read (fname)))
-		gtk_widget_show (new_wb->toplevel);
-	g_free (fname);
+	if (!fname)
+		return;
 
-	if (workbook_is_pristine (wb)) {
+	new_wb = workbook_read (fname);
+
+	if (new_wb != NULL) {
+		gtk_widget_show (new_wb->toplevel);
+
+		if (workbook_is_pristine (wb)) {
 #ifdef ENABLE_BONOBO
-		gnome_object_unref (GNOME_OBJECT (wb));
+			gnome_object_unref (GNOME_OBJECT (wb));
 #else
-		gtk_object_unref (GTK_OBJECT (wb));
+			gtk_object_unref (GTK_OBJECT (wb));
 #endif
+		}
 	}
+	g_free (fname);
 }
 
 static void
@@ -95,16 +101,18 @@ file_import_cmd (GtkWidget *widget, Workbook *wb)
 		return;
 	
 	new_wb = workbook_import (wb, fname);
-	if (new_wb)
+	if (new_wb) {
 		gtk_widget_show (new_wb->toplevel);
-	
-	if (workbook_is_pristine (wb)) {
+
+		if (workbook_is_pristine (wb)) {
 #ifdef ENABLE_BONOBO
-		gnome_object_unref (GNOME_OBJECT (wb));
+			gnome_object_unref (GNOME_OBJECT (wb));
 #else
-		gtk_object_unref (GTK_OBJECT (wb));
+			gtk_object_unref (GTK_OBJECT (wb));
 #endif
+		}
 	}
+	g_free (fname);
 }
 
 static void
