@@ -289,6 +289,10 @@ void           sheet_cells_update               (Sheet *sheet, Range r,
 Range          sheet_get_full_range             (void);
 Range          sheet_get_extent                 (Sheet const *sheet);
 
+gboolean       sheet_check_for_partial_array (Sheet *sheet,
+					      int const start_row, int const start_col,
+					      int end_row, int end_col);
+
 /* Redraw */
 void        sheet_compute_visible_ranges  (Sheet const *sheet);
 void        sheet_redraw_cell_region      (Sheet const *sheet,

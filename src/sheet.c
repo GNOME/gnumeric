@@ -1655,8 +1655,8 @@ sheet_is_cell_array (Sheet *sheet, int const col, int const row)
  *
  * returns FALSE is an array would be divided.
  */
-static gboolean
-range_check_for_partial_array (Sheet *sheet,
+gboolean
+sheet_check_for_partial_array (Sheet *sheet,
 			       int const start_row, int const start_col,
 			       int end_row, int end_col)
 {
@@ -2698,7 +2698,7 @@ sheet_fill_selection_with (Sheet *sheet, const char *str,
 	for (l = sheet->selections; l; l = l->next)
 	{
 		SheetSelection *ss = l->data;
-		if (!range_check_for_partial_array (sheet,
+		if (!sheet_check_for_partial_array (sheet,
 						    ss->user.start.row,ss->user.start.col,
 						    ss->user.end.row, ss->user.end.col)) {
 			gnumeric_no_modify_array_notice (sheet->workbook);
@@ -3300,7 +3300,7 @@ sheet_delete_cols (CmdContext *context, Sheet *sheet,
 		return;
 
 	/* 0. Walk cells in deleted cols and ensure arrays aren't divided. */
-	if (!range_check_for_partial_array (sheet, 0, col, 
+	if (!sheet_check_for_partial_array (sheet, 0, col, 
 					    SHEET_MAX_ROWS-1, col+count-1))
 	{
 		gnumeric_no_modify_array_notice (sheet->workbook);
@@ -3440,7 +3440,7 @@ sheet_delete_rows (CmdContext *context, Sheet *sheet,
 		return;
 
 	/* 0. Walk cells in deleted rows and ensure arrays aren't divided. */
-	if (!range_check_for_partial_array (sheet, row, 0, 
+	if (!sheet_check_for_partial_array (sheet, row, 0, 
 					    row+count-1, SHEET_MAX_COLS-1))
 	{
 		gnumeric_no_modify_array_notice (sheet->workbook);

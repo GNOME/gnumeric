@@ -924,8 +924,8 @@ eval_expr_real (FunctionEvalInfo *s, ExprTree const *tree)
 	case OPER_ARRAY:
 	{
 		/* The upper left corner manages the recalc of the expr */
-		int const x = tree->u.array.x;
-		int const y = tree->u.array.y;
+		int x = tree->u.array.x;
+		int y = tree->u.array.y;
 		if (x == 0 && y == 0){
 			/* Release old value if necessary */
 			a = tree->u.array.corner.func.value;
@@ -949,17 +949,21 @@ eval_expr_real (FunctionEvalInfo *s, ExprTree const *tree)
 			int const num_x = value_area_get_width (&s->pos, a);
 			int const num_y = value_area_get_height (&s->pos, a);
 
-			if (x < num_x && y < num_y){
-				/* Evaluate relative to the upper left corner */
-				EvalPosition tmp_ep = s->pos;
-				tmp_ep.eval_col -= x;
-				tmp_ep.eval_row -= y;
-				a = (Value *)value_area_get_x_y (
-					&tmp_ep, a, x, y);
-			} else
+			/* Evaluate relative to the upper left corner */
+			EvalPosition tmp_ep = s->pos;
+			tmp_ep.eval_col -= x;
+			tmp_ep.eval_row -= y;
+
+			/* If the src array is 1 element wide or tall we wrap */
+			if (x >= 1 && num_x == 1)
+				x = 0;
+			if (y >= 1 && num_y == 1)
+				y = 0;
+			if (x >= num_x || y >= num_y)
 				return value_new_error (&s->pos, gnumeric_err_NA);
-		} else if (x >= 1 || y >= 1)
-			return value_new_error (&s->pos, gnumeric_err_NA);
+
+			a = (Value *)value_area_get_x_y (&tmp_ep, a, x, y);
+		}
 
 		if (a == NULL)
 			return NULL;

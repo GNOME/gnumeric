@@ -614,7 +614,6 @@ sheet_selection_cut (CmdContext *context, Sheet *sheet)
 {
 	SheetSelection *ss;
 
-	/* FIXME FIXME : disable cuting part of an array */
 	/*
 	 * 'cut' is a poor description of what we're
 	 * doing here.  'move' would be a better
@@ -635,6 +634,12 @@ sheet_selection_cut (CmdContext *context, Sheet *sheet)
 		return FALSE;
 
 	ss = sheet->selections->data;
+	if (!sheet_check_for_partial_array (sheet,
+					    ss->user.start.row,ss->user.start.col,
+					    ss->user.end.row, ss->user.end.col)) {
+		gnumeric_no_modify_array_notice (sheet->workbook);
+		return;
+	}
 
 	application_clipboard_cut (sheet, &ss->user);
 

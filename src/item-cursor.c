@@ -656,7 +656,7 @@ item_cursor_do_action (ItemCursor *item_cursor, ActionType action, guint32 time)
 	case ACTION_SHIFT_RIGHT_AND_COPY:
 	case ACTION_SHIFT_DOWN_AND_MOVE:
 	case ACTION_SHIFT_RIGHT_AND_MOVE:
-		g_warning ("Operation not yet implemeneted\n");
+		g_warning ("Operation not yet implemented\n");
 	}
 }
 

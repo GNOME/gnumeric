@@ -1,3 +1,14 @@
+1999-12-18  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_check_for_partial_array) : Rename from
+	  range_check_for_partial_array and make public.
+
+	* src/selection.c (sheet_selection_cut) : Disable cutting part of an
+	  array.
+
+	* src/expr.c (eval_expr_real) : Wrap out of bound aarray lookups when
+	  the src is 1 element wide or tall.
+
 1999-12-17  Jody Goldberg <jgoldberg@home.com>
 
 	* src/cell.c (cell_cleanout) : Publicize.
