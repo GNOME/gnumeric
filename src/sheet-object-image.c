@@ -144,7 +144,7 @@ soi_get_pixbuf (SheetObjectImage *soi, double scale)
 	data     = soi->data;
 	data_len = soi->data_len;
 
-	if (soi->type)
+	if (soi->type != NULL && !strcmp (soi->type, "wmf"))
 		loader = gdk_pixbuf_loader_new_with_type (soi->type, &err);
 	else
 		loader = gdk_pixbuf_loader_new ();
@@ -152,12 +152,9 @@ soi_get_pixbuf (SheetObjectImage *soi, double scale)
 	if (loader) {
 		ret = gdk_pixbuf_loader_write (loader,
 					       soi->data, soi->data_len, &err);
-		/* Close in any case. But don't let error during closing */
-		/* shadow error from loader_write.  */
-		if (ret)
-			ret = gdk_pixbuf_loader_close (loader, &err);
-		else
-			gdk_pixbuf_loader_close (loader, NULL);
+		/* Close in any case. But don't let error during closing 
+		 * shadow error from loader_write.  */
+		gdk_pixbuf_loader_close (loader, ret ? &err : NULL);
 		if (ret)
 			pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
 		if (pixbuf) {

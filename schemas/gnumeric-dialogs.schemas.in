@@ -28,7 +28,7 @@
         <type>bool</type>
 	<default>TRUE</default>
         <locale name="C">
-        <short>Autocorrect Initial Caps</short>
+        <short>Autocorrect initial caps</short>
         <long>Autocorrect initial caps</long>
         </locale>
       </schema>
@@ -49,7 +49,7 @@
         <type>bool</type>
 	<default>TRUE</default>
         <locale name="C">
-        <short>Autocorrect First Letter</short>
+        <short>Autocorrect first letter</short>
         <long>Autocorrect first letter</long>
         </locale>
       </schema>
@@ -70,7 +70,7 @@
         <type>bool</type>
 	<default>TRUE</default>
         <locale name="C">
-        <short>Autocorrect Names od Days</short>
+        <short>Autocorrect names of days</short>
         <long>Autocorrect names of days</long>
         </locale>
       </schema>
@@ -81,7 +81,7 @@
         <type>bool</type>
 	<default>TRUE</default>
         <locale name="C">
-        <short>Autocorrect Replace</short>
+        <short>Autocorrect replace</short>
         <long>Autocorrect replace</long>
         </locale>
       </schema>

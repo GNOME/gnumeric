@@ -1,3 +1,12 @@
+2002-12-24  Jody Goldberg <jody@gnome.org>
+
+	* schemas/plot-types.xml.in : fix some typos, and some consistency
+	  improvements
+	* schemas/gnumeric-dialogs.schemas.in : more typos.
+
+	* src/sheet-object-image.c (soi_get_pixbuf) : minor readability
+	  improvement.
+
 2002-12-23  Morten Welinder  <terra@diku.dk>
 
 	* src/parse-util.c (col_parse, row_parse): Change to return NULL
