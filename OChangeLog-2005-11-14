@@ -1,5 +1,10 @@
 2003-07-17  Morten Welinder  <terra@gnome.org>
 
+	* src/io-context.c (io_progress_update): Make sure we update at
+	the end, so the display doesn't stop at, say, 95%.
+	(value_io_progress_update): Ditto.
+	(count_io_progress_update): Ditto.
+
 	* src/number-match.c (format_create_regexp): Approach working
 	state for fractions.
 	(compute_value): Handle fractions.

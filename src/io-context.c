@@ -27,6 +27,7 @@
 #include <unistd.h>
 
 #define PROGRESS_UPDATE_STEP        0.01
+#define PROGRESS_UPDATE_STEP_END    (1.0 / 400)
 #define PROGRESS_UPDATE_PERIOD_SEC  0.20
 
 static void
@@ -207,19 +208,24 @@ gnumeric_io_warning_occurred (IOContext *context)
 void
 io_progress_update (IOContext *io_context, gdouble f)
 {
+	gboolean at_end;
+
 	g_return_if_fail (IS_IO_CONTEXT (io_context));
 
 	if (io_context->progress_ranges != NULL) {
 		f = f * (io_context->progress_max - io_context->progress_min)
 		    + io_context->progress_min;
 	}
-	if (f - io_context->last_progress >= PROGRESS_UPDATE_STEP) {
+
+	at_end = (f - io_context->last_progress > PROGRESS_UPDATE_STEP_END &&
+		  f + PROGRESS_UPDATE_STEP > 1);
+	if (at_end || f - io_context->last_progress >= PROGRESS_UPDATE_STEP) {
 		struct timeval tv;
 		double t;
 
 		(void) gettimeofday (&tv, NULL);
 		t = tv.tv_sec + tv.tv_usec / 1000000.0;
-		if (t - io_context->last_time >= PROGRESS_UPDATE_PERIOD_SEC) {
+		if (at_end || t - io_context->last_time >= PROGRESS_UPDATE_PERIOD_SEC) {
 			CommandContext *cc;
 
 			if (io_context->impl)
@@ -316,16 +322,21 @@ void
 value_io_progress_update (IOContext *io_context, gint value)
 {
 	gdouble complete;
+	gint step, total;
 
 	g_return_if_fail (IS_IO_CONTEXT (io_context));
 	g_return_if_fail (io_context->helper.helper_type == GNM_PROGRESS_HELPER_VALUE);
 
-	if (value - io_context->helper.v.value.last < io_context->helper.v.value.step) {
+	total = io_context->helper.v.value.total;
+	step = io_context->helper.v.value.step;
+
+	if (value - io_context->helper.v.value.last < step &&
+	    value + step < total) {
 		return;
 	}
 	io_context->helper.v.value.last = value;
 
-	complete = 1.0 * value / io_context->helper.v.value.total;
+	complete = (gdouble)value / total;
 	io_progress_update (io_context, complete);
 }
 
@@ -346,19 +357,21 @@ void
 count_io_progress_update (IOContext *io_context, gint inc)
 {
 	gdouble complete;
+	gint current, step, total;
 
 	g_return_if_fail (IS_IO_CONTEXT (io_context));
 	g_return_if_fail (io_context->helper.helper_type == GNM_PROGRESS_HELPER_COUNT);
 
-	io_context->helper.v.count.current += inc;
-	if (io_context->helper.v.count.current - io_context->helper.v.count.last
-	    < io_context->helper.v.count.step) {
+	current = (io_context->helper.v.count.current += inc);
+	step = io_context->helper.v.count.step;
+	total = io_context->helper.v.count.total;
+
+	if (current - io_context->helper.v.count.last < step && current + step < total) {
 		return;
 	}
-	io_context->helper.v.count.last = io_context->helper.v.count.current;
+	io_context->helper.v.count.last = current;
 
-	complete = 1.0 * io_context->helper.v.count.current
-	           / io_context->helper.v.count.total;
+	complete = (gdouble)current / total;
 	io_progress_update (io_context, complete);
 }
 

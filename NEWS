@@ -112,6 +112,7 @@ Morten:
 	* Improve auto-format for date differences.
 	* Clean up style format code.
 	* Fix parsing of fractional constants.
+	* Improve progress display a bit.
 
 --------------------------------------------------------------------------
 
