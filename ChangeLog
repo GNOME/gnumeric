@@ -1,3 +1,7 @@
+2000-04-16  Valek Filippov  <frob@df.ru>
+
+	* src/functions/fn-math.c: Typos fixed ("@" and "\n").
+
 2000-04-15  Morten Welinder  <terra@diku.dk>
 
 	* src/functions/fn-stat.c (gnumeric_quartile): Fix for empty case.

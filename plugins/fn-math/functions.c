@@ -355,8 +355,8 @@ static char *help_asinh = {
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
-	   "ASINH(0.5) equals 0.481212. "
-	   "ASINH(1.0) equals 0.881374."
+	   "ASINH(0.5) equals 0.481212.\n"
+	   "ASINH(1.0) equals 0.881374.\n"
 	   "\n"
 	   "@SEEALSO=ASIN, ACOSH, SIN, COS, DEGREES, RADIANS")
 };
@@ -380,6 +380,8 @@ static char *help_atan = {
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "ATAN(0.5) equals 0,463648.\n"	
+	   "ATAN(1) equals 0,785398.\n"
 	   "\n"
 	   "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS")
 };
@@ -404,8 +406,8 @@ static char *help_atanh = {
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
-	   "ATANH(0.5) equals 0.549306. "
-	   "ATANH(0.8) equals 1.098612."
+	   "ATANH(0.5) equals 0.549306.\n "
+	   "ATANH(0.8) equals 1.098612.\n"
 	   "\n"
 	   "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS")
 };
@@ -437,8 +439,8 @@ static char *help_atan2 = {
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
-	   "ATAN2(0.5,1.0) equals 1.107149. "
-	   "ATAN2(-0.5,2.0) equals 1.815775."
+	   "ATAN2(0.5,1.0) equals 1.107149.\n"
+	   "ATAN2(-0.5,2.0) equals 1.815775.\n"
 	   "\n"
 	   "@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS")
 };
@@ -461,9 +463,9 @@ static char *help_ceil = {
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
-	   "CEIL(0.4) equals 1. "
-	   "CEIL(-1.1) equals -1. "
-	   "CEIL(-2.9) equals -2."
+	   "CEIL(0.4) equals 1.\n"
+	   "CEIL(-1.1) equals -1.\n"
+	   "CEIL(-2.9) equals -2.\n"
 	   "\n"
 	   "@SEEALSO=ABS, FLOOR, INT")
 };
@@ -720,7 +722,7 @@ static char *help_ceiling = {
 
 	   "@DESCRIPTION="
 	   "CEILING function rounds @x up to the nearest multiple of "
-	   "significance. "
+	   "@significance. "
 	   "\n"
 	   "If @x or @significance is non-numeric CEILING returns "
 	   "#VALUE! error. "
@@ -729,8 +731,8 @@ static char *help_ceiling = {
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
-	   "CEILING(2.43,1) equals 3. "
-	   "CEILING(123.123,3) equals 126."
+	   "CEILING(2.43,1) equals 3.\n"
+	   "CEILING(123.123,3) equals 126.\n"
 	   "\n"
 	   "@SEEALSO=CEIL")
 };
@@ -790,8 +792,8 @@ static char *help_cosh = {
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
-	   "COSH(0.5) equals 1.127626. "
-	   "COSH(1) equals 1.543081."
+	   "COSH(0.5) equals 1.127626.\n"
+	   "COSH(1) equals 1.543081.\n"
 	   "\n"
 	   "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP")
 };
@@ -3007,13 +3009,13 @@ gnumeric_seriessum (FunctionEvalInfo *ei, GList *nodes)
 
 static char *help_minverse = {
 	N_("@FUNCTION=MINVERSE\n"
-	   "@SYNTAX=MINVERSE(array)\n"
+	   "@SYNTAX=MINVERSE(matrix)\n"
 
 	   "@DESCRIPTION="
 	   "MINVERSE function returns the inverse matrix of a given matrix. "
 	   "\n"
-	   "If the matrix cannot be inverted, MINVERSE returns #NUM! error. "
-	   "If the matrix does not contain equal number of columns and "
+	   "If the @matrix cannot be inverted, MINVERSE returns #NUM! error. "
+	   "If the @matrix does not contain equal number of columns and "
 	   "rows, MINVERSE returns #VALUE! error. "
 	   "This function is Excel compatible. "
 	   "\n"
@@ -3218,12 +3220,12 @@ gnumeric_mmult (FunctionEvalInfo *ei, Value **argv)
 
 static char *help_mdeterm = {
 	N_("@FUNCTION=MDETERM\n"
-	   "@SYNTAX=MDETERM(array)\n"
+	   "@SYNTAX=MDETERM(matrix)\n"
 
 	   "@DESCRIPTION="
 	   "MDETERM function returns the determinant of a given matrix. "
 	   "\n"
-	   "If the matrix does not contain equal number of columns and "
+	   "If the @matrix does not contain equal number of columns and "
 	   "rows, MDETERM returns #VALUE! error. "
 	   "This function is Excel compatible. "
 	   "\n"

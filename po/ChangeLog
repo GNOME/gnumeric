@@ -1,3 +1,7 @@
+2000-04-16  Valek Filippov  <frob@df.ru>
+
+	* ru.po:  Updated russian translation.
+
 2000-04-15  Valek Filippov  <frob@df.ru>
 
 	* POTFILES.in: Delete print-preview.c .
