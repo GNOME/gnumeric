@@ -13,28 +13,24 @@ msgstr ""
 "Date: 2000-03-28 23:16:00+0200\n"
 
 #: gnumeric.desktop.in.h:1
-#, fuzzy
 msgid "Gnumeric Spreadsheet"
-msgstr "Pagina di supporto per Gnumeric"
+msgstr "Foglio di calcolo Gnumeric"
 
 #: gnumeric.desktop.in.h:2
-#, fuzzy
 msgid "The GNOME Spreadsheet"
-msgstr "Crea un foglio nuovo"
+msgstr "Il foglio di calcolo di GNOME"
 
 #: plugins/applix/applix-read.c:91
-#, fuzzy
 msgid "Parse error while reading Applix file."
-msgstr "Errore scrivendo il file csv"
+msgstr "Errore di sintassi leggendo il file Applix"
 
 #: plugins/applix/plugin.xml.in.h:1
 msgid "Applix"
 msgstr "Applix"
 
 #: plugins/applix/plugin.xml.in.h:2
-#, fuzzy
 msgid "Applix (*.as)"
-msgstr "File in formato Applix (*.as)"
+msgstr "Applix (*.as)"
 
 #: plugins/applix/plugin.xml.in.h:3
 msgid "Imports version 4.[234] spreadsheets"
@@ -45,13 +41,12 @@ msgid "Financial"
 msgstr "Finanziarie"
 
 #: plugins/derivatives/plugin.xml.in.h:2
-#, fuzzy
 msgid "Financial Derivatives"
-msgstr "Finanziarie"
+msgstr "Derivate finanziarie"
 
 #: plugins/derivatives/plugin.xml.in.h:3
 msgid "Functions related to financial derivatives"
-msgstr ""
+msgstr "Funzioni relative alle derivate finanziarie"
 
 #: plugins/derivatives/options.c:289
 msgid ""
@@ -263,36 +258,36 @@ msgstr ""
 #: plugins/dif/dif.c:76 plugins/excel/ms-excel-read.c:4455
 #: plugins/mps/mps.c:578 src/xml-io.c:3230
 msgid "Reading file..."
-msgstr ""
+msgstr "Leggendo il file..."
 
 #: plugins/dif/dif.c:245
 #, c-format
 msgid "Syntax error at line %d. Ignoring."
-msgstr ""
+msgstr "Errore di sintassi alla linea %d. Ingorato."
 
 #: plugins/dif/dif.c:282
 #, c-format
 msgid "Unknown data value \"%s\" at line %d. Ignoring."
-msgstr ""
+msgstr "Valore del dato \"%s\" sconosciuto alla linea %d. Ignorato."
 
 #: plugins/dif/dif.c:289
 #, c-format
 msgid "Unknown value type %d at line %d. Ignoring."
-msgstr ""
+msgstr "Tipo di valore %d sconosciuto alla linea %d. Ignorato."
 
 #: plugins/dif/dif.c:298
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "DIF file has more than the maximum number of rows %d. Ignoring remaining "
 "rows."
-msgstr "File PLN invalido perché ha un numero di %s e %d maggiore del massimo"
+msgstr "Il file DIF ha un numero di righe maggiore di %d. Ignoro le righe successive."
 
 #: plugins/dif/dif.c:302
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "DIF file has more than the maximum number of columns %d. Ignoring remaining "
 "columns."
-msgstr "File PLN invalido perché ha un numero di %s e %d maggiore del massimo"
+msgstr "Il file DIF ha un numero di colonne maggiore di %d. Ignoro le colonne successive."
 
 #: plugins/dif/dif.c:314
 #, c-format
