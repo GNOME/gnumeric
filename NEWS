@@ -43,6 +43,7 @@ Morten:
 	* Get rid of the last direct GnomeCanvas use.
 	* Clean up long double configuration.
 	* Fix save-as for non-local files.  [#170308]
+	* Drop gtk+-bug workaround.  [#162952]
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.0

@@ -58,26 +58,20 @@ enum {
 
 static guint el_signals [LAST_SIGNAL] = { 0 };
 
-/*
- * FIXME: If and when we depend on gtk+ >= 2.1.4, we can replace
- * gtk_widget_modify_style with gtk_widget_modify_{base|text} (w, NULL). We
- * need the fix to http://bugzilla.gnome.org/show_bug.cgi?id=100702
- */
 static void
 el_set_style_entry (EditableLabel *el)
 {
-	GtkWidget * w = GTK_WIDGET (el);
-	GtkRcStyle *nullstyle = gtk_rc_style_new ();
-
-	gtk_widget_modify_style (w, nullstyle);
-
-	g_object_unref (nullstyle);
+	GtkWidget *w = GTK_WIDGET (el);
+	gtk_widget_modify_base (w, GTK_STATE_NORMAL, NULL);
+	gtk_widget_modify_text (w, GTK_STATE_NORMAL, NULL);
+	gtk_widget_modify_base (w, GTK_STATE_ACTIVE, NULL);
+	gtk_widget_modify_text (w, GTK_STATE_ACTIVE, NULL);
 }
 
 static void
 el_set_style_label (EditableLabel *el)
 {
-	GtkWidget * w = GTK_WIDGET (el);
+	GtkWidget *w = GTK_WIDGET (el);
 
 	gtk_widget_modify_base (w, GTK_STATE_NORMAL, 
 				el->base_set ? &el->base : NULL);
