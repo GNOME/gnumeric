@@ -1,5 +1,7 @@
 2004-09-27  Morten Welinder  <terra@gnome.org>
 
+	* utils/go-math.c (go_fake_ceil): New function.
+
 	* utils/go-file.c (go_url_encode): Make this half-way decent.
 	(go_url_decode): Make this O(n) too.
 

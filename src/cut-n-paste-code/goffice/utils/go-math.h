@@ -33,6 +33,7 @@ double go_sub_epsilon (double x);
 /* ------------------------------------------------------------------------- */
 
 double go_fake_floor (double x);
+double go_fake_ceil (double x);
 double go_fake_trunc (double x);
 
 /* ------------------------------------------------------------------------- */

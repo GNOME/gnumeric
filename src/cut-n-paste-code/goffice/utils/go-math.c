@@ -150,6 +150,12 @@ go_fake_floor (double x)
 }
 
 double
+go_fake_ceil (double x)
+{
+	return ceil (go_sub_epsilon (x));
+}
+
+double
 go_fake_trunc (double x)
 {
 	return (x >= 0)
