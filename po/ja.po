@@ -11,8 +11,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.99.1\n"
-"POT-Creation-Date: 2001-12-29 14:42+0900\n"
-"PO-Revision-Date: 2001-12-29 14:34+0900\n"
+"POT-Creation-Date: 2001-12-29 16:53+0900\n"
+"PO-Revision-Date: 2001-12-29 16:51+0900\n"
 "Last-Translator: Takeshi Aihana <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -5187,7 +5187,7 @@ msgstr "常に"
 
 #: src/dialogs/dialog-stf-export.glade.h:8
 msgid "Automatic (puts quotes where needed)"
-msgstr "自動 (必要な場所に引用符)"
+msgstr "自動 (必要な場所に引用符を付与する)"
 
 #: src/dialogs/dialog-stf-export.glade.h:9
 msgid "Available sheets"
@@ -5195,23 +5195,23 @@ msgstr "利用可能シート"
 
 #: src/dialogs/dialog-stf-export.glade.h:10
 msgid "Bang (!)"
-msgstr "感嘆符(!)"
+msgstr "感嘆符 (!)"
 
 #: src/dialogs/dialog-stf-export.glade.h:11
 msgid "Choose export formatting"
-msgstr "出力形式を選択"
+msgstr "エキスポート形式の選択"
 
 #: src/dialogs/dialog-stf-export.glade.h:12
 msgid "Choose sheets to export"
-msgstr "書き出すシートを選んでください"
+msgstr "エキスポートするシートの選択"
 
 #: src/dialogs/dialog-stf-export.glade.h:13
 msgid "Colon (:)"
-msgstr "コロン(:)"
+msgstr "コロン (:)"
 
 #: src/dialogs/dialog-stf-export.glade.h:14
 msgid "Comma (,)"
-msgstr "カンマ(,)"
+msgstr "カンマ (,)"
 
 #: src/dialogs/dialog-stf-export.glade.h:16
 msgid ""
@@ -5219,17 +5219,18 @@ msgid ""
 "used for terminating a line in the text file. Wether the quote character is "
 "placed around cells depends on the value choosen for quoting."
 msgstr ""
-"出力形式をカスタマイズ。行終端はテキストファイルにおいて行を終えるために使わ"
-"れるキャラクタシーケンスです。引用符が配置されるかどうかは\"引用符の付け方"
-"\"の選択に依存します。"
+"エキスポートする形式をカスタマイズします。\n"
+"行終端は、テキストファイルにおいて行を終えるために使われるキャラクタシーケン"
+"スです。\n"
+"引用符が配置されるかどうかは \"引用符の付け方\" の選択に依存します。"
 
 #: src/dialogs/dialog-stf-export.glade.h:17
 msgid "Exporting structured text"
-msgstr "構造化テキストの書き出し"
+msgstr "構造化テキストのエキスポート"
 
 #: src/dialogs/dialog-stf-export.glade.h:18
 msgid "Hyphen (-)"
-msgstr "ハイフン(-)"
+msgstr "ハイフン (-)"
 
 #: src/dialogs/dialog-stf-export.glade.h:19
 msgid "Line termination :"
@@ -5237,43 +5238,43 @@ msgstr "行終端 :"
 
 #: src/dialogs/dialog-stf-export.glade.h:20
 msgid "Macintosh (carriage return)"
-msgstr "マッキントッシュ(キャリッジリターン)"
+msgstr "マッキントッシュ形式 (キャリッジリターン)"
 
 #: src/dialogs/dialog-stf-export.glade.h:21 src/dialogs/dialog-stf.glade.h:36
 msgid "Never"
-msgstr "しない"
+msgstr "付けない"
 
 #: src/dialogs/dialog-stf-export.glade.h:22
 msgid "Pipe (|)"
-msgstr "パイプ(|)"
+msgstr "パイプ (|)"
 
 #: src/dialogs/dialog-stf-export.glade.h:23
 msgid ""
 "Please select which sheets you want to export from the current workbook. "
 "They will be exported in the same order as in the export list."
 msgstr ""
-"現在のワークブックからエクスポートするシートを選択して下さい。シートはエクス"
-"ポートリストのリスト順にエクスポートされます。"
+"現在のワークブックからエクスポートするシートを選択して下さい。\n"
+"シートはエクスポートリストのリスト順にエクスポートされます。"
 
 #: src/dialogs/dialog-stf-export.glade.h:24
 msgid "Quote character :"
-msgstr "引用符文字:"
+msgstr "引用符文字 :"
 
 #: src/dialogs/dialog-stf-export.glade.h:25
 msgid "Quoting :"
-msgstr "引用符の付け方:"
+msgstr "引用符の付け方 :"
 
 #: src/dialogs/dialog-stf-export.glade.h:26
 msgid "Semicolon (;)"
-msgstr "セミコロン(;)"
+msgstr "セミコロン (;)"
 
 #: src/dialogs/dialog-stf-export.glade.h:27
 msgid "Separator :"
-msgstr "セパレータ:"
+msgstr "セパレータ :"
 
 #: src/dialogs/dialog-stf-export.glade.h:28
 msgid "Sheets to export"
-msgstr "書き出すシート"
+msgstr "エキスポートするシート"
 
 #: src/dialogs/dialog-stf-export.glade.h:29
 msgid "Slash (/)"
@@ -5289,15 +5290,15 @@ msgstr "タブ"
 
 #: src/dialogs/dialog-stf-export.glade.h:32
 msgid "Unix (linefeed)"
-msgstr "UNIX (ラインフィード)"
+msgstr "UNIX形式 (ラインフィード)"
 
 #: src/dialogs/dialog-stf-export.glade.h:33
 msgid "Windows (carriage return + linefeed)"
-msgstr "Windows (キャリッジリターン + ラインフィード)"
+msgstr "Windows形式 (キャリッジリターン + ラインフィード)"
 
 #: src/dialogs/dialog-stf-export.glade.h:34 src/dialogs/dialog-stf.glade.h:69
 msgid "`"
-msgstr "'"
+msgstr "`"
 
 #: src/dialogs/dialog-stf-fixed-page.c:65
 msgid "Autodiscovery did not find any columns in the text. Try manually"
