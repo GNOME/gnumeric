@@ -60,18 +60,16 @@ structure, this looks like this: ( from expr.h )
 
 struct _FunctionEvalInfo {
 	EvalPosition        pos;
-	ErrorMessage       *error;
 	FunctionDefinition *func_def;
 };
 
 EvalPosition - Position at which the function is being evaluated. 
-ErrorMessage - Standard error passing interface.
 
 NB. Unless you are doing something _extremely_ clever the correct way to
 return an error is thus:
 
 if (foo && bar)
-        return function_error (ei, _("My error"));
+        return value_new_error (&ei->pos, _("My error"));
 
 FunctionDefinition - This returns a handle to a magic structure that
                      should not be used. In future this will allow for
@@ -99,7 +97,7 @@ add2numbers (FunctionEvalPos *ei, Value *argv [])
 		break;
 
 	default:
-	        return function_error (ei, "Invalid argument type");
+	        return value_new_error (&ei->pos, "Invalid argument type");
 	}
 
 	switch (argv [1].type){
@@ -112,7 +110,7 @@ add2numbers (FunctionEvalPos *ei, Value *argv [])
 		break;
 
 	default:
-	        return function_error (ei, "Invalid argument type");
+	        return value_new_error (&ei->pos, "Invalid argument type");
 	}
 
 	result = value_float (number_a + number_b);
@@ -124,29 +122,18 @@ Note that although typechecking is done in upper layers, both INTEGER
 and FLOAT types are passed through the 'f' function declaration token.
 It is of course good practice to provide a sensible default: case.
 
-If there is an error during the function processing, the ei->error
-field must be set using an error_message_set* routine, and NULL must
-be returned. Since this is liable to change instead the:
-
-        Value *function_error       (FunctionEvalInfo *fe,
-	        		     char *error_string);     and
-        Value *function_error_alloc (FunctionEvalInfo *fe,
-				     char *error_string);
-
-functions should be used to return errors ( as above ), use the latter if
-you have a particularly flowery error to return:
-
-        return function_error_alloc (ei, g_strdup_printf ("%s (%s), %d",
-	                             "foo", "bar", 2));
+If there is an error during the function processing, an error value
+should be returned.  The error string is managed by gnumeric in the
+same reference counted fashion that all other strings are handled.
 
 Return values and Strings.
 --------------------------
 
 There are a several utility functions provided by Gnumeric to create 
 Values: value_new_float, value_new_int, value_new_bool, value_new_string,
-value_new_cellrange. [ the nomenclature is as of different constructors
-for the same class: Value ]. All Values should idealy be created with
-these routines.
+value_new_cellrange, value_new_array, value_new_error. [ the nomenclature
+is as of different constructors for the same class: Value ]. All Values
+should idealy be created with these routines.
 
 
 Functions with some optional arguments
@@ -228,9 +215,8 @@ Here is the function signature for addall:
 Value *
 addall (FunctionEvalInfo *ei, GList *expr_node_list)
 
-As usual, this routine would return a newly allocated Value or NULL if
-an error is found (and in that case, error_string would be set to
-point to a message describing the problem).
+As usual, this routine would return a newly allocated Value or a COPY of
+an error if one is found.
 
 The first argument points to the usual EvalInfo structure, and the second
 argument is a linked list (a GList) that contains (ExprTree *) nodes.
