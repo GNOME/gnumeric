@@ -1,3 +1,28 @@
+1999-09-29  Michael Meeks  <michael@nuclecu.unam.mx>
+
+	* src/mstyle.c (mstyle_do_merge): Updated API & stuff.
+	(render_merge, render_merge_blank): change slightly.
+
+	* src/workbook-format-toolbar.c: use sheet_apply_style_to_selection.
+
+	* src/sheet-style.c: Create,
+	(sheet_style_attach_old): Remove.
+	(sheet_apply_style_to_selection): Add.
+
+	* src/ranges.c (range_set_style): Remove.
+
+	* src/corba-sheet.c (Sheet_range_set_format): comment out.
+
+	* src/workbook.c (workbook_init): initialise clipboard.
+
+1999-09-28  Michael Meeks  <michael@nuclecu.unam.mx>
+
+	* src/workbook-format-toolbar.c (set_selection_halign): fixup.
+
+	* src/style.h: New expandable border setup.
+
+	* src/mstyle.h: Expand to full set of types.
+
 1999-09-28  Michael Meeks  <michael@nuclecu.unam.mx>
 
 	* src/workbook-format-toolbar.c (change_selection_font): re-implement.

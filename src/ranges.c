@@ -197,34 +197,6 @@ range_list_foreach (GSList *ranges, void (*callback)(Cell *cell, void *data),
 	range_list_foreach_full (ranges, callback, data, FALSE);
 }
 
-/**
- * range_set_style:
- * @ranges: a list of Cell ranges.
- * @style: a style definition to apply.
- *
- * This routine attaches the style to the cell ranges specified.
- */
-void
-range_set_style (GSList *ranges, MStyle *style)
-{
-	GSList *l;
-
-	g_return_if_fail (style != NULL);
-	
-	for (l = ranges; l; l = l->next){
-		Value *value = l->data;
-		CellRef a, b;
-		
-		g_assert (value->type == VALUE_CELLRANGE);
-
-		a = value->v.cell_range.cell_a;
-		b = value->v.cell_range.cell_b;
-
-		sheet_style_attach_old (a.sheet, a.col, a.row,
-					b.col, b.row, style);
-	}
-}
-
 gboolean
 range_contains (Range const *range, int col, int row)
 {

@@ -291,10 +291,12 @@ void        sheet_row_set_selection       (Sheet *sheet,
 					   ColRowInfo *ri, int value);
 void        sheet_set_selection           (Sheet *sheet, SheetSelection const *ss);
 				       
-Style      *sheet_style_compute           (Sheet const *sheet,
-					   int col, int row);
-Style      *sheet_style_compute_blank     (Sheet const *sheet,
-					   int col, int row);
+Style         *sheet_style_compute            (Sheet const *sheet,
+					       int col, int row);
+Style         *sheet_style_compute_blank      (Sheet const *sheet,
+					       int col, int row);
+void           sheet_apply_style_to_selection (Sheet *sheet, MStyle *style);
+MStyleElement *sheet_selection_get_uniq_style (Sheet *sheet);
 
 /* Redraw */
 void        sheet_compute_visible_ranges  (Sheet const *sheet);

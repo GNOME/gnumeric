@@ -37,22 +37,15 @@ static const char *percent_format = "Default Percent Format:0.00%";
 static void
 set_selection_halign (Workbook *wb, StyleHAlignFlags align)
 {
+	MStyleElement e;
 	Sheet *sheet;
 	GList *cells, *l;
 
 	sheet = workbook_get_current_sheet (wb);
-	/*
-	 * TODO : switch to selection_apply, but for now we don't care about
-	 * intersection
-	 */
-	cells = selection_to_list (sheet, TRUE);
-
-	for (l = cells; l; l = l->next){
-		Cell *cell = l->data;
-
-		cell_set_halign (cell, align);
-	}
-	g_list_free (cells);
+	e.type = MSTYLE_ALIGN_H;
+	e.u.align.h = align;
+	
+	sheet_apply_style_to_selection (sheet, mstyle_new_elem (NULL, e));
 }
 
 static void
@@ -71,23 +64,6 @@ static void
 center_cmd (GtkWidget *widget, Workbook *wb)
 {
 	set_selection_halign (wb, HALIGN_CENTER);
-}
-
-/** 
- * apply_style_to_selection:
- * @style: style to be attached
- *
- * This routine attaches @style to the various SheetSelections
- *
- */
-static void
-apply_style_to_selection (Sheet *sheet, MStyle *style)
-{
-	Range const * range = selection_first_range (sheet);
-
-	g_warning ("Fixme: applying style to first range only");
-	sheet_style_attach (sheet, *range, style);
-	sheet_set_dirty (sheet, TRUE);
 }
 
 /*
@@ -109,14 +85,14 @@ change_selection_font (Workbook *wb, int bold, int italic)
 	if (bold >= 0) {
 		e.type = MSTYLE_FONT_BOLD;
 		e.u.font.bold = bold;
-		apply_style_to_selection (sheet,
+		sheet_apply_style_to_selection (sheet,
 					  mstyle_new_elem (NULL, e));
 	}
 
 	if (italic >= 0) {
 		e.type = MSTYLE_FONT_ITALIC;
 		e.u.font.italic = italic;
-		apply_style_to_selection (sheet,
+		sheet_apply_style_to_selection (sheet,
 					  mstyle_new_elem (NULL, e));
 	}
 }
@@ -148,7 +124,7 @@ change_font_in_selection_cmd (GtkMenuItem *item, Workbook *wb)
 	e.u.font.name = g_strdup (font_name);
 	g_warning ("Testme");
 
-	apply_style_to_selection (sheet, mstyle_new_elem (NULL, e));
+	sheet_apply_style_to_selection (sheet, mstyle_new_elem (NULL, e));
 }
 
 static void
@@ -167,12 +143,12 @@ change_font_size_in_selection_cmd (GtkEntry *entry, Workbook *wb)
 	e.type = MSTYLE_FONT_SIZE;
 	e.u.font.size = size;
 	
-	apply_style_to_selection (sheet, mstyle_new_elem (NULL, e));
+	sheet_apply_style_to_selection (sheet, mstyle_new_elem (NULL, e));
 	workbook_focus_current_sheet (sheet->workbook);
 }
 
 static void
-do_apply_style_to_selection (Sheet *sheet, const char *format)
+do_sheet_apply_style_to_selection (Sheet *sheet, const char *format)
 {
 /*	MStyle *style;
 	MStyleElement e;
@@ -190,7 +166,7 @@ do_apply_style_to_selection (Sheet *sheet, const char *format)
 	e.type = MSTYLE_FONT_SIZE;
 	e.u.font.size = size;
 
-	apply_style_to_selection (sheet, style, set_cell_format_style, NULL);*/
+	sheet_apply_style_to_selection (sheet, style, set_cell_format_style, NULL);*/
 	g_warning ("Fixme format");
 }
 
@@ -199,7 +175,7 @@ workbook_cmd_format_as_money (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = workbook_get_current_sheet (wb);
 	
-	do_apply_style_to_selection (sheet, _(money_format));
+	do_sheet_apply_style_to_selection (sheet, _(money_format));
 }
 
 static void
@@ -207,7 +183,7 @@ workbook_cmd_format_as_percent (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = workbook_get_current_sheet (wb);
 	
-	do_apply_style_to_selection (sheet, _(percent_format));
+	do_sheet_apply_style_to_selection (sheet, _(percent_format));
 }
 
 /*
@@ -332,7 +308,7 @@ fore_color_changed (ColorCombo *cc, GdkColor *color, int color_index, Workbook *
 	e.type = MSTYLE_COLOR_FORE;
 	e.u.color.fore = style_color_new (color->red, color->green, color->blue);
 
-	apply_style_to_selection (sheet, mstyle_new_elem (NULL, e));
+	sheet_apply_style_to_selection (sheet, mstyle_new_elem (NULL, e));
 }
 
 static void
@@ -344,7 +320,7 @@ back_color_changed (ColorCombo *cc, GdkColor *color, int color_index, Workbook *
 	e.type = MSTYLE_COLOR_BACK;
 	e.u.color.back = style_color_new (color->red, color->green, color->blue);
 
-	apply_style_to_selection (sheet, mstyle_new_elem (NULL, e));
+	sheet_apply_style_to_selection (sheet, mstyle_new_elem (NULL, e));
 }
 
 /*

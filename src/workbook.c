@@ -1870,6 +1870,7 @@ workbook_init (GtkObject *object)
 	/* Set the default operation to be performed over selections */
 	wb->auto_expr      = NULL;
 	wb->auto_expr_desc = NULL;
+	wb->clipboard_contents = NULL;
 	workbook_set_auto_expr (wb,
 		_(quick_compute_routines [0].displayed_name),
 		quick_compute_routines [0].function);

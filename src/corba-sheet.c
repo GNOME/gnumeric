@@ -1013,7 +1013,7 @@ Sheet_range_set_format (PortableServer_Servant servant,
 			const CORBA_char *format,
 			CORBA_Environment *ev)
 {
-	Sheet *sheet = sheet_from_servant (servant);
+/*	Sheet *sheet = sheet_from_servant (servant);
 	GSList *ranges;
 	Style *style;
 
@@ -1021,20 +1021,21 @@ Sheet_range_set_format (PortableServer_Servant servant,
 
 	cell_freeze_redraws ();
 
-	/*
+*//*
 	 * Create a style for the region
-	 */
+	 *//*
 	style = style_new_empty ();
 	style->valid_flags = STYLE_FORMAT;
 	style->format = style_format_new (format);
 
-	/* Apply the style */
+	   *//* Apply the style *//*
 	range_set_style (ranges, style);
 	range_list_foreach (ranges, cb_range_set_format, (char *) format);
 
 	cell_thaw_redraws ();
 	
-	range_list_destroy (ranges);
+	range_list_destroy (ranges);*/
+	g_warning ("sheet_range_set_format");
 }
 
 static CORBA_long

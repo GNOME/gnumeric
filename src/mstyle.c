@@ -211,14 +211,16 @@ dump_style_list (const GList *l)
 	printf ("End of style list\n");
 }
 
-static Style *
-do_merge (const GList *list, MStyleElementType max)
+void
+mstyle_do_merge (const GList *list, MStyleElementType max,
+		 MStyleElement *mash, gboolean blank_uniq)
 {
 	const GList *l = list;
-	MStyleElement mash[MSTYLE_ELEMENT_MAX];
 	/* Find the intersection */
 	guint i;
 	
+	g_return_if_fail (mash != NULL);
+
 	for (i = 0; i < max; i++)
 		mash[i].type = MSTYLE_ELEMENT_ZERO;
 	
@@ -228,9 +230,12 @@ do_merge (const GList *list, MStyleElementType max)
 		for (j = 0; j < pst->elements->len; j++) {
 			MStyleElement e = g_array_index (pst->elements,
 							 MStyleElement, j);
-			if (e.type < max &&
-			    mash[e.type].type == MSTYLE_ELEMENT_ZERO)
-				mash[e.type] = e;
+			if (e.type < max) {
+				if (mash[e.type].type == MSTYLE_ELEMENT_ZERO)
+					mash[e.type] = e;
+				else if (blank_uniq)
+					mash[e.type].type = MSTYLE_ELEMENT_CONFLICT;
+			}
 		}
 		l = g_list_next (l);
 	}
@@ -241,8 +246,6 @@ do_merge (const GList *list, MStyleElementType max)
 		printf ("%s\n", txt);
 		g_free (txt);
 		}*/
-
-	return style_mstyle_new (mash, max);
 }
 
 static gboolean
@@ -267,15 +270,25 @@ check_sorted (const GList *list)
 Style *
 render_merge (const GList *styles)
 {
+	MStyleElement mash[MSTYLE_ELEMENT_MAX];
+
 	if (!check_sorted (styles))
 	    g_warning ("Styles not sorted");
-	return do_merge (styles, MSTYLE_ELEMENT_MAX);
+
+	mstyle_do_merge (styles, MSTYLE_ELEMENT_MAX, mash, FALSE);
+
+	return style_mstyle_new (mash, MSTYLE_ELEMENT_MAX);
 }
 
 Style *
 render_merge_blank (const GList *styles)
 {
+	MStyleElement mash[MSTYLE_ELEMENT_MAX];
+
 	if (!check_sorted (styles))
 	    g_warning ("Styles not sorted");
-	return do_merge (styles, MSTYLE_ELEMENT_MAX_BLANK);
+
+	mstyle_do_merge (styles, MSTYLE_ELEMENT_MAX_BLANK, mash, FALSE);
+
+	return style_mstyle_new (mash, MSTYLE_ELEMENT_MAX_BLANK);
 }

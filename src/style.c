@@ -423,19 +423,14 @@ style_mstyle_new (MStyleElement *e, guint len)
 
 	style = g_new0 (Style, 1);
 
-	style->valid_flags = STYLE_ALL;
-
 	style->format      = style_format_new ("General");
-	style->border      = style_border_new_plain ();
-	style->halign      = HALIGN_GENERAL;
-	style->valign      = VALIGN_CENTER;
-	style->orientation = ORIENT_HORIZ;
-	style->fit_in_cell = 0;
 
 	if (len > MSTYLE_ELEMENT_MAX_BLANK) {
 		gchar *name;
 		int    bold, italic;
 		double scale;
+
+		style->valid_flags = STYLE_ALL;
 		
 		if (e[MSTYLE_FONT_NAME].type)
 			name = e[MSTYLE_FONT_NAME].u.font.name;
@@ -461,7 +456,24 @@ style_mstyle_new (MStyleElement *e, guint len)
 			style->font = gnumeric_default_font;
 			style_font_ref (style->font);
 		}
-	}
+
+		if (e[MSTYLE_ALIGN_V].type)
+			style->valign = e[MSTYLE_ALIGN_V].u.align.v;
+		else
+			style->valign = VALIGN_CENTER;
+
+		if (e[MSTYLE_ALIGN_H].type)
+			style->halign = e[MSTYLE_ALIGN_V].u.align.h;
+		else
+			style->halign = HALIGN_GENERAL;
+
+		if (e[MSTYLE_ORIENTATION].type)
+			style->orientation = e[MSTYLE_ORIENTATION].u.orientation;
+		else
+			style->orientation = ORIENT_HORIZ;
+	} else
+		style->valid_flags = STYLE_FORE_COLOR | STYLE_BACK_COLOR |
+			STYLE_PATTERN | STYLE_BORDER;
 
 	/* Styles that will show up on blank cells */
 	if (e[MSTYLE_COLOR_FORE].type) {
@@ -475,6 +487,18 @@ style_mstyle_new (MStyleElement *e, guint len)
 		style_color_ref (style->back_color);
 	} else
 		style->back_color = style_color_new (0xffff, 0xffff, 0xffff);
+
+	if (e[MSTYLE_FIT_IN_CELL].type)
+		style->fit_in_cell = e[MSTYLE_FIT_IN_CELL].u.fit_in_cell;
+	else
+		style->fit_in_cell = 0;
+
+	if (e[MSTYLE_BORDER_TOP].type ||
+	    e[MSTYLE_BORDER_BOTTOM].type ||
+	    e[MSTYLE_BORDER_LEFT].type ||
+	    e[MSTYLE_BORDER_RIGHT].type)
+		g_warning ("Re-vamp borders");
+	style->border      = style_border_new_plain ();
 	
 	return style;
 }

@@ -9,6 +9,7 @@ typedef struct _StyleFont        StyleFont;
 typedef struct _StyleColor       StyleColor;
 typedef struct _StyleBorder      StyleBorder;
 typedef struct _StyleFormat      StyleFormat;
+typedef struct _MStyleBorder     MStyleBorder;
 typedef struct _StyleFormatEntry StyleFormatEntry;
 
 /* Alignment definitions */
@@ -94,6 +95,11 @@ struct _StyleColor {
 	gushort  red;
 	gushort  green;
 	gushort  blue;
+};
+
+struct _MStyleBorder {
+	StyleBorderType  type;
+	StyleColor      *color;
 };
 
 struct _StyleBorder {

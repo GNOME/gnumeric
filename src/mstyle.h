@@ -12,9 +12,18 @@ typedef enum   _MStyleElementType MStyleElementType;
 enum _MStyleElementType {
 	/* Delimiter */
 	MSTYLE_ELEMENT_ZERO = 0,
+	/* When there is a conflict in a merge */
+	MSTYLE_ELEMENT_CONFLICT,
 	/* Types that are visible in blank cells */
 	        MSTYLE_COLOR_FORE,
 		MSTYLE_COLOR_BACK,
+
+	        MSTYLE_BORDER_TOP,
+	        MSTYLE_BORDER_BOTTOM,
+	        MSTYLE_BORDER_LEFT,
+	        MSTYLE_BORDER_RIGHT,
+
+		MSTYLE_PATTERN,
 	/* Delimiter */
 	MSTYLE_ELEMENT_MAX_BLANK,
 	/* Normal types */
@@ -22,6 +31,15 @@ enum _MStyleElementType {
 		MSTYLE_FONT_BOLD,
 		MSTYLE_FONT_ITALIC,
 	        MSTYLE_FONT_SIZE,
+
+		MSTYLE_FORMAT,
+
+	        MSTYLE_ALIGN_V,
+	        MSTYLE_ALIGN_H,
+
+		MSTYLE_ORIENTATION,
+
+		MSTYLE_FIT_IN_CELL,
 	/* Delimiter */
 	MSTYLE_ELEMENT_MAX
 };
@@ -32,13 +50,28 @@ struct _MStyleElement {
 		union {
 			StyleColor *fore;
 			StyleColor *back;
-		} color;
+		}                color;
+		union {
+			MStyleBorder *top;
+			MStyleBorder *bottom;
+			MStyleBorder *left;
+			MStyleBorder *right;
+		}                border;
+		guint32          pattern;
+
 		union {
 			gchar    *name;
 			gboolean  bold;
 			gboolean  italic;
 			gdouble   size;
-		} font;
+		}                font;
+		StyleFormat     *format;
+		union {
+			StyleVAlignFlags v;
+			StyleHAlignFlags h;
+		}                align;
+		StyleOrientation orientation;
+		gboolean         fit_in_cell;
 	} u;
 };
 
@@ -57,6 +90,8 @@ void        mstyle_destroy     (MStyle *st);
 char       *mstyle_to_string   (const MStyle *st); /* Debug only ! leaks like a sieve */
 void        mstyle_dump        (const MStyle *st);
 
+void        mstyle_do_merge    (const GList *list, MStyleElementType max,
+				MStyleElement *mash, gboolean blank_uniq);
 Style      *render_merge       (const GList *mstyles);
 Style      *render_merge_blank (const GList *mstyles);
 

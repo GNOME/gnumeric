@@ -131,6 +131,8 @@ GNUMERIC_BASE_SOURCES =				\
 	sheet-object-widget.h			\
 	sheet-object-graphic.c			\
 	sheet-object-graphic.h			\
+	sheet-style.c				\
+	sheet-style.h				\
 	sheet-view.c				\
 	sheet-view.h				\
 	solver-lp.c                     	\
