@@ -1,3 +1,8 @@
+2002-04-25  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-control-gui.c (set_acetate_coords) : work around some
+	  strange code in the canvas-shape that was blowing out the borders.
+
 2002-04-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/gnumeric-canvas.[ch] : add sheet_object_group

@@ -41,7 +41,6 @@
 #include "item-acetate.h"
 #include "item-bar.h"
 #include "item-cursor.h"
-#include "item-acetate.h"
 #include "widgets/gnumeric-expr-entry.h"
 
 #include <libgnome/gnome-i18n.h>
@@ -1456,7 +1455,7 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		/* TODO : Add the comment modification elements */
 		{ "", NULL, 0, 0, 0 },
 
-		{ N_("_Format Cells..."),GNOME_STOCK_MENU_PREF,
+		{ N_("_Format Cells..."), GTK_STOCK_PROPERTIES,
 		    0, 0, CONTEXT_FORMAT_CELL },
 
 		/* Column specific (Note some labels duplicate row labels) */
@@ -1973,6 +1972,10 @@ set_acetate_coords (SheetControlGUI *scg, GObject *so_view,
 			"width_pixels",		CTRL_PT_SIZE + CTRL_PT_OUTLINE,
 			"outline_color",	"black",
 			"outline_stipple",	stipple,
+			/* work around the screwup in canvas-item-shape that adds a large
+			 * border to anything that uses miter
+			 */
+			"join_style",		GDK_JOIN_ROUND,
 			NULL);
 		gdk_bitmap_unref (stipple);
 		g_signal_connect (G_OBJECT (item),
