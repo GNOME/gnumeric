@@ -327,9 +327,6 @@ dialog_advanced_filter_init (AdvancedFilterState *state)
 
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 	g_signal_connect (G_OBJECT (state->dialog),
-		"set-focus",
-		G_CALLBACK (tool_set_focus), state);
-	g_signal_connect (G_OBJECT (state->dialog),
 		"destroy",
 		G_CALLBACK (tool_destroy), state);
 

@@ -362,25 +362,6 @@ cb_tool_cancel_clicked (GtkWidget *button, GenericToolState *state)
 }
 
 /**
- * tool_set_focus:
- * @window:
- * @focus_widget:
- * @state:
- *
- **/
-void
-tool_set_focus (GtkWidget *window, GtkWidget *focus_widget,
-			GenericToolState *state)
-{
-	if (focus_widget != NULL && IS_GNUMERIC_EXPR_ENTRY (focus_widget->parent)) {
-		wbcg_set_entry (state->wbcg,
-				GNUMERIC_EXPR_ENTRY (focus_widget->parent));
-	} else {
-		wbcg_set_entry (state->wbcg, NULL);
-	}
-}
-
-/**
  * tool_set_focus_output_range:
  * @widget:
  * @focus_widget:
@@ -564,9 +545,6 @@ dialog_tool_init (GenericToolState *state, const char *gui_name,
 	}
 
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
-	g_signal_connect (G_OBJECT (state->dialog),
-		"set-focus",
-		G_CALLBACK (tool_set_focus), state);
 	g_signal_connect (G_OBJECT (state->dialog),
 		"destroy",
 		G_CALLBACK (tool_destroy), state);
@@ -2505,9 +2483,6 @@ dialog_random_tool_init (RandomToolState *state)
 
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 	g_signal_connect (G_OBJECT (state->dialog),
-		"set-focus",
-		G_CALLBACK (tool_set_focus), state);
-	g_signal_connect (G_OBJECT (state->dialog),
 		"destroy",
 		G_CALLBACK (tool_destroy), state);
 	g_signal_connect (G_OBJECT (state->dialog),
@@ -2863,9 +2838,6 @@ dialog_regression_tool_init (RegressionToolState *state)
 	gtk_widget_show (GTK_WIDGET (state->input_entry_2));
 
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
-	g_signal_connect (G_OBJECT (state->dialog),
-		"set-focus",
-		G_CALLBACK (tool_set_focus), state);
 	g_signal_connect (G_OBJECT (state->dialog),
 		"destroy",
 		G_CALLBACK (tool_destroy), state);
@@ -3658,9 +3630,6 @@ dialog_histogram_tool_init (HistogramToolState *state)
 
 
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
-	g_signal_connect (G_OBJECT (state->dialog),
-		"set-focus",
-		G_CALLBACK (tool_set_focus), state);
 	g_signal_connect (G_OBJECT (state->dialog),
 		"destroy",
 		G_CALLBACK (tool_destroy), state);

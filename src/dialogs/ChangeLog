@@ -1,3 +1,15 @@
+2002-02-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-advanced-filter.c (dialog_init) : remove ref to 
+	  tool_set_focus (now done in wbcg_edit_attach_guru)
+	* dialog-analysis-tools.c (tool_set_focus) : moved into 
+	  src/workbook-edit.c as guru_set_focus
+	(dialog_tool_init) : remove ref to 
+	  tool_set_focus (now done in wbcg_edit_attach_guru)
+	(dialog_random_tool_init) : ditto
+	(dialog_regression_tool_init) : ditto
+	(dialog_histogram_tool_init) : ditto
+
 2002-02-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* cell-sort.glade : Add `add' entry

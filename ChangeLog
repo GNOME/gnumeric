@@ -1,3 +1,10 @@
+2002-02-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/analysis-tools.h : delete tool_set_focus
+	* src/workbook-edit.c (guru_set_focus) : new, formerly tool_set_focus
+	  in src/dialogs/dialog-analysis-tools.c
+	(wbcg_edit_attach_guru) : attach guru_set_focus to set_focus widget
+
 2002-02-25  Morten Welinder  <terra@diku.dk>
 
 	* configure.in (atan2l, sinhl, coshl, tanhl, asinhl, acoshl,
@@ -113,6 +120,8 @@
 	* src/summary.c (summary_item_name): Constify.
 
 	* src/print-info.c (predefined_formats, render_ops): Constify.
+
+2002-02-20  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/expr-name.c (builtins): Constify.
 

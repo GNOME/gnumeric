@@ -182,7 +182,6 @@ void prepare_output  (WorkbookControl *wbc,
 		      data_analysis_output_t *dao, const char *name);
 void tool_load_selection (GenericToolState *state, gboolean allow_multiple);
 gboolean tool_destroy (GtkObject *w, GenericToolState  *state);
-void tool_set_focus (GtkWidget *window, GtkWidget *focus_widget, GenericToolState *state);
 void dialog_tool_init_outputs (GenericToolState *state, GCallback sensitivity_cb);
 void dialog_tool_init_buttons (GenericToolState *state, GCallback ok_function);
 void error_in_entry (GenericToolState *state, GtkWidget *entry, const char *err_str);

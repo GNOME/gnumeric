@@ -437,6 +437,18 @@ wbcg_set_entry (WorkbookControlGUI *wbcg, GnumericExprEntry *entry)
 	}
 }
 
+static void
+guru_set_focus (GtkWidget *window, GtkWidget *focus_widget,
+			WorkbookControlGUI *wbcg)
+{
+	if (focus_widget != NULL && IS_GNUMERIC_EXPR_ENTRY (focus_widget->parent)) {
+		wbcg_set_entry (wbcg,
+				GNUMERIC_EXPR_ENTRY (focus_widget->parent));
+	} else {
+		wbcg_set_entry (wbcg, NULL);
+	}
+}
+
 void
 wbcg_edit_attach_guru (WorkbookControlGUI *wbcg, GtkWidget *guru)
 {
@@ -455,6 +467,10 @@ wbcg_edit_attach_guru (WorkbookControlGUI *wbcg, GtkWidget *guru)
 	gtk_entry_set_editable (wbcg_get_entry (wbcg), FALSE);
 	workbook_edit_set_sensitive (wbcg, FALSE, FALSE);
 	wb_control_menu_state_update (wbc, NULL, MS_GURU_MENU_ITEMS);
+
+	g_signal_connect (G_OBJECT (guru),
+		"set-focus",
+		G_CALLBACK (guru_set_focus), wbcg);
 }
 
 void
