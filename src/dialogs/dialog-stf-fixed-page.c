@@ -44,12 +44,12 @@ fixed_page_autodiscover (DruidPageData_t *pagedata)
 	guint i = 1;
 	char *tset[2];
 
-	stf_parse_options_fixed_autodiscover (pagedata->fixed.fixed_run_parseoptions, pagedata->importlines, (char *) pagedata->cur);
+	stf_parse_options_fixed_autodiscover (pagedata->fixed.parseoptions, pagedata->importlines, (char *) pagedata->cur);
 
 	gtk_clist_clear (pagedata->fixed.fixed_collist);
-	while (i < pagedata->fixed.fixed_run_parseoptions->splitpositions->len) {
+	while (i < pagedata->fixed.parseoptions->splitpositions->len) {
 		tset[0] = g_strdup_printf ("%d", i - 1);
-		tset[1] = g_strdup_printf ("%d", g_array_index (pagedata->fixed.fixed_run_parseoptions->splitpositions,
+		tset[1] = g_strdup_printf ("%d", g_array_index (pagedata->fixed.parseoptions->splitpositions,
 								int,
 								i));
 		gtk_clist_append (pagedata->fixed.fixed_collist, tset);
@@ -73,7 +73,7 @@ fixed_page_autodiscover (DruidPageData_t *pagedata)
 	 * no columns where found
 	 */
 
-	if (pagedata->fixed.fixed_run_parseoptions->splitpositions->len < 1) {
+	if (pagedata->fixed.parseoptions->splitpositions->len < 1) {
 		GtkWidget *dialog = gtk_message_dialog_new (NULL,
 			GTK_DIALOG_DESTROY_WITH_PARENT,
 			GTK_MESSAGE_INFO,
@@ -100,7 +100,7 @@ cb_col_event (GtkWidget *button,
 		if (bevent->button == 1) {
 			/* Split column.  */
 			GtkCellRenderer *cell =	stf_preview_get_cell_renderer
-				(data->fixed.fixed_run_renderdata, col);
+				(data->fixed.renderdata, col);
 			char *row[2];
 			int i, charindex, colstart, colend;
 			PangoLayout *layout;
@@ -180,8 +180,8 @@ cb_col_event (GtkWidget *button,
 static void
 fixed_page_update_preview (DruidPageData_t *pagedata)
 {
-	StfParseOptions_t *parseoptions = pagedata->fixed.fixed_run_parseoptions;
-	RenderData_t *renderdata = pagedata->fixed.fixed_run_renderdata;
+	StfParseOptions_t *parseoptions = pagedata->fixed.parseoptions;
+	RenderData_t *renderdata = pagedata->fixed.renderdata;
 	char *t[2];
 	int i, temp;
 
@@ -192,8 +192,8 @@ fixed_page_update_preview (DruidPageData_t *pagedata)
 		stf_parse_options_fixed_splitpositions_add (parseoptions, temp);
 	}
 
-	stf_parse_general_free (pagedata->lines);
-	pagedata->lines = stf_parse_general (parseoptions, pagedata->cur);
+	stf_preview_set_lines (renderdata,
+			       stf_parse_general (parseoptions, pagedata->cur));
 	stf_preview_render (renderdata);
 
 	for (i = 0; i < renderdata->colcount; i++) {
@@ -239,12 +239,12 @@ fixed_page_collist_select_row (GtkCList *clist, int row,
 {
 	char *t[2];
 
-	if (data->fixed.fixed_run_manual) {
-		data->fixed.fixed_run_manual = FALSE;
+	if (data->fixed.manual) {
+		data->fixed.manual = FALSE;
 		return;
 	}
 
-	data->fixed.fixed_run_index = row;
+	data->fixed.index = row;
 
 	gtk_clist_get_text (clist, row, 1, t);
 	gtk_spin_button_set_value (data->fixed.fixed_colend, atoi (t[0]));
@@ -267,11 +267,11 @@ fixed_page_colend_changed (GtkSpinButton *button, DruidPageData_t *data)
 {
 	char *text;
 
-	if (data->fixed.fixed_run_index < 0 || (data->fixed.fixed_run_index == GTK_CLIST (data->fixed.fixed_collist)->rows - 1))
+	if (data->fixed.index < 0 || (data->fixed.index == GTK_CLIST (data->fixed.fixed_collist)->rows - 1))
 		return;
 
 	text = gtk_editable_get_chars (GTK_EDITABLE (button), 0, -1);
-	gtk_clist_set_text (data->fixed.fixed_collist, data->fixed.fixed_run_index, 1, text);
+	gtk_clist_set_text (data->fixed.fixed_collist, data->fixed.index, 1, text);
 	g_free (text);
 
 	fixed_page_update_preview (data);
@@ -331,20 +331,20 @@ fixed_page_remove_clicked (G_GNUC_UNUSED GtkButton *button,
 {
 	int i;
 
-	if (data->fixed.fixed_run_index < 0 || (data->fixed.fixed_run_index == GTK_CLIST (data->fixed.fixed_collist)->rows - 1))
-		data->fixed.fixed_run_index--;
+	if (data->fixed.index < 0 || (data->fixed.index == GTK_CLIST (data->fixed.fixed_collist)->rows - 1))
+		data->fixed.index--;
 
-	gtk_clist_remove (data->fixed.fixed_collist, data->fixed.fixed_run_index);
+	gtk_clist_remove (data->fixed.fixed_collist, data->fixed.index);
 
-	for (i = data->fixed.fixed_run_index; i < GTK_CLIST (data->fixed.fixed_collist)->rows; i++) {
+	for (i = data->fixed.index; i < GTK_CLIST (data->fixed.fixed_collist)->rows; i++) {
 		char *text = g_strdup_printf ("%d", i);
 
 		gtk_clist_set_text (data->fixed.fixed_collist, i, 0, text);
 		g_free (text);
 	}
 
-	gtk_clist_select_row (data->fixed.fixed_collist, data->fixed.fixed_run_index, 0);
-	gnumeric_clist_moveto (data->fixed.fixed_collist, data->fixed.fixed_run_index);
+	gtk_clist_select_row (data->fixed.fixed_collist, data->fixed.index, 0);
+	gnumeric_clist_moveto (data->fixed.fixed_collist, data->fixed.index);
 
 	fixed_page_update_preview (data);
 }
@@ -409,15 +409,15 @@ fixed_page_prepare (G_GNUC_UNUSED GnomeDruidPage *page,
 {
 	GtkAdjustment *spinadjust;
 
-	stf_parse_options_set_trim_spaces (pagedata->fixed.fixed_run_parseoptions, TRIM_TYPE_NEVER);
+	stf_parse_options_set_trim_spaces (pagedata->fixed.parseoptions, TRIM_TYPE_NEVER);
 
 #if 0
-	stf_preview_set_startrow (pagedata->fixed.fixed_run_renderdata, GTK_RANGE (pagedata->fixed.fixed_scroll)->adjustment->value);
+	stf_preview_set_startrow (pagedata->fixed.renderdata, GTK_RANGE (pagedata->fixed.fixed_scroll)->adjustment->value);
 #endif
 
 	spinadjust = gtk_spin_button_get_adjustment (pagedata->fixed.fixed_colend);
 	spinadjust->lower = 1;
-	spinadjust->upper = stf_parse_get_longest_row_width (pagedata->fixed.fixed_run_parseoptions, pagedata->cur);
+	spinadjust->upper = stf_parse_get_longest_row_width (pagedata->fixed.parseoptions, pagedata->cur);
 	gtk_spin_button_set_adjustment (pagedata->fixed.fixed_colend, spinadjust);
 
 	fixed_page_update_preview (pagedata);
@@ -438,11 +438,11 @@ fixed_page_prepare (G_GNUC_UNUSED GnomeDruidPage *page,
 void
 stf_dialog_fixed_page_cleanup (DruidPageData_t *pagedata)
 {
-	stf_preview_free (pagedata->fixed.fixed_run_renderdata);
+	stf_preview_free (pagedata->fixed.renderdata);
 
-	if (pagedata->fixed.fixed_run_parseoptions) {
-		stf_parse_options_free (pagedata->fixed.fixed_run_parseoptions);
-		pagedata->fixed.fixed_run_parseoptions = NULL;
+	if (pagedata->fixed.parseoptions) {
+		stf_parse_options_free (pagedata->fixed.parseoptions);
+		pagedata->fixed.parseoptions = NULL;
 	}
 }
 
@@ -474,17 +474,16 @@ stf_dialog_fixed_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	pagedata->fixed.fixed_data_container =          (glade_xml_get_widget (gui, "fixed_data_container"));
 
 	/* Set properties */
-	pagedata->fixed.fixed_run_renderdata    =
+	pagedata->fixed.renderdata    =
 		stf_preview_new (pagedata->fixed.fixed_data_container,
-				 &pagedata->lines,
 				 NULL);
-	pagedata->fixed.fixed_run_parseoptions  = stf_parse_options_new ();
-	pagedata->fixed.fixed_run_manual        = FALSE;
-	pagedata->fixed.fixed_run_index         = -1;
-	pagedata->fixed.fixed_run_mousedown     = FALSE;
-	pagedata->fixed.fixed_run_xorigin       = 0;
+	pagedata->fixed.parseoptions  = stf_parse_options_new ();
+	pagedata->fixed.manual        = FALSE;
+	pagedata->fixed.index         = -1;
+	pagedata->fixed.mousedown     = FALSE;
+	pagedata->fixed.xorigin       = 0;
 
-	stf_parse_options_set_type  (pagedata->fixed.fixed_run_parseoptions, PARSE_TYPE_FIXED);
+	stf_parse_options_set_type  (pagedata->fixed.parseoptions, PARSE_TYPE_FIXED);
 
 	gtk_clist_column_titles_passive (pagedata->fixed.fixed_collist);
 

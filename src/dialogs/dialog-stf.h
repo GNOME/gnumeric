@@ -23,7 +23,7 @@ typedef struct {
 	GtkEntry        *main_textfield;
      
 	/* Page members that are created at run-time */
-	RenderData_t    *main_run_renderdata;
+	RenderData_t    *renderdata;
 } MainInfo_t;
 
 /* for the csv_page */
@@ -37,9 +37,9 @@ typedef struct {
 	GtkWidget       *csv_data_container;
 
 	/* Page members that are created at run-time */
-	RenderData_t       *csv_run_renderdata;
-	StfParseOptions_t  *csv_run_parseoptions;
-	int                 csv_run_scrollpos;
+	RenderData_t       *renderdata;
+	StfParseOptions_t  *parseoptions;
+	int                 scrollpos;
 } CsvInfo_t;
 
 /* for the fixed_page */
@@ -50,13 +50,13 @@ typedef struct {
 	GtkWidget     *fixed_data_container;
 
 	/* Page members that are created at run-time */
-	RenderData_t      *fixed_run_renderdata;
-	StfParseOptions_t *fixed_run_parseoptions;
-	int                fixed_run_index;
-	gboolean           fixed_run_manual;
-	gboolean           fixed_run_mousedown;
-	double             fixed_run_xorigin;
-	int                fixed_run_column;
+	RenderData_t      *renderdata;
+	StfParseOptions_t *parseoptions;
+	int                index;
+	gboolean           manual;
+	gboolean           mousedown;
+	double             xorigin;
+	int                column;
 } FixedInfo_t;
 
 /* for the format_page */
@@ -68,13 +68,12 @@ typedef struct {
         GtkOptionMenu     *format_trim;
      
 	/* Page members that are created at run-time */
-	RenderData_t      *format_run_renderdata;
-	StfParseOptions_t *format_run_parseoptions;  /* Note : refers to either FixedInfo_t or CsvInfo_t parseoptions */
-	RenderData_t      *format_run_source_hash;   /* Note : refers to either FixedInfo_t or CsvInfo_t RenderData_t */
-	GPtrArray         *format_run_list; /* Contains StyleFormat* */
-	int                format_run_index;
-	gboolean           format_run_manual_change;
-	gboolean           format_run_sublist_select;
+	RenderData_t      *renderdata;
+	StfParseOptions_t *parseoptions;  /* Note : refers to either FixedInfo_t or CsvInfo_t parseoptions */
+	GPtrArray         *formats; /* Contains StyleFormat* */
+	int                index;
+	gboolean           manual_change;
+	gboolean           sublist_select;
 } FormatInfo_t;
 
 
@@ -100,8 +99,6 @@ typedef struct {
 	const char            *filename;     /* File we are reading from */
 	const char            *data;         /* Pointer to beginning of data */
 	const char            *cur;          /* Pointer pointing to position in data to start parsing */
-
-	GPtrArray             *lines;
 
 	int                   importlines;  /* Number of lines to import */
 

@@ -1,5 +1,5 @@
 /*
- * dialog-stf.c : implementation of the STF import dialog
+ * dialog-stf.c: implementation of the STF import dialog
  *
  * Copyright 2001 Almer S. Tigelaar <almer@gnome.org>
  * Copyright 2003 Morten Welinder <terra@gnome.org>
@@ -35,13 +35,13 @@
 
 /**
  * stf_dialog_druid_page_cancel
- * @page : Active druid page
- * @druid : The parent Druid widget
- * @data : mother struct
+ * @page: Active druid page
+ * @druid: The parent Druid widget
+ * @data: mother struct
  *
  * Presents the user with a nice cancel y/n dialog.
  *
- * returns : TRUE if the user actually wants to cancel, FALSE otherwise.
+ * returns: TRUE if the user actually wants to cancel, FALSE otherwise.
  **/
 static gboolean
 stf_dialog_druid_page_cancel (G_GNUC_UNUSED GnomeDruidPage *page,
@@ -54,12 +54,12 @@ stf_dialog_druid_page_cancel (G_GNUC_UNUSED GnomeDruidPage *page,
 
 /**
  * stf_dialog_druid_position_to_page
- * @pagedata : mother struct
- * @pos : Position in the druid
+ * @pagedata: mother struct
+ * @pos: Position in the druid
  *
  * Will translate a DPG_* position into a pointer to the page.
  *
- * returns : A pointer to the GnomeDruidPage indicated by @pos
+ * returns: A pointer to the GnomeDruidPage indicated by @pos
  **/
 static GnomeDruidPage*
 stf_dialog_druid_position_to_page (DruidPageData_t *pagedata, DruidPosition_t pos)
@@ -69,7 +69,7 @@ stf_dialog_druid_position_to_page (DruidPageData_t *pagedata, DruidPosition_t po
 	case DPG_CSV    : return pagedata->csv_page;
 	case DPG_FIXED  : return pagedata->fixed_page;
 	case DPG_FORMAT : return pagedata->format_page;
-	default :
+	default:
 		g_warning ("Unknown druid position");
 		return NULL;
 	}
@@ -77,11 +77,11 @@ stf_dialog_druid_position_to_page (DruidPageData_t *pagedata, DruidPosition_t po
 
 /**
  * stf_dialog_set_initial_keyboard_focus
- * @pagedata : mother struct
+ * @pagedata: mother struct
  *
  * Sets keyboard focus to the an appropriate widget on the page.
  *
- * returns : nothing
+ * returns: nothing
  **/
 static void
 stf_dialog_set_initial_keyboard_focus (DruidPageData_t *pagedata)
@@ -89,23 +89,23 @@ stf_dialog_set_initial_keyboard_focus (DruidPageData_t *pagedata)
 	GtkWidget *focus_widget = NULL;
 
 	switch (pagedata->position) {
-	case DPG_MAIN   :
+	case DPG_MAIN:
 		focus_widget =
 			GTK_WIDGET (pagedata->main.main_separated);
 		break;
-	case DPG_CSV    :
+	case DPG_CSV:
 		focus_widget =
 			GTK_WIDGET (pagedata->csv.csv_space);
 		break;
-	case DPG_FIXED  :
+	case DPG_FIXED:
 		focus_widget = GTK_WIDGET
 			(&pagedata->fixed.fixed_colend->entry);
 		break; /* ?? */
-	case DPG_FORMAT :
+	case DPG_FORMAT:
 		focus_widget =
 			GTK_WIDGET (pagedata->format.format_format);
 		break;
-	default :
+	default:
 		g_warning ("Unknown druid position");
 	}
 
@@ -115,14 +115,14 @@ stf_dialog_set_initial_keyboard_focus (DruidPageData_t *pagedata)
 
 /**
  * stf_dialog_druid_page_next
- * @page : A druid page
- * @druid : The druid itself
- * @data : mother struct
+ * @page: A druid page
+ * @druid: The druid itself
+ * @data: mother struct
  *
  * This function will determine and set the next page depending on choices
  * made in previous pages
  *
- * returns : always TRUE, because it always sets the new page manually
+ * returns: always TRUE, because it always sets the new page manually
  **/
 static gboolean
 stf_dialog_druid_page_next (G_GNUC_UNUSED GnomeDruidPage *page,
@@ -132,23 +132,25 @@ stf_dialog_druid_page_next (G_GNUC_UNUSED GnomeDruidPage *page,
 	GnomeDruidPage *nextpage;
 
 	switch (data->position) {
-	case DPG_MAIN   : {
+	case DPG_MAIN:
+		stf_preview_set_lines (data->main.renderdata, NULL);
 		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->main.main_separated))) {
 			newpos = DPG_CSV;
 			data->parsetype = PARSE_TYPE_CSV;
-		}
-		else {
+		} else {
 			newpos = DPG_FIXED;
 			data->parsetype = PARSE_TYPE_FIXED;
 		}
-	} break;
-	case DPG_CSV    : {
-		newpos = DPG_FORMAT;
+		break;
 
-		data->format.format_run_parseoptions = data->csv.csv_run_parseoptions;
-		data->format.format_run_source_hash  = data->csv.csv_run_renderdata;
-	} break;
-        case DPG_FIXED  : {
+	case DPG_CSV:
+		stf_preview_set_lines (data->csv.renderdata, NULL);
+		newpos = DPG_FORMAT;
+		data->format.parseoptions = data->csv.parseoptions;
+		break;
+
+        case DPG_FIXED:
+		stf_preview_set_lines (data->fixed.renderdata, NULL);
 		newpos = DPG_FORMAT;
 
 		/*
@@ -156,18 +158,18 @@ stf_dialog_druid_page_next (G_GNUC_UNUSED GnomeDruidPage *page,
 		 * the fixed width page of the druid because of
 		 * columns getting mangled
 		 */
-		stf_parse_options_set_trim_spaces (data->fixed.fixed_run_parseoptions, data->trim);
-		data->format.format_run_parseoptions = data->fixed.fixed_run_parseoptions;
-		data->format.format_run_source_hash  = data->fixed.fixed_run_renderdata;
-	} break;
-	default :
-		g_warning ("Page Cycle Error : Unknown page %d", data->position);
+		stf_parse_options_set_trim_spaces (data->fixed.parseoptions, data->trim);
+		data->format.parseoptions = data->fixed.parseoptions;
+		break;
+
+	default:
+		g_warning ("Page Cycle Error: Unknown page %d", data->position);
 		return FALSE;
 	}
 
         nextpage = stf_dialog_druid_position_to_page (data, newpos);
 	if (!nextpage) {
-		g_warning ("Page Cycle Error : Invalid page");
+		g_warning ("Page Cycle Error: Invalid page");
 		return FALSE;
 	}
 
@@ -185,13 +187,13 @@ stf_dialog_druid_page_next (G_GNUC_UNUSED GnomeDruidPage *page,
 
 /**
  * stf_dialog_druid_page_previous
- * @page : a druid page
- * @druid : a druid
- * @data : mother struct
+ * @page: a druid page
+ * @druid: a druid
+ * @data: mother struct
  *
  * Determines the previous page based on choices made earlier on
  *
- * returns : always TRUE, because it always cycles to the previous page manually
+ * returns: always TRUE, because it always cycles to the previous page manually
  **/
 static gboolean
 stf_dialog_druid_page_previous (G_GNUC_UNUSED GnomeDruidPage *page,
@@ -201,16 +203,26 @@ stf_dialog_druid_page_previous (G_GNUC_UNUSED GnomeDruidPage *page,
 	GnomeDruidPage *nextpage;
 
 	switch (data->position) {
-	case DPG_FORMAT : {
+	case DPG_FORMAT:
+		stf_preview_set_lines (data->format.renderdata, NULL);
 		if (data->parsetype == PARSE_TYPE_CSV)
 			newpos = DPG_CSV;
 		else
 			newpos = DPG_FIXED;
-	} break;
-	case DPG_FIXED  : newpos = DPG_MAIN; break;
-	case DPG_CSV    : newpos = DPG_MAIN; break;
-	default :
-		g_warning ("Page Cycle Error : Unknown page");
+		break;
+
+	case DPG_FIXED:
+		stf_preview_set_lines (data->fixed.renderdata, NULL);
+		newpos = DPG_MAIN;
+		break;
+
+	case DPG_CSV:
+		stf_preview_set_lines (data->csv.renderdata, NULL);
+		newpos = DPG_MAIN;
+		break;
+
+	default:
+		g_warning ("Page Cycle Error: Unknown page");
 		return FALSE;
 	}
 
@@ -219,7 +231,7 @@ stf_dialog_druid_page_previous (G_GNUC_UNUSED GnomeDruidPage *page,
 
         nextpage = stf_dialog_druid_position_to_page (data, newpos);
 	if (!nextpage) {
-		g_warning ("Page Cycle Error : Invalid page");
+		g_warning ("Page Cycle Error: Invalid page");
 		return FALSE;
 	}
 
@@ -236,12 +248,12 @@ stf_dialog_druid_page_previous (G_GNUC_UNUSED GnomeDruidPage *page,
 
 /**
  * stf_dialog_druid_cancel
- * @druid : a druid
- * @data : mother struct
+ * @druid: a druid
+ * @data: mother struct
  *
  * Stops the druid and indicates the user has cancelled
  *
- * returns : nothing
+ * returns: nothing
  **/
 static void
 stf_dialog_druid_cancel (G_GNUC_UNUSED GnomeDruid *druid,
@@ -253,8 +265,8 @@ stf_dialog_druid_cancel (G_GNUC_UNUSED GnomeDruid *druid,
 
 /**
  * stf_dialog_window_delete
- * @druid : a druid
- * @data : mother struct
+ * @druid: a druid
+ * @data: mother struct
  *
  * Stops the druid and indicates the user has cancelled
  *
@@ -271,12 +283,12 @@ stf_dialog_window_delete (G_GNUC_UNUSED GtkWindow *w,
 
 /**
  * stf_dialog_check_escape
- * @druid : a druid
- * @event : the event
+ * @druid: a druid
+ * @event: the event
  *
  * Stops the druid if the user pressed escape.
  *
- * returns : TRUE if we handled the keypress, FALSE if we pass it on.
+ * returns: TRUE if we handled the keypress, FALSE if we pass it on.
  **/
 static gint
 stf_dialog_check_escape (G_GNUC_UNUSED GnomeDruid *druid,
@@ -291,15 +303,15 @@ stf_dialog_check_escape (G_GNUC_UNUSED GnomeDruid *druid,
 
 /**
  * stf_dialog_format_page_druid_finish
- * @druid : a druid
- * @page : a druidpage
- * @data : mother struct
+ * @druid: a druid
+ * @page: a druidpage
+ * @data: mother struct
  *
  * Stops the druid but does not set the cancel property of @data.
  * The main routine (stf_dialog()) will know that the druid has successfully
  * been completed.
  *
- * returns : nothing
+ * returns: nothing
  **/
 static void
 stf_dialog_druid_format_page_finish (G_GNUC_UNUSED GnomeDruid *druid,
@@ -311,16 +323,16 @@ stf_dialog_druid_format_page_finish (G_GNUC_UNUSED GnomeDruid *druid,
 
 /**
  * stf_dialog_attach_page_signals
- * @gui : the glade gui of the dialog
- * @pagedata : mother struct
+ * @gui: the glade gui of the dialog
+ * @pagedata: mother struct
  *
  * Connects all signals to all pages and fills the mother struct
- * The page flow of the druid looks like :
+ * The page flow of the druid looks like:
  *
  * main_page /- csv_page   -\ format_page
  *           \- fixed_page -/
  *
- * returns : nothing
+ * returns: nothing
  **/
 static void
 stf_dialog_attach_page_signals (GladeXML *gui, DruidPageData_t *pagedata)
@@ -391,11 +403,11 @@ stf_dialog_attach_page_signals (GladeXML *gui, DruidPageData_t *pagedata)
 
 /**
  * stf_dialog_editables_enter
- * @pagedata : mother struct
+ * @pagedata: mother struct
  *
  * Make <Ret> in text fields activate default.
  *
- * returns : nothing
+ * returns: nothing
  **/
 static void
 stf_dialog_editables_enter (DruidPageData_t *pagedata)
@@ -422,14 +434,14 @@ stf_dialog_editables_enter (DruidPageData_t *pagedata)
 
 /**
  * stf_dialog
- * @wbcg : a Commandcontext (can be NULL)
- * @filename : name of the file we are importing (or data)
- * @data : the data itself
+ * @wbcg: a Commandcontext (can be NULL)
+ * @filename: name of the file we are importing (or data)
+ * @data: the data itself
  *
  * This will start the import druid.
- * (NOTE : you have to free the DialogStfResult_t that this function returns yourself)
+ * (NOTE: you have to free the DialogStfResult_t that this function returns yourself)
  *
- * returns : A DialogStfResult_t struct on success, NULL otherwise.
+ * returns: A DialogStfResult_t struct on success, NULL otherwise.
  **/
 DialogStfResult_t*
 stf_dialog (WorkbookControlGUI *wbcg, const char *filename, const char *data)
@@ -449,7 +461,6 @@ stf_dialog (WorkbookControlGUI *wbcg, const char *filename, const char *data)
 	pagedata.filename    = filename;
 	pagedata.data        = data;
 	pagedata.cur         = data;
-	pagedata.lines       = g_ptr_array_new ();
 
 	pagedata.window      = GTK_WINDOW  (glade_xml_get_widget (gui, "window"));
 	pagedata.druid       = GNOME_DRUID (glade_xml_get_widget (gui, "druid"));
@@ -485,15 +496,15 @@ stf_dialog (WorkbookControlGUI *wbcg, const char *filename, const char *data)
 		dialogresult->newstart = pagedata.cur;
 		dialogresult->lines = pagedata.importlines;
 		if (pagedata.parsetype == PARSE_TYPE_CSV) {
-			dialogresult->parseoptions = pagedata.csv.csv_run_parseoptions;
-			pagedata.csv.csv_run_parseoptions = NULL;
+			dialogresult->parseoptions = pagedata.csv.parseoptions;
+			pagedata.csv.parseoptions = NULL;
 		} else {
-			dialogresult->parseoptions = pagedata.fixed.fixed_run_parseoptions;
-			pagedata.fixed.fixed_run_parseoptions = NULL;
+			dialogresult->parseoptions = pagedata.fixed.parseoptions;
+			pagedata.fixed.parseoptions = NULL;
 		}
 
-		dialogresult->formats = pagedata.format.format_run_list;
-		pagedata.format.format_run_list = NULL;
+		dialogresult->formats = pagedata.format.formats;
+		pagedata.format.formats = NULL;
 	}
 
 	/* Quick Note, if the parseoptions members of either the csv page or
@@ -505,7 +516,6 @@ stf_dialog (WorkbookControlGUI *wbcg, const char *filename, const char *data)
 	stf_dialog_csv_page_cleanup    (&pagedata);
 	stf_dialog_fixed_page_cleanup  (&pagedata);
 	stf_dialog_format_page_cleanup (&pagedata);
-	stf_parse_general_free (pagedata.lines);
 
 	gtk_widget_destroy (GTK_WIDGET (pagedata.window));
 	g_object_unref (pagedata.window);
@@ -516,12 +526,12 @@ stf_dialog (WorkbookControlGUI *wbcg, const char *filename, const char *data)
 
 /**
  * stf_dialog_result_free
- * @dialogresult : a dialogresult struct
+ * @dialogresult: a dialogresult struct
  *
  * This routine will properly free the members of @dialogresult and
  * @dialogresult itself
  *
- * returns : nothing
+ * returns: nothing
  **/
 void
 stf_dialog_result_free (DialogStfResult_t *dialogresult)

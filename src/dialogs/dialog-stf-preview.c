@@ -96,7 +96,7 @@ render_get_value (gint row, gint column, gpointer _rd, GValue *value)
 {
 	RenderData_t *rd = (RenderData_t *)_rd;
 	GnumericLazyList *ll = rd->ll;
-	GPtrArray *lines = *rd->plines;
+	GPtrArray *lines = rd->lines;
 	GPtrArray *line = (row < (int)lines->len)
 		? g_ptr_array_index (lines, row)
 		: NULL;
@@ -135,7 +135,7 @@ stf_preview_render (RenderData_t *renderdata)
 	g_return_if_fail (renderdata != NULL);
 	g_return_if_fail (renderdata->data_container != NULL);
 
-	lines = *(renderdata->plines);
+	lines = renderdata->lines;
 	for (i = 0; i < lines->len; i++) {
 		GPtrArray *line = g_ptr_array_index (lines, i);
 		colcount = MAX (colcount, (int)line->len);
@@ -190,7 +190,6 @@ stf_preview_render (RenderData_t *renderdata)
  **/
 RenderData_t*
 stf_preview_new (GtkWidget *data_container,
-		 GPtrArray **plines,
 		 GnmDateConventions const *date_conv)
 {
 	RenderData_t* renderdata;
@@ -203,7 +202,7 @@ stf_preview_new (GtkWidget *data_container,
 	renderdata->startrow       = 1;
 	renderdata->colformats     = g_ptr_array_new ();
 	renderdata->ignore_formats = FALSE;
-	renderdata->plines         = plines;
+	renderdata->lines          = NULL;
 
 	renderdata->date_conv	   = date_conv;
 
@@ -241,7 +240,22 @@ stf_preview_free (RenderData_t *renderdata)
 	stf_preview_colformats_clear (renderdata);
 	g_ptr_array_free (renderdata->colformats, TRUE);
 
+	stf_preview_set_lines (renderdata, NULL);
+
 	g_free (renderdata);
+}
+
+void
+stf_preview_set_lines (RenderData_t *renderdata, GPtrArray *lines)
+{
+	g_return_if_fail (renderdata != NULL);
+
+	if (renderdata->lines == lines)
+		return;
+
+	if (renderdata->lines)
+		stf_parse_general_free (renderdata->lines);
+	renderdata->lines = lines;
 }
 
 /**

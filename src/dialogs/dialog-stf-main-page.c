@@ -33,10 +33,10 @@
 static void
 main_page_update_preview (DruidPageData_t *pagedata)
 {
-	RenderData_t *renderdata = pagedata->main.main_run_renderdata;
+	RenderData_t *renderdata = pagedata->main.renderdata;
 
-	stf_parse_general_free (pagedata->lines);
-	pagedata->lines = stf_parse_lines (pagedata->data, TRUE);
+	stf_preview_set_lines (renderdata,
+			       stf_parse_lines (pagedata->data, TRUE));
 	stf_preview_render (renderdata);
 }
 
@@ -71,14 +71,15 @@ main_page_set_spin_button_adjustment (GtkSpinButton* spinbutton, int min, int ma
 static void
 main_page_import_range_changed (DruidPageData_t *data)
 {
+	RenderData_t *renderdata = data->main.renderdata;
 	int startrow, stoprow;
 	char *linescaption;
 
 	startrow = gtk_spin_button_get_value_as_int (data->main.main_startrow);
 	stoprow  = gtk_spin_button_get_value_as_int (data->main.main_stoprow);
 
-	if (stoprow > (int)data->lines->len) {
-	     stoprow = data->lines->len;
+	if (stoprow > (int)renderdata->lines->len) {
+	     stoprow = renderdata->lines->len;
 	     gtk_spin_button_set_value (data->main.main_stoprow, stoprow);
 	}
 
@@ -88,10 +89,12 @@ main_page_import_range_changed (DruidPageData_t *data)
 	}
 
 	main_page_set_spin_button_adjustment (data->main.main_startrow, 1, stoprow);
-	main_page_set_spin_button_adjustment (data->main.main_stoprow, startrow, data->lines->len);
+	main_page_set_spin_button_adjustment (data->main.main_stoprow, startrow, renderdata->lines->len);
 
 	data->importlines = (stoprow - startrow) + 1;
-	linescaption = g_strdup_printf (_("%d of %d lines to import"), data->importlines, data->lines->len);
+	linescaption = g_strdup_printf (_("%d of %d lines to import"),
+					data->importlines,
+					renderdata->lines->len);
 	gtk_label_set_text (data->main.main_lines, linescaption);
 	g_free (linescaption);
 }
@@ -147,7 +150,7 @@ static void
 main_page_stringindicator_change (G_GNUC_UNUSED GtkWidget *widget,
 			DruidPageData_t *data)
 {
-	StfParseOptions_t *parseoptions = data->csv.csv_run_parseoptions;
+	StfParseOptions_t *parseoptions = data->csv.parseoptions;
 	char *textfieldtext;
 	gunichar str_ind;
 
@@ -214,7 +217,7 @@ main_page_prepare (G_GNUC_UNUSED GnomeDruidPage *page,
 void
 stf_dialog_main_page_cleanup (DruidPageData_t *pagedata)
 {
-	stf_preview_free (pagedata->main.main_run_renderdata);
+	stf_preview_free (pagedata->main.renderdata);
 }
 
 /**
@@ -244,9 +247,8 @@ stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	pagedata->main.main_textindicator = GTK_COMBO    (glade_xml_get_widget (gui, "main_textindicator"));
 	pagedata->main.main_textfield     = GTK_ENTRY    (glade_xml_get_widget (gui, "main_textfield"));
 
-	renderdata = pagedata->main.main_run_renderdata = stf_preview_new
+	renderdata = pagedata->main.renderdata = stf_preview_new
 		(pagedata->main.main_data_container,
-		 &pagedata->lines,
 		 NULL);
 	renderdata->ignore_formats = TRUE;
 
@@ -269,9 +271,9 @@ stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 		      NULL);
 
 	/* Set properties */
-	main_page_set_spin_button_adjustment (pagedata->main.main_startrow, 1, pagedata->lines->len);
-	main_page_set_spin_button_adjustment (pagedata->main.main_stoprow, 1, pagedata->lines->len);
-	gtk_spin_button_set_value (pagedata->main.main_stoprow, pagedata->lines->len);
+	main_page_set_spin_button_adjustment (pagedata->main.main_startrow, 1, renderdata->lines->len);
+	main_page_set_spin_button_adjustment (pagedata->main.main_stoprow, 1, renderdata->lines->len);
+	gtk_spin_button_set_value (pagedata->main.main_stoprow, renderdata->lines->len);
 
 	{
 		GtkFrame *main_frame = GTK_FRAME (glade_xml_get_widget (gui, "main_frame"));

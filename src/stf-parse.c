@@ -1354,7 +1354,7 @@ stf_parse_next_token (char const *data, StfParseOptions_t *parseoptions, StfToke
 	g_return_val_if_fail (g_utf8_validate (data, -1, NULL), NULL);
 #endif
 
-	quote= parseoptions->stringindicator;
+	quote = parseoptions->stringindicator;
 
 	ttype = STF_TOKEN_CHAR;
 	character = g_utf8_find_next_char (data, NULL);
