@@ -1,3 +1,13 @@
+1999-04-18  Michael Meeks  <michael@edenproject.org>
+
+	* ms-escher.c (bse_type_to_name): Created.
+	(bse_type_to_name): Created.
+	(BSE_new): Updated.
+	(esh_header_contained): Moved duplicated code
+	into this and added check.
+	(esh_header_next): Added debug.
+	(write_file): Writes a pixmap to disk.
+
 1999-04-15  Michael Meeks  <michael@edenproject.org>
 
 	* ms-excel.c (ms_excelReadWorkbook): Put PRECISION

@@ -35,6 +35,10 @@
 #include "ms-escher.h"
 #include "escher-types.h"
 
+#define ESH_BITMAP_DUMP 0
+#define ESH_OPT_DUMP 0
+#define ESH_HEADER_DEBUG 0
+
 /**
  * NB. SP = ShaPe
  *     GR = GRoup
@@ -50,6 +54,9 @@ typedef struct { /* See: S59FDA.HTM */
 	gboolean first;
 } ESH_HEADER;
 #define ESH_HEADER_LEN 8
+
+/* To be passed around as a parameter */
+enum { eWindows, eMac } saved_os = eWindows;
 
 static ESH_HEADER *
 esh_header_new (guint8 *data, gint32 length)
@@ -86,8 +93,23 @@ esh_header_next (ESH_HEADER *h)
 	split       = BIFF_GETWORD(h->data+0);
 	h->ver      = (split&0x0f);
 	h->instance = (split>>4);
+#if ESH_HEADER_DEBUG > 0
+	printf ("Next header length 0x%x(=%d), type 0x%x, ver 0x%x, instance 0x%x\n",
+		h->length, h->length, h->type, h->ver, h->instance);
+#endif
 	return 1;
 }
+
+static ESH_HEADER *
+esh_header_contained (ESH_HEADER *h)
+{
+	if (h->length_left<ESH_HEADER_LEN)
+		return NULL;
+
+	return esh_header_new (h->data+ESH_HEADER_LEN,
+			       h->length-ESH_HEADER_LEN);
+}
+
 static void
 esh_header_destroy (ESH_HEADER *h)
 {
@@ -105,13 +127,17 @@ biff_to_flat_data (const BIFF_QUERY *q, guint8 **data, guint32 *length)
 {
 	BIFF_QUERY *nq = ms_biff_query_copy (q);
 	guint8 *ptr;
+	int cnt=0;
 
 	*length=0;
 	do {
 		*length+=nq->length;
 		ms_biff_query_next(nq);
-	} while (nq->opcode == BIFF_CONTINUE);
+		cnt++;
+	} while (nq->opcode == BIFF_CONTINUE ||
+		 nq->opcode == BIFF_MS_O_DRAWING_GROUP);
 
+	printf ("MERGING %d continues\n", cnt);
 	(*data) = g_malloc (*length);
 	ptr=(*data);
 	nq = ms_biff_query_copy (q);
@@ -119,7 +145,8 @@ biff_to_flat_data (const BIFF_QUERY *q, guint8 **data, guint32 *length)
 		memcpy (ptr, nq->data, nq->length);
 		ptr+=nq->length;
 		ms_biff_query_next(nq);
-	} while (nq->opcode == BIFF_CONTINUE);
+	} while (nq->opcode == BIFF_CONTINUE ||
+		 nq->opcode == BIFF_MS_O_DRAWING_GROUP);
 }
 
 typedef struct {
@@ -171,28 +198,93 @@ Dgg_destroy (FDGG *fd)
 	g_free (fd);
 }
 
+typedef enum  { eERROR = 0, eUNKNOWN = 1, eEMF = 2, eWMF = 3,
+		ePICT = 4, eJPEG = 5, ePNG = 6, eDIB = 7 } blip_type;
+
 typedef struct {
-	guint8   win_type;
-	guint8   mac_type;
-	guint8   rbg_uid[16];
-	guint32  size;
-	guint32  ref_count;
-	guint32  delay_off; /* File offset into delay stream */
+
+	blip_type stored_type;
+	guint8    rbg_uid[16]; /* md4 sum of the data ... */
+	guint32   size;
+	guint32   ref_count;
+	guint32   delay_off; /* File offset into delay stream */
 	enum { eUsageDefault, eUsageTexture } usage;
-	guint8   name_len;
-	char *name;
+	guint8    name_len;
+	char     *name;
 } FILE_BLIP_STORE_ENTRY;
 
+static char *
+bse_type_to_name (blip_type type)
+{
+	switch (type) {
+	case eWMF:
+		return "Compressed WMF";
+	case eEMF:
+		return "Compressed EMF";
+	case ePICT:
+		return "Compressed PICT";
+	case ePNG:
+		return "PNG";
+	case eJPEG:
+		return "JPEG";
+	case eDIB:
+		return "DIB";
+	default:
+		return "Unknown";
+	}
+	return "Unknown";
+}
+
+static void
+write_file (char *name, guint8 *data, guint32 len, blip_type type)
+{
+	FILE *f;
+	GString *nme = g_string_new (name);
+	static int num=0;
+	g_string_sprintfa (nme, "-%d", num++);
+	switch (type) {
+	case eJPEG:
+		g_string_append (nme, ".jpg");
+		break;
+	case ePNG:
+		g_string_append (nme, ".png");
+		break;
+	case eDIB:
+		g_string_append (nme, ".bmp");
+		break;
+	default:
+		g_string_append (nme, ".duff");
+		break;
+	}
+	f = fopen (nme->str, "w");
+	if (f) {
+		fwrite (data, len, 1, f);
+		fclose (f);
+		printf ("written 0x%x bytes to '%s'\n", len, nme->str);
+	} else
+		printf ("Can't open '%s'\n", nme->str);
+	g_string_free (nme, 1);
+}
+
 static FILE_BLIP_STORE_ENTRY *
-BSE_new (ESH_HEADER *h)
+BSE_new (ESH_HEADER *h) /* S59FE3.HTM */
 {
 	FILE_BLIP_STORE_ENTRY *fbse = g_new (FILE_BLIP_STORE_ENTRY, 1);
 	guint8 *data = h->data + ESH_HEADER_LEN;
-	guint32 tmp;
+	guint8 type;
+	guint32 tmp,txt_byte_len,data_len;
 	int lp;
 
-	fbse->win_type   = BIFF_GETBYTE(data+ 0);
-	fbse->mac_type   = BIFF_GETBYTE(data+ 1);
+	if (saved_os == eMac)
+		type   = BIFF_GETBYTE(data+ 1);
+	else
+		type   = BIFF_GETBYTE(data+ 0);
+	if (type<8)
+		fbse->stored_type = h->instance;
+	else
+		fbse->stored_type = eERROR;
+	printf ("Stored type : 0x%x type 0x%x\n", h->instance, type);
+
 	for (lp=0;lp<16;lp++)
 		fbse->rbg_uid[lp] = BIFF_GETBYTE(data+2+lp);
 	fbse->size       = BIFF_GETLONG(data+20);
@@ -205,18 +297,42 @@ BSE_new (ESH_HEADER *h)
 		fbse->usage = eUsageDefault;
 	fbse->name_len   = BIFF_GETBYTE(data+33);
 	if (fbse->name_len)
-		fbse->name = biff_get_text (data+36, fbse->name_len, 0);
-	else
+		fbse->name = biff_get_text (data+36, fbse->name_len,
+					    &txt_byte_len);
+	else {
 		fbse->name = g_strdup("NoName");
+		txt_byte_len=0;
+	}
 
-	printf ("FBSE: 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x '%s'\n",
-		fbse->win_type, fbse->mac_type, fbse->size, fbse->ref_count,
+	printf ("FBSE: '%s' 0x%x(=%d) 0x%x 0x%x 0x%x '%s'\n",
+		bse_type_to_name (fbse->stored_type), fbse->size, fbse->size,
+		fbse->ref_count,
 		fbse->delay_off, fbse->usage, fbse->name);
 	for (lp=0;lp<16;lp++)
 		printf ("0x%x ", fbse->rbg_uid[lp]);
 	printf ("\n");
 
-/*	dump (data, h->length-ESH_HEADER_LEN); */
+	/* Now the picture data */
+	data+=txt_byte_len+36;
+	data_len = h->length - ESH_HEADER_LEN -36 - txt_byte_len;
+
+#if ESH_BITMAP_DUMP > 0
+	printf ("Header\n");
+	dump (h->data, h->length-data_len);
+
+	printf ("Data\n");
+	dump (data, data_len);
+#endif
+	if (fbse->stored_type == eJPEG ||
+	    fbse->stored_type == ePNG ||
+	    fbse->stored_type == eDIB) {
+		data+=25; /* Another header ! */
+		data_len-=25;
+		write_file ("test", data, fbse->size, fbse->stored_type);
+	} else 
+		printf ("FIXME: unhandled type 0x%x\n",
+			fbse->stored_type);
+
 	return fbse;
 }
 static void
@@ -230,19 +346,43 @@ BSE_destroy (FILE_BLIP_STORE_ENTRY *fbse)
 
 typedef GPtrArray BLIP_STORAGE_CONTAINER;
 
+typedef struct {
+	guint   pid :14;
+	guint   bid:1;
+	guint   complex:1;
+	guint32 op; /* or value */
+} OPT_DATA;
+
+static OPT_DATA *
+OPT_new (ESH_HEADER *h) /*See: S59FFB.HTM */
+{
+	guint8 *data=h->data+ESH_HEADER_LEN;
+	OPT_DATA *od = g_new (OPT_DATA, 1);
+	guint16 d = BIFF_GETWORD(data);
+	od->pid = d & 0x3fff;
+	od->bid = (d & 0x4000)!=0;
+	od->complex = (d &0x8000)!=0;
+	od->op = BIFF_GETLONG(data+2);
+	printf ("OPT : 0x%x %d %d 0x%x\n", od->pid,
+		od->bid, od->complex, od->op);
+#if ESH_OPT_DUMP > 0
+	dump (h->data, h->length);
+#endif
+	return od;
+}
+
 static BLIP_STORAGE_CONTAINER *
 BStoreContainer_new (ESH_HEADER *h) /* See: S59FE3.HTM */
 {
 	GPtrArray *bsc = g_ptr_array_new();
-	ESH_HEADER *c = esh_header_new (h->data+ESH_HEADER_LEN,
-					h->length-ESH_HEADER_LEN);
+	ESH_HEADER *c = esh_header_contained (h);
 	while (esh_header_next(c)) {
 		switch (c->type) {
 		case BSE:
 			g_ptr_array_add (bsc, BSE_new(c));
 			break;
 		default:
-			printf ("Unknown Header: type 0x%x, inst 0x%x ver 0x%x len 0x%x\n",
+			printf ("Unknown BSC Header: type 0x%x, inst 0x%x ver 0x%x len 0x%x\n",
 				c->type, c->instance, c->ver, c->length);
 			break;
 		}
@@ -262,8 +402,7 @@ BStoreContainer_destroy (BLIP_STORAGE_CONTAINER *bsc)
 static void
 read_DggContainer (ESH_HEADER *h)
 {
-	ESH_HEADER *c = esh_header_new (h->data+ESH_HEADER_LEN,
-					h->length-ESH_HEADER_LEN);
+	ESH_HEADER *c = esh_header_contained (h);
 	printf ("Group Container\n");
 	while (esh_header_next(c)) {
 		switch (c->type) {
@@ -271,11 +410,14 @@ read_DggContainer (ESH_HEADER *h)
 			printf ("Dgg:\n");
 			Dgg_new (c);
 			break;
+		case OPT:
+			OPT_new (c);
+			break;
 		case BStoreContainer:
 			BStoreContainer_new (c);
 			break;
 		default:
-			printf ("Unknown Header: type 0x%x, inst 0x%x ver 0x%x len 0x%x\n",
+			printf ("Unknown DGGC Header: type 0x%x, inst 0x%x ver 0x%x len 0x%x\n",
 				c->type, c->instance, c->ver, c->length);
 			break;
 		}
@@ -285,8 +427,7 @@ read_DggContainer (ESH_HEADER *h)
 static void
 SpContainer_new (ESH_HEADER *h)  /* See: S59FEB.HTM */
 {
-	ESH_HEADER *c = esh_header_new (h->data+ESH_HEADER_LEN,
-					h->length-ESH_HEADER_LEN);
+	ESH_HEADER *c = esh_header_contained (h);
 	while (esh_header_next (c)) {
 		switch (c->type) {
 		default:
@@ -301,8 +442,7 @@ SpContainer_new (ESH_HEADER *h)  /* See: S59FEB.HTM */
 static void
 SpgrContainer_new (ESH_HEADER *h)  /* See: S59FEA.HTM */
 {
-	ESH_HEADER *c = esh_header_new (h->data+ESH_HEADER_LEN,
-					h->length-ESH_HEADER_LEN);
+	ESH_HEADER *c = esh_header_contained (h);
 	while (esh_header_next (c)) {
 		switch (c->type) {
 		case Dg: /* FIXME: duplicated, whats up here ? See S59FE8.HTM */
@@ -334,8 +474,7 @@ SpgrContainer_new (ESH_HEADER *h)  /* See: S59FEA.HTM */
 static void
 read_DgContainer (ESH_HEADER *h) /* See S59FE7.HTM */
 {
-	ESH_HEADER *c = esh_header_new (h->data+ESH_HEADER_LEN,
-					h->length-ESH_HEADER_LEN);
+	ESH_HEADER *c = esh_header_contained (h);
 	printf ("Container\n");
 	while (esh_header_next(c)) {
 		switch (c->type) {
@@ -381,7 +520,7 @@ disseminate_stream (guint8 *data, gint32 length)
 			read_DgContainer (h);
 			break;
 		default:
-			printf ("Unknown Header: type 0x%x, inst 0x%x ver 0x%x len 0x%x\n",
+			printf ("Unknown Dissstr Header: type 0x%x, inst 0x%x ver 0x%x len 0x%x\n",
 				h->type, h->instance, h->ver, h->length);
 			break;
 		}
