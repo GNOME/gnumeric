@@ -1,3 +1,9 @@
+2004-03-13    <clahey@ximian.com>
+
+	* configure.in: Added
+	src/cut-n-paste-code/goffice/drawing/Makefile and
+	src/cut-n-paste-code/goffice/ms-compat/Makefile
+
 2004-03-11  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* src/wbc-bonobo.c: (wbcb_style_feedback): Remove extraenous

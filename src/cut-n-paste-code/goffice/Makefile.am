@@ -1,11 +1,13 @@
-SUBDIRS = graph utils gui-utils # data
+SUBDIRS = graph utils gui-utils drawing ms-compat # data
 
 noinst_LTLIBRARIES = libgoffice.la
 
 libgoffice_la_LIBADD = 				\
 	utils/libgoffice-utils.la		\
 	gui-utils/libgoffice-gui-utils.la	\
-	graph/libgoffice-graph.la
+	graph/libgoffice-graph.la		\
+	drawing/libgoffice-drawing.la		\
+	ms-compat/libgoffice-ms-compat.la
 
 libgoffice_la_SOURCES = 	\
 	goffice.c		\

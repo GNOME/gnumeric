@@ -1,3 +1,9 @@
+2004-03-13    <clahey@ximian.com>
+
+	* Makefile.am (SUBDIRS): Added drawing and ms-compat.
+	(libgoffice_la_LIBADD): Added drawing/libgoffice-drawing.la and
+	ms-compat/libgoffice/ms-compat.la.
+
 2004-03-12  Morten Welinder  <terra@gnome.org>
 
 	* graph/gog-series.c (gog_series_element_class_init): Apply the
