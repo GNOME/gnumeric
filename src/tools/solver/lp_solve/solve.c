@@ -977,6 +977,27 @@ iteration (lprec        *lp,
 } /* iteration */
 
 
+/* A divizion by zero occured in solvelp.  Report it and try to recover.
+ */
+static void
+catchdiv0 (int row_nr)
+{
+        fprintf (stderr, "An attempt was made to divide by zero (Pcol[%d])\n",
+		 row_nr);
+	fprintf (stderr, "This indicates numerical instability\n");
+
+	Doiter = FALSE;
+
+	if (!JustInverted) {
+	        fprintf (stderr, "Trying to recover. Reinverting Eta\n");
+		DoInvert = TRUE;
+	} else {
+	        fprintf (stderr, "Can't reinvert, failure\n");
+		Status = SolverFailure;
+	}
+}
+
+
 static int
 solvelp (lprec *lp)
 {
@@ -1063,32 +1084,9 @@ solvelp (lprec *lp)
 
 					/* getting div by zero here. Catch it
 					 * and try to recover */
-					if (Pcol[row_nr] == 0) {
-					        fprintf(stderr,
-							"An attempt was made "
-							"to divide by zero "
-							"(Pcol[%d])\n",
-							row_nr);
-						fprintf(stderr,
-							"This indicates "
-							"numerical instability"
-							"\n");
-						Doiter = FALSE;
-						if (!JustInverted) {
-						        fprintf(stderr,
-								"Trying to "
-								"recover. "
-								"Reinverting "
-								"Eta\n");
-							DoInvert = TRUE;
-						} else {
-						        fprintf(stderr,
-								"Can't "
-								"reinvert, "
-								"failure\n");
-							Status = SolverFailure;
-						}
-					} else {
+					if (Pcol[row_nr] == 0)
+					        catchdiv0 (row_nr);
+					else {
 					        condensecol (lp, row_nr, Pcol);
 						f = lp->rhs[row_nr] -
 						  lp->upbo[lp->bas[row_nr]];
@@ -1126,12 +1124,12 @@ solvelp (lprec *lp)
 		        if (lp->print_at_invert)
 			        fprintf (stderr, "Inverting: Primal = %d\n",
 					 primal);
-			invert(lp);
+			invert (lp);
 		}
 	} 
 
 	lp->total_iter += lp->iter;
- 
+
 	g_free (drow);
 	g_free (prow);
 	g_free (Pcol);
