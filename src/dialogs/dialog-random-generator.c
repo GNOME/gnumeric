@@ -49,10 +49,10 @@
 #include <string.h>
 #include <commands.h>
 
+
 /**********************************************/
 /*  Generic guru items */
 /**********************************************/
-
 
 
 #define RANDOM_KEY            "analysistools-random-dialog"
@@ -97,23 +97,40 @@ typedef struct {
 
 /* Distribution strings for Random Number Generator */
 static const DistributionStrs distribution_strs[] = {
-        { DiscreteDistribution,
-	  N_("Discrete"), N_("_Value And Probability Input Range:"), NULL, TRUE },
+        /* The most commonly used are listed first.  I think uniform, gaussian
+	 * and discrete are the most commonly used, or what do you think? */
+
+        { UniformDistribution,
+	  N_("Uniform"), N_("_Lower Bound:"),  N_("_Upper Bound:"), FALSE },
         { NormalDistribution,
 	  N_("Normal"), N_("_Mean:"), N_("_Standard Deviation:"), FALSE },
-     	{ PoissonDistribution,
-	  N_("Poisson"), N_("_Lambda:"), NULL, FALSE },
-	{ ExponentialDistribution,
-	  N_("Exponential"), N_("_b Value:"), NULL, FALSE },
+        { DiscreteDistribution,
+	  N_("Discrete"), N_("_Value And Probability Input Range:"), NULL,
+	  TRUE },
+
+	/* The others are in alphabetical order. */
+
+        { BernoulliDistribution,
+	  N_("Bernoulli"), N_("_p Value:"), NULL, FALSE },
+        { BetaDistribution,
+	  N_("Beta"), N_("_a Value:"), N_("_b Value:"), FALSE },
 	{ BinomialDistribution,
 	  N_("Binomial"), N_("_p Value:"), N_("N_umber of Trials:"), FALSE },
+	{ CauchyDistribution,
+	  N_("Cauchy"), N_("_a Value:"), NULL, FALSE },
+	{ ChisqDistribution,
+	  N_("Chisq"), N_("_nu Value:"), NULL, FALSE },
+	{ ExponentialDistribution,
+	  N_("Exponential"), N_("_b Value:"), NULL, FALSE },
+	{ FdistDistribution,
+	  N_("F"), N_("nu_1 Value:"), N_("nu_2 Value:"), FALSE },
 	{ NegativeBinomialDistribution,
 	  N_("Negative Binomial"), N_("_p Value:"),
 	  N_("N_umber of Failures"), FALSE },
-        { BernoulliDistribution,
-	  N_("Bernoulli"), N_("_p Value:"), NULL, FALSE },
-        { UniformDistribution,
-	  N_("Uniform"), N_("_Lower Bound:"),  N_("_Upper Bound:"), FALSE },
+     	{ PoissonDistribution,
+	  N_("Poisson"), N_("_Lambda:"), NULL, FALSE },
+	{ WeibullDistribution,
+	  N_("Weibull"), N_("_a Value:"), N_("_b Value:"), FALSE },
         { 0, NULL, NULL, NULL, FALSE }
 };
 
@@ -168,11 +185,11 @@ combo_get_distribution (GtkWidget *combo)
 static void
 random_tool_update_sensitivity_cb (GtkWidget *dummy, RandomToolState *state)
 {
-	gboolean ready  = FALSE;
-	gint count, vars, i;
-	gnum_float a_float, from_val, to_val, p_val;
-        Value *output_range;
-	Value *disc_prob_range;
+	gboolean   ready  = FALSE;
+	gint       count, vars, i;
+	gnum_float a_float, b_float, from_val, to_val, p_val;
+        Value      *output_range;
+	Value      *disc_prob_range;
 	random_distribution_t the_dist;
 
         output_range = gnm_expr_entry_parse_as_value
@@ -201,6 +218,12 @@ random_tool_update_sensitivity_cb (GtkWidget *dummy, RandomToolState *state)
 			entry_to_float (GTK_ENTRY (state->par1_entry), &p_val, FALSE) == 0 &&
 			p_val <= 1.0 && p_val > 0.0;
 		break;
+	case BetaDistribution:
+		ready = ready &&
+			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0;
+		ready = ready &&
+			entry_to_float (GTK_ENTRY (state->par2_entry), &b_float, FALSE) == 0;
+		break;
 	case PoissonDistribution:
 		ready = ready &&
 			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
@@ -210,6 +233,32 @@ random_tool_update_sensitivity_cb (GtkWidget *dummy, RandomToolState *state)
 		ready = ready &&
 			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
 			a_float > 0.0;
+		break;
+	case CauchyDistribution:
+		ready = ready &&
+			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
+			a_float > 0.0;
+		break;
+	case ChisqDistribution:
+		ready = ready &&
+			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
+			a_float > 0.0;
+		break;
+	case FdistDistribution:
+		ready = ready &&
+			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
+			a_float > 0.0;
+		ready = ready &&
+			entry_to_float (GTK_ENTRY (state->par2_entry), &b_float, FALSE) == 0 &&
+			b_float > 0.0;
+		break;
+	case WeibullDistribution:
+		ready = ready &&
+			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
+			a_float > 0.0;
+		ready = ready &&
+			entry_to_float (GTK_ENTRY (state->par2_entry), &b_float, FALSE) == 0 &&
+			b_float > 0.0;
 		break;
 	case BinomialDistribution:
 		ready = ready &&
@@ -388,6 +437,12 @@ random_tool_ok_clicked_cb (GtkWidget *button, RandomToolState *state)
 		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
 				      &data->param.bernoulli.p, TRUE);
 		break;
+	case BetaDistribution:
+		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+				      &data->param.beta.a, TRUE);
+		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+				      &data->param.beta.b, TRUE);
+		break;
 	case PoissonDistribution:
 		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
 				      &data->param.poisson.lambda, TRUE);
@@ -395,6 +450,26 @@ random_tool_ok_clicked_cb (GtkWidget *button, RandomToolState *state)
 	case ExponentialDistribution:
 		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
 				      &data->param.exponential.b, TRUE);
+		break;
+	case CauchyDistribution:
+		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+				      &data->param.cauchy.a, TRUE);
+		break;
+	case ChisqDistribution:
+		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+				      &data->param.chisq.nu, TRUE);
+		break;
+	case FdistDistribution:
+		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+				      &data->param.fdist.nu1, TRUE);
+		err = entry_to_float (GTK_ENTRY (state->par2_entry), 
+				      &data->param.fdist.nu2, TRUE);
+		break;
+	case WeibullDistribution:
+		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+				      &data->param.weibull.a, TRUE);
+		err = entry_to_float (GTK_ENTRY (state->par2_entry), 
+				      &data->param.weibull.b, TRUE);
 		break;
 	case BinomialDistribution:
 		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
@@ -410,7 +485,8 @@ random_tool_ok_clicked_cb (GtkWidget *button, RandomToolState *state)
 		break;
 	case DiscreteDistribution:
 		data->param.discrete.range = gnm_expr_entry_parse_as_value (
-			GNUMERIC_EXPR_ENTRY (state->par1_expr_entry), state->base.sheet);
+			GNUMERIC_EXPR_ENTRY (state->par1_expr_entry),
+			state->base.sheet);
 		break;
 	case UniformDistribution:
 	default:
@@ -421,8 +497,9 @@ random_tool_ok_clicked_cb (GtkWidget *button, RandomToolState *state)
 		break;
 	}
 
-	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet, 
-			       dao, data, tool_random_engine) && 
+	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg),
+				state->base.sheet, 
+				dao, data, tool_random_engine) && 
 	    (button == state->base.ok_button)) {
 		if (state->distribution_accel) {
 			gtk_window_remove_accel_group (GTK_WINDOW (state->base.dialog),
@@ -453,10 +530,12 @@ dialog_random_tool_init (RandomToolState *state)
 	Range const *first;
 
 	state->distribution_accel = NULL;
-	state->distribution = DiscreteDistribution;
+	state->distribution = UniformDistribution;
 
-	state->distribution_table = glade_xml_get_widget (state->base.gui, "distribution_table");
-	state->distribution_combo = glade_xml_get_widget (state->base.gui, "distribution_combo");
+	state->distribution_table = glade_xml_get_widget (state->base.gui,
+							  "distribution_table");
+	state->distribution_combo = glade_xml_get_widget (state->base.gui,
+							  "distribution_combo");
 	state->par1_entry = glade_xml_get_widget (state->base.gui, "par1_entry");
 	state->par1_label = glade_xml_get_widget (state->base.gui, "par1_label");
 	state->par2_label = glade_xml_get_widget (state->base.gui, "par2_label");
@@ -480,7 +559,7 @@ dialog_random_tool_init (RandomToolState *state)
 	gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (state->distribution_combo)->entry),
 			   _(distribution_strs[dist_str_no].name));
 	
-	ds = distribution_strs_find (DiscreteDistribution);
+	ds = distribution_strs_find (UniformDistribution);
 	(void) gtk_label_parse_uline (GTK_LABEL (state->par1_label), _(ds->label1));
 
   	g_signal_connect (G_OBJECT (GTK_COMBO (state->distribution_combo)->entry),
