@@ -1,5 +1,10 @@
 1999-09-09  Michael Meeks  <michael@nuclecu.unam.mx>
 
+	* src/sheet-object.c (sheet_button_release), sheet_motion_notify),
+	(sheet_object_set_bounds): Fix for arrows.
+
+1999-09-09  Michael Meeks  <michael@nuclecu.unam.mx>
+
 	* src/workbook.c (workbook_delete_event): Fix object_unref for
 	Bonobo case. (workbook_widget_delete_event): remove strange unref, this
 	needs looking at.

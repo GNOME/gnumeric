@@ -248,10 +248,12 @@ sheet_object_set_bounds (SheetObject *so, double tlx, double tly,
 	g_return_if_fail (so != NULL);
 	g_return_if_fail (so->bbox_points != NULL);
 
-	so->bbox_points->coords[0] = MIN (tlx, brx);
-	so->bbox_points->coords[1] = MIN (tly, bry);
-	so->bbox_points->coords[2] = MAX (tlx, brx);
-	so->bbox_points->coords[3] = MAX (tly, bry);
+	/* We do the MIN / MAX business on the get */
+
+	so->bbox_points->coords[0] = tlx;
+	so->bbox_points->coords[1] = tly;
+	so->bbox_points->coords[2] = brx;
+	so->bbox_points->coords[3] = bry;
 }
 
 /*
@@ -459,7 +461,7 @@ create_object (Sheet *sheet, gdouble to_x, gdouble to_y)
 static int
 sheet_motion_notify (GnumericSheet *gsheet, GdkEvent *event, Sheet *sheet)
 {
-	double brx, bry;
+	double  brx, bry;
 	ObjectCoords *tl;
 	SheetObject  *so;
 
@@ -495,11 +497,14 @@ sheet_motion_notify (GnumericSheet *gsheet, GdkEvent *event, Sheet *sheet)
 static int
 sheet_button_release (GnumericSheet *gsheet, GdkEventButton *event, Sheet *sheet)
 {
+	double  brx, bry;
+	ObjectCoords *tl;
 	SheetObject *so;
-	double brx, bry, tlx, tly, dummy;
 
 	g_return_val_if_fail (sheet != NULL, 1);
 	g_return_val_if_fail (gsheet != NULL, 1);
+	g_return_val_if_fail (sheet->coords != NULL, 1);
+	g_return_val_if_fail (sheet->coords->data != NULL, 1);
 	g_return_val_if_fail (sheet->current_object != NULL, 1);
 
 	so = sheet->current_object;
@@ -507,12 +512,14 @@ sheet_button_release (GnumericSheet *gsheet, GdkEventButton *event, Sheet *sheet
 	/* Do not propagate this event further */
 	gtk_signal_emit_stop_by_name (GTK_OBJECT (gsheet), "button_release_event");
 
+
 	brx = event->x;
 	bry = event->y;
 	window_to_world (GNOME_CANVAS (gsheet), &brx, &bry);
+	
+	tl = (ObjectCoords *)sheet->coords->data;
 
-	sheet_object_get_bounds (so, &tlx, &tly, &dummy, &dummy);
-	sheet_object_set_bounds (so,  tlx,  tly,  brx,    bry);
+	sheet_object_set_bounds (so, tl->x, tl->y, brx, bry);
 
 	SO_CLASS (sheet->current_object)->update_bounds (so);
 
