@@ -16,6 +16,7 @@ typedef struct
 	GtkWidget *dialog;
 	GtkWidget *hbox;
 	GtkWidget *vbbox;
+	GtkWidget *scrollwin;
 	GtkWidget *clist;
 	GtkWidget *button_add;
 	GtkWidget *button_remove;
@@ -101,12 +102,19 @@ plugin_manager_new (void)
 	pm->hbox = gtk_hbox_new (0, 0);
 	gtk_container_add (GTK_CONTAINER (pm->dialog), pm->hbox);
 
+	pm->scrollwin = gtk_scrolled_window_new(NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (pm->scrollwin),
+					GTK_POLICY_AUTOMATIC,
+					GTK_POLICY_AUTOMATIC); 
+	gtk_box_pack_start (GTK_BOX (pm->hbox), pm->scrollwin, 1, 1, 5);
+
 	titles [0] = _(n_titles [0]);
 	titles [1] = _(n_titles [1]);
 	
 	pm->clist = gtk_clist_new_with_titles (2, titles);
+	gtk_clist_column_titles_passive (GTK_CLIST (pm->clist));
 	gtk_widget_set_usize (pm->clist, 300, 120);
-	gtk_box_pack_start (GTK_BOX (pm->hbox), pm->clist, 1, 1, 5);
+	gtk_container_add (GTK_CONTAINER (pm->scrollwin), pm->clist);
 	
 	pm->vbbox = gtk_vbutton_box_new ();
 	gtk_button_box_set_layout (GTK_BUTTON_BOX (pm->vbbox), GTK_BUTTONBOX_START);
