@@ -5,6 +5,9 @@ Jody:
 	* More work on opencalc importer.
 	* Start clean up of error handling routines.
 
+Morten:
+	* Port search center from gal's e-table to gtk's treeview.
+
 --------------------------------------------------------------------------
 Gnumeric 1.1.9
 
