@@ -2681,10 +2681,15 @@ static GnomeUIInfo workbook_menu_edit_select [] = {
 };
 
 static GnomeUIInfo workbook_menu_edit_fill [] = {
-	{ GNOME_APP_UI_ITEM, N_("Auto_fill"),
-	N_("Automatically fill the current selection"),
-	cb_edit_fill_autofill, NULL,
-	NULL, 0, 0, 0, 0 },
+	GNOMEUIINFO_ITEM_NONE (N_("Auto_fill"),
+		N_("Automatically fill the current selection"),
+		cb_edit_fill_autofill),
+	GNOMEUIINFO_ITEM_NONE (N_("_Tabulate Dependency..."),
+		N_("Make a table of a cell's value as a function of other cells"),
+		cb_tools_tabulate),
+	GNOMEUIINFO_ITEM_NONE (N_("_Random Generator..."),
+		N_("Generate random numbers of a selection of distributions"),
+		cb_tools_random_generator),
 
 	GNOMEUIINFO_END
 };
@@ -3073,9 +3078,7 @@ static GnomeUIInfo workbook_menu_tools [] = {
 	GNOMEUIINFO_ITEM_NONE (N_("_Goal Seek..."),
 		N_("Iteratively recalculate to find a target value"),
 		cb_tools_goal_seek),
-	GNOMEUIINFO_ITEM_NONE (N_("_Tabulate Dependency..."),
-		N_("Make a table of a cell's value as a function of other cells"),
-		cb_tools_tabulate),
+
 	GNOMEUIINFO_ITEM_NONE (N_("_Solver..."),
 		N_("Iteratively recalculate with constraints to approach a target value"),
 		cb_tools_solver),
@@ -3083,10 +3086,6 @@ static GnomeUIInfo workbook_menu_tools [] = {
 	GNOMEUIINFO_SEPARATOR,
 
 	GNOMEUIINFO_SUBTREE(N_("Statistical Anal_ysis"), workbook_menu_tools_analysis),
-
-	GNOMEUIINFO_ITEM_NONE (N_("_Random Generator..."),
-		N_("Generate random numbers of a selection of distributions"),
-		cb_tools_random_generator),
 
 	GNOMEUIINFO_END
 };

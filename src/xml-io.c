@@ -1637,20 +1637,20 @@ xml_write_colrow_info (ColRowInfo *info, void *user_data)
 static xmlNodePtr
 xml_write_cell_and_position (XmlParseContext *ctxt, Cell const *cell, ParsePos const *pp)
 {
-	xmlNodePtr cur, child = NULL;
+	xmlNodePtr cellNode;
 	xmlChar *text, *tstr;
 	ExprArray const *ar;
 	gboolean write_contents = TRUE;
 	gboolean const is_shared_expr =
 	    (cell_has_expr (cell) && expr_tree_is_shared (cell->base.expression));
 
-	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, (xmlChar *)"Cell", NULL);
-	xml_node_set_int (cur, "Col", pp->eval.col);
-	xml_node_set_int (cur, "Row", pp->eval.row);
+	cellNode = xmlNewDocNode (ctxt->doc, ctxt->ns, (xmlChar *)"Cell", NULL);
+	xml_node_set_int (cellNode, "Col", pp->eval.col);
+	xml_node_set_int (cellNode, "Row", pp->eval.row);
 
 	/* Only the top left corner of an array needs to be saved (>= 0.53) */
 	if (NULL != (ar = cell_is_array (cell)) && (ar->y != 0 || ar->x != 0))
-		return cur;
+		return cellNode;
 
 	/* As of version 0.53 we save the ID of shared expressions */
 	if (is_shared_expr) {
@@ -1663,7 +1663,7 @@ xml_write_cell_and_position (XmlParseContext *ctxt, Cell const *cell, ParsePos c
 		} else if (ar == NULL)
 			write_contents = FALSE;
 
-		xml_node_set_int (cur, "ExprID", GPOINTER_TO_INT (id));
+		xml_node_set_int (cellNode, "ExprID", GPOINTER_TO_INT (id));
 	}
 
 	if (write_contents) {
@@ -1678,18 +1678,17 @@ xml_write_cell_and_position (XmlParseContext *ctxt, Cell const *cell, ParsePos c
 
 		tstr = xmlEncodeEntitiesReentrant (ctxt->doc, text);
 
-		/* FIXME : Remove this useless node.  set the content directly */
-		child = xmlNewChild (cur, ctxt->ns, (xmlChar *)"Content", tstr);
+		xmlNodeSetContent (cellNode, (xmlChar *)tstr);
 		if (tstr)
 			xmlFree (tstr);
 		g_free (text);
 
 		if (!cell_has_expr (cell)) {
-			xml_node_set_int (cur, "ValueType",
+			xml_node_set_int (cellNode, "ValueType",
 					   cell->value->type);
 			if (cell->format) {
 				char *fmt = style_format_as_XL (cell->format, FALSE);
-				xmlSetProp (cur, (xmlChar *)"ValueFormat", (xmlChar *)fmt);
+				xmlSetProp (cellNode, (xmlChar *)"ValueFormat", (xmlChar *)fmt);
 				g_free (fmt);
 			}
 		}
@@ -1698,11 +1697,11 @@ xml_write_cell_and_position (XmlParseContext *ctxt, Cell const *cell, ParsePos c
 	/* As of version 0.53 we save the size of the array as attributes */
 	/* As of version 0.57 the attributes are in the Cell not the Content */
 	if (ar != NULL) {
-	        xml_node_set_int (cur, "Rows", ar->rows);
-	        xml_node_set_int (cur, "Cols", ar->cols);
+	        xml_node_set_int (cellNode, "Rows", ar->rows);
+	        xml_node_set_int (cellNode, "Cols", ar->cols);
 	}
 
-	return cur;
+	return cellNode;
 }
 
 /*
@@ -1869,41 +1868,44 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 		}
 	}
 
-	for (child = tree->xmlChildrenNode; child != NULL ; child = child->next) {
-		/*
-		 * This style code is a gross anachronism that slugs performance
-		 * in the common case this data won't exist. In the long term all
-		 * files will make the 0.41 - 0.42 transition and this can go.
-		 * This is even older backwards compatibility than 0.41 - 0.42
-		 */
-		if (!strcmp (child->name, "Style")) {
-			if (!style_read) {
-				MStyle *mstyle;
-				mstyle = xml_read_style (ctxt, child);
+	if (ctxt->version < GNUM_XML_V10)
+		for (child = tree->xmlChildrenNode; child != NULL ; child = child->next) {
+			/*
+			 * This style code is a gross anachronism that slugs performance
+			 * in the common case this data won't exist. In the long term all
+			 * files will make the 0.41 - 0.42 transition and this can go.
+			 * This is even older backwards compatibility than 0.41 - 0.42
+			 */
+			if (!style_read && !strcmp (child->name, "Style")) {
+				MStyle *mstyle = xml_read_style (ctxt, child);
 				if (mstyle)
-					sheet_style_set_pos (ctxt->sheet, col, row,
-							     mstyle);
-			}
-		} else if (!strcmp (child->name, "Content")) {
-			content = (char *)xmlNodeGetContent (child);
+					sheet_style_set_pos (ctxt->sheet, col, row, mstyle);
+			/* This is a pre version 1.0.3 file */
+			} else if (!strcmp (child->name, "Content")) {
+				content = (char *)xmlNodeGetContent (child);
 
-			/* Is this a post 0.52 array */
-			if (ctxt->version == GNUM_XML_V3) {
-				is_post_52_array =
-				    xml_node_get_int (child, "Rows", &array_rows) &&
-				    xml_node_get_int (child, "Cols", &array_cols);
+				/* Is this a post 0.52 array */
+				if (ctxt->version == GNUM_XML_V3) {
+					is_post_52_array =
+					    xml_node_get_int (child, "Rows", &array_rows) &&
+					    xml_node_get_int (child, "Cols", &array_cols);
+				}
+			} else if (!strcmp (child->name, "Comment")) {
+				comment = (char *)xmlNodeGetContent (child);
+				if (comment) {
+					cell_set_comment (cell->base.sheet,
+						&cell->pos, NULL, comment);
+					xmlFree (comment);
+				}
 			}
-		} else if (!strcmp (child->name, "Comment")) {
-			comment = (char *)xmlNodeGetContent (child);
- 			if (comment) {
- 				cell_set_comment (cell->base.sheet,
-					&cell->pos, NULL, comment);
- 				xmlFree (comment);
-			}
- 		}
-	}
+		}
+
+	/* As of 1.0.3 we are back to storing the cell content directly as the content in cell
+	 * rather than creating piles and piles of useless nodes.
+	 */
 	if (content == NULL) {
 		content = (char *)xmlNodeGetContent (tree);
+
 		/* Early versions had newlines at the end of their content */
 		if (ctxt->version <= GNUM_XML_V1) {
 			char *tmp = strchr (content, '\n');
@@ -2697,7 +2699,7 @@ xml_read_cell_copy (XmlParseContext *ctxt, xmlNodePtr tree,
 	}
 
 	child = e_xml_get_child_by_name (tree, (xmlChar *)"Content");
-	content = xmlNodeGetContent (child);
+	content = xmlNodeGetContent ((child != NULL) ? child : tree);
 	if (content != NULL) {
 		if (is_post_52_array) {
 			ExprTree *expr;
@@ -2930,6 +2932,8 @@ static const struct {
 	char const * const id;
 	GnumericXMLVersion const version;
 } GnumericVersions [] = {
+	{ "http://www.gnumeric.org/v10.dtd", GNUM_XML_V10 },	/* 1.0.3 */
+	{ "http://www.gnumeric.org/v9.dtd", GNUM_XML_V9 },	/* 0.73 */
 	{ "http://www.gnumeric.org/v8.dtd", GNUM_XML_V8 },	/* 0.71 */
 	{ "http://www.gnome.org/gnumeric/v7", GNUM_XML_V7 },	/* 0.66 */
 	{ "http://www.gnome.org/gnumeric/v6", GNUM_XML_V6 },	/* 0.62 */

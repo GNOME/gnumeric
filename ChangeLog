@@ -1,3 +1,15 @@
+2002-01-19  Jody Goldberg <jody@gnome.org>
+
+	* src/GNOME_Gnumeric.xml : move the tabulate and random numbers into
+	  Edit -> Fill
+	* src/workbook-control-gui.c : ditto.
+
+	* src/xml-io.c (xml_read_cell_copy) : handle content with and without
+	  the 'Content' node.
+	(xml_read_cell) : do the version checks before the strcmps.
+
+	* gnumeric.xsd : Add MergedRegions, do not require the Cell's Content node.
+
 2002-01-19  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/workbook-control-gui.c : new cb_tool_... functions, add 

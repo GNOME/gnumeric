@@ -21,7 +21,6 @@ void        sheet_selection_add_range    (Sheet *sheet,
 
 void        sheet_selection_reset        (Sheet *sheet);
 void        sheet_selection_free         (Sheet *sheet);
-char       *sheet_selection_to_string    (Sheet *sheet, gboolean include_sheet_name_prefix);
 
 /* Cut/Copy/Paste on the workbook selection */
 gboolean    sheet_selection_copy              (WorkbookControl *context, Sheet *sheet);

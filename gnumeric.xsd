@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-            xmlns:gmr="http://www.gnumeric.org/v9.dtd"
-            targetNamespace="http://www.gnumeric.org/v9.dtd"
+            xmlns:gmr="http://www.gnumeric.org/v10.dtd"
+            targetNamespace="http://www.gnumeric.org/v10.dtd"
             elementFormDefault="qualified"
             attributeFormDefault="unqualified">
 
     <xsd:annotation>
         <xsd:documentation xml:lang="en">
             Schema for gnumeric spreadsheet documents
-            Assumes v.71 of gnumeric
+            Assumes Gnumeric 1.0.3
             Based on gnumeric source code and sample gnumeric documents
             Author: Marc Johnson (marc_johnson27591@hotmail.com)
         </xsd:documentation>
@@ -43,7 +43,7 @@
                 </xsd:complexType>
             </xsd:element>
         </xsd:sequence>
-        <!-- version number should be v8 - - &gt;
+        <!-- version number should be v10 - - &gt;
         <xsd:attribute name="gmr" type="gmr:namespace" use="required"/> -->
     </xsd:complexType>
 <!--    
@@ -166,6 +166,7 @@
                         <xsd:element name="Selections"      type="gmr:Selections"/>
                         <xsd:element name="Objects"         type="gmr:Objects" minOccurs="0" maxOccurs="1"/>
                         <xsd:element name="Cells"           type="gmr:Cells"/>
+                        <xsd:element name="MergedRegions"   type="gmr:MergedRegions"/>
                         <xsd:element name="Solver"          type="gmr:Solver"/>
                     </xsd:sequence>
                         <!-- note: xsd:boolean values can be true, false, 1, 0;
@@ -510,15 +511,15 @@
         <!-- size in points -->
         <xsd:attribute name="Unit"         type="xsd:double"             use="required"/>
         <!-- top/left margin, in points -->
-        <xsd:attribute name="MarginA"      type="gmr:col_row_margin"         use="required"/>
+        <xsd:attribute name="MarginA"      type="gmr:col_row_margin"     use="required"/>
         <!-- bottom/right margin, in points -->
-        <xsd:attribute name="MarginB"      type="gmr:col_row_margin"         use="required"/>
+        <xsd:attribute name="MarginB"      type="gmr:col_row_margin"     use="required"/>
         <!-- true if size is explicitly set -->
         <xsd:attribute name="HardSize"     type="xsd:boolean"            use="optional" default="0"/>
         <xsd:attribute name="Hidden"       type="xsd:boolean"            use="optional" default="0"/>
         <xsd:attribute name="Collapsed"    type="xsd:boolean"            use="optional" default="0"/>
         <xsd:attribute name="OutlineLevel" type="xsd:integer"            use="optional" default="0"/>
-        <!-- rle count ... whatever THAT means -->
+        <!-- The number of consequitive identically sized cols/rows -->
         <xsd:attribute name="Count"        type="xsd:integer"            use="optional" default="1"/>
     </xsd:complexType>
     
@@ -674,16 +675,13 @@
 
     <xsd:complexType name="Cells">
        <xsd:sequence>
-           <xsd:element name="Cell" minOccurs="0" maxOccurs="unbounded">
+           <xsd:element name="Cell" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
                <xsd:complexType>
-                   <xsd:sequence>
                        <!-- expressions are stored as entered, with a leading '='.
-                            However, if the expression is a shared expression, it
-                            does NOT get a leading '='. Once a shared expression has
-                            been defined, subsequent Cell elements using that same
-                            shared expression simply use the "ExprID" attribute to
-                            indicate which shared expression is used, and no Content
-                            element is included
+			    Once a shared expression has been defined, subsequent
+			    Cell elements using that same shared expression simply
+			    use the "ExprID" attribute to indicate which shared
+			    expression is used, and no Content element is included
                        -->
                        <xsd:element name="Content" type="xsd:string" minOccurs="0" maxOccurs="1"/>
                    </xsd:sequence>
@@ -721,6 +719,12 @@
         </xsd:restriction>
     </xsd:simpleType>
 
+    <xsd:complexType name="MergedRegions">
+       <xsd:sequence>
+           <xsd:element name="Merge" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+       </xsd:sequence>
+    </xsd:complexType>
+
     <xsd:complexType name="Solver">
         <xsd:sequence>
             <xsd:element name="Constr" minOccurs="0" maxOccurs="unbounded">
@@ -731,7 +735,7 @@
                     <xsd:attribute name="Rrow" type="xsd:nonNegativeInteger" use="required"/>
                     <xsd:attribute name="Cols" type="xsd:positiveInteger"    use="required"/>
                     <xsd:attribute name="Rows" type="xsd:positiveInteger"    use="required"/>
-                    <xsd:attribute name="Type" type="gmr:constraint_type"        use="required"/>
+                    <xsd:attribute name="Type" type="gmr:constraint_type"    use="required"/>
                 </xsd:complexType>
             </xsd:element>
         </xsd:sequence>

@@ -14,9 +14,10 @@ typedef enum
 	GNUM_XML_V7,	/* >= 0.66 */
 	GNUM_XML_V8,	/* >= 0.71 */
 	GNUM_XML_V9,	/* >= 0.73 add print scaling */
+	GNUM_XML_V10,	/* >= 1.03 remove useless Content node in cells */
 
 	/* NOTE : Keep this up to date (and in sync with the schema) */
-	GNUM_XML_LATEST = GNUM_XML_V9
+	GNUM_XML_LATEST = GNUM_XML_V10
 } GnumericXMLVersion;
 
 #endif /* GNUMERIC_XML_IO_VERSION_H */

@@ -254,8 +254,15 @@
 	        <menuitem name="EditFillAutofill" verb=""
 		    _label="Auto_fill"
 		    _top="Automatically fill the current selection"/>
+
+		<menuitem name="ToolsTabulate" verb=""
+		    _label="_Tabulate Dependency..."
+		    _tip="Make a table of a cell's value as a function of other cells"/>
+
+		<menuitem name="RandomGenerator" verb=""
+		    _label="_Random Generator..."
+		    _tip="Generate random numbers of a selection of distributions"/>
 	    </submenu>
-	    
 
 	    <menuitem name="EditSearch" verb=""
 		_label="Search..."
@@ -292,14 +299,14 @@
 		_tip="Create a new unshared view of the workbook"/>
 
       	    <separator/>
-      
+
 	    <menuitem name="ViewZoom" verb=""
 		_label="_Zoom..."
 		_tip="Zoom the spreadsheet in or out"/>
 	    <menuitem name="ViewFreezeThawPanes" verb=""/>
 
       	    <separator/>
-      
+
 	    <menuitem name="ViewToolbars" verb="BonoboCustomize"
 		_label="_Toolbars..."
 		_tip="Configure toolbars"/>
@@ -475,10 +482,6 @@
 		_label="_Goal Seek..."
 		_tip="Iteratively recalculate to find a target value"/>
 
-	    <menuitem name="ToolsTabulate" verb=""
-		_label="_Tabulate Dependency..."
-		_tip="Make a table of a cell's value as a function of other cells"/>
-
 	    <menuitem name="ToolsSolver" verb=""
 		_label="_Solver..."
 		_tip="Iteratively recalculate with constraints to approach a target value"/>
@@ -545,10 +548,6 @@
 		    _label="_Two Variances: FTest"
 		    _tip="Comparing two population variances"/>
             </submenu>
-
-	    <menuitem name="RandomGenerator" verb=""
-		_label="_Random Generator..."
-		_tip="Generate random numbers of a selection of distributions"/>
 
 	</submenu>
 

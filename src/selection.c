@@ -489,50 +489,6 @@ sheet_selection_reset (Sheet *sheet)
 	sheet_menu_state_enable_insert (sheet, TRUE, TRUE);
 }
 
-static void
-reference_append (GString *result_str, CellPos const *pos)
-{
-	g_string_append_c (result_str, '$');
-	g_string_append (result_str, col_name (pos->col));
-	g_string_append_c (result_str, '$');
-	g_string_append (result_str, row_name (pos->row));
-}
-
-char *
-sheet_selection_to_string (Sheet *sheet, gboolean include_sheet_name_prefix)
-{
-	GString *result_str;
-	GList   *selections;
-	char    *result;
-
-	g_return_val_if_fail (IS_SHEET (sheet), NULL);
-	g_return_val_if_fail (sheet->selections, NULL);
-
-	result_str = g_string_new ("");
-	for (selections = sheet->selections; selections; selections = selections->next){
-		Range *ss = selections->data;
-
-		if (*result_str->str)
-			g_string_append_c (result_str, ',');
-
-		if (include_sheet_name_prefix){
-			g_string_append (result_str, sheet->name_quoted);
-			g_string_append_c (result_str, '!');
-		}
-
-		reference_append (result_str, &ss->start);
-		if ((ss->start.col != ss->end.col) ||
-		    (ss->start.row != ss->end.row)){
-			g_string_append_c (result_str, ':');
-			reference_append (result_str, &ss->end);
-		}
-	}
-
-	result = result_str->str;
-	g_string_free (result_str, FALSE);
-	return result;
-}
-
 gboolean
 sheet_selection_copy (WorkbookControl *wbc, Sheet *sheet)
 {
