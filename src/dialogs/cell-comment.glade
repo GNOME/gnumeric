@@ -2,9 +2,10 @@
 <!DOCTYPE glade-interface SYSTEM "http://glade.gnome.org/glade-2.0.dtd">
 
 <glade-interface>
+<requires lib="gnome"/>
 
 <widget class="GtkDialog" id="comment_dialog">
-  <property name="border_width">6</property>
+  <property name="border_width">5</property>
   <property name="title" translatable="yes">Cell Comment</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
@@ -17,7 +18,7 @@
     <widget class="GtkVBox" id="dialog-vbox1">
       <property name="visible">True</property>
       <property name="homogeneous">False</property>
-      <property name="spacing">6</property>
+      <property name="spacing">2</property>
 
       <child internal-child="action_area">
 	<widget class="GtkHButtonBox" id="dialog-action_area1">
@@ -77,7 +78,7 @@
 	  <property name="can_focus">True</property>
 	  <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
 	  <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-	  <property name="shadow_type">GTK_SHADOW_ETCHED_OUT</property>
+	  <property name="shadow_type">GTK_SHADOW_IN</property>
 	  <property name="window_placement">GTK_CORNER_TOP_LEFT</property>
 
 	  <child>
@@ -99,7 +100,7 @@
 	  </child>
 	</widget>
 	<packing>
-	  <property name="padding">5</property>
+	  <property name="padding">0</property>
 	  <property name="expand">True</property>
 	  <property name="fill">True</property>
 	</packing>

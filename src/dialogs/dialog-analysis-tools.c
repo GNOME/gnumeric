@@ -503,26 +503,7 @@ tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 	input_2_ready = ((state->input_entry_2 == NULL) || 
 			 (input_range_2 != NULL));
 
-	if (state->gdao == NULL) {
-		int i;
-		GnmValue *output_range;
-
-		output_range = gnm_expr_entry_parse_as_value
-			(GNM_EXPR_ENTRY (state->output_entry), state->sheet);
-		i = gnumeric_glade_group_value (state->gui, output_group);
-		
-		output_ready =  ((i != 2) || (output_range != NULL));
-		
-		gtk_widget_set_sensitive (state->clear_outputrange_button, 
-					  (i == 2));
-		gtk_widget_set_sensitive (state->retain_format_button, 
-					  (i == 2));
-		gtk_widget_set_sensitive (state->retain_comments_button, 
-					  (i == 2));
-		
-		if (output_range != NULL) value_release (output_range);
-	} else 
-		output_ready = gnm_dao_is_ready (GNM_DAO (state->gdao));
+	output_ready = gnm_dao_is_ready (GNM_DAO (state->gdao));
 	
         if (input_range != NULL) range_list_destroy (input_range);
         if (input_range_2 != NULL) value_release (input_range_2);
@@ -2641,34 +2622,24 @@ anova_single_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 	gboolean input_1_ready  = FALSE;
 	gboolean output_ready  = FALSE;
 	gboolean ready  = FALSE;
-	int i, err;
+	int err;
 	gnm_float alpha;
-        GnmValue *output_range;
         GSList *input_range;
 
-        output_range = gnm_expr_entry_parse_as_value
-		(GNM_EXPR_ENTRY (state->base.output_entry),
-		 state->base.sheet);
         input_range = gnm_expr_entry_parse_as_list (
 		GNM_EXPR_ENTRY (state->base.input_entry),
 		state->base.sheet);
 
-	i = gnumeric_glade_group_value (state->base.gui, output_group);
 	err = entry_to_float (GTK_ENTRY (state->alpha_entry), &alpha, FALSE);
 
 	input_1_ready = (input_range != NULL);
-	output_ready =  ((i != 2) || (output_range != NULL));
-
-	gtk_widget_set_sensitive (state->base.clear_outputrange_button, (i == 2));
-	gtk_widget_set_sensitive (state->base.retain_format_button, (i == 2));
-	gtk_widget_set_sensitive (state->base.retain_comments_button, (i == 2));
+	output_ready =  gnm_dao_is_ready (GNM_DAO (state->base.gdao));
 
 	ready = (input_1_ready &&
                  (err == 0) && (alpha > 0) && (alpha < 1) &&
                  (output_ready));
 
         if (input_range != NULL) range_list_destroy (input_range);
-        if (output_range != NULL) value_release (output_range);
 
 	gtk_widget_set_sensitive (state->base.ok_button, ready);
 }
@@ -2719,6 +2690,7 @@ dialog_anova_single_factor_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
  	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->alpha_entry));
 
+	gnm_dao_set_put (GNM_DAO (state->base.gdao), FALSE, FALSE);
 	anova_single_tool_update_sensitivity_cb (NULL, state);
 	tool_load_selection ((GenericToolState *)state, TRUE);
 
@@ -2846,36 +2818,24 @@ anova_two_factor_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 					     AnovaTwoFactorToolState *state)
 {
 	gboolean ready  = FALSE;
-	int i, replication, err_alpha, err_replication;
+	int replication, err_alpha, err_replication;
 	gnm_float alpha;
-        GnmValue *output_range;
         GnmValue *input_range;
 
-        output_range = gnm_expr_entry_parse_as_value
-		(GNM_EXPR_ENTRY (state->base.output_entry),
-		 state->base.sheet);
         input_range = gnm_expr_entry_parse_as_value
 		(GNM_EXPR_ENTRY (state->base.input_entry),
 		 state->base.sheet);
-	i = gnumeric_glade_group_value (state->base.gui, output_group);
 	err_alpha = entry_to_float (GTK_ENTRY (state->alpha_entry), &alpha,
 				    FALSE);
 	err_replication = entry_to_int (GTK_ENTRY (state->replication_entry),
 					&replication, FALSE);
 
-	gtk_widget_set_sensitive (state->base.clear_outputrange_button,
-				  (i == 2));
-	gtk_widget_set_sensitive (state->base.retain_format_button, (i == 2));
-	gtk_widget_set_sensitive (state->base.retain_comments_button,
-				  (i == 2));
-
 	ready = ((input_range != NULL) &&
                  (err_alpha == 0 && alpha > 0 && alpha < 1) &&
 		 (err_replication == 0 && replication > 0) &&
-                 ((i != 2) || (output_range != NULL)));
+                 gnm_dao_is_ready (GNM_DAO (state->base.gdao)));
 
         if (input_range != NULL) value_release (input_range);
-        if (output_range != NULL) value_release (output_range);
 
 	gtk_widget_set_sensitive (state->base.ok_button, ready);
 }
@@ -2934,6 +2894,7 @@ dialog_anova_two_factor_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
  	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->replication_entry));
 
+	gnm_dao_set_put (GNM_DAO (state->base.gdao), FALSE, FALSE);
 	anova_two_factor_tool_update_sensitivity_cb (NULL, state);
 	tool_load_selection ((GenericToolState *)state, FALSE);
 

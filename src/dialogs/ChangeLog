@@ -1,3 +1,20 @@
+2003-12-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* anova-one.glade: replace output page widgets with dao widget
+	  and minor HIGfication
+	* anova-two.glade: ditto
+	* dialog-analysis-tools.c (tool_update_sensitivity_cb): remove 
+	  unused case (simple dialog not using dao widget)
+	(anova_single_tool_update_sensitivity_cb): use new dao widget
+	(anova_two_factor_tool_update_sensitivity_cb): ditto
+	(dialog_anova_single_factor_tool): disable `put' menu
+	(dialog_anova_two_factor_tool): ditto
+
+2003-12-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
+	for Christain Neumair <chris@gnome-de.org>
+
+	* cell-comment.glade: HIGify
+
 2003-12-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* tool-dialogs.h (_GenericToolState): remove unused fields
