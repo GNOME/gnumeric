@@ -15,10 +15,10 @@
 
 #define GUPPI_ID "Guppi_component"
 
-static GnomeObject *
+static GnomeObjectClient *
 launch_guppi (void)
 {
-	GnomeObject     *object_server;
+	GnomeObjectClient *object_server;
 
 	object_server = gnome_object_activate_with_goad_id (NULL, GUPPI_ID, 0, NULL);
 
@@ -31,7 +31,7 @@ graphic_context_new (Workbook *wb, GladeXML *gui)
 	GraphicContext *gc;
 	GnomeClientSite *client_site;
 	GnomeContainer *container;
-	GnomeObject *object_server;
+	GnomeObjectClient *object_server;
 	
 	g_return_val_if_fail (wb != NULL, NULL);
 

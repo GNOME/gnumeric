@@ -35,9 +35,9 @@ typedef struct {
 	String          *plot_title;
 	String          *y_axis_label;
 
-	GnomeObject     *guppi;
-	GnomeClientSite *client_site;
-	GnomeContainer  *container;
+	GnomeObjectClient *guppi;
+	GnomeClientSite   *client_site;
+	GnomeContainer    *container;
 } GraphicContext;
 
 #define GC_SIGNATURE ((('G' << 8) | ('C' << 8)) | 'o')

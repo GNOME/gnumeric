@@ -20,6 +20,7 @@ static void
 customize (GladeXML *gui, GraphicContext *gc)
 {
 	GtkNotebook *n;
+	int i;
 	
 	/* Now, customize the GUI */
 	gc->steps_notebook = GTK_NOTEBOOK (glade_xml_get_widget (gui, "main-notebook"));
