@@ -1,3 +1,8 @@
+2001-03-23  Almer S. Tigelaar  <almer@gnome.org>
+
+	* names.glade: Set visibility to NO, this solves the ugly
+	flickering that occured.
+
 2001-03-22  Morten Welinder  <terra@diku.dk>
 
 	* search-replace.glade: Work around libglade bug.  (Having
