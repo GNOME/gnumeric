@@ -187,7 +187,7 @@
 #define BIFF_XF				0xe0	/* 0 */
 #define BIFF_INTERFACEHDR		0xe1	/* 0 */
 #define BIFF_INTERFACEEND		0xe2	/* 0 */
-#define BIFF_SXVX			0xe3	/* 0 */
+#define BIFF_SXVS			0xe3	/* 0 */
 #define BIFF_MERGECELLS			0xe5	/* Undocumented */
 #define BIFF_BG_PIC			0xe9	/* Undocumented */
 #define BIFF_TABIDCONF			0xea	/* 0 */
