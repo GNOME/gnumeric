@@ -1,3 +1,9 @@
+1999-06-09  Morten Welinder  <terra@diku.dk>
+
+	* src/workbook.c (insert_at_cursor): Use cell_set_value instead of
+ 	cell_set_text.  Constify.  Accept a Value *, not a double.  All
+ 	callers changed.
+
 1999-06-08  Morten Welinder  <terra@diku.dk>
 
 	* src/fn-date.c (gnumeric_days360): Get it right, I hope.

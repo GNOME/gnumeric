@@ -13,10 +13,11 @@ Morten:
 	* Found everyone else's bugs.
 	* Reworked the insert/delete column/row again.
 	* Reworked the Goal Seek function to produce more accurate
-	  result faster, and fail less often.
+	  results faster, and fail less often.
 	* Improved the recalculation engine.
 	* Shined up date calculations.
 	* WEEKDAY(), DAYS360, TIMEVALUE().
+	* Improved precision here and there.
 
 Miguel
 	* Worked on other things
@@ -32,6 +33,7 @@ Michael
 Nick Lamb
 	* Lots of work adding excel function mappings.
 	* Fixed absolute shared formulae cell references.
+	* Supplied a spreadsheet to check date functions.
 
 Several translations updated: thanks to our translators
 
