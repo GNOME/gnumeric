@@ -41,7 +41,7 @@ typedef struct {
 
 enum {
 	PLOT_PROP_0,
-	PLOT_PROP_MARKERS,
+	PLOT_PROP_DEFAULT_STYLE_HAS_MARKERS,
 	PLOT_PROP_AREA,
 	PLOT_PROP_INITIAL_ANGLE
 };
@@ -67,8 +67,8 @@ gog_radar_plot_set_property (GObject *obj, guint param_id,
 	GogRadarPlot *radar = GOG_RADAR_PLOT (obj);
 
 	switch (param_id) {
-	case PLOT_PROP_MARKERS:
-		radar->markers = g_value_get_boolean(value);
+	case PLOT_PROP_DEFAULT_STYLE_HAS_MARKERS:
+		radar->default_style_has_markers = g_value_get_boolean (value);
 		break;
 	case PLOT_PROP_AREA:
 		radar->area = g_value_get_boolean(value);
@@ -92,8 +92,8 @@ gog_radar_plot_get_property (GObject *obj, guint param_id,
 	GogRadarPlot *radar = GOG_RADAR_PLOT (obj);
 
 	switch (param_id) {
-	case PLOT_PROP_MARKERS:
-		g_value_set_boolean(value, radar->markers);
+	case PLOT_PROP_DEFAULT_STYLE_HAS_MARKERS:
+		g_value_set_boolean (value, radar->default_style_has_markers);
 		break;
 	case PLOT_PROP_AREA:
 		g_value_set_boolean(value, radar->area);
@@ -130,16 +130,29 @@ gog_radar_plot_update (GogObject *obj)
 	GogRadarPlot * model = GOG_RADAR_PLOT(obj);
 	GogRadarSeries const *series;
 	unsigned num_elements = 0;
+	double val_min, val_max, tmp_min, tmp_max;
 	GSList *ptr;
 
+	val_min =  DBL_MAX;
+	val_max = -DBL_MAX;
 	for (ptr = model->base.series; ptr != NULL; ptr = ptr->next) {
 		series = ptr->data;
 		if (gog_series_is_valid (GOG_SERIES (series)) &&
 		    num_elements < series->num_elements)
 			num_elements = series->num_elements;
+		go_data_vector_get_minmax (GO_DATA_VECTOR (
+			series->base.values[1].data), &tmp_min, &tmp_max);
+		if (val_min > tmp_min) val_min = tmp_min;
+		if (val_max < tmp_max) val_max = tmp_max;
 	}
 
 	model->num_elements = num_elements;
+
+	if (model->minima != val_min || model->maxima != val_max) {
+		model->minima = val_min;
+		model->maxima = val_max;
+		gog_axis_bound_changed (model->base.axis [GOG_AXIS_RADIAL], GOG_OBJECT (model));
+	}
 
 	gog_object_emit_changed (GOG_OBJECT (obj), FALSE);
 }
@@ -163,14 +176,16 @@ gog_radar_plot_axis_set_assign (GogPlot *plot, GogAxisSet type)
 }
 
 static GOData *
-gog_radar_plot_axis_bounds (GogPlot *plot, GogAxisType axis, 
-			    GogPlotBoundInfo * bounds)
+gog_radar_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis, 
+				GogPlotBoundInfo * bounds)
 {
 	GSList *ptr;
+	GogRadarPlot *radar = GOG_RADAR_PLOT (plot);
+
 	switch (axis) {
 	case GOG_AXIS_CIRCULAR:
 		bounds->val.minima = 0.;
-		bounds->val.maxima = GOG_RADAR_PLOT(plot)->num_elements;
+		bounds->val.maxima = radar->num_elements;
 		bounds->logical.minima = 0.;
 		bounds->logical.maxima = gnm_nan;
 		bounds->is_discrete    = TRUE;
@@ -180,8 +195,9 @@ gog_radar_plot_axis_bounds (GogPlot *plot, GogAxisType axis,
 				return GOG_SERIES (ptr->data)->values[0].data;
 		break;
 	case GOG_AXIS_RADIAL:
-		bounds->val.minima = 0;
-		bounds->val.maxima = 10.0;
+		/* clip at the outer bound, but allow inner to round nicely */
+		bounds->val.minima = radar->minima;
+		bounds->val.maxima = bounds->logical.maxima = radar->maxima;
 		bounds->is_discrete = FALSE;
 		break;
 	default:
@@ -208,12 +224,10 @@ gog_radar_plot_class_init (GogPlotClass *gog_plot_klass)
 	gog_object_klass->editor	= gog_radar_plot_editor;
 	gog_object_klass->view_type	= gog_radar_view_get_type ();
 
-	g_object_class_install_property (gobject_klass, 
-					 PLOT_PROP_MARKERS,
-		g_param_spec_boolean ("markers", "markers",
-			"Draw markers at data points.",
-			FALSE,
-			G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, PLOT_PROP_DEFAULT_STYLE_HAS_MARKERS,
+		g_param_spec_boolean ("default-style-has-markers", NULL,
+			"Should the default style of a series include markers",
+			FALSE, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 
 	g_object_class_install_property (gobject_klass, 
 					 PLOT_PROP_AREA,
@@ -248,14 +262,15 @@ gog_radar_plot_class_init (GogPlotClass *gog_plot_klass)
 	gog_plot_klass->axis_set_pref = gog_radar_plot_axis_set_pref;
 	gog_plot_klass->axis_set_is_valid = gog_radar_plot_axis_set_is_valid;
 	gog_plot_klass->axis_set_assign = gog_radar_plot_axis_set_assign;
-	gog_plot_klass->axis_get_bounds	= gog_radar_plot_axis_bounds;
+	gog_plot_klass->axis_get_bounds	= gog_radar_plot_axis_get_bounds;
 }
 
 static void
-gog_radar_plot_init (GogRadarPlot *model)
+gog_radar_plot_init (GogRadarPlot *radar)
 {
-	model->base.vary_style_by_element = FALSE;
-	model->num_elements = 0;
+	radar->base.vary_style_by_element = FALSE;
+	radar->default_style_has_markers = FALSE;
+	radar->num_elements = 0;
 }
 
 GSF_CLASS (GogRadarPlot, gog_radar_plot,
@@ -290,10 +305,10 @@ static void
 gog_radar_view_render_series(GogView *view, GogViewAllocation const *bbox)
 {
 	GogRadarPlot const *model = GOG_RADAR_PLOT (view->model);
-	unsigned center_x, center_y;
-	double radius;
-	GSList * list_ptr;
-	double val_min, val_max;
+	unsigned  center_x, center_y;
+	double    radius, val_min, val_max;
+	GSList   *list_ptr;
+	ArtVpath *path;
 
 	if (!gog_axis_get_bounds (GOG_PLOT (model)->axis[GOG_AXIS_RADIAL], 
 				  &val_min, &val_max))
@@ -304,6 +319,7 @@ gog_radar_view_render_series(GogView *view, GogViewAllocation const *bbox)
 	center_y = view->allocation.y + view->allocation.h/2.0;
 	radius = fmin (view->allocation.h, view->allocation.w) / 2.0;
 
+	path = g_alloca ((model->num_elements + 2) * sizeof (ArtVpath));
 	for (list_ptr = model->base.series; 
 	     list_ptr != NULL; 
 	     list_ptr = list_ptr->next) {
@@ -311,35 +327,28 @@ gog_radar_view_render_series(GogView *view, GogViewAllocation const *bbox)
 		GogRadarSeries *series = GOG_RADAR_SERIES(list_ptr->data);
 		GogStyle *style = GOG_STYLED_OBJECT(series)->style;
 		gboolean closed_shape;
-		ArtVpath * path;
 		unsigned count;
-		double * vals;
-
-		closed_shape = (series->num_elements == model->num_elements);
-
-		if (closed_shape) {
-			path = g_new (ArtVpath , series->num_elements + 2);
-		} else {
-			path = g_new (ArtVpath , series->num_elements + 1); 
-		}
+		double   *vals;
 
 		gog_renderer_push_style (view->renderer, style);
 
-		vals = go_data_vector_get_values(GO_DATA_VECTOR(series->base.values[1].data));
+		closed_shape = (series->num_elements == model->num_elements);
+		vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[1].data));
 		for (count = 0; count < series->num_elements; count++) {
-			double angle_rad = count * 2.0 * M_PI/model->num_elements + (model->initial_angle * 2.0 * M_PI/360);
+			double angle_rad = count * 2.0 * M_PI / model->num_elements +
+				(model->initial_angle * 2.0 * M_PI/360);
 			double x, y, scale;
 
-			if (!finite(vals[count])) {
+			if (!finite (vals [count])) {
 				closed_shape = FALSE;
 				continue;
 			}
 
 			scale = ((vals[count] - val_min)/(val_max - val_min));
-			x = center_x + radius * scale * sin(angle_rad);
-			y = center_y - radius * scale * cos(angle_rad);
+			x = center_x + radius * scale * sin (angle_rad);
+			y = center_y - radius * scale * cos (angle_rad);
 
-			path[count].code = ((count != 0 && !isnan(vals[count-1])) 
+			path[count].code = ((count != 0 && !isnan (vals[count-1])) 
 					    ? ART_LINETO : ART_MOVETO);
 			path[count].x = x;
 			path[count].y = y;
@@ -354,18 +363,13 @@ gog_radar_view_render_series(GogView *view, GogViewAllocation const *bbox)
 			path[count].y = path[0].y;
 			count++;
 		}
-
 		path[count].code = ART_END;
 
-		if (closed_shape && model->area) {
-			gog_renderer_draw_polygon(view->renderer, path, 
-						  FALSE, bbox);
-		} else {
-			gog_renderer_draw_path(view->renderer, path, bbox);
-		}
+		if (closed_shape && model->area)
+			gog_renderer_draw_polygon (view->renderer, path, FALSE, bbox);
+		else
+			gog_renderer_draw_path (view->renderer, path, bbox);
 
-		g_free(path);
-		
 		gog_renderer_pop_style (view->renderer);
 	}
 }
@@ -436,7 +440,8 @@ gog_radar_series_init_style (GogStyledObject *gso, GogStyle *style)
 	    style->marker.auto_shape &&
 	    series->plot != NULL) {
 		GogRadarPlot const *radar = GOG_RADAR_PLOT (series->plot);
-		if (!radar->markers) {
+
+		if (!radar->default_style_has_markers) {
 			GOMarker *m = go_marker_new ();
 			go_marker_set_shape (m, GO_MARKER_NONE);
 			gog_style_set_marker (style, m);

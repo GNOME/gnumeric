@@ -510,88 +510,88 @@ gog_chart_view_size_allocate (GogView *view, GogViewAllocation const *allocation
 
 	res = view->residual;
 	switch (chart->axis_set) {
-	case GOG_AXIS_SET_XY:
-		{
-			/* position the X & Y axes */
-			double pre_x = 0., post_x = 0., pre_y = 0, post_y = 0.;
-			double old_pre_x, old_post_x, old_pre_y, old_post_y;
+	case GOG_AXIS_SET_XY: {
+		/* position the X & Y axes */
+		double pre_x = 0., post_x = 0., pre_y = 0, post_y = 0.;
+		double old_pre_x, old_post_x, old_pre_y, old_post_y;
 
-			do {
-				old_pre_x  = pre_x;	old_post_x = post_x;
-				old_pre_y  = pre_y;	old_post_y = post_y;
-				pre_x = post_x = pre_y = post_y = 0.;
-				for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
-					child = ptr->data;
-					if (child->model->position != GOG_POSITION_SPECIAL ||
-					    !IS_GOG_AXIS (child->model))
-						continue;
+		do {
+			old_pre_x  = pre_x;	old_post_x = post_x;
+			old_pre_y  = pre_y;	old_post_y = post_y;
+			pre_x = post_x = pre_y = post_y = 0.;
+			for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
+				child = ptr->data;
+				if (child->model->position != GOG_POSITION_SPECIAL ||
+				    !IS_GOG_AXIS (child->model))
+					continue;
 
-					axis = GOG_AXIS (child->model);
+				axis = GOG_AXIS (child->model);
 
-					req.w = res.w - pre_x - post_x;
-					req.h = res.h - pre_y - post_y;
-					gog_view_size_request (child, &req);
+				req.w = res.w - pre_x - post_x;
+				req.h = res.h - pre_y - post_y;
+				gog_view_size_request (child, &req);
 
-					switch (gog_axis_get_atype (axis)) {
-					case GOG_AXIS_X:
-						/* X axis fill the bottom and top */
-						tmp.x = res.x;
-						tmp.w = res.w;
-						tmp.h = req.h;
-						switch (gog_axis_get_pos (axis)) {
-						case GOG_AXIS_AT_LOW:
-							post_y += req.h;
-							tmp.y   = res.y + res.h - post_y;
-							break;
-						case GOG_AXIS_AT_HIGH:
-							tmp.y  = res.y + pre_y;
-							pre_y += req.h;
-							break;
-						default:
-							break;
-						}
+				switch (gog_axis_get_atype (axis)) {
+				case GOG_AXIS_X:
+					/* X axis fill the bottom and top */
+					tmp.x = res.x;
+					tmp.w = res.w;
+					tmp.h = req.h;
+					switch (gog_axis_get_pos (axis)) {
+					case GOG_AXIS_AT_LOW:
+						post_y += req.h;
+						tmp.y   = res.y + res.h - post_y;
 						break;
-					case GOG_AXIS_Y:
-						/* Y axis take just the previous middle,
-						 * if it changes we'll iterate back */
-						tmp.y = res.y + old_pre_y;
-						tmp.h = res.h - old_pre_y - old_post_y;
-						tmp.w = req.w;
-						switch (gog_axis_get_pos (axis)) {
-						case GOG_AXIS_AT_LOW:
-							tmp.x = res.x + pre_x;
-							pre_x  += req.w;
-							break;
-						case GOG_AXIS_AT_HIGH:
-							post_x  += req.w;
-							tmp.x = res.x + res.w - post_x;
-							break;
-						default:
-							break;
-						}
+					case GOG_AXIS_AT_HIGH:
+						tmp.y  = res.y + pre_y;
+						pre_y += req.h;
 						break;
-
-					default: break;
+					default:
+						break;
 					}
-					gog_view_size_allocate (child, &tmp);
-				}
-				/* as things get narrower their size may change */
-			} while (fabs (old_pre_x - pre_x) > 1e-4 ||
-				 fabs (old_post_x- post_x) > 1e-4 ||
-				 fabs (old_pre_y - pre_y) > 1e-4 ||
-				 fabs (old_post_y- post_y) > 1e-4);
+					break;
+				case GOG_AXIS_Y:
+					/* Y axis take just the previous middle,
+					 * if it changes we'll iterate back */
+					tmp.y = res.y + old_pre_y;
+					tmp.h = res.h - old_pre_y - old_post_y;
+					tmp.w = req.w;
+					switch (gog_axis_get_pos (axis)) {
+					case GOG_AXIS_AT_LOW:
+						tmp.x = res.x + pre_x;
+						pre_x  += req.w;
+						break;
+					case GOG_AXIS_AT_HIGH:
+						post_x  += req.w;
+						tmp.x = res.x + res.w - post_x;
+						break;
+					default:
+						break;
+					}
+					break;
 
-			cview->pre_x  = pre_x;
-			cview->post_x = post_x;
-			res.x += pre_x;	res.w -= pre_x + post_x;
-			res.y += pre_y;	res.h -= pre_y + post_y;
-		}
+				default: break;
+				}
+				gog_view_size_allocate (child, &tmp);
+			}
+			/* as things get narrower their size may change */
+		} while (fabs (old_pre_x - pre_x) > 1e-4 ||
+			 fabs (old_post_x- post_x) > 1e-4 ||
+			 fabs (old_pre_y - pre_y) > 1e-4 ||
+			 fabs (old_post_y- post_y) > 1e-4);
+
+		cview->pre_x  = pre_x;
+		cview->post_x = post_x;
+		res.x += pre_x;	res.w -= pre_x + post_x;
+		res.y += pre_y;	res.h -= pre_y + post_y;
 		break;
+	}
 	case GOG_AXIS_SET_RADAR:
 		/* Give the axes the whole residual area. */
 		for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
 			child = ptr->data;
-			gog_view_size_allocate (child, &res);
+			if (IS_GOG_AXIS (child->model))
+				gog_view_size_allocate (child, &res);
 		}
 		break;
 	case GOG_AXIS_SET_NONE:

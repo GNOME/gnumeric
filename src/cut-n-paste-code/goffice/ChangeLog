@@ -1,3 +1,22 @@
+2004-02-23  Jody Goldberg <jody@gnome.org>
+
+	* graph/plugins/plot_radar/gog-radar.c : use
+	  'default-style-has-markers' rather than 'markers' to be consistent.
+	(gog_radar_plot_update) : store the minima and maxima from all the
+	  series.
+	(gog_radar_plot_axis_get_bounds) : renamed from gog_radar_plot_axis_bounds 
+	  for consistency.  Set the bounds for a radial axis more generally.
+	  We want the outbound to be hard (unscaled) and the inner rounded.
+
+2004-02-22  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-chart.c (gog_chart_view_size_allocate) : only position th
+	  axis, not all the children.
+
+	* graph/plugins/plot_radar/gog-radar.c
+	(gog_radar_view_render_series) : Just alloca the max numbr of points
+	  aka model::num_elements, and don't free alloca-ed memory.
+
 2004-02-22  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* graph/plugins/plot_radar/gog-radar.c 

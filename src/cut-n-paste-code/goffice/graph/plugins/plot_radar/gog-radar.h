@@ -35,10 +35,11 @@ G_BEGIN_DECLS
 
 typedef struct {
 	GogPlot	base;
-	gboolean markers;
+	gboolean default_style_has_markers;
 	gboolean area;
 	float	 initial_angle;	 /* degrees clockwise from 12 o'clock */
 	unsigned num_elements;
+	double minima, maxima;
 } GogRadarPlot;
 
 #define GOG_RADAR_PLOT_TYPE	(gog_radar_plot_get_type ())

@@ -141,6 +141,8 @@ gog_pie_plot_foreach_elem (GogPlot *plot, GogEnumFunc handler, gpointer data)
 		if (labels != NULL)
  			label = (i < num_labels)
  				? go_data_vector_get_str (labels, i) : g_strdup ("");
+		else
+			label = NULL;
 		if (label == NULL)
 			label = g_strdup_printf ("%d", i);
 		(handler) (i, style, label, data);
