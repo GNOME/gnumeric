@@ -9,6 +9,7 @@ struct _StyleRegion {
 };
 
 struct _StyleRow {
+	gboolean show_grid;
 	int row, start_col, end_col;
 	MStyle      const **styles;
 	StyleBorder const **top;

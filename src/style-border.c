@@ -11,6 +11,7 @@
 #include "style-color.h"
 #include "style.h"
 #include "sheet-style.h"
+#include "sheet.h"
 
 struct LineDotPattern {
 	gint const		elements;
@@ -68,6 +69,7 @@ struct {
 	gint offset;
 	struct LineDotPattern const * pattern;
 } static const style_border_data[] = {
+ 	/* 0x0 : STYLE_BORDER_NONE */			{ 0, 0, NULL },
  	/* 0x1 : STYLE_BORDER_THIN */			{ 0, 0, NULL },
  	/* 0x2 : STYLE_BORDER_MEDIUM */		{ 2, 0, NULL },
  	/* 0x3 : STYLE_BORDER_DASHED */		{ 0, 0, &dashed_line },
@@ -129,7 +131,7 @@ style_border_none (void)
 	if (none == NULL) {
 		none = g_new0 (StyleBorder, 1);
 		none->line_type = STYLE_BORDER_NONE;
-		none->color = style_color_new (0,0,0);
+		none->color = style_color_grid ();
 		none->begin_margin = none->end_margin = none->width = 0;
 		none->ref_count = 1;
 	}
@@ -142,8 +144,13 @@ style_border_none (void)
 /**
  * style_border_fetch :
  *
- * Fetches a StyleBorder from the cache, creating one if necessary.
- * Absorbs the colour reference.
+ * @line_type : dash style
+ * @color : colour
+ * @orientation : Not currently used.
+ *
+ * Fetches a StyleBorder from the cache, creating one if necessary.  Absorbs
+ * the colour reference.  In the future we may have different dash styles for
+ * the same pattern depending on whether this is a horizontal or vertical line.
  */
 StyleBorder *
 style_border_fetch (StyleBorderType const	 line_type,
@@ -211,23 +218,34 @@ style_border_get_width (StyleBorderType const line_type)
 	if (line_type == STYLE_BORDER_NONE)
 		return 0;
 
-	return style_border_data[line_type-1].width;
+	return style_border_data [line_type].width;
+}
+
+StyleBorderOrientation
+style_border_get_orientation (StyleBorderLocation type)
+{
+	switch (type) {
+	case STYLE_BORDER_LEFT:
+	case STYLE_BORDER_RIGHT:
+		return STYLE_BORDER_VERTICAL;
+	case STYLE_BORDER_DIAG:
+	case STYLE_BORDER_REV_DIAG:
+		return STYLE_BORDER_DIAGONAL;
+	case STYLE_BORDER_TOP:
+	case STYLE_BORDER_BOTTOM:
+	default:
+		return STYLE_BORDER_HORIZONTAL;
+	}
 }
 
 void
-style_border_set_gc_dash (GdkGC *gc, StyleBorderType const line_type)
+style_border_set_gc_dash (GdkGC *gc, StyleBorderType const i)
 {
 	GdkLineStyle style = GDK_LINE_SOLID;
-	int i;
 
 	g_return_if_fail (gc != NULL);
-	g_return_if_fail (line_type >= STYLE_BORDER_NONE);
-	g_return_if_fail (line_type < STYLE_BORDER_MAX);
-
-	if (line_type == STYLE_BORDER_NONE)
-		return;
-
-	i = line_type - 1;
+	g_return_if_fail (i >= STYLE_BORDER_NONE);
+	g_return_if_fail (i < STYLE_BORDER_MAX);
 
 	if (style_border_data[i].pattern != NULL)
 		style = GDK_LINE_ON_OFF_DASH;
@@ -252,13 +270,14 @@ style_border_set_gc_dash (GdkGC *gc, StyleBorderType const line_type)
 	gdk_gc_set_background (gc, &gs_white);
 }
 
-GdkGC *
-style_border_get_gc (StyleBorder *border, GdkWindow *window)
+static inline GdkGC *
+style_border_get_gc (StyleBorder const *border, GdkWindow *window)
 {
-	g_return_val_if_fail (border != NULL, NULL);
+	if (border == NULL)
+		return NULL;
 
 	if (border->gc == NULL) {
-		border->gc = gdk_gc_new (window);
+		((StyleBorder *)border)->gc = gdk_gc_new (window);
 		style_border_set_gc_dash (border->gc, border->line_type);
 		gdk_gc_set_foreground (border->gc, &border->color->color);
 	}
@@ -357,144 +376,246 @@ style_border_unref (StyleBorder *border)
 	g_free (border);
 }
 
-void
-style_border_hdraw (StyleBorder const * const * prev_vert,
-		    StyleRow const *sr,
-		    int col, GdkDrawable * const drawable,
-		    int y, int x1, int x2)
+static gboolean
+style_border_hmargins (StyleBorder const * const * prev_vert,
+		       StyleRow const *sr, int col, 
+		       int offsets [2][2])
 {
 	StyleBorder const *border = sr->top [col];
 
-	if (!style_border_is_blank (border)) {
-		/* Cast away const */
-		GdkGC *gc = style_border_get_gc ((StyleBorder *)border, drawable);
-		if (border->line_type == STYLE_BORDER_DOUBLE) {
-			int o1 = 0, o2 = 0;
+	if (border->line_type == STYLE_BORDER_DOUBLE) {
+		/* pull inwards or outwards */
+		if (!style_border_is_blank (prev_vert [col]))
+			offsets [1][0] =  prev_vert [col]->end_margin;
+		else if (!style_border_is_blank (sr->vertical [col]))
+			offsets [1][0] = -sr->vertical [col]->begin_margin;
+		else
+			offsets [1][0] = 0;
 
-			/* pull inwards or outwards */
-			if (!style_border_is_blank (prev_vert [col]))
-				o1 = prev_vert [col]->end_margin;
-			else if (!style_border_is_blank (sr->vertical [col]))
-				o1 = - sr->vertical [col]->begin_margin;
+		if (!style_border_is_blank (prev_vert [col+1]))
+			offsets [1][1] = -prev_vert [col+1]->begin_margin;
+		else if (!style_border_is_blank (sr->vertical [col+1]))
+			offsets [1][1] =  sr->vertical [col+1]->end_margin;
+		else
+			offsets [1][1] = 0;
 
-			if (!style_border_is_blank (prev_vert [col+1]))
-				o2 = prev_vert [col+1]->begin_margin;
-			else if (!style_border_is_blank (sr->vertical [col+1]))
-				o2 = - sr->vertical [col+1]->end_margin;
-			/* See note in style_border_set_gc_dash for explaination of +1 */
-			gdk_draw_line (drawable, gc, x1+o1, y-1, x2-o2+1, y-1);
+		if (!style_border_is_blank (sr->vertical [col]))
+			offsets [0][0] =  sr->vertical [col]->end_margin;
+		else if (!style_border_is_blank (prev_vert [col]))
+			offsets [0][0]= -prev_vert [col]->begin_margin;
+		else
+			offsets [0][0]= 0;
 
-			if (!style_border_is_blank (sr->vertical [col]))
-				x1 += sr->vertical [col]->end_margin;
-			else if (!style_border_is_blank (prev_vert [col]))
-				x1 -= prev_vert [col]->begin_margin;
-
-			if (!style_border_is_blank (sr->vertical [col+1]))
-				x2 -= sr->vertical [col+1]->begin_margin;
-			else if (!style_border_is_blank (prev_vert [col+1]))
-				x2 += prev_vert [col+1]->end_margin;
-			y++;
-		} else {
-			/* pull outwards */
-			if (col == 0 ||
-			    style_border_is_blank (sr->top [col-1])) {
-				int offset = 0;
-				if (!style_border_is_blank (sr->vertical [col]))
-					offset = sr->vertical [col]->begin_margin;
-				if (!style_border_is_blank (prev_vert [col])) {
-					int tmp = prev_vert [col]->begin_margin;
-					if (offset < tmp)
-						offset = tmp;
-				}
-				x1 -= offset;
-			}
-
-			if (style_border_is_blank (sr->top [col+1])) {
-				int offset = 0;
-				if (!style_border_is_blank (sr->vertical [col+1]))
-					offset = sr->vertical [col+1]->end_margin;
-				if (!style_border_is_blank (prev_vert [col+1])) {
-					int tmp = prev_vert [col+1]->end_margin;
-					if (offset < tmp)
-						offset = tmp;
-				}
-				x2 += offset;
-			}
-		}
-		/* See note in style_border_set_gc_dash for explaination of +1 */
-		gdk_draw_line (drawable, gc, x1, y, x2+1, y);
+		if (!style_border_is_blank (sr->vertical [col+1]))
+			offsets [0][1] = -sr->vertical [col+1]->begin_margin;
+		else if (!style_border_is_blank (prev_vert [col+1]))
+			offsets [0][1] =  prev_vert [col+1]->end_margin;
+		else
+			offsets [0][1] = 0;
+		return TRUE;
 	}
+
+	offsets [0][0] = offsets [0][1] = 0;
+	if (border->line_type == STYLE_BORDER_NONE) {
+		/* No need to check for show grid.  That is done when the
+		 * borders are loaded.  Do not over write background patterns
+		 */
+		if (!style_border_is_blank (sr->vertical [col]))
+			offsets [0][0] = 1 + sr->vertical [col]->end_margin;
+		else if (!style_border_is_blank (prev_vert [col]))
+			offsets [0][0] = 1 + prev_vert [col]->end_margin;
+		else if (sr->top [col-1] == NULL)
+			offsets [0][0] = 1;
+
+		if (!style_border_is_blank (sr->vertical [col+1]))
+			offsets [0][1] = -1 - sr->vertical [col+1]->begin_margin;
+		else if (!style_border_is_blank (prev_vert [col+1]))
+			offsets [0][1] = -1 - prev_vert [col+1]->begin_margin;
+		else if (sr->top [col+1] == NULL)
+			offsets [0][1] = -1;
+	} else {
+		/* pull outwards */
+		if (style_border_is_blank (sr->top [col-1])) {
+			int offset = 0;
+			if (!style_border_is_blank (sr->vertical [col]))
+				offset = sr->vertical [col]->begin_margin;
+			if (!style_border_is_blank (prev_vert [col])) {
+				int tmp = prev_vert [col]->begin_margin;
+				if (offset < tmp)
+					offset = tmp;
+			}
+			offsets [0][0] = -offset;
+		}
+
+		if (style_border_is_blank (sr->top [col+1])) {
+			int offset = 0;
+			if (!style_border_is_blank (sr->vertical [col+1]))
+				offset = sr->vertical [col+1]->end_margin;
+			if (!style_border_is_blank (prev_vert [col+1])) {
+				int tmp = prev_vert [col+1]->end_margin;
+				if (offset < tmp)
+					offset = tmp;
+			}
+			offsets [0][1] = offset;
+		}
+	}
+	return FALSE;
 }
 
-void
-style_border_vdraw (StyleBorder const * const * prev_vert,
-		    StyleRow const *sr,
-		    StyleRow const *next_sr,
-		    int col, GdkDrawable * const drawable,
-		    int x, int y1, int y2)
+static gboolean
+style_border_vmargins (StyleBorder const * const * prev_vert,
+		       StyleRow const *sr, StyleRow const *next_sr, int col, 
+		       int offsets [2][2])
 {
 	StyleBorder const *border = sr->vertical [col];
 
-	if (!style_border_is_blank (border)) {
-		/* Cast away const */
-		GdkGC *gc = style_border_get_gc ((StyleBorder *)border, drawable);
-		if (border->line_type == STYLE_BORDER_DOUBLE) {
-			int o1 = 0, o2 = 0;
+	if (border->line_type == STYLE_BORDER_DOUBLE) {
+		/* pull inwards or outwards */
+		if (!style_border_is_blank (sr->top [col-1]))
+			offsets [1][0] =  sr->top [col-1]->end_margin;
+		else if (!style_border_is_blank (sr->top [col]))
+			offsets [1][0] = -sr->top [col]->begin_margin;
+		else
+			offsets [1][0] = 0;
 
-			/* pull inwards or outwards */
-			if (col > sr->start_col && !style_border_is_blank (sr->top [col-1]))
-				o1 = sr->top [col-1]->end_margin;
-			else if (!style_border_is_blank (sr->top [col]))
-				o1 = - sr->top [col]->begin_margin;
+		if (!style_border_is_blank (sr->bottom [col-1]))
+			offsets [1][1] = -sr->bottom [col-1]->begin_margin;
+		else if (!style_border_is_blank (sr->bottom [col]))
+			offsets [1][1] =  sr->bottom [col]->end_margin;
+		else
+			offsets [1][1] = 0;
 
-			if (col > sr->start_col && !style_border_is_blank (sr->bottom [col-1]))
-				o2 = sr->bottom [col-1]->begin_margin;
-			else if (!style_border_is_blank (sr->bottom [col]))
-				o2 = - sr->bottom [col]->end_margin;
-			/* See note in style_border_set_gc_dash for explaination of +1 */
-			gdk_draw_line (drawable, gc, x-1, y1+o1, x-1, y2-o2+1);
+		if (!style_border_is_blank (sr->top [col]))
+			offsets [0][0] = sr->top [col]->end_margin;
+		else if (!style_border_is_blank (sr->top [col-1]))
+			offsets [0][0] = -sr->top [col-1]->begin_margin;
+		else
+			offsets [0][0] = 0;
 
+		if (!style_border_is_blank (sr->bottom [col]))
+			offsets [0][1] = -sr->bottom [col]->begin_margin;
+		else if (!style_border_is_blank (sr->bottom [col-1]))
+			offsets [0][1] =  sr->bottom [col-1]->end_margin;
+		else
+			offsets [0][1] = 0;
+		return TRUE;
+	} 
+
+	offsets [0][0] = offsets [0][1] = 0;
+	if (border->line_type == STYLE_BORDER_NONE) {
+		/* No need to check for show grid.  That is done when the
+		 * borders are loaded.
+		 */
+		if (!style_border_is_blank (sr->top [col]))
+			offsets [0][0] = 1 + sr->top [col]->end_margin;
+		else if (!style_border_is_blank (sr->top [col-1]))
+			offsets [0][0] = 1 + sr->top [col-1]->end_margin;
+		/* Do not over write background patterns */
+		else if (prev_vert [col] == NULL)
+			offsets [0][0] = 1;
+
+		if (!style_border_is_blank (sr->bottom [col]))
+			offsets [0][1] = -1 - sr->bottom [col]->begin_margin;
+		else if (!style_border_is_blank (sr->bottom [col-1]))
+			offsets [0][1] = -1 - sr->bottom [col-1]->begin_margin;
+		/* Do not over write background patterns */
+		else if (sr->vertical [col] == NULL)
+			offsets [0][1] = -1;
+	} else {
+		/* pull inwards */
+		if (style_border_is_blank (prev_vert [col])) {
+			int offset = 0;
 			if (!style_border_is_blank (sr->top [col]))
-				y1 += sr->top [col]->end_margin;
-			else if (col > sr->start_col && !style_border_is_blank (sr->top [col-1]))
-				y1 -= sr->top [col-1]->begin_margin;
-
-			if (!style_border_is_blank (sr->bottom [col]))
-				y2 -= sr->bottom [col]->begin_margin;
-			else if (col > sr->start_col && !style_border_is_blank (sr->bottom [col-1]))
-				y2 += sr->bottom [col-1]->end_margin;
-			x++;
-		} else {
-			/* pull inwards */
-			if (style_border_is_blank (prev_vert [col])) {
-				int offset = 0;
-				if (!style_border_is_blank (sr->top [col]))
-					offset = sr->top [col]->end_margin;
-				if (col > sr->start_col && !style_border_is_blank (sr->top [col-1])) {
-					int tmp = sr->top [col-1]->end_margin;
-					if (offset < tmp)
-						offset = tmp;
-				}
-				y1 += offset;
+				offset = sr->top [col]->end_margin;
+			if (!style_border_is_blank (sr->top [col-1])) {
+				int tmp = sr->top [col-1]->end_margin;
+				if (offset < tmp)
+					offset = tmp;
 			}
-
-			if (style_border_is_blank (sr->vertical [col])) {
-				int offset = 0;
-				if (!style_border_is_blank (next_sr->top [col]))
-					offset = next_sr->top [col]->begin_margin;
-				if (col > sr->start_col && !style_border_is_blank (next_sr->top [col-1])) {
-					int tmp = next_sr->top [col-1]->begin_margin;
-					if (offset < tmp)
-						offset = tmp;
-				}
-				y2 -= offset;
-			}
+			offsets [0][0] = offset;
 		}
-		/* See note in style_border_set_gc_dash for explaination of +1 */
-		gdk_draw_line (drawable, gc, x, y1, x, y2+1);
+
+		if (style_border_is_blank (sr->vertical [col])) {
+			int offset = 0;
+			if (!style_border_is_blank (next_sr->top [col]))
+				offset = next_sr->top [col]->begin_margin;
+			if (!style_border_is_blank (next_sr->top [col-1])) {
+				int tmp = next_sr->top [col-1]->begin_margin;
+				if (offset < tmp)
+					offset = tmp;
+			}
+			offsets [0][1] = -offset;
+		}
+	}
+	return FALSE;
+}
+
+void
+style_borders_row_draw (StyleBorder const * const * prev_vert,
+			StyleRow const *sr,
+			StyleRow const *next_sr,
+			GdkDrawable * const drawable,
+			int x, int y1, int y2,
+			Sheet const *sheet, gboolean draw_vertical)
+{
+	int o[2][2];
+	int col, next_x;
+	GdkGC *gc;
+
+	for (col = sr->start_col; col <= sr->end_col ; col++, x = next_x) {
+		/* TODO : make this sheet agnostic.  Pass in an array of
+		 * widths and a flag for whether or not to draw grids.
+		 */
+		ColRowInfo const *cri = sheet_col_get_info (sheet, col);
+		if (!cri->visible)
+			continue;
+		next_x = x + cri->size_pixels;
+
+		gc = style_border_get_gc (sr->top [col], drawable);
+		if (gc != NULL) {
+			int y = y1;
+			if (style_border_hmargins (prev_vert, sr, col, o)) {
+				gdk_draw_line (drawable, gc, x + o[1][0], y1-1,
+					       next_x + o[1][1] + 1, y1-1);
+				++y;
+			}
+
+			/* See note in style_border_set_gc_dash about +1 */
+			gdk_draw_line (drawable, gc, x + o[0][0], y,
+				       next_x + o[0][1] + 1, y);
+		}
+
+		if (!draw_vertical)
+			continue;
+		gc = style_border_get_gc (sr->vertical [col], drawable);
+		if (gc != NULL) {
+			int x1 = x;
+			if (style_border_vmargins (prev_vert, sr, next_sr, col, o)) {
+				gdk_draw_line (drawable, gc, x-1, y1 + o[1][0],
+					       x-1, y2 + o[1][1] + 1);
+				++x1;
+			}
+			/* See note in style_border_set_gc_dash about +1 */
+			gdk_draw_line (drawable, gc, x1, y1 + o[0][0],
+				       x1, y2 + o[0][1] + 1);
+		}
+	}
+	if (draw_vertical) {
+		int x1 = x;
+		if (style_border_vmargins (prev_vert, sr, next_sr, col, o)) {
+			gdk_draw_line (drawable, gc, x-1, y1 + o[1][0],
+				       x-1, y2 + o[1][1] + 1);
+			++x1;
+		}
+		/* See note in style_border_set_gc_dash about +1 */
+		gdk_draw_line (drawable, gc, x, y1 + o[0][0],
+			       x1, y2 + o[0][1] + 1);
 	}
 }
 
+/*****************************************************************************/
+/* Old deprecated form of border drawing/printing.
+ */
 void
 style_border_draw (StyleBorder const * const border, StyleBorderLocation const t,
 		   GdkDrawable * const drawable,
@@ -505,7 +626,7 @@ style_border_draw (StyleBorder const * const border, StyleBorderLocation const t
 	return;
 	if (!style_border_is_blank (border)) {
 		/* Cast away const */
-		GdkGC *gc = style_border_get_gc ((StyleBorder *)border, drawable);
+		GdkGC *gc = style_border_get_gc (border, drawable);
 
 		/* This is WRONG.  FIXME FIXME FIXME
 		 * when we are finished converting to drawing only top & left
@@ -611,22 +732,5 @@ style_border_print (StyleBorder const * const border, StyleBorderLocation const 
 		gnome_print_stroke (context);
 
 		gnome_print_grestore (context);
-	}
-}
-
-StyleBorderOrientation
-style_border_get_orientation (StyleBorderLocation type)
-{
-	switch (type) {
-	case STYLE_BORDER_LEFT:
-	case STYLE_BORDER_RIGHT:
-		return STYLE_BORDER_VERTICAL;
-	case STYLE_BORDER_DIAG:
-	case STYLE_BORDER_REV_DIAG:
-		return STYLE_BORDER_DIAGONAL;
-	case STYLE_BORDER_TOP:
-	case STYLE_BORDER_BOTTOM:
-	default:
-		return STYLE_BORDER_HORIZONTAL;
 	}
 }

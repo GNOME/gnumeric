@@ -7,17 +7,15 @@ Release Critical
 
 - Autoformat - border warnings
 
-- Styles
-    - test persistance
-    * improve uniform_get to handle full sheet more quickly.
-
 - Fix Borders
-    - potentially batch the drawing by row to fix the bottom right corner
-    * diagonals
-    * cleanup new border code and use for previews and printing.
+    - diagonals
+    - use new border code for autoformat-previews and printing.
 
 Long term breakage
 ------------------
+
+- Styles
+    - improve uniform_get to handle full sheet more quickly.
 
 - Search-and-replace.
   - Comments for empty cells are not found.

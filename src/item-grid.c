@@ -79,16 +79,9 @@ struct _ItemGrid {
 
 	ItemGridSelectionType selecting;
 
-	GdkGC      *grid_gc;	/* Draw grid gc */
 	GdkGC      *fill_gc;	/* Default background fill gc */
-	GdkGC      *gc;		/* Color used for the cell */
+	GdkGC      *cell_gc;	/* Color used for the cell */
 	GdkGC      *empty_gc;	/* GC used for drawing empty cells */
-
-	GdkColor   background;
-	GdkColor   grid_color;
-	GdkColor   default_color;
-
-	int        visual_is_paletted;
 };
 
 
@@ -106,12 +99,9 @@ item_grid_destroy (GtkObject *object)
 static void
 item_grid_realize (GnomeCanvasItem *item)
 {
-	GnomeCanvas *canvas = item->canvas;
-	GdkVisual *visual;
 	GdkWindow *window;
 	GtkStyle  *style;
 	ItemGrid  *item_grid;
-	GdkGC     *gc;
 
 	if (GNOME_CANVAS_ITEM_CLASS (item_grid_parent_class)->realize)
 		(*GNOME_CANVAS_ITEM_CLASS (item_grid_parent_class)->realize)(item);
@@ -128,35 +118,12 @@ item_grid_realize (GnomeCanvasItem *item)
 	gtk_style_unref (style);
 
 	/* Configure the default grid gc */
-	item_grid->grid_gc = gc = gdk_gc_new (window);
 	item_grid->fill_gc = gdk_gc_new (window);
-	item_grid->gc = gdk_gc_new (window);
+	item_grid->cell_gc = gdk_gc_new (window);
 	item_grid->empty_gc = gdk_gc_new (window);
 
-	/* Allocate the default colors */
-	item_grid->background = gs_white;
-	item_grid->grid_color = gs_light_gray;
-	item_grid->default_color = gs_black;
-
-	gdk_gc_set_foreground (gc, &item_grid->grid_color);
-	gdk_gc_set_background (gc, &item_grid->background);
-
-	gdk_gc_set_foreground (item_grid->fill_gc, &item_grid->background);
-	gdk_gc_set_background (item_grid->fill_gc, &item_grid->grid_color);
-
-	/* Find out how we need to draw the selection with the current visual */
-	visual = gtk_widget_get_visual (GTK_WIDGET (canvas));
-
-	switch (visual->type) {
-	case GDK_VISUAL_STATIC_GRAY:
-	case GDK_VISUAL_TRUE_COLOR:
-	case GDK_VISUAL_STATIC_COLOR:
-		item_grid->visual_is_paletted = 0;
-		break;
-
-	default:
-		item_grid->visual_is_paletted = 1;
-	}
+	gdk_gc_set_foreground (item_grid->fill_gc, &gs_white);
+	gdk_gc_set_background (item_grid->fill_gc, &gs_light_gray);
 }
 
 static void
@@ -164,13 +131,11 @@ item_grid_unrealize (GnomeCanvasItem *item)
 {
 	ItemGrid *item_grid = ITEM_GRID (item);
 
-	gdk_gc_unref (item_grid->grid_gc);
 	gdk_gc_unref (item_grid->fill_gc);
-	gdk_gc_unref (item_grid->gc);
+	gdk_gc_unref (item_grid->cell_gc);
 	gdk_gc_unref (item_grid->empty_gc);
-	item_grid->grid_gc = 0;
 	item_grid->fill_gc = 0;
-	item_grid->gc = 0;
+	item_grid->cell_gc = 0;
 	item_grid->empty_gc = 0;
 
 	if (GNOME_CANVAS_ITEM_CLASS (item_grid_parent_class)->unrealize)
@@ -201,38 +166,34 @@ item_grid_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int 
 static void
 item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *grid,
 			     int start_x, int start_y,
-			     Range const *view, Range const *range,
-			     StyleRow const *sr)
+			     Range const *view, Range const *range)
 {
-	int l, r, t, b, tmp, col;
+	int l, r, t, b, last;
 	GdkGC *gc = grid->empty_gc;
 	Sheet const *sheet   = grid->scg->sheet;
 	Cell  const *cell    = sheet_cell_get (sheet, range->start.col, range->start.row);
+
+	/* load style from corner which may not be visible */
 	MStyle const *mstyle = sheet_style_get (sheet, range->start.col, range->start.row);
 	gboolean const is_selected = (sheet->edit_pos.col != range->start.col ||
 				      sheet->edit_pos.row != range->start.row) &&
 				     sheet_is_full_range_selected (sheet, range);
 
 	l = r = start_x;
-	if (view->start.col < range->start.col) {
+	if (view->start.col < range->start.col)
 		l += scg_colrow_distance_get (grid->scg, TRUE,
 			view->start.col, range->start.col);
-		col = range->start.col;
-	} else
-		col = view->start.col;
-
-	if (range->end.col <= (tmp = view->end.col))
-		tmp = range->end.col;
-	r += scg_colrow_distance_get (grid->scg, TRUE, view->start.col, tmp+1);
+	if (range->end.col <= (last = view->end.col))
+		last = range->end.col;
+	r += scg_colrow_distance_get (grid->scg, TRUE, view->start.col, last+1);
 
 	t = b = start_y;
 	if (view->start.row < range->start.row)
 		t += scg_colrow_distance_get (grid->scg, FALSE,
 			view->start.row, range->start.row);
-
-	if (range->end.row <= (tmp = view->end.row))
-		tmp = range->end.row;
-	b += scg_colrow_distance_get (grid->scg, FALSE, view->start.row, tmp+1);
+	if (range->end.row <= (last = view->end.row))
+		last = range->end.row;
+	b += scg_colrow_distance_get (grid->scg, FALSE, view->start.row, last+1);
 
 	if (gnumeric_background_set_gc (mstyle, gc, grid->canvas_item.canvas, is_selected))
 		/* Remember X excludes the far pixels */
@@ -248,23 +209,7 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *grid,
 	if (range->start.row < view->start.row)
 		t -= scg_colrow_distance_get (grid->scg, FALSE,
 			range->start.row, view->start.row);
-	else if (view->start.row == range->start.row) {
-		/* Keep this in sync with the standard code */
-		StyleBorder const *top = sr->top [col];
-		if (top == style_border_none ()) {
-		    if (sheet->show_grid) {
-			int offset = 0;
-			/* Do not over write background patterns */
-			if ((col > view->start.col && sr->top [col - 1] == NULL) ||
-			    (col < view->end.col && sr->top [col + 1] == NULL))
-				offset = 1;
-			gdk_draw_line (drawable, grid->grid_gc, l + offset, t,
-				       r - offset, t);
-		    }
-		} else if (top != NULL)
-			style_border_draw (top, STYLE_BORDER_TOP, drawable,
-					   l, t, r, t, NULL, NULL);
-	}
+
 	if (view->end.row < range->end.row)
 		b += scg_colrow_distance_get (grid->scg, FALSE,
 			view->end.row+1, range->end.row+1);
@@ -273,7 +218,8 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *grid,
 		ColRowInfo const * const ri = cell->row_info;
 		ColRowInfo const * const ci = cell->col_info;
 
-		cell_draw (cell, mstyle, grid->gc, drawable,
+		/* FIXME : get the margins from the far col/row too */
+		cell_draw (cell, mstyle, grid->cell_gc, drawable,
 			   l, t,
 			   r - l - ci->margin_b - ci->margin_a,
 			   b - t - ri->margin_b - ri->margin_a);
@@ -315,7 +261,6 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int draw_x, int dr
 	Sheet const *sheet = gsheet->scg->sheet;
 	Cell const * const edit_cell = gsheet->scg->wbcg->editing_cell;
 	ItemGrid *item_grid = ITEM_GRID (item);
-	GdkGC *grid_gc = item_grid->grid_gc;
 	ColRowInfo const *ri = NULL, *next_ri = NULL;
 
 	/* To ensure that far and near borders get drawn we pretend to draw +-2
@@ -325,7 +270,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int draw_x, int dr
 	 * painting the borders of the edges and not the content.
 	 * However, that feels like more hassle that it is worth.  Look into this someday.
 	 */
-	int x, y, col, row, n, inc_x, next_col;
+	int x, y, col, row, n;
 	int const start_col = gnumeric_sheet_find_col (gsheet, draw_x-2, &x);
 	int end_col = gnumeric_sheet_find_col (gsheet, draw_x+width+2, NULL);
 	int const diff_x = draw_x - x;
@@ -336,7 +281,8 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int draw_x, int dr
 	StyleRow sr, next_sr;
 	MStyle const **styles;
 	StyleBorder const **borders, **prev_vert;
-	StyleBorder const *top = NULL, *vert, * const none = style_border_none ();
+	StyleBorder const *none =
+		sheet->show_grid ? style_border_none () : NULL;
 
 	Range     view;
 	gboolean  first_row;
@@ -382,6 +328,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int draw_x, int dr
 	next_sr.styles	 = sr.styles + n;
 	sr.start_col	 = next_sr.start_col	 = start_col;
 	sr.end_col	 = next_sr.end_col	 = end_col;
+	sr.show_grid = next_sr.show_grid = sheet->show_grid;
 
 	/* Init the areas that sheet_style_get_row will not */
 	for (col = start_col-1 ; col <= end_col+1; ++col)
@@ -389,7 +336,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int draw_x, int dr
 	sr.vertical	 [start_col-1] = sr.vertical	  [end_col+1] =
 	next_sr.vertical [start_col-1] = next_sr.vertical [end_col+1] =
 	next_sr.top	 [start_col-1] = next_sr.top	  [end_col+1] =
-	next_sr.bottom	 [start_col-1] = next_sr.bottom	  [start_col-1] = none;
+	next_sr.bottom	 [start_col-1] = next_sr.bottom	  [end_col+1] = none;
 
 	/* load up the styles for the first row */
 	next_sr.row = sr.row = row = start_row;
@@ -419,7 +366,8 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int draw_x, int dr
 				}
 			} else {
 				for (col = start_col ; col <= end_col; ++col)
-					next_sr.top [col] = none;
+					next_sr.vertical [col] =
+					next_sr.bottom [col] = none;
 				break;
 			}
 		}
@@ -441,7 +389,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int draw_x, int dr
 				MERGE_DEBUG (r, " : unused -> active\n");
 
 				item_grid_draw_merged_range (drawable, item_grid,
-							     -diff_x, y, &view, r, &sr);
+							     -diff_x, y, &view, r);
 			} else {
 				lag = &(ptr->next);
 				ptr = ptr->next;
@@ -449,27 +397,40 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int draw_x, int dr
 		}
 		first_row = FALSE;
 
-		for (col = start_col, x = -diff_x; col <= end_col ; ) {
+		for (col = start_col, x = -diff_x; col <= end_col ; col++) {
 			MStyle const *style;
 			CellSpanInfo const *span;
 			ColRowInfo const *ci = sheet_col_get_info (sheet, col);
 
-			if (!ci->visible) {
-				col++;
+			if (!ci->visible)
 				continue;
-			}
 
 			/* Skip any merged regions */
 			if (merged_active) {
 				Range const *r = merged_active->data;
 				if (r->start.col <= col) {
-					inc_x = scg_colrow_distance_get (
-						gsheet->scg, TRUE, col, r->end.col+1);
-					next_col = r->end.col;
+					gboolean clear_top, clear_bottom = TRUE;
+					int i, first = r->start.col;
+					int last  = r->end.col;
+
+					x += scg_colrow_distance_get (
+						gsheet->scg, TRUE, col, last+1);
+					col = r->end.col - 1;
+
+					if (first < start_col) {
+						first = start_col;
+						sr.vertical [first] = NULL;
+					}
+					if (last > end_col) {
+						last = end_col;
+						sr.vertical [last+1] = NULL;
+					}
+					clear_top = (r->start.row != row);
 
 					ptr = merged_active;
 					merged_active = merged_active->next;
 					if (r->end.row == row) {
+						clear_bottom = FALSE;
 						ptr->next = merged_used;
 						merged_used = ptr;
 						MERGE_DEBUG (r, " : active -> used\n");
@@ -478,7 +439,17 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int draw_x, int dr
 						merged_active_seen = ptr;
 						MERGE_DEBUG (r, " : active -> seen\n");
 					}
-					goto left_border;
+
+					/* Clear the borders */
+					for (i = first ; i <= last ; i++) {
+						if (clear_top)
+							sr.top [i] = NULL;
+						if (clear_bottom)
+							sr.bottom [i] = NULL;
+						if (i > first)
+							sr.vertical [i] = NULL;
+					}
+					continue;
 				}
 			}
 
@@ -500,12 +471,12 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int draw_x, int dr
 				Cell const *cell = sheet_cell_get (sheet, col, row);
 				if (!cell_is_blank (cell) && cell != edit_cell)
 					cell_draw (cell, style,
-						   item_grid->gc, drawable,
+						   item_grid->cell_gc, drawable,
 						   x, y, -1, -1);
 
 			/* Only draw spaning cells after all the backgrounds
-			 * have been drawn.  No need to draw the edit cell, or
-			 * blanks
+			 * that we are goign to draw have been drawn.  No need
+			 * to draw the edit cell, or blanks.
 			 */
 			} else if (edit_cell != span->cell &&
 				   (col == span->right || col == end_col)) {
@@ -538,81 +509,16 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int draw_x, int dr
 				}
 
 				cell_draw (cell, style,
-					   item_grid->gc, drawable,
+					   item_grid->cell_gc, drawable,
 					   real_x, y, tmp_width, -1);
 			} else if (col != span->left)
 				sr.vertical [col] = NULL;
 
-			/* Keep this in sync with the merge cell code */
-			/* FIXME : All this logic should be merged into
-			 * the border_draw code (it is doing similar things).
-			 * and we need to batch it and draw the borders and grids
-			 * on a per row basis.
-			 *
-			 * Having a batch routine would simplify
-			 * 	- merged cell support (which is now wrong)
-			 *	- getting the printing code to sync
-			 *	- We need to add offsets for the far end of
-			 *	  grid lines when printing because there are
-			 *	  sub 1pt features visible.
-			 *
-			 * This logic needs review.  It is too ad hoc to trust.
-			 */
-			top = sr.top [col];
-			if (top == none) {
-				if (sheet->show_grid) {
-					int offset = 0;
-					/* Do not over write background patterns */
-					if (!style_border_is_blank (prev_vert [col]))
-						offset = 1 + prev_vert [col]->end_margin;
-					else if (!style_border_is_blank (sr.vertical [col]))
-						offset = 1 + sr.vertical [col]->end_margin;
-					else if ((col > start_col && sr.top [col - 1] == NULL) ||
-						 (col < end_col && sr.top [col + 1] == NULL))
-						offset = 1;
-
-					gdk_draw_line (drawable, grid_gc, x + offset, y,
-						       x + ci->size_pixels, y);
-				}
-			} else if (top != NULL)
-				style_border_hdraw (prev_vert, &sr,
-						    col, drawable,
-						    y, x, x + ci->size_pixels);
-
-			inc_x = ci->size_pixels;
-			next_col = col;
-
-		left_border :
-			vert = sr.vertical [col];
-			if (vert == none) {
-				if (sheet->show_grid) {
-					int offset = 0;
-					/* Do not over write background patterns */
-					if (top == NULL)
-						offset = 1;
-					else if (top->line_type != STYLE_BORDER_NONE)
-						offset = 1 + top->end_margin;
-					else if ((prev_vert [col] != none && prev_vert [col] != NULL))
-						offset = 1;
-					if (col > start_col) {
-						top = sr.top [col - 1];
-						if (top == NULL)
-							offset = 1;
-						else if (top->line_type != STYLE_BORDER_NONE)
-							offset = 1 + top->end_margin;
-					}
-					gdk_draw_line (drawable, grid_gc,
-						       x, y + offset,
-						       x, y + ri->size_pixels);
-				}
-			} else if (vert != NULL)
-				style_border_vdraw (prev_vert, &sr, &next_sr,
-						    col, drawable,
-						    x, y, y + ri->size_pixels);
-
-			x += inc_x;
-			col = next_col + 1;
+			x += ci->size_pixels;
 		}
+		style_borders_row_draw (prev_vert, &sr, &next_sr,
+					drawable, -diff_x, y, y+ri->size_pixels,
+					sheet, TRUE);
 
 		/* roll the pointers */
 		borders = prev_vert; prev_vert = sr.vertical;
@@ -623,10 +529,13 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int draw_x, int dr
 
 		y += ri->size_pixels;
 	}
+	if (sr.row >= SHEET_MAX_ROWS-1)
+		style_borders_row_draw (prev_vert, &sr, &next_sr,
+					drawable, -diff_x, y, y, sheet, FALSE);
 
-	if (merged_used) /* ranges whose bottons are in the view */
+	if (merged_used)	/* ranges whose bottoms are in the view */
 		g_slist_free (merged_used);
-	if (merged_active_seen) /* ranges whose bottons are below the view */
+	if (merged_active_seen) /* ranges whose bottoms are below the view */
 		g_slist_free (merged_active_seen);
 
 	g_return_if_fail (merged_unused == NULL);

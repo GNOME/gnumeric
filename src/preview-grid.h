@@ -29,8 +29,6 @@ typedef struct {
 	GdkColor   grid_color;
 	GdkColor   default_color;
 
-	int        visual_is_paletted;
-
 	PGridGetCell get_cell_cb;
 
 	PGridGetRowOffset get_row_offset_cb;

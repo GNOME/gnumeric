@@ -878,7 +878,7 @@ style_row (MStyle *style, int start_col, int end_col, StyleRow *sr)
 	right = mstyle_get_border (style, MSTYLE_BORDER_RIGHT);
 
 	/* Cancel grids if there is a background */
-	if (mstyle_get_pattern (style) > 0) {
+	if (!sr->show_grid || mstyle_get_pattern (style) > 0) {
 		if (top == none)
 			top = NULL;
 		if (bottom == none)
@@ -1293,6 +1293,7 @@ sheet_style_get_uniform	(Sheet const *sheet, Range const *r,
 	sr.vertical  -= start_col; sr.top     -= start_col;
 	sr.bottom    -= start_col; sr.styles  -= start_col;
 	sr.start_col  = start_col; sr.end_col  = end_col;
+	sr.show_grid  = sheet->show_grid;
 
 	/* pretend the previous bottom had no borders */
 	for (col = start_col ; col <= end_col; ++col)

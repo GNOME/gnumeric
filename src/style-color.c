@@ -80,6 +80,15 @@ style_color_white (void)
 }
 
 StyleColor *
+style_color_grid (void)
+{
+	static StyleColor *color = NULL;
+
+	if (!color) /* Approx gray78 */
+		color = style_color_new (0xc7c7, 0xc7c7, 0xc7c7);
+	return style_color_ref (color);
+}
+StyleColor *
 style_color_ref (StyleColor *sc)
 {
 	g_return_val_if_fail (sc != NULL, NULL);

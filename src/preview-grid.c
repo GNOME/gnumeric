@@ -81,8 +81,6 @@ preview_grid_destroy (GtkObject *object)
 static void
 preview_grid_realize (GnomeCanvasItem *item)
 {
-	GnomeCanvas *canvas = item->canvas;
-	GdkVisual *visual;
 	GdkWindow *window;
 	GtkStyle  *style;
 	PreviewGrid  *preview_grid;
@@ -118,20 +116,6 @@ preview_grid_realize (GnomeCanvasItem *item)
 
 	gdk_gc_set_foreground (preview_grid->fill_gc, &preview_grid->background);
 	gdk_gc_set_background (preview_grid->fill_gc, &preview_grid->grid_color);
-
-	/* Find out how we need to draw the selection with the current visual */
-	visual = gtk_widget_get_visual (GTK_WIDGET (canvas));
-
-	switch (visual->type) {
-	case GDK_VISUAL_STATIC_GRAY:
-	case GDK_VISUAL_TRUE_COLOR:
-	case GDK_VISUAL_STATIC_COLOR:
-		preview_grid->visual_is_paletted = 0;
-		break;
-
-	default:
-		preview_grid->visual_is_paletted = 1;
-	}
 }
 
 /**

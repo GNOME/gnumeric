@@ -1,3 +1,24 @@
+2001-02-05  Jody Goldberg <jgoldberg@home.com>
+
+	* src/style-border.c (style_border_hmargins) : built from the original
+	(style_border_vmargins) : draw routines.
+	(style_borders_row_draw) : a wrapper to draw a set of borders.
+
+2001-02-04  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-style.c (style_row) : Handle the display of gridlines
+	  here.
+
+	* src/item-grid.c (item_grid_draw_merged_range) : prepare to do
+	  borders & grids in a batch as part of the standard render process.
+	(item_grid_draw) : Ditto.
+
+2001-02-04  Jody Goldberg <jgoldberg@home.com>
+
+	* src/preview-grid.c (preview_grid_realize) : no need for
+	  visual_is_paletted.
+	* src/item-grid.c (item_grid_realize) : ditto.
+
 2001-02-03  Jody Goldberg <jgoldberg@home.com>
 
 	* src/xml-io.c (xml_workbook_read) : bump xml version to 6.
