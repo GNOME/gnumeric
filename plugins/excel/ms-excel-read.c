@@ -205,7 +205,8 @@ biff_get_error_text (const guint8 err)
 }
 
 static BIFF_SHARED_FORMULA *
-biff_shared_formula_new (guint16 col, guint16 row, BYTE *data, guint32 data_len)
+biff_shared_formula_new (guint16 col, guint16 row, BYTE *data,
+			 guint32 data_len)
 {
 	BIFF_SHARED_FORMULA *sf = g_new (BIFF_SHARED_FORMULA, 1) ;
 	sf->key.col = col ;
@@ -1650,7 +1651,7 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		int array_col_first, array_col_last ;
 		int array_row_first, array_row_last ;
 		BYTE *data ;
-		int data_len ;
+		guint16 data_len ;
 		char *txt ;
 		Cell *cell ;
 		BIFF_SHARED_FORMULA *sf ;
@@ -1719,9 +1720,15 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 	}
 	case BIFF_FORMULA: /* See: S59D8F.HTM */
 	{
-		char *txt = ms_excel_parse_formula (sheet, (q->data + 22),
-						    EX_GETCOL (q), EX_GETROW (q),
-						    0, BIFF_GETWORD(q->data+20));
+		char *txt ;
+		if (q->length < 22 ||
+		    q->length < 22 + BIFF_GETWORD(q->data+20)) {
+			printf ("FIXME: serious formula error\n");
+			break;
+		}
+		txt = ms_excel_parse_formula (sheet, (q->data + 22),
+					      EX_GETCOL (q), EX_GETROW (q),
+					      0, BIFF_GETWORD(q->data+20));
 		ms_excel_sheet_insert (sheet, EX_GETXF(q), EX_GETCOL(q), EX_GETROW(q), txt) ;
 		g_free (txt) ;
 		break;

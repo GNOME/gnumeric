@@ -34,14 +34,14 @@ double biff_getdouble(guint8 *p);
  **/
 typedef struct _BIFF_QUERY
 {
-  guint8  ms_op ;
-  guint8  ls_op ;
-  guint16 opcode ;
-  gint32  length ;        /* NB. can be extended by a continue opcode */
-  guint8  *data ;
-  int     data_malloced ; /* is *data a copy ? */
-  guint32 streamPos ;     /* count of bytes into the stream */
-  MS_OLE_STREAM *pos ;
+	guint8  ms_op;
+	guint8  ls_op;
+	guint16 opcode;
+	gint32  length;        /* NB. can be extended by a continue opcode */
+	guint8  *data;
+	guint32 streamPos;
+	int     data_malloced; /* is *data a copy ? */
+	MS_OLE_STREAM *pos;
 } BIFF_QUERY ;
  
 /* Sets up a query on a stream */

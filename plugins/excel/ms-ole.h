@@ -97,8 +97,7 @@ typedef struct _MS_OLE_STREAM
 	gboolean (*read_copy )(struct _MS_OLE_STREAM *, guint8 *ptr, guint32 length) ;
 	/**
 	 * Acertains whether there is a contiguous block length bytes,
-	 * if so returns a pointer to it, to save a copy, does _not_
-	 * advance the stream pointer.
+	 * if so returns a pointer to it, _does_ advance the stream pointer.
 	 **/
 	guint8*  (*read_ptr  )(struct _MS_OLE_STREAM *, guint32 length) ;
 	/**

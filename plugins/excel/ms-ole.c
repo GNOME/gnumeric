@@ -16,6 +16,7 @@
 #include <glib.h>
 #include "ms-ole.h"
 #include "ms-biff.h"
+#include "biff-types.h"
 
 /* Implementational detail - not for global header */
 
@@ -830,11 +831,26 @@ free_allocation (MS_OLE *f, guint32 startblock, gboolean is_big_block_stream)
 	}
 }
 
+static void
+ms_ole_lseek (MS_OLE_STREAM *s, gint32 bytes, ms_ole_seek_t type)
+{
+	if (type == MS_OLE_SEEK_SET)
+		s->position = bytes;
+	else
+		s->position+= bytes;
+	if (s->position>=s->size)
+		s->position = s->size;
+}
+
 static guint8*
 ms_ole_read_ptr_bb (MS_OLE_STREAM *s, guint32 length)
 {
 	int blockidx = s->position/BB_BLOCK_SIZE;
 	int blklen;
+	guint8 *ans;
+
+	return 0;
+
 	if (!s->blocks || blockidx>=s->blocks->len) {
 		printf ("Reading from NULL file\n");
 		return 0;
@@ -851,9 +867,12 @@ ms_ole_read_ptr_bb (MS_OLE_STREAM *s, guint32 length)
 			printf ("End of chain error\n");
 			return 0;
 		}
+		blockidx++;
 	}
 	/* Straight map, simply return a pointer */
-	return GET_BB_START_PTR(s->file, get_block(s)) + get_offset(s);
+	ans = GET_BB_START_PTR(s->file, get_block(s)) + get_offset(s);
+	ms_ole_lseek (s, length, MS_OLE_SEEK_CUR);
+	return ans;
 }
 
 static guint8*
@@ -861,6 +880,10 @@ ms_ole_read_ptr_sb (MS_OLE_STREAM *s, guint32 length)
 {
 	int blockidx = s->position/SB_BLOCK_SIZE;
 	int blklen;
+	guint8 *ans;
+
+	return 0;
+
 	if (!s->blocks || blockidx>=s->blocks->len) {
 		printf ("Reading from NULL file\n");
 		return 0;
@@ -877,9 +900,12 @@ ms_ole_read_ptr_sb (MS_OLE_STREAM *s, guint32 length)
 			printf ("End of chain error\n");
 			return 0;
 		}
+		blockidx++;
 	}
 	/* Straight map, simply return a pointer */
-	return GET_SB_START_PTR(s->file, get_block(s)) + get_offset(s);
+	ans = GET_SB_START_PTR(s->file, get_block(s)) + get_offset(s);
+	ms_ole_lseek (s, length, MS_OLE_SEEK_CUR);
+	return ans;
 }
 
 /**
@@ -1009,17 +1035,6 @@ ms_ole_write_bb (MS_OLE_STREAM *s, guint8 *ptr, guint32 length)
 	}
 	s->lseek (s, length, MS_OLE_SEEK_CUR);
 	return;
-}
-
-static void
-ms_ole_lseek (MS_OLE_STREAM *s, gint32 bytes, ms_ole_seek_t type)
-{
-	if (type == MS_OLE_SEEK_SET)
-		s->position = bytes;
-	else
-		s->position+= bytes;
-	if (s->position>=s->size)
-		s->position = s->size;
 }
 
 static void
@@ -1422,22 +1437,6 @@ ms_ole_directory_destroy (MS_OLE_DIRECTORY *d)
 		g_free (d);
 }
 
-/* Organise & if neccessary copy the blocks... */
-static int
-ms_biff_collate_block (BIFF_QUERY *bq)
-{
-	if (!(bq->data = bq->pos->read_ptr(bq->pos, bq->length)))
-	{
-		bq->data = g_new0 (guint8, bq->length);
-		bq->data_malloced = 1;
-		if (!bq->pos->read_copy(bq->pos, bq->data, bq->length))
-			return 0;
-	}
-	else
-		bq->pos->lseek (bq->pos, bq->length, MS_OLE_SEEK_CUR);
-	return 1;
-}
-
 BIFF_QUERY *
 ms_biff_query_new (MS_OLE_STREAM *ptr)
 {
@@ -1446,9 +1445,8 @@ ms_biff_query_new (MS_OLE_STREAM *ptr)
 		return 0;
 	bq = g_new0 (BIFF_QUERY, 1);
 	bq->opcode        = 0;
-	bq->length        =-4;
+	bq->length        = 0;
 	bq->data_malloced = 0;
-	bq->streamPos     = 0;
 	bq->pos = ptr;
 #if OLE_DEBUG > 0
 	dump_biff(bq);
@@ -1470,6 +1468,72 @@ ms_biff_query_copy (const BIFF_QUERY *p)
 	return bf;
 }
 
+static int
+ms_biff_merge_continues (BIFF_QUERY *bq, guint32 len)
+{
+	GArray *contin;
+	guint8  tmp[4];
+	guint32 lp;
+	guint8 *d;
+	typedef struct {
+		guint8 *data;
+		guint32 length;
+	} chunk_t;
+	chunk_t chunk;
+
+	printf ("MERGE CONTINUE...\n");
+
+	contin = g_array_new (0,1,sizeof(chunk_t));
+
+	/* First block: already got */
+	chunk.length = bq->length;
+	if (bq->data_malloced)
+		chunk.data = bq->data;
+	else {
+		chunk.data = g_new (guint8, bq->length);
+		memcpy (chunk.data, bq->data, bq->length);
+	}
+	g_array_append_val (contin, chunk);
+
+	/* Subsequent continue blocks */
+	chunk.length = len;
+	do {
+		if (bq->pos->position >= bq->pos->size)
+			return 0;
+		chunk.data = g_new (guint8, chunk.length);
+		if (!bq->pos->read_copy (bq->pos, chunk.data, chunk.length))
+			return 0;
+		tmp[0] = 0; tmp[1] = 0; tmp[2] = 0; tmp[3] = 0;
+		bq->pos->read_copy (bq->pos, tmp, 4);			
+		g_array_append_val (contin, chunk);
+		chunk.length = BIFF_GETWORD (tmp+2);
+	} while ((BIFF_GETWORD(tmp) & 0xff) == BIFF_CONTINUE);
+	bq->pos->lseek (bq->pos, -4, MS_OLE_SEEK_CUR); /* back back off */
+
+	len = 0;
+	for (lp=0;lp<contin->len;lp++)
+		len+=g_array_index (contin, chunk_t, lp).length;
+	bq->data = g_malloc (len);
+	if (!bq->data)
+		return 0;
+	bq->length = len;
+	d = bq->data;
+	bq->data_malloced = 1;
+	for (lp=0;lp<contin->len;lp++) {
+		chunk = g_array_index (contin, chunk_t, lp);
+		memcpy (d, chunk.data, chunk.length);
+		d+=chunk.length;
+		if (lp) g_free (chunk.data); /* FIXME: Why ? */
+	}
+	g_array_free (contin, 1);
+		
+#if OLE_DEBUG > 2
+	printf ("Biff read code 0x%x, length %d\n", bq->opcode, bq->length);
+	dump_biff (bq);
+#endif
+	return 1;
+}
+
 /**
  * Returns 0 if has hit end
  * NB. if this crashes obscurely, array is being extended over the stack !
@@ -1477,40 +1541,51 @@ ms_biff_query_copy (const BIFF_QUERY *p)
 int
 ms_biff_query_next (BIFF_QUERY *bq)
 {
-	int ans;
-	guint8 array[4];
+	guint8  tmp[4];
+	int ans=1;
 
 	if (!bq || bq->pos->position >= bq->pos->size)
 		return 0;
-
-	if (bq->data_malloced)
-	{
-		bq->data_malloced = 0;
+	if (bq->data_malloced) {
 		g_free (bq->data);
+		bq->data_malloced = 0;
 	}
-
-	bq->streamPos=bq->pos->position;
-	if (!bq->pos->read_copy (bq->pos, array, 4))
+	bq->streamPos = bq->pos->position;
+	if (!bq->pos->read_copy (bq->pos, tmp, 4))
 		return 0;
-
-	bq->opcode = BIFF_GETWORD(array);
-	bq->length = BIFF_GETWORD(array+2);
-#if OLE_DEBUG > 2
-	printf ("Biff read code 0x%x, length %d\n", bq->opcode, bq->length);
-#endif
+	bq->opcode = BIFF_GETWORD (tmp);
+	bq->length = BIFF_GETWORD (tmp+2);
 	bq->ms_op  = (bq->opcode>>8);
 	bq->ls_op  = (bq->opcode&0xff);
 
-	if (!bq->length)
-	{
+	if (!(bq->data = bq->pos->read_ptr(bq->pos, bq->length))) {
+		bq->data = g_new0 (guint8, bq->length);
+		if (!bq->pos->read_copy(bq->pos, bq->data, bq->length)) {
+			ans = 0;
+			g_free(bq->data);
+			bq->length = 0;
+		} else
+			bq->data_malloced = 1;
+	}
+	if (ans &&
+	    bq->pos->read_copy (bq->pos, tmp, 4)) {
+		if ((BIFF_GETWORD(tmp) & 0xff) == BIFF_CONTINUE)
+			return ms_biff_merge_continues (bq, BIFF_GETWORD(tmp+2));
+		bq->pos->lseek (bq->pos, -4, MS_OLE_SEEK_CUR); /* back back off */
+#if OLE_DEBUG > 4
+		printf ("Backed off\n");
+#endif
+	}
+
+#if OLE_DEBUG > 2
+	printf ("Biff read code 0x%x, length %d\n", bq->opcode, bq->length);
+	dump_biff (bq);
+#endif
+	if (!bq->length) {
 		bq->data = 0;
 		return 1;
 	}
-	ans = ms_biff_collate_block (bq);
-#if OLE_DEBUG > 2
-	printf ("OLE-BIFF: Opcode 0x%x length %d\n", bq->opcode, bq->length) ;
-	dump_biff (bq);
-#endif
+
 	return (ans);
 }
 

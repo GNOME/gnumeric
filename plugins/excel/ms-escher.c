@@ -543,8 +543,6 @@ ms_escher_hack_get_drawing (const BIFF_QUERY *q)
 	/* Convert the query to a sort of streeam */
 	guint8 *data;
 	guint32 len;
-	guint32 str_pos=q->streamPos;
-
 	printf ("------ Start Escher -------\n");
 
 	biff_to_flat_data (q, &data, &len);

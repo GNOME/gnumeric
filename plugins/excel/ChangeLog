@@ -1,5 +1,10 @@
 1999-04-18  Michael Meeks  <michael@edenproject.org>
 
+	* ms-ole.c: Rather important fixes. How did it ever
+	work before !.
+
+1999-04-18  Michael Meeks  <michael@edenproject.org>
+
 	* ms-ole.c, ms-ole.h: MASSIVE hack. invalidates
 	pretty much all the previous ole changelog entries.
 	(dump): Updated type.
