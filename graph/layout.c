@@ -9,6 +9,7 @@
  */
 #include <config.h>
 #include <bonobo/gnome-bonobo.h>
+#include "Graph.h"
 #include "layout.h"
 #include "layout-view.h"
 
@@ -61,7 +62,7 @@ impl_reset_series (PortableServer_Servant servant, CORBA_Environment *ev)
 	
 	for (i = 0; i < n; i++)
 		graph_vector_destroy (layout->vectors [i]);
-	g_free (graph->vectors);
+	g_free (layout->vectors);
 	layout->vectors = NULL;
 	layout->n_series = 0;
 }
@@ -155,7 +156,7 @@ layout_new (void)
 	gnome_embeddable_construct (GNOME_EMBEDDABLE (layout),
 				    (GNOME_Embeddable) corba_layout,
 				    layout_view_factory, NULL);
-	layout->graph = graph_new ();
+	layout->graph = graph_new (layout);
 	
 	return layout;
 }

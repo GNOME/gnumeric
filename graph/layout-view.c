@@ -8,6 +8,7 @@
  * (C) 1999 International GNOME Support
  */
 #include <config.h>
+#include "Graph.h"
 #include "layout-view.h"
 #include "graph-view.h"
 

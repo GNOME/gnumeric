@@ -157,10 +157,10 @@ vector_corba_object_create (GnomeObject *object)
 }
 
 Vector *
-vector_new (VectorGetNumFn get, VectorGetValFn,
+vector_new (VectorGetNumFn get_numbers, VectorGetValFn get_values,
 	    VectorSetFn set, VectorLenFn len,
 	    GNOME_Gnumeric_VectorNotify notify,
-	    void *data);
+	    void *data)
 {
 	Vector *vector;
 	GNOME_Gnumeric_Vector corba_vector;
@@ -181,7 +181,6 @@ vector_new (VectorGetNumFn get, VectorGetValFn,
 	
 	gnome_object_construct (GNOME_OBJECT (vector), corba_vector);
 
-	vector->type = type;
 	vector->get_numbers = get_numbers;
 	vector->get_values = get_values;
 	vector->set = set;

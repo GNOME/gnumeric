@@ -41,13 +41,13 @@ column_draw (ColbarDrawCtx *ctx, int item,
 static void
 graph_view_colbar_draw_nth_clustered (ColbarDrawCtx *ctx, int item)
 {
-	const int n_series = ctx->graph->n_series;
+	const int n_series = ctx->graph->layout->n_series;
 	int item_base = item * ctx->units_per_slot;
 	int col_width = ctx->units_per_slot / n_series;
 	int i;
 		
 	for (i = 0; i < n_series; i++){
-		GraphVector *vector = ctx->graph->vectors [i];
+		GraphVector *vector = ctx->graph->layout->vectors [i];
 		
 		column_draw (
 			ctx, 0,
@@ -60,14 +60,14 @@ graph_view_colbar_draw_nth_clustered (ColbarDrawCtx *ctx, int item)
 static void
 graph_view_colbar_draw_nth_stacked (ColbarDrawCtx *ctx, int item)
 {
-	const int n_series = ctx->graph->n_series;
+	const int n_series = ctx->graph->layout->n_series;
 	int item_base = item * ctx->units_per_slot;
 	double last_pos = 0.0;
 	double last_neg = 0.0;
 	int i;
 	
 	for (i = 0; i < n_series; i++){
-		GraphVector *vector = ctx->graph->vectors [i];
+		GraphVector *vector = ctx->graph->layout->vectors [i];
 		double v;
 		
 		v = graph_vector_get_double (vector, item);
@@ -92,7 +92,7 @@ graph_view_colbar_draw_nth_stacked (ColbarDrawCtx *ctx, int item)
 static void
 graph_view_colbar_draw_nth_stacked_full (ColbarDrawCtx *ctx, int item)
 {
-	const int n_series = ctx->graph->n_series;
+	const int n_series = ctx->graph->layout->n_series;
 	int item_base = item * ctx->units_per_slot;
 	double last_pos, last_neg;
 	double total_pos, total_neg;
@@ -104,7 +104,7 @@ graph_view_colbar_draw_nth_stacked_full (ColbarDrawCtx *ctx, int item)
 	last_pos = last_neg = 0.0;
 	
 	for (i = 0; i < n_series; i++){
-		GraphVector *vector = ctx->graph->vectors [i];
+		GraphVector *vector = ctx->graph->layout->vectors [i];
 		
 		values [i] = graph_vector_get_double (vector, item);
 		if (values [i] >= 0)

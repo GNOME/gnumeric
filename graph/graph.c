@@ -63,7 +63,7 @@ graph_compute_divisions (Graph *graph)
 	for (i = 0; i < n; i++){
 		int l;
 
-		l = graph_vector_count (graph->vectors [i]);
+		l = graph_vector_count (graph->layout->vectors [i]);
 
 		if (l > len)
 			len = l;
@@ -95,7 +95,7 @@ graph_compute_dimensions (Graph *graph)
 	for (i = 0; i < n; i++){
 		double l, h;
 		
-		graph_vector_low_high (graph->vectors [i], &l, &h);
+		graph_vector_low_high (graph->layout->vectors [i], &l, &h);
 		if (l < low)
 			low = l;
 		if (h > high)
@@ -124,7 +124,7 @@ graph_compute_stacked_dimensions (Graph *graph)
 		for (i = 0; i < n; i++){
 			double v;
 			
-			v = graph_vector_get_double (graph->vectors [i], x);
+			v = graph_vector_get_double (graph->layout->vectors [i], x);
 
 			if (v < 0)
 				s_low += v;
@@ -469,4 +469,16 @@ graph_bind_view (Graph *graph, GraphView *graph_view)
 
 	gtk_signal_connect (GTK_OBJECT (graph_view), "destroy",
 			    GTK_SIGNAL_FUNC (graph_view_destroyed), graph);
+}
+
+Graph *
+graph_new (Layout *layout)
+{
+	Graph *graph;
+
+	graph = gtk_type_new (graph_get_type ());
+
+	graph->layout = layout;
+
+	return graph;
 }

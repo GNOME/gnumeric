@@ -27,13 +27,22 @@ graph_SOURCES =			\
 	graph-view-colbar.h	\
 	graph-view-plot.c	\
 	graph-view-plot.h	\
+	graph-view-scatter.c	\
+	graph-view-scatter.h	\
+	graph-view-stock.c	\
+	graph-view-stock.h	\
 	layout.c		\
 	layout.h		\
 	layout-view.c		\
 	layout-view.h		\
+	main.c			\
 	vector.c		\
 	vector.h		\
 	$(GRAPH_CORBA_GENERATED)
+
+graph_LDADD =			\
+	$(EXTRA_GNOME_LIBS)	\
+	$(INTLLIBS)
 
 BUILT_SOURCES = $(GRAPH_CORBA_GENERATED)
 

@@ -8,16 +8,22 @@
 
 BEGIN_GNOME_DECLS
 
+typedef struct _Graph Graph;
+typedef struct _GraphView GraphView;
+
+#include "layout.h"
+
 #define GRAPH_TYPE        (graph_get_type ())
 #define GRAPH(o)          (GTK_CHECK_CAST ((o), GRAPH_TYPE, Graph))
 #define GRAPH_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), GRAPH_TYPE, GraphClass))
 #define IS_GRAPH(o)       (GTK_CHECK_TYPE ((o), GRAPH_TYPE))
 #define IS_GRAPH_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), GRAPH_TYPE))
 
-typedef struct _GraphView GraphView;
 
-typedef struct {
+struct _Graph {
 	GnomeObject base;
+
+	Layout *layout;
 
 	GNOME_Graph_ChartType     chart_type;
 	GNOME_Graph_ScaleType     scale_type;
@@ -43,7 +49,7 @@ typedef struct {
 	double      real_low, real_high;
 
 	int divisions;
-} Graph;
+};
 
 typedef struct {
 	GnomeObjectClass parent_class;
