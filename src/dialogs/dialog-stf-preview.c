@@ -15,11 +15,11 @@
  * this takes a GSList as argument which on its turns also contains GSLists
  * which hold strings, so :
  *
- * GSList (Main)
+ * GList (Main)
  *  |
- *  |--- GSList (Sub) --> Contains strings as GSList->Data
+ *  |--- GList (Sub) --> Contains strings as GList->Data
  *  |
- *  |--- GSList (Sub) --> Contains strings as GSList->Data
+ *  |--- GList (Sub) --> Contains strings as GList->Data
  *
  */
 #include <config.h>
@@ -280,9 +280,9 @@ stf_preview_draw_grid (RenderData_t *renderdata, int rowcount, int colcount)
  * returns : the bottom position of the row
  **/
 static double
-stf_preview_render_row (RenderData_t *renderdata, double rowy, GSList *row, int colcount)
+stf_preview_render_row (RenderData_t *renderdata, double rowy, GList *row, int colcount)
 {
-	GSList *iterator = row;
+	GList *iterator = row;
 	double xpos = 0.0;
 	double textwidth = 0;
 	int col = 0;
@@ -340,7 +340,7 @@ stf_preview_render_row (RenderData_t *renderdata, double rowy, GSList *row, int 
 
 		xpos += CELL_HPAD;
 
-		iterator = g_slist_next (iterator);
+		iterator = g_list_next (iterator);
 	}
 
 	return rowy + CELL_VPAD + renderdata->charheight;
@@ -361,10 +361,10 @@ stf_preview_render_row (RenderData_t *renderdata, double rowy, GSList *row, int 
  * returns : nothing. (swaps renderdata->temp and renderdata->colwidths);
  **/
 static void
-stf_preview_format_recalc_colwidths (RenderData_t *renderdata, GSList *data, int colcount)
+stf_preview_format_recalc_colwidths (RenderData_t *renderdata, GList *data, int colcount)
 {
 	GArray *newwidths;
-	GSList *iterator;
+	GList *iterator;
 	gint i;
 	gint *widths = g_alloca ((colcount + 1) * sizeof (gint));
 
@@ -374,7 +374,7 @@ stf_preview_format_recalc_colwidths (RenderData_t *renderdata, GSList *data, int
 
 	iterator = data;
 	while (iterator) {
-		GSList *subiterator = iterator->data;
+		GList *subiterator = iterator->data;
 		int col;
 
 		for (col = 0; col <= colcount; col++)  {
@@ -382,7 +382,7 @@ stf_preview_format_recalc_colwidths (RenderData_t *renderdata, GSList *data, int
 
 			if (!subiterator || !subiterator->data) {
 
-				subiterator = g_slist_next (subiterator);
+				subiterator = g_list_next (subiterator);
 				continue;
 			}
 
@@ -392,10 +392,10 @@ stf_preview_format_recalc_colwidths (RenderData_t *renderdata, GSList *data, int
 			if (width > widths[col])
 				widths[col] = width;
 
-			subiterator = g_slist_next (subiterator);
+			subiterator = g_list_next (subiterator);
 		}
 
-		iterator = g_slist_next (iterator);
+		iterator = g_list_next (iterator);
 	}
 
 	newwidths = g_array_new (FALSE, FALSE, sizeof (int));
@@ -425,10 +425,10 @@ stf_preview_format_recalc_colwidths (RenderData_t *renderdata, GSList *data, int
  * returns : nothing
  **/
 static void
-stf_preview_format_line (RenderData_t *renderdata, GSList *data, int colcount)
+stf_preview_format_line (RenderData_t *renderdata, GList *data, int colcount)
 {
 	int col;
-	GSList *iterator = data;
+	GList *iterator = data;
 
 	for (col = 0; col <= colcount; col++)  {
 		Value *value;
@@ -436,7 +436,7 @@ stf_preview_format_line (RenderData_t *renderdata, GSList *data, int colcount)
 		char *celltext;
 
 		if (!iterator || !iterator->data) {
-			iterator = g_slist_next (iterator);
+			iterator = g_list_next (iterator);
 			continue;
 		}
 		
@@ -454,7 +454,7 @@ stf_preview_format_line (RenderData_t *renderdata, GSList *data, int colcount)
 		g_free (iterator->data);
 		iterator->data = celltext;
 
-		iterator = g_slist_next (iterator);
+		iterator = g_list_next (iterator);
 	}
 }
 
@@ -470,11 +470,11 @@ stf_preview_format_line (RenderData_t *renderdata, GSList *data, int colcount)
  * returns : nothing
  **/
 void
-stf_preview_render (RenderData_t *renderdata, GSList *list, int rowcount, int colcount)
+stf_preview_render (RenderData_t *renderdata, GList *list, int rowcount, int colcount)
 {
 	GnomeCanvasRect *centerrect;
-	GSList *iterator;
-	GSList *captions;
+	GList *iterator;
+	GList *captions;
 	GArray *dummy;
 	int i;
 	double ypos = 0.0;
@@ -510,7 +510,7 @@ stf_preview_render (RenderData_t *renderdata, GSList *list, int rowcount, int co
 	for (i = 0; i <= colcount; i++) {
 		char *text = g_strdup_printf (_(COLUMN_CAPTION), i);
 
-		captions = g_slist_append (captions, text);
+		captions = g_list_append (captions, text);
 	}
 
 	ypos = stf_preview_render_row (renderdata, ypos, captions, colcount);
@@ -525,7 +525,7 @@ stf_preview_render (RenderData_t *renderdata, GSList *list, int rowcount, int co
 			ypos = stf_preview_render_row (renderdata, ypos, iterator->data, colcount);
 		}
 
-		iterator = g_slist_next (iterator);
+		iterator = g_list_next (iterator);
 		i++;
 	}
 
@@ -547,9 +547,9 @@ stf_preview_render (RenderData_t *renderdata, GSList *list, int rowcount, int co
 	iterator = captions;
 	while (iterator) {
 		g_free (iterator->data);
-		iterator = g_slist_next (iterator);
+		iterator = g_list_next (iterator);
 	}
-	g_slist_free (captions);
+	g_list_free (captions);
 
 	/* Swap the actual column widths with the set columnwidths */
 	if (renderdata->formatted) {
@@ -561,16 +561,16 @@ stf_preview_render (RenderData_t *renderdata, GSList *list, int rowcount, int co
 	/* Free all the data */
 	iterator = list;
 	while (iterator) {
-		GSList *subiterator = iterator->data;
+		GList *subiterator = iterator->data;
 		
 		while (subiterator) {
 			g_free ((char *) subiterator->data);
-			subiterator = g_slist_next (subiterator);
+			subiterator = g_list_next (subiterator);
 		}
-		g_slist_free (subiterator);
-		iterator = g_slist_next (iterator);
+		g_list_free (subiterator);
+		iterator = g_list_next (iterator);
 	}
-	g_slist_free (list);
+	g_list_free (list);
 }
 
 /******************************************************************************************************************

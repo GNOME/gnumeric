@@ -27,33 +27,51 @@ csv_page_global_change (GtkWidget *widget, DruidPageData_t *data)
 {
 	CsvInfo_t *info = data->csv_info;
 	StfParseOptions_t *parseoptions = info->csv_run_parseoptions;
-	GSList *list;
+	GList *list;
+	GSList *sepstr;
+	GString *sepc = g_string_new ("");
 	char *textfieldtext;
-	gboolean customvalid = FALSE;
 	int i;
 
+	sepstr = NULL;
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_custom))) {
 		char *csvcustomtext = gtk_editable_get_chars (GTK_EDITABLE (info->csv_customseparator), 0, -1);
 
-		if (strcmp (csvcustomtext, "") != 0) {
-			stf_parse_options_csv_set_customfieldseparator (parseoptions, csvcustomtext);
-			customvalid = TRUE;
-		}
-
-		g_free (csvcustomtext);
+		if (strcmp (csvcustomtext, "") != 0)
+			sepstr = g_slist_append (sepstr, csvcustomtext);
+		else
+			g_free (csvcustomtext);
 	}
 
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_tab)))
+		g_string_append_c (sepc, '\t');
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_colon)))
+		g_string_append_c (sepc, ':');
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_comma)))
+		g_string_append_c (sepc, ',');
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_space)))
+		g_string_append_c (sepc, ' ');
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_semicolon)))
+		g_string_append_c (sepc, ';');
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_pipe)))
+		g_string_append_c (sepc, '|');
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_slash)))
+		g_string_append_c (sepc, '/');
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_hyphen)))
+		g_string_append_c (sepc, '-');
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_bang)))
+		g_string_append_c (sepc, '!');
+		
 	stf_parse_options_csv_set_separators (parseoptions,
-					      gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_tab)),
-					      gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_colon)),
-					      gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_comma)),
-					      gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_space)),
-					      gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_semicolon)),
-					      gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_pipe)),
-					      gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_slash)),
-					      gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_hyphen)),
-					      gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_bang)),
-					      customvalid);
+					      strcmp (sepc->str, "") == 0 ? NULL : sepc->str,
+					      sepstr);
+	g_string_free (sepc, TRUE);
+	if (sepstr) {
+		GSList *l;
+		for (l = sepstr; l != NULL; l = l->next)
+			g_free ((char *) l->data);
+		g_slist_free (sepstr);
+	}
 
 	textfieldtext = gtk_editable_get_chars (GTK_EDITABLE (info->csv_textfield), 0, -1);
 	stf_parse_options_csv_set_stringindicator (parseoptions, textfieldtext[0]);

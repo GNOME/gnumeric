@@ -1,3 +1,36 @@
+2001-06-04  Almer S. Tigelaar  <almer@gnome.org>
+
+	* src/stf-parse.[ch] : Burn useless comments.
+	(stf_parse_options_csv_set_separators): Change interface.
+	(stf_parse_csv_is_separator): Adjust for interface change.
+	(stf_parse_options_new): Burn modified and old splitpositions.
+	(stf_parse_options_set_type): Constify.
+	(stf_parse_options_set_line_terminator): Idem.
+	(stf_parse_options_set_lines_to_parse): Idem.
+	(stf_parse_options_set_trim_spaces): Idem.
+	(stf_parse_options_csv_set_customfieldseparator): Burn.
+	(stf_parse_options_csv_set_stringindicator): Constify.
+	(stf_parse_options_csv_set_indicator_2x_is_single): Idem.
+	(stf_parse_options_csv_set_duplicates): Idem.
+	(stf_parse_options_fixed_splitpositions_add): Idem.
+	(stf_parse_csv_cell): Cosmetic changes and adjust for
+	change to stf_parse_csv_is_separator, plus use GList.
+	(stf_parse_fixed_cell): Cosmetic changes.
+	(stf_parse_fixed_line): Idem and use GList.
+	(stf_parse_general): Optimize loop and use GList's.
+	(stf_parse_get_rowcount): Cosmetic changes.
+	(stf_parse_get_colcount): Idem.
+	(stf_parse_get_longest_row_width): Idem and fix.
+	(stf_parse_get_colwidth): Idem and fix.
+	(stf_parse_convert_to_unix): Rewrite.
+	(stf_parse_is_valid_data): Idem and constify.
+	(stf_parse_options_fixed_autodiscover): Constify.
+	(stf_parse_sheet): Rewrite.
+	(stf_parse_region): Idem.
+
+	* src/gui-clipboard.c (x_selection_to_cell_region):
+	Constify return variable from stf_parse_is_valid_data.
+	
 2001-06-04  Zbigniew Chyla  <cyba@gnome.pl>
 
 	Displaying a question dialog if the user wants to export workbook

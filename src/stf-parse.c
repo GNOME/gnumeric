@@ -28,13 +28,12 @@
 #include "stf-parse.h"
 #include "clipboard.h"
 
-/* Some nice warning messages */
 #define WARN_TOO_MANY_ROWS _("Too many rows in data to parse: %d")
 #define WARN_TOO_MANY_COLS _("Too many columns in data to parse: %d")
 
 /* Source_t struct, used for interchanging parsing information between the low level parse functions */
 typedef struct {
-	const char *position;  /* Indicates the current position within data */
+	char const *position;  /* Indicates the current position within data */
 
 	/* Used internally for fixed width parsing */
 	int splitpos;          /* Indicates current position in splitpositions array */
@@ -69,14 +68,12 @@ my_gptrarray_len (const GPtrArray *a)
  *******************************************************************************************************/
 
 /**
- * stf_parse_options_new
+ * stf_parse_options_new:
  *
  * This will return a new StfParseOptions_t struct.
  * The struct should, after being used, freed with stf_parse_options_free.
- *
- * returns : a new StfParseOptions_t
  **/
-StfParseOptions_t*
+StfParseOptions_t *
 stf_parse_options_new (void)
 {
 	StfParseOptions_t* parseoptions = g_new0 (StfParseOptions_t, 1);
@@ -87,68 +84,61 @@ stf_parse_options_new (void)
 	parseoptions->trim_spaces = (TRIM_TYPE_RIGHT | TRIM_TYPE_LEFT);
 
 	parseoptions->splitpositions    = g_array_new (FALSE, FALSE, sizeof (int));
-	parseoptions->oldsplitpositions = NULL;
 
 	parseoptions->indicator_2x_is_single = TRUE;
 	parseoptions->duplicates             = FALSE;
 
-	parseoptions->customfieldseparator = NULL;
-
+	parseoptions->sep.str = NULL;
+	parseoptions->sep.chr = NULL;
+	
 	return parseoptions;
 }
 
 /**
- * stf_parse_options_free
- * @parseoptions : a parse options struct
+ * stf_parse_options_free:
  *
  * will free @parseoptions, note that this will not free the splitpositions
- * member (GArray) of the struct, the caller is responsible to do that.
- *
- * returns : nothing
+ * member (GArray) of the struct, the caller is responsible for that.
  **/
 void
 stf_parse_options_free (StfParseOptions_t *parseoptions)
 {
 	g_return_if_fail (parseoptions != NULL);
 
-	if (parseoptions->customfieldseparator)
-		g_free (parseoptions->customfieldseparator);
+	if (parseoptions->sep.chr)
+		g_free (parseoptions->sep.chr);
+	if (parseoptions->sep.str) {
+		GSList *l;
 		
+		for (l = parseoptions->sep.str; l != NULL; l = l->next)
+			g_free ((char *) l->data);
+		g_slist_free (parseoptions->sep.str);
+	}
+	
 	g_array_free (parseoptions->splitpositions, TRUE);
 
 	g_free (parseoptions);
 }
 
-/**
- * stf_parse_options_set_type
- * @parseoptions : a parse options struct
- * @parsetype : the import type you wish to do (PARSE_TYPE_CSV or PARSE_TYPE_FIXED)
- *
- * returns : nothing
- **/
 void
-stf_parse_options_set_type (StfParseOptions_t *parseoptions, StfParseType_t parsetype)
+stf_parse_options_set_type (StfParseOptions_t *parseoptions, StfParseType_t const parsetype)
 {
 	g_return_if_fail (parseoptions != NULL);
-	g_return_if_fail ((parsetype == PARSE_TYPE_CSV || parsetype == PARSE_TYPE_FIXED));
+	g_return_if_fail (parsetype == PARSE_TYPE_CSV || parsetype == PARSE_TYPE_FIXED);
 
 	parseoptions->parsetype = parsetype;
 }
 
 /**
- * stf_parse_options_set_line_terminator
- * @parseoptions : a parse options struct
- * @terminator : a char indicating a line terminator
+ * stf_parse_options_set_line_terminator:
  *
  * This will set the line terminator, in both the Fixed width and CSV delimited importers
  * this indicates the end of a row. If you set this to '\0' the whole data will be treated
  * as on big line, note that '\n' (newlines) will not be parsed out if you set the
  * terminator to anything other than a newline
- *
- * returns : nothing
  **/
 void
-stf_parse_options_set_line_terminator (StfParseOptions_t *parseoptions, char terminator)
+stf_parse_options_set_line_terminator (StfParseOptions_t *parseoptions, char const terminator)
 {
 	g_return_if_fail (parseoptions != NULL);
 
@@ -156,37 +146,30 @@ stf_parse_options_set_line_terminator (StfParseOptions_t *parseoptions, char ter
 }
 
 /**
- * stf_parse_options_set_lines_to_parse
- * @parseoptions : a parse options struct
- * @lines : number of lines to parse
+ * stf_parse_options_set_lines_to_parse:
  *
- * This actually forces the parser to stop after parsing @lines lines, if you set @lines
- * to -1, which is also the default, the parser will parse till it encounters a '\0'
- *
- * returns : nothing
+ * This forces the parser to stop after parsing @lines lines, if you set @lines
+ * to -1, which is the default, the parser will parse until it encounters a '\0'
  **/
 void
-stf_parse_options_set_lines_to_parse (StfParseOptions_t *parseoptions, int lines)
+stf_parse_options_set_lines_to_parse (StfParseOptions_t *parseoptions, int const lines)
 {
 	g_return_if_fail (parseoptions != NULL);
 
-	/* we'll convert this to an index by subtracting 1 */
 	if (lines != -1)
-		lines--;
-
-	parseoptions->parselines = lines;
+		parseoptions->parselines = lines - 1; /* Convert to index */
+	else
+		parseoptions->parselines = -1;
 }
 
 /**
  * stf_parse_options_set_trim_spaces:
- * @parseoptions: a parse options struct
- * @trim_spaces: whether you want to trim spaces or not
  *
- * If enabled will trim spaces in every parsed field on left and right
+ * If enabled will trim spaces in every parsed field on left and/or right
  * sides.
  **/
 void
-stf_parse_options_set_trim_spaces (StfParseOptions_t *parseoptions, StfTrimType_t trim_spaces)
+stf_parse_options_set_trim_spaces (StfParseOptions_t *parseoptions, StfTrimType_t const trim_spaces)
 {
 	g_return_if_fail (parseoptions != NULL);
 
@@ -194,81 +177,36 @@ stf_parse_options_set_trim_spaces (StfParseOptions_t *parseoptions, StfTrimType_
 }
 
 /**
- * stf_parse_options_csv_set_separators
- * @parseoptions : an import options struct
- * @tab, @colon, @comma, @space, @custom : indicates the field separators
+ * stf_parse_options_csv_set_separators:
  *
- * NOTE : if @custom is set you should also set @parseoptions->customfieldseparator
- *
- * returns : nothing
+ * A copy is made of the parameters.
  **/
 void
-stf_parse_options_csv_set_separators (StfParseOptions_t *parseoptions,
-				       gboolean tab, gboolean colon,
-				       gboolean comma, gboolean space,
-				       gboolean semicolon, gboolean pipe,
-				       gboolean slash, gboolean hyphen,
-				       gboolean bang, gboolean custom)
+stf_parse_options_csv_set_separators (StfParseOptions_t *parseoptions, char const *character,
+				      GSList const *string)
 {
-	StfTextSeparator_t separators;
-
+	GSList const *l = NULL;
+	GSList *r;
+	
 	g_return_if_fail (parseoptions != NULL);
 
-	separators = 0;
+	if (parseoptions->sep.chr)
+		g_free (parseoptions->sep.chr);
+	parseoptions->sep.chr = g_strdup (character);
 
-	if (tab)
-		separators |= TEXT_SEPARATOR_TAB;
-	if (colon)
-		separators |= TEXT_SEPARATOR_COLON;
-	if (comma)
-		separators |= TEXT_SEPARATOR_COMMA;
-	if (space)
-		separators |= TEXT_SEPARATOR_SPACE;
-	if (semicolon)
-		separators |= TEXT_SEPARATOR_SEMICOLON;
-	if (pipe)
-		separators |= TEXT_SEPARATOR_PIPE;
-	if (slash)
-		separators |= TEXT_SEPARATOR_SLASH;
-	if (hyphen)
-		separators |= TEXT_SEPARATOR_HYPHEN;
-	if (bang)
-		separators |= TEXT_SEPARATOR_BANG;
-	if (custom)
-		separators |= TEXT_SEPARATOR_CUSTOM;
+	if (parseoptions->sep.str) {
+		for (l = parseoptions->sep.str; l != NULL; l = l->next)
+			g_free ((char *) l->data);
+		g_slist_free (parseoptions->sep.str);
+	}
 
-	parseoptions->separators = separators;
+	for (r = NULL, l = string; l != NULL; l = l->next)
+		r = g_slist_prepend (r, g_strdup (l->data));
+	parseoptions->sep.str = g_slist_reverse (r);
 }
 
-/**
- * stf_parse_options_csv_set_customfieldseparator
- * @parseoptions : a parse options struct
- * @customfieldseparator : a char that will be used as custom field separator
- *
- * NOTE : This will only be used if TEXT_SEPARATOR_CUSTOM in @parseoptions->separators is also set
- *
- * returns : nothing
- **/
 void
-stf_parse_options_csv_set_customfieldseparator (StfParseOptions_t *parseoptions, const char *customfieldseparator)
-{
-	g_return_if_fail (parseoptions != NULL);
-
-	if (parseoptions->customfieldseparator)
-		g_free (parseoptions->customfieldseparator);
-		
-	parseoptions->customfieldseparator = g_strdup (customfieldseparator);
-}
-
-/**
- * stf_parse_options_csv_set_stringindicator
- * @parseoptions : a parse options struct
- * @stringindicator : a char representing the string indicator
- *
- * returns : nothing
- **/
-void
-stf_parse_options_csv_set_stringindicator (StfParseOptions_t *parseoptions, char stringindicator)
+stf_parse_options_csv_set_stringindicator (StfParseOptions_t *parseoptions, char const stringindicator)
 {
 	g_return_if_fail (parseoptions != NULL);
 	g_return_if_fail (stringindicator != '\0');
@@ -277,17 +215,14 @@ stf_parse_options_csv_set_stringindicator (StfParseOptions_t *parseoptions, char
 }
 
 /**
- * stf_parse_options_csv_set_indicator_2x_is_single :
- * @parseoptions : a parse options struct
+ * stf_parse_options_csv_set_indicator_2x_is_single:
  * @indic_2x : a boolean value indicating whether we want to see two
  * 		adjacent string indicators as a single string indicator
  * 		that is part of the cell, rather than a terminator.
- *
- * returns : nothing
  **/
 void
 stf_parse_options_csv_set_indicator_2x_is_single (StfParseOptions_t *parseoptions,
-						  gboolean indic_2x)
+						  gboolean const indic_2x)
 {
 	g_return_if_fail (parseoptions != NULL);
 
@@ -295,15 +230,12 @@ stf_parse_options_csv_set_indicator_2x_is_single (StfParseOptions_t *parseoption
 }
 
 /**
- * stf_parse_options_csv_set_duplicates
- * @parseoptions : a parse options struct
+ * stf_parse_options_csv_set_duplicates:
  * @duplicates : a boolean value indicating whether we want to see two
- *               separators right behind each other as one
- *
- * returns : nothing
+ *               separators right behind eachother as one
  **/
 void
-stf_parse_options_csv_set_duplicates (StfParseOptions_t *parseoptions, gboolean duplicates)
+stf_parse_options_csv_set_duplicates (StfParseOptions_t *parseoptions, gboolean const duplicates)
 {
 	g_return_if_fail (parseoptions != NULL);
 
@@ -311,12 +243,9 @@ stf_parse_options_csv_set_duplicates (StfParseOptions_t *parseoptions, gboolean 
 }
 
 /**
- * stf_parse_options_fixed_splitpositions_clear
- * @parseoptions : a parse options struct
+ * stf_parse_options_fixed_splitpositions_clear:
  *
  * This will clear the splitpositions (== points on which a line is split)
- *
- * returns : nothing
  **/
 void
 stf_parse_options_fixed_splitpositions_clear (StfParseOptions_t *parseoptions)
@@ -328,17 +257,13 @@ stf_parse_options_fixed_splitpositions_clear (StfParseOptions_t *parseoptions)
 }
 
 /**
- * stf_parse_options_fixed_splitpositions_add
- * @parseoptions : a parse options struct
- * @position : a new position to split at
+ * stf_parse_options_fixed_splitpositions_add:
  *
  * @position will be added to the splitpositions, @position must be equal to
  * or greater than zero or -1 which means as much as "parse to end of line"
- *
- * returns : nothing
  **/
 void
-stf_parse_options_fixed_splitpositions_add (StfParseOptions_t *parseoptions, int position)
+stf_parse_options_fixed_splitpositions_add (StfParseOptions_t *parseoptions, int const position)
 {
 	g_return_if_fail (parseoptions != NULL);
 	g_return_if_fail (position >= 0 || position == -1);
@@ -348,7 +273,7 @@ stf_parse_options_fixed_splitpositions_add (StfParseOptions_t *parseoptions, int
 
 
 /**
- * stf_parse_options_valid
+ * stf_parse_options_valid:
  * @parseoptions : an import options struct
  *
  * Checks if @parseoptions is correctly filled
@@ -385,7 +310,7 @@ stf_parse_options_valid (StfParseOptions_t *parseoptions)
  *******************************************************************************************************/
 
 static inline void
-trim_spaces_inplace (char *field, const StfParseOptions_t *parseoptions)
+trim_spaces_inplace (char *field, StfParseOptions_t const *parseoptions)
 {
 	unsigned char *s = (unsigned char *)field;
 
@@ -404,59 +329,60 @@ trim_spaces_inplace (char *field, const StfParseOptions_t *parseoptions)
 	}
 }
 
-
 /**
- * stf_parse_csv_is_separator
- * @character : pointer to the character to check
- * @parsetype : a bitwise orred field of what to see as separator and what not
- * @customfieldseparator : the custom field separator which will be examined if TEXT_SEPARATOR_CUSTOM is set
+ * stf_parse_csv_is_separator:
  *
- * returns : NULL if @character is not a separator, a pointer to the character
- *           after the separator otherwise.
+ * returns NULL if @character is not a separator, a pointer to the character
+ * after the separator otherwise.
  **/
-static inline const char *
-stf_parse_csv_is_separator (const char *character, StfParseType_t parsetype, char *customfieldseparator)
+static inline char const *
+stf_parse_csv_is_separator (char const *character, char const *chr, GSList const *str)
 {
 	g_return_val_if_fail (character != NULL, NULL);
 
-	if ((parsetype & TEXT_SEPARATOR_CUSTOM)
-	    && (strncmp (character, customfieldseparator, strlen (customfieldseparator)) == 0))
-		return &character[strlen (customfieldseparator)];
+	if (str) {
+		GSList const *l;
+		
+		for (l = str; l != NULL; l = l->next) {
+			char const *s = l->data;
+			char const *r;
+			int cnt;
+			int const len = strlen (s);
 
-	/* I have done this to slightly speed up the parsing, if we
-	 * wouldn't do this, it had to go over the case statement below for
-	 * each character, which clearly slows parsing down
-	 */
-	if (isalnum ((unsigned char)*character))
-		return NULL;
+			/* Don't compare past the end of the buffer! */
+			for (r = character, cnt = 0; cnt < len; cnt++, r++)
+				if (*r == '\0')
+					break;
+			
+			if ((cnt == len) && (strncmp (character, s, len) == 0))
+				return character + len;
+		}
+	}
 
-	switch (*character) {
-	case ' '              : if (parsetype & TEXT_SEPARATOR_SPACE)     return &character[1]; break;
-	case '\t'             : if (parsetype & TEXT_SEPARATOR_TAB)       return &character[1]; break;
-	case ':'              : if (parsetype & TEXT_SEPARATOR_COLON)     return &character[1]; break;
-	case ','              : if (parsetype & TEXT_SEPARATOR_COMMA)     return &character[1]; break;
-	case ';'              : if (parsetype & TEXT_SEPARATOR_SEMICOLON) return &character[1]; break;
-	case '|'              : if (parsetype & TEXT_SEPARATOR_PIPE)      return &character[1]; break;
-	case '/'              : if (parsetype & TEXT_SEPARATOR_SLASH)     return &character[1]; break;
-	case '-'              : if (parsetype & TEXT_SEPARATOR_HYPHEN)    return &character[1]; break;
-	case '!'              : if (parsetype & TEXT_SEPARATOR_BANG)      return &character[1]; break;
-        }
+	if (chr) {
+		char const *s;
+		
+		for (s = chr; *s != '\0'; s++) {
+			if (*character == *s) {
+				return character + 1;
+				break;
+			}
+		}
+	}
 
 	return NULL;
 }
 
 /**
- * stf_parse_csv_cell
- * @src : struct containing information/memory location of the input data
- * @parseoptions : struct containing separation customizations
+ * stf_parse_csv_cell:
  *
- * returns : a pointer to the parsed cell contents. (has to be freed by the calling routine)
+ * returns a pointer to the parsed cell contents. (has to be freed by the calling routine)
  **/
-static inline char*
+static inline char *
 stf_parse_csv_cell (Source_t *src, StfParseOptions_t *parseoptions)
 {
 	GString *res;
-	const char *cur;
+	char const *cur;
 	gboolean sawstringterm;
 	int len = 0;
 
@@ -474,10 +400,8 @@ stf_parse_csv_cell (Source_t *src, StfParseOptions_t *parseoptions)
 
 	res = g_string_new ("");
 
-	while (*cur) {
-
+	while (*cur != '\0') {
 		if (!sawstringterm) {
-
 			if (*cur == parseoptions->stringindicator) {
 				/* two stringindicators in a row represent a
 				 * single stringindicator character that does
@@ -491,16 +415,16 @@ stf_parse_csv_cell (Source_t *src, StfParseOptions_t *parseoptions)
 				}
 			}
 		} else {
-			const char *s;
+			char const *s;
 			
 			if (*cur == parseoptions->terminator)
 				break;
 
-			if ((s = stf_parse_csv_is_separator (cur, parseoptions->separators, parseoptions->customfieldseparator))) {
-				const char *r;
+			if ((s = stf_parse_csv_is_separator (cur, parseoptions->sep.chr, parseoptions->sep.str))) {
+				char const *r;
 				
 				if (parseoptions->duplicates) {
-					if ((r = stf_parse_csv_is_separator (s, parseoptions->separators, parseoptions->customfieldseparator))) {
+					if ((r = stf_parse_csv_is_separator (s, parseoptions->sep.chr, parseoptions->sep.str))) {
 						cur = r;
 						continue;
 					}
@@ -529,42 +453,30 @@ stf_parse_csv_cell (Source_t *src, StfParseOptions_t *parseoptions)
 }
 
 /**
- * stf_parse_csv_line
- * @src : a struct containing information on the source data
- * @parseoptions : a struct containing parsing options
+ * stf_parse_csv_line:
  *
  * This will parse one line from the current @src->position.
- * It will return a GSList with the cell contents as strings.
+ * It will return a GList with the cell contents as strings.
  * NOTE :
- * 1) The calling routine is responsible for freeing the string in the GSList
+ * 1) The calling routine is responsible for freeing the string in the GList
  * 2) The calling routine is responsible for freeing the list itself.
  *
  * returns : a list with char*'s (contains the cells reversed)
  **/
-static GSList*
+static GList *
 stf_parse_csv_line (Source_t *src, StfParseOptions_t *parseoptions)
 {
-	GSList *list = NULL;
-	GSList *listend = NULL;
-	char *field;
+	GList *list = NULL;
 	int col = 0;
 
 	g_return_val_if_fail (src != NULL, NULL);
 	g_return_val_if_fail (parseoptions != NULL, NULL);
 
-	while (*src->position && *src->position != parseoptions->terminator) {
-		field = stf_parse_csv_cell (src, parseoptions);
+	while (*src->position != '\0' && *src->position != parseoptions->terminator) {
+		char *field = stf_parse_csv_cell (src, parseoptions);
 
 		trim_spaces_inplace (field, parseoptions);
-
-		if (list != NULL) {
-
-			listend = g_slist_append (listend, field)->next;
-		} else {
-
-			list = g_slist_append (list, field);
-			listend = list;
-		}
+		list = g_list_append (list, field);
 
 		if (++col >= SHEET_MAX_COLS) {
 			g_warning (WARN_TOO_MANY_COLS, col);
@@ -576,17 +488,15 @@ stf_parse_csv_line (Source_t *src, StfParseOptions_t *parseoptions)
 }
 
 /**
- * stf_parse_fixed_cell
- * @src : a struct containing information on the source data
- * @parseoptions : a struct containing parsing options
+ * stf_parse_fixed_cell:
  *
- * returns : a pointer to the parsed cell contents. (has to be freed by the calling routine)
+ * returns a pointer to the parsed cell contents. (has to be freed by the calling routine)
  **/
 static inline char *
 stf_parse_fixed_cell (Source_t *src, StfParseOptions_t *parseoptions)
 {
 	GString *res;
-	const char *cur;
+	char const *cur;
 	int splitval;
 	int len = 0;
 
@@ -601,7 +511,7 @@ stf_parse_fixed_cell (Source_t *src, StfParseOptions_t *parseoptions)
 	else
 		splitval = -1;
 
-	while (*cur && *cur != parseoptions->terminator && splitval != src->linepos) {
+	while (*cur != '\0' && *cur != parseoptions->terminator && splitval != src->linepos) {
 		g_string_append_c (res, *cur);
 
 		src->linepos++;
@@ -622,23 +532,20 @@ stf_parse_fixed_cell (Source_t *src, StfParseOptions_t *parseoptions)
 }
 
 /**
- * stf_parse_fixed_line
- * @src : a struct containing information on the source data
- * @parseoptions : a struct containing parsing options
+ * stf_parse_fixed_line:
  *
  * This will parse one line from the current @src->position.
- * It will return a GSList with the cell contents as strings.
+ * It will return a GList with the cell contents as strings.
  * NOTE :
- * 1) The calling routine is responsible for freeing the string in the GSList
+ * 1) The calling routine is responsible for freeing the string in the GList
  * 2) The calling routine is responsible for freeing the list itself.
  *
  * returns : a list with char*'s
  **/
-static GSList*
+static GList *
 stf_parse_fixed_line (Source_t *src, StfParseOptions_t *parseoptions)
 {
-	GSList *list = NULL;
-	GSList *listend = NULL;
+	GList *list = NULL;
 	int col = 0;
 
 	g_return_val_if_fail (src != NULL, NULL);
@@ -647,18 +554,11 @@ stf_parse_fixed_line (Source_t *src, StfParseOptions_t *parseoptions)
 	src->linepos = 0;
 	src->splitpos = 0;
 
-	while (*src->position && *src->position != parseoptions->terminator) {
-		char *field;
-		field = stf_parse_fixed_cell (src, parseoptions);
+	while (*src->position != '\0' && *src->position != parseoptions->terminator) {
+		char *field = stf_parse_fixed_cell (src, parseoptions);
 
 		trim_spaces_inplace (field, parseoptions);
-
-		if (list != NULL) {
-			listend = g_slist_append (listend, field)->next;
-		} else {
-			list = g_slist_append (list, field);
-			listend = list;
-		}
+		list = g_list_append (list, field);
 
 		if (++col >= SHEET_MAX_COLS) {
 			g_warning (WARN_TOO_MANY_COLS, col);
@@ -672,35 +572,31 @@ stf_parse_fixed_line (Source_t *src, StfParseOptions_t *parseoptions)
 }
 
 /**
- * stf_parse_general
- * @parseoptions : a parseoptions struct
- * @data : the data to parse
+ * stf_parse_general:
  *
- * The GSList that is returned contains smaller GSLists.
+ * The GList that is returned contains smaller GLists.
  * The format is more or less :
  *
- * GSList (Top-level)
- *  |------>GSList (Sub)
- *  |------>GSList (Sub)
- *  |------>GSList (Sub)
+ * GList (Top-level)
+ *  |------>GList (Sub)
+ *  |------>GList (Sub)
+ *  |------>GList (Sub)
  *
- * Every Sub-GSList represents a parsed line and contains
- * strings as data. if a Sub-GSList is NULL this means the line
+ * Every Sub-GList represents a parsed line and contains
+ * strings as data. if a Sub-GList is NULL this means the line
  * was empty.
  * NOTE : The calling routine has to free *a lot* of stuff by
  *        itself :
- *        1) The data of each Sub-GSList item (with g_free) these are all strings.
- *        2) The sub-GSList's themselves (with g_slist_free).
- *        3) The top level GSList.
+ *        1) The data of each Sub-GList item (with g_free) these are all strings.
+ *        2) The sub-GList's themselves (with g_slist_free).
+ *        3) The top level GList.
  *
- * returns : a GSList with Sub-GSList's containing celldata.
+ * returns : a GList with Sub-GList's containing celldata.
  **/
-GSList*
-stf_parse_general (StfParseOptions_t *parseoptions, const char *data)
+GList *
+stf_parse_general (StfParseOptions_t *parseoptions, char const *data)
 {
-	GSList *celllist = NULL;
-	GSList *list = NULL;
-	GSList *listend = NULL;
+	GList *l = NULL;
 	Source_t src;
 	int row;
 
@@ -711,91 +607,64 @@ stf_parse_general (StfParseOptions_t *parseoptions, const char *data)
 	src.position = data;
 	row = 0;
 
-	while (TRUE) {
-		if (parseoptions->parsetype == PARSE_TYPE_CSV)
-			celllist = stf_parse_csv_line (&src, parseoptions);
-		else
-			celllist = stf_parse_fixed_line (&src, parseoptions);
-
-		if (list != NULL) {
-
-			listend = g_slist_append (listend, celllist)->next;
-		} else {
-
-			list = g_slist_append (list, celllist);
-			listend = list;
-		}
-
+	while (*src.position != '\0') {
+		GList *r = parseoptions->parsetype == PARSE_TYPE_CSV
+			? stf_parse_csv_line (&src, parseoptions)
+			: stf_parse_fixed_line (&src, parseoptions);
+			
 		if (++row >= SHEET_MAX_ROWS) {
-
 				g_warning (WARN_TOO_MANY_ROWS, row);
 				return NULL;
 		}
-
+		
 		if (parseoptions->parselines != -1)
 			if (row > parseoptions->parselines)
 				break;
 
-		if (*src.position == '\0')
-			break;
-
+		l = g_list_append (l, r);
 		src.position++;
 	}
 
-	return list;
+	return l;
 }
 
 /**
- * stf_parse_get_rowcount
- * @parseoptions : a parse options struct
- * @data : the data
- *
- * This will retrieve the number of rows @data consists of.
- * It will always return the right number of rows.
+ * stf_parse_get_rowcount:
  *
  * returns : number of rows in @data
  **/
 int
-stf_parse_get_rowcount (StfParseOptions_t *parseoptions, const char *data)
+stf_parse_get_rowcount (StfParseOptions_t *parseoptions, char const *data)
 {
-	const char *iterator;
+	char const *s;
 	int rowcount = 0;
 	gboolean last_row_empty = TRUE;
 
 	g_return_val_if_fail (parseoptions != NULL, 0);
 	g_return_val_if_fail (data != NULL, 0);
 
-	iterator = data;
-
-	while (*iterator) {
-		if (*iterator == parseoptions->terminator)
-			rowcount++, last_row_empty = TRUE;
-		else
+	for (s = data; *s != '\0'; s++) {
+		if (*s == parseoptions->terminator) {
+			rowcount++;
+			last_row_empty = TRUE;
+		} else
 			last_row_empty = FALSE;
 
 		if (parseoptions->parselines != -1)
 			if (rowcount > parseoptions->parselines)
 				break;
-
-		iterator++;
 	}
 
 	return last_row_empty ? rowcount : rowcount + 1;
 }
 
 /**
- * stf_parse_get_colcount
- * @parseoptions : a parse options struct
- * @data : the data
- *
- * This will retrieve the number of columns @data consists of.
- * It will always return the right number of columns wether you
- * are doing a fixed or csv parse.
+ * stf_parse_get_colcount:
  *
  * returns : number of columns in @data
  **/
 int
-stf_parse_get_colcount (StfParseOptions_t *parseoptions, const char *data)
+stf_parse_get_colcount (StfParseOptions_t *parseoptions, char const *data)
 {
 	int colcount = 0;
 
@@ -803,11 +672,11 @@ stf_parse_get_colcount (StfParseOptions_t *parseoptions, const char *data)
 	g_return_val_if_fail (data != NULL, 0);
 
 	if (parseoptions->parsetype == PARSE_TYPE_CSV) {
-		const char *iterator = data;
+		char const *iterator = data;
 		int tempcount = 0;
 
-		while (iterator && *iterator != '\0') {
-			const char *s;
+		while (*iterator != '\0') {
+			char const *s;
 			
 			if (*iterator == parseoptions->terminator) {
 				if (tempcount > colcount)
@@ -815,12 +684,12 @@ stf_parse_get_colcount (StfParseOptions_t *parseoptions, const char *data)
 				tempcount = 0;
 			}
 
-			if ((s = stf_parse_csv_is_separator (iterator, parseoptions->separators, parseoptions->customfieldseparator))) {
+			if ((s = stf_parse_csv_is_separator (iterator, parseoptions->sep.chr, parseoptions->sep.str))) {
 			
 				if (parseoptions->duplicates) {
-					const char *r;
+					char const *r;
 
-					if ((r = stf_parse_csv_is_separator (s, parseoptions->separators, parseoptions->customfieldseparator))) {
+					if ((r = stf_parse_csv_is_separator (s, parseoptions->sep.chr, parseoptions->sep.str))) {
 						iterator = r;
 						continue;
 					}
@@ -833,27 +702,21 @@ stf_parse_get_colcount (StfParseOptions_t *parseoptions, const char *data)
 		}
 		if (tempcount > colcount)
 			colcount = tempcount;
-	} else {
+	} else
 		colcount = my_garray_len (parseoptions->splitpositions) - 1;
-	}
-
 
 	return colcount;
 }
 
 /**
- * stf_parse_get_longest_row_width
- * @parseoptions : a parse options struct
- * @data : the data
+ * stf_parse_get_longest_row_width:
  *
  * Returns the largest number of characters found in a line/row
- *
- * returns : the longest row width.
  **/
 int
-stf_parse_get_longest_row_width (StfParseOptions_t *parseoptions, const char *data)
+stf_parse_get_longest_row_width (StfParseOptions_t *parseoptions, char const *data)
 {
-	const char *iterator;
+	char const *s;
 	int len = 0;
 	int longest = 0;
 	int row = 0;
@@ -861,42 +724,31 @@ stf_parse_get_longest_row_width (StfParseOptions_t *parseoptions, const char *da
 	g_return_val_if_fail (parseoptions != NULL, 0);
 	g_return_val_if_fail (data != NULL, 0);
 
-	iterator = data;
-	while (*iterator) {
-
-		if (*iterator == parseoptions->terminator
-		    || iterator[1] == '\0') {
-
+	for (s = data; *s != '\0'; s++) {
+		if (*s == parseoptions->terminator || s[1] == '\0') {
 			if (len > longest)
 				longest = len;
-
 			len = 0;
 			row++;
-		}
-
-		iterator++;
-		len++;
+		} else
+			len++;
 
 		if (parseoptions->parselines != -1)
 			if (row > parseoptions->parselines)
 				break;
 	}
-
-	return longest - 1;
+	
+	return longest;
 }
+
 /**
- * stf_parse_get_colwidth
- * @parseoptions : a parse options struct
- * @data : the data
- * @index : the index of the column you wish to know the width of
+ * stf_parse_get_colwidth:
  *
  * Will determine the width of column @index in @data given the
  * parsing rules as specified in @parseoptions
- *
- * returns : the width, in characters, of the column @index.
  **/
 int
-stf_parse_get_colwidth (StfParseOptions_t *parseoptions, const char *data, int index)
+stf_parse_get_colwidth (StfParseOptions_t *parseoptions, char const *data, int const index)
 {
 	int width = 0;
 
@@ -904,18 +756,18 @@ stf_parse_get_colwidth (StfParseOptions_t *parseoptions, const char *data, int i
 	g_return_val_if_fail (data != NULL, 0);
 
 	if (parseoptions->parsetype == PARSE_TYPE_CSV) {
-		const char *iterator = data;
+		char const *iterator = data;
 		int col = 0, colwidth = 0;
 
-		while (iterator && *iterator != '\0') {
-			const char *s;
+		while (*iterator != '\0') {
+			char const *s;
 			
-			if ((s = stf_parse_csv_is_separator (iterator, parseoptions->separators, parseoptions->customfieldseparator))) {
+			if ((s = stf_parse_csv_is_separator (iterator, parseoptions->sep.chr, parseoptions->sep.str))) {
 
 				if (parseoptions->duplicates) {
-					const char *r;
+					char const *r;
 
-					if ((r = stf_parse_csv_is_separator (s, parseoptions->separators, parseoptions->customfieldseparator))) {
+					if ((r = stf_parse_csv_is_separator (s, parseoptions->sep.chr, parseoptions->sep.str))) {
 						iterator = r;
 						continue;
 					}
@@ -941,30 +793,22 @@ stf_parse_get_colwidth (StfParseOptions_t *parseoptions, const char *data, int i
 		if (col == index && colwidth > width)
 			width = colwidth;
 	} else {
-		int colstart, colend;
+		int colstart = index - 1 < 0
+			? 0
+			: (int) g_array_index (parseoptions->splitpositions, int, index - 1);
+		int colend = (int) g_array_index (parseoptions->splitpositions, int, index);
 
-		if (index - 1 < 0)
-			colstart = 0;
-		else
-			colstart = (int) g_array_index (parseoptions->splitpositions, int, index - 1);
-
-		colend = (int) g_array_index (parseoptions->splitpositions, int, index);
 		if (colend == -1) {
-			const char *iterator = data;
+			const char *s;
 			int len = 0, templen = 0;
 
-			while (*iterator) {
-
-				if (*iterator == parseoptions->terminator) {
-
+			for (s = data; *s != '\0'; s++) {
+				if (*s == parseoptions->terminator) {
 					if (templen > len)
 						len = templen;
-
 					templen = 0;
-				}
-
-				templen++;
-				iterator++;
+				} else
+					templen++;
 			}
 
 			colend = len;
@@ -978,8 +822,7 @@ stf_parse_get_colwidth (StfParseOptions_t *parseoptions, const char *data, int i
 }
 
 /**
- * stf_parse_convert_to_unix
- * @data : the char buffer to convert
+ * stf_parse_convert_to_unix:
  *
  * This function will convert the @data into
  * unix line-terminated format. this means that CRLF (windows) will be converted to LF
@@ -992,48 +835,44 @@ stf_parse_get_colwidth (StfParseOptions_t *parseoptions, const char *data, int i
 gboolean
 stf_parse_convert_to_unix (char *data)
 {
-	const char *iterator = data;
-	char *dest = data;
+	char *s;
+	char *d;
 
-	if (!iterator)
+	if (!data)
 		return FALSE;
 
-	while (*iterator) {
-		if (*iterator == '\r') {
-			*dest++ = '\n';
-			iterator++;
-			if (*iterator == '\n')
-				iterator++;
-			continue;
-		} else if (*iterator == '\f') {
-			iterator++;
-			continue;
-		}
-
-		*dest++ = *iterator++;
+	for (s = d = data; *s != '\0'; s++, d++) {
+		if (*s == '\r') {
+			*d++ = '\n';
+			s++;
+			if (*s == '\n')
+				s++;
+		} else if (*s == '\f') {
+			s++;
+		} else
+			*d = *s;
 	}
-	*dest = '\0';
+	*d = '\0';
 
 	return TRUE;
 }
 
 /**
  * stf_is_valid_data
- * @data : the data to validate
  *
- * returns weather the input data is valid to import.
- * (meaning it checks weather it is text only)
+ * returns wether the input data is valid to import.
+ * (meaning it checks wether it is text only)
  *
  * returns : NULL if valid, a pointer to the invalid character otherwise
  **/
-char *
-stf_parse_is_valid_data (char *data)
+char const *
+stf_parse_is_valid_data (char const *data)
 {
-	unsigned char *iterator = data;
+	unsigned char const *s;
 
-	for (; *iterator; iterator++)
-		if (!isprint (*iterator) && !isspace (*iterator))
-			return (char *)iterator;
+	for (s = data; *s != '\0'; s++)
+		if (!isprint (*s) && !isspace (*s))
+			return (char *)s;
 
 	return NULL;
 }
@@ -1047,11 +886,13 @@ stf_parse_is_valid_data (char *data)
  * Automatically try to discover columns in the text to be parsed.
  * We ignore empty lines (only containing parseoptions->terminator)
  *
+ * FIXME: This is so extremely ugly that I am too tired to rewrite it right now.
+ *        Think hard of a better more flexible solution...
  **/
 void
-stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int data_lines, const char *data)
+stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int const data_lines, char const *data)
 {
-	const char *iterator = data;
+	char const *iterator = data;
 	GSList *list = NULL;
 	GSList *list_start = NULL;
 	int lines = 0;
@@ -1321,133 +1162,105 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int data_
  *               functions into something meaningful (== application specific)
  *******************************************************************************************************/
 
-Sheet*
-stf_parse_sheet (StfParseOptions_t *parseoptions, const char *data, Sheet *sheet)
+Sheet *
+stf_parse_sheet (StfParseOptions_t *parseoptions, char const *data, Sheet *sheet)
 {
-	GSList *list;
-	GSList *list_start;
-	GSList *sublist;
-	int row = 0, col;
+	GList *res, *l;
+	int row;
 
 	g_return_val_if_fail (parseoptions != NULL, NULL);
 	g_return_val_if_fail (data != NULL, NULL);
 	g_return_val_if_fail (sheet != NULL, NULL);
 
-	list = stf_parse_general (parseoptions, data);
-	list_start = list;
+	res = stf_parse_general (parseoptions, data);
+	for (row = 0, l = res; l != NULL; l = l->next, row++) {
+		GList *mres = l->data;
+		GList *m;
+		int col;
 
-	while (list) {
-
-		sublist = list->data;
-		col = 0;
-
-		while (sublist) {
-
-			if (sublist->data) {
+		for (col = 0, m = mres; m != NULL; m = m->next, col++) {
+			char *text = m->data;
+			
+			if (text) {
 				Cell *newcell = sheet_cell_new (sheet, col, row);
-				char *celldata = sublist->data;
 
 				/* The '@' character appears to be somewhat magic, so
-				 * if the line starts with an '@' character we have to prepend an '=' char and qoutes
+				 * if the line starts with an '@' character we have to prepend an '=' char and quotes
 				 */
-				if (celldata[0] == '@') {
-					char *tmp;
+				if (text[0] == '@') {
+					char *tmp = g_strdup_printf ("=\"%s\"", text);
 
-					tmp = g_strdup_printf ("=\"%s\"", celldata);
-
-					g_free (celldata);
-					sublist->data = tmp;
+					g_free (text);
+					text = tmp;
 				}
-
-				cell_set_text (newcell, sublist->data);
-
-				g_free (sublist->data);
+				
+				cell_set_text (newcell, text);
+				g_free (text);
 			}
-
-			sublist = g_slist_next (sublist);
-			col++;
 		}
-
-		g_slist_free (list->data);
-
-		list = g_slist_next (list);
-		row++;
+		
+		g_list_free (mres);
 	}
-
-	g_slist_free (list_start);
-
+	
+	g_list_free (res);
 	return sheet;
 }
 
-CellRegion*
-stf_parse_region (StfParseOptions_t *parseoptions, const char *data)
+CellRegion *
+stf_parse_region (StfParseOptions_t *parseoptions, char const *data)
 {
 	CellRegion *cr;
-	GSList *list;
-	GSList *list_start;
-	GSList *sublist;
+	GList *res, *l;
 	CellCopyList *content = NULL;
-	int row = 0, col = 0, colhigh = 0;
+	int row, colhigh = 0;
 
 	g_return_val_if_fail (parseoptions != NULL, NULL);
 	g_return_val_if_fail (data != NULL, NULL);
 
-	list = stf_parse_general (parseoptions, data);
-	list_start = list;
+	res = stf_parse_general (parseoptions, data);
+	for (row = 0, l = res; l != NULL; l = l->next, row++) {
+		GList *mres = l->data;
+		GList *m;
+		int col;
 
-	while (list) {
-
-		sublist = list->data;
-		col = 0;
-
-		while (sublist) {
-
-			if (sublist->data) {
+		for (col = 0, m = mres; m != NULL; m = m->next, col++) {
+			char *text = m->data;
+			
+			if (text) {
 				CellCopy *ccopy;
-				char *celldata = sublist->data;
 
 				/* The '@' character appears to be somewhat magic, so
-				 * if the line starts with an '@' character we have to prepend an '=' char and qoutes
+				 * if the line starts with an '@' character we have to prepend an '=' char and quotes
 				 */
-				if (celldata[0] == '@') {
+				if (text[0] == '@') {
 					char *tmp;
 
-					tmp = g_strdup_printf ("=\"%s\"", celldata);
+					tmp = g_strdup_printf ("=\"%s\"", text);
 
-					g_free (celldata);
-					sublist->data = tmp;
+					g_free (text);
+					text = tmp;
 				}
 
 				ccopy = g_new (CellCopy, 1);
 				ccopy->type = CELL_COPY_TYPE_TEXT;
 				ccopy->col_offset = col;
 				ccopy->row_offset = row;
-				ccopy->u.text = sublist->data;
+				ccopy->u.text = text; /* No need to free this here */
 
 				content = g_list_prepend (content, ccopy);
-
-				/* we don't free sublist->data, simply because CellCopy will do this */
 			}
-
-			sublist = g_slist_next (sublist);
-			col++;
 		}
-
-		g_slist_free (list->data);
-
 		if (col > colhigh)
 			colhigh = col;
-
-		list = g_slist_next (list);
-		row++;
+		g_list_free (mres);
 	}
-
-	g_slist_free (list_start);
+	
+	g_list_free (res);
 
 	cr = cellregion_new (NULL);
 	cr->content = content;
-	cr->cols   = (colhigh > 0) ? colhigh : 1;
-	cr->rows   = row;
+	cr->cols    = (colhigh > 0) ? colhigh : 1;
+	cr->rows    = row;
 
-	return cr;
+	return cr;	
 }

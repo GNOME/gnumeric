@@ -44,7 +44,7 @@ typedef struct {
 } RenderData_t;
 
 /* This will actually draw the stuff on screen */
-void               stf_preview_render                    (RenderData_t *renderdata, GSList *list, int rowcount, int colcount);
+void               stf_preview_render                    (RenderData_t *renderdata, GList *list, int rowcount, int colcount);
 
 /* These are for creation/deletion */
 RenderData_t*      stf_preview_new                       (GnomeCanvas *canvas, gboolean formatted);

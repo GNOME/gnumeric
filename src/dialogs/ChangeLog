@@ -1,3 +1,17 @@
+2001-06-04  Almer S. Tigelaar  <almer@gnome.org>
+
+	* dialog-stf-csv-page.c (csv_page_global_change): Cope for
+	changes to csv_set_separators and stf_parse_general.
+
+	* dialog-stf-format-page.c (format_page_update_preview): Idem.
+
+	* dialog-stf-fixed-page.c (fixed_page_update_preview): Idem.
+
+	* dialog-stf-preview.[ch] (stf_preview_render_row): Idem.
+	(stf_preview_format_recalc_colwidths): Idem.
+	(stf_preview_format_line): Idem.
+	(stf_preview_render): Idem.
+
 2001-06-02  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-stf-preview.c (stf_preview_format_line) : don't leak colour ref

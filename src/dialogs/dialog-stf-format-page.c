@@ -26,7 +26,7 @@ static void
 format_page_update_preview (DruidPageData_t *pagedata)
 {
 	FormatInfo_t *info = pagedata->format_info;
-	GSList *list;
+	GList *list;
 	GSList *iterator;
 
 	stf_preview_colformats_clear (info->format_run_renderdata);

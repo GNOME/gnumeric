@@ -81,7 +81,7 @@ fixed_page_update_preview (DruidPageData_t *pagedata)
 {
 	FixedInfo_t *info = pagedata->fixed_info;
 	StfParseOptions_t *parseoptions = pagedata->fixed_info->fixed_run_parseoptions;
-	GSList *list;
+	GList *list;
 	char *t[2];
 	int i, temp;
 
