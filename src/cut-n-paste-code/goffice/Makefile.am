@@ -1,4 +1,4 @@
-SUBDIRS = graph utils gui-utils drawing ms-compat libpresent test data
+SUBDIRS = graph utils gui-utils drawing ms-compat libpresent test pixmaps
 
 noinst_LTLIBRARIES = libgoffice.la
 

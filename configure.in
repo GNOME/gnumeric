@@ -754,7 +754,6 @@ src/gnumeric-paths.sh
 src/pixmaps/Makefile
 src/widgets/Makefile
 src/tools/Makefile
-src/cut-n-paste-code/goffice/graph/plugins/plot_radar/Makefile
 src/tools/solver/Makefile
 src/tools/solver/glpk/Makefile
 src/tools/solver/glpk/source/Makefile
@@ -765,13 +764,14 @@ src/cut-n-paste-code/foocanvas/Makefile
 src/cut-n-paste-code/foocanvas/libfoocanvas/Makefile
 src/cut-n-paste-code/pcre/Makefile
 src/cut-n-paste-code/goffice/Makefile
-src/cut-n-paste-code/goffice/data/Makefile
+src/cut-n-paste-code/goffice/pixmaps/Makefile
 src/cut-n-paste-code/goffice/utils/Makefile
 src/cut-n-paste-code/goffice/gui-utils/Makefile
 src/cut-n-paste-code/goffice/graph/Makefile
 src/cut-n-paste-code/goffice/graph/plugins/Makefile
 src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/Makefile
 src/cut-n-paste-code/goffice/graph/plugins/plot_pie/Makefile
+src/cut-n-paste-code/goffice/graph/plugins/plot_radar/Makefile
 src/cut-n-paste-code/goffice/graph/plugins/plot_xy/Makefile
 src/cut-n-paste-code/goffice/drawing/Makefile
 src/cut-n-paste-code/goffice/ms-compat/Makefile
