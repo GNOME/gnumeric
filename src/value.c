@@ -30,7 +30,6 @@
 #include <cell.h>
 #include <number-match.h>
 
-#define USE_VALUE_POOLS 0
 #ifndef USE_VALUE_POOLS
 #define USE_VALUE_POOLS 1
 #endif
