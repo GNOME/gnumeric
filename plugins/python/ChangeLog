@@ -1,3 +1,9 @@
+2000-03-02  Jon K Hellan  <hellan@acm.org>
+
+	* python.c (apply): Plug "Value" leak. 
+	(array_from_python): Fix silly mistake.
+	(row_from_python): Rename "col" variable to "rowno"
+
 2000-03-01  Jon K Hellan  <hellan@acm.org>
 
 	* python.c (exception_to_string): Rename to string_from_exception.

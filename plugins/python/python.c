@@ -420,16 +420,16 @@ array_check (PyObject *o)
 
 /**
  * row_from_python
- * @o     python list
- * @col   column
- * @array array
+ * @o      python list
+ * @rowno  rowno
+ * @array  array
  *
  * Converts a Python list object to array row. Returns 0 on success, -1
  * on failure.
  *
  * Row n, col m is [n][m].  */
 static int
-row_from_python (PyObject *o, int col, Value *array)
+row_from_python (PyObject *o, int rowno, Value *array)
 {
 	PyObject *item;
 	int i;
@@ -438,7 +438,7 @@ row_from_python (PyObject *o, int col, Value *array)
 	for (i = 0; i < cols; i++) {
 		if ((item = PyList_GetItem (o, i)) == NULL)
 			return -1;
-		array->v.array.vals[i][col] = value_from_python (item);
+		array->v.array.vals[i][rowno] = value_from_python (item);
 	}
 	return 0;
 }
@@ -471,7 +471,7 @@ array_from_python (PyObject *o)
 		cols = PyList_Size (row);
 		if (j == 0) {
 			array = value_new_array (cols, rows);
-		} else if (cols != v->v.array.x) {
+		} else if (cols != array->v.array.x) {
 			PyErr_SetString (PyExc_TypeError,
 					 "Rectangular array expected");
 			goto cleanup;
@@ -640,6 +640,8 @@ apply (PyObject *m, PyObject *py_args)
 		retval = value_to_python (v);
 	
 cleanup:
+	if (v)
+		value_release (v);
 	Py_XDECREF (item);
 	for (i = 0; i < num_args; ++i)
 		if (values[i])
@@ -682,8 +684,6 @@ register_function (PyObject *m, PyObject *py_args)
 		return NULL;
 	}
 
-	/* FIXME: ugly. category name should be heap allocated, but not if
-	 * the category already exists */
 	cat   = function_get_category (category_name);
 	help  = g_new (char *, 1);
 	*help = g_strdup (help1);

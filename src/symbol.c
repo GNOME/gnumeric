@@ -85,7 +85,7 @@ gboolean
 symbol_is_unused (Symbol *sym)
 {
 	g_return_val_if_fail (sym != NULL, FALSE);
-	g_return_val_if_fail (sym->ref_count < 0, FALSE);
+	g_return_val_if_fail (sym->ref_count > 0, FALSE);
 
 	return sym->ref_count <= 1;
 }
@@ -96,7 +96,7 @@ symbol_remove (SymbolTable *st, Symbol *sym)
 	g_return_if_fail (st != NULL);
 	g_return_if_fail (sym != NULL);
 	g_return_if_fail (st->hash != NULL);
-	g_return_if_fail (sym->ref_count < 0);
+	g_return_if_fail (sym->ref_count > 0);
 	g_return_if_fail (symbol_is_unused (sym));
 
 	g_hash_table_remove (st->hash, sym);
