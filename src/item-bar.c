@@ -327,6 +327,7 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 	GdkPoint points[3];
 	gboolean has_object = scg->new_object != NULL || scg->current_object != NULL;
 	int shadow;
+	int first_line_offset = 1;
 
 	if (ib->is_col_header) {
 		int const inc = item_bar_group_size (ib, sheet->cols.max_outline_level);
@@ -405,10 +406,12 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 							gdk_draw_lines (drawable, ib->lines, points, 3);
 						else if (!draw_right && i > next->outline_level)
 							gdk_draw_lines (drawable, ib->lines, points, 3);
-						else
+						else 
 							gdk_draw_line (drawable, ib->lines,
-								       left, pos, total, pos);
+								       left - first_line_offset, 
+								       pos, total, pos);
 					}
+					first_line_offset = 0;
 
 					if (draw_right) {
 						if (prev_level > level) {
@@ -572,10 +575,12 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 							gdk_draw_lines (drawable, ib->lines, points, 3);
 						else if (!draw_below && i > next->outline_level)
 							gdk_draw_lines (drawable, ib->lines, points, 3);
-						else
+						else 
 							gdk_draw_line (drawable, ib->lines,
-								       pos, top, pos, total);
+								       pos, top - first_line_offset, 
+								       pos, total);
 					}
+					first_line_offset = 0;
 
 					if (draw_below) {
 						if (prev_level > level) {

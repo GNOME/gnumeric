@@ -1,3 +1,8 @@
+2004-08-29   Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* src/item-bar.c (item_bar_draw): Fix group lines in row/column
+	headers.
+
 2004-08-28  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet.c (sheet_new_with_type) : Renamed from sheet_new_special,
