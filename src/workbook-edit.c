@@ -212,7 +212,8 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 	}
 
 	/* Remove the range selection cursor if it exists */
-	scg_rangesel_stop (wb_control_gui_cur_sheet (wbcg), FALSE);
+	if (NULL != wbcg->rangesel)
+		scg_rangesel_stop (wbcg->rangesel, FALSE);
 
 	/* Stop editing */
 	wbcg->editing = FALSE;

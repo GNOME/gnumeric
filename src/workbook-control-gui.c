@@ -3043,19 +3043,11 @@ cb_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page,
 
 	if (wbcg->editing) {
 		/* If we are not at a subexpression boundary then finish editing */
-		if (scg_rangesel_possible (wb_control_gui_cur_sheet (wbcg))) {
-			GtkWidget *w = gtk_notebook_get_nth_page (wbcg->notebook, page_num);
-			SheetControlGUI *scg = SHEET_CONTROL_GUI (w);
-			Sheet *sheet = scg->sheet;
-			int opt = (wbcg->editing_sheet == sheet)
-				? GNUM_EE_SHEET_OPTIONAL : 0;
+		if (NULL != wbcg->rangesel)
+			scg_rangesel_stop (wbcg->rangesel, TRUE);
 
-			gnumeric_expr_entry_set_scg (wbcg_get_entry_logical (wbcg), scg);
-			gnumeric_expr_entry_set_flags (wbcg_get_entry_logical (wbcg),
-				opt, GNUM_EE_SINGLE_RANGE | GNUM_EE_SHEET_OPTIONAL);
-			scg_rangesel_start (scg,
-				sheet->edit_pos_real.col, sheet->edit_pos_real.row);
-			scg_take_focus (scg);
+		if (wbcg_editing_expr (wbcg)) {
+			scg_take_focus (SHEET_CONTROL_GUI (page->child));
 			return;
 		}
 		wbcg_edit_finish (wbcg, FALSE);
@@ -3472,6 +3464,7 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 	wbcg->editing = FALSE;
 	wbcg->editing_sheet = NULL;
 	wbcg->editing_cell = NULL;
+	wbcg->rangesel = NULL;
 
 	gtk_signal_connect_after (
 		GTK_OBJECT (wbcg->toplevel), "delete_event",

@@ -95,6 +95,7 @@ struct _WorkbookControlGUI {
 	Cell        *editing_cell;
 	Sheet       *editing_sheet;
 	gboolean     editing;
+	SheetControlGUI *rangesel;
 
 	GtkWidget  *table;
 	GtkWidget  *auto_expr_label;

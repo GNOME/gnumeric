@@ -1,3 +1,16 @@
+2001-05-16  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-edit.c (wbcg_edit_finish) : stop the current rangesel,
+	  not rangesel on the current display sheet.
+
+	* src/workbook-control-gui.c (cb_notebook_switch_page) : simplify and
+	  use the new wbcg::rangesel to make things easier.
+	(workbook_control_gui_init) : init the new flag.
+
+	* src/sheet-control-gui.c (scg_rangesel_start) : store the scg doing
+	  the rangesel in the wbcg.
+	(scg_rangesel_stop) : clear it here.
+
 2001-05-15  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet.c (sheet_stop_range_selection) : delete.

@@ -2123,6 +2123,10 @@ scg_rangesel_start (SheetControlGUI *scg, int col, int row)
 	if (scg->rangesel.active)
 		return;
 
+	if (scg->wbcg->rangesel != NULL)
+		g_warning ("mis configed rangesel");
+
+	scg->wbcg->rangesel = scg;
 	scg->rangesel.active = TRUE;
 	scg->rangesel.cursor_pos = GTK_EDITABLE (wbcg_get_entry_logical (scg->wbcg))->current_pos;
 
@@ -2137,7 +2141,10 @@ scg_rangesel_stop (SheetControlGUI *scg, gboolean clear_string)
 
 	if (!scg->rangesel.active)
 		return;
+	if (scg->wbcg->rangesel != scg)
+		g_warning ("mis configed rangesel");
 
+	scg->wbcg->rangesel = NULL;
 	scg->rangesel.active = FALSE;
 	gnumeric_sheet_rangesel_stop (GNUMERIC_SHEET (scg->canvas));
 	scg_stop_sliding (scg);
