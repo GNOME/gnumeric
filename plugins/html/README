@@ -30,15 +30,12 @@ Features of the export/import HTML functions:
 		* the characters "<" and ">" are 7bit encoded
 
 	- importing tables
-		* this is just a dirty hack which will in the most
-		  cases only work while reading html files which were
-		  created by this plugin!
+		* This has now been rewritten to use the libxml2 html parser.
 		* while reading the html file the following attributes
 		  are imported:
 			- bold font setting
 			- italic font setting
 			- horizontal center and right aligment
-		* the 7bit presentation of "<" and ">" are decoded
 
 **********************************************************************
 
