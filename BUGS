@@ -16,6 +16,12 @@ Release Critical
     - config check for xml-i18n-tool version (or should it be
       intltool ?)
 
+    - wbcg_edit_finish thinks that "-111,333" is a *formula*.  We need to match
+      agaist numbers even before considering that.  I think.  (What about entering
+      "=A1" in a text cell -- does that text for formula?)
+
+    - Unbounded recursion in wbcg_edit_finish -- make it a loop.
+
 Pending Patches
 ---------------
 
