@@ -25,6 +25,7 @@ Andreas:
 	* Correct regression analysis tool (intercept == 0 case)
 	* Port and redesign sort dialog
 	* Reenable the expr entry widgets in gurus
+	* Fix about dialog
 
 Jody:
 	* Initial port to gnome2.

@@ -90,7 +90,8 @@ dialog_about (WorkbookControlGUI *wbcg)
 				 _("(C) 1998-2000 Miguel de Icaza, 2001-2002 Jody Goldberg"),
 				 _("A production ready spreadsheet"),
 				 authors, documenters,
-				 "",
+/* Translate the following string with the names of all translators for this locale. */
+				 _("This is an untranslated version of Gnumeric."),
 				 gdk_pixbuf_new_from_file ("gnome-gnumeric.png", NULL));
 
 	hbox = gtk_hbox_new (TRUE, 0);
@@ -105,10 +106,10 @@ dialog_about (WorkbookControlGUI *wbcg)
 		gtk_box_pack_start (GTK_BOX (hbox), href, FALSE, FALSE, 0);
 	}
 #endif
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (about)->vbox),
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (about)->vbox),
 			    hbox, TRUE, FALSE, 0);
 	gtk_widget_show_all (hbox);
 
 	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (about), ABOUT_KEY);
-	gnumeric_dialog_show (wbcg, GTK_DIALOG (about), TRUE, TRUE);
+	gtk_widget_show (GTK_WIDGET (about));
 }

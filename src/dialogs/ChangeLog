@@ -1,3 +1,7 @@
+2002-02-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog_about.c (dialog_about) : don't use gnome_dialog
+
 2002-02-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-cell-format.c (fmt_dialog_init_validation_expr_entry) :
