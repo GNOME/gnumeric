@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2002-04-25 03:26+0100\n"
-"PO-Revision-Date: 2002-04-25 03:35+0000\n"
+"POT-Creation-Date: 2002-05-10 02:34+0100\n"
+"PO-Revision-Date: 2002-05-10 02:35+0000\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: Portuguese <gnome_pt@yahoogroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -558,12 +558,12 @@ msgstr "Livros de trabalho protegidos por senha ainda não são suportados."
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Incapaz de localizar livro de trabalho MS Excel válido"
 
-#: plugins/excel/ms-excel-write.c:3573
+#: plugins/excel/ms-excel-write.c:3574
 #, c-format
 msgid "Too many rows for this format (%d > %d)"
 msgstr "Demasiadas linhas para este formato (%d > %d)"
 
-#: plugins/excel/ms-excel-write.c:3799
+#: plugins/excel/ms-excel-write.c:3800
 msgid "Can't open stream for writing\n"
 msgstr "Incapaz de abrir fluxo para escrita\n"
 
@@ -1633,7 +1633,7 @@ msgstr "Criar uma barra de rolamento"
 msgid "Create an arrow"
 msgstr "Criar uma seta"
 
-#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1393
+#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1394
 #: src/workbook-control-gui.c:2734
 msgid "Cu_t"
 msgstr "Cor_tar"
@@ -2468,8 +2468,8 @@ msgstr "_Consolidar..."
 msgid "_Content"
 msgstr "_Conteudo"
 
-#: src/GNOME_Gnumeric.xml.h:260 src/item-cursor.c:1030
-#: src/sheet-control-gui.c:1395 src/workbook-control-gui.c:2738
+#: src/GNOME_Gnumeric.xml.h:260 src/item-cursor.c:1011
+#: src/sheet-control-gui.c:1396 src/workbook-control-gui.c:2738
 msgid "_Copy"
 msgstr "_Copiar"
 
@@ -2485,7 +2485,7 @@ msgstr "_Dados"
 msgid "_Define..."
 msgstr "_Definir..."
 
-#: src/GNOME_Gnumeric.xml.h:264 src/sheet-control-gui.c:1413
+#: src/GNOME_Gnumeric.xml.h:264 src/sheet-control-gui.c:1414
 #: src/workbook-control-gui.c:2755
 msgid "_Delete..."
 msgstr "_Apagar..."
@@ -2556,8 +2556,8 @@ msgstr "_Grupo e Tópico"
 msgid "_Help"
 msgstr "A_juda"
 
-#: src/GNOME_Gnumeric.xml.h:281 src/sheet-control-gui.c:1436
-#: src/sheet-control-gui.c:1444 src/workbook-control-gui.c:2876
+#: src/GNOME_Gnumeric.xml.h:281 src/sheet-control-gui.c:1437
+#: src/sheet-control-gui.c:1445 src/workbook-control-gui.c:2876
 #: src/workbook-control-gui.c:2895
 msgid "_Hide"
 msgstr "_Esconder"
@@ -2615,7 +2615,7 @@ msgstr "A_brir..."
 msgid "_Paired Samples: T-Test"
 msgstr "Amostras Em_parelhadas: T-Test"
 
-#: src/GNOME_Gnumeric.xml.h:295 src/sheet-control-gui.c:1397
+#: src/GNOME_Gnumeric.xml.h:295 src/sheet-control-gui.c:1398
 #: src/workbook-control-gui.c:2742
 msgid "_Paste"
 msgstr "C_olar"
@@ -2730,8 +2730,8 @@ msgstr "Desfa_zer"
 msgid "_Ungroup"
 msgstr "Desagr_upar"
 
-#: src/GNOME_Gnumeric.xml.h:321 src/sheet-control-gui.c:1438
-#: src/sheet-control-gui.c:1446 src/workbook-control-gui.c:2879
+#: src/GNOME_Gnumeric.xml.h:321 src/sheet-control-gui.c:1439
+#: src/sheet-control-gui.c:1447 src/workbook-control-gui.c:2879
 #: src/workbook-control-gui.c:2898
 msgid "_Unhide"
 msgstr "_Mostrar"
@@ -3174,283 +3174,283 @@ msgstr "A escrever \"%s%s\" em %s"
 msgid "Typing \"%s%s\""
 msgstr "A escrever \"%s%s\""
 
-#: src/commands.c:1103
+#: src/commands.c:1102
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "A inserir %d colunas antes de %s"
 
-#: src/commands.c:1104
+#: src/commands.c:1103
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "A inserir %d coluna antes de %s"
 
-#: src/commands.c:1119
+#: src/commands.c:1118
 #, c-format
 msgid "Inserting %d rows before %s"
 msgstr "A inserir %d linhas antes de %s"
 
-#: src/commands.c:1120
+#: src/commands.c:1119
 #, c-format
 msgid "Inserting %d row before %s"
 msgstr "A inserir %d linha antes de %s"
 
-#: src/commands.c:1131
+#: src/commands.c:1130
 #, c-format
 msgid "Deleting columns %s"
 msgstr "A apagar colunas %s"
 
-#: src/commands.c:1132
+#: src/commands.c:1131
 #, c-format
 msgid "Deleting column %s"
 msgstr "A apagar coluna %s"
 
-#: src/commands.c:1142
+#: src/commands.c:1141
 #, c-format
 msgid "Deleting rows %s"
 msgstr "A apagar linhas %s"
 
-#: src/commands.c:1143
+#: src/commands.c:1142
 #, c-format
 msgid "Deleting row %s"
 msgstr "A apagar linha %s"
 
-#: src/commands.c:1218
+#: src/commands.c:1217
 msgid "Undo Clear"
 msgstr "Desfazer Limpar"
 
-#: src/commands.c:1297
+#: src/commands.c:1296
 msgid "contents"
 msgstr "conteudos"
 
-#: src/commands.c:1299
+#: src/commands.c:1298
 msgid "formats"
 msgstr "formatos"
 
-#: src/commands.c:1301
+#: src/commands.c:1300
 msgid "comments"
 msgstr "comentários"
 
-#: src/commands.c:1317
+#: src/commands.c:1316
 msgid "all"
 msgstr "tudo"
 
-#: src/commands.c:1324
+#: src/commands.c:1323
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "A limpar %s em %s"
 
-#: src/commands.c:1519
+#: src/commands.c:1518
 #, c-format
 msgid "Changing format of %s"
 msgstr "A modificar formato de %s"
 
-#: src/commands.c:1595
+#: src/commands.c:1594
 #, c-format
 msgid "Rename sheet '%s' '%s'"
 msgstr "Renomear folha '%s' '%s'"
 
-#: src/commands.c:1705
+#: src/commands.c:1704
 msgid "Set Date/Time"
 msgstr "Definir Data/Hora"
 
-#: src/commands.c:1722
+#: src/commands.c:1721
 #, c-format
 msgid "Setting current date in %s"
 msgstr "A definir data actual em %s"
 
-#: src/commands.c:1723
+#: src/commands.c:1722
 #, c-format
 msgid "Setting current time in %s"
 msgstr "A definir hora actual em %s"
 
-#: src/commands.c:1830
+#: src/commands.c:1829
 #, c-format
 msgid "Autofitting column %s"
 msgstr "A auto-dimensionar coluna %s"
 
-#: src/commands.c:1831
+#: src/commands.c:1830
 #, c-format
 msgid "Autofitting row %s"
 msgstr "A auto-dimensionar linha %s"
 
-#: src/commands.c:1834
+#: src/commands.c:1833
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "A definir largura da coluna %s para %d pixels"
 
-#: src/commands.c:1836
+#: src/commands.c:1835
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "A definir altura da linha %s para %d pixels"
 
-#: src/commands.c:1841 src/commands.c:1842
+#: src/commands.c:1840 src/commands.c:1841
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "A auto-dimensionar colunas %s"
 
-#: src/commands.c:1845
+#: src/commands.c:1844
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "A definir largura das colunas %s para %d pixels"
 
-#: src/commands.c:1847
+#: src/commands.c:1846
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "A definir altura das linhas %s para %d pixels"
 
-#: src/commands.c:1931
+#: src/commands.c:1930
 #, c-format
 msgid "Sorting %s"
 msgstr "A ordenar %s"
 
-#: src/commands.c:2059
+#: src/commands.c:2058
 msgid "Unhide columns"
 msgstr "Mostrar colunas"
 
-#: src/commands.c:2059
+#: src/commands.c:2058
 msgid "Hide columns"
 msgstr "Esconder colunas"
 
-#: src/commands.c:2060
+#: src/commands.c:2059
 msgid "Unhide rows"
 msgstr "Mostrar linhas"
 
-#: src/commands.c:2060
+#: src/commands.c:2059
 msgid "Hide rows"
 msgstr "Esconder linhas"
 
-#: src/commands.c:2141
+#: src/commands.c:2140
 msgid "Expand columns"
 msgstr "Expandir colunas"
 
-#: src/commands.c:2141
+#: src/commands.c:2140
 msgid "Collapse columns"
 msgstr "Recolher colunas"
 
-#: src/commands.c:2142
+#: src/commands.c:2141
 msgid "Expand rows"
 msgstr "Expandir linhas"
 
-#: src/commands.c:2142
+#: src/commands.c:2141
 msgid "Collapse rows"
 msgstr "Recolher linhas"
 
-#: src/commands.c:2211
+#: src/commands.c:2210
 msgid "Those columns are already grouped"
 msgstr "Essas colunas já se encontram agrupadas"
 
-#: src/commands.c:2212
+#: src/commands.c:2211
 msgid "Those rows are already grouped"
 msgstr "Essas linhas já se encontram agrupadas"
 
-#: src/commands.c:2215
+#: src/commands.c:2214
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "Essas colunas não estão agrupadas, não as pode desagrupar"
 
-#: src/commands.c:2216
+#: src/commands.c:2215
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "Essas linhas não estão agrupadas, não as pode desagrupar"
 
-#: src/commands.c:2227
+#: src/commands.c:2226
 #, c-format
 msgid "Group columns %s"
 msgstr "Agrupar colunas %s"
 
-#: src/commands.c:2227
+#: src/commands.c:2226
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Desagrupar colunas %s"
 
-#: src/commands.c:2229
+#: src/commands.c:2228
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Agrupar linhas %d:%d"
 
-#: src/commands.c:2229
+#: src/commands.c:2228
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Desagrupar linhas %d:%d"
 
-#: src/commands.c:2436
+#: src/commands.c:2435
 #, c-format
 msgid "Moving %s"
 msgstr "A mover %s"
 
-#: src/commands.c:2445 src/commands.c:2653
+#: src/commands.c:2444 src/commands.c:2652
 msgid "is beyond sheet boundaries"
 msgstr "está para além das fronteiras da folha"
 
 #. FIXME?
-#: src/commands.c:2597
+#: src/commands.c:2596
 #, c-format
 msgid "Pasting into %s"
 msgstr "A colar em %s"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:2826 src/commands.c:2827 src/workbook-control-gui.c:1841
+#: src/commands.c:2825 src/commands.c:2826 src/workbook-control-gui.c:1841
 msgid "Autofill"
 msgstr "Auto-enchimento"
 
 #. Changed in initial redo.
-#: src/commands.c:2850
+#: src/commands.c:2849
 #, c-format
 msgid "Autofilling %s"
 msgstr "A auto-encher %s"
 
-#: src/commands.c:3003
+#: src/commands.c:3002
 #, c-format
 msgid "Autoformatting %s"
 msgstr "A auto-formatar %s"
 
-#: src/commands.c:3113
+#: src/commands.c:3112
 #, c-format
 msgid "Unmerging %s"
 msgstr "A separar %s"
 
-#: src/commands.c:3251
+#: src/commands.c:3250
 #, c-format
 msgid "Merging %s"
 msgstr "A juntar %s"
 
 #. Corrected below.
-#: src/commands.c:3631 src/dialogs/search-replace.glade.h:23
+#: src/commands.c:3630 src/dialogs/search-replace.glade.h:23
 msgid "Search and Replace"
 msgstr "Procurar e Substituir"
 
-#: src/commands.c:3727
+#: src/commands.c:3726
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "A definir largura de defeito das colunas para %.2fpts"
 
-#: src/commands.c:3728
+#: src/commands.c:3727
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "A definir altura de defeito das linhas para %.2fpts"
 
 #. Changed in initial redo.
-#: src/commands.c:3813
+#: src/commands.c:3812
 #, c-format
 msgid "Consolidating to %s!%s"
 msgstr "A consolidar para %s!%s"
 
-#: src/commands.c:3928
+#: src/commands.c:3927
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Zoom %s para %.0f%%"
 
-#: src/commands.c:3997
+#: src/commands.c:3996
 msgid "Insert object"
 msgstr "Inserir objecto"
 
-#: src/commands.c:4055
+#: src/commands.c:4054
 msgid "Delete object"
 msgstr "Apagar objecto"
 
-#: src/commands.c:4136
+#: src/commands.c:4135
 msgid "Resize object"
 msgstr "Redimensionar objecto"
 
-#: src/commands.c:4136
+#: src/commands.c:4135
 msgid "Move object"
 msgstr "Mover objecto"
 
@@ -5425,7 +5425,7 @@ msgid "Value%d"
 msgstr "Valor%d"
 
 #: src/dialogs/dialog-formula-guru.c:439 src/dialogs/dialog-search.c:122
-#: src/functions/fn-string.c:1217
+#: src/functions/fn-string.c:1232
 msgid "String"
 msgstr "Expressão"
 
@@ -8970,7 +8970,7 @@ msgstr "Função Desconhecida"
 #: src/functions/fn-information.c:768 src/functions/fn-information.c:796
 #: src/functions/fn-information.c:823 src/functions/fn-information.c:874
 #: src/functions/fn-information.c:904 src/functions/fn-information.c:971
-#: src/functions/fn-logical.c:196 src/functions/fn-string.c:325
+#: src/functions/fn-logical.c:196 src/functions/fn-string.c:337
 msgid "Invalid number of arguments"
 msgstr "Número inválido de argumentos"
 
@@ -13787,7 +13787,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AND, OR"
 
-#: src/functions/fn-logical.c:103 src/functions/fn-string.c:506
+#: src/functions/fn-logical.c:103 src/functions/fn-string.c:518
 msgid "Type Mismatch"
 msgstr "Tipo Incorrecto"
 
@@ -18723,7 +18723,12 @@ msgstr ""
 "\n"
 "@SEEALSO=MID, RIGHT"
 
-#: src/functions/fn-string.c:161
+#: src/functions/fn-string.c:149 src/functions/fn-string.c:221
+#: src/functions/fn-string.c:269
+msgid "Invalid arguments"
+msgstr "Argumentos inválidos"
+
+#: src/functions/fn-string.c:165
 msgid ""
 "@FUNCTION=LOWER\n"
 "@SYNTAX=LOWER(text)\n"
@@ -18743,7 +18748,7 @@ msgstr ""
 "\n"
 "@SEEALSO=UPPER"
 
-#: src/functions/fn-string.c:191
+#: src/functions/fn-string.c:195
 msgid ""
 "@FUNCTION=MID\n"
 "@SYNTAX=MID(string, position, length)\n"
@@ -18765,11 +18770,11 @@ msgstr ""
 "\n"
 "@SEEALSO=LEFT, RIGHT"
 
-#: src/functions/fn-string.c:217
-msgid "Invalid arguments"
-msgstr "Argumentos inválidos"
+#: src/functions/fn-string.c:227 src/functions/fn-string.c:632
+msgid "Arguments out of range"
+msgstr "Argumentos fora do limite"
 
-#: src/functions/fn-string.c:236
+#: src/functions/fn-string.c:244
 msgid ""
 "@FUNCTION=RIGHT\n"
 "@SYNTAX=RIGHT(text[,num_chars])\n"
@@ -18793,7 +18798,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MID, LEFT"
 
-#: src/functions/fn-string.c:275
+#: src/functions/fn-string.c:287
 msgid ""
 "@FUNCTION=UPPER\n"
 "@SYNTAX=UPPER(text)\n"
@@ -18813,7 +18818,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOWER"
 
-#: src/functions/fn-string.c:305
+#: src/functions/fn-string.c:317
 msgid ""
 "@FUNCTION=CONCATENATE\n"
 "@SYNTAX=CONCATENATE(string1[,string2...])\n"
@@ -18833,7 +18838,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LEFT, MID, RIGHT"
 
-#: src/functions/fn-string.c:347
+#: src/functions/fn-string.c:359
 msgid ""
 "@FUNCTION=REPT\n"
 "@SYNTAX=REPT(string,num)\n"
@@ -18855,11 +18860,11 @@ msgstr ""
 
 #. FIXME: this and above case should probably have the
 #. same error message.
-#: src/functions/fn-string.c:386
+#: src/functions/fn-string.c:398
 msgid "Out of memory"
 msgstr "Sem memória"
 
-#: src/functions/fn-string.c:402
+#: src/functions/fn-string.c:414
 msgid ""
 "@FUNCTION=CLEAN\n"
 "@SYNTAX=CLEAN(string)\n"
@@ -18880,7 +18885,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-string.c:434
+#: src/functions/fn-string.c:446
 msgid ""
 "@FUNCTION=FIND\n"
 "@SYNTAX=FIND(string1,string2[,start])\n"
@@ -18903,7 +18908,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXACT, LEN, MID, SEARCH"
 
-#: src/functions/fn-string.c:476
+#: src/functions/fn-string.c:488
 msgid ""
 "@FUNCTION=FIXED\n"
 "@SYNTAX=FIXED(num,[decimals, no_commas])\n"
@@ -18926,7 +18931,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-string.c:544
+#: src/functions/fn-string.c:556
 msgid ""
 "@FUNCTION=PROPER\n"
 "@SYNTAX=PROPER(string)\n"
@@ -18947,7 +18952,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOWER, UPPER"
 
-#: src/functions/fn-string.c:590
+#: src/functions/fn-string.c:602
 msgid ""
 "@FUNCTION=REPLACE\n"
 "@SYNTAX=REPLACE(old,start,num,new)\n"
@@ -18969,7 +18974,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM"
 
-#: src/functions/fn-string.c:640
+#: src/functions/fn-string.c:655
 msgid ""
 "@FUNCTION=T\n"
 "@SYNTAX=T(value)\n"
@@ -18993,7 +18998,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CELL, N, VALUE"
 
-#: src/functions/fn-string.c:666
+#: src/functions/fn-string.c:681
 msgid ""
 "@FUNCTION=TEXT\n"
 "@SYNTAX=TEXT(value,format_text)\n"
@@ -19016,11 +19021,11 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLAR"
 
-#: src/functions/fn-string.c:702
+#: src/functions/fn-string.c:717
 msgid "Type mismatch"
 msgstr "Tipo incorrecto"
 
-#: src/functions/fn-string.c:714
+#: src/functions/fn-string.c:729
 msgid ""
 "@FUNCTION=TRIM\n"
 "@SYNTAX=TRIM(text)\n"
@@ -19040,7 +19045,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE"
 
-#: src/functions/fn-string.c:760
+#: src/functions/fn-string.c:775
 msgid ""
 "@FUNCTION=VALUE\n"
 "@SYNTAX=VALUE(text)\n"
@@ -19060,7 +19065,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLAR, FIXED, TEXT"
 
-#: src/functions/fn-string.c:803
+#: src/functions/fn-string.c:818
 msgid ""
 "@FUNCTION=SUBSTITUTE\n"
 "@SYNTAX=SUBSTITUTE(text, old, new [,num])\n"
@@ -19084,7 +19089,7 @@ msgstr ""
 "\n"
 "@SEEALSO=REPLACE, TRIM"
 
-#: src/functions/fn-string.c:919
+#: src/functions/fn-string.c:934
 msgid ""
 "@FUNCTION=DOLLAR\n"
 "@SYNTAX=DOLLAR(num[,decimals])\n"
@@ -19104,7 +19109,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FIXED, TEXT, VALUE"
 
-#: src/functions/fn-string.c:988
+#: src/functions/fn-string.c:1003
 msgid ""
 "@FUNCTION=SEARCH\n"
 "@SYNTAX=SEARCH(text,within[,start_num])\n"
@@ -19320,7 +19325,7 @@ msgstr "Largura: %.2f pts (%d pixels)"
 msgid "Height: %.2f pts (%d pixels)"
 msgstr "Altura: %.2f pts (%d pixels)"
 
-#: src/item-cursor.c:917
+#: src/item-cursor.c:898
 msgid ""
 "The cells dragged will overwrite the contents of the\n"
 "existing cells in that range.  Do you want me to replace\n"
@@ -19330,35 +19335,35 @@ msgstr ""
 "células existentes nessa área. Deseja que sejam substituidos\n"
 "os conteudos nesta área?"
 
-#: src/item-cursor.c:1027
+#: src/item-cursor.c:1008
 msgid "_Move"
 msgstr "_Mover"
 
-#: src/item-cursor.c:1033
+#: src/item-cursor.c:1014
 msgid "Copy _Formats"
 msgstr "Copiar _Formatos"
 
-#: src/item-cursor.c:1035
+#: src/item-cursor.c:1016
 msgid "Copy _Values"
 msgstr "Copiar _Valores"
 
-#: src/item-cursor.c:1040
+#: src/item-cursor.c:1021
 msgid "Shift _Down and Copy"
 msgstr "Seguir A_baixo e Copiar"
 
-#: src/item-cursor.c:1042
+#: src/item-cursor.c:1023
 msgid "Shift _Right and Copy"
 msgstr "Mover à Di_reita e Copiar"
 
-#: src/item-cursor.c:1044
+#: src/item-cursor.c:1025
 msgid "Shift Dow_n and Move"
 msgstr "Seguir Abai_xo e Mover"
 
-#: src/item-cursor.c:1046
+#: src/item-cursor.c:1027
 msgid "Shift Righ_t and Move"
 msgstr "Seguir à Direi_ta e Mover"
 
-#: src/item-cursor.c:1051
+#: src/item-cursor.c:1032
 msgid "C_ancel"
 msgstr "C_ancelar"
 
@@ -19937,17 +19942,17 @@ msgstr "Barra invertida inválida no final da substituição."
 msgid "cannot be performed with multiple ranges selected"
 msgstr "não pode ser realizado com multiplas áreas seleccionadas"
 
-#: src/sheet-control-gui.c:556
+#: src/sheet-control-gui.c:557
 #, c-format
 msgid "Row: %s"
 msgstr "Linha: %s"
 
-#: src/sheet-control-gui.c:571
+#: src/sheet-control-gui.c:572
 #, c-format
 msgid "Column: %s"
 msgstr "Coluna: %s"
 
-#: src/sheet-control-gui.c:1399
+#: src/sheet-control-gui.c:1400
 msgid "Paste _Special"
 msgstr "Colar E_special"
 
@@ -19958,41 +19963,41 @@ msgstr "Colar E_special"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1411
+#: src/sheet-control-gui.c:1412
 msgid "_Insert..."
 msgstr "_Inserir..."
 
-#: src/sheet-control-gui.c:1415
+#: src/sheet-control-gui.c:1416
 msgid "_Insert Column(s)"
 msgstr "_Inserir Coluna(s)"
 
-#: src/sheet-control-gui.c:1417
+#: src/sheet-control-gui.c:1418
 msgid "_Delete Column(s)"
 msgstr "A_pagar Coluna(s)"
 
-#: src/sheet-control-gui.c:1419
+#: src/sheet-control-gui.c:1420
 msgid "_Insert Row(s)"
 msgstr "_Inserir Linha(s)"
 
-#: src/sheet-control-gui.c:1421
+#: src/sheet-control-gui.c:1422
 msgid "_Delete Row(s)"
 msgstr "Apa_gar Linha(s)"
 
-#: src/sheet-control-gui.c:1424
+#: src/sheet-control-gui.c:1425
 msgid "Clear Co_ntents"
 msgstr "Limpar Co_nteudo"
 
-#: src/sheet-control-gui.c:1430
+#: src/sheet-control-gui.c:1431
 msgid "_Format Cells..."
 msgstr "_Formatar Células..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1434
+#: src/sheet-control-gui.c:1435
 msgid "Column _Width..."
 msgstr "Largura de _Coluna..."
 
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1442
+#: src/sheet-control-gui.c:1443
 msgid "_Row Height..."
 msgstr "Altura de _Linha..."
 
@@ -20112,23 +20117,23 @@ msgstr "incapaz de operar em células unidas"
 msgid "cannot operate on array formulae"
 msgstr "incapaz de operar no formulae de matriz"
 
-#: src/sheet.c:3053
+#: src/sheet.c:3066
 msgid "Clear"
 msgstr "Limpar"
 
-#: src/sheet.c:3459
+#: src/sheet.c:3472
 msgid "Insert Columns"
 msgstr "Inserir Colunas"
 
-#: src/sheet.c:3516
+#: src/sheet.c:3529
 msgid "Delete Columns"
 msgstr "Apagar Colunas"
 
-#: src/sheet.c:3570
+#: src/sheet.c:3583
 msgid "Insert Rows"
 msgstr "Inserir Linhas"
 
-#: src/sheet.c:3627
+#: src/sheet.c:3640
 msgid "Delete Rows"
 msgstr "Apagar Linhas"
 
@@ -20341,42 +20346,42 @@ msgstr "O seu ficheiro fontmap2 não tem uma entrada válida para Helvetica."
 msgid "Your fontmap2 file could not be found in the expected location."
 msgstr "O seu ficheiro fontmap2 não foi encontrado na localização esperada."
 
-#: src/validation.c:138
+#: src/validation.c:139
 #, c-format
 msgid "Cell %s is not permitted to be blank"
 msgstr "Não é permitido que a célula %s seja vazia"
 
-#: src/validation.c:155
+#: src/validation.c:156
 #, c-format
 msgid "'%s' is an error"
 msgstr "'%s' é um erro"
 
-#: src/validation.c:165
+#: src/validation.c:166
 #, c-format
 msgid "'%s' is not a valid date"
 msgstr "'%s' não é uma data válida"
 
-#: src/validation.c:167
+#: src/validation.c:168
 #, c-format
 msgid "'%s' is not a valid time"
 msgstr "'%s' não é uma hora válida"
 
-#: src/validation.c:169
+#: src/validation.c:170
 #, c-format
 msgid "'%s' is not a number"
 msgstr "'%s' não é um número"
 
-#: src/validation.c:182
+#: src/validation.c:183
 #, c-format
 msgid "'%s' is not an integer"
 msgstr "'%s' não é um inteiro"
 
-#: src/validation.c:275
+#: src/validation.c:276
 #, c-format
 msgid "%s is not true."
 msgstr "%s não é verdade."
 
-#: src/validation.c:288
+#: src/validation.c:289
 msgid ""
 "That value is invalid.\n"
 "Restrictions have been placed on this cell's content."
@@ -20384,7 +20389,7 @@ msgstr ""
 "Esse valor é inválido.\n"
 "Foram colocadas restrições ao conteudo desta célula."
 
-#: src/validation.c:295
+#: src/validation.c:296
 msgid "Gnumeric : Validation"
 msgstr "Gnumeric : Validação"
 
