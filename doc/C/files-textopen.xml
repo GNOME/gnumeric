@@ -365,13 +365,13 @@
 	        druid with callouts labeling the different areas.
 	      </para>
 	    </textobject>
+	    <caption>
+	      The different components of the first panel of the
+	      <interface>Text Import</interface> druid with each component
+	      labeled with a callout.
+	    </caption>
 	  </mediaobject>
 	</screenshot>
-	<caption>
-	  The different components of the first panel of the
-	  <interface>Text Import</interface> druid with each component
-	  labeled with a callout.
-	</caption>
       </figure>
 
       <para>
@@ -545,13 +545,13 @@
 	        different areas. 
 	      </para>
 	    </textobject>
+	    <caption>
+	      The different components of the second panel of the
+	      <interface>Text Import</interface> druid for separated data
+	      with each component labeled with a callout.
+	    </caption>
 	  </mediaobject>
 	</screenshot>
-	<caption>
-	  The different components of the second panel of the
-	  <interface>Text Import</interface> druid for separated data
-	  with each component labeled with a callout.
-	</caption>
       </figure>
 
       <para>
@@ -708,13 +708,13 @@
 	        different areas. 
 	      </para>
 	    </textobject>
+	    <caption>
+	      The different components of the second panel of the
+	      <interface>Text Import</interface> druid for fixed width
+	      data with each component labeled with a callout.
+	    </caption>
 	  </mediaobject>
 	</screenshot>
-	<caption>
-	  The different components of the second panel of the
-	  <interface>Text Import</interface> druid for fixed width
-	  data with each component labeled with a callout.
-	</caption>
       </figure>
 
       <para>
@@ -884,13 +884,13 @@
 	        druid with callouts labeling the different areas.
 	      </para>
 	    </textobject>
+	    <caption>
+	      The different components of the third panel of the
+	      <interface>Text Import</interface> druid with each component
+	      labeled with a callout.
+	    </caption>
 	  </mediaobject>
 	</screenshot>
-	<caption>
-	  The different components of the third panel of the
-	  <interface>Text Import</interface> druid with each component
-	  labeled with a callout.
-	</caption>
       </figure>
 
       <para>

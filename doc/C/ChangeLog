@@ -1,3 +1,9 @@
+2004-10-01  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* data-move-copy.xml: Fixed link.
+	* files-textopen.xml: Moved "caption" tags into "mediaobject"s where
+	they are valid.
+
 2004-09-30  Adrian Custer <acuster@gnome.org>
 
 	* NEWS: Clean the last of the curft. The docs, figures/ directory
