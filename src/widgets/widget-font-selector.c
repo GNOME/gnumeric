@@ -238,7 +238,6 @@ cb_get_col_width (PreviewGrid *pg, int col, FontSelector *fs)
 static MStyle *
 cb_get_cell_style (PreviewGrid *pg, int row, int col, FontSelector *fs)
 {
-	mstyle_ref (fs->mstyle);
 	return fs->mstyle;
 }
 
