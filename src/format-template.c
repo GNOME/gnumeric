@@ -1156,7 +1156,7 @@ cb_format_sheet_style (FormatTemplate *ft, Range *r, MStyle *mstyle, Sheet *shee
 	 * We need not unref the mstyle, sheet will
 	 * take care of the mstyle
 	 */
-	sheet_style_attach (sheet, *r, mstyle);
+	sheet_range_apply_style (sheet, r, mstyle);
 }
 
 static void
@@ -1253,8 +1253,6 @@ format_template_apply_to_sheet_regions (FormatTemplate *ft, Sheet *sheet, GSList
 		format_template_calculate (ft, s, (PCalcCallback) cb_format_sheet_style, sheet);
 		format_template_calculate (ft, s, (PCalcCallback) cb_format_sheet_border, sheet);
 
-		sheet_redraw_range (sheet, &s);
-		
 		region = g_slist_next (region);
 	}
 }
