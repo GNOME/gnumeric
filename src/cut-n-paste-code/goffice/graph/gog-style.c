@@ -110,9 +110,9 @@ set_style (StylePrefState const *state)
 
 static GtkWidget *
 create_go_combo_color (StylePrefState *state,
-		    GOColor initial_val, GOColor default_val,
-		    char const *group, char const *label_name,
-		    GCallback func)
+		       GOColor initial_val, GOColor default_val,
+		       char const *group, char const *label_name,
+		       GCallback func)
 {
 	GtkWidget *w;
 

@@ -69,13 +69,13 @@ Pending Patches
 	5.8.6) history buttons in menu				(DONE)
 	5.8.7) think about custom button			(DONE)
 	5.8.8) custom button in menu				(DONE)
-	5.8.9) sync proxies
+	5.8.9) sync proxies					(DONE)
 	5.8.10) Use GtkColorSelector				(DONE)
-	5.8.11) Better cursor
-	5.8.12) Use GOColor in action				(DONE)
-	5.8.13) Use GOColor in combo				(DONE)
-	5.8.14) Cleanup						(DONE)
-	5.8.15) why is first custom colour not displayed	(DONE)
+	5.8.11) Use GOColor in action				(DONE)
+	5.8.12) Use GOColor in combo				(DONE)
+	5.8.13) Cleanup						(DONE)
+	5.8.14) why is first custom colour not displayed	(DONE)
+	5.8.15) Better cursor
     5.9) Move the hard coded accelerators out of
 	canvas into actions
     5.10) Add indent/unindent icons to gtk			(DONE)

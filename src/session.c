@@ -17,6 +17,8 @@
  */
 
 #include <gnumeric-config.h>
+
+#ifdef WITH_GNOME
 #include "gnumeric.h"
 #include <gtk/gtk.h>
 #include <gdk/gdkx.h>
@@ -252,3 +254,9 @@ gnm_session_init (const char *argv0)
 }
 
 
+#else
+void
+gnm_session_init (const char *argv0)
+{
+}
+#endif /* WITH_GNOME */

@@ -87,8 +87,8 @@ enum {
 	SHEET_POINTER,
 	IS_EDITABLE_COLUMN,
 	IS_DELETED,
-	BACKGROUND_COLOUR_POINTER,
-	FOREGROUND_COLOUR_POINTER,
+	BACKGROUND_COLOUR,
+	FOREGROUND_COLOUR,
 	NUM_COLMNS
 };
 
@@ -133,7 +133,7 @@ location_of_iter (GtkTreeIter  *iter, GtkListStore *model)
 
 static void
 cb_color_changed_fore (G_GNUC_UNUSED GOComboColor *go_combo_color,
-		       GdkColor *color, G_GNUC_UNUSED gboolean custom,
+		       GOColor color, G_GNUC_UNUSED gboolean custom,
 		       G_GNUC_UNUSED gboolean by_user,
 		       G_GNUC_UNUSED gboolean is_default,
 		       SheetManager *state)
@@ -141,11 +141,10 @@ cb_color_changed_fore (G_GNUC_UNUSED GOComboColor *go_combo_color,
 	GtkTreeIter sel_iter;
 	GtkTreeSelection  *selection = gtk_tree_view_get_selection (state->sheet_list);
 
-	if (gtk_tree_selection_get_selected (selection, NULL, &sel_iter)) {
+	if (gtk_tree_selection_get_selected (selection, NULL, &sel_iter))
 		gtk_list_store_set (state->model, &sel_iter,
-				    FOREGROUND_COLOUR_POINTER, color,
+				    FOREGROUND_COLOUR, color,
 				    -1);
-	}
 }
 
 static void
@@ -158,11 +157,10 @@ cb_color_changed_back (G_GNUC_UNUSED GOComboColor *go_combo_color,
 	GtkTreeIter sel_iter;
 	GtkTreeSelection  *selection = gtk_tree_view_get_selection (state->sheet_list);
 
-	if (gtk_tree_selection_get_selected (selection, NULL, &sel_iter)) {
+	if (gtk_tree_selection_get_selected (selection, NULL, &sel_iter))
 		gtk_list_store_set (state->model, &sel_iter,
-				    BACKGROUND_COLOUR_POINTER, color,
+				    BACKGROUND_COLOUR, color,
 				    -1);
-	}
 }
 
 /**
@@ -178,7 +176,7 @@ cb_selection_changed (G_GNUC_UNUSED GtkTreeSelection *ignored,
 	gint row;
 	Sheet *sheet;
 	gboolean is_deleted;
-	GdkColor *fore, *back;
+	GOColor fore, back;
 	GtkTreeSelection *selection = gtk_tree_view_get_selection (state->sheet_list);
 
 	gtk_widget_set_sensitive (state->add_btn, TRUE);
@@ -196,18 +194,14 @@ cb_selection_changed (G_GNUC_UNUSED GtkTreeSelection *ignored,
 	gtk_tree_model_get (GTK_TREE_MODEL (state->model), &iter,
 			    IS_DELETED, &is_deleted,
 			    SHEET_POINTER, &sheet,
-			    BACKGROUND_COLOUR_POINTER, &back,
-			    FOREGROUND_COLOUR_POINTER, &fore,
+			    BACKGROUND_COLOUR, &back,
+			    FOREGROUND_COLOUR, &fore,
 			    -1);
 	if (!state->initial_colors_set) {
-		go_combo_color_set_color  (GO_COMBO_COLOR (state->ccombo_back), back);
-		go_combo_color_set_color  (GO_COMBO_COLOR (state->ccombo_fore), fore);
+		go_combo_color_set_gocolor (GO_COMBO_COLOR (state->ccombo_back), back);
+		go_combo_color_set_gocolor (GO_COMBO_COLOR (state->ccombo_fore), fore);
 		state->initial_colors_set = TRUE;
 	}
-	if (back)
-		gdk_color_free (back);
-	if (fore)
-		gdk_color_free (fore);
 	gtk_widget_set_sensitive (state->ccombo_back, TRUE);
 	gtk_widget_set_sensitive (state->ccombo_fore, TRUE);
 	gtk_widget_set_sensitive (state->delete_btn, TRUE);
@@ -273,8 +267,8 @@ populate_sheet_list (SheetManager *state)
 					   G_TYPE_POINTER,
 					   G_TYPE_BOOLEAN,
 					   G_TYPE_BOOLEAN,
-					   GDK_TYPE_COLOR,
-					   GDK_TYPE_COLOR);
+					   G_TYPE_INT,
+					   G_TYPE_INT);
 	state->sheet_list = GTK_TREE_VIEW (gtk_tree_view_new_with_model
 					   (GTK_TREE_MODEL (state->model)));
 	selection = gtk_tree_view_get_selection (state->sheet_list);
@@ -282,13 +276,13 @@ populate_sheet_list (SheetManager *state)
 	for (i = 0 ; i < n ; i++) {
 		Sheet *sheet = workbook_sheet_by_index (
 			wb_control_workbook (WORKBOOK_CONTROL (state->wbcg)), i);
-		GdkColor *color = NULL;
-		GdkColor *text_color = NULL;
+		GOColor color = 0;
+		GOColor text_color = 0;
 
 		if (sheet->tab_color)
-			color = &sheet->tab_color->color;
+			color = GDK_TO_UINT (sheet->tab_color->color);
 		if (sheet->tab_text_color)
-			text_color = &sheet->tab_text_color->color;
+			text_color = GDK_TO_UINT (sheet->tab_text_color->color);
 
 		gtk_list_store_append (state->model, &iter);
 		gtk_list_store_set (state->model, &iter,
@@ -300,8 +294,8 @@ populate_sheet_list (SheetManager *state)
 				    SHEET_POINTER, sheet,
 				    IS_EDITABLE_COLUMN,	TRUE,
 				    IS_DELETED,	FALSE,
-				    BACKGROUND_COLOUR_POINTER, color,
-				    FOREGROUND_COLOUR_POINTER, text_color,
+				    BACKGROUND_COLOUR, color,
+				    FOREGROUND_COLOUR, text_color,
 				    -1);
 		if (sheet == cur_sheet)
 			gtk_tree_selection_select_iter (selection, &iter);
@@ -325,8 +319,8 @@ populate_sheet_list (SheetManager *state)
 					      gnumeric_cell_renderer_text_new (),
 					      "text", SHEET_NAME,
 					      "strikethrough", IS_DELETED,
-					      "background_gdk",BACKGROUND_COLOUR_POINTER,
-					      "foreground_gdk",FOREGROUND_COLOUR_POINTER,
+					      "background_gdk",BACKGROUND_COLOUR,
+					      "foreground_gdk",FOREGROUND_COLOUR,
 					      NULL);
 	gtk_tree_view_append_column (state->sheet_list, column);
 
@@ -336,8 +330,8 @@ populate_sheet_list (SheetManager *state)
 					      "text", SHEET_NEW_NAME,
 					      "editable", IS_EDITABLE_COLUMN,
 					      "strikethrough", IS_DELETED,
-					      "background_gdk",BACKGROUND_COLOUR_POINTER,
-					      "foreground_gdk",FOREGROUND_COLOUR_POINTER,
+					      "background_gdk",BACKGROUND_COLOUR,
+					      "foreground_gdk",FOREGROUND_COLOUR,
 					      NULL);
 	gtk_tree_view_append_column (state->sheet_list, column);
 	g_signal_connect (G_OBJECT (renderer), "edited",
@@ -364,7 +358,7 @@ cb_item_move (SheetManager *state, gint direction)
 	gboolean is_deleted;
 	gboolean is_editable;
 	gboolean is_locked;
-	GdkColor *back, *fore;
+	GOColor back, fore;
 	GtkTreeSelection *selection = gtk_tree_view_get_selection (state->sheet_list);
 
 	if (!gtk_tree_selection_get_selected (selection, NULL, &iter))
@@ -377,8 +371,8 @@ cb_item_move (SheetManager *state, gint direction)
 			    IS_EDITABLE_COLUMN, &is_editable,
 			    SHEET_POINTER, &sheet,
 			    IS_DELETED,	&is_deleted,
-			    BACKGROUND_COLOUR_POINTER, &back,
-			    FOREGROUND_COLOUR_POINTER, &fore,
+			    BACKGROUND_COLOUR, &back,
+			    FOREGROUND_COLOUR, &fore,
 			    -1);
 	row = location_of_iter (&iter, state->model);
 	if (row + direction < 0)
@@ -394,13 +388,9 @@ cb_item_move (SheetManager *state, gint direction)
 			    IS_EDITABLE_COLUMN, is_editable,
 			    SHEET_POINTER, sheet,
 			    IS_DELETED,	is_deleted,
-			    BACKGROUND_COLOUR_POINTER, back,
-			    FOREGROUND_COLOUR_POINTER, fore,
+			    BACKGROUND_COLOUR, back,
+			    FOREGROUND_COLOUR, fore,
 			    -1);
-	if (back)
-		gdk_color_free (back);
-	if (fore)
-		gdk_color_free (fore);
 	g_free (name);
 	g_free (new_name);
 	gtk_tree_selection_select_iter (selection, &iter);
@@ -467,8 +457,8 @@ cb_add_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 			    SHEET_POINTER, NULL,
 			    IS_EDITABLE_COLUMN,	TRUE,
 			    IS_DELETED,	FALSE,
-			    BACKGROUND_COLOUR_POINTER, NULL,
-			    FOREGROUND_COLOUR_POINTER, NULL,
+			    BACKGROUND_COLOUR, 0,
+			    FOREGROUND_COLOUR, 0,
 			    -1);
 	gtk_tree_selection_select_iter (selection, &iter);
 	g_free (name);
@@ -522,13 +512,12 @@ cb_cancel_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 }
 
 static gboolean
-sheet_order_gdk_color_equal (GdkColor *color_a, GdkColor *color_b)
+sheet_order_gdk_color_equal (GOColor color_a, GdkColor const *color_b)
 {
-	if (color_a == NULL && color_b == NULL)
+	if (color_a == 0 && color_b == NULL)
 		return TRUE;
-	if (color_a != NULL && color_b != NULL)
-		return gdk_color_equal (color_a, color_b);
-	return FALSE;
+	return (color_b != NULL &&
+		color_a == GDK_TO_UINT (*color_b));
 }
 
 static void
@@ -564,7 +553,7 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 	GSList *this_new, *list;
 	gboolean order_has_changed = FALSE;
 	gboolean is_deleted, is_locked;
-	GdkColor *back, *fore;
+	GOColor back, fore;
 	gboolean fore_changed, back_changed, lock_changed;
 	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (state->wbcg));
 
@@ -576,8 +565,8 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 				    SHEET_NAME, &old_name,
 				    SHEET_NEW_NAME, &new_name,
 				    IS_DELETED, &is_deleted,
-				    BACKGROUND_COLOUR_POINTER, &back,
-				    FOREGROUND_COLOUR_POINTER, &fore,
+				    BACKGROUND_COLOUR, &back,
+				    FOREGROUND_COLOUR, &fore,
 				    -1);
 		this_sheet_idx = (this_sheet == NULL ? -1 
 				  : this_sheet->index_in_wb); 
@@ -609,18 +598,13 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 					      this_sheet->tab_text_color ?
 					      &this_sheet->tab_text_color->color : NULL);
 			if (fore_changed || back_changed) {
-				color_changed = g_slist_prepend 
-					(color_changed, 
+				GdkColor tmp;
+				color_changed = g_slist_prepend (color_changed, 
 					 GINT_TO_POINTER (this_sheet_idx));
-				new_colors_back = g_slist_prepend 
-					(new_colors_back, back);
-				new_colors_fore = g_slist_prepend 
-					(new_colors_fore, fore);
-			} else {
-				if (back)
-					gdk_color_free (back);
-				if (fore)
-					gdk_color_free (fore);
+				new_colors_back = g_slist_prepend (new_colors_back,
+					gdk_color_copy (go_color_to_gdk (back, &tmp)));
+				new_colors_fore = g_slist_prepend (new_colors_fore,
+					gdk_color_copy (go_color_to_gdk (fore, &tmp)));
 			}
 
 			lock_changed = (this_sheet == NULL) ||
@@ -634,15 +618,10 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 					 GINT_TO_POINTER (is_locked));
 			}
 		} else {
-			deleted_sheets = g_slist_prepend 
-				(deleted_sheets, 
+			deleted_sheets = g_slist_prepend (deleted_sheets, 
 				 GINT_TO_POINTER (this_sheet_idx));
 			g_free (new_name);
 			g_free (old_name);
-			if (back)
-				gdk_color_free (back);
-			if (fore)
-				gdk_color_free (fore);
 		}
 		n++;
 	}
@@ -808,8 +787,8 @@ dialog_sheet_order_update_sheet_order (SheetManager *state)
 			IS_EDITABLE_COLUMN, &is_editable,
 			SHEET_POINTER, &sheet_model,
 			IS_DELETED, &is_deleted,
-			BACKGROUND_COLOUR_POINTER, &back,
-			FOREGROUND_COLOUR_POINTER, &fore,
+			BACKGROUND_COLOUR, &back,
+			FOREGROUND_COLOUR, &fore,
 			-1);
 		gtk_list_store_remove (state->model, &iter);
 		gtk_list_store_insert (state->model, &iter, i);
@@ -822,8 +801,8 @@ dialog_sheet_order_update_sheet_order (SheetManager *state)
 			IS_EDITABLE_COLUMN, is_editable,
 			SHEET_POINTER, sheet_model,
 			IS_DELETED, is_deleted,
-			BACKGROUND_COLOUR_POINTER, back,
-			FOREGROUND_COLOUR_POINTER, fore,
+			BACKGROUND_COLOUR, back,
+			FOREGROUND_COLOUR, fore,
 			-1);
 		if (back)
 			gdk_color_free (back);

@@ -416,7 +416,6 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	GList *savers = NULL, *l;
 	GtkFileChooser *fsel;
 	GtkOptionMenu *omenu;
-	GtkWidget *format_chooser;
 	GnmFileSaver *fs;
 	gboolean success  = FALSE;
 	gchar const *wb_file_name;
@@ -433,7 +432,6 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 
 	/* Make format chooser */
 	omenu = GTK_OPTION_MENU (gtk_option_menu_new ());
-	format_chooser = make_format_chooser (savers, omenu);
 
 	fsel = GTK_FILE_CHOOSER
 		(g_object_new (GTK_TYPE_FILE_CHOOSER_DIALOG,
@@ -487,7 +485,16 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 		gtk_file_chooser_set_filter (fsel, filter);
 	}
 
-	gtk_file_chooser_set_extra_widget (fsel, format_chooser);
+	{
+		GtkWidget *box = gtk_hbox_new (FALSE, 2);
+		GtkWidget *label = gtk_label_new_with_mnemonic (_("File _type:"));
+		GtkWidget *format_chooser = make_format_chooser (savers, omenu);
+
+		gtk_box_pack_start (GTK_BOX (box), label, FALSE, TRUE, 6);
+		gtk_box_pack_start (GTK_BOX (box), format_chooser, FALSE, TRUE, 6);
+		gtk_label_set_mnemonic_widget (GTK_LABEL (label), format_chooser);
+		gtk_file_chooser_set_extra_widget (fsel, box);
+	}
 
 	/* Set default file saver */
 	fs = wbcg->current_saver;

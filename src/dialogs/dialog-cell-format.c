@@ -362,7 +362,6 @@ setup_color_pickers (ColorPicker *picker,
 	GOColorGroup *cg;
 	GnmColor *mcolor = NULL;
 	GnmColor *def_sc = NULL;
-	GdkColor *def_gc;
 
 	/* MSTYLE_ELEMENT_UNSET is abused as representing borders. */
 	if (e != MSTYLE_ELEMENT_UNSET &&
@@ -385,10 +384,8 @@ setup_color_pickers (ColorPicker *picker,
 	}
 	cg = go_color_group_fetch (color_group,
 		 wb_control_view (WORKBOOK_CONTROL (state->wbcg)));
-
-	def_gc = def_sc ? &def_sc->color : &GTK_WIDGET (state->dialog)->style->black;
-
-	combo = go_combo_color_new (NULL, default_caption, GDK_TO_UINT (*def_gc), cg);
+	combo = go_combo_color_new (NULL, default_caption, 
+		def_sc ? GDK_TO_UINT (def_sc->color) : RGBA_BLACK, cg);
 	go_combo_box_set_title (GO_COMBO_BOX (combo), caption);
 	g_signal_connect (G_OBJECT (combo),
 		"color_changed",
@@ -913,7 +910,7 @@ cb_font_changed (G_GNUC_UNUSED GtkWidget *widget,
  */
 static void
 cb_font_preview_color (G_GNUC_UNUSED GOComboColor *combo,
-		       GdkColor *c,
+		       GOColor c,
 		       G_GNUC_UNUSED gboolean is_custom,
 		       G_GNUC_UNUSED gboolean by_user,
 		       gboolean is_default, FormatState *state)
@@ -923,9 +920,9 @@ cb_font_preview_color (G_GNUC_UNUSED GOComboColor *combo,
 	if (!state->enable_edit)
 		return;
 
-	col = (is_default
+	col = is_default
 	       ? style_color_auto_font ()
-	       : style_color_new (c->red, c->green, c->blue));
+	       : style_color_new_go (c);
 	font_selector_set_color (state->font.selector, col);
 }
 
@@ -1059,7 +1056,7 @@ back_style_changed (FormatState *state)
 
 static void
 cb_back_preview_color (G_GNUC_UNUSED GOComboColor *combo,
-		       GdkColor *c,
+		       GOColor c,
 		       G_GNUC_UNUSED gboolean is_custom,
 		       G_GNUC_UNUSED gboolean by_user,
 		       gboolean is_default,
@@ -1073,7 +1070,7 @@ cb_back_preview_color (G_GNUC_UNUSED GOComboColor *combo,
 		sc = style_color_auto_back ();
 		mstyle_set_pattern (state->back.style, 0);
 	} else {
-		sc = style_color_new (c->red, c->green, c->blue);
+		sc = style_color_new_go (c);
 		mstyle_set_pattern (state->back.style, state->back.pattern.cur_index);
 	}
 
@@ -1083,14 +1080,14 @@ cb_back_preview_color (G_GNUC_UNUSED GOComboColor *combo,
 
 static void
 cb_pattern_preview_color (G_GNUC_UNUSED GOComboColor *combo,
-			  GdkColor *c,
+			  GOColor c,
 			  G_GNUC_UNUSED gboolean is_custom,
 			  G_GNUC_UNUSED gboolean by_user,
 			  gboolean is_default, FormatState *state)
 {
-	GnmColor *col = (is_default
+	GnmColor *col = is_default
 			   ? sheet_style_get_auto_pattern_color (state->sheet)
-			   : style_color_new (c->red, c->green, c->blue));
+			   : style_color_new_go (c);
 
 	mstyle_set_color (state->back.style, MSTYLE_COLOR_PATTERN, col);
 
@@ -1543,13 +1540,12 @@ cb_border_toggle (GtkToggleButton *button, BorderPicker *picker)
 
 static void
 cb_border_color (G_GNUC_UNUSED GOComboColor *combo,
-		 GdkColor *c,
+		 GOColor c,
 		 G_GNUC_UNUSED gboolean is_custom,
 		 G_GNUC_UNUSED gboolean by_user,
 		 gboolean is_default, FormatState *state)
 {
-	state->border.rgba =
-		GNOME_CANVAS_COLOR (c->red>>8, c->green>>8, c->blue>>8);
+	state->border.rgba = c;
 	state->border.is_auto_color = is_default;
 }
 

@@ -57,7 +57,7 @@ struct _WBCgtk {
 
 	GtkWidget	 *status_area;
 	GtkUIManager     *ui;
-	GtkActionGroup   *actions;
+	GtkActionGroup   *actions, *file_history;
 
 	GOActionComboStack	*undo_action, *redo_action;
 	GOActionComboColor	*fore_color, *back_color;
@@ -398,20 +398,6 @@ cb_fore_color_changed (GOActionComboColor *a, WorkbookControlGUI *wbcg)
 		? style_color_auto_font ()
 		: style_color_new_go (c));
 	cmd_selection_format (wbc, mstyle, NULL, _("Set Foreground Color"));
-#if 0
-	/* Sync the color of the font color combo with the other views */
-	WORKBOOK_FOREACH_CONTROL (wb_control_workbook (WORKBOOK_CONTROL (wbcg)), view, control,
-				  if (control != WORKBOOK_CONTROL (wbcg)) {
-					  GdkColor *color = color_combo_get_color (
-						  COLOR_COMBO (WORKBOOK_CONTROL_GUI (control)->fore_color), NULL);
-					  if (color) {
-						  color_combo_set_color (
-							  COLOR_COMBO (wbcg->fore_color), color);
-						  gdk_color_free (color);
-						  break;
-					  }
-				  });
-#endif
 }
 
 static void
@@ -465,21 +451,6 @@ cb_back_color_changed (GOActionComboColor *a, WorkbookControlGUI *wbcg)
 	} else
 		mstyle_set_pattern (mstyle, 0);	/* Set background to NONE */
 	cmd_selection_format (wbc, mstyle, NULL, _("Set Background Color"));
-
-#if 0
-	/* Sync the color of the background color combo with the other views */
-	WORKBOOK_FOREACH_CONTROL (wb_control_workbook (WORKBOOK_CONTROL (wbcg)), view, control,
-				  if (control != WORKBOOK_CONTROL (wbcg)) {
-					  GdkColor *color = color_combo_get_color (
-						  COLOR_COMBO (WORKBOOK_CONTROL_GUI (control)->back_color), NULL);
-					  if (color) {
-						  color_combo_set_color (
-							  COLOR_COMBO (wbcg->back_color), color);
-						  gdk_color_free (color);
-						  break;
-					  }
-				  });
-#endif
 }
 
 static void
@@ -491,101 +462,107 @@ wbc_gtk_init_color_back (WBCgtk *gtk)
 		      "label", _("Background"),
 		      "tooltip", _("Background"),
 		      NULL);
-	g_signal_connect (G_OBJECT (gtk->back_color),
-		"activate",
-		G_CALLBACK (cb_back_color_changed), gtk);
-	g_signal_connect (G_OBJECT (gtk->back_color),
-		"display-custom-dialog",
-		G_CALLBACK (cb_custom_color_created), gtk);
+	g_object_connect (G_OBJECT (gtk->back_color),
+		"signal::activate", G_CALLBACK (cb_back_color_changed), gtk,
+		"signal::display-custom-dialog", G_CALLBACK (cb_custom_color_created), gtk,
+		NULL);
 #if 0
 	gnm_combo_box_set_title (GO_COMBO_BOX (back_combo), _("Background"));
 #endif
 	gtk_action_group_add_action (gtk->actions, GTK_ACTION (gtk->back_color));
 }
 /****************************************************************************/
+
+static void
+cb_font_name_changed (GOActionComboColor *a, WorkbookControlGUI *wbcg)
+{
+#if 0
+	MStyle *style = mstyle_new ();
+	mstyle_set_font_name (style, font_name);
+	cmd_selection_format (WORKBOOK_CONTROL (wbcg),
+		style, NULL, _("Set Font"));
+#endif
+}
+
 static void
 wbc_gtk_init_font_name (WBCgtk *gtk)
 {
 	GList *ptr;
 
 	gtk->font_name = g_object_new (go_action_combo_text_get_type (),
-				       "name",     "FontName",
-				       NULL);
-#if 0
-	g_signal_connect (G_OBJECT (fontsel),
-			  "entry_changed",
-			  G_CALLBACK (cb_font_name_changed), wbcg);
-	/* gtk_container_set_border_width (GTK_CONTAINER (fontsel), 0); */
-#endif
+		"name",     "FontName",
+		NULL);
 	for (ptr = gnumeric_font_family_list; ptr != NULL; ptr = ptr->next)
 		if (ptr->data) 
 			go_action_combo_text_add_item (gtk->font_name, ptr->data);
-
+	g_signal_connect (G_OBJECT (gtk->font_name),
+		"activate",
+		G_CALLBACK (cb_font_name_changed), gtk);
 #if 0
 	gnm_combo_box_set_title (GO_COMBO_BOX (fore_combo), _("Foreground"));
 #endif
 	gtk_action_group_add_action (gtk->actions, GTK_ACTION (gtk->font_name));
 }
 /****************************************************************************/
+
+static void
+cb_font_size_changed (GOActionComboColor *a, WorkbookControlGUI *wbcg)
+{
+#if 0
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	GnmStyle *style;
+	double size;
+
+#warning "Check what happens when user enters size < 1 (should check too large too)"
+	/* Make 1pt a minimum size for fonts */
+	size = atof (sizetext);
+	if (size < 1.0) {
+		/* gtk_entry_set_text (entry, "10"); */
+		return FALSE;
+	}
+
+	style = mstyle_new ();
+	mstyle_set_font_size (style, size);
+	cmd_selection_format (wbc, style, NULL, _("Set Font Size"));
+#endif
+}
+
 static void
 wbc_gtk_init_font_size (WBCgtk *gtk)
 {
 	unsigned i;
 
-	gtk->font_size = g_object_new (go_action_combo_text_get_type (), "name",     "FontSize", NULL);
+	gtk->font_size = g_object_new (go_action_combo_text_get_type (),
+		"name",     "FontSize",
+		NULL);
 	for (i = 0; gnumeric_point_sizes[i] != 0; i++) {
 		char *buffer = g_strdup_printf ("%d", gnumeric_point_sizes[i]);
 		go_action_combo_text_add_item (gtk->font_size, buffer);
 		g_free (buffer);
 	}
 	go_action_combo_text_set_width (gtk->font_size, "888");
+	g_signal_connect (G_OBJECT (gtk->font_size),
+		"activate",
+		G_CALLBACK (cb_font_size_changed), gtk);
 #if 0
-	g_signal_connect (G_OBJECT (fontsize),
-			  "entry_changed",
-			  G_CALLBACK (cb_font_size_changed), wbcg);
+	gnm_combo_box_set_title (GO_COMBO_BOX (fore_combo), _("Foreground"));
 #endif
-
 	gtk_action_group_add_action (gtk->actions, GTK_ACTION (gtk->font_size));
 }
 /****************************************************************************/
 /* Command callback called on activation of a file history menu item. */
-#define UGLY_GNOME_UI_KEY "HistoryFilename"
 
 static void
-file_history_cmd (GtkWidget *widget, WorkbookControlGUI *wbcg)
+cb_file_history_activate (GObject *action, WorkbookControlGUI *wbcg)
 {
-	char *filename = g_object_get_data (G_OBJECT (widget), UGLY_GNOME_UI_KEY);
-	gui_file_read (wbcg, filename, NULL, NULL);
+	gui_file_read (wbcg, g_object_get_data (action, "file") , NULL, NULL);
 }
 
 static void
 wbc_gtk_reload_recent_file_menu (WorkbookControlGUI const *wbcg)
 {
 #if 0
-	/*
-	 * xgettext:
-	 * This string must translate to exactly the same strings as the
-	 * 'Preferences...' item in the
-	 * 'File' menu
-	 */
-	char const *seperator_path = _("_File/Preferen_ces...");
-	GtkWidget  *sep, *w;
-	int sep_pos, accel_number = 1;
-	GSList const *ptr = gnm_app_history_get_list (FALSE);
-	unsigned new_history_size = g_slist_length ((GSList *)ptr);
-	GnomeUIInfo info[] = {
-		{ GNOME_APP_UI_ITEM, NULL, NULL, file_history_cmd, NULL },
-	};
-
-	sep = gnome_app_find_menu_pos (GNOME_APP (wbcg->toplevel)->menubar,
-		seperator_path, &sep_pos);
-	if (sep == NULL) {
-		g_warning ("Probable mis-translation. '%s' : was not found. "
-			   "Does this match the '_File/Preferen_ces...' menu exactly ?",
-			   seperator_path);
-		return;
-	}
-
+GList          *gtk_action_group_list_actions            (GtkActionGroup       *action_group);
 	/* remove the old items including the seperator */
 	if (wbcg->file_history_size > 0) {
 		char *label = history_item_label ((gchar *)ptr->data, 1);
@@ -594,14 +571,6 @@ wbc_gtk_reload_recent_file_menu (WorkbookControlGUI const *wbcg)
 			seperator_path, 1, wbcg->file_history_size + 1);
 		g_free (path);
 		g_free (label);
-	}
-
-	/* add seperator */
-	if (new_history_size > 0) {
-		w = gtk_menu_item_new ();
-		gtk_menu_shell_insert (GTK_MENU_SHELL (sep), w, sep_pos++);
-		gtk_widget_set_sensitive (w, FALSE);
-		gtk_widget_show (w);
 	}
 
 	for (accel_number = 1; ptr != NULL ; ptr = ptr->next, accel_number++) {
@@ -618,8 +587,6 @@ wbc_gtk_reload_recent_file_menu (WorkbookControlGUI const *wbcg)
 			UGLY_GNOME_UI_KEY, ptr->data);
 		g_free (label);
 	}
-
-	wbcg->file_history_size = new_history_size;
 #endif
 }
 
@@ -956,6 +923,10 @@ wbc_gtk_init (GObject *obj)
 		"swapped_object_signal::post_activate", G_CALLBACK (wbcg_focus_cur_scg), gtk,
 		NULL);
 	gtk_ui_manager_insert_action_group (gtk->ui, gtk->actions, 0);
+
+	gtk->file_history = gtk_action_group_new ("FileHistory");
+	gtk_action_group_set_translation_domain (gtk->file_history, NULL);
+	gtk_ui_manager_insert_action_group (gtk->ui, gtk->file_history, 0);
 
 	gtk_window_add_accel_group (wbcg->toplevel, 
 		gtk_ui_manager_get_accel_group (gtk->ui));

@@ -1,3 +1,12 @@
+2004-02-04  Jody Goldberg <jody@gnome.org>
+
+	* src/gui-file.c (gui_file_open) : add a label and mnemonic for the
+	  type selector.
+
+2004-02-02  Jody Goldberg <jody@gnome.org>
+
+	* src/session.c : make conditional on WITH_GNOME
+
 2004-02-03  Morten Welinder  <terra@gnome.org>
 
 	* src/wbcg-actions.c (toggle_current_font_attr): Remove debug

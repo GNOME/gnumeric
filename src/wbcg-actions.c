@@ -1346,51 +1346,6 @@ static GNM_ACTION_DEF (cb_font_double_underline)
 static GNM_ACTION_DEF (cb_font_strikethrough)
 	{ toggle_current_font_attr (wbcg, FALSE, FALSE, FALSE, FALSE, TRUE); }
 
-static gboolean
-cb_font_name_changed (G_GNUC_UNUSED gpointer p,
-		      char const *font_name, WorkbookControlGUI *wbcg)
-{
-	GnmStyle *style;
-
-	if (wbcg->updating_ui)
-		return TRUE;
-
-	style = mstyle_new ();
-	mstyle_set_font_name (style, font_name);
-	cmd_selection_format (WORKBOOK_CONTROL (wbcg),
-		style, NULL, _("Set Font"));
-
-	wbcg_focus_cur_scg (wbcg);	/* Restore the focus to the sheet */
-	return TRUE;
-}
-
-static gboolean
-cb_font_size_changed (G_GNUC_UNUSED gpointer p,
-		      char const *sizetext, WorkbookControlGUI *wbcg)
-{
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	GnmStyle *style;
-	double size;
-
-	if (wbcg->updating_ui)
-		return TRUE;
-
-#warning "Check what happens when user enters size < 1 (should check too large too)"
-	/* Make 1pt a minimum size for fonts */
-	size = atof (sizetext);
-	if (size < 1.0) {
-		/* gtk_entry_set_text (entry, "10"); */
-		return FALSE;
-	}
-
-	style = mstyle_new ();
-	mstyle_set_font_size (style, size);
-	cmd_selection_format (wbc, style, NULL, _("Set Font Size"));
-
-	wbcg_focus_cur_scg (wbcg);	/* Restore the focus to the sheet */
-	return TRUE;
-}
-
 static void
 apply_number_format (WorkbookControlGUI *wbcg,
 		     char const *translated_format, char const *descriptor)

@@ -1,3 +1,14 @@
+2004-02-02  Jody Goldberg <jody@gnome.org>
+
+	* dialog-cell-format.c (cb_font_preview_color) : Move to GOColor
+	(cb_border_color) : ditto.
+	(cb_back_preview_color) : ditto.
+	(cb_pattern_preview_color) : ditto.
+
+2004-02-02  Jody Goldberg <jody@gnome.org>
+
+	* dialog-cell-format.c (setup_color_pickers) : drop use of GdkColor.
+
 2004-01-29  Jody Goldberg <jody@gnome.org>
 
 	* dialog-stf.glade : '_Fixed Width' conflicted with '_Forward'
