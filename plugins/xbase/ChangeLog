@@ -1,3 +1,8 @@
+1999-06-23    <michael@edenproject.org>
+
+	* boot.c (xbase_probe): Fix for filenames with no
+	extension.
+
 1999-06-18  Michael Meeks  <michael@edenproject.org>
 
 	* xbase.c (xbase_read_field): Conditional debug

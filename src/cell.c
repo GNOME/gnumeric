@@ -45,15 +45,14 @@ cell_set_formula (Cell *cell, const char *text)
 {
 	char *error_msg = _("ERROR");
 	const char *desired_format = NULL;
+	EvalPosition fp;
 
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (text != NULL);
 
 	cell_modified (cell);
 	cell->parsed_node = expr_parse_string (&text [1],
-					       cell->sheet,
-					       cell->col->pos,
-					       cell->row->pos,
+					       eval_pos_cell (&fp, cell),
 					       &desired_format,
 					       &error_msg);
 	if (cell->parsed_node == NULL){
@@ -202,7 +201,7 @@ cell_comment_destroy (Cell *cell)
 		gtk_timeout_remove (comment->timer_tag);
 
 	if (comment->window)
-		gtk_object_destroy (GTK_OBJECT (comment->window));
+		gtk_object_unref (GTK_OBJECT (comment->window));
 
 	for (l = comment->realized_list; l; l = l->next)
 		gtk_object_unref (l->data);
@@ -327,7 +326,7 @@ cell_comment_unrealize (Cell *cell)
 	for (l = cell->comment->realized_list; l; l = l->next){
 		GnomeCanvasItem *o = l->data;
 
-		gtk_object_destroy (GTK_OBJECT (o));
+		gtk_object_unref (GTK_OBJECT (o));
 	}
 	g_list_free (cell->comment->realized_list);
 	cell->comment->realized_list = NULL;
@@ -1663,13 +1662,14 @@ char *
 cell_get_text (Cell *cell)
 {
 	char *str;
+	EvalPosition fp;
 
 	g_return_val_if_fail (cell != NULL, NULL);
 
 	if (cell->parsed_node && cell->sheet){
 		char *func, *ret;
 
-		func = expr_decode_tree (cell->parsed_node, cell->sheet, cell->col->pos, cell->row->pos);
+		func = expr_decode_tree (cell->parsed_node, eval_pos_cell (&fp, cell));
 		ret = g_strconcat ("=", func, NULL);
 		g_free (func);
 
@@ -1702,13 +1702,14 @@ char *
 cell_get_content (Cell *cell)
 {
 	char *str;
+	EvalPosition fp;
 
 	g_return_val_if_fail (cell != NULL, NULL);
 
 	if (cell->parsed_node){
 		char *func, *ret;
 
-		func = expr_decode_tree (cell->parsed_node, cell->sheet, cell->col->pos, cell->row->pos);
+		func = expr_decode_tree (cell->parsed_node, eval_pos_cell (&fp, cell));
 		ret = g_strconcat ("=", func, NULL);
 		g_free (func);
 

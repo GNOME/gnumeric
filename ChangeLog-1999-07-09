@@ -1,3 +1,73 @@
+1999-06-23  Michael Meeks  <michael@edenproject.org>
+
+	* src/sheet.c (sheet_update_auto_expr): Add check for cached
+	text.
+
+	* src/sheet.h: Added workbook_set_auto_expr.
+
+	* src/workbook.c (workbook_new): Initialise auto_expr stuff
+	before reading it in set_auto_expr.
+	(workbook_do_destroy): Add freeing of auto_expr_text.
+	(workbook_set_auto_expr): Hacked to cache expression until we
+	have a sheet context.
+
+
+	* src/expr.h: Add extra Parser error type for invalid args.
+
+	* src/fn-financial.c (finance_functions_init): Fix financial
+	functions, using 'i' as a token ( invalid ).
+
+1999-06-23  Michael Meeks <michael@edenproject.org>
+
+	* docs/writing-functions.sgml: Updated to reflect my changes,
+	expanded and removed anachronisms.
+	
+	* src/expr.h: Added FunctionArgs, FunctionNodes typedefs
+	Created struct EvalPosition, struct FunctionEvalInfo and
+	implemented through functions where necessary.
+
+	* src/expr.c (function_error, function_error_alloc): created
+	helper error return functions.
+	(eval_pos_init, eval_pos_cell): Helper EvalPosition fn's
+	(func_eval_info_init, func_eval_info_cell, func_eval_info_pos):
+	created helper FunctionEvalInfo fn's
+	(error_message_new, error_message_set_alloc),
+	(error_message_set_small, error_message_txt, error_message_free):
+	created error class.
+
+	* src/expr.c (expr_parse_string, gnumeric_expr_parser),
+	(expr_decode_tree, expr_tree_invalidate_referenced),
+	(expr_tree_fixup_references, eval_expr): Updated to pass / use
+	new EvalPosition / FunctionEvalInfo structures.
+
+	* src/parser.y (gnumeric_expr_parser): Updated arguments to use
+	EvalPosition, added more stringent checks.
+
+	* src/func.h: Updated lots of things to new structures.
+	Changed the iterators arguments to new structures, altered
+	FunctionIterateCallback to suit.
+	Re-implemented function storage / mapping.
+
+	* src/func.c (function_get_category, function_add_args),
+	(function_add_nodes): Created.
+	(function_iterate_do_value, function_argument_values),
+	(function_call_with_values, function_def_call_with_values):
+	Updated to new scheme.
+	
+	* src/fn-*: Major major changes:
+	- All function definitions changed to use:
+	typedef Value *(FunctionArgs)  (FunctionEvalInfo *fe, Value **args); or
+	typedef Value *(FunctionNodes) (FunctionEvalInfo *fe, GList *nodes);
+	- All error returns altered to use:
+	        return function_error (ei, _("foo"));
+	instead of
+	        {
+		        *error_string = _("baa");
+			return NULL;
+		}
+	this will allow for changing the error handling.
+	- A few functions that used Sheet *, eval_col, eval_row updated.
+	
 1999-06-23  Morten Welinder  <terra@diku.dk>
 
 	* src/collect.c, src/collect.h: New files.
@@ -443,6 +513,488 @@
  	not as accurate as Gnumeric).  Also the total number of functions
  	in the test output fixed.
 
+1999-06-12  Morten Welinder  <terra@diku.dk>
+
+	* src/fn-string.c: Use value_new_string where appropriate.
+	(gnumeric_clean): Use unsigned chars.
+	(gnumeric_t): Speed improvement.
+
+	* src/file.c (workbook_read): After a workbook has been read, it
+ 	is to be considered "clean", i.e., unchanged.
+
+	* src/number-match.c (print_regex_error): Add a few missing breaks.
+
+	* src/utils.c (gnumeric_strcase_hash): Use unsigned chars.
+	(col_from_name): Ditto.
+
+	* src/format.c (append_year): Ditto.
+	(append_month): Ditto.
+	(append_hour): Ditto.
+	(append_day): Ditto.
+	(append_minute): Ditto.
+	(append_second): Ditto.
+	(pre_parse_format): Ditto.
+
+	* src/number-match.c (format_create_regexp): Ditto.
+
+	* src/fn-string.c (gnumeric_lower): Use g_strdup to match g_free.
+	(gnumeric_upper): Ditto.
+	(gnumeric_lower): Use unsigned chars.  (This fixes problems with
+ 	non-English letters.)
+	(gnumeric_upper): Ditto.
+	(gnumeric_proper): Ditto.  Operate on a _copy_ of the string, not
+ 	the source string itself!
+
+1999-06-10  Morten Welinder  <terra@diku.dk>
+
+	* src/parser.y (return_cellref): Surprise: isdigit and friends
+ 	take unsigned chars (effectively).  The results are *undefined*
+ 	(and weird) for signed chars.
+	(yylex): Ditto.
+
+	* src/fn-string.c (gnumeric_proper): Ditto.
+
+	* src/utils.c (parse_cell_name): Ditto.
+
+	* src/sheet-autofill.c (string_has_number): Ditto.
+	(autofill_cell): Ditto.
+
+	* src/cell.c (cell_set_text_simple): Ditto.  Also fix long/int
+ 	confusion.
+
+1999-06-10  James Henstridge  <james@daa.com.au>
+
+	* src/main.c (gnumeric_main): changed call to glade_init() to a call
+	to glade_gnome_init(), so that gnome widget building routines get
+	initialised correctly.
+
+1999-06-09  Morten Welinder  <terra@diku.dk>
+
+	* src/xml-io.c: Fix major thinko in writing fonts.  (The name hash
+ 	table was used to look up a font, which always failed since keys
+ 	are names in that hash.)
+
+1999-06-09  Nat Friedman  <nat@gnome-support.com>
+
+	* src/sheet-view.c (sheet_view_insert_object): Commented out call
+ 	to gnome_bonobo_object_new_view since the API changed and this
+ 	function doesn't do anything anyways.
+
+	* src/sheet-object-container.c: Include gnome-component-client.h
+ 	and view-frame.h.
+	(sheet_object_container_land): Pass soc->client_site to
+ 	gnome_bonobo_object_new_view.  Get the view wrapper widget from
+ 	the view frame.
+	(sheet_object_container_realize): Likewise.
+
+1999-06-09  Morten Welinder  <terra@diku.dk>
+
+	* src/workbook.c (insert_at_cursor): Use cell_set_value instead of
+ 	cell_set_text.  Constify.  Accept a Value *, not a double.  All
+ 	callers changed.
+
+1999-06-08  Morten Welinder  <terra@diku.dk>
+
+	* src/fn-date.c (gnumeric_days360): Get it right, I hope.
+
+	* src/xml-io.c (xmlGetDoubleValue): Improve precision.
+	(xmlGetCoordinate): Ditto.
+	(xmlGetGnomeCanvasPoints): Ditto.
+
+	* src/fn-math.c (gnumeric_fact): s/float/float_t/
+
+	* src/fn-date.c: Fix types of most functions.  (We really need a
+ 	way of saying "scalar".)
+	(get_serial_date): New helper function.
+	(get_serial_time): Ditto.
+	(gnumeric_hour): Use get_serial_time.
+	(gnumeric_minute): Ditto.
+	(gnumeric_second): Ditto.
+	(gnumeric_year): Use get_serial_date.
+	(gnumeric_month): Ditto.
+	(gnumeric_day): Ditto.
+	(gnumeric_weekday): Ditto.
+	(gnumeric_datevalue): Ditto.
+	(gnumeric_timevalue): Implement using get_serial_time.
+	(gnumeric_days360): Pretty good first cut.
+
+	* src/parser.y (yylex): Allow dots inside a function name.
+
+	* src/fn-misc.c (gnumeric_error_type): New function.
+
+1999-06-08  David Chan <dpc29@hermes.cam.ac.uk>
+
+	* src/fn-math.c (gcd): Correct.
+
+1999-06-08  Morten Welinder  <terra@diku.dk>
+
+	* src/file.c (workbook_read): Temporarily switch to "C" locale
+ 	when loading and saving.  [Take 2.]
+	(workbook_save_as): Ditto.
+	(workbook_save): Ditto.
+
+1999-06-21  Morten Welinder  <terra@diku.dk>
+
+	* src/fn-information.c (get_value_class): New function.
+	(gnumeric_isnontext): Make non-strict.
+	(gnumeric_istext): Make non-strict.
+	(gnumeric_type): Make non-strict.
+	(gnumeric_islogical): Make non-strict.
+	(gnumeric_isnumber): Make non-strict.
+	(gnumeric_n): Implement.
+	(gnumeric_iseven): Implement.
+	(gnumeric_isodd): Ditto.
+	(gnumeric_cell): Fix error message.
+	(gnumeric_info): Ditto.
+	(gnumeric_type): Partly implement.
+
+	* src/fn-math.c (gpow10): Rename from pow10 which colided with
+ 	something in Linux with libc5.  (Thanks to Alexander Jolk.)
+
+	* src/utils.c (parse_cell_name): Don't use isdigit since we intend
+ 	to subtract '0' from the character.
+
+	* src/workbook.c (workbook_parse_and_jump): Cleanup.
+
+1999-06-21  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+        * samples/infofuns.xls: Added a new file for testing information
+        functions.
+
+1999-06-20  Morten Welinder  <terra@diku.dk>
+
+	* src/workbook.c (wb_edit_key_pressed): New function to handle
+ 	Escape.
+	(workbook_setup_edit_area): Activate wb_edit_key_pressed.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet): Call
+ 	sheet_start_editing_at_cursor for F2.
+
+	* src/sheet.c (sheet_cancel_pending_input): Fix last change.  Also
+ 	update entry box.
+	(sheet_start_editing_at_cursor): New args blankp and cursorp.  All
+ 	callers changed.
+
+	* src/fn-math.c (gnumeric_mod): Another try.
+	(gnumeric_int): Fix for negative numbers.
+
+	* src/sheet.c (sheet_set_text): Set value directly, not via text.  Also
+	improve entry when a format is already set.
+	(sheet_cancel_pending_input): Fixed behavior of canceling a cell
+ 	entry.  [From Bake Timmon.]
+
+1999-06-18  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* samples/dbfuns.xls: Added new file for database functions.
+
+	* samples/mathfuns.xls: Added MDETERM test.
+
+	* samples/statfuns.xls: Added AVERAGEA, MINA, MAXA, ... tests.
+
+1999-06-17  Morten Welinder  <terra@diku.dk>
+
+	* src/fn-stat.c (gnumeric_count): Make non-strict and ignore cells
+ 	with errors.
+
+	* src/fn-logical.c (gnumeric_or, gnumeric_and): Make strict!.
+
+	* src/func.c (IterateCallbackClosure): Add strict member.
+	(iterate_cellrange_callback): Handle strict and non-strict case.
+	(function_iterate_argument_values): New argument, strict.  All
+ 	callers changed.  Initialise error_string always.  Handle strict
+ 	and non-strict case.
+	(function_iterate_do_value): New argument, strict.  Handle strict
+ 	and non-strict case.  All callers changed.
+
+1999-06-18  Michael Meeks  <michael@edenproject.org>
+
+	* src/main.c (gnumeric_main): Add xbase_init
+
+	* src/Makefile.am (gnumeric_LDADD): Add xbase.
+
+	* configure.in (XML_CFLAGS): Added xbase.
+
+	* plugins/Makefile.am (SUBDIRS): Added xbase.
+
+1999-06-17  Morten Welinder  <terra@diku.dk>
+
+	* src/expr.c (eval_expr): Fix error handling of comparisons.
+
+	* src/expr.c (expr_tree_new_constant): New function.
+	(expr_tree_new_unary): New function.
+	(expr_tree_new_binary): New function.
+	(expr_tree_new_funcall): New function.
+	(expr_tree_new_var): New function.
+	(expr_tree_new_error): Renamed from build_error_string, made
+ 	public, and simplified.  All callers changed.
+	(do_expr_tree_invalidate_references): Simplify.
+	(do_expr_tree_fixup_references): Ditto.
+	(eval_expr): Simplify.
+	(expr_tree_new): Obsolete.
+
+	* src/func.c (constants_init): Simplify.
+
+	* src/main.c (gnumeric_main): Call style_shutdown.
+
+	* src/style.c (style_shutdown): New function.
+
+	* src/expr.h: Avoid using bitfields here.  They are slow and
+ 	confuse tools like Purify.  And used like this they don't save any
+ 	space anyway.
+
+	* src/complex.c: Fix includes.
+
+	* src/fn-eng.c (gnumeric_impower): Use new complex_pow.
+	(callback_function_imoper): Benefit from new and more intuitive
+ 	behavoiur of complex_mul and complex_add.
+
+	* src/complex.h (complex_mod): Use hypot for better precision.
+	(complex_*): Use complex_init when possible.  (This means that the
+ 	output can be the same as one of the inputs without any trouble.)
+	(complex_pow): New function.
+
+1999-06-17  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-stat.c (gnumeric_percentrank): Interpolation and rounding
+	fixes.
+
+1999-06-17  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-eng.c (gnumeric_erf): ERF() changed back to the previous
+ 	form.  Negative arguments are wrong.
+
+1999-06-16  Morten Welinder  <terra@diku.dk>
+
+	* src/complex.h, src/complex.c: New files.
+
+	* src/fn-eng.c: Use complex.c; improve precision, fix a few bugs,
+ 	plug a few leaks, add a few functions, and generally be merry.
+
+	* src/Makefile.am (GNUMERIC_BASE_SOURCES): Add complex.c and
+ 	complex.h.
+
+1999-06-16  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* samples/finfuns.xls: A new file for financial functions.
+
+	* samples/engfuns.xls: A new file for engineering functions.
+
+	* samples/mathfuns.xls: COMBIN and FACT fixed.
+
+	* samples/statfuns.xls: Accuracy dropped again.
+
+1999-06-16  Morten Welinder  <terra@diku.dk>
+
+	* src/workbook.c (workbook_feedback_set): Block the "clicked"
+ 	handlers when we are just setting the feedback.
+
+1999-06-16  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-math.c (gnumeric_gcd): Made GCD() to take variable number
+ 	of arguments.
+
+	* src/fn-stat.c (gnumeric_rank): RANK() fixed.
+
+	* src/fn-eng.c (gnumeric_erf): ERF() fixed to return negative
+	results if the argument is negative too like in Excel.
+
+	* srg/fn-eng.c (get_real_and_imaginary): Added a branch for empty
+ 	imaginary part.
+
+	* src/fn-eng.c (gnumeric_improduct, gnumeric_imsum): Made IMSUM()
+	and IMPRODUCT() to take variable number of arguments.
+
+1999-06-15  Morten Welinder  <terra@diku.dk>
+
+	* src/style.c (style_font_new_simple): Plug leak.
+
+	* src/cell.c (cell_set_formula_tree_simple): Ref before unref,
+ 	just in case.
+
+	* src/fn-math.c (callback_function_criteria): Just collect the
+ 	values, not (incorrectly) allocated pointers to them.
+	(gnumeric_countif): Release the values.  (Leak fix.)
+	(gnumeric_sumif): Ditto.
+	(gnumeric_countif): Plug leak.
+	(gnumeric_sumif): Ditto.
+	(gnumeric_seriessum): Plug three leaks.
+	(gnumeric_subtotal): Plug leaks and fix error handling.
+
+	* src/style.c (style_font_new_simple): Fix memory access problem.
+
+	* src/style.c (font_init): Rework.  (Work in progress.  Things
+ 	should work ok, but will become even better.)
+	(style_font_new_simple): Revert to loading a font, not a fontset.
+
+	* src/gnumeric-util.c (font_get_italic_name): Plug leak and unref
+ 	the StyleFont.
+	(font_get_bold_name, font_get_italic_name): New parameter units.
+  	All callers changed.
+
+1999-06-15  Tomas Ogren  <stric@ing.umu.se>
+
+	* configure.in: Added sv
+
+1999-06-14  Morten Welinder  <terra@diku.dk>
+
+	* src/style.c (style_font_new_simple): Add negative caching.
+	(DEFAULT_FONT): Don't have a complete wildcard here -- that might
+ 	be a very weird font.
+
+	* src/cell.c (cell_set_font_from_style): Mark font valid.  Ref
+ 	before unref.
+	(cell_set_format_from_style): Mark format valid.  Ref before
+ 	unref.
+
+	* src/gnumeric-util.c (font_get_italic_name): Plug leak.
+	(font_change_component): Constify.  Handle fontsets.
+
+1999-06-14  Morten Welinder  <terra@diku.dk>
+
+	* src/fn-math.c (gnumeric_floor): Add significance argument.
+
+	* src/fn-math.c (callback_function_seriessum): Simplify.
+	(gnumeric_seriessum): Don't round x, n, and m to integers.  Fix
+ 	error handling.
+
+	* src/fn-math.c (pow10): New function.
+	(gnumeric_rounddown): Simplify and correct.
+	(gnumeric_round): Ditto.
+	(gnumeric_roundup): Ditto.
+	(gnumeric_trunc): Ditto.
+	(gnumeric_fact): Improve precision.  Extend domain to all positive
+ 	numbers.
+	(gnumeric_factdouble): Use float_t instead of int.
+	(gnumeric_atan2): Swap args to atan2.
+
+1999-06-13  Morten Welinder  <terra@diku.dk>
+
+	* src/style.c (DEFAULT_FONT): Add extra font in the hope of curing
+ 	1207.
+	(font_init): Shine up error message and avoid core dump.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_stop_cell_selection):
+ 	Temporary patch for refcounts until Miguel can fixup things.
+	(destroy_item_editor): Ditto.
+
+	* src/fn-financial.c: s/double/float_t/;
+	(calculate_pvif, calculate_pvifa, calculate_fvif, calculate_fvifa,
+ 	calculate_principal, calculate_pmt): Make static.
+	(callback_function_npv): Simplify and truly ignore strings.
+	(gnumeric_duration): More error checks.
+	(gnumeric_nper): Ditto.
+	(gnumeric_syd): Ditto.
+	(gnumeric_sln): Ditto.
+	(gnumeric_pv): Ditto.
+	(gnumeric_fv): Ditto.
+
+	* src/fn-information.c: Prune includes.
+	* src/fn-string.c: Ditto.
+	* src/fn-sheet.c: Ditto.
+	* src/fn-misc.c: Ditto.
+	* src/fn-financial.c: Ditto.
+	* src/fn-date.c: Ditto.
+	* src/fn-database.c: Ditto.
+	* src/fn-lookup.c: Ditto.
+	* src/fn-stat.c: Ditto.
+	* src/fn-math.c: Ditto.
+	* src/fn-logical.c: Ditto.
+
+	* src/cell.h: Fix includes.
+
+	* src/fn-information.c (gnumeric_isblank): Return boolean.
+	(gnumeric_iseven): Ditto.
+	(gnumeric_islogical): Ditto.
+	(gnumeric_isnontext): Ditto.
+	(gnumeric_isnumber): Ditto.
+	(gnumeric_isodd): Ditto.
+	(gnumeric_isref): Ditto.
+	(gnumeric_istext): Ditto.
+	(gnumeric_n): Ditto.
+
+	* src/expr.c (value_new_bool): New function.
+	(eval_expr): Return boolean Values.
+
+	* src/fn-misc.c (gnumeric_iserr, gnumeric_iserror, gnumeric_isna):
+ 	Return boolean;
+
+	* src/fn-logical.c (callback_function_and): Simplify.
+	(callback_function_or): Ditto.
+	(gnumeric_and): Simplify and return boolean Values.
+	(gnumeric_not): Ditto.
+	(gnumeric_if): Fix error case.  Simplify.
+
+	* src/cell.c (cell_comment_destroy): Free realized_list.
+
+	* fn-*.c: Use new standard error variables.
+
+1999-06-12  Jody Goldberg  <jgoldberg@home.com>
+
+	* src/expr.h : Declare new standard error constants to avoid
+	spelling problems and typos.
+	* src/expr.c, src/func.c, src/fn-math.c : Use and define them.
+	* src/fn-misc.c	: First pass at finishing off error functions.
+	* src/fn-information.c : Provide stubs for the rest of the
+	information functions.
+
+1999-06-12  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/dialog-cell-comment.c (dialog_cell_comment): Process the
+	return value from gnome_dialog_run correctly as well.  (ie we
+	should catch the return value -1 as the "user closed dialog box"
+ 	message and avoid destroying the dialog box ourselves).
+
+	* src/item-grid.c (context_paste_special_cmd): Handle a cancel
+	operation from the dialog_paste_special dialog box.
+
+	* src/dialog-paste-special.c (dialog_paste_special): Hanlde the
+	case in which the window manager closed the dialog box.
+
+	* src/cell.c (cell_comment_destroy): Changed invocation from
+	gtk_object_destroy to gtk_object_unref.
+	(cell_comment_unrealize): ditto.
+	(cell_comment_clicked): ditto.
+	* src/dialog-cell-sort.c (dialog_cell_sort): ditto.
+	* src/dialog-function-select.c (dialog_function_select): ditto
+	* src/dialog-function-wizard.c (dialog_function_wizard): ditto
+	* src/dialog-paste-special.c (dialog_paste_special): ditto
+	* src/dialog-solver.c (constr_add_click): ditto.
+	(constr_add_click): ditto
+	(dialog_solver_options): ditto
+	* src/gnumeric-sheet.c (gnumeric_sheet_stop_cell_selection): ditto
+	(destroy_item_editor): ditto.
+	(gnumeric_sheet_key_mode_object): ditto, and clear the pointer to
+	the current_object.
+	* src/sheet-object-container.c (sheet_object_container_destroy): ditto.
+	* src/item-cursor.c (item_cursor_drag_event): ditto.
+	(item_cursor_autofill_event): ditto
+	* src/item-bar.c (item_bar_event): ditto
+	* src/workbook.c (workbook_setup_auto_calc): ditto.
+	* src/widget-editable-label.c (el_stop_editing): ditto
+	* src/sheet-object.c (sheet_object_destroy): ditto
+	(sheet_view_object_unrealize): ditto
+	(sheet_object_destroy_control_points): ditto
+	* src/sheet-view.c (sheet_view_destroy): ditto
+
+1999-06-10  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/pattern-selector.c (pattern_selector_init): Use the GNOME
+	canvas fill_stipple feature instead of using the hack of creating
+	the bitmap and setting the stipple on the realize handler.
+
+1999-06-01  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* po/hr.po: Added croat translation from Vladimir Vuksan
+	<vuksan@cs.unm.edu>.
+
+1999-06-13  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* samples/mathfuns.xls: New test file for math functions.
+
+	* samples/statfuns.xls: Accuracy dropped to 1e-5 (since Excel is
+ 	not as accurate as Gnumeric).  Also the total number of functions
+ 	in the test output fixed.
+	
 1999-06-12  Morten Welinder  <terra@diku.dk>
 
 	* src/fn-string.c: Use value_new_string where appropriate.

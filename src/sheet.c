@@ -660,18 +660,24 @@ sheet_update_auto_expr (Sheet *sheet)
 {
 	Workbook *wb = sheet->workbook;
 	Value *v;
-	char  *error;
+	FunctionEvalInfo ei;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
 	/* defaults */
 	v = NULL;
-	error = _("ERROR");
-	if (wb->auto_expr)
-		v = eval_expr (sheet, wb->auto_expr, 0, 0, &error);
+	func_eval_info_init (&ei, sheet, 0, 0);
 
-	if (v){
+	if (wb->auto_expr_text)
+		workbook_set_auto_expr (wb, sheet,
+					wb->auto_expr_desc->str,
+					wb->auto_expr_text);
+
+	if (wb->auto_expr_tree)
+		v = eval_expr (&ei, wb->auto_expr_tree);
+
+	if (v) {
 		char *s;
 
 		s = value_get_as_string (v);
@@ -679,7 +685,7 @@ sheet_update_auto_expr (Sheet *sheet)
 		g_free (s);
 		value_release (v);
 	} else
-		workbook_auto_expr_label_set (wb, error);
+		workbook_auto_expr_label_set (wb, error_message_txt(ei.error));
 }
 
 static const char *

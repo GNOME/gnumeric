@@ -1,6 +1,5 @@
 Changes between version 0.26 and 0.27
 
-
 Jukka:
 	* Added the following functions:
 	 - FTEST(), TTEST(), SUMPRODUCT(), SEARCH(), ADDRESS(),
@@ -38,9 +37,12 @@ Sean
 
 Michael
 	* Re-wrote the OLE block layer again...
+	* Re-wrote all the function code for more uniformity, lucidity
+	and expandibility.
+	* Re-wrote the function documentation.
 	* Tentative alpha Excel sheet writing
 	 - StarOffice is only tested importer
-	 - Only Excel 95 likely to work
+	 - Only Excel 95 likely to 'work'
 	 - only basic numbers and text are stored.
 	* Fix writing code to preserve sheet order.
 

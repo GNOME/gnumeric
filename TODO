@@ -128,4 +128,3 @@ When adding a sheet or renaming a sheet, should we reparse everything?
 Perhaps make a global clipboard and remove all the hacks in the
 current clipboard code to find the clipboard.=======
 
-

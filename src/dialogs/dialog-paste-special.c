@@ -123,6 +123,7 @@ dialog_paste_special (Workbook *wb)
 		return 0;
 
 	result = 0;
+
 	/* Fetch the results */
 	if (v == 0){
 		result = 0;

@@ -138,19 +138,17 @@ static char *help_effect = {
 
 
 static Value *
-gnumeric_effect (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_effect (FunctionEvalInfo *ei, Value **argv)
 {
 	float_t rate;
 	int nper;
 
-	rate = value_get_as_float (argv [0]);
-	nper = value_get_as_int (argv [1]);
+	rate = value_get_as_float (argv[0]);
+	nper = value_get_as_int (argv[1]);
 
 	/* Rate or number of periods cannot be negative */
-	if ( (rate < 0) || (nper <= 0) ){
-		*error_string = _("effect - domain error");
-		return NULL;
-	}
+	if ( (rate < 0) || (nper <= 0) )
+		return function_error (ei, _("effect - domain error"));
 
         return value_new_float ( pow( (1 + rate/nper) , nper) - 1 );
 
@@ -175,19 +173,17 @@ static char *help_nominal = {
 };
 
 static Value *
-gnumeric_nominal (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_nominal (FunctionEvalInfo *ei, Value **argv)
 {
 	float_t rate;
 	int nper;
 
-	rate = value_get_as_float (argv [0]);
-	nper = value_get_as_int (argv [1]);
+	rate = value_get_as_float (argv[0]);
+	nper = value_get_as_int (argv[1]);
 
 	/* Rate or number of periods cannot be negative */
-	if ( (rate < 0) || (nper <= 0) ){
-		*error_string = _("nominal - domain error");
-		return NULL;
-	}
+	if ( (rate < 0) || (nper <= 0) )
+		return function_error (ei, _("nominal - domain error"));
 
         return value_new_float ( nper * ( pow( 1 + rate, 1.0/nper ) - 1 ) );
 
@@ -215,22 +211,19 @@ static char *help_sln = {
 
 
 static Value *
-gnumeric_sln (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_sln (FunctionEvalInfo *ei, Value **argv)
 {
 	float_t cost,salvage_value,life;
 
-	cost = value_get_as_float (argv [0]);
-	salvage_value = value_get_as_int (argv [1]);
-	life = value_get_as_float (argv [2]);
+	cost = value_get_as_float (argv[0]);
+	salvage_value = value_get_as_int (argv[1]);
+	life = value_get_as_float (argv[2]);
 
 	/* Life of an asset cannot be negative */
-	if (life <= 0){
-		*error_string = _("sln - domain error");
-		return NULL;
-	}
+	if (life <= 0)
+		return function_error (ei, _("sln - domain error"));
 
         return value_new_float ((cost - salvage_value) / life);
-
 }
 
 static char *help_syd = {
@@ -253,23 +246,20 @@ static char *help_syd = {
 };
 
 static Value *
-gnumeric_syd (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_syd (FunctionEvalInfo *ei, Value **argv)
 {
 	float_t cost, salvage_value, life, period;
 
-	cost = value_get_as_float (argv [0]);
+	cost   = value_get_as_float (argv [0]);
 	salvage_value = value_get_as_int (argv [1]);
-	life = value_get_as_float (argv [2]);
+	life   = value_get_as_float (argv [2]);
 	period = value_get_as_float (argv [3]);
 
 	/* Life of an asset cannot be negative */
-	if (life <= 0){
-		*error_string = _("syd - domain error");
-		return NULL;
-	}
+	if (life <= 0)
+		return function_error (ei, _("syd - domain error"));
 
         return value_new_float (((cost - salvage_value) * (life - period + 1) * 2) / (life * (life + 1.0)));
-
 }
 
 static char *help_dollarde = {
@@ -285,7 +275,7 @@ static char *help_dollarde = {
 
 
 static Value *
-gnumeric_dollarde (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_dollarde (FunctionEvalInfo *ei, Value **argv)
 {
         float_t fractional_dollar;
 	int     fraction, n, tmp;
@@ -294,10 +284,8 @@ gnumeric_dollarde (struct FunctionDefinition *i, Value *argv [], char **error_st
 	fractional_dollar = value_get_as_float (argv [0]);
 	fraction = value_get_as_int (argv [1]);
 
-	if (fraction <= 0) {
-                *error_string = gnumeric_err_NUM;
-                return NULL;
-	}
+	if (fraction <= 0)
+                return function_error (ei, gnumeric_err_NUM);
 
 	tmp = fraction;
 	/* Count digits in fraction */
@@ -324,7 +312,7 @@ static char *help_dollarfr = {
 
 
 static Value *
-gnumeric_dollarfr (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_dollarfr (FunctionEvalInfo *ei, Value **argv)
 {
         float_t fractional_dollar;
 	int     fraction, n, tmp;
@@ -333,10 +321,8 @@ gnumeric_dollarfr (struct FunctionDefinition *i, Value *argv [], char **error_st
 	fractional_dollar = value_get_as_float (argv [0]);
 	fraction = value_get_as_int (argv [1]);
 
-	if (fraction <= 0) {
-                *error_string = gnumeric_err_NUM;
-                return NULL;
-	}
+	if (fraction <= 0)
+                return function_error (ei, gnumeric_err_NUM);
 
 	tmp = fraction;
 	/* Count digits in fraction */
@@ -360,7 +346,7 @@ static char *help_pv = {
 
 
 static Value *
-gnumeric_pv (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_pv (FunctionEvalInfo *ei, Value **argv)
 {
 	float_t rate, nper, pmt, fv;
 	float_t pvif, fvifa;
@@ -368,14 +354,12 @@ gnumeric_pv (struct FunctionDefinition *i, Value *argv [], char **error_string)
 
 	rate = value_get_as_float (argv [0]);
 	nper = value_get_as_float (argv [1]);
-	pmt = value_get_as_float (argv [2]);
-	fv = value_get_as_float (argv [3]);
+	pmt  = value_get_as_float (argv [2]);
+	fv   = value_get_as_float (argv [3]);
 	type = value_get_as_int (argv [4]);
 
-	if (rate <= 0.0){
-		*error_string = _("pv - domain error");
-		return NULL;
-	}
+	if (rate <= 0.0)
+		return function_error (ei, _("pv - domain error"));
 
 	/* Calculate the PVIF and FVIFA */
 	pvif = calculate_pvif (rate, nper);
@@ -399,7 +383,7 @@ typedef struct {
 } financial_npv_t;
 
 static int
-callback_function_npv (Sheet *sheet, Value *value, char **error_string, void *closure)
+callback_function_npv (const EvalPosition *ep, Value *value, ErrorMessage *error, void *closure)
 {
         financial_npv_t *mm = closure;
 
@@ -415,18 +399,16 @@ callback_function_npv (Sheet *sheet, Value *value, char **error_string, void *cl
 }
 
 static Value *
-gnumeric_npv (Sheet *sheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+gnumeric_npv (FunctionEvalInfo *ei, GList *nodes)
 {
         financial_npv_t p;
 
 	p.sum   = 0.0;
 	p.num   = 0;
 
-        if (!function_iterate_argument_values (sheet, callback_function_npv,
-					       &p, expr_node_list,
-					       eval_col, eval_row,
-					       error_string, TRUE))
-		return FALSE;
+	function_iterate_argument_values (&ei->pos, callback_function_npv,
+                                          &p, nodes,
+					  ei->error, TRUE);
 	return value_new_float (p.sum);
 }
 
@@ -440,7 +422,7 @@ static char *help_fv = {
 
 
 static Value *
-gnumeric_fv (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_fv (FunctionEvalInfo *ei, Value **argv)
 {
 	float_t rate, nper, pv, pmt;
 	float_t pvif, fvifa;
@@ -448,8 +430,8 @@ gnumeric_fv (struct FunctionDefinition *i, Value *argv [], char **error_string)
 
 	rate = value_get_as_float (argv [0]);
 	nper = value_get_as_float (argv [1]);
-	pmt = value_get_as_float (argv [2]);
-	pv = value_get_as_float (argv [3]);
+	pmt  = value_get_as_float (argv [2]);
+	pv   = value_get_as_float (argv [3]);
 	type = value_get_as_int (argv [4]);
 
 	pvif = calculate_pvif (rate, nper);
@@ -468,15 +450,15 @@ static char *help_pmt = {
 };
 
 static Value *
-gnumeric_pmt (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_pmt (FunctionEvalInfo *ei, Value **argv)
 {
 	float_t rate, pv, fv, nper;
 	int type;
 
 	rate = value_get_as_float (argv [0]);
 	nper = value_get_as_float (argv [1]);
-	pv = value_get_as_float (argv [2]);
-	fv = value_get_as_float (argv [3]);
+	pv   = value_get_as_float (argv [2]);
+	fv   = value_get_as_float (argv [3]);
 	type = value_get_as_int (argv [4]);
 
         return value_new_float (calculate_pmt (rate, nper, pv, fv, type));
@@ -502,7 +484,7 @@ static char *help_ipmt = {
 };
 
 static Value *
-gnumeric_ipmt (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_ipmt (FunctionEvalInfo *ei, Value **argv)
 {
 	float_t rate, nper, per, pv, fv;
 	float_t pmt;
@@ -510,9 +492,9 @@ gnumeric_ipmt (struct FunctionDefinition *i, Value *argv [], char **error_string
 
 	rate = value_get_as_float (argv [0]);
 	nper = value_get_as_float (argv [1]);
-	per = value_get_as_float (argv [2]);
-	pv = value_get_as_float (argv [3]);
-	fv = value_get_as_float (argv [4]);
+	per  = value_get_as_float (argv [2]);
+	pv   = value_get_as_float (argv [3]);
+	fv   = value_get_as_float (argv [4]);
 	type = value_get_as_int (argv [5]);
 
 	/* First calculate the payment */
@@ -520,10 +502,9 @@ gnumeric_ipmt (struct FunctionDefinition *i, Value *argv [], char **error_string
 
 	/* Now we need to calculate the amount of money going towards the
 	   principal */
+
 	return value_new_float (-calculate_principal (pv, pmt, rate, per-1) * rate);
-
 }
-
 
 static char *help_ppmt = {
 	N_("@FUNCTION=PPMT\n"
@@ -544,7 +525,7 @@ static char *help_ppmt = {
 };
 
 static Value *
-gnumeric_ppmt (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_ppmt (FunctionEvalInfo *ei, Value **argv)
 {
 	float_t rate, nper, per, pv, fv;
 	float_t ipmt, pmt;
@@ -552,9 +533,9 @@ gnumeric_ppmt (struct FunctionDefinition *i, Value *argv [], char **error_string
 
 	rate = value_get_as_float (argv [0]);
 	nper = value_get_as_float (argv [1]);
-	per = value_get_as_float (argv [2]);
-	pv = value_get_as_float (argv [3]);
-	fv = value_get_as_float (argv [4]);
+	per  = value_get_as_float (argv [2]);
+	pv   = value_get_as_float (argv [3]);
+	fv   = value_get_as_float (argv [4]);
 	type = value_get_as_int (argv [5]);
 
 	/* First calculate the payment */
@@ -567,7 +548,6 @@ gnumeric_ppmt (struct FunctionDefinition *i, Value *argv [], char **error_string
 	ipmt = -calculate_principal (pv, pmt, rate, per-1) * rate;
 
 	return value_new_float (pmt - ipmt);
-
 }
 
 
@@ -579,7 +559,7 @@ static char *help_nper = {
 };
 
 static Value *
-gnumeric_nper (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_nper (FunctionEvalInfo *ei, Value **argv)
 {
 	float_t rate, pmt, pv, fv, tmp;
 	int type;
@@ -590,21 +570,15 @@ gnumeric_nper (struct FunctionDefinition *i, Value *argv [], char **error_string
 	fv = value_get_as_float (argv [3]);
 	type = value_get_as_int (argv [4]);
 
-	if (rate <= 0.0) {
-		*error_string = gnumeric_err_DIV0;
-		return NULL;
-	}
+	if (rate <= 0.0)
+		return function_error (ei, gnumeric_err_DIV0);
 
 	tmp = (pmt * (1.0 + rate * type) - fv * rate) / (pv * rate + pmt * (1.0 + rate * type));
-	if (tmp <= 0.0) {
-		*error_string = gnumeric_err_VALUE;
-		return NULL;
-	}
+	if (tmp <= 0.0)
+		return function_error (ei, gnumeric_err_VALUE);
 
         return value_new_float (log (tmp) / log (1.0 + rate));
 }
-
-
 
 static char *help_duration = {
 	N_("@FUNCTION=DURATION\n"
@@ -618,7 +592,7 @@ static char *help_duration = {
 };
 
 static Value *
-gnumeric_duration (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_duration (FunctionEvalInfo *ei, Value **argv)
 {
 	float_t rate,pv,fv;
 
@@ -626,39 +600,33 @@ gnumeric_duration (struct FunctionDefinition *i, Value *argv [], char **error_st
 	pv = value_get_as_float (argv [1]);
 	fv = value_get_as_float (argv [2]);
 
-	if (rate <= 0) {
-		*error_string = _("duration - domain error");
-		return NULL;
-	} else if (fv == 0 || pv == 0) {
-		*error_string = gnumeric_err_DIV0;
-		return NULL;
-	} else if (fv / pv < 0) {
-		*error_string = gnumeric_err_VALUE;
-		return NULL;
-	}
+	if (rate <= 0)
+		return function_error (ei, gnumeric_err_DIV0);
+	else if (fv == 0 || pv == 0) 
+		return function_error (ei, gnumeric_err_DIV0);
+	else if (fv / pv < 0)
+		return function_error (ei, gnumeric_err_VALUE);
 
         return value_new_float (log (fv / pv) / log (1.0 + rate));
 
 }
 
+void finance_functions_init()
+{
+	FunctionCategory *cat = function_get_category (_("Financial"));
 
-
-
-FunctionDefinition finance_functions [] = {
-	{ "dollarde", "ff", "fractional_dollar,fraction", &help_dollarde, NULL, gnumeric_dollarde},
-	{ "dollarfr", "ff", "decimal_dollar,fraction", &help_dollarfr, NULL, gnumeric_dollarfr},
-	{ "effect", "ff",    "rate,nper",    &help_effect,   NULL, gnumeric_effect},
-	{ "nominal", "ff",    "rate,nper",    &help_nominal,   NULL, gnumeric_nominal},
-        { "npv",      0,      "",             &help_npv,      gnumeric_npv, NULL },
-	{ "sln", "fff", "cost,salvagevalue,life", &help_sln, NULL, gnumeric_sln},
-	{ "syd", "ffff", "cost,salvagevalue,life,period", &help_syd, NULL, gnumeric_syd},
-	{ "pv", "ffffi", "rate,nper,pmt,fv,type", &help_pv, NULL, gnumeric_pv},
-	{ "fv", "ffffi", "rate,nper,pmt,pv,type", &help_fv, NULL, gnumeric_fv},
-	{ "pmt", "ffffi", "rate,nper,pv,fv,type", &help_pmt, NULL, gnumeric_pmt},
-	{ "ipmt", "fffffi", "rate,per,nper,pv,fv,type", &help_ipmt, NULL, gnumeric_ipmt},
-	{ "ppmt", "fffffi", "rate,per,nper,pv,fv,type", &help_ppmt, NULL, gnumeric_ppmt},
-	{ "nper", "ffffi", "rate,pmt,pv,fv,type", &help_nper, NULL, gnumeric_nper},
-	{ "duration", "fff", "rate,pv,fv", &help_duration, NULL, gnumeric_duration},
- 	{ NULL, NULL }
-
-};
+	function_add_args  (cat, "dollarde", "ff", "fractional_dollar,fraction", &help_dollarde, gnumeric_dollarde);
+	function_add_args  (cat, "dollarfr", "ff", "decimal_dollar,fraction", &help_dollarfr, gnumeric_dollarfr);
+	function_add_args  (cat, "effect", "ff",    "rate,nper",    &help_effect,   gnumeric_effect);
+	function_add_args  (cat, "nominal", "ff",    "rate,nper",    &help_nominal, gnumeric_nominal);
+        function_add_nodes (cat, "npv",      0,      "",             &help_npv,     gnumeric_npv);
+	function_add_args  (cat, "sln", "fff", "cost,salvagevalue,life", &help_sln, gnumeric_sln);
+	function_add_args  (cat, "syd", "ffff", "cost,salvagevalue,life,period", &help_syd, gnumeric_syd);
+	function_add_args  (cat, "pv", "fffff", "rate,nper,pmt,fv,type", &help_pv,  gnumeric_pv);	
+	function_add_args  (cat, "fv", "fffff", "rate,nper,pmt,pv,type", &help_fv,  gnumeric_fv);	
+	function_add_args  (cat, "pmt", "fffff", "rate,nper,pv,fv,type", &help_pmt, gnumeric_pmt);
+	function_add_args  (cat, "ipmt", "ffffff", "rate,per,nper,pv,fv,type", &help_ipmt, gnumeric_ipmt);
+	function_add_args  (cat, "ppmt", "ffffff", "rate,per,nper,pv,fv,type", &help_ppmt, gnumeric_ppmt);
+	function_add_args  (cat, "nper", "fffff", "rate,pmt,pv,fv,type", &help_nper, gnumeric_nper);
+	function_add_args  (cat, "duration", "fff", "rate,pv,fv", &help_duration,    gnumeric_duration);
+}

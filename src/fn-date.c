@@ -23,8 +23,11 @@ get_serial_date (Value *v)
 		serial = value_get_as_float (v);
 	else {
 		char *format;
+		double dserial;
 
-		if (!format_match (v->v.str->str, &serial, &format))
+		if (format_match (v->v.str->str, &dserial, &format)) {
+			serial = dserial;
+		} else
 			serial = 0;
 	}
 	return floor (serial);
@@ -40,8 +43,11 @@ get_serial_time (Value *v)
 		serial = value_get_as_float (v);
 	else {
 		char *format;
+		double dserial;
 
-		if (!format_match (v->v.str->str, &serial, &format))
+		if (format_match (v->v.str->str, &dserial, &format)) {
+			serial = dserial;
+		} else
 			serial = 0;
 	}
 	return serial - floor (serial);
@@ -65,7 +71,7 @@ static char *help_date = {
 };
 
 static Value *
-gnumeric_date (struct FunctionDefinition *fd, Value *argv [], char **error_string)
+gnumeric_date (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *v;
 	int year, month, day;
@@ -82,10 +88,7 @@ gnumeric_date (struct FunctionDefinition *fd, Value *argv [], char **error_strin
 		year += 1900;
 
         if (!g_date_valid_dmy(1, month, year))
-          {
-                  *error_string = _("Invalid month or year");
-                  return NULL;
-          }
+		return function_error (ei, _("Invalid month or year"));
 
         g_date_clear(&date, 1);
 
@@ -97,10 +100,7 @@ gnumeric_date (struct FunctionDefinition *fd, Value *argv [], char **error_strin
 		g_date_subtract_days (&date, -day + 1);
 
         if (!g_date_valid(&date))
-          {
-                  *error_string = _("Invalid day");
-                  return NULL;
-          }
+		return function_error (ei, _("Invalid day"));
 
 	v = value_new_int (g_date_serial (&date));
 
@@ -122,8 +122,7 @@ static char *help_datevalue = {
 };
 
 static Value *
-gnumeric_datevalue (struct FunctionDefinition *fd,
-		    Value *argv [], char **error_string)
+gnumeric_datevalue (FunctionEvalInfo *ei, Value **argv)
 {
 	return value_new_int ((int) get_serial_date (argv[0]));
 }
@@ -145,8 +144,7 @@ static char *help_edate = {
 };
 
 static Value *
-gnumeric_edate (struct FunctionDefinition *fd,
-		Value *argv [], char **error_string)
+gnumeric_edate (FunctionEvalInfo *ei, Value **argv)
 {
 	int    serial, months;
 	GDate* date;
@@ -156,20 +154,16 @@ gnumeric_edate (struct FunctionDefinition *fd,
 
 	date = g_date_new_serial (serial);
 
-	if (!g_date_valid(date)) {
-                  *error_string = gnumeric_err_VALUE;
-                  return NULL;
-	}
+	if (!g_date_valid(date))
+                  return function_error (ei, gnumeric_err_VALUE);
 
 	if (months > 0)
 	        g_date_add_months (date, months);
 	else
 	        g_date_subtract_months (date, -months);
 
-	if (!g_date_valid(date)) {
-                  *error_string = gnumeric_err_NUM;
-                  return NULL;
-	}
+	if (!g_date_valid(date))
+                  return function_error (ei, gnumeric_err_NUM);
 
 	return value_new_int (g_date_serial (date));
 }
@@ -188,7 +182,7 @@ static char *help_today = {
 };
 
 static Value *
-gnumeric_today (FunctionDefinition *fd, Value *argv [], char **error_string)
+gnumeric_today (FunctionEvalInfo *ei, Value **argv)
 {
 	GDate date;
 
@@ -220,7 +214,7 @@ static char *help_now = {
 };
 
 static Value *
-gnumeric_now (FunctionDefinition *fd, Value *argv [], char **error_string)
+gnumeric_now (FunctionEvalInfo *ei, Value **argv)
 {
 	time_t t = time (NULL);
 	struct tm *tm = localtime (&t);
@@ -247,7 +241,7 @@ static char *help_time = {
 };
 
 static Value *
-gnumeric_time (FunctionDefinition *fd, Value *argv [], char **error_string)
+gnumeric_time (FunctionEvalInfo *ei, Value **argv)
 {
 	float_t hours, minutes, seconds;
 
@@ -272,7 +266,7 @@ static char *help_timevalue = {
 };
 
 static Value *
-gnumeric_timevalue (FunctionDefinition *fd, Value *argv [], char **error_string)
+gnumeric_timevalue (FunctionEvalInfo *ei, Value **argv)
 {
 	return value_new_float (get_serial_time (argv[0]));
 }
@@ -294,7 +288,7 @@ static char *help_hour = {
 };
 
 static Value *
-gnumeric_hour (FunctionDefinition *fd, Value *argv [], char **error_string)
+gnumeric_hour (FunctionEvalInfo *ei, Value **argv)
 {
 	int secs;
 
@@ -319,7 +313,7 @@ static char *help_minute = {
 };
 
 static Value *
-gnumeric_minute (FunctionDefinition *fd, Value *argv [], char **error_string)
+gnumeric_minute (FunctionEvalInfo *ei, Value **argv)
 {
 	int secs;
 
@@ -344,7 +338,7 @@ static char *help_second = {
 };
 
 static Value *
-gnumeric_second (FunctionDefinition *fd, Value *argv [], char **error_string)
+gnumeric_second (FunctionEvalInfo *ei, Value **argv)
 {
 	int secs;
 
@@ -368,7 +362,7 @@ static char *help_year = {
 };
 
 static Value *
-gnumeric_year (FunctionDefinition *fd, Value *argv [], char **error_string)
+gnumeric_year (FunctionEvalInfo *ei, Value **argv)
 {
 	int res;
 	GDate *date = g_date_new_serial (get_serial_date (argv[0]));
@@ -393,7 +387,7 @@ static char *help_month = {
 };
 
 static Value *
-gnumeric_month (FunctionDefinition *fd, Value *argv [], char **error_string)
+gnumeric_month (FunctionEvalInfo *ei, Value **argv)
 {
 	int res;
 	GDate *date = g_date_new_serial (get_serial_date (argv[0]));
@@ -418,7 +412,7 @@ static char *help_day = {
 };
 
 static Value *
-gnumeric_day (FunctionDefinition *fd, Value *argv [], char **error_string)
+gnumeric_day (FunctionEvalInfo *ei, Value **argv)
 {
 	int res;
 	GDate *date = g_date_new_serial (get_serial_date (argv[0]));
@@ -443,7 +437,7 @@ static char *help_weekday = {
 };
 
 static Value *
-gnumeric_weekday (FunctionDefinition *fd, Value *argv [], char **error_string)
+gnumeric_weekday (FunctionEvalInfo *ei, Value **argv)
 {
 	int res;
 	GDate *date = g_date_new_serial (get_serial_date (argv[0]));
@@ -475,7 +469,7 @@ static char *help_days360 = {
 };
 
 static Value *
-gnumeric_days360 (FunctionDefinition *fd, Value *argv [], char **error_string)
+gnumeric_days360 (FunctionEvalInfo *ei, Value **argv)
 {
 	enum { METHOD_US, METHOD_EUROPE } method;
 	GDate *date1, *date2;
@@ -486,10 +480,8 @@ gnumeric_days360 (FunctionDefinition *fd, Value *argv [], char **error_string)
 	if (argv[2]) {
 		int err;
 		method = value_get_as_bool (argv[2], &err) ? METHOD_EUROPE : METHOD_US;
-		if (err) {
-			*error_string = _("Unsupported method");
-			return NULL;
-		}
+		if (err)
+			return function_error (ei, _("Unsupported method"));
 	} else
 		method = METHOD_US;
 
@@ -547,38 +539,39 @@ gnumeric_days360 (FunctionDefinition *fd, Value *argv [], char **error_string)
 	return value_new_int (flipped ? -result : result);
 }
 
+void
+date_functions_init(void)
+{
+	FunctionCategory *cat = function_get_category (_("Date / Time"));
 
-
-FunctionDefinition date_functions [] = {
-	{ "date",      "fff",  "year,month,day",        &help_date,
-	  NULL, gnumeric_date  },
-	{ "datevalue", "?",    "date_str",              &help_datevalue,
-	  NULL, gnumeric_datevalue  },
-	{ "day",       "?",    "date",                  &help_day,
-	  NULL, gnumeric_day  },
-	{ "days360",   "??|i", "date1,date2,method",    &help_days360,
-	  NULL, gnumeric_days360  },
-	{ "edate",     "ff",   "serial_number,months",  &help_edate,
-	  NULL, gnumeric_edate  },
-	{ "hour",      "?",    "time",                  &help_hour,
-	  NULL, gnumeric_hour },
-	{ "minute",    "?",    "time",                  &help_minute,
-	  NULL, gnumeric_minute },
-	{ "month",     "?",    "date",                  &help_month,
-	  NULL, gnumeric_month  },
-	{ "now",       "",     "",                      &help_now,
-	  NULL, gnumeric_now },
-	{ "second",    "?",    "time",                  &help_second,
-	  NULL, gnumeric_second },
-	{ "time",      "fff",  "hours,minutes,seconds", &help_time,
-	  NULL, gnumeric_time },
-	{ "timevalue", "?",    "",                      &help_timevalue,
-	  NULL, gnumeric_timevalue },
-	{ "today",     "",     "",                      &help_today,
-	  NULL, gnumeric_today },
-	{ "weekday",   "?",    "date",                  &help_weekday,
-	  NULL, gnumeric_weekday  },
-	{ "year",      "?",    "date",                  &help_year,
-	  NULL, gnumeric_year  },
-	{ NULL, NULL },
-};
+	function_add_args (cat,  "date",      "fff",  "year,month,day",        &help_date,
+			   gnumeric_date);
+	function_add_args (cat,  "datevalue", "?",    "date_str",              &help_datevalue,
+			   gnumeric_datevalue);
+	function_add_args (cat,  "day",       "?",    "date",                  &help_day,
+			   gnumeric_day);
+	function_add_args (cat,  "days360",   "??|f", "date1,date2,method",    &help_days360,
+			   gnumeric_days360);
+	function_add_args (cat,  "edate",     "ff",   "serial_number,months",  &help_edate,
+			   gnumeric_edate);
+	function_add_args (cat,  "hour",      "?",    "time",                  &help_hour,
+			   gnumeric_hour );
+	function_add_args (cat,  "minute",    "?",    "time",                  &help_minute,
+			   gnumeric_minute );
+	function_add_args (cat,  "month",     "?",    "date",                  &help_month,
+			   gnumeric_month);
+	function_add_args (cat,  "now",       "",     "",                      &help_now,
+			   gnumeric_now );
+	function_add_args (cat,  "second",    "?",    "time",                  &help_second,
+			   gnumeric_second );
+	function_add_args (cat,  "time",      "fff",  "hours,minutes,seconds", &help_time,
+			   gnumeric_time );
+	function_add_args (cat,  "timevalue", "?",    "",                      &help_timevalue,
+			   gnumeric_timevalue );
+	function_add_args (cat,  "today",     "",     "",                      &help_today,
+			   gnumeric_today );
+	function_add_args (cat,  "weekday",   "?",    "date",                  &help_weekday,
+			   gnumeric_weekday);
+	function_add_args (cat,  "year",      "?",    "date",                  &help_year,
+			   gnumeric_year);
+}

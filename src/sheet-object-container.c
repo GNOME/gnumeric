@@ -69,7 +69,7 @@ sheet_object_container_destroy_views (SheetObject *so)
 	for (l = so->realized_list; l; l = l->next){
 		GnomeCanvasItem *item = l->data;
 
-		gtk_object_destroy (GTK_OBJECT (item));
+		gtk_object_unref (GTK_OBJECT (item));
 	}
 	g_list_free (so->realized_list);
 	so->realized_list = NULL;

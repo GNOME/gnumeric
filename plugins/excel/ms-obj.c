@@ -93,6 +93,12 @@ object_type_names[] =
         "MS Drawing"	/* 0x1E */
 };
 
+/* HACK HACK HACK
+ * Use this temporarily to get a handle on nesting behaviour.
+ * Replace it with a thread safe state structure when we fill in the guts.
+ */
+static int ms_chart_chart_depth = 0;
+
 void
 ms_obj_read_obj (BIFF_QUERY *q, MS_EXCEL_WORKBOOK * wb)
 {
@@ -183,11 +189,9 @@ ms_obj_read_obj (BIFF_QUERY *q, MS_EXCEL_WORKBOOK * wb)
 				printf ("FIXME: Error in common object flags\n");
 			if (obj_type<sizeof(object_type_names)/sizeof(char*))
 				type =object_type_names[obj_type];
-			if (type)
-			{
+			if (type) {
 				printf ("Object '%s'\n", type);
-				}
-			else
+			} else
 				printf ("Unknown object type\n");
 			break;
 		}

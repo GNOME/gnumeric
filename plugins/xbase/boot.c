@@ -67,7 +67,14 @@ filename_ext(const char *filename)
 static gboolean
 xbase_probe (const char *filename)
 {
-	if (g_strcasecmp ("dbf", filename_ext (filename)))
+	char *ext;
+
+	if (!filename)
+		return FALSE;
+	ext = filename_ext (filename);
+	if (!ext)
+		return FALSE;
+	if (g_strcasecmp ("dbf", ext))
 	    return FALSE;
 	return TRUE;
 }

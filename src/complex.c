@@ -12,6 +12,8 @@
 #define GNUMERIC_COMPLEX_IMPLEMENTATION
 #include "complex.h"
 
+/* ------------------------------------------------------------------------- */
+
 char *
 complex_to_string (const complex_t *src, const char *reformat,
 		   const char *imformat, char imunit)
@@ -56,6 +58,8 @@ complex_to_string (const complex_t *src, const char *reformat,
 
 	return res;
 }
+
+/* ------------------------------------------------------------------------- */
 
 static int
 is_unit_imaginary (const char *src, float_t *im, char *imunit)
@@ -127,3 +131,4 @@ complex_from_string (complex_t *dst, const char *src, char *imunit)
 	return -1;
 }
 
+/* ------------------------------------------------------------------------- */

@@ -17,12 +17,12 @@
 
 typedef struct {
 	GtkWidget *widget, *dlg;
-	GtkBox *dialog_box;
-	Workbook *wb;
-	GPtrArray *cats;
-	GtkCList *function_list;
-	GtkCList *cl_funcs;
-	GtkCList *cl_cats;
+	GtkBox    *dialog_box;
+	Workbook  *wb;
+	GList     *cats;
+	GtkCList  *function_list;
+	GtkCList  *cl_funcs;
+	GtkCList  *cl_cats;
 	int selected_func;  /* An Entry */
 	int selected_cat;   /* An Array */
 } SelectorState;
@@ -33,18 +33,22 @@ static void
 function_categories_fill (SelectorState *selector_state)
 {
 	GtkCList *cl = selector_state->cl_cats;
-	int lp;
-	
-	for (lp = 0; lp < selector_state->cats->len; lp++){
+	GList *p = selector_state->cats;
+	int lp = 0;
+
+	while (p) {
 		FunctionCategory *fc;
 		gchar *cols [1];
 		
-		fc = g_ptr_array_index (selector_state->cats, lp);
+		fc = g_list_nth_data (selector_state->cats, lp);
 		cols[0] = fc->name;
 		gtk_clist_append (cl, cols);
 
 		if (lp == selector_state->selected_cat)
 			gtk_clist_select_row (cl, lp, 0);
+
+		p = g_list_next (p);
+		lp++;
 	}
 }
 
@@ -52,7 +56,7 @@ static void
 function_definition_update (SelectorState *selector_state)
 {
 	FunctionCategory *cat; 
-	FunctionDefinition *fn;
+	GList *p;
 	GtkCList *cl;
 	FunctionDefinition *fd = NULL;
 	int lp, max;
@@ -61,12 +65,13 @@ function_definition_update (SelectorState *selector_state)
 	gtk_clist_freeze (cl);
 	gtk_clist_clear (cl);
 	
-	cat = g_ptr_array_index (selector_state->cats, selector_state->selected_cat);
-	fn = cat->functions;
+	cat = g_list_nth_data (selector_state->cats, selector_state->selected_cat);
+	p = cat->functions;
 	max = 0;
 	
-	for (lp = 0; fn [lp].name; lp++){
+	while (p) {
 		gchar *cols [1];
+		FunctionDefinition *fn = p->data;
 		
 		cols [0] = fn [lp].name;
 		gtk_clist_append (cl, cols);
@@ -76,6 +81,8 @@ function_definition_update (SelectorState *selector_state)
 			gtk_clist_select_row (cl, lp, 0);
 		}
 		max++;
+		lp++;
+		p = g_list_next (p);
 	}
 	gtk_clist_thaw (cl);
 }
@@ -196,11 +203,11 @@ dialog_function_select (Workbook *wb)
 	function_select_create (&selector_state);
 
 	if (gnome_dialog_run (GNOME_DIALOG(dialog)) == 0){
-		FunctionCategory *cat = g_ptr_array_index (selector_state.cats,
-							   selector_state.selected_cat);
-		ans = &cat->functions[selector_state.selected_func];
+		FunctionCategory *cat = g_list_nth_data (selector_state.cats,
+							 selector_state.selected_cat);
+		ans = g_list_nth_data (cat->functions, selector_state.selected_func);
 	}
 	
-	gtk_object_destroy (GTK_OBJECT (dialog));
+	gtk_object_unref (GTK_OBJECT (dialog));
 	return ans;
 }

@@ -10,7 +10,7 @@
 
 /* ------------------------------------------------------------------------- */
 
-typedef struct {
+/* typedef struct {
 	int alloc_count;
 	float_t *data;
 	int count;
@@ -18,8 +18,8 @@ typedef struct {
 } collect_floats_t;
 
 static int
-callback_function_collect (Sheet *sheet, Value *value,
-			   char **error_string, void *closure)
+callback_function_collect (const EvalPosition *ep, Value *value,
+			   ErrorMessage *error, void *closure)
 {
 	float_t x;
 	collect_floats_t *cl = (collect_floats_t *)closure;
@@ -76,7 +76,7 @@ callback_function_collect (Sheet *sheet, Value *value,
  * Evaluate a list of expressions and return the result as an array of
  * float_t.
  */
-float_t *
+/*float_t *
 collect_floats (GList *exprlist, const CellRef *cr, CollectFlags flags,
 		int *n, char **error_string)
 {
@@ -97,14 +97,14 @@ collect_floats (GList *exprlist, const CellRef *cr, CollectFlags flags,
 		g_free (cl.data);
 		return NULL;
 	}
-}
+}*/
 
 /* ------------------------------------------------------------------------- */
 
 /*
  * Single-expression version of collect_floats, which see.
  */
-float_t *
+/*float_t *
 collect_floats_1 (ExprTree *expr, const CellRef *cr, CollectFlags flags,
 		  int *n, char **error_string)
 {
@@ -116,11 +116,11 @@ collect_floats_1 (ExprTree *expr, const CellRef *cr, CollectFlags flags,
 	g_list_free_1 (l);
 
 	return res;
-}
+}*/
 
 /* ------------------------------------------------------------------------- */
 
-Value *
+/*Value *
 float_range_function (GList *exprlist, Sheet *sheet, int col, int row,
 		      float_range_function_t func,
 		      CollectFlags flags,
@@ -146,6 +146,6 @@ float_range_function (GList *exprlist, Sheet *sheet, int col, int row,
 		return NULL;
 	} else
 		return value_new_float (res);
-}
+}*/
 
 /* ------------------------------------------------------------------------- */

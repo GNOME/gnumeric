@@ -14,16 +14,14 @@
  * directly 
  */
 static int
-gnumeric_check_for_err (Sheet *sheet, GList *expr_node_list,
-			int eval_col, int eval_row, char **error_string)
+gnumeric_check_for_err (FunctionEvalInfo *ei, GList *expr_node_list)
 {
 	Value * tmp;
 	if (g_list_length (expr_node_list) != 1){
-		*error_string = _("Argument mismatch");
+		error_message_set (ei->error, _("Argument mismatch"));
 		return -1;
 	}
-	tmp = eval_expr (sheet, (ExprTree *) expr_node_list->data,
-			 eval_col, eval_row, error_string);
+	tmp = eval_expr (ei, (ExprTree *) expr_node_list->data);
 
 	if (tmp) {
 		value_release (tmp);
@@ -45,17 +43,15 @@ static char *help_iserror = {
 };
 
 static Value *
-gnumeric_iserror (Sheet *sheet, GList *expr_node_list,
-		  int eval_col, int eval_row, char **error_string)
+gnumeric_iserror (FunctionEvalInfo *ei, GList *expr_node_list)
 {
 	int res;
-	res = gnumeric_check_for_err (sheet, expr_node_list,
-				      eval_col, eval_row, error_string);
+	res = gnumeric_check_for_err (ei, expr_node_list);
 
 	if (res < 0)
 		return NULL;
 	if (res > 0) {
-		*error_string = NULL;
+		error_message_set_small (ei->error, "");
 		return value_new_bool (TRUE);
 	}
 	return value_new_bool (FALSE);
@@ -77,17 +73,16 @@ static char *help_isna = {
  * the error handling mechanism
  */
 static Value *
-gnumeric_isna (Sheet *sheet, GList *expr_node_list,
-	       int eval_col, int eval_row, char **error_string)
+gnumeric_isna (FunctionEvalInfo *ei, GList *expr_node_list)
 {
 	int res;
-	res = gnumeric_check_for_err (sheet, expr_node_list,
-				      eval_col, eval_row, error_string);
+	res = gnumeric_check_for_err (ei, expr_node_list);
 	if (res < 0)
 		return NULL;
 	if (res > 0) {
-		gboolean is_NA = (strcmp (gnumeric_err_NA, *error_string) == 0);
-		*error_string = NULL;
+		gboolean is_NA = (strcmp (gnumeric_err_NA,
+					  error_message_txt(ei->error)) == 0);
+		error_message_set_small (ei->error, "");
 		return value_new_bool (is_NA);
 	}
 	return value_new_bool (FALSE);
@@ -105,17 +100,17 @@ static char *help_iserr = {
 };
 
 static Value *
-gnumeric_iserr (Sheet *sheet, GList *expr_node_list,
-		int eval_col, int eval_row, char **error_string)
+gnumeric_iserr (FunctionEvalInfo *ei, GList *expr_node_list)
 {
 	int res;
-	res = gnumeric_check_for_err (sheet, expr_node_list,
-				      eval_col, eval_row, error_string);
+	res = gnumeric_check_for_err (ei, expr_node_list);
+
 	if (res < 0)
 		return NULL;
 	if (res > 0) {
-		gboolean is_NA = (strcmp (gnumeric_err_NA, *error_string) == 0);
-		*error_string = NULL;
+		gboolean is_NA = (strcmp (gnumeric_err_NA,
+					  error_message_txt (ei->error)) == 0);
+		error_message_set_small (ei->error, "");
 		return value_new_bool (!is_NA);
 	}
 	return value_new_bool (FALSE);
@@ -134,36 +129,27 @@ static char *help_error_type = {
 };
 
 static Value *
-gnumeric_error_type (Sheet *sheet, GList *expr_node_list,
-		     int eval_col, int eval_row, char **error_string)
+gnumeric_error_type (FunctionEvalInfo *ei, GList *expr_node_list)
 {
-	int res, retval;
-	res = gnumeric_check_for_err (sheet, expr_node_list,
-				      eval_col, eval_row, error_string);
-	if (res == -1)
-		return NULL;
-	else if (res == 0)
-		retval = 0;
-	else {
-		if (!strcmp (gnumeric_err_NULL, *error_string))
+	int res, retval = 0;
+	if (gnumeric_check_for_err (ei, expr_node_list)) {
+		if (!strcmp (gnumeric_err_NULL, error_message_txt (ei->error)))
 			retval = 1;
-		else if (!strcmp (gnumeric_err_DIV0, *error_string))
+		else if (!strcmp (gnumeric_err_DIV0, error_message_txt (ei->error)))
 			retval = 2;
-		else if (!strcmp (gnumeric_err_VALUE, *error_string))
+		else if (!strcmp (gnumeric_err_VALUE, error_message_txt (ei->error)))
 			retval = 3;
-		else if (!strcmp (gnumeric_err_REF, *error_string))
+		else if (!strcmp (gnumeric_err_REF, error_message_txt (ei->error)))
 			retval = 4;
-		else if (!strcmp (gnumeric_err_NAME, *error_string))
+		else if (!strcmp (gnumeric_err_NAME, error_message_txt (ei->error)))
 			retval = 5;
-		else if (!strcmp (gnumeric_err_NUM, *error_string))
+		else if (!strcmp (gnumeric_err_NUM, error_message_txt (ei->error)))
 			retval = 6;
-		else if (!strcmp (gnumeric_err_NA, *error_string))
+		else if (!strcmp (gnumeric_err_NA, error_message_txt (ei->error)))
 			retval = 7;
-		else {
-			*error_string = gnumeric_err_NA;
-			return NULL;
-		}
-		*error_string = NULL;
+		else
+			return function_error (ei, gnumeric_err_NA);
+		error_message_set_small (ei->error, "");
 	}
 	return value_new_int (retval);
 }
@@ -180,13 +166,10 @@ static char *help_na = {
 };
 
 static Value *
-gnumeric_na (struct FunctionDefinition *n,
-	     Value *argv [], char **error_string)
+gnumeric_na (FunctionEvalInfo *ei, Value **argv)
 {
-	*error_string = gnumeric_err_NA;
-	return NULL;
+	return function_error (ei, gnumeric_err_NA);
 }
-
 
 static char *help_error = {
 	N_("@FUNCTION=ERROR\n"
@@ -200,33 +183,31 @@ static char *help_error = {
 };
 
 static Value *
-gnumeric_error (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_error (FunctionEvalInfo *ei, Value *argv[])
 {
-	if (argv [0]->type != VALUE_STRING){
-		*error_string = _("Type mismatch");
-		return NULL;
-	}
+	if (argv [0]->type != VALUE_STRING)
+		return function_error (ei, _("Type mismatch"));
 
 	/* The error signaling system is broken.  We really cannot allocate a
 	   dynamic error string.  Let's hope the string stays around for long
 	   enough...  */
-	*error_string = argv [0]->v.str->str;
-	return NULL;
+	return function_error_alloc (ei, g_strdup (argv [0]->v.str->str));
 }
 
+void misc_functions_init()
+{
+	FunctionCategory *cat = function_get_category (_("Miscellaneous"));
 
-FunctionDefinition misc_functions [] = {
-	{ "iserror",   "",   "",		&help_iserror,
-	  gnumeric_iserror,    NULL },	/* Handles args manually */
-	{ "isna", "", "",			&help_isna,
-	  gnumeric_isna, NULL },	/* Handles args manually */
-	{ "iserr", "", "",			&help_iserr,
-	  gnumeric_iserr, NULL },	/* Handles args manually */
-	{ "error.type","",   "",		&help_error_type,
-	  gnumeric_error_type, NULL },	/* Handles args manually */
-	{ "na", "", "",				&help_na,
-	  NULL, gnumeric_na},
-	{ "error",     "s",  "text",		&help_error,
-	  NULL, gnumeric_error },
-	{ NULL, NULL }
-};
+	function_add_nodes (cat, "iserror", "",   "",
+			    &help_iserror, gnumeric_iserror);
+	function_add_nodes (cat, "isna", "",   "",
+			    &help_isna,    gnumeric_isna);
+	function_add_nodes (cat, "iserr", "",   "",
+			    &help_iserr,   gnumeric_iserr);
+	function_add_nodes (cat, "error.type", "", "",
+			    &help_error_type, gnumeric_error_type);
+	function_add_args  (cat, "na",      "",  "",
+			    &help_na,      gnumeric_na);
+	function_add_args  (cat, "error",   "s",  "text",
+			    &help_error,   gnumeric_error);
+}

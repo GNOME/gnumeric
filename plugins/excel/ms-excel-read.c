@@ -2125,6 +2125,10 @@ ms_excel_read_sheet (MS_EXCEL_SHEET *sheet, BIFF_QUERY * q, MS_EXCEL_WORKBOOK * 
 			int act_row, act_col ;
 			int num_refs ;
 			guint8 *refs ;
+
+#if EXCEL_DEBUG > 1
+			printf ("Start selection\n");
+#endif
 			pane_number = BIFF_GETBYTE (q->data) ;
 			act_row     = BIFF_GETWORD (q->data + 1) ;
 			act_col     = BIFF_GETWORD (q->data + 3) ;
@@ -2149,6 +2153,9 @@ ms_excel_read_sheet (MS_EXCEL_SHEET *sheet, BIFF_QUERY * q, MS_EXCEL_WORKBOOK * 
 				num_refs-- ;
 			}
 			sheet_cursor_set (sheet->gnum_sheet, act_col, act_row, act_col, act_row, act_col, act_row) ;
+#if EXCEL_DEBUG > 1
+			printf ("Done selection\n");
+#endif
 			break ;
 		}
 		case BIFF_MS_O_DRAWING: /* FIXME: See: ms-escher.c and S59DA4.HTM */
@@ -2203,8 +2210,8 @@ ms_excel_read_sheet (MS_EXCEL_SHEET *sheet, BIFF_QUERY * q, MS_EXCEL_WORKBOOK * 
 				if (options & 0x0200)
 					printf ("Sheet flag selected\n") ;
 				if (options & 0x0400) {
-					printf ("Sheet top in workbook\n") ;
 					workbook_focus_sheet (sheet->gnum_sheet);
+					printf ("Sheet top in workbook\n") ;
 				}
 				if (options & 0x0001)
 					printf ("FIXME: Sheet display formulae\n") ;
@@ -2729,6 +2736,10 @@ ms_excel_read_workbook (MS_OLE * file)
 			ms_biff_bof_data_destroy (ver);
 		ms_ole_stream_close (stream);
 	}
+
+#if EXCEL_DEBUG > 0
+	printf ("finished read\n");
+#endif
 
 	cell_deep_thaw_redraws ();
 	

@@ -249,10 +249,14 @@ workbook_do_destroy (Workbook *wb)
 	   sheets.  */
 	g_hash_table_foreach (wb->sheets, cb_sheet_do_erase, NULL);
 
-	if (wb->auto_expr){
-		expr_tree_unref (wb->auto_expr);
-		wb->auto_expr = NULL;
+	if (wb->auto_expr_tree) {
+		expr_tree_unref (wb->auto_expr_tree);
+		wb->auto_expr_tree = NULL;
 		string_unref (wb->auto_expr_desc);
+	}
+	if (wb->auto_expr_text) {
+		g_free (wb->auto_expr_text);
+		wb->auto_expr_text = NULL;
 	}
 
 	/* Problems with insert/delete column/row caused formula_cell_list
@@ -1383,17 +1387,30 @@ static struct {
  * Sets the expression that gets evaluated whenever the
  * selection in the sheet changes
  */
-static char *
-workbook_set_auto_expr (Workbook *wb, const char *description, const char *expression)
+char *
+workbook_set_auto_expr (Workbook *wb, Sheet *sheet, const char *description, const char *expression)
 {
 	char *error = NULL;
-
-	if (wb->auto_expr){
-		g_assert (wb->auto_expr->ref_count == 1);
-		expr_tree_unref (wb->auto_expr);
+	EvalPosition ep;
+	
+	if (wb->auto_expr_tree){
+		g_assert (wb->auto_expr_tree->ref_count == 1);
+		expr_tree_unref (wb->auto_expr_tree);
 		string_unref (wb->auto_expr_desc);
 	}
-	wb->auto_expr = expr_parse_string (expression, 0, 0, 0, NULL, &error);
+
+	if (sheet) { /* We _must_ have a valid sheet ( context ) */
+		wb->auto_expr_tree = expr_parse_string (expression, eval_pos_init (&ep, sheet, 0, 0),
+							NULL, &error);
+		if (wb->auto_expr_text)
+			g_free (wb->auto_expr_text);
+		wb->auto_expr_text = NULL;
+	} else {
+		if (wb->auto_expr_text)
+			g_free (wb->auto_expr_text);
+		wb->auto_expr_text = g_strdup (expression); /* Parse it later */
+	}
+
 	wb->auto_expr_desc = string_get (description);
 
 	return error;
@@ -1403,11 +1420,12 @@ static void
 change_auto_expr (GtkWidget *item, Workbook *wb)
 {
 	char *expr, *name;
+	Sheet *sheet = workbook_get_current_sheet (wb);
 
 	expr = gtk_object_get_data (GTK_OBJECT (item), "expr");
 	name = gtk_object_get_data (GTK_OBJECT (item), "name");
-	workbook_set_auto_expr (wb, name, expr);
-	sheet_update_auto_expr (workbook_get_current_sheet (wb));
+	workbook_set_auto_expr (wb, sheet, name, expr);
+	sheet_update_auto_expr (sheet);
 }
 
 static void
@@ -1486,7 +1504,7 @@ workbook_setup_auto_calc (Workbook *wb)
 	gtk_signal_connect (GTK_OBJECT (canvas), "button_press_event",
 			    GTK_SIGNAL_FUNC (change_auto_expr_menu), wb);
 
-	gtk_object_destroy (GTK_OBJECT (l));
+	gtk_object_unref (GTK_OBJECT (l));
 	gtk_widget_show_all (frame);
 }
 
@@ -1617,8 +1635,11 @@ workbook_new (void)
 		GTK_SIGNAL_FUNC (workbook_delete_event), wb);
 
 	/* Set the default operation to be performed over selections */
+	wb->auto_expr_text = NULL;
+	wb->auto_expr_tree = NULL;
+	wb->auto_expr_desc = NULL;
 	workbook_set_auto_expr (
-		wb,
+		wb, NULL, 
 		_(quick_compute_routines [0].displayed_name),
 		quick_compute_routines [0].function);
 
@@ -2224,6 +2245,7 @@ workbook_fixup_references (Workbook *wb, Sheet *sheet, int col, int row,
 			   int coldelta, int rowdelta)
 {
 	GList *cells, *l;
+	EvalPosition epa, epb;
 
 	g_return_if_fail (wb != NULL);
 
@@ -2236,10 +2258,10 @@ workbook_fixup_references (Workbook *wb, Sheet *sheet, int col, int row,
 		Cell *cell = l->data;
 		ExprTree *newtree;
 
-		newtree = expr_tree_fixup_references (cell->parsed_node, cell->sheet,
-						      cell->col->pos, cell->row->pos,
-						      sheet,
-						      col, row, coldelta, rowdelta);
+		newtree = expr_tree_fixup_references (cell->parsed_node,
+						      eval_pos_cell (&epa, cell),
+						      eval_pos_init (&epb, sheet, col, row),
+						      coldelta, rowdelta);
 		if (newtree)
 			cell_set_formula_tree (cell, newtree);
 	}
@@ -2264,6 +2286,7 @@ workbook_invalidate_references (Workbook *wb, Sheet *sheet, int col, int row,
 				int colcount, int rowcount)
 {
 	GList *cells, *l;
+	EvalPosition epa, epb;
 
 	g_return_if_fail (wb != NULL);
 	g_return_if_fail (colcount == 0 || rowcount == 0);
@@ -2278,10 +2301,10 @@ workbook_invalidate_references (Workbook *wb, Sheet *sheet, int col, int row,
 		Cell *cell = l->data;
 		ExprTree *newtree;
 
-		newtree = expr_tree_invalidate_references (cell->parsed_node, cell->sheet,
-							   cell->col->pos, cell->row->pos,
-							   sheet,
-							   col, row, colcount, rowcount);
+		newtree = expr_tree_invalidate_references (cell->parsed_node,
+							   eval_pos_cell (&epa, cell),
+							   eval_pos_init (&epb, sheet, col, row),
+							   colcount, rowcount);
 		if (newtree)
 			cell_set_formula_tree (cell, newtree);
 	}

@@ -20,7 +20,7 @@
 
 	* ms-ole.c (ms_ole_open): Fix bug opening directories.
 	Added non-mmap code.
-	
+
 1999-06-01  Michael Meeks  <michael@edenproject.org>
 
 	* ms-ole.c (pps_decode_tree): Added debug in case of
