@@ -1,3 +1,7 @@
+2002-10-22  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* latex.c: add missing border connector (Thanks Adrian!)
+
 2002-10-10 Tim A. Garner <garnertim@hotmail.com>
 
 	* latex.c (latex2e_write_multicolumn_cell): set up a switch for 
