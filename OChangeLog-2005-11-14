@@ -1,3 +1,10 @@
+2001-08-17  Jody Goldberg <jgoldberg@home.com>
+
+	* src/GNOME_Gnumeric.xml : enable the font accelerators in the bonobo
+	  build by making them standalone rather than associating them with
+	  toolbuttons.  It appears as if bonobo does not support accelerators
+	  for toolbuttons as yet.
+
 2001-08-16  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* src/func.h (struct TokenizedHelp): Added help_is_localized field. 

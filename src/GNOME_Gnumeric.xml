@@ -54,33 +54,32 @@
 	<cmd name="EditUndo"
 	    _label="_Undo"
 	    _tip="Undo the last action"
-	    pixtype="stock" pixname="Undo"
+	    pixtype="stock" pixname="Gnumeric_Undo"
 	    accel="*Control*z"/>
 	<cmd name="EditRedo"
 	    _label="_Redo"
 	    _tip="Redo the undone action"
-	    pixtype="stock" pixname="Redo"
+	    pixtype="stock" pixname="Gnumeric_Redo"
 	    accel="*Control*r"/>
 
 	<cmd name="EditCut"
 	    _label="Cu_t"
 	    _tip="Cut the selection"
-	    pixtype="stock" pixname="Cut"
+	    pixtype="stock" pixname="Gnumeric_Cut"
 	    accel="*Control*x"/>
 	<cmd name="EditCopy"
 	    _label="_Copy"
 	    _tip="Copy the selection"
-	    pixtype="stock" pixname="Copy"
+	    pixtype="stock" pixname="Gnumeric_Copy"
 	    accel="*Control*c"/>
 	<cmd name="EditPaste"
 	    _label="_Paste"
 	    _tip="Paste the clipboard"
-	    pixtype="stock" pixname="Paste"
+	    pixtype="stock" pixname="Gnumeric_Paste"
 	    accel="*Control*v"/>
 	<cmd name="EditPasteSpecial"
 	    _label="P_aste Special..."
-	    _tip="Paste with optional filters and transformations"
-	    pixtype="stock" pixname="Paste"/>
+	    _tip="Paste with optional filters and transformations"/>
 
 	<cmd name="ViewFreezeThawPanes"
 	    _label="_Freeze Panes"
@@ -516,8 +515,8 @@
 
     </menu>
 
-    <dockitem name="StandardToolbar" behavior="exclusive" homogeneous="0"
-	band_num="1" look="icon" relief="none" verb="StandardToolbar">
+    <dockitem name="StandardToolbar" band_num="1" behavior="exclusive"
+	homogeneous="0" look="icon" relief="none" verb="StandardToolbar">
 
 	<toolitem name="New"
 	    pixtype="stock" pixname="New"
@@ -554,19 +553,19 @@
 	<separator/>
 
 	<toolitem name="Cut"
-	    pixtype="stock" pixname="Cut"
+	    pixtype="stock" pixname="Gnumeric_Cut"
 	    _label="Cut"
 	    _tip="Mark the current selection for movement"
 	    verb="EditCut"/>
 
 	<toolitem name="Copy"
-	    pixtype="stock" pixname="Copy"
+	    pixtype="stock" pixname="Gnumeric_Copy"
 	    _label="Copy"
 	    _tip="Copy the current selection to the clipboard"
 	    verb="EditCopy"/>
 
 	<toolitem name="Paste"
-	    pixtype="stock" pixname="Paste"
+	    pixtype="stock" pixname="Gnumeric_Paste"
 	    _label="Paste"
 	    _tip="Paste the contents of the clipboard or cut buffer"
 	    verb="EditPaste"/>
@@ -643,21 +642,18 @@
 	    pixtype="stock" pixname="Bold"
 	    _label="Bold"
 	    _tip="Make font bold"
-	    _accel="*Control*b"
 	    verb="FontBold"/>
 
 	<toolitem type="toggle" name="FontItalic"
 	    pixtype="stock" pixname="Italic"
 	    _label="Italicize"
 	    _tip="Make font italic"
-	    _accel="*Control*i"
 	    verb="FontItalic"/>
 
 	<toolitem type="toggle" name="FontUnderline"
 	    pixtype="stock" pixname="Underline"
 	    _label="Underline"
 	    _tip="Underlines the text"
-	    _accel="*Control*u"
 	    verb="FontUnderline"/>
 
 	<separator/>
@@ -750,7 +746,7 @@
 	<control name="ForegroundColor" _tip="Foreground" />
     </dockitem>
 
-    <dockitem name="ObjectToolbar" band_num="2" placement="left"
+    <dockitem name="ObjectToolbar" band_num="1" behavior="exclusive" placement="left"
 	homogeneous="0" look="icon" relief="none" verb="ObjectToolbar">
 
 	<toolitem name="Label"
@@ -810,6 +806,11 @@
 	    _tip="Draw an oval" verb="CreateEllipse"/>
 
     </dockitem>
+    <keybindings>
+	<accel name="*Control*b" verb="FontBold"/>
+	<accel name="*Control*i" verb="FontItalic"/>
+	<accel name="*Control*u" verb="FontUnderline"/>
+    </keybindings>
 
     <status>
 	<item name="main"/>
