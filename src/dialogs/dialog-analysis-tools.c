@@ -2694,11 +2694,11 @@ regression_tool_ok_clicked_cb (GtkWidget *button, RegressionToolState *state)
 		break;
 
 	case REG_near_singular_good:
+		gtk_widget_destroy (state->dialog);
 	        gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
 				 _("Two or more of the independent variables "
 				   "are nearly linear dependent.\nTreat the "
 				   "regression result with great care."));
-		gtk_widget_destroy (state->dialog);
 		break;
 
 	case REG_not_enough_data:

@@ -1423,13 +1423,13 @@ ztest_tool (WorkbookControl *wbc, Sheet *sheet,
 	set_cell_float_na (dao, 1, 7, p, no_error);
 
 	/* z Critical one-tail */
-	set_cell_float (dao, 1, 8, qnorm (1.0 - alpha, 0, 1, FALSE, FALSE));
+	set_cell_float (dao, 1, 8, qnorm (1.0 - alpha, 0, 1, TRUE, FALSE));
 
 	/* P (Z<=z) two-tail */
 	set_cell_float_na (dao, 1, 9, 2 * p, no_error);
 
 	/* z Critical two-tail */
-	set_cell_float (dao, 1, 10, qnorm (1.0 - alpha / 2, 0, 1, FALSE, FALSE));
+	set_cell_float (dao, 1, 10, qnorm (1.0 - alpha / 2, 0, 1, TRUE, FALSE));
 
 	set_italic (dao, 0, 0, 0, 10);
 	set_italic (dao, 0, 0, 2, 0);
@@ -2443,8 +2443,10 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 	set_cell_float (dao, 4, 11, regression_stat->F);
 
 	/* Significance of F */
-	set_cell_float (dao, 5, 11, 1 - pf (regression_stat->F, regression_stat->df_reg,
-					    regression_stat->df_resid, TRUE, FALSE));
+	set_cell_float (dao, 5, 11, pf (regression_stat->F,
+					regression_stat->df_reg,
+					regression_stat->df_resid,
+					FALSE, FALSE));
 
 	/* Intercept / Coefficient */
 	set_cell_float (dao, 1, 16, res[0]);
@@ -2452,57 +2454,39 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 	if (!intercept)
 		for (i = 2; i <= 6; i++)
 			set_cell_na (dao, i, 16);
-	else {
-		gnum_float t;
 
-		t = qt (1 - alpha / 2, y_data->data->len - xdim - 1, TRUE, FALSE);
-
-		/* Intercept / Standard Error */
-		set_cell_float (dao, 2, 16, regression_stat->se[0]);
-
-		/* Intercept / t Stat */
-		set_cell_float (dao, 3, 16, regression_stat->t[0]);
-
-		/* Intercept / p values */
-		set_cell_float (dao, 4, 16, 2.0 * (pt (regression_stat->t[0],
-						       y_data->data->len - xdim - 1, FALSE, FALSE)));
-
-		/* Intercept / Lower 95% */
-		set_cell_float (dao, 5, 16, res[0] - t * regression_stat->se[0]);
-
-		/* Intercept / Upper 95% */
-		set_cell_float (dao, 6, 16, res[0] + t * regression_stat->se[0]);
-	}
-
-	/* Slopes */
-	for (i = 0; i < xdim; i++) {
+	/* i==-1 is for intercept, i==0... is for slopes.  */
+	for (i = -intercept; i < xdim; i++) {
+		gnum_float this_res = res[i + 1];
+		/*
+		 * With no intercept se[0] is for the first slope variable;
+		 * with intercept, se[1] is the first slope se
+		 */
+		gnum_float this_se = regression_stat->se[intercept + i];
+		gnum_float this_t = regression_stat->t[intercept + i];
 		gnum_float t;
 
 		/* Slopes / Coefficient */
-		set_cell_float (dao, 1, 17 + i, res[i + 1]);
+		set_cell_float (dao, 1, 17 + i, this_res);
 
 		/* Slopes / Standard Error */
-		/*With no intercept se[0] is for the first slope variable; with
-		  intercept, se[1] is the first slope se */
-		set_cell_float (dao, 2, 17 + i, regression_stat->se[intercept + i]);
+		set_cell_float (dao, 2, 17 + i, this_se);
 
 		/* Slopes / t Stat */
-		set_cell_float (dao, 3, 17 + i, regression_stat->t[intercept + i]);
+		set_cell_float (dao, 3, 17 + i, this_t);
 
 		/* Slopes / p values */
 		set_cell_float (dao, 4, 17 + i,
-				2.0 * (pt (regression_stat->t[intercept + i],
+				2.0 * (pt (this_t,
 					   y_data->data->len - xdim - intercept, FALSE, FALSE)));
 
 		t = qt (1 - alpha / 2, y_data->data->len - xdim - intercept, TRUE, FALSE);
 
 		/* Slope / Lower 95% */
-		set_cell_float (dao, 5, 17 + i,
-				res[i + 1] - t * regression_stat->se[intercept + i]);
+		set_cell_float (dao, 5, 17 + i, this_res - t * this_se);
 
 		/* Slope / Upper 95% */
-		set_cell_float (dao, 6, 17 + i,
-				res[i + 1] + t * regression_stat->se[intercept + i]);
+		set_cell_float (dao, 6, 17 + i, this_res + t * this_se);
 	}
 
 	regression_stat_destroy (regression_stat);
