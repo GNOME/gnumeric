@@ -5,6 +5,7 @@
  *   Miguel de Icaza (miguel@kernel.org)
  */
 #include <config.h>
+#include <sys/param.h>
 #include <gnome.h>
 #include <glade/glade.h>
 #include "gnumeric.h"
@@ -429,10 +430,43 @@ workbook_import (WorkbookControlGUI *wbcg, const char *filename)
 }
 
 static void
-set_ok (GtkWidget *widget, gboolean *dialog_result)
+handle_ok (GtkWidget *widget, gboolean *dialog_result)
 {
-	*dialog_result = TRUE;
-	gtk_main_quit ();
+	struct stat sb;
+	GtkFileSelection *fsel;
+	char *name;
+	char  buf[MAXPATHLEN];
+
+	fsel = GTK_FILE_SELECTION (
+		gtk_widget_get_ancestor (widget, GTK_TYPE_FILE_SELECTION));
+	name = gtk_file_selection_get_filename (fsel);
+
+	/* Change into directory if that's what user selected */
+	if ((stat (name, &sb) == 0) && S_ISDIR (sb.st_mode)) {
+		char *last_slash = strrchr (name, '/');
+		/* The file selector needs a '/' at the end of a
+		   directory name */
+		if (!last_slash || *(last_slash + 1) != '\0') {
+			/* Slash must be added */
+
+			/* See if there's room */
+			int len = strlen (name);
+			if (len + 2 >= MAXPATHLEN) {
+				/* No. Handle like a file name */
+				*dialog_result = TRUE;
+				gtk_main_quit ();
+			} else {
+				strcpy (buf, name);
+				buf [len++] = '/';
+				buf [len]   = '\0';
+				name = buf;
+			}
+		}
+		gtk_file_selection_set_filename (fsel, name);
+	} else {
+		*dialog_result = TRUE;
+		gtk_main_quit ();
+	}
 }
 
 /**
@@ -733,7 +767,7 @@ workbook_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 
 	/* Connect the signals for Ok and Cancel */
 	gtk_signal_connect (GTK_OBJECT (fsel->ok_button), "clicked",
-			    GTK_SIGNAL_FUNC (set_ok), &accepted);
+			    GTK_SIGNAL_FUNC (handle_ok), &accepted);
 	gtk_signal_connect (GTK_OBJECT (fsel->cancel_button), "clicked",
 			    GTK_SIGNAL_FUNC (gtk_main_quit), NULL);
 	gtk_signal_connect (GTK_OBJECT (fsel), "key_press_event",
@@ -808,7 +842,7 @@ dialog_query_load_file (WorkbookControlGUI *wbcg)
 
 	/* Connect the signals for Ok and Cancel */
 	gtk_signal_connect (GTK_OBJECT (fsel->ok_button), "clicked",
-			    GTK_SIGNAL_FUNC (set_ok), &accepted);
+			    GTK_SIGNAL_FUNC (handle_ok), &accepted);
 	gtk_signal_connect (GTK_OBJECT (fsel->cancel_button), "clicked",
 			    GTK_SIGNAL_FUNC (gtk_main_quit), NULL);
 	gtk_signal_connect (GTK_OBJECT (fsel), "key_press_event",

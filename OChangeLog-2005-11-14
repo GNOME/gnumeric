@@ -1,3 +1,9 @@
+2000-12-06  Jon K Hellan  <hellan@acm.org>
+
+	* src/file.c (set_ok): Rename to handle_ok. Make it check if
+	current file selection is a directory. If so, change to the
+	directory and continue selecting file.
+	
 2000-12-05  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet.c (sheet_region_adjacent_merge) : new function.
