@@ -1,3 +1,17 @@
+1999-07-05  Jody Goldberg  <jgoldberg@home.com>
+
+	* ms-formula-read.c : Improve debug messages a bit.
+	(FORMULA_PTG_NAME) : initial stub implemetation.
+	(make_function) : The dodgy special case seems to apply to functions
+	  with no arguments too.
+
+	* ms-excel-read.c : Rework handling of Shared/Array formulas.
+	  They must follow a FORMULA record and come before a STRING
+	  record if the cell contains a string.  The upper left corner
+	  of shared formulas, and all of arrays now format correctly.
+	  (EXTERNNAME) : Rework the handling to apply to biff7 and biff8.
+	  Still only reading the names, not conecting them for real.
+
 1999-07-05  Morten Welinder  <terra@diku.dk>
 
 	* ms-excel-read.c (biff_shared_formula_new): Constify.  Copy data

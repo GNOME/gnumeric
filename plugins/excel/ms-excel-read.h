@@ -39,11 +39,12 @@ typedef struct {
 	BiffSharedFormulaKey key;
 	guint8 *data;
 	guint32 data_len;
+	gboolean is_array;
 } BiffSharedFormula;
 
-extern ExprTree *ms_excel_sheet_shared_formula (ExcelSheet *sheet,
-						int shr_col, int shr_row,
-						int col, int row);
+/* Use the upper left corner as the key to a collection of shared formulas */
+extern BiffSharedFormula *
+ms_excel_sheet_shared_formula (ExcelSheet *sheet, int const col, int const row);
 
 typedef struct _ExcelPalette
 {

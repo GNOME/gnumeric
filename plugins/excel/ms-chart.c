@@ -160,10 +160,9 @@ BC_R(ai)(ExcelChartHandler const *handle,
 		sheet.gnum_sheet = NULL;
 		sheet.shared_formulae = NULL;
 
-		if (length > 0)
-		{
+		if (length > 0) {
 			expr = ms_excel_parse_formula (&sheet, q->data+8, 0, 0,
-						       FALSE, length);
+						       FALSE, length, NULL);
 			if (ms_excel_chart_debug > 2)
 				expr_dump_tree (expr);
 		}

@@ -15,6 +15,7 @@
 ExprTree *
 ms_excel_parse_formula (ExcelSheet *sheet, guint8 *mem,
 			int fn_col, int fn_row,
-			int shared, guint16 length) ;
+			gboolean const shared, guint16 length,
+			gboolean *const array_element) ;
 
 #endif

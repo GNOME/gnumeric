@@ -170,7 +170,7 @@ FormulaFuncData formula_func_data[FORMULA_FUNC_DATA_LEN] =
 /* 102 */	{ "VLOOKUP", -1 }, /* range_lookup is optional */
 /* 103 */	{ "LINKS", -2 },
 /* 104 */	{ "INPUT", -2 },
-/* 105 */	{ "ISREF", 1 },
+/* 105 */	{ "ISREF", 1 },	/* This a guess */
 /* 106 */	{ "GETFORMULA", -2 },
 /* 107 */	{ "GETNAME", -2 },
 /* 108 */	{ "SETVALUE", -2 },
@@ -446,18 +446,19 @@ expr_tree_string (const char *str)
  * storage structure.
  **/
 static CellRef *
-getRefV7 (ExcelSheet *sheet, guint8 col, guint16 gbitrw, int curcol, int currow, int shared)
+getRefV7(ExcelSheet *sheet, guint8 col, guint16 gbitrw, int curcol, int currow,
+	 gboolean const shared)
 {
 	CellRef *cr = (CellRef *)g_malloc(sizeof(CellRef)) ;
 	cr->col          = col ;
 	cr->row          = (gbitrw & 0x3fff) ;
 	cr->row_relative = (gbitrw & 0x8000)==0x8000 ;
 	cr->col_relative = (gbitrw & 0x4000)==0x4000 ;
-	cr->sheet = sheet->gnum_sheet ;
+	cr->sheet        = sheet->gnum_sheet;
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_formula_debug > 2) {
-		printf ("7In : 0x%x, 0x%x  at %d, %d%s\n", col, gbitrw,
-			curcol, currow, (shared?" (shared)":"")) ; 
+		printf ("7In : 0x%x, 0x%x  at %s%s\n", col, gbitrw,
+			cell_name(curcol, currow), (shared?" (shared)":"")) ;
 	}
 #endif
 	if (shared && cr->row_relative) {
@@ -472,6 +473,13 @@ getRefV7 (ExcelSheet *sheet, guint8 col, guint16 gbitrw, int curcol, int currow,
 		cr->row-= currow ;
 	if (cr->col_relative)
 		cr->col-= curcol ;
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_formula_debug > 2){
+		printf ("Returns : %s%s%s%d\n",
+			(cr->col_relative ? "":"$"), col_name(cr->col + curcol),
+			(cr->row_relative ? "":"$"), cr->row + currow + 1);
+	}
+#endif
 	return cr ;
 }
 /**
@@ -483,11 +491,11 @@ getRefV8 (ExcelSheet *sheet, guint16 row, guint16 gbitcl, int curcol, int currow
 	  gboolean const shared)
 {
 	CellRef *cr = (CellRef *)g_malloc(sizeof(CellRef)) ;
-	cr->sheet = sheet->gnum_sheet ;
+	cr->sheet = sheet->gnum_sheet;
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_formula_debug > 2) {
-		printf ("8In : 0x%x, 0x%x  at %d, %d%s\n", row, gbitcl,
-			curcol, currow, (shared?" (shared)":"")) ;
+		printf ("8In : 0x%x, 0x%x  at %s%s\n", row, gbitcl,
+			cell_name(curcol, currow), (shared?" (shared)":"")) ;
 	}
 #endif
 
@@ -509,8 +517,9 @@ getRefV8 (ExcelSheet *sheet, guint16 row, guint16 gbitcl, int curcol, int currow
 		cr->col-= curcol ;
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_formula_debug > 2) {
-		printf ("Returns : %d,%d Rel:(%d %d)\n", cr->col, cr->row,
-			cr->col_relative, cr->row_relative);
+		printf ("Returns : %s%s%s%d\n",
+			(cr->col_relative ? "":"$"), col_name(cr->col + curcol),
+			(cr->row_relative ? "":"$"), cr->row + currow + 1);
 	}
 #endif
 	return cr ;
@@ -522,6 +531,11 @@ typedef GList    PARSE_LIST;
 static void
 parse_list_push (PARSE_LIST **list, ExprTree *pd)
 {
+#ifndef NO_DEBUG_EXCEL
+		if (ms_excel_formula_debug > 5){
+			printf ("Push 0x%x\n", (int)pd);
+		}
+#endif
 	if (!pd)
 		printf ("FIXME: Pushing nothing onto excel function stack\n");
 	*list = g_list_append (*list, pd) ;
@@ -545,6 +559,11 @@ parse_list_pop (PARSE_LIST **list)
 	}
 	*list = g_list_remove_link (*list, tmp) ;
 	ans  = tmp->data ;
+#ifndef NO_DEBUG_EXCEL
+		if (ms_excel_formula_debug > 5){
+			printf ("Pop 0x%x\n", (int)ans);
+		}
+#endif
 	g_list_free (tmp) ;
 	return ans ;
 }
@@ -621,47 +640,52 @@ make_function (PARSE_LIST **stack, int fn_idx, int numargs)
 {
 	Symbol *name=NULL;
 
-	if (fn_idx == 0xff && numargs>1) /* Dodgy Special Case */
+	if (fn_idx == 0xff)
 	{
-		ExprTree *tmp;
+		/*
+		 * This is undocumented.
+		 * function 0xff seems to indicate an external function whose
+		 * name should be on top of the stack.
+		 */
 		GList *args = parse_list_last_n (stack, numargs-1);
-		tmp = parse_list_pop (stack) ;
-		if (!tmp || tmp->oper != OPER_CONSTANT ||
-		    tmp->u.constant->type != VALUE_STRING) {
+		ExprTree *tmp = parse_list_pop (stack) ;
+		char const *f_name;
+		if (!tmp ||
+		    tmp->oper != OPER_CONSTANT ||
+		    tmp->u.constant->type != VALUE_STRING){
 			if (tmp) expr_tree_unref (tmp);
 			parse_list_free (&args);
-			parse_list_push (stack, expr_tree_new_error (_("Broken function")));
-			printf ("Killroy was here.  Did not know what he was doing.\n");
+			parse_list_push (stack,
+					 expr_tree_new_error (_("Broken function")));
+			printf ("So much for that theory.\n");
 			return FALSE;
-		} else
-		{
-			char const * const f_name = tmp->u.constant->v.str->str;
-
-			name = symbol_lookup (global_symbol_table, f_name);
-			if (!name)
-			{
-				FunctionCategory *cat =
-					function_get_category (_("Unknown Function"));
-				/*
-				 * TODO TODO TODO : should add a
-				 *    function_add_{nodes,args}_fake
-				 * This will allow a user to load a missing
-				 * plugin to supply missing functions.
-				 */
-				function_add_nodes (cat, g_strdup (f_name),
-						    "", "...", NULL,
-						    &unknownFunctionHandler);
-				name = symbol_lookup (global_symbol_table,
-						      f_name);
-				g_assert (name);
-
-				g_warning ("%s : unknown function.", f_name);
-			}
-			expr_tree_unref (tmp);
-			symbol_ref (name);
-			parse_list_push (stack, expr_tree_new_funcall (name, args));
-			return TRUE ;
 		}
+		f_name = tmp->u.constant->v.str->str;
+
+		name = symbol_lookup (global_symbol_table, f_name);
+		if (!name)
+		{
+			FunctionCategory *cat =
+				function_get_category (_("Unknown Function"));
+			/*
+			 * TODO TODO TODO : should add a
+			 *    function_add_{nodes,args}_fake
+			 * This will allow a user to load a missing
+			 * plugin to supply missing functions.
+			 */
+			function_add_nodes (cat, g_strdup (f_name),
+					    "", "...", NULL,
+					    &unknownFunctionHandler);
+			name = symbol_lookup (global_symbol_table,
+					      f_name);
+			g_assert (name);
+
+			g_warning ("%s : unknown function.", f_name);
+		}
+		expr_tree_unref (tmp);
+		symbol_ref (name);
+		parse_list_push (stack, expr_tree_new_funcall (name, args));
+		return TRUE ;
 	} else if (fn_idx >= 0 && fn_idx < FORMULA_FUNC_DATA_LEN) {
 		const FormulaFuncData *fd = &formula_func_data[fn_idx] ;
 		GList *args;
@@ -722,24 +746,24 @@ make_function (PARSE_LIST **stack, int fn_idx, int numargs)
  **/
 ExprTree *
 ms_excel_parse_formula (ExcelSheet *sheet, guint8 *mem,
-			int fn_col, int fn_row, int shared,
-			guint16 length)
+			int fn_col, int fn_row, gboolean const shared,
+			guint16 length,
+			gboolean *const array_element)
 {
-	Cell *cell ;
+	/* so that the offsets and lengths match the documentation */
+	guint8 *cur = mem + 1 ;
 	int len_left = length ;
-	guint8 *cur = mem + 1 ; /* this is so that the offsets and lengths
-				   are identical to those in the documentation */
-
-
 	guint8 *array_data = mem + 3 + length; /* Sad but true */
 	PARSE_LIST *stack = NULL;
-	int error = 0 ;
-	char *ans ;
+	gboolean error = FALSE ;
 	
+	if (array_element != NULL)
+		*array_element = FALSE;
+
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_formula_debug > 1) {
-		printf ("\n\n%s:%s%s\n",
-			(sheet->gnum_sheet)?sheet->gnum_sheet->name:"",
+		printf ("\n\n%s:%s%s\n", (sheet->gnum_sheet
+					  ? sheet->gnum_sheet->name : ""),
 			cell_name(fn_col,fn_row), (shared?" (shared)":""));
 	}
 #endif
@@ -766,7 +790,7 @@ ms_excel_parse_formula (ExcelSheet *sheet, guint8 *mem,
 		case FORMULA_PTG_REF:
 		{
 			CellRef *ref=0;
-			if (sheet->ver == eBiffV8)
+			if (sheet->ver >= eBiffV8)
 			{
 				ref = getRefV8 (sheet, BIFF_GET_GUINT16(cur),
 						BIFF_GET_GUINT16(cur + 2),
@@ -788,15 +812,12 @@ ms_excel_parse_formula (ExcelSheet *sheet, guint8 *mem,
 			char *txt ;
 			guint16 extn_sheet_idx, extn_name_idx ;
 			
-			if (sheet->ver == eBiffV8)
-			{
+			if (sheet->ver == eBiffV8) {
 				extn_sheet_idx = BIFF_GET_GUINT16(cur) ;
 				extn_name_idx  = BIFF_GET_GUINT16(cur+2) ;
 /*				printf ("FIXME: v8 NameX : %d %d\n", extn_sheet_idx, extn_name_idx) ; */
 				ptg_length = 6 ;
-			}
-			else
-			{
+			} else {
 				extn_sheet_idx = BIFF_GET_GUINT16(cur) ;
 				extn_name_idx  = BIFF_GET_GUINT16(cur+10) ;
 /*				printf ("FIXME: v7 NameX : %d %d\n", extn_sheet_idx, extn_name_idx) ; */
@@ -806,13 +827,13 @@ ms_excel_parse_formula (ExcelSheet *sheet, guint8 *mem,
 				parse_list_push_raw (&stack, value_new_string (txt));
 			else
 				parse_list_push_raw (&stack, value_new_string ("DuffName"));
-			break ;
 		}
+		break;
+
 		case FORMULA_PTG_REF_3D: /* see S59E2B.HTM */
 		{
 			CellRef *ref=0;
-			if (sheet->ver == eBiffV8)
-			{
+			if (sheet->ver >= eBiffV8) {
 				guint16 extn_idx = BIFF_GET_GUINT16(cur) ;
 				ref = getRefV8 (sheet, BIFF_GET_GUINT16(cur+2),
 						BIFF_GET_GUINT16(cur + 4),
@@ -839,8 +860,7 @@ ms_excel_parse_formula (ExcelSheet *sheet, guint8 *mem,
 		{
 			CellRef *first=0, *last=0 ;
 			
-			if (sheet->ver == eBiffV8)
-			{
+			if (sheet->ver >= eBiffV8) {
 				guint16 extn_idx = BIFF_GET_GUINT16(cur) ;
 
 				first = getRefV8(sheet, BIFF_GET_GUINT8(cur+2),
@@ -876,8 +896,7 @@ ms_excel_parse_formula (ExcelSheet *sheet, guint8 *mem,
 		case FORMULA_PTG_AREA:
 		{
 			CellRef *first=0, *last=0 ;
-			if (sheet->ver == eBiffV8)
-			{
+			if (sheet->ver >= eBiffV8) {
 				first = getRefV8(sheet, BIFF_GET_GUINT8(cur+0),
 						 BIFF_GET_GUINT16(cur+4),
 						 fn_col, fn_row, shared) ;
@@ -885,9 +904,7 @@ ms_excel_parse_formula (ExcelSheet *sheet, guint8 *mem,
 						 BIFF_GET_GUINT16(cur+6),
 						 fn_col, fn_row, shared) ;
 				ptg_length = 8 ;
-			}
-			else
-			{
+			} else {
 				first = getRefV7(sheet, BIFF_GET_GUINT8(cur+4), BIFF_GET_GUINT16(cur+0), fn_col, fn_row, shared) ;
 				last  = getRefV7(sheet, BIFF_GET_GUINT8(cur+5), BIFF_GET_GUINT16(cur+2), fn_col, fn_row, shared) ;
 				ptg_length = 6 ;
@@ -954,7 +971,7 @@ ms_excel_parse_formula (ExcelSheet *sheet, guint8 *mem,
 							set_val = value_new_string ("");
 					} else {
 						printf ("FIXME: Duff array item type\n");
-						error = 1;
+						error = TRUE;
 						goto really_duff;
 						break;
 					}
@@ -968,7 +985,7 @@ ms_excel_parse_formula (ExcelSheet *sheet, guint8 *mem,
 		case FORMULA_PTG_FUNC:
 		{
 			if (!make_function (&stack, BIFF_GET_GUINT16(cur), -1))
-				error = 1 ;
+				error = TRUE ;
 			ptg_length = 2 ;
 			break ;
 		}
@@ -985,51 +1002,81 @@ ms_excel_parse_formula (ExcelSheet *sheet, guint8 *mem,
 #endif
 
 			if (!make_function (&stack, iftab, numargs))
-				error = 1 ;
+				error = TRUE ;
 			ptg_length = 3 ;
 			break ;
 		}
 		case FORMULA_PTG_NAME:
 		{
 			/*
-			 * The docs seem wrong.  Biff8 ixti & ilbl seem
-			 * reversed
+			 * NOTE : The docs seem wrong for Biff8.
+			 * The record has only 4 bytes, and ilbl is at offset 0.
 			 */
 			guint16 name_idx ; /* 1 based */
 			char const *txt;
 			name_idx = BIFF_GET_GUINT16(cur) ;
 			txt = ms_excel_get_name (sheet->wb, name_idx);
-			if (!txt) {
+			if (!txt){
 				txt = "Unknown name";
-				printf ("FIXME: Ptg Name not found: %d\n",
+				printf ("FIXME: PTG Name '%d' not found\n",
 					name_idx) ;
 				dump(mem, length) ;
 			}
 			parse_list_push_raw (&stack, value_new_string (txt)) ;
+			
+			ptg_length = (sheet->ver >= eBiffV8) ? 4 : 14;
 		}
 		break;
 
 		case FORMULA_PTG_EXPR:
 		{
-			int top_left_col = BIFF_GET_GUINT16(cur+2) ;
-			int top_left_row = BIFF_GET_GUINT16(cur+0) ;
-			ExprTree *tr;
-			tr = ms_excel_sheet_shared_formula (sheet, top_left_col,
-							    top_left_row,
-							    fn_col, fn_row) ;
-			if (!tr)
-				return NULL;
-#if 0
+			int const top_left_row = BIFF_GET_GUINT16(cur+0) ;
+			int const top_left_col = BIFF_GET_GUINT16(cur+2) ;
+			ExprTree *expr;
+			BiffSharedFormula *sf =
+				ms_excel_sheet_shared_formula (sheet,
+							       top_left_col,
+							       top_left_row);
+
+			if (sf == NULL)
 			{
-				printf("Missing shared formula from [%d,%d] in [%d,%d]\n",
-				       top_left_col, top_left_row, fn_col, fn_row) ;
-				tr = expr_tree_string ("");
+#ifndef NO_DEBUG_EXCEL
+				if (ms_excel_formula_debug > 3){
+					printf("Unknown shared formula "
+					       "@ %s:%s\n",
+					       (sheet->gnum_sheet
+						? sheet->gnum_sheet->name
+						: ""),
+					       cell_name(fn_col, fn_row)) ;
+				}
+#endif
+				return NULL;
+			}
+
+			if (sf->is_array){
+				if (array_element != NULL)
+					*array_element = TRUE;
+				else
+					printf ("EXCEL : unexpected array\n");
+
+				return NULL;
+			}
+
+#ifndef NO_DEBUG_EXCEL
+			if (ms_excel_formula_debug > 0){
+				printf ("Parse shared formula\n");
 			}
 #endif
-			parse_list_push (&stack, tr);
-			ptg_length = length; /* Force it to be the only token 4 ; */
+			expr = ms_excel_parse_formula (sheet, sf->data,
+						       fn_col, fn_row, TRUE,
+						       sf->data_len,
+						       array_element);
+
+			parse_list_push (&stack, expr);
+			ptg_length = length; /* Force it to be the only token */
 			break ;
 		}
+
 		case FORMULA_PTG_U_PLUS: /* Discard */
 			break;
 
@@ -1082,10 +1129,11 @@ ms_excel_parse_formula (ExcelSheet *sheet, guint8 *mem,
 				}
 #endif
 				if (w)
+				{
 					tr = ms_excel_parse_formula (sheet, cur+ptg_length,
 								      fn_col, fn_row, shared,
-								      w) ;
-				else
+								      w, NULL);
+				} else
 					tr = expr_tree_string ("");
 				parse_list_push (&stack, tr);
 				ptg_length += w ;
@@ -1113,7 +1161,7 @@ ms_excel_parse_formula (ExcelSheet *sheet, guint8 *mem,
 #endif
 					tr = ms_excel_parse_formula (sheet, cur+ptg_length+offset,
 								     fn_col, fn_row, shared,
-								     len);
+								     len, NULL);
 					data+=2;
 					parse_list_push (&stack, tr);
 				}
@@ -1130,7 +1178,7 @@ ms_excel_parse_formula (ExcelSheet *sheet, guint8 *mem,
 			} else if (grbit & 0x10) { /* AttrSum: 'optimised' SUM function */
 				if (!make_function (&stack, 0x04, 1))
 				{
-					error = 1 ;
+					error = TRUE ;
 					printf ("Error in optimised SUM\n") ;
 				}
 			} else if (grbit & 0x40) { /* AttrSpace */
@@ -1148,7 +1196,7 @@ ms_excel_parse_formula (ExcelSheet *sheet, guint8 *mem,
 #endif
 			} else {
 				printf ("Unknown PTG Attr 0x%x 0x%x\n", grbit, w) ;
-				error = 1 ;
+				error = TRUE ;
 			}
 		}
 		break ;
@@ -1188,14 +1236,12 @@ ms_excel_parse_formula (ExcelSheet *sheet, guint8 *mem,
 			char *str;
 			guint32 len;
 /*			dump (mem, length) ;*/
-			if (sheet->ver == eBiffV8)
+			if (sheet->ver >= eBiffV8)
 			{
 				str = biff_get_text (cur+2, BIFF_GET_GUINT16(cur), &len) ;
 				ptg_length = 2 + len ;
 /*				printf ("v8+ PTG_STR '%s'\n", str) ; */
-			}
-			else
-			{
+			} else {
 				str = biff_get_text (cur+1, BIFF_GET_GUINT8(cur), &len) ;
 				ptg_length = 1 + len ;
 /*				printf ("<v7 PTG_STR '%s' len %d ptglen %d\n", str, len, ptg_length) ; */
@@ -1206,9 +1252,6 @@ ms_excel_parse_formula (ExcelSheet *sheet, guint8 *mem,
 			break ;
 		}
 
-		case 0x0:	/* Undocumented */
-		break;
-
 		case FORMULA_PTG_EXTENDED : /* Extended Ptgs for Biff8 */
 		{
 			/*
@@ -1216,8 +1259,8 @@ ms_excel_parse_formula (ExcelSheet *sheet, guint8 *mem,
 			 * Unfortunately, 0x08 seems the most common and it is
 			 * undocumented and the rest are mostly undocumented.
 			 */
-			/* User 0 for unknown sizes, and ignore the trailing
-			 * extened info completely for now.
+			/* Use 0 for unknown sizes, and ignore the trailing
+			 * extended info completely for now.
 			 */
 			static int const extended_ptg_size[] =
 			{
@@ -1260,18 +1303,25 @@ ms_excel_parse_formula (ExcelSheet *sheet, guint8 *mem,
 					   eptg_type);
 			} else
 				ptg_length = 1 + extended_ptg_size[eptg_type];
+
+			printf ("-------------------\n");
+			printf ("EXTEND %x\n", eptg_type);
+			dump (mem, length);
+			printf ("-------------------\n");
 		}
 		break;
 
 		default:
 		{
 /*	    printf ("Search %d records\n", (int)FORMULA_OP_DATA_LEN) ; */
-			if (ptgbase >= FORMULA_OP_START && ptgbase < FORMULA_OP_START+FORMULA_OP_DATA_LEN) {
+			if (ptgbase >= FORMULA_OP_START &&
+			    ptgbase < FORMULA_OP_START+FORMULA_OP_DATA_LEN){
 				Operation op = formula_op_data[ptgbase - FORMULA_OP_START];
 				ExprTree *l, *r;
 				r = parse_list_pop (&stack);
 				l = parse_list_pop (&stack);
-				parse_list_push (&stack, expr_tree_new_binary (l, op, r));
+				parse_list_push (&stack,
+						 expr_tree_new_binary (l,op,r));
 			} else {
 #ifndef NO_DEBUG_EXCEL
 				if (ms_excel_formula_debug > 0) {
@@ -1279,7 +1329,7 @@ ms_excel_parse_formula (ExcelSheet *sheet, guint8 *mem,
 						ptg, ptgbase);
 				}
 #endif
-				error=1 ;
+				error = TRUE;
 			}
 		}
 		break ;
@@ -1292,7 +1342,8 @@ ms_excel_parse_formula (ExcelSheet *sheet, guint8 *mem,
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_formula_debug > 0) {
 			printf ("Unknown Formula/Array at %s:%s%s\n",
-				(sheet->gnum_sheet)?sheet->gnum_sheet->name:"",
+				(sheet->gnum_sheet)?
+				sheet->gnum_sheet->name : "",
 				cell_name(fn_col,fn_row),
 				(shared?" (shared)":""));
 			printf ("formula data : \n") ;
