@@ -26,6 +26,7 @@
 #include "expr.h"
 #include "formats.h"
 #include "datetime.h"
+#include "mstyle.h"
 
 #include <math.h>
 
@@ -87,6 +88,7 @@ typedef struct _FillItem {
 	FillType     type;
 	Cell        *reference;
 	StyleFormat *fmt;
+	MStyle	    *style;
 
 	union {
 		ExprTree *formula;
@@ -215,6 +217,10 @@ fill_item_destroy (FillItem *fi)
 	default:
 		break;
 	}
+	if (fi->style) {
+		mstyle_unref (fi->style);
+		fi->style = NULL;
+	}
 	g_free (fi);
 }
 
@@ -229,15 +235,18 @@ str_contains (char const *str, char c)
 }
 
 static FillItem *
-fill_item_new (Cell *cell)
+fill_item_new (Sheet *sheet, int col, int row)
 {
 	Value     *value;
 	ValueType  value_type;
 	FillItem  *fi;
+	Cell *cell; 
 
 	fi = g_new (FillItem, 1);
 	fi->type = FILL_EMPTY;
+	fi->style = sheet_style_compute (sheet, col, row);
 
+	cell = sheet_cell_get (sheet, col, row);
 	fi->reference = cell;
 	if (!cell)
 		return fi;
@@ -433,7 +442,7 @@ type_is_compatible (FillItem *last, FillItem *current)
 }
 
 static GList *
-autofill_create_fill_items (Sheet *sheet, int x, int y, int region_count, int col_inc, int row_inc)
+autofill_create_fill_items (Sheet *sheet, int col, int row, int region_count, int col_inc, int row_inc)
 {
 	FillItem *last;
 	GList *item_list, *all_items, *l;
@@ -442,15 +451,11 @@ autofill_create_fill_items (Sheet *sheet, int x, int y, int region_count, int co
 	last = NULL;
 	item_list = all_items = NULL;
 
-	for (i = 0; i < region_count; i++){
-		FillItem *fi;
-		Cell *cell;
+	for (i = 0; i < region_count; i++) {
+		FillItem *fi = fill_item_new (sheet, col, row);
 
-		cell = sheet_cell_get (sheet, x, y);
-		fi = fill_item_new (cell);
-
-		if (!type_is_compatible (last, fi)){
-			if (last){
+		if (!type_is_compatible (last, fi)) {
+			if (last) {
 				all_items = g_list_append (all_items, item_list);
 				item_list = NULL;
 			}
@@ -460,8 +465,8 @@ autofill_create_fill_items (Sheet *sheet, int x, int y, int region_count, int co
 
 		item_list = g_list_append (item_list, fi);
 
-		x += col_inc;
-		y += row_inc;
+		col += col_inc;
+		row += row_inc;
 	}
 
 	if (item_list)
@@ -510,11 +515,6 @@ autofill_destroy_fill_items (GList *all_items)
 static void
 autofill_cell (Cell *cell, int idx, FillItem *fi)
 {
-	MStyle *mstyle = cell_get_mstyle (fi->reference);
-	sheet_style_attach_single (cell->base.sheet,
-				   cell->pos.col,
-				   cell->pos.row, mstyle);
-
 	switch (fi->type) {
 	case FILL_EMPTY:
 	case FILL_INVALID:
@@ -652,8 +652,8 @@ sheet_autofill_dir (Sheet *sheet,
 		    int col_inc,      int row_inc)
 {
 	GList *all_items, *l, *m;
-	int x = base_col;
-	int y = base_row;
+	int col = base_col;
+	int row = base_row;
 	int pos, sub_index, loops, group_count;
 
 	/*
@@ -663,8 +663,8 @@ sheet_autofill_dir (Sheet *sheet,
 		sheet, base_col, base_row,
 		region_count, col_inc, row_inc);
 
-	x = base_col + region_count * col_inc;
-	y = base_row + region_count * row_inc;
+	col = base_col + region_count * col_inc;
+	row = base_row + region_count * row_inc;
 
 	/* Do the autofill */
 	l = all_items;
@@ -689,20 +689,23 @@ sheet_autofill_dir (Sheet *sheet,
 		}
 		fi = m->data;
 
-		cell = sheet_cell_get (sheet, x, y);
+		mstyle_ref (fi->style);
+		sheet_style_attach_single (sheet, col, row, fi->style);
 
+		cell = sheet_cell_get (sheet, col, row);
 		if (fi->type == FILL_EMPTY){
+			/* FIXME : we need to regen spans that bound this */
 			if (cell)
 				sheet_cell_remove (sheet, cell, TRUE);
 		} else {
 			if (!cell)
-				cell = sheet_cell_new (sheet, x, y);
-
-			autofill_cell (cell, loops * group_count + sub_index, fi);
+				cell = sheet_cell_new (sheet, col, row);
+			autofill_cell (cell,
+				       loops * group_count + sub_index, fi);
 		}
 
-		x += col_inc;
-		y += row_inc;
+		col += col_inc;
+		row += row_inc;
 	}
 
 	autofill_destroy_fill_items (all_items);
