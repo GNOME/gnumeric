@@ -14,6 +14,8 @@
 <!ENTITY nt_isprime_title SYSTEM "number_theory/isprime_title.xml">
 <!ENTITY nt_pi_title      SYSTEM  "number_theory/pi_title.xml">
 <!ENTITY nt_pi            SYSTEM  "number_theory/pi.xml">
+<!ENTITY nt_bitor_title   SYSTEM  "number_theory/bitor_title.xml">
+<!ENTITY nt_bitor         SYSTEM  "number_theory/bitor.xml">
 ]>
 
 <chapter>
@@ -25,6 +27,7 @@
 &nt_ithprime_title;
 &nt_isprime_title;
 &nt_pi_title;
+&nt_bitor_title;
 
   <sect1 id="numtheory">
     <title>Number Theory</title>
@@ -34,6 +37,8 @@
 &nt_sigma;
 &nt_isprime;
 &nt_pi_title;
+&nt_bitor_title;
+
   </sect1>
 </chapter>
 

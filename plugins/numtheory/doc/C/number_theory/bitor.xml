@@ -1,0 +1,27 @@
+<sect2 id="numtheory-bitor">
+  <title>bitor</title>
+  <sect3 id="numtheory-bitor-syntax">
+    <title>Syntax</title>
+    <para>
+      =BITOR(a,b)
+    </para>
+  </sect3>
+  <sect3 id="numtheory-bitor-description">
+    <title>Description</title>
+    <para>
+      The BITOR function returns bitwise or-ing of its arguments.
+    </para>
+  </sect3>
+  <sect3 id="numtheory-bitor-examples">
+    <title>Examples</title>
+    <para>
+    </para>
+  </sect3>
+  <sect3 id="numtheory-bitor-seealso">
+    <title>See Also</title>
+    <para>
+      <xref linkend="numtheory-bitxor" />
+	<xref linkend="numtheory-bitand" />
+    </para>
+  </sect3>
+</sect2>
