@@ -717,3 +717,19 @@ gnm_gconf_set_zoom  (gnum_float val)
 				GNUMERIC_GCONF_GUI_ZOOM,
 				val, NULL);
 }
+
+gboolean
+gnm_gconf_get_all_sheets (void)
+{
+	return gconf_client_get_bool (application_get_gconf_client (), 
+				      PRINTSETUP_GCONF_ALL_SHEETS,
+				      NULL);
+}
+
+void
+gnm_gconf_set_all_sheets (gboolean val)
+{
+	gconf_client_set_bool (application_get_gconf_client (), 
+			       PRINTSETUP_GCONF_ALL_SHEETS,
+			       val, NULL);
+}

@@ -1,3 +1,13 @@
+2002-05-06  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* schemas/gnumeric-general.schemas : add print-setup-all-sheets schema
+	* src/gnumeric-gconf-priv.h : add print-setup-all-sheets key
+	* src/gnumeric-gconf.c : add print-setup-all-sheets get/set methods
+	* src/gnumeric-gconf.h : ditto
+	* src/commands.c (cmd_print_set_up) : allow sheet == NULL (ie. all sheets)
+	(cmd_print_set_up_redo) : handle sheet == NULL
+	(cmd_print_set_up_undo) : handle sheet == NULL
+
 2002-05-05  Jon K Hellan  <hellan@acm.org>
 
 	* GNOME_Gnumeric.server.in.in: Add Bonobo Zoomable interface.

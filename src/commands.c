@@ -4998,34 +4998,64 @@ static gboolean
 cmd_print_set_up_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
 	CmdPrintSetUp *me = CMD_PRINT_SET_UP (cmd);
+	guint n, i;
+	Workbook *book;
+	GSList *infos;
+
+	g_return_val_if_fail (me->old_pi != NULL, TRUE);
 
 	if (me->parent.sheet) {
-		if (me->old_pi) {
-			print_info_free (me->parent.sheet->print_info);
-			me->parent.sheet->print_info = print_info_dup (
-				(PrintInformation *) me->old_pi->data);
-			return FALSE;
-		} else
-			return TRUE;
-	}
+		print_info_free (me->parent.sheet->print_info);
+		me->parent.sheet->print_info = print_info_dup (
+			(PrintInformation *) me->old_pi->data);
+	} else {
+		book = wb_control_workbook(wbc);
+		n = workbook_sheet_count (book);
+		infos = me->old_pi;
+		g_return_val_if_fail (g_slist_length (infos) == n, TRUE);
 
-	return TRUE;
+		for (i = 0 ; i < n ; i++) {
+			Sheet *sheet = workbook_sheet_by_index (book, i);
+
+			g_return_val_if_fail (infos != NULL, TRUE);
+
+			print_info_free (sheet->print_info);
+			sheet->print_info = print_info_dup (
+				(PrintInformation *) infos->data);
+			infos = infos->next;
+		}
+	}
+	return FALSE;
 }
 
 static gboolean
 cmd_print_set_up_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
 	CmdPrintSetUp *me = CMD_PRINT_SET_UP (cmd);
+	int n, i;
+	Workbook *book;
+	gboolean save_pis = (me->old_pi == NULL);
 	
 	if (me->parent.sheet) {
-		if (me->old_pi)
-			print_info_free (me->parent.sheet->print_info);
-		else
+		if (save_pis)
 			me->old_pi = g_slist_append (me->old_pi, me->parent.sheet->print_info);
+		else
+			print_info_free (me->parent.sheet->print_info);
 		me->parent.sheet->print_info = print_info_dup (me->new_pi);
-		return FALSE;
+	} else {
+		book = wb_control_workbook(wbc);
+		n = workbook_sheet_count (book);
+		for (i = 0 ; i < n ; i++) {
+			Sheet * sheet = workbook_sheet_by_index (book, i);
+			if (save_pis)
+				me->old_pi = g_slist_prepend (me->old_pi, sheet->print_info);
+			else
+				print_info_free (sheet->print_info);
+			sheet->print_info = print_info_dup (me->new_pi);
+		}
+		me->old_pi = g_slist_reverse (me->old_pi);
 	}
-	return TRUE;
+	return FALSE;
 }
 
 static void
@@ -5054,8 +5084,11 @@ cmd_print_set_up (WorkbookControlGUI *wbcg, Sheet *sheet, PrintInformation const
 
 	me->parent.sheet = sheet;
 	me->parent.size = 10;
-	me->parent.cmd_descriptor =
-		g_strdup_printf (_("Print Setup for %s"), sheet->name_unquoted);
+	if (sheet)
+		me->parent.cmd_descriptor =
+			g_strdup_printf (_("Print Setup For %s"), sheet->name_unquoted);
+	else
+		me->parent.cmd_descriptor = g_strdup (_("Print Setup For All Sheets"));
 	me->old_pi = NULL;
 	me->new_pi = print_info_dup (pi);
 	me->wbcg = wbcg;

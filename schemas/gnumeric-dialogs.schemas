@@ -157,7 +157,7 @@
         <long>This directory contains the pre-installed autoformat templates.</long>
         </locale>
       </schema>
-       <schema>
+      <schema>
         <key>/schemas/apps/gnumeric/autoformat/usr-dir</key>
         <applyto>/apps/gnumeric/autoformat/usr-dir</applyto>
         <owner>Gnumeric</owner>
@@ -166,6 +166,17 @@
         <locale name="C">
         <short>User Directory for Autoformats</short>
         <long>The main directory for user specific autoformat templates.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/printsetup/all-sheets</key>
+        <applyto>/apps/gnumeric/printsetup/all-sheets</applyto>
+        <owner>Gnumeric</owner>
+        <type>bool</type>
+	<default>FALSE</default>
+        <locale name="C">
+        <short>Apply print-setup to all sheets</short>
+        <long>This value determines whether by default the print set-up dialog applies to all sheets simultaneously.</long>
         </locale>
       </schema>
    </schemalist>

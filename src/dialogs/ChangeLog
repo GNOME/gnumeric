@@ -1,3 +1,11 @@
+2002-05-06  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/dialogs/print.glade : add sheet selector
+	* src/dialogs/dialog-printer-setup.c (do_setup_sheet_selector) : new
+	(cb_do_sheet_selector_toggled) : new
+	(cb_do_print_ok) : apply to selected sheet or all sheets
+	(print_setup_get_sheet) : new
+
 2002-05-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-preferences.c : add zoom factor spin box to window page

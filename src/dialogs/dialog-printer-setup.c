@@ -33,6 +33,7 @@
 #include <workbook.h>
 #include <workbook-edit.h>
 #include <style.h>
+#include <gnumeric-gconf.h>
 
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeprint/gnome-print-master.h>
@@ -117,6 +118,7 @@ typedef struct {
 	GladeXML         *gui;
 	PrintInformation *pi;
 	GtkWidget        *dialog;
+	GtkWidget        *sheet_selector;
 
 	struct {
 		UnitInfo top, bottom;
@@ -1583,6 +1585,21 @@ cb_do_print_cancel (GtkWidget *w, PrinterSetupState *state)
 	gtk_widget_destroy (state->dialog);
 }
 
+static Sheet *
+print_setup_get_sheet (PrinterSetupState *state)
+{
+	GtkWidget *w = glade_xml_get_widget (state->gui, "apply-to-all");
+	gboolean apply_all_sheets = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+
+	gnm_gconf_set_all_sheets (apply_all_sheets);
+	
+	if (apply_all_sheets)
+		return NULL;
+	return workbook_sheet_by_index (state->sheet->workbook, 
+					gtk_option_menu_get_history (GTK_OPTION_MENU 
+								     (state->sheet_selector)));
+}
+
 static void
 cb_do_print_ok (GtkWidget *w, PrinterSetupState *state)
 {
@@ -1591,7 +1608,7 @@ cb_do_print_ok (GtkWidget *w, PrinterSetupState *state)
 	wbcg_edit_finish (state->wbcg, TRUE);
 	fetch_settings (state);
 	print_info_save (state->pi);
-	cmd_print_set_up (state->wbcg, state->sheet, state->pi);
+	cmd_print_set_up (state->wbcg, print_setup_get_sheet (state), state->pi);
 	gtk_widget_destroy (state->dialog);
 }
 
@@ -1610,6 +1627,54 @@ cb_do_print_destroy (GtkWidget *button, PrinterSetupState *state)
 		gtk_widget_destroy (state->customize_footer);
 
 	printer_setup_state_free (state);
+}
+
+static void        
+cb_do_sheet_selector_toggled (GtkToggleButton *togglebutton,
+			      PrinterSetupState *state)
+{
+	gboolean all_sheets = gtk_toggle_button_get_active (togglebutton);
+
+	gtk_widget_set_sensitive (state->sheet_selector, !all_sheets);
+}
+
+static void
+do_setup_sheet_selector (PrinterSetupState *state)
+{
+	GtkWidget *table, *menu, *w;
+	int i, n, n_this = 0;
+
+	g_return_if_fail (state != NULL);
+	g_return_if_fail (state->sheet != NULL);
+
+	table = glade_xml_get_widget (state->gui, "table-sheet");
+	state->sheet_selector = gtk_option_menu_new ();
+	menu = gtk_menu_new ();
+	n = workbook_sheet_count (state->sheet->workbook);
+	for (i = 0 ; i < n ; i++) {
+		Sheet * a_sheet = workbook_sheet_by_index (state->sheet->workbook, i);
+		if (a_sheet == state->sheet)
+			n_this = i;
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu), 
+				       gtk_menu_item_new_with_label (a_sheet->name_unquoted));
+	}
+	gtk_option_menu_set_menu (GTK_OPTION_MENU (state->sheet_selector), menu);
+	gtk_option_menu_set_history (GTK_OPTION_MENU (state->sheet_selector), n_this);
+	gtk_table_attach (GTK_TABLE (table), state->sheet_selector,
+			  2, 3, 0, 1,
+			  GTK_EXPAND | GTK_FILL, 0,
+			  0, 0);
+	w = glade_xml_get_widget (state->gui, "apply-to-all");
+	g_signal_connect (G_OBJECT (w),
+		"toggled",
+		G_CALLBACK (cb_do_sheet_selector_toggled), state);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
+				      gnm_gconf_get_all_sheets ());
+	cb_do_sheet_selector_toggled (GTK_TOGGLE_BUTTON (w), state);
+	w = glade_xml_get_widget (state->gui, "apply-to-selected");
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
+				      !gnm_gconf_get_all_sheets ());
+	gtk_widget_show_all (table);
 }
 
 static void
@@ -1677,6 +1742,7 @@ printer_setup_state_new (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->customize_footer = NULL;
 
 	do_setup_main_dialog (state);
+	do_setup_sheet_selector (state);
 	do_setup_margin (state);
 	do_setup_hf (state);
 	do_setup_page_info (state);
