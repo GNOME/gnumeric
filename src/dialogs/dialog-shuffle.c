@@ -156,6 +156,7 @@ dialog_shuffle (WorkbookControlGUI *wbcg)
 		return;
 
 	shuffle_update_sensitivity_cb (NULL, state);
+	state->output_entry = NULL;
 	tool_load_selection ((GenericToolState *)state, FALSE);
 	gtk_widget_show (state->dialog);
 
