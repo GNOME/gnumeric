@@ -1,0 +1,4 @@
+*.substvars
+*.debhelper
+files
+buildinfo
