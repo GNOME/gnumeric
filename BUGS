@@ -4,16 +4,18 @@ and longer term bugs.
 
 Release Critical
 ----------------
-- Amny of the Valye -> date routines do not handle error arguments properly.
+- Many of the Value -> date routines do not handle error arguments properly.
 - expressions -> strings loose the format used to parse values.
 - saving the entered_text then parsing in locale C on restore is broken.
 - We should save per row/col maximums.
-- Changing the size of all rows/cols creates big xml files.
+- Changing the size of all rows/cols creates big xml files, and slows
+  calculations to a crawl
 - Saving xml should not rely on changing the textdomain to disable translation
   of TRUE/FALSE.
 
 Long term breakage
 ------------------
+- Check the autofill code for defaulting to years vs days.
 - Changing an expression name that is in use does not recalc, or regen depends
   correctly.
 - The max row/col canvas scroll size is still hard coded.

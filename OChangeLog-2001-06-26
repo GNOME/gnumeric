@@ -1,3 +1,54 @@
+2000-08-07  Jody Goldberg <jgoldberg@home.com>
+
+	* src/functions/fn-stat.c (callback_function_stat) : Handle blanks as 0.
+	(callback_function_make_list) : Ditto.
+	(callback_function_ttest) : Ditto.
+	(gnumeric_mode) : Explicitly ignore blanks.
+	(gnumeric_count) : Ditto.
+	(gnumeric_ztest) : Ditto.
+	(gnumeric_counta) : Ditto.
+	(gnumeric_percentile) : Ditto.
+	(gnumeric_quartile) : Ditto.
+	(gnumeric_prob) : DO NOT IGNORE BLANKS.
+	(gnumeric_ftest) : Ditto.
+	(gnumeric_ttest) : Ditto.
+	(gnumeric_frequency) : Ditto.
+
+	* src/functions/fn-logical.c (gnumeric_and) : Handle
+	  changes to function_iterate_argument_values.
+	(gnumeric_or) : Ditto.
+	* src/functions/fn-math.c (gnumeric_lcm) : Ditto.
+	(gnumeric_multinomial) : Ditto.
+	(gnumeric_seriessum) : Ditto.
+
+	* src/functions/fn-financial.c (gnumeric_mirr) : Use the old
+	  behavior of ignoring blanks.
+	(gnumeric_irr) : Ditto.
+	(gnumeric_npv) : Ditto.
+
+	* src/functions/fn-eng.c (gnumeric_improduct) : Handle
+	  changes to function_iterate_argument_values.
+	(gnumeric_imsum) : Ditto.
+
+	* src/func.c (function_iterate_argument_values) : Add ignore_blank
+	  flag.
+
+	* src/collect.c (callback_function_collect) : Support new collect flag
+	  COLLECT_IGNORE_BLANKS.
+	(collect_floats) : change to function_iterate_argument_values.
+	(float_range_function2) : Use COLLECT_IGNORE_BLANKS.
+
+2000-08-01  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-autofill.c (fill_item_new) : It is legal to have 'D' and 'M'
+	  for day or month fields.
+
+2000-08-01  Jody Goldberg <jgoldberg@home.com>
+	For : John N S Gill <bmrg@gofree.indigo.ie>
+
+	* src/item-cursor.c (item_cursor_autofill_event) : Implement support
+	  for double click on autofill button.
+
 2000-08-02  Michael Meeks  <michael@helixcode.com>
 
 	* configure.in: update for BonoboX

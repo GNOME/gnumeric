@@ -128,7 +128,8 @@ Value *function_iterate_argument_values	(const EvalPos     *ep,
 					 FunctionIterateCB  cb,
 					 gpointer           user_data,
 					 GList             *expr_node_list,
-					 gboolean           strict);
+					 gboolean           strict,
+					 gboolean	    ignore_blank);
 Value *function_iterate_do_value	(const EvalPos      *ep,
 					 FunctionIterateCB   cb,
 					 gpointer            user_data,

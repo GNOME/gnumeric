@@ -59,7 +59,7 @@ callback_function_stat (const EvalPos *ep, Value *value, void *closure)
 	stat_closure_t *mm = closure;
 	float_t x, dx, dm;
 
-	if (VALUE_IS_NUMBER (value))
+	if (value != NULL && VALUE_IS_NUMBER (value))
 		x = value_get_as_float (value);
 	else {
 	        if (mm->afun_flag)
@@ -95,10 +95,10 @@ callback_function_make_list (const EvalPos *ep, Value *value,
 	float_t     x;
 	gpointer    p;
 
-	if (VALUE_IS_NUMBER (value))
+	if (value != NULL && VALUE_IS_NUMBER (value))
 		x = value_get_as_float (value);
 	else
-	        x = 0;
+	        x = 0.;
 
 	p = g_new (float_t, 1);
 	*((float_t *) p) = x;
@@ -721,9 +721,9 @@ gnumeric_mode (FunctionEvalInfo *ei, GList *expr_node_list)
        pr.mode       = 0.0;
        pr.count      = 0;
 
-       /* FIXME what about blanks ? */
        function_iterate_argument_values (ei->pos, callback_function_mode,
-                                         &pr, expr_node_list, TRUE);
+                                         &pr, expr_node_list,
+					 TRUE, TRUE);
 
        g_hash_table_destroy (pr.hash_table);
        tmp = pr.items;
@@ -841,7 +841,8 @@ gnumeric_count (FunctionEvalInfo *ei, GList *expr_node_list)
 
 	result = value_new_int (0);
 	function_iterate_argument_values (ei->pos, callback_function_count,
-					  result, expr_node_list, FALSE);
+					  result, expr_node_list,
+					  FALSE, TRUE);
 
 	return result;
 }
@@ -883,7 +884,8 @@ gnumeric_counta (FunctionEvalInfo *ei, GList *expr_node_list)
         result = value_new_int (0);
 
         function_iterate_argument_values (ei->pos, callback_function_counta,
-					  result, expr_node_list, FALSE);
+					  result, expr_node_list,
+					  FALSE, TRUE);
 
         return result;
 }
@@ -2542,7 +2544,7 @@ gnumeric_prob (FunctionEvalInfo *ei, Value **argv)
 	err = function_iterate_argument_values
 	    (eval_pos_init(&ep, ei->pos->sheet, &ei->pos->eval),
 	     &callback_function_make_list, &x_cl, expr_node_list,
-	     TRUE);
+	     TRUE, FALSE);
 
 	if (err != NULL)
 	        return value_new_error (ei->pos, gnumeric_err_NA);
@@ -2556,7 +2558,7 @@ gnumeric_prob (FunctionEvalInfo *ei, Value **argv)
 	err = function_iterate_argument_values
 	    (eval_pos_init(&ep, ei->pos->sheet, &ei->pos->eval),
 	     &callback_function_make_list, &prob_cl, expr_node_list,
-	     TRUE);
+	     TRUE, FALSE);
 
 	if (err != NULL)
 	        return value_new_error (ei->pos, gnumeric_err_NA);
@@ -2838,7 +2840,7 @@ gnumeric_ztest (FunctionEvalInfo *ei, GList *expr_node_list)
 
 	status = function_iterate_argument_values (ei->pos,
 						   callback_function_ztest,
-						   &p, expr_node_list, TRUE);
+						   &p, expr_node_list, TRUE, TRUE);
 	if (status != NULL)
 		return status;
 
@@ -3243,7 +3245,8 @@ gnumeric_percentile (FunctionEvalInfo *ei, Value **argv)
 
 	data = collect_floats_value (argv[0], ei->pos,
 				     COLLECT_IGNORE_STRINGS |
-				     COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
 				     &n, &result);
 	if (result)
 		goto out;
@@ -3314,7 +3317,8 @@ gnumeric_quartile (FunctionEvalInfo *ei, Value **argv)
 
 	data = collect_floats_value (argv[0], ei->pos,
 				     COLLECT_IGNORE_STRINGS |
-				     COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
 				     &n, &result);
 	if (result) {
 		/* Nothing.  */
@@ -3381,7 +3385,7 @@ gnumeric_ftest (FunctionEvalInfo *ei, Value *argv[])
 
 	err = function_iterate_argument_values
 	    (eval_pos_init_cellref (&ep, ei->pos, &argv[0]->v_range.cell.a),
-	     &callback_function_stat, &cl, expr_node_list, TRUE);
+	     &callback_function_stat, &cl, expr_node_list, TRUE, FALSE);
 
 	if (err != NULL)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
@@ -3402,7 +3406,7 @@ gnumeric_ftest (FunctionEvalInfo *ei, Value *argv[])
 
 	err = function_iterate_argument_values
 		(eval_pos_init_cellref (&ep, ei->pos, &argv[1]->v_range.cell.a),
-		 &callback_function_stat, &cl, expr_node_list, TRUE);
+		 &callback_function_stat, &cl, expr_node_list, TRUE, FALSE);
 	if (err != NULL)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
@@ -3475,7 +3479,7 @@ callback_function_ttest (const EvalPos *ep, Value *value, void *closure)
 	stat_ttest_t *mm = closure;
 	float_t      x;
 
-	if (VALUE_IS_NUMBER (value))
+	if (value != NULL && VALUE_IS_NUMBER (value))
 		x = value_get_as_float (value);
 	else
 	        x = 0;
@@ -3528,7 +3532,7 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 
 		err = function_iterate_argument_values
 		    (eval_pos_init_cellref (&ep, ei->pos, &argv[0]->v_range.cell.a),
-		     &callback_function_ttest, &t_cl, expr_node_list, TRUE);
+		     &callback_function_ttest, &t_cl, expr_node_list, TRUE, FALSE);
 		if (err != NULL)
 		        return value_new_error (&ep, gnumeric_err_VALUE);
 
@@ -3543,7 +3547,7 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 
 		err = function_iterate_argument_values
 		    (eval_pos_init_cellref (&ep, ei->pos, &argv[1]->v_range.cell.a),
-		     &callback_function_ttest, &t_cl, expr_node_list, TRUE);
+		     &callback_function_ttest, &t_cl, expr_node_list, TRUE, FALSE);
 
 		if (err != NULL)
 		        return value_new_error (&ep, gnumeric_err_VALUE);
@@ -3591,7 +3595,7 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 
 		err = function_iterate_argument_values
 		    (eval_pos_init_cellref (&ep, ei->pos, &argv[0]->v_range.cell.a),
-		     &callback_function_stat, &cl, expr_node_list, TRUE);
+		     &callback_function_stat, &cl, expr_node_list, TRUE, FALSE);
 
 		if (err != NULL)
 			return value_new_error (ei->pos, gnumeric_err_VALUE);
@@ -3615,7 +3619,7 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 		    (eval_pos_init_cellref (&ep, ei->pos, &argv[1]->v_range.cell.a),
 		     &callback_function_stat,
 		     &cl, expr_node_list,
-		     TRUE);
+		     TRUE, FALSE);
 
 		if (err != NULL)
 			return value_new_error (ei->pos, gnumeric_err_VALUE);
@@ -3692,7 +3696,7 @@ gnumeric_frequency (FunctionEvalInfo *ei, Value *argv[])
 
 	err = function_iterate_argument_values
 	    (eval_pos_init(&ep, ei->pos->sheet, &ei->pos->eval),
-	     &callback_function_make_list, &data_cl, expr_node_list, TRUE);
+	     &callback_function_make_list, &data_cl, expr_node_list, TRUE, FALSE);
 
 	if (err != NULL)
 	        return value_new_error (ei->pos, gnumeric_err_NA);
@@ -3705,7 +3709,7 @@ gnumeric_frequency (FunctionEvalInfo *ei, Value *argv[])
 
 	err = function_iterate_argument_values
 	    (eval_pos_init(&ep, ei->pos->sheet, &ei->pos->eval),
-	     &callback_function_make_list, &bin_cl, expr_node_list, TRUE);
+	     &callback_function_make_list, &bin_cl, expr_node_list, TRUE, FALSE);
 
 	if (err != NULL)
 	        return value_new_error (ei->pos, gnumeric_err_NA);

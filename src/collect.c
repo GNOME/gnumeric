@@ -26,12 +26,16 @@ callback_function_collect (const EvalPos *ep, Value *value, void *closure)
 	float_t x;
 	collect_floats_t *cl = (collect_floats_t *)closure;
 
-	if (!value)
-		return NULL;
-
-	switch (value->type) {
+	if (value == NULL) {
+		if (cl->flags & COLLECT_IGNORE_BLANKS)
+			return NULL;
+		x = 0.;
+	} else switch (value->type) {
 	case VALUE_EMPTY:
-		return NULL;
+		if (cl->flags & COLLECT_IGNORE_BLANKS)
+			return NULL;
+		x = 0.;
+		break;
 
 	case VALUE_BOOLEAN:
 		if (cl->flags & COLLECT_IGNORE_BOOLS)
@@ -123,7 +127,8 @@ collect_floats (GList *exprlist, const EvalPos *ep, CollectFlags flags,
 	cl.flags = flags;
 
 	err = function_iterate_argument_values (ep, &callback_function_collect,
-						&cl, exprlist, TRUE);
+						&cl, exprlist, TRUE,
+						flags&COLLECT_IGNORE_BLANKS);
 
 	if (err) {
 		g_assert (err->type == VALUE_ERROR);
@@ -200,13 +205,13 @@ float_range_function2 (Value *val0, Value *val1, FunctionEvalInfo *ei,
 	Value *res;
 
 	vals0 = collect_floats_value (val0, ei->pos,
-				      COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				      COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS | COLLECT_IGNORE_BLANKS,
 				      &n0, &error);
 	if (error)
 		return error;
 
 	vals1 = collect_floats_value (val1, ei->pos,
-				      COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				      COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS | COLLECT_IGNORE_BLANKS,
 				      &n1, &error);
 	if (error) {
 		g_free (vals0);

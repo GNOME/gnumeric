@@ -733,15 +733,16 @@ function_iterate_do_value (EvalPos      const *ep,
 /*
  * function_iterate_argument_values
  *
- * fp:               The position in a workbook at which to evaluate
- * callback:         The routine to be invoked for every value computed
- * callback_closure: Closure for the callback.
- * expr_node_list:   a GList of ExprTrees (what a Gnumeric function would get).
- * strict:           If TRUE, the function is considered "strict".  This means
+ * @fp:               The position in a workbook at which to evaluate
+ * @callback:         The routine to be invoked for every value computed
+ * @callback_closure: Closure for the callback.
+ * @expr_node_list:   a GList of ExprTrees (what a Gnumeric function would get).
+ * @strict:           If TRUE, the function is considered "strict".  This means
  *                   that if an error value occurs as an argument, the iteration
  *                   will stop and that error will be returned.  If FALSE, an
  *                   error will be passed on to the callback (as a Value *
  *                   of type VALUE_ERROR).
+ * @ignore_blank:    If TRUE blanks will not be passed to the callback.
  *
  * Return value:
  *    NULL            : if no errors were reported.
@@ -758,7 +759,8 @@ function_iterate_argument_values (const EvalPos      *ep,
 				  FunctionIterateCB callback,
 				  void                    *callback_closure,
 				  GList                   *expr_node_list,
-				  gboolean                strict)
+				  gboolean                strict,
+				  gboolean		  ignore_blank)
 {
 	Value * result = NULL;
 
@@ -781,7 +783,7 @@ function_iterate_argument_values (const EvalPos      *ep,
 		}
 
 		result = function_iterate_do_value (ep, callback, callback_closure,
-						    val, strict, TRUE);
+						    val, strict, ignore_blank);
 		value_release (val);
 	}
 	return result;

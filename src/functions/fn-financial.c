@@ -1366,7 +1366,8 @@ gnumeric_mirr (FunctionEvalInfo *ei, Value **argv)
 	rrate = value_get_as_float (argv[2]);
 
 	values = collect_floats_value (argv[0], ei->pos,
-				       COLLECT_IGNORE_STRINGS,
+				       COLLECT_IGNORE_STRINGS |
+				       COLLECT_IGNORE_BLANKS,
 				       &n, &result);
 	if (result)
 		goto out;
@@ -1709,7 +1710,8 @@ gnumeric_irr (FunctionEvalInfo *ei, Value **argv)
 	rate0 = argv[1] ? value_get_as_float (argv[1]) : 0.1;
 
 	p.values = collect_floats_value (argv[0], ei->pos,
-					 COLLECT_IGNORE_STRINGS,
+					 COLLECT_IGNORE_STRINGS |
+					 COLLECT_IGNORE_BLANKS,
 					 &n, &result);
 	if (result != NULL) {
 		g_free (p.values);
@@ -1820,7 +1822,7 @@ gnumeric_npv (FunctionEvalInfo *ei, GList *nodes)
 	p.num   = 0;
 
 	v = function_iterate_argument_values (ei->pos, callback_function_npv,
-					      &p, nodes, TRUE);
+					      &p, nodes, TRUE, TRUE);
 
 	return (v != NULL) ? v : value_new_float (p.sum);
 }

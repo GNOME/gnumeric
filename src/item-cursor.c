@@ -640,7 +640,7 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 
 		gnome_canvas_item_grab (
 			new_item,
-			GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
+			GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK | GDK_BUTTON_PRESS_MASK,
 			NULL,
 			event->button.time);
 
@@ -1015,11 +1015,10 @@ static gint
 item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 {
 	ItemCursor *item_cursor = ITEM_CURSOR (item);
-
 	switch (event->type){
+
 	case GDK_BUTTON_RELEASE: {
 		Sheet *sheet = item_cursor->sheet_view->sheet;
-
 		sheet_view_stop_sliding (item_cursor->sheet_view);
 
 		/*
@@ -1045,6 +1044,46 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 	case GDK_MOTION_NOTIFY:
 		item_cursor_handle_motion (item_cursor, event, &cb_autofill_scroll);
 		return TRUE;
+		
+	case GDK_2BUTTON_PRESS: {
+		Sheet *sheet = item_cursor->sheet_view->sheet;
+		int final_row = item_cursor->base_row + item_cursor->base_rows;
+		int final_col = item_cursor->base_col + item_cursor->base_cols;
+		
+		/*
+		 * We flush after the ungrab, to have the ungrab take
+		 * effect inmediately (the copy operation might take
+		 * long, and we do not want the mouse to be grabbed
+		 * all this time).
+		 */
+		gnome_canvas_item_ungrab (item, event->button.time);
+		gdk_flush ();
+
+		workbook_finish_editing (sheet->workbook, TRUE);
+		
+		/* fill current column to boundary of column to left
+		 * OR current row to boundary of row above 
+		 */
+		if (event->button.state & GDK_MOD1_MASK)
+			final_col = sheet_find_boundary_horizontal (sheet, 
+				item_cursor->base_col,
+				MAX(0, item_cursor->base_row-1), 
+				1, TRUE);
+		else
+			final_row = sheet_find_boundary_vertical (sheet, 
+				MAX(0, item_cursor->base_col-1), 
+				item_cursor->base_row,
+				1, TRUE);
+
+		/* fill the row/column */
+		cmd_autofill (workbook_command_context_gui (sheet->workbook), sheet,
+			      item_cursor->base_col,    item_cursor->base_row,
+			      item_cursor->base_cols+1, item_cursor->base_rows+1,
+			      final_col, final_row);
+
+		gtk_object_destroy (GTK_OBJECT (item));
+		return TRUE;
+	}
 
 	default:
 		return FALSE;

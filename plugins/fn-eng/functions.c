@@ -1218,7 +1218,7 @@ gnumeric_improduct (FunctionEvalInfo *ei, GList *expr_node_list)
         if ((v = function_iterate_argument_values (ei->pos,
 						   &callback_function_imoper,
 						   &p, expr_node_list,
-						   TRUE)) != NULL)
+						   TRUE, TRUE)) != NULL)
                 return v;
 
 	return value_new_complex (&p.res, p.imunit);
@@ -1252,7 +1252,7 @@ gnumeric_imsum (FunctionEvalInfo *ei, GList *expr_node_list)
         if ((v = function_iterate_argument_values (ei->pos,
 						   callback_function_imoper,
 						   &p, expr_node_list,
-						   TRUE)) != NULL)
+						   TRUE, TRUE)) != NULL)
                 return v;
 
 	return value_new_complex (&p.res, p.imunit);

@@ -9,6 +9,10 @@ Jody:
 	* Improve support for named expressions.
 	* Name and Graph gurus support range selection.
 	* Deadkey support.
+	* Fix XIRR and friends.
+
+John Gill:
+	* Double click fill support.
 
 JPR:
 	* Put more effort into reverse engineering MATCH (and friends)

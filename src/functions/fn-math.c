@@ -212,7 +212,8 @@ gnumeric_lcm (FunctionEvalInfo *ei, GList *nodes)
 	Value *result = value_new_int (1);
 
 	if (function_iterate_argument_values (ei->pos, callback_function_lcm,
-					      result, nodes, TRUE) != NULL)
+					      result, nodes,
+					      TRUE, TRUE) != NULL)
 	    return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	return result;
@@ -1583,7 +1584,7 @@ gnumeric_multinomial (FunctionEvalInfo *ei, GList *nodes)
 	if (function_iterate_argument_values (ei->pos,
 					      callback_function_multinomial,
 					      &p, nodes,
-					      TRUE) != NULL)
+					      TRUE, TRUE) != NULL)
 	        return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	return value_new_float (fact(p.sum) / p.product);
@@ -2962,7 +2963,7 @@ gnumeric_seriessum (FunctionEvalInfo *ei, GList *nodes)
 	if (function_iterate_argument_values (ei->pos,
 					      callback_function_seriessum,
 					      &p, nodes,
-					      TRUE) != NULL)
+					      TRUE, TRUE) != NULL)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	return value_new_float (p.sum);

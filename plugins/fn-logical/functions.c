@@ -65,7 +65,8 @@ gnumeric_and (FunctionEvalInfo *ei, GList *nodes)
 	/* Yes, AND is actually strict.  */
 	Value *v = function_iterate_argument_values (ei->pos,
 						     callback_function_and,
-						     &result, nodes, TRUE);
+						     &result, nodes,
+						     TRUE, TRUE);
 	if (v != NULL)
 		return v;
 
@@ -148,7 +149,8 @@ gnumeric_or (FunctionEvalInfo *ei, GList *nodes)
 	/* Yes, OR is actually strict.  */
 	Value *v = function_iterate_argument_values (ei->pos,
 						     callback_function_or,
-						     &result, nodes, TRUE);
+						     &result, nodes,
+						     TRUE, TRUE);
 	if (v != NULL)
 		return v;
 
