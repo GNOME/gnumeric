@@ -1,3 +1,12 @@
+2001-05-04  Jon K Hellan  <hellan@acm.org>
+
+	* dialog-workbook-attr.c (attr_dialog_impl): Back out change
+	below. Looks like <title> in glade file doesn't work for property
+	dialogs. 
+
+	* workbook-attr.glade: Don't set title here after all. It has no
+	effect. 
+
 2001-05-04  Almer S. Tigelaar  <almer@gnome.org>
 
 	* hf-config.glade: Set window title.

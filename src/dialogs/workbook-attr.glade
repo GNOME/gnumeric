@@ -21,7 +21,6 @@
   <class>GnomePropertyBox</class>
   <name>WorkbookAttr</name>
   <visible>False</visible>
-  <title>Workbook Attributes</title>
   <position>GTK_WIN_POS_NONE</position>
   <modal>False</modal>
   <allow_shrink>False</allow_shrink>
