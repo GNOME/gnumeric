@@ -1476,7 +1476,7 @@ xml_read_style (parse_xml_context_t *ctxt, xmlNodePtr tree)
 
 	prop = xml_value_get (tree, "Format");
 	if (prop != NULL) {
-		mstyle_set_format (mstyle, prop);
+		mstyle_set_format_text (mstyle, prop);
 		g_free (prop);
 	}
 

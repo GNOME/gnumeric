@@ -38,6 +38,7 @@ cell_dirty (Cell *cell)
  * cell_formula_changed : Registers the expression with the sheet and
  *     optionally queues a recalc.
  * @cell : the dirty cell.
+ * @queue_recalc: also queue a recalc for the cell.
  *
  * INTERNAL.
  */
@@ -453,8 +454,9 @@ cell_set_expr_and_value (Cell *cell, ExprTree *expr, Value *v)
 
 /**
  * cell_set_expr_internal:
- * @cell:    the cell to set the formula to
+ * @cell: the cell to set the formula to
  * @expr: an expression tree with the formula
+ * opt_fmt: an optional format to apply to the cell.
  *
  * A private internal utility to store an expression.
  * Does NOT
@@ -739,7 +741,7 @@ cell_set_format (Cell *cell, char const *format)
 
 	g_return_if_fail (mstyle != NULL);
 
-	mstyle_set_format (mstyle, format);
+	mstyle_set_format_text (mstyle, format);
 	cell_set_mstyle (cell, mstyle);
 	cell_dirty (cell);
 }

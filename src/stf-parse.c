@@ -1102,6 +1102,7 @@ stf_parse_get_rowcount (StfParseOptions_t *parseoptions, const char *data)
 {
 	const char *iterator;
 	int rowcount = 0;
+	gboolean last_row_empty = TRUE;
 
 	g_return_val_if_fail (parseoptions != NULL, 0);
 	g_return_val_if_fail (data != NULL, 0);
@@ -1109,9 +1110,10 @@ stf_parse_get_rowcount (StfParseOptions_t *parseoptions, const char *data)
 	iterator = data;
 
 	while (*iterator) {
-
 		if (*iterator == parseoptions->terminator)
-			rowcount++;
+			rowcount++, last_row_empty = TRUE;
+		else
+			last_row_empty = FALSE;
 
 		if (parseoptions->parselines != -1)
 			if (rowcount > parseoptions->parselines)
@@ -1120,7 +1122,7 @@ stf_parse_get_rowcount (StfParseOptions_t *parseoptions, const char *data)
 		iterator++;
 	}
 
-	return (rowcount + 1);
+	return last_row_empty ? rowcount : rowcount + 1;
 }
 
 /**

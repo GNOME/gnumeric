@@ -1,3 +1,14 @@
+2000-07-03  Morten Welinder  <terra@diku.dk>
+
+	* dialog-stf-format-page.c (format_page_format_changed): Plug
+ 	leak.
+
+	* dialog-stf-preview.c (stf_preview_colformats_add): Change to
+ 	take a StyleFormat *.  All callers changed.
+
+	* dialog-stf.c (stf_dialog_result_free): Use style_format_unref
+ 	since the character strings were replaced by StyleFormats.
+
 2000-07-02  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-define-names.c : Remove a few glitches so that things no

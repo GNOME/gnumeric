@@ -536,7 +536,7 @@ mstyle_new_default (void)
 	
 	mstyle = mstyle_new ();
 
-	mstyle_set_format      (mstyle, "General");
+	mstyle_set_format_text (mstyle, "General");
 	mstyle_set_align_v     (mstyle, VALIGN_BOTTOM);
 	mstyle_set_align_h     (mstyle, HALIGN_GENERAL);
 	mstyle_set_orientation (mstyle, ORIENT_HORIZ);
@@ -1039,14 +1039,28 @@ mstyle_get_font_size (const MStyle *style)
 }
 
 void
-mstyle_set_format (MStyle *style, const char *format)
+mstyle_set_format (MStyle *style, StyleFormat *format)
 {
 	g_return_if_fail (style != NULL);
 	g_return_if_fail (format != NULL);
 
-	mstyle_element_unref (style->elements [MSTYLE_FORMAT]);
-	style->elements [MSTYLE_FORMAT].type = MSTYLE_FORMAT;
-	style->elements [MSTYLE_FORMAT].u.format = style_format_new (format);
+	style_format_ref (format);
+	mstyle_element_unref (style->elements[MSTYLE_FORMAT]);
+	style->elements[MSTYLE_FORMAT].type = MSTYLE_FORMAT;
+	style->elements[MSTYLE_FORMAT].u.format = format;
+}
+
+void
+mstyle_set_format_text (MStyle *style, const char *format)
+{
+	StyleFormat *sf;
+
+	g_return_if_fail (style != NULL);
+	g_return_if_fail (format != NULL);
+
+	sf = style_format_new (format);
+	mstyle_set_format (style, sf);
+	style_format_unref (sf);
 }
 
 StyleFormat *

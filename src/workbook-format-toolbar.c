@@ -229,11 +229,11 @@ change_font_size_in_selection_cmd (GtkEntry *entry, Workbook *wb)
 
 static void
 do_sheet_selection_apply_number_format (Sheet *sheet,
-					const char *untranslated_format)
+					const char *translated_format)
 {
 	MStyle *mstyle = mstyle_new ();
 
-	mstyle_set_format (mstyle, _(untranslated_format));
+	mstyle_set_format_text (mstyle, translated_format);
 	cmd_format (workbook_command_context_gui (sheet->workbook),
 		    sheet, mstyle, NULL);
 }

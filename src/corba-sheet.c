@@ -989,7 +989,7 @@ Sheet_range_set_format (PortableServer_Servant servant,
 	verify_range (sheet, range, &ranges);
 
 	mstyle = mstyle_new ();
-	mstyle_set_format (mstyle, format);
+	mstyle_set_format_text (mstyle, format);
 	ranges_set_style (sheet, ranges, mstyle);
 
 	range_list_destroy (ranges);

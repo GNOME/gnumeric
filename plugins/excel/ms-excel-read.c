@@ -1240,7 +1240,7 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 
 	/* Format */
 	if (xf->style_format)
-		mstyle_set_format (mstyle, xf->style_format->format);
+		mstyle_set_format_text (mstyle, xf->style_format->format);
 
 	/* Alignment */
 	mstyle_set_align_v     (mstyle, xf->valign);

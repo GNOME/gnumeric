@@ -1162,14 +1162,18 @@ sheet_cell_set_text (Cell *cell, char const *str)
 	Value *val;
 	ExprTree *expr;
 	EvalPos pos;
+	char *cformat;
 
 	g_return_if_fail (str != NULL);
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (!cell_is_partial_array (cell));
 
+	cformat = cell_get_format (cell);
 	format = parse_text_value_or_expr (eval_pos_init_cell (&pos, cell),
 					   str, &val, &expr,
-					   cell_get_format (cell));
+					   cformat);
+	g_free (cformat);
+
 	if (expr != NULL) {
 		cell_set_expr (cell, expr, format);
 		expr_tree_unref (expr);

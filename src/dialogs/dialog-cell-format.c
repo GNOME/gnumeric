@@ -737,7 +737,7 @@ cb_format_entry (GtkEditable *w, FormatState *state)
 	if (state->enable_edit) {
 		g_free ((char *)state->format.spec);
 		state->format.spec = g_strdup (tmp);
-		mstyle_set_format (state->result, state->format.spec);
+		mstyle_set_format_text (state->result, state->format.spec);
 		fmt_dialog_changed (state);
 		draw_format_preview (state);
 	}

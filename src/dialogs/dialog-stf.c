@@ -622,7 +622,7 @@ stf_dialog_result_free (DialogStfResult_t *dialogresult)
 	
 	iterator = dialogresult->formats;
 	while (iterator != NULL) {
-		g_free (iterator->data);
+		style_format_unref (iterator->data);
 		iterator = g_slist_next (iterator);
 	}
 	g_slist_free (dialogresult->formats);

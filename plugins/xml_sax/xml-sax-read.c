@@ -617,7 +617,7 @@ xml2ParseStyleRegionStyle (XML2ParseState *state, CHAR const **attrs)
 		else if (xml2ParseAttrColour (attrs, "PatternColor", &colour))
 			mstyle_set_color (state->style, MSTYLE_COLOR_PATTERN, colour);
 		else if (!strcmp (attrs[0], "Format"))
-			mstyle_set_format (state->style, attrs[1]);
+			mstyle_set_format_text (state->style, attrs[1]);
 		else
 			xml2UnknownAttr (state, attrs, "StyleRegion");
 	}

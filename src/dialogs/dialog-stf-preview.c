@@ -478,9 +478,8 @@ stf_preview_format_line (RenderData_t *renderdata, GSList *data, int colcount)
 		StyleFormat *sf;
 		StyleColor *color;
 		char *celltext;
-			
-		if (!iterator || !iterator->data) {
 
+		if (!iterator || !iterator->data) {
 			iterator = g_slist_next (iterator);
 			continue;
 		}
@@ -488,18 +487,17 @@ stf_preview_format_line (RenderData_t *renderdata, GSList *data, int colcount)
 		/* Formatting */
 		if (NULL == (value = format_match (iterator->data, NULL)))
 			value = value_new_string (iterator->data);
-		
-		sf = style_format_new (g_ptr_array_index (renderdata->colformats, col));
-			
+
+		sf = g_ptr_array_index (renderdata->colformats, col);
+
 		celltext = format_value (sf, value, &color, iterator->data);
-			
-		style_format_unref (sf);
+
 		value_release (value);
 
 		/* Replacement of old data */
 		g_free (iterator->data);
 		iterator->data = celltext;
-			
+
 		iterator = g_slist_next (iterator);
 	}
 }
@@ -754,8 +752,10 @@ stf_preview_free (RenderData_t *renderdata)
 		
 	g_array_free (renderdata->colwidths, TRUE);
 	g_array_free (renderdata->actualwidths, TRUE);
+
+	stf_preview_colformats_clear (renderdata);
 	g_ptr_array_free (renderdata->colformats, TRUE);
-	
+
 	g_hash_table_foreach_remove (renderdata->hashtable,
 				     stf_preview_hash_item_remove,
 				     NULL);
@@ -869,8 +869,11 @@ stf_preview_colwidths_add (RenderData_t *renderdata, int width)
 void
 stf_preview_colformats_clear (RenderData_t *renderdata)
 {
+	int i;
 	g_return_if_fail (renderdata != NULL);
 
+	for (i = 0; i < renderdata->colformats->len; i++)
+		style_format_unref (g_ptr_array_index (renderdata->colformats, i));
 	g_ptr_array_free (renderdata->colformats, TRUE);
 	renderdata->colformats = g_ptr_array_new ();
 }
@@ -887,12 +890,13 @@ stf_preview_colformats_clear (RenderData_t *renderdata)
  * returns : nothing
  **/
 void
-stf_preview_colformats_add (RenderData_t *renderdata, char *format)
+stf_preview_colformats_add (RenderData_t *renderdata, StyleFormat *format)
 {
 
 	g_return_if_fail (renderdata != NULL);
 	g_return_if_fail (format != NULL);
 
+	style_format_ref (format);
 	g_ptr_array_add (renderdata->colformats, format);
 }
 

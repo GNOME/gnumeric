@@ -89,7 +89,8 @@ double              mstyle_get_font_size   (const MStyle *st);
 
 /* this font must be unrefd after use */
 StyleFont          *mstyle_get_font        (const MStyle *st, double zoom);
-void                mstyle_set_format      (MStyle *st, const char *format);
+void                mstyle_set_format      (MStyle *st, StyleFormat *);
+void                mstyle_set_format_text (MStyle *st, const char *format);
 StyleFormat        *mstyle_get_format      (MStyle *st);
 void                mstyle_set_align_h     (MStyle *st, StyleHAlignFlags a);
 StyleHAlignFlags    mstyle_get_align_h     (const MStyle *st);

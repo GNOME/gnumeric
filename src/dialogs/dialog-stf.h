@@ -92,7 +92,7 @@ typedef struct {
 	StfParseOptions_t *format_run_parseoptions;  /* Note : refers to either FixedInfo_t or CsvInfo_t parseoptions */
 	StfCacheOptions_t *format_run_cacheoptions;  /* Note : refers to either FixedInfo_t or CsvInfo_t cacheoptions */
 	RenderData_t      *format_run_source_hash;   /* Note : refers to either FixedInfo_t or CsvInfo_t RenderData_t */
-	GSList            *format_run_list;
+	GSList            *format_run_list; /* List of StyleFormat * */
 	int                format_run_index;
 	gboolean           format_run_manual_change;
 	int                format_run_displayrows;   /* Number of rows to display in the preview window */

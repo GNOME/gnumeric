@@ -60,7 +60,7 @@ void               stf_preview_colwidths_clear           (RenderData_t *renderda
 void               stf_preview_colwidths_add             (RenderData_t *renderdata, int width);
 
 void               stf_preview_colformats_clear          (RenderData_t *renderdata);
-void               stf_preview_colformats_add            (RenderData_t *renderdata, char *format);
+void               stf_preview_colformats_add            (RenderData_t *renderdata, StyleFormat *format);
 
 /* These are public utility functions */
 int                stf_preview_get_displayed_rowcount    (RenderData_t *renderdata);

@@ -1,3 +1,18 @@
+2000-07-03  Morten Welinder  <terra@diku.dk>
+
+	* src/stf-parse.c (stf_parse_get_rowcount): Don't add one to the
+ 	number of lines if the last line is empty.
+
+	* src/sheet.c (sheet_cell_set_text): Plug leak.
+
+	* src/workbook-format-toolbar.c
+ 	(do_sheet_selection_apply_number_format): Avoid double translation
+ 	of format.
+
+	* src/mstyle.c (mstyle_set_format_text): Renamed from
+ 	mstyle_set_format.
+	(mstyle_set_format): New function taking a StyleFormat *.
+
 2000-07-03  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook.c : Begin the Name menu.
@@ -23,7 +38,7 @@
 	* src/analysis-tools.c: Implemented `Histogram' tool (mostly).
 
 	* src/dialogs/tools.h: Related changes.
-	
+
 	* src/dialogs/analysis-tools.glade, 
 	src/dialogs/dialog-analysis-tools.c: Added dialogs for `Histogram'
 	and `Fourier Analysis' tools.  The later is not implemented yet.
