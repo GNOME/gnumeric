@@ -1,3 +1,17 @@
+2003-09-01  Jody Goldberg <jody@gnome.org>
+
+	* graph/plugins/plot_xy/gog-xy.c : An initial skeleton, because I
+	  accidentally deleted the last one.  Useless.
+
+	* graph/gog-style.c (gog_object_get_style) : fix leak.
+	(fill_init) : do not assign the style as part of the initialization.
+ 
+	* graph/gog-renderer-pixbuf.c (make_layout) : another failing attempt
+	  to get font sizes to change.
+
+	* graph/gog-renderer-gnome-print.c : An initial pass at font support.
+	  Untested, and unlikely to work out of the box.
+
 2003-08-29  Morten Welinder  <terra@gnome.org>
 
 	* graph/gog-axis.c (gog_axis_class_init): Plug leak.

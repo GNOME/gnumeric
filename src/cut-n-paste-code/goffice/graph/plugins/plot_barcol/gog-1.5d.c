@@ -239,7 +239,7 @@ gog_plot1_5d_class_init (GogPlotClass *plot_klass)
 			  GOG_DIM_VALUE, GOG_MS_DIM_VALUES }
 		};
 		plot_klass->desc.series.dim = dimensions;
-		plot_klass->desc.series.num_dim = G_N_ELEMENTS(dimensions);
+		plot_klass->desc.series.num_dim = G_N_ELEMENTS (dimensions);
 	}
 	plot_klass->desc.num_series_min = 1;
 	plot_klass->desc.num_series_max = G_MAXINT;

@@ -26,6 +26,7 @@
 #include <goffice/graph/gog-view.h>
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-units.h>
+#include <goffice/utils/go-font.h>
 
 #include <gsf/gsf-impl-utils.h>
 
@@ -44,6 +45,7 @@ typedef struct _GogRendererGnomePrint GogRendererGnomePrint;
 struct _GogRendererGnomePrint {
 	GogRenderer base;
 
+	GPtrArray	*fonts;
 	GnomePrintContext *gp_context;
 };
 
@@ -63,8 +65,44 @@ gog_renderer_gnome_print_finalize (GObject *obj)
 		prend->gp_context = NULL;
 	}
 
+	if (prend->fonts != NULL) {
+		int i;
+		GnomeFont *font;
+		for (i = prend->fonts->len; i-- > 0 ; ) {
+			font = g_ptr_array_index (prend->fonts, i);
+			if (font != NULL)
+				gnome_font_unref (font);
+		}
+
+		g_ptr_array_free (prend->fonts, TRUE);
+		prend->fonts = NULL;
+	}
+
 	if (parent_klass != NULL && parent_klass->finalize != NULL)
 		(parent_klass->finalize) (obj);
+}
+
+static GnomeFont *
+get_font (GogRendererGnomePrint *prend, GOFont const *gf)
+{
+	GnomeFont *res = NULL;
+
+	if (gf->font_index < (int)prend->fonts->len)
+		res = g_ptr_array_index (prend->fonts, gf->font_index);
+	else
+		g_ptr_array_set_size (prend->fonts, gf->font_index+1);
+
+	if (res == NULL) {
+		PangoFontDescription *desc = gf->desc;
+		res = gnome_font_find_closest_from_weight_slant (
+			pango_font_description_get_family (desc),
+			pango_font_description_get_weight (desc) >= PANGO_WEIGHT_BOLD ? GNOME_FONT_BOLD : GNOME_FONT_REGULAR,
+			pango_font_description_get_style (desc) != PANGO_STYLE_NORMAL,
+			pango_font_description_get_size (desc) / PANGO_SCALE);
+		g_ptr_array_index (prend->fonts, gf->font_index) = res;
+	}
+
+	return res;
 }
 
 static void
@@ -282,8 +320,11 @@ gog_renderer_gnome_print_draw_text (GogRenderer *rend, ArtPoint *pos,
 				    char const *text, GogViewRequisition *size)
 {
 	GogRendererGnomePrint *prend = GOG_RENDERER_GNOME_PRINT (rend);
-#warning FIXME need to take descent into account
-	gnome_print_moveto (prend->gp_context, pos->x, -pos->y);
+	GnomeFont *gfont = get_font (prend,  rend->cur_style->font.font);
+	double const font_ascent = gnome_font_get_ascender (gfont);
+
+	gnome_print_setfont (prend->gp_context, gfont);
+	gnome_print_moveto (prend->gp_context, pos->x, -pos->y - font_ascent);
 	gnome_print_show (prend->gp_context, text);
 }
 
@@ -291,7 +332,9 @@ static void
 gog_renderer_gnome_print_measure_text (GogRenderer *rend,
 				       char const *text, GogViewRequisition *size)
 {
-	size->w = 10; /* gnome_font_get_width_utf8 (font, text); */
+	GogRendererGnomePrint *prend = GOG_RENDERER_GNOME_PRINT (rend);
+	GnomeFont *gfont = get_font (prend,  rend->cur_style->font.font);
+	size->w = gnome_font_get_width_utf8 (gfont, text);
 	size->h = 10;
 }
 
@@ -312,6 +355,7 @@ static void
 gog_renderer_gnome_print_init (GogRendererGnomePrint *prend)
 {
 	prend->gp_context = NULL;
+	prend->fonts = g_ptr_array_new ();
 }
 
 static GSF_CLASS (GogRendererGnomePrint, gog_renderer_gnome_print,

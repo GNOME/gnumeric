@@ -78,6 +78,7 @@ gog_object_get_style (GogObject *obj)
 {
 	GogStyle *style;
 	g_object_get (G_OBJECT (obj), "style", &style, NULL);
+	g_object_unref (style);
 	return style;
 }
 
@@ -590,13 +591,13 @@ fill_init (StylePrefState *state, GogStyle const *style, gboolean enable)
 	fill_gradient_init (state, style);
 	fill_image_init (state, style);
 
+	w = glade_xml_get_widget (state->gui, "fill_notebook");
+	gtk_notebook_set_current_page (GTK_NOTEBOOK (w), style->fill.type);
 	w = glade_xml_get_widget (state->gui, "fill_type_menu");
 	gtk_option_menu_set_history (GTK_OPTION_MENU (w), style->fill.type);
-
 	g_signal_connect (G_OBJECT (w),
 		"changed",
 		G_CALLBACK (cb_fill_type_changed), state);
-	cb_fill_type_changed (w, state); /* ensure it gets initialized */
 
 	w = glade_xml_get_widget (state->gui, "fill_outer_table");
 	gtk_widget_show (GTK_WIDGET (w));

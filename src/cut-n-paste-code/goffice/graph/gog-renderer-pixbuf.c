@@ -214,7 +214,7 @@ static PangoLayout *
 make_layout (GogRendererPixbuf *prend, char const *text)
 {
 	PangoLayout *layout;
-	PangoAttribute *attr_zoom;
+	PangoAttribute *attr;
 	PangoAttrList  *attrs = NULL;
 
 	if (prend->pango_context == NULL)
@@ -223,17 +223,29 @@ make_layout (GogRendererPixbuf *prend, char const *text)
 			application_display_dpi_get (FALSE));
 
 	layout = pango_layout_new (prend->pango_context);
-	/* Assemble our layout. */
-	pango_layout_set_font_description (layout,
-		prend->base.cur_style->font.font->desc);
 
-	g_warning (pango_font_description_to_string (prend->base.cur_style->font.font->desc));
+	gog_debug (-1, {
+		char *msg = pango_font_description_to_string (
+			prend->base.cur_style->font.font->desc);
+		g_warning (msg);
+		g_free (msg);
+	});
+
 	pango_layout_set_text (layout, text, -1);
-	attr_zoom = pango_attr_scale_new (prend->base.zoom);
-	attr_zoom->start_index = 0;
-	attr_zoom->end_index = -1;
+
 	attrs = pango_attr_list_new ();
-	pango_attr_list_insert (attrs, attr_zoom);
+
+	attr = pango_attr_font_desc_new (
+		prend->base.cur_style->font.font->desc);
+	attr->start_index = 0;
+	attr->end_index = -1;
+	pango_attr_list_insert (attrs, attr);
+
+	attr = pango_attr_scale_new (prend->base.zoom);
+	attr->start_index = 0;
+	attr->end_index = -1;
+	pango_attr_list_insert (attrs, attr);
+
 	pango_layout_set_attributes (layout, attrs);
 	pango_attr_list_unref (attrs);
 

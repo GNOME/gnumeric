@@ -192,7 +192,7 @@ gog_pie_plot_class_init (GogPlotClass *plot_klass)
 			  GOG_DIM_VALUE, GOG_MS_DIM_VALUES }
 		};
 		plot_klass->desc.series.dim = dimensions;
-		plot_klass->desc.series.num_dim = G_N_ELEMENTS(dimensions);
+		plot_klass->desc.series.num_dim = G_N_ELEMENTS (dimensions);
 		plot_klass->desc.series.style_fields = GOG_STYLE_OUTLINE | GOG_STYLE_FILL;
 	}
 	plot_klass->desc.num_series_min = 1;
