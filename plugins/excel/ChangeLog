@@ -1,3 +1,9 @@
+2002-10-28  Morten Welinder  <terra@diku.dk>
+
+	* ms-escher.c (ms_escher_read_ClientTextbox): Don't leak text even
+	though we haven't implemented the feature.  (I'm tired of hunting
+	this leak down.)
+
 2002-10-28  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-write.c (excel_write_WINDOW2) : go back to selecting the

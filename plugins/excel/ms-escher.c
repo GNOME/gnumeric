@@ -1761,6 +1761,7 @@ ms_escher_read_ClientTextbox (MSEscherState *state, MSEscherHeader *h)
 {
 	guint16 opcode;
 	int has_next_record;
+	char *text;
 
 	g_return_val_if_fail (h->len == COMMON_HEADER_LEN, TRUE);
 	g_return_val_if_fail (h->offset + h->len == state->end_offset, TRUE);
@@ -1772,10 +1773,11 @@ ms_escher_read_ClientTextbox (MSEscherState *state, MSEscherHeader *h)
 	has_next_record = ms_biff_query_next (state->q);
 	g_return_val_if_fail (has_next_record, TRUE);
 
-	/* FIXME : Leaking memory.  Get an object management framework into place
+	/* FIXME.  Get an object management framework into place
 	 * so that there is somewhere to put the comment text.
 	 */
-	(void)ms_read_TXO (state->q);
+	text = ms_read_TXO (state->q);
+	g_free (text);
 	return FALSE;
 }
 
