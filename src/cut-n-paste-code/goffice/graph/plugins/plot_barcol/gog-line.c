@@ -25,6 +25,7 @@
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-style.h>
+#include <goffice/graph/gog-axis.h>
 #include <goffice/graph/go-data.h>
 #include <goffice/utils/go-color.h>
 
@@ -147,16 +148,18 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 	unsigned *lengths;
 	ArtVpath **path;
 
-	double scale_x, scale_y;
+	double scale_x, scale_y, val_min, val_max;
 	double offset_x, offset_y;
 	double abs_sum, sum, value;
 	gboolean is_null, is_area_plot;
 
 	is_area_plot = GOG_IS_PLOT_AREA (model);
 
-	if (num_elements <= 1 || num_series <= 0 ||
-	    (gnumeric_sub_epsilon (-model->minimum) < 0. &&
-	     gnumeric_sub_epsilon (model->maximum) < 0.))
+	if (num_elements <= 0 || num_series <= 0)
+		return;
+
+	if (!gog_axis_get_bounds (GOG_PLOT (model)->axis[1], &val_min, &val_max) ||
+	    val_min >= val_max)
 		return;
 
 	vals = g_alloca (num_series * sizeof (double *));
@@ -188,8 +191,8 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 
 	scale_x = view->allocation.w / (num_elements - 1);
 	offset_x = view->allocation.x;
-	scale_y = view->allocation.h / (model->minimum - model->maximum);
-	offset_y = view->allocation.h - scale_y * model->minimum + view->allocation.y;
+	scale_y = view->allocation.h / (val_min - val_max);
+	offset_y = view->allocation.h - scale_y * val_min + view->allocation.y;
 
 	for (j = 1; j <= num_elements; j++) {
 		sum = abs_sum = 0.0;
