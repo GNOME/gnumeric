@@ -2804,7 +2804,8 @@ workbook_new (void)
 		bonobo_ui_component_add_verb_list_with_data (
 			component, verbs, wb);
 		
-		fname = bonobo_ui_util_get_ui_fname ("gnumeric.xml");
+		fname = bonobo_ui_util_get_ui_fname (
+			GNUMERIC_DATADIR, "gnumeric.xml");
 		g_warning ("Loading ui from '%s'", fname);
 		
 		ui = bonobo_ui_util_new_ui (component, fname, "gnumeric");

@@ -1,3 +1,7 @@
+2000-09-16  Michael Meeks  <michael@helixcode.com>
+
+	* src/workbook.c (workbook_new): use datadir for get_ui_fname.
+
 2000-09-16  Almer S. Tigelaar  <almer1@dds.nl>
 
 	* src/dialogs/autoformat.glade:
