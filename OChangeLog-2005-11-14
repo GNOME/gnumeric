@@ -1,3 +1,8 @@
+2000-11-17  Chema Celorio  <chema@celorio.com>
+
+	* src/print.c (sheet_print): if gnome-print dialog is NULL,
+	return. This avoids a crash if there aren't any printers installed.
+
 2000-11-17  Almer S. Tigelaar  <almer1@dds.nl>
 
 	* src/preview-grid-controller.c, src/preview-grid-controller.h

@@ -1101,6 +1101,8 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 		gpd = (GnomePrintDialog *)gnome_print_dialog_new (
 			_("Print Sheets"),
 			GNOME_PRINT_DIALOG_RANGE|GNOME_PRINT_DIALOG_COPIES);
+		if (gpd == NULL)
+			return;
 		gnome_print_dialog_construct_range_page (
 			gpd,
 			GNOME_PRINT_RANGE_CURRENT|GNOME_PRINT_RANGE_ALL|
