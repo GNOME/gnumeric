@@ -1,5 +1,8 @@
 2003-05-31  Jody Goldberg <jody@gnome.org>
 
+	* src/workbook-control-gui.c (cb_view_freeze_panes) : base the
+	  decision to use default position on the last visible, not last full.
+
 	* src/gnumeric-pane.c (cb_sheet_object_canvas_event) : don't freak out
 	  if we can't edit the seleted object.
 

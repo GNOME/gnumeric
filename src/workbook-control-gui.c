@@ -2329,11 +2329,11 @@ cb_view_freeze_panes (GtkWidget *widget, WorkbookControlGUI *wbcg)
 			unfrozen_tl.row = frozen_tl.row = 0;
 
 		if (unfrozen_tl.col < gcanvas->first.col ||
-		    unfrozen_tl.col > gcanvas->last_full.col)
-			unfrozen_tl.col = (gcanvas->first.col + gcanvas->last_full.col) / 2;
+		    unfrozen_tl.col > gcanvas->last_visible.col)
+			unfrozen_tl.col = (gcanvas->first.col + gcanvas->last_visible.col) / 2;
 		if (unfrozen_tl.row < gcanvas->first.row ||
-		    unfrozen_tl.row > gcanvas->last_full.row)
-			unfrozen_tl.row = (gcanvas->first.row + gcanvas->last_full.row) / 2;
+		    unfrozen_tl.row > gcanvas->last_visible.row)
+			unfrozen_tl.row = (gcanvas->first.row + gcanvas->last_visible.row) / 2;
 
 		g_return_if_fail (unfrozen_tl.col > frozen_tl.col ||
 				  unfrozen_tl.row > frozen_tl.row);
