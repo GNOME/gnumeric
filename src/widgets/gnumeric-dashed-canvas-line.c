@@ -49,6 +49,7 @@ gnumeric_dashed_canvas_line_class_init (GnumericDashedCanvasLineClass *klass)
 static void
 gnumeric_dashed_canvas_line_init (GnumericDashedCanvasLine *line)
 {
+    GNUMERIC_DASHED_CANVAS_LINE(line);
 	line->dash_style_index = BORDER_THIN;
 }
 
@@ -56,6 +57,8 @@ static void
 gnumeric_dashed_canvas_line_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				  int x, int y, int width, int height)
 {
+	border_set_gc_dash (GNOME_CANVAS_LINE (item)->gc,
+			    GNUMERIC_DASHED_CANVAS_LINE (item)->dash_style_index);
 	gnumeric_dashed_canvas_line_class->
 	    real_draw (item, drawable, x, y, width, height);
 }
@@ -65,25 +68,11 @@ gnumeric_dashed_canvas_line_set_dash_index (GnumericDashedCanvasLine *line,
 					    StyleBorderType const indx,
 					    guint const rgba)
 {
-#if 0
-	/* FIXME FIXME FIXME setting the width seems to negate any
-	 * attempts to set the dash.
-	 */
 	gint const width = border_get_width (indx);
+	line->dash_style_index = indx;
 	gnome_canvas_item_set (GNOME_CANVAS_ITEM (line),
 			       "width_pixels", width,
 			       NULL);
 
-#endif
-	line->dash_style_index = indx;
-
-	border_set_gc_dash (line->line.gc, indx);
-
-	/* HACK HACK HACK
-	 * FIXME FIXME FIXME
-	 * Force a redraw by setting the colour
-	 * How should this be done correctly ? */
-	gnome_canvas_item_set (GNOME_CANVAS_ITEM (line),
-			       "fill_color_rgba", rgba,
-			       NULL);
+	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (line));
 }
