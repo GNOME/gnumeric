@@ -306,7 +306,7 @@ gnumeric_acosh (FunctionEvalInfo *ei, Value **args)
 	if (t < 1.0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	return value_new_float (acosh (t));
+	return value_new_float (acoshgnum (t));
 }
 
 /***************************************************************************/
@@ -361,7 +361,7 @@ static const char *help_asinh = {
 static Value *
 gnumeric_asinh (FunctionEvalInfo *ei, Value **args)
 {
-	return value_new_float (asinh (value_get_as_float (args [0])));
+	return value_new_float (asinhgnum (value_get_as_float (args [0])));
 }
 
 /***************************************************************************/
@@ -418,7 +418,7 @@ gnumeric_atanh (FunctionEvalInfo *ei, Value **args)
 	if ((t <= -1.0) || (t >= 1.0))
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	return value_new_float (atanh (value_get_as_float (args [0])));
+	return value_new_float (atanhgnum (value_get_as_float (args [0])));
 }
 
 /***************************************************************************/
@@ -445,8 +445,8 @@ static const char *help_atan2 = {
 static Value *
 gnumeric_atan2 (FunctionEvalInfo *ei, Value **args)
 {
-	return value_new_float (atan2 (value_get_as_float (args [1]),
-				       value_get_as_float (args [0])));
+	return value_new_float (atan2gnum (value_get_as_float (args [1]),
+					   value_get_as_float (args [0])));
 }
 
 /***************************************************************************/
@@ -791,7 +791,7 @@ static const char *help_cosh = {
 static Value *
 gnumeric_cosh (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_float (cosh (value_get_as_float (argv [0])));
+	return value_new_float (coshgnum (value_get_as_float (argv [0])));
 }
 
 /***************************************************************************/
@@ -1410,7 +1410,7 @@ static const char *help_sinh = {
 static Value *
 gnumeric_sinh (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_float (sinh (value_get_as_float (argv [0])));
+	return value_new_float (sinhgnum (value_get_as_float (argv [0])));
 }
 
 /***************************************************************************/
@@ -1671,7 +1671,7 @@ static const char *help_tanh = {
 static Value *
 gnumeric_tanh (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_float (tanh (value_get_as_float (argv [0])));
+	return value_new_float (tanhgnum (value_get_as_float (argv [0])));
 }
 
 /***************************************************************************/

@@ -47,9 +47,6 @@
 #ifdef HAVE_LANGINFO_H
 #    include <langinfo.h>
 #endif
-#ifdef HAVE_IEEEFP_H
-#    include <ieeefp.h>
-#endif
 
 /***************************************************************************/
 
@@ -1559,7 +1556,7 @@ format_value (StyleFormat const *format, Value const *value, StyleColor **color,
 		v = format_number (value->v_int.val, (int)col_width, entry);
 		break;
 	case VALUE_FLOAT:
-		if (!FINITE (value->v_float.val))
+		if (!finitegnum (value->v_float.val))
 			return g_strdup (gnumeric_err_VALUE);
 
 		if (entry == NULL) {

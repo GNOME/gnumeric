@@ -55,7 +55,7 @@ value_new_int (int i)
 Value *
 value_new_float (gnum_float f)
 {
-	if (FINITE (f)) {
+	if (finitegnum (f)) {
 		ValueFloat *v = g_new (ValueFloat, 1);
 		*((ValueType *)&(v->type)) = VALUE_FLOAT;
 		v->fmt = NULL;

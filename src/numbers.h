@@ -48,6 +48,7 @@ gnum_float frexpgnum (gnum_float x, int *exp);
 #define floorgnum floorl
 #define ceilgnum ceill
 #define powgnum powl
+#define hypotgnum hypotl
 #define expgnum expl
 #define loggnum logl
 #define log10gnum log10l
@@ -57,6 +58,18 @@ gnum_float frexpgnum (gnum_float x, int *exp);
 #define asingnum asinl
 #define acosgnum acosl
 #define atangnum atanl
+#define atan2gnum atan2l
+#define erfgnum erfl
+#define erfcgnum erfcl
+#define yngnum ynl
+#define isnangnum isnanl
+#define finitegnum finitel
+#define sinhgnum sinhl
+#define coshgnum coshl
+#define tanhgnum tanhl
+#define asinhgnum asinhl
+#define acoshgnum acoshl
+#define atanhgnum atanhl
 
 #define GNUM_FORMAT_e "Le"
 #define GNUM_FORMAT_E "LE"
@@ -81,6 +94,7 @@ typedef double gnum_float;
 #define floorgnum floor
 #define ceilgnum ceil
 #define powgnum pow
+#define hypotgnum hypot
 #define expgnum exp
 #define loggnum log
 #define log10gnum log10
@@ -90,6 +104,18 @@ typedef double gnum_float;
 #define asingnum asin
 #define acosgnum acos
 #define atangnum atan
+#define atan2gnum atan2
+#define erfgnum erf
+#define erfcgnum erfc
+#define yngnum yn
+#define isnangnum isnan
+#define finitegnum finite
+#define sinhgnum sinh
+#define coshgnum cosh
+#define tanhgnum tanh
+#define asinhgnum asinh
+#define acoshgnum acosh
+#define atanhgnum atanh
 
 #define GNUM_FORMAT_e "e"
 #define GNUM_FORMAT_E "E"

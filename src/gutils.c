@@ -629,11 +629,11 @@ strtognum (const char *str, char **end)
 gnum_float
 ldexpgnum (gnum_float x, int exp)
 {
-	if (!FINITE (x) || x == 0)
+	if (!finitegnum (x) || x == 0)
 		return x;
 	else {
 		gnum_float res = x * gpow2 (exp);
-		if (FINITE (res))
+		if (finitegnum (res))
 			return res;
 		else {
 			errno = ERANGE;
@@ -660,7 +660,7 @@ frexpgnum (gnum_float x, int *exp)
 
 	/* This might underflow or overflow in the cast.  */
 	dbl_res = frexp ((double)x, exp);
-	if (!FINITE (x) || x == 0)
+	if (!finitegnum (x) || x == 0)
 		return dbl_res;
 
 	/*

@@ -31,9 +31,6 @@
 
 #include <libgnome/gnome-i18n.h>
 #include <math.h>
-#ifdef HAVE_IEEEFP_H
-#include <ieeefp.h>
-#endif
 
 #define MAX_CELL_NAME_LEN  20
 #define GOALSEEK_KEY            "goal-seek-dialog"
@@ -95,7 +92,7 @@ goal_seek_eval (gnum_float x, gnum_float *y, void *vevaldata)
 
 	if (evaldata->ycell->value) {
 	        *y = value_get_as_float (evaldata->ycell->value) - evaldata->ytarget;
-		if (FINITE (*y))
+		if (finitegnum (*y))
 			return GOAL_SEEK_OK;
 	}
 

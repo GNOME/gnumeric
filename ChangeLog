@@ -1,3 +1,9 @@
+2002-02-25  Morten Welinder  <terra@diku.dk>
+
+	* configure.in (atan2l, sinhl, coshl, tanhl, asinhl, acoshl,
+	atanhl, erfl, erfcl, ynl, isnanl, finitel, hypotl): Add checks for these.
+	* src/numbers.h: supply right version of above.  Use everywhere.
+
 2002-02-25  Jon K Hellan  <hellan@acm.org>
 
 	* src/sheet-object-image.h: Declare typedef ObjectImage.

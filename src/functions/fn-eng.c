@@ -535,7 +535,7 @@ gnumeric_bessely (FunctionEvalInfo *ei, Value **argv)
 	if ((y = value_get_as_int (argv[1])) < 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	return value_new_float (yn (y, value_get_as_float (argv[0])));
+	return value_new_float (yngnum (y, value_get_as_float (argv[0])));
 }
 
 /* Converts a complex number string into its coefficients.  Returns 0 if ok,
@@ -1631,14 +1631,14 @@ static const char *help_erf = {
 static Value *
 gnumeric_erf (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float ans, lower, upper=0.0;
+	gnum_float ans, lower, upper;
 
 	lower = value_get_as_float (argv[0]);
-	ans = erf(lower);
+	ans = erfgnum (lower);
 
 	if (argv[1]) {
 		upper = value_get_as_float (argv[1]);
-		ans = erf (upper) - ans;
+		ans = erfgnum (upper) - ans;
 	}
 
 	return value_new_float (ans);
@@ -1671,7 +1671,7 @@ gnumeric_erfc (FunctionEvalInfo *ei, Value **argv)
 
 	x = value_get_as_float (argv[0]);
 
-	return value_new_float (erfc (x));
+	return value_new_float (erfcgnum (x));
 }
 
 /***************************************************************************/

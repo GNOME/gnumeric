@@ -81,7 +81,7 @@ GNUMERIC_COMPLEX_PROTO (int complex_zero_p (const complex_t *src))
 GNUMERIC_COMPLEX_PROTO (gnum_float complex_mod (const complex_t *src))
 #ifdef GNUMERIC_COMPLEX_BODY
 {
-	return hypot (src->re, src->im);
+	return hypotgnum (src->re, src->im);
 }
 #endif
 
@@ -90,7 +90,7 @@ GNUMERIC_COMPLEX_PROTO (gnum_float complex_mod (const complex_t *src))
 GNUMERIC_COMPLEX_PROTO (gnum_float complex_angle (const complex_t *src))
 #ifdef GNUMERIC_COMPLEX_BODY
 {
-	return atan2 (src->im, src->re);
+	return atan2gnum (src->im, src->re);
 }
 #endif
 
@@ -211,8 +211,8 @@ GNUMERIC_COMPLEX_PROTO (void complex_sin (complex_t *dst, const complex_t *src))
 #ifdef GNUMERIC_COMPLEX_BODY
 {
 	complex_init (dst,
-		      singnum (src->re) * cosh (src->im),
-		      cosgnum (src->re) * sinh (src->im));
+		      singnum (src->re) * coshgnum (src->im),
+		      cosgnum (src->re) * sinhgnum (src->im));
 }
 #endif
 
@@ -222,8 +222,8 @@ GNUMERIC_COMPLEX_PROTO (void complex_cos (complex_t *dst, const complex_t *src))
 #ifdef GNUMERIC_COMPLEX_BODY
 {
 	complex_init (dst,
-		      cosgnum (src->re) * cosh (src->im),
-		      -singnum (src->re) * sinh (src->im));
+		      cosgnum (src->re) * coshgnum (src->im),
+		      -singnum (src->re) * sinhgnum (src->im));
 }
 #endif
 
