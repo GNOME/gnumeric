@@ -1,3 +1,9 @@
+1999-04-26  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* ms-excel.c (ms_excel_workbook_detach): Check the return value of
+	workbook_detach_sheet.
+	(ms_excel_read_sheet): If detaching fails, there is a dependency.
+
 Tue Apr 20 16:34:38 1999  Morten Welinder  <terra@diku.dk>
 
 	* ms-obj.c (ms_obj_read_obj): Initialise type.

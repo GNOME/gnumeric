@@ -29,6 +29,7 @@ INCLUDES = 						\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
 	-DGNUMERIC_VERSION=\""$(VERSION)"\"		\
 	-I$(includedir)				 	\
+	-I$(top_srcdir)/libglade			\
 	$(GNOME_INCLUDEDIR)				\
 	$(GUILE_INCS)
 
@@ -177,6 +178,7 @@ gnumeric_LDFLAGS = -export-dynamic
 
 gnumeric_LDADD = 			\
 	../plugins/excel/libexcel.a	\
+	../libglade/glade/libglade.a	\
 	$(GNOME_LIBDIR) 		\
 	$(GNOMEUI_LIBS)			\
 	$(GNOME_XML_LIB) 		\
@@ -189,6 +191,7 @@ gnumeric_corba_LDADD = 			\
 
 gnumeric_bonobo_LDADD =			\
 	../plugins/excel/libexcel.a	\
+	../libglade/glade/libglade.a	\
 	$(BONOBO_LIBS)			\
 	$(GNOME_XML_LIB) 		\
 	$(GUILE_LIBS)			\

@@ -1329,7 +1329,7 @@ ms_excel_workbook_attach (MS_EXCEL_WORKBOOK * wb, MS_EXCEL_SHEET * ans)
 	wb->excel_sheets = g_list_append (wb->excel_sheets, ans);
 }
 
-static void
+static gboolean
 ms_excel_workbook_detach (MS_EXCEL_WORKBOOK * wb, MS_EXCEL_SHEET * ans)
 {
 	int    idx = 0 ;
@@ -1337,8 +1337,7 @@ ms_excel_workbook_detach (MS_EXCEL_WORKBOOK * wb, MS_EXCEL_SHEET * ans)
 
 	if (ans->gnum_sheet) {
 		if (!workbook_detach_sheet (wb->gnum_wb, ans->gnum_sheet))
-			printf ("Error detaching sheet: '%s'\n",
-				ans->gnum_sheet->name?ans->gnum_sheet->name:"noname");
+			return FALSE;
 	}
 	
 	while (list)
@@ -1350,6 +1349,7 @@ ms_excel_workbook_detach (MS_EXCEL_WORKBOOK * wb, MS_EXCEL_SHEET * ans)
 		}
 		else
 			list = list->next ;
+	return TRUE;
 }
 
 static MS_EXCEL_SHEET *
@@ -1885,9 +1885,10 @@ ms_excel_read_sheet (MS_EXCEL_SHEET *sheet, BIFF_QUERY * q, MS_EXCEL_WORKBOOK * 
 			if (q->streamPos == blankSheetPos || sheet->blank)
 			{
 				printf ("Blank sheet\n");
-				ms_excel_workbook_detach (sheet->wb, sheet) ;
-				ms_excel_sheet_destroy (sheet) ;
-				sheet = NULL ;
+				if (ms_excel_workbook_detach (sheet->wb, sheet)){
+					ms_excel_sheet_destroy (sheet) ;
+					sheet = NULL ;
+				}
 				return;
 			}
 			return;

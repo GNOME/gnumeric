@@ -1,3 +1,9 @@
+1999-04-26  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/eval.c (intersects): Typo fix.  Sheet was being assigned
+	instead of being tested for equality.  This got Michael to crash
+	Gnumeric (as there was no test for can_remove)
+
 1999-04-26  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/fn-stat.c: Added CHIDIST(), CHIINV(), and GAMMAINV().

@@ -17,7 +17,7 @@
 
 <widget>
   <class>GtkDialog</class>
-  <name>dialog3</name>
+  <name>graphics-wizard-dialog</name>
   <title>dialog3</title>
   <type>GTK_WINDOW_TOPLEVEL</type>
   <position>GTK_WIN_POS_NONE</position>
@@ -34,7 +34,7 @@
 
     <widget>
       <class>GtkNotebook</class>
-      <name>notebook4</name>
+      <name>main-notebook</name>
       <child>
 	<padding>0</padding>
 	<expand>True</expand>

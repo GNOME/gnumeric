@@ -172,13 +172,23 @@ italic_cmd (GtkWidget *widget, Workbook *wb)
 		change_selection_font (wb, 3, italic_names);
 }
 
+/*
+ * Temporary hack:
+ */
+void (*graphic_wizard_hook)(Workbook *wb) = 0;
+
 static void
 create_graphic_cmd (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet;
 
-	sheet = workbook_get_current_sheet (wb);
-	sheet_set_mode_type (sheet, SHEET_MODE_CREATE_GRAPHIC);
+	if (graphic_wizard_hook){
+		printf ("Invoking graphic wizard...\n");
+		graphic_wizard_hook (wb);
+	} else {
+		sheet = workbook_get_current_sheet (wb);
+		sheet_set_mode_type (sheet, SHEET_MODE_CREATE_GRAPHIC);
+	}
 }
 
 static void
@@ -221,12 +231,14 @@ static void
 cb_sheet_do_destroy (gpointer key, gpointer value, gpointer user_data)
 {
 	Sheet *sheet = value;
+
 	sheet_destroy (sheet);
 }
 
 static void
 workbook_do_destroy (Workbook *wb)
 {
+	
 	g_hash_table_foreach (wb->sheets, cb_sheet_do_destroy, NULL);
 	g_hash_table_destroy (wb->sheets);
 

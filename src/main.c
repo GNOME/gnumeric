@@ -18,6 +18,8 @@
 #include "main.h"
 
 #include "../plugins/excel/boot.h"
+#include <glade/glade.h>
+#include <glade/glade-xml.h>
 
 #ifdef HAVE_GUILE
 #include <libguile.h>
@@ -28,6 +30,7 @@ int gnumeric_debugging = 0;
 
 static char *dump_file_name = NULL;
 static char **startup_files = NULL;
+static char startup_glade_file = NULL;
 
 poptContext ctx;
 
@@ -63,6 +66,11 @@ gnumeric_main (void *closure, int argc, char *argv [])
 	/* The statically linked in file formats */
 	xml_init ();
 	excel_init ();
+
+	/* Glade */
+	glade_init ();
+	if (startup_glade_file)
+		glade_xml_new (startup_glade_file, NULL);
 	
 	if (dump_file_name){
 		dump_functions (dump_file_name);

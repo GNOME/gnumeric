@@ -304,7 +304,7 @@ typedef struct {
 static gboolean
 intersects (Sheet *sheet, int col, int row, DependencyRange *range)
 {
-	if (range_contains (&range->range, col, row) && (sheet = range->sheet))
+	if (range_contains (&range->range, col, row) && (sheet == range->sheet))
 		return TRUE;
 
 	return FALSE;
