@@ -744,10 +744,10 @@ solver_reporting (SolverState *state, SolverResults *res, const gchar *errmsg)
 				((GtkWindow *) state->dialog,
 				 &(state->warning_dialog),
 				 GTK_MESSAGE_INFO,
-				 _("Sensitivity nor limits report are "
-				   "not meaningful if the program has "
-				   "integer constraints. These reports "
-				   "will thus not be created."));
+				 _("Neither sensitivity nor limits report are "
+				   "meaningful if the program has "
+				   "integer constraints.  These reports "
+				   "will not be created."));
 		err = solver_reports (WORKBOOK_CONTROL(state->wbcg),
 				      state->sheet, res,
 				      opt->answer_report,

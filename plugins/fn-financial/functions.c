@@ -1039,7 +1039,7 @@ static char const *help_syd = {
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "For example say a company purchases a new computer for $5000 "
-	   "which has a salvage value of $200, and a useful life of three "
+	   "which has a salvage value of $200, and a useful life of five "
 	   "years. We would use the following to calculate the second "
 	   "year's depreciation using the SYD method:"
 	   "\n"
@@ -2073,15 +2073,16 @@ gnumeric_nper (FunctionEvalInfo *ei, Value **argv)
 
 static char const *help_duration = {
 	N_("@FUNCTION=DURATION\n"
-	   "@SYNTAX=DURATION(settlement,maturity,coup,yield,freq[,basis])\n"
+	   "@SYNTAX=DURATION(settlement,maturity,coup,yield,frequency[,basis])\n"
 	   "@DESCRIPTION="
 	   "DURATION calculates the duration of a security.\n"
 	   "\n"
-	   "@settlement is the settlement date of the security. "
-	   "@maturity is the maturity date of the security. "
-	   "@issue is the issue date of the security. "
-	   "@rate is the interest rate set to the security. "
-	   "@pr is the price per $100 face value of the security. "
+	   "@settlement is the settlement date of the security.\n"
+	   "@maturity is the maturity date of the security.\n"
+	   "@coup The annual coupon rate as a percentage.\n"
+	   "@yield The annualized yield of the security as a percentage.\n"
+	   "@frequency is the number of coupon payments per year. "
+	   "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. "
 	   "@basis is the type of day counting system you want to use:\n"
 	   "\n"
 	   "  0  US 30/360\n"
@@ -2635,8 +2636,6 @@ static char const *help_yieldmat = {
 	   "  3  actual days/365\n"
 	   "  4  European 30/360\n"
 	   "\n"
-	   "* If @frequency is other than 1, 2, or 4, YIELDMAT returns #NUM! "
-	   "error.\n"
 	   "* If @basis is omitted, US 30/360 is applied.\n"
 	   "* If @basis is not in between 0 and 4, #NUM! error is returned.\n"
 	   "\n"
@@ -2671,8 +2670,7 @@ gnumeric_yieldmat (FunctionEvalInfo *ei, Value **argv)
 
 static char const *help_oddfprice = {
 	N_("@FUNCTION=ODDFPRICE\n"
-	   "@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,"
-	   "yld,redemption,frequency[,basis])\n"
+	   "@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,yld,redemption,frequency[,basis])\n"
 	   "@DESCRIPTION="
 	   "ODDFPRICE returns the price per $100 face value of a security. "
 	   "The security should have an odd short or long first period.\n"
@@ -3116,13 +3114,21 @@ gnumeric_oddlyield (FunctionEvalInfo *ei, Value **argv)
 
 static char const *help_amordegrc = {
 	N_("@FUNCTION=AMORDEGRC\n"
-	   "@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,"
-	   "rate[,basis])\n"
+	   "@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate[,basis])\n"
 	   "@DESCRIPTION="
-	   "AMORDEGRC returns the depreciation for each accounting period.\n"
+	   "AMORDEGRC: Calculates depreciation for each accounting period using "
+	   "French accounting conventions.   Assets purchased in the middle of "
+	   "a period take prorated depreciation into account.  This is similar "
+	   "to AMORLINC, except that a depreciation coefficient is applied in "
+	   "the calculation depending on the life of the assets.\n"
+	   "Named for AMORtissement DEGRessif Comptabilite\n"
 	   "\n"
-	   "@settlement is the settlement date of the security. "
-	   "@maturity is the maturity date of the security. "
+	   "@cost The value of the asset.\n"
+	   "@purchase_date The date the asset was purchased.\n"
+	   "@first_period The end of the first period.\n"
+	   "@salvage Asset value at maturity.\n"
+	   "@period The length of accounting periods.\n"
+	   "@rate rate of depreciation as a percentage.\n"
 	   "@basis is the type of day counting system you want to use:\n"
 	   "\n"
 	   "  0  US 30/360\n"
@@ -3131,14 +3137,13 @@ static char const *help_amordegrc = {
 	   "  3  actual days/365\n"
 	   "  4  European 30/360\n"
 	   "\n"
-	   "* If @frequency is other than 1, 2, or 4, AMORDEGRC returns #NUM! "
-	   "error.\n"
 	   "* If @basis is omitted, US 30/360 is applied.\n"
 	   "* If @basis is not in between 0 and 4, #NUM! error is returned.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "AMORDEGRC(2400,DATE(1998,8,19),DATE(1998,12,30),300,1,0.14,1) = 733\n"
 	   "\n"
-	   "@SEEALSO=")
+	   "@SEEALSO=AMORLINC")
 };
 
 
@@ -3168,15 +3173,23 @@ gnumeric_amordegrc (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
+
+
 static char const *help_amorlinc = {
 	N_("@FUNCTION=AMORLINC\n"
-	   "@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,"
-	   "rate[,basis])\n"
+	   "@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate[,basis])\n"
 	   "@DESCRIPTION="
-	   "AMORLINC returns the depreciation for each accounting period.\n"
+	   "AMORLINC: Calculates depreciation for each accounting period using "
+	   "French accounting conventions.   Assets purchased in the middle of "
+	   "a period take prorated depreciation into account.\n"
+	   "Named for AMORtissement LINeaire Comptabilite.\n"
 	   "\n"
-	   "@settlement is the settlement date of the security. "
-	   "@maturity is the maturity date of the security. "
+	   "@cost The value of the asset.\n"
+	   "@purchase_date The date the asset was purchased.\n"
+	   "@first_period The end of the first period.\n"
+	   "@salvage Asset value at maturity.\n"
+	   "@period The length of accounting periods.\n"
+	   "@rate rate of depreciation as a percentage.\n"
 	   "@basis is the type of day counting system you want to use:\n"
 	   "\n"
 	   "  0  US 30/360\n"
@@ -3185,14 +3198,13 @@ static char const *help_amorlinc = {
 	   "  3  actual days/365\n"
 	   "  4  European 30/360\n"
 	   "\n"
-	   "* If @frequency is other than 1, 2, or 4, AMORLINC returns #NUM! "
-	   "error.\n"
 	   "* If @basis is omitted, US 30/360 is applied.\n"
 	   "* If @basis is not in between 0 and 4, #NUM! error is returned.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "AMORLINC(2400,DATE(1998,8,19),DATE(1998,12,31),300,1,0.15,1) = 360\n"
 	   "\n"
-	   "@SEEALSO=")
+	   "@SEEALSO=AMORDEGRC")
 };
 
 static Value *
@@ -3472,10 +3484,10 @@ static char const *help_coupnum = {
 	   "  4  European 30/360\n"
 	   "  5  European+ 30/360\n"
 	   "\n"
-	   "* If @frequency is other than 1, 2, or 4, COUPNUM returns #NUM! "
+	   "* If @frequency is other than 1, 2, 4, 6 or 12, COUPNUM returns #NUM! "
 	   "error.\n"
 	   "* If @basis is omitted, MSRB 30/360 is applied.\n"
-	   "* If @basis is not in between 0 and 4, #NUM! error is returned.\n"
+	   "* If @basis is not in between 0 and 5, #NUM! error is returned.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "COUPNUM (DATE(2002,11,29),DATE(2004,2,29),4,0) = 6\n"
@@ -3756,7 +3768,7 @@ const GnmFuncDescriptor financial_functions[] = {
 	{ "dollarfr", "ff", "decimal_dollar,fraction",
 	  &help_dollarfr, gnumeric_dollarfr, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "duration", "fffff|f", "settlement,maturity,coup,yield,freq,basis",
+	{ "duration", "fffff|f", "settlement,maturity,coup,yield,frequency,basis",
 	  &help_duration, gnumeric_duration, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "effect", "ff", "rate,nper",

@@ -1160,8 +1160,8 @@ static char const *help_expression = {
 	   "EXPRESSION returns expression in @cell as a string, or "
 	   "empty if the cell is not an expression.\n"
 	   "@EXAMPLES=\n"
-	   "in A1 EXPRESSION(A2) equals 'EXPRESSION(A3)'.\n"
-	   "in A2 EXPRESSION(A3) equals empty.\n"
+	   "entering '=EXPRESSION(A3)' in A2 = empty (assuming there is nothing in A3).\n"
+	   "entering '=EXPRESSION(A2)' in A1 = 'EXPRESSION(A3)'.\n"
 	   "\n"
 	   "@SEEALSO=TEXT")
 };

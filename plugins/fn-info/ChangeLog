@@ -1,3 +1,7 @@
+2003-07-16  Jody Goldberg <jody@gnome.org>
+
+	* functions.c : improve example for 'expression'
+
 2003-07-15  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (retrieve_format_info): Use precomputed family_info.

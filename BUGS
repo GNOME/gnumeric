@@ -547,6 +547,26 @@ Clipboard
   contain tables.                                               (DONE)
 - May be not export html as table when just one cell is selected.
 
+Translations
+------------
+    - Translate each arg name + description seperately to get better
+      commonality.
+    - Translate description paragraphs seperately to allow better grouping.
+    - Make 'func is foo compatible' a flag on the importers and auto generate.
+
+    func_help [] = {
+	{ ARG, N_("issue:The issue date of the underlying bond") },
+	{ ARG, N_("maturity:The maturity of the underlying bond") },
+	{ DESC, N_("calculates some stuff") },
+	{ DESC, N_("available day count basis conventions are :\n"
+	        "0\tUS 30/360") },
+	{ 0, NULL }
+    };
+
+    - need conventions for including markup
+	- simple bold/italic/font
+	- links
+	- embedded images ??
 --------------------------------------------------------------------------------
 Finished
 

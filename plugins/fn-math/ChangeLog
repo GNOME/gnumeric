@@ -1,3 +1,8 @@
+2003-07-16  Jody Goldberg <jody@gnome.org>
+
+	* functions.c : add description of bounds to POWER docs.
+	improve characterization of beta and betaln
+
 2003-07-14  Jody Goldberg <jody@gnome.org>
 
 	* functions.c (gnumeric_beta) : link to GAMMALN not GAMMA

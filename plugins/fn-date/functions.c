@@ -820,7 +820,7 @@ static char const *help_eomonth = {
 	   "EOMONTH returns the last day of the month which is @months "
 	   "from the @start_date.\n"
 	   "\n"
-	   "* EOMONTH returns #NUM! if start_date or months are invalid.\n"
+	   "* EOMONTH returns #NUM! if @start_date or @months are invalid.\n"
 	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"

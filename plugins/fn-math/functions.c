@@ -144,7 +144,7 @@ static char const *help_gcd = {
 	   "@DESCRIPTION="
 	   "GCD returns the greatest common divisor of given numbers.\n"
 	   "\n"
-	   "* If any of the arguments is less than zero, GCD returns #NUM! "
+	   "* If any of the arguments is less than one, GCD returns #NUM! "
 	   "error.\n"
 	   "* If any of the arguments is non-integer, it is truncated.\n"
 	   "* This function is Excel compatible.\n"
@@ -157,7 +157,7 @@ static char const *help_gcd = {
 };
 
 static int
-range_gcd (const gnm_float *xs, int n, gnm_float *res)
+range_gcd (gnm_float const *xs, int n, gnm_float *res)
 {
 	if (n > 0) {
 		int i;
@@ -198,8 +198,8 @@ static char const *help_lcm = {
 	   "common multiple is the smallest positive number that is a "
 	   "multiple of all integer arguments given.\n"
 	   "\n"
-	   "* If any of the arguments is less than one, LCM returns #NUM! "
-	   "error.\n"
+	   "* If any of the arguments is less than one, LCM returns #NUM!.\n"
+	   "* If any of the arguments is non-integer, it is truncated.\n"
 	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -210,7 +210,7 @@ static char const *help_lcm = {
 };
 
 static int
-range_lcm (const gnm_float *xs, int n, gnm_float *res)
+range_lcm (gnm_float const *xs, int n, gnm_float *res)
 {
 	if (n > 0) {
 		int i;
@@ -923,10 +923,12 @@ static char const *help_beta = {
 	   "BETA function returns the value of the mathematic beta function "
 	   "extended to all real numbers except 0 and negative integers.\n"
 	   "\n"
-	   "* If @a or @b are 0 or negative integers, BETA returns #NUM! "
+	   "* If @a, @b, or (@a + @b) are non-positive integers, BETA returns #NUM! "
 	   "error.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "BETA(2,3) equals 0.083333.\n"
+	   "BETA(-0.5,0.5) equals #NUM!.\n"
 	   "\n"
 	   "@SEEALSO=BETALN,GAMMALN")
 };
@@ -937,6 +939,7 @@ gnumeric_beta (FunctionEvalInfo *ei, Value **argv)
 	gnm_float a = value_get_as_float (argv[0]);
 	gnm_float b = value_get_as_float (argv[1]);
 
+#warning improve error handling.  Relying on value_new_float to do it is cheesy
 	return value_new_float (beta (a, b));
 }
 
@@ -950,9 +953,11 @@ static char const *help_betaln = {
 	   "BETALN function returns the natural logarithm of the "
 	   "absolute value of the beta function.\n"
 	   "\n"
-	   "* If @a or @b are non-positive integers, BETALN returns #NUM! error.\n"
+	   "* If @a, @b, or (@a + @b) are non-positive integers, BETALN returns #NUM! "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "BETALN(2,3) equals -2.48.\n"
+	   "BETALN(-0.5,0.5) equals #NUM!.\n"
 	   "\n"
 	   "@SEEALSO=BETA,GAMMALN")
 };
@@ -1134,6 +1139,10 @@ static char const *help_power = {
 
 	   "@DESCRIPTION="
 	   "POWER returns the value of @x raised to the power @y.\n\n"
+	   "\n"
+	   "* If both @x and @y equals to 0, POWER returns #NUM! error.\n"
+	   "* If @x = 0 and @y < 0, POWER returns #DIV/0! error.\n"
+	   "* If @x < 0 and @y is non-integer, POWER returns #NUM! error.\n"
 	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -1563,7 +1572,8 @@ static char const *help_trunc = {
 	   "@DESCRIPTION="
 	   "TRUNC function returns the value of @number "
 	   "truncated to the number of digits specified.\n\n"
-	   "* If @digits is omitted then @digits defaults to zero.\n"
+	   "* If @digits is omitted or negative then @digits defaults to zero.\n"
+	   "* If @digits is not an integer, it is truncated.\n"
 	   "* This function is Excel compatible.\n "
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -2000,7 +2010,7 @@ static char const *help_mround = {
 static Value *
 gnumeric_mround (FunctionEvalInfo *ei, Value **argv)
 {
-        const gnm_float accuracy_limit = 0.0000003;
+        gnm_float const accuracy_limit = 0.0000003;
         gnm_float number, multiple;
 	gnm_float div, mod;
 	int     sign = 1;
@@ -2064,7 +2074,7 @@ static Value *
 gnumeric_roman (FunctionEvalInfo *ei, Value **argv)
 {
 	char const letter[] = { 'M', 'D', 'C', 'L', 'X', 'V', 'I' };
-	const int  largest = 1000;
+	int  const largest = 1000;
 
 	static char buf[256];
 	char        *p;
@@ -2656,7 +2666,7 @@ static char const *help_seriessum = {
 };
 
 static int
-range_seriessum (const gnm_float *xs, int n, gnm_float *res)
+range_seriessum (gnm_float const *xs, int n, gnm_float *res)
 {
 	if (n >= 3) {
 		gnm_float x = xs[0];
@@ -2727,7 +2737,7 @@ callback_function_mmult_validate (Sheet *sheet, int col, int row,
 }
 
 static gboolean
-validate_range_numeric_matrix (const EvalPos *ep, Value * matrix,
+validate_range_numeric_matrix (EvalPos const *ep, Value * matrix,
 			       int *rows, int *cols,
 			       GnmStdError *err)
 {
@@ -2767,7 +2777,7 @@ validate_range_numeric_matrix (const EvalPos *ep, Value * matrix,
 }
 
 static gnm_float **
-value_to_matrix (const Value *v, int cols, int rows, EvalPos const *ep)
+value_to_matrix (Value const *v, int cols, int rows, EvalPos const *ep)
 {
 	gnm_float **res = g_new (gnm_float *, rows);
 	int r, c;
@@ -3071,7 +3081,7 @@ gnumeric_sumproduct (FunctionEvalInfo *ei, GnmExprList *args)
 
 /***************************************************************************/
 
-const GnmFuncDescriptor math_functions[] = {
+GnmFuncDescriptor const math_functions[] = {
 	{ "abs",     "f", N_("number"),    &help_abs,
 	  gnumeric_abs, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,

@@ -1,3 +1,8 @@
+2003-07-16  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=115812
+	* functions.c : clarify randuniform docs slightly as per
+
 2003-07-16  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* function.c: replace `Gaussian' with `normal' or `norm' throughout.
