@@ -324,6 +324,7 @@ coupdaybs(GDate *settlement, GDate *maturity, int freq, int basis)
 	case 1:
 	case 2:
 	case 3:
+	        return -1;
 	case 4: /* European 30/360 */
 	        if (! g_date_is_leap_year (sy) && g_date_is_leap_year(my)
 		    && mm == 2 && md == 29)
@@ -393,6 +394,151 @@ coupnum(GDate *settlement, GDate *maturity, int freq, int basis)
 		        - (months <= -9);
 }
 
+static GDateDay
+days_in_month(GDateYear year, GDateMonth month)
+{
+        switch (month) {
+	case 1:
+	case 3:
+	case 5:
+	case 7:
+	case 8:
+	case 10:
+	case 12:
+	        return 31;
+	case 4:
+	case 6:
+	case 9:
+	case 11:
+	        return 30;
+	case 2:
+	        if (g_date_is_leap_year(year))
+		        return 29;
+		else
+		        return 28;
+	default:
+	        return 0;
+	}
+}
+
+static GDate *
+coupncd(GDate *settlement, GDate *maturity, int freq, int basis)
+{
+        int        months, days;
+	GDateYear  sy, my, year;
+	GDateMonth sm, mm, month;
+	GDateDay   sd, md, day;
+
+	sy = g_date_year (settlement);
+	sm = g_date_month (settlement);
+	sd = g_date_day (settlement);
+	my = g_date_year (maturity);
+	mm = g_date_month (maturity);
+	md = g_date_day (maturity);
+
+	if (freq == 1) {
+	        day = md;
+		month = mm;
+		if (sy ==  my || sm < mm || (sm == mm && sd < md))
+		        year = sy;
+		else
+		        year = sy + 1;
+	} else if (freq == 2) {
+	        days = md - sd;
+		months = mm - sm;
+
+		if ((months > 0 || (months == 0 && days > 0)) &&
+		    (months < 6 || (months == 6 && days <= 0))) {
+		        month = mm;
+			year = sy;
+		} else if (months > 6 || (months == 6 && days > 0)) {
+		        month = mm - 6;
+			year = sy;
+		} else if (months < -6 || (months == -6 && days <= 0)) {
+		        month = mm;
+			year = sy + 1;
+		} else {
+		        month = mm + 6;
+			year = sy;
+			if (month > 12) {
+			        month -= 12;
+				year++;
+			}
+		}
+		if (md == days_in_month (my, mm))
+		        day = days_in_month (year, month);
+		else
+		        day = md;
+	}  else {
+	        days = md - sd;
+		months = mm - sm;
+		
+		if ((months > 0 || (months == 0 && days > 0)) &&
+		    (months < 3 || (months == 3 && days <= 0))) {
+		        month = mm;
+			year = sy;
+		} else if ((months > 3 || (months == 3 && days > 0))
+			   && (months < 6 || (months == 6 && days <= 0))) {
+		        month = mm - 3;
+			year = sy;
+		} else if ((months > 6 || (months == 6 && days > 0))
+			   && (months < 9 || (months == 9 && days <= 0))) {
+		        month = mm - 6;
+			year = sy;
+		} else if ((months > 9 || (months == 9 && days > 0))) {
+		        month = mm - 9;
+			year = sy;
+		} else if (months < -9 || (months == -9 && days <= 0)) {
+		        month = mm;
+			year = sy + 1;
+		} else if (months < -6 || (months == -6 && days <= 0)) {
+		        month = mm + 9;
+			year = sy;
+			if (month > 12) {
+			        month -= 12;
+				year++;
+			}
+		} else if (months < -3 || (months == -3 && days <= 0)) {
+		        month = mm + 6;
+			year = sy;
+			if (month > 12) {
+			        month -= 12;
+				year++;
+			}
+		} else {
+		        month = mm + 3;
+			year = sy;
+			if (month > 12) {
+			        month -= 12;
+				year++;
+			}
+		}
+
+		if (md == days_in_month(my, mm))
+		        day = days_in_month(year, month);
+		else
+		        day = md;
+	}
+
+	if (! g_date_is_leap_year (year) && day == 29 && month == 2)
+	        day = 28;
+
+	if ((year > my || (year == my && month > mm)
+	     || (year == my && month == mm && day > md))) {
+	        year = my;
+		month = mm;
+		day = md;
+	}
+
+	if (year < sy || (year == sy && month < sm)
+	    || (year == sy && month == sm && day < sd)) {
+	        year = sy;
+		month = mm;
+		day = md;
+	}
+
+	return g_date_new_dmy (day, month, year);
+}
 
 /***************************************************************************/
 
@@ -2360,7 +2506,8 @@ gnumeric_oddlyield (FunctionEvalInfo *ei, Value **argv)
 static char *help_amordegrc = {
 	N_("@FUNCTION=AMORDEGRC\n"
 	   "@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate,basis)\n"
-	   "@DESCRIPTION=Returns the depreciation for each accounting period."
+	   "@DESCRIPTION="
+	   "Returns the depreciation for each accounting period."
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -2378,7 +2525,8 @@ gnumeric_amordegrc (FunctionEvalInfo *ei, Value **argv)
 static char *help_amorlinc = {
 	N_("@FUNCTION=AMORLINC\n"
 	   "@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate,basis)\n"
-	   "@DESCRIPTION=Returns the depreciation for each accounting period."
+	   "@DESCRIPTION="
+	   "Returns the depreciation for each accounting period."
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -2486,8 +2634,9 @@ gnumeric_coupdays (FunctionEvalInfo *ei, Value **argv)
 static char *help_coupdaysnc = {
 	N_("@FUNCTION=COUPDAYSNC\n"
 	   "@SYNTAX=COUPDAYSNC(settlement,maturity,frequency[,basis])\n"
-	   "@DESCRIPTION=Returns the number of days from the settlement date "
-	   "to the next coupon date."
+	   "@DESCRIPTION="
+	   "Returns the number of days from the settlement date to the "
+	   "next coupon date."
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -2505,7 +2654,8 @@ gnumeric_coupdaysnc (FunctionEvalInfo *ei, Value **argv)
 static char *help_coupncd = {
 	N_("@FUNCTION=COUPNCD\n"
 	   "@SYNTAX=COUPNCD(settlement,maturity,frequency[,basis])\n"
-	   "@DESCRIPTION=Returns the coupon date following settlement."
+	   "@DESCRIPTION="
+	   "Returns the coupon date following settlement."
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -2515,7 +2665,32 @@ static char *help_coupncd = {
 static Value *
 gnumeric_coupncd (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_error (ei->pos, "#UNIMPLEMENTED!");
+        GDate   *settlement;
+        GDate   *maturity;
+        GDate   *date;
+        int     freq, basis;
+	Value   *v;
+
+        settlement = datetime_value_to_g(argv[0]);
+        maturity = datetime_value_to_g(argv[1]);
+        freq = value_get_as_int (argv[2]);
+	if (argv[3] != NULL)
+	        basis = value_get_as_int (argv[3]);
+	else
+	        basis = 0;
+
+        if (settlement == NULL || maturity == NULL)
+                return value_new_error (ei->pos, gnumeric_err_VALUE);
+
+        if (basis < 0 || basis > 4 || (freq != 1 && freq != 2 && freq != 4)
+	    || g_date_compare(settlement, maturity) > 0)
+                return value_new_error (ei->pos, gnumeric_err_NUM);
+
+        date = coupncd (settlement, maturity, freq, basis);
+	v = value_new_int (datetime_g_to_serial (date));
+	g_free (date);
+
+	return v;
 }
 
 /***************************************************************************/
@@ -2523,7 +2698,8 @@ gnumeric_coupncd (FunctionEvalInfo *ei, Value **argv)
 static char *help_couppcd = {
 	N_("@FUNCTION=COUPPCD\n"
 	   "@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis])\n"
-	   "@DESCRIPTION=Returns the coupon date preceeding settlement."
+	   "@DESCRIPTION="
+	   "Returns the coupon date preceeding settlement."
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -2582,8 +2758,9 @@ gnumeric_coupnum (FunctionEvalInfo *ei, Value **argv)
 static char *help_cumipmt = {
 	N_("@FUNCTION=CUMIPMT\n"
 	   "@SYNTAX=CUMIPMT(rate,nper,pv,start_period,end_period,type)\n"
-	   "@DESCRIPTION=Returns the cumulative interest paid on a loan "
-	   "between @start_period and @end_period."
+	   "@DESCRIPTION="
+	   "Returns the cumulative interest paid on a loan between "
+	   "@start_period and @end_period."
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -2601,8 +2778,9 @@ gnumeric_cumipmt (FunctionEvalInfo *ei, Value **argv)
 static char *help_cumprinc = {
 	N_("@FUNCTION=CUMPRINC\n"
 	   "@SYNTAX=CUMPRINC(rate,nper,pv,start_period,end_period,type)\n"
-	   "@DESCRIPTION=Returns the cumulative principal paid on a loan "
-	   "between @start_period and @end_period."
+	   "@DESCRIPTION="
+	   "Returns the cumulative principal paid on a loan between "
+	   "@start_period and @end_period."
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -2620,8 +2798,8 @@ gnumeric_cumprinc (FunctionEvalInfo *ei, Value **argv)
 static char *help_mduration = {
 	N_("@FUNCTION=MDURATION\n"
 	   "@SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency[,basis])\n"
-	   "@DESCRIPTION=Returns the Macauley duration for a security with "
-	   "par value 100."
+	   "@DESCRIPTION="
+	   "Returns the Macauley duration for a security with par value 100."
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"

@@ -11,7 +11,7 @@ Jody:
 Jukka:
 	* Implementation of `Anova: Two-Factor With Replication'
 	  and `Histogram' data analysis tools mostly
-	* Implemented COUPNUM
+	* Implemented COUPNUM and COUPNCD
 	* Implemented TRUE and FALSE logical functions
 	* Started the implementation of COUPDAYBS and COUPDAYS.
 
