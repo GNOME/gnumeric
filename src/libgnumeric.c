@@ -100,7 +100,7 @@ gnumeric_check_for_components (void)
 }
 #endif
 
-extern void go_graph_plugin_services_init (void);
+extern void gog_plugin_services_init (void);
 extern char *gnumeric_data_dir;
 /*
  * FIXME: We hardcode the GUI command context. Change once we are able
@@ -113,7 +113,7 @@ gnm_common_init (void)
 	g_object_new (GNUMERIC_APPLICATION_TYPE, NULL);
 	plugin_services_init ();
 #ifdef NEW_GRAPHS
-	go_graph_plugin_services_init ();
+	gog_plugin_services_init ();
 #endif
 	gnm_conf_init ();
 	string_init ();

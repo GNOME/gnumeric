@@ -63,6 +63,9 @@ typedef struct {
 	/* Whether the transformation or size have changed */
 	guint need_xform_update : 1;
 
+	/* Should the point method ignore transparent areas */
+	guint point_ignores_alpha : 1;
+
 	/* Anchor */
 	GtkAnchorType anchor;
 
@@ -86,7 +89,8 @@ enum {
 	PROP_Y,
 	PROP_Y_IN_PIXELS,
 	PROP_ANCHOR,
-	PROP_INTERP_TYPE
+	PROP_INTERP_TYPE,
+	PROP_POINT_IGNORES_ALPHA
 };
 
 static void foo_canvas_pixbuf_class_init (FooCanvasPixbufClass *class);
@@ -246,6 +250,12 @@ foo_canvas_pixbuf_class_init (FooCanvasPixbufClass *class)
                                     GDK_TYPE_INTERP_TYPE,
                                     GDK_INTERP_BILINEAR,
                                     (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+        g_object_class_install_property
+                (gobject_class,
+		 PROP_POINT_IGNORES_ALPHA,
+                 g_param_spec_boolean ("point_ignores_alpha", NULL, NULL,
+				       FALSE,
+				       (G_PARAM_READABLE | G_PARAM_WRITABLE)));
 
 	object_class->destroy = foo_canvas_pixbuf_destroy;
 
@@ -271,6 +281,7 @@ foo_canvas_pixbuf_init (FooCanvasPixbuf *gcp)
 	priv->y = 0.0;
 	priv->anchor = GTK_ANCHOR_NW;
 	priv->interp_type = GDK_INTERP_BILINEAR;
+	priv->point_ignores_alpha = FALSE;
 }
 
 /* Destroy handler for the pixbuf canvas item */
@@ -431,6 +442,10 @@ foo_canvas_pixbuf_set_property (GObject            *object,
 		foo_canvas_item_request_update (item);
 		break;
 
+	case PROP_POINT_IGNORES_ALPHA:
+		priv->point_ignores_alpha = g_value_get_boolean (value);
+		break;
+
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, param_id, pspec);
 		break;
@@ -504,6 +519,10 @@ foo_canvas_pixbuf_get_property (GObject            *object,
 
 	case PROP_INTERP_TYPE:
 		g_value_set_enum (value, priv->interp_type);
+		break;
+
+	case PROP_POINT_IGNORES_ALPHA:
+		g_value_set_boolean (value, priv->point_ignores_alpha);
 		break;
 
 	default:
@@ -753,7 +772,7 @@ foo_canvas_pixbuf_point (FooCanvasItem *item, double x, double y, int cx, int cy
 	    y < y1 || y >= y2)
 		return no_hit;
 
-	if (!gdk_pixbuf_get_has_alpha (pixbuf))
+	if (!gdk_pixbuf_get_has_alpha (pixbuf) || priv->point_ignores_alpha)
 		return 0.0;
 
 	px = (x - x1) * gdk_pixbuf_get_width (pixbuf) / (x2 - x1);

@@ -11,7 +11,7 @@
 
 GType	     sheet_object_graph_get_type (void);
 #ifdef NEW_GRAPHS
-SheetObject *sheet_object_graph_new (GOGraph *graph);
+SheetObject *sheet_object_graph_new (GogGraph *graph);
 #endif
 
 #endif /* GNUMERIC_SHEET_OBJECT_GRAPH_H */

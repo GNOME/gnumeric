@@ -16,10 +16,6 @@ struct _ItemEdit {
 	ItemGrid   	*item_grid;
 	GtkEntry   	*entry;		/* Utility pointer to the workbook entry */
 
-	guint      signal_changed;	/* ::changed signal in the GtkEntry */
-	guint      signal_key_press;	/* ::key-press-event signal in the GtkWidget */
-	guint      signal_button_press;	/* ::button-press-event signal in the GtkWidget */
-
 	/* Where are we */
 	CellPos	    pos;
 

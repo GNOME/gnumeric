@@ -454,14 +454,6 @@ item_edit_destroy (GtkObject *o)
 	item_edit_cursor_blink_stop (item_edit);
 	entry_destroy_feedback_range (item_edit);
 
-	if (item_edit->signal_changed != 0) {
-		g_signal_handler_disconnect
-			(G_OBJECT (gtk_widget_get_parent (GTK_WIDGET (entry))),
-			 item_edit->signal_changed);
-		g_signal_handler_disconnect (G_OBJECT (entry), item_edit->signal_key_press);
-		g_signal_handler_disconnect (G_OBJECT (entry), item_edit->signal_button_press);
-		item_edit->signal_changed = 0;
-	}
 	scg_set_display_cursor (item_edit->scg);
 
 	if (item_edit->style_font != NULL) {
@@ -510,15 +502,15 @@ item_edit_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	item_edit->pos = sv->edit_pos;
 
 	entry = item_edit->entry;
-	item_edit->signal_changed = g_signal_connect (G_OBJECT (gtk_widget_get_parent (GTK_WIDGET (entry))),
+	g_signal_connect_object (G_OBJECT (gtk_widget_get_parent (GTK_WIDGET (entry))),
 		"changed",
-		G_CALLBACK (entry_changed), item_edit);
-	item_edit->signal_key_press = g_signal_connect_after (G_OBJECT (entry),
+		G_CALLBACK (entry_changed), G_OBJECT (item_edit), 0);
+	g_signal_connect_object (G_OBJECT (entry),
 		"key-press-event",
-		G_CALLBACK (entry_event), item_edit);
-	item_edit->signal_button_press = g_signal_connect_after (G_OBJECT (entry),
+		G_CALLBACK (entry_event), G_OBJECT (item_edit), G_CONNECT_AFTER);
+	g_signal_connect_object (G_OBJECT (entry),
 		"notify::cursor-position",
-		G_CALLBACK (entry_cursor_event), item_edit);
+		G_CALLBACK (entry_cursor_event), G_OBJECT (item_edit), G_CONNECT_AFTER);
 
 	scan_for_range (item_edit);
 

@@ -1242,8 +1242,8 @@ sv_selection_walk_step (SheetView *sv,
 }
 
 #ifdef NEW_GRAPHS
-#include <goffice/graph/go-plot-data.h>
-#include <goffice/graph/go-plot.h>
+#include <goffice/graph/gog-series.h>
+#include <goffice/graph/gog-plot-impl.h>
 #include <goffice/graph/go-data.h>
 #include <expr.h>
 #include <graph.h>
@@ -1292,7 +1292,7 @@ characterize_vec (Sheet *sheet, Range *vector,
 }
 
 /* FIXME cheat to avoid having graph types in public headers
- * change the gpointer to a GOPlot soon
+ * change the gpointer to a GogPlot soon
  */
 void
 sv_selection_to_plot (SheetView *sv, gpointer go_plot)
@@ -1306,9 +1306,9 @@ sv_selection_to_plot (SheetView *sv, gpointer go_plot)
 
 	Sheet *sheet = sv_sheet (sv);
 	CellRef header;
-	GOPlot *plot = go_plot;
-	GOPlotDesc const *desc;
-	GOPlotSeries *series;
+	GogPlot *plot = go_plot;
+	GogPlotDesc const *desc;
+	GogSeries *series;
 	gboolean is_string_vec, first_series = TRUE, first_value_dim = TRUE;
 	unsigned i, count, cur_dim = 0, num_series = 1;
 	gboolean has_header, as_cols;
@@ -1316,8 +1316,8 @@ sv_selection_to_plot (SheetView *sv, gpointer go_plot)
 	/* Excel docs claim that rows == cols uses rows */
 	gboolean default_to_cols = (num_cols < num_rows);
 
-	desc = go_plot_description (plot);
-	series = go_plot_new_series (plot);
+	desc = gog_plot_description (plot);
+	series = gog_plot_new_series (plot);
 
 	header.sheet = sheet;
 	header.col_relative = header.row_relative = FALSE;
@@ -1355,7 +1355,7 @@ sv_selection_to_plot (SheetView *sv, gpointer go_plot)
 				if (num_series >= desc->num_series_max)
 					break;
 
-				series = go_plot_new_series (plot);
+				series = gog_plot_new_series (plot);
 				first_series = FALSE;
 				first_value_dim = TRUE;
 				cur_dim = 0;
@@ -1368,25 +1368,25 @@ sv_selection_to_plot (SheetView *sv, gpointer go_plot)
 				++cur_dim;
 
 			is_string_vec = characterize_vec (sheet, &vector, as_cols,
-				desc->series.dim[cur_dim].val_type == GO_GRAPH_DIM_LABEL);
+				desc->series.dim[cur_dim].val_type == GOG_DIM_LABEL);
 
-			if ((desc->series.dim[cur_dim].val_type == GO_GRAPH_DIM_LABEL && !is_string_vec) ||
-			    (desc->series.dim[cur_dim].val_type == GO_GRAPH_DIM_VALUE && is_string_vec)) {
+			if ((desc->series.dim[cur_dim].val_type == GOG_DIM_LABEL && !is_string_vec) ||
+			    (desc->series.dim[cur_dim].val_type == GOG_DIM_VALUE && is_string_vec)) {
 				/* type mismatch we don't have much choice here, even if the dim is non optional we
 				 * can't assign to it.  Be smarter in the future and maybe reallocate preceding
 				 * optional dimensions, start a new plot for unexpected strings  */
 				goto skip;
 			}
 
-			go_plot_series_set_dim (series, cur_dim,
+			gog_series_set_dim (series, cur_dim,
 				gnm_go_data_vector_new_expr (sheet,
 					gnm_expr_new_constant (
 						value_new_cellrange_r (sheet, &vector))), NULL);
 
 			if (has_header && first_value_dim &&
-			    desc->series.dim[cur_dim].val_type == GO_GRAPH_DIM_VALUE) {
+			    desc->series.dim[cur_dim].val_type == GOG_DIM_VALUE) {
 				first_value_dim = FALSE;
-				go_plot_series_set_name (series,
+				gog_series_set_name (series,
 					GO_DATA_SCALAR (gnm_go_data_scalar_new_expr (sheet,
 						gnm_expr_new_cellref (&header))), NULL);
 			}

@@ -46,9 +46,11 @@ Pending Patches
     1.12) Rethink GraphItem lifecyle to simplify removal	(DONE)
     1.13) Extend GogObjectRole to include more handlers		(DONE)
     1.14) Decide on recalc strategy
-    1.15) per series plot type specific data
-    1.16) replace canvas base items and 'new_view' with a
-          libart based render akin to guppicanvas.
+    1.15) per series plot type specific data			(DONE)
+    1.16) libart based render akin to guppicanvas.
+    1.16.1) Solid background fills
+    1.16.2) Gradient fills
+    1.16.3) Images fills
     1.17) Connect the user_config handler for SheetObjectGraph
           to test the guru on existing graphs
     1.18) Extend sheet object anchor assignment to call object	(DONE)
@@ -56,8 +58,6 @@ Pending Patches
 	  of the graph.
 
     Pinch Guppi's property bag code for GOGraphItem ?
-    gradient for background item
-    images for background item
     drag destination for background images
 
     - theme
@@ -84,6 +84,8 @@ Pending Patches
     2.9) User specifiable locale encoding
     2.10) Fix stf bugs
     2.11) Improve initial file preview
+    2.12) Hook up workbook-control-gui.c:cb_data_import_text
+	Data -> External -> Import _Text File...
 
 3) hlinks
     3.1) Finish the edit dialog to load and store results 	(DONE)
@@ -342,6 +344,7 @@ Misc stuff that should be fixed
     : Add object control for resize to disable invalid sizes.
     : Add 'is_printable' flag and import
     : Add ability to fix aspect ratio of drag resize
+    : Honour rubber_band_directly during resize too
     : research the other xl object flags.
     : remove update_view_bounds and have the model emit a bound_changed signal
 

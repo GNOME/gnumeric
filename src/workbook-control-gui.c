@@ -3125,11 +3125,11 @@ cb_sort_descending (GtkWidget *widget, WorkbookControlGUI *wbcg)
 }
 
 #ifdef NEW_GRAPHS
-#include <goffice/graph/go-graph-guru.h>
-#include <goffice/graph/go-plot-data.h>
+#include <goffice/graph/gog-guru.h>
+#include <goffice/graph/gog-data-allocator.h>
 #include <sheet-object-graph.h>
 static void
-cb_add_graph (GOGraph *graph, gpointer wbcg)
+cb_add_graph (GogGraph *graph, gpointer wbcg)
 {
 	SheetControlGUI *scg = wbcg_cur_scg (WORKBOOK_CONTROL_GUI (wbcg));
 	scg_mode_create_object (scg, sheet_object_graph_new (graph));
@@ -3147,7 +3147,7 @@ static void
 cb_launch_graph_guru (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 #ifdef NEW_GRAPHS
-	GtkWidget *dialog = go_graph_guru (NULL, GO_PLOT_DATA_ALLOCATOR (wbcg),
+	GtkWidget *dialog = gog_guru (NULL, GOG_DATA_ALLOCATOR (wbcg),
 		       COMMAND_CONTEXT (wbcg), wbcg_toplevel (wbcg),
 		       cb_add_graph, (gpointer)wbcg);
 	wbcg_edit_attach_guru (wbcg, dialog);
@@ -3835,9 +3835,11 @@ static GnomeUIInfo workbook_menu_data [] = {
 		cb_data_consolidate),
 
 	GNOMEUIINFO_SUBTREE(N_("_Group and Outline"),   workbook_menu_data_outline),
+#if 0
 	GNOMEUIINFO_ITEM_STOCK (N_("_PivotTable..."),
 		N_("Create a pivot table."),
 		cb_data_pivottable, "Gnumeric_PivotTable"),
+#endif
 	GNOMEUIINFO_SUBTREE(N_("Get _External Data"),   workbook_menu_data_external),
 
 	GNOMEUIINFO_END
@@ -5350,12 +5352,13 @@ workbook_control_gui_class_init (GObjectClass *object_class)
 
 /***************************************************************************/
 #ifdef NEW_GRAPHS
-#include <goffice/graph/go-plot-data-impl.h>
+#include <goffice/graph/gog-data-allocator.h>
+#include <goffice/graph/gog-series.h>
 #include <goffice/graph/go-data.h>
 #include "graph.h"
 
 static void
-wbcg_plot_data_allocator_allocate (GOPlotDataAllocator *dalloc, GOPlot *plot)
+wbcg_data_allocator_allocate (GogDataAllocator *dalloc, GogPlot *plot)
 {
 	SheetControlGUI *scg = wbcg_cur_scg (WORKBOOK_CONTROL_GUI (dalloc));
 	sv_selection_to_plot (sc_view (SHEET_CONTROL (scg)), plot);
@@ -5363,7 +5366,7 @@ wbcg_plot_data_allocator_allocate (GOPlotDataAllocator *dalloc, GOPlot *plot)
 
 typedef struct {
 	GnmExprEntry *entry;
-	GOPlotSeries *series;
+	GogSeries *series;
 	int dim_i;
 } GraphDimEditor;
 
@@ -5399,12 +5402,12 @@ cb_graph_dim_editor_update (G_GNUC_UNUSED GnmExprEntry *gee,
 	}
 
 	/* The SheetObjectGraph does the magic to link things in */
-	go_plot_series_set_dim (editor->series, editor->dim_i, data, NULL);
+	gog_series_set_dim (editor->series, editor->dim_i, data, NULL);
 }
 
 static gpointer
-wbcg_plot_data_allocator_editor (GOPlotDataAllocator *dalloc,
-				 GOPlotSeries *series, int dim_i)
+wbcg_data_allocator_editor (GogDataAllocator *dalloc,
+			    GogSeries *series, int dim_i)
 {
 	WorkbookControlGUI *wbcg = WORKBOOK_CONTROL_GUI (dalloc);
 	GraphDimEditor *editor;
@@ -5417,7 +5420,7 @@ wbcg_plot_data_allocator_editor (GOPlotDataAllocator *dalloc,
 	gnm_expr_entry_set_update_policy (editor->entry,
 		GTK_UPDATE_DISCONTINUOUS);
 
-	val = go_plot_series_get_dim (series, dim_i);
+	val = gog_series_get_dim (series, dim_i);
 	if (val != NULL)
 		gnm_expr_entry_load_from_text (editor->entry,
 			go_data_as_str (val));
@@ -5434,10 +5437,10 @@ wbcg_plot_data_allocator_editor (GOPlotDataAllocator *dalloc,
 }
 
 static void
-wbcg_go_plot_data_allocator_init (GOPlotDataAllocatorClass *iface)
+wbcg_go_plot_data_allocator_init (GogDataAllocatorClass *iface)
 {
-	iface->allocate   = wbcg_plot_data_allocator_allocate;
-	iface->editor	  = wbcg_plot_data_allocator_editor;
+	iface->allocate   = wbcg_data_allocator_allocate;
+	iface->editor	  = wbcg_data_allocator_editor;
 }
 
 /***************************************************************************/
@@ -5445,7 +5448,7 @@ wbcg_go_plot_data_allocator_init (GOPlotDataAllocatorClass *iface)
 GSF_CLASS_FULL (WorkbookControlGUI, workbook_control_gui,
 		workbook_control_gui_class_init, NULL,
 		WORKBOOK_CONTROL_TYPE, 0,
-		GSF_INTERFACE (wbcg_go_plot_data_allocator_init, GO_PLOT_DATA_ALLOCATOR_TYPE))
+		GSF_INTERFACE (wbcg_go_plot_data_allocator_init, GOG_DATA_ALLOCATOR_TYPE))
 #else
 GSF_CLASS (WorkbookControlGUI, workbook_control_gui,
 	   workbook_control_gui_class_init, NULL,

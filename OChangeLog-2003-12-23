@@ -1,3 +1,15 @@
+2003-05-09  Jody Goldberg <jody@gnome.org>
+
+	* src/item-edit.c (item_edit_set_arg) : Use connect_object and
+	  simplify the detroy function
+	(item_edit_destroy) : by not having to recall the handler ids.
+
+2003-05-09  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control-gui.c (cb_data_pivottable) : disable until it
+	  does something.
+	* src/GNOME_Gnumeric.xml : ditto.
+
 2003-05-10  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/stf-parse.c (comp_term): handle multibyte terminals

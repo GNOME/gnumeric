@@ -34,8 +34,9 @@
 #include "workbook-edit.h"
 
 #ifdef NEW_GRAPHS
-#include <goffice/graph/go-graph-item.h>
-#include <goffice/graph/go-graph.h>
+#include <goffice/graph/gog-graph.h>
+#include <goffice/graph/gog-object.h>
+#include <goffice/graph/gog-control-foocanvas.h>
 #include <graph.h>
 #endif
 
@@ -56,7 +57,8 @@
 typedef struct {
 	SheetObject  base;
 #ifdef NEW_GRAPHS
-	GOGraph     *graph;
+	GogGraph *graph;
+	GogView  *view;
 #endif
 } SheetObjectGraph;
 typedef struct {
@@ -76,14 +78,14 @@ sog_data_set_sheet (SheetObjectGraph *graph, GOData *data, Sheet *sheet)
 }
 
 static void
-cb_graph_add_data (G_GNUC_UNUSED GOGraph *graph,
+cb_graph_add_data (G_GNUC_UNUSED GogGraph *graph,
 		   GOData *data, SheetObjectGraph *sog)
 {
 	sog_data_set_sheet (sog, data, sog->base.sheet);
 }
 
 static void
-cb_graph_remove_data (G_GNUC_UNUSED GOGraph *graph,
+cb_graph_remove_data (G_GNUC_UNUSED GogGraph *graph,
 		      GOData *data, SheetObjectGraph *sog)
 {
 	sog_data_set_sheet (sog, data, NULL);
@@ -91,25 +93,27 @@ cb_graph_remove_data (G_GNUC_UNUSED GOGraph *graph,
 
 /**
  * sheet_object_graph_new :
- * @graph : #GOGraph
+ * @graph : #GogGraph
  *
  * Adds a reference to @graph and creates a gnumeric sheet object wrapper
  **/
 SheetObject *
-sheet_object_graph_new (GOGraph *graph)
+sheet_object_graph_new (GogGraph *graph)
 {
-	SheetObjectGraph *so = g_object_new (SHEET_OBJECT_GRAPH_TYPE, NULL);
-	so->graph = graph;
-	g_object_ref (G_OBJECT (so->graph));
+	SheetObjectGraph *sog = g_object_new (SHEET_OBJECT_GRAPH_TYPE, NULL);
+	sog->graph = graph;
+	g_object_ref (G_OBJECT (sog->graph));
 
 	g_signal_connect_object (G_OBJECT (graph),
 		"add_data",
-		G_CALLBACK (cb_graph_add_data), G_OBJECT (so), 0);
+		G_CALLBACK (cb_graph_add_data), G_OBJECT (sog), 0);
 	g_signal_connect_object (G_OBJECT (graph),
 		"remove_data",
-		G_CALLBACK (cb_graph_remove_data), G_OBJECT (so), 0);
+		G_CALLBACK (cb_graph_remove_data), G_OBJECT (sog), 0);
 
-	return SHEET_OBJECT (so);
+	sog->view = gog_graph_new_view (sog->graph);
+
+	return SHEET_OBJECT (sog);
 }
 #endif
 
@@ -119,6 +123,10 @@ sheet_object_graph_finalize (GObject *obj)
 	SheetObjectGraph *graph = SHEET_OBJECT_GRAPH (obj);
 
 #ifdef NEW_GRAPHS
+	if (graph->view != NULL) {
+		g_object_unref (graph->view);
+		graph->view = NULL;
+	}
 	if (graph->graph != NULL) {
 		g_object_unref (graph->graph);
 		graph->graph = NULL;
@@ -134,9 +142,11 @@ sheet_object_graph_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 {
 #ifdef NEW_GRAPHS
 	GnmCanvas *gcanvas = ((GnumericPane *)key)->gcanvas;
-	SheetObjectGraph *graph = SHEET_OBJECT_GRAPH (so);
-	FooCanvasItem *item = go_graph_item_new_view  (GO_GRAPH_ITEM (graph->graph),
-		(gpointer)gcanvas->sheet_object_group);
+	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
+	FooCanvasItem *item = foo_canvas_item_new (gcanvas->sheet_object_group,
+		GOG_CONTROL_FOOCANVAS_TYPE,
+		"view",	sog->view,
+		NULL);
 	foo_canvas_item_raise_to_top (FOO_CANVAS_ITEM (gcanvas->sheet_object_group));
 
 	gnm_pane_object_register (so, item);
@@ -184,33 +194,31 @@ sheet_object_graph_write_xml (SheetObject const *so,
 static SheetObject *
 sheet_object_graph_clone (SheetObject const *so, Sheet *sheet)
 {
-	SheetObjectGraph *graph;
-	SheetObjectGraph *new_graph;
+	SheetObjectGraph *sog;
+	SheetObjectGraph *new_sog;
 
 	g_return_val_if_fail (IS_SHEET_OBJECT_GRAPH (so), NULL);
-	graph = SHEET_OBJECT_GRAPH (so);
+	sog = SHEET_OBJECT_GRAPH (so);
 
-	new_graph = g_object_new (G_OBJECT_TYPE (so), NULL);
+	new_sog = g_object_new (G_OBJECT_TYPE (so), NULL);
 
-	return SHEET_OBJECT (new_graph);
+	return SHEET_OBJECT (new_sog);
 }
 
 static void
 sheet_object_graph_print (SheetObject const *so, GnomePrintContext *ctx,
-			    double base_x, double base_y)
+			  double base_x, double base_y)
 {
-	SheetObjectGraph *graph;
+#if 0
+	SheetObjectGraph *graph = SHEET_OBJECT_GRAPH (so);
 	double coords [4];
-
-	g_return_if_fail (IS_SHEET_OBJECT_GRAPH (so));
-	g_return_if_fail (GNOME_IS_PRINT_CONTEXT (ctx));
-	graph = SHEET_OBJECT_GRAPH (so);
 
 	sheet_object_position_pts_get (so, coords);
 
 	gnome_print_gsave (ctx);
 
 	gnome_print_grestore (ctx);
+#endif
 }
 
 static void
@@ -233,7 +241,7 @@ sheet_object_graph_set_sheet (SheetObject *so, Sheet *sheet)
 
 #ifdef NEW_GRAPHS
 	if (graph->graph != NULL) {
-		GSList *ptr = go_graph_get_data (graph->graph);
+		GSList *ptr = gog_graph_get_data (graph->graph);
 		for (; ptr != NULL ; ptr = ptr->next)
 			sog_data_set_sheet (graph, ptr->data, sheet);
 	}
@@ -246,13 +254,30 @@ static void
 sheet_object_graph_default_size (SheetObject const *so, double *w, double *h)
 {
 #ifdef NEW_GRAPHS
-	g_object_get (G_OBJECT (SHEET_OBJECT_GRAPH (so)->graph),
-		"width_pts", w,
-		"height_pts", h,
+	int real_w, real_h;
+	g_object_get (G_OBJECT (SHEET_OBJECT_GRAPH (so)->view),
+		"logical_width_pts",  &real_w,
+		"logical_height_pts", &real_h,
 		NULL);
+	*w = real_w / PANGO_SCALE;
+	*h = real_h / PANGO_SCALE;
 #else
-	*w = 200;
-	*h = 200;
+	*w = 200.;
+	*h = 200.;
+#endif
+}
+
+static void
+sheet_object_graph_position_changed (SheetObject const *so)
+{
+#ifdef NEW_GRAPHS
+	double coords [4];
+
+	sheet_object_position_pts_get (so, coords);
+	g_object_set (G_OBJECT (SHEET_OBJECT_GRAPH (so)->view),
+		"logical_width_pts",  (int) (PANGO_SCALE * floor (fabs (coords[2] - coords[0]) + 1.5)),
+		"logical_height_pts", (int) (PANGO_SCALE * floor (fabs (coords[3] - coords[1]) + 1.5)),
+		NULL);
 #endif
 }
 
@@ -267,16 +292,17 @@ sheet_object_graph_class_init (GObjectClass *klass)
 	klass->finalize = sheet_object_graph_finalize;
 
 	/* SheetObject class method overrides */
-	so_class->new_view	= sheet_object_graph_new_view;
+	so_class->new_view	   = sheet_object_graph_new_view;
 	so_class->update_view_bounds = sheet_object_graph_update_bounds;
-	so_class->read_xml	= sheet_object_graph_read_xml;
-	so_class->write_xml	= sheet_object_graph_write_xml;
-	so_class->clone         = sheet_object_graph_clone;
-	so_class->user_config   = sheet_object_graph_user_config;
-	so_class->assign_to_sheet = sheet_object_graph_set_sheet;
-	so_class->print         = sheet_object_graph_print;
+	so_class->read_xml	   = sheet_object_graph_read_xml;
+	so_class->write_xml	   = sheet_object_graph_write_xml;
+	so_class->clone            = sheet_object_graph_clone;
+	so_class->user_config      = sheet_object_graph_user_config;
+	so_class->assign_to_sheet  = sheet_object_graph_set_sheet;
+	so_class->print		   = sheet_object_graph_print;
+	so_class->default_size	   = sheet_object_graph_default_size;
+	so_class->position_changed = sheet_object_graph_position_changed;
 	so_class->rubber_band_directly = FALSE;
-	so_class->default_size  = sheet_object_graph_default_size;
 }
 
 static void

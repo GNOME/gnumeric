@@ -24,7 +24,13 @@
 #include "graph.h"
 #include "dependent.h"
 #include "expr.h"
+#include "cell.h"
 #include "value.h"
+#include "number-match.h"
+#include "mathfunc.h"
+#include "sheet.h"
+#include "workbook.h"
+#include "str.h"
 #include "parse-util.h"
 #include <goffice/graph/go-data-impl.h>
 
@@ -45,6 +51,12 @@ static GObjectClass *scalar_parent_klass;
 static Value *
 scalar_get_val (GnmGODataScalar *scalar)
 {
+	if (scalar->val != NULL) {
+		value_release (scalar->val);
+		scalar->val = NULL;
+		g_free (scalar->val_str);
+		scalar->val_str = NULL;
+	}
 	if (scalar->val == NULL) {
 		EvalPos pos;
 		scalar->val = gnm_expr_eval (scalar->dep.expression,
@@ -58,14 +70,7 @@ static void
 gnm_go_data_scalar_eval (Dependent *dep)
 {
 	GnmGODataScalar *scalar = DEP_TO_SCALAR (dep);
-
-	if (scalar->val != NULL) {
-		value_release (scalar->val);
-		scalar->val = NULL;
-		g_free (scalar->val_str);
-		scalar->val_str = NULL;
-	}
-	go_data_emit_changed (GO_DATA (scalar));
+	go_data_vector_emit_changed (GO_DATA_VECTOR (scalar));
 }
 
 static void
@@ -173,6 +178,7 @@ struct _GnmGODataVector {
 	GODataVector	base;
 	Dependent	 dep;
 	Value		*val;
+	gboolean	 as_col;
 };
 typedef GODataVectorClass GnmGODataVectorClass;
 
@@ -180,28 +186,16 @@ typedef GODataVectorClass GnmGODataVectorClass;
 
 static GObjectClass *vector_parent_klass;
 
-static Value *
-vector_get_val (GnmGODataVector *vector)
-{
-	if (vector->val == NULL) {
-		EvalPos pos;
-		vector->val = gnm_expr_eval (vector->dep.expression,
-			eval_pos_init_dep (&pos, &vector->dep),
-			GNM_EXPR_EVAL_PERMIT_NON_SCALAR | GNM_EXPR_EVAL_PERMIT_EMPTY);
-	}
-	return vector->val;
-}
-
 static void
 gnm_go_data_vector_eval (Dependent *dep)
 {
-	GnmGODataVector *vector = DEP_TO_VECTOR (dep);
+	GnmGODataVector *vec = DEP_TO_VECTOR (dep);
 
-	if (vector->val != NULL) {
-		value_release (vector->val);
-		vector->val = NULL;
+	if (vec->val != NULL) {
+		value_release (vec->val);
+		vec->val = NULL;
 	}
-	go_data_emit_changed (GO_DATA (vector));
+	go_data_vector_emit_changed (GO_DATA_VECTOR (vec));
 }
 
 static void
@@ -231,66 +225,166 @@ static char *
 gnm_go_data_vector_as_str (GOData const *dat)
 {
 	ParsePos pp;
-	GnmGODataVector const *vector = (GnmGODataVector const *)dat;
-	return gnm_expr_as_string (vector->dep.expression,
-		parse_pos_init_dep (&pp, &vector->dep),
+	GnmGODataVector const *vec = (GnmGODataVector const *)dat;
+	return gnm_expr_as_string (vec->dep.expression,
+		parse_pos_init_dep (&pp, &vec->dep),
 		gnm_expr_conventions_default);
 }
 
-static int
-gnm_go_data_vector_get_len (GODataVector *vec)
+static void
+gnm_go_data_vector_load_len (GODataVector *dat)
 {
-	return 0;
+	GnmGODataVector *vec = (GnmGODataVector *)dat;
+	EvalPos ep;
+	Range r;
+	Sheet *start_sheet, *end_sheet;
+	unsigned h, w;
+
+	eval_pos_init_dep (&ep, &vec->dep);
+	if (vec->val == NULL)
+		vec->val = gnm_expr_eval (vec->dep.expression, &ep,
+			GNM_EXPR_EVAL_PERMIT_NON_SCALAR | GNM_EXPR_EVAL_PERMIT_EMPTY);
+
+	if (vec->val != NULL) {
+		switch (vec->val->type) {
+		case VALUE_CELLRANGE:
+			rangeref_normalize (&vec->val->v_range.cell, &ep,
+				&start_sheet, &end_sheet, &r);
+
+			if (r.end.col > start_sheet->cols.max_used)
+				r.end.col = start_sheet->cols.max_used;
+			if (r.end.row > start_sheet->rows.max_used)
+				r.end.row = start_sheet->rows.max_used;
+
+			w = r.end.col - r.start.col;
+			h = r.end.row - r.start.row;
+			if (w > 0 && h > 0)
+				dat->len = ((vec->as_col = (h > w))) ? h : w;
+			else
+				dat->len = 0;
+			break;
+
+		case VALUE_ARRAY :
+			vec->as_col = (vec->val->v_array.y > vec->val->v_array.x);
+			dat->len =  vec->as_col ? vec->val->v_array.y : vec->val->v_array.x;
+			break;
+
+		default :
+			dat->len = 1;
+			vec->as_col = TRUE;
+		}
+	} else
+		dat->len = 0;
+	dat->base.flags |= GO_DATA_VECTOR_LEN_CACHED;
 }
 
-static double *
-gnm_go_data_vector_get_values (GODataVector *vec)
+static Value *
+cb_assign_val (Sheet *sheet, int col, int row,
+	       Cell *cell, double **vals)
 {
-#if 0
-	int i, len;
-	EvalPos ep;
-	GNOME_Gnumeric_Scalar_Seq *values;
-	Value *v = vector->value;
+	Value *v;
+	if (cell != NULL) {
+		cell_eval (cell);
+		v = cell->value;
+	} else
+		v = NULL;
 
-	eval_pos_init_dep (&ep, &vector->dep);
-	len = (v == NULL) ? 1 : (vector->is_column
-		? value_area_get_height (v, &ep)
-		: value_area_get_width (v, &ep));
-
-	values = GNOME_Gnumeric_Scalar_Seq__alloc ();
-	values->_length = values->_maximum = len;
-	values->_buffer = CORBA_sequence_CORBA_double_allocbuf (len);
-	values->_release = CORBA_TRUE;
-
-	/* TODO : handle blanks */
-	if (v == NULL) {
-		values->_buffer[0] = 0.;
-		return values;
+	if (VALUE_IS_EMPTY_OR_ERROR (v)) {
+		*((*vals)++) = gnm_nan;
+		return NULL;
 	}
-
-	/* FIXME : This is dog slow */
-	for (i = 0; i < len ; ++i) {
-		Value const *elem = vector->is_column
-			? value_area_get_x_y (v, 0, i, &ep)
-			: value_area_get_x_y (v, i, 0, &ep);
-
-		if (elem == NULL) {
-			values->_buffer [i] = 0.;	/* TODO : handle blanks */
-			continue;
-		} else if (elem->type == VALUE_STRING) {
-			Value *tmp = format_match_number (elem->v_str.val->str, NULL);
-			if (tmp != NULL) {
-				values->_buffer [i] = value_get_as_float (tmp);
-				value_release (tmp);
-				continue;
-			}
-		}
-		values->_buffer [i] = value_get_as_float (elem);
+	if (v->type == VALUE_STRING) {
+		v = format_match_number (v->v_str.val->str, NULL,
+				workbook_date_conv (sheet->workbook));
+		if (v != NULL) {
+			*((*vals)++) = value_get_as_float (v);
+			value_release (v);
+		} else
+			*((*vals)++) = gnm_nan;
+		return NULL;
 	}
-
-	return values;
-#endif
+	*((*vals)++) = value_get_as_float (v);
 	return NULL;
+}
+
+static void
+gnm_go_data_vector_load_values (GODataVector *dat)
+{
+	GnmGODataVector *vec = (GnmGODataVector *)dat;
+	EvalPos ep;
+	Range r;
+	Sheet *start_sheet, *end_sheet;
+	int len = go_data_vector_get_len (dat); /* force calculation */
+	double *vals;
+	Value *v;
+
+	if (dat->len <= 0)
+		return;
+
+	vals = dat->values = g_new (double, dat->len);
+	switch (vec->val->type) {
+	case VALUE_CELLRANGE:
+		rangeref_normalize (&vec->val->v_range.cell,
+			eval_pos_init_dep (&ep, &vec->dep),
+			&start_sheet, &end_sheet, &r);
+
+		if (vec->as_col) {
+			r.end.col = r.start.col;
+			if (r.end.row > start_sheet->rows.max_used)
+				r.end.row = start_sheet->rows.max_used;
+		} else {
+			r.end.row = r.start.row;
+			if (r.end.col > start_sheet->cols.max_used)
+				r.end.col = start_sheet->cols.max_used;
+		}
+		sheet_foreach_cell_in_range (start_sheet, CELL_ITER_ALL,
+			r.start.col, r.start.row, r.end.col, r.end.row,
+			(CellIterFunc)cb_assign_val, &vals);
+		break;
+
+	case VALUE_ARRAY :
+		while (len-- > 0) {
+			v = vec->as_col
+				? vec->val->v_array.vals [0][len]
+				: vec->val->v_array.vals [len][0];
+
+			if (VALUE_IS_EMPTY_OR_ERROR (v)) {
+				vals[len] = gnm_nan;
+				continue;
+			} else if (v->type == VALUE_STRING) {
+				Value *tmp = format_match_number (v->v_str.val->str, NULL,
+						workbook_date_conv (vec->dep.sheet->workbook));
+				if (tmp != NULL) {
+					vals[len] = value_get_as_float (tmp);
+					value_release (tmp);
+					continue;
+				}
+			}
+			vals[len] = value_get_as_float (v);
+		}
+		break;
+
+	case VALUE_STRING :
+		v = format_match_number (vec->val->v_str.val->str, NULL,
+			workbook_date_conv (vec->dep.sheet->workbook));
+		if (v != NULL) {
+			vals[0] = value_get_as_float (v);
+			value_release (v);
+			break;
+		}
+		/* fall through to errors */
+
+	case VALUE_EMPTY :
+	case VALUE_ERROR :
+		vals[0] = gnm_nan;
+		break;
+	default :
+		vals[0] = value_get_as_float (vec->val);
+		break;
+	}
+
+	dat->values = vals;
+	dat->base.flags |= GO_DATA_CACHE_IS_VALID;
 }
 
 static double
@@ -315,8 +409,8 @@ gnm_go_data_vector_class_init (GObjectClass *gobject_klass)
 	gobject_klass->finalize		= gnm_go_data_vector_finalize;
 	godata_klass->eq		= gnm_go_data_vector_eq;
 	godata_klass->as_str		= gnm_go_data_vector_as_str;
-	vector_klass->get_len		= gnm_go_data_vector_get_len;
-	vector_klass->get_values	= gnm_go_data_vector_get_values;
+	vector_klass->load_len		= gnm_go_data_vector_load_len;
+	vector_klass->load_values	= gnm_go_data_vector_load_values;
 	vector_klass->get_value		= gnm_go_data_vector_get_value;
 	vector_klass->get_str		= gnm_go_data_vector_get_str;
 }

@@ -41,8 +41,9 @@ You need:
 	libgsf		>= 1.7.2	libgsf-1-dev + libgsf-gnome-1-dev
 	libglade	>= 2.0.0	libglade2-dev
 	intltools	>= 0.9		intltool
-	gal		>= 1.99.1	libgal2.0-dev
+	gal		>= 1.99.5	libgal2.0-dev
 	gnome-xml   	>= 2.4.12	libxml2-dev
+	libart   	>= 2.3.11	libart-2.0-dev
 	NOTE : gnome-xml is also known as libxml
 
 Optionally:
@@ -52,7 +53,6 @@ Optionally:
 Currently disabled:
 	gb		== 0.0.17
 	guile		>= 1.5
-	guppi		>= 0.40.3
 
 Mailing lists
 -------------
