@@ -1,6 +1,11 @@
 2002-02-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* dialog_about.c (dialog_about) : don't use gnome_dialog
+	* dialog-consolidate.c (cb_add_clicked) : expr-entries are not
+	  GTK_EDITABLES
+
+2002-02-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-about.c (dialog_about) : don't use gnome_dialog
 
 2002-02-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
 

@@ -256,6 +256,8 @@ cb_add_clicked (GtkButton *button, ConsolidateState *state)
 {
 	char *text[1];
 	int i, exists = -1;
+	Value *value;
+	Range range;
 
 	g_return_if_fail (state != NULL);
 
@@ -264,7 +266,18 @@ cb_add_clicked (GtkButton *button, ConsolidateState *state)
 	 * that the range doesn't already exist, in such cases we
 	 * simply select the existing entry
 	 */
-	text[0] = gtk_editable_get_chars (GTK_EDITABLE (state->gui.source), 0, -1);
+
+	value = gnm_expr_entry_parse_as_value (state->gui.source, state->sheet);
+
+	g_return_if_fail (value != NULL);
+	g_return_if_fail (value->type == VALUE_CELLRANGE);
+
+	range_init (&range, value->v_range.cell.a.col, value->v_range.cell.a.row,
+		    value->v_range.cell.b.col, value->v_range.cell.b.row);
+
+	text[0] = global_range_name (value->v_range.cell.a.sheet, &range);
+	value_release (value);
+
 	for (i = 0; i < state->gui.areas->rows; i++) {
 		char *t[1];
 
