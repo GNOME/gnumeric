@@ -129,7 +129,7 @@ static const DistributionStrs distribution_strs[] = {
 };
 
 static void
-new_sheet_toggled(GtkWidget *widget, data_analysis_output_type_t *type)
+new_sheet_toggled (GtkWidget *widget, data_analysis_output_type_t *type)
 {
         if (GTK_TOGGLE_BUTTON (widget)->active) {
 	        *type = NewSheetOutput;
@@ -137,7 +137,7 @@ new_sheet_toggled(GtkWidget *widget, data_analysis_output_type_t *type)
 }
 
 static void
-new_workbook_toggled(GtkWidget *widget, data_analysis_output_type_t *type)
+new_workbook_toggled (GtkWidget *widget, data_analysis_output_type_t *type)
 {
         if (GTK_TOGGLE_BUTTON (widget)->active) {
 	        *type = NewWorkbookOutput;
@@ -145,7 +145,7 @@ new_workbook_toggled(GtkWidget *widget, data_analysis_output_type_t *type)
 }
 
 static void
-range_output_toggled(GtkWidget *widget, data_analysis_output_type_t *type)
+range_output_toggled (GtkWidget *widget, data_analysis_output_type_t *type)
 {
         if (GTK_TOGGLE_BUTTON (widget)->active) {
 	        *type = RangeOutput;
@@ -160,7 +160,7 @@ focus_on_entry (GtkWidget *widget, GtkWidget *entry)
 }
 
 static void
-columns_toggled(GtkWidget *widget, int *group)
+columns_toggled (GtkWidget *widget, int *group)
 {
         if (GTK_TOGGLE_BUTTON (widget)->active) {
 	        *group = 0;
@@ -168,7 +168,7 @@ columns_toggled(GtkWidget *widget, int *group)
 }
 
 static void
-rows_toggled(GtkWidget *widget, int *group)
+rows_toggled (GtkWidget *widget, int *group)
 {
         if (GTK_TOGGLE_BUTTON (widget)->active) {
 	        *group = 1;
@@ -185,7 +185,7 @@ output_range_selected (GtkWidget *widget, GdkEventFocus   *event,
 }
 
 static int
-set_output_option_signals (GladeXML *gui, data_analysis_output_t *dao, char *n)
+set_output_option_signals (GladeXML *gui, data_analysis_output_t *dao, const char *n)
 {
 	GtkWidget *radiobutton;
 	GtkWidget *entry;
@@ -235,7 +235,7 @@ set_output_option_signals (GladeXML *gui, data_analysis_output_t *dao, char *n)
 }
 
 static int
-set_group_option_signals (GladeXML *gui, int *group, char *n)
+set_group_option_signals (GladeXML *gui, int *group, const char *n)
 {
 	GtkWidget *radiobutton;
 	char      buf[256];
@@ -263,7 +263,7 @@ set_group_option_signals (GladeXML *gui, int *group, char *n)
 }
 
 static void
-checkbutton_toggled(GtkWidget *widget, gboolean *flag)
+checkbutton_toggled (GtkWidget *widget, gboolean *flag)
 {
         *flag = GTK_TOGGLE_BUTTON (widget)->active;
 }
@@ -400,7 +400,7 @@ static char *sample_method_ops [] = {
 };
 
 static GtkWidget *
-new_dialog(char *name)
+new_dialog (const char *name)
 {
         GtkWidget *dialog;
 
@@ -416,12 +416,12 @@ new_dialog(char *name)
 }
 
 static GtkWidget *
-new_frame(char *name, GtkWidget *target_box)
+new_frame (const char *name, GtkWidget *target_box)
 {
         GtkWidget *frame, *box;
 
-	frame = gtk_frame_new(name);
-	box = gtk_vbox_new(FALSE, 0);
+	frame = gtk_frame_new (name);
+	box = gtk_vbox_new (FALSE, 0);
 	gtk_container_add (GTK_CONTAINER (frame), box);
 	gtk_box_pack_start (GTK_BOX (target_box), frame, FALSE, FALSE, 0);
 
@@ -429,14 +429,14 @@ new_frame(char *name, GtkWidget *target_box)
 }
 
 static void
-error_in_entry(Workbook *wb, GtkWidget *entry, char *err_str)
+error_in_entry (Workbook *wb, GtkWidget *entry, const char *err_str)
 {
         gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR, err_str);
 
 	gtk_widget_grab_focus (entry);
-	gtk_entry_set_position(GTK_ENTRY (entry), 0);
-	gtk_entry_select_region(GTK_ENTRY (entry), 0, 
-				GTK_ENTRY(entry)->text_length);
+	gtk_entry_set_position (GTK_ENTRY (entry), 0);
+	gtk_entry_select_region (GTK_ENTRY (entry), 0, 
+				 GTK_ENTRY(entry)->text_length);
 }
 
 static void
@@ -471,8 +471,8 @@ add_check_buttons (GtkWidget *box, check_button_t *cbs)
 }
 
 static int
-parse_output(int output, Sheet *sheet,
-	     GtkWidget *entry, Workbook *wb, data_analysis_output_t *dao)
+parse_output (int output, Sheet *sheet,
+	      GtkWidget *entry, Workbook *wb, data_analysis_output_t *dao)
 {
         char  *text;
 	Range range;
@@ -509,7 +509,7 @@ parse_output(int output, Sheet *sheet,
 }
 
 static GtkWidget *
-add_output_frame(GtkWidget *box, GSList **output_ops)
+add_output_frame (GtkWidget *box, GSList **output_ops)
 {
         GtkWidget *r, *hbox, *output_range_entry;
 
@@ -541,7 +541,7 @@ add_output_frame(GtkWidget *box, GSList **output_ops)
 }
 
 static GSList *
-add_groupped_by(GtkWidget *box)
+add_groupped_by (GtkWidget *box)
 {
         GtkWidget *r, *groupped_label, *group_box, *hbox;
 	GSList    *group_ops;

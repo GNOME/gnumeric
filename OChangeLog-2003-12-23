@@ -1,3 +1,31 @@
+2000-06-23  Morten Welinder  <terra@diku.dk>
+
+	* src/dialogs/dialog-analysis-tools.c (set_output_option_signals):
+ 	Constify.
+	(set_group_option_signals): Constify.
+	(new_frame): Constify.
+	(error_in_entry): Constify.
+	(new_dialog): Constify.
+
+	* src/analysis-tools.c: major cleanup.  Eliminate fixed-size
+ 	buffers that might overflow; constify; plug leaks; improve
+ 	precision; produce numbers without going through strings.
+	(set_cell_float, set_cell_int, set_cell_na, set_cell_printf): New
+ 	functions.
+
+	* src/xml-io.c (xml_write_range): Constify.
+	(xml_get_gnome_canvas_points): Mark code as bogus.
+	(xml_set_gnome_canvas_points): Constify.  Improve space checks.
+	(xml_set_value_int): Improve buffer sizing.
+	(xml_set_value_string): Constify.
+	(xml_set_color_value): Improve buffer sizing.
+
+	* src/ranges.c (parse_range): Constify, simplify, optimise, and
+ 	secure.
+	(range_parse): Fix strict case.
+
+	* src/parse-util.c (parse_cell_name_or_range): Remove bogus cast.
+
 2000-06-23  Jon K Hellan  <hellan@acm.org>
 
 	(sheet_object_container_new_bonobo): As suggested by Michael:

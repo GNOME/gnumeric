@@ -41,6 +41,7 @@ range_init (Range *r, int start_col, int start_row,
  * range_parse:
  * @sheet: the sheet where the cell range is evaluated
  * @range: a range specification (ex: "A1", "A1:C3").
+ * @strict: if FALSE, allow extra characters after range text.
  *
  * Returns a (Value *) of type VALUE_CELLRANGE if the @range was
  * succesfully parsed or NULL on failure.
@@ -49,9 +50,8 @@ Value *
 range_parse (Sheet *sheet, const char *range, gboolean strict)
 {
 	CellRef a, b;
-	Value *v;
-	int n_read = 0;
-	
+	int n_read;
+
 	g_return_val_if_fail (range != NULL, FALSE);
 
 	a.col_relative = 0;
@@ -59,48 +59,39 @@ range_parse (Sheet *sheet, const char *range, gboolean strict)
 	a.row_relative = 0;
 	b.row_relative = 0;
 
-	if (!parse_cell_name (range, &a.col, &a.row, strict, &n_read))
+	if (!parse_cell_name (range, &a.col, &a.row, FALSE, &n_read))
 		return FALSE;
 
 	a.sheet = sheet;
 
-	if (range [n_read] == ':'){
-		if (!parse_cell_name (&range [n_read+1], &b.col, &b.row, strict, NULL))
+	if (range[n_read] == ':') {
+		if (!parse_cell_name (&range[n_read+1], &b.col, &b.row, strict, NULL))
 			return FALSE;
-
 		b.sheet = sheet;
-	} else
+	} else if (strict && range[n_read])
+		return FALSE;
+	else
 		b = a;
 
 	/*
 	 * We can dummy out the calling cell because we know that both
 	 * refs use the same mode.  This will handle inversions.
 	 */
-	v = value_new_cellrange (&a, &b, 0, 0);
-	
-	return v;
+	return value_new_cellrange (&a, &b, 0, 0);
 }
 
 /* Pulled from dialog-analysis-tools.c
  * Should be merged with range_parse
  */
 int
-parse_range (char *text, int *start_col, int *start_row,
+parse_range (const char *text, int *start_col, int *start_row,
 	     int *end_col, int *end_row)
 {
-        char buf[256];
-        char *p;
+	int len;
 
-	strcpy(buf, text);
-	p = strchr(buf, ':');
-	if (p == NULL)
-	        return 0;
-	*p = '\0';
-	if (!parse_cell_name (buf, start_col, start_row, TRUE, NULL))
-	        return 0;
-	if (!parse_cell_name (p+1, end_col, end_row, TRUE, NULL))
-	        return 0;
-	return 1;
+	return (parse_cell_name (text, start_col, start_row, FALSE, &len) &&
+		text[len] == ':' &&
+		parse_cell_name (text + len + 1, end_col, end_row, TRUE, NULL));
 }
 
 /**

@@ -881,7 +881,6 @@ solver_answer_report (Workbook *wb, Sheet *sheet, GSList *ov,
         CellList               *cell_list = param->input_cells;
 	
 	Cell *cell;
-	char buf[256];
 	char *str;
 	int  row, i;
 
@@ -902,16 +901,15 @@ solver_answer_report (Workbook *wb, Sheet *sheet, GSList *ov,
 	set_bold (dao.sheet, 0, 2, 3, 2);
 
 	/* Set `Cell' field */
-	set_cell (&dao, 0, 3, (char*) cell_name(param->target_cell));
+	set_cell (&dao, 0, 3, cell_name (param->target_cell));
 
 	/* Set `Name' field */
 	set_cell (&dao, 1, 3, find_name (sheet, param->target_cell->col_info->pos,
 					 param->target_cell->row_info->pos));
 
 	/* Set `Original Value' field */
-	sprintf (buf, "%f", ov_target);
-	set_cell (&dao, 2, 3, buf);
-
+	set_cell_float (&dao, 2, 3, ov_target);
+	
 	/* Set `Final Value' field */
 	cell = sheet_cell_fetch (sheet, param->target_cell->col_info->pos,
 				 param->target_cell->row_info->pos);
@@ -933,7 +931,7 @@ solver_answer_report (Workbook *wb, Sheet *sheet, GSList *ov,
 	        cell = (Cell *) cell_list->data;
 
 		/* Set `Cell' column */
-		set_cell (&dao, 0, row, (char *) cell_name(cell));
+		set_cell (&dao, 0, row, cell_name (cell));
 
 		/* Set `Name' column */
 		set_cell (&dao, 1, row, find_name (sheet, cell->col_info->pos,
@@ -989,7 +987,7 @@ solver_answer_report (Workbook *wb, Sheet *sheet, GSList *ov,
 			}
 
 		        /* Set `Cell' column */
-			set_cell (&dao, 0, row, (char *) cell_coord_name (tc, tr));
+			set_cell (&dao, 0, row, cell_coord_name (tc, tr));
 
 			/* Set `Name' column */
 			set_cell (&dao, 1, row, find_name (sheet, tc, tr));
@@ -1008,14 +1006,13 @@ solver_answer_report (Workbook *wb, Sheet *sheet, GSList *ov,
 			cell = sheet_cell_fetch (sheet, tc, tr);
 			lhs = value_get_as_float (cell->value);
 
-			if (fabs (lhs-rhs) < 0.001)
+			if (fabs (lhs - rhs) < 0.001)
 			        set_cell (&dao, 4, row, _("Binding"));
 			else
 			        set_cell (&dao, 4, row, _("Not Binding"));
 
 			/* Set `Slack' column */
-			sprintf(buf, "%f", fabs (lhs-rhs));
-			set_cell (&dao, 5, row, buf);
+			set_cell_float (&dao, 5, row, fabs (lhs-rhs));
 
 			/* Go to next row */
 			++row;
@@ -1042,7 +1039,7 @@ solver_sensitivity_report (Workbook *wb, Sheet *sheet, float_t *x,
         CellList               *cell_list = param->input_cells;
 
 	Cell *cell;
-	char *str, buf[256];
+	char *str;
 	int  row=0, i;
 
 	dao.type = NewSheetOutput;
@@ -1067,7 +1064,7 @@ solver_sensitivity_report (Workbook *wb, Sheet *sheet, float_t *x,
 	        cell = (Cell *) cell_list->data;
 
 		/* Set `Cell' column */
-		set_cell (&dao, 0, row, (char *) cell_name(cell));
+		set_cell (&dao, 0, row, cell_name (cell));
 
 		/* Set `Name' column */
 		set_cell (&dao, 1, row, find_name (sheet, cell->col_info->pos,
@@ -1081,12 +1078,10 @@ solver_sensitivity_report (Workbook *wb, Sheet *sheet, float_t *x,
 		g_free (str);
 
 		/* Set `Reduced Cost' column */
-		sprintf(buf, "%f", x[i]);
-		set_cell (&dao, 3, row, buf);
+		set_cell_float (&dao, 3, row, x[i]);
 
 		/* Set `Objective Coefficient' column */
-		sprintf(buf, "%f", x[i]);
-		set_cell (&dao, 4, row, buf);
+		set_cell_float (&dao, 4, row, x[i]);
 
 		/* Go to next row */
 	        cell_list = cell_list->next;
@@ -1119,7 +1114,7 @@ solver_sensitivity_report (Workbook *wb, Sheet *sheet, float_t *x,
 	        SolverConstraint *c = (SolverConstraint *) constraints->data;
 
 		/* Set `Cell' column */
-		set_cell (&dao, 0, row, (char *) cell_pos_name (&c->lhs));
+		set_cell (&dao, 0, row, cell_pos_name (&c->lhs));
 
 		/* Set `Name' column */
 		set_cell (&dao, 1, row, find_name (sheet, c->lhs.col,
@@ -1133,8 +1128,7 @@ solver_sensitivity_report (Workbook *wb, Sheet *sheet, float_t *x,
 
 #if 0
 		/* Set `Shadow Prize' column */
-		sprintf(buf, "%f", shadow_prize[i]);
-		set_cell (&dao, 3, row, buf);
+		set_cell_float (&dao, 3, row, shadow_prize[i]);
 #endif
 
 		/* Set `R.H. Side Value' column */

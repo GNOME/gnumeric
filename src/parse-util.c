@@ -394,7 +394,7 @@ parse_cell_name_or_range (const char *cell_str, int *col, int *row, int *cols, i
 
 	*cols = *rows = 1;
 	if (!parse_cell_name (cell_str, col, row, strict, NULL)) {
-	        if (!parse_range ((char *) cell_str, col, row, &e_col, &e_row))
+	        if (!parse_range (cell_str, col, row, &e_col, &e_row))
 		        return FALSE;
 		else {
 		        *cols = e_col - *col + 1;

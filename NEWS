@@ -1,4 +1,11 @@
-Gnumeric 0.55
+Gnumeric 0.57
+
+Morten
+	* Cleanup analysis tool code.
+	* Eliminate many fixed limits in the code.  (Still some to go.)
+
+--------------------------------------------------------------------------
+Gnumeric 0.55/0.56
 
 Almer:
 	* Stf importer bug fixes and enhancements.

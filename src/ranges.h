@@ -58,7 +58,7 @@
 Range      *range_init              (Range *r, int start_col, int start_row,
 				     int end_col, int end_row);
 Value      *range_parse             (Sheet *sheet, const char *range, gboolean strict);
-int         parse_range 	    (char *text, int *start_col, int *start_row,
+int         parse_range 	    (const char *text, int *start_col, int *start_row,
 				     int *end_col, int *end_row);
 GSList     *range_list_parse        (Sheet *sheet, const char *cell_name_str, gboolean strict);
 void        range_list_destroy      (GSList *ranges);

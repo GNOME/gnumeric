@@ -11,6 +11,7 @@
 #include <gnome.h>
 #include <locale.h>
 #include <math.h>
+#include <limits.h>
 #include "gnumeric.h"
 #include "gnome-xml/parser.h"
 #include "gnome-xml/parserInternals.h"
@@ -256,7 +257,6 @@ xml_get_coordinate (xmlNodePtr node, const char *name, double *x, double *y)
 {
 	int res;
 	char *ret;
-	float X, Y;
 
 	ret = xml_value_get (node, name);
 	if (ret == NULL) return 0;
@@ -311,6 +311,7 @@ xml_get_gnome_canvas_points (xmlNodePtr node, const char *name)
 			ptr++;
 		if (*ptr == 0)
 			break;
+		THIS_DOES_NOT_LOOK_RIGHT = 1;
 		res = sscanf (ptr, "(%lf %lf)", &coord[index], &coord[index + 1]);
 		if (res != 2)
 			break;
@@ -335,18 +336,19 @@ xml_get_gnome_canvas_points (xmlNodePtr node, const char *name)
  */
 static void
 xml_set_gnome_canvas_points (xmlNodePtr node, const char *name,
-			     GnomeCanvasPoints *val)
+			     const GnomeCanvasPoints *val)
 {
 	xmlNodePtr child;
 	char *str, *base;
 	char *tstr;
 	int i;
+	int width1 = 30 + DBL_DIG;
 
 	if (val == NULL)
 		return;
-	if ((val->num_points < 0) || (val->num_points > 5000))
+	if (val->num_points < 0 || val->num_points > (INT_MAX - 1) / width1)
 		return;
-	base = str = g_malloc (val->num_points * 30 * sizeof (char) + 1);
+	base = str = g_malloc (val->num_points * width1 + 1);
 	if (str == NULL)
 		return;
 	for (i = 0; i < val->num_points; i++){
@@ -404,7 +406,7 @@ xml_set_value (xmlNodePtr node, const char *name, const char *val)
  * the content of a child.
  */
 static void
-xml_set_value_string (xmlNodePtr node, const char *name, String *val)
+xml_set_value_string (xmlNodePtr node, const char *name, const String *val)
 {
 	char *ret;
 	xmlNodePtr child;
@@ -435,9 +437,9 @@ xml_set_value_int (xmlNodePtr node, const char *name, int val)
 {
 	char *ret;
 	xmlNodePtr child;
-	char str[101];
+	char str[4 * sizeof (int)];
 
-	snprintf (str, 100, "%d", val);
+	sprintf (str, "%d", val);
 	ret = xmlGetProp (node, name);
 	if (ret != NULL){
 		xmlFree (ret);
@@ -454,37 +456,6 @@ xml_set_value_int (xmlNodePtr node, const char *name, int val)
 	}
 	xmlSetProp (node, name, str);
 }
-
-#if 0
-/*
- * Set a float value for a node either carried as an attibute or as
- * the content of a child.
- */
-static void
-xml_set_value_float (xmlNodePtr node, const char *name, float val)
-{
-	char *ret;
-	xmlNodePtr child;
-	char str[101];
-
-	snprintf (str, 100, "%f", val);
-	ret = xmlGetProp (node, name);
-	if (ret != NULL){
-		xmlFree (ret);
-		xmlSetProp (node, name, str);
-		return;
-	}
-	child = node->childs;
-	while (child != NULL){
-		if (!strcmp (child->name, name)){
-			xmlNodeSetContent (child, str);
-			return;
-		}
-		child = child->next;
-	}
-	xmlSetProp (node, name, str);
-}
-#endif
 
 /*
  * Set a double value for a node either carried as an attibute or as
@@ -616,7 +587,7 @@ xml_read_range (xmlNodePtr tree, Range *res)
 }
 
 static void
-xml_write_range (xmlNodePtr tree, Range *value)
+xml_write_range (xmlNodePtr tree, const Range *value)
 {
 	xml_set_value_int (tree, "startCol", value->start.col);
 	xml_set_value_int (tree, "startRow", value->start.row);
@@ -701,9 +672,9 @@ xml_set_color_value (xmlNodePtr node, const char *name, StyleColor *val)
 {
 	char *ret;
 	xmlNodePtr child;
-	char str[101];
+	char str[4 * sizeof (val->color)];
 
-	snprintf (str, 100, "%X:%X:%X", val->color.red, val->color.green, val->color.blue);
+	sprintf (str, "%X:%X:%X", val->color.red, val->color.green, val->color.blue);
 	ret = xmlGetProp (node, name);
 	if (ret != NULL){
 		xmlFree (ret);
@@ -2338,8 +2309,6 @@ xml_sheet_write (parse_xml_context_t *ctxt, Sheet *sheet)
 	xmlNodePtr styles;
 	xmlNodePtr solver;
 	GList     *style_regions;
-
-	char str [50];
 	char *tstr;
 
 	/*
@@ -2357,12 +2326,15 @@ xml_sheet_write (parse_xml_context_t *ctxt, Sheet *sheet)
 	xmlNewChild (cur, ctxt->ns, "Name",  tstr);
 	if (tstr) xmlFree (tstr);
 
-	sprintf (str, "%d", sheet->cols.max_used);
-	xmlNewChild (cur, ctxt->ns, "MaxCol", str);
-	sprintf (str, "%d", sheet->rows.max_used);
-	xmlNewChild (cur, ctxt->ns, "MaxRow", str);
-	sprintf (str, "%f", sheet->last_zoom_factor_used);
-	xmlNewChild (cur, ctxt->ns, "Zoom", str);
+	{
+	    char str[4 * sizeof (int) + DBL_DIG + 50];
+	    sprintf (str, "%d", sheet->cols.max_used);
+	    xmlNewChild (cur, ctxt->ns, "MaxCol", str);
+	    sprintf (str, "%d", sheet->rows.max_used);
+	    xmlNewChild (cur, ctxt->ns, "MaxRow", str);
+	    sprintf (str, "%f", sheet->last_zoom_factor_used);
+	    xmlNewChild (cur, ctxt->ns, "Zoom", str);
+	}
 
 	child = xml_write_names (ctxt, sheet->names);
 	if (child)
