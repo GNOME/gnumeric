@@ -247,7 +247,7 @@ static void
 x_selection_handler (GtkWidget *widget, GtkSelectionData *selection_data,
 		     guint info, guint time, WorkbookControl *wbc)
 {
-	gboolean content_needs_free = FALSE;
+	gboolean to_gnumeric = FALSE, content_needs_free = FALSE;
 	CellRegion *clipboard = application_clipboard_contents_get ();
 	GdkAtom atom_gnumeric = gdk_atom_intern (GNUMERIC_ATOM_NAME, FALSE);
 	Sheet *sheet = application_clipboard_sheet_get ();
@@ -290,6 +290,7 @@ x_selection_handler (GtkWidget *widget, GtkSelectionData *selection_data,
 					(char *) buffer, buffer_size);
 
 		xmlFree (buffer);
+		to_gnumeric = TRUE;
 	} else {
 		char *rendered_selection = cellregion_to_string (clipboard);
 
@@ -305,10 +306,12 @@ x_selection_handler (GtkWidget *widget, GtkSelectionData *selection_data,
 	 */
 	if (content_needs_free) {
 
-		sheet_clear_region (wbc, sheet,
-				    a->start.col, a->start.row,
-				    a->end.col,   a->end.row,
-				    CLEAR_VALUES|CLEAR_COMMENTS|CLEAR_RECALC_DEPS);
+		/* If the other app was a gnumeric, emulate a cut */
+		if (to_gnumeric)
+			sheet_clear_region (wbc, sheet,
+				a->start.col, a->start.row,
+				a->end.col,   a->end.row,
+				CLEAR_VALUES|CLEAR_COMMENTS|CLEAR_RECALC_DEPS);
 
 		cellregion_free (clipboard);
 		application_clipboard_clear (TRUE);

@@ -1,3 +1,7 @@
+2001-07-17  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.68
+
 2001-07-15  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* dif.c (dif_file_open):

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
-"POT-Creation-Date: 2001-06-28 18:21-0400\n"
+"POT-Creation-Date: 2001-07-17 22:49-0400\n"
 "PO-Revision-Date: 1998-10-03 17:59+01:00\n"
 "Last-Translator: Sami Kuhmonen <sami@iqs.fi>\n"
 "Language-Team: \n"
@@ -13,60 +13,65 @@ msgstr ""
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: plugins/dif/dif.c:76 plugins/excel/ms-excel-read.c:4057
+#: plugins/applix/applix-read.c:78
+#, fuzzy
+msgid "Parse error while reading Applix file."
+msgstr "Tämänhetkinen _päiväys"
+
+#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4076
 msgid "Reading file..."
 msgstr ""
 
-#: plugins/dif/dif.c:240
+#: plugins/dif/dif.c:241
 #, c-format
 msgid "Syntax error at line %d. Ignoring."
 msgstr ""
 
-#: plugins/dif/dif.c:277
+#: plugins/dif/dif.c:278
 #, c-format
 msgid "Unknown data value \"%s\" at line %d. Ignoring."
 msgstr ""
 
-#: plugins/dif/dif.c:284
+#: plugins/dif/dif.c:285
 #, c-format
 msgid "Unknown value type %d at line %d. Ignoring."
 msgstr ""
 
-#: plugins/dif/dif.c:293
+#: plugins/dif/dif.c:294
 #, c-format
 msgid ""
 "DIF file has more than the maximum number of rows %d. Ignoring remaining "
 "rows."
 msgstr ""
 
-#: plugins/dif/dif.c:297
+#: plugins/dif/dif.c:298
 #, c-format
 msgid ""
 "DIF file has more than the maximum number of columns %d. Ignoring remaining "
 "columns."
 msgstr ""
 
-#: plugins/dif/dif.c:309
+#: plugins/dif/dif.c:310
 #, c-format
 msgid "Unexpected end of file at line %d while reading header."
 msgstr ""
 
-#: plugins/dif/dif.c:313
+#: plugins/dif/dif.c:314
 #, c-format
 msgid "Unexpected end of file at line %d while reading data."
 msgstr ""
 
-#: plugins/dif/dif.c:329
+#: plugins/dif/dif.c:330
 #, fuzzy
 msgid "Error while reading DIF file."
 msgstr "Tämänhetkinen _päiväys"
 
-#: plugins/dif/dif.c:361
+#: plugins/dif/dif.c:362
 #, fuzzy
 msgid "Cannot get default sheet."
 msgstr "Tiedostoa %s ei voitu luoda\n"
 
-#: plugins/dif/dif.c:394
+#: plugins/dif/dif.c:395
 msgid "Error while saving DIF file."
 msgstr ""
 
@@ -101,16 +106,16 @@ msgstr ""
 msgid "Sheet%d"
 msgstr "Taulu %d"
 
-#: plugins/excel/ms-excel-read.c:4052
+#: plugins/excel/ms-excel-read.c:4071
 msgid "No book or workbook streams found."
 msgstr ""
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4329
+#: plugins/excel/ms-excel-read.c:4348
 msgid "Password protected workbooks are not supported yet."
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:4452
+#: plugins/excel/ms-excel-read.c:4471
 msgid "Unable to locate valid MS Excel workbook"
 msgstr ""
 
@@ -171,11 +176,11 @@ msgstr ""
 msgid "Error: could not open connection to %s"
 msgstr ""
 
-#: plugins/guile/plugin.c:67 src/func.c:740 src/functions/fn-information.c:613
-#: src/functions/fn-information.c:681 src/functions/fn-information.c:708
-#: src/functions/fn-information.c:734 src/functions/fn-information.c:783
-#: src/functions/fn-information.c:812 src/functions/fn-information.c:875
-#: src/functions/fn-logical.c:194 src/functions/fn-string.c:324
+#: plugins/guile/plugin.c:67 src/func.c:740 src/functions/fn-information.c:658
+#: src/functions/fn-information.c:726 src/functions/fn-information.c:753
+#: src/functions/fn-information.c:779 src/functions/fn-information.c:828
+#: src/functions/fn-information.c:857 src/functions/fn-information.c:920
+#: src/functions/fn-logical.c:194 src/functions/fn-string.c:312
 msgid "Invalid number of arguments"
 msgstr "Virheellinen määrä parametreja"
 
@@ -196,7 +201,15 @@ msgstr "Parametria ei voitu tulkita"
 msgid "Gnumeric has not been compiled with support for guile."
 msgstr ""
 
-#: plugins/lotus-123/lotus.c:316
+#: plugins/html/roff.c:199
+msgid "Error executing groff."
+msgstr ""
+
+#: plugins/html/roff.c:228
+msgid "Error executing groff+gs."
+msgstr ""
+
+#: plugins/lotus-123/lotus.c:315
 msgid "Error while reading lotus workbook."
 msgstr ""
 
@@ -355,15 +368,96 @@ msgstr "_Rivi"
 #. * Add Sheet
 #.
 #: plugins/plan-perfect/pln.c:912 plugins/sc/sc.c:420 plugins/sylk/sylk.c:459
-#: src/stf.c:163
+#: src/stf.c:173 src/stf.c:261
 #, fuzzy, c-format
 msgid "Imported %s"
 msgstr "_Järjestä"
 
-#: plugins/plan-perfect/pln.c:931
+#: plugins/plan-perfect/pln.c:930
 #, fuzzy
 msgid "Unable to mmap the file"
 msgstr "modulia ei voitu avata: "
+
+#: plugins/python-loader/py-gnumeric.c:274
+#: plugins/python-loader/py-gnumeric.c:314
+#, fuzzy
+msgid "Unknown error"
+msgstr "Tuntematon laskentavirhe"
+
+#: plugins/python-loader/py-gnumeric.c:280
+#: plugins/python-loader/py-gnumeric.c:322
+#, fuzzy, c-format
+msgid "Python exception (%s: %s)"
+msgstr "Python-poikkeus."
+
+#: plugins/python-loader/py-gnumeric.c:284
+#: plugins/python-loader/py-gnumeric.c:326
+#, fuzzy, c-format
+msgid "Python exception (%s)"
+msgstr "Python-poikkeus."
+
+#: plugins/python-loader/py-gnumeric.c:457
+msgid "Python list is not an array"
+msgstr ""
+
+#: plugins/python-loader/py-gnumeric.c:464
+#, fuzzy, c-format
+msgid "Unsupported Python type: %s"
+msgstr "Tuntematon laskentavirhe"
+
+#: plugins/python-loader/python-loader.c:112
+msgid "Python module name not given."
+msgstr ""
+
+#: plugins/python-loader/python-loader.c:155
+#, fuzzy, c-format
+msgid "Module \"%s\" doesn't exist."
+msgstr "Lisiössä pitää olla init_plugin-funktio."
+
+#: plugins/python-loader/python-loader.c:180
+#, c-format
+msgid "Execution of module \"%s\" failed."
+msgstr ""
+
+#: plugins/python-loader/python-loader.c:212 src/plugin-loader-module.c:190
+#, fuzzy
+msgid "Loader"
+msgstr "Lihavoi"
+
+#: plugins/python-loader/python-loader.c:215
+#, fuzzy
+msgid "Python module name"
+msgstr "Gnumeric/Python-moduli alustettu\n"
+
+#: plugins/python-loader/python-loader.c:316
+#, fuzzy
+msgid "Some name"
+msgstr "_Taulu"
+
+#: plugins/python-loader/python-loader.c:377
+#: plugins/python-loader/python-loader.c:461
+#: plugins/python-loader/python-loader.c:661
+#, c-format
+msgid "Python file \"%s\" has invalid format."
+msgstr ""
+
+#: plugins/python-loader/python-loader.c:382
+#: plugins/python-loader/python-loader.c:388
+#: plugins/python-loader/python-loader.c:466 src/plugin-loader-module.c:437
+#: src/plugin-loader-module.c:443 src/plugin-loader-module.c:508
+#, fuzzy, c-format
+msgid "File doesn't contain \"%s\" function."
+msgstr "Lisiössä pitää olla init_plugin-funktio."
+
+#: plugins/python-loader/python-loader.c:666
+#, fuzzy, c-format
+msgid "File doesn't contain \"%s\" dictionary."
+msgstr "Lisiössä pitää olla init_plugin-funktio."
+
+#: plugins/python-loader/python-loader.c:671
+#, c-format
+msgid "Object \"%s\" is not a dictionary."
+msgstr ""
 
 #: plugins/python/python.c:50
 #, fuzzy
@@ -387,78 +481,6 @@ msgstr "objektin pitää olla kutsuttava"
 #, fuzzy, c-format
 msgid "Unhandled Python exception: %s"
 msgstr "Python-poikkeus."
-
-#: plugins/python-loader/python-loader.c:112
-msgid "Python module name not given."
-msgstr ""
-
-#: plugins/python-loader/python-loader.c:212 src/plugin-loader-module.c:190
-#, fuzzy
-msgid "Loader"
-msgstr "Lihavoi"
-
-#: plugins/python-loader/python-loader.c:215
-#, fuzzy
-msgid "Python module name"
-msgstr "Gnumeric/Python-moduli alustettu\n"
-
-#: plugins/python-loader/python-loader.c:315
-#, fuzzy
-msgid "Some name"
-msgstr "_Taulu"
-
-#: plugins/python-loader/python-loader.c:376
-#: plugins/python-loader/python-loader.c:460
-#: plugins/python-loader/python-loader.c:660
-#, c-format
-msgid "Python file \"%s\" has invalid format."
-msgstr ""
-
-#: plugins/python-loader/python-loader.c:381
-#: plugins/python-loader/python-loader.c:387
-#: plugins/python-loader/python-loader.c:465 src/plugin-loader-module.c:437
-#: src/plugin-loader-module.c:443 src/plugin-loader-module.c:508
-#, fuzzy, c-format
-msgid "File doesn't contain \"%s\" function."
-msgstr "Lisiössä pitää olla init_plugin-funktio."
-
-#: plugins/python-loader/python-loader.c:665
-#, fuzzy, c-format
-msgid "File doesn't contain \"%s\" dictionary."
-msgstr "Lisiössä pitää olla init_plugin-funktio."
-
-#: plugins/python-loader/python-loader.c:670
-#, c-format
-msgid "Object \"%s\" is not a dictionary."
-msgstr ""
-
-#: plugins/python-loader/py-gnumeric.c:270
-#: plugins/python-loader/py-gnumeric.c:310 src/gnumeric-util.c:278
-#: src/gnumeric-util.c:313
-#, fuzzy
-msgid "Unknown error"
-msgstr "Tuntematon laskentavirhe"
-
-#: plugins/python-loader/py-gnumeric.c:276
-#: plugins/python-loader/py-gnumeric.c:318
-#, fuzzy, c-format
-msgid "Python exception (%s: %s)"
-msgstr "Python-poikkeus."
-
-#: plugins/python-loader/py-gnumeric.c:280
-#: plugins/python-loader/py-gnumeric.c:322
-#, fuzzy, c-format
-msgid "Python exception (%s)"
-msgstr "Python-poikkeus."
-
-#: plugins/python-loader/py-gnumeric.c:453
-msgid "Python list is not an array"
-msgstr ""
-
-#: plugins/python-loader/py-gnumeric.c:460
-#, fuzzy, c-format
-msgid "Unsupported Python type: %s"
-msgstr "Tuntematon laskentavirhe"
 
 #: plugins/sc/sc.c:387
 msgid "Error parsing line"
@@ -489,11 +511,11 @@ msgstr ""
 msgid "Error while opening xbase file."
 msgstr ""
 
-#: plugins/xml_sax/xml-sax-read.c:1917
+#: plugins/xml_sax/xml-sax-read.c:1980
 msgid "xmlCreateFileParserCtxt () failed."
 msgstr ""
 
-#: plugins/xml_sax/xml-sax-read.c:1928
+#: plugins/xml_sax/xml-sax-read.c:1989
 msgid "XML document not well formed!"
 msgstr ""
 
@@ -504,16 +526,16 @@ msgstr "Operaatio"
 
 #: src/analysis-tools.c:483 src/analysis-tools.c:484 src/analysis-tools.c:634
 #: src/analysis-tools.c:635 src/analysis-tools.c:790 src/analysis-tools.c:907
-#: src/analysis-tools.c:925 src/analysis-tools.c:947 src/analysis-tools.c:2271
-#: src/analysis-tools.c:2410 src/analysis-tools.c:2573
+#: src/analysis-tools.c:925 src/analysis-tools.c:947 src/analysis-tools.c:2289
+#: src/analysis-tools.c:2431 src/analysis-tools.c:2597
 #: src/dialogs/dialog-stf-preview.h:19
 #, fuzzy, c-format
 msgid "Column %d"
 msgstr "Sarake: %s"
 
 #: src/analysis-tools.c:509 src/analysis-tools.c:510 src/analysis-tools.c:660
-#: src/analysis-tools.c:661 src/analysis-tools.c:2297
-#: src/analysis-tools.c:2432 src/analysis-tools.c:2590
+#: src/analysis-tools.c:661 src/analysis-tools.c:2315
+#: src/analysis-tools.c:2453 src/analysis-tools.c:2614
 #, fuzzy, c-format
 msgid "Row %d"
 msgstr "Rivi: %d"
@@ -567,266 +589,267 @@ msgstr ""
 msgid "Smallest (%d)"
 msgstr ""
 
-#: src/analysis-tools.c:1038 src/analysis-tools.c:2826
+#: src/analysis-tools.c:1041 src/analysis-tools.c:2907
 #: src/dialogs/cell-format.glade.h:56
 #, fuzzy
 msgid "Sample"
 msgstr "Esimerkki:"
 
-#: src/analysis-tools.c:1142
+#: src/analysis-tools.c:1147
 #, fuzzy
 msgid "z-Test"
 msgstr "Teksti"
 
-#: src/analysis-tools.c:1165 src/analysis-tools.c:1276
-#: src/analysis-tools.c:1414 src/analysis-tools.c:1531
-#: src/analysis-tools.c:1647
+#: src/analysis-tools.c:1170 src/analysis-tools.c:1284
+#: src/analysis-tools.c:1422 src/analysis-tools.c:1539
+#: src/analysis-tools.c:1655
 msgid "Variable 1"
 msgstr ""
 
-#: src/analysis-tools.c:1166 src/analysis-tools.c:1277
-#: src/analysis-tools.c:1415 src/analysis-tools.c:1532
-#: src/analysis-tools.c:1648
+#: src/analysis-tools.c:1171 src/analysis-tools.c:1285
+#: src/analysis-tools.c:1423 src/analysis-tools.c:1540
+#: src/analysis-tools.c:1656
 msgid "Variable 2"
 msgstr ""
 
-#: src/analysis-tools.c:1169
+#: src/analysis-tools.c:1174
 msgid ""
 "/Mean/Known Variance/Observations/Hypothesized Mean Difference/z/P (Z<=z) "
 "one-tail/z Critical one-tail/P (Z<=z) two-tail/z Critical two-tail"
 msgstr ""
 
-#: src/analysis-tools.c:1256 src/analysis-tools.c:1391
-#: src/analysis-tools.c:1508
+#: src/analysis-tools.c:1264 src/analysis-tools.c:1399
+#: src/analysis-tools.c:1516
 #, fuzzy
 msgid "t-Test"
 msgstr "Teksti"
 
-#: src/analysis-tools.c:1280
+#: src/analysis-tools.c:1288
 msgid ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
 "df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical "
 "two-tail"
 msgstr ""
 
-#: src/analysis-tools.c:1418
+#: src/analysis-tools.c:1426
 msgid ""
 "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/df/"
 "t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical "
 "two-tail"
 msgstr ""
 
-#: src/analysis-tools.c:1535
+#: src/analysis-tools.c:1543
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/df/t Stat/P (T<=t) "
 "one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
 msgstr ""
 
-#: src/analysis-tools.c:1627
+#: src/analysis-tools.c:1635
 #, fuzzy
 msgid "F-Test"
 msgstr "Teksti"
 
-#: src/analysis-tools.c:1654
+#: src/analysis-tools.c:1662
 msgid "/Mean/Variance/Observations/df/F/P (F<=f) one-tail/F Critical one-tail"
 msgstr ""
 
-#: src/analysis-tools.c:1734 src/dialogs/dialog-analysis-tools.c:420
+#: src/analysis-tools.c:1742 src/dialogs/dialog-analysis-tools.c:420
 msgid "Random"
 msgstr ""
 
-#: src/analysis-tools.c:1871
+#: src/analysis-tools.c:1879
 msgid "Not implemented yet.\n"
 msgstr ""
 
 #. TODO This would be better using the
 #. value in the checkbox instead of this
 #. global, but I don't know GTK very well
-#: src/analysis-tools.c:1964 src/dialogs/dialog-analysis-tools.c:107
+#: src/analysis-tools.c:1975 src/dialogs/dialog-analysis-tools.c:107
 #: src/dialogs/dialog-analysis-tools.c:2010
 msgid "Regression"
 msgstr ""
 
-#: src/analysis-tools.c:1966
+#: src/analysis-tools.c:1977
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
 "Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
 msgstr ""
 
-#: src/analysis-tools.c:1985
+#: src/analysis-tools.c:1996
 #, c-format
 msgid "X Variable %d"
 msgstr ""
 
-#: src/analysis-tools.c:1987
+#: src/analysis-tools.c:1998
 msgid "/df/SS/MS/F/Significance F"
 msgstr ""
 
-#: src/analysis-tools.c:1993
+#: src/analysis-tools.c:2004
 msgid "/Coefficients/Standard Error/t Stat/P-value/Lower 95%/Upper 95%"
 msgstr ""
 
-#: src/analysis-tools.c:2186
+#: src/analysis-tools.c:2201
 #, fuzzy
 msgid "Moving Averages"
 msgstr "Keskiarvo"
 
-#: src/analysis-tools.c:2255
+#: src/analysis-tools.c:2273
 #, fuzzy
 msgid "Ranks"
 msgstr "Neliö"
 
-#: src/analysis-tools.c:2263 src/analysis-tools.c:2288
+#: src/analysis-tools.c:2281 src/analysis-tools.c:2306
 #, fuzzy
 msgid "Point"
 msgstr "Prosentti"
 
-#: src/analysis-tools.c:2273 src/analysis-tools.c:2299
+#: src/analysis-tools.c:2291 src/analysis-tools.c:2317
 #, fuzzy
 msgid "Rank"
 msgstr "Neliö"
 
-#: src/GNOME_Gnumeric.xml.h:148 src/analysis-tools.c:2274
-#: src/analysis-tools.c:2300 src/workbook-format-toolbar.c:464
+#: src/GNOME_Gnumeric.xml.h:149 src/analysis-tools.c:2292
+#: src/analysis-tools.c:2318 src/workbook-format-toolbar.c:464
 msgid "Percent"
 msgstr "Prosentti"
 
-#: src/analysis-tools.c:2387 src/analysis-tools.c:2555
-#: src/analysis-tools.c:2734
+#: src/analysis-tools.c:2408 src/analysis-tools.c:2579
+#: src/analysis-tools.c:2770
 msgid "Anova"
 msgstr ""
 
-#: src/analysis-tools.c:2392 src/dialogs/analysis-tools.glade.h:3
+#: src/analysis-tools.c:2413 src/dialogs/analysis-tools.glade.h:3
 #: src/dialogs/dialog-analysis-tools.c:83
 msgid "Anova: Single Factor"
 msgstr ""
 
-#: src/analysis-tools.c:2393 src/analysis-tools.c:2737
+#: src/analysis-tools.c:2414 src/analysis-tools.c:2773
 msgid "SUMMARY"
 msgstr ""
 
-#: src/analysis-tools.c:2394
+#: src/analysis-tools.c:2415
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr ""
 
-#: src/analysis-tools.c:2465
+#: src/analysis-tools.c:2486
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr ""
 
-#: src/analysis-tools.c:2470 src/analysis-tools.c:2663
+#: src/analysis-tools.c:2491 src/analysis-tools.c:2687
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr ""
 
-#: src/analysis-tools.c:2560 src/dialogs/analysis-tools.glade.h:5
+#: src/analysis-tools.c:2584 src/dialogs/analysis-tools.glade.h:5
 #: src/dialogs/dialog-analysis-tools.c:87
 msgid "Anova: Two-Factor Without Replication"
 msgstr ""
 
-#: src/analysis-tools.c:2561
+#: src/analysis-tools.c:2585
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr ""
 
-#: src/analysis-tools.c:2657
+#: src/analysis-tools.c:2681
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr ""
 
-#: src/analysis-tools.c:2736 src/dialogs/analysis-tools.glade.h:4
+#: src/analysis-tools.c:2772 src/dialogs/analysis-tools.glade.h:4
 #: src/dialogs/dialog-analysis-tools.c:85
 msgid "Anova: Two-Factor With Replication"
 msgstr ""
 
-#: src/analysis-tools.c:2753 src/analysis-tools.c:2808
-#: src/analysis-tools.c:2830 src/dialogs/dialog-autoformat.c:75
+#: src/analysis-tools.c:2789 src/analysis-tools.c:2860
+#: src/analysis-tools.c:2911 src/dialogs/dialog-autoformat.c:75
 #: src/dialogs/dialog-autoformat.c:79
 #, fuzzy
 msgid "Total"
 msgstr "Kursivointi"
 
-#: src/analysis-tools.c:2810 src/dialogs/consolidate.glade.h:5
-#: src/workbook-control-gui.c:3367
+#: src/analysis-tools.c:2862 src/dialogs/consolidate.glade.h:5
+#: src/workbook-control-gui.c:3476
 msgid "Count"
 msgstr "Määrä"
 
-#: src/GNOME_Gnumeric.xml.h:198 src/analysis-tools.c:2811
-#: src/dialogs/consolidate.glade.h:19 src/workbook-control-gui.c:2627
-#: src/workbook-control-gui.c:3363 src/workbook-view.c:511
+#: src/GNOME_Gnumeric.xml.h:199 src/analysis-tools.c:2863
+#: src/dialogs/consolidate.glade.h:19 src/workbook-control-gui.c:2735
+#: src/workbook-control-gui.c:3472 src/workbook-view.c:509
 msgid "Sum"
 msgstr "Summa"
 
-#: src/analysis-tools.c:2812 src/dialogs/consolidate.glade.h:2
-#: src/workbook-control-gui.c:3366
+#: src/analysis-tools.c:2864 src/dialogs/consolidate.glade.h:2
+#: src/workbook-control-gui.c:3475
 msgid "Average"
 msgstr "Keskiarvo"
 
-#: src/analysis-tools.c:2813
+#: src/analysis-tools.c:2865
 msgid "Variance"
 msgstr ""
 
-#: src/analysis-tools.c:2824
+#: src/analysis-tools.c:2905
 msgid "ANOVA"
 msgstr ""
 
-#: src/analysis-tools.c:2825
+#: src/analysis-tools.c:2906
 msgid "Source of Variation"
 msgstr ""
 
-#: src/analysis-tools.c:2827 src/dialogs/dialog-analysis-tools.c:413
+#: src/analysis-tools.c:2908 src/dialogs/dialog-analysis-tools.c:413
 #: src/dialogs/dialog-stf.glade.h:17
 #, fuzzy
 msgid "Columns"
 msgstr "S_arake"
 
-#: src/analysis-tools.c:2828
+#: src/analysis-tools.c:2909
 #, fuzzy
 msgid "Interaction"
 msgstr "Murtoluku"
 
-#: src/analysis-tools.c:2829
+#: src/analysis-tools.c:2910
 #, fuzzy
 msgid "Within"
 msgstr "_Leveys"
 
-#: src/analysis-tools.c:2832
+#: src/analysis-tools.c:2913
 msgid "SS"
 msgstr ""
 
-#: src/analysis-tools.c:2833
+#: src/analysis-tools.c:2920
 msgid "df"
 msgstr ""
 
-#: src/analysis-tools.c:2834
+#. Note: a * b * rows_per_sample, tot_count and df_gr+df_col+df_inter+df_within should all be the same
+#: src/analysis-tools.c:2929
 msgid "MS"
 msgstr ""
 
-#: src/analysis-tools.c:2835
+#: src/analysis-tools.c:2936
 msgid "F"
 msgstr ""
 
-#: src/analysis-tools.c:2836
+#: src/analysis-tools.c:2942
 #, fuzzy
 msgid "P-value"
 msgstr "Arvot"
 
-#: src/analysis-tools.c:2837
+#: src/analysis-tools.c:2947
 #, fuzzy
 msgid "F crit"
 msgstr "Vertikaali"
 
-#: src/analysis-tools.c:2881 src/dialogs/analysis-tools.glade.h:13
+#: src/analysis-tools.c:3000 src/dialogs/analysis-tools.glade.h:13
 #: src/dialogs/dialog-analysis-tools.c:99
 msgid "Histogram"
 msgstr ""
 
-#: src/analysis-tools.c:2884
+#: src/analysis-tools.c:3003
 #, fuzzy
 msgid "Bin"
 msgstr "Minimi"
 
-#: src/analysis-tools.c:2885
+#: src/analysis-tools.c:3004
 msgid "Frequency"
 msgstr ""
 
-#: src/analysis-tools.c:2888
+#: src/analysis-tools.c:3007
 #, no-c-format
 msgid "Cumulative %"
 msgstr ""
@@ -836,7 +859,7 @@ msgstr ""
 msgid "Error '%s' opening workbook stream"
 msgstr ""
 
-#: src/bonobo-io.c:466 src/xml-io-autoft.c:426 src/xml-io.c:3389
+#: src/bonobo-io.c:466 src/xml-io-autoft.c:418 src/xml-io.c:3402
 msgid "Invalid xml file. Tree is empty ?"
 msgstr ""
 
@@ -849,17 +872,17 @@ msgstr ""
 msgid "Gnumeric Bonobo file format"
 msgstr "Gnumericin XML-tiedosto"
 
-#: src/clipboard.c:273 src/clipboard.c:286 src/clipboard.c:298
-#: src/clipboard.c:306
+#: src/clipboard.c:283 src/clipboard.c:296 src/clipboard.c:308
+#: src/clipboard.c:316
 #, fuzzy
 msgid "Unable to paste"
 msgstr "modulia ei voitu avata: "
 
-#: src/clipboard.c:274
+#: src/clipboard.c:284
 msgid "Content can only be pasted by value or by link."
 msgstr ""
 
-#: src/clipboard.c:282
+#: src/clipboard.c:292
 #, c-format
 msgid ""
 "destination does not have an even multiple of source columns (%d vs %d)\n"
@@ -867,7 +890,7 @@ msgid ""
 "Try selecting a single cell or an area of the same shape and size."
 msgstr ""
 
-#: src/clipboard.c:294
+#: src/clipboard.c:304
 #, c-format
 msgid ""
 "destination does not have an even multiple of source rows (%d vs %d)\n"
@@ -875,11 +898,11 @@ msgid ""
 "Try selecting a single cell or an area of the same shape and size."
 msgstr ""
 
-#: src/clipboard.c:307
+#: src/clipboard.c:317
 msgid "result passes the sheet boundary"
 msgstr ""
 
-#: src/cmd-edit.c:321
+#: src/cmd-edit.c:317
 #, c-format
 msgid ""
 "destination has a different shape (%dRx%dC) than the original (%dRx%dC)\n"
@@ -887,122 +910,127 @@ msgid ""
 "Try selecting a single cell or an area of the same shape and size."
 msgstr ""
 
-#: src/cmd-edit.c:327
+#: src/cmd-edit.c:323
 #, fuzzy
 msgid "Unable to paste into selection"
 msgstr "Guile-funktiota ei löytynyt."
 
-#: src/GNOME_Gnumeric.xml.h:144 src/cmd-edit.c:364
-#: src/workbook-control-gui.c:2607
+#: src/GNOME_Gnumeric.xml.h:145 src/cmd-edit.c:360
+#: src/workbook-control-gui.c:2715
 msgid "Paste"
 msgstr "Liitä"
 
-#: src/cmd-edit.c:408
+#: src/cmd-edit.c:404
 #, fuzzy, c-format
 msgid "Shift rows %s"
 msgstr "Siirrä soluja alas ja kopioi"
 
-#: src/cmd-edit.c:409
+#: src/cmd-edit.c:405
 #, fuzzy, c-format
 msgid "Shift row %s"
 msgstr "Siirrä soluja alas ja kopioi"
 
-#: src/cmd-edit.c:446
+#: src/cmd-edit.c:442
 #, fuzzy, c-format
 msgid "Shift columns %s"
 msgstr "Lisää sarakkeita"
 
-#: src/cmd-edit.c:447
+#: src/cmd-edit.c:443
 #, fuzzy, c-format
 msgid "Shift column %s"
 msgstr "Lisää sarakkeita"
 
-#: src/commands.c:634 src/commands.c:729
+#: src/commands.c:633 src/commands.c:728
 #, fuzzy
 msgid "Set Text"
 msgstr "Tiedostoformaatti:"
 
-#: src/commands.c:660
+#: src/commands.c:659
 #, c-format
 msgid "Typing \"%s%s\" in %s"
 msgstr ""
 
-#: src/commands.c:838
+#: src/commands.c:837
 #, c-format
 msgid "Typing \"%s%s\""
 msgstr ""
 
-#: src/commands.c:1099
+#: src/commands.c:1098
 #, fuzzy, c-format
 msgid "Inserting %d columns before %s"
 msgstr "Lisää uuden sarakkeen"
 
-#: src/commands.c:1100
+#: src/commands.c:1099
 #, fuzzy, c-format
 msgid "Inserting %d column before %s"
 msgstr "Lisää uuden sarakkeen"
 
-#: src/commands.c:1111
+#: src/commands.c:1110
 #, fuzzy, c-format
 msgid "Inserting %d rows before %s"
 msgstr "Lisää uuden sarakkeen"
 
-#: src/commands.c:1112
+#: src/commands.c:1111
 #, fuzzy, c-format
 msgid "Inserting %d row before %s"
 msgstr "Lisää uuden sarakkeen"
 
-#: src/commands.c:1123
+#: src/commands.c:1122
 #, fuzzy, c-format
 msgid "Deleting columns %s"
 msgstr "Tuhoa solu(ja)"
 
-#: src/commands.c:1124
+#: src/commands.c:1123
 #, fuzzy, c-format
 msgid "Deleting column %s"
 msgstr "Tuhoa solu(ja)"
 
-#: src/commands.c:1134
+#: src/commands.c:1133
 #, fuzzy, c-format
 msgid "Deleting rows %s"
 msgstr "Tuhoa rivejä"
 
-#: src/commands.c:1135
+#: src/commands.c:1134
 #, fuzzy, c-format
 msgid "Deleting row %s"
 msgstr "Tuhoa rivejä"
 
-#: src/commands.c:1210
+#: src/commands.c:1209
 #, fuzzy
 msgid "Undo Clear"
 msgstr "_Tyhjää"
 
-#: src/commands.c:1293
+#: src/commands.c:1292
 #, fuzzy
 msgid "contents"
 msgstr "_Sisältö"
 
-#: src/commands.c:1295
+#: src/commands.c:1294
 #, fuzzy
 msgid "formats"
 msgstr "Muotoilut"
 
-#: src/commands.c:1297
+#: src/commands.c:1296
 #, fuzzy
 msgid "comments"
 msgstr "_Kommentit"
 
-#: src/commands.c:1313
+#: src/commands.c:1312
 #, fuzzy
 msgid "all"
 msgstr "Kursivointi"
 
-#: src/commands.c:1320
+#: src/commands.c:1319
 #, fuzzy, c-format
 msgid "Clearing %s in %s"
 msgstr "Tuhoa solu(ja)"
 
-#: src/commands.c:1595
+#: src/commands.c:1518
+#, fuzzy, c-format
+msgid "Changing format of %s"
+msgstr "Tiedostoa %s ei voitu luoda\n"
+
+#: src/commands.c:1594
 #, c-format
 msgid "Rename sheet '%s' '%s'"
 msgstr ""
@@ -1014,208 +1042,208 @@ msgstr ""
 #. * translators should be aware that the leading character of the
 #. * result will be ignored.
 #.
-#: src/commands.c:1669
+#: src/commands.c:1668
 msgid ">mm/dd/yyyy"
 msgstr ">pp/kk/vvvv"
 
 #. FIXME : See comment above
-#: src/commands.c:1674
+#: src/commands.c:1673
 msgid ">hh:mm"
 msgstr ">tt:mm"
 
-#: src/commands.c:1715
+#: src/commands.c:1714
 #, fuzzy
 msgid "Set Date/Time"
 msgstr "_Taulu"
 
-#: src/commands.c:1732
+#: src/commands.c:1731
 #, c-format
 msgid "Setting current date in %s"
 msgstr ""
 
-#: src/commands.c:1733
+#: src/commands.c:1732
 #, c-format
 msgid "Setting current time in %s"
 msgstr ""
 
-#: src/commands.c:1841
+#: src/commands.c:1840
 #, fuzzy, c-format
 msgid "Autofitting column %s"
 msgstr "Tuhoa solu(ja)"
 
-#: src/commands.c:1842
+#: src/commands.c:1841
 #, fuzzy, c-format
 msgid "Autofitting row %s"
 msgstr "Tuhoa rivejä"
 
-#: src/commands.c:1845
+#: src/commands.c:1844
 #, fuzzy, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "Tuhoa solu(ja)"
 
-#: src/commands.c:1847
+#: src/commands.c:1846
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr ""
 
-#: src/commands.c:1852 src/commands.c:1853
+#: src/commands.c:1851 src/commands.c:1852
 #, fuzzy, c-format
 msgid "Autofitting columns %s"
 msgstr "Tuhoa solu(ja)"
 
-#: src/commands.c:1856
+#: src/commands.c:1855
 #, fuzzy, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "Tuhoa solu(ja)"
 
-#: src/commands.c:1858
+#: src/commands.c:1857
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr ""
 
-#: src/commands.c:1942
+#: src/commands.c:1941
 #, fuzzy, c-format
 msgid "Sorting %s"
 msgstr "Varoitus"
 
-#: src/commands.c:2070
+#: src/commands.c:2069
 #, fuzzy
 msgid "Unhide columns"
 msgstr "Lisää sarakkeita"
 
-#: src/commands.c:2070
+#: src/commands.c:2069
 #, fuzzy
 msgid "Hide columns"
 msgstr "Lisää sarakkeita"
 
-#: src/commands.c:2071
+#: src/commands.c:2070
 #, fuzzy
 msgid "Unhide rows"
 msgstr "Lisää rivejä"
 
-#: src/commands.c:2071
+#: src/commands.c:2070
 #, fuzzy
 msgid "Hide rows"
 msgstr "Lisää rivejä"
 
-#: src/commands.c:2155
+#: src/commands.c:2154
 #, fuzzy
 msgid "Expand columns"
 msgstr "Lisää sarakkeita"
 
-#: src/commands.c:2155
+#: src/commands.c:2154
 #, fuzzy
 msgid "Collapse columns"
 msgstr "Tuhoa solu(ja)"
 
-#: src/commands.c:2156
+#: src/commands.c:2155
 #, fuzzy
 msgid "Expand rows"
 msgstr "Lisää rivejä"
 
-#: src/commands.c:2156
+#: src/commands.c:2155
 msgid "Collapse rows"
 msgstr ""
 
-#: src/commands.c:2257
+#: src/commands.c:2256
 msgid "Those columns are already grouped"
 msgstr ""
 
-#: src/commands.c:2258
+#: src/commands.c:2257
 msgid "Those rows are already grouped"
 msgstr ""
 
-#: src/commands.c:2261
+#: src/commands.c:2260
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr ""
 
-#: src/commands.c:2262
+#: src/commands.c:2261
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr ""
 
-#: src/commands.c:2273
+#: src/commands.c:2272
 #, fuzzy, c-format
 msgid "Group columns %s"
 msgstr "Lisää sarakkeita"
 
-#: src/commands.c:2273
+#: src/commands.c:2272
 #, fuzzy, c-format
 msgid "Ungroup columns %s"
 msgstr "Tuhoa solu(ja)"
 
-#: src/commands.c:2275
+#: src/commands.c:2274
 #, fuzzy, c-format
 msgid "Group rows %d:%d"
 msgstr "Tuhoa rivejä"
 
-#: src/commands.c:2275
+#: src/commands.c:2274
 #, fuzzy, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Tuhoa rivejä"
 
-#: src/commands.c:2478
+#: src/commands.c:2477
 #, fuzzy, c-format
 msgid "Moving %s"
 msgstr "lisää soluja"
 
-#: src/commands.c:2487 src/commands.c:2671
+#: src/commands.c:2486 src/commands.c:2670
 msgid "is beyond sheet boundaries"
 msgstr ""
 
 #. FIXME?
-#: src/commands.c:2642
+#: src/commands.c:2641
 #, c-format
 msgid "Pasting into %s"
 msgstr ""
 
 #. Check arrays or merged regions
-#: src/commands.c:2807
+#: src/commands.c:2806
 msgid "Autofill"
 msgstr ""
 
 #. Changed in initial redo.
-#: src/commands.c:2828
+#: src/commands.c:2827
 #, fuzzy, c-format
 msgid "Autofilling %s"
 msgstr "lisää soluja"
 
-#: src/commands.c:2981
+#: src/commands.c:2980
 #, fuzzy, c-format
 msgid "Autoformatting %s"
 msgstr "_Automaattisäätö"
 
-#: src/commands.c:3090
+#: src/commands.c:3089
 #, fuzzy, c-format
 msgid "Unmerging %s"
 msgstr "_Solut.."
 
-#: src/commands.c:3228
+#: src/commands.c:3227
 #, fuzzy, c-format
 msgid "Merging %s"
 msgstr "lisää soluja"
 
 #. Corrected below.
-#: src/commands.c:3662 src/dialogs/search-replace.glade.h:41
+#: src/commands.c:3661 src/dialogs/search-replace.glade.h:41
 msgid "Search and Replace"
 msgstr ""
 
-#: src/commands.c:3758
+#: src/commands.c:3757
 #, fuzzy, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Tuhoa solu(ja)"
 
-#: src/commands.c:3759
+#: src/commands.c:3758
 #, fuzzy, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Tuhoa solu(ja)"
 
 #. Changed in initial redo.
-#: src/commands.c:3844
+#: src/commands.c:3843
 #, c-format
 msgid "Consolidating to %s!%s"
 msgstr ""
 
-#: src/commands.c:3959
+#: src/commands.c:3958
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr ""
@@ -1539,8 +1567,8 @@ msgstr "L_iimaa"
 msgid "_Chart Output"
 msgstr "Liittämistyyppi"
 
-#: src/GNOME_Gnumeric.xml.h:222 src/dialogs/analysis-tools.glade.h:31
-#: src/workbook-control-gui.c:2345
+#: src/GNOME_Gnumeric.xml.h:223 src/dialogs/analysis-tools.glade.h:31
+#: src/workbook-control-gui.c:2453
 #, fuzzy
 msgid "_Columns"
 msgstr "S_arake"
@@ -1586,8 +1614,8 @@ msgstr ""
 msgid "_Pareto (Sorted)"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:255 src/dialogs/analysis-tools.glade.h:42
-#: src/workbook-control-gui.c:2342
+#: src/GNOME_Gnumeric.xml.h:257 src/dialogs/analysis-tools.glade.h:42
+#: src/workbook-control-gui.c:2450
 msgid "_Rows"
 msgstr "_Rivi"
 
@@ -1632,8 +1660,8 @@ msgstr ""
 msgid "_INitial CApitals"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:253 src/dialogs/autocorrect-exceptions.glade.h:7
-#: src/dialogs/dialog-stf.glade.h:66 src/workbook-control-gui.c:2235
+#: src/GNOME_Gnumeric.xml.h:255 src/dialogs/autocorrect-exceptions.glade.h:7
+#: src/dialogs/dialog-stf.glade.h:66 src/workbook-control-gui.c:2345
 #, fuzzy
 msgid "_Remove"
 msgstr "Poista"
@@ -1784,11 +1812,6 @@ msgstr ""
 msgid "Auto Save"
 msgstr "Talleta"
 
-#: src/dialogs/autosave-prompt.glade.h:2
-#, fuzzy
-msgid "Do you want to save the workbook?"
-msgstr "Tallettaa työkirja"
-
 #: src/dialogs/autosave.glade.h:2
 #, fuzzy
 msgid "_Automatic Save Every"
@@ -1801,6 +1824,11 @@ msgstr ""
 #: src/dialogs/autosave.glade.h:4
 msgid "_minutes"
 msgstr ""
+
+#: src/dialogs/autosave-prompt.glade.h:2
+#, fuzzy
+msgid "Do you want to save the workbook?"
+msgstr "Tallettaa työkirja"
 
 #: src/dialogs/cell-format.glade.h:1
 msgid "$"
@@ -1836,7 +1864,7 @@ msgid "Alignment"
 msgstr "Tasaus"
 
 #: src/GNOME_Gnumeric.xml.h:12 src/dialogs/cell-format.glade.h:13
-#: src/dialogs/dialog-cell-format.c:2164 src/workbook-format-toolbar.c:840
+#: src/dialogs/dialog-cell-format.c:2143 src/workbook-format-toolbar.c:840
 #: src/workbook-format-toolbar.c:896
 msgid "Background"
 msgstr ""
@@ -1846,7 +1874,7 @@ msgstr ""
 msgid "Background Color"
 msgstr "Taustan määrittelyt"
 
-#: src/dialogs/cell-format.glade.h:15 src/dialogs/dialog-cell-format.c:2159
+#: src/dialogs/cell-format.glade.h:15 src/dialogs/dialog-cell-format.c:2138
 #, fuzzy
 msgid "Border"
 msgstr "Lihavoi"
@@ -1917,8 +1945,8 @@ msgstr "Vinot viivat"
 msgid "Display the value exactly as it was entered"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:30 src/dialogs/dialog-cell-format.c:1237
-#: src/dialogs/dialog-cell-format.c:1303
+#: src/dialogs/cell-format.glade.h:30 src/dialogs/dialog-cell-format.c:1216
+#: src/dialogs/dialog-cell-format.c:1276
 #, fuzzy
 msgid "Double"
 msgstr "sininen"
@@ -1994,8 +2022,8 @@ msgstr ""
 msgid "Negat_ive number:"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:46 src/dialogs/dialog-cell-format.c:1239
-#: src/dialogs/dialog-cell-format.c:1301 src/dialogs/dialog-paste-special.c:32
+#: src/dialogs/cell-format.glade.h:46 src/dialogs/dialog-cell-format.c:1218
+#: src/dialogs/dialog-cell-format.c:1274 src/dialogs/dialog-paste-special.c:32
 msgid "None"
 msgstr "Tyhjä"
 
@@ -2012,7 +2040,7 @@ msgstr "Operaatio"
 msgid "Outline"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:50 src/dialogs/dialog-cell-format.c:2169
+#: src/dialogs/cell-format.glade.h:50 src/dialogs/dialog-cell-format.c:2148
 #, fuzzy
 msgid "Pattern"
 msgstr "Liitä"
@@ -2031,7 +2059,7 @@ msgstr "Ristikkäiset vinot viivat"
 msgid "Reverse Diagonal Stripe"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:167 src/dialogs/cell-format.glade.h:54
+#: src/GNOME_Gnumeric.xml.h:168 src/dialogs/cell-format.glade.h:54
 #: src/workbook-format-toolbar.c:632
 msgid "Right"
 msgstr "Oikea"
@@ -2049,8 +2077,8 @@ msgid "Shrin_k to fit"
 msgstr ""
 
 #. There must be a better way than this
-#: src/dialogs/cell-format.glade.h:59 src/dialogs/dialog-cell-format.c:1235
-#: src/dialogs/dialog-cell-format.c:1302
+#: src/dialogs/cell-format.glade.h:59 src/dialogs/dialog-cell-format.c:1214
+#: src/dialogs/dialog-cell-format.c:1275
 #, fuzzy
 msgid "Single"
 msgstr "Varoitus"
@@ -2293,7 +2321,7 @@ msgid "Selection has"
 msgstr "Tasaus vasemmalle"
 
 #: src/dialogs/cell-sort.glade.h:9 src/dialogs/dialog-cell-sort.c:501
-#: src/workbook-control-gui.c:2042
+#: src/workbook-control-gui.c:2152
 #, fuzzy
 msgid "Sort"
 msgstr "_Ratkaisija..."
@@ -2379,11 +2407,11 @@ msgstr "Lisää rivejä"
 msgid "Labels"
 msgstr ""
 
-#: src/dialogs/consolidate.glade.h:13 src/workbook-control-gui.c:3365
+#: src/dialogs/consolidate.glade.h:13 src/workbook-control-gui.c:3474
 msgid "Max"
 msgstr "Maksimi"
 
-#: src/dialogs/consolidate.glade.h:14 src/workbook-control-gui.c:3364
+#: src/dialogs/consolidate.glade.h:14 src/workbook-control-gui.c:3473
 msgid "Min"
 msgstr "Minimi"
 
@@ -2453,7 +2481,7 @@ msgid "_Put :"
 msgstr "_Leikkaa"
 
 #: src/dialogs/delete-cells.glade.h:1 src/dialogs/sheet-order.glade.h:2
-#: src/sheet-object.c:73
+#: src/sheet-object.c:74
 msgid "Delete"
 msgstr "Tuhoa"
 
@@ -2527,111 +2555,116 @@ msgid "Gergo Erdi, Gnumeric hacker."
 msgstr "Morten Welinder, Gnumeric-hakkeri"
 
 #: src/dialogs/dialog-about.c:40
+msgid "Andreas J. Guelzow, statistics stuff."
+msgstr ""
+
+#: src/dialogs/dialog-about.c:41
 #, fuzzy
 msgid "Jon K. Hellan, Gnumeric hacker."
 msgstr "Morten Welinder, Gnumeric-hakkeri"
 
-#: src/dialogs/dialog-about.c:41
+#: src/dialogs/dialog-about.c:42
 msgid "Ross Ihaka, special functions."
 msgstr ""
 
-#: src/dialogs/dialog-about.c:42
+#: src/dialogs/dialog-about.c:43
 #, fuzzy
 msgid "Jukka-Pekka Iivonen, numerous functions and tools."
 msgstr "Jukka-Pekka Iivonen, Useita funktioita"
 
-#: src/dialogs/dialog-about.c:43
+#: src/dialogs/dialog-about.c:44
 #, fuzzy
 msgid "Jakub Jelinek, Gnumeric hacker."
 msgstr "Jakub Jelinek, Gnumeric-hakkeri"
 
-#: src/dialogs/dialog-about.c:44
+#: src/dialogs/dialog-about.c:45
 #, fuzzy
 msgid "Chris Lahey, number format engine."
 msgstr "Chris Lahey, Numeromuotomoottori"
 
-#: src/dialogs/dialog-about.c:45
+#: src/dialogs/dialog-about.c:46
 #, fuzzy
 msgid "Adrian Likins, documentation, debugging."
 msgstr "Adrian Likins, Dokumentaatio, virheiden etsintä"
 
-#: src/dialogs/dialog-about.c:46
+#: src/dialogs/dialog-about.c:47
 #, fuzzy
 msgid "Takashi Matsuda, original text plugin."
 msgstr "Takashi Matsuda, simple text -lisiö"
 
-#: src/dialogs/dialog-about.c:47
+#: src/dialogs/dialog-about.c:48
 #, fuzzy
 msgid "Michael Meeks, Excel and OLE2 importing."
 msgstr "Michael Meeks, Excel ja OLE2 -lukurutiinit"
 
-#: src/dialogs/dialog-about.c:48
+#: src/dialogs/dialog-about.c:49
 #, fuzzy
 msgid "Federico M. Quintero, canvas support."
 msgstr "Federic Mena, Canvas-tuki"
 
-#: src/dialogs/dialog-about.c:49
+#: src/dialogs/dialog-about.c:50
 #, fuzzy
 msgid "Mark Probst, Guile support."
 msgstr "Mark Probst, Guile-tuki"
 
-#: src/dialogs/dialog-about.c:50
+#: src/dialogs/dialog-about.c:51
 msgid "Rasca, HTML, troff, LaTeX exporters."
 msgstr ""
 
-#: src/dialogs/dialog-about.c:51
+#: src/dialogs/dialog-about.c:52
 #, fuzzy
 msgid "Vincent Renardias, original CSV support, French localization."
 msgstr "Vincent Renardias, CSV-tuki"
 
-#: src/dialogs/dialog-about.c:52
+#: src/dialogs/dialog-about.c:53
 #, fuzzy
 msgid "Ariel Rios, Guile support."
 msgstr "Mark Probst, Guile-tuki"
 
-#: src/dialogs/dialog-about.c:53
+#: src/dialogs/dialog-about.c:54
 #, fuzzy
 msgid "Arturo Tena, OLE support."
 msgstr "Federic Mena, Canvas-tuki"
 
-#: src/dialogs/dialog-about.c:54
+#: src/dialogs/dialog-about.c:55
 #, fuzzy
 msgid "Almer S. Tigelaar, Gnumeric hacker."
 msgstr "Morten Welinder, Gnumeric-hakkeri"
 
-#: src/dialogs/dialog-about.c:55
+#: src/dialogs/dialog-about.c:56
 #, fuzzy
 msgid "Bruno Unna, Excel bits."
 msgstr "Bruno Unna, Excel-koodi"
 
-#: src/dialogs/dialog-about.c:56
+#: src/dialogs/dialog-about.c:57
 msgid "Daniel Veillard, XML support."
 msgstr "Daniel Veillard, XML-tuki"
 
-#: src/dialogs/dialog-about.c:57
+#: src/dialogs/dialog-about.c:58
 #, fuzzy
 msgid "Vladimir Vuksan, financial functions."
 msgstr "Vladimir VUksan, Finanssifunktiot"
 
-#: src/dialogs/dialog-about.c:58
+#: src/dialogs/dialog-about.c:59
 #, fuzzy
 msgid "Morten Welinder, Gnumeric hacker."
 msgstr "Morten Welinder, Gnumeric-hakkeri"
 
-#: src/dialogs/dialog-about.c:75 src/functions/fn-sheet.c:137
+#: gnumeric.desktop.in.h:1 src/dialogs/dialog-about.c:76
+#: src/functions/fn-sheet.c:137
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
-#: src/dialogs/dialog-about.c:76
+#: src/dialogs/dialog-about.c:77
 msgid "(C) 1998-2001 Miguel de Icaza"
 msgstr ""
 
-#: src/dialogs/dialog-about.c:83
+#: src/dialogs/dialog-about.c:84
 #, fuzzy
 msgid "Gnumeric Home Page"
 msgstr "Gnumeric: "
 
-#: src/dialogs/dialog-about.c:85
+#: src/dialogs/dialog-about.c:86
 msgid "Contract Support"
 msgstr ""
 
@@ -2695,7 +2728,7 @@ msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:127
 #: src/dialogs/search-replace.glade.h:23
-#: src/widgets/widget-font-selector.c:129
+#: src/widgets/widget-font-selector.c:101
 #, fuzzy
 msgid "Normal"
 msgstr "Muotoilut"
@@ -3099,34 +3132,34 @@ msgstr ""
 msgid "81"
 msgstr ""
 
-#: src/dialogs/dialog-autoformat.c:529
+#: src/dialogs/dialog-autoformat.c:515
 #, fuzzy, c-format
 msgid "Are you sure you want to remove the template '%s' ?"
 msgstr "Oletko varma että haluat poistaa taulun `%s' "
 
-#: src/dialogs/dialog-autoformat.c:543
+#: src/dialogs/dialog-autoformat.c:529
 #, fuzzy
 msgid "Could not remove template"
 msgstr "Parametria ei voitu tulkita"
 
-#: src/dialogs/dialog-autoformat.c:821 src/dialogs/dialog-stf-export.c:380
+#: src/dialogs/dialog-autoformat.c:807 src/dialogs/dialog-stf-export.c:380
 #: src/dialogs/dialog-stf.c:520
 #, fuzzy, c-format
 msgid "Missing %s file"
 msgstr "Puuttuva lainausmerkki"
 
-#: src/dialogs/dialog-autoformat.c:960
+#: src/dialogs/dialog-autoformat.c:946
 msgid "An error occured while reading the category list"
 msgstr ""
 
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
-#: src/dialogs/dialog-autoformat.c:970 src/format.c:1701 src/format.c:1790
+#: src/dialogs/dialog-autoformat.c:956 src/format.c:1701 src/format.c:1790
 #: src/format.c:1799 src/format.c:1868
 msgid "General"
 msgstr "Yleinen"
 
-#: src/dialogs/dialog-autosave.c:134
+#: src/dialogs/dialog-autosave.c:120
 #, fuzzy
 msgid "You should introduce a proper number of minutes in the entry."
 msgstr "Antamasi arvo 'Aseta solu'-kentässä pitää olla käypä solun nimi"
@@ -3136,37 +3169,37 @@ msgstr "Antamasi arvo 'Aseta solu'-kentässä pitää olla käypä solun nimi"
 msgid "Cell comment"
 msgstr "_Kommentit"
 
-#: src/dialogs/dialog-cell-format.c:382
+#: src/dialogs/dialog-cell-format.c:383
 msgid ";[Red]"
 msgstr ""
 
-#: src/dialogs/dialog-cell-format.c:384
+#: src/dialogs/dialog-cell-format.c:385
 msgid "_);("
 msgstr ""
 
-#: src/dialogs/dialog-cell-format.c:386
+#: src/dialogs/dialog-cell-format.c:387
 msgid "_);[Red]("
 msgstr ""
 
-#: src/dialogs/dialog-cell-format.c:2101
+#: src/dialogs/dialog-cell-format.c:2080
 #, fuzzy
 msgid "Format Cells"
 msgstr "Aseta solu:"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: src/dialogs/dialog-cell-format.c:2154 src/dialogs/dialog-cell-format.c:2159
-#: src/dialogs/dialog-cell-format.c:2169 src/functions/fn-information.c:351
+#: src/dialogs/dialog-cell-format.c:2133 src/dialogs/dialog-cell-format.c:2138
+#: src/dialogs/dialog-cell-format.c:2148 src/functions/fn-information.c:396
 #: src/workbook-format-toolbar.c:858
 #, fuzzy
 msgid "Automatic"
 msgstr "_Automaattisäätö"
 
-#: src/GNOME_Gnumeric.xml.h:80 src/dialogs/dialog-cell-format.c:2154
+#: src/GNOME_Gnumeric.xml.h:80 src/dialogs/dialog-cell-format.c:2133
 #: src/workbook-format-toolbar.c:865 src/workbook-format-toolbar.c:899
 msgid "Foreground"
 msgstr ""
 
-#: src/dialogs/dialog-cell-format.c:2164 src/workbook-format-toolbar.c:833
+#: src/dialogs/dialog-cell-format.c:2143 src/workbook-format-toolbar.c:833
 #, fuzzy
 msgid "Clear Background"
 msgstr "Taustan määrittelyt"
@@ -3268,7 +3301,7 @@ msgstr "Parametria ei voitu tulkita"
 msgid "Value%d"
 msgstr "Arvot"
 
-#: src/dialogs/dialog-function-wizard.c:411 src/functions/fn-string.c:1307
+#: src/dialogs/dialog-function-wizard.c:411 src/functions/fn-string.c:1235
 #, fuzzy
 msgid "String"
 msgstr "Varoitus"
@@ -3301,72 +3334,72 @@ msgstr "Esimerkki:"
 msgid "Any"
 msgstr ""
 
-#: src/dialogs/dialog-goal-seek.c:207
+#: src/dialogs/dialog-goal-seek.c:206
 #, fuzzy, c-format
 msgid "Goal seeking with cell %s found a solution"
 msgstr "Tuloksen etsintä solulla %s"
 
-#: src/dialogs/dialog-goal-seek.c:210
+#: src/dialogs/dialog-goal-seek.c:209
 #, c-format
 msgid "Target value:   %12.2f"
 msgstr "Kohdearvo:      %12.2f"
 
-#: src/dialogs/dialog-goal-seek.c:213
+#: src/dialogs/dialog-goal-seek.c:212
 #, c-format
 msgid "Current value:  %12.2f"
 msgstr "Nykyinen arvo:  %12.2f"
 
-#: src/dialogs/dialog-goal-seek.c:216
+#: src/dialogs/dialog-goal-seek.c:215
 #, c-format
 msgid "Solution:       %12.2f"
 msgstr ""
 
-#: src/dialogs/dialog-goal-seek.c:219
+#: src/dialogs/dialog-goal-seek.c:218
 msgid "Goal Seek Report"
 msgstr "Tuloksen etsinnän raportti"
 
-#: src/dialogs/dialog-goal-seek.c:283
+#: src/dialogs/dialog-goal-seek.c:282
 msgid "Goal Seek..."
 msgstr "Tuloksen etsintä..."
 
-#: src/dialogs/dialog-goal-seek.c:301
+#: src/dialogs/dialog-goal-seek.c:300
 #, fuzzy
 msgid "Set cell:"
 msgstr "Aseta solu:"
 
-#: src/dialogs/dialog-goal-seek.c:302
+#: src/dialogs/dialog-goal-seek.c:301
 msgid "To value:"
 msgstr "Arvoon:"
 
-#: src/dialogs/dialog-goal-seek.c:303
+#: src/dialogs/dialog-goal-seek.c:302
 msgid "By changing cell:"
 msgstr "Muuttamalla solua:"
 
-#: src/dialogs/dialog-goal-seek.c:304
+#: src/dialogs/dialog-goal-seek.c:303
 msgid "To a value of at least [optional]:"
 msgstr ""
 
-#: src/dialogs/dialog-goal-seek.c:305
+#: src/dialogs/dialog-goal-seek.c:304
 msgid "But no bigger than [optional]:"
 msgstr ""
 
-#: src/dialogs/dialog-goal-seek.c:364
+#: src/dialogs/dialog-goal-seek.c:363
 msgid "You should introduce a valid cell name in 'Set cell'"
 msgstr "Antamasi arvo 'Aseta solu'-kentässä pitää olla käypä solun nimi"
 
-#: src/dialogs/dialog-goal-seek.c:372
+#: src/dialogs/dialog-goal-seek.c:371
 msgid "The cell named in 'Set cell' must contain a formula"
 msgstr ""
 
-#: src/dialogs/dialog-goal-seek.c:385
+#: src/dialogs/dialog-goal-seek.c:384
 msgid "You should introduce a valid cell name in 'By changing cell'"
 msgstr "Antamasi arvo 'Muuttamalla solua'-kentässä pitää olla käypä solun nimi"
 
-#: src/dialogs/dialog-goal-seek.c:394
+#: src/dialogs/dialog-goal-seek.c:393
 msgid "The cell named in 'By changing cell' must not contain a formula"
 msgstr ""
 
-#: src/dialogs/dialog-goal-seek.c:438
+#: src/dialogs/dialog-goal-seek.c:437
 msgid "Goal seek did not find a solution!"
 msgstr "Tuloksen etsintä ei löytänyt ratkaisua!"
 
@@ -3378,6 +3411,23 @@ msgstr "Solu"
 #: src/dialogs/dialog-goto-cell.c:49
 msgid "Go to..."
 msgstr "Mene..."
+
+#: src/dialogs/dialog-graph-guru.c:186
+msgid "Step 1 of 3: Select graphic type"
+msgstr ""
+
+#: src/dialogs/dialog-graph-guru.c:190
+msgid "Step 2 of 3: Select data ranges"
+msgstr ""
+
+#: src/dialogs/dialog-graph-guru.c:193
+msgid "Step 3 of 3: Customize graphic"
+msgstr ""
+
+#: src/dialogs/dialog-graph-guru.c:405
+#, fuzzy, c-format
+msgid "series%d"
+msgstr "_Taulu"
 
 #: src/dialogs/dialog-insert-cells.c:82 src/dialogs/insert-cells.glade.h:1
 #, fuzzy
@@ -3528,7 +3578,7 @@ msgstr ""
 msgid "You must select some cell types to search."
 msgstr ""
 
-#: src/dialogs/dialog-sheet-order.c:146 src/workbook-control-gui.c:393
+#: src/dialogs/dialog-sheet-order.c:146 src/workbook-control-gui.c:398
 #, fuzzy, c-format
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Oletko varma että haluat poistaa taulun `%s' "
@@ -3573,10 +3623,6 @@ msgstr "Antamasi arvo 'Muuttamalla solua'-kentässä pitää olla käypä solun nimi"
 #: src/dialogs/dialog-solver.c:899
 #, c-format
 msgid "Constraint `%s' is for a cell that is not an input cell."
-msgstr ""
-
-#: src/dialogs/dialog-stf-export-sheet-page.c:355
-msgid "You need to select at least one sheet to export"
 msgstr ""
 
 #: src/dialogs/dialog-stf-export.c:49 src/dialogs/dialog-stf.c:102
@@ -3737,22 +3783,12 @@ msgstr ""
 msgid "`"
 msgstr ""
 
+#: src/dialogs/dialog-stf-export-sheet-page.c:355
+msgid "You need to select at least one sheet to export"
+msgstr ""
+
 #: src/dialogs/dialog-stf-fixed-page.c:63
 msgid "Autodiscovery did not find any columns in the text. Try manually"
-msgstr ""
-
-#: src/dialogs/dialog-stf-main-page.c:85
-#, c-format
-msgid "%d lines to import"
-msgstr ""
-
-#: src/dialogs/dialog-stf-main-page.c:210
-msgid "LINES TOO LONG!"
-msgstr ""
-
-#: src/dialogs/dialog-stf-main-page.c:234
-#, c-format
-msgid "Data (from %s)"
 msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:3
@@ -4034,6 +4070,35 @@ msgstr ""
 msgid "_To line : "
 msgstr "Arvoon:"
 
+#: src/dialogs/dialog-stf-main-page.c:85
+#, c-format
+msgid "%d lines to import"
+msgstr ""
+
+#: src/dialogs/dialog-stf-main-page.c:210
+msgid "LINES TOO LONG!"
+msgstr ""
+
+#: src/dialogs/dialog-stf-main-page.c:234
+#, c-format
+msgid "Data (from %s)"
+msgstr ""
+
+#: src/dialogs/dialog-validate.c:133 src/dialogs/dialog-validate.c:142
+#, fuzzy
+msgid "Minimum :"
+msgstr "Minimi"
+
+#: src/dialogs/dialog-validate.c:134 src/dialogs/dialog-validate.c:146
+#, fuzzy
+msgid "Maximum :"
+msgstr "Maksimi"
+
+#: src/dialogs/dialog-validate.c:138
+#, fuzzy
+msgid "Value :"
+msgstr "Arvot"
+
 #: src/dialogs/dialog-workbook-attr.c:172
 msgid "Workbook Attributes"
 msgstr ""
@@ -4057,8 +4122,8 @@ msgstr ""
 msgid "Sheets"
 msgstr "_Taulu"
 
-#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:2784
-#: src/workbook-control-gui.c:2841
+#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:2893
+#: src/workbook-control-gui.c:2950
 msgid "Zoom"
 msgstr "Suurennus"
 
@@ -4093,23 +4158,19 @@ msgid "_Fit Selection %"
 msgstr "Tasaus vasemmalle"
 
 #: src/dialogs/font-sel.glade.h:1
-msgid "AaBbCcDdEe12345"
-msgstr ""
-
-#: src/dialogs/font-sel.glade.h:2
 msgid "Font style:"
 msgstr ""
 
-#: src/dialogs/font-sel.glade.h:3
+#: src/dialogs/font-sel.glade.h:2
 #, fuzzy
 msgid "Font:"
 msgstr "Määrä"
 
-#: src/dialogs/font-sel.glade.h:4
+#: src/dialogs/font-sel.glade.h:3
 msgid "Preview"
 msgstr ""
 
-#: src/dialogs/font-sel.glade.h:5
+#: src/dialogs/font-sel.glade.h:4
 msgid "Size:"
 msgstr ""
 
@@ -4269,9 +4330,9 @@ msgstr ""
 msgid "Install new plugin"
 msgstr "Guile-lisiö"
 
-#: src/dialogs/plugin-manager.glade.h:13 src/solver-lp.c:897
-#: src/solver-lp.c:921 src/solver-lp.c:954 src/solver-lp.c:1048
-#: src/solver-lp.c:1095
+#: src/dialogs/plugin-manager.glade.h:13 src/format-template.c:512
+#: src/solver-lp.c:897 src/solver-lp.c:921 src/solver-lp.c:954
+#: src/solver-lp.c:1048 src/solver-lp.c:1095
 msgid "Name"
 msgstr "Nimi"
 
@@ -4291,7 +4352,7 @@ msgid "Center on page"
 msgstr "Keskitetty"
 
 #: src/GNOME_Gnumeric.xml.h:34 src/dialogs/print.glade.h:4
-#: src/workbook-control-gui.c:2179
+#: src/workbook-control-gui.c:2289
 #, fuzzy
 msgid "Co_mments"
 msgstr "_Kommentit"
@@ -4356,8 +4417,8 @@ msgstr ""
 msgid "Por_trait"
 msgstr "Prosentti"
 
-#: src/GNOME_Gnumeric.xml.h:149 src/dialogs/print.glade.h:20
-#: src/workbook-control-gui.c:2592
+#: src/GNOME_Gnumeric.xml.h:150 src/dialogs/print.glade.h:20
+#: src/workbook-control-gui.c:2700
 #, fuzzy
 msgid "Print"
 msgstr "Prosentti"
@@ -4367,7 +4428,7 @@ msgstr "Prosentti"
 msgid "Print _area:"
 msgstr "Prosentti"
 
-#: src/GNOME_Gnumeric.xml.h:153 src/dialogs/print.glade.h:22 src/print.c:1220
+#: src/GNOME_Gnumeric.xml.h:154 src/dialogs/print.glade.h:22 src/print.c:1220
 msgid "Print preview"
 msgstr ""
 
@@ -4391,7 +4452,7 @@ msgid "Scale"
 msgstr "Esimerkki:"
 
 #: src/dialogs/print.glade.h:27 src/functions/fn-sheet.c:136
-#: src/workbook.c:1079 src/xml-io.c:3007
+#: src/workbook.c:1057 src/xml-io.c:3024
 #, fuzzy
 msgid "Sheet"
 msgstr "_Taulu"
@@ -4763,19 +4824,6 @@ msgstr ""
 msgid "Rename sheet"
 msgstr "Poista tämä taulu"
 
-#: src/dialogs/solver-options.glade.h:1
-msgid "Assume _Linear Model"
-msgstr ""
-
-#: src/dialogs/solver-options.glade.h:2
-msgid "Assume _Non-Negative"
-msgstr ""
-
-#: src/dialogs/solver-options.glade.h:3
-#, fuzzy
-msgid "Solver Options"
-msgstr "Gnumeric-lisiöt"
-
 #: src/dialogs/solver.glade.h:1
 msgid "                         "
 msgstr ""
@@ -4884,6 +4932,19 @@ msgstr ""
 msgid "_Type:"
 msgstr "Ylä"
 
+#: src/dialogs/solver-options.glade.h:1
+msgid "Assume _Linear Model"
+msgstr ""
+
+#: src/dialogs/solver-options.glade.h:2
+msgid "Assume _Non-Negative"
+msgstr ""
+
+#: src/dialogs/solver-options.glade.h:3
+#, fuzzy
+msgid "Solver Options"
+msgstr "Gnumeric-lisiöt"
+
 #: src/dialogs/summary.glade.h:1
 msgid "Author"
 msgstr ""
@@ -4966,7 +5027,7 @@ msgstr ""
 msgid "In-cell _dropdown"
 msgstr ""
 
-#: src/dialogs/validate.glade.h:12 src/functions/fn-information.c:886
+#: src/dialogs/validate.glade.h:12 src/functions/fn-information.c:932
 #, fuzzy
 msgid "Information"
 msgstr "Murtoluku"
@@ -5120,6 +5181,20 @@ msgstr ""
 msgid "_Vertical Scrollbar"
 msgstr "Vertikaalit viivat"
 
+#: src/expr.c:523
+#, fuzzy
+msgid "Internal type error"
+msgstr "Tyyppivirhe"
+
+#: src/expr.c:702
+#, fuzzy
+msgid "Unknown operator"
+msgstr "Tuntematon laskentavirhe"
+
+#: src/expr.c:922
+msgid "Unknown evaluation error"
+msgstr "Tuntematon laskentavirhe"
+
 #: src/expr-name.c:166
 msgid "already defined in sheet"
 msgstr ""
@@ -5141,19 +5216,38 @@ msgstr ""
 msgid "Error: no sheet"
 msgstr ""
 
-#: src/expr.c:523
-#, fuzzy
-msgid "Internal type error"
-msgstr "Tyyppivirhe"
+#: src/file-autoft.c:142
+#, fuzzy, c-format
+msgid "Invalid template file: %s"
+msgstr "modulia ei voitu avata: "
 
-#: src/expr.c:702
+#: src/file.c:269
 #, fuzzy
-msgid "Unknown operator"
-msgstr "Tuntematon laskentavirhe"
+msgid "Cannot create temporary file."
+msgstr "Tiedostoa %s ei voitu luoda\n"
 
-#: src/expr.c:922
-msgid "Unknown evaluation error"
-msgstr "Tuntematon laskentavirhe"
+#: src/file.c:281
+msgid "Error saving to temporary file."
+msgstr ""
+
+#: src/file.c:284
+#, fuzzy
+msgid "Cannot get temporary file size."
+msgstr "Tiedostoa %s ei voitu luoda\n"
+
+#: src/file.c:290
+#, fuzzy
+msgid "Saving file to stream."
+msgstr "Varoitus"
+
+#: src/file.c:303
+#, fuzzy
+msgid "Error reading temporary file."
+msgstr "Tämänhetkinen _päiväys"
+
+#: src/file.c:316
+msgid "Exception occured while saving to stream."
+msgstr ""
 
 #: src/format.c:607
 msgid "black"
@@ -6535,6 +6629,22 @@ msgstr ""
 msgid "[Red]"
 msgstr ""
 
+#: src/format-template.c:881
+#, c-format
+msgid ""
+"The target region is too small, is should be at least %d rows by %d columns"
+msgstr ""
+
+#: src/format-template.c:884
+#, c-format
+msgid "The target region is too small, it should be at least %d columns wide"
+msgstr ""
+
+#: src/format-template.c:887
+#, c-format
+msgid "The target region is too small, it should be at least %d rows high"
+msgstr ""
+
 #: src/func.c:112
 #, fuzzy, c-format
 msgid "Cannot create file %s\n"
@@ -7052,7 +7162,7 @@ msgstr ""
 
 #. Path of the current directory or folder.
 #: src/functions/fn-date.c:832 src/functions/fn-eng.c:125
-#: src/functions/fn-information.c:317 src/functions/fn-information.c:333
+#: src/functions/fn-information.c:362 src/functions/fn-information.c:378
 msgid "Unimplemented"
 msgstr ""
 
@@ -8588,12 +8698,25 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-information.c:253 src/functions/fn-information.c:370
+#: src/functions/fn-information.c:253 src/functions/fn-information.c:415
 #, fuzzy
 msgid "Unknown info_type"
 msgstr "Tuntematon laskentavirhe"
 
 #: src/functions/fn-information.c:259
+msgid ""
+"@FUNCTION=EXPRESSION\n"
+"@SYNTAX=EXPRESSION(cell)\n"
+"@DESCRIPTION=EXPRESSION returns expression in @cell as a string, orempty if "
+"the cell is not an expression.\n"
+"@EXAMPLES=\n"
+"in A1 EXPRESSION(A2) equals 'EXPRESSION(A3)'.\n"
+"in A2 EXPRESSION(A3) equals empty.\n"
+"\n"
+"@SEEALSO=TEXT"
+msgstr ""
+
+#: src/functions/fn-information.c:304
 msgid ""
 "@FUNCTION=COUNTBLANK\n"
 "@SYNTAX=COUNTBLANK(range)\n"
@@ -8604,7 +8727,7 @@ msgid ""
 "@SEEALSO=COUNT"
 msgstr ""
 
-#: src/functions/fn-information.c:298
+#: src/functions/fn-information.c:343
 msgid ""
 "@FUNCTION=INFO\n"
 "@SYNTAX=INFO()\n"
@@ -8615,22 +8738,22 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-information.c:340
+#: src/functions/fn-information.c:385
 #, fuzzy
 msgid "Unknown version"
 msgstr "Tuntematon laskentavirhe"
 
-#: src/functions/fn-information.c:342
+#: src/functions/fn-information.c:387
 #, c-format
 msgid "%s version %s"
 msgstr ""
 
-#: src/functions/fn-information.c:360
+#: src/functions/fn-information.c:405
 #, fuzzy
 msgid "Unknown system"
 msgstr "Tuntematon laskentavirhe"
 
-#: src/functions/fn-information.c:376
+#: src/functions/fn-information.c:421
 msgid ""
 "@FUNCTION=ISERROR\n"
 "@SYNTAX=ISERROR(value)\n"
@@ -8641,11 +8764,11 @@ msgid ""
 "@SEEALSO=ERROR"
 msgstr ""
 
-#: src/functions/fn-information.c:399
+#: src/functions/fn-information.c:444
 msgid "Argument mismatch"
 msgstr "Parametrivirhe"
 
-#: src/functions/fn-information.c:430
+#: src/functions/fn-information.c:475
 msgid ""
 "@FUNCTION=ISNA\n"
 "@SYNTAX=ISNA(value)\n"
@@ -8656,7 +8779,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-information.c:464
+#: src/functions/fn-information.c:509
 msgid ""
 "@FUNCTION=ISERR\n"
 "@SYNTAX=ISERR(value)\n"
@@ -8667,7 +8790,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-information.c:494
+#: src/functions/fn-information.c:539
 msgid ""
 "@FUNCTION=ERROR.TYPE\n"
 "@SYNTAX=ERROR(value)\n"
@@ -8686,7 +8809,7 @@ msgid ""
 "@SEEALSO=ISERROR"
 msgstr ""
 
-#: src/functions/fn-information.c:553
+#: src/functions/fn-information.c:598
 msgid ""
 "@FUNCTION=NA\n"
 "@SYNTAX=NA()\n"
@@ -8697,7 +8820,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-information.c:574
+#: src/functions/fn-information.c:619
 msgid ""
 "@FUNCTION=ERROR\n"
 "@SYNTAX=ERROR(text)\n"
@@ -8708,7 +8831,7 @@ msgid ""
 "@SEEALSO=ISERROR"
 msgstr ""
 
-#: src/functions/fn-information.c:594
+#: src/functions/fn-information.c:639
 msgid ""
 "@FUNCTION=ISBLANK\n"
 "@SYNTAX=ISBLANK(value)\n"
@@ -8719,7 +8842,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-information.c:641
+#: src/functions/fn-information.c:686
 msgid ""
 "@FUNCTION=ISEVEN\n"
 "@SYNTAX=ISEVEN(value)\n"
@@ -8730,7 +8853,7 @@ msgid ""
 "@SEEALSO=ISODD"
 msgstr ""
 
-#: src/functions/fn-information.c:662
+#: src/functions/fn-information.c:707
 msgid ""
 "@FUNCTION=ISLOGICAL\n"
 "@SYNTAX=ISLOGICAL(value)\n"
@@ -8741,7 +8864,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-information.c:691
+#: src/functions/fn-information.c:736
 msgid ""
 "@FUNCTION=ISNONTEXT\n"
 "@SYNTAX=ISNONTEXT(value)\n"
@@ -8752,7 +8875,7 @@ msgid ""
 "@SEEALSO=ISTEXT"
 msgstr ""
 
-#: src/functions/fn-information.c:717
+#: src/functions/fn-information.c:762
 msgid ""
 "@FUNCTION=ISNUMBER\n"
 "@SYNTAX=ISNUMBER(value)\n"
@@ -8763,7 +8886,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-information.c:743
+#: src/functions/fn-information.c:788
 msgid ""
 "@FUNCTION=ISODD\n"
 "@SYNTAX=ISODD(value)\n"
@@ -8774,7 +8897,7 @@ msgid ""
 "@SEEALSO=ISEVEN"
 msgstr ""
 
-#: src/functions/fn-information.c:764
+#: src/functions/fn-information.c:809
 msgid ""
 "@FUNCTION=ISREF\n"
 "@SYNTAX=ISREF(value)\n"
@@ -8785,7 +8908,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-information.c:795
+#: src/functions/fn-information.c:840
 msgid ""
 "@FUNCTION=ISTEXT\n"
 "@SYNTAX=ISTEXT(value)\n"
@@ -8796,7 +8919,7 @@ msgid ""
 "@SEEALSO=ISNONTEXT"
 msgstr ""
 
-#: src/functions/fn-information.c:821
+#: src/functions/fn-information.c:866
 msgid ""
 "@FUNCTION=N\n"
 "@SYNTAX=N(value)\n"
@@ -8807,7 +8930,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-information.c:858
+#: src/functions/fn-information.c:903
 msgid ""
 "@FUNCTION=TYPE\n"
 "@SYNTAX=TYPE(value)\n"
@@ -8854,7 +8977,7 @@ msgid ""
 "@SEEALSO=AND, OR"
 msgstr ""
 
-#: src/functions/fn-logical.c:101 src/functions/fn-string.c:511
+#: src/functions/fn-logical.c:101 src/functions/fn-string.c:487
 #, fuzzy
 msgid "Type Mismatch"
 msgstr "Väärä tyyppi"
@@ -9178,7 +9301,7 @@ msgid ""
 "@SEEALSO=GCD"
 msgstr ""
 
-#: src/functions/fn-math.c:228
+#: src/functions/fn-math.c:230
 msgid ""
 "@FUNCTION=ABS\n"
 "@SYNTAX=ABS(b1)\n"
@@ -9192,7 +9315,7 @@ msgid ""
 "@SEEALSO=CEIL, FLOOR"
 msgstr ""
 
-#: src/functions/fn-math.c:253
+#: src/functions/fn-math.c:255
 msgid ""
 "@FUNCTION=ACOS\n"
 "@SYNTAX=ACOS(x)\n"
@@ -9207,13 +9330,13 @@ msgid ""
 "@SEEALSO=COS, SIN, DEGREES, RADIANS"
 msgstr ""
 
-#: src/functions/fn-math.c:285
+#: src/functions/fn-math.c:287
 msgid ""
 "@FUNCTION=ACOSH\n"
 "@SYNTAX=ACOSH(x)\n"
 "@DESCRIPTION=ACOSH  function  calculates  the inverse hyperbolic cosine of "
 "@x; that is the value whose hyperbolic cosine is @x. If @x is less than 1.0, "
-"acosh() returns the NUM! error. This function is Excel compatible. \n"
+"ACOSH() returns the NUM! error. This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "ACOSH(2) equals 1.31696.\n"
 "ACOSH(5.3) equals 2.35183.\n"
@@ -9221,7 +9344,7 @@ msgid ""
 "@SEEALSO=ACOS, ASINH, DEGREES, RADIANS "
 msgstr ""
 
-#: src/functions/fn-math.c:316
+#: src/functions/fn-math.c:318
 msgid ""
 "@FUNCTION=ASIN\n"
 "@SYNTAX=ASIN(x)\n"
@@ -9235,7 +9358,7 @@ msgid ""
 "@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS"
 msgstr ""
 
-#: src/functions/fn-math.c:347
+#: src/functions/fn-math.c:349
 msgid ""
 "@FUNCTION=ASINH\n"
 "@SYNTAX=ASINH(x)\n"
@@ -9249,7 +9372,7 @@ msgid ""
 "@SEEALSO=ASIN, ACOSH, SIN, COS, DEGREES, RADIANS"
 msgstr ""
 
-#: src/functions/fn-math.c:371
+#: src/functions/fn-math.c:373
 msgid ""
 "@FUNCTION=ATAN\n"
 "@SYNTAX=ATAN(x)\n"
@@ -9263,7 +9386,7 @@ msgid ""
 "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
 msgstr ""
 
-#: src/functions/fn-math.c:396
+#: src/functions/fn-math.c:398
 msgid ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
@@ -9278,7 +9401,7 @@ msgid ""
 "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 msgstr ""
 
-#: src/functions/fn-math.c:428
+#: src/functions/fn-math.c:430
 msgid ""
 "@FUNCTION=ATAN2\n"
 "@SYNTAX=ATAN2(b1,b2)\n"
@@ -9294,7 +9417,7 @@ msgid ""
 "@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS"
 msgstr ""
 
-#: src/functions/fn-math.c:456
+#: src/functions/fn-math.c:458
 msgid ""
 "@FUNCTION=CEIL\n"
 "@SYNTAX=CEIL(x)\n"
@@ -9308,7 +9431,7 @@ msgid ""
 "@SEEALSO=ABS, FLOOR, INT"
 msgstr ""
 
-#: src/functions/fn-math.c:480
+#: src/functions/fn-math.c:482
 msgid ""
 "@FUNCTION=COUNTIF\n"
 "@SYNTAX=COUNTIF(range,criteria)\n"
@@ -9325,7 +9448,7 @@ msgid ""
 "@SEEALSO=COUNT,SUMIF"
 msgstr ""
 
-#: src/functions/fn-math.c:558
+#: src/functions/fn-math.c:560
 msgid ""
 "@FUNCTION=SUMIF\n"
 "@SYNTAX=SUMIF(range,criteria[,actual_range])\n"
@@ -9345,7 +9468,7 @@ msgid ""
 "@SEEALSO=COUNTIF, SUM"
 msgstr ""
 
-#: src/functions/fn-math.c:711
+#: src/functions/fn-math.c:713
 msgid ""
 "@FUNCTION=CEILING\n"
 "@SYNTAX=CEILING(x,significance)\n"
@@ -9361,7 +9484,7 @@ msgid ""
 "@SEEALSO=CEIL"
 msgstr ""
 
-#: src/functions/fn-math.c:752
+#: src/functions/fn-math.c:754
 msgid ""
 "@FUNCTION=COS\n"
 "@SYNTAX=COS(x)\n"
@@ -9374,7 +9497,7 @@ msgid ""
 "@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
 msgstr ""
 
-#: src/functions/fn-math.c:776
+#: src/functions/fn-math.c:778
 msgid ""
 "@FUNCTION=COSH\n"
 "@SYNTAX=COSH(x)\n"
@@ -9388,7 +9511,7 @@ msgid ""
 "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
 msgstr ""
 
-#: src/functions/fn-math.c:801
+#: src/functions/fn-math.c:803
 msgid ""
 "@FUNCTION=DEGREES\n"
 "@SYNTAX=DEGREES(x)\n"
@@ -9400,7 +9523,7 @@ msgid ""
 "@SEEALSO=RADIANS, PI"
 msgstr ""
 
-#: src/functions/fn-math.c:823
+#: src/functions/fn-math.c:825
 msgid ""
 "@FUNCTION=EXP\n"
 "@SYNTAX=EXP(x)\n"
@@ -9412,7 +9535,7 @@ msgid ""
 "@SEEALSO=LOG, LOG2, LOG10"
 msgstr ""
 
-#: src/functions/fn-math.c:846
+#: src/functions/fn-math.c:848
 msgid ""
 "@FUNCTION=FACT\n"
 "@SYNTAX=FACT(x)\n"
@@ -9425,7 +9548,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-math.c:887
+#: src/functions/fn-math.c:889
 msgid ""
 "@FUNCTION=COMBIN\n"
 "@SYNTAX=COMBIN(n,k)\n"
@@ -9440,7 +9563,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-math.c:921
+#: src/functions/fn-math.c:923
 msgid ""
 "@FUNCTION=FLOOR\n"
 "@SYNTAX=FLOOR(x,significance)\n"
@@ -9456,7 +9579,7 @@ msgid ""
 "@SEEALSO=CEIL, ABS, INT"
 msgstr ""
 
-#: src/functions/fn-math.c:958
+#: src/functions/fn-math.c:960
 msgid ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(a)\n"
@@ -9469,7 +9592,7 @@ msgid ""
 "@SEEALSO=FLOOR, CEIL, ABS"
 msgstr ""
 
-#: src/functions/fn-math.c:982
+#: src/functions/fn-math.c:984
 msgid ""
 "@FUNCTION=LOG\n"
 "@SYNTAX=LOG(x[,base])\n"
@@ -9483,7 +9606,7 @@ msgid ""
 "@SEEALSO=LN, LOG2, LOG10"
 msgstr ""
 
-#: src/functions/fn-math.c:1021
+#: src/functions/fn-math.c:1023
 msgid ""
 "@FUNCTION=LN\n"
 "@SYNTAX=LN(x)\n"
@@ -9495,7 +9618,7 @@ msgid ""
 "@SEEALSO=EXP, LOG2, LOG10"
 msgstr ""
 
-#: src/functions/fn-math.c:1051
+#: src/functions/fn-math.c:1053
 msgid ""
 "@FUNCTION=POWER\n"
 "@SYNTAX=POWER(x,y)\n"
@@ -9508,7 +9631,7 @@ msgid ""
 "@SEEALSO=EXP"
 msgstr ""
 
-#: src/functions/fn-math.c:1085
+#: src/functions/fn-math.c:1087
 msgid ""
 "@FUNCTION=LOG2\n"
 "@SYNTAX=LOG2(x)\n"
@@ -9520,7 +9643,7 @@ msgid ""
 "@SEEALSO=EXP, LOG10, LOG"
 msgstr ""
 
-#: src/functions/fn-math.c:1113
+#: src/functions/fn-math.c:1115
 msgid ""
 "@FUNCTION=LOG10\n"
 "@SYNTAX=LOG10(x)\n"
@@ -9532,7 +9655,7 @@ msgid ""
 "@SEEALSO=EXP, LOG2, LOG"
 msgstr ""
 
-#: src/functions/fn-math.c:1142
+#: src/functions/fn-math.c:1144
 msgid ""
 "@FUNCTION=MOD\n"
 "@SYNTAX=MOD(number,divisor)\n"
@@ -9546,7 +9669,7 @@ msgid ""
 "@SEEALSO=INT,FLOOR,CEIL"
 msgstr ""
 
-#: src/functions/fn-math.c:1190
+#: src/functions/fn-math.c:1192
 msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
@@ -9558,7 +9681,7 @@ msgid ""
 "@SEEALSO=PI,DEGREES"
 msgstr ""
 
-#: src/functions/fn-math.c:1212
+#: src/functions/fn-math.c:1214
 msgid ""
 "@FUNCTION=RAND\n"
 "@SYNTAX=RAND()\n"
@@ -9570,7 +9693,7 @@ msgid ""
 "@SEEALSO=RANDBETWEEN"
 msgstr ""
 
-#: src/functions/fn-math.c:1235
+#: src/functions/fn-math.c:1237
 msgid ""
 "@FUNCTION=RandExp\n"
 "@SYNTAX=RandExp(b)\n"
@@ -9581,7 +9704,7 @@ msgid ""
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
 
-#: src/functions/fn-math.c:1258
+#: src/functions/fn-math.c:1260
 msgid ""
 "@FUNCTION=RandPoisson\n"
 "@SYNTAX=RandPoisson(lambda)\n"
@@ -9592,7 +9715,7 @@ msgid ""
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
 
-#: src/functions/fn-math.c:1284
+#: src/functions/fn-math.c:1286
 msgid ""
 "@FUNCTION=RandBinom\n"
 "@SYNTAX=RandBinom(p,trials)\n"
@@ -9605,7 +9728,7 @@ msgid ""
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
 
-#: src/functions/fn-math.c:1314
+#: src/functions/fn-math.c:1316
 msgid ""
 "@FUNCTION=RANDNEGBINOM\n"
 "@SYNTAX=RANDNEGBINOM(p,failures)\n"
@@ -9619,7 +9742,7 @@ msgid ""
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
 
-#: src/functions/fn-math.c:1345
+#: src/functions/fn-math.c:1347
 msgid ""
 "@FUNCTION=RandBernoulli\n"
 "@SYNTAX=RandBernoulli(p)\n"
@@ -9631,7 +9754,7 @@ msgid ""
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
 
-#: src/functions/fn-math.c:1373
+#: src/functions/fn-math.c:1375
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -9643,7 +9766,7 @@ msgid ""
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 msgstr ""
 
-#: src/functions/fn-math.c:1396
+#: src/functions/fn-math.c:1398
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -9656,7 +9779,7 @@ msgid ""
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 msgstr ""
 
-#: src/functions/fn-math.c:1419
+#: src/functions/fn-math.c:1421
 msgid ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
@@ -9669,7 +9792,7 @@ msgid ""
 "@SEEALSO=POWER"
 msgstr ""
 
-#: src/functions/fn-math.c:1447
+#: src/functions/fn-math.c:1449
 msgid ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(value1, value2, ...)\n"
@@ -9683,7 +9806,7 @@ msgid ""
 "@SEEALSO=AVERAGE, COUNT"
 msgstr ""
 
-#: src/functions/fn-math.c:1477
+#: src/functions/fn-math.c:1479
 msgid ""
 "@FUNCTION=SUMA\n"
 "@SYNTAX=SUMA(value1, value2, ...)\n"
@@ -9700,7 +9823,7 @@ msgid ""
 "@SEEALSO=AVERAGE, SUM, COUNT"
 msgstr ""
 
-#: src/functions/fn-math.c:1509
+#: src/functions/fn-math.c:1511
 msgid ""
 "@FUNCTION=SUMSQ\n"
 "@SYNTAX=SUMSQ(value1, value2, ...)\n"
@@ -9714,7 +9837,7 @@ msgid ""
 "@SEEALSO=SUM, COUNT"
 msgstr ""
 
-#: src/functions/fn-math.c:1540
+#: src/functions/fn-math.c:1542
 msgid ""
 "@FUNCTION=MULTINOMIAL\n"
 "@SYNTAX=MULTINOMIAL(value1, value2, ...)\n"
@@ -9726,7 +9849,7 @@ msgid ""
 "@SEEALSO=SUM"
 msgstr ""
 
-#: src/functions/fn-math.c:1600
+#: src/functions/fn-math.c:1571
 msgid ""
 "@FUNCTION=PRODUCT\n"
 "@SYNTAX=PRODUCT(value1, value2, ...)\n"
@@ -9739,20 +9862,20 @@ msgid ""
 "@SEEALSO=SUM, COUNT, G_PRODUCT"
 msgstr ""
 
-#: src/functions/fn-math.c:1638
+#: src/functions/fn-math.c:1609
 msgid ""
 "@FUNCTION=G_PRODUCT\n"
 "@SYNTAX=G_PRODUCT(value1, value2, ...)\n"
 "@DESCRIPTION=PRODUCT returns the product of all the values and cells "
 "referenced in the argument list.  Empty cells are ignored and the empty "
-"product in 1.\n"
+"product is 1.\n"
 "@EXAMPLES=\n"
 "G_PRODUCT(2,5,9) equals 90.\n"
 "\n"
 "@SEEALSO=SUM, COUNT"
 msgstr ""
 
-#: src/functions/fn-math.c:1666
+#: src/functions/fn-math.c:1637
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -9764,7 +9887,7 @@ msgid ""
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 msgstr ""
 
-#: src/functions/fn-math.c:1689
+#: src/functions/fn-math.c:1660
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -9777,7 +9900,7 @@ msgid ""
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 msgstr ""
 
-#: src/functions/fn-math.c:1712
+#: src/functions/fn-math.c:1683
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -9790,7 +9913,7 @@ msgid ""
 "@SEEALSO=SQRTPI"
 msgstr ""
 
-#: src/functions/fn-math.c:1736
+#: src/functions/fn-math.c:1707
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -9804,7 +9927,7 @@ msgid ""
 "@SEEALSO=INT"
 msgstr ""
 
-#: src/functions/fn-math.c:1771
+#: src/functions/fn-math.c:1742
 msgid ""
 "@FUNCTION=EVEN\n"
 "@SYNTAX=EVEN(number)\n"
@@ -9816,7 +9939,7 @@ msgid ""
 "@SEEALSO=ODD"
 msgstr ""
 
-#: src/functions/fn-math.c:1809
+#: src/functions/fn-math.c:1780
 msgid ""
 "@FUNCTION=ODD\n"
 "@SYNTAX=ODD(number)\n"
@@ -9828,7 +9951,7 @@ msgid ""
 "@SEEALSO=EVEN"
 msgstr ""
 
-#: src/functions/fn-math.c:1847
+#: src/functions/fn-math.c:1818
 msgid ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(number)\n"
@@ -9842,7 +9965,7 @@ msgid ""
 "@SEEALSO=FACT"
 msgstr ""
 
-#: src/functions/fn-math.c:1885
+#: src/functions/fn-math.c:1856
 msgid ""
 "@FUNCTION=QUOTIENT\n"
 "@SYNTAX=QUOTIENT(num,den)\n"
@@ -9855,7 +9978,7 @@ msgid ""
 "@SEEALSO=MOD"
 msgstr ""
 
-#: src/functions/fn-math.c:1916
+#: src/functions/fn-math.c:1887
 msgid ""
 "@FUNCTION=SIGN\n"
 "@SYNTAX=SIGN(number)\n"
@@ -9870,7 +9993,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-math.c:1950
+#: src/functions/fn-math.c:1921
 msgid ""
 "@FUNCTION=SQRTPI\n"
 "@SYNTAX=SQRTPI(number)\n"
@@ -9882,7 +10005,7 @@ msgid ""
 "@SEEALSO=PI"
 msgstr ""
 
-#: src/functions/fn-math.c:1979
+#: src/functions/fn-math.c:1950
 msgid ""
 "@FUNCTION=RANDBETWEEN\n"
 "@SYNTAX=RANDBETWEEN(bottom,top)\n"
@@ -9897,7 +10020,7 @@ msgid ""
 "@SEEALSO=RAND"
 msgstr ""
 
-#: src/functions/fn-math.c:2013
+#: src/functions/fn-math.c:1984
 msgid ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(number[,digits])\n"
@@ -9917,7 +10040,7 @@ msgid ""
 "@SEEALSO=ROUND,ROUNDUP"
 msgstr ""
 
-#: src/functions/fn-math.c:2057
+#: src/functions/fn-math.c:2028
 msgid ""
 "@FUNCTION=ROUND\n"
 "@SYNTAX=ROUND(number[,digits])\n"
@@ -9937,7 +10060,7 @@ msgid ""
 "@SEEALSO=ROUNDDOWN,ROUNDUP"
 msgstr ""
 
-#: src/functions/fn-math.c:2098
+#: src/functions/fn-math.c:2069
 msgid ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(number[,digits])\n"
@@ -9957,7 +10080,7 @@ msgid ""
 "@SEEALSO=ROUND,ROUNDDOWN"
 msgstr ""
 
-#: src/functions/fn-math.c:2142
+#: src/functions/fn-math.c:2113
 msgid ""
 "@FUNCTION=MROUND\n"
 "@SYNTAX=MROUND(number,multiple)\n"
@@ -9973,7 +10096,7 @@ msgid ""
 "@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP"
 msgstr ""
 
-#: src/functions/fn-math.c:2192
+#: src/functions/fn-math.c:2163
 msgid ""
 "@FUNCTION=ROMAN\n"
 "@SYNTAX=ROMAN(number[,type])\n"
@@ -9995,7 +10118,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-math.c:2461
+#: src/functions/fn-math.c:2429
 msgid ""
 "@FUNCTION=SUMX2MY2\n"
 "@SYNTAX=SUMX2MY2(array1,array2)\n"
@@ -10015,14 +10138,14 @@ msgid ""
 "@SEEALSO=SUMSQ,SUMX2PY2"
 msgstr ""
 
-#: src/functions/fn-math.c:2517 src/functions/fn-math.c:2536
-#: src/functions/fn-math.c:2630 src/functions/fn-math.c:2650
-#: src/functions/fn-math.c:2742 src/functions/fn-math.c:2762
+#: src/functions/fn-math.c:2485 src/functions/fn-math.c:2504
+#: src/functions/fn-math.c:2598 src/functions/fn-math.c:2618
+#: src/functions/fn-math.c:2710 src/functions/fn-math.c:2730
 #: src/functions/fn-stat.c:2709 src/functions/fn-stat.c:2739
 msgid "Array version not implemented!"
 msgstr ""
 
-#: src/functions/fn-math.c:2574
+#: src/functions/fn-math.c:2542
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
 "@SYNTAX=SUMX2PY2(array1,array2)\n"
@@ -10042,7 +10165,7 @@ msgid ""
 "@SEEALSO=SUMSQ,SUMX2MY2"
 msgstr ""
 
-#: src/functions/fn-math.c:2686
+#: src/functions/fn-math.c:2654
 msgid ""
 "@FUNCTION=SUMXMY2\n"
 "@SYNTAX=SUMXMY2(array1,array2)\n"
@@ -10062,7 +10185,7 @@ msgid ""
 "@SEEALSO=SUMSQ,SUMX2MY2,SUMX2PY2"
 msgstr ""
 
-#: src/functions/fn-math.c:2800
+#: src/functions/fn-math.c:2768
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
 "@SYNTAX=SUMIF(function_nbr,ref1,ref2,...)\n"
@@ -10093,7 +10216,7 @@ msgid ""
 "@SEEALSO=COUNT,SUM"
 msgstr ""
 
-#: src/functions/fn-math.c:2893
+#: src/functions/fn-math.c:2850
 msgid ""
 "@FUNCTION=SERIESSUM\n"
 "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
@@ -10110,7 +10233,7 @@ msgid ""
 "@SEEALSO=COUNT,SUM"
 msgstr ""
 
-#: src/functions/fn-math.c:3016
+#: src/functions/fn-math.c:2973
 msgid ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(matrix)\n"
@@ -10124,11 +10247,11 @@ msgid ""
 "@SEEALSO=MMULT, MDETERM"
 msgstr ""
 
-#: src/functions/fn-math.c:3064
+#: src/functions/fn-math.c:3021
 msgid "#3D MULT?"
 msgstr ""
 
-#: src/functions/fn-math.c:3143
+#: src/functions/fn-math.c:3100
 msgid ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(array1,array2)\n"
@@ -10140,7 +10263,7 @@ msgid ""
 "@SEEALSO=TRANSPOSE,MINVERSE"
 msgstr ""
 
-#: src/functions/fn-math.c:3219
+#: src/functions/fn-math.c:3176
 msgid ""
 "@FUNCTION=MDETERM\n"
 "@SYNTAX=MDETERM(matrix)\n"
@@ -10156,7 +10279,7 @@ msgid ""
 "@SEEALSO=MMULT, MINVERSE"
 msgstr ""
 
-#: src/functions/fn-math.c:3277
+#: src/functions/fn-math.c:3234
 msgid ""
 "@FUNCTION=SUMPRODUCT\n"
 "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
@@ -10174,7 +10297,7 @@ msgid ""
 "@SEEALSO=SUM,PRODUCT"
 msgstr ""
 
-#: src/functions/fn-math.c:3392
+#: src/functions/fn-math.c:3349
 msgid "Maths / Trig."
 msgstr ""
 
@@ -11541,12 +11664,7 @@ msgid ""
 "@SEEALSO=CHAR"
 msgstr ""
 
-#: src/functions/fn-string.c:70 src/functions/fn-string.c:212
-#: src/functions/fn-string.c:654 src/functions/fn-string.c:753
-msgid "Type mismatch"
-msgstr "Väärä tyyppi"
-
-#: src/functions/fn-string.c:79
+#: src/functions/fn-string.c:73
 msgid ""
 "@FUNCTION=EXACT\n"
 "@SYNTAX=EXACT(string1, string2)\n"
@@ -11556,10 +11674,10 @@ msgid ""
 "EXACT(\"key\",\"key\") equals TRUE.\n"
 "EXACT(\"key\",\"Key\") equals FALSE.\n"
 "\n"
-"@SEEALSO=LEN"
+"@SEEALSO=LEN, SEARCH"
 msgstr ""
 
-#: src/functions/fn-string.c:103
+#: src/functions/fn-string.c:97
 msgid ""
 "@FUNCTION=LEN\n"
 "@SYNTAX=LEN(string)\n"
@@ -11570,7 +11688,7 @@ msgid ""
 "@SEEALSO=CHAR, CODE"
 msgstr ""
 
-#: src/functions/fn-string.c:124
+#: src/functions/fn-string.c:118
 msgid ""
 "@FUNCTION=LEFT\n"
 "@SYNTAX=LEFT(text[,num_chars])\n"
@@ -11582,7 +11700,7 @@ msgid ""
 "@SEEALSO=MID, RIGHT"
 msgstr ""
 
-#: src/functions/fn-string.c:159
+#: src/functions/fn-string.c:153
 msgid ""
 "@FUNCTION=LOWER\n"
 "@SYNTAX=LOWER(text)\n"
@@ -11593,7 +11711,7 @@ msgid ""
 "@SEEALSO=UPPER"
 msgstr ""
 
-#: src/functions/fn-string.c:189
+#: src/functions/fn-string.c:182
 msgid ""
 "@FUNCTION=MID\n"
 "@SYNTAX=MID(string, position, length)\n"
@@ -11605,11 +11723,11 @@ msgid ""
 "@SEEALSO=LEFT, RIGHT"
 msgstr ""
 
-#: src/functions/fn-string.c:218
+#: src/functions/fn-string.c:207
 msgid "Invalid arguments"
 msgstr "Virheelliset parametrit"
 
-#: src/functions/fn-string.c:237
+#: src/functions/fn-string.c:226
 msgid ""
 "@FUNCTION=RIGHT\n"
 "@SYNTAX=RIGHT(text[,num_chars])\n"
@@ -11622,7 +11740,7 @@ msgid ""
 "@SEEALSO=MID, LEFT"
 msgstr ""
 
-#: src/functions/fn-string.c:275
+#: src/functions/fn-string.c:264
 msgid ""
 "@FUNCTION=UPPER\n"
 "@SYNTAX=UPPER(text)\n"
@@ -11633,7 +11751,7 @@ msgid ""
 "@SEEALSO=LOWER"
 msgstr ""
 
-#: src/functions/fn-string.c:305
+#: src/functions/fn-string.c:293
 msgid ""
 "@FUNCTION=CONCATENATE\n"
 "@SYNTAX=CONCATENATE(string1[,string2...])\n"
@@ -11644,7 +11762,7 @@ msgid ""
 "@SEEALSO=LEFT, MID, RIGHT"
 msgstr ""
 
-#: src/functions/fn-string.c:357
+#: src/functions/fn-string.c:333
 msgid ""
 "@FUNCTION=REPT\n"
 "@SYNTAX=REPT(string,num)\n"
@@ -11657,11 +11775,11 @@ msgstr ""
 
 #. FIXME: this and above case should probably have the
 #. same error message.
-#: src/functions/fn-string.c:395
+#: src/functions/fn-string.c:371
 msgid "Out of memory"
 msgstr ""
 
-#: src/functions/fn-string.c:411
+#: src/functions/fn-string.c:387
 msgid ""
 "@FUNCTION=CLEAN\n"
 "@SYNTAX=CLEAN(string)\n"
@@ -11672,19 +11790,19 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-string.c:442
+#: src/functions/fn-string.c:418
 msgid ""
 "@FUNCTION=FIND\n"
 "@SYNTAX=FIND(string1,string2[,start])\n"
-"@DESCRIPTION=FIND returns position of @string1 in @string2 (case-sesitive), "
-"searching only from character @start onwards (assumed 1 if omitted).\n"
+"@DESCRIPTION=FIND returns position of @string1 in @string2 (case-sensitive), "
+"searching only from character @start onwards (assuming 1 if omitted).\n"
 "@EXAMPLES=\n"
 "FIND(\"ac\",\"Jack\") equals 2.\n"
 "\n"
 "@SEEALSO=EXACT, LEN, MID, SEARCH"
 msgstr ""
 
-#: src/functions/fn-string.c:483
+#: src/functions/fn-string.c:459
 msgid ""
 "@FUNCTION=FIXED\n"
 "@SYNTAX=FIXED(num,[decimals, no_commas])\n"
@@ -11696,7 +11814,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-string.c:587
+#: src/functions/fn-string.c:563
 msgid ""
 "@FUNCTION=PROPER\n"
 "@SYNTAX=PROPER(string)\n"
@@ -11707,7 +11825,7 @@ msgid ""
 "@SEEALSO=LOWER, UPPER"
 msgstr ""
 
-#: src/functions/fn-string.c:632
+#: src/functions/fn-string.c:608
 msgid ""
 "@FUNCTION=REPLACE\n"
 "@SYNTAX=REPLACE(old,start,num,new)\n"
@@ -11719,7 +11837,7 @@ msgid ""
 "@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM"
 msgstr ""
 
-#: src/functions/fn-string.c:685
+#: src/functions/fn-string.c:657
 msgid ""
 "@FUNCTION=T\n"
 "@SYNTAX=T(value)\n"
@@ -11732,7 +11850,7 @@ msgid ""
 "@SEEALSO=CELL, N, VALUE"
 msgstr ""
 
-#: src/functions/fn-string.c:709
+#: src/functions/fn-string.c:681
 msgid ""
 "@FUNCTION=TEXT\n"
 "@SYNTAX=TEXT(value,format_text)\n"
@@ -11744,20 +11862,11 @@ msgid ""
 "@SEEALSO=DOLLAR"
 msgstr ""
 
-#: src/functions/fn-string.c:765
-msgid ""
-"@FUNCTION=EXPRESSION\n"
-"@SYNTAX=EXPRESSION(cell)\n"
-"@DESCRIPTION=EXPRESSION returns expression in @cell as a string, orempty if "
-"the cell is not an expression.\n"
-"@EXAMPLES=\n"
-"in A1 EXPRESSION(A2) equals 'EXPRESSION(A3)'.\n"
-"in A2 EXPRESSION(A3) equals empty.\n"
-"\n"
-"@SEEALSO=TEXT"
-msgstr ""
+#: src/functions/fn-string.c:725
+msgid "Type mismatch"
+msgstr "Väärä tyyppi"
 
-#: src/functions/fn-string.c:810
+#: src/functions/fn-string.c:737
 msgid ""
 "@FUNCTION=TRIM\n"
 "@SYNTAX=TRIM(text)\n"
@@ -11768,7 +11877,7 @@ msgid ""
 "@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE"
 msgstr ""
 
-#: src/functions/fn-string.c:855
+#: src/functions/fn-string.c:782
 msgid ""
 "@FUNCTION=VALUE\n"
 "@SYNTAX=VALUE(text)\n"
@@ -11779,7 +11888,7 @@ msgid ""
 "@SEEALSO=DOLLAR, FIXED, TEXT"
 msgstr ""
 
-#: src/functions/fn-string.c:897
+#: src/functions/fn-string.c:824
 msgid ""
 "@FUNCTION=SUBSTITUTE\n"
 "@SYNTAX=SUBSTITUTE(text, old, new [,num])\n"
@@ -11792,7 +11901,7 @@ msgid ""
 "@SEEALSO=REPLACE, TRIM"
 msgstr ""
 
-#: src/functions/fn-string.c:1012
+#: src/functions/fn-string.c:939
 msgid ""
 "@FUNCTION=DOLLAR\n"
 "@SYNTAX=DOLLAR(num[,decimals])\n"
@@ -11803,7 +11912,7 @@ msgid ""
 "@SEEALSO=FIXED, TEXT, VALUE"
 msgstr ""
 
-#: src/functions/fn-string.c:1080
+#: src/functions/fn-string.c:1007
 msgid ""
 "@FUNCTION=SEARCH\n"
 "@SYNTAX=SEARCH(text,within[,start_num])\n"
@@ -11826,63 +11935,1313 @@ msgid ""
 "@SEEALSO=FIND"
 msgstr ""
 
-#: src/gnumeric-util.c:316
+#: src/GNOME_Gnumeric.xml.h:1
 #, fuzzy
-msgid "Gnumeric error message"
-msgstr "Gnumeric: "
+msgid "*Control*b"
+msgstr "Keskitetty"
 
-#: src/gnumeric-util.c:325
+#: src/GNOME_Gnumeric.xml.h:2
 #, fuzzy
-msgid "Message"
-msgstr "Keskiarvo"
+msgid "*Control*i"
+msgstr "Keskitetty"
 
-#: src/gnumeric-util.c:333
-msgid "Details"
+#: src/GNOME_Gnumeric.xml.h:3
+#, fuzzy
+msgid "*Control*u"
+msgstr "Keskitetty"
+
+#: src/GNOME_Gnumeric.xml.h:4
+msgid "About this application"
 msgstr ""
 
-#: src/gnumeric-util.c:908
+#: src/GNOME_Gnumeric.xml.h:5 src/workbook-control-gui.c:2615
+#, fuzzy
+msgid "Add an outline group"
+msgstr "Lisää uuden sarakkeen"
+
+#: src/GNOME_Gnumeric.xml.h:6 src/workbook-format-toolbar.c:479
+msgid "Aligns the contents to the left and decreases the indent"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:7 src/workbook-format-toolbar.c:482
+msgid "Aligns the contents to the left and increases the indent"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:8 src/workbook-object-toolbar.c:163
+msgid "Arrow"
+msgstr "Nuoli"
+
+#: src/GNOME_Gnumeric.xml.h:9 src/workbook-control-gui.c:2582
+msgid "Auto _Correct..."
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:2583
+msgid "Automatically perform simple spell checking"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:2586
+msgid "Automatically save the current document at regular intervals"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:13 src/widgets/widget-font-selector.c:102
+#: src/workbook-format-toolbar.c:413
+msgid "Bold"
+msgstr "Lihavoi"
+
+#: src/GNOME_Gnumeric.xml.h:14 src/workbook-format-toolbar.c:828
+#: src/workbook-format-toolbar.c:893
+#, fuzzy
+msgid "Borders"
+msgstr "Lihavoi"
+
+#: src/GNOME_Gnumeric.xml.h:15 src/sheet-object-widget.c:406
+#: src/workbook-object-toolbar.c:145
+#, fuzzy
+msgid "Button"
+msgstr "Ala"
+
+#: src/GNOME_Gnumeric.xml.h:16 src/workbook-control-gui.c:2456
+#, fuzzy
+msgid "C_ells..."
+msgstr "_Soluja..."
+
+#: src/GNOME_Gnumeric.xml.h:17 src/workbook-control-gui.c:2369
+msgid "C_lear"
+msgstr "_Tyhjää"
+
+#: src/GNOME_Gnumeric.xml.h:18 src/workbook-control-gui.c:2560
+msgid "C_olumn"
+msgstr "S_arake"
+
+#: src/GNOME_Gnumeric.xml.h:19 src/workbook-format-toolbar.c:440
+msgid "Center"
+msgstr "Keskitetty"
+
+#: src/GNOME_Gnumeric.xml.h:20
+#, fuzzy
+msgid "CenterAcrossSelection"
+msgstr "Keskitetty"
+
+#: src/GNOME_Gnumeric.xml.h:21
+#, fuzzy
+msgid "Centers across the selected cells"
+msgstr "Tyhjää valitut solut"
+
+#: src/GNOME_Gnumeric.xml.h:22
+#, fuzzy
+msgid "Centers the text in each selection"
+msgstr "Keskitetty"
+
+#: src/GNOME_Gnumeric.xml.h:23 src/workbook-control-gui.c:2494
+msgid "Change height of the selected rows"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:24 src/workbook-control-gui.c:2487
+msgid "Change the default column width"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:25 src/workbook-control-gui.c:2506
+msgid "Change the default row height"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:26 src/workbook-control-gui.c:2342
+#: src/workbook-control-gui.c:2516
+msgid "Change the order the sheets are displayed"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:27 src/workbook-control-gui.c:2478
+#, fuzzy
+msgid "Change width of the selected columns"
+msgstr "Tuhoa solu(ja)"
+
+#: src/GNOME_Gnumeric.xml.h:28 src/workbook-object-toolbar.c:148
+msgid "Checkbox"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:29 src/workbook-control-gui.c:2290
+msgid "Clear the selected cells' comments"
+msgstr "Tyhjää valittujen solujen kommentit"
+
+#: src/GNOME_Gnumeric.xml.h:30 src/workbook-control-gui.c:2293
+msgid "Clear the selected cells' contents"
+msgstr "Tyhjää valittujen solujen sisällöt"
+
+#: src/GNOME_Gnumeric.xml.h:31 src/workbook-control-gui.c:2287
+msgid "Clear the selected cells' formats"
+msgstr "Tyhjää valittujen solujen muotoilut"
+
+#: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:2284
+msgid "Clear the selected cells' formats, comments, and contents"
+msgstr "Tyhjää valittujen solujen muotoilut, kommentit ja sisällöt"
+
+#: src/GNOME_Gnumeric.xml.h:33
+msgid "Close the current file"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:35 src/workbook-control-gui.c:2609
+msgid "Collapse an outline group"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:36
+#, fuzzy
+msgid "Combo Box"
+msgstr "Väritys"
+
+#: src/GNOME_Gnumeric.xml.h:37 src/workbook-control-gui.c:2658
+msgid "Consolidate regions using a function"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:38 src/selection.c:539
+#: src/workbook-control-gui.c:2712
+msgid "Copy"
+msgstr "Kopioi"
+
+#: src/GNOME_Gnumeric.xml.h:39
+#, fuzzy
+msgid "Copy the current selection to the clipboard"
+msgstr "Kopioi valitun alueen leikepöydälle"
+
+#: src/GNOME_Gnumeric.xml.h:40
+#, fuzzy
+msgid "Copy the selection"
+msgstr "Tasaus vasemmalle"
+
+#: src/GNOME_Gnumeric.xml.h:41
+#, fuzzy
+msgid "Create a button"
+msgstr "Luo viivaobjektin"
+
+#: src/GNOME_Gnumeric.xml.h:42
+#, fuzzy
+msgid "Create a checkbox"
+msgstr "Luo uuden taulun"
+
+#: src/GNOME_Gnumeric.xml.h:43
+#, fuzzy
+msgid "Create a combo box"
+msgstr "Luo uuden taulun"
+
+#: src/GNOME_Gnumeric.xml.h:44
+#, fuzzy
+msgid "Create a frame"
+msgstr "Luo uuden taulun"
+
+#: src/GNOME_Gnumeric.xml.h:45
+#, fuzzy
+msgid "Create a label"
+msgstr "Luo viivaobjektin"
+
+#: src/GNOME_Gnumeric.xml.h:46
+#, fuzzy
+msgid "Create a line"
+msgstr "Luo viivaobjektin"
+
+#: src/GNOME_Gnumeric.xml.h:47
+#, fuzzy
+msgid "Create a list"
+msgstr "Luo viivaobjektin"
+
+#: src/GNOME_Gnumeric.xml.h:48 src/workbook-control-gui.c:2408
+#, fuzzy
+msgid "Create a new shared view of the workbook"
+msgstr "Nimet työkirjassa"
+
+#: src/GNOME_Gnumeric.xml.h:49 src/workbook-control-gui.c:2249
+msgid "Create a new spreadsheet"
+msgstr "Luo uusi taulukko"
+
+#: src/GNOME_Gnumeric.xml.h:50 src/workbook-control-gui.c:2411
+#, fuzzy
+msgid "Create a new unshared view of the workbook"
+msgstr "Nimet työkirjassa"
+
+#: src/GNOME_Gnumeric.xml.h:51
+#, fuzzy
+msgid "Create a new workbook"
+msgstr "Nimet työkirjassa"
+
+#: src/GNOME_Gnumeric.xml.h:52
+#, fuzzy
+msgid "Create a radio button"
+msgstr "Luo viivaobjektin"
+
+#: src/GNOME_Gnumeric.xml.h:53
+#, fuzzy
+msgid "Create an arrow"
+msgstr "Luo nuoliobjektin"
+
+#: src/GNOME_Gnumeric.xml.h:54 src/sheet-control-gui.c:1307
+msgid "Cu_t"
+msgstr "_Leikkaa"
+
+#. Default <Ctrl-;> (control semi-colon) to insert the current date
+#: src/GNOME_Gnumeric.xml.h:55 src/workbook-control-gui.c:2420
+msgid "Current _date"
+msgstr "Tämänhetkinen _päiväys"
+
+#. Default <Ctrl-:> (control colon) to insert the current time
+#: src/GNOME_Gnumeric.xml.h:56 src/workbook-control-gui.c:2426
+msgid "Current _time"
+msgstr "Tämänhetkinen _aika"
+
+#: src/GNOME_Gnumeric.xml.h:57 src/selection.c:565 src/selection.c:568
+#: src/workbook-control-gui.c:2709
+msgid "Cut"
+msgstr "Leikkaa"
+
+#: src/GNOME_Gnumeric.xml.h:58
+#, fuzzy
+msgid "Cut the selection"
+msgstr "Tasaus vasemmalle"
+
+#: src/GNOME_Gnumeric.xml.h:59 src/workbook-format-toolbar.c:399
+#: src/workbook-format-toolbar.c:479
+#, fuzzy
+msgid "Decrease Indent"
+msgstr "Joulukuu"
+
+#: src/GNOME_Gnumeric.xml.h:60
+#, fuzzy
+msgid "Decrease Precision"
+msgstr "Joulukuu"
+
+#: src/GNOME_Gnumeric.xml.h:61
+#, fuzzy
+msgid "Decrease the precision of the selected cells"
+msgstr "Muokkaa valittujen solujen muotoilua"
+
+#: src/GNOME_Gnumeric.xml.h:62 src/workbook-control-gui.c:2521
+#, fuzzy
+msgid "Display _Formulas"
+msgstr "Kaavat"
+
+#: src/GNOME_Gnumeric.xml.h:63 src/workbook-control-gui.c:2624
+#, fuzzy
+msgid "Display _Outlines"
+msgstr "Kaavat"
+
+#: src/GNOME_Gnumeric.xml.h:64 src/workbook-control-gui.c:2522
+msgid "Display the value of a formula or the formula itself"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:65
+#, fuzzy
+msgid "Draw a rectangle"
+msgstr "Luo neliöobjektin"
+
+#: src/GNOME_Gnumeric.xml.h:66
+msgid "Draw an oval"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:67
+msgid "E_xit"
+msgstr "_Lopeta"
+
+#: src/GNOME_Gnumeric.xml.h:68
+msgid "Edit a formula in the current cell"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:69 src/workbook-control-gui.c:2435
+msgid "Edit sheet and workbook names"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:70 src/workbook-control-gui.c:2513
+msgid "Edit the name of the current sheet"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:71 src/workbook-control-gui.c:2465
+msgid "Edit the selected cell's comment"
+msgstr "Muokkaa valitun solun kommenttia"
+
+#: src/GNOME_Gnumeric.xml.h:72 src/workbook-control-gui.c:2475
+msgid "Ensure columns are just wide enough to display content"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:73 src/workbook-control-gui.c:2497
+msgid "Ensure rows are just tall enough to display content"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:74
+msgid "Exit the program"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:75 src/workbook-control-gui.c:2679
+msgid "F_ormat"
+msgstr "M_uotoile"
+
+#: src/GNOME_Gnumeric.xml.h:76 src/workbook-control-gui.c:2650
+msgid "Filter data with given criteria"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:78 src/workbook-format-toolbar.c:890
+#, fuzzy
+msgid "Font Size"
+msgstr "Määrä"
+
+#: src/GNOME_Gnumeric.xml.h:79 src/workbook-format-toolbar.c:410
+#: src/workbook-format-toolbar.c:888
+#, fuzzy
+msgid "Font selector"
+msgstr "Murtoluku"
+
+#: src/GNOME_Gnumeric.xml.h:81 src/workbook-control-gui.c:2565
+msgid "Format a region of cells according to a pre-defined template"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:82
+#, fuzzy
+msgid "Format the selected cells as money"
+msgstr "Järjestää valitut solut"
+
+#: src/GNOME_Gnumeric.xml.h:83
+#, fuzzy
+msgid "Format the selected cells as percentages"
+msgstr "Muokkaa valittujen solujen muotoilua"
+
+#: src/GNOME_Gnumeric.xml.h:84 src/sheet-object-widget.c:309
+#: src/workbook-object-toolbar.c:142
+#, fuzzy
+msgid "Frame"
+msgstr "Nimi"
+
+#: src/GNOME_Gnumeric.xml.h:85
+#, fuzzy
+msgid "Function Guru"
+msgstr "Murtoluku"
+
+#: src/GNOME_Gnumeric.xml.h:86
+#, fuzzy
+msgid "Graph Guru"
+msgstr "Kaavat"
+
+#: src/GNOME_Gnumeric.xml.h:87 src/workbook-control-gui.c:2493
+#, fuzzy
+msgid "H_eight..."
+msgstr "Oikea"
+
+#: src/GNOME_Gnumeric.xml.h:88
+#, fuzzy
+msgid "Hide _Column Headers"
+msgstr "Lisää sarakkeita"
+
+#: src/GNOME_Gnumeric.xml.h:89 src/workbook-control-gui.c:2533
+#, fuzzy
+msgid "Hide _Gridlines"
+msgstr "Vinot viivat"
+
+#: src/GNOME_Gnumeric.xml.h:90
+#, fuzzy
+msgid "Hide _Row Headers"
+msgstr "Lisää rivejä"
+
+#: src/GNOME_Gnumeric.xml.h:91 src/workbook-control-gui.c:2527
+msgid "Hide _Zeros"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:92 src/workbook-control-gui.c:2481
+#, fuzzy
+msgid "Hide the selected columns"
+msgstr "Järjestää valitut solut"
+
+#: src/GNOME_Gnumeric.xml.h:93 src/workbook-control-gui.c:2500
+#, fuzzy
+msgid "Hide the selected rows"
+msgstr "Järjestää valitut solut"
+
+#: src/GNOME_Gnumeric.xml.h:94 src/workbook-control-gui.c:2253
+#, fuzzy
+msgid "Imports a file"
+msgstr "Mahdoton!"
+
+#: src/GNOME_Gnumeric.xml.h:95
+#, fuzzy
+msgid "Includes a thousands separator in the selected cells"
+msgstr "Lisää tämänhetkisen päiväyksen valittuihin soluihin"
+
+#: src/GNOME_Gnumeric.xml.h:96 src/workbook-format-toolbar.c:377
+#: src/workbook-format-toolbar.c:482
+#, fuzzy
+msgid "Increase Indent"
+msgstr "Tyhjää sisältö"
+
+#: src/GNOME_Gnumeric.xml.h:97
+msgid "Increase Precision"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:98
+#, fuzzy
+msgid "Increase the precision of the selected cells"
+msgstr "Lisää tämänhetkisen päiväyksen valittuihin soluihin"
+
+#: src/GNOME_Gnumeric.xml.h:99
+#, fuzzy
+msgid "Insert Component"
+msgstr "Lisää sarakkeita"
+
+#: src/GNOME_Gnumeric.xml.h:100
+#, fuzzy
+msgid "Insert Shaped Component"
+msgstr "Lisää ohjekti..."
+
+#: src/GNOME_Gnumeric.xml.h:101 src/workbook-control-gui.c:2334
+#, fuzzy
+msgid "Insert a new sheet"
+msgstr "Lisää uusi taulu"
+
+#: src/GNOME_Gnumeric.xml.h:102 src/workbook-control-gui.c:2448
+msgid "Insert a new spreadsheet"
+msgstr "Lisää uusi taulu"
+
+#: src/GNOME_Gnumeric.xml.h:103
+#, fuzzy
+msgid "Insert a shaped component into the spreadsheet"
+msgstr "Luo grafiikkaohjektin tauluun"
+
+#: src/GNOME_Gnumeric.xml.h:104
+#, fuzzy
+msgid "Insert an object into the spreadsheet"
+msgstr "Lisää uusi taulu"
+
+#: src/GNOME_Gnumeric.xml.h:105 src/workbook-control-gui.c:2457
+msgid "Insert new cells"
+msgstr "Lisää uusia soluja"
+
+#: src/GNOME_Gnumeric.xml.h:106 src/workbook-control-gui.c:2454
+msgid "Insert new columns"
+msgstr "Lisää uuden sarakkeen"
+
+#: src/GNOME_Gnumeric.xml.h:107 src/workbook-control-gui.c:2451
+msgid "Insert new rows"
+msgstr "Lisää uuden rivin"
+
+#: src/GNOME_Gnumeric.xml.h:108 src/workbook-control-gui.c:2421
+#, fuzzy
+msgid "Insert the current date into the selected cell(s)"
+msgstr "Lisää tämänhetkisen päiväyksen valittuihin soluihin"
+
+#: src/GNOME_Gnumeric.xml.h:109 src/workbook-control-gui.c:2427
+msgid "Insert the current time into the selected cell(s)"
+msgstr "Lisää tämänhetkisen ajan valittuihin soluihin"
+
+#: src/GNOME_Gnumeric.xml.h:110
+msgid "Inserts a Bonobo object"
+msgstr "Lisää Bonobo-objektin"
+
+#: src/GNOME_Gnumeric.xml.h:111
+msgid "Invoke the graph guru to create a graph"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:112 src/workbook-control-gui.c:2346
+msgid "Irrevocably remove an entire sheet"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:113
+#, fuzzy
+msgid "Italicize"
+msgstr "Kursivointi"
+
+#: src/GNOME_Gnumeric.xml.h:114 src/workbook-control-gui.c:2592
+msgid "Iteratively recalculate to find a target value"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:115 src/workbook-control-gui.c:2595
+msgid "Iteratively recalculate with constraints to approach a target value"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:116 src/workbook-control-gui.c:2386
+msgid "Jump to a specified cell"
+msgstr "Hyppää tiettyyn soluun"
+
+#: src/GNOME_Gnumeric.xml.h:117 src/sheet-object-widget.c:212
+#: src/workbook-object-toolbar.c:139
+msgid "Label"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:119
+#, fuzzy
+msgid "Left justifies the contents of each cell"
+msgstr "Tasaa solu(je)n sisällön vasemmalle"
+
+#: src/GNOME_Gnumeric.xml.h:122
+msgid "Lock or unlock the top left cols/rows"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:123 src/workbook-control-gui.c:2330
+msgid "Make a copy of the current sheet"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:124 src/workbook-control-gui.c:2484
+msgid "Make any hidden columns in the selection visible"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:125 src/workbook-control-gui.c:2503
+msgid "Make any hidden rows in the selection visible"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:126
+#, fuzzy
+msgid "Make font bold"
+msgstr "Asettaa kursivoidun kirjasintyypin"
+
+#: src/GNOME_Gnumeric.xml.h:127
+#, fuzzy
+msgid "Make font italic"
+msgstr "Asettaa kursivoidun kirjasintyypin"
+
+#: src/GNOME_Gnumeric.xml.h:128
+msgid "Manage available plugin modules"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:129
+#, fuzzy
+msgid "Mark the current selection for movement"
+msgstr "Leikkaa valitun alueen leikepöydälle"
+
+#: src/GNOME_Gnumeric.xml.h:130 src/sheet-merge.c:73
+#: src/workbook-format-toolbar.c:452
+#, fuzzy
+msgid "Merge"
+msgstr "Keskiarvo"
+
+#: src/GNOME_Gnumeric.xml.h:131 src/workbook-format-toolbar.c:452
+msgid "Merge a range of cells"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:132 src/workbook-control-gui.c:2557
+msgid "Modify the formatting of the selected cells"
+msgstr "Muokkaa valittujen solujen muotoilua"
+
+#: src/GNOME_Gnumeric.xml.h:133 src/workbook-control-gui.c:2569
+msgid "Modify the workbook attributes"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:134
+msgid "Money"
+msgstr "Raha"
+
+#: src/GNOME_Gnumeric.xml.h:135 src/workbook-control-gui.c:2688
+msgid "New"
+msgstr "Uusi"
+
+#: src/GNOME_Gnumeric.xml.h:136 src/workbook-control-gui.c:2407
+#, fuzzy
+msgid "New _Shared"
+msgstr "_Taulu"
+
+#: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:2410
+#, fuzzy
+msgid "New _Unshared"
+msgstr "_Taulu"
+
+#: src/GNOME_Gnumeric.xml.h:138 src/sheet-object-bonobo.c:211
+#: src/workbook-control-gui.c:2691
+msgid "Open"
+msgstr "Avaa"
+
+#: src/GNOME_Gnumeric.xml.h:139
+#, fuzzy
+msgid "Open a spreadsheet"
+msgstr "Luo uusi taulukko"
+
+#: src/GNOME_Gnumeric.xml.h:140
+#, fuzzy
+msgid "Open an existing workbook"
+msgstr "Avaa olemassaolevan työkirjan"
+
+#: src/GNOME_Gnumeric.xml.h:141 src/workbook-control-gui.c:2630
+#, fuzzy
+msgid "Outlines _Below"
+msgstr "Oikea"
+
+#: src/GNOME_Gnumeric.xml.h:142 src/workbook-control-gui.c:2636
+#, fuzzy
+msgid "Outlines _Right"
+msgstr "Oikea"
+
+#: src/GNOME_Gnumeric.xml.h:143
+msgid "Oval"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:144
+#, fuzzy
+msgid "P_aste Special..."
+msgstr "Liitä _määräten..."
+
+#: src/GNOME_Gnumeric.xml.h:146
+#, fuzzy
+msgid "Paste the clipboard"
+msgstr "Liittää leikepöydän sisällön"
+
+#: src/GNOME_Gnumeric.xml.h:147
+msgid "Paste the contents of the clipboard or cut buffer"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:148 src/workbook-control-gui.c:2364
+msgid "Paste with optional filters and transformations"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:151 src/workbook-control-gui.c:2263
+#, fuzzy
+msgid "Print Pre_view"
+msgstr "Prosentti"
+
+#: src/GNOME_Gnumeric.xml.h:152 src/workbook-control-gui.c:2263
+#: src/workbook-control-gui.c:2703
+#, fuzzy
+msgid "Print Preview"
+msgstr "Prosentti"
+
+#: src/GNOME_Gnumeric.xml.h:153
+#, fuzzy
+msgid "Print S_etup"
+msgstr "Prosentti"
+
+#: src/GNOME_Gnumeric.xml.h:155
+msgid "Print the current file"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:156
+#, fuzzy
+msgid "Print the workbook"
+msgstr "Tallettaa työkirja"
+
+#: src/GNOME_Gnumeric.xml.h:157
+#, fuzzy
+msgid "Radio Button"
+msgstr "Ala"
+
+#: src/GNOME_Gnumeric.xml.h:158 src/workbook-control-gui.c:2341
+#: src/workbook-control-gui.c:2515
+#, fuzzy
+msgid "Re-_Order Sheets..."
+msgstr "Solun muotoilu"
+
+#: src/GNOME_Gnumeric.xml.h:159
+#, fuzzy
+msgid "Re-_Order..."
+msgstr "Solun muotoilu"
+
+#: src/GNOME_Gnumeric.xml.h:160 src/workbook-control-gui.c:2337
+#, fuzzy
+msgid "Re_name..."
+msgstr "_Soluja..."
+
+#: src/GNOME_Gnumeric.xml.h:161 src/workbook-control-gui.c:2390
+#, fuzzy
+msgid "Recalculate"
+msgstr "L_aske uudelleen"
+
+#: src/GNOME_Gnumeric.xml.h:162 src/workbook-control-gui.c:2391
+msgid "Recalculate the spreadsheet"
+msgstr "Laskee taulukon sisällön uudelleen"
+
+#: src/GNOME_Gnumeric.xml.h:163 src/workbook-object-toolbar.c:166
+msgid "Rectangle"
+msgstr "Neliö"
+
+#: src/GNOME_Gnumeric.xml.h:164
+#, fuzzy
+msgid "Redo the undone action"
+msgstr "Tuntematon laskentavirhe"
+
+#: src/GNOME_Gnumeric.xml.h:165 src/workbook-control-gui.c:2618
+msgid "Remove an outline group"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:166
+msgid "Remove selected cells, shifting others into their place"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:167 src/workbook-control-gui.c:2338
+#, fuzzy
+msgid "Rename the current sheet"
+msgstr "Poista tämä taulu"
+
+#: src/GNOME_Gnumeric.xml.h:169
+#, fuzzy
+msgid "Right justifies the contents of each cell"
+msgstr "Tasaa solu(je)n sisällön oikealle"
+
+#: src/GNOME_Gnumeric.xml.h:170 src/workbook-control-gui.c:2376
+#, fuzzy
+msgid "S_heet"
+msgstr "_Taulu"
+
+#: src/GNOME_Gnumeric.xml.h:171 src/workbook-control-gui.c:2468
+#, fuzzy
+msgid "S_pecial"
+msgstr "_Erityinen"
+
+#: src/GNOME_Gnumeric.xml.h:172 src/workbook-control-gui.c:2694
+msgid "Save"
+msgstr "Talleta"
+
+#: src/GNOME_Gnumeric.xml.h:173
+#, fuzzy
+msgid "Save _As"
+msgstr "Talleta"
+
+#: src/GNOME_Gnumeric.xml.h:174
+msgid "Save the current file"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:175
+#, fuzzy
+msgid "Save the current file with a different name"
+msgstr "Leikkaa valitun alueen leikepöydälle"
+
+#: src/GNOME_Gnumeric.xml.h:176
+#, fuzzy
+msgid "Save the current workbook"
+msgstr "Tallettaa työkirja"
+
+#: src/GNOME_Gnumeric.xml.h:177 src/workbook-control-gui.c:2380
+msgid "Search and Replace..."
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:178 src/workbook-control-gui.c:2381
+msgid "Search for some text and replace it with something else"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:179 src/workbook-control-gui.c:2316
+#, fuzzy
+msgid "Select Arra_y"
+msgstr "_Valitse kaikki"
+
+#: src/GNOME_Gnumeric.xml.h:180 src/workbook-control-gui.c:2301
+#, fuzzy
+msgid "Select _All"
+msgstr "_Valitse kaikki"
+
+#: src/GNOME_Gnumeric.xml.h:181 src/workbook-control-gui.c:2311
+#, fuzzy
+msgid "Select _Column"
+msgstr "Tuhoa solu(ja)"
+
+#: src/GNOME_Gnumeric.xml.h:182 src/workbook-control-gui.c:2321
+msgid "Select _Depends"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:183 src/workbook-control-gui.c:2306
+#, fuzzy
+msgid "Select _Row"
+msgstr "Lisää rivejä"
+
+#: src/GNOME_Gnumeric.xml.h:184 src/workbook-control-gui.c:2302
+msgid "Select all cells in the spreadsheet"
+msgstr "Valitsee taulukon kaikki solut"
+
+#: src/GNOME_Gnumeric.xml.h:185
+msgid "Select all the cells that depend on the current edit cell"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:186 src/workbook-control-gui.c:2317
+msgid "Select an array of cells"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:187 src/workbook-control-gui.c:2312
+#, fuzzy
+msgid "Select an entire column"
+msgstr "Luo viivaobjektin"
+
+#: src/GNOME_Gnumeric.xml.h:188 src/workbook-control-gui.c:2307
+#, fuzzy
+msgid "Select an entire row"
+msgstr "Luo viivaobjektin"
+
+#: src/GNOME_Gnumeric.xml.h:189
+msgid "Setup the page settings for your current printer"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:190 src/workbook-control-gui.c:2742
+#, fuzzy
+msgid "Sort Ascending"
+msgstr "Kirjanpito"
+
+#: src/GNOME_Gnumeric.xml.h:191 src/workbook-control-gui.c:2745
+#, fuzzy
+msgid "Sort Descending"
+msgstr "Kirjanpito"
+
+#: src/GNOME_Gnumeric.xml.h:192
+msgid "Sort the selected cells"
+msgstr "Järjestää valitut solut"
+
+#: src/GNOME_Gnumeric.xml.h:193
+msgid ""
+"Sort the selected region in ascending order based on the first column "
+"selected"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:194
+msgid ""
+"Sort the selected region in descending order based on the first column "
+"selected"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:195 src/workbook-format-toolbar.c:455
+#, fuzzy
+msgid "Split"
+msgstr "Guile-lisiö"
+
+#: src/GNOME_Gnumeric.xml.h:196 src/workbook-format-toolbar.c:455
+msgid "Split merged ranges of cells"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:197
+msgid "Statistical methods"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:198 src/workbook-control-gui.c:2269
+msgid "Su_mmary..."
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:200
+msgid "Sum into the current cell"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:201 src/workbook-control-gui.c:2270
+msgid "Summary information"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:202 src/workbook-control-gui.c:2540
+msgid "Toggle whether or not to display column headers"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:203 src/workbook-control-gui.c:2534
+msgid "Toggle whether or not to display gridlines"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:204 src/workbook-control-gui.c:2625
+msgid "Toggle whether or not to display outline groups"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:205 src/workbook-control-gui.c:2546
+msgid "Toggle whether or not to display row headers"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:2528
+msgid "Toggle whether or not to display zeros as blanks"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:207 src/workbook-control-gui.c:2637
+msgid "Toggle whether to display column outlines on the left or right"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:2631
+msgid "Toggle whether to display row outlines on top or bottom"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:209 src/workbook-control-gui.c:2612
+msgid "Uncollapse an outline group"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:210 src/workbook-format-toolbar.c:427
+msgid "Underline"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:211
+#, fuzzy
+msgid "Underlines the text"
+msgstr "Määrittelemätön scheme-funktio"
+
+#: src/GNOME_Gnumeric.xml.h:212
+#, fuzzy
+msgid "Undo the last action"
+msgstr "Tuntematon laskentavirhe"
+
+#: src/GNOME_Gnumeric.xml.h:213 src/workbook-control-gui.c:2402
+msgid "Zoom the spreadsheet in or out"
+msgstr "Lähentää tai loitontaa taulukkoa"
+
+#: src/GNOME_Gnumeric.xml.h:214
+#, fuzzy
+msgid "_About..."
+msgstr "_Ratkaisija..."
+
+#: src/GNOME_Gnumeric.xml.h:215 src/workbook-control-gui.c:2464
+#, fuzzy
+msgid "_Add / Modify comment..."
+msgstr "_Lisää/muokkaa kommenttia"
+
+#: src/GNOME_Gnumeric.xml.h:216 src/workbook-control-gui.c:2283
+msgid "_All"
+msgstr "_Kaikki"
+
+#: src/GNOME_Gnumeric.xml.h:217 src/workbook-control-gui.c:2585
+#, fuzzy
+msgid "_Auto Save..."
+msgstr "M_ene soluun..."
+
+#: src/GNOME_Gnumeric.xml.h:218 src/workbook-control-gui.c:2474
+#: src/workbook-control-gui.c:2496
+#, fuzzy
+msgid "_Auto fit selection"
+msgstr "Tasaus vasemmalle"
+
+#: src/GNOME_Gnumeric.xml.h:219 src/workbook-control-gui.c:2564
+#, fuzzy
+msgid "_Autoformat..."
+msgstr "_Automaattisäätö"
+
+#. Default <Ctrl-1> invoke the format dialog
+#: src/GNOME_Gnumeric.xml.h:220 src/workbook-control-gui.c:2556
+msgid "_Cells..."
+msgstr "_Soluja..."
+
+#: src/GNOME_Gnumeric.xml.h:221
+#, fuzzy
+msgid "_Change Name..."
+msgstr "_Vaihda nimi"
+
+#: src/GNOME_Gnumeric.xml.h:222
+msgid "_Close"
+msgstr "_Sulje"
+
+#: src/GNOME_Gnumeric.xml.h:224 src/workbook-control-gui.c:2657
+#, fuzzy
+msgid "_Consolidate..."
+msgstr "_Leveys"
+
+#: src/GNOME_Gnumeric.xml.h:225 src/workbook-control-gui.c:2292
+msgid "_Content"
+msgstr "_Sisältö"
+
+#: src/GNOME_Gnumeric.xml.h:226 src/item-cursor.c:1021
+#: src/sheet-control-gui.c:1309
+msgid "_Copy"
+msgstr "_Kopioi"
+
+#: src/GNOME_Gnumeric.xml.h:227 src/workbook-control-gui.c:2681
+#, fuzzy
+msgid "_Data"
+msgstr "Päiväys"
+
+#: src/GNOME_Gnumeric.xml.h:228 src/workbook-control-gui.c:2600
+msgid "_Data Analysis..."
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:229
+#, fuzzy
+msgid "_Define"
+msgstr "Määrittele nimet"
+
+#: src/GNOME_Gnumeric.xml.h:230 src/sheet-control-gui.c:1327
+#: src/workbook-control-gui.c:2371
+#, fuzzy
+msgid "_Delete..."
+msgstr "Tuhoa"
+
+#: src/GNOME_Gnumeric.xml.h:231 src/workbook-control-gui.c:2329
+#, fuzzy
+msgid "_Duplicate"
+msgstr "Päiväys"
+
+#: src/GNOME_Gnumeric.xml.h:232
+#, fuzzy
+msgid "_Edit"
+msgstr "_Muokkaa"
+
+#: src/GNOME_Gnumeric.xml.h:233
+msgid "_File"
+msgstr "_Tiedosto"
+
+#: src/GNOME_Gnumeric.xml.h:234 src/workbook-control-gui.c:2649
+#, fuzzy
+msgid "_Filter..."
+msgstr "Tuhoa"
+
+#: src/GNOME_Gnumeric.xml.h:235 src/workbook-control-gui.c:2286
+msgid "_Formats"
+msgstr "_Muotoilut"
+
+#: src/GNOME_Gnumeric.xml.h:236 src/workbook-control-gui.c:941
+#, fuzzy
+msgid "_Freeze Panes"
+msgstr "Tuhoa"
+
+#: src/GNOME_Gnumeric.xml.h:237 src/workbook-control-gui.c:2591
+msgid "_Goal Seek..."
+msgstr "_Tuloksen etsintä..."
+
+#: src/GNOME_Gnumeric.xml.h:238 src/workbook-control-gui.c:2385
+#, fuzzy
+msgid "_Goto cell..."
+msgstr "M_ene soluun..."
+
+#: src/GNOME_Gnumeric.xml.h:239
+#, fuzzy
+msgid "_Group"
+msgstr "Ylä"
+
+#: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:2663
+msgid "_Group and Outline"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:241
+msgid "_Help"
+msgstr "_Apua"
+
+#: src/GNOME_Gnumeric.xml.h:242 src/sheet-control-gui.c:1350
+#: src/sheet-control-gui.c:1358 src/workbook-control-gui.c:2480
+#: src/workbook-control-gui.c:2499
+#, fuzzy
+msgid "_Hide"
+msgstr "_Näytä"
+
+#: src/GNOME_Gnumeric.xml.h:243 src/workbook-control-gui.c:2608
+msgid "_Hide Detail"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:244 src/workbook-control-gui.c:2253
+#, fuzzy
+msgid "_Import..."
+msgstr "_Järjestä"
+
+#: src/GNOME_Gnumeric.xml.h:245 src/workbook-control-gui.c:2333
+#: src/workbook-control-gui.c:2678
+msgid "_Insert"
+msgstr "_Lisää"
+
+#: src/GNOME_Gnumeric.xml.h:246
+#, fuzzy
+msgid "_Insert new"
+msgstr "_Lisää"
+
+#: src/GNOME_Gnumeric.xml.h:247 src/workbook-control-gui.c:2462
+#, fuzzy
+msgid "_Name"
+msgstr "Nimi"
+
+#: src/GNOME_Gnumeric.xml.h:248 src/workbook-control-gui.c:2249
+msgid "_New"
+msgstr "_Uusi"
+
+#: src/GNOME_Gnumeric.xml.h:249
+#, fuzzy
+msgid "_Object"
+msgstr "_Avaa"
+
+#: src/GNOME_Gnumeric.xml.h:250
+#, fuzzy
+msgid "_Open"
+msgstr "Avaa"
+
+#: src/GNOME_Gnumeric.xml.h:251 src/sheet-control-gui.c:1311
+#, fuzzy
+msgid "_Paste"
+msgstr "Liitä"
+
+#: src/GNOME_Gnumeric.xml.h:252 src/workbook-control-gui.c:2576
+#, fuzzy
+msgid "_Plug-ins..."
+msgstr "L_isiöt..."
+
+#: src/GNOME_Gnumeric.xml.h:253
+#, fuzzy
+msgid "_Print"
+msgstr "Prosentti"
+
+#: src/GNOME_Gnumeric.xml.h:254 src/workbook-control-gui.c:965
+#, fuzzy
+msgid "_Redo"
+msgstr "Poista"
+
+#: src/GNOME_Gnumeric.xml.h:256 src/workbook-control-gui.c:2561
+msgid "_Row"
+msgstr "_Rivi"
+
+#: src/GNOME_Gnumeric.xml.h:258
+msgid "_Save"
+msgstr "_Talleta"
+
+#: src/GNOME_Gnumeric.xml.h:259 src/workbook-control-gui.c:2378
+#, fuzzy
+msgid "_Select"
+msgstr "Tuhoa"
+
+#: src/GNOME_Gnumeric.xml.h:260 src/workbook-control-gui.c:2447
+#: src/workbook-control-gui.c:2562
+msgid "_Sheet"
+msgstr "_Taulu"
+
+#: src/GNOME_Gnumeric.xml.h:261 src/workbook-control-gui.c:2611
+msgid "_Show Detail"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:262 src/workbook-control-gui.c:2594
+msgid "_Solver..."
+msgstr "_Ratkaisija..."
+
+#: src/GNOME_Gnumeric.xml.h:263
+#, fuzzy
+msgid "_Sort..."
+msgstr "_Ratkaisija..."
+
+#: src/GNOME_Gnumeric.xml.h:264 src/workbook-control-gui.c:2505
+#, fuzzy
+msgid "_Standard Height"
+msgstr "_Korkeus"
+
+#: src/GNOME_Gnumeric.xml.h:265 src/workbook-control-gui.c:2486
+msgid "_Standard Width"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:266 src/workbook-control-gui.c:2680
+msgid "_Tools"
+msgstr "_Työkalut"
+
+#: src/GNOME_Gnumeric.xml.h:267 src/workbook-control-gui.c:963
+msgid "_Undo"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:268
+msgid "_Ungroup"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:269 src/sheet-control-gui.c:1352
+#: src/sheet-control-gui.c:1360 src/workbook-control-gui.c:2483
+#: src/workbook-control-gui.c:2502
+msgid "_Unhide"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:270
+#, fuzzy
+msgid "_View"
+msgstr "_Näytä"
+
+#: src/GNOME_Gnumeric.xml.h:271 src/workbook-control-gui.c:2477
+#, fuzzy
+msgid "_Width..."
+msgstr "_Leveys"
+
+#: src/GNOME_Gnumeric.xml.h:272 src/workbook-control-gui.c:2568
+#, fuzzy
+msgid "_Workbook..."
+msgstr "Tallettaa työkirja"
+
+#: src/GNOME_Gnumeric.xml.h:273 src/workbook-control-gui.c:2401
+msgid "_Zoom..."
+msgstr "_Suurenna..."
+
+#: src/gnumeric-sheet.c:73
+#, fuzzy
+msgid "Add Borders"
+msgstr "Lihavoi"
+
+#: src/gnumeric-sheet.c:73
+#, fuzzy
+msgid "Remove borders"
+msgstr "Lihavoi"
+
+#: src/gnumeric-sheet.c:122
+#, fuzzy
+msgid "Format as Number"
+msgstr "Muotoilukoodit"
+
+#: src/gnumeric-sheet.c:126
+#, fuzzy
+msgid "Format as Currency"
+msgstr "Muotoilukoodit"
+
+#: src/gnumeric-sheet.c:130 src/workbook-format-toolbar.c:313
+#, fuzzy
+msgid "Format as Percentage"
+msgstr "Prosentti"
+
+#: src/gnumeric-sheet.c:134
+#, fuzzy
+msgid "Format as Scientific"
+msgstr "Prosentti"
+
+#: src/gnumeric-sheet.c:138
+#, fuzzy
+msgid "Format as Date"
+msgstr "Muotoilukoodit"
+
+#: src/gnumeric-sheet.c:142
+#, fuzzy
+msgid "Format as Time"
+msgstr "Muotoilukoodit"
+
+#: src/gnumeric-sheet.c:146
+#, fuzzy
+msgid "Format as alternative Number"
+msgstr "Prosentti"
+
+#: src/gnumeric-sheet.c:537
+#, c-format
+msgid "File \"%s\" has unknown format."
+msgstr ""
+
+#: src/gnumeric-util.c:279
+#, fuzzy
+msgid "Multiple errors"
+msgstr "Kerro"
+
+#: src/gnumeric-util.c:311
+#, fuzzy
+msgid "Detailed error message"
+msgstr "Gnumeric: "
+
+#: src/gnumeric-util.c:368
+#, fuzzy
+msgid "Show details"
+msgstr "Lisiö on vielä käytössä.\n"
+
+#: src/gnumeric-util.c:944
 #, fuzzy, c-format
 msgid "Unable to open file '%s'"
 msgstr "modulia ei voitu avata: "
 
-#: src/gui-file.c:80 src/gui-file.c:228
+#: src/gui-clipboard.c:50
+msgid "Error while trying to pre-convert clipboard data"
+msgstr ""
+
+#: src/gui-clipboard.c:57
+#, c-format
+msgid ""
+"The data on the clipboard does not seem to be valid text.\n"
+"The character '%c' (ASCII decimal %d) was encountered.\n"
+"Most likely your locale settings are wrong."
+msgstr ""
+
+#: src/gui-clipboard.c:98
+msgid "Parse error while trying to parse data into cellregion"
+msgstr ""
+
+#: src/gui-file.c:68
 msgid "File format:"
 msgstr "Tiedostoformaatti:"
 
 #. Pack it into file selector
-#: src/gui-file.c:85
+#: src/gui-file.c:103
 #, fuzzy
 msgid "Import file"
 msgstr "Mahdoton!"
 
-#: src/gui-file.c:126
+#: src/gui-file.c:144
 #, c-format
 msgid ""
 "%s\n"
 "is a directory name"
 msgstr ""
 
-#: src/gui-file.c:132
+#: src/gui-file.c:150
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
 "%s"
 msgstr ""
 
-#: src/gui-file.c:139
+#: src/gui-file.c:157
 #, c-format
 msgid ""
 "Workbook %s already exists.\n"
 "Do you want to save over it?"
 msgstr ""
 
-#: src/gui-file.c:159
-msgid ""
-"Please enter a file name,\n"
-"not a directory"
-msgstr ""
-
-#: src/gui-file.c:176
+#: src/gui-file.c:178
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -11890,14 +13249,24 @@ msgid ""
 "Do you want to save only current sheet?"
 msgstr ""
 
+#: src/gui-file.c:202
+msgid ""
+"Please enter a file name,\n"
+"not a directory"
+msgstr ""
+
 #. Pack it into file selector
-#: src/gui-file.c:233
+#: src/gui-file.c:247
 msgid "Save workbook as"
 msgstr "Tallenna työkirja nimellä"
 
-#: src/gui-file.c:289
+#: src/gui-file.c:303
 msgid "Load file"
 msgstr "Hae tiedosto"
+
+#: src/gui-file.c:354
+msgid "Which file format would you like?"
+msgstr ""
 
 #.
 #. * xgettext:
@@ -11915,17 +13284,17 @@ msgstr "Prosentti"
 msgid "File/"
 msgstr "Tiedosto"
 
-#: src/item-bar.c:661
+#: src/item-bar.c:610
 #, fuzzy, c-format
 msgid "Width: %.2f pts (%d pixels)"
 msgstr "_Korkeus"
 
-#: src/item-bar.c:664
+#: src/item-bar.c:613
 #, fuzzy, c-format
 msgid "Height: %.2f pts (%d pixels)"
 msgstr "_Korkeus"
 
-#: src/item-cursor.c:816
+#: src/item-cursor.c:908
 msgid ""
 "The cells dragged will overwrite the contents of the\n"
 "existing cells in that range.  Do you want me to replace\n"
@@ -11935,100 +13304,95 @@ msgstr ""
 "sisällön valitulla alueella. Oletko varma, että haluat\n"
 "korvata sisällön?"
 
-#: src/item-cursor.c:926
+#: src/item-cursor.c:1018
 #, fuzzy
 msgid "_Move"
 msgstr "Siirrä"
 
-#: src/GNOME_Gnumeric.xml.h:225 src/item-cursor.c:929
-#: src/sheet-control-gui.c:1038
-msgid "_Copy"
-msgstr "_Kopioi"
-
-#: src/item-cursor.c:932
+#: src/item-cursor.c:1024
 #, fuzzy
 msgid "Copy _Formats"
 msgstr "Kopioi muotoilut"
 
-#: src/item-cursor.c:934
+#: src/item-cursor.c:1026
 #, fuzzy
 msgid "Copy _Values"
 msgstr "Kopioi arvot"
 
-#: src/item-cursor.c:939
+#: src/item-cursor.c:1031
 #, fuzzy
 msgid "Shift _Down and Copy"
 msgstr "Siirrä soluja alas ja kopioi"
 
-#: src/item-cursor.c:941
+#: src/item-cursor.c:1033
 #, fuzzy
 msgid "Shift _Right and Copy"
 msgstr "Siirrä soluja oikealle ja kopioi"
 
-#: src/item-cursor.c:943
+#: src/item-cursor.c:1035
 #, fuzzy
 msgid "Shift Dow_n and Move"
 msgstr "Siirrä soluja alas ja kopioi"
 
-#: src/item-cursor.c:945
+#: src/item-cursor.c:1037
 #, fuzzy
 msgid "Shift Righ_t and Move"
 msgstr "Siirrä soluja oikealle ja kopioi"
 
-#: src/item-cursor.c:950
+#: src/item-cursor.c:1042
 #, fuzzy
 msgid "C_ancel"
 msgstr "Neliö"
 
-#: src/main.c:76
+#: src/main.c:77
 #, fuzzy
 msgid "Display Gnumeric's version"
 msgstr "Vinot viivat"
 
-#: src/main.c:78
+#: src/main.c:79
 msgid "Set the root library directory"
 msgstr ""
 
-#: src/main.c:80
+#: src/main.c:81
 msgid "Adjust the root data directory"
 msgstr ""
 
-#: src/main.c:83
+#: src/main.c:84
 msgid "Dumps the function definitions"
 msgstr "Tulostaa funktiomäärittelyt"
 
-#: src/main.c:83
+#: src/main.c:84
 msgid "FILE"
 msgstr "TIEDOSTO"
 
-#: src/main.c:86
+#: src/main.c:87
 msgid "Enables some debugging functions"
 msgstr "Asettaa joitain virheenetsintäfuntioita päälle"
 
-#: src/main.c:86 src/main.c:89 src/main.c:91
+#: src/main.c:87 src/main.c:90 src/main.c:92
 msgid "LEVEL"
 msgstr "TASO"
 
-#: src/main.c:89
+#: src/main.c:90
 #, fuzzy
 msgid "Enables some dependency related debugging functions"
 msgstr "Asettaa joitain virheenetsintäfuntioita päälle"
 
-#: src/main.c:91
+#: src/main.c:92
 #, fuzzy
 msgid "Enables some print debugging behavior"
 msgstr "Asettaa joitain virheenetsintäfuntioita päälle"
 
-#: src/main.c:94
+#: src/main.c:95
 msgid "Exit immediately after loading the selected books (useful for testing)."
 msgstr ""
 
-#: src/main.c:98
+#: src/main.c:99
 #, fuzzy
 msgid "Enables extra consistency checking while reading ole files"
 msgstr "Asettaa joitain virheenetsintäfuntioita päälle"
 
-#: src/main.c:139
+#: src/main.c:153
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -12036,15 +13400,15 @@ msgid ""
 "libdir := '%s'\n"
 msgstr ""
 
-#: src/main.c:190
+#: src/main.c:204
 msgid "Could not initialize Workbook factory"
 msgstr ""
 
-#: src/main.c:194
+#: src/main.c:208
 msgid "Could not initialize EmbeddableGrid factory"
 msgstr ""
 
-#: src/main.c:240
+#: src/main.c:254
 msgid ""
 "Thank you for using Gnumeric!\n"
 "\n"
@@ -12090,40 +13454,47 @@ msgstr ""
 msgid "#RECALC!"
 msgstr ""
 
-#: src/plugin-util.c:122
+#: src/parser.y:442
+#, c-format
+msgid "Expression '%s' does not exist on sheet '%s'"
+msgstr ""
+
+#: src/parser.y:463 src/parser.y:494
 #, fuzzy, c-format
-msgid "Unable to unmap the file, error : %s"
-msgstr "modulia ei voitu avata: "
+msgid "Unknown sheet '%s'"
+msgstr "Tuntematon laskentavirhe"
 
-#: src/plugin-util.c:131
+#: src/parser.y:587 src/parser.y:601
 #, c-format
-msgid "Error while closing file, error : %s"
+msgid "The character %c can not be used to separate array elements"
 msgstr ""
 
-#: src/plugin-util.c:186
-#, fuzzy, c-format
-msgid "Unable to mmap the file, error : %s"
-msgstr "modulia ei voitu avata: "
-
-#: src/plugin-util.c:225 src/plugin-util.c:263
-#, c-format
-msgid "Error while opening file \"%s\" for writing."
-msgstr ""
-
-#: src/plugin-util.c:229 src/plugin-util.c:267
-#, c-format
-msgid "Error while opening file \"%s\" for reading."
-msgstr ""
-
-#: src/plugin-util.c:298
+#: src/parser.y:750 src/parser.y:762 src/parser.y:790
 #, fuzzy
-msgid "Unable to mmap the file."
-msgstr "modulia ei voitu avata: "
+msgid "The number is out of range"
+msgstr "Rivi rajojen ulkopuolella"
 
-#: src/plugin-util.c:313
+#: src/parser.y:820
+msgid "Could not find matching closing quote"
+msgstr ""
+
+#: src/parser.y:967
+msgid "Could not find matching opening parenthesis"
+msgstr ""
+
+#: src/parser.y:971
+msgid "Could not find matching closing parenthesis"
+msgstr ""
+
+#: src/parser.y:975
 #, fuzzy
-msgid "Cannot get file size."
-msgstr "Tiedostoa %s ei voitu luoda\n"
+msgid "Invalid expression"
+msgstr "Virheellinen parametri"
+
+#: src/parser.y:980
+#, c-format
+msgid "Unexpected token %c"
+msgstr ""
 
 #: src/plugin.c:238
 #, c-format
@@ -12260,6 +13631,18 @@ msgstr ""
 msgid "Errors while initializing plugin system."
 msgstr ""
 
+#: src/plugin-loader.c:214
+msgid "Error while loading plugin dependencies."
+msgstr ""
+
+#: src/plugin-loader.c:285 src/plugin-loader.c:336
+msgid "Service not supported by loader."
+msgstr ""
+
+#: src/plugin-loader.c:289
+msgid "Error while loading plugin."
+msgstr ""
+
 #: src/plugin-loader-module.c:83
 #, fuzzy
 msgid "Module file name not given."
@@ -12330,17 +13713,134 @@ msgstr "Lisiössä pitää olla init_plugin-funktio."
 msgid "Module doesn't contain \"%s\" function."
 msgstr "Lisiössä pitää olla init_plugin-funktio."
 
-#: src/plugin-loader.c:214
-msgid "Error while loading plugin dependencies."
+#: src/plugin-util.c:122
+#, fuzzy, c-format
+msgid "Unable to unmap the file, error : %s"
+msgstr "modulia ei voitu avata: "
+
+#: src/plugin-util.c:131
+#, c-format
+msgid "Error while closing file, error : %s"
 msgstr ""
 
-#: src/plugin-loader.c:285 src/plugin-loader.c:336
-msgid "Service not supported by loader."
+#: src/plugin-util.c:186
+#, fuzzy, c-format
+msgid "Unable to mmap the file, error : %s"
+msgstr "modulia ei voitu avata: "
+
+#: src/plugin-util.c:225 src/plugin-util.c:263
+#, c-format
+msgid "Error while opening file \"%s\" for writing."
 msgstr ""
 
-#: src/plugin-loader.c:289
-msgid "Error while loading plugin."
+#: src/plugin-util.c:229 src/plugin-util.c:267
+#, c-format
+msgid "Error while opening file \"%s\" for reading."
 msgstr ""
+
+#: src/plugin-util.c:297
+#, fuzzy
+msgid "Unable to mmap the file."
+msgstr "modulia ei voitu avata: "
+
+#: src/plugin-util.c:312
+#, fuzzy
+msgid "Cannot get file size."
+msgstr "Tiedostoa %s ei voitu luoda\n"
+
+#: src/plugin-service.c:122
+#, fuzzy
+msgid "Initializing function inside plugin returned error."
+msgstr "init_plugin palautti virheen"
+
+#: src/plugin-service.c:127 src/plugin-service.c:1030
+#: src/plugin-service.c:1258
+#, fuzzy
+msgid "Error while loading plugin service."
+msgstr "Tämänhetkinen _päiväys"
+
+#: src/plugin-service.c:161
+#, fuzzy
+msgid "Cleanup function inside plugin returned error."
+msgstr "init_plugin palautti virheen"
+
+#: src/plugin-service.c:300
+#, fuzzy
+msgid "Error while reading file."
+msgstr "Tämänhetkinen _päiväys"
+
+#: src/plugin-service.c:462
+#, fuzzy
+msgid "File opener has no id"
+msgstr "Lisiö on vielä käytössä.\n"
+
+#: src/plugin-service.c:465
+#, c-format
+msgid "File opener with id=\"%s\" has no description"
+msgstr ""
+
+#: src/plugin-service.c:590
+#, fuzzy
+msgid "Error while saving file."
+msgstr "Tämänhetkinen _päiväys"
+
+#: src/plugin-service.c:674
+msgid "File saver has no id"
+msgstr ""
+
+#: src/plugin-service.c:677
+#, c-format
+msgid "File saver with id=\"%s\" has no description"
+msgstr ""
+
+#: src/plugin-service.c:821
+msgid "Missing function group id."
+msgstr ""
+
+#: src/plugin-service.c:826 src/plugin-service.c:831
+msgid "Missing function category name."
+msgstr ""
+
+#: src/plugin-service.c:990
+#, fuzzy
+msgid "Missing loader id."
+msgstr "Puuttuva lainausmerkki"
+
+#: src/plugin-service.c:1153
+#, fuzzy, c-format
+msgid "Error while reading service of type \"%s\"."
+msgstr "Tämänhetkinen _päiväys"
+
+#. Note: we cannot have spaces in page numbers.
+#: src/print.c:556
+#, fuzzy
+msgid "&[PAGE]"
+msgstr "_Taulu"
+
+#: src/print.c:1021
+#, fuzzy
+msgid "Print Region"
+msgstr "Prosentti"
+
+#: src/print.c:1134
+#, fuzzy
+msgid "Print Sheets"
+msgstr "Prosentti"
+
+#: src/print.c:1144
+#, fuzzy
+msgid "Act_ive sheet"
+msgstr "Lisää uusi taulu"
+
+#: src/print.c:1144
+#, fuzzy
+msgid "S_heets"
+msgstr "_Taulu"
+
+#: src/print.c:1230
+#, fuzzy
+msgid "Printing failed"
+msgstr "Puuttuva lainausmerkki"
 
 #: src/print-info.c:22 src/print-info.c:25 src/print-info.c:26
 #: src/print-info.c:277
@@ -12407,37 +13907,6 @@ msgstr "Päiväys"
 msgid "time"
 msgstr "Aika"
 
-#. Note: we cannot have spaces in page numbers.
-#: src/print.c:556
-#, fuzzy
-msgid "&[PAGE]"
-msgstr "_Taulu"
-
-#: src/print.c:1021
-#, fuzzy
-msgid "Print Region"
-msgstr "Prosentti"
-
-#: src/print.c:1134
-#, fuzzy
-msgid "Print Sheets"
-msgstr "Prosentti"
-
-#: src/print.c:1144
-#, fuzzy
-msgid "Act_ive sheet"
-msgstr "Lisää uusi taulu"
-
-#: src/print.c:1144
-#, fuzzy
-msgid "S_heets"
-msgstr "_Taulu"
-
-#: src/print.c:1230
-#, fuzzy
-msgid "Printing failed"
-msgstr "Puuttuva lainausmerkki"
-
 #: src/search.c:122
 msgid "Search string must not be empty."
 msgstr ""
@@ -12472,36 +13941,54 @@ msgstr ""
 msgid "cannot be performed with multiple ranges selected"
 msgstr "' ei voida suorittaa useille valinnoille"
 
-#: src/GNOME_Gnumeric.xml.h:38 src/selection.c:539
-#: src/workbook-control-gui.c:2604
-msgid "Copy"
-msgstr "Kopioi"
+#: src/sheet.c:2186
+msgid "Target region contains merged cells"
+msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:57 src/selection.c:565 src/selection.c:568
-#: src/workbook-control-gui.c:2601
-msgid "Cut"
-msgstr "Leikkaa"
+#: src/sheet.c:2248
+msgid "can not operate on merged cells"
+msgstr ""
 
-#: src/sheet-control-gui.c:504
+#: src/sheet.c:2259
+msgid "can not operate on array formulae"
+msgstr ""
+
+#: src/sheet.c:3060
+#, fuzzy
+msgid "Clear"
+msgstr "_Tyhjää"
+
+#: src/sheet.c:3429
+#, fuzzy
+msgid "Insert Columns"
+msgstr "Lisää sarakkeita"
+
+#: src/sheet.c:3497
+#, fuzzy
+msgid "Delete Columns"
+msgstr "Tuhoa solu(ja)"
+
+#: src/sheet.c:3561
+#, fuzzy
+msgid "Insert Rows"
+msgstr "Lisää rivejä"
+
+#: src/sheet.c:3629
+#, fuzzy
+msgid "Delete Rows"
+msgstr "Lisää rivejä"
+
+#: src/sheet-control-gui.c:519
 #, fuzzy, c-format
 msgid "Row: %s"
 msgstr "Rivi: %d"
 
-#: src/sheet-control-gui.c:520
+#: src/sheet-control-gui.c:534
 #, c-format
 msgid "Column: %s"
 msgstr "Sarake: %s"
 
-#: src/GNOME_Gnumeric.xml.h:54 src/sheet-control-gui.c:1036
-msgid "Cu_t"
-msgstr "_Leikkaa"
-
-#: src/GNOME_Gnumeric.xml.h:249 src/sheet-control-gui.c:1040
-#, fuzzy
-msgid "_Paste"
-msgstr "Liitä"
-
-#: src/sheet-control-gui.c:1042
+#: src/sheet-control-gui.c:1313
 #, fuzzy
 msgid "Paste _Special"
 msgstr "Liitä määräten"
@@ -12513,148 +14000,84 @@ msgstr "Liitä määräten"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1054
+#: src/sheet-control-gui.c:1325
 #, fuzzy
 msgid "_Insert..."
 msgstr "_Lisää"
 
-#: src/GNOME_Gnumeric.xml.h:229 src/sheet-control-gui.c:1056
-#: src/workbook-control-gui.c:2261
-#, fuzzy
-msgid "_Delete..."
-msgstr "Tuhoa"
-
-#: src/sheet-control-gui.c:1058
+#: src/sheet-control-gui.c:1329
 #, fuzzy
 msgid "_Insert Column(s)"
 msgstr "Lisää sarakkeita"
 
-#: src/sheet-control-gui.c:1060
+#: src/sheet-control-gui.c:1331
 #, fuzzy
 msgid "_Delete Column(s)"
 msgstr "Tuhoa solu(ja)"
 
-#: src/sheet-control-gui.c:1062
+#: src/sheet-control-gui.c:1333
 #, fuzzy
 msgid "_Insert Row(s)"
 msgstr "Lisää rivejä"
 
-#: src/sheet-control-gui.c:1064
+#: src/sheet-control-gui.c:1335
 #, fuzzy
 msgid "_Delete Row(s)"
 msgstr "Lisää rivejä"
 
-#: src/sheet-control-gui.c:1067
+#: src/sheet-control-gui.c:1338
 #, fuzzy
 msgid "Clear Co_ntents"
 msgstr "_Sisältö"
 
-#: src/sheet-control-gui.c:1073
+#: src/sheet-control-gui.c:1344
 #, fuzzy
 msgid "_Format Cells..."
 msgstr "_Soluja..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1077
+#: src/sheet-control-gui.c:1348
 #, fuzzy
 msgid "Column _Width..."
 msgstr "S_arake"
 
-#: src/GNOME_Gnumeric.xml.h:240 src/sheet-control-gui.c:1079
-#: src/sheet-control-gui.c:1087 src/workbook-control-gui.c:2372
-#: src/workbook-control-gui.c:2391
-#, fuzzy
-msgid "_Hide"
-msgstr "_Näytä"
-
-#: src/GNOME_Gnumeric.xml.h:267 src/sheet-control-gui.c:1081
-#: src/sheet-control-gui.c:1089 src/workbook-control-gui.c:2375
-#: src/workbook-control-gui.c:2394
-msgid "_Unhide"
-msgstr ""
-
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1085
+#: src/sheet-control-gui.c:1356
 #, fuzzy
 msgid "_Row Height..."
 msgstr "Oikea"
 
-#: src/sheet-object-container.c:204
+#: src/sheet-merge.c:79
+msgid "There is already a merged region that intersects"
+msgstr ""
+
+#: src/sheet-object.c:82
+msgid "Configure"
+msgstr ""
+
+#: src/sheet-object-container.c:163
 #, fuzzy, c-format
 msgid "can't create object for '%s'"
 msgstr "Tiedostoa %s ei voitu luoda\n"
 
-#: src/GNOME_Gnumeric.xml.h:117 src/sheet-object-widget.c:222
-#: src/workbook-object-toolbar.c:139
-msgid "Label"
-msgstr ""
+#: src/sheet-object-container.c:171
+#, fuzzy, c-format
+msgid "Could not load file: %s"
+msgstr "Tiedostoa %s ei voitu luoda\n"
 
-#: src/GNOME_Gnumeric.xml.h:84 src/sheet-object-widget.c:319
-#: src/workbook-object-toolbar.c:142
-#, fuzzy
-msgid "Frame"
-msgstr "Nimi"
-
-#: src/GNOME_Gnumeric.xml.h:15 src/sheet-object-widget.c:416
-#: src/workbook-object-toolbar.c:145
-#, fuzzy
-msgid "Button"
-msgstr "Ala"
-
-#: src/sheet-object-widget.c:825
+#: src/sheet-object-widget.c:815
 msgid "Checkbox Configure"
 msgstr ""
 
-#: src/sheet-object-widget.c:844
+#: src/sheet-object-widget.c:834
 #, fuzzy
 msgid "Cell :"
 msgstr "Solu"
 
-#: src/sheet-object-widget.c:847
+#: src/sheet-object-widget.c:837
 #, fuzzy
 msgid "Label :"
 msgstr "Nimi"
-
-#: src/sheet-object.c:81
-msgid "Configure"
-msgstr ""
-
-#: src/sheet.c:2141
-msgid "Target region contains merged cells"
-msgstr ""
-
-#: src/sheet.c:2203
-msgid "can not operate on merged cells"
-msgstr ""
-
-#: src/sheet.c:2214
-msgid "can not operate on array formulae"
-msgstr ""
-
-#: src/sheet.c:3015
-#, fuzzy
-msgid "Clear"
-msgstr "_Tyhjää"
-
-#: src/sheet.c:3399
-#, fuzzy
-msgid "Insert Columns"
-msgstr "Lisää sarakkeita"
-
-#: src/sheet.c:3467
-#, fuzzy
-msgid "Delete Columns"
-msgstr "Tuhoa solu(ja)"
-
-#: src/sheet.c:3531
-#, fuzzy
-msgid "Insert Rows"
-msgstr "Lisää rivejä"
-
-#: src/sheet.c:3599
-#, fuzzy
-msgid "Delete Rows"
-msgstr "Lisää rivejä"
 
 #: src/solver-lp.c:888
 msgid "Answer Report"
@@ -12784,6 +14207,44 @@ msgstr "Prosentti"
 msgid "R.H. Side"
 msgstr ""
 
+#: src/stf.c:114
+msgid "Error while trying to memory map file"
+msgstr ""
+
+#: src/stf.c:125
+msgid "Error while trying to pre-convert file"
+msgstr ""
+
+#: src/stf.c:131
+#, c-format
+msgid ""
+"This file does not seem to be a valid text file.\n"
+"The character '%c' (ASCII decimal %d) was encountered.\n"
+"Most likely your locale settings are wrong."
+msgstr ""
+
+#: src/stf.c:216 src/stf.c:286
+msgid "Parse error while trying to parse data into sheet"
+msgstr ""
+
+#: src/stf.c:413
+msgid "Error while trying to write csv file"
+msgstr ""
+
+#: src/stf.c:435
+#, fuzzy
+msgid "Text File import (customizable)"
+msgstr "Tekstin väri"
+
+#: src/stf.c:438
+#, fuzzy
+msgid "Text File import (default csv)"
+msgstr "Tekstin väri"
+
+#: src/stf.c:443
+msgid "Text File Export (*.csv)"
+msgstr ""
+
 #: src/stf-parse.c:31
 #, c-format
 msgid "Too many rows in data to parse: %d"
@@ -12792,42 +14253,6 @@ msgstr ""
 #: src/stf-parse.c:32
 #, c-format
 msgid "Too many columns in data to parse: %d"
-msgstr ""
-
-#: src/stf.c:130
-msgid "Error while trying to memory map file"
-msgstr ""
-
-#: src/stf.c:140
-msgid "Error while trying to pre-convert file"
-msgstr ""
-
-#.
-#. * Note this buffer was allocated with malloc, not g_malloc
-#.
-#: src/stf.c:150
-#, c-format
-msgid ""
-"This file does not seem to be a valid text file.\n"
-"The character '%c' (ASCII decimal %d) was encountered.\n"
-"Most likely your locale settings are wrong."
-msgstr ""
-
-#: src/stf.c:206
-msgid "Parse error while trying to parse data into sheet"
-msgstr ""
-
-#: src/stf.c:308
-msgid "Error while trying to write csv file"
-msgstr ""
-
-#: src/stf.c:330
-#, fuzzy
-msgid "Text File import"
-msgstr "Tekstin väri"
-
-#: src/stf.c:334
-msgid "Text File Export (*.csv)"
 msgstr ""
 
 #: src/style.c:246 src/style.c:248
@@ -12872,18 +14297,31 @@ msgstr ""
 msgid "Terminate"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:13 src/widgets/widget-font-selector.c:130
-#: src/workbook-format-toolbar.c:413
-msgid "Bold"
-msgstr "Lihavoi"
-
-#: src/widgets/widget-font-selector.c:131
+#: src/widgets/widget-font-selector.c:103
 msgid "Bold italic"
 msgstr ""
 
-#: src/widgets/widget-font-selector.c:132 src/workbook-format-toolbar.c:420
+#: src/widgets/widget-font-selector.c:104 src/workbook-format-toolbar.c:420
 msgid "Italic"
 msgstr "Kursivointi"
+
+#: src/workbook.c:445
+#, fuzzy, c-format
+msgid "Book%d.%s"
+msgstr "Lihavoi"
+
+#: src/workbook.c:1206
+#, fuzzy
+msgid "Sheet name"
+msgstr "_Taulu"
+
+#: src/workbook.c:1207
+msgid "must have at least 1 letter"
+msgstr ""
+
+#: src/workbook.c:1220
+msgid "There is already a sheet named"
+msgstr ""
 
 #: src/workbook-cmd-format.c:101
 msgid "You entered an invalid column width value.  It must be bigger than 0"
@@ -12902,6 +14340,282 @@ msgstr ""
 msgid ""
 "You entered an invalid default row height value.  It must be bigger than 0"
 msgstr ""
+
+#: src/workbook-control.c:190
+#, fuzzy
+msgid "Address"
+msgstr "Nuoli"
+
+#: src/workbook-control-gui.c:280
+#, fuzzy
+msgid " : Gnumeric"
+msgstr "Gnumeric"
+
+#: src/workbook-control-gui.c:463
+msgid "Add another sheet"
+msgstr "Lisää uusi taulu"
+
+#: src/workbook-control-gui.c:464
+msgid "Remove this sheet"
+msgstr "Poista tämä taulu"
+
+#: src/workbook-control-gui.c:465
+#, fuzzy
+msgid "Rename this sheet"
+msgstr "Poista tämä taulu"
+
+#: src/workbook-control-gui.c:466
+#, fuzzy
+msgid "Duplicate this sheet"
+msgstr "Poista tämä taulu"
+
+#: src/workbook-control-gui.c:467
+#, fuzzy
+msgid "Re-order sheets"
+msgstr "Poista tämä taulu"
+
+#: src/workbook-control-gui.c:792 src/workbook-control-gui.c:851
+#, fuzzy
+msgid "Nothing"
+msgstr "Ei muutosta"
+
+#: src/workbook-control-gui.c:941
+#, fuzzy
+msgid "un_Freeze Panes"
+msgstr "Tuhoa"
+
+#: src/workbook-control-gui.c:959 src/workbook-control-gui.c:2722
+#: src/workbook-control-gui.c:2906 src/workbook-control-gui.c:2946
+msgid "Undo"
+msgstr ""
+
+#: src/workbook-control-gui.c:960 src/workbook-control-gui.c:2725
+#: src/workbook-control-gui.c:2914 src/workbook-control-gui.c:2948
+#, fuzzy
+msgid "Redo"
+msgstr "Poista"
+
+#: src/workbook-control-gui.c:1116
+#, c-format
+msgid "Would split array %s"
+msgstr ""
+
+#: src/workbook-control-gui.c:1168
+#, c-format
+msgid "Workbook %s has unsaved changes, save them?"
+msgstr "Työkirjassa %s on tallentamattomia muutoksia, talletetaanko?"
+
+#: src/workbook-control-gui.c:1171
+msgid "Workbook has unsaved changes, save them?"
+msgstr "Työkirjassa on tallentamattomia muutoksia, tallennetaanko?"
+
+#: src/workbook-control-gui.c:1630
+#, c-format
+msgid ""
+"In cell %s, the current contents\n"
+"        %s\n"
+"would have been replaced by\n"
+"        %s\n"
+"which is invalid.\n"
+"\n"
+"The replace has been aborted and nothing has been changed."
+msgstr ""
+
+#. TODO : No need to check simplicty.  XL applies for each non-discrete
+#. * selected region, (use selection_apply).  Arrays and Merged regions
+#. * are permitted.
+#.
+#: src/workbook-control-gui.c:1782
+msgid "Insert rows"
+msgstr "Lisää rivejä"
+
+#. TODO : No need to check simplicty.  XL applies for each non-discrete
+#. * selected region, (use selection_apply).  Arrays and Merged regions
+#. * are permitted.
+#.
+#: src/workbook-control-gui.c:1800
+#, fuzzy
+msgid "Insert columns"
+msgstr "Lisää sarakkeita"
+
+#: src/workbook-control-gui.c:1821
+#, fuzzy
+msgid "Select an object to add"
+msgstr "Luo viivaobjektin"
+
+#: src/workbook-control-gui.c:1831
+#, fuzzy, c-format
+msgid "Unable to create object of type '%s'"
+msgstr "Tiedostoa %s ei voitu luoda\n"
+
+#: src/workbook-control-gui.c:2069
+#, fuzzy
+msgid "Group"
+msgstr "Ylä"
+
+#: src/workbook-control-gui.c:2069
+#, fuzzy
+msgid "Ungroup"
+msgstr "_Ratkaisija..."
+
+#: src/workbook-control-gui.c:2322
+msgid "Select all the cells that depend on the current edit cell."
+msgstr ""
+
+#: src/workbook-control-gui.c:2363
+msgid "P_aste special..."
+msgstr "Liitä _määräten..."
+
+#: src/workbook-control-gui.c:2372
+msgid "Remove selected cells, shifting other into their place"
+msgstr ""
+
+#: src/workbook-control-gui.c:2404
+#, fuzzy
+msgid "_Freeze..."
+msgstr "Tuhoa"
+
+#: src/workbook-control-gui.c:2405
+msgid "Freeze the top left of the sheet"
+msgstr ""
+
+#: src/workbook-control-gui.c:2434
+#, fuzzy
+msgid "_Define..."
+msgstr "Tuhoa"
+
+#: src/workbook-control-gui.c:2439
+#, fuzzy
+msgid "_Auto generate names..."
+msgstr "M_ene soluun..."
+
+#: src/workbook-control-gui.c:2440
+#, fuzzy
+msgid "Use the current selection to create names"
+msgstr "Leikkaa valitun alueen leikepöydälle"
+
+#: src/workbook-control-gui.c:2512
+msgid "_Change name"
+msgstr "_Vaihda nimi"
+
+#: src/workbook-control-gui.c:2539
+msgid "Hide _Column Header"
+msgstr ""
+
+#: src/workbook-control-gui.c:2545
+msgid "Hide _Row Header"
+msgstr ""
+
+#: src/workbook-control-gui.c:2577
+msgid "Manage available plugin modules."
+msgstr ""
+
+#: src/workbook-control-gui.c:2601
+msgid "Statistical methods."
+msgstr ""
+
+#: src/workbook-control-gui.c:2614
+#, fuzzy
+msgid "_Group..."
+msgstr "_Ratkaisija..."
+
+#: src/workbook-control-gui.c:2617
+#, fuzzy
+msgid "_Ungroup..."
+msgstr "_Ratkaisija..."
+
+#: src/workbook-control-gui.c:2646
+#, fuzzy
+msgid "_Sort"
+msgstr "_Ratkaisija..."
+
+#: src/workbook-control-gui.c:2647
+#, fuzzy
+msgid "Sorts the selected region."
+msgstr "Järjestää valitut solut"
+
+#: src/workbook-control-gui.c:2653
+#, fuzzy
+msgid "_Validate..."
+msgstr "_Leveys"
+
+#: src/workbook-control-gui.c:2654
+msgid "Validate input with preset criteria"
+msgstr ""
+
+#: src/workbook-control-gui.c:2688
+#, fuzzy
+msgid "Creates a new workbook"
+msgstr "Nimet työkirjassa"
+
+#: src/workbook-control-gui.c:2691
+msgid "Opens an existing workbook"
+msgstr "Avaa olemassaolevan työkirjan"
+
+#: src/workbook-control-gui.c:2694
+msgid "Saves the workbook"
+msgstr "Tallettaa työkirja"
+
+#: src/workbook-control-gui.c:2700
+#, fuzzy
+msgid "Prints the workbook"
+msgstr "Tallettaa työkirja"
+
+#: src/workbook-control-gui.c:2709
+msgid "Cuts the selection to the clipboard"
+msgstr "Leikkaa valitun alueen leikepöydälle"
+
+#: src/workbook-control-gui.c:2712
+msgid "Copies the selection to the clipboard"
+msgstr "Kopioi valitun alueen leikepöydälle"
+
+#: src/workbook-control-gui.c:2715
+msgid "Pastes the clipboard"
+msgstr "Liittää leikepöydän sisällön"
+
+#: src/workbook-control-gui.c:2722
+#, fuzzy
+msgid "Undo the operation"
+msgstr "Tuntematon laskentavirhe"
+
+#: src/workbook-control-gui.c:2725
+msgid "Redo the operation"
+msgstr ""
+
+#: src/workbook-control-gui.c:2735
+msgid "Sum into the current cell."
+msgstr ""
+
+#: src/workbook-control-gui.c:2738
+#, fuzzy
+msgid "Function"
+msgstr "Murtoluku"
+
+#: src/workbook-control-gui.c:2738
+msgid "Edit a function in the current cell."
+msgstr ""
+
+#: src/workbook-control-gui.c:2742
+msgid ""
+"Sorts the selected region in ascending order based on the first column "
+"selected."
+msgstr ""
+
+#: src/workbook-control-gui.c:2745
+msgid ""
+"Sorts the selected region in descending order based on the first column "
+"selected."
+msgstr ""
+
+#: src/workbook-control-gui.c:3624
+#, fuzzy
+msgid "Send"
+msgstr "Sunnuntai"
+
+#: src/workbook-control-gui.c:3624
+#, fuzzy
+msgid "Send the current file in email"
+msgstr "Leikkaa valitun alueen leikepöydälle"
 
 #: src/workbook-format-toolbar.c:85
 #, fuzzy
@@ -12928,11 +14642,6 @@ msgstr "Määrä"
 msgid "Format as Money"
 msgstr "Muotoilukoodit"
 
-#: src/workbook-format-toolbar.c:313
-#, fuzzy
-msgid "Format as Percentage"
-msgstr "Prosentti"
-
 #: src/workbook-format-toolbar.c:320
 msgid "Format with thousands seperator"
 msgstr ""
@@ -12947,28 +14656,10 @@ msgstr "Joulukuu"
 msgid "Decrease precision"
 msgstr "Joulukuu"
 
-#: src/GNOME_Gnumeric.xml.h:96 src/workbook-format-toolbar.c:377
-#: src/workbook-format-toolbar.c:482
-#, fuzzy
-msgid "Increase Indent"
-msgstr "Tyhjää sisältö"
-
-#: src/GNOME_Gnumeric.xml.h:59 src/workbook-format-toolbar.c:399
-#: src/workbook-format-toolbar.c:479
-#, fuzzy
-msgid "Decrease Indent"
-msgstr "Joulukuu"
-
 #: src/workbook-format-toolbar.c:410
 #, fuzzy
 msgid "Select font"
 msgstr "Lisää rivejä"
-
-#: src/GNOME_Gnumeric.xml.h:79 src/workbook-format-toolbar.c:410
-#: src/workbook-format-toolbar.c:888
-#, fuzzy
-msgid "Font selector"
-msgstr "Murtoluku"
 
 #: src/workbook-format-toolbar.c:413
 msgid "Sets the bold font"
@@ -12977,10 +14668,6 @@ msgstr "Asettaa lihavoidun kirjasintyypin"
 #: src/workbook-format-toolbar.c:420
 msgid "Makes the font italic"
 msgstr "Asettaa kursivoidun kirjasintyypin"
-
-#: src/GNOME_Gnumeric.xml.h:209 src/workbook-format-toolbar.c:427
-msgid "Underline"
-msgstr ""
 
 #: src/workbook-format-toolbar.c:427
 #, fuzzy
@@ -12994,10 +14681,6 @@ msgstr "Tasaus vasemmalle"
 #: src/workbook-format-toolbar.c:436
 msgid "Left justifies the cell contents"
 msgstr "Tasaa solu(je)n sisällön vasemmalle"
-
-#: src/GNOME_Gnumeric.xml.h:19 src/workbook-format-toolbar.c:440
-msgid "Center"
-msgstr "Keskitetty"
 
 #: src/workbook-format-toolbar.c:440
 msgid "Centers the cell contents"
@@ -13015,24 +14698,6 @@ msgstr "Tasaa solu(je)n sisällön oikealle"
 #, fuzzy
 msgid "Center across selection"
 msgstr "Keskitetty"
-
-#: src/GNOME_Gnumeric.xml.h:129 src/workbook-format-toolbar.c:452
-#, fuzzy
-msgid "Merge"
-msgstr "Keskiarvo"
-
-#: src/GNOME_Gnumeric.xml.h:130 src/workbook-format-toolbar.c:452
-msgid "Merge a range of cells"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:194 src/workbook-format-toolbar.c:455
-#, fuzzy
-msgid "Split"
-msgstr "Guile-lisiö"
-
-#: src/GNOME_Gnumeric.xml.h:195 src/workbook-format-toolbar.c:455
-msgid "Split merged ranges of cells"
-msgstr ""
 
 #: src/workbook-format-toolbar.c:461
 #, fuzzy
@@ -13071,14 +14736,6 @@ msgstr ""
 
 #: src/workbook-format-toolbar.c:473
 msgid "Decreases the number of decimals displayed"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:6 src/workbook-format-toolbar.c:479
-msgid "Aligns the contents to the left and decreases the indent"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:7 src/workbook-format-toolbar.c:482
-msgid "Aligns the contents to the left and increases the indent"
 msgstr ""
 
 #: src/workbook-format-toolbar.c:536
@@ -13141,17 +14798,6 @@ msgstr "Lihavoi"
 msgid "Size"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:14 src/workbook-format-toolbar.c:828
-#: src/workbook-format-toolbar.c:893
-#, fuzzy
-msgid "Borders"
-msgstr "Lihavoi"
-
-#: src/GNOME_Gnumeric.xml.h:78 src/workbook-format-toolbar.c:890
-#, fuzzy
-msgid "Font Size"
-msgstr "Määrä"
-
 #: src/workbook-object-toolbar.c:139
 #, fuzzy
 msgid "Creates a label"
@@ -13166,10 +14812,6 @@ msgstr "Luo uuden taulun"
 #, fuzzy
 msgid "Creates a button"
 msgstr "Luo viivaobjektin"
-
-#: src/GNOME_Gnumeric.xml.h:28 src/workbook-object-toolbar.c:148
-msgid "Checkbox"
-msgstr ""
 
 #: src/workbook-object-toolbar.c:148
 #, fuzzy
@@ -13205,17 +14847,9 @@ msgstr "Luo uuden taulun"
 msgid "Creates a line object"
 msgstr "Luo viivaobjektin"
 
-#: src/GNOME_Gnumeric.xml.h:8 src/workbook-object-toolbar.c:163
-msgid "Arrow"
-msgstr "Nuoli"
-
 #: src/workbook-object-toolbar.c:163
 msgid "Creates an arrow object"
 msgstr "Luo nuoliobjektin"
-
-#: src/GNOME_Gnumeric.xml.h:162 src/workbook-object-toolbar.c:166
-msgid "Rectangle"
-msgstr "Neliö"
 
 #: src/workbook-object-toolbar.c:166
 msgid "Creates a rectangle object"
@@ -13229,1394 +14863,78 @@ msgstr "Ellipsi"
 msgid "Creates an ellipse object"
 msgstr "Luo ellipsiobjektin"
 
-#: src/workbook-view.c:235
+#: src/workbook-view.c:233
 #, c-format
 msgid "%dLx%dC"
 msgstr ""
 
-#: src/workbook-view.c:378
+#: src/workbook-view.c:376
 #, fuzzy
 msgid "Internal ERROR"
 msgstr "Syntaksivirhe"
 
-#: src/workbook-view.c:650
+#: src/workbook-view.c:643
 msgid "Default file saver is not available."
 msgstr ""
 
-#: src/workbook-view.c:738
+#: src/workbook-view.c:731
 #, fuzzy
 msgid "No sheets in workbook."
 msgstr "Nimet työkirjassa"
 
-#: src/workbook-view.c:748
+#: src/workbook-view.c:741
 #, fuzzy
 msgid "Unsupported file format."
 msgstr "Gnumericin XML-tiedosto"
 
-#: src/workbook-control-gui.c:275
-#, fuzzy
-msgid " : Gnumeric"
-msgstr "Gnumeric"
-
-#: src/workbook-control-gui.c:458
-msgid "Add another sheet"
-msgstr "Lisää uusi taulu"
-
-#: src/workbook-control-gui.c:459
-msgid "Remove this sheet"
-msgstr "Poista tämä taulu"
-
-#: src/workbook-control-gui.c:460
-#, fuzzy
-msgid "Rename this sheet"
-msgstr "Poista tämä taulu"
-
-#: src/workbook-control-gui.c:461
-#, fuzzy
-msgid "Duplicate this sheet"
-msgstr "Poista tämä taulu"
-
-#: src/workbook-control-gui.c:462
-#, fuzzy
-msgid "Re-order sheets"
-msgstr "Poista tämä taulu"
-
-#: src/workbook-control-gui.c:786 src/workbook-control-gui.c:845
-#, fuzzy
-msgid "Nothing"
-msgstr "Ei muutosta"
-
-#: src/workbook-control-gui.c:936
-msgid "Unfreeze Panes"
-msgstr ""
-
-#: src/workbook-control-gui.c:936
-#, fuzzy
-msgid "_Freeze Panes"
-msgstr "Tuhoa"
-
-#: src/workbook-control-gui.c:955 src/workbook-control-gui.c:2614
-#: src/workbook-control-gui.c:2797 src/workbook-control-gui.c:2837
-msgid "Undo"
-msgstr ""
-
-#: src/workbook-control-gui.c:956 src/workbook-control-gui.c:2617
-#: src/workbook-control-gui.c:2805 src/workbook-control-gui.c:2839
-#, fuzzy
-msgid "Redo"
-msgstr "Poista"
-
-#: src/GNOME_Gnumeric.xml.h:265 src/workbook-control-gui.c:959
-msgid "_Undo"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:252 src/workbook-control-gui.c:961
-#, fuzzy
-msgid "_Redo"
-msgstr "Poista"
-
-#: src/workbook-control-gui.c:1112
-#, c-format
-msgid "Would split array %s"
-msgstr ""
-
-#: src/workbook-control-gui.c:1157
-#, c-format
-msgid "Workbook %s has unsaved changes, save them?"
-msgstr "Työkirjassa %s on tallentamattomia muutoksia, talletetaanko?"
-
-#: src/workbook-control-gui.c:1160
-msgid "Workbook has unsaved changes, save them?"
-msgstr "Työkirjassa on tallentamattomia muutoksia, tallennetaanko?"
-
-#: src/workbook-control-gui.c:1530
-#, c-format
-msgid ""
-"In cell %s, the current contents\n"
-"        %s\n"
-"would have been replaced by\n"
-"        %s\n"
-"which is invalid.\n"
-"\n"
-"The replace has been aborted and nothing has been changed."
-msgstr ""
-
-#. TODO : No need to check simplicty.  XL applies for each non-discrete
-#. * selected region, (use selection_apply).  Arrays and Merged regions
-#. * are permitted.
-#.
-#: src/workbook-control-gui.c:1672
-msgid "Insert rows"
-msgstr "Lisää rivejä"
-
-#. TODO : No need to check simplicty.  XL applies for each non-discrete
-#. * selected region, (use selection_apply).  Arrays and Merged regions
-#. * are permitted.
-#.
-#: src/workbook-control-gui.c:1690
-#, fuzzy
-msgid "Insert columns"
-msgstr "Lisää sarakkeita"
-
-#: src/workbook-control-gui.c:1711
-#, fuzzy
-msgid "Select an object to add"
-msgstr "Luo viivaobjektin"
-
-#: src/workbook-control-gui.c:1721
-#, fuzzy, c-format
-msgid "Unable to create object of type '%s'"
-msgstr "Tiedostoa %s ei voitu luoda\n"
-
-#: src/workbook-control-gui.c:1959
-#, fuzzy
-msgid "Group"
-msgstr "Ylä"
-
-#: src/workbook-control-gui.c:1959
-#, fuzzy
-msgid "Ungroup"
-msgstr "_Ratkaisija..."
-
-#: src/GNOME_Gnumeric.xml.h:246 src/workbook-control-gui.c:2139
-msgid "_New"
-msgstr "_Uusi"
-
-#: src/GNOME_Gnumeric.xml.h:49 src/workbook-control-gui.c:2139
-msgid "Create a new spreadsheet"
-msgstr "Luo uusi taulukko"
-
-#: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:2143
-#, fuzzy
-msgid "_Import..."
-msgstr "_Järjestä"
-
-#: src/GNOME_Gnumeric.xml.h:94 src/workbook-control-gui.c:2143
-#, fuzzy
-msgid "Imports a file"
-msgstr "Mahdoton!"
-
-#: src/GNOME_Gnumeric.xml.h:150 src/workbook-control-gui.c:2153
-#, fuzzy
-msgid "Print Pre_view"
-msgstr "Prosentti"
-
-#: src/GNOME_Gnumeric.xml.h:151 src/workbook-control-gui.c:2153
-#: src/workbook-control-gui.c:2595
-#, fuzzy
-msgid "Print Preview"
-msgstr "Prosentti"
-
-#: src/GNOME_Gnumeric.xml.h:197 src/workbook-control-gui.c:2159
-msgid "Su_mmary..."
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:200 src/workbook-control-gui.c:2160
-msgid "Summary information"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:215 src/workbook-control-gui.c:2173
-msgid "_All"
-msgstr "_Kaikki"
-
-#: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:2174
-msgid "Clear the selected cells' formats, comments, and contents"
-msgstr "Tyhjää valittujen solujen muotoilut, kommentit ja sisällöt"
-
-#: src/GNOME_Gnumeric.xml.h:234 src/workbook-control-gui.c:2176
-msgid "_Formats"
-msgstr "_Muotoilut"
-
-#: src/GNOME_Gnumeric.xml.h:31 src/workbook-control-gui.c:2177
-msgid "Clear the selected cells' formats"
-msgstr "Tyhjää valittujen solujen muotoilut"
-
-#: src/GNOME_Gnumeric.xml.h:29 src/workbook-control-gui.c:2180
-msgid "Clear the selected cells' comments"
-msgstr "Tyhjää valittujen solujen kommentit"
-
-#: src/GNOME_Gnumeric.xml.h:224 src/workbook-control-gui.c:2182
-msgid "_Content"
-msgstr "_Sisältö"
-
-#: src/GNOME_Gnumeric.xml.h:30 src/workbook-control-gui.c:2183
-msgid "Clear the selected cells' contents"
-msgstr "Tyhjää valittujen solujen sisällöt"
-
-#: src/GNOME_Gnumeric.xml.h:179 src/workbook-control-gui.c:2191
-#, fuzzy
-msgid "Select _All"
-msgstr "_Valitse kaikki"
-
-#: src/GNOME_Gnumeric.xml.h:183 src/workbook-control-gui.c:2192
-msgid "Select all cells in the spreadsheet"
-msgstr "Valitsee taulukon kaikki solut"
-
-#: src/GNOME_Gnumeric.xml.h:182 src/workbook-control-gui.c:2196
-#, fuzzy
-msgid "Select _Row"
-msgstr "Lisää rivejä"
-
-#: src/GNOME_Gnumeric.xml.h:187 src/workbook-control-gui.c:2197
-#, fuzzy
-msgid "Select an entire row"
-msgstr "Luo viivaobjektin"
-
-#: src/GNOME_Gnumeric.xml.h:180 src/workbook-control-gui.c:2201
-#, fuzzy
-msgid "Select _Column"
-msgstr "Tuhoa solu(ja)"
-
-#: src/GNOME_Gnumeric.xml.h:186 src/workbook-control-gui.c:2202
-#, fuzzy
-msgid "Select an entire column"
-msgstr "Luo viivaobjektin"
-
-#: src/GNOME_Gnumeric.xml.h:178 src/workbook-control-gui.c:2206
-#, fuzzy
-msgid "Select Arra_y"
-msgstr "_Valitse kaikki"
-
-#: src/GNOME_Gnumeric.xml.h:185 src/workbook-control-gui.c:2207
-msgid "Select an array of cells"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:181 src/workbook-control-gui.c:2211
-msgid "Select _Depends"
-msgstr ""
-
-#: src/workbook-control-gui.c:2212
-msgid "Select all the cells that depend on the current edit cell."
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:230 src/workbook-control-gui.c:2219
-#, fuzzy
-msgid "_Duplicate"
-msgstr "Päiväys"
-
-#: src/GNOME_Gnumeric.xml.h:122 src/workbook-control-gui.c:2220
-msgid "Make a copy of the current sheet"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:243 src/workbook-control-gui.c:2223
-#: src/workbook-control-gui.c:2570
-msgid "_Insert"
-msgstr "_Lisää"
-
-#: src/GNOME_Gnumeric.xml.h:101 src/workbook-control-gui.c:2224
-#, fuzzy
-msgid "Insert a new sheet"
-msgstr "Lisää uusi taulu"
-
-#: src/GNOME_Gnumeric.xml.h:159 src/workbook-control-gui.c:2227
-#, fuzzy
-msgid "Re_name..."
-msgstr "_Soluja..."
-
-#: src/GNOME_Gnumeric.xml.h:166 src/workbook-control-gui.c:2228
-#, fuzzy
-msgid "Rename the current sheet"
-msgstr "Poista tämä taulu"
-
-#: src/GNOME_Gnumeric.xml.h:157 src/workbook-control-gui.c:2231
-#: src/workbook-control-gui.c:2407
-#, fuzzy
-msgid "Re-_Order Sheets..."
-msgstr "Solun muotoilu"
-
-#: src/GNOME_Gnumeric.xml.h:26 src/workbook-control-gui.c:2232
-#: src/workbook-control-gui.c:2408
-msgid "Change the order the sheets are displayed"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:112 src/workbook-control-gui.c:2236
-msgid "Irrevocably remove an entire sheet"
-msgstr ""
-
-#: src/workbook-control-gui.c:2253
-msgid "P_aste special..."
-msgstr "Liitä _määräten..."
-
-#: src/GNOME_Gnumeric.xml.h:147 src/workbook-control-gui.c:2254
-msgid "Paste with optional filters and transformations"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:17 src/workbook-control-gui.c:2259
-msgid "C_lear"
-msgstr "_Tyhjää"
-
-#: src/workbook-control-gui.c:2262
-msgid "Remove selected cells, shifting other into their place"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:169 src/workbook-control-gui.c:2266
-#, fuzzy
-msgid "S_heet"
-msgstr "_Taulu"
-
-#: src/GNOME_Gnumeric.xml.h:257 src/workbook-control-gui.c:2268
-#, fuzzy
-msgid "_Select"
-msgstr "Tuhoa"
-
-#: src/GNOME_Gnumeric.xml.h:176 src/workbook-control-gui.c:2270
-msgid "Search and Replace..."
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:177 src/workbook-control-gui.c:2271
-msgid "Search for some text and replace it with something else"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:236 src/workbook-control-gui.c:2275
-#, fuzzy
-msgid "_Goto cell..."
-msgstr "M_ene soluun..."
-
-#: src/GNOME_Gnumeric.xml.h:116 src/workbook-control-gui.c:2276
-msgid "Jump to a specified cell"
-msgstr "Hyppää tiettyyn soluun"
-
-#: src/GNOME_Gnumeric.xml.h:160 src/workbook-control-gui.c:2280
-#, fuzzy
-msgid "Recalculate"
-msgstr "L_aske uudelleen"
-
-#: src/GNOME_Gnumeric.xml.h:161 src/workbook-control-gui.c:2281
-msgid "Recalculate the spreadsheet"
-msgstr "Laskee taulukon sisällön uudelleen"
-
-#: src/GNOME_Gnumeric.xml.h:271 src/workbook-control-gui.c:2291
-msgid "_Zoom..."
-msgstr "_Suurenna..."
-
-#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:2292
-msgid "Zoom the spreadsheet in or out"
-msgstr "Lähentää tai loitontaa taulukkoa"
-
-#: src/workbook-control-gui.c:2295
-#, fuzzy
-msgid "_Freeze..."
-msgstr "Tuhoa"
-
-#: src/workbook-control-gui.c:2296
-msgid "Freeze the top left of the sheet"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:135 src/workbook-control-gui.c:2299
-#, fuzzy
-msgid "New _Shared"
-msgstr "_Taulu"
-
-#: src/GNOME_Gnumeric.xml.h:48 src/workbook-control-gui.c:2300
-#, fuzzy
-msgid "Create a new shared view of the workbook"
-msgstr "Nimet työkirjassa"
-
-#: src/GNOME_Gnumeric.xml.h:136 src/workbook-control-gui.c:2302
-#, fuzzy
-msgid "New _Unshared"
-msgstr "_Taulu"
-
-#: src/GNOME_Gnumeric.xml.h:50 src/workbook-control-gui.c:2303
-#, fuzzy
-msgid "Create a new unshared view of the workbook"
-msgstr "Nimet työkirjassa"
-
-#. Default <Ctrl-;> (control semi-colon) to insert the current date
-#: src/GNOME_Gnumeric.xml.h:55 src/workbook-control-gui.c:2312
-msgid "Current _date"
-msgstr "Tämänhetkinen _päiväys"
-
-#: src/GNOME_Gnumeric.xml.h:108 src/workbook-control-gui.c:2313
-#, fuzzy
-msgid "Insert the current date into the selected cell(s)"
-msgstr "Lisää tämänhetkisen päiväyksen valittuihin soluihin"
-
-#. Default <Ctrl-:> (control colon) to insert the current time
-#: src/GNOME_Gnumeric.xml.h:56 src/workbook-control-gui.c:2318
-msgid "Current _time"
-msgstr "Tämänhetkinen _aika"
-
-#: src/GNOME_Gnumeric.xml.h:109 src/workbook-control-gui.c:2319
-msgid "Insert the current time into the selected cell(s)"
-msgstr "Lisää tämänhetkisen ajan valittuihin soluihin"
-
-#: src/workbook-control-gui.c:2326
-#, fuzzy
-msgid "_Define..."
-msgstr "Tuhoa"
-
-#: src/GNOME_Gnumeric.xml.h:69 src/workbook-control-gui.c:2327
-msgid "Edit sheet and workbook names"
-msgstr ""
-
-#: src/workbook-control-gui.c:2331
-#, fuzzy
-msgid "_Auto generate names..."
-msgstr "M_ene soluun..."
-
-#: src/workbook-control-gui.c:2332
-#, fuzzy
-msgid "Use the current selection to create names"
-msgstr "Leikkaa valitun alueen leikepöydälle"
-
-#: src/GNOME_Gnumeric.xml.h:258 src/workbook-control-gui.c:2339
-#: src/workbook-control-gui.c:2454
-msgid "_Sheet"
-msgstr "_Taulu"
-
-#: src/GNOME_Gnumeric.xml.h:102 src/workbook-control-gui.c:2340
-msgid "Insert a new spreadsheet"
-msgstr "Lisää uusi taulu"
-
-#: src/GNOME_Gnumeric.xml.h:107 src/workbook-control-gui.c:2343
-msgid "Insert new rows"
-msgstr "Lisää uuden rivin"
-
-#: src/GNOME_Gnumeric.xml.h:106 src/workbook-control-gui.c:2346
-msgid "Insert new columns"
-msgstr "Lisää uuden sarakkeen"
-
-#: src/GNOME_Gnumeric.xml.h:16 src/workbook-control-gui.c:2348
-#, fuzzy
-msgid "C_ells..."
-msgstr "_Soluja..."
-
-#: src/GNOME_Gnumeric.xml.h:105 src/workbook-control-gui.c:2349
-msgid "Insert new cells"
-msgstr "Lisää uusia soluja"
-
-#: src/GNOME_Gnumeric.xml.h:245 src/workbook-control-gui.c:2354
-#, fuzzy
-msgid "_Name"
-msgstr "Nimi"
-
-#: src/GNOME_Gnumeric.xml.h:214 src/workbook-control-gui.c:2356
-#, fuzzy
-msgid "_Add / Modify comment..."
-msgstr "_Lisää/muokkaa kommenttia"
-
-#: src/GNOME_Gnumeric.xml.h:71 src/workbook-control-gui.c:2357
-msgid "Edit the selected cell's comment"
-msgstr "Muokkaa valitun solun kommenttia"
-
-#: src/GNOME_Gnumeric.xml.h:170 src/workbook-control-gui.c:2360
-#, fuzzy
-msgid "S_pecial"
-msgstr "_Erityinen"
-
-#: src/GNOME_Gnumeric.xml.h:217 src/workbook-control-gui.c:2366
-#: src/workbook-control-gui.c:2388
-#, fuzzy
-msgid "_Auto fit selection"
-msgstr "Tasaus vasemmalle"
-
-#: src/GNOME_Gnumeric.xml.h:72 src/workbook-control-gui.c:2367
-msgid "Ensure columns are just wide enough to display content"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:269 src/workbook-control-gui.c:2369
-#, fuzzy
-msgid "_Width..."
-msgstr "_Leveys"
-
-#: src/GNOME_Gnumeric.xml.h:27 src/workbook-control-gui.c:2370
-#, fuzzy
-msgid "Change width of the selected columns"
-msgstr "Tuhoa solu(ja)"
-
-#: src/GNOME_Gnumeric.xml.h:92 src/workbook-control-gui.c:2373
-#, fuzzy
-msgid "Hide the selected columns"
-msgstr "Järjestää valitut solut"
-
-#: src/GNOME_Gnumeric.xml.h:123 src/workbook-control-gui.c:2376
-msgid "Make any hidden columns in the selection visible"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:263 src/workbook-control-gui.c:2378
-msgid "_Standard Width"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:24 src/workbook-control-gui.c:2379
-msgid "Change the default column width"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:87 src/workbook-control-gui.c:2385
-#, fuzzy
-msgid "H_eight..."
-msgstr "Oikea"
-
-#: src/GNOME_Gnumeric.xml.h:23 src/workbook-control-gui.c:2386
-msgid "Change height of the selected rows"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:73 src/workbook-control-gui.c:2389
-msgid "Ensure rows are just tall enough to display content"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:93 src/workbook-control-gui.c:2392
-#, fuzzy
-msgid "Hide the selected rows"
-msgstr "Järjestää valitut solut"
-
-#: src/GNOME_Gnumeric.xml.h:124 src/workbook-control-gui.c:2395
-msgid "Make any hidden rows in the selection visible"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:262 src/workbook-control-gui.c:2397
-#, fuzzy
-msgid "_Standard Height"
-msgstr "_Korkeus"
-
-#: src/GNOME_Gnumeric.xml.h:25 src/workbook-control-gui.c:2398
-msgid "Change the default row height"
-msgstr ""
-
-#: src/workbook-control-gui.c:2404
-msgid "_Change name"
-msgstr "_Vaihda nimi"
-
-#: src/GNOME_Gnumeric.xml.h:70 src/workbook-control-gui.c:2405
-msgid "Edit the name of the current sheet"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:62 src/workbook-control-gui.c:2413
-#, fuzzy
-msgid "Display _Formulas"
-msgstr "Kaavat"
-
-#: src/GNOME_Gnumeric.xml.h:64 src/workbook-control-gui.c:2414
-msgid "Display the value of a formula or the formula itself"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:91 src/workbook-control-gui.c:2419
-msgid "Hide _Zeros"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:205 src/workbook-control-gui.c:2420
-msgid "Toggle whether or not to display zeros as blanks"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:89 src/workbook-control-gui.c:2425
-#, fuzzy
-msgid "Hide _Gridlines"
-msgstr "Vinot viivat"
-
-#: src/GNOME_Gnumeric.xml.h:202 src/workbook-control-gui.c:2426
-msgid "Toggle whether or not to display gridlines"
-msgstr ""
-
-#: src/workbook-control-gui.c:2431
-msgid "Hide _Column Header"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:201 src/workbook-control-gui.c:2432
-msgid "Toggle whether or not to display column headers"
-msgstr ""
-
-#: src/workbook-control-gui.c:2437
-msgid "Hide _Row Header"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:204 src/workbook-control-gui.c:2438
-msgid "Toggle whether or not to display row headers"
-msgstr ""
-
-#. Default <Ctrl-1> invoke the format dialog
-#: src/GNOME_Gnumeric.xml.h:219 src/workbook-control-gui.c:2448
-msgid "_Cells..."
-msgstr "_Soluja..."
-
-#: src/GNOME_Gnumeric.xml.h:131 src/workbook-control-gui.c:2449
-msgid "Modify the formatting of the selected cells"
-msgstr "Muokkaa valittujen solujen muotoilua"
-
-#: src/GNOME_Gnumeric.xml.h:18 src/workbook-control-gui.c:2452
-msgid "C_olumn"
-msgstr "S_arake"
-
-#: src/GNOME_Gnumeric.xml.h:254 src/workbook-control-gui.c:2453
-msgid "_Row"
-msgstr "_Rivi"
-
-#: src/GNOME_Gnumeric.xml.h:218 src/workbook-control-gui.c:2456
-#, fuzzy
-msgid "_Autoformat..."
-msgstr "_Automaattisäätö"
-
-#: src/GNOME_Gnumeric.xml.h:81 src/workbook-control-gui.c:2457
-msgid "Format a region of cells according to a pre-defined template"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:270 src/workbook-control-gui.c:2460
-#, fuzzy
-msgid "_Workbook..."
-msgstr "Tallettaa työkirja"
-
-#: src/GNOME_Gnumeric.xml.h:132 src/workbook-control-gui.c:2461
-msgid "Modify the workbook attributes"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:2468
-#, fuzzy
-msgid "_Plug-ins..."
-msgstr "L_isiöt..."
-
-#: src/workbook-control-gui.c:2469
-msgid "Manage available plugin modules."
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:9 src/workbook-control-gui.c:2474
-msgid "Auto _Correct..."
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:2475
-msgid "Automatically perform simple spell checking"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:216 src/workbook-control-gui.c:2477
-#, fuzzy
-msgid "_Auto Save..."
-msgstr "M_ene soluun..."
-
-#: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:2478
-msgid "Automatically save the current document at regular intervals"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:235 src/workbook-control-gui.c:2483
-msgid "_Goal Seek..."
-msgstr "_Tuloksen etsintä..."
-
-#: src/GNOME_Gnumeric.xml.h:114 src/workbook-control-gui.c:2484
-msgid "Iteratively recalculate to find a target value"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:260 src/workbook-control-gui.c:2486
-msgid "_Solver..."
-msgstr "_Ratkaisija..."
-
-#: src/GNOME_Gnumeric.xml.h:115 src/workbook-control-gui.c:2487
-msgid "Iteratively recalculate with constraints to approach a target value"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:227 src/workbook-control-gui.c:2492
-msgid "_Data Analysis..."
-msgstr ""
-
-#: src/workbook-control-gui.c:2493
-msgid "Statistical methods."
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:2500
-msgid "_Hide Detail"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:35 src/workbook-control-gui.c:2501
-msgid "Collapse an outline group"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:259 src/workbook-control-gui.c:2503
-msgid "_Show Detail"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:2504
-msgid "Uncollapse an outline group"
-msgstr ""
-
-#: src/workbook-control-gui.c:2506
-#, fuzzy
-msgid "_Group..."
-msgstr "_Ratkaisija..."
-
-#: src/GNOME_Gnumeric.xml.h:5 src/workbook-control-gui.c:2507
-#, fuzzy
-msgid "Add an outline group"
-msgstr "Lisää uuden sarakkeen"
-
-#: src/workbook-control-gui.c:2509
-#, fuzzy
-msgid "_Ungroup..."
-msgstr "_Ratkaisija..."
-
-#: src/GNOME_Gnumeric.xml.h:164 src/workbook-control-gui.c:2510
-msgid "Remove an outline group"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:63 src/workbook-control-gui.c:2516
-#, fuzzy
-msgid "Display _Outlines"
-msgstr "Kaavat"
-
-#: src/GNOME_Gnumeric.xml.h:203 src/workbook-control-gui.c:2517
-msgid "Toggle whether or not to display outline groups"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:140 src/workbook-control-gui.c:2522
-#, fuzzy
-msgid "Outlines _Below"
-msgstr "Oikea"
-
-#: src/GNOME_Gnumeric.xml.h:207 src/workbook-control-gui.c:2523
-msgid "Toggle whether to display row outlines on top or bottom"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:141 src/workbook-control-gui.c:2528
-#, fuzzy
-msgid "Outlines _Right"
-msgstr "Oikea"
-
-#: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:2529
-msgid "Toggle whether to display column outlines on the left or right"
-msgstr ""
-
-#: src/workbook-control-gui.c:2538
-#, fuzzy
-msgid "_Sort"
-msgstr "_Ratkaisija..."
-
-#: src/workbook-control-gui.c:2539
-#, fuzzy
-msgid "Sorts the selected region."
-msgstr "Järjestää valitut solut"
-
-#: src/GNOME_Gnumeric.xml.h:233 src/workbook-control-gui.c:2541
-#, fuzzy
-msgid "_Filter..."
-msgstr "Tuhoa"
-
-#: src/GNOME_Gnumeric.xml.h:76 src/workbook-control-gui.c:2542
-msgid "Filter data with given criteria"
-msgstr ""
-
-#: src/workbook-control-gui.c:2545
-#, fuzzy
-msgid "_Validate..."
-msgstr "_Leveys"
-
-#: src/workbook-control-gui.c:2546
-msgid "Validate input with preset criteria"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:223 src/workbook-control-gui.c:2549
-#, fuzzy
-msgid "_Consolidate..."
-msgstr "_Leveys"
-
-#: src/GNOME_Gnumeric.xml.h:37 src/workbook-control-gui.c:2550
-msgid "Consolidate regions using a function"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:238 src/workbook-control-gui.c:2555
-msgid "_Group and Outline"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:75 src/workbook-control-gui.c:2571
-msgid "F_ormat"
-msgstr "M_uotoile"
-
-#: src/GNOME_Gnumeric.xml.h:264 src/workbook-control-gui.c:2572
-msgid "_Tools"
-msgstr "_Työkalut"
-
-#: src/GNOME_Gnumeric.xml.h:226 src/workbook-control-gui.c:2573
-#, fuzzy
-msgid "_Data"
-msgstr "Päiväys"
-
-#: src/GNOME_Gnumeric.xml.h:134 src/workbook-control-gui.c:2580
-msgid "New"
-msgstr "Uusi"
-
-#: src/workbook-control-gui.c:2580
-#, fuzzy
-msgid "Creates a new workbook"
-msgstr "Nimet työkirjassa"
-
-#: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:2583
-msgid "Open"
-msgstr "Avaa"
-
-#: src/workbook-control-gui.c:2583
-msgid "Opens an existing workbook"
-msgstr "Avaa olemassaolevan työkirjan"
-
-#: src/GNOME_Gnumeric.xml.h:171 src/workbook-control-gui.c:2586
-msgid "Save"
-msgstr "Talleta"
-
-#: src/workbook-control-gui.c:2586
-msgid "Saves the workbook"
-msgstr "Tallettaa työkirja"
-
-#: src/workbook-control-gui.c:2592
-#, fuzzy
-msgid "Prints the workbook"
-msgstr "Tallettaa työkirja"
-
-#: src/workbook-control-gui.c:2601
-msgid "Cuts the selection to the clipboard"
-msgstr "Leikkaa valitun alueen leikepöydälle"
-
-#: src/workbook-control-gui.c:2604
-msgid "Copies the selection to the clipboard"
-msgstr "Kopioi valitun alueen leikepöydälle"
-
-#: src/workbook-control-gui.c:2607
-msgid "Pastes the clipboard"
-msgstr "Liittää leikepöydän sisällön"
-
-#: src/workbook-control-gui.c:2614
-#, fuzzy
-msgid "Undo the operation"
-msgstr "Tuntematon laskentavirhe"
-
-#: src/workbook-control-gui.c:2617
-msgid "Redo the operation"
-msgstr ""
-
-#: src/workbook-control-gui.c:2627
-msgid "Sum into the current cell."
-msgstr ""
-
-#: src/workbook-control-gui.c:2630
-#, fuzzy
-msgid "Function"
-msgstr "Murtoluku"
-
-#: src/workbook-control-gui.c:2630
-msgid "Edit a function in the current cell."
+#: src/xml-io-autoft.c:412
+msgid "Error while trying to load autoformat template"
 msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:189 src/workbook-control-gui.c:2634
-#, fuzzy
-msgid "Sort Ascending"
-msgstr "Kirjanpito"
-
-#: src/workbook-control-gui.c:2634
-msgid ""
-"Sorts the selected region in ascending order based on the first column "
-"selected."
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:190 src/workbook-control-gui.c:2637
-#, fuzzy
-msgid "Sort Descending"
-msgstr "Kirjanpito"
-
-#: src/workbook-control-gui.c:2637
-msgid ""
-"Sorts the selected region in descending order based on the first column "
-"selected."
-msgstr ""
-
-#: src/workbook.c:467
-#, fuzzy, c-format
-msgid "Book%d.%s"
-msgstr "Lihavoi"
-
-#: src/workbook.c:1228
-#, fuzzy
-msgid "Sheet name"
-msgstr "_Taulu"
 
-#: src/workbook.c:1229
-msgid "must have at least 1 letter"
+#: src/xml-io-autoft.c:429
+msgid "Is not an autoformat template file"
 msgstr ""
 
-#: src/workbook.c:1242
-msgid "There is already a sheet named"
+#: src/xml-io-autoft.c:439
+msgid "Error while trying to build tree from autoformat template file"
 msgstr ""
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3137
+#: src/xml-io.c:3150
 msgid "Processing XML tree..."
 msgstr ""
 
-#: src/xml-io.c:3300
+#: src/xml-io.c:3313
 msgid "Invalid xml clipboard data. Tree is empty ?"
 msgstr ""
 
-#: src/xml-io.c:3352 src/xml-io.c:3363
+#: src/xml-io.c:3365 src/xml-io.c:3376
 msgid "Not enough memory to create zlib decompression state."
 msgstr ""
 
-#: src/xml-io.c:3366
+#: src/xml-io.c:3379
 msgid "Parsing XML file..."
 msgstr ""
 
-#: src/xml-io.c:3398
+#: src/xml-io.c:3411
 msgid "Is not an Gnumeric Workbook file"
 msgstr ""
 
-#: src/xml-io.c:3456
+#: src/xml-io.c:3469
 #, fuzzy
 msgid "Gnumeric XML file format"
 msgstr "Gnumericin XML-tiedosto"
 
-#: src/xml-io-autoft.c:420
-msgid "Error while trying to load autoformat template"
-msgstr ""
-
-#: src/xml-io-autoft.c:437
-msgid "Is not an autoformat template file"
-msgstr ""
-
-#: src/xml-io-autoft.c:447
-msgid "Error while trying to build tree from autoformat template file"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:1
+#: gnumeric.desktop.in.h:2
 #, fuzzy
-msgid "*Control*b"
-msgstr "Keskitetty"
-
-#: src/GNOME_Gnumeric.xml.h:2
-#, fuzzy
-msgid "*Control*i"
-msgstr "Keskitetty"
-
-#: src/GNOME_Gnumeric.xml.h:3
-#, fuzzy
-msgid "*Control*u"
-msgstr "Keskitetty"
-
-#: src/GNOME_Gnumeric.xml.h:4
-msgid "About this application"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:20
-#, fuzzy
-msgid "CenterAcrossSelection"
-msgstr "Keskitetty"
-
-#: src/GNOME_Gnumeric.xml.h:21
-#, fuzzy
-msgid "Centers across the selected cells"
-msgstr "Tyhjää valitut solut"
-
-#: src/GNOME_Gnumeric.xml.h:22
-#, fuzzy
-msgid "Centers the text in each selection"
-msgstr "Keskitetty"
-
-#: src/GNOME_Gnumeric.xml.h:33
-msgid "Close the current file"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:36
-#, fuzzy
-msgid "Combo Box"
-msgstr "Väritys"
-
-#: src/GNOME_Gnumeric.xml.h:39
-#, fuzzy
-msgid "Copy the current selection to the clipboard"
-msgstr "Kopioi valitun alueen leikepöydälle"
-
-#: src/GNOME_Gnumeric.xml.h:40
-#, fuzzy
-msgid "Copy the selection"
-msgstr "Tasaus vasemmalle"
-
-#: src/GNOME_Gnumeric.xml.h:41
-#, fuzzy
-msgid "Create a button"
-msgstr "Luo viivaobjektin"
-
-#: src/GNOME_Gnumeric.xml.h:42
-#, fuzzy
-msgid "Create a checkbox"
-msgstr "Luo uuden taulun"
-
-#: src/GNOME_Gnumeric.xml.h:43
-#, fuzzy
-msgid "Create a combo box"
-msgstr "Luo uuden taulun"
-
-#: src/GNOME_Gnumeric.xml.h:44
-#, fuzzy
-msgid "Create a frame"
-msgstr "Luo uuden taulun"
-
-#: src/GNOME_Gnumeric.xml.h:45
-#, fuzzy
-msgid "Create a label"
-msgstr "Luo viivaobjektin"
-
-#: src/GNOME_Gnumeric.xml.h:46
-#, fuzzy
-msgid "Create a line"
-msgstr "Luo viivaobjektin"
-
-#: src/GNOME_Gnumeric.xml.h:47
-#, fuzzy
-msgid "Create a list"
-msgstr "Luo viivaobjektin"
-
-#: src/GNOME_Gnumeric.xml.h:51
-#, fuzzy
-msgid "Create a new workbook"
-msgstr "Nimet työkirjassa"
-
-#: src/GNOME_Gnumeric.xml.h:52
-#, fuzzy
-msgid "Create a radio button"
-msgstr "Luo viivaobjektin"
-
-#: src/GNOME_Gnumeric.xml.h:53
-#, fuzzy
-msgid "Create an arrow"
-msgstr "Luo nuoliobjektin"
-
-#: src/GNOME_Gnumeric.xml.h:58
-#, fuzzy
-msgid "Cut the selection"
-msgstr "Tasaus vasemmalle"
-
-#: src/GNOME_Gnumeric.xml.h:60
-#, fuzzy
-msgid "Decrease Precision"
-msgstr "Joulukuu"
-
-#: src/GNOME_Gnumeric.xml.h:61
-#, fuzzy
-msgid "Decrease the precision of the selected cells"
-msgstr "Muokkaa valittujen solujen muotoilua"
-
-#: src/GNOME_Gnumeric.xml.h:65
-#, fuzzy
-msgid "Draw a rectangle"
-msgstr "Luo neliöobjektin"
-
-#: src/GNOME_Gnumeric.xml.h:66
-msgid "Draw an oval"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:67
-msgid "E_xit"
-msgstr "_Lopeta"
-
-#: src/GNOME_Gnumeric.xml.h:68
-msgid "Edit a formula in the current cell"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:74
-msgid "Exit the program"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:82
-#, fuzzy
-msgid "Format the selected cells as money"
-msgstr "Järjestää valitut solut"
-
-#: src/GNOME_Gnumeric.xml.h:83
-#, fuzzy
-msgid "Format the selected cells as percentages"
-msgstr "Muokkaa valittujen solujen muotoilua"
-
-#: src/GNOME_Gnumeric.xml.h:85
-#, fuzzy
-msgid "Function Guru"
-msgstr "Murtoluku"
-
-#: src/GNOME_Gnumeric.xml.h:86
-#, fuzzy
-msgid "Graph Guru"
-msgstr "Kaavat"
-
-#: src/GNOME_Gnumeric.xml.h:88
-#, fuzzy
-msgid "Hide _Column Headers"
-msgstr "Lisää sarakkeita"
-
-#: src/GNOME_Gnumeric.xml.h:90
-#, fuzzy
-msgid "Hide _Row Headers"
-msgstr "Lisää rivejä"
-
-#: src/GNOME_Gnumeric.xml.h:95
-#, fuzzy
-msgid "Includes a thousands separator in the selected cells"
-msgstr "Lisää tämänhetkisen päiväyksen valittuihin soluihin"
-
-#: src/GNOME_Gnumeric.xml.h:97
-msgid "Increase Precision"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:98
-#, fuzzy
-msgid "Increase the precision of the selected cells"
-msgstr "Lisää tämänhetkisen päiväyksen valittuihin soluihin"
-
-#: src/GNOME_Gnumeric.xml.h:99
-#, fuzzy
-msgid "Insert Component"
-msgstr "Lisää sarakkeita"
-
-#: src/GNOME_Gnumeric.xml.h:100
-#, fuzzy
-msgid "Insert Shaped Component"
-msgstr "Lisää ohjekti..."
-
-#: src/GNOME_Gnumeric.xml.h:103
-#, fuzzy
-msgid "Insert a shaped component into the spreadsheet"
-msgstr "Luo grafiikkaohjektin tauluun"
-
-#: src/GNOME_Gnumeric.xml.h:104
-#, fuzzy
-msgid "Insert an object into the spreadsheet"
-msgstr "Lisää uusi taulu"
-
-#: src/GNOME_Gnumeric.xml.h:110
-msgid "Inserts a Bonobo object"
-msgstr "Lisää Bonobo-objektin"
-
-#: src/GNOME_Gnumeric.xml.h:111
-msgid "Invoke the graph guru to create a graph"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:113
-#, fuzzy
-msgid "Italicize"
-msgstr "Kursivointi"
-
-#: src/GNOME_Gnumeric.xml.h:119
-#, fuzzy
-msgid "Left justifies the contents of each cell"
-msgstr "Tasaa solu(je)n sisällön vasemmalle"
-
-#: src/GNOME_Gnumeric.xml.h:125
-#, fuzzy
-msgid "Make font bold"
-msgstr "Asettaa kursivoidun kirjasintyypin"
-
-#: src/GNOME_Gnumeric.xml.h:126
-#, fuzzy
-msgid "Make font italic"
-msgstr "Asettaa kursivoidun kirjasintyypin"
-
-#: src/GNOME_Gnumeric.xml.h:127
-msgid "Manage available plugin modules"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:128
-#, fuzzy
-msgid "Mark the current selection for movement"
-msgstr "Leikkaa valitun alueen leikepöydälle"
-
-#: src/GNOME_Gnumeric.xml.h:133
-msgid "Money"
-msgstr "Raha"
-
-#: src/GNOME_Gnumeric.xml.h:138
-#, fuzzy
-msgid "Open a spreadsheet"
+msgid "The GNOME Spreadsheet"
 msgstr "Luo uusi taulukko"
 
-#: src/GNOME_Gnumeric.xml.h:139
 #, fuzzy
-msgid "Open an existing workbook"
-msgstr "Avaa olemassaolevan työkirjan"
-
-#: src/GNOME_Gnumeric.xml.h:142
-msgid "Oval"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:143
-#, fuzzy
-msgid "P_aste Special..."
-msgstr "Liitä _määräten..."
-
-#: src/GNOME_Gnumeric.xml.h:145
-#, fuzzy
-msgid "Paste the clipboard"
-msgstr "Liittää leikepöydän sisällön"
-
-#: src/GNOME_Gnumeric.xml.h:146
-msgid "Paste the contents of the clipboard or cut buffer"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:152
-#, fuzzy
-msgid "Print S_etup"
-msgstr "Prosentti"
-
-#: src/GNOME_Gnumeric.xml.h:154
-msgid "Print the current file"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:155
-#, fuzzy
-msgid "Print the workbook"
-msgstr "Tallettaa työkirja"
-
-#: src/GNOME_Gnumeric.xml.h:156
-#, fuzzy
-msgid "Radio Button"
-msgstr "Ala"
-
-#: src/GNOME_Gnumeric.xml.h:158
-#, fuzzy
-msgid "Re-_Order..."
-msgstr "Solun muotoilu"
-
-#: src/GNOME_Gnumeric.xml.h:163
-#, fuzzy
-msgid "Redo the undone action"
-msgstr "Tuntematon laskentavirhe"
-
-#: src/GNOME_Gnumeric.xml.h:165
-msgid "Remove selected cells, shifting others into their place"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:168
-#, fuzzy
-msgid "Right justifies the contents of each cell"
-msgstr "Tasaa solu(je)n sisällön oikealle"
-
-#: src/GNOME_Gnumeric.xml.h:172
-#, fuzzy
-msgid "Save _As"
-msgstr "Talleta"
-
-#: src/GNOME_Gnumeric.xml.h:173
-msgid "Save the current file"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:174
-#, fuzzy
-msgid "Save the current file with a different name"
-msgstr "Leikkaa valitun alueen leikepöydälle"
-
-#: src/GNOME_Gnumeric.xml.h:175
-#, fuzzy
-msgid "Save the current workbook"
-msgstr "Tallettaa työkirja"
-
-#: src/GNOME_Gnumeric.xml.h:184
-msgid "Select all the cells that depend on the current edit cell"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:188
-msgid "Setup the page settings for your current printer"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:191
-msgid "Sort the selected cells"
-msgstr "Järjestää valitut solut"
-
-#: src/GNOME_Gnumeric.xml.h:192
-msgid ""
-"Sort the selected region in ascending order based on the first column "
-"selected"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:193
-msgid ""
-"Sort the selected region in descending order based on the first column "
-"selected"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:196
-msgid "Statistical methods"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:199
-msgid "Sum into the current cell"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:210
-#, fuzzy
-msgid "Underlines the text"
-msgstr "Määrittelemätön scheme-funktio"
-
-#: src/GNOME_Gnumeric.xml.h:211
-#, fuzzy
-msgid "Undo the last action"
-msgstr "Tuntematon laskentavirhe"
-
-#: src/GNOME_Gnumeric.xml.h:213
-#, fuzzy
-msgid "_About..."
-msgstr "_Ratkaisija..."
-
-#: src/GNOME_Gnumeric.xml.h:220
-#, fuzzy
-msgid "_Change Name..."
-msgstr "_Vaihda nimi"
-
-#: src/GNOME_Gnumeric.xml.h:221
-msgid "_Close"
-msgstr "_Sulje"
-
-#: src/GNOME_Gnumeric.xml.h:228
-#, fuzzy
-msgid "_Define"
-msgstr "Määrittele nimet"
-
-#: src/GNOME_Gnumeric.xml.h:231
-#, fuzzy
-msgid "_Edit"
-msgstr "_Muokkaa"
-
-#: src/GNOME_Gnumeric.xml.h:232
-msgid "_File"
-msgstr "_Tiedosto"
-
-#: src/GNOME_Gnumeric.xml.h:237
-#, fuzzy
-msgid "_Group"
-msgstr "Ylä"
-
-#: src/GNOME_Gnumeric.xml.h:239
-msgid "_Help"
-msgstr "_Apua"
-
-#: src/GNOME_Gnumeric.xml.h:244
-#, fuzzy
-msgid "_Insert new"
-msgstr "_Lisää"
-
-#: src/GNOME_Gnumeric.xml.h:247
-#, fuzzy
-msgid "_Object"
-msgstr "_Avaa"
-
-#: src/GNOME_Gnumeric.xml.h:248
-#, fuzzy
-msgid "_Open"
-msgstr "Avaa"
-
-#: src/GNOME_Gnumeric.xml.h:251
-#, fuzzy
-msgid "_Print"
-msgstr "Prosentti"
-
-#: src/GNOME_Gnumeric.xml.h:256
-msgid "_Save"
-msgstr "_Talleta"
-
-#: src/GNOME_Gnumeric.xml.h:261
-#, fuzzy
-msgid "_Sort..."
-msgstr "_Ratkaisija..."
-
-#: src/GNOME_Gnumeric.xml.h:266
-msgid "_Ungroup"
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:268
-#, fuzzy
-msgid "_View"
-msgstr "_Näytä"
-
-#, fuzzy
-#~ msgid "The GNOME Spreadsheet"
-#~ msgstr "Luo uusi taulukko"
+#~ msgid "Message"
+#~ msgstr "Keskiarvo"
 
 #, fuzzy
 #~ msgid "Deleting %d columns %s:"
@@ -14625,12 +14943,6 @@ msgstr "_Näytä"
 #, fuzzy
 #~ msgid "Import"
 #~ msgstr "_Järjestä"
-
-#, fuzzy
-#~ msgid ""
-#~ "Could not read file %s\n"
-#~ "%%s"
-#~ msgstr "Tiedostoa %s ei voitu luoda\n"
 
 #, fuzzy
 #~ msgid ""
@@ -14696,9 +15008,6 @@ msgstr "_Näytä"
 
 #~ msgid "Syntax error"
 #~ msgstr "Syntaksivirhe"
-
-#~ msgid "Invalid argument"
-#~ msgstr "Virheellinen parametri"
 
 #, fuzzy
 #~ msgid "Enables some style related debugging functions"
@@ -14774,10 +15083,6 @@ msgstr "_Näytä"
 #~ msgstr "Tuntematon laskentavirhe"
 
 #, fuzzy
-#~ msgid "Function init_plugin inside \"%s\" returned error."
-#~ msgstr "init_plugin palautti virheen"
-
-#, fuzzy
 #~ msgid "Gnome Basic"
 #~ msgstr "Gnumeric"
 
@@ -14822,14 +15127,6 @@ msgstr "_Näytä"
 #~ msgstr "Guile-lisiö"
 
 #, fuzzy
-#~ msgid "Minimum"
-#~ msgstr "Minimi"
-
-#, fuzzy
-#~ msgid "Maximum"
-#~ msgstr "Maksimi"
-
-#, fuzzy
 #~ msgid "Observations"
 #~ msgstr "Operaatio"
 
@@ -14840,10 +15137,6 @@ msgstr "_Näytä"
 #, fuzzy
 #~ msgid "t Stat"
 #~ msgstr "*La"
-
-#, fuzzy
-#~ msgid "Multiple R"
-#~ msgstr "Kerro"
 
 #, fuzzy
 #~ msgid "Intercept"
@@ -14874,9 +15167,6 @@ msgstr "_Näytä"
 #, fuzzy
 #~ msgid "Path:"
 #~ msgstr "Liitä"
-
-#~ msgid "Missing quote"
-#~ msgstr "Puuttuva lainausmerkki"
 
 #~ msgid "Impossible!"
 #~ msgstr "Mahdoton!"
@@ -15200,10 +15490,6 @@ msgstr "_Näytä"
 #~ msgstr "Liitä"
 
 #, fuzzy
-#~ msgid "Areas"
-#~ msgstr "Nuoli"
-
-#, fuzzy
 #~ msgid "_Graphic type:"
 #~ msgstr "Grafiikka"
 
@@ -15222,14 +15508,6 @@ msgstr "_Näytä"
 #, fuzzy
 #~ msgid "Custom types"
 #~ msgstr "Oma"
-
-#, fuzzy
-#~ msgid "_Value:"
-#~ msgstr "Arvot"
-
-#, fuzzy
-#~ msgid "Series"
-#~ msgstr "_Taulu"
 
 #, fuzzy
 #~ msgid "Step2"
@@ -15380,9 +15658,6 @@ msgstr "_Näytä"
 #, fuzzy
 #~ msgid "Creates a Bonobo shaped item"
 #~ msgstr "Luo uuden taulun"
-
-#~ msgid "Row number out of range"
-#~ msgstr "Rivi rajojen ulkopuolella"
 
 #~ msgid "C_olumns"
 #~ msgstr "S_arake"

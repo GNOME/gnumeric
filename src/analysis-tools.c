@@ -1008,6 +1008,9 @@ descriptive_stat_tool (WorkbookControl *wbc, Sheet *current_sheet,
 	        free_data_set (&data_sets[i]);
 	g_free (data_sets);
 
+	sheet_set_dirty (dao->sheet, TRUE);
+	sheet_update (current_sheet);
+
 	return 0;
 }
 
@@ -1118,6 +1121,8 @@ int sampling_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range,
 	}
 
 	free_data_set (&data_set);
+	sheet_set_dirty (dao->sheet, TRUE);
+	sheet_update (sheet);
 
 	return 0;
 }
@@ -1216,6 +1221,9 @@ int ztest_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range1,
 
 	free_data_set (&set_one);
 	free_data_set (&set_two);
+
+	sheet_set_dirty (dao->sheet, TRUE);
+	sheet_update (sheet);
 
         return 0;
 }
@@ -1872,6 +1880,9 @@ int random_tool (WorkbookControl *wbc, Sheet *sheet, int vars, int count,
 		break;
 	}
 
+	sheet_set_dirty (dao->sheet, TRUE);
+	sheet_update (sheet);
+
 	return 0;
 }
 
@@ -2155,6 +2166,10 @@ these values can be tiny.*/
 		g_free (xss[i]);
 	g_free (xss);
 	g_free (res);
+
+	sheet_set_dirty (dao->sheet, TRUE);
+	sheet_update (sheet);
+
 	return 0;
 }
 
@@ -2215,6 +2230,9 @@ int average_tool (WorkbookControl *wbc, Sheet *sheet, Range *range, int interval
 	g_free (prev);
 
 	free_data_set (&data_set);
+
+	sheet_set_dirty (dao->sheet, TRUE);
+	sheet_update (sheet);
 
 	return 0;
 }
@@ -2361,6 +2379,9 @@ int ranking_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range,
 	for (i = 0; i < vars; i++)
 	        free_data_set (&data_sets[i]);
 	g_free (data_sets);
+
+	sheet_set_dirty (dao->sheet, TRUE);
+	sheet_update (sheet);
 
 	return 0;
 }
@@ -2529,6 +2550,9 @@ anova_single_factor_tool (WorkbookControl *wbc, Sheet *sheet, Range *range,
 	        free_data_set (&data_sets[i]);
 	g_free (data_sets);
 
+	sheet_set_dirty (dao->sheet, TRUE);
+	sheet_update (sheet);
+
         return 0;
 }
 
@@ -2684,6 +2708,9 @@ anova_two_factor_without_r_tool (WorkbookControl *wbc, Sheet *sheet, Range *rang
 	set_cell_float (dao, 5, 9 + rows + cols, p2);
 	set_cell_float (dao, 6, 8 + rows + cols, f1_c);
 	set_cell_float (dao, 6, 9 + rows + cols, f2_c);
+
+	sheet_set_dirty (dao->sheet, TRUE);
+	sheet_update (sheet);
 
 	return 0;
 }
@@ -2924,6 +2951,9 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Range *range,
 
 	set_italic (dao, 0, n * 6 + 11, 6, n * 6 + 11);
 
+	sheet_set_dirty (dao->sheet, TRUE);
+	sheet_update (sheet);
+
 	g_free(col_count);
 	g_free(col_sum);
 	g_free(col_sqrsum);
@@ -3017,5 +3047,9 @@ histogram_tool (WorkbookControl *wbc, Sheet *sheet, Range *range, Range *bin_ran
 
 	free_data_set (&set);
 	free_data_set (&bin_set);
+
+	sheet_set_dirty (dao->sheet, TRUE);
+	sheet_update (sheet);
+
 	return 0;
 }

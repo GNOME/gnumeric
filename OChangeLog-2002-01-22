@@ -1,5 +1,12 @@
 2001-07-17  Jody Goldberg <jgoldberg@home.com>
 
+	* Release 0.68
+
+2001-07-17  Jody Goldberg <jgoldberg@home.com>
+
+	* src/gui-clipboard.c (x_selection_handler) : Make things friendlier
+	  with Klipper.
+
 	* src/workbook-control-gui.c (wbcg_sheet_move) : Fix.
 	  SheetControl no longer inherits from Table it now contains it.
 
@@ -17,6 +24,21 @@
 
 	* src/item-bar.c (item_bar_event) : dont draw the resize bar past the
 	  minimum size.
+
+2001-07-15  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/analysis-tools.c (descriptive_stat_tool) : adjust 
+	  scrollbars after outputting data.
+	(sampling_tool) : ditto
+	(ztest_tool) : ditto
+	(random_tool) : ditto
+	(regression_tool) : ditto
+	(average_tool) : ditto
+	(ranking_tool) : ditto
+	(anova_single_factor_tool) : ditto
+	(anova_two_factor_without_r_tool) : ditto
+	(anova_two_factor_with_r_tool) : ditto
+	(histogram_tool) : ditto
 
 2001-07-16  Jody Goldberg <jgoldberg@home.com>
 
@@ -143,7 +165,7 @@
 	* stf-parse.c (stf_parse_options_set_lines_to_parse): Don't
 	convert to index it's not an index.
 
-2001-07-15  Andreas J. Guelzo  <aguelzow@math.concordia.ab.ca>
+2001-07-15  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/analysis-tools.c (anova_two_factor_with_r_tool): Finish
  	implementation.

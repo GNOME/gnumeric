@@ -1,3 +1,7 @@
+2001-07-17  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.68
+
 2001-07-14  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* python-loader.c (gnumeric_plugin_loader_python_func_file_open,

@@ -14,6 +14,7 @@ Almer:
 Andreas:
 	* Fix bugs in analysis-tools' t-test.
 	* Finish two-factor anova tool in analysis-tools.
+	* Adjust scrollbars when outputting data analysis results.
 
 Jody:
 	* Even more missing files.
