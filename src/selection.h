@@ -37,8 +37,6 @@ gboolean    selection_contains_colrow         (Sheet const *sheet,
 					       int colrow, gboolean is_col);
 
 /* User visible actions */
-void        sheet_selection_ant               (Sheet *sheet);
-void        sheet_selection_unant             (Sheet *sheet);
 void        sheet_selection_redraw            (Sheet const *sheet);
 
 /* Utilities for operating on a selection */

@@ -626,24 +626,6 @@ sheet_selection_to_string (Sheet *sheet, gboolean include_sheet_name_prefix)
 	return result;
 }
 
-void
-sheet_selection_ant (Sheet *sheet)
-{
-	g_return_if_fail (IS_SHEET (sheet));
-
-	SHEET_FOREACH_CONTROL (sheet, control,
-		scg_selection_ant (control););
-}
-
-void
-sheet_selection_unant (Sheet *sheet)
-{
-	g_return_if_fail (IS_SHEET (sheet));
-
-	SHEET_FOREACH_CONTROL (sheet, control,
-		scg_selection_unant (control););
-}
-
 gboolean
 sheet_selection_copy (WorkbookControl *wbc, Sheet *sheet)
 {

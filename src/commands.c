@@ -856,9 +856,10 @@ typedef struct
 	Sheet		*sheet;
 	gboolean	 is_insert;
 	gboolean	 is_cols;
+	gboolean         is_cut;
 	int		 index;
 	int		 count;
-	Range           *cut;
+	Range           *cutcopied;
 
 	double		*sizes;
 	CellRegion 	*contents;
@@ -921,21 +922,13 @@ cmd_ins_del_colrow_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	/* Ins/Del Row/Col re-ants things completely to account
 	 * for the shift of col/rows. 
 	 */
-	if (me->cut) {
-		GList *orig = me->sheet->selections;
-		GList *temp = NULL;
-		Range s = *me->cut;
+	if (me->cutcopied) {
+		Range s = *me->cutcopied;
 
-		/* Temporarily swap the real selection, this
-		 * will make the right region show up anted
-		 */
-		temp = g_list_append (temp, &s);
-		me->sheet->selections = temp;
-		
-		application_clipboard_cut (wbc, me->sheet, &s);
-		
-		me->sheet->selections = orig;
-		g_list_free (temp);
+		if (me->is_cut)
+			application_clipboard_cut (wbc, me->sheet, &s);
+		else
+			application_clipboard_copy (wbc, me->sheet, &s);
 	}
 
 	return trouble;
@@ -1015,30 +1008,26 @@ cmd_ins_del_colrow_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	/* Ins/Del Row/Col re-ants things completely to account
 	 * for the shift of col/rows.
 	 */
-	if (me->cut) {
-		GList *orig = me->sheet->selections;
-		GList *temp = NULL;
-		Range s = *me->cut;
+	if (me->cutcopied) {
+		Range s = *me->cutcopied;
 		int key = me->is_insert ? me->count : -me->count;
+		int threshold = me->is_insert ? me->index : me->index + 1;
 
-		if (me->is_cols) {
+		/* Really only applies if the regions that are inserted/
+		 * deleted are above the cut/copied region.
+		 */
+		if (me->is_cols && threshold <= s.start.col) {
 			s.start.col += key;
 			s.end.col   += key;
-		} else {
+		} else if (threshold <= s.start.row) {
 			s.start.row += key;
 			s.end.row   += key;
 		}
 
-		/* Temporarily swap the real selection, this
-		 * will make the right region show up anted
-		 */
-		temp = g_list_append (temp, &s);
-		me->sheet->selections = temp;
-		
-		application_clipboard_cut (wbc, me->sheet, &s);
-		
-		me->sheet->selections = orig;
-		g_list_free (temp);
+		if (me->is_cut)
+			application_clipboard_cut (wbc, me->sheet, &s);
+		else
+			application_clipboard_copy (wbc, me->sheet, &s);
 	}
 
 	return trouble;
@@ -1057,8 +1046,8 @@ cmd_ins_del_colrow_destroy (GtkObject *cmd)
 		clipboard_release (me->contents);
 		me->contents = NULL;
 	}
-	if (me->cut)
-		g_free (me->cut);		
+	if (me->cutcopied)
+		g_free (me->cutcopied);
 	if (me->reloc_storage) {
 		workbook_expr_unrelocate_free (me->reloc_storage);
 		me->reloc_storage = NULL;
@@ -1088,11 +1077,13 @@ cmd_ins_del_colrow (WorkbookControl *wbc,
 	me->count = count;
 	me->sizes = NULL;
 	me->contents = NULL;
-	
-	if (application_clipboard_area_get ())
-		me->cut = range_copy (application_clipboard_area_get ());
-	else
-		me->cut = NULL;
+
+	/* We store the cut or/copied range if applicable */	
+	if (!application_clipboard_is_empty ()) {
+		me->cutcopied = range_copy (application_clipboard_area_get ());
+		me->is_cut    = application_clipboard_is_cut ();
+	} else
+		me->cutcopied = NULL;
 
 	me->parent.sheet = sheet;
 	me->parent.size = 1;  /* FIXME?  */

@@ -598,6 +598,7 @@ scg_construct (SheetControlGUI *scg)
 		scg->control_points[i] = NULL;
 
 	scg_resize (scg);
+	scg_ant (scg);
 }
 
 GtkWidget *
@@ -622,6 +623,7 @@ scg_destroy (GtkObject *object)
 	SheetControlGUI *scg = SHEET_CONTROL_GUI (object);
 
 	scg_mode_edit (scg); /* finish any object edits */
+	scg_unant (scg); /* Make sure that everything is unanted */
 
 	/* Add shutdown code here */
 	if (scg->tip)
@@ -659,7 +661,7 @@ GNUMERIC_MAKE_TYPE (sheet_control_gui, "SheetControlGUI", SheetControlGUI,
 		    scg_class_init, scg_init, gtk_table_get_type ())
 
 void
-scg_selection_unant (SheetControlGUI *scg)
+scg_unant (SheetControlGUI *scg)
 {
 	GList *l;
 
@@ -676,16 +678,16 @@ scg_selection_unant (SheetControlGUI *scg)
 }
 
 void
-scg_selection_ant (SheetControlGUI *scg)
+scg_ant (SheetControlGUI *scg)
 {
 	GList *l;
 
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
 	if (scg->anted_cursors)
-		scg_selection_unant (scg);
+		scg_unant (scg);
 
-	for (l = scg->sheet->selections; l; l = l->next){
+	for (l = scg->sheet->ants; l; l = l->next){
 		Range *ss = l->data;
 		ItemCursor *item_cursor;
 

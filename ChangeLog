@@ -1,3 +1,37 @@
+2001-05-01  Almer S. Tigelaar  <almer@gnome.org>
+
+	* src/application.[ch] (application_clipboard_unant): Use
+	sheet_unant.
+	(application_clipboard_clear): Idem.
+	(application_clipboard_copy): Use sheet_ant.
+	(application_clipboard_cut): Idem.
+	(application_clipboard_is_cut): New function, is the area
+	on the clipboard marked for cutting or for copying?
+
+	* src/selection.[ch] (sheet_selection_ant): Deprecated, remove.
+	(sheet_selection_unant): Idem.
+
+	* src/sheet-control-gui.[ch] (scg_selection_ant): Rename
+	to scg_ant and add a ranges parameter where the ranges to
+	ant can be specified.
+	(scg_selection_unant): Rename to scg_unant.
+	(scg_destroy): Make sure to un-ant everything.
+	(scg_construct): Ant all anted regions on the sheet.
+
+	* src/sheet.[ch] (sheet_ant): New, ants one or more regions
+	on the sheet.
+	(sheet_unant): New, unants all currently anted region on the
+	sheet.
+	(sheet_destroy): Make sure to free the ant list.
+
+	* src/commands.c (cmd_ins_del_colrow_undo): Remove ugly ant-hack,
+	this is no longer needed, application_clipboard_cut/copy handles
+	this now.
+	(cmd_ins_del_colrow_redo): Idem
+	(cmd_ins_del_colrow): Oh dear, we were actually storing both 
+	the cut and copied area as a cut area and we were actually
+	cutting even if the range was a copied area after shifting.
+
 2001-04-30  Jody Goldberg <jgoldberg@home.com>
 
 	* src/about.c (dialog_about) : sync with website.
@@ -49,7 +83,7 @@
 	an index list to a string representation.
 	(colrow_string_build): Utility routine for
 	colrow_index_list_to_string.
-
+	
 2001-04-30  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/parser.y (gnumeric_expr_parser) : Give a warning

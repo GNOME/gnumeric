@@ -47,6 +47,56 @@ static void sheet_redraw_partial_row (Sheet const *sheet, int row,
 				      int start_col, int end_col);
 
 void
+sheet_unant (Sheet *sheet)
+{
+	GList *l;
+	
+	g_return_if_fail (sheet != NULL);
+
+	if (!sheet->ants)
+		return;
+		
+	for (l = sheet->ants; l != NULL; l = l->next) {
+		Range *ss = l->data;
+		g_free (ss);
+	}
+
+	g_list_free (sheet->ants);
+	sheet->ants = NULL;
+
+	SHEET_FOREACH_CONTROL (sheet, control,
+			       scg_unant (control););
+}
+
+void
+sheet_ant (Sheet *sheet, GList *ranges)
+{
+	GList *l;
+
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (ranges != NULL);
+
+	if (sheet->ants != NULL)
+		sheet_unant (sheet);
+		
+	/*
+	 * We need to copy the whole selection to the
+	 * 'ant' list which contains all currently anted
+	 * regions on the sheet. Every sheet-control-gui
+	 * look at that list to ant/unant things
+	 */
+	for (l = ranges; l != NULL; l = l->next) {
+		Range *ss = l->data;
+
+		sheet->ants = g_list_prepend (sheet->ants, range_copy (ss));
+	}
+	sheet->ants = g_list_reverse (sheet->ants);
+	
+	SHEET_FOREACH_CONTROL (sheet, control,
+		scg_ant (control););
+}
+
+void
 sheet_redraw_all (Sheet const *sheet)
 {
 	SHEET_FOREACH_CONTROL (sheet, control,
@@ -2398,6 +2448,7 @@ sheet_destroy (Sheet *sheet)
 	}
 
 	sheet_selection_free (sheet);
+	sheet_unant (sheet);
 
 	g_free (sheet->name_quoted);
 	g_free (sheet->name_unquoted);

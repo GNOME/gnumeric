@@ -79,8 +79,8 @@ void scg_redraw_cell_region     (SheetControlGUI *scg,
 void scg_redraw_headers         (SheetControlGUI *scg,
 				 gboolean const col, gboolean const row,
 				 Range const * r /* optional == NULL */);
-void scg_selection_ant          (SheetControlGUI *scg);
-void scg_selection_unant        (SheetControlGUI *scg);
+void scg_ant                    (SheetControlGUI *scg);
+void scg_unant                  (SheetControlGUI *scg);
 
 void scg_adjust_preferences     (SheetControlGUI *scg);
 void scg_update_cursor_pos      (SheetControlGUI *scg);

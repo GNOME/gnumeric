@@ -267,7 +267,7 @@ application_clipboard_clear (gboolean drop_selection)
 	if (app.clipboard_sheet != NULL) {
 		Sheet *sheet = app.clipboard_sheet;
 
-		sheet_selection_unant (sheet);
+		sheet_unant (sheet);
 		
 		sheet->priv->enable_paste_special = FALSE;
 		WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
@@ -287,7 +287,7 @@ void
 application_clipboard_unant (void)
 {
 	if (app.clipboard_sheet != NULL)
-		sheet_selection_unant (app.clipboard_sheet);
+		sheet_unant (app.clipboard_sheet);
 }
 
 static gboolean
@@ -326,6 +326,8 @@ application_clipboard_copy (WorkbookControl *wbc,
 	g_return_if_fail (area != NULL);
 
 	if (application_set_selected_sheet (wbc, sheet) ) {
+		GList *l = NULL;
+		
 		app.clipboard_cut_range = *area;
 		app.clipboard_copied_contents =
 			clipboard_copy_range (sheet, area);
@@ -334,7 +336,13 @@ application_clipboard_copy (WorkbookControl *wbc,
 		WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
 			wb_control_menu_state_paste_special (control, sheet););
 
-		sheet_selection_ant (sheet);
+		/*
+		 * The 'area' and the list itself will be copied
+		 * entirely. We ant the copied range on the sheet.
+		 */
+		l = g_list_append (l, (Range *) area);
+		sheet_ant (sheet, l);
+		g_list_free (l);
 	}
 }
 
@@ -357,6 +365,8 @@ application_clipboard_cut (WorkbookControl *wbc,
 	g_return_if_fail (area != NULL);
 
 	if (application_set_selected_sheet (wbc, sheet) ) {
+		GList *l = NULL;
+		
 		app.clipboard_cut_range = *area;
 
 		/* No paste special for copies */
@@ -364,7 +374,13 @@ application_clipboard_cut (WorkbookControl *wbc,
 		WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
 			wb_control_menu_state_paste_special (control, sheet););
 
-		sheet_selection_ant (sheet);
+		/*
+		 * The 'area' and the list itself will be copied
+		 * entirely. We ant the cut range on the sheet.
+		 */
+		l = g_list_append (l, (Range *) area);
+		sheet_ant (sheet, l);
+		g_list_free (l);
 	}
 }
 
@@ -372,6 +388,14 @@ gboolean
 application_clipboard_is_empty (void)
 {
 	return app.clipboard_sheet == NULL;
+}
+
+gboolean
+application_clipboard_is_cut (void)
+{
+	if (app.clipboard_sheet != NULL)
+		return app.clipboard_copied_contents ? FALSE : TRUE;
+	return FALSE;
 }
 
 Sheet *

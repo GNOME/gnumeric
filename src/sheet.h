@@ -40,6 +40,12 @@ struct _Sheet {
 	 */
 	GList       *selections;
 
+	/*
+	 * Same as the above, contains the currently anted regions
+	 * on the sheet
+	 */
+	GList       *ants;
+
 	/* User defined names */
 	GList      *names;
 
@@ -216,6 +222,9 @@ void        sheet_redraw_cell_region      (Sheet const *sheet,
 void	    sheet_redraw_headers          (Sheet const *sheet,
 					   gboolean col, gboolean row,
 					   Range const* r /* optional == NULL */);
+
+void        sheet_unant                    (Sheet *sheet);
+void        sheet_ant                      (Sheet *sheet, GList *ranges);
 
 void	    sheet_flag_status_update_cell  (Cell const *c);
 void	    sheet_flag_status_update_range (Sheet const *s, Range const *r);
