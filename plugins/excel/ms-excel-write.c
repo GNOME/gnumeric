@@ -83,8 +83,6 @@
 #define d(level, code)
 #endif
 
-#define ENABLE_METAFILE
-
 #define BLIP_ID_LEN         16
 #define BSE_HDR_LEN         44
 #define RASTER_BLIP_HDR_LEN 25
@@ -3366,7 +3364,6 @@ blipinf_new (SheetObjectImage *soi)
 	    strcmp (blip->type, "png")  == 0 ||	/* understood by Excel */
 	    strcmp (blip->type, "dib")  == 0) {
 		blip->header_len = BSE_HDR_LEN + RASTER_BLIP_HDR_LEN;
-#ifdef ENABLE_METAFILE
 	} else if (strcmp (blip->type, "wmf") == 0 || /* Vector format */
 		   strcmp (blip->type, "emf") == 0 || /* - compress */
 		   strcmp (blip->type, "pict") == 0) { 
@@ -3387,7 +3384,6 @@ blipinf_new (SheetObjectImage *soi)
 			blip->bytes.len  = dest_len;
 		}
 		blip->header_len = BSE_HDR_LEN + VECTOR_BLIP_HDR_LEN;
-#endif
 	} else {
 		/* Fall back to png */
 		GdkPixbuf *pixbuf;
@@ -4414,7 +4410,6 @@ excel_write_image_bytes (BiffPut *bp, GByteArray *bytes)
 	}
 }
 
-#ifdef ENABLE_METAFILE
 /* 
  * FIXME: Excel doesn't read images written by this (but will open the files).
  *        OpenOffice.org can read the images.
@@ -4480,7 +4475,6 @@ excel_write_vector_blip (ExcelWriteState *ewb, BlipInf *blip, BlipType *bt)
 		excel_write_image_bytes (bp, &blip->bytes);
 	}
 }
-#endif
 
 static void 
 excel_write_raster_blip (ExcelWriteState *ewb, BlipInf *blip, BlipType *bt)
@@ -4506,11 +4500,9 @@ excel_write_raster_blip (ExcelWriteState *ewb, BlipInf *blip, BlipType *bt)
 
 static BlipType bliptypes[] = 
 {
-#ifdef ENABLE_METAFILE
 	{"emf",  2, {0x40, 0x3d}, excel_write_vector_blip},
 	{"wmf",  3, {0x60, 0x21}, excel_write_vector_blip},
 	{"pict", 4, {0x20, 0x54}, excel_write_vector_blip},
-#endif
 	{"jpeg", 5, {0xa0, 0x46}, excel_write_raster_blip},
 	{"png",  6, {0,    0x6e}, excel_write_raster_blip},
 	{"dib",  7, {0x80, 0x7a}, excel_write_raster_blip}

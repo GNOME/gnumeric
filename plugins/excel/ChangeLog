@@ -1,3 +1,7 @@
+2004-08-26  Jon K Hellan  <hellan@acm.org>
+
+	* ms-excel-write.c: Remove ENABLE_METAFILE ifdef
+
 2004-08-22  Jody Goldberg <jody@gnome.org>
 
 	* ms-chart.c (BC_R(area,bar,line)) : Use the in_3d placeholders in
