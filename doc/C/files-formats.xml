@@ -343,7 +343,7 @@
 	    which should provide a useful starting point was developed
 	    by the JWorkbook project. The file can be downloaded from
 	    <literal><ulink type="http"
-	    linkend="http://www.jfree.org/jworkbook/gnumeric-xml.pdf">
+	    url="http://www.jfree.org/jworkbook/gnumeric-xml.pdf">
 	    http://www.jfree.org/jworkbook/gnumeric-xml.pdf</ulink></literal>.
 	  </para>
 
@@ -400,7 +400,7 @@ gunzip Book1.text.gz
 	    access, or manipulate &gnum; format files using the
 	    <application>JWorkbook</application> project library. See
 	    the project's <ulink type="http"
-	    linkend="http://http://www.jfree.org/jworkbook/index.html">
+	    url="http://http://www.jfree.org/jworkbook/index.html">
 	    website</ulink> for details.
 	  </para>
 
@@ -442,7 +442,7 @@ gunzip Book1.text.gz
     include a spreadsheet component. The
     <application>Applixware</application> spreadsheet is made by
     <ulink type="http"
-    linkend="http://www.vistasource.com">Vistasource</ulink> and
+    url="http://www.vistasource.com">Vistasource</ulink> and
     claims to be a 'real-time', event driven software system.
     </para>
 
@@ -1382,7 +1382,7 @@ pdflatex Book1.tex
 	  <para>
 	    The Argonne National Laboratory of the United States has a
 	    simple <ulink type="ftp"
-	    linkend="http://www-unix.mcs.anl.gov/otc/Guide/faq/linear-programming-faq.html#Q5"
+	    url="http://www-unix.mcs.anl.gov/otc/Guide/faq/linear-programming-faq.html#Q5"
 	    >introduction</ulink>
 	    to the MPS format on their web site.
 	  </para>
@@ -1391,7 +1391,7 @@ pdflatex Book1.tex
 	    The MIPLIB site has more information including a file
 	    named 
 	    <ulink type="ftp"
-	      linkend="ftp://softlib.cs.rice.edu/pub/miplib/mps_format"
+	      url="ftp://softlib.cs.rice.edu/pub/miplib/mps_format"
 	      >mps_format</ulink> which is a brief introduction to the
 	    format and includes the following section:
 <screen>
@@ -1870,11 +1870,11 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
             format as the standard "OASIS Open Office XML Format".
 	    The published specification for the file format is
 	    available from the <ulink type="http"
-	    linkend="http://www.oasis-open.org/committees/tc_home.php?wg_abbrev=office">
+	    url="http://www.oasis-open.org/committees/tc_home.php?wg_abbrev=office">
 	    OASIS Open Office XML Format Technical Committee</ulink>
 	    web page. Other information is available from the <ulink
 	    type="http"
-	    linkend="http://xml.openoffice.org/">OpenOffice.org XML
+	    url="http://xml.openoffice.org/">OpenOffice.org XML
 	    File Format</ulink> web page, part of the OpenOffice.org
 	    project.
 	  </para>
@@ -2095,11 +2095,11 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 	  <para>
 	    The Postscript language was created by Adobe, Inc. The
 	    Adobe web site has a non-technical <ulink type="http"
-	    linkend="http://www.adobe.com/products/postscript/main.html">introduction</ulink>,
+	    url="http://www.adobe.com/products/postscript/main.html">introduction</ulink>,
 	    as well as a technical <ulink type="http"
-	    linkend="http://www.adobe.com/products/postscript/overview.html">overview</ulink>
+	    url="http://www.adobe.com/products/postscript/overview.html">overview</ulink>
 	    and the actual <ulink type="http"
-	    linkend="http://partners.adobe.com/asn/tech/ps/specifications.jsp">specifications</ulink>.
+	    url="http://partners.adobe.com/asn/tech/ps/specifications.jsp">specifications</ulink>.
 	  </para>
 	</listitem>
       </varlistentry>
@@ -3008,7 +3008,7 @@ Sheet 0
 
 	  <para>
 	    See the <ulink type ="http"
-            linkend="http://www.pgts.com.au/download/public/xbase.htm">
+            url="http://www.pgts.com.au/download/public/xbase.htm">
             Xbase File Format Description</ulink> by Erik Bachmann for
             more details on the xBase format.
 	  </para>
