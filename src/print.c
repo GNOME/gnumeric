@@ -1197,12 +1197,12 @@ print_job_info_get (Sheet *sheet, PrintRange range, gboolean const preview)
 	pj->render_info->sheet = sheet;
 	pj->render_info->page = 1;
 
-	face = gnome_font_face_find (DEFAULT_FONT);
+	face = gnome_font_face_find_closest (DEFAULT_FONT);
 	if (face) {
 		pj->decoration_font = gnome_font_face_get_font_default (face, 12.);
 		gnome_font_face_unref (face);
 	} else {
-		g_warning ("Failed to get a font for page decorations.");
+		g_warning ("Failed to get a font for page decorations.  (Tried %s.)", DEFAULT_FONT);
 		pj->decoration_font = NULL;
 	}
 

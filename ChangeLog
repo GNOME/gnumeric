@@ -1,5 +1,10 @@
 2003-04-11  Morten Welinder  <terra@gnome.org>
 
+	* src/print.c (print_job_info_get): Use
+	gnome_font_face_find_closest for a 0.1% drop in suckage.
+
+2003-04-11  Morten Welinder  <terra@gnome.org>
+
 	* src/print-info.c (print_info_save): Store the printer
 	configuration too.
 
