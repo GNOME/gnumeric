@@ -1,3 +1,8 @@
+2000-10-04  Jon K Hellan  <hellan@acm.org>
+
+	* src/print.c (print_range_right_then_down): Fix typo. usable_x,
+	not usable_y, should be used when computing col_count.
+
 2000-10-04  Jody Goldberg <jgoldberg@home.com>
 
 	* gnumeric.oafinfo : Fix typo with missing 'GNOME'
