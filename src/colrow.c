@@ -183,8 +183,8 @@ col_row_restore_sizes (Sheet *sheet, gboolean const is_cols,
 		if (sizes[i-first] == 0.) {
 			ColRowCollection *infos = is_cols ? &(sheet->cols) : &(sheet->rows);
 			ColRowInfo ***segment =
-				(ColRowInfo ***)&COLROW_GET_SEGMENT(infos, i-first);
-			int const sub = COLROW_SUB_INDEX (i-first);
+				(ColRowInfo ***)&COLROW_GET_SEGMENT(infos, i);
+			int const sub = COLROW_SUB_INDEX (i);
 			ColRowInfo *cri = NULL;
 			if (*segment != NULL) {
 				cri = (*segment)[sub];

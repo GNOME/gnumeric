@@ -18,6 +18,8 @@
 #include "rendered-value.h"
 #include "gnumeric-util.h"
 
+#include <ctype.h>
+
 /*
  * Shuts down the auto completion engine
  */
@@ -151,7 +153,7 @@ entry_changed (GtkEntry *entry, void *data)
 	 * Turn off auto-completion if the user has edited or the text
 	 * does not begin with an alphabetic character.
 	 */
-	if (text_len < wb->priv->auto_max_size || !isalpha(*text))
+	if (text_len < wb->priv->auto_max_size || !isalpha((unsigned char)*text))
 		wb->priv->auto_completing = FALSE;
 
 	if (application_use_auto_complete_get () && wb->priv->auto_completing)
