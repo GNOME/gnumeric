@@ -1,5 +1,10 @@
 2002-05-10  Jon K Hellan  <hellan@acm.org>
 
+	* src/workbook-control-gui.c (workbook_setup_sheets): Really
+	revert kluge.
+
+2002-05-10  Jon K Hellan  <hellan@acm.org>
+
 	* src/gnumeric-canvas.c: oops. Committed this file by mistake, and
 	have to revert.
 

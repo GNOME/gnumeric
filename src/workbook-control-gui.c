@@ -3986,19 +3986,6 @@ workbook_setup_sheets (WorkbookControlGUI *wbcg)
 			  GTK_FILL | GTK_EXPAND | GTK_SHRINK,
 			  0, 0);
 
-	/* NOTE:
-	 * This is a dubious workaround for a redisplay problem in
-	 * gnumeric-component. One of the situations where the problem
-	 * happened is:
-	 * With a workbook displayed, load another workbook with a different
-	 * number of sheets with the Bonobo PersistStream interface. The
-	 * workbook isn't displayed. It turns out that the notebook is
-	 * allocated 1x1 pixels space. When the same workbook is reloaded,
-	 * it is displayed properly.
-	 * I tested this by viewing workbooks in Nautilus by means of
-	 * gnumeric-component.
-	 * */
-	gtk_idle_add ((GtkFunction) gtk_widget_queue_resize, w);
 	gtk_widget_show (w);
 }
 
