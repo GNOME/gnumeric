@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "POT-Creation-Date: 2001-12-17 15:39+0100\n"
-"PO-Revision-Date: 2001-12-19 01:02+0100\n"
+"PO-Revision-Date: 2001-12-19 02:52+0100\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -156,17 +156,17 @@ msgstr "Arkusz%d"
 #: plugins/excel/ms-excel-read.c:1
 #, c-format
 msgid "Macro%d"
-msgstr ""
+msgstr "Makro%d"
 
 #: plugins/excel/ms-excel-read.c:1
 #, c-format
 msgid "Chart%d"
-msgstr ""
+msgstr "Wykres%d"
 
 #: plugins/excel/ms-excel-read.c:1
 #, c-format
 msgid "Module%d"
-msgstr ""
+msgstr "Modu³%d"
 
 #: plugins/excel/ms-excel-read.c:1
 msgid "No book or workbook streams found."
@@ -439,7 +439,7 @@ msgstr "Stan"
 
 #: plugins/mps/mps.c:1
 msgid "Problem name was not defined in the file."
-msgstr ""
+msgstr "W pliku nie zdefiniowano nazwy problemu."
 
 #: plugins/mps/mps.c:1
 msgid "Invalid ROWS section in the file."
@@ -3525,7 +3525,7 @@ msgstr "Rozwijane menu wewn±trz komórki"
 
 #: src/dialogs/cell-format.glade.h:1
 msgid "Information  (allows invalid input)"
-msgstr "Informacja (zezwala na niepoprawne dane)"
+msgstr "Informacja  (zezwolenie na niepoprawne dane)"
 
 #: src/dialogs/cell-format.glade.h:1
 msgid "Input Message"
@@ -3572,7 +3572,7 @@ msgstr "Brak"
 
 #: src/dialogs/cell-format.glade.h:1
 msgid "None          (silently accept invalid input)"
-msgstr ""
+msgstr "Brak  (ciche akceptowanie niepoprawnych danych)"
 
 #: src/dialogs/cell-format.glade.h:1 src/dialogs/dialog-formula-guru.c:1
 #: src/dialogs/dialog-search.c:1
@@ -3639,7 +3639,7 @@ msgstr "_Specjalne"
 
 #: src/dialogs/cell-format.glade.h:1
 msgid "Stop           (never allow invalid input)"
-msgstr ""
+msgstr "Zatrzymani  (bez zezwolenia na wprowadzenie niepoprawnych danych)"
 
 #: src/dialogs/cell-format.glade.h:1
 msgid "Stri_kethrough"
@@ -3723,11 +3723,11 @@ msgstr "Pionowe pr±¿ki"
 
 #: src/dialogs/cell-format.glade.h:1
 msgid "Warning      (accept/discard invalid input)"
-msgstr ""
+msgstr "Ostrze¿enie  (akceptacja/porzucenie niepoprawnych danych)"
 
 #: src/dialogs/cell-format.glade.h:1
 msgid "Whole numbers"
-msgstr "Ca³e liczby"
+msgstr "Liczby ca³kowite"
 
 #: src/dialogs/cell-format.glade.h:1
 msgid "Worksheet _protected"
@@ -3827,31 +3827,31 @@ msgstr "minimum <= warto¶æ <= maksimum  (pomiêdzy)"
 
 #: src/dialogs/cell-format.glade.h:1
 msgid "val != bound                  (not equal to)"
-msgstr "warto¶æ <> ograniczenie           (ró¿ne od)"
+msgstr "warto¶æ <> ograniczenie  (ró¿ne od)"
 
 #: src/dialogs/cell-format.glade.h:1
 msgid "val >  bound                  (greater than)"
-msgstr "warto¶æ > ograniczenie         (wiêksze ni¿)"
+msgstr "warto¶æ > ograniczenie  (wiêksze ni¿)"
 
 #: src/dialogs/cell-format.glade.h:1
 msgid "val >=bound                  (greater than or equal to)"
-msgstr "warto¶æ >= ograniczenie              (nie mniejsze ni¿)"
+msgstr "warto¶æ >= ograniczenie  (nie mniejsze ni¿)"
 
 #: src/dialogs/cell-format.glade.h:1
 msgid "val <  bound                  (less than)"
-msgstr "warto¶æ < ograniczenie     (mniejsze ni¿)"
+msgstr "warto¶æ < ograniczenie  (mniejsze ni¿)"
 
 #: src/dialogs/cell-format.glade.h:1
 msgid "val <= min || max <= val (not between)"
-msgstr "warto¶æ <= minimum lub warto¶æ >= maksimum (poza zakresem)"
+msgstr "warto¶æ <= minimum lub warto¶æ >= maksimum  (poza zakresem)"
 
 #: src/dialogs/cell-format.glade.h:1
 msgid "val <=bound                  (less than or equal to)"
-msgstr "warto¶æ <= ograniczenie            (nie wiêksze ni¿)"
+msgstr "warto¶æ <= ograniczenie  (nie wiêksze ni¿)"
 
 #: src/dialogs/cell-format.glade.h:1
-msgid "val == bound                 (equal to)"
-msgstr "warto¶æ = ograniczenie          (równe)"
+msgid "val == bound  (equal to)"
+msgstr "warto¶æ = ograniczenie  (równe)"
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "A header"
@@ -4263,17 +4263,17 @@ msgstr ""
 #: src/dialogs/dialog-analysis-tools.c:1
 #: src/dialogs/dialog-analysis-tools.c:1
 msgid "The selected input rows must have equal size!"
-msgstr ""
+msgstr "Wybrane wiersze wej¶ciowe musz± mieæ taki sam rozmiar!"
 
 #: src/dialogs/dialog-analysis-tools.c:1
 #: src/dialogs/dialog-analysis-tools.c:1
 msgid "The selected input columns must have equal size!"
-msgstr ""
+msgstr "Wybrane kolumny wej¶ciowe musz± mieæ taki sam rozmiar!"
 
 #: src/dialogs/dialog-analysis-tools.c:1
 #: src/dialogs/dialog-analysis-tools.c:1
 msgid "The selected input areas must have equal size!"
-msgstr ""
+msgstr "Wybrane obszary wej¶ciowe musz± mieæ taki sam rozmiar!"
 
 #. non-numeric probability (DiscreteDistribution) POST-RELEASE-FIX
 #: src/dialogs/dialog-analysis-tools.c:1
@@ -4296,7 +4296,7 @@ msgstr ""
 #: src/dialogs/dialog-analysis-tools.c:1
 #, c-format
 msgid "An unexpected error has occurred: %d."
-msgstr ""
+msgstr "Wyst±pi³ nieoczekiwany b³±d: %d."
 
 #: src/dialogs/dialog-analysis-tools.c:1
 msgid "Could not create the Correlation Tool dialog."
@@ -4319,16 +4319,20 @@ msgid ""
 "Please enter a valid\n"
 "population variance for variable 1."
 msgstr ""
+"Wprowad¼ poprawn± wariancjê\n"
+"populacji dla 1. zmiennej."
 
 #: src/dialogs/dialog-analysis-tools.c:1
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 2."
 msgstr ""
+"Wprowad¼ poprawn± wariancjê\n"
+"populacji dla 2. zmiennej."
 
 #: src/dialogs/dialog-analysis-tools.c:1
 msgid "The two input ranges must have the same size."
-msgstr ""
+msgstr "Oba zakresy wej¶ciowe musz± mieæ ten sam rozmiar."
 
 #: src/dialogs/dialog-analysis-tools.c:1
 msgid "Var_iable 1 Range:"
@@ -4356,9 +4360,8 @@ msgid "_Variable 2 Range"
 msgstr "Zakres 2. z_miennej:"
 
 #: src/dialogs/dialog-analysis-tools.c:1
-#, fuzzy
 msgid "Could not create the FTest Tool dialog."
-msgstr "Nie mo¿na stworzyæ okna narzêdzi korelacji."
+msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:1
 msgid "Could not create the Sampling Tool dialog."
@@ -4369,7 +4372,6 @@ msgid "Discrete"
 msgstr "Dyskretny"
 
 #: src/dialogs/dialog-analysis-tools.c:1
-#, fuzzy
 msgid "_Value And Probability Input Range:"
 msgstr "Zakres _wej¶ciowy warto¶ci i prawdopodobieñstwa:"
 
@@ -4442,9 +4444,8 @@ msgid "_Upper Bound:"
 msgstr "_Górne ograniczenie:"
 
 #: src/dialogs/dialog-analysis-tools.c:1
-#, fuzzy
 msgid "Could not create the Random Tool dialog."
-msgstr "Nie mo¿na stworzyæ okna narzêdzi kowariancji."
+msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:1
 msgid ""
@@ -4483,14 +4484,12 @@ msgid "Could not create the Regression Tool dialog."
 msgstr "Nie mo¿na stworzyæ okna narzêdzi regresji."
 
 #: src/dialogs/dialog-analysis-tools.c:1
-#, fuzzy
 msgid "Could not create the Exponential Smoothing Tool dialog."
-msgstr "Nie mo¿na stworzyæ okna narzêdzi próbkowania."
+msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:1
-#, fuzzy
 msgid "Could not create the Moving Average Tool dialog."
-msgstr "Nie mo¿na stworzyæ okna narzêdzi kowariancji."
+msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:1
 msgid "Fourier analysis is not implemented yet.  Sorry."
@@ -4515,9 +4514,8 @@ msgid "Could not create the Histogram Tool dialog."
 msgstr "Nie mo¿na stworzyæ okna narzêdzi histogramu."
 
 #: src/dialogs/dialog-analysis-tools.c:1
-#, fuzzy
 msgid "Could not create the ANOVA (single factor) tool dialog."
-msgstr "Nie mo¿na stworzyæ okna narzêdzi korelacji."
+msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:1
 msgid "Each sample must contain the same number of rows."
@@ -4536,14 +4534,12 @@ msgstr ""
 "etykiety."
 
 #: src/dialogs/dialog-analysis-tools.c:1
-#, fuzzy
 msgid "Could not create the ANOVA (two factor) tool dialog."
-msgstr "Nie mo¿na stworzyæ okna narzêdzi korelacji."
+msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:1
-#, fuzzy
 msgid "Anova: Two-Factor With Or Without Replication"
-msgstr "Analiza wariancji: dwa czynniki bez powtórzeñ"
+msgstr "Analiza wariancji: dwa czynniki z lub bez powtórzeñ"
 
 #: src/dialogs/dialog-analysis-tools.c:1
 msgid "F-Test: Two-Sample for Variances"
@@ -4888,19 +4884,18 @@ msgid "The value given in 'To Value:' is not valid."
 msgstr ""
 
 #: src/dialogs/dialog-goal-seek.c:1
-#, fuzzy, c-format
+#, c-format
 msgid "Goal seeking with cell %s found a solution."
-msgstr "Poszukiwanie celu - rozwi±zanie znaleziono w komórce %s"
+msgstr ""
 
 #: src/dialogs/dialog-goal-seek.c:1
-#, fuzzy, c-format
+#, c-format
 msgid "Goal seeking with cell %s did not find a solution."
-msgstr "Poszukiwanie celu - rozwi±zanie znaleziono w komórce %s"
+msgstr ""
 
 #: src/dialogs/dialog-goal-seek.c:1
-#, fuzzy
 msgid "Could not create the Goal-Seek dialog."
-msgstr "Nie mo¿na stworzyæ okna narzêdzi kowariancji."
+msgstr "Nie mo¿na stworzyæ okna poszukiwania celu."
 
 #: src/dialogs/dialog-goto-cell.c:1 src/solver-lp.c:1 src/solver-lp.c:1
 #: src/solver-lp.c:1 src/solver-lp.c:1 src/solver-lp.c:1
@@ -4929,7 +4924,7 @@ msgstr "Krok 3 z 3: Dopasowanie wykresu"
 
 #: src/dialogs/dialog-graph-guru.c:1
 msgid "Format Graph"
-msgstr ""
+msgstr "Format wykresu"
 
 #: src/dialogs/dialog-graph-guru.c:1
 msgid "Plot name"
@@ -5153,9 +5148,8 @@ msgid "Constraint `%s' is for a cell that is not an input cell."
 msgstr "Wiêc \"%s\" odnosi siê do komórki nie bêd±cej komórk± wej¶ciow±."
 
 #: src/dialogs/dialog-solver.c:1
-#, fuzzy
 msgid "Could not create the Solver dialog."
-msgstr "Nie mo¿na stworzyæ okna narzêdzi kowariancji."
+msgstr "Nie mo¿na stworzyæ okna solvera."
 
 #: src/dialogs/dialog-stf-export-sheet-page.c:1
 msgid "You need to select at least one sheet to export"
@@ -5836,12 +5830,10 @@ msgid "_Shift cells right"
 msgstr "Przesuniêcie komórek w p_rawo"
 
 #: src/dialogs/mean-tests.glade.h:1
-#, fuzzy
 msgid "E_qual"
-msgstr "Równe:"
+msgstr ""
 
 #: src/dialogs/mean-tests.glade.h:1
-#, fuzzy
 msgid "H_ypothesized Mean Difference:"
 msgstr "Hipoteza ró¿nicy ¶rednich:"
 
@@ -5850,69 +5842,60 @@ msgid "Population Variances are:"
 msgstr ""
 
 #: src/dialogs/mean-tests.glade.h:1 src/dialogs/variance-tests.glade.h:1
-#, fuzzy
 msgid "Test"
-msgstr "Test z"
+msgstr "Test"
 
 #: src/dialogs/mean-tests.glade.h:1
 msgid "Testing the Difference of 2 Means"
 msgstr "Testowanie ró¿nicy 2 ¶rednich"
 
 #: src/dialogs/mean-tests.glade.h:1
-#, fuzzy
 msgid "Unkno_wn"
-msgstr "Nieznana nazwa"
+msgstr ""
 
 #: src/dialogs/mean-tests.glade.h:1
-#, fuzzy
 msgid "Unknown Pop. Var. are:"
-msgstr "Nieznany operator"
+msgstr ""
 
 #: src/dialogs/mean-tests.glade.h:1
 msgid "Unpai_red"
 msgstr ""
 
 #: src/dialogs/mean-tests.glade.h:1
-#, fuzzy
 msgid "Variable 1 Pop. Variance:"
-msgstr "Wariancja 1. zmiennej (znana):"
+msgstr ""
 
 #: src/dialogs/mean-tests.glade.h:1 src/dialogs/variance-tests.glade.h:1
 msgid "Variable 1 Range:"
 msgstr "Zakres 1. zmiennej:"
 
 #: src/dialogs/mean-tests.glade.h:1
-#, fuzzy
 msgid "Variable 2 Pop. Variance:"
-msgstr "Wariancja 2. zmiennej (znana):"
+msgstr ""
 
 #: src/dialogs/mean-tests.glade.h:1 src/dialogs/variance-tests.glade.h:1
 msgid "Variable 2 Range:"
 msgstr "Zakres 2. zmiennej:"
 
 #: src/dialogs/mean-tests.glade.h:1
-#, fuzzy
 msgid "Variables are:"
-msgstr "Zakres 2. zmiennej:"
+msgstr "Zmiennymi s±:"
 
 #: src/dialogs/mean-tests.glade.h:1 src/dialogs/variance-tests.glade.h:1
 msgid "_Alpha ="
 msgstr "_Alfa ="
 
 #: src/dialogs/mean-tests.glade.h:1
-#, fuzzy
 msgid "_Known"
-msgstr "_Dó³"
+msgstr ""
 
 #: src/dialogs/mean-tests.glade.h:1
-#, fuzzy
 msgid "_Paired"
-msgstr "Wk_lej"
+msgstr ""
 
 #: src/dialogs/mean-tests.glade.h:1
-#, fuzzy
 msgid "_Unequal"
-msgstr "_Ogólne"
+msgstr ""
 
 #: src/dialogs/moving-averages.glade.h:1
 msgid "3"
@@ -6730,13 +6713,12 @@ msgid "Title"
 msgstr "Tytu³"
 
 #: src/dialogs/variance-tests.glade.h:1
-#, fuzzy
 msgid "Testing Equality of 2 Variances (F-Test)"
-msgstr "Test t: jednakowe wariancje"
+msgstr "Testowanie równo¶ci 2 wariancji (F-Test)"
 
 #: src/dialogs/workbook-attr.glade.h:1
 msgid "Notebook _Tabs for Sheets"
-msgstr ""
+msgstr "_Zak³adki notatnika odpowiadaj±ce arkuszom"
 
 #: src/dialogs/workbook-attr.glade.h:1
 msgid "View"
@@ -6744,7 +6726,7 @@ msgstr "Widok"
 
 #: src/dialogs/workbook-attr.glade.h:1
 msgid "_Auto Complete Text in Cells"
-msgstr ""
+msgstr "_Automatyczne uzupe³nianie tekstu w komórkach"
 
 #: src/dialogs/workbook-attr.glade.h:1
 msgid "_Horizontal Scrollbar"
@@ -6763,14 +6745,13 @@ msgid "already defined in workbook"
 msgstr "ju¿ zdefiniowane w zeszycie"
 
 #: src/expr-name.c:1
-#, fuzzy
 msgid "already globally defined "
-msgstr "ju¿ zdefiniowane w arkuszu"
+msgstr "ju¿ zdefiniowane globalnie"
 
 #: src/expr-name.c:1
-#, fuzzy, c-format
+#, c-format
 msgid "'%s' has a circular reference"
-msgstr "zapêtlone odwo³anie"
+msgstr "\"%s\" zawiera zapêtlone odwo³anie"
 
 #: src/expr-name.c:1
 msgid "Builtin"
@@ -9981,7 +9962,6 @@ msgstr ""
 "@SEEALSO=IMSUB"
 
 #: src/functions/fn-eng.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=CONVERT\n"
 "@SYNTAX=CONVERT(number,from_unit,to_unit)\n"
@@ -10182,7 +10162,8 @@ msgstr ""
 "\"a\"  atto   1E-18\n"
 "\n"
 "Je¿eli parametry @z_jednostki i @na_jednostkê s± ró¿nych typów, funkcja "
-"CONVERT zwróci b³±d #LICZBA!. Funkcja ta jest zgodna z programem Excel. \n"
+"CONVERT zwróci b³±d #LICZBA!.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "CONVERT(3;\"lbm\";\"g\") jest równe 1360,7769.\n"
 "CONVERT(5,8;\"m\";\"in\") jest równe 228,3465.\n"
@@ -10191,7 +10172,6 @@ msgstr ""
 "@SEEALSO="
 
 #: src/functions/fn-eng.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=ERF\n"
 "@SYNTAX=ERF([lower limit,]upper_limit)\n"
@@ -10222,11 +10202,13 @@ msgstr ""
 "zostanie zwrócony b³±d #WARTO¦Æ!. Funkcja ta jest zgodna z progrem Excel w "
 "zakresie liczb dodatnich. (Je¶li zostan± podane dwa argumeny, Excel nie "
 "pozwoli ¿adnemu z nich byæ ujemnym.) \n"
+"Funkcja ta jest zgodna w przód z programem Excel (Przy podaniu dwóch "
+"argumentów Excel nie pozwala, aby którykolwiek by³ ujemny).\n"
 "@EXAMPLES=\n"
 "ERF(0,4) równe jest 0,428392355.\n"
 "ERF(1,6448536269515/SQRT(2)) równe jest 0,90.\n"
 "\n"
-"rugi przyk³ad pokazuje, ¿e losowa warto¶æ z rozk³adu normalnego ma 90 "
+"Drugi przyk³ad pokazuje, ¿e losowa warto¶æ z rozk³adu normalnego ma 90 "
 "procent szans na trafienie wewn±trz przedzia³u przybli¿onej warto¶ci 1.645 "
 "odchylenia standardowego ¶redniej.\n"
 "@SEEALSO=ERFC"
@@ -11408,7 +11390,6 @@ msgstr ""
 "@SEEALSO="
 
 #: src/functions/fn-financial.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=MDURATION\n"
 "@SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency[,basis])\n"
@@ -11502,7 +11483,6 @@ msgstr ""
 "@SEEALSO=TEXT"
 
 #: src/functions/fn-information.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=COUNTBLANK\n"
 "@SYNTAX=COUNTBLANK(range)\n"
@@ -11516,8 +11496,10 @@ msgstr ""
 "@FUNCTION=COUNTBLANK\n"
 "@SYNTAX=COUNTBLANK(zakres)\n"
 "@DESCRIPTION=Funkcja COUNTBLANK zwraca liczbê pustych komórek w zakresie "
-"@zakres. Funkcja ta jest zgodna z programem Excel. \n"
+"@zakres.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
+"COUNTBLANK(A1:A20) zwraca liczbê pustych komórek w zakresie A1:A20.\n"
 "\n"
 "@SEEALSO=COUNT"
 
@@ -11911,7 +11893,6 @@ msgid "Information"
 msgstr "Informacja"
 
 #: src/functions/fn-logical.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=AND\n"
 "@SYNTAX=AND(b1, b2, ...)\n"
@@ -11985,7 +11966,6 @@ msgid "Type Mismatch"
 msgstr "Niezgodno¶æ typów"
 
 #: src/functions/fn-logical.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=OR\n"
 "@SYNTAX=OR(b1, b2, ...)\n"
@@ -12024,7 +12004,6 @@ msgstr ""
 "@SEEALSO=AND, NOT"
 
 #: src/functions/fn-logical.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=IF\n"
 "@SYNTAX=IF(condition[,if-true,if-false])\n"
@@ -12046,14 +12025,14 @@ msgstr ""
 "funkcja zwróci warto¶æ wyra¿enia @je¶li-prawda, w przeciwnym przypadku "
 "zwróci warto¶æ wyra¿enia @je¶li-fa³sz. Je¶li funkcji zostanie przekazany "
 "tylko jeden argument, @je¶li-prawda przyjmuje warto¶æ PRAWDA, za¶ "
-"@je¶li-fa³sz przyjmuje warto¶æ FA£SZ. Funkcja ta jest zgodna z programem "
+"@je¶li-fa³sz przyjmuje warto¶æ FA£SZ.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "Excel.@EXAMPLES=\n"
 "IF(FA£SZ;PRAWDA;FA£SZ) jest równe FA£SZ.\n"
 "\n"
 "@SEEALSO="
 
 #: src/functions/fn-logical.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=TRUE\n"
 "@SYNTAX=TRUE()\n"
@@ -12066,15 +12045,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=TRUE\n"
 "@SYNTAX=TRUE()\n"
-"@DESCRIPTION=Funkcja TRUE zwraca warto¶æ logiczn± PRAWDA. Funkcja jest "
-"zgodna z programem Excel.\n"
+"@DESCRIPTION=Funkcja TRUE zwraca warto¶æ logiczn± PRAWDA.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "TRUE() jest równe PRAWDA.\n"
 "\n"
 "@SEEALSO=FALSE"
 
 #: src/functions/fn-logical.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=FALSE\n"
 "@SYNTAX=FALSE()\n"
@@ -12087,8 +12065,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=FALSE\n"
 "@SYNTAX=FALSE()\n"
-"@DESCRIPTION=Funkcja FALSE zwraca warto¶æ logiczn± FA£SZ. Funkcja jest "
-"zgodna z programem Excel.\n"
+"@DESCRIPTION=Funkcja FALSE zwraca warto¶æ logiczn± FA£SZ.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "FALSE() jest równe FA£SZ.\n"
 "\n"
@@ -12099,7 +12077,6 @@ msgid "Logical"
 msgstr "Logiczne"
 
 #: src/functions/fn-lookup.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=ADDRESS\n"
 "@SYNTAX=ADDRESS(row_num,col_num[,abs_num,a1,text])\n"
@@ -12141,11 +12118,13 @@ msgstr ""
 "Je¶li parametr @num_wiersz lub @num_kolumna jest mniejszy ni¿ 1, ADDRESS "
 "zwraca b³±d #LICZBA!. \n"
 "@EXAMPLES=\n"
+"ADDRESS(5;4) jest równe \"$D$5\".\n"
+"ADDRESS(5;4;4) jest równe \"D5\".\n"
+"ADDRESS(5;4;3;FALSE) jest równe \"R[5]C4\".\n"
 "\n"
 "@SEEALSO="
 
 #: src/functions/fn-lookup.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=CHOOSE\n"
 "@SYNTAX=CHOOSE(index[,value1][,value2]...)\n"
@@ -12164,6 +12143,8 @@ msgstr ""
 "liczby ca³kowitej. Je¶li @indeks < 1 lub @indeks > liczby warto¶ci, funkcja "
 "zwraca b³±d #WARTO¦Æ!.\n"
 "@EXAMPLES=\n"
+"CHOOSE(3;\"Jab³ko\";\"Gruszka\",\"Mandarynka\",\"¦liwka\") jest równe "
+"\"Mandarynka\".\n"
 "\n"
 "@SEEALSO=IF"
 
@@ -12234,7 +12215,6 @@ msgstr ""
 "@SEEALSO=VLOOKUP"
 
 #: src/functions/fn-lookup.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=LOOKUP\n"
 "@SYNTAX=LOOKUP(value,vector1,vector2)\n"
@@ -12265,7 +12245,6 @@ msgstr ""
 "@SEEALSO=VLOOKUP,HLOOKUP"
 
 #: src/functions/fn-lookup.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=MATCH\n"
 "@SYNTAX=MATCH(seek,vector[,type])\n"
@@ -12290,20 +12269,20 @@ msgstr ""
 "@DESCRIPTION=Funkcja MATCH wyszukuje indeks wiersza dla \"warto¶æ\" w "
 "parametrze @wektor1 i zwraca j±. Je¿eli d³ugo¶æ obszaru jest wiêksza od jego "
 "szeroko¶ci, wówczas rozumowanie jest odwrócone. Opcjonalnie mo¿e zostaæ "
-"zastosowana pojedyncza tablica. Je¿eli typ = 1,  funkcja wyszukuje "
-"najwiêksz± warto¶æ <= @wyszukiwanie, je¿eli typ = 0, podaje pierwsz± warto¶æ "
-"== @wyszukiwanie, je¿eli typ = -1, wyszukuje najmniejsz± warto¶æ >= "
-"wyszukiwanie,\n"
-"Je¿eli funkcja LOOKUP nie jest w stanie odnale¼æ @warto¶æ, u¿ywa nastêpnej "
-"wiêkszej warto¶ci mniejszej od @warto¶æ. Dane musz± byæ posortowane. \n"
-"Je¿eli @warto¶æ jest mniejsza od pierwszej warto¶ci, funkcja zwraca b³±d "
-"#N/A\n"
+"zastosowana pojedyncza tablica. Je¿eli typ = 1 (co jest warto¶ci± domy¶ln±), "
+"funkcja wyszukuje najwiêksz± warto¶æ <= @wyszukiwanie, je¿eli typ = 0, "
+"podaje pierwsz± warto¶æ == @wyszukiwanie, je¿eli typ = -1, wyszukuje "
+"najmniejsz± warto¶æ >= @wyszukiwanie,\n"
+"\n"
+"W przypadku typu 0 dane mog± byæ bez okre¶lonego porz±dku. Przy typach -1 i "
+"1 musz± one byæ uporz±dkowane (w tym przypadku MATCH odnajduje indeks "
+"u¿ywaj±c wyszukiwania binarnego).\n"
+"Je¿eli nie mo¿na odnale¼æ @wyszukiwania, funkcja zwraca b³±d #N/A\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=LOOKUP"
 
 #: src/functions/fn-lookup.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=INDIRECT\n"
 "@SYNTAX=INDIRECT(ref_text,[format])\n"
@@ -12324,14 +12303,15 @@ msgstr ""
 "³añcuch @wsk_tekst. £añcuch okre¶la wska¼nik do pojedynczej komórki, której "
 "format mo¿e zostaæ przedstawiony wg dwóch stylów: A1 lub R1C1. Styl jest "
 "ustawiany w formacie boolean.\n"
-"Je¿eli @wsk_tekst nie jest prawid³owym wska¼nikiem,funkcja zwraca b³±d #ODW! "
-"\n"
+"Je¿eli @wsk_tekst nie jest prawid³owym wska¼nikiem,funkcja zwraca b³±d "
+"#ODW!\n"
 "@EXAMPLES=\n"
+"Je¶li A1 zawiera 3,14 a A2 zawiera A1, wówczas\n"
+"INDIRECT(A2) jest równe 3,14.\n"
 "\n"
 "@SEEALSO="
 
 #: src/functions/fn-lookup.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=INDEX\n"
 "@SYNTAX=INDEX(reference,[row, col, area])\n"
@@ -12343,9 +12323,9 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 "@FUNCTION=INDEX\n"
-"@SYNTAX=INDEX(wska¼nik;[wiersz;kolumna;obszar])\n"
-"@DESCRIPTION=Funkcja INDEX zwraca wska¼nik do komórki przy offsecie do "
-"wska¼nika okre¶lonego jako wiersz, kolumna.\n"
+"@SYNTAX=INDEX(odwo³anie;[wiersz;kolumna;obszar])\n"
+"@DESCRIPTION=Funkcja INDEX zwraca odwo³anie do komórki przy przesuniêciu do "
+"odwo³ania okre¶lonego jako wiersz, kolumna.\n"
 "W przypadku niepowodzenia funkcja zwraca b³±d #ODW! \n"
 "@EXAMPLES=\n"
 "\n"
@@ -14880,7 +14860,6 @@ msgstr ""
 "@SEEALSO=AVERAGE,COUNT,DCOUNT,DCOUNTA,PRODUCT,SUM"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=AVERAGE\n"
 "@SYNTAX=AVERAGE(value1, value2,...)\n"
@@ -14899,17 +14878,16 @@ msgstr ""
 "@SYNTAX=AVERAGE(warto¶æ1;warto¶æ2;...)\n"
 "@DESCRIPTION=Funkcja AVERAGE oblicza ¶redni± arytmetyczn± ze wszystkich "
 "warto¶ci lub komórek podanych na wej¶cie.  To jest równoznaczne z sum± "
-"wszystkich argumentów podzielon± przez ich liczbê. Funkcja ta jest zgodna z "
-"programem Excel. \n"
+"wszystkich argumentów podzielon± przez ich liczbê.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "Je¶li komórki A1, A2, ..., A5 zawieraj± liczby 11,4, 17,3, 21,3, 25,9, oraz "
-"40,1, wówczas funkcja\n"
-"AVERAGE(A1:A5) równa jest 23,2.\n"
+"40,1, wówczas wyra¿enie\n"
+"AVERAGE(A1:A5) jest równe 23,2.\n"
 "\n"
 "@SEEALSO=SUM, COUNT"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=MIN\n"
 "@SYNTAX=MIN(b1, b2, ...)\n"
@@ -14927,8 +14905,8 @@ msgstr ""
 "@FUNCTION=MIN\n"
 "@SYNTAX=MIN(b1;b2;...)\n"
 "@DESCRIPTION=Funkcja MIN zwraca najmniejsz± warto¶æ spo¶ród przekazanych "
-"jako argumenty. Liczby ujemne s± mniejsze od dodatnich. Funkcja ta jest "
-"zgodna z programem Excel. \n"
+"jako argumenty. Liczby ujemne s± mniejsze od dodatnich.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "Je¶li komórki A1, A2, ..., A5 zawieraj± liczby 11,4, 17,3, 21,3, 25,9, oraz "
 "40,1, wówczas\n"
@@ -14937,7 +14915,6 @@ msgstr ""
 "@SEEALSO=MAX,ABS"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=MAX\n"
 "@SYNTAX=MAX(b1, b2, ...)\n"
@@ -14955,8 +14932,8 @@ msgstr ""
 "@FUNCTION=MAX\n"
 "@SYNTAX=MAX(b1;b2;...)\n"
 "@DESCRIPTION=Funkcja MAX zwraca nawiêksz± warto¶æ spo¶ród przekazanych jako "
-"argumenty. Liczby ujemne s± mniejsze od dodatnich. Funkcja ta jest zgodna z "
-"programem Excel. \n"
+"argumenty. Liczby ujemne s± mniejsze od dodatnich.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "Je¶li komórki A1, A2, ..., A5 zawieraj± liczby 11,4, 17,3, 21,3, 25,9, oraz "
 "40,1, wówczas\n"
@@ -14965,7 +14942,6 @@ msgstr ""
 "@SEEALSO=MIN,ABS"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=SKEW\n"
 "@SYNTAX=SKEW(n1, n2, ...)\n"
@@ -14984,23 +14960,6 @@ msgid ""
 "\n"
 "@SEEALSO=AVERAGE,VAR,SKEWP,KURT"
 msgstr ""
-"@FUNCTION=KURT\n"
-"@SYNTAX=KURT(n1;n2;...)\n"
-"@DESCRIPTION=Funkcja KURT zwraca estymator nieobci±¿ony kurtozy z podanego "
-"zestawu danych.\n"
-"Warto zauwa¿yæ, ¿e funkcja ma znaczenie tylko wówczas, gdy rozk³ad ma "
-"czwarty moment.  Kurtoza jest przesuniêciem \"o trzy\", st±d rozk³ad "
-"normalny ma kurtozê zerow±.\n"
-"£añcuchy tekstowe i puste komórki s± pomijane.\n"
-"Je¿eli dane s± mniej ni¿ cztery liczby, lub wszystkie podane liczby s± "
-"równe, funkcja zwraca b³±d #DZIEL/0!. Funkcja ta jest zgodna z programem "
-"Excel. \n"
-"@EXAMPLES=\n"
-"Za³ó¿my, ¿e komórki A1, A2, ..., A5 zawieraj± liczby 11,4, 17,3, 21,3, 25,9 "
-"i 40,1.  Wówczas\n"
-"KURT(A1:A5) jest równe 1,234546305.\n"
-"\n"
-"@SEEALSO=AVERAGE,VAR,SKEW,KURTP"
 
 #: src/functions/fn-stat.c:1
 msgid ""
@@ -15031,7 +14990,6 @@ msgstr ""
 "@SEEALSO=AVERAGE,VARP,SKEW,KURTP"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=EXPONDIST\n"
 "@SYNTAX=EXPONDIST(x,y,cumulative)\n"
@@ -15050,15 +15008,14 @@ msgstr ""
 "@DESCRIPTION=Funkcja EXPONDIST zwraca warto¶æ rozk³adu wyk³adniczego. Je¶li "
 "parametr logiczny @³±czno¶æ jest fa³szywy, funkcja liczona jest jako: @y * "
 "exp (-@y*@x), w innym przypadku jako: 1 - exp (-@y*@x).\n"
-"Je¶li @x < 0 lub @y <= 0 zostanie zwrócony b³±d. Funkcja ta jest zgodna z "
-"programem Excel.\n"
+"Je¶li @x < 0 lub @y <= 0 zostanie zwrócony b³±d.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "EXPONDIST(2;4;0) równe jest 0,001341851.\n"
 "\n"
 "@SEEALSO=POISSON"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=GAMMALN\n"
 "@SYNTAX=GAMMALN(x)\n"
@@ -15077,15 +15034,14 @@ msgstr ""
 "@DESCRIPTION=Funkcja GAMMALN zwraca warto¶æ logarytmu naturalnego z funkcji "
 "gamma dla zadanego argumentu.\n"
 "Je¶li @x nie jest liczb±, wówczas funkcja zwraca b³±d #WARTO¦Æ!. W przypadku "
-"gdy @x <= 0, funkcja GAMMALN zwraca b³±d #LICZBA!. Funkcja ta jest zgodna z "
-"programem Excel. \n"
+"gdy @x <= 0, funkcja GAMMALN zwraca b³±d #LICZBA!.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "GAMMALN(23) wynosi 48,471181352.\n"
 "\n"
 "@SEEALSO=POISSON"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=GAMMADIST\n"
 "@SYNTAX=GAMMADIST(x,alpha,beta,cum)\n"
@@ -15100,21 +15056,8 @@ msgid ""
 "\n"
 "@SEEALSO=GAMMAINV"
 msgstr ""
-"@FUNCTION=GAMMADIST\n"
-"@SYNTAX=GAMMADIST(x;alfa;beta;³±czno¶æ)\n"
-"@DESCRIPTION=Funkcja GAMMADIST zwraca warto¶æ rozk³adu gamma. Je¶li parametr "
-"@³±czno¶æ jest równy TRUE, funkcja GAMMADIST zwraca niekompletn± warto¶æ "
-"funkcji gamma, w innym przypadku okre¶la prawdopodobieñstwo funkcji masy.\n"
-"Je¶li @x < 0 GAMMADIST zwraca b³±d #LICZBA!. Je¶li @alfa <= 0 lub @beta <= "
-"0, GAMMADIST zwraca b³±d #LICZBA!. Funkcja ta jest zgodna z programem Excel. "
-"\n"
-"@EXAMPLES=\n"
-"GAMMADIST(1;2;3;0) jest równe 0,07961459.\n"
-"\n"
-"@SEEALSO=GAMMAINV"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=GAMMAINV\n"
 "@SYNTAX=GAMMAINV(p,alpha,beta)\n"
@@ -15133,15 +15076,14 @@ msgstr ""
 "@DESCRIPTION=Funkcja GAMMAINV zwraca warto¶æ odwrotno¶ci ³±cznego rozk³adu "
 "gamma.\n"
 "Je¶li @p < 0  lub @p > 1 funkcja GAMMAINV zwraca b³±d #LICZBA!. Je¶li @alfa "
-"<= 0 lub @beta <= 0 funkcja GAMMAINV zwraca b³±d #LICZBA!. Funkcja ta jest "
-"zgodna z programem Excel.\n"
+"<= 0 lub @beta <= 0 funkcja GAMMAINV zwraca b³±d #LICZBA!.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "GAMMAINV(0,34;2;4) jest równe 4,829093908.\n"
 "\n"
 "@SEEALSO=GAMMADIST"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=CHIDIST\n"
 "@SYNTAX=CHIDIST(x,dof)\n"
@@ -15161,15 +15103,14 @@ msgstr ""
 "prawdopodobieñstwo rozk³adu chi-kwadrat. Parametr @swob okre¶la liczbê "
 "stopni swobody.\n"
 "Je¿eli warto¶æ @swob nie jest liczb± ca³kowit±, jest pomijana. Je¿eli @swob "
-"< 1, funkcja CHIDIST zwraca b³±d #LICZBA!. Funkcja ta jest zgodna z "
-"programem Excel.\n"
+"< 1, funkcja CHIDIST zwraca b³±d #LICZBA!.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
-"CHIDIST(5.3,2) jest równe 0.070651213.\n"
+"CHIDIST(5,3;2) jest równe 0,070651213.\n"
 "\n"
 "@SEEALSO=CHIINV,CHITEST"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=CHIINV\n"
 "@SYNTAX=CHIINV(p,dof)\n"
@@ -15186,15 +15127,14 @@ msgstr ""
 "@SYNTAX=CHIINV(p;swob)\n"
 "@DESCRIPTION=Funkcja CHIINV zwraca warto¶æ odwrotno¶ci jednostronnego (z "
 "prawej strony osi y) prawdopodobieñstwa rozk³adu chi-kwadrat.\n"
-"Je¿eli @p < 0 lub @p > 1 lub @dof < 1, funkcja CHIINV zwraca b³±d #LICZBA!. "
+"Je¿eli @p < 0 lub @p > 1 lub @dof < 1, funkcja CHIINV zwraca b³±d #LICZBA!.\n"
 "Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
-"CHIINV(0.98,7) jest równe 1.564293004.\n"
+"CHIINV(0,98;7) jest równe 1,564293004.\n"
 "\n"
 "@SEEALSO=CHIDIST,CHITEST"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=CHITEST\n"
 "@SYNTAX=CHITEST(actual_range,theoretical_range)\n"
@@ -15214,13 +15154,13 @@ msgstr ""
 "rozk³adu chi-kwadrat.\n"
 "Zmienna @aktualny_zakres jest przedzia³em zawieraj±cym badane punkty danych. "
 "Zmienna @teoretyczny_zakres jest przedzia³em zawieraj±cym oczekiwane "
-"warto¶ci punktów danych. Funkcja ta jest zgodna z programem Excel.\n"
+"warto¶ci punktów danych.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=CHIDIST,CHIINV"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=BETADIST\n"
 "@SYNTAX=BETADIST(x,alpha,beta[,a,b])\n"
@@ -15246,15 +15186,14 @@ msgstr ""
 "warto¶æ górnego ograniczenia.\n"
 "Je¶li @x < @a lub @x > @b funkcja BETADIST zwraca b³±d #LICZBA!. Je¶li @alfa "
 "<= 0 lub @beta <= 0, funkcja BETADIST zwraca b³±d #LICZBA!. Je¶li @a >= @b, "
-"funkcja BETADIST zwraca b³±d #LICZBA!. Funkcja ta jest zgodna z programem "
-"Excel.\n"
+"funkcja BETADIST zwraca b³±d #LICZBA!.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
-"BETADIST(0.12,2,3) jest równe 0.07319808.\n"
+"BETADIST(0,12;2;3) jest równe 0,07319808.\n"
 "\n"
 "@SEEALSO=BETAINV"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=BETAINV\n"
 "@SYNTAX=BETAINV(p,alpha,beta[,a,b])\n"
@@ -15280,15 +15219,14 @@ msgstr ""
 "górnego ograniczenia.\n"
 "Je¶li @p < 0 lub @p > 1 funkcja BETAINV zwraca b³±d #LICZBA!. Je¶li @alfa <= "
 "0 lub @beta <= 0, funkcja BETAINV zwraca b³±d #LICZBA!. Je¶li @a >= @b, "
-"funkcja BETAINV zwraca b³±d #LICZBA!. Funkcja ta jest zgodna z programem "
-"Excel. \n"
+"funkcja BETAINV zwraca b³±d #LICZBA!.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
-"BETAINV(0.45,1.6,1) jest równe 0.607096629.\n"
+"BETAINV(0,45;1,6;1) jest równe 0,607096629.\n"
 "\n"
 "@SEEALSO=BETADIST"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=TDIST\n"
 "@SYNTAX=TDIST(x,dof,tails)\n"
@@ -15310,15 +15248,14 @@ msgstr ""
 "w zale¿no¶ci czy zwrócona ma byæ warto¶æ rozk³adu jednostronnego czy "
 "dwustronnego (po obu stronach osi Y).\n"
 "Je¶li @swob < 1, funkcja TDIST zwraca b³±d #LICZBA!. Je¶li parametr @strony "
-"jest ró¿ny od 1 lub 2 funkcja TDIST zwraca b³±d #LICZBA!. Funkcja ta jest "
-"zgodna z programem Excel.\n"
+"jest ró¿ny od 1 lub 2 funkcja TDIST zwraca b³±d #LICZBA!.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
-"TDIST(2,5,1) jest równe 0.050969739.\n"
+"TDIST(2;5;1) jest równe 0,050969739.\n"
 "\n"
 "@SEEALSO=TINV,TTEST"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=TINV\n"
 "@SYNTAX=TINV(p,dof)\n"
@@ -15335,15 +15272,14 @@ msgstr ""
 "@SYNTAX=TINV(p;dof)\n"
 "@DESCRIPTION=Funkcja TINV zwraca odwrotno¶æ dwóch reszt rozk³adu "
 "t-Studenta.\n"
-"Je¿eli @p < 0 lub @p > 1 albo @dof < 1, funkcja TINV zwraca b³±d #LICZBA!. "
-"Funkcja ta jest zgodna z programem Excel. \n"
+"Je¿eli @p < 0 lub @p > 1 albo @dof < 1, funkcja TINV zwraca b³±d #LICZBA!.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "TINV(0,4;32) jest równe 0,852998454.\n"
 "\n"
 "@SEEALSO=TDIST,TTEST"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=FDIST\n"
 "@SYNTAX=FDIST(x,dof1,dof2)\n"
@@ -15372,7 +15308,6 @@ msgstr ""
 "@SEEALSO=FINV"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=FINV\n"
 "@SYNTAX=FINV(p,dof1,dof2)\n"
@@ -15390,15 +15325,14 @@ msgstr ""
 "@SYNTAX=TINV(p;dof1;dof2)\n"
 "@DESCRIPTION=Funkcja FINV zwraca odwrotno¶æ rozk³adu prawdopodobieñstwa F.\n"
 "Je¿eli @p < 0 lub @p > 1, funkcja FINV zwraca b³±d #LICZBA!. Je¿eli @dof1 < "
-"1 lub @dof2 < 1, równie¿ zwraca b³±d #LICZBA!. Funkcja ta jest zgodna z "
-"programem Excel. \n"
+"1 lub @dof2 < 1, równie¿ zwraca b³±d #LICZBA!.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "FINV(0,2;2;4) jest równe 2,472135955.\n"
 "\n"
 "@SEEALSO=FDIST"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=BINOMDIST\n"
 "@SYNTAX=BINOMDIST(n,trials,p,cumulative)\n"
@@ -15424,15 +15358,14 @@ msgstr ""
 "Je¿eli @n lub @próby nie s± warto¶ciami ca³kowitymi, zostan± obciête. Je¿eli "
 "@n < 0 lub @próby < 0funkcja BINOMDIST zwróci b³±d #LICZBA!. Je¿eli @n > "
 "@próby, funkcja BINOMDIST zwróci b³±d #LICZBA! Je¿eli @p < 0 lub @p > 1 "
-"funkcja BINOMDIST równie¿ zwróci b³±d #LICZBA!. Funkcja ta jest zgodna z "
-"programem Excel. \n"
+"funkcja BINOMDIST równie¿ zwróci b³±d #LICZBA!.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "BINOMDIST(3;5;0,8;0) jest równe 0,2048.\n"
 "\n"
 "@SEEALSO=POISSON"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=CRITBINOM\n"
 "@SYNTAX=CRITBINOM(trials,p,alpha)\n"
@@ -15458,15 +15391,14 @@ msgstr ""
 "Je¿eli parametr @próby nie jest typu ca³kowitego, zostanie obciêty. Je¿eli "
 "@próby < 0, funkcja CRITBINOM zwróci b³±d #LICZBA!. Je¿eli @p < 0 lub @p > "
 "1, funkcja CRITBINOM zwróci b³±d #LICZBA!. Je¿eli @alfa < 0 lub @alpha > 1, "
-"funkcja CRITBINOM zwróci b³±d #LICZBA!. Funkcja ta jest zgodna  z programem "
-"Excel. \n"
+"funkcja CRITBINOM zwróci b³±d #LICZBA!.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "CRITBINOM(10;0,5;0,75) jest równe 6.\n"
 "\n"
 "@SEEALSO=BINOMDIST"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=PERMUT\n"
 "@SYNTAX=PERMUT(n,k)\n"
@@ -15485,14 +15417,14 @@ msgstr ""
 "@DESCRIPTION=Funkcja PERMUT zwraca liczbê permutacji. Parametr @n oznacza "
 "liczbê obiektów, @k jest liczb± obiektów w ka¿dej permutacji. \n"
 "Je¿eli @n = 0, funkcja PERMUT zwraca b³±d #LICZBA!. Je¿eli @n < @k, funkcja "
-"zwraca b³±d #LICZBA!. Funkcja ta jest zgodna z programem Excel. \n"
+"zwraca b³±d #LICZBA!.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "PERMUT(7;3) jest równe 210.\n"
 "\n"
 "@SEEALSO=COMBIN"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=HYPGEOMDIST\n"
 "@SYNTAX=HYPGEOMDIST(x,n,M,N)\n"
@@ -15515,15 +15447,14 @@ msgstr ""
 "liczb± sukcesów, @N - rozmiar populacji.\n"
 "Je¿eli @x,@n,@M lub @N nie s± typu ca³kowitego, zostan± obciête. Je¿eli "
 "@x,@n,@M lub @N < 0 funkcja HYPGEOMDIST zwróci b³±d #LICZBA!. Je¿eli @x > @M "
-"lub @n > @N, funkcja HYPGEOMDIST zwróci b³±d #LICZBA!. Funkcja ta jest "
-"zgodna z programem Excel. \n"
+"lub @n > @N, funkcja HYPGEOMDIST zwróci b³±d #LICZBA!.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "HYPGEOMDIST(1;2;3;10) jest równe 0,4666667.\n"
 "\n"
 "@SEEALSO=BINOMDIST,POISSON"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=CONFIDENCE\n"
 "@SYNTAX=CONFIDENCE(x,stddev,size)\n"
@@ -15545,15 +15476,14 @@ msgstr ""
 "@rozmiar jest rozmiarem próby. \n"
 "Je¿eli @rozmiar nie jest typu ca³kowitego, zostanie obciêty. Je¿eli @rozmiar "
 "< 0, funkcja CONFIDENCE zwróci b³±d #LICZBA!. Je¿eli @rozmiar jest równy 0, "
-"funkcja CONFIDENCE zwróci b³±d #DZIEL/0!. Funkcja ta jest zgodna z programem "
-"Excel. \n"
+"funkcja CONFIDENCE zwróci b³±d #DZIEL/0!.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "CONFIDENCE(0,05;1;33) jest równe 0,341185936.\n"
 "\n"
 "@SEEALSO=AVERAGE"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=STANDARDIZE\n"
 "@SYNTAX=STANDARDIZE(x,mean,stdev)\n"
@@ -15572,15 +15502,14 @@ msgstr ""
 "@DESCRIPTION=Funkcja STANDARDIZE zwraca warto¶æ znormalizowan±. Parametr @x "
 "jest liczb± do normalizacji, @¶rednia jest ¶redni± warto¶ci± rozk³adu, "
 "@odch_std jest odchyleniem standardowym rozk³adu.\n"
-"Je¿eli @odch_std jest równe 0, funkcja STANDARDIZE zwróci b³±d #DZIEL/0!. "
-"Funkcja ta jest zgodna z programem Excel. \n"
+"Je¿eli @odch_std jest równe 0, funkcja STANDARDIZE zwróci b³±d #DZIEL/0!.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "STANDARDIZE(3;2;4) jest równe 0,25.\n"
 "\n"
 "@SEEALSO=AVERAGE"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=WEIBULL\n"
 "@SYNTAX=WEIBULL(x,alpha,beta,cumulative)\n"
@@ -15603,15 +15532,14 @@ msgstr ""
 "(-(@x/@beta)^@alpha), w przeciwnym przypadku: (@alpha/@beta^@alpha) * "
 "@x^(@alfa-1) * exp(-(@x/@beta^@alfa)). \n"
 "Je¿eli @x < 0, funkcja WEIBULL zwraca b³±d #LICZBA!. Je¿eli @alfa <= 0 lub "
-"@beta <= 0, funkcja zwraca b³±d #LICZBA!. Funkcja ta jest zgodna z programem "
-"Excel. \n"
+"@beta <= 0, funkcja zwraca b³±d #LICZBA!.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "WEIBULL(3;2;4;0) jest równe 0,213668559.\n"
 "\n"
 "@SEEALSO=POISSON"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=NORMDIST\n"
 "@SYNTAX=NORMDIST(x,mean,stdev,cumulative)\n"
@@ -15630,15 +15558,14 @@ msgstr ""
 "@DESCRIPTION=Funkcja NORMDIST zwraca warto¶æ funkcji rozk³adu normalnego. "
 "Parametr @x jest warto¶ci±, dla której rozk³ad jest liczony, @¶rednia jest "
 "¶redni± rozk³adu, @odch_std jest odchyleniem standardowym. \n"
-"Je¿eli @odch_std jest równe 0, funkcja zwraca b³±d #DZIEL/0!. Funkcja jest "
-"zgodna z programem Excel. \n"
+"Je¿eli @odch_std jest równe 0, funkcja zwraca b³±d #DZIEL/0!.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "NORMDIST(2;1;2;0) jest równe 0,176032663.\n"
 "\n"
 "@SEEALSO=POISSON"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=NORMINV\n"
 "@SYNTAX=NORMINV(p,mean,stdev)\n"
@@ -15660,14 +15587,14 @@ msgstr ""
 "normalnemu @¶rednia jest arytmetyczn± ¶redni± z rozk³adu, @odch_std jest "
 "odchyleniem standardowym rozk³adu.\n"
 "Je¿eli @p < 0 lub @p > 1 albo @odch_std <= 0, funkcja NORMINV zwraca b³±d "
-"#LICZBA!. Funkcja ta jest zgodna z programem Excel. \n"
+"#LICZBA!.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "NORMINV(0,76;2;3) jest równe 4,118907689.\n"
 "\n"
 "@SEEALSO=NORMDIST,NORMSDIST,NORMSINV,STANDARDIZE,ZTEST"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=KURT\n"
 "@SYNTAX=KURT(n1, n2, ...)\n"
@@ -15696,11 +15623,11 @@ msgstr ""
 "normalny ma kurtozê zerow±.\n"
 "£añcuchy tekstowe i puste komórki s± pomijane.\n"
 "Je¿eli dane s± mniej ni¿ cztery liczby, lub wszystkie podane liczby s± "
-"równe, funkcja zwraca b³±d #DZIEL/0!. Funkcja ta jest zgodna z programem "
-"Excel. \n"
+"równe, funkcja zwraca b³±d #DZIEL/0!.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "Za³ó¿my, ¿e komórki A1, A2, ..., A5 zawieraj± liczby 11,4, 17,3, 21,3, 25,9 "
-"i 40,1.  Wówczas\n"
+"i 40,1.  Wówczas wyra¿enie\n"
 "KURT(A1:A5) jest równe 1,234546305.\n"
 "\n"
 "@SEEALSO=AVERAGE,VAR,SKEW,KURTP"
@@ -15734,7 +15661,6 @@ msgstr ""
 "@SEEALSO=AVERAGE,VARP,SKEWP,KURT"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=AVEDEV\n"
 "@SYNTAX=AVEDEV(n1, n2, ...)\n"
@@ -15751,16 +15677,16 @@ msgstr ""
 "@FUNCTION=AVEDEV\n"
 "@SYNTAX=AVEDEV(n1;n2;...)\n"
 "@DESCRIPTION=Funkcja AVEDEV zwraca ¶redni± warto¶æ b³êdu bezwzglêdnego dla "
-"¶redniej z zestawu danych. Funkcja ta jest zgodna z programem Excel. \n"
+"¶redniej z zestawu danych.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "Za³ó¿my, ¿e komórki A1, A2, ..., A5 zawieraj± liczby 11,4, 17,3, 21,3, 25,9 "
-"i 40,1.  Wówczas\n"
+"i 40,1.  Wówczas wyra¿enie\n"
 "AVEDEV(A1:A5) jest równe 7,84.\n"
 "\n"
 "@SEEALSO=STDEV"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=DEVSQ\n"
 "@SYNTAX=DEVSQ(n1, n2, ...)\n"
@@ -15779,17 +15705,16 @@ msgstr ""
 "@SYNTAX=DEVSQ(n1;n2;...)\n"
 "@DESCRIPTION=Funkcja DEVSQ zwraca sumê kwadratów odchyleñ od ¶redniej dla "
 "zestawu danych z próby.\n"
-"£añcuchy tekstowe i puste komórki s± ignorowane. Funkcja ta jest zgodna z "
-"programem Excel. \n"
+"£añcuchy tekstowe i puste komórki s± ignorowane.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "Za³ó¿my, ¿e komórki A1, A2, ..., A5 zawieraj± liczby 11,4, 17,3, 21,3, 25,9 "
-"i 40,1.  Wówczas\n"
+"i 40,1.  Wówczas wyra¿enie\n"
 "DEVSQ(A1:A5) jest równe 470,56.\n"
 "\n"
 "@SEEALSO=STDEV"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=FISHER\n"
 "@SYNTAX=FISHER(x)\n"
@@ -15806,15 +15731,14 @@ msgstr ""
 "@SYNTAX=FISHER(x)\n"
 "@DESCRIPTION=Funkcja FISHER zwraca transformacjê Fisher'a dla @x.\n"
 "Je¿eli parametr @x nie jest liczb±, funkcja FISHER zwraca b³±d #WARTO¦Æ!. "
-"Je¿eli @x <= -1 lub @x >= 1, funkcja FISHER zwraca b³±d #LICZBA! Funkcja "
-"jest zgodna z programem Excel. \n"
+"Je¿eli @x <= -1 lub @x >= 1, funkcja FISHER zwraca b³±d #LICZBA!\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "FISHER(0,332) jest równe 0,345074339.\n"
 "\n"
 "@SEEALSO=SKEW"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=POISSON\n"
 "@SYNTAX=POISSON(x,mean,cumulative)\n"
@@ -15836,14 +15760,14 @@ msgstr ""
 "zwracaæ sumê warto¶ci funkcji Poissona od 0 do @x.\n"
 "Je¿eli @x nie jest typu ca³kowitego, jest obcinany. Je¿eli @x <= 0, funkcja "
 "POISSON zwraca b³±d #LICZBA! Je¿eli @¶rednia <= 0, funkcja POISSON zwraca "
-"b³±d #LICZBA!.Funkcja ta jest zgodna z programem Excel. \n"
+"b³±d #LICZBA!.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "POISSON(3;6;0) jest równe 0,089235078.\n"
 "\n"
 "@SEEALSO=NORMDIST, WEIBULL"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=PEARSON\n"
 "@SYNTAX=PEARSON(array1,array2)\n"
@@ -15859,14 +15783,13 @@ msgstr ""
 "@SYNTAX=PEARSON(tablica1;tablica2)\n"
 "@DESCRIPTION=Funkcja PEARSON zwraca wspó³czynnik korelacji Pearsona dla "
 "dwóch zestawów danych.\n"
-"£añcuchy tekstowe i puste komórki s± ignorowane. Funkcja ta jest zgodna z "
-"programem Excel. \n"
+"£añcuchy tekstowe i puste komórki s± ignorowane.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=INTERCEPT,LINEST,RSQ,SLOPE,STEYX"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=RSQ\n"
 "@SYNTAX=RSQ(array1,array2)\n"
@@ -15882,14 +15805,13 @@ msgstr ""
 "@SYNTAX=RSQ(tablica1;tablica2)\n"
 "@DESCRIPTION=Funkcja RSQ zwraca kwadrat wspó³czynnika korelacji Pearsona dla "
 "dwóch zestawów danych.\n"
-"£añcuchy tekstowe i puste komórki s± ignorowane. Funkcja ta jest zgodna z "
-"programem Excel. \n"
+"£añcuchy tekstowe i puste komórki s± ignorowane.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=CORREL,COVAR,INTERPCEPT,LINEST,LOGEST,PEARSON,SLOPE,STE YX,TREND"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=MEDIAN\n"
 "@SYNTAX=MEDIAN(n1, n2, ...)\n"
@@ -15909,16 +15831,16 @@ msgstr ""
 "@DESCRIPTION=Funkcja MEDIAN zwraca medianê z podanego zestawu danych.\n"
 "£añcuchy tekstowe i puste komórki s± ignorowane. Nawet je¿eli liczby s± "
 "podane, funkcja MEDIAN zwraca jedynie ¶redni± z liczb znajduj±cych siê w "
-"¶rodku. Funkcja ta jest zgodna z programem Excel. \n"
+"¶rodku.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "Za³ó¿my, ¿e komórki A1, A2, ..., A5 zawieraj± liczby 11,4, 17,3, 21,3, 25,9 "
-"i 40,1. Wówczas\n"
+"i 40,1. Wówczas wyra¿enie\n"
 "MEDIAN(A1:A5) jest równe 21,3.\n"
 "\n"
 "@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SUM"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=LARGE\n"
 "@SYNTAX=LARGE(n1, n2, ..., k)\n"
@@ -15939,17 +15861,17 @@ msgstr ""
 "@DESCRIPTION=Funkcja LARGE zwraca k-t± najwiêksz± warto¶æ z zestawu danych.\n"
 "Je¿eli zestaw danych jest pusty, funkcja LARGE zwraca b³±d #LICZBA!. Je¿eli "
 "@k <= 0 lub @k jest wiêksze od liczby danych, funkcja LARGE zwraca b³±d "
-"#LICZBA!. Funkcja ta jest zgodna z programem Excel. \n"
+"#LICZBA!.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "Za³ó¿my, ¿e komórki A1, A2, ..., A5 zawieraj± warto¶ci 11,4, 17,3, 21,3, "
-"25,9, oraz 40,1.  Wówczas\n"
+"25,9, oraz 40,1.  Wówczas wyra¿enie\n"
 "LARGE(A1:A5;2) jest równe 25,9.\n"
 "LARGE(A1:A5;4) jest równe 17,3.\n"
 "\n"
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,SMALL"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=SMALL\n"
 "@SYNTAX=SMALL(n1, n2, ..., k)\n"
@@ -15974,14 +15896,13 @@ msgstr ""
 "#LICZBA!. Funkcja ta jest zgodna z programem Excel. \n"
 "@EXAMPLES=\n"
 "Za³ó¿my, ¿e komórki A1, A2, ..., A5 zawieraj± warto¶ci 11,4, 17,3, 21,3, "
-"25,9, and 40,1.  Wówczas\n"
+"25,9, and 40,1.  Wówczas wyra¿enie\n"
 "SMALL(A1:A5;2) jest równe 17,3.\n"
 "SMALL(A1:A5;4) jest równe 25,9.\n"
 "\n"
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,LARGE"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=PROB\n"
 "@SYNTAX=PROB(range_x,prob_range,lower_limit[,upper_limit])\n"
@@ -16007,13 +15928,13 @@ msgstr ""
 "zwraca b³±d #LICZBA!. Je¿eli która  z warto¶ci w zakresie @zakres_prawd jest "
 "<=0 lub > 1, funkcja PROB zwróci b³±d #LICZBA!. Je¿eli @zakres_x i "
 "@zakres_prawd zawieraj± ró¿n± liczbê wpisanych danych, funkcja PROB zwraca "
-"b³±d #N/A!. Funkcja ta jest zgodna z programem Excel. \n"
+"b³±d #N/A!.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=BINOMDIST,CRITBINOM"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=STEYX\n"
 "@SYNTAX=STEYX(known_y's,known_x's)\n"
@@ -16035,18 +15956,17 @@ msgstr ""
 "@DESCRIPTION=Funkcja STEYX zwraca b³±d standardowy prognozowanej warto¶ci y "
 "dla ka¿dego x z regresji.\n"
 "Je¿eli @znane_y-ki i @znane_x-y s± pustymi zestawami danych lub maj± ró¿ne "
-"liczby argumentów, funkcja STEYX zwraca b³±d #N/A!. Funkcja ta jest zgodna z "
-"programem Excel. \n"
+"liczby argumentów, funkcja STEYX zwraca b³±d #N/A!.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "Za³ó¿my, ¿e komórki A1, A2, ..., A5 zawieraj± warto¶ci 11,4, 17,3, 21,3, "
 "25,9 i 40,1, a komórki B1, B2, ... B5 zawieraj± 23,2, 25,8, 29,9, 33,5 i "
-"42,7. Wówczas\n"
+"42,7. Wówczas wyra¿enie\n"
 "STEYX(A1:A5;B1:B5) jest równe 1,101509979.\n"
 "\n"
 "@SEEALSO=PEARSON,RSQ,SLOPE"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=ZTEST\n"
 "@SYNTAX=ZTEST(ref,x)\n"
@@ -16067,16 +15987,16 @@ msgstr ""
 "testu z.\n"
 "Parametr @wsk oznacza zestaw danych a @x jest warto¶ci± do testowania.\n"
 "Je¿eli @wsk zawiera mniej ni¿ dwa elementy danych, funkcja ZTEST zwraca b³±d "
-"#DZIEL/0!. Funkcja ta jest zgodna z programem Excel. \n"
+"#DZIEL/0!.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "Za³ó¿my, ¿e komórki A1, A2, ..., A5 zawieraj± warto¶ci 11,4, 17,3, 21,3, "
-"25,9 i 40,1.  Wówczas\n"
+"25,9 i 40,1.  Wówczas wyra¿enie\n"
 "ZTEST(A1:A5;20) jest równe 0,254717826.\n"
 "\n"
 "@SEEALSO=CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,STANDARDIZE"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=AVERAGEA\n"
 "@SYNTAX=AVERAGEA(number1,number2,...)\n"
@@ -16099,7 +16019,8 @@ msgstr ""
 "teksty i warto¶ci logiczne s± równie¿ w³±czane do obliczeñ. Je¿eli komórka "
 "zawiera tekst lub warto¶æ logiczn± FALSE, jest traktowana jako zero. Je¿eli "
 "argument ma warto¶æ TRUE, jest traktowany jako jedynka. Warto zauwa¿yæ, ¿e "
-"puste komórki nie s± wliczane. Funkcja ta jest zgodna z programem Excel. \n"
+"puste komórki nie s± wliczane.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "Za³ó¿my, ¿e komórki A1, A2, ..., A5 zawieraj± warto¶ci i ³añcuchy tekstowe "
 "11,4, 17,3, \"brak\", 25,9 i 40,1.  Wówczas\n"
@@ -16108,7 +16029,6 @@ msgstr ""
 "@SEEALSO=AVERAGE"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=MAXA\n"
 "@SYNTAX=MAXA(number1,number2,...)\n"
@@ -16131,17 +16051,16 @@ msgstr ""
 "Liczby, teksty i warto¶ci logiczne s± równie¿ w³±czane do obliczeñ. Je¿eli "
 "komórka zawiera tekst lub warto¶æ logiczn± FALSE, jest liczona jako zero. "
 "Je¿eli argument ma warto¶æ TRUE, jest traktowany jako jedynka. Warto "
-"zauwa¿yæ, ¿e puste komórki nie s± liczone. Funkcja ta jest zgodna  z "
-"programem Excel. \n"
+"zauwa¿yæ, ¿e puste komórki nie s± liczone.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "Za³ó¿my, ¿e komórki A1, A2, ..., A5 zawieraj± warto¶ci i ³añcuchy tekstowe "
-"11,4, 17,3, \"brak\", 25,9 i 40,1.  Wówczas\n"
+"11,4, 17,3, \"brak\", 25,9 i 40,1.  Wówczas wyra¿enie\n"
 "MINA(A1:A5) jest równe 0.\n"
 "\n"
 "@SEEALSO=MAX,MINA"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=MINA\n"
 "@SYNTAX=MINA(number1,number2,...)\n"
@@ -16164,17 +16083,16 @@ msgstr ""
 "Liczby, teksty i warto¶ci logiczne s± równie¿ w³±czane do obliczeñ. Je¿eli "
 "komórka zawiera tekst lub warto¶æ logiczn± FALSE, jest liczona jako zero. "
 "Je¿eli argument ma warto¶æ TRUE, jest traktowany jako jedynka. Warto "
-"zauwa¿yæ, ¿e puste komórki nie s± liczone. Funkcja ta jest zgodna z "
-"programem Excel. \n"
-" @EXAMPLES=\n"
+"zauwa¿yæ, ¿e puste komórki nie s± liczone.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
+"@EXAMPLES=\n"
 "Za³ó¿my, ¿e komórki A1, A2, ..., A5 zawieraj± warto¶ci i ³añcuchy tekstowe "
-"11,4, 17,3, \"brak\", 25,9 i 40,1.  Wówczas\n"
+"11,4, 17,3, \"brak\", 25,9 i 40,1.  Wówczas wyra¿enie\n"
 "MAXA(A1:A5) jest równe 40,1.\n"
 "\n"
 "@SEEALSO=MIN,MAXA"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=VARA\n"
 "@SYNTAX=VARA(number1,number2,...)\n"
@@ -16197,16 +16115,16 @@ msgstr ""
 "warto¶ci logiczne s± w³±czone do obliczeñ. Je¿eli komórka zawiera tekst lub "
 "warto¶æ logiczn± FALSE, jest traktowana jako zero. Je¿eli argument ma "
 "warto¶æ logiczn± TRUE, jest traktowana jako jedynka. Warto zauwa¿yæ ¿e puste "
-"komórki nie s± liczone. Funkcja ta jest zgodna z programem Excel. \n"
+"komórki nie s± liczone.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "Za³ó¿my, ¿e komórki A1, A2, ..., A5 zawieraj± warto¶ci i ³añcuchy tekstowe "
-"11,4, 17,3, \"brak\", 25,9 i 40,1.  Wówczas\n"
+"11,4, 17,3, \"brak\", 25,9 i 40,1.  Wówczas wyra¿enie\n"
 "VARA(A1:A5) jest równe 228,613.\n"
 "\n"
 "@SEEALSO=VAR,VARPA"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=VARPA\n"
 "@SYNTAX=VARPA(number1,number2,...)\n"
@@ -16229,17 +16147,16 @@ msgstr ""
 "Liczby, teksty i warto¶ci logiczne s± w³±czone do obliczeñ. Je¿eli komórka "
 "zawiera tekst lub warto¶æ logiczn± FALSE, jest traktowana jak warto¶æ "
 "zerowa.  Je¿eli argument ma warto¶æ logiczn± TRUE, jest traktowany jako "
-"jedynka. Warto zauwa¿yæ, ¿e puste komórki nie s± liczone. Funkcja jest "
-"zgodna z programem Excel. \n"
+"jedynka. Warto zauwa¿yæ, ¿e puste komórki nie s± liczone.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "Za³ó¿my, ¿e komórki A1, A2, ..., A5 zawieraj± warto¶ci i ³añcuchy tekstowe "
-"11,4, 17,3, \"brak\", 25,9 i 40,1.  Wówczas\n"
+"11,4, 17,3, \"brak\", 25,9 i 40,1.  Wówczas wyra¿enie\n"
 "VARPA(A1:A5) jest równe 182,8904.\n"
 "\n"
 "@SEEALSO=VARP,VARP"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=STDEVA\n"
 "@SYNTAX=STDEVA(number1,number2,...)\n"
@@ -16262,17 +16179,16 @@ msgstr ""
 "teksty i warto¶ci logiczne s¶ równie¿ w³±czane do obliczeñ. Je¿eli komórka "
 "zawiera tekst lub argument ma warto¶æ FALSE, jest traktowany jako warto¶æ "
 "zerowa.  Je¿eli argument ma warto¶æ TRUE, jest traktowany jako jedynka. "
-"Warto zauwa¿yæ, ¿e puste komórki nie s± liczone. Funkcja ta jest zgodna z "
-"programem Excel. \n"
+"Warto zauwa¿yæ, ¿e puste komórki nie s± liczone.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "Za³ó¿my, ¿e komórki A1, A2, ..., A5 zawieraj± warto¶ci i ³añcuchy tekstowe "
-"11,4, 17,3, \"brak\", 25,9 i 40,1.  Wówczas\n"
+"11,4, 17,3, \"brak\", 25,9 i 40,1.  Wówczas wyra¿enie\n"
 "STDEVA(A1:A5) jest równe 15,119953704.\n"
 "\n"
 "@SEEALSO=STDEV,STDEVPA"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=STDEVPA\n"
 "@SYNTAX=STDEVPA(number1,number2,...)\n"
@@ -16296,10 +16212,10 @@ msgstr ""
 "obliczeñ. Je¿eli komórka zawiera tekst lub warto¶æ logiczn± FALSE, jest "
 "traktowana jako zero. Je¿eli argument ma warto¶æ logiczn± TRUE, jest "
 "traktowany jako jedynka. Warto zauwa¿yæ, ¿e puste komórki nie s± liczone.\n"
-"Funkcja ta jest zgodna z programem Excel. \n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "Za³ó¿my, ¿e komórki A1, A2, ..., A5 zawieraj± warto¶ci i ³añcuchy tekstowe "
-"11,4, 17,3, \"brak\", 25,9 i 40,1.  Wówczas\n"
+"11,4, 17,3, \"brak\", 25,9 i 40,1.  Wówczas wyra¿enie\n"
 "STDEVPA(A1:A5) jest równe 13,523697719.\n"
 "\n"
 "@SEEALSO=STDEVA,STDEVP"
@@ -16339,7 +16255,6 @@ msgstr ""
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=PERCENTILE\n"
 "@SYNTAX=PERCENTILE(array,k)\n"
@@ -16361,17 +16276,17 @@ msgstr ""
 "@DESCRIPTION=Funkcja PERCENTILE zwraca k-ty percentyl z danego zestawu "
 "danych.  \n"
 "Je¿eli parametr @tablica jest pusty, funkcja PERCENTILE zwraca b³±d "
-"#LICZBA!. Je¿eli @k < 0 lub @k > 1, funkcja PERCENTILE zwraca b³±d #LICZBA!. "
+"#LICZBA!. Je¿eli @k < 0 lub @k > 1, funkcja PERCENTILE zwraca b³±d "
+"#LICZBA!.\n"
 "Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "Za³ó¿my, ¿e komórki A1, A2, ..., A5 zawieraj± warto¶ci 11,4, 17,3, 21,3, "
-"25,9 i 40,1.  Wówczas\n"
+"25,9 i 40,1.  Wówczas wyra¿enie\n"
 "PERCENTILE(A1:A5;0,42) jest równe 20,02.\n"
 "\n"
 "@SEEALSO=QUARTILE"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=QUARTILE\n"
 "@SYNTAX=QUARTILE(array,quart)\n"
@@ -16407,17 +16322,16 @@ msgstr ""
 "\n"
 "Je¿eli @tablica jest pusta, funkcja QUARTILE zwraca b³±d #LICZBA!. Je¿eli "
 "@kwartyl < 0 lub @kwartyl > 4, funkcja QUARTILE zwraca b³±d #LICZBA!. Je¿eli "
-"@kwartyl nie jest typu ca³kowitego, zostanie obciêty. Funkcja ta jest zgodna "
-"z programem Excel. \n"
+"@kwartyl nie jest typu ca³kowitego, zostanie obciêty.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "Za³ó¿my, ¿e komórki A1, A2, ..., A5 zawieraj± warto¶ci 11,4, 17,3, 21,3, "
-"25,9 i 40,1.  Wówczas\n"
+"25,9 i 40,1.  Wówczas wyra¿enie\n"
 "QUARTILE(A1:A5;1) jest równe 17,3.\n"
 "\n"
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=FTEST\n"
 "@SYNTAX=FTEST(array1,array2)\n"
@@ -16435,18 +16349,18 @@ msgstr ""
 "@FUNCTION=FTEST\n"
 "@SYNTAX=FTEST(tablica1;tablica2)\n"
 "@DESCRIPTION=Funkcja FTEST zwraca \"one-tailed\" prawdopodobieñstwo, w "
-"którym wariancje w danych zestawach danych nie ró¿ni± siê w sposób znacz±cy. "
-"Funkcja ta jest zgodna z programem Excel. \n"
+"którym wariancje w danych zestawach danych nie ró¿ni± siê w sposób "
+"znacz±cy.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "Za³ó¿my, ¿e komórki A1, A2, ..., A5 zawieraj± warto¶ci 11,4, 17,3, 21,3, "
 "25,9 i 40,1, oraz komórki B1, B2, ... B5 zawieraj± 23,2, 25,8, 29,9, 33,5 i "
-"42,7. Wówczas\n"
+"42,7. Wówczas wyra¿enie\n"
 "FTEST(A1:A5;B1:B5) jest równe 0,510815017.\n"
 "\n"
 "@SEEALSO=FDIST,FINV"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=TTEST\n"
 "@SYNTAX=TTEST(array1,array2,tails,type)\n"
@@ -16491,12 +16405,12 @@ msgstr ""
 "\"parami\" (@typ = 1), funkcja TTEST zwraca b³±d #N/A. Parametry @reszta i "
 "@typ s± obcinane do warto¶ci ca³kowitych. Je¿eli @reszta nie jest równa 1 "
 "lub 2, funkcja TTEST zwraca b³±d #LICZBA! Je¿eli @typ przyjmie warto¶æ inn± "
-"od 1, 2, lub 3, funkcja TTEST zwraca b³±d #LICZBA! Funkcja ta jest zgodna z "
-"programem Excel. \n"
+"od 1, 2, lub 3, funkcja TTEST zwraca b³±d #LICZBA!\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "Za³ó¿my, ¿e komórki A1, A2, ..., A5 zawieraj± warto¶ci 11,4, 17,3, 21,3, "
 "25,9 i 40,1, a komórki B1, B2, ... B5 zawieraj± 23,2, 25,8, 29,9, 33,5 i "
-"42,7. Wówczas\n"
+"42,7. Wówczas wyra¿enie\n"
 "TTEST(A1:A5;B1:B5;1;1) jest równe 0,003127619.\n"
 "TTEST(A1:A5;B1:B5;2;1) jest równe 0,006255239.\n"
 "TTEST(A1:A5;B1:B5;1;2) jest równe 0,111804322.\n"
@@ -16505,7 +16419,6 @@ msgstr ""
 "@SEEALSO=FDIST,FINV"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=FREQUENCY\n"
 "@SYNTAX=FREQUENCY(data_array,bins_array)\n"
@@ -16527,8 +16440,8 @@ msgstr ""
 "@tablica_danych jest tablic± danych, dla których bêd± liczone czêsto¶ci. "
 "@tablica_kontenerowa jest tablic± zawieraj±c± interwa³y, w których chcemy "
 "grupowaæ warto¶ci w tablicy danych. Je¶li @tablica_kontenerowa jest pusta, "
-"Funkcja FREQUENCY zwraca liczbê punktów danych w @tablicy_danych. Funkcja ta "
-"jest zgodna z programem Excel.\n"
+"Funkcja FREQUENCY zwraca liczbê punktów danych w @tablicy_danych.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -16714,7 +16627,6 @@ msgstr ""
 "@SEEALSO=LOGEST,GROWTH,TREND"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=FORECAST\n"
 "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
@@ -16740,18 +16652,18 @@ msgstr ""
 "przysz³a jest warto¶ci± y dla danego @x. \n"
 "Je¿eli parametry @znane_x-y lub @znane_y-ki nie zawieraj± danych lub "
 "zawieraj± ró¿n± ich liczbê, funkcja FORECAST zwraca b³±d #N/A!. Je¿eli "
-"wariancja @znane_x-y jest równa zero, funkcja FORECAST zwraca b³±d #DZIEL/0. "
-"Funkcja ta jest zgodna z programem Excel. \n"
+"wariancja @znane_x-y jest równa zero, funkcja FORECAST zwraca b³±d "
+"#DZIEL/0.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "Za³ó¿my, ¿e komórki A1, A2, ..., A5 zawieraj± warto¶ci 11,4, 17,3, 21,3, "
 "25,9 i 40,1 oraz komórki B1, B2, ... B5 zawieraj± 23,2, 25,8, 29,9, 33,5 i "
-"42,7.  Wówczas\n"
+"42,7.  Wówczas wyra¿enie\n"
 "FORECAST(7;A1:A5;B1:B5) jest równe -10,859397661.\n"
 "\n"
 "@SEEALSO=INTERCEPT,TREND"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=INTERCEPT\n"
 "@SYNTAX=INTERCEPT(known_y's,known_x's)\n"
@@ -16776,17 +16688,17 @@ msgstr ""
 "Je¿eli parametry @znane_x-y lub @znane_y-ki nie zawieraj± danych lub "
 "zawieraj± ró¿n± ich liczbê, funkcja INTERCEPT zwraca b³±d #N/A!. Je¿eli "
 "wariancja parametru @znane_x-y wynosi zero, funkcja INTERCEPT zwraca b³±d "
-"#DZIEL/0. Funkcja ta jest zgodna z programem Excel. \n"
+"#DZIEL/0.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "Za³ó¿my, ¿e komórki A1, A2, ..., A5 zawieraj± warto¶ci 11,4, 17,3, 21,3, "
 "25,9 i 40,1 oraz komórki B1, B2, ... B5 zawieraj± 23,2, 25,8, 29,9, 33,5 i "
-"42,7.  Wówczas\n"
+"42,7.  Wówczas wyra¿enie\n"
 "INTERCEPT(A1:A5;B1:B5) jest równe -20,785117212.\n"
 "\n"
 "@SEEALSO=FORECAST,TREND"
 
 #: src/functions/fn-stat.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=SLOPE\n"
 "@SYNTAX=SLOPE(known_y's,known_x's)\n"
@@ -16802,12 +16714,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=SLOPE\n"
 "@SYNTAX=SLOPE(znane_y-ki;znane_x-y)\n"
-"@DESCRIPTION=Funkcja SLOPE zwraca nachylenie linii regresji liniowej. "
-"Funkcja ta jest zgodna z programem Excel. \n"
+"@DESCRIPTION=Funkcja SLOPE zwraca nachylenie linii regresji liniowej.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "Za³ó¿my, ¿e komórki A1, A2, ..., A5 zawieraj± warto¶ci 11,4, 17,3, 21,3, "
 "25,9 i 40,1 oraz komórki B1, B2, ... B5 zawieraj± 23,2, 25,8, 29,9, 33,5 i "
-"42,7.  Wówczas\n"
+"42,7.  Wówczas wyra¿enie\n"
 "SLOPE(A1:A5;B1:B5) jest równe 1,417959936.\n"
 "\n"
 "@SEEALSO=STDEV,STDEVPA"
@@ -16835,7 +16747,6 @@ msgstr ""
 "@SEEALSO=CODE"
 
 #: src/functions/fn-string.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=CODE\n"
 "@SYNTAX=CODE(char)\n"
@@ -16849,13 +16760,13 @@ msgstr ""
 "@FUNCTION=CODE\n"
 "@SYNTAX=CODE(znak)\n"
 "@DESCRIPTION=Funkcja CODE zwraca kod ASCII znaku @znak.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "CODE(\"A\") jest równe 65.\n"
 "\n"
 "@SEEALSO=CHAR"
 
 #: src/functions/fn-string.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=EXACT\n"
 "@SYNTAX=EXACT(string1, string2)\n"
@@ -16873,14 +16784,14 @@ msgstr ""
 "@DESCRIPTION=Funkcja EXACT zwraca warto¶æ PRAWDA, je¿eli @³añcuch1 jest "
 "dok³adnie taki sam, jak @³añcuch2 (funkcja rozró¿nia ma³e i wielkie "
 "litery).\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "EXACT(\"key\";\"key\") jest równe PRAWDA.\n"
 "EXACT(\"key\";\"Key\") jest równe FA£SZ.\n"
 "\n"
-"@SEEALSO=LEN, SEARCH"
+"@SEEALSO=LEN, SEARCH, DELTA"
 
 #: src/functions/fn-string.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=LEN\n"
 "@SYNTAX=LEN(string)\n"
@@ -16895,13 +16806,13 @@ msgstr ""
 "@SYNTAX=LEN(³añcuch)\n"
 "@DESCRIPTION=Funkcja LEN zwraca d³ugo¶æ ³añcucha tekstowego @³añcuch "
 "(liczon± w znakach).\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "len(\"Helsinki\") jest równe 8.\n"
 "\n"
 "@SEEALSO=CHAR, CODE"
 
 #: src/functions/fn-string.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=LEFT\n"
 "@SYNTAX=LEFT(text[,num_chars])\n"
@@ -16917,13 +16828,13 @@ msgstr ""
 "@SYNTAX=LEFT(tekst[;liczba_znaków])\n"
 "@DESCRIPTION=Funkcja LEFT zwraca @liczba_znaków znaków z lewej strony tekstu "
 "lub lewy znak, je¶li @liczba_znaków nie jest okre¶lona.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "LEFT(\"Directory\";3) jest równe \"Dir\".\n"
 "\n"
 "@SEEALSO=MID, RIGHT"
 
 #: src/functions/fn-string.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=LOWER\n"
 "@SYNTAX=LOWER(text)\n"
@@ -16936,15 +16847,15 @@ msgid ""
 msgstr ""
 "@FUNCTION=LOWER\n"
 "@SYNTAX=LOWER(tekst)\n"
-"@DESCRIPTION=Funkcja LOWER zwraca @tekst z zamienionymi wszystkimi znakami "
+"@DESCRIPTION=Funkcja LOWER zwraca @tekst ze zmienionymi wszystkimi znakami "
 "du¿ymi na ma³e.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "LOWER(\"J. F. Kennedy\") jest równe \"j. f. kennedy\".\n"
 "\n"
 "@SEEALSO=UPPER"
 
 #: src/functions/fn-string.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=MID\n"
 "@SYNTAX=MID(string, position, length)\n"
@@ -16960,6 +16871,7 @@ msgstr ""
 "@SYNTAX=MID(³añcuch;pozycja;d³ugo¶æ)\n"
 "@DESCRIPTION=Funkcja MID zwraca pod³añcuch z @³añcuch, pocz±wszy od "
 "@pozycja, o d³ugo¶ci @d³ugo¶æ znaków.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "MID(\"testing\";2;3) jest równe \"est\".\n"
 "\n"
@@ -16970,7 +16882,6 @@ msgid "Invalid arguments"
 msgstr "Niew³a¶ciwe argumenty"
 
 #: src/functions/fn-string.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=RIGHT\n"
 "@SYNTAX=RIGHT(text[,num_chars])\n"
@@ -16988,6 +16899,7 @@ msgstr ""
 "@DESCRIPTION=Funkcja RIGHT zwraca @liczba_znaków znaków z prawej strony "
 "tekstu lub jeden znak z prawej, je¿eli parametr @liczba_znaków nie jest "
 "okre¶lony.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "RIGHT(\"end\") jest równe \"d\".\n"
 "RIGHT(\"end\";2) jest równe \"nd\".\n"
@@ -16995,7 +16907,6 @@ msgstr ""
 "@SEEALSO=MID, LEFT"
 
 #: src/functions/fn-string.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=UPPER\n"
 "@SYNTAX=UPPER(text)\n"
@@ -17010,13 +16921,13 @@ msgstr ""
 "@SYNTAX=UPPER(tekst)\n"
 "@DESCRIPTION=Funkcja UPPER zwraca wersjê ³añcucha @tekst sk³adaj±c± siê "
 "wy³±cznie z du¿ych liter.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "UPPER(\"canceled\") jest równe \"CANCELED\".\n"
 "\n"
 "@SEEALSO=LOWER"
 
 #: src/functions/fn-string.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=CONCATENATE\n"
 "@SYNTAX=CONCATENATE(string1[,string2...])\n"
@@ -17030,13 +16941,13 @@ msgstr ""
 "@FUNCTION=CONCATENATE\n"
 "@SYNTAX=CONCATENATE(³añcuch1[;³añcuch2;...])\n"
 "@DESCRIPTION=Funkcja CONCATENATE zwraca po³±czone ³añcuchy.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "CONCATENATE(\"aa\";\"bb\") jest równe \"aabb\".\n"
 "\n"
 "@SEEALSO=LEFT, MID, RIGHT"
 
 #: src/functions/fn-string.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=REPT\n"
 "@SYNTAX=REPT(string,num)\n"
@@ -17050,6 +16961,7 @@ msgstr ""
 "@FUNCTION=REPT\n"
 "@SYNTAX=REPT(³añcuch;liczba)\n"
 "@DESCRIPTION=Funkcja REPT zwraca @liczba razy powtórzony @³añcuch.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "REPT(\".\";3) jest równe \"...\".\n"
 "\n"
@@ -17062,7 +16974,6 @@ msgid "Out of memory"
 msgstr "Brak pamiêci"
 
 #: src/functions/fn-string.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=CLEAN\n"
 "@SYNTAX=CLEAN(string)\n"
@@ -17077,13 +16988,13 @@ msgstr ""
 "@SYNTAX=CLEAN(³añcuch)\n"
 "@DESCRIPTION=Funkcja CLEAN usuwa z ³añcucha wszelkie znaki, które nie "
 "zostan± wydrukowane.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "CLEAN(\"one\"\\&char(7)) jest równe \"one\".\n"
 "\n"
 "@SEEALSO="
 
 #: src/functions/fn-string.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=FIND\n"
 "@SYNTAX=FIND(string1,string2[,start])\n"
@@ -17100,13 +17011,13 @@ msgstr ""
 "@DESCRIPTION=Funkcja FIND zwraca pozycjê ³añcucha @³añcuch1 w @³añcuch2 "
 "(rozró¿nia wielko¶æ liter), rozpoczynaj±c poszukiwania od znaku o numerze "
 "@pocz±tek (przyjmowany 1, je¿eli parametr pominiêto).\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "FIND(\"ac\";\"Jack\") jest równe 2.\n"
 "\n"
 "@SEEALSO=EXACT, LEN, MID, SEARCH"
 
 #: src/functions/fn-string.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=FIXED\n"
 "@SYNTAX=FIXED(num,[decimals, no_commas])\n"
@@ -17123,13 +17034,13 @@ msgstr ""
 "@DESCRIPTION=Funkcja FIXED zwraca argujment @liczba jako sformatowany "
 "³añcuch znakowy, zawieraj±cy @dziesiêtne miejsc po przecinku, pomijaj±c "
 "przecinek, je¿eli wymaga tego parametr @bez_przecinka.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "FIXED(1234,567;2) jest równe \"1.234,57\".\n"
 "\n"
 "@SEEALSO="
 
 #: src/functions/fn-string.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=PROPER\n"
 "@SYNTAX=PROPER(string)\n"
@@ -17144,13 +17055,13 @@ msgstr ""
 "@SYNTAX=PROPER(³añcuch)\n"
 "@DESCRIPTION=Funkcja PROPER zwraca @³añcuch, w którym ka¿de s³owo rozpoczyna "
 "siê du¿± liter±.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "PROPER(\"j. f. kennedy\") jest równe \"J. F. Kennedy\".\n"
 "\n"
 "@SEEALSO=LOWER, UPPER"
 
 #: src/functions/fn-string.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=REPLACE\n"
 "@SYNTAX=REPLACE(old,start,num,new)\n"
@@ -17164,15 +17075,15 @@ msgid ""
 msgstr ""
 "@FUNCTION=REPLACE\n"
 "@SYNTAX=REPLACE(stary;pocz±tek;liczba;nowy)\n"
-"@DESCRIPTION=Funkcja REPLACE zwraca @stary z zamienionymi @liczba znakami na "
+"@DESCRIPTION=Funkcja REPLACE zwraca @stary ze zmienionymi @liczba znakami na "
 "@pocz±tek przez @nowy.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "REPLACE(\"testing\";2;3;\"*****\") jest równe \"t*****ing\".\n"
 "\n"
 "@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM"
 
 #: src/functions/fn-string.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=T\n"
 "@SYNTAX=T(value)\n"
@@ -17189,6 +17100,7 @@ msgstr ""
 "@SYNTAX=T(warto¶æ)\n"
 "@DESCRIPTION=Funkcja T zwraca @warto¶æ tylko wówczas, gdy jest ona napisem. "
 "W przeciwnym przypadku zwraca napis pusty.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "T(\"napis\") jest równe \"napis\".\n"
 "T(64) zwraca pust± komórkê.\n"
@@ -17196,7 +17108,6 @@ msgstr ""
 "@SEEALSO=CELL, N, VALUE"
 
 #: src/functions/fn-string.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=TEXT\n"
 "@SYNTAX=TEXT(value,format_text)\n"
@@ -17212,6 +17123,7 @@ msgstr ""
 "@SYNTAX=TEXT(warto¶æ;format_tekstu)\n"
 "@DESCRIPTION=Funkcja TEXT zwraca @warto¶æ jako ³añcuch tekstowy w okre¶lonym "
 "formacie.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "TEXT(3,223;\"$0,00\") jest równe \"$3,22\".\n"
 "TEXT(date(1999;4;15),\"mmmm, dd, yy\") jest równe \"Kwiecieñ, 15, 99\".\n"
@@ -17223,7 +17135,6 @@ msgid "Type mismatch"
 msgstr "Niezgodno¶æ typów"
 
 #: src/functions/fn-string.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=TRIM\n"
 "@SYNTAX=TRIM(text)\n"
@@ -17238,13 +17149,13 @@ msgstr ""
 "@SYNTAX=TRIM(napis)\n"
 "@DESCRIPTION=Funkcja TRIM zwraca @napis pozostawiaj±c pomiêdzy wyrazami "
 "tylko pojedyncze spacje.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "TRIM(\"  a bbb  cc\") jest równe \"a bbb cc\".\n"
 "\n"
 "@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE"
 
 #: src/functions/fn-string.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=VALUE\n"
 "@SYNTAX=VALUE(text)\n"
@@ -17258,13 +17169,13 @@ msgstr ""
 "@FUNCTION=VALUE\n"
 "@SYNTAX=VALUE(napis)\n"
 "@DESCRIPTION=Funkcja VALUE zwraca warto¶æ numeryczn± napisu @napis.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "VALUE(\"$1.000\") jest równe 1000.\n"
 "\n"
 "@SEEALSO=DOLLAR, FIXED, TEXT"
 
 #: src/functions/fn-string.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=SUBSTITUTE\n"
 "@SYNTAX=SUBSTITUTE(text, old, new [,num])\n"
@@ -17283,13 +17194,13 @@ msgstr ""
 "@napis. Je¶li podano argument @wyst±pienie, zastêpowane jest tylko "
 "wyst±pienie o numerze @wyst±pienie, w przeciwnym wypadku zastêpowane s± "
 "wszystkie wyst±pienia.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "SUBSTITUTE(\"testowanie\";\"testowa\";\"czeka\") jest równe \"czekanie\".\n"
 "\n"
 "@SEEALSO=REPLACE, TRIM"
 
 #: src/functions/fn-string.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=DOLLAR\n"
 "@SYNTAX=DOLLAR(num[,decimals])\n"
@@ -17303,13 +17214,13 @@ msgstr ""
 "@FUNCTION=DOLLAR\n"
 "@SYNTAX=DOLLAR(liczba[;dziesiêtne])\n"
 "@DESCRIPTION=Funkcja DOLLAR zwraca @liczbê sformatowan± jako walutê.\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "DOLLAR(12345) jest równe \"1.345,00z³\".\n"
 "\n"
 "@SEEALSO=FIXED, TEXT, VALUE"
 
 #: src/functions/fn-string.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=SEARCH\n"
 "@SYNTAX=SEARCH(text,within[,start_num])\n"
@@ -17347,7 +17258,8 @@ msgstr ""
 "przeszukana, nale¿y u¿yæ znaku tyldy (~) przed znakiem. \n"
 "Je¿eli @tekst nie istnieje, funkcja SEARCH zwraca b³±d #WARTO¦Æ!. Je¿eli "
 "@liczba_pocz jest mniejsza od jedno¶ci lub wiêksza od d³ugo¶ci ³añcucha "
-"@cel, funkcja SEARCH zwraca b³±d #WARTO¦Æ!  \n"
+"@cel, funkcja SEARCH zwraca b³±d #WARTO¦Æ!\n"
+"Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "SEARCH(\"c\";\"Cancel\") jest równe 1.\n"
 "SEARCH(\"c\";\"Cancel\";2) jest równe 4.\n"
@@ -17499,98 +17411,94 @@ msgstr "Nie mo¿na otworzyæ pliku \"%s\""
 
 #: src/gui-validation.c:1
 msgid "The value you enter :\n"
-msgstr ""
+msgstr "Wprowadzona warto¶æ :\n"
 
 #: src/gui-validation.c:1
 #, c-format
 msgid "Must be equal to %s\n"
-msgstr ""
+msgstr "Musi byæ równa %s\n"
 
 #: src/gui-validation.c:1
 #, c-format
 msgid "Must not be equal to %s\n"
-msgstr ""
+msgstr "Nie mo¿e byæ równa %s\n"
 
 #: src/gui-validation.c:1
 #, c-format
 msgid "Must be greater than %s\n"
-msgstr ""
+msgstr "Musi byæ wiêksza ni¿ %s\n"
 
 #: src/gui-validation.c:1
 #, c-format
 msgid "Must be less than %s\n"
-msgstr ""
+msgstr "Musi byæ mniejsza ni¿ %s\n"
 
 #: src/gui-validation.c:1
 #, c-format
 msgid "Must be greater than or equal to %s\n"
-msgstr ""
+msgstr "Nie mo¿e byæ mniejsza ni¿ %s\n"
 
 #: src/gui-validation.c:1
 #, c-format
 msgid "Must be less than or equal to %s\n"
-msgstr ""
+msgstr "Nie mo¿e byæ wiêksza ni¿ %s\n"
 
 #: src/gui-validation.c:1
 msgid "The expression must be true."
-msgstr ""
+msgstr "Wyra¿enie musi byæ prawdziwe."
 
 #: src/gui-validation.c:1
 #, c-format
 msgid "<unknown> <%s>\n"
-msgstr ""
+msgstr "<nieznane> <%s>\n"
 
 #: src/gui-validation.c:1
-#, fuzzy
 msgid "Must be a whole number\n"
-msgstr "Ca³e liczby"
+msgstr "Musi byæ liczb± ca³kowit±\n"
 
 #: src/gui-validation.c:1
 msgid "Must be a decimal\n"
-msgstr ""
+msgstr "Musi byæ liczb± w zapisie dziesiêtnym\n"
 
 #: src/gui-validation.c:1
 msgid "Must be in list\n"
-msgstr ""
+msgstr "Musi byæ na li¶cie\n"
 
 #: src/gui-validation.c:1
 msgid "Must be a date\n"
-msgstr ""
+msgstr "Musi byæ dat±\n"
 
 #: src/gui-validation.c:1
 msgid "Must be a time\n"
-msgstr ""
+msgstr "Musi byæ czasem\n"
 
 #: src/gui-validation.c:1
-#, fuzzy
 msgid "Must have textlength\n"
-msgstr "musi zawieraæ co najmniej jedn± literê"
+msgstr "Musi mieæ d³ugo¶æ tekstu\n"
 
 #: src/gui-validation.c:1
 msgid "Must equal the formula\n"
-msgstr ""
+msgstr "Musi byæ równe wyra¿eniu\n"
 
 #: src/gui-validation.c:1
-#, fuzzy
 msgid "<unknown>"
-msgstr "Nieznana nazwa"
+msgstr "<nieznane>"
 
 #: src/gui-validation.c:1
 msgid "Can be blank\n"
-msgstr ""
+msgstr "Mo¿e byæ puste\n"
 
 #: src/gui-validation.c:1 src/gui-validation.c:1
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
 #: src/gui-validation.c:1
 msgid "Accept"
-msgstr ""
+msgstr "Zaakceptuj"
 
 #: src/gui-validation.c:1
-#, fuzzy
 msgid "Discard"
-msgstr "Dyskretny"
+msgstr "Porzuæ"
 
 #.
 #. * xgettext:
@@ -17599,9 +17507,8 @@ msgstr "Dyskretny"
 #. * 'File' menu
 #.
 #: src/history.c:1
-#, fuzzy
 msgid "File/Print Preview..."
-msgstr "Plik/Podgl±d wydruku"
+msgstr "Plik/Podgl±d wydruku..."
 
 #: src/history.c:1
 msgid "File/Print Preview"
@@ -17824,7 +17731,7 @@ msgstr ""
 
 #: src/parser.y:1
 msgid "Multiple expressions are not supported in this context"
-msgstr ""
+msgstr "W tym kontek¶cie nie jest obs³ugiwane wiele wyra¿eñ"
 
 #: src/parser.y:1
 msgid "Could not find matching opening parenthesis"
@@ -18346,7 +18253,7 @@ msgstr "Szeroko¶æ linii"
 
 #: src/sheet-object-graphic.c:1
 msgid "Arrow tip"
-msgstr ""
+msgstr "Czubek strza³ki"
 
 #: src/sheet-object-graphic.c:1
 msgid "Arrow length"
