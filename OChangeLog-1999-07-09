@@ -1,3 +1,9 @@
+1999-01-01  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/item-grid.c (item_grid_button_1): When starting a selection
+	of cells during a formula edit, insert the currently clicked cell
+	name. 
+
 1998-12-30  Jeff Garzik  <jgarzik@pobox.com>
 
 	* plugins/perl/perl.c, src/cell.c, src/expr.c, src/plugin.c,

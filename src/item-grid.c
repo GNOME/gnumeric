@@ -615,6 +615,7 @@ item_grid_button_1 (Sheet *sheet, GdkEvent *event, ItemGrid *item_grid, int col,
 	if (gnumeric_sheet_can_move_cursor (gsheet)){
 		gnumeric_sheet_start_cell_selection (gsheet, col, row);
 		item_grid->selecting = ITEM_GRID_SELECTING_FORMULA_RANGE;
+		gnumeric_sheet_selection_cursor_place (gsheet, col, row);
 		return 1;
 	}
 	
