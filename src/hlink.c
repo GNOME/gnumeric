@@ -213,7 +213,6 @@ static gboolean
 gnm_hlink_url_activate (GnmHLink *lnk, WorkbookControl *wbc)
 {
 	GError *err = NULL;
-	gboolean res;
 
 	if (lnk->target == NULL)
 		return FALSE;
