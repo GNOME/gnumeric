@@ -26,7 +26,9 @@ typedef struct
 	int id;
 
 	/* Type specific parameters */
+#ifdef ENABLE_BONOBO
 	SheetObjectType	gnumeric_type;
+#endif
 	unsigned	excel_type;
 	union {
 		struct {

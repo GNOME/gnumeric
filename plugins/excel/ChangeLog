@@ -1,3 +1,8 @@
+1999-09-20  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* ms-obj.[ch]: Added a few #if ENABLE_BONOBO checks to make it
+ 	compile again.
+
 1999-09-20  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-escher.c (ms_escher_read_ClientData) : Handle unknown object
