@@ -1,6 +1,10 @@
+2003-05-07  Morten Welinder  <terra@gnome.org>
+
+	* src/regutf8.c (make_pattern): Add back reference support.
+
 2003-05-07  Andreas Guelzow <aguelzow@taliesin.ca>
 
-	* src/regutf8.c (ISASCII): last ascii is 0x7f
+	* src/regutf8.c (ISASCII): last ASCII is 0x7f
 
 2003-05-07  Andreas Guelzow <aguelzow@taliesin.ca>
 

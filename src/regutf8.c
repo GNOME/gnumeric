@@ -224,15 +224,31 @@ make_pattern (gnumeric_regex_t *preg, GString *dst, char **pp, int mpflags)
 				return REG_EESCAPE;
 
 			/*
-			 * No support for back references.  (Further, only
-			 * special characters which are all ascii can be
+			 * Only special characters which are all ascii can be
 			 * escaped.  Otherwise, the simple add-a-() above
-			 * would not work.)
+			 * would not work.
 			 */
-			if (g_unichar_isdigit (c) || !ISASCII (c))
+			if (c == '0' || !ISASCII (c))
 				return REG_BADPAT;
 
-			g_string_append_unichar (dst, *p++);
+			if (g_ascii_isdigit (c)) {
+				/*
+				 * Back references.  Not always possible since
+				 * we may have added parentheses.
+				 */
+				size_t dstparno, parno = c - '0';
+				if (parno > preg->srcparcount)
+					return REG_BADPAT;
+				dstparno = preg->parens[parno];
+				if (dstparno >= 10) {
+					g_warning ("Poor Man's Regexp failure: backref for par #%d needs to become #%d.",
+						   parno, dstparno);
+					return REG_BADPAT;
+				}
+				g_string_append_c (dst, '0' + dstparno);
+				p++;
+			} else
+				g_string_append_unichar (dst, *p++);
 			break;
 
 		default:
