@@ -80,6 +80,18 @@ add_strings_to_glist (const char *strs[])
 	return list;
 }
 
+GtkWidget *
+gnumeric_load_image (char const * const name)
+{
+	GtkWidget *image;
+	char *path;
+	
+	path = g_strconcat (GNUMERIC_ICONDIR "/", name, NULL);
+	image = gnome_pixmap_new_from_file (path);
+	g_free (path);
 
-
-
+	if (image)
+		gtk_widget_show (image);
+	
+	return image;
+}

@@ -77,6 +77,18 @@ icons_DATA = \
 	chart_surface_1_1.png 	\
 	chart_surface_1_2.png 	\
 	chart_surface_2_1.png 	\
-	chart_surface_2_2.png 
+	chart_surface_2_2.png	\
+	gp_125grey gp_25grey gp_50grey gp_625grey gp_75grey \
+	gp_diag gp_diag_cross gp_horiz gp_rev_diag gp_solid \
+	gp_thick_diag_cross gp_thin_diag gp_thin_diag_cross \
+	gp_thin_horiz gp_thin_horiz_cross gp_thin_rev_diag \
+	gp_thin_vert gp_vert \
+			       glade_line_pattern_1_0 \
+	glade_line_pattern_0_1 glade_line_pattern_1_1 \
+	glade_line_pattern_0_2 glade_line_pattern_1_2 \
+	glade_line_pattern_0_3 glade_line_pattern_1_3 \
+	glade_line_pattern_0_4 glade_line_pattern_1_4 \
+	glade_line_pattern_0_5 glade_line_pattern_1_5 \
+	glade_line_pattern_0_6 glade_line_pattern_1_6 
 
 EXTRA_DIST = $(icons_DATA)

@@ -16,6 +16,9 @@
 
 	* src/cell.c (cell_style_changed) : Fix.
 
+	* src/dialog/utils-dialog.[ch] : Add gnumeric_load_image.
+	* src/dialog/dialog-printer-setup.c : Stolen from here.
+
 1999-10-26  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/mstyle.c (mstyle_set_pattern): cripple for now.

@@ -15,6 +15,7 @@
 #include "print-info.h"
 #include "print.h"
 #include "ranges.h"
+#include "utils-dialog.h"
 
 #define PREVIEW_X 170
 #define PREVIEW_Y 170
@@ -78,23 +79,6 @@ unit_into_to_points (UnitInfo *ui)
 	return unit_convert (ui->value, ui->unit, UNIT_POINTS);
 }
 #endif
-
-
-static GtkWidget *
-load_image (const char *name)
-{
-	GtkWidget *image;
-	char *path;
-	
-	path = g_strconcat (GNUMERIC_ICONDIR "/", name, NULL);
-	image = gnome_pixmap_new_from_file (path);
-	g_free (path);
-
-	if (image)
-		gtk_widget_show (image);
-	
-	return image;
-}
 
 static void
 preview_page_destroy (dialog_print_info_t *dpi)
@@ -578,8 +562,8 @@ do_setup_page_info (dialog_print_info_t *dpi)
 	GtkEntry *entry_top, *entry_left;
 	GtkWidget *order;
 
-	dpi->icon_rd = load_image ("right-down.png");
-	dpi->icon_dr = load_image ("down-right.png");
+	dpi->icon_rd = gnumeric_load_image ("right-down.png");
+	dpi->icon_dr = gnumeric_load_image ("down-right.png");
 
 	gtk_widget_hide (dpi->icon_dr);
 	gtk_widget_hide (dpi->icon_rd);
@@ -653,10 +637,10 @@ do_setup_page (dialog_print_info_t *dpi)
 	gui = dpi->gui;
 	table = GTK_TABLE (glade_xml_get_widget (gui, "table-orient"));
 	
-	image = load_image ("orient-vertical.png");
+	image = gnumeric_load_image ("orient-vertical.png");
 	gtk_widget_show (image);
 	gtk_table_attach_defaults (table, image, 0, 1, 0, 1);
-	image = load_image ("orient-horizontal.png");
+	image = gnumeric_load_image ("orient-horizontal.png");
 	gtk_widget_show (image);
 	gtk_table_attach_defaults (table, image, 2, 3, 0, 1);
 
