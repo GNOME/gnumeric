@@ -1,3 +1,7 @@
+2003-12-22  Jody Goldberg <jody@gnome.org>
+
+	* ms-chart.c (BC_R(ifmt)) : pull in axis value format.
+
 2003-12-19  Jon K Hellan  <hellan@acm.org>
 
 	* ms-excel-write.c (excel_write_WRITEACCESS): Use

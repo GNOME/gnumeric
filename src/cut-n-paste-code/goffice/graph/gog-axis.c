@@ -596,6 +596,15 @@ cb_axis_fmt_changed (G_GNUC_UNUSED GtkWidget *widget,
 	g_object_set (axis, "assigned-format-string-XL", fmt, NULL);
 }
 
+#if 0
+static void
+cb_axis_fmt_assignment_toggled (GtkToggleButton *toggle_button, GtkNotebook *notebook)
+{
+	/* any time the toggle changes assume the user wanted to select the page too */
+	gtk_notebook_set_current_page (notebook, 0); /* assume it is the first page */ 
+}
+#endif
+
 static gpointer
 gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
 {
@@ -608,7 +617,7 @@ gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
 		"minor-tick-out",
 		"minor-tick-in"
 	};
-	GtkWidget *w, *notebook;
+	GtkWidget *w, *notebook; /* , *cbox; */
 	GtkTable  *table;
 	gboolean cur_val;
 	unsigned i = 0;
@@ -620,27 +629,6 @@ gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
 	if (gui == NULL)
 		return NULL;
 	notebook = gtk_notebook_new ();
-
-	if (!axis->is_discrete) {
-		/* Bounds Page */
-		w = gtk_table_new (1, 2, FALSE);
-		table = GTK_TABLE (w);
-		w = gtk_label_new (_("Automatic"));
-		gtk_misc_set_alignment (GTK_MISC (w), 0., .5);
-		gtk_table_attach (table, w, 0, 1, 0, 1, GTK_FILL, 0, 5, 3);
-		for (i = AXIS_ELEM_MIN; i < AXIS_ELEM_MAX_ENTRY ; i++)
-			make_dim_editor (set, table, i, dalloc);
-		gtk_widget_show_all (GTK_WIDGET (table));
-		gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook), GTK_WIDGET (table),
-			gtk_label_new (_("Bounds")));
-		w = number_format_selector_new (),
-		gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook), w,
-			gtk_label_new (_("Format")));
-		gtk_widget_show (w);
-		g_signal_connect (G_OBJECT (w),
-			"number_format_changed",
-			G_CALLBACK (cb_axis_fmt_changed), axis);
-	}
 
 	gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook),
 		glade_xml_get_widget (gui, "axis_pref_table"),
@@ -664,6 +652,48 @@ gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
 		g_signal_connect_object (G_OBJECT (w),
 			"toggled",
 			G_CALLBACK (cb_axis_toggle_changed), axis, 0);
+	}
+
+	if (!axis->is_discrete) {
+		/* Bounds Page */
+		w = gtk_table_new (1, 2, FALSE);
+		table = GTK_TABLE (w);
+		w = gtk_label_new (_("Automatic"));
+		gtk_misc_set_alignment (GTK_MISC (w), 0., .5);
+		gtk_table_attach (table, w, 0, 1, 0, 1, GTK_FILL, 0, 5, 3);
+		for (i = AXIS_ELEM_MIN; i < AXIS_ELEM_MAX_ENTRY ; i++)
+			make_dim_editor (set, table, i, dalloc);
+		gtk_widget_show_all (GTK_WIDGET (table));
+		gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook), GTK_WIDGET (table),
+			gtk_label_new (_("Bounds")));
+
+		w = number_format_selector_new ();
+		if (axis->assigned_format != NULL)
+			number_format_selector_set_style_format (NUMBER_FORMAT_SELECTOR (w),
+				axis->assigned_format);
+		else if (axis->format != NULL)
+			number_format_selector_set_style_format (NUMBER_FORMAT_SELECTOR (w),
+				axis->format);
+
+#if 0
+		/* TOO CHEESY to go into production
+		 * We need a way to toggle auto vs user formats
+		 * but the selector is too tall already
+		 * disable for now */
+		cbox = gtk_check_button_new_with_label (_("Format"));
+		g_signal_connect (G_OBJECT (cbox),
+			"toggled",
+			G_CALLBACK (cb_axis_fmt_assignment_toggled), notebook);
+		gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook), w, cbox);
+#else
+		gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook), w,
+			gtk_label_new (_("Format")));
+#endif
+
+		gtk_widget_show (w);
+		g_signal_connect (G_OBJECT (w),
+			"number_format_changed",
+			G_CALLBACK (cb_axis_fmt_changed), axis);
 	}
 
 	g_object_set_data_full (G_OBJECT (notebook), "gui", gui,

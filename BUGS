@@ -161,7 +161,8 @@ Short Term Goals
 	1.7.9) log scale					(DONE)
 	1.7.10) Titles						(DONE)
 	1.7.11) check marker none
-	1.7.12) Axis value format
+	1.7.12) Axis value format				(DONE)
+	1.7.13) check plot default styles
     1.8) data sources						(DONE)
 	1.8.1) vector and scalar data sources from gnumeric	(DONE)
 	1.8.2) Add min/max elements to vector			(DONE)
@@ -189,6 +190,7 @@ Short Term Goals
 	1.11.3)	Percentage					(DONE)
 	1.11.4)	sub type with no-marker by default		(DONE)
 	1.11.5) center points on X index values for Line	(DONE)
+	1.11.6) handle missing points in unstacked lines
     1.12) X/Y (Scatter) Plot
 	1.12.1) Add simple implementation			(DONE)
 	1.12.2) Take marker sizes into account at bounds

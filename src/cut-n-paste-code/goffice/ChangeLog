@@ -1,3 +1,7 @@
+2003-12-22  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-axis.c (gog_axis_editor) : set the current format.
+
 2003-12-19  Jody Goldberg <jody@gnome.org>
 
 	* utils/go-format.c (go_format_eq) : new.
