@@ -5,16 +5,12 @@
  * Author: Zbigniew Chyla (cyba@gnome.pl)
  */
 
-#undef GTK_DISABLE_DEPRECATED
-#warning "This file uses GTK_DISABLE_DEPRECATED for GtkOptionMenu"
-
 #include <gnumeric-config.h>
 #include <string.h>
 #include <glib.h>
-#include <gtk/gtkoptionmenu.h>
-#include <gtk/gtkmenu.h>
-#include <gtk/gtkmenuitem.h>
-#include <gtk/gtkmenushell.h>
+#include <gtk/gtkcombobox.h>
+#include <gtk/gtkcelllayout.h>
+#include <gtk/gtkcellrenderertext.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gnumeric.h>
 #include <gutils.h>
@@ -24,9 +20,8 @@
 #include "gnm-py-interpreter.h"
 #include "py-interpreter-selector.h"
 
-
 struct _GnmPyInterpreterSelector {
-	GtkOptionMenu parent;
+	GtkComboBox parent;
 
 	GnmPython *py_object;
 	GnmPyInterpreter *cur_interpreter;
@@ -34,7 +29,7 @@ struct _GnmPyInterpreterSelector {
 };
 
 typedef struct {
-	GtkOptionMenuClass parent_class;
+	GtkComboBoxClass parent_class;
 
 	void (*interpreter_changed) (GnmPyInterpreterSelector *sel);
 } GnmPyInterpreterSelectorClass;
@@ -52,47 +47,57 @@ static void cb_destroyed_interpreter (GnmPyInterpreterSelector *sel,
                                       GnmPyInterpreter *interpreter);
 
 static void
-cb_selector_item_activated (GObject *item, GnmPyInterpreterSelector *sel)
+cb_selector_changed (GnmPyInterpreterSelector *sel)
 {
 	GnmPyInterpreter *interpreter;
+	GtkTreeIter iter;
+	GtkTreePath *path = gtk_tree_path_new_from_indices (
+						gtk_combo_box_get_active (GTK_COMBO_BOX (sel)), -1);
+	GtkTreeModel *model = gtk_combo_box_get_model (GTK_COMBO_BOX (sel));
 
-	interpreter = g_object_get_data (item, "py-interpreter");
+	gtk_tree_model_get_iter (model, &iter, path);
+	gtk_tree_model_get (model, &iter, 1, &interpreter, -1);
+	gtk_tree_path_free (path);
 	if (interpreter != sel->cur_interpreter) {
 		sel->cur_interpreter = interpreter;
 		g_signal_emit (sel, signals[INTERPRETER_CHANGED_SIGNAL], 0);
 	}
 }
 
-static GtkWidget *
-menu_find_item_with_interpreter (GtkWidget *menu,
+static GtkTreePath *
+find_item_with_interpreter (GnmPyInterpreterSelector *sel,
                                  GnmPyInterpreter *interpreter)
 {
-	GNM_LIST_FOREACH (GTK_MENU_SHELL (menu)->children, GtkWidget, item,
-		if (interpreter == g_object_get_data (G_OBJECT (item), "py-interpreter")) {
-			return item;
-		}
-	);
+	GtkTreeModel *model = gtk_combo_box_get_model (GTK_COMBO_BOX (sel));
+	GtkTreeIter iter;
+	GnmPyInterpreter *i;
 
+	if (gtk_tree_model_get_iter_first (model, &iter)) {
+		do {
+			gtk_tree_model_get (model, &iter, 1, &i, -1);
+			if (i == interpreter)
+				return gtk_tree_model_get_path (model, &iter);
+		} while (gtk_tree_model_iter_next (model, &iter));
+	}
 	g_warning ("assertion '%s' failed", "interpreter != NULL");
 
 	return NULL;
 }
 
 static void
-menu_add_item_with_interpreter (GnmPyInterpreterSelector *sel, GtkWidget *menu,
+menu_add_item_with_interpreter (GnmPyInterpreterSelector *sel,
                                 GnmPyInterpreter *interpreter, int pos)
 {
-	GtkWidget *item;
+	GtkListStore *store = GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (sel)));
+	GtkTreeIter iter;
 
-	item = gtk_menu_item_new_with_label (
-		gnm_py_interpreter_get_name (interpreter));
-	g_object_set_data (G_OBJECT (item), "py-interpreter", interpreter);
-	g_signal_connect (
-		item, "activate",
-		G_CALLBACK (cb_selector_item_activated),
-		G_OBJECT (sel));
-	gtk_widget_show (item);
-	gtk_menu_shell_insert (GTK_MENU_SHELL (menu), item, pos);
+	if (pos < 0) {
+		gtk_list_store_append (store, &iter);
+	} else {
+		gtk_list_store_insert (store, &iter, pos);
+	}
+	gtk_list_store_set (store, &iter, 0, gnm_py_interpreter_get_name (interpreter),
+				1, interpreter, -1);
 	GNM_SLIST_PREPEND (sel->added_interpreters, interpreter);
 	g_object_weak_ref (
 		G_OBJECT (interpreter), (GWeakNotify) cb_destroyed_interpreter, sel);
@@ -102,35 +107,44 @@ static void
 cb_created_interpreter (GObject *obj, GnmPyInterpreter *interpreter,
                         GnmPyInterpreterSelector *sel)
 {
-	GList *l;
-	int i, newpos = -1;
-	GtkWidget *menu;
+	int i = 0, newpos = -1;
+	GtkTreeModel *model = gtk_combo_box_get_model (GTK_COMBO_BOX (sel));
+	GtkTreeIter iter;
+	GnmPyInterpreter *itp;
 
-	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (sel));
-	for (l = GTK_MENU_SHELL (menu)->children, i = 0; l != NULL; l = l->next, i++) {
-		GnmPyInterpreter *itp;
-
-		itp = g_object_get_data (G_OBJECT (l->data), "py-interpreter");
-		if (gnm_py_interpreter_compare (itp, interpreter) > 0) {
-			newpos = i;
-			break;
-		}
+	if (gtk_tree_model_get_iter_first (model, &iter)) {
+		do {
+			gtk_tree_model_get (model, &iter, 1, &itp, -1);
+			if (gnm_py_interpreter_compare (itp, interpreter) > 0) {
+				newpos = i;
+				break;
+			}
+			i++;
+		} while (gtk_tree_model_iter_next (model, &iter));
 	}
-	menu_add_item_with_interpreter (sel, menu, interpreter, newpos);
+	menu_add_item_with_interpreter (sel, interpreter, newpos);
 }
 
 static void
 cb_destroyed_interpreter (GnmPyInterpreterSelector *sel,
                           GnmPyInterpreter *ex_interpreter)
 {
-	GtkWidget *menu;
+	GtkTreeIter iter;
+	GtkTreeModel *model = gtk_combo_box_get_model (GTK_COMBO_BOX (sel));
+	GtkTreePath *path = find_item_with_interpreter (sel, ex_interpreter);
+	g_return_if_fail (path != NULL);
 
 	GNM_SLIST_REMOVE (sel->added_interpreters, ex_interpreter);
-	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (sel));
-	gtk_object_destroy (
-		GTK_OBJECT (menu_find_item_with_interpreter (menu, ex_interpreter)));
+	gtk_tree_model_get_iter (model, &iter, path);
+	gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
+	gtk_tree_path_free (path);
 	if (sel->cur_interpreter == ex_interpreter) {
 		sel->cur_interpreter = gnm_python_get_default_interpreter (sel->py_object);
+		path = find_item_with_interpreter (sel, sel->cur_interpreter);
+		if (path) {
+			gtk_combo_box_set_active (GTK_COMBO_BOX (sel), *gtk_tree_path_get_indices (path));
+			gtk_tree_path_free (path);
+		}
 		g_signal_emit (sel, signals[INTERPRETER_CHANGED_SIGNAL], 0);
 	}
 }
@@ -138,9 +152,21 @@ cb_destroyed_interpreter (GnmPyInterpreterSelector *sel,
 static void
 gnm_py_interpreter_selector_init (GnmPyInterpreterSelector *sel)
 {
+	GtkCellRenderer* renderer;
+	GtkListStore *store;
 	sel->py_object = NULL;
 	sel->cur_interpreter = NULL;
 	sel->added_interpreters = NULL;
+
+	store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
+	gtk_combo_box_set_model (GTK_COMBO_BOX (sel), GTK_TREE_MODEL (store));
+	renderer = gtk_cell_renderer_text_new ();
+	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (sel),
+								renderer,
+								FALSE);
+	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (sel), renderer,
+									"text", 0,
+									NULL);
 }
 
 static void
@@ -190,14 +216,14 @@ gnm_py_interpreter_selector_class_init (GObjectClass *gobject_class)
 GSF_CLASS (
 	GnmPyInterpreterSelector, gnm_py_interpreter_selector,
 	gnm_py_interpreter_selector_class_init,
-	gnm_py_interpreter_selector_init, GTK_TYPE_OPTION_MENU)
+	gnm_py_interpreter_selector_init, GTK_TYPE_COMBO_BOX)
 
 
 GtkWidget *
 gnm_py_interpreter_selector_new (ErrorInfo **err)
 {
 	GSList *interpreters;
-	GtkWidget *menu;
+	GtkTreePath *path;
 	GObject *obj = g_object_new (GNM_PY_INTERPRETER_SELECTOR_TYPE, NULL);
 	GnmPyInterpreterSelector *sel = GNM_PY_INTERPRETER_SELECTOR (obj);
 	
@@ -216,11 +242,15 @@ gnm_py_interpreter_selector_new (ErrorInfo **err)
 	interpreters = g_slist_copy (gnm_python_get_interpreters (sel->py_object));
 	GNM_SLIST_SORT (interpreters, gnm_py_interpreter_compare);
 	g_assert (interpreters != NULL);
-	menu = gtk_menu_new ();
 	GNM_SLIST_FOREACH (interpreters, GnmPyInterpreter, interpreter,
-		menu_add_item_with_interpreter (sel, menu, interpreter, -1);
+		menu_add_item_with_interpreter (sel, interpreter, -1);
 	);
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (sel), menu);
+	path = find_item_with_interpreter (sel, sel->cur_interpreter);
+	if (path) {
+		gtk_combo_box_set_active (GTK_COMBO_BOX (sel), *gtk_tree_path_get_indices (path));
+		gtk_tree_path_free (path);
+	}
+	g_signal_connect (sel, "changed", G_CALLBACK (cb_selector_changed), NULL);
 	g_slist_free (interpreters);
 	return GTK_WIDGET (sel);
 }
