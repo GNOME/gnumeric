@@ -153,7 +153,7 @@ static char *help_var = {
 
 	   "@DESCRIPTION="
 	   "VAR estimates the variance of a sample of a population. "
-	   "To get the true variance of a complete population use @VARP"
+	   "To get the true variance of a complete population use @VARP."
 	   "\n"
 	   "(VAR is also known as the N-1-variance.  Under reasonable "
 	   "conditions, it is the maximum-likelihood estimator for the "
@@ -186,7 +186,7 @@ static char *help_stdev = {
 
 	   "@DESCRIPTION="
 	   "STDEV returns standard deviation of a set of numbers "
-	   "treating these numbers as members of a population"
+	   "treating these numbers as members of a population. "
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -215,7 +215,7 @@ static char *help_stdevp = {
 
 	   "@DESCRIPTION="
 	   "STDEVP returns standard deviation of a set of numbers "
-	   "treating these numbers as members of a complete population"
+	   "treating these numbers as members of a complete population. "
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -1042,7 +1042,7 @@ static char *help_skewp = {
 	   "@SYNTAX=SKEWP(n1, n2, ...)\n"
 
 	   "@DESCRIPTION="
-	   "SKEW returns the population skewness of a data set."
+	   "SKEWP returns the population skewness of a data set."
 	   "\n"
 	   "Strings and empty cells are simply ignored."
 	   "\n"
@@ -1155,7 +1155,7 @@ static char *help_gammadist = {
 
 	   "@DESCRIPTION="
 	   "GAMMADIST function returns the gamma distribution. If @cum "
-	   "is TRUE GAMMADIST returns the incomplete gamma function, "
+	   "is TRUE, GAMMADIST returns the incomplete gamma function, "
 	   "otherwise it returns the probability mass function."
 	   "\n"
 	   "If @x < 0 GAMMADIST returns #NUM! error. "
@@ -1733,7 +1733,7 @@ static char *help_critbinom = {
 
            "@DESCRIPTION="
            "CRITBINOM function returns the smallest value for which the"
-           "cumulative is creater than or equal to a given value. "
+           "cumulative is greater than or equal to a given value. "
            "@n is the number of trials, @p is the probability of success in "
            "trials, and @alpha is the criterion value. "
            "\n"
@@ -1807,7 +1807,7 @@ static char *help_hypgeomdist = {
 	   "@SYNTAX=HYPGEOMDIST(x,n,M,N)\n"
 
 	   "@DESCRIPTION="
-	   "HYPGEOMDIST function returns the hypergeometric distribution "
+	   "HYPGEOMDIST function returns the hypergeometric distribution. "
 	   "@x is the number of successes in the sample, @n is the number "
            "of trials, @M is the number of successes overall, and @N is the"
            "population size."
@@ -2094,7 +2094,7 @@ static char *help_kurtp = {
            "@SYNTAX=KURTP(n1, n2, ...)\n"
 
            "@DESCRIPTION="
-           "KURT returns the population kurtosis of a data set."
+           "KURTP returns the population kurtosis of a data set."
            "\n"
            "Strings and empty cells are simply ignored."
            "\n"
@@ -2224,7 +2224,7 @@ static char *help_poisson = {
 	   "@SYNTAX=POISSON(x,mean,cumulative)\n"
 
 	   "@DESCRIPTION="
-	   "POISSON function returns the Poisson distribution "
+	   "POISSON function returns the Poisson distribution. "
 	   "@x is the number of events, @mean is the expected numeric value "
 	   "@cumulative describes whether to return the sum of the "
 	   "poisson function from 0 to @x."
@@ -3281,7 +3281,7 @@ static char *help_quartile = {
 	   "QUARTILE function returns the quartile of the given data "
 	   "points.  "
 	   "\n"
-	   "If quart is equal to:  QUARTILE returns:\n"
+	   "If @quart is equal to: QUARTILE returns:\n"
 	   "0                      the smallest value of @array.\n"
 	   "1                      the first quartile\n"
 	   "2                      the second quartile\n"

@@ -1,3 +1,8 @@
+2000-05-27  Valek Filippov  <frob@df.ru>
+
+	* src/functions/fn-math.c, fn-stat.c, fn-lookup.c: typos in
+	description fixed.
+
 2000-05-27  Almer. S. Tigelaar.  <almer1@dds.nl>
 
 	* src/dialogs/stf-parse.c: 

@@ -1347,18 +1347,18 @@ gnumeric_randbinom (FunctionEvalInfo *ei, Value **argv)
 /***************************************************************************/
 
 static char *help_randnegbinom = {
-        N_("@FUNCTION=RandNegBinom\n"
-           "@SYNTAX=RandNegBinom(p,failures)\n"
+        N_("@FUNCTION=RANDNEGBINOM\n"
+           "@SYNTAX=RANDNEGBINOM(p,failures)\n"
 
            "@DESCRIPTION="
-           "RandNegBinom returns a negitive binomialy distributed random "
+           "RANDNEGBINOM returns a negitive binomialy distributed random "
            "number. "
            "\n"
-           "If @p < 0 or @p > 1 RandNegBinom returns #NUM! error. "
-           "If @failures RandNegBinom returns #NUM! error. "
+           "If @p < 0 or @p > 1, RANDNEGBINOM returns #NUM! error. "
+           "If @failures RANDNEGBINOM returns #NUM! error. "
 	   "\n"
            "@EXAMPLES=\n"
-           "RandNegBinom(0.5,2).\n"
+           "RANDNEGBINOM(0.5,2).\n"
            "\n"
            "@SEEALSO=RAND,RANDBETWEEN")
 };
@@ -3228,7 +3228,7 @@ static char *help_mdeterm = {
 	   "@EXAMPLES=\n"
 	   "Let us assume that A1, ..., A4 contain numbers 2, 3, 7, and 3, "
 	   "B1, ..., B4 4, 2, 4, and 1, C1, ..., C4 9, 4, 3, and 2, and "
-	   "D1, ..., D4 7, 3, 6, and 5.  Then.\n"
+	   "D1, ..., D4 7, 3, 6, and 5. Then\n"
 	   "MDETERM(A1:D4) equals 148.\n"
 	   "\n"
 	   "@SEEALSO=MMULT, MINVERSE")
@@ -3281,7 +3281,7 @@ static char *help_sumproduct = {
 	   "products.  If an array entry is not numeric, the value zero is "
 	   "used instead. "
 	   "\n"
-	   "If array or range arguments do not have the same dimentions, "
+	   "If arrays or range arguments do not have the same dimentions, "
 	   "SUMPRODUCT returns #VALUE! error. "
 	   "This function is Excel compatible. "
 	   "\n"

@@ -677,7 +677,7 @@ static char *help_indirect = {
 	   "reference the format of which is either A1 or R1C1 style. The "
 	   "style is set by the format boolean, which defaults to the former."
 	   "\n"
-	   "If ref_text is not a valid reference returns #REF! "
+	   "If @ref_text is not a valid reference returns #REF! "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
