@@ -28,13 +28,15 @@ void
 cell_set_formula (Cell *cell, char *text)
 {
 	char *error_msg = NULL;
-
+	char *desired_format = NULL;
+	
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (text != NULL);
 
 	cell->parsed_node = expr_parse_string (&text [1],
 					       cell->col->pos,
 					       cell->row->pos,
+					       &desired_format,
 					       &error_msg);
 	if (cell->parsed_node == NULL){
 		if (cell->text)
@@ -42,6 +44,11 @@ cell_set_formula (Cell *cell, char *text)
 		cell->text = string_get (error_msg);
 		return;
 	}
+	if (desired_format && strcmp (cell->style->format->format, "General") == 0){
+		style_format_unref (cell->style->format);
+		cell->style->format = style_format_new (desired_format);
+	}
+
 	cell_formula_changed (cell);
 }
 
@@ -261,6 +268,7 @@ cell_set_text (Cell *cell, char *text)
 	} else {
 		Value *v = g_new (Value, 1);
 		int is_text, is_float, maybe_float, has_digits;
+		double d;
 		char *p;
 
 		is_text = is_float = maybe_float = has_digits = FALSE;

@@ -16,7 +16,8 @@
 #include "str.h"
 #include "expr.h"
 #include "utils.h"
-
+#include "number-match.h"
+	
 /* Allocation with disposal-on-error */ 
 static void *alloc_buffer    (int size);
 static void register_symbol  (Symbol *sym);
@@ -314,10 +315,19 @@ return_symbol (char *string)
 	if (!sym)
 	{
 		Value *v = v_new ();
+		double fv;
+		char *format;
 		
-		v->v.str = string_get (string);
-		v->type = VALUE_STRING;
-
+		if (format_match (string, &fv, &format)){
+			v->type = VALUE_FLOAT;
+			v->v.v_float = fv;
+			if (!parser_desired_format)
+				parser_desired_format = format;
+		} else {
+			v->v.str = string_get (string);
+			v->type = VALUE_STRING;
+		}
+		
 		e->oper = OP_CONSTANT;
 		e->u.constant = v;
 	}

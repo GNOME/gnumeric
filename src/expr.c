@@ -8,23 +8,38 @@
 #include "format.h"
 #include "func.h"
 
-char *parser_expr;
-ParseErr parser_error;
+/* Shared variables with parser.y */
+
+/*       The expression being parsed */
+char     *parser_expr;
+
+/*        The suggested format to use for this expression */
+char     *parser_desired_format;
+
+/*        The error returned from the */
+ParseErr  parser_error;
+
+/*        The expression tree returned from the parser */
 ExprTree *parser_result;
-int parser_col, parser_row;
+
+/*        Location where the parsing is taking place */
+int       parser_col, parser_row;
 
 ExprTree *
-expr_parse_string (char *expr, int col, int row, char **error_msg)
+expr_parse_string (char *expr, int col, int row, char **desired_format, char **error_msg)
 {
 	parser_expr = expr;
 	parser_error = PARSE_OK;
 	parser_col = col;
 	parser_row = row;
-		
+	parser_desired_format = NULL;
+	
 	yyparse ();
 	switch (parser_error){
 	case PARSE_OK:
 		*error_msg = NULL;
+		if (desired_format)
+			*desired_format = parser_desired_format;
 		parser_result->ref_count = 1;
 		return parser_result;
 

@@ -5,7 +5,8 @@
 int
 main ()
 {
-	char buffer [100];
+	char buffer [100], *format;
+	double v;
 	char *s;
 	
 	format_match_init ();
@@ -13,6 +14,9 @@ main ()
 	/* To test the formats of the type "0.0 pesos" */
 	format_match_define ("0.0 \"pesos\"");
 
+	printf ("Enter a string that you want to match against the\n"
+		"Gnumeric formats\n");
+	
 	while (1){
 		printf ("> ");
 		fflush (stdout);
@@ -23,8 +27,11 @@ main ()
 
 		if (s [strlen (s)-1] == '\n')
 			s [strlen (s)-1] = 0;
-		
-		format_match (s);
+
+		if (format_match (s, &v, &format))
+			printf ("Format matched: %s, value=%g\n", format, v);
+		else
+			printf ("No match found\n");
 	}
 	return 0;
 }

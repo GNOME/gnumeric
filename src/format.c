@@ -111,20 +111,20 @@ append_month (GString *string, gchar *format, struct tm *time_split)
 	char temp [3];
 	
 	if (format [1] != 'm'){
-		sprintf( temp, "%d", time_split->tm_mon);
+		sprintf (temp, "%d", time_split->tm_mon+1);
 		g_string_append( string, temp);
 		return 1;
 	}
 	
 	if (format [2] != 'm')
 	{
-		sprintf (temp, "%02d", time_split->tm_mon);
+		sprintf (temp, "%02d", time_split->tm_mon+1);
 		g_string_append (string, temp);
 		return 2;
 	}
 	
 	if (format [3] != 'm'){
-		g_string_append (string, _(month_short [time_split->tm_mon]));
+		g_string_append (string, _(month_short [time_split->tm_mon])+1);
 		return 3;
 	}
 
@@ -173,7 +173,7 @@ append_day (GString *string, gchar *format, struct tm *time_split)
 	}
 
 	if (format [3] != 'd'){
-		g_string_append (string, _(day_short[time_split->tm_wday]));
+		g_string_append (string, _(day_short[time_split->tm_wday])+1);
 		return 3;
 	}
 
@@ -681,7 +681,7 @@ static struct tm *
 split_time (gdouble number)
 {
 	static struct tm tm;
-	long secs;
+	double secs;
 	int diff;
 
 	tm.tm_year = 1900;
@@ -689,16 +689,19 @@ split_time (gdouble number)
 	tm.tm_mday = 1;
 
 	/* Day 1 means 1st of jannuary of 1900 */
-	diff = floor (number - 1.0);
-	calc_new_date (&tm.tm_year, &tm.tm_mon, &tm.tm_mday, diff);
+
+	calc_new_date (&tm.tm_year, &tm.tm_mon, &tm.tm_mday, number-1.0);
+/*	printf ("Year: %d Month: %d, Day: %d\n", tm.tm_year, tm.tm_mon, tm.tm_mday); */
 	tm.tm_mon--;
 
 	tm.tm_year -= 1900;
 
-	secs = (number - floor (number)) * 86400;
+	secs = (number - floor (number)) * 86400.0;
 	tm.tm_hour = secs / 3600;
-	tm.tm_min  = (secs % 3600) / 60;
-	tm.tm_sec  = ((secs % 3600) % 60);
+	secs -= tm.tm_hour * 3600;
+	tm.tm_min  = secs / 60;
+	secs -= tm.tm_min * 60;
+	tm.tm_sec  = floor (secs);
 
 	return &tm;
 }
@@ -877,6 +880,7 @@ format_number (gdouble number, StyleFormatEntry *style_format_entry)
 			if (!time_split)
 				time_split = split_time (number);
 			format += append_hour (result, format, time_split, style_format_entry->want_am_pm) - 1;
+			hour_seen = TRUE;
 			break;
 			
 		case 'A':

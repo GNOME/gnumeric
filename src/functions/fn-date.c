@@ -24,7 +24,7 @@ static char *help_date = {
 	   "(the date serial number) for the given year, month and day.\n"
 
 	   "The day might be negative (to count backwards) and it is relative"
-	   "to the previous month"
+	   "to the previous month.  The years should be at least 1900"
 	   "\n"
 	   
 	   ""
@@ -37,7 +37,7 @@ gnumeric_date (struct FunctionDefinition *fd, Value *argv [], char **error_strin
 	Value *v = g_new (Value, 1);
 	int year, month, day;
 
-	year  = 1900 + value_get_as_double (argv [0]);
+	year  = value_get_as_double (argv [0]);
 	month = value_get_as_double (argv [1]);
 	day   = value_get_as_double (argv [2]);
 
@@ -51,7 +51,9 @@ gnumeric_date (struct FunctionDefinition *fd, Value *argv [], char **error_strin
 		day = month_length [leap (year)][month] - day;
 	}
 	v->type = VALUE_INTEGER;
-	v->v.v_int = calc_days (year, month, day);
+	v->v.v_int =
+		calc_days (year, month, day) -
+		calc_days (1900, 1, 1) + 1;
 
 	return v;
 }
@@ -79,7 +81,7 @@ gnumeric_today (FunctionDefinition *fd, Value *argv [], char **error_string)
 	v->type = VALUE_INTEGER;
 	v->v.v_int =
 		calc_days (tm->tm_year + 1900, tm->tm_mon + 1, tm->tm_mday) -
-		calc_days (1900, 1, 1);
+		calc_days (1900, 1, 1) + 1;
 
 	return v;
 }
@@ -116,7 +118,7 @@ gnumeric_now (FunctionDefinition *fd, Value *argv [], char **error_string)
 	v->v.v_float =
 		calc_days (tm->tm_year + 1900, tm->tm_mon + 1, tm->tm_mday) +
 		((tm->tm_hour * 3600 + tm->tm_min * 60 + tm->tm_sec)/(double)DAY_SECONDS) -
-		calc_days (1900, 1, 1);
+		calc_days (1900, 1, 1) + 1;
 
 	return v;
 }
@@ -247,7 +249,7 @@ static char *help_month = {
 
 static char *help_day = {
 	N_("@FUNCTION=DAY\n"
-	   "@SYNTAX=DARY (serial_number)\n"
+	   "@SYNTAX=DAY (serial_number)\n"
 
 	   "@DESCRIPTION="
 	   "Converts a serial number to a day."

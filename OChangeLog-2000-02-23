@@ -1,3 +1,20 @@
+1998-09-29  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/fn-date.c (gnumeric_now, gnumeric_date, gnumeric_today):
+	Note that jannuary 1st is day 1, not day zero.
+
+	* src/format.c (append_month): Fixed handling: tm_mon is zero based.
+	(split_time): Fixed silly mistake I did last time I looked at this code
+
+	* src/cell.c (cell_set_formula): Try to set the cell style if the
+	style is General.
+
+	* src/parser.y (return_symbol): Try to match the input with the
+	format matching engine.
+
+	* autogen.sh (PKG_NAME): Another hack to get rid of the annoying
+	extracing symbols list, which, slows down my link time :-)
+
 1998-09-28  Adrian Likins <adrian@gimp.org>
 
 	* doc/gnumeric.sgml, autofil.sgml, worksheet.sgml: More docs.
@@ -5,8 +22,16 @@
 
 1998-09-28  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/number-match.c (compute_value): New file:  Implements a
+	smart way of parsing numbers:  From all of the registered formats,
+	it creates regexps for matching at the time the user inputs data.
+	If that data matches any of the regexps, then the input is
+	converted into a float, and a display format is assigned to it.
+
 	* src/format.c (append_day, append_month): Skip the -now included-
 	start at the begining for internationalization purposes.
+	(split_time): Fixed the hour and second renddering.
+	(format_number): Fix:  hour_seen was not being set.
 
 	* src/sheet-autofill.c (matches_list): Allow the lists to include
 	an asterisk to be able to distinguish between abbreviations and

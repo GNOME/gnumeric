@@ -5,6 +5,7 @@
 #include "plugin.h"
 #include "format.h"
 #include "cursors.h"
+#include "number-match.h"
 #include "dump.h"
 
 /* If set, the file to load at startup time */
@@ -56,6 +57,7 @@ main (int argc, char *argv [])
 	gnome_init ("Gnumeric", &parser, argc, argv, 0, NULL);
 
 	string_init ();
+	format_match_init ();
 	style_init ();
 	format_color_init ();
 	cursors_init ();
@@ -87,6 +89,7 @@ main (int argc, char *argv [])
 	gtk_main ();
 
 	cursors_shutdown ();
+	format_match_finish ();
 	format_color_shutdown ();
 	return 0;
 }

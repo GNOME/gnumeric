@@ -2,7 +2,9 @@
 # 	-Wshadow             -Wpointer-arith  	\
 # 	-Wmissing-prototypes -Wmissing-declarations 
 
-bin_PROGRAMS = gnumeric number-match
+bin_PROGRAMS = gnumeric 
+
+noinst_PROGRAMS = number-match
 
 INCLUDES = 						\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
@@ -62,6 +64,8 @@ GNUMERIC_BASE_SOURCES =			\
 	item-edit.h			\
 	item-grid.c			\
 	item-grid.h			\
+	number-match.c			\
+	number-match.h			\
 	numbers.h			\
 	parser.y			\
 	pattern-selector.c		\
