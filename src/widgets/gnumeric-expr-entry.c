@@ -288,7 +288,7 @@ cb_gee_key_press_event (GtkEntry	  *entry,
 			gtk_cell_editable_remove_widget (GTK_CELL_EDITABLE (gee));
 			return TRUE;
 		} else
-			wbcg_edit_finish (wbcg, FALSE);
+			wbcg_edit_finish (wbcg, FALSE, NULL);
 		return TRUE;
 
 	case GDK_KP_Enter:
@@ -325,8 +325,8 @@ cb_gee_key_press_event (GtkEntry	  *entry,
 			/* do NOT store the results If the assignment was
 			 * successful it will have taken care of that.
 			 */
-			wbcg_edit_finish (wbcg, FALSE);
-		} else if (wbcg_edit_finish (wbcg, TRUE)) {
+			wbcg_edit_finish (wbcg, FALSE, NULL);
+		} else if (wbcg_edit_finish (wbcg, TRUE, NULL)) {
 			/* move the edit pos */
 			gboolean const direction = (event->state & GDK_SHIFT_MASK) ? FALSE : TRUE;
 			sv_selection_walk_step (sv, direction, FALSE);
