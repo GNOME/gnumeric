@@ -1,3 +1,7 @@
+2001-03-31  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* .cvsignore: Added *.lo and *.la.
+
 2001-03-30  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-container.c (ms_container_init) : Take a parent container.
