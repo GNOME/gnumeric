@@ -256,19 +256,6 @@ expr_to_scm (ExprTree *expr, CellRef cell_ref)
 }
 
 static Value*
-func_scm_eval (FunctionEvalInfo *ei, Value *argv[])
-{
-	SCM result;
-
-	if (argv[0]->type != VALUE_STRING)
-		return value_new_error (&ei->pos, _("Argument must be a Guile expression"));
-
-	result = scm_eval_0str(argv[0]->v.str->str);
-
-	return scm_to_value(result);
-}
-
-static Value*
 func_scm_apply (FunctionEvalInfo *ei, GList *expr_node_list)
 {
 	int i;
@@ -489,7 +476,7 @@ init_plugin (CmdContext *context, PluginData *pd)
 	eval_pos = NULL;
 
 	cat = function_get_category ("Guile");
-	function_add_args  (cat, "scm_eval", "s", "expr",  NULL, func_scm_eval);
+
 	function_add_nodes (cat, "scm_apply", 0, "symbol", NULL, func_scm_apply);
 
 	pd->can_unload = no_unloading_for_me;

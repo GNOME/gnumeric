@@ -1,3 +1,9 @@
+1999-12-30  Ariel Rios  <jarios@usa.net>
+
+	* plugin.c (init_plugin): Removed registration of func_scm_eval.
+	  (func_scm_eval): Removed. This function was not really used 
+	  or needed so I chose to remove possible security hazard.
+
 1999-12-29  Ariel Rios  <jarios@usa.net>
 
 	* gnumeric_startup.scm (home-gnumericrc): We change the location of the home
