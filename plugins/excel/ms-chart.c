@@ -909,7 +909,8 @@ BC_R(legend)(XLChartHandler const *handle,
 			   XL_pos);
 	case 3: pos = GOG_POSITION_E | GOG_POSITION_ALIGN_CENTER; break;
 	case 4: pos = GOG_POSITION_W | GOG_POSITION_ALIGN_CENTER; break;
-	case 7: break; /* treat floating legends as being on east */
+	case 7: /* treat floating legends as being on east */
+		pos = GOG_POSITION_E | GOG_POSITION_ALIGN_CENTER; break; 
 	};
 
 	legend = gog_object_add_by_name (GOG_OBJECT (s->chart), "Legend", NULL);
