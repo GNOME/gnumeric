@@ -524,7 +524,7 @@ GogSeriesElementStyleList *
 gog_series_element_style_list_add (GogSeriesElementStyleList *list,
 				   unsigned i, GogStyle *style)
 {
-	GogSeriesElementStyle *pt;
+	GogSeriesElementStyle *pt = NULL;
 	GSList *ptr;
 
 	for (ptr = list ; ptr != NULL ; ptr = ptr->next) {

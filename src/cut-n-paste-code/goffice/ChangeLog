@@ -1,5 +1,9 @@
 2003-06-07  Jody Goldberg <jody@gnome.org>
 
+	* Release 1.1.18
+
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
 	* graph/gog-view.c (gog_view_queue_resize) : invalidate the allocation
 	  too if there is no parent.
 

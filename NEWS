@@ -42,6 +42,8 @@ Jody:
 	* Simplify the recently used file stuff in preparation for egg.
 	* Fix months old stupidity in my lobotomization of gconf wrapper.
 	* Remove deprecation from canvas items.
+	* Finished first pass at an xml SAX based exporter, still rough around
+	  the edges.
 
 Morten:
 	* New function COLUMNNUMBER.

@@ -9,6 +9,7 @@
 #include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "history.h"
+#include <string.h>
 
 /*
  * Returns a newly allocated string containing the base name of the file

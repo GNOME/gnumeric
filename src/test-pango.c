@@ -16,6 +16,7 @@
 #include "commands.h"
 #include "workbook.h"
 #include "sheet-control.h"
+#include "gnumeric-paths.h"
 
 #include <gtk/gtkmain.h>
 
@@ -99,7 +100,7 @@ main (int argc, char *argv [])
 #endif
 	initial_workbook_open_complete = TRUE; /* make the last unref exit */
 
-	wbc = workbook_control_gui_new (NULL, workbook_new_with_sheets (1));
+	wbc = workbook_control_gui_new (NULL, workbook_new_with_sheets (1), NULL);
 
 	g_idle_add (cb_exercise_pango, wbc);
 

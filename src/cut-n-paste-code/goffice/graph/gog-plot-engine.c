@@ -129,7 +129,7 @@ cb_pending_plot_types_load (char const *path,
 {
 	xmlNode *ptr, *prop;
 	xmlDoc *doc = xmlParseFile (path);
-	GogPlotFamily *family;
+	GogPlotFamily *family = NULL;
 	GogPlotType *type;
 	int col, row;
 	xmlChar *name, *image_file, *description, *engine;

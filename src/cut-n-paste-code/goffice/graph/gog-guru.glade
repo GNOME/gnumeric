@@ -177,7 +177,7 @@
 			  <child>
 			    <widget class="GtkImageMenuItem" id="precedence1">
 			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">_Precedence</property>
+			      <property name="label" translatable="yes">_Order</property>
 			      <property name="use_underline">True</property>
 
 			      <child internal-child="image">

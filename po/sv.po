@@ -30,7 +30,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2003-06-06 11:04+0200\n"
+"POT-Creation-Date: 2003-06-07 01:49-0400\n"
 "PO-Revision-Date: 2003-06-06 12:30+0200\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -17456,20 +17456,21 @@ msgid "Xbase (*.dbf) file format"
 msgstr "Xbase-filformat (*.dbf)"
 
 #: plugins/xml_sax/plugin.xml.in.h:1
-msgid "EXPERIMENTAL Gnumeric XML (*.gnumeric)"
-msgstr "EXPERIMENTELL Gnumeric XML (*.gnumeric)"
-
-#: plugins/xml_sax/plugin.xml.in.h:2
 msgid "EXPERIMENTAL SAX based Gnumeric (*.gnumeric)"
 msgstr "EXPERIMENTELL SAX-baserad Gnumeric (*.gnumeric)"
 
-#: plugins/xml_sax/plugin.xml.in.h:3
+#: plugins/xml_sax/plugin.xml.in.h:2
 msgid "EXPERIMENTAL SAX based XML"
 msgstr "EXPERIMENTELL SAX-baserad XML"
 
-#: plugins/xml_sax/plugin.xml.in.h:4
+#: plugins/xml_sax/plugin.xml.in.h:3
 msgid "The next generation sax based xml I/O subsystem"
 msgstr "Nästa generationens xml-system, baserat på sax"
+
+#: plugins/xml_sax/plugin.xml.in.h:4
+#, fuzzy
+msgid "UNFINISHED Gnumeric XML (*.gnumeric)"
+msgstr "EXPERIMENTELL Gnumeric XML (*.gnumeric)"
 
 #: plugins/xml_sax/xml-sax-read.c:299
 #, c-format
@@ -18250,7 +18251,7 @@ msgstr "Skapa ett pilobjekt"
 msgid "Create an ellipse object"
 msgstr "Skapa ett ellipsobjekt"
 
-#: src/GNOME_Gnumeric.xml.h:67 src/sheet-control-gui.c:1479
+#: src/GNOME_Gnumeric.xml.h:67 src/sheet-control-gui.c:1475
 msgid "Cu_t"
 msgstr "Klipp _ut"
 
@@ -19059,7 +19060,7 @@ msgstr "_ANOVA"
 msgid "_About"
 msgstr "_Om"
 
-#: src/GNOME_Gnumeric.xml.h:258 src/sheet-control-gui.c:1512
+#: src/GNOME_Gnumeric.xml.h:258 src/sheet-control-gui.c:1508
 #: src/workbook-control-gui.c:3629
 msgid "_Add / Modify comment..."
 msgstr "_Lägg till/Ändra kommentar..."
@@ -19114,7 +19115,7 @@ msgid "_Contents"
 msgstr "_Innehåll"
 
 #: src/GNOME_Gnumeric.xml.h:269 src/item-cursor.c:998
-#: src/sheet-control-gui.c:1481
+#: src/sheet-control-gui.c:1477
 msgid "_Copy"
 msgstr "_Kopiera"
 
@@ -19131,7 +19132,7 @@ msgstr "_Data"
 msgid "_Define..."
 msgstr "_Definiera..."
 
-#: src/GNOME_Gnumeric.xml.h:273 src/sheet-control-gui.c:1499
+#: src/GNOME_Gnumeric.xml.h:273 src/sheet-control-gui.c:1495
 #: src/workbook-control-gui.c:3517
 msgid "_Delete..."
 msgstr "_Ta bort..."
@@ -19208,7 +19209,7 @@ msgid "_Help"
 msgstr "_Hjälp"
 
 #: src/GNOME_Gnumeric.xml.h:291 src/dialogs/cell-format.glade.h:110
-#: src/sheet-control-gui.c:1524 src/sheet-control-gui.c:1532
+#: src/sheet-control-gui.c:1520 src/sheet-control-gui.c:1528
 #: src/workbook-control-gui.c:3650 src/workbook-control-gui.c:3669
 msgid "_Hide"
 msgstr "_Dölj"
@@ -19275,7 +19276,7 @@ msgstr "_Öppna..."
 msgid "_Paired Samples: T-Test"
 msgstr "_Parade prover: t-test"
 
-#: src/GNOME_Gnumeric.xml.h:307 src/sheet-control-gui.c:1483
+#: src/GNOME_Gnumeric.xml.h:307 src/sheet-control-gui.c:1479
 msgid "_Paste"
 msgstr "Klistra i_n"
 
@@ -19414,8 +19415,8 @@ msgstr "_Ångra"
 msgid "_Ungroup..."
 msgstr "_Avgruppera..."
 
-#: src/GNOME_Gnumeric.xml.h:339 src/sheet-control-gui.c:1526
-#: src/sheet-control-gui.c:1534 src/workbook-control-gui.c:3653
+#: src/GNOME_Gnumeric.xml.h:339 src/sheet-control-gui.c:1522
+#: src/sheet-control-gui.c:1530 src/workbook-control-gui.c:3653
 #: src/workbook-control-gui.c:3672
 msgid "_Unhide"
 msgstr "_Visa"
@@ -19589,11 +19590,11 @@ msgstr "Inmatning av \"%s%s\" i %s"
 msgid "Typing \"%s%s\""
 msgstr "Inmatning av \"%s%s\""
 
-#: src/commands.c:1200 src/commands.c:1205 src/sheet.c:3147
+#: src/commands.c:1200 src/commands.c:1205 src/sheet.c:3162
 msgid "Delete Columns"
 msgstr "Ta bort kolumner"
 
-#: src/commands.c:1200 src/commands.c:1205 src/sheet.c:3261
+#: src/commands.c:1200 src/commands.c:1205 src/sheet.c:3276
 msgid "Delete Rows"
 msgstr "Ta bort rader"
 
@@ -20220,7 +20221,7 @@ msgstr "B"
 msgid "Width"
 msgstr "Bredd"
 
-#: src/cut-n-paste-code/goffice/graph/gog-graph.c:162
+#: src/cut-n-paste-code/goffice/graph/gog-graph.c:159
 msgid "Chart"
 msgstr "Diagram"
 
@@ -20242,7 +20243,7 @@ msgid "Plot Type"
 msgstr "Plottyp"
 
 #. Set up sample button
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1167
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1163
 msgid ""
 "Show\n"
 "Sample"
@@ -20250,13 +20251,13 @@ msgstr ""
 "Visa\n"
 "exempel"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1176
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1172
 #: src/dialogs/dialog-plugin-manager.c:679
 #: src/dialogs/dialog-preferences.c:509 src/dialogs/function-select.glade.h:2
 msgid "Description"
 msgstr "Beskrivning"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1183
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1179
 msgid "Basic Types"
 msgstr "Grundläggande typer"
 
@@ -20991,7 +20992,7 @@ msgstr "Första bokstaven"
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
 #: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:675
-#: src/format.c:1786 src/format.c:1870 src/format.c:1879 src/format.c:1946
+#: src/format.c:1830 src/format.c:1914 src/format.c:1923 src/format.c:1990
 #: src/plugin-service.c:200
 msgid "General"
 msgstr "Allmän"
@@ -22646,7 +22647,7 @@ msgstr "Lägg till hyperlänk"
 msgid "Edit Hyperlink"
 msgstr "Redigera Hyperlänk"
 
-#: src/dialogs/dialog-hyperlink.c:284 src/sheet-control-gui.c:1449
+#: src/dialogs/dialog-hyperlink.c:284 src/sheet-control-gui.c:1445
 msgid "Remove Hyperlink"
 msgstr "Ta bort hyperlänk"
 
@@ -22831,13 +22832,13 @@ msgid "Directory"
 msgstr "Katalog"
 
 #. Is it a boolean?
-#: src/dialogs/dialog-preferences.c:375 src/format.c:1672
+#: src/dialogs/dialog-preferences.c:375 src/format.c:1681
 #: src/number-match.c:1069 src/value-sheet.c:33 src/value.c:403
 #: src/value.c:773
 msgid "TRUE"
 msgstr "SANT"
 
-#: src/dialogs/dialog-preferences.c:376 src/format.c:1672
+#: src/dialogs/dialog-preferences.c:376 src/format.c:1681
 #: src/number-match.c:1071 src/value-sheet.c:33 src/value.c:404
 #: src/value.c:773
 msgid "FALSE"
@@ -23563,6 +23564,11 @@ msgstr "\""
 msgid "Autodiscovery did not find any columns in the text. Try manually"
 msgstr ""
 "Automatisk upptäckt hittade inte några kolumner i texten. Försök manuellt"
+
+#: src/dialogs/dialog-stf-fixed-page.c:112
+#, c-format
+msgid "You cannot have more than %d columns in this version of Gnumeric."
+msgstr ""
 
 #: src/dialogs/dialog-stf-main-page.c:133
 #, c-format
@@ -25657,40 +25663,40 @@ msgstr "Målområdet är för litet. Det måste vara minst %d kolumner brett"
 msgid "The target region is too small.  It should be at least %d rows high"
 msgstr "Målområdet är för litet. Det måste vara minst %d rader högt"
 
-#: src/format.c:598
+#: src/format.c:605
 msgid "Black"
 msgstr "Svart"
 
-#: src/format.c:599
+#: src/format.c:606
 msgid "Blue"
 msgstr "Blå"
 
-#: src/format.c:600
+#: src/format.c:607
 msgid "Cyan"
 msgstr "Cyan"
 
-#: src/format.c:601
+#: src/format.c:608
 msgid "Green"
 msgstr "Grön"
 
-#: src/format.c:602
+#: src/format.c:609
 msgid "Magenta"
 msgstr "Magenta"
 
-#: src/format.c:603
+#: src/format.c:610
 msgid "Red"
 msgstr "Röd"
 
-#: src/format.c:604
+#: src/format.c:611
 msgid "White"
 msgstr "Vit"
 
-#: src/format.c:605
+#: src/format.c:612
 msgid "Yellow"
 msgstr "Gul"
 
 #. Array of arrays ??
-#: src/format.c:1715
+#: src/format.c:1724
 msgid "ARRAY"
 msgstr "VEKTOR"
 
@@ -26679,12 +26685,12 @@ msgstr "Kan inte aktivera url:en \"%s\""
 msgid "Unable to open '%s'"
 msgstr "Kan inte öppna \"%s\""
 
-#: src/item-bar.c:727
+#: src/item-bar.c:730
 #, c-format
 msgid "Width: %.2f pts (%d pixels)"
 msgstr "Bredd: %.2f pt (%d bildpunkter)"
 
-#: src/item-bar.c:730
+#: src/item-bar.c:733
 #, c-format
 msgid "Height: %.2f pts (%d pixels)"
 msgstr "Höjd: %.2f punkter (%d bildpunkter)"
@@ -27354,7 +27360,7 @@ msgstr "Ogiltigt eftersläpande omvänt snedstreck i ersättning."
 msgid "cannot be performed with multiple ranges selected"
 msgstr "kan inte utföras med flera valda intervall"
 
-#: src/sheet-control-gui.c:1485
+#: src/sheet-control-gui.c:1481
 msgid "Paste _Special"
 msgstr "Klistra in _special"
 
@@ -27365,53 +27371,53 @@ msgstr "Klistra in _special"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1497
+#: src/sheet-control-gui.c:1493
 msgid "_Insert..."
 msgstr "_Infoga..."
 
-#: src/sheet-control-gui.c:1501
+#: src/sheet-control-gui.c:1497
 msgid "_Insert Column(s)"
 msgstr "_Infoga kolumn(er)"
 
-#: src/sheet-control-gui.c:1503
+#: src/sheet-control-gui.c:1499
 msgid "_Delete Column(s)"
 msgstr "Ta _bort kolumn(er)"
 
-#: src/sheet-control-gui.c:1505
+#: src/sheet-control-gui.c:1501
 msgid "_Insert Row(s)"
 msgstr "_Infoga rad(er)"
 
-#: src/sheet-control-gui.c:1507
+#: src/sheet-control-gui.c:1503
 msgid "_Delete Row(s)"
 msgstr "Ta _bort rad(er)"
 
-#: src/sheet-control-gui.c:1510
+#: src/sheet-control-gui.c:1506
 msgid "Clear Co_ntents"
 msgstr "Ta bort i_nnehåll"
 
-#: src/sheet-control-gui.c:1518
+#: src/sheet-control-gui.c:1514
 msgid "_Format Cells..."
 msgstr "_Formatera celler..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1522
+#: src/sheet-control-gui.c:1518
 msgid "Column _Width..."
 msgstr "_Kolumnbredd..."
 
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1530
+#: src/sheet-control-gui.c:1526
 msgid "_Row Height..."
 msgstr "_Radhöjd..."
 
-#: src/sheet-control-gui.c:1537
+#: src/sheet-control-gui.c:1533
 msgid "_Hyperlink"
 msgstr "_Hyperlänk"
 
-#: src/sheet-control-gui.c:1540
+#: src/sheet-control-gui.c:1536
 msgid "Edit _Hyperlink"
 msgstr "Redigera _Hyperlänk"
 
-#: src/sheet-control-gui.c:1543
+#: src/sheet-control-gui.c:1539
 msgid "_Remove Hyperlink"
 msgstr "_Ta bort Hyperlänk"
 
@@ -27492,11 +27498,11 @@ msgstr "kan inte operera på sammanslagna celler"
 msgid "cannot operate on array formulae"
 msgstr "kan inte operera på vektorformler"
 
-#: src/sheet.c:3088
+#: src/sheet.c:3103
 msgid "Insert Columns"
 msgstr "Infoga kolumner"
 
-#: src/sheet.c:3202
+#: src/sheet.c:3217
 msgid "Insert Rows"
 msgstr "Infoga rader"
 

@@ -9,3 +9,7 @@ INCLUDES = -I$(top_srcdir) 					\
 #libgoffice_utils_a_SOURCES = \
 #	go-units.h	\
 #	go-color.h
+
+EXTRA_DIST = \
+	go-units.h	\
+	go-color.h

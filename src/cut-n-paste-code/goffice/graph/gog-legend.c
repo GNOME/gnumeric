@@ -175,10 +175,10 @@ cb_render_elements (unsigned i, GogStyle const *base_style, char const *name,
 		    render_closure *data)
 {
 	GogViewAllocation swatch = data->swatch;
-	GogStyle *style;
+	GogStyle *style = NULL;
 	ArtPoint pos;
 	
-	if (!gog_style_has_marker (style)) {
+	if (!gog_style_has_marker (base_style)) {
 		style = gog_style_dup (base_style);
 		style->outline.width = 0; /* hairline */
 		style->outline.color = RGBA_BLACK;

@@ -1,3 +1,7 @@
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.18
+
 2003-06-05  Jon K Hellan  <hellan@acm.org>
 
 	* py-gnumeric.c (py_initgnumeric): Fix typo. Should be

@@ -796,7 +796,7 @@ xml_write_filter_expr (GnmOutputXML *state,
 }
 
 static void
-xml_write_filter_field (GnmOutputXML *state, xmlNode *filter,
+xml_write_filter_field (GnmOutputXML *state,
 			GnmFilterCondition const *cond, unsigned i)
 {
 	gsf_xml_out_start_element (state->output, GMR "Field");
@@ -835,7 +835,6 @@ xml_write_sheet_filters (GnmOutputXML *state)
 	GSList *ptr;
 	GnmFilter *filter;
 	GnmFilterCondition const *cond;
-	xmlNode *filter_node;
 	unsigned i;
 
 	if (state->sheet->filters == NULL)
@@ -852,7 +851,7 @@ xml_write_sheet_filters (GnmOutputXML *state)
 		for (i = filter->fields->len ; i-- > 0 ; ) {
 			cond = gnm_filter_get_condition (filter, i);
 			if (cond != NULL && cond->op[0] != GNM_FILTER_UNUSED)
-				xml_write_filter_field (state, filter_node, cond, i);
+				xml_write_filter_field (state, cond, i);
 		}
 
 		gsf_xml_out_end_element (state->output); /* </gmr:Filter> */

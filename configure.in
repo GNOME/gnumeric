@@ -705,9 +705,6 @@ src/tools/solver/glpk/source/Makefile
 src/tools/solver/glpk/include/Makefile
 src/tools/solver/lp_solve/Makefile
 src/cut-n-paste-code/Makefile
-src/cut-n-paste-code/egg/Makefile
-src/cut-n-paste-code/egg/menu/Makefile
-src/cut-n-paste-code/egg/toolbar/Makefile
 src/cut-n-paste-code/foocanvas/Makefile
 src/cut-n-paste-code/foocanvas/libfoocanvas/Makefile
 src/cut-n-paste-code/pcre/Makefile
@@ -715,11 +712,9 @@ src/cut-n-paste-code/goffice/Makefile
 src/cut-n-paste-code/goffice/data/Makefile
 src/cut-n-paste-code/goffice/utils/Makefile
 src/cut-n-paste-code/goffice/graph/Makefile
-src/cut-n-paste-code/goffice/graph/tests/Makefile
 src/cut-n-paste-code/goffice/graph/plugins/Makefile
 src/cut-n-paste-code/goffice/graph/plugins/plot_pie/Makefile
 src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/Makefile
-src/cut-n-paste-code/goffice/graph/plugins/plot_xy/Makefile
 doc/Makefile
 doc/C/Makefile
 doc/C/figures/Makefile

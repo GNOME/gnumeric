@@ -30,9 +30,7 @@ libgoffice_graph_a_SOURCES = \
 	gog-axis.c			\
 	gog-axis.h			\
 	gog-legend.c			\
-	gog-legend.c			\
-	gog-label.h			\
-	gog-label.h			\
+	gog-legend.h			\
 	\
 	gog-style.c			\
 	gog-style.h			\
@@ -54,6 +52,7 @@ libgoffice_graph_a_SOURCES = \
 	go-data-impl.h			\
 	\
 	gog-guru.c			\
+	gog-guru.h			\
 	gog-renderer.c			\
 	gog-renderer.h			\
 	gog-renderer-impl.h		\

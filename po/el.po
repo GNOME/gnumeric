@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.49\n"
-"POT-Creation-Date: 2003-05-12 17:26-0400\n"
+"POT-Creation-Date: 2003-06-07 01:49-0400\n"
 "PO-Revision-Date: 2000-03-28 16:26-0500\n"
 "Last-Translator: Spiros Papadimitriou <spapadim+@cs.cmu.edu>\n"
 "Language-Team: Greek <nls@tux.hellug.gr>\n"
@@ -551,8 +551,8 @@ msgstr "Οικονομικές"
 msgid "Functions related to financial derivatives"
 msgstr ""
 
-#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5117
-#: plugins/gnumeric_1_0/xml-io.c:3369 plugins/mps/mps.c:549 src/xml-io.c:3749
+#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5121
+#: plugins/gnumeric_1_0/xml-io.c:3368 plugins/mps/mps.c:549 src/xml-io.c:3749
 msgid "Reading file..."
 msgstr ""
 
@@ -643,12 +643,12 @@ msgstr ""
 msgid "Saving file..."
 msgstr "Απλή"
 
-#: plugins/excel/excel-xml-read.c:84 plugins/xml_sax/xml-sax-read.c:267
+#: plugins/excel/excel-xml-read.c:85 plugins/xml_sax/xml-sax-read.c:267
 #, c-format
 msgid "Unexpected attribute %s::%s == '%s'."
 msgstr ""
 
-#: plugins/excel/excel-xml-read.c:185 plugins/openoffice/openoffice-read.c:975
+#: plugins/excel/excel-xml-read.c:186 plugins/openoffice/openoffice-read.c:975
 #: plugins/xml_sax/xml-sax-read.c:1501
 msgid "XML document not well formed!"
 msgstr ""
@@ -661,7 +661,7 @@ msgstr "#ΑΓΝΩΣΤΟ!"
 #. name for multiple adds
 #: plugins/excel/ms-excel-read.c:1084 plugins/excel/ms-excel-read.c:1095
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:515
-#: src/dialogs/dialog-sheet-order.c:433 src/dialogs/dialog-sheet-order.c:437
+#: src/dialogs/dialog-sheet-order.c:434 src/dialogs/dialog-sheet-order.c:438
 #, c-format
 msgid "Sheet%d"
 msgstr "Φύλλο%d"
@@ -705,21 +705,21 @@ msgstr ""
 msgid "Failure parsing AutoFilter."
 msgstr "Σφάλμα: ανύπαρκτο φύλλο"
 
-#: plugins/excel/ms-excel-read.c:4529
+#: plugins/excel/ms-excel-read.c:4538
 #, fuzzy
 msgid "external references"
 msgstr "Κυκιλική αναφορά"
 
-#: plugins/excel/ms-excel-read.c:5263
+#: plugins/excel/ms-excel-read.c:5267
 msgid "No password supplied"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:5267
+#: plugins/excel/ms-excel-read.c:5271
 #, fuzzy
 msgid "Invalid password"
 msgstr "Άκυρο όρισμα"
 
-#: plugins/excel/ms-excel-read.c:5368
+#: plugins/excel/ms-excel-read.c:5372
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Δε βρέθηκε έγκυρο βιβλίο MS Excel"
 
@@ -5647,9 +5647,9 @@ msgid "%s version %s"
 msgstr "%s έκδοση %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: plugins/fn-info/functions.c:1313 src/dialogs/dialog-cell-format.c:2879
-#: src/dialogs/dialog-cell-format.c:2884 src/dialogs/dialog-cell-format.c:2894
-#: src/workbook-format-toolbar.c:836
+#: plugins/fn-info/functions.c:1313 src/dialogs/dialog-cell-format.c:2886
+#: src/dialogs/dialog-cell-format.c:2891 src/dialogs/dialog-cell-format.c:2901
+#: src/workbook-format-toolbar.c:847
 msgid "Automatic"
 msgstr "Αυτόματο"
 
@@ -13285,7 +13285,7 @@ msgstr ""
 msgid "Functions for manipulating strings"
 msgstr ""
 
-#: plugins/fn-string/plugin.xml.in.h:2 src/dialogs/dialog-search.c:471
+#: plugins/fn-string/plugin.xml.in.h:2 src/dialogs/dialog-search.c:136
 #: src/func.c:677
 msgid "String"
 msgstr "Αλφαριθμ."
@@ -13395,18 +13395,18 @@ msgstr "Μορφή αρχείου XML Gnumeric"
 msgid "It provides support for saving Gnome Glossary in .po files."
 msgstr ""
 
-#: plugins/gnumeric_1_0/xml-io.c:2824 src/xml-io.c:3208
+#: plugins/gnumeric_1_0/xml-io.c:2823 src/xml-io.c:3208
 #, fuzzy
 msgid "Unparsable xml in clipboard"
 msgstr "Επικόλληση τεμαχίου"
 
-#: plugins/gnumeric_1_0/xml-io.c:2831 src/xml-io.c:3215
+#: plugins/gnumeric_1_0/xml-io.c:2830 src/xml-io.c:3215
 msgid "Clipboard is in unknown format"
 msgstr ""
 
-#: plugins/gnumeric_1_0/xml-io.c:3111 plugins/xbase/boot.c:175
-#: src/dialogs/dialog-goto-cell.c:283 src/dialogs/dialog-search.c:721
-#: src/dialogs/print.glade.h:21 src/workbook.c:1048 src/workbook.c:1378
+#: plugins/gnumeric_1_0/xml-io.c:3110 plugins/xbase/boot.c:175
+#: src/dialogs/dialog-goto-cell.c:283 src/dialogs/dialog-search.c:390
+#: src/dialogs/print.glade.h:21 src/workbook.c:996 src/workbook.c:1326
 #: src/xml-io.c:3497
 msgid "Sheet"
 msgstr "Φύλλου"
@@ -13414,17 +13414,17 @@ msgstr "Φύλλου"
 #.
 #. * Pass 2: read the contents
 #.
-#: plugins/gnumeric_1_0/xml-io.c:3238 src/xml-io.c:3629
+#: plugins/gnumeric_1_0/xml-io.c:3237 src/xml-io.c:3629
 #, fuzzy
 msgid "Processing file..."
 msgstr "Απλή"
 
-#: plugins/gnumeric_1_0/xml-io.c:3411
+#: plugins/gnumeric_1_0/xml-io.c:3410
 #, fuzzy
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Δεν είναι αρχείο βιβλίου"
 
-#: plugins/gnumeric_1_0/xml-io.c:3446 src/xml-io.c:3828
+#: plugins/gnumeric_1_0/xml-io.c:3445 src/xml-io.c:3828
 #, fuzzy
 msgid "Failure saving file"
 msgstr "Σφάλμα: ανύπαρκτο φύλλο"
@@ -13552,22 +13552,25 @@ msgstr "Αντικείμεν_ο..."
 msgid "Constraints:"
 msgstr "Νέος Περιορισμός"
 
-#: plugins/mps/mps.c:247 src/commands.c:5423
+#: plugins/mps/mps.c:247 src/commands.c:5445
 #: src/cut-n-paste-code/egg/menu/egg-action.c:120
-#: src/dialogs/dialog-define-names.c:501 src/dialogs/dialog-formula-guru.c:811
-#: src/dialogs/dialog-function-select.c:417
-#: src/dialogs/dialog-function-select.c:439 src/dialogs/dialog-scenarios.c:350
-#: src/dialogs/dialog-simulation.c:227 src/format-template.c:408
-#: src/tools/solver/reports-write.c:81 src/tools/solver/reports-write.c:103
-#: src/tools/solver/reports-write.c:130 src/tools/solver/reports-write.c:237
-#: src/tools/solver/reports-write.c:283 src/tools/solver/reports-write.c:395
-#: src/tools/solver/reports-write.c:402 src/tools/solver/reports-write.c:671
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:961
+#: src/cut-n-paste-code/goffice/graph/gog-series.c:111
+#: src/dialogs/dialog-define-names.c:483 src/dialogs/dialog-formula-guru.c:810
+#: src/dialogs/dialog-function-select.c:418
+#: src/dialogs/dialog-function-select.c:440 src/dialogs/dialog-scenarios.c:351
+#: src/dialogs/dialog-simulation.c:228 src/dialogs/dialog-zoom.c:192
+#: src/format-template.c:408 src/tools/solver/reports-write.c:81
+#: src/tools/solver/reports-write.c:103 src/tools/solver/reports-write.c:130
+#: src/tools/solver/reports-write.c:237 src/tools/solver/reports-write.c:283
+#: src/tools/solver/reports-write.c:395 src/tools/solver/reports-write.c:402
+#: src/tools/solver/reports-write.c:671
 #, fuzzy
 msgid "Name"
 msgstr "Ανώνυμο"
 
-#: plugins/mps/mps.c:274 src/dialogs/dialog-preferences.c:516
-#: src/dialogs/dialog-simulation.c:232 src/tools/solver/reports-write.c:238
+#: plugins/mps/mps.c:274 src/dialogs/dialog-preferences.c:517
+#: src/dialogs/dialog-simulation.c:233 src/tools/solver/reports-write.c:238
 #: src/tools/solver/reports-write.c:284 src/tools/solver/reports-write.c:396
 #: src/tools/solver/reports-write.c:403
 msgid "Value"
@@ -13576,8 +13579,8 @@ msgstr "Τιμή"
 #.
 #. * Fill in the labels of `General Info' section.
 #.
-#: plugins/mps/mps.c:275 src/dialogs/dialog-formula-guru.c:815
-#: src/dialogs/dialog-search.c:723 src/dialogs/fill-series.glade.h:8
+#: plugins/mps/mps.c:275 src/dialogs/dialog-formula-guru.c:814
+#: src/dialogs/dialog-search.c:392 src/dialogs/fill-series.glade.h:8
 #: src/tools/solver/reports-write.c:518
 #, fuzzy
 msgid "Type"
@@ -14265,21 +14268,21 @@ msgstr "Μορφή αρχείου Xbase (*.dbf)"
 
 #: plugins/xml_sax/plugin.xml.in.h:1
 #, fuzzy
-msgid "EXPERIMENTAL Gnumeric XML (*.gnumeric)"
-msgstr "Μορφή αρχείου XML Gnumeric"
-
-#: plugins/xml_sax/plugin.xml.in.h:2
-#, fuzzy
 msgid "EXPERIMENTAL SAX based Gnumeric (*.gnumeric)"
 msgstr "Μορφή αρχείου XML Gnumeric"
 
-#: plugins/xml_sax/plugin.xml.in.h:3
+#: plugins/xml_sax/plugin.xml.in.h:2
 msgid "EXPERIMENTAL SAX based XML"
 msgstr ""
 
-#: plugins/xml_sax/plugin.xml.in.h:4
+#: plugins/xml_sax/plugin.xml.in.h:3
 msgid "The next generation sax based xml I/O subsystem"
 msgstr ""
+
+#: plugins/xml_sax/plugin.xml.in.h:4
+#, fuzzy
+msgid "UNFINISHED Gnumeric XML (*.gnumeric)"
+msgstr "Μορφή αρχείου XML Gnumeric"
 
 #: plugins/xml_sax/xml-sax-read.c:299
 #, c-format
@@ -14506,15 +14509,11 @@ msgid "Default font name"
 msgstr "Ορισμός Ονόματος"
 
 #: schemas/gnumeric-general.schemas.in.h:12
-msgid "Helvetica"
-msgstr ""
-
-#: schemas/gnumeric-general.schemas.in.h:13
 #, fuzzy
 msgid "Horizontal DPI"
 msgstr "Οριζόντια"
 
-#: schemas/gnumeric-general.schemas.in.h:14
+#: schemas/gnumeric-general.schemas.in.h:13
 msgid ""
 "If this value is positive, auto expressions are recalculated within that "
 "many millesecond after a change. If it is negative they are recalculated "
@@ -14522,40 +14521,45 @@ msgid ""
 "defined as the end of a period of that size after a change with no changes."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:15
+#: schemas/gnumeric-general.schemas.in.h:14
 msgid "Length of File History"
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:16
+#: schemas/gnumeric-general.schemas.in.h:15
 msgid "Length of the Undo Descriptors"
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:17
+#: schemas/gnumeric-general.schemas.in.h:16
 msgid "List of recently used files"
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:18
+#: schemas/gnumeric-general.schemas.in.h:17
 msgid "Live Scrolling"
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:19
+#: schemas/gnumeric-general.schemas.in.h:18
 #, fuzzy
 msgid "Maximal Undo Size"
 msgstr "Μέγιστο"
 
-#: schemas/gnumeric-general.schemas.in.h:20
+#: schemas/gnumeric-general.schemas.in.h:19
 #, fuzzy
 msgid "Number of Automatic Clauses"
 msgstr "Αριθμός Αποτυχιών"
 
-#: schemas/gnumeric-general.schemas.in.h:21
+#: schemas/gnumeric-general.schemas.in.h:20
 #, fuzzy
 msgid "Number of Undo Items"
 msgstr "Τίτλοι προς εκτύπωση"
 
-#: schemas/gnumeric-general.schemas.in.h:22
+#: schemas/gnumeric-general.schemas.in.h:21
 msgid "Prefer CLIPBOARD over PRIMARY selection"
 msgstr ""
+
+#: schemas/gnumeric-general.schemas.in.h:22
+#, fuzzy
+msgid "Sans"
+msgstr "Διάστημα"
 
 #: schemas/gnumeric-general.schemas.in.h:23
 msgid "Screen resolution in the horizontal direction."
@@ -14590,8 +14594,8 @@ msgid ""
 "workbook is being saved."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:29 src/GNOME_Gnumeric.xml.h:227
-#: src/workbook-control-gui.c:3926
+#: schemas/gnumeric-general.schemas.in.h:29 src/GNOME_Gnumeric.xml.h:225
+#: src/workbook-control-gui.c:4065
 msgid "Sort Ascending"
 msgstr "Αύξουσα Ταξινόμιση"
 
@@ -14741,79 +14745,12 @@ msgid ""
 "be added automatically."
 msgstr ""
 
-#: schemas/plot-types.xml.in.h:1
-#, fuzzy
-msgid "3D Percentage Lines"
-msgstr "_Ποσοστό"
-
-#: schemas/plot-types.xml.in.h:2
-msgid "3D Stacked Lines"
-msgstr ""
-
-#: schemas/plot-types.xml.in.h:3
-#, fuzzy
-msgid "3D lines"
-msgstr "Πλέ_γμα"
-
-#: schemas/plot-types.xml.in.h:4
-msgid "Category versus value as lines in pseudo-3D."
-msgstr ""
-
-#: schemas/plot-types.xml.in.h:5
-msgid "Category versus value, with markers at each point."
-msgstr ""
-
-#: schemas/plot-types.xml.in.h:6
-msgid "Category versus value."
-msgstr ""
-
-#: schemas/plot-types.xml.in.h:7 src/GNOME_Gnumeric.xml.h:143
-#: src/dialogs/cell-format.glade.h:55 src/workbook-object-toolbar.c:161
-msgid "Line"
-msgstr "Γραμμή"
-
-#: schemas/plot-types.xml.in.h:8
-#, fuzzy
-msgid "Marked lines"
-msgstr "Πλέ_γμα"
-
-#: schemas/plot-types.xml.in.h:9
-msgid ""
-"Minor categories stacked as percentages of the minor total, in lines, "
-"grouped by major category, with markers at each point."
-msgstr ""
-
-#: schemas/plot-types.xml.in.h:10
-msgid ""
-"Minor categories stacked as percentages of the minor total, in lines, "
-"grouped by major category."
-msgstr ""
-
-#: schemas/plot-types.xml.in.h:11
-msgid ""
-"Minor categories stacked in lines grouped by major category, with markers at "
-"each point."
-msgstr ""
-
-#: schemas/plot-types.xml.in.h:12
-msgid "Minor categories stacked in lines grouped by major category."
-msgstr ""
-
-#: schemas/plot-types.xml.in.h:13
-#, fuzzy
-msgid "Percentage lines"
-msgstr "_Ποσοστό"
-
-#: schemas/plot-types.xml.in.h:14
-msgid "Stacked lines"
-msgstr ""
-
 #: src/GNOME_Gnumeric.xml.h:1
 msgid "About this application"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:2 src/workbook-control-gui.c:1358
-#: src/workbook-control-gui.c:3802
+#: src/GNOME_Gnumeric.xml.h:2 src/workbook-control-gui.c:1515
+#: src/workbook-control-gui.c:3939
 #, fuzzy
 msgid "Add _Auto Filter"
 msgstr "Προχωρημένο Φίλτρο"
@@ -14823,25 +14760,25 @@ msgstr "Προχωρημένο Φίλτρο"
 msgid "Add a scenario"
 msgstr "Προχωρημένο Φίλτρο"
 
-#: src/GNOME_Gnumeric.xml.h:4 src/workbook-control-gui.c:3765
+#: src/GNOME_Gnumeric.xml.h:4 src/workbook-control-gui.c:3900
 #, fuzzy
 msgid "Add an outline group"
 msgstr "Παρεμβολή νέων στηλών"
 
-#: src/GNOME_Gnumeric.xml.h:5 src/workbook-control-gui.c:3803
+#: src/GNOME_Gnumeric.xml.h:5 src/workbook-control-gui.c:3940
 msgid "Add or remove a filter"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:6 src/workbook-control-gui.c:3808
+#: src/GNOME_Gnumeric.xml.h:6 src/workbook-control-gui.c:3945
 #, fuzzy
 msgid "Advanced _Filter..."
 msgstr "Προχωρημένο Φίλτρο"
 
-#: src/GNOME_Gnumeric.xml.h:7 src/workbook-format-toolbar.c:473
+#: src/GNOME_Gnumeric.xml.h:7 src/workbook-format-toolbar.c:478
 msgid "Align the contents to the left and decrease the indent"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:8 src/workbook-format-toolbar.c:476
+#: src/GNOME_Gnumeric.xml.h:8 src/workbook-format-toolbar.c:481
 msgid "Align the contents to the left and increase the indent"
 msgstr ""
 
@@ -14849,243 +14786,243 @@ msgstr ""
 msgid "Arrow"
 msgstr "Βέλος"
 
-#: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:3721
+#: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:3856
 msgid "Auto _Correct..."
 msgstr "Αυτόματη _Διόρθωση..."
 
-#: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:3314
+#: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:3455
 #, fuzzy
 msgid "Auto_fill"
 msgstr "Μετακίνηση κελίων"
 
-#: src/GNOME_Gnumeric.xml.h:12 src/workbook-control-gui.c:3315
+#: src/GNOME_Gnumeric.xml.h:12 src/workbook-control-gui.c:3456
 msgid "Automatically fill the current selection"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:13 src/workbook-control-gui.c:3722
+#: src/GNOME_Gnumeric.xml.h:13 src/workbook-control-gui.c:3857
 msgid "Automatically perform simple spell checking"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:14 src/workbook-control-gui.c:3725
+#: src/GNOME_Gnumeric.xml.h:14 src/workbook-control-gui.c:3860
 msgid "Automatically save the current document at regular intervals"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:15 src/dialogs/cell-format.glade.h:16
-#: src/dialogs/dialog-cell-format.c:2889 src/workbook-format-toolbar.c:817
-#: src/workbook-format-toolbar.c:875
+#: src/dialogs/dialog-cell-format.c:2896 src/workbook-format-toolbar.c:828
+#: src/workbook-format-toolbar.c:886
 msgid "Background"
 msgstr "Φόντος"
 
-#: src/GNOME_Gnumeric.xml.h:16 src/widgets/widget-font-selector.c:118
-#: src/workbook-format-toolbar.c:407
+#: src/GNOME_Gnumeric.xml.h:16 src/widgets/widget-font-selector.c:121
+#: src/workbook-format-toolbar.c:412
 msgid "Bold"
 msgstr "Έντονο"
 
-#: src/GNOME_Gnumeric.xml.h:17 src/workbook-format-toolbar.c:803
-#: src/workbook-format-toolbar.c:872
+#: src/GNOME_Gnumeric.xml.h:17 src/workbook-format-toolbar.c:814
+#: src/workbook-format-toolbar.c:883
 msgid "Borders"
 msgstr "Πλαίσια"
 
-#: src/GNOME_Gnumeric.xml.h:18 src/sheet-object-widget.c:424
+#: src/GNOME_Gnumeric.xml.h:18 src/sheet-object-widget.c:421
 #: src/workbook-object-toolbar.c:139
 msgid "Button"
 msgstr "Κουμπί"
 
-#: src/GNOME_Gnumeric.xml.h:19 src/workbook-control-gui.c:3465
+#: src/GNOME_Gnumeric.xml.h:19 src/workbook-control-gui.c:3600
 msgid "C_ells..."
 msgstr "Κ_ελία..."
 
-#: src/GNOME_Gnumeric.xml.h:20 src/workbook-control-gui.c:3374
+#: src/GNOME_Gnumeric.xml.h:20 src/workbook-control-gui.c:3615
+#, fuzzy
+msgid "C_hart..."
+msgstr "Τα_ξινόμιση..."
+
+#: src/GNOME_Gnumeric.xml.h:21 src/workbook-control-gui.c:3515
 msgid "C_lear"
 msgstr "Κα_θαρισμός"
 
-#: src/GNOME_Gnumeric.xml.h:21 src/workbook-control-gui.c:3595
+#: src/GNOME_Gnumeric.xml.h:22 src/workbook-control-gui.c:3730
 msgid "C_olumn"
 msgstr "Στή_λη"
 
-#: src/GNOME_Gnumeric.xml.h:22 src/workbook-format-toolbar.c:434
+#: src/GNOME_Gnumeric.xml.h:23 src/workbook-format-toolbar.c:439
 msgid "Center"
 msgstr "Κέντρο"
 
-#: src/GNOME_Gnumeric.xml.h:23 src/workbook-format-toolbar.c:442
+#: src/GNOME_Gnumeric.xml.h:24 src/workbook-format-toolbar.c:447
 #, fuzzy
 msgid "Center Across Selection"
 msgstr "Κεντρικό τμήμα:"
 
-#: src/GNOME_Gnumeric.xml.h:24 src/workbook-format-toolbar.c:442
+#: src/GNOME_Gnumeric.xml.h:25 src/workbook-format-toolbar.c:447
 #, fuzzy
 msgid "Center across the selected cells"
 msgstr "Κεντρικό τμήμα:"
 
-#: src/GNOME_Gnumeric.xml.h:25 src/workbook-control-gui.c:3256
+#: src/GNOME_Gnumeric.xml.h:26 src/workbook-control-gui.c:3397
 #, fuzzy
 msgid "Change Gnumeric Preferences"
 msgstr "Κυκιλική αναφορά"
 
-#: src/GNOME_Gnumeric.xml.h:26 src/workbook-control-gui.c:3529
+#: src/GNOME_Gnumeric.xml.h:27 src/workbook-control-gui.c:3664
 #, fuzzy
 msgid "Change height of the selected rows"
 msgstr "Ρύθμιση ύψους της σειράς %d"
 
-#: src/GNOME_Gnumeric.xml.h:27 src/workbook-control-gui.c:3522
+#: src/GNOME_Gnumeric.xml.h:28 src/workbook-control-gui.c:3657
 msgid "Change the default column width"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:28 src/workbook-control-gui.c:3541
+#: src/GNOME_Gnumeric.xml.h:29 src/workbook-control-gui.c:3676
 msgid "Change the default row height"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:29 src/workbook-control-gui.c:3510
+#: src/GNOME_Gnumeric.xml.h:30 src/workbook-control-gui.c:3645
 #, fuzzy
 msgid "Change width of the selected columns"
 msgstr "Ρύθμιση πλάτους της στήλης %s"
 
-#: src/GNOME_Gnumeric.xml.h:30 src/workbook-object-toolbar.c:146
+#: src/GNOME_Gnumeric.xml.h:31 src/workbook-object-toolbar.c:146
 msgid "Checkbox"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:31 src/workbook-control-gui.c:3275
+#: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:3416
 msgid "Clear the selected cells' comments"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:3278
+#: src/GNOME_Gnumeric.xml.h:33 src/workbook-control-gui.c:3419
 msgid "Clear the selected cells' contents"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:33 src/workbook-control-gui.c:3272
+#: src/GNOME_Gnumeric.xml.h:34 src/workbook-control-gui.c:3413
 msgid "Clear the selected cells' formats"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:34 src/workbook-control-gui.c:3269
+#: src/GNOME_Gnumeric.xml.h:35 src/workbook-control-gui.c:3410
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:35
+#: src/GNOME_Gnumeric.xml.h:36
 msgid "Close the current file"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:36 src/dialogs/print.glade.h:7
-#: src/workbook-control-gui.c:3274
+#: src/GNOME_Gnumeric.xml.h:37 src/dialogs/print.glade.h:7
+#: src/workbook-control-gui.c:3415
 msgid "Co_mments"
 msgstr "Σχό_λια"
 
-#: src/GNOME_Gnumeric.xml.h:37 src/workbook-control-gui.c:3680
+#: src/GNOME_Gnumeric.xml.h:38 src/workbook-control-gui.c:3815
 #, fuzzy
 msgid "Co_variance"
 msgstr "Συμμεταβολή"
 
-#: src/GNOME_Gnumeric.xml.h:38 src/workbook-control-gui.c:3759
+#: src/GNOME_Gnumeric.xml.h:39 src/workbook-control-gui.c:3894
 msgid "Collapse an outline group"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:39 src/workbook-object-toolbar.c:158
+#: src/GNOME_Gnumeric.xml.h:40 src/workbook-object-toolbar.c:158
 #, fuzzy
 msgid "Combo Box"
 msgstr "Χρώμα"
 
-#: src/GNOME_Gnumeric.xml.h:40 src/workbook-control-gui.c:3652
+#: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:3787
 msgid "Comparing two population means for two paired samples.: t-test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:3656
+#: src/GNOME_Gnumeric.xml.h:42 src/workbook-control-gui.c:3791
 msgid ""
 "Comparing two population means for two unpaired samples from pop. with equal "
 "var.: t-test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:42 src/workbook-control-gui.c:3661
+#: src/GNOME_Gnumeric.xml.h:43 src/workbook-control-gui.c:3796
 msgid ""
 "Comparing two population means for two unpaired samples from pop. with "
 "unequal var.: t-test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:43 src/workbook-control-gui.c:3666
+#: src/GNOME_Gnumeric.xml.h:44 src/workbook-control-gui.c:3801
 msgid ""
 "Comparing two population means from pop. with known variances or using a "
 "large sample: z- test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:44 src/workbook-control-gui.c:3708
+#: src/GNOME_Gnumeric.xml.h:45 src/workbook-control-gui.c:3843
 #, fuzzy
 msgid "Comparing two population variances"
 msgstr "Συμμεταβολή"
 
-#: src/GNOME_Gnumeric.xml.h:45
+#: src/GNOME_Gnumeric.xml.h:46
 msgid "Configure toolbars"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:46 src/workbook-control-gui.c:3834
+#: src/GNOME_Gnumeric.xml.h:47 src/workbook-control-gui.c:3971
 msgid "Consolidate regions using a function"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:47 src/sheet-view.c:309
-#: src/workbook-control-gui.c:3892
+#: src/GNOME_Gnumeric.xml.h:48 src/sheet-view.c:309
+#: src/workbook-control-gui.c:4031
 msgid "Copy"
 msgstr "Αντιγραφή"
 
-#: src/GNOME_Gnumeric.xml.h:48
+#: src/GNOME_Gnumeric.xml.h:49
 #, fuzzy
 msgid "Copy the selection"
 msgstr "Α_ντιγραφή σε νέα θέση"
 
-#: src/GNOME_Gnumeric.xml.h:49 src/workbook-control-gui.c:3892
+#: src/GNOME_Gnumeric.xml.h:50 src/workbook-control-gui.c:4031
 #, fuzzy
 msgid "Copy the selection to the clipboard"
 msgstr "Αντιγραφή επιλογής στο τεμάχιο"
 
-#: src/GNOME_Gnumeric.xml.h:50 src/dialogs/covariance.glade.h:5
+#: src/GNOME_Gnumeric.xml.h:51 src/dialogs/covariance.glade.h:5
 #: src/tools/analysis-tools.c:894 src/tools/analysis-tools.c:897
-#: src/workbook-control-gui.c:3681
+#: src/workbook-control-gui.c:3816
 msgid "Covariance"
 msgstr "Συμμεταβολή"
 
-#: src/GNOME_Gnumeric.xml.h:51 src/workbook-object-toolbar.c:139
+#: src/GNOME_Gnumeric.xml.h:52 src/workbook-object-toolbar.c:139
 #, fuzzy
 msgid "Create a button"
 msgstr "Δημιουργία κουμπιού"
 
-#: src/GNOME_Gnumeric.xml.h:52 src/workbook-object-toolbar.c:146
+#: src/GNOME_Gnumeric.xml.h:53 src/workbook-object-toolbar.c:146
 #, fuzzy
 msgid "Create a checkbox"
 msgstr "Δημιουργία κουμπιού"
 
-#: src/GNOME_Gnumeric.xml.h:53 src/workbook-object-toolbar.c:158
+#: src/GNOME_Gnumeric.xml.h:54 src/workbook-object-toolbar.c:158
 #, fuzzy
 msgid "Create a combo box"
 msgstr "Δημιουργία κουμπιού"
 
-#: src/GNOME_Gnumeric.xml.h:54 src/workbook-object-toolbar.c:134
+#: src/GNOME_Gnumeric.xml.h:55 src/workbook-object-toolbar.c:134
 #, fuzzy
 msgid "Create a frame"
 msgstr "Δημιουργία γραφικού"
 
-#: src/GNOME_Gnumeric.xml.h:55 src/workbook-object-toolbar.c:131
+#: src/GNOME_Gnumeric.xml.h:56 src/workbook-object-toolbar.c:131
 #, fuzzy
 msgid "Create a label"
 msgstr "Δημιουργία γραμμής"
 
-#: src/GNOME_Gnumeric.xml.h:56 src/workbook-object-toolbar.c:161
+#: src/GNOME_Gnumeric.xml.h:57 src/workbook-object-toolbar.c:161
 #, fuzzy
 msgid "Create a line object"
 msgstr "Δημιουργία γραμμής"
 
-#: src/GNOME_Gnumeric.xml.h:57 src/workbook-object-toolbar.c:155
+#: src/GNOME_Gnumeric.xml.h:58 src/workbook-object-toolbar.c:155
 #, fuzzy
 msgid "Create a list"
 msgstr "Δημιουργία γραμμής"
 
-#: src/GNOME_Gnumeric.xml.h:58 src/workbook-control-gui.c:3417
+#: src/GNOME_Gnumeric.xml.h:59
 #, fuzzy
 msgid "Create a new shared view of the workbook"
 msgstr "Δημιουργία νέου βιβλίου"
 
-#: src/GNOME_Gnumeric.xml.h:59 src/workbook-control-gui.c:3420
-#, fuzzy
-msgid "Create a new unshared view of the workbook"
-msgstr "Δημιουργία νέου βιβλίου"
-
-#: src/GNOME_Gnumeric.xml.h:60 src/workbook-control-gui.c:3228
-#: src/workbook-control-gui.c:3868
+#: src/GNOME_Gnumeric.xml.h:60 src/workbook-control-gui.c:3369
+#: src/workbook-control-gui.c:4007
 #, fuzzy
 msgid "Create a new workbook"
 msgstr "Δημιουργία νέου βιβλίου"
@@ -15120,22 +15057,22 @@ msgstr "Δημιουργία βέλους"
 msgid "Create an ellipse object"
 msgstr "Δημιουργία έλλειψης"
 
-#: src/GNOME_Gnumeric.xml.h:67 src/sheet-control-gui.c:1478
+#: src/GNOME_Gnumeric.xml.h:67 src/sheet-control-gui.c:1475
 msgid "Cu_t"
 msgstr "_Κοπή"
 
 #. Default <Ctrl-;> (control semi-colon) to insert the current date
-#: src/GNOME_Gnumeric.xml.h:68 src/workbook-control-gui.c:3438
+#: src/GNOME_Gnumeric.xml.h:68 src/workbook-control-gui.c:3573
 msgid "Current _date"
 msgstr "Τρέχουσα ημ/_νία"
 
 #. Default <Ctrl-:> (control colon) to insert the current time
-#: src/GNOME_Gnumeric.xml.h:69 src/workbook-control-gui.c:3444
+#: src/GNOME_Gnumeric.xml.h:69 src/workbook-control-gui.c:3579
 msgid "Current _time"
 msgstr "Τρέχουσα ώ_ρα"
 
 #: src/GNOME_Gnumeric.xml.h:70 src/sheet-view.c:334 src/sheet-view.c:337
-#: src/workbook-control-gui.c:3889
+#: src/workbook-control-gui.c:4028
 msgid "Cut"
 msgstr "Κοπή"
 
@@ -15144,59 +15081,59 @@ msgstr "Κοπή"
 msgid "Cut the selection"
 msgstr "επιλογή"
 
-#: src/GNOME_Gnumeric.xml.h:72 src/workbook-control-gui.c:3889
+#: src/GNOME_Gnumeric.xml.h:72 src/workbook-control-gui.c:4028
 #, fuzzy
 msgid "Cut the selection to the clipboard"
 msgstr "Κοπή επιλογής στο τεμάχιο"
 
-#: src/GNOME_Gnumeric.xml.h:73 src/workbook-format-toolbar.c:393
-#: src/workbook-format-toolbar.c:473
+#: src/GNOME_Gnumeric.xml.h:73 src/workbook-format-toolbar.c:398
+#: src/workbook-format-toolbar.c:478
 #, fuzzy
 msgid "Decrease Indent"
 msgstr "Δεκέμβριος"
 
-#: src/GNOME_Gnumeric.xml.h:74 src/workbook-format-toolbar.c:467
+#: src/GNOME_Gnumeric.xml.h:74 src/workbook-format-toolbar.c:472
 #, fuzzy
 msgid "Decrease Precision"
 msgstr "Δεκέμβριος"
 
-#: src/GNOME_Gnumeric.xml.h:75 src/workbook-format-toolbar.c:467
+#: src/GNOME_Gnumeric.xml.h:75 src/workbook-format-toolbar.c:472
 #, fuzzy
 msgid "Decrease the number of decimals displayed"
 msgstr "Μείωση του αριθμού δεκαδικών ψηφίων που απεικονίζονται"
 
-#: src/GNOME_Gnumeric.xml.h:76 src/workbook-control-gui.c:3556
+#: src/GNOME_Gnumeric.xml.h:76 src/workbook-control-gui.c:3691
 msgid "Display _Formulas"
 msgstr "Εμφάνιση Ε_ξισώσεων"
 
-#: src/GNOME_Gnumeric.xml.h:77 src/workbook-control-gui.c:3774
+#: src/GNOME_Gnumeric.xml.h:77 src/workbook-control-gui.c:3909
 #, fuzzy
 msgid "Display _Outlines"
 msgstr "Εμφάνιση Ε_ξισώσεων"
 
-#: src/GNOME_Gnumeric.xml.h:78 src/workbook-control-gui.c:3557
+#: src/GNOME_Gnumeric.xml.h:78 src/workbook-control-gui.c:3692
 msgid "Display the value of a formula or the formula itself"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:79 src/workbook-control-gui.c:3923
+#: src/GNOME_Gnumeric.xml.h:79 src/workbook-control-gui.c:4062
 #, fuzzy
 msgid "Edit a function in the current cell"
 msgstr "Εισαγωγή τρέχουσας ώρας στα επιλεγμένα κελιά"
 
-#: src/GNOME_Gnumeric.xml.h:80 src/workbook-control-gui.c:3252
+#: src/GNOME_Gnumeric.xml.h:80 src/workbook-control-gui.c:3393
 #, fuzzy
 msgid "Edit descriptive information"
 msgstr "Περιληπτικές πληροφορίες"
 
-#: src/GNOME_Gnumeric.xml.h:81 src/workbook-control-gui.c:3453
+#: src/GNOME_Gnumeric.xml.h:81 src/workbook-control-gui.c:3588
 msgid "Edit sheet and workbook names"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:3603
+#: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:3738
 msgid "Edit the Gnumeric Preferences"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:83 src/workbook-control-gui.c:3495
+#: src/GNOME_Gnumeric.xml.h:83 src/workbook-control-gui.c:3630
 msgid "Edit the selected cell's comment"
 msgstr "Διόρθωση σχολίων των επιλεγμένων κελίων"
 
@@ -15204,63 +15141,63 @@ msgstr "Διόρθωση σχολίων των επιλεγμένων κελίων"
 msgid "Ellipse"
 msgstr "Έλλειψη"
 
-#: src/GNOME_Gnumeric.xml.h:85 src/workbook-control-gui.c:3513
+#: src/GNOME_Gnumeric.xml.h:85 src/workbook-control-gui.c:3648
 msgid "Ensure columns are just wide enough to display content"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:86 src/workbook-control-gui.c:3532
+#: src/GNOME_Gnumeric.xml.h:86 src/workbook-control-gui.c:3667
 msgid "Ensure rows are just tall enough to display content"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:87 src/workbook-control-gui.c:3639
+#: src/GNOME_Gnumeric.xml.h:87 src/workbook-control-gui.c:3774
 #, fuzzy
 msgid "Exponential smoothing"
 msgstr "Εκθετική"
 
-#: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:3687
+#: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:3822
 #, fuzzy
 msgid "F_orecasting"
 msgstr "Μορφ_οποίηηση"
 
-#: src/GNOME_Gnumeric.xml.h:89 src/workbook-control-gui.c:3859
+#: src/GNOME_Gnumeric.xml.h:89 src/workbook-control-gui.c:3998
 msgid "F_ormat"
 msgstr "Μορφ_οποίηηση"
 
-#: src/GNOME_Gnumeric.xml.h:90 src/workbook-control-gui.c:3324
-msgid "Fill according to a linear or exponential serie"
+#: src/GNOME_Gnumeric.xml.h:90 src/workbook-control-gui.c:3465
+msgid "Fill according to a linear or exponential series"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:91 src/workbook-control-gui.c:3809
+#: src/GNOME_Gnumeric.xml.h:91 src/workbook-control-gui.c:3946
 #, fuzzy
 msgid "Filter data with given criteria"
 msgstr "Φιλτράρισμα ημ/νίας με δεδομένα κριτήρια"
 
 #: src/GNOME_Gnumeric.xml.h:92 src/dialogs/cell-format.glade.h:38
-#: src/workbook-format-toolbar.c:404 src/workbook-format-toolbar.c:762
+#: src/workbook-format-toolbar.c:409
 msgid "Font"
 msgstr "Γραμματοσειρά"
 
-#: src/GNOME_Gnumeric.xml.h:93 src/workbook-format-toolbar.c:404
-#: src/workbook-format-toolbar.c:867
+#: src/GNOME_Gnumeric.xml.h:93 src/workbook-format-toolbar.c:409
+#: src/workbook-format-toolbar.c:878
 msgid "Font selector"
 msgstr "Επιλογή Γραμματοσειράς"
 
-#: src/GNOME_Gnumeric.xml.h:94 src/workbook-format-toolbar.c:869
+#: src/GNOME_Gnumeric.xml.h:94 src/workbook-format-toolbar.c:880
 #, fuzzy
 msgid "Font size"
 msgstr "Γραμματοσειρά"
 
-#: src/GNOME_Gnumeric.xml.h:95 src/dialogs/dialog-cell-format.c:2884
-#: src/workbook-format-toolbar.c:842 src/workbook-format-toolbar.c:878
+#: src/GNOME_Gnumeric.xml.h:95 src/dialogs/dialog-cell-format.c:2891
+#: src/workbook-format-toolbar.c:853 src/workbook-format-toolbar.c:889
 msgid "Foreground"
 msgstr "Φόντος"
 
-#: src/GNOME_Gnumeric.xml.h:96 src/workbook-control-gui.c:3607
+#: src/GNOME_Gnumeric.xml.h:96 src/workbook-control-gui.c:3742
 msgid "Format a region of cells according to a pre-defined template"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:97 src/dialogs/fourier-analysis.glade.h:3
-#: src/workbook-control-gui.c:3690
+#: src/workbook-control-gui.c:3825
 #, fuzzy
 msgid "Fourier Analysis"
 msgstr "Ανάλυση Δεδομένων"
@@ -15271,94 +15208,94 @@ msgstr "Ανάλυση Δεδομένων"
 msgid "Frame"
 msgstr "Ανώνυμο"
 
-#: src/GNOME_Gnumeric.xml.h:99 src/workbook-control-gui.c:1343
-#: src/workbook-control-gui.c:3429
+#: src/GNOME_Gnumeric.xml.h:99 src/workbook-control-gui.c:1500
+#: src/workbook-control-gui.c:3564
 msgid "Freeze the top left of the sheet"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:100 src/dialogs/function-select.glade.h:3
-#: src/workbook-control-gui.c:3922
+#: src/workbook-control-gui.c:4061
 #, fuzzy
 msgid "Function"
 msgstr "Ενέργεια"
 
-#: src/GNOME_Gnumeric.xml.h:101 src/workbook-control-gui.c:3327
+#: src/GNOME_Gnumeric.xml.h:101 src/workbook-control-gui.c:3468
 msgid "Generate random numbers of a selection of distributions"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:102 src/workbook-control-gui.c:3843
+#: src/GNOME_Gnumeric.xml.h:102 src/workbook-control-gui.c:3981
 #, fuzzy
 msgid "Get _External Data"
 msgstr "Εσωτερικό σφάλμα"
 
-#: src/GNOME_Gnumeric.xml.h:103 src/workbook-control-gui.c:3935
+#: src/GNOME_Gnumeric.xml.h:103
 #, fuzzy
 msgid "Graph Guru"
 msgstr "Εξισώσεις"
 
-#: src/GNOME_Gnumeric.xml.h:104 src/workbook-control-gui.c:3528
+#: src/GNOME_Gnumeric.xml.h:104 src/workbook-control-gui.c:3663
 #, fuzzy
 msgid "H_eight..."
 msgstr "Ύψος Σει_ράς..."
 
-#: src/GNOME_Gnumeric.xml.h:105 src/workbook-control-gui.c:3574
+#: src/GNOME_Gnumeric.xml.h:105 src/workbook-control-gui.c:3709
 #, fuzzy
 msgid "Hide _Column Headers"
 msgstr "Απόκρυψη Επικεφαλίδας Στη_λών"
 
-#: src/GNOME_Gnumeric.xml.h:106 src/workbook-control-gui.c:3568
+#: src/GNOME_Gnumeric.xml.h:106 src/workbook-control-gui.c:3703
 msgid "Hide _Gridlines"
 msgstr "Απόκρυψη Π_λέγματος"
 
-#: src/GNOME_Gnumeric.xml.h:107 src/workbook-control-gui.c:3580
+#: src/GNOME_Gnumeric.xml.h:107 src/workbook-control-gui.c:3715
 #, fuzzy
 msgid "Hide _Row Headers"
 msgstr "Απόκρυψη Επικεφαλίδας Σει_ρών"
 
-#: src/GNOME_Gnumeric.xml.h:108 src/workbook-control-gui.c:3562
+#: src/GNOME_Gnumeric.xml.h:108 src/workbook-control-gui.c:3697
 msgid "Hide _Zeros"
 msgstr "Απόκρυψη Μη_δενικών"
 
-#: src/GNOME_Gnumeric.xml.h:109 src/workbook-control-gui.c:3516
+#: src/GNOME_Gnumeric.xml.h:109 src/workbook-control-gui.c:3651
 #, fuzzy
 msgid "Hide the selected columns"
 msgstr "Ταξινόμιση των επιλεγμένων κελιών"
 
-#: src/GNOME_Gnumeric.xml.h:110 src/workbook-control-gui.c:3535
+#: src/GNOME_Gnumeric.xml.h:110 src/workbook-control-gui.c:3670
 #, fuzzy
 msgid "Hide the selected rows"
 msgstr "Ταξινόμιση των επιλεγμένων κελιών"
 
-#: src/GNOME_Gnumeric.xml.h:111 src/workbook-control-gui.c:3498
+#: src/GNOME_Gnumeric.xml.h:111 src/workbook-control-gui.c:3633
 #, fuzzy
 msgid "Hyper_link..."
 msgstr "Άκυρο όρισμα"
 
-#: src/GNOME_Gnumeric.xml.h:112 src/workbook-control-gui.c:3914
+#: src/GNOME_Gnumeric.xml.h:112 src/workbook-control-gui.c:4053
 #, fuzzy
 msgid "Hyperlink"
 msgstr "Άκυρο όρισμα"
 
-#: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:3795
+#: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:3931
 #, fuzzy
 msgid "Import _Text File..."
 msgstr "Εισαγωγή αρχείου"
 
-#: src/GNOME_Gnumeric.xml.h:114 src/workbook-control-gui.c:3796
+#: src/GNOME_Gnumeric.xml.h:114 src/workbook-control-gui.c:3932
 #, fuzzy
 msgid "Import the text from a file"
 msgstr "Εισαγωγή αρχείου"
 
-#: src/GNOME_Gnumeric.xml.h:115 src/workbook-format-toolbar.c:372
-#: src/workbook-format-toolbar.c:476
+#: src/GNOME_Gnumeric.xml.h:115 src/workbook-format-toolbar.c:377
+#: src/workbook-format-toolbar.c:481
 msgid "Increase Indent"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:116 src/workbook-format-toolbar.c:464
+#: src/GNOME_Gnumeric.xml.h:116 src/workbook-format-toolbar.c:469
 msgid "Increase Precision"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:117 src/workbook-format-toolbar.c:464
+#: src/GNOME_Gnumeric.xml.h:117 src/workbook-format-toolbar.c:469
 #, fuzzy
 msgid "Increase the number of decimals displayed"
 msgstr "Αύξηση του αριθμού δεκαδικών ψηφίων που απεικονίζονται"
@@ -15372,24 +15309,24 @@ msgstr "Παρεμβολή στη_λών"
 msgid "Insert Shaped Component"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:120 src/workbook-control-gui.c:3499
-#: src/workbook-control-gui.c:3915
+#: src/GNOME_Gnumeric.xml.h:120 src/workbook-control-gui.c:3634
+#: src/workbook-control-gui.c:4054
 #, fuzzy
 msgid "Insert a Hyperlink"
 msgstr "Άκυρο όρισμα"
 
-#: src/GNOME_Gnumeric.xml.h:121 src/workbook-control-gui.c:3489
+#: src/GNOME_Gnumeric.xml.h:121 src/workbook-control-gui.c:3624
 #, fuzzy
 msgid "Insert a function into the selected cell"
 msgstr "Εισαγωγή τρέχουσας ώρας στα επιλεγμένα κελιά"
 
-#: src/GNOME_Gnumeric.xml.h:122 src/workbook-control-gui.c:611
-#: src/workbook-control-gui.c:3339
+#: src/GNOME_Gnumeric.xml.h:122 src/workbook-control-gui.c:610
+#: src/workbook-control-gui.c:3480
 #, fuzzy
 msgid "Insert a new sheet"
 msgstr "Προσθήκη νέου φύλλου"
 
-#: src/GNOME_Gnumeric.xml.h:123 src/workbook-control-gui.c:3475
+#: src/GNOME_Gnumeric.xml.h:123 src/workbook-control-gui.c:3610
 msgid "Insert a new spreadsheet"
 msgstr "Προσθήκη νέου φύλλου"
 
@@ -15398,7 +15335,7 @@ msgstr "Προσθήκη νέου φύλλου"
 msgid "Insert a shaped component into the spreadsheet"
 msgstr "Εισαγωγή αντικειμένου στο φύλλο"
 
-#: src/GNOME_Gnumeric.xml.h:125 src/workbook-control-gui.c:3485
+#: src/GNOME_Gnumeric.xml.h:125 src/workbook-control-gui.c:3620
 #, fuzzy
 msgid "Insert an image"
 msgstr "Εισα_γωγή"
@@ -15408,23 +15345,23 @@ msgstr "Εισα_γωγή"
 msgid "Insert an object into the spreadsheet"
 msgstr "Εισαγωγή αντικειμένου στο φύλλο"
 
-#: src/GNOME_Gnumeric.xml.h:127 src/workbook-control-gui.c:3466
+#: src/GNOME_Gnumeric.xml.h:127 src/workbook-control-gui.c:3601
 msgid "Insert new cells"
 msgstr "Παρεμβολή νέων κελίων"
 
-#: src/GNOME_Gnumeric.xml.h:128 src/workbook-control-gui.c:3469
+#: src/GNOME_Gnumeric.xml.h:128 src/workbook-control-gui.c:3604
 msgid "Insert new columns"
 msgstr "Παρεμβολή νέων στηλών"
 
-#: src/GNOME_Gnumeric.xml.h:129 src/workbook-control-gui.c:3472
+#: src/GNOME_Gnumeric.xml.h:129 src/workbook-control-gui.c:3607
 msgid "Insert new rows"
 msgstr "Παρεμβολή νέων στηλών"
 
-#: src/GNOME_Gnumeric.xml.h:130 src/workbook-control-gui.c:3439
+#: src/GNOME_Gnumeric.xml.h:130 src/workbook-control-gui.c:3574
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Εισαγωγή τρέχουσας ημ/νίας στα επιλεγμένα κελιά"
 
-#: src/GNOME_Gnumeric.xml.h:131 src/workbook-control-gui.c:3445
+#: src/GNOME_Gnumeric.xml.h:131 src/workbook-control-gui.c:3580
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Εισαγωγή τρέχουσας ώρας στα επιλεγμένα κελιά"
 
@@ -15437,24 +15374,24 @@ msgstr "Εισαγωγή αντικειμένου Bonobo"
 msgid "Inserts a Shaped Bonobo object"
 msgstr "Εισαγωγή αντικειμένου Bonobo"
 
-#: src/GNOME_Gnumeric.xml.h:134 src/workbook-control-gui.c:3351
+#: src/GNOME_Gnumeric.xml.h:134 src/workbook-control-gui.c:3492
 msgid "Irrevocably remove an entire sheet"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:135 src/widgets/widget-font-selector.c:120
-#: src/workbook-format-toolbar.c:414
+#: src/GNOME_Gnumeric.xml.h:135 src/widgets/widget-font-selector.c:123
+#: src/workbook-format-toolbar.c:419
 msgid "Italic"
 msgstr "Πλάγιο"
 
-#: src/GNOME_Gnumeric.xml.h:136 src/workbook-control-gui.c:3731
+#: src/GNOME_Gnumeric.xml.h:136 src/workbook-control-gui.c:3866
 msgid "Iteratively recalculate to find a target value"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:3735
+#: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:3870
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:138 src/workbook-control-gui.c:3400
+#: src/GNOME_Gnumeric.xml.h:138 src/workbook-control-gui.c:3541
 msgid "Jump to a specified cell"
 msgstr "Μετακίνηση στο καθορισμένο κελί"
 
@@ -15465,426 +15402,420 @@ msgstr "Μετακίνηση στο καθορισμένο κελί"
 msgid "Label"
 msgstr "Ετικέτες"
 
-#: src/GNOME_Gnumeric.xml.h:140 src/workbook-control-gui.c:3481
-#: src/workbook-control-gui.c:3936
+#: src/GNOME_Gnumeric.xml.h:140 src/workbook-control-gui.c:3616
+#: src/workbook-control-gui.c:4075
+#, fuzzy
+msgid "Launch the Chart Guru"
+msgstr "Εξισώσεις"
+
+#: src/GNOME_Gnumeric.xml.h:141
 #, fuzzy
 msgid "Launch the Graph Guru"
 msgstr "Εξισώσεις"
 
-#: src/GNOME_Gnumeric.xml.h:141 src/workbook-format-toolbar.c:430
+#: src/GNOME_Gnumeric.xml.h:142 src/workbook-format-toolbar.c:435
 #, fuzzy
 msgid "Left Align"
 msgstr "Αριστερή στοίχιση"
 
-#: src/GNOME_Gnumeric.xml.h:142 src/workbook-format-toolbar.c:430
+#: src/GNOME_Gnumeric.xml.h:143 src/workbook-format-toolbar.c:435
 msgid "Left align"
 msgstr "Αριστερή στοίχιση"
 
-#: src/GNOME_Gnumeric.xml.h:144 src/workbook-object-toolbar.c:155
+#: src/GNOME_Gnumeric.xml.h:144 src/dialogs/cell-format.glade.h:55
+#: src/dialogs/dialog-stf-main-page.c:320 src/workbook-object-toolbar.c:161
+msgid "Line"
+msgstr "Γραμμή"
+
+#: src/GNOME_Gnumeric.xml.h:145 src/workbook-object-toolbar.c:155
 #, fuzzy
 msgid "List"
 msgstr "Τελευταία"
 
-#: src/GNOME_Gnumeric.xml.h:145 src/workbook-control-gui.c:3335
+#: src/GNOME_Gnumeric.xml.h:146 src/workbook-control-gui.c:3476
 msgid "Make a copy of the current sheet"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:146 src/workbook-control-gui.c:3321
+#: src/GNOME_Gnumeric.xml.h:147 src/workbook-control-gui.c:3462
 msgid "Make a table of a cell's value as a function of other cells"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:147 src/workbook-control-gui.c:3519
+#: src/GNOME_Gnumeric.xml.h:148 src/workbook-control-gui.c:3654
 msgid "Make any hidden columns in the selection visible"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:148 src/workbook-control-gui.c:3538
+#: src/GNOME_Gnumeric.xml.h:149 src/workbook-control-gui.c:3673
 #, fuzzy
 msgid "Make any hidden rows in the selection visible"
 msgstr "Δεν μπορώ να προσθέσω περισσότερα από το μήκος της επιλογής."
 
-#: src/GNOME_Gnumeric.xml.h:149 src/workbook-control-gui.c:3716
+#: src/GNOME_Gnumeric.xml.h:150 src/workbook-control-gui.c:3851
 msgid "Manage available plugin modules"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:150 src/workbook-control-gui.c:3347
-#: src/workbook-control-gui.c:3551
+#: src/GNOME_Gnumeric.xml.h:151 src/workbook-control-gui.c:3488
+#: src/workbook-control-gui.c:3686
 #, fuzzy
 msgid "Manage the sheets in this workbook"
 msgstr "Ονόματα στο βιβλίο:"
 
-#: src/GNOME_Gnumeric.xml.h:151 src/sheet-merge.c:73
-#: src/workbook-format-toolbar.c:446
+#: src/GNOME_Gnumeric.xml.h:152 src/sheet-merge.c:73
+#: src/workbook-format-toolbar.c:451
 #, fuzzy
 msgid "Merge"
 msgstr "Μέσος όρος"
 
-#: src/GNOME_Gnumeric.xml.h:152 src/workbook-format-toolbar.c:446
+#: src/GNOME_Gnumeric.xml.h:153 src/workbook-format-toolbar.c:451
 msgid "Merge a range of cells"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:153 src/dialogs/merge.glade.h:2
-#: src/workbook-control-gui.c:3317
-#, fuzzy
-msgid "Merge..."
-msgstr "Μέσος όρος"
-
-#: src/GNOME_Gnumeric.xml.h:154 src/workbook-control-gui.c:3318
+#: src/GNOME_Gnumeric.xml.h:154 src/workbook-control-gui.c:3459
 msgid ""
 "Merges columnar data into a sheet creating duplicate sheets for each row"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:155 src/workbook-control-gui.c:3592
+#: src/GNOME_Gnumeric.xml.h:155 src/workbook-control-gui.c:3727
 msgid "Modify the formatting of the selected cells"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:156 src/workbook-control-gui.c:3600
+#: src/GNOME_Gnumeric.xml.h:156 src/workbook-control-gui.c:3735
 msgid "Modify the workbook attributes"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:157 src/workbook-format-toolbar.c:455
+#: src/GNOME_Gnumeric.xml.h:157 src/workbook-format-toolbar.c:460
 #, fuzzy
 msgid "Money"
 msgstr "Δευτέρα"
 
-#: src/GNOME_Gnumeric.xml.h:158 src/workbook-control-gui.c:3643
+#: src/GNOME_Gnumeric.xml.h:158 src/workbook-control-gui.c:3778
 #, fuzzy
 msgid "Moving average"
 msgstr "Κινούμενος Μέσος Όρος"
 
-#: src/GNOME_Gnumeric.xml.h:159 src/workbook-control-gui.c:3868
+#: src/GNOME_Gnumeric.xml.h:159 src/workbook-control-gui.c:4007
 msgid "New"
 msgstr "Νέο"
 
-#: src/GNOME_Gnumeric.xml.h:160 src/workbook-control-gui.c:3416
-#, fuzzy
-msgid "New _Shared"
-msgstr "Νέο Φύλλο"
-
-#: src/GNOME_Gnumeric.xml.h:161 src/workbook-control-gui.c:3419
-#, fuzzy
-msgid "New _Unshared"
-msgstr "Νέο Φύλλο"
-
-#: src/GNOME_Gnumeric.xml.h:162 src/workbook-control-gui.c:3627
+#: src/GNOME_Gnumeric.xml.h:160 src/workbook-control-gui.c:3762
 msgid "One Factor Analysis of Variance"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:163 src/workbook-control-gui.c:3871
+#: src/GNOME_Gnumeric.xml.h:161 src/workbook-control-gui.c:4010
 msgid "Open"
 msgstr "Άνοιγμα"
 
-#: src/GNOME_Gnumeric.xml.h:164 src/workbook-control-gui.c:3871
+#: src/GNOME_Gnumeric.xml.h:162 src/workbook-control-gui.c:4010
 #, fuzzy
 msgid "Open a file"
 msgstr "Εισαγωγή αρχείου"
 
-#: src/GNOME_Gnumeric.xml.h:165 src/workbook-control-gui.c:3780
+#: src/GNOME_Gnumeric.xml.h:163 src/workbook-control-gui.c:3915
 #, fuzzy
 msgid "Outlines _Below"
 msgstr "Περίγραμμα"
 
-#: src/GNOME_Gnumeric.xml.h:166 src/workbook-control-gui.c:3786
+#: src/GNOME_Gnumeric.xml.h:164 src/workbook-control-gui.c:3921
 #, fuzzy
 msgid "Outlines _Right"
 msgstr "Δε_ξιά"
 
-#: src/GNOME_Gnumeric.xml.h:167
+#: src/GNOME_Gnumeric.xml.h:165
 #, fuzzy
 msgid "P_aste Special..."
 msgstr "Ειδική επικόλληση"
 
-#: src/GNOME_Gnumeric.xml.h:168 src/GNOME_Gnumeric_Component.xml.h:4
-#: src/workbook-control-gui.c:3238
+#: src/GNOME_Gnumeric.xml.h:166 src/GNOME_Gnumeric_Component.xml.h:4
+#: src/workbook-control-gui.c:3379
 #, fuzzy
 msgid "Page Set_up..."
 msgstr "Ρυθμίσεις εκτύπωσης"
 
-#: src/GNOME_Gnumeric.xml.h:169 src/workbook-control-gui.c:3831
+#: src/GNOME_Gnumeric.xml.h:167 src/workbook-control-gui.c:3968
 #, fuzzy
 msgid "Parse the text in the selection into data"
 msgstr "Εισάγετε περιγραφή μορφοποίησης κάθε τμήματος:"
 
-#: src/GNOME_Gnumeric.xml.h:170 src/cmd-edit.c:344
-#: src/workbook-control-gui.c:3895
+#: src/GNOME_Gnumeric.xml.h:168 src/cmd-edit.c:344
+#: src/workbook-control-gui.c:4034
 msgid "Paste"
 msgstr "Επικόλληση"
 
-#: src/GNOME_Gnumeric.xml.h:171
+#: src/GNOME_Gnumeric.xml.h:169
 #, fuzzy
 msgid "Paste the clipboard"
 msgstr "Επικόλληση τεμαχίου"
 
-#: src/GNOME_Gnumeric.xml.h:172 src/workbook-control-gui.c:3895
+#: src/GNOME_Gnumeric.xml.h:170 src/workbook-control-gui.c:4034
 #, fuzzy
 msgid "Paste the contents of the clipboard"
 msgstr "Επικόλληση τεμαχίου"
 
-#: src/GNOME_Gnumeric.xml.h:173 src/workbook-control-gui.c:3369
+#: src/GNOME_Gnumeric.xml.h:171 src/workbook-control-gui.c:3510
 msgid "Paste with optional filters and transformations"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:174 src/workbook-control-gui.c:3678
+#: src/GNOME_Gnumeric.xml.h:172 src/workbook-control-gui.c:3813
 #, fuzzy
 msgid "Pearson Correlation"
 msgstr "Συσχέτιση"
 
-#: src/GNOME_Gnumeric.xml.h:175 src/workbook-format-toolbar.c:458
+#: src/GNOME_Gnumeric.xml.h:173 src/workbook-format-toolbar.c:463
 msgid "Percent"
 msgstr "Ποσοστό"
 
-#: src/GNOME_Gnumeric.xml.h:176 src/workbook-control-gui.c:3702
+#: src/GNOME_Gnumeric.xml.h:174 src/workbook-control-gui.c:3837
 msgid "Periodic and random samples"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:177 src/workbook-control-gui.c:3255
+#: src/GNOME_Gnumeric.xml.h:175 src/workbook-control-gui.c:3396
 #, fuzzy
 msgid "Preferen_ces..."
 msgstr "Επιλογές..."
 
-#: src/GNOME_Gnumeric.xml.h:178 src/dialogs/print.glade.h:14
-#: src/workbook-control-gui.c:3880
+#: src/GNOME_Gnumeric.xml.h:176 src/dialogs/print.glade.h:14
+#: src/workbook-control-gui.c:4019
 msgid "Print"
 msgstr "Εκτύπωση"
 
-#: src/GNOME_Gnumeric.xml.h:179 src/workbook-control-gui.c:3241
+#: src/GNOME_Gnumeric.xml.h:177 src/workbook-control-gui.c:3382
 #, fuzzy
 msgid "Print Pre_view..."
 msgstr "Προεπι_σκόπιση εκτύπωσης"
 
-#: src/GNOME_Gnumeric.xml.h:180 src/workbook-control-gui.c:3883
+#: src/GNOME_Gnumeric.xml.h:178 src/workbook-control-gui.c:4022
 #, fuzzy
 msgid "Print Preview"
 msgstr "Προεπισκόπιση εκτύπωσης"
 
-#: src/GNOME_Gnumeric.xml.h:181 src/GNOME_Gnumeric_Component.xml.h:6
+#: src/GNOME_Gnumeric.xml.h:179 src/GNOME_Gnumeric_Component.xml.h:6
 #: src/dialogs/print.glade.h:16 src/print.c:1338
-#: src/workbook-control-gui.c:3242 src/workbook-control-gui.c:3883
+#: src/workbook-control-gui.c:3383 src/workbook-control-gui.c:4022
 msgid "Print preview"
 msgstr "Προεπισκόπιση εκτύπωσης"
 
-#: src/GNOME_Gnumeric.xml.h:182 src/GNOME_Gnumeric_Component.xml.h:7
+#: src/GNOME_Gnumeric.xml.h:180 src/GNOME_Gnumeric_Component.xml.h:7
 msgid "Print the current file"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:183 src/workbook-control-gui.c:3880
+#: src/GNOME_Gnumeric.xml.h:181 src/workbook-control-gui.c:4019
 #, fuzzy
 msgid "Print the workbook"
 msgstr "Εκτύπωση βιβλίου"
 
-#: src/GNOME_Gnumeric.xml.h:184 src/GNOME_Gnumeric_Component.xml.h:8
-#: src/workbook-control-gui.c:3251
+#: src/GNOME_Gnumeric.xml.h:182 src/GNOME_Gnumeric_Component.xml.h:8
+#: src/workbook-control-gui.c:3392
 #, fuzzy
 msgid "Proper_ties..."
 msgstr "Επιλογές..."
 
-#: src/GNOME_Gnumeric.xml.h:185
+#: src/GNOME_Gnumeric.xml.h:183
 #, fuzzy
 msgid "Quit the application"
 msgstr "επιλογή"
 
-#: src/GNOME_Gnumeric.xml.h:186
+#: src/GNOME_Gnumeric.xml.h:184
 #, fuzzy
 msgid "Radio Button"
 msgstr "Κουμπί"
 
-#: src/GNOME_Gnumeric.xml.h:187
+#: src/GNOME_Gnumeric.xml.h:185
 #, fuzzy
 msgid "Ranks and _Percentiles"
 msgstr "Τάξη και Ποσοστημόριο"
 
-#: src/GNOME_Gnumeric.xml.h:188 src/workbook-control-gui.c:3696
+#: src/GNOME_Gnumeric.xml.h:186 src/workbook-control-gui.c:3831
 #, fuzzy
 msgid "Ranks, placements and percentiles"
 msgstr "Τάξη και Ποσοστημόριο"
 
-#: src/GNOME_Gnumeric.xml.h:189 src/workbook-control-gui.c:3342
-#: src/workbook-control-gui.c:3547
+#: src/GNOME_Gnumeric.xml.h:187 src/workbook-control-gui.c:3483
+#: src/workbook-control-gui.c:3682
 #, fuzzy
 msgid "Re_name..."
 msgstr "Κ_ελία..."
 
-#: src/GNOME_Gnumeric.xml.h:190 src/workbook-control-gui.c:3405
+#: src/GNOME_Gnumeric.xml.h:188 src/workbook-control-gui.c:3546
 #, fuzzy
 msgid "Recalculate"
 msgstr "Επαν_υπολογισμός"
 
-#: src/GNOME_Gnumeric.xml.h:191 src/workbook-control-gui.c:3406
+#: src/GNOME_Gnumeric.xml.h:189 src/workbook-control-gui.c:3547
 msgid "Recalculate the spreadsheet"
 msgstr "Επανυπολογισμός του φύλλου"
 
-#: src/GNOME_Gnumeric.xml.h:192 src/workbook-object-toolbar.c:167
+#: src/GNOME_Gnumeric.xml.h:190 src/workbook-object-toolbar.c:167
 msgid "Rectangle"
 msgstr "Ορθογώνιο"
 
-#: src/GNOME_Gnumeric.xml.h:193 src/workbook-control-gui.c:4152
+#: src/GNOME_Gnumeric.xml.h:191 src/workbook-control-gui.c:4298
 #, fuzzy
 msgid "Redo the undone action"
 msgstr "Γεννήτρια Τυχαίων Αριθμών"
 
-#: src/GNOME_Gnumeric.xml.h:194 src/workbook-control-gui.c:3699
+#: src/GNOME_Gnumeric.xml.h:192 src/workbook-control-gui.c:3834
 #, fuzzy
 msgid "Regression Analysis"
 msgstr "Περιγραφικά στατιστικά"
 
-#: src/GNOME_Gnumeric.xml.h:195 src/workbook-control-gui.c:3768
+#: src/GNOME_Gnumeric.xml.h:193 src/workbook-control-gui.c:3903
 msgid "Remove an outline group"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:196
+#: src/GNOME_Gnumeric.xml.h:194
 msgid "Remove selected cells, shifting others into their place"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:197 src/workbook-control-gui.c:3343
-#: src/workbook-control-gui.c:3548
+#: src/GNOME_Gnumeric.xml.h:195 src/workbook-control-gui.c:3484
+#: src/workbook-control-gui.c:3683
 #, fuzzy
 msgid "Rename the current sheet"
 msgstr "Μετονομασία παρόντος φύλλου"
 
-#: src/GNOME_Gnumeric.xml.h:198 src/workbook-format-toolbar.c:438
+#: src/GNOME_Gnumeric.xml.h:196 src/workbook-format-toolbar.c:443
 #, fuzzy
 msgid "Right Align"
 msgstr "Δεξία στοίχιση"
 
-#: src/GNOME_Gnumeric.xml.h:199 src/workbook-format-toolbar.c:438
+#: src/GNOME_Gnumeric.xml.h:197 src/workbook-format-toolbar.c:443
 msgid "Right align"
 msgstr "Δεξία στοίχιση"
 
-#: src/GNOME_Gnumeric.xml.h:200 src/workbook-control-gui.c:3381
+#: src/GNOME_Gnumeric.xml.h:198 src/workbook-control-gui.c:3522
 #, fuzzy
 msgid "S_heet"
 msgstr "Φύλλα"
 
-#: src/GNOME_Gnumeric.xml.h:201 src/workbook-control-gui.c:3503
+#: src/GNOME_Gnumeric.xml.h:199 src/workbook-control-gui.c:3638
 msgid "S_pecial"
 msgstr "Ει_δικό"
 
-#: src/GNOME_Gnumeric.xml.h:202 src/workbook-control-gui.c:3874
+#: src/GNOME_Gnumeric.xml.h:200 src/workbook-control-gui.c:4013
 msgid "Save"
 msgstr "Αποθήκευση"
 
-#: src/GNOME_Gnumeric.xml.h:203
+#: src/GNOME_Gnumeric.xml.h:201
 #, fuzzy
 msgid "Save _As..."
 msgstr "Αποθήκευση"
 
-#: src/GNOME_Gnumeric.xml.h:204 src/workbook-control-gui.c:3874
+#: src/GNOME_Gnumeric.xml.h:202 src/workbook-control-gui.c:4013
 #, fuzzy
 msgid "Save the current workbook"
 msgstr "Αποθήκευση βιβλίου"
 
-#: src/GNOME_Gnumeric.xml.h:205
+#: src/GNOME_Gnumeric.xml.h:203
 #, fuzzy
 msgid "Save the current workbook with a different name"
 msgstr "Κοπή επιλογής στο τεμάχιο"
 
-#: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:3745
+#: src/GNOME_Gnumeric.xml.h:204 src/workbook-control-gui.c:3880
 #, fuzzy
 msgid "Sce_narios"
 msgstr "Μέγεθος:"
 
-#: src/GNOME_Gnumeric.xml.h:207 src/workbook-object-toolbar.c:143
+#: src/GNOME_Gnumeric.xml.h:205 src/workbook-object-toolbar.c:143
 #, fuzzy
 msgid "Scrollbar"
 msgstr "Δολλάριο ΗΠΑ"
 
-#: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:3393
+#: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:3534
 msgid "Search and Replace..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:209 src/GNOME_Gnumeric_Component.xml.h:10
-#: src/workbook-control-gui.c:3388
+#: src/GNOME_Gnumeric.xml.h:207 src/GNOME_Gnumeric_Component.xml.h:10
+#: src/workbook-control-gui.c:3529
 msgid "Search for some text"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:3394
+#: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:3535
 msgid "Search for some text and replace it with something else"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:3387
+#: src/GNOME_Gnumeric.xml.h:209 src/workbook-control-gui.c:3528
 #, fuzzy
 msgid "Search..."
 msgstr "Μάρτιος"
 
-#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:3301
+#: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:3442
 #, fuzzy
 msgid "Select Arra_y"
 msgstr "Ε_πιλογή Όλων"
 
-#: src/GNOME_Gnumeric.xml.h:213 src/workbook-control-gui.c:3286
+#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:3427
 #, fuzzy
 msgid "Select _All"
 msgstr "Ε_πιλογή Όλων"
 
-#: src/GNOME_Gnumeric.xml.h:214 src/workbook-control-gui.c:3291
+#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:3432
 #, fuzzy
 msgid "Select _Column"
 msgstr "Διαγραφή στη_λών"
 
-#: src/GNOME_Gnumeric.xml.h:215 src/workbook-control-gui.c:3306
+#: src/GNOME_Gnumeric.xml.h:213 src/workbook-control-gui.c:3447
 msgid "Select _Depends"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:216 src/workbook-control-gui.c:3296
+#: src/GNOME_Gnumeric.xml.h:214 src/workbook-control-gui.c:3437
 #, fuzzy
 msgid "Select _Row"
 msgstr "Διαγραφή _σειρών"
 
-#: src/GNOME_Gnumeric.xml.h:217 src/workbook-control-gui.c:3287
+#: src/GNOME_Gnumeric.xml.h:215 src/workbook-control-gui.c:3428
 msgid "Select all cells in the spreadsheet"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:218 src/workbook-control-gui.c:3307
+#: src/GNOME_Gnumeric.xml.h:216 src/workbook-control-gui.c:3448
 msgid "Select all the cells that depend on the current edit cell"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:219 src/workbook-control-gui.c:3302
+#: src/GNOME_Gnumeric.xml.h:217 src/workbook-control-gui.c:3443
 msgid "Select an array of cells"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:220 src/workbook-control-gui.c:3292
+#: src/GNOME_Gnumeric.xml.h:218 src/workbook-control-gui.c:3433
 #, fuzzy
 msgid "Select an entire column"
 msgstr "Επιλέξτε αντικείμενο"
 
-#: src/GNOME_Gnumeric.xml.h:221 src/workbook-control-gui.c:3297
+#: src/GNOME_Gnumeric.xml.h:219 src/workbook-control-gui.c:3438
 #, fuzzy
 msgid "Select an entire row"
 msgstr "Επιλέξτε αντικείμενο"
 
-#: src/GNOME_Gnumeric.xml.h:222 src/workbook-format-toolbar.c:461
+#: src/GNOME_Gnumeric.xml.h:220 src/workbook-format-toolbar.c:466
 #, fuzzy
 msgid "Set the format of the selected cells to include a thousands separator"
 msgstr "Μορφοποίηση με διαχωρισμό χιλιάδων στα επιλεγμένα κελιά"
 
-#: src/GNOME_Gnumeric.xml.h:223 src/workbook-format-toolbar.c:455
+#: src/GNOME_Gnumeric.xml.h:221 src/workbook-format-toolbar.c:460
 #, fuzzy
 msgid "Set the format of the selected cells to monetary"
 msgstr "Μορφοποίηση νομίσματος στα επιλεγμένα κελία"
 
-#: src/GNOME_Gnumeric.xml.h:224 src/workbook-format-toolbar.c:458
+#: src/GNOME_Gnumeric.xml.h:222 src/workbook-format-toolbar.c:463
 #, fuzzy
 msgid "Set the format of the selected cells to percentage"
 msgstr "Μορφοποίηση ποσοστού στα επιλεγμένα κελιά"
 
-#: src/GNOME_Gnumeric.xml.h:225 src/GNOME_Gnumeric_Component.xml.h:11
-#: src/workbook-control-gui.c:3239
+#: src/GNOME_Gnumeric.xml.h:223 src/GNOME_Gnumeric_Component.xml.h:11
+#: src/workbook-control-gui.c:3380
 msgid "Setup the page settings for your current printer"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:226 src/workbook-control-gui.c:3806
+#: src/GNOME_Gnumeric.xml.h:224 src/workbook-control-gui.c:3943
 msgid "Show all filtered and hidden rows"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:228 src/workbook-control-gui.c:3929
+#: src/GNOME_Gnumeric.xml.h:226 src/workbook-control-gui.c:4068
 msgid "Sort Descending"
 msgstr "Φθίνουσα Ταξινόμιση"
 
-#: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:3818
+#: src/GNOME_Gnumeric.xml.h:227 src/workbook-control-gui.c:3955
 #, fuzzy
 msgid "Sort the selected region"
 msgstr "Ταξινόμιση των επιλεγμένων κελιών"
 
-#: src/GNOME_Gnumeric.xml.h:230 src/workbook-control-gui.c:3927
+#: src/GNOME_Gnumeric.xml.h:228 src/workbook-control-gui.c:4066
 #, fuzzy
 msgid ""
 "Sort the selected region in ascending order based on the first column "
@@ -15893,7 +15824,7 @@ msgstr ""
 "Ταξινόμιση της επιλεγμένης περιοχής κατά αύξουσα σειρά, βάσει της πρώτης "
 "στήλης της επιλογής."
 
-#: src/GNOME_Gnumeric.xml.h:231 src/workbook-control-gui.c:3930
+#: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:4069
 #, fuzzy
 msgid ""
 "Sort the selected region in descending order based on the first column "
@@ -15902,561 +15833,566 @@ msgstr ""
 "Ταξινόμιση της επιλεγμένης περιοχής κατά φθίνουσα σειρά, βάσει της πρώτης "
 "στήλης της επιλογής."
 
-#: src/GNOME_Gnumeric.xml.h:232 src/workbook-format-toolbar.c:449
+#: src/GNOME_Gnumeric.xml.h:230 src/workbook-format-toolbar.c:454
 #, fuzzy
 msgid "Split"
 msgstr "Δειγματοληψία"
 
-#: src/GNOME_Gnumeric.xml.h:233 src/workbook-format-toolbar.c:449
+#: src/GNOME_Gnumeric.xml.h:231 src/workbook-format-toolbar.c:454
 msgid "Split merged ranges of cells"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:234 src/workbook-control-gui.c:3751
+#: src/GNOME_Gnumeric.xml.h:232 src/workbook-control-gui.c:3886
 #, fuzzy
 msgid "Statistical Anal_ysis"
 msgstr "Ανάλυση Δεδομένων"
 
-#: src/GNOME_Gnumeric.xml.h:235 src/dialogs/consolidate.glade.h:19
-#: src/workbook-control-gui.c:3919 src/workbook-control-gui.c:4672
+#: src/GNOME_Gnumeric.xml.h:233 src/dialogs/consolidate.glade.h:19
+#: src/workbook-control-gui.c:4058 src/workbook-control-gui.c:4829
 #: src/workbook-view.c:512
 msgid "Sum"
 msgstr "Άθροισμα"
 
-#: src/GNOME_Gnumeric.xml.h:236 src/workbook-control-gui.c:3920
+#: src/GNOME_Gnumeric.xml.h:234 src/workbook-control-gui.c:4059
 msgid "Sum into the current cell"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:237 src/workbook-control-gui.c:3741
+#: src/GNOME_Gnumeric.xml.h:235 src/workbook-control-gui.c:3876
 msgid ""
 "Test decision alternatives by using Monte Carlo simulation to find out "
 "probable outputs and risks related to them"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:238 src/workbook-format-toolbar.c:461
+#: src/GNOME_Gnumeric.xml.h:236 src/workbook-format-toolbar.c:466
 #, fuzzy
 msgid "Thousands Separator"
 msgstr "Χωρισμός χιλιάδων"
 
-#: src/GNOME_Gnumeric.xml.h:239 src/workbook-control-gui.c:3575
+#: src/GNOME_Gnumeric.xml.h:237 src/workbook-control-gui.c:3710
 msgid "Toggle whether or not to display column headers"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:3569
+#: src/GNOME_Gnumeric.xml.h:238 src/workbook-control-gui.c:3704
 msgid "Toggle whether or not to display gridlines"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:3775
+#: src/GNOME_Gnumeric.xml.h:239 src/workbook-control-gui.c:3910
 msgid "Toggle whether or not to display outline groups"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:3581
+#: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:3716
 msgid "Toggle whether or not to display row headers"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:243 src/workbook-control-gui.c:3563
+#: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:3698
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:244 src/workbook-control-gui.c:3787
+#: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:3922
 msgid "Toggle whether to display column outlines on the left or right"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:245 src/workbook-control-gui.c:3781
+#: src/GNOME_Gnumeric.xml.h:243 src/workbook-control-gui.c:3916
 msgid "Toggle whether to display row outlines on top or bottom"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:246 src/workbook-control-gui.c:3630
+#: src/GNOME_Gnumeric.xml.h:244 src/workbook-control-gui.c:3765
 msgid "Two Factor Analysis of Variance"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:247 src/workbook-control-gui.c:3705
+#: src/GNOME_Gnumeric.xml.h:245 src/workbook-control-gui.c:3840
 #, fuzzy
 msgid "Two _Means"
 msgstr "Μέσος Όρος = "
 
-#: src/GNOME_Gnumeric.xml.h:248 src/workbook-control-gui.c:3762
+#: src/GNOME_Gnumeric.xml.h:246 src/workbook-control-gui.c:3897
 msgid "Uncollapse an outline group"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:249 src/workbook-format-toolbar.c:421
+#: src/GNOME_Gnumeric.xml.h:247 src/workbook-format-toolbar.c:426
 msgid "Underline"
 msgstr "Υπογραμμισμένο"
 
-#: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:4149
+#: src/GNOME_Gnumeric.xml.h:248 src/workbook-control-gui.c:4295
 #, fuzzy
 msgid "Undo the last action"
 msgstr "Άγνωστος τελεστής"
 
-#: src/GNOME_Gnumeric.xml.h:251 src/workbook-control-gui.c:3655
+#: src/GNOME_Gnumeric.xml.h:249 src/workbook-control-gui.c:3790
 msgid "Unpaired Samples, _Equal Var.: T-Test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:252 src/workbook-control-gui.c:3660
+#: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:3795
 msgid "Unpaired Samples, _Unequal Var.: T-Test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:253 src/workbook-control-gui.c:3825
+#: src/GNOME_Gnumeric.xml.h:251 src/workbook-control-gui.c:3962
 #, fuzzy
 msgid "Validate input with preset criteria"
 msgstr "Φιλτράρισμα ημ/νίας με δεδομένα κριτήρια"
 
-#: src/GNOME_Gnumeric.xml.h:254 src/workbook-control-gui.c:3693
+#: src/GNOME_Gnumeric.xml.h:252 src/workbook-control-gui.c:3828
 msgid "Various frequency tables"
 msgstr ""
 
 # FIX: find correct Greek term (there is one!)
-#: src/GNOME_Gnumeric.xml.h:255 src/workbook-control-gui.c:3684
+#: src/GNOME_Gnumeric.xml.h:253 src/workbook-control-gui.c:3819
 #, fuzzy
 msgid "Various summary statistics"
 msgstr "Περιληπτικά Στατιστικά"
 
-#: src/GNOME_Gnumeric.xml.h:256 src/workbook-control-gui.c:3616
+#: src/GNOME_Gnumeric.xml.h:254 src/workbook-control-gui.c:3751
 msgid "View, delete and report different scenarios"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:257 src/workbook-control-gui.c:3426
-#: src/workbook-control-gui.c:4155
+#: src/GNOME_Gnumeric.xml.h:255 src/workbook-control-gui.c:3561
+#: src/workbook-control-gui.c:4301
 msgid "Zoom the spreadsheet in or out"
 msgstr "Μέγενθυση ή σμίκρυνση του φύλλου"
 
-#: src/GNOME_Gnumeric.xml.h:258 src/workbook-control-gui.c:3675
+#: src/GNOME_Gnumeric.xml.h:256 src/workbook-control-gui.c:3810
 msgid "_ANOVA"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:259
+#: src/GNOME_Gnumeric.xml.h:257
 #, fuzzy
 msgid "_About"
 msgstr "Ταξινόμιση..."
 
-#: src/GNOME_Gnumeric.xml.h:260 src/sheet-control-gui.c:1511
-#: src/workbook-control-gui.c:3494
+#: src/GNOME_Gnumeric.xml.h:258 src/sheet-control-gui.c:1508
+#: src/workbook-control-gui.c:3629
 #, fuzzy
 msgid "_Add / Modify comment..."
 msgstr "Π_ροσθήκη/τροποιποίηση σχολίου..."
 
-#: src/GNOME_Gnumeric.xml.h:261 src/workbook-control-gui.c:3618
+#: src/GNOME_Gnumeric.xml.h:259 src/workbook-control-gui.c:3753
 #, fuzzy
 msgid "_Add..."
 msgstr "_Νέο"
 
-#: src/GNOME_Gnumeric.xml.h:262 src/workbook-control-gui.c:3268
+#: src/GNOME_Gnumeric.xml.h:260 src/workbook-control-gui.c:3409
 msgid "_All"
 msgstr "_Όλα"
 
-#: src/GNOME_Gnumeric.xml.h:263 src/workbook-control-gui.c:3724
+#: src/GNOME_Gnumeric.xml.h:261 src/workbook-control-gui.c:3859
 msgid "_Auto Save..."
 msgstr "_Αυτόματη Αποθήκευση..."
 
-#: src/GNOME_Gnumeric.xml.h:264 src/workbook-control-gui.c:3512
-#: src/workbook-control-gui.c:3531
+#: src/GNOME_Gnumeric.xml.h:262 src/workbook-control-gui.c:3647
+#: src/workbook-control-gui.c:3666
 msgid "_Auto fit selection"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:265 src/workbook-control-gui.c:3606
+#: src/GNOME_Gnumeric.xml.h:263 src/workbook-control-gui.c:3741
 #, fuzzy
 msgid "_Autoformat..."
 msgstr "_Αυτόματα"
 
 #. Default <Ctrl-1> invoke the format dialog
-#: src/GNOME_Gnumeric.xml.h:266 src/workbook-control-gui.c:3591
+#: src/GNOME_Gnumeric.xml.h:264 src/workbook-control-gui.c:3726
 msgid "_Cells..."
 msgstr "_Κελιά..."
 
-#: src/GNOME_Gnumeric.xml.h:267
+#: src/GNOME_Gnumeric.xml.h:265
 #, fuzzy
 msgid "_Close"
 msgstr "Πλήθος"
 
-#: src/GNOME_Gnumeric.xml.h:268 src/dialogs/anova-one.glade.h:15
+#: src/GNOME_Gnumeric.xml.h:266 src/dialogs/anova-one.glade.h:15
 #: src/dialogs/colrow.glade.h:2 src/dialogs/correlation.glade.h:11
 #: src/dialogs/covariance.glade.h:11 src/dialogs/descriptive-stats.glade.h:21
 #: src/dialogs/exp-smoothing.glade.h:13 src/dialogs/fill-series.glade.h:9
 #: src/dialogs/fourier-analysis.glade.h:11 src/dialogs/histogram.glade.h:27
 #: src/dialogs/moving-averages.glade.h:14 src/dialogs/rank.glade.h:14
 #: src/dialogs/regression.glade.h:13 src/dialogs/sampling.glade.h:18
-#: src/dialogs/shuffle.glade.h:5 src/workbook-control-gui.c:3468
+#: src/dialogs/shuffle.glade.h:5 src/workbook-control-gui.c:3603
 msgid "_Columns"
 msgstr "Σ_τήλες"
 
-#: src/GNOME_Gnumeric.xml.h:269 src/workbook-control-gui.c:3833
+#: src/GNOME_Gnumeric.xml.h:267 src/workbook-control-gui.c:3970
 #, fuzzy
 msgid "_Consolidate..."
 msgstr "Π_λάτος"
 
-#: src/GNOME_Gnumeric.xml.h:270 src/workbook-control-gui.c:3277
+#: src/GNOME_Gnumeric.xml.h:268 src/workbook-control-gui.c:3418
 #, fuzzy
 msgid "_Contents"
 msgstr "Περιε_χόμενα"
 
-#: src/GNOME_Gnumeric.xml.h:271 src/item-cursor.c:998
-#: src/sheet-control-gui.c:1480
+#: src/GNOME_Gnumeric.xml.h:269 src/item-cursor.c:998
+#: src/sheet-control-gui.c:1477
 msgid "_Copy"
 msgstr "Α_ντιγραφή"
 
-#: src/GNOME_Gnumeric.xml.h:272 src/workbook-control-gui.c:3677
+#: src/GNOME_Gnumeric.xml.h:270 src/workbook-control-gui.c:3812
 #, fuzzy
 msgid "_Correlation"
 msgstr "Συσχέτιση"
 
-#: src/GNOME_Gnumeric.xml.h:273 src/dialogs/pivottable.glade.h:8
-#: src/workbook-control-gui.c:3861
+#: src/GNOME_Gnumeric.xml.h:271 src/dialogs/pivottable.glade.h:8
+#: src/workbook-control-gui.c:4000
 msgid "_Data"
 msgstr "_Δεδομένα"
 
-#: src/GNOME_Gnumeric.xml.h:274 src/workbook-control-gui.c:3452
+#: src/GNOME_Gnumeric.xml.h:272 src/workbook-control-gui.c:3587
 #, fuzzy
 msgid "_Define..."
 msgstr "_Διαγραφή..."
 
-#: src/GNOME_Gnumeric.xml.h:275 src/sheet-control-gui.c:1498
-#: src/workbook-control-gui.c:3376
+#: src/GNOME_Gnumeric.xml.h:273 src/sheet-control-gui.c:1495
+#: src/workbook-control-gui.c:3517
 msgid "_Delete..."
 msgstr "_Διαγραφή..."
 
-#: src/GNOME_Gnumeric.xml.h:276 src/workbook-control-gui.c:3683
+#: src/GNOME_Gnumeric.xml.h:274 src/workbook-control-gui.c:3818
 #, fuzzy
 msgid "_Descriptive Statistics"
 msgstr "Περιγραφικά στατιστικά"
 
-#: src/GNOME_Gnumeric.xml.h:277 src/dialogs/sheet-order.glade.h:2
-#: src/workbook-control-gui.c:3334
+#: src/GNOME_Gnumeric.xml.h:275 src/dialogs/sheet-order.glade.h:2
+#: src/workbook-control-gui.c:3475
 #, fuzzy
 msgid "_Duplicate"
 msgstr "_Ημ/νία"
 
-#: src/GNOME_Gnumeric.xml.h:278 src/GNOME_Gnumeric_Component.xml.h:15
+#: src/GNOME_Gnumeric.xml.h:276 src/GNOME_Gnumeric_Component.xml.h:15
 #, fuzzy
 msgid "_Edit"
 msgstr "_Φίλτρο..."
 
-#: src/GNOME_Gnumeric.xml.h:279 src/workbook-control-gui.c:3638
+#: src/GNOME_Gnumeric.xml.h:277 src/workbook-control-gui.c:3773
 #, fuzzy
 msgid "_Exponential Smoothing"
 msgstr "Εκθετική"
 
-#: src/GNOME_Gnumeric.xml.h:280 src/GNOME_Gnumeric_Component.xml.h:16
+#: src/GNOME_Gnumeric.xml.h:278 src/GNOME_Gnumeric_Component.xml.h:16
 #, fuzzy
 msgid "_File"
 msgstr "_Γέμισμα"
 
-#: src/GNOME_Gnumeric.xml.h:281 src/dialogs/cell-format.glade.h:107
-#: src/workbook-control-gui.c:3385
+#: src/GNOME_Gnumeric.xml.h:279 src/dialogs/cell-format.glade.h:107
+#: src/workbook-control-gui.c:3526
 msgid "_Fill"
 msgstr "_Γέμισμα"
 
-#: src/GNOME_Gnumeric.xml.h:282 src/workbook-control-gui.c:3823
+#: src/GNOME_Gnumeric.xml.h:280 src/workbook-control-gui.c:3960
 #, fuzzy
 msgid "_Filter"
 msgstr "_Γέμισμα"
 
-#: src/GNOME_Gnumeric.xml.h:283 src/workbook-control-gui.c:3271
+#: src/GNOME_Gnumeric.xml.h:281 src/workbook-control-gui.c:3412
 msgid "_Formats"
 msgstr "Μορ_φοποίηση"
 
-#: src/GNOME_Gnumeric.xml.h:284 src/workbook-control-gui.c:3689
+#: src/GNOME_Gnumeric.xml.h:282 src/workbook-control-gui.c:3824
 #, fuzzy
 msgid "_Fourier Analysis"
 msgstr "Ανάλυση Δεδομένων"
 
-#: src/GNOME_Gnumeric.xml.h:285 src/workbook-control-gui.c:1340
-#: src/workbook-control-gui.c:3428
+#: src/GNOME_Gnumeric.xml.h:283 src/workbook-control-gui.c:1497
+#: src/workbook-control-gui.c:3563
 #, fuzzy
 msgid "_Freeze Panes"
 msgstr "_Διαγραφή..."
 
-#: src/GNOME_Gnumeric.xml.h:286 src/workbook-control-gui.c:3488
+#: src/GNOME_Gnumeric.xml.h:284 src/workbook-control-gui.c:3623
 #, fuzzy
 msgid "_Function..."
 msgstr "Ενέργεια"
 
-#: src/GNOME_Gnumeric.xml.h:287 src/workbook-control-gui.c:3602
+#: src/GNOME_Gnumeric.xml.h:285 src/workbook-control-gui.c:3737
 #, fuzzy
 msgid "_Gnumeric..."
 msgstr "Gnumeric"
 
-#: src/GNOME_Gnumeric.xml.h:288 src/workbook-control-gui.c:3730
+#: src/GNOME_Gnumeric.xml.h:286 src/workbook-control-gui.c:3865
 msgid "_Goal Seek..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:289 src/workbook-control-gui.c:3399
+#: src/GNOME_Gnumeric.xml.h:287 src/workbook-control-gui.c:3540
 msgid "_Goto cell..."
 msgstr "Επίσκε_ψη κελιού..."
 
-#: src/GNOME_Gnumeric.xml.h:290 src/workbook-control-gui.c:3480
-#, fuzzy
-msgid "_Graph..."
-msgstr "σειρές"
-
-#: src/GNOME_Gnumeric.xml.h:291 src/workbook-control-gui.c:3837
+#: src/GNOME_Gnumeric.xml.h:288 src/workbook-control-gui.c:3974
 #, fuzzy
 msgid "_Group and Outline"
 msgstr "Πλέ_γμα"
 
-#: src/GNOME_Gnumeric.xml.h:292 src/workbook-control-gui.c:3764
+#: src/GNOME_Gnumeric.xml.h:289 src/workbook-control-gui.c:3899
 #, fuzzy
 msgid "_Group..."
 msgstr "σειρές"
 
-#: src/GNOME_Gnumeric.xml.h:293 src/GNOME_Gnumeric_Component.xml.h:17
+#: src/GNOME_Gnumeric.xml.h:290 src/GNOME_Gnumeric_Component.xml.h:17
 #, fuzzy
 msgid "_Help"
 msgstr "Απόκρυ_ψη"
 
-#: src/GNOME_Gnumeric.xml.h:294 src/dialogs/cell-format.glade.h:110
-#: src/sheet-control-gui.c:1523 src/sheet-control-gui.c:1531
-#: src/workbook-control-gui.c:3515 src/workbook-control-gui.c:3534
+#: src/GNOME_Gnumeric.xml.h:291 src/dialogs/cell-format.glade.h:110
+#: src/sheet-control-gui.c:1520 src/sheet-control-gui.c:1528
+#: src/workbook-control-gui.c:3650 src/workbook-control-gui.c:3669
 msgid "_Hide"
 msgstr "Απόκρυ_ψη"
 
-#: src/GNOME_Gnumeric.xml.h:295 src/workbook-control-gui.c:3758
+#: src/GNOME_Gnumeric.xml.h:292 src/workbook-control-gui.c:3893
 msgid "_Hide Detail"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:296 src/workbook-control-gui.c:3692
+#: src/GNOME_Gnumeric.xml.h:293 src/workbook-control-gui.c:3827
 msgid "_Histogram"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:297 src/workbook-control-gui.c:3484
+#: src/GNOME_Gnumeric.xml.h:294 src/workbook-control-gui.c:3619
 #, fuzzy
 msgid "_Image..."
 msgstr "Επί_λυση..."
 
-#: src/GNOME_Gnumeric.xml.h:298 src/workbook-control-gui.c:3338
-#: src/workbook-control-gui.c:3858
+#: src/GNOME_Gnumeric.xml.h:295 src/workbook-control-gui.c:3479
+#: src/workbook-control-gui.c:3997
 msgid "_Insert"
 msgstr "Εισα_γωγή"
 
-#: src/GNOME_Gnumeric.xml.h:299 src/workbook-control-gui.c:3665
+#: src/GNOME_Gnumeric.xml.h:296 src/workbook-control-gui.c:3800
 msgid "_Known Variances or Large Sample: Z-Test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:300 src/workbook-control-gui.c:3346
-#: src/workbook-control-gui.c:3550
+#: src/GNOME_Gnumeric.xml.h:297 src/workbook-control-gui.c:3487
+#: src/workbook-control-gui.c:3685
 #, fuzzy
 msgid "_Manage Sheets..."
 msgstr "Επανα_δίαταξη Φύλλων"
 
-#: src/GNOME_Gnumeric.xml.h:301 src/workbook-control-gui.c:3642
+#: src/GNOME_Gnumeric.xml.h:298 src/workbook-control-gui.c:3458
+#, fuzzy
+msgid "_Merge..."
+msgstr "Μέσος όρος"
+
+#: src/GNOME_Gnumeric.xml.h:299 src/workbook-control-gui.c:3777
 #, fuzzy
 msgid "_Moving Average"
 msgstr "Κινούμενος Μέσος Όρος"
 
-#: src/GNOME_Gnumeric.xml.h:302 src/workbook-control-gui.c:3492
+#: src/GNOME_Gnumeric.xml.h:300 src/workbook-control-gui.c:3627
 #, fuzzy
 msgid "_Name"
 msgstr "Ανώνυμο"
 
-#: src/GNOME_Gnumeric.xml.h:303 src/workbook-control-gui.c:3228
+#: src/GNOME_Gnumeric.xml.h:301 src/workbook-control-gui.c:3369
 msgid "_New"
 msgstr "_Νέο"
 
-#: src/GNOME_Gnumeric.xml.h:304
+#: src/GNOME_Gnumeric.xml.h:302 src/workbook-control-gui.c:3557
+#, fuzzy
+msgid "_New View..."
+msgstr "_Νέο"
+
+#: src/GNOME_Gnumeric.xml.h:303
 msgid "_Object..."
 msgstr "Αντικείμεν_ο..."
 
 # # FIX?  If anyone is familiar with the following statistical terms...
-#: src/GNOME_Gnumeric.xml.h:305 src/workbook-control-gui.c:3626
+#: src/GNOME_Gnumeric.xml.h:304 src/workbook-control-gui.c:3761
 #, fuzzy
 msgid "_One Factor"
 msgstr "Anova: Απλός Παράγοντας"
 
-#: src/GNOME_Gnumeric.xml.h:306
+#: src/GNOME_Gnumeric.xml.h:305
 #, fuzzy
 msgid "_Open..."
 msgstr "Άνοιγμα"
 
-#: src/GNOME_Gnumeric.xml.h:307 src/workbook-control-gui.c:3651
+#: src/GNOME_Gnumeric.xml.h:306 src/workbook-control-gui.c:3786
 msgid "_Paired Samples: T-Test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:308 src/sheet-control-gui.c:1482
+#: src/GNOME_Gnumeric.xml.h:307 src/sheet-control-gui.c:1479
 msgid "_Paste"
 msgstr "Επικό_λληση"
 
-#: src/GNOME_Gnumeric.xml.h:309 src/workbook-control-gui.c:3839
+#: src/GNOME_Gnumeric.xml.h:308 src/workbook-control-gui.c:3976
 #, fuzzy
 msgid "_PivotTable..."
 msgstr "Εκτύ_πωση"
 
-#: src/GNOME_Gnumeric.xml.h:310 src/workbook-control-gui.c:3715
+#: src/GNOME_Gnumeric.xml.h:309 src/workbook-control-gui.c:3850
 msgid "_Plug-ins..."
 msgstr "Α_ρθρώματα..."
 
-#: src/GNOME_Gnumeric.xml.h:311 src/GNOME_Gnumeric_Component.xml.h:19
+#: src/GNOME_Gnumeric.xml.h:310 src/GNOME_Gnumeric_Component.xml.h:19
 #, fuzzy
 msgid "_Print..."
 msgstr "Εκτύ_πωση"
 
-#: src/GNOME_Gnumeric.xml.h:312
+#: src/GNOME_Gnumeric.xml.h:311
 #, fuzzy
 msgid "_Quit"
 msgstr "_Φίλτρο..."
 
-#: src/GNOME_Gnumeric.xml.h:313 src/workbook-control-gui.c:3326
+#: src/GNOME_Gnumeric.xml.h:312 src/workbook-control-gui.c:3467
 #, fuzzy
 msgid "_Random Generator..."
 msgstr "Γεννήτρια Τυχαίων Αριθμών"
 
-#: src/GNOME_Gnumeric.xml.h:314 src/workbook-control-gui.c:1384
+#: src/GNOME_Gnumeric.xml.h:313 src/workbook-control-gui.c:1541
 #, fuzzy
 msgid "_Redo"
 msgstr "[Κόκκινο]"
 
-#: src/GNOME_Gnumeric.xml.h:315 src/workbook-control-gui.c:3698
+#: src/GNOME_Gnumeric.xml.h:314 src/workbook-control-gui.c:3833
 #, fuzzy
 msgid "_Regression"
 msgstr "Άκυρο όρισμα"
 
-#: src/GNOME_Gnumeric.xml.h:316 src/dialogs/autocorrect.glade.h:13
+#: src/GNOME_Gnumeric.xml.h:315 src/dialogs/autocorrect.glade.h:13
 #: src/dialogs/dialog-stf.glade.h:66 src/dialogs/pivottable.glade.h:12
-#: src/workbook-control-gui.c:3350
+#: src/workbook-control-gui.c:3491
 msgid "_Remove"
 msgstr "_Διαγραφή"
 
-#: src/GNOME_Gnumeric.xml.h:317 src/workbook-control-gui.c:3740
+#: src/GNOME_Gnumeric.xml.h:316 src/workbook-control-gui.c:3875
 msgid "_Risk Simulation..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:318 src/dialogs/pivottable.glade.h:13
-#: src/workbook-control-gui.c:3596
+#: src/GNOME_Gnumeric.xml.h:317 src/dialogs/pivottable.glade.h:13
+#: src/workbook-control-gui.c:3731
 msgid "_Row"
 msgstr "Σει_ρά"
 
-#: src/GNOME_Gnumeric.xml.h:319 src/dialogs/anova-one.glade.h:20
+#: src/GNOME_Gnumeric.xml.h:318 src/dialogs/anova-one.glade.h:20
 #: src/dialogs/colrow.glade.h:3 src/dialogs/correlation.glade.h:16
 #: src/dialogs/covariance.glade.h:16 src/dialogs/descriptive-stats.glade.h:26
 #: src/dialogs/exp-smoothing.glade.h:19 src/dialogs/fill-series.glade.h:14
 #: src/dialogs/fourier-analysis.glade.h:16
 #: src/dialogs/moving-averages.glade.h:19 src/dialogs/rank.glade.h:19
 #: src/dialogs/regression.glade.h:18 src/dialogs/sampling.glade.h:25
-#: src/dialogs/shuffle.glade.h:6 src/workbook-control-gui.c:3471
+#: src/dialogs/shuffle.glade.h:6 src/workbook-control-gui.c:3606
 msgid "_Rows"
 msgstr "Σει_ρές"
 
-#: src/GNOME_Gnumeric.xml.h:320 src/workbook-control-gui.c:3701
+#: src/GNOME_Gnumeric.xml.h:319 src/workbook-control-gui.c:3836
 #, fuzzy
 msgid "_Sampling"
 msgstr "Δειγματοληψία"
 
-#: src/GNOME_Gnumeric.xml.h:321
+#: src/GNOME_Gnumeric.xml.h:320
 #, fuzzy
 msgid "_Save"
 msgstr "Αποθήκευση"
 
-#: src/GNOME_Gnumeric.xml.h:322 src/workbook-control-gui.c:3383
+#: src/GNOME_Gnumeric.xml.h:321 src/workbook-control-gui.c:3524
 #, fuzzy
 msgid "_Select"
 msgstr "_Διαγραφή..."
 
-#: src/GNOME_Gnumeric.xml.h:323
+#: src/GNOME_Gnumeric.xml.h:322 src/workbook-control-gui.c:3464
 #, fuzzy
 msgid "_Series..."
 msgstr "Μέγεθος:"
 
-#: src/GNOME_Gnumeric.xml.h:324
+#: src/GNOME_Gnumeric.xml.h:323
 #, fuzzy
 msgid "_Shaped Object"
 msgstr "Αντικείμεν_ο..."
 
-#: src/GNOME_Gnumeric.xml.h:325 src/workbook-control-gui.c:3474
-#: src/workbook-control-gui.c:3597
+#: src/GNOME_Gnumeric.xml.h:324 src/workbook-control-gui.c:3609
+#: src/workbook-control-gui.c:3732
 msgid "_Sheet"
 msgstr "_Φύλλο"
 
-#: src/GNOME_Gnumeric.xml.h:326 src/workbook-control-gui.c:3805
+#: src/GNOME_Gnumeric.xml.h:325 src/workbook-control-gui.c:3942
 #, fuzzy
 msgid "_Show All"
 msgstr "_Όλα"
 
-#: src/GNOME_Gnumeric.xml.h:327 src/workbook-control-gui.c:3761
+#: src/GNOME_Gnumeric.xml.h:326 src/workbook-control-gui.c:3896
 msgid "_Show Detail"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:328 src/workbook-control-gui.c:3734
+#: src/GNOME_Gnumeric.xml.h:327 src/workbook-control-gui.c:3869
 msgid "_Solver..."
 msgstr "Επί_λυση..."
 
-#: src/GNOME_Gnumeric.xml.h:329 src/workbook-control-gui.c:3817
+#: src/GNOME_Gnumeric.xml.h:328 src/workbook-control-gui.c:3954
 msgid "_Sort..."
 msgstr "Τα_ξινόμιση..."
 
-#: src/GNOME_Gnumeric.xml.h:330 src/workbook-control-gui.c:3540
+#: src/GNOME_Gnumeric.xml.h:329 src/workbook-control-gui.c:3675
 msgid "_Standard Height"
 msgstr "Κα_νονικό Ύψος"
 
-#: src/GNOME_Gnumeric.xml.h:331 src/workbook-control-gui.c:3521
+#: src/GNOME_Gnumeric.xml.h:330 src/workbook-control-gui.c:3656
 msgid "_Standard Width"
 msgstr "Κα_νονικό Πλάτος"
 
-#: src/GNOME_Gnumeric.xml.h:332 src/workbook-control-gui.c:3320
+#: src/GNOME_Gnumeric.xml.h:331 src/workbook-control-gui.c:3461
 msgid "_Tabulate Dependency..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:333 src/workbook-control-gui.c:3830
+#: src/GNOME_Gnumeric.xml.h:332 src/workbook-control-gui.c:3967
 #, fuzzy
 msgid "_Text to Columns..."
 msgstr "Διαγραφή στήλης %s"
 
-#: src/GNOME_Gnumeric.xml.h:334
+#: src/GNOME_Gnumeric.xml.h:333
 #, fuzzy
 msgid "_Toolbars..."
 msgstr "Κα_θαρισμός"
 
-#: src/GNOME_Gnumeric.xml.h:335 src/workbook-control-gui.c:3860
+#: src/GNOME_Gnumeric.xml.h:334 src/workbook-control-gui.c:3999
 msgid "_Tools"
 msgstr "Ερ_γαλεία"
 
-#: src/GNOME_Gnumeric.xml.h:336 src/workbook-control-gui.c:3629
+#: src/GNOME_Gnumeric.xml.h:335 src/workbook-control-gui.c:3764
 #, fuzzy
 msgid "_Two Factor"
 msgstr "_Κλάσμα"
 
-#: src/GNOME_Gnumeric.xml.h:337 src/workbook-control-gui.c:3707
+#: src/GNOME_Gnumeric.xml.h:336 src/workbook-control-gui.c:3842
 msgid "_Two Variances: FTest"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:338 src/workbook-control-gui.c:1383
+#: src/GNOME_Gnumeric.xml.h:337 src/workbook-control-gui.c:1540
 #, fuzzy
 msgid "_Undo"
 msgstr "Τυχαία"
 
-#: src/GNOME_Gnumeric.xml.h:339 src/workbook-control-gui.c:3767
+#: src/GNOME_Gnumeric.xml.h:338 src/workbook-control-gui.c:3902
 #, fuzzy
 msgid "_Ungroup..."
 msgstr "Ταξινόμιση..."
 
-#: src/GNOME_Gnumeric.xml.h:340 src/sheet-control-gui.c:1525
-#: src/sheet-control-gui.c:1533 src/workbook-control-gui.c:3518
-#: src/workbook-control-gui.c:3537
+#: src/GNOME_Gnumeric.xml.h:339 src/sheet-control-gui.c:1522
+#: src/sheet-control-gui.c:1530 src/workbook-control-gui.c:3653
+#: src/workbook-control-gui.c:3672
 msgid "_Unhide"
 msgstr "Εμ_φάνιση"
 
-#: src/GNOME_Gnumeric.xml.h:341 src/workbook-control-gui.c:3824
+#: src/GNOME_Gnumeric.xml.h:340 src/workbook-control-gui.c:3961
 #, fuzzy
 msgid "_Validate..."
 msgstr "Π_λάτος"
 
-#: src/GNOME_Gnumeric.xml.h:342
+#: src/GNOME_Gnumeric.xml.h:341
 #, fuzzy
 msgid "_View"
 msgstr "Εμ_φάνιση"
 
-#: src/GNOME_Gnumeric.xml.h:343 src/workbook-control-gui.c:3615
+#: src/GNOME_Gnumeric.xml.h:342 src/workbook-control-gui.c:3750
 #, fuzzy
 msgid "_View..."
 msgstr "_Νέο"
 
-#: src/GNOME_Gnumeric.xml.h:344 src/workbook-control-gui.c:3509
+#: src/GNOME_Gnumeric.xml.h:343 src/workbook-control-gui.c:3644
 #, fuzzy
 msgid "_Width..."
 msgstr "Π_λάτος"
 
-#: src/GNOME_Gnumeric.xml.h:345 src/workbook-control-gui.c:3599
+#: src/GNOME_Gnumeric.xml.h:344 src/workbook-control-gui.c:3734
 #, fuzzy
 msgid "_Workbook..."
 msgstr "_Βιβλίο"
 
-#: src/GNOME_Gnumeric.xml.h:346 src/workbook-control-gui.c:3425
+#: src/GNOME_Gnumeric.xml.h:345 src/workbook-control-gui.c:3560
 msgid "_Zoom..."
 msgstr "Κ_λίμακα..."
 
@@ -16589,465 +16525,470 @@ msgstr ""
 msgid "Would split an array"
 msgstr ""
 
-#: src/commands.c:252
+#: src/commands.c:253
 #, c-format
 msgid "%s is locked. Unprotect the workbook to enable editing."
 msgstr ""
 
-#: src/commands.c:253
+#: src/commands.c:254
 #, c-format
 msgid "%s is locked. Unprotect the sheet to enable editing."
 msgstr ""
 
-#: src/commands.c:424
+#: src/commands.c:425
 #, fuzzy
 msgid "..."
 msgstr "Άνοιγμα"
 
-#: src/commands.c:857 src/commands.c:952 src/commands.c:957
+#: src/commands.c:858 src/commands.c:953 src/commands.c:958
 #, fuzzy
 msgid "Set Text"
 msgstr "Μορφή Απλού Κειμένου"
 
-#: src/commands.c:881
+#: src/commands.c:882
 #, c-format
 msgid "Typing \"%s%s\" in %s"
 msgstr "Πληκτρολόγηση \"%s%s\" στο %s"
 
-#: src/commands.c:1075
+#: src/commands.c:1076
 #, fuzzy, c-format
 msgid "Typing \"%s%s\""
 msgstr "Πληκτρολόγηση \"%s%s\" στο %s"
 
-#: src/commands.c:1199 src/commands.c:1204 src/sheet.c:3171
+#: src/commands.c:1200 src/commands.c:1205 src/sheet.c:3162
 #, fuzzy
 msgid "Delete Columns"
 msgstr "Διαγραφή στη_λών"
 
-#: src/commands.c:1199 src/commands.c:1204 src/sheet.c:3285
+#: src/commands.c:1200 src/commands.c:1205 src/sheet.c:3276
 #, fuzzy
 msgid "Delete Rows"
 msgstr "Διαγραφή _σειρών"
 
-#: src/commands.c:1354
+#: src/commands.c:1355
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "Εισαγωγή %d στηλών πριν από %s"
 
-#: src/commands.c:1355
+#: src/commands.c:1356
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "Εισαγωγή %d στήλης πριν από %s"
 
-#: src/commands.c:1370
+#: src/commands.c:1371
 #, fuzzy, c-format
 msgid "Inserting %d rows before %s"
 msgstr "Εισαγωγή %d σειρών πριν από %d"
 
-#: src/commands.c:1371
+#: src/commands.c:1372
 #, fuzzy, c-format
 msgid "Inserting %d row before %s"
 msgstr "Εισαγωγή %d σειράς πριν από %d"
 
-#: src/commands.c:1382
+#: src/commands.c:1383
 #, fuzzy, c-format
 msgid "Deleting columns %s"
 msgstr "Διαγραφή στήλης %s"
 
-#: src/commands.c:1383
+#: src/commands.c:1384
 #, c-format
 msgid "Deleting column %s"
 msgstr "Διαγραφή στήλης %s"
 
-#: src/commands.c:1393
+#: src/commands.c:1394
 #, fuzzy, c-format
 msgid "Deleting rows %s"
 msgstr "Διαγραφή σειράς %d"
 
-#: src/commands.c:1394
+#: src/commands.c:1395
 #, fuzzy, c-format
 msgid "Deleting row %s"
 msgstr "Διαγραφή σειράς %d"
 
 #. Check for locked cells
-#: src/commands.c:1471 src/commands.c:1475 src/sheet.c:2803
+#: src/commands.c:1472 src/commands.c:1476 src/sheet.c:2779
 msgid "Clear"
 msgstr "Διαγραφή"
 
-#: src/commands.c:1547
+#: src/commands.c:1548
 #, fuzzy
 msgid "contents"
 msgstr "Περιε_χόμενα"
 
-#: src/commands.c:1549
+#: src/commands.c:1550
 #, fuzzy
 msgid "formats"
 msgstr "Μορφές"
 
-#: src/commands.c:1551
+#: src/commands.c:1552
 #, fuzzy
 msgid "comments"
 msgstr "Σχόλια"
 
-#: src/commands.c:1567
+#: src/commands.c:1568
 #, fuzzy
 msgid "all"
 msgstr "ύψος"
 
-#: src/commands.c:1574
+#: src/commands.c:1575
 #, fuzzy, c-format
 msgid "Clearing %s in %s"
 msgstr "Πληκτρολόγηση \"%s%s\" στο %s"
 
-#: src/commands.c:1647
+#: src/commands.c:1648
 #, fuzzy
 msgid "Changing Format"
 msgstr "Δημιουργία αρχείου %s αδύνατη\n"
 
-#: src/commands.c:1773
+#: src/commands.c:1774
 #, fuzzy, c-format
 msgid "Changing format of %s"
 msgstr "Δημιουργία αρχείου %s αδύνατη\n"
 
-#: src/commands.c:1886
+#: src/commands.c:1887
 #, fuzzy, c-format
 msgid "Autofitting column %s"
 msgstr "Διαγραφή στήλης %s"
 
-#: src/commands.c:1887
+#: src/commands.c:1888
 #, fuzzy, c-format
 msgid "Autofitting row %s"
 msgstr "Διαγραφή σειράς %d"
 
-#: src/commands.c:1890
+#: src/commands.c:1891
 #, fuzzy, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "Ρύθμιση πλάτους της στήλης %s"
 
-#: src/commands.c:1892
+#: src/commands.c:1893
 #, fuzzy, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "Ρύθμιση ύψους της σειράς %d"
 
-#: src/commands.c:1895
+#: src/commands.c:1896
 #, fuzzy, c-format
 msgid "Setting width of column %s to default"
 msgstr "Ρύθμιση πλάτους της στήλης %s"
 
-#: src/commands.c:1898
+#: src/commands.c:1899
 #, fuzzy, c-format
 msgid "Setting height of row %s to default"
 msgstr "Ρύθμιση ύψους της σειράς %d"
 
-#: src/commands.c:1902 src/commands.c:1903
+#: src/commands.c:1903 src/commands.c:1904
 #, fuzzy, c-format
 msgid "Autofitting columns %s"
 msgstr "Διαγραφή στήλης %s"
 
-#: src/commands.c:1906
+#: src/commands.c:1907
 #, fuzzy, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "Ρύθμιση πλάτους της στήλης %s"
 
-#: src/commands.c:1908
+#: src/commands.c:1909
 #, fuzzy, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "Ρύθμιση ύψους της σειράς %d"
 
-#: src/commands.c:1912
+#: src/commands.c:1913
 #, fuzzy, c-format
 msgid "Setting width of columns %s to default"
 msgstr "Ρύθμιση πλάτους της στήλης %s"
 
-#: src/commands.c:1914
+#: src/commands.c:1915
 #, fuzzy, c-format
 msgid "Setting height of rows %s to default"
 msgstr "Ρύθμιση ύψους της σειράς %d"
 
-#: src/commands.c:1982
+#: src/commands.c:1983
 #, fuzzy
 msgid "Sorting"
 msgstr "Ταξινόμηση του %s"
 
-#: src/commands.c:2002
+#: src/commands.c:2003
 #, c-format
 msgid "Sorting %s"
 msgstr "Ταξινόμηση του %s"
 
-#: src/commands.c:2135
+#: src/commands.c:2136
 msgid "Unhide columns"
 msgstr "Εμφάνιση στηλών"
 
-#: src/commands.c:2135
+#: src/commands.c:2136
 msgid "Hide columns"
 msgstr "Απόκρυψη στηλών"
 
-#: src/commands.c:2136
+#: src/commands.c:2137
 msgid "Unhide rows"
 msgstr "Εμφάνιση σειρών"
 
-#: src/commands.c:2136
+#: src/commands.c:2137
 msgid "Hide rows"
 msgstr "Απόκρυψη σειρών"
 
-#: src/commands.c:2219
+#: src/commands.c:2220
 #, fuzzy
 msgid "Expand columns"
 msgstr "Εμφάνιση στηλών"
 
-#: src/commands.c:2219
+#: src/commands.c:2220
 #, fuzzy
 msgid "Collapse columns"
 msgstr "Ρύθμιση πλάτους της στήλης %s"
 
-#: src/commands.c:2220
+#: src/commands.c:2221
 #, fuzzy
 msgid "Expand rows"
 msgstr "Εμφάνιση σειρών"
 
-#: src/commands.c:2220
+#: src/commands.c:2221
 msgid "Collapse rows"
 msgstr ""
 
-#: src/commands.c:2247
+#: src/commands.c:2248
 #, c-format
 msgid "Show column outline %d"
 msgstr ""
 
-#: src/commands.c:2247
+#: src/commands.c:2248
 #, c-format
 msgid "Show row outline %d"
 msgstr ""
 
-#: src/commands.c:2314
+#: src/commands.c:2315
 msgid "Those columns are already grouped"
 msgstr ""
 
-#: src/commands.c:2315
+#: src/commands.c:2316
 msgid "Those rows are already grouped"
 msgstr ""
 
-#: src/commands.c:2338
+#: src/commands.c:2339
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr ""
 
-#: src/commands.c:2339
+#: src/commands.c:2340
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr ""
 
-#: src/commands.c:2353
+#: src/commands.c:2354
 #, fuzzy, c-format
 msgid "Group columns %s"
 msgstr "Εμφάνιση στηλών"
 
-#: src/commands.c:2353
+#: src/commands.c:2354
 #, fuzzy, c-format
 msgid "Ungroup columns %s"
 msgstr "Διαγραφή στήλης %s"
 
-#: src/commands.c:2355
+#: src/commands.c:2356
 #, fuzzy, c-format
 msgid "Group rows %d:%d"
 msgstr "Διαγραφή %d σειρών (%d:%d"
 
-#: src/commands.c:2355
+#: src/commands.c:2356
 #, fuzzy, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Διαγραφή %d σειρών (%d:%d"
 
-#: src/commands.c:2563
+#: src/commands.c:2564
 #, fuzzy, c-format
 msgid "Moving %s"
 msgstr "Μετακίνηση κελίων"
 
-#: src/commands.c:2572 src/commands.c:2783
+#: src/commands.c:2573 src/commands.c:2784
 msgid "is beyond sheet boundaries"
 msgstr ""
 
 #. FIXME?
-#: src/commands.c:2727
+#: src/commands.c:2728
 #, c-format
 msgid "Pasting into %s"
 msgstr ""
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:2961 src/commands.c:2962 src/workbook-control-gui.c:2228
+#: src/commands.c:2962 src/commands.c:2963 src/workbook-control-gui.c:2391
 msgid "Autofill"
 msgstr ""
 
 #. Changed in initial redo.
-#: src/commands.c:2985
+#: src/commands.c:2986
 #, fuzzy, c-format
 msgid "Autofilling %s"
 msgstr "Μετακίνηση κελίων"
 
-#: src/commands.c:3135
+#: src/commands.c:3136
 #, fuzzy, c-format
 msgid "Autoformatting %s"
 msgstr "_Αυτόματα"
 
-#: src/commands.c:3245
+#: src/commands.c:3246
 #, fuzzy, c-format
 msgid "Unmerging %s"
 msgstr "εισαγωγή κελιών"
 
-#: src/commands.c:3383
+#: src/commands.c:3384
 #, fuzzy, c-format
 msgid "Merging %s"
 msgstr "Μετακίνηση κελίων"
 
 #. Corrected below.
-#: src/commands.c:3766 src/dialogs/search-replace.glade.h:24
+#: src/commands.c:3767 src/dialogs/search-replace.glade.h:24
 msgid "Search and Replace"
 msgstr ""
 
-#: src/commands.c:3864
+#: src/commands.c:3865
 #, fuzzy, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Ρύθμιση πλάτους της στήλης %s"
 
-#: src/commands.c:3865
+#: src/commands.c:3866
 #, fuzzy, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Ρύθμιση ύψους της σειράς %d"
 
 #. Changed in initial redo.
-#: src/commands.c:3951
+#: src/commands.c:3952
 #, c-format
 msgid "Consolidating to %s!%s"
 msgstr ""
 
-#: src/commands.c:4070
+#: src/commands.c:4071
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr ""
 
-#: src/commands.c:4141
+#: src/commands.c:4142
 #, fuzzy
 msgid "Insert object"
 msgstr "Εισαγωγή Αντικειμένου"
 
-#: src/commands.c:4201
+#: src/commands.c:4202
 #, fuzzy
 msgid "Delete object"
 msgstr "Δια_γραφή Φύλλου"
 
-#: src/commands.c:4283
+#: src/commands.c:4284
 #, fuzzy
 msgid "Resize object"
 msgstr "Δημιουργία γραμμής"
 
-#: src/commands.c:4283
+#: src/commands.c:4284
 msgid "Move object"
 msgstr ""
 
-#: src/commands.c:4527
+#: src/commands.c:4528
 #, fuzzy
 msgid "Renaming Sheets"
 msgstr "Μετονομασία παρόντος φύλλου"
 
-#: src/commands.c:4530
+#: src/commands.c:4531
 #, fuzzy
 msgid "Reordering Sheets"
 msgstr "Επανα_δίαταξη Φύλλων"
 
-#: src/commands.c:4535
+#: src/commands.c:4536
 #, fuzzy
 msgid "Adding a sheet"
 msgstr "Προσθήκη νέου φύλλου"
 
-#: src/commands.c:4538
+#: src/commands.c:4539
 #, fuzzy, c-format
 msgid "Adding sheet '%s'"
 msgstr "Άγνωστο σύστημα"
 
-#: src/commands.c:4542
+#: src/commands.c:4543
 #, c-format
 msgid "Rename sheet '%s' '%s'"
 msgstr "Μετονομασία φύλλου '%s' '%s'"
 
-#: src/commands.c:4547
+#: src/commands.c:4548
 #, fuzzy
 msgid "Changing Tab Colors"
 msgstr "Δημιουργία αρχείου %s αδύνατη\n"
 
-#: src/commands.c:4550
+#: src/commands.c:4551
 msgid "Changing Sheet Protection"
 msgstr ""
 
-#: src/commands.c:4553
+#: src/commands.c:4554
 #, fuzzy
 msgid "Reorganizing Sheets"
 msgstr "Εκτύπωση Φύλλων"
 
-#: src/commands.c:4682
+#: src/commands.c:4683
 #, fuzzy, c-format
 msgid "Clearing comment of %s"
 msgstr "Δημιουργία αρχείου %s αδύνατη\n"
 
-#: src/commands.c:4683
+#: src/commands.c:4684
 #, fuzzy, c-format
 msgid "Setting comment of %s"
 msgstr "Ανάθεση τρέχουσας ημ/νίας στο %s"
 
-#: src/commands.c:5046
+#: src/commands.c:5064
 #, fuzzy, c-format
 msgid "Merging data into %s"
 msgstr "Μετακίνηση κελίων"
 
-#: src/commands.c:5148
+#: src/commands.c:5166
 #, fuzzy
 msgid "Changing summary info"
 msgstr "Δημιουργία αρχείου %s αδύνατη\n"
 
-#: src/commands.c:5240
+#: src/commands.c:5258
 #, fuzzy
 msgid "Raise object"
 msgstr "Δημιουργία γραμμής"
 
-#: src/commands.c:5243
+#: src/commands.c:5261
 #, fuzzy
 msgid "Lower object"
 msgstr "Εισαγωγή Αντικειμένου"
 
-#: src/commands.c:5246
+#: src/commands.c:5264
 #, fuzzy
 msgid "Raise object to top"
 msgstr "Δημιουργία γραμμής"
 
-#: src/commands.c:5249
+#: src/commands.c:5267
 msgid "Lower object to bottom"
 msgstr ""
 
-#: src/commands.c:5365
+#: src/commands.c:5383
 #, fuzzy, c-format
 msgid "Page Setup For %s"
 msgstr "Ρυθμίσεις εκτύπωσης"
 
-#: src/commands.c:5367
+#: src/commands.c:5385
 #, fuzzy
 msgid "Page Setup For All Sheets"
 msgstr "Εκτύπωση Φύλλων"
 
-#: src/commands.c:5495
+#: src/commands.c:5502
+#, fuzzy
+msgid "has a circular reference"
+msgstr "κυκλική αναφορά"
+
+#: src/commands.c:5525
 #, fuzzy, c-format
 msgid "Define Name %s"
 msgstr "Ορισμός Ονόματος"
 
-#: src/commands.c:5498
+#: src/commands.c:5528
 #, c-format
 msgid "Update Name %s"
 msgstr ""
 
-#: src/commands.c:5563
+#: src/commands.c:5593
 msgid "Add scenario"
 msgstr ""
 
-#: src/commands.c:5639
+#: src/commands.c:5669
 msgid "Scenario Show"
 msgstr ""
 
-#: src/commands.c:5704
+#: src/commands.c:5734
 msgid "Shuffle Data"
 msgstr ""
 
@@ -17252,6 +17193,401 @@ msgstr ""
 msgid ""
 "Whether the toolbar item should be the same size as other homogeneous items."
 msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:76
+#, fuzzy
+msgid "Plot"
+msgstr "Ταξινόμιση"
+
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:80
+#, fuzzy
+msgid "Legend"
+msgstr "Φθίνουσα"
+
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:246
+msgid "H"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:246
+#, fuzzy
+msgid "Height"
+msgstr "Ύ_ψος"
+
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:249
+msgid "W"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:249
+#, fuzzy
+msgid "Width"
+msgstr "_Με:"
+
+#: src/cut-n-paste-code/goffice/graph/gog-graph.c:159
+#, fuzzy
+msgid "Chart"
+msgstr "Κ-οστο Μεγαλύτερο:"
+
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:987
+msgid "Step 1 of 2: Select graph type"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:995
+msgid "Step 2 of 2: Configure Graph"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1000
+msgid "Configure Graph"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1073
+#: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:237
+#, fuzzy
+msgid "Plot Type"
+msgstr "Φύλλο 1"
+
+#. Set up sample button
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1163
+#, fuzzy
+msgid ""
+"Show\n"
+"Sample"
+msgstr "Δείγμα"
+
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1172
+#: src/dialogs/dialog-plugin-manager.c:679
+#: src/dialogs/dialog-preferences.c:509 src/dialogs/function-select.glade.h:2
+#, fuzzy
+msgid "Description"
+msgstr "Περιγραφή:"
+
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1179
+msgid "Basic Types"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:52
+#, fuzzy
+msgid "Plot Engine"
+msgstr "Φύλλο 1"
+
+#: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:317
+msgid "Chart Theme"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/gog-plot.c:121
+#, fuzzy
+msgid "Series"
+msgstr "Μέγεθος:"
+
+#. outline colour
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:146
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:195
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:218
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:380
+#: src/sheet-object-graphic.c:944 src/sheet-object-graphic.c:958
+#, fuzzy
+msgid "Transparent"
+msgstr "Αντιμετάθεση"
+
+#. An MS Excel-ish theme * TODO : have a look at apple's themes
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:229
+#: src/dialogs/dialog-sheet-order.c:927 src/dialogs/dialog-sheet-order.c:936
+#, fuzzy
+msgid "Default"
+msgstr "Διαγραφή"
+
+#. guppi theme
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:260
+#, fuzzy
+msgid "Guppi"
+msgstr "σειρές"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:1
+#, fuzzy
+msgid "Bar and Column charts"
+msgstr "Τίτλοι σειρών και στη_λών"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:2
+msgid "Bar/Col Charts"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:3
+msgid "Bar/Col plotting engine"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:4
+msgid "Default Bar/Col plot types"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:1
+#, fuzzy
+msgid "3D Adjacent Bars"
+msgstr "Διαγραφή στη_λών"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:2
+#, fuzzy
+msgid "3D Adjacent Columns"
+msgstr "Διαγραφή στη_λών"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:3
+#, fuzzy
+msgid "3D Percentage Bars"
+msgstr "_Ποσοστό"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:4
+#, fuzzy
+msgid "3D Percentage Columns"
+msgstr "Διαγραφή στη_λών"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:5
+#, fuzzy
+msgid "3D Stacked Bars"
+msgstr "Διαγραφή στη_λών"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:6
+#, fuzzy
+msgid "3D Stacked Columns"
+msgstr "Διαγραφή στη_λών"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:7
+#, fuzzy
+msgid "Adjacent Bars"
+msgstr "Παρεμβολή στη_λών"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:8
+#, fuzzy
+msgid "Adjacent Columns"
+msgstr "Παρεμβολή στη_λών"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:9
+msgid "Adjacent horizontal 3D bars grouped by major and minor categories."
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:10
+msgid "Adjacent horizontal bars grouped by major and minor categories."
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:11
+msgid "Adjacent vertical 3D columns grouped by major and minor categories."
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:12
+msgid "Adjacent vertical columns grouped by major and minor categories."
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:13
+msgid "Bar"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:14
+#: src/dialogs/dialog-stf.glade.h:15
+#, fuzzy
+msgid "Column"
+msgstr "Στή_λη"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:15
+msgid ""
+"Minor categories stacked as percentages of the minor total, in 3D horizontal "
+"bars, grouped by major category."
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:16
+msgid ""
+"Minor categories stacked as percentages of the minor total, in 3D vertical "
+"bars, grouped by major category."
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:17
+msgid ""
+"Minor categories stacked as percentages of the minor total, in horizontal "
+"bars, grouped by major category."
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:18
+msgid ""
+"Minor categories stacked as percentages of the minor total, in vertical "
+"columns, grouped by major category."
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:19
+msgid ""
+"Minor categories stacked in horizontal 3D bars, grouped by major category."
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:20
+msgid "Minor categories stacked in horizontal bars grouped by major category."
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:21
+msgid ""
+"Minor categories stacked in vertical 3D columns, grouped by major category."
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:22
+msgid "Minor categories stacked in vertical columns grouped by major category."
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:23
+#, fuzzy
+msgid "Percentage Bars"
+msgstr "_Ποσοστό"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:24
+#, fuzzy
+msgid "Percentage Columns"
+msgstr "Διαγραφή στη_λών"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:25
+#, fuzzy
+msgid "Stacked Bars"
+msgstr "Διαγραφή στη_λών"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:26
+#, fuzzy
+msgid "Stacked Columns"
+msgstr "Διαγραφή στη_λών"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:2
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:2
+#: src/dialogs/dialog-zoom.glade.h:2 src/tools/analysis-tools.c:3970
+#, no-c-format
+msgid "%"
+msgstr "%"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:3
+msgid "How far the bars/cols overlap as a percentage of the width"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:4
+msgid "Separation between groups as a percentage of bar/col width"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:5
+#, fuzzy
+msgid "_Gap:"
+msgstr "σειρές"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:6
+msgid "_Overlap:"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:259
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:222
+#: src/dialogs/consolidate.glade.h:12
+#, fuzzy
+msgid "Labels"
+msgstr "Ετικέτες"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:261
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:224
+#: src/dialogs/consolidate.glade.h:23
+msgid "Values"
+msgstr "Τιμές"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:1
+msgid "Default pie types"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:2
+msgid "Pie Charts"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:3
+msgid "Pie charts"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:4
+msgid "Pie plotting engine"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:1
+#, fuzzy
+msgid "3D Pie"
+msgstr "Πλέ_γμα"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:2
+#, fuzzy
+msgid "3D Split Pie"
+msgstr "Δειγματοληψία"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:3
+msgid ""
+"Major totals as percentages with each wedge subdivided into secondary pies."
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:4
+msgid ""
+"Major totals as percentages with each wedge subdivided into secondary "
+"stacked bars."
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:5
+#, fuzzy
+msgid "Multi-Pie"
+msgstr "Πολ/μος"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:6
+#, fuzzy
+msgid "Multi-pie-bars"
+msgstr "Πολ/μος"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:7
+msgid "Percentage of each contributor in 3D pie."
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:8
+msgid "Percentage of each contributor with 3D wedges split apart."
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:9
+msgid "Percentage of each contributor with wedges split apart."
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:10
+msgid "Percentage of each contributor."
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:11
+#, fuzzy
+msgid "Pie"
+msgstr "Προεπισκόπηση"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:12
+#, fuzzy
+msgid "Ring"
+msgstr "Διάστημα"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:13
+#, fuzzy
+msgid "Split Pie"
+msgstr "Δειγματοληψία"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:3
+msgid "Degrees counter clockwise from 3 O'Clock"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:4
+msgid "Slices start _at:"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:5
+msgid ""
+"The default amount each slice is separated from the center measured as a "
+"percentage of the radius of the pie"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:6
+#, fuzzy
+msgid "_Slice Separation:"
+msgstr "Περιγραφή:"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:7
+msgid "_Vary colours by slice"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:8
+#, fuzzy
+msgid "degrees"
+msgstr "_Διαγραφή"
 
 #: src/dates.c:16
 msgid "*Sun"
@@ -17513,7 +17849,7 @@ msgstr "_Μοναδικές εγγραφές μόνο"
 #: src/dialogs/search-replace.glade.h:1 src/dialogs/so-checkbox.glade.h:1
 #: src/dialogs/so-frame.glade.h:1 src/dialogs/solver.glade.h:1
 #: src/dialogs/summary.glade.h:1 src/dialogs/variance-tests.glade.h:1
-#: src/dialogs/workbook-attr.glade.h:1
+#: src/dialogs/view.glade.h:1 src/dialogs/workbook-attr.glade.h:1
 msgid "*"
 msgstr ""
 
@@ -17619,7 +17955,7 @@ msgstr "Μέγεθος:"
 #: src/dialogs/correlation.glade.h:12 src/dialogs/covariance.glade.h:12
 #: src/dialogs/descriptive-stats.glade.h:22
 #: src/dialogs/dialog-analysis-tools.c:338
-#: src/dialogs/dialog-analysis-tools.c:2589 src/dialogs/dialog-shuffle.c:150
+#: src/dialogs/dialog-analysis-tools.c:2589 src/dialogs/dialog-shuffle.c:148
 #: src/dialogs/exp-smoothing.glade.h:15
 #: src/dialogs/fourier-analysis.glade.h:12
 #: src/dialogs/moving-averages.glade.h:15 src/dialogs/rank.glade.h:15
@@ -17687,8 +18023,8 @@ msgstr "Π_ρώτο Γράμμα"
 
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
-#: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:673
-#: src/format.c:1789 src/format.c:1873 src/format.c:1882 src/format.c:1949
+#: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:675
+#: src/format.c:1830 src/format.c:1914 src/format.c:1923 src/format.c:1990
 #: src/plugin-service.c:200
 msgid "General"
 msgstr "Γενικό"
@@ -17717,7 +18053,7 @@ msgid "_With:"
 msgstr "_Με:"
 
 #: src/dialogs/autofilter-expression.glade.h:1
-#: src/dialogs/dialog-autoformat.c:67
+#: src/dialogs/dialog-autoformat.c:69
 msgid " "
 msgstr ""
 
@@ -17795,7 +18131,7 @@ msgid "is less than or equal to"
 msgstr ""
 
 #: src/dialogs/autofilter-top10.glade.h:1 src/dialogs/cell-format.glade.h:19
-#: src/workbook-format-toolbar.c:630
+#: src/workbook-format-toolbar.c:635
 msgid "Bottom"
 msgstr "Κάτω"
 
@@ -17997,7 +18333,7 @@ msgstr "                         "
 msgid "Background Color"
 msgstr "Χρώμα Φόντου"
 
-#: src/dialogs/cell-format.glade.h:18 src/dialogs/dialog-cell-format.c:2879
+#: src/dialogs/cell-format.glade.h:18 src/dialogs/dialog-cell-format.c:2886
 msgid "Border"
 msgstr "Πλαίσιο"
 
@@ -18039,8 +18375,8 @@ msgid "Cust_om"
 msgstr "Τυποποιημένο"
 
 #: src/dialogs/cell-format.glade.h:28 src/dialogs/dialog-stf-export.glade.h:17
-#: src/dialogs/dialog-stf-format-page.c:190
-#: src/dialogs/dialog-stf-format-page.c:399
+#: src/dialogs/dialog-stf-format-page.c:188
+#: src/dialogs/dialog-stf-format-page.c:375
 #, fuzzy
 msgid "Custom"
 msgstr "Τυποποιημένο"
@@ -18089,7 +18425,7 @@ msgstr "Βέλος"
 msgid "Foreground Solid"
 msgstr "Φόντος"
 
-#: src/dialogs/cell-format.glade.h:40 src/dialogs/dialog-cell-format.c:2820
+#: src/dialogs/cell-format.glade.h:40 src/dialogs/dialog-cell-format.c:2825
 msgid "Format Cells"
 msgstr "Μορφοπ. Κελίων"
 
@@ -18153,7 +18489,7 @@ msgstr "Σ_τοίχιση"
 msgid "Large Circles"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:54 src/workbook-format-toolbar.c:622
+#: src/dialogs/cell-format.glade.h:54 src/workbook-format-toolbar.c:627
 msgid "Left"
 msgstr "Αριστερά"
 
@@ -18167,9 +18503,8 @@ msgstr ""
 msgid "Message:"
 msgstr "Μέσος όρος"
 
-#: src/dialogs/cell-format.glade.h:58 src/dialogs/dialog-cell-format.c:1540
-#: src/dialogs/dialog-cell-format.c:1595 src/dialogs/dialog-cell-format.c:1601
-#: src/dialogs/dialog-paste-special.c:47 src/tools/solver/reports-write.c:722
+#: src/dialogs/cell-format.glade.h:58 src/dialogs/dialog-cell-format.c:69
+#: src/dialogs/dialog-paste-special.c:48 src/tools/solver/reports-write.c:722
 msgid "None"
 msgstr "Καμία"
 
@@ -18177,7 +18512,7 @@ msgstr "Καμία"
 msgid "None          (silently accept invalid input)"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:60 src/dialogs/dialog-search.c:475
+#: src/dialogs/cell-format.glade.h:60 src/dialogs/dialog-search.c:140
 #: src/func.c:675
 msgid "Number"
 msgstr "Αριθμός"
@@ -18191,7 +18526,7 @@ msgstr "Αριθμός"
 msgid "Outline"
 msgstr "Περίγραμμα"
 
-#: src/dialogs/cell-format.glade.h:64 src/dialogs/dialog-cell-format.c:2894
+#: src/dialogs/cell-format.glade.h:64 src/dialogs/dialog-cell-format.c:2901
 msgid "Pattern"
 msgstr "Μοτίβο"
 
@@ -18207,7 +18542,7 @@ msgstr "Ανάποδη Διαγώνιος"
 msgid "Reverse Diagonal Stripe"
 msgstr "Ανάποδες Διαγώνιες Ρίγες"
 
-#: src/dialogs/cell-format.glade.h:68 src/workbook-format-toolbar.c:624
+#: src/dialogs/cell-format.glade.h:68 src/workbook-format-toolbar.c:629
 msgid "Right"
 msgstr "Δεξιά"
 
@@ -18542,8 +18877,8 @@ msgstr "Τυχαία"
 msgid "Add the entered area to the list of source areas"
 msgstr "Ρύθμιση πλάτους της στήλης %s"
 
-#: src/dialogs/consolidate.glade.h:2 src/dialogs/dialog-simulation.c:247
-#: src/workbook-control-gui.c:4675
+#: src/dialogs/consolidate.glade.h:2 src/dialogs/dialog-simulation.c:248
+#: src/workbook-control-gui.c:4832
 msgid "Average"
 msgstr "Μέσος όρος"
 
@@ -18558,7 +18893,7 @@ msgid "Clear the list of source areas"
 msgstr "Ρύθμιση πλάτους της στήλης %s"
 
 #: src/dialogs/consolidate.glade.h:5 src/tools/simulation.c:264
-#: src/workbook-control-gui.c:4676
+#: src/workbook-control-gui.c:4833
 msgid "Count"
 msgstr "Πλήθος"
 
@@ -18591,18 +18926,13 @@ msgstr "Παρεμβολή στη_λών"
 msgid "In _top row"
 msgstr "Παρεμβολή σειρών"
 
-#: src/dialogs/consolidate.glade.h:12
-#, fuzzy
-msgid "Labels"
-msgstr "Ετικέτες"
-
-#: src/dialogs/consolidate.glade.h:13 src/dialogs/dialog-simulation.c:247
-#: src/tools/simulation.c:256 src/workbook-control-gui.c:4674
+#: src/dialogs/consolidate.glade.h:13 src/dialogs/dialog-simulation.c:248
+#: src/tools/simulation.c:256 src/workbook-control-gui.c:4831
 msgid "Max"
 msgstr "Μέγιστο"
 
-#: src/dialogs/consolidate.glade.h:14 src/dialogs/dialog-simulation.c:247
-#: src/tools/simulation.c:254 src/workbook-control-gui.c:4673
+#: src/dialogs/consolidate.glade.h:14 src/dialogs/dialog-simulation.c:248
+#: src/tools/simulation.c:254 src/workbook-control-gui.c:4830
 msgid "Min"
 msgstr "Ελάχιστο"
 
@@ -18641,10 +18971,6 @@ msgid ""
 "The top row contains labels, these will not be consolidated, but used as key "
 "for comparison"
 msgstr ""
-
-#: src/dialogs/consolidate.glade.h:23
-msgid "Values"
-msgstr "Τιμές"
 
 #: src/dialogs/consolidate.glade.h:24
 #, fuzzy
@@ -18919,7 +19245,7 @@ msgstr ""
 msgid "The criteria range is invalid."
 msgstr ""
 
-#: src/dialogs/dialog-advanced-filter.c:93 src/dialogs/dialog-simulation.c:93
+#: src/dialogs/dialog-advanced-filter.c:93 src/dialogs/dialog-simulation.c:94
 msgid "The output range is invalid."
 msgstr ""
 
@@ -19124,119 +19450,119 @@ msgstr ""
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "Άκυρο όρισμα"
 
-#: src/dialogs/dialog-autocorrect.c:322
+#: src/dialogs/dialog-autocorrect.c:323
 #, fuzzy
 msgid "Could not create the AutoCorrect dialog."
 msgstr "Άκυρο όρισμα"
 
-#: src/dialogs/dialog-autoformat.c:67
+#: src/dialogs/dialog-autoformat.c:69
 #, fuzzy
 msgid "Jan"
 msgstr "*Ιαν"
 
-#: src/dialogs/dialog-autoformat.c:67
+#: src/dialogs/dialog-autoformat.c:69
 #, fuzzy
 msgid "Feb"
 msgstr "*Φεβ"
 
-#: src/dialogs/dialog-autoformat.c:67
+#: src/dialogs/dialog-autoformat.c:69
 msgid "Mrt"
 msgstr ""
 
-#: src/dialogs/dialog-autoformat.c:67 src/dialogs/dialog-autoformat.c:71
+#: src/dialogs/dialog-autoformat.c:69 src/dialogs/dialog-autoformat.c:73
 #: src/tools/analysis-tools.c:3354 src/tools/analysis-tools.c:3364
 #: src/tools/analysis-tools.c:3372
 #, fuzzy
 msgid "Total"
 msgstr "ύψος"
 
-#: src/dialogs/dialog-autoformat.c:68
+#: src/dialogs/dialog-autoformat.c:70
 #, fuzzy
 msgid "North"
 msgstr "Ταξινόμιση"
 
-#: src/dialogs/dialog-autoformat.c:68
+#: src/dialogs/dialog-autoformat.c:70
 msgid "6"
 msgstr ""
 
-#: src/dialogs/dialog-autoformat.c:68
+#: src/dialogs/dialog-autoformat.c:70
 #, fuzzy
 msgid "13"
 msgstr "1"
 
-#: src/dialogs/dialog-autoformat.c:68
+#: src/dialogs/dialog-autoformat.c:70
 #, fuzzy
 msgid "20"
 msgstr "0"
 
-#: src/dialogs/dialog-autoformat.c:68
+#: src/dialogs/dialog-autoformat.c:70
 msgid "39"
 msgstr ""
 
-#: src/dialogs/dialog-autoformat.c:69
+#: src/dialogs/dialog-autoformat.c:71
 #, fuzzy
 msgid "South"
 msgstr "Ταξινόμιση"
 
-#: src/dialogs/dialog-autoformat.c:69
+#: src/dialogs/dialog-autoformat.c:71
 #, fuzzy
 msgid "12"
 msgstr "1"
 
-#: src/dialogs/dialog-autoformat.c:69
+#: src/dialogs/dialog-autoformat.c:71
 msgid "4"
 msgstr ""
 
-#: src/dialogs/dialog-autoformat.c:69
+#: src/dialogs/dialog-autoformat.c:71
 #, fuzzy
 msgid "17"
 msgstr "1"
 
-#: src/dialogs/dialog-autoformat.c:69
+#: src/dialogs/dialog-autoformat.c:71
 msgid "33"
 msgstr ""
 
-#: src/dialogs/dialog-autoformat.c:70
+#: src/dialogs/dialog-autoformat.c:72
 #, fuzzy
 msgid "West"
 msgstr "Κείμενο"
 
-#: src/dialogs/dialog-autoformat.c:70
+#: src/dialogs/dialog-autoformat.c:72
 msgid "8"
 msgstr ""
 
-#: src/dialogs/dialog-autoformat.c:70
+#: src/dialogs/dialog-autoformat.c:72
 msgid "2"
 msgstr ""
 
-#: src/dialogs/dialog-autoformat.c:70 src/dialogs/mean-tests.glade.h:2
+#: src/dialogs/dialog-autoformat.c:72 src/dialogs/mean-tests.glade.h:2
 msgid "0"
 msgstr "0"
 
-#: src/dialogs/dialog-autoformat.c:70
+#: src/dialogs/dialog-autoformat.c:72
 #, fuzzy
 msgid "10"
 msgstr "1"
 
-#: src/dialogs/dialog-autoformat.c:71
+#: src/dialogs/dialog-autoformat.c:73
 msgid "26"
 msgstr ""
 
-#: src/dialogs/dialog-autoformat.c:71
+#: src/dialogs/dialog-autoformat.c:73
 #, fuzzy
 msgid "19"
 msgstr "1"
 
-#: src/dialogs/dialog-autoformat.c:71
+#: src/dialogs/dialog-autoformat.c:73
 msgid "37"
 msgstr ""
 
-#: src/dialogs/dialog-autoformat.c:71
+#: src/dialogs/dialog-autoformat.c:73
 #, fuzzy
 msgid "81"
 msgstr "1"
 
-#: src/dialogs/dialog-autoformat.c:664
+#: src/dialogs/dialog-autoformat.c:666
 #, fuzzy
 msgid "An error occurred while reading the category list"
 msgstr "Σφάλμα: ανύπαρκτο φύλλο"
@@ -19251,62 +19577,60 @@ msgstr "Θέλετε να αποθηκεύσετε το βιβλίο;"
 msgid "Could not create the autosave dialog."
 msgstr "Άκυρο όρισμα"
 
-#: src/dialogs/dialog-cell-format.c:970
+#: src/dialogs/dialog-cell-format.c:70
+msgid "Single"
+msgstr "Απλή"
+
+#: src/dialogs/dialog-cell-format.c:71
+msgid "Double"
+msgstr "Διπλή"
+
+#: src/dialogs/dialog-cell-format.c:979
 #, fuzzy
 msgid "Negative Number Format"
 msgstr "Αρνητ_ικός αριθμός:"
 
-#: src/dialogs/dialog-cell-format.c:1006
+#: src/dialogs/dialog-cell-format.c:1015
 #, fuzzy
 msgid "Number Formats"
 msgstr "Αντιγραφή μορφοποίησης"
 
-#: src/dialogs/dialog-cell-format.c:1252
+#: src/dialogs/dialog-cell-format.c:1261
+#: src/dialogs/dialog-stf-main-page.c:329
 #, fuzzy
 msgid "Text"
 msgstr "Κείμενο"
 
-#. There must be a better way than this
-#: src/dialogs/dialog-cell-format.c:1536 src/dialogs/dialog-cell-format.c:1596
-#: src/dialogs/dialog-cell-format.c:1602
-msgid "Single"
-msgstr "Απλή"
-
-#: src/dialogs/dialog-cell-format.c:1538 src/dialogs/dialog-cell-format.c:1597
-#: src/dialogs/dialog-cell-format.c:1603
-msgid "Double"
-msgstr "Διπλή"
-
-#: src/dialogs/dialog-cell-format.c:2394
+#: src/dialogs/dialog-cell-format.c:2399
 #, fuzzy
 msgid "Source"
 msgstr "Ταξινόμιση"
 
-#: src/dialogs/dialog-cell-format.c:2395
+#: src/dialogs/dialog-cell-format.c:2400
 #, fuzzy
 msgid "Criteria"
 msgstr "Διάστημα Κ_ριτηρίων:"
 
-#: src/dialogs/dialog-cell-format.c:2407 src/dialogs/dialog-cell-format.c:2414
+#: src/dialogs/dialog-cell-format.c:2412 src/dialogs/dialog-cell-format.c:2419
 #, fuzzy
 msgid "Min :"
 msgstr "Ελάχιστο"
 
-#: src/dialogs/dialog-cell-format.c:2408 src/dialogs/dialog-cell-format.c:2417
+#: src/dialogs/dialog-cell-format.c:2413 src/dialogs/dialog-cell-format.c:2422
 #, fuzzy
 msgid "Max :"
 msgstr "Μέγιστο"
 
-#: src/dialogs/dialog-cell-format.c:2411
+#: src/dialogs/dialog-cell-format.c:2416
 #, fuzzy
 msgid "Value :"
 msgstr "Τιμή"
 
-#: src/dialogs/dialog-cell-format.c:2636
+#: src/dialogs/dialog-cell-format.c:2641
 msgid "The validation criteria are unusable. Disable validation?"
 msgstr ""
 
-#: src/dialogs/dialog-cell-format.c:2889 src/workbook-format-toolbar.c:809
+#: src/dialogs/dialog-cell-format.c:2896 src/workbook-format-toolbar.c:820
 #, fuzzy
 msgid "Clear Background"
 msgstr "Φόντος"
@@ -19321,22 +19645,22 @@ msgstr "Στήλη: %s"
 msgid "Row %s"
 msgstr "Σειρά: %d"
 
-#: src/dialogs/dialog-cell-sort.c:707
+#: src/dialogs/dialog-cell-sort.c:700
 #, fuzzy
 msgid "Row/Column"
 msgstr "Στήλες"
 
-#: src/dialogs/dialog-cell-sort.c:727
+#: src/dialogs/dialog-cell-sort.c:720
 #, fuzzy
 msgid "Case Sensitive"
 msgstr "Διαχ. μικρών/κεφαλαίων"
 
-#: src/dialogs/dialog-cell-sort.c:740
+#: src/dialogs/dialog-cell-sort.c:733
 #, fuzzy
 msgid "By Value"
 msgstr "Τιμή p"
 
-#: src/dialogs/dialog-cell-sort.c:863
+#: src/dialogs/dialog-cell-sort.c:856
 #, fuzzy
 msgid "Could not create the Cell-Sort dialog."
 msgstr "Άκυρο όρισμα"
@@ -19351,16 +19675,16 @@ msgid ""
 "Set column width of selection on <span style='italic' weight='bold'>%s</span>"
 msgstr ""
 
-#: src/dialogs/dialog-consolidate.c:136
+#: src/dialogs/dialog-consolidate.c:141
 #, c-format
 msgid "Source region %s overlaps with the destination region"
 msgstr ""
 
-#: src/dialogs/dialog-define-names.c:356
+#: src/dialogs/dialog-define-names.c:350
 msgid "Why would you want to define a name to be #NAME?"
 msgstr ""
 
-#: src/dialogs/dialog-define-names.c:587
+#: src/dialogs/dialog-define-names.c:569
 #, fuzzy
 msgid "Could not create the Name Guru."
 msgstr "Άκυρο όρισμα"
@@ -19390,17 +19714,17 @@ msgstr "Άκυρο όρισμα"
 msgid "[%s]"
 msgstr "[δδ]"
 
-#: src/dialogs/dialog-formula-guru.c:823
+#: src/dialogs/dialog-formula-guru.c:822
 #, fuzzy
 msgid "Function/Argument"
 msgstr "Ενέργεια"
 
-#: src/dialogs/dialog-formula-guru.c:987
+#: src/dialogs/dialog-formula-guru.c:986
 #, fuzzy
 msgid "Could not create the formula guru."
 msgstr "Άκυρο όρισμα"
 
-#: src/dialogs/dialog-function-select.c:204
+#: src/dialogs/dialog-function-select.c:205
 msgid "Recently Used"
 msgstr ""
 
@@ -19453,7 +19777,7 @@ msgstr "Νέο Βιβλίο"
 #.
 #. * Fill in the labels of `Target Cell' section.
 #.
-#: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:722
+#: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:391
 #: src/dialogs/tabulate.glade.h:1 src/tools/solver/reports-write.c:80
 #: src/tools/solver/reports-write.c:102 src/tools/solver/reports-write.c:129
 #: src/tools/solver/reports-write.c:236 src/tools/solver/reports-write.c:282
@@ -19466,61 +19790,61 @@ msgstr "Κελί"
 msgid "Could not create the goto dialog."
 msgstr "Άκυρο όρισμα"
 
-#: src/dialogs/dialog-hyperlink.c:133
+#: src/dialogs/dialog-hyperlink.c:135
 msgid "Not a range or name"
 msgstr ""
 
-#: src/dialogs/dialog-hyperlink.c:185
+#: src/dialogs/dialog-hyperlink.c:187
 #, fuzzy
 msgid "_Internal Link"
 msgstr "Εσωτερικό σφάλμα"
 
-#: src/dialogs/dialog-hyperlink.c:187
+#: src/dialogs/dialog-hyperlink.c:189
 msgid "Jump to specific cells or named range in the current workbook"
 msgstr ""
 
-#: src/dialogs/dialog-hyperlink.c:191
+#: src/dialogs/dialog-hyperlink.c:193
 #, fuzzy
 msgid "_External Link"
 msgstr "Εσωτερικό σφάλμα"
 
-#: src/dialogs/dialog-hyperlink.c:193
+#: src/dialogs/dialog-hyperlink.c:195
 msgid "Open an external file with the specified name"
 msgstr ""
 
-#: src/dialogs/dialog-hyperlink.c:197
+#: src/dialogs/dialog-hyperlink.c:199
 msgid "Send _Email"
 msgstr ""
 
-#: src/dialogs/dialog-hyperlink.c:199
+#: src/dialogs/dialog-hyperlink.c:201
 #, fuzzy
 msgid "Prepare an email"
 msgstr "Δημιουργία γραμμής"
 
-#: src/dialogs/dialog-hyperlink.c:201
+#: src/dialogs/dialog-hyperlink.c:203
 msgid "_URL"
 msgstr ""
 
-#: src/dialogs/dialog-hyperlink.c:203
+#: src/dialogs/dialog-hyperlink.c:205
 msgid "Browse to the specified URL"
 msgstr ""
 
-#: src/dialogs/dialog-hyperlink.c:271
+#: src/dialogs/dialog-hyperlink.c:276
 #, fuzzy
 msgid "Add Hyperlink"
 msgstr "Άκυρο όρισμα"
 
-#: src/dialogs/dialog-hyperlink.c:273
+#: src/dialogs/dialog-hyperlink.c:278
 #, fuzzy
 msgid "Edit Hyperlink"
 msgstr "Άκυρο όρισμα"
 
-#: src/dialogs/dialog-hyperlink.c:279 src/sheet-control-gui.c:1448
+#: src/dialogs/dialog-hyperlink.c:284 src/sheet-control-gui.c:1445
 #, fuzzy
 msgid "Remove Hyperlink"
 msgstr "_Διαγραφή"
 
-#: src/dialogs/dialog-hyperlink.c:456
+#: src/dialogs/dialog-hyperlink.c:455
 #, fuzzy
 msgid "Could not create the hyperlink dialog."
 msgstr "Άκυρο όρισμα"
@@ -19534,28 +19858,28 @@ msgstr "Παρεμβολή"
 msgid "Could not create the Insert Cell dialog."
 msgstr "Άκυρο όρισμα"
 
-#: src/dialogs/dialog-merge.c:257
+#: src/dialogs/dialog-merge.c:258
 msgid "One field is not part of the merge zone!"
 msgstr ""
 
-#: src/dialogs/dialog-merge.c:259
+#: src/dialogs/dialog-merge.c:260
 #, c-format
 msgid "%i fields are not part of the merge zone!"
 msgstr ""
 
-#: src/dialogs/dialog-merge.c:276
+#: src/dialogs/dialog-merge.c:277
 #, c-format
 msgid ""
 "The data columns range in length from %i to %i. Shall we trim the lengths to "
 "%i and proceed?"
 msgstr ""
 
-#: src/dialogs/dialog-merge.c:374
+#: src/dialogs/dialog-merge.c:385
 #, fuzzy
 msgid "Input Data"
 msgstr "Είσοδος:"
 
-#: src/dialogs/dialog-merge.c:381
+#: src/dialogs/dialog-merge.c:392
 #, fuzzy
 msgid "Merge Field"
 msgstr "Μέσος όρος"
@@ -19578,186 +19902,180 @@ msgstr ""
 msgid "Password :"
 msgstr "Όροι"
 
-#: src/dialogs/dialog-paste-special.c:39
+#: src/dialogs/dialog-paste-special.c:40
 msgid "All"
 msgstr "Όλα"
 
-#: src/dialogs/dialog-paste-special.c:40 src/dialogs/dialog-search.c:724
+#: src/dialogs/dialog-paste-special.c:41 src/dialogs/dialog-search.c:393
 #, fuzzy
 msgid "Content"
 msgstr "Περιε_χόμενα"
 
-#: src/dialogs/dialog-paste-special.c:41
+#: src/dialogs/dialog-paste-special.c:42
 #, fuzzy
 msgid "As Value"
 msgstr "Τιμή p"
 
-#: src/dialogs/dialog-paste-special.c:42
+#: src/dialogs/dialog-paste-special.c:43
 msgid "Formats"
 msgstr "Μορφές"
 
-#: src/dialogs/dialog-paste-special.c:48
+#: src/dialogs/dialog-paste-special.c:49
 msgid "Add "
 msgstr "Πρόσθεση"
 
-#: src/dialogs/dialog-paste-special.c:49
+#: src/dialogs/dialog-paste-special.c:50
 msgid "Subtract"
 msgstr "Αφαίρεση"
 
-#: src/dialogs/dialog-paste-special.c:50
+#: src/dialogs/dialog-paste-special.c:51
 msgid "Multiply"
 msgstr "Πολ/μος"
 
-#: src/dialogs/dialog-paste-special.c:51
+#: src/dialogs/dialog-paste-special.c:52
 msgid "Divide"
 msgstr "Διαίρεση"
 
-#: src/dialogs/dialog-paste-special.c:117
+#: src/dialogs/dialog-paste-special.c:118
 msgid "Paste special"
 msgstr "Ειδική επικόλληση"
 
-#: src/dialogs/dialog-paste-special.c:120
+#: src/dialogs/dialog-paste-special.c:121
 #, fuzzy
 msgid "Paste Link"
 msgstr "Επικόλληση"
 
-#: src/dialogs/dialog-paste-special.c:127
+#: src/dialogs/dialog-paste-special.c:128
 msgid "Paste type"
 msgstr "Τύπος επικόλλησης"
 
-#: src/dialogs/dialog-paste-special.c:131
+#: src/dialogs/dialog-paste-special.c:132
 msgid "Operation"
 msgstr "Λειτουργία"
 
-#: src/dialogs/dialog-paste-special.c:163
+#: src/dialogs/dialog-paste-special.c:164
 msgid "Transpose"
 msgstr "Αντιμετάθεση"
 
-#: src/dialogs/dialog-paste-special.c:172
+#: src/dialogs/dialog-paste-special.c:173
 msgid "Skip Blanks"
 msgstr ""
 
-#: src/dialogs/dialog-plugin-manager.c:328
+#: src/dialogs/dialog-plugin-manager.c:369
 #, fuzzy
 msgid "Plugin dependencies"
 msgstr "Τίτλος Αρθρώματος"
 
-#: src/dialogs/dialog-plugin-manager.c:336
+#: src/dialogs/dialog-plugin-manager.c:377
 #, fuzzy
 msgid "Unknown plugin"
 msgstr "Άγνωστο σφάλμα εκτίμησης"
 
-#: src/dialogs/dialog-plugin-manager.c:350
+#: src/dialogs/dialog-plugin-manager.c:391
 #, fuzzy
 msgid "Plugin services"
 msgstr "Τίτλος Αρθρώματος"
 
-#: src/dialogs/dialog-plugin-manager.c:411
+#: src/dialogs/dialog-plugin-manager.c:452
 msgid "Errors while activating plugins"
 msgstr ""
 
-#: src/dialogs/dialog-plugin-manager.c:427
+#: src/dialogs/dialog-plugin-manager.c:468
 msgid "Errors while deactivating plugins"
 msgstr ""
 
-#: src/dialogs/dialog-plugin-manager.c:581
+#: src/dialogs/dialog-plugin-manager.c:564
 msgid ""
 "The following extra plugins must be activated in order to activate this "
 "one:\n"
 "\n"
 msgstr ""
 
-#: src/dialogs/dialog-plugin-manager.c:587
+#: src/dialogs/dialog-plugin-manager.c:570
 #, fuzzy, c-format
 msgid "Unknown plugin with id=\"%s\"\n"
 msgstr "Άγνωστο σφάλμα εκτίμησης"
 
-#: src/dialogs/dialog-plugin-manager.c:594
+#: src/dialogs/dialog-plugin-manager.c:577
 msgid ""
 "\n"
 "Do you want to activate this plugin together with its dependencies?"
 msgstr ""
 
-#: src/dialogs/dialog-plugin-manager.c:613
+#: src/dialogs/dialog-plugin-manager.c:596
 #, fuzzy, c-format
 msgid "Error while deactivating plugin \"%s\"."
 msgstr "Σφάλμα: ανύπαρκτο φύλλο"
 
-#: src/dialogs/dialog-plugin-manager.c:617
+#: src/dialogs/dialog-plugin-manager.c:600
 #, fuzzy, c-format
 msgid "Error while activating plugin \"%s\"."
 msgstr "Σφάλμα: ανύπαρκτο φύλλο"
 
-#: src/dialogs/dialog-plugin-manager.c:672
+#: src/dialogs/dialog-plugin-manager.c:655
 #, fuzzy
 msgid "Active"
 msgstr "ενεργό φύλλο"
 
-#: src/dialogs/dialog-plugin-manager.c:677
+#: src/dialogs/dialog-plugin-manager.c:660
 #, fuzzy
 msgid "Plugin name"
 msgstr "Διαχειριστής Αρθρωμάτων Gnumeric"
 
-#: src/dialogs/dialog-plugin-manager.c:696
-#: src/dialogs/dialog-preferences.c:508 src/dialogs/function-select.glade.h:2
-#, fuzzy
-msgid "Description"
-msgstr "Περιγραφή:"
-
-#: src/dialogs/dialog-plugin-manager.c:700
+#: src/dialogs/dialog-plugin-manager.c:683
 msgid "ID"
 msgstr ""
 
-#: src/dialogs/dialog-plugin-manager.c:720
+#: src/dialogs/dialog-plugin-manager.c:703
 msgid "Directory"
 msgstr ""
 
 #. Is it a boolean?
-#: src/dialogs/dialog-preferences.c:374 src/format.c:1675
+#: src/dialogs/dialog-preferences.c:375 src/format.c:1681
 #: src/number-match.c:1069 src/value-sheet.c:33 src/value.c:403
 #: src/value.c:773
 msgid "TRUE"
 msgstr "ΑΛΗΘΕΣ"
 
-#: src/dialogs/dialog-preferences.c:375 src/format.c:1675
+#: src/dialogs/dialog-preferences.c:376 src/format.c:1681
 #: src/number-match.c:1071 src/value-sheet.c:33 src/value.c:404
 #: src/value.c:773
 msgid "FALSE"
 msgstr "ΨΕΥΔΕΣ"
 
-#: src/dialogs/dialog-preferences.c:671
+#: src/dialogs/dialog-preferences.c:672
 msgid "The items on this page customize the behaviour of the undo/redo system."
 msgstr ""
 
-#: src/dialogs/dialog-preferences.c:821
+#: src/dialogs/dialog-preferences.c:822
 msgid ""
 "The items on this page customize the inital settings of the sort dialog and "
 "the behaviour of the sort toolbar buttons."
 msgstr ""
 
-#: src/dialogs/dialog-preferences.c:968
+#: src/dialogs/dialog-preferences.c:969
 msgid "The items on this page customize the new default workbook."
 msgstr ""
 
-#: src/dialogs/dialog-preferences.c:1153
+#: src/dialogs/dialog-preferences.c:1154
 msgid "The items on this page are related to the saving and opening of files."
 msgstr ""
 
-#: src/dialogs/dialog-printer-setup.c:848
+#: src/dialogs/dialog-printer-setup.c:854
 #, fuzzy
 msgid "Customize header"
 msgstr "Ρυθμίσεις ε_πικεφαλίδας"
 
-#: src/dialogs/dialog-printer-setup.c:850
+#: src/dialogs/dialog-printer-setup.c:856
 #, fuzzy
 msgid "Customize footer"
 msgstr "Ρυθμίσεις _υποκεφαλίδας"
 
-#: src/dialogs/dialog-printer-setup.c:1000
+#: src/dialogs/dialog-printer-setup.c:1006
 msgid "Custom header configuration"
 msgstr "Ρυθμίσεις επικεφαλίδας"
 
-#: src/dialogs/dialog-printer-setup.c:1005
+#: src/dialogs/dialog-printer-setup.c:1011
 msgid "Custom footer configuration"
 msgstr "Ρυθμίσεις υποκεφαλίδας"
 
@@ -19784,7 +20102,7 @@ msgstr "Παρεμβολή"
 
 #: src/dialogs/dialog-random-generator.c:111
 #: src/dialogs/search-replace.glade.h:14 src/dialogs/search.glade.h:13
-#: src/widgets/widget-font-selector.c:117
+#: src/widgets/widget-font-selector.c:120
 msgid "Normal"
 msgstr "Κανονική"
 
@@ -20018,7 +20336,7 @@ msgstr "Στην τιμή:"
 msgid "Weibull"
 msgstr ""
 
-#: src/dialogs/dialog-random-generator.c:891
+#: src/dialogs/dialog-random-generator.c:887
 #, fuzzy
 msgid "Could not create the Random Tool dialog."
 msgstr "Άκυρο όρισμα"
@@ -20033,299 +20351,294 @@ msgid ""
 "Set row height of selection on <span style='italic' weight='bold'>%s</span>"
 msgstr ""
 
-#: src/dialogs/dialog-scenarios.c:115
+#: src/dialogs/dialog-scenarios.c:116
 #, fuzzy
 msgid "Invalid changing cells"
 msgstr "Αλλάζοντας το κελί:"
 
-#: src/dialogs/dialog-scenarios.c:123
+#: src/dialogs/dialog-scenarios.c:124
 #, fuzzy
 msgid "Changing cells should be on the current sheet only."
 msgstr "Μετονομασία παρόντος φύλλου"
 
-#: src/dialogs/dialog-scenarios.c:134
+#: src/dialogs/dialog-scenarios.c:135
 msgid "Scenario name already used"
 msgstr ""
 
-#: src/dialogs/dialog-scenarios.c:139
+#: src/dialogs/dialog-scenarios.c:140
 #, fuzzy
 msgid "Invalid scenario name"
 msgstr "Άκυρο όρισμα"
 
-#: src/dialogs/dialog-scenarios.c:164
+#: src/dialogs/dialog-scenarios.c:165
 msgid ""
 "Changing cells contain at least one expression that is not just a value. "
 "Note that showing the scenario will overwrite the formula with it's current "
 "value."
 msgstr ""
 
-#: src/dialogs/dialog-scenarios.c:199
+#: src/dialogs/dialog-scenarios.c:200
 #, fuzzy
 msgid "Could not create the Scenario Add dialog."
 msgstr "Άκυρο όρισμα"
 
-#: src/dialogs/dialog-scenarios.c:216 src/dialogs/scenario-add.glade.h:5
+#: src/dialogs/dialog-scenarios.c:217 src/dialogs/scenario-add.glade.h:5
 #, fuzzy
 msgid "_Changing cells:"
 msgstr "Μ_ε Αλλαγή Κελιών:  "
 
-#: src/dialogs/dialog-scenarios.c:231
+#: src/dialogs/dialog-scenarios.c:232
 #, fuzzy
 msgid "Created on "
 msgstr "Δημιουργία βέλους"
 
-#: src/dialogs/dialog-scenarios.c:553
+#: src/dialogs/dialog-scenarios.c:554
 msgid "Results entry did not contain valid cell names."
 msgstr ""
 
-#: src/dialogs/dialog-scenarios.c:620
+#: src/dialogs/dialog-scenarios.c:621
 #, fuzzy
 msgid "Could not create the Scenarios dialog."
 msgstr "Άκυρο όρισμα"
 
-#: src/dialogs/dialog-scenarios.c:637 src/dialogs/scenario-manager.glade.h:6
+#: src/dialogs/dialog-scenarios.c:638 src/dialogs/scenario-manager.glade.h:6
 #, fuzzy
 msgid "Results:"
 msgstr "διαγραφή κελίων"
 
-#: src/dialogs/dialog-search-replace.c:151 src/dialogs/dialog-search.c:655
+#: src/dialogs/dialog-search-replace.c:152 src/dialogs/dialog-search.c:324
 msgid "You must select some cell types to search."
 msgstr ""
 
-#: src/dialogs/dialog-search-replace.c:328
+#: src/dialogs/dialog-search-replace.c:329
 msgid "Perform no more replacements"
 msgstr ""
 
-#: src/dialogs/dialog-search-replace.c:332
+#: src/dialogs/dialog-search-replace.c:333
 msgid "Do not perform this replacement"
 msgstr ""
 
-#: src/dialogs/dialog-search-replace.c:336
+#: src/dialogs/dialog-search-replace.c:337
 #, fuzzy
 msgid "Perform this replacement"
 msgstr "Κεντράρισμα περιεχομένων του κελιού"
 
-#: src/dialogs/dialog-search.c:456
+#: src/dialogs/dialog-search.c:121
 #, fuzzy
 msgid "Comment"
 msgstr "Σχόλια"
 
-#: src/dialogs/dialog-search.c:459 src/tools/solver/reports-write.c:408
+#: src/dialogs/dialog-search.c:124 src/tools/solver/reports-write.c:408
 #: src/tools/solver/reports-write.c:413
 #, fuzzy
 msgid "Result"
 msgstr "διαγραφή κελίων"
 
-#: src/dialogs/dialog-search.c:469
+#: src/dialogs/dialog-search.c:134
 #, fuzzy
 msgid "Expression"
 msgstr "Άκυρο όρισμα"
 
-#: src/dialogs/dialog-search.c:473
+#: src/dialogs/dialog-search.c:138
 #, fuzzy
 msgid "Integer"
 msgstr "Παρεμβολή"
 
-#: src/dialogs/dialog-search.c:477
+#: src/dialogs/dialog-search.c:142
 #, fuzzy
 msgid "Other value"
 msgstr "Στην τιμή:"
 
-#: src/dialogs/dialog-sheet-order.c:315
+#: src/dialogs/dialog-sheet-order.c:316
 #, fuzzy
 msgid "Current Name"
 msgstr "Τρέχουσα ημ/_νία"
 
-#: src/dialogs/dialog-sheet-order.c:325
+#: src/dialogs/dialog-sheet-order.c:326
 #, fuzzy
 msgid "New Name"
 msgstr "Ανώνυμο"
 
-#: src/dialogs/dialog-sheet-order.c:628
+#: src/dialogs/dialog-sheet-order.c:629
 msgid "Deletion of sheets is not undoable. Do you want to proceed?"
 msgstr ""
 
-#: src/dialogs/dialog-sheet-order.c:632
+#: src/dialogs/dialog-sheet-order.c:633
 #, fuzzy
 msgid "You may not delete all sheets in a workbook!"
 msgstr "Ονόματα στο βιβλίο:"
 
-#: src/dialogs/dialog-sheet-order.c:867
+#: src/dialogs/dialog-sheet-order.c:868
 msgid "The sheet order has changed. Do you want to update the list?"
 msgstr ""
 
-#: src/dialogs/dialog-sheet-order.c:926 src/dialogs/dialog-sheet-order.c:935
-#, fuzzy
-msgid "Default"
-msgstr "Διαγραφή"
-
-#: src/dialogs/dialog-shuffle.c:74
+#: src/dialogs/dialog-shuffle.c:73
 #, fuzzy
 msgid "The input range is invalid."
 msgstr "Επιλογή πλάγιας γραμματοσειράς"
 
-#: src/dialogs/dialog-shuffle.c:151
+#: src/dialogs/dialog-shuffle.c:149
 #, fuzzy
 msgid "Could not create the Data Shuffling dialog."
 msgstr "Άκυρο όρισμα"
 
-#: src/dialogs/dialog-simulation.c:70
+#: src/dialogs/dialog-simulation.c:71
 msgid "The input variable range is invalid."
 msgstr ""
 
-#: src/dialogs/dialog-simulation.c:80
+#: src/dialogs/dialog-simulation.c:81
 msgid "The output variable range is invalid."
 msgstr ""
 
-#: src/dialogs/dialog-simulation.c:168
+#: src/dialogs/dialog-simulation.c:169
 #, fuzzy
 msgid "Simulations"
 msgstr "Ευαισ_θησία"
 
-#: src/dialogs/dialog-simulation.c:168
+#: src/dialogs/dialog-simulation.c:169
 #, fuzzy
 msgid "Iterations"
 msgstr "Λειτουργία"
 
-#: src/dialogs/dialog-simulation.c:168
+#: src/dialogs/dialog-simulation.c:169
 #, fuzzy
 msgid "# Input variables"
 msgstr "Ετικέτες"
 
-#: src/dialogs/dialog-simulation.c:169
+#: src/dialogs/dialog-simulation.c:170
 #, fuzzy
 msgid "# Output variables"
 msgstr "Διάστημα Εξόδου:"
 
-#: src/dialogs/dialog-simulation.c:169
+#: src/dialogs/dialog-simulation.c:170
 #, fuzzy
 msgid "Runtime"
 msgstr "ώρα"
 
-#: src/dialogs/dialog-simulation.c:169
+#: src/dialogs/dialog-simulation.c:170
 msgid "Run on"
 msgstr ""
 
-#: src/dialogs/dialog-simulation.c:246
+#: src/dialogs/dialog-simulation.c:247
 #, fuzzy
 msgid "Variable"
 msgstr "Διάστημα Μεταβλητής 1:"
 
-#: src/dialogs/dialog-simulation.c:326
+#: src/dialogs/dialog-simulation.c:327
 msgid "Invalid variable range was given"
 msgstr ""
 
-#: src/dialogs/dialog-simulation.c:340
+#: src/dialogs/dialog-simulation.c:341
 msgid ""
 "First round number should be greater or equal than the number of the last "
 "round."
 msgstr ""
 
-#: src/dialogs/dialog-simulation.c:431
+#: src/dialogs/dialog-simulation.c:432
 #, fuzzy
 msgid "_Inputs:"
 msgstr "Είσοδος:"
 
-#: src/dialogs/dialog-simulation.c:431
+#: src/dialogs/dialog-simulation.c:432
 #, fuzzy
 msgid "_Outputs:"
 msgstr "Διάστημα Εξόδου:"
 
-#: src/dialogs/dialog-simulation.c:432
+#: src/dialogs/dialog-simulation.c:433
 #, fuzzy
 msgid "Could not create the Simulation dialog."
 msgstr "Άκυρο όρισμα"
 
-#: src/dialogs/dialog-solver.c:89
+#: src/dialogs/dialog-solver.c:91
 msgid "Revised Simplex (GLPK 3.2)"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:90
+#: src/dialogs/dialog-solver.c:92
 msgid "Simplex (LP Solve 3.2)"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:91
+#: src/dialogs/dialog-solver.c:93
 msgid "< Not available >"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:419
+#: src/dialogs/dialog-solver.c:421
 msgid ""
 "Looking for a subject for your thesis? Maybe you would like to write a QP "
 "solver for Gnumeric?"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:736
+#: src/dialogs/dialog-solver.c:738
 msgid ""
 "Solver found an optimal solution.  All constraints and optimality conditions "
 "are satisfied.\n"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:745
+#: src/dialogs/dialog-solver.c:747
 msgid ""
 "Sensitivity nor limits report are not meaningful if the program has integer "
 "constraints. These reports will thus not be created."
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:763
+#: src/dialogs/dialog-solver.c:765
 msgid ""
 "The Target Cell value specified does not converge!  The program is unbounded."
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:777
+#: src/dialogs/dialog-solver.c:779
 msgid ""
 "A feasible solution could not be found.  All specified constraints cannot be "
 "met simultaneously. "
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:792
+#: src/dialogs/dialog-solver.c:794
 msgid ""
 "The maximum number of iterations exceeded. The optimal value could not be "
 "found."
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:832
+#: src/dialogs/dialog-solver.c:834
 msgid "Optimal solution created by solver.\n"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:866
+#: src/dialogs/dialog-solver.c:868
 #, fuzzy
 msgid "Unknown error."
 msgstr "Άγνωστος τελεστής"
 
-#: src/dialogs/dialog-solver.c:883
+#: src/dialogs/dialog-solver.c:885
 msgid "You have not specified a problem to be solved"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:902 src/tools/solver/solver.c:377
+#: src/dialogs/dialog-solver.c:904 src/tools/solver/solver.c:377
 #, fuzzy
 msgid "Target cell should contain a formula."
 msgstr "Το κελί στο 'Αλλαγή κελιού' πρέπει να περιέχει εξίσωση"
 
-#: src/dialogs/dialog-solver.c:985
+#: src/dialogs/dialog-solver.c:987
 #, c-format
 msgid "Constraint `%s' is for a cell that is not an input cell."
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:1007
+#: src/dialogs/dialog-solver.c:1009
 msgid "No constraints defined for the problem."
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:1057
+#: src/dialogs/dialog-solver.c:1059
 msgid ""
 "The maximum time exceeded. The optimal value could not be found in given "
 "time."
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:1352
+#: src/dialogs/dialog-solver.c:1354
 #, fuzzy
 msgid "Could not create the Solver dialog."
 msgstr "Άκυρο όρισμα"
 
-#: src/dialogs/dialog-stf-export-sheet-page.c:379
+#: src/dialogs/dialog-stf-export-sheet-page.c:381
 msgid "You need to select at least one sheet to export"
 msgstr ""
 
-#: src/dialogs/dialog-stf-export.c:48 src/dialogs/dialog-stf.c:102
+#: src/dialogs/dialog-stf-export.c:50 src/dialogs/dialog-stf.c:52
 #, fuzzy
 msgid "Are you sure you want to cancel?"
 msgstr "Είσαστε βέβαιοι ότι θέλετε να διαγράψετε το φύλλο με όνομα `%s';"
@@ -20377,7 +20690,7 @@ msgstr "όλα τα φύλλα"
 msgid "Bang (!)"
 msgstr ""
 
-#: src/dialogs/dialog-stf-export.glade.h:12 src/gui-file.c:183
+#: src/dialogs/dialog-stf-export.glade.h:12
 msgid "Character encoding:"
 msgstr ""
 
@@ -20429,7 +20742,7 @@ msgstr "Περιγραφή:"
 msgid "Macintosh (carriage return)"
 msgstr ""
 
-#: src/dialogs/dialog-stf-export.glade.h:24 src/dialogs/dialog-stf.glade.h:36
+#: src/dialogs/dialog-stf-export.glade.h:24 src/dialogs/dialog-stf.glade.h:34
 #, fuzzy
 msgid "Never"
 msgstr "Νοέμβριος"
@@ -20505,21 +20818,27 @@ msgstr ""
 msgid "Autodiscovery did not find any columns in the text. Try manually"
 msgstr ""
 
-#: src/dialogs/dialog-stf-main-page.c:101
-#, fuzzy, c-format
-msgid "%d lines to import"
-msgstr "Τίτλοι προς εκτύπωση"
-
-#: src/dialogs/dialog-stf-main-page.c:247
-msgid "LINES TOO LONG!"
+#: src/dialogs/dialog-stf-fixed-page.c:112
+#, c-format
+msgid "You cannot have more than %d columns in this version of Gnumeric."
 msgstr ""
 
-#: src/dialogs/dialog-stf-main-page.c:274
+#: src/dialogs/dialog-stf-main-page.c:133
+#, fuzzy, c-format
+msgid "%d of %d lines to import"
+msgstr "Τίτλοι προς εκτύπωση"
+
+#: src/dialogs/dialog-stf-main-page.c:152
+#, c-format
+msgid "The data is not valid in encoding %s; please select another encoding."
+msgstr ""
+
+#: src/dialogs/dialog-stf-main-page.c:342
 #, c-format
 msgid "Data (from %s)"
 msgstr ""
 
-#: src/dialogs/dialog-stf-preview.h:32
+#: src/dialogs/dialog-stf-preview.h:28
 #, fuzzy, c-format
 msgid "Column %d"
 msgstr "Στήλη: %s"
@@ -20559,8 +20878,8 @@ msgstr "Τυποποιημένο"
 
 #: src/dialogs/dialog-stf.glade.h:11
 msgid ""
-"Character interpreted as quote character. If the separation character is "
-"encountered within quotes it will be ignored."
+"Character interpreted as quote character. If a termination or separation "
+"character is encountered within quotes it will be ignored."
 msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:12
@@ -20570,41 +20889,34 @@ msgstr "Ρύθμιση πλάτους της στήλης %s"
 
 #: src/dialogs/dialog-stf.glade.h:13
 #, fuzzy
-msgid "Click to select a column"
-msgstr "Ταξινόμιση των επιλεγμένων κελιών"
-
-#: src/dialogs/dialog-stf.glade.h:14
-#, fuzzy
 msgid "Co_lumn end: "
 msgstr "Στήλη: %s"
 
-#: src/dialogs/dialog-stf.glade.h:15
+#: src/dialogs/dialog-stf.glade.h:14
 msgid "Co_mma (,)"
 msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:16
 #, fuzzy
-msgid "Column"
-msgstr "Στή_λη"
-
-#: src/dialogs/dialog-stf.glade.h:17
-#, fuzzy
 msgid "Column formatting"
 msgstr "Πληροφορίες"
 
-#: src/dialogs/dialog-stf.glade.h:18
+#: src/dialogs/dialog-stf.glade.h:17
 msgid "Columns"
 msgstr "Στήλες"
 
-#: src/dialogs/dialog-stf.glade.h:19
+#: src/dialogs/dialog-stf.glade.h:18
 msgid "Custom separator, this can be any character"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:20
-msgid ""
-"Customize the columns using the buttons or the mouse (hover mouse above "
-"example for instructions)"
+#: src/dialogs/dialog-stf.glade.h:19
+msgid "Customize the columns using the buttons or the mouse"
 msgstr ""
+
+#: src/dialogs/dialog-stf.glade.h:20
+#, fuzzy
+msgid "Data"
+msgstr "_Δεδομένα"
 
 #: src/dialogs/dialog-stf.glade.h:21
 msgid "Data type and number of lines"
@@ -20621,13 +20933,13 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:24
-msgid "End"
-msgstr ""
+#, fuzzy
+msgid "Encoding:"
+msgstr "Αύξουσα"
 
 #: src/dialogs/dialog-stf.glade.h:25
-#, fuzzy
-msgid "Example"
-msgstr "Δείγμα"
+msgid "End"
+msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:26
 #, fuzzy
@@ -20645,129 +20957,127 @@ msgstr "Ταξινόμιση των επιλεγμένων κελιών"
 
 #: src/dialogs/dialog-stf.glade.h:29
 #, fuzzy
-msgid "Formatting options"
-msgstr "Επιλογές εξόδου:"
-
-#: src/dialogs/dialog-stf.glade.h:30
-#, fuzzy
 msgid "Fr_om line:"
 msgstr "Στην τιμή:"
 
-#: src/dialogs/dialog-stf.glade.h:31
+#: src/dialogs/dialog-stf.glade.h:30
 msgid "H_yphen (-)"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:32
+#: src/dialogs/dialog-stf.glade.h:31
 msgid "Importing structured text"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:33
-msgid ""
-"Left click to create a new column, right click on a column border to delete "
-"an existing column or hold the left mouse button on a column border and drag "
-"to resize a column."
-msgstr ""
-
-#: src/dialogs/dialog-stf.glade.h:34
+#: src/dialogs/dialog-stf.glade.h:32
 #, fuzzy
 msgid "Lines to import"
 msgstr "Τίτλοι προς εκτύπωση"
 
-#: src/dialogs/dialog-stf.glade.h:35
+#: src/dialogs/dialog-stf.glade.h:33
 msgid "Misc"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:37
+#: src/dialogs/dialog-stf.glade.h:35
 #, fuzzy
 msgid "Number of lines to import"
 msgstr "Τίτλοι προς εκτύπωση"
 
-#: src/dialogs/dialog-stf.glade.h:38
+#: src/dialogs/dialog-stf.glade.h:36
 msgid "On left side only"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:39
+#: src/dialogs/dialog-stf.glade.h:37
 msgid "On right side only"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:40
+#: src/dialogs/dialog-stf.glade.h:38
 #, fuzzy
 msgid "Original data type:"
 msgstr "Επανα_φορά Αρχικών Τιμών"
 
-#: src/dialogs/dialog-stf.glade.h:41
+#: src/dialogs/dialog-stf.glade.h:39
+#, fuzzy
+msgid "Overall formatting"
+msgstr "Συσχέτιση"
+
+#: src/dialogs/dialog-stf.glade.h:40
 msgid "P_ipe (|)"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:42
+#: src/dialogs/dialog-stf.glade.h:41
 #, fuzzy
 msgid "Per column formatting"
 msgstr "Συσχέτιση"
 
-#: src/dialogs/dialog-stf.glade.h:43
+#: src/dialogs/dialog-stf.glade.h:42
 msgid "Processing ends at this line, any subsequent lines will be ignored."
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:44
+#: src/dialogs/dialog-stf.glade.h:43
 #, fuzzy
 msgid "Remove selected column"
 msgstr "Ταξινόμιση των επιλεγμένων κελιών"
 
-#: src/dialogs/dialog-stf.glade.h:45
+#: src/dialogs/dialog-stf.glade.h:44
 msgid "S_ee two separators as one"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:46
+#: src/dialogs/dialog-stf.glade.h:45
 #, fuzzy
 msgid "S_pace"
 msgstr "Αντικατά_σταση:"
 
-#: src/dialogs/dialog-stf.glade.h:47
+#: src/dialogs/dialog-stf.glade.h:46
 msgid "See two successive separators as one."
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:48
+#: src/dialogs/dialog-stf.glade.h:47
 msgid ""
 "See two successive text indicators as one that does not terminate the cell."
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:49
+#: src/dialogs/dialog-stf.glade.h:48
 msgid ""
 "Select the format for each column. You can click in the column list on the "
 "left or in the example to select a column. You can then enter a custom "
 "format or select one from the list on the right."
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:50
+#: src/dialogs/dialog-stf.glade.h:49
 msgid ""
 "Select the separators that appear in the text (you can choose multiple "
 "separators if desired and also enter a custom one)"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:51
+#: src/dialogs/dialog-stf.glade.h:50
 msgid "Select the structure of the text that most closely matches the data."
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:52
+#: src/dialogs/dialog-stf.glade.h:51
 msgid "Semicolo_n (;)"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:53
+#: src/dialogs/dialog-stf.glade.h:52
 msgid "Separation customization"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:54
+#: src/dialogs/dialog-stf.glade.h:53
 msgid "Separators"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:55
+#: src/dialogs/dialog-stf.glade.h:54
 #, fuzzy
 msgid "Set the end of this column"
 msgstr "Επιλέξτε αντικείμενο"
 
-#: src/dialogs/dialog-stf.glade.h:56
+#: src/dialogs/dialog-stf.glade.h:55
 msgid "Slas_h (/)"
 msgstr ""
+
+#: src/dialogs/dialog-stf.glade.h:56
+#, fuzzy
+msgid "Source Format"
+msgstr "Ταξινόμιση"
 
 #: src/dialogs/dialog-stf.glade.h:57
 #, fuzzy
@@ -20812,61 +21122,83 @@ msgstr ""
 msgid "_To line: "
 msgstr "Στην τιμή:"
 
-#: src/dialogs/dialog-tabulate.c:144
+#: src/dialogs/dialog-tabulate.c:146
 #, fuzzy
 msgid "Tabulation"
 msgstr "Αρθρώματα Gnumeric"
 
-#: src/dialogs/dialog-tabulate.c:406
+#: src/dialogs/dialog-tabulate.c:408
 #, fuzzy
 msgid "You should introduce a single valid cell as dependency cell"
 msgstr "Πρέπει να δώσετε έγκυρο όνομα κελιού στο 'Αλλαγή κελιού'"
 
-#: src/dialogs/dialog-tabulate.c:412
+#: src/dialogs/dialog-tabulate.c:414
 msgid "The dependency cells should not contain an expression"
 msgstr ""
 
-#: src/dialogs/dialog-tabulate.c:420
+#: src/dialogs/dialog-tabulate.c:422
 #, fuzzy
 msgid "You should introduce a valid number as minimum"
 msgstr "Πρέπει να εισάγετε έγκυρο όνομα κελιού"
 
-#: src/dialogs/dialog-tabulate.c:428
+#: src/dialogs/dialog-tabulate.c:430
 #, fuzzy
 msgid "You should introduce a valid number as maximum"
 msgstr "Πρέπει να εισάγετε έγκυρο όνομα κελιού"
 
-#: src/dialogs/dialog-tabulate.c:435
+#: src/dialogs/dialog-tabulate.c:437
 msgid "The maximum value should be bigger than the minimum"
 msgstr ""
 
-#: src/dialogs/dialog-tabulate.c:443
+#: src/dialogs/dialog-tabulate.c:445
 #, fuzzy
 msgid "You should introduce a valid number as step size"
 msgstr "Πρέπει να εισάγετε έγκυρο όνομα κελιού"
 
-#: src/dialogs/dialog-tabulate.c:450
+#: src/dialogs/dialog-tabulate.c:452
 msgid "The step size should be positive"
 msgstr ""
 
-#: src/dialogs/dialog-tabulate.c:460
+#: src/dialogs/dialog-tabulate.c:462
 #, fuzzy
 msgid "You should introduce one or more dependency cells"
 msgstr "Πρέπει να εισάγετε έγκυρο όνομα κελιού στο 'Κελί στόχου'"
 
-#: src/dialogs/dialog-tabulate.c:469
+#: src/dialogs/dialog-tabulate.c:471
 #, fuzzy
 msgid "You should introduce a single valid cell as result cell"
 msgstr "Πρέπει να εισάγετε έγκυρο όνομα κελιού στο 'Κελί στόχου'"
 
-#: src/dialogs/dialog-tabulate.c:476
+#: src/dialogs/dialog-tabulate.c:478
 msgid "The target cell should contain an expression"
 msgstr ""
 
-#: src/dialogs/dialog-zoom.glade.h:2 src/tools/analysis-tools.c:3970
-#, no-c-format
-msgid "%"
-msgstr "%"
+#: src/dialogs/dialog-view.c:82
+msgid ""
+"Multi-display support in Gnumeric has been turned off due to multiple bugs "
+"in GTK+, libgnomeui, libgnomeprintui, libbonoboui, and Gnumeric at the time "
+"of writing, ultimo May 2003."
+msgstr ""
+
+#: src/dialogs/dialog-view.c:92
+#, c-format
+msgid "Display \"%s\" could not be opened."
+msgstr ""
+
+#: src/dialogs/dialog-view.c:163
+#, fuzzy
+msgid "This screen"
+msgstr "Διακριτή"
+
+#: src/dialogs/dialog-view.c:164
+#, c-format
+msgid "Screen %d [This screen]"
+msgstr ""
+
+#: src/dialogs/dialog-view.c:165
+#, fuzzy, c-format
+msgid "Screen %d"
+msgstr "Φύλλο%d"
 
 #: src/dialogs/dialog-zoom.glade.h:4
 #, no-c-format
@@ -20881,7 +21213,7 @@ msgstr "Μεγένθυση"
 msgid "Sheets"
 msgstr "Φύλλα"
 
-#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:4115
+#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:4258
 msgid "Zoom"
 msgstr "Κλίμακα"
 
@@ -21305,8 +21637,18 @@ msgstr "_Γενικό"
 
 #: src/dialogs/merge.glade.h:1
 #, fuzzy
-msgid "Merge Range:"
+msgid "Merge _Range:"
 msgstr "πορτοκαλί"
+
+#: src/dialogs/merge.glade.h:2
+#, fuzzy
+msgid "Merge..."
+msgstr "Μέσος όρος"
+
+#: src/dialogs/merge.glade.h:3
+#, fuzzy
+msgid "_Merge"
+msgstr "Μέσος όρος"
 
 #: src/dialogs/moving-averages.glade.h:2
 #, fuzzy
@@ -22300,7 +22642,7 @@ msgstr "Χρώμα"
 
 #: src/dialogs/so-fill.glade.h:4
 #, fuzzy
-msgid "_Outline Color:"
+msgid "O_utline Color:"
 msgstr "Περίγραμμα"
 
 #: src/dialogs/so-frame.glade.h:2
@@ -22619,6 +22961,47 @@ msgstr "Διάστημα Μεταβλητής 1:"
 msgid "Variable _2 Range:"
 msgstr "Διάστημα Μεταβλητής 2:"
 
+#: src/dialogs/view.glade.h:2
+#, fuzzy
+msgid "Create New View"
+msgstr "Δημιουργία γραμμής"
+
+#: src/dialogs/view.glade.h:3
+msgid "Elsewhere"
+msgstr ""
+
+#: src/dialogs/view.glade.h:4
+#, fuzzy
+msgid "Location"
+msgstr "Ενέργεια"
+
+#: src/dialogs/view.glade.h:5
+msgid "New view will be opened on specified screen"
+msgstr ""
+
+#: src/dialogs/view.glade.h:6
+#, fuzzy
+msgid "Sharing"
+msgstr "Αλφαριθμ."
+
+#: src/dialogs/view.glade.h:7
+msgid "Views will have separate cursor locations"
+msgstr ""
+
+#: src/dialogs/view.glade.h:8
+msgid "Views will share cursor position"
+msgstr ""
+
+#: src/dialogs/view.glade.h:9
+#, fuzzy
+msgid "_Shared"
+msgstr "Νέο Φύλλο"
+
+#: src/dialogs/view.glade.h:10
+#, fuzzy
+msgid "_Unshared"
+msgstr "Νέο Φύλλο"
+
 #: src/dialogs/workbook-attr.glade.h:2
 msgid "A_uto Complete Text in Cells"
 msgstr ""
@@ -22704,12 +23087,12 @@ msgstr "Απόκρυωη Κατα_κόρυφης Λωρίδας Κύλισης"
 msgid "'%s' has a circular reference"
 msgstr "κυκλική αναφορά"
 
-#: src/expr-name.c:385
+#: src/expr-name.c:377 src/expr-name.c:557
 #, fuzzy, c-format
 msgid "'%s' is already defined in sheet"
 msgstr "ήδη ορισμένο"
 
-#: src/expr-name.c:386
+#: src/expr-name.c:378 src/expr-name.c:558
 #, fuzzy, c-format
 msgid "'%s' is already defined in workbook"
 msgstr "ήδη ορισμένο"
@@ -22805,48 +23188,48 @@ msgstr ""
 msgid "The target region is too small.  It should be at least %d rows high"
 msgstr ""
 
-#: src/format.c:601
+#: src/format.c:605
 #, fuzzy
 msgid "Black"
 msgstr "μαύρο"
 
-#: src/format.c:602
+#: src/format.c:606
 #, fuzzy
 msgid "Blue"
 msgstr "μπλέ"
 
-#: src/format.c:603
+#: src/format.c:607
 #, fuzzy
 msgid "Cyan"
 msgstr "κυανό"
 
-#: src/format.c:604
+#: src/format.c:608
 #, fuzzy
 msgid "Green"
 msgstr "πράσινο"
 
-#: src/format.c:605
+#: src/format.c:609
 #, fuzzy
 msgid "Magenta"
 msgstr "μώβ"
 
-#: src/format.c:606
+#: src/format.c:610
 #, fuzzy
 msgid "Red"
 msgstr "[Κόκκινο]"
 
-#: src/format.c:607
+#: src/format.c:611
 #, fuzzy
 msgid "White"
 msgstr "λευκό"
 
-#: src/format.c:608
+#: src/format.c:612
 #, fuzzy
 msgid "Yellow"
 msgstr "κίτρινο"
 
 #. Array of arrays ??
-#: src/format.c:1718
+#: src/format.c:1724
 msgid "ARRAY"
 msgstr "ΠΙΝΑΚΑΣ"
 
@@ -23747,7 +24130,7 @@ msgstr "Μορφές"
 msgid "Format as Currency"
 msgstr "Μορφές"
 
-#: src/gnumeric-canvas.c:71 src/workbook-format-toolbar.c:309
+#: src/gnumeric-canvas.c:71 src/workbook-format-toolbar.c:314
 #, fuzzy
 msgid "Format as Percentage"
 msgstr "_Ποσοστό"
@@ -23772,54 +24155,54 @@ msgstr "Μορφές"
 msgid "Format as alternative Number"
 msgstr "_Ποσοστό"
 
-#: src/gnumeric-graph.c:716
-#, fuzzy
-msgid "Data..."
-msgstr "_Δεδομένα"
-
 #: src/gui-clipboard.c:62
 msgid "Error while trying to pre-convert clipboard data"
 msgstr ""
 
-#: src/gui-clipboard.c:98
+#: src/gui-clipboard.c:97
 msgid "Parse error while trying to parse data into cellregion"
 msgstr ""
 
-#: src/gui-file.c:73
+#: src/gui-file.c:74
 msgid "Automatically detected"
 msgstr ""
 
+#: src/gui-file.c:169
+msgid "Character _encoding:"
+msgstr ""
+
 #. Pack it into file selector
-#: src/gui-file.c:169 src/workbook-control-gui.c:3029
+#: src/gui-file.c:172 src/workbook-control-gui.c:3186
 msgid "Load file"
 msgstr "Ανάγνωση αρχείου"
 
-#: src/gui-file.c:177
-msgid "File format:"
-msgstr "Μορφή αρχείου:"
+#: src/gui-file.c:179
+#, fuzzy
+msgid "File _type:"
+msgstr "Μέγεθος αρχείου:"
 
-#: src/gui-file.c:230
+#: src/gui-file.c:236
 #, c-format
 msgid ""
 "%s\n"
 "is a directory name"
 msgstr ""
 
-#: src/gui-file.c:236
+#: src/gui-file.c:242
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
 "%s"
 msgstr ""
 
-#: src/gui-file.c:243
+#: src/gui-file.c:249
 #, c-format
 msgid ""
 "Workbook %s already exists.\n"
 "Do you want to save over it?"
 msgstr ""
 
-#: src/gui-file.c:263
+#: src/gui-file.c:269
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -23827,33 +24210,33 @@ msgid ""
 "Do you want to save only current sheet?"
 msgstr ""
 
-#: src/gui-file.c:287
+#: src/gui-file.c:293
 msgid ""
 "Please enter a file name,\n"
 "not a directory"
 msgstr ""
 
-#: src/gui-file.c:293
+#: src/gui-file.c:299
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyways?"
 msgstr ""
 
 #. Pack it into file selector
-#: src/gui-file.c:340
+#: src/gui-file.c:346
 msgid "Save workbook as"
 msgstr "Αποθήκευση φύλλων ως"
 
-#: src/gui-file.c:418
+#: src/gui-file.c:424
 msgid "Which file format would you like?"
 msgstr ""
 
-#: src/gui-util.c:267
+#: src/gui-util.c:271
 #, fuzzy
 msgid "Multiple errors\n"
 msgstr "Πολ/μος"
 
-#: src/gui-util.c:815
+#: src/gui-util.c:830
 #, fuzzy, c-format
 msgid "Unable to open file '%s'"
 msgstr "άνοιγμα αρχείου αρθρώματος αδύνατο: "
@@ -23876,22 +24259,6 @@ msgid ""
 "yngnum."
 msgstr ""
 
-#.
-#. * xgettext:
-#. * This string must translate to exactly the same strings as the
-#. * 'Preferences...' item in the
-#. * 'File' menu
-#.
-#: src/history.c:130
-#, fuzzy
-msgid "_File/Preferen_ces..."
-msgstr "Επιλογές..."
-
-#: src/history.c:228
-#, fuzzy
-msgid "File/"
-msgstr "Τίτλος"
-
 #: src/hlink.c:170
 #, fuzzy
 msgid "Link target"
@@ -23907,12 +24274,12 @@ msgstr "Δημιουργία αρχείου %s αδύνατη\n"
 msgid "Unable to open '%s'"
 msgstr "άνοιγμα αρχείου αρθρώματος αδύνατο: "
 
-#: src/item-bar.c:719
+#: src/item-bar.c:730
 #, fuzzy, c-format
 msgid "Width: %.2f pts (%d pixels)"
 msgstr "Πλάτος: %.2f (%d pixel)"
 
-#: src/item-bar.c:722
+#: src/item-bar.c:733
 #, fuzzy, c-format
 msgid "Height: %.2f pts (%d pixels)"
 msgstr "Ύψος: %.2f (%d pixel)"
@@ -23967,67 +24334,67 @@ msgstr "Μετατόπιση κελιών δεξιά και μετακίνηση"
 msgid "C_ancel"
 msgstr "Συμμεταβολή"
 
-#: src/main-application.c:52
+#: src/main-application.c:53
 msgid "Display Gnumeric's version"
 msgstr ""
 
-#: src/main-application.c:54
+#: src/main-application.c:55
 msgid "Set the root library directory"
 msgstr ""
 
-#: src/main-application.c:56
+#: src/main-application.c:57
 msgid "Adjust the root data directory"
 msgstr ""
 
-#: src/main-application.c:59 src/main-application.c:61
+#: src/main-application.c:60 src/main-application.c:62
 msgid "Dumps the function definitions"
 msgstr "Απαρίθμηση ορισμών συναρτήσεων"
 
-#: src/main-application.c:59 src/main-application.c:61
+#: src/main-application.c:60 src/main-application.c:62
 msgid "FILE"
 msgstr "ΑΡΧΕΙΟ"
 
-#: src/main-application.c:64
+#: src/main-application.c:65
 msgid "Enables some debugging functions"
 msgstr "Ενεργοποίηση μερικών συναρτήσεων αποσφαλμάτωσης"
 
-#: src/main-application.c:64 src/main-application.c:67
-#: src/main-application.c:69 src/main-application.c:71
+#: src/main-application.c:65 src/main-application.c:68
+#: src/main-application.c:70 src/main-application.c:72
 msgid "LEVEL"
 msgstr "ΕΠΙΠΕΔΟ"
 
-#: src/main-application.c:67
+#: src/main-application.c:68
 msgid "Enables some dependency related debugging functions"
 msgstr "Ενεργοποίηση μερικών συναρτήσεων αποσφαλμάτωσης εξαρτήσεων"
 
-#: src/main-application.c:69
+#: src/main-application.c:70
 #, fuzzy
 msgid "Enables some debugging functions for expression sharing"
 msgstr "Ενεργοποίηση μερικών συναρτήσεων αποσφαλμάτωσης"
 
-#: src/main-application.c:71
+#: src/main-application.c:72
 #, fuzzy
 msgid "Enables some print debugging behavior"
 msgstr "Ενεργοποίηση μερικών συναρτήσεων αποσφαλμάτωσης"
 
-#: src/main-application.c:74
+#: src/main-application.c:75
 msgid "Specify the size and location of the initial window"
 msgstr ""
 
-#: src/main-application.c:74
+#: src/main-application.c:75
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr ""
 
-#: src/main-application.c:78
+#: src/main-application.c:79
 msgid "Don't show splash screen"
 msgstr ""
 
-#: src/main-application.c:81
+#: src/main-application.c:82
 msgid "Exit immediately after loading the selected books (useful for testing)."
 msgstr ""
 "Άμεση έξοδος μετά την ανάγνωση επιλεγμένων βιβλίων (χρήσιμο για δοκιμή)."
 
-#: src/main-application.c:111
+#: src/main-application.c:112
 msgid ""
 "Thank you for using Gnumeric!\n"
 "\n"
@@ -24041,7 +24408,7 @@ msgid ""
 "-- The Gnumeric Team."
 msgstr ""
 
-#: src/main-application.c:141
+#: src/main-application.c:142
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -24072,54 +24439,54 @@ msgstr "Άκυρο όρισμα"
 msgid "Name '%s' does not exist in sheet '%s'"
 msgstr ""
 
-#: src/parser.y:668
+#: src/parser.y:667
 #, fuzzy, c-format
 msgid "Unknown workbook '%s'"
 msgstr "Άγνωστο σύστημα"
 
-#: src/parser.y:759
+#: src/parser.y:758
 msgid "This locale uses '\\' rather than ',' to separate array columns."
 msgstr ""
 
-#: src/parser.y:772
+#: src/parser.y:771
 msgid "This locale uses ',' rather than '\\' to separate array columns."
 msgstr ""
 
-#: src/parser.y:892 src/parser.y:1141
+#: src/parser.y:903 src/parser.y:1152
 msgid "Could not find matching closing quote"
 msgstr ""
 
-#: src/parser.y:1001
+#: src/parser.y:1012
 #, fuzzy
 msgid "Sheet name is required"
 msgstr "Απαιτείται τουλάχιστον μία συνθήκη."
 
-#: src/parser.y:1054 src/parser.y:1063 src/parser.y:1088
+#: src/parser.y:1065 src/parser.y:1074 src/parser.y:1099
 msgid "The number is out of range"
 msgstr ""
 
-#: src/parser.y:1123
+#: src/parser.y:1134
 msgid "Improperly formatted error token"
 msgstr ""
 
-#: src/parser.y:1285
+#: src/parser.y:1296
 msgid "Multiple expressions are not supported in this context"
 msgstr ""
 
-#: src/parser.y:1308
+#: src/parser.y:1319
 msgid "Could not find matching opening parenthesis"
 msgstr ""
 
-#: src/parser.y:1312
+#: src/parser.y:1323
 msgid "Could not find matching closing parenthesis"
 msgstr ""
 
-#: src/parser.y:1316
+#: src/parser.y:1327
 #, fuzzy
 msgid "Invalid expression"
 msgstr "Άκυρο όρισμα"
 
-#: src/parser.y:1320
+#: src/parser.y:1331
 #, c-format
 msgid "Unexpected token %c"
 msgstr ""
@@ -24472,7 +24839,7 @@ msgstr ""
 msgid "Couldn't deactivate plugin \"%s\" (ID: %s)."
 msgstr ""
 
-#: src/plugin.c:1598 src/plugin.c:1728
+#: src/plugin.c:1598 src/plugin.c:1726
 msgid "Errors while reading info about available plugins."
 msgstr ""
 
@@ -24489,11 +24856,11 @@ msgid ""
 "You should restart Gnumeric now."
 msgstr ""
 
-#: src/plugin.c:1751
+#: src/plugin.c:1749
 msgid "Errors while activating plugins."
 msgstr ""
 
-#: src/plugin.c:1758
+#: src/plugin.c:1756
 msgid "Errors while initializing plugin system."
 msgstr ""
 
@@ -24561,7 +24928,7 @@ msgstr "Ενεργό Φύλλο"
 msgid "S_heets"
 msgstr "Φύλλα"
 
-#: src/print.c:1347
+#: src/print.c:1350
 #, fuzzy
 msgid "Printing failed"
 msgstr "Απόντα εισαγωγικά"
@@ -24600,7 +24967,7 @@ msgstr ""
 msgid "cannot be performed with multiple ranges selected"
 msgstr "' δε μπορεί να εφαρμοστεί σε πολλαπλές επιλογές"
 
-#: src/sheet-control-gui.c:1484
+#: src/sheet-control-gui.c:1481
 msgid "Paste _Special"
 msgstr "Ει_δική Επικόλληση"
 
@@ -24611,81 +24978,81 @@ msgstr "Ει_δική Επικόλληση"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1496
+#: src/sheet-control-gui.c:1493
 msgid "_Insert..."
 msgstr "_Παρεμβολή..."
 
-#: src/sheet-control-gui.c:1500
+#: src/sheet-control-gui.c:1497
 #, fuzzy
 msgid "_Insert Column(s)"
 msgstr "Παρεμβολή στη_λών"
 
-#: src/sheet-control-gui.c:1502
+#: src/sheet-control-gui.c:1499
 #, fuzzy
 msgid "_Delete Column(s)"
 msgstr "Διαγραφή στη_λών"
 
-#: src/sheet-control-gui.c:1504
+#: src/sheet-control-gui.c:1501
 #, fuzzy
 msgid "_Insert Row(s)"
 msgstr "Παρεμβολή σειρών"
 
-#: src/sheet-control-gui.c:1506
+#: src/sheet-control-gui.c:1503
 #, fuzzy
 msgid "_Delete Row(s)"
 msgstr "Διαγραφή _σειρών"
 
-#: src/sheet-control-gui.c:1509
+#: src/sheet-control-gui.c:1506
 msgid "Clear Co_ntents"
 msgstr "Διαγραφή Περιε_χομένων"
 
-#: src/sheet-control-gui.c:1517
+#: src/sheet-control-gui.c:1514
 msgid "_Format Cells..."
 msgstr "Μορ_φοποίηση Κελιών..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1521
+#: src/sheet-control-gui.c:1518
 msgid "Column _Width..."
 msgstr "Π_λάτος Στήλης..."
 
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1529
+#: src/sheet-control-gui.c:1526
 msgid "_Row Height..."
 msgstr "Ύψος Σει_ράς..."
 
-#: src/sheet-control-gui.c:1536
+#: src/sheet-control-gui.c:1533
 msgid "_Hyperlink"
 msgstr ""
 
-#: src/sheet-control-gui.c:1539
+#: src/sheet-control-gui.c:1536
 #, fuzzy
 msgid "Edit _Hyperlink"
 msgstr "Άκυρο όρισμα"
 
-#: src/sheet-control-gui.c:1542
+#: src/sheet-control-gui.c:1539
 #, fuzzy
 msgid "_Remove Hyperlink"
 msgstr "_Διαγραφή"
 
-#: src/sheet-filter.c:360
+#: src/sheet-filter.c:357
 #, fuzzy
 msgid "(All)"
 msgstr "Όλα"
 
-#: src/sheet-filter.c:365
+#: src/sheet-filter.c:362
 msgid "(Top 10...)"
 msgstr ""
 
-#: src/sheet-filter.c:372
+#: src/sheet-filter.c:369
 #, fuzzy
 msgid "(Custom...)"
 msgstr "Τυποποιημένο"
 
-#: src/sheet-filter.c:415
+#: src/sheet-filter.c:412
 msgid "(Blanks...)"
 msgstr ""
 
-#: src/sheet-filter.c:421
+#: src/sheet-filter.c:418
 msgid "(Non Blanks...)"
 msgstr ""
 
@@ -24713,17 +25080,12 @@ msgstr ""
 "Ανάγνωση αρχείου %s αδύνατη\n"
 "%%s"
 
-#: src/sheet-object-graphic.c:944 src/sheet-object-graphic.c:958
-#, fuzzy
-msgid "Transparent"
-msgstr "Αντιμετάθεση"
-
-#: src/sheet-object-widget.c:1044
+#: src/sheet-object-widget.c:1036
 #, c-format
 msgid "CheckBox %d"
 msgstr ""
 
-#: src/sheet-object-widget.c:1478 src/workbook-object-toolbar.c:151
+#: src/sheet-object-widget.c:1467 src/workbook-object-toolbar.c:151
 #, fuzzy
 msgid "RadioButton"
 msgstr "Κουμπί"
@@ -24737,115 +25099,83 @@ msgid ""
 "name.  Expect weirdness."
 msgstr ""
 
-#: src/sheet.c:1966
+#: src/sheet.c:1942
 msgid "Target region contains merged cells"
 msgstr ""
 
-#: src/sheet.c:2028
+#: src/sheet.c:2004
 msgid "cannot operate on merged cells"
 msgstr ""
 
-#: src/sheet.c:2038
+#: src/sheet.c:2014
 #, fuzzy
 msgid "cannot operate on array formulae"
 msgstr "Δημιουργία αρχείου %s αδύνατη\n"
 
-#: src/sheet.c:3112
+#: src/sheet.c:3103
 #, fuzzy
 msgid "Insert Columns"
 msgstr "Παρεμβολή στη_λών"
 
-#: src/sheet.c:3226
+#: src/sheet.c:3217
 #, fuzzy
 msgid "Insert Rows"
 msgstr "Παρεμβολή σειρών"
 
-#: src/stf-parse.c:48
+#: src/stf-parse.c:49
 #, c-format
 msgid "Too many rows in data to parse: %d"
 msgstr ""
 
-#: src/stf-parse.c:49
+#: src/stf-parse.c:50
 #, c-format
 msgid "Too many columns in data to parse: %d"
 msgstr ""
 
-#: src/stf.c:112
+#: src/stf.c:111
 #, fuzzy
 msgid "Error while trying to read file"
 msgstr "Σφάλμα: ανύπαρκτο φύλλο"
 
-#: src/stf.c:123
-msgid "Error while trying to pre-convert file"
-msgstr ""
+#: src/stf.c:192
+#, fuzzy
+msgid "Cancelled"
+msgstr "Συμμεταβολή"
 
-#: src/stf.c:148
-#, c-format
-msgid ""
-"The file does not appear to use the %s encoding.\n"
-"After %i of %i bytes a conversion error occurred:\n"
-"%s.\n"
-"The next two bytes have (hex) values %02X and %02X."
-msgstr ""
-
-#: src/stf.c:155
-#, c-format
-msgid ""
-"The file does not appear to use the %s encoding.\n"
-"After %i of %i bytes a conversion error occurred:\n"
-"%s.\n"
-msgstr ""
-
-#: src/stf.c:183
-#, c-format
-msgid ""
-"This file does not seem to be a valid text file.\n"
-"The character '%s' (ASCII decimal %d) was encountered.\n"
-"Most likely your locale settings are wrong."
-msgstr ""
-
-#: src/stf.c:189
-#, c-format
-msgid ""
-"This file does not seem to be a valid text file.\n"
-"Byte 0x%d was encountered.\n"
-"Most likely your locale settings are wrong."
-msgstr ""
-
-#: src/stf.c:328 src/stf.c:358
+#: src/stf.c:243 src/stf.c:274
 #, fuzzy
 msgid "Text to Columns"
 msgstr "Διαγραφή στη_λών"
 
-#: src/stf.c:333
+#: src/stf.c:248
 #, c-format
 msgid "Only 1 one column of <b>input</b> data can be parsed at a time, not %d"
 msgstr ""
 
-#: src/stf.c:364
+#: src/stf.c:280
 #, fuzzy
 msgid "Error while trying to parse data into sheet"
 msgstr "Σφάλμα: ανύπαρκτο φύλλο"
 
-#: src/stf.c:457
+#: src/stf.c:373
 msgid "Parse error while trying to parse data into sheet"
 msgstr ""
 
-#: src/stf.c:523
+#: src/stf.c:421
 msgid "Error while trying to write csv file"
 msgstr ""
 
-#: src/stf.c:538
+#: src/stf.c:436
 #, fuzzy
 msgid "Comma or tab separated files (CSV/TSV)"
 msgstr "Άρθρωμα τιμών χωρισμένων με κόμμα (CSV)"
 
-#: src/stf.c:542
+#: src/stf.c:440
 #, fuzzy
 msgid "Text import (configurable)"
 msgstr "Μορφή αρχείου LaTeX (*.tex)"
 
-#: src/stf.c:546
+#: src/stf.c:444
 #, fuzzy
 msgid "Text export (configurable)"
 msgstr "Μορφή αρχείου LaTeX (*.tex)"
@@ -25866,7 +26196,7 @@ msgid ""
 "Restrictions have been placed on this cell's contents."
 msgstr ""
 
-#: src/validation.c:305
+#: src/validation.c:307
 #, fuzzy
 msgid "Gnumeric: Validation"
 msgstr "Αρθρώματα Gnumeric"
@@ -25904,419 +26234,428 @@ msgstr "#Δ/Ε!"
 msgid "#RECALC!"
 msgstr "#ΑΝΑΦΟΡΑ!"
 
-#: src/widgets/gnumeric-expr-entry.c:1229
+#: src/widgets/gnumeric-expr-entry.c:1233
 #, fuzzy
 msgid "Expecting a single range"
 msgstr "Η επιλογή πρέπει να είναι ένα διάστημα"
 
-#: src/widgets/widget-charmap-selector.c:68
+#: src/widgets/widget-charmap-selector.c:71
 #, fuzzy
 msgid "Arabic"
 msgstr "Μέγεθος:"
 
-#: src/widgets/widget-charmap-selector.c:69
+#: src/widgets/widget-charmap-selector.c:72
 #, fuzzy
 msgid "Baltic"
 msgstr "Πλάγιο"
 
-#: src/widgets/widget-charmap-selector.c:70
+#: src/widgets/widget-charmap-selector.c:73
 #, fuzzy
 msgid "Central European"
 msgstr "Κεντράρισμα στη σελίδα"
 
-#: src/widgets/widget-charmap-selector.c:71
+#: src/widgets/widget-charmap-selector.c:74
 #, fuzzy
 msgid "Chinese"
 msgstr "Γραμμή"
 
-#: src/widgets/widget-charmap-selector.c:72
+#: src/widgets/widget-charmap-selector.c:75
 msgid "Cyrillic"
 msgstr ""
 
-#: src/widgets/widget-charmap-selector.c:73
+#: src/widgets/widget-charmap-selector.c:76
 #, fuzzy
 msgid "Greek"
 msgstr "πράσινο"
 
-#: src/widgets/widget-charmap-selector.c:74
+#: src/widgets/widget-charmap-selector.c:77
 msgid "Hebrew"
 msgstr ""
 
-#: src/widgets/widget-charmap-selector.c:75
+#: src/widgets/widget-charmap-selector.c:78
 #, fuzzy
 msgid "Indian"
 msgstr "Ελάχιστο"
 
-#: src/widgets/widget-charmap-selector.c:76
+#: src/widgets/widget-charmap-selector.c:79
 #, fuzzy
 msgid "Japanese"
 msgstr "Ιαπωνικό γιεν"
 
-#: src/widgets/widget-charmap-selector.c:77
+#: src/widgets/widget-charmap-selector.c:80
 #, fuzzy
 msgid "Korean"
 msgstr "Boolean"
 
-#: src/widgets/widget-charmap-selector.c:78
+#: src/widgets/widget-charmap-selector.c:81
 #, fuzzy
 msgid "Turkish"
 msgstr "Λίρες Τουρκίας"
 
-#: src/widgets/widget-charmap-selector.c:79
+#: src/widgets/widget-charmap-selector.c:82
 #, fuzzy
 msgid "Unicode"
 msgstr "Εμ_φάνιση"
 
-#: src/widgets/widget-charmap-selector.c:80
+#: src/widgets/widget-charmap-selector.c:83
 #, fuzzy
 msgid "Vietnamese"
 msgstr "Μετονομασία παρόντος φύλλου"
 
-#: src/widgets/widget-charmap-selector.c:81
+#: src/widgets/widget-charmap-selector.c:84
 #, fuzzy
 msgid "Western"
 msgstr "Κείμενο"
 
-#: src/widgets/widget-charmap-selector.c:82
+#: src/widgets/widget-charmap-selector.c:85
 #, fuzzy
 msgid "Other"
 msgstr "Οκτώβριος"
 
-#: src/widgets/widget-charmap-selector.c:87
+#: src/widgets/widget-charmap-selector.c:115
 msgid "Arabic (IBM-864)"
 msgstr ""
 
-#: src/widgets/widget-charmap-selector.c:88
+#: src/widgets/widget-charmap-selector.c:116
 msgid "Arabic (IBM-864-I)"
 msgstr ""
 
-#: src/widgets/widget-charmap-selector.c:89
+#: src/widgets/widget-charmap-selector.c:117
 msgid "Arabic (ISO-8859-6)"
 msgstr ""
 
-#: src/widgets/widget-charmap-selector.c:90
+#: src/widgets/widget-charmap-selector.c:118
 msgid "Arabic (ISO-8859-6-E)"
 msgstr ""
 
-#: src/widgets/widget-charmap-selector.c:91
+#: src/widgets/widget-charmap-selector.c:120
 msgid "Arabic (ISO-8859-6-I)"
 msgstr ""
 
-#: src/widgets/widget-charmap-selector.c:92
+#: src/widgets/widget-charmap-selector.c:121
 msgid "Arabic (MacArabic)"
 msgstr ""
 
-#: src/widgets/widget-charmap-selector.c:93
+#: src/widgets/widget-charmap-selector.c:122
 msgid "Arabic (Windows-1256)"
 msgstr ""
 
-#: src/widgets/widget-charmap-selector.c:94
+#: src/widgets/widget-charmap-selector.c:123
 msgid "Armenian (ARMSCII-8)"
 msgstr ""
 
-#: src/widgets/widget-charmap-selector.c:95
+#: src/widgets/widget-charmap-selector.c:124
 msgid "Baltic (ISO-8859-13)"
 msgstr ""
 
-#: src/widgets/widget-charmap-selector.c:96
+#: src/widgets/widget-charmap-selector.c:125
 msgid "Baltic (ISO-8859-4)"
 msgstr ""
 
-#: src/widgets/widget-charmap-selector.c:97
+#: src/widgets/widget-charmap-selector.c:126
 msgid "Baltic (Windows-1257)"
 msgstr ""
 
-#: src/widgets/widget-charmap-selector.c:98
+#: src/widgets/widget-charmap-selector.c:127
 msgid "Celtic (ISO-8859-14)"
 msgstr ""
 
-#: src/widgets/widget-charmap-selector.c:99
+#: src/widgets/widget-charmap-selector.c:128
 msgid "Central European (IBM-852)"
 msgstr ""
 
-#: src/widgets/widget-charmap-selector.c:100
+#: src/widgets/widget-charmap-selector.c:129
 msgid "Central European (ISO-8859-2)"
 msgstr ""
 
-#: src/widgets/widget-charmap-selector.c:101
+#: src/widgets/widget-charmap-selector.c:130
 msgid "Central European (MacCE)"
 msgstr ""
 
-#: src/widgets/widget-charmap-selector.c:102
+#: src/widgets/widget-charmap-selector.c:131
 msgid "Central European (Windows-1250)"
 msgstr ""
 
-#: src/widgets/widget-charmap-selector.c:103
+#: src/widgets/widget-charmap-selector.c:132
 msgid "Chinese Simplified (GB18030)"
 msgstr ""
 
-#: src/widgets/widget-charmap-selector.c:104
+#: src/widgets/widget-charmap-selector.c:133
 msgid "Chinese Simplified (GB2312)"
 msgstr ""
 
-#: src/widgets/widget-charmap-selector.c:105
+#: src/widgets/widget-charmap-selector.c:134
 msgid "Chinese Simplified (GBK)"
 msgstr ""
 
-#: src/widgets/widget-charmap-selector.c:106
+#: src/widgets/widget-charmap-selector.c:135
 msgid "Chinese Simplified (HZ)"
 msgstr ""
 
-#: src/widgets/widget-charmap-selector.c:107
+#: src/widgets/widget-charmap-selector.c:136
 msgid "Chinese Simplified (Windows-936)"
 msgstr ""
 
-#: src/widgets/widget-charmap-selector.c:108
+#: src/widgets/widget-charmap-selector.c:137
 msgid "Chinese Traditional (Big5)"
 msgstr ""
 
-#: src/widgets/widget-charmap-selector.c:109
+#: src/widgets/widget-charmap-selector.c:138
 msgid "Chinese Traditional (Big5-HKSCS)"
 msgstr ""
 
-#: src/widgets/widget-charmap-selector.c:110
+#: src/widgets/widget-charmap-selector.c:139
 msgid "Chinese Traditional (EUC-TW)"
 msgstr ""
 
-#: src/widgets/widget-charmap-selector.c:111
+#: src/widgets/widget-charmap-selector.c:140
 msgid "Croatian (MacCroatian)"
 msgstr ""
 
-#: src/widgets/widget-charmap-selector.c:112
+#: src/widgets/widget-charmap-selector.c:141
 msgid "Cyrillic (IBM-855)"
 msgstr ""
 
-#: src/widgets/widget-charmap-selector.c:113
+#: src/widgets/widget-charmap-selector.c:142
 msgid "Cyrillic (ISO-8859-5)"
 msgstr ""
 
-#: src/widgets/widget-charmap-selector.c:114
+#: src/widgets/widget-charmap-selector.c:143
 msgid "Cyrillic (ISO-IR-111)"
 msgstr ""
 
-#: src/widgets/widget-charmap-selector.c:115
+#: src/widgets/widget-charmap-selector.c:144
 msgid "Cyrillic (KOI8-R)"
 msgstr ""
 
-#: src/widgets/widget-charmap-selector.c:116
+#: src/widgets/widget-charmap-selector.c:145
 msgid "Cyrillic (MacCyrillic)"
 msgstr ""
 
-#: src/widgets/widget-charmap-selector.c:117
+#: src/widgets/widget-charmap-selector.c:146
 msgid "Cyrillic (Windows-1251)"
 msgstr ""
 
-#: src/widgets/widget-charmap-selector.c:118
+#: src/widgets/widget-charmap-selector.c:147
 msgid "Russian (CP-866)"
 msgstr ""
 
-#: src/widgets/widget-charmap-selector.c:119
+#: src/widgets/widget-charmap-selector.c:148
 msgid "Ukrainian (KOI8-U)"
 msgstr ""
 
-#: src/widgets/widget-charmap-selector.c:120
+#: src/widgets/widget-charmap-selector.c:149
 msgid "Ukrainian (MacUkrainian)"
 msgstr ""
 
-#: src/widgets/widget-charmap-selector.c:121
-msgid "English (US-ASCII)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:122
-msgid "Farsi (MacFarsi)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:123
-msgid "Georgian (GEOSTD8)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:124
-msgid "Greek (ISO-8859-7)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:125
-msgid "Greek (MacGreek)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:126
-msgid "Greek (Windows-1253)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:127
-msgid "Gujarati (MacGujarati)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:128
-msgid "Gurmukhi (MacGurmukhi)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:129
-msgid "Hebrew (IBM-862)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:130
-msgid "Hebrew (ISO-8859-8-E)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:131
-msgid "Hebrew (ISO-8859-8-I)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:132
-msgid "Hebrew (MacHebrew)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:133
-msgid "Hebrew (Windows-1255)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:134
-msgid "Hindi (MacDevanagari)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:135
-msgid "Icelandic (MacIcelandic)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:136
-msgid "Japanese (EUC-JP)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:137
-msgid "Japanese (ISO-2022-JP)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:138
-msgid "Japanese (Shift_JIS)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:139
-msgid "Korean (EUC-KR)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:140
-msgid "Korean (ISO-2022-KR)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:141
-msgid "Korean (JOHAB)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:142
-msgid "Korean (UHC)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:143
-msgid "Nordic (ISO-8859-10)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:144
-msgid "Romanian (MacRomanian)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:145
-msgid "Romanian (ISO-8859-16)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:146
-msgid "South European (ISO-8859-3)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:147
-msgid "Thai (TIS-620)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:148
-msgid "Turkisk (IBM-857)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:149
-msgid "Turkisk (ISO-8859-9)"
-msgstr ""
-
 #: src/widgets/widget-charmap-selector.c:150
-msgid "Turkisk (MacTurkish)"
+msgid "English (ASCII)"
 msgstr ""
 
 #: src/widgets/widget-charmap-selector.c:151
-msgid "Turkisk (Windows-1254)"
+msgid "Farsi (MacFarsi)"
 msgstr ""
 
 #: src/widgets/widget-charmap-selector.c:152
-msgid "Unicode (UTF-7)"
+msgid "Georgian (GEOSTD8)"
 msgstr ""
 
 #: src/widgets/widget-charmap-selector.c:153
-msgid "Unicode (UTF-8)"
+msgid "Greek (ISO-8859-7)"
 msgstr ""
 
 #: src/widgets/widget-charmap-selector.c:154
-msgid "Unicode (UTF-16BE)"
+msgid "Greek (MacGreek)"
 msgstr ""
 
 #: src/widgets/widget-charmap-selector.c:155
-msgid "Unicode (UTF-16LE)"
+msgid "Greek (Windows-1253)"
 msgstr ""
 
 #: src/widgets/widget-charmap-selector.c:156
-msgid "Unicode (UTF-32BE)"
+msgid "Gujarati (MacGujarati)"
 msgstr ""
 
 #: src/widgets/widget-charmap-selector.c:157
-msgid "Unicode (UTF-32LE)"
+msgid "Gurmukhi (MacGurmukhi)"
 msgstr ""
 
 #: src/widgets/widget-charmap-selector.c:158
+msgid "Hebrew (IBM-862)"
+msgstr ""
+
+#: src/widgets/widget-charmap-selector.c:159
+msgid "Hebrew (ISO-8859-8-E)"
+msgstr ""
+
+#: src/widgets/widget-charmap-selector.c:160
+msgid "Hebrew (ISO-8859-8-I)"
+msgstr ""
+
+#: src/widgets/widget-charmap-selector.c:161
+msgid "Hebrew (MacHebrew)"
+msgstr ""
+
+#: src/widgets/widget-charmap-selector.c:162
+msgid "Hebrew (Windows-1255)"
+msgstr ""
+
+#: src/widgets/widget-charmap-selector.c:163
+msgid "Hindi (MacDevanagari)"
+msgstr ""
+
+#: src/widgets/widget-charmap-selector.c:164
+msgid "Icelandic (MacIcelandic)"
+msgstr ""
+
+#: src/widgets/widget-charmap-selector.c:165
+msgid "Japanese (EUC-JP)"
+msgstr ""
+
+#: src/widgets/widget-charmap-selector.c:166
+msgid "Japanese (ISO-2022-JP)"
+msgstr ""
+
+#: src/widgets/widget-charmap-selector.c:167
+msgid "Japanese (Shift_JIS)"
+msgstr ""
+
+#: src/widgets/widget-charmap-selector.c:168
+msgid "Korean (EUC-KR)"
+msgstr ""
+
+#: src/widgets/widget-charmap-selector.c:169
+msgid "Korean (ISO-2022-KR)"
+msgstr ""
+
+#: src/widgets/widget-charmap-selector.c:170
+msgid "Korean (JOHAB)"
+msgstr ""
+
+#: src/widgets/widget-charmap-selector.c:171
+msgid "Korean (UHC)"
+msgstr ""
+
+#: src/widgets/widget-charmap-selector.c:172
+msgid "Nordic (ISO-8859-10)"
+msgstr ""
+
+#: src/widgets/widget-charmap-selector.c:173
+msgid "Romanian (MacRomanian)"
+msgstr ""
+
+#: src/widgets/widget-charmap-selector.c:174
+msgid "Romanian (ISO-8859-16)"
+msgstr ""
+
+#: src/widgets/widget-charmap-selector.c:175
+msgid "South European (ISO-8859-3)"
+msgstr ""
+
+#: src/widgets/widget-charmap-selector.c:176
+msgid "Thai (TIS-620)"
+msgstr ""
+
+#: src/widgets/widget-charmap-selector.c:177
+msgid "Turkish (IBM-857)"
+msgstr ""
+
+#: src/widgets/widget-charmap-selector.c:178
+msgid "Turkish (ISO-8859-9)"
+msgstr ""
+
+#: src/widgets/widget-charmap-selector.c:179
+msgid "Turkish (MacTurkish)"
+msgstr ""
+
+#: src/widgets/widget-charmap-selector.c:180
+msgid "Turkish (Windows-1254)"
+msgstr ""
+
+#: src/widgets/widget-charmap-selector.c:181
+msgid "Unicode (UTF-7)"
+msgstr ""
+
+#: src/widgets/widget-charmap-selector.c:182
+msgid "Unicode (UTF-8)"
+msgstr ""
+
+#: src/widgets/widget-charmap-selector.c:183
+msgid "Unicode (UTF-16BE)"
+msgstr ""
+
+#: src/widgets/widget-charmap-selector.c:184
+msgid "Unicode (UTF-16LE)"
+msgstr ""
+
+#: src/widgets/widget-charmap-selector.c:185
+msgid "Unicode (UTF-32BE)"
+msgstr ""
+
+#: src/widgets/widget-charmap-selector.c:186
+msgid "Unicode (UTF-32LE)"
+msgstr ""
+
+#: src/widgets/widget-charmap-selector.c:187
 #, fuzzy
 msgid "User Defined"
 msgstr "Υπογραμμισμένο"
 
-#: src/widgets/widget-charmap-selector.c:159
+#: src/widgets/widget-charmap-selector.c:188
 msgid "Vietnamese (TCVN)"
 msgstr ""
 
-#: src/widgets/widget-charmap-selector.c:160
+#: src/widgets/widget-charmap-selector.c:189
 msgid "Vietnamese (VISCII)"
 msgstr ""
 
-#: src/widgets/widget-charmap-selector.c:161
+#: src/widgets/widget-charmap-selector.c:190
 msgid "Vietnamese (VPS)"
 msgstr ""
 
-#: src/widgets/widget-charmap-selector.c:162
+#: src/widgets/widget-charmap-selector.c:191
 msgid "Vietnamese (Windows-1258)"
 msgstr ""
 
-#: src/widgets/widget-charmap-selector.c:163
-msgid "Visual Hebrew(ISO-8859-8)"
+#: src/widgets/widget-charmap-selector.c:192
+msgid "Visual Hebrew (ISO-8859-8)"
 msgstr ""
 
-#: src/widgets/widget-charmap-selector.c:164
+#: src/widgets/widget-charmap-selector.c:193
 msgid "Western (IBM-850)"
 msgstr ""
 
-#: src/widgets/widget-charmap-selector.c:165
+#: src/widgets/widget-charmap-selector.c:194
 msgid "Western (ISO-8859-1)"
 msgstr ""
 
-#: src/widgets/widget-charmap-selector.c:166
+#: src/widgets/widget-charmap-selector.c:195
 msgid "Western (ISO-8859-15)"
 msgstr ""
 
-#: src/widgets/widget-charmap-selector.c:167
+#: src/widgets/widget-charmap-selector.c:196
 msgid "Western (MacRoman)"
 msgstr ""
 
-#: src/widgets/widget-charmap-selector.c:168
+#: src/widgets/widget-charmap-selector.c:197
 msgid "Western (Windows-1252)"
 msgstr ""
 
-#: src/widgets/widget-charmap-selector.c:287
+#: src/widgets/widget-charmap-selector.c:406
 #, fuzzy
 msgid "Locale: "
 msgstr "Λογικές"
 
-#: src/widgets/widget-font-selector.c:119
+#: src/widgets/widget-charmap-selector.c:446
+#, fuzzy
+msgid "Conversion Direction"
+msgstr "Συσχέτιση"
+
+#: src/widgets/widget-charmap-selector.c:447
+msgid "This value determines which iconv test to perform."
+msgstr ""
+
+#: src/widgets/widget-font-selector.c:122
 msgid "Bold italic"
 msgstr "Έντονο πλάγιο"
 
@@ -26330,111 +26669,131 @@ msgstr "Πλαίσια"
 msgid "Remove borders"
 msgstr "Αφαίρεση δεκαδικών"
 
-#: src/workbook-control-gui.c:352
+#: src/workbook-control-gui.c:353
 #, fuzzy
 msgid " : Gnumeric"
 msgstr "Gnumeric"
 
-#: src/workbook-control-gui.c:562
+#: src/workbook-control-gui.c:561
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Είσαστε βέβαιοι ότι θέλετε να διαγράψετε το φύλλο με όνομα `%s';"
 
-#: src/workbook-control-gui.c:609
+#: src/workbook-control-gui.c:608
 #, fuzzy
 msgid "Manage sheets..."
 msgstr "Μετονομασία παρόντος φύλλου"
 
-#: src/workbook-control-gui.c:610
+#: src/workbook-control-gui.c:609
 #, fuzzy
 msgid "Duplicate this sheet"
 msgstr "Μετονομασία παρόντος φύλλου"
 
-#: src/workbook-control-gui.c:612
+#: src/workbook-control-gui.c:611
 msgid "Rename this sheet"
 msgstr "Μετονομασία παρόντος φύλλου"
 
-#: src/workbook-control-gui.c:613
+#: src/workbook-control-gui.c:612
 msgid "Remove this sheet"
 msgstr "Διαγραφή παρόντος φύλλου"
 
-#: src/workbook-control-gui.c:1164 src/workbook-control-gui.c:1227
+#.
+#. * xgettext:
+#. * This string must translate to exactly the same strings as the
+#. * 'Preferences...' item in the
+#. * 'File' menu
+#.
+#: src/workbook-control-gui.c:1067
+#, fuzzy
+msgid "_File/Preferen_ces..."
+msgstr "Επιλογές..."
+
+#: src/workbook-control-gui.c:1089
+#, fuzzy
+msgid "File/"
+msgstr "Τίτλος"
+
+#: src/workbook-control-gui.c:1310 src/workbook-control-gui.c:1384
 #, fuzzy
 msgid "Nothing"
 msgstr "Αλφαριθμ."
 
-#: src/workbook-control-gui.c:1339
+#: src/workbook-control-gui.c:1496
 #, fuzzy
 msgid "Un_freeze Panes"
 msgstr "_Διαγραφή..."
 
-#: src/workbook-control-gui.c:1342
+#: src/workbook-control-gui.c:1499
 msgid "Unfreeze the top left of the sheet"
 msgstr ""
 
-#: src/workbook-control-gui.c:1357
+#: src/workbook-control-gui.c:1514
 #, fuzzy
 msgid "Remove _Auto Filter"
 msgstr "Αφαίρεση δεκαδικών"
 
-#: src/workbook-control-gui.c:1360
+#: src/workbook-control-gui.c:1517
 #, fuzzy
 msgid "Remove a filter"
 msgstr "Αφαίρεση δεκαδικών"
 
-#: src/workbook-control-gui.c:1361
+#: src/workbook-control-gui.c:1518
 #, fuzzy
 msgid "Add a filter"
 msgstr "Προχωρημένο Φίλτρο"
 
-#: src/workbook-control-gui.c:1380 src/workbook-control-gui.c:3902
-#: src/workbook-control-gui.c:4127
+#: src/workbook-control-gui.c:1537 src/workbook-control-gui.c:4041
+#: src/workbook-control-gui.c:4273
 #, fuzzy
 msgid "Undo"
 msgstr "Τυχαία"
 
-#: src/workbook-control-gui.c:1381 src/workbook-control-gui.c:3905
-#: src/workbook-control-gui.c:4134
+#: src/workbook-control-gui.c:1538 src/workbook-control-gui.c:4044
+#: src/workbook-control-gui.c:4280
 #, fuzzy
 msgid "Redo"
 msgstr "[Κόκκινο]"
 
-#: src/workbook-control-gui.c:1570
-#, fuzzy, c-format
-msgid "Workbook '%s' has unsaved changes :"
-msgstr "Το βιβλίο %s έχει μη αποθηκευμένες αλλαγές, αποθήκευση;"
-
-#: src/workbook-control-gui.c:1574
-#, fuzzy
-msgid "Workbook has unsaved changes :"
-msgstr "Το βιβλίο έχει μη αποθηκευμένες αλλαγές, αποθήκευση;"
-
-#: src/workbook-control-gui.c:1585 src/workbook-control-gui.c:1593
-msgid "Don't Quit"
+#: src/workbook-control-gui.c:1727
+#, c-format
+msgid "Save changes to workbook '%s' before closing?"
 msgstr ""
 
-#: src/workbook-control-gui.c:1586
+#: src/workbook-control-gui.c:1731
+msgid "Save changes to workbook before closing?"
+msgstr ""
+
+#: src/workbook-control-gui.c:1737
+msgid "If you close without saving, changes will be discarded."
+msgstr ""
+
+#: src/workbook-control-gui.c:1743
 #, fuzzy
-msgid "Discard All"
+msgid "Discard all"
 msgstr "Διακριτή"
 
-#: src/workbook-control-gui.c:1587 src/workbook-control-gui.c:1594
-#: src/workbook-control-gui.c:1600 src/workbook-control-gui.c:5248
-#: src/workbook-control-gui.c:5253
+#: src/workbook-control-gui.c:1745 src/workbook-control-gui.c:1754
+#: src/workbook-control-gui.c:1762
 #, fuzzy
 msgid "Discard"
 msgstr "Διακριτή"
 
-#: src/workbook-control-gui.c:1588
+#: src/workbook-control-gui.c:1747
 #, fuzzy
-msgid "Save All"
+msgid "Save all"
 msgstr "Αποθήκευση"
 
-#: src/workbook-control-gui.c:1599
-msgid "Don't Close"
-msgstr ""
+#: src/workbook-control-gui.c:1749 src/workbook-control-gui.c:1756
+#, fuzzy
+msgid "Don't quit"
+msgstr "_Ημ/νία"
 
-#: src/workbook-control-gui.c:2140
+#: src/workbook-control-gui.c:1764
+#, fuzzy
+msgid "Don't close"
+msgstr "Βάση δεδομένων"
+
+#: src/workbook-control-gui.c:2303
 #, c-format
 msgid ""
 "In cell %s, the current contents\n"
@@ -26446,7 +26805,7 @@ msgid ""
 "The replace has been aborted and nothing has been changed."
 msgstr ""
 
-#: src/workbook-control-gui.c:2177
+#: src/workbook-control-gui.c:2340
 #, c-format
 msgid "Comment in cell %s!%s"
 msgstr ""
@@ -26455,149 +26814,159 @@ msgstr ""
 #. * selected region, (use selection_apply).  Arrays and Merged regions
 #. * are permitted.
 #.
-#: src/workbook-control-gui.c:2418
+#: src/workbook-control-gui.c:2571
 msgid "Insert rows"
 msgstr "Παρεμβολή σειρών"
 
-#: src/workbook-control-gui.c:2438
+#: src/workbook-control-gui.c:2591
 #, fuzzy
 msgid "Insert columns"
 msgstr "Παρεμβολή στη_λών"
 
-#: src/workbook-control-gui.c:2827
+#: src/workbook-control-gui.c:2982
 #, fuzzy
 msgid "Add Filter"
 msgstr "Προχωρημένο Φίλτρο"
 
-#: src/workbook-control-gui.c:2830
+#: src/workbook-control-gui.c:2985
 #, fuzzy
 msgid "AutoFilter"
 msgstr "Προχωρημένο Φίλτρο"
 
-#: src/workbook-control-gui.c:2830
+#: src/workbook-control-gui.c:2985
 msgid "Requires more than 1 row"
 msgstr ""
 
-#: src/workbook-control-gui.c:2887 src/workbook-control-gui.c:2906
+#: src/workbook-control-gui.c:3044 src/workbook-control-gui.c:3063
 #, fuzzy
 msgid "Show Detail"
 msgstr "Τίτλος Αρθρώματος"
 
-#: src/workbook-control-gui.c:2887 src/workbook-control-gui.c:2906
+#: src/workbook-control-gui.c:3044 src/workbook-control-gui.c:3063
 #, fuzzy
 msgid "Hide Detail"
 msgstr "Έσω Κατακόρυφο"
 
-#: src/workbook-control-gui.c:2894
+#: src/workbook-control-gui.c:3051
 msgid "can only be performed on an existing group"
 msgstr ""
 
-#: src/workbook-control-gui.c:2952
+#: src/workbook-control-gui.c:3109
 #, fuzzy
 msgid "Group"
 msgstr "σειρές"
 
-#: src/workbook-control-gui.c:2952
+#: src/workbook-control-gui.c:3109
 #, fuzzy
 msgid "Ungroup"
 msgstr "Τυχαία"
 
-#: src/workbook-control-gui.c:3078
+#: src/workbook-control-gui.c:3235
 msgid "Sort"
 msgstr "Ταξινόμιση"
 
-#: src/workbook-control-gui.c:3169
+#: src/workbook-control-gui.c:3310
 #, fuzzy
 msgid "Select an object to add"
 msgstr "Επιλέξτε αντικείμενο"
 
-#: src/workbook-control-gui.c:3180
+#: src/workbook-control-gui.c:3321
 #, fuzzy, c-format
 msgid "Unable to create object of type '%s'"
 msgstr "Δημιουργία αρχείου %s αδύνατη\n"
 
-#: src/workbook-control-gui.c:3323
-#, fuzzy
-msgid "Series..."
-msgstr "Μέγεθος:"
-
-#: src/workbook-control-gui.c:3368
+#: src/workbook-control-gui.c:3509
 #, fuzzy
 msgid "P_aste special..."
 msgstr "Ειδική επικόλληση"
 
-#: src/workbook-control-gui.c:3377
+#: src/workbook-control-gui.c:3518
 msgid "Remove selected cells, shifting other into their place"
 msgstr ""
 
-#: src/workbook-control-gui.c:3457
+#: src/workbook-control-gui.c:3558
+#, fuzzy
+msgid "Create a new view of the workbook"
+msgstr "Δημιουργία νέου βιβλίου"
+
+#: src/workbook-control-gui.c:3592
 #, fuzzy
 msgid "_Auto generate names..."
 msgstr "_Αυτόματη Αποθήκευση..."
 
-#: src/workbook-control-gui.c:3458
+#: src/workbook-control-gui.c:3593
 #, fuzzy
 msgid "Use the current selection to create names"
 msgstr "Κοπή επιλογής στο τεμάχιο"
 
-#: src/workbook-control-gui.c:3619
+#: src/workbook-control-gui.c:3754
 #, fuzzy
 msgid "Add a new scenario"
 msgstr "Παρεμβολή νέων στηλών"
 
-#: src/workbook-control-gui.c:3695
+#: src/workbook-control-gui.c:3830
 #, fuzzy
 msgid "Ranks And _Percentiles"
 msgstr "Τάξη και Ποσοστημόριο"
 
-#: src/workbook-control-gui.c:3820
+#: src/workbook-control-gui.c:3957
 msgid "Sh_uffle..."
 msgstr ""
 
-#: src/workbook-control-gui.c:3821
+#: src/workbook-control-gui.c:3958
 msgid "Shuffle cells, rows or columns"
 msgstr ""
 
-#: src/workbook-control-gui.c:3840
+#: src/workbook-control-gui.c:3977
 #, fuzzy
 msgid "Create a pivot table."
 msgstr "Δημιουργία γραμμής"
 
-#: src/workbook-control-gui.c:3902
+#: src/workbook-control-gui.c:4041
 #, fuzzy
 msgid "Undo the operation"
 msgstr "Άγνωστος τελεστής"
 
-#: src/workbook-control-gui.c:3905
+#: src/workbook-control-gui.c:4044
 #, fuzzy
 msgid "Redo the operation"
 msgstr "Γεννήτρια Τυχαίων Αριθμών"
 
-#: src/workbook-control-gui.c:4964
+#: src/workbook-control-gui.c:4074
+#, fuzzy
+msgid "Chart Guru"
+msgstr "Τύπος επικόλλησης"
+
+#: src/workbook-control-gui.c:5124
 #, c-format
 msgid "File \"%s\" has unknown format."
 msgstr ""
 
-#: src/workbook-control-gui.c:5015
+#: src/workbook-control-gui.c:5175
 #, fuzzy
 msgid "Send"
 msgstr "Κυριακή"
 
-#: src/workbook-control-gui.c:5015
+#: src/workbook-control-gui.c:5175
 #, fuzzy
 msgid "Send the current file in email"
 msgstr "Κοπή επιλογής στο τεμάχιο"
 
-#: src/workbook-control-gui.c:5247 src/workbook-control-gui.c:5262
+#: src/workbook-control-gui.c:5416 src/workbook-control-gui.c:5431
 #, fuzzy
-msgid "Re-Edit"
+msgid "_Re-Edit"
 msgstr "_Φίλτρο..."
 
-#: src/workbook-control-gui.c:5252 src/workbook-control-gui.c:5263
-msgid "Accept"
+#: src/workbook-control-gui.c:5417 src/workbook-control-gui.c:5422
+#, fuzzy
+msgid "_Discard"
+msgstr "Διακριτή"
+
+#: src/workbook-control-gui.c:5421 src/workbook-control-gui.c:5432
+msgid "_Accept"
 msgstr ""
 
-#: src/workbook-control.c:228
+#: src/workbook-control.c:229
 msgid "Define Name"
 msgstr "Ορισμός Ονόματος"
 
@@ -26606,113 +26975,109 @@ msgstr "Ορισμός Ονόματος"
 msgid "Address"
 msgstr "Πίνακας"
 
-#: src/workbook-edit.c:335
+#: src/workbook-edit.c:342
 #, c-format
 msgid "%s!%s is locked"
 msgstr ""
 
-#: src/workbook-edit.c:339
+#: src/workbook-edit.c:346
 msgid "Unprotect the workbook to enable editing."
 msgstr ""
 
-#: src/workbook-edit.c:340
+#: src/workbook-edit.c:347
 msgid "Unprotect the sheet to enable editing."
 msgstr ""
 
-#: src/workbook-format-toolbar.c:84
+#: src/workbook-format-toolbar.c:85
 #, fuzzy
 msgid "Set Horizontal Alignment"
 msgstr "Ευθυγράμμιση"
 
-#: src/workbook-format-toolbar.c:184
+#: src/workbook-format-toolbar.c:185
 #, fuzzy
 msgid "Set Font Style"
 msgstr "Στύλ γραμ/σειράς:"
 
-#: src/workbook-format-toolbar.c:250
+#: src/workbook-format-toolbar.c:251
 #, fuzzy
 msgid "Set Font"
 msgstr "Διαγραφή _σειρών"
 
-#: src/workbook-format-toolbar.c:282
+#: src/workbook-format-toolbar.c:286
 #, fuzzy
 msgid "Set Font Size"
 msgstr "Γραμματοσειρά"
 
-#: src/workbook-format-toolbar.c:303
+#: src/workbook-format-toolbar.c:308
 #, fuzzy
 msgid "Format as Money"
 msgstr "Μορφές"
 
-#: src/workbook-format-toolbar.c:316
+#: src/workbook-format-toolbar.c:321
 #, fuzzy
 msgid "Format with thousands separator"
 msgstr "Χωρισμός χιλιάδων"
 
-#: src/workbook-format-toolbar.c:344
+#: src/workbook-format-toolbar.c:349
 #, fuzzy
 msgid "Increase precision"
 msgstr "Δεκέμβριος"
 
-#: src/workbook-format-toolbar.c:350
+#: src/workbook-format-toolbar.c:355
 #, fuzzy
 msgid "Decrease precision"
 msgstr "Δεκέμβριος"
 
-#: src/workbook-format-toolbar.c:540
+#: src/workbook-format-toolbar.c:545
 #, fuzzy
 msgid "Set Foreground Color"
 msgstr "Φόντος"
 
-#: src/workbook-format-toolbar.c:574
+#: src/workbook-format-toolbar.c:579
 #, fuzzy
 msgid "Set Background Color"
 msgstr "Χρώμα Φόντου"
 
-#: src/workbook-format-toolbar.c:623
+#: src/workbook-format-toolbar.c:628
 msgid "Clear Borders"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:626
+#: src/workbook-format-toolbar.c:631
 msgid "All Borders"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:627
+#: src/workbook-format-toolbar.c:632
 msgid "Outside Borders"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:628
+#: src/workbook-format-toolbar.c:633
 msgid "Thick Outside Borders"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:631
+#: src/workbook-format-toolbar.c:636
 msgid "Double Bottom"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:632
+#: src/workbook-format-toolbar.c:637
 msgid "Thick Bottom"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:634
+#: src/workbook-format-toolbar.c:639
 msgid "Top and Bottom"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:635
+#: src/workbook-format-toolbar.c:640
 msgid "Top and Double Bottom"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:636
+#: src/workbook-format-toolbar.c:641
 msgid "Top and Thick Bottom"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:734
+#: src/workbook-format-toolbar.c:739
 #, fuzzy
 msgid "Set Borders"
 msgstr "Πλαίσια"
-
-#: src/workbook-format-toolbar.c:784
-msgid "Size"
-msgstr "Μέγεθος"
 
 #: src/workbook-view.c:253
 #, c-format
@@ -26755,20 +27120,20 @@ msgstr "Μη υποστηριζόμενη μέθοδος"
 msgid "An unexplained error happened while opening %s"
 msgstr ""
 
-#: src/workbook.c:450
+#: src/workbook.c:398
 #, c-format
 msgid "Book%d.%s"
 msgstr ""
 
-#: src/workbook.c:1302
+#: src/workbook.c:1250
 msgid "Sheet name must have at least 1 letter"
 msgstr ""
 
-#: src/workbook.c:1315
+#: src/workbook.c:1263
 msgid "There is already a sheet named"
 msgstr ""
 
-#: src/workbook.c:1325
+#: src/workbook.c:1273
 msgid "You may not use this name twice"
 msgstr ""
 
@@ -26782,8 +27147,54 @@ msgid "Gnumeric XML file format"
 msgstr "Μορφή αρχείου XML Gnumeric"
 
 #, fuzzy
-#~ msgid "Charset:"
-#~ msgstr "Κ-οστο Μεγαλύτερο:"
+#~ msgid "3D Percentage Lines"
+#~ msgstr "_Ποσοστό"
+
+#, fuzzy
+#~ msgid "Marked lines"
+#~ msgstr "Πλέ_γμα"
+
+#, fuzzy
+#~ msgid "Percentage lines"
+#~ msgstr "_Ποσοστό"
+
+#, fuzzy
+#~ msgid "Create a new unshared view of the workbook"
+#~ msgstr "Δημιουργία νέου βιβλίου"
+
+#, fuzzy
+#~ msgid "_Graph..."
+#~ msgstr "σειρές"
+
+#, fuzzy
+#~ msgid "Click to select a column"
+#~ msgstr "Ταξινόμιση των επιλεγμένων κελιών"
+
+#, fuzzy
+#~ msgid "Example"
+#~ msgstr "Δείγμα"
+
+#, fuzzy
+#~ msgid "Formatting options"
+#~ msgstr "Επιλογές εξόδου:"
+
+#, fuzzy
+#~ msgid "Data..."
+#~ msgstr "_Δεδομένα"
+
+#~ msgid "File format:"
+#~ msgstr "Μορφή αρχείου:"
+
+#, fuzzy
+#~ msgid "Workbook '%s' has unsaved changes :"
+#~ msgstr "Το βιβλίο %s έχει μη αποθηκευμένες αλλαγές, αποθήκευση;"
+
+#, fuzzy
+#~ msgid "Workbook has unsaved changes :"
+#~ msgstr "Το βιβλίο έχει μη αποθηκευμένες αλλαγές, αποθήκευση;"
+
+#~ msgid "Size"
+#~ msgstr "Μέγεθος"
 
 #~ msgid "Create a new spreadsheet"
 #~ msgstr "Δημιουργία νέου φύλλου"
@@ -26837,20 +27248,6 @@ msgstr "Μορφή αρχείου XML Gnumeric"
 #~ msgstr "Εξισώσεις"
 
 #, fuzzy
-#~ msgid "Plot Type"
-#~ msgstr "Φύλλο 1"
-
-#, fuzzy
-#~ msgid ""
-#~ "Show\n"
-#~ "Sample"
-#~ msgstr "Δείγμα"
-
-#, fuzzy
-#~ msgid "Plot name"
-#~ msgstr "Φύλλο 1"
-
-#, fuzzy
 #~ msgid "Iterations\t\t\t= "
 #~ msgstr "Πληροφορίες"
 
@@ -26871,10 +27268,6 @@ msgstr "Μορφή αρχείου XML Gnumeric"
 #, fuzzy
 #~ msgid "_Finish"
 #~ msgstr "Ελάχιστο"
-
-#, fuzzy
-#~ msgid "_Plot"
-#~ msgstr "Ταξινόμιση"
 
 #~ msgid "Insert _column(s)"
 #~ msgstr "Παρεμβολή στη_λών"
@@ -26908,22 +27301,6 @@ msgstr "Μορφή αρχείου XML Gnumeric"
 #~ msgstr "Φύλλα"
 
 #, fuzzy
-#~ msgid "3D Adjacent Columns"
-#~ msgstr "Διαγραφή στη_λών"
-
-#, fuzzy
-#~ msgid "3D Percentage Bars"
-#~ msgstr "_Ποσοστό"
-
-#, fuzzy
-#~ msgid "3D Percentage Columns"
-#~ msgstr "Διαγραφή στη_λών"
-
-#, fuzzy
-#~ msgid "3D Stacked Columns"
-#~ msgstr "Διαγραφή στη_λών"
-
-#, fuzzy
 #~ msgid "4 series"
 #~ msgstr "Φύλλα"
 
@@ -26936,10 +27313,6 @@ msgstr "Μορφή αρχείου XML Gnumeric"
 #~ msgstr "Φύλλα"
 
 #, fuzzy
-#~ msgid "Adjacent Columns"
-#~ msgstr "Παρεμβολή στη_λών"
-
-#, fuzzy
 #~ msgid "Bubble"
 #~ msgstr "Διπλή"
 
@@ -26948,40 +27321,12 @@ msgstr "Μορφή αρχείου XML Gnumeric"
 #~ msgstr "στιγμές"
 
 #, fuzzy
-#~ msgid "Multi-pie"
-#~ msgstr "Πολ/μος"
-
-#, fuzzy
-#~ msgid "Multi-pie-bars"
-#~ msgstr "Πολ/μος"
-
-#, fuzzy
-#~ msgid "Percentage Bars"
-#~ msgstr "_Ποσοστό"
-
-#, fuzzy
-#~ msgid "Percentage Columns"
-#~ msgstr "Διαγραφή στη_λών"
-
-#, fuzzy
-#~ msgid "Pie"
-#~ msgstr "Προεπισκόπηση"
-
-#, fuzzy
 #~ msgid "Points"
 #~ msgstr "Εκτύπωση"
 
 #, fuzzy
 #~ msgid "Scatter"
 #~ msgstr "Μοτίβο"
-
-#, fuzzy
-#~ msgid "Split Pie"
-#~ msgstr "Δειγματοληψία"
-
-#, fuzzy
-#~ msgid "Stacked Columns"
-#~ msgstr "Διαγραφή στη_λών"
 
 #, fuzzy
 #~ msgid "Stock"
@@ -27066,10 +27411,6 @@ msgstr "Μορφή αρχείου XML Gnumeric"
 #, fuzzy
 #~ msgid "Copy the current selection to the clipboard"
 #~ msgstr "Αντιγραφή επιλογής στο τεμάχιο"
-
-#, fuzzy
-#~ msgid "Create a line"
-#~ msgstr "Δημιουργία γραμμής"
 
 #, fuzzy
 #~ msgid "Draw a rectangle"
@@ -27217,10 +27558,6 @@ msgstr "Μορφή αρχείου XML Gnumeric"
 #~ msgstr ""
 #~ "Ταξινόμιση της επιλεγμένης περιοχής κατά φθίνουσα σειρά, βάσει της πρώτης "
 #~ "στήλης της επιλογής."
-
-#, fuzzy
-#~ msgid "_Graph"
-#~ msgstr "σειρές"
 
 #, fuzzy
 #~ msgid "Select font"
@@ -27965,10 +28302,6 @@ msgstr "Μορφή αρχείου XML Gnumeric"
 #, fuzzy
 #~ msgid "_Title"
 #~ msgstr "Τίτλος"
-
-#, fuzzy
-#~ msgid "Descend"
-#~ msgstr "Φθίνουσα"
 
 #, fuzzy
 #~ msgid "Rem"
@@ -29469,9 +29802,6 @@ msgstr "Μορφή αρχείου XML Gnumeric"
 #~ msgid "Define _Name"
 #~ msgstr "Ορισμός Ο_νόματος"
 
-#~ msgid "_Height"
-#~ msgstr "Ύ_ψος"
-
 #, fuzzy
 #~ msgid "<< _Previous"
 #~ msgstr "_Προηγούμενη σελίδα"
@@ -29550,9 +29880,6 @@ msgstr "Μορφή αρχείου XML Gnumeric"
 
 #~ msgid "Special..."
 #~ msgstr "Ειδικό..."
-
-#~ msgid "File size:"
-#~ msgstr "Μέγεθος αρχείου:"
 
 #~ msgid "Compiled on: %s"
 #~ msgstr "Μεταγλωτισσμένο σε: %s"
