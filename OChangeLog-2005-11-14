@@ -1,3 +1,18 @@
+2004-10-30  Stepan Kasal  <kasal@ucw.cz>
+
+	A cleanup of ssconvert; don't require Gnome.
+
+	* src/ssconvert.c (list_them): New general function which lists 
+	  importers or exporters.
+	(convert): New function; the main functionality moved here.
+	(mail): Use the above functions; call gsf_init and don't use
+	  Gnome-specific functions.
+
+2004-09-13  Stepan Kasal  <kasal@ucw.cz>
+
+	* configure.in: Don't use test's operators -a and -o, they aren't
+	  portable.  A small cleanup of the python detection code.
+
 2004-10-31  Jody Goldberg <jody@gnome.org>
 
 	* src/format.c (cb_attrs_as_string) : new.
