@@ -909,8 +909,6 @@ style_format_number (FormatCharacteristics const *fmt)
 			g_string_append_c (str, ')');
 	}
 
-	g_print ("[%s]\n", str->str);
-
 	sf = style_format_new_XL (str->str, FALSE);
 	g_string_free (str, TRUE);
 	return sf;
