@@ -179,7 +179,7 @@ msgstr ""
 
 #: plugins/sylk/sylk.c:414
 msgid "error parsing line\n"
-msgstr ""
+msgstr "помилка анал╕зу рядка\n"
 
 #: plugins/sylk/sylk.c:510
 msgid "MultiPlan (SYLK) import"
@@ -219,7 +219,7 @@ msgstr "Miguel de Icaza, головний програм╕ст."
 
 #: src/about.c:26
 msgid "Almer. S. Tigelaar, Text import."
-msgstr ""
+msgstr "Almer. S. Tigelaar, ╕мпорт тексту."
 
 #: src/about.c:27
 msgid "Sean Atkinson, Functions and X-Base importing."
@@ -3976,7 +3976,7 @@ msgstr "[$MVR]"
 
 #: src/formats.c:260
 msgid "Maldive rupee"
-msgstr ""
+msgstr "Мальдивська руп╕я"
 
 #: src/formats.c:261
 msgid "[$MWK]"
@@ -4032,7 +4032,7 @@ msgstr "[$NLG]"
 
 #: src/formats.c:267
 msgid "Netherlands guilder"
-msgstr ""
+msgstr "Голандський гульден"
 
 #: src/formats.c:268
 msgid "[$NOK]"
@@ -4056,7 +4056,7 @@ msgstr "[$NZD]"
 
 #: src/formats.c:270
 msgid "New Zealand dollar"
-msgstr ""
+msgstr "Новозеландський долар"
 
 #: src/formats.c:271
 msgid "[$OMR]"
@@ -4104,7 +4104,7 @@ msgstr "[$PKR]"
 
 #: src/formats.c:276
 msgid "Pakistan rupee"
-msgstr ""
+msgstr "Пик╕станська руп╕я"
 
 #: src/formats.c:277
 msgid "[$PLZ]"
@@ -4112,7 +4112,7 @@ msgstr "[$PLZ]"
 
 #: src/formats.c:277
 msgid "Polish zloty"
-msgstr ""
+msgstr "Польська злота"
 
 #: src/formats.c:278
 msgid "[$PTE]"
@@ -4152,7 +4152,7 @@ msgstr "[$RWF]"
 
 #: src/formats.c:282
 msgid "Rwanda franc"
-msgstr ""
+msgstr "Руанд╕йський франк"
 
 #: src/formats.c:283
 msgid "[$SAR]"
@@ -4168,7 +4168,7 @@ msgstr "[$SBD]"
 
 #: src/formats.c:284
 msgid "Solomon Islands dollar"
-msgstr ""
+msgstr "Долар Соломонових Остров╕в"
 
 #: src/formats.c:285
 msgid "[$SCR]"
@@ -4176,7 +4176,7 @@ msgstr "[$SCR]"
 
 #: src/formats.c:285
 msgid "Seychelles rupee"
-msgstr ""
+msgstr "Сейшельська руп╕я"
 
 #: src/formats.c:286
 msgid "[$SDP]"
@@ -4328,7 +4328,7 @@ msgstr "[$TWD]"
 
 #: src/formats.c:304
 msgid "New Taiwan dollar"
-msgstr ""
+msgstr "Новий тайванський долар"
 
 #: src/formats.c:305
 msgid "[$TZS]"
@@ -4360,7 +4360,7 @@ msgstr "[$UYP]"
 
 #: src/formats.c:308
 msgid "Uruguayan peso"
-msgstr ""
+msgstr "Уругвайський песо"
 
 #: src/formats.c:309
 msgid "[$VEB]"
@@ -4400,7 +4400,7 @@ msgstr "[$XCD]"
 
 #: src/formats.c:313
 msgid "East Caribbean dollar"
-msgstr ""
+msgstr "П╕вденнокарибський долар"
 
 #: src/formats.c:314
 msgid "[$XEU]"
@@ -4456,7 +4456,7 @@ msgstr "[$ZMK]"
 
 #: src/formats.c:320
 msgid "Zambian kwacha"
-msgstr ""
+msgstr "Замб╕йська квача"
 
 #: src/formats.c:321
 msgid "[$ZRZ]"
@@ -4464,7 +4464,7 @@ msgstr "[$ZRZ]"
 
 #: src/formats.c:321
 msgid "Zaire Zaire"
-msgstr ""
+msgstr "За╕рський за╕р"
 
 #: src/formats.c:322
 msgid "[$ZWD]"
