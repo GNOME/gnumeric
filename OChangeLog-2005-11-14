@@ -1,3 +1,8 @@
+2002-10-31  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric.h : Bring things back down to 256x64k memory usage is
+	  still too high.
+
 2002-10-30  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* debian/TODO, debian/gnumeric.postinst: New.

@@ -17,6 +17,7 @@
 #include "ms-obj.h"
 
 #include <expr-name.h>
+#include <str.h>
 #include <value.h>
 
 void
@@ -183,49 +184,3 @@ ms_container_get_fmt (MSContainer const *c, guint16 indx)
 	return (*c->vtbl->get_fmt) (c, indx);
 }
 
-GnmExpr const *
-ms_container_get_name (MSContainer const *c, guint16 i, Sheet *sheet, gboolean is_local)
-{
-	GnmNamedExpr *nexpr = NULL;
-	GPtrArray    *a;
-
-	g_return_val_if_fail (c, NULL);
-
-	if (c->ver >= MS_BIFF_V8 || is_local)
-		a = c->ewb->container.names;
-	else 
-		a = c->names;
-
-	if (a == NULL || i < 1 || a->len < i ||
-	    (nexpr = g_ptr_array_index (a, i-1)) == NULL) {
-		g_warning ("EXCEL: %x (of %x) UNKNOWN name %p.", i, a ? a->len : -1, c);
-		return gnm_expr_new_constant (value_new_error (NULL, gnumeric_err_REF));
-	}
-
-	/* See EXTERNSHEET_v8 for details */
-	if (sheet == (Sheet *)1) {
-		sheet = nexpr->pos.sheet;
-		if (sheet == NULL) {
-			sheet = ms_container_sheet (c);
-			if (sheet == NULL) {
-				g_warning ("Self ref with no sheet context ? maybe some sort of workbook level selfref");
-			}
-		}
-	}
-	return gnm_expr_new_name (nexpr, sheet, NULL);
-}
-
-void
-ms_container_add_name (MSContainer *c, GnmNamedExpr *nexpr)
-{
-	GPtrArray *a = (c->ver >= MS_BIFF_V8) ? c->ewb->container.names : c->names;
-
-	if (a == NULL) {
-		if (c->ver >= MS_BIFF_V8) 
-			a = c->ewb->container.names = g_ptr_array_new ();
-		else
-			a = c->names = g_ptr_array_new ();
-	}
-
-	g_ptr_array_add (a, nexpr);
-}

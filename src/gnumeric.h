@@ -3,8 +3,8 @@
 
 #include <glib.h>
 
-#define SHEET_MAX_ROWS		(20*20*20*20)	/* 0, 1, ... */
-#define SHEET_MAX_COLS		(8*8*8*8)	/* 0, 1, ... */
+#define SHEET_MAX_ROWS		(16*16*16*16)	/* 0, 1, ... */
+#define SHEET_MAX_COLS		(4*4*4*4)	/* 0, 1, ... */
 
 /*
  * Note: more than 364238 columns will introduce a column named TRUE.

@@ -1121,7 +1121,7 @@ excel_read_FORMAT (BiffQuery *q, ExcelWorkbook *ewb)
 	} else if (ewb->container.ver >= MS_BIFF_V7) { /* Total gues */
 		d->idx = GSF_LE_GET_GUINT16 (q->data);
 		d->name = biff_get_text (q->data + 3, GSF_LE_GET_GUINT8 (q->data + 2), NULL);
-	} else if (ewb->container.ver >= MS_BIFF_V4) { /* Rev engineered */
+	} else if (ewb->container.ver >= MS_BIFF_V4) { /* Sample sheets suggest this */
 		d->idx = g_hash_table_size (ewb->format_data) + 0x32;
 		d->name = biff_get_text (q->data + 3, GSF_LE_GET_GUINT8 (q->data + 2), NULL);
 	} else {
@@ -2425,7 +2425,7 @@ excel_workbook_new (MsBiffVersion ver, IOContext *context, WorkbookView *wbv)
 	ewb->context = context;
 	ewb->wbv = wbv;
 
-	ewb->v8.supbooks    = g_ptr_array_new ();
+	ewb->v8.supbook     = g_array_new (FALSE, FALSE, sizeof (ExcelSupBook));
 	ewb->v8.externsheet = NULL;
 
 	ewb->gnum_wb = NULL;
@@ -2460,7 +2460,7 @@ excel_workbook_get_sheet (ExcelWorkbook const *ewb, guint idx)
 static void
 excel_workbook_destroy (ExcelWorkbook *ewb)
 {
-	unsigned i;
+	unsigned i, j;
 	GSList *real_order = NULL;
 	Sheet *sheet;
 
@@ -2503,13 +2503,19 @@ excel_workbook_destroy (ExcelWorkbook *ewb)
 		ewb->palette = NULL;
 	}
 
+	for (i = 0; i < ewb->v8.supbook->len; i++ ) {
+		ExcelSupBook *sup = &(g_array_index (ewb->v8.supbook,
+						     ExcelSupBook, i));
+		for (j = 0; j < sup->externname->len; j++ )
+			expr_name_unref (g_ptr_array_index (sup->externname, j));
+		g_ptr_array_free (sup->externname, TRUE);
+	}
+	g_array_free (ewb->v8.supbook, TRUE);
+	ewb->v8.supbook = NULL;
 	if (ewb->v8.externsheet != NULL) {
 		g_array_free (ewb->v8.externsheet, TRUE);
 		ewb->v8.externsheet = NULL;
 	}
-
-	g_ptr_array_free (ewb->v8.supbooks, TRUE);
-	ewb->v8.supbooks = NULL;
 
 	if (ewb->global_strings) {
 		unsigned i;
@@ -2639,17 +2645,16 @@ excel_read_EXTERNNAME (BiffQuery *q, MSContainer *container)
 	GnmNamedExpr		*nexpr = NULL;
 	char *name = NULL;
 
-	/* NOTE : The name is associated with the last EXTERNSHEET records seen */
+	d (2, {
+	   fprintf (stderr,"EXTERNAME\n");
+	   gsf_mem_dump (q->data, q->length); });
+
 	if (container->ver >= MS_BIFF_V7) {
 		guint16 flags = GSF_LE_GET_GUINT8 (q->data);
 		guint32 namelen = GSF_LE_GET_GUINT8 (q->data + 6);
 
 		switch (flags & 0x18) {
 		case 0x00: /* external name */
-
-			d (2, {
-			   fprintf (stderr,"EXTERNAME\n");
-			   gsf_mem_dump (q->data, q->length); });
 
 			if (flags & 1)
 				name = g_strdup (excel_builtin_name (q->data + 7));
@@ -2686,16 +2691,32 @@ excel_read_EXTERNNAME (BiffQuery *q, MSContainer *container)
 	}
 
 	/* nexpr is potentially NULL if there was an error */
-	ms_container_add_name (container,  nexpr);
+	if (container->ver >= MS_BIFF_V8) {
+		ExcelWorkbook *ewb = container->ewb;
+		ExcelSupBook const *sup;
+
+		g_return_if_fail (ewb->v8.supbook->len > 0);
+
+		/* The name is associated with the last SUPBOOK records seen */
+		sup = &(g_array_index (ewb->v8.supbook, ExcelSupBook,
+				       ewb->v8.supbook->len-1));
+		g_ptr_array_add (sup->externname, nexpr);
+	} else {
+		GPtrArray *a = container->names;
+		if (a == NULL)
+			a = container->names = g_ptr_array_new ();
+		g_ptr_array_add (a, nexpr);
+	}
 }
 
 static void
 excel_read_NAME (BiffQuery *q, ExcelWorkbook *ewb)
 {
+	GPtrArray *a;
 	GnmNamedExpr *nexpr = NULL;
 	guint16 flags		= GSF_LE_GET_GUINT16 (q->data);
 	/*guint8  kb_shortcut	= GSF_LE_GET_GUINT8  (q->data + 2); */
-	guint8  name_len	= GSF_LE_GET_GUINT8  (q->data + 3);
+	guint32 name_len	= GSF_LE_GET_GUINT8  (q->data + 3);
 	guint16 expr_len	= GSF_LE_GET_GUINT16 (q->data + 4);
 	gboolean const builtin_name = (flags & 0x0020) ? TRUE : FALSE;
 
@@ -2706,29 +2727,34 @@ excel_read_NAME (BiffQuery *q, ExcelWorkbook *ewb)
 
 	if (ewb->container.ver >= MS_BIFF_V8) {
 		sheet_index = GSF_LE_GET_GUINT16 (q->data + 8);
-		expr_data  = q->data + 15 + name_len;
-		ptr = q->data + 15;
+		ptr = q->data + 14;
+		/* #!%&@ The header is before the id byte, and the len does not
+		 * include the header */
+		if (builtin_name) {
+			name = g_strdup (excel_builtin_name (ptr+1));
+			name_len = 2;
+		}
 	} else if (ewb->container.ver >= MS_BIFF_V7) {
 		/* opencalc docs claim 8 is the right one, XL docs say 6 == 8
 		 * pivot.xls suggests that at least for local builtin names 6
-		 * is correct and 8 is bogus for == biff7
-		 */
+		 * is correct and 8 is bogus for == biff7 */
 		sheet_index = GSF_LE_GET_GUINT16 (q->data + 6);
-		expr_data  = q->data + 14 + name_len;
 		ptr = q->data + 14;
+		if (builtin_name)
+			name = g_strdup (excel_builtin_name (ptr));
 	} else {
-		expr_data  = q->data + 5 + name_len;
 		ptr = q->data + 5;
+		if (builtin_name)
+			name = g_strdup (excel_builtin_name (ptr));
 	}
 
 	d (2, {
 	   fprintf (stderr,"NAME\n");
 	   gsf_mem_dump (q->data, q->length); });
 
-	if (builtin_name)
-		name = g_strdup (excel_builtin_name (ptr));
 	if (name == NULL)
-		name = biff_get_text (ptr, name_len, NULL);
+		name = biff_get_text (ptr, name_len, &name_len);
+
 	if (name != NULL) {
 		Sheet *sheet = NULL;
 		d (1, fprintf (stderr, "%hu\n", sheet_index););
@@ -2738,8 +2764,7 @@ excel_read_NAME (BiffQuery *q, ExcelWorkbook *ewb)
 			 * however we have examples in biff8 that can
 			 * only to be explained by a 1 based index to
 			 * the boundsheets.  Which is not unreasonable
-			 * given that these are local names
-			 */
+			 * given that these are local names */
 			if (ewb->container.ver >= MS_BIFF_V8) {
 				if (sheet_index <= ewb->boundsheet_sheet_by_index->len &&
 				    sheet_index > 0)
@@ -2750,6 +2775,7 @@ excel_read_NAME (BiffQuery *q, ExcelWorkbook *ewb)
 				sheet = excel_externsheet_v7 (&ewb->container, sheet_index);
 		}
 
+		expr_data  = ptr + name_len;
 		nexpr = excel_parse_name (ewb, sheet,
 			name, expr_data, expr_len, TRUE);
 
@@ -2762,8 +2788,12 @@ excel_read_NAME (BiffQuery *q, ExcelWorkbook *ewb)
 			expr_name_ref (nexpr);
 	}
 
-	/* nexpr is potentially NULL if there was an error */
-	ms_container_add_name (&ewb->container,  nexpr);
+	/* nexpr is potentially NULL if there was an error,
+	 * and NAMES are always at the workbook level */
+	a = ewb->container.names;
+	if (a == NULL)
+		a = ewb->container.names = g_ptr_array_new ();
+	g_ptr_array_add (a, nexpr);
 
 	d (5, {
 		guint8  menu_txt_len	= GSF_LE_GET_GUINT8  (q->data + 10);
@@ -4143,12 +4173,6 @@ excel_read_SCL (BiffQuery *q, ExcelSheet *esheet)
 		((double)num)/((double)denom), FALSE, FALSE);
 }
 
-typedef struct {
-	Workbook *wb;
-	Sheet *first;
-	Sheet *last;
-} ExcelExternSheetV8;
-
 /**
  * excel_externsheet_v8 :
  *
@@ -4161,26 +4185,19 @@ typedef struct {
  *
  * WARNING WARNING WARNING
  **/
-void
-excel_externsheet_v8 (ExcelWorkbook const *ewb,
-		      gint16 i, Sheet **first, Sheet **last)
+ExcelExternSheetV8 const *
+excel_externsheet_v8 (ExcelWorkbook const *ewb, gint16 i)
 {
-	ExcelExternSheetV8 const *es;
-
-	*first = *last = NULL;
-
 	d (2, fprintf (stderr, "externv8 %hd\n", i););
 
-	g_return_if_fail (ewb->v8.externsheet != NULL);
+	g_return_val_if_fail (ewb->v8.externsheet != NULL, NULL);
 
 	if (i >= (int)ewb->v8.externsheet->len) {
 		g_warning ("%hd >= %u\n", i, ewb->v8.externsheet->len);
-		return;
+		return NULL;
 	}
 
-	es = &(g_array_index (ewb->v8.externsheet, ExcelExternSheetV8, i));
-	*first = es->first;
-	*last  = es->last;
+	return &(g_array_index (ewb->v8.externsheet, ExcelExternSheetV8, i));
 }
 
 static Sheet *
@@ -4201,10 +4218,10 @@ supbook_get_sheet (ExcelWorkbook *ewb, gint16 sup_index, unsigned i)
 	if (i == 0xfffe)
 		return (Sheet *)1;
 
-	g_return_val_if_fail ((unsigned)sup_index < ewb->v8.supbooks->len, NULL);
+	g_return_val_if_fail ((unsigned)sup_index < ewb->v8.supbook->len, NULL);
 
 	/* supbook was self referential */
-	if (g_ptr_array_index (ewb->v8.supbooks, sup_index) == NULL) {
+	if (g_array_index (ewb->v8.supbook, ExcelSupBook, sup_index).wb == NULL) {
 		g_return_val_if_fail (i < ewb->boundsheet_sheet_by_index->len, NULL);
 		sheet = g_ptr_array_index (ewb->boundsheet_sheet_by_index, i);
 		g_return_val_if_fail (IS_SHEET (sheet), NULL);
@@ -4241,6 +4258,7 @@ excel_read_EXTERNSHEET_v8 (BiffQuery const *q, ExcelWorkbook *ewb)
 			      sup_index, first, last););
 
 		v8 = &g_array_index(ewb->v8.externsheet, ExcelExternSheetV8, i);
+		v8->supbook = sup_index;
 		v8->first = supbook_get_sheet (ewb, sup_index, first);
 		v8->last  = supbook_get_sheet (ewb, sup_index, last);
 		d (2, fprintf (stderr,"\tFirst sheet %p, Last sheet %p\n",
@@ -4693,21 +4711,29 @@ excel_read_SUPBOOK (BiffQuery *q, ExcelWorkbook *ewb)
 	guint32 byte_length;
 	char *name;
 	guint8 encodeType, *data;
+	ExcelSupBook tmp;
 
-	d (2, fprintf (stderr,"supbook %d has %d\n", ewb->v8.supbooks->len, numTabs););
+	d (2, fprintf (stderr,"supbook %d has %d\n", ewb->v8.supbook->len, numTabs););
 
-	/* Rough heuristic to see if this is a self reference
-	 * 0x0401 == self reference
-	 * 0x3A01 == addins ??
-	 */
-	if (q->length == 4 && (len == 0x0401 || len == 0x3A01)) {
+	tmp.externname = g_ptr_array_new ();
+	tmp.wb = NULL;
+
+	/* undocumented guess */
+	if (q->length == 4 && len == 0x0401) {
 		d (2, fprintf (stderr,"\t is self referential\n"););
-		g_ptr_array_add (ewb->v8.supbooks, NULL);
+		tmp.type = EXCEL_SUP_BOOK_SELFREF;
+		g_array_append_val (ewb->v8.supbook, tmp);
 		return;
 	}
-	g_ptr_array_add (ewb->v8.supbooks, GINT_TO_POINTER (1));
-	/* gsf_mem_dump (q->data, q->length); */
+	if (q->length == 4 && len == 0x3A01) {
+		d (2, fprintf (stderr,"\t is a plugin\n"););
+		tmp.type = EXCEL_SUP_BOOK_PLUGIN;
+		g_array_append_val (ewb->v8.supbook, tmp);
+		return;
+	}
 
+	tmp.type = EXCEL_SUP_BOOK_STD;
+	g_array_append_val (ewb->v8.supbook, tmp);
 	encodeType = GSF_LE_GET_GUINT8 (q->data + 4);
 	d (1, {
 		fprintf (stderr,"Supporting workbook with %d Tabs\n", numTabs);

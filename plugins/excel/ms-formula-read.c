@@ -1249,14 +1249,26 @@ excel_parse_formula (MSContainer const *container,
 
 		case FORMULA_PTG_NAME: {
 			guint16 name_idx = GSF_LE_GET_GUINT16 (cur);
+			GPtrArray    *a;
+			GnmExpr const*name;
+			GnmNamedExpr *nexpr = NULL;
 
 			if (ver >= MS_BIFF_V8)
 				ptg_length = 4;  /* Docs are wrong, no ixti */
 			else
 				ptg_length = 14;
 
-			parse_list_push (&stack, ms_container_get_name (&container->ewb->container,
-									name_idx, NULL, TRUE));
+			a = container->ewb->container.names;
+			if (a == NULL || name_idx < 1 || a->len < name_idx ||
+			    (nexpr = g_ptr_array_index (a, name_idx-1)) == NULL) {
+				g_warning ("EXCEL: %x (of %x) UNKNOWN name %p.",
+					   name_idx, a ? a->len : -1, container);
+				name = gnm_expr_new_constant (
+					value_new_error (NULL, gnumeric_err_REF));
+			} else
+				name = gnm_expr_new_name (nexpr, NULL, NULL);
+
+			parse_list_push (&stack, name);
 			d (2, fprintf (stderr, "Name idx %hu\n", name_idx););
 		}
 		break;
@@ -1331,38 +1343,63 @@ excel_parse_formula (MSContainer const *container,
 
 		case FORMULA_PTG_NAME_X : {
 			guint16 name_idx; /* 1 based */
-			gint16 sheet_idx;
-			Sheet *sheet;
+			GPtrArray    *a = NULL;
+			GnmExpr const*name;
+			GnmNamedExpr *nexpr = NULL;
+			Sheet *sheet = NULL;
 
-			sheet_idx = GSF_LE_GET_GINT16 (cur);
 			if (ver >= MS_BIFF_V8) {
-				/* NOTE : for explicitly qualified sheet local names
-				 * Sheet1!name_local_to_sheet1
-				 * sheet may return (Sheet *)1.  This is intentional
-				 * ms_container_get_name handles it.
-				 */
-				Sheet *dummy;
-				excel_externsheet_v8 (container->ewb, sheet_idx, &sheet, &dummy);
-				if (sheet != dummy) {
-					g_warning ("A 3d name reference ?");
+				guint16 sheet_idx = GSF_LE_GET_GINT16 (cur);
+				ExcelExternSheetV8 const *es = excel_externsheet_v8 (
+					container->ewb, sheet_idx);
+				if (es != NULL && es->supbook < container->ewb->v8.supbook->len) {
+					ExcelSupBook const *sup = &g_array_index (
+						container->ewb->v8.supbook,
+						ExcelSupBook, es->supbook);
+					if (sup->type == EXCEL_SUP_BOOK_SELFREF) {
+						a = container->ewb->container.names;
+					} else
+						a = sup->externname;
+
+					sheet = es->first;
 				}
+
 				name_idx  = GSF_LE_GET_GUINT16 (cur+2);
+
+				d (2, fprintf (stderr, "name %hu : externsheet %hu\n",
+					       name_idx, sheet_idx););
+
 				ptg_length = 6;
 			} else {
-				/* NOTE : for explicitly qualified sheet local names
-				 * Sheet1!name_local_to_sheet1
-				 * sheet may return (Sheet *)1.  This is intentional
-				 * ms_container_get_name handles it.
-				 */
+				gint16 sheet_idx = GSF_LE_GET_GINT16 (cur);
 				sheet = excel_externsheet_v7 (container, sheet_idx);
 				name_idx  = GSF_LE_GET_GUINT16 (cur+10);
-				d (2, fprintf (stderr, "name = %hu, sheet = %hd\n",
+				d (2, fprintf (stderr, "name = %hu, externsheet = %hd\n",
 					       name_idx, sheet_idx););
+				a = (sheet_idx >= 0)
+					? container->names
+					: container->ewb->container.names;
 				ptg_length = 24;
 			}
 
-			parse_list_push (&stack,
-				ms_container_get_name (container, name_idx, sheet, sheet_idx < 0));
+			if (a == NULL || name_idx < 1 || a->len < name_idx ||
+			    (nexpr = g_ptr_array_index (a, name_idx-1)) == NULL) {
+				g_warning ("EXCEL: %x (of %x) UNKNOWN name %p.",
+					   name_idx, a ? a->len : -1, container);
+				name = gnm_expr_new_constant (
+					value_new_error (NULL, gnumeric_err_REF));
+			} else {
+				/* See supbook_get_sheet for details */
+				if (sheet == (Sheet *)1) {
+					sheet = nexpr->pos.sheet;
+					if (sheet == NULL)
+						sheet = ms_container_sheet (container);
+				}
+				name = gnm_expr_new_name (nexpr, sheet, NULL);
+			}
+
+			parse_list_push (&stack, name);
+			d (2, fprintf (stderr, "Name idx %hu\n", name_idx););
 		}
 		break;
 
@@ -1370,13 +1407,19 @@ excel_parse_formula (MSContainer const *container,
 			CellRef first, last;
 
 			if (ver >= MS_BIFF_V8) {
+				ExcelExternSheetV8 const *es =
+					excel_externsheet_v8 (container->ewb, GSF_LE_GET_GUINT16 (cur));
+
 				getRefV8 (&first,
 					  GSF_LE_GET_GUINT16 (cur + 2),
 					  GSF_LE_GET_GUINT16 (cur + 4),
 					  fn_col, fn_row, 0);
 				last = first;
-				excel_externsheet_v8 (container->ewb, GSF_LE_GET_GUINT16 (cur),
-					&first.sheet, &last.sheet);
+				if (es != NULL) {
+					first.sheet = es->first;
+					last.sheet  = es->first;
+				} else
+					first.sheet = last.sheet = NULL;
 
 				ptg_length = 6;
 			} else {
@@ -1426,12 +1469,16 @@ excel_parse_formula (MSContainer const *container,
 
 				ptg_length = 17;
 			}
-			if (first.sheet != NULL && last.sheet == NULL)
-				last.sheet = first.sheet;
 
 			if (first.sheet == (Sheet *)1) {
-				g_warning ("SHIT!");
-			}
+				first.sheet = last.sheet = NULL;
+				g_warning ("Damn so much for that theory.  Please send us a copy of this workbook");
+			} else if (first.sheet == (Sheet *)1) {
+				last.sheet = first.sheet;
+				g_warning ("Damn so much for that theory.  Please send us a copy of this workbook");
+			} else if (first.sheet != NULL && last.sheet == NULL)
+				last.sheet = first.sheet;
+
 			/* There does not appear to be a way to express a ref
 			 * to another sheet without using a 3d ref.  lets be smarter
 			 */
@@ -1447,6 +1494,8 @@ excel_parse_formula (MSContainer const *container,
 			CellRef first, last;
 
 			if (ver >= MS_BIFF_V8) {
+				ExcelExternSheetV8 const *es =
+					excel_externsheet_v8 (container->ewb, GSF_LE_GET_GUINT16 (cur));
 				getRefV8 (&first,
 					  GSF_LE_GET_GUINT16(cur+2),
 					  GSF_LE_GET_GUINT16(cur+6),
@@ -1455,8 +1504,11 @@ excel_parse_formula (MSContainer const *container,
 					  GSF_LE_GET_GUINT16(cur+4),
 					  GSF_LE_GET_GUINT16(cur+8),
 					  fn_col, fn_row, 0);
-				excel_externsheet_v8 (container->ewb, GSF_LE_GET_GUINT16 (cur),
-					&first.sheet, &last.sheet);
+				if (es != NULL) {
+					first.sheet = es->first;
+					last.sheet  = es->first;
+				} else
+					first.sheet = last.sheet = NULL;
 
 				ptg_length = 10;
 			} else {
@@ -1510,7 +1562,13 @@ excel_parse_formula (MSContainer const *container,
 				ptg_length = 20;
 			}
 
-			if (first.sheet != NULL && last.sheet == NULL)
+			if (first.sheet == (Sheet *)1) {
+				first.sheet = last.sheet = NULL;
+				g_warning ("Damn so much for that theory.  Please send us a copy of this workbook");
+			} else if (first.sheet == (Sheet *)1) {
+				last.sheet = first.sheet;
+				g_warning ("Damn so much for that theory.  Please send us a copy of this workbook");
+			} else if (first.sheet != NULL && last.sheet == NULL)
 				last.sheet = first.sheet;
 
 			parse_list_push_raw (&stack, value_new_cellrange (&first, &last, fn_col, fn_row));

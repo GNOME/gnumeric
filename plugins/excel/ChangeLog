@@ -1,3 +1,31 @@
+2002-10-31  Jody Goldberg <jody@gnome.org>
+
+	* ms-formula-read.c (excel_parse_formula) : adjust the name and
+	  externname handling.
+
+	* ms-excel-read.c (excel_workbook_new) : make supbook an array rather
+	  than a ptr array.
+	(excel_workbook_destroy) : cleanup the new data structures.
+	(excel_read_EXTERNNAME) : revamp handling for biff8 to store in a
+	  distinct structure from the NAMEs, and associate that with the
+	  SUPBOOK even though the docs claim otherwise.  I suspect the docs
+	  were written for Biff7 and not updated.  This is the only thing that
+	  makes sense based on the record ordering.
+	(excel_read_NAME) : merge in the ms_container_add_name code.
+	(excel_externsheet_v8) : simplify the interface and return the structure
+	(supbook_get_sheet) : adjust to the new data structures.
+	(excel_read_SUPBOOK) : be more expressive.  We're ready to handle
+	  externals now.  Just need to write a parser for the links.
+
+	* ms-container.c (ms_container_get_name) : No sense having it here.
+	  The code is specific to the PTG handler.  move it there.
+	(ms_container_add_name) : also more specific to the NAME and
+	  EXTERNNAME handlers.  Move it there.
+
+2002-10-30  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (excel_read_NAME) : handle unicode names.
+
 2002-10-28  Morten Welinder  <terra@diku.dk>
 
 	* ms-escher.c (ms_escher_read_ClientTextbox): Don't leak text even

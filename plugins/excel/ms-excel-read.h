@@ -18,6 +18,22 @@
 
 typedef struct _ExcelSheet	ExcelSheet;
 
+typedef struct {
+	Workbook  *wb;
+	Sheet 	  *first, *last;
+	unsigned   supbook;
+} ExcelExternSheetV8;
+typedef enum {
+	EXCEL_SUP_BOOK_STD,
+	EXCEL_SUP_BOOK_SELFREF,
+	EXCEL_SUP_BOOK_PLUGIN
+} ExcelSupBookType;
+typedef struct {
+	ExcelSupBookType type;
+	Workbook  *wb;
+	GPtrArray *externname;
+} ExcelSupBook;
+
 struct _ExcelSheet {
 	MSContainer container;
 
@@ -92,8 +108,8 @@ struct _ExcelWorkbook {
 	GHashTable	 *font_data;
 	GHashTable	 *format_data; /* leave as a hash */
 	struct {
-		GPtrArray	 *supbooks;
-		GArray		 *externsheet;
+		GArray	 *supbook;
+		GArray	 *externsheet;
 	} v8; /* biff8 does this in the workbook */
 	ExcelPalette	 *palette;
 	char		**global_strings;
@@ -110,8 +126,7 @@ char       *biff_get_text (guint8 const *ptr, guint32 length, guint32 *byte_leng
 char const *biff_get_error_text (guint8 err);
 
 Sheet		*excel_externsheet_v7	 (MSContainer const *container, gint16 i);
-void		 excel_externsheet_v8	 (ExcelWorkbook const *wb,  gint16 i,
-					  Sheet **first, Sheet **last);
+ExcelExternSheetV8 const *excel_externsheet_v8 (ExcelWorkbook const *wb, gint16 i);
 
 void		excel_read_EXTERNSHEET_v7 (BiffQuery const *q, MSContainer *container);
 MsBiffBofData  *ms_biff_bof_data_new     (BiffQuery * q);

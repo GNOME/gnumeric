@@ -49,9 +49,6 @@ void	       ms_container_add_obj	 (MSContainer *c, MSObj *obj);
 void	       ms_container_realize_objs (MSContainer *c);
 GnmExpr	const *ms_container_parse_expr   (MSContainer *c,
 					  guint8 const *data, int length);
-void	       ms_container_add_name	 (MSContainer *c, GnmNamedExpr *nexpr);
-GnmExpr const *ms_container_get_name	 (MSContainer const *c, guint16 i,
-					  Sheet *sheet, gboolean is_local);
 
 Sheet       *ms_container_sheet	    (MSContainer const *c);
 StyleFormat *ms_container_get_fmt   (MSContainer const *container, guint16 indx);

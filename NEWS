@@ -10,6 +10,10 @@ Jody:
 	* Enable full simplistic just in time render & span.
 	* Fix names.
 	* Tidy and brighten up the name dialog.
+	* Add more format and alignment support to cell edit.
+	* Re-enable feedback for autocomplete.
+	* Fix xls names with unicode ids.
+	* Fix xls 2000 import for external names.
 
 Morten:
 	* Clean up SERIESSUM.
