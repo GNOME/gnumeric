@@ -29,8 +29,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric HEAD\n"
-"POT-Creation-Date: 2002-09-26 00:12+0200\n"
-"PO-Revision-Date: 2002-09-26 00:03+0100\n"
+"POT-Creation-Date: 2002-09-27 16:32+0200\n"
+"PO-Revision-Date: 2002-09-27 16:31+0100\n"
 "Last-Translator: Christian Neumair <chris@gnome-de.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -361,7 +361,7 @@ msgstr "Finanzfunktionen"
 msgid "Functions related to financial derivatives"
 msgstr "Funktionen aus dem Finanzbereich"
 
-#: plugins/dif/dif.c:59 plugins/excel/ms-excel-read.c:4761
+#: plugins/dif/dif.c:59 plugins/excel/ms-excel-read.c:4783
 #: plugins/mps/mps.c:554 src/xml-io.c:3389
 msgid "Reading file..."
 msgstr "Datei wird gelesen..."
@@ -453,47 +453,47 @@ msgstr "»%s« konnte nicht geöffnet werden: %s"
 msgid "Saving file..."
 msgstr "Datei wird gespeichert..."
 
-#: plugins/excel/ms-excel-read.c:918
+#: plugins/excel/ms-excel-read.c:938
 msgid "#UNKNOWN!"
 msgstr "#UNBEKANNT!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1052 plugins/oleo/oleo.c:362
+#: plugins/excel/ms-excel-read.c:1072 plugins/oleo/oleo.c:362
 #: plugins/psiconv/psiconv-read.c:501 src/dialogs/dialog-sheet-order.c:418
 #: src/dialogs/dialog-sheet-order.c:422
 #, c-format
 msgid "Sheet%d"
 msgstr "Blatt%d"
 
-#: plugins/excel/ms-excel-read.c:1055
+#: plugins/excel/ms-excel-read.c:1075
 #, c-format
 msgid "Macro%d"
 msgstr "Makro%d"
 
-#: plugins/excel/ms-excel-read.c:1058
+#: plugins/excel/ms-excel-read.c:1078
 #, c-format
 msgid "Chart%d"
 msgstr "Diagramm%d"
 
-#: plugins/excel/ms-excel-read.c:1061
+#: plugins/excel/ms-excel-read.c:1081
 #, c-format
 msgid "Module%d"
 msgstr "Modul%d"
 
-#: plugins/excel/ms-excel-read.c:4642
+#: plugins/excel/ms-excel-read.c:4664
 msgid "external references"
 msgstr "externe Bezüge"
 
-#: plugins/excel/ms-excel-read.c:4927
+#: plugins/excel/ms-excel-read.c:4949
 msgid "This file is encrypted"
 msgstr "Diese Datei ist verschlüsselt"
 
-#: plugins/excel/ms-excel-read.c:4929
+#: plugins/excel/ms-excel-read.c:4951
 msgid "Invalid password"
 msgstr "Ungültiges Passwort"
 
-#: plugins/excel/ms-excel-read.c:5053
+#: plugins/excel/ms-excel-read.c:5075
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Es konnte kein gültiges MS-Excel-Arbeitsbuch aufgefunden werden."
 
@@ -506,7 +506,7 @@ msgstr "Zu viele Zeilen für dieses Format. (%d > %d)"
 msgid "Couldn't open stream for writing\n"
 msgstr "Datenstrom konnte nicht zum Schreiben geöffnet werden.\n"
 
-#: plugins/excel/ms-formula-read.c:610
+#: plugins/excel/ms-formula-read.c:609
 msgid "Broken function"
 msgstr "Fehlerhafte Funktion"
 
@@ -6320,7 +6320,7 @@ msgstr "Logisch"
 msgid "Logical Functions"
 msgstr "Logische Funktionen"
 
-#: plugins/fn-lookup/functions.c:341
+#: plugins/fn-lookup/functions.c:342
 msgid ""
 "@FUNCTION=ADDRESS\n"
 "@SYNTAX=ADDRESS(row_num,col_num[,abs_num,a1,text])\n"
@@ -6349,7 +6349,7 @@ msgid ""
 "@SEEALSO="
 msgstr "LATER"
 
-#: plugins/fn-lookup/functions.c:445
+#: plugins/fn-lookup/functions.c:446
 msgid ""
 "@FUNCTION=CHOOSE\n"
 "@SYNTAX=CHOOSE(index[,value1][,value2]...)\n"
@@ -6364,7 +6364,7 @@ msgid ""
 "@SEEALSO=IF"
 msgstr "LATER"
 
-#: plugins/fn-lookup/functions.c:497
+#: plugins/fn-lookup/functions.c:498
 msgid ""
 "@FUNCTION=VLOOKUP\n"
 "@SYNTAX=VLOOKUP(value,range,column[,approximate,as_index])\n"
@@ -6384,7 +6384,7 @@ msgid ""
 "@SEEALSO=HLOOKUP"
 msgstr "LATER"
 
-#: plugins/fn-lookup/functions.c:555
+#: plugins/fn-lookup/functions.c:556
 msgid ""
 "@FUNCTION=HLOOKUP\n"
 "@SYNTAX=HLOOKUP(value,range,row[,approximate,as_index])\n"
@@ -6404,7 +6404,7 @@ msgid ""
 "@SEEALSO=VLOOKUP"
 msgstr "LATER"
 
-#: plugins/fn-lookup/functions.c:613
+#: plugins/fn-lookup/functions.c:614
 msgid ""
 "@FUNCTION=LOOKUP\n"
 "@SYNTAX=LOOKUP(value,vector1,vector2)\n"
@@ -6423,7 +6423,7 @@ msgid ""
 "@SEEALSO=VLOOKUP,HLOOKUP"
 msgstr "LATER"
 
-#: plugins/fn-lookup/functions.c:679
+#: plugins/fn-lookup/functions.c:680
 msgid ""
 "@FUNCTION=MATCH\n"
 "@SYNTAX=MATCH(seek,vector[,type])\n"
@@ -6447,7 +6447,7 @@ msgid ""
 "@SEEALSO=LOOKUP"
 msgstr "LATER"
 
-#: plugins/fn-lookup/functions.c:738
+#: plugins/fn-lookup/functions.c:739
 msgid ""
 "@FUNCTION=INDIRECT\n"
 "@SYNTAX=INDIRECT(ref_text,[format])\n"
@@ -6464,7 +6464,7 @@ msgid ""
 "@SEEALSO="
 msgstr "LATER"
 
-#: plugins/fn-lookup/functions.c:801
+#: plugins/fn-lookup/functions.c:798
 msgid ""
 "@FUNCTION=INDEX\n"
 "@SYNTAX=INDEX(array,[row, col, area])\n"
@@ -6473,17 +6473,31 @@ msgid ""
 "array.\n"
 "\n"
 "* If @row and @col are ommited the are assumed to be 1.\n"
-"* @area has to be 1; references to multiple areas are not yet implemented.\n"
 "* If the reference falls outside the range of the @array, INDEX returns a "
 "#REF! error.\n"
 "\n"
 "@EXAMPLES=Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, "
-"17.3, 21.3, 25.9, and 40.1. Then INDEX(A1:A5,4,1,1) equals 25,9\n"
+"17.3, 21.3, 25.9, and 40.1. Then INDEX(A1:A5,4,1,1) equals 25.9\n"
 "\n"
 "@SEEALSO="
-msgstr "LATER"
+msgstr ""
+"@FUNCTION=INDEX\n"
+"@SYNTAX=INDEX(Feld,[Zeile, Spalte, Bereich])\n"
+"@DESCRIPTION=INDEX liefert einen Zellbezug im gegebenen Feld @Feld. Die "
+"Zelle wird mittels @Zeile und @Spalte angegeben, die die Zeilen und Spalten "
+"im Feld zählen.\n"
+"\n"
+"* Falls @Zeile und @Spalte ausgelassen werden, wird angenommen, dass sie 1 "
+"sind.\n"
+"* Falls der Bezug außerhalb des Feldes @Feld liegt, liefert INDEX einen "
+"#BEZUG!-Fehler.\n"
+"\n"
+"@EXAMPLES=Angenommen, die Zellen A1, A2, ..., A5 enthalten die Zahlen 11.4, "
+"17.3, 21.3, 25.9 und 40.1. Dann liefert INDEX(A1:A5,4,1,1) 25.9\n"
+"\n"
+"@SEEALSO="
 
-#: plugins/fn-lookup/functions.c:851
+#: plugins/fn-lookup/functions.c:865
 msgid ""
 "@FUNCTION=COLUMN\n"
 "@SYNTAX=COLUMN([reference])\n"
@@ -6499,7 +6513,7 @@ msgid ""
 "@SEEALSO=COLUMNS,ROW,ROWS"
 msgstr "LATER"
 
-#: plugins/fn-lookup/functions.c:903
+#: plugins/fn-lookup/functions.c:917
 msgid ""
 "@FUNCTION=COLUMNS\n"
 "@SYNTAX=COLUMNS(reference)\n"
@@ -6515,7 +6529,7 @@ msgid ""
 "@SEEALSO=COLUMN,ROW,ROWS"
 msgstr "LATER"
 
-#: plugins/fn-lookup/functions.c:929
+#: plugins/fn-lookup/functions.c:943
 msgid ""
 "@FUNCTION=OFFSET\n"
 "@SYNTAX=OFFSET(range,row,col,height,width)\n"
@@ -6545,7 +6559,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SPALTE,SPALTEN,ZEILE,ZEILEN"
 
-#: plugins/fn-lookup/functions.c:986
+#: plugins/fn-lookup/functions.c:1000
 msgid ""
 "@FUNCTION=ROW\n"
 "@SYNTAX=ROW([reference])\n"
@@ -6570,7 +6584,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SPALTE,SPALTEN,ZEILEN"
 
-#: plugins/fn-lookup/functions.c:1038
+#: plugins/fn-lookup/functions.c:1052
 msgid ""
 "@FUNCTION=ROWS\n"
 "@SYNTAX=ROWS(reference)\n"
@@ -6595,7 +6609,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SPALTE,SPALTEN,ZEILE"
 
-#: plugins/fn-lookup/functions.c:1064
+#: plugins/fn-lookup/functions.c:1078
 msgid ""
 "@FUNCTION=HYPERLINK\n"
 "@SYNTAX=HYPERLINK(link_location, optional_label)\n"
@@ -6614,7 +6628,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, NT_SIGMA"
 
-#: plugins/fn-lookup/functions.c:1089
+#: plugins/fn-lookup/functions.c:1103
 msgid ""
 "@FUNCTION=TRANSPOSE\n"
 "@SYNTAX=TRANSPOSE(matrix)\n"
@@ -6632,48 +6646,48 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT"
 
-#: plugins/fn-lookup/functions.c:1134
+#: plugins/fn-lookup/functions.c:1148
 msgid "row_num,col_num,abs_num,a1,text"
 msgstr "Anzahl_Zeilen,Anzahl_Spalten,Anzahl_Absolut,a1,Text"
 
-#: plugins/fn-lookup/functions.c:1136
+#: plugins/fn-lookup/functions.c:1150
 msgid "index,value,"
 msgstr "Index,Wert,"
 
-#: plugins/fn-lookup/functions.c:1138 plugins/fn-lookup/functions.c:1140
-#: plugins/fn-lookup/functions.c:1156 plugins/fn-lookup/functions.c:1158
+#: plugins/fn-lookup/functions.c:1152 plugins/fn-lookup/functions.c:1154
+#: plugins/fn-lookup/functions.c:1170 plugins/fn-lookup/functions.c:1172
 msgid "ref"
 msgstr "Bez"
 
-#: plugins/fn-lookup/functions.c:1142 plugins/fn-lookup/functions.c:1162
+#: plugins/fn-lookup/functions.c:1156 plugins/fn-lookup/functions.c:1176
 msgid "val,range,col_idx,approx,as_index"
 msgstr "Wert,Bereich,Spalten_IDx,Approx,wie_Index"
 
-#: plugins/fn-lookup/functions.c:1144
+#: plugins/fn-lookup/functions.c:1158
 msgid "link_location, label"
 msgstr "Verknüpfung_Ziel,Beschriftung"
 
-#: plugins/fn-lookup/functions.c:1146
+#: plugins/fn-lookup/functions.c:1160
 msgid "ref_string,format"
 msgstr "Bez_Zkette,Format"
 
-#: plugins/fn-lookup/functions.c:1148
+#: plugins/fn-lookup/functions.c:1162
 msgid "reference,row,col,area"
 msgstr "Referenz,Zeile,Spalte,Bereich"
 
-#: plugins/fn-lookup/functions.c:1150
+#: plugins/fn-lookup/functions.c:1164
 msgid "val,range,range"
 msgstr "Wert,Bereich,Bereich"
 
-#: plugins/fn-lookup/functions.c:1152
+#: plugins/fn-lookup/functions.c:1166
 msgid "val,range,approx"
 msgstr "Wert,Bereich,Approx"
 
-#: plugins/fn-lookup/functions.c:1154
+#: plugins/fn-lookup/functions.c:1168
 msgid "ref,row,col,height,width"
 msgstr "Bez,Zeile,Spalte,Höhe,Breite"
 
-#: plugins/fn-lookup/functions.c:1160 plugins/fn-math/functions.c:3206
+#: plugins/fn-lookup/functions.c:1174 plugins/fn-math/functions.c:3206
 msgid "array"
 msgstr "Feld"
 
@@ -12589,6 +12603,27 @@ msgstr "GNU Oleo (*.oleo)"
 msgid "Imports GNU Oleo documents"
 msgstr "»GNU Oleo«-Dokumenten importieren"
 
+#: plugins/openoffice/openoffice-read.c:300
+msgid "No stream named content.xml found."
+msgstr "Kein Datenstrom mit Namen »content.xml« gefunden."
+
+#: plugins/openoffice/openoffice-read.c:315
+#: plugins/xml_sax/xml-sax-read.c:1506
+msgid "XML document not well formed!"
+msgstr "Das XML-Dokument ist nicht wohlgeformt (\"well formed\")!"
+
+#: plugins/openoffice/plugin.xml.in.h:1
+msgid "Open/Star Calc (*.sxc)"
+msgstr "OpenOffice / StarOffice (*.sxc)"
+
+#: plugins/openoffice/plugin.xml.in.h:2
+msgid "Open/Star Office spreadsheet"
+msgstr "OpenOffice / StarOffice-Tabellenkalkulation"
+
+#: plugins/openoffice/plugin.xml.in.h:3
+msgid "OpenCalc/StarCalc"
+msgstr "OpenOffice / StarOffice"
+
 #: plugins/perl/plugin.xml.in.h:1
 msgid "Enables the creation of functions in Perl"
 msgstr "Aktiviert das Erstellen von Funktionen in Perl"
@@ -12904,7 +12939,7 @@ msgid "Error while opening xbase file."
 msgstr "Fehler beim Öffnen der xbase-Datei."
 
 #: plugins/xbase/boot.c:168 src/dialogs/dialog-goto-cell.c:281
-#: src/dialogs/print.glade.h:20 src/workbook.c:969 src/workbook.c:1239
+#: src/dialogs/print.glade.h:20 src/workbook.c:989 src/workbook.c:1318
 #: src/xml-io.c:3131
 msgid "Sheet"
 msgstr "Blatt"
@@ -12946,10 +12981,6 @@ msgstr "Mehrfache Versionsangaben. %d wird angenommen"
 #: plugins/xml_sax/xml-sax-read.c:447
 msgid "File has inconsistent SheetNameIndex element."
 msgstr "Dateielement SheetNameIndex inkonsistent."
-
-#: plugins/xml_sax/xml-sax-read.c:1506
-msgid "XML document not well formed!"
-msgstr "Das XML-Dokument ist nicht wohlgeformt (\"well formed\")!"
 
 # Nach mawa's Definition:
 # Anwendung: Tabellenkalkulation
@@ -13972,7 +14003,7 @@ msgid "Statistical Anal_ysis"
 msgstr "Statistische Anal_yse"
 
 #: src/GNOME_Gnumeric.xml.h:233 src/dialogs/consolidate.glade.h:19
-#: src/workbook-control-gui.c:3762 src/workbook-control-gui.c:4444
+#: src/workbook-control-gui.c:3762 src/workbook-control-gui.c:4452
 #: src/workbook-view.c:507
 msgid "Sum"
 msgstr "Summe"
@@ -16312,7 +16343,7 @@ msgid "Add the entered area to the list of source areas"
 msgstr "Den angegebene Bereich zur Liste der Quellbereiche hinzufügen"
 
 #: src/dialogs/consolidate.glade.h:2 src/dialogs/dialog-simulation.c:204
-#: src/workbook-control-gui.c:4447
+#: src/workbook-control-gui.c:4455
 msgid "Average"
 msgstr "Mittel"
 
@@ -16325,7 +16356,7 @@ msgid "Clear the list of source areas"
 msgstr "Die Liste von Quellbereichen löschen"
 
 #: src/dialogs/consolidate.glade.h:5 src/tools/simulation.c:263
-#: src/workbook-control-gui.c:4448
+#: src/workbook-control-gui.c:4456
 msgid "Count"
 msgstr "Anzahl"
 
@@ -16358,12 +16389,12 @@ msgid "Labels"
 msgstr "Beschriftungen"
 
 #: src/dialogs/consolidate.glade.h:13 src/dialogs/dialog-simulation.c:204
-#: src/tools/simulation.c:255 src/workbook-control-gui.c:4446
+#: src/tools/simulation.c:255 src/workbook-control-gui.c:4454
 msgid "Max"
 msgstr "Max"
 
 #: src/dialogs/consolidate.glade.h:14 src/dialogs/dialog-simulation.c:204
-#: src/tools/simulation.c:253 src/workbook-control-gui.c:4445
+#: src/tools/simulation.c:253 src/workbook-control-gui.c:4453
 msgid "Min"
 msgstr "Min"
 
@@ -17771,19 +17802,19 @@ msgstr "Aktueller Name"
 msgid "New Name"
 msgstr "Neuer Name"
 
-#: src/dialogs/dialog-sheet-order.c:610
+#: src/dialogs/dialog-sheet-order.c:611
 msgid "Deletion of sheets is not undoable. Do you want to proceed?"
 msgstr ""
 "Das Löschen von Blättern kann nicht rückgängig gemacht werden. Möchten Sie "
 "fortfahren?"
 
-#: src/dialogs/dialog-sheet-order.c:835
+#: src/dialogs/dialog-sheet-order.c:845
 msgid "The sheet order has changed. Do you want to update the list?"
 msgstr ""
 "Die Reihenfolge der Blätter wurde verändert. Soll die Liste aktualisiert "
 "werden?"
 
-#: src/dialogs/dialog-sheet-order.c:893 src/dialogs/dialog-sheet-order.c:905
+#: src/dialogs/dialog-sheet-order.c:903 src/dialogs/dialog-sheet-order.c:915
 msgid "Default"
 msgstr "Vorgabe"
 
@@ -19781,7 +19812,7 @@ msgstr "Interner Typenfehler"
 msgid "Unknown operator"
 msgstr "Unbekannter Operator"
 
-#: src/expr.c:1067
+#: src/expr.c:1073
 msgid "Unknown evaluation error"
 msgstr "Unbekannter Auswertungsfehler"
 
@@ -21062,76 +21093,80 @@ msgstr "#NV"
 msgid "#RECALC!"
 msgstr "#NEU-BER!"
 
-#: src/parser.y:334 src/parser.y:347
+#: src/parser.y:330
 msgid "Constructed ranges use simple references"
 msgstr "Erstellte Bereiche verwenden einfache Bezüge"
 
-#: src/parser.y:407
+#: src/parser.y:345 src/parser.y:359
+msgid "All entries in the set must be references"
+msgstr "Alle Einträge im Satz müssen Bezüge sein"
+
+#: src/parser.y:418
 msgid "Sheet name is required"
 msgstr "Blattname ist notwendig."
 
-#: src/parser.y:430
+#: src/parser.y:441
 #, c-format
 msgid "Unknown sheet '%s'"
 msgstr "Unbekanntes Blatt »%s«"
 
-#: src/parser.y:519
+#: src/parser.y:530
 msgid "() is an invalid expression"
 msgstr "() ist ein ungültiger Ausdruck"
 
-#: src/parser.y:545
+#: src/parser.y:562
 #, c-format
 msgid "What is a 3D name %s:%s!%s ?"
 msgstr "Was ist ein 3D-Name %s:%s!%s ?"
 
-#: src/parser.y:554
+#: src/parser.y:571
 #, c-format
 msgid "Name '%s' does not exist in sheet '%s'"
 msgstr "Name »%s« existiert im Blatt »%s« nicht"
 
-#: src/parser.y:575
+#: src/parser.y:593
 #, c-format
 msgid "Unknown workbook '%s'"
 msgstr "Unbekanntes Arbeitsbuch »%s«"
 
-#: src/parser.y:586
+#: src/parser.y:601
 #, c-format
 msgid "Name '%s' does not exist in workbook '%s'"
 msgstr "Name »%s« existiert im Arbeitsbuch »%s« nicht"
 
-#: src/parser.y:726 src/parser.y:739
+#: src/parser.y:746 src/parser.y:760
 #, c-format
 msgid "The character %c cannot be used to separate array elements"
 msgstr ""
 "Der Buchstabe »%c« kann nicht benutzt werden um Feldelemente zu trennen."
 
-#: src/parser.y:892 src/parser.y:901 src/parser.y:927
+#: src/parser.y:919 src/parser.y:928 src/parser.y:954
 msgid "The number is out of range"
 msgstr "Die Zahl liegt außerhalb des Gültigkeitbereichs"
 
-#: src/parser.y:954
+#: src/parser.y:981
 msgid "Could not find matching closing quote"
 msgstr ""
 "Zugehöriges schliessendes Anführungszeichen konnte nicht gefunden werden"
 
-#: src/parser.y:1112
+#: src/parser.y:1139
 msgid "Multiple expressions are not supported in this context"
 msgstr "Mehrfache Ausdrücke werden in diesem Zusammenhang nicht unterstützt"
 
-#: src/parser.y:1134
+#: src/parser.y:1161
 msgid "Could not find matching opening parenthesis"
 msgstr "Zugehörige öffnende Klammer konnte nicht gefunden werden"
 
-#: src/parser.y:1138
+#: src/parser.y:1165
 msgid "Could not find matching closing parenthesis"
 msgstr "Zugehörige schließende Klammer konnte nicht gefunden werden"
 
-#: src/parser.y:1142
+#: src/parser.y:1169
 msgid "Invalid expression"
 msgstr "Ungültiger Ausdruck"
 
 # Token ~ Zeichen
-#: src/parser.y:1147
+#: src/parser.y:1174
 #, c-format
 msgid "Unexpected token %c"
 msgstr "Unerwartetes Zeichen %c"
@@ -22891,8 +22926,8 @@ msgid "Discard All"
 msgstr "Alle Verwerfen"
 
 #: src/workbook-control-gui.c:1614 src/workbook-control-gui.c:1621
-#: src/workbook-control-gui.c:1627 src/workbook-control-gui.c:5184
-#: src/workbook-control-gui.c:5189
+#: src/workbook-control-gui.c:1627 src/workbook-control-gui.c:5191
+#: src/workbook-control-gui.c:5196
 msgid "Discard"
 msgstr "Verwerfen"
 
@@ -23105,24 +23140,24 @@ msgstr ""
 msgid "_Graph"
 msgstr "_Diagramm"
 
-#: src/workbook-control-gui.c:4904
+#: src/workbook-control-gui.c:4911
 #, c-format
 msgid "File \"%s\" has unknown format."
 msgstr "Die Datei »%s« hat ein unbekanntes Format."
 
-#: src/workbook-control-gui.c:4955
+#: src/workbook-control-gui.c:4962
 msgid "Send"
 msgstr "Verschicken"
 
-#: src/workbook-control-gui.c:4955
+#: src/workbook-control-gui.c:4962
 msgid "Send the current file in email"
 msgstr "Aktuelle Datei als E-Mail verschicken"
 
-#: src/workbook-control-gui.c:5183
+#: src/workbook-control-gui.c:5190
 msgid "Re-Edit"
 msgstr "Erneut _bearbeiten"
 
-#: src/workbook-control-gui.c:5188
+#: src/workbook-control-gui.c:5195
 msgid "Accept"
 msgstr "Akzeptieren"
 
@@ -23358,20 +23393,20 @@ msgstr "Der übliche Dateienspeicherer ist nicht verfügbar."
 msgid "An unexplained error happened while opening '%s'"
 msgstr "Beim Öffnen von »%s« ist ein nicht erklärter Fehler aufgetreten"
 
-#: src/workbook.c:399
+#: src/workbook.c:419
 #, c-format
 msgid "Book%d.%s"
 msgstr "Buch%d.%s"
 
-#: src/workbook.c:1162
+#: src/workbook.c:1241
 msgid "Sheet name must have at least 1 letter"
 msgstr "Der Name des Blatts muss mindestens aus einem Buchstaben bestehen."
 
-#: src/workbook.c:1176
+#: src/workbook.c:1255
 msgid "There is already a sheet named"
 msgstr "Es gibt bereits ein Blatt mit dem Namen"
 
-#: src/workbook.c:1186
+#: src/workbook.c:1265
 msgid "You may not use this name twice"
 msgstr "Sie dürfen diesen Namen nicht zweimal verwenden"
 
