@@ -40,6 +40,7 @@
 #include <gal/util/e-xml-utils.h>
 #include <gnome-xml/parser.h>
 
+#define DISABLE_DEBUG
 #ifndef DISABLE_DEBUG
 #define d(code)	do { code; } while (0)
 #else

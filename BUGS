@@ -30,11 +30,6 @@ Long term breakage
     : finish implementing optionally putting markers above/left
     : Figure out the ungroup bug (almer)
 
-- support negative durations with [h]
-
-- Function range_min_k uses an O(n*log n) algorithm.  It should use O(n)
-  algorithm, see Knuth.
-
 - It is possible to navigate to hidden cols/rows at the start/end of the sheet.
 
 - clean up the range_list codes to differentiate a list of ranges from a list
@@ -71,16 +66,22 @@ Names :
 - calculated cells do not span.
     : this is by design, we'll fix it when we move to just in time rendering.
 
-- Why does the number matching bother comparing against formats that are
-  covered by 'General' ?
+- Formats
+    : support negative durations with [h]
+    : Why does the number matching bother comparing against formats that are
+      covered by 'General' ?
+    : format.c: we should resolve all the separators at gnumeric_setlocale time,
+      not every time we need them.
+    : the format classification should know about other currencies and currency
+      placements.
+    : The currency list in the format dialog needs to be sorted for the locale
+    : When applying a currency symbol we need to store the NON-localized id.
+    : hour month and year format strings need to be internationalized.
+	eg tt:ss instead of hh:ss for other locales.
+    : formats with AM/PM need to be internationalized.
+    : we should parse fractions
+    : We do not format fractional seconds correctly.
 
-- format.c: we should resolve all the separators at gnumeric_setlocale time,
-  not every time we need them.
-
-- the format classification should know about other currencies and currency
-  placements.
-- The currency list in the format dialog needs to be sorted for the locale
-- When applying a currency symbol we need to store the NON-localized id.
 - Inc/Dec precision should work.  Try "44", click $, then add/remove decimals.
 - While we're playing with those functions, let's add simple ones like inc/dec
   font size and things like that.
@@ -89,13 +90,6 @@ Names :
            disable translation of TRUE/FALSE in expressions.
 	 : Support parsing and displaying locale specific function
 	   names.
-
-- formats with AM/PM need to be internationalized.
-- hour month and year format strings need to be internationalized.
-    eg tt:ss instead of hh:ss for other locales.
-- we should parse fractions
-
-- We do not format fractional seconds correctly.
 
 - Auto resize needs to handle empty cells.
 
@@ -113,10 +107,6 @@ Names :
 	  gnome-print has a function we could use for printing which returns the
 	  underline thickness.
 	- Should be visible in the edit-item (should edit item use cell_draw ?)
-
-- Functions like SUMPRODUCT need to have better support for sparse ranges.
-  We should probably create synchronously_walk_ranges.  (XL goes kaboom on
-  large ranges also, but we ought to be smarter.)
 
 - latex : multiline rows not handled properly.
         : nor are spans
@@ -143,6 +133,11 @@ Function Breakage
     routines.
 - There are a number of #UNIMPLEMENTED! things to take care of in the
     financial functions.  Mostly this is due to incomplete documentation.
+- Function range_min_k uses an O(n*log n) algorithm.  It should use O(n)
+  algorithm, see Knuth.
+- Functions like SUMPRODUCT need to have better support for sparse ranges.
+  We should probably create synchronously_walk_ranges.  (XL goes kaboom on
+  large ranges also, but we ought to be smarter.)
 
 Printing
 --------

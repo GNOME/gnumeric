@@ -24,6 +24,7 @@ Jody:
 	* Improve sheet object menus.
 	* Remove the eval queue
 	* Improve INDIRECT.
+	* Sort the function names for the index generator.
 	* Fix handling of mixed mode references.
 	* Correct sensitivity of menus & toolbars.
 	* Some initial guess work on how to import conditional XL formats.

@@ -2637,6 +2637,10 @@ sheet_cell_new (Sheet *sheet, int col, int row)
 	Cell *cell;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+	g_return_val_if_fail (col >= 0, NULL);
+	g_return_val_if_fail (col < SHEET_MAX_COLS, NULL);
+	g_return_val_if_fail (row >= 0, NULL);
+	g_return_val_if_fail (row < SHEET_MAX_ROWS, NULL);
 
 	cell = g_new0 (Cell, 1);
 

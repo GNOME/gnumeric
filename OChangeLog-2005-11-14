@@ -1,3 +1,7 @@
+2001-09-17  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_cell_new) : add some protection.
+
 2001-09-16  Jody Goldberg <jgoldberg@home.com>
 
 	* src/func.c (function_dump_defs) : dump the functions in alphabetical
