@@ -1002,7 +1002,6 @@ void
 gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet)
 {
 	GnomeCanvas   *canvas = GNOME_CANVAS (gsheet);
-	ItemCursor    *ic = gsheet->item_cursor;
 	int pixels, col, row, width, height;
 
 	/* Find out the last visible col and the last full visible column */
