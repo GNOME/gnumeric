@@ -2797,8 +2797,8 @@ cmd_search_replace_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 }
 
 static gboolean
-cmd_search_replace_do_cell (CmdSearchReplace *me, WorkbookControlGUI *wbcg,
-			    Cell *cell, gboolean test_run)
+cmd_search_replace_do_cell (CmdSearchReplace *me, Cell *cell,
+			    gboolean test_run)
 {
 	SearchReplace *sr = me->sr;
 	gboolean is_expr, is_value, is_string, is_other;
@@ -2854,23 +2854,12 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, WorkbookControlGUI *wbcg,
 
 			if (err) {
 				if (test_run) {
-					char *err;
-
-					err = g_strdup_printf
-						(_("In cell %s, the current contents\n"
-						   "\t%s\n"
-						   "would have been replaced by\n"
-						   "\t%s\n"
-						   "which is invalid.\n\n"
-						   "The replace has been aborted "
-						   "and nothing has been changed."),
-						 cell_pos_name (&cell->pos),
-						 old_text,
-						 new_text);
-					gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
-							 err);
-					g_free (err);
-
+					if (sr->query_func)
+						sr->query_func (SRQ_fail,
+								sr,
+								cell,
+								old_text,
+								new_text);
 					g_free (old_text);
 					g_free (new_text);
 					return TRUE;
@@ -2967,12 +2956,10 @@ cb_order_sheet_row_col (const void *_a, const void *_b)
 
 
 static gboolean
-cmd_search_replace_do (CmdSearchReplace *me, WorkbookControlGUI *wbcg,
+cmd_search_replace_do (CmdSearchReplace *me, Workbook *wb,
 		       Sheet *sheet, gboolean test_run)
 {
 	SearchReplace *sr = me->sr;
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	Workbook *wb = wb_control_workbook (wbc);
 	GPtrArray *cells;
 	gboolean result = FALSE;
 	int i;
@@ -3052,7 +3039,7 @@ cmd_search_replace_do (CmdSearchReplace *me, WorkbookControlGUI *wbcg,
 			Cell *cell = sheet_cell_get (ep->sheet,
 						     ep->eval.col,
 						     ep->eval.row);
-			result = cmd_search_replace_do_cell (me, wbcg, cell, test_run);
+			result = cmd_search_replace_do_cell (me, cell, test_run);
 		}
 		g_free (ep);
 	}
@@ -3102,11 +3089,11 @@ cmd_search_replace_destroy (GtkObject *cmd)
 }
 
 gboolean
-cmd_search_replace (WorkbookControlGUI *wbcg, Sheet *sheet, SearchReplace *sr)
+cmd_search_replace (WorkbookControl *wbc, Sheet *sheet, SearchReplace *sr)
 {
 	GtkObject *obj;
 	CmdSearchReplace *me;
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	Workbook *wb = wb_control_workbook (wbc);
 
 	g_return_val_if_fail (sr != NULL, TRUE);
 
@@ -3120,13 +3107,13 @@ cmd_search_replace (WorkbookControlGUI *wbcg, Sheet *sheet, SearchReplace *sr)
 	me->parent.size = 1;  /* Corrected below. */
 	me->parent.cmd_descriptor = g_strdup (_("Search and Replace"));
 
-	if (cmd_search_replace_do (me, wbcg, sheet, TRUE)) {
+	if (cmd_search_replace_do (me, wb, sheet, TRUE)) {
 		/* There was an error and nothing was done.  */
 		gtk_object_unref (obj);
 		return TRUE;
 	}
 
-	cmd_search_replace_do (me, wbcg, sheet, FALSE);
+	cmd_search_replace_do (me, wb, sheet, FALSE);
 	me->parent.size += g_list_length (me->cells);
 
 	/* Register the command object */

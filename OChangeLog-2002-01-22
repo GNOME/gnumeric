@@ -1,3 +1,16 @@
+2001-01-31  Morten Welinder  <terra@diku.dk>
+
+	* src/commands.c (cmd_search_replace): Revert previous interface
+ 	change (and use a callback instead).  Commands should not know
+ 	about user interfaces.
+
+	* src/workbook-control-gui.c (wbcg_paste_special_enable): Fix
+ 	Bonobo case, I hope.
+	(cb_edit_search_replace_query): New function.
+	(cb_edit_search_replace): Connect cb_edit_search_replace_query.
+
+	* src/item-grid.c (item_grid_draw): Kill a few (real) warnings.
+
 2001-01-31  Almer S. Tigelaar  <almer1@dds.nl>
 
  	* src/sheet.h :

@@ -63,6 +63,7 @@
 #include <gal/widgets/gtk-combo-text.h>
 #include <gal/widgets/gtk-combo-stack.h>
 #include <ctype.h>
+#include <stdarg.h>
 
 #include "pixmaps/equal-sign.xpm"
 
@@ -778,7 +779,7 @@ wbcg_paste_special_enable (WorkbookControl *wbc, Sheet *sheet)
 #ifndef ENABLE_BONOBO
 	change_menu_sensitivity (wbcg->menu_item_paste_special, sheet->priv->enable_paste_special);
 #else
-	change_menu_sensitivity (wbcg, "/commands/EditPasteSpecial", "/menu/Edit/PasteSpecial", enable);
+	change_menu_sensitivity (wbcg, "/commands/EditPasteSpecial", "/menu/Edit/PasteSpecial", sheet->priv->enable_paste_special);
 #endif
 }
 
@@ -1248,6 +1249,47 @@ cb_edit_duplicate_sheet (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	sheet_set_dirty (new_sheet, TRUE);
 }
 
+
+static int
+cb_edit_search_replace_query (SearchReplaceQuery q, SearchReplace *sr, ...)
+{
+	int res = 0;
+	va_list pvar;
+	WorkbookControlGUI *wbcg = sr->user_data;
+
+	va_start (pvar, sr);
+
+	switch (q) {
+	case SRQ_fail: {
+		Cell *cell = va_arg (pvar, Cell *);
+		const char *old_text = va_arg (pvar, const char *);
+		const char *new_text = va_arg (pvar, const char *);
+
+		char *err;
+
+		err = g_strdup_printf
+			(_("In cell %s, the current contents\n"
+			   "\t%s\n"
+			   "would have been replaced by\n"
+			   "\t%s\n"
+			   "which is invalid.\n\n"
+			   "The replace has been aborted "
+			   "and nothing has been changed."),
+			 cell_pos_name (&cell->pos),
+			 old_text,
+			 new_text);
+
+		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+				 err);
+		g_free (err);
+	}
+
+	}
+
+	va_end (pvar);
+	return res;
+}
+
 static void
 cb_edit_search_replace (GtkWidget *unused, WorkbookControlGUI *wbcg)
 {
@@ -1257,7 +1299,9 @@ cb_edit_search_replace (GtkWidget *unused, WorkbookControlGUI *wbcg)
 
 	if (!sr) return;
 
-	cmd_search_replace (wbcg, sheet, sr);
+	sr->query_func = cb_edit_search_replace_query;
+	sr->user_data = wbcg;
+	cmd_search_replace (wbc, sheet, sr);
 
 	search_replace_free (sr);
 }

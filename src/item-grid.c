@@ -316,7 +316,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int draw_x, int dr
 	Cell const * const edit_cell = gsheet->scg->wbcg->editing_cell;
 	ItemGrid *item_grid = ITEM_GRID (item);
 	GdkGC *grid_gc = item_grid->grid_gc;
-	ColRowInfo const *ri, *next_ri;
+	ColRowInfo const *ri = NULL, *next_ri = NULL;
 
 	/* To ensure that far and near borders get drawn we pretend to draw +-2
 	 * pixels around the target area which would include the surrounding
@@ -336,7 +336,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int draw_x, int dr
 	StyleRow sr, next_sr;
 	MStyle const **styles;
 	StyleBorder const **borders, **prev_vert;
-	StyleBorder const *top, *vert, * const none = style_border_none ();
+	StyleBorder const *top = NULL, *vert, * const none = style_border_none ();
 
 	Range     view;
 	gboolean  first_row;
