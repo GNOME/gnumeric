@@ -22,7 +22,6 @@ Release Critical
 - xls export of constructed ranges
 - load/save of external references
 - String functions need to be UTF8ed: CHAR, CODE, SUBSTITUTE, SEARCH.
-- Search/Replace needs to be UTF8ed.
 - function_category_compare needs to be made UTF8 safe.
 - http://bugzilla.gnome.org/show_bug.cgi?id=83390 [drawing problem with large
   formulae]
