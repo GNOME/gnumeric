@@ -60,7 +60,8 @@ dialog_about (WorkbookControlGUI *wbcg)
 		N_("John Gotts, rpm packaging."),
 		/* The funny character between "G" and "l" here is a \"u.  */
 		N_("Andreas J. G\xc3\xbclzow, Gnumeric hacker."),
-		N_("Jon K. Hellan, Gnumeric hacker."),
+		/* The funny character between "K" and "r" here is 'aring'.  */
+		N_("Jon K\xc3\xa5re Hellan, Gnumeric hacker."),
 		N_("Ross Ihaka, special functions."),
 		N_("Jukka-Pekka Iivonen, numerous functions and tools."),
 		N_("Jakub Jelinek, Gnumeric hacker."),

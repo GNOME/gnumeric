@@ -1,3 +1,7 @@
+2002-11-12  Jon K Hellan  <hellan@acm.org>
+
+	* dialog-about.c (dialog_about): Spell out my full name in UTF-8.
+
 2002-11-11  Jon K. Hellan  <hellan@acm.org>
 
 	* dialog-stf.glade, dialog-stf-export.glade: Don't set title colour
