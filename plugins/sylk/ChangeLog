@@ -1,3 +1,7 @@
+1999-11-17  Michael Meeks  <mmeeks@gnu.org>
+
+	* sylk.c: typedef structs + misc reformats
+
 1999-11-16  Jeff Garzik  <jgarzik@mandrakesoft.com>
 
 	* Makefile.am, sylk.c, sylk-format.txt:

@@ -1,3 +1,7 @@
+1999-11-16  Jeff Garzik  <jgarzik@mandrakesoft.com>
+
+	* configure.in, plugins/Makefile.am, plugins/sylk:  new SYLK file import plug-in
+
 1999-11-16  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/mstyle.c: Define mstyle properly;  Kill MSTYLE_ELEMENTS
