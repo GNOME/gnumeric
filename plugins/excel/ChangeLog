@@ -1,7 +1,34 @@
+1999-06-30  Michael Meeks  <michael@edenproject.org>
+
+	* ms-excel-write.c (write_sheet_bools): Updated
+	BIFF_COLINFO.
+	(write_value): Fixed up write_value to handle
+	numbers more correctly.
+	(write_window1): fixed WINDOW1 magic numbers.
+	(write_formats): Updated format's upper bits.
+	(write_sheet_tail): Mended broken selection.
+
+1999-06-29  Michael Meeks  <michael@edenproject.org>
+
+	* ms-excel-write.c (write_sheet_tail): Updated
+	magic selection. Added magic GCW.
+	(write_constants): Update to help debugging; I'm
+	not really an egotist.
+	(write_formats): Added constants from air.
+	(write_index): Correct to absolute index.
+	Fix all mis-alignments of streamPos read ( lots ).
+	(biff_bof_write): Return streamPos to help with
+	realignment.
+
+	* ole.c (do_biff_raw): Added position readout.
+
 1999-06-29  Michael Meeks  <michael@edenproject.org>
 
 	* ms-excel-write.c (biff_boundsheet_write_last): Use
 	correct type.
+	Added streamPos to Workbook for INDEX calcs.
+	(write_index): Implemented.
+	(write_sheet): Added write_index, and neccesary bits.
 
 	* ms-excel-read.c (biff_nasty_font_check_function):
 	removed, wonderful !

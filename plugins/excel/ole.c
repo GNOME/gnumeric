@@ -366,7 +366,7 @@ do_biff_raw (MS_OLE *ole)
 		buffer = g_new (guint8, 65550);
 		while (stream->read_copy (stream, data, 4)) {
 			guint32 len=BIFF_GETWORD(data+2);
-			printf ("Opcode 0x%3x : %15s, length 0x%x (=%d)\n",
+			printf ("0x%4x Opcode 0x%3x : %15s, length 0x%x (=%d)\n", stream->position,
 				BIFF_GETWORD(data), get_biff_opcode_name (BIFF_GETWORD(data)),
 				len, len);
 			stream->read_copy (stream, buffer, len);
