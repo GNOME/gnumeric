@@ -184,7 +184,7 @@ item_grid_find_col (ItemGrid *item_grid, int x, int *col_origin)
 		}
 		col++;
 		pixel += ci->pixels;
-	} while (1);
+	} while (col < SHEET_MAX_COLS);
 }
 
 /*
@@ -213,7 +213,7 @@ item_grid_find_row (ItemGrid *item_grid, int y, int *row_origin)
 		}
 		row++;
 		pixel += ri->pixels;
-	} while (1);
+	} while (row < SHEET_MAX_ROWS);
 }
 
 /*

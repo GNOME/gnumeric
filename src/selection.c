@@ -552,6 +552,36 @@ sheet_selection_to_string (Sheet *sheet, gboolean include_sheet_name_prefix)
 	return result;
 }
 
+void
+sheet_selection_ant (Sheet *sheet)
+{
+	GList *l;
+	
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	for (l = sheet->sheet_views; l; l = l->next){
+		SheetView *sheet_view = l->data;
+
+		sheet_view_selection_ant (sheet_view);
+	}
+}
+
+void
+sheet_selection_unant (Sheet *sheet)
+{
+	GList *l;
+
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	for (l = sheet->sheet_views; l; l = l->next){
+		SheetView *sheet_view = l->data;
+
+		sheet_view_selection_unant (sheet_view);
+	}
+}
+
 gboolean
 sheet_selection_copy (Sheet *sheet)
 {
@@ -563,6 +593,8 @@ sheet_selection_copy (Sheet *sheet)
 	if (!selection_is_simple (sheet, _("copy")))
 		return FALSE;
 
+	sheet_selection_ant (sheet);
+	
 	ss = sheet->selections->data;
 
 	if (sheet->workbook->clipboard_contents)
@@ -598,6 +630,8 @@ sheet_selection_cut (Sheet *sheet)
 	if (!selection_is_simple (sheet, _("cut")))
 		return FALSE;
 
+	sheet_selection_ant (sheet);
+	
 	ss = sheet->selections->data;
 
 	if (sheet->workbook->clipboard_contents)

@@ -527,6 +527,17 @@ sheet_view_construct (SheetView *sheet_view)
 			  0, 0);
 	gtk_widget_show (sheet_view->sheet_view);
 
+	/*
+	 * The selection group
+	 */
+	sheet_view->selection_group = GNOME_CANVAS_GROUP (
+		gnome_canvas_item_new (
+			root_group,
+			gnome_canvas_group_get_type (),
+			"x", 0.0,
+			"y", 0.0,
+			NULL));
+	
 	/* The select-all button */
 	select_all = gtk_button_new ();
 	GTK_WIDGET_UNSET_FLAGS (select_all, GTK_CAN_FOCUS);
@@ -760,6 +771,60 @@ sheet_view_comment_relocate (SheetView *sheet_view, int col, int row, GnomeCanva
 
 	gnome_canvas_item_set (o, "points", points, NULL);
 }
+
+void
+sheet_view_selection_unant (SheetView *sheet_view)
+{
+	GList *l;
+
+	g_return_if_fail (sheet_view != NULL);
+	g_return_if_fail (IS_SHEET_VIEW (sheet_view));
+
+	if (sheet_view->anted_cursors == NULL)
+		return;
+
+	for (l = sheet_view->anted_cursors; l; l = l->next)
+		gtk_object_destroy (GTK_OBJECT (l->data));
+
+	g_list_free (sheet_view->anted_cursors);
+	sheet_view->anted_cursors = NULL;
+}
+
+void
+sheet_view_selection_ant (SheetView *sheet_view)
+{
+	GnomeCanvasGroup *group;
+	ItemGrid *grid;
+	GList *l;
+	
+	g_return_if_fail (sheet_view != NULL);
+	g_return_if_fail (IS_SHEET_VIEW (sheet_view));
+	
+	if (sheet_view->anted_cursors)
+		sheet_view_selection_unant (sheet_view);
+
+	group = sheet_view->selection_group;
+	grid = GNUMERIC_SHEET (sheet_view->sheet_view)->item_grid;
+	
+	for (l = sheet_view->sheet->selections; l; l = l->next){
+		SheetSelection *ss = l->data;
+		ItemCursor *item_cursor;
+		
+		item_cursor = ITEM_CURSOR (gnome_canvas_item_new (
+			group, item_cursor_get_type (),
+			"Sheet", sheet_view->sheet,
+			"Grid",  grid,
+			"Style", ITEM_CURSOR_ANTED,
+			NULL));
+		item_cursor_set_bounds (
+			item_cursor,
+			ss->user.start.col, ss->user.start.row,
+			ss->user.end.col, ss->user.end.row);
+
+		sheet_view->anted_cursors = g_list_prepend (sheet_view->anted_cursors, item_cursor);
+	}
+}
+
 
 #if 0
 #ifdef ENABLE_BONOBO

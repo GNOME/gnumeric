@@ -46,6 +46,9 @@ paste_cell (Sheet *dest_sheet, Cell *new_cell,
 	    int target_col, int target_row,
 	    int paste_flags)
 {
+	g_return_val_if_fail (target_col < SHEET_MAX_COLS, 0);
+	g_return_val_if_fail (target_row < SHEET_MAX_ROWS, 0);
+	
 	sheet_cell_add (dest_sheet, new_cell, target_col, target_row);
 	
 	if (!(paste_flags & PASTE_FORMULAS)){
@@ -291,6 +294,11 @@ sheet_paste_selection (Sheet *sheet, CellRegion *content, SheetSelection *ss, cl
 	else
 		paste_height = content->rows;
 
+	if (pc->dest_col + paste_width > SHEET_MAX_COLS)
+		paste_width = SHEET_MAX_COLS - pc->dest_col;
+	if (pc->dest_row + paste_height > SHEET_MAX_ROWS)
+		paste_height = SHEET_MAX_ROWS - pc->dest_row;
+	
 	if (pc->paste_flags & PASTE_TRANSPOSE){
 		int t;
 		
@@ -305,14 +313,14 @@ sheet_paste_selection (Sheet *sheet, CellRegion *content, SheetSelection *ss, cl
 		end_col = pc->dest_col + paste_width - 1;
 		end_row = pc->dest_row + paste_height - 1;
 	}
-	
+
 	/* Do the actual paste operation */
 	do_clipboard_paste_cell_region (
 		content,      sheet,
 		pc->dest_col, pc->dest_row,
 		paste_width,  paste_height,
 		pc->paste_flags);
-	
+
 	sheet_cursor_set (pc->dest_sheet,
 			  pc->dest_col, pc->dest_row,
 			  pc->dest_col, pc->dest_row,

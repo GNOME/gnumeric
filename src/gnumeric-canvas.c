@@ -187,7 +187,7 @@ gnumeric_sheet_set_cursor_bounds (GnumericSheet *gsheet,
  * move_cursor_horizontal:
  *  @Sheet:  The sheet name
  *  @count:  number of units to move the cursor horizontally
- *  @jump_to_boundaries : skip from the start to the end of ranges
+ *  @jump_to_boundaries: skip from the start to the end of ranges
  *                       of filled or unfilled cells.
  *
  * Moves the cursor count columns
@@ -214,7 +214,7 @@ move_horizontal_selection (GnumericSheet *gsheet, int count, gboolean jump_to_bo
  * move_cursor_vertical:
  *  @Sheet:  The sheet name
  *  @count:  number of units to move the cursor vertically
- *  @jump_to_boundaries : skip from the start to the end of ranges
+ *  @jump_to_boundaries: skip from the start to the end of ranges
  *                       of filled or unfilled cells.
  *
  * Moves the cursor count rows
@@ -807,9 +807,11 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 
 	case GDK_Escape:
 		sheet_cancel_pending_input (sheet);
+		sheet_selection_unant (sheet);
 		break;
 
 	case GDK_F2:
+		sheet_selection_unant (sheet);
 		gtk_window_set_focus (GTK_WINDOW (wb->toplevel), wb->ea_input);
 		sheet_start_editing_at_cursor (sheet, FALSE, FALSE);
 		/* fall down */
@@ -840,6 +842,7 @@ gnumeric_sheet_key_mode_object (GnumericSheet *gsheet, GdkEventKey *event)
 	switch (event->keyval){
 	case GDK_Escape:
 		sheet_set_mode_type (sheet, SHEET_MODE_SHEET);
+		sheet_selection_unant (sheet);
 		break;
 
 	case GDK_BackSpace:

@@ -41,6 +41,9 @@ set_selection_halign (Workbook *wb, StyleHAlignFlags align)
 	GList *cells, *l;
 
 	sheet = workbook_get_current_sheet (wb);
+
+	sheet_selection_unant (sheet);
+	
 	/*
 	 * TODO : switch to selection_apply, but for now we don't care about
 	 * intersection
@@ -88,6 +91,8 @@ change_selection_font (Workbook *wb, int bold, int italic)
 	GList *cells, *l;
 
 	sheet = workbook_get_current_sheet (wb);
+
+	sheet_selection_unant (sheet);
 	/*
 	 * TODO : switch to selection_apply, but for now we don't care about
 	 * intersection

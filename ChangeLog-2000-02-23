@@ -1,5 +1,35 @@
 1999-10-06  Miguel de Icaza  <miguel@gnu.org>
 
+	* src/workbook-format-toolbar.c (change_selection_font): Remove
+	ants when we change the font.
+	(set_selection_halign): And when we change the alignment.
+
+	Many more left to be removed.  Left as an excercise to Jody :-)
+
+	* src/sheet.c (sheet_start_editing_at_cursor): remove ants when we
+	start entering new text.
+
+	* src/sheet-view.c (sheet_view_selection_unant): Destroys the
+	anted cursors from the sheet view.
+	(sheet_view_selection_ant): Adds cursors to the sheetview.
+	(sheet_view_construct): New group that is used to hold the
+	selection-ant items.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet): Kill ants
+	on escape.
+	(gnumeric_sheet_key_mode_object): ditto.
+
+	* src/selection.c (sheet_selection_unant): New function, kills the
+	selection ants.
+	(sheet_selection_ant): New function, adds an anted selection to
+	all the selected regions.
+
+	* src/clipboard.c (do_clipboard_paste_cell_region): Do not paste
+	beyond sheet boundaries.
+
+	* src/item-grid.c (item_grid_find_row): Do not go beyond sheet boundaries.
+	(item_grid_find_col): ditto.
+
 	* configure.in: Generate gnumeric.desktop
 
 	* gnumeric.desktop.in: New file, used to choose the correct
