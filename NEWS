@@ -51,6 +51,7 @@ Morten:
 	* Plug various little leaks.
 	* Make fn-date a plugin.
 	* Make fn-eng a plugin.
+	* Make fn-financial a plugin.
 	* Make fn-string a plugin.
 
 --------------------------------------------------------------------------

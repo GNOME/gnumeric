@@ -322,7 +322,7 @@ cmd_range_list_to_string_utility (Sheet *sheet, GSList const *ranges)
 	 * There is no need to do this for "types", because that
 	 * will never grow indefinitely
 	 */
-	max_width = max_descriptor_width ();
+	max_width = MAX (3, max_descriptor_width ());
 	if (strlen (names->str) > max_width) {
 		/* FIXME: this does not look right for UTF8 !!*/
 		g_string_truncate (names, max_width - 3);

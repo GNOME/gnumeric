@@ -513,7 +513,7 @@ static const char *help_opt_bs_vega = {
 	   "opt_bs_call_theta, opt_bs_put_rho, opt_bs_gamma")
 };
 
-ModulePluginFunctionInfo derivatives_functions[] = {
+const ModulePluginFunctionInfo derivatives_functions[] = {
 	{"opt_bs_call",
 	 "fffff", "strike, price, volatility, days_to_maturity, rate",
 	 &help_opt_bs_call, func_opt_bs_call, NULL, NULL, NULL },

@@ -643,6 +643,7 @@ plugins/Makefile
 plugins/numtheory/Makefile
 plugins/fn-date/Makefile
 plugins/fn-eng/Makefile
+plugins/fn-financial/Makefile
 plugins/fn-string/Makefile
 plugins/derivatives/Makefile
 plugins/sc/Makefile

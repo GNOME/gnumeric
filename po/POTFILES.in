@@ -17,6 +17,8 @@ plugins/fn-date/functions.c
 plugins/fn-date/plugin.xml.in
 plugins/fn-eng/functions.c
 plugins/fn-eng/plugin.xml.in
+plugins/fn-financial/functions.c
+plugins/fn-financial/plugin.xml.in
 plugins/fn-string/functions.c
 plugins/fn-string/plugin.xml.in
 plugins/gb/plugin.c
@@ -174,7 +176,6 @@ src/format.c
 src/formats.c
 src/func.c
 src/functions/fn-database.c
-src/functions/fn-financial.c
 src/functions/fn-information.c
 src/functions/fn-logical.c
 src/functions/fn-lookup.c
