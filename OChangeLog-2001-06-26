@@ -1,3 +1,14 @@
+2001-02-07  Morten Welinder  <terra@diku.dk>
+
+	* src/commands.c (cmd_search_replace_do_cell): Improve quoting
+ 	using gnumeric_strescape.
+
+	* src/gutils.c (gnumeric_strescape): Imported from src/expr.c.
+  	Constified and changed to add the quotes.
+
+	* src/expr.c (strescape): Moved to gutils.
+	(do_expr_tree_to_string): Use gnumeric_strescape.
+
 2001-02-07  Jon K Hellan  <hellan@acm.org>
 
 	* src/print.c (print_hf_line): Check if there is room to print a
@@ -49,7 +60,6 @@
  	modes (apart from a FIXME in the code).
 
 2001-02-06  Jon K Hellan  <hellan@acm.org>
->>>>>>> 1.938
 
 	* configure.in, README: Depend on bonobo >= 0.35.
 
@@ -61,9 +71,9 @@
 	* src/preview-grid-controller.c (preview_grid_controller_new):
 	No need to make a copy of the default mstyle.
 
-	* src/format-template.c (format_template_set_style): 
+	* src/format-template.c (format_template_set_style):
 	Make sure the passed mstyle gets all it's elements set.
-	
+
 2001-02-06  Jody Goldberg <jgoldberg@home.com>
 
 	* src/style-border.c (style_borders_row_draw) : init x.
@@ -213,10 +223,10 @@
 
  	* src/sheet.h :
  	Remove all menu item state flags.
- 
+
  	* src/sheet-private.h:
  	Put the menu item state flags here.
- 	
+
  	* src/workbook-control-gui.c:
  	(wbcg_paste_special_enable): Remove the second argument to
  	this function. Instead read this directly out of the flags. Add sheet
@@ -224,26 +234,26 @@
  	(wbcg_insert_cols_rows_enable): Ditto for the 3rd argument and
  	also remove the cols arguments so that one call will update both
  	row and column menu items. Also add sheet argument.
- 
- 	* src/workbook-control.c, src/workbook-control.h, 
+
+ 	* src/workbook-control.c, src/workbook-control.h,
 	src/workbook-control-priv.h:
  	Adjust arguments to wbcg_paste_special_enable and insert_cols_rows.
- 
+
  	* src/application.c:
 	(application_clipboard_copy): First set the paste special flag
  	and don't pass argument to paste_special_enable.
  	(application_clipboard_cut): Ditto.
  	(application_clipboard_clear): Ditto.
- 
+
  	* src/workbook-view.c:
  	(wb_view_menus_update): Update to don't pass flags as argument, don't
  	do separate calls for cols and rows and optimize to do all calls in one loop.
- 
+
  	* src/selection.c:
  	(sheet_selection_set_internal): Disable or enable insert cols/rows,
  	update UI only when neccessary and rename label for clarity.
  	(sheet_selection_reset): Enable insert cols/rows flags.
- 	
+
 2001-01-31  Morten Welinder  <terra@diku.dk>
 
 	* src/search.c (search_replace_verify): For regexps, validate the
@@ -295,14 +305,14 @@
 
 2001-01-30  Michael Meeks  <michael@helixcode.com>
 
-	* src/sheet-object-bonobo.c (sheet_object_bonobo_set_server): 
+	* src/sheet-object-bonobo.c (sheet_object_bonobo_set_server):
 	add a ref to the server, we seem to have lost one somewhere.
 
 2001-01-30  Almer S. Tigelaar  <almer1@dds.nl>
 
 	* src/selection.c, src/selection.h:
 	(sheet_selection_reset_only): Rename to sheet_selection_reset.
-	
+
 	* src/cmd-edit.c: s/sheet_selection_reset_only/sheet_selection_reset.
 	* src/commands.c: Ditto.
 	* src/gnumeric-sheet.c: Ditto.
@@ -314,21 +324,21 @@
 2001-01-29  Almer S. Tigelaar  <almer1@dds.nl>
 
 	* src/sheet.h: Add flags for insert cols/rows and paste special.
-	
-	* src/selection.c 
+
+	* src/selection.c
 	(sheet_selection_add_range):
 	Remove the settings of insert cols/rows here.
-	(sheet_selection_set_internal): 
+	(sheet_selection_set_internal):
 	Set insert cols/rows menu items and flags correctly.
 	(sheet_selection_reset_only): Reset insert cols/rows flags.
 
-	* src/application.c 
+	* src/application.c
 	(application_clipboard_clear): Set enable paste special flag.
 	(application_clipboard_copy): Ditto.
 	(application_clipboard_cut): Ditto.
 
 	* src/workbook-view.c, src/workbook-view.h
-	(wb_view_menus_update): New function, updates the 
+	(wb_view_menus_update): New function, updates the
 	insert cols/rows and paste special menu items.
 	(wb_view_sheet_focus): Call menus_update here.
 	(wb_view_sheet_add): Ditto.
@@ -394,7 +404,7 @@
 	scg_take_focus instead of gtk_window_set_focus.
 	(yield_focus): Remove. sheet_view_destroy now takes care of this.
 	(wbcg_sheet_add): Do not attach yield_focus.
-	
+
 	* src/item-grid.c (cb_extend_expr_range): Use
 	scg_rangesel_cursor_extend instead of gnumeric_sheet version.
 
@@ -409,8 +419,8 @@
 	is only one function in it anyway so no need for a struct.
 
 	* src/workbook-control.c: Adjust for removal of the insert struct.
-	
-	* src/workbook-control-gui.c 
+
+	* src/workbook-control-gui.c
 	(wbcg_paste_special_enable): Use change_menu_sensitivity.
 	(workbook_control_gui_ctor_class): Adjust for removal of the insert struct.
 
@@ -535,8 +545,8 @@
 2001-01-25  Almer S. Tigelaar  <almer1@dds.nl>
 
 	* src/clipboard.h : Add PASTE_UPDATE_ROW_HEIGHT as a new paste flag.
-	
-	* src/commands.c 
+
+	* src/commands.c
 	(cmd_paste_copy_undo): Add PASTE_UPDATE_ROW_HEIGHT to the paste flags.
 	(cmd_paste_cut_redo): Update the row heights of the target region after
 	pasting for consistency with the behaviour of copy.
@@ -608,7 +618,7 @@
 
 	* src/workbook-control-gui.c (wbcg_insert_cols_rows_enable):
 	Fix typo, "Cols" should be "Columns".
-	
+
 2001-01-24  Almer S. Tigelaar  <almer1@dds.nl>
 
 	* src/clipboard.c (clipboard_paste_region):

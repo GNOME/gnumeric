@@ -416,3 +416,37 @@ gnumeric_set_le_double (void *p, double d)
 }
 
 /* ------------------------------------------------------------------------- */
+
+/*
+ * Escapes all backslashes and quotes in a string. It is based on glib's
+ * g_strescape.
+ *
+ * Also adds quotes around the result.
+ */
+char *
+gnumeric_strescape (const char *string)
+{
+	char *q, *escaped;
+	int escapechars = 0;
+	const char *p;
+
+	g_return_val_if_fail (string != NULL, NULL);
+
+	for (p = string; *p; p++)
+		if (*p == '\\' || *p == '\"')
+			escapechars++;
+
+	q = escaped = g_new (char, strlen (string) + escapechars + 3);
+	*q++ = '\"';
+	for (p = string; *p; p++) {
+		if (*p == '\\' || *p == '\"')
+			*q++ = '\\';
+		*q++ = *p;
+	}
+	*q++ = '\"';
+	*q = '\000';
+
+	return escaped;
+}
+
+/* ------------------------------------------------------------------------- */

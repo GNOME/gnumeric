@@ -41,4 +41,6 @@ guint32   gnumeric_get_le_uint32 (const void *p);
 double    gnumeric_get_le_double (const void *p);
 void      gnumeric_set_le_double (void *p, double d);
 
+char *    gnumeric_strescape (const char *string);
+
 #endif /* GNUMERIC_UTILS_H */

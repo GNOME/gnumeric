@@ -1234,13 +1234,8 @@ do_expr_tree_to_string (ExprTree const *tree, ParsePos const *pp,
 			return res;
 		}
 
-		case VALUE_STRING: {
-			char *str1, *str2;
-			str1 = strescape(v->v_str.val->str);
-			str2 = g_strconcat ("\"", str1, "\"", NULL);
-			g_free(str1);
-			return str2;
-		}
+		case VALUE_STRING:
+			return gnumeric_strescape (v->v_str.val->str);
 
 		case VALUE_EMPTY:
 			return g_strdup ("");

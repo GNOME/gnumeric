@@ -2866,23 +2866,23 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, Cell *cell,
 					g_free (new_text);
 					return TRUE;
 				} else {
-					char *tmp;
-
 					switch (sr->error_behaviour) {
-					case SRE_error:
-						/* FIXME: quoting.  */
-						tmp = g_strconcat ("=ERROR(\"", new_text, "\")", NULL);
+					case SRE_error: {
+						char *tmp = gnumeric_strescape (new_text);
+						g_free (new_text);
+						new_text = g_strconcat ("=ERROR(", tmp, ")", NULL);
+						g_free (tmp);
+						err = FALSE;
+						break;
+					}
+					case SRE_string: {
+						/* FIXME: quoting isn't right.  */
+						char *tmp = gnumeric_strescape (new_text);
 						g_free (new_text);
 						new_text = tmp;
 						err = FALSE;
 						break;
-					case SRE_string:
-						/* FIXME: quoting.  */
-						tmp = g_strconcat ("\"", new_text, "\"", NULL);
-						g_free (new_text);
-						new_text = tmp;
-						err = FALSE;
-						break;
+					}
 					case SRE_fail:
 						g_assert_not_reached ();
 					case SRE_skip:
@@ -2892,21 +2892,19 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, Cell *cell,
 				}
 			}
 
-			if (!err) {
-				if (!test_run) {
-					SearchReplaceItem *sri = g_new (SearchReplaceItem, 1);
+			if (!err && !test_run) {
+				SearchReplaceItem *sri = g_new (SearchReplaceItem, 1);
 
-					sheet_cell_set_text (cell, new_text);
+				sheet_cell_set_text (cell, new_text);
 
-					sri->pos.sheet = cell->base.sheet;
-					sri->pos.eval = cell->pos;
-					sri->old_type = sri->new_type = SRI_text;
-					sri->old.text = old_text;
-					sri->new.text = new_text;
-					me->cells = g_list_prepend (me->cells, sri);
+				sri->pos.sheet = cell->base.sheet;
+				sri->pos.eval = cell->pos;
+				sri->old_type = sri->new_type = SRI_text;
+				sri->old.text = old_text;
+				sri->new.text = new_text;
+				me->cells = g_list_prepend (me->cells, sri);
 
-					old_text = new_text = NULL;
-				}
+				old_text = new_text = NULL;
 			}
 
 			g_free (new_text);
