@@ -444,17 +444,22 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 			if (r.end.col > start_sheet->cols.max_used)
 				r.end.col = start_sheet->cols.max_used;
 		}
-		closure.maximum = G_MINDOUBLE;
-		closure.minimum = G_MAXDOUBLE;
-		closure.vals = dat->values;
-		closure.last = -1;
-		closure.i = 0;
-		sheet_foreach_cell_in_range (start_sheet, CELL_ITER_ALL,
-			r.start.col, r.start.row, r.end.col, r.end.row,
-			(CellIterFunc)cb_assign_val, &closure);
-		dat->len = closure.last + 1; /* clip */
-		minimum = closure.minimum;
-		maximum = closure.maximum;
+
+		/* In case the sheet is empty */
+		if (r.start.col <= r.end.col && r.start.row < r.end.row) {
+			closure.maximum = G_MINDOUBLE;
+			closure.minimum = G_MAXDOUBLE;
+			closure.vals = dat->values;
+			closure.last = -1;
+			closure.i = 0;
+			sheet_foreach_cell_in_range (start_sheet, CELL_ITER_ALL,
+				r.start.col, r.start.row, r.end.col, r.end.row,
+				(CellIterFunc)cb_assign_val, &closure);
+			dat->len = closure.last + 1; /* clip */
+			minimum = closure.minimum;
+			maximum = closure.maximum;
+		} else
+			minimum = maximum = vals[0] = gnm_nan;
 		break;
 
 	case VALUE_ARRAY :

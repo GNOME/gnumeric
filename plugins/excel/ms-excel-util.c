@@ -212,12 +212,13 @@ static void
 init_xl_font_widths (void)
 {
 	/* These are the widths in pixels for a 128pt fonts assuming 96dpi
-	 * They were inductively calculated.
+	 * Things do not appear to scale linearly, so test at 32pt and multiply
+	 * by 4 for now.
 	 *
 	 * The 'default' width is based on the hypothesis that the default
 	 *     column width is always 8*default.  Edit the 'Normal' Style
-	 *     and change the font to 128pt then look at the pixel width
-	 *     displayed when resizing the column.
+	 *     and change the font to 32pt then look at the pixel width
+	 *     displayed when resizing the column.  (multiply by 4 to get 128)
 	 *
 	 * The standard width is also based on setting the Normal styles font.
 	 *    However, it is calculated by changing the column width until it is
@@ -225,35 +226,36 @@ init_xl_font_widths (void)
 	 *    width 1 unit larger.  Take the pixel difference.
 	 */
 	static struct XL_font_width const widths[] = {
-	    {  95, 102, "Arial" },
-	    {  95, 102, "Arial Baltic" },
+	    {  96, 114, "Arial" },
+	    {  96, 104, "Arial Baltic" },
 	    { 114, 122, "Arial Black" },
-	    {  95, 102, "Arial CE" },
-	    {  95, 102, "Arial CYR" },
-	    {  95, 102, "Arial Greek" },
-	    {  78,  84, "Arial Narrow" },
-	    {  95, 102, "Arial TUR" },
-	    {  95, 102, "AvantGarde" },
+	    {  96, 104, "Arial CE" },
+	    {  96, 104, "Arial CYR" },
+	    {  96, 104, "Arial Greek" },
+	    /* {  80,  88, "Arial Narrow" }, this what I measured */
+	    {  90,  98, "Arial Narrow" }, /* this gives better results at size == 10 */
+	    {  96, 104, "Arial TUR" },
+	    {  96, 104, "AvantGarde" },
 	    { 109, 117, "Bitstream Vera Sans" },
 	    {  86,  92, "Book Antiqua" },
 	    { 106, 113, "Bookman Old Style" },
-	    {  95, 102, "Century Gothic" },
-	    {  95, 102, "Century Schoolbook" },
+	    {  96, 104, "Century Gothic" },
+	    {  96, 104, "Century Schoolbook" },
 	    {  86,  92, "CG Times" },
 	    { 104, 111, "Comic Sans MS" },
-	    {  60,  64, "Courier" },
+	    {  96, 104, "Courier" },
 	    { 103, 110, "Courier New" },
 	    { 103, 110, "Fixedsys" },
 	    {  80,  86, "Garamond" },
 	    /* { 115, 122, "Geneva" }, These are the real numbers */
-	    {  95, 102, "Geneva" }, /* These are the defaults when Geneva is not available */
-	    {  95, 102, "Haettenscheiler" },
+	    {  96, 104, "Geneva" }, /* These are the defaults when Geneva is not available */
+	    {  96, 104, "Haettenscheiler" },
 	    { 103, 110, "HE_TERMINAL" },
-	    {  95, 102, "Helvetica" },
-	    {  95, 102, "Helv" },
-	    {  95, 102, "Helvetica-Black" },
-	    {  95, 102, "Helvetica-Light" },
-	    {  95, 102, "Helvetica-Narrow" },
+	    {  96, 104, "Helvetica" },
+	    {  96, 104, "Helv" },
+	    {  96, 104, "Helvetica-Black" },
+	    {  96, 104, "Helvetica-Light" },
+	    {  96, 104, "Helvetica-Narrow" },
 	    {  93, 100, "Impact" },
 	    {  86,  92, "ITC Bookman" },
 	    { 103, 110, "Letter Gothic MT" },
@@ -269,13 +271,13 @@ init_xl_font_widths (void)
 	    {  80,  86, "MS Serif" },
 	    { 174, 186, "MT Extra" },
 	    {  86,  92, "NewCenturySchlbk" },
-	    {  95, 102, "Optimum" },
+	    {  96, 104, "Optimum" },
 	    {  86,  92, "Palatino" },
 	    {  81,  87, "Roman" },
 	    { 109, 117, "Sans" }, /* alias for bitstream */
 	    {  69,  74, "Script" },
 	    { 142, 152, "Serpentine" },
-	    {  95, 102, "Small Fonts" },
+	    {  96, 102, "Small Fonts" },
 	    {  86,  92, "Symbol" },
 	    {  40,  43, "System" },
 	    { 103, 110, "System APL Special" },
@@ -294,7 +296,7 @@ init_xl_font_widths (void)
 	    { 171, 182, "Webdings" },
 	    { 230, 245, "Wingdings" },
 	    { 194, 207, "Wingdings 2" },
-	    {  95, 102, "Wingdings 3" },
+	    {  96, 104, "Wingdings 3" },
 	    {  86,  92, "ZapfChancery" },
 	    { 230, 245, "ZapfDingbats" },
 	    { -1, -1, NULL }

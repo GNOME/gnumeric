@@ -1949,7 +1949,11 @@ format_value_gstring (GString *result, StyleFormat const *format,
 				 * the entered text.  We need access to the
 				 * parse format */
 				entry = NULL;
-			} else if (strcmp (entry->format, "General") == 0)
+
+			/* FIXME : Just containing General is enough to be
+			 * general for now.  We'll ignore prefixes and suffixes
+			 * for the time being */
+			} else if (strstr (entry->format, "General") != NULL)
 				entry = NULL;
 		}
 

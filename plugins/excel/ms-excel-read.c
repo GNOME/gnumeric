@@ -1258,14 +1258,15 @@ excel_read_FONT (BiffQuery *q, ExcelWorkbook *ewb)
 				      GSF_LE_GET_GUINT8 (q->data + 14), NULL);
 	}
 
-	d (1, fprintf (stderr,"Insert font '%s' size %d pts color %d\n",
-		      fd->fontname, fd->height / 20, fd->color_idx););
-	d (3, fprintf (stderr,"Font color = 0x%x\n", fd->color_idx););
-
         fd->index = g_hash_table_size (ewb->font_data);
 	if (fd->index >= 4) /* Weird: for backwards compatibility */
 		fd->index++;
 	g_hash_table_insert (ewb->font_data, &fd->index, fd);
+
+	d (1, fprintf (stderr,"Insert font '%s' (%d) size %d pts color %d\n",
+		      fd->fontname, fd->index, fd->height / 20, fd->color_idx););
+	d (3, fprintf (stderr,"Font color = 0x%x\n", fd->color_idx););
+
 }
 
 static void

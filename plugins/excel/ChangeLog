@@ -1,3 +1,14 @@
+2003-09-03  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-legend.c (cb_render_elements) : clip before things
+	  overflow.
+
+2003-09-03  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-util.c (init_xl_font_widths) : 128pt does not seem like a
+	  good yard stick for Courier, Use 64, and scale it.
+	Arial Narrow is even worse, size it based on 32pt
+
 2003-08-22  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.c (excel_read_BOF) : fix the warning.  We need the

@@ -681,12 +681,12 @@ range_normalize (Range *src)
 	int tmp;
 
 	tmp = src->end.col;
-	if (src->start.col >= tmp) {
+	if (src->start.col > tmp) {
 		src->end.col = src->start.col;
 		src->start.col = tmp;
 	}
 	tmp = src->end.row;
-	if (src->start.row >= tmp) {
+	if (src->start.row > tmp) {
 		src->end.row = src->start.row;
 		src->start.row = tmp;
 	}

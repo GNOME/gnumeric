@@ -1,5 +1,10 @@
 2003-09-03  Jody Goldberg <jody@gnome.org>
 
+	* graph/gog-legend.c (cb_render_elements) : clip before things
+	  overflow.
+
+2003-09-03  Jody Goldberg <jody@gnome.org>
+
 	* graph/gog-style.h : add GogStyle::font::color
 	* graph/gog-style.c (gog_style_init) : init font::color
 

@@ -20,6 +20,8 @@ Jody:
 	* http://bugzilla.gnome.org/show_bug.cgi?id=121045
 	* Adjust the semantics of empty cells passed to optional arguments
 	* Pretty up the legend a bit
+	* Be more expansive about what constitutes General.
+	* Tweak the paramters of what XL thinks the size of 'Courier' is.
 
 Jon Kåre:
 	* Add 'Save As' entry for graph objects.  Support png for now.

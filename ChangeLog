@@ -1,3 +1,12 @@
+2003-09-03  Jody Goldberg <jody@gnome.org>
+
+	* src/format.c (format_value_gstring) : be more expansive about
+	  exactly what constitutes 'General'
+
+	* src/graph.c (gnm_go_data_vector_load_values) : handle empty sheets.
+
+	* src/ranges.c (range_normalize) : minor optimization
+
 2003-09-03  Morten Welinder  <terra@gnome.org>
 
 	* src/stf.c (stf_open_and_read): Fix zero-size check.
