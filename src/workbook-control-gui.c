@@ -2235,14 +2235,12 @@ static void
 cb_cancel_input (GtkWidget *IGNORED, WorkbookControlGUI *wbcg)
 {
 	workbook_finish_editing (wbcg, FALSE);
-	wb_control_gui_focus_cur_sheet (wbcg);
 }
 
 static void
 cb_accept_input (GtkWidget *IGNORED, WorkbookControlGUI *wbcg)
 {
 	workbook_finish_editing (wbcg, TRUE);
-	wb_control_gui_focus_cur_sheet (wbcg);
 }
 
 static gboolean

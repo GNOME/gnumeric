@@ -77,6 +77,9 @@ workbook_finish_editing (WorkbookControlGUI *wbcg, gboolean const accept)
 
 	g_return_if_fail (wbcg != NULL);
 
+	/* Restore the focus */
+	wb_control_gui_focus_cur_sheet (wbcg);
+
 	/* We may have a guru up even if if re not editing */
 	if (wbcg->edit_line.guru != NULL)
 		gtk_widget_destroy (wbcg->edit_line.guru);

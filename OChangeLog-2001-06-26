@@ -1,5 +1,12 @@
 2000-11-01  Jody Goldberg <jgoldberg@home.com>
 
+	* src/workbook-edit.c (workbook_finish_editing) : Restore the focus
+	  from here.
+	* src/workbook-control-gui.c
+	(cb_cancel_input, cb_accept_input) : rather than here or here.
+
+2000-11-01  Jody Goldberg <jgoldberg@home.com>
+
 	* */*.[ch] : s/SheetView::sheet_view/SheetView::canvas/
 	  This has been bugging me for months.
 
