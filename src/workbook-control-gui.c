@@ -3999,7 +3999,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("FileOpen", cb_file_open),
 	BONOBO_UI_UNSAFE_VERB ("FileSave", cb_file_save),
 	BONOBO_UI_UNSAFE_VERB ("FileSaveAs", cb_file_save_as),
-	BONOBO_UI_UNSAFE_VERB ("FileSend", cb_file_send),
+	BONOBO_UI_UNSAFE_VERB ("FileSend", cb_file_sendto),
 	BONOBO_UI_UNSAFE_VERB ("FilePageSetup", cb_file_page_setup),
 	BONOBO_UI_UNSAFE_VERB ("FilePrint", cb_file_print),
 	BONOBO_UI_UNSAFE_VERB ("FilePrintPreview", cb_file_print_preview),
