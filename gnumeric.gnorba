@@ -1,6 +1,6 @@
 [GOADID:GNOME:Gnumeric:WorkbookFactory:1.0]
 type=exe
-repo_id=IDL:GNOME/Gnumeric/WorkbookFactory:1.0 IDL:GNOME/GenericFactory:1.0
+repo_id=IDL:GNOME/Gnumeric/WorkbookFactory:1.0 IDL:Bonobo/GenericFactory:1.0
 description=Gnumeric 
 location_info=gnumeric-bonobo
 
@@ -18,6 +18,6 @@ location_info=gnumeric-bonobo
 
 [GOADID:Gnumeric:Grid:1.0]
 type=factory
-repo_id=IDL:GNOME/Gnumeric/Grid IDL:GNOME/Embeddable:1.0
+repo_id=IDL:GNOME/Gnumeric/Grid IDL:Bonobo/Embeddable:1.0
 description=Embeddable Grid Component
 location_info=GOADID:GNOME:Gnumeric:GridFactory:1.0

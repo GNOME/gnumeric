@@ -25,6 +25,5 @@ Long term breakage
 
 Function Breakage
 -----------------
-- Lookup : bug 6744)
 - Match  : does not support match_type +-1
 - Index  : does not support 0,0 or reference syntax.
