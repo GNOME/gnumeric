@@ -4,6 +4,7 @@ gnumeric.desktop.in
 plugins/applix/applix-read.c
 plugins/applix/plugin.xml.in
 plugins/derivatives/plugin.xml.in
+plugins/derivatives/options.c
 plugins/dif/dif.c
 plugins/dif/plugin.xml.in
 plugins/excel/boot.c
