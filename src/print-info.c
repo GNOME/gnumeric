@@ -778,5 +778,7 @@ print_info_get_orientation (PrintInformation *pi)
 	else if (strcmp (orient, "R270") == 0)
 		res = PRINT_ORIENT_HORIZONTAL_UPSIDE_DOWN;
 
+	g_free (orient);
+
 	return res;
 }

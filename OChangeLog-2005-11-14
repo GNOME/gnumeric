@@ -1,3 +1,7 @@
+2004-04-22  Morten Welinder  <terra@gnome.org>
+
+	* src/print-info.c (print_info_get_orientation): Plug leak.
+
 2004-04-22  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-autofill.c (autofill_cell) : Assign the value format in
