@@ -79,7 +79,7 @@ reload_preview (FontSelector *fs)
 }
 
 /*
- * We can not moveto a list element until it is mapped.
+ * We cannot moveto a list element until it is mapped.
  */
 static void
 list_mapped (GtkWidget *widget, gpointer user_data)

@@ -73,7 +73,7 @@ function_dump_defs (const char *filename)
 	g_return_if_fail (filename != NULL);
 	
 	if ((output_file = fopen (filename, "w")) == NULL){
-		printf (_("Can not create file %s\n"), filename);
+		printf (_("Cannot create file %s\n"), filename);
 		exit (1);
 	}
 

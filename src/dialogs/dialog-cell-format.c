@@ -2115,7 +2115,7 @@ fmt_dialog_impl (FormatState *state, MStyleBorder **borders)
 				      FALSE); /* don't select */
 
 	/* Set the default line pattern to THIN (the 1st element of line_pattern_buttons).
-	 * This can not come from the style.  It is a UI element not a display item */
+	 * This cannot come from the style.  It is a UI element not a display item */
 	gtk_toggle_button_set_active (state->border.pattern.default_button, TRUE);
 
 #define COLOR_SUPPORT(v, n, style_element, auto_color, func) \

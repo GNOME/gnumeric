@@ -3434,7 +3434,7 @@ msgid "Workbook"
 msgstr "Salvar pasta de trabalho como"
 
 #: src/dialogs/dialog-define-names.c:193
-msgid "You can not redefine a builtin name."
+msgid "You cannot redefine a builtin name."
 msgstr ""
 
 # src/dialog-delete-cells.c:25

@@ -190,7 +190,7 @@ cb_name_guru_add (NameGuruState *state)
 			expr_name->t.expr_tree = expr;
 		} else
 			gnumeric_notice (state->wb, GNOME_MESSAGE_BOX_ERROR,
-					 _("You can not redefine a builtin name."));
+					 _("You cannot redefine a builtin name."));
 	} else
 		expr_name = expr_name_add (state->wb, NULL, name, expr, &error);
 

@@ -987,7 +987,7 @@ cmd_clear_selection (CommandContext *context, Sheet *sheet, int clear_flags)
 	if (clear_flags & CLEAR_FORMATS)
 		me->paste_flags |= PASTE_FORMATS;
 	if (clear_flags & CLEAR_COMMENTS)
-		g_warning ("Deleted comments can not be restored yet");
+		g_warning ("Deleted comments cannot be restored yet");
 
 	/* TODO : Something more descriptive ? maybe the range name */
 	me->parent.cmd_descriptor = g_strdup (_("Clear"));

@@ -2701,7 +2701,7 @@ cb_scroll_wheel_support (GtkWidget *w, GdkEventButton *event, Workbook *wb)
 {
 	/* This is a stub routine to handle scroll wheel events
 	 * Unfortunately the toplevel window is currently owned by the workbook
-	 * rather than a workbook-view so we can not really scroll things
+	 * rather than a workbook-view so we cannot really scroll things
 	 * unless we scrolled all the views at once which is ugly.
 	 */
 #if 0
@@ -3932,7 +3932,7 @@ workbook_foreach_cell_in_range (EvalPos const *pos,
 
 	range_ref_normalize  (&r, &start_sheet, &end_sheet, cell_range, pos);
 
-	/* We can not support this until the Sheet management is tidied up.  */
+	/* We cannot support this until the Sheet management is tidied up.  */
 	if (start_sheet != end_sheet)
 		g_warning ("3D references are not supported yet, using 1st sheet");
 

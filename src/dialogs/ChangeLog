@@ -75,7 +75,7 @@
 2000-07-04  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-function-wizard.c (formula_guru_set_rolled_state) : Functions
-	  with no args can not be rolled.
+	  with no args cannot be rolled.
 	(cb_formula_guru_clicked) : Disengage the guru before finishing the
 	  edit.  Then manually destroy the dialog.  If we do not do this the
 	  act of finished editing destroy the guru too early, and we ignore

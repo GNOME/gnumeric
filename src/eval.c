@@ -686,7 +686,7 @@ handle_tree_deps (Dependent *dep, const CellPos *pos,
 			/* Non-corner cells depend on the corner */
 			CellRef a;
 
-			/* We can not support array expressions unless
+			/* We cannot support array expressions unless
 			 * we have a position.
 			 */
 			g_return_if_fail (pos != NULL);

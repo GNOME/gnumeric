@@ -2982,7 +2982,7 @@ msgid "Workbook"
 msgstr "Arbejdsbog"
 
 #: src/dialogs/dialog-define-names.c:193
-msgid "You can not redefine a builtin name."
+msgid "You cannot redefine a builtin name."
 msgstr "Man kan ikke omdefinere et indbygget navn."
 
 #: src/dialogs/dialog-delete-cells.c:84

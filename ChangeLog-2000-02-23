@@ -4814,7 +4814,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	  Copy the style rather than creating a new one.  So that
 	  we can change the colour elsewhere if desired.
 	(font_selector_set) : Fix typos.
-	(list_realize) : We can not moveto
+	(list_realize) : We cannot moveto
 	  a list element until after the widget is realized.  Add a handler
 	  to take care of it.
 

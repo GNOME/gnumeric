@@ -330,7 +330,7 @@ cmd_paste (CommandContext *context, PasteTarget const *pt, guint32 time)
 	} else
 		/*
 		 * Pasting a Copy or from the X selection
-		 * We can not check the size of the range here.  The source may
+		 * We cannot check the size of the range here.  The source may
 		 * be an X selection whose size is not known until later.
 		 * Check it then.
 		 */

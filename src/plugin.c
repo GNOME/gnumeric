@@ -152,7 +152,7 @@ plugin_load (CommandContext *context, const gchar *modfile)
 		goto error;
 	}
 
-	/* Add some extra checking to ensure that we can not load old plugins that do
+	/* Add some extra checking to ensure that we cannot load old plugins that do
 	 * not check versioning
 	 */
         if (!data->version_checked) {

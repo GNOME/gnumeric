@@ -3065,7 +3065,7 @@ msgid "Workbook"
 msgstr "儲存目前的工作表格"
 
 #: src/dialogs/dialog-define-names.c:193
-msgid "You can not redefine a builtin name."
+msgid "You cannot redefine a builtin name."
 msgstr ""
 
 #: src/dialogs/dialog-delete-cells.c:84

@@ -638,7 +638,7 @@ msgid "Save workbook as"
 msgstr "将活页簿存为"
 
 #: src/file.c:289
-msgid "Sorry, there are no file savers loaded, I can not save"
+msgid "Sorry, there are no file savers loaded, I cannot save"
 msgstr "抱歉，没有载入文件储存程序；无法储存"
 
 #: src/file.c:327
@@ -2605,7 +2605,7 @@ msgid "Are you sure you want to remove the sheet called `%s' "
 msgstr "确定要移除名为 `%s' 的表格吗?"
 
 #: src/workbook.c:1528
-msgid "Other sheets depend on the values on this sheet, I can not remove it"
+msgid "Other sheets depend on the values on this sheet, I cannot remove it"
 msgstr "有其它表格用到这个表的内容，无法移除此表格"
 
 #: src/workbook.c:1548

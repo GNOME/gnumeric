@@ -789,7 +789,7 @@ cell_set_format (Cell *cell, char const *format)
  * cell_make_value : drops the expression keeps its value.  Then uses the formatted
  *      result as if that had been entered.
  *
- * NOTE : the cell's expression can not be linked into the expression * list.
+ * NOTE : the cell's expression cannot be linked into the expression * list.
  *
  * The cell is rendered but spans are not calculated,  the cell is NOT marked for
  * recalc.

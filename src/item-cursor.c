@@ -833,7 +833,7 @@ item_cursor_set_spin_base (ItemCursor *item_cursor, int col, int row)
 
 #if 0
 /*
- * This can not be used yet.  It exercises a bug in GtkLayout
+ * This cannot be used yet.  It exercises a bug in GtkLayout
  */
 static void
 item_cursor_tip_setlabel (ItemCursor *item_cursor)

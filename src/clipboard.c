@@ -230,7 +230,7 @@ paste_cell (Sheet *dest_sheet,
 		if (c_copy->type == CELL_COPY_TYPE_CELL) {
 			Cell *new_cell = cell_copy (c_copy->u.cell);
 
-			/* Cell can not be linked in yet, but it needs an accurate location */
+			/* Cell cannot be linked in yet, but it needs an accurate location */
 			new_cell->base.sheet	  = dest_sheet;
 			new_cell->pos.col = target_col;
 			new_cell->pos.row = target_row;

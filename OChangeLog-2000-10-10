@@ -1,3 +1,7 @@
+2000-09-25  Morten Welinder  <terra@diku.dk>
+
+	* * */* */*/*: s/can not/cannot/.
+
 2000-09-25  Jody Goldberg <jgoldberg@home.com>
 
 	* src/selection.c (sheet_selection_redraw) : redraw the rol/col
@@ -2188,7 +2192,7 @@
 	  should not be changed.
 
 	* src/cell.c (cell_relocate) : Take the relocation info as an
-	  argument.  Non NULL indicates a request to check bounds.  We can not
+	  argument.  Non NULL indicates a request to check bounds.  We cannot
 	  do this at the cell level. becuase we may be moving a block rather
 	  than just a single cell, and references into the block should NOT be
 	  rewritten.
@@ -3613,7 +3617,7 @@
 	  while persisting.
 	(xml_workbook_write) : Ditto.
 
-	* src/sheet-style.c (sheet_style_optimize) : We can not merge (in any
+	* src/sheet-style.c (sheet_style_optimize) : We cannot merge (in any
 	  dimension) if there is an intervening style that partially overlaps.
 
 	* src/ranges.c (range_adjacent) : Tweak to increase readability,
@@ -4040,7 +4044,7 @@
 	    Make code match comment.  We can safely ignore blanks.
 	(gnumeric_sumif) : Code was correct.  Add a larger comment explaining
 	  rationale.
-	(gnumeric_sumx2my2) : Code was wrong.  We can not skip blank cells
+	(gnumeric_sumx2my2) : Code was wrong.  We cannot skip blank cells
 	  if there are multiple ranges that need to be kept in sync.
 	(gnumeric_sumx2py2) : Ditto.
 	(gnumeric_sumxmy2) : Ditto.
@@ -4145,7 +4149,7 @@
 	* src/commands.c (cmd_rename_sheet_{undo,redo}) : Pass a context to
 	  workbook_rename_sheet.
 
-	* src/workbook.c (workbook_rename_sheet) : Sheet names can not be
+	* src/workbook.c (workbook_rename_sheet) : Sheet names cannot be
 	  empty.  Take a CommandContext and report the error.  Invert the
 	  return value.
 
@@ -5630,7 +5634,7 @@
 
 	* src/print.c (print_hf) : Add precautions in an attempt to address
 	  http://bugs.gnome.org/db/82/8200.html
-	  I can not replicate it, but it can't hurt to be more careful just in
+	  I cannot replicate it, but it can't hurt to be more careful just in
 	  case.
 
 2000-04-04  Miguel de Icaza  <miguel@gnu.org>
@@ -6100,7 +6104,7 @@
 	* src/cell.c (cell_set_text_simple): Do NOT set the entered text
 	when importing non string values.  There are still gotchas
 	elsewhere. eg enter 90 format to current and edit box shows
-	something that we can not parse.
+	something that we cannot parse.
 
 2000-04-23  Morten Welinder  <terra@diku.dk>
 
@@ -6344,7 +6348,7 @@
 	(sheet_col_get_distance_pts) : Ditto.
 
 	* src/plugin.c (plugin_load) : Add more version checking to ensure
-	  that very old plugins that do not check their versions can not be
+	  that very old plugins that do not check their versions cannot be
 	  loaded.
 
 2000-03-20  Jody Goldberg <jgoldberg@home.com>
