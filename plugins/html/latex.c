@@ -724,6 +724,7 @@ latex2e_find_hhlines (StyleBorderType *clines, int length, int col, int row,
  	Range const *merge_range;
 	CellPos pos;
 
+	g_return_val_if_fail (length > 0, FALSE);
 	mstyle = sheet_style_get (sheet, col, row);
 	border = mstyle_get_border (mstyle, type);
 	if (style_border_is_blank (border))
@@ -1001,9 +1002,9 @@ latex_file_save (GnumFileSaver const *fs, IOContext *io_context,
 	}
 
 	/* We need to check for horizontal borders at the bottom  of  the last  row */
-	clines = g_new0 (StyleBorderType, total_range.end.row - total_range.start.row + 1);
-	needs_hline = FALSE;
 	length = num_cols;
+	clines = g_new0 (StyleBorderType, length);
+	needs_hline = FALSE;
 	this_clines = clines;
 	for (col = total_range.start.col; col <= total_range.end.col; col++) {
 		needs_hline = latex2e_find_hhlines (this_clines, length,  col, row,

@@ -8,7 +8,9 @@ Jody
 	* Fix a problem with the euro/yen/pound symbols
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=103571
-	* Back port fix for 
+	* Back port fix
+
+	* Backport morten's fix for latex export problem
 
 Morten
 	* Use even blunter instrument on xml importer.
