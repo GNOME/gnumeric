@@ -112,11 +112,8 @@ loop:
 
 	if (v == 0) {
 		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (autosave_on_off))) {
-			gchar *txt;
-			int   tmp;
-
-			txt = gtk_entry_get_text (GTK_ENTRY (p.minutes_entry));
-			tmp = atoi (txt);
+			int tmp = atoi (gtk_entry_get_text (
+				GTK_ENTRY (p.minutes_entry)));
 			if (tmp <= 0) {
 				gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
 						 _("You should introduce a proper "

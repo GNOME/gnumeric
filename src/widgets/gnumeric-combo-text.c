@@ -20,7 +20,7 @@ struct _GnmComboTextClass {
 	GtkComboBoxClass parent_class;
 
 	gboolean (* selection_changed)	(GnmComboText *ct, GtkWidget *new_item);
-	gboolean (* entry_changed)	(GnmComboText *ct, char *new_str);
+	gboolean (* entry_changed)	(GnmComboText *ct, char const *new_str);
 };
 
 enum {
@@ -35,7 +35,7 @@ static GtkObjectClass *gnm_combo_text_parent_class;
 static void
 cb_entry_activate (GtkWidget *entry, gpointer ct)
 {
-	char *text = gtk_entry_get_text (GTK_ENTRY (entry));
+	char const *text = gtk_entry_get_text (GTK_ENTRY (entry));
 	gboolean accept_change = TRUE;
 
 	gtk_signal_emit (GTK_OBJECT (ct), combo_text_signals [ENTRY_CHANGED],

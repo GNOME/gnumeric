@@ -185,11 +185,8 @@ size_selected (GtkCList *size_list, int col, int row, GdkEvent *event, FontSelec
 static void
 size_changed (GtkEntry *entry, FontSelector *fs)
 {
-	 char *text;
-	 double size;
-
-	 text = gtk_entry_get_text (entry);
-	 size = atof (text);
+	 char const *text = gtk_entry_get_text (entry);
+	 double size = atof (text);
 	 if (size >= 1. && size < 128) {
 		 MStyle *change = mstyle_new ();
 		 mstyle_set_font_size (change, size);

@@ -1,3 +1,17 @@
+2001-12-12  Jody Goldberg <jody@gnome.org>
+
+	* dialog-solver.c (cb_dialog_solve_clicked) : gtk_entry_get_text const.
+	* dialog-printer-setup.c (do_fetch_page) : ditto.
+	(paper_size_changed) : ditto.
+	* dialog-goal-seek.c (cb_dialog_apply_clicked) : ditto.
+	* dialog-formula-guru.c (formula_guru_set_expr) : ditto.
+	* dialog-autocorrect.c (cb_add_clicked) : ditto.
+	* dialog-analysis-tools.c (entry_to_float) : ditto.
+	(entry_to_int) : ditto.
+	(gnumeric_expr_entry_parse_to_value) : ditto.
+	(gnumeric_expr_entry_parse_to_list) : ditto.
+	* dialog-advanced-filter.c (dialog_advanced_filter) : ditto.
+
 2001-12-10  Jody Goldberg <jody@gnome.org>
 
 	* dialog-cell-format.c (fmt_dialog_selection_type) : Life is simpler.

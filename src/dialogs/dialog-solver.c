@@ -748,7 +748,7 @@ cb_destroy (gpointer data, gpointer user_data)
 static void
 cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 {
-	char               *text;
+	char const         *text;
 	Value              *target_range;
 	Value              *input_range;
         CellList           *input_cells = NULL;

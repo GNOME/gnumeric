@@ -782,7 +782,7 @@ cb_checkbox_label_changed (GtkWidget *entry, CheckboxConfigState *state)
 {
 	GList *list;
  	SheetWidgetCheckbox *swc;
- 	const gchar *text;
+ 	gchar const *text;
  
  	text = gtk_entry_get_text (GTK_ENTRY (entry));
  	swc = state->swc;

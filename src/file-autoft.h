@@ -17,7 +17,8 @@ void                         category_group_free (FormatTemplateCategoryGroup *c
 GSList                      *category_group_get_templates_list (FormatTemplateCategoryGroup *category_group, WorkbookControl *wbc);
 
 GList                       *category_group_list_get (void);
-FormatTemplateCategoryGroup *category_group_list_find_category_by_name (GList *category_groups, gchar *name);
+FormatTemplateCategoryGroup *category_group_list_find_category_by_name (GList *category_groups,
+									gchar const *name);
 GList                       *category_group_list_get_names_list (GList *category_groups);
 void                         category_group_list_free (GList *category_groups);
 

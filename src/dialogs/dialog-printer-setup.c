@@ -1460,10 +1460,7 @@ orientation_changed (GtkToggleButton *landscape_bt, PrinterSetupState *state)
 static void
 paper_size_changed (GtkEntry *entry, PrinterSetupState *state)
 {
-	char *text;
-
-	text = gtk_entry_get_text (entry);
-
+	char const *text = gtk_entry_get_text (entry);
 	state->paper = gnome_paper_with_name (text);
 	canvas_update (state);
 }
@@ -1706,7 +1703,7 @@ do_fetch_page (PrinterSetupState *state)
 {
 	GtkWidget *w;
 	GladeXML *gui = state->gui;
-	char *t;
+	char const *t;
 
 	w = glade_xml_get_widget (gui, "vertical-radio");
 	if (GTK_TOGGLE_BUTTON (w)->active)

@@ -281,7 +281,7 @@ category_group_list_get (void)
  *
  **/
 FormatTemplateCategoryGroup *
-category_group_list_find_category_by_name (GList *category_groups, gchar *name)
+category_group_list_find_category_by_name (GList *category_groups, gchar const *name)
 {
 	GList *l;
 

@@ -442,8 +442,9 @@ typedef union {
  * 
   **/
 static int
-entry_to_float (GtkEntry *entry, gnum_float *the_float, gboolean update) {
-	char        *text      = NULL;
+entry_to_float (GtkEntry *entry, gnum_float *the_float, gboolean update)
+{
+	char const  *text      = NULL;
 	Value       *value     = NULL;
 	StyleFormat *format    = NULL;
 
@@ -456,9 +457,9 @@ entry_to_float (GtkEntry *entry, gnum_float *the_float, gboolean update) {
 	}
 	*the_float = value_get_as_float (value);
 	if (update) {
-		text = format_value (format, value, NULL, 16);
-		gtk_entry_set_text (entry, text);
-		g_free (text);	
+		char *tmp = format_value (format, value, NULL, 16);
+		gtk_entry_set_text (entry, tmp);
+		g_free (tmp);	
 	}
 	
 	value_release (value);
@@ -475,8 +476,9 @@ entry_to_float (GtkEntry *entry, gnum_float *the_float, gboolean update) {
  * 
   **/
 static int
-entry_to_int (GtkEntry *entry, gint *the_int, gboolean update) {
-	char        *text      = NULL;
+entry_to_int (GtkEntry *entry, gint *the_int, gboolean update)
+{
+	char const *text      = NULL;
 	Value       *value     = NULL;
 	StyleFormat *format    = NULL;
 
@@ -489,9 +491,9 @@ entry_to_int (GtkEntry *entry, gint *the_int, gboolean update) {
 	}
 	*the_int = value_get_as_int (value);
 	if (update) {
-		text = format_value (format, value, NULL, 16);
-		gtk_entry_set_text (entry, text);
-		g_free (text);	
+		char *tmp = format_value (format, value, NULL, 16);
+		gtk_entry_set_text (entry, tmp);
+		g_free (tmp);	
 	}
 	
 	value_release (value);
@@ -558,9 +560,7 @@ int_to_entry (GtkEntry *entry, gint the_int) {
 static Value *
 gnumeric_expr_entry_parse_to_value (GnumericExprEntry *ee, Sheet *sheet)
 {
-	char *str;
-
-	str = gtk_entry_get_text (GTK_ENTRY (ee));;
+	char const *str = gtk_entry_get_text (GTK_ENTRY (ee));;
 	return global_range_parse (sheet, str);
 }
 
@@ -577,9 +577,7 @@ gnumeric_expr_entry_parse_to_value (GnumericExprEntry *ee, Sheet *sheet)
 static GSList *
 gnumeric_expr_entry_parse_to_list (GnumericExprEntry *ee, Sheet *sheet)
 {
-	char *str;
-
-	str = gtk_entry_get_text (GTK_ENTRY (ee));;
+	char const *str = gtk_entry_get_text (GTK_ENTRY (ee));;
 	return global_range_list_parse (sheet, str);
 }
 
@@ -2589,7 +2587,7 @@ distribution_strs_find (random_distribution_t dist)
 static random_distribution_t
 combo_get_distribution (GtkWidget *combo)
 {
-        char *text;
+        char const *text;
 	int i;
 
         text = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (combo)->entry));

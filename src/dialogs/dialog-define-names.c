@@ -191,8 +191,8 @@ name_guru_update_sensitivity (NameGuruState *state, gboolean update_entries)
 	gboolean update;
 	gboolean add;
 	gboolean in_list = FALSE;
-	char const *expr_text;
 	char const *name;
+	char const *expr_text;
 
 	g_return_if_fail (state->list != NULL);
 

@@ -178,7 +178,7 @@ dialog_advanced_filter (WorkbookControlGUI *wbcg)
 	gint      v, error_flag;
 	gint      list_col_b, list_col_e, list_row_b, list_row_e;
 	gint      crit_col_b, crit_col_e, crit_row_b, crit_row_e;
-	gchar     *text;
+	gchar const *text;
 
 	f.type = InPlace;
 

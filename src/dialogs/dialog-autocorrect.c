@@ -41,7 +41,8 @@ typedef struct {
 static void
 cb_add_clicked (GtkWidget *widget, AutoCorrectExceptionState *s)
 {
-        gchar    *dumy[2], *txt, *str;
+	gchar const *txt;
+        gchar    *dumy[2], *str;
 	GList    *ptr;
 	gboolean new_flag = TRUE;
 
@@ -58,7 +59,7 @@ cb_add_clicked (GtkWidget *widget, AutoCorrectExceptionState *s)
 	if (new_flag) {
 	        gint row;
 
-	        dumy[0] = txt;
+	        dumy[0] = (char *)txt;
 		dumy[1] = NULL;
 		str = g_strdup (txt);
 		row = gtk_clist_append(GTK_CLIST (s->list), dumy);

@@ -38,10 +38,10 @@ dialog_goto_cell (WorkbookControlGUI *wbcg)
 	static GtkWidget *clist;
 	static GtkWidget *swin;
 	static GtkWidget *entry;
-	char   *text;
+	char const *text;
 	int    res;
 
-	if (!dialog){
+	if (!dialog) {
 		GtkWidget *box;
 		gchar *titles[2];
 
@@ -110,7 +110,7 @@ dialog_goto_cell (WorkbookControlGUI *wbcg)
 
 				if (!existed) {
 					gchar *texts[1];
-					texts[0] = text;
+					texts[0] = (char *)text;
 					gtk_clist_prepend (GTK_CLIST (clist), texts);
 				}
 			}

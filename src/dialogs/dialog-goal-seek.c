@@ -346,7 +346,8 @@ cb_dialog_close_clicked (GtkWidget *button, GoalSeekState *state)
 static void
 cb_dialog_apply_clicked (GtkWidget *button, GoalSeekState *state)
 {
-	char *text;
+	char const *text;
+	char *tmp;
 	char *status_str;
 	char *target_str;
 	char *actual_str;
@@ -414,42 +415,42 @@ cb_dialog_apply_clicked (GtkWidget *button, GoalSeekState *state)
 	value_release (value);
 	
 	format = mstyle_get_format (cell_get_mstyle (state->change_cell));
-	text = g_strdup (gtk_entry_get_text (GTK_ENTRY (state->at_least_entry)));
-	g_strstrip (text);
-	if (strlen (text) > 0) {
-		value = format_match_number (text, format, &min_value_format);
+	tmp = g_strdup (gtk_entry_get_text (GTK_ENTRY (state->at_least_entry)));
+	g_strstrip (tmp);
+	if (strlen (tmp) > 0) {
+		value = format_match_number (tmp, format, &min_value_format);
 		if (format != NULL) 
 			min_value_format = format;
 	} else {
 		value = NULL;
 	}
-	g_free (text);
+	g_free (tmp);
 	if (value != NULL) {
 		state->xmin = value_get_as_float (value);
-		text = format_value (min_value_format, value, NULL, 0);
-		gtk_entry_set_text (GTK_ENTRY (state->at_least_entry), text);
-		g_free (text);	
+		tmp = format_value (min_value_format, value, NULL, 0);
+		gtk_entry_set_text (GTK_ENTRY (state->at_least_entry), tmp);
+		g_free (tmp);	
 		value_release (value);
 	} else {
 		state->xmin = - max_range_val;
 		gtk_entry_set_text (GTK_ENTRY (state->at_least_entry), "");
 	}
 
-	text = g_strdup (gtk_entry_get_text (GTK_ENTRY (state->at_most_entry)));
-	g_strstrip (text);
-	if (strlen (text) > 0) {
-		value = format_match_number (text, format, &max_value_format);
+	tmp = g_strdup (gtk_entry_get_text (GTK_ENTRY (state->at_most_entry)));
+	g_strstrip (tmp);
+	if (strlen (tmp) > 0) {
+		value = format_match_number (tmp, format, &max_value_format);
 		if (format != NULL) 
 			max_value_format = format;
 	} else {
 		value = NULL;
 	}
-	g_free (text);
+	g_free (tmp);
 	if (value != NULL) {
 		state->xmax = value_get_as_float (value);
-		text = format_value (max_value_format, value, NULL, 0);
-		gtk_entry_set_text (GTK_ENTRY (state->at_most_entry), text);
-		g_free (text);	
+		tmp = format_value (max_value_format, value, NULL, 0);
+		gtk_entry_set_text (GTK_ENTRY (state->at_most_entry), tmp);
+		g_free (tmp);	
 		value_release (value);
 	} else {
   		state->xmax = max_range_val;

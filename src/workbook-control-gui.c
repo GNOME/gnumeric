@@ -2312,7 +2312,7 @@ static void
 cb_autosum (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	GtkEntry *entry;
-	gchar *txt;
+	gchar const *txt;
 
 	if (wbcg->editing)
 		return;
@@ -3232,7 +3232,7 @@ cb_editline_focus_in (GtkWidget *w, GdkEventFocus *event,
 static void
 wb_jump_to_cell (GtkEntry *entry, WorkbookControlGUI *wbcg)
 {
-	const char *text = gtk_entry_get_text (entry);
+	char const *text = gtk_entry_get_text (entry);
 
 	workbook_parse_and_jump (WORKBOOK_CONTROL (wbcg), text);
 	wb_control_gui_focus_cur_sheet (wbcg);

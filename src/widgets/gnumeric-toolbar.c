@@ -10,22 +10,6 @@
 #include <libgnomeui/libgnomeui.h>
 #include "gnumeric-toolbar.h"
 
-static GtkObjectClass *gnumeric_toolbar_parent_class;
-
-static void
-gnumeric_toolbar_finalize (GtkObject *object)
-{
-	gnumeric_toolbar_parent_class->finalize (object);
-}
-
-static void
-gnumeric_toolbar_class_init (GtkObjectClass *object_class)
-{
-	object_class->finalize = gnumeric_toolbar_finalize;
-
-	gnumeric_toolbar_parent_class = gtk_type_class (gtk_toolbar_get_type());
-}
-
 GtkType
 gnumeric_toolbar_get_type (void)
 {
@@ -36,7 +20,7 @@ gnumeric_toolbar_get_type (void)
 			"GnumericToolbar",
 			sizeof (GnumericToolbar),
 			sizeof (GnumericToolbarClass),
-			(GtkClassInitFunc) gnumeric_toolbar_class_init,
+			(GtkClassInitFunc) NULL,
 			(GtkObjectInitFunc) NULL,
 			NULL, /* reserved 1 */
 			NULL, /* reserved 2 */

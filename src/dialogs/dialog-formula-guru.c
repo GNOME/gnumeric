@@ -163,7 +163,7 @@ formula_guru_set_expr (FormulaGuruState *state, int index, gboolean set_text)
 
 	for (i = 0; i < state->args->len; i++) {
 		ArgumentState *as = g_ptr_array_index (state->args, i);
-		gchar *val = gtk_entry_get_text (GTK_ENTRY (as->entry));
+		gchar const *val = gtk_entry_get_text (GTK_ENTRY (as->entry));
 
 		if (!as->is_optional || (int)i <= state->max_arg || (int)i <= index || strlen (val)) {
 			if (i > 0)
@@ -736,8 +736,8 @@ dialog_formula_guru (WorkbookControlGUI *wbcg)
 		}
 	} else {
 		ParsePos pos;
-		char *sub_str;
-		char *full_str = gtk_entry_get_text (
+		char const *sub_str;
+		char const *full_str = gtk_entry_get_text (
 			GTK_ENTRY (wbcg_get_entry (wbcg)));
 		char *func_str = expr_tree_as_string (expr,
 			parse_pos_init_cell (&pos, cell));

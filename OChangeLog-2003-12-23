@@ -1,8 +1,12 @@
 2001-12-12  Jody Goldberg <jody@gnome.org>
 
+	* src/file-autoft.c (category_group_list_find_category_by_name) : make
+	  const.
 	* src/plugin-service.c (gnum_plugin_file_opener_probe) : const.
 	* src/workbook-view.c (wb_view_attach_control) : ditto.
 	* src/workbook.c (workbook_attach_view) : ditto.
+	* src/workbook-edit.c (entry_changed) : ditto.
+	* src/workbook-edit.c (auto_complete_matches) : ditto.
 
 2001-12-11  Jody Goldberg <jody@gnome.org>
 

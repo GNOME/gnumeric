@@ -233,7 +233,7 @@ order_box_new (GtkWidget * parent, const gchar *frame_text,
 	return orderbox;
 }
 
-static const char *
+static char const *
 order_box_get_text (OrderBox *orderbox)
 {
 	return gtk_entry_get_text (GTK_ENTRY (

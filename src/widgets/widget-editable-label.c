@@ -42,7 +42,7 @@ static void
 el_entry_activate (GtkWidget *entry, El *el)
 {
 	gboolean accept = TRUE;
-	char *text = gtk_entry_get_text (GTK_ENTRY (el->entry));
+	char const *text = gtk_entry_get_text (GTK_ENTRY (el->entry));
 
 	gtk_signal_emit (GTK_OBJECT (el), el_signals [TEXT_CHANGED], text,
 			 &accept);
@@ -64,7 +64,7 @@ el_edit_sync (El *el)
 	GnomeCanvasPoints *points;
 	GdkFont *font;
 	int cursor_pos;
-	char *text;
+	char const *text;
 
 	text = gtk_entry_get_text (entry);
 	font = widget->style->font;
@@ -366,7 +366,7 @@ editable_label_get_type (void)
 }
 
 void
-editable_label_set_text (EditableLabel *el, const char *text)
+editable_label_set_text (EditableLabel *el, char const *text)
 {
 	g_return_if_fail (el != NULL);
 	g_return_if_fail (text != NULL);
@@ -404,7 +404,7 @@ editable_label_set_text (EditableLabel *el, const char *text)
 }
 
 GtkWidget *
-editable_label_new (const char *text)
+editable_label_new (char const *text)
 {
 	GtkWidget *el;
 
