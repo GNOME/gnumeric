@@ -26,6 +26,7 @@ INCLUDES = 								\
 noinst_LIBRARIES = libdialogs.a
 
 std_SOURCES =					\
+	dialog-about.c				\
 	dialog-advanced-filter.c		\
 	dialog-analysis-tools.c			\
 	dialog-autocorrect.c			\

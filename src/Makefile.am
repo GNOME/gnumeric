@@ -40,7 +40,6 @@ INCLUDES = 								\
 	$(GUILE_INCS)
 
 GNUMERIC_BASE_SOURCES =				\
-	about.c					\
 	analysis-tools.c			\
 	analysis-tools.h			\
 	application.c				\
