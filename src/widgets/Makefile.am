@@ -1,3 +1,5 @@
+gladedir   = $(datadir)/gnumeric/glade
+
 INCLUDES = 						\
 	-I$(srcdir)/..					\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
