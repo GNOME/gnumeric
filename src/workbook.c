@@ -3440,7 +3440,7 @@ static void
 workbook_sheet_name_strip_number (char *name, int* number)
 {
 	char *end;
-	
+
 	*number = 1;
 
 	end = strrchr (name, ')');
@@ -3449,11 +3449,11 @@ workbook_sheet_name_strip_number (char *name, int* number)
 
 	while (--end >= name) {
 		if (*end == '(') {
-			*number = atoi (end+1);
+			*number = atoi (end + 1);
 			*end = '\0';
 			return;
 		}
-		if (!isdigit(*end))
+		if (!isdigit ((unsigned char)*end))
 			return;
 	}
 }

@@ -1,3 +1,10 @@
+2000-09-19  Morten Welinder  <terra@diku.dk>
+
+	* src/workbook.c (workbook_sheet_name_strip_number): isdigit takes
+ 	unsigned chars, not chars.
+
+	* src/functions/fn-lookup.c (find_index_linear): Quiet warnings.
+
 2000-09-18  Michael Meeks  <michael@helixcode.com>
 
 	* src/Makefile.am (INCLUDES): add GNOME_DATADIR

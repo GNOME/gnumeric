@@ -153,7 +153,7 @@ applix_read_colormap (ApplixReadState *state)
 		iter = pos;
 		for (count = 6; --count >= 0; pos = iter) {
 			char *end;
-			while (--iter > buffer && isdigit (*iter))
+			while (--iter > buffer && isdigit ((unsigned char)*iter))
 				;
 
 			if (iter <= buffer || *iter != ' ')
@@ -311,7 +311,7 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 		/* Formating and alignment */
 		for (; *sep && *sep != '|' && *sep != ')' ; ) {
 
-			if (isdigit (*sep)) {
+			if (isdigit ((unsigned char)*sep)) {
 				StyleHAlignFlags a;
 				switch (*sep) {
 				case '1' : a = HALIGN_LEFT; break;
@@ -369,7 +369,7 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 						break;
 					}
 
-					if (!isdigit (sep[1]) ||
+					if (!isdigit ((unsigned char)sep[1]) ||
 					    (0 == (id = strtol (sep+1, &end, 10))) ||
 					    sep+1 == end ||
 					    id < 1 || id > 15)
@@ -1278,7 +1278,7 @@ applix_read_impl (ApplixReadState *state)
 					return applix_parse_error (state, "Invalid row format attr index");
 
 			/* Just for kicks they added a trailing space */
-			} while (tmp[0] && isdigit (tmp[1]));
+			} while (tmp[0] && isdigit ((unsigned char)tmp[1]));
 		}
 
 		/* FIXME : Can we really just ignore all of this ? */

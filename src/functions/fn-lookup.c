@@ -135,7 +135,7 @@ find_index_linear (FunctionEvalInfo *ei, Value *find, Value *data,
 		comp = value_compare (find, v, FALSE);
 		
 		if (type >= 1 && comp == IS_GREATER) {
-			ValueCompare comp;
+			ValueCompare comp = TYPE_MISMATCH;
 
 			if (index >= 0) {				
 				comp = value_compare (v, index_val, FALSE);
@@ -147,7 +147,7 @@ find_index_linear (FunctionEvalInfo *ei, Value *find, Value *data,
 				index_val = v;
 			}
 		} else if (type <= -1 && comp == IS_LESS) {
-			ValueCompare comp;
+			ValueCompare comp = TYPE_MISMATCH;
 
 			if (index >= 0) {				
 				comp = value_compare (v, index_val, FALSE);
