@@ -1,6 +1,10 @@
 1999-06-30  Michael Meeks  <michael@edenproject.org>
 
-	* ms-exce-write.c (write_value): Fix LABEL versioning.
+	* ms-formula-read.h: Split out types.
+
+	* formula-types.h: Imported from above.
+
+	* ms-excel-write.c (write_value): Fix LABEL versioning.
 
 1999-06-30  Michael Meeks  <michael@edenproject.org>
 

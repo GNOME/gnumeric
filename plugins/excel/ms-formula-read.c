@@ -1,5 +1,5 @@
 /*
- * ms-formula.c: MS Excel -> Gnumeric formula conversion
+ * ms-formula-read.c: MS Excel -> Gnumeric formula conversion
  *
  * Author:
  *    Michael Meeks (michael@imaginator.com)
