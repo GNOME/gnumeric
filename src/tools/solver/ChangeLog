@@ -1,3 +1,7 @@
+2002-06-27  Jody Goldberg <jody@gnome.org>
+
+	* api.c (qp_algorithm) : add a dummy to silence the warning.
+
 2002-06-12  Jukka Pekka  <jiivonen@cs145201.pp.htv.fi>
 
 	* reports-write.c (solver_performance_report): Added the printing

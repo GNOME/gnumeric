@@ -687,6 +687,12 @@ w_qp_dummy_get_dual (SolverProgram program, int row)
 	return 0;
 }
 
+static int
+w_qp_dummy_solver_lp_get_iterations (SolverProgram p)
+{
+	return 0;
+}
+
 static gboolean
 w_qp_dummy_set_option (SolverProgram program, SolverOptionType option,
 		   const gboolean *b_value,
@@ -772,6 +778,7 @@ const SolverLPAlgorithm qp_algorithm [] = {
 		(solver_lp_get_obj_fn_value_fn*) w_qp_dummy_get_value_of_obj_fn,
 		(solver_lp_get_obj_fn_var_fn*)   w_qp_dummy_get_solution,
 		(solver_lp_get_shadow_prize_fn*) w_qp_dummy_get_dual,
+		(solver_lp_get_iterations_fn *)  w_qp_dummy_solver_lp_get_iterations,
 		(solver_lp_set_option_fn*)       w_qp_dummy_set_option,
 		(solver_lp_print_fn*)            w_qp_dummy_print
 	},
