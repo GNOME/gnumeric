@@ -16,6 +16,7 @@ typedef enum {
   TdistDistribution, LogarithmicDistribution, LogisticDistribution,
   ParetoDistribution, LognormalDistribution, RayleighDistribution,
   LevyDistribution, ExponentialPowerDistribution, RayleighTailDistribution,
+  LandauDistribution,
   /* PatternedDistribution, */ NegativeBinomialDistribution, ExponentialDistribution
 } random_distribution_t;
 

@@ -565,6 +565,21 @@ tool_random_engine_run_laplace (data_analysis_output_t *dao,
 }
 
 static gboolean
+tool_random_engine_run_landau (data_analysis_output_t *dao, 
+			       tools_data_random_t *info)
+{
+	int i, n;
+	for (i = 0; i < info->n_vars; i++) {
+		for (n = 0; n < info->count; n++) {
+			gnum_float v;
+			v = random_landau ();
+			dao_set_cell_float (dao, i, n, v);
+		}
+	}	
+	return FALSE;
+}
+
+static gboolean
 tool_random_engine_run_gumbel1 (data_analysis_output_t *dao, 
 				tools_data_random_t *info,
 				gumbel_random_tool_t *param)
@@ -692,6 +707,9 @@ tool_random_engine (data_analysis_output_t *dao, gpointer specs,
 		case LaplaceDistribution:
 			return tool_random_engine_run_laplace
 				(dao, specs, &info->param.laplace);
+		case LandauDistribution:
+			return tool_random_engine_run_landau
+				(dao, specs);
 		case LogarithmicDistribution:
 			return tool_random_engine_run_logarithmic
 				(dao, specs, &info->param.logarithmic);
