@@ -334,10 +334,10 @@ typedef struct
 	GnomeCanvasItem *arrow;
 	GtkWidget *fill_color_combo;
 	GtkObject *adj_width;
-	GtkObject *adj_a, *adj_b, *adj_c;
+	GtkObject *adj_a, *adj_b, *adj_c; /* Only for arrows */
 	GdkColor *fill_color;
 	double width;
-	double a, b, c;
+	double a, b, c;                   /* Only for arrows */
 } DialogGraphicData;
 
 static gboolean
@@ -362,7 +362,8 @@ cb_dialog_graphic_clicked (GnomeDialog *dialog, int button,
 		sheet_object_graphic_fill_color_set (data->sog, color);
 		sheet_object_graphic_width_set (data->sog,
 				GTK_ADJUSTMENT (data->adj_width)->value);
-		sheet_object_graphic_abc_set (data->sog, 
+		if (data->sog->type == SHEET_OBJECT_ARROW)
+			sheet_object_graphic_abc_set (data->sog, 
 				GTK_ADJUSTMENT (data->adj_a)->value,
 				GTK_ADJUSTMENT (data->adj_b)->value,
 				GTK_ADJUSTMENT (data->adj_c)->value);
@@ -373,8 +374,9 @@ cb_dialog_graphic_clicked (GnomeDialog *dialog, int button,
 		sheet_object_graphic_fill_color_set (data->sog,
 						     data->fill_color);
 		sheet_object_graphic_width_set (data->sog, data->width);
-		sheet_object_graphic_abc_set (data->sog, data->a, data->b,
-					      data->c);
+		if (data->sog->type == SHEET_OBJECT_ARROW)
+			sheet_object_graphic_abc_set (data->sog, data->a,
+						      data->b, data->c);
 		gnome_dialog_close (dialog);
 		break;
 	default:
@@ -392,6 +394,13 @@ cb_adjustment_value_changed (GtkAdjustment *adj, DialogGraphicData *data)
 		"arrow_shape_c", (double) GTK_ADJUSTMENT (data->adj_c)->value,
 		"width_units", (double) GTK_ADJUSTMENT (data->adj_width)->value,
 		NULL);
+}
+
+static void
+cb_fill_color_changed (ColorCombo *color_combo, GdkColor *color,
+		       gboolean by_user, DialogGraphicData *data)
+{
+	gnome_canvas_item_set (data->arrow, "fill_color_gdk", color, NULL);
 }
 
 static void
@@ -431,22 +440,28 @@ sheet_object_graphic_user_config (SheetObject *so, SheetControlGUI *scg)
 	label = gtk_label_new (_("Border width"));
 	gtk_widget_show (label);
 	gtk_table_attach_defaults (GTK_TABLE (table), label, 0, 1, 1, 2);
-	label = gtk_label_new (_("Arrow shape a"));
-	gtk_widget_show (label);
-	gtk_table_attach_defaults (GTK_TABLE (table), label, 0, 1, 2, 3);
-	label = gtk_label_new (_("Arrow shape b"));
-	gtk_widget_show (label);
-	gtk_table_attach_defaults (GTK_TABLE (table), label, 0, 1, 3, 4);
-	label = gtk_label_new (_("Arrow shape c"));
-	gtk_widget_show (label);
-	gtk_table_attach_defaults (GTK_TABLE (table), label, 0, 1, 4, 5);
+
+	if (sog->type == SHEET_OBJECT_ARROW) {
+		label = gtk_label_new (_("Arrow shape a"));
+		gtk_widget_show (label);
+		gtk_table_attach_defaults (GTK_TABLE (table), label, 0, 1, 2,3);
+		label = gtk_label_new (_("Arrow shape b"));
+		gtk_widget_show (label);
+		gtk_table_attach_defaults (GTK_TABLE (table), label, 0, 1, 3,4);
+		label = gtk_label_new (_("Arrow shape c"));
+		gtk_widget_show (label);
+		gtk_table_attach_defaults (GTK_TABLE (table), label, 0, 1, 4,5);
+	}
 
 	data = g_new0 (DialogGraphicData, 1);
 	data->sog = sog;
 
-	data->canvas = gnome_canvas_new ();
-	gtk_widget_show (data->canvas);
-	gtk_table_attach_defaults (GTK_TABLE (table), data->canvas, 2, 3, 2, 5);
+	if (sog->type == SHEET_OBJECT_ARROW) {
+		data->canvas = gnome_canvas_new ();
+		gtk_widget_show (data->canvas);
+		gtk_table_attach_defaults (GTK_TABLE (table), data->canvas,
+					   2, 3, 2, 5);
+	}
 
 	data->fill_color_combo = color_combo_new (NULL, _("Transparent"), NULL,
 					color_group_fetch ("color", so));
@@ -459,65 +474,76 @@ sheet_object_graphic_user_config (SheetObject *so, SheetControlGUI *scg)
 	spin = gtk_spin_button_new (GTK_ADJUSTMENT (data->adj_width), 1, 0);
 	data->width = sog->width;
 
-	data->adj_a = gtk_adjustment_new (sog->a, 1.0, 100.0, 1.0, 5.0, 1.0);
-	data->adj_b = gtk_adjustment_new (sog->b, 1.0, 100.0, 1.0, 5.0, 1.0);
-	data->adj_c = gtk_adjustment_new (sog->c, 1.0, 100.0, 1.0, 5.0, 1.0);
-	spin_a = gtk_spin_button_new (GTK_ADJUSTMENT (data->adj_a), 1, 0);
-	spin_b = gtk_spin_button_new (GTK_ADJUSTMENT (data->adj_b), 1, 0);
-	spin_c = gtk_spin_button_new (GTK_ADJUSTMENT (data->adj_c), 1, 0);
-	data->a = sog->a;
-	data->b = sog->b;
-	data->c = sog->c;
-	gtk_tooltips_set_tip (tooltips, spin_a, _("Distance from tip of "
-			      "arrowhead to the center point"), NULL);
-	gtk_tooltips_set_tip (tooltips, spin_b, _("Distance from tip of "
-			      "arrowhead to trailing point, measured along "
-			      "shaft"), NULL);
-	gtk_tooltips_set_tip (tooltips, spin_c, _("Distance of trailing point "
-			      "from outside edge of shaft"), NULL);
+	if (sog->type == SHEET_OBJECT_ARROW) {
+		data->adj_a = gtk_adjustment_new (sog->a, 1., 100., 1., 5., 1.);
+		data->adj_b = gtk_adjustment_new (sog->b, 1., 100., 1., 5., 1.);
+		data->adj_c = gtk_adjustment_new (sog->c, 1., 100., 1., 5., 1.);
+		spin_a = gtk_spin_button_new (GTK_ADJUSTMENT (data->adj_a),1,0);
+		spin_b = gtk_spin_button_new (GTK_ADJUSTMENT (data->adj_b),1,0);
+		spin_c = gtk_spin_button_new (GTK_ADJUSTMENT (data->adj_c),1,0);
+		data->a = sog->a;
+		data->b = sog->b;
+		data->c = sog->c;
+		gtk_tooltips_set_tip (tooltips, spin_a, _("Distance from tip "
+				      "of arrowhead to the center point"),NULL);
+		gtk_tooltips_set_tip (tooltips, spin_b, _("Distance from tip "
+				      "of arrowhead to trailing point, "
+				      "measured along shaft"), NULL);
+		gtk_tooltips_set_tip (tooltips, spin_c, _("Distance of "
+				      "trailing point from outside edge of "
+				      "shaft"), NULL);
+		gtk_widget_show (spin_a);
+		gtk_widget_show (spin_b);
+		gtk_widget_show (spin_c);
+		gtk_table_attach_defaults (GTK_TABLE (table), spin_a, 1, 2,2,3);
+		gtk_table_attach_defaults (GTK_TABLE (table), spin_b, 1, 2,3,4);
+		gtk_table_attach_defaults (GTK_TABLE (table), spin_c, 1, 2,4,5);
+	}
 
 	gtk_widget_show (data->fill_color_combo);
 	gtk_widget_show (spin);
-	gtk_widget_show (spin_a);
-	gtk_widget_show (spin_b);
-	gtk_widget_show (spin_c);
 
 	gtk_table_attach_defaults (GTK_TABLE (table),
 				   data->fill_color_combo, 1, 3, 0, 1);
 	gtk_table_attach_defaults (GTK_TABLE (table), spin, 1, 3, 1, 2);
-	gtk_table_attach_defaults (GTK_TABLE (table), spin_a, 1, 2, 2, 3);
-	gtk_table_attach_defaults (GTK_TABLE (table), spin_b, 1, 2, 3, 4);
-	gtk_table_attach_defaults (GTK_TABLE (table), spin_c, 1, 2, 4, 5);
 
 	gtk_widget_show (dialog);
 
-	points = gnome_canvas_points_new (2);
-	points->coords [0] = data->canvas->allocation.width / 2.0;
-	points->coords [1] = 0.0;
-	points->coords [2] = points->coords [0];
-	points->coords [3] = data->canvas->allocation.height;
-	data->arrow = gnome_canvas_item_new (
-			gnome_canvas_root (GNOME_CANVAS (data->canvas)),
-			GNOME_TYPE_CANVAS_LINE, "points", points, 
-			"first_arrowhead", TRUE, NULL);
-	gnome_canvas_points_free (points);
-	gnome_canvas_set_scroll_region (GNOME_CANVAS (data->canvas), 0.0, 0.0, 
-					data->canvas->allocation.width,
+	if (sog->type == SHEET_OBJECT_ARROW) {
+		points = gnome_canvas_points_new (2);
+		points->coords [0] = data->canvas->allocation.width / 2.0;
+		points->coords [1] = 0.0;
+		points->coords [2] = points->coords [0];
+		points->coords [3] = data->canvas->allocation.height;
+		data->arrow = gnome_canvas_item_new (
+				gnome_canvas_root (GNOME_CANVAS (data->canvas)),
+				GNOME_TYPE_CANVAS_LINE, "points", points, 
+				"fill_color_gdk", sog->fill_color,
+				"first_arrowhead", TRUE, NULL);
+		gnome_canvas_points_free (points);
+		gnome_canvas_set_scroll_region (GNOME_CANVAS (data->canvas),
+					0., 0., data->canvas->allocation.width,
 					data->canvas->allocation.height);
-	cb_adjustment_value_changed (NULL, data);
+		cb_adjustment_value_changed (NULL, data);
 
-	gtk_signal_connect (GTK_OBJECT (data->adj_width), "value_changed",
-			    GTK_SIGNAL_FUNC (cb_adjustment_value_changed),
-			    data);
-	gtk_signal_connect (GTK_OBJECT (data->adj_a), "value_changed",
-			    GTK_SIGNAL_FUNC (cb_adjustment_value_changed),
-			    data);
-	gtk_signal_connect (GTK_OBJECT (data->adj_b), "value_changed",
-			    GTK_SIGNAL_FUNC (cb_adjustment_value_changed),
-			    data);
-	gtk_signal_connect (GTK_OBJECT (data->adj_c), "value_changed",
-			    GTK_SIGNAL_FUNC (cb_adjustment_value_changed),
-			    data);
+		gtk_signal_connect (GTK_OBJECT (data->adj_width),
+				"value_changed",
+				GTK_SIGNAL_FUNC (cb_adjustment_value_changed),
+				data);
+		gtk_signal_connect (GTK_OBJECT (data->adj_a), "value_changed",
+				GTK_SIGNAL_FUNC (cb_adjustment_value_changed),
+				data);
+		gtk_signal_connect (GTK_OBJECT (data->adj_b), "value_changed",
+				GTK_SIGNAL_FUNC (cb_adjustment_value_changed),
+				data);
+		gtk_signal_connect (GTK_OBJECT (data->adj_c), "value_changed",
+				GTK_SIGNAL_FUNC (cb_adjustment_value_changed),
+				data);
+		gtk_signal_connect (GTK_OBJECT (data->fill_color_combo),
+				"changed", 
+				GTK_SIGNAL_FUNC (cb_fill_color_changed), data);
+	}
+
 	gtk_signal_connect (GTK_OBJECT (dialog), "clicked",
 			    GTK_SIGNAL_FUNC (cb_dialog_graphic_clicked), data);
 	gtk_signal_connect (GTK_OBJECT (dialog), "close",

@@ -1,5 +1,10 @@
 2001-08-14  Lutz Müller <urc8@rz.uni-karlsruhe.de>
 
+	* src/sheet-object-graphic.c: Let the user configure arrow shapes only
+	if the object is an arrow. Update the color of the arrow in the preview.
+
+2001-08-14  Lutz Müller <urc8@rz.uni-karlsruhe.de>
+
 	* src/print.c (print_sheet_objects): gnome_print_gsave before we
 	clip the SheetObjects' region.
 
