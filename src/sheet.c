@@ -21,6 +21,20 @@ sheet_redraw_all (Sheet *sheet)
 }
 
 static void
+recompute_one_cell (Sheet *sheet, int col, int row, Cell *cell, void *closure)
+{
+	
+}
+
+void
+sheet_brute_force_recompute (Sheet *sheet)
+{
+	sheet_cell_foreach_range (sheet, 1, 0, 0, SHEET_MAX_COL, SHEET_MAX_ROW,
+				  recompute_one_cell, NULL);
+				  
+}
+
+static void
 sheet_init_default_styles (Sheet *sheet)
 {
 	/* The default column style */
@@ -1087,6 +1101,8 @@ sheet_cell_new (Sheet *sheet, int col, int row)
 	cell->row   = sheet_row_get (sheet, row);
 	cell->style = sheet_style_compute (sheet, col, row);
 
+	cell->width = cell->col->margin_a + cell->col->margin_b;
+	
 	cellref = g_new0 (CellPos, 1);
 	cellref->col = col;
 	cellref->row = row;
@@ -1201,7 +1217,8 @@ cell_set_text (Sheet *sheet, Cell *cell, char *text)
 	cell->flags = 0;
 	
 	font = cell->style->font->font;
-	cell->width = gdk_text_width (font, cell->text, strlen (cell->text));
+	cell->width = cell->col->margin_a + cell->col->margin_b + 
+		gdk_text_width (font, cell->text, strlen (cell->text));
 	cell->height = font->ascent + font->descent;
 }
 

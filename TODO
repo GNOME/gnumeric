@@ -2,15 +2,11 @@
 
 GNOME Spread Sheet task list
 
-* Cell content drawing
+* New TODO:
 
-  It should support all of the drawing ways a cell can be drawn in
-Excel.  The Style * support is already there, it is just a matter of
-painting with the set of things that are currently defined. 
+1. Multiple column selection.
+2. Scrolling.
 
-  This should be implemented in the draw method in item-grid.c.
-
-* 
 * Drawing
 
   A routine based on the GnumericSheet widget (just a derivative of

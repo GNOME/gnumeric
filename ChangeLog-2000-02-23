@@ -1,5 +1,9 @@
 1998-07-27    <miguel@nuclecu.unam.mx>
 
+	* src/sheet.c (sheet_cell_new): Cells are born with their propper
+	width. 
+	(cell_set_text): Width should include the margins. 
+
 	* src/main.c (main): Rename currentWorkbook to current_workbook,
 	so that it follows the style of the rest of my code ;-)
 

@@ -19,6 +19,8 @@ static GnomeCanvasClass *sheet_parent_class;
 
 GdkColor gs_white, gs_black, gs_light_gray, gs_dark_gray;
 
+static void stop_cell_selection (GnumericSheet *gsheet);
+
 static void
 gnumeric_sheet_destroy (GtkObject *object)
 {
@@ -77,6 +79,8 @@ gnumeric_sheet_set_current_value (GnumericSheet *sheet)
 		cell = sheet_cell_new (sheet->sheet, sheet->cursor_col, sheet->cursor_row);
 	
 	cell_set_text (sheet->sheet, cell, gtk_entry_get_text (GTK_ENTRY (sheet->entry)));
+	if (sheet->selection)
+		stop_cell_selection (sheet);
 	sheet_redraw_all (sheet->sheet);
 }
 
@@ -477,11 +481,8 @@ gnumeric_sheet_key (GtkWidget *widget, GdkEventKey *event)
 	void (*movefn_vertical)   (GnumericSheet *, int);
 	int  cursor_move = gnumeric_sheet_can_move_cursor (sheet);
 
-	printf ("cursor_moving=%d\n", cursor_move);
 	if ((event->state & GDK_SHIFT_MASK) != 0){
-		printf ("SHIFT!\n");
 		if (cursor_move){
-			printf ("Selection exand!\n");
 			movefn_horizontal = selection_expand_horizontal;
 			movefn_vertical   = selection_expand_vertical;
 		} else {
