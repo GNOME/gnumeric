@@ -1,5 +1,11 @@
 2005-02-04  Morten Welinder  <terra@gnome.org>
 
+	* src/print-cell.c: Eliminate old printing code.
+
+	* src/style.c (style_font_new_simple): No need for setting
+	->gnome_print_font any more.
+	(style_font_unref): And no need to unref.
+
 	* src/rendered-value.c (rendered_value_recontext): Copy font
 	description too now that pango supports it.  Eliminate old #ifdef
 	HAVE_foo.

@@ -4,8 +4,6 @@
 #include "gnumeric.h"
 #include <libgnomeprint/gnome-print.h>
 
-gboolean using_old_printing_code (void);
-
 void print_cell_range (GnomePrintContext *context,
 		       Sheet const *sheet, GnmRange *range,
 		       double base_x, double base_y,

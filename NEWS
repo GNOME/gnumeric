@@ -30,6 +30,7 @@ Morten:
 	* Fix general format's use of "e".
 	* Plug dependency leak.  [#159581]
 	* Fix fake rounding functions for very large numbers.  [#166188]
+	* Eliminate old printing code.
 
 --------------------------------------------------------------------------
 Gnumeric 1.4.2
