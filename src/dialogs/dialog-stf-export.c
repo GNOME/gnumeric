@@ -403,7 +403,9 @@ stf_export_dialog_switch_page (TextExportState *state, TextExportPage new_page)
 		label = _("_Finish");
 		image = GTK_STOCK_APPLY;
 	}
-	gtk_widget_set_sensitive (state->back_button, state->cur_page != PAGE_SHEETS);
+	gtk_widget_set_sensitive (state->back_button,
+				  (state->cur_page != PAGE_SHEETS) &&
+				  (state->sheets.num > 1));
 	gtk_label_set_label (GTK_LABEL (state->next_label), label);
 	gtk_image_set_from_stock (GTK_IMAGE (state->next_image),
 		image, GTK_ICON_SIZE_BUTTON);
@@ -455,7 +457,8 @@ stf_export_dialog (WorkbookControlGUI *wbcg, Workbook *wb)
 	state.result	  = NULL;
 	stf_export_dialog_sheet_page_init (&state);
 	stf_export_dialog_format_page_init (&state);
-	stf_export_dialog_switch_page (&state, PAGE_SHEETS);
+	stf_export_dialog_switch_page (&state,
+				       (1 == state.sheets.num) ? PAGE_FORMAT : PAGE_SHEETS);
 	gtk_widget_grab_default (state.next_button);
 	g_signal_connect_swapped (G_OBJECT (state.back_button),
 		"clicked",
