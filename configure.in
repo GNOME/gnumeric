@@ -367,10 +367,8 @@ AC_ARG_WITH(bonobo,
 	fi
 )
 
-gnumeric_executable=gnumeric
-AC_SUBST(gnumeric_executable)
 if $try_bonobo; then
-	AC_MSG_CHECKING(for Bonobo >= 1.03						)
+	AC_MSG_CHECKING(for Bonobo >= 1.09						)
 	if gnome-config --libs bonobo > /dev/null 2>&1; then
 		verstxt=`gnome-config --modversion bonobo`
 		vers=`echo "$verstxt" | sed -e "s/^bonobo-//" | \
@@ -380,14 +378,13 @@ if $try_bonobo; then
 		vers=0
 	fi
 
-	if test "$vers" -ge 1000003; then
+	if test "$vers" -ge 1000009; then
 		AC_MSG_RESULT($marker_ok found $verstxt)
 		AC_DEFINE(ENABLE_BONOBO)
 		have_bonobo=true
 		bonobo=bonobox_print
 		bonobo_msg=yes
 		bonobo_suffix=-bonobo
-	        gnumeric_executable=gnumeric-bonobo
 
 		dnl Check if Bonobo is OAFized
 

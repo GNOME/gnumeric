@@ -1,5 +1,8 @@
 2001-08-24  Jody Goldberg <jgoldberg@home.com>
 
+	* configure.in : bump bonobo req for real and remove unused
+	  @gnumeric_executable@
+
 	* idl/Makefile.am : fix.
 
 	* src/gnumeric-canvas.c : add gnome-i18n.
