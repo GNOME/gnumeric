@@ -55,6 +55,12 @@ typedef struct {
 	CellRegion *clipboard_contents;
 
 	gboolean   have_x_selection;
+
+	/*
+	 * This is  used during the clipboard paste command to pass information
+	 * to the asyncronous paste callback
+	 */
+	void       *clipboard_paste_callback_data;
 } Workbook;
 
 typedef struct {

@@ -84,7 +84,7 @@ cell_set_halign (Cell *cell, StyleHAlignFlags halign)
 {
 	g_return_if_fail (cell != NULL);
 
-	if (cell->style->halign == (unsigned int) halign)
+	if (((unsigned int)cell->style->halign) == ((unsigned int) halign))
 		return;
 
 	cell_queue_redraw (cell);

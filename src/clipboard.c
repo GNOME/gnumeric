@@ -7,6 +7,8 @@
  */
 #include <config.h>
 #include <gnome.h>
+#include <locale.h>
+#include <string.h>
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "clipboard.h"
@@ -14,150 +16,20 @@
 #include "render-ascii.h"
 
 /*
- * x_selection_clear:
+ * Callback information.
  *
- * Callback for the "we lost the X selection" signal
+ * Passed trough the workbook structure.
  */
-static gint
-x_selection_clear (GtkWidget *widget, GdkEventSelection *event, Workbook *wb)
-{
-	wb->have_x_selection = FALSE;
-
-	return TRUE;
-}
-
-/*
- * x_selection_handler:
- *
- * Callback invoked when another application requests we render the selection.
- */
-static void
-x_selection_handler (GtkWidget *widget, GtkSelectionData *selection_data, gpointer data)
-{
-	Workbook *wb = data;
-	char *rendered_selection;
-	
-	g_assert (wb->clipboard_contents);
-
-	rendered_selection = cell_region_render_ascii (wb->clipboard_contents);
-	
-	gtk_selection_data_set (
-		selection_data, GDK_SELECTION_TYPE_STRING, 8,
-		rendered_selection, strlen (rendered_selection));
-}
-
-/*
- * x_selection_received
- *
- * Invoked when the selection has been received by our application.
- * This is triggered by a call we do to gtk_selection_convert.
- */
-static void
-x_selection_received (GtkWidget *widget, GtkSelectionData *sel, gpointer data)
-{
-	Workbook *wb = data;
-
-	/* Did X provide any selection? */
-	if (sel->length < 0){
-		
-	} 
-}
-
-/*
- * x_clipboard_bind_workbook
- *
- * Binds the signals related to the X selection to the Workbook
- */
-void
-x_clipboard_bind_workbook (Workbook *wb)
-{
-	wb->have_x_selection = FALSE;
-	
-	gtk_signal_connect (
-		GTK_OBJECT (wb->toplevel), "selection_clear_event",
-		GTK_SIGNAL_FUNC(x_selection_clear), wb);
-
-	gtk_selection_add_handler (
-		wb->toplevel,
-		GDK_SELECTION_PRIMARY, GDK_SELECTION_TYPE_STRING,
-		x_selection_handler, wb);
-	gtk_signal_connect (
-		GTK_OBJECT (wb->toplevel), "selection_received",
-		GTK_SIGNAL_FUNC(x_selection_received), wb);
-}
-
-/*
- * clipboard_export_cell_region:
- *
- * This routine exports a CellRegion to the X selection
- */
-static void
-clipboard_export_cell_region (Workbook *wb, CellRegion *region)
-{
-	wb->have_x_selection = gtk_selection_owner_set (
-		current_workbook->toplevel,
-		GDK_SELECTION_PRIMARY,
-		GDK_CURRENT_TIME);
-}
-
 typedef struct {
-	int        base_col, base_row;
-	CellRegion *r;
-} append_cell_closure_t;
-
-static int
-clipboard_append_cell (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
-{
-	append_cell_closure_t *c = user_data;
-	CellCopy *copy;
-
-	copy = g_new (CellCopy, 1);
-
-	copy->cell = cell_copy (cell);
-	copy->col_offset  = col - c->base_col;
-	copy->row_offset  = row - c->base_row;
-	
-	/* Now clear the traces and dependencies on the copied Cell */
-	copy->cell->col   = NULL;
-	copy->cell->row   = NULL;
-	copy->cell->sheet = NULL;
-	
-	c->r->list = g_list_prepend (c->r->list, copy);
-
-	return TRUE;
-}
+	Sheet      *dest_sheet;
+	CellRegion *region;
+	int         dest_col, dest_row;
+	int         paste_flags;
+} clipboard_paste_closure_t;
 
 /*
- * clipboard_copy_cell_range:
- *
- * Entry point to the clipboard copy code
+ * Pastes a cell in the spreadsheet
  */
-CellRegion *
-clipboard_copy_cell_range (Sheet *sheet, int start_col, int start_row, int end_col, int end_row)
-{
-	append_cell_closure_t c;
-	
-	g_return_val_if_fail (sheet != NULL, NULL);
-	g_return_val_if_fail (IS_SHEET (sheet), NULL);
-	g_return_val_if_fail (start_col <= end_col, NULL);
-	g_return_val_if_fail (start_row <= end_row, NULL);
-
-	c.r = g_new0 (CellRegion, 1);
-
-	c.base_col = start_col;
-	c.base_row = start_row;
-	c.r->cols = end_col - start_col + 1;
-	c.r->rows = end_row - start_row + 1;
-	
-	sheet_cell_foreach_range (
-		sheet, 1, start_col, start_row, end_col, end_row,
-		clipboard_append_cell, &c);
-
-	clipboard_export_cell_region (sheet->workbook, c.r);
-	
-	return c.r;
-}
-
 static int
 paste_cell (Sheet *dest_sheet, Cell *new_cell, int target_col, int target_row, int paste_flags)
 {
@@ -191,25 +63,59 @@ paste_cell (Sheet *dest_sheet, Cell *new_cell, int target_col, int target_row, i
 	return new_cell->parsed_node != 0;
 }
 
+static int
+paste_cell_flags (Sheet *dest_sheet, int target_col, int target_row,
+		  CellCopy *c_copy, int paste_flags)
+{
+	if (!(paste_flags & (PASTE_FORMULAS | PASTE_VALUES))){
+		Cell *cell;
+		
+		cell = sheet_cell_get (dest_sheet,
+				       target_col,
+				       target_row);
+		if (cell && c_copy->u.cell)
+			cell_set_style (cell, c_copy->u.cell->style);
+	} else {
+		Cell *new_cell;
+		
+		if (c_copy->type == CELL_COPY_TYPE_CELL){
+			new_cell = cell_copy (c_copy->u.cell);
+			
+			return paste_cell (
+				dest_sheet, new_cell,
+				target_col, target_row, paste_flags);
+		} else {
+			new_cell = sheet_cell_new (dest_sheet,
+						   target_col, target_row);
+			cell_set_text (new_cell, c_copy->u.text);
+		}
+	}
+
+	return 0;
+}
+
 /*
- * Main entry point for the paste code
+ * do_clipboard_paste_cell_region:
+ *
+ * region:       a Cell Region that contains information to be pasted
+ * dest_col:     initial column where cell pasting takes place
+ * dest_row:     initial row where cell pasting takes place
+ * paste_width:  boundary for pasting (in columns)
+ * paste_height: boundar for pasting (in rows)
+ * paste_flags:  controls what gets pasted (see clipboard.h for details
  */
-void
-clipboard_paste_region (CellRegion *region, Sheet *dest_sheet,
-			int dest_col,       int dest_row,
-			int paste_width,    int paste_height,
-			int paste_flags,    guint32 time)
+static void
+do_clipboard_paste_cell_region (CellRegion *region, Sheet *dest_sheet,
+				int dest_col,       int dest_row,
+				int paste_width,    int paste_height,
+				int paste_flags)
 {
 	CellCopyList *l;
 	GList *deps;
 	int formulas = 0;
 	int col, row;
-	
-	g_return_if_fail (region != NULL);
-	g_return_if_fail (dest_sheet != NULL);
-	g_return_if_fail (IS_SHEET (dest_sheet));
 
-	/* Clear the region where we will paste */
+	/* clear the region where we will paste */
 	if (paste_flags & (PASTE_VALUES | PASTE_FORMULAS))
 		sheet_clear_region (dest_sheet,
 				    dest_col, dest_row,
@@ -240,21 +146,9 @@ clipboard_paste_region (CellRegion *region, Sheet *dest_sheet,
 				if (target_row > dest_row + paste_height - 1)
 					continue;
 
-				if (!(paste_flags & (PASTE_FORMULAS | PASTE_VALUES))){
-					Cell *cell;
-					
-					cell = sheet_cell_get (dest_sheet,
-							       target_col,
-							       target_row);
-					if (cell && c_copy->cell)
-						cell_set_style (cell, c_copy->cell->style);
-				} else {
-					new_cell = cell_copy (c_copy->cell);
-				
-					formulas |= paste_cell (
-						dest_sheet, new_cell,
-						target_col, target_row, paste_flags);
-				}
+				formulas |= paste_cell_flags (
+					dest_sheet, target_col, target_row,
+					c_copy, paste_flags);
 			}
 		}
 	}
@@ -276,6 +170,308 @@ clipboard_paste_region (CellRegion *region, Sheet *dest_sheet,
 }
 
 /*
+ * Creates a CellRegion based on the X selection
+ *
+ * We use \t, ; and "," as cell separators
+ * \n is a line separator
+ */
+static CellRegion *
+x_selection_to_cell_region (char *data, int len)
+{
+	CellRegion *cr;
+	int cols = 0, cur_col = 0;
+	int rows = 0;
+	GList *list = NULL;
+	char *p = data;
+
+	for (;len; len--, p++){
+		if (*p == '\t' || *p == ';' || *p == ',' || *p == '\n'){
+			CellCopy *c_copy;
+			char *text;
+
+			if (p != data){
+				text = g_malloc (p-data);
+				text = strncpy (text, data, p-data-1);
+				text [p-data-1] = 0;
+				
+				c_copy = g_new (CellCopy, 1);
+				c_copy->type = CELL_COPY_TYPE_TEXT;
+				c_copy->col_offset = cur_col;
+				c_copy->row_offset = rows;
+				c_copy->u.text = text;
+				
+				list = g_list_prepend (list, c_copy);
+			}
+			
+			if (*p == '\n')
+				rows++;
+			else {
+				if (cur_col > cols)
+					cols = cur_col;
+				cur_col++;
+			}
+
+			data = p;
+		}
+	}
+
+	/* Return the CellRegion */
+	cr = g_new (CellRegion, 1);	
+	cr->list = list;
+	cr->cols = cols;
+	cr->rows = rows;
+
+	return cr;
+}
+
+/*
+ * x_selection_received
+ *
+ * Invoked when the selection has been received by our application.
+ * This is triggered by a call we do to gtk_selection_convert.
+ */
+static void
+x_selection_received (GtkWidget *widget, GtkSelectionData *sel, gpointer data)
+{
+	SheetSelection *ss;
+	Workbook       *wb = data;
+	clipboard_paste_closure_t *pc = wb->clipboard_paste_callback_data;
+	CellRegion *content;
+	int        paste_height, paste_width;
+	int        end_col, end_row;
+	
+	ss = pc->dest_sheet->selections->data;
+	
+	/* Did X provide any selection? */
+	if (sel->length < 0)
+		content = pc->region;
+	else
+		content = x_selection_to_cell_region (sel->data, sel->length);
+
+	/* Compute the bigger bounding box (selection u clipboard-region) */
+	if (ss->end_col - ss->start_col + 1 > content->cols)
+		paste_width = ss->end_col - ss->start_col + 1;
+	else
+		paste_width = content->cols;
+
+	if (ss->end_row - ss->start_row + 1 > content->rows)
+		paste_height = ss->end_row - ss->start_row + 1;
+	else
+		paste_height = content->rows;
+
+	end_col = pc->dest_col + paste_width - 1;
+	end_row = pc->dest_row + paste_height - 1;
+
+	/* Do the actual paste operation */
+	do_clipboard_paste_cell_region (
+		content,      pc->dest_sheet,
+		pc->dest_col, pc->dest_row,
+		paste_width,  paste_height,
+		pc->paste_flags);
+	
+	sheet_cursor_set (pc->dest_sheet,
+			  pc->dest_col, pc->dest_row,
+			  end_col,      end_row);
+
+	sheet_selection_reset_only (pc->dest_sheet);
+	sheet_selection_append (pc->dest_sheet, pc->dest_col, pc->dest_row);
+	sheet_selection_extend_to (pc->dest_sheet, end_col, end_row);
+
+	/* Release the resources we used */
+	if (sel->length < 0)
+		clipboard_release (content);
+
+	/* Remove our used resources */
+	g_free (wb->clipboard_paste_callback_data);
+	wb->clipboard_paste_callback_data = NULL;
+}
+
+/*
+ * x_selection_handler:
+ *
+ * Callback invoked when another application requests we render the selection.
+ */
+static void
+x_selection_handler (GtkWidget *widget, GtkSelectionData *selection_data, gpointer data)
+{
+	Workbook *wb = data;
+	char *rendered_selection;
+	
+	g_assert (wb->clipboard_contents);
+
+	rendered_selection = cell_region_render_ascii (wb->clipboard_contents);
+	
+	gtk_selection_data_set (
+		selection_data, GDK_SELECTION_TYPE_STRING, 8,
+		rendered_selection, strlen (rendered_selection));
+}
+
+/*
+ * x_selection_clear:
+ *
+ * Callback for the "we lost the X selection" signal
+ */
+static gint
+x_selection_clear (GtkWidget *widget, GdkEventSelection *event, Workbook *wb)
+{
+	wb->have_x_selection = FALSE;
+
+	return TRUE;
+}
+
+/*
+ * x_clipboard_bind_workbook
+ *
+ * Binds the signals related to the X selection to the Workbook
+ */
+void
+x_clipboard_bind_workbook (Workbook *wb)
+{
+	wb->have_x_selection = FALSE;
+	
+	gtk_signal_connect (
+		GTK_OBJECT (wb->toplevel), "selection_clear_event",
+		GTK_SIGNAL_FUNC(x_selection_clear), wb);
+
+	gtk_selection_add_handler (
+		wb->toplevel,
+		GDK_SELECTION_PRIMARY, GDK_SELECTION_TYPE_STRING,
+		x_selection_handler, wb);
+	gtk_signal_connect (
+		GTK_OBJECT (wb->toplevel), "selection_received",
+		GTK_SIGNAL_FUNC(x_selection_received), wb);
+}
+
+/*
+ * clipboard_export_cell_region:
+ *
+ * This routine exports a CellRegion to the X selection
+ */
+static void
+clipboard_export_cell_region (Workbook *wb)
+{
+	wb->have_x_selection = gtk_selection_owner_set (
+		current_workbook->toplevel,
+		GDK_SELECTION_PRIMARY,
+		GDK_CURRENT_TIME);
+}
+
+typedef struct {
+	int        base_col, base_row;
+	CellRegion *r;
+} append_cell_closure_t;
+
+static int
+clipboard_append_cell (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
+{
+	append_cell_closure_t *c = user_data;
+	CellCopy *copy;
+
+	copy = g_new (CellCopy, 1);
+
+	copy->type = CELL_COPY_TYPE_CELL;
+	copy->u.cell = cell_copy (cell);
+	copy->col_offset  = col - c->base_col;
+	copy->row_offset  = row - c->base_row;
+	
+	/* Now clear the traces and dependencies on the copied Cell */
+	copy->u.cell->col   = NULL;
+	copy->u.cell->row   = NULL;
+	copy->u.cell->sheet = NULL;
+	
+	c->r->list = g_list_prepend (c->r->list, copy);
+
+	return TRUE;
+}
+
+/*
+ * clipboard_copy_cell_range:
+ *
+ * Entry point to the clipboard copy code
+ */
+CellRegion *
+clipboard_copy_cell_range (Sheet *sheet, int start_col, int start_row, int end_col, int end_row)
+{
+	append_cell_closure_t c;
+	
+	g_return_val_if_fail (sheet != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+	g_return_val_if_fail (start_col <= end_col, NULL);
+	g_return_val_if_fail (start_row <= end_row, NULL);
+
+	c.r = g_new0 (CellRegion, 1);
+
+	c.base_col = start_col;
+	c.base_row = start_row;
+	c.r->cols = end_col - start_col + 1;
+	c.r->rows = end_row - start_row + 1;
+	
+	sheet_cell_foreach_range (
+		sheet, 1, start_col, start_row, end_col, end_row,
+		clipboard_append_cell, &c);
+
+	clipboard_export_cell_region (sheet->workbook);
+	
+	return c.r;
+}
+
+/*
+ * Main entry point for the paste code
+ */
+void
+clipboard_paste_region (CellRegion *region, Sheet *dest_sheet,
+			int dest_col,       int dest_row,
+			int paste_flags,    guint32 time)
+{
+	clipboard_paste_closure_t *data;
+	
+	g_return_if_fail (region != NULL);
+	g_return_if_fail (dest_sheet != NULL);
+	g_return_if_fail (IS_SHEET (dest_sheet));
+
+	if (dest_sheet->workbook->clipboard_paste_callback_data){
+		g_free (dest_sheet->workbook->clipboard_paste_callback_data);	
+		dest_sheet->workbook->clipboard_paste_callback_data = NULL;
+	}
+
+	/*
+	 * OK, we dont have the X selection, so we try to get it:
+	 * we setup all of the parameters for the callback in
+	 * case the X selection fails and we have to fallback to
+	 * using our internal selection
+	 */
+	data = g_new (clipboard_paste_closure_t, 1);
+	dest_sheet->workbook->clipboard_paste_callback_data = data;
+
+	data->region       = region;
+	data->dest_sheet   = dest_sheet;
+	data->dest_col     = dest_col;
+	data->dest_row     = dest_row;
+	data->paste_flags  = paste_flags;
+
+	/*
+	 * If we own the selection, there is no need to ask X for
+	 * the selection: we do the paste from our internal buffer.
+	 *
+	 * This is better as we have all sorts of useful information
+	 * to paste from in this case (instead of the simplistic text
+	 * we get from X
+	 */
+	if (dest_sheet->workbook->have_x_selection){
+		GtkSelectionData sel;
+
+		sel.length = -1;
+		x_selection_received (dest_sheet->workbook->toplevel, &sel,
+				      dest_sheet->workbook);
+	}
+
+	/* Now, trigger a grab of the X selection */
+	gtk_selection_convert (
+		dest_sheet->workbook->toplevel, GDK_SELECTION_PRIMARY,
+		GDK_SELECTION_TYPE_STRING, time);
+}
+
+/*
  * Destroys the contents of a CellRegion
  */
 void
@@ -285,14 +481,16 @@ clipboard_release (CellRegion *region)
 
 	g_return_if_fail (region != NULL);
 	
-	l = region->list;
-
-	for (; l; l = l->next){
+	for (l = region->list; l; l = l->next){
 		CellCopy *this_cell = l->data;
-
-		cell_destroy (this_cell->cell);
+		
+		if (this_cell->type == CELL_COPY_TYPE_CELL)
+			cell_destroy (this_cell->u.cell);
+		else
+			g_free (this_cell->u.text);
 		g_free (this_cell);
 	}
+
 	g_list_free (region->list);
 	g_free (region);
 }

@@ -437,7 +437,8 @@ context_paste_cmd (GtkWidget *widget, ItemGrid *item_grid)
 	sheet_selection_paste (sheet,
 			       sheet->cursor_col,
 			       sheet->cursor_row,
-			       PASTE_DEFAULT);
+			       PASTE_DEFAULT,
+			       GDK_CURRENT_TIME);
 	context_destroy_menu (widget);
 }
 
@@ -451,7 +452,8 @@ context_paste_special_cmd (GtkWidget *widget, ItemGrid *item_grid)
 	sheet_selection_paste (sheet,
 			       sheet->cursor_col,
 			       sheet->cursor_row,
-			       flags);
+			       flags,
+			       GDK_CURRENT_TIME);
 	context_destroy_menu (widget);
 }
 

@@ -2198,8 +2198,7 @@ void
 sheet_selection_paste (Sheet *sheet, int dest_col, int dest_row, int paste_flags, guint32 time)
 {
 	SheetSelection *ss;
-
-	int             end_col, end_row, paste_width, paste_height;
+	CellRegion *content;
 	
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
@@ -2213,29 +2212,7 @@ sheet_selection_paste (Sheet *sheet, int dest_col, int dest_row, int paste_flags
 	if (!sheet_verify_selection_simple (sheet, _("Paste")))
 		return;
 
-	ss = sheet->selections->data;
-	
-	/* Compute the bigger bounding box (selection u clipboard-region) */
-	if (ss->end_col - ss->start_col + 1 > content->cols)
-		paste_width = ss->end_col - ss->start_col + 1;
-	else
-		paste_width = content->cols;
-
-	if (ss->end_row - ss->start_row + 1 > content->rows)
-		paste_height = ss->end_row - ss->start_row + 1;
-	else
-		paste_height = content->rows;
-
-	end_col = dest_col + paste_width - 1;
-	end_row = dest_row + paste_height - 1;
-
-	clipboard_paste_region (content, sheet, dest_col, dest_row,
-				paste_width, paste_height, paste_flags, time);
-	
-	sheet_cursor_set (sheet, dest_col, dest_row, end_col, end_row);
-	sheet_selection_reset_only (sheet);
-	sheet_selection_append (sheet, dest_col, dest_row);
-	sheet_selection_extend_to (sheet, end_col, end_row);
+	clipboard_paste_region (content, sheet, dest_col, dest_row, paste_flags, time);
 }
 
 static void

@@ -498,7 +498,7 @@ typedef enum {
 } ActionType;
 
 static void
-item_cursor_do_action (ItemCursor *item_cursor, ActionType action)
+item_cursor_do_action (ItemCursor *item_cursor, ActionType action, guint32 time)
 {
 	Sheet *sheet = item_cursor->sheet;
 	int   col = item_cursor->start_col;
@@ -513,7 +513,7 @@ item_cursor_do_action (ItemCursor *item_cursor, ActionType action)
 			return;
 		if (!sheet_selection_copy (sheet))
 			return;
-		sheet_selection_paste (sheet, col, row, PASTE_ALL_TYPES);
+		sheet_selection_paste (sheet, col, row, PASTE_ALL_TYPES, time);
 		return;
 		
 	case ACTION_MOVE_CELLS:
@@ -521,7 +521,7 @@ item_cursor_do_action (ItemCursor *item_cursor, ActionType action)
 			return;
 		if (!sheet_selection_cut (sheet))
 			return;
-		sheet_selection_paste (sheet, col, row, PASTE_ALL_TYPES);
+		sheet_selection_paste (sheet, col, row, PASTE_ALL_TYPES, time);
 		return;
 		
 	case ACTION_COPY_FORMATS:
@@ -529,7 +529,7 @@ item_cursor_do_action (ItemCursor *item_cursor, ActionType action)
 			return;
 		if (!sheet_selection_copy (sheet))
 			return;
-		sheet_selection_paste (sheet, col, row, PASTE_FORMATS);
+		sheet_selection_paste (sheet, col, row, PASTE_FORMATS, time);
 		return;
 		
 	case ACTION_COPY_VALUES:
@@ -537,7 +537,7 @@ item_cursor_do_action (ItemCursor *item_cursor, ActionType action)
 			return;
 		if (!sheet_selection_copy (sheet))
 			return;
-		sheet_selection_paste (sheet, col, row, PASTE_VALUES);
+		sheet_selection_paste (sheet, col, row, PASTE_VALUES, time);
 		return;
 		
 	case ACTION_SHIFT_DOWN_AND_COPY:
@@ -564,19 +564,19 @@ static char *drop_context_actions [] = {
  * Invoked when the item has been dropped
  */
 static void
-item_cursor_do_drop (ItemCursor *item_cursor, GdkEvent *event)
+item_cursor_do_drop (ItemCursor *item_cursor, GdkEventButton *event)
 {
 	ActionType action;
 
 	/* Find out what to do */
-	if (event->button.button == 3)
+	if (event->button == 3)
 		action = (ActionType) run_popup_menu (event, 1, drop_context_actions);
-	else if (event->button.state & GDK_CONTROL_MASK)
+	else if (event->state & GDK_CONTROL_MASK)
 		action = ACTION_COPY_CELLS;
 	else
 		action = ACTION_MOVE_CELLS;
 
-	item_cursor_do_action (item_cursor, action);
+	item_cursor_do_action (item_cursor, action, event->time);
 }
 
 static void
@@ -628,7 +628,7 @@ item_cursor_drag_event (GnomeCanvasItem *item, GdkEvent *event)
 	switch (event->type){
 	case GDK_BUTTON_RELEASE:
 		gnome_canvas_item_ungrab (item, event->button.time);
-		item_cursor_do_drop (item_cursor, event);
+		item_cursor_do_drop (item_cursor, (GdkEventButton *) event);
 		gtk_object_destroy (GTK_OBJECT (item));
 		return TRUE;
 

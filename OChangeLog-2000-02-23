@@ -1,3 +1,39 @@
+1998-09-28  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/sheet-autofill.c (matches_list): Allow the lists to include
+	an asterisk to be able to distinguish between abbreviations and
+	full descriptions.
+
+	* src/clipboard.c (x_selection_to_cell_region): New routine.
+	Creates a CellRegion of type text based on the selection provided
+	by X.
+	(paste_cell_flags): New function, decoupled from
+	do_clipboard_paste_cell_region.   Handles new type in CellCopy.
+
+	* src/sheet.c (sheet_selection_paste): Simplified as most of the
+	work is now 
+
+	* src/clipboard.c (x_selection_received): Perform the paste
+	operation, moved most of the logic from sheet.c.  This does both
+	internal paste and paste from the X selection (and everything
+	works the way the user expects it to behave).
+
+1998-09-27  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/cell.h: Cell Copys now can contain both Cells or plain
+	text.
+
+	* src/expr.c (function_call_with_values): Check the return value
+	from symbol_lookup.
+
+1998-09-27  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* plugins/python/python.c (marshal_func): Our scheduled
+	indentation changes.
+
+	* plugins/python/gnumeric_startup.py: Sample file that gets loaded
+	when the Module is loaded.  
+
 1998-09-27  Raja R Harinath  <harinath@cs.umn.edu>
 
 	* configure.in (GNOME_COMPILE_WARNINGS): New check.
@@ -30,6 +66,9 @@
 	up the markup some   
 
 1998-09-26  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/sheet-object.c (sheet_view_object_realize): Swap coordinates
+	before passing to the canvas item.
 
 	* plugins/python/python.c (init_plugin): Use the system
 	installation directory to load the python scripts.

@@ -11,6 +11,11 @@
 #include "gnumeric-util.h"
 #include "render-ascii.h"
 
+/*
+ * Renders a CellRegion (we only deal with Cell Regions of type
+ * Cell, we do not render the text ones, as those can only happen
+ * if we got the information from the X selection.
+ */
 char *
 cell_region_render_ascii (CellRegion *cr)
 {
@@ -19,7 +24,8 @@ cell_region_render_ascii (CellRegion *cr)
 	char ***data, *return_val;
 	int col, row;
 
-	g_assert (cr != NULL);
+	g_return_val_if_fail (cr != NULL, NULL);
+	
 	data = g_new0 (char **, cr->rows);
 
 	for (row = 0; row < cr->rows; row++)
@@ -27,8 +33,14 @@ cell_region_render_ascii (CellRegion *cr)
 	
 	for (l = cr->list; l; l = l->next){
 		CellCopy *c_copy = l->data;
-
-		data [c_copy->row_offset][c_copy->col_offset] = CELL_TEXT_GET (c_copy->cell);
+		char *v;
+		
+		if (c_copy->type == CELL_COPY_TYPE_CELL)
+			v = CELL_TEXT_GET (c_copy->u.cell);
+		else
+			v = c_copy->u.text;
+		
+		data [c_copy->row_offset][c_copy->col_offset] = v;
 	}
 
 	all = g_string_new (NULL);

@@ -52,15 +52,24 @@ typedef GList CellList;
 #define CELL_TEXT_GET(cell) ((cell)->text ? cell->text->str : cell->entered_text->str)
 #define CELL_IS_FORMULA(cell) (cell->entered_text->str [0] == '=')
 
+typedef enum {
+	CELL_COPY_TYPE_CELL,
+	CELL_COPY_TYPE_TEXT,
+} CellCopyType;
+
 typedef struct {
-	int col_offset, row_offset; /* Position of the cell */
-	Cell *cell;
+	int  col_offset, row_offset; /* Position of the cell */
+	int  type;
+	union {
+		Cell *cell;
+		char *text;
+	} u;
 } CellCopy;
 
 typedef GList CellCopyList;
 
 typedef struct {
-	int            cols, rows;
+	int          cols, rows;
 	CellCopyList *list;
 } CellRegion;
 

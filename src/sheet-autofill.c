@@ -125,12 +125,23 @@ matches_list (String *str, int *n, int *is_i18n)
 		int i;
 		
 		for (i = 0; i < afl->count; i++){
-			if ((strcasecmp (afl->items [i], s) == 0)){
+			char *english_text, *translated_text;
+
+			english_text = afl->items [i];
+			if (*english_text == '*')
+				english_text++;
+			
+			if ((strcasecmp (english_text, s) == 0)){
 				*is_i18n = FALSE;
 				*n = i;
 				return afl;
 			}
-			if (strcasecmp (_(afl->items [i]), s) == 0){
+
+			translated_text = _(afl->items [i]);
+			if (*translated_text == '*')
+				translated_text++;
+			
+			if (strcasecmp (translated_text, s) == 0){
 				*is_i18n = TRUE;
 				*n = i;
 				return afl;
@@ -491,6 +502,9 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 		if (last->v.list.was_i18n)
 			text = _(text);
 
+		if (*text == '*')
+			text++;
+		
 		cell_set_text (cell, text);
 			       
 		return;
@@ -593,9 +607,9 @@ static char *months [] = {
 };
 
 static char *short_months [] = {
-	N_("Jan"), N_("Feb"), N_("Mar"), N_("Apr"),
-	N_("May"), N_("Jun"), N_("Jul"), N_("Aug"),
-	N_("Sep"), N_("Oct"), N_("Nov"), N_("Dec"),
+	N_("*Jan"), N_("*Feb"), N_("*Mar"), N_("*Apr"),
+	N_("*May"), N_("*Jun"), N_("*Jul"), N_("*Aug"),
+	N_("*Sep"), N_("*Oct"), N_("*Nov"), N_("*Dec"),
 	NULL
 };
 
@@ -611,8 +625,8 @@ static char *weekdays [] = {
 };
 
 static char *short_weekdays [] = {
-	N_("Mon"), N_("Tue"), N_("Wed"), N_("Thu"),
-	N_("Fri"), N_("Sat"), N_("Sun"), NULL
+	N_("*Mon"), N_("*Tue"), N_("*Wed"), N_("*Thu"),
+	N_("*Fri"), N_("*Sat"), N_("*Sun"), NULL
 };
 
 static void

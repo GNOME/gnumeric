@@ -226,7 +226,8 @@ paste_cmd (GtkWidget *widget, Workbook *wb)
 	Sheet *sheet;
 
 	sheet = workbook_get_current_sheet (wb);
-	sheet_selection_paste (sheet, sheet->cursor_col, sheet->cursor_row, PASTE_DEFAULT);
+	sheet_selection_paste (sheet, sheet->cursor_col, sheet->cursor_row,
+			       PASTE_DEFAULT, GDK_CURRENT_TIME);
 }
 
 static void
@@ -263,7 +264,8 @@ paste_special_cmd (GtkWidget *widget, Workbook *wb)
 
 	sheet = workbook_get_current_sheet (wb);
 	flags = dialog_paste_special ();
-	sheet_selection_paste (sheet, sheet->cursor_col, sheet->cursor_row, flags);
+	sheet_selection_paste (sheet, sheet->cursor_col, sheet->cursor_row,
+			       flags, GDK_CURRENT_TIME);
 	
 }
 
@@ -1059,15 +1061,15 @@ workbook_feedback_set (Workbook *workbook, WorkbookFeedbackType type, void *data
 void
 workbook_set_title (Workbook *wb, char *title)
 {
-	char *title;
+	char *full_title;
 	
 	g_return_if_fail (wb != NULL);
 	g_return_if_fail (title != NULL);
 
-	title = g_copy_strings ("Gnumeric: ", title, NULL);
+	full_title = g_copy_strings ("Gnumeric: ", title, NULL);
 	
- 	gtk_window_set_title (GTK_WINDOW (wb->toplevel), title);
-	g_free (title);
+ 	gtk_window_set_title (GTK_WINDOW (wb->toplevel), full_title);
+	g_free (full_title);
 }
 
 void
