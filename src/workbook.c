@@ -2807,7 +2807,6 @@ workbook_new (void)
 		bonobo_ui_component_add_verb_list_with_data (
 			component, verbs, wb);
 		
-		data_dir = gnumeric_sys_data_dir (NULL);
 		fname = bonobo_ui_util_get_ui_fname (
 			GNOME_DATADIR, "gnumeric.xml");
 
