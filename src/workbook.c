@@ -2303,9 +2303,10 @@ cb_assemble_selection (gpointer key, gpointer value, gpointer user_data)
 	selection_assemble_closure_t *info = (selection_assemble_closure_t *) user_data;
 	Sheet *sheet = value;
 	gboolean include_prefix;
+	char *sel;
 	
 	if (*info->result->str)
-		g_string_append_c (info->result, ",");
+		g_string_append_c (info->result, ',');
 
 	/*
 	 * If a base sheet is specified, use this to avoid prepending
@@ -2317,7 +2318,7 @@ cb_assemble_selection (gpointer key, gpointer value, gpointer user_data)
 		include_prefix = FALSE;
 	
 	sel = sheet_selection_to_string (sheet, include_prefix);
-	g_string_append (res, sel);
+	g_string_append (info->result, sel);
 	g_free (sel);
 }
 
@@ -2325,7 +2326,7 @@ char *
 workbook_selection_to_string (Workbook *wb, Sheet *base_sheet)
 {
 	selection_assemble_closure_t info;
-	char *str;
+	char *str, *result;
 	
 	g_return_val_if_fail (wb != NULL, NULL);
 
@@ -2337,8 +2338,8 @@ workbook_selection_to_string (Workbook *wb, Sheet *base_sheet)
 	info.base_sheet = base_sheet;
 	g_hash_table_foreach (wb->sheets, cb_assemble_selection, &info);
 
-	result = info->result->str;
-	g_string_free (info->result, FALSE);
+	result = info.result->str;
+	g_string_free (info.result, FALSE);
 
 	return result;
 }

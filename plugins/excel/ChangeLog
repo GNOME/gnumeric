@@ -1,5 +1,9 @@
 1999-05-16  Michael Meeks  <michael@imaginator.com>
 
+	* ms-excel-write.c: Large updates.
+
+1999-05-16  Michael Meeks  <michael@imaginator.com>
+
 	* ms-formula-read.c (make_function): Allow fn_idx == 0
 	add translation for RANK.
 

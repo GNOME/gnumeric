@@ -31,6 +31,60 @@
 #include "excel.h"
 #include "ms-excel-write.h"
 
+
+
+typedef struct _SHEET    SHEET;
+typedef struct _WORKBOOK WORKBOOK;
+
+struct _SHEET {
+	Sheet    *gnum_sheet;
+	WORKBOOK *wb;
+	guint32   streamPos;
+	guint32   boundsheetPos;
+};
+
+struct _WORKBOOK {
+	Workbook      *gnum_wb;
+	GPtrArray     *sheets;
+	eBiff_version  ver;
+};
+
+/**
+ *  This function writes simple strings...
+ *  FIXME: see S59D47.HTM for full description
+ **/
+static void
+biff_put_text (BIFF_PUT *bp, char *txt, eBiff_version ver)
+{
+#define BLK_LEN 16
+
+	guint8 data[BLK_LEN];
+	guint32 lpi, lpo, len ;
+
+	g_return_if_fail (bp);
+	g_return_if_fail (txt);
+
+	len = strlen (txt);
+	if (ver >= eBiffV8) { /* Write header & word length*/
+		data[0] = 0;
+		BIFF_SET_GUINT16(data+1, len);
+		ms_biff_put_var_write (bp, data, 3);
+	} else { /* Byte length */
+		g_return_if_fail (len>255);
+		BIFF_SET_GUINT8(data, len);
+		ms_biff_put_var_write (bp, data, 1);
+	}
+
+	/* An attempt at efficiency */
+	for (lpo=0;lpo<(len+BLK_LEN-1)/BLK_LEN;lpo++) {
+		guint cpy = (len-lpo*BLK_LEN)%BLK_LEN;
+		for (lpi=0;lpi<cpy;lpi++)
+			data[lpi]=*txt++;
+		ms_biff_put_var_write (bp, data, cpy);
+	}
+#undef BLK_LEN
+}
+
 /**
  * See S59D5D.HTM
  **/
@@ -98,87 +152,124 @@ biff_eof_write (BIFF_PUT *bp)
 	ms_biff_put_len_commit (bp);
 }
 
-typedef struct {
-	GPtrArray *gnum_sheets;
-	GArray    *streamPos;
-	guint32    boundsheet_pos;
-} BOUNDSHEET_DATA;
-
-static BOUNDSHEET_DATA *
-biff_boundsheet_write_first (BIFF_PUT *bp, Workbook *wb, eBiff_version ver)
+/**
+ * Returns stream position of start.
+ * See: S59D61.HTM
+ **/
+static guint32
+biff_boundsheet_write_first (BIFF_PUT *bp, eBiff_filetype type,
+			     char *name, eBiff_version ver)
 {
-	BOUNDSHEET_DATA *bsd = g_new (BOUNDSHEET_DATA, 1) ;
-/*
+	guint32 pos;
+	guint8 data[16];
+
+	ms_biff_put_var_next (bp, BIFF_BOUNDSHEET);
+	pos = bp->streamPos;	
+
+	BIFF_SET_GUINT32 (data, 0xdeadbeef); /* To be stream start pos */
+	switch (type) {
+	case eBiffTWorksheet:
+		BIFF_SET_GUINT8 (data+4, 00);
+		break;
+	case eBiffTMacrosheet:
+		BIFF_SET_GUINT8 (data+4, 01);
+		break;
+	case eBiffTChart:
+		BIFF_SET_GUINT8 (data+4, 02);
+		break;
+	case eBiffTVBModule:
+		BIFF_SET_GUINT8 (data+4, 06);
+		break;
+	default:
+		g_warning ("Duff type\n");
+		break;
+	}
+	BIFF_SET_GUINT8 (data+5, 0); /* Visible */
+	ms_biff_put_var_write (bp, data, 6);
+
+	biff_put_text (bp, name, ver);
+
+	ms_biff_put_var_commit (bp);
+	return pos;
+}
+
+/**
+ *  Update a previously written record with the correct
+ * stream position.
+ **/
+static void
+biff_boundsheet_write_last (MS_OLE_STREAM *s, guint32 pos,
+			    guint32 streamPos)
+{
+	guint8  data[4];
+	guint32 oldpos;
+	g_return_if_fail (s);
 	
-
-	ans->streamStartPos = BIFF_GETLONG (q->data);
-	switch (BIFF_GETBYTE (q->data + 4)){
-	case 00:
-		ans->type = eBiffTWorksheet;
-		break;
-	case 01:
-		ans->type = eBiffTMacrosheet;
-		break;
-	case 02:
-		ans->type = eBiffTChart;
-		break;
-	case 06:
-		ans->type = eBiffTVBModule;
-		break;
-	default:
-		printf ("Unknown sheet type : %d\n", BIFF_GETBYTE (q->data + 4));
-		ans->type = eBiffTUnknown;
-		break;
-	}
-	switch ((BIFF_GETBYTE (q->data + 5)) & 0x3){
-	case 00:
-		ans->hidden = eBiffHVisible;
-		break;
-	case 01:
-		ans->hidden = eBiffHHidden;
-		break;
-	case 02:
-		ans->hidden = eBiffHVeryHidden;
-		break;
-	default:
-		printf ("Unknown sheet hiddenness %d\n", (BIFF_GETBYTE (q->data + 4)) & 0x3);
-		ans->hidden = eBiffHVisible;
-		break;
-	}
-	if (ver == eBiffV8) {
-		int slen = BIFF_GETWORD (q->data + 6);
-		ans->name = biff_get_text (q->data + 8, slen, NULL);
-	} else {
-		int slen = BIFF_GETBYTE (q->data + 6);
-
-		ans->name = biff_get_text (q->data + 7, slen, NULL);
-	}
-
-	ans->index = (guint16)g_hash_table_size (wb->boundsheet_data_by_index) ;
-	g_hash_table_insert (wb->boundsheet_data_by_index,
-			     &ans->index, ans) ;
-	g_hash_table_insert (wb->boundsheet_data_by_stream, 
-			     &ans->streamStartPos, ans) ;
-
-	g_assert (ans->streamStartPos == BIFF_GETLONG (q->data)) ;
-	ans->sheet = ms_excel_sheet_new (wb, ans->name);
-	ms_excel_workbook_attach (wb, ans->sheet);*/
-	return bsd;
+	oldpos = s->position;/* FIXME: tell function ? */
+	s->lseek (s, pos+4, MS_OLE_SEEK_SET);
+	BIFF_SET_GUINT32 (data, streamPos);
+	s->write (s, data, 4);
+	s->lseek (s, oldpos, MS_OLE_SEEK_SET);
 }
 
 static void
-write_workbook (BIFF_PUT *bp, Workbook *wb,
-		eBiff_version ver)
+new_sheet (gpointer key, Sheet *value, WORKBOOK *wb)
 {
+	SHEET *sheet      = g_new (SHEET, 1);
+	g_return_if_fail (value);
+	g_return_if_fail (wb);
+
+	sheet->gnum_sheet = value;
+	sheet->streamPos  = 0x0deadbee;
+	sheet->wb         = wb;
+	g_ptr_array_add (wb->sheets, value);
+}
+
+static void
+write_sheet (BIFF_PUT *bp, SHEET *sheet)
+{
+	sheet->streamPos = bp->streamPos; /* (?) */
+
+	biff_bof_write (bp, sheet->wb->ver, eBiffTWorksheet);
+	biff_eof_write (bp);
+}
+
+static void
+write_workbook (BIFF_PUT *bp, Workbook *gwb, eBiff_version ver)
+{
+	WORKBOOK *wb = g_new (WORKBOOK, 1);
 	int lp;
 
-	biff_bof_write (bp, ver, eBiffTWorkbook);
-	biff_eof_write (bp);
+	wb->ver      = ver;
+	wb->gnum_wb  = gwb;
+	wb->sheets   = g_ptr_array_new ();
+	
+	g_hash_table_foreach (gwb->sheets, (GHFunc)new_sheet, wb->sheets);
 
-	for (lp=0;lp<10;lp++) { /* Sheets */
-		biff_bof_write (bp, ver, eBiffTWorksheet);
-		biff_eof_write (bp);
+	/* Workbook */
+	biff_bof_write (bp, ver, eBiffTWorkbook);
+
+	for (lp=0;lp<wb->sheets->len;lp++) {
+		SHEET   *s       = g_ptr_array_index (wb->sheets, lp);
+		s->boundsheetPos = biff_boundsheet_write_first (bp, eBiffTWorksheet,
+								s->gnum_sheet->name, wb->ver);
 	}
+
+	biff_eof_write (bp);
+	/* End of Workbook */
+	
+	/* Sheets */
+	for (lp=0;lp<wb->sheets->len;lp++)
+		write_sheet (bp, g_ptr_array_index (wb->sheets, lp));
+	/* End of Sheets */
+
+	/* Finalise Workbook stuff */
+	for (lp=0;lp<wb->sheets->len;lp++) {
+		SHEET *s = g_ptr_array_index (wb->sheets, lp);
+		biff_boundsheet_write_last (bp->pos, s->boundsheetPos,
+					    s->streamPos);
+	}
+	/* End Finalised workbook */
 }
 
 int

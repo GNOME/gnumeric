@@ -1,3 +1,15 @@
+1999-05-16  Michael Meeks  <michael@imaginator.com>
+
+	* src/workbook.c (cb_assemble_selection): Add 'char *sel'
+	and change "," -> ','
+	(workbook_selection_to_string): Add 'char *result'
+	Fix incorrect pointer dereference.
+
+	* src/sheet.c (reference_append): Fix appended strings to
+	characters.
+	(sheet_selection_to_string): Add missing GList pointer
+	'selections'. Changes ":" -> ':', rename res to 'info->result'
+
 1999-05-15  Heath Martin <martinh@pegasus.cc.ucf.edu>
 
 	* src/gnumeric-sheet.c (gnumeric_sheet_compute_visible_ranges):

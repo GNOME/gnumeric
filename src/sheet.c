@@ -1693,9 +1693,9 @@ reference_append (GString *result_str, int col, int row)
 {
 	char *row_string = g_strdup_printf ("%d", row);
 	
-	g_string_append_c (result_str, "$");
+	g_string_append_c (result_str, '$');
 	g_string_append (result_str, col_name (col));
-	g_string_append_c (result_str, "$");
+	g_string_append_c (result_str, '$');
 	g_string_append (result_str, row_string);
 	
 	g_free (row_string);
@@ -1705,7 +1705,8 @@ char *
 sheet_selection_to_string (Sheet *sheet, gboolean include_sheet_name_prefix)
 {
 	GString *result_str;
-	char *result;
+	GList   *selections;
+	char    *result;
 	sheet_cell_foreach_callback assembler;
 	
 	g_return_val_if_fail (sheet != NULL, NULL);
@@ -1728,7 +1729,7 @@ sheet_selection_to_string (Sheet *sheet, gboolean include_sheet_name_prefix)
 		if ((ss->start_col != ss->end_col) ||
 		    (ss->start_row != ss->end_row)){
 			reference_append (result_str, ss->start_col, ss->end_row);
-			g_string_append_c (result_str, ":");
+			g_string_append_c (result_str, ':');
 			reference_append (result_str, ss->end_col, ss->end_row);
 		} else
 			reference_append (result_str, ss->start_col, ss->start_row);
