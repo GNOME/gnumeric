@@ -1,5 +1,20 @@
 2001-06-07  Almer S. Tigelaar  <almer@gnome.org>
 
+	* src/consolidate.c (retrieve_col_tree): Ignore
+	empty values.
+	(retrieve_row_tree): Idem.
+	(key_list_get): Idem.
+	(key_list_free): Burn.
+	(colrow_consolidate): Free the lists directly instead
+	of calling key_list_free.
+	(simple_consolidate): Add flag, we don't want
+	range merge optimizations on simple consolidations.
+	(consolidate_apply): Adjust call to simple_consolidate.
+	(cb_col_tree): Idem.
+	(cb_row_tree): Idem.
+
+2001-06-07  Almer S. Tigelaar  <almer@gnome.org>
+
 	* src/workbook-control.h: Remove MS_ALL as flag
 	and make it a define.
 

@@ -373,7 +373,7 @@ retrieve_row_tree (Consolidate *cs)
 		for (row = sgr->range.start.row; row <= sgr->range.end.row; row++) {
 			Value const *v = sheet_cell_get_value (sgr->sheet, sgr->range.start.col, row);
 
-			if (v) {
+			if (v && v->type != VALUE_EMPTY) {
 				GlobalRange *gr;
 				GSList *granges;
 				TreeItem *ti;
@@ -432,7 +432,7 @@ retrieve_col_tree (Consolidate *cs)
 		for (col = sgr->range.start.col; col <= sgr->range.end.col; col++) {
 			Value const *v = sheet_cell_get_value (sgr->sheet, col, sgr->range.start.row);
 			
-			if (v) {
+			if (v && v->type != VALUE_EMPTY) {
 				GlobalRange *gr;
 				GSList *granges;
 				TreeItem *ti;
@@ -509,25 +509,13 @@ key_list_get (Consolidate *cs, gboolean is_cols)
 			 * also we treat the value as a constant, we don't duplicate it. It will
 			 * not change during the consolidation.
 			 */
-			if (g_slist_find_custom (keys, (Value *) v, (GCompareFunc) cb_key_find) == NULL)
+			if (v && v->type != VALUE_EMPTY
+			    && g_slist_find_custom (keys, (Value *) v, (GCompareFunc) cb_key_find) == NULL)
 				keys = g_slist_insert_sorted (keys, (Value *) v, (GCompareFunc) cb_value_compare);
 		}
 	}
 	
 	return keys;
-}
-
-static void
-key_list_free (GSList *keys)
-{
-	g_return_if_fail (keys != NULL);
-
-	/*
-	 * NOTE: There's no need to actually free the individual values.
-	 * themselves. These are constpointers to Value *'s which are assigned
-	 * to cells on the sheet.
-	 */
-	g_slist_free (keys);
 }
 
 /**********************************************************************************
@@ -554,7 +542,7 @@ key_list_free (GSList *keys)
  **/ 
 static void
 simple_consolidate (FunctionDefinition *fd, GlobalRange const *dst, GSList const *src,
-		    int *end_col, int *end_row)
+		    gboolean is_col_or_row, int *end_col, int *end_row)
 {
 	GSList const *l;
 	Range box;
@@ -602,8 +590,10 @@ simple_consolidate (FunctionDefinition *fd, GlobalRange const *dst, GSList const
 				 * this looks nicer for the formula's and can
 				 * save us much allocations which in turn
 				 * improves performance. Don't remove!
+				 * NOTE: Only for col/row consolidation!
+				 * This won't work for simple consolidations.
 				 */
-				if (prev_sheet == gr->sheet) {
+				if (is_col_or_row && prev_sheet == gr->sheet) {
 					if (prev_r->a.row == r.start.row
 					    && prev_r->b.row == r.start.row
 					    && prev_r->b.col + 1 == r.start.col) {
@@ -665,7 +655,7 @@ cb_row_tree (Value const *key, TreeItem *ti, ConsolidateContext *cc)
 	if (cs->mode & CONSOLIDATE_COPY_LABELS)
 		set_cell_value (cs->dst->sheet, cc->colrow->range.start.col - 1,
 				cc->colrow->range.start.row, key);
-	simple_consolidate (cs->fd, cc->colrow, ti->val, &end_col, NULL);
+	simple_consolidate (cs->fd, cc->colrow, ti->val, FALSE, &end_col, NULL);
 	
 	if (end_col > cc->colrow->range.end.col)
 		cc->colrow->range.end.col = end_col;
@@ -736,7 +726,7 @@ cb_col_tree (Value const *key, TreeItem *ti, ConsolidateContext *cc)
 				cc->colrow->range.start.row - 1,
 				key);
 			       
-	simple_consolidate (cs->fd, cc->colrow, ti->val, NULL, &end_row);
+	simple_consolidate (cs->fd, cc->colrow, ti->val, FALSE, NULL, &end_row);
 
 	if (end_row > cc->colrow->range.end.row)
 		cc->colrow->range.end.row = end_row;
@@ -891,9 +881,13 @@ colrow_consolidate (Consolidate *cs)
 				  cs->dst->range.end.col + x - 1,
 				  cs->dst->range.end.row + y - 1,
 				  cs->mode & CONSOLIDATE_PUT_VALUES);
-				 
-	key_list_free (rows);
-	key_list_free (cols);
+
+	/*
+	 * No need to free the values in these
+	 * lists, they are constpointers.
+	 */
+	g_slist_free (rows);
+	g_slist_free (cols);
 }
 
 /**
@@ -942,7 +936,7 @@ consolidate_apply (Consolidate *cs)
 	else {
 		int end_row, end_col;
 		
-		simple_consolidate (cs->fd, cs->dst, cs->src, &end_col, &end_row);
+		simple_consolidate (cs->fd, cs->dst, cs->src, FALSE, &end_col, &end_row);
 		redraw_respan_and_select (cs->dst->sheet,
 					  cs->dst->range.start.col,
 					  cs->dst->range.start.row,
