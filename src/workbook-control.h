@@ -12,7 +12,7 @@ GtkType workbook_control_get_type    (void);
 void 	workbook_control_set_view    (WorkbookControl *wbc,
 				      WorkbookView *optional_view,
 				      Workbook *optional_wb);
-void    workbook_control_sheets_init (WorkbookControl *wbc);
+void    workbook_control_init_state  (WorkbookControl *wbc);
 
 /* Create a new control of the same form */
 WorkbookControl *wb_control_wrapper_new (WorkbookControl *wbc,

@@ -50,6 +50,7 @@ struct _WorkbookControlGUI {
 	GtkWidget *font_name_selector;
 	GtkWidget *font_size_selector;
 	GtkWidget *zoom_entry;
+	GtkWidget *fore_color, *back_color;
 
 	/* ComboStacks */
 	GtkWidget *undo_combo, *redo_combo;

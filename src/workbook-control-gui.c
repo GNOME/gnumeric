@@ -50,6 +50,7 @@
 #include "cell.h"
 #include "gui-file.h"
 #include "search.h"
+#include <gal/widgets/widget-color-combo.h>
 
 #ifdef ENABLE_BONOBO
 #include "sheet-object-container.h"
@@ -211,6 +212,22 @@ static WorkbookControl *
 wbcg_control_new (WorkbookControl *wbc, WorkbookView *wbv, Workbook *wb)
 {
 	return workbook_control_gui_new (wbv, wb);
+}
+
+static void
+wbcg_init_state (WorkbookControl *wbc)
+{
+	WorkbookView	   *wbv = wb_control_view (wbc);
+	WorkbookControlGUI *wbcg = WORKBOOK_CONTROL_GUI (wbc);
+	ColorCombo *combo;
+
+	/* Associate the combos with the view */
+	combo = COLOR_COMBO (wbcg->back_color);
+	color_palette_set_group (combo->palette,
+		color_group_fetch ("back_color_group", wbv));
+	combo = COLOR_COMBO (wbcg->fore_color);
+	color_palette_set_group (combo->palette,
+		color_group_fetch ("fore_color_group", wbv));
 }
 
 static void
@@ -3367,9 +3384,6 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 
 	wbcg_history_setup (wbcg);		/* Dynamic history menu items. */
 
-	/* There is nothing to undo/redo yet */
-	wbcg_undo_redo_labels (WORKBOOK_CONTROL (wbcg), NULL, NULL);
-
 	/*
 	 * Initialize the menu items, This will enable insert cols/rows
 	 * and paste special to the currently valid values for the
@@ -3445,6 +3459,7 @@ workbook_control_gui_ctor_class (GtkObjectClass *object_class)
 	wbc_class->context_class.error.splits_array  = wbcg_error_splits_array;
 
 	wbc_class->control_new		= wbcg_control_new;
+	wbc_class->init_state		= wbcg_init_state;
 	wbc_class->title_set		= wbcg_title_set;
 	wbc_class->prefs_update		= wbcg_prefs_update;
 	wbc_class->format_feedback	= wbcg_format_feedback;
@@ -3491,7 +3506,7 @@ workbook_control_gui_new (WorkbookView *optional_view, Workbook *wb)
 	wbc = WORKBOOK_CONTROL (wbcg);
 	workbook_control_gui_init (wbcg, optional_view, wb);
 
-	workbook_control_sheets_init (wbc);
+	workbook_control_init_state (wbc);
 
 	return wbc;
 }

@@ -800,9 +800,10 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 
 	/* Create the background colour combo box */
 	cg = color_group_fetch ("back_color_group", wbcg);
-	back_combo = color_combo_new (bucket_xpm, _("Clear Background"),
-				      /* Draw an outline for the default */
-				      NULL, cg);
+	wbcg->back_color = back_combo =
+		color_combo_new (bucket_xpm, _("Clear Background"),
+				 /* Draw an outline for the default */
+				 NULL, cg);
 	gtk_signal_connect (GTK_OBJECT (back_combo), "changed",
 			    GTK_SIGNAL_FUNC (cb_back_color_changed), wbcg);
 	disable_focus (back_combo, NULL);
@@ -811,9 +812,10 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 
 	/* Create the font colour combo box.  */
 	cg = color_group_fetch ("fore_color_group", wbcg);
-	fore_combo = color_combo_new (font_xpm, _("Automatic"),
-				      /* Draw black for the default */
-				      &gs_black, cg);
+	wbcg->fore_color = fore_combo =
+		color_combo_new (font_xpm, _("Automatic"),
+				 /* Draw black for the default */
+				 &gs_black, cg);
 	gtk_signal_connect (GTK_OBJECT (fore_combo), "changed",
 			    GTK_SIGNAL_FUNC (cb_fore_color_changed), wbcg);
 	disable_focus (fore_combo, NULL);

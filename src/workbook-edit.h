@@ -6,7 +6,7 @@
 
 void        workbook_start_editing_at_cursor (WorkbookControlGUI *wbcg,
 					      gboolean blankp, gboolean cursorp);
-gboolean    workbook_finish_editing          (WorkbookControlGUI *wbcg, gboolean const accept);
+gboolean    workbook_finish_editing          (WorkbookControlGUI *wbcg, gboolean accept);
 
 gboolean    workbook_editing_expr            (WorkbookControlGUI const  *wbcg);
 GtkEntry   *workbook_get_entry               (WorkbookControlGUI const  *wbcg);
@@ -20,7 +20,7 @@ void	    workbook_edit_select_absolute    (WorkbookControlGUI        *wbcg);
 
 void        workbook_auto_complete_destroy   (WorkbookControlGUI *wbcg);
 
-const char *workbook_edit_get_display_text   (WorkbookControlGUI *wbcg);
+char const *workbook_edit_get_display_text   (WorkbookControlGUI *wbcg);
 gboolean    workbook_auto_completing         (WorkbookControlGUI *wbcg);
 
 void        workbook_edit_init               (WorkbookControlGUI *wbcg);

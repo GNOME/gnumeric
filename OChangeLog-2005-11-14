@@ -1,5 +1,20 @@
 2001-04-17  Jody Goldberg <jgoldberg@home.com>
 
+	* src/workbook-control-gui.c (wbcg_init_state) : implement.
+
+2001-04-16  Jody Goldberg <jgoldberg@home.com>
+
+	s/workbook_control_sheets_init/workbook_control_init_state/
+
+	* src/commands.c (command_setup_combos) : new function to initialize
+	  the undo/redo combos into a known state.
+	* src/workbook-control.c (workbook_control_sheets_init) : called here.
+
+	* src/workbook-control.c (wb_control_change_view) : new virtual.
+	(workbook_control_set_view) : called here.
+
+2001-04-17  Jody Goldberg <jgoldberg@home.com>
+
 	* src/workbook-edit.c (workbook_finish_editing) : fix.  We need to
 	  ignore the leading '=' or '@'.
 

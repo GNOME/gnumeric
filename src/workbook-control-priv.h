@@ -14,6 +14,7 @@ typedef struct {
 
 	/* Create a new control of the same form */
 	WorkbookControl *(*control_new) (WorkbookControl *wbc, WorkbookView *wbv, Workbook *wb);
+	void (*init_state) (WorkbookControl *wbc);
 
 	/* Actions on the workbook UI */
 	void (*title_set)	    (WorkbookControl *wbc, char const *title);

@@ -380,7 +380,7 @@ file_finish_load (WorkbookControl *wbc, WorkbookView *new_wbv)
 			gtk_object_ref (GTK_OBJECT (wbc));
 			workbook_unref (old_wb);
 			workbook_control_set_view (wbc, new_wbv, NULL);
-			workbook_control_sheets_init (wbc);
+			workbook_control_init_state (wbc);
 			new_wbc = wbc;
 		} else
 			new_wbc = wb_control_wrapper_new (wbc, new_wbv, NULL);

@@ -297,6 +297,41 @@ command_redo (WorkbookControl *wbc)
 	undo_redo_menu_labels (wb);
 }
 
+/**
+ * command_setup_combos :
+ * @wbc :
+ * 
+ * Initialize the combos to correspond to the current undo/redo state.
+ */
+void
+command_setup_combos (WorkbookControl *wbc)
+{
+	char const *undo_label = NULL, *redo_label = NULL;
+	GSList *ptr, *tmp;
+	Workbook *wb = wb_control_workbook (wbc);
+
+	g_return_if_fail (wb);
+
+	wb_control_undo_redo_clear (wbc, TRUE);
+	tmp = g_slist_reverse (wb->undo_commands);
+	for (ptr = tmp ; ptr != NULL ; ptr = ptr->next) {
+		undo_label = get_menu_label (ptr);
+		wb_control_undo_redo_push (wbc, undo_label, TRUE);
+	}
+	g_slist_reverse (tmp);
+
+	wb_control_undo_redo_clear (wbc, FALSE);
+	tmp = g_slist_reverse (wb->redo_commands);
+	for (ptr = tmp ; ptr != NULL ; ptr = ptr->next) {
+		redo_label = get_menu_label (ptr);
+		wb_control_undo_redo_push (wbc, redo_label, FALSE);
+	}
+	g_slist_reverse (tmp);
+
+	/* update the menus too */
+	wb_control_undo_redo_labels (wbc, undo_label, redo_label);
+}
+
 /*
  * command_list_release : utility routine to free the resources associated
  *    with a list of commands.

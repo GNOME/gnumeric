@@ -7,6 +7,7 @@
 
 void command_undo (WorkbookControl *wbc);
 void command_redo (WorkbookControl *wbc);
+void command_setup_combos	(WorkbookControl *wbc);
 void command_list_release	(GSList *cmds);
 
 gboolean cmd_set_text		(WorkbookControl *wbc, Sheet *sheet,

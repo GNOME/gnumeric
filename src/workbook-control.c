@@ -27,6 +27,7 @@
 #include "gnumeric-type-util.h"
 #include "parse-util.h"
 #include "sheet.h"
+#include "commands.h"
 
 #include <gnome.h> /* Ick.  This is required to get _("") */
 
@@ -228,13 +229,23 @@ workbook_control_set_view (WorkbookControl *wbc,
 }
 
 void
-workbook_control_sheets_init (WorkbookControl *wbc)
+workbook_control_init_state (WorkbookControl *wbc)
 {
 	GList *sheets, *ptr;
+	WorkbookControlClass *wbc_class;
+
+	g_return_if_fail (IS_WORKBOOK_CONTROL (wbc));
+
+	/* Setup the undo/redo combos */
+	command_setup_combos (wbc);
 
 	/* Add views all all existing sheets */
 	sheets = workbook_sheets (wb_control_workbook (wbc));
 	for (ptr = sheets; ptr != NULL ; ptr = ptr->next)
 		wb_control_sheet_add (wbc, ptr->data);
 	g_list_free (sheets);
+
+	wbc_class = WBC_CLASS (wbc);
+	if (wbc_class != NULL && wbc_class->control_new != NULL)
+		wbc_class->init_state (wbc);
 }
