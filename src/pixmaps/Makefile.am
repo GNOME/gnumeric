@@ -24,6 +24,7 @@ IMAGES = @STRIP_BEGIN@ 						\
 	split_cells_16.xpm		split_cells_24.xpm	\
 	\
 					halign-fill_24.png	\
+					halign-general_24.png	\
 	\
 	comment_add_16.xpm	\
 	comment_delete_16.xpm	\
@@ -194,6 +195,7 @@ VARIABLES = @STRIP_BEGIN@ 									\
 	gnm_split_cells_24			$(srcdir)/split_cells_24.xpm			\
 	\
 	gnm_halign_fill_24			$(srcdir)/halign-fill_24.png			\
+	gnm_halign_general_24			$(srcdir)/halign-general_24.png			\
 	\
 	gnm_comment_add_16			$(srcdir)/comment_add_16.xpm			\
 	gnm_comment_delete_16			$(srcdir)/comment_delete_16.xpm			\

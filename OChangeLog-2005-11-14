@@ -1,6 +1,6 @@
 2004-08-28  Jody Goldberg <jody@gnome.org>
 
-	* src/pixmaps/Makefile.am : Add halign-fill
+	* src/pixmaps/Makefile.am : Add halign-fill and halign-general
 	* src/application.c (gnumeric_application_setup_icons) : ditto
 
 2004-08-28  Jody Goldberg <jody@gnome.org>
