@@ -1,7 +1,8 @@
 Gnumeric 1.4.4
 
 Morten:
-	* Back save-as crash fix.  [#170308]
+	* Backport save-as crash fix.  [#170308]
+	* Backport fix for crash with non-UTF-8 filenames.  [Debian #299805]
 
 --------------------------------------------------------------------------
 Gnumeric 1.4.3
