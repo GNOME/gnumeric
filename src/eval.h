@@ -11,10 +11,9 @@
 typedef struct {
 	int ref_count;
 
-	Sheet *sheet;
-	int   start_col, start_row;
-	int   end_col, end_row;
+	Range range;
 
+	Sheet *sheet;
 	/* The list of cells that depend on this range */
 	GList *cell_list;
 } DependencyRange;

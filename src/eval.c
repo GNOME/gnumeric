@@ -57,13 +57,13 @@ dependency_equal (gconstpointer v, gconstpointer v2)
 
 	if (r1->sheet != r2->sheet)
 		return 0;
-	if (r1->start_col != r2->start_col)
+	if (r1->range.start_col != r2->range.start_col)
 		return 0;
-	if (r1->start_row != r2->start_row)
+	if (r1->range.start_row != r2->range.start_row)
 		return 0;
-	if (r1->end_col != r2->end_col)
+	if (r1->range.end_col != r2->range.end_col)
 		return 0;
-	if (r1->end_row != r2->end_row)
+	if (r1->range.end_row != r2->range.end_row)
 		return 0;
 
 	return 1;
@@ -77,8 +77,8 @@ dependency_hash_func (gconstpointer v)
 {
 	const DependencyRange *r = v;
 
-	return ((((r->start_row << 8) + r->end_row) << 8) +
-		(r->start_col << 8) + (r->end_col));
+	return ((((r->range.start_row << 8) + r->range.end_row) << 8) +
+		(r->range.start_col << 8) + (r->range.end_col));
 }
 
 /*
@@ -104,8 +104,8 @@ add_cell_range_deps (Cell *cell, CellRef *a, CellRef *b)
 	int row = cell->row->pos;
 
 	/* Convert to absolute cordinates */
-	cell_get_abs_col_row (a, col, row, &range.start_col, &range.start_row);
-	cell_get_abs_col_row (b, col, row, &range.end_col,   &range.end_row);
+	cell_get_abs_col_row (a, col, row, &range.range.start_col, &range.range.start_row);
+	cell_get_abs_col_row (b, col, row, &range.range.end_col,   &range.range.end_row);
 
 	range.ref_count = 0;
 	range.sheet = cell->sheet;
@@ -265,7 +265,8 @@ void
 cell_drop_dependencies (Cell *cell)
 {
 	g_return_if_fail (cell != NULL);
-
+	g_return_if_fail (cell->parsed_node != NULL);
+	
 	if (!dependency_hash)
 		return;
 	
@@ -286,6 +287,7 @@ cell_drop_dependencies (Cell *cell)
 }
 
 typedef struct {
+	Range range;
 	int   start_col, start_row;
 	int   end_col, end_row;
 	Sheet *sheet;
@@ -295,11 +297,7 @@ typedef struct {
 static gboolean
 intersects (Sheet *sheet, int col, int row, DependencyRange *range)
 {
-	if ((col >= range->start_col) &&
-	    (col <= range->end_col)   &&
-	    (row >= range->start_row) &&
-	    (row <= range->end_row)   &&
-	    (sheet = range->sheet))
+	if (range_contains (&range->range, col, row) && (sheet = range->sheet))
 		return TRUE;
 
 	return FALSE;
@@ -334,10 +332,10 @@ region_get_dependencies (Sheet *sheet, int start_col, int start_row, int end_col
 	if (!dependency_hash)
 		dependency_hash_init ();
 	
-	closure.start_col = start_col;
-	closure.start_row = start_row;
-	closure.end_col = end_col;
-	closure.end_row = end_row;
+	closure.range.start_col = start_col;
+	closure.range.start_row = start_row;
+	closure.range.end_col = end_col;
+	closure.range.end_row = end_row;
 	closure.sheet = sheet;
 	closure.list = NULL;
 

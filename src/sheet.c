@@ -12,6 +12,7 @@
 #include "gnumeric-sheet.h"
 #include "utils.h"
 #include "gnumeric-util.h"
+#include "eval.h"
 
 static void sheet_selection_col_extend_to (Sheet *sheet, int col);
 static void sheet_selection_row_extend_to (Sheet *sheet, int row);
@@ -35,7 +36,6 @@ sheet_init_default_styles (Sheet *sheet)
 {
 	/* The default column style */
 	sheet->default_col_style.pos        = -1;
-	sheet->default_col_style.style      = style_new ();
 	sheet->default_col_style.units      = 80;
 	sheet->default_col_style.pixels     = 0;
 	sheet->default_col_style.margin_a   = 1;
@@ -45,7 +45,6 @@ sheet_init_default_styles (Sheet *sheet)
 
 	/* The default row style */
 	sheet->default_row_style.pos      = -1;
-	sheet->default_row_style.style    = style_new ();
 	sheet->default_row_style.units    = 20;
 	sheet->default_row_style.pixels   = 0;
 	sheet->default_row_style.margin_a = 1;
@@ -80,7 +79,6 @@ sheet_init_dummy_stuff (Sheet *sheet)
 static void
 canvas_bar_realized (GtkWidget *widget, gpointer data)
 {
-	/* MIGUEL: look at this */
 	gdk_window_set_back_pixmap (GTK_LAYOUT (widget)->bin_window, NULL, FALSE);
 }
 
@@ -211,6 +209,7 @@ sheet_new (Workbook *wb, char *name)
 	int rows_shown, cols_shown;
 	GtkWidget *select_all;
 	Sheet *sheet;
+	Style *sheet_style;
 
 	rows_shown = cols_shown = 40;
 	
@@ -224,6 +223,10 @@ sheet_new (Workbook *wb, char *name)
 	sheet->max_row_used = rows_shown;
 
 	sheet->cell_hash = g_hash_table_new (cell_hash, cell_compare);
+
+	sheet_style = style_new ();
+	sheet_style_attach (sheet, 0, 0, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1, sheet_style);
+	
 	sheet_init_default_styles (sheet);
 	
 	/* Dummy initialization */
@@ -312,25 +315,6 @@ cell_hash_free_key (gpointer key, gpointer value, gpointer user_data)
 {
 	g_free (key);
 }
-	
-void
-sheet_destroy (Sheet *sheet)
-{
-	g_assert (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet)); 
-
-	sheet_selection_clear (sheet);
-	g_free (sheet->name);
-	
-	style_destroy (sheet->default_row_style.style);
-	style_destroy (sheet->default_col_style.style);
-
-	g_hash_table_foreach (sheet->cell_hash, cell_hash_free_key, NULL);
-	gtk_widget_destroy (sheet->toplevel);
-	
-	sheet->signature = 0;
-	g_free (sheet);
-}
 
 void
 sheet_foreach_col (Sheet *sheet, sheet_col_row_callback callback, void *user_data)
@@ -407,8 +391,6 @@ sheet_duplicate_colrow (ColRowInfo *original)
 	ColRowInfo *info = g_new (ColRowInfo, 1);
 
 	*info = *original;
-	
-	info->style = style_duplicate (original->style);
 	
 	return info;
 }
@@ -1524,21 +1506,6 @@ sheet_cell_foreach_range (Sheet *sheet, int only_existing,
 	return TRUE;
 }
 
-Style *
-sheet_style_compute (Sheet *sheet, int col, int row)
-{
-	g_return_val_if_fail (sheet != NULL, NULL);
-	g_return_val_if_fail (IS_SHEET (sheet), NULL); 
-	
-	/* FIXME: This should compute the style based on the
-	 * story of the styles applied to the worksheet, the
-	 * sheet, the column and the row and return that.
-	 *
-	 * for now, we just return the col style
-	 */
-	return style_duplicate (sheet_col_get_info (sheet, col)->style);
-}
-
 static gint
 CRowSort (gconstpointer a, gconstpointer b)
 {
@@ -1577,8 +1544,8 @@ sheet_cell_add (Sheet *sheet, Cell *cell, int col, int row)
 
 	if (!cell->style)
 		cell->style = sheet_style_compute (sheet, col, row);
-		
-	cell->width = cell->col->margin_a + cell->col->margin_b;
+
+	cell_calc_dimensions (cell);
 	
 	cellref = g_new (CellPos, 1);
 	cellref->col = col;
@@ -1661,16 +1628,27 @@ sheet_cell_remove (Sheet *sheet, Cell *cell)
 void
 sheet_cell_formula_link (Cell *cell)
 {
-	Sheet *sheet = cell->sheet;
+	Sheet *sheet;
+
+	g_return_if_fail (cell != NULL);
+	g_return_if_fail (cell->parsed_node != NULL);
+	
+	sheet = cell->sheet;
 
 	sheet->formula_cell_list = g_list_prepend (sheet->formula_cell_list, cell);
+	cell_add_dependencies (cell);
 }
 
 void
 sheet_cell_formula_unlink (Cell *cell)
 {
-	Sheet *sheet = cell->sheet;
+	Sheet *sheet;
+
+	g_return_if_fail (cell != NULL);
+	g_return_if_fail (cell->parsed_node != NULL);
 	
+	sheet = cell->sheet;
+	cell_drop_dependencies (cell);
 	sheet->formula_cell_list = g_list_remove (sheet->formula_cell_list, cell);
 }
 
@@ -1690,7 +1668,6 @@ sheet_col_destroy (Sheet *sheet, ColRowInfo *ci)
 	}
 	
 	sheet->cols_info = g_list_remove (sheet->cols_info, ci);
-	style_destroy (ci->style);
 	g_free (ci);
 }
 
@@ -1701,9 +1678,52 @@ static void
 sheet_row_destroy (Sheet *sheet, ColRowInfo *ri)
 {
 	sheet->rows_info = g_list_remove (sheet->rows_info, ri);
-	style_destroy (ri->style);
 	g_free (ri);
 }
+
+static void
+sheet_destroy_styles (Sheet *sheet)
+{
+	GList *l;
+
+	for (l = sheet->style_list; l; l = l->next)
+		style_destroy (l->data);
+	g_list_free (l);
+}
+
+static void
+sheet_destroy_columns_and_rows (Sheet *sheet)
+{
+	GList *l;
+
+	for (l = sheet->cols_info; l; l = l->next)
+		sheet_col_destroy (sheet, l->data);
+
+	for (l = sheet->rows_info; l; l = l->next)
+		sheet_row_destroy (sheet, l->data);
+}
+
+void
+sheet_destroy (Sheet *sheet)
+{
+	g_assert (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet)); 
+
+	sheet_selection_clear (sheet);
+	g_free (sheet->name);
+	
+	g_hash_table_foreach (sheet->cell_hash, cell_hash_free_key, NULL);
+	g_hash_table_destroy (sheet->cell_hash);
+
+	sheet_destroy_columns_and_rows (sheet);
+	sheet_destroy_styles (sheet);
+
+	gtk_widget_destroy (sheet->toplevel);
+
+	sheet->signature = 0;
+	g_free (sheet);
+}
+
 
 /*
  * Clears are region of cells
@@ -1851,7 +1871,7 @@ sheet_selection_paste (Sheet *sheet, int dest_col, int dest_row, int paste_flags
 void
 sheet_insert_col (Sheet *sheet, int col, int count)
 {
-	GList   *cur_col;
+	GList   *cur_col, *deps;
 	CellPos cellref;
 	int   col_count;
 	
@@ -1917,8 +1937,14 @@ sheet_insert_col (Sheet *sheet, int col, int count)
 		cur_col = cur_col->prev;
 	} while (cur_col);
 
-	/* Redraw */
+	/* 2. Recompute dependencies */
+	deps = region_get_dependencies (sheet, col, 0, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
+	cell_queue_recalc_list (deps);
+	workbook_recalc (sheet->workbook);
+
+	/* 3. Redraw */
 	sheet_redraw_all (sheet);
+	
 }
 
 /*
@@ -1948,7 +1974,7 @@ colrow_closest_above (GList *l, int pos)
 void
 sheet_shift_row (Sheet *sheet, int col, int row, int count)
 {
-	GList *cur_col;
+	GList *cur_col, *deps;
 	int   col_count, new_column;
 	
 	g_return_if_fail (sheet != NULL);
@@ -1974,6 +2000,14 @@ sheet_shift_row (Sheet *sheet, int col, int row, int count)
 		GList *l;
 		
 		ci = cur_col->data;
+		if (count > 0){
+			if (ci->pos < col)
+				break;
+		} else {
+			if (ci->pos < col)
+				continue;
+		}
+			
 		new_column = ci->pos + count;
 
 		/* Search for this row */
@@ -1982,24 +2016,23 @@ sheet_shift_row (Sheet *sheet, int col, int row, int count)
 			
 			if (cell->row->pos > row)
 				break;
-
-			/* Match found */
-			if (cell->row->pos == 0){
-
-				/* If it overflows, remove it */
-				if (new_column > SHEET_MAX_COLS-1){
-					sheet_cell_remove (sheet, cell);
-					cell_destroy (cell);
-					break;
-				}
-
-				/* Relocate the cell */
+			
+			if (cell->row->pos < row)
+				continue;
+			
+			/* If it overflows, remove it */
+			if (new_column > SHEET_MAX_COLS-1){
 				sheet_cell_remove (sheet, cell);
-				sheet_cell_add (sheet, cell, new_column, row);
-				if (cell->parsed_node)
-					cell_formula_relocate (cell, new_column, row);
+				cell_destroy (cell);
+				break;
 			}
-		}			 
+			
+			/* Relocate the cell */
+			sheet_cell_remove (sheet, cell);
+			sheet_cell_add (sheet, cell, new_column, row);
+			if (cell->parsed_node)
+				cell_formula_relocate (cell, new_column, row);
+		}
 		
 		/* Advance to the next column */
 		if (count > 0)
@@ -2007,6 +2040,13 @@ sheet_shift_row (Sheet *sheet, int col, int row, int count)
 		else
 			cur_col = cur_col->next;
 	} while (cur_col);
+
+	/* Check the dependencies and recompute them */
+	deps = region_get_dependencies (sheet, col, row, SHEET_MAX_COLS-1, row);
+	cell_queue_recalc_list (deps);
+	workbook_recalc (sheet->workbook);
+	
+	sheet_redraw_all (sheet);
 }
 
 void
@@ -2032,7 +2072,7 @@ sheet_shift_rows (Sheet *sheet, int col, int start_row, int end_row, int count)
 void
 sheet_insert_row (Sheet *sheet, int row, int count)
 {
-	GList *cell_store, *cols, *l, *rows;
+	GList *cell_store, *cols, *l, *rows, *deps;
 	
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
@@ -2098,7 +2138,12 @@ sheet_insert_row (Sheet *sheet, int row, int count)
 
 	g_list_free (cell_store);
 
-	/* 4. Redraw everything */
+	/* 4. Recompute any changes required */
+	deps = region_get_dependencies (sheet, 0, row, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
+	cell_queue_recalc_list (deps);
+	workbook_recalc (sheet->workbook);
+	
+	/* 5. Redraw everything */
 	sheet_redraw_all (sheet);
 }
 
@@ -2118,7 +2163,6 @@ sheet_shift_col (Sheet *sheet, int col, int row, int count)
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (count != 0);
 
-	g_warning ("sheet_shift_col is not yet implemented\n");
 }
 
 /*
@@ -2147,7 +2191,48 @@ sheet_shift_cols (Sheet *sheet, int start_col, int end_col, int row, int count)
 void
 sheet_style_attach (Sheet *sheet, int start_col, int start_row, int end_col, int end_row, Style *style)
 {
-	printf ("WARNING: sheet_style_attach not implemeneted yet\n");
+	StyleRegion *sr;
+
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (style != NULL);
+	g_return_if_fail (start_col <= end_col);
+	g_return_if_fail (start_row <= end_row);
+
+	sr = g_new (StyleRegion, 1);
+	sr->range.start_col = start_col;
+	sr->range.start_row = start_row;
+	sr->range.end_col = end_col;
+	sr->range.end_row = end_row;
+	sr->style = style;
+	
+	sheet->style_list = g_list_prepend (sheet->style_list, sr);
+}
+
+Style *
+sheet_style_compute (Sheet *sheet, int col, int row)
+{
+	GList *l;
+	Style *style;
+	
+	g_return_val_if_fail (sheet != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET (sheet), NULL); 
+
+	style = style_new_empty ();
+	
+	/* Look in the styles applied to the sheet */
+	for (l = sheet->style_list; l; l = l->next){
+		StyleRegion *sr = l->data;
+
+		if (range_contains (&sr->range, col, row)){
+			style_merge_to (style, sr->style);
+			if (style->valid_flags == STYLE_ALL)
+				return style;
+		}
+	}
+
+	g_warning ("Strange, no style available here\n");
+	return style_new ();
 }
 
 void

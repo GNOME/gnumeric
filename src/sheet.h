@@ -6,7 +6,17 @@
 
 typedef GList ColStyleList;
 
-struct Workbook;
+typedef struct {
+	int start_col, start_row;
+	int end_col, end_row;
+} Range;
+
+gboolean   range_contains (Range *range, int col, int row);
+
+typedef struct {
+	Range  range;
+	Style  *style;
+} StyleRegion;
 
 typedef struct {
 	GtkWidget  *toplevel;
@@ -25,16 +35,20 @@ typedef struct {
 	
 	/* Styles */
 	Style      style;
+
+	/* The sheets */ 
 	GHashTable *sheets;	/* keeps a list of the Sheets on this workbook */
 
+	
 	/* A list with all of the formulas */
 	GList      *formula_cell_list;
 
 	/* A queue with the cells to be evaluated */
 	GList      *eval_queue;
 	int        max_iterations;
-	guchar     generation;
 
+	int        generation;
+	
 	/* The clipboard for this workbook */
 	CellRegion *clipboard_contents;
 } Workbook;
@@ -55,8 +69,8 @@ typedef struct {
 	
 	double     last_zoom_factor_used;
 	char       *name;
-		   
-	Style      style;
+
+	GList      *style_list;	/* The list of styles applied to the sheets */
 
 	ColRowInfo default_col_style;
 	GList      *cols_info;

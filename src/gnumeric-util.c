@@ -103,3 +103,15 @@ run_popup_menu (GdkEvent *event, char **strings)
 	
 	return i;
 }
+
+gboolean
+range_contains (Range *range, int col, int row)
+{
+	if ((col >= range->start_col) &&
+	    (col <= range->end_col)   &&
+	    (row >= range->start_row) &&
+	    (row <= range->end_row))
+		return TRUE;
+
+	return FALSE;
+}

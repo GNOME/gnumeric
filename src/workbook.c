@@ -89,13 +89,33 @@ insert_cells_cmd (GtkWidget *widget, Workbook *wb)
 static void
 insert_cols_cmd (GtkWidget *widget, Workbook *wb)
 {
-	g_warning ("insert_cols is not yet implemented\n");
+	SheetSelection *ss;
+	Sheet *sheet;
+	int cols;
+	
+	sheet = workbook_get_current_sheet (wb);
+	if (!sheet_verify_selection_simple (sheet, _("Insert rows")))
+		return;
+	
+	ss = sheet->selections->data;
+	cols = ss->end_col - ss->start_col + 1;
+	sheet_insert_col (sheet, ss->start_col, cols);
 }
 
 static void
 insert_rows_cmd (GtkWidget *widget, Workbook *wb)
 {
-	g_warning ("insert_rows is not yet implemented\n");
+	SheetSelection *ss;
+	Sheet *sheet;
+	int rows;
+	
+	sheet = workbook_get_current_sheet (wb);
+	if (!sheet_verify_selection_simple (sheet, _("Insert rows")))
+		return;
+
+	ss = sheet->selections->data;
+	rows = ss->end_row - ss->start_row + 1;
+	sheet_insert_row (sheet, ss->start_row, rows);
 }
 
 static void
@@ -132,10 +152,8 @@ static GnomeUIInfo workbook_menu_edit [] = {
 
 static GnomeUIInfo workbook_menu_insert [] = {
 	{ GNOME_APP_UI_ITEM, N_("Cells..."), NULL, insert_cells_cmd },
-#if 0
 	{ GNOME_APP_UI_ITEM, N_("Rows"),     NULL, insert_rows_cmd },
 	{ GNOME_APP_UI_ITEM, N_("Columns"),  NULL, insert_cols_cmd },
-#endif
 	GNOMEUIINFO_SEPARATOR,
 	GNOMEUIINFO_END
 };

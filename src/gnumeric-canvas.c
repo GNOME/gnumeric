@@ -681,7 +681,6 @@ gnumeric_sheet_realize (GtkWidget *widget)
 	if (GTK_WIDGET_CLASS (sheet_parent_class)->realize)
 		(*GTK_WIDGET_CLASS (sheet_parent_class)->realize)(widget);
 
-	/* MIGUEL: look at this */
 	gdk_window_set_back_pixmap (GTK_LAYOUT (widget)->bin_window, NULL, FALSE);
 }
 

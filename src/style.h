@@ -80,7 +80,8 @@ typedef enum {
 #define STYLE_SHADING  8
 #define STYLE_ALIGN   16
 
-#define STYLE_ALL (STYLE_FORMAT | STYLE_FONT | STYLE_BORDER | STYLE_SHADING | STYLE_ALIGN)
+/* Define all of the styles we actually know about */
+#define STYLE_ALL (STYLE_FORMAT | STYLE_FONT | STYLE_BORDER | STYLE_ALIGN)
 
 typedef struct {
 	StyleFormat   *format;
@@ -96,6 +97,7 @@ typedef struct {
 
 void           style_init  	      (void);
 Style         *style_new   	      (void);
+void           style_merge_to         (Style *target, Style *source);
 Style         *style_duplicate        (Style *style);
 void           style_destroy          (Style *style);
 Style         *style_new_empty        (void);

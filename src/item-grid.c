@@ -211,6 +211,11 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 	}
 #endif
 
+	/*
+	 * General Alignement is a special case: it means
+	 * left alignment for text and right alignment for
+	 * numbers
+	 */
 	halign = style->halign;
 		
 	if (halign == HALIGN_GENERAL && cell->value){
@@ -461,8 +466,7 @@ context_paste_special_cmd (GtkWidget *widget, ItemGrid *item_grid)
 static void
 context_insert_cmd (GtkWidget *widget, ItemGrid *item_grid)
 {
-	g_warning ("TEST CODE: Manually inserting 2 columns at column 1\n");
-	sheet_insert_col (item_grid->sheet, 1, 2);
+	dialog_insert_cells (item_grid->sheet);
 	context_destroy_menu (widget);
 }
 

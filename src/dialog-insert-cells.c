@@ -38,7 +38,6 @@ dialog_insert_cells (Sheet *sheet)
 		GNOME_STOCK_BUTTON_OK,
 		GNOME_STOCK_BUTTON_CANCEL);
 
-	printf ("return: %s, %d %d %d %d\n", ret, state [0], state [1], state [2], state [3]);
 	if (strcmp (ret, GNOME_STOCK_BUTTON_CANCEL) == 0)
 		return;
 

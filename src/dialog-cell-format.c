@@ -512,6 +512,9 @@ apply_align_format (Style *style, Sheet *sheet, CellList *cells)
 		
 		cell_set_alignment (cell, halign, valign, ORIENT_HORIZ);
 	}
+	style->halign = halign;
+	style->valign = valign;
+	style->orientation = ORIENT_HORIZ;
 	style->valid_flags |= STYLE_ALIGN;
 }
 

@@ -205,15 +205,12 @@ void
 style_destroy (Style *style)
 {
 	g_return_if_fail (style != NULL);
-	g_return_if_fail (style->format != NULL);
-	g_return_if_fail (style->font != NULL);
-	g_return_if_fail (style->border != NULL);
 
 	if (style->valid_flags & STYLE_FORMAT)
 		style_format_unref (style->format);
 
 	if (style->valid_flags & STYLE_FONT)
-		style_font_unref   (style->font);
+		style_font_unref (style->font);
 
 	if (style->valid_flags & STYLE_BORDER)
 		style_border_unref (style->border);
@@ -229,11 +226,24 @@ style_duplicate (Style *original)
 
 	style = g_new0 (Style, 1);
 
+	/* Bit copy */
 	*style = *original;
-	
-	style_format_ref (original->format);
-	style_font_ref   (original->font);
-	style_border_ref (original->border);
+
+	/* Do the rest of the copy */
+	if (style->valid_flags & STYLE_FORMAT)
+		style_format_ref (style->format);
+	else
+		style->format = NULL;
+
+	if (style->valid_flags & STYLE_FONT)
+		style_font_ref (style->font);
+	else
+		style->font = NULL;
+
+	if (style->valid_flags & STYLE_BORDER)
+		style_border_ref (style->border);
+	else
+		style->border = NULL;
 
 	return style;
 }
@@ -306,3 +316,35 @@ style_init (void)
 	style_border_hash = g_hash_table_new (border_hash, border_equal);
 }
 
+void
+style_merge_to (Style *target, Style *source)
+{
+	if (!(target->valid_flags & STYLE_FORMAT))
+		if (source->valid_flags & STYLE_FORMAT){
+			target->valid_flags |= STYLE_FORMAT;
+			target->format = source->format;
+			style_format_ref (target->format);
+		}
+
+	if (!(target->valid_flags & STYLE_FONT))
+		if (source->valid_flags & STYLE_FONT){
+			target->valid_flags |= STYLE_FONT;
+			target->font = source->font;
+			style_font_ref (target->font);
+		}
+
+	if (!(target->valid_flags & STYLE_BORDER))
+		if (source->valid_flags & STYLE_BORDER){
+			target->valid_flags |= STYLE_BORDER;
+			target->border = source->border;
+			style_border_ref (target->border);
+		}
+
+	if (!(target->valid_flags & STYLE_ALIGN))
+		if (source->valid_flags & STYLE_ALIGN){
+			target->valid_flags |= STYLE_ALIGN;
+			target->halign      = source->halign;
+			target->valign      = source->valign;
+			target->orientation = source->orientation;
+		}
+}

@@ -10,7 +10,6 @@ cell_formula_changed (Cell *cell)
 	g_return_if_fail (cell != NULL);
 	
 	sheet_cell_formula_link (cell);
-	cell_add_dependencies (cell);
 	cell_queue_recalc (cell);
 }
 
@@ -76,14 +75,17 @@ cell_calc_dimensions (Cell *cell)
 	GdkFont *font;
 
 	g_return_if_fail (cell != NULL);
+
+	if (cell->text){
+		rendered_text = CELL_TEXT_GET (cell);
+
+		font = cell->style->font->font;
 	
-	rendered_text = CELL_TEXT_GET (cell);
-	
-	font = cell->style->font->font;
-	
-	cell->width = cell->col->margin_a + cell->col->margin_b + 
-		gdk_text_width (font, rendered_text, strlen (rendered_text));
-	cell->height = font->ascent + font->descent;
+		cell->width = cell->col->margin_a + cell->col->margin_b + 
+			gdk_text_width (font, rendered_text, strlen (rendered_text));
+		cell->height = font->ascent + font->descent;
+	} else
+		cell->width = cell->col->margin_a + cell->col->margin_b;
 }
 
 /*
@@ -141,7 +143,6 @@ cell_set_text (Cell *cell, char *text)
 	cell->entered_text = string_get (text);
 	
 	if (cell->parsed_node){
-		cell_drop_dependencies (cell);
 		sheet_cell_formula_unlink (cell);
 
 		expr_tree_unref (cell->parsed_node);

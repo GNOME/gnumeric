@@ -1,8 +1,46 @@
+1998-08-23  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/sheet.c 
+
+	* src/dialog-cell-format.c (apply_align_format): Actually store
+	the style selection on the computed style.
+
+	* src/eval.c (intersects): Write in terms of range_contains.
+
+	* src/utils.c (range_contains): New utility routine.
+
+	* src/style.c (style_destroy): It now allow
+	(style_merge_to): Implement new routine for gradually compute the
+	full value of a style.
+	(style_duplicate): Make the routine duplicate only
+	the valid fields, not all of them.
+	(style_destory): account for the fact that now we might have
+	non-complete styles. 
+	(sheet_style_compute): Make it fully functional.
+	
+	* src/sheet.c (sheet_cell_formula_link,
+	sheet_cell_formula_unlink): Now we maintain the dependencies at
+	formula link/unlink time
+	(sheet_shift_row, shift_insert_col, shift_insert_row): Compute the
+	dependencies for any changed cells and recalculate. 
+	(sheet_style_attach): Implement.
+	(sheet_destroy): Destroy the column and row information.
+	
+	* src/item-grid.c (context_insert_cmd): Use the
+	dialog_insert_cells instead of the dummy test code we had before. 
+
+	* src/workbook.c (insert_cols_cmd, insert_rows_cmd): Implement.
+
 1998-08-22  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/sheet.c (sheet_redraw_all): Redraw also the column and row
 	bars. 
-	(sheet_insert_row): Fix.  I was accessing the wrong information. 
+	(sheet_insert_row): Fix.  I was accessing the wrong information;
+	Fix, on the row selection code;  
+	(sheet_cell_add): Recompute the dimensions properly of the cell
+	after insertion (this is to fit the use of this routine in a new
+	context). 
+	(sheet_shift_row): Fix the 
 
 	* src/dialog-insert-cells.c (dialog_insert_cells): Learn to use
 	GtkCauldroun's way of dealing with radio buttons.

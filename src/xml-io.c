@@ -397,10 +397,6 @@ static xmlNodePtr writeXmlColRowInfo(parseXmlContextPtr ctxt,
     xmlNewProp(cur, "MarginA", str);
     sprintf(str, "%d", info->margin_b);
     xmlNewProp(cur, "MarginB", str);
-    if (info->style) {
-	child = writeXmlStyle(ctxt, info->style);
-	if (child) xmlAddChild(cur, child);
-    }
 
     return(cur);
 }
@@ -470,15 +466,11 @@ static xmlNodePtr writeXmlSheet(parseXmlContextPtr ctxt, Sheet *sheet) {
     xmlNewChild(cur, ctxt->ns, "MaxRow", str);
     sprintf(str, "%f", sheet->last_zoom_factor_used);
     xmlNewChild(cur, ctxt->ns, "Zoom", str);
-    child = writeXmlStyle(ctxt, &sheet->style);
-    if (child) xmlAddChild(cur, child);
 
     /*
      * Cols informations.
      */
     cols = xmlNewChild(cur, ctxt->ns, "Cols", NULL);
-    child = writeXmlStyle(ctxt, &sheet->style);
-    if (child) xmlAddChild(cols, child);
     l = sheet->cols_info;
     while (l) {
         child = writeXmlColRowInfo(ctxt, l->data);
@@ -490,8 +482,6 @@ static xmlNodePtr writeXmlSheet(parseXmlContextPtr ctxt, Sheet *sheet) {
      * Rows informations.
      */
     rows = xmlNewChild(cur, ctxt->ns, "Rows", NULL);
-    child = writeXmlStyle(ctxt, &sheet->style);
-    if (child) xmlAddChild(rows, child);
     l = sheet->cols_info;
     while (l) {
         child = writeXmlColRowInfo(ctxt, l->data);

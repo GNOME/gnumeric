@@ -155,4 +155,3 @@ parse_cell_name (char *cell_str, int *col, int *row)
 	
 	return TRUE;
 }
-

@@ -11,7 +11,6 @@ typedef struct {
 
 typedef struct {
 	int        pos;			/* the column or row number */
-	Style      *style;		/* if existant, this row style */
 
 	/* The height */
 	int        units;		/* In units */
