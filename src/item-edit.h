@@ -12,8 +12,9 @@ typedef struct {
 	GnomeCanvasItem canvas_item;
 
 	guint      signal_changed;	/* ::changed signal in the GtkEntry */
-	guint      signal_event;	/* ::event signal in the GtkEntry */
-	
+	guint      signal_key_press;	/* ::key-press-event signal in the GtkWidget */
+	guint      signal_button_press;	/* ::button-press-event signal in the GtkWidget */
+
 	ItemGrid   *item_grid;
 	SheetView  *sheet_view;
 	GtkEntry   *entry;		/* Utility pointer to the workbook entry */

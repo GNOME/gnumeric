@@ -72,7 +72,6 @@ setup_range_from_value (Range *range, Value *v)
  * Currently it will not handle ranges like R[-1]C1, nor named ranges,
  * nor will it detect whether something is part of an expression or a
  * string .
- *
  */
 static gboolean
 point_is_inside_range (ItemEdit *item_edit, const char *text, Range *range)
@@ -227,12 +226,9 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		(int)(item->x2-item->x1),
 		(int)(item->y2-item->y1));
 
-	/*
-	 * Make a number of tests for auto-completion
-	 */
+	/* Make a number of tests for auto-completion */
 	text = workbook_edit_get_display_text (item_edit->sheet_view->sheet->workbook);
 	
-
 	for (ptr = item_edit->text_offsets; ptr != NULL; ptr = ptr->next){
 		int const text_end = GPOINTER_TO_INT (ptr->data);
 
@@ -463,7 +459,8 @@ item_edit_destroy (GtkObject *o)
 	entry_destroy_feedback_range (item_edit);
 
 	gtk_signal_disconnect (GTK_OBJECT (entry), item_edit->signal_changed);
-	gtk_signal_disconnect (GTK_OBJECT (entry), item_edit->signal_event);
+	gtk_signal_disconnect (GTK_OBJECT (entry), item_edit->signal_key_press);
+	gtk_signal_disconnect (GTK_OBJECT (entry), item_edit->signal_button_press);
 
 	if (GTK_OBJECT_CLASS (item_edit_parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (item_edit_parent_class)->destroy)(o);
@@ -472,16 +469,8 @@ item_edit_destroy (GtkObject *o)
 static int
 entry_event (GtkEntry *entry, GdkEvent *event, GnomeCanvasItem *item)
 {
-	switch (event->type) {
-	case GDK_KEY_PRESS: 
-	case GDK_KEY_RELEASE:
-	case GDK_BUTTON_PRESS:
-		gnome_canvas_item_request_update (item);
-
-	default:
-		break;
-	}
-	return FALSE;
+	entry_changed (entry, item);
+	return TRUE;
 }
 
 static void
@@ -508,8 +497,11 @@ item_edit_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	item_edit->signal_changed = gtk_signal_connect (
 		GTK_OBJECT (entry), "changed",
 		GTK_SIGNAL_FUNC (entry_changed), item_edit);
-	item_edit->signal_event = gtk_signal_connect_after (
-		GTK_OBJECT (entry), "event",
+	item_edit->signal_key_press = gtk_signal_connect_after (
+		GTK_OBJECT (entry), "key-press-event",
+		GTK_SIGNAL_FUNC (entry_event), item_edit);
+	item_edit->signal_button_press = gtk_signal_connect_after (
+		GTK_OBJECT (entry), "button-press-event",
 		GTK_SIGNAL_FUNC (entry_event), item_edit);
 
 	scan_for_range (item_edit, "");

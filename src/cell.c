@@ -476,12 +476,14 @@ cell_set_expr_internal (Cell *cell, ExprTree *expr, char const *optional_format)
 {
 	StyleFormat * fmt;
 
-	/* Repeat after me.  Ref before unref. */
 	expr_tree_ref (expr);
 	fmt = (optional_format != NULL) ? style_format_new (optional_format) : NULL;
 
 	cell_dirty (cell);
 	cell_cleanout (cell);
+
+	if (cell->u.expression)
+		expr_tree_unref (cell->u.expression);
 
 	cell->u.expression = expr;
 	cell->cell_flags |= CELL_HAS_EXPRESSION;

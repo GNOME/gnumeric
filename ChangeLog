@@ -1,5 +1,14 @@
 2000-06-19  Jody Goldberg <jgoldberg@home.com>
 
+	* src/eval.c (invalidate_refs) : const.
+	(do_deps_destroy) : const.
+
+	* src/cell.c (cell_set_expr_internal) : Be careful about unrefing.
+
+	* src/item-edit.c (entry_event) : Rather than catching 'event' and
+	  checking for the type of event we want.  Catch the events directly.
+	  That way the events can take place BEFORE we look for our position.
+
 	* src/workbook-edit.c (entry_changed) : The characters starting
 	  expressions are not alphabetic.  Don't bother testing them too.
 	(workbook_start_editing_at_cursor) : Do not start autocompletetion

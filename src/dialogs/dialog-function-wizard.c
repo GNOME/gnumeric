@@ -88,8 +88,9 @@ static void formula_guru_arg_new    (char * const name, char const type,
 				     FormulaGuruState *state);
 
 static void
-formula_guru_set_expr (FormulaGuruState *state, int index)
+formula_guru_set_expr (FormulaGuruState *state, int index, gboolean set_text)
 {
+	GtkEntry *entry;
 	GString *str;
 	int pos = 0, i;
 
@@ -120,8 +121,20 @@ formula_guru_set_expr (FormulaGuruState *state, int index)
 		}
 	}
 	g_string_append_c (str, ')'); /* FIXME use suffix string */
-	gtk_entry_set_text (workbook_get_entry (state->wb), str->str);
-	gtk_entry_set_position (workbook_get_entry (state->wb), pos);
+
+	entry = workbook_get_entry (state->wb);
+	if (set_text)
+		gtk_entry_set_text (entry, str->str);
+
+	/*
+	 * ICK!
+	 * This is necessary until Gtk-1.4.
+	 * Setting the text resets the cursor position to 0 then triggers the
+	 * changed event.  The changed handler is what handles creating the
+	 * magic cursor to mark the range being edited
+	 */
+	gtk_entry_set_position (entry, pos);
+	gtk_editable_changed (GTK_EDITABLE (entry));
 
 	g_string_free (str, TRUE);
 }
@@ -132,6 +145,23 @@ cb_formula_guru_rolled_entry_changed (GtkEditable *editable,
 {
 	gtk_entry_set_text (state->cur_arg->entry,
 		gtk_entry_get_text (GTK_ENTRY (state->rolled_entry)));
+}
+
+static gboolean
+cb_formula_guru_entry_event (GtkWidget *w, GdkEvent *ev, ArgumentState *as)
+{
+	g_return_val_if_fail (as != NULL, TRUE);
+
+	/* FIXME : this is lazy.  Have a special routine */
+	formula_guru_set_expr (as->state, as->index, FALSE);
+	return TRUE;
+}
+
+static gboolean
+cb_formula_guru_rolled_entry_event (GtkWidget *w, GdkEvent *ev,
+				    FormulaGuruState *state)
+{
+	return cb_formula_guru_entry_event (w, ev, state->cur_arg);
 }
 
 static void
@@ -151,7 +181,7 @@ cb_formula_guru_entry_changed (GtkEditable *editable, ArgumentState *as)
 		}
 	}
 
-	formula_guru_set_expr (as->state, as->index);
+	formula_guru_set_expr (as->state, as->index, TRUE);
 }
 
 static void
@@ -169,9 +199,6 @@ formula_guru_set_rolled_state (FormulaGuruState *state, gboolean is_rolled)
 		gtk_label_set_text (GTK_LABEL (state->rolled_label),
 			state->cur_arg->name);
 
-		gtk_signal_connect (GTK_OBJECT (new_entry), "changed",
-				    GTK_SIGNAL_FUNC (cb_formula_guru_rolled_entry_changed),
-				    state);
 		gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 					  GTK_EDITABLE (new_entry));
 
@@ -218,10 +245,13 @@ cb_formula_guru_entry_focus_in (GtkWidget *ignored0, GdkEventFocus *ignored1, Ar
 
 				gtk_container_remove (GTK_CONTAINER (state->arg_table),
 						      GTK_WIDGET (tmp->name_label));
+				gtk_widget_destroy (GTK_WIDGET (tmp->name_label));
 				gtk_container_remove (GTK_CONTAINER (state->arg_table),
 						      GTK_WIDGET (tmp->entry));
+				gtk_widget_destroy (GTK_WIDGET (tmp->entry));
 				gtk_container_remove (GTK_CONTAINER (state->arg_table),
 						      GTK_WIDGET (tmp->type_label));
+				gtk_widget_destroy (GTK_WIDGET (tmp->type_label));
 				formula_guru_arg_delete (state, i);
 			}
 
@@ -265,7 +295,7 @@ cb_formula_guru_entry_focus_in (GtkWidget *ignored0, GdkEventFocus *ignored1, Ar
 
 	state->cur_arg = as;
 	workbook_set_entry (state->wb, as->entry);
-	formula_guru_set_expr (state, as->index);
+	formula_guru_set_expr (state, as->index, TRUE);
 
 	return FALSE;
 }
@@ -409,6 +439,10 @@ formula_guru_arg_new (char * const name,
 			    GTK_SIGNAL_FUNC (cb_formula_guru_entry_focus_in), as);
 	gtk_signal_connect (GTK_OBJECT (as->entry), "changed",
 			    GTK_SIGNAL_FUNC (cb_formula_guru_entry_changed), as);
+	gtk_signal_connect_after (GTK_OBJECT (as->entry), "key-press-event",
+		GTK_SIGNAL_FUNC (cb_formula_guru_entry_event), as);
+	gtk_signal_connect_after (GTK_OBJECT (as->entry), "button-press-event",
+		GTK_SIGNAL_FUNC (cb_formula_guru_entry_event), as);
 
 	g_ptr_array_add (state->args, as);
 	if (row == 0)
@@ -564,6 +598,13 @@ formula_guru_init (FormulaGuruState *state, ExprTree const *expr, Cell const *ce
 
 	formula_guru_init_args (state);
 
+	gtk_signal_connect (GTK_OBJECT (state->rolled_entry), "changed",
+		GTK_SIGNAL_FUNC (cb_formula_guru_rolled_entry_changed), state);
+	gtk_signal_connect_after (GTK_OBJECT (state->rolled_entry), "key-press-event",
+		GTK_SIGNAL_FUNC (cb_formula_guru_rolled_entry_event), state);
+	gtk_signal_connect_after (GTK_OBJECT (state->rolled_entry), "button-press-event",
+		GTK_SIGNAL_FUNC (cb_formula_guru_rolled_entry_event), state);
+
 	/* If there were arguments initialize the fields */
 	if (expr != NULL) {
 		GList *l;
@@ -607,7 +648,7 @@ formula_guru_init (FormulaGuruState *state, ExprTree const *expr, Cell const *ce
 				      GTK_WINDOW (state->wb->toplevel));
 
 	workbook_edit_attach_guru (state->wb, state->dialog);
-	formula_guru_set_expr (state, 0);
+	formula_guru_set_expr (state, 0, TRUE);
 	formula_guru_set_rolled_state (state, FALSE);
 
 	return FALSE;
@@ -667,5 +708,5 @@ dialog_formula_guru (Workbook *wb)
 	/* Ok everything is hooked up. Let-er rip */
 	state->valid = TRUE;
 	gtk_widget_show (state->dialog);
-	formula_guru_set_expr (state, 0);
+	formula_guru_set_expr (state, 0, TRUE);
 }

@@ -162,7 +162,7 @@ dependency_single_destroy (gpointer key, gpointer value, gpointer closure)
 }
 
 typedef struct {
-	ExprRewriteInfo *rwinfo;
+	ExprRewriteInfo const *rwinfo;
 
 	GSList          *cell_list;
 } destroy_closure_t;
@@ -212,7 +212,7 @@ cb_single_hash_to_list (gpointer key, gpointer value, gpointer closure)
 }
 
 static void
-invalidate_refs (Cell *cell, ExprRewriteInfo *rwinfo)
+invalidate_refs (Cell *cell, const ExprRewriteInfo *rwinfo)
 {
 	ExprTree *newtree;
 
@@ -238,8 +238,13 @@ invalidate_refs (Cell *cell, ExprRewriteInfo *rwinfo)
 	cell_set_expr_unsafe (cell, newtree, NULL);
 }
 
+/*
+ * do_deps_destroy :
+ * Invalidate references of all kinds to the target region described by
+ * @rwinfo.
+ */
 static void
-do_deps_destroy (Sheet *sheet, ExprRewriteInfo *rwinfo)
+do_deps_destroy (Sheet *sheet, const ExprRewriteInfo *rwinfo)
 {
 	DependencyData   *deps;
 	destroy_closure_t c;
