@@ -118,8 +118,8 @@ calculate_pmt (gnum_float rate, gnum_float nper, gnum_float pv, gnum_float fv,
 
 	/* Calculate the PVIF and FVIFA */
 
-	pvif = calculate_pvif (rate,nper);
-	fvifa = calculate_fvifa (rate,nper);
+	pvif = calculate_pvif (rate, nper);
+	fvifa = calculate_fvifa (rate, nper);
 
         return ((-pv * pvif - fv ) / ((1.0 + rate * type) * fvifa));
 }
@@ -842,11 +842,8 @@ static const char *help_effect = {
 static Value *
 gnumeric_effect (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float rate;
-	int nper;
-
-	rate = value_get_as_float (argv[0]);
-	nper = value_get_as_int (argv[1]);
+	gnum_float rate = value_get_as_float (argv[0]);
+	int nper = value_get_as_int (argv[1]);
 
 	/* Rate or number of periods cannot be negative */
 	if (rate < 0 || nper <= 0)
@@ -883,18 +880,14 @@ static const char *help_nominal = {
 static Value *
 gnumeric_nominal (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float rate;
-	int nper;
-
-	rate = value_get_as_float (argv[0]);
-	nper = value_get_as_int (argv[1]);
+	gnum_float rate = value_get_as_float (argv[0]);
+	int nper = value_get_as_int (argv[1]);
 
 	/* Rate or number of periods cannot be negative */
 	if (rate < 0 || nper <= 0)
                 return value_new_error (ei->pos, gnumeric_err_NUM);
 
-        return value_new_float (nper * (powgnum (1 + rate, 1.0 / nper ) - 1 ));
-
+        return value_new_float (nper * (powgnum (1 + rate, 1.0 / nper ) - 1));
 }
 
 /***************************************************************************/
@@ -915,15 +908,18 @@ static const char *help_ispmt = {
 static Value *
 gnumeric_ispmt (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float rate, pv, tmp;
-	int nper, per;
+	gnum_float tmp;
 
-	rate = value_get_as_float (argv[0]);
-	per  = value_get_as_int (argv[1]);
-	nper = value_get_as_int (argv[2]);
-	pv   = value_get_as_float (argv[3]);
+	gnum_float rate = value_get_as_float (argv[0]);
+	gnum_float per = value_get_as_int (argv[1]);
+	gnum_float nper = value_get_as_int (argv[2]);
+	gnum_float pv = value_get_as_float (argv[3]);
 
-	if (per < 1 || per > nper)
+	/*
+	 * It seems that with 20 periods, a period number of 20.99 is
+	 * valid in XL.
+	 */
+	if (per < 1 || per >= nper + 1)
                 return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	tmp = -pv * rate;
@@ -1449,8 +1445,8 @@ static const char *help_rate = {
 };
 
 typedef struct {
-	int nper, type;
-	gnum_float pv, fv, pmt;
+	int type;
+	gnum_float nper, pv, fv, pmt;
 } gnumeric_rate_t;
 
 static GoalSeekStatus
@@ -1690,19 +1686,15 @@ static const char *help_pv = {
 static Value *
 gnumeric_pv (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float rate, nper, pmt, fv;
-	gnum_float pvif, fvifa;
-	int type;
-
-	rate = value_get_as_float (argv[0]);
-	nper = value_get_as_float (argv[1]);
-	pmt  = value_get_as_float (argv[2]);
-	fv   = argv[3] ? value_get_as_float (argv[3]) : 0;
-	type = argv[4] ? !!value_get_as_int (argv[4]) : 0;
+	gnum_float rate = value_get_as_float (argv[0]);
+	gnum_float nper = value_get_as_float (argv[1]);
+	gnum_float pmt  = value_get_as_float (argv[2]);
+	gnum_float fv   = argv[3] ? value_get_as_float (argv[3]) : 0;
+	int type = argv[4] ? !!value_get_as_int (argv[4]) : 0;
 
 	/* Calculate the PVIF and FVIFA */
-	pvif  = calculate_pvif (rate, nper);
-	fvifa = calculate_fvifa (rate, nper);
+	gnum_float pvif  = calculate_pvif (rate, nper);
+	gnum_float fvifa = calculate_fvifa (rate, nper);
 
 	if (pvif == 0)
 	        return value_new_error (ei->pos, gnumeric_err_DIV0);
@@ -1956,18 +1948,14 @@ static const char *help_fv = {
 static Value *
 gnumeric_fv (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float rate, nper, pv, pmt;
-	gnum_float pvif, fvifa;
-	int type;
+	gnum_float rate = value_get_as_float (argv[0]);
+	gnum_float nper = value_get_as_float (argv[1]);
+	gnum_float pmt  = value_get_as_float (argv[2]);
+	gnum_float pv   = argv[3] ? value_get_as_float (argv[3]) : 0.;
+	int type = argv[4] ? !!value_get_as_int (argv[4]) : 0;
 
-	rate = value_get_as_float (argv[0]);
-	nper = value_get_as_float (argv[1]);
-	pmt  = value_get_as_float (argv[2]);
-	pv   = (NULL != argv[3]) ? value_get_as_float (argv[3]) : 0.;
-	type = (NULL != argv[4] && 0 != value_get_as_int (argv[4])) ? 1 : 0;
-
-	pvif  = calculate_pvif (rate, nper);
-	fvifa = calculate_fvifa (rate, nper);
+	gnum_float pvif  = calculate_pvif (rate, nper);
+	gnum_float fvifa = calculate_fvifa (rate, nper);
 
         return value_new_float (-((pv * pvif) + pmt *
 				  (1.0 + rate * type) * fvifa));
@@ -2001,14 +1989,11 @@ static const char *help_pmt = {
 static Value *
 gnumeric_pmt (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float rate, pv, fv, nper;
-	int type;
-
-	rate = value_get_as_float (argv[0]);
-	nper = value_get_as_float (argv[1]);
-	pv   = value_get_as_float (argv[2]);
-	fv   = argv[3] ? value_get_as_float (argv[3]) : 0;
-	type = argv[4] ? !!value_get_as_int (argv[4]) : 0;
+	gnum_float rate = value_get_as_float (argv[0]);
+	gnum_float nper = value_get_as_float (argv[1]);
+	gnum_float pv   = value_get_as_float (argv[2]);
+	gnum_float fv   = argv[3] ? value_get_as_float (argv[3]) : 0;
+	int type = argv[4] ? !!value_get_as_int (argv[4]) : 0;
 
         return value_new_float (calculate_pmt (rate, nper, pv, fv, type));
 }
@@ -2049,11 +2034,18 @@ gnumeric_ipmt (FunctionEvalInfo *ei, Value **argv)
 	gnum_float fv   = argv[4] ? value_get_as_float (argv[4]) : 0;
 	int type = argv[5] ? !!value_get_as_int (argv[5]) : 0;
 
-	/* First calculate the payment */
-        gnum_float pmt = calculate_pmt (rate, nper, pv, fv, type);
-	gnum_float ipmt = calculate_interest_part (pv, pmt, rate, per - 1);
+	/*
+	 * It seems that with 20 periods, a period number of 20.99 is
+	 * valid in XL.
+	 */
+	if (per < 1 || per >= nper + 1)
+                return value_new_error (ei->pos, gnumeric_err_NUM);
+	else {
+		gnum_float pmt = calculate_pmt (rate, nper, pv, fv, type);
+		gnum_float ipmt = calculate_interest_part (pv, pmt, rate, per - 1);
 
-	return value_new_float (ipmt);
+		return value_new_float (ipmt);
+	}
 }
 
 /***************************************************************************/
@@ -2092,11 +2084,17 @@ gnumeric_ppmt (FunctionEvalInfo *ei, Value **argv)
 	gnum_float fv   = argv[4] ? value_get_as_float (argv[4]) : 0;
 	int type = argv[5] ? !!value_get_as_int (argv[5]) : 0;
 
-	/* First calculate the payment */
-        gnum_float pmt = calculate_pmt (rate, nper, pv, fv, type);
-	gnum_float ipmt = calculate_interest_part (pv, pmt, rate, per - 1);
-
-	return value_new_float (pmt - ipmt);
+	/*
+	 * It seems that with 20 periods, a period number of 20.99 is
+	 * valid in XL.
+	 */
+	if (per < 1 || per >= nper + 1)
+                return value_new_error (ei->pos, gnumeric_err_NUM);
+	else {
+		gnum_float pmt = calculate_pmt (rate, nper, pv, fv, type);
+		gnum_float ipmt = calculate_interest_part (pv, pmt, rate, per - 1);
+		return value_new_float (pmt - ipmt);
+	}
 }
 
 /***************************************************************************/
@@ -2131,14 +2129,16 @@ static const char *help_nper = {
 static Value *
 gnumeric_nper (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float rate, pmt, pv, fv, tmp;
-	int type;
+	gnum_float tmp;
 
-	rate = value_get_as_float (argv[0]);
-	pmt  = value_get_as_float (argv[1]);
-	pv   = value_get_as_float (argv[2]);
-	fv   = value_get_as_float (argv[3]);
-	type = !!value_get_as_int (argv[4]);
+	gnum_float rate = value_get_as_float (argv[0]);
+	gnum_float pmt  = value_get_as_float (argv[1]);
+	gnum_float pv   = value_get_as_float (argv[2]);
+	gnum_float fv   = value_get_as_float (argv[3]);
+	int type = argv[4] ? !!value_get_as_int (argv[4]) : 0;
+
+	if (rate == 0 && pmt != 0)
+		return value_new_float (-(fv + pv) / pmt);
 
 	if (rate <= 0.0)
 		return value_new_error (ei->pos, gnumeric_err_DIV0);

@@ -1,3 +1,10 @@
+2002-12-02  Morten Welinder  <terra@diku.dk>
+
+	* functions.c (gnumeric_ispmt): Handle non-integer period numbers.
+	Ick.
+	(gnumeric_ipmt): Ditto.
+	(gnumeric_nper): Handle rate=0 special case.
+
 2002-12-01  Morten Welinder  <terra@diku.dk>
 
 	* functions.c (gnumeric_ipmt): Base on calculate_interest_part.
