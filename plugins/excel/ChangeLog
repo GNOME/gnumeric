@@ -1,5 +1,8 @@
 2001-10-29  Jody Goldberg <jgoldberg@home.com>
 
+	* ms-excel-read.c (ms_excel_get_xf) : Use a better default in the face
+	  of errors.
+
 	* ms-chart.c (chart_get_fmt) : new function to chain to parent.
 	(ms_excel_chart) : use it here.
 

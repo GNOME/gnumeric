@@ -1090,7 +1090,7 @@ ms_excel_get_xf (ExcelSheet *esheet, int xfidx)
 	g_return_val_if_fail (p != NULL, NULL);
 	if (0 > xfidx || xfidx >= (int)p->len) {
 		g_warning ("XL: Xf index 0x%X is not in the range[0..0x%X)", xfidx, p->len);
-		return NULL;
+		xfidx = 0;
 	}
 	xf = g_ptr_array_index (p, xfidx);
 
