@@ -176,7 +176,8 @@ sheet_object_container_new_file (Workbook *wb, char const *fname)
 		so = sheet_object_container_new_object (wb, iid);
 		if (so == NULL) {
 			msg = g_strdup_printf (_("can't create object for '%s'"), iid);
-			gnome_dialog_run_and_close (GNOME_DIALOG (gnome_error_dialog (msg)));
+			/* FIXME : we should really provide a parent*/
+			gnumeric_notice (NULL, GTK_MESSAGE_ERROR, msg);
 		} else {
 			CORBA_exception_init (&ev);
 			sheet_object_bonobo_load_file (SHEET_OBJECT_BONOBO (so),
@@ -185,13 +186,14 @@ sheet_object_container_new_file (Workbook *wb, char const *fname)
 				msg = g_strdup_printf (
 					_("Could not load file: %s"),
 					bonobo_exception_get_text (&ev));
-				gnome_dialog_run_and_close (GNOME_DIALOG (gnome_error_dialog (msg)));
+				/* FIXME : we should really provide a parent*/
+				gnumeric_notice (NULL, GTK_MESSAGE_ERROR, msg);
 			}
 			CORBA_exception_free (&ev);
 		}
 		g_free (iid);
 	} else
-		gnome_dialog_run_and_close (GNOME_DIALOG (gnome_error_dialog (msg)));
+		gnumeric_notice (NULL, GTK_MESSAGE_ERROR, msg);
 
 	g_free (msg);
 

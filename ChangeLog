@@ -1,5 +1,13 @@
 2002-04-17  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* src/gui-util.[ch] (gnumeric_dialog_show) : deleted
+	* src/gui-file.c (ask_for_file_saver) : change GnomeDialog to GtkDialog
+	  NOTE: untested change!
+	* src/sheet-object-container.c (sheet_object_container_new_file) : 
+	  change GnomeDialog to GtkDialog.  NOTE: untested change!
+
+2002-04-17  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* src/gui-util.c (gnumeric_error_info_dialog_show_full) : renamed to
 	  gnumeric_error_info_dialog_show and rewritten
 	(gnumeric_error_info_dialog_show) : deleted

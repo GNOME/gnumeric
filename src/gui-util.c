@@ -204,46 +204,6 @@ gnumeric_dialog_run (WorkbookControlGUI *wbcg, GtkDialog *dialog)
 	return result;
 }
 
-/**
- * gnumeric_dialog_show
- * @parent             parent widget
- * @dialog             dialog
- * @click_closes       close on click
- * @close_with_parent  close when parent closes
- *
- * Pop up a dialog without a recursive main loop
- *
- * Attach a handler to close if the parent closes.
- * The parent widget does not have to be a toplevel shell - we look it
- * up here.
- */
-void
-gnumeric_dialog_show (WorkbookControlGUI *wbcg, GtkDialog *dialog,
-		      gboolean click_closes, gboolean close_with_parent)
-{
-#if 0
-	GtkWindow *parent = wbcg_toplevel (wbcg);
-	DialogRunInfo *run_info = NULL;
-	g_return_if_fail (GNOME_IS_DIALOG (dialog));
-	if (parent != NULL) {
-		run_info = g_new0 (DialogRunInfo, 1);
-		run_info->parent_toplevel =
-			gtk_widget_get_toplevel (GTK_WIDGET (parent));
-
-		gnome_dialog_set_parent
-			(GNOME_DIALOG (dialog),
-			 GTK_WINDOW (run_info->parent_toplevel));
-		gtk_window_set_destroy_with_parent  (GTK_WINDOW (dialog),
-			close_with_parent);
-	}
-#endif
-
-	gnome_dialog_set_close (GNOME_DIALOG (dialog), click_closes);
-
-	if (!GTK_WIDGET_VISIBLE (GTK_WIDGET (dialog)))	/* Pop up the dialog */
-		gtk_widget_show (GTK_WIDGET (dialog));
-}
-
 #define ERROR_INFO_MAX_LEVEL 9
 #define ERROR_INFO_TAG_NAME "errorinfotag%i"
 

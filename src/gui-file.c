@@ -357,19 +357,19 @@ ask_for_file_saver (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	GtkOptionMenu *omenu;
 	GList *savers;
 	GnumFileSaver *fs;
-	const gchar *buttons[] = {GNOME_STOCK_BUTTON_OK,
-		                  GNOME_STOCK_BUTTON_CANCEL, NULL};
 
-	dialog = gnome_message_box_newv (_("Which file format would you like?"),
-					 GNOME_MESSAGE_BOX_QUESTION, buttons);
-	gnome_dialog_set_close (GNOME_DIALOG (dialog), FALSE);
+	dialog = gtk_message_dialog_new (wbcg_toplevel (wbcg),
+					 GTK_DIALOG_DESTROY_WITH_PARENT,
+					 GTK_MESSAGE_QUESTION,
+					 GTK_BUTTONS_OK_CANCEL,
+					 _("Which file format would you like?"));
 
 	/* Add the format chooser */
 	savers = g_list_copy (get_file_savers ());
 	savers = g_list_sort (savers, file_saver_description_cmp);
 	omenu = GTK_OPTION_MENU (gtk_option_menu_new ());
 	format_chooser = make_format_chooser (savers, omenu);
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox),
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
 			    format_chooser, FALSE, FALSE, 0);
 
 	/* Set default file saver */
@@ -383,10 +383,10 @@ ask_for_file_saver (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 		fs = get_default_file_saver ();
 	}
 	gtk_option_menu_set_history (omenu, g_list_index (savers, fs));
-	gtk_widget_show_all (dialog);
+	gtk_widget_show_all (GTK_DIALOG (dialog)->vbox);
 
-	switch (gnome_dialog_run (GNOME_DIALOG (dialog))) {
-	case 0: /* Ok */
+	switch (gnumeric_dialog_run (wbcg, GTK_DIALOG (dialog))) {
+	case GTK_RESPONSE_OK: /* Ok */
 		fs = g_list_nth_data (savers,
 			gnumeric_option_menu_get_selected_index (omenu));
 		break;
@@ -394,7 +394,6 @@ ask_for_file_saver (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 		fs = NULL;
 		break;
 	}
-	gnome_dialog_close (GNOME_DIALOG (dialog));
 	g_list_free (savers);
 
 	return (fs);
