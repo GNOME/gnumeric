@@ -1,3 +1,12 @@
+1999-06-30  Michael Meeks  <michael@edenproject.org>
+
+	* ms-excel-write.c:(write_value): Hard-coded
+	version stuff onto NUMBER & RK.
+	(write_xf_record): Added hack to produce
+	identical XF table to test case.
+	(write_rowinfo): Added 0x200
+	(write_sheet_bools): ditto to DIMENSIONS.
+
 1999-06-30  Jody Goldberg  <jgoldberg@home.com>
 
 	* biff-types.h : Add some undocumented BIFF types, move INDEX,

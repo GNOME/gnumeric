@@ -634,7 +634,7 @@ formats_free (FORMATS *formats)
 
 /* See S59E1E.HTM */
 static void
-write_xf_record (BIFF_PUT *bp, Style *style, eBiff_version ver)
+write_xf_record (BIFF_PUT *bp, Style *style, eBiff_version ver, int hack)
 {
 	guint8 data[256];
 	int lp;
@@ -658,6 +658,30 @@ write_xf_record (BIFF_PUT *bp, Style *style, eBiff_version ver)
 		BIFF_SET_GUINT16(data+4, 0xfff5); /* FIXME: Magic */
 		BIFF_SET_GUINT16(data+6, 0xf420);
 		BIFF_SET_GUINT16(data+8, 0x20c0); /* Color ! */
+
+		if (hack == 1 || hack == 2)
+			BIFF_SET_GUINT16 (data,1);
+		if (hack == 3 || hack == 4)
+			BIFF_SET_GUINT16 (data,2);
+		if (hack == 15) {
+			BIFF_SET_GUINT16 (data+4, 1);
+			BIFF_SET_GUINT8  (data+7, 0x0);
+		}
+		if (hack == 16)
+			BIFF_SET_GUINT32 (data, 0x002b0001); /* These turn up in the formats... */
+		if (hack == 17)
+			BIFF_SET_GUINT32 (data, 0x00290001);
+		if (hack == 18)
+			BIFF_SET_GUINT32 (data, 0x002c0001);
+		if (hack == 19)
+			BIFF_SET_GUINT32 (data, 0x002a0001);
+		if (hack == 20)
+			BIFF_SET_GUINT32 (data, 0x00090001);
+		if (hack < 21 && hack > 15) /* Style bit ? */
+			BIFF_SET_GUINT8  (data+7, 0xf8);
+		if (hack == 0)
+			BIFF_SET_GUINT8  (data+7, 0);			
+
 		ms_biff_put_var_write (bp, data, 16);
 	}
 	ms_biff_put_commit (bp);
@@ -680,7 +704,7 @@ write_xf (BIFF_PUT *bp, WORKBOOK *wb)
 					    g_direct_equal);
 	/* Need at least 16 apparently */
 	for (lp=0;lp<21;lp++)
-		write_xf_record (bp, NULL, wb->ver);
+		write_xf_record (bp, NULL, wb->ver,lp);
 
 	/* See: S59DEA.HTM */
 	for (lp=0;lp<6;lp++) {
@@ -732,7 +756,7 @@ write_value (BIFF_PUT *bp, Value *v, eBiff_version ver,
 			write_value (bp, vf, ver, col, row, xf);
 			value_release (vf);
 		} else {
-			data = ms_biff_put_len_next (bp, BIFF_RK, 10);
+			data = ms_biff_put_len_next (bp, (0x200 | BIFF_RK), 10);
 			EX_SETROW(data, row);
 			EX_SETCOL(data, col);
 			EX_SETXF (data, xf);
@@ -755,7 +779,7 @@ write_value (BIFF_PUT *bp, Value *v, eBiff_version ver,
 			write_value (bp, vi, ver, col, row, xf);
 			value_release (vi);
 		} else if (ver >= eBiffV7) { /* See: S59DAC.HTM */
-			guint8 *data =ms_biff_put_len_next (bp, BIFF_NUMBER, 14);
+			guint8 *data =ms_biff_put_len_next (bp, (0x200 | BIFF_NUMBER), 14);
 			EX_SETROW(data, row);
 			EX_SETCOL(data, col);
 			EX_SETXF (data, xf);
@@ -764,7 +788,7 @@ write_value (BIFF_PUT *bp, Value *v, eBiff_version ver,
 		} else { /* Nasty RK thing S59DDA.HTM */
 			guint8 data[16];
 
-			ms_biff_put_var_next   (bp, BIFF_RK);
+			ms_biff_put_var_next   (bp, (0x200 | BIFF_RK));
 			BIFF_SETDOUBLE (data+6-4, val);
 			EX_SETROW(data, row);
 			EX_SETCOL(data, col);
@@ -983,7 +1007,7 @@ write_sheet_bools (BIFF_PUT *bp, SHEET *sheet)
 		BIFF_SET_GUINT16 (data + 10, sheet->maxx);
 		BIFF_SET_GUINT16 (data + 12, 0x0000);
 	} else {
-		data = ms_biff_put_len_next (bp, BIFF_DIMENSIONS, 10);
+		data = ms_biff_put_len_next (bp, (0x200 | BIFF_DIMENSIONS), 10);
 		BIFF_SET_GUINT16 (data +  0, 0);
 		BIFF_SET_GUINT16 (data +  2, sheet->maxy-1);
 		BIFF_SET_GUINT16 (data +  4, 0);
@@ -1066,7 +1090,7 @@ write_rowinfo (BIFF_PUT *bp, guint32 row, guint32 width)
 	guint8 *data;
 	ms_ole_pos_t pos;
 
-	data = ms_biff_put_len_next (bp, BIFF_ROW, 16);
+	data = ms_biff_put_len_next (bp, (0x200 | BIFF_ROW), 16);
 	pos = bp->streamPos;
 	BIFF_SET_GUINT16 (data +  0, row);    /* Row number */
 	BIFF_SET_GUINT16 (data +  2, 0);      /* first def. col */
