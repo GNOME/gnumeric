@@ -1,8 +1,14 @@
-gnumeric (1.1.16-0) experimental; urgency=low
+gnumeric (1.1.16-1) experimental; urgency=low
 
-  * UNRELEASED
+  * New upstream development release.
+  * The new libgda has been released upstream, but isn't available as a
+    package yet, so gnumeric-gda remains broken.
+  * Updated/changed build dependencies: libgal2.0-dev, libgnomeprint2.2-dev,
+    libgsf-1-dev, libgsf-gnome-1-dev, libgtk2.0-dev (>= 2.2.0-1 so the
+    functions that bring xinerama support are available).
+  * Updated Standards-Version.
 
- -- <not_a_debian_release>  Fri,  1 Nov 2002 20:51:35 +0100
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Fri, 31 Jan 2003 20:18:20 +0100
 
 gnumeric (1.1.15-1) experimental; urgency=low
 

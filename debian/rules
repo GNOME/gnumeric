@@ -64,7 +64,7 @@ features+= --without-gb
 
 confflags :=	--prefix=/usr --sysconfdir=/etc \
 		--localstatedir=/var/lib \
-		--libexecdir=\$${prefix}/bin \
+		--libexecdir=/usr/bin \
                 --enable-compile-warnings=minimum \
                 --enable-iso-c \
 		$(features)
