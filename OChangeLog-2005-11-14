@@ -1,3 +1,11 @@
+2005-02-14  Stepan Kasal  <kasal@ucw.cz>
+
+	* src/solver.h: Define most of the structures even if !ENABLE_SOLVER.
+	* src/xml-io.c (xml_read_solver, xml_write_solver): Compile these two
+	  functions even if !ENABLE_SOLVER, so that we don't cripple the
+	  files we open and save; the only thing we really cannot do is to
+	  to compute the text presentation of the constraints.
+
 2005-02-12  Jon K Hellan  <hellan@acm.org>
 
 	* src/stf-parse.c (stf_parse_sheet): Don't crash if parsing

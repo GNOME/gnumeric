@@ -24,24 +24,54 @@
 #ifndef GNUMERIC_SOLVER_H
 #define GNUMERIC_SOLVER_H 1
 
-#ifdef ENABLE_SOLVER
-
 #include "gnumeric.h"
 #include <goffice/utils/numbers.h>
 
 
 typedef enum {
-        SolverRunning, SolverOptimal, SolverUnbounded, SolverInfeasible,
-	SolverFailure, SolverMaxIterExc, SolverMaxTimeExc
-} SolverStatus;
+	SolverLPModel, SolverQPModel, SolverNLPModel
+} SolverModelType;
 
-/* Forward references for structures.  */
-typedef struct _SolverOptions SolverOptions;
-typedef struct _SolverConstraint SolverConstraint;
+typedef enum {
+	LPSolve = 0, GLPKSimplex, QPDummy
+} SolverAlgorithmType;
+
+typedef struct {
+	int                 max_time_sec;
+	int                 max_iter;
+	SolverModelType     model_type;
+	gboolean            assume_non_negative;
+	gboolean            assume_discrete;
+	gboolean            automatic_scaling;
+	gboolean            show_iter_results;
+	gboolean            answer_report;
+	gboolean            sensitivity_report;
+	gboolean            limits_report;
+	gboolean            performance_report;
+	gboolean            program_report;
+	gboolean            dual_program_report;
+	gboolean            add_scenario;
+	gchar               *scenario_name;
+	SolverAlgorithmType algorithm;
+} SolverOptions;
 
 typedef enum {
         SolverMinimize, SolverMaximize, SolverEqualTo
 } SolverProblemType;
+
+struct _SolverParameters {
+	SolverProblemType  problem_type;
+	GnmCell            *target_cell;
+	GSList		   *input_cells;
+	GSList             *constraints;
+	char               *input_entry_str;
+	int                n_constraints;
+	int                n_variables;
+	int                n_int_constraints;
+	int                n_bool_constraints;
+	int                n_total_constraints;
+	SolverOptions      options;
+};
 
 typedef enum {
         SolverLE,
@@ -51,9 +81,21 @@ typedef enum {
 	SolverBOOL
 } SolverConstraintType;
 
+typedef struct {
+	GnmCellPos           lhs;		/* left hand side */
+	GnmCellPos           rhs;  		/* right hand side */
+	gint                 rows;              /* number of rows */
+	gint                 cols;              /* number of columns */
+	SolverConstraintType type;	        /* <=, =, >=, int, bool */
+	char                 *str;		/* the same in string form */
+} SolverConstraint;
+
+#ifdef ENABLE_SOLVER
+
 typedef enum {
-        LPSolve = 0, GLPKSimplex, QPDummy
-} SolverAlgorithmType;
+	SolverRunning, SolverOptimal, SolverUnbounded, SolverInfeasible,
+	SolverFailure, SolverMaxIterExc, SolverMaxTimeExc
+} SolverStatus;
 
 typedef enum {
         SolverOptAssumeNonNegative, SolverOptAutomaticScaling, SolverOptMaxIter,
@@ -124,52 +166,6 @@ typedef struct {
         solver_lp_set_option_fn       *set_option_fn;
         solver_lp_print_fn            *print_fn;
 } SolverLPAlgorithm;
-
-typedef enum {
-        SolverLPModel, SolverQPModel, SolverNLPModel
-} SolverModelType;
-
-struct _SolverOptions {
-        int                 max_time_sec;
-        int                 max_iter;
-        SolverModelType     model_type;
-        gboolean            assume_non_negative;
-        gboolean            assume_discrete;
-        gboolean            automatic_scaling;
-        gboolean            show_iter_results;
-        gboolean            answer_report;
-        gboolean            sensitivity_report;
-        gboolean            limits_report;
-        gboolean            performance_report;
-        gboolean            program_report;
-        gboolean            dual_program_report;
-	gboolean            add_scenario;
-	gchar               *scenario_name;
-        SolverAlgorithmType algorithm;
-};
-
-struct _SolverConstraint {
-        GnmCellPos           lhs;		/* left hand side */
-        GnmCellPos           rhs;  		/* right hand side */
-        gint                 rows;              /* number of rows */
-        gint                 cols;              /* number of columns */
-        SolverConstraintType type;	        /* <=, =, >=, int, bool */
-        char                 *str;		/* the same in string form */
-};
-
-struct _SolverParameters {
-        SolverProblemType  problem_type;
-        GnmCell            *target_cell;
-        GSList		   *input_cells;
-        GSList             *constraints;
-        char               *input_entry_str;
-        int                n_constraints;
-        int                n_variables;
-        int                n_int_constraints;
-        int                n_bool_constraints;
-        int                n_total_constraints;
-        SolverOptions      options;
-};
 
 typedef struct {
         gnm_float lower_limit;
@@ -270,11 +266,11 @@ void              solver_delete_cols    (Sheet *sheet, int col, int count);
 
 #define solver_param_new() NULL
 #define solver_lp_copy(src_param, new_sheet) NULL
-#define solver_param_destroy(param)
-#define solver_insert_cols(sheet, col, count)
-#define solver_insert_rows(sheet, row, count)
-#define solver_delete_cols(sheet, col, count)
-#define solver_delete_rows(sheet, row, count)
+#define solver_param_destroy(param)		do {} while(0)
+#define solver_insert_cols(sheet, col, count)	do {} while(0)
+#define solver_insert_rows(sheet, row, count)	do {} while(0)
+#define solver_delete_cols(sheet, col, count)	do {} while(0)
+#define solver_delete_rows(sheet, row, count)	do {} while(0)
 
 #endif
 

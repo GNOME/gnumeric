@@ -859,7 +859,6 @@ xml_write_sheet_filters (GnmOutputXML *state)
 static void
 xml_write_solver (GnmOutputXML *state)
 {
-#ifdef ENABLE_SOLVER
         SolverParameters *param = state->sheet->solver_parameters;
 	SolverConstraint const *c;
 	int type;
@@ -927,7 +926,6 @@ xml_write_solver (GnmOutputXML *state)
 	}
 
 	gsf_xml_out_end_element (state->output); /* </gmr:Solver> */
-#endif
 }
 
 static void

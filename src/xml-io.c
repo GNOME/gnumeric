@@ -2217,7 +2217,6 @@ xml_write_styles (XmlParseContext *ctxt, GnmStyleList *styles)
 static void
 xml_read_solver (XmlParseContext *ctxt, xmlNodePtr tree)
 {
-#ifdef ENABLE_SOLVER
 	SolverConstraint *c;
 	xmlNodePtr       child, ptr;
 	int              col, row, ptype;
@@ -2281,10 +2280,11 @@ xml_read_solver (XmlParseContext *ctxt, xmlNodePtr tree)
 				c->type = SolverLE;
 				break;
 			}
+#ifdef ENABLE_SOLVER
 			c->str = write_constraint_str (c->lhs.col, c->lhs.row,
 						       c->rhs.col, c->rhs.row,
 						       c->type, c->cols, c->rows);
-
+#endif
 			param->constraints = g_slist_append (param->constraints, c);
 			child = e_xml_get_child_by_name (child, CC2XML ("Constr"));
 		} while (child != NULL);
@@ -2307,13 +2307,12 @@ xml_read_solver (XmlParseContext *ctxt, xmlNodePtr tree)
 	xml_node_get_bool (tree, "PerformR",
 			  &(param->options.performance_report));
 	xml_node_get_bool (tree, "ProgramR", &(param->options.program_report));
-#endif
 }
 
 static xmlNodePtr
 xml_write_solver (XmlParseContext *ctxt, SolverParameters const *param)
 {
-	xmlNodePtr       cur = NULL;
+	xmlNodePtr       cur;
 	xmlNodePtr       constr;
 	xmlNodePtr       prev = NULL;
 	GSList           *constraints;
@@ -2683,13 +2682,7 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet const *sheet)
 {
 	xmlNodePtr sheetNode;
 	xmlNodePtr child;
-	xmlNodePtr rows;
-	xmlNodePtr cols;
 	xmlNodePtr cells;
-	xmlNodePtr printinfo;
-	xmlNodePtr styles;
-	xmlNodePtr solver;
-	xmlNodePtr scenarios;
 	xmlChar *tstr;
 
 	/* General information about the Sheet */
@@ -2733,27 +2726,27 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet const *sheet)
 	/*
 	 * Print Information
 	 */
-	printinfo = xml_write_print_info (ctxt, sheet->print_info);
-	if (printinfo)
-		xmlAddChild (sheetNode, printinfo);
+	child = xml_write_print_info (ctxt, sheet->print_info);
+	if (child)
+		xmlAddChild (sheetNode, child);
 
 	/*
 	 * Styles
 	 */
-	styles = xml_write_styles (ctxt, sheet_style_get_list (sheet, NULL));
-	if (styles)
-		xmlAddChild (sheetNode, styles);
+	child = xml_write_styles (ctxt, sheet_style_get_list (sheet, NULL));
+	if (child)
+		xmlAddChild (sheetNode, child);
 
 	/*
 	 * Cols informations.
 	 */
-	cols = xmlNewChild (sheetNode, ctxt->ns, CC2XML ("Cols"), NULL);
-	xml_node_set_points (cols, "DefaultSizePts",
+	child = xmlNewChild (sheetNode, ctxt->ns, CC2XML ("Cols"), NULL);
+	xml_node_set_points (child, "DefaultSizePts",
 			      sheet_col_get_default_size_pts (sheet));
 	{
 		closure_write_colrow closure;
 		closure.is_column = TRUE;
-		closure.container = cols;
+		closure.container = child;
 		closure.ctxt = ctxt;
 		closure.previous = NULL;
 		closure.rle_count = 0;
@@ -2766,13 +2759,13 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet const *sheet)
 	/*
 	 * Rows informations.
 	 */
-	rows = xmlNewChild (sheetNode, ctxt->ns, CC2XML ("Rows"), NULL);
-	xml_node_set_points (rows, "DefaultSizePts",
+	child = xmlNewChild (sheetNode, ctxt->ns, CC2XML ("Rows"), NULL);
+	xml_node_set_points (child, "DefaultSizePts",
 			      sheet_row_get_default_size_pts (sheet));
 	{
 		closure_write_colrow closure;
 		closure.is_column = FALSE;
-		closure.container = rows;
+		closure.container = child;
 		closure.ctxt = ctxt;
 		closure.previous = NULL;
 		closure.rle_count = 0;
@@ -2820,13 +2813,13 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet const *sheet)
 	xml_write_sheet_layout (ctxt, sheetNode, sheet);
 	xml_write_sheet_filters (ctxt, sheetNode, sheet);
 
-	solver = xml_write_solver (ctxt, sheet->solver_parameters);
-	if (solver)
-		xmlAddChild (sheetNode, solver);
+	child = xml_write_solver (ctxt, sheet->solver_parameters);
+	if (child)
+		xmlAddChild (sheetNode, child);
 
-	scenarios = xml_write_scenarios (ctxt, sheet->scenarios);
-	if (scenarios)
-		xmlAddChild (sheetNode, scenarios);
+	child = xml_write_scenarios (ctxt, sheet->scenarios);
+	if (child)
+		xmlAddChild (sheetNode, child);
 
 	return sheetNode;
 }
