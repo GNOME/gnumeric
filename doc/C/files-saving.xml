@@ -1,27 +1,31 @@
 <sect1 id="sect-file-save">
-    <title>Saving Files</title>
+  <title>Saving Files</title>
 
 <!-- TODO: Sync with file-opening.xml for parallel structure. -->
 
+  <para>
+    There are several ways to save a &gnum; workbook that is
+    currently open.
+  </para>
+
+  <para>
+    Existing files can be saved directly but this process does not
+    allow a user to change any settings to the file creation process. 
+  </para>
+
+  <tip>
+    <title>Saving files direclty</title>
     <para>
-      There are several ways to save a &gnum; workbook that is
-      currently open. If the workbook has already been saved to a file
+      If the workbook has already been saved to a file
       or if the workbook was opened from a file that already existed,
-      &gnum; will simply overwrite the file with the newer version. If
-      the workbook is new, the first time &gnum; goes to save the
-      workbook it will invoke the <interface>Save As...</interface>
-      dialog to ask the user to provide a name for the file to be
-      created, to select a folder in which to place the new file, and
-      to select a file format type for this new file. The
-      <interface>Save As...</interface> dialog can also be invoked at
-      any time to save the current workbook to a new file with either
-      a different name or a different file format type.
-    </para>
+      &gnum; will simply overwrite the file with the newer version.
 
       <variablelist>
 	<title>Three alternative ways to save a file directly</title>
       <varlistentry>
-	  <term>Using the Menus</term>
+	  <term>
+	    <emphasis role="bold">Using the Menus</emphasis>
+	  </term>
 	  <listitem>
 	    <para> 
 	      Select, in the <guimenu><accel>F</accel>ile</guimenu> menu, the
@@ -31,7 +35,7 @@
 	</varlistentry>
 	<varlistentry>
 	  <term>
-	    Using the Standard Toolbar
+	    <emphasis role="bold">Using the Standard Toolbar</emphasis>
 	  </term>
 	  <listitem>
 	    <para>
@@ -51,7 +55,7 @@
 	</varlistentry>
 	<varlistentry>
 	  <term>
-	    Using a Keyboard Shortcut
+	    <emphasis role="bold">Using a Keyboard Shortcut</emphasis>
 	  </term>
 	  <listitem>
 	    <para>
@@ -62,56 +66,90 @@
 	      typing both keys simultaneously.
 	    </para>
 	  </listitem>
-	</varlistentry>
-      </variablelist>
-      
-    <para>
-      These three alternative ways to save a file directly will all
-      update the contents of a file that has previously been
-      saved. The methods below will open the <interface>File
-      Save</interface> dialog to save a workbook to a new file or a
-      new file format type.
-    </para>
-    
-      <variablelist>
-	<title>
-	  Two alternative ways to open the <interface>File
-	  Save</interface> dialog.
-	</title>
-
-	<varlistentry>
-	  <term>Menubar</term>
-	  <listitem>
-	    <para> 
-	      <guimenu><accel>F</accel>ile</guimenu>/
-	      <guimenuitem>S<accel>a</accel>ve as...</guimenuitem>
-	    </para>
-	  </listitem>
-	</varlistentry>
-	<varlistentry>
-	  <term>
-	    Keyboard Shortcut
-	  </term>
+<!-- TODO: render hack, remove me. -->
 	  <listitem>
 	    <para>
-	      Type the combination
-	      <keycombo>
-	        <keysym>Shift</keysym>
-		<keysym>Ctrl</keysym>
-		<keysym>s</keysym>
-	      </keycombo>,
-	      typing all three keys simultaneously.
 	    </para>
 	  </listitem>
 	</varlistentry>
       </variablelist>
 
+      Each of these approaches will save the file directly, allowing
+      no intervention on the part the user. If the file has been newly
+      created, &gnum; will automatically launch the <interface>Save
+      As...</interface> dialog asking the user for a file name and
+      other configuration options for the file, as is explained below.
+    </para>
+  </tip>
+
   <para>
-    Both methods will launch the <interface>File Save</interface>
-    dialog to allow the user to name the file, select a folder (also
-    called a directory) for the file and choose a file format
-    type. This dialog will also open automatically the first time a
-    new workbook is saved.
+    Users wisching to save an existing file to a new file must invoke
+    the <interface>Save As...</interface> dialog. The <interface>Save
+    As...</interface> dialog can be invoked at any time to save the
+    current workbook to a new file with either a different name or a
+    different file format type. This dialog is automatically launched
+    when a user attempts to use one of the methods described above to
+    save a workbook which does not already have an existing file.
+    </para>
+
+  <para>
+    The <interface>Save As...</interface>
+    dialog asks the user to provide a name for the file to be
+    created, to select a folder in which to place the new file, and to
+    select a file format type for the file.
+  </para>
+
+  <tip>
+    <title>The steps required to save a file to a standard location.</title>
+
+    <para></para>
+<!--TODO: render hack, remove me.  -->
+
+    <orderedlist>
+      <listitem>
+        <para>
+	  Launch the  <interface>File Save</interface> dialog.
+	</para>
+	<para>
+	  In the <guimenu>File</guimenu> menu, select the
+	  <guimenuitem>Save As</guimenuitem> menu item.
+	</para>
+      </listitem>
+      <listitem>
+        <para>
+	  Name the file. Open the folder containing the desired file.
+	</para>
+	<para>
+	  In the text entry area, enter the file name.
+	</para>
+      </listitem>
+      <listitem>
+        <para>
+	  Select the desired folder in which to save the file.
+	</para>
+	<para>
+	  Select one of the standard locations to open the file.
+	</para>
+      </listitem>
+      <listitem>
+        <para>
+	  Specify a file format type.
+	</para>
+      </listitem>
+      <listitem>
+        <para>
+	  Click on the <guibutton>Save</guibutton> button.
+	</para>
+      </listitem>
+    </orderedlist>
+
+  </tip>
+
+  <para>
+    The remainder of this section explains these steps in greater
+    detail, first, by describing the components in the <interface>File
+    Save</interface> dialog and, then, by explaining each of the steps
+    above in greater detail.
   </para>
 
 
@@ -380,9 +418,56 @@
 	    Open the <interface>File Save</interface> dialog.
 	  </title>
 	  <para>
-	    First, the dialog must be opened using any of the methods
-	    presented above.
+	    First, the dialog must be opened using either of the two
+	  following methods:
 	  </para>
+    
+      <variablelist>
+	<title>
+	  Two alternative ways to open the <interface>File
+	  Save</interface> dialog.
+	</title>
+
+	<varlistentry>
+	  <term>
+	    <emphasis role="bold">Using the Menus</emphasis>
+	  </term>
+	  <listitem>
+	    <para> 
+	      Select, in the <guimenu><accel>F</accel>ile</guimenu>
+	      menu, the 
+	      <guimenuitem>S<accel>a</accel>ve as...</guimenuitem>
+	      menu item.
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>
+	    <emphasis role="bold">Using a Keyboard Shortcut</emphasis>
+	  </term>
+	  <listitem>
+	    <para>
+	      Type the combination
+	      <keycombo>
+	        <keysym>Shift</keysym>
+		<keysym>Ctrl</keysym>
+		<keysym>s</keysym>
+	      </keycombo>,
+	      typing all three keys simultaneously.
+	    </para>
+	  </listitem>
+	</varlistentry>
+      </variablelist>
+
+          <para>
+            Both methods will launch the <interface>File
+            Save</interface> dialog to allow the user to name the
+            file, select a folder (also called a directory) for the
+            file and choose a file format type. This dialog will also
+            open automatically the first time a new workbook is saved.
+          </para>
+
+
 	</step>
 
         <step>
@@ -489,6 +574,18 @@
 	  </para>
 	</step>
       </procedure>
+
+
+      <para>
+        This basic procedure does not allow a user to save the file
+        into folder other than one already provided. An expanded
+        proceedure is needed to explain how to save a file into other
+        folders in the file system. The next section explains the
+        extra elements provided when the <interface>File
+        Save</interface> dialog is expanded and that section is
+        followed by a step-by-step procedure explaining how to use
+        this expanded dialog.
+      </para>
 
     </sect3>
 

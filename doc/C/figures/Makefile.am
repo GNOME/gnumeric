@@ -173,8 +173,6 @@ EXTRA_DIST = \
      example-colGraph.png \
      example-columnSelect.png \
      example-data.png \
-     files-csv-export-ex1.png \
-     files-csv-export-ex2.png \
      files-html-example.png \
      files-html32-example.png \
      files-html40-example.png \
@@ -314,6 +312,8 @@ EXTRA_DIST = \
      solver-03.png \
      solver-04.png \
      solver-05.png \
+     textguru-export-panel1-withTags.png \
+     textguru-export-panel2-withTags.png \
      textguru-import-panel1-withTags.png \
      textguru-import-panel2a-withTags.png \
      textguru-import-panel2b-withTags.png \

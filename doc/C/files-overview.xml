@@ -1,6 +1,8 @@
 <sect1 id="sect-files-overview">
   <title>Files in Gnumeric</title>
 
+<!-- TODO: move the "understanding the filesystem" from 'opening' to here. -->
+
   <para>
     &gnum; stores its information by creating files and re-opening
     these files during a future session. Saving information to files

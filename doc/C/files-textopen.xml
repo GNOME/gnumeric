@@ -1,7 +1,7 @@
- <sect1 id="sect-file-textImport">
-  <title>Importing Text</title>
+<sect1 id="sect-file-textImport">
+  <title>Importing Text Files</title>
 
-<!-- TODO: Ask. In text import druid, what does row selection do? Why the highlight? -->
+<!-- TODO: ask- In text import druid, what does row selection do? Why the highlight? -->
 
   <para>
     &gnum; can import data which is organized as text fields
@@ -37,7 +37,7 @@
     <title>The steps involved in the text import druid.</title>
 
     <para></para>
-<!-- TODO: remove this spacing hack  -->
+<!-- TODO: render hack- remove this spacing hack  -->
 
     <orderedlist>
       <listitem>
@@ -131,21 +131,92 @@
   </para>
 
 
+  <sect2 id="sect-file-textImport-complex">
+    <title>The complexities of text format files</title>
 
-  <sect2 id="sect-file-textImport-encoding">
+    <para>
+      The use of text format files to store and transmit data for use
+      in a spreadsheet involves three somewhat complex decisions which
+      determine how the file expresses and separates each data
+      value. These complexities must be understood for a user to be
+      able to use the <interface>Text Import</interface> druid
+      effectively. These complexities exist because of the limitations
+      of early computers and because or the historical development of
+      computer systems by different manufacturers and programmers, in
+      different countries, targeting different types of users,
+      speaking different languages.
+    </para>
+
+    <para>
+      The first complexity involves the different systems which relate
+      the contents of a computer file to the characters in a written
+      language. All text files on a computer consist of a long
+      sequence of binary digits. Text files are files in which these
+      digits are used to indicate different textual
+      characters. Character 'encodings' are standardized systems which
+      relate the binary digits in a computer file to a formal system
+      of characters which includes both text glyphs (shapes) and
+      formatting indicators. Each encoding defines a way to interpret
+      the binary digits and uses the characters from a particular
+      character set. The alternative character enocding strategies are
+      explained in greater detail in <xref
+      linkend="sect-file-textImport-complex-encoding"/>, below.
+    </para>
+
+    <para>
+      The second complexity involves the decision of how to separate
+      the characters in a file into different lines. Text files
+      explicitly determine the end of each line of a file with a
+      specific character or sequence of characters. The complexity
+      involves the particular character sequence used to determine the
+      end of each line. Different conventions have been used in
+      different computer systems. The alternative ine breaking
+      strategies are explained in greater detail in <xref
+      linkend="sect-file-textImport-complex-lineBreak"/>, below.
+    </para>
+
+    <para>
+      The third complexity involves the decision of how to separate
+      the characters in each line into separate value fields. Again,
+      different strategies exist. These can be separated into two
+      broad categories: strategies which use a character or sequence
+      of characters to separate the values, so called 'delimited' or
+      'separated' strategies, and strategies which use the position of
+      the character in the line to separate the values, so called
+      'fixed-width' strategies. The alternative data structuring
+      strategies are explained in greater detail in <xref
+      linkend="sect-file-textImport-complex-dataStruct"/>, below.
+    </para>
+
+
+    <para>
+      Fortunately, the &gnum; <interface>Text Import</interface> druid
+      provides users with a way to preview the information in a text
+      file. This enables users to change the settings which determine
+      each of these three conventions until the text in the preview
+      correctly shows the contents of the data file. Therefore, while
+      the details of these three steps are complex, the pratical
+      impact on users is minimal. Users can simply experiment until
+      the file appears correct without having to understand each of
+      these complexities in detail.
+    </para>
+ 
+
+  <sect3 id="sect-file-textImport-complex-encoding">
     <title>Character Encodings</title>
 
 
     <para>
-      All files on a computer consist of a stream of binary
-      numbers. Text files are files in which these binary numbers are
-      directly related to some set of characters according to some
-      scheme. These schemes are called
-      <wordasword>'encodings'</wordasword>.
+      The use of text files to store data in a structured fashion for
+      use by spreadsheet programs, and more generally all text files,
+      require some scheme to relate the binary number in the computer
+      file itself to the characters of a written language. Such
+      schemes are called <wordasword>'encodings'</wordasword>.
+
     </para>
 
     <para>
-      The origin of computers also led to the invention of a number of
+      The origin of computers led to the invention of a number of
       different encoding schemes. Due to the limitation of early
       computer hardware, these encoding schemes all restricted
       themselves to character sets which contained only the most
@@ -177,31 +248,100 @@
     <para>
       Encoding schemes merely prove a hindrance to users when opening
       files. There is no danger that data be lost or that any other
-      serious problem arise by selecting the wrong scheme; the worst
-      that will happen is that the text shown by &gnum; appear with
-      nonsensical groups of characters, with streams of question mark
-      (?) characters, or with symbols which are boxes with four
-      numbers in them. 
-<!-- TODO: add a picture of broken char symbol box and numbers-->
-      All of these indicate that the encoding scheme used to read the
+      serious problem arise by selecting the wrong scheme. If the
+      wrong scheme is selected, either the file will contain
+      characters which are non-sensical and &gnum; will open an error
+      dialog asking the user to select a different encoding scheme, or
+      the preview area will display non-sensical characters. These
+      non-sensical characters may simply be characters grouped
+      together which do not occur in any language, such as
+      "&#xE5;&#xD5;&#xDB;&#xDB;&#xDE;", or may be characters for which
+      a graphical representation (a glyph) does not exist in the font
+      being used and is therefore displayed using a small box with
+      four numbers inside, such as &#x0080; and &#x0082;. Each of
+      these errors indcates that the encoding scheme used to read the
       file was not the same encoding scheme as was used to create the
       file. The difficulty is then to determine what encoding scheme
       to use. A simple process of trial and error should lead to
       picking the right scheme.
    </para>
 
-<!-- TODO: expand all this stuff into something useful.
     <para>
-      A basic strategy for selecting encodings, is first to try
-      without changning anything. If errors, try again. Try locale,
-      iso-8..., UTF-8 and then any language that may be where the user
-      is from.
+      A basic strategy to find the right encoding for a file being
+      imported into &gnum; is, first, to use the scheme proposed by
+      &gnum; and, then, to hunt for the correct encoding. The default
+      encoding scheme is the one defined by the locale setting of the
+      user and this is also the default scheme &gnum; uses to create
+      text files.
+<!-- TODO: encoding- add xref to locale. -->
+
+      If the default encoding is incorrect, the correct encoding must
+      be found by trial and error. One strategy to use is to examine
+      the major wester encodings and then the major regional
+      encodings. The major western encoding schemes are ASCII,
+      ISO-8859-1, and UTF-8, but ASCII is a subset of the other two so
+      it does not need to be tried on its own. The major regional
+      encodings are the IS0-8859-x schemes since these have become
+      quite popular in GNU operating systems. Alternatively, the
+      various character sets used by the Microsoft operating systems
+      can be attempted. The encoding schemes are listed under
+      "Western", "Unicode", and the alphabet names. 
+    </para>
+
+<!-- TODO: encoding- expand discussion of each type to be useful. -->
+<!--
+    <para>
+      The ASCII character set and encoding
+           * single byte, only seven bits used.
+
+
+      The ISO-8859-x family of encoding schemes
+           * single byte, all eight bits used
+
+        [From Wikipaedia: http://en.wikipedia.org/wiki/ISO_8859-1]
+      Albanian, Basque, Catalan, Danish, Dutch, English,
+      Faroese, French (missing only &#x0153;), Finnish, German
+      (missing &#x201e; and &#x201c;), Icelandic, Irish, Italian, Norwegian,
+      Portuguese, Rhaeto-Romanic, Scottish, Spanish, Swedish. Other
+      languages covered include Afrikaans and Swahili. Thus, this
+      character encoding is used throughout the American continent,
+      Western Europe, Australia, and much of Africa. 
+
+       UTF-8 
+
     </para>
 
 -->
-<!-- TODO add xref to locale -->
 
-  </sect2>
+    <para>
+      The World Wide Web has many resources dedicated to explaining
+      encoding systems and other related information. One of the best
+      sites discussing UTF-8 and Unicode is the <ulink type="http"
+      url="http://www.cl.cam.ac.uk/~mgk25/unicode.html" >UTF-8 and
+      Unicode FAQ for UNIX/Linux</ulink> page maintained by Markus
+      Kuhn. 
+
+      The Unicode project has a <ulink type="http"
+      url="http://www.unicode.org">web site</ulink> which includes an
+      online copy of their standard character set. 
+
+      A discussion of the ISO-8859 family of encodings can be found at
+      a page titled: "<ulink type="http"
+      url="http://czyborra.com/charsets/iso8859.html" >The ISO-8859
+      Alphabet Soup</ulink>", which may alternatively be found <ulink
+      type="http"
+      url="http://www.unicodecharacter.com/charsets/iso8859.html"
+      >here</ulink>. A similar discussion on Wikipaedia, focusing on
+      the western alphabets, can be found <ulink type="http"
+      url="http://en.wikipedia.org/wiki/ISO_8859-1" >here</ulink>.
+
+    </para>
+
+
+<!-- TODO: encoding- make a table of the available encodings. Here or below -->
+<!-- TODO: ask- encodings available are determined by gnum/pango? -->
+
+  </sect3>
 
 
 
@@ -211,14 +351,16 @@
 
 
 
-  <sect2 id="sect-file-textImport-lineBreak">
+  <sect3 id="sect-file-textImport-complex-lineBreak">
     <title>Line break delimiters</title>
 
      <para>
-       Structured text files rely on the files having explicitly
-       defined rows within the file as one component in the
-       structuring system. Each of these rows is defined by a
-       character sequence indicating the end of a row.
+        The use of text files to store data in a structured fashion
+        for use by spreadsheet programs requires a scheme to seprate
+        each line of the file. Structured text files rely on the files
+        having explicitly defined rows within the file as one
+        component in the structuring system. Each of these rows is
+        defined by a character sequence indicating the end of a row.
      </para>
 
      <para>
@@ -254,9 +396,17 @@
        symbols at the start or end of each line.
      </para>
 
+<!-- TODO: ask- line break delimters Does having all 3 set ever not work? -->
+     <para>
+       The correct line break delimiters can be established by
+       checking or unchecking the alternatives. The preview area will
+       then show the result of the file interpreted with these
+       settings. 
+     </para>
+
+ </sect3>
 
 
- </sect2>
 
 
 
@@ -265,59 +415,65 @@
 
 
 
+<!-- TODO: write- section on data structuring strategies. -->
 
-
-<!-- TODO: write section on data structuring strategies.
-  <sect2 id="sect-file-textImport-dataStruct">
+  <sect3 id="sect-file-textImport-complex-dataStruct">
     <title>Data Structuring Strategies</title>
 
      <para>
-       
+       The use of text files to store data in a structured fashion for
+       use by spreadsheet programs also requires some scheme to
+       separate each value within every line. Two different approaches
+       are used to separate these values. The first strategy, uses a
+       particular character or character sequence to denote the start
+       and end of each value. Such strategies are called 'Separated
+       Value' or 'Delimited Value' systems. The second strategy places
+       each value stating at a specified position in the line. Such
+       strategies are called 'Fixed Width' strategies because they
+       inherently require that each value have a pre-determined size.
      </para>
 
      <para>
-       Separated value files:
-         separators
-         * one or more characters as separators
-	 * in gum, a single sequence can be used as a separator
-	      e.g. STOP
-
-	 text field delimiters
-	 * any character
-	      e.g 'Zoe, Sally, Dodji'
-
-	 Examples:
-	   CSV, TAB, SPACE delimited files.
-
-	cop the sections in panel 2a
+       Separated Value structuring systems distinguish the contents of
+       each value using pre-determined characters to separate the
+       values. Certain characters have become common in such schemes,
+       for-example 'Comma Separated Value' files use a comma character
+       to separate values while 'Tab Separated Value' files use a tab
+       character. &gnum; allows the user to define the value separator
+       to be any one of several common characters or a specfic
+       sequence of characters, either on their own or in
+       combination. For example, a file could use both space
+       characters and tab characters to separate values. Similarly, a
+       file could be read which used the entire word 'STOP' to separte
+       values like the common scheme to separate sentences in a
+       telegram.
      </para>
 
      <para>
-       Fixed width files:
-         * e.g. databases, old punch cards.
-     </para>
+       Separate Value structuring systems often also include a method
+       to surround a single text value which may itself contain the
+       character used to separate values. The quote character is often
+       used in this role but &gnum; allows users to configure any
+       character in this role. For example, a file which used the
+       comma to separate values could nontheless contain a value like
+       "Zoe, Sally, Dodji" if this value had appropriate text
+       indicating characters at either end.
+    </para>
 
     <para>
-      The difficulty with text files comes from the method which is
-      used to structure the data within the text file. Text files are
-      generally not created as a simple stream of numbers but instead
-      they are created with a regular format. &gnum; must correctly
-      recognize this format to be able to input the data
-      effectively. Because text files are such a common format, there
-      are a large variety of different methods that are used to
-      structure the data within the file. &gnum; needs to parse, or
-      interpret, the file while it is being read to assign different
-      elements into different cells and select the correct number
-      format for each created cell. In order to ensure that this
-      interpretation is done correctly, &gnum; has a special dialog,
-      the <interface>Text Import</interface> dialog, in which the user
-      can configure every aspect of the file import. While this step
-      may require some time and may require several attempts to
-      achieve correctly, the correct import of a structured file saves
-      immense amounts of time compared to re-entering data.
+      Fixed Width structuring systems are common formats for the
+      output of database tables since the contents of these tables
+      have often been defined as variables of a particular size.
+<!-- TODO: dataStruct- get example for dB variable CHAR14 -->
+      To import these files, users must specify exactly the start of
+      each column so that the importer can separate the values on each
+      row. 
+
     </para>
- </sect2>
- -->
+
+    </sect3>
+
+  </sect2>
 
 
 
@@ -340,10 +496,27 @@
     </para>
 
     <para>
-      
+      The first panel allows users to configure the character encoding
+      used by the file, to determine the character sequences used to
+      seprate lines, configure the type of structuring being used and
+      select the lines of the file to import.  The second colum allows
+      the user to define the separation strategy used for each
+      value. For separated value files this invovles defining the
+      separating character sequences and the text indicating
+      character. For fixed width files, this involves defining the
+      width of each column.  The third panel allows the user to select
+      the columns to be included during the import and to select the
+      format of the values in each column.
     </para>
 
-
+    <para>
+      Users navigate the <interface>Text Import</interface> druid by
+      clicking on the <guibutton>Forward</guibutton> button on each
+      panel after they have configured the settings properly. The
+      thrid panel contains a <guibutton>Finish</guibutton> which
+      causes the file to be imported to a workbook using all the
+      settings as they are configured.
+    </para>
 
 
     <sect3 id="sect-file-textImport-druid-panel1">
@@ -352,6 +525,11 @@
       </title>
 
       <para>
+        The first panel of the <interface>Text Import</interface>
+        Druid allows users to set the file encoding, to determine the
+        character sequences used to seprate lines, configure the type
+        of structuring being used and select the lines of the file to
+        import.
       </para>
 
       <figure id="fig-file-textImport-druid-panel1">
@@ -404,7 +582,7 @@
 	        schemes for the characters in the text file.  By
 	        default, &gnum; selects the encoding scheme used by
 	        the locale of the user.  See <xref
-	        linkend="sect-file-textImport-encoding" /> for more
+	        linkend="sect-file-textImport-complex-encoding" /> for more
 	        details.
 	      </para>
 	    </listitem>
@@ -524,14 +702,13 @@
       </title>
 
       <para>
-        This panel applies to text data which has been structured by
-        separating the data values on each row using a particular
-        character or character sequence as a data value
-        'separator'. This structuring strategy includes the two
-        common formats called 'Comma Separated Value' and 'Tab
-        Separated Value' formats which use comma and tab characters,
-        respectively, as the separating characters.
-      </para>
+        The second panel of the <interface>Text Import</interface>
+        Druid used for separted data allows the user to configure the
+        character sequences used to separate the values in each row
+        and to configure the text delimiting characters. &gnum;, by
+        default, guesses which characters are being used to separate
+        values and pre-sets those characters. The user can, however,
+        reconfigure these characters.  </para>
 
       <figure id="fig-file-textImport-druid-panel2a">
         <title>
@@ -768,13 +945,15 @@
 	    </term>
 	    <listitem>
 	      <para>
-	        This right most button, named <guibutton>Auto Column
-	        Discovery</guibutton>, will clear all the column
-	        definitions and reset the file to a single
+
+	        This right most button, named
+	        <guibutton>Clear</guibutton>, will clear all the
+	        column definitions and reset the file to a single
 	        column. This button should be used cautiously since
 	        there is no way to reverse its action and any
 	        carefully prepared column definition layout will be
 	        irretrievably lost.
+
 	      </para>
 	    </listitem>
           </varlistentry>
@@ -785,20 +964,16 @@
 	    column width definition area.
 	    </term>
 	    <listitem>
-<!-- TODO: add mention of dbl-click to locate the start of the
-	    column. -->
 	      <para>
 	        This area acts as both a preview area and an area
 	        where users can define the columns widths.
 	      </para>
-
 	      <para>
 		As a preview area, this area
 	        displays a preview of the file as it will be
 	        interpreted when the the settings that are currently
 	        selected in this first panel are applied.
 	      </para>
-
 	      <para>
 	        This area can also be used to define column
 	        widths. When the panel first appears, a single column
@@ -807,28 +982,36 @@
 	        columns. The mouse can then be used to further divide
 	        columns or to join previously separate columns.
 	      </para>
-
 	      <para>
-	        The column definition currently relies on the mouse
-	        and the context menu obtained by clicking with one of
-	        the secondary mouse buttons. New columns can be
-	        defined by placing the mouse pointer at the start of a
-	        desired column, selecting the context menu and
-	        choosing the <guimenuitem>Split</guimenuitem> menu
-	        item. This will create a new column starting at the
-	        position of the mouse pointer tip and ending at the
-	        end of the currently defined column for this
-	        area. Currently defined columns can be merged with the
-	        column on the left or right using the
-	        <guimenuitem>Delete and Merge Left</guimenuitem> or
-	        <guimenuitem>Delete and Merge right</guimenuitem> menu
-	        items. The size of a column can be increased by
+	        A new column can be defined by palcing the mouse
+	        pointer where the column should start and
+	        double-clicking with the primary mouse button. This
+	        will split the column which used to contain this
+	        position and add a new column starting at this
+	        location.
+	      </para>
+	      <para>
+	        To remove the definition of a column which alredy
+	        exists or to alter the ending position of a column,
+	        the context menu must be used. The context menu
+	        appears by clicking with one of the secondary mouse
+	        buttons. A column which has already been defined can
+	        be merged with the column on the left or right using
+	        the <guimenuitem>Delete and Merge Left</guimenuitem>
+	        or <guimenuitem>Delete and Merge right</guimenuitem>
+	        menu items. The size of a column can be increased by
 	        placing the mouse pointer inside the column area or
 	        header and using the <guimenuitem>Widen</guimenuitem>
 	        or <guimenuitem>Narrow</guimenuitem> menu items,
 	        respectively. Either of these will change the width of
 	        the column by changing the right hand end of the
-	        column. 
+	        column.
+	      </para>
+	      <para>
+	        The context menu can also be used to define new
+	        columns using the <guimenuitem>Split</guimenuitem> menu
+	        item but the double-click approach described above
+	        should be easier.
 	      </para>
 	    </listitem>
           </varlistentry>
@@ -1031,9 +1214,10 @@
 
   </sect2>
 
-<!-- TODO: v4.3 change middle <step>s into <stepalternative>s -->
+<!-- TODO: docbookv4.3 change middle <step>s into <stepalternative>s -->
 
-<!-- TODO: add section 'Procedure to use the text importer'.
+<!-- TODO: write- section 'Procedure to use the text importer'. -->
+<!--
   <sect2 id="sect-file-textImport-druid-process">
     <title>
       The procedure to use the <interface>Text Import</interface>

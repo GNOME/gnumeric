@@ -11,7 +11,8 @@
   <tip>
     <title>The steps required to open a file.</title>
 
-    <para></para><!-- Spacing HACK  -->
+<!-- TODO: render hack, remove me.  -->
+    <para></para>
 
     <orderedlist>
       <listitem>
@@ -516,9 +517,10 @@
 	          defined but will include all the characters in every
 	          language and many other useful symbols for
 	          mathematics, science, music and literature.  <xref
-	          linkend="sect-file-textImport-encoding"/> contains a brief
-	          explanation of character encoding, and discusses the
-	          encodings available in &gnum;.
+	          linkend="sect-file-textImport-complex-encoding"/>
+	          contains a brief explanation of character encoding,
+	          and discusses the encodings available in &gnum;.
+
 		</para>
 	      </note>
 
@@ -849,11 +851,11 @@
       </procedure>
 
       <para>
-        The file will be opened in a new window. 
-
-	If the 
-
-	Text files - importer add ref.
+        The file will be opened in a new window. If the selected file
+        format was "Text import (configurable)" the <interface>Text
+        Import</interface> druid will be opened. This druid is
+        explained in great detail in <xref
+        linkend="sect-file-textImport" />.
       </para>
 
     </sect3>

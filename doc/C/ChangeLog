@@ -1,3 +1,30 @@
+2004-10-03  Adrian Custer <acuster@gnome.org>
+
+	* NEWS Finished this revision of the 'Working with files' chapter.
+
+
+	* figures/textguru-export-panel1-withTags.png: Added.
+	* figures/textguru-export-panel2-withTags.png: Added.
+	* figures/files-csv-export-ex1.png 
+	* figures/files-csv-export-ex2.png 
+	* figures/Makefile.am: Add and delete files above.
+
+	* gnumeric.xml: Disable the "About" chapter.
+	* files-overview.xml: Add a TODO.
+	* files-formats.xml: change link to 'encoding'. Get rid of Ray's
+	stupid dummy <title> tags since they cause yelp to add a table
+	number we don't need. Run off and mess up your own part of the
+	docs. Any validator that requires a title element ought to be
+	forced to write a docbook.
+	* files-opening.xml: change link to 'encoding'.
+	* files-textopen.xml: move three 'complexities' down a
+	                      level. Write structuring section. Write
+			      intro paragraph for components section.
+	* files-saving.xml: Edits to make parallel to files-opening.
+	* files-textsave.xml: Edits to update, add figures.
+	* files-email.xml: 
+	* files-ssconvert.xml: Edits.
+
 2004-10-02  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* extending-python.xml, morehelp.xml: Corrected capitalisation of

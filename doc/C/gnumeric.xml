@@ -780,6 +780,8 @@
 -->
 
 
+<!-- TODO: Write 'about' chapter -->
+<!--
   <chapter id="chapter-about">
     <title>About Gnumeric</title>
 
@@ -794,7 +796,7 @@
     &about-license;
 
   </chapter>
-
+-->
 
 
 <!-- ============= Appendices ================================ -->
