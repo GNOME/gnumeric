@@ -17,17 +17,19 @@ struct _SheetPrivate {
 	Range		 unhidden_region;
 
 	/* State of menu items */
-	gboolean         enable_insert_rows;
-	gboolean         enable_insert_cols;
-	gboolean         enable_insert_cells;
-	gboolean         enable_paste_special;
-	gboolean         enable_showhide_detail;
+	gboolean         enable_insert_rows		: 1;
+	gboolean         enable_insert_cols		: 1;
+	gboolean         enable_insert_cells		: 1;
+	gboolean         enable_paste_special		: 1;
+	gboolean         enable_showhide_detail		: 1;
 
-	gboolean	 selection_content_changed;
-	gboolean	 reposition_selection;
-	gboolean	 recompute_visibility;
-	gboolean	 recompute_spans;
-	gboolean	 resize_scrollbar;
+	gboolean	 selection_content_changed	: 1;
+	gboolean	 reposition_selection		: 1;
+	gboolean	 recompute_visibility		: 1;
+	gboolean	 recompute_spans		: 1;
+	gboolean	 recompute_max_col_group	: 1;
+	gboolean	 recompute_max_row_group	: 1;
+	gboolean	 resize_scrollbar		: 1;
 	CellPos		 reposition_objects;
 
 	guint            auto_expr_timer;

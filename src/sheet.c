@@ -2727,11 +2727,14 @@ sheet_col_destroy (Sheet *sheet, int const col, gboolean free_cells)
 	if (ci == NULL)
 		return;
 
+	if (sheet->cols.max_outline_level > 0 &&
+	    sheet->cols.max_outline_level == ci->outline_level)
+		sheet->priv->recompute_max_col_group = TRUE;
+
 	if (free_cells)
 		sheet_foreach_cell_in_range (sheet, TRUE,
-					  col, 0,
-					  col, SHEET_MAX_ROWS-1,
-					  &cb_free_cell, NULL);
+			col, 0, col, SHEET_MAX_ROWS-1,
+			&cb_free_cell, NULL);
 
 	(*segment)->info[sub] = NULL;
 	g_free (ci);
@@ -2760,11 +2763,14 @@ sheet_row_destroy (Sheet *sheet, int const row, gboolean free_cells)
 	if (ri == NULL)
 		return;
 
+	if (sheet->rows.max_outline_level > 0 &&
+	    sheet->rows.max_outline_level == ri->outline_level)
+		sheet->priv->recompute_max_row_group = TRUE;
+
 	if (free_cells)
 		sheet_foreach_cell_in_range (sheet, TRUE,
-					  0, row,
-					  SHEET_MAX_COLS-1, row,
-					  &cb_free_cell, NULL);
+			0, row, SHEET_MAX_COLS-1, row,
+			&cb_free_cell, NULL);
 
 	/* Rows have span lists, destroy them too */
 	row_destroy_span (ri);
@@ -3234,21 +3240,17 @@ sheet_name_quote (char const *name_unquoted)
 {
 	int         i, j, quotes_embedded = 0;
 	gboolean    needs_quotes;
-	static char quote_chr [] =
-	{ '=', '<', '>', '(', ')', '+', '-', ' ', '^', '&', '%', ':', '/',
-	  '*', '\\', '`', '\'', '´', '\0'};
 
 	g_return_val_if_fail (name_unquoted != NULL, NULL);
 
+	/* count number of embedded quotes and see if we need to quote */
 	needs_quotes = isdigit ((unsigned char)*name_unquoted);
-	if (!needs_quotes)
-		for (i = 0, quotes_embedded = 0; name_unquoted [i]; i++) {
-			for (j = 0; quote_chr [j]; j++)
-				if (name_unquoted [i] == quote_chr [j])
-					needs_quotes = TRUE;
-			if (name_unquoted [i] == '\'' || name_unquoted [i] == '\\')
-				quotes_embedded++;
-		}
+	for (i = 0 ; name_unquoted [i]; i++) {
+		if (!isalnum (*((unsigned char *)(name_unquoted + i))))
+			needs_quotes = TRUE;
+		if (name_unquoted [i] == '\'' || name_unquoted [i] == '\\')
+			quotes_embedded++;
+	}
 
 	if (needs_quotes) {
 		int  len_quoted = strlen (name_unquoted) + quotes_embedded + 3;

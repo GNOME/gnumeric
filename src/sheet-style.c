@@ -972,8 +972,8 @@ style_row (MStyle *style, int start_col, int end_col, StyleRow *sr)
 		sr->bottom [i] = bottom;
 		sr->vertical [++i] = v;
 	}
-	if (right == none)
-		sr->vertical [i] = none;
+	if (border_null (right))
+		sr->vertical [i] = right;
 }
 
 static void

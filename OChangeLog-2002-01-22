@@ -1,3 +1,15 @@
+2001-11-22  Jody Goldberg <jgoldberg@home.com>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=65101
+	* src/sheet.c (sheet_name_quote) : good idea, this also fixes a bug
+	  in instances where the where escaped characters in a name that
+	  started with a number.
+
+2001-11-20  Jody Goldberg <jgoldberg@home.com>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=64990
+	* src/sheet-style.c (style_row) : The 2nd half of the row tile fix.
+
 2001-11-19  Jody Goldberg <jgoldberg@home.com>
 
 	* configure.in : Post release version bump

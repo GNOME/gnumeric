@@ -1,3 +1,10 @@
+Gnumeric 0.77
+
+Jody:
+	* Tricky corner cases for style applications.
+	* Rework sheetname quoting (Good idea Andreas)
+
+--------------------------------------------------------------------------
 Gnumeric 0.76
 
 Alex Barnes:
