@@ -36,12 +36,12 @@ typedef struct {
 } SheetObjectBonoboClass;
 
 GtkType            sheet_object_bonobo_get_type  (void);
-SheetObjectBonobo *sheet_object_bonobo_construct (SheetObjectBonobo *sob,
-						  Sheet             *sheet,
-						  const char        *object_id);
+SheetObjectBonobo *sheet_object_bonobo_construct (SheetObjectBonobo	 *sob,
+						  Sheet const		 *sheet,
+						  char const		 *object_id);
 char const *sheet_object_bonobo_get_object_iid	(SheetObjectBonobo const *sob);
-gboolean    sheet_object_bonobo_set_object_iid	(SheetObjectBonobo *sob,
-						 char const *object_id);
+gboolean    sheet_object_bonobo_set_object_iid	(SheetObjectBonobo	 *sob,
+						 char const	   	 *object_id);
 gboolean    sheet_object_bonobo_load_file	(SheetObjectBonobo *sob,
 						 char const *fname);
 gboolean    sheet_object_bonobo_load_stream	(SheetObjectBonobo *sob,

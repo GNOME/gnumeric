@@ -616,9 +616,10 @@ gnumeric_entry_at_subexpr_boundary_p (GtkEntry *entry)
 		return FALSE;
 
 	switch (entry->text [cursor_pos-1]){
-	case '=': case '-': case '*': case '/': case '^':
-	case '+': case '&': case '(': case '%': case '!':
-	case ':': case ',': case '<': case '>':
+	case ':': case ',': case '=':
+	case '(': case ')': case '<': case '>':
+	case '+': case '-': case '*': case '/':
+	case '^': case '&': case '%': case '!':
 		return TRUE;
 
 	default :

@@ -1,3 +1,14 @@
+2000-12-14  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-object-bonobo.c (sheet_object_bonobo_construct) : create
+	  the client site here.
+	(sheet_object_bonobo_set_object_iid) : rather than here.
+
+2000-12-14  Jody Goldberg <jgoldberg@home.com>
+
+	* src/gnumeric-util.c (gnumeric_entry_at_subexpr_boundary_p) :
+	  Add ')' bug 35149
+
 2000-12-11  Morten Welinder  <terra@diku.dk>
 
 	* src/functions/fn-math.c (gnumeric_round): Apply patch from

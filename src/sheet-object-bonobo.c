@@ -311,17 +311,17 @@ GNUMERIC_MAKE_TYPE (sheet_object_bonobo,
 		    sheet_object_get_type ())
 
 SheetObjectBonobo *
-sheet_object_bonobo_construct (SheetObjectBonobo *sob, Sheet *sheet,
-			       const char *object_id)
+sheet_object_bonobo_construct (SheetObjectBonobo *sob,
+			       Sheet const *sheet,
+			       char const *object_id)
 {
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (IS_SHEET_OBJECT_BONOBO (sob), NULL);
 
-	if (object_id == NULL) {
-		sob->object_id     = NULL;
-		sob->object_server = NULL;
-		sob->client_site   = NULL;
-	} else
+	sob->object_id     = NULL;
+	sob->object_server = NULL;
+	sob->client_site = bonobo_client_site_new (sheet->workbook->priv->bonobo_container);
+	if (object_id != NULL)
 		sheet_object_bonobo_set_object_iid (sob, object_id);
 
 	return sob;
@@ -336,15 +336,13 @@ sheet_object_bonobo_get_object_iid (SheetObjectBonobo const *sob)
 }
 
 gboolean
-sheet_object_bonobo_set_object_iid (SheetObjectBonobo *sob, char const *object_id)
+sheet_object_bonobo_set_object_iid (SheetObjectBonobo *sob,
+				    char const *object_id)
 {
-	Sheet *sheet;
-
 	g_return_val_if_fail (IS_SHEET_OBJECT_BONOBO (sob), FALSE);
 	g_return_val_if_fail (sob->object_id == NULL, FALSE);
 	g_return_val_if_fail (object_id != NULL, FALSE);
 
-	sheet = SHEET_OBJECT (sob)->sheet;
 	sob->object_id     = g_strdup (object_id);
 	sob->object_server = bonobo_object_activate (object_id, 0);
 	if (!sob->object_server) {
@@ -352,7 +350,6 @@ sheet_object_bonobo_set_object_iid (SheetObjectBonobo *sob, char const *object_i
 		return FALSE;
 	}
 
-	sob->client_site = bonobo_client_site_new (sheet->workbook->priv->bonobo_container);
 	if (!bonobo_client_site_bind_embeddable (sob->client_site,
 						 sob->object_server)) {
 		gtk_object_destroy (GTK_OBJECT (sob));
