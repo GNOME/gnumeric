@@ -1,6 +1,28 @@
-gnumeric (1.0.11-XXX) unstable; urgency=medium
+gnumeric1.0 (1.0.12-2) unstable; urgency=medium
 
- -- <not_a_debian_release>  Wed, 30 Oct 2002 21:40:02 +0100
+  * After consulting with upstream, decided to move to Gnumeric 1.1.x as the 
+    regular gnumeric in sid.
+    Gnumeric 1.1.x has many improvements over 1.0.x (ported to GNOME2, 
+    import/export improvements, i18n using Pango etc.) but it still has one 
+    major feature regression compared to 1.0.x: there is no graph support yet.
+    Therefore, this is a renamed 1.0.x package to have graph support still
+    available for those who need it.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun,  2 Feb 2003 16:34:45 +0100
+
+gnumeric (1.0.12-1) unstable; urgency=medium
+
+  * New upstream release. Changes include:
+    * Fix crash on explicitly scoped ranges in regressions. (Closes: #170323)
+    * Removal of the patch to the xml importer that was in 1.0.11 and work
+      around the import issue with non-ASCII characters in a different fashion.
+      (Closes: #173732).
+  * [configure.in] Reinstated Debian-specific code which I accidentally lost
+    in 1.0.11.
+  * Tightened bonobo build dependency (due to #172145 and #172994).
+  * Tightened gal build dependency just in case.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sat,  4 Jan 2003 15:50:48 +0100
 
 gnumeric (1.0.11-1) unstable; urgency=medium
 
