@@ -3688,11 +3688,6 @@ excel_read_IMDATA (BiffQuery *q, gboolean keep_image)
 		fclose (f);
 	});
 
-	if (pixbuf) {
-		g_message ("pixbuf : %dx%d",
-			   gdk_pixbuf_get_width (pixbuf),
-			   gdk_pixbuf_get_height (pixbuf));
-	}
 	return pixbuf;
 }
 
