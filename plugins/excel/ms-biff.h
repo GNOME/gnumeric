@@ -26,12 +26,15 @@ extern void   biff_setdouble (guint8 *p, double d);
 /*                                 Read Side                                   */
 /*******************************************************************************/
 
+typedef struct _BiffQuery BiffQuery;
+
+typedef guint16 (BiffQuirkFn) (const BiffQuery *, guint16 op);
+
 /**
  * Returns query data, it is imperative that copies of
  * 'data *' should _not_ be kept.
  **/
-typedef struct _BiffQuery
-{
+struct _BiffQuery {
 	guint8  ms_op;
 	guint8  ls_op;
 	guint16 opcode;
@@ -42,19 +45,22 @@ typedef struct _BiffQuery
 	gint16  padding;
 	int     data_malloced; /* is *data a copy ? */
 	MsOleStream *pos;
-} BiffQuery;
+	BiffQuirkFn *quirk;    /* Ugly ! */
+};
  
 /* Sets up a query on a stream */
-extern BiffQuery   *ms_biff_query_new        (MsOleStream *);
+extern BiffQuery  *ms_biff_query_new         (MsOleStream *);
+extern void        ms_biff_query_set_quirk   (BiffQuery *,
+					      BiffQuirkFn *);
 /* Duplicates this query, so chaining can re-commence here */
-extern BiffQuery   *ms_biff_query_copy       (const BiffQuery *p);
+extern BiffQuery  *ms_biff_query_copy        (const BiffQuery *p);
 /* Updates the BiffQuery structure with the next BIFF record
  * returns: 1 for succes, and 0 for EOS(tream) */
-extern int           ms_biff_query_next_merge (BiffQuery *, gboolean do_merge);
-#define       ms_biff_query_next(q)    ms_biff_query_next_merge ((q), TRUE)
+extern int         ms_biff_query_next_merge (BiffQuery *, gboolean do_merge);
+#define            ms_biff_query_next(q)     ms_biff_query_next_merge ((q), TRUE)
 /* Converts a merged query to the un-merged equivalent */
-extern void          ms_biff_query_unmerge    (BiffQuery *);
-extern void          ms_biff_query_destroy    (BiffQuery *);
+extern void        ms_biff_query_unmerge    (BiffQuery *);
+extern void        ms_biff_query_destroy    (BiffQuery *);
 
 /*******************************************************************************/
 /*                                 Write Side                                  */
@@ -73,11 +79,14 @@ typedef struct _BiffPut
 	int            data_malloced;
 	int            len_fixed;
 	MsOleStream *pos;
+	BiffQuirkFn *quirk;    /* Ugly ! */
 } BiffPut;
  
 /* Sets up a record on a stream */
 extern BiffPut      *ms_biff_put_new        (MsOleStream *);
-extern void           ms_biff_put_destroy    (BiffPut *);
+extern void          ms_biff_put_destroy    (BiffPut *);
+extern void          ms_biff_put_set_quirk  (BiffPut *, BiffQuirkFn *);
+
 /**
  * If between the 'next' and 'commit' ls / ms_op are changed they will be
  * written correctly.

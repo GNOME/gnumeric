@@ -1,3 +1,12 @@
+1999-07-28  Michael Meeks  <michael@edenproject.org>
+
+	* ms-biff.c (no_quirks, ms_biff_query_new):
+	New quirk support :-)
+	(ms_bug_get_padding): Moved into ms-excel-read.c
+	(ms_biff_put_var_next, ms_biff_merge_continues): Cleaner quirk stuff.
+	(ms_biff_put_set_quirk): I pray this is never used =)
+	(ms_biff_put_new, ms_biff_put_var_next): Quirky.
+
 1999-07-28  Jody Goldberg  <jgoldberg@home.com>
 
 	* ms-excel-read.c (ms_excel_read_cell) : Correct the error message

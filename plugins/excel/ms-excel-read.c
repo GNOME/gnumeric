@@ -36,6 +36,34 @@ static ExcelSheet *ms_excel_sheet_new       (ExcelWorkbook *wb,
 static void        ms_excel_workbook_attach (ExcelWorkbook *wb,
 					     ExcelSheet *ans);
 
+static guint16
+ms_bug_get_padding (const BiffQuery *q, guint16 opcode)
+{
+	guint8 ls_op = (opcode & 0x00ff);
+	guint ans=0;
+
+	switch (ls_op)
+	{
+	case BIFF_SST:
+		ans=1;
+		break;
+	case BIFF_MS_O_DRAWING_GROUP:
+	case BIFF_MS_O_DRAWING:
+		ans=0;
+		break;
+	default:
+#if BIFF_DEBUG > 0
+		printf ("Unknown padding to fix bug on record 0x%x\n", opcode);
+#endif
+		break;
+	}
+#if BIFF_DEBUG > 0
+	printf ("ms_bug_get_padding 0x%x = %d\n",
+		opcode, ans);
+#endif
+	return ans;
+}
+
 void
 ms_excel_unexpected_biff (BiffQuery *q, char const *const state)
 {
@@ -300,6 +328,7 @@ ms_biff_bof_data_new (BiffQuery *q)
 		ans->version = eBiffVUnknown;
 		ans->type = eBiffTUnknown;
 	}
+
 	return ans;
 }
 
@@ -2649,9 +2678,20 @@ ms_excel_read_workbook (MsOle *file)
 			if (ver->type == eBiffTWorkbook) {
 				wb = ms_excel_workbook_new (ver->version);
 				wb->gnum_wb = workbook_new ();
-				if (ver->version >= eBiffV8)
-					printf ("Excel 97 +\n");
-				else if (ver->version >= eBiffV7)
+				if (ver->version >= eBiffV8) {
+					guint32 ver = MS_OLE_GET_GUINT32 (q->data + 4);
+					if (ver == 0x07cc0dbb) {
+						guint hist = MS_OLE_GET_GUINT32 (q->data + 8);
+						/* Very very magic bit :-) I hope to understand this some day */
+						/* not even 'reserved' :-) see S59D5D.HTM */
+						if ((hist & 0xff) == 0x49) {
+							ms_biff_query_set_quirk (q, ms_bug_get_padding);
+							printf (" quirky 0x%x ", hist);
+						}
+						printf ("Excel 97 +\n");
+					} else if (ver == 0x4107cd18)
+						printf ("Excel 2000 ?\n");
+				} else if (ver->version >= eBiffV7)
 					printf ("Excel 95\n");
 				else if (ver->version >= eBiffV5)
 					printf ("Excel 5.x\n");

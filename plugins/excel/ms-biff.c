@@ -69,37 +69,15 @@ dump_biff (BiffQuery *bq)
 /*	dump_stream (bq->pos); */
 }
 
-static guint16
-ms_bug_get_padding (guint16 opcode)
-{
-	guint8 ls_op = (opcode & 0x00ff);
-	guint ans=0;
-
-	switch (ls_op)
-	{
-	case BIFF_SST:
-		ans=1;
-		break;
-	case BIFF_MS_O_DRAWING_GROUP:
-	case BIFF_MS_O_DRAWING:
-		ans=0;
-		break;
-	default:
-#if BIFF_DEBUG > 0
-		printf ("Unknown padding to fix bug on record 0x%x\n", opcode);
-#endif
-		break;
-	}
-#if BIFF_DEBUG > 0
-	printf ("ms_bug_get_padding 0x%x = %d\n",
-		opcode, ans);
-#endif
-	return ans;
-}
-
 /*******************************************************************************/
 /*                                 Read Side                                   */
 /*******************************************************************************/
+
+static guint16
+no_quirks (const BiffQuery *q, guint16 op)
+{
+	return 0;
+}
 
 BiffQuery *
 ms_biff_query_new (MsOleStream *ptr)
@@ -114,10 +92,19 @@ ms_biff_query_new (MsOleStream *ptr)
 	bq->padding       = 0;
 	bq->num_merges    = 0;
 	bq->pos           = ptr;
+	bq->quirk         = no_quirks;
 #if BIFF_DEBUG > 0
 	dump_biff(bq);
 #endif
 	return bq;
+}
+
+void
+ms_biff_query_set_quirk (BiffQuery *bq, BiffQuirkFn *quirk)
+{
+	g_return_if_fail (bq != NULL);
+
+	bq->quirk = quirk;
 }
 
 BiffQuery *
@@ -163,7 +150,7 @@ ms_biff_merge_continues (BiffQuery *bq, guint32 len)
 	total_len = chunk.length;
 	g_array_append_val (contin, chunk);
 
-	bq->padding = ms_bug_get_padding (bq->opcode);
+	bq->padding = bq->quirk (bq, bq->opcode);
 
 	/* Subsequent continue blocks */
 	chunk.length = len;
@@ -306,10 +293,10 @@ ms_biff_query_destroy (BiffQuery *bq)
 
 /* Sets up a record on a stream */
 BiffPut *
-ms_biff_put_new        (MsOleStream *s)
+ms_biff_put_new (MsOleStream *s)
 {
 	BiffPut *bp;
-	g_return_val_if_fail (s, 0);
+	g_return_val_if_fail (s != NULL, 0);
 
 	bp = g_new (BiffPut, 1);
 
@@ -322,15 +309,27 @@ ms_biff_put_new        (MsOleStream *s)
 	bp->data_malloced = 0;
 	bp->len_fixed     = 0;
 	bp->pos           = s;
+	bp->quirk         = no_quirks;
 	return bp;
 }
+
 void
-ms_biff_put_destroy    (BiffPut *bp)
+ms_biff_put_destroy (BiffPut *bp)
 {
-	g_return_if_fail (bp);
-	g_return_if_fail (bp->pos);
+	g_return_if_fail (bp != NULL);
+	g_return_if_fail (bp->pos != NULL);
 
 	g_free (bp);
+}
+
+void
+ms_biff_put_set_quirk (BiffPut *bp, BiffQuirkFn *quirk)
+{
+	g_return_if_fail (bp != NULL);
+
+	bp->quirk = quirk;
+
+	g_warning ("You really don't want to do this");
 }
 
 guint8 *
@@ -364,7 +363,7 @@ ms_biff_put_var_next   (BiffPut *bp, guint16 opcode)
 	bp->len_fixed  = 0;
 	bp->ms_op      = (opcode >>   8);
 	bp->ls_op      = (opcode & 0xff);
-	bp->padding    = ms_bug_get_padding (opcode);
+	bp->padding    = bp->quirk (bp, opcode);
 	bp->num_merges = 0;
 	bp->curpos     = 0;
 	bp->length     = 0;
