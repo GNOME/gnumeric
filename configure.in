@@ -66,11 +66,13 @@ if $perl_val; then
     dnl Use ExtUtils::Embed to figure out the other options.
     PERL_CCCDLFLAGS=`perl -MConfig -e 'print $Config{cccdlflags},"\n";'`
     PERL_LDDLFLAGS=`perl -MConfig -e 'print $Config{lddlflags},"\n";'`
+    PERL_CC=`perl -MConfig -e 'print $Config{cc},"\n";'`
     PERL_LD=`perl -MConfig -e 'print $Config{ld},"\n";'`
     PERL_CCOPTS=`perl -MExtUtils::Embed -e ccopts`
     PERL_LDOPTS=`perl -MExtUtils::Embed -e ldopts`
     AC_SUBST(PERL_CCCDLFLAGS)
     AC_SUBST(PERL_LDDLFLAGS)
+    AC_SUBST(PERL_CC)
     AC_SUBST(PERL_LD)
     AC_SUBST(PERL_CCOPTS)
     AC_SUBST(PERL_LDOPTS)
