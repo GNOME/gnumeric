@@ -193,8 +193,10 @@ modify_cell_format (Sheet *sheet, int col, int row, Cell *cell, void *closure)
 	char *new_fmt;
 		
 	new_fmt = (*modify_format) (sf->format);
-	if (new_fmt == NULL)
+	if (new_fmt == NULL) {
+		mstyle_unref (mstyle);
 		return NULL;
+	}
 
 	cell_set_format (cell, new_fmt);
 	g_free (new_fmt);

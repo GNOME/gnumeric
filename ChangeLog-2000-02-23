@@ -1,5 +1,10 @@
 1999-11-01  Michael Meeks  <mmeeks@gnu.org>
 
+	* src/workbook-format-toolbar.c (modify_cell_format): fix
+	style ref leak.
+
+1999-11-01  Michael Meeks  <mmeeks@gnu.org>
+
 	* src/mstyle.c (mstyle_merge): Radicaly alter semantics and
 	function + document. (mstyle_empty): add.
 
