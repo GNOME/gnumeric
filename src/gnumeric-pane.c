@@ -101,7 +101,7 @@ gnumeric_pane_set_bounds (GnumericPane *pane,
 	g_return_if_fail (pane->gsheet != NULL);
 
 	range_init (&r, start_col, start_row, end_col, end_row);
-	gnome_canvas_item_set (pane->gsheet->item_grid,
+	gnome_canvas_item_set (GNOME_CANVAS_ITEM (pane->gsheet->item_grid),
 			       "ItemGrid::Bound", &r,
 			       NULL);
 }
