@@ -1005,13 +1005,15 @@ cb_max_cell_width (Sheet *sheet, int col, int row, Cell *cell,
 {
 	int width;
 
-	/* Dynamic cells must be rerendered */
-	if (cell->rendered_value == NULL || cell->rendered_value->dynamic_width)
-		cell_render_value (cell, FALSE);
+	if (!cell_is_merged (cell)) {
+		/* Dynamic cells must be rerendered */
+		if (cell->rendered_value == NULL || cell->rendered_value->dynamic_width)
+			cell_render_value (cell, FALSE);
 
-	width = cell_rendered_width (cell) + cell_rendered_offset (cell);
-	if (width > *max)
-		*max = width;
+		width = cell_rendered_width (cell) + cell_rendered_offset (cell);
+		if (width > *max)
+			*max = width;
+	}
 	return NULL;
 }
 
@@ -1418,10 +1420,10 @@ sheet_range_bounding_box (Sheet const *sheet, Range *bound)
 					row_span_get (ri, r.end.col);
 
 				if (span1 != NULL) {
-					if (bound->start.col < span0->left)
-						bound->start.col = span0->left;
-					if (bound->end.col > span0->right)
-						bound->end.col = span0->right;
+					if (bound->start.col < span1->left)
+						bound->start.col = span1->left;
+					if (bound->end.col > span1->right)
+						bound->end.col = span1->right;
 				}
 			}
 			/* skip segments with no cells */

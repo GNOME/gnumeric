@@ -1,5 +1,13 @@
 2002-07-12  Jody Goldberg <jody@gnome.org>
 
+	* src/sheet.c (cb_max_cell_width) : leave merged cells out of the
+	  running.
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=87987
+	(sheet_range_bounding_box) : nice catch, thankfully it is a new bug.
+
+2002-07-12  Jody Goldberg <jody@gnome.org>
+
 	* src/plugin-service.c (gnum_plugin_file_opener_probe) : remove
 	  pretend feature that supported regexp.  Only shell paterns are
 	  supported now.
