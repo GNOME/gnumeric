@@ -183,13 +183,9 @@ graph_view_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int
 	case GNOME_Graph_CHART_TYPE_CLUSTERED:
 	case GNOME_Graph_CHART_TYPE_STACKED:
 	case GNOME_Graph_CHART_TYPE_STACKED_FULL:
-		if (graph->plot_mode == GNOME_Graph_PLOT_COLBAR){
-			graph_view_colbar_draw (
-				graph_view, drawable,
-				x, y, width, height);
-			return;
-		}
-		graph_view_plot (graph_view, drawable, x, y, width, height);
+		graph_view_colbar_draw (
+			graph_view, drawable,
+			x, y, width, height);
 		break;
 
 	case GNOME_Graph_CHART_TYPE_BUBBLES:
@@ -198,6 +194,9 @@ graph_view_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int
 
 	case GNOME_Graph_CHART_TYPE_SCATTER:
 		graph_view_scatter_plot (graph_view, drawable, x, y, width, height);
+
+		if (graph_view->graph->scatter_conn == GNOME_Graph_SCATTER_CONN_LINES)
+			graph_view_line_plot (graph_view, drawable, x, y, width, height);
 		break;
 
 	case GNOME_Graph_CHART_TYPE_SURFACE_2D:

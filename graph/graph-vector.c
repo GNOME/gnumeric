@@ -129,3 +129,13 @@ graph_vector_low_high (GraphVector *vector, double *low, double *high)
 			*high = v;
 	}
 }
+
+int
+graph_vector_buffer_size (GraphVector *vector)
+{
+	g_return_val_if_fail (vector != NULL, 0);
+	
+	/* For now, the current implementation keeps an entire copy of the data */
+
+	return graph_vector_count (vector);
+}

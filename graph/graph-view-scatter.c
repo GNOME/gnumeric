@@ -11,178 +11,112 @@
 #include "graph.h"
 #include "graph-view.h"
 #include "graph-view-scatter.h"
+#include "graph-view-util.h"
 #include "graph-vector.h"
-
-typedef struct {
-	GraphView   *graph_view;
-	Graph       *graph;
-	GdkDrawable *drawable;
-
-	GdkGC	    *gc;
-	int          x, y;
-	int          width, height;
-	int          xl, yl;
-
-	/* Dimensions of our symbols, a rough idea of the size */
-	int          dim;
-} ScatterDrawCtx;
-
-typedef enum {
-	SYMBOL_POINT,
-	SYMBOL_CROSS_1,
-	SYMBOL_CROSS_2,
-	SYMBOL_CIRCLE,
-	SYMBOL_FILLED_CIRCLE,
-	SYMBOL_SQUARE,
-	SYMBOL_FILLED_SQUARE,
-	SYMBOL_TRIANGLE,
-	SYMBOL_FILLED_TRIANGLE,
-	SYMBOL_CROSS_CIRCLE,
-	SYMBOL_CROSS_FILLED_CIRCLE,
-	SYMBOL_LAST
-} Symbols;
-
-static Symbols
-setup_symbol (ScatterDrawCtx *ctx, int series)
-{
-	/*
-	 * FIXME: This can be much improved
-	 */
-	gdk_gc_set_foreground (ctx->graph_view->fill_gc,
-			       &ctx->graph_view->palette [series % ctx->graph_view->n_palette]);
-	
-	return (Symbols) series % (SYMBOL_LAST-1);
-}
-
-static void
-put_symbol (ScatterDrawCtx *ctx, Symbols sym, int px, int py)
-{
-	gboolean fill = FALSE;
-	const int dim = ctx->dim;
-	const int dim_h = dim / 2;
-	
-	px -= ctx->x;
-	py -= ctx->y;
-
-	switch (sym){
-	case SYMBOL_FILLED_SQUARE:
-	case SYMBOL_FILLED_TRIANGLE:
-	case SYMBOL_FILLED_CIRCLE:		
-		fill = TRUE;
-	default:
-	}
-	
-	switch (sym){
-	case SYMBOL_POINT:
-		gdk_draw_point (ctx->drawable, ctx->gc, px, py);
-		break;
-
-	case SYMBOL_CROSS_1:
-		gdk_draw_line (
-			ctx->drawable, ctx->gc,
-			px - dim_h, py - dim_h,
-			px + dim_h, py + dim_h);
-		
-		gdk_draw_line (
-			ctx->drawable, ctx->gc,
-			px + dim_h, py - dim_h,
-			px - dim_h, py + dim_h);
-		break;
-
-	case SYMBOL_CROSS_2:
-		gdk_draw_line (
-			ctx->drawable, ctx->gc,
-			px, py - dim_h,
-			px, py + dim_h);
-		
-		gdk_draw_line (
-			ctx->drawable, ctx->gc,
-			px + dim_h, py,
-			px - dim_h, py);
-		break;
-
-	case SYMBOL_CROSS_CIRCLE:
-	case SYMBOL_CROSS_FILLED_CIRCLE:
-		gdk_draw_arc (
-			ctx->drawable, ctx->gc, fill,
-			px - dim_h, py - dim_h,
-			dim, dim, 0, 360 * 64);
-		break;
-		
-	case SYMBOL_SQUARE:
-	case SYMBOL_FILLED_SQUARE:
-		gdk_draw_rectangle (
-			ctx->drawable, ctx->gc, fill,
-			px - dim_h, py - dim_h, dim, dim);
-		break;
-		
-	case SYMBOL_TRIANGLE:
-	case SYMBOL_FILLED_TRIANGLE: {
-		GdkPoint *tpoints = g_new (GdkPoint, 4);
-
-		tpoints [0].x = px - dim/2;
-		tpoints [0].y = py + dim/2;
-		
-		tpoints [1].x = px;
-		tpoints [1].y = py - dim/2;
-
-		tpoints [2].x = px + dim/2;
-		tpoints [2].y = tpoints [0].y;
-
-		tpoints [3] = tpoints [0];
-		
-		gdk_draw_polygon (ctx->drawable, ctx->gc, fill, tpoints, 4);
-		break;
-	}
-
-	default:
-		g_assert_not_reached ();
-	}
-}
 
 /*
  * Maps the x,y point to a canvas point
  */
 static void
-plot_point (ScatterDrawCtx *ctx, int xi, double x, int series, double y)
+plot_point (ViewDrawCtx *ctx, int xi, double x, int series, double y)
 {
-	
+	Symbol sym;
+
+	sym = symbol_setup (ctx, series);
+	symbol_draw (ctx, sym, MAP_X (ctx, x), MAP_Y (ctx, y));
+}
+
+/*
+ * This assumes the GC has been prepared previously
+ */
+static void
+draw_line (ViewDrawCtx *ctx, double x1, double y1, double x2, double y2)
+{
+	gdk_draw_line (
+		ctx->drawable, ctx->graph_view->fill_gc,
+		MAP_X (ctx, x1), MAP_Y (ctx, y1),
+		MAP_X (ctx, x2), MAP_Y (ctx, y2));
+}
+
+void
+graph_view_line_plot (GraphView *graph_view, GdkDrawable *drawable,
+		      int x, int y, int width, int height)
+{
+	GraphVector **vectors = graph_view->graph->layout->vectors;
+	GraphVector *x_vector = vectors [0];
+	const int vector_count = graph_view->graph->layout->n_series;
+	const int x_vals = graph_vector_count (x_vector);
+	int vector;
+	ViewDrawCtx ctx;
+
+	SETUP_VIEW_CTX (ctx, graph_view, drawable, x, y, width, height);
+
+	for (vector = 1; vector < vector_count; vector ++){
+		double last_x, last_y;
+		int xi;
+		
+		last_y = graph_vector_get_double (vectors [vector], 0);
+		last_x = graph_vector_get_double (x_vector, 0);
+
+		for (xi = 1; xi < x_vals; xi++){
+			double tx, ty;
+
+			tx = graph_vector_get_double (x_vector, xi);
+			ty = graph_vector_get_double (vectors [vector], xi);
+
+			symbol_setup (&ctx, vector);
+			draw_line (&ctx, last_x, last_y, tx, ty);
+
+			last_x = tx;
+			last_y = ty;
+		}
+	}
 }
 
 void
 graph_view_scatter_plot (GraphView *graph_view, GdkDrawable *drawable,
 			 int x, int y, int width, int height)
 {
-	ScatterDrawCtx ctx;
 	GraphVector **vectors = graph_view->graph->layout->vectors;
 	GraphVector *x_vector = vectors [0];
-	int x_vals = graph_vector_count (x_vector);
-	int vector_count = graph_view->graph->layout->n_series;
+	const int x_vals = graph_vector_count (x_vector);
+	const int vector_count = graph_view->graph->layout->n_series;
 	int xi;
-	
-	ctx.x = x;
-	ctx.y = y;
-	ctx.width = width;
-	ctx.height = height;
-	ctx.drawable = drawable;
-	ctx.graph_view = graph_view;
-	ctx.graph = graph_view->graph;
-	ctx.yl = graph_view->bbox.y1 - graph_view->bbox.y0;
-	ctx.xl = graph_view->bbox.x1 - graph_view->bbox.x0;
+	ViewDrawCtx ctx;
 
-	ctx.dim = MIN (ctx.xl, ctx.yl) / 50;
+	SETUP_VIEW_CTX (ctx, graph_view, drawable, x, y, width, height);
 	
+	ctx.dim = MIN (ctx.xl, ctx.yl) / 40;
+
+	if (ctx.dim > 8)
+		ctx.dim = 8;
+
+	if (ctx.dim < 2)
+		ctx.dim = 2;
+	
+	/*
+	 * FIXME:
+	 *
+	 * We should process this in chunks, as the local vector cache
+	 * only holds a limited set of values (ok, 4k-ish)
+	 * and we want to avoid trashing by calling the provider
+	 * a lot
+	 */
+
 	for (xi = 0; xi < x_vals; xi++){
-		int vector;
 		double const xv = graph_vector_get_double (x_vector, xi);
+		int vector;
 		
 		for (vector = 1; vector < vector_count; vector++){
 			double y;
 
 			y = graph_vector_get_double (vectors [vector], xi);
+
+			printf ("%d: %g %g [%g %g]\n", xi, xv, y, ctx.graph->x_size, ctx.graph->y_size);
 			plot_point (&ctx, xi, xv, vector, y);
 		}
 	}
+
 }
 
 

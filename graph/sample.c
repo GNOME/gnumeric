@@ -26,13 +26,14 @@ GNOME_Graph_Chart  chart;
 
 CORBA_Environment ev;
 
-#define VECS 4
+#define VECS 5
 #define VECLEN 4
 
 struct {
 	double data [4];
 	Vector *vector;
 } vecs [VECS] = {
+	{ { 0.0, 1.0, 2.0, 3.0 }, NULL },
 	{ { 0.5, 8, 2, 5 }, NULL },
 	{ { 2, 3, 4, 5 }, NULL },
 	{ { 3, 4, 5, 2 }, NULL }, 

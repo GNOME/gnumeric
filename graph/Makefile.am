@@ -33,6 +33,8 @@ graph_SOURCES =			\
 	graph-view-scatter.h	\
 	graph-view-stock.c	\
 	graph-view-stock.h	\
+	graph-view-util.c	\
+	graph-view-util.h	\
 	layout.c		\
 	layout.h		\
 	layout-view.c		\

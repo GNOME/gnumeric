@@ -13,28 +13,16 @@
 #include "graph.h"
 #include "graph-view.h"
 #include "graph-view-colbar.h"
-
-typedef struct {
-	GraphView   *graph_view;
-	Graph       *graph;
-	GdkDrawable *drawable;
-	int          x, y;
-	int          width, height;
-	int          xl, yl;
-	double       units_per_slot;
-	int          margin;
-	int          inter_item_margin;
-	double       scale;
-} ColbarDrawCtx;
+#include "graph-view-util.h"
 
 static double
-colbar_map_point (ColbarDrawCtx *ctx, double point)
+colbar_map_point (ViewDrawCtx *ctx, double point)
 {
 	return (fabs (ctx->graph->low) + point) * ctx->scale;
 }
 
 static void
-column_draw (ColbarDrawCtx *ctx, int item,
+column_draw (ViewDrawCtx *ctx, int item,
 	     double x1, double y1, double x2, double y2)
 {
 	int height, width, px, py;
@@ -47,7 +35,6 @@ column_draw (ColbarDrawCtx *ctx, int item,
 	y1 -= ctx->y;
 	y2 -= ctx->y;
 
-	printf ("%d: (%g, %g) (%g, %g) ... ", item, x1, y1, x2, y2);
 	if (ctx->graph->direction == GNOME_Graph_DIR_BAR){
 		py = MIN (x1, x2);
 		height = fabs (x2-x1);
@@ -65,7 +52,6 @@ column_draw (ColbarDrawCtx *ctx, int item,
 		width = x2 - x1;
 	}
 
-	printf ("%d,%d,%d,%d\n", px, py, width, height);
 	gdk_draw_rectangle (
 		ctx->drawable, ctx->graph_view->fill_gc, TRUE,
 		px, py, width, height);
@@ -76,14 +62,14 @@ column_draw (ColbarDrawCtx *ctx, int item,
 }
 
 static void
-setup_gc (ColbarDrawCtx *ctx, int series, int item)
+setup_gc (ViewDrawCtx *ctx, int series, int item)
 {
 	gdk_gc_set_foreground (ctx->graph_view->fill_gc,
 			       &ctx->graph_view->palette [series % ctx->graph_view->n_palette]);
 }
 	      
 static void
-graph_view_colbar_draw_nth_clustered (ColbarDrawCtx *ctx, int item)
+graph_view_colbar_draw_nth_clustered (ViewDrawCtx *ctx, int item)
 {
 	const int n_series = ctx->graph->layout->n_series;
 	const int item_base = item * ctx->units_per_slot + ctx->margin;
@@ -107,7 +93,7 @@ graph_view_colbar_draw_nth_clustered (ColbarDrawCtx *ctx, int item)
 }
 
 static void
-graph_view_colbar_draw_nth_stacked (ColbarDrawCtx *ctx, int item)
+graph_view_colbar_draw_nth_stacked (ViewDrawCtx *ctx, int item)
 {
 	const int n_series = ctx->graph->layout->n_series;
 	int item_base = item * ctx->units_per_slot;
@@ -143,7 +129,7 @@ graph_view_colbar_draw_nth_stacked (ColbarDrawCtx *ctx, int item)
 }
 
 static void
-graph_view_colbar_draw_nth_stacked_full (ColbarDrawCtx *ctx, int item)
+graph_view_colbar_draw_nth_stacked_full (ViewDrawCtx *ctx, int item)
 {
 	const int n_series = ctx->graph->layout->n_series;
 	int item_base = item * ctx->units_per_slot;
@@ -204,7 +190,7 @@ graph_view_colbar_draw_nth_stacked_full (ColbarDrawCtx *ctx, int item)
 }
 
 static void
-graph_view_colbar_draw_nth (ColbarDrawCtx *ctx, int item)
+graph_view_colbar_draw_nth (ViewDrawCtx *ctx, int item)
 {
 	switch (ctx->graph->chart_type){
 	case GNOME_Graph_CHART_TYPE_CLUSTERED:
@@ -224,33 +210,39 @@ graph_view_colbar_draw_nth (ColbarDrawCtx *ctx, int item)
 	}
 }
 
+static void
+graph_view_draw_area (ViewDrawCtx *ctx, int first, int last)
+{
+#if 0
+	
+#endif
+}
+
 void
 graph_view_colbar_draw (GraphView *graph_view, GdkDrawable *drawable, int x, int y, int width, int height)
 {
-	ColbarDrawCtx ctx;
+	ViewDrawCtx ctx;
 	int first, last, i;
-
+	gboolean is_bar;
+	
 	printf ("Divisions: %d\n", graph_view->graph->divisions);
 	if (graph_view->graph->divisions == 0)
 		return;
-	
-	ctx.x = x;
-	ctx.y = y;
-	ctx.width = width;
-	ctx.height = height;
-	ctx.drawable = drawable;
-	ctx.graph_view = graph_view;
-	ctx.graph = graph_view->graph;
-	ctx.yl = graph_view->bbox.y1 - graph_view->bbox.y0;
-	ctx.xl = graph_view->bbox.x1 - graph_view->bbox.x0;
 
-	if (graph_view->graph->direction == GNOME_Graph_DIR_BAR){
-		ctx.units_per_slot = ctx.yl / graph_view->graph->divisions;
+	SETUP_VIEW_CTX (ctx, graph_view, drawable, x, y, width, height);
+
+	is_bar = ctx.graph->direction == GNOME_Graph_DIR_BAR;
+
+	if (ctx.graph->plot_mode != GNOME_Graph_PLOT_COLBAR)
+		is_bar = FALSE;
+
+	if (is_bar){
+		ctx.units_per_slot = ctx.yl / ctx.graph->divisions;
 		first = y / ctx.units_per_slot;
 		last = (y + width) / ctx.units_per_slot;
 		ctx.scale = ctx.xl / ctx.graph->y_size;
 	} else {
-		ctx.units_per_slot = ctx.xl / graph_view->graph->divisions;
+		ctx.units_per_slot = ctx.xl / ctx.graph->divisions;
 		first = x / ctx.units_per_slot;
 		last = (x + width) / ctx.units_per_slot;
 		ctx.scale = ctx.yl / ctx.graph->y_size;
@@ -261,8 +253,17 @@ graph_view_colbar_draw (GraphView *graph_view, GdkDrawable *drawable, int x, int
 
 	ctx.margin = ctx.units_per_slot / 20;
 	ctx.inter_item_margin = 0;
-		
-	for (i = first; i <= last; i++)
-		graph_view_colbar_draw_nth (&ctx, i);
+
+	switch (ctx.graph->plot_mode){
+	case GNOME_Graph_PLOT_COLBAR:
+		for (i = first; i <= last; i++)
+			graph_view_colbar_draw_nth (&ctx, i);
+		break;
+
+	case GNOME_Graph_PLOT_AREA:
+	case GNOME_Graph_PLOT_LINES:
+		graph_view_draw_area (&ctx, first, last);
+		break;
+	} 
 }
 
