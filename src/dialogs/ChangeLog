@@ -1,3 +1,8 @@
+2001-10-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-analysis-tools.c : remove `strict' 
+	  argument from all invocations of global_range_parse
+
 2001-10-23  Almer S. Tigelaar  <almer@gnome.org>
 
 	* cell-format.glade: Re-order validation action list.

@@ -1,3 +1,16 @@
+2001-10-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/ranges.c/h (global_range_parse) : remove `strict' argument
+	(range_list_foreach_full) : change third argument from boolean to
+	  enumerate to allow third variant, namely call backup even for NULL 
+	  cells without creating them.
+        * src/ranges.c (global_range_parse) : change to a wrapper
+	  around expr_parse_string.
+	(global_range_list_parse) : new routine, analogue 
+	  to range_list_parse but calling global_range_parse rather than 
+	  range_parse (for analysis tools)
+
+
 2001-10-23  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/mstyle.c (mstyle_get_validation_msg): Fix this for

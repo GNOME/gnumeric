@@ -185,7 +185,7 @@ range_list_parse (Sheet *sheet, char const *range_spec, gboolean strict)
  */
 void
 range_list_foreach_full (GSList *ranges, void (*callback)(Cell *cell, void *data),
-			 void *data, gboolean create_empty)
+			 void *data, range_list_foreach_t the_type)
 {
 	GSList *l;
 
@@ -217,11 +217,11 @@ range_list_foreach_full (GSList *ranges, void (*callback)(Cell *cell, void *data
 			for (row = a.row; row < b.row; row++){
 				Cell *cell;
 
-				if (create_empty)
+				if (the_type == RANGE_CREATE_EMPTY_CELLS)
 					cell = sheet_cell_fetch (a.sheet, col, row);
 				else
 					cell = sheet_cell_get (a.sheet, col, row);
-				if (cell)
+				if (cell || (the_type == RANGE_ALL_CELLS))
 					(*callback)(cell, data);
 			}
 	}
@@ -232,14 +232,14 @@ range_list_foreach_all (GSList *ranges,
 			void (*callback)(Cell *cell, void *data),
 			void *data)
 {
-	range_list_foreach_full (ranges, callback, data, TRUE);
+	range_list_foreach_full (ranges, callback, data, RANGE_CREATE_EMPTY_CELLS);
 }
 
 void
 range_list_foreach (GSList *ranges, void (*callback)(Cell *cell, void *data),
 		    void *data)
 {
-	range_list_foreach_full (ranges, callback, data, FALSE);
+	range_list_foreach_full (ranges, callback, data, RANGE_ONLY_EXISTING_CELLS);
 }
 
 /**
@@ -1203,69 +1203,97 @@ global_range_dup (GlobalRange const *src)
 	return global_range_new (src->sheet, &src->range);
 }
 
+
+/**
+ * range_from_expr_tree:
+ * @the_tree
+ * 
+ * figure out whether this is a range specification
+ *
+ */
+static Value *
+range_from_expr_tree(ExprTree   *the_tree) 
+{
+	if (the_tree == NULL)
+		return NULL;
+	switch (the_tree->any.oper) {
+	case OPER_CONSTANT:
+		if (the_tree->constant.value->type == VALUE_CELLRANGE)
+			return value_duplicate(the_tree->constant.value);
+		return NULL;
+	case OPER_NAME:
+		if (the_tree->name.name->builtin) {
+			return NULL;
+		} else {
+			return  range_from_expr_tree (the_tree->name.name->t.expr_tree);
+		}
+	default:
+		return NULL;
+	}
+}
+
 /**
  * global_range_parse:
  * @sheet: the sheet where the cell range is evaluated. This really only needed if
  *         the range given does not include a sheet specification.
  * @range: a range specification (ex: "A1", "A1:C3", "Sheet1!A1:C3).
- * @strict: if FALSE, allow extra characters after range text.
  *
  * Returns a (Value *) of type VALUE_CELLRANGE if the @range was
  * succesfully parsed or NULL on failure.
  */
 Value *
-global_range_parse (Sheet *sheet, char const *range, gboolean strict)
+global_range_parse (Sheet *sheet, char const *range)
 {
-	CellRef a, b;
-	int n_read, n_read_2;
+	ExprTree   *the_tree = NULL;
+	ParsePos pp;
+	Value *value;
 
-	g_return_val_if_fail (range != NULL, FALSE);
+	parse_pos_init (&pp, sheet->workbook, sheet, 1, 1);
+	the_tree = expr_parse_string (range, &pp,
+				    NULL, NULL);
+	value = range_from_expr_tree(the_tree);
+	if (the_tree != NULL) 
+		expr_tree_unref(the_tree);
+	return value;
+}
 
-	a.col_relative = 0;
-	b.col_relative = 0;
-	a.row_relative = 0;
-	b.row_relative = 0;
+/**
+ * global_range_list_parse:
+ * @sheet: Sheet where the range specification is relatively parsed to
+ * @range_spec: a range or list of ranges to parse (ex: "A1", "A1:B1,C2,Sheet2!D2:D4")
+ *
+ * Parses a list of ranges, relative to the @sheet and returns a list with the
+ * results.
+ *
+ * Returns a GSList containing Values of type VALUE_CELLRANGE, or NULL on failure
+ */
+GSList *
+global_range_list_parse (Sheet *sheet, char const *range_spec)
+{
 
-	if (!parse_cell_name (range, &a.col, &a.row, FALSE, &n_read)){
-/* Perhaps we can't parse this because it starts with a sheet name */
-		GSList *matching_sheets = NULL;
-		Sheet * this_sheet;
-		n_read_2 = 0;
-/* We have to remember that we could have two sheets called:  sheet and sheet!  */
-		WORKBOOK_FOREACH_SHEET(sheet->workbook, a_sheet, 
-				       if((strncmp(a_sheet->name_quoted, 
-						  range, 
-						   strlen(a_sheet->name_quoted)) == 0)
-					  && (range[strlen(a_sheet->name_quoted)] == '!')) 
-				       matching_sheets = g_slist_append (matching_sheets,
-									 a_sheet));
-		if (matching_sheets == NULL) 
-			return NULL;
-		g_slist_sort (matching_sheets, strcmp);
-		this_sheet = (Sheet *) ((g_slist_last (matching_sheets))->data);
-		g_slist_free (matching_sheets);
-		n_read_2 += strlen(this_sheet->name_quoted) + 1;
-		if (!parse_cell_name (&range[n_read_2], &a.col, &a.row, FALSE, &n_read)){
+	char *copy, *range_copy, *r;
+	GSList *ranges = NULL;
+
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+	g_return_val_if_fail (range_spec != NULL, NULL);
+
+	range_copy = copy = g_strdup (range_spec);
+
+	while ((r = strtok (range_copy, ",")) != NULL){
+		Value *v;
+
+		v = global_range_parse (sheet, r);
+		if (!v){
+			range_list_destroy (ranges);
+			g_free (copy);
 			return NULL;
 		}
-		n_read += n_read_2;
-		a.sheet = this_sheet;
-	} else {
-		a.sheet = sheet;
+
+		ranges = g_slist_prepend (ranges, v);
+		range_copy = NULL;
 	}
 
-	if (range[n_read] == ':') {
-		if (!parse_cell_name (&range[n_read+1], &b.col, &b.row, strict, NULL))
-			return NULL;
-		b.sheet = a.sheet;
-	} else if (strict && range[n_read])
-		return NULL;
-	else
-		b = a;
+	g_free (copy);
 
-	/*
-	 * We can dummy out the calling cell because we know that both
-	 * refs use the same mode.  This will handle inversions.
-	 */
-	return value_new_cellrange (&a, &b, 0, 0);
+	return ranges;
 }

@@ -67,6 +67,7 @@ static const char *output_group[] = {
 static const char *grouped_by_group[] = {
 	"grouped_by_row",
 	"grouped_by_col",
+	"grouped_by_area",
 	0
 };
 
@@ -511,7 +512,7 @@ parse_output (GenericToolState *state, data_analysis_output_t *dao)
 		break;
 	case 2:
 		text = gtk_entry_get_text (GTK_ENTRY (state->output_entry));
-		output_range = global_range_parse(state->sheet, text, TRUE);
+		output_range = global_range_parse(state->sheet, text);
 		g_return_val_if_fail (output_range != NULL, 1);
 		g_return_val_if_fail (output_range->type == VALUE_CELLRANGE, 1);
 
@@ -863,7 +864,7 @@ tool_update_sensitivity_cb (GtkWidget *dummy, GenericToolState *state)
 
 	output_text = gtk_entry_get_text (GTK_ENTRY (state->output_entry));
 	input_text = gtk_entry_get_text (GTK_ENTRY (state->input_entry));
-        output_range = global_range_parse(state->sheet,output_text,TRUE);
+        output_range = global_range_parse(state->sheet,output_text);
         input_range = range_parse(state->sheet,input_text,TRUE);
 	if (state->input_entry_2 != NULL) {
 		input_text_2 = gtk_entry_get_text (GTK_ENTRY (state->input_entry_2));
@@ -1189,7 +1190,7 @@ desc_stat_tool_update_sensitivity_cb (GtkWidget *dummy, DescriptiveStatState *st
 
 	output_text = gtk_entry_get_text (GTK_ENTRY (state->output_entry));
 	input_text = gtk_entry_get_text (GTK_ENTRY (state->input_entry));
-        output_range = global_range_parse(state->sheet,output_text,TRUE);
+        output_range = global_range_parse(state->sheet,output_text);
         input_range = range_parse(state->sheet,input_text,TRUE);
 	i = gnumeric_glade_group_value (state->gui, output_group);
 	j = gnumeric_glade_group_value (state->gui, stats_group);
@@ -1949,7 +1950,7 @@ sampling_tool_update_sensitivity_cb (GtkWidget *dummy, SamplingState *state)
 
 	output_text = gtk_entry_get_text (GTK_ENTRY (state->output_entry));
 	input_text = gtk_entry_get_text (GTK_ENTRY (state->input_entry));
-        output_range = global_range_parse(state->sheet,output_text,TRUE);
+        output_range = global_range_parse(state->sheet,output_text);
         input_range = range_parse(state->sheet,input_text,TRUE);
 		
 	i = gnumeric_glade_group_value (state->gui, output_group);
@@ -2248,7 +2249,7 @@ random_tool_update_sensitivity_cb (GtkWidget *dummy, RandomToolState *state)
 	char *text;
 
 	output_text = gtk_entry_get_text (GTK_ENTRY (state->output_entry));
-        output_range = global_range_parse(state->sheet,output_text,TRUE);
+        output_range = global_range_parse(state->sheet,output_text);
 		
 	i = gnumeric_glade_group_value (state->gui, output_group);
         
@@ -2749,7 +2750,7 @@ regression_tool_update_sensitivity_cb (GtkWidget *dummy, RegressionToolState *st
 
 	output_text = gtk_entry_get_text (GTK_ENTRY (state->output_entry));
 	input_text = gtk_entry_get_text (GTK_ENTRY (state->input_entry_2));
-        output_range = global_range_parse(state->sheet,output_text,TRUE);
+        output_range = global_range_parse(state->sheet,output_text);
         input_range = range_parse(state->sheet,input_text,TRUE);
 
 	i = gnumeric_glade_group_value (state->gui, output_group);
@@ -2919,7 +2920,7 @@ average_tool_update_sensitivity_cb (GtkWidget *dummy, AverageToolState *state)
 
 	output_text = gtk_entry_get_text (GTK_ENTRY (state->output_entry));
 	input_text = gtk_entry_get_text (GTK_ENTRY (state->input_entry));
-        output_range = global_range_parse(state->sheet,output_text,TRUE);
+        output_range = global_range_parse(state->sheet,output_text);
         input_range = range_parse(state->sheet,input_text,TRUE);
 	i = gnumeric_glade_group_value (state->gui, output_group);
 	text = gtk_entry_get_text (GTK_ENTRY (state->interval_entry));
@@ -3303,7 +3304,7 @@ anova_single_tool_update_sensitivity_cb (GtkWidget *dummy, AnovaSingleToolState 
 
 	output_text = gtk_entry_get_text (GTK_ENTRY (state->output_entry));
 	input_text = gtk_entry_get_text (GTK_ENTRY (state->input_entry));
-        output_range = global_range_parse(state->sheet,output_text,TRUE);
+        output_range = global_range_parse(state->sheet,output_text);
         input_range = range_parse(state->sheet,input_text,TRUE);
 	i = gnumeric_glade_group_value (state->gui, output_group);
 	text = gtk_entry_get_text (GTK_ENTRY (state->alpha_entry));
@@ -3501,7 +3502,7 @@ anova_two_factor_tool_update_sensitivity_cb (GtkWidget *dummy, AnovaTwoFactorToo
 
 	output_text = gtk_entry_get_text (GTK_ENTRY (state->output_entry));
 	input_text = gtk_entry_get_text (GTK_ENTRY (state->input_entry));
-        output_range = global_range_parse(state->sheet,output_text,TRUE);
+        output_range = global_range_parse(state->sheet,output_text);
         input_range = range_parse(state->sheet,input_text,TRUE);
 	i = gnumeric_glade_group_value (state->gui, output_group);
 	text = gtk_entry_get_text (GTK_ENTRY (state->alpha_entry));
