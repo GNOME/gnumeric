@@ -3281,7 +3281,7 @@ excel_write_COUNTRY (BiffPut *bp)
 {
 	guint8 *data = ms_biff_put_len_next (bp, BIFF_COUNTRY, 4);
 	GSF_LE_SET_GUINT16 (data, 1); /* flag as made in US */
-	GSF_LE_SET_GUINT16 (data, 1);
+	GSF_LE_SET_GUINT16 (data+2, 1);
 	ms_biff_put_commit (bp);
 }
 
@@ -3364,7 +3364,8 @@ write_sheet_head (BiffPut *bp, ExcelWriteSheet *esheet)
 
 	excel_write_GUTS (bp, esheet);
 	excel_write_DEFAULT_ROW_HEIGHT (bp, esheet);
-	excel_write_COUNTRY (bp);
+	if (esheet->ewb->bp->version < MS_BIFF_V8)
+		excel_write_COUNTRY (bp);
 	excel_write_WSBOOL (bp, esheet);
 
 	/* See: S59D94.HTM */
@@ -3847,15 +3848,16 @@ excel_write_SST (ExcelWriteState *ewb)
 	/* According to MSDN max SST sisze is 8224 */
 	GPtrArray const *strings = ewb->sst.indicies;
 	BiffPut		*bp = ewb->bp;
-	SSTInf		*extsst;
+	SSTInf		*extsst = NULL;
 	guint8 *ptr, data [8224];
 	guint8 const * const last = data + sizeof (data);
-	unsigned i, tmp, out_bytes;
+	unsigned i, tmp, out_bytes, blocks;
 
-	if (strings->len == 0)
-		return;
-
-	extsst = g_alloca (sizeof (SSTInf) * (1 + ((strings->len - 1) / 8)));
+	if (strings->len > 0) {
+		blocks = 1 + ((strings->len - 1) / 8);
+		extsst = g_alloca (sizeof (SSTInf) * blocks);
+	} else
+		blocks = 0;
 
 	ms_biff_put_var_next (bp, BIFF_SST);
 	GSF_LE_SET_GUINT32 (data + 0, strings->len);
@@ -3954,8 +3956,7 @@ unicode_loop :
 	GSF_LE_SET_GUINT16 (data + 0, 8); /* seems constant */
 	ms_biff_put_var_write (bp, data, 2);
 
-	tmp = 1 + ((strings->len - 1) / 8);
-	for (i = 0; i < tmp; i++) {
+	for (i = 0; i < blocks; i++) {
 		GSF_LE_SET_GUINT32 (data + 0, extsst[i].streampos);
 		GSF_LE_SET_GUINT16 (data + 4, extsst[i].record_pos);
 		ms_biff_put_var_write (bp, data, 6);
@@ -3968,10 +3969,10 @@ excel_write_WRITEACCESS (BiffPut *bp)
 {
 	guint8   pad [112];
 	unsigned len;
-	gchar *utf8_name = gnm_get_real_name ();
+	char const *utf8_name = gnm_get_real_name ();
 
 	if (utf8_name == NULL)
-		utf8_name = g_strdup ("");
+		utf8_name = "";
 
 	ms_biff_put_var_next (bp, BIFF_WRITEACCESS);
 	if (bp->version >= MS_BIFF_V8) {
@@ -3985,7 +3986,6 @@ excel_write_WRITEACCESS (BiffPut *bp)
 		ms_biff_put_var_write (bp, pad, 32 - len - 1);
 		ms_biff_put_commit (bp);
 	}
-	g_free (utf8_name);
 }
 
 static void
@@ -4223,6 +4223,8 @@ write_workbook (ExcelWriteState *ewb)
 
 	if (bp->version >= MS_BIFF_V8) {
 		Sheet const *sheet;
+
+		excel_write_COUNTRY (bp);
 
 		excel_write_externsheets_v8 (ewb);
 

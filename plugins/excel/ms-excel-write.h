@@ -41,7 +41,7 @@ typedef struct {
 	guint32		 boundsheetPos;
 	gint32		 max_col, max_row;
 	guint16		 col_xf    [SHEET_MAX_COLS];
-	GnmStyle		*col_style [SHEET_MAX_COLS];
+	GnmStyle	*col_style [SHEET_MAX_COLS];
 	GnmStyleList 	*validations;
 } ExcelWriteSheet;
 
