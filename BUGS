@@ -49,6 +49,13 @@ Worries
     selected add "Unhide column to the left" and "... right" to the context
     menu (when relevant).
 
+    : HARMEAN with no arguments (or just strings/booleans) should yield N/A,
+      not NUM.
+    : MAXA,MINA with no arguments should yield N/A, not NUM.
+    : STDEVPA,VARPA with no arguments should yield VALUE, not DIV0.
+    : STDEVA,VARA with 0-1 arguments should yield DIV0, not VALUE.
+    : DEVSQ with no arguments should yield #NUM, not zero.
+
 After Branch
 ------------
     - http://bugzilla.gnome.org/show_bug.cgi?id=162951 : trivial
