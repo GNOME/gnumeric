@@ -1,5 +1,13 @@
 2001-09-14  Jody Goldberg <jgoldberg@home.com>
 
+	* src/workbook-control-gui.c (workbook_create_standard_toolbar) : Use
+	  gnome_preferences_get_toolbar_detachable rather than
+	  gnome_preferences_get_menubar_detachable.
+	* src/workbook-format-toolbar.c (workbook_create_format_toolbar) :ditto.
+	* src/workbook-object-toolbar.c (workbook_create_object_toolbar) :ditto.
+
+2001-09-14  Jody Goldberg <jgoldberg@home.com>
+
 	* src/style-color.c (style_color_new_name) : new utility.
 
 	* src/gnumeric-graph.c : cleanup the debug info.

@@ -191,7 +191,7 @@ workbook_create_object_toolbar (WorkbookControlGUI *wbcg)
 					app->accel_group, wbcg);
 
 	behavior = GNOME_DOCK_ITEM_BEH_NORMAL;
-	if (!gnome_preferences_get_menubar_detachable ())
+	if (!gnome_preferences_get_toolbar_detachable ())
 		behavior |= GNOME_DOCK_ITEM_BEH_LOCKED;
 
 	gnome_app_add_toolbar (app, GTK_TOOLBAR (toolbar), name, behavior,
