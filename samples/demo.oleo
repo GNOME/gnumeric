@@ -1,0 +1,39 @@
+# This file was created by GNU Oleo
+# format 1.0
+F;DGFL8
+O;auto;background;noa0;ticks 1
+C;c1;r1;K1
+C;r3;K"One"
+C;r4;K"Two"
+C;r5;K"Three"
+C;c2;r1;K2
+C;r2;K4
+C;c3;r1;K3
+C;r2;K5
+C;c4;r1;K0
+C;r2;K-1
+C;r3;K-2
+C;r5;K#TRUE
+C;r6;K#FALSE
+C;r8;E-r3c4;K2
+C;r9;Er1c4 + 2;K2
+C;r11;Er[-2]c * r[-3]c;K4
+C;c5;r1;K0.5
+C;r2;K-0.5
+C;r3;K-1.5
+C;r5;K#INFINITY
+C;r6;K#NOT_A_NUMBER
+C;r8;E-r3c5;K1.5
+C;r9;Er1c5 + 2;K2.5
+C;r11;Er[-2]c * r[-3]c;K3.75
+C;r13;Esum(r1c1:7);K20.3
+C;c6;r1;K1.5
+C;r2;K2.5
+C;r3;K3.5
+C;r5;K#MINUS_INFINITY
+C;c7;r1;K12.3
+C;r2;K14.3
+C;r3;K17.3
+O;status 2
+W;N1;A10 2;C7 0 7;Ostandout
+E

@@ -1,5 +1,11 @@
 1999-11-07  Michael Meeks  <mmeeks@gnu.org>
 
+	* plugins/Makefile.am (SUBDIRS): add oleo.
+
+	* configure.in: ditto.
+
+1999-11-07  Michael Meeks  <mmeeks@gnu.org>
+
 	* src/ranges.c (range_translate): implemented.
 
 	* src/selection.c (sheet_selection_paste): Add sheet_selection_move.

@@ -1,0 +1,11 @@
+1999-11-07  Michael Meeks  <mmeeks@gnu.org>
+
+	* oleo.c: Quietened warnings.
+
+1999-11-07  Robert Brady  <rwb197@ecs.soton.ac.uk>
+
+	* oleo.c: Created.
+
+	* boot.c: Created.
+
+	* Makefile.am: Created.

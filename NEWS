@@ -24,6 +24,9 @@ Federico:
 	* Added "open hand" and "closed hand" cursors for dragging the 
 	  print preview.
 
+Robert:
+	* Primitive oleo import : supports numbers and text.
+
 --------------------------------------------------------------------------
 
 Gnumeric 0.39
