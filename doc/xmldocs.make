@@ -72,7 +72,9 @@ install-data-am: omf
 	  basefile=`echo $$file | sed -e  's,^.*/,,'`; \
 	  $(INSTALL_DATA) $$file $(DESTDIR)$(docdir)/figures/$$basefile; \
 	done
-	-ln -s share/gnome/ $(gnumeric_datadir)/gnome	# What the hell is this supposed to do ?
+	# libbonoboui and libgnomeui want help in different places add a sym
+	# link to get an install that works for both (It may already exist)
+	-ln -s $(gnumeric_datadir)/share/gnome $(gnumeric_datadir)/gnome
 	-if [ -e $(srcdir)/topic.dat ]; then \
 		$(INSTALL_DATA) $(srcdir)/topic.dat $(DESTDIR)$(docdir); \
 	 fi
