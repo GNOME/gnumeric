@@ -1,3 +1,10 @@
+2000-07-04  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* samples/excel/infofuns.xls: Changed the third test case of
+ 	ERROR.TYPE.  It seems that XL produces #VALUE! error for
+ 	STDEV("foo") but #DIV/0! error for STDEV(A1) when A1 contains
+ 	string `foo'.  Cool.
+
 2000-07-03  Morten Welinder  <terra@diku.dk>
 
 	* src/stf-parse.c (stf_parse_get_rowcount): Don't add one to the
