@@ -20,4 +20,6 @@ libwidgets_a_SOURCES =				\
 	widget-font-selector.c			\
 	widget-font-selector.h			\
 	gnumeric-dashed-canvas-line.c		\
-	gnumeric-dashed-canvas-line.h
+	gnumeric-dashed-canvas-line.h		\
+	gnumeric-expr-entry.c			\
+	gnumeric-expr-entry.h

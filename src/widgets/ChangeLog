@@ -1,3 +1,8 @@
+2001-04-18  Jon K Hellan  <hellan@acm.org>
+
+	* gnumeric-expr-entry.[ch]: New expression / range selection
+	widget.
+
 2001-03-17  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.64
