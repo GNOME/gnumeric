@@ -1,3 +1,7 @@
+1999-04-19  Morten Welinder  <terra@diku.dk>
+
+	* ms-excel.c (biff_get_rk): Fixed up mask on eIEEE.
+	
 1999-04-19  Michael Meeks  <michael@edenproject.org>
 
 	* ms-escher.c (read_DgContainer): Removed redundant

@@ -1439,7 +1439,7 @@ biff_get_rk (guint8 *ptr)
 	case eIEEE:
 	case eIEEEx100:
 		for (lp=0;lp<4;lp++) {
-			tmp[lp+4]=lp<3?ptr[lp]:ptr[lp]&0xfc;
+			tmp[lp+4]=(lp>0)?ptr[lp]:(ptr[lp]&0xfc);
 			tmp[lp]=0;
 		}
 
