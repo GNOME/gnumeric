@@ -1,3 +1,19 @@
+2001-05-29  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* dif.c
+	New line parsing routine - doesn't allocate/deallocate memory at every
+	input line, stops processing at the end of mmaped file (instead of
+	crashing).
+	Write empty cells too (previous behaviour was incorrect).
+	Write the current sheet instead of the first one (for XL compatibility).
+	Detailed error reporting, fixed leaks, general cleanup.
+
+	* dif.h: Removed.
+
+	* Makefile.am (dif_la_SOURCES): Removed dif.h
+
+	* plugin.xml (<service>): Set "open" to TRUE, added <file_patterns>.
+
 2001-05-21  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* dif.c (dif_file_open, dif_file_save):

@@ -1,24 +1,19 @@
 /*
- * dif.c: read sheets using a CSV encoding.
+ * dif.c: read/write sheets using a CSV encoding.
  *
- * Kevin Handy <kth@srv.net>
+ * Authors:
+ *   Kevin Handy <kth@srv.net>
+ *   Zbigniew Chyla <cyba@gnome.pl>
+ *
  *	Based on ff-csv code.
  */
-
 #include <config.h>
-#include <stdio.h>
-#include <sys/stat.h>
-#include <fcntl.h>
 #include <sys/mman.h>
 #include <unistd.h>
+#include <stdio.h>
 #include <stdlib.h>
-#include <ctype.h>
 #include <string.h>
-#include <errno.h>
-#include <gnome.h>
-#include "plugin.h"
-#include "plugin-util.h"
-#include "module-plugin-defs.h"
+#include "portability.h"
 #include "gnumeric.h"
 #include "cell.h"
 #include "sheet.h"
@@ -27,365 +22,377 @@
 #include "io-context.h"
 #include "workbook-view.h"
 #include "workbook.h"
+#include "plugin-util.h"
+#include "module-plugin-defs.h"
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
+#define N_INPUT_LINES_BETWEEN_UPDATES   50
+
 void dif_file_open (GnumFileOpener const *fo, IOContext *io_context,
-                    WorkbookView *wb_view, char const *filename);
+                    WorkbookView *wbv, char const *filename);
 void dif_file_save (GnumFileSaver const *fs, IOContext *io_context,
-                    WorkbookView *wb_view, const gchar *file_name);
+                    WorkbookView *wbv, const gchar *file_name);
 
 typedef struct {
-	char const *data, *cur;
-	int         len;
+	IOContext *io_context;
 
-	int line;
+	gint   data_size;
+	gchar *data, *cur;
+
+	gint   line_no;
+	gchar *line;
+	gint   line_len, alloc_line_len;
+	
 	Sheet *sheet;
-} FileSource_t;
+} DifInputContext;
 
+
+static DifInputContext *
+dif_input_context_new (IOContext *io_context, Workbook *wb, char const *file_name)
+{
+	DifInputContext *ctxt = NULL;
+	gint size;
+	char *data;
+	ErrorInfo *mmap_error;
+
+	data = gnumeric_mmap_error_info (file_name, &size, &mmap_error);
+	if (mmap_error != NULL) {
+		gnumeric_io_error_info_set (io_context, mmap_error);
+		return NULL;
+	}
+
+	ctxt = g_new (DifInputContext, 1);
+	ctxt->io_context     = io_context;
+	ctxt->data_size      = size;
+	ctxt->data           = data;
+	ctxt->cur            = data;
+	ctxt->line_no        = 1;
+	ctxt->line           = NULL;
+	ctxt->line_len       = 0;
+	ctxt->alloc_line_len = -1;
+	ctxt->sheet          = workbook_sheet_add (wb, NULL, FALSE);
+
+/*	gnumeric_io_progress_message (io_context, _("Reading file..."));
+	gnumeric_io_progress_helper_set_mem (io_context, ctxt->data, ctxt->data_size, 0.0, 1.0);*/
+
+	return ctxt;
+}
+
+static void
+dif_input_context_destroy (DifInputContext *ctxt)
+{
+/*	gnumeric_io_progress_helper_unset (ctxt->io_context);*/
+	munmap (ctxt->data, ctxt->data_size);
+	g_free (ctxt->line);
+	g_free (ctxt);
+}
 
 static gboolean
-dif_parse_line(FileSource_t *src, char **line)
+dif_get_line (DifInputContext *ctxt)
 {
-	const char* start = src->cur;
+	gchar *p, *p_limit;
 
-	if (*src->cur == '\0')
+	p_limit = ctxt->data + ctxt->data_size;
+	if (ctxt->cur >= p_limit) {
+		ctxt->line[0] = '\0';
+		ctxt->line_len = 0;
 		return FALSE;
-
-	while (*src->cur != '\0' && *src->cur != '\n' && *src->cur != '\r')
-	{
-		src->cur++;
-	}
-	*line = g_strndup(start, src->cur - start);
-
-	if (*src->cur == '\n' && *(src->cur + 1) == '\r')
-		src->cur++;
-	else if (*src->cur == '\r' && *(src->cur + 1) == '\n')
-		src->cur++;
-	src->cur++;
-
-	return TRUE;
-}
-
-static gboolean
-dif_parse_header(FileSource_t *src)
-{
-	char *line1, *line2, *line3;
-
-	while (1)
-	{
-		if (dif_parse_line(src, &line1) == FALSE)
-			return FALSE;
-		if (dif_parse_line(src, &line2) == FALSE)
-			return FALSE;
-		if (dif_parse_line(src, &line3) == FALSE)
-			return FALSE;
-
-		if (strcmp(line1, "TABLE") == 0)
-		{
-		}
-		else if (strcmp(line1, "VECTORS") == 0)
-		{
-		}
-		else if (strcmp(line1, "TUPLES") == 0)
-		{
-		}
-		else if (strcmp(line1, "DATA") == 0)
-		{
-			return TRUE;
-		}
-		else if (strcmp(line1, "COMMENT") == 0)
-		{
-		}
-		else if (strcmp(line1, "LABEL") == 0)
-		{
-		}
-		else if (strcmp(line1, "SIZE") == 0)
-		{
-		}
-		else if (strcmp(line1, "PERIODICITY") == 0)
-		{
-		}
-		else if (strcmp(line1, "MINORSTART") == 0)
-		{
-		}
-		else if (strcmp(line1, "TRUELENGTH") == 0)
-		{
-		}
-		else if (strcmp(line1, "UNITS") == 0)
-		{
-		}
-		else if (strcmp(line1, "DISPLAYUNITS") == 0)
-		{
-		}
-		else
-		{
-			g_warning("DIF : Invalid header item '%s'", line1);
-			g_free(line1);
-			g_free(line2);
-			g_free(line3);
-			return FALSE;
-		}
-		g_free(line1);
-		g_free(line2);
-		g_free(line3);
-	}
-}
-
-static gboolean
-dif_parse_data(FileSource_t *src)
-{
-	char *line1, *line2;
-	char *comma;
-	int type;
-	Cell *cell;
-	int row = -1, col = 0;
-	char *ch;
-	int chln;
-
-	while (1)
-	{
-		if (dif_parse_line(src, &line1) == FALSE)
-			return FALSE;
-		if (dif_parse_line(src, &line2) == FALSE)
-			return FALSE;
-
-		type = atoi(line1);	/* Supposed to stop at comma */
-
-#if 0
-g_warning("DIF cell %d : '%s', '%s'", type, line1, line2);
-#endif
-		switch(type)
-		{
-		case 0:
-			if (col > SHEET_MAX_COLS) {
-				g_warning("DIF : Invalid DIF file has more than the maximum number of columns %d",
-					SHEET_MAX_COLS);
-				return FALSE;
-			}
-			comma = strchr(line1, ',');
-			if (comma) {
-				comma++;
-				cell = sheet_cell_fetch (src->sheet, col, row);
-				cell_set_text (cell, comma);
-				col++;
-			}
-			break;
-
-		case 1:
-			if (col > SHEET_MAX_COLS) {
-				g_warning("DIF : Invalid DIF file has more than the maximum number of columns %d",
-					SHEET_MAX_COLS);
-				return FALSE;
-			}
-			cell = sheet_cell_fetch (src->sheet, col, row);
-			chln = strlen(line2);
-			if (*line2 == '"' && *(line2 + chln - 1) == '"') {
-				ch = g_strndup(line2 + 1, chln - 2);
-				cell_set_text (cell, ch);
-				g_free(ch);
-			} else
-				cell_set_text (cell, line2);
-			col++;
-			break;
-
-		case -1:
-			if (strcmp(line2, "BOT") == 0)
-			{
-#if 0
-g_warning("DIF cell BOT");
-#endif
-				col = 0;
-				row++;
-				if (row > SHEET_MAX_ROWS) {
-					g_warning("DIF : Invalid DIF file has more than the maximum number of rows %d",
-						SHEET_MAX_ROWS);
-					return FALSE;
-				}
-			}
-			else if (strcmp(line2, "EOD") == 0)
-			{
-#if 0
-g_warning("DIF cell EOD");
-#endif
-				g_free(line1);
-				g_free(line2);
-				return TRUE;
-			}
-			else
-			{
-				g_free(line1);
-				g_free(line2);
-				return FALSE;
-			}
-			break;
-
-		default:
-			return FALSE;
-
-		}
-
-		g_free(line1);
-		g_free(line2);
-	}
-}
-
-static gboolean
-dif_parse_sheet (FileSource_t *src)
-{
-	if (dif_parse_header(src) == FALSE)
-		return FALSE;
-	if (dif_parse_data(src) == FALSE)
-		return FALSE;
-
-#if 0
-g_warning("DIF SUCCESS");
-#endif
-	return TRUE;
-}
-
-#ifndef MAP_FAILED
-#   define MAP_FAILED -1
-#endif
-
-void
-dif_file_open (GnumFileOpener const *fo, IOContext *io_context,
-               WorkbookView *wb_view, char const *filename)
-{
-	int len;
-	struct stat sbuf;
-	char const *data;
-	int fd;
-	ErrorInfo *error;
-
-	fd = gnumeric_open_error_info (filename, O_RDONLY, &error);
-	if (fd < 0) {
-		gnumeric_io_error_info_set (io_context, error);
-		return;
 	}
 
-	if (fstat (fd, &sbuf) < 0) {
-		gnumeric_io_error_info_set (io_context, error_info_new_from_errno ());
-		close (fd);
-		return;
+	for (p = ctxt->cur; p < p_limit && p[0] != '\n' && p[0] != '\r'; p++);
+
+	ctxt->line_len = p - ctxt->cur;
+	if (ctxt->line_len > ctxt->alloc_line_len) {
+		g_free (ctxt->line);
+		ctxt->alloc_line_len = MAX (ctxt->alloc_line_len * 2, ctxt->line_len);
+		ctxt->line = g_malloc (ctxt->alloc_line_len + 1);
 	}
+	if (ctxt->line_len > 0) {
+		memcpy (ctxt->line, ctxt->cur, ctxt->line_len);
+	}
+	ctxt->line[ctxt->line_len] = '\0';
 
-	len = sbuf.st_size;
-	if ((caddr_t)MAP_FAILED != (data = (caddr_t) (mmap(0, len, PROT_READ,
-							   MAP_PRIVATE, fd, 0)))) {
-		Workbook *wb = wb_view_workbook (wb_view);
-		FileSource_t src;
-		src.data  = data;
-		src.cur   = data;
-		src.len   = len;
-		src.sheet = workbook_sheet_add (wb, NULL, FALSE);
-
-		if (!dif_parse_sheet (&src)) {
-			gnumeric_io_error_info_set (io_context,
-			                            error_info_new_str (_("DIF : Failed to load sheet")));
-		}
-		munmap((char *)data, len);
+	if (p == p_limit || (p == p_limit - 1 && (p[0] == '\n' || p[0] == '\r'))) {
+		ctxt->cur = p;
+	} else if ((p[0] == '\n' && p[1] == '\r') || (p[0] == '\r' && p[1] == '\n')) {
+		ctxt->cur = p + 2;
 	} else {
-		gnumeric_io_error_info_set (io_context,
-		                            error_info_new_str (_("Unable to mmap the file")));
+		ctxt->cur = p + 1;
 	}
-	close (fd);
+
+/*	if ((++ctxt->line_no % N_INPUT_LINES_BETWEEN_UPDATES) == 0) {
+		gnumeric_io_progress_helper_mem_update (ctxt->io_context, ctxt->cur);
+	}*/
+
+	return TRUE;
 }
 
-static int
-dif_write_cell (FILE *f, Cell const *cell)
+static gboolean
+dif_eat_line (DifInputContext *ctxt)
 {
-	if (!cell_is_blank (cell)) {
-		char * text = cell_get_rendered_text (cell);
+	gchar *p, *p_limit;
 
-		/* FIXME : I have no idea the original code was trying to
-		 * do but it was definitely wrong.  This is only marginally
-		 * better.  It will dump the rendered string as a single line.
-		 * with the magic prefix and quotes from the original.  At
-		 * least it will not completely disregard negatives.
-		 */
-		fputs("1,0\n\"", f);
-		fputs(text, f);
-		fputs("\"\n", f);
-		g_free (text);
+	p_limit = ctxt->data + ctxt->data_size;
+	if (ctxt->cur >= p_limit) {
+		return FALSE;
 	}
 
-	if (ferror (f))
-		return -1;
+	for (p = ctxt->cur; p < p_limit && p[0] != '\n' && p[0] != '\r'; p++);
 
-	return 0;
+	if (p == p_limit || (p == p_limit - 1 && (p[0] == '\n' || p[0] == '\r'))) {
+		ctxt->cur = p;
+	} else if ((p[0] == '\n' && p[1] == '\r') || (p[0] == '\r' && p[1] == '\n')) {
+		ctxt->cur = p + 2;
+	} else {
+		ctxt->cur = p + 1;
+	}
+
+/*	if ((++ctxt->line_no % N_INPUT_LINES_BETWEEN_UPDATES) == 0) {
+		gnumeric_io_progress_helper_mem_update (ctxt->io_context, ctxt->cur);
+	}*/
+
+	return TRUE;
 }
 
 /*
- * write every sheet of the workbook to a DIF format file
+ * Raturns FALSE on EOF.
+ */
+static gboolean
+dif_parse_header (DifInputContext *ctxt)
+{
+	while (1) {
+		gboolean lines_ok = TRUE;
+		gchar *topic, *num_line, *str_line;
+		gint str_line_len;
+
+		lines_ok = lines_ok && dif_get_line (ctxt);
+		topic = strcpy (g_alloca (ctxt->line_len + 1), ctxt->line);
+		lines_ok = lines_ok && dif_get_line (ctxt);
+		num_line = strcpy (g_alloca (ctxt->line_len + 1), ctxt->line);
+		lines_ok = lines_ok && dif_get_line (ctxt);
+		str_line_len = ctxt->line_len;
+		str_line = strcpy (g_alloca (str_line_len + 1), ctxt->line);
+
+		if (!lines_ok) {
+			return FALSE;
+		}
+
+		if (strcmp (topic, "TABLE") == 0) {
+			gchar *name;
+
+			if (str_line_len > 2 && str_line[0] == '"' && str_line[str_line_len - 1] == '"') {
+				str_line[str_line_len - 1] = '\0';
+				name = str_line + 1;
+			}  else {
+				name = str_line;
+			}
+			if (name[0] != '\0') {
+				/* FIXME - rename the sheet */
+			}
+		} else if (strcmp (topic, "DATA") == 0) {
+			break;
+		}
+
+		/*
+		 * Other "standard" header entry items are:
+		 * SIZE, LABEL, UNITS, TUPLES, VECTORS, COMMENT, MINORSTART,
+		 * TRUELENGTH, PERIODICITY, DISPLAYUNITS
+		 */
+	}
+
+	return TRUE;
+}
+
+/*
+ * Raturns FALSE on EOF.
+ */
+static gboolean
+dif_parse_data (DifInputContext *ctxt)
+{
+	gboolean too_many_rows = FALSE, too_many_columns = FALSE;
+	gint row = -1, col = 0;
+
+	while (1) {
+		gint val_type;
+		Cell *cell;
+		gchar *msg;
+
+		if (!dif_get_line (ctxt)) {
+			return FALSE;
+		}
+
+		val_type = atoi (ctxt->line);
+		if (val_type == 0) {
+			gchar *comma;
+
+			(void) dif_eat_line (ctxt);
+			if (col > SHEET_MAX_COLS) {
+				too_many_columns = TRUE;
+				continue;
+			}
+			comma = strchr (ctxt->line, ',');
+			if (comma != NULL) {
+				cell = sheet_cell_fetch (ctxt->sheet, col, row);
+				cell_set_text (cell, comma + 1);
+				col++;
+			} else {
+				msg = g_strdup_printf (_("Syntax error at line %d. Ignoring."),
+				                       ctxt->line_no);
+				g_warning (msg);
+				g_free (msg);
+			}
+		} else if (val_type == 1) {
+			if (!dif_get_line (ctxt)) {
+				return FALSE;
+			}
+			if (col > SHEET_MAX_COLS) {
+				too_many_columns = TRUE;
+				continue;
+			}
+			cell = sheet_cell_fetch (ctxt->sheet, col, row);
+			if (ctxt->line_len >= 2 && ctxt->line[0] == '"' &&
+			    ctxt->line[ctxt->line_len - 1] == '"') {
+				ctxt->line[ctxt->line_len - 1] = '\0';
+				cell_set_text (cell, ctxt->line + 1);
+			} else {
+				cell_set_text (cell, ctxt->line);
+			}
+			col++;
+		} else if (val_type == -1) {
+			if (!dif_get_line (ctxt)) {
+				return FALSE;
+			}
+			if (strcmp (ctxt->line, "BOT") == 0) {
+				col = 0;
+				row++;
+				if (row > SHEET_MAX_ROWS) {
+					too_many_rows = TRUE;
+					break;
+				}
+			} else if (strcmp (ctxt->line, "EOD") == 0) {
+				break;
+			} else {
+				msg = g_strdup_printf (
+				      _("Unknown data value \"%s\" at line %d. Ignoring."),
+				      ctxt->line, ctxt->line_no);
+				g_warning (msg);
+				g_free (msg);
+			}
+		} else {
+			msg = g_strdup_printf (
+			      _("Unknown value type %d at line %d. Ignoring."),
+			      val_type, ctxt->line_no);
+			g_warning (msg);
+			g_free (msg);
+			(void) dif_eat_line (ctxt);
+		}
+	}
+
+	if (too_many_rows) {
+		g_warning (_("DIF file has more than the maximum number of rows %d. "
+		             "Ignoring remaining rows."), SHEET_MAX_ROWS);
+	}
+	if (too_many_columns) {
+		g_warning (_("DIF file has more than the maximum number of columns %d. "
+		             "Ignoring remaining columns."), SHEET_MAX_COLS);
+	}
+
+	return TRUE;
+}
+
+static void
+dif_parse_sheet (DifInputContext *ctxt)
+{
+	if (!dif_parse_header (ctxt)) {
+		gnumeric_io_error_info_set (ctxt->io_context, error_info_new_printf (
+		_("Unexpected end of file at line %d while reading header."),
+		ctxt->line_no));
+	} else if (!dif_parse_data(ctxt)) {
+		gnumeric_io_error_info_set (ctxt->io_context, error_info_new_printf (
+		_("Unexpected end of file at line %d while reading data."),
+		ctxt->line_no));
+	}
+}
+
+void
+dif_file_open (GnumFileOpener const *fo, IOContext *io_context,
+               WorkbookView *wbv, char const *file_name)
+{
+	DifInputContext *ctxt;
+
+	ctxt = dif_input_context_new (io_context, wb_view_workbook (wbv), file_name);
+	if (ctxt != NULL) {
+		dif_parse_sheet (ctxt);
+		if (gnumeric_io_error_occurred (io_context)) {
+			gnumeric_io_error_info_push (io_context, error_info_new_str (
+			_("Error while reading DIF file.")));
+		}
+		dif_input_context_destroy (ctxt);
+	} else {
+		if (!gnumeric_io_error_occurred) {
+			gnumeric_io_error_unknown (io_context);
+		}
+	}
+}
+
+/*
+ * Write _current_ sheet of the workbook to a DIF format file
  */
 void
 dif_file_save (GnumFileSaver const *fs, IOContext *io_context,
-               WorkbookView *wb_view, const gchar *file_name)
+               WorkbookView *wbv, const gchar *file_name)
 {
-	Workbook *wb = wb_view_workbook (wb_view);
-	GList *sheet_list;
-	Cell *cell;
-	int row, col, rc=0;
-	char *workstring;
 	FILE *f;
-	ErrorInfo *error;
+	ErrorInfo *open_error;
+	Sheet *sheet;
+	Range r;
+	gint row, col;
 
-	f = gnumeric_fopen_error_info (file_name, "w", &error);
+	f = gnumeric_fopen_error_info (file_name, "w", &open_error);
 	if (f == NULL) {
-		gnumeric_io_error_info_set (io_context, error);
+		gnumeric_io_error_info_set (io_context, open_error);
 		return;
 	}
 
-	/*
-	 * Since DIF files know nothing about paged spreadsheets,
-	 * we're only going to export the first page.
-	 */
-	sheet_list = workbook_sheets (wb);
+	sheet = wbv->current_sheet;
+	if (sheet == NULL) {
+		gnumeric_io_error_info_set (io_context, error_info_new_str (
+		_("Cannot get default sheet.")));
+		return;
+	}
 
-	/* FIXME : Why not a loop ? */
-	if (sheet_list) {
-		Sheet *sheet = sheet_list->data;
-		Range r = sheet_get_extent (sheet);
+	/* Write out the standard headers */
+	fputs ("TABLE\n" "0,1\n" "\"GNUMERIC\"\n", f);
+	fprintf (f, "VECTORS\n" "0,%d\n" "\"\"\n", r.end.row);
+	fprintf (f, "TUPLES\n" "0,%d\n" "\"\"\n", r.end.col);
+	fputs ("DATA\n0,0\n" "\"\"\n", f);
 
-		/*
-		 * Write out the standard headers
-		 */
-		fputs ("TABLE\n0,1\n\"GNUMERIC\"\nVECTORS\n0,", f);
-		workstring = g_strdup_printf("%d", r.end.row);
-		fputs (workstring, f);
-		g_free(workstring);
-		fputs ("\n\"\"\nTUPLES\n0,", f);
-		workstring = g_strdup_printf("%d", r.end.col);
-		fputs (workstring, f);
-		g_free(workstring);
-		fputs ("\n\"\"\nDATA\n0,0\n\"\"\n", f);
+	/* Process all cells */
+	r = sheet_get_extent (sheet);
+	for (row = r.start.row; row <= r.end.row; row++) {
+		fputs ("-1,0\n" "BOT\n", f);
+		for (col = r.start.col; col <= r.end.col; col++) {
+			Cell *cell;
 
-		/*
-		 * Process all cells
-		 */
-		for (row = r.start.row; row <= r.end.row; row++) {
+			cell = sheet_cell_get (sheet, col, row);
+			if (cell_is_blank (cell)) {
+				fputs("1,0\n" "\"\"\n", f);
+			} else {
+				gchar *str;
 
-			fputs ("-1,0\nBOT\n", f);
-
-			for (col = r.start.col; col <= r.end.col; col++) {
-				cell = sheet_cell_get (sheet, col, row);
-				rc = dif_write_cell (f, cell);
-				if (rc)
-					goto out;
+				str = cell_get_rendered_text (cell);
+				fprintf (f, "1.0\n" "\"%s\"\n", str);
+				g_free (str);
 			}
-
 		}
 	}
-	g_list_free (sheet_list);
+	fputs ("-1,0\n" "EOD\n", f);
 
-	fputs ("-1,0\nEOD\n", f);
-
-out:
-	if (f)
-		fclose (f);
-	if (rc < 0) {
-		gnumeric_io_error_info_set (io_context,
-		                            error_info_new_str (_("Error while saving dif file.")));
+	if (ferror (f)) {
+		gnumeric_io_error_info_set (io_context, error_info_new_str (
+		_("Error while saving dif file.")));
 	}
+
+	fclose (f);
 }
