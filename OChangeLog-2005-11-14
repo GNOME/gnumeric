@@ -1,3 +1,13 @@
+2001-10-02  Jody Goldberg <jgoldberg@home.com>
+
+	* idl/Makefile.am : Don't make the stampel files unless the idl
+	  compile was successful.
+
+2001-10-02  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-control-gui.c (workbook_create_standard_toolbar) : Use
+	  the gnm_combo_text until we merge it back into gal.
+
 2001-10-02  Morten Welinder  <terra@diku.dk>
 
 	* src/commands.c (cmd_search_replace_do_cell): Implement querying
