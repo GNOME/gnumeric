@@ -599,7 +599,7 @@ gnum_float qnorm(gnum_float p, gnum_float mu, gnum_float sigma, gboolean lower_t
     q = p_ - 0.5;
 
 #ifdef DEBUG_qnorm
-    REprintf("qnorm(p=%10.7" GNUM_FORMAT_g ", m=%" GNUM_FORMAT_g ", s=%" GNUM_FORMAT_g ", l.t.= %d, loggnum= %d): q = %" GNUM_FORMAT_g "\n",
+    REprintf("qnorm(p=%10.7" GNUM_FORMAT_g ", m=%" GNUM_FORMAT_g ", s=%" GNUM_FORMAT_g ", l.t.= %d, log= %d): q = %" GNUM_FORMAT_g "\n",
 	     p,mu,sigma, lower_tail, log_p, q);
 #endif
 
@@ -672,8 +672,8 @@ gnum_float qnorm(gnum_float p, gnum_float mu, gnum_float sigma, gboolean lower_t
 #endif
     /* Final Newton step: */
     val = val -
-	(pnorm(val, 0., 1., /*lower*/TRUE, /*loggnum*/FALSE) - p_) /
-	 dnorm(val, 0., 1., /*loggnum*/FALSE);
+	(pnorm(val, 0., 1., /*lower*/TRUE, /*log*/FALSE) - p_) /
+	 dnorm(val, 0., 1., /*log*/FALSE);
 
 #else
 /*-- use AS 241 --- */
@@ -2362,8 +2362,8 @@ gnum_float qt(gnum_float p, gnum_float ndf, gboolean lower_tail, gboolean log_p)
 	    /* FIXME: Following cutoff is machine-precision dependent
 	       -----  Really, use stable impl. of expm1(y) == expgnum(y) - 1,
 	              as it is in GNU's mathlib ..*/
-	    if (y > 1e-6) /* was (y > 0.002) */
-		y = expgnum(y) - 1;
+	    if (1) /* was (y > 0.002) */
+		y = expm1gnum(y);
 	    else { /* Taylor of	 e^y -1 : */
 		y = (0.5 * y + 1) * y;
 	    }
@@ -2775,7 +2775,7 @@ gnum_float qbinom(gnum_float p, gnum_float n, gnum_float pr, gboolean lower_tail
     gamma = (q - pr) / sigma;
 
 #ifdef DEBUG_qbinom
-    REprintf("qbinom(p=%7" GNUM_FORMAT_g ", n=%" GNUM_FORMAT_g ", pr=%7" GNUM_FORMAT_g ", l.t.=%d, loggnum=%d): sigm=%" GNUM_FORMAT_g ", gam=%" GNUM_FORMAT_g "\n",
+    REprintf("qbinom(p=%7" GNUM_FORMAT_g ", n=%" GNUM_FORMAT_g ", pr=%7" GNUM_FORMAT_g ", l.t.=%d, log=%d): sigm=%" GNUM_FORMAT_g ", gam=%" GNUM_FORMAT_g "\n",
 	     p,n,pr, lower_tail, log_p, sigma, gamma);
 #endif
     /* Note : "same" code in qpois.c, qbinom.c, qnbinom.c --

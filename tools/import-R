@@ -85,12 +85,15 @@ sub import_file {
 
 	    s/\bISNAN\b/isnangnum/g;
 	    s/\bR_FINITE\b/finitegnum/g;
-	    s/\b(sqrt|exp|log|pow|log1p|floor|sin|sinh)\b/$1gnum/g;
+	    s/\b(sqrt|exp|log|pow|log1p|floor|sin|sinh)(\s|$|\()/$1gnum$2/g;
 	    s/\bfabs\b/gnumabs/g;
 	    s/\bDBL_(EPSILON|MIN|MAX)/GNUM_$1/g;
 
 	    # Given a good compiler, this is better.
 	    s/\bM_LN2/loggnum(2)/g;
+	    # Specific optimization.
+	    s/\(y > 1e-6\)/\(1\)/;
+	    s/= expgnum\(y\) - 1;/= expm1gnum\(y\);/;
 
 	    # These are made static.
 	    s/^gnum_float\s+(pbeta_both|stirlerr|bd0|dpois_raw|chebyshev_init|chebyshev_eval|lgammacor|lbeta|pbeta_raw|dbinom_raw)/static gnum_float $1/;

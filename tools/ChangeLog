@@ -1,3 +1,8 @@
+2002-02-27  Morten Welinder  <terra@diku.dk>
+
+	* import-R (import_file): Work a little harder on reconising "log"
+ 	as a function name.  Optimize a exp(y)-1 case.
+
 2002-02-26  Morten Welinder  <terra@diku.dk>
 
 	* import-R (import_file): New tool.
