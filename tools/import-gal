@@ -21,7 +21,8 @@ die "$0: must specify gal directory on command line.\n"
     die "$0: cannot mkdir $dstdir: $!\n";
 
 my @files = ("color-group.c", "color-group.h",
-	     "color-palette.c", "color-palette.h",
+	     # Now changed in Gnumeric tree.
+	     # "color-palette.c", "color-palette.h",
 	     "widget-color-combo.c", "widget-color-combo.h",
 	     "widget-pixmap-combo.c", "widget-pixmap-combo.h",
 	     "gtk-combo-box.c", "gtk-combo-box.h",
