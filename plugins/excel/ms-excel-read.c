@@ -2400,7 +2400,7 @@ ms_excel_sheet_new (ExcelWorkbook *wb, const char *name)
 	ExcelSheet *ans = (ExcelSheet *) g_malloc (sizeof (ExcelSheet));
 
 	ans->gnum_sheet = sheet_new (wb->gnum_wb, name);
-	sheet_set_zoom_factor (ans->gnum_sheet, 1.);
+	sheet_set_zoom_factor (ans->gnum_sheet, 1., FALSE);
 
 	ms_container_init (&ans->container, &vtbl);
 
@@ -2457,21 +2457,60 @@ ms_excel_sheet_set_comment (ExcelSheet *sheet, int col, int row, const char *tex
 	}
 }
 
+/* FIXME : ick, need a somewhat less ugly way to handle this */
 static void
-ms_excel_sheet_append_comment (ExcelSheet *sheet, const char *text)
+ms_excel_read_comment (BiffQuery *q, ExcelSheet *sheet)
 {
-	if (text) {
-		Cell *cell = sheet_cell_fetch (sheet->gnum_sheet,
-					       sheet->comment_prev_col,
-					       sheet->comment_prev_row);
-		if (!cell->value)
-			cell_set_value (cell, value_new_empty(), NULL);
-		if (cell->comment && cell->comment->comment &&
-		    cell->comment->comment->str) {
-			char *txt = g_strconcat (cell->comment->comment->str, text, NULL);
-			cell_set_comment (cell, txt);
-			g_free (txt);
+	guint16 row = EX_GETROW(q);
+	guint16 col = EX_GETCOL(q);
+
+	if (sheet->container.ver >= MS_BIFF_V8) {
+		guint16 options = MS_OLE_GET_GUINT16(q->data+4);
+		guint16 obj_id  = MS_OLE_GET_GUINT16(q->data+6);
+		guint16 author_len = MS_OLE_GET_GUINT16(q->data+8);
+		char *author=biff_get_text(author_len%2?q->data+11:q->data+10,
+					   author_len, NULL);
+		int hidden;
+		if (options&0xffd)
+			printf ("FIXME: Error in options\n");
+		hidden = (options&0x2)==0;
+#ifndef NO_DEBUG_EXCEL
+		if (ms_excel_read_debug > 1) {
+			printf ("Comment at %d,%d id %d options"
+				" 0x%x hidden %d by '%s'\n",
+				col, row, obj_id, options,
+				hidden, author);
 		}
+#endif
+	} else {
+		guint16 author_len = MS_OLE_GET_GUINT16(q->data+4);
+		char *text=biff_get_text(q->data+6, author_len, NULL);
+#ifndef NO_DEBUG_EXCEL
+		if (ms_excel_read_debug > 1) {
+			printf ("Comment at %d,%d '%s'\n",
+				col, row, text);
+		}
+#endif
+
+		if (row != 0xffff || col != 0) {
+			ms_excel_sheet_set_comment (sheet, col, row, text);
+			sheet->comment_prev_col = col;
+			sheet->comment_prev_row = row;
+		} else if (text) {
+			Cell *cell = sheet_cell_fetch (sheet->gnum_sheet,
+						       sheet->comment_prev_col,
+						       sheet->comment_prev_row);
+			if (!cell->value)
+				cell_set_value (cell, value_new_empty(), NULL);
+			if (cell->comment && cell->comment->comment &&
+			    cell->comment->comment->str) {
+				char *txt = g_strconcat (cell->comment->comment->str, text, NULL);
+				cell_set_comment (cell, txt);
+				g_free (txt);
+			}
+		}
+
+		g_free (text);
 	}
 }
 
@@ -2663,8 +2702,12 @@ biff_get_rk (const guint8 *ptr)
 }
 
 /* FIXME: S59DA9.HTM */
+/*
+ * ms_excel_read_name :
+ * read a Name.  The workbook must be present, the sheet is optional.
+ */
 static void
-ms_excel_read_name (BiffQuery *q, ExcelSheet *sheet)
+ms_excel_read_name (BiffQuery *q, ExcelWorkbook *wb, ExcelSheet *sheet)
 {
 	guint16 fn_grp_idx;
 	guint16 flags          = MS_OLE_GET_GUINT16 (q->data);
@@ -2687,11 +2730,11 @@ ms_excel_read_name (BiffQuery *q, ExcelSheet *sheet)
 #endif
 	/* FIXME FIXME FIXME : Offsets have moved alot between versions.
 	 *                     track down the details */
-	if (sheet->container.ver >= MS_BIFF_V8) {
+	if (wb->container.ver >= MS_BIFF_V8) {
 		name_def_len   = MS_OLE_GET_GUINT16 (q->data + 4);
 		name_def_data  = q->data + 15 + name_len;
 		ptr = q->data + 14;
-	} else if (sheet->container.ver >= MS_BIFF_V7) {
+	} else if (wb->container.ver >= MS_BIFF_V7) {
 		name_def_len   = MS_OLE_GET_GUINT16 (q->data + 4);
 		name_def_data  = q->data + 14 + name_len;
 		ptr = q->data + 14;
@@ -2763,7 +2806,7 @@ ms_excel_read_name (BiffQuery *q, ExcelSheet *sheet)
 	}
 #endif
 
-	biff_name_data_new (sheet->wb, name, sheet_idx,
+	biff_name_data_new (wb, name, sheet_idx,
 			    name_def_data, name_def_len,
 			    FALSE, (sheet_idx != 0));
 
@@ -2779,12 +2822,12 @@ ms_excel_read_name (BiffQuery *q, ExcelSheet *sheet)
 
 /* S59D7E.HTM */
 static void
-ms_excel_externname (BiffQuery *q, ExcelSheet *sheet)
+ms_excel_externname (BiffQuery *q, ExcelWorkbook *wb, ExcelSheet *sheet)
 {
 	char const *name;
 	guint8 *defn;
 	guint16 defnlen;
-	if (sheet->container.ver >= MS_BIFF_V7) {
+	if (wb->container.ver >= MS_BIFF_V7) {
 		guint16 flags = MS_OLE_GET_GUINT8(q->data);
 		guint32 namelen = MS_OLE_GET_GUINT8(q->data+6);
 
@@ -2816,7 +2859,7 @@ ms_excel_externname (BiffQuery *q, ExcelSheet *sheet)
 				      MS_OLE_GET_GUINT8(q->data), NULL);
 	}
 
-	biff_name_data_new (sheet->wb, name, 0, defn, defnlen, TRUE, FALSE);
+	biff_name_data_new (wb, name, 0, defn, defnlen, TRUE, FALSE);
 }
 
 /**
@@ -3215,14 +3258,6 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
                 break;
 	}
 
-	case BIFF_EXTERNNAME:
-		ms_excel_externname(q, sheet);
-		break;
-
-	case BIFF_NAME:
-		ms_excel_read_name (q, sheet);
-		break;
-
 	case BIFF_IMDATA :
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug > 1) {
@@ -3464,7 +3499,7 @@ ms_excel_read_mergecells (BiffQuery *q, ExcelSheet *sheet)
 }
 
 static gboolean
-ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
+ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb, ExcelSheet *sheet)
 {
 	PrintInformation *pi;
 
@@ -3513,48 +3548,8 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 			break;
 
 		case BIFF_NOTE: /* See: S59DAB.HTM */
-		{
-			/* FIXME : ick, need a somewhat less */
-			guint16 row = EX_GETROW(q);
-			guint16 col = EX_GETCOL(q);
-			if (sheet->container.ver >= MS_BIFF_V8) {
-				guint16 options = MS_OLE_GET_GUINT16(q->data+4);
-				guint16 obj_id  = MS_OLE_GET_GUINT16(q->data+6);
-				guint16 author_len = MS_OLE_GET_GUINT16(q->data+8);
-				char *author=biff_get_text(author_len%2?q->data+11:q->data+10,
-							   author_len, NULL);
-				int hidden;
-				if (options&0xffd)
-					printf ("FIXME: Error in options\n");
-				hidden = (options&0x2)==0;
-#ifndef NO_DEBUG_EXCEL
-				if (ms_excel_read_debug > 1) {
-					printf ("Comment at %d,%d id %d options"
-						" 0x%x hidden %d by '%s'\n",
-						col, row, obj_id, options,
-						hidden, author);
-				}
-#endif
-			} else {
-				guint16 author_len = MS_OLE_GET_GUINT16(q->data+4);
-				char *text=biff_get_text(q->data+6, author_len, NULL);
-#ifndef NO_DEBUG_EXCEL
-				if (ms_excel_read_debug > 1) {
-					printf ("Comment at %d,%d '%s'\n",
-						col, row, text);
-				}
-#endif
-
-				if (row != 0xffff || col != 0) {
-					ms_excel_sheet_set_comment (sheet, col, row, text);
-					sheet->comment_prev_col = col;
-					sheet->comment_prev_row = row;
-				} else
-					ms_excel_sheet_append_comment (sheet, text);
-				g_free (text);
-			}
+			ms_excel_read_comment (q, sheet);
 			break;
-		}
 
 		case BIFF_PRINTGRIDLINES :
 			pi->print_line_divisions = (MS_OLE_GET_GUINT16 (q->data) == 1);
@@ -3726,7 +3721,7 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 				double const zoom = (double)MS_OLE_GET_GUINT16 (q->data) /
 					MS_OLE_GET_GUINT16 (q->data + 2);
 
-				sheet_set_zoom_factor (sheet->gnum_sheet, zoom);
+				sheet_set_zoom_factor (sheet->gnum_sheet, zoom, FALSE);
 			} else
 				g_warning ("Duff BIFF_SCL record");
 			break;
@@ -3741,6 +3736,13 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 
 		case BIFF_MERGECELLS:
 			ms_excel_read_mergecells (q, sheet);
+			break;
+
+		case BIFF_EXTERNNAME:
+			ms_excel_externname (q, sheet->wb, sheet);
+			break;
+		case (BIFF_NAME & 0xff) : /* Why here and not as 18 */
+			ms_excel_read_name (q, sheet->wb, sheet);
 			break;
 
 		default:
@@ -4009,7 +4011,7 @@ ms_excel_read_workbook (CommandContext *context, Workbook *workbook,
 					gboolean    kill  = FALSE;
 
 					ms_excel_sheet_set_version (sheet, ver->version);
-					if (ms_excel_read_sheet (sheet, q, wb)) {
+					if (ms_excel_read_sheet (q, wb, sheet)) {
 						ms_container_realize_objs (&sheet->container);
 
 #if 0
@@ -4220,20 +4222,11 @@ ms_excel_read_workbook (CommandContext *context, Workbook *workbook,
 			break;
 
 		case BIFF_EXTERNNAME :
-		case (BIFF_NAME & 0xff) : /* Why here and not as 18 */
-		{
-			/* Create a pseudo-sheet */
-			ExcelSheet sheet;
-			sheet.wb = wb;
-			sheet.container.ver = ver->version;
-			sheet.gnum_sheet = NULL;
-			sheet.shared_formulae = NULL;
-			if (q->ls_op == (BIFF_EXTERNNAME&0xff))
-				ms_excel_externname (q, &sheet);
-			else
-				ms_excel_read_name (q, &sheet);
+			ms_excel_externname (q, wb, NULL);
 			break;
-		}
+		case (BIFF_NAME & 0xff) : /* Why here and not as 18 */
+			ms_excel_read_name (q, wb, NULL);
+			break;
 
 		case BIFF_BACKUP :
 			break;

@@ -330,13 +330,13 @@ gnumeric_rank (FunctionEvalInfo *ei, Value **argv)
 
 static char *help_trimmean = {
 	N_("@FUNCTION=TRIMMEAN\n"
-	   "@SYNTAX=TRIMMEAN(ref,percent)\n"
+	   "@SYNTAX=TRIMMEAN(ref,fraction)\n"
 
 	   "@DESCRIPTION="
 	   "TRIMMEAN returns the mean of the interior of a data set. @ref "
 	   "is the list of numbers whose mean you want to calculate and "
-	   "@percent is the percentage of number excluded from the mean. "
-	   "For example, if @percent=0.2 and the data set contains 40 "
+	   "@fraction is the fraction of the data set excluded from the mean. "
+	   "For example, if @fraction=0.2 and the data set contains 40 "
 	   "numbers, 8 numbers are trimmed from the data set (40 x 0.2), 4 "
 	   "from the top and 4 from the bottom of the set. "
 	   "This function is Excel compatible. "
@@ -423,7 +423,7 @@ static char *help_correl = {
 	   "@SYNTAX=CORREL(array1,array2)\n"
 
 	   "@DESCRIPTION="
-	   "CORREL returns the correllation coefficient of two data sets."
+	   "CORREL returns the correlation coefficient of two data sets."
 	   "\n"
 	   "Strings and empty cells are simply ignored. "
 	   "This function is Excel compatible. "
@@ -751,7 +751,9 @@ static char *help_harmean = {
 	   "@SYNTAX=HARMEAN(b1, b2, ...)\n"
 
 	   "@DESCRIPTION="
-	   "HARMEAN returns the harmonic mean of the N data points. "
+	   "HARMEAN returns the harmonic mean of the N data points "
+	   "(that is, N divided by the sum of the inverses of "
+	   "the data points). "
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -2268,7 +2270,7 @@ static char *help_pearson = {
 	   "@SYNTAX=PEARSON(array1,array2)\n"
 
 	   "@DESCRIPTION="
-	   "PEARSON returns the Pearson correllation coefficient of two data "
+	   "PEARSON returns the Pearson correlation coefficient of two data "
 	   "sets."
 	   "\n"
 	   "Strings and empty cells are simply ignored. "
@@ -2293,7 +2295,7 @@ static char *help_rsq = {
 	   "@SYNTAX=RSQ(array1,array2)\n"
 
 	   "@DESCRIPTION="
-	   "RSQ returns the square of the Pearson correllation coefficient "
+	   "RSQ returns the square of the Pearson correlation coefficient "
 	   "of two data sets."
 	   "\n"
 	   "Strings and empty cells are simply ignored. "
@@ -3214,8 +3216,9 @@ static char *help_percentile = {
 	   "@SYNTAX=PERCENTILE(array,k)\n"
 
 	   "@DESCRIPTION="
-	   "PERCENTILE function returns the k-th percentile of the given data "
-	   "points.  "
+	   "PERCENTILE function returns the 100*@k-th percentile "
+	   "of the given data points (that is, a number x such "
+	   "that a fraction @k of the data points are less than x).  "
 	   "\n"
 	   "If @array is empty, PERCENTILE returns #NUM! error. "
 	   "If @k < 0 or @k > 1, PERCENTILE returns #NUM! error. "

@@ -654,7 +654,7 @@ applix_get_sheet (ApplixReadState *state, char **buffer,
 	if (sheet == NULL) {
 		sheet = sheet_new (state->wb, *buffer);
 		workbook_attach_sheet (state->wb, sheet);
-		sheet_set_zoom_factor (sheet, (double )(state->zoom) / 100.);
+		sheet_set_zoom_factor (sheet, (double )(state->zoom) / 100., FALSE);
 	}
 
 	*buffer = tmp+1;
@@ -874,7 +874,11 @@ applix_read_cells (ApplixReadState *state)
 		cell = sheet_cell_fetch (sheet, col, row);
 
 		/* Apply the formating */
+#if 0
+		sheet_style_attach_single (sheet, col, row, style);
+#else
 		cell_set_mstyle (cell, style);
+#endif
 		if (mstyle_is_element_set (style, MSTYLE_BORDER_BOTTOM)) {
 			Range r;
 			MStyle *tmp = mstyle_new ();

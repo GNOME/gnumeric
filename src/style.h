@@ -52,6 +52,7 @@ struct _StyleFont {
 	double             scale;
 	GnomeDisplayFont  *dfont;
 	GnomeFont         *font;
+	GdkFont		  *gdk_font;
 
 	unsigned int is_bold:1;
 	unsigned int is_italic:1;
@@ -99,7 +100,6 @@ StyleFont     *style_font_new_simple  (const char *font_name,
 				       double size, double scale,
 				       gboolean bold, gboolean italic);
 GdkFont       *style_font_gdk_font    (StyleFont const * const sf);
-GnomeFont     *style_font_gnome_font  (StyleFont const * const sf);
 int            style_font_get_height  (StyleFont const * const sf);
 void           style_font_ref         (StyleFont *sf);
 void           style_font_unref       (StyleFont *sf);

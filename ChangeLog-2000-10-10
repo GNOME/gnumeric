@@ -1,3 +1,26 @@
+
+2000-07-16  James R. Van Zandt  <jrv@vanzandt.mv.com>
+
+	* src/functions/fn-math.c: Misc. documentation cleanups.
+
+	* src/functions/fn-stat.c: Misc. documentation cleanups.
+
+	* src/functions/fn-eng.c: Fix nomenclature in erf and Bessel
+	  function documentation.  erf() accepts negative arguments.
+
+2000-07-24  Jody Goldberg <jgoldberg@home.com>
+
+	* src/colrow.c (col_row_set_visibility_list) : Fix typo in name.
+
+	* src/sheet.c (sheet_set_zoom_factor) : Set the default zoom to 1.
+	  (rather than the hackish -1) and add a 'force' flag to force an
+	  update even if the new zoom is close to the current zoom.
+
+	* src/workbook.c (change_zoom_in_current_sheet_cb) : Adjust to changes
+	  in sheet_set_zoom_factor.
+	* src/dialogs/dialog-zoom.c (dialog_zoom_impl) : Ditto.
+	* src/xml-io.c (xml_sheet_read) : Ditto.
+
 2000-07-21  JP Rosevear  <jpr@arcavia.com>
 
 	* src/sort.c (sort_contents): Add another level of indirection

@@ -354,14 +354,14 @@ col_row_vis_list_destroy (ColRowVisList *list)
 }
 
 /*
- * col_row_set_visiblity :
+ * col_row_set_visibility_list :
  *
  * This is the high level command that is wrapped by undo and redo.
  * It should not be called by other commands.
  */
 void
-col_row_set_visiblity (Sheet *sheet, gboolean const is_cols,
-		       gboolean const visible, ColRowVisList *list)
+col_row_set_visibility_list (Sheet *sheet, gboolean const is_cols,
+			     gboolean const visible, ColRowVisList *list)
 {
 	/* Trivial optimization */
 	if (list == NULL)

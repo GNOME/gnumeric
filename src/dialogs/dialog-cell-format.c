@@ -1146,19 +1146,18 @@ static void
 cb_font_changed (GtkWidget *widget, GtkStyle *previous_style, FormatState *state)
 {
 	FontSelector *font_sel;
-	GnomeDisplayFont *gnome_display_font;
+	GnomeFont const *gnome_font;
 
 	g_return_if_fail (state != NULL);
 
 	font_sel = state->font.selector;
 	g_return_if_fail (font_sel != NULL);
 
-	gnome_display_font = font_sel->display_font;
-	if (!gnome_display_font)
+	gnome_font = font_sel->gnome_font;
+	if (!gnome_font)
 		return;
 
 	if (state->enable_edit && font_sel->size >= 1.) {
-		GnomeFont const * const gnome_font = gnome_display_font->gnome_font;
 		gchar const * const family_name = gnome_font_get_family_name (gnome_font);
 		GnomeFontWeight const weight_code = gnome_font_get_weight_code (gnome_font);
 

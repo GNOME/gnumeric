@@ -148,12 +148,13 @@ style_font_new_simple (const char *font_name, double size, double scale,
 			return NULL;
 		}
 
-		/*
-		 * Worst case scenario
-		 */
-		if (font->dfont->gdk_font == NULL)
-			font->dfont->gdk_font = gdk_font_load ("fixed");
-		
+		/* Worst case scenario */
+		font->gdk_font = gnome_display_font_get_gdk_font (font->dfont);
+		if (font->gdk_font == NULL)
+			font->gdk_font = gdk_font_load ("fixed");
+		else
+			gdk_font_ref (font->gdk_font);
+
 		font->font = gnome_font_new_closest (
 			font_name,
 			bold ? GNOME_FONT_BOLD : GNOME_FONT_BOOK,
@@ -223,15 +224,7 @@ style_font_gdk_font (StyleFont const * const sf)
 {
 	g_return_val_if_fail (sf != NULL, NULL);
 
-	return sf->dfont->gdk_font;
-}
-
-GnomeFont *
-style_font_gnome_font (StyleFont const * const sf)
-{
-	g_return_val_if_fail (sf != NULL, NULL);
-
-	return sf->dfont->gnome_font;
+	return sf->gdk_font;
 }
 
 int
@@ -275,6 +268,7 @@ style_font_unref (StyleFont *sf)
 		return;
 
 	gtk_object_unref (GTK_OBJECT (sf->font));
+	gdk_font_unref (sf->gdk_font);
 
 	g_hash_table_remove (style_font_hash, sf);
 	g_free (sf->font_name);

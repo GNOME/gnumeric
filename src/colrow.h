@@ -62,7 +62,7 @@ void		 col_row_set_visibility	      (Sheet *sheet, gboolean const is_col,
 ColRowVisList	*col_row_get_visiblity_toggle (Sheet *sheet, gboolean const is_col,
 					       gboolean const visible);
 ColRowVisList	*col_row_vis_list_destroy     (ColRowVisList *list);
-void		 col_row_set_visiblity        (Sheet *sheet, gboolean const is_col,
+void		 col_row_set_visibility_list  (Sheet *sheet, gboolean const is_col,
 					       gboolean const visible,
 					       ColRowVisList *list);
 

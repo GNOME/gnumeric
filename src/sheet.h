@@ -141,7 +141,7 @@ void        sheet_destroy              	 (Sheet *sheet);
 void        sheet_destroy_contents       (Sheet *sheet);
 void        sheet_rename                 (Sheet *sheet, const char *new_name);
 
-void        sheet_set_zoom_factor      	 (Sheet *sheet, double factor);
+void        sheet_set_zoom_factor      	 (Sheet *sheet, double factor, gboolean force);
 void        sheet_cursor_set             (Sheet *sheet,
 					  int edit_col, int edit_row,
 					  int base_col, int base_row,

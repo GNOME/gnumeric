@@ -487,7 +487,7 @@ xml2ParseSheetZoom (XML2ParseState *state)
 	g_return_if_fail (state->sheet != NULL);
 
 	if (xmlParseDouble (content, &zoom))
-		sheet_set_zoom_factor (state->sheet, zoom);
+		sheet_set_zoom_factor (state->sheet, zoom, FALSE);
 }
 
 static void

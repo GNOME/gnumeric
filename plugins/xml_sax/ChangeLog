@@ -1,3 +1,7 @@
+2000-07-24  Jody Goldberg <jgoldberg@home.com>
+
+	* xml2.c (xml2ParseSheetZoom) : Adjust to changes in sheet_set_zoom_factor.
+
 2000-07-07  Jody Goldberg <jgoldberg@home.com>
 
 	* xml2.c (xml2ParseStyleRegionBorders) : Make border color is optional

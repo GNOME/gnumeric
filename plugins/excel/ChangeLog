@@ -1,3 +1,8 @@
+2000-07-24  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_read_sheet) : Adjust to changes in sheet_set_zoom_factor.
+	(ms_excel_sheet_new) : Ditto.
+
 2000-07-13  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-container.c : Beginings of a some support for workbooks, and charts holding objects.

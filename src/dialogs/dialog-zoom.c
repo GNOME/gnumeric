@@ -143,7 +143,7 @@ dialog_zoom_impl (Workbook *wb, Sheet *cur_sheet, GladeXML  *gui)
 		float const new_zoom = gtk_spin_button_get_value_as_int(zoom) / 100.;
 		for (l = list->selection; l != NULL ; l = l->next) {
 			Sheet * s = gtk_clist_get_row_data (list, GPOINTER_TO_INT(l->data));
-			sheet_set_zoom_factor (s, new_zoom);
+			sheet_set_zoom_factor (s, new_zoom, FALSE);
 		}
 	}
 

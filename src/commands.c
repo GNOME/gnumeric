@@ -1603,8 +1603,8 @@ cmd_hide_row_col_undo (GnumericCommand *cmd, CommandContext *context)
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
-	col_row_set_visiblity (me->sheet, me->is_cols,
-			       !me->visible, me->elements);
+	col_row_set_visibility_list (me->sheet, me->is_cols,
+				     !me->visible, me->elements);
 
 	sheet_set_dirty (me->sheet, TRUE);
 	sheet_update (me->sheet);
@@ -1619,8 +1619,8 @@ cmd_hide_row_col_redo (GnumericCommand *cmd, CommandContext *context)
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
-	col_row_set_visiblity (me->sheet, me->is_cols,
-			       me->visible, me->elements);
+	col_row_set_visibility_list (me->sheet, me->is_cols,
+				     me->visible, me->elements);
 
 	sheet_set_dirty (me->sheet, TRUE);
 	sheet_update (me->sheet);

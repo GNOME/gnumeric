@@ -58,7 +58,7 @@ reload_preview (FontSelector *fs)
 		 return;
 	 }
 
-	 if (!display_font->gdk_font) {
+	 if (gnome_display_font_get_gdk_font (display_font) == NULL) {
 		 gtk_object_unref (GTK_OBJECT (gnome_font));
 		 return;
 	 }
@@ -71,7 +71,7 @@ reload_preview (FontSelector *fs)
 
 	 style = gtk_style_copy (fs->font_preview->style);
 	 gdk_font_unref (style->font);
-	 style->font = fs->display_font->gdk_font;
+	 style->font = gnome_display_font_get_gdk_font (display_font);
 	 gdk_font_ref (style->font);
 
 	 gtk_widget_set_style (fs->font_preview, style);
