@@ -1662,11 +1662,17 @@ xml_write_styles (parse_xml_context_t *ctxt, GList *l)
 	if (!l)
 		return NULL;
 
+	/* Skip the "full sheet" style */
+	
+	l = l->next;
+	if (!l)
+		return NULL;
+	
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Styles", NULL);
-	while (l && l->next) {
+	for (; l; l = l->next) {
 		StyleRegion *sr = l->data;
+
 		xmlAddChild (cur, xml_write_style_region (ctxt, sr));
-		l = g_list_next (l);
 	}
 	
 	return cur;
