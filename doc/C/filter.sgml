@@ -22,14 +22,37 @@
      `Profit' you could type `>=1000'.  The tool selects only rows
      that match all the criteria.</para>
 
+     <figure id="advanced-filter-1-figure">
+       <title>Worksheet containing the table to be filtered and a
+       simple criteria.</title>
+       <screenshot>
+         <graphic fileref="images/advanced-filter-1.png"></graphic>
+       </screenshot>
+     </figure>
+
      <para>It is possible to have many conditions for a single label.
      For example, you can select the departments whose profit is
      either very high or very low.  To do this, type, for example,
-     `<=0' below the `>=1000' condition.</para>
+     `<=0' below the `>=40000' condition.</para>
+
+     <figure id="advanced-filter-2-figure">
+       <title>Criteria for selecting rows whose `Profit' column is between
+       0 and 40000.</title>
+       <screenshot>
+         <graphic fileref="images/advanced-filter-2.png"></graphic>
+       </screenshot>
+     </figure>
 
      <para>To start the tool, select ``Advanced Filter'' from the
      ``Data'' menu.  It brings you the advanced filter dialog.  In the
      dialog, select the action you want to take.</para>
+
+     <figure id="advanced-filter-dialog-figure">
+       <title>The Advanced Filter dialog.</title>
+       <screenshot>
+         <graphic fileref="images/filter.png"></graphic>
+       </screenshot>
+     </figure>
 
      <para>``Filter in-place'' writes the new table in-place.  Note
      that you will loose all the rows in the table that will not match
