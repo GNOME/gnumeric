@@ -1395,8 +1395,8 @@ excel_palette_get (ExcelPalette const *pal, gint idx)
 
 	idx -= 8;
 	if (idx < 0 || pal->length <= idx) {
-		g_warning ("EXCEL: color index (%d) is out of range (0..%d). Defaulting to black",
-			   idx + 8, pal->length);
+		g_warning ("EXCEL: color index (%d) is out of range (8..%d). Defaulting to black",
+			   idx + 8, pal->length+8);
 		return style_color_black ();
 	}
 
