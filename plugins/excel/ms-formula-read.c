@@ -1347,28 +1347,47 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 
 			/* WARNING : No documentation for this.  However this seems
 			 * to make sense.
+			 *
+			 * NOTE :
+			 * I cheat here.
+			 * This reference is really to the entire row/col
+			 * left/below the specified cell.
+			 *
+			 * However we don't support that feature in gnumeric
+			 * nor do we support taking the intersection of the
+			 * vector and the calling cell.
+			 *
+			 * So
+			 *
+			 * Cheat.  and perform the intersection here.
+			 *
+			 * ie
+			 * A1 : x
+			 * A2 : 2  B2 : =x^2
+			 *
+			 * x is an eptgElfColV.  I replace that with a2
 			 */
 			if (eptg_type == 0x06 || /* eptgElfRwV,	 No,  Value */
 			    eptg_type == 0x07) { /* eptgElfColV, No,  Value */
-				CellRef end;
-				CellRef *start = getRefV8 (MS_OLE_GET_GUINT16(cur + 1),
-							   MS_OLE_GET_GUINT16(cur + 3),
-							   fn_col, fn_row, shared);
+				CellRef *ref = getRefV8 (MS_OLE_GET_GUINT16(cur + 1),
+							 MS_OLE_GET_GUINT16(cur + 3),
+							 fn_col, fn_row, shared);
 
-				if (start) {
-					end = *start;
+				if (ref) {
 					if (eptg_type == 0x07) { /* Column */
-						end.row = SHEET_MAX_ROWS-1;
-						if (start->row_relative)
-							end.row -= fn_row;
+						if (ref->row_relative)
+							ref->row = 0;
+						else
+							ref->row = fn_row;
 					} else { 		 /* Row */
-						end.col = SHEET_MAX_COLS-1;
-						if (start->col_relative)
-							end.col -= fn_col;
+						if (ref->col_relative)
+							ref->col = 0;
+						else
+							ref->col = fn_col;
 					}
 
-					parse_list_push_raw (&stack, value_new_cellrange (start, &end));
-					g_free (start) ;
+					parse_list_push (&stack, expr_tree_new_var (ref));
+					g_free (ref) ;
 				}
 			} else {
 				printf ("-------------------\n");

@@ -1,5 +1,13 @@
 1999-11-26  Jody Goldberg <jgoldberg@home.com>
 
+	* ms-formula-read.c (ms_excel_parse_formula) : DOH!
+	  why wait to implement the implicit intersetion in the core.
+	  We know that this will require such an intersection.  So do
+	  the work here.  This results in the same sheet that XL produces
+	  if you turn off the 'use labels as names' feature.
+
+1999-11-26  Jody Goldberg <jgoldberg@home.com>
+
 	* ms-formula-read.c (ms_excel_parse_formula) : Add support for
 	  extended-ptg ElfColV and ElfRowV.  They seem to refer to the
 	  use of an implicit vector defined by a column header.
