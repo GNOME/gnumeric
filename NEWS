@@ -1,5 +1,11 @@
 Gnumeric 0.57
 
+Kenneth:
+	* Created xml2pot script, and integrated it with Gnumeric
+	* Update update.pl script to make it more genetic, and work
+	  with the xml2pot script. It actually now requires it.
+	* Updated the spec file a little.
+
 Almer:
 	* Fix stf importer bugs.
 	* Add "Autodiscovery" feature to stf fixed width importer.
@@ -72,7 +78,7 @@ Weston:
 	* Implement DateDif.
 
 Translations:
-	* Updated: da (Kenneth/Keld?), de (Karl), en_GB (Robert), ko
+	* Updated: da (Kenneth and Keld), de (Karl), en_GB (Robert), ko
 	  (Sung-Hyun Nam), no (Kjartan), ru (Valek), uk (Yuri), maybe more.
 	* Update not new, but not mentioned the last time: pl (Zbigniew).
 	* Updated: nl (Almer). Not all done yet.
