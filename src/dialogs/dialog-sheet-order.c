@@ -604,10 +604,14 @@ cb_ok_clicked (GtkWidget *ignore, SheetManager *state)
 	changed_names = g_slist_reverse (changed_names);
 	old_order = g_slist_copy (state->old_order);
 	
-	if (deleted_sheets && 
+	if ((new_order == NULL) || (deleted_sheets && 
 	    !gnumeric_dialog_question_yes_no (state->wbcg,
 					      _("Deletion of sheets is not undoable. "
-						"Do you want to proceed?"), FALSE)) {
+						"Do you want to proceed?"), FALSE))) {
+		if (new_order == NULL)
+			gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR, 
+					 _("You may not delete all sheets in a workbook!"));
+		
 		/* clean-up */
 		g_slist_free (deleted_sheets);
 		deleted_sheets = NULL;

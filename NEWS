@@ -3,6 +3,9 @@ Gnumeric 1.1.10
 Andreas:
 	* Add XHTML exporter
 
+Chris Benedict:
+	* Do not allow all sheets in a workbook to be deleted.
+
 Jody:
 	* Decrease GAL dependence.
 	* More work on opencalc importer.

@@ -1,3 +1,8 @@
+2002-10-02  Chris Benedict  <deadeyedan@hotmail.com>
+
+	* dialog-sheet-order.c (cb_ok_clicked) : Do not allow all sheets to
+	  be deleted
+
 2002-10-02  Morten Welinder  <terra@diku.dk>
 
 	* dialog-search.c: Use custom model.
