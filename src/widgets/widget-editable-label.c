@@ -83,6 +83,11 @@ el_set_style_label (EditableLabel *el)
 				el->base_set ? &el->base : NULL);
 	gtk_widget_modify_text (w, GTK_STATE_NORMAL, 
 				el->text_set ? &el->text : NULL);
+
+	gtk_widget_modify_base (w, GTK_STATE_ACTIVE, 
+				el->base_set ? &el->base : NULL);
+	gtk_widget_modify_text (w, GTK_STATE_ACTIVE, 
+				el->text_set ? &el->text : NULL);
 }
 
 static void

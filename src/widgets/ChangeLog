@@ -1,5 +1,12 @@
 2003-08-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=118888
+	* widget-editable-label.c (el_set_style_label): apply colours also 
+	  to active state
+
+2003-08-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=118889
 	* widget-editable-label.c (el_set_style_label): use el->*_set
 	(editable_label_set_color): NULL means mark colours as not-set
 
