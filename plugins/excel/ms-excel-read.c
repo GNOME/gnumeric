@@ -2882,12 +2882,6 @@ ms_excel_read_selection (ExcelSheet *sheet, BiffQuery *q)
 	sheet_cursor_set (sheet->gnum_sheet,
 			  act_col, act_row, act_col, act_row, act_col, act_row);
 
-	/* FIXME FIXME FIXME : For now make the current cell visible.
-	 * We know the real cell to put in the upper left corner but can not use that
-	 * until we also use the saved size.
-	 */
-	sheet_make_cell_visible (sheet->gnum_sheet, act_col, act_row);
-
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug > 1) {
 		printf ("Done selection\n");
@@ -3313,35 +3307,38 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 				break;
 
 			case BIFF_WINDOW2: /* FIXME: see S59E18.HTM */
-			{
-				int top_vis_row, left_vis_col, back_color;
-				guint16 options;
-
-				if (q->length < 8) {
-					printf ("Duff window data");
-					break;
-				}
-
-				options      = MS_OLE_GET_GUINT16(q->data + 0);
-				top_vis_row  = MS_OLE_GET_GUINT16(q->data + 2);
-				left_vis_col = MS_OLE_GET_GUINT16(q->data + 4);
-				back_color   = MS_OLE_GET_GUINT16(q->data + 6);
+			if (q->length >= 10) {
+				guint16 const options    = MS_OLE_GET_GUINT16(q->data + 0);
+				guint16 const top_row    = MS_OLE_GET_GUINT16(q->data + 2);
+				guint16 const left_col   = MS_OLE_GET_GUINT16(q->data + 4);
+				guint32 const grid_color = MS_OLE_GET_GUINT32(q->data + 6);
 #ifndef NO_DEBUG_EXCEL
 				if (ms_excel_read_debug > 0) {
 					if (options & 0x0001)
 						printf ("FIXME: Sheet display formulae\n");
 					if (options & 0x0200)
 						printf ("Sheet flag selected\n");
-					printf ("Default grid & pattern color = 0x%x\n",
-						back_color);
+					printf ("Default grid & pattern color = 0x%hx\n",
+						grid_color);
 				}
 #endif
 				if (options & 0x0400) {
 					workbook_focus_sheet (sheet->gnum_sheet);
 					/* printf ("Sheet top in workbook\n"); */
 				}
-				break;
 			}
+#ifndef NO_DEBUG_EXCEL
+			if (q->length >= 14) {
+				guint16 const pageBreakZoom = MS_OLE_GET_GUINT16(q->data + 10);
+				guint16 const normalZoom = MS_OLE_GET_GUINT16(q->data + 12);
+
+				if (ms_excel_read_debug > 2) {
+					printf ("%hx %hx\n", normalZoom, pageBreakZoom);
+				}
+#endif
+			}
+			break;
+
 			default:
 				ms_excel_read_cell (q, sheet);
 				break;

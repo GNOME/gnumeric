@@ -1,3 +1,8 @@
+2000-01-03  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_read_sheet) : extend support for WINDOW2.
+	(ms_excel_read_selection) : Remove hack to set visible location.
+
 1999-12-30  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (ms_excel_workbook_new) : Return error messages.
