@@ -1,3 +1,9 @@
+1999-11-13  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/sheet-style.c (sheet_selection_get_unique_style): kill bug
+	with conflicting diagonals. (sheet_unique_cb): don't destroy
+	valuable vert/horiz info in no middle case.
+
 1999-11-12  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/dialogs/dialog-cell-format.c (fmt_dialog_impl): unref the

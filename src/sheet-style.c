@@ -1358,13 +1358,6 @@ sheet_unique_cb (Sheet *sheet, Range const *range,
 	}
 
 	/* 6. Setup defaults for selector */
-	if (!middle_valid) {
-		MStyleBorder *border = style_border_none ();
-		style_border_ref (border);
-		style_border_ref (border);
-		cl->borders [STYLE_BORDER_HORIZ] = border;
-		cl->borders [STYLE_BORDER_VERT]  = border;
-	}
 	for (i = STYLE_BORDER_TOP; i <= STYLE_BORDER_RIGHT; i++) {
 		if (!edge_valid [i])
 			cl->borders [i] = style_border_ref (
@@ -1424,10 +1417,17 @@ sheet_selection_get_unique_style (Sheet *sheet, MStyleBorder **borders)
 
 	selection_foreach_range (sheet, sheet_unique_cb, &cl);
 
-	border_mask (&cl, STYLE_BORDER_REV_DIAG,
-		     mstyle_get_border (cl.mstyle, MSTYLE_BORDER_REV_DIAGONAL));
-	border_mask (&cl, STYLE_BORDER_DIAG,
-		     mstyle_get_border (cl.mstyle, MSTYLE_BORDER_DIAGONAL));
+	if (!mstyle_is_element_conflict (cl.mstyle, MSTYLE_BORDER_REV_DIAGONAL))
+		border_mask (&cl, STYLE_BORDER_REV_DIAG,
+			     mstyle_get_border (cl.mstyle, MSTYLE_BORDER_REV_DIAGONAL));
+	else
+		border_invalidate (&cl, STYLE_BORDER_REV_DIAG);
+
+	if (!mstyle_is_element_conflict (cl.mstyle, MSTYLE_BORDER_DIAGONAL))
+		border_mask (&cl, STYLE_BORDER_DIAG,
+			     mstyle_get_border (cl.mstyle, MSTYLE_BORDER_DIAGONAL));
+	else
+		border_invalidate (&cl, STYLE_BORDER_DIAG);
  
 	if (style_debugging > 0) {
 		printf ("Uniq style is\n");
