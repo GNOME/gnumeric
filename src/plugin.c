@@ -33,9 +33,10 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/time.h>
-#include <unistd.h>
-#include <dirent.h>
 #include <locale.h>
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
+#endif
 #include <gmodule.h>
 #include <application.h>
 
@@ -1319,26 +1320,25 @@ static GSList *
 plugin_info_list_read_for_subdirs_of_dir (const gchar *dir_name, ErrorInfo **ret_error)
 {
 	GSList *plugin_info_list = NULL;
-	DIR *dir;
-	struct dirent *entry;
+	GDir *dir;
+	char const *d_name;
 	GSList *error_list = NULL;
 
 	g_return_val_if_fail (dir_name != NULL, NULL);
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
-	dir = opendir (dir_name);
-	if (dir == NULL) {
+	dir = g_dir_open (dir_name, 0, NULL);
+	if (dir == NULL)
 		return NULL;
-	}
-	while ((entry = readdir (dir)) != NULL) {
+
+	while ((d_name = g_dir_read_name (dir)) != NULL) {
 		gchar *full_entry_name;
 		ErrorInfo *error;
 		GnmPlugin *pinfo;
 
-		if (strcmp (entry->d_name, ".") == 0 || strcmp (entry->d_name, "..") == 0) {
+		if (strcmp (d_name, ".") == 0 || strcmp (d_name, "..") == 0)
 			continue;
-		}
-		full_entry_name = g_build_filename (dir_name, entry->d_name, NULL);
+		full_entry_name = g_build_filename (dir_name, d_name, NULL);
 		pinfo = plugin_info_read_for_dir (full_entry_name, &error);
 		if (pinfo != NULL) {
 			GNM_SLIST_PREPEND (plugin_info_list, pinfo);
@@ -1352,7 +1352,7 @@ plugin_info_list_read_for_subdirs_of_dir (const gchar *dir_name, ErrorInfo **ret
 		GNM_SLIST_REVERSE (error_list);
 		*ret_error = error_info_new_from_error_list (error_list);
 	}
-	closedir (dir);
+	g_dir_close (dir);
 
 	return g_slist_reverse (plugin_info_list);
 }

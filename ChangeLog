@@ -1,3 +1,10 @@
+2004-12-03  Jody Goldberg <jody@gnome.org>
+
+	* src/file-autoft.c (category_get_templates_list) : Use GDir in place
+	  of struct dirent this is more portable.
+	(category_list_get_from_dir_list) : ditto.
+	* src/plugin.c (plugin_info_list_read_for_subdirs_of_dir) : ditto.
+
 2004-11-30  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=160046
