@@ -247,7 +247,7 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 		{
 			int indentation_levels;
 			int indentation_level;
-			int i = 0;
+			guint i = 0;
 			GodDefaultAttributes *default_attributes;
 			gboolean first = TRUE;
 
@@ -266,6 +266,7 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 			}
 			for (indentation_level = 0; indentation_level < indentation_levels; indentation_level ++) {
 				GList *pango_attributes = NULL;
+				GodParagraphAttributes *para_attributes = god_paragraph_attributes_new ();
 				guint32 fields;
 
 				/* Paragraph Attributes */
@@ -273,22 +274,30 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 				i += 4;
 
 				/*				g_print ("%d: %x\n", indentation_level, fields);*/
-				if (fields & 0x000f)
+				if (fields & 0x000f) {
 					i += 2; /* Bullet Flags */
-				if (fields & 0x0080)
+				}
+				if (fields & 0x0080) {
+					g_object_set (para_attributes, "bullet_character", (guint) (GSF_LE_GET_GUINT16 (data + i)), NULL);
 					i += 2; /* Bullet Char */
-				if (fields & 0x0010)
+				}
+				if (fields & 0x0010) {
+					guint font_index = GSF_LE_GET_GUINT16 (data + i);
+					if (font_index < parse_user_data->fonts->len &&
+					    g_ptr_array_index (parse_user_data->fonts, font_index)) {
+						g_object_set (para_attributes, "bullet_family", g_ptr_array_index (parse_user_data->fonts, font_index), NULL);
+					}
 					i += 2; /* Bullet Font */
-				if (fields & 0x0040)
+				}
+				if (fields & 0x0040) {
+					g_object_set (para_attributes, "bullet_size", (double) GSF_LE_GET_GUINT16 (data + i) / 100.0, NULL);
 					i += 2; /* Bullet Height */
+				}
 				if (fields & 0x0020)
 					i += 4; /* Bullet Color */
-				if (first) {
-					if (fields & 0x0f00)
-						i += 2; /* Justification last 2 bits */
-				} else {
-					if (fields & 0x0800)
-						i += 2; /* Justification last 2 bits */
+				if (first ? (fields & 0x0f00) : (fields & 0x0800)) {
+					g_object_set (para_attributes, "alignment", (guint) ((GSF_LE_GET_GUINT16 (data + i)) & 3), NULL);
+					i += 2; /* Justification last 2 bits */
 				}
 				if (fields & 0x1000)
 					i += 2; /* line feed */
@@ -297,41 +306,88 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 				if (fields & 0x4000)
 					i += 2; /* lower dist */
 				if (first) {
-					if (fields & 0x8000)
+					if (fields & 0x8000) {
+						g_object_set (para_attributes, "indent", (double) (GO_IN_TO_UN ((go_unit_t) GSF_LE_GET_GUINT16 (data + i)) / 576), NULL);
 						i += 2; /* Text offset */
-					if (fields & 0x00010000)
+						if (i > record->length)
+							break;
+					}
+					if (fields & 0x00010000) {
+						g_object_set (para_attributes, "bullet_indent", (double) (GO_IN_TO_UN ((go_unit_t) GSF_LE_GET_GUINT16 (data + i)) / 576), NULL);
 						i += 2; /* Bullet offset */
-					if (fields & 0x00020000) 
+						if (i > record->length)
+							break;
+					}
+					if (fields & 0x00020000) {
 						i += 2; /* Default tab */
+						if (i > record->length)
+							break;
+					}
 					if (fields & 0x00200000) {
 						guint tab_count = GSF_LE_GET_GUINT16 (data + i);
 						i += 2 + tab_count * 4; /* Tabs */
+						if (i > record->length)
+							break;
 					}
-					if (fields & 0x00040000)
+					if (fields & 0x00040000) {
 						i += 2; /* Unknown */
-					if (fields & 0x00080000)
+						if (i > record->length)
+							break;
+					}
+					if (fields & 0x00080000) {
 						i += 2; /* Asian Line Break */
-					if (fields & 0x00100000)
+						if (i > record->length)
+							break;
+					}
+					if (fields & 0x00100000) {
 						i += 2; /* bidi */
+						if (i > record->length)
+							break;
+					}
 				} else {
-					if (fields & 0x8000)
+					if (fields & 0x8000) {
 						i += 2; /* Unknown */
-					if (fields & 0x0100)
+						if (i > record->length)
+							break;
+					}
+					if (fields & 0x0100) {
+						g_object_set (para_attributes, "indent", (double) (GO_IN_TO_UN ((go_unit_t) GSF_LE_GET_GUINT16 (data + i)) / 576), NULL);
 						i += 2; /* Text offset */
-					if (fields & 0x0200)
+						if (i > record->length)
+							break;
+					}
+					if (fields & 0x0200) {
 						i += 2; /* Unknown */
-					if (fields & 0x0400)
+						if (i > record->length)
+							break;
+					}
+					if (fields & 0x0400) {
+						g_object_set (para_attributes, "bullet_indent", (double) (GO_IN_TO_UN ((go_unit_t) GSF_LE_GET_GUINT16 (data + i)) / 576), NULL);
 						i += 2; /* Bullet offset */
-					if (fields & 0x00010000)
+						if (i > record->length)
+							break;
+
+					}
+					if (fields & 0x00010000) {
 						i += 2; /* Unknown */
-					if (fields & 0x000e0000)
+						if (i > record->length)
+							break;
+					}
+					if (fields & 0x000e0000) {
 						i += 2; /* Asian Line Break some bits. */
+						if (i > record->length)
+							break;
+					}
 					if (fields & 0x00100000) {
 						guint tab_count = GSF_LE_GET_GUINT16 (data + i);
 						i += 2 + tab_count * 4; /* Tabs */
+						if (i > record->length)
+							break;
 					}
 					if (fields & 0x00200000) {
 						i += 2;
+						if (i > record->length)
+							break;
 					}
 				}
 
@@ -369,12 +425,13 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 
 				god_default_attributes_set_paragraph_attributes_for_indent (default_attributes,
 											    indentation_level,
-											    NULL);
+											    para_attributes);
 				god_default_attributes_set_pango_attributes_for_indent (default_attributes,
 											indentation_level,
 											pango_attributes);
 				g_list_foreach (pango_attributes, (GFunc) pango_attribute_destroy, NULL);
 				g_list_free (pango_attributes);
+				g_object_unref (para_attributes);
 
 				first = FALSE;
 			}
@@ -483,6 +540,7 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 					int end;
 					guint fields;
 					int section_length = GSF_LE_GET_GUINT32 (data + i);
+					para_attr = god_paragraph_attributes_new ();
 					sublen += 4;
 					indent_type = GSF_LE_GET_GUINT16 (data + i + sublen);
 					sublen += 2;
@@ -491,24 +549,7 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 
 					sublen += 12;
 					if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_ALIGNMENT) {
-#if 0
-						printf ("Alignment: ");
-						switch (GSF_LE_GET_GUINT16 (data + i + sublen)) {
-						case PARAGRAPH_ALIGNMENT_LEFT:
-							printf ("Left");
-							break;
-						case PARAGRAPH_ALIGNMENT_CENTER:
-							printf ("Center");
-							break;
-						case PARAGRAPH_ALIGNMENT_RIGHT:
-							printf ("Right");
-							break;
-						case PARAGRAPH_ALIGNMENT_JUSTIFY:
-							printf ("Justify");
-							break;
-						}
-						printf ("\n");
-#endif
+						g_object_set (para_attr, "alignment", (guint) GSF_LE_GET_GUINT16 (data + i + sublen));
 						sublen += 2;
 					}
 
@@ -520,6 +561,9 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 							space = 0x10000 - space;
 						}
 						space_before = space * (UN_PER_IN / 576.0);
+						g_object_set (para_attr,
+							      "space_before", space_before,
+							      NULL);
 						sublen += 2;
 					}
 					if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_SPACING_BELOW) {
@@ -529,17 +573,14 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 							space = 0x10000 - space;
 						}
 						space_after = space * (UN_PER_IN / 576.0);
+						g_object_set (para_attr,
+							      "space_after", space_after,
+							      NULL);
 						sublen += 2;
 					}
 					sublen += 2;
 					if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_UNKNOWN_1)
 						sublen += 2;
-					para_attr = god_paragraph_attributes_new ();
-					g_object_set (para_attr,
-						      "space_before", space_before,
-						      "space_after", space_after,
-						      "indent", (double) (indent_type * UN_PER_IN),
-						      NULL);
 					end = position;
 					while (section_length && end < text_len) {
 						section_length --;

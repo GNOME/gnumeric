@@ -28,6 +28,7 @@
 #include <gsf/gsf-impl-utils.h>
 #include <gdk/gdk.h>
 #include <string.h>
+#include <math.h>
 
 static GObjectClass *parent_class;
 
@@ -177,6 +178,21 @@ typedef struct {
 	const GodDefaultAttributes *default_attributes;
 } DrawTextContext;
 
+#ifdef PANGO_HACK
+static gboolean
+make_absolute (PangoAttribute *attr, gpointer user_data)
+{
+	DrawTextContext *draw_context = user_data;
+	if (attr->klass->type == PANGO_ATTR_SIZE &&
+	    ! ((PangoAttrSize *) attr)->absolute) {
+		PangoAttrSize *size_attr = (PangoAttrSize *) attr;
+		size_attr->size = GO_PT_TO_UN ((long long) size_attr->size) / draw_context->renderer->priv->y_units_per_pixel;
+		size_attr->absolute = TRUE;
+	}
+	return FALSE;
+}
+#endif
+
 static void
 draw_text (GodTextModel *text,
 	   GodTextModelParagraph *paragraph,
@@ -190,17 +206,88 @@ draw_text (GodTextModel *text,
 	double indent = 0;
 	const GList *iterator;
 	PangoAttrList *attributes;
-	if (paragraph->para_attributes)
+	GodParagraphAlignment alignment = GOD_PARAGRAPH_ALIGNMENT_LEFT;
+	const GodParagraphAttributes *default_para_attributes;
+	gunichar bullet_character = 0;
+	double bullet_indent = 0;
+	double bullet_size = 1.0;
+	char *bullet_family = NULL;
+	PangoFontDescription *bullet_desc;
+	PangoAttrIterator *attr_iterator;
+
+	if (draw_context->default_attributes) {
+		default_para_attributes = god_default_attributes_get_paragraph_attributes_for_indent ((GodDefaultAttributes *)draw_context->default_attributes, paragraph->indent);
+		if (default_para_attributes) {
+			g_object_get ((GodParagraphAttributes *) default_para_attributes,
+				      "space_before", &space_before,
+				      "space_after", &space_after,
+				      "indent", &indent,
+				      "alignment", &alignment,
+				      "bullet_character", &bullet_character,
+				      "bullet_indent", &bullet_indent,
+				      "bullet_size", &bullet_size,
+				      "bullet_family", &bullet_family,
+				      NULL);
+		}
+	}
+	if (paragraph->para_attributes) {
+		GodParagraphAttributesFlags flags;
 		g_object_get (paragraph->para_attributes,
-			      "space_before", &space_before,
-			      "space_after", &space_after,
-			      "indent", &indent,
+			      "flags", &flags,
 			      NULL);
+		if (flags & GOD_PARAGRAPH_ATTRIBUTES_FLAGS_SPACE_BEFORE)
+			g_object_get (paragraph->para_attributes,
+				      "space_before", &space_before,
+				      NULL);
+		if (flags & GOD_PARAGRAPH_ATTRIBUTES_FLAGS_SPACE_AFTER)
+			g_object_get (paragraph->para_attributes,
+				      "space_after", &space_after,
+				      NULL);
+		if (flags & GOD_PARAGRAPH_ATTRIBUTES_FLAGS_INDENT)
+			g_object_get (paragraph->para_attributes,
+				      "indent", &indent,
+				      NULL);
+		if (flags & GOD_PARAGRAPH_ATTRIBUTES_FLAGS_ALIGNMENT)
+			g_object_get (paragraph->para_attributes,
+				      "alignment", &alignment,
+				      NULL);
+		if (flags & GOD_PARAGRAPH_ATTRIBUTES_FLAGS_BULLET_CHARACTER)
+			g_object_get (paragraph->para_attributes,
+				      "bullet_character", &bullet_character,
+				      NULL);
+		if (flags & GOD_PARAGRAPH_ATTRIBUTES_FLAGS_BULLET_INDENT)
+			g_object_get (paragraph->para_attributes,
+				      "bullet_indent", &bullet_indent,
+				      NULL);
+		if (flags & GOD_PARAGRAPH_ATTRIBUTES_FLAGS_BULLET_SIZE)
+			g_object_get (paragraph->para_attributes,
+				      "bullet_size", &bullet_size,
+				      NULL);
+		if (flags & GOD_PARAGRAPH_ATTRIBUTES_FLAGS_BULLET_FAMILY) {
+			g_free (bullet_family);
+			bullet_family = NULL;
+			g_object_get (paragraph->para_attributes,
+				      "bullet_family", &bullet_family,
+				      NULL);
+		}
+	}
 	draw_context->y_ofs += space_before;
+
 	layout = pango_layout_new (gdk_pango_context_get_for_screen (gdk_screen_get_default()));
-	pango_layout_set_alignment (layout, PANGO_ALIGN_LEFT);
+	pango_layout_set_alignment (layout, alignment == GOD_PARAGRAPH_ALIGNMENT_JUSTIFY ? PANGO_ALIGN_LEFT : alignment);
 	pango_layout_set_width (layout, draw_context->rect->width * PANGO_SCALE);
-	pango_layout_set_text (layout, paragraph->text, -1);
+	if (strchr (paragraph->text, 0xb)) {
+		int i;
+		char *paragraph_text = g_strdup (paragraph->text);
+		for (i = 0; paragraph_text[i]; i++) {
+			if (paragraph_text[i] == 0xb)
+				paragraph_text[i] = '\r';
+		}
+		pango_layout_set_text (layout, paragraph_text, -1);
+		g_free (paragraph_text);
+	} else {
+		pango_layout_set_text (layout, paragraph->text, -1);
+	}
 	pango_layout_set_auto_dir (layout, FALSE);
 	if (paragraph->char_attributes)
 		attributes = pango_attr_list_copy (paragraph->char_attributes);
@@ -215,7 +302,14 @@ draw_text (GodTextModel *text,
 			pango_attr_list_insert_before (attributes, attr);
 		}
 	}
+#ifdef PANGO_HACK
+	pango_attr_list_filter (attributes, make_absolute, draw_context);
+#endif
 	pango_layout_set_attributes (layout, attributes);
+	attr_iterator = pango_attr_list_get_iterator (attributes);
+	bullet_desc = pango_font_description_new ();
+	pango_attr_iterator_get_font (attr_iterator, bullet_desc, NULL, NULL);
+	pango_attr_iterator_destroy (attr_iterator);
 	pango_attr_list_unref (attributes);
 	gdk_draw_layout (draw_context->renderer->priv->drawable,
 			 draw_context->renderer->priv->gc,
@@ -223,9 +317,37 @@ draw_text (GodTextModel *text,
 			 draw_context->rect->y + draw_context->y_ofs / draw_context->renderer->priv->y_units_per_pixel,
 			 layout);
 
-	pango_layout_get_pixel_size (layout, NULL, &height);
+	pango_layout_get_size (layout, NULL, &height);
 
-	draw_context->y_ofs += height * draw_context->renderer->priv->y_units_per_pixel;
+	g_object_unref (layout);
+	layout = NULL;
+
+	if (bullet_character != 0 &&
+	    bullet_character != 0xe011 &&
+	    bullet_size != 0 &&
+	    bullet_family != NULL) {
+		char utf8[7];
+		int length;
+		layout = pango_layout_new (gdk_pango_context_get_for_screen (gdk_screen_get_default()));
+		pango_layout_set_alignment (layout, PANGO_ALIGN_LEFT);
+		length = g_unichar_to_utf8 (bullet_character, utf8);
+		pango_layout_set_text (layout, utf8, length);
+		pango_layout_set_auto_dir (layout, FALSE);
+		pango_font_description_set_size (bullet_desc, pango_font_description_get_size (bullet_desc) * sqrt (bullet_size));
+		pango_font_description_set_family (bullet_desc, bullet_family);
+		pango_layout_set_font_description (layout, bullet_desc);
+
+		gdk_draw_layout (draw_context->renderer->priv->drawable,
+				 draw_context->renderer->priv->gc,
+				 draw_context->rect->x + bullet_indent / draw_context->renderer->priv->x_units_per_pixel,
+				 draw_context->rect->y + draw_context->y_ofs / draw_context->renderer->priv->y_units_per_pixel,
+				 layout);
+		pango_font_description_free (bullet_desc);
+		g_object_unref (layout);
+		layout = NULL;
+	}
+
+	draw_context->y_ofs += height * draw_context->renderer->priv->y_units_per_pixel / PANGO_SCALE;
 	draw_context->y_ofs += space_after;
 
 #if 0
@@ -235,8 +357,6 @@ draw_text (GodTextModel *text,
 	g_print ("x_units: %lld\n", draw_context->renderer->priv->x_units_per_pixel);
 	g_print ("y_units: %lld\n", draw_context->renderer->priv->y_units_per_pixel);
 #endif
-
-	g_object_unref (layout);
 }
 
 static void

@@ -35,6 +35,25 @@ typedef struct {
 	GObjectClass parent_class;
 } GodParagraphAttributesClass;
 
+typedef enum {
+	GOD_PARAGRAPH_ATTRIBUTES_FLAGS_INDENT       = 1 << 0,
+	GOD_PARAGRAPH_ATTRIBUTES_FLAGS_SPACE_BEFORE = 1 << 1,
+	GOD_PARAGRAPH_ATTRIBUTES_FLAGS_SPACE_AFTER  = 1 << 2,
+	GOD_PARAGRAPH_ATTRIBUTES_FLAGS_ALIGNMENT    = 1 << 3,
+	GOD_PARAGRAPH_ATTRIBUTES_FLAGS_BULLET_CHARACTER    = 1 << 4,
+	GOD_PARAGRAPH_ATTRIBUTES_FLAGS_BULLET_INDENT    = 1 << 5,
+	GOD_PARAGRAPH_ATTRIBUTES_FLAGS_BULLET_SIZE    = 1 << 6,
+	GOD_PARAGRAPH_ATTRIBUTES_FLAGS_BULLET_FAMILY    = 1 << 7,
+	GOD_PARAGRAPH_ATTRIBUTES_FLAGS_ALL          = ((1 << 8) - 1),
+} GodParagraphAttributesFlags;
+
+typedef enum {
+	GOD_PARAGRAPH_ALIGNMENT_LEFT = 0,
+	GOD_PARAGRAPH_ALIGNMENT_CENTER = 1,
+	GOD_PARAGRAPH_ALIGNMENT_RIGHT = 2,
+	GOD_PARAGRAPH_ALIGNMENT_JUSTIFY = 3
+} GodParagraphAlignment;
+
 GType                   god_paragraph_attributes_get_type       (void);
 GodParagraphAttributes *god_paragraph_attributes_new            (void);
 

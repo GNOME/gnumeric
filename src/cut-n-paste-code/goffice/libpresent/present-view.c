@@ -29,6 +29,7 @@
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
 #include <drawing/god-drawing-view.h>
+#include <gdk/gdkkeysyms.h>
 
 static GObjectClass *parent_class;
 
@@ -137,9 +138,32 @@ present_view_button_press_event (GtkWidget	     *widget,
 {
 	PresentView *view = PRESENT_VIEW (widget);
 
+	if (event->type != GDK_BUTTON_PRESS)
+		return FALSE;
+
 	if (event->button == 1)
 		update_to_page (view, view->priv->page + 1);
 	else if (event->button == 3)
+		update_to_page (view, view->priv->page - 1);
+	else
+		return FALSE;
+
+	return TRUE;
+}
+
+static gboolean
+present_view_key_press_event (GtkWidget	     *widget,
+			      GdkEventKey    *event)
+{
+	PresentView *view = PRESENT_VIEW (widget);
+
+	if (event->type != GDK_KEY_PRESS ||
+	    event->state != 0)
+		return FALSE;
+
+	if (event->keyval == GDK_space)
+		update_to_page (view, view->priv->page + 1);
+	else if (event->keyval == GDK_BackSpace)
 		update_to_page (view, view->priv->page - 1);
 	else
 		return FALSE;
@@ -160,6 +184,7 @@ present_view_class_init (PresentViewClass *class)
 
 	object_class->dispose            = present_view_dispose;
 	widget_class->button_press_event = present_view_button_press_event;
+	widget_class->key_press_event    = present_view_key_press_event;
 }
 
 GSF_CLASS (PresentView, present_view,

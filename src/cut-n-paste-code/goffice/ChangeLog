@@ -1,3 +1,18 @@
+2004-07-20  Christopher James Lahey  <clahey@ximian.com>
+
+	* drawing/god-drawing-renderer-gdk.c (draw_text),
+	drawing/god-paragraph-attributes.c,
+	drawing/god-paragraph-attributes.h, libpresent/load-ppt.c: Support
+	default paragraph attributes and support bullets and alignment.
+
+	* libpresent/present-view.c: Added space and backspace bindings
+	(these don't work since the widget doesn't get focus.)
+
+	* test/dump-ppt-records.c (handle_atom): Handle TxMasterStyleAtom
+	better.
+
+	* test/test-view-ppt.c: Added q and escape bindings.
+
 2004-07-19  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.3.1
