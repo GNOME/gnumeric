@@ -35,10 +35,11 @@ You need:
 	gnome-libs  	>= 1.2.7	(gnome-libs 2.0 is not supported)
 
 Optionally:
-	gb == 0.0.19            (Gnome Basic for macros)
-	guppi == CVS module guppi3
-	gda >= 0.2.11		(GDA plugin, for accessing databases)
 	evolution CVS
+	gb == 0.0.19            (Gnome Basic for macros)
+	gda >= 0.2.11		(GDA plugin, for accessing databases)
+	guile >= 1.5            ("Soon" to be releated Guile version)
+	guppi == CVS module guppi3
 
 Notes regarding plugins
 -----------------------
