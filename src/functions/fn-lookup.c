@@ -782,18 +782,22 @@ gnumeric_indirect (FunctionEvalInfo *ei, Value **args)
  *        hence this whole implementation is a cop-out really.
  */
 static char *help_index = {
-	N_("@FUNCTION=INDEX\n"
-	   "@SYNTAX=INDEX(reference,[row, col, area])\n"
-
-	   "@DESCRIPTION="
-	   "INDEX function returns a reference to the cell at a offset "
-	   "into the reference specified by row, col."
-	   "\n"
-	   "If things go wrong returns #REF! "
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=")
+	N_(
+	"@FUNCTION=INDEX\n"
+	"@SYNTAX=INDEX(array,[row, col, area])\n"
+	"@DESCRIPTION="
+	"INDEX gives a reference to a cell in the given @array."
+	"The cell is pointed out by @row and @col, which count the rows and columns"
+	"in the array.\n"
+	"If @row and @col are ommited the are assumed to be 1."
+	"@area has to be 1; references to multiple areas are not yet implemented."
+	"If the reference falls outside the range of the @array, INDEX returns a"
+	"#REF! error.\n"
+	"\n"
+	"@EXAMPLES="
+	"Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3,"
+	"21.3, 25.9, and 40.1. Then INDEX(A1:A5,4,1,1) equals 25,9\n"
+	"@SEEALSO=")
 };
 
 static Value *
@@ -815,10 +819,8 @@ gnumeric_index (FunctionEvalInfo *ei, Value **args)
 		col_off = value_get_as_int (args[2]) - 1;
 
 	if (col_off < 0 ||
-	    col_off >= value_area_get_width (ei->pos, area))
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-	if (row_off < 0 ||
+	    col_off >= value_area_get_width (ei->pos, area) ||
+	    row_off < 0 ||
 	    row_off >= value_area_get_height (ei->pos, area))
 		return value_new_error (ei->pos, gnumeric_err_REF);
 

@@ -33,6 +33,9 @@ Morten:
 Wayne Schuller:
 	* Search and search-replace history persistence.
 
+Tino Meinen:
+	* Make bound errors for INDEX consistent.
+
 --------------------------------------------------------------------------
 Gnumeric 0.99.0
 

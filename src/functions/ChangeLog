@@ -1,3 +1,9 @@
+2001-12-21  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=67345
+	* fn-lookup.c (gnumeric_index) : make errors consistent.
+	  and fix the docs to make some sense.
+
 2001-12-20  Morten Welinder  <terra@diku.dk>
 
 	* fn-financial.c (gnumeric_price, gnumeric_yield): Fix...
