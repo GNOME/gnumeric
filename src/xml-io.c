@@ -12,7 +12,7 @@
 #include "gnumeric.h"
 #include "gnome-xml/tree.h"
 #include "gnome-xml/parser.h"
-
+#include "color.h"
 #include "xml-io.h"
 
 /*
@@ -287,18 +287,20 @@ static int xmlGetColorValue(xmlNodePtr node, const char *name,
     ret = xmlGetProp(node, name);
     if ((ret != NULL) &&
         (sscanf(ret, "%X:%X:%X", &red, &green, &blue) == 3)) {
-	col.red = red; col.green = green; col.blue = blue;
-	*val = gdk_color_copy(&col);
-	gdk_color_alloc (colormap, *val);
+	(*val)->red   = red;
+	(*val)->green = green;
+	(*val)->red   = blue;
+	color_alloc_gdk (*val);
         return(1);
     }
     child = node->childs;
     while (child != NULL) {
         if ((!strcmp(child->name, name)) && (child->content != NULL) &&
 	    (sscanf(ret, "%X:%X:%X", &red, &green, &blue) == 3)) {
-	    col.red = red; col.green = green; col.blue = blue;
-	    *val = gdk_color_copy(&col);
-	    gdk_color_alloc (colormap, *val);
+	    (*val)->red = red;
+	    (*val)->green = green;
+	    (*val)->red   = blue;
+	    color_alloc_gdk (*val);
 	    return(1);
 	}
 	child = child->next;

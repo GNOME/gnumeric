@@ -63,7 +63,6 @@ void       gnumeric_sheet_set_cursor_bounds      (GnumericSheet *gsheet,
 						  int end_col,   int end_row);
 void       gnumeric_sheet_stop_editing           (GnumericSheet *sheet);
 void       gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet);
-void       gnumeric_sheet_color_alloc            (GnomeCanvas *canvas);
 void       gnumeric_sheet_make_cell_visible      (GnumericSheet *gsheet,
 						  int col, int row);
 void       gnumeric_sheet_get_cell_bounds        (GnumericSheet *gsheet,
@@ -72,9 +71,6 @@ void       gnumeric_sheet_get_cell_bounds        (GnumericSheet *gsheet,
 void       gnumeric_sheet_stop_cell_selection    (GnumericSheet *gsheet);
 void       gnumeric_sheet_create_editing_cursor  (GnumericSheet *gsheet);
 void       gnumeric_sheet_destroy_editing_cursor (GnumericSheet *gsheet);
-
-/* Colors used by any GnumericSheet item */
-extern GdkColor gs_white, gs_light_gray, gs_dark_gray, gs_black;
 
 typedef struct {
 	GnomeCanvasClass parent_class;

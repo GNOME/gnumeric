@@ -41,6 +41,23 @@ static GnomeColorPicker *foreground_cs;
 /* Points to the first cell in the selection */
 static Cell *first_cell;
 
+static void
+prop_modified (GtkWidget *widge, GnomePropertyBox *box)
+{
+	gnome_property_box_changed (box);
+}
+
+static void
+make_radio_notify_change (GSList *list, GtkWidget *prop_win)
+{
+	GSList *sl;
+	
+	for (sl = list; sl; sl = sl->next){
+		gtk_signal_connect (GTK_OBJECT (sl->data), "toggled",
+				    GTK_SIGNAL_FUNC (prop_modified), prop_win);
+	}
+}
+
 /* The various formats */
 static char *cell_format_numbers [] = {
 	N_("General"),
@@ -456,12 +473,6 @@ make_radio_selection (GtkWidget *prop_win, char *title, align_def_t *array, GSLi
 	return frame;
 }
 
-static void
-prop_modified (GtkWidget *widge, GnomePropertyBox *box)
-{
-	gnome_property_box_changed (box);
-}
-
 static GtkWidget *
 create_align_page (GtkWidget *prop_win, CellList *cells)
 {
@@ -469,7 +480,6 @@ create_align_page (GtkWidget *prop_win, CellList *cells)
 	GtkWidget *w;
 	int ha, va, autor, ok = 0;
 	GList *l;
-	GSList *sl;
 	
 	t = (GtkTable *) gtk_table_new (0, 0, 0);
 
@@ -532,16 +542,9 @@ create_align_page (GtkWidget *prop_win, CellList *cells)
 	/* Now after we *potentially* toggled the radio button above, we
 	 * connect the signals to activate the propertybox
 	 */
-	for (sl = hradio_list; sl; sl = sl->next){
-		gtk_signal_connect (GTK_OBJECT (sl->data), "toggled",
-				    GTK_SIGNAL_FUNC (prop_modified), prop_win);
-	}
 
-	for (sl = vradio_list; sl; sl = sl->next){
-		gtk_signal_connect (GTK_OBJECT (sl->data), "toggled",
-				    GTK_SIGNAL_FUNC (prop_modified), prop_win);
-	}
-	
+	make_radio_notify_change (hradio_list, prop_win);
+	make_radio_notify_change (vradio_list, prop_win);
 	gtk_widget_show_all (GTK_WIDGET (t));
 
 	return GTK_WIDGET (t);
@@ -638,6 +641,19 @@ apply_font_format (Style *style, Sheet *sheet, CellList *cells)
 	style->font = style_font_new (font_name, 10); 
 }
 
+static void
+color_pick_change_notify (GnomeColorPicker *cp, gint r, gint g, gint b, gint a, GnomePropertyBox *pbox)
+{
+	gnome_property_box_changed (pbox);
+}
+
+static void
+make_color_picker_notify (GtkWidget *widget, GtkWidget *prop_win)
+{
+	gtk_signal_connect (GTK_OBJECT (widget), "color_set",
+			    GTK_SIGNAL_FUNC (color_pick_change_notify), prop_win);
+}
+
 static GtkWidget *
 create_foreground_radio (GtkWidget *prop_win)
 {
@@ -649,11 +665,15 @@ create_foreground_radio (GtkWidget *prop_win)
 	gtk_container_add (GTK_CONTAINER (frame), table);
 
 	r1 = gtk_radio_button_new_with_label (NULL, _("None"));
-	foreground_radio_list = GTK_RADIO_BUTTON (r1)->group;
-	r2 = gtk_radio_button_new_with_label (foreground_radio_list,
-					      _("Use this color"));
+	r2 = gtk_radio_button_new_with_label_from_widget (
+		GTK_RADIO_BUTTON (r1), _("Use this color"));
+
+	foreground_radio_list = GTK_RADIO_BUTTON (r2)->group;
 
 	foreground_cs = GNOME_COLOR_PICKER (gnome_color_picker_new ());
+
+	make_color_picker_notify (GTK_WIDGET (foreground_cs), prop_win);
+	
 	gtk_table_attach (GTK_TABLE (table), r1, 0, 1, 0, 1, e, 0, 4, 2);
 	gtk_table_attach (GTK_TABLE (table), r2, 0, 1, 1, 2, e, 0, 4, 2);
 	gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (foreground_cs),
@@ -675,16 +695,20 @@ create_background_radio (GtkWidget *prop_win)
 
 	/* The radio buttons */
 	r1 = gtk_radio_button_new_with_label (NULL, _("None"));
-	background_radio_list = GTK_RADIO_BUTTON (r1)->group;
 	r2 = gtk_radio_button_new_with_label_from_widget (
 		GTK_RADIO_BUTTON (r1), _("Use solid color"));
 	r3 = gtk_radio_button_new_with_label_from_widget (
 		GTK_RADIO_BUTTON (r1), _("Use a pattern"));
 
+	background_radio_list = GTK_RADIO_BUTTON (r3)->group;
+
 	/* The color selectors */
 	cs1 = gnome_color_picker_new ();
 	cs2 = gnome_color_picker_new ();
 
+	make_color_picker_notify (cs1, prop_win);
+	make_color_picker_notify (cs2, prop_win);
+	
 	/* Create the pattern preview */
 	p = pattern_selector_new (0);
 	
@@ -709,6 +733,9 @@ create_coloring_page (GtkWidget *prop_win, CellList *cells)
 	fore = create_foreground_radio (prop_win);
 	back = create_background_radio (prop_win);
 
+	make_radio_notify_change (foreground_radio_list, prop_win);
+	make_radio_notify_change (background_radio_list, prop_win);
+	
 	gtk_table_attach (t, fore, 0, 1, 0, 1, e, 0, 4, 4);
 	gtk_table_attach (t, back, 0, 1, 1, 2, e, 0, 4, 4);
 	gtk_widget_show_all (GTK_WIDGET (t));
@@ -719,20 +746,44 @@ static void
 apply_coloring_format (Style *style, Sheet *sheet, CellList *cells)
 {
 	double rd, gd, bd, ad;
-	
-	gnome_color_picker_get_d (foreground_cs, &rd, &gd, &bd, &ad);
+	gushort fore_red, fore_green, fore_blue;
+	gushort back_red, back_green, back_blue;
 
+	if (gtk_radio_group_get_selected (foreground_radio_list) == 1){
+		gnome_color_picker_get_d (foreground_cs, &rd, &gd, &bd, &ad);
+
+		fore_red   = rd * 65535;
+		fore_green = gd * 65535;
+		fore_blue  = bd * 65535;
+	} else {
+		fore_red   = 0;
+		fore_green = 0;
+		fore_blue  = 0;
+	}
+
+	if (gtk_radio_group_get_selected (background_radio_list) == 0){
+		back_red   = 0xffff;
+		back_green = 0xffff;
+		back_blue  = 0xffff;
+	} else {
+
+	}
+	
+	/* Apply the color to the cells */
 	for (; cells; cells = cells->next){
 		Cell *cell = cells->data;
 
-		cell_set_foreground (cell, rd * 65535, gd * 65535, bd * 65535);
+		cell_set_foreground (cell, fore_red, fore_green, fore_blue);
 	}
+
+	style->valid_flags |= STYLE_FORE_COLOR;
+	style->fore_color  = style_color_new (fore_red, fore_green, fore_blue);
 }
 
 static struct {
-	char      *title;
+	char       *title;
 	GtkWidget *(*create_page)(GtkWidget *prop_win, CellList *cells);
-	void      (*apply_page)(Style *style, Sheet *sheet, CellList *cells);
+	void       (*apply_page)(Style *style, Sheet *sheet, CellList *cells);
 } cell_format_pages [] = {
 	{ N_("Number"),    create_number_format_page,  apply_number_formats  },
 	{ N_("Alignment"), create_align_page,          apply_align_format    },
@@ -757,10 +808,20 @@ cell_properties_apply (GtkObject *w, int page, CellList *cells)
 	/* Now, let each property page apply their style */
 	style = style_new_empty ();
 	style->valid_flags = 0;
+
+	for (l = cells; l; l = l->next){
+		Cell *cell = l->data;
+
+		cell_queue_redraw (cell);
+	}
+
+	cell_freeze_redraws ();
 	
 	for (i = 0; cell_format_pages [i].title; i++)
 		(*cell_format_pages [i].apply_page)(style, sheet, cells);
 
+	cell_thaw_redraws ();
+	
 	/* Attach this style to all of the selections */
 	for (l = sheet->selections; l; l = l->next){
 		SheetSelection *ss = l->data;

@@ -13,6 +13,7 @@
 #include "gnumeric.h"
 #include "gnumeric-sheet.h"
 #include "item-debug.h"
+#include "color.h"
 #include "dialogs.h"
 
 static GnomeCanvasItem *item_grid_parent_class;
@@ -57,8 +58,6 @@ item_grid_realize (GnomeCanvasItem *item)
 	gdk_gc_set_line_attributes (gc, 1, GDK_LINE_SOLID,
 				    GDK_CAP_PROJECTING, GDK_JOIN_MITER);
 
-	gnumeric_sheet_color_alloc (item->canvas);
-	
 	/* Allocate the default colors */
 	item_grid->background = gs_white;
 	item_grid->grid_color = gs_light_gray;

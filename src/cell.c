@@ -12,6 +12,9 @@
 #include "eval.h"
 #include "format.h"
 
+static int         redraws_frozen = 0;
+static GHashTable *cell_hash_queue;
+
 void
 cell_formula_changed (Cell *cell)
 {
@@ -303,9 +306,51 @@ cell_destroy (Cell *cell)
 }
 
 void
+cell_freeze_redraws (void)
+{
+	redraws_frozen++;
+	if (redraws_frozen == 1)
+		cell_hash_queue = g_hash_table_new (g_direct_hash, g_direct_equal);
+}
+
+static void
+call_cell_queue_redraw (gpointer key, gpointer value, gpointer user_data)
+{
+	cell_queue_redraw (value);
+}
+
+void
+cell_thaw_redraws (void)
+{
+	redraws_frozen--;
+	if (redraws_frozen < 0){
+		g_warning ("unbalanced freeze/thaw\n");
+		return;
+	}
+	if (redraws_frozen == 0){
+		g_hash_table_foreach (cell_hash_queue, call_cell_queue_redraw, NULL);
+		g_hash_table_destroy (cell_hash_queue);
+		cell_hash_queue = NULL;
+	}
+}
+
+static void
+queue_cell (Cell *cell)
+{
+	if (g_hash_table_lookup (cell_hash_queue, cell))
+		return;
+	g_hash_table_insert (cell_hash_queue, cell, cell);
+}
+
+void
 cell_queue_redraw (Cell *cell)
 {
 	g_return_if_fail (cell != NULL);
+
+	if (redraws_frozen){
+		queue_cell (cell);
+		return;
+	}
 	
 	sheet_redraw_cell_region (cell->sheet,
 				  cell->col->pos, cell->row->pos,

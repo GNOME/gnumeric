@@ -18,6 +18,8 @@ GNUMERIC_BASE_SOURCES =			\
 	cellspan.c			\
 	clipboard.c			\
 	clipboard.h			\
+	color.c				\
+	color.h				\
 	dialog-cell-format.c		\
 	dialog-goto-cell.c		\
 	dialog-insert-cells.c		\

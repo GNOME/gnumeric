@@ -15,6 +15,7 @@
 #include "item-debug.h"
 #include "gnumeric-sheet.h"
 #include "gnumeric-util.h"
+#include "color.h"
 
 static GnomeCanvasItem *item_cursor_parent_class;
 
@@ -78,8 +79,6 @@ item_cursor_realize (GnomeCanvasItem *item)
 	window = GTK_WIDGET (item->canvas)->window;
 
 	item_cursor->gc = gdk_gc_new (window);
-
-	gnumeric_sheet_color_alloc (item->canvas);
 
 	if (item_cursor->style == ITEM_CURSOR_ANTED)
 		item_cursor_start_animation (item_cursor);

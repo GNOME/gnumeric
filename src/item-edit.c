@@ -48,6 +48,7 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	int  cursor_pos, text_len, first_part_len, total_len;
 
 	font = item_edit->style->font->font;
+	
 	text = gtk_entry_get_text (GTK_ENTRY (item_edit->editor));
 	text_len = strlen (text);
 	cursor_pos = GTK_EDITABLE (item_edit->editor)->current_pos;
@@ -74,7 +75,7 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 	/* The margin, plus the pixel consumed by the border */
 	dx += ci->margin_a + 1;
-	
+
 	first_part_len = gdk_text_width (font, text, cursor_pos);
 	gdk_draw_text (drawable, font, canvas->style->black_gc,
 		       dx, dy + hd - font->descent, text, cursor_pos);

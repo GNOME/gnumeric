@@ -91,6 +91,12 @@ void        calc_text_dimensions      (int is_number, Style *style, char *text,
 				       int cell_w, int cell_h, int *h, int *w);
 
 /*
+ * Optimizations to stop cell_queue_redraw to be invoked
+ */
+void        cell_thaw_redraws         (void);
+void        cell_freeze_redraws       (void);
+
+/*
  * Routines used to lookup which cells displays on a given column
  *
  * These are defined in cellspan.c

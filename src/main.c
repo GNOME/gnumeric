@@ -3,6 +3,7 @@
 #include "gnumeric.h"
 #include "xml-io.h"
 #include "plugin.h"
+#include "color.h"
 
 /* If set, the file to load at startup time */
 static char *startup_file;
@@ -38,6 +39,7 @@ main (int argc, char *argv [])
 	
 	gnome_init ("Gnumeric", &parser, argc, argv, 0, NULL);
 
+	color_init ();
 	string_init ();
 	style_init ();
 	symbol_init ();

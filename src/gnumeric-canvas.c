@@ -14,6 +14,7 @@
 #include <string.h>
 #include "gnumeric.h"
 #include "gnumeric-sheet.h"
+#include "color.h"
 
 #define CURSOR_COL(gsheet) gsheet->sheet_view->sheet->cursor_col
 #define CURSOR_ROW(gsheet) gsheet->sheet_view->sheet->cursor_row
@@ -1015,24 +1016,6 @@ gnumeric_sheet_init (GnumericSheet *gsheet)
 	
 	GTK_WIDGET_SET_FLAGS (canvas, GTK_CAN_FOCUS);
 	GTK_WIDGET_SET_FLAGS (canvas, GTK_CAN_DEFAULT);
-}
-
-void
-gnumeric_sheet_color_alloc (GnomeCanvas *canvas)
-{
-	static int colors_loaded;
-	GdkColormap *colormap;
-	
-	if (colors_loaded)
-		return;
-
-	colormap = gtk_widget_get_colormap (GTK_WIDGET (canvas));
-	
-	gdk_color_white (colormap, &gs_white);
-	gdk_color_black (colormap, &gs_black);
-	gnome_canvas_get_color (canvas, "gray60", &gs_light_gray);
-	gnome_canvas_get_color (canvas, "gray20", &gs_dark_gray);
-	colors_loaded = 1;
 }
 
 GtkType

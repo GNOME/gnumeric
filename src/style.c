@@ -9,6 +9,7 @@
 #include <gnome.h>
 #include "gnumeric.h"
 #include "format.h"
+#include "color.h"
 
 static GHashTable *style_format_hash;
 static GHashTable *style_font_hash;
@@ -173,7 +174,6 @@ style_border_new_plain (void)
 StyleColor *
 style_color_new (gushort red, gushort green, gushort blue)
 {
-	static GdkColormap *colormap;
 	StyleColor *sc;
 	GdkColor key;
 	
@@ -185,9 +185,8 @@ style_color_new (gushort red, gushort green, gushort blue)
 	if (!sc){
 		sc = g_new (StyleColor, 1);
 		sc->color = key;
-		if (!colormap)
-			colormap = gtk_widget_get_default_colormap ();
-		gdk_color_alloc (colormap, &sc->color);
+		sc->color.pixel = color_alloc (red, green, blue);
+
 		g_hash_table_insert (style_color_hash, sc, sc);
 		sc->ref_count = 0;
 	}
@@ -214,7 +213,10 @@ style_color_unref (StyleColor *sc)
 	if (sc->ref_count != 0)
 		return;
 
-	g_warning ("Need to deallocate colors\n");
+	/*
+	 * There is no need to deallocate colors, as they come from
+	 * the GDK Color Context
+	 */
 	g_hash_table_remove (style_color_hash, sc);
 	g_free (sc);
 }
@@ -232,7 +234,7 @@ style_new (void)
 	style->font        = style_font_new ("-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-*-*", 14);
 	style->border      = style_border_new_plain ();
 	style->fore_color  = style_color_new (0, 0, 0);
-	style->back_color  = style_color_new (0xff, 0xff, 0xff);
+	style->back_color  = style_color_new (0xffff, 0xffff, 0xffff);
 	style->halign      = HALIGN_GENERAL;
 	style->valign      = VALIGN_CENTER;
 	style->orientation = ORIENT_HORIZ;

@@ -1,3 +1,23 @@
+1998-09-11  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/cell.c (queue_cell, cell_freeze_redraws, cell_thaw_redraws):
+	Support for freezing/thawing cell redraws to avoid the multiple
+	calls that will be produced by appying a format.
+
+	* src/xml-io.c: Use the new color allocation routines. 
+
+	* src/color.c: Implement color allocation routines with a Color
+	context shared by all of Gnumeric's code. 
+
+	* src/item-cursor.c (item_cursor_realize): Do not allocate
+	colors here now
+
+	* src/item-grid.c (item_grid_realize): Do not allocate colors
+	manually here now.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_color_alloc): Remove.  This
+	was a quick hack.
+
 1998-09-10  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/cell.c (cell_draw): Fix center alignment code.
