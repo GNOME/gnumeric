@@ -1,3 +1,7 @@
+2000-09-12  Morten Welinder  <terra@diku.dk>
+
+	* src/sheet-object-widget.c (checkbox_eval): Plug leak.
+
 2000-09-11  Jon K Hellan  <hellan@acm.org>
 
 	* src/main.c: Add print_debugging variable / debug_print startup

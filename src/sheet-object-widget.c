@@ -354,6 +354,7 @@ checkbox_eval (Dependent *dep)
 	pos.eval.row = pos.eval.col = 0;
 	v = eval_expr (&pos, dep->expression, EVAL_STRICT);
 	result = value_get_as_bool (v, &err);
+	value_release (v);
 	if (!err) {
 		SheetWidgetCheckbox *swc = DEP_TO_CHECKBOX(dep);
 
