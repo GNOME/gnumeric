@@ -28,6 +28,7 @@
 #include "print-info.h"
 #include "global-gnome-font.h"
 #include "style.h"
+#include "mstyle.h"
 #include "style-color.h"
 #include "str.h"
 #include "dependent.h"
@@ -116,6 +117,7 @@ gnm_common_init (void)
 	libgoffice_init ();
 	gnm_conf_init ();
 	string_init ();
+	mstyle_init ();
 	value_init ();
 	parse_util_init ();
 	expr_init ();
@@ -178,6 +180,7 @@ gnm_shutdown (void)
 	expr_shutdown ();
 	parse_util_shutdown ();
 	value_shutdown ();
+	mstyle_shutdown ();
 	string_shutdown ();
 	global_gnome_font_shutdown ();
 	application_release_gconf_client ();

@@ -1533,6 +1533,7 @@ cb_font_underline_changed (G_GNUC_UNUSED GtkWidget *ct,
 	if (!state->enable_edit || new_text == NULL || *new_text == '\0')
 		return FALSE;
 
+	/* XXX */
 	/* There must be a better way than this */
 	if (!g_ascii_strcasecmp (new_text, _("Single")))
 		res = UNDERLINE_SINGLE;
@@ -1643,7 +1644,6 @@ cb_pattern_preview_get_cell_style (G_GNUC_UNUSED PreviewGrid *pg,
 				   G_GNUC_UNUSED int col,
 				   MStyle *style)
 {
-	mstyle_ref (style);
 	return style;
 }
 

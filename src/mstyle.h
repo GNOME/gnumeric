@@ -144,4 +144,7 @@ PangoAttrList      *mstyle_get_pango_attrs (const MStyle *st, double zoom);
 char       *mstyle_to_string   (const MStyle *st); /* Debug only ! leaks like a sieve */
 void        mstyle_dump        (const MStyle *st);
 
+void        mstyle_init (void);
+void        mstyle_shutdown (void);
+
 #endif /* GNUMERIC_MSTYLE_H */

@@ -1,3 +1,8 @@
+2003-05-30  Morten Welinder  <terra@gnome.org>
+
+	* dialog-cell-format.c (cb_pattern_preview_get_cell_style): Do not
+	ref the style.  None of the other callbacks do.
+
 2003-05-22  Morten Welinder  <terra@gnome.org>
 
 	* dialog-stf-fixed-page.c (fixed_page_canvas_motion_notify_event):

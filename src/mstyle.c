@@ -20,8 +20,25 @@
 #include "format.h"
 #include "sheet-style.h"
 #include "application.h"
+#include "gutils.h"
 
 #include <stdio.h>
+
+#ifndef USE_MSTYLE_POOL
+#define USE_MSTYLE_POOL 1
+#endif
+
+#if USE_MSTYLE_POOL
+/* Memory pool for mstyles.  */
+static gnm_mem_chunk *mstyle_pool;
+#define CHUNK_ALLOC(T,p) ((T*)gnm_mem_chunk_alloc (p))
+#define CHUNK_ALLOC0(T,p) ((T*)gnm_mem_chunk_alloc0 (p))
+#define CHUNK_FREE(p,v) gnm_mem_chunk_free ((p), (v))
+#else
+#define CHUNK_ALLOC(T,c) g_new (T,1)
+#define CHUNK_ALLOC0(T,c) g_new0 (T,1)
+#define CHUNK_FREE(p,v) g_free ((v))
+#endif
 
 typedef struct {
 	MStyleElementType type;
@@ -580,7 +597,7 @@ mstyle_font_clear (MStyle *mstyle)
 MStyle *
 mstyle_new (void)
 {
-	MStyle *style = g_new0 (MStyle, 1);
+	MStyle *style = CHUNK_ALLOC0 (MStyle, mstyle_pool);
 
 	style->ref_count = 1;
 	style->link_count = 0;
@@ -595,7 +612,7 @@ mstyle_new (void)
 MStyle *
 mstyle_copy (const MStyle *style)
 {
-	MStyle *new_style = g_new (MStyle, 1);
+	MStyle *new_style = CHUNK_ALLOC (MStyle, mstyle_pool);
 
 	new_style->ref_count = 1;
 	new_style->link_count = 0;
@@ -617,7 +634,7 @@ MStyle *
 mstyle_copy_merge (const MStyle *orig, const MStyle *overlay)
 {
 	int i;
-	MStyle *res = g_new0 (MStyle, 1);
+	MStyle *res = CHUNK_ALLOC0 (MStyle, mstyle_pool);
 
 	MStyleElement       *res_e;
 	const MStyleElement *orig_e;
@@ -742,7 +759,7 @@ mstyle_unref (MStyle *style)
 		mstyle_pango_clear (style);
 		mstyle_font_clear (style);
 
-		g_free (style);
+		CHUNK_FREE (mstyle_pool, style);
 	}
 }
 
@@ -1659,4 +1676,37 @@ mstyle_get_pango_attrs (const MStyle *mstyle, double zoom)
 
 	pango_attr_list_ref (res);
 	return res;
+}
+
+/* ------------------------------------------------------------------------- */
+
+void
+mstyle_init (void)
+{
+#if USE_MSTYLE_POOL
+	mstyle_pool =
+		gnm_mem_chunk_new ("mstyle pool",
+				   sizeof (MStyle),
+				   16 * 1024 - 128);
+#endif
+}
+
+#if USE_MSTYLE_POOL
+static void
+cb_mstyle_pool_leak (gpointer data, gpointer user)
+{
+	MStyle *mstyle = data;
+	fprintf (stderr, "Leaking mstyle at %p.\n", mstyle);
+	mstyle_dump (mstyle);
+}
+#endif
+
+void
+mstyle_shutdown (void)
+{
+#if USE_MSTYLE_POOL
+	gnm_mem_chunk_foreach_leak (mstyle_pool, cb_mstyle_pool_leak, NULL);
+	gnm_mem_chunk_destroy (mstyle_pool, FALSE);
+	mstyle_pool = NULL;
+#endif
 }

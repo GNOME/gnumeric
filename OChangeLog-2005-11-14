@@ -1,3 +1,12 @@
+2003-05-30  Morten Welinder  <terra@gnome.org>
+
+	* src/mstyle.c (mstyle_init, mstyle_shutdown): New functions.
+	(mstyle_new, mstyle_copy, mstyle_copy_merge, mstyle_unref): Use
+	mstyle pool.
+
+	* src/libgnumeric.c (gnm_common_init): Init mstyles.
+	(gnm_shutdown): Shut them down.
+
 2003-05-28  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : Add he to ALL_LINGUAS
