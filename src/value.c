@@ -412,6 +412,9 @@ value_get_as_string (const Value *value)
 	return g_strdup ("Internal problem");
 }
 
+/*
+ * FIXME FIXME FIXME : Support errors
+ */
 int
 value_get_as_int (const Value *v)
 {
@@ -446,6 +449,9 @@ value_get_as_int (const Value *v)
 	return 0.0;
 }
 
+/*
+ * FIXME FIXME FIXME : Support errors
+ */
 float_t
 value_get_as_float (const Value *v)
 {

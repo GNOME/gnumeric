@@ -148,6 +148,7 @@ gnumeric_edate (FunctionEvalInfo *ei, Value **argv)
 {
 	int    serial, months;
 	GDate* date;
+	Value *res;
 
 	serial = value_get_as_int(argv[0]);
 	months = value_get_as_int(argv[1]);
@@ -165,7 +166,9 @@ gnumeric_edate (FunctionEvalInfo *ei, Value **argv)
 	if (!g_date_valid(date))
                   return value_new_error (&ei->pos, gnumeric_err_NUM);
 
-	return value_new_int (g_date_serial (date));
+	res = value_new_int (g_date_serial (date));
+	g_date_free (date);
+	return res;
 }
 
 static char *help_today = {
@@ -453,7 +456,7 @@ gnumeric_weekday (FunctionEvalInfo *ei, Value **argv)
 
 
 static char *help_days360 = {
-	N_("@FUNCTION=DAY\n"
+	N_("@FUNCTION=DAYS360 \n"
 	   "@SYNTAX=DAYS360 (date1,date2,method)\n"
 
 	   "@DESCRIPTION="
@@ -544,6 +547,111 @@ gnumeric_days360 (FunctionEvalInfo *ei, Value **argv)
 	return value_new_int (flipped ? -result : result);
 }
 
+/***************************************************************************/
+
+static char *help_eomonth = {
+	N_("@FUNCTION=EOMONTH\n"
+	   "@SYNTAX=EOMONTH (start_date,months)\n"
+
+	   "@DESCRIPTION="
+	   "Returns the last day of the month which is @months "
+	   "from the @start_date."
+	   "\n"
+	   "Returns #NUM if start_date or months are invalid"
+	   "\n"
+	   ""
+	   "@SEEALSO=MONTH")
+};
+
+static Value *
+gnumeric_eomonth (FunctionEvalInfo *ei, Value **argv)
+{
+	Value *res;
+	int months = 0;
+	GDate *date = g_date_new_serial (get_serial_date (argv[0]));
+
+	if (!g_date_valid(date))
+                  return value_new_error (&ei->pos, gnumeric_err_VALUE);
+
+	if (argv[1] != NULL)
+		months = value_get_as_int (argv[1]);
+
+	if (months > 0)
+		g_date_add_months(date, months);
+	else if (months < 0)
+		g_date_subtract_months(date, -months);
+
+	g_date_set_day(date, g_date_days_in_month(g_date_month(date),
+						  g_date_year(date)));
+
+	res = value_new_int (g_date_serial (date));
+	g_date_free (date);
+	return res;
+}
+
+/***************************************************************************/
+
+static char *help_workday = {
+	N_("@FUNCTION=WORKDAY\n"
+	   "@SYNTAX=WORKDAY (start_date,days,holidays)\n"
+
+	   "@DESCRIPTION="
+	   "Returns the day which is @days working days "
+	   "from the @start_date.  Weekends and holidays optionaly "
+	   "supplied in @holidays are respected."
+	   "\n"
+	   "Returns #NUM if start_date or days are invalid"
+	   "\n"
+	   ""
+	   "@SEEALSO=NETWORKDAYS")
+};
+
+static Value *
+gnumeric_workday (FunctionEvalInfo *ei, Value **argv)
+{
+	Value *res;
+	int days;
+	GDateWeekday weekday;
+	GDate *date = g_date_new_serial (get_serial_date (argv[0]));
+
+	if (!g_date_valid(date))
+                  return value_new_error (&ei->pos, gnumeric_err_VALUE);
+	weekday = g_date_weekday(date);
+
+	days = value_get_as_int (argv[1]);
+
+	/* FIXME : How to deal with starting dates that are weekends
+	 *         or holidays ?? */
+	for (; days < 0 ; ++days) {
+		g_date_subtract_days(date, 1);
+		if (weekday == G_DATE_MONDAY)
+			weekday = G_DATE_SUNDAY;
+		else
+			--weekday;
+
+		if (weekday == G_DATE_SATURDAY || weekday == G_DATE_SUNDAY)
+		/* FIXME : || is_holiday() */
+			--days;
+	}
+	for (; days > 0 ; --days) {
+		g_date_add_days(date, 1);
+		if (weekday == G_DATE_SUNDAY)
+			weekday = G_DATE_MONDAY;
+		else
+			++weekday;
+
+		if (weekday == G_DATE_SATURDAY || weekday == G_DATE_SUNDAY)
+		/* FIXME : || is_holiday() */
+			++days;
+	}
+
+	res = value_new_int (g_date_serial (date));
+	g_date_free (date);
+	return res;
+}
+
+/***************************************************************************/
+
 void
 date_functions_init(void)
 {
@@ -559,6 +667,8 @@ date_functions_init(void)
 			   gnumeric_days360);
 	function_add_args (cat,  "edate",     "ff",   "serial_number,months",  &help_edate,
 			   gnumeric_edate);
+	function_add_args (cat,  "eomonth",   "?|f",   "start_date,months",
+			   &help_eomonth, &gnumeric_eomonth);
 	function_add_args (cat,  "hour",      "?",    "time",                  &help_hour,
 			   gnumeric_hour );
 	function_add_args (cat,  "minute",    "?",    "time",                  &help_minute,
@@ -577,6 +687,8 @@ date_functions_init(void)
 			   gnumeric_today );
 	function_add_args (cat,  "weekday",   "?",    "date",                  &help_weekday,
 			   gnumeric_weekday);
+	function_add_args (cat,  "workday",   "?f|A",    "date,days,holidays",
+	 		   &help_workday, &gnumeric_workday);
 	function_add_args (cat,  "year",      "?",    "date",                  &help_year,
 			   gnumeric_year);
 }

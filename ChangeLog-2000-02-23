@@ -1,5 +1,9 @@
 1999-07-27  Jody Goldberg  <jgoldberg@home.com>
 
+	* src/fn-date.c : Add EOMONTH, and partial WORKDAY.
+
+	* src/formats.c : Add more date formats.
+
 	* src/fn-math.c (gnumeric_transpose) : no need for an array
           if the input is a singleton.
 

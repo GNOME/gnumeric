@@ -12,8 +12,11 @@ Michael:
 Jody:
 	* Enable Array formulas.
 	* Add VALUE_BOOLEAN, VALUE_ERROR.
-	* Work on functions : ROW, COLUMN, ISLOGICAL, ISERR, ISBLANK, DATEVALUE
-	* Support implict intersection 'feature' of XL.
+	* Added EOMONTH, WORKDAY.
+	* Work on functions : ROW, COLUMN, ISLOGICAL, ISERR, ISBLANK,
+          DATEVALUE
+	* Support implict intersection 'feature' of XL for functions, not
+	  operators.
 
 --------------------------------------------------------------------------
 
