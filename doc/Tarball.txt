@@ -12,7 +12,7 @@ Copy the CVS tree into the working environment
 
 Inside the working environment:
 Consistent ownership:
-	chmod -R 0.0 /tmp/gnumeric-cvs-gnome_1_4
+	chown -R 0.0 /tmp/gnumeric-cvs-gnome_1_4
 Deal with the lack of a proper homedir:
 	export HOME=/root
 	export XAUTHORITY=/root/.Xauthority
