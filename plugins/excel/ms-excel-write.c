@@ -1415,6 +1415,8 @@ put_mstyle (ExcelWorkbook *wb, MStyle *st)
 inline static ExcelCell *
 excel_cell_get (ExcelSheet *sheet, int col, int row)
 {
+	g_return_val_if_fail (col < sheet->maxx, NULL);
+	g_return_val_if_fail (row < sheet->maxy, NULL);
 	return *(sheet->cells + row) + col;
 }
 
@@ -1438,6 +1440,13 @@ pre_cell (gconstpointer dummy, Cell *cell, ExcelSheet *sheet)
 		printf ("Pre cell %s\n", cell_coord_name (col, row));
 	}
 #endif
+
+	if (col >= sheet->maxx || row >= sheet->maxy) {
+		/* sheet_get_extent clipped blank cells, this had better be blank. */
+		g_return_if_fail (cell_is_blank (cell));
+		return;
+	}
+
 	cell_mark_used (sheet, col, row);
 	if (cell_has_expr (cell))
 		ms_formula_build_pre_data (sheet, cell->u.expression);
