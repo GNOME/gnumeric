@@ -677,8 +677,8 @@ ms_excel_dump_cellname (ExcelWorkbook const *ewb, ExcelSheet const *esheet,
 {
 	if (esheet && esheet->gnum_sheet && esheet->gnum_sheet->name_unquoted)
 		printf ("%s!", esheet->gnum_sheet->name_unquoted);
-	else if (ewb && ewb->gnum_wb && ewb->gnum_wb->filename)
-		printf ("[%s]", ewb->gnum_wb->filename);
+	else if (ewb && ewb->gnum_wb && workbook_get_filename (ewb->gnum_wb))
+		printf ("[%s]", workbook_get_filename (ewb->gnum_wb));
 	printf ("%s%d : ", col_name(fn_col), fn_row+1);
 }
 

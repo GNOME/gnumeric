@@ -1,5 +1,9 @@
 2002-10-04  Jody Goldberg <jody@gnome.org>
 
+	* src/workbook.c (workbook_metadata) : new.
+
+2002-10-04  Jody Goldberg <jody@gnome.org>
+
 	* src/gutils.c (gnumeric_strcase_hash) : Mark for fixing.
 
 	* src/dependent.c (workbook_link_3d_dep) : disable unlinking during

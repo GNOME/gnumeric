@@ -26,7 +26,7 @@
 #include "parse-util.h"
 
 #include "application.h"
-#include "workbook.h"
+#include "workbook-priv.h"
 #include "sheet.h"
 #include "value.h"
 #include "ranges.h"

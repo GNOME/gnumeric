@@ -939,6 +939,7 @@ applix_read_view (ApplixReadState *state, unsigned char *buffer)
 				applix_height_to_pixels (height));
 		} else if (!a_strncmp (buffer, "View Row Heights: ")) {
 			char *ptr = buffer + 17;
+			puts (buffer);
 			do {
 				int row, height;
 				char *tmp;

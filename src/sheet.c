@@ -20,14 +20,13 @@
  * USA
  */
 #include <gnumeric-config.h>
-#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "sheet.h"
 
 #include "command-context.h"
-#include "workbook.h"
 #include "sheet-control.h"
 #include "sheet-style.h"
+#include "workbook-priv.h"
 #include "workbook-control.h"
 #include "workbook-view.h"
 #include "workbook-edit.h"
@@ -56,6 +55,7 @@
 #include "sheet-object-cell-comment.h"
 #include "solver.h"
 #include "hlink.h"
+#include <gnumeric-i18n.h>
 
 #include <stdlib.h>
 #include <ctype.h>

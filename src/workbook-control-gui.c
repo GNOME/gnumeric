@@ -29,7 +29,7 @@
 #include "workbook-format-toolbar.h"
 #include "workbook-view.h"
 #include "workbook-edit.h"
-#include "workbook.h"
+#include "workbook-priv.h"
 #include "sheet.h"
 #include "sheet-merge.h"
 #include "sheet-private.h"

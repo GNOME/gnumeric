@@ -38,7 +38,7 @@
 #include <parse-util.h>
 #include <print-info.h>
 #include <workbook-view.h>
-#include <workbook.h>
+#include <workbook-priv.h>
 #include <io-context.h>
 #include <command-context.h>
 #include <expr.h>

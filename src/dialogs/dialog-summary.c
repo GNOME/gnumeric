@@ -25,7 +25,7 @@
 #include "dialogs.h"
 
 #include <gui-util.h>
-#include <workbook.h>
+#include <workbook-priv.h> /* for Workbook::summary_info */
 #include <workbook-edit.h>
 #include <commands.h>
 

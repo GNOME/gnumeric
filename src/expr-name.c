@@ -17,7 +17,7 @@
 #include "dependent.h"
 #include "cell.h"
 #include "value.h"
-#include "workbook.h"
+#include "workbook-priv.h"
 #include "expr.h"
 #include "expr-impl.h"
 #include "str.h"

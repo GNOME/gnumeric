@@ -36,7 +36,7 @@
 #include "command-context.h"
 #include "workbook-control.h"
 #include "workbook-view.h"
-#include "workbook.h"
+#include "workbook-priv.h" /* For the undo/redo queues and the FOREACH */
 #include "ranges.h"
 #include "sort.h"
 #include "dependent.h"
@@ -472,8 +472,7 @@ command_undo (WorkbookControl *wbc)
 					    wb->undo_commands->data);
 	wb->redo_commands = g_slist_prepend (wb->redo_commands, cmd);
 
-	WORKBOOK_FOREACH_CONTROL (wb, view, control,
-	{
+	WORKBOOK_FOREACH_CONTROL (wb, view, control, {
 		wb_control_undo_redo_pop (control, TRUE);
 		wb_control_undo_redo_push (control, cmd->cmd_descriptor, FALSE);
 	});

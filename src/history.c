@@ -14,7 +14,7 @@
 #include "gui-file.h"
 #include "workbook-control-gui-priv.h"
 #include "workbook-view.h"
-#include "workbook.h"
+#include "workbook-priv.h"
 
 #include <gtk/gtkmenuitem.h>
 #include <libgnomeui/gnome-app-helper.h>
@@ -276,8 +276,7 @@ history_menu_flush (GList *wl, GSList *name_list)
 	for (l = wl; l; l = g_list_next (l)) {
 		Workbook  *wb = WORKBOOK (l->data);
 
-		WORKBOOK_FOREACH_CONTROL (wb, view, control,
-		{
+		WORKBOOK_FOREACH_CONTROL (wb, view, control, {
 			/* ICK : Should this be virtual ?
 			 * seems too specific to do that.
 			 * kludge for now

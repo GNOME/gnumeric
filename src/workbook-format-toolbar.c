@@ -20,7 +20,7 @@
 #include "global-gnome-font.h"
 #include "workbook-control-gui-priv.h"
 #include "workbook-view.h"
-#include "workbook.h"
+#include "workbook-priv.h"
 #include "sheet.h"
 #include "sheet-style.h"
 #include "cell.h"
@@ -524,8 +524,7 @@ cb_fore_color_changed (ColorCombo *combo, GdkColor *c,
 			  : style_color_new (c->red, c->green, c->blue));
 
 	/* Change the color for all views */
-	WORKBOOK_FOREACH_CONTROL (wb_control_workbook (wbc), view, control,
-	{
+	WORKBOOK_FOREACH_CONTROL (wb_control_workbook (wbc), view, control, {
 		ColorCombo *fore_combo = COLOR_COMBO
 			(WORKBOOK_CONTROL_GUI (control)->fore_color);
 		if (control != wbc) {

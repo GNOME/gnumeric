@@ -19,7 +19,7 @@
 #include "command-context.h"
 #include "workbook-control-gui-priv.h"
 #include "workbook-view.h"
-#include "workbook.h"
+#include "workbook-priv.h"
 #include "gnumeric-gconf.h"
 
 #include <libgnome/gnome-util.h>

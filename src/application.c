@@ -14,7 +14,7 @@
 #include "selection.h"
 #include "workbook-control.h"
 #include "workbook-view.h"
-#include "workbook.h"
+#include "workbook-priv.h" /* For Workbook::name */
 #include "sheet.h"
 #include "sheet-private.h"
 #include "auto-correct.h"
@@ -278,10 +278,9 @@ application_clipboard_area_get (void)
 	return NULL;
 }
 
-struct wb_name_closure
-{
+struct wb_name_closure {
 	Workbook *wb;
-	char const * name;
+	char const *name;
 };
 static gboolean
 cb_workbook_name (Workbook * wb, gpointer closure)

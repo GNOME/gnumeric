@@ -28,7 +28,7 @@
 #include "dialogs.h"
 
 #include <gui-util.h>
-#include <workbook.h>
+#include <workbook-priv.h> /* for Workbook::names */
 #include <workbook-control.h>
 #include <ranges.h>
 #include <value.h>
@@ -189,9 +189,9 @@ dialog_goto_load_names (GotoState *state)
 			    -1);
 	dialog_goto_load_these_names (state->wb->names, &iter, state);
 
-	l = state->wb->sheets->len;
+	l = workbook_sheet_count (state->wb);
 	for (i = l; i-- > 0;) {
-		Sheet *sheet = g_ptr_array_index(state->wb->sheets, i);
+		Sheet *sheet = workbook_sheet_by_index (state->wb, i);
 		gtk_tree_store_append (state->model, &iter, NULL);
 		gtk_tree_store_set (state->model, &iter,
 				    SHEET_NAME, sheet->name_unquoted,

@@ -9,11 +9,12 @@
  *
  * (C) 1998, 1999, 2000 Miguel de Icaza
  * (C) 2000-2001 Ximian, Inc.
+ * (C) 2002 Jody Goldberg
  */
 #include <gnumeric-config.h>
 #include <gnumeric-i18n.h>
 #include "gnumeric.h"
-#include "workbook.h"
+#include "workbook-priv.h"
 
 #include "workbook-view.h"
 #include "workbook-control.h"
@@ -54,7 +55,6 @@ enum {
 };
 
 static GQuark signals [LAST_SIGNAL] = { 0 };
-
 
 /*
  * We introduced numbers in front of the the history file names for two
@@ -523,10 +523,18 @@ workbook_get_filename (Workbook *wb)
 	return wb->filename;
 }
 
-void workbook_add_summary_info (Workbook *wb, SummaryItem *sit)
+void
+workbook_add_summary_info (Workbook *wb, SummaryItem *sit)
 {
 	if (summary_info_add (wb->summary_info, sit))
 		g_signal_emit (G_OBJECT (wb), signals [SUMMARY_CHANGED], 0);
+}
+
+SummaryInfo *
+workbook_metadata (Workbook *wb)
+{
+	g_return_val_if_fail (IS_WORKBOOK (wb), NULL);
+	return wb->summary_info;
 }
 
 /**

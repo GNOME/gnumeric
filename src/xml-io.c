@@ -35,7 +35,7 @@
 #include "command-context.h"
 #include "workbook-control.h"
 #include "workbook-view.h"
-#include "workbook.h"
+#include "workbook-priv.h" /* Workbook::names */
 #include "selection.h"
 #include "clipboard.h"
 #include "format.h"
@@ -3059,7 +3059,7 @@ xml_workbook_write (XmlParseContext *ctxt)
 	if (child)
 		xmlAddChild (cur, child);
 
-	child = xml_write_summary (ctxt, wb->summary_info);
+	child = xml_write_summary (ctxt, workbook_metadata (wb));
 	if (child)
 		xmlAddChild (cur, child);
 
@@ -3217,7 +3217,7 @@ xml_workbook_read (IOContext *context,
 
 	child = e_xml_get_child_by_name (tree, (xmlChar const *)"Summary");
 	if (child)
-		xml_read_summary (ctxt, child, wb->summary_info);
+		xml_read_summary (ctxt, child, workbook_metadata (wb));
 
 	child = e_xml_get_child_by_name (tree, (xmlChar const *)"Geometry");
 	if (child) {

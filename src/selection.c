@@ -21,7 +21,7 @@
 #include "command-context.h"
 #include "workbook-control.h"
 #include "workbook-view.h"
-#include "workbook.h"
+#include "workbook-priv.h"
 #include "commands.h"
 #include "value.h"
 #include "cell.h"
@@ -391,8 +391,7 @@ sv_selection_extend_to (SheetView *sv, int col, int row)
 	 * level that I want to do this.
 	 */
 	sheet_update (sv->sheet);
-	WORKBOOK_FOREACH_VIEW (sv->sheet->workbook, view,
-	{
+	WORKBOOK_FOREACH_VIEW (sv->sheet->workbook, view, {
 		if (wb_view_cur_sheet (view) == sv->sheet)
 			wb_view_selection_desc (view, FALSE, NULL);
 	});

@@ -242,6 +242,7 @@ GNUMERIC_BASE =					\
 	value-sheet.c				\
 	workbook.c				\
 	workbook.h				\
+	workbook-priv.h				\
 	workbook-cmd-format.c			\
 	workbook-cmd-format.h			\
 	workbook-edit.c				\

@@ -27,7 +27,7 @@
 #include "GNOME_Gnumeric.h"
 
 #include <application.h>
-#include <workbook.h>
+#include <workbook-priv.h>
 #include <workbook-view.h>
 #include <plugin-util.h>
 #include <module-plugin-defs.h>

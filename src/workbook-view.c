@@ -406,7 +406,7 @@ wb_view_attach_control (WorkbookView *wbv, WorkbookControl *wbc)
 
 	if (wbv->wb != NULL) {
 		/* Set the title of the newly connected control */
-		char *base_name = g_path_get_basename (wbv->wb->filename);
+		char *base_name = g_path_get_basename (workbook_get_filename (wbv->wb));
 		wb_control_title_set (wbc, base_name);
 		g_free (base_name);
 	}
@@ -516,7 +516,7 @@ workbook_view_new (Workbook *wb)
 		wb_view_sheet_add (wbv, workbook_sheet_by_index (wb, i));
 
 	/* Set the titles of the newly connected view's controls */
-	base_name = g_path_get_basename (wbv->wb->filename);
+	base_name = g_path_get_basename (workbook_get_filename (wbv->wb));
 	WORKBOOK_VIEW_FOREACH_CONTROL (wbv, wbc,
 		wb_control_title_set (wbc, base_name););
 	g_free (base_name);
@@ -599,7 +599,7 @@ wb_view_save (WorkbookView *wbv, CommandContext *context)
 		gnumeric_error_save (COMMAND_CONTEXT (io_context),
 			_("Default file saver is not available."));
 	else
-		gnum_file_saver_save (fs, io_context, wbv, wb->filename);
+		gnum_file_saver_save (fs, io_context, wbv, workbook_get_filename (wb));
 
 	error = gnumeric_io_error_occurred (io_context);
 	if (error)

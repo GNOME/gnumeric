@@ -22,8 +22,8 @@
 #include <gnumeric-config.h>
 #include "gnumeric.h"
 #include "dependent.h"
-#include "workbook.h"
 
+#include "workbook-priv.h"
 #include "value.h"
 #include "cell.h"
 #include "sheet.h"
