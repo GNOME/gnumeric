@@ -166,26 +166,26 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 	styles  = g_alloca (num_series * sizeof (GogStyle *));
 	path    = g_alloca (num_series * sizeof (ArtVpath *));
 	i = 0;
-	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next, i++) {
+	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
 		series = ptr->data;
-		
-		if (!gog_series_is_valid (GOG_SERIES (series)))	{
-			lengths[i] = 0;
+
+		if (!gog_series_is_valid (GOG_SERIES (series)))
 			continue;
-		}
-		
+
 		vals[i] = go_data_vector_get_values (
 			GO_DATA_VECTOR (series->base.values[1].data));
 		lengths[i] = go_data_vector_get_len (
 			GO_DATA_VECTOR (series->base.values[1].data));
 		styles[i] = GOG_STYLED_OBJECT (series)->style;
-		
+
 		if (!is_area_plot)
 			path[i] = g_malloc (sizeof (ArtVpath) * (lengths[i] + 2));
 		else if (type == GOG_1_5D_NORMAL)
 			path[i] = g_malloc (sizeof (ArtVpath) * (lengths[i] + 5));
 		else
 			path[i] = g_malloc (sizeof (ArtVpath) * (2 * lengths[i] + 3));
+
+		i++;
 	}
 
 	scale_x = view->allocation.w / (num_elements - 1);
@@ -196,11 +196,11 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 	for (j = 1; j <= num_elements; j++) {
 		sum = abs_sum = 0.0;
 
-		if (type == GOG_1_5D_AS_PERCENTAGE) 
-			for (i = 0; i < num_series; i++) 
+		if (type == GOG_1_5D_AS_PERCENTAGE)
+			for (i = 0; i < num_series; i++)
 				if (finite (vals[i][j-1]))
 					abs_sum += fabs (vals[i][j-1]);
-			
+
 		is_null = (gnumeric_sub_epsilon (abs_sum) <= 0.);
 
 		for (i = 0; i < num_series; i++) {
@@ -238,58 +238,56 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 					path[i][j].y = is_null ? offset_y : offset_y + scale_y * sum  / abs_sum;
 					break;
 			}
-			
+
 		}
 	}
 
 	for (i = 0; i < num_series; i++) {
-		
+
 		if (lengths[i] == 0)
 			continue;
 
 		gog_renderer_push_style (view->renderer, styles[i]);
-			
+
 		path[i][0].x = path[i][1].x;
 		path[i][0].y = path[i][1].y;
 		path[i][0].code = ART_MOVETO;
 
 		if (!is_area_plot) {
-			
+
 			path[i][lengths[i] +1].code = ART_END;
 
 			gog_renderer_draw_path (view->renderer, path[i]);
-			for (j = 1; j <= lengths[i]; j++) 
+			for (j = 1; j <= lengths[i]; j++)
 				gog_renderer_draw_marker (view->renderer, path[i][j].x, path[i][j].y);
 
-			
-		} else {
-			
-			switch (type) {
-				
-				case GOG_1_5D_NORMAL :
-					j = lengths[i] + 1;
-					path[i][j].x = path[i][j-1].x;
-					path[i][j].y = offset_y;
-					path[i][j].code = ART_LINETO;
-					j++;
-					path[i][j].x = path[i][0].x;
-					path[i][j].y = offset_y;
-					path[i][j].code = ART_LINETO;
-					j++;
-					path[i][j].x = path[i][0].x;
-					path[i][j].y = path[i][0].y;
-					path[i][j].code = ART_LINETO;
-					path[i][j+1].code = ART_END;
-					break;
 
-				case GOG_1_5D_STACKED :
-				case GOG_1_5D_AS_PERCENTAGE :
-					j = 2 * lengths[i] + 1;
-					path[i][j].x = path[i][0].x;
-					path[i][j].y = path[i][0].y;
-					path[i][j].code = ART_LINETO;
-					path[i][j+1].code = ART_END;
-					break;
+		} else {
+			switch (type) {
+			case GOG_1_5D_NORMAL :
+				j = lengths[i] + 1;
+				path[i][j].x = path[i][j-1].x;
+				path[i][j].y = offset_y;
+				path[i][j].code = ART_LINETO;
+				j++;
+				path[i][j].x = path[i][0].x;
+				path[i][j].y = offset_y;
+				path[i][j].code = ART_LINETO;
+				j++;
+				path[i][j].x = path[i][0].x;
+				path[i][j].y = path[i][0].y;
+				path[i][j].code = ART_LINETO;
+				path[i][j+1].code = ART_END;
+				break;
+
+			case GOG_1_5D_STACKED :
+			case GOG_1_5D_AS_PERCENTAGE :
+				j = 2 * lengths[i] + 1;
+				path[i][j].x = path[i][0].x;
+				path[i][j].y = path[i][0].y;
+				path[i][j].code = ART_LINETO;
+				path[i][j+1].code = ART_END;
+				break;
 			}
 			gog_renderer_draw_polygon (view->renderer, path[i], FALSE);
 		}

@@ -279,7 +279,7 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 	lengths = g_alloca (num_series * sizeof (unsigned));
 	styles = g_alloca (num_series * sizeof (GogStyle *));
 	i = 0;
-	for (ptr = gog_1_5d_model->base.series ; ptr != NULL ; ptr = ptr->next, i++) {
+	for (ptr = gog_1_5d_model->base.series ; ptr != NULL ; ptr = ptr->next) {
 		series = ptr->data;
 		if (!gog_series_is_valid (GOG_SERIES (series)))
 			continue;
@@ -288,6 +288,7 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 		lengths[i] = go_data_vector_get_len (
 			GO_DATA_VECTOR (series->base.values[1].data));
 		styles[i] = GOG_STYLED_OBJECT (series)->style;
+		i++;
 	}
 
 	/* flip things */

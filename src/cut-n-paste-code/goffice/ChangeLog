@@ -1,3 +1,10 @@
+2003-09-30  Jody Goldberg <jody@gnome.org>
+
+	* graph/plugins/plot_barcol/gog-line.c (gog_line_view_render) : we
+	  already winnowed out the invalid series, no need to flag them.
+	* graph/plugins/plot_barcol/gog-barcol.c (gog_barcol_view_render) :
+	  ditto.
+
 2003-09-28  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-style.c (gog_style_is_marker_visible) : Use the
