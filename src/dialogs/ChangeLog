@@ -1,5 +1,18 @@
 2002-02-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dialog-tabulate.c (ok_clicked) : lots of changes to use the new expr entry
+	  widget, renamed to (tabulate_ok_clicked)
+	(get_table_expr_entry) : new
+	(get_table_entry) : deleted
+	(get_table_float_entry) : new
+	(cancel_clicked) : use GtkDialog
+	(focus_on_entry) : this only works for GtkEntry
+	(single_cell) : use gnm_expr_entry_parse_as_value
+	(dialog_tabulate) : use GtkDialog
+	* tabulate.glade : placeholders don't work anymore
+
+2002-02-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* delete-cells.glade : add help button, change some ids
 	* dialog-delete-cells.c : rewrite as guru
 

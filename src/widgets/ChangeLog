@@ -1,3 +1,8 @@
+2002-02-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* gnumeric-expr-entry.c (gnm_expr_entry_is_blank) : implement. Was 
+	  listed in gnumeric-expr-entry.h but did not exist
+
 2002-02-28  Jody Goldberg <jody@gnome.org>
 
 	* gnumeric-expr-entry.c (gnm_expr_entry_rangesel_start) : Init to the

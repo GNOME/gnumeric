@@ -1,3 +1,7 @@
+2002-02-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/gui-util.[hc] (entry_to_float_with_format_default) : new
+
 2002-02-28  Morten Welinder  <terra@diku.dk>
 
 	* src/regression.c (linear_solve): Move rescaling from here...

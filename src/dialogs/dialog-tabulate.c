@@ -1,10 +1,27 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
 /*
  * dialog-tabulate.c:
  *   Dialog for making tables of function dependcies.
  *
  * Author:
- *   Morten Welinder (terra@diku.dk)
+ *   COPYRIGHT (C) Morten Welinder (terra@diku.dk)
+ *
+ * This program is free software; you can redistribute it and/or modify it
+ * under the terms of version 2 of the GNU General Public License as published
+ * by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+ * USA
  */
+
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include "dialogs.h"
@@ -22,6 +39,7 @@
 #include "cell.h"
 #include "format.h"
 #include "number-match.h"
+#include "mstyle.h"
 #include "style-border.h"
 #include "sheet-style.h"
 #include "style-color.h"
@@ -253,7 +271,7 @@ typedef struct {
 	Sheet *sheet;
 
 	GladeXML *gui;
-	GnomeDialog *dialog;
+	GtkDialog *dialog;
 
 	GtkTable *source_table;
 	GnumericExprEntry *resultrangetext;
@@ -271,14 +289,14 @@ static const char *mode_group[] = {
 static void
 free_state (DialogState *dd)
 {
-	gtk_object_unref (GTK_OBJECT (dd->gui));
+	g_object_unref (G_OBJECT (dd->gui));
 	memset (dd, 0, sizeof (*dd));
 	g_free (dd);
 }
 
 static void
 non_model_dialog (WorkbookControlGUI *wbcg,
-		  GnomeDialog *dialog,
+		  GtkDialog *dialog,
 		  const char *key)
 {
 	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (dialog), key);
@@ -287,20 +305,21 @@ non_model_dialog (WorkbookControlGUI *wbcg,
 }
 
 static void
-focus_on_entry (GtkWidget *entry)
+focus_on_entry (GtkEntry *entry)
 {
-	gtk_widget_grab_focus (entry);
+	if (entry == NULL)
+		return;
+	gtk_widget_grab_focus (GTK_WIDGET(entry));
 	gtk_editable_set_position (GTK_EDITABLE (entry), 0);
-	gtk_entry_select_region (GTK_ENTRY (entry), 0,
-				 GTK_ENTRY (entry)->text_length);
+	gtk_entry_select_region (entry, 0, entry->text_length);
 }
 
 static Cell *
-single_cell (Sheet *sheet, const char *text)
+single_cell (Sheet *sheet, GnumericExprEntry *gee)
 {
 	int col, row;
 	gboolean issingle;
-	Value *v = global_range_parse (sheet, text);
+	Value *v = gnm_expr_entry_parse_as_value (gee, sheet);
 
 	if (!v) return NULL;
 
@@ -316,20 +335,44 @@ single_cell (Sheet *sheet, const char *text)
 		return NULL;
 }
 
-static const char *
-get_table_entry (GtkTable *t, int y, int x, GtkWidget **wp)
+static GnumericExprEntry *
+get_table_expr_entry (GtkTable *t, int y, int x)
 {
 	GList *l;
 
 	for (l = t->children; l; l = l->next) {
 		GtkTableChild *child = l->data;
-		if (child->left_attach == x && child->top_attach == y) {
-			*wp = child->widget;
-			return gtk_entry_get_text (GTK_ENTRY (child->widget));
+		if (child->left_attach == x && child->top_attach == y && 
+		    IS_GNUMERIC_EXPR_ENTRY (child->widget)) {
+			return GNUMERIC_EXPR_ENTRY (child->widget);
 		}
 	}
 
 	return NULL;
+}
+
+static int
+get_table_float_entry (GtkTable *t, int y, int x, Cell *cell, gnum_float *number,
+		       GtkEntry **wp, gboolean with_default, gnum_float default_float)
+{
+	GList *l;
+	StyleFormat *format;
+
+	*wp = NULL;
+	for (l = t->children; l; l = l->next) {
+		GtkTableChild *child = l->data;
+		if (child->left_attach == x && child->top_attach == y && 
+		    GTK_IS_ENTRY (child->widget)) {
+			*wp = GTK_ENTRY (child->widget);
+			format = mstyle_get_format (cell_get_mstyle (cell));
+			return (with_default ? 
+				entry_to_float_with_format_default (GTK_ENTRY (child->widget), number,
+							   TRUE, format, default_float) :  
+				entry_to_float_with_format (GTK_ENTRY (child->widget), number,
+							   TRUE, format));
+		} 
+	}
+	return 3;
 }
 
 static void
@@ -342,14 +385,14 @@ dialog_destroy (GtkWidget *widget, DialogState *dd)
 static void
 cancel_clicked (GtkWidget *widget, DialogState *dd)
 {
-	GnomeDialog *dialog = dd->dialog;
+	GtkDialog *dialog = dd->dialog;
 	gtk_widget_destroy (GTK_WIDGET (dialog));
 }
 
 static void
-ok_clicked (GtkWidget *widget, DialogState *dd)
+tabulate_ok_clicked (GtkWidget *widget, DialogState *dd)
 {
-	GnomeDialog *dialog = dd->dialog;
+	GtkDialog *dialog = dd->dialog;
 	Cell *resultcell;
 	int dims = 0;
 	int row;
@@ -361,76 +404,63 @@ ok_clicked (GtkWidget *widget, DialogState *dd)
 	gnum_float *steps = g_new (gnum_float, dd->source_table->nrows);
 
 	for (row = 1; row < dd->source_table->nrows; row++) {
-		GtkWidget *w;
-		const char *text = get_table_entry (dd->source_table, row, COL_CELL, &w);
-		Value *v;
+		GtkEntry *e_w;
+		GnumericExprEntry *w = get_table_expr_entry (dd->source_table, row, COL_CELL);
 
-		if (!text || !*text)
+		if (!w || gnm_expr_entry_is_blank (w))
 			continue;
 
-		cells[dims] = single_cell (dd->sheet, text);
+		cells[dims] = single_cell (dd->sheet, w);
 		if (!cells[dims]) {
 			gnumeric_notice (dd->wbcg, GTK_MESSAGE_ERROR,
 					 _("You should introduce a single valid cell as dependency cell"));
-			focus_on_entry (GTK_WIDGET (w));
+			gnm_expr_entry_grab_focus (GNUMERIC_EXPR_ENTRY (w), TRUE);
 			goto error;
 		}
 		if (cell_has_expr (cells[dims])) {
 			gnumeric_notice (dd->wbcg, GTK_MESSAGE_ERROR,
 					 _("The dependency cells should not contain an expression"));
-			focus_on_entry (GTK_WIDGET (w));
+			gnm_expr_entry_grab_focus (GNUMERIC_EXPR_ENTRY (w), TRUE);
 			goto error;
 		}
 
-		text = get_table_entry (dd->source_table, row, COL_MIN, &w);
-		v = format_match_number (text, NULL);
-		if (!v) {
+		if (get_table_float_entry (dd->source_table, row, COL_MIN, cells[dims], 
+					   &(minima[dims]), &e_w, FALSE, 0.0)) {
 			gnumeric_notice (dd->wbcg, GTK_MESSAGE_ERROR,
 					 _("You should introduce a valid number as minimum"));
-			focus_on_entry (GTK_WIDGET (w));
+			focus_on_entry (e_w);
 			goto error;
 		}
-		minima[dims] = value_get_as_float (v);
-		value_release (v);
 
-		text = get_table_entry (dd->source_table, row, COL_MAX, &w);
-		v = format_match_number (text, NULL);
-		if (!v) {
+		if (get_table_float_entry (dd->source_table, row, COL_MAX, cells[dims], 
+					   &(maxima[dims]), &e_w, FALSE, 0.0)) {
 			gnumeric_notice (dd->wbcg, GTK_MESSAGE_ERROR,
 					 _("You should introduce a valid number as maximum"));
-			focus_on_entry (GTK_WIDGET (w));
+			focus_on_entry (e_w);
 			goto error;
 		}
-		maxima[dims] = value_get_as_float (v);
-		value_release (v);
 
 		if (maxima[dims] < minima[dims]) {
 			gnumeric_notice (dd->wbcg, GTK_MESSAGE_ERROR,
 					 _("The maximum value should be bigger than the minimum"));
-			focus_on_entry (GTK_WIDGET (w));
+			focus_on_entry (e_w);
 			goto error;
 		}
 
-		text = get_table_entry (dd->source_table, row, COL_STEP, &w);
-		if (*text) {
-			v = format_match_number (text, NULL);
-			if (!v) {
-				gnumeric_notice (dd->wbcg, GTK_MESSAGE_ERROR,
-						 _("You should introduce a valid number as step size"));
-				focus_on_entry (GTK_WIDGET (w));
-				goto error;
-			}
-			steps[dims] = value_get_as_float (v);
-			value_release (v);
+		if (get_table_float_entry (dd->source_table, row, COL_STEP, cells[dims], 
+					   &(steps[dims]), &e_w, TRUE, 1.0)) {
+			gnumeric_notice (dd->wbcg, GTK_MESSAGE_ERROR,
+					 _("You should introduce a valid number as step size"));
+			focus_on_entry (e_w);
+			goto error;
+		}
 
-			if (steps[dims] <= 0) {
-				gnumeric_notice (dd->wbcg, GTK_MESSAGE_ERROR,
-						 _("The step size should be positive"));
-				focus_on_entry (GTK_WIDGET (w));
-				goto error;
-			}
-		} else
-			steps[dims] = 1;
+		if (steps[dims] <= 0) {
+			gnumeric_notice (dd->wbcg, GTK_MESSAGE_ERROR,
+					 _("The step size should be positive"));
+			focus_on_entry (e_w);
+			goto error;
+		}
 
 		dims++;
 	}
@@ -442,20 +472,19 @@ ok_clicked (GtkWidget *widget, DialogState *dd)
 	}
 
 	{
-		const char *text = gtk_entry_get_text (GTK_ENTRY (dd->resultrangetext));
-		resultcell = single_cell (dd->sheet, text);
+		resultcell = single_cell (dd->sheet, dd->resultrangetext);
 
 		if (!resultcell) {
 			gnumeric_notice (dd->wbcg, GTK_MESSAGE_ERROR,
 					 _("You should introduce a single valid cell as result cell"));
-			focus_on_entry (GTK_WIDGET (dd->resultrangetext));
+			gnm_expr_entry_grab_focus (dd->resultrangetext, TRUE);
 			goto error;
 		}
 
 		if (!cell_has_expr (resultcell)) {
 			gnumeric_notice (dd->wbcg, GTK_MESSAGE_ERROR,
 					 _("The target cell should contain an expression"));
-			focus_on_entry (GTK_WIDGET (dd->resultrangetext));
+			gnm_expr_entry_grab_focus (dd->resultrangetext, TRUE);
 			goto error;
 		}
 	}
@@ -484,7 +513,7 @@ void
 dialog_tabulate (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
 	GladeXML *gui;
-	GnomeDialog *dialog;
+	GtkDialog *dialog;
 	DialogState *dd;
 	int i;
 
@@ -501,7 +530,7 @@ dialog_tabulate (WorkbookControlGUI *wbcg, Sheet *sheet)
         if (gui == NULL)
                 return;
 
-	dialog = GNOME_DIALOG (glade_xml_get_widget (gui, "tabulate_dialog"));
+	dialog = GTK_DIALOG (glade_xml_get_widget (gui, "tabulate_dialog"));
 
 	dd = g_new (DialogState, 1);
 	dd->wbcg = wbcg;
@@ -540,7 +569,7 @@ dialog_tabulate (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "ok_button")),
 		"clicked",
-		G_CALLBACK (ok_clicked), dd);
+		G_CALLBACK (tabulate_ok_clicked), dd);
 
 	g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "cancel_button")),
 		"clicked",

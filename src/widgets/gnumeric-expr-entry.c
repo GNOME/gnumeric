@@ -1037,6 +1037,24 @@ gnm_expr_entry_is_cell_ref (GnumericExprEntry *e, Sheet *sheet,
 
 }
 
+gboolean  
+gnm_expr_entry_is_blank	(GnumericExprEntry *e) 
+{
+	GtkEntry *entry = gnm_expr_entry_get_entry (e);
+	char const *text = gtk_entry_get_text (entry);
+	char *new_text;
+	int len;
+	
+	if (text == NULL)
+		return TRUE;
+
+	new_text = g_strdup (text);
+	len = strlen (g_strstrip(new_text));
+	g_free (new_text);
+	
+	return (len == 0);
+}
+
 char *
 gnm_expr_entry_global_range_name (GnumericExprEntry *e, Sheet *sheet)
 {

@@ -1165,6 +1165,30 @@ entry_to_float (GtkEntry *entry, gnum_float *the_float, gboolean update)
 }
 
 int
+entry_to_float_with_format_default (GtkEntry *entry, gnum_float *the_float, gboolean update, 
+			    StyleFormat *format, gnum_float num)
+{
+	char const *text = gtk_entry_get_text (entry);
+	gboolean need_default = (text == NULL);
+	
+	if (!need_default) {
+		char *new_text = g_strdup (text);
+		need_default = (0 ==  strlen (g_strstrip(new_text)));
+		g_free (new_text);
+	}
+
+	if (need_default && !update) {
+		*the_float = num;
+		return 0;
+	}
+
+	if (need_default)
+		float_to_entry (entry, num);
+		
+	return entry_to_float_with_format (entry, the_float, update, format);
+}
+
+int
 entry_to_float_with_format (GtkEntry *entry, gnum_float *the_float, gboolean update, 
 			    StyleFormat *format)
 {
