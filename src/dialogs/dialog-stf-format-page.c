@@ -128,7 +128,8 @@ cb_col_check_clicked (GtkToggleButton *togglebutton, gpointer _i)
 				(_("A maximum of %d columns can be imported."), 
 				 SHEET_MAX_COLS);
 			gtk_toggle_button_set_active (togglebutton, FALSE);
-			gnumeric_notice (pagedata->wbcg, GTK_MESSAGE_WARNING, msg);
+			gnumeric_notice (GTK_WINDOW (pagedata->dialog),
+					 GTK_MESSAGE_WARNING, msg);
 			g_free (msg);
 		}
 	}

@@ -46,34 +46,35 @@
 #include <string.h>
 
 gboolean
-gnumeric_dialog_question_yes_no (WorkbookControlGUI *wbcg,
+gnumeric_dialog_question_yes_no (GtkWindow *parent,
                                  gchar const *message,
                                  gboolean default_answer)
 {
-	GtkWidget *dialog = gtk_message_dialog_new (wbcg_toplevel (wbcg),
+	GtkWidget *dialog = gtk_message_dialog_new (parent,
 		GTK_DIALOG_DESTROY_WITH_PARENT,
 		GTK_MESSAGE_QUESTION,
 		GTK_BUTTONS_YES_NO,
 		message);
 	gtk_dialog_set_default_response (GTK_DIALOG (dialog),
 		default_answer ? GTK_RESPONSE_YES : GTK_RESPONSE_NO);
-	return gnumeric_dialog_run (wbcg, GTK_DIALOG (dialog)) == GTK_RESPONSE_YES;
+	return gnumeric_dialog_run (parent, 
+				    GTK_DIALOG (dialog)) == GTK_RESPONSE_YES;
 }
 /*
  * TODO:
  * Get rid of trailing newlines /whitespace.
  */
 void
-gnumeric_notice (WorkbookControlGUI *wbcg, GtkMessageType type, char const *str)
+gnumeric_notice (GtkWindow *parent, GtkMessageType type, char const *str)
 {
 	GtkWidget *dialog;
 
-	dialog = gtk_message_dialog_new (wbcg == NULL ? NULL : wbcg_toplevel (wbcg),
+	dialog = gtk_message_dialog_new (parent,
                                          GTK_DIALOG_DESTROY_WITH_PARENT, type,
 					 GTK_BUTTONS_OK, str);
 	gtk_label_set_use_markup (GTK_LABEL (GTK_MESSAGE_DIALOG (dialog)->label), TRUE);
 
-	gnumeric_dialog_run (wbcg, GTK_DIALOG (dialog));
+	gnumeric_dialog_run (parent, GTK_DIALOG (dialog));
 }
 
 void
@@ -170,19 +171,19 @@ cb_modal_dialog_keypress (GtkWidget *w, GdkEventKey *e)
 /**
  * gnumeric_dialog_run
  *
- * Pop up a dialog as child of a workbook.
+ * Pop up a dialog as child of a window.
  */
 gint
-gnumeric_dialog_run (WorkbookControlGUI *wbcg, GtkDialog *dialog)
+gnumeric_dialog_run (GtkWindow *parent, GtkDialog *dialog)
 {
 	gint      result;
 
 	g_return_val_if_fail (GTK_IS_DIALOG (dialog), GTK_RESPONSE_NONE);
 
-	if (wbcg) {
-		g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), GTK_RESPONSE_NONE);
+	if (parent) {
+		g_return_val_if_fail (GTK_IS_WINDOW (parent), GTK_RESPONSE_NONE);
 
-		wbcg_set_transient (wbcg, GTK_WINDOW (dialog));
+		gnumeric_set_transient (parent, GTK_WINDOW (dialog));
 	}
 
 	g_signal_connect (G_OBJECT (dialog),
@@ -298,10 +299,10 @@ gnumeric_error_info_dialog_new (ErrorInfo *error)
  *
  */
 void
-gnumeric_error_info_dialog_show (WorkbookControlGUI *wbcg, ErrorInfo *error)
+gnumeric_error_info_dialog_show (GtkWindow *parent, ErrorInfo *error)
 {
 	GtkWidget *dialog = gnumeric_error_info_dialog_new (error);
-	gnumeric_dialog_run (wbcg, GTK_DIALOG (dialog));
+	gnumeric_dialog_run (parent, GTK_DIALOG (dialog));
 }
 
 static void

@@ -136,7 +136,8 @@ interaction_function (GnomeClient *client, gint key, GnomeDialogType dialog_type
 			gtk_window_stick (GTK_WINDOW (wbcg_toplevel (wbcg)));
 			gtk_window_stick (GTK_WINDOW (d));
 			
-			button = gnumeric_dialog_run (wbcg, GTK_DIALOG (d));
+			button = gnumeric_dialog_run (wbcg_toplevel (wbcg),
+						      GTK_DIALOG (d));
 
 			g_free (msg);
 			

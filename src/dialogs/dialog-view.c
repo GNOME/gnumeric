@@ -80,7 +80,8 @@ cb_view_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 				g_strdup_printf (_("Display \"%s\" could not be opened."),
 						 name);				
 			gtk_widget_destroy (state->dialog);
-			gnumeric_notice (wbcg, GTK_MESSAGE_ERROR, error_str);
+			gnumeric_notice (wbcg_toplevel (wbcg),
+					 GTK_MESSAGE_ERROR, error_str);
 			g_free (error_str);
 			return;
 		}

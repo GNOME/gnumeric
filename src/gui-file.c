@@ -371,7 +371,7 @@ update_preview_cb (GtkFileChooser *chooser)
  * not the workbook.
  */
 static gboolean
-go_file_is_writable (char const *uri, WorkbookControlGUI *wbcg)
+go_file_is_writable (char const *uri, GtkWindow *parent)
 {
 	gboolean result = TRUE;
 	gchar *msg;
@@ -387,14 +387,14 @@ go_file_is_writable (char const *uri, WorkbookControlGUI *wbcg)
 	if (filename [strlen (filename) - 1] == G_DIR_SEPARATOR ||
 		 g_file_test (filename, G_FILE_TEST_IS_DIR)) {
 		msg = g_strdup_printf (_("%s\nis a directory name"), uri);
-		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR, msg);
+		gnumeric_notice (parent, GTK_MESSAGE_ERROR, msg);
 		g_free (msg);
 		result = FALSE;
 	} else if (access (filename, W_OK) != 0 && errno != ENOENT) {
 		msg = g_strdup_printf (
 		      _("You do not have permission to save to\n%s"),
 		      uri);
-		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR, msg);
+		gnumeric_notice (parent, GTK_MESSAGE_ERROR, msg);
 		g_free (msg);
 		result = FALSE;
 	} else if (g_file_test (filename, G_FILE_TEST_EXISTS)) {
@@ -402,7 +402,8 @@ go_file_is_writable (char const *uri, WorkbookControlGUI *wbcg)
 		      _("%s already exists.\n"
 		      "Do you want to save over it?"), uri);
 		result = gnumeric_dialog_question_yes_no (
-			wbcg, msg, gnm_app_prefs->file_overwrite_default_answer);
+			parent, msg, 
+			gnm_app_prefs->file_overwrite_default_answer);
 		g_free (msg);
 	}
 
@@ -520,7 +521,7 @@ loop :
 	if (!gnumeric_dialog_file_selection (wbcg, GTK_WIDGET (fsel)))
 		goto out;
 	uri = gtk_file_chooser_get_uri (fsel);
-	if (!go_file_is_writable (uri, wbcg)) {
+	if (!go_file_is_writable (uri, GTK_WINDOW (fsel))) {
 		g_free (uri);
 		goto loop;
 	}
@@ -532,7 +533,7 @@ loop :
 		if (!gnm_vrfy_uri_ext (sel_format->ext,
 				       uri, &new_uri) &&
 		    !gnumeric_dialog_question_yes_no 
-		    (wbcg,
+		    (GTK_WINDOW (fsel),
 		     _("The given file extension does not match the"
 		       " chosen file type. Do you want to use this name"
 		       " anyway?"), TRUE)) {
@@ -571,7 +572,7 @@ gui_image_file_select (WorkbookControlGUI *wbcg, const char *initial)
 
 static gboolean
 check_multiple_sheet_support_if_needed (GnmFileSaver *fs,
-					WorkbookControlGUI *wbcg,
+					GtkWindow *parent,
 					WorkbookView *wb_view)
 {
 	gboolean ret_val = TRUE;
@@ -587,7 +588,8 @@ check_multiple_sheet_support_if_needed (GnmFileSaver *fs,
 
 		sheets = workbook_sheets (wb_view_workbook (wb_view));
 		if (g_list_length (sheets) > 1) {
-			ret_val = gnumeric_dialog_question_yes_no (wbcg, msg, TRUE);
+			ret_val = gnumeric_dialog_question_yes_no (
+				parent, msg, TRUE);
 		}
 		g_list_free (sheets);
 	}
@@ -599,26 +601,26 @@ check_multiple_sheet_support_if_needed (GnmFileSaver *fs,
  */
 static gboolean
 do_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view,
-            GnmFileSaver *fs, char const *uri1)
+            GnmFileSaver *fs, char const *uri1, GtkWindow *parent)
 {
 	char *uri2 = NULL;
 	gboolean success = FALSE;
 
 	if (!gnm_vrfy_uri_ext (gnm_file_saver_get_extension (fs), 
 			       uri1, &uri2) &&
-		!gnumeric_dialog_question_yes_no (wbcg,
+		!gnumeric_dialog_question_yes_no (parent,
                       _("The given file extension does not match the"
 			" chosen file type. Do you want to use this name"
 			" anyway?"), TRUE))
 		goto out;
 
-	success = go_file_is_writable (uri2, wbcg);
+	success = go_file_is_writable (uri2, parent);
 	if (!success) goto out;
 
 	wb_view_preferred_size (wb_view, GTK_WIDGET (wbcg->notebook)->allocation.width,
 				GTK_WIDGET (wbcg->notebook)->allocation.height);
 
-	success = check_multiple_sheet_support_if_needed (fs, wbcg, wb_view);
+	success = check_multiple_sheet_support_if_needed (fs, parent, wb_view);
 	if (!success) goto out;
 
 	success = wb_view_save_as (wb_view, fs, uri2, GNM_CMD_CONTEXT (wbcg));
@@ -735,7 +737,8 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 		fs = g_list_nth_data (savers, gtk_combo_box_get_active (format_combo));
 		if (fs != NULL) {
 			char *uri = gtk_file_chooser_get_uri (fsel);
-			success = do_save_as (wbcg, wb_view, fs, uri);
+			success = do_save_as (wbcg, wb_view, fs, uri,
+					      GTK_WINDOW (fsel));
 			g_free (uri);
 
 			if (success)

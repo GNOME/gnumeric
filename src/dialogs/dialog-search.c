@@ -318,7 +318,8 @@ search_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 
 	err = search_replace_verify (sr, FALSE);
 	if (err) {
-		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR, err);
+		gnumeric_notice (GTK_WINDOW (dd->dialog),
+				 GTK_MESSAGE_ERROR, err);
 		g_free (err);
 		search_replace_free (sr);
 		return;
@@ -327,7 +328,7 @@ search_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 		   !sr->search_expressions &&
 		   !sr->search_expression_results &&
 		   !sr->search_comments) {
-		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
+		gnumeric_notice (GTK_WINDOW (dd->dialog), GTK_MESSAGE_ERROR,
 				 _("You must select some cell types to search."));
 		search_replace_free (sr);
 		return;

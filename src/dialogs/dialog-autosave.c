@@ -180,7 +180,7 @@ dialog_autosave (WorkbookControlGUI *wbcg)
 
 	if (!state->dialog || !state->minutes_entry || !state->prompt_cb ||
 	    !state->autosave_on_off) {
-		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
+		gnumeric_notice (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR,
 				 _("Could not create the autosave dialog."));
 		g_free (state);
 		return;

@@ -21,7 +21,9 @@ view_data_sources (WorkbookControlGUI *wbcg)
 
 	if (!g_spawn_async (NULL, argv, NULL, G_SPAWN_SEARCH_PATH,
 			    NULL, NULL, NULL, NULL))
-		gnumeric_notice (wbcg, GTK_MESSAGE_INFO, _("Could not run GNOME database configuration tool"));
+		gnumeric_notice (wbcg_toplevel (wbcg),
+				 GTK_MESSAGE_INFO, 
+				 _("Could not run GNOME database configuration tool"));
 }
 
 const ModulePluginUIVerbInfo gnome_db_ui_verbs[] = {

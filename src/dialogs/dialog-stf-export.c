@@ -464,7 +464,7 @@ stf_export_dialog (WorkbookControlGUI *wbcg, Workbook *wb)
 		"clicked",
 		G_CALLBACK (cb_next_page), &state);
 
-	gnumeric_dialog_run (wbcg, GTK_DIALOG (state.window));
+	gnumeric_dialog_run (wbcg_toplevel (wbcg), GTK_DIALOG (state.window));
 	g_object_unref (G_OBJECT (state.gui));
 
 	return state.result;

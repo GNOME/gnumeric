@@ -1114,14 +1114,15 @@ wbcg_get_password (GnmCmdContext *cc, char const* filename)
 static void
 wbcg_error_error (GnmCmdContext *cc, GError *err)
 {
-	gnumeric_notice (WORKBOOK_CONTROL_GUI (cc),
+	gnumeric_notice (wbcg_toplevel (WORKBOOK_CONTROL_GUI (cc)),
 		GTK_MESSAGE_ERROR, err->message);
 }
 
 static void
 wbcg_error_error_info (GnmCmdContext *cc, ErrorInfo *error)
 {
-	gnumeric_error_info_dialog_show (WORKBOOK_CONTROL_GUI (cc), error);
+	gnumeric_error_info_dialog_show (
+		wbcg_toplevel (WORKBOOK_CONTROL_GUI (cc)), error);
 }
 
 /**
@@ -1217,7 +1218,8 @@ wbcg_close_if_user_permits (WorkbookControlGUI *wbcg,
 
 		gtk_dialog_add_button (GTK_DIALOG(d), GTK_STOCK_SAVE, GTK_RESPONSE_YES);
 		gtk_dialog_set_default_response (GTK_DIALOG (d), GTK_RESPONSE_YES);
-		button = gnumeric_dialog_run (wbcg, GTK_DIALOG (d));
+		button = gnumeric_dialog_run (wbcg_toplevel (wbcg), 
+					      GTK_DIALOG (d));
 		g_free (msg);
 
 		switch (button) {

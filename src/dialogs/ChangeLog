@@ -1,3 +1,62 @@
+2004-09-07  Jon K Hellan  <hellan@acm.org>
+
+	* dialog-view.c (cb_view_ok_clicked): Use updated gui-utils.
+
+	* dialog-tabulate.c (tabulate_ok_clicked): Ditto.
+
+	* dialog-stf.c (cancel_clicked): Ditto.
+
+	* dialog-stf-main-page.c (encodings_changed_cb): Ditto.
+
+	* dialog-stf-format-page.c (cb_col_check_clicked): Ditto.
+
+	* dialog-stf-fixed-page.c (fixed_page_autodiscover): Ditto.
+
+	* dialog-stf-export.c (stf_export_dialog): Ditto.
+
+	* dialog-solver.c (dialog_solver): Ditto.
+
+	* dialog-sheet-order.c (cb_ok_clicked, cb_sheet_order_changed): Ditto.
+
+	* dialog-search.c (search_clicked): Ditto.
+
+	* dialog-search-replace.c (ok_clicked): Ditto.
+
+	* dialog-scenarios.c (scenario_add_ok_clicked_cb,
+	scenarios_summary_clicked_cb, dialog_scenarios): Ditto.
+
+	* dialog-plugin-manager.c (cb_pm_button_activate_all_clicked,
+	cb_pm_button_deactivate_all_clicked, cb_active_toggled): Ditto.
+
+	* dialog-paste-special.c (dialog_paste_special): Ditto.
+
+	* dialog-merge.c (cb_merge_merge_clicked): Ditto.
+
+	* dialog-insert-cells.c (dialog_insert_cells): Ditto.
+
+	* dialog-hyperlink.c (dhl_get_target_cur_wb, dialog_hyperlink): Ditto.
+
+	* dialog-goto-cell.c (dialog_goto_cell): Ditto.
+
+	* dialog-goal-seek.c (dialog_goal_seek): Ditto.
+
+	* dialog-formula-guru.c (dialog_formula_guru): Ditto.
+
+	* dialog-delete-cells.c (dialog_delete_cells): Ditto.
+
+	* dialog-define-names.c (cb_scope_changed, name_guru_add,
+	dialog_define_names): Ditto.
+
+	* dialog-cell-sort.c (dialog_cell_sort): Ditto.
+
+	* dialog-cell-format.c (cb_fmt_dialog_dialog_buttons): Ditto.
+
+	* dialog-autosave.c (dialog_autosave): Ditto.
+
+	* dialog-autocorrect.c (dialog_autocorrect): Ditto.
+
+	* dialog-analysis-tools.c (dialog_tool_init): Ditto.
+
 2004-09-06  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-analysis-tools.c (dialog_ttest_tool): Enable the `put' 

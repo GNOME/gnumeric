@@ -1442,7 +1442,7 @@ dialog_solver (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->cancelled      = TRUE;
 
 	if (dialog_init (state)) {
-		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
+		gnumeric_notice (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR,
 				 _("Could not create the Solver dialog."));
 		g_free (state);
 		return;

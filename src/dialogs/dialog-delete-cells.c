@@ -162,7 +162,7 @@ dialog_delete_cells (WorkbookControlGUI *wbcg)
 
 	state->dialog = glade_xml_get_widget (state->gui, "Delete_cells");
 	if (state->dialog == NULL) {
-		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
+		gnumeric_notice (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR,
 				 _("Could not create the Delete Cell dialog."));
 		g_free (state);
 		return ;

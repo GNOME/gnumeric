@@ -17,20 +17,20 @@
 
 #define GNM_ACTION_DEF(name)			\
 	void name (GtkAction *a, WorkbookControlGUI *wbcg)
-gboolean   gnumeric_dialog_question_yes_no (WorkbookControlGUI *wbcg,
+gboolean   gnumeric_dialog_question_yes_no (GtkWindow *toplevel,
                                             char const *message,
                                             gboolean default_answer);
 gboolean   gnumeric_dialog_file_selection (WorkbookControlGUI *wbcg, 
 					   GtkWidget *w);
-void       gnumeric_notice (WorkbookControlGUI *wbcg, GtkMessageType type, 
+void       gnumeric_notice (GtkWindow *parent, GtkMessageType type, 
 			    char const *str);
 void       gnumeric_notice_nonmodal (GtkWindow *parent, GtkWidget **ref,
 				     GtkMessageType type, char const *str);
 
 void       gnumeric_non_modal_dialog (GtkWindow *toplevel, GtkWindow *dialog);
-gint       gnumeric_dialog_run  (WorkbookControlGUI *wbcg, GtkDialog *dialog);
+gint       gnumeric_dialog_run  (GtkWindow *parent, GtkDialog *dialog);
 GtkWidget* gnumeric_error_info_dialog_new (ErrorInfo *error);
-void       gnumeric_error_info_dialog_show (WorkbookControlGUI *wbcg,
+void       gnumeric_error_info_dialog_show (GtkWindow *parent,
                                             ErrorInfo *error);
 void       gnumeric_set_transient (GtkWindow *parent, GtkWindow *window);
 void       gnumeric_keyed_dialog (WorkbookControlGUI *wbcg,

@@ -728,17 +728,17 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 	changed_names = g_slist_reverse (changed_names);
 
 	if (!one_is_visible) {
-		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
+		gnumeric_notice (GTK_WINDOW (state->dialog), GTK_MESSAGE_ERROR,
 				 _("At least one sheet must remain visible!"));
 		goto cleanup;
 	}
 	if (new_order == NULL) {
-		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
+		gnumeric_notice (GTK_WINDOW (state->dialog), GTK_MESSAGE_ERROR,
 				 _("You may not delete all sheets in a workbook!"));
 		goto cleanup;
 	}
 	if (workbook_sheet_count (wb) <= (int)g_slist_length (deleted_sheets) ) {
-		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
+		gnumeric_notice (GTK_WINDOW (state->dialog), GTK_MESSAGE_ERROR,
 				 _("To replace all exisiting sheets, please "
 				   "delete the current workbook and create "
 				   "a new one!"));
@@ -983,7 +983,7 @@ cb_sheet_order_changed (Workbook *wb, SheetManager *state)
 	 * The order in the dialog and the new sheet order are totally
 	 * different. Ask the user what to do.
 	 */
-	if (gnumeric_dialog_question_yes_no (state->wbcg,
+	if (gnumeric_dialog_question_yes_no (GTK_WINDOW (state->dialog),
 			_("The sheet order has changed. Do you want to "
 			  "update the list?"), TRUE))
 		dialog_sheet_order_update_sheet_order (state);

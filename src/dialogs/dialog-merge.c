@@ -286,7 +286,8 @@ cb_merge_merge_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 						"%i and proceed?"), min_length, max_length,
 					      min_length);
 
-		if (gnumeric_dialog_question_yes_no (state->wbcg, text, TRUE)) {
+		if (gnumeric_dialog_question_yes_no (
+			    GTK_WINDOW (state->dialog), text, TRUE)) {
 			g_slist_foreach (data_list, cb_merge_trim_data, &min_length);
 			g_free (text);
 		} else {

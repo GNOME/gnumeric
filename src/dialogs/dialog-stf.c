@@ -176,7 +176,7 @@ static void
 cancel_clicked (G_GNUC_UNUSED GtkWidget *widget, StfDialogData *data)
 {
 	if (gnumeric_dialog_question_yes_no
-	    (data->wbcg,
+	    (GTK_WINDOW (data->dialog),
 	     _("Are you sure you want to cancel?"),
 	     FALSE)) {
 		data->canceled = TRUE;

@@ -972,7 +972,7 @@ dialog_formula_guru (WorkbookControlGUI *wbcg, GnmFunc const *fd)
 	state->dialog = glade_xml_get_widget (state->gui, "formula_guru");
 
 	if (dialog_formula_guru_init (state)) {
-		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
+		gnumeric_notice (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR,
 				 _("Could not create the formula guru."));
 		g_free (state);
 		return;

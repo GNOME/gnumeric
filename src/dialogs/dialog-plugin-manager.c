@@ -488,7 +488,8 @@ cb_pm_button_activate_all_clicked (G_GNUC_UNUSED GtkButton *button,
 	if (activation_error != NULL) {
 		error = error_info_new_str_with_details (
 			_("Errors while activating plugins"), activation_error);
-		gnumeric_error_info_dialog_show (pm_gui->wbcg, error);
+		gnumeric_error_info_dialog_show (
+			GTK_WINDOW (pm_gui->dialog_pm), error);
 		error_info_free (error);
 	}
 }
@@ -504,7 +505,8 @@ cb_pm_button_deactivate_all_clicked (G_GNUC_UNUSED GtkButton *button,
 	if (deactivation_error != NULL) {
 		error = error_info_new_str_with_details (
 			_("Errors while deactivating plugins"), deactivation_error);
-		gnumeric_error_info_dialog_show (pm_gui->wbcg, error);
+		gnumeric_error_info_dialog_show (
+			GTK_WINDOW (pm_gui->dialog_pm), error);
 		error_info_free (error);
 	}
 }
@@ -614,7 +616,7 @@ cb_active_toggled (G_GNUC_UNUSED GtkCellRendererToggle *celltoggle,
 			);
 			g_string_append (s, _("\nDo you want to activate this plugin together with its dependencies?"));
 			if (n_inactive_deps > 0) {
-				want_activate = gnumeric_dialog_question_yes_no (pm_gui->wbcg, s->str, TRUE);
+				want_activate = gnumeric_dialog_question_yes_no (GTK_WINDOW (pm_gui->dialog_pm), s->str, TRUE);
 			}
 			g_string_free (s, TRUE);
 		}

@@ -913,7 +913,7 @@ item_cursor_target_region_ok (ItemCursor *ic)
 		return TRUE;
 
 	return gnumeric_dialog_question_yes_no
-		(ic->scg->wbcg,
+		(wbcg_toplevel (ic->scg->wbcg),
 		 _("The cells dragged will overwrite the contents of the\n"
 		   "existing cells in that range.  Do you want me to replace\n"
 		   "the contents in this region?"),

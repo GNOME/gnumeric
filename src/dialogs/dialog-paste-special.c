@@ -195,7 +195,7 @@ dialog_paste_special (WorkbookControlGUI *wbcg)
 	gtk_widget_show_all (hbox);
 	gtk_widget_grab_focus (first_button);
 
-	v = gnumeric_dialog_run (wbcg, state.dialog);
+	v = gnumeric_dialog_run (wbcg_toplevel (wbcg), state.dialog);
 
 	/* If closed with the window manager, cancel */
 	if (v == -1)

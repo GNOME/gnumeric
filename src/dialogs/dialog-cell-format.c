@@ -2110,8 +2110,9 @@ cb_fmt_dialog_dialog_buttons (GtkWidget *btn, FormatState *state)
 			validation_rebuild_validation (state);
 
 		if (state->validation.valid < 0) {
-			if (gnumeric_dialog_question_yes_no (state->wbcg,
-							     _ ("The validation criteria are unusable. Disable validation?"), FALSE))
+			if (gnumeric_dialog_question_yes_no (
+				    GTK_WINDOW (state->dialog),
+				    _ ("The validation criteria are unusable. Disable validation?"), FALSE))
 			{
 				gtk_combo_box_set_active (state->validation.constraint_type, 0);
 				cb_validation_sensitivity (NULL, state);

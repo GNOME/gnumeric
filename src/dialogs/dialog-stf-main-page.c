@@ -171,7 +171,8 @@ encodings_changed_cb (CharmapSelector *cs, char const *new_charmap,
 			(_("The data is not valid in encoding %s; "
 			   "please select another encoding."),
 			 name ? name : new_charmap);
-		gnumeric_notice (pagedata->wbcg, GTK_MESSAGE_ERROR, msg);
+		gnumeric_notice (GTK_WINDOW (pagedata->dialog),
+				 GTK_MESSAGE_ERROR, msg);
 		g_free (msg);
 
 		charmap_selector_set_encoding (pagedata->main.charmap_selector,

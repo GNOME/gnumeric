@@ -50,7 +50,8 @@ fixed_page_autodiscover (StfDialogData *pagedata)
 			GTK_MESSAGE_INFO,
 			GTK_BUTTONS_OK,
 			_("Autodiscovery did not find any columns in the text. Try manually"));
-		gnumeric_dialog_run (pagedata->wbcg, GTK_DIALOG (dialog));
+		gnumeric_dialog_run (GTK_WINDOW (pagedata->dialog),
+				     GTK_DIALOG (dialog));
 	}
 }
 

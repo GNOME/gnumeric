@@ -347,7 +347,7 @@ cb_edit_search_replace_query (SearchReplaceQuery q, GnmSearchReplace *sr, ...)
 			 old_text,
 			 new_text);
 
-		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR, err);
+		gnumeric_notice (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR, err);
 		g_free (err);
 		break;
 	}

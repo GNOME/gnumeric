@@ -423,7 +423,7 @@ dialog_tool_init (GenericToolState *state,
 	return FALSE;
 
  dialog_tool_init_error:
-	gnumeric_notice (wbcg, GTK_MESSAGE_ERROR, error_str);
+	gnumeric_notice (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR, error_str);
 	g_free (state);
 	return TRUE;
 }
