@@ -19,6 +19,18 @@ Pending Patches
 Long term breakage
 ------------------
 
+- Missing undo/redo for
+    - Add/duplicate sheet.
+    - Remove sheet.
+    - Reorder sheets.
+
+- 1. Select A1.
+  2. Format->Autoformat.
+  3. Click "ok".   [This correctly gives an error about the range being too small]
+  Undo information should not be saved for the error case, but it is.
+
+
+- Misc.
     - Add an idle handler at start up to check for availablity of
       evo and guppi.  They should only be enabled if they are available.
     - config check for xml-i18n-tool version (or should it be
