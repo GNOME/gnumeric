@@ -372,35 +372,42 @@ oleo_new_sheet (Workbook *wb, int idx)
 void
 oleo_read (IOContext *io_context, Workbook *wb, GsfInput *input)
 {
-	int sheetidx  = 0;
+	int sheetidx = 0;
 	int ccol = 0, crow = 0;
 	Sheet *sheet = NULL;
 	MStyle *style = NULL;
 	guint8 *line;
 	GsfInputTextline *textline = gsf_input_textline_new (input);
+	/* This should probably come from import dialog.  */
+	GIConv ic = g_iconv_open ("UTF-8", "ISO-8859-1");
 
-	sheet = oleo_new_sheet (wb, sheetidx++);
+	sheet = oleo_new_sheet (wb, ++sheetidx);
 
 	while (NULL != (line = gsf_input_textline_ascii_gets (textline))) {
-		switch (line[0]) {
+		char *utf8line =
+			g_convert_with_iconv (line, -1, ic, NULL, NULL, NULL);
 
+		switch (utf8line[0]) {
 		case '#': /* Comment */
 			break;
 
-		case 'C': oleo_deal_with_cell (line, sheet, &ccol, &crow, style);
+		case 'C': oleo_deal_with_cell (utf8line, sheet, &ccol, &crow, style);
 			break;
 
-		case 'F': oleo_deal_with_format (line, sheet, &ccol, &crow, &style);
+		case 'F': oleo_deal_with_format (utf8line, sheet, &ccol, &crow, &style);
 			break;
 
 		default: /* unknown */
 #if OLEO_DEBUG > 0
 			g_warning ("oleo: Don't know how to deal with %c.",
-				   str[0]);
+				   line[0]);
 #endif
 			break;
 		}
+
+		g_free (utf8line);
 	}
 
+	g_iconv_close (ic);
 	g_object_unref (G_OBJECT (textline));
 }

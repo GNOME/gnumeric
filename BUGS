@@ -60,7 +60,7 @@ Pending Patches
     12.5)  plan perfect						(DONE)
     12.6)  html							(DONE)
     12.7)  opencalc						(DONE)
-    12.8)  oleo
+    12.8)  oleo                                                 (DONE)
     12.9)  sc                                                   (DONE)
     12.10) sylk
     12.11) dif
@@ -99,6 +99,8 @@ Excel i/o
 
 Misc stuff that should be fixed
 -------------------------------
+
+- Oleo formulae contains spaces and now break.  (Try demo.oleo.)
 
 - Missing undo/redo for
     - Freeze panes.

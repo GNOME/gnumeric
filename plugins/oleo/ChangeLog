@@ -1,3 +1,7 @@
+2002-11-13  Morten Welinder  <terra@diku.dk>
+
+	* oleo.c (oleo_read): Do character conversion here.
+
 2002-11-01  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.11

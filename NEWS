@@ -47,6 +47,7 @@ Morten:
 	  safe.
 	* Make SEARCH function UTF-8 safe.
 	* Fix sc importer to do ISO-8859-1 -> UTF-8 conversion.
+	* Fix oleo importer to do ISO-8859-1 -> UTF-8 conversion.
 
 Nick Lamb:
 	* Initial support for pre-ole xls files.
