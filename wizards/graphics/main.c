@@ -26,6 +26,17 @@ customize (GladeXML *gui, GraphicContext *gc)
 	gtk_notebook_set_show_tabs (gc->steps_notebook, FALSE);
 
 	fill_graphic_types (gui, gc);
+
+	/* Stick the views all over the place */
+	gtk_table_attach (
+		GTK_TABLE (glade_xml_get_widget (gui, "data-ranges-table")),
+		gnome_component_new_view (gc->guppi),
+		0, 1, 0, 1, 0, 0, 0, 0);
+
+	gtk_table_attach (
+		GTK_TABLE (glade_xml_get_widget (gui, "data-series-table")),
+		gnome_component_new_view (gc->guppi),
+		0, 1, 0, 1, 0, 0, 0, 0);
 }
 
 static void
@@ -109,6 +120,8 @@ my_wizard (Workbook *wb)
 	GladeXML *gui;
 	GtkWidget *n;
 	GraphicContext *gc;
+
+	bonobo_init (gnome_CORBA_ORB (), NULL, NULL);
 	
 	gui = glade_xml_new ("graphics.glade", NULL);
 	if (!gui){
@@ -116,7 +129,15 @@ my_wizard (Workbook *wb)
 	}
 
 	gc = graphic_context_new (wb, gui);
-	
+
+	if (!gc){
+		gnumeric_notice (
+			wb, GNOME_MESSAGE_BOX_ERROR,
+			_("Unable to launch the Plotting service"));
+		gtk_object_unref (GTK_OBJECT (glade_xml_get_widget (gui, "graphics-wizard-dialog")));
+		return;
+	}
+
 	/*
 	 * Do touchups that are not available from Glade
 	 */

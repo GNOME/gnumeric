@@ -10,15 +10,59 @@
 #include <gnome.h>
 #include "gnumeric.h"
 #include <glade/glade.h>
+#include <bonobo/gnome-bonobo.h>
 #include "graphic-context.h"
+
+#define GUPPI_ID "Test_server_component"
+
+static GnomeObject *
+launch_guppi (void)
+{
+	GnomeObject     *object_server;
+
+	object_server = gnome_object_activate_with_goad_id (NULL, GUPPI_ID, 0, NULL);
+
+	return object_server;
+}
 
 GraphicContext *
 graphic_context_new (Workbook *wb, GladeXML *gui)
 {
 	GraphicContext *gc;
-
+	GnomeClientSite *client_site;
+	GnomeContainer *container;
+	GnomeObject *object_server;
+	
 	g_return_val_if_fail (wb != NULL, NULL);
 
+	/*
+	 * Configure our container end
+	 */
+	container = GNOME_CONTAINER (gnome_container_new ());
+	client_site = gnome_client_site_new (container);
+	gnome_container_add (container, client_site);
+	
+	/*
+	 * Launch server
+	 */
+	object_server = launch_guppi ();
+	if (!object_server)
+		return NULL;
+
+	/*
+	 * Bind them together
+	 */
+	if (!gnome_client_site_bind_component (client_site, object_server)){
+		gtk_object_unref (GTK_OBJECT (client_site));
+		gtk_object_unref (GTK_OBJECT (container));
+		gtk_object_unref (GTK_OBJECT (object_server));
+
+		return NULL;
+	}
+
+	/*
+	 * Create the graphic context
+	 */
 	gc = g_new0 (GraphicContext, 1);
 	gc->workbook = wb;
 	gc->signature = GC_SIGNATURE;
@@ -26,6 +70,10 @@ graphic_context_new (Workbook *wb, GladeXML *gui)
 	gc->gui = gui;
 	gc->dialog_toplevel = glade_xml_get_widget (gui, "graphics-wizard-dialog");
 
+	gc->container = container;
+	gc->client_site = client_site;
+	gc->guppi = object_server;
+		
 	return gc;
 }
 
@@ -56,6 +104,8 @@ graphic_context_destroy (GraphicContext *gc)
 	}
 	g_list_free (gc->data_range_list);
 
+	gtk_object_unref (GTK_OBJECT (gc->guppi));
+	
 	g_free (gc);
 }
 

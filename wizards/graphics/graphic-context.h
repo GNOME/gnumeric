@@ -26,14 +26,18 @@ typedef struct {
 	/* Data for the various pages */
 	int             graphic_type;
 
-	String         *data_range;
-	SeriesLocation  series_location;
+	String          *data_range;
+	SeriesLocation   series_location;
+		        
+	GList           *data_range_list;	
+	String          *x_axis_label;
+		        
+	String          *plot_title;
+	String          *y_axis_label;
 
-	GList          *data_range_list;	
-	String         *x_axis_label;
-
-	String         *plot_title;
-	String         *y_axis_label;
+	GnomeObject     *guppi;
+	GnomeClientSite *client_site;
+	GnomeContainer  *container;
 } GraphicContext;
 
 #define GC_SIGNATURE ((('G' << 8) | ('C' << 8)) | 'o')

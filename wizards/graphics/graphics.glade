@@ -7,6 +7,7 @@
   <source_directory></source_directory>
   <pixmaps_directory>pixmaps</pixmaps_directory>
   <language>C</language>
+  <gnome_support>True</gnome_support>
   <gettext_support>True</gettext_support>
   <use_widget_names>False</use_widget_names>
   <main_source_file>gladesrc.c</main_source_file>
@@ -308,7 +309,7 @@
 
 	<widget>
 	  <class>GtkTable</class>
-	  <name>table4</name>
+	  <name>data-ranges-table</name>
 	  <rows>2</rows>
 	  <columns>1</columns>
 	  <homogeneous>False</homogeneous>
@@ -465,7 +466,7 @@
 
 	<widget>
 	  <class>GtkTable</class>
-	  <name>table7</name>
+	  <name>data-series-table</name>
 	  <rows>2</rows>
 	  <columns>1</columns>
 	  <homogeneous>False</homogeneous>
@@ -811,7 +812,7 @@
 
 	<widget>
 	  <class>GtkHBox</class>
-	  <name>hbox4</name>
+	  <name>titles-hbox</name>
 	  <homogeneous>True</homogeneous>
 	  <spacing>4</spacing>
 
@@ -1082,7 +1083,7 @@
 
 	<widget>
 	  <class>GtkHBox</class>
-	  <name>hbox5</name>
+	  <name>axis-hbox</name>
 	  <homogeneous>True</homogeneous>
 	  <spacing>4</spacing>
 
@@ -1255,7 +1256,7 @@
 
 	<widget>
 	  <class>GtkHBox</class>
-	  <name>hbox6</name>
+	  <name>division-hbox</name>
 	  <border_width>4</border_width>
 	  <homogeneous>False</homogeneous>
 	  <spacing>0</spacing>
@@ -1419,7 +1420,7 @@
 
 	<widget>
 	  <class>GtkHBox</class>
-	  <name>hbox7</name>
+	  <name>legends-hbox</name>
 	  <homogeneous>True</homogeneous>
 	  <spacing>4</spacing>
 
