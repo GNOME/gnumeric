@@ -3673,14 +3673,18 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *gnum_sheet,
 	extent = sheet_get_extent (gnum_sheet, FALSE);
 
 	if (extent.end.row >= maxrows) {
-		gnm_io_warning (ewb->io_context, _("Too many rows for this format (%d > %d)"),
-			  extent.end.col, maxrows);
+		gnm_io_warning (ewb->io_context,
+				_("Some content will be lost when saving as excel 95."
+				  "It only supports %d rows, and this workbook has %d"),
+			  maxrows, extent.end.row);
 		extent.end.row = maxrows;
 	}
 	if (extent.end.col >= 256) {
-		gnm_io_warning (ewb->io_context, _("Too many rows for this format (%d > %d)"),
-			  extent.end.col, maxrows);
-		extent.end.col = maxrows;
+		gnm_io_warning (ewb->io_context,
+				_("Some content will be lost when saving as excel."
+				  "It only supports %d rows, and this workbook has %d"),
+			  256, extent.end.col);
+		extent.end.col = 256;
 	}
 
 	sheet_style_get_extent (gnum_sheet, &extent, esheet->col_style);
@@ -3850,21 +3854,20 @@ excel_write_WRITEACCESS (BiffPut *bp)
 static void
 excel_foreach_name (ExcelWriteState *ewb, GHFunc func)
 {
-	ExcelWriteSheet *s = NULL;
-	unsigned i;
+	Workbook const *wb = ewb->gnum_wb;
+	Sheet const *sheet;
+	unsigned i, num_sheets = workbook_sheet_count (wb);
 
-	if (ewb->gnum_wb->names != NULL) {
-		g_hash_table_foreach (ewb->gnum_wb->names->names, func, ewb);
-		g_hash_table_foreach (ewb->gnum_wb->names->placeholders, func, ewb);
+	if (wb->names != NULL) {
+		g_hash_table_foreach (wb->names->names, func, ewb);
+		g_hash_table_foreach (wb->names->placeholders, func, ewb);
 	}
-	for (i = 0; i < ewb->sheets->len; i++) {
-		s = g_ptr_array_index (ewb->sheets, i);
-		if (s->gnum_sheet->names != NULL) {
-			g_hash_table_foreach (s->gnum_sheet->names->names,
-				func, ewb);
-			g_hash_table_foreach (s->gnum_sheet->names->placeholders,
-				func, ewb);
-		}
+	for (i = 0; i < num_sheets; i++) {
+		sheet = workbook_sheet_by_index (wb, i);
+		g_hash_table_foreach (sheet->names->names,
+			func, ewb);
+		g_hash_table_foreach (sheet->names->placeholders,
+			func, ewb);
 	}
 }
 

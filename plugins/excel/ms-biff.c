@@ -388,7 +388,7 @@ ms_biff_query_destroy (BiffQuery *q)
 /*                                 Write Side                                  */
 /*******************************************************************************/
 
-#define MAX_BIFF7_RECORD_SIZE 0x800
+#define MAX_BIFF7_RECORD_SIZE 0x820
 #define MAX_BIFF8_RECORD_SIZE 0x2020
 
 /**

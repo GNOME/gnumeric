@@ -1,3 +1,14 @@
+2003-01-08  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (excel_sheet_new) : fix the text of the warning
+	  messages.
+	(excel_foreach_name) : loop over the gnumeric data structures rather
+	  than the ExcelState wrappers so that we can do things before the
+	  ExcelSheets are created.
+
+	* ms-biff.c (MAX_BIFF7_RECORD_SIZE) : increase this a smidge to match
+	  the actual limit and allow export to handle all 16k rows in xl95.
+
 2003-01-06  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-write.c (excel_write_state_new) : bp is not valid yet
