@@ -1,0 +1,3 @@
+application/x-gnumeric:
+	open=gnumeric %f
+	view=gnumeric %f

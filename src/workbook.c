@@ -844,25 +844,25 @@ static GnomeUIInfo workbook_toolbar [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
-	GNOMEUIINFO_ITEM_DATA (
+	GNOMEUIINFO_ITEM_STOCK (
 		N_("Left align"), N_("Sets the cell alignment to the left"),
-		left_align_cmd, NULL, align_left),
-	GNOMEUIINFO_ITEM_DATA (
+		left_align_cmd, GNOME_STOCK_PIXMAP_ALIGN_LEFT),
+	GNOMEUIINFO_ITEM_STOCK (
 		N_("Center"), N_("Centers the cell contents"),
-		center_cmd, NULL, align_center),
-	GNOMEUIINFO_ITEM_DATA (
+		center_cmd, GNOME_STOCK_PIXMAP_ALIGN_CENTER),
+	GNOMEUIINFO_ITEM_STOCK (
 		N_("Right align"), N_("Sets the cell alignment to the right"),
-		right_align_cmd, NULL, align_right),
+		right_align_cmd, GNOME_STOCK_PIXMAP_ALIGN_RIGHT),
 
 	GNOMEUIINFO_SEPARATOR,
 
-	GNOMEUIINFO_TOGGLEITEM_DATA (
+	GNOMEUIINFO_ITEM_STOCK (
 		N_("Bold"), N_("Sets the bold attribute on the cell"),
-		bold_cmd, NULL, bold_xpm),
+		bold_cmd, GNOME_STOCK_PIXMAP_TEXT_BOLD),
 
-	GNOMEUIINFO_TOGGLEITEM_DATA (
+	GNOMEUIINFO_ITEM_STOCK (
 		N_("Italic"), N_("Sets the italic attribute on the cell"),
-		italic_cmd, NULL, italic_xpm),
+		italic_cmd, GNOME_STOCK_PIXMAP_TEXT_ITALIC),
 	
 	GNOMEUIINFO_SEPARATOR,
 

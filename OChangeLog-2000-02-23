@@ -1,3 +1,10 @@
+1998-12-16  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/workbook.c: Use GNOME stock icons for the stuff that hsa
+	icons on Gnome Stock.
+
+	* gnumeric.keys.in: New file that defines the mime-type for Gnumeric
+
 1998-12-16  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* src/workbook.c (workbook_setup_status_area): Do not set_usize()
