@@ -1,3 +1,7 @@
+2003-10-25  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* debian/changelog, debian/control, debian/rules: Updated.
+
 2003-10-24  Morten Welinder  <terra@gnome.org>
 
 	* src/regression.c (general_linear_regression): Handle a
