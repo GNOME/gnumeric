@@ -7,7 +7,7 @@
 # Birger Langkjer <birger.langkjer@image.dk>, 1999.
 # Keld Simonsen <keld@dkuug.dk, 2000.
 #
-#
+# LÆS README..vigtigt!
 # Formater og formatér er med ét T
 #
 msgid ""
@@ -14477,7 +14477,7 @@ msgstr "/Fil/"
 
 #: src/history.c:136 src/history.c:158
 msgid "File/Print preview"
-msgstr "Fil/udskrift frohåndsvisning"
+msgstr "Filer/Vis udskrift"
 
 #: src/history.c:204
 msgid "File/"
