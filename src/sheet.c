@@ -258,8 +258,13 @@ sheet_compute_col_row_new_size (Sheet *sheet, ColRowInfo *ci, void *data)
 	double pix_per_unit = sheet->last_zoom_factor_used;
 
 	ci->pixels = (ci->units + ci->margin_a_pt + ci->margin_b_pt) * pix_per_unit;
-	ci->margin_a = ci->margin_a_pt * pix_per_unit;
-	ci->margin_b = ci->margin_b_pt * pix_per_unit;
+
+	/*
+	 * Ensure that there is at least 1 pixel around every cell so that we
+	 * can mark the current cell
+	 */
+	ci->margin_a = MAX(ci->margin_a_pt * pix_per_unit, 1);
+	ci->margin_b = MAX(ci->margin_b_pt * pix_per_unit, 1);
 }
 
 static Value *

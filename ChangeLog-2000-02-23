@@ -1,3 +1,10 @@
+1999-09-01  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_compute_col_row_new_size) :
+	  The margin appears to be used for the border used to
+	  mark the current cell.  This border is not scaled when
+	  zoomed.
+
 1999-09-01  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/file.c (workbook_read): If the file does not exist, create a
