@@ -22,7 +22,7 @@ range_concatenate (GSList *data, char **res)
 {
 	GString *str = g_string_new ("");
 
-	g_slist_foreach (data, (GFunc *)cb_concatenate, str);
+	g_slist_foreach (data, (GFunc) cb_concatenate, str);
 
 	*res = g_string_free (str, FALSE);
 	return 0;

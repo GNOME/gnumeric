@@ -155,10 +155,10 @@ history_menu_insert_separator (WorkbookControlGUI *wbcg, MenuPos *res)
  * Add the history items list to the file menu for the workbook specified.
  */
 static void
-history_menu_insert_items (WorkbookControlGUI *wbcg, GList *name_list, MenuPos *mp)
+history_menu_insert_items (WorkbookControlGUI *wbcg, GSList *name_list, MenuPos *mp)
 {
 	gint  accel_number;
-	GList *l;
+	GSList *l;
 
 	g_return_if_fail (name_list != NULL);
 
