@@ -2,7 +2,7 @@
  * application.c: Manage the data common to all workbooks
  *
  * Author:
- *     Jody Goldberg <jgoldberg@home.com>
+ *     Jody Goldberg <jody@gnome.org>
  */
 #include <config.h>
 #include "application.h"

@@ -3232,23 +3232,23 @@ sheet_cursor_set (Sheet *sheet,
  *
  * Quotes the sheet name for use with sheet_new, sheet_rename
  *
- * Return value: a safe sheet name.
- *
+ * Return value: a safe sheet name, caller is responsible for the string.
  **/
 char *
 sheet_name_quote (char const *name_unquoted)
 {
-	int         i, j, quotes_embedded = 0;
-	gboolean    needs_quotes;
+	unsigned char const *ptr = name_unquoted;
+	int      quotes_embedded = 0;
+	gboolean needs_quotes;
 
 	g_return_val_if_fail (name_unquoted != NULL, NULL);
 
 	/* count number of embedded quotes and see if we need to quote */
-	needs_quotes = isdigit ((unsigned char)*name_unquoted);
-	for (i = 0 ; name_unquoted [i]; i++) {
-		if (!isalnum (*((unsigned char *)(name_unquoted + i))))
+	needs_quotes = isdigit (*ptr);
+	for ( ; *ptr ; ptr++) {
+		if (!isalnum (*ptr))
 			needs_quotes = TRUE;
-		if (name_unquoted [i] == '\'' || name_unquoted [i] == '\\')
+		if (*ptr == '\'' || *ptr == '\\')
 			quotes_embedded++;
 	}
 

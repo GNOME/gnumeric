@@ -1,5 +1,5 @@
 A discussion of the style code, version 0.2
-by Jody Goldberg <jgoldberg@home.com>
+by Jody Goldberg <jody@gnome.org>
 
 
 	In order to solve several of the problems associated with blank cells

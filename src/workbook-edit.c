@@ -4,7 +4,7 @@
  *
  * Author:
  *   Miguel de Icaza (miguel@helixcode.com)
- *   Jody GOldberg (jgoldberg@home.com)
+ *   Jody GOldberg (jody@gnome.org)
  *
  * (C) 2000-2001 Ximian, Inc.
  */

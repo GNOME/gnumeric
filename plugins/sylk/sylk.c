@@ -6,7 +6,7 @@
  * csv-io.c: read sheets using a CSV encoding.
  *
  * Miguel de Icaza <miguel@gnu.org>
- * Jody Goldberg   <jgoldberg@home.com>
+ * Jody Goldberg   <jody@gnome.org>
  */
 
 #include <config.h>

@@ -3,7 +3,7 @@
  * cell.c: Cell content and simple management.
  *
  * Author:
- *    Jody Goldberg 2000, 2001 (jgoldberg@home.com)
+ *    Jody Goldberg 2000, 2001 (jody@gnome.org)
  *    Miguel de Icaza 1998, 1999 (miguel@kernel.org)
  */
 #include "config.h"

@@ -2,7 +2,7 @@
  * command-context.c : Error dispatch utilities.
  *
  * Author:
- * 	Jody Goldberg <jgoldberg@home.com>
+ * 	Jody Goldberg <jody@gnome.org>
  *
  * (C) 1999-2001 Jody Goldberg
  */

@@ -2,7 +2,7 @@
  * dialog-zoom.c:  Sets the magnification factor
  *
  * Author:
- *        Jody Goldberg <jgoldberg@home.com>
+ *        Jody Goldberg <jody@gnome.org>
  *
  **/
 #include <config.h>

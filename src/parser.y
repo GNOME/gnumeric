@@ -6,7 +6,7 @@
  *
  * Author:
  *    Miguel de Icaza (miguel@gnu.org)
- *    Jody Goldberg (jgoldberg@home.com)
+ *    Jody Goldberg (jody@gnome.org)
  *    Morten Welinder (terra@diku.dk)
  *    Almer S. Tigelaar (almer@gnome.org)
  */

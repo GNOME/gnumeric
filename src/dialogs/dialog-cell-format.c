@@ -3,7 +3,7 @@
  * dialog-cell-format.c:  Implements a dialog to format cells.
  *
  * Authors:
- *  Jody Goldberg <jgoldberg@home.com>
+ *  Jody Goldberg <jody@gnome.org>
  *  Almer S. Tigelaar <almer@gnome.org>
  **/
 

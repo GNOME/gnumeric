@@ -4,7 +4,7 @@
  *   as well as storing non-fatal warnings.
  *
  * Authors:
- * 	Jody Goldberg <jgoldberg@home.com>
+ * 	Jody Goldberg <jody@gnome.org>
  *	Zbigniew Chyla <cyba@gnome.pl>
  *
  * (C) 2000, 2001 Jody Goldberg

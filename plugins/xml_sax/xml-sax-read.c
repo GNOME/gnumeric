@@ -3,7 +3,7 @@
 /*
  * xml-sax-read.c : a test harness for the sax based xml parse routines.
  *
- * Copyright (C) 2000 Jody Goldberg (jgoldberg@home.com)
+ * Copyright (C) 2000 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as

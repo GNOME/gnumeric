@@ -5,7 +5,7 @@
  *
  * Authors:
  *    Miguel de Icaza (miguel@gnu.org).
- *    Jody Goldberg (jgoldberg@home.com)
+ *    Jody Goldberg (jody@gnome.org)
  *
  * (C) 1998, 1999, 2000 Miguel de Icaza
  * (C) 2000-2001 Helix Code, Inc.

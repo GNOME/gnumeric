@@ -4,7 +4,7 @@
  * ms-obj.c: MS Excel Object support for Gnumeric
  *
  * Copyright (C) 2000-2001
- *	Jody Goldberg (jgoldberg@home.com)
+ *	Jody Goldberg (jody@gnome.org)
  *	Michael Meeks (mmeeks@gnu.org)
  *
  * This program is free software; you can redistribute it and/or

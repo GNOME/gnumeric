@@ -2,7 +2,7 @@
  * The interfaces Gnumeric uses to communicate with graphing components
  *
  * Author:
- *   Jody Goldberg <jgoldberg@home.com>
+ *   Jody Goldberg <jody@gnome.org>
  */
 #include <Bonobo.idl>
 

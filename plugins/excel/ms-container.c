@@ -5,7 +5,7 @@
  * 		workbooks and sheets.
  *
  * Author:
- *    Jody Goldberg (jgoldberg@home.com)
+ *    Jody Goldberg (jody@gnome.org)
  *
  * (C) 2000-2001 Jody Goldberg
  **/

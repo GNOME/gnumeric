@@ -6,7 +6,7 @@
  *
  * Authors:
  *     Miguel de Icaza (miguel@kernel.org)
- *     Jody Goldberg (jgoldberg@home.com)
+ *     Jody Goldberg (jody@gnome.org)
  */
 #include <config.h>
 

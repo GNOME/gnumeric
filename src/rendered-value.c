@@ -4,7 +4,7 @@
  * rendered-value.c: Management & utility routines for formated
  *     colored text.
  *
- * Copyright (C) 2000, 2001 Jody Goldberg (jgoldberg@home.com)
+ * Copyright (C) 2000, 2001 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as

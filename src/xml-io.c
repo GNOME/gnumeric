@@ -5,7 +5,7 @@
  * Authors:
  *   Daniel Veillard <Daniel.Veillard@w3.org>
  *   Miguel de Icaza <miguel@gnu.org>
- *   Jody Goldberg <jgoldberg@home.com>
+ *   Jody Goldberg <jody@gnome.org>
  */
 #include <config.h>
 #include "xml-io.h"

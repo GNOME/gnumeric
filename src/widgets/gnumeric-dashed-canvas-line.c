@@ -2,7 +2,7 @@
  * gnumeric-dashed-canvas-line.c : A canvas line with support for dash styles.
  *
  * Author:
- *  Jody Goldberg (jgoldberg@home.org)
+ *  Jody Goldberg (jody@gnome.org)
  *
  *  (C) 1999, 2000 Jody Goldberg
  */

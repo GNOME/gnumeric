@@ -5,7 +5,7 @@
  * ms-escher.h: MS Office drawing layer support
  *
  * Author:
- *    Jody Goldberg (jgoldberg@home.com)
+ *    Jody Goldberg (jody@gnome.org)
  *    Michael Meeks (michael@ximian.com)
  *
  * (C) 1998, 1999, 2000 Jody Goldberg, Michael Meeks

@@ -3,7 +3,7 @@
  *
  * Author:
  *   Miguel de Icaza (miguel@gnu.org)
- *   Jody Goldberg (jgoldberg@home.com)
+ *   Jody Goldberg (jody@gnome.org)
  */
 #include <config.h>
 #include <glib.h>

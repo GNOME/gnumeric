@@ -5,9 +5,9 @@
  * ms-chart.h: MS Excel Chart support for Gnumeric
  *
  * Author:
- *    Jody Goldberg (jgoldberg@home.com)
+ *    Jody Goldberg (jody@gnome.org)
  *
- * (C) 1999, 2000 Jody Goldberg
+ * (C) 1999-2001 Jody Goldberg
  **/
 
 #include "ms-excel-read.h"

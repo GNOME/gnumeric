@@ -4,7 +4,7 @@
  *
  * Author:
  *   Miguel de Icaza (miguel@gnu.org)
- *   Jody Goldberg (jgoldberg@home.com)
+ *   Jody Goldberg (jody@gnome.org)
  *
  * The information on cell spanning is attached in the row ColRowInfo
  * structures.  The actual representation of this information is

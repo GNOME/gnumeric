@@ -2,7 +2,7 @@
  * pattern.c : Support and specifications for patterns.
  *
  * Author:
- *     Jody Goldberg <jgoldberg@home.com>
+ *     Jody Goldberg <jody@gnome.org>
  *
  *  (C) 1999, 2000 Jody Goldberg
  */

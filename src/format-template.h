@@ -8,7 +8,7 @@
  *
  * Authors :
  *   Almer S. Tigelaar <almer1@dds.nl>
- *   Jody Goldberg <jgoldberg@home.com>
+ *   Jody Goldberg <jody@gnome.org>
  *
  * ----------------------------------------------------------------------------
  * Placement :

@@ -3,7 +3,7 @@
 /*
  * commands.c: Handlers to undo & redo commands
  *
- * Copyright (C) 1999-2001 Jody Goldberg (jgoldberg@home.com)
+ * Copyright (C) 1999-2001 Jody Goldberg (jody@gnome.org)
  *
  * Contributors : Almer S. Tigelaar (almer@gnome.org)
  *

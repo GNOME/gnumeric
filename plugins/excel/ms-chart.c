@@ -3,7 +3,7 @@
  * ms-chart.c: MS Excel chart support for Gnumeric
  *
  * Author:
- *    Jody Goldberg (jgoldberg@home.com)
+ *    Jody Goldberg (jody@gnome.org)
  *
  * (C) 1999-2001 Jody Goldberg
  **/

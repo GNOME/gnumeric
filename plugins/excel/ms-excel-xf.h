@@ -3,7 +3,7 @@
  *
  * Authors:
  *    Michael Meeks (michael@ximian.com)
- *    Jody Goldberg (jgoldberg@home.com)
+ *    Jody Goldberg (jody@gnome.org)
  *
  * (C) 1998-2001 Michael Meeks, Jody Goldberg
  **/

@@ -4,7 +4,7 @@
  *
  * Author:
  *  Miguel de Icaza (miguel@gnu.org)
- *  Jody Goldberg (jgoldberg@home.com)
+ *  Jody Goldberg (jody@gnome.org)
  *
  *  (C) 1999-2001 Jody Goldberg
  */

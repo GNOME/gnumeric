@@ -4,7 +4,7 @@
  * dialog-define-name.c: Edit named regions.
  *
  * Author:
- *	Jody Goldberg <jgoldberg@home.com>
+ *	Jody Goldberg <jody@gnome.org>
  *	Michael Meeks <michael@imaginator.com>
  *	Chema Celorio <chema@celorio.com>
  */

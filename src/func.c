@@ -5,7 +5,7 @@
  *  Miguel de Icaza (miguel@gnu.org)
  *  Michael Meeks   (mmeeks@gnu.org)
  *  Morten Welinder (terra@diku.dk)
- *  Jody Goldberg   (jgoldberg@home.org)
+ *  Jody Goldberg   (jody@gnome.org)
  */
 #include <config.h>
 #include "func.h"

@@ -5,7 +5,7 @@
  * Copyright (C) 2000,2001
  *  Michael Meeks   (mmeeks@gnu.org)
  *  Miguel de Icaza (miguel@gnu.org)
- *  Jody Goldberg   (jgoldberg@home.com)
+ *  Jody Goldberg   (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as

@@ -4,7 +4,7 @@
  *     and supply some utilites for manipulating panes.
  *
  * Author:
- *    Jody Goldberg (jgoldberg@home.com)
+ *    Jody Goldberg (jody@gnome.org)
  */
 #include <config.h>
 #include <gnumeric-pane.h>
