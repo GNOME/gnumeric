@@ -1,3 +1,10 @@
+2000-06-27  JP Rosevear  <jpr@arcavia.com>
+
+	* src/functions/fn-lookup.c (find_index_bisection): Undo
+	transposition of find_bound_walk parameters.
+
+	* samples/excel/lookfuns2.xls: Add type mismatch tests.
+
 2000-06-27  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/functions/fn-stat.c (help_finv): Fixed copy-paste bug in

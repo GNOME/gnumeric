@@ -193,8 +193,8 @@ find_index_bisection (FunctionEvalInfo *ei, Value *find, Value *data,
 		}
 		
 		mid = ((low + high) / 2);	
-		mid = find_bound_walk (low, high, mid, TRUE,
-				       type >= 0 ? TRUE : FALSE);
+		mid = find_bound_walk (low, high, mid,
+				       type >= 0 ? TRUE : FALSE, TRUE);
 		
 		start = mid;
 
