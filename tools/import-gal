@@ -23,9 +23,9 @@ die "$0: must specify gal directory on command line.\n"
 my @files = ("color-group.c", "color-group.h",
 	     # Now changed in Gnumeric tree.
 	     # "color-palette.c", "color-palette.h",
-	     "widget-color-combo.c", "widget-color-combo.h",
+	     # "widget-color-combo.c", "widget-color-combo.h",
 	     "widget-pixmap-combo.c", "widget-pixmap-combo.h",
-	     "gtk-combo-box.c", "gtk-combo-box.h",
+	     #"gtk-combo-box.c", "gtk-combo-box.h",
 	     "gtk-combo-stack.c", "gtk-combo-stack.h",
 	     );
 my $srcdir = "$galdir/gal/widgets";

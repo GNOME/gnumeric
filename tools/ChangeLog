@@ -1,3 +1,7 @@
+2003-06-14  Jon K Hellan  <hellan@acm.org>
+
+	* import-gal: Don't import files which are changed in gnumeric tree
+
 2003-06-13  Morten Welinder  <terra@gnome.org>
 
 	* import-gal: Include fix for widget-color-combo.h.

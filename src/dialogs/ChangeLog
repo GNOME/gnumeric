@@ -1,3 +1,10 @@
+2003-06-13  Jon K Hellan  <hellan@acm.org>
+
+	* dialog-sheet-order.c (dialog_sheet_order): Turn off instant
+	apply for color combos.
+
+	* dialog-cell-format.c (setup_color_pickers): Ditto.
+
 2003-06-13  Morten Welinder  <terra@gnome.org>
 
 	* dialog-stf-main-page.c (main_page_set_encoding): Use known

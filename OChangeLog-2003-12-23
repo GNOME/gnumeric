@@ -1,3 +1,9 @@
+2003-06-13  Jon K Hellan  <hellan@acm.org>
+
+	* src/sheet-object-graphic.c (sheet_object_graphic_user_config)
+	(sheet_object_filled_user_config): Turn off instant apply for
+	color combos.
+
 2003-06-13  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-clipboard.c (text_to_cell_region): Stop assuming

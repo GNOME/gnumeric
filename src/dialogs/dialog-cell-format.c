@@ -403,8 +403,7 @@ setup_color_pickers (ColorPicker *picker,
 	g_signal_connect (G_OBJECT (combo),
 		"color_changed",
 		G_CALLBACK (preview_update), state);
-	/* We don't need the functionality the button provides */
-	gtk_widget_set_sensitive (COLOR_COMBO (combo)->preview_button, FALSE);
+	color_combo_set_instant_apply (COLOR_COMBO (combo), FALSE);
 	/* FIXME: Should we disable the focus? Line 793 workbook-format-toolbar.c */
 	gtk_combo_box_set_title (GTK_COMBO_BOX (combo), caption);
 
