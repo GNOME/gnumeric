@@ -1,3 +1,9 @@
+2001-08-14  Lutz Müller <urc8@rz.uni-karlsruhe.de>
+
+	* src/sheet-object-cell-comment.c (cell_comment_print): Add a note that
+	this function is left empty intentionally
+	* src/sheet-object-graphic.c: Let the user configure the arrow shape
+	
 2001-08-14  Jody Goldberg <jgoldberg@home.com>
 
 	* src/format-template.c (format_template_range_check) : fix typo.

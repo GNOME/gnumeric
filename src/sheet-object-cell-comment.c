@@ -211,6 +211,10 @@ cell_comment_write_xml (SheetObject const *so,
 static void
 cell_comment_print (SheetObject const *so, SheetObjectPrintInfo const *pi)
 {
+	/*
+	 * Nothing in here. This function is here to suppress a warning
+	 * about an unprintable sheet object.
+	 */
 }
 
 static SheetObject *
