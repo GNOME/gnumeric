@@ -148,8 +148,8 @@ go_action_combo_pixmaps_create_menu_item (GtkAction *a)
 	GOActionComboPixmaps *paction = (GOActionComboPixmaps *)a;
 	GOMenuPixmaps *submenu = go_menu_pixmaps_new (paction->ncols);
 	GOActionComboPixmapsElement const *el= paction->elements;
-	GtkWidget *item;
-	
+	GtkWidget *item = gtk_image_menu_item_new ();
+
 	for ( ; el->stock_id != NULL ; el++)
 		go_menu_pixmaps_add_element (submenu,
 			gtk_widget_render_icon (GTK_WIDGET (item),
@@ -158,10 +158,8 @@ go_action_combo_pixmaps_create_menu_item (GtkAction *a)
 				"GOActionComboPixmaps"),
 			el->id);
 
-	item = gtk_image_menu_item_new ();
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (item), GTK_WIDGET (submenu));
 	gtk_widget_show (GTK_WIDGET (submenu));
-
 	g_signal_connect (G_OBJECT (submenu),
 		"changed",
 		G_CALLBACK (cb_selection_changed), a);

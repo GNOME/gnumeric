@@ -1,3 +1,9 @@
+2004-07-29  Morten Welinder  <terra@gnome.org>
+
+	* gui-utils/go-action-combo-pixmaps.c
+	(go_action_combo_pixmaps_create_menu_item): Let's initialize item
+	before we use it.
+
 2004-07-28  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* graph/gog-axis-prefs.glade: HIGification.
