@@ -420,7 +420,7 @@ create_undo_redo (WBCgtk *gtk, char const *name, char const *tooltip,
 	GOActionComboStack *res = g_object_new (go_action_combo_stack_get_type (),
 		"name",		name,
 		"tooltip",  	_(tooltip),
-		"stock_id",	stock_id,
+		"stock-id",	stock_id,
 		"sensitive",	FALSE,
 		NULL);
 	gtk_action_group_add_action_with_accel (gtk->actions,

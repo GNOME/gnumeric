@@ -962,7 +962,7 @@ wbcg_edit_ctor (WorkbookControlGUI *wbcg)
 	g_assert (wbcg->edit_line.entry == NULL);
 
 	wbcg->edit_line.entry = g_object_new (GNM_EXPR_ENTRY_TYPE,
-					      "with_icon", FALSE,
+					      "with-icon", FALSE,
 					      "wbcg", wbcg,
 					      NULL);
 	wbcg->edit_line.temp_entry = NULL;

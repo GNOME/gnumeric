@@ -1677,9 +1677,9 @@ static void
 workbook_setup_sheets (WorkbookControlGUI *wbcg)
 {
 	wbcg->notebook = g_object_new (GTK_TYPE_NOTEBOOK,
-				       "tab_pos",	GTK_POS_BOTTOM,
-				       "tab_hborder",	0,
-				       "tab_vborder",	0,
+				       "tab-pos",	GTK_POS_BOTTOM,
+				       "tab-hborder",	0,
+				       "tab-vborder",	0,
 				       NULL);
 	g_signal_connect_after (G_OBJECT (wbcg->notebook),
 		"switch_page",
@@ -2196,8 +2196,8 @@ wbcg_set_toplevel (WorkbookControlGUI *wbcg, GtkWidget *w)
 
 	wbcg->toplevel = GTK_WINDOW (w);
 	g_object_set (G_OBJECT (wbcg->toplevel),
-		"allow_grow", TRUE,
-		"allow_shrink", TRUE,
+		"allow-grow", TRUE,
+		"allow-shrink", TRUE,
 		NULL);
 
 	g_signal_connect_data (w, "delete_event",

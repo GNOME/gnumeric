@@ -1181,7 +1181,7 @@ sheet_control_gui_new (SheetView *sv, WorkbookControlGUI *wbcg)
 	scg->va = gtk_adjustment_new (0., 0., 1, 1., 1., 1.);
 	scg->vs = g_object_new (GTK_TYPE_VSCROLLBAR,
 			"adjustment",	 GTK_ADJUSTMENT (scg->va),
-			"update_policy", scroll_update_policy,
+			"update-policy", scroll_update_policy,
 			NULL);
 	g_signal_connect (G_OBJECT (scg->vs),
 		"value_changed",
@@ -1193,7 +1193,7 @@ sheet_control_gui_new (SheetView *sv, WorkbookControlGUI *wbcg)
 	scg->ha = gtk_adjustment_new (0., 0., 1, 1., 1., 1.);
 	scg->hs = g_object_new (GTK_TYPE_HSCROLLBAR,
 			"adjustment", GTK_ADJUSTMENT (scg->ha),
-			"update_policy", scroll_update_policy,
+			"update-policy", scroll_update_policy,
 			NULL);
 	g_signal_connect (G_OBJECT (scg->hs),
 		"value_changed",

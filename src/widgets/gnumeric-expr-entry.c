@@ -445,13 +445,13 @@ gee_class_init (GObjectClass *gobject_class)
 
 	g_object_class_install_property (gobject_class,
 		PROP_UPDATE_POLICY,
-		g_param_spec_enum ("update_policy", "Update policy",
+		g_param_spec_enum ("update-policy", "Update policy",
 			"How frequently changes to the entry should be applied",
 			GTK_TYPE_UPDATE_TYPE, GTK_UPDATE_CONTINUOUS,
 			G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_class,
 		PROP_WITH_ICON,
-		g_param_spec_boolean ("with_icon", "With icon",
+		g_param_spec_boolean ("with-icon", "With icon",
 			"Should there be an icon to the right of the entry",
 			TRUE,
 			G_PARAM_READWRITE));
@@ -839,7 +839,7 @@ gnm_expr_entry_set_update_policy (GnmExprEntry *gee,
 	if (gee->update_policy == policy)
 		return;
 	gee->update_policy = policy;
-	g_object_notify (G_OBJECT (gee), "update_policy");
+	g_object_notify (G_OBJECT (gee), "update-policy");
 }
 
 /**
@@ -856,8 +856,8 @@ GnmExprEntry *
 gnm_expr_entry_new (WorkbookControlGUI *wbcg, gboolean with_icon)
 {
 	return g_object_new (GNM_EXPR_ENTRY_TYPE,
-			     "scg",	 wbcg_cur_scg (wbcg),
-			     "with_icon", with_icon,
+			     "scg",	  wbcg_cur_scg (wbcg),
+			     "with-icon", with_icon,
 			     NULL);
 }
 

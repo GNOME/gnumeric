@@ -308,7 +308,7 @@ editable_label_new (char const *text, GdkColor *base_color,
 				      GdkColor *text_color)
 {
 	EditableLabel *el = g_object_new (EDITABLE_LABEL_TYPE,
-		"has_frame",		FALSE,
+		"has-frame",		FALSE,
 		"editable",		FALSE,
 		NULL);
 

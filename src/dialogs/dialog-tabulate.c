@@ -344,8 +344,8 @@ dialog_tabulate (WorkbookControlGUI *wbcg, Sheet *sheet)
 	dd->sheet = sheet;
 
 	g_object_set (G_OBJECT (dialog),
-		"allow_shrink",	FALSE,
-		"allow_grow",	TRUE,
+		"allow-shrink",	FALSE,
+		"allow-grow",	TRUE,
 		NULL);
 
 	dd->source_table = GTK_TABLE (glade_xml_get_widget (gui, "source_table"));
