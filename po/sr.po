@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-10-26 23:10+0100\n"
-"PO-Revision-Date: 2003-10-26 23:18+0100\n"
+"POT-Creation-Date: 2003-10-28 04:51+0100\n"
+"PO-Revision-Date: 2003-10-28 04:56+0100\n"
 "Last-Translator: Слободан Средојевић <ssl@uns.ns.ac.yu>\n"
 "Language-Team: Serbian (sr) <serbiangnome-lista@nongnu.org>\n"
 "MIME-Version: 1.0\n"
@@ -705,7 +705,7 @@ msgid "Functions related to financial derivatives"
 msgstr "Функције у вези са финансијским изводима"
 
 #: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5275
-#: plugins/mps/mps.c:549 src/xml-io.c:3927
+#: plugins/mps/mps.c:549 src/xml-io.c:3979
 msgid "Reading file..."
 msgstr "Учитава датотеку..."
 
@@ -12081,7 +12081,7 @@ msgstr "Лево поравнавање"
 
 #: src/GNOME_Gnumeric.xml.h:146
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:18
-#: src/dialogs/dialog-stf-main-page.c:368 src/workbook-object-toolbar.c:174
+#: src/dialogs/dialog-stf-main-page.c:369 src/workbook-object-toolbar.c:174
 msgid "Line"
 msgstr "Линија"
 
@@ -16248,7 +16248,7 @@ msgstr "Двоструко"
 msgid "Number"
 msgstr "Број"
 
-#: src/dialogs/dialog-cell-format.c:668 src/dialogs/dialog-stf-main-page.c:377
+#: src/dialogs/dialog-cell-format.c:668 src/dialogs/dialog-stf-main-page.c:381
 #: src/widgets/widget-format-selector.c:84
 msgid "Text"
 msgstr "Текст"
@@ -16990,7 +16990,9 @@ msgid ""
 "Changing cells contain at least one expression that is not just a value. "
 "Note that showing the scenario will overwrite the formula with it's current "
 "value."
-msgstr "Измењене ћелије садрже бар један израз који није једноставна вредност. Приметите да ће приказ сценарија преснимити формулу текућом вредношћу."
+msgstr ""
+"Измењене ћелије садрже бар један израз који није једноставна вредност. "
+"Приметите да ће приказ сценарија преснимити формулу текућом вредношћу."
 
 #: src/dialogs/dialog-scenarios.c:210
 msgid "Could not create the Scenario Add dialog."
@@ -17070,7 +17072,9 @@ msgstr "Не можете обрисати све табеле у радној �
 msgid ""
 "To replace all exisiting sheets, please delete the current workbook and "
 "create a new one!"
-msgstr "Да замените све постојеће табеле, обришите текућу радну свеску и направите нову!"
+msgstr ""
+"Да замените све постојеће табеле, обришите текућу радну свеску и направите "
+"нову!"
 
 #: src/dialogs/dialog-sheet-order.c:898
 msgid "The sheet order has changed. Do you want to update the list?"
@@ -17173,7 +17177,9 @@ msgstr "< Недоступни >"
 msgid ""
 "Looking for a subject for your thesis? Maybe you would like to write a QP "
 "solver for Gnumeric?"
-msgstr "Тражите тему за ваше истраживање? Можда треба да напишете QP решавача за Гнумерика?"
+msgstr ""
+"Тражите тему за ваше истраживање? Можда треба да напишете QP решавача за "
+"Гнумерика?"
 
 #: src/dialogs/dialog-solver.c:777
 msgid ""
@@ -17473,16 +17479,16 @@ msgstr "Увези све колоне лево"
 msgid "Copy format to right"
 msgstr "Копирај формат десно"
 
-#: src/dialogs/dialog-stf-format-page.c:388
+#: src/dialogs/dialog-stf-format-page.c:398
 msgid ""
 "If this checkbox is selected, the column will be imported into Gnumeric."
 msgstr "Уколико је ова кућица означена, колона ће бити увежена у Гнумерик."
 
-#: src/dialogs/dialog-stf-format-page.c:391
+#: src/dialogs/dialog-stf-format-page.c:401
 msgid "At most 256 columns can be imported at one time."
 msgstr "Могуће је увести највише 256 колона одједном."
 
-#: src/dialogs/dialog-stf-format-page.c:529
+#: src/dialogs/dialog-stf-format-page.c:542
 #: src/dialogs/dialog-stf-preview.h:27
 #, c-format
 msgid "Column %d"
@@ -17501,7 +17507,7 @@ msgstr ""
 "Податак није исправан у начину записа %s; молим изаберите неки други начин "
 "записа."
 
-#: src/dialogs/dialog-stf-main-page.c:389
+#: src/dialogs/dialog-stf-main-page.c:394
 #, c-format
 msgid "Data (from %s)"
 msgstr "Податак (из %s)"
@@ -18272,6 +18278,10 @@ msgid "Shift cells _down"
 msgstr "Помери по_ља доле"
 
 #: src/dialogs/insert-cells.glade.h:5
+msgid "_Insert column(s)"
+msgstr "У_баци колону(е)"
+
+#: src/dialogs/insert-cells.glade.h:6
 msgid "_Shift cells right"
 msgstr "Помери п_оља удесно"
 
@@ -24326,15 +24336,15 @@ msgstr "Непознат формат је на списку исечака"
 msgid "Processing file..."
 msgstr "Обрађује датотеку..."
 
-#: src/xml-io.c:3970
+#: src/xml-io.c:4027
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "Датотека није Гнумерик радна свеска"
 
-#: src/xml-io.c:4007
+#: src/xml-io.c:4064
 msgid "Failure saving file"
 msgstr "Грешка при снимању датотеке"
 
-#: src/xml-io.c:4040
+#: src/xml-io.c:4097
 msgid "Gnumeric XML file format"
 msgstr "Гнумерик XML формат датотеке"
 
