@@ -1,3 +1,7 @@
+2001-07-30  Jody Goldberg <jgoldberg@home.com>
+
+	* fn-lookup.c (gnumeric_indirect) : modernize a bit.
+
 2001-07-27  Morten Welinder  <terra@diku.dk>
 
 	* fn-stat.c (gnumeric_quartile, gnumeric_percentile,

@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * fn-lookup.c:  Built in lookup functions and functions registration
  *
@@ -745,45 +746,30 @@ static char *help_indirect = {
 static Value *
 gnumeric_indirect (FunctionEvalInfo *ei, Value **args)
 {
-	char*          text;
-	gboolean       a1_style;
-	Cell          *dest_cell, *calling_cell;
-	CellRef        ref;
-	int            col, row;
-	gboolean       error = FALSE;
+#if 0
+	/* What good is this ? the parser handles both forms */
+	gboolean a1_style = args[1] ? value_get_as_bool (args[1], &error) : TRUE;
+#endif
 
-	text = value_get_as_string (args[0]);
-	if (args[1])
-		a1_style = value_get_as_bool (args[1], &error);
-	else
-		a1_style = TRUE;
+	ParsePos  pp;
+	ExprTree *expr;
+	char	 *text = value_get_as_string (args[0]);
 
-	if (error) {
-		g_free (text);
-		return value_new_error (ei->pos, gnumeric_err_REF);
-	}
-
-	if (a1_style)
-		error = !cellref_a1_get (&ref, text, &ei->pos->eval);
-	else
-		error = !cellref_r1c1_get (&ref, text, &ei->pos->eval);
+	expr = expr_parse_string (text,
+		parse_pos_init_evalpos (&pp, ei->pos), NULL, NULL);
 	g_free (text);
 
-	if (error)
-		return value_new_error (ei->pos, gnumeric_err_REF);
-
-	cell_get_abs_col_row (&ref, &ei->pos->eval, &col, &row);
-	dest_cell = sheet_cell_get (ei->pos->sheet, col, row);
-
-	calling_cell = sheet_cell_get (ei->pos->sheet,
-				       ei->pos->eval.col, ei->pos->eval.row);
-
-	if (!dest_cell)
-		return value_new_int (0);
-	else
-		return value_duplicate (dest_cell->value);
+	if (expr != NULL) {
+		/* FIXME : When we split named cell and named expression add it */
+		if (expr->any.oper == OPER_VAR) {
+			Value *res = eval_expr (ei->pos, expr, EVAL_STRICT);
+			expr_tree_unref (expr);
+			return res;
+		}
+		expr_tree_unref (expr);
+	}
+	return value_new_error (ei->pos, gnumeric_err_REF);
 }
-
 
 /*
  * FIXME: The concept of multiple range references needs core support.

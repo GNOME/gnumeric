@@ -258,7 +258,7 @@ gnm_pane_cursor_bound_set (GnumericPane *pane, Range const *r)
 gboolean
 gnm_pane_rangesel_bound_set (GnumericPane *pane, Range const *r)
 {
-	return item_cursor_bound_set (pane->cursor.special, r);
+	return item_cursor_bound_set (pane->cursor.rangesel, r);
 }
 void
 gnm_pane_rangesel_start (GnumericPane *pane, int col, int row)
