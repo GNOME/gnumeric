@@ -12,7 +12,7 @@ plugindir = $(libdir)/gnumeric/plugins
 
 plugin_LTLIBRARIES = libcsv.la
 
-libcsv_la_SOURCES = csv-io.h csv-io.c libcsv.c libcsv.h
+libcsv_la_SOURCES = csv-io.h csv-io.c
 
 INCLUDES = 						\
 	-I$(GNUMERIC_SRC_DIR)				\

@@ -1,3 +1,8 @@
+1999-11-14  Jody Goldberg <jgoldberg@home.com>
+
+	* plugins/ff-csv/csv.io.[ch] : Rewrite to merge parser
+	  and sheet handler.  Use mmap.
+
 1999-11-14  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/ranges.c (range_fragment_list_clip): Add check + warning +
