@@ -1,3 +1,16 @@
+2001-01-25  Almer S. Tigelaar  <almer1@dds.nl>
+
+	* src/clipboard.h : Add PASTE_UPDATE_ROW_HEIGHT as a new paste flag.
+	
+	* src/commands.c 
+	(cmd_paste_copy_undo): Add PASTE_UPDATE_ROW_HEIGHT to the paste flags.
+	(cmd_paste_cut_redo): Update the row heights of the target region after
+	pasting for consistency with the behaviour of copy.
+	(cmd_paste_cut): Show source cut range in undo descriptor.
+
+	* src/clipboard.c (clipboard_paste_region): Update row height after
+	pasting if PASTE_UPDATE_ROW_HEIGHT flag is given.
+
 2001-01-25  Jody Goldberg <jgoldberg@home.com>
 
 	* src/cmd-edit.c (cmd_paste_to_selection) : allow merged regions

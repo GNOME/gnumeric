@@ -1951,6 +1951,8 @@ cmd_paste_cut_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 	cmd_paste_cut_update_origin (&me->info, wbc);
 
+	rows_height_update (me->info.target_sheet, &tmp);
+
 	return FALSE;
 }
 
@@ -1979,8 +1981,9 @@ cmd_paste_cut (WorkbookControl *wbc, ExprRelocateInfo const *info,
 	GtkObject *obj;
 	CmdPasteCut *me;
 
-	/* FIXME : improve on this */
-	char *descriptor = g_strdup_printf (_("Moving cells") );
+	/* FIXME: Do we want to show the destination range alwell? */
+	char *descriptor = g_strdup_printf (_("Moving %s"),
+					    range_name (&info->origin));
 
 	g_return_val_if_fail (info != NULL, TRUE);
 
@@ -2038,6 +2041,8 @@ cmd_paste_copy_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->content != NULL, TRUE);
 
+	me->dst.paste_flags |= PASTE_UPDATE_ROW_HEIGHT;
+	
 	content = clipboard_copy_range (me->dst.sheet, &me->dst.range);
 	if (clipboard_paste_region (wbc, &me->dst, me->content)) {
 		/* There was a problem, avoid leaking */
