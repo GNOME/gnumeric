@@ -59,7 +59,7 @@ value_to_gb (FunctionEvalInfo *ei, Value *val)
 		return gb_value_new_string_chars (val->v.str->str);
 
 	case VALUE_INTEGER:
-		return gb_value_new_int (val->v.v_int);
+		return gb_value_new_long (val->v.v_int);
 
 	case VALUE_FLOAT:
 		return gb_value_new_double (val->v.v_float);
