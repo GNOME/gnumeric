@@ -229,7 +229,7 @@ Pending Patches
     2.4) Provide an optional mechanism for specifying the
 	 target location useful for text to columns, and
 	 import into sheet
-    2.5) A help button
+    2.5) A help button                                          (DONE)
     2.6) Make it possible to ignore column on import, thus      (DONE)
 	 making it possible to import (parts of) files with
 	 more than 256 columns.  (Think of this as a special
@@ -237,8 +237,8 @@ Pending Patches
     2.7) Create interface for line terminator selection         (DONE)
     2.8) Make listed separators locale dependent (ie translators
          should be able to define separators)		
-    2.9) User specifiable locale encoding (not to be confused
-         with character encoding)			        (DONE)
+    2.9) User specifiable locale encoding (not to be confused   (DONE)
+         with character encoding)
     2.10) Fix stf bugs                                          (DONE)
     2.11) Improve initial file preview                          (DONE)
     2.12) Hook up workbook-control-gui.c:cb_data_import_text
@@ -438,9 +438,6 @@ Misc stuff that should be fixed
     : drag based col/row resize should support negative sizes to
       correspond to hiding.
 
-- We need to somehow add --export-dynamic to the gnumeric link line, or else
-  plugins won't load on Solaris/gcc.  (This might just be my bastard libtool.)
-
 - Remove duplication of code between analysis-tools.c and collect.c
 
 - Make deletion work for multiple ranges.
@@ -478,8 +475,6 @@ Misc stuff that should be fixed
 - Formats
     : Why does the number matching bother comparing against formats that are
       covered by 'General' ?
-    : format.c: we should resolve all the separators at gnumeric_setlocale time,
-      not every time we need them.
     : When applying a currency symbol we need to store the NON-localized id.
     : hour month and year format strings need to be internationalized.
 	eg tt:ss instead of hh:ss for other locales.
