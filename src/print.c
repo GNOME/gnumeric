@@ -16,6 +16,7 @@
 #include "selection.h"
 #include "workbook.h"
 #include "dialogs.h"
+#include "gnumeric-gconf.h"
 #include "libgnumeric.h"
 #include "sheet.h"
 #include "value.h"
@@ -988,6 +989,33 @@ workbook_print_all (PrintJobInfo *pj, Workbook *wb)
 	g_list_free (sheets);
 }
 
+static void
+print_job_info_set_one_time_defaults (PrintJobInfo *pj) 
+{
+	char *str;
+	str = gnm_gconf_get_printer_backend ();
+	gnome_print_config_set (pj->pi->print_config, "Settings.Transport.Backend", str);
+	g_free (str);
+	str = gnm_gconf_get_printer_filename ();
+	gnome_print_config_set (pj->pi->print_config, "Settings.Transport.Backend.FileName", str);
+	g_free (str);
+	str = gnm_gconf_get_printer ();
+	gnome_print_config_set (pj->pi->print_config, "Printer", str);
+	g_free (str);
+}
+
+static void
+print_job_info_save_one_time_defaults (PrintJobInfo *pj) 
+{
+	gnm_gconf_set_printer_backend 
+		(gnome_print_config_get (pj->pi->print_config, "Settings.Transport.Backend"));
+	gnm_gconf_set_printer_filename
+		(gnome_print_config_get (pj->pi->print_config, "Settings.Transport.Backend.FileName"));
+	gnm_gconf_set_printer
+		(gnome_print_config_get (pj->pi->print_config, "Printer"));
+}
+
+
 static PrintJobInfo *
 print_job_info_get (Sheet *sheet, PrintRange range, gboolean const preview)
 {
@@ -1003,6 +1031,8 @@ print_job_info_get (Sheet *sheet, PrintRange range, gboolean const preview)
 	 */
 	pj->sheet = sheet;
 	pj->pi    = print_info_dup (sheet->print_info);
+
+	print_job_info_set_one_time_defaults (pj);
 
 	/*
 	 * Values that should be entered in a dialog box
@@ -1134,6 +1164,8 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 		pj->end_page = end-1;
 	}
 
+	print_job_info_save_one_time_defaults (pj);
+	
 	gpm = gnome_print_master_new_from_config (print_config);
 	pj->print_context = gnome_print_master_get_context (gpm);
 	pj->range = default_range;
@@ -1142,19 +1174,16 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 	switch (pj->range) {
 
 	case PRINT_ACTIVE_SHEET:
-		printf ("Printing Active Sheet\n");
 		pj->render_info->pages = compute_pages (pj, NULL, sheet, NULL);
 		print_sheet (sheet, pj);
 		break;
 
 	case PRINT_ALL_SHEETS:
 	case PRINT_SHEET_RANGE:
-		printf ("Printing All Sheets\n");
 		workbook_print_all (pj, sheet->workbook);
 		break;
 
 	case PRINT_SHEET_SELECTION:
-		printf ("Selection\n");
 		sheet_print_selection (pj, sheet, WORKBOOK_CONTROL (wbcg));
 		break;
 

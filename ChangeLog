@@ -1,3 +1,14 @@
+2002-05-09  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* schemas/gnumeric-general.schemas : add 3 printer schemax
+	* src/gnumeric-gconf-priv.h : add printer keys
+	* src/gnumeric-gconf.c : add printer get/set methods
+	* src/gnumeric-gconf.h : ditto
+	* src/print.c (print_job_info_set_one_time_defaults) : new
+	(print_job_info_save_one_time_defaults) : new
+	(print_job_info_get) : call print_job_info_set_one_time_defaults
+	(sheet_print) : call print_job_info_save_one_time_defaults
+
 2002-05-08  Jon K Hellan  <hellan@acm.org>
 
 	* src/gui-util.c (gnumeric_dialog_run): Silence warnings.

@@ -120,9 +120,18 @@ void     gnm_gconf_set_sort_default_ascending (gboolean val);
 gint     gnm_gconf_get_sort_max_initial_clauses (void);
 void     gnm_gconf_set_sort_max_initial_clauses (gint val);
 
-/* print-setup */
+/* print-setup & printing */
 gboolean gnm_gconf_get_all_sheets (void);
 void     gnm_gconf_set_all_sheets (gboolean val);
+
+gchar   *gnm_gconf_get_printer (void);
+void     gnm_gconf_set_printer (gchar *str);
+
+gchar   *gnm_gconf_get_printer_backend (void);
+void     gnm_gconf_set_printer_backend (gchar *str);
+
+gchar   *gnm_gconf_get_printer_filename (void);
+void     gnm_gconf_set_printer_filename (gchar *str);
 
 /* others */
 gnum_float gnm_gconf_get_horizontal_dpi (void);

@@ -750,3 +750,54 @@ gnm_gconf_set_unfocused_range_selection (gboolean val)
 			       val, NULL);
 }
 
+gchar   *gnm_gconf_get_printer (void)
+{
+	return gconf_client_get_string (application_get_gconf_client (), 
+					PRINTING_GCONF_PRINTER,
+					NULL);
+}
+
+void     gnm_gconf_set_printer (gchar *str)
+{
+	if (str == NULL)
+		str = g_strdup ("");
+	gconf_client_set_string  (application_get_gconf_client (), 
+				  PRINTING_GCONF_PRINTER,
+                                  str, NULL);
+	g_free (str);
+}
+
+gchar   *gnm_gconf_get_printer_backend (void)
+{
+	return gconf_client_get_string (application_get_gconf_client (), 
+					PRINTING_GCONF_BACKEND,
+					NULL);
+}
+
+void     gnm_gconf_set_printer_backend (gchar *str)
+{
+	if (str == NULL)
+		str = g_strdup ("");
+	gconf_client_set_string  (application_get_gconf_client (), 
+				  PRINTING_GCONF_BACKEND,
+                                  str, NULL);
+	g_free (str);
+}
+
+gchar   *gnm_gconf_get_printer_filename (void)
+{
+	return gconf_client_get_string (application_get_gconf_client (), 
+					PRINTING_GCONF_FILENAME,
+					NULL);
+}
+
+void     gnm_gconf_set_printer_filename (gchar *str)
+{
+	if (str == NULL)
+		str = g_strdup ("");
+	gconf_client_set_string  (application_get_gconf_client (), 
+				  PRINTING_GCONF_FILENAME,
+                                  str, NULL);
+	g_free (str);
+}
+

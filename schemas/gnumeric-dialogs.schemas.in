@@ -180,6 +180,39 @@
         </locale>
       </schema>
       <schema>
+        <key>/schemas/apps/gnumeric/printing/printer</key>
+        <applyto>/apps/gnumeric/printing/printer</applyto>
+        <owner>Gnumeric</owner>
+        <type>string</type>
+	<default>GENERIC</default>
+        <locale name="C">
+        <short>Printer</short>
+        <long>The configuration name of the printer in gnome-print. Do not edit this variable.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/printing/backend</key>
+        <applyto>/apps/gnumeric/printing/backend</applyto>
+        <owner>Gnumeric</owner>
+        <type>string</type>
+	<default>lpr</default>
+        <locale name="C">
+        <short>Printer Backend</short>
+        <long>The backend used in gnome-print. Do not edit this variable.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/printing/filename</key>
+        <applyto>/apps/gnumeric/printing/filename</applyto>
+        <owner>Gnumeric</owner>
+        <type>string</type>
+       <locale name="C">
+	<default>output.ps</default>
+        <short>Print-to Filename</short>
+        <long>The file name when printing to a file in gnome-print. Do not edit this variable.</long>
+       </locale>
+      </schema>
+      <schema>
         <key>/schemas/apps/gnumeric/dialogs/rs/unfocused</key>
         <applyto>/apps/gnumeric/dialogs/rs/unfocused</applyto>
         <owner>Gnumeric</owner>
