@@ -1,3 +1,8 @@
+2003-08-22  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (excel_read_BOF) : fix the warning.  We need the
+	  stream pos at the _start_ of the sheet.
+
 2003-08-21  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.20
