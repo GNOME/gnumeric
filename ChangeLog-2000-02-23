@@ -1,5 +1,10 @@
 1999-07-26  Michael Meeks  <michael@edenproject.org>
 
+	* src/corba-sheet.c (fill_corba_value): Remove redundant Sheet *
+	from cellref_name.
+
+1999-07-26  Michael Meeks  <michael@edenproject.org>
+
 	* src/xml-io.c (xml_read_cell): Commented out freeze/thaw deps.
 
 	* src/cell.c (cell_deep_freeze_dependencies): Added warning not to

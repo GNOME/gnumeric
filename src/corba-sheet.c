@@ -333,8 +333,8 @@ fill_corba_value (GNOME_Gnumeric_Value *value, Sheet *sheet, CORBA_long col, COR
 		case VALUE_CELLRANGE: {
 			char *a, *b;
 			
-			a = cellref_name (&cell->value->v.cell_range.cell_a, sheet, col, row);
-			b = cellref_name (&cell->value->v.cell_range.cell_b, sheet, col, row);
+			a = cellref_name (&cell->value->v.cell_range.cell_a, col, row);
+			b = cellref_name (&cell->value->v.cell_range.cell_b, col, row);
 
 			value->_d = GNOME_Gnumeric_VALUE_CELLRANGE;
 			value->_u.cell_range.cell_a = CORBA_string_dup (a);
