@@ -1,3 +1,9 @@
+2003-06-26  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=115630
+	* gnumeric-doc.make : remove the explicit dir qualification for
+	  func-header.xml func-footer.xml.
+
 2003-06-07  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.19

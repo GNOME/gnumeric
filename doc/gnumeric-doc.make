@@ -25,6 +25,6 @@ include $(gnumeric_docdir)/xmldocs.make
 EXTRA_DIST +=		\
 	func.defs	\
 	func-list.xml	\
-	$(srcdir)/func-header.xml $(srcdir)/func-footer.xml
+	func-header.xml func-footer.xml
 
 #	functions.xml	# an entity, shipped via xmldocs.make
