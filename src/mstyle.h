@@ -50,9 +50,6 @@ enum _MStyleElementType {
 #include "sheet.h"
 #include "str.h"
 
-/* Very deprecated */
-Style         *style_new_mstyle       (MStyle *e, guint len,
-				       double zoom);
 /* End of deprecation */
 
 MStyle     *mstyle_new           (void);

@@ -67,56 +67,8 @@ typedef struct {
 	gushort  blue;
 } StyleColor;
 
-#define STYLE_FORMAT         0x0001
-#define STYLE_FONT           0x0002
-#define STYLE_PATTERN        0x0004
-#define STYLE_ALIGN          0x0008
-#define STYLE_FORE_COLOR     0x0010
-#define STYLE_BACK_COLOR     0x0020
-#define STYLE_PATTERN_COLOR  0x0040
-#define STYLE_BORDER_TOP     0x0080
-#define STYLE_BORDER_LEFT    0x0100
-#define STYLE_BORDER_BOTTOM  0x0200
-#define STYLE_BORDER_RIGHT   0x0400
-#define STYLE_MAXIMUM        0x0800
-
-/* Define all of the styles we actually know about */
-#define STYLE_ALL (STYLE_FORMAT | STYLE_FONT | STYLE_PATTERN | STYLE_ALIGN | \
-		   STYLE_FORE_COLOR | STYLE_BACK_COLOR | STYLE_PATTERN_COLOR | \
-		   STYLE_BORDER_TOP | STYLE_BORDER_LEFT | STYLE_BORDER_BOTTOM | STYLE_BORDER_RIGHT)
-
-typedef struct {
-	StyleFormat   *format;
-	StyleFont     *font;
-	StyleColor    *fore_color;
-	StyleColor    *back_color;
-	StyleColor    *pattern_color;
-
-	/* Maybe make these an array */
-	MStyleBorder  *border_top;
-	MStyleBorder  *border_left;
-	MStyleBorder  *border_bottom;
-	MStyleBorder  *border_right;
-	MStyleBorder  *border_diagonal;		/* Unsupported */
-	MStyleBorder  *border_rev_diagonal;	/* Unsupported */
-	unsigned int pattern:4;
-	unsigned int valign:4;
-	unsigned int halign:6;
-	unsigned int orientation:4;
-	unsigned int fit_in_cell:1;
-	
-	unsigned int valid_flags;
-} Style;
-
 void           style_init  	      (void);
 void	       style_shutdown         (void);
-
-Style         *style_new   	      (void);
-void           style_merge_to         (Style *target, Style *source);
-Style         *style_duplicate        (const Style *style);
-void           style_destroy          (Style *style);
-#define        style_unref(s)         style_destroy (s)
-Style         *style_new_empty        (void);
 
 StyleFormat   *style_format_new       (const char *name);
 void           style_format_ref       (StyleFormat *sf);

@@ -302,6 +302,15 @@ void           sheet_style_relocate             (const struct expr_relocate_info
 void           sheet_selection_apply_style      (Sheet *sheet, MStyle *style);
 MStyle        *sheet_selection_get_unique_style (Sheet *sheet);
 void           sheet_selection_height_update    (Sheet *sheet, double height);
+void           sheet_selection_set_border       (Sheet *sheet,
+						 MStyleBorder *top,
+						 MStyleBorder *bottom,
+						 MStyleBorder *left,
+						 MStyleBorder *right,
+						 MStyleBorder *rev_diag,
+						 MStyleBorder *diag,
+						 MStyleBorder *horiz,
+						 MStyleBorder *vert);
 void           sheet_create_styles              (Sheet *sheet);
 void           sheet_destroy_styles             (Sheet *sheet);
 GList         *sheet_get_style_list             (Sheet *sheet);

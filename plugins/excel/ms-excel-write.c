@@ -665,7 +665,7 @@ formats_free (Formats *formats)
 
 /* See S59E1E.HTM */
 static void
-write_xf_record (BiffPut *bp, Style *style, eBiff_version ver, int hack)
+write_xf_record (BiffPut *bp, MStyle *mstyle, eBiff_version ver, int hack)
 {
 	guint8 data[256];
 	int lp;
@@ -751,7 +751,7 @@ write_xf (BiffPut *bp, ExcelWorkbook *wb)
 }
 
 static guint32
-xf_lookup (XF *xf, Style *style)
+xf_lookup (XF *xf, MStyle *mstyle)
 {
 	/* Fixme: Hash table lookup */
 	return XF_MAGIC;
