@@ -632,7 +632,7 @@ dialog_scenarios (WorkbookControlGUI *wbcg)
 	state->wb = wb_control_workbook (wbc);
 
 	if (dialog_tool_init (state, wbcg, sheet,
-			      "scenarios.html",
+			      "scenario-view.html",
 			      "scenario-manager.glade", "Scenarios",
 			      _("Results:"), NULL, error_str, "Scenarios",
 			      G_CALLBACK (scenarios_ok_clicked_cb),
