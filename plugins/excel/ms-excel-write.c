@@ -3412,6 +3412,8 @@ free_workbook (ExcelWorkbook *wb)
 		ExcelSheet *s = g_ptr_array_index (wb->sheets, lp);
 		excel_sheet_free (s);
 	}
+	g_ptr_array_free (wb->sheets, TRUE);
+	g_ptr_array_free (wb->names, TRUE);
 
 	g_free (wb);
 }
