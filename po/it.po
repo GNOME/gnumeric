@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 1999-07-09 21:32-0500\n"
+"POT-Creation-Date: 1999-07-12 18:18-0500\n"
 "Content-Type: text/plain; charset=\n"
 "Date: 1998-09-02 18:03:00+0200\n"
 "From: Tristan Tarrant <tst@decp3229.etnoteam.it>\n"
@@ -36,7 +36,7 @@ msgstr ""
 msgid "Argument must be a Guile expression"
 msgstr ""
 
-#: plugins/guile/plugin.c:237 src/expr.c:1148 src/fn-sheet.c:35
+#: plugins/guile/plugin.c:237 src/expr.c:1145 src/fn-sheet.c:35
 #: src/fn-string.c:291
 msgid "Invalid number of arguments"
 msgstr "Numero di argomenti non valido"
@@ -57,7 +57,7 @@ msgstr ""
 msgid "Unable to lookup Guile function."
 msgstr ""
 
-#: plugins/guile/plugin.c:437
+#: plugins/guile/plugin.c:439
 #, fuzzy
 msgid "Guile Plugin"
 msgstr "Linee verticali"
@@ -144,7 +144,7 @@ msgid "Jakub Jelinek, Gnumeric hacker."
 msgstr ""
 
 #: src/about.c:36
-msgid "Rasca Gmelch, html, troff exporters."
+msgid "Rasca, HTML, troff, LaTeX exporters."
 msgstr ""
 
 #: src/about.c:37
@@ -352,105 +352,105 @@ msgstr "Novembre"
 msgid "December"
 msgstr "Dicembre"
 
-#: src/dialog-cell-format.c:67
+#: src/dialog-cell-format.c:68
 msgid "Numbers"
 msgstr "Numeri"
 
-#: src/dialog-cell-format.c:68
+#: src/dialog-cell-format.c:69
 msgid "Accounting"
 msgstr "Contabilità"
 
-#: src/dialog-cell-format.c:69
+#: src/dialog-cell-format.c:70
 msgid "Date"
 msgstr "Data"
 
-#: src/dialog-cell-format.c:70
+#: src/dialog-cell-format.c:71
 msgid "Time"
 msgstr "Ora"
 
-#: src/dialog-cell-format.c:71
+#: src/dialog-cell-format.c:72
 msgid "Percent"
 msgstr "Percentuale"
 
-#: src/dialog-cell-format.c:72
+#: src/dialog-cell-format.c:73
 msgid "Fraction"
 msgstr "Frazione"
 
-#: src/dialog-cell-format.c:73
+#: src/dialog-cell-format.c:74
 msgid "Scientific"
 msgstr "Scientifico"
 
-#: src/dialog-cell-format.c:74
+#: src/dialog-cell-format.c:75
 msgid "Text"
 msgstr "Testo"
 
-#: src/dialog-cell-format.c:75
+#: src/dialog-cell-format.c:76
 msgid "Money"
 msgstr "Moneta"
 
 #. 1. Categories
-#: src/dialog-cell-format.c:257
+#: src/dialog-cell-format.c:258
 msgid "Categories"
 msgstr "Categorie"
 
 #. 2.1 Input line
-#: src/dialog-cell-format.c:289
+#: src/dialog-cell-format.c:290
 msgid "Code:"
 msgstr "Codice:"
 
 #. 2.2 Sample
-#: src/dialog-cell-format.c:298
+#: src/dialog-cell-format.c:299
 msgid "Sample:"
 msgstr "Esempio:"
 
-#: src/dialog-cell-format.c:310
+#: src/dialog-cell-format.c:311
 msgid "Format codes"
 msgstr "Codici di formattazione"
 
-#: src/dialog-cell-format.c:359 src/formats.c:16 src/number-match.c:457
+#: src/dialog-cell-format.c:360 src/formats.c:16 src/number-match.c:457
 msgid "General"
 msgstr "Generale"
 
-#: src/dialog-cell-format.c:360
+#: src/dialog-cell-format.c:361
 msgid "Left"
 msgstr "Sinistra"
 
-#: src/dialog-cell-format.c:361 src/dialog-cell-format.c:370
+#: src/dialog-cell-format.c:362 src/dialog-cell-format.c:371
 #: src/workbook.c:1041
 msgid "Center"
 msgstr "Centro"
 
-#: src/dialog-cell-format.c:362
+#: src/dialog-cell-format.c:363
 msgid "Right"
 msgstr "Destra"
 
-#: src/dialog-cell-format.c:363
+#: src/dialog-cell-format.c:364
 msgid "Fill"
 msgstr "Riempimento"
 
-#: src/dialog-cell-format.c:364 src/dialog-cell-format.c:372
+#: src/dialog-cell-format.c:365 src/dialog-cell-format.c:373
 msgid "Justify"
 msgstr "Giustificazione"
 
-#: src/dialog-cell-format.c:369
+#: src/dialog-cell-format.c:370
 msgid "Top"
 msgstr "Alto"
 
-#: src/dialog-cell-format.c:371
+#: src/dialog-cell-format.c:372
 msgid "Bottom"
 msgstr "Basso"
 
 #. Vertical alignment
-#: src/dialog-cell-format.c:427 src/print.glade.h:9
+#: src/dialog-cell-format.c:428 src/print.glade.h:9
 msgid "Vertical"
 msgstr "Verticale"
 
 #. Horizontal alignment
-#: src/dialog-cell-format.c:431 src/print.glade.h:10
+#: src/dialog-cell-format.c:432 src/print.glade.h:10
 msgid "Horizontal"
 msgstr "Orizzontale"
 
-#: src/dialog-cell-format.c:434
+#: src/dialog-cell-format.c:435
 msgid "Auto return"
 msgstr "A capo automatico"
 
@@ -528,27 +528,27 @@ msgstr ""
 msgid "delete cells"
 msgstr "cancella celle"
 
-#: src/dialog-delete-cells.c:29
+#: src/dialog-delete-cells.c:45
 msgid "Delete cells"
 msgstr "Cancella celle"
 
-#: src/dialog-delete-cells.c:32 src/item-grid.c:537
+#: src/dialog-delete-cells.c:48 src/item-grid.c:534
 msgid "Delete"
 msgstr "Cancella"
 
-#: src/dialog-delete-cells.c:33
+#: src/dialog-delete-cells.c:49
 msgid "Shift cells left"
 msgstr "Sposta celle a sinistra"
 
-#: src/dialog-delete-cells.c:34
+#: src/dialog-delete-cells.c:50
 msgid "Shift cells up"
 msgstr "Sposta celle in su"
 
-#: src/dialog-delete-cells.c:35
+#: src/dialog-delete-cells.c:51
 msgid "Delete row(s)"
 msgstr "Cancella riga"
 
-#: src/dialog-delete-cells.c:36
+#: src/dialog-delete-cells.c:52
 msgid "Delete column(s)"
 msgstr "Cancella colonna"
 
@@ -568,28 +568,28 @@ msgstr "Speciale..."
 msgid "insert cells"
 msgstr "inserisci celle"
 
-#: src/dialog-insert-cells.c:30
+#: src/dialog-insert-cells.c:46
 msgid "Insert cells"
 msgstr "Inserisci celle"
 
-#: src/dialog-insert-cells.c:33 src/item-grid.c:536
+#: src/dialog-insert-cells.c:49 src/item-grid.c:533
 msgid "Insert"
 msgstr "Inserisci"
 
-#: src/dialog-insert-cells.c:34
+#: src/dialog-insert-cells.c:50
 msgid "Shift cells right"
 msgstr "Sposta celle a destra"
 
-#: src/dialog-insert-cells.c:35
+#: src/dialog-insert-cells.c:51
 msgid "Shift cells down"
 msgstr "Sposta celle in giù"
 
-#: src/dialog-insert-cells.c:36
+#: src/dialog-insert-cells.c:52
 #, fuzzy
 msgid "Insert row(s)"
 msgstr "Inserisci righe"
 
-#: src/dialog-insert-cells.c:37
+#: src/dialog-insert-cells.c:53
 #, fuzzy
 msgid "Insert column(s)"
 msgstr "Inserisci una colonna"
@@ -627,7 +627,7 @@ msgstr "Moltiplica"
 msgid "Divide"
 msgstr "Dividi"
 
-#: src/dialog-paste-special.c:64 src/item-grid.c:534
+#: src/dialog-paste-special.c:64 src/item-grid.c:531
 msgid "Paste special"
 msgstr "Incolla speciale"
 
@@ -683,12 +683,12 @@ msgstr "Apice mancante"
 msgid "Impossible!"
 msgstr ""
 
-#: src/expr.c:1121
+#: src/expr.c:1118
 #, fuzzy
 msgid "Internal error"
 msgstr "Errore di sintassi"
 
-#: src/expr.c:1214 src/expr.c:1489 src/expr.c:1673 src/fn-misc.c:190
+#: src/expr.c:1207 src/expr.c:1524 src/expr.c:1711 src/fn-misc.c:190
 #: src/fn-string.c:55 src/fn-string.c:77 src/fn-string.c:98
 #: src/fn-string.c:153 src/fn-string.c:187 src/fn-string.c:262
 #: src/fn-string.c:338 src/fn-string.c:373 src/fn-string.c:547
@@ -696,37 +696,37 @@ msgstr "Errore di sintassi"
 msgid "Type mismatch"
 msgstr "Differenza di tipo"
 
-#: src/expr.c:1293
+#: src/expr.c:1286
 msgid "Function does not exist"
 msgstr ""
 
-#: src/expr.c:1297
+#: src/expr.c:1290
 msgid "Calling non-function"
 msgstr ""
 
-#: src/expr.c:1432
+#: src/expr.c:1467
 msgid "Type error"
 msgstr "Errore di tipo"
 
-#: src/expr.c:1463
+#: src/expr.c:1498
 #, fuzzy
 msgid "Internal type error"
 msgstr "Errore di tipo"
 
-#: src/expr.c:1657
+#: src/expr.c:1692
 msgid "Reference to newborn cell"
 msgstr ""
 
-#: src/expr.c:1725
+#: src/expr.c:1762
 msgid "Unknown evaluation error"
 msgstr "Errore di valutazione sconosciuto"
 
-#: src/expr.c:2085
+#: src/expr.c:2119
 #, fuzzy
 msgid "#Reference to deleted cell!"
 msgstr "Centra il contenuto della cella"
 
-#: src/expr.c:2110
+#: src/expr.c:2144
 msgid "#Reference to deleted range!"
 msgstr ""
 
@@ -1114,7 +1114,7 @@ msgstr ""
 "on a string or empty cell simply does nothing.<p></description><seealso>ABS, "
 "FLOOR</seealso>"
 
-#: src/fn-math.c:548
+#: src/fn-math.c:547
 #, fuzzy
 msgid ""
 "@FUNCTION=SUMIF\n"
@@ -1691,12 +1691,12 @@ msgid ""
 "@SEEALSO=SUMSQ"
 msgstr ""
 
-#: src/fn-math.c:1907 src/fn-math.c:1921 src/fn-math.c:1993 src/fn-math.c:2007
-#: src/fn-math.c:2079 src/fn-math.c:2093
+#: src/fn-math.c:1908 src/fn-math.c:1922 src/fn-math.c:1995 src/fn-math.c:2009
+#: src/fn-math.c:2081 src/fn-math.c:2095
 msgid "Array version not implemented!"
 msgstr ""
 
-#: src/fn-math.c:1948
+#: src/fn-math.c:1949
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
 "@SYNTAX=SUMX2PY2(array1,array2)\n"
@@ -1710,7 +1710,7 @@ msgid ""
 "@SEEALSO=SUMSQ"
 msgstr ""
 
-#: src/fn-math.c:2034
+#: src/fn-math.c:2036
 msgid ""
 "@FUNCTION=SUMXMY2\n"
 "@SYNTAX=SUMXMY2(array1,array2)\n"
@@ -1724,7 +1724,7 @@ msgid ""
 "@SEEALSO=SUMSQ"
 msgstr ""
 
-#: src/fn-math.c:2120
+#: src/fn-math.c:2122
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
 "@SYNTAX=SUMIF(function_nbr,ref1,ref2,...)\n"
@@ -1746,7 +1746,7 @@ msgid ""
 "@SEEALSO=COUNT,SUM"
 msgstr ""
 
-#: src/fn-math.c:2200
+#: src/fn-math.c:2202
 msgid ""
 "@FUNCTION=SERIESSUM\n"
 "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
@@ -1757,21 +1757,34 @@ msgid ""
 "@SEEALSO=COUNT,SUM"
 msgstr ""
 
-#: src/fn-math.c:2316
+#: src/fn-math.c:2318
+#, fuzzy
+msgid ""
+"@FUNCTION=TRANSPOSE\n"
+"@SYNTAX=TRANSPOSE(matrix)\n"
+"@DESCRIPTION=TRANSPOSE function Returns the transpose of the inputmatrix.\n"
+"@SEEALSO=MMULT"
+msgstr ""
+"<function>CEIL</function><syntax>CEIL(b1)</syntax>n<description>The CEIL "
+"function rounds b1 up to the next nearestinteger.<p>Performing this function "
+"on a string or empty cell simply does nothing.<p></description><seealso>ABS, "
+"FLOOR</seealso>"
+
+#: src/fn-math.c:2357
 msgid ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(array1,array2)\n"
-"@DESCRIPTION=SERIESSUM function Returns the matrix product of two arrays. "
-"The result is an array with the same number of rows as array1 and the same "
+"@DESCRIPTION=MMULT function Returns the matrix product of two arrays. The "
+"result is an array with the same number of rows as array1 and the same "
 "number of columns as array2.\n"
-"@SEEALSO=SUMPRODUCT"
+"@SEEALSO=TRANSPOSE,MINVERSE"
 msgstr ""
 
-#: src/fn-math.c:2359
+#: src/fn-math.c:2399
 msgid "#3D MULT?"
 msgstr ""
 
-#: src/fn-math.c:2432
+#: src/fn-math.c:2470
 msgid ""
 "@FUNCTION=SUMPRODUCT\n"
 "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
@@ -1783,7 +1796,7 @@ msgid ""
 "@SEEALSO=SUM,PRODUCT"
 msgstr ""
 
-#: src/fn-math.c:2531
+#: src/fn-math.c:2569
 msgid "Maths / Trig."
 msgstr ""
 
@@ -2470,7 +2483,7 @@ msgid ""
 "the contents in this region?"
 msgstr ""
 
-#: src/item-cursor.c:580 src/item-grid.c:532 src/workbook.c:1029
+#: src/item-cursor.c:580 src/item-grid.c:529 src/workbook.c:1029
 msgid "Copy"
 msgstr "Copia"
 
@@ -2502,19 +2515,19 @@ msgstr "Sposta celle in giù e sposta"
 msgid "Shift cells right and move"
 msgstr "Sposta celle a destra e sposta"
 
-#: src/item-grid.c:531 src/workbook.c:1026
+#: src/item-grid.c:528 src/workbook.c:1026
 msgid "Cut"
 msgstr "Taglia"
 
-#: src/item-grid.c:533 src/workbook.c:1032
+#: src/item-grid.c:530 src/workbook.c:1032
 msgid "Paste"
 msgstr "Incolla"
 
-#: src/item-grid.c:538
+#: src/item-grid.c:535
 msgid "Erase content"
 msgstr "Cancella contenuto"
 
-#: src/item-grid.c:540
+#: src/item-grid.c:537
 msgid "Cell format"
 msgstr "Formattazione cella"
 
@@ -2600,35 +2613,35 @@ msgstr "Riga: %d"
 msgid "Column: %s"
 msgstr "Colonna: %s"
 
-#: src/sheet.c:2777
+#: src/sheet.c:2834
 msgid "The command `"
 msgstr ""
 
-#: src/sheet.c:2779
+#: src/sheet.c:2836
 msgid "' cannot be performed with multiple selections"
 msgstr ""
 
-#: src/sheet.c:2794
+#: src/sheet.c:2851
 #, fuzzy
 msgid "copy"
 msgstr "Copia"
 
-#: src/sheet.c:2819
+#: src/sheet.c:2876
 #, fuzzy
 msgid "cut"
 msgstr "Taglia"
 
-#: src/sheet.c:2868
+#: src/sheet.c:2925
 #, fuzzy
 msgid "paste"
 msgstr "Incolla"
 
-#: src/sheet.c:3905
+#: src/sheet.c:3936
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr ""
 
-#: src/sheet.c:3917
+#: src/sheet.c:3948
 msgid "I was unable to the bind object"
 msgstr ""
 
@@ -3298,6 +3311,85 @@ msgstr ""
 
 #: src/print.glade.h:55
 msgid "RIght, then down"
+msgstr ""
+
+#.
+#. * Translatable strings file generated by Glade.
+#. * Add this file to your project's POTFILES.in.
+#. * DO NOT compile it as part of your application.
+#.
+#: src/import.glade.h:7
+msgid "Choose an import filter for loading the file:"
+msgstr ""
+
+#: src/import.glade.h:8
+msgid "label2"
+msgstr ""
+
+#.
+#. * Translatable strings file generated by Glade.
+#. * Add this file to your project's POTFILES.in.
+#. * DO NOT compile it as part of your application.
+#.
+#: src/hf-config.glade.h:7
+#, fuzzy
+msgid "Left section"
+msgstr "Allineamento a sinistra"
+
+#: src/hf-config.glade.h:8
+#, fuzzy
+msgid "Center section:"
+msgstr "Centro"
+
+#: src/hf-config.glade.h:9
+#, fuzzy
+msgid "Right section:"
+msgstr "Allineamento a destra"
+
+#: src/hf-config.glade.h:10
+msgid "Enter the format strings for each section:"
+msgstr ""
+
+#.
+#. * Translatable strings file generated by Glade.
+#. * Add this file to your project's POTFILES.in.
+#. * DO NOT compile it as part of your application.
+#.
+#: src/font-sel.glade.h:7
+msgid "window1"
+msgstr ""
+
+#: src/font-sel.glade.h:8
+#, fuzzy
+msgid "Font:"
+msgstr "Conto"
+
+#: src/font-sel.glade.h:9
+msgid "Font style:"
+msgstr ""
+
+#: src/font-sel.glade.h:10
+msgid "Size:"
+msgstr ""
+
+#: src/font-sel.glade.h:11
+msgid "Preview:"
+msgstr ""
+
+#: src/font-sel.glade.h:12
+msgid "AaBbCcDdEe12345"
+msgstr ""
+
+#: src/font-sel.glade.h:13
+msgid "label7"
+msgstr ""
+
+#: src/font-sel.glade.h:14
+msgid "label8"
+msgstr ""
+
+#: src/font-sel.glade.h:15
+msgid "label9"
 msgstr ""
 
 #~ msgid "12%"

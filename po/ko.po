@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.28\n"
-"POT-Creation-Date: 1999-07-09 21:32-0500\n"
+"POT-Creation-Date: 1999-07-12 18:18-0500\n"
 "PO-Revision-Date: 1999-07-08 12:20:55+0900\n"
 "Last-Translator: Sung-Hyun Nam <namsh@lgic.co.kr>\n"
 "Language-Team: Korean <ko@li.org>\n"
@@ -36,7 +36,7 @@ msgstr "엑셀(R) 95 파일 형식"
 msgid "Argument must be a Guile expression"
 msgstr "인자는 Guile 형식이어야 합니다"
 
-#: plugins/guile/plugin.c:237 src/expr.c:1148 src/fn-sheet.c:35
+#: plugins/guile/plugin.c:237 src/expr.c:1145 src/fn-sheet.c:35
 #: src/fn-string.c:291
 msgid "Invalid number of arguments"
 msgstr "인자 갯수가 틀림"
@@ -57,7 +57,7 @@ msgstr "인자 값을 구할 수 없습니다"
 msgid "Unable to lookup Guile function."
 msgstr "Guild 함수를 찾을 수 없습니다."
 
-#: plugins/guile/plugin.c:437
+#: plugins/guile/plugin.c:439
 msgid "Guile Plugin"
 msgstr "Guile 플러그인"
 
@@ -143,7 +143,7 @@ msgid "Jakub Jelinek, Gnumeric hacker."
 msgstr "Jakub Jelinek, Gnumeric 해커."
 
 #: src/about.c:36
-msgid "Rasca Gmelch, html, troff exporters."
+msgid "Rasca, HTML, troff, LaTeX exporters."
 msgstr ""
 
 #: src/about.c:37
@@ -330,105 +330,105 @@ msgstr "11월"
 msgid "December"
 msgstr "12월"
 
-#: src/dialog-cell-format.c:67
+#: src/dialog-cell-format.c:68
 msgid "Numbers"
 msgstr "숫자"
 
-#: src/dialog-cell-format.c:68
+#: src/dialog-cell-format.c:69
 msgid "Accounting"
 msgstr "계산중"
 
-#: src/dialog-cell-format.c:69
+#: src/dialog-cell-format.c:70
 msgid "Date"
 msgstr "날짜"
 
-#: src/dialog-cell-format.c:70
+#: src/dialog-cell-format.c:71
 msgid "Time"
 msgstr "시간"
 
-#: src/dialog-cell-format.c:71
+#: src/dialog-cell-format.c:72
 msgid "Percent"
 msgstr "퍼센트"
 
-#: src/dialog-cell-format.c:72
+#: src/dialog-cell-format.c:73
 msgid "Fraction"
 msgstr "분수"
 
-#: src/dialog-cell-format.c:73
+#: src/dialog-cell-format.c:74
 msgid "Scientific"
 msgstr "과학"
 
-#: src/dialog-cell-format.c:74
+#: src/dialog-cell-format.c:75
 msgid "Text"
 msgstr "텍스트"
 
-#: src/dialog-cell-format.c:75
+#: src/dialog-cell-format.c:76
 msgid "Money"
 msgstr "돈"
 
 #. 1. Categories
-#: src/dialog-cell-format.c:257
+#: src/dialog-cell-format.c:258
 msgid "Categories"
 msgstr "범주"
 
 #. 2.1 Input line
-#: src/dialog-cell-format.c:289
+#: src/dialog-cell-format.c:290
 msgid "Code:"
 msgstr "코드:"
 
 #. 2.2 Sample
-#: src/dialog-cell-format.c:298
+#: src/dialog-cell-format.c:299
 msgid "Sample:"
 msgstr "샘플:"
 
-#: src/dialog-cell-format.c:310
+#: src/dialog-cell-format.c:311
 msgid "Format codes"
 msgstr "형식 코드"
 
-#: src/dialog-cell-format.c:359 src/formats.c:16 src/number-match.c:457
+#: src/dialog-cell-format.c:360 src/formats.c:16 src/number-match.c:457
 msgid "General"
 msgstr "보통"
 
-#: src/dialog-cell-format.c:360
+#: src/dialog-cell-format.c:361
 msgid "Left"
 msgstr "왼쪽"
 
-#: src/dialog-cell-format.c:361 src/dialog-cell-format.c:370
+#: src/dialog-cell-format.c:362 src/dialog-cell-format.c:371
 #: src/workbook.c:1041
 msgid "Center"
 msgstr "중앙"
 
-#: src/dialog-cell-format.c:362
+#: src/dialog-cell-format.c:363
 msgid "Right"
 msgstr "오른쪽"
 
-#: src/dialog-cell-format.c:363
+#: src/dialog-cell-format.c:364
 msgid "Fill"
 msgstr "채움"
 
-#: src/dialog-cell-format.c:364 src/dialog-cell-format.c:372
+#: src/dialog-cell-format.c:365 src/dialog-cell-format.c:373
 msgid "Justify"
 msgstr ""
 
-#: src/dialog-cell-format.c:369
+#: src/dialog-cell-format.c:370
 msgid "Top"
 msgstr "꼭대기"
 
-#: src/dialog-cell-format.c:371
+#: src/dialog-cell-format.c:372
 msgid "Bottom"
 msgstr "밑바닥"
 
 #. Vertical alignment
-#: src/dialog-cell-format.c:427 src/print.glade.h:9
+#: src/dialog-cell-format.c:428 src/print.glade.h:9
 msgid "Vertical"
 msgstr "수직"
 
 #. Horizontal alignment
-#: src/dialog-cell-format.c:431 src/print.glade.h:10
+#: src/dialog-cell-format.c:432 src/print.glade.h:10
 msgid "Horizontal"
 msgstr "수평"
 
-#: src/dialog-cell-format.c:434
+#: src/dialog-cell-format.c:435
 msgid "Auto return"
 msgstr ""
 
@@ -502,27 +502,27 @@ msgstr "Refers to"
 msgid "delete cells"
 msgstr "셀 삭제"
 
-#: src/dialog-delete-cells.c:29
+#: src/dialog-delete-cells.c:45
 msgid "Delete cells"
 msgstr "셀 삭제"
 
-#: src/dialog-delete-cells.c:32 src/item-grid.c:537
+#: src/dialog-delete-cells.c:48 src/item-grid.c:534
 msgid "Delete"
 msgstr "삭제"
 
-#: src/dialog-delete-cells.c:33
+#: src/dialog-delete-cells.c:49
 msgid "Shift cells left"
 msgstr "셀을 왼쪽으로 옮김"
 
-#: src/dialog-delete-cells.c:34
+#: src/dialog-delete-cells.c:50
 msgid "Shift cells up"
 msgstr "셀을 위로 옮김"
 
-#: src/dialog-delete-cells.c:35
+#: src/dialog-delete-cells.c:51
 msgid "Delete row(s)"
 msgstr "행 삭제"
 
-#: src/dialog-delete-cells.c:36
+#: src/dialog-delete-cells.c:52
 msgid "Delete column(s)"
 msgstr "열 삭제"
 
@@ -542,27 +542,27 @@ msgstr "특별한 기능..."
 msgid "insert cells"
 msgstr "셀 삽입"
 
-#: src/dialog-insert-cells.c:30
+#: src/dialog-insert-cells.c:46
 msgid "Insert cells"
 msgstr "셀 삽입"
 
-#: src/dialog-insert-cells.c:33 src/item-grid.c:536
+#: src/dialog-insert-cells.c:49 src/item-grid.c:533
 msgid "Insert"
 msgstr "삽입"
 
-#: src/dialog-insert-cells.c:34
+#: src/dialog-insert-cells.c:50
 msgid "Shift cells right"
 msgstr "셀을 오른쪽으로 옮김"
 
-#: src/dialog-insert-cells.c:35
+#: src/dialog-insert-cells.c:51
 msgid "Shift cells down"
 msgstr "셀을 밑으로 옮김"
 
-#: src/dialog-insert-cells.c:36
+#: src/dialog-insert-cells.c:52
 msgid "Insert row(s)"
 msgstr "행 삽입"
 
-#: src/dialog-insert-cells.c:37
+#: src/dialog-insert-cells.c:53
 msgid "Insert column(s)"
 msgstr "열 삽입"
 
@@ -598,7 +598,7 @@ msgstr "곱하기"
 msgid "Divide"
 msgstr "나누기"
 
-#: src/dialog-paste-special.c:64 src/item-grid.c:534
+#: src/dialog-paste-special.c:64 src/item-grid.c:531
 msgid "Paste special"
 msgstr "특별한 붙이기"
 
@@ -653,11 +653,11 @@ msgstr "quote 빠짐"
 msgid "Impossible!"
 msgstr "불가능해요!"
 
-#: src/expr.c:1121
+#: src/expr.c:1118
 msgid "Internal error"
 msgstr "내부 에러"
 
-#: src/expr.c:1214 src/expr.c:1489 src/expr.c:1673 src/fn-misc.c:190
+#: src/expr.c:1207 src/expr.c:1524 src/expr.c:1711 src/fn-misc.c:190
 #: src/fn-string.c:55 src/fn-string.c:77 src/fn-string.c:98
 #: src/fn-string.c:153 src/fn-string.c:187 src/fn-string.c:262
 #: src/fn-string.c:338 src/fn-string.c:373 src/fn-string.c:547
@@ -665,35 +665,35 @@ msgstr "내부 에러"
 msgid "Type mismatch"
 msgstr "유형이 서로 틀림"
 
-#: src/expr.c:1293
+#: src/expr.c:1286
 msgid "Function does not exist"
 msgstr "함수가 없습니다"
 
-#: src/expr.c:1297
+#: src/expr.c:1290
 msgid "Calling non-function"
 msgstr "함수가 아닌 걸 불렀읍니다"
 
-#: src/expr.c:1432
+#: src/expr.c:1467
 msgid "Type error"
 msgstr "유형 에러"
 
-#: src/expr.c:1463
+#: src/expr.c:1498
 msgid "Internal type error"
 msgstr "내부 유형 에러"
 
-#: src/expr.c:1657
+#: src/expr.c:1692
 msgid "Reference to newborn cell"
 msgstr "새로운 셀에 대한 참조"
 
-#: src/expr.c:1725
+#: src/expr.c:1762
 msgid "Unknown evaluation error"
 msgstr "모르는 계산 에러"
 
-#: src/expr.c:2085
+#: src/expr.c:2119
 msgid "#Reference to deleted cell!"
 msgstr "#지워진 셀에 대한 참조!"
 
-#: src/expr.c:2110
+#: src/expr.c:2144
 msgid "#Reference to deleted range!"
 msgstr "#지워진 범위에 대한 참조!"
 
@@ -1054,7 +1054,7 @@ msgid ""
 "@SEEALSO=COUNT,SUMIF"
 msgstr ""
 
-#: src/fn-math.c:548
+#: src/fn-math.c:547
 msgid ""
 "@FUNCTION=SUMIF\n"
 "@SYNTAX=SUMIF(range,criteria[,actual_range])\n"
@@ -1512,12 +1512,12 @@ msgid ""
 "@SEEALSO=SUMSQ"
 msgstr ""
 
-#: src/fn-math.c:1907 src/fn-math.c:1921 src/fn-math.c:1993 src/fn-math.c:2007
-#: src/fn-math.c:2079 src/fn-math.c:2093
+#: src/fn-math.c:1908 src/fn-math.c:1922 src/fn-math.c:1995 src/fn-math.c:2009
+#: src/fn-math.c:2081 src/fn-math.c:2095
 msgid "Array version not implemented!"
 msgstr ""
 
-#: src/fn-math.c:1948
+#: src/fn-math.c:1949
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
 "@SYNTAX=SUMX2PY2(array1,array2)\n"
@@ -1531,7 +1531,7 @@ msgid ""
 "@SEEALSO=SUMSQ"
 msgstr ""
 
-#: src/fn-math.c:2034
+#: src/fn-math.c:2036
 msgid ""
 "@FUNCTION=SUMXMY2\n"
 "@SYNTAX=SUMXMY2(array1,array2)\n"
@@ -1545,7 +1545,7 @@ msgid ""
 "@SEEALSO=SUMSQ"
 msgstr ""
 
-#: src/fn-math.c:2120
+#: src/fn-math.c:2122
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
 "@SYNTAX=SUMIF(function_nbr,ref1,ref2,...)\n"
@@ -1567,7 +1567,7 @@ msgid ""
 "@SEEALSO=COUNT,SUM"
 msgstr ""
 
-#: src/fn-math.c:2200
+#: src/fn-math.c:2202
 msgid ""
 "@FUNCTION=SERIESSUM\n"
 "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
@@ -1578,21 +1578,29 @@ msgid ""
 "@SEEALSO=COUNT,SUM"
 msgstr ""
 
-#: src/fn-math.c:2316
+#: src/fn-math.c:2318
+msgid ""
+"@FUNCTION=TRANSPOSE\n"
+"@SYNTAX=TRANSPOSE(matrix)\n"
+"@DESCRIPTION=TRANSPOSE function Returns the transpose of the inputmatrix.\n"
+"@SEEALSO=MMULT"
+msgstr ""
+
+#: src/fn-math.c:2357
 msgid ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(array1,array2)\n"
-"@DESCRIPTION=SERIESSUM function Returns the matrix product of two arrays. "
-"The result is an array with the same number of rows as array1 and the same "
+"@DESCRIPTION=MMULT function Returns the matrix product of two arrays. The "
+"result is an array with the same number of rows as array1 and the same "
 "number of columns as array2.\n"
-"@SEEALSO=SUMPRODUCT"
+"@SEEALSO=TRANSPOSE,MINVERSE"
 msgstr ""
 
-#: src/fn-math.c:2359
+#: src/fn-math.c:2399
 msgid "#3D MULT?"
 msgstr ""
 
-#: src/fn-math.c:2432
+#: src/fn-math.c:2470
 msgid ""
 "@FUNCTION=SUMPRODUCT\n"
 "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
@@ -1604,7 +1612,7 @@ msgid ""
 "@SEEALSO=SUM,PRODUCT"
 msgstr ""
 
-#: src/fn-math.c:2531
+#: src/fn-math.c:2569
 msgid "Maths / Trig."
 msgstr ""
 
@@ -2228,7 +2236,7 @@ msgstr ""
 "덮어써지게 될겁니다. 이 영역의 내용을 바꾸기를\n"
 "원하십니까?"
 
-#: src/item-cursor.c:580 src/item-grid.c:532 src/workbook.c:1029
+#: src/item-cursor.c:580 src/item-grid.c:529 src/workbook.c:1029
 msgid "Copy"
 msgstr "복사"
 
@@ -2260,19 +2268,19 @@ msgstr "셀을 밑으로 보내고 복사"
 msgid "Shift cells right and move"
 msgstr "셀을 오른쪽으로 보내고 이동"
 
-#: src/item-grid.c:531 src/workbook.c:1026
+#: src/item-grid.c:528 src/workbook.c:1026
 msgid "Cut"
 msgstr "자르기"
 
-#: src/item-grid.c:533 src/workbook.c:1032
+#: src/item-grid.c:530 src/workbook.c:1032
 msgid "Paste"
 msgstr "붙이기"
 
-#: src/item-grid.c:538
+#: src/item-grid.c:535
 msgid "Erase content"
 msgstr "내용 지우기"
 
-#: src/item-grid.c:540
+#: src/item-grid.c:537
 msgid "Cell format"
 msgstr "셀 형식"
 
@@ -2354,32 +2362,32 @@ msgstr "가로: %d"
 msgid "Column: %s"
 msgstr "세로: %s"
 
-#: src/sheet.c:2777
+#: src/sheet.c:2834
 msgid "The command `"
 msgstr "The command `"
 
-#: src/sheet.c:2779
+#: src/sheet.c:2836
 msgid "' cannot be performed with multiple selections"
 msgstr "' cannot be performed with multiple selections"
 
-#: src/sheet.c:2794
+#: src/sheet.c:2851
 msgid "copy"
 msgstr "복사"
 
-#: src/sheet.c:2819
+#: src/sheet.c:2876
 msgid "cut"
 msgstr "자르기"
 
-#: src/sheet.c:2868
+#: src/sheet.c:2925
 msgid "paste"
 msgstr "붙이기"
 
-#: src/sheet.c:3905
+#: src/sheet.c:3936
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr ""
 
-#: src/sheet.c:3917
+#: src/sheet.c:3948
 msgid "I was unable to the bind object"
 msgstr ""
 
@@ -3001,4 +3009,85 @@ msgstr ""
 
 #: src/print.glade.h:55
 msgid "RIght, then down"
+msgstr ""
+
+#.
+#. * Translatable strings file generated by Glade.
+#. * Add this file to your project's POTFILES.in.
+#. * DO NOT compile it as part of your application.
+#.
+#: src/import.glade.h:7
+msgid "Choose an import filter for loading the file:"
+msgstr ""
+
+#: src/import.glade.h:8
+msgid "label2"
+msgstr ""
+
+#.
+#. * Translatable strings file generated by Glade.
+#. * Add this file to your project's POTFILES.in.
+#. * DO NOT compile it as part of your application.
+#.
+#: src/hf-config.glade.h:7
+#, fuzzy
+msgid "Left section"
+msgstr "왼쪽 정렬"
+
+#: src/hf-config.glade.h:8
+#, fuzzy
+msgid "Center section:"
+msgstr "페이지 중앙"
+
+#: src/hf-config.glade.h:9
+#, fuzzy
+msgid "Right section:"
+msgstr "오른쪽 정렬"
+
+#: src/hf-config.glade.h:10
+msgid "Enter the format strings for each section:"
+msgstr ""
+
+#.
+#. * Translatable strings file generated by Glade.
+#. * Add this file to your project's POTFILES.in.
+#. * DO NOT compile it as part of your application.
+#.
+#: src/font-sel.glade.h:7
+#, fuzzy
+msgid "window1"
+msgstr "창2"
+
+#: src/font-sel.glade.h:8
+#, fuzzy
+msgid "Font:"
+msgstr "글꼴"
+
+#: src/font-sel.glade.h:9
+msgid "Font style:"
+msgstr ""
+
+#: src/font-sel.glade.h:10
+msgid "Size:"
+msgstr ""
+
+#: src/font-sel.glade.h:11
+#, fuzzy
+msgid "Preview:"
+msgstr "인쇄 미리보기"
+
+#: src/font-sel.glade.h:12
+msgid "AaBbCcDdEe12345"
+msgstr ""
+
+#: src/font-sel.glade.h:13
+msgid "label7"
+msgstr ""
+
+#: src/font-sel.glade.h:14
+msgid "label8"
+msgstr ""
+
+#: src/font-sel.glade.h:15
+msgid "label9"
 msgstr ""

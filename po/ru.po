@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 1999-07-09 21:32-0500\n"
+"POT-Creation-Date: 1999-07-12 18:18-0500\n"
 "PO-Revision-Date: 1999-04-19 14:42-0600\n"
 "Last-Translator: Valek Filippov <val@comptek.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -38,7 +38,7 @@ msgstr "Формат файла Microsoft(R) Excel"
 msgid "Argument must be a Guile expression"
 msgstr "Аргумент должен быть выражением Guile"
 
-#: plugins/guile/plugin.c:237 src/expr.c:1148 src/fn-sheet.c:35
+#: plugins/guile/plugin.c:237 src/expr.c:1145 src/fn-sheet.c:35
 #: src/fn-string.c:291
 msgid "Invalid number of arguments"
 msgstr "Неверное число аргументов"
@@ -59,7 +59,7 @@ msgstr "Невозможно проверить аргумент"
 msgid "Unable to lookup Guile function."
 msgstr "Hе удалось найти функцию Guile."
 
-#: plugins/guile/plugin.c:437
+#: plugins/guile/plugin.c:439
 msgid "Guile Plugin"
 msgstr "Дополнение Guile"
 
@@ -152,7 +152,7 @@ msgid "Jakub Jelinek, Gnumeric hacker."
 msgstr "Jakub Jelinek, программист."
 
 #: src/about.c:36
-msgid "Rasca Gmelch, html, troff exporters."
+msgid "Rasca, HTML, troff, LaTeX exporters."
 msgstr ""
 
 #: src/about.c:37
@@ -344,105 +344,105 @@ msgstr "Ноябрь"
 msgid "December"
 msgstr "Декабрь"
 
-#: src/dialog-cell-format.c:67
+#: src/dialog-cell-format.c:68
 msgid "Numbers"
 msgstr "Числовой"
 
-#: src/dialog-cell-format.c:68
+#: src/dialog-cell-format.c:69
 msgid "Accounting"
 msgstr "Бухгалтерский"
 
-#: src/dialog-cell-format.c:69
+#: src/dialog-cell-format.c:70
 msgid "Date"
 msgstr "Дата"
 
-#: src/dialog-cell-format.c:70
+#: src/dialog-cell-format.c:71
 msgid "Time"
 msgstr "Время"
 
-#: src/dialog-cell-format.c:71
+#: src/dialog-cell-format.c:72
 msgid "Percent"
 msgstr "Проценты"
 
-#: src/dialog-cell-format.c:72
+#: src/dialog-cell-format.c:73
 msgid "Fraction"
 msgstr "Дробный"
 
-#: src/dialog-cell-format.c:73
+#: src/dialog-cell-format.c:74
 msgid "Scientific"
 msgstr "Научный"
 
-#: src/dialog-cell-format.c:74
+#: src/dialog-cell-format.c:75
 msgid "Text"
 msgstr "Текстовый"
 
-#: src/dialog-cell-format.c:75
+#: src/dialog-cell-format.c:76
 msgid "Money"
 msgstr "Денежный"
 
 #. 1. Categories
-#: src/dialog-cell-format.c:257
+#: src/dialog-cell-format.c:258
 msgid "Categories"
 msgstr "Категории"
 
 #. 2.1 Input line
-#: src/dialog-cell-format.c:289
+#: src/dialog-cell-format.c:290
 msgid "Code:"
 msgstr "Коды:"
 
 #. 2.2 Sample
-#: src/dialog-cell-format.c:298
+#: src/dialog-cell-format.c:299
 msgid "Sample:"
 msgstr "Образцы:"
 
-#: src/dialog-cell-format.c:310
+#: src/dialog-cell-format.c:311
 msgid "Format codes"
 msgstr "Формат кодов"
 
-#: src/dialog-cell-format.c:359 src/formats.c:16 src/number-match.c:457
+#: src/dialog-cell-format.c:360 src/formats.c:16 src/number-match.c:457
 msgid "General"
 msgstr "Общий"
 
-#: src/dialog-cell-format.c:360
+#: src/dialog-cell-format.c:361
 msgid "Left"
 msgstr "Влево"
 
-#: src/dialog-cell-format.c:361 src/dialog-cell-format.c:370
+#: src/dialog-cell-format.c:362 src/dialog-cell-format.c:371
 #: src/workbook.c:1041
 msgid "Center"
 msgstr "По центру"
 
-#: src/dialog-cell-format.c:362
+#: src/dialog-cell-format.c:363
 msgid "Right"
 msgstr "Вправо"
 
-#: src/dialog-cell-format.c:363
+#: src/dialog-cell-format.c:364
 msgid "Fill"
 msgstr "Заполнение"
 
-#: src/dialog-cell-format.c:364 src/dialog-cell-format.c:372
+#: src/dialog-cell-format.c:365 src/dialog-cell-format.c:373
 msgid "Justify"
 msgstr "По формату"
 
-#: src/dialog-cell-format.c:369
+#: src/dialog-cell-format.c:370
 msgid "Top"
 msgstr "Вверх"
 
-#: src/dialog-cell-format.c:371
+#: src/dialog-cell-format.c:372
 msgid "Bottom"
 msgstr "Вниз"
 
 #. Vertical alignment
-#: src/dialog-cell-format.c:427 src/print.glade.h:9
+#: src/dialog-cell-format.c:428 src/print.glade.h:9
 msgid "Vertical"
 msgstr "По вертикали"
 
 #. Horizontal alignment
-#: src/dialog-cell-format.c:431 src/print.glade.h:10
+#: src/dialog-cell-format.c:432 src/print.glade.h:10
 msgid "Horizontal"
 msgstr "По горизонтали"
 
-#: src/dialog-cell-format.c:434
+#: src/dialog-cell-format.c:435
 msgid "Auto return"
 msgstr "Автоперевод строки"
 
@@ -517,27 +517,27 @@ msgstr "Ссылка на"
 msgid "delete cells"
 msgstr "удалить ячейки"
 
-#: src/dialog-delete-cells.c:29
+#: src/dialog-delete-cells.c:45
 msgid "Delete cells"
 msgstr "Удалить ячейки"
 
-#: src/dialog-delete-cells.c:32 src/item-grid.c:537
+#: src/dialog-delete-cells.c:48 src/item-grid.c:534
 msgid "Delete"
 msgstr "Удалить"
 
-#: src/dialog-delete-cells.c:33
+#: src/dialog-delete-cells.c:49
 msgid "Shift cells left"
 msgstr "Сдвинуть ячейки влево"
 
-#: src/dialog-delete-cells.c:34
+#: src/dialog-delete-cells.c:50
 msgid "Shift cells up"
 msgstr "Сдвинуть ячейки вверх"
 
-#: src/dialog-delete-cells.c:35
+#: src/dialog-delete-cells.c:51
 msgid "Delete row(s)"
 msgstr "Удалить строку(и)"
 
-#: src/dialog-delete-cells.c:36
+#: src/dialog-delete-cells.c:52
 msgid "Delete column(s)"
 msgstr "Удалить столбец(ы)"
 
@@ -557,27 +557,27 @@ msgstr "Специальный..."
 msgid "insert cells"
 msgstr "вставить ячейки"
 
-#: src/dialog-insert-cells.c:30
+#: src/dialog-insert-cells.c:46
 msgid "Insert cells"
 msgstr "Вставить ячейки"
 
-#: src/dialog-insert-cells.c:33 src/item-grid.c:536
+#: src/dialog-insert-cells.c:49 src/item-grid.c:533
 msgid "Insert"
 msgstr "Вставить"
 
-#: src/dialog-insert-cells.c:34
+#: src/dialog-insert-cells.c:50
 msgid "Shift cells right"
 msgstr "Сдвинуть ячейки вправо"
 
-#: src/dialog-insert-cells.c:35
+#: src/dialog-insert-cells.c:51
 msgid "Shift cells down"
 msgstr "Сдвинуть ячейки вниз"
 
-#: src/dialog-insert-cells.c:36
+#: src/dialog-insert-cells.c:52
 msgid "Insert row(s)"
 msgstr "Вставить строку(и)"
 
-#: src/dialog-insert-cells.c:37
+#: src/dialog-insert-cells.c:53
 msgid "Insert column(s)"
 msgstr "Вставить столбец(ы)"
 
@@ -614,7 +614,7 @@ msgstr "Перемножить"
 msgid "Divide"
 msgstr "Разделить"
 
-#: src/dialog-paste-special.c:64 src/item-grid.c:534
+#: src/dialog-paste-special.c:64 src/item-grid.c:531
 msgid "Paste special"
 msgstr "Cспециальная вставка"
 
@@ -670,12 +670,12 @@ msgstr "Ошибочная кавычка"
 msgid "Impossible!"
 msgstr "Невозможно!"
 
-#: src/expr.c:1121
+#: src/expr.c:1118
 #, fuzzy
 msgid "Internal error"
 msgstr "Синтаксическая ошибка"
 
-#: src/expr.c:1214 src/expr.c:1489 src/expr.c:1673 src/fn-misc.c:190
+#: src/expr.c:1207 src/expr.c:1524 src/expr.c:1711 src/fn-misc.c:190
 #: src/fn-string.c:55 src/fn-string.c:77 src/fn-string.c:98
 #: src/fn-string.c:153 src/fn-string.c:187 src/fn-string.c:262
 #: src/fn-string.c:338 src/fn-string.c:373 src/fn-string.c:547
@@ -683,37 +683,37 @@ msgstr "Синтаксическая ошибка"
 msgid "Type mismatch"
 msgstr "Несоответствие типов"
 
-#: src/expr.c:1293
+#: src/expr.c:1286
 msgid "Function does not exist"
 msgstr ""
 
-#: src/expr.c:1297
+#: src/expr.c:1290
 msgid "Calling non-function"
 msgstr ""
 
-#: src/expr.c:1432
+#: src/expr.c:1467
 msgid "Type error"
 msgstr "Ошибка типа"
 
-#: src/expr.c:1463
+#: src/expr.c:1498
 #, fuzzy
 msgid "Internal type error"
 msgstr "Ошибка типа"
 
-#: src/expr.c:1657
+#: src/expr.c:1692
 msgid "Reference to newborn cell"
 msgstr "Ссылка на новую ячейку"
 
-#: src/expr.c:1725
+#: src/expr.c:1762
 msgid "Unknown evaluation error"
 msgstr "Неизвестная ошибка в выражении"
 
-#: src/expr.c:2085
+#: src/expr.c:2119
 #, fuzzy
 msgid "#Reference to deleted cell!"
 msgstr "Ссылка на новую ячейку"
 
-#: src/expr.c:2110
+#: src/expr.c:2144
 #, fuzzy
 msgid "#Reference to deleted range!"
 msgstr "Ссылка на новую ячейку"
@@ -1242,7 +1242,7 @@ msgstr ""
 "целого.\n"
 "@SEEALSO=ODD"
 
-#: src/fn-math.c:548
+#: src/fn-math.c:547
 #, fuzzy
 msgid ""
 "@FUNCTION=SUMIF\n"
@@ -1929,12 +1929,12 @@ msgid ""
 "@SEEALSO=SUMSQ"
 msgstr ""
 
-#: src/fn-math.c:1907 src/fn-math.c:1921 src/fn-math.c:1993 src/fn-math.c:2007
-#: src/fn-math.c:2079 src/fn-math.c:2093
+#: src/fn-math.c:1908 src/fn-math.c:1922 src/fn-math.c:1995 src/fn-math.c:2009
+#: src/fn-math.c:2081 src/fn-math.c:2095
 msgid "Array version not implemented!"
 msgstr ""
 
-#: src/fn-math.c:1948
+#: src/fn-math.c:1949
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
 "@SYNTAX=SUMX2PY2(array1,array2)\n"
@@ -1948,7 +1948,7 @@ msgid ""
 "@SEEALSO=SUMSQ"
 msgstr ""
 
-#: src/fn-math.c:2034
+#: src/fn-math.c:2036
 msgid ""
 "@FUNCTION=SUMXMY2\n"
 "@SYNTAX=SUMXMY2(array1,array2)\n"
@@ -1962,7 +1962,7 @@ msgid ""
 "@SEEALSO=SUMSQ"
 msgstr ""
 
-#: src/fn-math.c:2120
+#: src/fn-math.c:2122
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
 "@SYNTAX=SUMIF(function_nbr,ref1,ref2,...)\n"
@@ -1984,7 +1984,7 @@ msgid ""
 "@SEEALSO=COUNT,SUM"
 msgstr ""
 
-#: src/fn-math.c:2200
+#: src/fn-math.c:2202
 msgid ""
 "@FUNCTION=SERIESSUM\n"
 "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
@@ -1995,21 +1995,36 @@ msgid ""
 "@SEEALSO=COUNT,SUM"
 msgstr ""
 
-#: src/fn-math.c:2316
+#: src/fn-math.c:2318
+#, fuzzy
+msgid ""
+"@FUNCTION=TRANSPOSE\n"
+"@SYNTAX=TRANSPOSE(matrix)\n"
+"@DESCRIPTION=TRANSPOSE function Returns the transpose of the inputmatrix.\n"
+"@SEEALSO=MMULT"
+msgstr ""
+"@FUNCTION=SQRT\n"
+"@SYNTAX=SQRT(x)\n"
+"@DESCRIPTION=Функция SQRT(x) возвращает квадратный корень x.\n"
+"Если x отрицательное, возвращается #NUM!. Эта функция принимает только один "
+"аргумент.\n"
+"@SEEALSO=POW"
+
+#: src/fn-math.c:2357
 msgid ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(array1,array2)\n"
-"@DESCRIPTION=SERIESSUM function Returns the matrix product of two arrays. "
-"The result is an array with the same number of rows as array1 and the same "
+"@DESCRIPTION=MMULT function Returns the matrix product of two arrays. The "
+"result is an array with the same number of rows as array1 and the same "
 "number of columns as array2.\n"
-"@SEEALSO=SUMPRODUCT"
+"@SEEALSO=TRANSPOSE,MINVERSE"
 msgstr ""
 
-#: src/fn-math.c:2359
+#: src/fn-math.c:2399
 msgid "#3D MULT?"
 msgstr ""
 
-#: src/fn-math.c:2432
+#: src/fn-math.c:2470
 msgid ""
 "@FUNCTION=SUMPRODUCT\n"
 "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
@@ -2021,7 +2036,7 @@ msgid ""
 "@SEEALSO=SUM,PRODUCT"
 msgstr ""
 
-#: src/fn-math.c:2531
+#: src/fn-math.c:2569
 msgid "Maths / Trig."
 msgstr ""
 
@@ -2789,7 +2804,7 @@ msgstr ""
 "в этом месте ячеек. Вы хотите заменить содержимое\n"
 "в этой области?"
 
-#: src/item-cursor.c:580 src/item-grid.c:532 src/workbook.c:1029
+#: src/item-cursor.c:580 src/item-grid.c:529 src/workbook.c:1029
 msgid "Copy"
 msgstr "Скопировать"
 
@@ -2821,19 +2836,19 @@ msgstr "Сдвинуть ячейки вниз и переместить"
 msgid "Shift cells right and move"
 msgstr "Сдвинуть ячейки вправо и переместить"
 
-#: src/item-grid.c:531 src/workbook.c:1026
+#: src/item-grid.c:528 src/workbook.c:1026
 msgid "Cut"
 msgstr "Вырезать"
 
-#: src/item-grid.c:533 src/workbook.c:1032
+#: src/item-grid.c:530 src/workbook.c:1032
 msgid "Paste"
 msgstr "Вставить"
 
-#: src/item-grid.c:538
+#: src/item-grid.c:535
 msgid "Erase content"
 msgstr "Очистить содержимое"
 
-#: src/item-grid.c:540
+#: src/item-grid.c:537
 msgid "Cell format"
 msgstr "Формат ячейки"
 
@@ -2917,35 +2932,35 @@ msgstr "Строка: %d"
 msgid "Column: %s"
 msgstr "Столбец: %s"
 
-#: src/sheet.c:2777
+#: src/sheet.c:2834
 msgid "The command `"
 msgstr ""
 
-#: src/sheet.c:2779
+#: src/sheet.c:2836
 msgid "' cannot be performed with multiple selections"
 msgstr ""
 
-#: src/sheet.c:2794
+#: src/sheet.c:2851
 #, fuzzy
 msgid "copy"
 msgstr "Скопировать"
 
-#: src/sheet.c:2819
+#: src/sheet.c:2876
 #, fuzzy
 msgid "cut"
 msgstr "Вырезать"
 
-#: src/sheet.c:2868
+#: src/sheet.c:2925
 #, fuzzy
 msgid "paste"
 msgstr "Вставить"
 
-#: src/sheet.c:3905
+#: src/sheet.c:3936
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr ""
 
-#: src/sheet.c:3917
+#: src/sheet.c:3948
 msgid "I was unable to the bind object"
 msgstr ""
 
@@ -3594,6 +3609,85 @@ msgstr ""
 
 #: src/print.glade.h:55
 msgid "RIght, then down"
+msgstr ""
+
+#.
+#. * Translatable strings file generated by Glade.
+#. * Add this file to your project's POTFILES.in.
+#. * DO NOT compile it as part of your application.
+#.
+#: src/import.glade.h:7
+msgid "Choose an import filter for loading the file:"
+msgstr ""
+
+#: src/import.glade.h:8
+msgid "label2"
+msgstr ""
+
+#.
+#. * Translatable strings file generated by Glade.
+#. * Add this file to your project's POTFILES.in.
+#. * DO NOT compile it as part of your application.
+#.
+#: src/hf-config.glade.h:7
+#, fuzzy
+msgid "Left section"
+msgstr "Выровнять влево"
+
+#: src/hf-config.glade.h:8
+#, fuzzy
+msgid "Center section:"
+msgstr "По центру"
+
+#: src/hf-config.glade.h:9
+#, fuzzy
+msgid "Right section:"
+msgstr "Выровнять вправо"
+
+#: src/hf-config.glade.h:10
+msgid "Enter the format strings for each section:"
+msgstr ""
+
+#.
+#. * Translatable strings file generated by Glade.
+#. * Add this file to your project's POTFILES.in.
+#. * DO NOT compile it as part of your application.
+#.
+#: src/font-sel.glade.h:7
+msgid "window1"
+msgstr ""
+
+#: src/font-sel.glade.h:8
+#, fuzzy
+msgid "Font:"
+msgstr "Количество"
+
+#: src/font-sel.glade.h:9
+msgid "Font style:"
+msgstr ""
+
+#: src/font-sel.glade.h:10
+msgid "Size:"
+msgstr ""
+
+#: src/font-sel.glade.h:11
+msgid "Preview:"
+msgstr ""
+
+#: src/font-sel.glade.h:12
+msgid "AaBbCcDdEe12345"
+msgstr ""
+
+#: src/font-sel.glade.h:13
+msgid "label7"
+msgstr ""
+
+#: src/font-sel.glade.h:14
+msgid "label8"
+msgstr ""
+
+#: src/font-sel.glade.h:15
+msgid "label9"
 msgstr ""
 
 #, fuzzy

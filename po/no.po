@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.27\n"
-"POT-Creation-Date: 1999-07-13 02:11+0200\n"
+"POT-Creation-Date: 1999-07-12 18:18-0500\n"
 "PO-Revision-Date: 1998-07-09 15:54+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
@@ -2099,7 +2099,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=TRANSPOSE\n"
 "@SYNTAX=TRANSPOSE(matrise)\n"
-"@DESCRIPTION=TRANSPOSE-funksjonen returnerer transponeringen av den gitte matrisen. \n"
+"@DESCRIPTION=TRANSPOSE-funksjonen returnerer transponeringen av den gitte "
+"matrisen. \n"
 "@SEEALSO=MMULT"
 
 #: src/fn-math.c:2357

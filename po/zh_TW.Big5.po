@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.9.3\n"
-"POT-Creation-Date: 1999-07-09 21:32-0500\n"
+"POT-Creation-Date: 1999-07-12 18:18-0500\n"
 "PO-Revision-Date: 1999-02-20 20:00+0800\n"
 "Last-Translator: Pofeng Lee <Pofeng.Lee@ms7.url.com.tw>\n"
 "Language-Team: Chinese <zh@li.org>\n"
@@ -36,7 +36,7 @@ msgstr "Excel(R) 95 檔案格式"
 msgid "Argument must be a Guile expression"
 msgstr "參數必須為 Guile 表示式"
 
-#: plugins/guile/plugin.c:237 src/expr.c:1148 src/fn-sheet.c:35
+#: plugins/guile/plugin.c:237 src/expr.c:1145 src/fn-sheet.c:35
 #: src/fn-string.c:291
 msgid "Invalid number of arguments"
 msgstr "引數個數錯誤"
@@ -57,7 +57,7 @@ msgstr "無法解譯參數"
 msgid "Unable to lookup Guile function."
 msgstr "無法找到 Guile 函式"
 
-#: plugins/guile/plugin.c:437
+#: plugins/guile/plugin.c:439
 msgid "Guile Plugin"
 msgstr "Guile Plugin"
 
@@ -150,7 +150,7 @@ msgid "Jakub Jelinek, Gnumeric hacker."
 msgstr "Jakub Jelinek, Gnumeric 駭客。"
 
 #: src/about.c:36
-msgid "Rasca Gmelch, html, troff exporters."
+msgid "Rasca, HTML, troff, LaTeX exporters."
 msgstr ""
 
 #: src/about.c:37
@@ -342,105 +342,105 @@ msgstr "十一月"
 msgid "December"
 msgstr "十二月"
 
-#: src/dialog-cell-format.c:67
+#: src/dialog-cell-format.c:68
 msgid "Numbers"
 msgstr "數字"
 
-#: src/dialog-cell-format.c:68
+#: src/dialog-cell-format.c:69
 msgid "Accounting"
 msgstr "會計"
 
-#: src/dialog-cell-format.c:69
+#: src/dialog-cell-format.c:70
 msgid "Date"
 msgstr "日期"
 
-#: src/dialog-cell-format.c:70
+#: src/dialog-cell-format.c:71
 msgid "Time"
 msgstr "時間"
 
-#: src/dialog-cell-format.c:71
+#: src/dialog-cell-format.c:72
 msgid "Percent"
 msgstr "百分比"
 
-#: src/dialog-cell-format.c:72
+#: src/dialog-cell-format.c:73
 msgid "Fraction"
 msgstr "分數"
 
-#: src/dialog-cell-format.c:73
+#: src/dialog-cell-format.c:74
 msgid "Scientific"
 msgstr "科學記號"
 
-#: src/dialog-cell-format.c:74
+#: src/dialog-cell-format.c:75
 msgid "Text"
 msgstr "文字"
 
-#: src/dialog-cell-format.c:75
+#: src/dialog-cell-format.c:76
 msgid "Money"
 msgstr "金錢"
 
 #. 1. Categories
-#: src/dialog-cell-format.c:257
+#: src/dialog-cell-format.c:258
 msgid "Categories"
 msgstr "種類"
 
 #. 2.1 Input line
-#: src/dialog-cell-format.c:289
+#: src/dialog-cell-format.c:290
 msgid "Code:"
 msgstr "代碼:"
 
 #. 2.2 Sample
-#: src/dialog-cell-format.c:298
+#: src/dialog-cell-format.c:299
 msgid "Sample:"
 msgstr "範例:"
 
-#: src/dialog-cell-format.c:310
+#: src/dialog-cell-format.c:311
 msgid "Format codes"
 msgstr "格式代碼"
 
-#: src/dialog-cell-format.c:359 src/formats.c:16 src/number-match.c:457
+#: src/dialog-cell-format.c:360 src/formats.c:16 src/number-match.c:457
 msgid "General"
 msgstr "一般"
 
-#: src/dialog-cell-format.c:360
+#: src/dialog-cell-format.c:361
 msgid "Left"
 msgstr "靠左"
 
-#: src/dialog-cell-format.c:361 src/dialog-cell-format.c:370
+#: src/dialog-cell-format.c:362 src/dialog-cell-format.c:371
 #: src/workbook.c:1041
 msgid "Center"
 msgstr "置中"
 
-#: src/dialog-cell-format.c:362
+#: src/dialog-cell-format.c:363
 msgid "Right"
 msgstr "靠右"
 
-#: src/dialog-cell-format.c:363
+#: src/dialog-cell-format.c:364
 msgid "Fill"
 msgstr "填滿"
 
-#: src/dialog-cell-format.c:364 src/dialog-cell-format.c:372
+#: src/dialog-cell-format.c:365 src/dialog-cell-format.c:373
 msgid "Justify"
 msgstr "調整"
 
-#: src/dialog-cell-format.c:369
+#: src/dialog-cell-format.c:370
 msgid "Top"
 msgstr "向上對齊"
 
-#: src/dialog-cell-format.c:371
+#: src/dialog-cell-format.c:372
 msgid "Bottom"
 msgstr "向下對齊"
 
 #. Vertical alignment
-#: src/dialog-cell-format.c:427 src/print.glade.h:9
+#: src/dialog-cell-format.c:428 src/print.glade.h:9
 msgid "Vertical"
 msgstr "垂直"
 
 #. Horizontal alignment
-#: src/dialog-cell-format.c:431 src/print.glade.h:10
+#: src/dialog-cell-format.c:432 src/print.glade.h:10
 msgid "Horizontal"
 msgstr "水平"
 
-#: src/dialog-cell-format.c:434
+#: src/dialog-cell-format.c:435
 msgid "Auto return"
 msgstr "自動換行"
 
@@ -515,27 +515,27 @@ msgstr "參考"
 msgid "delete cells"
 msgstr "刪除儲存格"
 
-#: src/dialog-delete-cells.c:29
+#: src/dialog-delete-cells.c:45
 msgid "Delete cells"
 msgstr "刪除儲存格"
 
-#: src/dialog-delete-cells.c:32 src/item-grid.c:537
+#: src/dialog-delete-cells.c:48 src/item-grid.c:534
 msgid "Delete"
 msgstr "刪除"
 
-#: src/dialog-delete-cells.c:33
+#: src/dialog-delete-cells.c:49
 msgid "Shift cells left"
 msgstr "儲存格向左移"
 
-#: src/dialog-delete-cells.c:34
+#: src/dialog-delete-cells.c:50
 msgid "Shift cells up"
 msgstr "儲存格向上移"
 
-#: src/dialog-delete-cells.c:35
+#: src/dialog-delete-cells.c:51
 msgid "Delete row(s)"
 msgstr "刪除列"
 
-#: src/dialog-delete-cells.c:36
+#: src/dialog-delete-cells.c:52
 msgid "Delete column(s)"
 msgstr "刪除欄"
 
@@ -555,27 +555,27 @@ msgstr "特殊..."
 msgid "insert cells"
 msgstr "插入儲存格"
 
-#: src/dialog-insert-cells.c:30
+#: src/dialog-insert-cells.c:46
 msgid "Insert cells"
 msgstr "插入儲存格"
 
-#: src/dialog-insert-cells.c:33 src/item-grid.c:536
+#: src/dialog-insert-cells.c:49 src/item-grid.c:533
 msgid "Insert"
 msgstr "插入"
 
-#: src/dialog-insert-cells.c:34
+#: src/dialog-insert-cells.c:50
 msgid "Shift cells right"
 msgstr "儲存格向右移"
 
-#: src/dialog-insert-cells.c:35
+#: src/dialog-insert-cells.c:51
 msgid "Shift cells down"
 msgstr "儲存格向下移"
 
-#: src/dialog-insert-cells.c:36
+#: src/dialog-insert-cells.c:52
 msgid "Insert row(s)"
 msgstr "插入列"
 
-#: src/dialog-insert-cells.c:37
+#: src/dialog-insert-cells.c:53
 msgid "Insert column(s)"
 msgstr "插入欄"
 
@@ -612,7 +612,7 @@ msgstr "乘"
 msgid "Divide"
 msgstr "除"
 
-#: src/dialog-paste-special.c:64 src/item-grid.c:534
+#: src/dialog-paste-special.c:64 src/item-grid.c:531
 msgid "Paste special"
 msgstr "選擇性貼上"
 
@@ -668,12 +668,12 @@ msgstr "缺少引號"
 msgid "Impossible!"
 msgstr "不可能!"
 
-#: src/expr.c:1121
+#: src/expr.c:1118
 #, fuzzy
 msgid "Internal error"
 msgstr "語法錯誤"
 
-#: src/expr.c:1214 src/expr.c:1489 src/expr.c:1673 src/fn-misc.c:190
+#: src/expr.c:1207 src/expr.c:1524 src/expr.c:1711 src/fn-misc.c:190
 #: src/fn-string.c:55 src/fn-string.c:77 src/fn-string.c:98
 #: src/fn-string.c:153 src/fn-string.c:187 src/fn-string.c:262
 #: src/fn-string.c:338 src/fn-string.c:373 src/fn-string.c:547
@@ -681,36 +681,36 @@ msgstr "語法錯誤"
 msgid "Type mismatch"
 msgstr "形態不符 (Type mismatch) "
 
-#: src/expr.c:1293
+#: src/expr.c:1286
 msgid "Function does not exist"
 msgstr "函式不存在"
 
-#: src/expr.c:1297
+#: src/expr.c:1290
 msgid "Calling non-function"
 msgstr "不呼叫任何函式"
 
-#: src/expr.c:1432
+#: src/expr.c:1467
 msgid "Type error"
 msgstr "形態錯誤 (Type error)"
 
-#: src/expr.c:1463
+#: src/expr.c:1498
 #, fuzzy
 msgid "Internal type error"
 msgstr "形態錯誤 (Type error)"
 
-#: src/expr.c:1657
+#: src/expr.c:1692
 msgid "Reference to newborn cell"
 msgstr "指到新的儲存格"
 
-#: src/expr.c:1725
+#: src/expr.c:1762
 msgid "Unknown evaluation error"
 msgstr "不明的執行錯誤"
 
-#: src/expr.c:2085
+#: src/expr.c:2119
 msgid "#Reference to deleted cell!"
 msgstr "#指到已刪除的格子!"
 
-#: src/expr.c:2110
+#: src/expr.c:2144
 msgid "#Reference to deleted range!"
 msgstr "#指到已刪除的範圍!"
 
@@ -1071,7 +1071,7 @@ msgid ""
 "@SEEALSO=COUNT,SUMIF"
 msgstr ""
 
-#: src/fn-math.c:548
+#: src/fn-math.c:547
 msgid ""
 "@FUNCTION=SUMIF\n"
 "@SYNTAX=SUMIF(range,criteria[,actual_range])\n"
@@ -1529,12 +1529,12 @@ msgid ""
 "@SEEALSO=SUMSQ"
 msgstr ""
 
-#: src/fn-math.c:1907 src/fn-math.c:1921 src/fn-math.c:1993 src/fn-math.c:2007
-#: src/fn-math.c:2079 src/fn-math.c:2093
+#: src/fn-math.c:1908 src/fn-math.c:1922 src/fn-math.c:1995 src/fn-math.c:2009
+#: src/fn-math.c:2081 src/fn-math.c:2095
 msgid "Array version not implemented!"
 msgstr "陣列版本未支援!"
 
-#: src/fn-math.c:1948
+#: src/fn-math.c:1949
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
 "@SYNTAX=SUMX2PY2(array1,array2)\n"
@@ -1548,7 +1548,7 @@ msgid ""
 "@SEEALSO=SUMSQ"
 msgstr ""
 
-#: src/fn-math.c:2034
+#: src/fn-math.c:2036
 msgid ""
 "@FUNCTION=SUMXMY2\n"
 "@SYNTAX=SUMXMY2(array1,array2)\n"
@@ -1562,7 +1562,7 @@ msgid ""
 "@SEEALSO=SUMSQ"
 msgstr ""
 
-#: src/fn-math.c:2120
+#: src/fn-math.c:2122
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
 "@SYNTAX=SUMIF(function_nbr,ref1,ref2,...)\n"
@@ -1584,7 +1584,7 @@ msgid ""
 "@SEEALSO=COUNT,SUM"
 msgstr ""
 
-#: src/fn-math.c:2200
+#: src/fn-math.c:2202
 msgid ""
 "@FUNCTION=SERIESSUM\n"
 "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
@@ -1595,21 +1595,29 @@ msgid ""
 "@SEEALSO=COUNT,SUM"
 msgstr ""
 
-#: src/fn-math.c:2316
+#: src/fn-math.c:2318
+msgid ""
+"@FUNCTION=TRANSPOSE\n"
+"@SYNTAX=TRANSPOSE(matrix)\n"
+"@DESCRIPTION=TRANSPOSE function Returns the transpose of the inputmatrix.\n"
+"@SEEALSO=MMULT"
+msgstr ""
+
+#: src/fn-math.c:2357
 msgid ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(array1,array2)\n"
-"@DESCRIPTION=SERIESSUM function Returns the matrix product of two arrays. "
-"The result is an array with the same number of rows as array1 and the same "
+"@DESCRIPTION=MMULT function Returns the matrix product of two arrays. The "
+"result is an array with the same number of rows as array1 and the same "
 "number of columns as array2.\n"
-"@SEEALSO=SUMPRODUCT"
+"@SEEALSO=TRANSPOSE,MINVERSE"
 msgstr ""
 
-#: src/fn-math.c:2359
+#: src/fn-math.c:2399
 msgid "#3D MULT?"
 msgstr ""
 
-#: src/fn-math.c:2432
+#: src/fn-math.c:2470
 msgid ""
 "@FUNCTION=SUMPRODUCT\n"
 "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
@@ -1621,7 +1629,7 @@ msgid ""
 "@SEEALSO=SUM,PRODUCT"
 msgstr ""
 
-#: src/fn-math.c:2531
+#: src/fn-math.c:2569
 msgid "Maths / Trig."
 msgstr ""
 
@@ -2255,7 +2263,7 @@ msgstr ""
 "儲存格的內容，您確定要替換掉這塊區域\n"
 "的內容嗎？"
 
-#: src/item-cursor.c:580 src/item-grid.c:532 src/workbook.c:1029
+#: src/item-cursor.c:580 src/item-grid.c:529 src/workbook.c:1029
 msgid "Copy"
 msgstr "複製"
 
@@ -2287,19 +2295,19 @@ msgstr "儲存格向下移位並搬移"
 msgid "Shift cells right and move"
 msgstr "儲存格向右移位並搬移"
 
-#: src/item-grid.c:531 src/workbook.c:1026
+#: src/item-grid.c:528 src/workbook.c:1026
 msgid "Cut"
 msgstr "剪下"
 
-#: src/item-grid.c:533 src/workbook.c:1032
+#: src/item-grid.c:530 src/workbook.c:1032
 msgid "Paste"
 msgstr "貼上"
 
-#: src/item-grid.c:538
+#: src/item-grid.c:535
 msgid "Erase content"
 msgstr "清除內容"
 
-#: src/item-grid.c:540
+#: src/item-grid.c:537
 msgid "Cell format"
 msgstr "儲存格格式"
 
@@ -2382,32 +2390,32 @@ msgstr "列: %d"
 msgid "Column: %s"
 msgstr "欄: %s"
 
-#: src/sheet.c:2777
+#: src/sheet.c:2834
 msgid "The command `"
 msgstr "指令 `"
 
-#: src/sheet.c:2779
+#: src/sheet.c:2836
 msgid "' cannot be performed with multiple selections"
 msgstr "' 不能跨過數個區段執行"
 
-#: src/sheet.c:2794
+#: src/sheet.c:2851
 msgid "copy"
 msgstr "複製"
 
-#: src/sheet.c:2819
+#: src/sheet.c:2876
 msgid "cut"
 msgstr "剪下"
 
-#: src/sheet.c:2868
+#: src/sheet.c:2925
 msgid "paste"
 msgstr "貼上"
 
-#: src/sheet.c:3905
+#: src/sheet.c:3936
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr "無法啟動 %s 物件"
 
-#: src/sheet.c:3917
+#: src/sheet.c:3948
 msgid "I was unable to the bind object"
 msgstr "無法聯結物件"
 
@@ -3051,6 +3059,85 @@ msgstr ""
 
 #: src/print.glade.h:55
 msgid "RIght, then down"
+msgstr ""
+
+#.
+#. * Translatable strings file generated by Glade.
+#. * Add this file to your project's POTFILES.in.
+#. * DO NOT compile it as part of your application.
+#.
+#: src/import.glade.h:7
+msgid "Choose an import filter for loading the file:"
+msgstr ""
+
+#: src/import.glade.h:8
+msgid "label2"
+msgstr ""
+
+#.
+#. * Translatable strings file generated by Glade.
+#. * Add this file to your project's POTFILES.in.
+#. * DO NOT compile it as part of your application.
+#.
+#: src/hf-config.glade.h:7
+#, fuzzy
+msgid "Left section"
+msgstr "向左對齊"
+
+#: src/hf-config.glade.h:8
+#, fuzzy
+msgid "Center section:"
+msgstr "置中"
+
+#: src/hf-config.glade.h:9
+#, fuzzy
+msgid "Right section:"
+msgstr "向右對齊"
+
+#: src/hf-config.glade.h:10
+msgid "Enter the format strings for each section:"
+msgstr ""
+
+#.
+#. * Translatable strings file generated by Glade.
+#. * Add this file to your project's POTFILES.in.
+#. * DO NOT compile it as part of your application.
+#.
+#: src/font-sel.glade.h:7
+msgid "window1"
+msgstr ""
+
+#: src/font-sel.glade.h:8
+#, fuzzy
+msgid "Font:"
+msgstr "總數"
+
+#: src/font-sel.glade.h:9
+msgid "Font style:"
+msgstr ""
+
+#: src/font-sel.glade.h:10
+msgid "Size:"
+msgstr ""
+
+#: src/font-sel.glade.h:11
+msgid "Preview:"
+msgstr ""
+
+#: src/font-sel.glade.h:12
+msgid "AaBbCcDdEe12345"
+msgstr ""
+
+#: src/font-sel.glade.h:13
+msgid "label7"
+msgstr ""
+
+#: src/font-sel.glade.h:14
+msgid "label8"
+msgstr ""
+
+#: src/font-sel.glade.h:15
+msgid "label9"
 msgstr ""
 
 #~ msgid ""
