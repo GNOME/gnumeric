@@ -1,3 +1,7 @@
+2000-05-29  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-grid.c (create_popup_menu) : translate the menu labels.
+
 2000-05-27  Michael Meeks  <michael@helixcode.com>
 
 	* src/sheet-object-bonobo.c (sheet_object_bonobo_load),

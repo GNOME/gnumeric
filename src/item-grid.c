@@ -657,7 +657,7 @@ create_popup_menu (Sheet *sheet,
 			label = gtk_accel_label_new ("");
 			label_accel = gtk_label_parse_uline (
 				GTK_LABEL (label),
-				item_grid_context_menu [i].name);
+				_(item_grid_context_menu [i].name));
 
 			gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
 			gtk_widget_show (label);
