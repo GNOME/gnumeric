@@ -487,10 +487,10 @@ gnumeric_lookup (FunctionEvalInfo *ei, Value **args)
 			dest = args[2];
 		}
 		maxy  = value_area_get_height (ei->pos, src);
-		maxx  = value_area_get_width  (ei->pos, dest);
-		if ((tmp=value_area_get_height (ei->pos, src))<maxy)
+		maxx  = value_area_get_width  (ei->pos, src);
+		if ((tmp=value_area_get_height (ei->pos, dest))<maxy)
 			maxy=tmp;
-		if ((tmp=value_area_get_width (ei->pos, src))<maxx)
+		if ((tmp=value_area_get_width (ei->pos, dest))<maxx)
 			maxx=tmp;
 
 		touched = 0;
@@ -502,8 +502,8 @@ gnumeric_lookup (FunctionEvalInfo *ei, Value **args)
 				return value_duplicate
 				  (value_duplicate(value_area_fetch_x_y
 						   (ei->pos, dest,
-						    next_largest_x + x_offset,
-						    next_largest_y + y_offset)));
+						    lpx + x_offset,
+						    lpy + y_offset)));
 			if (compare < 0) {
 				next_largest = v;
 				next_largest_x = lpx;

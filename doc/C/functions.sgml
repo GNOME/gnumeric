@@ -178,6 +178,7 @@
 <listitem><para><link linkend="gnumeric-MAX">MAX</link></para></listitem>
 <listitem><para><link linkend="gnumeric-MAXA">MAXA</link></para></listitem>
 <listitem><para><link linkend="gnumeric-MDETERM">MDETERM</link></para></listitem>
+<listitem><para><link linkend="gnumeric-MEAN">MEAN</link></para></listitem>
 <listitem><para><link linkend="gnumeric-MEDIAN">MEDIAN</link></para></listitem>
 <listitem><para><link linkend="gnumeric-MID">MID</link></para></listitem>
 <listitem><para><link linkend="gnumeric-MIN">MIN</link></para></listitem>
@@ -213,6 +214,7 @@
 <listitem><para><link linkend="gnumeric-PEARSON">PEARSON</link></para></listitem>
 <listitem><para><link linkend="gnumeric-PERCENTRANK">PERCENTRANK</link></para></listitem>
 <listitem><para><link linkend="gnumeric-PERMUT">PERMUT</link></para></listitem>
+<listitem><para><link linkend="gnumeric-PERCENTILE">PERCENTILE</link></para></listitem>
 <listitem><para><link linkend="gnumeric-PI">PI</link></para></listitem>
 <listitem><para><link linkend="gnumeric-PMT">PMT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-POISSON">POISSON</link></para></listitem>
@@ -5518,7 +5520,7 @@
         <para>Performing this function on a string or empty cell simply does nothing.</para>
     </refsect1>
     <refsect1><title>See also</title>
-      <para>        <link linkend="gnumeric-NOMRDIST">NOMRDIST</link>
+      <para>        <link linkend="gnumeric-NORMDIST">NOMRDIST</link>
       </para>
     </refsect1>
   </refentry>

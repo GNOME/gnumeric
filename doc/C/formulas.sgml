@@ -52,7 +52,7 @@
     </example>
     
     <para> While the documentation generally refers to functions in all caps,
-      there use is not actually case sensitive.</para>
+      their use is not actually case sensitive.</para>
 	
 	<example id="funxtionsyntax">
 	  <title>Some examples of function syntax</title>
