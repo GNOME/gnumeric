@@ -1,3 +1,7 @@
+1999-07-05  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/about.c (dialog_about): Added link to IGS web site.
+
 1999-07-05  Jody Goldberg  <jgoldberg@home.com>
 
 	* src/cell.c (cell_set_formula) : Rework array-formula logic to deal

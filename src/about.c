@@ -18,7 +18,8 @@
 void
 dialog_about (Workbook *wb)
 {
-        GtkWidget *about;
+        GtkWidget *about, *l, *href, *hbox;
+	
         const gchar *authors[] = {
 		N_("Miguel de Icaza, main programmer."),
 		N_("Daniel Veillard, XML support."),
@@ -52,9 +53,20 @@ dialog_about (Workbook *wb)
         about = gnome_about_new (_("Gnumeric"), VERSION,
 				 "(C) 1998-1999 Miguel de Icaza",
 				 authors,
-				 _("The GNOME spreadsheet.\n"
-				   "http://www.gnome.org/gnumeric/"),
+				 NULL,
 				 NULL);
+
+	hbox = gtk_hbox_new (TRUE, 0);
+	l = gnome_href_new ("http://www.gnome.org/gnumeric",
+			    _("Gnumeric Home Page"));
+	href = gnome_href_new ("http://www.gnome-support.com/gnumeric",
+			       _("Gnumeric Support page"));
+	gtk_box_pack_start (GTK_BOX (hbox), l, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), href, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (about)->vbox),
+			    hbox, TRUE, FALSE, 0);
+	gtk_widget_show_all (hbox);
+	
 	gnome_dialog_set_parent (GNOME_DIALOG (about), GTK_WINDOW (wb->toplevel));
 	gnome_dialog_set_close (GNOME_DIALOG (about), TRUE);
         gtk_widget_show (about);
