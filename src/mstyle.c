@@ -124,7 +124,7 @@ const char *mstyle_names[MSTYLE_ELEMENT_MAX] = {
 	"Align.h",
 	"Indent",
 	"Orientation",
-	"FitInCell"
+	"WrapText"
 };
 
 guint

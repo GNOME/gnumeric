@@ -254,10 +254,13 @@ clipboard_paste_region (WorkbookControl *wbc,
 	int dst_rows = pt->range.end.row - pt->range.start.row + 1;
 	int src_cols = content->cols;
 	int src_rows = content->rows;
+	gboolean has_content;
 
 	g_return_val_if_fail (pt != NULL, TRUE);
-	g_return_val_if_fail ((pt->paste_flags & PASTE_CONTENT) !=
-			      (pt->paste_flags & PASTE_AS_VALUES), TRUE);
+
+	has_content = pt->paste_flags & (PASTE_CONTENT|PASTE_AS_VALUES);
+
+	g_return_val_if_fail (has_content != (PASTE_CONTENT|PASTE_AS_VALUES), TRUE);
 
 	if (pt->paste_flags & PASTE_TRANSPOSE) {
 		int tmp = src_cols;
@@ -300,7 +303,7 @@ clipboard_paste_region (WorkbookControl *wbc,
 
 	tmp = 0;
 	/* clear the region where we will paste */
-	if (pt->paste_flags & (PASTE_CONTENT | PASTE_AS_VALUES))
+	if (has_content)
 		tmp = CLEAR_VALUES | CLEAR_COMMENTS;
 
 	/* No need to clear the formats.  We will paste over top of these. */
@@ -319,7 +322,7 @@ clipboard_paste_region (WorkbookControl *wbc,
 	}
 
 	/* remove and merged regions in the target range */
-	{
+	if (has_content) {
 		GSList *merged, *ptr;
 		merged = sheet_merge_get_overlap (pt->sheet, &pt->range);
 		for (ptr = merged ; ptr != NULL ; ptr = ptr->next)
@@ -361,7 +364,7 @@ clipboard_paste_region (WorkbookControl *wbc,
 						      content->styles);
 			}
 
-			if (!(pt->paste_flags & PASTE_DONT_MERGE)) {
+			if (has_content && !(pt->paste_flags & PASTE_DONT_MERGE)) {
 				GSList *ptr;
 				for (ptr = content->merged; ptr != NULL ; ptr = ptr->next) {
 					Range tmp = *((Range const *)ptr->data);
@@ -369,6 +372,9 @@ clipboard_paste_region (WorkbookControl *wbc,
 						sheet_merge_add (wbc, pt->sheet, &tmp, TRUE);
 				}
 			}
+
+			if (!has_content)
+				continue;
 
 			for (l = content->list; l; l = l->next) {
 				CellCopy *c_copy = l->data;
@@ -404,13 +410,14 @@ clipboard_paste_region (WorkbookControl *wbc,
 			}
 		}
 
-        if (pt->paste_flags & (PASTE_CONTENT | PASTE_AS_VALUES)) {
+        if (has_content) {
 		GList *deps = sheet_region_get_deps (pt->sheet, &pt->range);
 		if (deps)
 			dependent_queue_recalc_list (deps, TRUE);
 		sheet_range_calc_spans (pt->sheet, pt->range, SPANCALC_RENDER);
 		sheet_flag_status_update_range (pt->sheet, &pt->range);
-	}
+	} else
+		sheet_flag_format_update_range (pt->sheet, &pt->range);
 
 	if (pt->paste_flags & PASTE_UPDATE_ROW_HEIGHT)
 		rows_height_update (pt->sheet, &pt->range);

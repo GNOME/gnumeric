@@ -1029,6 +1029,9 @@ cmd_clear_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	g_return_val_if_fail (me->selection != NULL, TRUE);
 	g_return_val_if_fail (me->old_content != NULL, TRUE);
 
+	/* reset the selection as a convenience AND to queue a redraw */
+	sheet_selection_reset (me->sheet);
+
 	for (ranges = me->selection; ranges != NULL ; ranges = ranges->next) {
 		Range const * const r = ranges->data;
 		PasteTarget pt;
@@ -1042,6 +1045,10 @@ cmd_clear_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 					c);
 		clipboard_release (c);
 		me->old_content = g_slist_remove (me->old_content, c);
+		sheet_selection_add_range (me->sheet,
+					   r->start.col, r->start.row,
+					   r->start.col, r->start.row,
+					   r->end.col, r->end.row);
 	}
 	g_return_val_if_fail (me->old_content == NULL, TRUE);
 

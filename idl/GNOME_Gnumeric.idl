@@ -151,11 +151,11 @@ module GNOME {
 
 			void    cell_set_alignment (in long col, in long row, 
 						    in long halign, in long valign,
-						    in long orientation, in boolean auto_return)
+						    in long orientation, in boolean wrap_text)
 				raises (OutOfRange);
 			void    cell_get_alignment (in long col, in long row,
 						    out long halign, out long valign,
-						    out long orientation, out boolean auto_return)
+						    out long orientation, out boolean wrap_text)
 				raises (OutOfRange);
 
 			// 
