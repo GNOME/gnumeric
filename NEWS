@@ -28,6 +28,8 @@ Andreas:
 	* Add help button to autoformat and plugin manager
 	* Make Tools->Solver undoable
 	* Make Tools->GoalSeek undoable
+	* Make Duplicate Sheet undoable
+	* Reduce the occasions when the undo chain is being flushed
 
 Ben Liblit:
 	* Another attempt at configure time path generation.

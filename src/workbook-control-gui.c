@@ -621,14 +621,8 @@ static void
 sheet_action_clone_sheet (GtkWidget *widget, SheetControlGUI *scg)
 {
 	SheetControl *sc = (SheetControl *) scg;
-     	Sheet *new_sheet = sheet_dup (sc->sheet);
 
-	/* FIXME: Until this is undoable we have to add the duplicated */
-        /*        sheet at the end not to mess up the undo chain       */
-	workbook_sheet_attach (sc->sheet->workbook, new_sheet, NULL);
-/* 	workbook_sheet_attach (sc->sheet->workbook, new_sheet, sc->sheet); */
-	sheet_set_dirty (new_sheet, TRUE);
-	wbcg_focus_cur_scg (scg->wbcg);
+	cmd_clone_sheet (WORKBOOK_CONTROL (scg->wbcg), sc->sheet);
 }
 
 static void
@@ -2195,18 +2189,8 @@ cb_edit_duplicate_sheet (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Sheet *old_sheet = wb_control_cur_sheet (wbc);
-     	Sheet *new_sheet = sheet_dup (old_sheet);
 
-	/* FIXME: Until this is undoable we have to add the duplicated */
-        /*        sheet at the end not to mess up the undo chain       */
-
-	workbook_sheet_attach (wb_control_workbook (wbc),
-			       new_sheet,
-			       NULL);
-/* 	workbook_sheet_attach (wb_control_workbook (wbc), */
-/* 			       new_sheet, */
-/* 			       old_sheet); */
-	sheet_set_dirty (new_sheet, TRUE);
+	cmd_clone_sheet (wbc, old_sheet);
 }
 
 

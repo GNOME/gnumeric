@@ -427,14 +427,10 @@ Misc stuff that should be fixed
 
 - Missing undo/redo for
     - Freeze panes (tricky this is a view attribute)
-    - Duplicate sheet.
-    - Remove sheet. This raises some serious design issues: We are refering to
-      sheets within most commands by sheet address, that will change on 
-      remove/undo
+    - Remove sheet. 
     - Tabulate.
     - `Add Scenario' Portion of Solver
     - Sheet object configuration changes.
-    - Sheet object creation                (Isn't this already done ?)
     - Workbook attr changes
 
 - cols/rows

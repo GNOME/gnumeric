@@ -141,4 +141,7 @@ gboolean cmd_solver (WorkbookControl *wbc,
 gboolean cmd_goal_seek (WorkbookControl *wbc,
 			Cell *cell, Value *ov, Value *nv);
 
+gboolean cmd_clone_sheet (WorkbookControl *wbc, Sheet *sheet);
+
+
 #endif /* GNUMERIC_COMMANDS_H */

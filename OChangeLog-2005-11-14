@@ -1,5 +1,13 @@
 2003-07-31  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
+	* src/commands.c (cmd_clone_sheet*): new command
+	* src/commands.h (cmd_clone_sheet): new
+	* src/workbook-control-gui.c (sheet_action_clone_sheet):
+	  use cmd_clone_sheet
+	(cb_edit_duplicate_sheet): use cmd_clone_sheet
+	
+2003-07-31  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
 	* src/commands.c: switch from sheet pointer to sheet indices 
 	  throughout
 	(cmd_reorganize_sheets_delete_sheets): deleted

@@ -6511,4 +6511,72 @@ cmd_freeze_panes (WorkbookControl *wbc, SheetView *sv,
 	return command_push_undo (wbc, obj);
 }
 
+
 #endif
+
+/******************************************************************/
+
+
+#define CMD_CLONE_SHEET_TYPE        (cmd_clone_sheet_get_type ())
+#define CMD_CLONE_SHEET(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_CLONE_SHEET_TYPE, CmdCloneSheet))
+
+typedef struct
+{
+	GnumericCommand cmd;
+} CmdCloneSheet;
+
+GNUMERIC_MAKE_COMMAND (CmdCloneSheet, cmd_clone_sheet);
+
+static gboolean
+cmd_clone_sheet_undo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdCloneSheet *me = CMD_CLONE_SHEET (cmd);
+	Sheet *new_sheet = workbook_sheet_by_index (wb_control_workbook (wbc), 
+						    me->cmd.sheet + 1);
+	return !command_undo_sheet_delete (new_sheet);
+}
+
+static gboolean
+cmd_clone_sheet_redo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdCloneSheet *me = CMD_CLONE_SHEET (cmd);
+     	Sheet *old_sheet = workbook_sheet_by_index (wb_control_workbook (wbc), 
+						    me->cmd.sheet);
+     	Sheet *new_sheet = sheet_dup (old_sheet);
+
+	workbook_sheet_attach (old_sheet->workbook, new_sheet, old_sheet);
+	sheet_set_dirty (new_sheet, TRUE);
+	wbcg_focus_cur_scg (WORKBOOK_CONTROL_GUI(wbc));
+
+	return FALSE;
+}
+
+static void
+cmd_clone_sheet_finalize (GObject *cmd)
+{
+	gnumeric_command_finalize (cmd);
+}
+
+gboolean
+cmd_clone_sheet (WorkbookControl *wbc, Sheet *sheet)
+{
+	GObject       *obj;
+	CmdCloneSheet *me;
+
+	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
+
+	obj = g_object_new (CMD_CLONE_SHEET_TYPE, NULL);
+	me = CMD_CLONE_SHEET (obj);
+
+	me->cmd.sheet = sheet->index_in_wb;
+	me->cmd.size = 1;
+
+	me->cmd.cmd_descriptor =
+		g_strdup_printf (_("Duplicating %s"), sheet->name_unquoted);
+
+	/* Register the command object */
+	return command_push_undo (wbc, obj);
+}
+
+/******************************************************************/
+
