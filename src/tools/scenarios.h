@@ -18,6 +18,10 @@ typedef struct {
 
 void   scenario_free_all (GList *list);
 GList *scenario_copy_all (GList *list, Sheet *new);
+void   scenario_insert_rows (GList *list, int row, int count);
+void   scenario_insert_cols (GList *list, int row, int count);
+void   scenario_delete_rows (GList *list, int row, int count);
+void   scenario_delete_cols (GList *list, int row, int count);
 
 void scenarios_ok (WorkbookControl        *wbc, data_analysis_output_t *dao);
 

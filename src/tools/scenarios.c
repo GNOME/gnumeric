@@ -1,5 +1,4 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-
 /*
  * scenarios.c:
  *
@@ -45,12 +44,7 @@
 #include "dao.h"
 
 
-void
-scenarios_ok (WorkbookControl        *wbc,
-	      data_analysis_output_t *dao)
-{
-	sheet_redraw_all (dao->sheet, TRUE);
-}
+/* Generic stuff **********************************************************/
 
 static scenario_t *
 find_scenario (GList *scenarios, gchar *name)
@@ -66,6 +60,8 @@ find_scenario (GList *scenarios, gchar *name)
 	}
 	return NULL;
 }
+
+/* Scenario: Show **********************************************************/
 
 void
 scenario_show (WorkbookControl        *wbc,
@@ -94,7 +90,7 @@ scenario_show (WorkbookControl        *wbc,
 }
 
 
-/* Scenario Add ************************************************************/
+/* Scenario: Add ***********************************************************/
 
 static scenario_t *
 scenario_new (gchar *name, gchar *comment)
@@ -109,87 +105,6 @@ scenario_new (gchar *name, gchar *comment)
 	s->cell_sel_str   = NULL;
 
 	return s;
-}
-
-static void
-scenario_free (scenario_t *s)
-{
-	int i, j, cols;
-
-	g_free (s->name);
-	g_free (s->comment);
-	g_free (s->cell_sel_str);
-
-	cols = s->range.end.col - s->range.start.col + 1;
-	for (i = s->range.start.row; i <= s->range.end.row; i++)
-		for (j = s->range.start.col; j <= s->range.end.col; j++)
-			value_release
-				(s->changing_cells [j-s->range.start.col
-						    + (i-s->range.start.row) *
-						    cols]);
-
-	g_free (s->changing_cells);
-	g_free (s);
-}
-
-static scenario_t *
-scenario_copy (scenario_t *s, Sheet *new_sheet)
-{
-	scenario_t *p;
-	int        i, j, cols, rows;
-	
-	p = g_new (scenario_t, 1);
-	
-	p->name         = g_strdup (s->name);
-	p->comment      = g_strdup (s->comment);
-	/* FIXME: Sheet name change */
-	p->cell_sel_str = g_strdup (s->cell_sel_str);
-	range_init (&p->range, s->range.start.col, s->range.start.row,
-		    s->range.end.col, s->range.end.row);
-
-	rows = s->range.end.row - s->range.start.row + 1;
-	cols = s->range.end.col - s->range.start.col + 1;
-
-	p->changing_cells = g_new (Value *, rows * cols);
-	for (i = s->range.start.row; i <= s->range.end.row; i++)
-		for (j = s->range.start.col; j <= s->range.end.col; j++)
-			p->changing_cells [j-s->range.start.col +
-					   (i-s->range.start.row) * cols] = 
-				value_duplicate (s->changing_cells
-						 [j-s->range.start.col +
-						  (i-s->range.start.row) *
-						  cols]);
-
-	return p;
-}
-
-GList *
-scenario_copy_all (GList *list, Sheet *ns)
-{
-	GList *cpy = NULL;
-
-	while (list != NULL) {
-		cpy = g_list_append (cpy, scenario_copy (list->data, ns));
-		list = list->next;
-	}
-
-	return cpy;
-}
-
-static void
-cb_free (scenario_t *data, gpointer ignore)
-{
-	scenario_free (data);
-}
-
-/*
- * Frees all scenarios in a list.
- */
-void
-scenario_free_all (GList *list)
-{
-	g_list_foreach (list, (GFunc) cb_free, NULL);
-	g_list_free (list);
 }
 
 static void
@@ -238,6 +153,91 @@ scenario_add_new (WorkbookControl        *wbc,
 	sheet_redraw_all (dao->sheet, TRUE);
 }
 
+/* Scenario: Duplicate sheet ***********************************************/
+
+static scenario_t *
+scenario_copy (scenario_t *s, Sheet *new_sheet)
+{
+	scenario_t *p;
+	int        i, j, cols, rows;
+	
+	p = g_new (scenario_t, 1);
+	
+	p->name         = g_strdup (s->name);
+	p->comment      = g_strdup (s->comment);
+	/* FIXME: Sheet name change */
+	p->cell_sel_str = g_strdup (s->cell_sel_str);
+	range_init (&p->range, s->range.start.col, s->range.start.row,
+		    s->range.end.col, s->range.end.row);
+
+	rows = s->range.end.row - s->range.start.row + 1;
+	cols = s->range.end.col - s->range.start.col + 1;
+
+	p->changing_cells = g_new (Value *, rows * cols);
+	for (i = s->range.start.row; i <= s->range.end.row; i++)
+		for (j = s->range.start.col; j <= s->range.end.col; j++)
+			p->changing_cells [j-s->range.start.col +
+					   (i-s->range.start.row) * cols] = 
+				value_duplicate (s->changing_cells
+						 [j-s->range.start.col +
+						  (i-s->range.start.row) *
+						  cols]);
+
+	return p;
+}
+
+GList *
+scenario_copy_all (GList *list, Sheet *ns)
+{
+	GList *cpy = NULL;
+
+	while (list != NULL) {
+		cpy = g_list_append (cpy, scenario_copy (list->data, ns));
+		list = list->next;
+	}
+
+	return cpy;
+}
+
+/* Scenario: Remove sheet *************************************************/
+
+static void
+scenario_free (scenario_t *s)
+{
+	int i, j, cols;
+
+	g_free (s->name);
+	g_free (s->comment);
+	g_free (s->cell_sel_str);
+
+	cols = s->range.end.col - s->range.start.col + 1;
+	for (i = s->range.start.row; i <= s->range.end.row; i++)
+		for (j = s->range.start.col; j <= s->range.end.col; j++)
+			value_release
+				(s->changing_cells [j-s->range.start.col
+						    + (i-s->range.start.row) *
+						    cols]);
+
+	g_free (s->changing_cells);
+	g_free (s);
+}
+
+static void
+cb_free (scenario_t *data, gpointer ignore)
+{
+	scenario_free (data);
+}
+
+/*
+ * Frees all scenarios in a list.
+ */
+void
+scenario_free_all (GList *list)
+{
+	g_list_foreach (list, (GFunc) cb_free, NULL);
+	g_list_free (list);
+}
+
 void
 scenario_delete (WorkbookControl        *wbc,
 		 gchar                  *name,
@@ -250,6 +250,109 @@ scenario_delete (WorkbookControl        *wbc,
 					       (gpointer) s);
 	scenario_free (s);
 }
+
+/* Scenario: Insert columns(s)/row(s) *************************************/
+
+static void
+insert_cols (scenario_t *s, int col, int count) 
+{
+	if (s->range.start.col >= col) {
+		s->range.start.col += count;
+		s->range.end.col += count;
+		g_free (s->cell_sel_str);
+
+		/* Scenarios do not allow cross sheet references. */
+		s->cell_sel_str = g_strdup (range_name (&s->range));
+	}
+}
+
+void
+scenario_insert_cols (GList *list, int col, int count)
+{
+	while (list != NULL) {
+		insert_cols (list->data, col, count);
+		list = list->next;
+	}
+}
+
+static void
+insert_rows (scenario_t *s, int row, int count) 
+{
+	if (s->range.start.row >= row) {
+		s->range.start.row += count;
+		s->range.end.row += count;
+		g_free (s->cell_sel_str);
+
+		/* Scenarios do not allow cross sheet references. */
+		s->cell_sel_str = g_strdup (range_name (&s->range));
+	}
+}
+
+void
+scenario_insert_rows (GList *list, int row, int count)
+{
+	while (list != NULL) {
+		insert_rows (list->data, row, count);
+		list = list->next;
+	}
+}
+
+/* Scenario: Delete columns(s)/row(s) *************************************/
+
+static void
+delete_cols (scenario_t *s, int col, int count) 
+{
+	if (s->range.start.col >= col) {
+		s->range.start.col -= count;
+		s->range.end.col -= count;
+		g_free (s->cell_sel_str);
+
+		/* Scenarios do not allow cross sheet references. */
+		s->cell_sel_str = g_strdup (range_name (&s->range));
+	}
+}
+
+void
+scenario_delete_cols (GList *list, int col, int count)
+{
+	while (list != NULL) {
+		delete_cols (list->data, col, count);
+		list = list->next;
+	}
+}
+
+static void
+delete_rows (scenario_t *s, int row, int count) 
+{
+	if (s->range.start.row >= row) {
+		s->range.start.row -= count;
+		s->range.end.row -= count;
+		g_free (s->cell_sel_str);
+
+		/* Scenarios do not allow cross sheet references. */
+		s->cell_sel_str = g_strdup (range_name (&s->range));
+	}
+}
+
+void
+scenario_delete_rows (GList *list, int row, int count)
+{
+	while (list != NULL) {
+		delete_rows (list->data, row, count);
+		list = list->next;
+	}
+}
+
+/* Scenario: Ok button pressed ********************************************/
+
+void
+scenarios_ok (WorkbookControl        *wbc,
+	      data_analysis_output_t *dao)
+{
+	sheet_redraw_all (dao->sheet, TRUE);
+}
+
+/* Scenario: Create summary report ***************************************/
 
 void
 scenario_summary (WorkbookControl        *wbc,
