@@ -1,3 +1,8 @@
+2004-07-12  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_linest): Flip columns when out of order.
+	Fixes 146751.
+
 2004-04-15  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_ftest): Improve precision when we end up
