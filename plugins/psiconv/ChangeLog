@@ -1,0 +1,7 @@
+2001-07-24  Jody Goldberg <jgoldberg@home.com>
+
+	* boot.c : ditto.
+	* plugin.xml : new file
+	* Makefile.am : ditto.
+	* psiconv-read.c : ditto.
+	* psiconv-plugin.h : ditto.

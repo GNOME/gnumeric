@@ -437,6 +437,19 @@ write_window2 (BiffPut *bp, MsBiffVersion ver, ExcelSheet *sheet)
 	ms_biff_put_commit (bp);
 }
 
+/* See: S59DCA.HTM */
+static void
+write_pane (BiffPut *bp, MsBiffVersion ver, ExcelSheet *sheet)
+{
+	guint8 *data = ms_biff_put_len_next (bp, BIFF_PANE, 10);
+
+	MS_OLE_SET_GUINT16 (data + 0, 0);	/* x */
+	MS_OLE_SET_GUINT16 (data + 2, 0);	/* y */
+	MS_OLE_SET_GUINT16 (data + 4, 0);	/* top row */
+	MS_OLE_SET_GUINT32 (data + 6, 0);	/* left col */
+	MS_OLE_SET_GUINT32 (data + 8, 0);	/* active pane */
+}
+
 /*
  * No documentation exists for this record, but this makes
  * sense given the other record formats.
@@ -547,13 +560,6 @@ write_bits (BiffPut *bp, ExcelWorkbook *wb, MsBiffVersion ver)
 	}
 
 	write_window1 (bp, ver, wb->gnum_wb_view);
-
-	if (ver >= MS_BIFF_V8 && 0 /* if we have panes */) {
-		/* See: S59DCA.HTM */
-		data = ms_biff_put_len_next (bp, BIFF_PANE, 2);
-		MS_OLE_SET_GUINT16 (data, 0x0);
-		ms_biff_put_commit (bp);
-	}
 
 	/* See: S59D5B.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_BACKUP, 2);
@@ -3220,6 +3226,8 @@ write_sheet_tail (IOContext *context, BiffPut *bp, ExcelSheet *sheet)
 
 	write_window1 (bp, ver, sheet->wb->gnum_wb_view);
 	write_window2 (bp, ver, sheet);
+	if (sheet_is_frozen (sheet->gnum_sheet))
+		write_pane (bp, ver, sheet);
 
 	if (ver >= MS_BIFF_V8) {
 		/* Dont over think this just force the fraction into a/1000 */

@@ -14,7 +14,7 @@
 #include "sheet.h"
 #include "cell.h"
 #include "parse-util.h"
-#include "command-context-corba.h"
+#include "workbook-control-corba.h"
 #include "selection.h"
 #include "commands.h"
 

@@ -1,10 +1,18 @@
 Gnumeric 0.69
 
+Andreas:
+	* Rewrite descriptive statistics analysis improving error checks
+	  and labels for data sets and removing duplicate calculation
+          code.
+
 Jody:
 	* More important things.
 
 Morten:
 	* Fix MODE.
+
+Frodo Looijaard:
+	* Add the psion support.
 
 Zbigniew:
 	* i18n fixes.

@@ -15,7 +15,7 @@
 #include "cell.h"
 #include "parse-util.h"
 #include "commands.h"
-#include "command-context-corba.h"
+#include "workbook-control-corba.h"
 #include "selection.h"
 
 #include <gbrun/libgbrun.h>

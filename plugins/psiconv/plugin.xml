@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<plugin id="Gnumeric_psiconv">
+	<information name="Psiconv" description="Imports Psion 5 series Sheet files "/>
+	<loader type="g_module">
+		<attribute name="module_file" value="psiconv.so"/>
+	</loader>
+	<services>
+		<service type="file_opener" id="psiconv" priority="100" probe="TRUE">
+			<information description="Psion (*.psisheet) file format"/>
+			<file_patterns>
+				<file_pattern type="shell_pattern" value="*.psisheet"/>
+			</file_patterns>
+			<save_info saver_id="" format_level="manual_remember"/>
+		</service>
+	</services>
+</plugin>
