@@ -33,14 +33,15 @@ typedef struct _MS_OLE_Header
 
 } MS_OLE_Header ;
 
-typedef enum _PPS_TYPE {eStorage=0, eStream=1, eRoot=2} PPS_TYPE ;
+typedef enum _PPS_TYPE { MS_OLE_PPS_STORAGE = 0,
+			 MS_OLE_PPS_STREAM  = 1,
+			 MS_OLE_PPS_ROOT    = 2} PPS_TYPE ;
 typedef guint32 PPSPtr ;
 /* MS_OLE Property Storage
    Similar to a directory structure */
 typedef struct _MS_OLE_PPS
 {
-  guint16   *pps_name ;
-  guint16   pps_sizeofname ;
+  char      *pps_name ;
   PPS_TYPE  pps_type ;
   PPSPtr    pps_me ;
   PPSPtr    pps_prev ;
@@ -69,7 +70,22 @@ typedef struct _MS_OLE
 extern MS_OLE *ms_ole_new     (const char *name) ;
 extern void    ms_ole_destroy (MS_OLE *ptr) ;
 
-typedef struct _MS_OLE_STREAM_POS
+typedef struct _MS_OLE_DIRECTORY
+{
+  char      *name ;
+  PPS_TYPE  type ;
+  guint32   length ;
+
+  /* Private */
+  MS_OLE *file ;
+  MS_OLE_PPS *pps ;
+} MS_OLE_DIRECTORY ;
+
+extern MS_OLE_DIRECTORY *ms_ole_directory_new (MS_OLE *) ;
+extern int  ms_ole_directory_next (MS_OLE_DIRECTORY *) ;
+extern void ms_ole_directory_destroy (MS_OLE_DIRECTORY *) ;
+
+typedef struct _MS_OLE_STREAM
 {
   guint32    block ;		// the MS_OLE Block we are in
   int        small_block ;	// Whether small or large blocks
@@ -78,9 +94,11 @@ typedef struct _MS_OLE_STREAM_POS
   int        length_left ;	// Length in guint8s left in stream.
   MS_OLE     *f ;		// the MS_OLE structure pointer
   MS_OLE_PPS *p ;               // This stores the real length eg.
-} MS_OLE_STREAM_POS ;
+} MS_OLE_STREAM ;
 
-extern MS_OLE_STREAM_POS *ms_ole_stream_new (MS_OLE *f, MS_OLE_PPS *p) ;
+/* Mode = 'r' or 'w' */
+extern MS_OLE_STREAM *ms_ole_stream_open (MS_OLE *f, char *name, char mode) ;
+extern void ms_ole_stream_close (MS_OLE_STREAM *st) ;
 
 extern void dump (guint8 *ptr, int len) ;
 

@@ -64,7 +64,34 @@ dump (guint8 *ptr, int len)
   #undef OK
 }
 
-// Blocking functions
+
+/* FIXME: This needs proper unicode support ! current support is a guess */
+/* NB. Different from biff_get_text, looks like a bug ! */
+static char *
+pps_get_text (BYTE *ptr, int length)
+{
+  int lp, skip ;
+  char *ans ;
+  BYTE *inb ;
+
+  if (!length) 
+    return 0 ;
+
+  ans = (char *)malloc(sizeof(char)*length+1) ;
+
+  skip = (ptr[0] < 0x30) ; /* Magic unicode number */
+  if (skip)
+    inb = ptr + 2 ;
+  else
+    inb = ptr ;
+  for (lp=0;lp<length;lp++)
+    {
+      ans[lp] = (char) *inb ;
+      inb+=2 ;
+    }
+  ans[lp] = 0 ;
+  return ans ;
+}
 
 static void
 dump_header (MS_OLE *f)
@@ -239,6 +266,7 @@ PPS_read (MS_OLE *f, PPSPtr ptr)
   MS_OLE_PPS *me ;
   guint8 *mem ;
   int type, lp ;
+  int name_length ;
   char PPS_TYPE_NAMES[3][24]={ "Storage ( directory )", "Stream ( file )", "Root dir"} ;
 
   // First see if we have him already ?
@@ -251,33 +279,26 @@ PPS_read (MS_OLE *f, PPSPtr ptr)
   mem   = PPSPtr_to_guint8(f, ptr) ;
   me->pps_me         = ptr ;
 
-  // More Magic Numbers
-  me->pps_sizeofname = GETguint16(mem + 0x40) ;
-  if (me->pps_sizeofname == 0)	// Special case...
+  if ((name_length = GETguint16(mem + 0x40)) == 0)
     {
+      printf ("Duff zero length filename\n") ;
       free (me) ;
       return NULL ;
     }
+
   type               = GETguint8(mem + 0x42) ;
   me->pps_prev       = GETguint32(mem + 0x44) ;
   me->pps_next       = GETguint32(mem + 0x48) ;
   me->pps_dir        = GETguint32(mem + 0x4c) ;
   me->pps_startblock = GETguint32(mem + 0x74) ;
   me->pps_size       = GETguint32(mem + 0x78) ;
-  if      (type == 1) me->pps_type = eStorage ;
-  else if (type == 2) me->pps_type = eStream ;
-  else if (type == 5) me->pps_type = eRoot ;
+  if      (type == 1) me->pps_type = MS_OLE_PPS_STORAGE ;
+  else if (type == 2) me->pps_type = MS_OLE_PPS_STREAM ;
+  else if (type == 5) me->pps_type = MS_OLE_PPS_ROOT ;
   else printf ("Unknown PPS type %d\n", type) ;
 
-  me->pps_name = (guint16 *)malloc(sizeof(guint16)*(me->pps_sizeofname+2)) ;
-  printf ("Read pps field '") ;
-  for (lp=0;lp<(me->pps_sizeofname/2);lp++)
-    {
-      me->pps_name[lp] = *(mem+lp*sizeof(guint16)) ;
-      printf ("%c", (char)me->pps_name[lp]) ;
-    }
-  printf ("' : %s\n", PPS_TYPE_NAMES[me->pps_type]) ;
-  me->pps_name[lp] = 0 ;
+  /*  dump (mem, name_length*2) ; */
+  me->pps_name = pps_get_text (mem, name_length) ;
 
   if (f->root == NULL)
     {
@@ -373,7 +394,7 @@ dump_files(MS_OLE *f)
     {
       printf ("Dealing with %d: size %d block %d, dir %d, prev %d, next %d\n", (int)ptr->pps_me,
 	      ptr->pps_size, (int)ptr->pps_startblock, (int)ptr->pps_dir, (int)ptr->pps_prev, (int)ptr->pps_next) ;
-      if (ptr->pps_type == eStream)
+      if (ptr->pps_type == MS_OLE_PPS_STREAM)
 	{
 	  if (ptr->pps_size>=MS_OLE_BB_THRESHOLD)
 	    {
@@ -430,7 +451,7 @@ Block_to_mem (MS_OLE *f, guint32 block, int small_blocks)
 }
 
 static void
-dump_stream (MS_OLE_STREAM_POS *p)
+dump_stream (MS_OLE_STREAM *p)
 {
   printf ("block %d, small? %d, block_left %d,length_left %d\n",
 	  p->block, p->small_block, p->block_left,p->length_left) ;
@@ -444,22 +465,85 @@ dump_biff (BIFF_QUERY *bq)
   dump_stream (bq->pos) ;
 }
 
-MS_OLE_STREAM_POS *
-ms_ole_stream_new (MS_OLE *f, MS_OLE_PPS *p)
+MS_OLE_STREAM *
+ms_ole_stream_open (MS_OLE *f, char *name, char mode)
 {
-  MS_OLE_STREAM_POS *ans    = g_new (MS_OLE_STREAM_POS, 1) ;
-  ans->f = f ;
-  ans->p = p ;
-  ans->block       = p->pps_startblock ;
-  ans->small_block = p->pps_size<MS_OLE_BB_THRESHOLD ;
-  ans->length_left = p->pps_size ;
-  ans->mem         = Block_to_mem (f, ans->block, ans->small_block) ;
-  ans->block_left  = ans->small_block?MS_OLE_SB_BLOCK_SIZE:MS_OLE_BB_BLOCK_SIZE ;
+  MS_OLE_PPS *p=f->root ;
+
+  g_assert (mode == 'r') ;
+  while ((p=p->next))
+    {
+      if (p->pps_type == MS_OLE_PPS_STREAM)
+	{
+	  int lp, lpc ;
+	  lp = 0 ; lpc = 0 ;
+	  while (p->pps_name[lp]!=0)
+	    {
+	      if (p->pps_name[lp] == name[lpc])
+		lpc++ ;
+	      else
+		lpc = 0 ;
+	      if (name[lpc] == 0)
+		{
+		  MS_OLE_STREAM *ans    = g_new (MS_OLE_STREAM, 1) ;
+		  ans->f = f ;
+		  ans->p = p ;
+		  ans->block       = p->pps_startblock ;
+		  ans->small_block = p->pps_size<MS_OLE_BB_THRESHOLD ;
+		  ans->length_left = p->pps_size ;
+		  ans->mem         = Block_to_mem (f, ans->block, ans->small_block) ;
+		  ans->block_left  = ans->small_block?MS_OLE_SB_BLOCK_SIZE:MS_OLE_BB_BLOCK_SIZE ;
+		  return ans ;
+		}
+	      lp++ ;
+	    }
+	}
+    }
+  printf ("No file '%s' found\n", name) ;
+  return 0;
+}
+
+void
+ms_ole_stream_close (MS_OLE_STREAM *st)
+{
+}
+
+/* You probably arn't too interested in the root directory anyway
+   but this is first */
+MS_OLE_DIRECTORY *
+ms_ole_directory_new (MS_OLE *f)
+{
+  MS_OLE_DIRECTORY *ans = g_new (MS_OLE_DIRECTORY, 1) ;
+  ans->file     = f;
+  ans->pps      = f->root ;
+  ans->name     = f->root->pps_name ;
+  ans->type     = 'r' ;
+  ans->length   = 0 ;
   return ans ;
 }
 
+int
+ms_ole_directory_next (MS_OLE_DIRECTORY *d)
+{
+  if (!d || !d->pps || !(d->pps=d->pps->next))
+    return 0 ;
+
+  d->name   = d->pps->pps_name ;
+  d->type   = d->pps->pps_type ;
+  d->length = d->pps->pps_size ;
+
+  return 1 ;
+}
+
+void
+ms_ole_directory_destroy (MS_OLE_DIRECTORY *d)
+{
+  if (d)
+    free (d) ;
+}
+
 static guint8
-ms_ole_next_stream_byte (MS_OLE_STREAM_POS *p)
+ms_ole_next_stream_byte (MS_OLE_STREAM *p)
 {
   if (p->block_left>0)
     {
@@ -485,7 +569,7 @@ ms_ole_next_stream_byte (MS_OLE_STREAM_POS *p)
 static int
 ms_biff_collate_block (BIFF_QUERY *bq)
 {
-  MS_OLE_STREAM_POS *p = bq->pos ;
+  MS_OLE_STREAM *p = bq->pos ;
   
   if (p->length_left==0)
     {
@@ -567,48 +651,17 @@ ms_biff_collate_block (BIFF_QUERY *bq)
 }
 
 BIFF_QUERY *
-ms_biff_query_new (MS_OLE *ptr)
+ms_biff_query_new (MS_OLE_STREAM *ptr)
 {
-  BIFF_QUERY *bq    = g_new (BIFF_QUERY, 1) ;
+  BIFF_QUERY *bq    ;
+  if (!ptr)
+    return 0 ;
+  bq = g_new (BIFF_QUERY, 1) ;
   bq->opcode        = 0 ;
   bq->length        = 0 ;
   bq->data_malloced = 0 ;
+  bq->pos = ptr ;
 
-  { // Find the right Stream ... John 4:13-14
-    MS_OLE_PPS *p  = ptr->root ;
-    // The thing to seek; first the kingdom of God, then his:
-    guint16 seek[] = { 'B', 'O', 'O', 'K', 0 } ;
-    int found = 0 ;
-    while (!found && (p=p->next))
-      {
-	if (p->pps_type == eStream)
-	  { // Compare name
-	    int lp, lpc ;
-	    lp = 0 ; lpc = 0 ;
-	    while (p->pps_name[lp]!=0)
-	      {
-		// printf ("Does '%c' == '%c' ?\n", toupper(p->pps_name[lp]), seek[lpc]) ;
-		if (toupper(p->pps_name[lp]) == seek[lpc])
-		  lpc++ ;
-		else
-		  lpc = 0 ;
-		if (seek[lpc] == 0)
-		  {
-		    found = 1 ;
-		    break ;
-		  }
-		lp++ ;
-	      }
-	  }
-      }
-    if (found)
-      {
-	printf ("Found Excel Stream : %d\n", (int)p->pps_me) ;
-	bq->pos = ms_ole_stream_new (ptr, p) ;
-      }
-    else
-      printf ("No Excel file found\n") ;
-  }
   dump_biff(bq) ;
   return bq ;
 }
@@ -626,13 +679,13 @@ ms_biff_query_copy (const BIFF_QUERY *p)
   return bf ;
 }
 
-// Returns 0 if has hit end
+/* Returns 0 if has hit end */
 int
 ms_biff_query_next (BIFF_QUERY *bq)
 {
   int ans ;
 
-  if (bq->pos->length_left < 4) // The end has come : 2 Peter 3:10
+  if (!bq || bq->pos->length_left < 4) // The end has come : 2 Peter 3:10
       return 0 ;
   if (bq->data_malloced)
     {
@@ -659,10 +712,10 @@ ms_biff_query_next (BIFF_QUERY *bq)
 void
 ms_biff_query_destroy (BIFF_QUERY *bq)
 {
-  if (bq->data_malloced)
-    free (bq->data) ;
-  free (bq) ;
+  if (bq)
+    {
+      if (bq->data_malloced)
+	free (bq->data) ;
+      free (bq) ;
+    }
 }
-
-
-

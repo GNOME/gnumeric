@@ -34,7 +34,7 @@ typedef struct _BIFF_QUERY
   BYTE       *data ;
   int        data_malloced ;	// is *data a copy ?
   LONG       streamPos ;        // count og bytes into the stream
-  MS_OLE_STREAM_POS *pos ;
+  MS_OLE_STREAM *pos ;
 } BIFF_QUERY ;
 
 
@@ -45,7 +45,7 @@ typedef struct _BIFF_QUERY
 // to split the stream into files first, before using ms_next_biff
 
 // Opens OLE file 'workbook' or 'book' depending.
-extern BIFF_QUERY *ms_biff_query_new (MS_OLE *) ;
+extern BIFF_QUERY *ms_biff_query_new (MS_OLE_STREAM *) ;
 extern BIFF_QUERY *ms_biff_query_copy (const BIFF_QUERY *p) ;
 // Updates the BIFF_QUERY Structure
 extern int ms_biff_query_next (BIFF_QUERY *) ;

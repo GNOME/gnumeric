@@ -30,9 +30,10 @@
 #include "ms-excel-biff.h"
 
 #define STRNPRINTF(ptr,n) { int xxxlp; printf ("'") ; for (xxxlp=0;xxxlp<(n);xxxlp++) printf ("%c", (ptr)[xxxlp]) ; printf ("'\n") ; }
+
 /* FIXME: This needs proper unicode support ! current support is a guess */
 static char *
-ms_get_biff_text (BYTE *ptr, int length)
+biff_get_text (BYTE *ptr, int length)
 {
   int lp, unicode ;
   char *ans ;
@@ -188,12 +189,12 @@ biff_boundsheet_data_new (BIFF_QUERY *q, eBiff_version ver)
   if (ver==eBiffV8)
     {
       int strlen = BIFF_GETWORD(q->data+6) ;
-      ans->name = ms_get_biff_text (q->data+8, strlen) ;
+      ans->name = biff_get_text (q->data+8, strlen) ;
     }
   else
     {
       int strlen = BIFF_GETBYTE(q->data+6) ;
-      ans->name = ms_get_biff_text (q->data+7, strlen) ;
+      ans->name = biff_get_text (q->data+7, strlen) ;
     }
   /*  printf ("Blocksheet : '%s', %d:%d offset %lx\n", ans->name, ans->type, ans->hidden, ans->streamStartPos) ; */
   return ans ;
@@ -256,7 +257,7 @@ biff_font_data_new (BIFF_QUERY *q)
       fd->underline = eBiffFUDoubleAcc ;
       break ;
     }
-  fd->fontname   = ms_get_biff_text (q->data + 15, BIFF_GETBYTE(q->data + 14)) ;
+  fd->fontname   = biff_get_text (q->data + 15, BIFF_GETBYTE(q->data + 14)) ;
   /* dump (q->data, q->length) ; */
   printf ("Insert fount '%s' size %5.2f\n", fd->fontname, fd->height) ;
   return fd ;
@@ -794,7 +795,7 @@ ms_excel_read_cell  (BIFF_QUERY *q, MS_EXCEL_SHEET *sheet)
               dump (q->data, q->length) ;
               STRNPRINTF(q->data + 8, EX_GETSTRLEN(q)) ; */
       ms_excel_sheet_insert (sheet, EX_GETXF(q), EX_GETCOL(q), EX_GETROW(q),
-			     ms_get_biff_text(q->data + 8, EX_GETSTRLEN(q))) ;
+			     biff_get_text(q->data + 8, EX_GETSTRLEN(q))) ;
       break;
     case BIFF_NUMBER:
       {
@@ -848,7 +849,7 @@ ms_excel_read_cell  (BIFF_QUERY *q, MS_EXCEL_SHEET *sheet)
       break;
     case BIFF_LABEL:
       ms_excel_sheet_insert (sheet, EX_GETXF(q), EX_GETCOL(q), EX_GETROW(q),
-			     ms_get_biff_text(q->data + 8, EX_GETSTRLEN(q))) ;
+			     biff_get_text(q->data + 8, EX_GETSTRLEN(q))) ;
       break;
     case BIFF_ROW:        /* FIXME */
       /*      printf ("Row %d formatting\n", EX_GETROW(q)) ; */
@@ -898,6 +899,31 @@ ms_excel_read_sheet (BIFF_QUERY *q, MS_EXCEL_WORKBOOK *wb,
   return ;
 }
 
+/**
+ * Find a stream with the correct name
+ **/
+static MS_OLE_STREAM *
+find_workbook (MS_OLE *ptr)
+{ /* Find the right Stream ... John 4:13-14 */
+  MS_OLE_DIRECTORY *d  = ms_ole_directory_new (ptr) ;
+  /*  The thing to seek; first the kingdom of God, then his: */
+  while (ms_ole_directory_next(d) && d->type == MS_OLE_PPS_STREAM)
+    {
+      int hit = 0 ;
+      /*      printf ("Checking '%s'\n", d->name) ; */
+      hit |= (strncasecmp(d->name, "book", 4)==0) ;
+      hit |= (strncasecmp(d->name, "workbook", 8)==0) ;
+      if (hit)
+	{
+	  printf ("Found Excel Stream : %s\n", d->name) ;
+	  return ms_ole_stream_open (ptr, d->name, 'r') ;
+	}
+    }
+  printf ("No Excel file found\n") ;
+  return 0 ;
+}
+
+
 Workbook *
 ms_excelReadWorkbook(MS_OLE *file)
 {
@@ -916,7 +942,7 @@ ms_excelReadWorkbook(MS_OLE *file)
       
       printf ("--------- BIFF Usage Chart ----------\n") ;
       for (lp=0;lp<256;lp++) freq[lp] = 0 ;
-      q = ms_biff_query_new (file) ;
+      q = ms_biff_query_new (find_workbook (file)) ;
       while(ms_biff_query_next(q))
 	freq[q->ls_op]++ ;
       for (lp=0;lp<256;lp++)
@@ -926,7 +952,8 @@ ms_excelReadWorkbook(MS_OLE *file)
       ms_biff_query_destroy (q) ;
     }
     
-    q = ms_biff_query_new (file) ; /* Find that book file */
+    /* Find that book file */
+    q = ms_biff_query_new (find_workbook (file)) ; 
 
     while (ms_biff_query_next(q))
       {
@@ -1006,8 +1033,12 @@ ms_excelReadWorkbook(MS_OLE *file)
     if (ver)
       ms_biff_bof_data_destroy (ver) ;
   }
-  workbook_recalc (wb->gnum_wb) ;
-  return wb->gnum_wb ;
+  if (wb)
+    {
+    workbook_recalc (wb->gnum_wb) ;
+    return wb->gnum_wb ;
+    }
+  return 0 ;
 }
 
 

@@ -1,3 +1,18 @@
+1998-11-15  Michael Meeks    <mejm2@cam.ac.uk>
+
+	* plugins/excel/ms-ole.c(ms_ole_directory*): Created new directory
+	API for ole files, such that the excel dependant stuff is now moved
+	out of ms-ole.c into ms-excel.c
+
+	* plugins/excel/ms-excel.c(find_workbook): Nicer routine using the
+	directory API to find its file
+
+	* plugins/excel/ms-ole.c(ms_ole_stream_open): Renamed from ~_new
+
+	* plugins/excel/ms-ole.c: Re-organisation, code clean, many cases
+	added throughout to make NULL pointers less harmful, and allow
+	for turning into a library soon.
+
 1998-11-14  Michael Meeks    <michael@imaginator.com>
 
 	* plugins/excel/ms-excel.c(ms_excel_set_cell_font): Fixed buffer
