@@ -37,6 +37,7 @@ Andreas:
 	* Make comment deletion undoable.
 	* Add `Add/Modify Comments' item to cell context menu.
 	* Fix 73491.
+	* Improve comment popup.
 
 Jody:
 	* Initial port to gnome2.

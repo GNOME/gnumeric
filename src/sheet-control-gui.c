@@ -2308,8 +2308,8 @@ scg_comment_display (SheetControlGUI *scg, CellComment *cc)
 	g_return_if_fail (IS_CELL_COMMENT (cc));
 
 	if (scg->comment.item == NULL) {
-		GtkWidget *label/*, *frame */;
-		GdkRectangle rect;
+		GtkWidget *label, *frame, *scroll;
+		GtkAdjustment *adjust_1, *adjust_2;
 
 		scg->comment.item = gtk_window_new (GTK_WINDOW_POPUP);
 		gdk_window_get_pointer (NULL, &x, &y, NULL);
@@ -2321,20 +2321,21 @@ scg_comment_display (SheetControlGUI *scg, CellComment *cc)
 					    cell_comment_text_get (cc));
 		gtk_text_view_set_editable (GTK_TEXT_VIEW(label), FALSE);
 
-#warning Figure out while the frame does not work here.
+/* FIXME: when gtk+ has been fixed (#73562), we should skip the scrolled window */
 
-/* FIXME: we would really like a frame, */
-/* for that, uncomment the next 4 lines and comment-out the following*/
+		adjust_1 =  GTK_ADJUSTMENT (gtk_adjustment_new (0.0,0.0,100.0,1.0,1.0,10.0));
+		adjust_2 =  GTK_ADJUSTMENT (gtk_adjustment_new (0.0,0.0,100.0,1.0,1.0,10.0));
+		scroll = gtk_scrolled_window_new (adjust_1, adjust_2);
+		gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll), 
+						GTK_POLICY_NEVER, GTK_POLICY_NEVER);
 
-/* 		frame = gtk_frame_new (NULL); */
-/* 		gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_ETCHED_IN); */
+		frame = gtk_frame_new (NULL);
+		gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_NONE);
 
-/* 		gtk_container_add (GTK_CONTAINER (scg->comment.item), frame); */
-/* 		gtk_container_add (GTK_CONTAINER (frame), label); */
-		gtk_container_add (GTK_CONTAINER (scg->comment.item), label);
+		gtk_container_add (GTK_CONTAINER (scg->comment.item), frame);
+		gtk_container_add (GTK_CONTAINER (frame), scroll);
+		gtk_container_add (GTK_CONTAINER (scroll), label);
 		gtk_widget_show_all (scg->comment.item);
-
-		gtk_text_view_get_visible_rect  (GTK_TEXT_VIEW(label), &rect);
 	}
 }
 
