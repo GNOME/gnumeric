@@ -283,6 +283,7 @@ plugins/ff-csv/Makefile
 plugins/text/Makefile
 plugins/xbase/Makefile
 plugins/html/Makefile
+plugins/dif/Makefile
 intl/Makefile
 po/Makefile.in
 macros/Makefile
