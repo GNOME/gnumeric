@@ -129,11 +129,32 @@ AM_PATH_BONOBO(0.1.0, [
 ])
 AM_CONDITIONAL(BONOBO, $have_bonobo)
 
+dnl ******************************************
+dnl LibGlade tests:
+dnl    These duplicate the things 
+dnl    that are in libglade's configure.in
+dnl    so that we can include it in gnumeric.
+dnl ******************************************
+AC_PROG_AWK
+GDK_KEYSYMS="`$GTK_CONFIG --prefix`/include/gdk/gdkkeysyms.h"
+AC_SUBST(GDK_KEYSYMS)
+AC_DEFINE(ENABLE_GNOME)
+AM_CONDITIONAL(GNOME_SUPPORT, true)
+AM_CONDITIONAL(LIBGLADE_FULLDIST, false)
+XML_LIBS=`gnome-config --libs xml`
+XML_CFLAGS=`gnome-config --cflags xml`/gnome-xml
+AC_SUBST(XML_LIBS)
+AC_SUBST(XML_CFLAGS)
+
+
 AC_OUTPUT([
 gnumeric.spec
 Makefile
 src/Makefile
-wizards/graphics
+wizards/Makefile
+wizards/graphics/Makefile
+libglade/Makefile
+libglade/glade/Makefile
 doc/Makefile
 doc/C/Makefile
 doc/es/Makefile
