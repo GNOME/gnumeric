@@ -35,6 +35,7 @@ enum {
 	ARG_SHEET_CONTROL_GUI,	/* The SheetControlGUI * argument */
 	ARG_ITEM_GRID,		/* The ItemGrid * argument */
 	ARG_STYLE,              /* The style type */
+	ARG_BUTTON,		/* The button used to drag this cursor around */
 	ARG_COLOR,              /* The optional color */
 };
 
@@ -568,12 +569,10 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 		gnome_canvas_w2c (
 			canvas, event->motion.x, event->motion.y, &x, &y);
 
-		if (!ic->prepared_to_drag) {
+		if (ic->drag_button < 0) {
 			item_cursor_set_cursor (canvas, ic, x, y);
 			return TRUE;
 		}
-		ic->prepared_to_drag = FALSE;
-		gnome_canvas_item_ungrab (item, event->button.time);
 
 		/*
 		 * determine which part of the cursor was clicked:
@@ -590,7 +589,11 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 			"ItemCursor::SheetControlGUI", ic->scg,
 			"ItemCursor::Grid",  ic->item_grid,
 			"ItemCursor::Style", style,
+			"ItemCursor::Button", ic->drag_button,
 			NULL);
+
+		ic->drag_button = -1;
+		gnome_canvas_item_ungrab (item, event->button.time);
 
 		if (style == ITEM_CURSOR_AUTOFILL)
 			item_cursor_setup_auto_fill (
@@ -660,9 +663,9 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 		int final_col = ic->pos.end.col;
 		int final_row = ic->pos.end.col;
 
-		g_return_val_if_fail (ic->prepared_to_drag, TRUE);
+		g_return_val_if_fail (ic->drag_button >= 0, TRUE);
 
-		ic->prepared_to_drag = FALSE;
+		ic->drag_button = -1;
 
 		/*
 		 * We flush after the ungrab, to have the ungrab take
@@ -725,8 +728,8 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 	}
 
 	case GDK_BUTTON_PRESS:
-		g_return_val_if_fail (!ic->prepared_to_drag, TRUE);
-		ic->prepared_to_drag = TRUE;
+		g_return_val_if_fail (ic->drag_button < 0, TRUE);
+		ic->drag_button = event->button.button;
 
 		/* prepare to create fill or drag cursors, but dont until we
 		 * move.  If we did create them here there would be problems
@@ -745,8 +748,8 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 
 	case GDK_BUTTON_RELEASE:
 		/* Double clicks may have already released the drag prep */
-		if (ic->prepared_to_drag) {
-			ic->prepared_to_drag = FALSE;
+		if (ic->drag_button >= 0) {
+			ic->drag_button = -1;
 			gnome_canvas_item_ungrab (item, event->button.time);
 			gdk_flush ();
 		}
@@ -1090,24 +1093,28 @@ item_cursor_handle_motion (ItemCursor *item_cursor, GdkEvent *event,
 static gint
 item_cursor_drag_event (GnomeCanvasItem *item, GdkEvent *event)
 {
-	ItemCursor *item_cursor = ITEM_CURSOR (item);
+	ItemCursor *ic = ITEM_CURSOR (item);
 
 	switch (event->type){
 	case GDK_BUTTON_RELEASE:
-		sheet_view_stop_sliding (item_cursor->scg);
-
-		gnome_canvas_item_ungrab (item, event->button.time);
-		item_cursor_do_drop (item_cursor, (GdkEventButton *) event);
+		/* Note : see comment below, and bug 30507 */
+		if (event->button.button == ic->drag_button) {
+			sheet_view_stop_sliding (ic->scg);
+			gnome_canvas_item_ungrab (item, event->button.time);
+			item_cursor_do_drop (ic, (GdkEventButton *) event);
+		}
 		return TRUE;
 
 	case GDK_BUTTON_PRESS:
-		/* We actually never get this event: this kind of
-		 * cursor is created and grabbed
+		/* This kind of cursor is created and grabbed.  Then destroyed
+		 * when the button is released.  If we are seeing a press it
+		 * means that someone has pressed another button WHILE THE
+		 * FIRST IS STILL DOWN.  Ignore ths event.
 		 */
 		return TRUE;
 
 	case GDK_MOTION_NOTIFY:
-		item_cursor_handle_motion (item_cursor, event, &cb_move_cursor);
+		item_cursor_handle_motion (ic, event, &cb_move_cursor);
 		return TRUE;
 
 	default:
@@ -1246,7 +1253,7 @@ item_cursor_init (ItemCursor *item_cursor)
 
 	item_cursor->visible = TRUE;
 	item_cursor->auto_fill_handle_at_top = FALSE;
-	item_cursor->prepared_to_drag = FALSE;
+	item_cursor->drag_button = -1;
 }
 
 static void
@@ -1268,7 +1275,9 @@ item_cursor_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	case ARG_STYLE:
 		item_cursor->style = GTK_VALUE_INT (*arg);
 		break;
-
+	case ARG_BUTTON :
+		item_cursor->drag_button = GTK_VALUE_INT (*arg);
+		break;
 	case ARG_COLOR: {
 		GdkColor color;
 		char *color_name;
@@ -1302,6 +1311,8 @@ item_cursor_class_init (ItemCursorClass *item_cursor_class)
 				 GTK_ARG_WRITABLE, ARG_ITEM_GRID);
 	gtk_object_add_arg_type ("ItemCursor::Style", GTK_TYPE_INT,
 				 GTK_ARG_WRITABLE, ARG_STYLE);
+	gtk_object_add_arg_type ("ItemCursor::Button", GTK_TYPE_INT,
+				 GTK_ARG_WRITABLE, ARG_BUTTON);
 	gtk_object_add_arg_type ("ItemCursor::Color", GTK_TYPE_STRING,
 				 GTK_ARG_WRITABLE, ARG_COLOR);
 

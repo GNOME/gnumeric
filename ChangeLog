@@ -1,5 +1,14 @@
 2000-12-01  Jody Goldberg <jgoldberg@home.com>
 
+	* src/item-cursor.c (item_cursor_drag_event) : Ignore press events fro
+	  drag cursors.  And ignore release events for buttons other than the
+	  one that started the drag.
+	s/prepared_to_drag/drag_button/
+	(item_cursor_set_arg) : Add 'Button' arg
+	(item_cursor_class_init) : Ditto.
+
+2000-12-01  Jody Goldberg <jgoldberg@home.com>
+
 	* src/sheet-control-gui.c (scg_object_stop_editing) : fix warning.
 	  this is static now.
 
