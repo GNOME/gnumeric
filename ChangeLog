@@ -1,3 +1,13 @@
+2003-08-25  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/GNOME_Gnumeric.xml: enable DataImportText
+	* src/gui-file.c (gui_file_open): add format argument
+	(file_opener_find_by_id): new
+	* src/gui-file.h (gui_file_open): add format argument 
+	* src/workbook-control-gui.c: enable DataImportText
+	(cb_file_open): add argument to gui_file_open
+	(cb_data_import_text): enable and implement
+
 2003-08-24  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=120562

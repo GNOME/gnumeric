@@ -140,12 +140,30 @@ file_format_changed_cb (GtkOptionMenu *omenu_format,
 }
 
 
+static gint
+file_opener_find_by_id (GList *openers, char const *id)
+{
+	GList *l;
+	gint i = 0;
+
+	if (id == NULL)
+		return 0;
+	
+	for (l = openers; l != NULL; l = l->next, i++) {
+		if (IS_GNM_FILE_OPENER (l->data) &&
+		    strcmp (id, gnm_file_opener_get_id(l->data)) == 0)
+			return i;
+	}
+
+	return 0;
+}
+
 /*
  * Suggests automatic file type recognition, but lets the user choose an
  * import filter for selected file.
  */
 void
-gui_file_open (WorkbookControlGUI *wbcg)
+gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 {
 	GList *openers;
 	GtkFileSelection *fsel;
@@ -157,6 +175,8 @@ gui_file_open (WorkbookControlGUI *wbcg)
 	gchar const *file_name;
 	gchar const *encoding;
 	file_format_changed_cb_data data;
+	gint opener_default;
+	char const *title;
 
 	openers = get_file_openers ();
 
@@ -164,6 +184,10 @@ gui_file_open (WorkbookControlGUI *wbcg)
 	openers = g_list_sort (openers, file_opener_description_cmp);
 	/* NULL represents automatic file type recognition */
 	openers = g_list_prepend (openers, NULL);
+	opener_default = file_opener_find_by_id (openers, default_format);
+	title = (opener_default == 0) ? _("Load file") 
+		: gnm_file_opener_get_description 
+		(g_list_nth_data(openers, opener_default));
 
 	/* Make format chooser */
 	omenu = GTK_OPTION_MENU (gtk_option_menu_new ());
@@ -175,7 +199,7 @@ gui_file_open (WorkbookControlGUI *wbcg)
 	data.charmap_label = gtk_label_new_with_mnemonic (_("Character _encoding:")),
 	
 	/* Pack it into file selector */
-	fsel = GTK_FILE_SELECTION (gtk_file_selection_new (_("Load file")));
+	fsel = GTK_FILE_SELECTION (gtk_file_selection_new (title));
 	gtk_file_selection_hide_fileop_buttons (fsel);
 	
 	box = gtk_table_new (2, 2, FALSE);
@@ -199,7 +223,9 @@ gui_file_open (WorkbookControlGUI *wbcg)
 	data.openers = openers;
 	g_signal_connect (G_OBJECT (omenu), "changed",
                           G_CALLBACK (file_format_changed_cb), &data);
-	gtk_option_menu_set_history (omenu, 0);
+	gtk_option_menu_set_history 
+		(omenu, opener_default);
+	gtk_widget_set_sensitive (GTK_WIDGET (omenu), opener_default == 0);
 	file_format_changed_cb (omenu, &data);
 
 	/* Show file selector */

@@ -1879,7 +1879,7 @@ static void
 cb_file_open
  (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	gui_file_open (wbcg);
+	gui_file_open (wbcg, NULL);
 	wbcg_focus_cur_scg (wbcg); /* force focus back to sheet */
 }
 
@@ -2867,12 +2867,12 @@ cb_data_shuffle (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	dialog_shuffle (wbcg);
 }
 
-#if 0
 static void
 cb_data_import_text (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
+	gui_file_open (wbcg, "Gnumeric_stf:stf_druid");
+	wbcg_focus_cur_scg (wbcg); /* force focus back to sheet */
 }
-#endif
 
 static void
 cb_auto_filter (GtkWidget *widget, WorkbookControlGUI *wbcg)
@@ -3848,14 +3848,12 @@ static GnomeUIInfo workbook_menu_data_outline [] = {
 	GNOMEUIINFO_END
 };
 
-#if 0
 static GnomeUIInfo workbook_menu_data_external [] = {
 	GNOMEUIINFO_ITEM_STOCK (N_("Import _Text File..."),
 		N_("Import the text from a file"),
 		cb_data_import_text, "gtk-dnd"),
 	GNOMEUIINFO_END
 };
-#endif
 
 static GnomeUIInfo workbook_menu_data_filter [] = {
 	GNOMEUIINFO_ITEM_NONE (N_("Add _Auto Filter"),
@@ -3899,9 +3897,7 @@ static GnomeUIInfo workbook_menu_data [] = {
 		N_("Create a pivot table"),
 		cb_data_pivottable, "Gnumeric_PivotTable"),
 #endif
-#if 0 /* enable when it does something */
 	GNOMEUIINFO_SUBTREE(N_("Get _External Data"),   workbook_menu_data_external),
-#endif
 
 	GNOMEUIINFO_END
 };
@@ -4130,10 +4126,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("DataValidate", cb_data_validate),
 	BONOBO_UI_UNSAFE_VERB ("DataTextToColumns", cb_data_text_to_columns),
 	BONOBO_UI_UNSAFE_VERB ("DataConsolidate", cb_data_consolidate),
-#if 0
 	BONOBO_UI_UNSAFE_VERB ("DataImportText", cb_data_import_text),
-#endif
-
 	BONOBO_UI_UNSAFE_VERB ("DataOutlineHideDetail", cb_data_hide_detail),
 	BONOBO_UI_UNSAFE_VERB ("DataOutlineShowDetail", cb_data_show_detail),
 	BONOBO_UI_UNSAFE_VERB ("DataOutlineGroup", cb_data_group),

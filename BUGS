@@ -242,7 +242,7 @@ Pending Patches
          with character encoding)
     2.10) Fix stf bugs                                          (DONE)
     2.11) Improve initial file preview                          (DONE)
-    2.12) Hook up workbook-control-gui.c:cb_data_import_text
+    2.12) Hook up workbook-control-gui.c:cb_data_import_text    (DONE)
 	Data -> External -> Import _Text File...
     2.13) Separate guessing of csv/fixed from importer.         (DONE)
     2.14) Implement format guessing.
