@@ -37,7 +37,7 @@ GDA_DIR=
 endif
 
 SUBDIRS_FILE_FORMATS = excel lotus-123 oleo sc sylk xbase html dif plan-perfect \
-	xml2 applix $(GNOME_GLOSSARY_DIR)
+	xml_sax applix $(GNOME_GLOSSARY_DIR)
 
 SUBDIRS_FUNCTIONS = $(PYTHON_DIR) $(PERL_DIR) $(GUILE_DIR) $(GB_DIR) \
 	numtheory $(GDA_DIR) $(PYFUNC_DIR)
