@@ -2419,7 +2419,8 @@ static GnomeUIInfo workbook_menu_edit [] = {
 	{ GNOME_APP_UI_ITEM, N_("Search and Replace..."),
 		  N_("Search for some text and replace it with something else"),
 	          cb_edit_search_replace,
-		  NULL, NULL, 0, 0, GDK_F6, 0 },
+		  NULL, NULL,
+		  GNOME_APP_PIXMAP_STOCK, "Menu_Gnumeric_SearchAndReplace", GDK_F6, 0 },
 
 	{ GNOME_APP_UI_ITEM, N_("_Goto cell..."),
 		  N_("Jump to a specified cell"),

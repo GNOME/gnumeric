@@ -9,6 +9,7 @@
 #include <gnome.h>
 #include "dates.h"
 
+/* FIXME : use nl_langinfo */
 const char *day_short [] =
 {
 	N_("*Sun"),

@@ -1,3 +1,10 @@
+2001-08-02  Jody Goldberg <jgoldberg@home.com>
+
+	* src/application.c (application_init) : Add search&replace icon from
+	  evo.
+	* src/workbook-control-gui.c (workbook_standard_toolbar_orient) : Use
+	  it.
+
 2001-07-31  Jody Goldberg <jgoldberg@home.com>
 
 	* src/application.c (application_init) : add new icons from evolution.
