@@ -1,3 +1,30 @@
+2001-08-21  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* POTFILES.in: Added:
+	src/sheet-object-graphic.c,
+	plugins/applix/plugin.xml.in,
+	plugins/derivatives/plugin.xml.in,
+	plugins/dif/plugin.xml.in,
+	plugins/excel/plugin.xml.in,
+	plugins/gb/plugin.xml.in,
+	plugins/gda/plugin.xml.in,
+	plugins/gnome-glossary/plugin.xml.in,
+	plugins/guile/plugin.xml.in,
+	plugins/html/plugin.xml.in,
+	plugins/lotus-123/plugin.xml.in,
+	plugins/numtheory/plugin.xml.in,
+	plugins/oleo/plugin.xml.in,
+	plugins/perl/plugin.xml.in,
+	plugins/plan-perfect/plugin.xml.in,
+	plugins/psiconv/plugin.xml.in,
+	plugins/py-func/plugin.xml.in,
+	plugins/python-loader/plugin.xml.in,
+	plugins/python/plugin.xml.in,
+	plugins/sc/plugin.xml.in,
+	plugins/sylk/plugin.xml.in,
+	plugins/xbase/plugin.xml.in,
+	plugins/xml_sax/plugin.xml.in.
+
 2001-08-20  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.70
