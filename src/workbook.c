@@ -2879,7 +2879,7 @@ workbook_sheets (Workbook *wb)
 	notebook = GTK_NOTEBOOK (wb->notebook);
 	sheets = workbook_sheet_count (wb);
 
-	for (i = 0; i < sheets; i++){
+	for (i = 0; i < sheets; i++) {
 		Sheet *this_sheet;
 		GtkWidget *w;
 
