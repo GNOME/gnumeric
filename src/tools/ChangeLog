@@ -322,7 +322,7 @@
 	(dao_command_descriptor) : new utility
 	(dao_adjust) : new utility
 	(prepare_output) : set all variables to sensible values
-	  to avoid unneccessary type checks elsewhere
+	  to avoid unnecessary type checks elsewhere
 	(format_output) : utility clearing output range as
 	  appropriate.
 	(anova_single_factor_tool) : change into an engine

@@ -13,7 +13,7 @@
     borders for selected cells.  </para>
   <para>
     Finally, advanced formatting options allow you to lock some of
-    the cells so that their values can not be changed, or restrict
+    the cells so that their values cannot be changed, or restrict
     the range of values that can be entered in the selected cells. 
   </para>
   <para> 
@@ -749,7 +749,7 @@
       buttons corresponding to the sides of the cells in the left side
       of the tab. In addition to the buttons for left, right, top, and
       bottom sides, you also have buttons for drawing diagonal and
-      reverse diagonal of the cell. (Strictly speaking, these can not
+      reverse diagonal of the cell. (Strictly speaking, these cannot
       be called borders, but it is natural to put them in this tab.)
       The lowest row of buttons contains buttons
       <guibutton>None</guibutton> and

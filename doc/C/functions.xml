@@ -6689,7 +6689,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>LOG computes the logarithm of @x in the given base @base.  If no @base is given LOG returns the logarithm in base 10. @base must be &gt; 0. and can not equal 1.</para>
+        <para>LOG computes the logarithm of @x in the given base @base.  If no @base is given LOG returns the logarithm in base 10. @base must be &gt; 0. and cannot equal 1.</para>
         <para></para>        <para>* This function is Excel compatible.</para>        <para></para>
     </refsect1>      <refsect1>
         <title>Examples</title>

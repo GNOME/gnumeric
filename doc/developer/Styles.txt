@@ -5,7 +5,7 @@ by Jody Goldberg <jody@gnome.org>
 	In order to solve several of the problems associated with blank cells
 and to simplify the way styles are handled a new approach to styles was
 developed by Michael Meeks.   This solved all of the problems it set out to
-address, but became bogged down in performace issues as attempts were made to
+address, but became bogged down in performance issues as attempts were made to
 use it in conjunction with large sheets.  Another approach was then developed
 to build upon the experience of and pitfalls of the Michael's work.
 
@@ -28,7 +28,7 @@ to build upon the experience of and pitfalls of the Michael's work.
 	   mstyle_set_font_name (mstyle, "Dingbats");
 
 	        The passed const font name in this case is hashed and ref-counted
-	internally for efficiency. The only case in which it is neccessary to do
+	internally for efficiency. The only case in which it is necessary to do
 	manual ref-counting is if you wish to apply the same StyleColor pointer
 	to several mstyles but this is unusual.
 
@@ -70,7 +70,7 @@ to build upon the experience of and pitfalls of the Michael's work.
 		mstyle_set_font_size (mstyle, 12.0);
 	    BAD BAD BAD
 	
-	    Do _not_ even think of doing the above, it will produce whacky
+	    Do _not_ even think of doing the above, it will produce wacky
 	results;  The next phase of style work will make these things constant.
 
 1.2	Simple points to bear in mind
@@ -103,12 +103,12 @@ to build upon the experience of and pitfalls of the Michael's work.
 	sheet_mstyle_attach (sheet, col, row, mstyle)
 
 	    Attaching a style passes that reference on to the style code.
-	The way to acertain whether a style reference has been handed on is
+	The way to ascertain whether a style reference has been handed on is
 	to examine the prototype for the function. Should the MStyle *
 	parameter be 'const' the reference is _not_ passed, otherwise in
 	general it is ( don't get hung up on that rule ). Of course non const
 	parameters are needed for eg. mstyle_set_font_name, but these have
-	no concievable reason to fiddle with the ref-count so they don't.
+	no conceivable reason to fiddle with the ref-count so they don't.
 
 	    The real gotchas happen when you decide to add a cache to your
 	code to speed up style allocation. In general this is what you want
@@ -150,7 +150,7 @@ to build upon the experience of and pitfalls of the Michael's work.
 	    Border support is a HUGE pain.  The current code uses the get_row
 	facilities for styles and does some simplistic homogeneity tests.  The
 	result is correct but can be slow when applied to an entire sheet.  We
-	could easily speed it up by providing a specialized acsessor (get_uniform_col)
+	could easily speed it up by providing a specialized accessor (get_uniform_col)
 	that could take advantage of the homogeneity with a tile.
 
 2.4	Further work

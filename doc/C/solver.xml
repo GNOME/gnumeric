@@ -12,7 +12,7 @@
     variable of it appears in a separate term with its coefficient.
     There must be no products or quotients of these variables.  In
     addition, the exponent of each term must be one.  No logarithmic,
-    exponential, trigonometric terms are allowed.  Especialy note that
+    exponential, trigonometric terms are allowed.  Especially note that
     functions like ABS, IF, MAX, and MIN are not linear.  Here are a
     few examples of linear functions:</para>
 
@@ -51,7 +51,7 @@
     x, y, z &gt;= 0         (non-negativity assumption)
     </programlisting>
 
-    <para>This constraint set consists of three unequality constraints
+    <para>This constraint set consists of three inequality constraints
     (#1-#3) and one equality constraint (#4).  Their RHS values are 5,
     9, 1, and 4.  In addition, we also have the non-negativity
     assumption.  That is, all the variables (x, y, and z) have to take
@@ -64,13 +64,13 @@
     <title>Spreadsheet Modeling</title>
 
     <para>To solve optimization problems with Gnumeric you have to
-    type in the problem into a sheet.  A recomended way to start with
+    type in the problem into a sheet.  A recommended way to start with
     is to allocate a separate column in the spreadsheet for each
     decision variable (in the previous example the x, y, and z) and a
     separate row for each constraint (the constraints #1-#4).  The
     coefficients of these variables should be placed into the cells
     corresponding to the allocated row and the column.  It is also
-    recomended that you label the rows and the columns to make the
+    recommended that you label the rows and the columns to make the
     sheet much more readable.  The sheet for our maximization problem
     would look like this:</para>
 
@@ -116,23 +116,23 @@
 
       <para>Since we have the objective function in E3 type this into
       the `Set Target Cell:' entry.  We are about to maximize this
-      function, thus the radiobutton `Max' should be pressed on.  By
+      function, thus the radio button `Max' should be pressed on.  By
       default, the problem is assumed to be maximization problem.  The
       input variables (x, y, and z) were in cells B3:D3 so type the
       cell range into the `By Changing Cells:' entry.</para>
 
       <para>The model to be optimized is a linear model.  Thus, we
-      should check that the checkbutton `Linear (LP/MILP)' is pressed
+      should check that the check button `Linear (LP/MILP)' is pressed
       on under the `Model Assumptions'.  Also make sure that the
       assume non-negative button is on, otherwise, the input variables
-      can also take negative values.  There is also a checkbutton
+      can also take negative values.  There is also a check button
       `Assume Integer (Discrete)' which adds an integer constraint for
-      all the input variables.  The integer optimizatation is
+      all the input variables.  The integer optimization is
       described, however, later.</para>
 
       <para>A few additional options can be set too.  If you want to
       limit the number of iterations the optimization algorithm is
-      allowed to take you can set the mazimumn number in the `Max
+      allowed to take you can set the maximum number in the `Max
       iterations' entry box.  Similarly, you can limit the maximum
       time the optimization is allowed to take in the `Max time' entry
       box.  If either one of these settings is exceeded during the
@@ -142,9 +142,9 @@
       <para>Some models can be better solved if the model is scaled
       into another form before the actual optimization.  Gnumeric
       solver supports automatic scaling which can be checked on by
-      using the checkbutton on the bottom of the dialog.  Note that
+      using the check button on the bottom of the dialog.  Note that
       the automatic scaling does not change the model since before
-      checking out the results the model is scaled back to it's
+      checking out the results the model is scaled back to its
       original form.</para>
 
     </sect3>
@@ -210,8 +210,8 @@
       <title>Solver Reporting</title>
 
       <para>Select the `Reports' page from the top of the dialog and
-      the a page containing five checkbuttons should appear.  By
-      pressing these checkbuttons on, you can produce various kinds of
+      the a page containing five check buttons should appear.  By
+      pressing these check buttons on, you can produce various kinds of
       reports.  You can read more about solver reporting in the
       following section.</para>
 
@@ -278,7 +278,7 @@
     <sect3>
       <title>Limits Report</title>
 
-      <para>Limits report reports the attchieved optimal value all the
+      <para>Limits report reports the achieved optimal value all the
       input variables of the model with the optimal values and with
       upper and lower bound for the optimal value in with the
       particular variable could vary without changing the optimal
@@ -305,7 +305,7 @@
       <para>Performance reports gives various statistical
       characteristics about the given model like how many variables
       and rows it contains, and how many non-zero matrix elements it
-      has.  It also gives out the performace numbers like how much
+      has.  It also gives out the performance numbers like how much
       computing time was required to compute the results.</para>
 
     </sect3>
@@ -313,7 +313,7 @@
     <sect3>
       <title>Program Report</title>
 
-      <para>Program report gives the model in it's mathematical form.
+      <para>Program report gives the model in its mathematical form.
       Program report is useful for checking out the correctness of the
       model.  It can also be useful for educational purposes.</para>
 
