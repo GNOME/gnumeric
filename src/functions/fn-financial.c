@@ -228,41 +228,55 @@ coupdays (GDate *settlement, GDate *maturity, int freq, int basis)
 
 	        if (freq == 1) {
 		        if (g_date_is_leap_year (sy)) {
-			        if (sm == 1 || sm == 2) {
-				        if (sm < mm || (sm == mm && sd < md))
-					        return 365.0;
+			        if (sm <= 2) {
+				        if (mm <= 2) {
+						if (sm < mm ||
+						    (sm == mm && sd < md))
+						        return 365.0;
+						else
+						        return 366.0;
+					}
+					return 366.0;
+				}
+				if (mm <= 2) {
+				        if (mm == 2 && md >= 28)
+				                return 365.0;
 					else
 					        return 366.0;
 				}
-				if (mm == 1 || mm == 2)
-				        return 366.0;
 				if (sm < mm || (sm == mm && sd < md))
 				        return 366.0;
 				else
 				        return 365.0;
 			} else if (g_date_is_leap_year (sy-1)) {
-			        if (sm == 1 || sm == 2)
-				        if (mm == 1 || mm == 2)
-					        if (sm < mm ||
+			        if (sm <= 2)
+				        if (mm <= 2)
+				                if (sm < mm ||
 						    (sm == mm && sd < md))
 						        return 366.0;
-						else
-						        return 365.0;
+					        else
+					                return 365.0;
 					else
 					        return 365.0;
 				else
 				        return 365.0;
 			} else if (g_date_is_leap_year (sy+1)) {
-			        if (sm == 1 || sm == 2)
-				        return 365.0;
-				if (mm == 1 || mm == 2)
+			        if (sm <= 2)
+			                return 365.0;
+				if (mm <= 2)
 				        return 365.0;
 				if (sm < mm || (sm == mm && sd < md))
-				        return 365.0;
+					return 365.0;
 				else
 				        return 366.0;
 			} else
 			        return 365.0;
+		} else if (freq == 2) {
+		        return -1.0;
+		} else {
+		        /* Frequency 4 */
+
+		        return -1.0;
 		}
         default:
                 return -1.0;
