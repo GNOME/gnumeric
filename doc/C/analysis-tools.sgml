@@ -671,86 +671,146 @@
   <sect1 id="random-number-generation-tool">
      <title>Random Number Generation Tool</title>
 
+  <figure id="random-tool-dialog">
+    <title>Random Number Generation Tool Dialog</title>
+    <screenshot>
+	<graphic fileref="figures/analysistools-random.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>
+
      <para>Use the random number generation tool to generate random
-     numbers.  This tool can generate random numbers having different
+     numbers.  This tool can generate random numbers from various
      probability distributions.</para>
 
-     <para>To use this tool, first specify the number of variables in
-     the <quote><guilabel>Number of Variables:</guilabel></quote> entry box.  This determines the
-     number of columns of random values to be produced.  Secondly,
-     specify the number of random numbers.  This determines the number
-     of rows of random values to be produced.  Thirdly specify the
-     random distribution by selecting one of the list items from the
+     <para>Specify the number of variables in
+     the <quote><guilabel>Number of Variables:</guilabel></quote> entry.  This determines the
+     number of columns of random values to be produced.</para>
+     <para> Specify the number of random numbers for each variable in the 
+     <quote><guilabel>Size of Sample:</guilabel></quote> entry.  This determines the number
+     of rows of random values to be produced.</para>
+     <para>  Specify the
+     random distribution by selecting one of the items from the
      random distribution list.  The following random distributions are
      supported: Discrete, Normal, Poisson, Exponential, Binomial,
-     Negative Binomial, Bernoulli, and Uniform.  Then specify the
-     parameters of the distribution.</para>
+     Negative Binomial, Bernoulli, and Uniform.</para>
+     <para>  Specify the parameters of the selected distribution:</para>
 
-     <sect2 id="random-distributions">
-        <title>Random Distributions</title>
-
-        <para>For Discrete random distribution, specify the value and
+     <variablelist>
+     <varlistentry><term>Discrete Random Distribution</term>
+     <listitem>
+        <para>Specify the value and
 	probability input range in the <quote><guilabel>Value and Probability Input
-	Range:</guilabel></quote> entry box.  That is a table consisting of two columns
+	Range:</guilabel></quote> entry box.  The value and
+	probability input range is a table consisting of two columns
 	and any number of rows.  The first column specifies the
 	discrete random values and the second column the probabilities
 	for them.  The discrete random values do not have to be
 	numbers, for example, strings will do as well.  The sum of the
 	probabilities in the second column should be one.  For
 	example, if you have the values A, B, C, and D in A1:A4 and
-	values 0.1, 0.4, 0.2, and 0.3 in B1:B4, you could specify
+	values 0.1, 0.4, 0.2, and 0.3 in B1:B4, you would specify the
 	value and probability input range to be A1:B4.</para>
 
-        <para>For Normal random distribution, specify the mean and the
-	standard deviation.  The default values for them are 0 for
-	mean and 1 for standard deviation.</para>
+	<note><para>If the probabilities do not add to 1, they will be 
+	automatically scaled.</para></note>
+     </listitem></varlistentry>
 
-	<para>For Poisson random distribution, specify the lambda in
-	the <quote><guilabel>Lambda</guilabel></quote> entry.</para>
+     <varlistentry><term>Normal Random Distribution</term>
+     <listitem>
+        <para>Specify the mean and the
+	standard deviation.  The default values are 0 for the
+	mean and 1 for the standard deviation.</para>
+     </listitem></varlistentry>
 
-	<para>For Exponential random distribution, specify the b in
+     <varlistentry><term>Poisson Random Distribution</term>
+     <listitem>
+	<para>Specify the lambda in
+	the <quote><guilabel>Lambda</guilabel></quote> entry. Lambda is the average 
+	number of events in a unit time interval.</para>
+     </listitem></varlistentry>
+
+     <varlistentry><term>Exponential Random Distribution</term>
+     <listitem>
+	<para>Specify <parameter>b</parameter> in
 	the <quote><guilabel>b Value</guilabel></quote> entry.</para>
+     </listitem></varlistentry>
 
-	<para>For Binomial random distribution, specify the
-	probability of success in <quote><guilabel>p Value</guilabel></quote> entry.  Also specify the
-	number of trials in the <quote><guilabel>Number of Trials</guilabel></quote> entry.  
-	Binomial
+     <varlistentry><term>Binomial Random Distribution</term>
+     <listitem>
+	<para>Specify the
+	probability of success (<parameter>p</parameter>) in the 
+	<quote><guilabel>p Value</guilabel></quote> entry and  the
+	number of trials (<parameter>n</parameter>) in the 
+	<quote><guilabel>Number of Trials</guilabel></quote> entry.  
+	The Binomial
 	distribution is a discrete distribution in which the
-	experiment consists of <quote><guilabel>n</guilabel></quote> identical trials, where 
-	<quote><guilabel>n</guilabel></quote> is
-	fixed in advance.  Each trial is independent of other trials
+	experiment consists of <parameter>n</parameter> identical trials. 
+	Each trial is independent of other the trials
 	and has two possible outcomes, a success or a failure.  The
-	probability of success is constant from one trial to another.
+	probability of success <parameter>p</parameter> is constant from 
+	one trial to another.
 	The mean of a random variable that has a Binomial distribution
-	is E(X) = np, and the variance is var(X) = np(1-p).</para>
+	is <parameter>E(X) = np</parameter>, and the variance is 
+	<parameter>var(X) = np(1-p)</parameter>.</para>
+     </listitem></varlistentry>
 
-	<para>For Negative Binomial distribution, specify the
-	probability of success in <quote><guilabel>p Value</guilabel></quote> entry.  Also specify the
-	number of failures in the <quote><guilabel>Number of Failures</guilabel></quote> entry.
+     <varlistentry><term>Negative Binomial Distribution</term>
+     <listitem>
+	<para>Specify the
+	probability of success <parameter>p</parameter> in the 
+	<quote><guilabel>p Value</guilabel></quote> entry and the
+	number of failures <parameter>r</parameter> in the 
+	<quote><guilabel>Number of Failures</guilabel></quote> entry.
 	Negative Binomial distribution is a discrete distribution in
 	which the experiment consists of a sequence of independent
 	trials.  Each trial has two possible outcomes, a success or a
-	failure.  The probability of success is constant from one
-	trial to another.  The experiment continues until <quote><guilabel>r</guilabel></quote> failures
-	are observed, where <quote><guilabel>r</guilabel></quote> is fixed in advance.  The mean of a
+	failure.  The probability of success <parameter>p</parameter> 
+	is constant from one trial to another.  The experiment continues 
+	until <parameter>r</parameter> failures
+	are observed, where <parameter>r</parameter> is fixed in advance.  The mean of a
 	random variable that has a Negative Binomial distribution is
-	E(X) = r(1-p)/p, and the variance is var(X) =
-	r(1-p)/p^2.</para>
+	<parameter>E(X) = r(1-p)/p</parameter>, and the variance is <parameter>var(X) =
+	r(1-p)/p^2</parameter>.</para>
+     </listitem></varlistentry>
 
-        <para>For Bernoulli random distribution, specify the <quote><guilabel>p
-        Value</guilabel></quote>.  This is a probability value between 0 and 1.
-        Bernoulli distribution has two random values 0 and 1, and the
-        <quote><guilabel>p Value</guilabel></quote> specifies the probability of value 1.  The mean of
-        a random variable that has a Bernoulli distribution is E(X) =
-        1(p) + 0(1-p) = p, and the variance is var(X) = p(1-p).</para>
+     <varlistentry><term>Bernoulli Random Distribution</term>
+     <listitem>
+        <para>Specify the probability of success (<parameter>p</parameter>) in the 
+	<quote><guilabel>p Value</guilabel></quote> entry. <parameter>p</parameter>
+	is a probability value between 0 and 1. The
+        Bernoulli distribution has two random values 0 and 1, and
+        <parameter>p</parameter> is the probability to observe value 1.  The mean of
+        a random variable that has a Bernoulli distribution is <parameter>E(X) =
+        1(p) + 0(1-p) = p</parameter>, and the variance is <parameter>var(X) = 
+	p(1-p)</parameter>.</para>
+     </listitem></varlistentry>
 
-        <para>For Uniform random distribution, specify the range of
-        the random variables by filling the <quote><guilabel>Between:</guilabel></quote> and 
-	<quote><guilabel>And:</guilabel></quote>
-        entries.  The default values for them are 0 and 1 that gives
-        random numbers between zero and one.</para>
-     </sect2>
-  </sect1>
+     <varlistentry><term>Uniform Random Distribution</term>
+     <listitem>
+        <para>Specify the range of
+        the continuous random variable with the <quote><guilabel>Between:</guilabel></quote> 
+	and <quote><guilabel>And:</guilabel></quote>
+        entries.  The default values for these entries are 0 and 1.</para>
+     </listitem></varlistentry>
+     </variablelist>
+   <figure id="random-example-1">
+    <title>Some Example Data for the Random Number Generation Tool</title>
+    <screenshot>
+	<graphic fileref="figures/analysistools-random-ex1.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>
+ <example id="usingrandomtool"><title>Using the Random Number Generation Tool</title>
+     <para><xref linkend="random-example-1"> shows some example data and 
+     <xref linkend="random-example-2"> the corresponding output.
+     </para>
+</example>
+  <figure id="random-example-2">
+    <title>Random Number Generation Tool Output</title>
+    <screenshot>
+	<graphic fileref="figures/analysistools-random-ex2.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>
+   </sect1>
 
   <sect1 id="rank-and-percentile-tool">
      <title>Rank and Percentile Tool</title>

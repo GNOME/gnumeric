@@ -1,6 +1,14 @@
 2001-12-22 Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* analysis-tools.sgml : Improve and add example to
+	  Random Number Generation Tool
+	* figures/analysistools-random.png : new figure
+	* figures/analysistools-random-ex1.png : new figure
+	* figures/analysistools-random-ex2.png : new figure
+
+2001-12-22 Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.sgml : Improve and add example to
 	  Moving Average and Exponential Smoothing Documentation
 	* figures/analysistools-moving-average.png : new figure
 	* figures/analysistools-moving-average-ex1.png : new figure
