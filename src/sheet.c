@@ -3150,36 +3150,15 @@ sheet_move_range (CommandContext *context,
 
 	/* 0. Walk cells in the moving range and ensure arrays aren't divided. */
 
-	/* 1. Fix references to and from the cells which are moving */
-	*reloc_storage = workbook_expr_relocate (rinfo->origin_sheet->workbook, rinfo);
-
-	/* 2. Collect the cells */
-	sheet_cell_foreach_range (rinfo->origin_sheet, TRUE,
-				  rinfo->origin.start.col,
-				  rinfo->origin.start.row,
-				  rinfo->origin.end.col,
-				  rinfo->origin.end.row,
-				  &cb_collect_cell, &cells);
-
-	/* 3. Reverse the list so that we start at the top left which makes
-	 * things easier for arrays.
+	/* 1. invalidate references to any cells in the destination range that
+	 * are not shared with the src.  This must be done before the references
+	 * to from the src range are adjusted because they will point into
+	 * the destinatin.
 	 */
-	cells = g_list_reverse (cells);
-
-	/* 4. Clear the target area & invalidate references to it */
+	*reloc_storage = NULL;
 	if (!out_of_range) {
 		GList *invalid;
 		ExprRelocateInfo reloc_info;
-
-		/*
-		 * we can clear content but not styles from the destination
-		 * region without worrying if it overlaps with the source,
-		 * because we have already extracted the content.
-		 */
-		sheet_clear_region (context, rinfo->target_sheet, 
-				    dst.start.col, dst.start.row,
-				    dst.end.col, dst.end.row,
-				    CLEAR_VALUES|CLEAR_COMMENTS); /* Do not to clear styles */
 
 		/*
 		 * we DO need to be careful about invalidating references to the old
@@ -3216,6 +3195,32 @@ sheet_move_range (CommandContext *context,
 		 * that is handled elsewhere.
 		 */
 	}
+
+	/* 2. Fix references to and from the cells which are moving */
+	*reloc_storage = g_slist_concat (*reloc_storage,
+		workbook_expr_relocate (rinfo->origin_sheet->workbook, rinfo));
+
+	/* 3. Collect the cells */
+	sheet_cell_foreach_range (rinfo->origin_sheet, TRUE,
+				  rinfo->origin.start.col,
+				  rinfo->origin.start.row,
+				  rinfo->origin.end.col,
+				  rinfo->origin.end.row,
+				  &cb_collect_cell, &cells);
+	/* Reverse list so that we start at the top left (simplifies arrays). */
+	cells = g_list_reverse (cells);
+
+	/* 4. Clear the target area & invalidate references to it */
+	if (!out_of_range)
+		/*
+		 * we can clear content but not styles from the destination
+		 * region without worrying if it overlaps with the source,
+		 * because we have already extracted the content.
+		 */
+		sheet_clear_region (context, rinfo->target_sheet, 
+				    dst.start.col, dst.start.row,
+				    dst.end.col, dst.end.row,
+				    CLEAR_VALUES|CLEAR_COMMENTS); /* Do not to clear styles */
 
 	/* 5. Slide styles BEFORE the cells so that spans get computed properly */
 	sheet_style_relocate (rinfo);

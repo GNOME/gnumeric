@@ -1701,22 +1701,27 @@ typedef struct
 	GnumericCommand parent;
 
 	ExprRelocateInfo info;
-	CellRegion 	*contents;
+	GSList		*paste_content;
 	GSList		*reloc_storage;
 } CmdPasteCut;
 
 GNUMERIC_MAKE_COMMAND (CmdPasteCut, cmd_paste_cut);
+
+typedef struct
+{
+	PasteTarget pt;
+	CellRegion *contents;
+} PasteContent;
 
 static gboolean
 cmd_paste_cut_undo (GnumericCommand *cmd, CommandContext *context)
 {
 	CmdPasteCut *me = CMD_PASTE_CUT(cmd);
 	ExprRelocateInfo reverse;
-	PasteTarget pt;
 	GSList *tmp = NULL;
 
 	g_return_val_if_fail (me != NULL, TRUE);
-	g_return_val_if_fail (me->contents != NULL, TRUE);
+	g_return_val_if_fail (me->paste_content != NULL, TRUE);
 
 	reverse.target_sheet = me->info.origin_sheet;
 	reverse.origin_sheet = me->info.target_sheet;
@@ -1727,19 +1732,20 @@ cmd_paste_cut_undo (GnumericCommand *cmd, CommandContext *context)
 	reverse.col_offset = -me->info.col_offset;
 	reverse.row_offset = -me->info.row_offset;
 
+	/* Move things back, and throw away the undo info */
 	sheet_move_range (context, &reverse, &tmp);
-
-	/* Throw away the undo info, we do not care */
 	workbook_expr_unrelocate_free (tmp);
 
-	clipboard_paste_region (context,
-				paste_target_init (&pt, me->info.target_sheet,
-						   &reverse.origin, PASTE_ALL_TYPES),
-				me->contents);
-	clipboard_release (me->contents);
-	me->contents = NULL;
+	while (me->paste_content) {
+		PasteContent *pc = me->paste_content->data;
+		me->paste_content = g_slist_remove (me->paste_content, pc);
 
-	/* Restore the changed expressions before the action */
+		clipboard_paste_region (context, &pc->pt, pc->contents);
+		clipboard_release (pc->contents);
+		g_free (pc);
+	}
+
+	/* Restore the changed expressions */
 	workbook_expr_unrelocate (me->info.target_sheet->workbook,
 				  me->reloc_storage);
 	me->reloc_storage = NULL;
@@ -1758,24 +1764,49 @@ static gboolean
 cmd_paste_cut_redo (GnumericCommand *cmd, CommandContext *context)
 {
 	CmdPasteCut *me = CMD_PASTE_CUT(cmd);
-	Range tmp;
+	Range  tmp, valid_range;
+	GList *frag;
 
 	g_return_val_if_fail (me != NULL, TRUE);
-	g_return_val_if_fail (me->contents == NULL, TRUE);
+	g_return_val_if_fail (me->paste_content == NULL, TRUE);
 	g_return_val_if_fail (me->reloc_storage == NULL, TRUE);
 
 	tmp = me->info.origin;
-	if (range_translate (&tmp, me->info.col_offset, me->info.row_offset)) {
-		g_warning ("Attempt to move range entirely off sheet ??");
-		return TRUE;
+	range_normalize (&tmp);
+	tmp.start.col += me->info.col_offset;
+	tmp.end.col   += me->info.col_offset;
+	tmp.start.row += me->info.row_offset;
+	tmp.end.row   += me->info.row_offset;
+	(void) range_init (&valid_range, 0, 0, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
+
+	/*
+	 * need to store any portions of src content that are moving off the
+	 * sheet.
+	 */
+	frag = range_split_ranges (&valid_range, &tmp, NULL);
+	while (frag) {
+		PasteContent *pc = g_new (PasteContent, 1);
+		Range *r = frag->data;
+		frag = g_list_remove (frag, r);
+
+		if (!range_overlap (&valid_range, r))
+			(void) range_translate (r, -me->info.col_offset,
+						-me->info.row_offset);
+
+		/* Store the original contents */
+		paste_target_init (&pc->pt, me->info.target_sheet, r, PASTE_ALL_TYPES);
+		pc->contents = clipboard_copy_range (me->info.target_sheet,  r);
+		me->paste_content = g_slist_prepend (me->paste_content, pc);
 	}
 
-/* FIXME FIXME FIXME 
- * need to store any portions of src content that are moving off the
- * sheet.
- */
-	/* Store the original contents */
-	me->contents = clipboard_copy_range (me->info.target_sheet,  &tmp);
+	if (tmp.start.col < 0)
+		tmp.start.col = 0;
+	if (tmp.start.row < 0)
+		tmp.start.row = 0;
+	if (tmp.end.col >= SHEET_MAX_COLS)
+		tmp.end.col = SHEET_MAX_COLS-1;
+	if (tmp.end.row >= SHEET_MAX_ROWS)
+		tmp.end.row = SHEET_MAX_ROWS-1;
 
 	/* Make sure the destination is selected */
 	sheet_selection_set (me->info.target_sheet,
@@ -1796,9 +1827,11 @@ cmd_paste_cut_destroy (GtkObject *cmd)
 {
 	CmdPasteCut *me = CMD_PASTE_CUT(cmd);
 
-	if (me->contents) {
-		clipboard_release (me->contents);
-		me->contents = NULL;
+	while (me->paste_content) {
+		PasteContent *pc = me->paste_content->data;
+		me->paste_content = g_slist_remove (me->paste_content, pc);
+		clipboard_release (pc->contents);
+		g_free (pc);
 	}
 	if (me->reloc_storage) {
 		workbook_expr_unrelocate_free (me->reloc_storage);
@@ -1823,7 +1856,7 @@ cmd_paste_cut (CommandContext *context, ExprRelocateInfo const *info)
 
 	/* Store the specs for the object */
 	me->info = *info;
-	me->contents = NULL;
+	me->paste_content = NULL;
 	me->reloc_storage = NULL;
 
 	me->parent.cmd_descriptor = descriptor;

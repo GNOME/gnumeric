@@ -1,5 +1,13 @@
 2000-05-31  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet.c (sheet_move_range) : invalidate destination before
+	  adjsuting src to point to dst.
+	(cmd_paste_cut_*) : keep a list of displaced content, not just the
+	  lost bits of the destination range, but also the portions of the src
+	  that are out of range.
+
+2000-05-31  Jody Goldberg <jgoldberg@home.com>
+
 	* src/commands.c (cmd_ins_del_row_col_destroy) : Fix leak.
 	(cmd_paste_cut_*) : We do need to worry about invalidations.  Any
 	  references to the portions of the destination region that do not
