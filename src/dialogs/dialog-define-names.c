@@ -205,7 +205,7 @@ name_guru_populate_list (NameGuruState *state)
 	g_list_free (state->expr_names);
 	state->expr_names =
 		g_list_sort (sheet_names_get_available (state->sheet),
-			     (GCompareFunc)expr_name_by_name);
+			     (GCompareFunc)expr_name_cmp_by_name);
 
 	for (ptr = state->expr_names ; ptr != NULL ; ptr = ptr->next) {
 		nexpr = ptr->data;
@@ -317,10 +317,11 @@ name_guru_remove (G_GNUC_UNUSED GtkWidget *ignored,
 static gboolean
 name_guru_add (NameGuruState *state)
 {
-	GnmNamedExpr *nexpr;
 	GnmExpr	const *expr;
-	ParseError	 perr;
+	ParsePos	pp;
+	ParseError	perr;
 	char const *name;
+	gboolean	res;
 
 	g_return_val_if_fail (state != NULL, FALSE);
 
@@ -332,6 +333,9 @@ name_guru_add (NameGuruState *state)
 	expr = gnm_expr_entry_parse (state->expr_entry,
 		&state->pp, parse_error_init (&perr), FALSE, GNM_EXPR_PARSE_DEFAULT);
 	if (expr == NULL) {
+		if (perr.err == NULL)
+			return TRUE;
+
 		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR, perr.err->message);
 		gtk_widget_grab_focus (GTK_WIDGET (state->expr_entry));
 		parse_error_free (&perr);
@@ -349,28 +353,18 @@ name_guru_add (NameGuruState *state)
 		return FALSE;
 	}
 
-	nexpr = expr_name_lookup (&state->pp, name);
-	if (nexpr) {
-		/* This means that the expresion was updated.
-		 * FIXME: if the scope has been changed too, call scope
-		 * changed first.
-		 */
-		cmd_define_name (WORKBOOK_CONTROL (state->wbcg), name,
-				 &state->pp, expr, nexpr);
-	} else {
-		ParsePos pp;
-		parse_pos_init (&pp, NULL, state->sheet,
-			state->pp.eval.col, state->pp.eval.row);
-		if (!name_guru_scope_is_sheet (state))
-			pp.sheet = NULL;
-		cmd_define_name (WORKBOOK_CONTROL (state->wbcg), name,
-				 &pp, expr, NULL);
+	parse_pos_init (&pp, NULL, state->sheet,
+		state->pp.eval.col, state->pp.eval.row);
+	if (!name_guru_scope_is_sheet (state))
+		pp.sheet = NULL;
+	res = !cmd_define_name (WORKBOOK_CONTROL (state->wbcg), name, &pp, expr);
+
+	if (res) {
+		name_guru_populate_list (state);
+		gtk_widget_grab_focus (GTK_WIDGET (state->name));
 	}
 
-	name_guru_populate_list (state);
-	gtk_widget_grab_focus (GTK_WIDGET (state->name));
-
-	return TRUE;
+	return res;
 }
 
 static void

@@ -1091,19 +1091,18 @@ gnm_filter_set_condition (GnmFilter *filter, unsigned i,
 }
 
 /**
- * gnm_filter_contains_row :
- * @filter :
- * @col :
+ * gnm_filter_overlaps_range :
+ * @filter : #GnmFilter
+ * @r : #Range
  *
- * We can not use the is_filtered flags because they are only applied when one
- * of the fields is active.
+ * Does the range filter by @filter overlap with Range @r
  **/
 gboolean
-gnm_filter_contains_row (GnmFilter const *filter, int row)
+gnm_filter_overlaps_range (GnmFilter const *filter, Range const *r)
 {
 	g_return_val_if_fail (filter != NULL, FALSE);
 
-	return (filter->r.start.row <= row && row <= filter->r.end.row);
+	return range_overlap (&filter->r, r);
 }
 
 /**

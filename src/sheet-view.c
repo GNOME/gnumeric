@@ -580,22 +580,23 @@ fail_if_not_selected (Sheet *sheet, int col, int row, Cell *cell, void *sv)
 }
 
 /**
- * sv_edit_pos_in_filter :
+ * sv_first_selection_in_filter :
  * @sv :
  *
  * Is the row in the edit_pos part of an auto filter ?
  **/
 GnmFilter *
-sv_edit_pos_in_filter (SheetView const *sv)
+sv_first_selection_in_filter (SheetView const *sv)
 {
 	GSList *ptr;
-	int row;
+	Range const *r;
 
 	g_return_val_if_fail (IS_SHEET_VIEW (sv), NULL);
+	g_return_val_if_fail (sv->selections != NULL, NULL);
 
-	row = sv->edit_pos.row;
+	r = sv->selections->data;
 	for (ptr = sv->sheet->filters; ptr != NULL ; ptr = ptr->next)
-		if (gnm_filter_contains_row (ptr->data, row))
+		if (gnm_filter_overlaps_range (ptr->data, r))
 			return ptr->data;
 	return NULL;
 }

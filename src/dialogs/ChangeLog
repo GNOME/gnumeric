@@ -1,3 +1,13 @@
+2003-06-03  Jody Goldberg <jody@gnome.org>
+
+	* dialog-define-names.c (name_guru_add) : don't freak out with emoty
+	  names.
+
+2003-06-03  Jody Goldberg <jody@gnome.org>
+
+	* dialog-define-names.c (name_guru_add) : cmd_define_name is smarter
+	  now we don't need to do any heavy lifting here.
+
 2003-06-02  Jody Goldberg <jody@gnome.org>
 
 	* dialog-define-names.c (cb_scope_changed) : handle failure to change

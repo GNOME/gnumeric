@@ -762,6 +762,7 @@ sheet_object_position_pts_get (SheetObject const *so, double *coords)
  *
  * @rinfo : details on what should be moved.
  * @update : Should we do the bound_update now, or leave it for later.
+ * 		if FALSE honour the move_with_cells flag.
  *
  * Uses the relocation info and the anchors to decide whether or not, and how
  * to relocate objects when the grid moves (eg ins/del col/row).
@@ -799,7 +800,7 @@ sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean update)
 		Range       *r  = &so->anchor.cell_bound;
 
 		next = ptr->next;
-		if (!so->move_with_cells)
+		if (!update || !so->move_with_cells)
 			continue;
 		if (range_contains (&rinfo->origin,
 				    r->start.col, r->start.row)) {

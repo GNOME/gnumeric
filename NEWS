@@ -9,9 +9,6 @@ Andreas:
 Ben Liblit:
 	* Move the various compile time paths into a generated header.
 
-Chema:
-	* Grandma rides again!
-
 Jean Br?fort:
 	* Initial version of gradient editor for chart style page.
 
@@ -37,7 +34,8 @@ Jody:
 	* Fix undo bug for moving merged regions (yummy).
 	* Support Move with cells flag for sheet object.
 	* Text in charts.
-	* Fix lots of chema's bug reports.
+	* Fix lots of bugs in the run up to a beta.
+	* Fix undo of defining an existing named expression placeholded
 
 Morten:
 	* New function COLUMNNUMBER.

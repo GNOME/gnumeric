@@ -1354,7 +1354,7 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 	}
 
 	if (MS_ADD_VS_REMOVE_FILTER & flags) {
-		gboolean const has_filter = (sv_edit_pos_in_filter (sv) != NULL);
+		gboolean const has_filter = (sv_first_selection_in_filter (sv) != NULL);
 		char const* label = has_filter
 			? _("Remove _Auto Filter")
 			: _("Add _Auto Filter");
@@ -2803,18 +2803,19 @@ cb_data_shuffle (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	dialog_shuffle (wbcg);
 }
 
+#if 0
 static void
 cb_data_import_text (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-#warning TODO
 }
+#endif
 
 static void
 cb_auto_filter (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
-	GnmFilter *filter = sv_edit_pos_in_filter (sv);
+	GnmFilter *filter = sv_first_selection_in_filter (sv);
 
 	if (filter == NULL) {
 		Range const *src = selection_first_range (sv,
@@ -2825,7 +2826,7 @@ cb_auto_filter (GtkWidget *widget, WorkbookControlGUI *wbcg)
 			return;
 		}
 #warning Add undo/redo
-		gnm_filter_new	(sv->sheet, src);
+		gnm_filter_new (sv->sheet, src);
 		sheet_update (sv->sheet);
 	} else {
 		/* keep distinct to simplify undo/redo later */

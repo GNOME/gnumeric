@@ -221,7 +221,7 @@ wb_control_parse_and_jump (WorkbookControl *wbc, char const *text)
 		GnmNamedExpr *nexpr = expr_name_lookup (
 			parse_pos_init_sheet (&pp, sheet), text);
 
-		/* Not a name or a placeholder for a name, create one */
+		/* If no name, or just a placeholder exists create a name */
 		if (nexpr == NULL || expr_name_is_placeholder (nexpr)) {
 			Range const *r = selection_first_range (
 				wb_control_cur_sheet_view (wbc),
@@ -240,8 +240,7 @@ wb_control_parse_and_jump (WorkbookControl *wbc, char const *text)
 				pp.sheet = NULL; /* make it a global name */
 				target_range = gnm_expr_new_constant (
 					value_new_cellrange_unsafe (&a, &b));
-				cmd_define_name (wbc, text, &pp,
-						 target_range, nexpr);
+				cmd_define_name (wbc, text, &pp, target_range);
 			}
 			return FALSE;
 		} else {

@@ -88,8 +88,8 @@ static void
 gnm_named_expr_collection_insert (GnmNamedExprCollection const *scope,
 				  GnmNamedExpr *nexpr)
 {
-	g_return_if_fail (!nexpr->active);
-
+	/* name can be active at this point, eg we are converting a
+	 * placeholder, or changing a scope */
 	nexpr->active = TRUE;
 	g_hash_table_replace (nexpr->is_placeholder
 	      ? scope->placeholders : scope->names, nexpr->name->str, nexpr);
@@ -274,8 +274,8 @@ expr_name_new (char const *name, gboolean is_placeholder)
  * NB. if we already have a circular reference in addition
  * to this one we are checking we will come to serious grief.
  */
-static gboolean
-name_refer_circular (char const *name, GnmExpr const *expr)
+gboolean
+expr_name_check_for_loop (char const *name, GnmExpr const *expr)
 {
 	g_return_val_if_fail (expr != NULL, TRUE);
 
@@ -283,22 +283,22 @@ name_refer_circular (char const *name, GnmExpr const *expr)
 	case GNM_EXPR_OP_RANGE_CTOR:
 	case GNM_EXPR_OP_INTERSECT:
 	case GNM_EXPR_OP_ANY_BINARY:
-		return (name_refer_circular (name, expr->binary.value_a) ||
-			name_refer_circular (name, expr->binary.value_b));
+		return (expr_name_check_for_loop (name, expr->binary.value_a) ||
+			expr_name_check_for_loop (name, expr->binary.value_b));
 	case GNM_EXPR_OP_ANY_UNARY:
-		return name_refer_circular (name, expr->unary.value);
+		return expr_name_check_for_loop (name, expr->unary.value);
 	case GNM_EXPR_OP_NAME: {
 		GnmNamedExpr const *nexpr = expr->name.name;
 		if (!strcmp (nexpr->name->str, name))
 			return TRUE;
 
 		/* And look inside this name tree too */
-		return name_refer_circular (name, nexpr->expr);
+		return expr_name_check_for_loop (name, nexpr->expr);
 	}
 	case GNM_EXPR_OP_FUNCALL: {
 		GnmExprList *l = expr->func.arg_list;
 		for (; l ; l = l->next)
-			if (name_refer_circular (name, l->data))
+			if (expr_name_check_for_loop (name, l->data))
 				return TRUE;
 		break;
 	}
@@ -309,7 +309,7 @@ name_refer_circular (char const *name, GnmExpr const *expr)
 	case GNM_EXPR_OP_SET: {
 		GnmExprList *l = expr->set.set;
 		for (; l ; l = l->next)
-			if (name_refer_circular (name, l->data))
+			if (expr_name_check_for_loop (name, l->data))
 				return TRUE;
 		break;
 	}
@@ -348,7 +348,7 @@ expr_name_add (ParsePos const *pp, char const *name,
 	g_return_val_if_fail (pp->sheet != NULL || pp->wb != NULL, NULL);
 	g_return_val_if_fail (name != NULL, NULL);
 
-	if (expr != NULL && name_refer_circular (name, expr)) {
+	if (expr != NULL && expr_name_check_for_loop (name, expr)) {
 		gnm_expr_unref (expr);
 		if (error_msg)
 			*error_msg = g_strdup_printf (_("'%s' has a circular reference"), name);
@@ -367,7 +367,7 @@ expr_name_add (ParsePos const *pp, char const *name,
 			}
 
 			/* convert the placeholder into a real name */
-			g_hash_table_remove (scope->placeholders, nexpr->name);
+			g_hash_table_steal (scope->placeholders, name);
 			nexpr->is_placeholder = FALSE;
 		} else {
 			nexpr = g_hash_table_lookup (scope->names, name);
@@ -494,6 +494,36 @@ expr_name_eval (GnmNamedExpr const *nexpr, EvalPos const *pos,
 	return gnm_expr_eval (nexpr->expr, pos, flags);
 }
 
+/**
+ * expr_name_downgrade_to_placeholder:
+ * @nexpr:
+ *
+ * Takes a real non-placeholder name and converts it to being a placeholder.
+ * unrefing its expression
+ **/
+void
+expr_name_downgrade_to_placeholder (GnmNamedExpr *nexpr)
+{
+	GnmNamedExprCollection *scope;
+
+	g_return_if_fail (nexpr != NULL);
+	g_return_if_fail (nexpr->pos.sheet != NULL || nexpr->pos.wb != NULL);
+	g_return_if_fail (nexpr->active);
+	g_return_if_fail (!nexpr->is_placeholder);
+
+	scope = (nexpr->pos.sheet != NULL)
+		? nexpr->pos.sheet->names : nexpr->pos.wb->names;
+
+	g_return_if_fail (scope != NULL);
+
+	g_hash_table_steal (scope->names, nexpr->name->str);
+
+	nexpr->is_placeholder = TRUE;
+	expr_name_set_expr (nexpr, 
+		gnm_expr_new_constant (value_new_error_NAME (NULL)));
+	gnm_named_expr_collection_insert (scope, nexpr);
+}
+
 /*******************************************************************
  * Manage things that depend on named expressions.
  */
@@ -534,7 +564,6 @@ expr_name_set_scope (GnmNamedExpr *nexpr, Sheet *sheet)
 		nexpr->name->str);
 
 	nexpr->pos.sheet = sheet;
-	nexpr->active = FALSE; /* to placate collection_insert */
 	gnm_named_expr_collection_insert (*new_scope, nexpr);
 	return NULL;
 }
@@ -600,7 +629,7 @@ expr_name_is_placeholder (GnmNamedExpr const *nexpr)
 }
 
 int
-expr_name_by_name (GnmNamedExpr const *a, GnmNamedExpr const *b)
+expr_name_cmp_by_name (GnmNamedExpr const *a, GnmNamedExpr const *b)
 {
 	Sheet const *sheeta = a->pos.sheet;
 	Sheet const *sheetb = b->pos.sheet;

@@ -5402,8 +5402,8 @@ typedef struct
 	ParsePos	 pp;
 	char		*name;
 	GnmExpr const	*expr;
-	GnmNamedExpr	*nexpr;
-	gboolean create_name;
+	gboolean	 new_name;
+	gboolean	 placeholder;
 } CmdDefineName;
 
 GNUMERIC_MAKE_COMMAND (CmdDefineName, cmd_define_name);
@@ -5413,17 +5413,16 @@ cmd_define_name_undo (GnumericCommand *cmd,
 		      G_GNUC_UNUSED WorkbookControl *wbc)
 {
 	CmdDefineName *me = CMD_DEFINE_NAME (cmd);
-	GnmExpr const *expr;
+	GnmNamedExpr  *nexpr = expr_name_lookup (&(me->pp), me->name);
+	GnmExpr const *expr = nexpr->expr;
 
-	expr = me->nexpr->expr;
 	gnm_expr_ref (expr);
-
-	if (me->create_name) {
-		expr_name_remove (me->nexpr);
-		expr_name_unref (me->nexpr);
-		me->nexpr = NULL;
-	} else
-		expr_name_set_expr (me->nexpr, me->expr);
+	if (me->new_name)
+		expr_name_remove (nexpr);
+	else if (me->placeholder)
+		expr_name_downgrade_to_placeholder (nexpr);
+	else
+		expr_name_set_expr (nexpr, me->expr); /* restore old def */
 
 	me->expr = expr;
 	return FALSE;
@@ -5433,23 +5432,26 @@ static gboolean
 cmd_define_name_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
 	CmdDefineName *me = CMD_DEFINE_NAME (cmd);
+	GnmNamedExpr  *nexpr = expr_name_lookup (&(me->pp), me->name);
 
-	if (me->nexpr == NULL) { /* create a new name */
+	me->new_name = (nexpr == NULL);
+	me->placeholder = (nexpr != NULL)
+		&& expr_name_is_placeholder (nexpr);
+
+	if (me->new_name || me->placeholder) {
 		char *err = NULL;
-		me->nexpr = expr_name_add (&me->pp, me->name, me->expr, &err, TRUE);
-		if (me->nexpr == NULL) {
+		nexpr = expr_name_add (&me->pp, me->name, me->expr, &err, TRUE);
+		if (nexpr == NULL) {
 			gnumeric_error_invalid (COMMAND_CONTEXT (wbc), _("Name"), err);
 			g_free (err);
 			return TRUE;
 		}
-		expr_name_ref (me->nexpr);
 		me->expr = NULL;
-	} else {/* assigning a value to a placeholder */
-		GnmExpr const *tmp = me->nexpr->expr;
-
+	} else {	/* changing the definition */
+		GnmExpr const *tmp = nexpr->expr;
 		gnm_expr_ref (tmp);
-		expr_name_set_expr (me->nexpr, me->expr);
-		me->expr = tmp;
+		expr_name_set_expr (nexpr, me->expr);
+		me->expr = tmp;	/* store the old definition */
 	}
 
 	return FALSE;
@@ -5466,10 +5468,6 @@ cmd_define_name_finalize (GObject *cmd)
 		gnm_expr_unref (me->expr);
 		me->expr = NULL;
 	}
-	if (me->nexpr != NULL) {
-		expr_name_unref (me->nexpr);
-		me->nexpr = NULL;
-	}
 
 	gnumeric_command_finalize (cmd);
 }
@@ -5480,35 +5478,49 @@ cmd_define_name_finalize (GObject *cmd)
  * @name :
  * @pp   :
  * @expr : absorbs a ref to the expr.
- * @nexpr : an optional named expression to assign the expr to.
- *          absorb a ref to this too.
+ *
+ * If the @name has never been defined in context @pp create a new name
+ * If its a placeholder assign @expr to it and make it real
+ * If it already exists as a real name just assign @expr.
  *
  * Returns TRUE on error
  **/
 gboolean
-cmd_define_name (WorkbookControl *wbc, char const *name, ParsePos const *pp,
-		 GnmExpr const *expr, GnmNamedExpr *nexpr)
+cmd_define_name (WorkbookControl *wbc,
+		 char const *name, ParsePos const *pp, GnmExpr const *expr)
 {
 	GObject		*obj;
 	CmdDefineName	*me;
+	GnmNamedExpr    *nexpr;
 
 	g_return_val_if_fail (name != NULL, TRUE);
 	g_return_val_if_fail (pp != NULL, TRUE);
 	g_return_val_if_fail (expr != NULL, TRUE);
+
+	if (expr_name_check_for_loop (name, expr)) {
+		gnumeric_error_invalid (COMMAND_CONTEXT (wbc), name,
+					_("has a circular reference"));
+		gnm_expr_unref (expr);
+		return TRUE;
+	}
+	nexpr = expr_name_lookup (pp, name);
+	if (nexpr != NULL && !expr_name_is_placeholder (nexpr) &&
+	    gnm_expr_equal (expr, nexpr->expr)) {
+		gnm_expr_unref (expr);
+		return FALSE; /* expr is not changing, do nothing */
+	}
 
 	obj = g_object_new (CMD_DEFINE_NAME_TYPE, NULL);
 	me = CMD_DEFINE_NAME (obj);
 	me->name = g_strdup (name);
 	me->pp = *pp;
 	me->expr = expr;
-	me->nexpr = nexpr;
-	me->create_name = nexpr == NULL;
-	if (nexpr != NULL)
-		expr_name_ref (me->nexpr);
 
 	me->cmd.sheet = wb_control_cur_sheet (wbc);
 	me->cmd.size = 1;
-	if (me->create_name)
+
+	nexpr = expr_name_lookup (pp, name);
+	if (nexpr == NULL || expr_name_is_placeholder (nexpr))
 		me->cmd.cmd_descriptor =
 			g_strdup_printf (_("Define Name %s"), name);
 	else

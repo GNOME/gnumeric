@@ -54,7 +54,7 @@ GnmFilterCondition const *gnm_filter_get_condition  (GnmFilter const *filter, un
 void	   		  gnm_filter_set_condition  (GnmFilter *filter, unsigned i,
 						     GnmFilterCondition *cond,
 						     gboolean apply);
-gboolean		  gnm_filter_contains_row   (GnmFilter const *filter, int row);
+gboolean		  gnm_filter_overlaps_range (GnmFilter const *filter, Range const *r);
 
 void sheet_filter_insdel_colrow (Sheet *sheet, gboolean is_cols, gboolean is_insert,
 				 int start, int count);

@@ -322,7 +322,7 @@ sv_menu_enable_insert (SheetView *sv, gboolean col, gboolean row)
 
 /**
  * selection_first_range
- * @sheet        : The sheet whose selection we are testing.
+ * @sv        	 : The #SheetView whose selection we are testing.
  * @wbc          : The calling context to report errors to (GUI or corba)
  * @command_name : A string naming the operation requiring a single range.
  *

@@ -34,8 +34,10 @@ void	 expr_name_set_expr   (GnmNamedExpr *ne, GnmExpr const *new_expr);
 void	 expr_name_add_dep    (GnmNamedExpr *ne, Dependent *dep);
 void	 expr_name_remove_dep (GnmNamedExpr *ne, Dependent *dep);
 gboolean expr_name_is_placeholder (GnmNamedExpr const *ne);
+void	 expr_name_downgrade_to_placeholder (GnmNamedExpr *nexpr);
 
-int      expr_name_by_name    (const GnmNamedExpr *a, const GnmNamedExpr *b);
+int      expr_name_cmp_by_name    (GnmNamedExpr const *a, GnmNamedExpr const *b);
+gboolean expr_name_check_for_loop (char const *name, GnmExpr const *expr);
 
 GList	   *sheet_names_get_available (Sheet const *sheet);
 char const *sheet_names_check	      (Sheet const *sheet, Range const *r);

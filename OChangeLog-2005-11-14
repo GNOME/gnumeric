@@ -1,3 +1,34 @@
+2003-06-03  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-object.c (sheet_objects_relocate) : kludgy tweak so that
+	  ins/del col/row moves things and cut-n-paste does not.
+
+2003-06-03  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-filter.c (gnm_filter_overlaps_range) : new.
+	(gnm_filter_contains_row) : delete.
+	* src/sheet-view.c (sv_first_selection_in_filter) : new.
+	(sv_edit_pos_in_filter) : delete.
+	* src/workbook-control-gui.c (wbcg_menu_state_update) : use here.
+	(cb_auto_filter) : and here.
+
+2003-06-03  Jody Goldberg <jody@gnome.org>
+
+	* src/expr-name.c (gnm_named_expr_collection_insert) : ease
+	  requirements and allow active names to be inserted.  This is the
+	  majority case for all the places we up/dowgrade placeholders and
+	  change scope.
+	(expr_name_check_for_loop) : rename from name_refer_circular and make
+	  public.
+	(expr_name_downgrade_to_placeholder) : new.
+	(expr_name_set_scope) : no need to diddle ::active now that
+	  collection_insert is less anal.
+	(expr_name_cmp_by_name) : renamed from expr_name_by_name.
+
+	* src/commands.c (cmd_define_name*) : add more checking at the start.
+	  Don't bother keeping a ref to the nexpr.
+	  handle undo for defining an existing placeholder.
+
 2003-06-03  Morten Welinder  <terra@gnome.org>
 
 	* src/stf-parse.c (stf_parse_lines): New function.
