@@ -98,6 +98,8 @@ typedef void (*SCGUIMoveFunc)	(SheetControlGUI *, int n,
 void scg_queue_movement		(SheetControlGUI *scg,
 				 SCGUIMoveFunc	  handler,
 				 int n, gboolean jump, gboolean horiz);
+void  scg_paste_image (SheetControlGUI *scg, GnmRange *where, 
+		       guint8 const *data, unsigned len);
 void scg_drag_data_received     (SheetControlGUI *scg, double x, double y, 
 				 GtkSelectionData *selection_data);
 

@@ -1,3 +1,11 @@
+2005-03-10  Jon K Hellan  <hellan@acm.org>
+
+	* src/sheet-control-gui.c (scg_image_create): New. The parts which
+	are common to scg_paste_image and scg_drag_receive_img_data.
+	(scg_paste_image): New. Create an image at natural size and place
+	it  at position given by range.
+	(scg_drag_receive_img_data): Move parts to scg_image_create.
+
 2005-03-09  Morten Welinder  <terra@gnome.org>
 
 	* configure.in (with-long-double): ride on top of libgoffice's

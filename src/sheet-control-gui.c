@@ -64,6 +64,8 @@
 
 #include <string.h>
 
+#undef DEBUG_DND
+
 static GObjectClass *scg_parent_class;
 
 static void scg_ant                    (SheetControl *sc);
@@ -2946,30 +2948,53 @@ scg_queue_movement (SheetControlGUI	*scg,
 
 
 static void
-scg_drag_receive_img_data (SheetControlGUI *scg, double x, double y, 
-			   guint8 const *data, unsigned len)
+scg_image_create (SheetControlGUI *scg, SheetObjectAnchor *anchor, 
+		  guint8 const *data, unsigned len)
 {
 	SheetObjectImage *soi;
 	SheetObject *so;
-	SheetObjectAnchor anchor;
 	double w, h;
-	double coords[4];
+
+	printf ("scg_image_create, len=%d\n", len);
 
 	soi = g_object_new (SHEET_OBJECT_IMAGE_TYPE, NULL);
 	sheet_object_image_set_image (soi, "", (guint8 *)data, len, TRUE);
+
+	so = SHEET_OBJECT (soi);
+	sheet_object_set_anchor (so, anchor);
+	sheet_object_set_sheet (so, sc_sheet (SHEET_CONTROL (scg)));
+	scg_object_select (scg, so);
+	sheet_object_default_size (so, &w, &h);
+	scg_objects_drag (scg, NULL, NULL, &w, &h, 7, FALSE, FALSE, FALSE);
+	scg_objects_drag_commit	(scg, 7, TRUE);
+}
+
+void
+scg_paste_image (SheetControlGUI *scg, GnmRange *where, 
+		 guint8 const *data, unsigned len)
+{
+	SheetObjectAnchor anchor;
+
+	printf ("scg_paste_image, len=%d\n", len);
+
+	sheet_object_anchor_init (&anchor, where, NULL, NULL, 
+				  SO_DIR_DOWN_RIGHT);
+	scg_image_create (scg, &anchor, data, len);
+}
+
+static void
+scg_drag_receive_img_data (SheetControlGUI *scg, double x, double y, 
+			   guint8 const *data, unsigned len)
+{
+	SheetObjectAnchor anchor;
+	double coords[4];
 
 	sheet_object_anchor_init (&anchor, NULL, NULL, NULL, 
 				  SO_DIR_DOWN_RIGHT);
 	coords[0] = coords[2] = x;
 	coords[1] = coords[3] = y;
 	scg_object_coords_to_anchor (scg, coords, &anchor);
-	so = SHEET_OBJECT (soi);
-	sheet_object_set_anchor (so, &anchor);
-	sheet_object_set_sheet (so, sc_sheet (SHEET_CONTROL (scg)));
-	scg_object_select (scg, so);
-	sheet_object_default_size (so, &w, &h);
-	scg_objects_drag (scg, NULL, NULL, &w, &h, 7, FALSE, FALSE, FALSE);
-	scg_objects_drag_commit	(scg, 7, TRUE);
+	scg_image_create (scg, &anchor, data, len);
 }
 
 static void
@@ -3052,6 +3077,33 @@ scg_drag_data_received (SheetControlGUI *scg, double x, double y,
 	} else if (!strncmp (target_type, "image/", 6)) {
 		scg_drag_receive_img_data (scg, x, y, selection_data->data,
 					   selection_data->length);
+#ifdef DEBUG_DND
+	} else if (!strcmp (target_type, "x-special/gnome-copied-files")) {
+		char *cdata = g_strndup (selection_data->data, 
+					 selection_data->length);
+		printf ("data length: %d, data: %s\n", 
+			selection_data->length, cdata);
+		g_free (cdata);
+	} else if (!strcmp (target_type, "_NETSCAPE_URL")) {
+		char *cdata = g_strndup (selection_data->data, 
+					 selection_data->length);
+		printf ("data length: %d, data: %s\n", 
+			selection_data->length, cdata);
+		g_free (cdata);
+	} else if (!strcmp (target_type, "text/plain")) {
+		char *cdata = g_strndup (selection_data->data, 
+					 selection_data->length);
+		printf ("data length: %d, data: %s\n", 
+			selection_data->length, cdata);
+		g_free (cdata);
+	} else if (!strcmp (target_type, "text/html")) {
+		char *cdata = g_strndup (selection_data->data, 
+					 selection_data->length);
+		/* For mozilla, need to convert the encoding */
+		printf ("data length: %d, data: %s\n", 
+			selection_data->length, cdata);
+		g_free (cdata);
+#endif
 	} else
 		g_warning ("Unknown target type '%s'!", target_type);
 
