@@ -4339,21 +4339,23 @@ excel_read_DV (BiffQuery *q, ExcelReadSheet *esheet)
 	if (!(options & 0x80000))
 		style = VALIDATION_STYLE_NONE;
 
-	switch ((options >> 20) & 0x0f) {
-	case 0:	op = VALIDATION_OP_BETWEEN;	break;
-	case 1:	op = VALIDATION_OP_NOT_BETWEEN; break;
-	case 2:	op = VALIDATION_OP_EQUAL;	break;
-	case 3:	op = VALIDATION_OP_NOT_EQUAL;	break;
-	case 4:	op = VALIDATION_OP_GT;		break;
-	case 5:	op = VALIDATION_OP_LT;		break;
-	case 6:	op = VALIDATION_OP_GTE;		break;
-	case 7:	op = VALIDATION_OP_LTE;		break;
-
-	default :
-		g_warning ("EXCEL : Unknown contraint operator %d",
-			   (options >> 20) & 0x0f);
-		return;
-	};
+	if (type == VALIDATION_TYPE_CUSTOM)
+		op = VALIDATION_OP_NONE;
+	else
+		switch ((options >> 20) & 0x0f) {
+		case 0:	op = VALIDATION_OP_BETWEEN;	break;
+		case 1:	op = VALIDATION_OP_NOT_BETWEEN; break;
+		case 2:	op = VALIDATION_OP_EQUAL;	break;
+		case 3:	op = VALIDATION_OP_NOT_EQUAL;	break;
+		case 4:	op = VALIDATION_OP_GT;		break;
+		case 5:	op = VALIDATION_OP_LT;		break;
+		case 6:	op = VALIDATION_OP_GTE;		break;
+		case 7:	op = VALIDATION_OP_LTE;		break;
+		default :
+			g_warning ("EXCEL : Unknown contraint operator %d",
+				   (options >> 20) & 0x0f);
+			return;
+		}
 
 	if (ranges != NULL) {
 		GnmRange const *r = ranges->data;
