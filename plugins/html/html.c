@@ -233,7 +233,7 @@ html32_file_save (GnumFileSaver const *fs, IOContext *io_context,
 		return;
 	}
 
-	fprintf (fp, "<!DOCTYPE HTML PUBLIC \"-//W3C/DTD HTML 3.2/EN\">\n");
+	fprintf (fp, "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2//EN\">\n");
 	fprintf (fp, "<HTML>\n");
 	fprintf (fp, "<HEAD>\n\t<TITLE>Tables</TITLE>\n");
 	fprintf (fp, "\t<!-- "G_PLUGIN_FOR_HTML" -->\n");
@@ -301,7 +301,7 @@ html40_file_save (GnumFileSaver const *fs, IOContext *io_context,
 		return;
 	}
 
-	fprintf (fp, "<!DOCTYPE HTML PUBLIC \"-//W3C/DTD HTML 4.0/EN\">\n");
+	fprintf (fp, "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n");
 	fprintf (fp, "<HTML>\n");
 	fprintf (fp, "<HEAD>\n\t<TITLE>Tables</TITLE>\n");
 	fprintf (fp, "\t<!-- "G_PLUGIN_FOR_HTML" -->\n");

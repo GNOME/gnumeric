@@ -1,5 +1,10 @@
 2001-08-01  Jody Goldberg <jgoldberg@home.com>
 
+	* html.c (html32_file_save) : more conformance problems.
+	(html40_file_save) : ditto.
+
+2001-08-01  Jody Goldberg <jgoldberg@home.com>
+
 	* html.c (html32_file_save) : Close with </BODY> not <BODY>
 	(html40_file_save) : ditto.
 
