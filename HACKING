@@ -122,7 +122,101 @@ Extra functions
 
 	- Provide an online help description.  If you can provide
 	  examples of use in the documentation, that is even better.
-    
+
+
+Things that are usually missed
+------------------------------
+
+Make sure that dialogs work well without using the mouse. GnomeDialog
+solves some of this automatically, but by no means all. Some dialogs
+aren't GnomeDialogs at all, and you have to do more work manually.
+
+- Pressing the escape key should dismiss the dialog.  
+
+  GnomeDialog does this. If your dialog does not inherit from
+  GnomeDialog, write a handler like src/file.c:fs_key_event and
+  connect it to "key_press_event". See src/file.c:workbook_save_as for
+  an example.
+
+- Initial keyboard focus should be assigned.
+
+  This means that when the dialog pops up, keystrokes should go to one
+  of the widgets in the dialog, often the top left widget. In glade,
+  you set initial focus by selecting "Has Focus" in the "Basic" panel
+  of the Property Editor. In C, you use gtk_widget_grab_focus (widget).
+
+  In multipage dialogs (druid, notebook, propertybox), you have to set
+  initial focus each time you switch pages. This means that you have
+  to do it from C, even if it's a glade dialog.
+
+  You also have to do it from C in OK/warning/error dialogs.
+
+- There should be a keyboard accelerator for each widget.
+
+  The user can navigate to the widget with Alt + <letter>, where
+  <letter> is an underlined letter in the widget label. It should
+  ideally be the first, but that's often not possible. 
+
+  In glade, you define the accelerator by inserting an "_" in the
+  label. Like this: "_File" makes F the accelerator. To make an
+  accelerator for a text field, insert an "_" in the label, and make
+  the field the "focus target" of the label. This can be done in the
+  widget panel of the property editor.
+
+  It's rather awkward to define accelerators for the "OK", "Cancel",
+  etc. buttons in a GnomeDialog using glade, and so far we have left
+  them alone.
+
+  There's a problem with accelerators in notebooks: You cannot use the
+  same letter in two different pages. This is either a bug in gtk or
+  in glade. For simple dialogs, it's possible to work around the
+  limitation, but for complex cases it is probably best to ignore it
+  and assume that it will eventually be fixed.
+
+- There should be a default button. This is activated when the user
+  presses <Enter>.
+
+  In glade, you achieve this with the "can default" and "has default"
+  properties in the "basic" pane of the property editor. Glade sets
+  "can default" on all buttons in the action area. This makes the
+  rightmost button the default. If you want another default, enable
+  "has default" on that button. Do not hesitate to make "OK" the
+  default, unless the operation is destructive.
+
+  In a druid, setting the default button from glade doesn't work.
+
+  In C, you use gtk_widget_grab_default (widget).
+
+- Pressing <Enter> in text fields should activate the default button.
+
+  This behavior isn't enabled by default. Invoke
+  gnome_dialog_editable_enters (dialog, editable) on all text fields,
+  including the entry fields of spinboxes and combos. If the dialog
+  does not inherit from GnomeDialog, use gnumeric_editable_enters
+  (window, editable) instead.
+
+- The dialog should be a transient child of the window it was popped up
+  for. Most window managers will then iconize it with the parent.
+  
+  For modal GnomeDialogs, gnumeric_dialog_run (workbook, dialog) takes
+  care of this. For other dialogs, use gnumeric_set_transient
+  (context, window).
+
+- Clist headers should only be active if they do something useful.
+
+  Keep them active e.g. if it is possible to change the sort order by
+  clicking on the header. Otherwise, make them passive with
+  gtk_clist_column_titles_passive (clist). There is no way to do this
+  in glade, yet.
+
+- Dialogs shouldn't flicker when popping up.
+
+  glade dialogs should have the "visible" property in the "basic" pane
+  set to "No". You should also not call gtk_widget_show / show_all on
+  the dialog before calling gnumeric_dialog_run / gnome_dialog_run,
+  because the dialog_run functions reposition the dialog.
+
+  
 Miguel de Icaza.
 October, 1998
 
