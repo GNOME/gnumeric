@@ -58,9 +58,9 @@ GnmExprArray const *cell_is_array (GnmCell const *cell);
 
 #define cell_eval(cell)							\
 {									\
-	if (cell_needs_recalc (cell)) {					\
-		cell_eval_content (cell);				\
-		cell->base.flags &= ~(DEPENDENT_NEEDS_RECALC | CELL_HAS_NEW_EXPR );		\
+	if (cell_needs_recalc ((cell))) {					\
+		cell_eval_content ((cell));				\
+		(cell)->base.flags &= ~(DEPENDENT_NEEDS_RECALC | CELL_HAS_NEW_EXPR );		\
 	}								\
 }
 

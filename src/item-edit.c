@@ -549,10 +549,11 @@ item_edit_set_property (GObject *gobject, guint param_id,
 
 	/* set the font and the upper left corner if this is the first pass */
 	if (ie->gfont == NULL) {
-		ie->style = mstyle_copy (sheet_style_get (sv->sheet,
+		Sheet *sheet = sv->sheet;
+		ie->style = mstyle_copy (sheet_style_get (sheet,
 			ie->pos.col, ie->pos.row));
-		ie->gfont = scg_get_style_font
-			(sv->sheet->context, sv->sheet, ie->style);
+		ie->gfont = mstyle_get_font (ie->style,
+			sheet->context, sheet->last_zoom_factor_used);
 
 		if (mstyle_get_align_h (ie->style) == HALIGN_GENERAL)
 			mstyle_set_align_h (ie->style, HALIGN_LEFT);

@@ -683,7 +683,7 @@ cellregion_to_string (GnmCellRegion const *cr, PangoContext *context)
 
 			rv = rendered_value_new (c_copy->u.cell,
 						 mstyle, FALSE,
-						 context);
+						 context, 1.);
 			v = g_strdup (rendered_value_get_text (rv));
 			rendered_value_destroy (rv);
 		} else

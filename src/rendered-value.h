@@ -31,13 +31,10 @@ struct _RenderedValue {
 	signed int rotation : 10;
 };
 
-RenderedValue *rendered_value_new     (GnmCell *cell, GnmStyle const *mstyle,
+RenderedValue *rendered_value_new     (GnmCell const *cell, GnmStyle const *mstyle,
 				       gboolean variable_width,
-				       PangoContext *context);
+				       PangoContext *context, float zoom);
 void           rendered_value_destroy (RenderedValue *rv);
-
-RenderedValue *rendered_value_recontext (RenderedValue *rv,
-					 PangoContext *context);
 void           rendered_value_remeasure (RenderedValue *rv);
 
 /* Return the value as a single string without format infomation.  */

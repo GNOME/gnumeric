@@ -64,14 +64,13 @@ static GnmMemChunk *rendered_value_pool;
 
 
 static guint16
-calc_indent (PangoContext *context, const GnmStyle *mstyle, Sheet *sheet)
+calc_indent (PangoContext *context, const GnmStyle *mstyle, double zoom)
 {
 	int indent = 0;
 	if (mstyle_is_element_set (mstyle, MSTYLE_INDENT)) {
 		indent = mstyle_get_indent (mstyle);
 		if (indent) {
-			GnmFont *style_font =
-				scg_get_style_font (context, sheet, mstyle);
+			GnmFont *style_font = mstyle_get_font (mstyle, context, zoom);
 			indent *= style_font->approx_width.pixels.digit;
 			style_font_unref (style_font);
 		}
@@ -79,17 +78,12 @@ calc_indent (PangoContext *context, const GnmStyle *mstyle, Sheet *sheet)
 	return MIN (indent, 65535);
 }
 
-/**
- * rendered_value_render :
- *
- * returns TRUE if the result depends on the width of the cell
- **/
+/* returns TRUE if the result depends on the width of the cell */
 static gboolean
-rendered_value_render (GString *str,
-		       GnmCell const *cell,
+rendered_value_render (GString *str, GnmCell const *cell,
 		       PangoContext *context, GnmStyle const *mstyle,
-		       gboolean allow_variable_width, gboolean *display_formula,
-		       GnmColor **color)
+		       gboolean allow_variable_width, float zoom,
+		       gboolean *display_formula, GnmColor **color)
 {
 	Sheet const *sheet = cell->base.sheet;
 
@@ -97,7 +91,7 @@ rendered_value_render (GString *str,
 	 * if it is possible */
 	gboolean is_variable_width = FALSE;
 
-	*display_formula = cell_has_expr (cell) && sheet && sheet->display_formulas;
+	*display_formula = cell_has_expr (cell) && sheet->display_formulas;
 
 	if (*display_formula) {
 		GnmParsePos pp;
@@ -106,7 +100,7 @@ rendered_value_render (GString *str,
 				     parse_pos_init_cell (&pp, cell),
 				     gnm_expr_conventions_default);
 		*color = NULL;
-	} else if (sheet && sheet->hide_zero && cell_is_zero (cell)) {
+	} else if (sheet->hide_zero && cell_is_zero (cell)) {
 		*color = NULL;
 	} else if (mstyle_is_element_set (mstyle, MSTYLE_FORMAT)) {
 		double col_width = -1.;
@@ -120,8 +114,7 @@ rendered_value_render (GString *str,
 				(VALUE_FMT (cell->value) == NULL ||
 				 style_format_is_var_width (VALUE_FMT (cell->value)));
 			if (is_variable_width && allow_variable_width) {
-				GnmFont *style_font =
-					scg_get_style_font (context, sheet, mstyle);
+				GnmFont *style_font = mstyle_get_font (mstyle, context, zoom);
 				double wdigit = style_font->approx_width.pts.digit;
 
 				if (wdigit > 0.0) {
@@ -154,7 +147,7 @@ rendered_value_render (GString *str,
 		}
 		format_value_gstring (str, format, cell->value, color,
 				      col_width,
-				      sheet ? workbook_date_conv (sheet->workbook) : NULL);
+				      workbook_date_conv (sheet->workbook));
 	} else {
 		g_warning ("No format: serious error");
 	}
@@ -257,18 +250,16 @@ rendered_value_remeasure (RenderedValue *rv)
  * Return value: a new RenderedValue
  **/
 RenderedValue *
-rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
+rendered_value_new (GnmCell const *cell, GnmStyle const *mstyle,
 		    gboolean allow_variable_width,
-		    PangoContext *context)
+		    PangoContext *context, float zoom)
 {
 	RenderedValue	*res;
-	Sheet		*sheet;
 	GnmColor	*color;
 	PangoLayout     *layout;
 	PangoAttrList   *attrs;
 	GnmColor const *fore;
 	gboolean        display_formula;
-	double          zoom;
 
 	/* This screws thread safety (which we don't need).  */
 	static GString  *str = NULL;
@@ -280,11 +271,8 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 	/* Special handling for manual recalc.
 	 * If a cell has a new expression and something tries to display it we
 	 * need to recalc the value */
-	if (cell->base.flags & CELL_HAS_NEW_EXPR) {
-		cell_eval (cell);
-	}
-
-	sheet = cell->base.sheet;
+	if (cell->base.flags & CELL_HAS_NEW_EXPR)
+		cell_eval ((GnmCell *)cell);
 
 	if (str)
 		g_string_truncate (str, 0);
@@ -292,7 +280,7 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 		str = g_string_sized_new (100);
 
 	res = CHUNK_ALLOC (RenderedValue, rendered_value_pool);
-	res->variable_width = rendered_value_render (str, cell, context, mstyle,
+	res->variable_width = rendered_value_render (str, cell, context, mstyle, zoom,
 		allow_variable_width, &display_formula, &color);
 	res->indent_left = res->indent_right = 0;
 	res->numeric_overflow = FALSE;
@@ -309,9 +297,6 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 
 	res->layout = layout = pango_layout_new (context);
 	pango_layout_set_text (layout, str->str, str->len);
-
-	/* FIXME: this should be per view.  */
-	zoom = sheet ? sheet->last_zoom_factor_used : 1;
 
 	attrs = mstyle_get_pango_attrs (mstyle, context, zoom);
 #ifdef BUG_105322
@@ -363,7 +348,7 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 
 	switch (res->effective_halign) {
 	case HALIGN_LEFT:
-		res->indent_left = calc_indent (context, mstyle, sheet);
+		res->indent_left = calc_indent (context, mstyle, zoom);
 		pango_layout_set_alignment (layout, PANGO_ALIGN_LEFT);
 		break;
 
@@ -386,7 +371,7 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 		break;
 
 	case HALIGN_RIGHT:
-		res->indent_right = calc_indent (context, mstyle, sheet);
+		res->indent_right = calc_indent (context, mstyle, zoom);
 		pango_layout_set_alignment (layout, PANGO_ALIGN_RIGHT);
 		break;
 
@@ -415,48 +400,7 @@ rendered_value_destroy (RenderedValue *rv)
 	CHUNK_FREE (rendered_value_pool, rv);
 }
 
-RenderedValue *
-rendered_value_recontext (RenderedValue *rv, PangoContext *context)
-{
-	RenderedValue *res;
-	PangoLayout *layout, *olayout;
-
-	res = CHUNK_ALLOC (RenderedValue, rendered_value_pool);
-
-	*res = *rv;
-	res->layout = layout = pango_layout_new (context);
-	olayout = rv->layout;
-
-	pango_layout_set_text (layout, pango_layout_get_text (olayout), -1);
-	pango_layout_set_alignment (layout, pango_layout_get_alignment (olayout));
-	pango_layout_set_attributes (layout, pango_layout_get_attributes (olayout));
-	pango_layout_set_single_paragraph_mode (layout, pango_layout_get_single_paragraph_mode (olayout));
-	pango_layout_set_justify (layout, pango_layout_get_justify (olayout));
-	pango_layout_set_width (layout, pango_layout_get_width (olayout));
-	pango_layout_set_spacing (layout, pango_layout_get_spacing (olayout));
-	/*
-	 * We really want to keep the line breaks, but currently pango
-	 * does not support that.  One one-line layouts, however, we
-	 * can simply turn off the wrapping.
-	 */
-	pango_layout_set_wrap (layout,
-			       pango_layout_get_wrap (olayout) &&
-			       pango_layout_get_line_count (olayout) > 1);
-	pango_layout_set_indent (layout, pango_layout_get_indent (olayout));
-	pango_layout_set_auto_dir (layout, pango_layout_get_auto_dir (olayout));
-#ifdef HAVE_PANGO_LAYOUT_SET_ELLIPSIZE
-	pango_layout_set_ellipsize (layout, pango_layout_get_ellipsize (olayout));
-#endif
-	// pango_layout_set_font_description???
-	// ignore tabs
-
-	rendered_value_remeasure (res);
-	return res;
-}
-
-
-/* Return the value as a single string without format infomation.
- */
+/* Return the value as a single string without format infomation. */
 const char *
 rendered_value_get_text (RenderedValue const *rv)
 {

@@ -240,7 +240,7 @@ print_cell_NEW (GnmCell const *cell, GnmStyle const *mstyle,
 		GnomePrintContext *context, PangoContext *pcontext,
 		double x1, double y1, double width, double height, double h_center)
 {
-	RenderedValue *rv, *cell_rv = cell->rendered_value;
+	RenderedValue *rv;
 	GdkColor *color; 
 	gint x, y;
 	ColRowInfo const * const ci = cell->col_info;
@@ -255,7 +255,7 @@ print_cell_NEW (GnmCell const *cell, GnmStyle const *mstyle,
 		height = ri->size_pts - (ri->margin_b + ri->margin_a + 1);
 
 	/* Create a rendered value for printing */
-	rv = rendered_value_recontext (cell_rv, pcontext);
+	rv = rendered_value_new (cell, mstyle, TRUE, pcontext, 1.);
 
 	if (cell_calc_layout (cell, rv, -1,
 			      (int)(width * PANGO_SCALE),

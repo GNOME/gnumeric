@@ -19,6 +19,8 @@ Jody:
 	* Fix the ui for 'in-list' and 'custom' validation.
 	* Disable xmldocs.make regeneration to fix path to docs. [#161404]
 	* enable gnome_authentication_manager. [#160777]
+	* Honour explicit target sheets for CELL ("contents" [#169802]
+	* Screen zoom should not impact printing.
 
 Jon Kåre:
 	* Avoid a session-end hang.

@@ -1,6 +1,24 @@
-2005-03-08  Jody Goldberg <jody@gnome.org>
+2005-03-10  Jody Goldberg <jody@gnome.org>
 
-	* Release 1.4.3
+	* src/cell.c (cell_render_value) : pass the current zoom.
+
+	* src/item-edit.c (item_edit_set_property) : Use mstyle_get_font
+	  directly rather than scg_get_style_font.
+	* src/preview-grid.c (pg_construct_cell) : pass zoom=1 to
+	  rendered_value_new.
+	* src/print-cell.c (print_cell_NEW) : Use rendered_value_new instead
+	  of rendered_value_recontext.
+	* src/rendered-value.c (rendered_value_recontext) : delete.
+	(calc_indent) : take a zoom factor rather than a Sheet.
+	(rendered_value_new) : pass in a zoom factor explicitly.
+	(rendered_value_render) : ditto.  Sheet can not be null.
+	* src/sheet-control-gui.c (scg_get_style_font) : delete.
+
+2005-03-10  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=169802
+	* plugins/fn-info/functions.c (gnumeric_cell) : honour explicit target
+	  sheets for CELL ("contents"
 
 2005-03-08  Jody Goldberg <jody@gnome.org>
 
