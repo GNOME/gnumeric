@@ -470,12 +470,12 @@ Value *    get_cumipmt   (gnum_float fRate, gint nNumPeriods, gnum_float fVal,
  *  Original source of the following functions (ScGetGDA, ScInterVDB, and
  *  get_vdb) is the OpenOffice version 1.0, `sc/source/core/tool/interpr2.cxx'.
  *
+ *  RCSfile: interpr2.cxx,v 
  *
- *  $RCSfile$
+ *  Revision: 1.11 
  *
- *  $Revision$
+ *  last change: Author: er  Date: 2001/03/15 21:31:13 
  *
- *  last change: $Author$ $Date$
  */
  
 static gnum_float
