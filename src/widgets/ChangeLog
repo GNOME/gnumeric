@@ -1,5 +1,13 @@
 2001-04-18  Jon K Hellan  <hellan@acm.org>
 
+	* gnumeric-expr-entry.c
+	(gnumeric_expr_entry_set_rangesel_from_range): Don't call
+	widget_is_focus. This makes selecting a range from the cell work
+	again.
+	(widget_is_focus): Remove.
+
+2001-04-18  Jon K Hellan  <hellan@acm.org>
+
 	* gnumeric-expr-entry.[ch]: New expression / range selection
 	widget.
 

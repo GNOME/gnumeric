@@ -343,10 +343,6 @@ gnumeric_expr_entry_set_rangesel_from_range (GnumericExprEntry *expr_entry,
 	
 	g_return_if_fail (GNUMERIC_IS_EXPR_ENTRY (expr_entry));
 	g_return_if_fail (IS_SHEET (sheet));
-
-	/* FIXME: This could be belt-and-suspenders. Let's see. */
-	if (!widget_is_focus (GTK_WIDGET (expr_entry)))
-	    return;
 	
 	rs = &expr_entry->rangesel;
 	if (!range_really_changed (rs, r, sheet))
