@@ -1,5 +1,9 @@
 2001-05-20  Zbigniew Chyla  <cyba@gnome.pl>
 
+	* src/sheet-object.c (sheet_object_read_xml): Fixed leaks.
+
+2001-05-20  Zbigniew Chyla  <cyba@gnome.pl>
+
 	* src/plugin.c (plugin_db_init): Last patch changed behaviour from
 	"treat every plugin as known" to "treat every plugin as unknown" :-)
 	Now it should be really fixed.

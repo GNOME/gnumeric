@@ -407,6 +407,7 @@ sheet_object_read_xml (XmlParseContext const *ctxt, xmlNodePtr tree)
 		sscanf (tmp, "%g %g %g %g",
 			so->offset +0, so->offset +1,
 			so->offset +2, so->offset +3);
+		xmlFree (tmp);
 	}
 
 	tmp = xmlGetProp (tree, "ObjectAnchorType");
@@ -416,6 +417,7 @@ sheet_object_read_xml (XmlParseContext const *ctxt, xmlNodePtr tree)
 
 		for (count = 4; count-- > 0 ; )
 			so->anchor_type[count] = i[count];
+		xmlFree (tmp);
 	}
 
 	sheet_object_set_sheet (so, ctxt->sheet);
