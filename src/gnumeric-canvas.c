@@ -358,7 +358,8 @@ gnm_canvas_key_mode_object (GnumericCanvas *gcanvas, GdkEventKey *event)
 	case GDK_KP_Delete:
 	case GDK_Delete:
 		if (scg->new_object != NULL) {
-			gtk_object_destroy (GTK_OBJECT (scg->new_object));
+			g_object_unref (G_OBJECT (scg->new_object));
+			scg->new_object = NULL;
 			return TRUE;
 		}
 		if (scg->current_object != NULL) {

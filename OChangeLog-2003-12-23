@@ -1,5 +1,17 @@
 2002-04-09  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* gnumeric-canvas.c (gnm_canvas_key_mode_object) : Sheet objects 
+	  are GObjects
+	* src/item-grid.c (ig_obj_create_finish) : unref the object since
+	  scg_mode_edit_object might not pick up the reference
+	* src/sheet-control-gui.c (scg_object_stop_editing) : unref the 
+	  sheet object
+	(scg_mode_edit_object) : ref the object if we store a reference
+	* src/workbook-control-gui.c (cb_edit_cut) :  Sheet objects 
+	  are GObjects
+
+2002-04-09  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* sheet-object-widget.c (cb_scrollbar_config_cancel_clicked) : new
 	(cb_scrollbar_config_ok_clicked) replaces cb_scrollbar_config_clicked
 	(sheet_widget_scrollbar_user_config) : don't use GnomeDialog

@@ -1562,10 +1562,12 @@ scg_object_stop_editing (SheetControlGUI *scg, SheetObject *so)
 		scg->control_points [i] = NULL;
 	}
 
+	g_object_unref (G_OBJECT (scg->current_object));
 	scg->current_object = NULL;
 	view = sheet_object_get_view (so, SHEET_CONTROL (scg));
 	if (SO_CLASS (so)->set_active != NULL)
 		SO_CLASS (so)->set_active (so, view, FALSE);
+	
 }
 
 static gboolean
@@ -1628,7 +1630,10 @@ scg_mode_edit_object (SheetControlGUI *scg, SheetObject *so)
 	if (wbcg_edit_finish (scg->wbcg, TRUE) &&
 	    scg_mode_clear (scg)) {
 		view = sheet_object_get_view (so, SHEET_CONTROL (scg));
+
 		scg->current_object = so;
+		g_object_ref (G_OBJECT (so));
+
 		if (SO_CLASS (so)->set_active != NULL)
 			SO_CLASS (so)->set_active (so, view, TRUE);
 		scg_cursor_visible (scg, FALSE);

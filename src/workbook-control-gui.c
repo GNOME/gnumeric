@@ -1668,8 +1668,10 @@ cb_edit_cut (GtkWidget *widget, WorkbookControlGUI *wbcg)
 
 	if (sheet_to_page_index (wbcg, wb_control_cur_sheet (wbc), &scg) >= 0) {
 		SheetControl *sc = (SheetControl *) scg;
-		if (scg->current_object != NULL)
-			gtk_object_destroy (GTK_OBJECT (scg->current_object));
+		if (scg->current_object != NULL) {
+			g_object_unref (G_OBJECT (scg->current_object));
+			scg->current_object = NULL;
+		}
 		scg_mode_edit (sc);
 		sheet_selection_cut (wbc, sheet);
 	}
