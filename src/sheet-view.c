@@ -79,6 +79,8 @@ sv_wbv (SheetView const *sv)
 void
 sv_attach_control (SheetView *sv, SheetControl *sc)
 {
+	Range bound;
+
 	g_return_if_fail (IS_SHEET_VIEW (sv));
 	g_return_if_fail (IS_SHEET_CONTROL (sc));
 	g_return_if_fail (sc->view == NULL);
@@ -88,6 +90,11 @@ sv_attach_control (SheetView *sv, SheetControl *sc)
 	g_ptr_array_add (sv->controls, sc);
 	sc->view  = sv;
 	sc->sheet = sv_sheet (sv); /* convenient */
+
+	bound.start = sv->cursor.base_corner;
+	bound.end = sv->cursor.move_corner;
+	range_normalize (&bound);
+	sc_cursor_bound (sc, &bound);
 }
 
 void

@@ -1,5 +1,8 @@
 2002-06-23  Jody Goldberg <jody@gnome.org>
 
+	* src/sheet-view.c (sv_attach_control) : position the cursors for the
+	  newly attached control.
+
 	* src/func-builtin.c (func_builtin_init) : delete the 'selection'
 	  function.  It is no longer possible with a sheetview.
 

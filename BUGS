@@ -11,8 +11,6 @@ Release Critical
   plugins won't load on Solaris/gcc.  (This might just be my bastard libtool.)
 - 3D reference fixes on sheet deletion
 - Dependencies for constructed ranges
-- Figure out why the cursor is not on the edit pos when loading an xls fromthe
-  cmd line.
 - Finish support for named ranges in applix.
 - mps importer fails to import the mps sample files afiro.mps and blend.mps
 
