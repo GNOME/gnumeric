@@ -207,7 +207,7 @@ stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	}
 	info->main_run_text = GNOME_CANVAS_TEXT (gnome_canvas_item_new (gnome_canvas_root (info->main_canvas),
 									GNOME_TYPE_CANVAS_TEXT,
-									"text", lg < X_OVERFLOW_PROTECT ? pagedata->data : _("LINES TO LONG!"),
+									"text", lg < X_OVERFLOW_PROTECT ? pagedata->data : _("LINES TOO LONG!"),
 									"font", "fixed",
 									"x", 0.0,
 									"y", 0.0,
