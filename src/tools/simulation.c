@@ -44,28 +44,6 @@
 #include "rangefunc.h"
 #include "simulation.h"
 
-typedef enum {
-	MedianErr = 1, ModeErr = 2, StddevErr = 4, VarErr = 8, SkewErr = 16,
-	KurtosisErr = 32
-} errmask_t;
-
-typedef struct {
-	gnum_float *min;
-	gnum_float *max;
-	gnum_float *mean;
-	gnum_float *median;
-	gnum_float *mode;
-	gnum_float *stddev;
-	gnum_float *var;
-	gnum_float *skew;
-	gnum_float *kurtosis;
-	gnum_float *range;
-	gnum_float *confidence;
-	gnum_float *lower;
-	gnum_float *upper;
-	int        *errmask;
-} simstats_t;
-
 static void
 init_stats (simstats_t *stats, simulation_t *sim)
 {
@@ -193,7 +171,8 @@ create_stats (simulation_t *sim, gnum_float **outputs, simstats_t *stats)
 		stats->max [i] = x;
 
 		/* Median */
-		error = range_median_inter (outputs [i], sim->n_iterations, &x);
+		error = range_median_inter (outputs [i], sim->n_iterations,
+					    &x);
 		if (error)
 			stats->errmask [i] |= MedianErr;
 		else
@@ -251,7 +230,7 @@ create_stats (simulation_t *sim, gnum_float **outputs, simstats_t *stats)
 }
 
 static void
-create_reports (WorkbookControl *wbc, simulation_t *sim, simstats_t *stats,
+create_reports (WorkbookControl *wbc, simulation_t *sim, simstats_t **stats,
 		data_analysis_output_t *dao, Sheet *sheet)
 {
 	int i, n, t, n_rounds, rinc;
@@ -292,45 +271,46 @@ create_reports (WorkbookControl *wbc, simulation_t *sim, simstats_t *stats,
 			dao_set_bold (dao, 1, i + 7 + n * rinc, 1,
 				      i + 7 + n * rinc);
 			dao_set_cell_float (dao, 2, i + 7 + n * rinc,
-					    stats [t].min [i]);
+					    stats [t]->min [i]);
 			dao_set_cell_float (dao, 3, i + 7 + n * rinc,
-					    stats [t].mean [i]);
+					    stats [t]->mean [i]);
 			dao_set_cell_float (dao, 4, i + 7 + n * rinc,
-					    stats [t].max [i]);
+					    stats [t]->max [i]);
 			dao_set_cell_float (dao, 5, i + 7 + n * rinc,
-					    stats [t].median [i]);
+					    stats [t]->median [i]);
 			dao_set_cell_float_na
-				(dao, 6, i + 7 + n * rinc, stats [t].mode [i],
-				 ! (stats [t].errmask [i] & ModeErr));
+				(dao, 6, i + 7 + n * rinc, stats [t]->mode [i],
+				 ! (stats [t]->errmask [i] & ModeErr));
 			dao_set_cell_float_na
-				(dao, 7, i + 7 + n * rinc, stats [t].stddev [i],
-				 ! (stats [t].errmask [i] & StddevErr));
+				(dao, 7, i + 7 + n * rinc,
+				 stats [t]->stddev [i],
+				 ! (stats [t]->errmask [i] & StddevErr));
 			dao_set_cell_float_na
-				(dao, 8, i + 7 + n * rinc, stats [t].var [i],
-				 ! (stats [t].errmask [i] & VarErr));
+				(dao, 8, i + 7 + n * rinc, stats [t]->var [i],
+				 ! (stats [t]->errmask [i] & VarErr));
 			dao_set_cell_float_na
-				(dao, 9, i + 7 + n * rinc, stats [t].skew [i],
-				 ! (stats [t].errmask [i] & SkewErr));
+				(dao, 9, i + 7 + n * rinc, stats [t]->skew [i],
+				 ! (stats [t]->errmask [i] & SkewErr));
 			dao_set_cell_float_na
 				(dao, 10, i + 7 + n * rinc,
-				 stats [t].kurtosis [i],
-				 ! (stats [t].errmask [i] & KurtosisErr));
+				 stats [t]->kurtosis [i],
+				 ! (stats [t]->errmask [i] & KurtosisErr));
 			dao_set_cell_float (dao, 11, i + 7 + n * rinc,
-					    stats [t].range [i]);
+					    stats [t]->range [i]);
 			dao_set_cell_float (dao, 12, i + 7 + n * rinc,
 					    sim->n_iterations);
 			dao_set_cell_float_na
 				(dao, 13, i + 7 + n * rinc,
-				 stats [t].confidence [i],
-				 ! (stats [t].errmask [i] & StddevErr));
+				 stats [t]->confidence [i],
+				 ! (stats [t]->errmask [i] & StddevErr));
 			dao_set_cell_float_na
 				(dao, 14, i + 7 + n * rinc,
-				 stats [t].lower [i],
-				 ! (stats [t].errmask [i] & StddevErr));
+				 stats [t]->lower [i],
+				 ! (stats [t]->errmask [i] & StddevErr));
 			dao_set_cell_float_na
 				(dao, 15, i + 7 + n * rinc,
-				 stats [t].upper [i],
-				 ! (stats [t].errmask [i] & StddevErr));
+				 stats [t]->upper [i],
+				 ! (stats [t]->errmask [i] & StddevErr));
 		}
 	}
 
@@ -378,7 +358,7 @@ simulation_tool (WorkbookControl        *wbc,
 {
 	int          round, i, n_rounds;
 	gnum_float   **outputs;
-	simstats_t   *stats;
+	simstats_t   **stats;
 	Sheet        *sheet;
 	gchar        *err;
 	WorkbookView *wbv;
@@ -393,9 +373,11 @@ simulation_tool (WorkbookControl        *wbc,
 	for (i = 0; i < sim->n_vars; i++)
 		outputs [i] = g_new (gnum_float, sim->n_iterations);
 
-	stats     = g_new (simstats_t, sim->last_round + 1);
-	for (i = 0; i <= sim->last_round; i++)
-		init_stats (&stats [i], sim);
+	stats     = g_new (simstats_t *, sim->last_round + 1);
+	for (i = 0; i <= sim->last_round; i++) {
+		stats [i] = g_new (simstats_t, 1);
+		init_stats (stats [i], sim);
+	}
 
 	i = 0;
 	for (cur = sim->list_outputs; cur != NULL; cur = cur->next) {
@@ -425,7 +407,7 @@ simulation_tool (WorkbookControl        *wbc,
 			if (err != NULL)
 				goto out;
 		}
-		create_stats (sim, outputs, &stats [round]);
+		create_stats (sim, outputs, stats [round]);
 	}
  out:
 	sheet->simulation_round = 0;
@@ -442,12 +424,14 @@ simulation_tool (WorkbookControl        *wbc,
 		create_reports (wbc, sim, stats, dao, sheet);
 	}
 
-
+	sim->stats = stats;
+#if 0
 	/* Free statistics storage. */
 	for (i = 0; i <= sim->last_round; i++)
-		free_stats (&stats [i], sim);
+		free_stats (stats [i], sim);
 
 	g_free (stats);
+#endif
 
 	sheet_redraw_all (sheet, TRUE);
 
