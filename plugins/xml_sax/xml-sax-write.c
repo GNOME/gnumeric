@@ -562,8 +562,10 @@ xml_write_colrow_info (ColRowInfo *info, closure_write_colrow *closure)
 			gsf_xml_out_add_bool (output, "Hidden", TRUE);
 		if (prev->is_collapsed)
 			gsf_xml_out_add_bool (output, "Collapsed", TRUE);
-		if (prev->outline_level > 0)
-			gsf_xml_out_add_bool (output, "OutlineLevel", prev->outline_level);
+		if (prev->outline_level > 0) {
+			g_warning ("level = %d", prev->outline_level);
+			gsf_xml_out_add_int (output, "OutlineLevel", prev->outline_level);
+		}
 
 		if (closure->rle_count > 1)
 			gsf_xml_out_add_int (output, "Count", closure->rle_count);

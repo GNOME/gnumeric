@@ -1,3 +1,7 @@
+2005-01-08  Jody Goldberg <jody@gnome.org>
+
+	* xml-sax-write.c (xml_write_colrow_info) : cut-n-paste-o
+
 2004-12-09  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.4.1

@@ -19,6 +19,7 @@ Jody:
 	* Install the man pages
 	* Backport some framework for RTL
 	* image import from xl95 [#157997]
+	* Fix sax export of outlines
 
 Morten:
 	* Improve accuracy of pgamma and thus pchisq, ppois, qgamma,
