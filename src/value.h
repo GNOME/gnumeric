@@ -114,7 +114,7 @@ void         value_release         (Value *v);
 void	     value_set_fmt	   (Value *v, StyleFormat const *fmt);
 void         value_dump            (Value const *v);
 Value       *value_duplicate       (Value const *v);
-double       value_diff		   (Value const *a, Value const *b);
+gnum_float   value_diff		   (Value const *a, Value const *b);
 ValueCompare value_compare         (Value const *a, Value const *b,
 				    gboolean case_sensitive);
 

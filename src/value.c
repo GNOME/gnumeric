@@ -798,9 +798,9 @@ compare_float_float (Value const *va, Value const *vb)
  *
  * IGNORES format.
  *
- * Returns a positive difference between 2 values
+ * Returns a non-negative difference between 2 values
  */
-double
+gnum_float
 value_diff (Value const *a, Value const *b)
 {
 	ValueType ta, tb;
@@ -862,13 +862,13 @@ value_diff (Value const *a, Value const *b)
 	case VALUE_INTEGER: {
 		int const ia = value_get_as_int (a);
 		int const ib = value_get_as_int (b);
-		return abs (ia-ib);
+		return abs (ia - ib);
 	}
 
 	case VALUE_FLOAT: {
-		double const da = value_get_as_float (a);
-		double const db = value_get_as_float (b);
-		return fabs (da-db);
+		const gnum_float da = value_get_as_float (a);
+		const gnum_float db = value_get_as_float (b);
+		return fabs (da - db);
 	}
 	default:
 		return TYPE_MISMATCH;

@@ -512,7 +512,7 @@ format_compile (StyleFormat *format)
 		}
 
 		case '/':
-			if (fmt[1] == '?' || isdigit (fmt[1])) {
+			if (fmt[1] == '?' || isdigit ((unsigned char)fmt[1])) {
 				entry->has_fraction = TRUE;
 				fmt++;
 			}
