@@ -30,18 +30,28 @@ to features that already work.
 
    + Implement more functions :
      - AREAS and GETPIVOTDATA
-       AMORDEGRC, AMORLINC, COUPPCD, CUMIPMT, CUMPRINC, MDURATION, ODDFPRICE,
-       ODDFYIELD, ODDLPRICE, ODDLYIELD, VDB, YIELD, YIELDDISC, and YIELDMAT.
+       AMORDEGRC, AMORLINC, COUPPCD, CUMIPMT, CUMPRINC, MDURATION, ODDFYIELD,
+       ODDLPRICE, ODDLYIELD, VDB, YIELDDISC, and YIELDMAT.
 
    + Fix or finish the following functions :
-     - COUPDAYBS, COUPDAYS, COUPDAYSNC, and DURATION
+     - COUPDAYS, ODDFPRICE, YIELD, and DURATION
 
 * Data Analysis Tools
-
-   + Finish `Histogram' tool
-   + Implement `Patterned distribution' for `Random Number Generation'
-   + Implement the `Fourier Analysis' (the dialog is implemented)
-   + Finish the documentation
+  - Exponential smoothing
+    + Implement standard errors
+    + Chart output
+  - Histogram
+    + Chart output
+  - Moving Average:
+    + Chart output
+  - Random number generation
+    + Implement patterned distribution
+    + Random Seed input
+  - Regression
+    + Residuals
+    + Standardized Residuals
+    + Residual Plots
+    + Line Fit Plots
 
 * Printing
 
