@@ -38,4 +38,4 @@ html :
 	--stringparam yelp_chunk_method exslt	\
 	--stringparam yelp_max_chunk_depth 4	\
 	--stringparam yelp_generate_navbar 1 	\
-	$(datadir)/sgml/docbook/yelp/yelp-customization.xsl gnumeric.xml
+	$(datadir)/sgml/docbook/yelp/yelp-customization.xsl $(srcdir)/gnumeric.xml
