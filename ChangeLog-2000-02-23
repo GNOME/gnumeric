@@ -1,5 +1,12 @@
 1999-11-21  Jody Goldberg <jgoldberg@home.com>
 
+	* src/widgets/widget-color-combo.c (none_clicked) : Emit a -1 if none
+	  is selected.
+	(color_table_setup) : Use new function.
+
+	* src/workbook-format-toolbar.c (back_color_changed) : Support Color
+	  'None'.
+
 	* src/file.c (workbook_save) : Use needs_name flag rather than
 	  checking the filename.  All books now have file names.
 

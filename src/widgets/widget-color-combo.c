@@ -6,6 +6,7 @@
  */
 #include <config.h>
 #include <gnome.h>
+#include "color.h"
 #include "gtk-combo-box.h"
 #include "widget-color-combo.h"
 
@@ -73,6 +74,22 @@ color_combo_get_type (void)
 }
 
 static void
+none_clicked (GtkWidget *button, ColorCombo *combo)
+{
+	combo->last_index = 0;
+	
+	gtk_signal_emit (
+		GTK_OBJECT (combo), color_combo_signals [CHANGED], &gs_black, -1);
+
+	gnome_canvas_item_set (
+		combo->preview_color_item,
+		"fill_color_gdk", &gs_black,
+		NULL);
+
+	gtk_combo_box_popup_hide (GTK_COMBO_BOX (combo));
+}
+
+static void
 color_clicked (GtkWidget *button, ColorCombo *combo)
 {
 	int index = GPOINTER_TO_INT (gtk_object_get_user_data (GTK_OBJECT (button)));
@@ -107,10 +124,12 @@ color_table_setup (ColorCombo *cc, gboolean no_color, int ncols, int nrows, char
 	
 	table = gtk_table_new (ncols, nrows, 0);
 	
-	if (no_color){
+	if (no_color) {
 		label = gtk_button_new_with_label (_("None"));
 
 		gtk_table_attach (GTK_TABLE (table), label, 0, ncols, 0, 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+		gtk_signal_connect (GTK_OBJECT (label), "clicked",
+				    GTK_SIGNAL_FUNC(none_clicked), cc);
 	}
 	total = 0;
 	for (row = 0; row < nrows; row++){

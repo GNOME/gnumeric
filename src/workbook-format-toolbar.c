@@ -312,13 +312,17 @@ back_color_changed (ColorCombo *cc, GdkColor *color, int color_index, Workbook *
 	Sheet  *sheet = workbook_get_current_sheet (wb);
 	MStyle *mstyle = mstyle_new ();
 
-	/* We need to have a pattern of at least solid to draw a background colour */
-	if (!mstyle_is_element_set  (mstyle, MSTYLE_PATTERN) ||
-	    mstyle_get_pattern (mstyle) < 1)
-		mstyle_set_pattern (mstyle, 1);
+	if (color_index >= 0) {
+		/* We need to have a pattern of at least solid to draw a background colour */
+		if (!mstyle_is_element_set  (mstyle, MSTYLE_PATTERN) ||
+		    mstyle_get_pattern (mstyle) < 1)
+			mstyle_set_pattern (mstyle, 1);
 
-	mstyle_set_color (mstyle, MSTYLE_COLOR_BACK, 
-			  style_color_new (color->red, color->green, color->blue));
+		mstyle_set_color (mstyle, MSTYLE_COLOR_BACK, 
+				  style_color_new (color->red, color->green, color->blue));
+	} else
+		/* Set background to NONE */
+		mstyle_set_pattern (mstyle, 0);
 
 	sheet_selection_apply_style (sheet, mstyle);
 }
