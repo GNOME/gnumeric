@@ -668,7 +668,7 @@ cell_get_mstyle (Cell const *cell)
 StyleFormat *
 cell_get_format (Cell const *cell)
 {
-	StyleFormat const *fmt;
+	StyleFormat *fmt;
 
 	g_return_val_if_fail (cell != NULL, style_format_general ());
 
