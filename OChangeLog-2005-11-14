@@ -1,5 +1,13 @@
 2001-08-15  Jody Goldberg <jgoldberg@home.com>
 
+	* src/GNOME_Gnumeric.xml : Use the new artwork from gtkhtml for
+		- undo/redo
+		- cut/copy/paste
+	* src/workbook-control-gui.c : ditto.
+	* src/application.c : ditto.
+
+2001-08-15  Jody Goldberg <jgoldberg@home.com>
+
 	* src/dialogs/dialog-about.c (dialog_about) : update.
 	* AUTHORS : update.
 

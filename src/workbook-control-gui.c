@@ -2390,14 +2390,24 @@ static GnomeUIInfo workbook_menu_edit_sheet [] = {
 
 
 static GnomeUIInfo workbook_menu_edit [] = {
-	GNOMEUIINFO_MENU_UNDO_ITEM (cb_edit_undo, NULL),
-	GNOMEUIINFO_MENU_REDO_ITEM (cb_edit_redo, NULL),
+	GNOMEUIINFO_ITEM_STOCK (N_("_Undo"), N_("Undo"),
+				cb_edit_undo,
+				"Menu_Gnumeric_Undo"),
+	GNOMEUIINFO_ITEM_STOCK (N_("_Redo"), N_("Redo"),
+				cb_edit_redo,
+				"Menu_Gnumeric_Redo"),
 
 	GNOMEUIINFO_SEPARATOR,
 
-        GNOMEUIINFO_MENU_CUT_ITEM (cb_edit_cut, NULL),
-	GNOMEUIINFO_MENU_COPY_ITEM (cb_edit_copy, NULL),
-	GNOMEUIINFO_MENU_PASTE_ITEM (cb_edit_paste, NULL),
+	GNOMEUIINFO_ITEM_STOCK (N_("_Cut"), N_("Cut"),
+				cb_edit_cut,
+				"Menu_Gnumeric_Cut"),
+	GNOMEUIINFO_ITEM_STOCK (N_("_Copy"), N_("Copy"),
+				cb_edit_copy,
+				"Menu_Gnumeric_Copy"),
+	GNOMEUIINFO_ITEM_STOCK (N_("_Paste"), N_("Paste"),
+				cb_edit_paste,
+				"Menu_Gnumeric_Paste"),
 
 	GNOMEUIINFO_ITEM_NONE (N_("P_aste special..."),
 		N_("Paste with optional filters and transformations"),
@@ -2747,13 +2757,13 @@ static GnomeUIInfo workbook_standard_toolbar [] = {
 
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Cut"), N_("Cuts the selection to the clipboard"),
-		cb_edit_cut, GNOME_STOCK_PIXMAP_CUT),
+		cb_edit_cut, "Gnumeric_Cut"),
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Copy"), N_("Copies the selection to the clipboard"),
-		cb_edit_copy, GNOME_STOCK_PIXMAP_COPY),
+		cb_edit_copy, "Gnumeric_Copy"),
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Paste"), N_("Pastes the clipboard"),
-		cb_edit_paste, GNOME_STOCK_PIXMAP_PASTE),
+		cb_edit_paste, "Gnumeric_Paste"),
 
 	GNOMEUIINFO_SEPARATOR,
 
@@ -2942,7 +2952,7 @@ workbook_create_standard_toolbar (WorkbookControlGUI *wbcg)
 					preset_zoom[i], preset_zoom[i]);
 
 	/* Undo dropdown list */
-	undo = wbcg->undo_combo = gtk_combo_stack_new (GNOME_STOCK_PIXMAP_UNDO, TRUE);
+	undo = wbcg->undo_combo = gtk_combo_stack_new ("Gnumeric_Undo", TRUE);
 	gtk_combo_box_set_title (GTK_COMBO_BOX (undo), _("Undo"));
 	if (!gnome_preferences_get_toolbar_relief_btn ())
 		gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (undo), GTK_RELIEF_NONE);
@@ -2950,7 +2960,7 @@ workbook_create_standard_toolbar (WorkbookControlGUI *wbcg)
 			    (GtkSignalFunc) cb_undo_combo, wbcg);
 
 	/* Redo dropdown list */
-	redo = wbcg->redo_combo = gtk_combo_stack_new (GNOME_STOCK_PIXMAP_REDO, TRUE);
+	redo = wbcg->redo_combo = gtk_combo_stack_new ("Gnumeric_Redo", TRUE);
 	gtk_combo_box_set_title (GTK_COMBO_BOX (redo), _("Redo"));
 	if (!gnome_preferences_get_toolbar_relief_btn ())
 		gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (redo), GTK_RELIEF_NONE);

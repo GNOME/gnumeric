@@ -16,9 +16,6 @@
 #include "sheet.h"
 #include "sheet-private.h"
 
-#include "pixmaps/16_save.xpm"
-#include "pixmaps/16_save_as.xpm"
-#include "pixmaps/16_search_and_replace.xpm"
 #include "pixmaps/menu-print-preview.xpm"
 #include "pixmaps/print-preview.xpm"
 #include "pixmaps/sort-descending.xpm"
@@ -47,6 +44,14 @@
 #include "pixmaps/add_decimals.xpm"
 #include "pixmaps/remove_decimals.xpm"
 
+#include "pixmaps/16_save.xpm"
+#include "pixmaps/16_save_as.xpm"
+#include "pixmaps/16_search_and_replace.xpm"
+#include "pixmaps/16_cut.xpm"
+#include "pixmaps/16_copy.xpm"
+#include "pixmaps/16_paste.xpm"
+#include "pixmaps/16_undo.xpm"
+#include "pixmaps/16_redo.xpm"
 #include "pixmaps/16_add_column.xpm"
 #include "pixmaps/16_add_comment.xpm"
 #include "pixmaps/16_add_row.xpm"
@@ -70,6 +75,11 @@
 #include "pixmaps/16_show_detail.xpm"
 #include "pixmaps/16_hide_detail.xpm"
 
+#include "pixmaps/24_cut.xpm"
+#include "pixmaps/24_copy.xpm"
+#include "pixmaps/24_paste.xpm"
+#include "pixmaps/24_undo.xpm"
+#include "pixmaps/24_redo.xpm"
 #include "pixmaps/24_add_column.xpm"
 #include "pixmaps/24_add_row.xpm"
 #include "pixmaps/24_cell_height.xpm"
@@ -130,6 +140,11 @@ application_init (void)
 		{ 16, 16, "Menu_Gnumeric_PrintPreview", menu_print_preview_xpm },
 		{ 16, 16, "Menu_Gnumeric_InsertShapedComponent", i16_insert_shaped_object_xpm },
 
+		{ 16, 16, "Menu_Gnumeric_Cut", i16_cut_xpm },
+		{ 16, 16, "Menu_Gnumeric_Copy", i16_copy_xpm },
+		{ 16, 16, "Menu_Gnumeric_Paste", i16_paste_xpm },
+		{ 16, 16, "Menu_Gnumeric_Undo", i16_undo_xpm },
+		{ 16, 16, "Menu_Gnumeric_Redo", i16_redo_xpm },
 		{ 16, 16, "Menu_Gnumeric_CommentAdd", i16_add_comment_xpm },
 		{ 16, 16, "Menu_Gnumeric_CommentDelete", i16_delete_comment_xpm },
 		{ 16, 16, "Menu_Gnumeric_CommentEdit", i16_edit_comment_xpm },
@@ -159,6 +174,11 @@ application_init (void)
 		{ 24, 24, "Gnumeric_CommentDelete", i24_delete_comment_xpm },
 		{ 24, 24, "Gnumeric_CommentEdit", i24_edit_comment_xpm },
 #endif
+		{ 24, 24, "Gnumeric_Cut", i24_cut_xpm },
+		{ 24, 24, "Gnumeric_Copy", i24_copy_xpm },
+		{ 24, 24, "Gnumeric_Paste", i24_paste_xpm },
+		{ 24, 24, "Gnumeric_Undo", i24_undo_xpm },
+		{ 24, 24, "Gnumeric_Redo", i24_redo_xpm },
 		{ 24, 24, "Gnumeric_ColumnAdd", i24_add_column_xpm },
 		{ 24, 24, "Gnumeric_ColumnDelete", i24_delete_column_xpm },
 		{ 24, 24, "Gnumeric_ColumnSize", i24_cell_width_xpm },
