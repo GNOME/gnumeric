@@ -24,6 +24,7 @@ Andreas:
 	* Clarify insert/append sheet commands
         * Change layout of preference dialog
 	* Make fill->series undoable, redesign its dialog
+	* Make Data->Text_to_Columns undoable
 
 Ben Liblit:
 	* Another attempt at configure time path generation.
