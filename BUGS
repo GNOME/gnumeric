@@ -15,7 +15,6 @@ Release Critical
 - Text-import dialog crashes.
 - Summary dialog is non-functional.
 - Function selection dialog is broken, and it sucks.
-- Go-to cell dialog is shot, make it a guru.        (Andreas: I am on it.)
 - 3D reference fixes on sheet deletion
 
 1.2 Targets

@@ -123,6 +123,7 @@ src/dialogs/formula-guru.glade
 src/dialogs/fourier-analysis.glade
 src/dialogs/function-select.glade
 src/dialogs/goalseek.glade
+src/dialogs/goto.glade
 src/dialogs/graph-guru.glade
 src/dialogs/hf-config.glade
 src/dialogs/histogram.glade

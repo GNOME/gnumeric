@@ -1,3 +1,7 @@
+2002-03-17  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* POTFILES.in : added src/dialogs/goto.glade
+
 2002-03-16  Carlos Perelló Marín <carlos@gnome-db.org>
 
 	* POTFILES.in: /s/GNOME_Gnumeric.server.in/GNOME_Gnumeric.server.in.in/
