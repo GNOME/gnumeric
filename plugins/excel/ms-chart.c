@@ -1806,6 +1806,9 @@ BC_R(seriestext)(ExcelChartHandler const *handle,
 
 	g_return_val_if_fail (id == 0, FALSE);
 
+	if (slen == 0)
+		return FALSE;
+
 	str = biff_get_text (q->data + 3, slen, NULL);
 	d (2, puts (str););
 

@@ -43,6 +43,7 @@
 #include <gutils.h>
 #include <application.h>
 #include <io-context.h>
+#include <command-context.h>
 #include <sheet-object-cell-comment.h>
 #include <sheet-object-widget.h>
 #include <sheet-object-graphic.h>
@@ -4945,12 +4946,12 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 
 		case BIFF_FILEPASS: /* All records after this are encrypted */
 			do {
-				char *passwd = gnm_io_get_password (context,
+				char *passwd = cmd_context_get_password (COMMAND_CONTEXT (context),
 					_("This file is encrypted"));
-				if (!ms_biff_query_set_decrypt (q, passwd))
-					problem_loading = _("Invalid password");
 				if (passwd == NULL)
 					break;
+				if (!ms_biff_query_set_decrypt (q, passwd))
+					problem_loading = _("Invalid password");
 				g_free (passwd);
 				if (problem_loading == NULL)
 					break;
@@ -5068,11 +5069,12 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 
 		/* If we were forced to stop then the load failed */
 		if (problem_loading != NULL)
-			gnumeric_io_error_read (context, problem_loading);
+			gnumeric_error_read (COMMAND_CONTEXT (context), problem_loading);
 		return;
 	}
 
-	gnumeric_io_error_read (context, _("Unable to locate valid MS Excel workbook"));
+	gnumeric_error_read (COMMAND_CONTEXT (context),
+		_("Unable to locate valid MS Excel workbook"));
 }
 
 

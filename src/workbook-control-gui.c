@@ -1489,52 +1489,16 @@ wbcg_progress_message_set (CommandContext *cc, gchar const *msg)
 }
 
 static void
-wbcg_error_system (CommandContext *cc, char const *msg)
+wbcg_error_error (CommandContext *cc, GError *err)
 {
-	gnumeric_notice ((WorkbookControlGUI *)cc, GTK_MESSAGE_ERROR, msg);
-}
-static void
-wbcg_error_plugin (CommandContext *cc, char const *msg)
-{
-	gnumeric_notice ((WorkbookControlGUI *)cc, GTK_MESSAGE_ERROR, msg);
-}
-static void
-wbcg_error_read (CommandContext *cc, char const *msg)
-{
-	gnumeric_notice ((WorkbookControlGUI *)cc, GTK_MESSAGE_ERROR, msg);
+	gnumeric_notice (WORKBOOK_CONTROL_GUI (cc),
+		GTK_MESSAGE_ERROR, err->message);
 }
 
 static void
-wbcg_error_save (CommandContext *cc, char const *msg)
+wbcg_error_error_info (CommandContext *cc, ErrorInfo *error)
 {
-	gnumeric_notice ((WorkbookControlGUI *)cc, GTK_MESSAGE_ERROR, msg);
-}
-static void
-wbcg_error_invalid (CommandContext *cc, char const *msg, char const * value)
-{
-	char *buf = g_strconcat (msg, " : ", value, NULL);
-	gnumeric_notice ((WorkbookControlGUI *)cc, GTK_MESSAGE_ERROR, buf);
-	g_free (buf);
-}
-static void
-wbcg_error_splits_array (CommandContext *context,
-			 char const *cmd, Range const *array)
-{
-	char *message;
-
-	if (array != NULL)
-		message = g_strdup_printf (_("Would split array %s"), range_name (array));
-	else
-		message = g_strdup (_("Would split an array"));
-	gnumeric_error_invalid (context, cmd, message);
-	g_free (message);
-}
-
-static void
-wbcg_error_error_info (CommandContext *context,
-                       ErrorInfo *error)
-{
-	gnumeric_error_info_dialog_show (WORKBOOK_CONTROL_GUI (context), error);
+	gnumeric_error_info_dialog_show (WORKBOOK_CONTROL_GUI (cc), error);
 }
 
 static char const * const preset_zoom [] = {
@@ -5242,12 +5206,7 @@ workbook_control_gui_ctor_class (GObjectClass *object_class)
 	cc_class->set_sensitive		= wbcg_set_sensitive;
 	cc_class->progress_set		= wbcg_progress_set;
 	cc_class->progress_message_set	= wbcg_progress_message_set;
-	cc_class->error.system		= wbcg_error_system;
-	cc_class->error.plugin		= wbcg_error_plugin;
-	cc_class->error.read		= wbcg_error_read;
-	cc_class->error.save		= wbcg_error_save;
-	cc_class->error.invalid		= wbcg_error_invalid;
-	cc_class->error.splits_array 	= wbcg_error_splits_array;
+	cc_class->error.error		= wbcg_error_error;
 	cc_class->error.error_info	= wbcg_error_error_info;
 
 	wbc_class->control_new		= wbcg_control_new;

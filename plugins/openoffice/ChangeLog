@@ -1,3 +1,7 @@
+2002-10-02  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c : Ensure that the sheet ordering is correct.
+
 2002-10-01  Jody Goldberg <jody@gnome.org>
 
 	* openoffice-read.c (oo_attr_enum) : new.

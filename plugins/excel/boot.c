@@ -15,6 +15,7 @@
 #include "file.h"
 #include "libgnumeric.h"
 #include "io-context.h"
+#include "command-context.h"
 #include "workbook-view.h"
 #include "workbook.h"
 #include "plugin-util.h"
@@ -91,7 +92,7 @@ excel_file_probe (GnumFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 }
 
 static void
-excel_read_metadata (GsfInfile *ole, char const *name, IOContext *context)
+excel_read_metadata (GsfInfile *ole, char const *name, CommandContext *context)
 {
 	GError   *err = NULL;
 	GsfInput *stream = gsf_infile_child_by_name (ole, name);
@@ -99,7 +100,7 @@ excel_read_metadata (GsfInfile *ole, char const *name, IOContext *context)
 	if (stream != NULL) {
 		gsf_msole_metadata_read (stream, &err);
 		if (err != NULL) {
-			gnumeric_io_error_read (context, err->message);
+			gnumeric_error_read (context, err->message);
 			g_error_free (err);
 		}
 		g_object_unref (G_OBJECT (stream));
@@ -131,7 +132,8 @@ excel_file_open (GnumFileOpener const *fo, IOContext *context,
 
 	if (ole == NULL) {
 		g_return_if_fail (err != NULL);
-		gnumeric_io_error_read (context, err->message);
+		gnumeric_error_read (COMMAND_CONTEXT (context),
+			err->message);
 		g_error_free (err);
 		return;
 	}
@@ -140,7 +142,7 @@ excel_file_open (GnumFileOpener const *fo, IOContext *context,
 		stream = gsf_infile_child_by_name (ole, content[i++]);
 	} while (stream == NULL && i < G_N_ELEMENTS (content));
 	if (stream == NULL) {
-		gnumeric_io_error_read (context,
+		gnumeric_error_read (COMMAND_CONTEXT (context),
 			 _("No Workbook or Book streams found."));
 		g_object_unref (G_OBJECT (ole));
 		return;
@@ -149,8 +151,8 @@ excel_file_open (GnumFileOpener const *fo, IOContext *context,
 	ms_excel_read_workbook (context, wbv, stream);
 	g_object_unref (G_OBJECT (stream));
 
-	excel_read_metadata (ole, "\05SummaryInformation", context);
-	excel_read_metadata (ole, "\05DocumentSummaryInformation", context);
+	excel_read_metadata (ole, "\05SummaryInformation", COMMAND_CONTEXT (context));
+	excel_read_metadata (ole, "\05DocumentSummaryInformation", COMMAND_CONTEXT (context));
 
 	/* See if there are any macros to keep around */
 	stream = gsf_infile_child_by_name (ole, "_VBA_PROJECT_CUR");
@@ -176,7 +178,7 @@ excel_save (IOContext *context, WorkbookView *wbv, const char *filename,
             MsBiffVersion ver)
 {
 	Workbook *wb;
-	GsfOutput *output;
+	GsfOutput *output, *content;
 	GsfOutfile *outfile;
 	void *state = NULL;
 	GError    *err;
@@ -197,7 +199,7 @@ excel_save (IOContext *context, WorkbookView *wbv, const char *filename,
 	if (output == NULL) {
 		char *str = g_strdup_printf (_("Can't open '%s' : %s"),
 			filename, err->message);
-		gnumeric_io_error_save (context, str);
+		gnumeric_error_save (COMMAND_CONTEXT (context), str);
 		ms_excel_write_free_state (state);
 		g_error_free (err);
 		g_free (str);
@@ -212,11 +214,17 @@ excel_save (IOContext *context, WorkbookView *wbv, const char *filename,
 	io_progress_range_pop (context);
 
 	wb = wb_view_workbook (wbv);
-#warning re-enable when gsf meta data generator is ready
-#if 0
-	Workbook *wb = wb_view_workbook (wbv);
-	ms_summary_write (f, wb->summary_info);
-#endif
+	content = gsf_outfile_new_child (outfile,
+		"\05DocumentSummaryInformation", FALSE);
+	gsf_msole_metadata_write (content, TRUE, NULL);
+	gsf_output_close (content);
+	g_object_unref (G_OBJECT (content));
+
+	content = gsf_outfile_new_child (outfile,
+		"\05SummaryInformation", FALSE);
+	gsf_msole_metadata_write (content, FALSE, NULL);
+	gsf_output_close (content);
+	g_object_unref (G_OBJECT (content));
 
 	/* restore the macros we loaded */
 	macros = g_object_get_data (G_OBJECT (wb), "MS_EXCEL_MACROS");

@@ -89,7 +89,8 @@ gnumeric_bonobo_read_from_stream (BonoboPersistStream       *ps,
 #warning "These two are doubtful."
 		wb_view = NULL;
 		wb = NULL;
-		gnumeric_io_error_read (ioc, _("Unsupported file format."));
+		gnumeric_error_read (COMMAND_CONTEXT (ioc),
+			_("Unsupported file format."));
 	}
 	if (gnumeric_io_error_occurred (ioc)) {
 		gnumeric_io_error_display (ioc);
@@ -343,7 +344,7 @@ gnumeric_bonobo_write_workbook (GnumFileSaver const *fs,
 
 	if (!storage) {
 		char *msg = g_strdup_printf ("Can't open '%s'", filename);
-		gnumeric_io_error_save (context, msg);
+		gnumeric_error_save (COMMAND_CONTEXT (context), msg);
 		g_free (msg);
 		return;
 	}
@@ -353,7 +354,7 @@ gnumeric_bonobo_write_workbook (GnumFileSaver const *fs,
 	 */
 	xml = xmlNewDoc ((xmlChar *)"1.0");
 	if (!xml) {
-		gnumeric_io_error_save (context, "");
+		gnumeric_error_save (COMMAND_CONTEXT (context), "");
 		bonobo_object_unref (BONOBO_OBJECT (storage));
 		return;
 	}
@@ -392,7 +393,7 @@ gnumeric_bonobo_write_workbook (GnumFileSaver const *fs,
 							    size, &ev);
 
 			if (BONOBO_EX (&ev)) {
-				gnumeric_io_error_save (context,
+				gnumeric_error_save (COMMAND_CONTEXT (context),
 					"Error storing workbook stream");
 			}
 		}
@@ -432,7 +433,7 @@ gnumeric_bonobo_read_workbook (GnumFileOpener const *fo,
 
 	if (!storage) {
 		char *msg = g_strdup_printf ("Can't open '%s'", filename);
-		gnumeric_io_error_save (context, msg);
+		gnumeric_error_save (COMMAND_CONTEXT (context), msg);
 		g_free (msg);
 		return;
 	}
@@ -445,7 +446,7 @@ gnumeric_bonobo_read_workbook (GnumFileOpener const *fo,
 	if (BONOBO_EX (&ev) || stream == CORBA_OBJECT_NIL) {
 		char *txt = g_strdup_printf (_("Error '%s' opening workbook stream"),
 					     bonobo_exception_get_text (&ev));
-		gnumeric_io_error_save (context, txt);
+		gnumeric_error_save (COMMAND_CONTEXT (context), txt);
 		g_free (txt);
 		goto storage_err;
 	}
@@ -455,14 +456,14 @@ gnumeric_bonobo_read_workbook (GnumFileOpener const *fo,
 	 */
 	doc = hack_xmlSAXParseFile (stream);
 	if (!doc) {
-		gnumeric_io_error_read (
-			context, "Failed to parse file");
+		gnumeric_error_read (COMMAND_CONTEXT (context),
+			_("Failed to parse file"));
 		goto storage_err;
 	}
 	if (!doc->xmlRootNode) {
 		xmlFreeDoc (doc);
-		gnumeric_io_error_read (
-			context, _("Invalid xml file. Tree is empty ?"));
+		gnumeric_error_read (COMMAND_CONTEXT (context),
+			_("Invalid xml file. Tree is empty ?"));
 		goto storage_err;
 	}
 
@@ -472,8 +473,8 @@ gnumeric_bonobo_read_workbook (GnumFileOpener const *fo,
 	gmr = xml_check_version (doc, &version);
 	if (!gmr) {
 		xmlFreeDoc (doc);
-		gnumeric_io_error_read (
-			context, _("Does not contain a Workbook file"));
+		gnumeric_error_read (COMMAND_CONTEXT (context),
+			_("Does not contain a Workbook file"));
 		goto storage_err;
 	}
 

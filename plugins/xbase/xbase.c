@@ -12,8 +12,14 @@
 #include <stdio.h>
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-utils.h>
+#include <gsf/gsf-msole-utils.h>
 
 #define XBASE_DEBUG 0
+#if XBASE_DEBUG > 0
+#define d(level, code)	do { if (XBASE_DEBUG > level) { code } } while (0)
+#else
+#define d(level, code)
+#endif
 
 static char const * const field_types = "CNLDMF?BGPYTI";
 
@@ -95,7 +101,40 @@ record_get_field (XBrecord const *record, guint num)
 static gboolean
 xbase_read_header (XBfile *x)
 {
-	int cp;
+	static struct {
+		guint8 const id;
+		int    const codepage;
+		char const *const name;
+	} const codepages [] = {
+		{ 0x01, 437, "U.S. MS-DOS" },
+		{ 0x69, 620, "Mazovia (Polish) MS-DOS" },
+		{ 0x6A, 737, "Greek MS-DOS (437G)" },
+		{ 0x02, 850, "International MS-DOS" },
+		{ 0x64, 852, "Eastern European MS-DOS" },
+		{ 0x6B, 857, "Turkish MS-DOS" },
+		{ 0x67, 861, "Icelandic MS-DOS" },
+		{ 0x66, 865, "Nordic MS-DOS" },
+		{ 0x65, 866, "Russian MS-DOS" },
+		{ 0x7C, 874, "Thai Windows" },
+		{ 0x68, 895, "Kamenicky (Czech) MS-DOS" },
+		{ 0x7B, 932, "Japanese Windows" },
+		{ 0x7A, 936, "Chinese (PRC, Singapore) Windows" },
+		{ 0x79, 949, "Korean Windows" },
+		{ 0x78, 950, "Chinese (Hong Kong SAR, Taiwan) Windows" },
+		{ 0xC8, 1250, "Eastern European Windows" },
+		{ 0xC9, 1251, "Russian Windows" },
+		{ 0x03, 1252, "Windows ANSI" },
+		{ 0xCB, 1253, "Greek Windows" },
+		{ 0xCA, 1254, "Turkish Windows" },
+		{ 0x7D, 1255, "Hebrew Windows" },
+		{ 0x7E, 1256, "Arabic Windows" },
+		{ 0x04, 10000, "Standard Macintosh" },
+		{ 0x98, 10006, "Greek Macintosh" },
+		{ 0x96, 10007, "Russian Macintosh" },
+		{ 0x97, 10029, "Macintosh EE" },
+		{ 0x00, 0, NULL }
+	};
+	int i;
 	guint8 hdr[32];
 
 	if (gsf_input_read (x->input, 32, hdr) == NULL) {
@@ -132,91 +171,20 @@ xbase_read_header (XBfile *x)
 	fprintf (stderr, "Reserved (multi-user):\t%" G_GINT64_FORMAT "\n",
 		 GSF_LE_GET_GUINT64(hdr + 20));
 	fprintf (stderr, "MDX flag:\t%d\n", hdr[28]); /* FIXME: decode */
-	fprintf (stderr, "Language driver (code page):\t");
-	switch (hdr[29]) {
-	case 0x01: cp = 437;
-		fprintf (stderr, "U.S. MS-DOS (%d)\n", cp);
-		break;
-	case 0x69: cp = 620;
-		fprintf (stderr, "Mazovia (Polish) MS-DOS (%d)\n", cp);
-		break;
-	case 0x6A: cp = 737;
-		fprintf (stderr, "Greek MS-DOS (437G) (%d)\n", cp);
-		break;
-	case 0x02: cp = 850;
-		fprintf (stderr, "International MS-DOS (%d)\n", cp);
-		break;
-	case 0x64: cp = 852;
-		fprintf (stderr, "Eastern European MS-DOS (%d)\n", cp);
-		break;
-	case 0x6B: cp = 857;
-		fprintf (stderr, "Turkish MS-DOS (%d)\n", cp);
-		break;
-	case 0x67: cp = 861;
-		fprintf (stderr, "Icelandic MS-DOS (%d)\n", cp);
-		break;
-	case 0x66: cp = 865;
-		fprintf (stderr, "Nordic MS-DOS (%d)\n", cp);
-		break;
-	case 0x65: cp = 866;
-		fprintf (stderr, "Russian MS-DOS (%d)\n", cp);
-		break;
-	case 0x7C: cp = 874;
-		fprintf (stderr, "Thai Windows (%d)\n", cp);
-		break;
-	case 0x68: cp = 895;
-		fprintf (stderr, "Kamenicky (Czech) MS-DOS (%d)\n", cp);
-		break;
-	case 0x7B: cp = 932;
-		fprintf (stderr, "Japanese Windows (%d)\n", cp);
-		break;
-	case 0x7A: cp = 936;
-		fprintf (stderr, "Chinese (PRC, Singapore) Windows (%d)\n", cp);
-		break;
-	case 0x79: cp = 949;
-		fprintf (stderr, "Korean Windows (%d)\n", cp);
-		break;
-	case 0x78: cp = 950;
-		fprintf (stderr, "Chinese (Hong Kong SAR, Taiwan) Windows (%d)\n", cp);
-		break;
-	case 0xC8: cp = 1250;
-		fprintf (stderr, "Eastern European Windows (%d)\n", cp);
-		break;
-	case 0xC9: cp = 1251;
-		fprintf (stderr, "Russian Windows (%d)\n", cp);
-		break;
-	case 0x03: cp = 1252;
-		fprintf (stderr, "Windows ANSI (%d)\n", cp);
-		break;
-	case 0xCB: cp = 1253;
-		fprintf (stderr, "Greek Windows (%d)\n", cp);
-		break;
-	case 0xCA: cp = 1254;
-		fprintf (stderr, "Turkish Windows (%d)\n", cp);
-		break;
-	case 0x7D: cp = 1255;
-		fprintf (stderr, "Hebrew Windows (%d)\n", cp);
-		break;
-	case 0x7E: cp = 1256;
-		fprintf (stderr, "Arabic Windows (%d)\n", cp);
-		break;
-	case 0x04: cp = 10000;
-		fprintf (stderr, "Standard Macintosh (%d)\n", cp);
-		break;
-	case 0x98: cp = 10006;
-		fprintf (stderr, "Greek Macintosh (%d)\n", cp);
-		break;
-	case 0x96: cp = 10007;
-		fprintf (stderr, "Russian Macintosh (%d)\n", cp);
-		break;
-	case 0x97: cp = 10029;
-		fprintf (stderr, "Macintosh EE (%d)\n", cp);
-		break;
-	default:
-		fprintf (stderr, "unknown 0x%hhx\n!\n", hdr[29]);
-	}
 	fprintf (stderr, "Reserved:\t%d\n", GSF_LE_GET_GUINT16 (hdr + 30));
+	fprintf (stderr, "Language driver (code page):\t");
 #endif
+	x->char_map = (GIConv)-1;
+	for (i = 0; codepages[i].id != 0 ; i++)
+		if (codepages[i].id == hdr[29]) {
+			x->char_map = gsf_msole_iconv_open_for_import (codepages[i].codepage);
+			d (1, fprintf (stderr, "%s (%d)\n",
+				       codepages[i].name, codepages[i].codepage););
+			break;
+		}
+	if (codepages[i].id != 0)
+		fprintf (stderr, "unknown 0x%hhx\n!\n", hdr[29]);
+
 	return FALSE;
 }
 
@@ -305,6 +273,7 @@ xbase_close (XBfile *x)
 			style_format_unref (field->fmt);
 		g_free (field);
 	}
+	gsf_iconv_close (x->char_map);
 	g_free (x->format);
 	g_free (x);
 }

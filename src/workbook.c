@@ -1159,11 +1159,10 @@ workbook_sheet_get_free_name (Workbook *wb,
  * Returns FALSE when it was successful
  **/
 gboolean
-workbook_sheet_reorder (WorkbookControl *wbc, GSList *new_order, GSList *new_sheets)
+workbook_sheet_reorder (Workbook *wb, GSList *new_order, GSList *new_sheets)
 {
 	GSList *this_sheet;
 	gint old_pos, new_pos = 0;
-	Workbook *wb = wb_control_workbook (wbc);
 
 	if (!new_order)
 		return TRUE;
@@ -1206,12 +1205,13 @@ workbook_sheet_reorder (WorkbookControl *wbc, GSList *new_order, GSList *new_she
 }
 
 gboolean
-workbook_sheet_reorganize (WorkbookControl *wbc, 
+workbook_sheet_reorganize (Workbook *wb, 
 			   GSList *changed_names, GSList *new_order,  
 			   GSList *new_names,  GSList *old_names,
 			   GSList **new_sheets, GSList *color_changed,
 			   GSList *colors_fore, GSList *colors_back,
-			   GSList *protection_changed, GSList *new_locks)
+			   GSList *protection_changed, GSList *new_locks,
+			   CommandContext *cc)
 {
 	GSList *new_sheet = NULL;
 	GSList *the_names;
@@ -1219,7 +1219,6 @@ workbook_sheet_reorganize (WorkbookControl *wbc,
 	GSList *the_fore;
 	GSList *the_back;
 	GSList *the_lock;
-	Workbook *wb = wb_control_workbook (wbc);
 
 /* We need to verify validity of the new names */
 	the_names = new_names;
@@ -1236,9 +1235,9 @@ workbook_sheet_reorganize (WorkbookControl *wbc,
 			
 			/* Is the sheet name to short ?*/
 			if (1 > strlen (new_name)) {
-				gnumeric_error_invalid (COMMAND_CONTEXT (wbc), 
-							_("Sheet name must have at least 1 letter"),
-							new_name);
+				gnumeric_error_invalid (cc, 
+					_("Sheet name must have at least 1 letter"),
+					new_name);
 				return TRUE;
 			}
 			
@@ -1250,9 +1249,9 @@ workbook_sheet_reorganize (WorkbookControl *wbc,
 				/* Perhaps it is a sheet also to be renamed */
 				GSList *tmp_sheets = g_slist_find (changed_names, tmp);
 				if (NULL == tmp_sheets) {
-					gnumeric_error_invalid (COMMAND_CONTEXT (wbc),
-							 _("There is already a sheet named"),
-								new_name);
+					gnumeric_error_invalid (cc,
+						_("There is already a sheet named"),
+						new_name);
 					return TRUE;
 				}
 			}
@@ -1260,9 +1259,9 @@ workbook_sheet_reorganize (WorkbookControl *wbc,
 			/* Will we try to use the same name a second time ?*/
 			if (the_names->next != NULL && 
 			    g_slist_find_custom (the_names->next, new_name, g_str_compare) != NULL) {
-				gnumeric_error_invalid (COMMAND_CONTEXT (wbc),
-							_("You may not use this name twice"),
-							new_name);
+				gnumeric_error_invalid (cc,
+					_("You may not use this name twice"),
+					new_name);
 				return TRUE;			
 			}
 		}
@@ -1370,7 +1369,7 @@ workbook_sheet_reorganize (WorkbookControl *wbc,
 	}
 
 /* reordering */
-	workbook_sheet_reorder (wbc, new_order, new_sheets ? *new_sheets : NULL);
+	workbook_sheet_reorder (wb, new_order, new_sheets ? *new_sheets : NULL);
 
 	return FALSE;
 }

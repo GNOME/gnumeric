@@ -144,75 +144,36 @@ cworkbook_sheets (PortableServer_Servant servant,
 }
 
 static void
-wbcc_system (CommandContext *ctxt, char const *msg)
+wbcc_error (CommandContext *ctxt, GError *gerr)
 {
 	WorkbookControlCORBA *wbcc = WORKBOOK_CONTROL_CORBA (ctxt);
-	GNOME_Gnumeric_ErrorSystem *err = GNOME_Gnumeric_ErrorSystem__alloc();
 
-	err->msg = CORBA_string_dup (msg);
-	CORBA_exception_set (wbcc->ev, CORBA_USER_EXCEPTION,
-		ex_GNOME_Gnumeric_ErrorSystem, err);
-}
-
-static void
-wbcc_plugin (CommandContext *ctxt, char const *msg)
-{
-	WorkbookControlCORBA *wbcc = WORKBOOK_CONTROL_CORBA (ctxt);
-	GNOME_Gnumeric_ErrorPlugin *err = GNOME_Gnumeric_ErrorPlugin__alloc();
-
-	err->msg = CORBA_string_dup (msg);
-	CORBA_exception_set (wbcc->ev, CORBA_USER_EXCEPTION,
-		ex_GNOME_Gnumeric_ErrorPlugin, err);
-}
-
-static void
-wbcc_read (CommandContext *ctxt, char const *msg)
-{
-	WorkbookControlCORBA *wbcc = WORKBOOK_CONTROL_CORBA (ctxt);
-	GNOME_Gnumeric_ErrorRead *err = GNOME_Gnumeric_ErrorRead__alloc();
-
-	err->msg = CORBA_string_dup (msg);
-	CORBA_exception_set (wbcc->ev, CORBA_USER_EXCEPTION,
-		ex_GNOME_Gnumeric_ErrorRead, err);
-
-}
-
-static void
-wbcc_save (CommandContext *ctxt, char const *msg)
-{
-	WorkbookControlCORBA *wbcc = WORKBOOK_CONTROL_CORBA (ctxt);
-	GNOME_Gnumeric_ErrorSave *err = GNOME_Gnumeric_ErrorSave__alloc();
-
-	err->msg = CORBA_string_dup (msg);
-	CORBA_exception_set (wbcc->ev, CORBA_USER_EXCEPTION,
-		ex_GNOME_Gnumeric_ErrorSave, err);
-
-}
-
-static void
-wbcc_splits_array (CommandContext *ctxt, char const *cmd, Range const *array)
-{
-	WorkbookControlCORBA *wbcc = WORKBOOK_CONTROL_CORBA (ctxt);
-	GNOME_Gnumeric_ErrorSplitsArray *err = GNOME_Gnumeric_ErrorSplitsArray__alloc();
-
-	err->msg = CORBA_string_dup (cmd);
-	err->range = CORBA_string_dup (range_name (array));
-	CORBA_exception_set (wbcc->ev, CORBA_USER_EXCEPTION,
-		ex_GNOME_Gnumeric_ErrorSplitsArray, err);
-
-}
-
-static void
-wbcc_invalid (CommandContext *ctxt, char const *msg, char const *val)
-{
-	WorkbookControlCORBA *wbcc = WORKBOOK_CONTROL_CORBA (ctxt);
-	GNOME_Gnumeric_ErrorInvalid *err = GNOME_Gnumeric_ErrorInvalid__alloc();
-
-	err->msg = CORBA_string_dup (msg);
-	err->value = CORBA_string_dup (val);
-	CORBA_exception_set (wbcc->ev, CORBA_USER_EXCEPTION,
-		ex_GNOME_Gnumeric_ErrorInvalid, err);
-
+	if (gerr->domain == gnm_error_system ()) {
+		GNOME_Gnumeric_ErrorSystem *err = GNOME_Gnumeric_ErrorSystem__alloc();
+		err->msg = CORBA_string_dup (gerr->message);
+		CORBA_exception_set (wbcc->ev, CORBA_USER_EXCEPTION,
+			ex_GNOME_Gnumeric_ErrorSystem, err);
+	} else if (gerr->domain == gnm_error_read ()) {
+		GNOME_Gnumeric_ErrorRead *err = GNOME_Gnumeric_ErrorRead__alloc();
+		err->msg = CORBA_string_dup (gerr->message);
+		CORBA_exception_set (wbcc->ev, CORBA_USER_EXCEPTION,
+			ex_GNOME_Gnumeric_ErrorRead, err);
+	} else if (gerr->domain == gnm_error_write ()) {
+		GNOME_Gnumeric_ErrorSave *err = GNOME_Gnumeric_ErrorSave__alloc();
+		err->msg = CORBA_string_dup (gerr->message);
+		CORBA_exception_set (wbcc->ev, CORBA_USER_EXCEPTION,
+			ex_GNOME_Gnumeric_ErrorSave, err);
+	} else if (gerr->domain == gnm_error_array ()) {
+		GNOME_Gnumeric_ErrorSplitsArray *err = GNOME_Gnumeric_ErrorSplitsArray__alloc();
+		err->msg = CORBA_string_dup (gerr->message);
+		CORBA_exception_set (wbcc->ev, CORBA_USER_EXCEPTION,
+			ex_GNOME_Gnumeric_ErrorSplitsArray, err);
+	} else if (gerr->domain == gnm_error_invalid ()) {
+		GNOME_Gnumeric_ErrorInvalid *err = GNOME_Gnumeric_ErrorInvalid__alloc();
+		err->msg = CORBA_string_dup (gerr->message);
+		CORBA_exception_set (wbcc->ev, CORBA_USER_EXCEPTION,
+			ex_GNOME_Gnumeric_ErrorInvalid, err);
+	}
 }
 
 static char *
@@ -293,12 +254,7 @@ wbcc_class_init (GObjectClass *object_class)
 	g_return_if_fail (cc_class != NULL);
 	cc_class->get_password	     = wbcc_get_password;
 	cc_class->set_sensitive	     = wbcc_set_sensitive;
-	cc_class->error.system       = wbcc_system;
-	cc_class->error.plugin       = wbcc_plugin;
-	cc_class->error.read         = wbcc_read;
-	cc_class->error.save         = wbcc_save;
-	cc_class->error.splits_array = wbcc_splits_array;
-	cc_class->error.invalid      = wbcc_invalid;
+	cc_class->error.error        = wbcc_error;
 
 	wbc_class->sheet.add        = wbcc_sheet_add;
 	wbc_class->sheet.remove	    = wbcc_sheet_remove;

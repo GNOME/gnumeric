@@ -1,3 +1,10 @@
+2002-10-01  Jody Goldberg <jody@gnome.org>
+
+	* xbase.c (xbase_close) : close the iconv handler.
+	(xbase_read_header) : set the iconv handler.
+
+	* boot.c (xbase_field_as_value) : map strings to utf8
+
 2002-09-30  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.9

@@ -20,6 +20,7 @@ typedef struct { /* database instance */
 	guint     headerlen; /* bytes per record */
 	XBfield **format; /* array of (pointers to) field formats */
 	gsf_off_t offset; /* start of records in file */
+	GIConv	  char_map;
 } XBfile;
 
 typedef struct { /* record in a db */

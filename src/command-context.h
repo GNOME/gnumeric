@@ -10,24 +10,27 @@
 
 GType command_context_get_type (void);
 
-/*
- * These are the exceptions that can arise.
- * NOTE : The selection is quite limited by IDL's intentional non-support for
- *        inheritance (single or multiple).
- */
-void  gnumeric_error_system	    (CommandContext *cc, char const *msg);
-void  gnumeric_error_read	    (CommandContext *cc, char const *msg);
-void  gnumeric_error_save	    (CommandContext *cc, char const *msg);
-void  gnumeric_error_plugin	    (CommandContext *cc, char const *msg);
-void  gnumeric_error_invalid	    (CommandContext *cc, char const *msg,
-				     char const *val);
+void  cmd_context_error		(CommandContext *cc, GError *err);
+char *cmd_context_get_password	(CommandContext *cc, char const *msg);
+void  cmd_context_set_sensitive	(CommandContext *cc, gboolean sensitive);
+
+/* utility routines for common errors */
+void  gnumeric_error_system	(CommandContext *cc, char const *msg);
+void  gnumeric_error_read	(CommandContext *cc, char const *msg);
+void  gnumeric_error_save	(CommandContext *cc, char const *msg);
+void  gnumeric_error_invalid	(CommandContext *cc,
+				 char const *msg, char const *val);
+void  gnumeric_error_error_info	(CommandContext *cc, ErrorInfo *error);
+
+/* some gnumeric specific utility routines */
 void  gnumeric_error_splits_array   (CommandContext *cc, char const *cmd,
 				     Range const *array);
-void  gnumeric_error_error_info	    (CommandContext *cc, ErrorInfo *error);
-void  gnumeric_progress_set	    (CommandContext *cc, gfloat f);
-void  gnumeric_progress_message_set (CommandContext *cc, char const *msg);
 
-char *cmd_context_get_password	    (CommandContext *cc, char const *msg);
-void  cmd_context_set_sensitive	    (CommandContext *cc, gboolean sensitive);
+/* An initial set of std errors */
+GQuark gnm_error_system  (void);
+GQuark gnm_error_read    (void);
+GQuark gnm_error_write   (void);
+GQuark gnm_error_array   (void);
+GQuark gnm_error_invalid (void);
 
 #endif /* GNUMERIC_COMMAND_CONTEXT_H */

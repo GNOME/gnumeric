@@ -596,7 +596,7 @@ wb_view_save (WorkbookView *wbv, CommandContext *context)
 
 	io_context = gnumeric_io_context_new (context);
 	if (fs == NULL)
-		gnumeric_io_error_save (io_context,
+		gnumeric_error_save (COMMAND_CONTEXT (io_context),
 			_("Default file saver is not available."));
 	else
 		gnum_file_saver_save (fs, io_context, wbv, wb->filename);
@@ -662,7 +662,8 @@ wb_view_new_from_input  (GsfInput *input,
 		} else
 			workbook_set_dirty (new_wb, FALSE);
 	} else
-		gnumeric_io_error_read (io_context, _("Unsupported file format."));
+		gnumeric_error_read (COMMAND_CONTEXT (io_context),
+			_("Unsupported file format."));
 
 	return new_wbv;
 }
@@ -708,7 +709,7 @@ wb_view_new_from_file (char const *file_name,
 	if (msg == NULL)
 		msg = g_strdup_printf (_("An unexplained error happened while opening '%s'"),
 				       file_name);
-	gnumeric_io_error_read (io_context, msg);
+	gnumeric_error_read (COMMAND_CONTEXT (io_context), msg);
 
 	return NULL;
 }

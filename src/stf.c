@@ -83,7 +83,7 @@ stf_open_and_read (GsfInput *input)
 }
 
 static char *
-stf_preparse (IOContext *context, GsfInput *input)
+stf_preparse (CommandContext *context, GsfInput *input)
 {
 	char *data = stf_open_and_read (input);
 	unsigned char const *c;
@@ -91,8 +91,8 @@ stf_preparse (IOContext *context, GsfInput *input)
 
 	if (!data) {
 		if (context)
-			gnumeric_io_error_read (context,
-						_("Error while trying to read file"));
+			gnumeric_error_read (context,
+				_("Error while trying to read file"));
 		return NULL;
 	}
 
@@ -100,8 +100,8 @@ stf_preparse (IOContext *context, GsfInput *input)
 	if (len < 0) {
 		g_free (data);
 		if (context)
-			gnumeric_io_error_read (context,
-						_("Error while trying to pre-convert file"));
+			gnumeric_error_read (context,
+				_("Error while trying to pre-convert file"));
 		return NULL;
 	}
 
@@ -109,7 +109,7 @@ stf_preparse (IOContext *context, GsfInput *input)
 		if (context) {
 			char *message = g_strdup_printf (_("This file does not seem to be a valid text file.\nThe character '%c' (ASCII decimal %d) was encountered.\nMost likely your locale settings are wrong."),
 							 *c, (int) *c);
-			gnumeric_io_error_read (context, message);
+			gnumeric_error_read (context, message);
 			g_free (message);
 		}
 		g_free (data);
@@ -139,7 +139,7 @@ stf_read_workbook (GnumFileOpener const *fo, IOContext *context, WorkbookView *w
 
 	book = wb_view_workbook (wbv);
 
-	data = stf_preparse (context, input);
+	data = stf_preparse (COMMAND_CONTEXT (context), input);
 	if (!data)
 		return;
 
@@ -184,7 +184,8 @@ stf_read_workbook (GnumFileOpener const *fo, IOContext *context, WorkbookView *w
 
 			workbook_sheet_detach (book, sheet);
 			g_free (data);
-			gnumeric_io_error_read (context, _("Parse error while trying to parse data into sheet"));
+			gnumeric_error_read (COMMAND_CONTEXT (context),
+				_("Parse error while trying to parse data into sheet"));
 			return;
 		}
 
@@ -200,7 +201,7 @@ stf_read_workbook (GnumFileOpener const *fo, IOContext *context, WorkbookView *w
 	if (dialogresult != NULL)
 		stf_dialog_result_free (dialogresult);
 	else
-		gnumeric_io_error_unknown (context);
+		gnumeric_error_read (COMMAND_CONTEXT (context), _("Unknown error while importing"));
 }
 
 #define STF_PROBE_SIZE 16384
@@ -228,7 +229,7 @@ stf_read_workbook_auto_csvtab (GnumFileOpener const *fo, IOContext *context,
 	int i;
 
 	book = wb_view_workbook (wbv);
-	data = stf_preparse (context, input);
+	data = stf_preparse (COMMAND_CONTEXT (context), input);
 	if (!data)
 		return;
 
@@ -265,7 +266,8 @@ stf_read_workbook_auto_csvtab (GnumFileOpener const *fo, IOContext *context,
 		workbook_sheet_detach (book, sheet);
 		g_free (data);
 		stf_parse_options_free (po);
-		gnumeric_io_error_read (context, _("Parse error while trying to parse data into sheet"));
+		gnumeric_error_read (COMMAND_CONTEXT (context),
+			_("Parse error while trying to parse data into sheet"));
 		return;
 	}
 	stf_parse_options_free (po);
@@ -351,8 +353,8 @@ stf_write_workbook (GnumFileSaver const *fs, IOContext *context, WorkbookView *w
 		stf_export_options_set_write_callback (result->export_options,
 						       (StfEWriteFunc) stf_write_func, (gpointer) f);
 		if (stf_export (result->export_options) == FALSE) {
-			gnumeric_io_error_read (context,
-			_("Error while trying to write csv file"));
+			gnumeric_error_read (COMMAND_CONTEXT (context),
+				_("Error while trying to write csv file"));
 			stf_export_dialog_result_free (result);
 			return;
 		}

@@ -1,3 +1,36 @@
+2002-10-02  Jody Goldberg <jody@gnome.org>
+
+	* src/commands.c (cmd_reorganize_sheets) : DO NOT STORE CONTROL.
+	  The command context of the inititing action should never be stored.
+	  Undo should use the context from the control that initiated the
+	  undo.
+
+	* src/io-context-priv.h : Inherit from CommandContext and make our
+	  lives easier.  Also avoid the pointless duplication.
+
+	* src/command-context-priv.h : remove the plethora of err types in
+	  favour of GError with a tag and ErrorInfo.
+	  Protect cmd_context_progress_set, cmd_context_progress_message_set.
+	* src/command-context-stderr.c : Adjust to the changes.
+
+	* src/bonobo-io.c : IOContext inherits from CommandContext now use the
+	  error handlers there.
+	* src/plugin-util.c : ditto.
+	* src/sheet-object-bonobo.c : ditto.
+	* src/stf.c : ditto.
+	* src/workbook-control-gui.c : ditto.
+	* src/workbook-view.c : ditto.
+	* src/xml-io.c : ditto.
+
+2002-10-01  Jody Goldberg <jody@gnome.org>
+
+	* src/pixmaps/Makefile.am : add the rest of the new artwork.
+
+2002-10-01  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook.c (workbook_sheet_reorder) : take a workbook not a
+	  control.
+
 2002-10-01  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-control-gui.c (cb_insert_hyperlink) : hook up the

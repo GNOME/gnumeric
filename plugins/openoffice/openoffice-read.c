@@ -31,11 +31,12 @@
 #include <value.h>
 #include <expr.h>
 #include <parse-util.h>
-#include <io-context.h>
 #include <datetime.h>
 #include <style-color.h>
 #include <sheet-style.h>
 #include <mstyle.h>
+#include <command-context.h>
+#include <io-context.h>
 
 #include <gnumeric-i18n.h>
 #include <gsf/gsf-libxml.h>
@@ -61,6 +62,7 @@ typedef struct {
 	GHashTable	*styles;
 	MStyle		*style;
 	MStyle		*col_default_styles[SHEET_MAX_COLS];
+	GSList		*sheet_order;
 } OOParseState;
 
 static void oo_warning (OOParseState *state, char const *fmt, ...)
@@ -222,10 +224,11 @@ oo_table_start (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 			if (NULL == state->pos.sheet) {
 				state->pos.sheet = sheet_new (state->pos.wb, attrs[1]);
 				workbook_sheet_attach (state->pos.wb, state->pos.sheet, NULL);
-				puts (attrs[1]);
-			} else {
-				/* TODO : check the order */
 			}
+
+			/* store a list of the sheets in the correct order */
+			state->sheet_order = g_slist_prepend (state->sheet_order,
+							      state->pos.sheet);
 		}
 	for (i = SHEET_MAX_COLS ; i-- > 0 ; )
 		state->col_default_styles[i] = NULL;
@@ -292,7 +295,6 @@ oo_cellref_parse (CellRef *ref, char const *start, ParsePos const *pp)
 		 */
 		ref->sheet = workbook_sheet_by_name (pp->wb, name);
 		if (ref->sheet == NULL) {
-			printf ("--> %s\n", name);
 			ref->sheet = sheet_new (pp->wb, name);
 			workbook_sheet_attach (pp->wb, ref->sheet, NULL);
 		}
@@ -649,14 +651,15 @@ openoffice_file_open (GnumFileOpener const *fo, IOContext *io_context,
 	zip = gsf_infile_zip_new (input, &err);
 	if (zip == NULL) {
 		g_return_if_fail (err != NULL);
-		gnumeric_io_error_read (io_context, err->message);
+		gnumeric_error_read (COMMAND_CONTEXT (io_context),
+			err->message);
 		g_error_free (err);
 		return;
 	}
 
 	content = gsf_infile_child_by_name (zip, "content.xml");
 	if (content == NULL) {
-		gnumeric_io_error_read (io_context,
+		gnumeric_error_read (COMMAND_CONTEXT (io_context),
 			 _("No stream named content.xml found."));
 		g_object_unref (G_OBJECT (zip));
 		return;
@@ -672,13 +675,18 @@ openoffice_file_open (GnumFileOpener const *fo, IOContext *io_context,
 	state.styles = g_hash_table_new_full (g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) mstyle_unref);
-	state.style = NULL;
+	state.style 	  = NULL;
+	state.sheet_order = NULL;
 
 	state.base.root = opencalc_dtd;
 	if (!gsf_xmlSAX_parse (content, &state.base))
 		gnumeric_io_error_string (io_context, _("XML document not well formed!"));
 	else
 		workbook_queue_all_recalc (state.pos.wb);
+
+	state.sheet_order = g_slist_reverse (state.sheet_order);
+	workbook_sheet_reorder (state.pos.wb, state.sheet_order,  NULL);
+	g_slist_free (state.sheet_order);
 
 	g_hash_table_destroy (state.styles);
 	g_object_unref (G_OBJECT (content));

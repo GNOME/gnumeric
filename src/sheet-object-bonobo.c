@@ -292,7 +292,7 @@ sheet_object_bonobo_write_xml (SheetObject const *so,
 		if (BONOBO_EX (&ev)) {
 			/* TODO : Generate a decent message when sheetobjects
 			 * get user visible ids */
-			gnumeric_io_error_save (ctxt->io_context,
+			gnumeric_error_save (COMMAND_CONTEXT (ctxt)->io_context,
 				   bonobo_exception_get_text (&ev));
 		} else
 			res = TRUE;

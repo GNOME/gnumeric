@@ -1,3 +1,10 @@
+2002-10-02  Jody Goldberg <jody@gnome.org>
+
+	* ms-chart.c (BC_R) : handle empty text.
+
+	* boot.c : simplify now that IOContext inherits from CommandContext
+	  Move the metadata export here for symetry with the import.
+
 2002-09-30  Jody Goldberg <jody@gnome.org>
 
 	* plugin.xml.in : disable 97 until it is ready for widespread use

@@ -3428,7 +3428,7 @@ gnumeric_xml_read_workbook (GnumFileOpener const *fo,
 	if (gmr == NULL) {
 		if (res != NULL)
 			xmlFreeDoc (res);
-		gnumeric_io_error_read (context,
+		gnumeric_error_read (COMMAND_CONTEXT (context),
 			_("Is not an Gnumeric Workbook file"));
 		return;
 	}
@@ -3464,7 +3464,8 @@ gnumeric_xml_write_workbook (GnumFileSaver const *fs,
 
 	xml = xmlNewDoc ((xmlChar const *)"1.0");
 	if (xml == NULL) {
-		gnumeric_io_error_save (context, "");
+		gnumeric_error_save (COMMAND_CONTEXT (context),
+			_("Failure saving file"));
 		return;
 	}
 	ctxt = xml_parse_ctx_new (xml, NULL, wb_view);
@@ -3481,7 +3482,9 @@ gnumeric_xml_write_workbook (GnumFileSaver const *fs,
 	gnumeric_xml_set_compression (xml, compression);
 	xmlIndentTreeOutput = TRUE;
 	if (xmlSaveFormatFileEnc (filename, xml, "UTF-8", TRUE) < 0)
-		gnumeric_io_error_save (context, g_strerror (errno));
+		gnumeric_error_save (COMMAND_CONTEXT (context),
+			g_strerror (errno));
+#warning this seems wrong in the context of libgsf
 
 	xmlFreeDoc (xml);
 }

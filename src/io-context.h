@@ -20,20 +20,11 @@ typedef enum {
 GType      io_context_get_type (void);
 IOContext *gnumeric_io_context_new        (CommandContext *cc);
 
-/*
- * These are the exceptions that can arise.
- * NOTE : The selection is quite limited by IDL's intentional non-support for
- *        inheritance (single or multiple).
- */
-void       gnumeric_io_error_system       (IOContext *context, char const *msg);
-void       gnumeric_io_error_read         (IOContext *context, char const *msg);
-void       gnumeric_io_error_save         (IOContext *context, char const *msg);
 void       gnumeric_io_error_unknown      (IOContext *context);
 
 void       gnumeric_io_error_info_set     (IOContext *context, ErrorInfo *error);
 void       gnumeric_io_error_string       (IOContext *context, const gchar *str);
 void       gnumeric_io_error_push         (IOContext *context, ErrorInfo *error);
-ErrorInfo *gnumeric_io_error_pop          (IOContext *context);
 void       gnumeric_io_error_clear        (IOContext *context);
 void       gnumeric_io_error_display      (IOContext *context);
 
@@ -57,10 +48,9 @@ void       workbook_io_progress_update (IOContext *io_context, gint inc);
 
 void       io_progress_unset      (IOContext *io_context);
 
-char *gnm_io_get_password        	 (IOContext *context, char const *msg);
-void  gnm_io_warning        		 (IOContext *context, char const *fmt, ...) G_GNUC_PRINTF (2, 3);
-void  gnm_io_warning_unknown_font	 (IOContext *context, char const *font_name);
-void  gnm_io_warning_unknown_function	 (IOContext *context, char const *funct_name);
-void  gnm_io_warning_unsupported_feature (IOContext *context, char const *feature);
+void gnm_io_warning			(IOContext *context, char const *fmt, ...) G_GNUC_PRINTF (2, 3);
+void gnm_io_warning_unknown_font	(IOContext *context, char const *font_name);
+void gnm_io_warning_unknown_function	(IOContext *context, char const *funct_name);
+void gnm_io_warning_unsupported_feature	(IOContext *context, char const *feature);
 
 #endif /* GNUMERIC_IO_CONTEXT_H */

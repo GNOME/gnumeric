@@ -78,15 +78,16 @@ char       *workbook_sheet_get_free_name (Workbook *wb,
 					  const char *base,
 					  gboolean always_suffix,
 					  gboolean handle_counter);
-gboolean    workbook_sheet_reorder       (WorkbookControl *wbc, 
+gboolean    workbook_sheet_reorder       (Workbook *wb, 
 					  GSList *new_order, 
 					  GSList *new_sheets);
-gboolean    workbook_sheet_reorganize    (WorkbookControl *wbc,
+gboolean    workbook_sheet_reorganize    (Workbook *wb,
 					  GSList *changed_names, GSList *new_order,  
 					  GSList *new_names,  GSList *old_names,
 					  GSList **new_sheets, GSList *color_changed,
 					  GSList *colors_fore, GSList *colors_back,
-					  GSList *protection_changed, GSList *new_locks);
+					  GSList *protection_changed, GSList *new_locks,
+					  CommandContext *cc);
 
 /* IO Routines */
 gboolean       workbook_set_filename   (Workbook *wb, const gchar *);

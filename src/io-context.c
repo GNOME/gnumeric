@@ -45,7 +45,7 @@ io_context_init (IOContext *io_context)
 }
 
 static void
-io_context_finalize (GObject *obj)
+ioc_finalize (GObject *obj)
 {
 	IOContext *io_context;
 
@@ -53,22 +53,67 @@ io_context_finalize (GObject *obj)
 
 	io_context = IO_CONTEXT (obj);
 	error_info_free (io_context->error_info);
-	gnumeric_progress_set (io_context->impl, 0.0);
-	gnumeric_progress_message_set (io_context->impl, NULL);
+	cmd_context_progress_set (io_context->impl, 0.0);
+	cmd_context_progress_message_set (io_context->impl, NULL);
 	g_object_unref (G_OBJECT (io_context->impl));
 
-	G_OBJECT_CLASS (g_type_class_peek (G_TYPE_OBJECT))->finalize (obj);
+	G_OBJECT_CLASS (g_type_class_peek (COMMAND_CONTEXT_TYPE))->finalize (obj);
+}
+
+static char *
+ioc_get_password (CommandContext *cc, char const *msg)
+{
+	IOContext *ioc = (IOContext *)cc;
+	return cmd_context_get_password (ioc->impl, msg);
+}
+
+static void
+ioc_set_sensitive (CommandContext *cc, gboolean sensitive)
+{
+	(void)cc; (void)sensitive;
+}
+
+static void
+ioc_error_error (CommandContext *cc, GError *err)
+{
+	gnumeric_io_error_string (IO_CONTEXT (cc), err->message);
+}
+
+static void
+ioc_error_error_info (CommandContext *ctxt, ErrorInfo *error)
+{
+	/* TODO what goes here */
+	error_info_print (error);
+}
+
+void
+gnumeric_io_error_string (IOContext *context, const gchar *str)
+{
+	ErrorInfo *error;
+
+	g_return_if_fail (context != NULL);
+	g_return_if_fail (str != NULL);
+
+	error = error_info_new_str (str);
+	gnumeric_io_error_info_set (context, error);
 }
 
 static void
 io_context_class_init (IOContextClass *klass)
 {
-	G_OBJECT_CLASS (klass)->finalize = io_context_finalize;
+	CommandContextClass *cc_class = COMMAND_CONTEXT_CLASS (klass);
+
+	G_OBJECT_CLASS (klass)->finalize = ioc_finalize;
+
+	cc_class->get_password	   = ioc_get_password;
+	cc_class->set_sensitive	   = ioc_set_sensitive;
+	cc_class->error.error      = ioc_error_error;
+	cc_class->error.error_info = ioc_error_error_info;
 }
 
 GSF_CLASS (IOContext, io_context,
 	   io_context_class_init, io_context_init,
-	   G_TYPE_OBJECT)
+	   COMMAND_CONTEXT_TYPE)
 
 IOContext *
 gnumeric_io_context_new (CommandContext *cc)
@@ -82,36 +127,6 @@ gnumeric_io_context_new (CommandContext *cc)
 	g_object_ref (G_OBJECT (io_context->impl));
 
 	return io_context;
-}
-
-void
-gnumeric_io_error_system (IOContext *context,
-                          gchar const *message)
-{
-	g_return_if_fail (context != NULL);
-	g_return_if_fail (message != NULL);
-
-	gnumeric_io_error_string (context, message);
-}
-
-void
-gnumeric_io_error_read (IOContext *context,
-                        gchar const *message)
-{
-	g_return_if_fail (context != NULL);
-	g_return_if_fail (message != NULL);
-
-	gnumeric_io_error_string (context, message);
-}
-
-void
-gnumeric_io_error_save (IOContext *context,
-                        gchar const *message)
-{
-	g_return_if_fail (context != NULL);
-	g_return_if_fail (message != NULL);
-
-	gnumeric_io_error_string (context, message);
 }
 
 void
@@ -136,18 +151,6 @@ gnumeric_io_error_info_set (IOContext *context, ErrorInfo *error)
 }
 
 void
-gnumeric_io_error_string (IOContext *context, const gchar *str)
-{
-	ErrorInfo *error;
-
-	g_return_if_fail (context != NULL);
-	g_return_if_fail (str != NULL);
-
-	error = error_info_new_str (str);
-	gnumeric_io_error_info_set (context, error);
-}
-
-void
 gnumeric_io_error_push (IOContext *context, ErrorInfo *error)
 {
 	g_return_if_fail (context != NULL);
@@ -155,19 +158,6 @@ gnumeric_io_error_push (IOContext *context, ErrorInfo *error)
 
 	error_info_add_details (error, context->error_info);
 	context->error_info = error;
-}
-
-ErrorInfo *
-gnumeric_io_error_pop  (IOContext *context)
-{
-	ErrorInfo *error;
-
-	g_return_val_if_fail (context != NULL, NULL);
-
-	error = context->error_info;
-	context->error_info = NULL;
-
-	return error;
 }
 
 void
@@ -212,7 +202,7 @@ io_progress_update (IOContext *io_context, gdouble f)
 		(void) gettimeofday (&tv, NULL);
 		t = tv.tv_sec + tv.tv_usec / 1000000.0;
 		if (t - io_context->last_time >= PROGRESS_UPDATE_PERIOD_SEC) {
-			gnumeric_progress_set (io_context->impl, f);
+			cmd_context_progress_set (io_context->impl, f);
 			io_context->last_time = t;
 			io_context->last_progress = f;
 		}
@@ -228,7 +218,7 @@ io_progress_message (IOContext *io_context, const gchar *msg)
 {
 	g_return_if_fail (IS_IO_CONTEXT (io_context));
 
-	gnumeric_progress_message_set (io_context->impl, msg);
+	cmd_context_progress_message_set (io_context->impl, msg);
 }
 
 void
@@ -395,19 +385,6 @@ io_progress_unset (IOContext *io_context)
 	g_return_if_fail (IS_IO_CONTEXT (io_context));
 
 	io_context->helper.helper_type = GNUM_PROGRESS_HELPER_NONE;
-}
-
-/**
- * gnm_io_get_password :
- * @context :
- * @msg : optionally NULL
- *
- */
-char *
-gnm_io_get_password (IOContext *context, char const *msg)
-{
-	g_return_val_if_fail (IS_IO_CONTEXT (context), NULL);
-	return cmd_context_get_password (context->impl, msg);
 }
 
 #warning Good Project implement these

@@ -4177,7 +4177,6 @@ typedef struct
 	GnumericCommand cmd;
 
 	Workbook *wb;
-	WorkbookControl *wbc;
 	GSList      *new_order;
 	GSList      *old_order;
 	GSList      *changed_names;
@@ -4215,11 +4214,12 @@ cmd_reorganize_sheets_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	g_slist_free (me->new_sheets);	
 	me->new_sheets = NULL;
 
-	return workbook_sheet_reorganize (me->wbc, me->changed_names, me->old_order,  
+	return workbook_sheet_reorganize (me->wb, me->changed_names, me->old_order,  
 					  me->old_names, me->new_names, NULL, 
 					  me->color_changed, 
 					  me->old_colors_fore, me->old_colors_back,
-					  me->protection_changed, me->old_locks);
+					  me->protection_changed, me->old_locks,
+					  COMMAND_CONTEXT (wbc));
 }
 
 static gboolean
@@ -4229,11 +4229,12 @@ cmd_reorganize_sheets_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
-	return workbook_sheet_reorganize (me->wbc, me->changed_names, me->new_order, 
+	return workbook_sheet_reorganize (me->wb, me->changed_names, me->new_order, 
 					  me->new_names, me->old_names,
 					  &me->new_sheets, me->color_changed, 
 					  me->new_colors_fore, me->new_colors_back,
-					  me->protection_changed, me->new_locks);
+					  me->protection_changed, me->new_locks,
+					  COMMAND_CONTEXT (wbc));
 }
 
 
@@ -4326,7 +4327,6 @@ cmd_reorganize_sheets (WorkbookControl *wbc, GSList *old_order, GSList *new_orde
 
 	/* Store the specs for the object */
 	me->wb = wb;
-	me->wbc = wbc;
 	me->new_order = new_order;
 	me->old_order = old_order;
 	me->changed_names = changed_names;
@@ -4341,7 +4341,6 @@ cmd_reorganize_sheets (WorkbookControl *wbc, GSList *old_order, GSList *new_orde
 	me->protection_changed = protection_changed;
 	me->new_locks = new_locks;
 	me->old_locks = NULL;
-
 
 	the_sheets = changed_names;
 	while (the_sheets) {

@@ -4,6 +4,7 @@
 #include "gnumeric.h"
 #include "io-context.h"
 #include "error-info.h"
+#include "command-context-priv.h"
 #include <stdio.h>
 
 #define IO_CONTEXT_CLASS(klass)     (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_IO_CONTEXT, IOContext))
@@ -50,7 +51,7 @@ typedef struct {
 } ProgressRange;
 
 struct _IOContext {
-	GObject parent;
+	CommandContext parent;
 
 	CommandContext *impl;
 	ErrorInfo *error_info;
@@ -64,7 +65,7 @@ struct _IOContext {
 };
 
 struct _IOContextClass {
-	GObjectClass parent_class;
+	CommandContextClass parent_class;
 };
 
 #endif /* GNUMERIC_IO_CONTEXT_PRIV_H */

@@ -8,8 +8,8 @@ module GNOME {
 		exception ErrorSave    { string msg; };
 		exception ErrorPlugin  { string msg; };
 		exception ErrorInfo    { string msg; };
-		exception ErrorInvalid { string msg; string value; };
-		exception ErrorSplitsArray { string msg; string range; };
+		exception ErrorInvalid { string msg; };
+		exception ErrorSplitsArray { string msg; };
 
 		interface Sheet {
 			attribute string name;

@@ -73,16 +73,19 @@ xb_setdouble (guint8 *p, double d)
 #endif
 
 static Value *
-xbase_field_as_value (gchar *content, XBfield *field)
+xbase_field_as_value (gchar *content, XBfield *field, XBfile *file)
 {
 	gchar *s = g_strndup (content, field->len);
 	Value *val;
 
 	switch (field->type) {
-	case 'C':
-		val = value_new_string (g_strchomp (s));
+	case 'C': {
+		val = value_new_string_nocopy (
+			g_convert_with_iconv (g_strchomp (s), -1,
+			      file->char_map, NULL, NULL, NULL));
 		g_free (s);
 		return val;
+	}
 	case 'N':
 		val = value_new_int (atoi (s));
 		g_free (s);
@@ -190,7 +193,7 @@ xbase_file_open (GnumFileOpener const *fo, IOContext *io_context,
 		for (i = 0; i < file->fields ; i++) {
 			field = record->file->format [i];
 			val = xbase_field_as_value (
-				record_get_field (record, i), field);
+				record_get_field (record, i), field, file);
 			cell = sheet_cell_fetch (sheet, i, row);
 			value_set_fmt (val, field->fmt);
 			cell_set_value (cell, val);

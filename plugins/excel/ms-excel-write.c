@@ -40,6 +40,7 @@
 #include <workbook-view.h>
 #include <workbook.h>
 #include <io-context.h>
+#include <command-context.h>
 #include <expr.h>
 #include <expr-impl.h>
 #include <expr-name.h>
@@ -3333,7 +3334,7 @@ excel_sheet_new (ExcelWorkbook *ewb, Sheet *gnum_sheet, IOContext *context)
 		char *msg = g_strdup_printf (
 			_("Too many rows for this format (%d > %d)"),
 			  extent.end.col, maxrows);
-		gnumeric_io_error_save (context, msg);
+		gnumeric_error_save (COMMAND_CONTEXT (context), msg);
 		g_free (msg);
 		return NULL;
 	}
@@ -3590,7 +3591,7 @@ ms_excel_write_workbook (IOContext *context, GsfOutfile *outfile, void *state,
 		((ver >= MS_BIFF_V8) ? "Workbook" : "Book"), FALSE);
 	if (content == NULL) {
 		free_workbook (wb);
-		gnumeric_io_error_save (context,
+		gnumeric_error_save (COMMAND_CONTEXT (context),
 			_("Couldn't open stream for writing\n"));
 		return;
 	}
@@ -3599,18 +3600,6 @@ ms_excel_write_workbook (IOContext *context, GsfOutfile *outfile, void *state,
 	write_workbook (context, bp, wb, ver);
 	free_workbook (wb);
 	ms_biff_put_destroy (bp);
-	gsf_output_close (content);
-	g_object_unref (G_OBJECT (content));
-
-	content = gsf_outfile_new_child (outfile,
-		"\05DocumentSummaryInformation", FALSE);
-	gsf_msole_metadata_write (content, TRUE, NULL);
-	gsf_output_close (content);
-	g_object_unref (G_OBJECT (content));
-
-	content = gsf_outfile_new_child (outfile,
-		"\05SummaryInformation", FALSE);
-	gsf_msole_metadata_write (content, FALSE, NULL);
 	gsf_output_close (content);
 	g_object_unref (G_OBJECT (content));
 
