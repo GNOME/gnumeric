@@ -82,16 +82,9 @@ cb_af_suggest (G_GNUC_UNUSED Sheet *sheet,
 static gboolean
 is_date (GnmFuncFlags typ, StyleFormat *explicit)
 {
-	switch (typ) {
-	case GNM_FUNC_AUTO_DATE: return TRUE;
-
-	default: return FALSE;
-
-	case AF_EXPLICIT: {
-		FormatCharacteristics info;
-		return (cell_format_classify (explicit, &info) == FMT_DATE);
-	}
-	}
+	return (typ == GNM_FUNC_AUTO_DATE ||
+		(typ == AF_EXPLICIT &&
+		 explicit->family == FMT_DATE));
 }
 
 static GnmFuncFlags

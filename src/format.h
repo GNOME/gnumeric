@@ -41,12 +41,14 @@ typedef struct {
 } FormatCharacteristics;
 
 struct _StyleFormat {
-	int    ref_count;
-	char  *format;
-        GSList *entries;  /* Of type StyleFormatEntry. */
-	char        *regexp_str;
-	GByteArray  *match_tags;
-	gnumeric_regex_t regexp;
+	int                   ref_count;
+	char                 *format;
+        GSList               *entries;  /* Of type StyleFormatEntry. */
+	char                 *regexp_str;
+	GByteArray           *match_tags;
+	gnumeric_regex_t      regexp;
+	FormatFamily          family;
+	FormatCharacteristics family_info;
 };
 
 char	      *style_format_delocalize  (char const *descriptor_string);
@@ -59,8 +61,6 @@ char   	      *style_format_str_as_XL	(char const *descriptor_string,
 
 void           style_format_ref		(StyleFormat *sf);
 void           style_format_unref	(StyleFormat *sf);
-gboolean       style_format_is_general	(StyleFormat const *sf);
-gboolean       style_format_is_text	(StyleFormat const *sf);
 gboolean       style_format_equal       (StyleFormat const *a, StyleFormat const *b);
 
 StyleFormat   *style_format_general		(void);
@@ -68,6 +68,9 @@ StyleFormat   *style_format_default_date	(void);
 StyleFormat   *style_format_default_time	(void);
 StyleFormat   *style_format_default_percentage	(void);
 StyleFormat   *style_format_default_money	(void);
+
+#define style_format_is_general(sf) ((sf)->family == FMT_GENERAL)
+#define style_format_is_text(sf) ((sf)->family == FMT_TEXT)
 
 char  *format_value   (StyleFormat const *format, Value const *value, StyleColor **color,
 		       double col_width, GnmDateConventions const *date_conv);

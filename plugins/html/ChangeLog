@@ -1,3 +1,8 @@
+2003-07-15  Morten Welinder  <terra@gnome.org>
+
+	* latex.c (latex2e_write_multicolumn_cell): Use precomputed
+	family.
+
 2003-07-06  Jon K Hellan  <hellan@acm.org>
 
 	* html_read.c (is_elt_type, starts_inferred_table,

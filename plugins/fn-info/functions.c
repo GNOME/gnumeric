@@ -155,11 +155,7 @@ retrieve_format_info (Sheet *sheet, int col, int row)
 {
 	MStyle *mstyle = sheet_style_get (sheet, col, row);
 	StyleFormat *format = mstyle_get_format (mstyle);
-	FormatCharacteristics info;
-
-	cell_format_classify (format, &info);
-
-	return info;
+	return format->family_info;
 }
 
 /* TODO : turn this into a range based routine */

@@ -303,14 +303,14 @@ fill_item_new (Sheet *sheet, int col, int row)
 	value_type = VALUE_TYPE (value);
 
 	if (value_type == VALUE_INTEGER || value_type == VALUE_FLOAT) {
-		FormatCharacteristics info;
+		const StyleFormat *sf = cell_get_format (cell);
 
 		fi->type    = FILL_NUMBER;
 		fi->v.value = value;
-		if (FMT_DATE == cell_format_classify (cell_get_format (cell), &info))
-			fi->type = info.date_has_days
+		if (sf->family == FMT_DATE)
+			fi->type = sf->family_info.date_has_days
 				? FILL_DAYS
-				: info.date_has_months ? FILL_MONTHS : FILL_YEARS;
+				: sf->family_info.date_has_months ? FILL_MONTHS : FILL_YEARS;
 		return fi;
 	}
 

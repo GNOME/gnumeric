@@ -1,3 +1,7 @@
+2003-07-15  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (retrieve_format_info): Use precomputed family_info.
+
 2003-06-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* functions.c: spelling fixes

@@ -1,5 +1,20 @@
 2003-07-15  Morten Welinder  <terra@gnome.org>
 
+	* src/auto-format.c (is_date): Use precomputed family.
+	* src/sheet-autofill.c (fill_item_new): Ditto.
+
+	* src/formats.c (cell_format_classify): Don't use
+	style_format_is_general since this function must work early.
+
+	* src/format.h (struct _StyleFormat): Add family and family_info
+	members.
+
+	* src/format.c (style_format_new_XL): Init family stuff.
+	(style_format_is_general, style_format_is_text): Make these
+	macros.
+
+2003-07-15  Morten Welinder  <terra@gnome.org>
+
 	* src/format.h: Suck in formats.h and remove that file.  All
 	includers fixed.
 

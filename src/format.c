@@ -899,21 +899,23 @@ find_decimal_char (char const *str)
 /* An helper function which modify the number of decimals displayed
  * and recreate the format string by calling the good function */
 static StyleFormat *
-reformat_decimals (FormatCharacteristics *fc,
+reformat_decimals (const FormatCharacteristics *fc,
 		   void (*format_function) (GString *res, FormatCharacteristics const * fmt),
 		   int step)
 {
 	GString *res;
 	StyleFormat *sf;
+	FormatCharacteristics fc_copy;
 
 	/* Be sure that the number of decimals displayed will remain correct */
 	if ((fc->num_decimals+step > 30) || (fc->num_decimals+step <0))
 		return NULL;
-	fc->num_decimals += step;
+	fc_copy = *fc;
+	fc_copy.num_decimals += step;
 
 	/* Regenerate the format with the good function */
 	res = g_string_new (NULL);
-	(*format_function) (res, fc);
+	(*format_function) (res, &fc_copy);
 
 	sf = style_format_new_XL (res->str, FALSE);
 	g_string_free (res, TRUE);
@@ -934,24 +936,21 @@ format_remove_decimal (StyleFormat const *fmt)
 	char *ret, *p;
 	char const *tmp;
 	char const *format_string = fmt->format;
-	FormatFamily ff;
-	FormatCharacteristics fc;
 	StyleFormat *sf;
 
-	/* First try to classify the format so we can regenerate it */
-	ff = cell_format_classify (fmt, &fc);
-
-	switch (ff) {
+	switch (fmt->family) {
 	case FMT_NUMBER:
 	case FMT_CURRENCY:
-		return reformat_decimals (&fc, &style_format_number, -1);
+		return reformat_decimals (&fmt->family_info, &style_format_number, -1);
 	case FMT_ACCOUNT:
-		return reformat_decimals (&fc, &style_format_account, -1);
+		return reformat_decimals (&fmt->family_info, &style_format_account, -1);
 	case FMT_PERCENT:
-		return reformat_decimals (&fc, &style_format_percent, -1);
+		return reformat_decimals (&fmt->family_info, &style_format_percent, -1);
 	case FMT_SCIENCE:
-		return reformat_decimals (&fc, &style_format_science, -1);
-	case FMT_FRACTION:
+		return reformat_decimals (&fmt->family_info, &style_format_science, -1);
+	case FMT_FRACTION: {
+		FormatCharacteristics fc = fmt->family_info;
+
 		if (fc.fraction_denominator >= 2) {
 			if (fc.fraction_denominator > 2 &&
 			    ((fc.fraction_denominator & (fc.fraction_denominator - 1)) == 0))
@@ -970,6 +969,7 @@ format_remove_decimal (StyleFormat const *fmt)
 				return NULL;
 			return reformat_decimals (&fc, &style_format_fraction, -1);
 		}
+	}
 
 	case FMT_TIME:
 		/* FIXME: we might have decimals on seconds part.  */
@@ -992,7 +992,7 @@ format_remove_decimal (StyleFormat const *fmt)
 	 * We need to look at the number of decimals in the current value
 	 * and use that as a base.
 	 */
-	if (strcmp (format_string, "General") == 0)
+	if (style_format_is_general (fmt))
 		format_string = "0.########";
 
 	tmp = find_decimal_char (format_string);
@@ -1033,24 +1033,20 @@ format_add_decimal (StyleFormat const *fmt)
 	char const *post = NULL;
 	char *res;
 	char const *format_string = fmt->format;
-	FormatFamily ff;
-	FormatCharacteristics fc;
 	StyleFormat *sf;
 
-	/* First try to classify the format so we can regenerate it */
-	ff = cell_format_classify (fmt, &fc);
-
-	switch (ff) {
+	switch (fmt->family) {
 	case FMT_NUMBER:
 	case FMT_CURRENCY:
-		return reformat_decimals (&fc, &style_format_number, +1);
+		return reformat_decimals (&fmt->family_info, &style_format_number, +1);
 	case FMT_ACCOUNT:
-		return reformat_decimals (&fc, &style_format_account, +1);
+		return reformat_decimals (&fmt->family_info, &style_format_account, +1);
 	case FMT_PERCENT:
-		return reformat_decimals (&fc, &style_format_percent, +1);
+		return reformat_decimals (&fmt->family_info, &style_format_percent, +1);
 	case FMT_SCIENCE:
-		return reformat_decimals (&fc, &style_format_science, +1);
-	case FMT_FRACTION:
+		return reformat_decimals (&fmt->family_info, &style_format_science, +1);
+	case FMT_FRACTION: {
+		FormatCharacteristics fc = fmt->family_info;
 		if (fc.fraction_denominator >= 2) {
 			if (fc.fraction_denominator <= INT_MAX / 2 &&
 			    ((fc.fraction_denominator & (fc.fraction_denominator - 1)) == 0))
@@ -1069,6 +1065,7 @@ format_add_decimal (StyleFormat const *fmt)
 				return NULL;
 			return reformat_decimals (&fc, &style_format_fraction, +1);
 		}
+	}
 
 	case FMT_TIME:
 		/* FIXME: we might have decimals on seconds part.  */
@@ -1085,7 +1082,7 @@ format_add_decimal (StyleFormat const *fmt)
 	/* Use the old code for more special formats to try to add a
 	   decimal */
 
-	if (strcmp (format_string, "General") == 0) {
+	if (style_format_is_general (fmt)) {
 		format_string = "0";
 		pre = format_string + 1;
 		post = pre;
@@ -1133,16 +1130,14 @@ format_add_decimal (StyleFormat const *fmt)
 StyleFormat *
 format_toggle_thousands (StyleFormat const *fmt)
 {
-	FormatFamily ff;
 	FormatCharacteristics fc;
 	GString *newformat;
 	StyleFormat *sf;
 
-	/* First try to classify the format so we can regenerate it */
-	ff = cell_format_classify (fmt, &fc);
+	fc = fmt->family_info;
 	fc.thousands_sep = !fc.thousands_sep;
 
-	switch (ff) {
+	switch (fmt->family) {
 	case FMT_NUMBER:
 	case FMT_CURRENCY:
 		newformat = g_string_new (NULL);
@@ -1994,7 +1989,7 @@ style_format_new_XL (char const *descriptor_string, gboolean delocalize)
 		g_warning ("Invalid format descriptor string, using General");
 		descriptor_string = "General";
 	} else if (delocalize)
-		desc_copy = descriptor_string = style_format_delocalize (descriptor_string);
+		descriptor_string = desc_copy = style_format_delocalize (descriptor_string);
 
 	format = (StyleFormat *) g_hash_table_lookup (style_format_hash, descriptor_string);
 
@@ -2004,8 +1999,10 @@ style_format_new_XL (char const *descriptor_string, gboolean delocalize)
 		format->entries = NULL;
 		format->regexp_str = NULL;
 		format->match_tags = NULL;
-		if (strcmp ("General", format->format))
+		format->family = cell_format_classify (format, &format->family_info);
+		if (!style_format_is_general (format))
 			format_compile (format);
+
 		g_hash_table_insert (style_format_hash, format->format, format);
 	}
 	format->ref_count++;
@@ -2160,30 +2157,6 @@ style_format_unref (StyleFormat *sf)
 	format_destroy (sf);
 	g_free (sf->format);
 	g_free (sf);
-}
-
-/**
- * style_format_is_general :
- * @sf : the format to check
- *
- * A small utility to check whether a format is 'General'
- */
-gboolean
-style_format_is_general (StyleFormat const *sf)
-{
-	return 0 == strcmp (sf->format, "General");
-}
-
-/**
- * style_format_is_general :
- * @sf : the format to check
- *
- * A small utility to check whether a format is 'General'
- */
-gboolean
-style_format_is_text (StyleFormat const *sf)
-{
-	return 0 == strcmp (sf->format, "@");
 }
 
 StyleFormat *

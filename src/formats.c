@@ -194,7 +194,6 @@ currency_date_format_init (void)
 	char const *curr = format_get_currency (&precedes, &space_sep);
 	char *pre, *post, *pre_rep, *post_rep;
 	int err;
-	static gboolean first_time = TRUE;
 
 	/* Compile the regexps for format classification */
 
@@ -344,33 +343,6 @@ currency_date_format_init (void)
 		cell_format_date [21] = "m/d/yyyy h:mm";
 
 		cell_format_time [4]  = "m/d/yy h:mm";
-	}
-
-	if (first_time) {
-#if 0
-		int i;
-
-		for (i = 0; cell_formats[i] != NULL ; ++i) {
-			int j = 0;
-			char const * const * elem = cell_formats[i];
-			for (; elem[j] ; ++j) {
-				FormatCharacteristics info;
-				StyleFormat *sf =
-					style_format_new_XL (elem[j], FALSE);
-				FormatFamily fam =
-					cell_format_classify (sf, &info);
-
-				if (fam != (FormatFamily)i) {
-					g_print ("%d %d %s\n",
-						 i, fam,
-						 elem[j]);
-				}
-				style_format_unref (sf);
-			}
-		}
-#endif
-
-		first_time = FALSE;
 	}
 }
 
@@ -683,7 +655,6 @@ cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 
 	/* FMT_PERCENT or FMT_SCIENCE ? */
 	if (gnumeric_regexec (&re_percent_science, fmt, G_N_ELEMENTS (match), match, 0) == 0) {
-
 		info->num_decimals = 0;
 		if (match[1].rm_eo != -1)
 			info->num_decimals = match[1].rm_eo -
@@ -697,7 +668,6 @@ cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 
 	/* FMT_ACCOUNT */
 	if (gnumeric_regexec (&re_account, fmt, G_N_ELEMENTS (match), match, 0) == 0) {
-
 		info->num_decimals = 0;
 		if (match[5].rm_eo != -1)
 			info->num_decimals = match[5].rm_eo -
@@ -771,7 +741,8 @@ cell_format_classify (StyleFormat const *sf, FormatCharacteristics *info)
 	info->date_has_months = FALSE;
 	info->fraction_denominator = 0;
 
-	if (style_format_is_general (sf))
+	/* Note: ->family is not yet ready.  */
+	if (strcmp (sf->format, cell_format_general[0]) == 0)
 		return FMT_GENERAL;
 
 	/* Can we parse it ? */
@@ -791,9 +762,9 @@ cell_format_classify (StyleFormat const *sf, FormatCharacteristics *info)
 				switch (i) {
 				case FMT_DATE:
 					info->date_has_days = 
-						(NULL != g_utf8_strchr(elem[j],-1,'d'));
+						(NULL != g_utf8_strchr (elem[j],-1,'d'));
 					info->date_has_months = 
-						(NULL != g_utf8_strchr(elem[j],-1,'m'));
+						(NULL != g_utf8_strchr (elem[j],-1,'m'));
 					break;
 				default:
 					break;

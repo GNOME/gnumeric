@@ -686,7 +686,6 @@ latex2e_write_multicolumn_cell (GsfOutput *output, Cell *cell, int num_merged_co
 	char * rendered_string;
 	gushort r,g,b;
 	gboolean wrap = FALSE;
-	FormatCharacteristics cell_format_characteristic;
 	FormatFamily cell_format_family;
 	int merge_width = 0;
 	StyleBorderType left_border = STYLE_BORDER_NONE;
@@ -854,8 +853,7 @@ latex2e_write_multicolumn_cell (GsfOutput *output, Cell *cell, int num_merged_co
 			gsf_output_printf (output, "\\textit{");
 
 
-		cell_format_family = cell_format_classify (cell_get_format (cell),
-							   &cell_format_characteristic);
+		cell_format_family = cell_get_format (cell)->family;
 		if (cell_format_family == FMT_NUMBER || cell_format_family == FMT_CURRENCY ||
 		    cell_format_family == FMT_PERCENT || cell_format_family == FMT_FRACTION ||
 		    cell_format_family == FMT_SCIENCE){

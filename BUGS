@@ -321,14 +321,6 @@ Pending Patches
 22) Add dirty flags to workbook too, adding a sheet should
     make workbook dirty not the new sheet.
 
-23) gconf.
-    23.1) Check for errors					(DONE)
-    23.2) double check that we update on remote changes
-    23.3) see if schema is installed
-    23.4) Move the pref storage into app and compartmentalize
-    	  the use of gconf.
-    23.5) update the preference structure on local changes	
-
 24) Plugins
     24.1) enhance gobject service to do delayed load		(DONE)
     24.2) pluginize paste types
@@ -367,12 +359,17 @@ Pending Patches
     25.28) plugins/xbase                                        (DONE 20030408 MW)
     25.29) plugins/xml_sax                                      (DONE 20030408 MW)
 
-26) Format characterization
-    26.1) Add characterization (units) to StyleFormat
-
 27) audit all of the export plugins to handle utf8
     27.1) latex exporter                                        (DONE 20030611 AJG)
     27.2) html exporter
+
+29) gconf.
+    29.1) Check for errors					(DONE)
+    29.2) double check that we update on remote changes
+    29.3) see if schema is installed
+    29.4) Move the pref storage into app and compartmentalize
+    	  the use of gconf.
+    29.5) update the preference structure on local changes	
 
 1.2 Targets
 -----------
@@ -583,6 +580,8 @@ Finished
 23) Bonobo component						(DONE)
     23.1) Install it in libexec					(DONE)
     23.2) Investigate warnings 					(DONE)
+26) Format characterization                                     (DONE)
+    26.1) Add characterization (units) to StyleFormat           (DONE)
 28) Finish Function Coverage					(DONE)
     28.1) Convert the code from sc to use our date routines	(DONE)
     28.2) ODDFPRICE	(test fails)				(DONE)
@@ -591,4 +590,3 @@ Finished
     28.5) ODDLYIELD	(test fails)				(DONE)
     28.6) YIELDDISC	(basis 1 seems different)		(DONE)
     28.7) YEARFRAC						(DONE)
-

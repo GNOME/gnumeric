@@ -1,3 +1,8 @@
+2003-07-15  Morten Welinder  <terra@gnome.org>
+
+	* widget-format-selector.c (set_format_category_menu_from_style):
+	Use precomputed family.
+
 2003-07-02  Jody Goldberg <jody@gnome.org>
 
 	* widget-font-selector.c : remove gnome-print include

@@ -533,11 +533,10 @@ fmt_dialog_enable_widgets (NumberFormatSelector *nfs, int page)
 
 	/* Set the default format if appropriate */
 	if (page == FMT_GENERAL || page == FMT_ACCOUNT || page == FMT_FRACTION || page == FMT_TEXT) {
-		FormatCharacteristics info;
 		int list_elem = 0;
 		char *tmp;
-		if (page == cell_format_classify (nfs->format.spec, &info))
-			list_elem = info.list_element;
+		if (page == nfs->format.spec->family)
+			list_elem = nfs->format.spec->family_info.list_element;
 
 		tmp = style_format_str_as_XL (cell_formats[page][list_elem], TRUE);
 		gtk_entry_set_text (GTK_ENTRY (nfs->format.widget[F_ENTRY]), tmp);
@@ -765,12 +764,11 @@ static void
 set_format_category_menu_from_style (NumberFormatSelector *nfs)
 {
   	int page;
-	FormatCharacteristics info;
 
   	g_return_if_fail (IS_NUMBER_FORMAT_SELECTOR (nfs));
 
 	/* Attempt to extract general parameters from the current format */
-	if ((page = cell_format_classify (nfs->format.spec, &info)) < 0)
+	if ((page = nfs->format.spec->family) < 0)
 		page = 11; /* Default to custom */
 
 	set_format_category (nfs, page);
@@ -862,7 +860,6 @@ nfs_init (NumberFormatSelector *nfs)
 	char const *name;
 	int i;
 	int page;
-	FormatCharacteristics info;
 
 	GtkWidget *toplevel;
 	GtkWidget *old_parent;
@@ -889,13 +886,11 @@ nfs_init (NumberFormatSelector *nfs)
 	 * all widgets are already hidden. */
 	nfs->format.current_type = -1;
 
-	cell_format_classify (nfs->format.spec, &info);
-
 	/* Even if the format was not recognized it has set intelligent defaults */
-	nfs->format.use_separator = info.thousands_sep;
-	nfs->format.num_decimals = info.num_decimals;
-	nfs->format.negative_format = info.negative_fmt;
-	nfs->format.currency_index = info.currency_symbol_index;
+	nfs->format.use_separator = nfs->format.spec->family_info.thousands_sep;
+	nfs->format.num_decimals = nfs->format.spec->family_info.num_decimals;
+	nfs->format.negative_format = nfs->format.spec->family_info.negative_fmt;
+	nfs->format.currency_index = nfs->format.spec->family_info.currency_symbol_index;
 
 	nfs->format.preview_box = glade_xml_get_widget (nfs->gui, "preview_box");
 	nfs->format.preview = GTK_TEXT_VIEW (glade_xml_get_widget (nfs->gui, "preview"));
@@ -1027,7 +1022,7 @@ nfs_init (NumberFormatSelector *nfs)
 	/* Connect signal for format menu */
 	set_format_category_menu_from_style (nfs);
 
-	if ((page = cell_format_classify (nfs->format.spec, &info)) < 0)
+	if ((page = nfs->format.spec->family) < 0)
 		page = 11; /* Default to custom */
 	fmt_dialog_enable_widgets (nfs, page);
 
@@ -1104,7 +1099,6 @@ number_format_selector_set_style_format (NumberFormatSelector *nfs,
 					 StyleFormat *style_format)
 {
 	GnmComboText *combo;
-	FormatCharacteristics info;
 
   	g_return_if_fail (IS_NUMBER_FORMAT_SELECTOR (nfs));
 	g_return_if_fail (style_format != NULL);
@@ -1115,12 +1109,10 @@ number_format_selector_set_style_format (NumberFormatSelector *nfs,
 
 	nfs->format.spec = style_format;
 
-	cell_format_classify (nfs->format.spec, &info);
-
-	nfs->format.use_separator = info.thousands_sep;
-	nfs->format.num_decimals = info.num_decimals;
-	nfs->format.negative_format = info.negative_fmt;
-	nfs->format.currency_index = info.currency_symbol_index;
+	nfs->format.use_separator = style_format->family_info.thousands_sep;
+	nfs->format.num_decimals = style_format->family_info.num_decimals;
+	nfs->format.negative_format = style_format->family_info.negative_fmt;
+	nfs->format.currency_index = style_format->family_info.currency_symbol_index;
 
 	combo = GNM_COMBO_TEXT (nfs->format.widget[F_SYMBOL]);
 	gnm_combo_text_set_text
