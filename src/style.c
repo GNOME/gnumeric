@@ -178,14 +178,14 @@ style_border_new (StyleBorderType  border_type  [4],
 
 {
 	StyleBorder key, *border;
-	int lp ;
+	int lp;
 
- 	memcpy (&key.type, border_type, sizeof(key.type)) ;
+ 	memcpy (&key.type, border_type, sizeof(key.type));
  	for (lp = 0; lp < 4; lp++){
 		if (border_color [lp])
-			key.color [lp] = border_color [lp] ;
+			key.color [lp] = border_color [lp];
 		else
- 			key.color [lp] = NULL ;
+ 			key.color [lp] = NULL;
  	}
 	
 	border = (StyleBorder *) g_hash_table_lookup (style_border_hash,
@@ -226,10 +226,10 @@ style_border_unref (StyleBorder *sb)
 StyleBorder *
 style_border_new_plain (void)
 {
- 	StyleBorderType style [4] = { BORDER_NONE, BORDER_NONE, BORDER_NONE, BORDER_NONE } ;
- 	StyleColor *color [4] = { NULL, NULL, NULL, NULL } ;
+ 	StyleBorderType style [4] = { BORDER_NONE, BORDER_NONE, BORDER_NONE, BORDER_NONE };
+ 	StyleColor *color [4] = { NULL, NULL, NULL, NULL };
 
-	return style_border_new (style, color) ;
+	return style_border_new (style, color);
 }
 
 StyleColor *
@@ -408,12 +408,12 @@ border_equal (gconstpointer v, gconstpointer v2)
 {
 	StyleBorder *k1 = (StyleBorder *) v;
 	StyleBorder *k2 = (StyleBorder *) v2;
-	int lp ;
+	int lp;
 
  	for (lp = 0; lp < 4; lp++)
  	{
  		if (k1->type [lp] != k2->type [lp])
- 			return 0 ;
+ 			return 0;
  		if (k1->type [lp] != BORDER_NONE &&
 		    k1->color [lp] != k2->color [lp])
 			return 0;
@@ -428,7 +428,7 @@ border_hash (gconstpointer v)
 	StyleBorder *k = (StyleBorder *) v;
 
  	return (k->type [STYLE_LEFT] << 12) | (k->type [STYLE_RIGHT] << 8) |
-	       (k->type [STYLE_TOP] << 4)   | (k->type [STYLE_BOTTOM]) ;
+	       (k->type [STYLE_TOP] << 4)   | (k->type [STYLE_BOTTOM]);
 
 }
 

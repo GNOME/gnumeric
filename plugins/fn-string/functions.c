@@ -116,12 +116,12 @@ static char *help_left = {
 static Value *
 gnumeric_left (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	Value *v ;
+	Value *v;
 	int count;
 	char *s;
 
 	if (argv[1])
-		count = value_get_as_int(argv[1]) ;
+		count = value_get_as_int(argv[1]);
 	else
 		count = 1;
 			
@@ -204,10 +204,10 @@ gnumeric_mid (struct FunctionDefinition *i, Value *argv [], char **error)
 	source = argv [0]->v.str->str;
 	if (pos > strlen (source))
 		return value_str ("");
-	pos-- ;
-	s = g_new (gchar, len+1) ;
+	pos--;
+	s = g_new (gchar, len+1);
 	strncpy (s, &source[pos], len);
-	s[len] = '\0' ;
+	s[len] = '\0';
 	v = value_str (s);
 	g_free (s);
 	
@@ -228,12 +228,12 @@ static char *help_right = {
 static Value *
 gnumeric_right (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	Value *v ;
+	Value *v;
 	int count, len;
 	char *s;
 
 	if (argv[1])
-		count = value_get_as_int(argv[1]) ;
+		count = value_get_as_int(argv[1]);
 	else
 		count = 1;
 
@@ -299,28 +299,28 @@ gnumeric_concatenate (void *sheet, GList *l, int eval_col, int eval_row, char **
 	char *s, *p, *tmp;
 	
 	if (l==NULL) {
-		*error_string = _("Invalid number of arguments") ;
-		return NULL ;
+		*error_string = _("Invalid number of arguments");
+		return NULL;
 	}
-	s = g_new(gchar, 1) ;
-	*s = '\0' ;
+	s = g_new(gchar, 1);
+	*s = '\0';
 	while ( l != NULL && 
 		(v=eval_expr(sheet, l->data, eval_col, eval_row, error_string)) != NULL) {
 /*
 		if (v->type != VALUE_STRING) {
-			*error_string = _("Invalid argument") ;
-			value_release (v) ;
-			return NULL ;
+			*error_string = _("Invalid argument");
+			value_release (v);
+			return NULL;
 		}
 */
-		tmp = value_string (v) ;
+		tmp = value_string (v);
 		/* FIXME: this could be massively sped-up with strlen's etc... */
-		p = g_strconcat (s, tmp, NULL) ;
-		g_free (tmp) ;
-		value_release (v) ;
-		g_free (s) ;
-		s = p ;
-		l = g_list_next (l) ;
+		p = g_strconcat (s, tmp, NULL);
+		g_free (tmp);
+		value_release (v);
+		g_free (s);
+		s = p;
+		l = g_list_next (l);
 	}
 	
 	v = g_new (Value, 1);
@@ -359,10 +359,10 @@ gnumeric_rept (struct FunctionDefinition *i, Value *argv [], char **error_string
 	v->type = VALUE_STRING;
 	p = s = g_new (gchar, 1 + len * num);
 	while (num--) {
-		strncpy (p, argv[0]->v.str->str, len) ;
+		strncpy (p, argv[0]->v.str->str, len);
 		p += len;
 	}
-	*p = '\0' ;
+	*p = '\0';
 	v->v.str = string_get (s);
 	g_free (s);
 
@@ -419,32 +419,32 @@ static char *help_find = {
 static Value *
 gnumeric_find (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	Value *ret ;
+	Value *ret;
 	int count;
 	char *s, *p;
 
 	if (argv[2])
-		count = value_get_as_int(argv[2]) ;
+		count = value_get_as_int(argv[2]);
 	else
-		count = 1 ;
+		count = 1;
 
 	if ( count > strlen(argv[1]->v.str->str) ||
 	     count == 0) { /* start position too high or low */
-		*error_string = _("Invalid argument") ;
-		return NULL ;
+		*error_string = _("Invalid argument");
+		return NULL;
 	}
 
-	g_assert (count >= 1) ;
+	g_assert (count >= 1);
 	s = argv[1]->v.str->str + count - 1;
 	if ( (p = strstr(s, argv[0]->v.str->str)) == NULL ) {
-		*error_string = _("Invalid argument") ;
-		return NULL ;
+		*error_string = _("Invalid argument");
+		return NULL;
 	}
 
 	ret = g_new(Value, 1);
 	ret->type = VALUE_INTEGER;
-	ret->v.v_int = count + p - s ;
-	return ret ;
+	ret->v.v_int = count + p - s;
+	return ret;
 }
 
 static char *help_fixed = {
@@ -468,75 +468,75 @@ gnumeric_fixed (struct FunctionDefinition *i, Value *argv [], char **error_strin
 	if (argv[1])
 		dec = value_get_as_int (argv[1]);
 	else
-		dec = 2 ;
+		dec = 2;
 
 	if (argv[2])
 		commas = !value_get_bool (argv[2], &tmp);
 	else
-		commas = TRUE ;
+		commas = TRUE;
 
 	if (dec >= 1000) { /* else buffer under-run */
-		*error_string = _("Invalid argument") ;
-		return NULL ;
+		*error_string = _("Invalid argument");
+		return NULL;
 		/*
 	} else if (lc->thousands_sep[1] != '\0') {
-		fprintf (stderr, "thousands_sep:\"%s\"\n", lc->thousands_sep) ;
-		*error_string = _("Invlaid thousands separator") ;
-		return NULL ;
+		fprintf (stderr, "thousands_sep:\"%s\"\n", lc->thousands_sep);
+		*error_string = _("Invlaid thousands separator");
+		return NULL;
 		*/
 	} else if (dec <= 0) { /* no decimal point : just round and pad 0's */
 		dec *= -1;
 		num /= pow(10, dec);
 		if (num < 1 && num > -1) {
-			s = g_strdup("0") ;
-			commas = 0 ;
+			s = g_strdup("0");
+			commas = 0;
 		} else {
-			f = g_strdup("%00?s%.0f%.00?u") ; /* commas, no point, 0's */
-			tmp = dec ;
-			dec += log10(fabs(num)) ;
+			f = g_strdup("%00?s%.0f%.00?u"); /* commas, no point, 0's */
+			tmp = dec;
+			dec += log10(fabs(num));
 			if (commas)
-				commas = dec / 3 ;
-			p = &f[13] ; /* last 0 in trailing 0's count */
+				commas = dec / 3;
+			p = &f[13]; /* last 0 in trailing 0's count */
 			do
-				*p-- = '0' + (tmp % 10) ;
-			while (tmp /= 10) ;
-			tmp = commas ;
-			p = &f[3] ; /* last 0 in leading blank spaces for commas */
+				*p-- = '0' + (tmp % 10);
+			while (tmp /= 10);
+			tmp = commas;
+			p = &f[3]; /* last 0 in leading blank spaces for commas */
 			do
-				*p-- = '0' + (tmp % 10) ;
-			while (tmp /= 10) ;
-			s = g_strdup_printf (f, "", num, 0) ;
-			g_free (f) ;
+				*p-- = '0' + (tmp % 10);
+			while (tmp /= 10);
+			s = g_strdup_printf (f, "", num, 0);
+			g_free (f);
 		}
 	} else { /* decimal point format */
-		f = g_strdup("%00?s%.00?f") ;
-		tmp = dec ;
-		dec = log10(fabs(num)) ;
+		f = g_strdup("%00?s%.00?f");
+		tmp = dec;
+		dec = log10(fabs(num));
 		if (commas)
-			commas = dec / 3 ;
-		p = &f[9] ;
+			commas = dec / 3;
+		p = &f[9];
 		do
-			*p-- = '0' + (tmp % 10) ;
-		while (tmp /= 10) ;
-		tmp = commas ;
-		p = &f[3] ;
+			*p-- = '0' + (tmp % 10);
+		while (tmp /= 10);
+		tmp = commas;
+		p = &f[3];
 		do
-			*p-- = '0' + (tmp % 10) ;
-		while (tmp /= 10) ;
-		s = g_strdup_printf (f, "", num) ;
-		g_free (f) ;
+			*p-- = '0' + (tmp % 10);
+		while (tmp /= 10);
+		s = g_strdup_printf (f, "", num);
+		g_free (f);
 	}
 	if (commas) {
-		p = s ;
-		f = &s[commas] ;
+		p = s;
+		f = &s[commas];
 		if (*f == '-')
-			*p++ = *f++ ;
-		dec -= 2 ;
+			*p++ = *f++;
+		dec -= 2;
 		while (dec-- > 0) {
-			*p++ = *f++ ;
+			*p++ = *f++;
 			if (dec%3 == 0)
 				/* FIXME: should use lc->thousands_sep[0] */
-				*p++ = ',' ;
+				*p++ = ',';
 		}
 	}
 
@@ -547,9 +547,11 @@ gnumeric_fixed (struct FunctionDefinition *i, Value *argv [], char **error_strin
 	return v;
 }
 
-/* proper could be a LOT nicer
+/*
+ * proper could be a LOT nicer
  * (e.g. "US Of A" -> "US of A", "Cent'S Worth" -> "Cent's Worth")
- * but this is how Excel does it */
+ * but this is how Excel does it
+ */
 static char *help_proper = {
 	N_("@FUNCTION=PROPER\n"
 	   "@SYNTAX=PROPER(string)\n"
@@ -610,23 +612,31 @@ gnumeric_replace (struct FunctionDefinition *i, Value *argv [], char **error_str
 		*error_string = _("Type mismatch");
 		return NULL;
 	}
-	start = value_get_as_int (argv[1]) ;
-	num = value_get_as_int (argv[2]) ;
-	oldlen = strlen(argv[0]->v.str->str) ;	
+
+	start = value_get_as_int (argv[1]);
+	num = value_get_as_int (argv[2]);
+	oldlen = strlen(argv[0]->v.str->str);	
+
 	if (start <= 0 || num <= 0 || --start + num > oldlen ) {
 		*error_string = _("Invalid arguments");
 		return NULL;
 	}
-	newlen = strlen(argv[3]->v.str->str) ;
-	s = g_new (gchar, 1 + newlen + oldlen - num) ;
+
+	newlen = strlen (argv [3]->v.str->str);
+
+	s = g_new (gchar, 1 + newlen + oldlen - num);
 	strncpy (s, argv[0]->v.str->str, start);
 	strncpy (&s[start], argv[3]->v.str->str, newlen);
-	strncpy (&s[start+newlen], &argv[0]->v.str->str[start+num], oldlen - num - start ) ;
-	s[newlen+oldlen-num] = '\0' ;
+	strncpy (&s[start+newlen], &argv[0]->v.str->str[start+num], oldlen - num - start );
+
+	s [newlen+oldlen-num] = '\0';
+
 	v = g_new (Value, 1);
 	v->type = VALUE_STRING;
 	v->v.str = string_get (s);
+
 	g_free(s);
+
 	return v;
 }
 
@@ -641,9 +651,15 @@ static Value *
 gnumeric_t (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
 	Value *v;
+
 	v = g_new (Value, 1);
 	v->type = VALUE_STRING;
-	v->v.str = string_get ( (argv[0]->type==VALUE_STRING) ? argv[0]->v.str->str : "" ) ;
+
+	if (argv [0]->type == VALUE_STRING)
+		v->v.str = string_get (argv[0]->v.str->str);
+	else
+		v->v.str = string_get ("");
+
 	return v;
 }
 
@@ -665,26 +681,32 @@ gnumeric_trim (struct FunctionDefinition *i, Value *argv [], char **error_string
 		*error_string = _("Type mismatch");
 		return NULL;
 	}
-	dest = new = g_new (gchar, strlen(argv[0]->v.str->str) + 1) ;
-	src = argv[0]->v.str->str ;
-	while (*src) {
-		if (*src == ' ') {
+
+	dest = new = g_new (gchar, strlen(argv[0]->v.str->str) + 1);
+	src = argv [0]->v.str->str;
+
+	while (*src){
+		if (*src == ' '){
 			if (!space) {
 				*dest++ = *src;
-				space = TRUE ;
+				space = TRUE;
 			}
 		} else {
-			space = FALSE ;
-			*dest++ = *src ;
+			space = FALSE;
+			*dest++ = *src;
 		}
-		src++ ;
+		src++;
 	}
-	if (space && dest > new) dest--;
+	if (space && dest > new)
+		dest--;
+
 	*dest = '\0';
+
 	v = g_new (Value, 1);
 	v->type = VALUE_STRING;
 	v->v.str = string_get (new);
 	g_free(new);
+
 	return v;
 }
 
@@ -711,37 +733,42 @@ gnumeric_value (struct FunctionDefinition *i, Value *argv [], char **error_strin
 }
 
 struct subs_string {
-	gchar *str ;
-	guint len ;
-	guint mem ;
-} ;
+	gchar *str;
+	guint len;
+	guint mem;
+};
 
 static struct subs_string *
 subs_string_new (guint len)
 {
-	struct subs_string *s = g_new (struct subs_string, 1) ;
-	s->len = 0 ;
-	s->mem = len ;
-	s->str = g_new (gchar, len) ;
-	*s->str = '\0' ;
-	return s ;
+	struct subs_string *s = g_new (struct subs_string, 1);
+	
+	s->len = 0;
+	s->mem = len;
+	s->str = g_new (gchar, len);
+	*s->str = '\0';
+	return s;
 }
 
 static void
 subs_string_append_n (struct subs_string *s, gchar *src, guint n)
 {
-	const guint chunk = 1024 ;
+	const guint chunk = 1024;
+
 	while (s->len + n >= s->mem)
-		s->str = g_realloc (s->str, s->mem += chunk) ;
-	strncpy (&s->str[s->len], src, n) ;
-	s->str[s->len += n] = '\0' ;
+		s->str = g_realloc (s->str, s->mem += chunk);
+	
+	strncpy (&s->str [s->len], src, n);
+
+	s->len += n;
+	s->str [s->len] = '\0';
 }
 
 static void
 subs_string_free (struct subs_string *s)
 {
-	g_free (s->str) ;
-	g_free (s) ;
+	g_free (s->str);
+	g_free (s);
 }
 
 static char *help_substitute = {
@@ -755,63 +782,63 @@ static char *help_substitute = {
 static Value *
 gnumeric_substitute (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	Value *v ;
-	gchar *text, *old, *new, *p ,*f ;
-	gint num ;
-	guint oldlen, newlen, len, inst ;
-	struct subs_string *s ;
+	Value *v;
+	gchar *text, *old, *new, *p ,*f;
+	gint num;
+	guint oldlen, newlen, len, inst;
+	struct subs_string *s;
 
-	text = value_string (argv[0]) ;
-	old  = value_string (argv[1]) ;
-	new  = value_string (argv[2]) ;
+	text = value_string (argv[0]);
+	old  = value_string (argv[1]);
+	new  = value_string (argv[2]);
 
 	if (argv[3])
-		num = value_get_as_int (argv[3]) ;
+		num = value_get_as_int (argv[3]);
 	else
-		num = 0 ;
+		num = 0;
 
-	oldlen = strlen (old) ;
-	newlen = strlen (new) ;
-	len = strlen (text) ;
+	oldlen = strlen (old);
+	newlen = strlen (new);
+	len = strlen (text);
 	if (newlen != oldlen) {
-		s = subs_string_new (len) ;
+		s = subs_string_new (len);
 	} else 
-		s = NULL ;
+		s = NULL;
 
-	p = text ;
-	inst = 0 ;
+	p = text;
+	inst = 0;
 	while (p-text < len) {
 		if ( (f=strstr(p, old)) == NULL )
-			break ;
+			break;
 		if (num == 0 || num == ++inst) {
 			if (s == NULL) {
-				strncpy (f, new, newlen) ;
+				strncpy (f, new, newlen);
 			} else {
-				subs_string_append_n (s, p, f-p) ;
-				subs_string_append_n (s, new, newlen) ;
+				subs_string_append_n (s, p, f-p);
+				subs_string_append_n (s, new, newlen);
 			}
 			if (num != 0 && num == inst)
-				break ;
+				break;
 		}
-		p = f + oldlen ;
+		p = f + oldlen;
 	}
 	if (newlen != oldlen) { /* FIXME: (p-text) might be bad ? */
-		subs_string_append_n (s, p, len - (p-text) ) ;
-		p = s->str ;
+		subs_string_append_n (s, p, len - (p-text) );
+		p = s->str;
 	} else
-		p = text ;
+		p = text;
 
-	v = g_new (Value, 1) ;
-	v->type = VALUE_STRING ;
-	v->v.str = string_get (p) ;
+	v = g_new (Value, 1);
+	v->type = VALUE_STRING;
+	v->v.str = string_get (p);
 
-	g_free (new) ;
-	g_free (old) ;
-	g_free (text) ;
+	g_free (new);
+	g_free (old);
+	g_free (text);
 	if (s != NULL)
-		subs_string_free (s) ;
+		subs_string_free (s);
 
-	return v ;
+	return v;
 }
 
 static char *help_dollar = {
@@ -821,36 +848,42 @@ static char *help_dollar = {
 	   "@SEEALSO=FIXED, TEXT, VALUE")
 };
 
+/* FIXME: should use lc->[pn]_sign_posn, mon_thousands_sep, negative_sign */
 static Value *
 gnumeric_dollar (struct FunctionDefinition *i, Value *argv [], char **error_string)
-/* FIXME: should use lc->[pn]_sign_posn, mon_thousands_sep, negative_sign */
 {
-	Value *v, *ag[3] ;
-	guint len, neg ;
-	gchar *s ;
+	Value *v, *ag [3];
+	guint len, neg;
+	gchar *s;
 
-	ag[0] = argv[0] ;
-	ag[1] = argv[1] ;
-	ag[2] = NULL ;
-	v = gnumeric_fixed (i, ag, error_string) ;
+	g_warning ("GNUMERIC_DOLLAR is broken, it should use the format_value routine");
+	ag[0] = argv [0];
+	ag[1] = argv [1];
+	ag[2] = NULL;
+	
+	v = gnumeric_fixed (i, ag, error_string);
 	if (v == NULL)
-		return NULL ;
-	g_assert (v->type == VALUE_STRING) ;
-	len = strlen (v->v.str->str) ;
-	neg = (v->v.str->str[0] == '-') ? 1 : 0 ;
-	s = g_new (gchar, len + 2 + neg ) ;
-	strncpy (&s[1], v->v.str->str, len) ;
-	string_unref (v->v.str) ;
-	if (neg) {
-		s[0] = '(' ;
-		s[len+1] = ')' ;
+		return NULL;
+	
+	g_assert (v->type == VALUE_STRING);
+	
+	len = strlen (v->v.str->str);
+	neg = (v->v.str->str [0] == '-') ? 1 : 0;
+
+	s = g_new (gchar, len + 2 + neg);
+	strncpy (&s [1], v->v.str->str, len);
+
+	string_unref (v->v.str);
+	if (neg){
+		s [0] = '(';
+		s [len+1] = ')';
 	}
 	/* FIXME: should use *lc->currency_symbol */
-	s[neg] = '$' ;
-	s[len + 1 + neg] = '\0' ;
-	v->v.str = string_get (s) ;
-	g_free (s) ;
-	return v ;
+	s[neg] = '$';
+	s[len + 1 + neg] = '\0';
+	v->v.str = string_get (s);
+	g_free (s);
+	return v;
 }
 
 FunctionDefinition string_functions [] = {

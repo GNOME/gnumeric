@@ -563,8 +563,9 @@ static void
 sort_cells_cmd (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet;
-	sheet = workbook_get_current_sheet (wb) ;
-	dialog_cell_sort (wb, sheet) ;
+
+	sheet = workbook_get_current_sheet (wb);
+	dialog_cell_sort (wb, sheet);
 }
 
 static void
@@ -1027,27 +1028,32 @@ cancel_input (GtkWidget *widget, Workbook *wb)
 static void
 wizard_input (GtkWidget *widget, Workbook *wb)
 {
-	FunctionDefinition *fd = dialog_function_select (wb) ;
-	GtkEntry *entry = GTK_ENTRY(wb->ea_input) ;
-	gchar *txt, *edittxt ;
-	int pos ;
+	FunctionDefinition *fd = dialog_function_select (wb);
+	GtkEntry *entry = GTK_ENTRY(wb->ea_input);
+	gchar *txt, *edittxt;
+	int pos;
 
-	if (!fd) return ;
-	txt = dialog_function_wizard (wb, fd) ;
-       	if (!txt || !wb || !entry) return ;
+	if (!fd)
+		return;
 	
-	pos = gtk_editable_get_position (GTK_EDITABLE(entry)) ;
+	txt = dialog_function_wizard (wb, fd);
+
+       	if (!txt || !wb || !entry)
+		return;
+	
+	pos = gtk_editable_get_position (GTK_EDITABLE (entry));
 
 	gtk_editable_insert_text (GTK_EDITABLE(entry),
-				  txt, strlen(txt), &pos) ;
-	g_free (txt) ;
-	txt = gtk_entry_get_text (entry) ;
-	if (txt[0] != '=')
-	        edittxt = g_strconcat ("=", txt, NULL) ;
+				  txt, strlen(txt), &pos);
+	g_free (txt);
+	txt = gtk_entry_get_text (entry);
+
+	if (txt [0] != '=')
+	        edittxt = g_strconcat ("=", txt, NULL);
 	else
-		edittxt = g_strdup (txt) ;
-	gtk_entry_set_text (entry, edittxt) ;
-	g_free (edittxt) ;
+		edittxt = g_strdup (txt);
+	gtk_entry_set_text (entry, edittxt);
+	g_free (edittxt);
 }
 
 static void
@@ -1314,7 +1320,7 @@ workbook_new (void)
 	wb->symbol_names = symbol_table_new ();
 
 	gtk_window_set_policy(GTK_WINDOW(wb->toplevel), 1, 1, 0);
-	gtk_window_set_default_size (GTK_WINDOW(wb->toplevel), 600, 400) ;
+	gtk_window_set_default_size (GTK_WINDOW(wb->toplevel), 600, 400);
 
 	wb->max_iterations = 1;
 
@@ -1924,7 +1930,7 @@ workbook_foreach (WorkbookCallback cback, gpointer data)
 {
 	GList *l;
 	
-	for (l = workbook_list; l ; l = l->next){
+	for (l = workbook_list; l; l = l->next){
 		Workbook *wb = l->data;
 		
 		if (!(*cback)(wb, data))

@@ -42,103 +42,103 @@ static char *help_ = {
 static Value *
 val_to_base (Value *value, Value *val_places, int src_base, int dest_base, char **error_string)
 {
-	int lp, max, bit, neg, places ;
-	char *p, *ans ;
-	char *err="\0", buffer[40], *str ;
-	double v ;
+	int lp, max, bit, neg, places;
+	char *p, *ans;
+	char *err="\0", buffer[40], *str;
+	double v;
 
-	if (src_base<=1 || dest_base<=1) {
-		*error_string = _("Base error") ;
-		return NULL ;
+	if (src_base<=1 || dest_base<=1){
+		*error_string = _("Base error");
+		return NULL;
 	}
 
-	if (val_places) {
+	if (val_places){
 		if (val_places->type != VALUE_INTEGER &&
-		    val_places->type != VALUE_FLOAT) {
-			*error_string = _("#VALUE!") ;
-			return NULL ;
+		    val_places->type != VALUE_FLOAT){
+			*error_string = _("#VALUE!");
+			return NULL;
 		}
-		places = value_get_as_int (val_places) ;
+		places = value_get_as_int (val_places);
 	}
 	else
-		places = 0 ;
+		places = 0;
 
-/*	printf ("Type: %d\n", value->type) ; */
+/*	printf ("Type: %d\n", value->type); */
 	switch (value->type){
 	case VALUE_STRING:
-		str = value->v.str->str ;
-		break ;
+		str = value->v.str->str;
+		break;
 	case VALUE_INTEGER:
 		snprintf (buffer, sizeof (buffer)-1, "%d", value->v.v_int);
-		str = buffer ;
+		str = buffer;
 		break;
 	case VALUE_FLOAT:
 		snprintf (buffer, sizeof (buffer)-1, "%8.0f", value->v.v_float);
-		str = buffer ;
+		str = buffer;
 		break;
 	default:
-		*error_string = _("#NUM!") ;
-		return NULL ;
+		*error_string = _("#NUM!");
+		return NULL;
 	}
 
-	v = strtol (str, &err, src_base) ;
-	if (*err) {
-		*error_string = _("#NUM!") ;
-		return NULL ;
+	v = strtol (str, &err, src_base);
+	if (*err){
+		*error_string = _("#NUM!");
+		return NULL;
 	}
 
 	if (v >= (pow (src_base, 10)/2.0)) /* N's complement */
-		v = -v ;
+		v = -v;
 
 	if (dest_base == 10)
-		return (value_int(v)) ;
+		return (value_int(v));
 
-	if (v<0) {
-		neg = 1 ;
-		v = -v ;
+	if (v<0){
+		neg = 1;
+		v = -v;
 	}
 	else
-		neg = 0 ;
+		neg = 0;
 	
 	if (neg) /* Pad the number */
-		max = 10 ;
+		max = 10;
 	else {
 		if (v==0)
-			max = 1 ;
+			max = 1;
 		else
-			max = (int)(log(v)/log(dest_base)) + 1 ;
+			max = (int)(log(v)/log(dest_base)) + 1;
 	}
 
 	if (places>max)
-		max = places ;
-	if (max > 15) {
-		*error_string = _("Unimplemented") ;
-		return NULL ;
+		max = places;
+	if (max > 15){
+		*error_string = _("Unimplemented");
+		return NULL;
 	}
 
-	ans = buffer ;
-	p = &ans[max-1] ;
-	for (lp = 0; lp < max; lp++) {
-		bit = ((int)v) % dest_base ;
-		v   = fabs (v / (double)dest_base) ;
+	ans = buffer;
+	p = &ans[max-1];
+	for (lp = 0; lp < max; lp++){
+		bit = ((int)v) % dest_base;
+		v   = fabs (v / (double)dest_base);
 		if (neg)
-			bit = dest_base-bit-1 ;
+			bit = dest_base-bit-1;
 		if (bit>=0 && bit <= 9)
-			*p-- = '0'+bit ;
+			*p-- = '0'+bit;
 		else
-			*p-- = 'A'+bit-10 ;
+			*p-- = 'A'+bit-10;
 
-		if (places>0 && lp>=places) {
+		if (places>0 && lp>=places){
 			if (v == 0)
-				break ;
+				break;
 			else {
-				*error_string = _("#NUM!") ;
-				return NULL ;
+				*error_string = _("#NUM!");
+				return NULL;
 			}
 		}
 	}
-	ans[max] = '\0' ;
-	return value_str(ans) ;
+	ans[max] = '\0';
+	return value_str(ans);
 }
 
 static char *help_bin2dec = {
@@ -156,7 +156,7 @@ static char *help_bin2dec = {
 static Value *
 gnumeric_bin2dec (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	return val_to_base (argv[0], NULL, 2, 10, error_string) ;
+	return val_to_base (argv[0], NULL, 2, 10, error_string);
 }
 
 static char *help_bin2oct = {
@@ -175,7 +175,7 @@ static char *help_bin2oct = {
 static Value *
 gnumeric_bin2oct (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	return val_to_base (argv[0], argv[1], 2, 8, error_string) ;
+	return val_to_base (argv[0], argv[1], 2, 8, error_string);
 }
 
 static char *help_bin2hex = {
@@ -194,7 +194,7 @@ static char *help_bin2hex = {
 static Value *
 gnumeric_bin2hex (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	return val_to_base (argv[0], argv[1], 2, 16, error_string) ;
+	return val_to_base (argv[0], argv[1], 2, 16, error_string);
 }
 
 static char *help_dec2bin = {
@@ -213,7 +213,7 @@ static char *help_dec2bin = {
 static Value *
 gnumeric_dec2bin (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	return val_to_base (argv[0], argv[1], 10, 2, error_string) ;
+	return val_to_base (argv[0], argv[1], 10, 2, error_string);
 }
 
 static char *help_dec2oct = {
@@ -232,7 +232,7 @@ static char *help_dec2oct = {
 static Value *
 gnumeric_dec2oct (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	return val_to_base (argv[0], argv[1], 10, 8, error_string) ;
+	return val_to_base (argv[0], argv[1], 10, 8, error_string);
 }
 
 static char *help_dec2hex = {
@@ -251,7 +251,7 @@ static char *help_dec2hex = {
 static Value *
 gnumeric_dec2hex (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	return val_to_base (argv[0], argv[1], 10, 16, error_string) ;
+	return val_to_base (argv[0], argv[1], 10, 16, error_string);
 }
 
 static char *help_oct2dec = {
@@ -269,7 +269,7 @@ static char *help_oct2dec = {
 static Value *
 gnumeric_oct2dec (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	return val_to_base (argv[0], NULL, 8, 10, error_string) ;
+	return val_to_base (argv[0], NULL, 8, 10, error_string);
 }
 
 static char *help_oct2bin = {
@@ -288,7 +288,7 @@ static char *help_oct2bin = {
 static Value *
 gnumeric_oct2bin (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	return val_to_base (argv[0], argv[1], 8, 2, error_string) ;
+	return val_to_base (argv[0], argv[1], 8, 2, error_string);
 }
 
 static char *help_oct2hex = {
@@ -307,7 +307,7 @@ static char *help_oct2hex = {
 static Value *
 gnumeric_oct2hex (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	return val_to_base (argv[0], argv[1], 8, 16, error_string) ;
+	return val_to_base (argv[0], argv[1], 8, 16, error_string);
 }
 
 static char *help_hex2bin = {
@@ -326,7 +326,7 @@ static char *help_hex2bin = {
 static Value *
 gnumeric_hex2bin (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	return val_to_base (argv[0], argv[1], 16, 2, error_string) ;
+	return val_to_base (argv[0], argv[1], 16, 2, error_string);
 }
 
 static char *help_hex2oct = {
@@ -345,7 +345,7 @@ static char *help_hex2oct = {
 static Value *
 gnumeric_hex2oct (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	return val_to_base (argv[0], argv[1], 16, 8, error_string) ;
+	return val_to_base (argv[0], argv[1], 16, 8, error_string);
 }
 
 static char *help_hex2dec = {
@@ -363,7 +363,7 @@ static char *help_hex2dec = {
 static Value *
 gnumeric_hex2dec (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	return val_to_base (argv[0], NULL, 16, 10, error_string) ;
+	return val_to_base (argv[0], NULL, 16, 10, error_string);
 }
 
 static char *help_besselj = {
@@ -385,17 +385,17 @@ static char *help_besselj = {
 static Value *
 gnumeric_besselj (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	int y ;
+	int y;
 	if (argv[0]->type != VALUE_INTEGER &&
 	    argv[1]->type != VALUE_INTEGER &&
 	    argv[0]->type != VALUE_FLOAT &&
-	    argv[1]->type != VALUE_FLOAT) {
-		*error_string = _("#VALUE!") ;
-		return NULL ;
+	    argv[1]->type != VALUE_FLOAT){
+		*error_string = _("#VALUE!");
+		return NULL;
 	}
-	if ((y=value_get_as_int(argv[1]))<0) {
-		*error_string = _("#NUM!") ;
-		return NULL ;
+	if ((y=value_get_as_int(argv[1]))<0){
+		*error_string = _("#NUM!");
+		return NULL;
 	}
 	return value_float (jn (y, value_get_as_double (argv [0])));
 }
@@ -419,17 +419,17 @@ static char *help_bessely = {
 static Value *
 gnumeric_bessely (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	int y ;
+	int y;
 	if (argv[0]->type != VALUE_INTEGER &&
 	    argv[1]->type != VALUE_INTEGER &&
 	    argv[0]->type != VALUE_FLOAT &&
-	    argv[1]->type != VALUE_FLOAT) {
-		*error_string = _("#VALUE!") ;
-		return NULL ;
+	    argv[1]->type != VALUE_FLOAT){
+		*error_string = _("#VALUE!");
+		return NULL;
 	}
-	if ((y=value_get_as_int(argv[1]))<0) {
-		*error_string = _("#NUM!") ;
-		return NULL ;
+	if ((y=value_get_as_int(argv[1]))<0){
+		*error_string = _("#NUM!");
+		return NULL;
 	}
 	return value_float (yn (y, value_get_as_double (argv [0])));
 }
@@ -453,22 +453,22 @@ static char *help_erf = {
 static Value *
 gnumeric_erf (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	float_t ans, lower, upper=0.0 ;
+	float_t ans, lower, upper=0.0;
 
-	lower = value_get_as_double(argv[0]) ;
+	lower = value_get_as_double(argv[0]);
 	if (argv[1])
-		upper = value_get_as_double(argv[1]) ;
+		upper = value_get_as_double(argv[1]);
 	
-	if (lower < 0.0 || upper < 0.0) {
-		*error_string = _("#NUM!") ;
-		return NULL ;
+	if (lower < 0.0 || upper < 0.0){
+		*error_string = _("#NUM!");
+		return NULL;
 	}
 	       
-	ans = erf(lower) ;
+	ans = erf(lower);
 	if (argv[1])
-		ans = erf(upper) - ans ;
+		ans = erf(upper) - ans;
 	
-	return value_float (ans) ;
+	return value_float (ans);
 }
 
 static char *help_erfc = {
@@ -488,12 +488,12 @@ static char *help_erfc = {
 static Value *
 gnumeric_erfc (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	float_t x ;
-	if ((x=value_get_as_double(argv[0]))<0) {
-		*error_string = _("#NUM!") ;
-		return NULL ;
+	float_t x;
+	if ((x=value_get_as_double(argv[0]))<0){
+		*error_string = _("#NUM!");
+		return NULL;
 	}
-	return value_float (erfc (x)) ;
+	return value_float (erfc (x));
 }
 
 static char *help_delta = {
@@ -514,14 +514,14 @@ static char *help_delta = {
 static Value *
 gnumeric_delta (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	int ans = 0 ;
-	Value *vx, *vy ;
+	int ans = 0;
+	Value *vx, *vy;
 
-	vx = argv[0] ;
+	vx = argv[0];
 	if (argv[1])
-		vy = argv[1] ;
+		vy = argv[1];
 	else
-		vy = value_int(0) ;
+		vy = value_int(0);
 
 	switch (vx->type)
 	{
@@ -530,41 +530,41 @@ gnumeric_delta (struct FunctionDefinition *i, Value *argv [], char **error_strin
 		{
 		case VALUE_INTEGER:
 			if (vx->v.v_int == vy->v.v_int)
-				ans = 1 ;
-			break ;
+				ans = 1;
+			break;
 		case VALUE_FLOAT:
 			if (vy->v.v_float == (float_t)vx->v.v_int)
-				ans = 1 ;
-			break ;
+				ans = 1;
+			break;
 		default:
-			*error_string = _("Impossible") ;
-			return NULL ;
+			*error_string = _("Impossible");
+			return NULL;
 		}
-		break ;
+		break;
 	case VALUE_FLOAT:
 		switch (vy->type)
 		{
 		case VALUE_INTEGER:
 			if (vx->v.v_float == (float_t)vy->v.v_int)
-				ans = 1 ;
-			break ;
+				ans = 1;
+			break;
 		case VALUE_FLOAT:
 			if (vy->v.v_float == vx->v.v_float)
-				ans = 1 ;
-			break ;
+				ans = 1;
+			break;
 		default:
-			*error_string = _("Impossible") ;
-			return NULL ;
+			*error_string = _("Impossible");
+			return NULL;
 		}
-		break ;
+		break;
 	default:
-		*error_string = _("Impossible") ;
-		return NULL ;
+		*error_string = _("Impossible");
+		return NULL;
 	}
 	       
 	if (!argv[1])
-		value_release (vy) ;
-	return value_int (ans) ;
+		value_release (vy);
+	return value_int (ans);
 }
 
 static char *help_gestep = {
@@ -585,14 +585,14 @@ static char *help_gestep = {
 static Value *
 gnumeric_gestep (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	int ans = 0 ;
-	Value *vx, *vy ;
+	int ans = 0;
+	Value *vx, *vy;
 
-	vx = argv[0] ;
+	vx = argv[0];
 	if (argv[1])
-		vy = argv[1] ;
+		vy = argv[1];
 	else
-		vy = value_int (0) ;
+		vy = value_int (0);
 
 	switch (vx->type)
 	{
@@ -601,41 +601,41 @@ gnumeric_gestep (struct FunctionDefinition *i, Value *argv [], char **error_stri
 		{
 		case VALUE_INTEGER:
 			if (vx->v.v_int >= vy->v.v_int)
-				ans = 1 ;
-			break ;
+				ans = 1;
+			break;
 		case VALUE_FLOAT:
 			if (vy->v.v_float < (float_t)vx->v.v_int)
-				ans = 1 ;
-			break ;
+				ans = 1;
+			break;
 		default:
-			*error_string = _("Impossible") ;
-			return NULL ;
+			*error_string = _("Impossible");
+			return NULL;
 		}
-		break ;
+		break;
 	case VALUE_FLOAT:
 		switch (vy->type)
 		{
 		case VALUE_INTEGER:
 			if (vx->v.v_float >= (float_t)vy->v.v_int)
-				ans = 1 ;
-			break ;
+				ans = 1;
+			break;
 		case VALUE_FLOAT:
 			if (vy->v.v_float < vx->v.v_float)
-				ans = 1 ;
-			break ;
+				ans = 1;
+			break;
 		default:
-			*error_string = _("Impossible") ;
-			return NULL ;
+			*error_string = _("Impossible");
+			return NULL;
 		}
-		break ;
+		break;
 	default:
-		*error_string = _("Impossible") ;
-		return NULL ;
+		*error_string = _("Impossible");
+		return NULL;
 	}
 	       
 	if (!argv[1])
-		value_release (vy) ;
-	return value_int (ans) ;
+		value_release (vy);
+	return value_int (ans);
 }
 
 static char *help_sqrtpi = {
@@ -654,12 +654,12 @@ static char *help_sqrtpi = {
 static Value *
 gnumeric_sqrtpi (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	float_t x ;
-	if ((x=value_get_as_double(argv[0]))<0) {
-		*error_string = _("#NUM!") ;
-		return NULL ;
+	float_t x;
+	if ((x=value_get_as_double(argv[0]))<0){
+		*error_string = _("#NUM!");
+		return NULL;
 	}
-	return value_float (sqrt (M_PI*x)) ;
+	return value_float (sqrt (M_PI*x));
 }
 
 FunctionDefinition eng_functions [] = {

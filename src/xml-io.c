@@ -757,20 +757,20 @@ static char *StyleSideNames[4] =
  	"Bottom",
  	"Left",
  	"Right"
-} ;
+};
 
 static xmlNodePtr
 writeXmlStyleBorder (parseXmlContextPtr ctxt, StyleBorder *border)
 {
 	xmlNodePtr cur;
 	xmlNodePtr side;
-	int lp ;
+	int lp;
        
-	for (lp=3;lp>=0;lp--)
-		if (border->type[lp] != BORDER_NONE)
-			break ;
+	for (lp = 3; lp >= 0; lp--)
+		if (border->type [lp] != BORDER_NONE)
+			break;
 	if (lp<0)
-		return NULL ;
+		return NULL;
 
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "StyleBorder", NULL);
 	
@@ -793,10 +793,10 @@ static StyleBorder *
 readXmlStyleBorder (parseXmlContextPtr ctxt, xmlNodePtr tree)
 {
 	StyleBorder *ret;
- 	StyleBorderType style[4] = { BORDER_NONE, BORDER_NONE, BORDER_NONE, BORDER_NONE } ;
- 	StyleColor *color[4] = { NULL, NULL, NULL, NULL } ;
+ 	StyleBorderType style [4] = { BORDER_NONE, BORDER_NONE, BORDER_NONE, BORDER_NONE };
+ 	StyleColor *color [4] = { NULL, NULL, NULL, NULL };
 	xmlNodePtr side;
-	int lp ;
+	int lp;
 
 	if (strcmp (tree->name, "StyleBorder")){
 		fprintf (stderr,
@@ -804,17 +804,17 @@ readXmlStyleBorder (parseXmlContextPtr ctxt, xmlNodePtr tree)
 			 tree->name);
 	}
 
- 	for (lp=0;lp<4;lp++)
+ 	for (lp = 0; lp < 4; lp++)
  	{
- 		if ((side = xmlSearchChild (tree, StyleSideNames[lp])) != NULL)
+ 		if ((side = xmlSearchChild (tree, StyleSideNames [lp])) != NULL)
  		{
  			/* FIXME: need to read the proper type */
- 			style[lp] = BORDER_THICK ;
- 			xmlGetColorValue (side, "Color", &color[lp]);
+ 			style [lp] = BORDER_THICK ;
+ 			xmlGetColorValue (side, "Color", &color [lp]);
  		}
 	}
 	
-	ret = style_border_new(style, color) ;
+	ret = style_border_new (style, color);
 
 	return NULL;
 }

@@ -383,14 +383,14 @@ int yylex (void)
 		p = parser_expr-1;
 		tmp = parser_expr;
 
-		digits = 1 ;
+		digits = 1;
 		while (isdigit (*tmp) || (!is_float && *tmp=='.' && ++is_float)) {
-			tmp++ ;
+			tmp++;
 			digits++;
 		}
 
 		/* Can't store it in a gint32 */
-		is_float |= (digits > 9) ;
+		is_float |= (digits > 9);
 
 		if (*tmp == 'e' || *tmp == 'E') {
 			is_float = 1;

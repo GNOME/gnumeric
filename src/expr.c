@@ -63,9 +63,9 @@ expr_parse_string (char *expr, void *sheet, int col, int row, char **desired_for
 		*error_msg = _("Missing quote");
 		break;
 	default:
-		printf ("THIS SHOULD NEVER EVER EVER HAPPEN !!!!!!\n") ;
-		*error_msg = _("Impossible!") ;
-		break ;
+		g_assert_not_reached ();
+		*error_msg = _("Impossible!");
+		break;
 	}
 	return NULL;
 }
@@ -181,19 +181,19 @@ value_string (Value *value)
 		return g_strdup (value->v.str->str);
 
 	case VALUE_INTEGER:
-		return g_strdup_printf ("%d", value->v.v_int) ;
+		return g_strdup_printf ("%d", value->v.v_int);
 
 	case VALUE_FLOAT:
-		return g_strdup_printf ("%g", value->v.v_float) ;
+		return g_strdup_printf ("%g", value->v.v_float);
 
 	case VALUE_ARRAY:
-		return g_strdup ("ARRAY") ;
+		return g_strdup ("ARRAY");
 		
 	case VALUE_CELLRANGE:
-		break ;
+		break;
 	}
 
-	return g_strdup ("Internal problem") ;
+	return g_strdup ("Internal problem");
 }
 
 void
@@ -422,8 +422,8 @@ cell_ref_make_absolute (CellRef *cell_ref, int eval_col, int eval_row)
 
 	if (cell_ref->row_relative)
 		cell_ref->row = eval_row + cell_ref->row;
-	cell_ref->row_relative = 0 ;
-	cell_ref->col_relative = 0 ;
+	cell_ref->row_relative = 0;
+	cell_ref->col_relative = 0;
 }
 
 static Value *
@@ -493,23 +493,22 @@ eval_funcall (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **e
 	{
 		/* Functions that take pre-computed Values */
 		Value **values;
-		int fn_argc_min=0, fn_argc_max=0, var_len=0 ;
-		char *arg_type = fd->args, *argptr = fd->args;
+		int fn_argc_min = 0, fn_argc_max = 0, var_len = 0;
+		char *arg_type = fd->args;
+		char *argptr = fd->args;
 	       
 		/* Get variable limits */
-		while (*argptr) {
-			if (*argptr++=='|') {
-				var_len = 1 ;
-				continue ;
+		while (*argptr){
+			if (*argptr++ == '|'){
+				var_len = 1;
+				continue;
 			}
 			if (!var_len)
-				fn_argc_min++ ;
-			fn_argc_max++ ;
+				fn_argc_min++;
+			fn_argc_max++;
 		}
 
-/*		fn_argc = strlen (fd->args); */
-		
-		if (argc > fn_argc_max || argc < fn_argc_min) {
+		if (argc > fn_argc_max || argc < fn_argc_min){
 			*error_string = _("Invalid number of arguments");
 			return NULL;
 		}
@@ -522,8 +521,11 @@ eval_funcall (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **e
 			v = eval_expr (sheet, t, eval_col, eval_row, error_string);
 			if (v == NULL)
 				goto free_list;
-			if (*arg_type=='|') arg_type++ ;
-			switch (*arg_type) {
+			
+			if (*arg_type=='|')
+				arg_type++;
+			
+			switch (*arg_type){
 			case 'f':
 				if (v->type == VALUE_INTEGER ||
 				    v->type == VALUE_FLOAT)
@@ -532,33 +534,35 @@ eval_funcall (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **e
 				free_values (values, arg);
 				*error_string = _("Type mismatch");
 				return NULL;
+
 			case 's':
 				if (v->type != VALUE_STRING){
 					free_values (values, arg);
 					*error_string = _("Type mismatch");
 					return NULL;
 				}
-				break ;
+				break;
+				
 			case 'r':
 				if (v->type != VALUE_CELLRANGE) {
 					free_values (values, arg);
 					*error_string = _("Type mismatch");
 					return NULL;
 				}
-				cell_ref_make_absolute (&v->v.cell_range.cell_a, eval_col, eval_row) ;
-				cell_ref_make_absolute (&v->v.cell_range.cell_b, eval_col, eval_row) ;
-				break ;
+				cell_ref_make_absolute (&v->v.cell_range.cell_a, eval_col, eval_row);
+				cell_ref_make_absolute (&v->v.cell_range.cell_b, eval_col, eval_row);
+				break;
 			}
 			values [arg] = v;
 		}
-		while (arg<fn_argc_max)
-			values[arg++] = NULL ;
+		while (arg < fn_argc_max)
+			values [arg++] = NULL;
 		v = fd->fn (fd, values, error_string);
 
 	free_list:
 		for (i = 0; i < arg; i++) {
-			if (values[i] != NULL)
-				value_release (values [i]) ;
+			if (values [i] != NULL)
+				value_release (values [i]);
 		}
 		g_free (values);
 		return v;
