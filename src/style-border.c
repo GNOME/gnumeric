@@ -158,6 +158,9 @@ style_border_none (void)
 }
 
 /**
+ * style_border_none_set_color:
+ * @color :
+ *
  * This function updates the color of style_border_none when the wanted grid
  * color is known. style_border_none tells how to render the grid. Because
  * the grid color may be different for different sheets, the functions which
@@ -166,6 +169,7 @@ style_border_none (void)
  * color is default (which is black), the grid color is gray, as returned by
  * style_color_grid ().  - otherwise, the auto pattern color is used for the
  * grid.
+ * NOTE : Absorbs a reference to @color.
  */
 void
 style_border_none_set_color (StyleColor *color)
@@ -178,7 +182,6 @@ style_border_none_set_color (StyleColor *color)
 
 	nc = none->color;
 	none->color = color;
-	style_color_ref (color);
 	style_color_unref (nc);
 
 	if (none->gc)

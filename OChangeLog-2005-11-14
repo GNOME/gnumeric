@@ -1,7 +1,15 @@
 2002-08-12  Jody Goldberg <jody@gnome.org>
 
+	* src/formats.c : remove the 8 bit characters until the gettext
+	  infrasructure accepts them as utf8 without warning.
+
+2002-08-12  Jody Goldberg <jody@gnome.org>
+
 	* src/style-border.c (style_border_none_set_color) : Morten found the
 	  colour leak.  While we're here lets fix the the GC warnings.
+
+	* src/sheet-style.c (sheet_style_update_grid_color) : fix the leak
+	  here too.
 
 	* src/sheet-object-graphic.c : Add a quicky line based polygon object.
 
