@@ -216,7 +216,7 @@ typedef struct {
  * the results of the run.  Note that it should be freed when no longer
  * needed (by calling solver_results_free). */
 SolverResults    *solver               (WorkbookControl *wbc, Sheet *sheet,
-					gchar **errmsg);
+					const gchar **errmsg);
 
 /* Creates the Solver's reports. */
 gchar *          solver_reports        (WorkbookControl *wbc, Sheet *sheet,

@@ -79,22 +79,6 @@ typedef struct {
 } SolverState;
 
 
-#if 0
-/* Different constraint types */
-static char const * constraint_strs_untranslated[] = {
-        N_("<="),
-	N_(">="),
-	N_("="),
- /* xgettext: Int == Integer constraint for the linear program */
-	N_("Int"),
- /* xgettext: Bool == Boolean (or binary) constraint for the linear program */
-	N_("Bool"),
-	NULL
-};
-#endif
-
-
-
 typedef struct {
 	char const          *name;
 	SolverAlgorithmType alg;
@@ -137,6 +121,7 @@ static const char *model_type_group[] = {
 
 static GList *lp_alg_name_list = NULL;
 static GList *qp_alg_name_list = NULL;
+const gchar *solver_max_time_err;
 
 /**
  * is_hom_row_or_col_ref:
@@ -737,7 +722,7 @@ cb_destroy (gpointer data, G_GNUC_UNUSED gpointer user_data)
 
 
 static void
-solver_reporting (SolverState *state, SolverResults *res, gchar *errmsg)
+solver_reporting (SolverState *state, SolverResults *res, const gchar *errmsg)
 {
 	SolverOptions *opt = &res->param->options;
 	gchar         *err = NULL;
@@ -803,7 +788,7 @@ solver_reporting (SolverState *state, SolverResults *res, gchar *errmsg)
 		gnumeric_notice_nonmodal
 			((GtkWindow *) state->dialog,
 			 &(state->warning_dialog),
-			 GTK_MESSAGE_WARNING, 
+			 GTK_MESSAGE_ERROR, 
 			 _("The maximum number of iterations exceeded. "
 			   "The optimal value could not be found."));
 		err = solver_reports (WORKBOOK_CONTROL(state->wbcg),
@@ -817,9 +802,8 @@ solver_reporting (SolverState *state, SolverResults *res, gchar *errmsg)
 		gnumeric_notice_nonmodal
 			((GtkWindow *) state->dialog,
 			 &(state->warning_dialog),
-			 GTK_MESSAGE_WARNING, 
-			 _("The maximum time exceeded. The optimal "
-			   "value could not be found in given time."));
+			 GTK_MESSAGE_ERROR, 
+			 solver_max_time_err);
 		err = solver_reports (WORKBOOK_CONTROL(state->wbcg),
 				      state->sheet, res,
 				      FALSE, FALSE, FALSE,
@@ -831,13 +815,13 @@ solver_reporting (SolverState *state, SolverResults *res, gchar *errmsg)
 		gnumeric_notice_nonmodal
 			((GtkWindow *) state->dialog,
 			 &(state->warning_dialog),
-			 GTK_MESSAGE_WARNING, errmsg);
+			 GTK_MESSAGE_ERROR, errmsg);
 		break;
 	}
 	if (err)
 		gnumeric_notice_nonmodal
 			((GtkWindow *) state->dialog,
-			 &(state->warning_dialog), GTK_MESSAGE_WARNING, err);
+			 &(state->warning_dialog), GTK_MESSAGE_ERROR, err);
 }
 
 static void
@@ -879,7 +863,7 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 	gint                    i;
 	gboolean                answer, sensitivity, limits, performance;
 	gboolean                program, dual_program;
-	gchar                   *errmsg = _("Unknown error.");
+	const gchar             *errmsg = _("Unknown error.");
 	SolverParameters        *param;
 
 	param = state->sheet->solver_parameters;
@@ -1023,13 +1007,13 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 		gnumeric_notice_nonmodal
 			((GtkWindow *) state->dialog,
 			 &(state->warning_dialog),
-			 GTK_MESSAGE_WARNING, _("No constraints defined for "
-						"the problem."));
+			 GTK_MESSAGE_ERROR, _("No constraints defined for "
+					      "the problem."));
 		goto out;
 	}
-	state->ov_target = value_get_as_float (param->target_cell->value);
-	state->ov = save_original_values (input_cells);
-	state->ov_stack = g_slist_prepend (state->ov_stack, state->ov);
+	state->ov_target     = value_get_as_float (param->target_cell->value);
+	state->ov            = save_original_values (input_cells);
+	state->ov_stack      = g_slist_prepend (state->ov_stack, state->ov);
 	state->ov_cell_stack = g_slist_prepend (state->ov_cell_stack,
 						input_cells);
 
@@ -1046,8 +1030,8 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 		solver_results_free (res);
 	} else
 		gnumeric_notice_nonmodal (GTK_WINDOW (state->dialog),
-			 &(state->warning_dialog),
-			 GTK_MESSAGE_WARNING, errmsg);
+					  &(state->warning_dialog),
+					  GTK_MESSAGE_ERROR, errmsg);
 out:
 	if (target_range != NULL)
 		value_release (target_range);
@@ -1072,6 +1056,10 @@ dialog_init (SolverState *state)
 	int                     i;
 
 	param = state->sheet->solver_parameters;
+
+	solver_max_time_err = _("The maximum time exceeded. The optimal "
+				"value could not be found in given "
+				"time.");
 
 	if (lp_alg_name_list == NULL) {
 		for (i = 0; algorithm_defs [i].name; i++)
