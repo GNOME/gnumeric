@@ -1,6 +1,7 @@
 2001-05-07  Morten Welinder  <terra@diku.dk>
 
-	* src/plugin.c (plugin_file_state_from_string): Plug leak.
+	* src/plugin.c (plugin_info_read): Fix truck-size leak.
+	(plugin_file_state_from_string): Plug leak.
 
 2001-05-07  Zbigniew Chyla  <cyba@gnome.pl>
 
@@ -144,17 +145,17 @@
 2001-05-06  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/gnumeric.h: Define ColRowRLESizeList.
-	
+
  	* src/commands.c (cmd_ins_del_colrow_*) : For saving
  	and restoring the col/row sizes we now use a
 	ColRowRLESizeList instead of a double *.
- 
+
  	* src/colrow.[ch] (colrow_save_sizes) : Rebuild to return
  	a Run-Length encoded list of sizes.
  	(colrow_restore_sizes): Idem, but as parameter.
  	(colrow_size_list_destroy): Use colrow_rle_size_list_destroy.
 	(colrow_rle_size_list_destroy): Free SavedSize's.
- 
+
 2001-05-06  Jon K Hellan  <hellan@acm.org>
 
 	* src/sheet-control-gui.c (scg_range_selection_changed): Change
@@ -181,7 +182,7 @@
  	more correct.
  	(item_bar_unrealize): Unref item_bar->shade.
  	(item_bar_draw): Use item_bar->shade.
- 
+
 2001-05-05  Jon K Hellan  <hellan@acm.org>
 
 	* src/item-bar.h (struct _ItemBar): Add guru_cursor member.
@@ -381,21 +382,21 @@
 	* src/solver-lp.c (find_name): Ditto.
 
 2001-05-04  Almer S. Tigelaar  <almer@gnome.org>
- 
+
  	* src/GNOME_Gnumeric.xml: Correct InsertComment
  	pixmap, add pixmap for Sort and add separators
  	on the right places.
- 
+
  	* src/pixmaps: Split sort ascending into 16x16 and
  	24x24 versions.
- 
+
  	* src/application.c: Account for the split. This
  	will make the menu item show up with a correct
  	icon in Bonobo.
 
 	* src/workbook-control-gui.c: Idem. Use the 16x16
 	icon for the menu.
- 	
+
 2001-05-04  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/commands.c (cmd_unmerge_cells): Correct minor typo.
@@ -420,7 +421,7 @@
 
  	* src/sheet-object-widget.c (sheet_widget_checkbox_user_config):
 	Ditto.
- 
+
 2001-05-02  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/workbook-edit.c (cb_thaw_ui_toolbar): Callback timer
@@ -431,7 +432,7 @@
 	* src/sheet.c (sheet_menu_state_enable_insert): Clean-up.
 
 2001-05-01  Almer S. Tigelaar  <almer@gnome.org>
- 
+
  	* src/parser.y (yylex): Seek for matching )'s for ('s and
  	vice versa.
  	(find_bracket): The meat for the above functionality
@@ -441,7 +442,7 @@
 	an error has occurred, set a general "invalid expression" and
 	mark the whole expression. Also display more detail when both
 	the expression and error message are non-null.
-	
+
 2001-05-01  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/application.[ch] (application_clipboard_unant): Use
@@ -472,7 +473,7 @@
 	this is no longer needed, application_clipboard_cut/copy handles
 	this now.
 	(cmd_ins_del_colrow_redo): Idem
-	(cmd_ins_del_colrow): Oh dear, we were actually storing both 
+	(cmd_ins_del_colrow): Oh dear, we were actually storing both
 	the cut and copied area as a cut area and we were actually
 	cutting even if the range was a copied area after shifting.
 
@@ -527,7 +528,7 @@
 	an index list to a string representation.
 	(colrow_string_build): Utility routine for
 	colrow_index_list_to_string.
-	
+
 2001-04-30  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/parser.y (gnumeric_expr_parser) : Give a warning
@@ -597,12 +598,12 @@
 	and clone methods to macro
 	(sheet_object_widget_clone): implement.
 	Implement for X in label, frame, button, checkbox
-	(sheet_widget_x_construct_with_label): 
-	(sheet_widget_x_destroy): 
-	(sheet_widget_x_clone): 
-	(sheet_widget_x_write_xml): 
+	(sheet_widget_x_construct_with_label):
+	(sheet_widget_x_destroy):
+	(sheet_widget_x_clone):
+	(sheet_widget_x_write_xml):
 	(sheet_widget_x_read_xml):
-	
+
 	(sheet_object_widget_register): implement
 
 	* src/sheet-object-impl.h: add the clone method
@@ -616,7 +617,7 @@
 
 	* src/item-grid.c (item_grid_button_1): Invoke
 	scg_start_range_selection rather than
-	gnumeric_sheet_start_range_selection. 
+	gnumeric_sheet_start_range_selection.
 
 	* src/sheet-control-gui.[ch] (scg_start_range_selection): New function.
 	Start range selection in gsheet and notify expr entry.
@@ -786,7 +787,7 @@
 	* src/sheet.c (sheet_clone_names): Use expr_name_create which now
 	uses ParseError instead of char **.
 	* src/xml-io.c (xml_read_names): Idem.
-	
+
 2001-04-23  Morten Welinder  <terra@diku.dk>
 
 	* src/GNOME_Gnumeric.xml: Define a few more outline commands, just
@@ -831,7 +832,7 @@
 2001-04-21  Jon K Hellan  <hellan@acm.org>
 
 	* configure.in (have_gda): Today, gda plugin compiles again with
-	CVS libgda. Bump required version to 0.2.4. 
+	CVS libgda. Bump required version to 0.2.4.
 
 2001-04-20  Jon K Hellan  <hellan@acm.org>
 
@@ -872,7 +873,7 @@
 	GnumericExprEntry.
 	(workbook_set_entry): Change type of entry argument to
 	GnumericExprEntry.
-	
+
 	* src/gnumeric-sheet.c (move_cursor): Move to scg::scg_move_cursor
 	(cursor_horizontal_move): Move to scg::scg_cursor_horizontal_move
 	(cursor_horizontal_extend): Move to
@@ -913,7 +914,7 @@
 	gnumeric_sheet_rangesel_vertical_move,
 	gnumeric_sheet_rangesel_horizontal_extend,
 	gnumeric_sheet_rangesel_vertical_extend): Declare.
-	
+
 	* src/gnumeric-util.[ch] (gnumeric_entry_at_subexpr_boundary_p):
 	Rename to gnumeric_expr_entry_at_subexpr_boundary_p and move to
 	gnumeric_expr_entry widget.
@@ -968,7 +969,7 @@
 	(struct _WorkbookControlGUI): Remove select_abs_col,
 	select_abs_row, select_full_col, select_full_row and
 	select_single_cell.
-	
+
 	* src/workbook-control-gui.c (wbcg_finish_editing,
 	wb_edit_key_pressed, cb_autofunction, workbook_setup_edit_area,
 	auto_complete_matches): Entry must now be cast to GtkEntry.
@@ -987,7 +988,7 @@
 	again.
 	(workbook_edit_init): Remove redundant 'g_assert != NULL'. Use
 	GnumericExprEntry widget.
-	
+
 2001-04-17  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook-control-gui.c (wbcg_init_state) : implement.
@@ -1053,7 +1054,7 @@
 
 	* src/expr.c (expr_parse_string): Set error message to the
 	result of gnumeric_expr_parser.
-	
+
 	* src/parse-util.c (parse_error_init) : Properly initialize
 	begin and end character.
 
@@ -1062,7 +1063,7 @@
 	(move_cursor): Idem.
 
 	* src/item-grid.c (item_grid_button_1): Idem.
-	
+
 2001-04-15  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/preview-grid.c
@@ -1123,7 +1124,7 @@
 
 	* src/gui-clipboard.[ch] (x_clipboard_bind_workbook): Change
 	signature to make it callable as an idle function. Make it
-	determine the toplevel from 
+	determine the toplevel from
 
 2001-04-13  Jody Goldberg <jgoldberg@home.com>
 
@@ -1365,7 +1366,7 @@
 	(gnumeric_libs): Removed ../plugins/excel/libexcel.a
 
 	* src/main.c:
-	Removed: 
+	Removed:
 	- include "../plugins/excel/boot.h"
 	- xxx_debug variables
 	- (gnumeric_popt_options) excel debugging options
@@ -1424,7 +1425,7 @@
 	Adjusted to service_list -> services_v change.
 	(deactivate_plugin):
 	Decrement n_deps for every activated dependency (by calling
-	plugin_dependencies_dec_dependants).	
+	plugin_dependencies_dec_dependants).
 	Adjusted to service_list -> services_v change.
 	(plugin_can_deactivate):
 	Return FALSE if any of n_deps > 0.
@@ -1591,7 +1592,7 @@
 
 2001-03-10  Almer S. Tigelaar  <almer@gnome.org>
 
-	* src/sheet-control-gui.c 
+	* src/sheet-control-gui.c
 	(scg_scrollbar_config): Clear scrollbar text.
 	(vertical_scroll_offset_changed): Adjust to display hint in the scrollbar.
 	(horizontal_scroll_offset_changed): Idem.
@@ -1656,7 +1657,7 @@
 	(horizontal_scroll_change) : Remove.
 	(vertical_scroll_event) : Remove.
 	(horizontal_scroll_event) : Remove.
-	(vertical_scroll_changed) : New function, handles the 
+	(vertical_scroll_changed) : New function, handles the
 	GnumericVScrollbar's "changed" signal.
 	(horizontal_scroll_changed) : Idem for the GnumericHScrollbar.
 	(scg_construct) : Create a gnumeric-vscrollbar instead of a
@@ -3346,7 +3347,7 @@
 2001-01-24  Almer S. Tigelaar  <almer1@dds.nl>
 
 	* src/clipboard.c (clipboard_paste_region):
-	Update row heights after pasting a region. 
+	Update row heights after pasting a region.
 
 2001-01-23  Morten Welinder  <terra@diku.dk>
 

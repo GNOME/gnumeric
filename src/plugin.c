@@ -849,6 +849,7 @@ plugin_info_read (PluginInfo *pinfo, const gchar *dir_name, ErrorInfo **ret_erro
 		g_free (description);
 	}
 	g_free (file_name);
+	xmlFreeDoc (doc);
 }
 
 static PluginInfo *
