@@ -1,5 +1,7 @@
 2002-08-02  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
+	* samples/simulation.gnumeric: Sample file of simulation.
+	
 	* src/workbook-control-gui.c: Added `Risk simulation' tool.
 
 	* src/sheet.h: Added a round variable for risk simulation tool.
