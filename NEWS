@@ -6,7 +6,9 @@ J.H.M. Dassen (Ray):
 
 Morten:
 	* Improve accuracy of pgamma and thus pchisq, ppois, qgamma,
-	qchisq, qpois, and more for extreme arguments.
+	  qchisq, qpois, and more for extreme arguments.
+	* Make it possible to change rotation of formats.  (That does not
+	  means things will actually draw rotated!)
 
 --------------------------------------------------------------------------
 Gnumeric 1.4.1

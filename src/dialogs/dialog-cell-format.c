@@ -579,7 +579,7 @@ cb_rotate_changed (GtkEditable *editable, FormatState *state)
 
 		if (state->align.rotation != val) {
 			state->align.rotation = val;
-			/* mstyle_set_indent (state->result, val); */
+			mstyle_set_rotation (state->result, val);
 			fmt_dialog_changed (state);
 		}
 	}
@@ -604,12 +604,14 @@ cb_rotate_changed (GtkEditable *editable, FormatState *state)
 		gnome_canvas_points_free (points);
 	}
 
-	art_affine_translate (trans, 0., -state->align.rot_height/2);
-	art_affine_rotate (res, -state->align.rotation);
-	art_affine_multiply (res, trans, res);
-	art_affine_translate (trans, 15., 100.);
-	art_affine_multiply (res, res, trans);
-	gnome_canvas_item_affine_absolute (state->align.text, res);
+	if (state->align.text) {
+		art_affine_translate (trans, 0., -state->align.rot_height/2);
+		art_affine_rotate (res, -state->align.rotation);
+		art_affine_multiply (res, trans, res);
+		art_affine_translate (trans, 15., 100.);
+		art_affine_multiply (res, res, trans);
+		gnome_canvas_item_affine_absolute (state->align.text, res);
+	}
 }
 
 static void
@@ -875,7 +877,9 @@ fmt_dialog_init_align_page (FormatState *state)
 		GTK_WIDGET (w));
 
 	/* setup the rotation canvas */
-	state->align.rotation = 0;
+	state->align.line = NULL;
+	state->align.text = NULL;
+	state->align.rotation = mstyle_get_rotation (state->style);
 	memset (state->align.rotate_marks, 0,
 		sizeof (state->align.rotate_marks));
 	w = glade_xml_get_widget (state->gui, "rotate_spinner");

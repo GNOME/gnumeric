@@ -1,3 +1,9 @@
+2004-12-14  Morten Welinder  <terra@gnome.org>
+
+	* dialog-cell-format.c (fmt_dialog_init_align_page): Initialize
+	rotation from style.
+	(cb_rotate_changed): Return proper rotation.  Fix bootstrap crash.
+
 2004-12-09  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.4.1
