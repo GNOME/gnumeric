@@ -39,6 +39,10 @@ void    item_grid_popup_menu (Sheet *sheet, GdkEvent *event,
 			      gboolean const is_col,
 			      gboolean const is_row);
 
+void    item_grid_draw_border (GdkDrawable *drawable, MStyle *mstyle,
+			       int x, int y, int w, int h,
+			       gboolean const extended_left);
+			       
 typedef struct {
 	GnomeCanvasItemClass parent_class;
 } ItemGridClass;

@@ -167,6 +167,12 @@ autocorrect_cmd (GtkWidget *widget, Workbook *wb)
 }
 
 static void
+autoformat_cmd (GtkWidget *widget, Workbook *wb)
+{
+	dialog_autoformat (wb);
+}
+
+static void
 autosave_cmd (GtkWidget *widget, Workbook *wb)
 {
 	dialog_autosave (wb);
@@ -1430,6 +1436,10 @@ static GnomeUIInfo workbook_menu_format [] = {
 	GNOMEUIINFO_SUBTREE(N_("_Row"),    workbook_menu_format_row),
 	GNOMEUIINFO_SUBTREE(N_("_Sheet"),  workbook_menu_format_sheet),
 
+	GNOMEUIINFO_ITEM_NONE(N_("_Autoformat..."),
+			      N_("Format a region of cells according to a pre-defined template"),
+			      &autoformat_cmd),
+			      
 	GNOMEUIINFO_ITEM_NONE(N_("_Workbook..."),
 		N_("Modify the workbook attributes"),
 		&workbook_attr_cmd),

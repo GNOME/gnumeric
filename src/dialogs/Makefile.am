@@ -12,12 +12,14 @@ libdialogs_a_SOURCES =	$(std_SOURCES)
 endif
 gnumeric_libdir = $(datadir)/gnumeric/$(gnumeric_version)
 
-INCLUDES = 						\
-	-I$(srcdir)/..					\
-	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
-	-DGNUMERIC_ICONDIR=\""$(iconsdir)"\"		\
-	-I$(includedir)				 	\
-	$(EXTRA_GNOME_CFLAGS)				\
+INCLUDES = 								\
+	-I$(srcdir)/..							\
+	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 			\
+	-DGNUMERIC_DATADIR=\""$(gnumeric_datadir)"\"			\
+	-DGNUMERIC_AUTOFORMATDIR=\""$(gnumeric_autoformatdir)"\"	\
+	-DGNUMERIC_ICONDIR=\""$(iconsdir)"\"				\
+	-I$(includedir)				 			\
+	$(EXTRA_GNOME_CFLAGS)						\
 	$(GUILE_INCS)
 
 noinst_LIBRARIES = libdialogs.a
@@ -27,6 +29,7 @@ std_SOURCES =					\
 	dialog-analysis-tools.c			\
 	dialog-autocorrect.c			\
 	dialog-autocorrect.h			\
+	dialog-autoformat.c			\
 	dialog-autosave.c			\
 	dialog-cell-comment.c			\
 	dialog-cell-format.c			\
@@ -72,6 +75,7 @@ glade_DATA = 				\
 	analysis-tools.glade		\
 	autocorrect.glade		\
 	autocorrect-exceptions.glade	\
+	autoformat.glade		\
 	autosave.glade			\
 	autosave-prompt.glade		\
 	col-width.glade			\
@@ -104,6 +108,7 @@ glade_msgs = 				\
 	analysis-tools.glade.h		\
 	autocorrect-exceptions.glade.h	\
 	autocorrect.glade.h		\
+	autoformat.glade.h		\
 	autosave.glade.h		\
 	autosave-prompt.glade.h		\
 	cell-sort.glade.h		\

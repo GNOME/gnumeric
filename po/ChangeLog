@@ -1,3 +1,7 @@
+2000-08-31  Almer S. Tigelaar  <almer1@dds.nl>
+
+	* POTFILES.in : Add autoformat template dialog.
+
 2000-08-29  Almer S. Tigelaar  <almer1@dds.nl>
 
 	* nl.po: Updated parts of the Dutch translation.

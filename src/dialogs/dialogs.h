@@ -30,6 +30,7 @@ void     dialog_autocorrect     (Workbook *wb);
 void   	 dialog_advanced_filter (Workbook *wb);
 void   	 dialog_autosave        (Workbook *wb);
 gboolean dialog_autosave_prompt (Workbook *wb);
+void     dialog_autoformat      (Workbook *wb);
 void     dialog_data_analysis   (Workbook *wb, Sheet *sheet);
 char   	*dialog_get_sheet_name  (Workbook *wb, const char *name);
 void     dialog_sheet_order     (Workbook *wb);

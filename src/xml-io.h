@@ -50,7 +50,19 @@ int        gnumeric_xml_write_selection_clipboard (CommandContext *context, Shee
 						   xmlChar **buffer, int *size);
 int        gnumeric_xml_read_selection_clipboard  (CommandContext *context, CellRegion **cr,
 						   xmlChar *buffer);
-				       
+/*
+ * Exported support functions
+ */
+xmlNodePtr   xml_search_child      (xmlNodePtr node, const char *name);
+
+String *     xml_get_value_string  (xmlNodePtr node, const char *name);
+void         xml_set_value_string  (xmlNodePtr node, const char *name, const String *val);
+gboolean     xml_get_value_int     (xmlNodePtr node, const char *name, int *val);
+void         xml_set_value_int     (xmlNodePtr node, const char *name, int val);
+
+xmlNodePtr   xml_write_style       (XmlParseContext *ctxt, MStyle *style);
+MStyle      *xml_read_style        (XmlParseContext *ctxt, xmlNodePtr tree);
+
 void      xml_init (void);
 
 #endif /* GNUMERIC_XML_IO_H */

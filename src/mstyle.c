@@ -3,6 +3,9 @@
  *
  * Author:
  *   Michael Meeks <mmeeks@gnu.org>
+ *
+ * Contributors:
+ *   Almer S. Tigelaar <almer1@dds.nl>
  */
 #include <config.h>
 #include "mstyle.h"
@@ -814,6 +817,30 @@ mstyle_unset_element (MStyle *st, MStyleElementType t)
 
 	mstyle_element_unref (st->elements [t]);
 	st->elements [t].type = MSTYLE_ELEMENT_UNSET;
+}
+
+/**
+ * mstyle_replace_element:
+ * @src: Source mstyle
+ * @dst: Destination mstyle
+ * @t: Element to replace
+ * 
+ * This function replaces element 't' in mstyle 'dst' with element 't'
+ * in mstyle 'src'. (If element 't' was already set in mstyle 'dst' then
+ * the element will first be unset)
+ **/
+void
+mstyle_replace_element (MStyle *src, MStyle *dst, MStyleElementType t)
+{
+	g_return_if_fail (src != NULL);
+	g_return_if_fail (dst != NULL);
+
+	mstyle_element_ref (&src->elements [t]);
+	
+	if (mstyle_is_element_set (dst, t))
+		mstyle_unset_element (dst, t);
+
+	dst->elements [t] = src->elements [t];
 }
 
 void

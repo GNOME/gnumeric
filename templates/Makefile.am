@@ -1,1 +1,1 @@
-SUBDIRS = english
+SUBDIRS = autoformat english

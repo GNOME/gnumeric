@@ -221,7 +221,7 @@ xml_value_get (xmlNodePtr node, const char *name)
  * Get a String value for a node either carried as an attibute or as
  * the content of a child.
  */
-static String *
+String *
 xml_get_value_string (xmlNodePtr node, const char *name)
 {
 	char *val;
@@ -238,7 +238,7 @@ xml_get_value_string (xmlNodePtr node, const char *name)
  * Get an integer value for a node either carried as an attibute or as
  * the content of a child.
  */
-static gboolean
+gboolean
 xml_get_value_int (xmlNodePtr node, const char *name, int *val)
 {
 	char *ret;
@@ -457,7 +457,7 @@ xml_set_value (xmlNodePtr node, const char *name, const char *val)
  * Set a String value for a node either carried as an attibute or as
  * the content of a child.
  */
-static void
+void
 xml_set_value_string (xmlNodePtr node, const char *name, const String *val)
 {
 	char *ret;
@@ -484,7 +484,7 @@ xml_set_value_string (xmlNodePtr node, const char *name, const String *val)
  * Set an integer value for a node either carried as an attibute or as
  * the content of a child.
  */
-static void
+void
 xml_set_value_int (xmlNodePtr node, const char *name, int val)
 {
 	char *ret;
@@ -606,7 +606,7 @@ xml_get_print_unit (xmlNodePtr node, PrintUnit * const pu)
 /*
  * Search a child by name, if needed go down the tree to find it.
  */
-static xmlNodePtr
+xmlNodePtr
 xml_search_child (xmlNodePtr node, const char *name)
 {
 	xmlNodePtr ret;
@@ -860,7 +860,7 @@ xml_read_style_border (XmlParseContext *ctxt, xmlNodePtr tree, MStyle *mstyle)
 /*
  * Create an XML subtree of doc equivalent to the given Style.
  */
-static xmlNodePtr
+xmlNodePtr
 xml_write_style (XmlParseContext *ctxt,
 		 MStyle *style)
 {
@@ -1491,7 +1491,7 @@ style_font_read_from_x11 (MStyle *mstyle, const char *fontname)
 /*
  * Create a Style equivalent to the XML subtree of doc.
  */
-static MStyle *
+MStyle *
 xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	xmlNodePtr child;

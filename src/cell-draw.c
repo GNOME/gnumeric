@@ -161,8 +161,8 @@ cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo
 	 * a long cells contents extending past the edge of the edit box.
 	 * Don't print zeros if they should be ignored.
 	 */
-	if (cell == sheet->workbook->editing_cell ||
-	    (!sheet->display_zero && cell_is_zero (cell)))
+	if (sheet && (cell == sheet->workbook->editing_cell ||
+	    (!sheet->display_zero && cell_is_zero (cell))))
 		return;
 
 	g_return_if_fail (cell->rendered_value);
@@ -186,6 +186,7 @@ cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo
 	height = ri->size_pixels - (ri->margin_b + ri->margin_a + 1);
 
 	style_font = sheet_view_get_style_font (sheet, mstyle);
+
 	font = style_font_gdk_font (style_font);
 	font_height = style_font_get_height (style_font);
 	valign = mstyle_get_align_v (mstyle);
@@ -235,16 +236,18 @@ cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo
 	/*
 	 * x1, y1 are relative to this cell origin, but the cell might be using
 	 * columns to the left (if it is set to right justify or center justify)
-	 * compute the pixel difference 
+	 * compute the pixel difference
+	 * NOTE : If sheet is null than center across selection will not work
+	 * currently this is only applicable to the preview-grid (preview-grid.c)
 	 */
-	if (start_col != cell->pos.col) {
+	if (sheet && start_col != cell->pos.col) {
 		int const offset =
 		    sheet_col_get_distance_pixels (sheet,
 						   start_col, cell->pos.col);
 		rect.x     -= offset;
 		rect.width += offset;
 	}
-	if (end_col != cell->pos.col) {
+	if (sheet && end_col != cell->pos.col) {
 		int const offset =
 		    sheet_col_get_distance_pixels (sheet,
 						   cell->pos.col+1, end_col+1);
@@ -312,7 +315,7 @@ cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo
 			break;
 
 		case HALIGN_CENTER:
-			x1 += 1 + ci->margin_a + (width - cell_width_pixel) / 2; 
+			x1 += 1 + ci->margin_a + (width - cell_width_pixel) / 2;
 			break;
 			
 		case HALIGN_CENTER_ACROSS_SELECTION:

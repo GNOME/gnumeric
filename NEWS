@@ -1,8 +1,9 @@
 Gnumeric 0.57
 
 Almer:
-	* Fix stf importer bugs
+	* Fix stf importer bugs.
 	* Add "Autodiscovery" feature to stf fixed width importer.
+	* New Autoformat dialog.
 
 Chema:
 	* Copy sheet.

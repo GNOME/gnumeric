@@ -1,3 +1,82 @@
+2000-09-03  Almer. S. Tigelaar.  <almer1@dds.nl>
+
+	* src/cell-draw.c:
+	(cell_draw): Modify to accept a NULL sheet for
+	cell->sheet.
+
+	* src/item-grid.c, src/item-grid.h:
+	(item_grid_draw_border): Export this routine for use
+	by the preview-grid.
+	
+	* src/preview-grid.h, src/preview-grid.c:
+	New, preview-grid canvasitem, based upon item-grid.
+
+	* src/preview-grid-controller.h, src/preview-grid-controller.c:
+	New, easy to use wrapper around canvas and preview-grid.
+
+	* src/dialogs/dialogs.h: Add autoformat dialog and
+	autoformat edit dialog invocation functions.
+
+	* src/dialogs/autoformat.glade: New,
+	glade file for autoformat dialog.
+
+	* src/dialogs/autoformat.glade.h: New,
+	translation header for autoformat dialog.
+	
+	* src/dialogs/dialog-autoformat.c: New, source
+	for controlling autoformat dialog.
+
+	* src/sheet-view.c:
+	(sheet_view_get_style_font): Modify to accept a 
+	NULL sheet. (defaults to zoomlevel 1)
+	
+	* src/workbook.c:
+	(workbook_menu_format[]): Add autoformat.
+	(autoformat_cmd): New, invokes autoformat dialog.
+
+	* src/mstyle.c, mstyle.h:
+	(mstyle_replace_element): New, replaces an element
+	in an mstyle with an element from another mstyle.
+
+	* src/rendered-value.c, src/rendered-value.h:
+	(rendered_value_calc_size_ext): Same as the previous
+	rendered_value_calc_size, but accepts an mstyle as
+	extra parameter. the purpose of this and some other
+	minor changes from the rendered_value_calc_size is
+	to be able to calc the size of a sheetless cell.
+	(rendered_value_calc_size): Performs the same role
+	as the previous rendered_value_calc_size and
+	calls upon rendered_value_calc_size_ext to do its
+	thing.
+	(rendered_value_new_ext): Same as previous rendered_value_new
+	but accept an mstyle as parameter for sheetless cells.
+	(rendered_value_new): Exacly the same as the previous
+	render_value_new, but calls upon rendered_value_calc_size_ext.
+
+	* src/xml-io.c, src/xml-io.h:
+	(xml_search_child): Export for use by xml-io-autoft.c.
+	(xml_get_value_string): Idem.
+	(xml_set_value_string): Idem.
+	(xml_get_value_int): Idem.
+	(xml_set_value_int): Idem.
+	(xml_write_style): Idem.
+	(xml_read_style): Idem.
+	
+	* src/xml-io-autoft.c, src/xml-io-autoft.h:
+	New, these handle the reading/writing of autoformat templates.
+
+	* src/format-template.h, src/format-template.c:
+	New, wrapper around the loading and saving and managing
+	of format templates.
+
+	* templates/autoformat:
+	Add default autoformat templates
+
+	* configure.in:
+	Modify to include the autoformat templates and define
+	a new variable for the autoformat templates directory
+	so we can find them at run-time
+
 2000-08-31  Jody Goldberg <jgoldberg@home.com>
 
 	* src/colrow.c (col_row_get_index_list) : Be more enthusiastic about

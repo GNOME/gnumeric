@@ -97,6 +97,8 @@ GNUMERIC_BASE_SOURCES =				\
 	expr-name.h				\
 	file.c					\
 	file.h					\
+	format-template.h			\
+	format-template.c			\
 	formats.h				\
 	formats.c				\
 	func.c					\
@@ -149,6 +151,10 @@ GNUMERIC_BASE_SOURCES =				\
 	portability.h				\
 	position.c				\
 	position.h				\
+	preview-grid.c				\
+	preview-grid.h				\
+	preview-grid-controller.c		\
+	preview-grid-controller.h		\
 	print.c					\
 	print.h					\
 	print-cell.c				\
@@ -215,7 +221,9 @@ GNUMERIC_BASE_SOURCES =				\
 	workbook-view.h				\
 	workbook-view.c				\
 	xml-io.c				\
-	xml-io.h
+	xml-io.h				\
+	xml-io-autoft.c				\
+	xml-io-autoft.h
 
 GNUMERIC_BONOBO_SOURCES = 			\
 	bonobo-io.c				\

@@ -66,6 +66,7 @@ gboolean            mstyle_is_element_set  (const MStyle *st, MStyleElementType 
 gboolean            mstyle_is_element_conflict (const MStyle *st, MStyleElementType t);
 void                mstyle_compare             (MStyle *a, const MStyle *b);
 void                mstyle_unset_element   (MStyle *st, MStyleElementType t);
+void                mstyle_replace_element (MStyle *src, MStyle *dst, MStyleElementType t);
 void                mstyle_set_color       (MStyle *st, MStyleElementType t,
 					    StyleColor *col);
 StyleColor         *mstyle_get_color       (MStyle *st, MStyleElementType t);
@@ -108,5 +109,4 @@ char       *mstyle_to_string   (const MStyle *st); /* Debug only ! leaks like a 
 void        mstyle_dump        (const MStyle *st);
 
 MStyle     *mstyle_do_merge    (const GList *list, MStyleElementType max);
-
 #endif /* GNUMERIC_MSTYLE_H */

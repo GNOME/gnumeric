@@ -140,7 +140,10 @@ item_grid_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int 
 	gnome_canvas_group_child_bounds (GNOME_CANVAS_GROUP (item->parent), item);
 }
 
-static void
+/*
+ * NOTE : preview_grid_draw calls this routine also (preview-grid.c)
+ */
+void
 item_grid_draw_border (GdkDrawable *drawable, MStyle *mstyle,
 		       int x, int y, int w, int h,
 		       gboolean const extended_left)

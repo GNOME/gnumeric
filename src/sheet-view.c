@@ -953,9 +953,18 @@ sheet_view_get_style_font (const Sheet *sheet, MStyle const * const mstyle)
 	/* Scale the font size by the average scaling factor for the
 	 * display.  72dpi is base size
 	 */
-	double const zoom = sheet->last_zoom_factor_used;
 	double const res  = application_dpi_to_pixels ();
+	double zoom;
 
+	/*
+	 * If sheet is NULL we default to 1
+	 */
+	if (sheet)
+		zoom = sheet->last_zoom_factor_used;
+	else
+		zoom = 1;
+		
+		
 	return mstyle_get_font (mstyle, zoom * res);
 }
 

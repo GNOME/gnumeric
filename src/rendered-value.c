@@ -31,6 +31,7 @@
 #include "value.h"
 #include "parse-util.h"
 #include "sheet-view.h"
+#include "application.h"
 
 /*
  * rendered_value_new
@@ -40,8 +41,28 @@
  * to the format style. If formulas are being displayed the text of the a
  * formula instead of its value.
  */
+
 RenderedValue *
 rendered_value_new (Cell *cell, GList *styles)
+{
+	MStyle *mstyle = (styles != NULL)
+		? sheet_style_compute_from_list (styles, cell->pos.col, cell->pos.row)
+		: cell_get_mstyle (cell);
+		
+	return rendered_value_new_ext (cell, mstyle);
+}
+
+/**
+ * rendered_value_new_ext:
+ * @cell:   The cell
+ * @mstyle: The mstyle associated with the cell
+ * 
+ * Formats the value of the cell according to the format style given in @mstyle
+ * 
+ * Return value: a new RenderedValue
+ **/
+RenderedValue *
+rendered_value_new_ext (Cell *cell, MStyle *mstyle)
 {
 	RenderedValue	*res;
 	StyleColor	*color;
@@ -59,9 +80,7 @@ rendered_value_new (Cell *cell, GList *styles)
 		g_free (tmpstr);
 		color = NULL;
 	} else {
-		MStyle *mstyle = (styles != NULL)
-			? sheet_style_compute_from_list (styles, cell->pos.col, cell->pos.row)
-			: cell_get_mstyle (cell);
+
 
 		if (mstyle_is_element_set (mstyle, MSTYLE_FORMAT)) {
 			/* entered text CAN be null if called by
@@ -109,8 +128,22 @@ rendered_value_destroy (RenderedValue *rv)
 	g_free (rv);
 }
 
+/**
+ * rendered_value_calc_size:
+ * @cell: 
+ * 
+ * Calls upon rendered_value_calc_size_ext
+ **/
+void
+rendered_value_calc_size (Cell const *cell)
+{
+	MStyle *mstyle = cell_get_mstyle (cell);
+
+	rendered_value_calc_size_ext (cell, mstyle);
+}
+
 /*
- * rendered_value_calc_size
+ * rendered_value_calc_size_ext
  * @cell:      The cell we are working on.
  * @style:     the style formatting constraints (font, alignments)
  * @text:      the string contents.
@@ -123,18 +156,17 @@ rendered_value_destroy (RenderedValue *rv)
  * please keep it that way.
  */
 void
-rendered_value_calc_size (Cell const *cell)
+rendered_value_calc_size_ext (Cell const *cell, MStyle *mstyle)
 {
 	RenderedValue *rv = cell->rendered_value;
-	MStyle *mstyle = cell_get_mstyle (cell);
-	StyleFont * const style_font =
-	    sheet_view_get_style_font (cell->base.sheet, mstyle);
-	GdkFont * const gdk_font = style_font_gdk_font (style_font);
-	int const font_height    = style_font_get_height (style_font);
+	StyleFont *style_font = sheet_view_get_style_font (cell->base.sheet, mstyle);
+	GdkFont *gdk_font = style_font_gdk_font (style_font);
+	int font_height = style_font_get_height (style_font);
 	int const cell_w = COL_INTERNAL_WIDTH (cell->col_info);
 	int text_width;
 	char *text;
 
+	g_return_if_fail (mstyle != NULL);
 	g_return_if_fail (rv != NULL);
 	
 	text       = rv->rendered_text->str;
