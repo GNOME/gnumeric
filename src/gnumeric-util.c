@@ -11,6 +11,7 @@
 #include "gutils.h"
 #include "parse-util.h"
 #include "style.h"
+#include "error-info.h"
 
 #include <string.h>
 #include <gal/widgets/e-colors.h>
@@ -173,6 +174,88 @@ gnumeric_dialog_show (WorkbookControlGUI *wbcg, GnomeDialog *dialog,
 
 	if ( ! GTK_WIDGET_VISIBLE(GTK_WIDGET(dialog)) )	/* Pop up the dialog */
 		gtk_widget_show(GTK_WIDGET(dialog));
+}
+
+#define ERROR_INFO_DIALOG_EXPANDED_LEVELS  1
+
+static GtkCTreeNode *
+ctree_insert_error_info (GtkCTree *ctree, GtkCTreeNode *parent, GtkCTreeNode *sibling, gint level, ErrorInfo *error)
+{
+	GtkCTreeNode *my_node, *last_child_node;
+	gchar *message;
+	GList *details_list, *l;
+
+	message = error_info_peek_message (error);
+	if (message == NULL) {
+		message = _("Unknown error");
+	}
+	details_list = error_info_peek_details (error);
+	my_node = gtk_ctree_insert_node (ctree, parent, sibling, &message, 0, NULL, NULL, NULL, NULL, details_list == NULL, level < ERROR_INFO_DIALOG_EXPANDED_LEVELS);
+	last_child_node = NULL;
+	for (l = details_list; l != NULL; l = l->next) {
+		ErrorInfo *detail_error;
+
+		detail_error = (ErrorInfo *) l->data;
+		last_child_node = ctree_insert_error_info (ctree, my_node, last_child_node, level + 1, detail_error);
+	}
+
+	return my_node;
+}
+
+/**
+ * gnumeric_error_info_dialog_show
+ *
+ */
+void
+gnumeric_error_info_dialog_show (WorkbookControlGUI *wbcg, ErrorInfo *error)
+{
+	gchar *message;
+	GtkWidget *dialog;
+	GtkWidget *notebook;
+	GtkWidget *label_message;
+	GtkWidget *scrolled_window, *ctree;
+	GtkCTreeNode *main_ctree_node;
+	GtkWidget *dialog_action_area;
+	GtkWidget *button_close;
+
+	g_return_if_fail (error != NULL);
+
+	message = error_info_peek_message (error);
+	if (message == NULL) {
+		message = _("Unknown error");
+	}
+
+	dialog = gnome_dialog_new (_("Gnumeric error message"), NULL);
+	gtk_widget_set_usize (dialog, 500, 300);
+	gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, FALSE);
+
+	notebook = gtk_notebook_new ();
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), notebook, TRUE, TRUE, 0);
+
+	label_message = gtk_label_new (message);
+	gtk_label_set_line_wrap (GTK_LABEL (label_message), TRUE);
+	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), label_message, gtk_label_new (_("Message")));
+
+	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
+	ctree = gtk_ctree_new (1, 0);
+	gtk_clist_set_column_width (GTK_CLIST (ctree), 0, 1000);
+	main_ctree_node = ctree_insert_error_info (GTK_CTREE (ctree), NULL, NULL, 0, error);
+	gtk_container_add (GTK_CONTAINER (scrolled_window), ctree);
+	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), scrolled_window, gtk_label_new (_("Details")));
+
+	dialog_action_area = GNOME_DIALOG (dialog)->action_area;
+	gtk_button_box_set_layout (GTK_BUTTON_BOX (dialog_action_area), GTK_BUTTONBOX_END);
+	gtk_button_box_set_spacing (GTK_BUTTON_BOX (dialog_action_area), 8);
+
+	gnome_dialog_append_button (GNOME_DIALOG (dialog), GNOME_STOCK_BUTTON_CLOSE);
+	button_close = GTK_WIDGET (g_list_last (GNOME_DIALOG (dialog)->buttons)->data);
+	GTK_WIDGET_SET_FLAGS (button_close, GTK_CAN_DEFAULT);
+
+	gtk_widget_show_all (GTK_WIDGET (notebook));
+
+	gnome_dialog_set_close (GNOME_DIALOG (dialog), TRUE);
+	gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
 }
 
 /**

@@ -33,11 +33,9 @@
 #include <gnome.h>
 #include <glade/glade.h>
 #include <sys/types.h>
-#include <unistd.h>
 
-#include "plugin.h"
-#include "plugin-util.h"
 #include "gnumeric.h"
+#include "plugin-util.h"
 #include "file.h"
 #include "sheet.h"
 #include "sheet-style.h"
@@ -107,13 +105,14 @@ stf_open_and_read (const char *filename)
  * @context  : command context
  * @book     : workbook
  * @filename : file to read from+convert
+ * @user_data: ignored
  *
  * Main routine, handles importing a file including all dialog mumbo-jumbo
  *
  * returns : 0 on success or -1 otherwise
  **/
 static int
-stf_read_workbook (IOContext *context, WorkbookView *wbv, char const *filename)
+stf_read_workbook (IOContext *context, WorkbookView *wbv, char const *filename, gpointer user_data)
 {
 	Workbook *book;
 	DialogStfResult_t *dialogresult = NULL;
@@ -210,7 +209,7 @@ stf_read_workbook (IOContext *context, WorkbookView *wbv, char const *filename)
 		workbook_recalc (book);
 		sheet_calc_spans (sheet, SPANCALC_RENDER);
 		workbook_set_saveinfo (book, filename, FILE_FL_MANUAL,
-				       gnumeric_xml_write_workbook);
+		                       gnumeric_xml_get_saver_id ());
 	} else
 		workbook_sheet_detach (book, sheet);
 
@@ -280,6 +279,7 @@ stf_write_func (char *string, gpointer data)
  * @context  : command context
  * @book     : workbook
  * @filename : file to read from+convert
+ * @user_data: ignored
  *
  * Main routine, handles exporting a file including all dialog mumbo-jumbo
  *
@@ -287,7 +287,7 @@ stf_write_func (char *string, gpointer data)
  **/
 static int
 stf_write_workbook (IOContext *context, WorkbookView *wb_view,
-		    const char *filename)
+                    const char *filename, gpointer user_data)
 {
 	StfE_Result_t *result = NULL;
 
@@ -337,9 +337,9 @@ stf_init (void)
 	char *desc;
 
 	desc = _("Text File import");
-	file_format_register_open (1, desc, NULL, stf_read_workbook);
+	file_format_register_open (1, desc, NULL, stf_read_workbook, NULL);
 
 	desc = _("Text File Export (*.csv)");
 	file_format_register_save (".csv", desc, FILE_FL_MANUAL,
-				   stf_write_workbook);
+	                           stf_write_workbook, NULL);
 }

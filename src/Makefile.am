@@ -84,6 +84,8 @@ GNUMERIC_BASE_SOURCES =				\
 	datetime.h				\
 	dependent.c				\
 	dependent.h				\
+	error-info.c				\
+	error-info.h				\
 	eval.h					\
 	eval.c					\
 	expr.c					\

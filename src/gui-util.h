@@ -4,28 +4,30 @@
 #include <gnome.h>
 #include <glade/glade-xml.h>
 #include "workbook-control-gui.h"
+#include "error-info.h"
+#include "gutils.h"
 
 void       gnumeric_notice (WorkbookControlGUI *wbcg, const char *type, const char *str);
 
 void       gnumeric_non_modal_dialog (WorkbookControlGUI *wbcg, GtkWindow *dialog);
 gint       gnumeric_dialog_run  (WorkbookControlGUI *wbcg, GnomeDialog *dialog);
 void       gnumeric_dialog_show (WorkbookControlGUI *wbcg, GnomeDialog *dialog,
-				 gboolean click_closes,
-				 gboolean close_with_parent);
+                                 gboolean click_closes,
+                                 gboolean close_with_parent);
+void       gnumeric_error_info_dialog_show (WorkbookControlGUI *wbcg,
+                                            ErrorInfo *error);
 void       gnumeric_set_transient (WorkbookControlGUI *context, GtkWindow *window);
-void       gnumeric_editable_enters (GtkWindow *window,
-				     GtkEditable *editable);
-void       gnumeric_combo_enters (GtkWindow *window,
-				  GtkCombo *combo);
-void
-gnumeric_toolbar_insert_with_eventbox (GtkToolbar *toolbar, GtkWidget  *widget,
-				       const char *tooltip_text,
-				       const char *tooltip_private_text,
-				       gint        position);
-void
-gnumeric_toolbar_append_with_eventbox (GtkToolbar *toolbar, GtkWidget  *widget,
-				       const char *tooltip_text,
-				       const char *tooltip_private_text);
+void       gnumeric_editable_enters (GtkWindow *window, GtkEditable *editable);
+void       gnumeric_combo_enters (GtkWindow *window, GtkCombo *combo);
+void       gnumeric_toolbar_insert_with_eventbox (GtkToolbar *toolbar,
+                                                  GtkWidget  *widget,
+                                                  const char *tooltip_text,
+                                                  const char *tooltip_private_text,
+                                                  gint        position);
+void       gnumeric_toolbar_append_with_eventbox (GtkToolbar *toolbar,
+                                                  GtkWidget  *widget,
+                                                  const char *tooltip_text,
+                                                  const char *tooltip_private_text);
 
 /* A simple routine for making a popup menu */
 int        run_popup_menu  (GdkEvent *event, int button, char **strings);

@@ -39,9 +39,25 @@
 #include "clipboard.h"
 #include "format.h"
 #include "ranges.h"
+#include "file.h"
 
 /* Precision to use when saving point measures. */
 #define POINT_SIZE_PRECISION 3
+
+static FileOpenerId xml_opener_id = FILE_OPENER_ID_INVAID;
+static FileSaverId xml_saver_id = FILE_SAVER_ID_INVAID;
+
+FileOpenerId
+gnumeric_xml_get_opener_id (void)
+{
+	return xml_opener_id;
+}
+
+FileSaverId
+gnumeric_xml_get_saver_id (void)
+{
+	return xml_saver_id;
+}
 
 XmlParseContext *
 xml_parse_ctx_new_full (xmlDocPtr             doc,
@@ -3127,7 +3143,7 @@ xml_check_version (xmlDocPtr doc, GnumericXMLVersion *version)
  * passes, then we return TRUE
  */
 static gboolean
-xml_probe (const char *filename)
+xml_probe (const gchar *filename, gpointer user_data)
 {
         int ret;
 	xmlDocPtr res = NULL;
@@ -3263,10 +3279,11 @@ gnumeric_xml_read_selection_clipboard (WorkbookControl *wbc, CellRegion **cr,
  * One parse the XML file, getting a tree, then analyze the tree to build
  * the actual in-memory structure.
  */
-int
+gint
 gnumeric_xml_read_workbook (IOContext *context,
-			    WorkbookView *wbv,
-			    const char *filename)
+                            WorkbookView *wbv,
+                            const gchar *filename,
+                            gpointer user_data)
 {
 	xmlDocPtr res;
 	xmlNsPtr gmr;
@@ -3304,7 +3321,7 @@ gnumeric_xml_read_workbook (IOContext *context,
 	ctxt->version = version;
 	xml_workbook_read (context, wbv, ctxt, res->root);
 	workbook_set_saveinfo (wb_view_workbook (wbv), filename, FILE_FL_AUTO,
-			       &gnumeric_xml_write_workbook);
+	                       gnumeric_xml_get_saver_id ());
 	xml_parse_ctx_destroy (ctxt);
 	xmlFreeDoc (res);
 	return 0;
@@ -3315,9 +3332,11 @@ gnumeric_xml_read_workbook (IOContext *context,
  * One build an in-memory XML tree and save it to a file.
  * returns 0 in case of success, -1 otherwise.
  */
-int
-gnumeric_xml_write_workbook (IOContext *context, WorkbookView *wb_view,
-			     const char *filename)
+gint
+gnumeric_xml_write_workbook (IOContext *context,
+                             WorkbookView *wb_view,
+                             const gchar *filename,
+                             gpointer user_data)
 {
 	xmlDocPtr xml;
 	XmlParseContext *ctxt;
@@ -3354,9 +3373,11 @@ gnumeric_xml_write_workbook (IOContext *context, WorkbookView *wb_view,
 void
 xml_init (void)
 {
-	char *desc = _("Gnumeric XML file format");
+	gchar *desc = _("Gnumeric XML file format");
 
-	file_format_register_open (50, desc, xml_probe, gnumeric_xml_read_workbook);
-	file_format_register_save (".gnumeric", desc, FILE_FL_AUTO,
-				   gnumeric_xml_write_workbook);
+	xml_opener_id = file_format_register_open (
+	                50, desc, xml_probe, gnumeric_xml_read_workbook, NULL);
+	xml_saver_id = file_format_register_save (
+	               ".gnumeric", desc, FILE_FL_AUTO,
+	               gnumeric_xml_write_workbook, NULL);
 }

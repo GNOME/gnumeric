@@ -25,7 +25,7 @@ struct _Workbook {
 
 	char       *filename;
 	FileFormatLevel file_format_level;
-	FileFormatSave  file_save_fn;
+	FileSaverId     file_saver_id;
 
 	/* Undo support */
 	GSList	   *undo_commands;
@@ -89,8 +89,8 @@ gboolean    workbook_sheet_rename        (WorkbookControl *,
 
 /* IO Routines */
 gboolean    workbook_set_filename        (Workbook *, const char *);
-gboolean    workbook_set_saveinfo        (Workbook *,  const char *,
-					  FileFormatLevel, FileFormatSave);
+gboolean    workbook_set_saveinfo        (Workbook *, const gchar *,
+                                          FileFormatLevel, FileSaverId);
 
 void        workbook_print               (Workbook *, gboolean);
 

@@ -258,6 +258,7 @@ gnumeric_main (void *closure, int argc, char *argv [])
 	style_shutdown ();
 
 	global_gnome_font_shutdown ();
+	plugins_shutdown ();
 
 	gnome_config_drop_all ();
 }

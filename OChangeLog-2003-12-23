@@ -1,3 +1,73 @@
+2001-01-25  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/Makefile.am (GNUMERIC_BASE_SOURCES): Added error-info.[ch]
+
+	* error-info.[ch]: New files.
+
+	* src/plugin.[ch]: New plugin engine.
+
+	* src/dialogs/dialog-plugin-manager.c,
+	src/dialogs/plugin-manager.glade,
+	src/dialogs/plugin-manager.glade.h:
+	New plugin manager.
+
+	* src/main.c (gnumeric_main): Call plugins_shutdown() on shutdown.
+
+	* src/bonobo-io.c
+	(gnumeric_bonobo_write_workbook, gnumeric_bonobo_read_workbook,
+	gnumeric_bonobo_io_probe): Added "user_data" arg.
+	(gnumeric_bonobo_io_init): Saving saver/opener id.
+
+	* src/file-autoft.c (gnumeric_extra_autoformat_dirs): Used
+	gnumeric_config_get_string_list function.
+
+	* src/file.c
+	(file_format_register_open, file_format_register_save): Added
+	user_data parameter, return FileOpenerId/FileSaverId.
+	(file_format_unregister_open, file_format_unregister_save): Take
+	only FileOpenerId/FileSaverId as parameter.
+	(get_file_saver_by_id, get_file_opener_by_id): New functions.
+	(do_load_from): Pass user_data parameter to "probe" and "open"
+	functions.
+	(workbook_save_as, workbook_save): Pass user_data parameter to "save"
+	function.
+
+	* src/file.h
+	(FileFormatProbe, FileFormatOpen, FileFormatSave): Adder user_data
+	parameter.
+	(struct _FileOpener, struct _FileSaver): Added opener_id/saver_id
+	field.
+	(file_format_register_open, file_format_register_save):
+	Added user_data parameter, return FileOpenerId/FileSaverId.
+	(file_format_unregister_open, file_format_unregister_save):
+	Take only FileOpenerId/FileSaverId as parameter.
+
+	* src/gnumeric-util.[ch]
+	(gnumeric_error_info_dialog_show, static ctree_insert_error_info):
+	New functions displaying dialog with ErrorInfo contents.
+
+	* src/gui-file.c (gui_file_import): Pass user_data parameter to
+	"open" function.
+
+	* src/gutils.[ch]
+	New functions: gnumeric_config_get_string_list,
+	gnumeric_config_set_string_list, g_string_list_copy,
+	g_strsplit_to_list.
+	(g_create_list): Added missing va_end().
+
+	* src/stf.c (stf_read_workbook, stf_write_workbook): Added user_data
+	parameter.
+
+	* src/workbook.[ch] (workbook_set_saveinfo): Now takes file_saver_id
+	instead of save_fn.
+
+	* src/xml-io.c
+	(xml_probe, gnumeric_xml_read_workbook, gnumeric_xml_write_workbook):
+	Added user_data parameter.
+	(xml_init): Store xml_opener_id and xml_saver_id.
+	(gnumeric_xml_get_opener_id, gnumeric_xml_get_saver_id): New
+	functions.
+
 2001-01-25  Almer S. Tigelaar  <almer1@dds.nl>
 
 	* src/clipboard.h : Add PASTE_UPDATE_ROW_HEIGHT as a new paste flag.

@@ -47,7 +47,7 @@ gnumeric_fopen (IOContext *context, const char *path, const char *mode)
 
 		/* Always report as read error
 		 */
-	        gnumeric_io_error_read (context, g_strerror (errno));
+		gnumeric_io_error_read (context, g_strerror (errno));
 		return NULL;
 	}
 

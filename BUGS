@@ -143,3 +143,12 @@ Printing
 
 Widget polishing
 ----------------
+
+Plugins
+-------
+- i18n support for third-party plugins.
+- Add extra info (authors, etc.) to XML file.
+- Plugin manager: add "refresh list" button.
+- Plugin manager: add GUI for adding extra directories with plugins.
+- Beautify ErrorInfo dialog (it's ugly).
+- Mark plugin as "broken" if deactivation failed.

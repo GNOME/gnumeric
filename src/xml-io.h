@@ -10,6 +10,7 @@
 #define GNUMERIC_XML_IO_H
 
 #include "gnumeric.h"
+#include "file.h"
 #include "gnome-xml/tree.h"
 #include "gnome-xml/xmlmemory.h"
 
@@ -50,12 +51,17 @@ struct _XmlParseContext {
 	GnumericXMLVersion    version;
 };
 
-int        gnumeric_xml_read_workbook   (IOContext *context,
-					 WorkbookView *wb_view,
-					 const char *filename);
-int        gnumeric_xml_write_workbook  (IOContext *context,
-					 WorkbookView *wb_view,
-					 const char *filename);
+FileOpenerId gnumeric_xml_get_opener_id (void);
+FileSaverId  gnumeric_xml_get_saver_id (void);
+
+gint gnumeric_xml_read_workbook   (IOContext *context,
+                                   WorkbookView *wb_view,
+                                   const gchar *filename,
+                                   gpointer user_data);
+gint gnumeric_xml_write_workbook  (IOContext *context,
+                                   WorkbookView *wb_view,
+                                   const gchar *filename,
+                                   gpointer user_data);
 
 XmlParseContext *xml_parse_ctx_new      (xmlDocPtr             doc,
 					 xmlNsPtr              ns);

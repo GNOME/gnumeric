@@ -63,24 +63,8 @@ gnumeric_extra_autoformat_dirs (void)
 	GList *new_list, *l;
 
 	if (!list_ready) {
-		gint i;
-
-		gnome_config_push_prefix("Gnumeric/Autoformat/");
-		extra_dirs = NULL;
-		for (i = 0; ; i++) {
-			gchar *key, *value;
-
-			key = g_strdup_printf ("ExtraTemplatesDir%d", i);
-			value = gnome_config_get_string (key);
-			g_free (key);
-			if (value != NULL) {
-				extra_dirs = g_list_prepend (extra_dirs, value);
-			} else {
-				break;
-			}
-		}
-		extra_dirs = g_list_reverse (extra_dirs);
-		gnome_config_pop_prefix ();
+		extra_dirs = gnumeric_config_get_string_list ("Gnumeric/Autoformat/",
+		                                              "ExtraTemplatesDir");
 		list_ready = TRUE;
 	}
 

@@ -1,47 +1,69 @@
 #ifndef GNUMERIC_PLUGIN_H
 #define GNUMERIC_PLUGIN_H
 
-/* Forward references for structures.  */
-typedef struct _PluginData PluginData;
-
-#include "gnumeric.h"
-#include <gmodule.h>
 #include <sys/types.h>
+#include <gnome-xml/tree.h>
+#include "gnumeric.h"
+#include "error-info.h"
+#include "gutils.h"
 
-typedef enum {
-	PLUGIN_OK,
-	PLUGIN_ERROR,	/* Display an error */
-	PLUGIN_QUIET_ERROR /* Plugin has already displayed an error */
-} PluginInitResult;
+typedef struct _PluginInfo PluginInfo;
 
-typedef PluginInitResult (*PluginInitFn) (CommandContext *, PluginData *);
-typedef void             (*PluginCleanupFn) (PluginData *);
-typedef int              (*PluginCanUnloadFn) (PluginData *);
+void         plugins_init (CommandContext *context);
+void         plugins_shutdown (void);
 
-extern GList *plugin_list;
+GList       *gnumeric_extra_plugin_dirs (void);
 
-/* Each plugin must have this one function */
-extern PluginInitResult init_plugin (CommandContext *context, PluginData *pd);
+PluginInfo  *plugin_info_read (const gchar *dir_name, xmlNodePtr tree, ErrorInfo **ret_error);
+void         plugin_info_free (PluginInfo *pinfo);
+void         activate_plugin (PluginInfo *pinfo, ErrorInfo **ret_error);
+void         deactivate_plugin (PluginInfo *pinfo, ErrorInfo **ret_error);
+gboolean     can_deactivate_plugin (PluginInfo *pinfo);
+void         plugin_info_print (PluginInfo *pinfo);
+GList       *plugin_info_list_read_for_dir (const gchar *dir_name, ErrorInfo **ret_error);
+GList       *plugin_info_list_read_for_subdirs_of_dir (const gchar *dir_name, ErrorInfo **ret_error);
+GList       *plugin_info_list_read_for_subdirs_of_dir_list (GList *dir_list, ErrorInfo **ret_error);
+GList       *plugin_info_list_read_for_all_dirs (ErrorInfo **ret_error);
 
-void           plugins_init          (CommandContext *context);
-PluginData    *plugin_load           (CommandContext *context,
-				      const gchar *filename);
-void           plugin_unload         (CommandContext *context, PluginData *pd);
+GList       *plugin_db_get_known_plugin_id_list (void);
+void         plugin_db_extend_known_plugin_id_list (GList *extra_ids);
+gboolean     plugin_db_is_known_plugin (const gchar *plugin_id);
+GList       *plugin_db_get_available_plugin_info_list (ErrorInfo **ret_error);
+PluginInfo  *plugin_db_get_plugin_info_by_plugin_id (const gchar *plugin_id);
+GList       *plugin_db_get_saved_active_plugin_id_list (void);
+void         plugin_db_update_saved_active_plugin_id_list (void);
+void         plugin_db_extend_saved_active_plugin_id_list (GList *extra_ids);
+gboolean     plugin_db_is_saved_active_plugin (const gchar *plugin_id);
+void         plugin_db_init (ErrorInfo **ret_error);
+void         plugin_db_shutdown (ErrorInfo **ret_error);
+void         plugin_db_activate_saved_active_plugins (ErrorInfo **ret_error);
+void         plugin_db_activate_plugin_list (GList *plugins, ErrorInfo **ret_error);
+void         plugin_db_deactivate_plugin_list (GList *plugins, ErrorInfo **ret_error);
 
-gboolean       plugin_version_mismatch  (CommandContext *cmd, PluginData *pd,
-					 char const * const plugin_version);
+/*
+ * For all plugin_info_get_* functions below you should free returned data after use
+ */
+gchar       *plugin_info_get_dir_name (PluginInfo *pinfo);
+gchar       *plugin_info_get_id (PluginInfo *pinfo);
+gchar       *plugin_info_get_name (PluginInfo *pinfo);
+gchar       *plugin_info_get_description (PluginInfo *pinfo);
+gint         plugin_info_get_extra_info_list (PluginInfo *pinfo, GList **ret_keys_list, GList **ret_values_list);
+gboolean     plugin_info_is_active (PluginInfo *pinfo);
+const gchar *plugin_info_peek_dir_name (PluginInfo *pinfo);
+const gchar *plugin_info_peek_id (PluginInfo *pinfo);
+const gchar *plugin_info_peek_name (PluginInfo *pinfo);
+const gchar *plugin_info_peek_description (PluginInfo *pinfo);
 
-void           *plugin_data_set_user_data (PluginData *pd, void *user_data);
-void           *plugin_data_get_user_data (const PluginData *pd);
+/*
+ * Three functions below should be defined by module plugins.
+ * Every plugin should also define string gnumeric_plugin_version, matching
+ * version of gnumeric it's compiled for.
+ * (gchar gnumeric_plugin_version[] = GNUMERIC_VERSION;)
+ *
+ */
 
-gboolean       plugin_data_init      (PluginData *pd, PluginCanUnloadFn can_unload_fn,
-				      PluginCleanupFn cleanup_fn,
-				      const gchar *title, const gchar *descr);
-
-const gchar    *plugin_data_get_filename (const PluginData *pd);
-const gchar    *plugin_data_get_title    (const PluginData *pd);
-const gchar    *plugin_data_get_descr    (const PluginData *pd);
-off_t           plugin_data_get_size     (const PluginData *pd);
-time_t          plugin_data_last_modified(const PluginData *pd);
+gboolean init_plugin (PluginInfo *, ErrorInfo **ret_error);
+gboolean cleanup_plugin (PluginInfo *);
+gboolean can_deactivate_plugin (PluginInfo *);
 
 #endif /* GNUMERIC_PLUGIN_H */

@@ -1,277 +1,526 @@
-/* -*- mode: c; c-basic-offset: 8 -*- */
 /*
  * plugin-manager.c: Dialog used to load plugins into the Gnumeric
  * spreadsheet
  *
- * Author:
+ * Authors:
+ *  Old plugin manager:
  *   Dom Lachowicz (dominicl@seas.upenn.edu)
  *   Tom Dyas (tdyas@romulus.rutgers.edu)
+ *  New plugin manager:
+ *   Zbigniew Chyla (cyba@gnome.pl)
  */
 
 #include <config.h>
 #include <glib.h>
 #include <gnome.h>
-#include <time.h>
-#include <errno.h>
 #include <string.h>
 #include <glade/glade.h>
+#include <gal/util/e-util.h>
 
 #include "gnumeric.h"
 #include "gnumeric-util.h"
-#include "dialogs.h"
-#include "plugin.h"
 #include "command-context.h"
 #include "workbook-control.h"
 #include "workbook.h"
+#include "dialogs.h"
+#include "plugin.h"
 
-typedef struct
+/* ---------- GnumericNotebook ---------- */
+
+typedef struct _GnumericNotebook GnumericNotebook;
+typedef struct _GnumericNotebookClass GnumericNotebookClass;
+
+struct _GnumericNotebook
 {
-	WorkbookControlGUI  *wbcg;
-        GtkWidget *dialog;
-        GtkWidget *clist;
-	GtkWidget *path_lbl;
-        GtkWidget *description;
-        GtkWidget *size_lbl;
-        GtkWidget *modified_lbl;
-} PluginManager;
+	GtkNotebook widget;
 
-enum { BUTTON_ADD = 0, BUTTON_REMOVE, BUTTON_CLOSE };
+	GList *disabled_pages;
+};
 
-/*
- * Add one plugin's title to the clist
- */
+struct _GnumericNotebookClass
+{
+	GtkNotebookClass parent_class;
+};
+
+#define TYPE_GNUMERIC_NOTEBOOK                  (gnumeric_notebook_get_type ())
+#define GNUMERIC_NOTEBOOK(obj)                  (GTK_CHECK_CAST ((obj), TYPE_GNUMERIC_NOTEBOOK, GnumericNotebook))
+#define GNUMERIC_NOTEBOOK_CLASS(klass)          (GTK_CHECK_CLASS_CAST ((klass), TYPE_GNUMERIC_NOTEBOOK, GnumericNotebookClass))
+#define IS_GNUMERIC_NOTEBOOK(obj)               (GTK_CHECK_TYPE ((obj), TYPE_GNUMERIC_NOTEBOOK))
+#define IS_GNUMERIC_NOTEBOOK_CLASS(klass)       (GTK_CHECK_CLASS_TYPE ((klass), TYPE_GNUMERIC_NOTEBOOK))
+
+guint gnumeric_notebook_get_type (void);
+
+GtkWidget *gnumeric_notebook_new (void);
+void       gnumeric_notebook_set_page_enabled (GnumericNotebook *mn, gint page_num, gboolean enabled);
+
+static GtkWidgetClass *gnumeric_notebook_parent_class = NULL;
+
 static void
-add_to_clist (PluginData *pd, GtkWidget *clist)
+gnumeric_notebook_init (GnumericNotebook *mn)
 {
-	const gchar *data[1];
-	gint         row;
-
-	data [0] = plugin_data_get_title (pd);
-	row = gtk_clist_append (GTK_CLIST (clist), (gchar **)data);
-	gtk_clist_set_row_data (GTK_CLIST (clist), row, pd);
+	mn->disabled_pages = NULL;
 }
 
-/*
- * Add all of the plugins in plugin_list to the clist
- */
 static void
-populate_clist (PluginManager *pm)
+gnumeric_notebook_destroy (GtkObject *obj)
 {
-        GtkCList *clist = GTK_CLIST (pm->clist);
+	GnumericNotebook *mn;
 
-	gtk_clist_freeze (clist);
-	gtk_clist_clear  (clist);
-	g_list_foreach   (plugin_list, (GFunc) add_to_clist, clist);
-	gtk_clist_thaw   (clist);
+	g_return_if_fail (IS_GNUMERIC_NOTEBOOK (obj));
+
+	mn = GNUMERIC_NOTEBOOK (obj);
+
+	g_list_free (mn->disabled_pages);
+
+	GTK_OBJECT_CLASS (gnumeric_notebook_parent_class)->destroy (obj);
 }
 
-/*
- * Handle key events
- * Currently we only handle "ESC" - should destroy the widget
- * But we may expand in the future to have keybindings
- */
-static gint
-key_event_cb (GtkWidget *dialog, GdkEventKey *event)
-{
-	if (event->keyval == GDK_Escape) {
-		gtk_widget_destroy (dialog);
-		return 1;
-	}
-	return 0;
-}
-
-/*
- * Refresh/update the info in the right frame
- * If pd is NULL, reset everything to its default value
- */
 static void
-refresh_right_frame (PluginData *pd, PluginManager *pm)
+gnumeric_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page, guint page_num)
 {
-	gchar *str;
+	GnumericNotebook *mn;
 
-	if (!pd)
-		str = g_strdup (_("File name:"));
-	else
-		str = g_strdup_printf (_("File name: %s"), plugin_data_get_filename (pd));
-	gtk_label_set_text (GTK_LABEL (pm->path_lbl), str);
-	g_free (str);
-
-	if (!pd)
-		str = g_strdup (_("Size:"));
-	else
-		str = g_strdup_printf (_("Size: %ld bytes"), plugin_data_get_size (pd));
-	gtk_label_set_text (GTK_LABEL (pm->size_lbl), str);
-	g_free (str);
-
-	if (!pd)
-		str = g_strdup (_("Modified:"));
-	else {
-		time_t l = plugin_data_last_modified (pd);
-		char timestr[128];
-		/* This is strftime format. Use custom one if "%c" prints only last 2 digits of year in your locale. */
-		strftime(timestr, sizeof timestr, _("%c"), localtime(&l));
-		str = g_strdup_printf (_("Modified: %s"), timestr);
-	}
-	gtk_label_set_text (GTK_LABEL (pm->modified_lbl), str);
-	g_free (str);
-
-	gtk_label_set_text (GTK_LABEL (pm->description),
-			    (pd && plugin_data_get_descr (pd))
-			    ? plugin_data_get_descr (pd)
-			    : "");
-}
-
-/*
- * User hit the "Add" button, so we'll try to have gnumeric load
- * the given plugin and add it to our dialog
- */
-static void
-add_cb (PluginManager *pm)
-{
-	char *modfile = dialog_query_load_file (pm->wbcg);
-	PluginData *pd = NULL;
-
-	if (!modfile)
-		return; /* user hit 'cancel' */
-
-	pd = plugin_load (COMMAND_CONTEXT (pm->wbcg), modfile);
-
-	if (pd)
-	        populate_clist (pm);
-
-	gtk_clist_select_row (GTK_CLIST (pm->clist), 0, 0);
-}
-
-/*
- * User hit the "Remove" button
- */
-static void
-remove_cb (PluginManager *pm)
-{
-	GList *selection = GTK_CLIST (pm->clist)->selection;
-	gint row = GPOINTER_TO_INT (g_list_nth_data (selection, 0));
-	PluginData *pd = gtk_clist_get_row_data (GTK_CLIST (pm->clist), row);
-
-	plugin_unload (COMMAND_CONTEXT (pm->wbcg), pd);
-	populate_clist (pm);
-
-	if (GTK_CLIST (pm->clist)->rows > row)
-		gtk_clist_select_row (GTK_CLIST (pm->clist), row, 0);
-	else {
-		gnome_dialog_set_sensitive (GNOME_DIALOG (pm->dialog),
-					    BUTTON_REMOVE, FALSE);
-		refresh_right_frame (NULL, pm);
+	g_return_if_fail (IS_GNUMERIC_NOTEBOOK (notebook));
+	
+	mn = GNUMERIC_NOTEBOOK (notebook);
+	if (g_list_find (mn->disabled_pages, GINT_TO_POINTER ((gint) page_num)) == NULL) {
+		GTK_NOTEBOOK_CLASS (gnumeric_notebook_parent_class)->switch_page (notebook, page, page_num);
 	}
 }
 
-/*
- * Callback to either enable or disable the 'Remove' button
- * Depending on whether something is highlighted or not
- */
 static void
-row_cb (GtkWidget * clist, gint row, gint col,
-	GdkEvent *event,  PluginManager *pm)
+gnumeric_notebook_class_init (GnumericNotebookClass *klass)
 {
-	GtkCList *list = GTK_CLIST (clist);
-	PluginData *pd = gtk_clist_get_row_data (list, row);
-	gboolean is_selected = (list->selection != NULL);
+	gnumeric_notebook_parent_class = gtk_type_class (gtk_notebook_get_type ());
 
-	gnome_dialog_set_sensitive (GNOME_DIALOG (pm->dialog),
-				    BUTTON_REMOVE, is_selected);
-	if (is_selected)
-	        refresh_right_frame (pd, pm);
+	GTK_OBJECT_CLASS (klass)->destroy = gnumeric_notebook_destroy;
+	GTK_NOTEBOOK_CLASS (klass)->switch_page = gnumeric_notebook_switch_page;
 }
 
-/*
- * Creates the plugin manager dialog
- */
-static void
-dialog_plugin_manager_impl (WorkbookControlGUI *wbcg, GladeXML *gui)
+guint
+gnumeric_notebook_get_type (void)
 {
-	PluginManager pm;
-	int bval;
+	static guint gnumeric_notebook_type = 0;
+  
+	if (!gnumeric_notebook_type) {
+		static const GtkTypeInfo gnumeric_notebook_info =
+		{
+			"GnumericNotebook",
+			sizeof (GnumericNotebook),
+			sizeof (GnumericNotebookClass),
+			(GtkClassInitFunc) gnumeric_notebook_class_init,
+			(GtkObjectInitFunc) gnumeric_notebook_init,
+			NULL,
+			NULL,
+			(GtkClassInitFunc) NULL
+		};
 
-	pm.wbcg = wbcg;
-
-	/* load the dialog from our glade file */
-	pm.dialog        = glade_xml_get_widget (gui, "dialog");
-	pm.clist         = glade_xml_get_widget (gui, "plugin_clist");
-	pm.path_lbl      = glade_xml_get_widget (gui, "path_lbl");
-	pm.description   = glade_xml_get_widget (gui, "description_lbl");
-	pm.size_lbl      = glade_xml_get_widget (gui, "size_lbl");
-	pm.modified_lbl  = glade_xml_get_widget (gui, "modified_lbl");
-
-	if (!pm.dialog || !pm.clist || !pm.path_lbl || !pm.description ||
-	    !pm.size_lbl || !pm.modified_lbl) {
-		g_warning ("Stale glade file");
-		return;
+		gnumeric_notebook_type = gtk_type_unique (gtk_notebook_get_type (), &gnumeric_notebook_info);
 	}
 
-	populate_clist (&pm);
+	return gnumeric_notebook_type;
+};
 
-	gtk_signal_connect (GTK_OBJECT (pm.clist), "select_row",
-			    GTK_SIGNAL_FUNC (row_cb), &pm);
+GtkWidget*
+gnumeric_notebook_new (void)
+{
+	return GTK_WIDGET (gtk_type_new (gnumeric_notebook_get_type ()));
+}
 
-	gtk_signal_connect (GTK_OBJECT (pm.clist), "unselect_row",
-			    GTK_SIGNAL_FUNC (row_cb), &pm);
+void
+gnumeric_notebook_set_page_enabled (GnumericNotebook *mn, gint page_num, gboolean enabled)
+{
+	GtkWidget *tab = gtk_notebook_get_nth_page (GTK_NOTEBOOK (mn), page_num);
+	GtkWidget *label;
 
-	gtk_signal_connect (GTK_OBJECT (pm.dialog), "key_press_event",
-			    GTK_SIGNAL_FUNC (key_event_cb), NULL);
+	g_return_if_fail (IS_GNUMERIC_NOTEBOOK (mn));
+	g_return_if_fail (tab != NULL);
 
-	gtk_clist_column_titles_passive (GTK_CLIST (pm.clist));
+	label = gtk_notebook_get_tab_label (GTK_NOTEBOOK (mn), tab);
+	gtk_widget_set_sensitive (label, enabled);
 
-	if (GTK_CLIST (pm.clist)->rows > 0) {
-		gtk_widget_grab_focus (pm.clist);
-		gtk_clist_select_row (GTK_CLIST (pm.clist), 0, 0);
-	} else
-		gnome_dialog_set_sensitive (GNOME_DIALOG (pm.dialog),
-					    BUTTON_REMOVE, FALSE);
+	mn->disabled_pages = g_list_remove (mn->disabled_pages, GINT_TO_POINTER (page_num));
+	if (!enabled) {
+		mn->disabled_pages = g_list_prepend (mn->disabled_pages, GINT_TO_POINTER (page_num));
+	}
+}
+                                                                               
+/* ---------- */                  
 
-	gnome_dialog_set_default (GNOME_DIALOG (pm.dialog), BUTTON_ADD);
+typedef struct {
+	WorkbookControlGUI *wbcg;
+	GnomeDialog *dialog_pm;
+	GnumericNotebook *gnotebook;
+	gint plugin_list_page_no, plugin_details_page_no;
+	GtkCList *clist_active, *clist_inactive;
+	GtkButton *button_activate_plugin, *button_deactivate_plugin,
+	          *button_activate_all, *button_deactivate_all,
+	          *button_install_plugin;
+	GtkCheckButton *checkbutton_install_new;
+	GtkEntry *entry_name, *entry_directory, *entry_id;
+	GtkText *text_description;
+	GtkCList *clist_extra_info;
+	gchar *current_plugin_id;
+} PluginManagerGUI;
 
-	gtk_widget_show_all (GNOME_DIALOG (pm.dialog)->vbox);
 
-	do {
-		bval = gnumeric_dialog_run (pm.wbcg, GNOME_DIALOG (pm.dialog));
+static void update_plugin_manager_view (PluginManagerGUI *pm_gui, ErrorInfo **ret_error);
+static void update_plugin_details_view (PluginManagerGUI *pm_gui);
 
-		switch (bval) {
 
-		case BUTTON_ADD:
-			add_cb (&pm);
-			break;
+static void
+cb_pm_button_activate_plugin_clicked (GtkButton *button, PluginManagerGUI *pm_gui)
+{
+	PluginInfo *pinfo;
+	ErrorInfo *error;
 
-		case BUTTON_REMOVE:
-			remove_cb (&pm);
-			break;
+	g_return_if_fail (pm_gui != NULL);
+	g_return_if_fail (pm_gui->current_plugin_id != NULL);
 
-		case -1: /* close window */
-		        return;
+	pinfo = plugin_db_get_plugin_info_by_plugin_id (pm_gui->current_plugin_id);
+	activate_plugin (pinfo, &error);
+	if (error != NULL) {
+		error = error_info_new_str_with_details (
+		        _("Error while activating plugin"),
+		        error);
+		gnumeric_error_info_dialog_show (pm_gui->wbcg, error);
+		error_info_free (error);
+	}
+	if (plugin_info_is_active (pinfo)) {
+		ErrorInfo *ignored_error;
+	
+		plugin_db_update_saved_active_plugin_id_list ();
+		update_plugin_manager_view (pm_gui, &ignored_error);
+		error_info_free (ignored_error);
+	}
+}
 
-		case BUTTON_CLOSE:
-		default:
-			break;
+static void
+cb_pm_button_deactivate_plugin_clicked (GtkButton *button, PluginManagerGUI *pm_gui)
+{
+	PluginInfo *pinfo;
+
+	g_return_if_fail (pm_gui != NULL);
+	g_return_if_fail (pm_gui->current_plugin_id != NULL);
+
+	pinfo = plugin_db_get_plugin_info_by_plugin_id (pm_gui->current_plugin_id);
+	if (can_deactivate_plugin (pinfo)) {
+		ErrorInfo *error;
+
+		deactivate_plugin (pinfo, &error);
+		if (error != NULL) {
+			error = error_info_new_str_with_details (
+			        _("Error while deactivating plugin"),
+			        error);
+			gnumeric_error_info_dialog_show (pm_gui->wbcg, error);
+			error_info_free (error);
 		}
-	} while (bval != BUTTON_CLOSE);
+		if (!plugin_info_is_active (pinfo)) {
+			ErrorInfo *ignored_error;
 
-	/* If the user canceled we have already returned */
-	gnome_dialog_close (GNOME_DIALOG (pm.dialog));
+			plugin_db_update_saved_active_plugin_id_list ();
+			update_plugin_manager_view (pm_gui, &ignored_error);
+			error_info_free (ignored_error);
+		}
+	} else {
+		gnumeric_error_plugin (COMMAND_CONTEXT (pm_gui->wbcg), _("Plugin is still in use."));
+	}
 }
 
-/*
- * Wrapper around plugin_manager_new_impl
- * To libglade'ify it
- */
+static void
+cb_pm_button_activate_all_clicked (GtkButton *button, PluginManagerGUI *pm_gui)
+{
+	ErrorInfo *error, *ignored_error;
+
+	g_return_if_fail (pm_gui != NULL);
+	plugin_db_activate_plugin_list (NULL, &error);
+	update_plugin_manager_view (pm_gui, &ignored_error);
+	error_info_free (ignored_error);
+	plugin_db_update_saved_active_plugin_id_list ();
+	if (error != NULL) {
+		error = error_info_new_str_with_details (
+		        _("Errors while activating plugins"),
+		        error);
+		gnumeric_error_info_dialog_show (pm_gui->wbcg, error);
+		error_info_free (error);
+	}
+}
+
+static void
+cb_pm_button_deactivate_all_clicked (GtkButton *button, PluginManagerGUI *pm_gui)
+{
+	ErrorInfo *error, *ignored_error;
+
+	g_return_if_fail (pm_gui != NULL);
+	plugin_db_deactivate_plugin_list (NULL, &error);
+	update_plugin_manager_view (pm_gui, &ignored_error);
+	error_info_free (ignored_error);
+	plugin_db_update_saved_active_plugin_id_list ();
+	if (error != NULL) {
+		error = error_info_new_str_with_details (
+		        _("Errors while deactivating plugins"),
+		        error);
+		gnumeric_error_info_dialog_show (pm_gui->wbcg, error);
+		error_info_free (error);
+	}
+}
+
+static void
+cb_pm_button_install_plugin_clicked (GtkButton *button, PluginManagerGUI *pm_gui)
+{
+	g_warning ("Not implemented");
+	/* FIXME */
+}
+
+static void
+cb_pm_checkbutton_install_new_toggled (GtkCheckButton *checkbutton, PluginManagerGUI *pm_gui)
+{
+	gnome_config_set_bool ("Gnumeric/Plugin/ActivateNewByDefault",
+	                       gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton)));
+}
+
+static void
+cb_pm_clist_row_selected (GtkCList *clist, gint row_no, gint col_no, gpointer unused, PluginManagerGUI *pm_gui)
+{
+	if (clist == pm_gui->clist_active) {
+		gtk_clist_unselect_all (pm_gui->clist_inactive);
+	} else {
+		gtk_clist_unselect_all (pm_gui->clist_active);
+	}
+	gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_activate_plugin), clist == pm_gui->clist_inactive);
+	gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_deactivate_plugin), clist == pm_gui->clist_active);
+	g_free (pm_gui->current_plugin_id);
+	pm_gui->current_plugin_id = g_strdup (gtk_clist_get_row_data (clist, row_no));
+	update_plugin_details_view (pm_gui);
+}
+
+static void
+cb_pm_clist_row_unselected (GtkCList *clist, gint row_no, gint col_no, gpointer unused, PluginManagerGUI *pm_gui)
+{
+	gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_activate_plugin), FALSE);
+	gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_deactivate_plugin), FALSE);
+	g_free (pm_gui->current_plugin_id);
+	pm_gui->current_plugin_id = NULL;
+	update_plugin_details_view (pm_gui);
+}
+
+static void
+pm_dialog_init (PluginManagerGUI *pm_gui)
+{
+	ErrorInfo *ignored_error;
+
+	gtk_signal_connect (GTK_OBJECT (pm_gui->clist_active), "select_row",
+	                    (GtkSignalFunc) cb_pm_clist_row_selected,
+	                    (gpointer) pm_gui);
+	gtk_signal_connect (GTK_OBJECT (pm_gui->clist_active), "unselect_row",
+	                    (GtkSignalFunc) cb_pm_clist_row_unselected,
+	                    (gpointer) pm_gui);
+	gtk_signal_connect (GTK_OBJECT (pm_gui->clist_inactive), "select_row",
+	                    (GtkSignalFunc) cb_pm_clist_row_selected,
+	                    (gpointer) pm_gui);
+	gtk_signal_connect (GTK_OBJECT (pm_gui->clist_inactive), "unselect_row",
+	                    (GtkSignalFunc) cb_pm_clist_row_unselected,
+	                    (gpointer) pm_gui);
+	gtk_signal_connect (GTK_OBJECT (pm_gui->button_activate_plugin), "clicked",
+	                    (GtkSignalFunc) cb_pm_button_activate_plugin_clicked,
+	                    (gpointer) pm_gui);
+	gtk_signal_connect (GTK_OBJECT (pm_gui->button_deactivate_plugin), "clicked",
+	                    (GtkSignalFunc) cb_pm_button_deactivate_plugin_clicked,
+	                    (gpointer) pm_gui);
+	gtk_signal_connect (GTK_OBJECT (pm_gui->button_activate_all), "clicked",
+	                    (GtkSignalFunc) cb_pm_button_activate_all_clicked,
+	                    (gpointer) pm_gui);
+	gtk_signal_connect (GTK_OBJECT (pm_gui->button_deactivate_all), "clicked",
+	                    (GtkSignalFunc) cb_pm_button_deactivate_all_clicked,
+	                    (gpointer) pm_gui);
+	gtk_signal_connect (GTK_OBJECT (pm_gui->button_install_plugin), "clicked",
+	                    (GtkSignalFunc) cb_pm_button_install_plugin_clicked,
+	                    (gpointer) pm_gui);
+	gtk_signal_connect (GTK_OBJECT (pm_gui->checkbutton_install_new), "toggled",
+	                    (GtkSignalFunc) cb_pm_checkbutton_install_new_toggled,
+	                    (gpointer) pm_gui);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pm_gui->checkbutton_install_new),
+	                              gnome_config_get_bool_with_default ("Gnumeric/Plugin/ActivateNewByDefault", FALSE));
+	update_plugin_manager_view (pm_gui, &ignored_error);
+	error_info_free (ignored_error);
+}
+
+static void
+free_plugin_id (gpointer data)
+{
+	g_free (data);
+}
+
+static void
+update_plugin_manager_view (PluginManagerGUI *pm_gui, ErrorInfo **ret_error)
+{
+	GList *plugin_list, *l;
+	ErrorInfo *error;
+	gint n_active_plugins, n_inactive_plugins;
+
+	plugin_list = plugin_db_get_available_plugin_info_list (&error);
+	*ret_error = error;
+
+	gtk_clist_freeze (pm_gui->clist_active);
+	gtk_clist_freeze (pm_gui->clist_inactive);
+	gtk_clist_clear (pm_gui->clist_active);
+	gtk_clist_clear (pm_gui->clist_inactive);
+	n_active_plugins = 0;
+	n_inactive_plugins = 0;
+	for (l = plugin_list; l != NULL; l = l->next) {
+		PluginInfo *pinfo;
+		GtkCList *clist;
+		gchar *cols[] = {NULL};
+		gchar *plugin_id;
+		gint row_no;
+
+		pinfo = (PluginInfo *) l->data;
+		if (plugin_info_is_active (pinfo)) {
+			clist = pm_gui->clist_active;
+			n_active_plugins++;
+		} else {
+			clist = pm_gui->clist_inactive;
+			n_inactive_plugins++;
+		}
+		cols[0] = plugin_info_get_name (pinfo);
+		row_no = gtk_clist_append (clist, cols);
+		plugin_id = plugin_info_get_id (pinfo);
+		gtk_clist_set_row_data_full (clist, row_no, plugin_id, &free_plugin_id);
+		g_free (cols[0]);
+	}
+	gtk_clist_thaw (pm_gui->clist_active);
+	gtk_clist_thaw (pm_gui->clist_inactive);
+
+	g_free (pm_gui->current_plugin_id);
+	pm_gui->current_plugin_id = NULL;
+	gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_activate_plugin), FALSE);
+	gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_deactivate_plugin), FALSE);
+	gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_activate_all), n_inactive_plugins > 0);
+	gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_deactivate_all), n_active_plugins > 0);
+	update_plugin_details_view (pm_gui);
+}
+
+static void
+update_plugin_details_view (PluginManagerGUI *pm_gui)
+{
+	PluginInfo *pinfo;
+	gint txt_len, txt_pos;
+	gint n_extra_info_items, i;
+	GList *extra_info_keys, *extra_info_values, *lkey, *lvalue;
+
+	g_return_if_fail (pm_gui != NULL);
+
+	if (pm_gui->current_plugin_id != NULL) {
+		pinfo = plugin_db_get_plugin_info_by_plugin_id (pm_gui->current_plugin_id);
+		gtk_entry_set_text (pm_gui->entry_name, plugin_info_peek_name (pinfo));
+		gtk_entry_set_text (pm_gui->entry_directory, plugin_info_peek_dir_name (pinfo));
+		gtk_entry_set_text (pm_gui->entry_id, plugin_info_peek_id (pinfo));
+		txt_len = gtk_text_get_length (pm_gui->text_description);
+		if (txt_len > 0) {
+			gtk_editable_delete_text (GTK_EDITABLE (pm_gui->text_description), 0, txt_len);
+		}
+		txt_pos = 0;
+		gtk_editable_insert_text (GTK_EDITABLE (pm_gui->text_description),
+		                          plugin_info_peek_description (pinfo),
+		                          strlen (plugin_info_peek_description (pinfo)),
+		                          &txt_pos);
+
+		n_extra_info_items = plugin_info_get_extra_info_list (pinfo, &extra_info_keys, &extra_info_values);
+		gtk_clist_freeze (pm_gui->clist_extra_info);
+		gtk_clist_clear (pm_gui->clist_extra_info);
+		for (i = 0, lkey = extra_info_keys, lvalue = extra_info_values;
+		     i < n_extra_info_items;
+		     i++, lkey = lkey->next, lvalue = lvalue->next ) {
+			gchar *row[2];
+
+			row[0] = (gchar *) lkey->data;
+			row[1] = (gchar *) lvalue->data;
+			gtk_clist_append (pm_gui->clist_extra_info, row);
+		}
+		gtk_clist_thaw (pm_gui->clist_extra_info);
+		e_free_string_list (extra_info_keys);
+		e_free_string_list (extra_info_values);
+		gnumeric_notebook_set_page_enabled (pm_gui->gnotebook,
+		                                    pm_gui->plugin_details_page_no,
+		                                    TRUE);
+	} else {
+		gtk_entry_set_text (pm_gui->entry_name, "");
+		gtk_entry_set_text (pm_gui->entry_directory, "");
+		gtk_entry_set_text (pm_gui->entry_id, "");
+		txt_len = gtk_text_get_length (pm_gui->text_description);
+		if (txt_len > 0) {
+			gtk_editable_delete_text (GTK_EDITABLE (pm_gui->text_description), 0, txt_len);
+		}
+		gtk_clist_clear (pm_gui->clist_extra_info);
+		gnumeric_notebook_set_page_enabled (pm_gui->gnotebook,
+		                                    pm_gui->plugin_details_page_no,
+		                                    FALSE);
+	}
+}
+
 void
 dialog_plugin_manager (WorkbookControlGUI *wbcg)
 {
+	PluginManagerGUI *pm_gui;
 	GladeXML *gui;
+	GtkWidget *page_plugin_list, *page_plugin_details;
 
 	g_return_if_fail (wbcg != NULL);
 
 	gui = gnumeric_glade_xml_new (wbcg, "plugin-manager.glade");
-        if (gui == NULL)
-                return;
+	g_return_if_fail (gui != NULL);
 
-	dialog_plugin_manager_impl (wbcg, gui);
+	pm_gui = g_new (PluginManagerGUI, 1);
+	pm_gui->wbcg = wbcg;
+	pm_gui->dialog_pm = GNOME_DIALOG (glade_xml_get_widget (gui, "dialog_plugin_manager"));
+	pm_gui->clist_active = GTK_CLIST (glade_xml_get_widget (gui, "clist_active"));
+	pm_gui->clist_inactive = GTK_CLIST (glade_xml_get_widget (gui, "clist_inactive"));
+	pm_gui->button_activate_plugin = GTK_BUTTON (glade_xml_get_widget (gui, "button_activate_plugin"));
+	pm_gui->button_deactivate_plugin = GTK_BUTTON (glade_xml_get_widget (gui, "button_deactivate_plugin"));
+	pm_gui->button_activate_all = GTK_BUTTON (glade_xml_get_widget (gui, "button_activate_all"));
+	pm_gui->button_deactivate_all = GTK_BUTTON (glade_xml_get_widget (gui, "button_deactivate_all"));
+	pm_gui->button_install_plugin = GTK_BUTTON (glade_xml_get_widget (gui, "button_install_plugin"));
+	pm_gui->checkbutton_install_new = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "checkbutton_install_new"));
+	pm_gui->entry_name = GTK_ENTRY (glade_xml_get_widget (gui, "entry_name"));
+	pm_gui->entry_directory = GTK_ENTRY (glade_xml_get_widget (gui, "entry_directory"));
+	pm_gui->text_description = GTK_TEXT (glade_xml_get_widget (gui, "text_description"));
+	pm_gui->entry_id = GTK_ENTRY (glade_xml_get_widget (gui, "entry_id"));
+	pm_gui->clist_extra_info = GTK_CLIST (glade_xml_get_widget (gui, "clist_extra_info"));
+	page_plugin_list = glade_xml_get_widget (gui, "page_plugin_list");
+	page_plugin_details = glade_xml_get_widget (gui, "page_plugin_details");
+	g_return_if_fail (pm_gui->dialog_pm != NULL &&
+	                  pm_gui->clist_active != NULL && pm_gui->clist_inactive != NULL &&
+	                  pm_gui->button_activate_plugin != NULL &&
+	                  pm_gui->button_deactivate_plugin != NULL &&
+	                  pm_gui->button_install_plugin != NULL &&
+	                  pm_gui->checkbutton_install_new != NULL &&
+	                  pm_gui->entry_name != NULL && pm_gui->entry_directory != NULL &&
+	                  pm_gui->text_description != NULL &&
+	                  pm_gui->entry_id != NULL &&
+	                  pm_gui->clist_extra_info != NULL &&
+	                  page_plugin_list != NULL &&
+	                  page_plugin_details != NULL);
+	pm_gui->gnotebook = GNUMERIC_NOTEBOOK (gnumeric_notebook_new ());
+	gtk_widget_reparent (page_plugin_list, GTK_WIDGET (pm_gui->gnotebook));
+	gtk_widget_reparent (page_plugin_details, GTK_WIDGET (pm_gui->gnotebook));
+	gtk_notebook_set_tab_label (GTK_NOTEBOOK (pm_gui->gnotebook),
+	                            page_plugin_list,
+	                            gtk_label_new (_("Plugin list")));
+	gtk_notebook_set_tab_label (GTK_NOTEBOOK (pm_gui->gnotebook),
+	                            page_plugin_details,
+	                            gtk_label_new (_("Plugin details")));
+	pm_gui->plugin_list_page_no = 0;
+	pm_gui->plugin_details_page_no = 1;
+	gtk_widget_show_all (GTK_WIDGET (pm_gui->gnotebook));
+	gtk_box_pack_start_defaults (GTK_BOX (pm_gui->dialog_pm->vbox),
+	                             GTK_WIDGET (pm_gui->gnotebook));
+
+	pm_gui->current_plugin_id = NULL;
+	pm_dialog_init (pm_gui);
+	(void) gnumeric_dialog_run (wbcg, pm_gui->dialog_pm);
+	gnome_config_sync ();
+
+	g_free (pm_gui->current_plugin_id);
+
 	gtk_object_unref (GTK_OBJECT (gui));
 }

@@ -30,6 +30,9 @@
 #include "xml-io.h"
 #include "bonobo-io.h"
 
+static FileOpenerId gnumeric_bonobo_opener_id;
+static FileSaverId gnumeric_bonobo_saver_id;
+
 static void
 write_stream_to_storage (xmlNodePtr           cur,
 			 Bonobo_PersistStream persist,
@@ -225,8 +228,9 @@ gnumeric_bonobo_obj_read (xmlNodePtr   tree,
 
 static int
 gnumeric_bonobo_write_workbook (IOContext    *context,
-				WorkbookView *wb_view,
-				const char   *filename)
+                                WorkbookView *wb_view,
+                                const gchar   *filename,
+                                gpointer      user_data)
 {
 	int              size, ret;
 	xmlChar         *mem;
@@ -416,8 +420,9 @@ hack_xmlSAXParseFile (Bonobo_Stream stream)
 
 static int
 gnumeric_bonobo_read_workbook (IOContext    *context,
-			       WorkbookView *wb_view,
-			       const char   *filename)
+                               WorkbookView *wb_view,
+                               const char   *filename,
+                               gpointer      user_data)
 {
 	CORBA_Environment   ev;
 	xmlDoc             *doc;
@@ -485,8 +490,8 @@ gnumeric_bonobo_read_workbook (IOContext    *context,
 
 	xml_workbook_read (context, wb_view, ctxt, doc->root);
 	workbook_set_saveinfo (wb_view_workbook (wb_view),
-			       (char *) filename, FILE_FL_AUTO,
-			       gnumeric_bonobo_write_workbook);
+	                       (char *) filename, FILE_FL_AUTO,
+	                       gnumeric_bonobo_saver_id);
 
 	xml_parse_ctx_destroy (ctxt);
 
@@ -502,7 +507,7 @@ gnumeric_bonobo_read_workbook (IOContext    *context,
 }
 
 static gboolean
-gnumeric_bonobo_io_probe (const char *filename)
+gnumeric_bonobo_io_probe (const char *filename, gpointer user_data)
 {
 	char *p;
 
@@ -522,8 +527,10 @@ gnumeric_bonobo_io_init (void)
 {
 	char *desc = _("Gnumeric Bonobo file format");
 
-	file_format_register_open (100, desc, gnumeric_bonobo_io_probe,
-				   gnumeric_bonobo_read_workbook);
-	file_format_register_save (".efs", desc, FILE_FL_AUTO,
-				   gnumeric_bonobo_write_workbook);
+	gnumeric_bonobo_opener_id = file_format_register_open (
+	                            100, desc, gnumeric_bonobo_io_probe,
+	                            gnumeric_bonobo_read_workbook, NULL);
+	gnumeric_bonobo_saver_id = file_format_register_save (
+	                           ".efs", desc, FILE_FL_AUTO,
+	                           gnumeric_bonobo_write_workbook, NULL);
 }

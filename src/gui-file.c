@@ -99,7 +99,7 @@ gui_file_import (WorkbookControlGUI *wbcg, const char *filename)
 		/* FIXME : This is a placeholder */
 		IOContext io_context;
 		io_context.impl = WORKBOOK_CONTROL (wbcg);
-		ret = fo->open (&io_context, new_view, filename);
+		ret = fo->open (&io_context, new_view, filename, fo->user_data);
 	}
 	command_context_pop_err_template (COMMAND_CONTEXT (wbcg));
 	g_free (template);

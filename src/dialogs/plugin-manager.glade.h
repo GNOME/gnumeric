@@ -5,11 +5,20 @@
  */
 
 gchar *s = N_("Gnumeric Plugin Manager");
-gchar *s = N_("Add");
-gchar *s = N_("Remove");
-gchar *s = N_("Installed Plugins");
-gchar *s = N_("_Description");
-gchar *s = N_("Path:");
-gchar *s = N_("Size:");
-gchar *s = N_("Modified:");
-gchar *s = N_("_File Details");
+gchar *s = N_("window1");
+gchar *s = N_("Active plugins");
+gchar *s = N_("Available inactive plugins");
+gchar *s = N_("Activate plugin");
+gchar *s = N_("Deactivate plugin");
+gchar *s = N_("Activate all plugins");
+gchar *s = N_("Deactivate all plugins");
+gchar *s = N_("Install new plugin");
+gchar *s = N_("Activate new plugins by default");
+gchar *s = N_("window2");
+gchar *s = N_("Name");
+gchar *s = N_("Directory");
+gchar *s = N_("Description");
+gchar *s = N_("Id");
+gchar *s = N_("Extra information");
+gchar *s = N_("Name");
+gchar *s = N_("Value");
