@@ -1,5 +1,9 @@
 2004-09-23  Morten Welinder  <terra@gnome.org>
 
+	* src/rendered-value.c (rendered_value_recontext): Force
+	wrap==FALSE when the source layout has only one line.
+	(Mostly fixes #152265)
+
 	* src/rendered-value.h (struct _RenderedValue): switch
 	layout_natural_width and layout_natural_height be in terms of
 	pango units.  All users changed.
