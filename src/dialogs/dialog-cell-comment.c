@@ -70,7 +70,6 @@ cb_cell_comment_cancel_clicked (G_GNUC_UNUSED GtkWidget *button,
 				CommentState *state)
 {
 	gtk_widget_destroy (state->dialog);
-	return;
 }
 
 static void
@@ -81,7 +80,7 @@ cb_cell_comment_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 	GtkTextIter end;
 	char *text;
 
-	gtk_text_buffer_get_bounds  (state->text, &start, &end);
+	gtk_text_buffer_get_bounds (state->text, &start, &end);
 	text = gtk_text_buffer_get_text (state->text, &start, &end, TRUE);
 
 	if (!cmd_set_comment (WORKBOOK_CONTROL (state->wbcg), state->sheet, state->pos, text))
@@ -123,9 +122,14 @@ dialog_cell_comment (WorkbookControlGUI *wbcg, Sheet *sheet, CellPos const *pos)
 	state->text = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
 
 	comment = cell_has_comment_pos (sheet, pos);
-	if (comment)
+	if (comment) {
+		GtkTextIter start;
+
 		gtk_text_buffer_set_text (state->text, cell_comment_text_get (comment),
 					  -1);
+		gtk_text_buffer_get_start_iter (state->text, &start);
+		gtk_text_buffer_place_cursor (state->text, &start);
+	}
 
 	state->ok_button = glade_xml_get_widget (state->gui, "ok_button");
 	g_signal_connect (G_OBJECT (state->ok_button),
