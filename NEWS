@@ -1,5 +1,11 @@
 Gnumeric 1.0.5
 
+Jody:
+	* Enable sheet object import from XL5/95
+
+--------------------------------------------------------------------------
+Gnumeric 1.0.5
+
 Almer:
 	http://bugzilla.gnome.org/show_bug.cgi?id=72416
 	http://bugzilla.gnome.org/show_bug.cgi?id=71783
