@@ -1,3 +1,7 @@
+2002-04-15  Jon K Hellan  <hellan@acm.org>
+
+	* POTFILES.in: Added the new files
+
 2002-04-10  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* POTFILES.in : added src/dialogs/so-arrow.glade and

@@ -194,7 +194,7 @@ src/history.c
 src/item-bar.c
 src/item-cursor.c
 src/item-grid.c
-src/main.c
+src/libgnumeric.c
 src/mathfunc.c
 src/number-match.c
 src/parse-util.c
@@ -235,7 +235,9 @@ src/widgets/gnumeric-cell-renderer-expr-entry.c
 src/widgets/gnumeric-cell-renderer-text.c
 src/widgets/widget-font-selector.c
 src/workbook-cmd-format.c
+src/workbook-control-component.c
 src/workbook-control-gui.c
+src/workbook-control-standalone.c
 src/workbook-control.c
 src/workbook-edit.c
 src/workbook-format-toolbar.c
