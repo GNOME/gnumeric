@@ -1042,8 +1042,8 @@ workbook_sheet_move (Sheet *sheet, int direction)
  * workbook_sheet_get_free_name:
  * @wb:   workbook to look for
  * @base: base for the name, e. g. "Sheet"
- * @name_format : optionally null format for handling dupilicates.
  * @always_suffix: if true, add suffix even if the name "base" is not in use.
+ * @handle_counter : strip counter if necessary
  *
  * Gets a new unquoted name for a sheets such that it does not exist on the
  * workbook.

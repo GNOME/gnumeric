@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * pln.c: read sheets using a Plan Perfect encoding.
  *
@@ -7,23 +8,13 @@
 
 #include <gnumeric-config.h>
 #include <gnumeric.h>
-#include <stdio.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <sys/mman.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <ctype.h>
-#include <string.h>
-#include <errno.h>
-#include <math.h>
-#include <gnome.h>
 #include "plugin.h"
 #include "numbers.h"
 #include "plugin-util.h"
 #include "module-plugin-defs.h"
 #include "error-info.h"
 #include "file.h"
+#include "sheet.h"
 #include "value.h"
 #include "cell.h"
 #include "workbook.h"
@@ -31,25 +22,23 @@
 #include "command-context.h"
 #include "io-context.h"
 
+#include <gsf/gsf-input.h>
+#include <libgnome/gnome-i18n.h>
+#include <string.h>
+#include <math.h>
+
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
+gboolean pln_file_probe (GnumFileOpener const *fo, GsfInput *input,
+			 FileProbeLevel pl);
 void pln_file_open (GnumFileOpener const *fo, IOContext *io_context,
-                    WorkbookView *view, char const *filename);
-
-
-typedef struct {
-	char const *data, *cur;
-	int         len;
-
-	int line;
-	Sheet *sheet;
-} FileSource_t;
-
+                    WorkbookView *view, GsfInput *input);
 
 #define FONT_WIDTH 8
 	/* Font width should really be calculated, but it's too hard right now */
+
 #define PLN_BYTE(pointer) (((int)((*(pointer)))) & 0xFF)
-#define PLN_WORD(pointer) (PLN_BYTE(pointer) + PLN_BYTE((pointer) + 1) * 256)
+#define PLN_WORD(pointer) (PLN_BYTE (pointer) | (PLN_BYTE ((pointer) + 1) << 8))
 
 static const char* formula1[] =
 {
@@ -710,21 +699,183 @@ g_warning("PLN: Undefined formula code %d", fcode);
 	return result1;
 }
 
-static void
-pln_parse_sheet (FileSource_t *src, ErrorInfo **ret_error)
+static ErrorInfo *
+pln_parse_sheet (GsfInput *input, Sheet *sheet)
 {
 	int rcode, rlength;
 	int crow, ccol, ctype, cformat, chelp, clength, cattr, cwidth;
-	int cextra;
 	Cell *cell = NULL;
 	gnum_float dvalue;
-	char* svalue;
+	Value	*val;
 	int lastrow = SHEET_MAX_ROWS;
 	int lastcol = SHEET_MAX_COLS;
+	guint8 const *data;
 
-	*ret_error = NULL;
+	data = gsf_input_read (input, 6, NULL);
+	if (data == NULL || PLN_WORD (data + 2) != 0)
+		return error_info_new_str (_("PLN : Spreadsheet is password encrypted"));
+
 	/*
-	 * Make sure it really is a plan-perfect file
+	 * Now process the record based sections
+	 *
+	 * Each record consists of a two-byte record type code,
+	 * followed by a two byte length code
+	 */
+	rcode = 0;
+
+	do {
+		data = gsf_input_read (input, 4, NULL);
+		if (data == NULL)
+			break;
+
+		rcode = PLN_WORD (data);
+		rlength = PLN_WORD (data);
+
+		data = gsf_input_read (input, rlength, NULL);
+		if (data == NULL)
+			break;
+
+		switch (rcode) {
+		case 1:		/* Last row/column */
+			lastrow = PLN_WORD (data);
+			lastcol = PLN_WORD (data + 2);
+			break;
+
+		case 3:		/* Column format information */
+			for (ccol = 0; ccol < rlength / 6; ccol++) {
+				cattr	= PLN_WORD (data + ccol * 6 + 0);
+				cformat = PLN_WORD (data + ccol * 6 + 2);
+				cwidth	= PLN_WORD (data + ccol * 6 + 4);
+				if ((cwidth != 0) && (ccol <= lastcol)) {
+					sheet_col_set_size_pts
+						(sheet, ccol,
+						 (cwidth & 255) * FONT_WIDTH,
+						 FALSE);
+				}
+			}
+			break;
+
+		default:
+			g_warning("PLN : Record handling code for code %d not yet written", rcode);
+		}
+	} while (rcode != 25);
+
+	/* process the CELL information */
+	while (1) {
+		data = gsf_input_read (input, 20, NULL);
+		if (data == NULL)
+			break;
+
+		crow = PLN_WORD (data);
+		/* Special value indicating end of sheet */
+		if (crow == 65535)
+			return NULL;
+		if (crow >= SHEET_MAX_ROWS)
+			return error_info_new_printf (
+			             _("Invalid PLN file has more than the maximum\n"
+			             "number of %s %d"),
+			             _("rows"),
+			             SHEET_MAX_ROWS);
+
+		ccol	= PLN_WORD (data + 2);
+		ctype	= PLN_WORD (data + 12);
+		cformat	= PLN_WORD (data + 14);
+		chelp	= PLN_WORD (data + 16);
+		clength	= PLN_WORD (data + 18);
+
+		switch (ctype & 7) {
+		case 0:		/* Empty Cell */
+		case 6:		/* format only, no data in cell */
+			break;
+
+		case 1:		/* Floating Point */
+			dvalue = pln_get_number (data + 4);
+			cell = sheet_cell_fetch (sheet, ccol, crow);
+			cell_set_value (cell, value_new_float (dvalue));
+			break;
+
+		case 2:		/* Short Text */
+			cell = sheet_cell_fetch (sheet, ccol, crow);
+			if (cell != NULL) {
+				val = value_new_string_nocopy (
+					g_strndup (data + 5, PLN_BYTE (data + 4)));
+				cell_set_value (cell, val);
+			}
+			break;
+
+		case 3:		/* Long Text */
+			data = gsf_input_read (input, PLN_WORD (data+4), NULL);
+			if (data != NULL) {
+				cell = sheet_cell_fetch (sheet, ccol, crow);
+				if (cell != NULL) {
+					val = value_new_string_nocopy (
+						g_strndup (data + 2, PLN_WORD (data)));
+					cell_set_value (cell, val);
+				}
+			}
+			break;
+
+		case 4:		/* Error Cell */
+			cell_set_value (sheet_cell_fetch (sheet, ccol, crow),
+					value_new_error (NULL, gnumeric_err_VALUE));
+			break;
+
+		case 5:		/* na Cell */
+			cell_set_value (sheet_cell_fetch (sheet, ccol, crow),
+					value_new_error (NULL, gnumeric_err_NA));
+			break;
+		}
+
+		if (clength != 0 && cell != NULL) {
+			data = gsf_input_read (input, clength, NULL);
+			if (data != NULL) {
+				char *expr = pln_parse_formula (data, crow, ccol);
+				cell_set_text (cell, expr);
+				g_free (expr);
+			}
+		}
+	}
+
+	return NULL;
+}
+
+void
+pln_file_open (GnumFileOpener const *fo, IOContext *io_context,
+               WorkbookView *wb_view, GsfInput *input)
+{
+	Workbook *wb;
+	char  *name;
+	Sheet *sheet;
+	ErrorInfo *error;
+
+	if (!pln_file_probe (NULL, input, FILE_PROBE_CONTENT_FULL)) {
+		gnumeric_io_error_info_set (io_context,
+			error_info_new_str (_("PLN : Not a PlanPerfect File")));
+		return;
+	}
+
+	wb    = wb_view_workbook (wb_view);
+	name  = workbook_sheet_get_free_name (wb, "PlanPerfect", FALSE, TRUE);
+	sheet = sheet_new (wb, name);
+	g_free (name);
+	workbook_sheet_attach (wb, sheet, NULL);
+
+	error = pln_parse_sheet (input, sheet);
+	if (error != NULL) {
+		workbook_sheet_detach (wb, sheet);
+		gnumeric_io_error_info_set (io_context, error);
+	}
+}
+
+static guint8 const signature[] =
+    { 0xff, 'W','P','C', 0x10, 0, 0, 0, 0x9, 0x10 };
+
+gboolean
+pln_file_probe (GnumFileOpener const *fo, GsfInput *input,
+		FileProbeLevel pl)
+{
+	/*
+	 * a plan-perfect header
 	 *	0	= -1
 	 *	1-3	= "WPC"
 	 *	4-7	= 16 (double word)
@@ -735,197 +886,9 @@ pln_parse_sheet (FileSource_t *src, ErrorInfo **ret_error)
 	 *	12-13	= encryption key
 	 *	14-15	= unused
 	 */
-	if (memcmp(src->cur, "\377WPC\020\0\0\0\011\012", 10) != 0) {
-		*ret_error = error_info_new_str (_("PLN : Not a PlanPerfect File"));
-		return;
-	}
-
-	if ((*(src->cur + 12) != 0) || (*(src->cur + 13) != 0)) {
-		*ret_error = error_info_new_str (_("PLN : Spreadsheet is password encrypted"));
-		return;
-	}
-
-	/*
-	 * Point to beginning of real data (16 byte header)
-	 */
-	src->cur += 16;
-
-	/*
-	 * Now process the record based sections
-	 *
-	 * Each record consists of a two-byte record type code,
-	 * followed by a two byte length code
-	 */
-	rcode = 0;
-
-	while ((src->len > (src->cur - src->data)) && (rcode != 25))
-	{
-		rcode = PLN_WORD(src->cur);
-		rlength = PLN_WORD(src->cur + 2);
-
-		switch(rcode)
-		{
-		case 1:		/* Last row/column */
-			lastrow = PLN_WORD(src->cur + 4);
-			lastcol = PLN_WORD(src->cur + 6);
-			break;
-
-		case 3:		/* Column format information */
-			for (ccol = 0; ccol < rlength / 6; ccol++)
-			{
-				cattr = PLN_WORD(src->cur + ccol * 6 + 4);
-				cformat = PLN_WORD(src->cur + ccol * 6 + 6);
-				cwidth = PLN_WORD(src->cur + ccol * 6 + 8);
-				if ((cwidth != 0) && (ccol <= lastcol))
-				{
-					sheet_col_set_size_pts
-						(src->sheet, ccol,
-						 (cwidth & 255) * FONT_WIDTH,
-						 FALSE);
-				}
-			}
-			break;
-
-		default:
-#if 0
-g_warning("PLN : Record handling code for code %d not yet written", rcode);
-#endif
-			break;
-		}
-
-		/*
-		 * Next record (4 bytes for header + data)
-		 */
-		src->cur += rlength + 4;
-	}
-
-	/*
-	 * Now process the CELL information
-	 */
-	while (src->len > (src->cur - src->data))
-	{
-		crow = PLN_WORD(src->cur);
-
-		/* Special value indicating end of sheet */
-		if (crow == 65535)
-			return;
-
-		if (crow >= SHEET_MAX_ROWS) {
-			*ret_error = error_info_new_printf (
-			             _("Invalid PLN file has more than the maximum\n"
-			             "number of %s %d"),
-			             _("rows"),
-			             SHEET_MAX_ROWS);
-			return;
-		}
-
-		ccol = PLN_WORD(src->cur + 2);
-		ctype = PLN_WORD(src->cur + 12);
-		cformat = PLN_WORD(src->cur + 14);
-		chelp = PLN_WORD(src->cur + 16);
-		clength = PLN_WORD(src->cur + 18);
-		cextra = 0;
-
-
-		switch (ctype & 7)
-		{
-		case 0:		/* Empty Cell */
-		case 6:		/* format only, no data in cell */
-			break;
-
-		case 1:		/* Floating Point */
-			dvalue = pln_get_number(src->cur + 4);
-			cell = sheet_cell_fetch (src->sheet, ccol, crow);
-			cell_set_value (cell, value_new_float (dvalue), NULL);
-			break;
-
-		case 2:		/* Short Text */
-			svalue = g_strndup(src->cur + 5, PLN_BYTE(src->cur + 4));
-			cell = sheet_cell_fetch (src->sheet, ccol, crow);
-			cell_set_text (cell, svalue);
-			g_free(svalue);
-			break;
-
-		case 3:		/* Long Text */
-			cextra = PLN_WORD(src->cur + 4);
-			svalue = g_strndup(src->cur + 22,
-				PLN_WORD(src->cur + 20));
-			cell = sheet_cell_fetch (src->sheet, ccol, crow);
-			cell_set_text (cell, svalue);
-			g_free(svalue);
-			break;
-
-		case 4:		/* Error Cell */
-			cell = sheet_cell_fetch (src->sheet, ccol, crow);
-			/* TODO : What to use as the eval position */
-			cell_set_value (cell, value_new_error (NULL, gnumeric_err_VALUE), NULL);
-			break;
-
-		case 5:		/* na Cell */
-			cell = sheet_cell_fetch (src->sheet, ccol, crow);
-			/* TODO : What to use as the eval position */
-			cell_set_value (cell, value_new_error (NULL, gnumeric_err_NA), NULL);
-			break;
-		}
-
-		if (clength != 0 && cell != NULL)
-		{
-			svalue = pln_parse_formula(src->cur + 20 + cextra,
-				crow, ccol);
-			cell_set_text (cell, svalue);
-			g_free(svalue);
-		}
-
-		src->cur += 20 + clength + cextra;
-	}
-}
-
-void
-pln_file_open (GnumFileOpener const *fo, IOContext *io_context,
-               WorkbookView *view, char const *filename)
-{
-	int len;
-	struct stat sbuf;
-	char const *data;
-	gint fd;
-	Workbook *book = wb_view_workbook (view);
-	ErrorInfo *error;
-
-	fd = gnumeric_open_error_info (filename, O_RDONLY, &error);
-	if (fd < 0) {
-		gnumeric_io_error_info_set (io_context, error);
-		return;
-	}
-
-	if (fstat(fd, &sbuf) < 0) {
-		close (fd);
-		gnumeric_io_error_info_set (io_context, error_info_new_from_errno ());
-		return;
-	}
-
-	len = sbuf.st_size;
-	if (MAP_FAILED != (data = (char const *) (mmap(0, len, PROT_READ,
-						       MAP_PRIVATE, fd, 0)))) {
-		FileSource_t src;
-		char * name = g_strdup_printf (_("Imported %s"), g_basename (filename));
-
-		src.data  = data;
-		src.cur   = data;
-		src.len   = len;
-		src.sheet = sheet_new (book, name);
-
-		workbook_sheet_attach (book, src.sheet, NULL);
-		g_free (name);
-
-		pln_parse_sheet (&src, &error);
-		if (error != NULL) {
-			workbook_sheet_detach (book, src.sheet);
-			gnumeric_io_error_info_set (io_context, error);
-		}
-
-		munmap((char *)data, len);
-	} else {
-		gnumeric_io_error_string (io_context, _("Unable to mmap the file"));
-	}
-	close(fd);
+	char const *header = NULL;
+	if (!gsf_input_seek (input, 0, GSF_SEEK_SET))
+		header = gsf_input_read (input, sizeof (signature), NULL);
+	return header != NULL &&
+	    memcmp (header, signature, sizeof (signature)) == 0;
 }

@@ -5,7 +5,7 @@
 #include "io-context.h"
 #include <stdio.h>
 
-gboolean psiconv_read_header (FILE *file);
-void psiconv_read (IOContext *io_context, Workbook *wb, FILE *file);
+gboolean psiconv_read_header (GsfInput *input);
+void	 psiconv_read (IOContext *io_context, Workbook *wb, GsfInput *input);
 
 #endif /* PLUGIN_PSICONV_PLUGIN_H */

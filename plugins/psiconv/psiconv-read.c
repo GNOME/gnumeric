@@ -548,7 +548,7 @@ add_sheetfile(Workbook *wb, psiconv_sheet_f psi_file)
 
 
 static psiconv_buffer
-psiconv_file_to_buffer(FILE *file)
+psiconv_file_to_buffer (GsfInput *input)
 {
 	psiconv_buffer buf;
 
@@ -558,6 +558,7 @@ psiconv_file_to_buffer(FILE *file)
 	if (!(buf = psiconv_buffer_new())) {
 		return NULL;
 	}
+#warning BROKEN BROKEN BROKEN someone using this library needs to supply a way to read from GsfInputs
 	if (psiconv_buffer_fread_all(buf,file)) {
 		psiconv_buffer_free(buf);
 		return NULL;
@@ -566,12 +567,12 @@ psiconv_file_to_buffer(FILE *file)
 }
 
 void
-psiconv_read (IOContext *io_context, Workbook *wb, FILE *file)
+psiconv_read (IOContext *io_context, Workbook *wb, GsfInput *input)
 {
 	psiconv_buffer buf;
 	psiconv_file psi_file;
 
-	if (!(buf = psiconv_file_to_buffer(file))) {
+	if (!(buf = psiconv_file_to_buffer (input))) {
 		gnumeric_io_error_info_set (io_context,
 		                            error_info_new_str(_("Error while reading psiconv file.")));
 		return;
@@ -595,14 +596,14 @@ psiconv_read (IOContext *io_context, Workbook *wb, FILE *file)
 }
 
 gboolean
-psiconv_read_header (FILE *file)
+psiconv_read_header (GsfInput *input)
 {
 	gboolean res;
 	psiconv_buffer buf;
 
-	if (!(buf = psiconv_file_to_buffer(file))) {
+	if (!(buf = psiconv_file_to_buffer (input)))
 		return FALSE;
-	}
+
 	res =  psiconv_file_type(buf,NULL,NULL) == psiconv_sheet_file;
 	psiconv_buffer_free(buf);
 	return res;

@@ -50,6 +50,18 @@ static gnm_mem_chunk *expression_pool;
 
 /***************************************************************************/
 
+#if 0
+static guint
+gnm_expr_constant_hash (GnmExprConstant const *expr)
+{
+	return value_hash (expr->value);
+}
+static gboolean
+gnm_expr_constant_eq (GnmExprConstant const *a,
+		      GnmExprConstant const *b)
+{
+}
+#endif
 GnmExpr const *
 gnm_expr_new_constant (Value *v)
 {
@@ -62,6 +74,25 @@ gnm_expr_new_constant (Value *v)
 
 	return (GnmExpr *)ans;
 }
+
+/***************************************************************************/
+
+#if 0
+static guint
+gnm_expr_function_hash (GnmExprFunction const *expr)
+{
+	guint h = expr->oper;
+	GnmExprList *l;
+	for (l = expr->arg_list; l; l = l->next)
+		h = (h * 3) ^ (GPOINTER_TO_INT (l->data));
+	return h;
+}
+static gboolean
+gnm_expr_function_eq (GnmExprFunction const *a,
+		      GnmExprFunction const *b)
+{
+}
+#endif
 
 GnmExpr const *
 gnm_expr_new_funcall (FunctionDefinition *func, GnmExprList *args)
@@ -82,6 +113,23 @@ gnm_expr_new_funcall (FunctionDefinition *func, GnmExprList *args)
 	return (GnmExpr *)ans;
 }
 
+/***************************************************************************/
+
+#if 0
+static guint
+gnm_expr_unary_hash (GnmExprUnary const *expr)
+{
+	return  (GPOINTER_TO_INT (expr->value) * 7) ^
+		(guint)(expr->oper);
+}
+static gboolean
+gnm_expr_unary_eq (GnmExprUnary const *a,
+		   GnmExprUnary const *b)
+{
+	return  a->oper == b->oper && a->value == b->value;
+}
+#endif
+
 GnmExpr const *
 gnm_expr_new_unary  (GnmExprOp op, GnmExpr const *e)
 {
@@ -98,6 +146,17 @@ gnm_expr_new_unary  (GnmExprOp op, GnmExpr const *e)
 	return (GnmExpr *)ans;
 }
 
+/***************************************************************************/
+
+#if 0
+static guint
+gnm_expr_binary_hash (GnmExprBinary const *expr)
+{
+	return  (GPOINTER_TO_INT (expr->value_a) * 7) ^
+		(GPOINTER_TO_INT (expr->value_b) * 3) ^
+		(guint)(expr->oper);
+}
+#endif
 
 GnmExpr const *
 gnm_expr_new_binary (GnmExpr const *l, GnmExprOp op, GnmExpr const *r)
@@ -115,6 +174,16 @@ gnm_expr_new_binary (GnmExpr const *l, GnmExprOp op, GnmExpr const *r)
 
 	return (GnmExpr *)ans;
 }
+
+/***************************************************************************/
+
+#if 0
+static guint
+gnm_expr_name_hash (GnmExprName const *expr)
+{
+	return GPOINTER_TO_INT (expr->name);
+}
+#endif
 
 GnmExpr const *
 gnm_expr_new_name (GnmNamedExpr *name,
@@ -137,6 +206,15 @@ gnm_expr_new_name (GnmNamedExpr *name,
 	return (GnmExpr *)ans;
 }
 
+/***************************************************************************/
+
+#if 0
+static guint
+gnm_expr_cellref_hash (GnmExprCellRef const *expr)
+{
+}
+#endif
+
 GnmExpr const *
 gnm_expr_new_cellref (CellRef const *cr)
 {
@@ -153,8 +231,27 @@ gnm_expr_new_cellref (CellRef const *cr)
 	return (GnmExpr *)ans;
 }
 
+/***************************************************************************/
+
+#if 0
+static guint
+gnm_expr_array_hash (GnmExprArray const *expr)
+{
+}
+#endif
+
+/**
+ * gnm_expr_new_array :
+ * @x :
+ * @y :
+ * @cols :
+ * @rows :
+ * @expr : optionally NULL.
+ *
+ * Absorb a referernce to @expr if it is non NULL.
+ **/
 GnmExpr const *
-gnm_expr_new_array (int x, int y, int cols, int rows)
+gnm_expr_new_array (int x, int y, int cols, int rows, GnmExpr const *expr)
 {
 	GnmExprArray *ans;
 
@@ -169,9 +266,23 @@ gnm_expr_new_array (int x, int y, int cols, int rows)
 	ans->rows = rows;
 	ans->cols = cols;
 	ans->corner.value = NULL;
-	ans->corner.expr = NULL;
+	ans->corner.expr = expr;
 	return (GnmExpr *)ans;
 }
+
+/***************************************************************************/
+
+#if 0
+static guint
+gnm_expr_set_hash (GnmExprSet const *expr)
+{
+	guint h = expr->oper;
+	GnmExprList *l;
+	for (l = expr->set; l; l = l->next)
+		h = (h * 3) ^ (GPOINTER_TO_INT (l->data));
+	return h;
+}
+#endif
 
 GnmExpr const *
 gnm_expr_new_set (GnmExprList *set)
@@ -206,6 +317,8 @@ expr_array_corner (GnmExpr const *expr,
 
 	return corner;
 }
+
+/***************************************************************************/
 
 /**
  * gnm_expr_ref:
@@ -1585,14 +1698,8 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 		GnmExprArray const *a = &expr->array;
 		if (a->x == 0 && a->y == 0) {
 			GnmExpr const *func = gnm_expr_rewrite (a->corner.expr, rwinfo);
-
-			if (func != NULL) {
-				GnmExpr const *res =
-					gnm_expr_new_array (0, 0, a->cols, a->rows);
-				((GnmExpr *)res)->array.corner.value = NULL;
-				((GnmExpr *)res)->array.corner.expr = func;
-				return res;
-			}
+			if (func != NULL)
+				return gnm_expr_new_array (0, 0, a->cols, a->rows, func);
 		}
 		return NULL;
 	}

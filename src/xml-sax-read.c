@@ -48,19 +48,20 @@
 #include "workbook.h"
 #include "error-info.h"
 
-#include <stdlib.h>
-#include <string.h>
-#include <gnome.h>
+#include <gsf/gsf-libxml.h>
 #include <libxml/tree.h>
 #include <libxml/parser.h>
 #include <libxml/parserInternals.h>
+#include <stdlib.h>
+#include <string.h>
+#include <libgnome/gnome-i18n.h>
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
-gboolean xml_sax_file_probe (GnumFileOpener const *fo, const gchar *file_name,
+gboolean xml_sax_file_probe (GnumFileOpener const *fo, GsfInput *input,
                              FileProbeLevel pl);
 void     xml_sax_file_open (GnumFileOpener const *fo, IOContext *io_context,
-			    WorkbookView *wb_view, char const *filename);
+			    WorkbookView *wb_view, GsfInput *input);
 
 /*****************************************************************************/
 
@@ -410,7 +411,7 @@ static char const * const xmlSax_state_names[] =
 NULL
 };
 
-typedef struct _XMLSaxParseState
+typedef struct
 {
 	xmlSaxState state;
 	gint	  unknown_depth;	/* handle recursive unknown tags */
@@ -481,7 +482,7 @@ xml_sax_unknown_attr (XMLSaxParseState *state, xmlChar const * const *attrs, cha
 	/* FIXME : Use IOContext to get these messages back to the user. */
 	if (state->version == GNUM_XML_LATEST)
 		g_warning ("Unexpected attribute '%s'='%s' for element of type %s.",
-			   name, attrs[0], attrs[1]);
+			   attrs[0], attrs[1], name);
 }
 
 static void
@@ -549,6 +550,8 @@ xml_sax_wb (XMLSaxParseState *state, xmlChar const **attrs)
 						break;
 					}
 				}
+		} else if (!strcmp (attrs[0], "xmlns:xsi")) {
+		} else if (!strcmp (attrs[0], "xsi:schemaLocation")) {
 		} else
 			xml_sax_unknown_attr (state, attrs, "Workbook");
 }
@@ -1573,7 +1576,7 @@ xml_sax_unknown_state (XMLSaxParseState *state, xmlChar const *name)
  * We parse and do some limited validation of the XML file, if this
  * passes, then we return TRUE
 gboolean
-xml_sax_file_probe (GnumFileOpener const *fo, const gchar *file_name, FileProbeLevel pl)
+xml_sax_file_probe (GnumFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 {
 	return TRUE;
 }
@@ -2088,27 +2091,22 @@ static xmlSAXHandler xmlSaxSAXParser = {
 
 void
 xml_sax_file_open (GnumFileOpener const *fo, IOContext *io_context,
-		   WorkbookView *wb_view, char const *filename)
+		   WorkbookView *wb_view, GsfInput *input)
 {
 	xmlParserCtxtPtr ctxt;
 	XMLSaxParseState state;
 
 	g_return_if_fail (wb_view != NULL);
-	g_return_if_fail (filename != NULL);
+	g_return_if_fail (input != NULL);
 
 	state.context = io_context;
 	state.wb_view = wb_view;
 	state.wb = wb_view_workbook (wb_view);
 
-	/*
-	 * TODO : think about pushing the data into the parser
-	 * and using vfs.
-	 */
-	ctxt = xmlCreateFileParserCtxt (filename);
-	if (ctxt == NULL) {
-		gnumeric_io_error_string (io_context, _("xmlCreateFileParserCtxt () failed."));
-		return;
-	}
+	ctxt = gsf_xml_parser_context (input);
+
+	g_return_if_fail (ctxt != NULL);
+
 	ctxt->sax = &xmlSaxSAXParser;
 	ctxt->userData = &state;
 

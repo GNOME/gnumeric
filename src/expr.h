@@ -49,7 +49,8 @@ GnmExpr const *gnm_expr_new_funcall  (FunctionDefinition *func,
 GnmExpr const *gnm_expr_new_name     (GnmNamedExpr *name,
 				      Sheet *sheet_scope, Workbook *wb_scope);
 GnmExpr const *gnm_expr_new_cellref  (CellRef const *cr);
-GnmExpr const *gnm_expr_new_array    (int x, int y, int cols, int rows);
+GnmExpr const *gnm_expr_new_array    (int x, int y, int cols, int rows,
+				      GnmExpr const *expr);
 GnmExpr const *gnm_expr_new_set	     (GnmExprList *args);
 
 GnmExpr const *gnm_expr_first_func   (GnmExpr const *expr);

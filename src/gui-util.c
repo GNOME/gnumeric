@@ -452,10 +452,9 @@ gnumeric_editable_enters (GtkWindow *window, GtkWidget *w)
 	if (IS_GNUMERIC_EXPR_ENTRY (w))
 		w = GTK_WIDGET (gnm_expr_entry_get_entry (GNUMERIC_EXPR_ENTRY (w)));
 
-	gtk_signal_connect_object
-		(GTK_OBJECT (w), "activate",
-		 GTK_SIGNAL_FUNC(gtk_window_activate_default),
-		 GTK_OBJECT(window));
+	g_signal_connect_swapped (G_OBJECT (w),
+		"activate",
+		G_CALLBACK (gtk_window_activate_default), window);
 }
 
 /**

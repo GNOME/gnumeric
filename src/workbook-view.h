@@ -80,6 +80,12 @@ void		 wb_view_auto_expr	  (WorkbookView *wbv,
 gboolean wb_view_save_as     (WorkbookView *wbv, GnumFileSaver *fs,
 			      char const *file_name, CommandContext *context);
 gboolean wb_view_save        (WorkbookView *wbv, CommandContext *context);
+
+gboolean wb_view_open_input  (GsfInput *input,
+			      WorkbookControl *wbc,
+			      gboolean display_errors,
+                              GnumFileOpener const *fo);
+/* convenience wrapper */
 gboolean wb_view_open        (char const *file_name,
 			      WorkbookControl *wbc,
 			      gboolean display_errors,

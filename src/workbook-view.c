@@ -43,6 +43,9 @@
 #include "parse-util.h"
 #include "io-context.h"
 
+#include <gsf/gsf-input-memory.h>
+#include <gsf/gsf-input-stdio.h>
+
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
 #include <gal/util/e-util.h>
@@ -596,12 +599,24 @@ wb_view_open (char const *file_name,
 {
 	Workbook *new_wb = NULL;
 	WorkbookView *new_wbv = NULL;
+	GsfInput *input;
+	GError *err = NULL;
 
 	g_return_val_if_fail (file_name != NULL, FALSE);
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), FALSE);
 	g_return_val_if_fail (fo == NULL || IS_GNUM_FILE_OPENER (fo), FALSE);
 
-	if (g_file_test (file_name, G_FILE_TEST_IS_REGULAR)) {
+	/* Only report error if stdio fails too */
+	input = gsf_input_mmap_new (file_name, NULL);
+	if (input == NULL)
+		input = gsf_input_stdio_new (file_name, &err);
+
+	/* NOTE : we could support gzipped anything here if we wanted to
+	 * by adding a wrapper, but there is no framework for remembering that
+	 * the file was gzipped so lets not just yet.
+	 */
+
+	if (input != NULL) {
 		IOContext *io_context = gnumeric_io_context_new (COMMAND_CONTEXT (wbc));
 		wb_control_set_sensitive (wbc, FALSE);
 
@@ -613,7 +628,7 @@ wb_view_open (char const *file_name,
 			for (pl = FILE_PROBE_FILE_NAME; pl < FILE_PROBE_LAST && fo == NULL; pl++) {
 				for (l = get_file_openers (); l != NULL; l = l->next) {
 					GnumFileOpener const *tmp_fo = GNUM_FILE_OPENER (l->data);
-					if (gnum_file_opener_probe (tmp_fo, file_name, pl)) {
+					if (gnum_file_opener_probe (tmp_fo, input, pl)) {
 						fo = tmp_fo;
 						break;
 					}
@@ -629,7 +644,7 @@ wb_view_open (char const *file_name,
 
 			/* disable recursive dirtying while loading */
 			old = workbook_enable_recursive_dirty (new_wb, FALSE);
-			gnum_file_opener_open (fo, io_context, new_wbv, file_name);
+			gnum_file_opener_open (fo, io_context, new_wbv, input);
 			workbook_enable_recursive_dirty (new_wb, old);
 
 			if (!gnumeric_io_error_occurred (io_context) &&

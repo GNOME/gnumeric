@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * sylk.c - file import of SYLK files
  * Copyright 1999 Jeff Garzik <jgarzik@mandrakesoft.com>
@@ -11,8 +12,6 @@
 
 #include <gnumeric-config.h>
 #include <gnumeric.h>
-#include <gnome.h>
-#include <errno.h>
 #include "file.h"
 #include "io-context.h"
 #include "workbook-view.h"
@@ -25,14 +24,18 @@
 #include "plugin.h"
 #include "module-plugin-defs.h"
 
+#include <libgnome/gnome-i18n.h>
+#include <string.h>
+#include <gsf/gsf-input-stdio.h>
+#include <gsf/gsf-input-textline.h>
+
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
-gboolean sylk_file_probe (GnumFileOpener const *fo, const gchar *filename, FileProbeLevel pl);
+gboolean sylk_file_probe (GnumFileOpener const *fo, GsfInput *input, FileProbeLevel pl);
 void     sylk_file_open (GnumFileOpener const *fo, IOContext *io_context,
-                         WorkbookView *wb_view, const char *filename);
+                         WorkbookView *wb_view, GsfInput *input);
 
 #define arraysize(x)     (sizeof(x)/sizeof(*(x)))
-
 
 typedef struct {
 	long     picture_idx;
@@ -46,11 +49,8 @@ typedef struct {
 
 
 typedef struct {
-	/* input data */
-	FILE *f;
-
-	/* gnumeric sheet */
-	Sheet *sheet;
+	GsfInputTextline *input;
+	Sheet	 	 *sheet;
 
 	/* SYLK current X/Y pointers (begin at 1) */
 	long cur_x, cur_y;
@@ -72,51 +72,7 @@ typedef struct {
 	unsigned show_commas : 1;		/* sheet-wide */
 	unsigned hide_rowcol_hdrs : 1;		/* sheet-wide */
 	unsigned hide_def_gridlines : 1;	/* sheet-wide */
-} sylk_file_state_t;
-
-
-/* why?  because we must handle Mac text files, and because I'm too lazy to make it fast */
-static char *
-fgets_mac (char *s, size_t s_len, FILE *f)
-{
-	size_t read = 0;
-	char *orig_s = s;
-	int ch;
-
-	s_len--;
-
-	while (!ferror (f) && !feof (f) && (read < s_len)) {
-		ch = fgetc (f);
-		if (ch == EOF)
-			break;
-
-		*s = (char)ch;
-		read++;
-
-		if (*s == '\n')
-			break;
-		if (*s == '\r') {
-			int ch = fgetc (f);
-			if ((ch != EOF) && (ch != '\n'))
-				ungetc (ch, f);
-			else if (ch != EOF) {
-				*s = '\n';
-				read++;
-			}
-			break;
-		}
-
-		s++;
-	}
-
-	if (read > 0) {
-		orig_s [read] = 0;
-		return orig_s;
-	}
-
-	return NULL;
-}
-
+} SylkReadState;
 
 static size_t
 sylk_next_token_len (const char *line)
@@ -139,15 +95,15 @@ sylk_next_token_len (const char *line)
 
 
 static void
-sylk_parse_value (sylk_file_state_t *src, const char *str,
+sylk_parse_value (SylkReadState *state, const char *str,
 		  size_t *len)
 {
 	const char *s;
 
-	src->val_type = VALUE_EMPTY;
-	if (src->val_s) {
-		g_free (src->val_s);
-		src->val_s = NULL;
+	state->val_type = VALUE_EMPTY;
+	if (state->val_s) {
+		g_free (state->val_s);
+		state->val_s = NULL;
 	}
 
 	*len = sylk_next_token_len (str);
@@ -155,7 +111,7 @@ sylk_parse_value (sylk_file_state_t *src, const char *str,
 	/* error strings start with '#' */
 	if (*str == '#') {
 		/* ignore for now */
-		src->val_type = VALUE_EMPTY;
+		state->val_type = VALUE_EMPTY;
 		return;
 	}
 
@@ -163,14 +119,14 @@ sylk_parse_value (sylk_file_state_t *src, const char *str,
 	else if (*str != '"') {
 		/* floats */
 		if (strchr (str, '.')) {
-			src->val_type = VALUE_FLOAT;
-			src->val_d = g_strtod (str, NULL);
+			state->val_type = VALUE_FLOAT;
+			state->val_d = g_strtod (str, NULL);
 		}
 
 		/* ints */
 		else {
-			src->val_type = VALUE_INTEGER;
-			src->val_l = strtol (str, NULL, 10);
+			state->val_type = VALUE_INTEGER;
+			state->val_l = strtol (str, NULL, 10);
 		}
 
 		return;
@@ -179,31 +135,31 @@ sylk_parse_value (sylk_file_state_t *src, const char *str,
 	/* boolean values */
 	else if (!strcmp (str,"\"TRUE\"") ||
 		 !strcmp (str,"\"FALSE\"")) {
-		src->val_type = VALUE_BOOLEAN;
-		src->val_l = (strcmp(str,"\"TRUE\"") == 0 ? TRUE : FALSE);
+		state->val_type = VALUE_BOOLEAN;
+		state->val_l = (strcmp(str,"\"TRUE\"") == 0 ? TRUE : FALSE);
 		return;
 	}
 
 	/* the remaining case: strings */
 
-	src->val_type = VALUE_STRING;
+	state->val_type = VALUE_STRING;
 	*len = 1;
 	str++;
 
 	/* XXX does not handle " inside of quoted string */
 	s = strchr (str, '"');
 	if (!s) {
-		src->val_s = g_strdup (str);
+		state->val_s = g_strdup (str);
 		*len += strlen (str);
 	} else {
 		*len += (s - str + 1);
-		src->val_s = g_strndup (str, (*len) - 2);
+		state->val_s = g_strndup (str, (*len) - 2);
 	}
 }
 
 
 static gboolean
-sylk_rtd_c_parse (sylk_file_state_t *src, const char *str)
+sylk_rtd_c_parse (SylkReadState *state, const char *str)
 {
 	size_t len;
 
@@ -212,13 +168,13 @@ sylk_rtd_c_parse (sylk_file_state_t *src, const char *str)
 		switch (*str) {
 			case 'K':
 				str++;
-				sylk_parse_value (src, str, &len);
+				sylk_parse_value (state, str, &len);
 				break;
 			case 'X':
-				src->cur_x = strtol (str + 1, NULL, 10);
+				state->cur_x = strtol (str + 1, NULL, 10);
 				break;
 			case 'Y':
-				src->cur_y = strtol (str + 1, NULL, 10);
+				state->cur_y = strtol (str + 1, NULL, 10);
 				break;
 			default:
 				/* do nothing */
@@ -229,33 +185,33 @@ sylk_rtd_c_parse (sylk_file_state_t *src, const char *str)
 		len = sylk_next_token_len (str);
 	}
 
-	if (src->val_type != VALUE_EMPTY) {
-		Cell *cell = sheet_cell_fetch (src->sheet, src->cur_x - 1,
-					       src->cur_y - 1);
+	if (state->val_type != VALUE_EMPTY) {
+		Cell *cell = sheet_cell_fetch (state->sheet, state->cur_x - 1,
+					       state->cur_y - 1);
 		g_assert (cell);
 
-		if (src->val_type == VALUE_STRING)
-			cell_set_text (cell, src->val_s);
+		if (state->val_type == VALUE_STRING)
+			cell_set_text (cell, state->val_s);
 
 		else {
 			Value *v;
 
-			if (src->val_type == VALUE_FLOAT)
-				v = value_new_float (src->val_d);
-			else if (src->val_type == VALUE_BOOLEAN)
-				v = value_new_bool (src->val_l);
+			if (state->val_type == VALUE_FLOAT)
+				v = value_new_float (state->val_d);
+			else if (state->val_type == VALUE_BOOLEAN)
+				v = value_new_bool (state->val_l);
 			else
-				v = value_new_int (src->val_l);
+				v = value_new_int (state->val_l);
 
 			g_assert (v);
 			cell_set_value (cell, v);
 		}
 	}
 
-	src->val_type = VALUE_EMPTY;
-	if (src->val_s) {
-		g_free (src->val_s);
-		src->val_s = NULL;
+	state->val_type = VALUE_EMPTY;
+	if (state->val_s) {
+		g_free (state->val_s);
+		state->val_s = NULL;
 	}
 
 	return TRUE;
@@ -263,7 +219,7 @@ sylk_rtd_c_parse (sylk_file_state_t *src, const char *str)
 
 
 static gboolean
-sylk_rtd_f_parse (sylk_file_state_t *src, const char *str)
+sylk_rtd_f_parse (SylkReadState *state, const char *str)
 {
 	size_t len;
 
@@ -271,40 +227,40 @@ sylk_rtd_f_parse (sylk_file_state_t *src, const char *str)
 	while (str && *str && len > 0) {
 		switch (*str) {
 			case 'E':
-				src->show_formulas = TRUE;
+				state->show_formulas = TRUE;
 				break;
 			case 'G':
-				src->hide_def_gridlines = TRUE;
+				state->hide_def_gridlines = TRUE;
 				break;
 			case 'H':
-				src->hide_rowcol_hdrs = TRUE;
+				state->hide_rowcol_hdrs = TRUE;
 				break;
 			case 'K':
-				src->show_commas = TRUE;
+				state->show_commas = TRUE;
 				break;
 			case 'P':
-				src->def_fmt.picture_idx = atol (str + 1);
+				state->def_fmt.picture_idx = atol (str + 1);
 				break;
 			case 'S':
 				str++;
 				switch (*str) {
 					case 'I':
-						src->def_fmt.italic = TRUE;
+						state->def_fmt.italic = TRUE;
 						break;
 					case 'D':
-						src->def_fmt.bold = TRUE;
+						state->def_fmt.bold = TRUE;
 						break;
 					case 'T':
-						src->def_fmt.grid_top = TRUE;
+						state->def_fmt.grid_top = TRUE;
 						break;
 					case 'L':
-						src->def_fmt.grid_bottom = TRUE;
+						state->def_fmt.grid_bottom = TRUE;
 						break;
 					case 'B':
-						src->def_fmt.grid_left = TRUE;
+						state->def_fmt.grid_left = TRUE;
 						break;
 					case 'R':
-						src->def_fmt.grid_right = TRUE;
+						state->def_fmt.grid_right = TRUE;
 						break;
 					default:
 						g_warning ("unhandled style S%c.", *str);
@@ -313,10 +269,10 @@ sylk_rtd_f_parse (sylk_file_state_t *src, const char *str)
 				str--;
 				break;
 			case 'X':
-				src->cur_x = atoi (str + 1);
+				state->cur_x = atoi (str + 1);
 				break;
 			case 'Y':
-				src->cur_y = atoi (str + 1);
+				state->cur_y = atoi (str + 1);
 				break;
 			default:
 				g_warning ("unhandled F option %c.", *str);
@@ -332,7 +288,7 @@ sylk_rtd_f_parse (sylk_file_state_t *src, const char *str)
 
 
 static gboolean
-sylk_rtd_b_parse (sylk_file_state_t *src, const char *str)
+sylk_rtd_b_parse (SylkReadState *state, const char *str)
 {
 	size_t len;
 
@@ -340,10 +296,10 @@ sylk_rtd_b_parse (sylk_file_state_t *src, const char *str)
 	while (str && *str && len > 0) {
 		switch (*str) {
 			case 'X':
-				src->max_x = atoi (str + 1);
+				state->max_x = atoi (str + 1);
 				break;
 			case 'Y':
-				src->max_y = atoi (str + 1);
+				state->max_y = atoi (str + 1);
 				break;
 			default:
 				/* do nothing */
@@ -359,42 +315,40 @@ sylk_rtd_b_parse (sylk_file_state_t *src, const char *str)
 
 
 static gboolean
-sylk_rtd_e_parse (sylk_file_state_t *src, const char *str)
+sylk_rtd_e_parse (SylkReadState *state, const char *str)
 {
-	src->got_end = TRUE;
+	state->got_end = TRUE;
 	return TRUE;
 }
 
 
 static gboolean
-sylk_rtd_id_parse (sylk_file_state_t *src, const char *str)
+sylk_rtd_id_parse (SylkReadState *state, const char *str)
 {
-	src->got_start = TRUE;
+	state->got_start = TRUE;
 	return TRUE;
 }
 
 
-static const struct {
-	const char *name;
-	gboolean (*handler) (sylk_file_state_t *src, const char *str);
-} sylk_rtd_list[] = {
-	{ "B;",  sylk_rtd_b_parse },
-	{ "C;",  sylk_rtd_c_parse },
-	{ "E;",  sylk_rtd_e_parse },
-	{ "F;",  sylk_rtd_f_parse },
-	{ "ID;", sylk_rtd_id_parse },
-};
-
-
 static gboolean
-sylk_parse_line (sylk_file_state_t *src, char *buf)
+sylk_parse_line (SylkReadState *state, char *buf)
 {
-	int i;
+	static const struct {
+		char const *name;
+		gboolean (*handler) (SylkReadState *state, const char *str);
+	} sylk_rtd_list[] = {
+		{ "B;",  sylk_rtd_b_parse },
+		{ "C;",  sylk_rtd_c_parse },
+		{ "E;",  sylk_rtd_e_parse },
+		{ "F;",  sylk_rtd_f_parse },
+		{ "ID;", sylk_rtd_id_parse },
+	};
+	unsigned i;
 
-	for (i = 0; i < (int) arraysize (sylk_rtd_list); i++)
+	for (i = 0; i < G_N_ELEMENTS (sylk_rtd_list); i++)
 		if (strncmp (sylk_rtd_list [i].name, buf,
 			     strlen (sylk_rtd_list [i].name)) == 0) {
-			sylk_rtd_list [i].handler (src,
+			sylk_rtd_list [i].handler (state,
 				buf + strlen (sylk_rtd_list [i].name));
 			return TRUE;
 		}
@@ -405,94 +359,66 @@ sylk_parse_line (sylk_file_state_t *src, char *buf)
 }
 
 static void
-sylk_parse_sheet (sylk_file_state_t *src, ErrorInfo **ret_error)
+sylk_parse_sheet (SylkReadState *state, ErrorInfo **ret_error)
 {
-	char buf [BUFSIZ];
+	char *buf;
 
 	*ret_error = NULL;
-	if (fgets_mac (buf, sizeof (buf), src->f) == NULL) {
-		*ret_error = error_info_new_from_errno ();
-		return;
-	}
 
-	if (strncmp ("ID;", buf, 3)) {
+	if ((buf = gsf_input_textline_ascii_gets (state->input)) == NULL ||
+	    strncmp ("ID;", buf, 3)) {
 		*ret_error = error_info_new_str (_("Not SYLK file"));
 		return;
 	}
 
-	while (fgets_mac (buf, sizeof (buf), src->f) != NULL) {
+	while ((buf = gsf_input_textline_ascii_gets (state->input)) != NULL) {
 		g_strchomp (buf);
-		if ( buf [0] && !sylk_parse_line (src, buf) ) {
+		if ( buf [0] && !sylk_parse_line (state, buf) ) {
 			*ret_error = error_info_new_str (_("error parsing line\n"));
 			return;
 		}
 	}
-
-	if (ferror (src->f)) {
-		*ret_error = error_info_new_from_errno ();
-		return ;
-	}
 }
 
 void
-sylk_file_open (GnumFileOpener const *fo, IOContext *io_context,
-                WorkbookView *wb_view, const char *filename)
+sylk_file_open (GnumFileOpener const *fo,
+		IOContext	*io_context,
+                WorkbookView	*wb_view,
+		GsfInput	*input)
 {
-	/*
-	 * TODO : When there is a reasonable error reporting
-	 * mechanism use it and put all the error code back
-	 */
-	sylk_file_state_t src;
+	SylkReadState state;
+	char const *input_name;
 	char *name;
-	FILE *f;
 	Workbook *book = wb_view_workbook (wb_view);
 	ErrorInfo *sheet_error;
 
-	f = fopen (filename, "r");
-	if (f == NULL) {
-		gnumeric_io_error_info_set (io_context,
-		                            error_info_new_str_with_details (
-		                            _("Error while opening sylk file."),
-		                            error_info_new_from_errno ()));
-		return;
-	}
+	input_name = gsf_input_name (input);
+	if (input_name == NULL)
+		input_name = "";
+	name = g_strdup_printf (_("Imported %s"), g_basename (input_name));
 
-	name = g_strdup_printf (_("Imported %s"), g_basename (filename));
+	memset (&state, 0, sizeof (state));
+	state.input = gsf_input_textline_new (input);
+	state.sheet = sheet_new (book, name);
+	state.cur_x = state.cur_y = 1;
 
-	memset (&src, 0, sizeof (src));
-	src.f	  = f;
-	src.sheet = sheet_new (book, name);
-	src.cur_x = src.cur_y = 1;
-
-	workbook_sheet_attach (book, src.sheet, NULL);
+	workbook_sheet_attach (book, state.sheet, NULL);
 	g_free (name);
 
-	sylk_parse_sheet (&src, &sheet_error);
-	if (sheet_error != NULL) {
+	sylk_parse_sheet (&state, &sheet_error);
+	if (sheet_error != NULL)
 		gnumeric_io_error_info_set (io_context,
 		                            error_info_new_str_with_details (
 		                            _("Error while reading sheet."),
 		                            sheet_error));
-	}
-
-	fclose(f);
+	g_object_unref (G_OBJECT (state.input));
 }
 
 gboolean
-sylk_file_probe (GnumFileOpener const *fo, const char *filename, FileProbeLevel pl)
+sylk_file_probe (GnumFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 {
-	char buf [32] = "";
-	FILE *f;
-	int error;
-
-	f = fopen (filename, "r");
-	if (f == NULL) {
-		return FALSE;
-	}
-
-	fgets (buf, sizeof (buf), f);
-	error = ferror (f);
-	fclose (f);
-
-	return (!error && strncmp (buf, "ID;", 3) == 0);
+	char const *header = NULL;
+	if (!gsf_input_seek (input, 0, GSF_SEEK_SET))
+		header = gsf_input_read (input, 3, NULL);
+	return (header != NULL && strncmp (header, "ID;", 3) == 0);
 }

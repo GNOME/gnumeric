@@ -865,9 +865,12 @@ stf_parse_is_valid_data (char const *data)
 {
 	char const *s;
 	wchar_t wstr;
+#ifdef HAVE_WCTYPE_H
 	int len;
+#endif
 
 	for (s = data; *s != '\0';) {
+#ifdef HAVE_WCTYPE_H
 		len = mblen(s, MB_CUR_MAX);
 		if (len == -1)
 			return (char *)s;
@@ -876,7 +879,9 @@ stf_parse_is_valid_data (char const *data)
 			    !iswprint (wstr) && !iswspace (wstr))
 				return (char *)s;
 			s += len;
-		} else {
+		} else
+#endif
+		{
 			if (!isprint ((unsigned char)*s) && !isspace ((unsigned char)*s))
 				return (char *)s;
 			s++;

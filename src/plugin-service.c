@@ -19,13 +19,14 @@
 #include "plugin.h"
 
 #include <fnmatch.h>
-#include <string.h>
-#include <glib.h>
+#include <gsf/gsf-input.h>
 #include <libxml/tree.h>
 #include <libxml/globals.h>
 #include <gal/util/e-xml-utils.h>
 #include <gal/util/e-util.h>
 #include <libgnome/gnome-i18n.h>
+
+#include <string.h>
 
 typedef enum {FILE_PATTERN_SHELL, FILE_PATTERN_REGEXP, FILE_PATTERN_LAST} InputFilePatternType;
 
@@ -198,15 +199,14 @@ gnum_plugin_file_opener_init (GnumPluginFileOpener *fo)
 }
 
 static gboolean
-gnum_plugin_file_opener_probe (GnumFileOpener const *fo, const gchar *file_name,
+gnum_plugin_file_opener_probe (GnumFileOpener const *fo, GsfInput *input,
                                FileProbeLevel pl)
 {
 	GnumPluginFileOpener *pfo;
 	PluginServiceFileOpener *service_file_opener;
-	gchar const *base_file_name = g_basename (file_name);
 
 	g_return_val_if_fail (IS_GNUM_PLUGIN_FILE_OPENER (fo), FALSE);
-	g_return_val_if_fail (file_name != NULL, FALSE);
+	g_return_val_if_fail (IS_GSF_INPUT (input), FALSE);
 
 	pfo = GNUM_PLUGIN_FILE_OPENER (fo);
 	service_file_opener = &pfo->service->t.file_opener;
@@ -214,6 +214,11 @@ gnum_plugin_file_opener_probe (GnumFileOpener const *fo, const gchar *file_name,
 	if (pl == FILE_PROBE_FILE_NAME && service_file_opener->file_patterns != NULL) {
 		gboolean match = FALSE;
 		GList *l;
+		gchar const *base_file_name = gsf_input_name (input);
+
+		if (base_file_name == NULL)
+		    return FALSE;
+		base_file_name = g_basename (base_file_name);
 
 		for (l = service_file_opener->file_patterns; l != NULL && !match; l = l->next) {
 			InputFilePattern *pattern = l->data;
@@ -246,7 +251,7 @@ gnum_plugin_file_opener_probe (GnumFileOpener const *fo, const gchar *file_name,
 		plugin_service_load (pfo->service, &ignored_error);
 		if (ignored_error == NULL) {
 			g_return_val_if_fail (service_file_opener->plugin_func_file_probe != NULL, FALSE);
-			return service_file_opener->plugin_func_file_probe (fo, pfo->service, file_name, pl);
+			return service_file_opener->plugin_func_file_probe (fo, pfo->service, input, pl);
 		} else {
 			error_info_print (ignored_error);
 			error_info_free (ignored_error);
@@ -259,7 +264,7 @@ gnum_plugin_file_opener_probe (GnumFileOpener const *fo, const gchar *file_name,
 
 static void
 gnum_plugin_file_opener_open (GnumFileOpener const *fo, IOContext *io_context,
-                              WorkbookView *wbv, const gchar *file_name)
+                              WorkbookView *wbv, GsfInput *input)
 
 {
 	GnumPluginFileOpener *pfo;
@@ -267,21 +272,21 @@ gnum_plugin_file_opener_open (GnumFileOpener const *fo, IOContext *io_context,
 	ErrorInfo *error;
 
 	g_return_if_fail (IS_GNUM_PLUGIN_FILE_OPENER (fo));
-	g_return_if_fail (file_name != NULL);
+	g_return_if_fail (IS_GSF_INPUT (input));
 
 	pfo = GNUM_PLUGIN_FILE_OPENER (fo);
 	service_file_opener = &pfo->service->t.file_opener;
 	plugin_service_load (pfo->service, &error);
 	if (error == NULL) {
 		g_return_if_fail (service_file_opener->plugin_func_file_open != NULL);
-		service_file_opener->plugin_func_file_open (fo, pfo->service, io_context, wbv, file_name);
+		service_file_opener->plugin_func_file_open (fo, pfo->service, io_context, wbv, input);
 		if (!gnumeric_io_error_occurred (io_context)) {
 			if (service_file_opener->save_info != NULL) {
 				InputFileSaveInfo *save_info;
 
 				save_info = service_file_opener->save_info;
 				if (save_info->saver_id_str[0] == '\0') {
-					workbook_set_saveinfo (wb_view_workbook (wbv), file_name,
+					workbook_set_saveinfo (wb_view_workbook (wbv), gsf_input_name (input),
 					                       save_info->format_level, NULL);
 				} else {
 					GHashTable *file_savers_hash;
@@ -291,7 +296,7 @@ gnum_plugin_file_opener_open (GnumFileOpener const *fo, IOContext *io_context,
 					saver = (GnumFileSaver *) g_hash_table_lookup (file_savers_hash,
 					                                           save_info->saver_id_str);
 					if (saver != NULL) {
-						workbook_set_saveinfo (wb_view_workbook (wbv), file_name,
+						workbook_set_saveinfo (wb_view_workbook (wbv), gsf_input_name (input),
 						                       save_info->format_level, saver);
 					}
 				}

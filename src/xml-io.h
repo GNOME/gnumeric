@@ -44,17 +44,8 @@ struct _XmlParseContext {
 GnumFileOpener *gnumeric_xml_get_opener (void);
 GnumFileSaver  *gnumeric_xml_get_saver (void);
 
-void gnumeric_xml_read_workbook (GnumFileOpener const *fo, IOContext *context,
-                                 WorkbookView *wbv, gchar const *filename);
 void gnumeric_xml_write_workbook (GnumFileSaver const *fs, IOContext *context,
                                   WorkbookView *wbv, gchar const *filename);
-#ifdef WITH_BONOBO
-void gnumeric_xml_write_workbook_to_stream (GnumFileSaver const *fs,
-		                            IOContext *context,
-					    WorkbookView *wbv,
-					    BonoboStream *stream,
-					    CORBA_Environment *ev);
-#endif
 
 XmlParseContext *xml_parse_ctx_new      (xmlDocPtr             doc,
 					 xmlNsPtr              ns);

@@ -4,9 +4,7 @@
 #include <gtk/gtktypeutils.h>
 #include "io-context.h"
 #include "gnumeric.h"
-#ifdef WITH_BONOBO
-#include <bonobo/bonobo-stream.h>
-#endif
+#include <gsf/gsf.h>
 
 /*
  * File format levels. They are ordered. When we save a file, we
@@ -63,12 +61,12 @@ typedef struct _GnumFileOpenerClass GnumFileOpenerClass;
 #define IS_GNUM_FILE_OPENER(obj)          (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_GNUM_FILE_OPENER))
 
 typedef gboolean (*GnumFileOpenerProbeFunc) (GnumFileOpener const *fo,
-                                             const gchar *file_name,
+					     GsfInput *input,
                                              FileProbeLevel pl);
 typedef void     (*GnumFileOpenerOpenFunc) (GnumFileOpener const *fo,
                                             IOContext *io_context,
                                             WorkbookView *wbv,
-                                            const gchar *file_name);
+                                            GsfInput *input);
 
 GType gnum_file_opener_get_type (void);
 
@@ -77,10 +75,10 @@ GnumFileOpener *gnum_file_opener_new (const gchar *id,
                                       GnumFileOpenerProbeFunc probe_func,
                                       GnumFileOpenerOpenFunc open_func);
 
-gboolean     gnum_file_opener_probe (GnumFileOpener const *fo, const gchar *file_name,
+gboolean     gnum_file_opener_probe (GnumFileOpener const *fo, GsfInput *input,
                                      FileProbeLevel pl);
 void         gnum_file_opener_open (GnumFileOpener const *fo, IOContext *io_context,
-                                    WorkbookView *wbv, const gchar *file_name);
+                                    WorkbookView *wbv, GsfInput *input);
 const gchar *gnum_file_opener_get_id (GnumFileOpener const *fo);
 const gchar *gnum_file_opener_get_description (GnumFileOpener const *fo);
 
@@ -99,14 +97,6 @@ typedef void (*GnumFileSaverSaveFunc) (GnumFileSaver const *fs,
                                        IOContext *io_context,
                                        WorkbookView *wbv,
                                        const gchar *file_name);
-#ifdef WITH_BONOBO
-typedef void (*GnumFileSaverSaveToStreamFunc) (GnumFileSaver const  *fs,
-					       IOContext *io_context,
-					       WorkbookView *wbv,
-					       BonoboStream *stream,
-					       CORBA_Environment *ev);
-#endif
-
 GType gnum_file_saver_get_type (void);
 
 GnumFileSaver *gnum_file_saver_new (const gchar *id,
@@ -120,13 +110,6 @@ FileSaveScope gnum_file_saver_get_save_scope (GnumFileSaver *fs);
 
 void         gnum_file_saver_save (GnumFileSaver const *fs, IOContext *io_context,
                                    WorkbookView *wbv, const gchar *file_name);
-#ifdef WITH_BONOBO
-void         gnum_file_saver_save_to_stream (GnumFileSaver const *fs,
-                                             IOContext *io_context,
-                                             WorkbookView *wbv,
-                                             BonoboStream *stream,
-                                             CORBA_Environment *ev);
-#endif
 void         gnum_file_saver_set_overwrite_files (GnumFileSaver *fs,
                                                   gboolean overwrite);
 gchar       *gnum_file_saver_fix_file_name (GnumFileSaver const *fs,

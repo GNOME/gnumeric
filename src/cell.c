@@ -419,9 +419,7 @@ cell_set_array_formula (Sheet *sheet,
 	g_return_if_fail (col_a <= col_b);
 	g_return_if_fail (row_a <= row_b);
 
-	wrapper = gnm_expr_new_array (0, 0, num_cols, num_rows);
-	wrapper->array.corner.value = NULL;
-	wrapper->array.corner.expr = expr;
+	wrapper = gnm_expr_new_array (0, 0, num_cols, num_rows, expr);
 	cell_set_expr_internal (corner, wrapper);
 	gnm_expr_unref (wrapper);
 
@@ -433,7 +431,7 @@ cell_set_array_formula (Sheet *sheet,
 				continue;
 
 			cell = sheet_cell_fetch (sheet, col_a + x, row_a + y);
-			wrapper = gnm_expr_new_array (x, y, num_cols, num_rows);
+			wrapper = gnm_expr_new_array (x, y, num_cols, num_rows, NULL);
 			cell_set_expr_internal (cell, wrapper);
 			dependent_link (CELL_TO_DEP (cell), &cell->pos);
 			gnm_expr_unref (wrapper);

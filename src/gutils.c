@@ -943,3 +943,29 @@ gnm_mem_chunk_foreach_leak (gnm_mem_chunk *chunk, GFunc cb, gpointer user)
 	g_slist_foreach (leaks, cb, user);
 	g_slist_free (leaks);
 }
+
+/**
+ * gnm_extension_pointer:
+ * @path: A filename or file path.
+ *
+ * Extracts the extension from the end of a filename (the part after the final
+ * '.' in the filename).
+ *
+ * Returns: A pointer to the extension part of the filename, or a
+ * pointer to the end of the string if the filename does not
+ * have an extension.
+ */
+char const *
+gnm_extension_pointer (char const * path)
+{
+	char *s, *t;
+	
+	g_return_val_if_fail (path != NULL, NULL);
+
+	t = strrchr (path, G_DIR_SEPARATOR);
+	s = strrchr ((t != NULL) ? t : path, '.');
+	if (s != NULL)
+		return s + 1;
+	return path + strlen(path);
+}
+

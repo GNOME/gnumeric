@@ -1,3 +1,16 @@
+2002-06-07  Jody Goldberg <jody@gnome.org>
+
+	* psiconv-read.c (psiconv_file_to_buffer) : BROKEN!
+	  This routine relies on a convenience routine that I do not have to
+	  map from the input source -> an in memory buffer.  why you would wan
+	  tto copy the entire thing in 1 go is beyond me but without that
+	  libarary I can't fix it right now.
+	(psiconv_read_header): convert to libgsf.
+	(psiconv_read) : ditto.
+
+	* boot.c (psiconv_file_open) : convert to gsfinput.
+	(psiconv_file_probe) : ditto.
+
 2002-05-29  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.4

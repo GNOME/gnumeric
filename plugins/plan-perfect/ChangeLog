@@ -1,3 +1,9 @@
+2002-06-05  Jody Goldberg <jody@gnome.org>
+
+	* pln.c (pln_file_probe) : add.
+	(pln_file_open) : use probe and convert to GsfInput.
+	(pln_parse_sheet) : use GsfInput, and clean up a mite.
+
 2002-05-29  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.4

@@ -40,26 +40,26 @@
 #include "ranges.h"
 #include "file.h"
 #include "str.h"
+#include "gutils.h"
 #include "plugin-util.h"
 #include "gnumeric-gconf.h"
+
+#include <gsf/gsf-libxml.h>
+#include <gsf/gsf-input.h>
+#include <gsf/gsf-input-gzip.h>
 
 #include <libxml/parser.h>
 #include <libxml/parserInternals.h>
 #include <libxml/xmlmemory.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <errno.h>
-#include <zlib.h>
-#include <string.h>
 #include <gal/util/e-xml-utils.h>
 #include <gal/widgets/e-colors.h>
 #include <libgnome/gnome-i18n.h>
-#include <libgnome/gnome-util.h>
 #include <libgnomeprint/gnome-print-config.h>
+
 #include <locale.h>
 #include <math.h>
+#include <errno.h>
+#include <string.h>
 #include <limits.h>
 #ifdef WITH_BONOBO
 #include <bonobo/bonobo-exception.h>
@@ -2949,6 +2949,9 @@ xml_check_version (xmlDocPtr doc, GnumericXMLVersion *version)
 	xmlNsPtr gmr;
 	int i;
 
+	if (doc == NULL && doc->xmlRootNode == NULL)
+		return NULL;
+
 	/* Do a bit of checking, get the namespaces, and check the top elem.  */
 	if (doc->xmlRootNode->name == NULL || strcmp (doc->xmlRootNode->name, "Workbook"))
 		return NULL;
@@ -3244,7 +3247,7 @@ xml_workbook_read (IOContext *context, WorkbookView *wb_view,
  * passes, then we return TRUE
  */
 static gboolean
-xml_probe (GnumFileOpener const *fo, const gchar *filename, FileProbeLevel pl)
+xml_probe (GnumFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 {
 	int ret;
 	xmlDocPtr res = NULL;
@@ -3254,7 +3257,7 @@ xml_probe (GnumFileOpener const *fo, const gchar *filename, FileProbeLevel pl)
 	GnumericXMLVersion version;
 
 	if (pl == FILE_PROBE_FILE_NAME) {
-		char const *extension = g_extension_pointer (filename);
+		char const *extension = gnm_extension_pointer (gsf_input_name (input));
 
 		return (extension != NULL &&
 		        (g_strcasecmp (extension, "gnumeric") == 0 ||
@@ -3265,7 +3268,7 @@ xml_probe (GnumFileOpener const *fo, const gchar *filename, FileProbeLevel pl)
 	/*
 	 * Do a silent call to the XML parser.
 	 */
-	ctxt = xmlCreateFileParserCtxt (filename);
+	ctxt = gsf_xml_parser_context (input);
 	if (ctxt == NULL)
 		return FALSE;
 
@@ -3316,78 +3319,58 @@ void
 gnumeric_xml_read_workbook (GnumFileOpener const *fo,
                             IOContext *context,
                             WorkbookView *wbv,
-                            const gchar *filename)
+                            GsfInput *input)
 {
-	gint fd;
-	gzFile *f;
-	struct stat sbuf;
-	gint file_size;
-	ErrorInfo *open_error;
-	gchar buffer[XML_INPUT_BUFFER_SIZE];
-	gint bytes;
 	xmlParserCtxtPtr pctxt;
-	xmlDocPtr res;
+	xmlDocPtr res = NULL;
 	xmlNsPtr gmr;
 	XmlParseContext *ctxt;
 	GnumericXMLVersion    version;
+	GsfInputGZip *gzip = NULL;
+	GsfInput *source = NULL;
+	guint8 const *buf;
+	size_t size, len;
 
-	g_return_if_fail (filename != NULL);
+	g_return_if_fail (input != NULL);
 
-	/*
-	 * Load the file into an XML tree.
-	 */
-	fd = gnumeric_open_error_info (filename, O_RDONLY, &open_error);
-	if (fd < 0) {
-		gnumeric_io_error_info_set (context, open_error);
-		return;
-	}
-	if (fstat (fd, &sbuf) == 0) {
-		file_size = sbuf.st_size;
-	} else {
-		gnumeric_io_error_info_set (context, error_info_new_from_errno ());
-		gnumeric_io_error_push (context, error_info_new_str (
-		                        _("Cannot get file size.")));
-		close (fd);
-		return;
-	}
-	f = gzdopen (fd, "r");
-	if (f == NULL) {
-		close (fd);
-		gnumeric_io_error_info_set (context, error_info_new_str (
-		_("Not enough memory to create zlib decompression state.")));
-		return;
-	}
 	io_progress_message (context, _("Reading file..."));
 	io_progress_range_push (context, 0.0, 0.5);
-	value_io_progress_set (context, file_size, 0);
-	bytes = gzread (f, buffer, 4);
-	pctxt = xmlCreatePushParserCtxt (NULL, NULL, buffer, bytes, filename);
-	while ((bytes = gzread (f, buffer, XML_INPUT_BUFFER_SIZE)) > 0) {
-		xmlParseChunk (pctxt, buffer, bytes, 0);
-		value_io_progress_update (context, lseek (fd, 0, SEEK_CUR));
+
+	gzip = gsf_input_gzip_new (input, NULL);
+	source = (gzip != NULL) ? GSF_INPUT (gzip) : input;
+	value_io_progress_set (context, gsf_input_size (source), 0);
+
+	buf = gsf_input_read (source, 4, NULL);
+	size = gsf_input_remaining (source);
+	if (buf != NULL) {
+		pctxt = xmlCreatePushParserCtxt (NULL, NULL,
+			buf, 4, gsf_input_name (source));
+
+		for (; size > 0 ; size -= len) {
+			len = XML_INPUT_BUFFER_SIZE;
+			if (len > size)
+				len =  size;
+		       buf = gsf_input_read (source, len, NULL);
+		       if (buf == NULL)
+			       break;
+		       xmlParseChunk (pctxt, buf, len, 0);
+		       value_io_progress_update (context, gsf_input_tell (source));
+		}
+		xmlParseChunk (pctxt, buf, 0, 1);
+		res = pctxt->myDoc;
+		xmlFreeParserCtxt (pctxt);
 	}
-	xmlParseChunk (pctxt, buffer, 0, 1);
-	res = pctxt->myDoc;
-	xmlFreeParserCtxt (pctxt);
-	gzclose (f);
+
+	if (gzip != NULL)
+		g_object_unref (G_OBJECT (gzip));
 	io_progress_unset (context);
 	io_progress_range_pop (context);
-
-	if (res == NULL) {
-		gnumeric_io_error_read (context, "");
-		return;
-	}
-	if (res->xmlRootNode == NULL) {
-		xmlFreeDoc (res);
-		gnumeric_io_error_read (context,
-			_("Invalid xml file. Tree is empty ?"));
-		return;
-	}
 
 	/* Do a bit of checking, get the namespaces, and check the top elem. */
 	gmr = xml_check_version (res, &version);
 	if (gmr == NULL) {
-		xmlFreeDoc (res);
+		if (res != NULL)
+			xmlFreeDoc (res);
 		gnumeric_io_error_read (context,
 			_("Is not an Gnumeric Workbook file"));
 		return;
@@ -3397,7 +3380,7 @@ gnumeric_xml_read_workbook (GnumFileOpener const *fo,
 	ctxt = xml_parse_ctx_new (res, gmr);
 	ctxt->version = version;
 	xml_workbook_read (context, wbv, ctxt, res->xmlRootNode);
-	workbook_set_saveinfo (wb_view_workbook (wbv), filename, FILE_FL_AUTO,
+	workbook_set_saveinfo (wb_view_workbook (wbv), gsf_input_name (input), FILE_FL_AUTO,
 	                       gnumeric_xml_get_saver ());
 	xml_parse_ctx_destroy (ctxt);
 	xmlFreeDoc (res);
@@ -3431,7 +3414,7 @@ gnumeric_xml_write_workbook (GnumFileSaver const *fs,
 	xml_parse_ctx_destroy (ctxt);
 
 	/* If the suffix is .xml disable compression */
-	extension = g_extension_pointer (filename);
+	extension = gnm_extension_pointer (filename);
 	compression =
 		(extension != NULL && g_strcasecmp (extension, "xml") == 0)
 		? 0 : -1;

@@ -356,37 +356,37 @@ gnumeric_plugin_loader_module_load_service_general (GnumericPluginLoader *loader
  */
 
 typedef struct {
-	gboolean (*module_func_file_probe) (GnumFileOpener const *fo, const gchar *file_name,
+	gboolean (*module_func_file_probe) (GnumFileOpener const *fo, GsfInput *input,
 	                                    FileProbeLevel pl);
 	void (*module_func_file_open) (GnumFileOpener const *fo, IOContext *io_context,
-	                               WorkbookView *wbv, const gchar *filename);
+	                               WorkbookView *wbv, GsfInput *input);
 } ServiceLoaderDataFileOpener;
 
 static gboolean
 gnumeric_plugin_loader_module_func_file_probe (GnumFileOpener const *fo, PluginService *service,
-                                               const gchar *file_name, FileProbeLevel pl)
+                                               GsfInput *input, FileProbeLevel pl)
 {
 	ServiceLoaderDataFileOpener *loader_data;
 
 	g_return_val_if_fail (service != NULL, FALSE);
-	g_return_val_if_fail (file_name != NULL, FALSE);
+	g_return_val_if_fail (input != NULL, FALSE);
 
 	loader_data = (ServiceLoaderDataFileOpener *) plugin_service_get_loader_data (service);
-	return loader_data->module_func_file_probe (fo, file_name, pl);
+	return loader_data->module_func_file_probe (fo, input, pl);
 }
 
 static void
 gnumeric_plugin_loader_module_func_file_open (GnumFileOpener const *fo, PluginService *service,
                                               IOContext *io_context, WorkbookView *wbv,
-                                              const gchar *file_name)
+                                              GsfInput *input)
 {
 	ServiceLoaderDataFileOpener *loader_data;
 
 	g_return_if_fail (service != NULL);
-	g_return_if_fail (file_name != NULL);
+	g_return_if_fail (input != NULL);
 
 	loader_data = (ServiceLoaderDataFileOpener *) plugin_service_get_loader_data (service);
-	loader_data->module_func_file_open (fo, io_context, wbv, file_name);
+	loader_data->module_func_file_open (fo, io_context, wbv, input);
 }
 
 static void

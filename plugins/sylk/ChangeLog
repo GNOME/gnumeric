@@ -1,3 +1,15 @@
+2002-06-07  Jody Goldberg <jody@gnome.org>
+
+	* sylk.c (sylk_file_probe) : convert to libgsf.
+	(sylk_parse_value) : tidy a bit.
+	(fgets_mac) : delete.
+	(sylk_parse_sheet) : convert to libgsf.
+	(sylk_file_open) : ditto.
+
+2002-05-29  Jody Goldberg <jody@gnome.org>
+
+	* sylk.c : remove gnome.h
+
 2002-05-29  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.4

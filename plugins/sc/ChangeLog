@@ -1,3 +1,13 @@
+2002-06-07  Jody Goldberg <jody@gnome.org>
+
+	* sc.c (sc_file_probe) : new.
+	(sc_file_open) : use probe, and rewrite to support GsfInput.
+	(sc_parse_line) : signature change.
+	(sc_parse_label) : ditto.
+	(sc_parse_let_expr) : ditto.
+	(sc_parse_let) : ditto.
+	(sc_parse_sheet) : ditto.
+
 2002-05-29  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.4

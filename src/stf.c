@@ -39,19 +39,11 @@
 #include "dialog-stf.h"
 #include "dialog-stf-export.h"
 
-#include <stdio.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <sys/mman.h>
-#include <unistd.h>
-#include <stdlib.h>
+#include <gsf/gsf-input.h>
 #include <ctype.h>
 #include <string.h>
-#include <errno.h>
-#include <glib.h>
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
-#include <sys/types.h>
 
 /**
  * stf_open_and_read
@@ -64,57 +56,35 @@
  * returns : a buffer containing the file contents
  **/
 static char *
-stf_open_and_read (const char *filename)
+stf_open_and_read (GsfInput *input)
 {
-	struct stat sbuf;
-	char *data;
-	int fd = open (filename, O_RDONLY);
-
-	if (fd < 0)
-		return NULL;
-
-	if (fstat (fd, &sbuf) < 0) {
-		close (fd);
-		return NULL;
-	}
-
-	/* If we don't know the size, give up.  */
-	if (sbuf.st_size < 0) {
-		close (fd);
-		return NULL;
-	}
-
-	/*
-	 * We use malloc instead of g_malloc because g_malloc aborts
-	 * execution if there is not enough memory
+	/* Malloc rather than g_malloc so that we can catch out of memory
+	 * errors
 	 */
-	data = calloc (1, sbuf.st_size + 1);
-	if (!data)
+	guint8 *result = malloc (gsf_input_size (input) + 1);
+	guint8 const *data;
+
+	if (result == NULL)
 		return NULL;
 
-	/*
-	 * FIXME: read might not read everything in one go.
-	 */
-	if (read (fd, data, sbuf.st_size) != sbuf.st_size) {
-		free (data);
-		close (fd);
+	data = gsf_input_read (input, gsf_input_size (input), result);
+	if (data == NULL) {
+		free (result);
 		return NULL;
 	}
-
-	close (fd);
-	return data;
+	return result;
 }
 
 static char *
-stf_preparse (IOContext *context, char const *filename)
+stf_preparse (IOContext *context, GsfInput *input)
 {
-	char *data = stf_open_and_read (filename);
+	char *data = stf_open_and_read (input);
 	unsigned char const *c;
 
 	if (!data) {
 		if (context)
 			gnumeric_io_error_read (context,
-						_("Error while trying to memory map file"));
+						_("Error while trying to read file"));
 		return NULL;
 	}
 
@@ -151,37 +121,36 @@ stf_preparse (IOContext *context, char const *filename)
  * @fo       : file opener
  * @context  : command context
  * @book     : workbook
- * @filename : file to read from+convert
+ * @input    : file to read from+convert
  *
  * Main routine, handles importing a file including all dialog mumbo-jumbo
  **/
 static void
-stf_read_workbook (GnumFileOpener const *fo, IOContext *context, WorkbookView *wbv, char const *filename)
+stf_read_workbook (GnumFileOpener const *fo, IOContext *context, WorkbookView *wbv, GsfInput *input)
 {
 	DialogStfResult_t *dialogresult = NULL;
-	char *name;
+	char const *name;
 	char *data;
 	Sheet *sheet;
 	Workbook *book;
 
 	book = wb_view_workbook (wbv);
 
-	data = stf_preparse (context, filename);
+	data = stf_preparse (context, input);
 	if (!data)
 		return;
 
 	/*
 	 * Add Sheet
 	 */
-	name = g_strdup_printf (_("Imported %s"), g_basename (filename));
+	name = g_basename (gsf_input_name (input));
 	sheet = sheet_new (book, name);
-	g_free (name);
 
 	workbook_sheet_attach (book, sheet, NULL);
 
 	/* FIXME : how to do this cleanly ? */
 	if (IS_WORKBOOK_CONTROL_GUI (context->impl))
-		dialogresult = stf_dialog (WORKBOOK_CONTROL_GUI (context->impl), filename, data);
+		dialogresult = stf_dialog (WORKBOOK_CONTROL_GUI (context->impl), name, data);
 
 	if (dialogresult != NULL) {
 		GSList *iterator;
@@ -223,7 +192,7 @@ stf_read_workbook (GnumFileOpener const *fo, IOContext *context, WorkbookView *w
 
 		workbook_recalc (book);
 		sheet_calc_spans (sheet, SPANCALC_RENDER);
-		workbook_set_saveinfo (book, filename, FILE_FL_MANUAL, NULL);
+		workbook_set_saveinfo (book, name, FILE_FL_MANUAL, NULL);
 	} else
 		workbook_sheet_detach (book, sheet);
 
@@ -239,33 +208,36 @@ stf_read_workbook (GnumFileOpener const *fo, IOContext *context, WorkbookView *w
 		gnumeric_io_error_unknown (context);
 }
 
+#define STF_PROBE_SIZE 16384
+
 /**
  * stf_read_workbook_auto_csvtab
  * @fo       : file opener
  * @context  : command context
  * @book     : workbook
- * @filename : file to read from+convert
+ * @input    : file to read from+convert
  *
  * Attempt to auto-detect CSV or tab-delimited file
  **/
 static void
 stf_read_workbook_auto_csvtab (GnumFileOpener const *fo, IOContext *context,
-			       WorkbookView *wbv, char const *filename)
+			       WorkbookView *wbv, GsfInput *input)
 {
 	Sheet *sheet;
 	Workbook *book;
-	char *name, *data;
+	char const *name;
+	char *data;
 	StfParseOptions_t *po;
-
 	char *pos;
 	unsigned int comma = 0, tab = 0, lines = 0;
+	int i;
 
 	book = wb_view_workbook (wbv);
-	data = stf_preparse (context, filename);
+	data = stf_preparse (context, input);
 	if (!data)
 		return;
 
-        for( pos = data ; *pos ; ++pos )
+        for (i = STF_PROBE_SIZE, pos = data ; *pos && i-- > 0; ++pos )
 		if (*pos == ',')
 			++comma;
 		else if (*pos == '\t')
@@ -273,9 +245,8 @@ stf_read_workbook_auto_csvtab (GnumFileOpener const *fo, IOContext *context,
 		else if (*pos == '\n')
 			++lines;
 
-	name = g_strdup_printf (_("Imported %s"), g_basename (filename));
+	name = g_basename (gsf_input_name (input));
 	sheet = sheet_new (book, name);
-	g_free (name);
 
 	workbook_sheet_attach (book, sheet, NULL);
 
@@ -309,7 +280,7 @@ stf_read_workbook_auto_csvtab (GnumFileOpener const *fo, IOContext *context,
 
 	workbook_recalc (book);
 	sheet_calc_spans (sheet, SPANCALC_RENDER);
-	workbook_set_saveinfo (book, filename, FILE_FL_MANUAL, NULL);
+	workbook_set_saveinfo (book, name, FILE_FL_MANUAL, NULL);
 
 	/*
 	 * Note the buffer was allocated with malloc, not with g_malloc
@@ -318,34 +289,15 @@ stf_read_workbook_auto_csvtab (GnumFileOpener const *fo, IOContext *context,
 	free (data);
 }
 
-#define STF_PROBE_SIZE 16384
-
 static gboolean
-stf_read_default_probe (GnumFileOpener const *fo, const gchar *file_name, FileProbeLevel pl)
+stf_read_default_probe (GnumFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 {
-	int fd = open (file_name, O_RDONLY);
-	gboolean res;
-	char *data;
-
-	if (fd < 0)
+	guint8 const *data;
+	
+	if (gsf_input_seek (input, 0, GSF_SEEK_SET))
 		return FALSE;
-
-	data = g_new (char, STF_PROBE_SIZE);
-	if (!data) {
-		close (fd);
-		return FALSE;
-	}
-
-	if (read (fd, data, STF_PROBE_SIZE) < 1) {
-		g_free (data);
-		close (fd);
-		return FALSE;
-	}
-
-	res = (stf_parse_is_valid_data (data) == NULL);
-	g_free (data);
-	close (fd);
-	return res;
+	data = gsf_input_read (input, STF_PROBE_SIZE, NULL);
+	return (data != NULL) && (stf_parse_is_valid_data (data) == NULL);
 }
 
 #ifndef PAGE_SIZE

@@ -707,7 +707,7 @@ autofill_cell (FillItem *fi, Cell *cell, int idx, int limit_x, int limit_y)
 				else
 					func = gnm_expr_new_array (
 						array->x, array->y,
-						limit_x, array->rows);
+						limit_x, array->rows, NULL);
 			}
 			if (array->rows > limit_y) {
 				if (func != NULL)
@@ -715,7 +715,7 @@ autofill_cell (FillItem *fi, Cell *cell, int idx, int limit_x, int limit_y)
 				else
 					func = gnm_expr_new_array (
 						array->x, array->y,
-						array->cols, limit_y);
+						array->cols, limit_y, NULL);
 			}
 
 			if (func != NULL &&

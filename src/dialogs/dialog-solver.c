@@ -75,6 +75,7 @@ typedef struct {
 } SolverState;
 
 
+#if 0
 /* Different constraint types */
 static char const * constraint_strs_untranslated[] = {
         N_("<="),
@@ -86,6 +87,7 @@ static char const * constraint_strs_untranslated[] = {
 	N_("Bool"),
 	NULL
 };
+#endif
 
 typedef struct {
 	GtkCList *c_listing;

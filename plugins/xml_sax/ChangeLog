@@ -1,3 +1,9 @@
+2002-06-06  Jody Goldberg <jody@gnome.org>
+
+	* xml-sax-read.c (xml_sax_unknown_attr) : doh!
+	(xml_sax_wb) : ignore the schema.
+	(xml_sax_file_open) : convert to using libgsf.
+
 2002-05-29  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.4

@@ -15,12 +15,12 @@ struct _GnumFileOpenerClass {
 	GObjectClass parent_class;
 
 	gboolean  (*probe) (GnumFileOpener const *fo,
-	                    const gchar *file_name,
+	                    GsfInput *input,
 	                    FileProbeLevel pl);
 	void      (*open)  (GnumFileOpener const *fo,
 	                    IOContext *io_context,
 	                    WorkbookView *wbv,
-	                    const gchar *file_name);
+	                    GsfInput *input);
 };
 
 struct _GnumFileOpener {

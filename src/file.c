@@ -20,18 +20,10 @@
 #include "workbook.h"
 #include "gutils.h"
 
-#include <string.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <errno.h>
-#include <libgnome/libgnome.h>
+#include <gsf/gsf-input.h>
 #include <gal/util/e-util.h>
-#ifdef WITH_BONOBO
-#include <bonobo/bonobo-exception.h>
-#endif
+#include <string.h>
+#include <libgnome/gnome-i18n.h>
 
 static void
 gnum_file_opener_init (GnumFileOpener *fo)
@@ -57,20 +49,20 @@ gnum_file_opener_finalize (GObject *obj)
 }
 
 static gboolean
-gnum_file_opener_probe_real (GnumFileOpener const *fo, gchar const *file_name,
+gnum_file_opener_probe_real (GnumFileOpener const *fo, GsfInput *input,
                              FileProbeLevel pl)
 {
 	if (fo->probe_func != NULL)
-		return fo->probe_func (fo, file_name, pl);
+		return fo->probe_func (fo, input, pl);
 	return FALSE;
 }
 
 static void
 gnum_file_opener_open_real (GnumFileOpener const *fo, IOContext *io_context,
-                            WorkbookView *wbv, gchar const *file_name)
+                            WorkbookView *wbv, GsfInput *input)
 {
 	if (fo->open_func != NULL)
-		fo->open_func (fo, io_context, wbv, file_name);
+		fo->open_func (fo, io_context, wbv, input);
 	else
 		gnumeric_io_error_unknown (io_context);
 }
@@ -159,8 +151,8 @@ gnum_file_opener_get_description (GnumFileOpener const *fo)
 
 /**
  * gnum_file_opener_probe:
- * @fo          : GnumFileOpener object
- * @file_name   : File name
+ * @fo      : GnumFileOpener object
+ * @input   : The input source
  *
  * Checks if a given file is supported by the opener.
  *
@@ -168,12 +160,12 @@ gnum_file_opener_get_description (GnumFileOpener const *fo)
  *               otherwise.
  */
 gboolean
-gnum_file_opener_probe (GnumFileOpener const *fo, gchar const *file_name, FileProbeLevel pl)
+gnum_file_opener_probe (GnumFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 {
 	g_return_val_if_fail (IS_GNUM_FILE_OPENER (fo), FALSE);
-	g_return_val_if_fail (file_name != NULL, FALSE);
+	g_return_val_if_fail (IS_GSF_INPUT (input), FALSE);
 
-	return GNUM_FILE_OPENER_METHOD (fo, probe) (fo, file_name, pl);
+	return GNUM_FILE_OPENER_METHOD (fo, probe) (fo, input, pl);
 }
 
 /**
@@ -191,12 +183,12 @@ gnum_file_opener_probe (GnumFileOpener const *fo, gchar const *file_name, FilePr
  */
 void
 gnum_file_opener_open (GnumFileOpener const *fo, IOContext *io_context,
-                       WorkbookView *wbv, gchar const *file_name)
+                       WorkbookView *wbv, GsfInput *input)
 {
 	g_return_if_fail (IS_GNUM_FILE_OPENER (fo));
-	g_return_if_fail (file_name != NULL);
+	g_return_if_fail (IS_GSF_INPUT (input));
 
-	GNUM_FILE_OPENER_METHOD (fo, open) (fo, io_context, wbv, file_name);
+	GNUM_FILE_OPENER_METHOD (fo, open) (fo, io_context, wbv, input);
 }
 
 /*
@@ -331,9 +323,6 @@ gnum_file_saver_class_init (GnumFileSaverClass *klass)
 	G_OBJECT_CLASS (klass)->finalize = gnum_file_saver_finalize;
 
 	klass->save = gnum_file_saver_save_real;
-#ifdef WITH_BONOBO
-	klass->save_to_stream = gnum_file_saver_save_to_stream_real;
-#endif
 }
 
 E_MAKE_TYPE (gnum_file_saver, "GnumFileSaver", GnumFileSaver,
@@ -484,7 +473,7 @@ gnum_file_saver_save (GnumFileSaver const *fs, IOContext *io_context,
 	g_return_if_fail (IS_GNUM_FILE_SAVER (fs));
 	g_return_if_fail (file_name != NULL);
 
-	if (!fs->overwrite_files && g_file_exists (file_name)) {
+	if (!fs->overwrite_files && g_file_test ((file_name), G_FILE_TEST_EXISTS)) {
 		ErrorInfo *save_error;
 
 		save_error = error_info_new_str_with_details (
@@ -497,31 +486,6 @@ gnum_file_saver_save (GnumFileSaver const *fs, IOContext *io_context,
 
 	GNUM_FILE_SAVER_METHOD (fs, save) (fs, io_context, wbv, file_name);
 }
-
-#ifdef WITH_BONOBO
-/**
- * gnum_file_saver_save_to_stream:
- * @fs		: GnumFileSaver object
- * @io_context	: Context for i/o operation
- * @wbv		: Workbook View
- * @stream	: Bonobo Stream
- * @ev		: CORBA Environment
- *
- * Saves @wbv and workbook it's attached to into the stream. Results are
- * reported through the environment variable, the i/o context is used only
- * for updating the progress bar.
- */
-void
-gnum_file_saver_save_to_stream (GnumFileSaver const *fs, IOContext *io_context,
-                                WorkbookView *wbv, BonoboStream *stream,
-                                CORBA_Environment *ev)
-{
-	bonobo_return_if_fail (IS_GNUM_FILE_SAVER (fs), ev);
-
-	GNUM_FILE_SAVER_METHOD (fs, save_to_stream) (fs, io_context, wbv,
-	                                             stream, ev);
-}
-#endif
 
 /**
  * gnum_file_saver_set_overwrite_files:

@@ -508,7 +508,7 @@ string_range_function (GnmExprList *exprlist, FunctionEvalInfo *ei,
 	Value *error = NULL;
 	GSList *vals;
 	char *res = NULL;
-	int n, err;
+	int err;
 	Value *v;
 
 	vals = collect_strings (exprlist, ei->pos, flags, &error);

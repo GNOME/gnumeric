@@ -1,3 +1,7 @@
+2002-06-07  Jody Goldberg <jody@gnome.org>
+
+	* dialog-solver.c : #if 0 constraint_strs_untranslated.
+
 2002-06-01  Jody Goldberg <jody@gnome.org>
 
 	* dialog-sheet-order.c (cb_add_clicked) : don't translate empty

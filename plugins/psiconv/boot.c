@@ -39,41 +39,21 @@
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
-gboolean psiconv_file_probe (GnumFileOpener const *fo, const gchar *file_name,
+gboolean psiconv_file_probe (GnumFileOpener const *fo, GsfInput *input,
                             FileProbeLevel pl);
 void     psiconv_file_open (GnumFileOpener const *fo, IOContext *io_context,
-                           WorkbookView *wb_view, const char *filename);
+			    WorkbookView *wb_view, GsfInput *input);
 
 
 gboolean
-psiconv_file_probe (GnumFileOpener const *fo, const gchar *file_name, FileProbeLevel pl)
+psiconv_file_probe (GnumFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 {
-	FILE *file;
-	gboolean res;
-
-	file = fopen (file_name, "rb");
-	if (file == NULL)
-		return FALSE;
-	res = psiconv_read_header (file);
-	fclose (file);
-
-	return res;
+	return psiconv_read_header (input);
 }
 
 void
 psiconv_file_open (GnumFileOpener const *fo, IOContext *io_context,
-                  WorkbookView *wb_view, const char *filename)
+                  WorkbookView *wb_view, GsfInput *input)
 {
-	FILE *file;
-	ErrorInfo *error;
-	Workbook *wb;
-
-	file = gnumeric_fopen_error_info (filename, "r", &error);
-	if (file == NULL) {
-		gnumeric_io_error_info_set (io_context, error);
-	} else {
-		wb = wb_view_workbook(wb_view);
-		psiconv_read (io_context, wb, file);
-		fclose (file);
-	}
+	psiconv_read (io_context, wb_view_workbook(wb_view), input);
 }

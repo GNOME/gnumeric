@@ -11,7 +11,6 @@
 #include <errno.h>
 #include <stdio.h>
 #include <ctype.h>
-#include <gnome.h>
 #include "plugin.h"
 #include "plugin-util.h"
 #include "module-plugin-defs.h"
@@ -26,19 +25,18 @@
 #include "style.h"
 #include "sheet.h"
 
+#include <gsf/gsf-input.h>
+#include <gsf/gsf-input-textline.h>
+#include <libgnome/gnome-i18n.h>
+#include <string.h>
+#include <math.h>
+
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
+gboolean sc_file_probe (GnumFileOpener const *fo, GsfInput *input,
+			FileProbeLevel pl);
 void sc_file_open (GnumFileOpener const *fo, IOContext *io_context,
-                   WorkbookView *wb_view, const char *filename);
-
-typedef struct {
-	/* input data */
-	FILE *f;
-
-	/* gnumeric sheet */
-	Sheet *sheet;
-} sc_file_state_t;
-
+                   WorkbookView *wb_view, GsfInput *input);
 
 typedef enum {
 	LABEL,
@@ -128,7 +126,7 @@ sc_parse_coord (const char **strdata, int *col, int *row)
 
 
 static gboolean
-sc_parse_label (sc_file_state_t *src, const char *cmd, const char *str, int col, int row)
+sc_parse_label (Sheet *sheet, const char *cmd, const char *str, int col, int row)
 {
 	Cell *cell;
 	char *s = NULL, *tmpout;
@@ -136,13 +134,13 @@ sc_parse_label (sc_file_state_t *src, const char *cmd, const char *str, int col,
 	gboolean result = FALSE;
 	sc_string_cmd_t cmdtype;
 
-	g_return_val_if_fail (src, FALSE);
+	g_return_val_if_fail (sheet, FALSE);
 	g_return_val_if_fail (cmd, FALSE);
 	g_return_val_if_fail (str, FALSE);
 	g_return_val_if_fail (col >= 0, FALSE);
 	g_return_val_if_fail (row >= 0, FALSE);
 
-	if (!src || !str || *str != '"' || col == -1 || row == -1)
+	if (!str || *str != '"' || col == -1 || row == -1)
 		goto err_out;
 
 	s = tmpout = g_strdup (str);
@@ -162,7 +160,7 @@ sc_parse_label (sc_file_state_t *src, const char *cmd, const char *str, int col,
 	tmpout--;
 	*tmpout = 0;
 
-	cell = sheet_cell_fetch (src->sheet, col, row);
+	cell = sheet_cell_fetch (sheet, col, row);
 	if (!cell)
 		goto err_out;
 
@@ -240,13 +238,13 @@ sc_parse_cell_name_list (Sheet *sheet, const char *cell_name_str,
 
 
 static gboolean
-sc_parse_let_expr (sc_file_state_t *src, const char *cmd, const char *str, int col, int row)
+sc_parse_let_expr (Sheet *sheet, const char *cmd, const char *str, int col, int row)
 {
 	char *error = NULL;
 	GnmExpr *tree;
 	Cell *cell;
 
-	g_return_val_if_fail (src, FALSE);
+	g_return_val_if_fail (sheet, FALSE);
 	g_return_val_if_fail (cmd, FALSE);
 	g_return_val_if_fail (str, FALSE);
 	g_return_val_if_fail (col >= 0, FALSE);
@@ -262,7 +260,7 @@ sc_parse_let_expr (sc_file_state_t *src, const char *cmd, const char *str, int c
 	/* FIXME FIXME FIXME sc/xspread rows start at A0 not A1.  we must
 	 * go through and fixup each row number in each cell reference */
 
-	cell = sheet_cell_fetch (src->sheet, col, row);
+	cell = sheet_cell_fetch (sheet, col, row);
 	if (!cell)
 		return FALSE;
 
@@ -278,12 +276,12 @@ out:
 
 
 static gboolean
-sc_parse_let (sc_file_state_t *src, const char *cmd, const char *str, int col, int row)
+sc_parse_let (Sheet *sheet, const char *cmd, const char *str, int col, int row)
 {
 	Cell *cell;
 	Value *v;
 
-	g_return_val_if_fail (src, FALSE);
+	g_return_val_if_fail (sheet, FALSE);
 	g_return_val_if_fail (cmd, FALSE);
 	g_return_val_if_fail (str, FALSE);
 	g_return_val_if_fail (col >= 0, FALSE);
@@ -295,12 +293,12 @@ sc_parse_let (sc_file_state_t *src, const char *cmd, const char *str, int col, i
 	/* it's an expression not a simple value, handle elsewhere */
 	if (*str == '@')
 #if SC_EXPR_PARSE_WORKS
-		return sc_parse_let_expr (src, cmd, str, col, row);
+		return sc_parse_let_expr (sheet, cmd, str, col, row);
 #else
 		return TRUE;
 #endif
 
-	cell = sheet_cell_fetch (src->sheet, col, row);
+	cell = sheet_cell_fetch (sheet, col, row);
 	if (!cell)
 		return FALSE;
 
@@ -317,7 +315,7 @@ sc_parse_let (sc_file_state_t *src, const char *cmd, const char *str, int col, i
 typedef struct {
 	const char *name;
 	int namelen;
-	gboolean (*handler) (sc_file_state_t *src, const char *name,
+	gboolean (*handler) (Sheet *sheet, const char *name,
 			     const char *str, int col, int row);
 	unsigned have_coord : 1;
 } sc_cmd_t;
@@ -333,13 +331,13 @@ static const sc_cmd_t sc_cmd_list[] = {
 
 
 static gboolean
-sc_parse_line (sc_file_state_t *src, char *buf)
+sc_parse_line (Sheet *sheet, char *buf)
 {
 	const char *space;
 	int i, cmdlen;
 	const sc_cmd_t *cmd;
 
-	g_return_val_if_fail (src, FALSE);
+	g_return_val_if_fail (sheet, FALSE);
 	g_return_val_if_fail (buf, FALSE);
 
 	space = strchr (buf, ' ');
@@ -359,7 +357,7 @@ sc_parse_line (sc_file_state_t *src, char *buf)
 			if (cmd->have_coord)
 				sc_parse_coord (&strdata, &col, &row);
 
-			cmd->handler (src, cmd->name, strdata, col, row);
+			cmd->handler (sheet, cmd->name, strdata, col, row);
 			return TRUE;
 		}
 	}
@@ -372,67 +370,60 @@ sc_parse_line (sc_file_state_t *src, char *buf)
 }
 
 
-static void
-sc_parse_sheet (sc_file_state_t *src, ErrorInfo **ret_error)
+static ErrorInfo *
+sc_parse_sheet (GsfInputTextline *input, Sheet *sheet)
 {
-	char buf [BUFSIZ];
-
-	g_return_if_fail (src);
-	g_return_if_fail (src->f);
-
-	*ret_error = NULL;
-	while (fgets (buf, sizeof (buf), src->f) != NULL) {
-		g_strchomp (buf);
-		if (isalpha ((unsigned char)(buf [0])) && !sc_parse_line (src, buf)) {
-			*ret_error = error_info_new_str (_("Error parsing line"));
-			return;
-		}
+	unsigned char *data;
+	while ((data = gsf_input_textline_ascii_gets (input)) != NULL) {
+		g_strchomp (data);
+		if (isalpha (*data) && !sc_parse_line (sheet, data))
+			return error_info_new_str (_("Error parsing line"));
 	}
 
-	if (ferror (src->f)) {
-		*ret_error = error_info_new_from_errno ();
-		return;
-	}
+	return NULL;
 }
 
 void
 sc_file_open (GnumFileOpener const *fo, IOContext *io_context,
-              WorkbookView *wb_view, const char *filename)
+              WorkbookView *wb_view, GsfInput *input)
 {
-	/*
-	 * TODO : When there is a reasonable error reporting
-	 * mechanism use it and put all the error code back
-	 */
-	sc_file_state_t src;
-	char *name;
-	FILE *f;
-	Workbook *book = wb_view_workbook (wb_view);
+	Workbook  *wb;
+	char      *name;
 	ErrorInfo *error;
+	Sheet	  *sheet;
+	GsfInputTextline *textline;
 
-	g_return_if_fail (book);
-
-	f = gnumeric_fopen_error_info (filename, "r", &error);
-	if (f == NULL) {
-		gnumeric_io_error_info_set (io_context, error);
+	if (!sc_file_probe (NULL, input, FILE_PROBE_CONTENT_FULL)) {
+		gnumeric_io_error_info_set (io_context,
+			error_info_new_str (_("Not an SC File")));
 		return;
 	}
 
-	name = g_strdup_printf (_("Imported %s"), g_basename (filename));
-
-	memset (&src, 0, sizeof (src));
-	src.f     = f;
-	src.sheet = sheet_new (book, name);
-
-	workbook_sheet_attach (book, src.sheet, NULL);
+	wb    = wb_view_workbook (wb_view);
+	name  = workbook_sheet_get_free_name (wb, "SC", FALSE, TRUE);
+	sheet = sheet_new (wb, name);
 	g_free (name);
+	workbook_sheet_attach (wb, sheet, NULL);
 
-	sc_parse_sheet (&src, &error);
+	textline = gsf_input_textline_new (input);
+	error = sc_parse_sheet (textline, sheet);
 	if (error != NULL) {
-		gnumeric_io_error_info_set (io_context,
-		                            error_info_new_str_with_details (
-		                            _("Error reading sheet."),
-		                            error));
+		workbook_sheet_detach (wb, sheet);
+		gnumeric_io_error_info_set (io_context, error);
 	}
+	g_object_unref (G_OBJECT (textline));
+}
 
-	fclose(f);
+static guint8 const signature[] =
+"# This data file was generated by the Spreadsheet Calculator.";
+
+gboolean
+sc_file_probe (GnumFileOpener const *fo, GsfInput *input,
+	       FileProbeLevel pl)
+{
+	char const *header = NULL;
+	if (!gsf_input_seek (input, 0, GSF_SEEK_SET))
+		header = gsf_input_read (input, sizeof (signature)-1, NULL);
+	return header != NULL &&
+	    memcmp (header, signature, sizeof (signature)-1) == 0;
 }
