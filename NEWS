@@ -1,3 +1,24 @@
+Gnumeric 1.2.6
+
+Jody:
+	http://bugzilla.gnome.org/show_bug.cgi?id=127138
+	* Handle freezing when top or left is non 0
+	* Handle double underlines in applix importer
+	http://bugzilla.gnome.org/show_bug.cgi?id=132448
+	* Silly crash fix
+	http://bugzilla.gnome.org/show_bug.cgi?id=131933
+	* Handle mismatched locales with decimal pt == thousands sep
+	http://bugzilla.gnome.org/show_bug.cgi?id=132060
+	* update axis labels when a plot changes a source
+	http://bugzilla.gnome.org/show_bug.cgi?id=125886
+	* Data points define the axis, not the number of labels
+	http://bugzilla.gnome.org/show_bug.cgi?id=132390
+	* Fix crash when updating chart style combos
+
+Nick Lamb:
+	* Support the older xor style of xls encryption too
+
+--------------------------------------------------------------------------
 Gnumeric 1.2.5
 
 Andreas:

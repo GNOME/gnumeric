@@ -2426,25 +2426,33 @@ cb_view_freeze_panes (GtkWidget *widget, WorkbookControlGUI *wbcg)
 
 	scg_mode_edit (SHEET_CONTROL (scg));
 	if (scg->active_panes == 1) {
-		GnmCellPos frozen_tl, unfrozen_tl;
+		gboolean center = FALSE;
 		GnmCanvas const *gcanvas = scg_pane (scg, 0);
+		GnmCellPos frozen_tl, unfrozen_tl;
+
 		frozen_tl = gcanvas->first;
 		unfrozen_tl = sv->edit_pos;
 
+		/* If edit pos is out of visible range */
+		if (unfrozen_tl.col < gcanvas->first.col ||
+		    unfrozen_tl.col > gcanvas->last_visible.col ||
+		    unfrozen_tl.row < gcanvas->first.row ||
+		    unfrozen_tl.row > gcanvas->last_visible.row)
+			center = TRUE;
+
 		if (unfrozen_tl.col == gcanvas->first.col) {
+			/* or edit pos is in top left visible cell */
 			if (unfrozen_tl.row == gcanvas->first.row)
-				unfrozen_tl.col = unfrozen_tl.row = -1;
+				center = TRUE;
 			else
 				unfrozen_tl.col = frozen_tl.col = 0;
 		} else if (unfrozen_tl.row == gcanvas->first.row)
 			unfrozen_tl.row = frozen_tl.row = 0;
 
-		if (unfrozen_tl.col < gcanvas->first.col ||
-		    unfrozen_tl.col > gcanvas->last_visible.col)
+		if (center) {
 			unfrozen_tl.col = (gcanvas->first.col + gcanvas->last_visible.col) / 2;
-		if (unfrozen_tl.row < gcanvas->first.row ||
-		    unfrozen_tl.row > gcanvas->last_visible.row)
 			unfrozen_tl.row = (gcanvas->first.row + gcanvas->last_visible.row) / 2;
+		}
 
 		g_return_if_fail (unfrozen_tl.col > frozen_tl.col ||
 				  unfrozen_tl.row > frozen_tl.row);
@@ -2925,12 +2933,15 @@ cb_auto_filter (GtkWidget *widget, WorkbookControlGUI *wbcg)
 
 #warning Add undo/redo
 	if (filter == NULL) {
+		GnmRange region;
 		GnmRange const *src = selection_first_range (sv,
 			GNM_CMD_CONTEXT (wbcg), _("Add Filter"));
-		GnmRange region = *src;
 
+		if (src == NULL)
+			return;
 		/* only one row selected -- assume that the user wants to
 		 * filter the region below this row. */
+		region = *src;
 		if (src != NULL && src->start.row == src->end.row)
 			sheet_filter_guess_region  (sv->sheet, &region);
 

@@ -1,3 +1,14 @@
+2004-01-29  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=132390
+	* graph/gog-style.c (cb_fg_color_changed) : set_style frees the new
+	  style do not attempt to use it.
+	(cb_bg_color_changed) : ditto.
+	(cb_fill_gradient_start_color) : ditto.
+	(cb_fill_gradient_end_color) : ditto.
+	(cb_marker_outline_color_changed) : ditto.
+	(cb_marker_fill_color_changed) : ditto.
+
 2004-01-18  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.2.5

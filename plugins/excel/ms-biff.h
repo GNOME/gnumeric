@@ -13,6 +13,11 @@
 #include "rc4.h"
 #include "md5.h"
 
+typedef enum { MS_BIFF_CRYPTO_NONE = 0,
+	       MS_BIFF_CRYPTO_XOR,
+	       MS_BIFF_CRYPTO_RC4,
+	       MS_BIFF_CRYPTO_UNKNOWN } MsBiffCrypto ;
+
 typedef enum { MS_BIFF_V2 = 2,
 	       MS_BIFF_V3 = 3,
 	       MS_BIFF_V4 = 4,
@@ -41,7 +46,8 @@ typedef struct {
 	guint32 streamPos;
 	GsfInput *input;
 
-	gboolean is_encrypted;
+	MsBiffCrypto encryption;
+	guint8   xor_key[16];
 	RC4_KEY	 rc4_key;
 	MD5_CTX  md5_ctxt;
 	int	 block;

@@ -4761,6 +4761,32 @@ excel_read_EXTERNSHEET_v7 (BiffQuery const *q, MSContainer *container)
 	g_ptr_array_add (container->v7.externsheet, sheet);
 }
 
+/* FILEPASS, ask the user for a password if necessary
+ * return value is an error string, or NULL for success
+ */
+
+static char *
+excel_read_FILEPASS (BiffQuery *q, ExcelWorkbook *ewb)
+{
+	/* files with workbook protection are encrypted using a
+	 * static password (why ?? ).
+	 */
+	if (ms_biff_query_set_decrypt(q, ewb->container.ver, "VelvetSweatshop"))
+		return NULL;
+
+	do {
+		char const *filename = workbook_get_filename (ewb->gnum_wb);
+		char *passwd = gnm_cmd_context_get_password (GNM_CMD_CONTEXT (ewb->context), filename);
+		if (passwd == NULL) {
+			return _("No password supplied");
+		}
+		if (ms_biff_query_set_decrypt (q, ewb->container.ver, passwd)) {
+			return NULL;
+		}
+		g_free (passwd);
+	} while (TRUE);
+}
+
 static gboolean
 excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 		  WorkbookView *wb_view, ExcelReadSheet *esheet)
@@ -5112,6 +5138,15 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 		case BIFF_FORMAT:	excel_read_FORMAT (q, ewb);	break;
 		case BIFF_STYLE:	break;
 		case BIFF_1904:		excel_read_1904 (q, ewb);	break;
+		case BIFF_FILEPASS:
+			{
+				char *problem = excel_read_FILEPASS (q, ewb);
+				if (problem) {
+					gnm_cmd_context_error_import (GNM_CMD_CONTEXT (ewb->context), problem);
+					return FALSE;
+				}
+			}
+			break;
 
 		default:
 			excel_unexpected_biff (q, "Sheet", ms_excel_read_debug);
@@ -5495,25 +5530,7 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 			break;
 
 		case BIFF_FILEPASS: /* All records after this are encrypted */
-			/* files with workbook protection are encrypted using a
-			 * static password (why ?? ).
-			 */
-			if (ms_biff_query_set_decrypt (q, ewb->container.ver, "VelvetSweatshop"))
-				break;
-			do {
-				char const *filename = workbook_get_filename (ewb->gnum_wb);
-				char *passwd = gnm_cmd_context_get_password (GNM_CMD_CONTEXT (ewb->context), filename);
-				if (passwd == NULL) {
-					problem_loading = _("No password supplied");
-					break;
-				}
-				if (!ms_biff_query_set_decrypt (q, ewb->container.ver, passwd))
-					problem_loading = _("Invalid password");
-				g_free (passwd);
-				if (problem_loading == NULL)
-					break;
-				problem_loading = NULL;
-			} while (TRUE);
+			problem_loading= excel_read_FILEPASS(q, ewb);
 			break;
 
 		case BIFF_STYLE:

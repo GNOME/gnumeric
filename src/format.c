@@ -112,6 +112,12 @@ update_lc (void)
 	if (g_utf8_strlen (lc_thousand, -1) != 1)
 		g_warning ("Monetary thousands separator is not a single character.");
 
+	if (!strcmp (lc_thousand, lc_decimal)) {
+		*lc_thousand = (*lc_decimal == ',') ? '.' : ',';
+		g_warning ("Monetary thousands separator is the same as the decimal seperator ??, converting '%s' to '%s'",
+			   lc_decimal, lc_thousand);
+	}
+
 	/* Use != 0 rather than == 1 so that CHAR_MAX (undefined) is true */
 	lc_precedes = (lc->p_cs_precedes != 0);
 

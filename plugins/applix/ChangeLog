@@ -1,3 +1,7 @@
+2004-01-29  Jody Goldberg <jody@gnome.org>
+
+	* applix-read.c (applix_parse_style) : handle double underline
+
 2004-01-18  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.2.5

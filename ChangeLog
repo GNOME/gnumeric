@@ -1,3 +1,17 @@
+2004-01-29  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=131933
+	* src/format.c (update_lc) : catch mismatched monetary and numeric
+	  locales that set result in the decimal seperator and thousands
+	  seperator being the same.
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=132448
+	* src/wbcg-actions.c (cb_auto_filter) : fix
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=127138 (backport)
+	* src/workbook-control-gui.c (cb_view_freeze_panes) : Don't get confused by an
+	  attempt to freeze without centering when the top or left is not 0.
+
 2004-01-18  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump

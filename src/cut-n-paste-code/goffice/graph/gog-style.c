@@ -347,7 +347,7 @@ cb_fg_color_changed (GtkWidget *cc,
 	style->fill.is_auto = (style->fill.pattern_fore_auto & 
 			       style->fill.pattern_back_auto);
 	set_style (state, style);
-	populate_pattern_combo (state, style);
+	populate_pattern_combo (state, gog_styled_object_get_style (state->obj));
 }
 
 static void
@@ -364,7 +364,7 @@ cb_bg_color_changed (GtkWidget *cc,
 	style->fill.is_auto = (style->fill.pattern_fore_auto & 
 			       style->fill.pattern_back_auto);
 	set_style (state, style);
-	populate_pattern_combo (state, style);
+	populate_pattern_combo (state, gog_styled_object_get_style (state->obj));
 }
 
 static void
@@ -439,7 +439,7 @@ cb_fill_gradient_start_color (GtkWidget *cc,
 	style->fill.is_auto = (style->fill.gradient_start_auto & 
 			       style->fill.gradient_end_auto);
 	set_style (state, style);
-	populate_gradient_combo (state, style);
+	populate_gradient_combo (state, gog_styled_object_get_style (state->obj));
 }
 
 static gboolean
@@ -464,7 +464,7 @@ cb_fill_gradient_end_color (GtkWidget *cc,
 	set_style (state, style);
 
 	if (by_user)
-		populate_gradient_combo (state, style);
+		populate_gradient_combo (state, gog_styled_object_get_style (state->obj));
 	else {
 		if (state->fill.gradient.timer != 0)
 			g_source_remove (state->fill.gradient.timer);
@@ -806,7 +806,7 @@ cb_marker_outline_color_changed (GtkWidget *cc,
 	go_marker_set_outline_color (style->marker.mark, gc);
 	style->marker.auto_outline_color = is_auto;
 	set_style (state, style);
-	populate_marker_combo (state, style);
+	populate_marker_combo (state, gog_styled_object_get_style (state->obj));
 }
 
 static void
@@ -826,7 +826,7 @@ cb_marker_fill_color_changed (GtkWidget *cc,
 	go_marker_set_fill_color (style->marker.mark, gc);
 	style->marker.auto_fill_color = is_auto;
 	set_style (state, style);
-	populate_marker_combo (state, style);
+	populate_marker_combo (state, gog_styled_object_get_style (state->obj));
 }
 
 static void

@@ -49,13 +49,74 @@ ms_biff_query_dump (BiffQuery *q)
 /*                                 Read Side                                   */
 /*******************************************************************************/
 
+/**
+ *  ms_biff_password_hash and ms_biff_crypt_seq
+ * based on pseudo-code in the OpenOffice.org XL documentation
+ **/
+
+static guint16
+ms_biff_password_hash  (char const *password)
+{
+	int tmp, index= 0, len= strlen(password);
+	guint16 chr, hash= 0;
+
+	do {
+		chr = password[index];
+		index++;
+		tmp = (chr << index);
+		hash ^= (tmp & 0x7fff) | (tmp >> 15);
+	} while (index < len);
+	hash = hash ^ len ^ 0xce4b;
+
+	return hash;
+}
+
+static void
+ms_biff_crypt_seq  (guint8 *seq, guint16 key, char const *password)
+{
+	guint8 low = key & 0xff, high = key >> 8;
+	guint8 preset[15] = {0xbb, 0xff, 0xff, 0xba, 0xff, 0xff, 0xb9, 0x80,
+                             0x00, 0xbe, 0x0f, 0x00, 0xbf, 0x0f, 0x00 };
+	int k, len= strlen(password);
+
+	strcpy(seq, password);
+	for (k= 0; len + k < 16; ++k) {
+		seq[len + k]= preset[k];
+	}
+	for (k= 0; k < 16; k+=2) {
+		seq[k] ^= low;
+		seq[k+1] ^= high;
+	}
+	for (k= 0; k < 16; ++k) {
+		seq[k] = (seq[k] << 2) | (seq[k] >> 6);
+	}
+}
+
 static gboolean
 ms_biff_pre_biff8_query_set_decrypt  (BiffQuery *q, char const *password)
 {
-	g_return_val_if_fail (q->length == sizeof_BIFF_2_7_FILEPASS, FALSE);
+	guint16 hash, key;
+	guint16 pw_hash = ms_biff_password_hash(password);
 
-#warning TODO OO has docs should be trivial to add
-	return FALSE;
+
+	if (q->length == 4) {
+		key = GSF_LE_GET_GUINT16(q->data + 0);
+		hash = GSF_LE_GET_GUINT16(q->data + 2);
+	} else if (q->length == 6) {
+		/* BIFF8 record with pre-biff8 crypto, these do exist */
+		key = GSF_LE_GET_GUINT16(q->data + 2);
+		hash = GSF_LE_GET_GUINT16(q->data + 4);
+	} else {
+		return FALSE;
+	}
+
+	if (hash != pw_hash)
+		return FALSE;
+
+	ms_biff_crypt_seq(q->xor_key, key, password);
+
+	q->encryption = MS_BIFF_CRYPTO_XOR;
+	return TRUE;
 }
 
 /* 
@@ -230,7 +291,7 @@ ms_biff_query_set_decrypt (BiffQuery *q, MsBiffVersion version,
 	if (password == NULL)
 		return FALSE;
 
-	if (version < MS_BIFF_V8)
+	if (version < MS_BIFF_V8 || q->data[0] == 0)
 		return ms_biff_pre_biff8_query_set_decrypt (q, password);
 
 	g_return_val_if_fail (q->length == sizeof_BIFF_8_FILEPASS, FALSE);
@@ -239,7 +300,7 @@ ms_biff_query_set_decrypt (BiffQuery *q, MsBiffVersion version,
 			      q->data + 22, q->data + 38, &q->md5_ctxt))
 		return FALSE;
 
-	q->is_encrypted = TRUE;
+	q->encryption = MS_BIFF_CRYPTO_RC4;
 	q->block = -1;
 
 	/* For some reaons the 1st record after FILEPASS seems to be unencrypted */
@@ -266,7 +327,7 @@ ms_biff_query_new (GsfInput *input)
 	q->data_malloced = q->non_decrypted_data_malloced = FALSE;
 	q->data 	 = q->non_decrypted_data = NULL;
 	q->input         = input;
-	q->is_encrypted  = FALSE;
+	q->encryption    = MS_BIFF_CRYPTO_NONE;
 
 #if BIFF_DEBUG > 0
 	ms_biff_query_dump (q);
@@ -335,7 +396,7 @@ ms_biff_query_next (BiffQuery *q)
 	} else
 		q->data = NULL;
 
-	if (q->is_encrypted) {
+	if (q->encryption == MS_BIFF_CRYPTO_RC4) {
 		q->non_decrypted_data_malloced = q->data_malloced;
 		q->non_decrypted_data = q->data;
 
@@ -365,6 +426,21 @@ ms_biff_query_next (BiffQuery *q)
 			}
 
 			rc4 (data, len, &q->rc4_key);
+		}
+	} else if (q->encryption == MS_BIFF_CRYPTO_XOR) {
+		unsigned int offset, k;
+
+		q->non_decrypted_data_malloced = q->data_malloced;
+		q->non_decrypted_data = q->data;
+		q->data_malloced = TRUE;
+		q->data = g_new (guint8, q->length);
+		memcpy (q->data, q->non_decrypted_data, q->length);
+
+		offset = (q->streamPos + q->length + 4) % 16;
+		for (k= 0; k < q->length; ++k) {
+			guint8 tmp = (q->data[k] << 3) | (q->data[k] >> 5);
+			q->data[k] = tmp ^ q->xor_key[offset];
+			offset = (offset + 1) % 16;
 		}
 	} else
 		q->non_decrypted_data = q->data;
