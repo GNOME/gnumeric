@@ -730,9 +730,10 @@ workbook_feedback_set (Workbook *wb, MStyle *style)
 	gboolean         font_set;
 	char             size_str [40];
 
-	g_return_if_fail (style != NULL);
 	g_return_if_fail (wb != NULL);
+	g_return_if_fail (style != NULL);
 	g_return_if_fail (IS_WORKBOOK (wb));
+	g_return_if_fail (wb->priv->format_toolbar);
 
 	/* Handle font boldness */
 	g_return_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_BOLD));

@@ -1,3 +1,22 @@
+2000-05-11  Michael Meeks  <michael@helixcode.com>
+
+	* src/embeddable-grid.c (grid_view_activate): grab widget focus.
+
+	* src/workbook-format-toolbar.c (workbook_feedback_set): make it
+	cope with no format toolbar.
+
+	* src/workbook.c (workbook_init): g_new0 for safety and to blank
+	edit_line.
+
+	* src/embeddable-grid.c (grid_view_new): set a sensible default
+	size so we actually see something. (grid_view_activate): Fix with
+	state boolean. (set_header_visibility): implement.
+	(embeddable_grid_set_header_visibility): update.
+	(grid_view_destroy): kill. (grid_view_new): kill evil private list
+	of views.
+
+	* gnumeric.oafinfo: another fix, evil bug from oaf conversion script.
+
 2000-05-11  Jon K Hellan  <hellan@acm.org>
 
 	* src/workbook.c (workbook_rename_sheet): Don't make "Duplicate

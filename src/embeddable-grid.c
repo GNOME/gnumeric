@@ -41,24 +41,35 @@ Grid_get_sheet (PortableServer_Servant servant, CORBA_Environment *ev)
 	return CORBA_Object_duplicate (eg->sheet->priv->corba_server, ev);
 }
 
+static void
+set_header_visibility (BonoboView *view, void *data)
+{
+	EmbeddableGrid *eg = EMBEDDABLE_GRID (data);
+	GridView       *grid_view = GRID_VIEW (view);
+
+	g_return_if_fail (eg != NULL);
+	g_return_if_fail (grid_view != NULL);
+	g_return_if_fail (grid_view->sheet_view != NULL);
+
+	sheet_view_set_header_visibility (
+		grid_view->sheet_view,
+		eg->show_col_title,
+		eg->show_row_title);
+}
+
 void
 embeddable_grid_set_header_visibility (EmbeddableGrid *eg,
 				       gboolean col_headers_visible,
 				       gboolean row_headers_visible)
 {
-	GList *l;
-
 	g_return_if_fail (eg != NULL);
 	g_return_if_fail (IS_EMBEDDABLE_GRID (eg));
-	
-	for (l = eg->views; l; l = l->next){
-		GridView *grid_view = GRID_VIEW (l->data);
 
-	        sheet_view_set_header_visibility (
-			grid_view->sheet_view,
-			col_headers_visible,
-			row_headers_visible);
-	}
+	eg->show_col_title = col_headers_visible;
+	eg->show_row_title = row_headers_visible;
+
+	bonobo_embeddable_foreach_view (BONOBO_EMBEDDABLE (eg),
+					set_header_visibility, eg);
 }
 				       
 static void
@@ -296,29 +307,18 @@ grid_view_get_type (void)
 }
 
 /*
- * Invoked by the "destroy" method.  We use this to keep the
- * EmbeddableGrid list of views up to date.
- */
-static void
-grid_view_destroy (GridView *grid_view)
-{
-	EmbeddableGrid *eg = grid_view->embeddable;
-
-	eg->views = g_list_remove (eg->views, grid_view);
-}
-
-/*
  * Invoked by the "view_activate" method.
  */
 static void
-grid_view_activate (GridView *grid_view)
+grid_view_activate (GridView *grid_view, gboolean state)
 {
-	/* FIXME: Do we need to do any more work here? */
-	g_warning ("FIXME: plug is now private, can't set_focus");
-/*	gtk_signal_emit_by_name (GTK_OBJECT (grid_view->view.plug), "set_focus",
-	grid_view->sheet_view->sheet_view);*/
-			
-	bonobo_view_activate_notify (BONOBO_VIEW (grid_view), TRUE);
+	if (state) {
+		g_return_if_fail (grid_view != NULL);
+
+		gtk_widget_grab_focus (GTK_WIDGET (grid_view->sheet_view));
+	}
+
+	bonobo_view_activate_notify (BONOBO_VIEW (grid_view), state);
 }
 
 BonoboView *
@@ -330,7 +330,7 @@ grid_view_new (EmbeddableGrid *eg)
 	grid_view = gtk_type_new (GRID_VIEW_TYPE);
 
 	corba_grid_view = bonobo_view_corba_object_create (BONOBO_OBJECT (grid_view));
-	if (corba_grid_view == CORBA_OBJECT_NIL){
+	if (corba_grid_view == CORBA_OBJECT_NIL) {
 		gtk_object_destroy (GTK_OBJECT (corba_grid_view));
 		return NULL;
 	}
@@ -338,16 +338,13 @@ grid_view_new (EmbeddableGrid *eg)
 	grid_view->embeddable = eg;
 	grid_view->sheet_view = sheet_new_sheet_view (eg->sheet);
 	gtk_widget_show (GTK_WIDGET (grid_view->sheet_view));
-	g_warning ("FIXME: view_construct API changed");
+	gtk_widget_set_usize (GTK_WIDGET (grid_view->sheet_view), 320, 200);
+
 	bonobo_view_construct (
 		BONOBO_VIEW (grid_view),
 		corba_grid_view,
 		GTK_WIDGET (grid_view->sheet_view));
 
-	eg->views = g_list_prepend (eg->views, grid_view);
-
-	gtk_signal_connect (GTK_OBJECT (grid_view), "destroy",
-			    GTK_SIGNAL_FUNC (grid_view_destroy), NULL);
 	gtk_signal_connect (GTK_OBJECT (grid_view), "activate",
 			    GTK_SIGNAL_FUNC (grid_view_activate), NULL);
 	

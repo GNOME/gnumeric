@@ -1224,7 +1224,7 @@ sheet_load_cell_val (Sheet const *sheet)
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
-	entry = GTK_ENTRY(workbook_get_entry (sheet->workbook));
+	entry = GTK_ENTRY (workbook_get_entry (sheet->workbook));
 	cell = sheet_cell_get (sheet,
 			       sheet->cursor.edit_pos.col,
 			       sheet->cursor.edit_pos.row);
@@ -1242,7 +1242,8 @@ sheet_load_cell_val (Sheet const *sheet)
 
 	gtk_entry_set_text (entry, text);
 
-	/* If this is part of an array we add '{' '}' and size information
+	/*
+	 * If this is part of an array we add '{' '}' and size information
 	 * to the display.  That is not actually part of the parsable
 	 * expression, but it is a useful extension to the simple '{' '}' that
 	 * MS excel(tm) uses.

@@ -2238,7 +2238,7 @@ workbook_init (GtkObject *object)
 {
 	Workbook *wb = WORKBOOK (object);
 
-	wb->priv = g_new (WorkbookPrivate, 1);
+	wb->priv = g_new0 (WorkbookPrivate, 1);
 
 	wb->sheets       = g_hash_table_new (gnumeric_strcase_hash, gnumeric_strcase_equal);
 	wb->current_sheet= NULL;

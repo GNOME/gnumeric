@@ -26,9 +26,6 @@ struct _EmbeddableGrid {
 	/* The sheet, only one */
 	Sheet    *sheet;
 
-	/* A list of all the views */
-	GList *views;
-
 	gboolean show_col_title;
 	gboolean show_row_title;
 };
