@@ -16,6 +16,9 @@
 
 1999-11-09  Jody Goldberg <jgoldberg@home.com>
 
+	* src/render-ascii.c (cell_region_render_ascii) : Fix typo that was
+	  breaking pasting too the X selection.
+
 	* src/dialogs/dialog-cell-format.c (fmt_dialog_init_format_page,
 	  fmt_dialog_impl, fmt_dialog_init_font_page, fmt_dialog_init_align_page,
 	  setup_color_pickers) :  Use mstyle_is_element_conflict.
