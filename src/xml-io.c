@@ -3282,16 +3282,18 @@ xml_probe (GnumFileOpener const *fo, const gchar *filename, FileProbeLevel pl)
 }
 
 static void
-gnumeric_xml_set_compression (xmlDoc *doc)
+gnumeric_xml_set_compression (xmlDoc *doc, int compression)
 {
-	int compression;
 	gboolean ok = TRUE;
 
-	gnome_config_push_prefix ("Gnumeric/XML_DOM/");
-	compression = gnome_config_get_int_with_default ("compressionLevel=9", &ok);
+	if (compression < 0) {
+		gnome_config_push_prefix ("Gnumeric/XML_DOM/");
+		compression = gnome_config_get_int_with_default ("compressionLevel=9", &ok);
+		gnome_config_pop_prefix ();
+	}
+
 	if (compression >= 0)
 		xmlSetDocCompressMode (doc, compression);
-	gnome_config_pop_prefix ();
 }
 
 /*
@@ -3323,7 +3325,7 @@ gnumeric_xml_write_selection_clipboard (WorkbookControl *wbc, Sheet *sheet,
 	xml->xmlRootNode = xml_write_selection_clipboard (ctxt, sheet);
 	xml_parse_ctx_destroy (ctxt);
 
-	gnumeric_xml_set_compression (xml);
+	gnumeric_xml_set_compression (xml, -1);
 	xmlDocDumpMemory (xml, buffer, size);
 	xmlFreeDoc (xml);
 
@@ -3478,6 +3480,8 @@ gnumeric_xml_write_workbook (GnumFileSaver const *fs,
 {
 	xmlDocPtr xml;
 	XmlParseContext *ctxt;
+	char const *extension;
+	int compression;
 
 	g_return_if_fail (wb_view != NULL);
 	g_return_if_fail (filename != NULL);
@@ -3491,7 +3495,13 @@ gnumeric_xml_write_workbook (GnumFileSaver const *fs,
 	xml->xmlRootNode = xml_workbook_write (ctxt, wb_view);
 	xml_parse_ctx_destroy (ctxt);
 
-	gnumeric_xml_set_compression (xml);
+	/* If the suffix is .xml disable compression */
+	extension = g_extension_pointer (filename);
+	compression =
+		(extension != NULL && g_strcasecmp (extension, "xml") == 0)
+		? 0 : -1;
+
+	gnumeric_xml_set_compression (xml, compression);
 	if (xmlSaveFile (filename, xml) < 0)
 		gnumeric_io_error_save (context, g_strerror (errno));
 

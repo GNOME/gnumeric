@@ -30,7 +30,7 @@ Andreas:
 	* Implement spans in LaTeX exporter
 
 Jody:
-	* Tricky corner cases for style applications.
+	* Tricky corner cases for style applications (Part 2).
 	* Rework sheetname quoting (Good idea Andreas)
 	* Support multiple expressions in the parser and clean up
 	  expression lists.
@@ -46,6 +46,10 @@ Jody:
 	* Improve cursor handling for frozen panes.
 	* Fix sorting with hidden cols/rows before region.
 	* FIXED now uses the format engine.
+	* Simplify cell fmt dialog's idea of merges.
+	* Don't compress file when suffix is .xml.
+	* Actually put the schema file where we say it is.
+	* More work on libxml2 compatibility.
 
 Morten:
 	* Fix EXPRESSION crash.

@@ -1,5 +1,13 @@
 2001-12-11  Jody Goldberg <jody@gnome.org>
 
+	* src/xml-io.c (gnumeric_xml_set_compression) : Make the compression
+	  optional.
+	(gnumeric_xml_write_workbook) : when saving .xml don't compress.
+
+	* src/xml-io-autoft.c :  Use libxml[12] compatibility xmlRootNode
+
+2001-12-11  Jody Goldberg <jody@gnome.org>
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=66666 Part 1
 	* src/colrow.c (colrow_get_states) : init even if we are default
 	  just in case something scans it later.

@@ -198,7 +198,7 @@ gnumeric_xml_write_format_template (WorkbookControl *wbc, FormatTemplate *ft,
 		return -1;
 	}
 	ctxt = xml_parse_ctx_new (xml, NULL);
-	xml->root = xml_write_format_template_members (ctxt, ft);
+	xml->xmlRootNode = xml_write_format_template_members (ctxt, ft);
 	xml_parse_ctx_destroy (ctxt);
 
 	/* Dump it. */
@@ -419,7 +419,7 @@ gnumeric_xml_read_format_template (WorkbookControl *context, FormatTemplate *ft,
 			_("Error while trying to load autoformat template"));
 		return -1;
 	}
-	if (res->root == NULL) {
+	if (res->xmlRootNode == NULL) {
 		xmlFreeDoc (res);
 		gnumeric_error_read (COMMAND_CONTEXT (context),
 			_("Invalid xml file. Tree is empty ?"));
@@ -429,8 +429,8 @@ gnumeric_xml_read_format_template (WorkbookControl *context, FormatTemplate *ft,
 	/*
 	 * Do a bit of checking, get the namespaces, and check the top elem.
 	 */
-	gmr = xmlSearchNsByHref (res, res->root, "http://www.gnome.org/gnumeric/format-template/v1");
-	if (strcmp (res->root->name, "FormatTemplate") || (gmr == NULL)) {
+	gmr = xmlSearchNsByHref (res, res->xmlRootNode, "http://www.gnome.org/gnumeric/format-template/v1");
+	if (strcmp (res->xmlRootNode->name, "FormatTemplate") || (gmr == NULL)) {
 		xmlFreeDoc (res);
 		gnumeric_error_read (COMMAND_CONTEXT (context),
 			_("Is not an autoformat template file"));
@@ -441,7 +441,7 @@ gnumeric_xml_read_format_template (WorkbookControl *context, FormatTemplate *ft,
 	/*
 	 * Read information and all members
 	 */
-	if (!xml_read_format_template_members (ctxt, ft, res->root)) {
+	if (!xml_read_format_template_members (ctxt, ft, res->xmlRootNode)) {
 		gnumeric_error_read (COMMAND_CONTEXT (context),
 			_("Error while trying to build tree from autoformat template file"));
 		return -1;
@@ -469,13 +469,13 @@ gnumeric_xml_read_format_template_category (const char *dir_name)
 
 	file_name = g_concat_dir_and_file (dir_name, CATEGORY_FILE_NAME);
 	doc = xmlParseFile (file_name);
-	if (doc != NULL && doc->root != NULL
-	    && xmlSearchNsByHref (doc, doc->root, "http://www.gnome.org/gnumeric/format-template-category/v1") != NULL
-	    && strcmp (doc->root->name, "FormatTemplateCategory") == 0
-	    && (translated_info_node = e_xml_get_child_by_name_by_lang_list (doc->root, "Information", NULL)) != NULL) {
+	if (doc != NULL && doc->xmlRootNode != NULL
+	    && xmlSearchNsByHref (doc, doc->xmlRootNode, "http://www.gnome.org/gnumeric/format-template-category/v1") != NULL
+	    && strcmp (doc->xmlRootNode->name, "FormatTemplateCategory") == 0
+	    && (translated_info_node = e_xml_get_child_by_name_by_lang_list (doc->xmlRootNode, "Information", NULL)) != NULL) {
 		xmlChar *orig_name, *name, *description, *lang;
 
-		orig_info_node = e_xml_get_child_by_name_no_lang (doc->root, "Information");
+		orig_info_node = e_xml_get_child_by_name_no_lang (doc->xmlRootNode, "Information");
 		if (orig_info_node == NULL) {
 			orig_info_node = translated_info_node;
 		}
