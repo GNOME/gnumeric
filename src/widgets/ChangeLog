@@ -1,3 +1,9 @@
+2003-05-19  Morten Welinder  <terra@gnome.org>
+
+	* gnumeric-cell-renderer-toggle.c
+	(gnumeric_cell_renderer_toggle_render): Avoid deprecated
+	gdk_pixbuf_render_to_drawable_alpha.
+
 2003-05-18  Morten Welinder  <terra@gnome.org>
 
 	* *.c: Eliminate obvious deprecated stuff.
