@@ -13,7 +13,7 @@
 
 2004-10-10  Jody Goldberg <jody@gnome.org>
 
-	* gnumeric.spec.in : Lets stick with fedora core package names as the
+	* gnumeric.spec.in : Let's stick with fedora core package names as the
 	  defacto standard until something better presents itself.  There are
 	  still no guarantees that this works.
 
@@ -21,7 +21,7 @@
 
 	* src/gnumeric-pane.c (cb_sheet_object_widget_canvas_event) :
 	  Simplify.  There's no need to select the object here.  We've
-	  already handle it in the main handler (cb_sheet_object_canvas_event)
+	  already handled it in the main handler (cb_sheet_object_canvas_event)
 
 2004-10-09  Jean Brefort  <jean.brefort@normalesup.org>
 
