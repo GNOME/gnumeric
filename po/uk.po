@@ -66,12 +66,12 @@ msgstr "Нев╕рний CVS-файл, неоч╕куване завершення рядка в рядку %d"
 #: plugins/ff-csv/csv-io.c:98
 #, c-format
 msgid "Invalid CSV file has more than the maximum number of rows %d"
-msgstr ""
+msgstr "Нев╕рний CSV-файл, м╕стить б╕льше максимально╖ к╕лькост╕ рядк╕в: %d"
 
 #: plugins/ff-csv/csv-io.c:105
 #, c-format
 msgid "Invalid CSV file has more than the maximum number of columns %d"
-msgstr ""
+msgstr "Нев╕рний CSV-файл, м╕стить б╕льше максимально╖ к╕лькост╕ стовпчик╕в: %d"
 
 #: plugins/ff-csv/csv-io.c:144 plugins/sylk/sylk.c:440
 #, c-format
@@ -395,7 +395,7 @@ msgstr "Перем╕щення ком╕рок"
 #: src/commands.c:1015
 #, c-format
 msgid "Rename sheet '%s' '%s'"
-msgstr ""
+msgstr "Перейменування таблиц╕ \"%s\" \"%s\""
 
 #. FIXME : the '>' prefix is intended to give the translators
 #. * a change to provide a locale specific date format.
@@ -692,7 +692,7 @@ msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:159
 msgid "Summary Statistics"
-msgstr ""
+msgstr "Зведена статистика"
 
 #: src/dialogs/dialog-analysis-tools.c:161
 msgid "Confidence Level for Mean"
@@ -2321,7 +2321,7 @@ msgid ""
 "conditions specified. \n"
 msgstr ""
 "@FUNCTION=DGET\n"
-"@SYNTAX=DGET(database,field,criteria)\n"
+"@SYNTAX=DGET(база_даних,поле,критер╕й)\n"
 "@DESCRIPTION=Функц╕я DGET поверта╓ одне значення з стовпчика, яке "
 "задов╕льня╓ вказаним умовам. \n"
 
@@ -2333,7 +2333,7 @@ msgid ""
 "conditions specified. \n"
 msgstr ""
 "@FUNCTION=DMAX\n"
-"@SYNTAX=DMAX(database,field,criteria)\n"
+"@SYNTAX=DMAX(база_даних,поле,критер╕й)\n"
 "@DESCRIPTION=Функц╕я DMAX поверта╓ найб╕льше число в стовпчику, яке "
 "задов╕льня╓ вказаним умовам. \n"
 
@@ -2345,7 +2345,7 @@ msgid ""
 "match conditions specified. \n"
 msgstr ""
 "@FUNCTION=DMIN\n"
-"@SYNTAX=DMIN(database,field,criteria)\n"
+"@SYNTAX=DMIN(база_даних,поле,критер╕й)\n"
 "@DESCRIPTION=Функц╕я DMIN поверта╓ найменше число в стовпчику, яке "
 "задов╕льня╓ вказаним умовам. \n"
 
@@ -2356,6 +2356,10 @@ msgid ""
 "@DESCRIPTION=DPRODUCT function returns the product of numbers in a column "
 "that match conditions specified. \n"
 msgstr ""
+"@FUNCTION=DPRODUCT\n"
+"@SYNTAX=DPRODUCT(база_даних,поле,критер╕й)\n"
+"@DESCRIPTION=Функц╕я DPRODUCT поверта╓ добуток чисел в стовпчику, що "
+"задов╕льня╓ вказан╕й умов╕. \n"
 
 #: src/functions/fn-database.c:841
 msgid ""
@@ -2383,7 +2387,7 @@ msgid ""
 "conditions specified. \n"
 msgstr ""
 "@FUNCTION=DSUM\n"
-"@SYNTAX=DSUM(database,field,criteria)\n"
+"@SYNTAX=DSUM(база_даних,поле,критер╕й)\n"
 "@DESCRIPTION=Функц╕я DSUM поверта╓ суму чисел в стовпчику, що задов╕льня╓ "
 "вказан╕й умов╕. \n"
 
@@ -2432,6 +2436,15 @@ msgid ""
 "\n"
 "@SEEALSO=TODAY, NOW"
 msgstr ""
+"@FUNCTION=DATE\n"
+"@SYNTAX=DATE (р╕к,м╕сяць,день)\n"
+"@DESCRIPTION=Вирахову╓ к╕льк╕сть дн╕в, що пройшли з 1 с╕чня 1990 року "
+"(порядковий нопер дати) до вказаного року, м╕сяця ╕ дня.\n"
+"@день може бути в╕д'╓мним (в╕драхованим назад) тод╕ в╕н стосу╓ться "
+"попереднього м╕сяця.  @р╕к ма╓ бути не менше 1900.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=TODAY, NOW"
 
 #: src/functions/fn-date.c:110
 msgid "Invalid month or year"
@@ -2452,6 +2465,14 @@ msgid ""
 "\n"
 "@SEEALSO=DATE"
 msgstr ""
+"@FUNCTION=DATEVALUE\n"
+"@SYNTAX=DATEVALUE(date_str)\n"
+"@DESCRIPTION=DATEVALUE поверта╓ порядковий номер дати.  @date_str - "
+"рядок, що м╕стить дату.  Для прикладу, DATEVALUE(\"1/1/1999\") "
+"р╕вне 36160. \n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=DATE"
 
 #: src/functions/fn-date.c:154
 msgid ""
@@ -2511,6 +2532,12 @@ msgid ""
 "\n"
 "@SEEALSO=HOUR"
 msgstr ""
+"@FUNCTION=TIME\n"
+"@SYNTAX=TIME (години,хвилини,секунди)\n"
+"@DESCRIPTION=Поверта╓ др╕б, що м╕стить час дня.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=HOUR"
 
 #: src/functions/fn-date.c:298
 msgid ""
@@ -2522,6 +2549,13 @@ msgid ""
 "\n"
 "@SEEALSO=HOUR"
 msgstr ""
+"@FUNCTION=TIMEVALUE\n"
+"@SYNTAX=TIMEVALUE (timetext)\n"
+"@DESCRIPTION=Поверта╓ др╕б, що представля╓ час дня, як число "
+"м╕ж 0 та 1.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=HOUR"
 
 #: src/functions/fn-date.c:319
 msgid ""
@@ -4249,6 +4283,13 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=ISERR\n"
+"@SYNTAX=ISERR()\n"
+"@DESCRIPTION=ISERR поверта╓ ╤СТИНА якщо значення ╓ помилкою будь-якого типу "
+"кр╕м #N/A. Ця функц╕я сум╕сна з Excel. \n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
 
 #: src/functions/fn-information.c:450
 msgid ""
@@ -4435,8 +4476,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=ISREF\n"
 "@SYNTAX=ISREF()\n"
-"@DESCRIPTION=ISREF returns TRUE if the value is a reference. This function "
-"is Excel compatible. \n"
+"@DESCRIPTION=ISREF поверта╓ ╤СТИНА якщо значення ╓ посиланням. Ця функц╕я "
+"сум╕сна з Excel. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -4481,6 +4522,13 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=TYPE\n"
+"@SYNTAX=TYPE()\n"
+"@DESCRIPTION=TYPE поверта╓ число, що вказу╓ на тип даних значення. Ця "
+"функц╕я сум╕сна з Excel. \n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
 
 #: src/functions/fn-information.c:846
 msgid "Information"
@@ -7116,6 +7164,13 @@ msgid ""
 "\n"
 "@SEEALSO=CHAR"
 msgstr ""
+"@FUNCTION=CODE\n"
+"@SYNTAX=CODE(символ)\n"
+"@DESCRIPTION=CODE поверта╓ ASCII-код символа @символ.\n"
+"@EXAMPLES=\n"
+"CODE(\"A\") р╕вне 65.\n"
+"\n"
+"@SEEALSO=CHAR"
 
 #: src/functions/fn-string.c:75
 msgid ""
@@ -7429,35 +7484,35 @@ msgstr ""
 
 #: src/format.c:428
 msgid "black"
-msgstr ""
+msgstr "чорний"
 
 #: src/format.c:429
 msgid "blue"
-msgstr ""
+msgstr "син╕й"
 
 #: src/format.c:430
 msgid "cyan"
-msgstr ""
+msgstr "блакитний"
 
 #: src/format.c:431
 msgid "green"
-msgstr ""
+msgstr "зелений"
 
 #: src/format.c:432
 msgid "magenta"
-msgstr ""
+msgstr "бузковий"
 
 #: src/format.c:433
 msgid "red"
-msgstr ""
+msgstr "червоний"
 
 #: src/format.c:434
 msgid "white"
-msgstr ""
+msgstr "б╕лий"
 
 #: src/format.c:435
 msgid "yellow"
-msgstr ""
+msgstr "жовтий"
 
 #: src/format.c:1375
 msgid "0.0########"
@@ -7473,16 +7528,16 @@ msgstr "ХИБН╤СТЬ"
 
 #: src/format.c:1398
 msgid "CELLRANGE"
-msgstr ""
+msgstr "Д╤АПАЗОНКОМ╤РОК"
 
 #. Array of arrays ??
 #: src/format.c:1402
 msgid "ARRAY"
-msgstr ""
+msgstr "МАСИВ"
 
 #: src/formats.c:18 src/number-match.c:447
 msgid "General"
-msgstr ""
+msgstr "Загальний"
 
 #: src/formats.c:24
 msgid "0"
@@ -7755,7 +7810,7 @@ msgstr "Неможливо створити файл %s\n"
 
 #: src/gnumeric-util.c:20
 msgid "You cannot change part of an array."
-msgstr ""
+msgstr "Ви не можете зм╕нити частину масиву."
 
 #: src/item-bar.c:441
 #, c-format
@@ -7773,6 +7828,9 @@ msgid ""
 "existing cells in that range.  Do you want me to replace\n"
 "the contents in this region?"
 msgstr ""
+"Перенесен╕ ком╕рки перепишуть вм╕ст ╕снуючих у\n"
+"цьому м╕сц╕ ком╕рок. Ви хочете зам╕нити вм╕ст\n"
+"в ц╕й д╕лянц╕?"
 
 #: src/item-cursor.c:668 src/workbook.c:1234
 msgid "Copy"
@@ -7820,7 +7878,7 @@ msgstr "Вставити"
 
 #: src/item-grid.c:627
 msgid "Paste _Special"
-msgstr ""
+msgstr "Спец╕альна вставка"
 
 #: src/item-grid.c:632
 msgid "_Insert..."
@@ -7858,7 +7916,7 @@ msgstr "Висота рядка..."
 
 #: src/main.c:52
 msgid "Dumps the function definitions"
-msgstr ""
+msgstr "Видати визначення функц╕й"
 
 #: src/main.c:52
 msgid "FILE"
@@ -7866,7 +7924,7 @@ msgstr "ФАЙЛ"
 
 #: src/main.c:55
 msgid "Enables some debugging functions"
-msgstr ""
+msgstr "Дозволити деяк╕ налагоджувальн╕ функц╕╖"
 
 #: src/main.c:55 src/main.c:58 src/main.c:60 src/main.c:68 src/main.c:72
 #: src/main.c:76 src/main.c:80 src/main.c:84
@@ -7875,31 +7933,35 @@ msgstr "Р╤ВЕНЬ"
 
 #: src/main.c:58
 msgid "Enables some style related debugging functions"
-msgstr ""
+msgstr "Дозволити деяк╕ налагоджувальн╕ функц╕╖ стосовно стил╕в"
 
 #: src/main.c:60
 msgid "Enables some dependency related debugging functions"
-msgstr ""
+msgstr "Дозволити деяк╕ налагоджувальн╕ функц╕╖ стосовно залежностей"
 
 #: src/main.c:63
 msgid "Exit immediately after loading the selected books (useful for testing)."
 msgstr ""
+"Завершити негайно п╕сля завантаження вибрано╖ книги (корисно для тестування)."
 
 #: src/main.c:67 src/main.c:83
 msgid "Enables debugging mesgs while reading excel workbooks"
 msgstr ""
+"Дозволити налагоджувальн╕ пов╕домлення при зчитуванн╕ робочо╖ книги Excel"
 
 #: src/main.c:71
 msgid "Enables debugging mesgs while reading excel functions"
-msgstr ""
+msgstr "Дозволити налагоджувальн╕ пов╕домлення при зчитуванн╕ функц╕й Excel"
 
 #: src/main.c:75
 msgid "Enables debugging mesgs while reading excel colours & patterns"
 msgstr ""
+"Дозволити налагоджувальн╕ пов╕домлення при зчитуванн╕ кольор╕в та шаблон╕в "
+"Excel"
 
 #: src/main.c:79
 msgid "Enables debugging mesgs while reading excel charts"
-msgstr ""
+msgstr "Дозволити налагоджувальн╕ пов╕домлення при зчитуванн╕ д╕аграм Excel"
 
 #: src/main.c:87
 msgid "Enables extra consistancy checking while reading ole files"
@@ -8076,19 +8138,19 @@ msgstr ""
 
 #: src/print-preview.c:526
 msgid "First"
-msgstr ""
+msgstr "Перший"
 
 #: src/print-preview.c:529
 msgid "Back"
-msgstr ""
+msgstr "Попередн╕й"
 
 #: src/print-preview.c:532
 msgid "Next"
-msgstr ""
+msgstr "Наступний"
 
 #: src/print-preview.c:535
 msgid "Last"
-msgstr ""
+msgstr "Останн╕й"
 
 #: src/print-preview.c:539 src/workbook.c:2220
 msgid "Zoom in"
