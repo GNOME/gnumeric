@@ -100,10 +100,10 @@ typedef Value * (*ForeachCellCB)(Sheet *sheet, int col, int row,
 
 typedef enum _SpanCalcFlags {
 	SPANCALC_SIMPLE 	= 0x0,	/* Just calc spans */
-	SPANCALC_RESIZE		= 0x1,	/* Calculate the size of the rendered result */
-	SPANCALC_RENDER		= 0x2,	/* render and size any unrendered cells */
-	SPANCALC_RE_RENDER	= 0x4,	/* render of all cells */
-	SPANCALC_NO_DRAW	= 0x8,	/* Do not */
+	SPANCALC_RESIZE		= 0x1,	/* Calculate sizes of all cells */
+	SPANCALC_RE_RENDER	= 0x2,	/* Render and Size all cells */
+	SPANCALC_RENDER		= 0x4,	/* Render and Size any unrendered cells */
+	SPANCALC_NO_DRAW	= 0x8,	/* Do not queue a redraw */
 } SpanCalcFlags;
 
 #endif /* GNUMERIC_H */

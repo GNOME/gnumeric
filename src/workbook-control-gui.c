@@ -94,6 +94,54 @@ wb_control_gui_focus_cur_sheet (WorkbookControlGUI *wbcg)
 	return sheet_view->sheet;
 }
 
+/****************************************************************************/
+/* Autosave */
+static gboolean
+cb_autosave (gpointer *data)
+{
+	WorkbookView *wb_view;
+        WorkbookControlGUI *wbcg = (WorkbookControlGUI *)data;
+
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbcg), FALSE);
+
+	wb_view = wb_control_view (WORKBOOK_CONTROL (wbcg));
+
+	if (wb_view == NULL)
+		return FALSE;
+
+	if (wbcg->autosave && workbook_is_dirty (wb_view_workbook (wb_view))) {
+	        if (wbcg->autosave_prompt && !dialog_autosave_prompt (wbcg))
+			return TRUE;
+		workbook_save (wbcg, wb_view);
+	}
+	return TRUE;
+}
+
+void
+wb_control_gui_autosave_cancel (WorkbookControlGUI *wbcg)
+{
+	if (wbcg->autosave_timer != 0) {
+		gtk_timeout_remove (wbcg->autosave_timer);
+		wbcg->autosave_timer = 0;
+	}
+}
+
+void
+wb_control_gui_autosave_set (WorkbookControlGUI *wbcg,
+			     int minutes, gboolean prompt)
+{
+	wb_control_gui_autosave_cancel (wbcg);
+
+	wbcg->autosave = (minutes != 0);
+	wbcg->autosave_minutes = minutes;
+	wbcg->autosave_prompt = prompt;
+
+	if (wbcg->autosave)
+		wbcg->autosave_timer = gtk_timeout_add (minutes * 60000,
+			(GtkFunction) cb_autosave, wbcg);
+}
+/****************************************************************************/
+
 static WorkbookControl *
 wbcg_control_new (WorkbookControl *wbc, WorkbookView *wbv, Workbook *wb)
 {
@@ -1322,11 +1370,8 @@ cb_cell_rerender (gpointer element, gpointer userdata)
 {
 	Dependent *dep = element;
 	int const t = (dep->flags & DEPENDENT_TYPE_MASK);
-	if (t == DEPENDENT_CELL) {
-		Cell *cell = DEP_TO_CELL (dep);
-		cell_render_value (cell);
-		rendered_value_calc_size (cell);
-	}
+	if (t == DEPENDENT_CELL)
+		sheet_cell_calc_span (DEP_TO_CELL (dep), SPANCALC_RE_RENDER);
 }
 
 static void
@@ -2972,6 +3017,11 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 	sx = (sx * 3) / 4;
 	sy = (sy * 3) / 4;
 	wbcg_size_pixels_set (WORKBOOK_CONTROL (wbcg), sx, sy);
+
+	/* Init autosave */
+	wbcg->autosave_timer = 0;
+	wbcg->autosave_minutes = 0;
+	wbcg->autosave_prompt = FALSE;
 
 	gtk_widget_show_all (GTK_WIDGET (wbcg->toplevel));
 }

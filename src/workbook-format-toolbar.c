@@ -314,7 +314,7 @@ cb_modify_cell_region (Sheet *sheet, Range const *r, void *closure)
 		sheet, TRUE,
 		r->start.col, r->start.row, r->end.col, r->end.row,
 		modify_cell_format, closure);
-	sheet_range_calc_spans (sheet, *r, SPANCALC_RE_RENDER|SPANCALC_RESIZE);
+	sheet_range_calc_spans (sheet, *r, SPANCALC_RE_RENDER);
 }
 
 /*
@@ -492,19 +492,19 @@ workbook_format_toolbar_orient (GtkToolbar *toolbar,
 				GtkOrientation dir,
 				gpointer closure)
 {
-	WorkbookControlGUI *wbcgg = closure;
+	WorkbookControlGUI *wbcg = closure;
 	GtkWidget *font_button;
 	
 	font_button = gnumeric_toolbar_get_widget (GNUMERIC_TOOLBAR (toolbar),
 						   TOOLBAR_FONT_BUTTON_INDEX);
 		
 	if (dir == GTK_ORIENTATION_HORIZONTAL) {
-		gtk_widget_show (wbcgg->font_name_selector);
-		gtk_widget_show (wbcgg->font_size_selector);
+		gtk_widget_show (wbcg->font_name_selector);
+		gtk_widget_show (wbcg->font_size_selector);
 		gtk_widget_hide (font_button);
 	} else {
-		gtk_widget_hide (wbcgg->font_name_selector);
-		gtk_widget_hide (wbcgg->font_size_selector);
+		gtk_widget_hide (wbcg->font_name_selector);
+		gtk_widget_hide (wbcg->font_size_selector);
 		gtk_widget_show (font_button);
 	}
 }
@@ -792,15 +792,23 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 
 #ifdef ENABLE_BONOBO
 static void
-workbook_format_toolbutton_update (WorkbookControlGUI *wbcgg,
+workbook_format_toolbutton_update (WorkbookControlGUI *wbcg,
 				   char const * const path, gboolean state)
 {
-	g_return_if_fail (!wbcgg->updating_ui);
+	gchar const *new_val = state ? "1" : "0";
 
-	wbcgg->updating_ui = TRUE;
-	bonobo_ui_component_set_prop (wbcgg->uic,
-				      path, "state", state ? "1" : "0", NULL);
-	wbcgg->updating_ui = FALSE;
+	/* Ick,  This should be in bonobo */
+	gchar const *old_val = bonobo_ui_component_get_prop (wbcg->uic, path,
+							     "state", NULL);
+	if (old_val != NULL && !strcmp (new_val, old_val))
+		return;
+
+	g_return_if_fail (!wbcg->updating_ui);
+
+	wbcg->updating_ui = TRUE;
+	bonobo_ui_component_set_prop (wbcg->uic, path, "state", new_val,
+				      NULL);
+	wbcg->updating_ui = FALSE;
 }
 
 static void

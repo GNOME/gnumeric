@@ -16,7 +16,11 @@ void		 workbook_control_gui_init      (WorkbookControlGUI *wbcg,
 						 WorkbookView *optional_view,
 						 Workbook *optional_wb);
 
-GtkWindow *wb_control_gui_toplevel (WorkbookControlGUI *wbcg);
+GtkWindow *wb_control_gui_toplevel        (WorkbookControlGUI *wbcg);
 Sheet *    wb_control_gui_focus_cur_sheet (WorkbookControlGUI *wbcg);
+
+void       wb_control_gui_autosave_cancel (WorkbookControlGUI *wbcg);
+void       wb_control_gui_autosave_set    (WorkbookControlGUI *wbcg,
+					   int minutes, gboolean prompt);
 
 #endif /* GNUMERIC_WORKBOOK_CONTROL_GUI_H */

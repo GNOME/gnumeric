@@ -12,7 +12,7 @@
 #include <glade/glade.h>
 #include "gnumeric.h"
 #include "workbook.h"
-#include "workbook-control.h"
+#include "workbook-control-gui-priv.h"
 #include "gnumeric-util.h"
 #include "dialogs.h"
 
@@ -76,11 +76,8 @@ dialog_autosave (WorkbookControlGUI *wbcg)
 	gint       v;
 	gboolean   autosave_flag, prompt_flag;
 	autosave_t p;
-	Workbook  *wb;
 
-	wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-	if (wb->autosave_timer != 0)
-		gtk_timeout_remove (wb->autosave_timer);
+	wb_control_gui_autosave_cancel (wbcg);
 
 	gui = gnumeric_glade_xml_new (wbcg, "autosave.glade");
         if (gui == NULL)
@@ -96,7 +93,7 @@ dialog_autosave (WorkbookControlGUI *wbcg)
 		return;
 	}
 
-	sprintf(buf, "%d", wb->autosave_minutes);
+	sprintf(buf, "%d", wbcg->autosave_minutes);
 	gtk_entry_set_text (GTK_ENTRY (p.minutes_entry), buf);
 
 	gnome_dialog_editable_enters (GNOME_DIALOG (dia),
@@ -108,17 +105,17 @@ dialog_autosave (WorkbookControlGUI *wbcg)
 	gtk_object_set_user_data (GTK_OBJECT (autosave_on_off), &p);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (autosave_on_off),
-				      wb->autosave);
+				      wbcg->autosave);
 
-	if (!wb->autosave) {
+	if (!wbcg->autosave) {
 		gtk_widget_set_sensitive (p.minutes_entry, FALSE);
 		gtk_widget_set_sensitive (p.prompt_cb, FALSE);
 	}
 
-	if (wb->autosave_prompt)
+	if (wbcg->autosave_prompt)
 	        gtk_toggle_button_set_active ((GtkToggleButton *)
 					      p.prompt_cb,
-					      wb->autosave_prompt);
+					      wbcg->autosave_prompt);
 	gtk_signal_connect (GTK_OBJECT (p.prompt_cb), "toggled",
 			    GTK_SIGNAL_FUNC (prompt_on_off_toggled),
 			    &prompt_flag);
@@ -140,9 +137,9 @@ loop:
 			goto loop;
 		}
 		if (autosave_flag)
-		        workbook_autosave_set (wb, tmp, prompt_flag);
+		        wb_control_gui_autosave_set (wbcg, tmp, prompt_flag);
 		else
-		        workbook_autosave_cancel (wb);
+		        wb_control_gui_autosave_cancel (wbcg);
 	} else if (v == 2) {
 		GnomeHelpMenuEntry help_ref = { "gnumeric", "autosave.html" };
 		gnome_help_display (NULL, &help_ref);

@@ -200,7 +200,7 @@ cb_grid_get_cell (int row, int col, gpointer data)
 	else
 		cell->value = controller->get_cell_content_cb (row, col, controller->cb_data);
 	
-	res = rendered_value_new_ext (cell, mstyle);
+	res = rendered_value_new (cell, mstyle, TRUE);
 
 	cell->rendered_value = res;
 

@@ -12,6 +12,8 @@
 #include "gnumeric-util.h"
 #include "render-ascii.h"
 #include "rendered-value.h"
+#include "sheet.h"
+#include "mstyle.h"
 
 /*
  * Renders a CellRegion (we only deal with Cell Regions of type
@@ -43,9 +45,14 @@ cell_region_render_ascii (CellRegion *cr)
 		char *v;
 		
 		if (c_copy->type != CELL_COPY_TYPE_TEXT) {
-			RenderedValue *rv = rendered_value_new (c_copy->u.cell, styles);
+			MStyle *mstyle = sheet_style_compute_from_list (styles,
+				c_copy->u.cell->pos.col,
+				c_copy->u.cell->pos.row);
+			RenderedValue *rv = rendered_value_new (c_copy->u.cell,
+				mstyle, FALSE);
 			v = rendered_value_get_text (rv);
 			rendered_value_destroy (rv);
+			mstyle_unref (mstyle);
 		} else
 			v = g_strdup (c_copy->u.text);
 		

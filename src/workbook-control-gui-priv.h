@@ -11,7 +11,9 @@
 struct _WorkbookControlGUI {
 	WorkbookControl	wb_control;
 
-	/* FIXME : This is a mess, reorder to be more logical */
+	GtkWindow *toplevel;
+	GtkNotebook *notebook;
+
 #ifdef ENABLE_BONOBO
 	BonoboUIComponent *uic;
 	GtkWidget *progress_bar;
@@ -29,9 +31,6 @@ struct _WorkbookControlGUI {
 	GtkWidget *format_toolbar;
 	GtkWidget *object_toolbar;
 #endif
-
-	GtkWindow *toplevel;
-	GtkNotebook *notebook;
 
 	/* Combos */
 	GtkWidget *font_name_selector;
@@ -60,10 +59,10 @@ struct _WorkbookControlGUI {
 	void            *auto_complete;         /* GtkType is (Complete *) */
 	gboolean         auto_completing;
 	char            *auto_complete_text;
+
 	/* Used to detect if the user has backspaced, so we turn off auto-complete */
 	int              auto_max_size;
 
-	/* FIXME : should be in the View */
 	/* When editing a cell: the cell (may be NULL) */
 	Cell        *editing_cell;
 	Sheet       *editing_sheet;
@@ -79,8 +78,15 @@ struct _WorkbookControlGUI {
 
 	/* Edit area */
 	GtkWidget *selection_descriptor;	/* A GtkEntry */
+
 	/* Used to pass information to tha async paste handler. */
 	PasteTarget *clipboard_paste_callback_data;
+
+	/* Autosave */
+        gboolean   autosave;
+        gboolean   autosave_prompt;
+        gint       autosave_minutes;
+        gint       autosave_timer;
 };
 
 typedef struct {

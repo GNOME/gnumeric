@@ -138,5 +138,5 @@ workbook_style_test (Workbook *wb)
 		sheets = g_list_remove (sheets, sheet);
 	}
 	workbook_recalc (wb);
-	workbook_calc_spans (wb, SPANCALC_RENDER|SPANCALC_RESIZE);
+	workbook_calc_spans (wb, SPANCALC_RENDER);
 }

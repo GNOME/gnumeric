@@ -100,7 +100,6 @@ workbook_history_update (GList *wl, gchar *filename)
 	g_free (canonical_name);
 }
 
-
 static void
 workbook_destroy (GtkObject *wb_object)
 {
@@ -112,8 +111,6 @@ workbook_destroy (GtkObject *wb_object)
 	/* Remove all the sheet controls to avoid displaying while we exit */
 	WORKBOOK_FOREACH_CONTROL (wb, view, control,
 		wb_control_sheet_remove_all (control););
-
-	workbook_autosave_cancel (wb);
 
 	summary_info_free (wb->summary_info);
 	wb->summary_info = NULL;
@@ -493,8 +490,6 @@ workbook_new (void)
 	Workbook  *wb;
 
 	wb = gtk_type_new (workbook_get_type ());
-	wb->autosave_minutes = 10;
-	wb->autosave_prompt = FALSE;
 
 	/* Assign a default name */
 	do {
@@ -764,56 +759,6 @@ workbook_expr_relocate (Workbook *wb, ExprRelocateInfo const *info)
 	g_list_free (dependents);
 
 	return undo_info;
-}
-
-/*
- * Autosave
- */
-static gint
-dialog_autosave_callback (gpointer *data)
-{
-        Workbook *wb = (Workbook *) data;
-
-	if (wb->autosave && workbook_is_dirty (wb)) {
-#if 0
-	        if (wb->autosave_prompt) {
-			if (!dialog_autosave_prompt (wb))
-				return 1;
-		}
-		workbook_save (wbc, wb);
-#endif
-	}
-	return 1;
-}
-
-void
-workbook_autosave_cancel (Workbook *wb)
-{
-	if (wb->autosave_timer != 0)
-		gtk_timeout_remove (wb->autosave_timer);
-	wb->autosave_timer = 0;
-}
-
-void
-workbook_autosave_set (Workbook *wb, int minutes, gboolean prompt)
-{
-	if (wb->autosave_timer != 0){
-		gtk_timeout_remove (wb->autosave_timer);
-		wb->autosave_timer = 0;
-	}
-
-	wb->autosave_minutes = minutes;
-	wb->autosave_prompt = prompt;
-
-	if (minutes == 0)
-		wb->autosave = FALSE;
-	else {
-		wb->autosave = TRUE;
-
-		wb->autosave_timer =
-			gtk_timeout_add (minutes * 60000,
-					 (GtkFunction) dialog_autosave_callback, wb);
-	}
 }
 
 static void

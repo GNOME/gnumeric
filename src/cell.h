@@ -91,6 +91,6 @@ char *      cell_get_format              (Cell const *cell);
 void        cell_set_format              (Cell *cell, char const *format);
 
 void        cell_make_value              (Cell *cell);
-void        cell_render_value            (Cell *cell);
+void        cell_render_value            (Cell *cell, gboolean dynamic_width);
 
 #endif /* GNUMERIC_CELL_H */

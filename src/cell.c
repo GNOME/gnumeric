@@ -191,7 +191,10 @@ cell_eval_content (Cell *cell)
 		v = value_new_error (&pos, "Internal error");
 
 	cell_assign_value (cell, v, NULL);
-	rendered_value_calc_size (cell);
+
+	/* TODO : Can we Use spancalc without too much performance overhead
+	 * Seems like a better approach may be to do this at display time */
+	cell_render_value (cell, TRUE);
 	sheet_redraw_cell (cell);
 }
 
@@ -312,7 +315,7 @@ cell_set_text (Cell *cell, char const *text)
 		cell->base.flags &= ~CELL_HAS_EXPRESSION;
 		cell->value = val;
 		cell->format = format;
-		cell_render_value (cell);
+		cell_render_value (cell, TRUE);
 	} else {		/* String was an expression */
 		cell_set_expr (cell, expr, format);
 		if (format) style_format_unref (format);
@@ -352,7 +355,7 @@ cell_assign_value (Cell *cell, Value *v, StyleFormat *opt_fmt)
 	if (cell->value != NULL)
 		value_release (cell->value);
 	cell->value = v;
-	cell_render_value (cell);
+	cell_render_value (cell, TRUE);
 }
 
 /*
@@ -631,9 +634,10 @@ cell_is_partial_array (Cell const *cell)
 
 /***************************************************************************/
 
-/*
- * cell_render_value
+/**
+ * cell_render_value :
  * @cell: The cell whose value needs to be rendered
+ * @dynamic_width : Allow format to depend on column width.
  *
  * TODO :
  * There is no reason currently for this to allocate the rendered value as
@@ -642,15 +646,22 @@ cell_is_partial_array (Cell const *cell)
  * are shared.
  */
 void
-cell_render_value (Cell *cell)
+cell_render_value (Cell *cell, gboolean dynamic_width)
 {
 	RenderedValue *rv;
+	MStyle *mstyle;
+		
 	g_return_if_fail (cell != NULL);
 
-	rv = rendered_value_new (cell, NULL);
+	mstyle = cell_get_mstyle (cell);
+
+	rv = rendered_value_new (cell, mstyle, dynamic_width);
 	if (cell->rendered_value)
 		rendered_value_destroy (cell->rendered_value);
 	cell->rendered_value = rv;
+
+	rendered_value_calc_size_ext (cell, mstyle);
+	mstyle_unref (mstyle);
 }
 
 
@@ -756,7 +767,7 @@ cell_make_value (Cell *cell)
 	cell->base.flags &= ~CELL_HAS_EXPRESSION;
 
 	if (cell->rendered_value == NULL)
-		cell_render_value (cell);
+		cell_render_value (cell, TRUE);
 
 	cell_dirty (cell);
 }

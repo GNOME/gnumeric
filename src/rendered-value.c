@@ -34,38 +34,17 @@
 #include "application.h"
 
 /**
- * rendered_value_new
- * @cell: The cell whose value needs to be rendered.
- * @styles : An optional collection of styles.
- *
- * Returns a RenderedValue displaying the value of the cell formated according
- * to the format style. If formulas are being displayed the text of the a
- * formula instead of its value.
- */
-RenderedValue *
-rendered_value_new (Cell *cell, GList *styles)
-{
-	MStyle *mstyle = (styles != NULL)
-		? sheet_style_compute_from_list (styles, cell->pos.col, cell->pos.row)
-		: cell_get_mstyle (cell);
-		
-	RenderedValue *res = rendered_value_new_ext (cell, mstyle);
-
-	mstyle_unref (mstyle);
-	return res;
-}
-
-/**
- * rendered_value_new_ext:
+ * rendered_value_new:
  * @cell:   The cell
  * @mstyle: The mstyle associated with the cell
+ * @dynamic_width : Allow format to depend on column width.
  * 
  * Formats the value of the cell according to the format style given in @mstyle
  *
  * Return value: a new RenderedValue
  **/
 RenderedValue *
-rendered_value_new_ext (Cell *cell, MStyle *mstyle)
+rendered_value_new (Cell *cell, MStyle *mstyle, gboolean dynamic_width)
 {
 	RenderedValue	*res;
 	Sheet		*sheet;
@@ -85,14 +64,16 @@ rendered_value_new_ext (Cell *cell, MStyle *mstyle)
 		str = g_strconcat ("=", tmpstr, NULL);
 		g_free (tmpstr);
 		color = NULL;
+		dynamic_width = FALSE;
 	} else if (mstyle_is_element_set (mstyle, MSTYLE_FORMAT)) {
 		/* entered text CAN be null if called by set_value */
 		StyleFormat *format = mstyle_get_format (mstyle);
 
 		/* For format general approximate the cell width in characters */
-		if (style_format_is_general(format)) {
-			if (cell->format == NULL ||
-			    style_format_is_general (cell->format)) {
+		if (style_format_is_general (format)) {
+			if (dynamic_width &&
+			    (cell->format == NULL ||
+			     style_format_is_general (cell->format))) {
 				StyleFont *style_font =
 					sheet_view_get_style_font (sheet, mstyle);
 				GdkFont *gdk_font =
@@ -114,9 +95,12 @@ rendered_value_new_ext (Cell *cell, MStyle *mstyle)
 					col_width = (COL_INTERNAL_WIDTH (cell->col_info)) / font_width;
 
 				style_font_unref (style_font);
-			} else
+			} else {
 				format = cell->format;
-		}
+				dynamic_width = FALSE;
+			}
+		} else
+			dynamic_width = FALSE;
 		str = format_value (format, cell->value, &color, col_width);
 	} else {
 		g_warning ("No format: serious error");
@@ -129,6 +113,7 @@ rendered_value_new_ext (Cell *cell, MStyle *mstyle)
 	res->rendered_text = string_get (str);
 	res->render_color = color;
 	res->width_pixel = res->height_pixel = 0;
+	res->dynamic_width = dynamic_width;
 	g_free (str);
 
 	return res;

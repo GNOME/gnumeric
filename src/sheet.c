@@ -348,19 +348,13 @@ sheet_cell_calc_span (Cell const *cell, SpanCalcFlags flags)
 
 	g_return_if_fail (cell != NULL);
 
-	if (flags & SPANCALC_RENDER) {
-		RenderedValue const *rv = cell->rendered_value;
-		if (rv == NULL) {
-			render = TRUE;
-			resize = TRUE;
-		} else if (rv->width_pixel == 0 && rv->width_pixel == 0)
-			resize = TRUE;
-	}
+	/* Render & Size any unrendered cells */
+	if ((flags & SPANCALC_RENDER) && cell->rendered_value == NULL)
+		render = TRUE;
 
 	if (render)
-		cell_render_value ((Cell *)cell);
-
-	if (resize)
+		cell_render_value ((Cell *)cell, TRUE);
+	else if (resize)
 		rendered_value_calc_size (cell);
 
 	/* Calculate the span of the cell */
@@ -999,7 +993,15 @@ static Value *
 cb_max_cell_width (Sheet *sheet, int col, int row, Cell *cell,
 		   int *max)
 {
-	int const width = cell_rendered_width (cell);
+	int width;
+
+	g_return_val_if_fail (cell->rendered_value != NULL, NULL);
+
+	/* Dynamic cells must be rerendered */
+	if (cell->rendered_value->dynamic_width)
+		cell_render_value (cell, FALSE);
+
+	width = cell_rendered_width (cell);
 	if (width > *max)
 		*max = width;
 	return NULL;

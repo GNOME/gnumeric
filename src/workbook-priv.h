@@ -49,12 +49,6 @@ struct _Workbook {
 	void       *corba_server;
 
 	WorkbookPrivate *priv;
-
-	/* Workbook level preferences */
-        gboolean   autosave;
-        gboolean   autosave_prompt;
-        gint       autosave_minutes;
-        gint       autosave_timer;
 };
 
 typedef struct {
@@ -123,9 +117,6 @@ Value	   *workbook_foreach_cell_in_range (EvalPos const *pos,
 void        workbook_recalc              (Workbook *wb);
 void        workbook_recalc_all          (Workbook *wb);
 void        workbook_calc_spans          (Workbook *wb, SpanCalcFlags const flags);
-
-void        workbook_autosave_cancel     (Workbook *wb);
-void        workbook_autosave_set        (Workbook *wb, int minutes, gboolean prompt);
 
 /*
  * Hooks for CORBA bootstrap: they create the

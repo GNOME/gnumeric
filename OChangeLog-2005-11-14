@@ -1,3 +1,31 @@
+2000-11-10  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-format-toolbar.c (workbook_format_toolbutton_update) :
+	  Minor optimization to decrease flicker.
+
+	* src/sheet.c (sheet_cell_calc_span) : Clarify the semantics of 
+	  the various flags.
+	(cb_max_cell_width) : If the value used a dynamic format we need to
+	  rerender ignoring the current width.
+
+	* src/rendered-value.c (rendered_value_new) : renamed from
+	  rendered_value_new_ext and delete the old rendered_value_new.
+	  Extend slightly to flag whether or not to handle dynamic formats.
+
+	* src/render-ascii.c (cell_region_render_ascii) : Handle the style
+	  lookup localy.
+
+	* src/cell.c (cell_eval_content) : We need to manually render
+	  the value here, but no longer need to calculate the size
+	  seperately.  That is done automatically in the render.
+	(cell_render_value) : Handle style localy, and calculate the size.
+
+2000-11-09  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-control-gui.c (workbook_control_gui_init) : move the
+	  autosave code here.
+	* src/workbook.c : from here.
+
 2000-11-09  Morten Welinder  <terra@diku.dk>
 
 	* src/border.c (style_border_unref): Take border out of hash table
