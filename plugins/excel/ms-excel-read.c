@@ -1327,11 +1327,28 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		}
 	case BIFF_COLINFO: /* FIXME: See: S59D67.HTM */
 	{
+		int firstcol, lastcol, width, lp ;
+		guint16 cols_xf, options ;
+		int hidden, collapsed, outlining ;
+		firstcol = BIFF_GETWORD(q->data) ;
+		lastcol  = BIFF_GETWORD(q->data+2) ;
+		width    = BIFF_GETWORD(q->data+4) ;
+		cols_xf  = BIFF_GETWORD(q->data+6) ;
+		options  = BIFF_GETWORD(q->data+8) ;
+		
+		hidden    = (options & 0x0001) != 0 ;
+		collapsed = (options & 0x1000) != 0 ;
+		outlining = (options & 0x0700) >> 8 ;
+
+		if (EXCEL_DEBUG>0 && BIFF_GETBYTE(q->data+10) != 0)
+			printf ("Odd Colinfo\n") ;
+		printf ("Column Formatting from col %d to %d of width %f characters\n",
+			firstcol, lastcol, width/256.0) ;
+		for (lp=firstcol;lp<=lastcol;lp++)
+			sheet_col_set_width (sheet->gnum_sheet, lp, width/25) ;
 		break ;
 	}
-	case BIFF_RK:		/*
-				 * FIXME: S59DDA.HTM - test IEEE stuff on other endian platforms 
-				 */
+	case BIFF_RK: /* See: S59DDA.HTM */
 	{
 		char buf[65];
 		
@@ -1376,21 +1393,32 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 	case BIFF_ROW: /* FIXME: See: S59DDB.HTM */
 	{
 		guint16 height = BIFF_GETWORD(q->data+6) ;
-		printf ("Row %d formatting 0x%x\n", BIFF_GETWORD(q->data), height); 
+/*		printf ("Row %d formatting 0x%x\n", BIFF_GETWORD(q->data), height);  */
 		if ((height&0x8000) == 0) /* Fudge Factor */
-			sheet_row_set_height (sheet->gnum_sheet, BIFF_GETWORD(q->data), BIFF_GETWORD(q->data+6)/10, TRUE) ;
+		{
+			printf ("Row height : %f points\n", BIFF_GETWORD(q->data+6)/20.0) ;
+			sheet_row_set_height (sheet->gnum_sheet, BIFF_GETWORD(q->data), BIFF_GETWORD(q->data+6)/15, TRUE) ;
+		}
 		break;
 	}
-	case BIFF_ARRAY:	/*
-				 * FIXME: S59D57.HTM 
-				 */
+	case BIFF_ARRAY: /* See: S59D57.HTM */
+	{
+		int array_col_first, array_col_last ;
+		int array_row_first, array_row_last ;
+		int xlp, ylp ;
+
+		array_row_first = BIFF_GETWORD(q->data + 0) ;
+		array_row_last  = BIFF_GETWORD(q->data + 2) ;
+		array_col_first = BIFF_GETBYTE(q->data + 4) ;
+		array_col_last  = BIFF_GETBYTE(q->data + 5) ;
+
 		printf ("Array Formula\n") ;
-	case BIFF_FORMULA:	/*
-				 * FIXME: S59D8F.HTM 
-				 */
-		/*
-		 * case BIFF_NAME FIXME: S59DA9.HTM 
-		 */
+		for (xlp=array_col_first;xlp<=array_col_last;xlp++)
+			for (ylp=array_row_first;ylp<=array_row_last;ylp++)
+				ms_excel_parse_formula (sheet, q, xlp, ylp);
+		break ;
+	}
+	case BIFF_FORMULA: /* See: S59D8F.HTM */
 		ms_excel_parse_formula (sheet, q, EX_GETCOL (q), EX_GETROW (q));
 		break;
 	case BIFF_LABELSST:

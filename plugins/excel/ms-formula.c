@@ -400,42 +400,26 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 	PARSE_LIST *stack ;
 	int error = 0 ;
 	char *ans ;
-	int array_col_first, array_col_last ;
-	int array_row_first, array_row_last ;
 	int fn_xf ;
 	
 	if (q->ls_op == BIFF_FORMULA)
 	{
 		fn_xf           = EX_GETXF(q) ;
-/*      printf ("Formula at [%d, %d] XF %d :\n", fn_col, fn_row, fn_xf) ;
-	printf ("formula data : \n") ;
-	dump (q->data +22, q->length-22) ; */
 		/* This will be safe when we collate continuation records in get_query */
 		length = BIFF_GETWORD(q->data + 20) ;
 		/* NB. the effective '+1' here is so that the offsets and lengths
 		   are identical to those in the documentation */
 		cur = q->data + 22 + 1 ;
-		array_col_first = fn_col ;
-		array_col_last  = fn_col ;
-		array_row_first = fn_row ;
-		array_row_last  = fn_row ;
 	}
 	else
 	{
 		g_assert (q->ls_op == BIFF_ARRAY) ;
 		fn_xf = 0 ;
-/*      printf ("Array at [%d, %d] XF %d :\n", fn_col, fn_row, fn_xf) ;
-	printf ("Array data : \n") ;
-	dump (q->data +22, q->length-22) ; */
 		/* This will be safe when we collate continuation records in get_query */
 		length = BIFF_GETWORD(q->data + 12) ;
 		/* NB. the effective '+1' here is so that the offsets and lengths
 		   are identical to those in the documentation */
 		cur = q->data + 14 + 1 ;
-		array_row_first = BIFF_GETWORD(q->data + 0) ;
-		array_row_last  = BIFF_GETWORD(q->data + 2) ;
-		array_col_first = BIFF_GETBYTE(q->data + 4) ;
-		array_col_last  = BIFF_GETBYTE(q->data + 5) ;
 	}
 	
 	stack = parse_list_new() ;      
@@ -770,15 +754,11 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 	}
 	if (error)
 	{
-		int xlp, ylp ;
-
 		printf ("Unknown Formula/Array at [%d, %d] XF %d :\n", fn_col, fn_row, fn_xf) ;
 		printf ("formula data : \n") ;
 		dump (q->data +22, q->length-22) ;
 		
-		for (xlp=array_col_first;xlp<=array_col_last;xlp++)
-			for (ylp=array_row_first;ylp<=array_row_last;ylp++)
-				ms_excel_sheet_insert (sheet, fn_xf, xlp, ylp, "Unknown formula") ;
+		ms_excel_sheet_insert (sheet, fn_xf, fn_col, fn_row, "Unknown formula") ;
 		parse_list_free (stack) ;
 		return ;
 	}
@@ -786,16 +766,11 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 	ans = parse_list_to_equation (stack) ;
 	if (ans)
 	{
-		int xlp, ylp ;
-		for (xlp=array_col_first;xlp<=array_col_last;xlp++)
-			for (ylp=array_row_first;ylp<=array_row_last;ylp++)
-			{
-				cell = sheet_cell_fetch (sheet->gnum_sheet, EX_GETCOL(q), EX_GETROW(q)) ;
-				/* FIXME: this _should_ be a set_formula with the formula, and a
-				   set_text_simple with the current value */
-				cell_set_text_simple (cell, ans) ;
-				ms_excel_set_cell_xf (sheet, cell, EX_GETXF(q)) ;
-			}
+		cell = sheet_cell_fetch (sheet->gnum_sheet, fn_col, fn_row) ;
+		/* FIXME: this _should_ be a set_formula with the formula, and a
+		   set_text_simple with the current value */
+		cell_set_text_simple (cell, ans) ;
+		ms_excel_set_cell_xf (sheet, cell, fn_xf) ;
 		g_free (ans) ;
 	}
 	parse_list_free (stack) ;

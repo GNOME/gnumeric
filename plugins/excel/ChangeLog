@@ -1,3 +1,13 @@
+1999-03-09  Michael Meeks  <michael@imaginator.com>
+
+	* ms-formula.c (ms_excel_parse_formula): Hacked out the
+	bad array formula support. Moved most of it to ms-excel.c
+
+	* ms-excel.c (ms_excel_read_cell): Updated BIFF_ARRAY and
+	BIFF_FORMULA cases; splitting and adding array loop.
+	BIFF_COLINFO, BIFF_ROW: Updated fudge factors in sizing
+	and implemented column sizing.
+
 1999-03-07  Michael Meeks  <michael@imaginator.com>
 
 	* ms-formula.c: Changed FORMULA_PTG_STR to cope with both
