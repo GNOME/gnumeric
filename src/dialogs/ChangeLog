@@ -1,3 +1,8 @@
+2002-04-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-function-select.c : move defines into gnumeric-gconf.h
+	* dialog-preferences.c : add `undo'-preferences page
+
 2002-04-12  Jon K Hellan  <hellan@acm.org>
 
 	* dialog-preferences.c: Replace Gnome stock text/italic pixmap

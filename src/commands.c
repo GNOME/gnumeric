@@ -62,13 +62,11 @@
 #include "style-color.h"
 #include "summary.h"
 #include "tools/dao.h"
+#include "gnumeric-gconf.h"
 
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
 #include <ctype.h>
-
-#define MAX_DESCRIPTOR_WIDTH 15
-#define GNUMERIC_GCONF_UNDO_SIZE "/apps/gnumeric/core/undosize"
 
 /*
  * There are several distinct stages to wrapping each command.
@@ -97,7 +95,6 @@
  *
  * FIXME: Filter the list of commands when a sheet is deleted.
  *
- * TODO : Add user preference for undo buffer size limit
  * TODO : Possibly clear lists on save.
  *
  * TODO : Reqs for selective undo
@@ -179,6 +176,67 @@ static E_MAKE_TYPE (func, #type, type,					\
 /******************************************************************/
 
 /**
+ * returns the range name depending on the preference setting
+ *
+ * char const *undo_global_range_name
+ *
+ * @pos: CellPos
+ *
+ * Returns : 
+ */
+static char *
+undo_global_range_name (Sheet *sheet, Range const * const range)
+{
+	gboolean show_sheet_name;
+	GConfClient *client;
+	GError *err = NULL;
+
+	client = application_get_gconf_client ();
+	show_sheet_name = gconf_client_get_bool (client, 
+						 GNUMERIC_GCONF_UNDO_SHOW_SHEET_NAME, &err);
+	if (err)
+		show_sheet_name = FALSE;
+
+	return global_range_name (show_sheet_name ? sheet : NULL, range); 
+}
+
+/**
+ * returns the cell position name depending on the preference setting
+ *
+ * char *cmd_cell_pos_name_utility
+ *
+ * @pos: CellPos
+ *
+ * Returns : 
+ */
+char *
+cmd_cell_pos_name_utility (Sheet *sheet, CellPos const *pos)
+{
+	Range range;
+	
+	range.start = *pos;
+	range.end   = *pos;
+
+	return undo_global_range_name (sheet, &range);
+}
+
+static guint
+max_descriptor_width (void)
+{
+	guint max_width;
+	GConfClient *client;
+	GError *err = NULL;
+
+	client = application_get_gconf_client ();
+	max_width = (guint) gconf_client_get_int (client, 
+						 GNUMERIC_GCONF_UNDO_MAX_DESCRIPTOR_WIDTH, &err);
+	if (err)
+		max_width = 10;
+
+	return max_width;
+}
+
+/**
  * get_menu_label : Utility routine to get the descriptor associated
  *     with a list of commands.
  *
@@ -230,19 +288,21 @@ update_after_action (Sheet *sheet)
 }
 
 /*
- * range_list_to_string: Convert a list of ranges into a string.
+ * cmd_range_list_to_string_utility: Convert a list of ranges into a string.
  *                       (The result will be something like :
  *                        "A1:C3, D4:E5"). The string will be
- *                       automatically truncated to MAX_DESCRIPTOR_WIDTH.
+ *                       automatically truncated to max_descriptor_width ().
  *                       The caller should free the GString that is returned.
  *
  * @ranges : GSList containing Range *'s
  */
-static GString *
-range_list_to_string (GSList const *ranges)
+GString *
+cmd_range_list_to_string_utility (Sheet *sheet, GSList const *ranges)
 {
 	GString *names;
 	GSList const *l;
+        char *name;
+        guint max_width;
 
 	g_return_val_if_fail (ranges != NULL, NULL);
 
@@ -250,8 +310,9 @@ range_list_to_string (GSList const *ranges)
 	for (l = ranges; l != NULL; l = l->next) {
 		Range const * const r = l->data;
 
-		/* No need to free range_name, uses static buffer */
-		g_string_append (names, range_name (r));
+                name = undo_global_range_name (sheet , r);
+                g_string_append (names, name);
+                g_free (name);
 
 		if (l->next)
 			g_string_append (names, ", ");
@@ -261,9 +322,11 @@ range_list_to_string (GSList const *ranges)
 	 * There is no need to do this for "types", because that
 	 * will never grow indefinitely
 	 */
-	if (strlen (names->str) > MAX_DESCRIPTOR_WIDTH) {
-		g_string_truncate (names, MAX_DESCRIPTOR_WIDTH - 3);
-		g_string_append (names, "...");
+	max_width = max_descriptor_width ();
+	if (strlen (names->str) > max_width) {
+		/* FIXME: this does not look right for UTF8 !!*/
+		g_string_truncate (names, max_width - 3);
+		g_string_append (names, _("..."));
 	}
 
 	return names;
@@ -668,6 +731,8 @@ cmd_set_text (WorkbookControl *wbc,
 	const gchar *pad = "";
 	gchar *text, *corrected_text, *tmp, c = '\0';
 	Cell const *cell;
+	guint max_width;
+	char *where;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (new_text != NULL, TRUE);
@@ -703,18 +768,20 @@ cmd_set_text (WorkbookControl *wbc,
 		}
 
 	/* Limit the size of the descriptor to something reasonable */
-	if (strlen (corrected_text) > MAX_DESCRIPTOR_WIDTH || c != '\0') {
+	max_width = max_descriptor_width ();
+	if (strlen (corrected_text) > max_width || c != '\0') {
 		pad = "..."; /* length of 3 */
 		text = g_strndup (corrected_text,
-				  MAX_DESCRIPTOR_WIDTH - 3);
+				  max_width - 3);
 	} else
 		text = corrected_text;
 
 	me->parent.sheet = sheet;
 	me->parent.size = 1;
+	where = cmd_cell_pos_name_utility (sheet, pos);
 	me->parent.cmd_descriptor =
-		g_strdup_printf (_("Typing \"%s%s\" in %s"), text, pad,
-				 cell_pos_name (pos));
+		g_strdup_printf (_("Typing \"%s%s\" in %s"), text, pad, where);
+	g_free (where);
 
 	if (text != corrected_text)
 		g_free (text);
@@ -866,6 +933,7 @@ cmd_area_set_text (WorkbookControl *wbc, ParsePos const *pos,
 	CmdAreaSetText *me;
 	gchar *text;
 	const gchar *pad = "";
+	guint max_width;
 
 	obj = g_object_new (CMD_AREA_SET_TEXT_TYPE, NULL);
 	me = CMD_AREA_SET_TEXT (obj);
@@ -877,10 +945,11 @@ cmd_area_set_text (WorkbookControl *wbc, ParsePos const *pos,
 	me->selection   = selection_get_ranges (pos->sheet, FALSE /* No intersection */);
 	me->old_content = NULL;
 
-	if (strlen (new_text) > MAX_DESCRIPTOR_WIDTH) {
+	max_width = max_descriptor_width ();
+	if (strlen (new_text) > max_width) {
 		pad = "..."; /* length of 3 */
 		text = g_strndup (new_text,
-				  MAX_DESCRIPTOR_WIDTH - 3);
+				  max_width - 3);
 	} else
 		text = (gchar *) new_text;
 
@@ -1354,7 +1423,7 @@ cmd_clear_selection (WorkbookControl *wbc, Sheet *sheet, int clear_flags)
 	 * need to truncate the "types" list because it will not grow
 	 * indefinitely
 	 */
-	names = range_list_to_string (me->selection);
+	names = cmd_range_list_to_string_utility (sheet, me->selection);
 	me->parent.cmd_descriptor = g_strdup_printf (_("Clearing %s in %s"), types->str, names->str);
 
 	g_string_free (names, TRUE);
@@ -1548,7 +1617,7 @@ cmd_format (WorkbookControl *wbc, Sheet *sheet,
 		me->borders = NULL;
 
 	if (opt_translated_name == NULL) {
-		GString *names = range_list_to_string (me->selection);
+		GString *names = cmd_range_list_to_string_utility (sheet, me->selection);
 
 		me->parent.cmd_descriptor = g_strdup_printf (_("Changing format of %s"), names->str);
 		g_string_free (names, TRUE);
@@ -1633,6 +1702,7 @@ cmd_resize_colrow (WorkbookControl *wbc, Sheet *sheet,
 	CmdResizeColRow *me;
 	GString *list;
 	gboolean is_single;
+	guint max_width;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 
@@ -1651,8 +1721,9 @@ cmd_resize_colrow (WorkbookControl *wbc, Sheet *sheet,
 
 	list = colrow_index_list_to_string (selection, is_cols, &is_single);
 	/* Make sure the string doesn't get overly wide */
-	if (strlen (list->str) > MAX_DESCRIPTOR_WIDTH) {
-		g_string_truncate (list, MAX_DESCRIPTOR_WIDTH - 3);
+	max_width = max_descriptor_width ();
+	if (strlen (list->str) > max_width) {
+		g_string_truncate (list, max_width - 3);
 		g_string_append (list, "...");
 	}
 
@@ -2263,6 +2334,7 @@ cmd_paste_cut (WorkbookControl *wbc, GnmExprRelocateInfo const *info,
 	GObject *obj;
 	CmdPasteCut *me;
 	Range r;
+	char *where;
 
 	g_return_val_if_fail (info != NULL, TRUE);
 
@@ -2272,9 +2344,10 @@ cmd_paste_cut (WorkbookControl *wbc, GnmExprRelocateInfo const *info,
 		return TRUE;
 
 	/* FIXME: Do we want to show the destination range as well ? */
+	where = undo_global_range_name (info->origin_sheet, &info->origin);
 	if (descriptor == NULL)
-		descriptor = g_strdup_printf (_("Moving %s"),
-					      range_name (&info->origin));
+		descriptor = g_strdup_printf (_("Moving %s"), where);
+	g_free (where);
 
 	g_return_val_if_fail (info != NULL, TRUE);
 
@@ -2840,7 +2913,7 @@ cmd_autoformat (WorkbookControl *wbc, Sheet *sheet, FormatTemplate *ft)
 	me->parent.sheet = sheet;
 	me->parent.size = 1;  /* FIXME?  */
 
-	names = range_list_to_string (me->selection);
+	names = cmd_range_list_to_string_utility (sheet, me->selection);
 	me->parent.cmd_descriptor = g_strdup_printf (_("Autoformatting %s"),
 						     names->str);
 	g_string_free (names, TRUE);
@@ -2950,7 +3023,7 @@ cmd_unmerge_cells (WorkbookControl *wbc, Sheet *sheet, GSList const *selection)
 	me->parent.sheet = sheet;
 	me->parent.size = 1;
 
-	names = range_list_to_string (selection);
+	names = cmd_range_list_to_string_utility (sheet, selection);
 	me->parent.cmd_descriptor = g_strdup_printf (_("Unmerging %s"), names->str);
 	g_string_free (names, TRUE);
 
@@ -3088,7 +3161,7 @@ cmd_merge_cells (WorkbookControl *wbc, Sheet *sheet, GSList const *selection)
 	me->parent.sheet = sheet;
 	me->parent.size = 1;
 
-	names = range_list_to_string (selection);
+	names = cmd_range_list_to_string_utility (sheet, selection);
 	me->parent.cmd_descriptor = g_strdup_printf (_("Merging %s"),
 						     names->str);
 	g_string_free (names, TRUE);
@@ -3731,6 +3804,7 @@ cmd_zoom (WorkbookControl *wbc, GSList *sheets, double factor)
 	GString *namelist;
 	GSList *l;
 	int i;
+	guint max_width;
 
 	g_return_val_if_fail (wbc != NULL, TRUE);
 	g_return_val_if_fail (sheets != NULL, TRUE);
@@ -3756,8 +3830,9 @@ cmd_zoom (WorkbookControl *wbc, GSList *sheets, double factor)
 	}
 
 	/* Make sure the string doesn't get overly wide */
-	if (strlen (namelist->str) > MAX_DESCRIPTOR_WIDTH) {
-		g_string_truncate (namelist, MAX_DESCRIPTOR_WIDTH - 3);
+	max_width = max_descriptor_width ();
+	if (strlen (namelist->str) > max_width) {
+		g_string_truncate (namelist, max_width - 3);
 		g_string_append (namelist, "...");
 	}
 
@@ -4316,6 +4391,7 @@ cmd_set_comment (WorkbookControl *wbc,
 	GObject       *obj;
 	CmdSetComment *me;
 	CellComment   *comment;
+	char *where;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (new_text != NULL, TRUE);
@@ -4329,11 +4405,13 @@ cmd_set_comment (WorkbookControl *wbc,
 		me->new_text = NULL;
 	else
 		me->new_text    = g_strdup (new_text);
+	where = cmd_cell_pos_name_utility (sheet, pos);
 	me->parent.cmd_descriptor =
 		g_strdup_printf (me->new_text == NULL ? 
 				 _("Clearing comment of %s") :
 				 _("Setting comment of %s"),
-				 cell_pos_name (pos));
+				 where);
+	g_free (where);
 	me->old_text    = NULL;
 	me->pos         = *pos;
 	me->sheet       = sheet;

@@ -33,6 +33,7 @@
 #include <str.h>
 #include <workbook-edit.h>
 #include <application.h>
+#include <gnumeric-gconf.h>
 
 #include <ctype.h>
 #include <glade/glade.h>
@@ -43,9 +44,6 @@
 
 #define FUNCTION_SELECT_KEY "function-selector-dialog"
 #define FUNCTION_SELECT_DIALOG_KEY "function-selector-dialog"
-
-#define FUNCTION_SELECT_GCONF_RECENT "/apps/gnumeric/functionselector/recentfunctions"
-#define FUNCTION_SELECT_GCONF_NUM_OF_RECENT "/apps/gnumeric/functionselector/num-of-recent"
 
 typedef struct {
 	WorkbookControlGUI  *wbcg;

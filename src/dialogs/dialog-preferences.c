@@ -32,6 +32,7 @@
 #include "number-match.h"
 #include "widgets/widget-font-selector.h"
 #include "widgets/gnumeric-cell-renderer-text.h"
+#include "gnumeric-gconf.h"
 
 #include <gui-util.h>
 #include <libgnome/gnome-i18n.h>
@@ -95,6 +96,14 @@ dialog_pref_load_description_from_schema (PrefState *state, char const *schema_p
 	gconf_schema_free (the_schema);
 }	
 
+static void
+dialog_pref_load_description (PrefState *state, char const *text)
+{
+	GtkTextBuffer *buffer = gtk_text_view_get_buffer (state->description);
+
+	gtk_text_buffer_set_text (buffer, text, -1);
+}	
+
 /*******************************************************************************************/
 /*                     Tree View of selected configuration variables                       */
 /*******************************************************************************************/
@@ -123,8 +132,8 @@ typedef struct {
 
 
 static pref_tree_data_t pref_tree_data[] = { 
-	{"/apps/gnumeric/functionselector/num-of-recent", NULL, "/schemas/apps/gnumeric/functionselector/num-of-recent"},
-	{"/apps/gnumeric/core/undosize", NULL, "/schemas/apps/gnumeric/core/undosize"},
+	{FUNCTION_SELECT_GCONF_NUM_OF_RECENT, NULL, 
+	                      "/schemas" FUNCTION_SELECT_GCONF_NUM_OF_RECENT},
 	{NULL, NULL, NULL}
 };
 
@@ -466,11 +475,184 @@ GtkWidget *pref_font_initializer (PrefState *state, gpointer data,
 }
 
 /*******************************************************************************************/
+/*                     Undo Preferences Page                                              */
+/*******************************************************************************************/
+
+#define GCONF_FONT_NAME "/apps/gnumeric/core/defaultfont/name"
+#define GCONF_FONT_SIZE "/apps/gnumeric/core/defaultfont/size"
+#define GCONF_FONT_BOLD "/apps/gnumeric/core/defaultfont/bold"
+#define GCONF_FONT_ITALIC "/apps/gnumeric/core/defaultfont/italic"
+
+static void 
+pref_undo_page_open (PrefState *state, gpointer data, 
+					  GtkNotebook *notebook, gint page_num)
+{
+	dialog_pref_load_description (state, 
+				      _("The items on this page customize the "
+					"behaviour of the undo/redo system."));
+}
+
+static void
+cb_pref_undo_set_sheet_name (GConfClient *gconf, guint cnxn_id, GConfEntry *entry, 
+			     GtkToggleButton *button)
+{
+	gboolean is_set_gconf = gconf_client_get_bool (gconf,
+						       GNUMERIC_GCONF_UNDO_SHOW_SHEET_NAME, 
+						       NULL);
+	gboolean is_set_button = gtk_toggle_button_get_active (button);
+	if (is_set_gconf != is_set_button)
+		gtk_toggle_button_set_active (button, is_set_gconf);
+}
+
+static void 
+cb_pref_undo_sheet_name_toggled (GtkToggleButton *button, PrefState *state)
+{
+		gconf_client_set_bool (state->gconf,
+				       GNUMERIC_GCONF_UNDO_SHOW_SHEET_NAME,
+				       gtk_toggle_button_get_active (button), 
+				       NULL);
+}
+
+static void
+cb_pref_undo_set_max_descriptor_width (GConfClient *gconf, guint cnxn_id, GConfEntry *entry, 
+			     GtkSpinButton *button)
+{
+	gint int_in_gconf = gconf_client_get_int (gconf,
+						  GNUMERIC_GCONF_UNDO_MAX_DESCRIPTOR_WIDTH, 
+						  NULL);
+	gint int_in_button = gtk_spin_button_get_value_as_int (button);
+	if (int_in_gconf != int_in_button)
+		gtk_spin_button_set_value (button, (gdouble) int_in_gconf);
+}
+
+static void 
+cb_pref_undo_max_descriptor_width_changed (GtkSpinButton *button, PrefState *state)
+{
+		gconf_client_set_int (state->gconf,
+				       GNUMERIC_GCONF_UNDO_MAX_DESCRIPTOR_WIDTH,
+				       gtk_spin_button_get_value_as_int (button), 
+				       NULL);
+}
+
+static void
+cb_pref_undo_set_size (GConfClient *gconf, guint cnxn_id, GConfEntry *entry, 
+			     GtkSpinButton *button)
+{
+	gint int_in_gconf = gconf_client_get_int (gconf,
+						  GNUMERIC_GCONF_UNDO_SIZE, 
+						  NULL);
+	gint int_in_button = gtk_spin_button_get_value_as_int (button);
+	if (int_in_gconf != int_in_button)
+		gtk_spin_button_set_value (button, (gdouble) int_in_gconf);
+}
+
+static void 
+cb_pref_undo_size_changed (GtkSpinButton *button, PrefState *state)
+{
+		gconf_client_set_int (state->gconf,
+				       GNUMERIC_GCONF_UNDO_SIZE,
+				       gtk_spin_button_get_value_as_int (button), 
+				       NULL);
+}
+
+static 
+GtkWidget *pref_undo_page_initializer (PrefState *state, gpointer data, 
+					  GtkNotebook *notebook, gint page_num)
+{
+	GtkWidget *page = gtk_table_new (3, 2, FALSE);
+	guint notif;
+	GtkWidget *item;
+	GConfSchema *the_schema;
+	GtkTooltips *the_tip;
+
+	/* Sheet name check box */
+	the_schema = gconf_client_get_schema (state->gconf, 
+					      "/schemas" GNUMERIC_GCONF_UNDO_SHOW_SHEET_NAME, 
+					      NULL);
+	item = gtk_check_button_new_with_label (gconf_schema_get_short_desc (the_schema));
+	cb_pref_undo_set_sheet_name (state->gconf, 0, NULL, GTK_TOGGLE_BUTTON (item));
+	notif = gconf_client_notify_add (state->gconf, GNUMERIC_GCONF_UNDO_SHOW_SHEET_NAME,
+					 (GConfClientNotifyFunc) cb_pref_undo_set_sheet_name,
+						item, NULL, NULL);
+	g_signal_connect (G_OBJECT (page),
+		"destroy",
+		G_CALLBACK (cb_pref_notification_destroy), GINT_TO_POINTER (notif));
+	g_signal_connect (G_OBJECT (item),
+		"toggled",
+		G_CALLBACK (cb_pref_undo_sheet_name_toggled), state);
+	gtk_table_attach (GTK_TABLE (page), item, 0, 2, 0, 1, GTK_FILL | GTK_SHRINK, 
+			  GTK_FILL | GTK_SHRINK, 5, 5);
+	the_tip = gtk_tooltips_new ();
+	gtk_tooltips_set_tip (the_tip, item, gconf_schema_get_long_desc (the_schema), NULL);
+	gconf_schema_free (the_schema);
+
+	/* Descriptor Width Spin Button */
+	the_schema = gconf_client_get_schema (state->gconf, 
+					      "/schemas" GNUMERIC_GCONF_UNDO_MAX_DESCRIPTOR_WIDTH, 
+					      NULL);
+	item = gtk_label_new (gconf_schema_get_short_desc (the_schema));
+	gtk_label_set_justify (GTK_LABEL (item), GTK_JUSTIFY_LEFT);
+	gtk_table_attach (GTK_TABLE (page), item, 0, 1, 1, 2, 0, 
+			  GTK_FILL | GTK_SHRINK, 5, 5);
+	item =  gtk_spin_button_new (GTK_ADJUSTMENT (gtk_adjustment_new (5,
+									 5, 200, 1, 1, 1)),
+				     1, 0);
+	cb_pref_undo_set_max_descriptor_width (state->gconf, 0, NULL, GTK_SPIN_BUTTON (item));
+	notif = gconf_client_notify_add (state->gconf, GNUMERIC_GCONF_UNDO_MAX_DESCRIPTOR_WIDTH,
+			  (GConfClientNotifyFunc) cb_pref_undo_set_max_descriptor_width,
+			  item, NULL, NULL);
+	g_signal_connect (G_OBJECT (page),
+		"destroy",
+		G_CALLBACK (cb_pref_notification_destroy), GINT_TO_POINTER (notif));
+	g_signal_connect (G_OBJECT (item),
+		"value-changed",
+		G_CALLBACK (cb_pref_undo_max_descriptor_width_changed), state);
+	gtk_table_attach (GTK_TABLE (page), item, 1, 2, 1, 2, GTK_FILL | GTK_EXPAND, 
+			  GTK_FILL | GTK_SHRINK, 5, 5);
+	the_tip = gtk_tooltips_new ();
+	gtk_tooltips_set_tip (the_tip, item, gconf_schema_get_long_desc (the_schema), NULL);
+	gconf_schema_free (the_schema);
+	
+	/* Undo Size Spin Button */
+	the_schema = gconf_client_get_schema (state->gconf, 
+					      "/schemas" GNUMERIC_GCONF_UNDO_SIZE, 
+					      NULL);
+	item = gtk_label_new (gconf_schema_get_short_desc (the_schema));
+	gtk_label_set_justify (GTK_LABEL (item), GTK_JUSTIFY_LEFT);
+	gtk_table_attach (GTK_TABLE (page), item, 0, 1, 2, 3, 0, 
+			  GTK_FILL | GTK_SHRINK, 5, 5);
+	item =  gtk_spin_button_new (GTK_ADJUSTMENT (gtk_adjustment_new (1000,
+									 0, 30000, 100, 
+									 1000, 1000)),
+				     1, 0);
+	
+	cb_pref_undo_set_size (state->gconf, 0, NULL, GTK_SPIN_BUTTON (item));
+	notif = gconf_client_notify_add (state->gconf, GNUMERIC_GCONF_UNDO_SIZE,
+			  (GConfClientNotifyFunc) cb_pref_undo_set_size,
+			  item, NULL, NULL);
+	g_signal_connect (G_OBJECT (page),
+		"destroy",
+		G_CALLBACK (cb_pref_notification_destroy), GINT_TO_POINTER (notif));
+	g_signal_connect (G_OBJECT (item),
+		"value-changed",
+		G_CALLBACK (cb_pref_undo_size_changed), state);
+	gtk_table_attach (GTK_TABLE (page), item, 1, 2, 2, 3, GTK_FILL | GTK_EXPAND, 
+			  GTK_FILL | GTK_SHRINK, 5, 5);
+	the_tip = gtk_tooltips_new ();
+	gtk_tooltips_set_tip (the_tip, item, gconf_schema_get_long_desc (the_schema), NULL);
+	gconf_schema_free (the_schema);
+
+	gtk_widget_show_all (page);
+	return page;
+}
+
+/*******************************************************************************************/
 /*               General Preference Dialog Routines                                        */
 /*******************************************************************************************/
 
 static page_info_t page_info[] = {
 	{NULL, GTK_STOCK_ITALIC, pref_font_initializer, pref_font_page_open, NULL},
+	{NULL, GTK_STOCK_UNDO, pref_undo_page_initializer, pref_undo_page_open, NULL},
 	{NULL, GTK_STOCK_PREFERENCES, pref_tree_initializer, pref_tree_page_open, pref_tree_data},
 	{NULL, NULL, NULL, NULL, NULL},
 };
