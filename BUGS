@@ -27,6 +27,10 @@ Release Critical
   formulae]
 - http://bugzilla.gnome.org/show_bug.cgi?id=83363 [gross performance problems
   with large formulae]
+- Evaluate mathfunc.c's use of gamma and lgamma.  We use the libc lgamma
+  (probably ok) and have gamma(x)=exp(lgamma(x)) (questionable).
+- Fix random_poisson's performance.  (Steal R's?)  Fix the hang for
+  RANDPOISSON(100000).
 
 Pending Patches
 ---------------
