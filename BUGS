@@ -15,6 +15,9 @@ Pending Patches
 Long term breakage
 ------------------
 
+- Functions like SMALL and LARGE use O(n*log n) algorithms.  Should use
+  O(n) algorithms, see Knuth.
+
 - outline mode
     : finish implementing optionally putting markers above/left
     : connect the hide/show menu items
