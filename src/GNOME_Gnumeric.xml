@@ -137,7 +137,7 @@
 	    _tip="Toggle whether to display column outlines on the left or right" />
 
 	<cmd name="HelpAbout"
-	    _label="_About..."
+	    _label="_About"
 	    _tip="About this application"
 	    pixtype="stock" pixname="About"/>
 

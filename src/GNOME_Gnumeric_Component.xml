@@ -35,7 +35,7 @@
 
 	<cmd name="HelpAbout"
 	    _label="_About Gnumeric"
-	    _tip="About the Gnumeric Spreadsheet Program"
+	    _tip="About the Gnumeric spreadsheet program"
 	    pixtype="stock" pixname="About"/>
 
 	<cmd name="MenuBar" sensitive="1"/>
