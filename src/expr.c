@@ -1021,13 +1021,13 @@ eval_expr (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 
 		a = eval_expr (sheet, tree->u.binary.value_a,
 			       eval_col, eval_row, error_string);
+		if (!a)
+			return NULL;
+
 		b = eval_expr (sheet, tree->u.binary.value_b,
 			       eval_col, eval_row, error_string);
-		if (!(a && b)){
-			if (a)
-				value_release (a);
-			if (b)
-				value_release (b);
+		if (!b) {
+			value_release (a);
 			return NULL;
 		}
 		comp = compare (a, b);

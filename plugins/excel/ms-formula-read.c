@@ -648,9 +648,10 @@ make_function (PARSE_LIST **stack, int fn_idx, int numargs)
 				parse_list_free (&args);
 				parse_list_push (stack, expr_tree_new_error (errtxt));
 				g_free (errtxt);
-				if (tmp) expr_tree_unref (tmp);
+				expr_tree_unref (tmp);
 				return 0;
 			}
+			expr_tree_unref (tmp);
 			symbol_ref (name);
 			parse_list_push (stack, expr_tree_new_funcall (name, args));
 			return 1 ;
@@ -671,7 +672,7 @@ make_function (PARSE_LIST **stack, int fn_idx, int numargs)
 				numargs = fd->num_args ;
 			else if (fd->num_args == -2)
 				g_warning("This sheet uses an Excel function "
-					  "('%s') for which we don not have "
+					  "('%s') for which we do not have "
 					  "adequate documentation.\n"
 					  "Please forward a copy (if possible) to "
 					  "gnumeric-list@gnome.org.  Thanks\n",

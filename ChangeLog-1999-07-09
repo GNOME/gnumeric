@@ -1,5 +1,7 @@
 1999-06-17  Morten Welinder  <terra@diku.dk>
 
+	* src/expr.c (eval_expr): Fix error handling of comparisons.
+
 	* src/expr.c (expr_tree_new_constant): New function.
 	(expr_tree_new_unary): New function.
 	(expr_tree_new_binary): New function.

@@ -1,5 +1,7 @@
 1999-06-17  Morten Welinder  <terra@diku.dk>
 
+	* ms-formula-read.c (make_function): Yet another leak fix.
+
 	* ms-formula-read.c (expr_tree_unary): Obsolete.  Use
  	expr_tree_new_unary instead.
 	(expr_tree_cellref): Obsolete.  Use expr_tree_new_var instead.
