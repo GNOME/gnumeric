@@ -1,3 +1,10 @@
+2003-10-23  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=125045
+	* graph/gog-axis.c (gog_axis_view_render) : clip correctly and space
+	  the ticks based on the actual tick values, not just their index.
+	(gog_axis_num_markers) : return a step fraction too.
+
 2003-10-21  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-renderer.c (gog_renderer_init) : init zoom to 1.

@@ -2410,7 +2410,7 @@ scg_cursor_move (SheetControlGUI *scg, int n,
 	sv_selection_reset (sv);
 	sv_cursor_set (sv, &tmp,
 		       tmp.col, tmp.row, tmp.col, tmp.row, NULL);
-	sv_make_cell_visible (sv, tmp.col, tmp.row, TRUE);
+	sv_make_cell_visible (sv, tmp.col, tmp.row, FALSE);
 	sv_selection_add_pos (sv, tmp.col, tmp.row);
 }
 

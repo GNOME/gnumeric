@@ -2922,7 +2922,7 @@ excel_prepare_autofilter (ExcelWorkbook *ewb, GnmNamedExpr *nexpr)
 }
 
 static void
-excel_read_NAME (BiffQuery *q, ExcelWorkbook *ewb)
+excel_read_NAME (BiffQuery *q, ExcelWorkbook *ewb, gboolean global)
 {
 	GPtrArray *a;
 	GnmNamedExpr *nexpr = NULL;
@@ -3022,6 +3022,7 @@ excel_read_NAME (BiffQuery *q, ExcelWorkbook *ewb)
 			 * XL stores a hidden name with the details of an autofilter */
 			if (nexpr->is_hidden && !strcmp (nexpr->name->str, "_FilterDatabase"))
 				excel_prepare_autofilter (ewb, nexpr);
+			g_warning ("flags = %hx, state = %s\n", flags, global ? "global" : "sheet");
 		}
 	}
 
@@ -5037,7 +5038,7 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 		case BIFF_XF_OLD:
 			excel_read_XF_OLD (q, ewb, esheet->container.ver);
 			break;
-		case BIFF_NAME:		excel_read_NAME (q, ewb);	break;
+		case BIFF_NAME:		excel_read_NAME (q, ewb, FALSE);	break;
 		case BIFF_FONT:		excel_read_FONT (q, ewb);	break;
 		case BIFF_FORMAT:	excel_read_FORMAT (q, ewb);	break;
 		case BIFF_STYLE:	break;
@@ -5436,7 +5437,7 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 			break;
 
 		case BIFF_EXTERNNAME:	excel_read_EXTERNNAME (q, &ewb->container); break;
-		case BIFF_NAME:		excel_read_NAME (q, ewb);	break;
+		case BIFF_NAME:		excel_read_NAME (q, ewb, TRUE);	break;
 		case BIFF_XCT:		excel_read_XCT (q, ewb);	break;
 
 		case BIFF_WRITEACCESS:

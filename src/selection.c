@@ -1207,7 +1207,7 @@ sv_selection_walk_step (SheetView *sv,
 					  destination.col, destination.row,
 					  destination.col, destination.row);
 			sv_make_cell_visible (sv, sv->edit_pos.col,
-					      sv->edit_pos.row, TRUE);
+					      sv->edit_pos.row, FALSE);
 		}
 		return;
 	}
@@ -1238,7 +1238,7 @@ sv_selection_walk_step (SheetView *sv,
 	}
 
 	sv_set_edit_pos (sv, &destination);
-	sv_make_cell_visible (sv, destination.col, destination.row, TRUE);
+	sv_make_cell_visible (sv, destination.col, destination.row, FALSE);
 }
 
 #include <goffice/graph/gog-series.h>

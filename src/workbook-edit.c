@@ -60,6 +60,14 @@ wbcg_auto_complete_destroy (WorkbookControlGUI *wbcg)
 
 }
 
+/**
+ * wbcg_edit_finish :
+ * @wbcg : #WorkbookControlGUI
+ * @accept : Should any changes be accepted or discarded
+ * @showed_dialog : If non-NULL will indicate if a dialog was displayed.
+ *
+ * Return TRUE if editing completed successfully, or we were no editing.
+ **/
 gboolean
 wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept,
 		  gboolean *showed_dialog)

@@ -43,13 +43,13 @@
 #include <gtk/gtk.h>
 
 /**
- * cmd_select_cur_row:
+ * sv_select_cur_row:
  * @sv: The sheet
  *
  * Selects an entire row
  */
 void
-cmd_select_cur_row (SheetView *sv)
+sv_select_cur_row (SheetView *sv)
 {
 	GnmRange const *sel = selection_first_range (sv,  NULL, NULL);
 	if (sel != NULL) {
@@ -63,13 +63,13 @@ cmd_select_cur_row (SheetView *sv)
 }
 
 /**
- * cmd_select_cur_col:
+ * sv_select_cur_col:
  * @sv: The sheet
  *
  * Selects an entire column
  */
 void
-cmd_select_cur_col (SheetView *sv)
+sv_select_cur_col (SheetView *sv)
 {
 	GnmRange const *sel = selection_first_range (sv,  NULL, NULL);
 	if (sel != NULL) {
@@ -83,14 +83,14 @@ cmd_select_cur_col (SheetView *sv)
 }
 
 /**
- * cmd_select_cur_array :
+ * sv_select_cur_array :
  * @sv: The sheet
  *
  * if the current cell is part of an array select
  * the entire array.
  */
 void
-cmd_select_cur_array (SheetView *sv)
+sv_select_cur_array (SheetView *sv)
 {
 	GnmExprArray const *array;
 	int col, row;
@@ -138,13 +138,13 @@ cb_collect_deps (GnmDependent *dep, gpointer user)
 }
 
 /**
- * cmd_select_cur_depends :
+ * sv_select_cur_depends :
  * @sv: The sheet
  *
  * Select all cells that depend on the expression in the current cell.
  */
 void
-cmd_select_cur_depends (SheetView *sv)
+sv_select_cur_depends (SheetView *sv)
 {
 	GnmCell  *cur_cell;
 	GList *deps = NULL, *ptr = NULL;
@@ -229,14 +229,14 @@ cmd_select_cur_depends (SheetView *sv)
 }
 
 /**
- * cmd_select_cur_inputs :
+ * sv_select_cur_inputs :
  * @sv: The sheet
  *
  * Select all cells that are direct potential inputs to the
  * current cell.
  */
 void
-cmd_select_cur_inputs (SheetView *sv)
+sv_select_cur_inputs (SheetView *sv)
 {
 	GnmCell *cell;
 

@@ -19,6 +19,12 @@ Jody:
 	* Fix in 1.2.1 was spewing pointless warnings
 	http://bugzilla.gnome.org/show_bug.cgi?id=124975
 	* Handle undoing a paste from a deleted external sheet
+	http://bugzilla.gnome.org/show_bug.cgi?id=77303
+	* Don't scroll the other panes unless we absolutely have to.
+	http://bugzilla.gnome.org/show_bug.cgi?id=125269
+	* Try to save a current edit before an action
+	http://bugzilla.gnome.org/show_bug.cgi?id=125045
+	* Fix tick spacing with manual axis bounds
 
 Morten:
 	* Fix crash with STF import and gazillions of columns.

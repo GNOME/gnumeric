@@ -3,11 +3,12 @@
 
 #include "gnumeric.h"
 
-void cmd_select_cur_row	    (SheetView *sv);
-void cmd_select_cur_col	    (SheetView *sv);
-void cmd_select_cur_array   (SheetView *sv);
-void cmd_select_cur_depends (SheetView *sv);
-void cmd_select_cur_inputs  (SheetView *sv);
+/* TODO : move these to selection */
+void sv_select_cur_row	   (SheetView *sv);
+void sv_select_cur_col	   (SheetView *sv);
+void sv_select_cur_array   (SheetView *sv);
+void sv_select_cur_depends (SheetView *sv);
+void sv_select_cur_inputs  (SheetView *sv);
 
 void cmd_paste_to_selection (WorkbookControl *wbc, SheetView *sv, int flags);
 void cmd_paste 		    (WorkbookControl *wbc, PasteTarget const *pt);

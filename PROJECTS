@@ -12,7 +12,7 @@ Description                                             Difficulty  Integration
   from the toolbar for background or font.
 
 - Have the pattern buttons in the format dialog		Medium	    Low
-  reflect colour changes.
+  reflect colour changes.  Reuse the code in goffice
 
 - Audit the help text for all the functions.  Some are	Low	    Low
   missing or do not conform to the style guides, 

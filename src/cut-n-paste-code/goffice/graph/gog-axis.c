@@ -850,21 +850,31 @@ gog_axis_bound_changed (GogAxis *axis, GogObject *contrib)
 }
 
 static unsigned
-gog_axis_num_markers (GogAxis *axis)
+gog_axis_num_markers (GogAxis *axis, double *step)
 {
 	double minima, maxima;
 
 	if (axis->is_discrete) {
+		int n = 0;
 		if (axis->labels != NULL)
-			return go_data_vector_get_len (axis->labels);
-		if (axis->max_val >= axis->min_val)	/* case there is no data */
-			return gnumeric_fake_trunc (axis->max_val);
-		return 0;
+			n = go_data_vector_get_len (axis->labels);
+		else if (axis->max_val >= axis->min_val)	/* case there is no data */
+			n = gnumeric_fake_trunc (axis->max_val);
+		if (n < 0)
+			n = 0;
+		if (step != NULL)
+			*step = 1. / (n + 1);
+		return n;
 	} else {
 		double major_tick = axis_get_entry (axis, AXIS_ELEM_MAJOR_TICK, NULL);
 		if (major_tick <= 0. ||
-		    !gog_axis_get_bounds (axis, &minima, &maxima))
+		    !gog_axis_get_bounds (axis, &minima, &maxima)) {
+			if (step != NULL)
+				*step = 1.;
 			return 0;
+		}
+		if (step != NULL)
+			*step = major_tick / fabs (maxima - minima);
 		return 1.5 + fabs (maxima - minima) / major_tick;
 	}
 }
@@ -916,7 +926,7 @@ gog_axis_view_size_request (GogView *v, GogViewRequisition *req)
  * things are too big */
 	if (axis->major_tick_labeled) {
 		gog_renderer_push_style (v->renderer, axis->base.style);
-		for (i = gog_axis_num_markers (axis) ; i-- > 0 ; ) {
+		for (i = gog_axis_num_markers (axis, NULL) ; i-- > 0 ; ) {
 			label = gog_axis_get_marker (axis, i);
 			gog_renderer_measure_text (v->renderer, label, &tmp);
 			g_free (label);
@@ -974,7 +984,7 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 	char *label;
 	gboolean draw_major, draw_minor;
 	double pre, post, bound, tick_len, label_pad, dir, center, start;
-	double step = 0, line_width = gog_renderer_line_size (
+	double step, line_width = gog_renderer_line_size (
 		v->renderer, axis->base.style->line.width) / 2;
 
 	(aview_parent_klass->render) (v, bbox);
@@ -988,7 +998,7 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 
 	draw_major = axis->major.tick_out || axis->major.tick_in;
 	draw_minor = axis->minor.tick_out || axis->minor.tick_in;
-	n = gog_axis_num_markers (axis);
+	n = gog_axis_num_markers (axis, &step);
 	if (axis->is_discrete)
 		n++;
 	switch (axis->type) {
@@ -1008,8 +1018,7 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 			break;
 		default : break;
 		}
-		if (n > 1)
-			step = (area->w - pre - post) / (n - 1);
+		step *= (area->w - pre - post);
 
 		axis_path[0].y = axis_path[1].y = center;
 		axis_path[0].x = start = area->x + pre;
@@ -1036,6 +1045,8 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 		}
 
 		for (bound = -1, i = 0 ; i < n ; i++) {
+			if (i*step > (area->w - pre - post)) /* clip */
+				continue;
 			if (draw_major) {
 				major_path[1].x = major_path[0].x = axis_path[0].x + i * step;
 				gog_renderer_draw_path (v->renderer, major_path);
@@ -1073,8 +1084,7 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 			break;
 		default : break;
 		}
-		if (n > 1)
-			step = area->h / (n - 1);
+		step *= area->h;
 
 		axis_path[0].x = axis_path[1].x = center;
 		axis_path[0].y = start = area->y + area->h;
@@ -1101,6 +1111,8 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 		}
 
 		for (bound = DBL_MAX, i = 0 ; i < n ; i++) {
+			if (i*step > area->h) /* clip */
+				continue;
 			if (draw_major) {
 				major_path[1].y = major_path[0].y = axis_path[0].y - i * step;
 				gog_renderer_draw_path (v->renderer, major_path);

@@ -1946,6 +1946,8 @@ static void
 cb_file_print_preview (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+	if (!wbcg_edit_finish (wbcg, TRUE, NULL))
+		return;
 	sheet_print (wbcg, sheet, TRUE, PRINT_ACTIVE_SHEET);
 }
 
@@ -2080,27 +2082,35 @@ cb_edit_clear_content (GtkWidget *widget, WorkbookControlGUI *wbcg)
 static void
 cb_edit_select_all (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
+	if (!wbcg_edit_finish (wbcg, TRUE, NULL))
+		return;
 	scg_select_all (wbcg_cur_scg (wbcg));
 }
 static void
 cb_edit_select_row (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	cmd_select_cur_row (wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg)));
+	if (!wbcg_edit_finish (wbcg, TRUE, NULL))
+		return;
+	sv_select_cur_row (wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg)));
 }
 static void
 cb_edit_select_col (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	cmd_select_cur_col (wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg)));
+	if (!wbcg_edit_finish (wbcg, TRUE, NULL))
+		return;
+	sv_select_cur_col (wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg)));
 }
 static void
 cb_edit_select_array (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	cmd_select_cur_array (wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg)));
+	if (!wbcg_edit_finish (wbcg, TRUE, NULL))
+		return;
+	sv_select_cur_array (wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg)));
 }
 static void
 cb_edit_select_depend (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	cmd_select_cur_depends (wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg)));
+	sv_select_cur_depends (wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg)));
 }
 
 static void
@@ -2300,6 +2310,8 @@ cb_edit_search_replace_action (WorkbookControlGUI *wbcg,
 static void
 cb_edit_search_replace (GtkWidget *unused, WorkbookControlGUI *wbcg)
 {
+	if (!wbcg_edit_finish (wbcg, TRUE, NULL))
+		return;
 	dialog_search_replace (wbcg, cb_edit_search_replace_action);
 }
 
@@ -2307,6 +2319,8 @@ cb_edit_search_replace (GtkWidget *unused, WorkbookControlGUI *wbcg)
 static void
 cb_edit_search (GtkWidget *unused, WorkbookControlGUI *wbcg)
 {
+	if (!wbcg_edit_finish (wbcg, TRUE, NULL))
+		return;
 	dialog_search (wbcg);
 }
 
@@ -2370,12 +2384,16 @@ cb_edit_fill_series (GtkWidget *unused, WorkbookControlGUI *wbcg)
 static void
 cb_edit_goto (GtkWidget *unused, WorkbookControlGUI *wbcg)
 {
+	if (!wbcg_edit_finish (wbcg, TRUE, NULL))
+		return;
 	dialog_goto_cell (wbcg);
 }
 
 static void
 cb_edit_recalc (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
+	if (!wbcg_edit_finish (wbcg, TRUE, NULL))
+		return;
 	/* TODO :
 	 * f9  -  do any necessary calculations across all sheets
 	 * shift-f9  -  do any necessary calcs on current sheet only
@@ -2471,6 +2489,8 @@ cb_insert_current_time (GtkWidget *widget, WorkbookControlGUI *wbcg)
 static void
 cb_define_name (GtkWidget *unused, WorkbookControlGUI *wbcg)
 {
+	if (!wbcg_edit_finish (wbcg, TRUE, NULL))
+		return;
 	dialog_define_names (wbcg);
 }
 
@@ -2657,6 +2677,8 @@ TOGGLE_HANDLER (outline_symbols_right,{
 static void
 cb_format_cells (GtkWidget *unused, WorkbookControlGUI *wbcg)
 {
+	if (!wbcg_edit_finish (wbcg, TRUE, NULL))
+		return;
 	dialog_cell_format (wbcg, FD_CURRENT);
 }
 
@@ -3135,6 +3157,8 @@ cb_insert_image (GtkWidget *widget, WorkbookControlGUI *wbcg)
 static void
 cb_insert_hyperlink (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
+	if (!wbcg_edit_finish (wbcg, TRUE, NULL))
+		return;
 	dialog_hyperlink (wbcg, SHEET_CONTROL (wbcg_cur_scg (wbcg)));
 }
 
