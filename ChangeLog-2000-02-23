@@ -1,3 +1,8 @@
+Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
+
+	* gnumeric.spec.in: Added in some logic to autogenerate the 
+	catalog's file spec.
+
 2000-01-30  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet.c (sheet_cancel_pending_input) : Reload the edit area with

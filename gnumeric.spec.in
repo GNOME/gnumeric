@@ -51,42 +51,19 @@ fi
 [ -n "$RPM_BUILD_ROOT" -a "$RPM_BUILD_ROOT" != / ] && rm -rf $RPM_BUILD_ROOT
 
 make prefix=$RPM_BUILD_ROOT%{prefix} sysconfdir=$RPM_BUILD_ROOT/etc install
+#
+# Auto detect the lang files.
+#
+if [ -f /usr/lib/rpm/find-lang.sh ] ; then
+ /usr/lib/rpm/find-lang.sh $RPM_BUILD_ROOT %name
+ sed "s:(644, root, root, 755):(444, bin, bin, 555):" %{name}.lang >tmp.lang && mv tmp.lang %{name}.lang
+fi
 
 
 %clean
 [ -n "$RPM_BUILD_ROOT" -a "$RPM_BUILD_ROOT" != / ] && rm -rf $RPM_BUILD_ROOT
 
-%files
-%defattr (444, bin, bin, 555)
-%lang(cs)      /usr/share/locale/cs/LC_MESSAGES/gnumeric.mo
-%lang(da)      /usr/share/locale/da/LC_MESSAGES/gnumeric.mo
-%lang(de)      /usr/share/locale/de/LC_MESSAGES/gnumeric.mo
-%lang(en)      /usr/share/locale/en_GB/LC_MESSAGES/gnumeric.mo
-%lang(es)      /usr/share/locale/es/LC_MESSAGES/gnumeric.mo
-%lang(es)      /usr/share/locale/es_DO/LC_MESSAGES/gnumeric.mo
-%lang(es)      /usr/share/locale/es_GT/LC_MESSAGES/gnumeric.mo
-%lang(es)      /usr/share/locale/es_HN/LC_MESSAGES/gnumeric.mo
-%lang(es)      /usr/share/locale/es_MX/LC_MESSAGES/gnumeric.mo
-%lang(es)      /usr/share/locale/es_PA/LC_MESSAGES/gnumeric.mo
-%lang(es)      /usr/share/locale/es_PE/LC_MESSAGES/gnumeric.mo
-%lang(es)      /usr/share/locale/es_SV/LC_MESSAGES/gnumeric.mo
-%lang(et)      /usr/share/locale/et/LC_MESSAGES/gnumeric.mo
-%lang(fi)      /usr/share/locale/fi/LC_MESSAGES/gnumeric.mo
-%lang(fr)      /usr/share/locale/fr/LC_MESSAGES/gnumeric.mo
-%lang(hu)      /usr/share/locale/hu/LC_MESSAGES/gnumeric.mo
-%lang(hr)      /usr/share/locale/hr/LC_MESSAGES/gnumeric.mo
-%lang(it)      /usr/share/locale/it/LC_MESSAGES/gnumeric.mo
-%lang(ja)      /usr/share/locale/ja/LC_MESSAGES/gnumeric.mo
-%lang(ko)      /usr/share/locale/ko/LC_MESSAGES/gnumeric.mo
-%lang(nl)      /usr/share/locale/nl/LC_MESSAGES/gnumeric.mo
-%lang(no)      /usr/share/locale/no/LC_MESSAGES/gnumeric.mo
-%lang(pt)      /usr/share/locale/pt/LC_MESSAGES/gnumeric.mo
-%lang(pt)      /usr/share/locale/pt_BR/LC_MESSAGES/gnumeric.mo
-%lang(ru)      /usr/share/locale/ru/LC_MESSAGES/gnumeric.mo
-%lang(pl)      /usr/share/locale/pl/LC_MESSAGES/gnumeric.mo
-%lang(sk)      /usr/share/locale/sk/LC_MESSAGES/gnumeric.mo
-%lang(zh)      /usr/share/locale/zh_TW.Big5/LC_MESSAGES/gnumeric.mo
-%lang(sv)      /usr/share/locale/sv/LC_MESSAGES/gnumeric.mo
+%files -f %{name}.lang
 
 %defattr (0555, bin, bin)
 %{prefix}/bin/gnumeric
@@ -117,6 +94,9 @@ make prefix=$RPM_BUILD_ROOT%{prefix} sysconfdir=$RPM_BUILD_ROOT/etc install
 %doc HACKING AUTHORS ChangeLog NEWS README COPYING TODO
 
 %changelog
+* Sun Jan 30 2000 Gregory McLean <gregm@comstar.net>
+- Added in some auto-detect the language files logic (rpm 3.0.xx only)
+
 * Mon Jan 12 2000 Jody Goldberg <jgolbderg@home.com>
 - Add depend on gtk+ >= 1.2.2 so that we can get gtk_object_get.
 
