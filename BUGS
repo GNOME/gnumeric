@@ -7,8 +7,14 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
+* massive breakage in xls export of names
 - validate expression names to ensure that they are not simple values (eg TRUE)
 - check the implementation of seriessum returning NULL seems bad
+
+Pending Patches
+---------------
+    - ?? more work on D&D based sheet reorg ?
+    - logest function
 
 1.2 Targets
 -----------
@@ -72,10 +78,6 @@ UTF-8: (grep for ctype.h is a good start)
     - Window titles.
     - function_category_compare
     - format precompile
-
-Pending Patches
----------------
-    - ?? more work on D&D based sheet reorg ?
 
 Probably Post 1.2 Targets
 -------------------------

@@ -674,38 +674,50 @@ xml_write_style (XmlParseContext *ctxt,
 	return cur;
 }
 
-static xmlNodePtr
-xml_write_names (XmlParseContext *ctxt, GList *names)
+typedef struct {
+	xmlNode *names;
+	XmlParseContext *ctxt;
+} XMLWriteNames;
+
+static void
+cb_xml_write_name (gpointer key, GnmNamedExpr *nexpr, XMLWriteNames *user)
 {
+	xmlNodePtr  nameNode;
 	xmlChar *txt;
 	char *expr_str;
-	xmlNodePtr  namesContainer, nameNode;
-	GnmNamedExpr const *nexpr;
 
-	namesContainer = xmlNewDocNode (ctxt->doc, ctxt->ns, (xmlChar const *)"Names", NULL);
+	g_return_if_fail (nexpr != NULL);
 
-	for (; names != NULL ; names = names->next) {
-		nexpr = names->data;
+	nameNode = xmlNewChild (user->names, user->ctxt->ns, (xmlChar const *)"Name", NULL);
+	txt = xmlEncodeEntitiesReentrant (user->ctxt->doc, (xmlChar const *)nexpr->name->str);
+	xmlNewChild (nameNode, user->ctxt->ns, (xmlChar const *)"name", txt);
+	if (txt)
+		xmlFree (txt);
 
-		g_return_val_if_fail (nexpr != NULL, NULL);
+	expr_str = expr_name_as_string (nexpr, NULL);
+	txt = xmlEncodeEntitiesReentrant (user->ctxt->doc, (xmlChar const *)expr_str);
+	xmlNewChild (nameNode, user->ctxt->ns, (xmlChar const *)"value", txt);
+	if (txt)
+		xmlFree (txt);
+	g_free (expr_str);
 
-		nameNode = xmlNewChild (namesContainer, ctxt->ns, (xmlChar const *)"Name", NULL);
+	xmlNewChild (nameNode, user->ctxt->ns, (xmlChar const *)"position",
+		(xmlChar const *)cellpos_as_string (&nexpr->pos.eval));
+}
 
-		txt = xmlEncodeEntitiesReentrant (ctxt->doc, (xmlChar const *)nexpr->name->str);
-		xmlNewChild (nameNode, ctxt->ns, (xmlChar const *)"name", txt);
-		if (txt) xmlFree (txt);
+static xmlNodePtr
+xml_write_names (XmlParseContext *ctxt, GnmNamedExprCollection *scope)
+{
+	XMLWriteNames user;
 
-		expr_str = expr_name_as_string (nexpr, NULL);
-		txt = xmlEncodeEntitiesReentrant (ctxt->doc, (xmlChar const *)expr_str);
-		xmlNewChild (nameNode, ctxt->ns, (xmlChar const *)"value", txt);
-		if (txt) xmlFree (txt);
-		g_free (expr_str);
+	if (scope == NULL)
+		return NULL;
 
-		xmlNewChild (nameNode, ctxt->ns, (xmlChar const *)"position",
-			(xmlChar const *)cellpos_as_string (&nexpr->pos.eval));
-	}
-
-	return namesContainer;
+	user.ctxt  = ctxt;
+	user.names = xmlNewDocNode (ctxt->doc, ctxt->ns,
+				    (xmlChar const *)"Names", NULL);
+	g_hash_table_foreach (scope->names, (GHFunc) cb_xml_write_name, &user);
+	return user.names;
 }
 
 static void
@@ -757,7 +769,7 @@ xml_read_names (XmlParseContext *ctxt, xmlNodePtr tree,
 
 		parse_error_init (&perr);
 		expr = gnm_expr_parse_str (expr_str, &pp,
-			GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS,
+			GNM_EXPR_PARSE_DEFAULT,
 			gnm_1_0_rangeref_parse, &perr);
 		if (exp != NULL) {
 			char *err = NULL;
@@ -1468,7 +1480,7 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 				char *content = (char *)xml_node_get_cstr (e_node, NULL);
 				if (content != NULL) {
 					expr0 = gnm_expr_parse_str (content, &pp,
-							GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS,
+							GNM_EXPR_PARSE_DEFAULT,
 							&gnm_1_0_rangeref_parse, NULL);
 					xmlFree (content);
 				}
@@ -1478,7 +1490,7 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 				char *content = (char *)xml_node_get_cstr (e_node, NULL);
 				if (content != NULL) {
 					expr1 = gnm_expr_parse_str (content, &pp,
-							GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS,
+							GNM_EXPR_PARSE_DEFAULT,
 							&gnm_1_0_rangeref_parse, NULL);
 					xmlFree (content);
 				}
@@ -1724,7 +1736,7 @@ xml_cell_set_array_expr (Cell *cell, char const *text,
 	ParsePos pp;
 	GnmExpr const *expr = gnm_expr_parse_str (text,
 		parse_pos_init_cell (&pp, cell),
-		GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS,
+		GNM_EXPR_PARSE_DEFAULT,
 		&gnm_1_0_rangeref_parse, NULL);
 
 	g_return_if_fail (expr != NULL);
@@ -1939,7 +1951,7 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 				if (NULL != expr_start && *expr_start)
 					expr = gnm_expr_parse_str (expr_start,
 						parse_pos_init_cell (&pos, cell),
-						GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS,
+						GNM_EXPR_PARSE_DEFAULT,
 						&gnm_1_0_rangeref_parse, NULL);
 				if (expr != NULL) {
 					cell_set_expr (cell, expr);
@@ -2758,7 +2770,7 @@ xml_read_cell_copy (XmlParseContext *ctxt, xmlNodePtr tree,
 			g_return_if_fail (content[0] == '=');
 
 			expr = gnm_expr_parse_str ((char const *)content, &pp,
-				GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS,
+				GNM_EXPR_PARSE_DEFAULT,
 				&gnm_1_0_rangeref_parse, NULL);
 
 			g_return_if_fail (expr != NULL);

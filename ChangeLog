@@ -1,3 +1,12 @@
+2002-10-23  Jody Goldberg <jody@gnome.org>
+
+	* src/xml-io.c : disable GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS
+	  All we really needed was simple value matching before
+	  stringification.
+
+	* src/xml-io.c (cb_xml_write_name) : split out of.
+	(xml_write_names) : here.  rewritten to handle the hashes.
+
 2002-10-23  Morten Welinder  <terra@diku.dk>
 
 	* src/func.c (functions_shutdown): Get rid of the global symbol

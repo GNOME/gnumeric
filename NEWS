@@ -53,6 +53,7 @@ Jody:
 	* Tweak precedence of new operators and clean up the grammar
 	* Fix parse error reporting
 	* Fix xls name import for external and builtin names (95 & 2k)
+	* Fix undo for object movement
 
 Morten:
 	* Port search center from gal's e-table to gtk's treeview.
