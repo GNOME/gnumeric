@@ -8,3 +8,6 @@ Graph-skels.c
 Graph-common.c
 Graph.h
 my_graph_idl
+graph-bonobo
+graph.oafinfo
+sample

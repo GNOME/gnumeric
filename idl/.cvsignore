@@ -1,3 +1,13 @@
 Makefile.in
 Makefile
 .deps
+Gnumeric.h
+Gnumeric-common.c
+Gnumeric-skels.c
+Gnumeric-stubs.c
+my_graph_idl
+Graph.h
+Graph-common.c
+Graph-skels.c
+Graph-stubs.c
+my_gnumeric_idl
