@@ -1,5 +1,7 @@
 2000-01-06  Jody Goldberg <jgoldberg@home.com>
 
+	* configure.in : correct typo as per bug 4936.
+
 	* src/commands.c (cmd_ins_del_row_col_undo) : Fix operator precedence.
 	(cmd_ins_del_row_col_redo) : Ditto.
 

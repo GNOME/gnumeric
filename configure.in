@@ -242,7 +242,7 @@ if gnome-config --libs libglade > /dev/null 2>&1; then
 	case $vers
 	in
 	    libglade-0.1[[123456789]]) AC_MSG_RESULT(found) ;;
-	    *) AC_MSG_ERROR(glade is too old need >= 0.11) ;;
+	    *) AC_MSG_ERROR(libglade is too old need >= 0.11) ;;
 	esac
 else
     AC_MSG_ERROR(Did not find libGlade installed)
