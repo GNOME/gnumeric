@@ -1,3 +1,9 @@
+2002-05-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/workbook-control-gui.c (workbook_close_if_user_permits) : add 
+	  arguments and add discard-all and save-all buttons when exiting.
+	(cb_file_quit) : handle discard-all and save-all
+
 2002-05-11  Jon K Hellan  <hellan@acm.org>
 
 	* src/workbook-control-component.c (wbcc_set_transient_for):

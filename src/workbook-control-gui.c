@@ -1303,17 +1303,18 @@ static char const * const preset_zoom [] = {
  * 0) canceled
  * 1) closed
  * 2) pristine can close
- * TODO
  * 3) save any future dirty
  * 4) do not save any future dirty
  */
 static int
 workbook_close_if_user_permits (WorkbookControlGUI *wbcg,
-				WorkbookView *wb_view, gboolean close_clean)
+				WorkbookView *wb_view, gboolean close_clean,
+				gboolean exiting, gboolean ask_user)
 {
 	gboolean   can_close = TRUE;
 	gboolean   done      = FALSE;
 	int        iteration = 0;
+	int        button = 0;
 	Workbook  *wb = wb_view_workbook (wb_view);
 	static int in_can_close;
 
@@ -1325,45 +1326,70 @@ workbook_close_if_user_permits (WorkbookControlGUI *wbcg,
 	if (in_can_close)
 		return FALSE;
 	in_can_close = TRUE;
-
+	
+	if (!ask_user) {
+		done = gui_file_save (wbcg, wb_view);
+		if (done) {
+			workbook_unref (wb);
+			return 3;
+		}
+	}
 	while (workbook_is_dirty (wb) && !done) {
 		GtkWidget *d;
-		int button;
 		char *msg;
-
+		
 		iteration++;
-
+		
 		if (wb->filename)
 			msg = g_strdup_printf (
 				_("Workbook '%s' has unsaved changes :"),
 				g_basename (wb->filename));
 		else
 			msg = g_strdup (_("Workbook has unsaved changes :"));
-
+		
 		d = gtk_message_dialog_new (wbcg_toplevel (wbcg),
 					    GTK_DIALOG_DESTROY_WITH_PARENT,
 					    GTK_MESSAGE_WARNING,
 					    GTK_BUTTONS_NONE,
 					    msg); 
-		gtk_dialog_add_buttons (GTK_DIALOG (d), 
-					_("Don't Quit"), GTK_RESPONSE_CANCEL,
-					_("Discard"),	GTK_RESPONSE_NO,
-					GTK_STOCK_SAVE, GTK_RESPONSE_YES,
-					NULL);
+		if (exiting)
+			gtk_dialog_add_buttons (GTK_DIALOG (d), 
+						_("Don't Quit"),  GTK_RESPONSE_CANCEL,
+						_("Discard All"), - GTK_RESPONSE_NO,
+						_("Discard"),	  GTK_RESPONSE_NO,
+						_("Save All"),	  - GTK_RESPONSE_YES,
+						GTK_STOCK_SAVE,   GTK_RESPONSE_YES,
+						NULL);
+		else
+			gtk_dialog_add_buttons (GTK_DIALOG (d), 
+						_("Don't Close"),  GTK_RESPONSE_CANCEL,
+						_("Discard"),	  GTK_RESPONSE_NO,
+						GTK_STOCK_SAVE,   GTK_RESPONSE_YES,
+						NULL);
+		
 		gtk_dialog_set_default_response (GTK_DIALOG (d), GTK_RESPONSE_YES);
 		button = gnumeric_dialog_run (wbcg, GTK_DIALOG (d));
 		g_free (msg);
-
+		
 		switch (button) {
 		case GTK_RESPONSE_YES: 
 			done = gui_file_save (wbcg, wb_view);
 			break;
-
+			
+		case (- GTK_RESPONSE_YES): 
+			done = gui_file_save (wbcg, wb_view);
+			break;
+			
 		case GTK_RESPONSE_NO: 
 			done      = TRUE;
 			workbook_set_dirty (wb, FALSE);
 			break;
-
+			
+		case (- GTK_RESPONSE_NO): 
+			done      = TRUE;
+			workbook_set_dirty (wb, FALSE);
+			break;
+			
 		default:  /* CANCEL */
 			can_close = FALSE;
 			done      = TRUE;
@@ -1375,7 +1401,14 @@ workbook_close_if_user_permits (WorkbookControlGUI *wbcg,
 
 	if (can_close) {
 		workbook_unref (wb);
-		return 1;
+		switch (button) {
+		case (- GTK_RESPONSE_YES): 
+			return 3;
+		case (- GTK_RESPONSE_NO):
+			return 4;
+		default:
+			return 1;
+		}
 	} else
 		return 0;
 }
@@ -1414,7 +1447,8 @@ wbcg_close_control (WorkbookControlGUI *wbcg)
 
 		/* This is the last view */
 		if (wb->wb_views->len <= 1)
-			return workbook_close_if_user_permits (wbcg, wb_view, TRUE) == 0;
+			return workbook_close_if_user_permits (wbcg, wb_view, TRUE, FALSE, TRUE) 
+				== 0;
 
 		g_object_unref (G_OBJECT (wb_view));
 	} else
@@ -1599,6 +1633,8 @@ cb_file_quit (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	GList *ptr, *workbooks, *clean_no_closed = NULL;
 	gboolean ok = TRUE;
+	gboolean ask_user = TRUE;
+	gboolean discard_all = FALSE;
 
 	/* If we are still loading initial files, short circuit */
 	if (!initial_workbook_open_complete) {
@@ -1615,24 +1651,55 @@ cb_file_quit (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	for (ptr = workbooks; ok && ptr != NULL ; ptr = ptr->next) {
 		Workbook *wb = ptr->data;
 		WorkbookView *wb_view;
+		GList *old_ptr;
 
 		g_return_if_fail (IS_WORKBOOK (wb));
 		g_return_if_fail (wb->wb_views != NULL);
 
 		if (wb_control_workbook (wbc) == wb)
 			continue;
-		wb_view = g_ptr_array_index (wb->wb_views, 0);
-		switch (workbook_close_if_user_permits (wbcg, wb_view, FALSE)) {
-		case 0 : ok = FALSE;	/* canceled */
-			break;
-		case 1 :		/* closed */
-			break;
-		case 2 : clean_no_closed = g_list_prepend (clean_no_closed, wb);
-		};
+		if (discard_all) {
+			
+		} else {
+			wb_view = g_ptr_array_index (wb->wb_views, 0);
+			switch (workbook_close_if_user_permits (wbcg, wb_view, FALSE, 
+								TRUE, ask_user)) {
+			case 0 : ok = FALSE;	/* canceled */
+				break;
+			case 1 :		/* closed */
+				break;
+			case 2 : clean_no_closed = g_list_prepend (clean_no_closed, wb);
+				break;
+			case 3 :		/* save_all */
+				ask_user = FALSE;
+				break;
+			case 4 :		/* discard_all */
+				discard_all = TRUE;
+				old_ptr = ptr;
+				for (ptr = ptr->next; ptr != NULL ; ptr = ptr->next) {
+					Workbook *wba = ptr->data;
+					old_ptr = ptr;
+					if (wb_control_workbook (wbc) == wba)
+						continue;
+					workbook_set_dirty (wba, FALSE);
+					workbook_unref (wba);
+				}
+				ptr = old_ptr;
+				break;
+			};
+		}
 	}
 
+	if (discard_all) {
+		workbook_set_dirty (wb_control_workbook (wbc), FALSE);
+		workbook_unref (wb_control_workbook (wbc));
+		for (ptr = clean_no_closed; ptr != NULL ; ptr = ptr->next)
+			workbook_unref (ptr->data);
+	} else
 	/* only close pristine books if nothing was canceled. */
-	if (ok && workbook_close_if_user_permits (wbcg, wb_control_view (wbc), TRUE) > 0)
+	if (ok && workbook_close_if_user_permits (wbcg, 
+						  wb_control_view (wbc), TRUE, TRUE, ask_user) 
+	    > 0)
 		for (ptr = clean_no_closed; ptr != NULL ; ptr = ptr->next)
 			workbook_unref (ptr->data);
 
