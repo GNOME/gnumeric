@@ -5,8 +5,6 @@
  * Author:
  *  Miguel de Icaza (miguel@gnu.org)
  */
-#undef GTK_DISABLE_DEPRECATED
-#warning "This file uses GTK_DISABLE_DEPRECATED for GtkCombo and some signal handling"
 
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
@@ -89,9 +87,9 @@ gnumeric_notice_nonmodal (GtkWindow *parent, GtkWidget **ref, GtkMessageType typ
 	*ref = dialog = gtk_message_dialog_new (parent, GTK_DIALOG_DESTROY_WITH_PARENT, type,
 					 GTK_BUTTONS_OK, str);
 
-	gtk_signal_connect_object (GTK_OBJECT (dialog), "response",
+	g_signal_connect_object (GTK_OBJECT (dialog), "response",
 				   GTK_SIGNAL_FUNC (gtk_widget_destroy),
-				   GTK_OBJECT (dialog));
+				   GTK_OBJECT (dialog), 0);
 	g_signal_connect (G_OBJECT (dialog),
 		"destroy",
 		G_CALLBACK (gtk_widget_destroyed), ref);
@@ -311,7 +309,7 @@ cb_parent_mapped (GtkWidget *parent, GtkWindow *window)
 {
 	if (GTK_WIDGET_MAPPED (window)) {
 		gtk_window_present (window);
-		gtk_signal_disconnect_by_func (GTK_OBJECT (parent),
+		g_signal_handlers_disconnect_by_func (GTK_OBJECT (parent),
 			GTK_SIGNAL_FUNC (cb_parent_mapped),
 			window);
 	}
@@ -475,25 +473,6 @@ gnumeric_editable_enters (GtkWindow *window, GtkWidget *w)
 	g_signal_connect_swapped (G_OBJECT (w),
 		"activate",
 		G_CALLBACK (gtk_window_activate_default), window);
-}
-
-/**
- * gnumeric_combo_enters:
- * @window: dialog to affect
- * @combo: Combo to affect
- *
- * This calls upon gnumeric_editable_enters so the dialog
- * is closed instead of the list with options popping up
- * when enter is pressed
- **/
-void
-gnumeric_combo_enters (GtkWindow *window, GtkWidget *combo)
-{
-	g_return_if_fail (GTK_IS_WINDOW(window));
-	g_return_if_fail (GTK_IS_COMBO (combo));
-
-	gtk_combo_disable_activate (GTK_COMBO (combo));
-	gnumeric_editable_enters (window, GTK_WIDGET (GTK_COMBO (combo)->entry));
 }
 
 int

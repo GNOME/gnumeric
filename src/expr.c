@@ -913,8 +913,8 @@ cb_iter_unary_neg (GnmValue const *v, GnmEvalPos const *ep,
 	else if (v->type == VALUE_ERROR)
 		tmp = value_dup (v);
 	else if (v->type == VALUE_STRING) {
-		conv = format_match_number (a->v_str.val->str, NULL,
-			workbook_date_conv (pos->sheet->workbook));
+		conv = format_match_number (v->v_str.val->str, NULL,
+			workbook_date_conv (ep->sheet->workbook));
 		if (conv != NULL)
 			v = conv;
 	}
@@ -951,8 +951,8 @@ cb_iter_percentage (GnmValue const *v, GnmEvalPos const *ep,
 	else if (v->type == VALUE_ERROR)
 		tmp = value_dup (v);
 	else if (v->type == VALUE_STRING) {
-		conv = format_match_number (a->v_str.val->str, NULL,
-			workbook_date_conv (pos->sheet->workbook));
+		conv = format_match_number (v->v_str.val->str, NULL,
+			workbook_date_conv (ep->sheet->workbook));
 		if (conv != NULL)
 			v = conv;
 	}

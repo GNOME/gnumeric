@@ -39,7 +39,6 @@ void       gnumeric_keyed_dialog (WorkbookControlGUI *wbcg,
 gpointer   gnumeric_dialog_raise_if_exists (WorkbookControlGUI *wbcg,
 					    char const *key);
 void       gnumeric_editable_enters	(GtkWindow *window, GtkWidget *w);
-void       gnumeric_combo_enters	(GtkWindow *window, GtkWidget *combo);
 
 /* Utility routine as Gtk does not have any decent routine to do this */
 int gtk_radio_group_get_selected (GSList *radio_group);

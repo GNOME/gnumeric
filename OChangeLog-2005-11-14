@@ -1,3 +1,13 @@
+2004-05-22  Jean Brefort  <jean.brefort@ac-dijon.fr>
+
+	* src/expr.c: (cb_iter_unary_neg), (cb_iter_percentage): make it compile again by changing
+	variable names "a" and "pos" by "v" and "ep".
+	* src/gui-util.c: (gnumeric_notice_nonmodal), (cb_parent_mapped),
+	(gnumeric_combo_enters): replaced gtk_signal by g_signal and deleted
+	gnumeric_combo_enters as it is not used anymore and I could not find a replacement
+	for gtk_combo_disable_activate usable with GtkComboBoxEntry.
+	* src/gui-util.h: removed gnumeric_combo_enters.
+
 2004-05-21  Jody Goldberg <jody@gnome.org>
 
 	* src/expr.c : support implicit iteration for operators.  We now
