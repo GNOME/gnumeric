@@ -1557,8 +1557,6 @@ analysis_tool_ztest_engine_run (data_analysis_output_t *dao,
 	GnmExpr const *expr_mean_2 = NULL;
 	GnmExpr const *expr_count_2 = NULL;
 
-
-
         dao_set_cell (dao, 0, 0, "");
         set_cell_text_col (dao, 0, 1, _("/Mean"
 					"/Known Variance"
@@ -1712,6 +1710,8 @@ analysis_tool_ztest_engine_run (data_analysis_output_t *dao,
 
 		args = gnm_expr_list_append
 			(NULL, gnm_expr_new_cellref (&cr));
+		args = gnm_expr_list_append
+			(NULL, gnm_expr_new_funcall (fd_abs, args));
 		dao_set_cell_expr(dao, 1, 7,
 				  gnm_expr_new_binary(
 					  gnm_expr_new_constant
@@ -1848,35 +1848,23 @@ static gboolean
 analysis_tool_ttest_paired_engine_run (data_analysis_output_t *dao, 
 				       analysis_tools_data_ttests_t *info)
 {
-	data_set_t *variable_1;
-	data_set_t *variable_2;
-	GArray * cleaned_variable_1;
-	GArray * cleaned_variable_2;
-	GSList *missing;
-	GArray * difference;
-	gnm_float     *current_1, *current_2;
-	guint i;
-	gint mean_error_1 = 0, mean_error_2 = 0, var_error_1 = 0, var_error_2 = 0;
-	gint error = 0, mean_diff_error = 0, var_diff_error = 0;
-	gnm_float    mean_1 = 0, mean_2 = 0;
-	gnm_float    pearson, var_1, var_2, t = 0, p = 0, df, var_diff = 0, mean_diff = 0;
-
-	variable_1 = new_data_set (info->base.range_1, TRUE, info->base.labels,
-				   _("Variable %i"), 1, dao->sheet);
-	variable_2 = new_data_set (info->base.range_2, TRUE, info->base.labels,
-				   _("Variable %i"), 2, dao->sheet);
-
-	if (variable_1->data->len != variable_2->data->len) {
-		destroy_data_set (variable_1);
-		destroy_data_set (variable_2);
-		gnm_cmd_context_error_calc (GNM_CMD_CONTEXT (info->base.wbc),
-			_("The 2 input ranges must have the same size."));
-	        return TRUE;
-	}
-
-	missing = union_of_int_sets (variable_1->missing, variable_2->missing);
-	cleaned_variable_1 = strip_missing (variable_1->data, missing);
-	cleaned_variable_2 = strip_missing (variable_2->data, missing);
+	GnmValue *val = NULL;
+	GnmValue *val_1 = NULL;
+	GnmValue *val_2 = NULL;
+	GnmFunc *fd_count = NULL;
+	GnmFunc *fd_mean = NULL;
+	GnmFunc *fd_var = NULL;
+	GnmFunc *fd_tdist = NULL;
+	GnmFunc *fd_abs = NULL;
+	GnmFunc *fd_tinv = NULL;
+	GnmFunc *fd_correl = NULL;
+	GnmExprList *args = NULL;
+	GnmExpr const *expr_1 = NULL;
+	GnmExpr const *expr_2 = NULL;
+	GnmExpr const *expr_mean_2 = NULL;
+	GnmExpr const *expr_var_2 = NULL;
+	GnmExpr const *expr_count_2 = NULL;
+	GnmExpr const *expr_diff = NULL;
 
         dao_set_cell (dao, 0, 0, "");
         set_cell_text_col (dao, 0, 1, _("/Mean"
@@ -1884,6 +1872,8 @@ analysis_tool_ttest_paired_engine_run (data_analysis_output_t *dao,
 					"/Observations"
 					"/Pearson Correlation"
 					"/Hypothesized Mean Difference"
+					"/Observed Mean Difference"
+					"/Variance of the Differences"
 					"/df"
 					"/t Stat"
 					"/P (T<=t) one-tail"
@@ -1891,104 +1881,243 @@ analysis_tool_ttest_paired_engine_run (data_analysis_output_t *dao,
 					"/P (T<=t) two-tail"
 					"/t Critical two-tail"));
 
-	current_1 = (gnm_float *)cleaned_variable_1->data;
-	current_2 = (gnm_float *)cleaned_variable_2->data;
-	difference = g_array_new (FALSE, FALSE, sizeof (gnm_float));
-	for (i = 0; i < cleaned_variable_1->len; i++) {
-		gnm_float diff;
-		diff = *current_1  - *current_2;
-		current_1++;
-		current_2++;
-		g_array_append_val (difference, diff);
-	}
-
-	mean_error_1 = range_average ((const gnm_float *) cleaned_variable_1->data,
-				      cleaned_variable_1->len, &mean_1);
-	mean_error_2 = range_average ((const gnm_float *) cleaned_variable_2->data,
-				      cleaned_variable_2->len, &mean_2);
-	mean_diff_error = range_average ((const gnm_float *) difference->data,
-					 difference->len, &info->mean_diff);
-
-	if (mean_error_1 == 0)
-		var_error_1 = range_var_est (
-			(const gnm_float *)cleaned_variable_1->data,
-			cleaned_variable_1->len , &var_1);
-	if (mean_error_2 == 0)
-		var_error_2 = range_var_est (
-			(const gnm_float *) cleaned_variable_2->data,
-			cleaned_variable_2->len , &var_2);
-	if (mean_diff_error == 0)
-		var_diff_error = range_var_est (
-			(const gnm_float *) difference->data,
-			difference->len , &var_diff);
-	else
-		var_diff_error = 99;
-
-	df = cleaned_variable_1->len - 1;
-
-	if (var_diff_error == 0) {
-		t = (mean_diff - info->mean_diff) / sqrtgnum (var_diff / difference->len);
-		p = pt (gnumabs (t), df, FALSE, FALSE);
-	}
-
-
+	val_1 = value_dup (info->base.range_1);
+	val_2 = value_dup (info->base.range_2);
 
 	/* Labels */
-	dao_set_cell_printf (dao, 1, 0, variable_1->label);
-	dao_set_cell_printf (dao, 2, 0, variable_2->label);
+	analysis_tools_write_label_ftest (val_1, dao, 1, 0, 
+					  info->base.labels, 1);
+	analysis_tools_write_label_ftest (val_2, dao, 2, 0, 
+					  info->base.labels, 2);
 
 	/* Mean */
-	dao_set_cell_float_na (dao, 1, 1, mean_1, mean_error_1 == 0);
-	dao_set_cell_float_na (dao, 2, 1, mean_2, mean_error_2 == 0);
+
+	fd_mean = gnm_func_lookup ("AVERAGE", NULL);
+	gnm_func_ref (fd_mean);
+	val = value_dup (val_1);
+	expr_1 = gnm_expr_new_constant (val);
+	gnm_expr_ref (expr_1);
+	args = gnm_expr_list_append (NULL, 
+				     expr_1);
+	dao_set_cell_expr (dao, 1, 1, 
+			   gnm_expr_new_funcall (fd_mean, args));
+	val = value_dup (val_2);
+	expr_2 = gnm_expr_new_constant (val);
+	gnm_expr_ref (expr_2);
+	args = gnm_expr_list_append (NULL, 
+				     expr_2);
+	expr_mean_2 = gnm_expr_new_funcall (fd_mean, args);
+	dao_set_cell_expr (dao, 2, 1, expr_mean_2);	
 
 	/* Variance */
-	dao_set_cell_float_na (dao, 1, 2, var_1, (mean_error_1 == 0) && (var_error_1 == 0));
-	dao_set_cell_float_na (dao, 2, 2, var_2, (mean_error_2 == 0) && (var_error_2 == 0));
+	fd_var = gnm_func_lookup ("VAR", NULL);
+	gnm_func_ref (fd_var);
+	gnm_expr_ref (expr_1);
+	args = gnm_expr_list_append (NULL, expr_1);
+	dao_set_cell_expr (dao, 1, 2, 
+			   gnm_expr_new_funcall (fd_var, args));
+	gnm_expr_ref (expr_2);
+	args = gnm_expr_list_append (NULL, expr_2);
+	expr_var_2 = gnm_expr_new_funcall (fd_var, args);
+	dao_set_cell_expr (dao, 2, 2, expr_var_2);	
 
 	/* Observations */
-	dao_set_cell_int (dao, 1, 3, cleaned_variable_1->len);
-	dao_set_cell_int (dao, 2, 3, cleaned_variable_2->len);
+	fd_count = gnm_func_lookup ("COUNT", NULL);
+	gnm_func_ref (fd_count);
+	gnm_expr_ref (expr_1);
+	args = gnm_expr_list_append (NULL, expr_1);
+	dao_set_cell_expr (dao, 1, 3, 
+			   gnm_expr_new_funcall (fd_count, args));
+	gnm_expr_ref (expr_2);
+	args = gnm_expr_list_append (NULL, expr_2);
+	expr_count_2 = gnm_expr_new_funcall (fd_count, args);
+	dao_set_cell_expr (dao, 2, 3, 
+			   expr_count_2);	
 
 	/* Pearson Correlation */
-	error =  range_correl_pop
-		((gnm_float *)(cleaned_variable_1->data),
-		 (gnm_float *)(cleaned_variable_2->data),
-		 cleaned_variable_1->len, &pearson);
-	dao_set_cell_float_na (dao, 1, 4, pearson, error == 0);
+
+	fd_correl = gnm_func_lookup ("CORREL", NULL);
+	gnm_func_ref (fd_correl);
+	gnm_expr_ref (expr_1);
+	args = gnm_expr_list_append (NULL, expr_1);
+	gnm_expr_ref (expr_2);
+	args = gnm_expr_list_append (args, expr_2);
+	dao_set_cell_expr (dao, 1, 4, 
+			   gnm_expr_new_funcall (fd_correl, args));	
+	if (fd_correl) 
+		gnm_func_unref (fd_correl);
 
 	/* Hypothesized Mean Difference */
 	dao_set_cell_float (dao, 1, 5, info->mean_diff);
 
+	/* Observed Mean Difference */
+
+	expr_diff = gnm_expr_new_binary
+		(expr_1, GNM_EXPR_OP_SUB, expr_2);
+	gnm_expr_ref (expr_diff);
+	args = gnm_expr_list_append (NULL, expr_diff);
+	dao_set_cell_expr (dao, 1, 6, 
+			   gnm_expr_new_funcall (fd_mean, args));	
+
+	if (fd_mean) 
+		gnm_func_unref (fd_mean);
+
+	/* Variance of the Differences */
+
+	gnm_expr_ref (expr_diff);
+	args = gnm_expr_list_append (NULL, expr_diff);
+	dao_set_cell_expr (dao, 1, 7, 
+			   gnm_expr_new_funcall (fd_var, args));	
+	if (fd_var) 
+		gnm_func_unref (fd_var);
+
 	/* df */
-	dao_set_cell_float (dao, 1, 6, df);
+
+	args = gnm_expr_list_append (NULL, expr_diff);
+	dao_set_cell_expr (dao, 1, 8, 
+			   gnm_expr_new_binary 
+			   (gnm_expr_new_funcall (fd_count, args),
+			    GNM_EXPR_OP_SUB,
+			    gnm_expr_new_constant (value_new_int (1))));	
+	if (fd_count) 
+		gnm_func_unref (fd_count);
 
 	/* t */
-  	dao_set_cell_float_na (dao, 1, 7, t, var_diff_error == 0);
+	/* E24 = (E21-E20)/(E22/(E23+1))^0.5 */
+	{
+		GnmCellRef cr_1 = {NULL, 0, -3 ,TRUE, TRUE};
+		GnmCellRef cr_2 = {NULL, 0, -4 ,TRUE, TRUE};
+		GnmExpr const *expr_num = NULL;
+		GnmExpr const *expr_denom = NULL;
+
+		expr_num = gnm_expr_new_binary ( 
+			gnm_expr_new_cellref (&cr_1),
+			GNM_EXPR_OP_SUB,
+			gnm_expr_new_cellref (&cr_2));
+
+		cr_1.row = -2;
+		cr_2.row = -1;
+
+		expr_denom = gnm_expr_new_binary 
+			(gnm_expr_new_binary 
+			 (gnm_expr_new_cellref (&cr_1),
+			  GNM_EXPR_OP_DIV,
+			  gnm_expr_new_binary 
+			  (gnm_expr_new_cellref (&cr_2),
+			   GNM_EXPR_OP_ADD,
+			   gnm_expr_new_constant
+			   (value_new_int (1)))),
+			 GNM_EXPR_OP_EXP,
+			 gnm_expr_new_constant 
+			 (value_new_float (0.5)));
+
+		dao_set_cell_expr (dao, 1, 9, 
+				   gnm_expr_new_binary 
+				   (expr_num, GNM_EXPR_OP_DIV, expr_denom));
+	}
 
 	/* P (T<=t) one-tail */
-	dao_set_cell_float_na (dao, 1, 8, p, var_diff_error == 0);
+
+	fd_tdist = gnm_func_lookup ("TDIST", NULL);
+	gnm_func_ref (fd_tdist);
+	fd_abs = gnm_func_lookup ("ABS", NULL);
+	gnm_func_ref (fd_abs);
+
+	{
+		GnmExprList *args = NULL;
+		GnmCellRef cr = {NULL, 0, -1 ,TRUE, TRUE};
+
+		args = gnm_expr_list_append
+			(NULL, gnm_expr_new_cellref (&cr));
+		args = gnm_expr_list_append
+			(NULL, gnm_expr_new_funcall (fd_abs, args));
+		cr.row = -2;
+		args = gnm_expr_list_append
+			(args, gnm_expr_new_cellref (&cr));
+		args = gnm_expr_list_append 
+			(args, 
+			 gnm_expr_new_constant (value_new_int (1)));
+
+		dao_set_cell_expr(dao, 1, 10,
+				  gnm_expr_new_funcall (fd_tdist, args));
+	}
 
 	/* t Critical one-tail */
-	dao_set_cell_float (dao, 1, 9, qt (info->base.alpha, df, FALSE, FALSE));
+
+	fd_tinv = gnm_func_lookup ("TINV", NULL);
+	gnm_func_ref (fd_tinv);
+
+	{
+		GnmExprList *args = NULL;
+		GnmCellRef cr = {NULL, 0, -3 ,TRUE, TRUE};
+
+		args = gnm_expr_list_append
+			(NULL, gnm_expr_new_binary (
+				gnm_expr_new_constant (value_new_int (2)),
+				GNM_EXPR_OP_MULT,
+				gnm_expr_new_constant 
+				(value_new_float (info->base.alpha))));
+		args = gnm_expr_list_append 
+			(args, gnm_expr_new_cellref (&cr));
+
+		dao_set_cell_expr(dao, 1, 11,
+				  gnm_expr_new_funcall (fd_tinv, args));		
+	}
 
 	/* P (T<=t) two-tail */
-	dao_set_cell_float_na (dao, 1, 10, 2 * p, var_diff_error == 0);
+
+	{
+		GnmExprList *args = NULL;
+		GnmCellRef cr = {NULL, 0, -3 ,TRUE, TRUE};
+
+		args = gnm_expr_list_append
+			(NULL, gnm_expr_new_cellref (&cr));
+		args = gnm_expr_list_append
+			(NULL, gnm_expr_new_funcall (fd_abs, args));
+		cr.row = -4;
+		args = gnm_expr_list_append
+			(args, gnm_expr_new_cellref (&cr));
+		args = gnm_expr_list_append 
+			(args, 
+			 gnm_expr_new_constant (value_new_int (2)));
+
+		dao_set_cell_expr(dao, 1, 12,
+				  gnm_expr_new_funcall (fd_tdist, args));
+	}
+
+	if (fd_tdist)
+		gnm_func_unref (fd_tdist);
+	if (fd_abs)
+		gnm_func_unref (fd_abs);
 
 	/* t Critical two-tail */
-	dao_set_cell_float (dao, 1, 11, qt (info->base.alpha / 2, df, FALSE, FALSE));
 
-	dao_set_italic (dao, 0, 0, 0, 11);
+	{
+		GnmExprList *args = NULL;
+		GnmCellRef cr = {NULL, 0, -5 ,TRUE, TRUE};
+
+		args = gnm_expr_list_append
+			(NULL, gnm_expr_new_constant 
+			 (value_new_float (info->base.alpha)));
+		args = gnm_expr_list_append 
+			(args, gnm_expr_new_cellref (&cr));
+
+		dao_set_cell_expr(dao, 1, 13,
+				  gnm_expr_new_funcall (fd_tinv, args));		
+	}
+
+	if (fd_tinv)
+		gnm_func_unref (fd_tinv);
+
+	/* And finish up */
+
+	dao_set_italic (dao, 0, 0, 0, 13);
 	dao_set_italic (dao, 0, 0, 2, 0);
 
-	if (cleaned_variable_1 != variable_1->data)
-		g_array_free (cleaned_variable_1, TRUE);
-	if (cleaned_variable_2 != variable_2->data)
-		g_array_free (cleaned_variable_2, TRUE);
+	value_release (val_1);
+	value_release (val_2);
 
-	g_array_free (difference, TRUE);
-
-	destroy_data_set (variable_1);
-	destroy_data_set (variable_2);
+	dao_redraw_respan (dao);
 
 	return FALSE;
 }
@@ -2002,7 +2131,7 @@ analysis_tool_ttest_paired_engine (data_analysis_output_t *dao, gpointer specs,
 		return (dao_command_descriptor (dao, _("t-Test, paired (%s)"), result) 
 			== NULL);
 	case TOOL_ENGINE_UPDATE_DAO: 
-		dao_adjust (dao, 3, 12);
+		dao_adjust (dao, 3, 14);
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:
 		return analysis_tool_ftest_clean (dao, specs);
