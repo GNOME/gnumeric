@@ -7,6 +7,7 @@
 #include <gnumeric-config.h>
 #include <glib.h>
 #include <module-plugin-defs.h>
+#include <error-info.h>
 #include "gnm-python.h"
 #include "gnm-py-interpreter.h"
 #include "python-loader.h"
