@@ -2595,6 +2595,7 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet *sheet)
 		closure.container = cols;
 		closure.ctxt = ctxt;
 		closure.previous = NULL;
+		closure.rle_count = 0;
 		col_row_foreach (&sheet->cols,
 				 0, SHEET_MAX_COLS-1,
 				 &xml_write_colrow_info, &closure);
@@ -2612,6 +2613,7 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet *sheet)
 		closure.container = rows;
 		closure.ctxt = ctxt;
 		closure.previous = NULL;
+		closure.rle_count = 0;
 		col_row_foreach (&sheet->rows,
 				 0, SHEET_MAX_ROWS-1,
 				 &xml_write_colrow_info, &closure);

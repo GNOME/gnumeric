@@ -1,7 +1,9 @@
 2000-11-29  Morten Welinder  <terra@diku.dk>
 
-	* src/xml-io.c (natural_order_cmp): Fix major brown-bag in
- 	ordering.
+	* src/xml-io.c (xml_sheet_write): Initialise closure's rle_count
+ 	member.
+
+	(natural_order_cmp): Fix major brown-bag in ordering.
 
 2000-11-27  Morten Welinder  <terra@diku.dk>
 
