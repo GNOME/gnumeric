@@ -10,6 +10,7 @@
 #include "gnumeric-type-util.h"
 #include "gnumeric-util.h"
 #include "commands.h"
+#include "application.h"
 #include "sheet.h"
 #include "workbook.h"
 #include "workbook-view.h"
@@ -365,7 +366,7 @@ cmd_set_text_destroy (GtkObject *cmd)
 
 gboolean
 cmd_set_text (CommandContext *context,
-	      Sheet *sheet, CellPos const * const pos,
+	      Sheet *sheet, CellPos const *pos,
 	      char *new_text)
 {
 	static int const max_descriptor_width = 15;
@@ -563,7 +564,7 @@ cmd_area_set_text_destroy (GtkObject *cmd)
 
 gboolean
 cmd_area_set_text (CommandContext *context, EvalPos const *pos,
-		   char const * const new_text, gboolean const as_array)
+		   char const *new_text, gboolean as_array)
 {
 	static int const max_descriptor_width = 15;
 
@@ -674,6 +675,9 @@ cmd_ins_del_row_col_undo (GnumericCommand *cmd, CommandContext *context)
 	workbook_recalc (me->sheet->workbook);
 	sheet_update (me->sheet);
 
+	/* Ins/Del Row/Col unants things */
+	application_clipboard_unant ();
+
 	return trouble;
 }
 
@@ -721,6 +725,9 @@ cmd_ins_del_row_col_redo (GnumericCommand *cmd, CommandContext *context)
 	sheet_set_dirty (me->sheet, TRUE);
 	workbook_recalc (me->sheet->workbook);
 	sheet_update (me->sheet);
+
+	/* Ins/Del Row/Col unants things */
+	application_clipboard_unant ();
 
 	return trouble;
 }
@@ -934,7 +941,7 @@ cmd_clear_destroy (GtkObject *cmd)
 }
 
 gboolean
-cmd_clear_selection (CommandContext *context, Sheet *sheet, int const clear_flags)
+cmd_clear_selection (CommandContext *context, Sheet *sheet, int clear_flags)
 {
 	GtkObject *obj;
 	CmdClear *me;
@@ -1327,8 +1334,8 @@ cmd_set_date_time_destroy (GtkObject *cmd)
 }
 
 gboolean
-cmd_set_date_time (CommandContext *context, gboolean is_date,
-		   Sheet *sheet, CellPos const * const pos)
+cmd_set_date_time (CommandContext *context,
+		   Sheet *sheet, CellPos const *pos, gboolean is_date)
 {
 	GtkObject *obj;
 	CmdSetDateTime *me;
@@ -1420,8 +1427,8 @@ cmd_resize_row_col_destroy (GtkObject *cmd)
 }
 
 gboolean
-cmd_resize_row_col (CommandContext *context, gboolean is_col,
-		   Sheet *sheet, int index)
+cmd_resize_row_col (CommandContext *context,
+		    Sheet *sheet, int index, gboolean is_col)
 {
 	GtkObject *obj;
 	CmdResizeRowCol *me;
@@ -1627,7 +1634,7 @@ cmd_hide_row_col_destroy (GtkObject *cmd)
 
 gboolean
 cmd_hide_selection_rows_cols (CommandContext *context, Sheet *sheet,
-			      gboolean const is_cols, gboolean const visible)
+			      gboolean is_cols, gboolean visible)
 {
 	GtkObject *obj;
 	CmdHideRowCol *me;
@@ -1746,7 +1753,7 @@ cmd_paste_cut_destroy (GtkObject *cmd)
 }
 
 gboolean
-cmd_paste_cut (CommandContext *context, ExprRelocateInfo const * const info)
+cmd_paste_cut (CommandContext *context, ExprRelocateInfo const *info)
 {
 	GtkObject *obj;
 	CmdPasteCut *me;
@@ -1782,64 +1789,8 @@ cmd_paste_cut (CommandContext *context, ExprRelocateInfo const * const info)
 }
 
 /******************************************************************/
-
-#define CMD_COLROW_RESIZE_TYPE        (cmd_colrow_resize_get_type ())
-#define CMD_COLROW_RESIZE(o)          (GTK_CHECK_CAST ((o), CMD_COLROW_RESIZE_TYPE, CmdColRowResize))
-
-typedef struct
-{
-	GnumericCommand parent;
-
-	GSList *colrows;
-	int size_pixels;
-} CmdColRowResize;
-
-GNUMERIC_MAKE_COMMAND (CmdColRowResize, cmd_colrow_resize);
-
-static gboolean
-cmd_colrow_resize_undo (GnumericCommand *cmd, CommandContext *context)
-{
-	CmdColRowResize *me = CMD_COLROW_RESIZE (cmd);
-
-	g_return_val_if_fail (me != NULL, TRUE);
-
-	/* FIXME : Fill in */
-	return FALSE;
-}
-
-static gboolean
-cmd_colrow_resize_redo (GnumericCommand *cmd, CommandContext *context)
-{
-	CmdColRowResize *me = CMD_COLROW_RESIZE (cmd);
-
-	g_return_val_if_fail (me != NULL, TRUE);
-
-	/* FIXME : Fill in */
-	return FALSE;
-}
-static void
-cmd_colrow_resize_destroy (GtkObject *cmd)
-{
-#if 0
-	CmdColRowResize *me = CMD_COLROW_RESIZE (cmd);
-#endif
-	/* FIXME : Fill in */
-	gnumeric_command_destroy (cmd);
-}
-
-/* Disable until finished */
-static gboolean
-cmd_colrow_resize (CommandContext *context,
-		   gboolean is_cols,
-		   GSList *colrows,
-		   int size_pixels)
-{
-	return FALSE;
-}
-
-/******************************************************************/
 /*
- * Complete colrow risize
+ * - Complete colrow resize
  *
  * TODO : Make a list of commands that should have undo support
  *        that do not even have stubs

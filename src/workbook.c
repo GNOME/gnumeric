@@ -914,16 +914,16 @@ static void
 insert_current_date_cmd (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = wb->current_sheet;
-	cmd_set_date_time (workbook_command_context_gui (wb), TRUE,
-			   sheet, &sheet->cursor.edit_pos);
+	cmd_set_date_time (workbook_command_context_gui (wb),
+			   sheet, &sheet->cursor.edit_pos, TRUE);
 }
 
 static void
 insert_current_time_cmd (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = wb->current_sheet;
-	cmd_set_date_time (workbook_command_context_gui (wb), FALSE,
-			   sheet, &sheet->cursor.edit_pos);
+	cmd_set_date_time (workbook_command_context_gui (wb),
+			   sheet, &sheet->cursor.edit_pos, FALSE);
 }
 
 static void
@@ -3370,7 +3370,6 @@ workbook_expr_relocate (Workbook *wb, ExprRelocateInfo const *info)
 
 	for (l = cells; l; l = l->next)	{
 		Cell *cell = l->data;
-		EvalPos pos;
 		ExprRewriteInfo rwinfo;
 		ExprTree *newtree; 
 		
@@ -3382,11 +3381,13 @@ workbook_expr_relocate (Workbook *wb, ExprRelocateInfo const *info)
 		if (newtree) {
 			/* Don't store relocations if they were inside the region
 			 * being moved.  That is handled elsewhere */
-			if (info->origin_sheet != pos.sheet ||
-			    !range_contains (&info->origin, pos.eval.col, pos.eval.row)) {
+			if (info->origin_sheet != rwinfo.u.relocate.pos.sheet ||
+			    !range_contains (&info->origin,
+					     rwinfo.u.relocate.pos.eval.col,
+					     rwinfo.u.relocate.pos.eval.row)) {
 				struct expr_relocate_storage *tmp =
 				    g_new (struct expr_relocate_storage, 1);
-				tmp->pos = pos;
+				tmp->pos = rwinfo.u.relocate.pos;
 				tmp->oldtree = cell->u.expression;
 				expr_tree_ref (tmp->oldtree);
 				undo_info = g_slist_prepend (undo_info, tmp);

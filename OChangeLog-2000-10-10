@@ -1,3 +1,15 @@
+2000-05-14  Jody Goldberg <jgoldberg@home.com>
+
+	* src/commands.h : Reformat.
+
+	* src/commands.c (cmd_ins_del_row_col_{undo,redo}) : unant the
+	  selection when the topology changes.
+
+	* src/workbook.c (workbook_expr_relocate) : Fix typo.
+
+	* src/sheet-view.c (sheet_view_{col,row}_selection_changed) : Call
+	  sheet_update after a change.
+
 2000-05-11  Michael Meeks  <michael@helixcode.com>
 
 	* src/embeddable-grid.c (grid_view_activate): grab widget focus.

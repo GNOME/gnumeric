@@ -1,3 +1,14 @@
+Gnumeric 0.54
+
+Jody:
+	* Initial applix import.
+	* Speedup workbook exit, copy/paste.
+	* Improve row/col insert/del.
+
+Jacob:
+	* Enable mini icons when available.
+
+--------------------------------------------------------------------------
 Gnumeric 0.53
 
 Morten:

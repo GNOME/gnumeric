@@ -339,6 +339,9 @@ sheet_view_col_selection_changed (ItemBar *item_bar, int col, int modifiers, She
 		sheet_selection_extend_to (sheet, col, SHEET_MAX_ROWS - 1);
 		gnumeric_sheet_make_cell_visible (gsheet, col, gsheet->row.first, FALSE);
 	}
+
+	/* The edit pos, and the selection may have changed */
+	sheet_update (sheet);
 }
 
 struct closure_colrow_resize {
@@ -423,6 +426,8 @@ sheet_view_row_selection_changed (ItemBar *item_bar, int row, int modifiers, She
 		sheet_selection_extend_to (sheet, SHEET_MAX_COLS-1, row);
 		gnumeric_sheet_make_cell_visible (gsheet, gsheet->col.first, row, FALSE);
 	}
+	/* The edit pos, and the selection may have changed */
+	sheet_update (sheet);
 }
 
 static void

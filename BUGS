@@ -4,6 +4,7 @@ and longer term bugs.
 
 Release Critical
 ----------------
+- Delete sheet does not clear cells from recalc queue.
 
 Long term breakage
 ------------------
