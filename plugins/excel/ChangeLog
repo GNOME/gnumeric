@@ -1,3 +1,12 @@
+1999-09-16  Jody Goldberg  <jgoldberg@home.com>
+
+	* ms-escher.c (ms_escher_read_CLSID, ms_escher_read_ColorMRU,
+		ms_escher_read_SplitMenuColors) : Initial implementation.
+	(ms_escher_read_Spgr) : Add names of Shapes.
+	(ms_escher_read_ClientAnchor) : Wild guess at what the format is.
+	(ms_escher_read_OPT) : Start naming some of the properties.
+	(ms_escher_read_SpgrContainer) : be very careful.
+
 1999-09-15  Jody Goldberg  <jgoldberg@home.com>
 
 	* ms-escher.c : Massive re-org.

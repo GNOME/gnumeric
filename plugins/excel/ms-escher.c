@@ -2,7 +2,8 @@
  * ms-escher.c: MS Office drawing layer support
  *
  * Author:
- *    Michael Meeks (michael@imaginator.com)
+ *    Jody Goldberg (jgoldberg@home.com)
+ *    Michael Meeks (michael@nuclecu.unam.mx)
  *
  * See S59FD6.HTM for an overview...
  **/
@@ -14,10 +15,6 @@
 #include "ms-obj.h"
 
 #include <stdio.h>
-
-/* FIXME : We should not use the MS_OLE_GET_ routines.  All numbers are stored in intel
- *         format.
- */
 
 /* A storage accumulator for common state information */
 typedef struct
@@ -78,17 +75,44 @@ static void
 ms_escher_read_CLSID (MSEscherState * state,
 		      MSEscherCommonHeader * containing_header)
 {
+	/* Holds a 'Class ID Record' ID record which is only included in the
+	 * 'clipboard format'.  It contains an OLE CLSID record from the source
+	 * app, and can be used check where the clipboard data originated.
+	 *
+	 * We ignore these.  What is an 'OLE CLSID' ?  Would we ever need this ?
+	 */
 }
+
 static void
 ms_escher_read_ColorMRU (MSEscherState * state,
-			 MSEscherCommonHeader * containing_header)
+			 MSEscherCommonHeader * h)
 {
+	guint const num_colours = h->instance;
+
+	printf ("There are %d colours in a record with remaining length %d;\n",
+		num_colours, (h->len - common_header_len));
+
+	/* Colors in order from left to right.  */
+	/* TODO : When we know how to parse a colour record read these */
 }
 static void
 ms_escher_read_SplitMenuColors (MSEscherState * state,
-				MSEscherCommonHeader * containing_header)
+				MSEscherCommonHeader * h)
 {
+	g_return_if_fail (h->instance == 4);
+	g_return_if_fail (h->len == 24); /* header + 4*4 */
+	{
+		guint8 const * data = h->data + common_header_len;
+		guint32 const top_level_fill = MS_OLE_GET_GUINT32(data + 0);
+		guint32 const line	= MS_OLE_GET_GUINT32(data + 4);
+		guint32 const shadow	= MS_OLE_GET_GUINT32(data + 8);
+		guint32 const threeD	= MS_OLE_GET_GUINT32(data + 12);
+
+		printf ("top_level_fill = 0x%x, line = 0x%x, shadow = 0x%x, threeD = 0x%x;\n",
+			top_level_fill, line, shadow, threeD);
+	}
 }
+
 static void
 ms_escher_read_BStoreContainer (MSEscherState * state,
 				MSEscherCommonHeader * h)
@@ -245,9 +269,219 @@ ms_escher_read_SpContainer (MSEscherState * state,
 }
 static void
 ms_escher_read_Spgr (MSEscherState * state,
-		     MSEscherCommonHeader * containing_header)
+		     MSEscherCommonHeader * h)
 {
+	char const * name;
+	switch (h->instance) {
+	case 0: name = "Not a primitive"; break;
+	case 1: name = "Rectangle"; break;
+	case 2: name = "RoundRectangle"; break;
+	case 3: name = "Ellipse"; break;
+	case 4: name = "Diamond"; break;
+	case 5: name = "IsocelesTriangle"; break;
+	case 6: name = "RightTriangle"; break;
+	case 7: name = "Parallelogram"; break;
+	case 8: name = "Trapezoid"; break;
+	case 9: name = "Hexagon"; break;
+	case 10: name = "Octagon"; break;
+	case 11: name = "Plus"; break;
+	case 12: name = "Star"; break;
+	case 13: name = "Arrow"; break;
+	case 14: name = "ThickArrow"; break;
+	case 15: name = "HomePlate"; break;
+	case 16: name = "Cube"; break;
+	case 17: name = "Balloon"; break;
+	case 18: name = "Seal"; break;
+	case 19: name = "Arc"; break;
+	case 20: name = "Line"; break;
+	case 21: name = "Plaque"; break;
+	case 22: name = "Can"; break;
+	case 23: name = "Donut"; break;
+	case 24: name = "TextSimple"; break;
+	case 25: name = "TextOctagon"; break;
+	case 26: name = "TextHexagon"; break;
+	case 27: name = "TextCurve"; break;
+	case 28: name = "TextWave"; break;
+	case 29: name = "TextRing"; break;
+	case 30: name = "TextOnCurve"; break;
+	case 31: name = "TextOnRing"; break;
+	case 32: name = "StraightConnector1"; break;
+	case 33: name = "BentConnector2"; break;
+	case 34: name = "BentConnector3"; break;
+	case 35: name = "BentConnector4"; break;
+	case 36: name = "BentConnector5"; break;
+	case 37: name = "CurvedConnector2"; break;
+	case 38: name = "CurvedConnector3"; break;
+	case 39: name = "CurvedConnector4"; break;
+	case 40: name = "CurvedConnector5"; break;
+	case 41: name = "Callout1"; break;
+	case 42: name = "Callout2"; break;
+	case 43: name = "Callout3"; break;
+	case 44: name = "AccentCallout1"; break;
+	case 45: name = "AccentCallout2"; break;
+	case 46: name = "AccentCallout3"; break;
+	case 47: name = "BorderCallout1"; break;
+	case 48: name = "BorderCallout2"; break;
+	case 49: name = "BorderCallout3"; break;
+	case 50: name = "AccentBorderCallout1"; break;
+	case 51: name = "AccentBorderCallout2"; break;
+	case 52: name = "AccentBorderCallout3"; break;
+	case 53: name = "Ribbon"; break;
+	case 54: name = "Ribbon2"; break;
+	case 55: name = "Chevron"; break;
+	case 56: name = "Pentagon"; break;
+	case 57: name = "NoSmoking"; break;
+	case 58: name = "Seal8"; break;
+	case 59: name = "Seal16"; break;
+	case 60: name = "Seal32"; break;
+	case 61: name = "WedgeRectCallout"; break;
+	case 62: name = "WedgeRRectCallout"; break;
+	case 63: name = "WedgeEllipseCallout"; break;
+	case 64: name = "Wave"; break;
+	case 65: name = "FoldedCorner"; break;
+	case 66: name = "LeftArrow"; break;
+	case 67: name = "DownArrow"; break;
+	case 68: name = "UpArrow"; break;
+	case 69: name = "LeftRightArrow"; break;
+	case 70: name = "UpDownArrow"; break;
+	case 71: name = "IrregularSeal1"; break;
+	case 72: name = "IrregularSeal2"; break;
+	case 73: name = "LightningBolt"; break;
+	case 74: name = "Heart"; break;
+	case 75: name = "PictureFrame"; break;
+	case 76: name = "QuadArrow"; break;
+	case 77: name = "LeftArrowCallout"; break;
+	case 78: name = "RightArrowCallout"; break;
+	case 79: name = "UpArrowCallout"; break;
+	case 80: name = "DownArrowCallout"; break;
+	case 81: name = "LeftRightArrowCallout"; break;
+	case 82: name = "UpDownArrowCallout"; break;
+	case 83: name = "QuadArrowCallout"; break;
+	case 84: name = "Bevel"; break;
+	case 85: name = "LeftBracket"; break;
+	case 86: name = "RightBracket"; break;
+	case 87: name = "LeftBrace"; break;
+	case 88: name = "RightBrace"; break;
+	case 89: name = "LeftUpArrow"; break;
+	case 90: name = "BentUpArrow"; break;
+	case 91: name = "BentArrow"; break;
+	case 92: name = "Seal24"; break;
+	case 93: name = "StripedRightArrow"; break;
+	case 94: name = "NotchedRightArrow"; break;
+	case 95: name = "BlockArc"; break;
+	case 96: name = "SmileyFace"; break;
+	case 97: name = "VerticalScroll"; break;
+	case 98: name = "HorizontalScroll"; break;
+	case 99: name = "CircularArrow"; break;
+	case 100: name = "NotchedCircularArrow"; break;
+	case 101: name = "UturnArrow"; break;
+	case 102: name = "CurvedRightArrow"; break;
+	case 103: name = "CurvedLeftArrow"; break;
+	case 104: name = "CurvedUpArrow"; break;
+	case 105: name = "CurvedDownArrow"; break;
+	case 106: name = "CloudCallout"; break;
+	case 107: name = "EllipseRibbon"; break;
+	case 108: name = "EllipseRibbon2"; break;
+	case 109: name = "FlowChartProcess"; break;
+	case 110: name = "FlowChartDecision"; break;
+	case 111: name = "FlowChartInputOutput"; break;
+	case 112: name = "FlowChartPredefinedProcess"; break;
+	case 113: name = "FlowChartInternalStorage"; break;
+	case 114: name = "FlowChartDocument"; break;
+	case 115: name = "FlowChartMultidocument"; break;
+	case 116: name = "FlowChartTerminator"; break;
+	case 117: name = "FlowChartPreparation"; break;
+	case 118: name = "FlowChartManualInput"; break;
+	case 119: name = "FlowChartManualOperation"; break;
+	case 120: name = "FlowChartConnector"; break;
+	case 121: name = "FlowChartPunchedCard"; break;
+	case 122: name = "FlowChartPunchedTape"; break;
+	case 123: name = "FlowChartSummingJunction"; break;
+	case 124: name = "FlowChartOr"; break;
+	case 125: name = "FlowChartCollate"; break;
+	case 126: name = "FlowChartSort"; break;
+	case 127: name = "FlowChartExtract"; break;
+	case 128: name = "FlowChartMerge"; break;
+	case 129: name = "FlowChartOfflineStorage"; break;
+	case 130: name = "FlowChartOnlineStorage"; break;
+	case 131: name = "FlowChartMagneticTape"; break;
+	case 132: name = "FlowChartMagneticDisk"; break;
+	case 133: name = "FlowChartMagneticDrum"; break;
+	case 134: name = "FlowChartDisplay"; break;
+	case 135: name = "FlowChartDelay"; break;
+	case 136: name = "TextPlainText"; break;
+	case 137: name = "TextStop"; break;
+	case 138: name = "TextTriangle"; break;
+	case 139: name = "TextTriangleInverted"; break;
+	case 140: name = "TextChevron"; break;
+	case 141: name = "TextChevronInverted"; break;
+	case 142: name = "TextRingInside"; break;
+	case 143: name = "TextRingOutside"; break;
+	case 144: name = "TextArchUpCurve"; break;
+	case 145: name = "TextArchDownCurve"; break;
+	case 146: name = "TextCircleCurve"; break;
+	case 147: name = "TextButtonCurve"; break;
+	case 148: name = "TextArchUpPour"; break;
+	case 149: name = "TextArchDownPour"; break;
+	case 150: name = "TextCirclePour"; break;
+	case 151: name = "TextButtonPour"; break;
+	case 152: name = "TextCurveUp"; break;
+	case 153: name = "TextCurveDown"; break;
+	case 154: name = "TextCascadeUp"; break;
+	case 155: name = "TextCascadeDown"; break;
+	case 156: name = "TextWave1"; break;
+	case 157: name = "TextWave2"; break;
+	case 158: name = "TextWave3"; break;
+	case 159: name = "TextWave4"; break;
+	case 160: name = "TextInflate"; break;
+	case 161: name = "TextDeflate"; break;
+	case 162: name = "TextInflateBottom"; break;
+	case 163: name = "TextDeflateBottom"; break;
+	case 164: name = "TextInflateTop"; break;
+	case 165: name = "TextDeflateTop"; break;
+	case 166: name = "TextDeflateInflate"; break;
+	case 167: name = "TextDeflateInflateDeflate"; break;
+	case 168: name = "TextFadeRight"; break;
+	case 169: name = "TextFadeLeft"; break;
+	case 170: name = "TextFadeUp"; break;
+	case 171: name = "TextFadeDown"; break;
+	case 172: name = "TextSlantUp"; break;
+	case 173: name = "TextSlantDown"; break;
+	case 174: name = "TextCanUp"; break;
+	case 175: name = "TextCanDown"; break;
+	case 176: name = "FlowChartAlternateProcess"; break;
+	case 177: name = "FlowChartOffpageConnector"; break;
+	case 178: name = "Callout90"; break;
+	case 179: name = "AccentCallout90"; break;
+	case 180: name = "BorderCallout90"; break;
+	case 181: name = "AccentBorderCallout90"; break;
+	case 182: name = "LeftRightUpArrow"; break;
+	case 183: name = "Sun"; break;
+	case 184: name = "Moon"; break;
+	case 185: name = "BracketPair"; break;
+	case 186: name = "BracePair"; break;
+	case 187: name = "Seal4"; break;
+	case 188: name = "DoubleWave"; break;
+	case 189: name = "ActionButtonBlank"; break;
+	case 190: name = "ActionButtonHome"; break;
+	case 191: name = "ActionButtonHelp"; break;
+	case 192: name = "ActionButtonInformation"; break;
+	case 193: name = "ActionButtonForwardNext"; break;
+	case 194: name = "ActionButtonBackPrevious"; break;
+	case 195: name = "ActionButtonEnd"; break;
+	case 196: name = "ActionButtonBeginning"; break;
+	case 197: name = "ActionButtonReturn"; break;
+	case 198: name = "ActionButtonDocument"; break;
+	case 199: name = "ActionButtonSound"; break;
+	case 200: name = "ActionButtonMovie"; break;
+	case 201: name = "HostControl"; break;
+	case 202: name = "TextBox"; break;
+	default :
+		  name = "UNKNOWN";
+	};
+	printf ("%s (0x%x);\n", name, h->instance);
 }
+
 static void
 ms_escher_read_Sp (MSEscherState * state,
 		   MSEscherCommonHeader * h)
@@ -282,8 +516,21 @@ ms_escher_read_ChildAnchor (MSEscherState * state,
 }
 static void
 ms_escher_read_ClientAnchor (MSEscherState * state,
-			     MSEscherCommonHeader * containing_header)
+			     MSEscherCommonHeader * h)
 {
+	/* FIXME : This is a guess. */
+	guint8 const * data = h->data + common_header_len;
+	int o = 0;
+	guint32 a = MS_OLE_GET_GUINT32(data+o);
+	guint32 b = MS_OLE_GET_GUINT32(data+o+4);
+	guint32 c = MS_OLE_GET_GUINT32(data+o+8);
+	guint32 d = MS_OLE_GET_GUINT32(data+o+12);
+
+	printf ("%10d %10d %10d %10d;\n", a,b,c,d);
+	printf ("0x%10x 0x%10x 0x%10x 0x%10x;\n", a,b,c,d);
+#if 0
+	dump (h->data+common_header_len, h->len-common_header_len);
+#endif
 }
 static void
 ms_escher_read_ClientData (MSEscherState * state,
@@ -340,10 +587,10 @@ ms_escher_read_Dg (MSEscherState * state,
 		   MSEscherCommonHeader * h)
 {
 #if 0
-	guint32 num_shapes = MS_OLE_GET_GUINT32(h->data + common_header_len);
-
+	guint8 const * data = h->data + common_header_len;
+	guint32 num_shapes = MS_OLE_GET_GUINT32(data);
 	/* spid_cur = last SPID given to an SP in this DG :-)  */
-	guint32 spid_cur   = MS_OLE_GET_GUINT32(h->data + common_header_len+4);
+	guint32 spid_cur   = MS_OLE_GET_GUINT32(data+4);
 	guint32 drawing_id = h->instance;
 
 	/* This drawing has these num_shapes shapes, with a pointer to the last
@@ -391,27 +638,126 @@ ms_escher_read_Dgg (MSEscherState * state,
 
 static void
 ms_escher_read_OPT (MSEscherState * state,
-		    MSEscherCommonHeader * containing_header)
+		    MSEscherCommonHeader * h)
 {
-#if 0
-typedef struct {
-	guint   pid :14;
-	guint   bid:1;
-	guint   complex:1;
-	guint32 op; /* or value */
-	guint16 num_properties;
-} OPT_DATA;
+	int const num_properties = h->instance;
+	guint8 const *fopte = h->data + common_header_len;
+	guint8 const *extra = fopte + 6*num_properties;
+	guint prev_pid = 0; /* A debug tool */
+	char const * name;
+	int i;
 
-	guint8 const *data = h->data + common_header_len;
-	OPT_DATA *od = g_new (OPT_DATA, 1);
-	guint16 d = MS_OLE_GET_GUINT16(data);
-	od->pid = d & 0x3fff;
-	od->bid = (d & 0x4000)!=0;
-	od->complex = (d &0x8000)!=0;
-	od->op = MS_OLE_GET_GUINT32(data+2);
-	od->num_properties = h->instance;
-#endif
+	/* lets be really careful */
+	g_return_if_fail (6*num_properties + common_header_len <= h->len);
+
+	for (i = 0; i < num_properties; ++i, fopte += 6) {
+		guint16 const tmp = MS_OLE_GET_GUINT32(fopte);
+		guint const pid = tmp & 0x3fff;
+		gboolean const is_blip = (tmp & 0x4000) != 0;
+		gboolean const is_complex = (tmp & 0x8000) != 0;
+		guint32 const val = MS_OLE_GET_GUINT32(fopte+2);
+
+		/* container is sorted by pid. Use this as sanity test */
+		g_return_if_fail (prev_pid < pid);
+		prev_pid = pid;
+
+		switch (pid) {
+		/* LONG 0 fixed point: 16.16 degrees */
+		case 4 : name = "rotation"; break;
+
+		/* FALSE Size shape to fit text size */
+		case 190 : name = "fFitShapeToText BOOL"; break;
+
+		/* FALSE Size text to fit shape size */
+		case 191 : name = "fFitTextToShape BOOL"; break;
+
+		/* 16.16 fraction times total image width or height, as appropriate. */
+		case 256 : name = "cropFromTop LONG"; break;
+
+		/* 0 */
+		case 257 : name = "cropFromBottom LONG"; break;
+
+		/* 0 */
+		case 258 : name = "cropFromLeft LONG"; break;
+
+		/* 0 */
+		case 259 : name = "cropFromRight LONG"; break;
+
+		/* IMsoBlip* NULL Blip to display */
+		case 260 : name = "pib"; break;
+
+		/* WCHAR* NULL Blip file name */
+		case 261 : name = "pibName"; break;
+
+		/* MSOBLIPFLAGS Comment Blip flags */
+		case 262 : name = "pibFlags"; break;
+
+		/* LONG ~0 transparent color (none if ~0UL)  */
+		case 263 : name = "pictureTransparent"; break;
+
+		/* LONG 1<<16 contrast setting */
+		case 264 : name = "pictureContrast"; break;
+
+		/* LONG 0 brightness setting */
+		case 265 : name = "pictureBrightness"; break;
+
+		/* LONG 0 16.16 gamma */
+		case 266 : name = "pictureGamma"; break;
+
+		/* LONG 0 Host-defined ID for OLE objects (usually a pointer) */
+		case 267 : name = "pictureId"; break;
+
+		/* MSOCLR This Modification used if shape has double shadow */
+		case 268 : name = "pictureDblCrMod"; break;
+
+		/* MSOCLR undefined */
+		case 269 : name = "pictureFillCrMod"; break;
+
+		/* MSOCLR undefined */
+		case 270 : name = "pictureLineCrMod"; break;
+
+		/* IMsoBlip* NULL Blip to display when printing */
+		case 271 : name = "pibPrint"; break;
+
+		/* WCHAR* NULL Blip file name */
+		case 272 : name = "pibPrintName"; break;
+
+		/* MSOBLIPFLAGS Comment Blip flags */
+		case 273 : name = "pibPrintFlags"; break;
+
+		/* BOOL FALSE Do not hit test the picture */
+		case 316 : name = "fNoHitTestPicture"; break;
+
+		/* BOOL FALSE grayscale display */
+		case 317 : name = "pictureGray"; break;
+
+		/* BOOL FALSE bi-level display */
+		case 318 : name = "pictureBiLevel"; break;
+
+		/* BOOL FALSE Server is active (OLE objects only) */
+		case 319 : name = "pictureActive"; break;
+
+		/* MSOCLR white Foreground color */
+		case 385 : name = "fillColor"; break;
+
+		/* MSOCLR black Color of line */
+		case 448 : name = "lineColor"; break;
+
+		default : name = "";
+		};
+
+		printf ("%s %d = 0x%x (=%d) %s%s;\n", name, pid, val, val,
+			is_blip ? " is blip" : "",
+			is_complex ? " is complex" : "");
+		if (is_complex) {
+			extra += val;
+
+			/* check for over run */
+			g_return_if_fail (extra - h->data <= h->len);
+		}
+	}
 }
+
 static void
 ms_escher_read_SpgrContainer (MSEscherState * state,
 			     MSEscherCommonHeader * containing_header)
@@ -464,6 +810,10 @@ ms_escher_next_record (MSEscherState * state,
 	char const * fbt_name = NULL;
 	void (*handler)(MSEscherState * state,
 			MSEscherCommonHeader * containing_header) = NULL;
+	int required_space = 0;
+
+	/* Lets be really really anal */
+	g_return_val_if_fail (h->data_len >= h->len, FALSE);
 
 	/* Increment to the next header */
 	h->data_len -= h->len;
@@ -575,8 +925,7 @@ ms_escher_next_record (MSEscherState * state,
 			ms_biff_query_next(nq);
 			if (nq->opcode == BIFF_MS_O_DRAWING ||
 			    nq->opcode == BIFF_MS_O_DRAWING_GROUP ||
-			    nq->opcode == BIFF_MS_O_DRAWING_SELECTION ||
-			    nq->opcode == BIFF_CONTINUE) {
+			    nq->opcode == BIFF_MS_O_DRAWING_SELECTION) {
 				printf ("Adding a 0x%x of length %d;\n",
 					nq->opcode, nq->length);
 				len += nq->length;
