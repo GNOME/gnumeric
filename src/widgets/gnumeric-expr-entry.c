@@ -9,6 +9,7 @@
 #include <config.h>
 #include "gnumeric-expr-entry.h"
 #include "sheet-control-gui.h"
+#include "sheet-merge.h"
 #include "parse-util.h"
 #include "ranges.h"
 #include "value.h"
@@ -26,10 +27,16 @@ struct _GnumericExprEntry {
 	GtkEntry entry;
 	SheetControlGUI *scg;
 	GnumericExprEntryFlags flags;
+	int freeze_count;
+	int pos;
 	guint id_cb_scg_destroy;
 	Sheet *target_sheet;
 	Rangesel rangesel;
 };
+
+static char * make_rangesel_text (GnumericExprEntry *expr_entry);
+
+static void update_rangesel_text (GnumericExprEntry *expr_entry, char *text);
 
 static void
 gnumeric_expr_entry_finalize (GtkObject *object)
@@ -95,6 +102,34 @@ gnumeric_expr_entry_new ()
 	expr_entry->flags |= GNUM_EE_SINGLE_RANGE;
 
 	return GTK_WIDGET (expr_entry);
+}
+
+void
+gnumeric_expr_entry_freeze (GnumericExprEntry *expr_entry)
+{
+	g_return_if_fail (expr_entry != NULL);
+	g_return_if_fail (GNUMERIC_IS_EXPR_ENTRY (expr_entry));
+			  
+	expr_entry->freeze_count++;
+}
+
+void
+gnumeric_expr_entry_thaw (GnumericExprEntry *expr_entry)
+{
+	g_return_if_fail (expr_entry != NULL);
+	g_return_if_fail (GNUMERIC_IS_EXPR_ENTRY (expr_entry));
+
+	if (expr_entry->freeze_count > 0)
+		if ((--expr_entry->freeze_count) == 0) { 
+			char *rangesel_text;
+
+			/* Update text */
+			rangesel_text = make_rangesel_text (expr_entry);
+			
+			update_rangesel_text (expr_entry, rangesel_text);
+			
+			g_free (rangesel_text);
+		}
 }
 
 static void
@@ -199,6 +234,8 @@ gnumeric_expr_entry_set_rangesel_from_text (GnumericExprEntry *expr_entry,
 {
 	g_return_if_fail (GNUMERIC_IS_EXPR_ENTRY (expr_entry));
 	g_return_if_fail (text != NULL);
+	/* We have nowhere to store the text while frozen. */
+	g_return_if_fail (expr_entry->freeze_count == 0);
 
 	reset_rangesel (expr_entry);
 
@@ -207,41 +244,41 @@ gnumeric_expr_entry_set_rangesel_from_text (GnumericExprEntry *expr_entry,
 }
 
 static void
-make_display_range (Range *dst, Range const *src,
-		    gboolean full_col, gboolean full_row)
+make_display_range (GnumericExprEntry *expr_entry, Range *dst)
 {
-	*dst = *src;
-	if (full_col) {
+	*dst = expr_entry->rangesel.range;
+	
+	if (expr_entry->flags & GNUM_EE_FULL_COL) {
 		dst->start.row = 0;
 		dst->end.row   = SHEET_MAX_ROWS - 1;
 	} 
-	if (full_row) {
+	if (expr_entry->flags & GNUM_EE_FULL_ROW) {
 		dst->start.col = 0;
 		dst->end.col   = SHEET_MAX_COLS - 1;
 	} 
 }
 
 static char *
-make_rangesel_text (GnumericExprEntry *expr_entry, Range const *r)
+make_rangesel_text (GnumericExprEntry *expr_entry)
 {
 	char *buffer;
 	gboolean inter_sheet;
 	Range display_range;
+	Range const *m;
+	Rangesel const *rs = &expr_entry->rangesel;
 
-	if (!r)
-		return NULL;
-
-	inter_sheet = (expr_entry->rangesel.sheet != expr_entry->target_sheet);
-	make_display_range (&display_range, r,
-			    expr_entry->flags & GNUM_EE_FULL_COL,
-			    expr_entry->flags & GNUM_EE_FULL_ROW);
+	inter_sheet = (rs->sheet != expr_entry->target_sheet);
+	make_display_range (expr_entry, &display_range);
 	buffer = g_strdup_printf (
 		"%s%s%s%d",
 		(expr_entry->flags & GNUM_EE_ABS_COL) ? "$" : "",
 		col_name (display_range.start.col),
 		(expr_entry->flags & GNUM_EE_ABS_ROW) ? "$" : "",
 		display_range.start.row+1);
-	if (!range_is_singleton (r)) {
+
+	m = sheet_merge_is_corner (rs->sheet, &display_range.start);
+	if (!range_is_singleton (&display_range) &&
+	    ((m == NULL) || !range_equal (m, &display_range))) {
 		char *tmp = g_strdup_printf (
 			"%s:%s%s%s%d",buffer,
 			(expr_entry->flags & GNUM_EE_ABS_COL) ? "$": "",
@@ -252,9 +289,8 @@ make_rangesel_text (GnumericExprEntry *expr_entry, Range const *r)
 		buffer = tmp;
 	}
 	if (inter_sheet || !(expr_entry->flags & GNUM_EE_SHEET_OPTIONAL)) {
-		char *tmp = g_strdup_printf (
-			"%s!%s",expr_entry->rangesel.sheet->name_quoted,
-			buffer);
+		char *tmp = g_strdup_printf ("%s!%s", rs->sheet->name_quoted,
+					     buffer);
 		g_free (buffer);
 		buffer = tmp;
 	}
@@ -263,7 +299,7 @@ make_rangesel_text (GnumericExprEntry *expr_entry, Range const *r)
 }
 
 static void
-update_rangesel_text (GnumericExprEntry *expr_entry, char *text, int pos)
+update_rangesel_text (GnumericExprEntry *expr_entry, char *text)
 {
 	GtkEditable *editable = GTK_EDITABLE (expr_entry);
 	Rangesel *rs = &expr_entry->rangesel;
@@ -273,12 +309,12 @@ update_rangesel_text (GnumericExprEntry *expr_entry, char *text, int pos)
 		gtk_editable_delete_text (editable,
 					  rs->text_start,
 					  rs->text_end);
-		pos = rs->text_start;
+		expr_entry->pos = rs->text_start;
 		rs->text_end = rs->text_start;
 	} else 
-		rs->text_start = rs->text_end = pos;
+		rs->text_start = rs->text_end = expr_entry->pos;
 
-	gtk_editable_set_position (GTK_EDITABLE (expr_entry), pos);
+	gtk_editable_set_position (GTK_EDITABLE (expr_entry), expr_entry->pos);
 
 	if (!text)
 		return;
@@ -333,13 +369,15 @@ gnumeric_expr_entry_set_rangesel_from_range (GnumericExprEntry *expr_entry,
 		memset (&rs->range, 0, sizeof (Range));
 	
 	rs->sheet = sheet;
+	expr_entry->pos = pos;
 
-	rangesel_text = make_rangesel_text (expr_entry, r);
-
-	update_rangesel_text (expr_entry, rangesel_text, pos);
-	
-	g_free (rangesel_text);
-
+	if (expr_entry->freeze_count == 0) {
+		rangesel_text = make_rangesel_text (expr_entry);
+		
+		update_rangesel_text (expr_entry, rangesel_text);
+		
+		g_free (rangesel_text);
+	}
 	return needs_change;
 }
 
@@ -360,10 +398,7 @@ gnumeric_expr_entry_get_rangesel (GnumericExprEntry *expr_entry,
 	g_return_if_fail (r != NULL);
 
 	if (r)
-		make_display_range (r, &expr_entry->rangesel.range,
-				    expr_entry->flags & GNUM_EE_FULL_COL,
-				    expr_entry->flags & GNUM_EE_FULL_ROW);
-
+		make_display_range (expr_entry, r);
 	if (sheet)
 		*sheet = expr_entry->rangesel.sheet;
 }
@@ -441,10 +476,10 @@ gnumeric_expr_entry_toggle_absolute (GnumericExprEntry *expr_entry)
 	gnumeric_expr_entry_set_flags (expr_entry, flags, mask);
 	if (rs->text_start < rs->text_end) {
 		char *rangesel_text;
-	
-		rangesel_text = make_rangesel_text (expr_entry,
-						    &rs->range);
-		update_rangesel_text (expr_entry, rangesel_text, 0);
+
+		expr_entry->pos = 0;
+		rangesel_text = make_rangesel_text (expr_entry);
+		update_rangesel_text (expr_entry, rangesel_text);
 		g_free (rangesel_text);
 	}
 }

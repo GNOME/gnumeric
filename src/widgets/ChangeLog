@@ -1,3 +1,27 @@
+2001-05-11  Jon K Hellan  <hellan@acm.org>
+
+	* gnumeric-expr-entry.[ch] (gnumeric_expr_entry_freeze,
+	gnumeric_expr_entry_thaw ): New functions, freeze/thay display
+	updating.
+
+	* gnumeric-expr-entry.c (struct _GnumericExprEntry): Add
+	freeze_count and pos members to support feeze/thaw.
+	(gnumeric_expr_entry_set_rangesel_from_text): We don't support
+	this method while frozen. Trap it.
+	(make_display_range): Simplify signature. Parameters are now a
+	target range and the expr entry.
+	(make_rangesel_text): Simplify signature. expr entry is now the
+	only paramater. Take merged cells into account, displaying only
+	the corner cell if range is a merged cell.
+	(update_rangesel_text): Take pos parameter from expr_entry state,
+	so that it can be called from gnumeric_expr_entry_thaw.
+	(gnumeric_expr_entry_set_rangesel_from_range): Don't change text
+	while frozen.
+	(gnumeric_expr_entry_get_rangesel): Use new signature of
+	make_display_range. 
+	(gnumeric_expr_entry_toggle_absolute): Send pos to
+	update_rangesel_text via expr_entry state.
+
 2001-05-08  Jody Goldberg <jgoldberg@home.com>
 
 	* gnumeric-expr-entry.c (make_rangesel_text) : constness.

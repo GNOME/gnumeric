@@ -39,6 +39,10 @@ GtkType gnumeric_expr_entry_get_type (void);
 GtkWidget *gnumeric_expr_entry_new (void);
 
 /* Widget specific methods */
+void gnumeric_expr_entry_freeze (GnumericExprEntry *expr_entry);
+
+void gnumeric_expr_entry_thaw (GnumericExprEntry *expr_entry);
+
 void gnumeric_expr_entry_set_flags (GnumericExprEntry *expr_entry,
 				    GnumericExprEntryFlags flags,
 				    GnumericExprEntryFlags mask);
