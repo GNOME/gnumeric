@@ -17,6 +17,7 @@
 #include "application.h"
 #include "selection.h"
 #include "gnumeric-sheet.h"
+#include "workbook-edit.h"
 #include "gnumeric-type-util.h"
 #include "gnumeric-util.h"
 #include "parse-util.h"
@@ -160,6 +161,7 @@ item_bar_realize (GnomeCanvasItem *item)
 		item_bar->change_cursor = gdk_cursor_new (GDK_SB_H_DOUBLE_ARROW);
 	else
 		item_bar->change_cursor = gdk_cursor_new (GDK_SB_V_DOUBLE_ARROW);
+	item_bar->guru_cursor = gdk_cursor_new (GDK_LEFT_PTR);
 
 	item_bar_calc_size (item_bar);
 }
@@ -173,6 +175,7 @@ item_bar_unrealize (GnomeCanvasItem *item)
 	gdk_gc_unref (item_bar->lines);
 	gdk_cursor_destroy (item_bar->change_cursor);
 	gdk_cursor_destroy (item_bar->normal_cursor);
+	gdk_cursor_destroy (item_bar->guru_cursor);
 	item_bar_fonts_unref (item_bar);
 
 	if (GNOME_CANVAS_ITEM_CLASS (item_bar_parent_class)->unrealize)
@@ -578,6 +581,8 @@ is_pointer_on_division (ItemBar const *item_bar, int pos, int *the_total, int *t
 			return NULL;
 		}
 	}
+	if (the_element)
+		*the_element = -1;
 	return NULL;
 }
 
@@ -585,25 +590,29 @@ static void
 set_cursor (ItemBar *ib, int x, int y)
 {
 	GtkWidget *canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (ib)->canvas);
+	GdkCursor *cursor = ib->normal_cursor;
 	int major, minor;
 
 	/* We might be invoked before we are realized */
 	if (!canvas->window)
 		return;
 
-	if (ib->is_col_header) {
-		major = x;
-		minor = y;
+	if (workbook_edit_has_guru (ib->scg->wbcg)) {
+		cursor = ib->guru_cursor;
 	} else {
-		major = y;
-		minor = x;
-	}
+		if (ib->is_col_header) {
+			major = x;
+			minor = y;
+		} else {
+			major = y;
+			minor = x;
+		}
 
-	if (minor >= ib->indent &&
-	    is_pointer_on_division (ib, major, NULL, NULL) != NULL)
-		gdk_window_set_cursor (canvas->window, ib->change_cursor);
-	else
-		gdk_window_set_cursor (canvas->window, ib->normal_cursor);
+		if (minor >= ib->indent &&
+		    is_pointer_on_division (ib, major, NULL, NULL) != NULL)
+			cursor = ib->change_cursor;
+	}
+	gdk_window_set_cursor (canvas->window, cursor);
 }
 
 static void
@@ -739,6 +748,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 	ItemBar * const item_bar = ITEM_BAR (item);
 	Sheet   * const sheet = item_bar->scg->sheet;
 	GnumericSheet * const gsheet = GNUMERIC_SHEET (item_bar->scg->canvas);
+	WorkbookControlGUI * const wbcg = item_bar->scg->wbcg;
 	gboolean const is_cols = item_bar->is_col_header;
 	double const zoom = sheet->last_zoom_factor_used;
 	int pos, other_pos, start, element, x, y;
@@ -803,7 +813,13 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 			col = gnumeric_sheet_find_col (gsheet, x, NULL);
 			row = gnumeric_sheet_find_row (gsheet, y, NULL);
 
-			scg_colrow_select (item_bar->scg, is_cols, is_cols ? col : row,
+			
+			if (workbook_edit_has_guru (wbcg) &&
+			    !workbook_edit_entry_redirect_p (wbcg))
+				break;
+			
+			scg_colrow_select (item_bar->scg, is_cols,
+					   is_cols ? col : row,
 					   GDK_SHIFT_MASK);
 			if (x < left || y < top || x >= left + width || y >= top + height) {
 				int dx = 0, dy = 0;
@@ -834,7 +850,8 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 		if (e->button.button > 3)
 			return FALSE;
 
-		scg_mode_edit (item_bar->scg);
+		if (!workbook_edit_has_guru (wbcg))
+			scg_mode_edit (item_bar->scg);
 
 		gnome_canvas_w2c (canvas, e->button.x, e->button.y, &x, &y);
 		if (is_cols) {
@@ -847,10 +864,14 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 		cri = is_pointer_on_division (item_bar, pos, &start, &element);
 		if (element < 0)
 			return FALSE;
-		if (other_pos < item_bar->indent)
+		if (workbook_edit_has_guru (wbcg))
+			cri = NULL;
+		else if (other_pos < item_bar->indent)
 			return outline_button_press (item_bar, element, other_pos);
 
 		if (e->button.button == 3) {
+			if (workbook_edit_has_guru (wbcg))
+				return TRUE;
 			/* If the selection does not contain the current row/col
 			 * then clear the selection and add it.
 			 */
@@ -879,13 +900,19 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 				gtk_widget_show_all (gtk_widget_get_toplevel (item_bar->tip));
 			}
 		} else {
+			if (workbook_edit_has_guru (wbcg) &&
+			    !workbook_edit_entry_redirect_p (wbcg))
+				break;
+			
 			item_bar->start_selection = element;
 			gnome_canvas_item_grab (item,
 						GDK_POINTER_MOTION_MASK |
 						GDK_BUTTON_RELEASE_MASK,
 						item_bar->normal_cursor,
 						e->button.time);
-			scg_colrow_select (item_bar->scg, is_cols, element, e->button.state);
+
+			scg_colrow_select (item_bar->scg, is_cols,
+					   element, e->button.state);
 		}
 		break;
 

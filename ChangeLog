@@ -1,3 +1,15 @@
+2001-05-05  Jon K Hellan  <hellan@acm.org>
+
+	* src/item-bar.h (struct _ItemBar): Add guru_cursor member.
+
+	* src/item-bar.c (item_bar_realize): Initialize guru_cursor.
+	(item_bar_unrealize): Destroy guru_cursor.
+	(is_pointer_on_division): Handle uninitialized case.
+	(set_cursor): Do not show resize cursor in guru mode.
+	(item_bar_event): Allow gurus to do range selection. Do nothing if
+	guru is up but no range selector active. Do not post context menu
+	when guru is up.
+
 2001-05-04  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet.c (sheet_range_splits_array) : Make the displaying the
