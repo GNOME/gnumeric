@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.1.13\n"
-"POT-Creation-Date: 2002-12-14 12:18+0100\n"
-"PO-Revision-Date: 2002-12-14 12:15+0100\n"
+"POT-Creation-Date: 2002-12-16 16:38+0100\n"
+"PO-Revision-Date: 2002-12-16 16:35+0100\n"
 "Last-Translator: Olivier Jousselin <oj@marylou.fr>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -60,7 +60,7 @@ msgid ""
 "%s!%s : unable to parse '%s'\n"
 "     %s"
 msgstr ""
-"%s!%s : impossible d'anaylser '%s'\n"
+"%s!%s : impossible d'analyser '%s'\n"
 "      %s"
 
 #: plugins/applix/plugin.xml.in.h:1
@@ -702,7 +702,7 @@ msgid "Functions related to financial derivatives"
 msgstr "Fonctions relatives aux produits financiers"
 
 #: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5095
-#: plugins/gnumeric_1_0/xml-io.c:3370 plugins/mps/mps.c:549 src/xml-io.c:3552
+#: plugins/gnumeric_1_0/xml-io.c:3370 plugins/mps/mps.c:549 src/xml-io.c:3551
 msgid "Reading file..."
 msgstr "Lecture du fichier..."
 
@@ -824,7 +824,7 @@ msgstr "Module %d"
 #: plugins/excel/ms-excel-read.c:2665
 #, c-format
 msgid "Failure parsing name '%s'"
-msgstr "Erreur lors de l'analyse du nom '%s'"
+msgstr "Erreur lors de l'analyse du nom « %s »"
 
 #: plugins/excel/ms-excel-read.c:2722
 #, c-format
@@ -833,7 +833,7 @@ msgid ""
 "Name '%s' will be lost.\n"
 msgstr ""
 "Les liens DDE ne sont pas supportés.\n"
-"Le nom '%s' sera perdu.\n"
+"Le nom « %s » sera perdu.\n"
 
 #: plugins/excel/ms-excel-read.c:2728
 #, c-format
@@ -878,16 +878,16 @@ msgstr ""
 "Une longueur a déjà été affectée à cette chaîne, et elle est tronquée à "
 "cause de problèmes d'encodage."
 
-#: plugins/excel/ms-excel-write.c:3359 plugins/excel/ms-excel-write.c:3364
+#: plugins/excel/ms-excel-write.c:3363 plugins/excel/ms-excel-write.c:3368
 #, c-format
 msgid "Too many rows for this format (%d > %d)"
 msgstr "Trop de lignes pour ce format (%d > %d)"
 
-#: plugins/excel/ms-excel-write.c:3739
+#: plugins/excel/ms-excel-write.c:3743
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Impossible d'ouvrir le flux 'Livre' pour l'écriture\n"
 
-#: plugins/excel/ms-excel-write.c:3759
+#: plugins/excel/ms-excel-write.c:3763
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Impossible d'ouvrir le flux 'Classeur' pour l'écriture\n"
 
@@ -6184,7 +6184,6 @@ msgstr ""
 "@SEEALSO=PPMT,PV,FV"
 
 #: plugins/fn-financial/functions.c:2157
-#, fuzzy
 msgid ""
 "@FUNCTION=DURATION\n"
 "@SYNTAX=DURATION(settlement,maturity,coup,yield,freq[,basis])\n"
@@ -6226,9 +6225,9 @@ msgstr ""
 "3  réel/365\n"
 "4  30/360 Européen\n"
 "\n"
-"Si @règlement ou @échéance n'est pas valide, ou @règlement >= @échéance, "
-"DURATION renvoie l'erreur #NUM!. Si @base < 0 ou @base > 4, DURATION renvoie "
-"#NUM!.\n"
+"* Si @règlement ou @échéance n'est pas valide, ou @règlement >= @échéance, "
+"DURATION renvoie l'erreur #NUM!.\n"
+"* Si @base < 0 ou @base > 4, DURATION renvoie #NUM!.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -15553,7 +15552,7 @@ msgstr "Erreur : impossible d'ouvrir la connexion vers %s"
 
 #: plugins/gda/plugin-gda.c:135
 msgid "Error: no recordsets were returned"
-msgstr ""
+msgstr "Erreur : pas de données récupérées"
 
 #: plugins/gda/plugin.xml.in.h:2
 msgid "Database functions for allowing the retrieval of data from a database"
@@ -15575,25 +15574,25 @@ msgstr ""
 "Il fournit le support pour sauver le glossaire de Gnome dans des fichiers ."
 "po."
 
-#: plugins/gnumeric_1_0/xml-io.c:2825 src/xml-io.c:3016
+#: plugins/gnumeric_1_0/xml-io.c:2825 src/xml-io.c:3015
 msgid "Unparsable xml in clipboard"
 msgstr "Impossible d'analyser le xml contenu dans le presse-papiers"
 
-#: plugins/gnumeric_1_0/xml-io.c:2832 src/xml-io.c:3023
+#: plugins/gnumeric_1_0/xml-io.c:2832 src/xml-io.c:3022
 msgid "Clipboard is in unknown format"
 msgstr "Le format du presse-papiers est inconnu"
 
 #: plugins/gnumeric_1_0/xml-io.c:3112 plugins/xbase/boot.c:172
 #: src/dialogs/dialog-goto-cell.c:286 src/dialogs/dialog-search.c:721
 #: src/dialogs/print.glade.h:20 src/workbook.c:1047 src/workbook.c:1377
-#: src/xml-io.c:3303
+#: src/xml-io.c:3302
 msgid "Sheet"
 msgstr "Feuille"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: plugins/gnumeric_1_0/xml-io.c:3239 src/xml-io.c:3430
+#: plugins/gnumeric_1_0/xml-io.c:3239 src/xml-io.c:3429
 msgid "Processing file..."
 msgstr "Traitement du fichier..."
 
@@ -15601,7 +15600,7 @@ msgstr "Traitement du fichier..."
 msgid "Is not an Gnumeric Workbook file"
 msgstr "N'est pas un fichier classeur Gnumeric"
 
-#: plugins/gnumeric_1_0/xml-io.c:3447 src/xml-io.c:3631
+#: plugins/gnumeric_1_0/xml-io.c:3447 src/xml-io.c:3630
 msgid "Failure saving file"
 msgstr "Erreur lors de l'enregistrement du fichier."
 
@@ -16062,11 +16061,11 @@ msgstr ""
 "Impossible de trouver la position dans l'expression '%s' de valeur '%s' à "
 "cause de '%s'"
 
-#: plugins/openoffice/openoffice-read.c:865
+#: plugins/openoffice/openoffice-read.c:869
 msgid "No stream named content.xml found."
 msgstr "Impossible de trouver un flux nommé content.xml"
 
-#: plugins/openoffice/openoffice-read.c:905
+#: plugins/openoffice/openoffice-read.c:909
 #: plugins/xml_sax/xml-sax-read.c:1467
 msgid "XML document not well formed!"
 msgstr "Document XML pas bien formé !"
@@ -18022,11 +18021,15 @@ msgstr "Il faudrait diviser le tableau"
 #, c-format
 msgid "%s is locked. Unprotect the workbook to enable editing."
 msgstr ""
+"%s est verrouillé. Enlevez la protection du classeur pour permettre les "
+"modifications."
 
 #: src/commands.c:250
 #, c-format
 msgid "%s is locked. Unprotect the sheet to enable editing."
 msgstr ""
+"%s est verrouillé. Enlevez la protection de la feuille pour permettre les "
+"modifications."
 
 #: src/commands.c:421
 msgid "..."
@@ -18228,12 +18231,12 @@ msgstr "Comprimer les lignes"
 #: src/commands.c:2238
 #, c-format
 msgid "Show column outline %d"
-msgstr ""
+msgstr "Montrer le contour de colonnes %d"
 
 #: src/commands.c:2238
 #, c-format
 msgid "Show row outline %d"
-msgstr ""
+msgstr "Montrer le contour de lignes %d"
 
 #: src/commands.c:2305
 msgid "Those columns are already grouped"
@@ -18468,14 +18471,14 @@ msgid "A tooltip for this action."
 msgstr "Une bulle d'aide pour cette action"
 
 #: src/cut-n-paste-code/egg/menu/egg-action.c:149
-#, fuzzy
 msgid "Stock Icon"
-msgstr "Icône"
+msgstr "Icône de la valeur"
 
 #: src/cut-n-paste-code/egg/menu/egg-action.c:150
-#, fuzzy
 msgid "The stock icon displayed in widgets representing this action."
-msgstr "L'icône affichée dans les widgets pour représenter cette action."
+msgstr ""
+"L'icône de la valeur, affichée dans les widgets pour représenter cette "
+"action."
 
 #: src/cut-n-paste-code/egg/menu/egg-action.c:156
 msgid "Sensitive"
@@ -18583,14 +18586,12 @@ msgid "Interpret underlines in the item label."
 msgstr "Interpréter le soulignement dans les étiquettes des items."
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolbutton.c:115
-#, fuzzy
 msgid "Stock Id"
-msgstr "Stop"
+msgstr "Id action"
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolbutton.c:116
-#, fuzzy
 msgid "The stock icon displayed on the item."
-msgstr "Icône affichée dans l'item."
+msgstr "Icône de la valeur affichée dans l'item."
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolbutton.c:122
 msgid "Icon set"
@@ -20003,7 +20004,7 @@ msgstr "Sean Atkinson, fonctions et importation X-base."
 
 #: src/dialogs/dialog-about.c:48
 msgid "Michel Berkelaar, Simplex algorithm for Solver (LP Solve)."
-msgstr ""
+msgstr "Michel Berkelaar, algorithme du simplex pour le solveur (LP Solve)."
 
 #: src/dialogs/dialog-about.c:49
 msgid "Grandma Chema Celorio, Tester and sheet copy."
@@ -20355,6 +20356,8 @@ msgstr ""
 #: src/dialogs/dialog-analysis-tools.c:2876
 msgid "The number of data rows must be a multiple of the replication number."
 msgstr ""
+"Le nombre de lignes de données doit être un multiple du nombre de "
+"réplication."
 
 #: src/dialogs/dialog-analysis-tools.c:2980
 msgid "Could not create the ANOVA (two factor) tool dialog."
@@ -20920,33 +20923,40 @@ msgstr "Répertoire"
 #. Is it a boolean?
 #: src/dialogs/dialog-preferences.c:376 src/format.c:1577
 #: src/number-match.c:1112 src/value-sheet.c:33 src/value.c:298
-#: src/value.c:650
 msgid "TRUE"
 msgstr "VRAI"
 
 #: src/dialogs/dialog-preferences.c:377 src/format.c:1577
 #: src/number-match.c:1114 src/value-sheet.c:33 src/value.c:300
-#: src/value.c:650
 msgid "FALSE"
 msgstr "FAUX"
 
 #: src/dialogs/dialog-preferences.c:669
 msgid "The items on this page customize the behaviour of the undo/redo system."
 msgstr ""
+"Les éléments de cette page permettent de personnaliser le comportement du "
+"système \"Annuler/Rétablir\""
 
 #: src/dialogs/dialog-preferences.c:819
 msgid ""
 "The items on this page customize the inital settings of the sort dialog and "
 "the behaviour of the sort toolbar buttons."
 msgstr ""
+"Les éléments de cette page permettent de personnaliser les propriétés "
+"initiales du dialogue de tri et le comportement des boutons de tri, sur la "
+"barre d'outils."
 
 #: src/dialogs/dialog-preferences.c:966
 msgid "The items on this page customize the new default workbook."
 msgstr ""
+"Les éléments de cette page permettent de personnaliser le nouveau classeur "
+"par défaut\""
 
 #: src/dialogs/dialog-preferences.c:1151
 msgid "The items on this page are related to the saving and opening of files."
 msgstr ""
+"Les éléments de cette page concernent la ture et l'enregistrement de "
+"fichiers."
 
 #: src/dialogs/dialog-printer-setup.c:847
 msgid "Customize header"
@@ -21056,11 +21066,11 @@ msgstr "N_ombre de tentatives :"
 
 #: src/dialogs/dialog-random-generator.c:125
 msgid "Cauchy"
-msgstr ""
+msgstr "Cauchy"
 
 #: src/dialogs/dialog-random-generator.c:127
 msgid "Chisq"
-msgstr ""
+msgstr "Chi carré"
 
 #: src/dialogs/dialog-random-generator.c:127
 msgid "_nu Value:"
@@ -21256,6 +21266,8 @@ msgstr "Sans Nom"
 #: src/dialogs/dialog-sheet-order.c:628
 msgid "Deletion of sheets is not undoable. Do you want to proceed?"
 msgstr ""
+"La destruction de feuilles ne peut pas êt annulée. Voulez-vous effectuer "
+"cette destruction ?"
 
 #: src/dialogs/dialog-sheet-order.c:632
 msgid "You may not delete all sheets in a workbook!"
@@ -22179,7 +22191,7 @@ msgstr "_Options"
 
 #: src/dialogs/hyperlink.glade.h:2
 msgid "<small>Optional</small>"
-msgstr ""
+msgstr "<small>Facultatif</small>"
 
 #: src/dialogs/hyperlink.glade.h:3
 msgid "Email _Address:"
@@ -22352,15 +22364,15 @@ msgstr "_Mettre à jour"
 
 #: src/dialogs/pivottable.glade.h:1
 msgid "Layout"
-msgstr ""
+msgstr "Disposition"
 
 #: src/dialogs/pivottable.glade.h:2
 msgid "Layout:"
-msgstr ""
+msgstr "Disposition :"
 
 #: src/dialogs/pivottable.glade.h:3
 msgid "PivotTable Guru : Gnumeric"
-msgstr ""
+msgstr "Gourou de table pivot : Gnumeric"
 
 #: src/dialogs/pivottable.glade.h:4
 msgid "Style"
@@ -22969,7 +22981,6 @@ msgid "First Round #: "
 msgstr "Numéro de la première séquence :"
 
 #: src/dialogs/simulation.glade.h:5
-#, fuzzy
 msgid "Inputs: "
 msgstr "Entrées :"
 
@@ -23362,18 +23373,18 @@ msgstr "_Protection"
 msgid "_Workbook Protected"
 msgstr "Feuille de travail protégée"
 
-#: src/expr-name.c:346
+#: src/expr-name.c:354
 #, c-format
 msgid "'%s' has a circular reference"
 msgstr "'%s' a une référence circulaire"
 
-#: src/expr-name.c:377
-#, fuzzy, c-format
+#: src/expr-name.c:385
+#, c-format
 msgid "'%s' is already defined in sheet"
 msgstr "'%s' est déjà défini dans la feuille"
 
-#: src/expr-name.c:378
-#, fuzzy, c-format
+#: src/expr-name.c:386
+#, c-format
 msgid "'%s' is already defined in workbook"
 msgstr "'%s' est déjà défini dans le classeur"
 
@@ -23516,7 +23527,7 @@ msgstr "TABLEAU"
 #. 2002/08/04 Updated to match iso 4217
 #: src/formats.c:304
 msgid "United Arab Emirates, Dirhams"
-msgstr ""
+msgstr "Émirats Arabes Unis, Dirham"
 
 #: src/formats.c:305
 msgid "Afghanistan, Afghanis"
@@ -23559,7 +23570,6 @@ msgid "Bosnia and Herzegovina, Convertible Marka"
 msgstr "Bosnie Herzégovine, Mark convertible"
 
 #: src/formats.c:315
-#, fuzzy
 msgid "Barbados, Dollars"
 msgstr "La Barbade, Dollar"
 
@@ -23784,7 +23794,6 @@ msgid "Iran, Rials"
 msgstr "Iran, Rial"
 
 #: src/formats.c:371
-#, fuzzy
 msgid "Iceland, Kronur"
 msgstr "Islande, Couronne"
 
@@ -24037,9 +24046,8 @@ msgid "Slovenia, Tolars"
 msgstr "Slovènie, Tolar"
 
 #: src/formats.c:434
-#, fuzzy
 msgid "Slovakia, Koruny"
-msgstr "Slovaquie, Tolar"
+msgstr "Slovaquie, Koruny"
 
 #: src/formats.c:435
 msgid "Sierra Leone, Leones"
@@ -24304,9 +24312,8 @@ msgid "Area"
 msgstr "Zone"
 
 #: src/func.c:685
-#, fuzzy
 msgid "Scalar or Error"
-msgstr "Erreur standard"
+msgstr "Scalaire ou Erreur"
 
 #: src/func.c:687
 msgid "Scalar"
@@ -24426,6 +24433,8 @@ msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyways?"
 msgstr ""
+"L'extension fournie ne correspond pas au type de fichier choisi. Voulez-vous "
+"utiliser ce nom quand même ?"
 
 #. Pack it into file selector
 #: src/gui-file.c:296
@@ -24450,6 +24459,8 @@ msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "modfgnum."
 msgstr ""
+"Cette version de Gnumeric a été compilée avec une précision insuffisante "
+"dans modfgnum."
 
 #: src/gutils.c:507
 msgid ""
@@ -24581,9 +24592,8 @@ msgid "Enables some dependency related debugging functions"
 msgstr "Active quelques fonctions de débogage de dépendances"
 
 #: src/main-application.c:69
-#, fuzzy
 msgid "Enables some debugging functions for expression sharing"
-msgstr "Active quelques fonctions de débogage"
+msgstr "Active quelques fonctions de débogage pour le partage d'expressions"
 
 #: src/main-application.c:71
 msgid "Enables some print debugging behavior"
@@ -24677,7 +24687,7 @@ msgstr "#RECALC!"
 
 #: src/parser.y:345
 msgid "Constructed ranges use simple references"
-msgstr ""
+msgstr "Les intervalles générés utilisent des références simples"
 
 #: src/parser.y:359 src/parser.y:372
 msgid "All entries in the set must be references"
@@ -24988,16 +24998,18 @@ msgstr "Le greffon n'a pas d'identifiant."
 #: src/plugin.c:845
 #, c-format
 msgid "Plugin id contains invalid characters (%s)."
-msgstr ""
+msgstr "L'identifiant de greffon contient des caractères invalides (%s)"
 
 #: src/plugin.c:849
 msgid "Unknown plugin name."
 msgstr "Nom de greffon inconnu."
 
 #: src/plugin.c:853
-#, fuzzy, c-format
+#, c-format
 msgid "No loader defined or loader id invalid for plugin with id=\"%s\"."
-msgstr "Aucun chargeur défini pour le greffon d'identifiant \"%s\"."
+msgstr ""
+"Aucun chargeur défini ou identifiant de chargeur invalide pour le greffon "
+"d'identifiant \"%s\"."
 
 #: src/plugin.c:858
 #, c-format
@@ -25016,24 +25028,22 @@ msgid "Error initializing plugin loader (\"%s\")."
 msgstr "Erreur d'initialisation du chargeur de greffon (\"%s\")."
 
 #: src/plugin.c:947 src/plugin.c:1104
-#, fuzzy
 msgid "Detected cyclic plugin dependencies."
-msgstr "Erreur lors du chargement des dépendances du greffon."
+msgstr "Un cycle a été détecté dans les dépendances des greffons."
 
 #: src/plugin.c:971
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't activate plugin with id=\"%s\"."
-msgstr "Impossible d'activer le greffon \"%s\" (ID: %s)."
+msgstr "Impossible d'activer le greffon \"%s\"."
 
 #: src/plugin.c:977 src/plugin.c:1150
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't find plugin with id=\"%s\"."
-msgstr "Aucun chargeur défini pour le greffon d'identifiant \"%s\"."
+msgstr "Impossible de trouver le greffon d'identifiant \"%s\"."
 
 #: src/plugin.c:984
-#, fuzzy
 msgid "Error while activating plugin dependencies."
-msgstr "Erreur lors du chargement des dépendances du greffon."
+msgstr "Erreur lors de l'activation des dépendances du greffon."
 
 #: src/plugin.c:998
 #, c-format
@@ -25050,9 +25060,9 @@ msgid "Cannot load plugin loader."
 msgstr "Impossible de charger le chargeur de greffon."
 
 #: src/plugin.c:1144
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't load plugin with id=\"%s\"."
-msgstr "Aucun chargeur défini pour le greffon d'identifiant '%s'."
+msgstr "Impossible de charger le greffon d'identifiant '%s'."
 
 #: src/plugin.c:1157
 msgid "Error while loading plugin dependencies."
@@ -25078,9 +25088,8 @@ msgid "Errors while reading info about available plugins."
 msgstr "Erreurs lors de la lecture des infos sur les greffons disponibles."
 
 #: src/plugin.c:1645
-#, fuzzy
 msgid "Errors while deactivating plugins that are no longer on disk."
-msgstr "Erreur lors de la désactivation du service de greffon #%d."
+msgstr "Erreur lors de la désactivation des greffons supprimés du disque."
 
 #: src/plugin.c:1666
 #, c-format
@@ -25089,6 +25098,10 @@ msgid ""
 "%s.\n"
 "You should restart Gnumeric now."
 msgstr ""
+"Les greffons suivants ne sont plus disponibles sur le disque, mais sont "
+"toujours activés :\n"
+"%s\n"
+"Vous devez redémarrer Gnumeric maintenant."
 
 #: src/plugin.c:1774
 msgid "Errors while activating plugins."
@@ -25192,9 +25205,8 @@ msgstr ""
 "sélectionnés."
 
 #: src/sheet-control-gui.c:1414
-#, fuzzy
 msgid "Remove Hyperlink"
-msgstr "_Enlever sélectionné"
+msgstr "Enlever hyperlien"
 
 #: src/sheet-control-gui.c:1450
 msgid "Paste _Special"
@@ -25247,46 +25259,42 @@ msgstr "_Hauteur de ligne..."
 
 #: src/sheet-control-gui.c:1502
 msgid "_Hyperlink"
-msgstr ""
+msgstr "_Hyperlien"
 
 #: src/sheet-control-gui.c:1505
-#, fuzzy
 msgid "Edit _Hyperlink"
-msgstr "Éditer l'expression"
+msgstr "Éditer l'_hyperlien"
 
 #: src/sheet-control-gui.c:1508
-#, fuzzy
 msgid "_Remove Hyperlink"
-msgstr "_Enlever sélectionné"
+msgstr "_Enlever l'hyperlien"
 
 #: src/sheet-filter.c:350
-#, fuzzy
 msgid "(All)"
-msgstr "Tous"
+msgstr "(Tous)"
 
 #: src/sheet-filter.c:355
 msgid "(Top 10...)"
-msgstr ""
+msgstr "(10 premiers ...)"
 
 #: src/sheet-filter.c:362
-#, fuzzy
 msgid "(Custom...)"
-msgstr "Personnalisé"
+msgstr "(Personnalisé ...)"
 
 #: src/sheet-filter.c:405
 msgid "(Blanks...)"
-msgstr ""
+msgstr "(Vides ...)"
 
 #: src/sheet-filter.c:411
 msgid "(Non Blanks...)"
-msgstr ""
+msgstr "(Non vides ...)"
 
 #: src/sheet-merge.c:80
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "There is already a merged region that intersects\n"
 "%s!%s"
-msgstr "Il y a déjà une région fusionnée qui recouvre celle-ci."
+msgstr "Il y a déjà une région fusionnée qui recouvre %s!%s."
 
 #: src/sheet-object-bonobo.c:243
 msgid "Open..."
@@ -25323,6 +25331,9 @@ msgid ""
 "column named TRUE may conflict with the constant of the same\n"
 "name.  Expect weirdness."
 msgstr ""
+"Ceci est une version spéciale de Gnumeric, qui supporte un très grand nombre "
+"de lignes. L'accès à une colonne nommée VRAI peur créer un conflit avec la "
+"constante de même nom. Des anomalies sont probables."
 
 #: src/sheet.c:1940
 msgid "Target region contains merged cells"
@@ -25355,50 +25366,49 @@ msgid "Too many columns in data to parse: %d"
 msgstr "Trop de colonnes dans les données à lire : %d"
 
 #: src/stf.c:110
-#, fuzzy
 msgid "Error while trying to read file"
-msgstr "Erreur lors de l'écriture du fichier csv"
+msgstr "Erreur lors de la lecture du fichier"
 
 #: src/stf.c:119
 msgid "Error while trying to pre-convert file"
 msgstr "Erreur lors de la pré-conversion du fichier"
 
 #: src/stf.c:133
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "This file does not seem to be a valid text file.\n"
 "The character '%s' (ASCII decimal %d) was encountered.\n"
 "Most likely your locale settings are wrong."
 msgstr ""
-"Ce fichier n'est psa un fichier de texte valide.\n"
-"Le caractère '%c' (ASCII décimal %d) a été trouvé.\n"
+"Ce fichier n'est pas un fichier de texte valide.\n"
+"Le caractère '%s' (ASCII décimal %d) a été trouvé.\n"
 "Vraisemblablement, vos paramètres de localisation sont incorrects."
 
 #: src/stf.c:139
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "This file does not seem to be a valid text file.\n"
 "Byte 0x%d was encountered.\n"
 "Most likely your locale settings are wrong."
 msgstr ""
-"Ce fichier n'est psa un fichier de texte valide.\n"
-"Le caractère '%c' (ASCII décimal %d) a été trouvé.\n"
+"Ce fichier n'est pas un fichier de texte valide.\n"
+"L'octet 0x%d a été trouvé.\n"
 "Vraisemblablement, vos paramètres de localisation sont incorrects."
 
 #: src/stf.c:274 src/stf.c:304
-#, fuzzy
 msgid "Text to Columns"
-msgstr "Supprimer colonnes"
+msgstr "Texte vers colonnes"
 
 #: src/stf.c:279
 #, c-format
 msgid "Only 1 one column of <b>input</b> data can be parsed at a time, not %d"
 msgstr ""
+"Une seule colonne de données d'<b>entrée</b> peut être analysée à la fois, "
+"pas %d"
 
 #: src/stf.c:310
-#, fuzzy
 msgid "Error while trying to parse data into sheet"
-msgstr "Erreur d'interprétation lors de l'insertion de données dans la feuille"
+msgstr "Erreur lors de l'insertion de données dans la feuille"
 
 #: src/stf.c:386
 msgid "Parse error while trying to parse data into sheet"
@@ -25409,9 +25419,8 @@ msgid "Error while trying to write csv file"
 msgstr "Erreur lors de l'écriture du fichier csv"
 
 #: src/stf.c:467
-#, fuzzy
 msgid "Comma or tab separated files (CSV/TSV))"
-msgstr "module CSV (valeurs séparées par des virgules)"
+msgstr "module CSV/TSV (valeurs séparées par des virgules ou des tabulations)"
 
 #: src/stf.c:471
 msgid "Text import (configurable)"
@@ -25475,9 +25484,9 @@ msgstr ""
 "Intervalle/Min/Max/Somme/Nombre"
 
 #: src/tools/analysis-tools.c:1025
-#, fuzzy, c-format
+#, c-format
 msgid "/%%%s%%%% CI for the Mean from/to"
-msgstr "/%g%% IC pour moyenne de/à"
+msgstr "/%%%s%%%% IC pour moyenne de/à"
 
 #: src/tools/analysis-tools.c:1063
 #, c-format
@@ -25497,6 +25506,8 @@ msgstr "Statistiques Descriptives (%s)"
 #: src/tools/analysis-tools.c:1248
 msgid "The requested sample size is to large for a periodic sample."
 msgstr ""
+"La taille d'échantillon demandée est trop grande pour un échantillonage "
+"périodique."
 
 #: src/tools/analysis-tools.c:1295
 #, c-format
@@ -25532,9 +25543,8 @@ msgid "z-Test"
 msgstr "Test Z"
 
 #: src/tools/analysis-tools.c:1482
-#, fuzzy
 msgid "The 2 input ranges must have the same size."
-msgstr "Les zones d'entrée sélectionnées doivent être de même taille !"
+msgstr "Les 2 zones d'entrée sélectionnées doivent être de même taille !"
 
 #: src/tools/analysis-tools.c:1491
 msgid ""
@@ -25549,7 +25559,7 @@ msgstr ""
 #: src/tools/analysis-tools.c:1611
 #, c-format
 msgid "t-Test, paired (%s)"
-msgstr ""
+msgstr "Test T, apparié (%s)"
 
 #: src/tools/analysis-tools.c:1621 src/tools/analysis-tools.c:1624
 #: src/tools/analysis-tools.c:1766 src/tools/analysis-tools.c:1769
@@ -25568,7 +25578,7 @@ msgstr ""
 "unilatéral/P (T<=t) bilatéral/t critique bilatéral"
 
 #: src/tools/analysis-tools.c:1756 src/tools/analysis-tools.c:1894
-#, fuzzy, c-format
+#, c-format
 msgid "t-Test (%s)"
 msgstr "Test T (%s)"
 
@@ -25617,17 +25627,14 @@ msgstr ""
 "Il doit y en avoir au moins autant que de variables libres."
 
 #: src/tools/analysis-tools.c:2216
-#, fuzzy
 msgid ""
 "Two or more of the independent variables are nearly linear\n"
 "dependent.  All numerical precision was lost in the computation."
 msgstr ""
-"Au moins deux variables indépendantes sont linéairement dépendantes, la "
-"régression ne peut être effectuée.\n"
-"Enlevez une de ces variables et réessayez."
+"Au moins deux variables indépendantes sont presque linéairement dépendantes. "
+"La précision numérique est donc fortement dégradée."
 
 #: src/tools/analysis-tools.c:2223
-#, fuzzy
 msgid ""
 "Two or more of the independent variables are linearly\n"
 "dependent, and the regression cannot be calculated.\n"
@@ -25656,28 +25663,29 @@ msgid "/df/SS/MS/F/Significance of F"
 msgstr "/df/SS/MS/F/Significativité de F"
 
 #: src/tools/analysis-tools.c:2276
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "/Coefficients/Standard Error/t Stat/P-value/Lower %%0.0%s%%%%/Upper %%0.0%s%%"
 "%%"
 msgstr ""
-"/Coefficients/Erreur std/Stat T/Valeur P/%0.0f%% plus bas/%0.0f%% plus haut"
+"/Coefficients/Erreur std/Stat T/Valeur P/%%0.0%s%%%% plus bas/%%0.0%s%%%% "
+"plus haut"
 
 #: src/tools/analysis-tools.c:2293
 msgid ""
 "Probability of an observation's absolute value being larger than the t-"
 "value's"
 msgstr ""
+"Probabilité que la valeur d''une observation soit lpus grande que la valeur "
+"de T"
 
 #: src/tools/analysis-tools.c:2401
-#, fuzzy
 msgid ""
 "Two or more of the independent variables are nearly linear\n"
 "dependent.  Treat the regression result with great care!"
 msgstr ""
-"Au moins deux variables indépendantes sont linéairement dépendantes, la "
-"régression ne peut être effectuée.\n"
-"Enlevez une de ces variables et réessayez."
+"Au moins deux variables indépendantes sont presque linéairement dépendantes. "
+"Méfiez-vous beaucoup des résultats de cette régression !"
 
 #: src/tools/analysis-tools.c:2416
 #, c-format
@@ -25755,7 +25763,6 @@ msgid "Single Factor ANOVA"
 msgstr "Facteur unique ANOVA"
 
 #: src/tools/analysis-tools.c:3118
-#, fuzzy
 msgid "The input range contains non-numeric data."
 msgstr "L'intervalle d'entrée fourni contient des données non numériques."
 
@@ -25772,9 +25779,8 @@ msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr "/ANOVA/Source de variation/Lignes/Colonnes/Erreur/Total"
 
 #: src/tools/analysis-tools.c:3346
-#, fuzzy
 msgid "One of the factor combinations does not contain any observations!"
-msgstr "L'une des combinaisons de facteurs ne contient aucune observation :"
+msgstr "L'une des combinaisons de facteurs ne contient aucune observation !"
 
 #. We are ready to create the summary table
 #: src/tools/analysis-tools.c:3355
@@ -25914,17 +25920,21 @@ msgid ""
 "Input variable did not yield to a numeric value. Check the model (maybe your "
 "last round # is too high)."
 msgstr ""
+"La variable d'entrée n'a pas produit une valeur numérique. Vérifiez le "
+"modèle (peut-être le numéro de la dernière séquence est-il trop grand)."
 
 #: src/tools/simulation.c:126
 msgid ""
 "Output variable did not yield to a numeric value. Check the output variables "
 "in your model (maybe your last round # is too high)."
 msgstr ""
+"La variable de sortie n'a pas produit une valeur numérique. Vérifiez les "
+"variables de sortie de votre modèle (peut-être le numéro de la dernière "
+"séquence est-il trop grand)."
 
 #: src/tools/simulation.c:242
-#, fuzzy
 msgid "Simulation Report"
-msgstr "Rapport de limites"
+msgstr "Rapport de simulation"
 
 #: src/tools/simulation.c:255
 msgid "Mean"
@@ -25936,7 +25946,7 @@ msgstr "Médian"
 
 #: src/tools/simulation.c:259
 msgid "Std. Dev."
-msgstr ""
+msgstr "Écart-type"
 
 #: src/tools/simulation.c:260
 msgid "Variance"
@@ -25951,37 +25961,32 @@ msgid "Kurtosis"
 msgstr "Kurtosis"
 
 #: src/tools/simulation.c:263
-#, fuzzy
 msgid "Range"
-msgstr "Inte_rvalle"
+msgstr "Intervalle"
 
 #: src/tools/simulation.c:265
-#, fuzzy
 msgid "Confidence (95 %)"
-msgstr "Niveau de confiance (%g%%)"
+msgstr "Confiance (95 %)"
 
 #: src/tools/simulation.c:266
-#, fuzzy
 msgid "Lower Limit (95 %)"
-msgstr "Inférieur à 95%"
+msgstr "Limite inférieure (95%)"
 
 #: src/tools/simulation.c:267
 msgid "Upper Limit (95 %)"
-msgstr ""
+msgstr "Limite supérieure (95%)"
 
 #: src/tools/simulation.c:335
 msgid "SUMMARY OF SIMULATION ROUND #"
-msgstr ""
+msgstr "RÉSUMÉ DE LA SÉQUENCE DE SIMULATION NUMÉRO"
 
 #: src/tools/simulation.c:349
-#, fuzzy
 msgid "Report"
-msgstr "Rapports"
+msgstr "Rapport"
 
 #: src/tools/simulation.c:396
-#, fuzzy
 msgid "(Input) "
-msgstr "Entrée"
+msgstr "(Entrée)"
 
 #: src/tools/solver/reports-write.c:110 src/tools/solver/reports-write.c:238
 msgid "Answer Report"
@@ -26019,7 +26024,7 @@ msgstr "Sans lien"
 
 #: src/tools/solver/reports-write.c:223 src/tools/solver/reports-write.c:942
 msgid "Assume that all variables are integer."
-msgstr ""
+msgstr "Supposer que toutes les variables sont entières."
 
 #: src/tools/solver/reports-write.c:233
 msgid "Target Cell (Maximize)"
@@ -26139,29 +26144,28 @@ msgid "Maximization"
 msgstr "Maximisation"
 
 #: src/tools/solver/reports-write.c:576
-#, fuzzy
 msgid "Target value search"
-msgstr "Lancer la recherche"
+msgstr "Recherche de valeur cible"
 
 #: src/tools/solver/reports-write.c:583
 msgid "Optimal solution found"
-msgstr ""
+msgstr "Une solution optimale a été trouvée"
 
 #: src/tools/solver/reports-write.c:586
 msgid "Unbounded problem"
-msgstr ""
+msgstr "Problème non délimité"
 
 #: src/tools/solver/reports-write.c:589
 msgid "Infeasible problem"
-msgstr ""
+msgstr "Problème insoluble"
 
 #: src/tools/solver/reports-write.c:593
 msgid "Maximum number of iterations exceeded: optimization interupted"
-msgstr ""
+msgstr "Nombre maximum d'itérations atteint : optimisation interrompue."
 
 #: src/tools/solver/reports-write.c:598
 msgid "Maximum time exceeded: optimization interupted"
-msgstr ""
+msgstr "Temps maximum atteint : optimisation interrompue."
 
 #.
 #. * Fill in the labels of `Problem Size' section.
@@ -26194,13 +26198,13 @@ msgid "Elements"
 msgstr "Éléments"
 
 #: src/tools/solver/reports-write.c:646 src/tools/solver/reports-write.c:648
-#, fuzzy
 msgid "Non-zeros in"
-msgstr "Zoom avant"
+msgstr "Non-zéros dans"
 
 #: src/tools/solver/reports-write.c:649
+#, fuzzy
 msgid "Obj. fn"
-msgstr ""
+msgstr "Fct objet"
 
 #: src/tools/solver/reports-write.c:651
 msgid "Ratio"
@@ -26248,9 +26252,8 @@ msgid "%s (%s)"
 msgstr "%s (%s)"
 
 #: src/tools/solver/reports-write.c:756
-#, fuzzy
 msgid "Autoscaling:"
-msgstr "Automatique"
+msgstr "Échelle automatique :"
 
 #: src/tools/solver/reports-write.c:758
 msgid "Max Time:"
@@ -26259,7 +26262,7 @@ msgstr "Durée max :"
 #. Set the options.
 #: src/tools/solver/reports-write.c:762
 msgid "LP Solve 3.2"
-msgstr ""
+msgstr "LP Solve 3.2"
 
 #: src/tools/solver/reports-write.c:771
 msgid "Non-Negative"
@@ -26284,7 +26287,7 @@ msgstr "Taille du problème"
 
 #: src/tools/solver/reports-write.c:804
 msgid "Data Sparsity"
-msgstr ""
+msgstr "Rareté des données"
 
 #: src/tools/solver/reports-write.c:805
 msgid "Computing Time"
@@ -26301,6 +26304,7 @@ msgstr "Rapport du programme"
 #: src/tools/solver/reports-write.c:951
 msgid "Assume that all variables take only positive values."
 msgstr ""
+"Supposer que toutes les variables ne prennent que des valeurs positives."
 
 #: src/tools/solver/reports-write.c:967
 msgid "Minimize"
@@ -26317,36 +26321,41 @@ msgstr "Égal à"
 #. Print `Subject to' title.
 #: src/tools/solver/reports-write.c:979
 msgid "Subject to"
-msgstr "Sujet à"
+msgstr "Soumis à"
 
 #: src/tools/solver/reports-write.c:1000 src/tools/solver/reports-write.c:1013
-#, fuzzy
 msgid "Dual Program Report"
-msgstr "Nom du programme"
+msgstr "Rapport du programme dual"
 
 #: src/tools/solver/reports.c:328
 msgid ""
 "Model is too large for program report generation. Program report was not "
 "created."
-msgstr ""
+msgstr "Le modèle est trop grand pour qu'un rapport puisse être produit."
 
 #: src/tools/solver/solver.c:406
 msgid ""
 "The LHS cells should contain formulas that yield proper numerical values.  "
 "Specify valid LHS entries."
 msgstr ""
+"Les cellules du membre de gauche (LHS) doivent contenir des formules donnant "
+"des valeurs numériques valides. Vérifiez-les."
 
 #: src/tools/solver/solver.c:445
 msgid ""
 "The RHS cells should contain proper numerical values only.  Specify valid "
 "RHS entries."
 msgstr ""
+"Les cellules du membre de droite (RHS) doivent contenir des valeurs "
+"numériques valides. Vérifiez-les."
 
 #: src/tools/solver/solver.c:524
 msgid ""
 "Some of the input cells contain non-numeric values.  Specify a valid input "
 "range."
 msgstr ""
+"Certaines cellules contiennent des valeurs non numériques. Spécifiez un "
+"intevalle d'entrée correct."
 
 #: src/validation.c:142
 #, c-format
@@ -26445,24 +26454,20 @@ msgid "Un_freeze Panes"
 msgstr "Dé_figer les volets"
 
 #: src/workbook-control-gui.c:1342
-#, fuzzy
 msgid "Unfreeze the top left of the sheet"
-msgstr "Figer le coin en haut à gauche de la feuille"
+msgstr "Défiger le coin en haut à gauche de la feuille"
 
 #: src/workbook-control-gui.c:1357
-#, fuzzy
 msgid "Remove _Auto Filter"
-msgstr "Enlever les bordures"
+msgstr "Enlever les filtres _automatiques"
 
 #: src/workbook-control-gui.c:1360
-#, fuzzy
 msgid "Remove a filter"
-msgstr "<- Enlever tout"
+msgstr "Enlever un filtre"
 
 #: src/workbook-control-gui.c:1361
-#, fuzzy
 msgid "Add a filter"
-msgstr "Filtre avancé"
+msgstr "Ajouter un filtre"
 
 #: src/workbook-control-gui.c:1380 src/workbook-control-gui.c:3831
 #: src/workbook-control-gui.c:4052
@@ -26546,9 +26551,8 @@ msgid "Insert columns"
 msgstr "Insérer colonnes"
 
 #: src/workbook-control-gui.c:2810
-#, fuzzy
 msgid "Add Filter"
-msgstr "Filtre avancé"
+msgstr "Ajouter un filtre"
 
 #: src/workbook-control-gui.c:2813
 #, fuzzy
@@ -26611,9 +26615,8 @@ msgid "Ranks And _Percentiles"
 msgstr "Ordres et Pourcentages"
 
 #: src/workbook-control-gui.c:3770
-#, fuzzy
 msgid "Create a pivot table."
-msgstr "Crée un titre"
+msgstr "Créer une table pivot"
 
 #: src/workbook-control-gui.c:3831
 msgid "Undo the operation"
@@ -26655,15 +26658,15 @@ msgstr "Adresse"
 #: src/workbook-edit.c:334
 #, c-format
 msgid "%s!%s is locked"
-msgstr ""
+msgstr "%s!%s est verrouillé"
 
 #: src/workbook-edit.c:338
 msgid "Unprotect the workbook to enable editing."
-msgstr ""
+msgstr "Enlevez la protection du classeur pour permettre la modification."
 
 #: src/workbook-edit.c:339
 msgid "Unprotect the sheet to enable editing."
-msgstr ""
+msgstr "Enlevez la protection de la feuille pour permettre la modification."
 
 #: src/workbook-format-toolbar.c:84
 msgid "Set Horizontal Alignment"
@@ -26759,23 +26762,22 @@ msgid "Internal ERROR"
 msgstr "Erreur interne"
 
 #: src/workbook-view.c:543
-#, fuzzy, c-format
+#, c-format
 msgid "Can't open '%s' : %s"
-msgstr "Impossible d'ouvrir"
+msgstr "Impossible d'ouvrir '%s' : %s"
 
 #: src/workbook-view.c:565
-#, fuzzy, c-format
+#, c-format
 msgid "An unexplained error happened while saving %s"
-msgstr "Une erreur inexpliquée est survenue lors de l'ouverture de '%s'"
+msgstr "Une erreur inexpliquée est survenue lors de l'enregistrement de %s"
 
 #.
 #. * This should be quite rare.  To provoke, use
 #. * gnumeric `echo -e '\377\376'`
 #.
 #: src/workbook-view.c:572 src/workbook-view.c:785
-#, fuzzy
 msgid "The filename given is not valid."
-msgstr "La valeur donnée pour 'À la valeur :' est invalide"
+msgstr "Le nom de fichier est invalide."
 
 #: src/workbook-view.c:656
 msgid "Default file saver is not available."
@@ -26786,9 +26788,9 @@ msgid "Unsupported file format."
 msgstr "Format de fichier non supporté."
 
 #: src/workbook-view.c:778
-#, fuzzy, c-format
+#, c-format
 msgid "An unexplained error happened while opening %s"
-msgstr "Une erreur inexpliquée est survenue lors de l'ouverture de '%s'"
+msgstr "Une erreur inexpliquée est survenue lors de l'ouverture de %s"
 
 #: src/workbook.c:448
 #, c-format
@@ -26807,462 +26809,464 @@ msgstr "Il y a déjà une feuille nommée"
 msgid "You may not use this name twice"
 msgstr "Vous ne pouvez pas utiliser ce nom deux fois"
 
-#: src/xml-io.c:3594
+#: src/xml-io.c:3593
 #, fuzzy
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "N'est pas un fichier classeur Gnumeric"
 
-#: src/xml-io.c:3663
+#: src/xml-io.c:3662
 msgid "Gnumeric XML file format"
 msgstr "Format de fichier Gnumeric XML"
 
 #: schemas/plot-types.xml.in.h:1
-#, fuzzy
 msgid "3 series"
-msgstr "Feuilles"
+msgstr "Série 3"
 
 #: schemas/plot-types.xml.in.h:2
 msgid "3D Adjacent Bars"
-msgstr ""
+msgstr "Barres 3D adjacentes"
 
 #: schemas/plot-types.xml.in.h:3
-#, fuzzy
 msgid "3D Adjacent Columns"
-msgstr "Supprimer colonnes"
+msgstr "Colonnes 3D adjacentes"
 
 #: schemas/plot-types.xml.in.h:4
-#, fuzzy
 msgid "3D Percentage Bars"
-msgstr "_Pourcentages"
+msgstr "Barres de pourcentage 3D"
 
 #: schemas/plot-types.xml.in.h:5
-#, fuzzy
 msgid "3D Percentage Columns"
-msgstr "Supprimer colonnes"
+msgstr "Colonnes de pourcentage 3D"
 
 #: schemas/plot-types.xml.in.h:6
-#, fuzzy
 msgid "3D Percentage Lines"
-msgstr "_Pourcentages"
+msgstr "Lignes de pourcentage 3D"
 
 #: schemas/plot-types.xml.in.h:7
 msgid "3D Pie"
-msgstr ""
+msgstr "Camembert 3D"
 
 #: schemas/plot-types.xml.in.h:8
 msgid "3D Split Pie"
-msgstr ""
+msgstr "Camembert partagé 3D"
 
 #: schemas/plot-types.xml.in.h:9
 msgid "3D Stacked Bars"
-msgstr ""
+msgstr "Barres 3D empilées"
 
 #: schemas/plot-types.xml.in.h:10
-#, fuzzy
 msgid "3D Stacked Columns"
-msgstr "Supprimer colonnes"
+msgstr "Colonnes 3D empilées"
 
 #: schemas/plot-types.xml.in.h:11
 msgid "3D Stacked Lines"
-msgstr ""
+msgstr "Lignes 3D empilées"
 
 #: schemas/plot-types.xml.in.h:12
-#, fuzzy
 msgid "3D lines"
-msgstr "Lignes de _grille"
+msgstr "Lignes 3D"
 
 #: schemas/plot-types.xml.in.h:13
-#, fuzzy
 msgid "4 series"
-msgstr "Feuilles"
+msgstr "Série 4"
 
 #: schemas/plot-types.xml.in.h:14
-#, fuzzy
 msgid "4 series (2)"
-msgstr "Feuilles"
+msgstr "Série 4 (2)"
 
 #: schemas/plot-types.xml.in.h:15
-#, fuzzy
 msgid "5 series"
-msgstr "Feuilles"
+msgstr "Série 5"
 
 #: schemas/plot-types.xml.in.h:16
 msgid "Adjacent Bars"
-msgstr ""
+msgstr "Barres adjacentes"
 
 #: schemas/plot-types.xml.in.h:17
-#, fuzzy
 msgid "Adjacent Columns"
-msgstr "Insérer colonnes"
+msgstr "Colonnes adjacentes"
 
 #: schemas/plot-types.xml.in.h:18
 msgid "Adjacent horizontal 3D bars grouped by major and minor categories."
 msgstr ""
+"Barres 3D horizontales, adjacentes, groupées par catégories majeures et "
+"mineures"
 
 #: schemas/plot-types.xml.in.h:19
 msgid "Adjacent horizontal bars grouped by major and minor categories."
 msgstr ""
+"Barres horizontales, adjacentes, groupées par catégories majeures et mineures"
 
 #: schemas/plot-types.xml.in.h:20
 msgid "Adjacent vertical 3D columns grouped by major and minor category."
 msgstr ""
+"Colonnes 3D verticales, adjacentes, groupées par catégories majeures et "
+"mineures"
 
 #: schemas/plot-types.xml.in.h:21
 msgid "Adjacent vertical columns grouped by major and minor category."
 msgstr ""
+"Colonnes verticales, adjacentes, groupées par catégories majeures et mineures"
 
 #: schemas/plot-types.xml.in.h:22
 msgid "Bar"
-msgstr ""
+msgstr "Barre"
 
 #: schemas/plot-types.xml.in.h:23
-#, fuzzy
 msgid "Bubble"
-msgstr "Double"
+msgstr "Bulle"
 
 #: schemas/plot-types.xml.in.h:24
 msgid "Category versus value as lines in pseudo-3D."
-msgstr ""
+msgstr "Catégorie en fonction de la valeur, sous forme de lignes en pseudo-3D"
 
 #: schemas/plot-types.xml.in.h:25
 msgid "Category versus value, with markers at each point."
-msgstr ""
+msgstr "Catégorie en fonction de la valeur, avec des marqueurs à chaque point"
 
 #: schemas/plot-types.xml.in.h:26
 msgid "Category versus value."
-msgstr ""
+msgstr "Catégorie en fonction de la valeur"
 
 #: schemas/plot-types.xml.in.h:28
 msgid "High, Low, Close."
-msgstr ""
+msgstr "Haut;Bas;Clôture"
 
 #: schemas/plot-types.xml.in.h:29
 msgid ""
 "Interpolate between multi-dimensional points,with markers at each point."
 msgstr ""
+"Interpolation entre des points multi-dimensionnels, avec des marqueurs à "
+"chaque point."
 
 #: schemas/plot-types.xml.in.h:30
 msgid "Interpolate between multi-dimensional points."
-msgstr ""
+msgstr "Interpolation entre des points multi-dimensionnels."
 
 #: schemas/plot-types.xml.in.h:31
-#, fuzzy
 msgid "Interpolated points"
-msgstr "points"
+msgstr "Points interpolés"
 
 #: schemas/plot-types.xml.in.h:33
 msgid ""
 "Linearly interpolate between multi-dimensional points,with markers at each "
 "point."
 msgstr ""
+"Interpolation linéaire entre des points multi-dimensionnels, avec des "
+"marqueurs à chaque point."
 
 #: schemas/plot-types.xml.in.h:34
 msgid "Linearly interpolate between multi-dimensional points."
-msgstr ""
+msgstr "Interpolation linéaire entre des points multi-dimensionnels."
 
 #: schemas/plot-types.xml.in.h:35
 msgid "Linearly interpolated points"
-msgstr ""
+msgstr "Points interpolés linéairement"
 
 #: schemas/plot-types.xml.in.h:36
 msgid ""
 "Major totals as percentages with each wedge subdivided intosecondary pies."
 msgstr ""
+"Totaux principaux sous forme de pourcentages, chaque tranche étant "
+"subdivisée en un autre camembert."
 
 #: schemas/plot-types.xml.in.h:37
 msgid ""
 "Major totals as percentages with each wedge subdivided intosecondary stacked "
 "bars."
 msgstr ""
+"Totaux principaux sous forme de pourcentages, chaque tranche étant "
+"subdivisée en barres empilées."
 
 #: schemas/plot-types.xml.in.h:38
 msgid "Marked interpolated points"
-msgstr ""
+msgstr "Points interpolés marqués"
 
 #: schemas/plot-types.xml.in.h:39
 msgid "Marked linearly interpolated points"
-msgstr ""
+msgstr "Points linairement interpolés marqués"
 
 #: schemas/plot-types.xml.in.h:40
-#, fuzzy
 msgid "Marked lines"
-msgstr "Lignes de _grille"
+msgstr "Lignes marquées"
 
 #: schemas/plot-types.xml.in.h:41
 msgid ""
 "Minor categories stacked as percentages of the minor total, in 3D horizontal "
 "bars, grouped by major category."
 msgstr ""
+"Catégories mineures empilées sous forme de pourcentages des totaux mineurs, "
+"en barres 3D horizontales, groupées par catégorie majeure."
 
 #: schemas/plot-types.xml.in.h:42
 msgid ""
 "Minor categories stacked as percentages of the minor total, in 3D vertical "
 "bars, grouped by major category."
 msgstr ""
+"Catégories mineures empilées sous forme de pourcentages des totaux mineurs, "
+"en barres 3D verticales, groupées par catégorie majeure."
 
 #: schemas/plot-types.xml.in.h:43
 msgid ""
 "Minor categories stacked as percentages of the minor total, in horizontal "
 "bars, grouped by major category."
 msgstr ""
+"Catégories mineures empilées sous forme de pourcentages des totaux mineurs, "
+"en barres horizontales, groupées par catégorie majeure."
 
 #: schemas/plot-types.xml.in.h:44
 msgid ""
 "Minor categories stacked as percentages of the minor total, in lines, "
 "grouped by major category, with markers at each point."
 msgstr ""
+"Catégories mineures empilées sous forme de pourcentages des totaux mineurs, "
+"en lignes, groupées par catégorie majeure, avec des marqueurs à chaque point."
 
 #: schemas/plot-types.xml.in.h:45
 msgid ""
 "Minor categories stacked as percentages of the minor total, in lines, "
 "grouped by major category."
 msgstr ""
+"Catégories mineures empilées sous forme de pourcentages des totaux mineurs, "
+"en lignes, groupées par catégorie majeure."
 
 #: schemas/plot-types.xml.in.h:46
 msgid ""
 "Minor categories stacked as percentages of the minor total, in vertical "
 "columns, grouped by major category."
 msgstr ""
+"Catégories mineures empilées sous forme de pourcentages des totaux mineurs, "
+"en colonnes verticales, groupées par catégorie majeure."
 
 #: schemas/plot-types.xml.in.h:47
 msgid ""
 "Minor categories stacked in horizontal 3D bars, grouped by major category."
 msgstr ""
+"Catégories mineures empilées en barres 3D horizontales, groupées par "
+"catégorie majeure."
 
 #: schemas/plot-types.xml.in.h:48
 msgid ""
 "Minor categories stacked in horizontal bars that are grouped by major "
 "category."
 msgstr ""
+"Catégories mineures empilées en barres horizontales, groupées par catégorie "
+"majeure."
 
 #: schemas/plot-types.xml.in.h:49
 msgid ""
 "Minor categories stacked in lines that are grouped by major category, with "
 "markers at each point."
 msgstr ""
+"Catégories mineures empilées en lignes, groupées par catégorie majeure, avec "
+"marqueurs à chaque point."
 
 #: schemas/plot-types.xml.in.h:50
 msgid "Minor categories stacked in lines that are grouped by major category."
 msgstr ""
+"Catégories mineures empilées en lignes, groupées par catégorie majeure."
 
 #: schemas/plot-types.xml.in.h:51
 msgid ""
 "Minor categories stacked in vertical 3D columns, grouped by major category."
 msgstr ""
+"Catégories mineures empilées en colonnes 3D verticales, groupées par "
+"catégorie majeure."
 
 #: schemas/plot-types.xml.in.h:52
 msgid ""
 "Minor categories stacked in vertical columns that are grouped by major "
 "category."
 msgstr ""
+"Catégories mineures empilées en colonnes verticales, groupées par catégorie "
+"majeure."
 
 #: schemas/plot-types.xml.in.h:53
-#, fuzzy
 msgid "Multi-pie"
-msgstr "Multiplier"
+msgstr "Multi-camembert"
 
 #: schemas/plot-types.xml.in.h:54
-#, fuzzy
 msgid "Multi-pie-bars"
-msgstr "Multiplier"
+msgstr "Multi-camembert et barres"
 
 #: schemas/plot-types.xml.in.h:55
-#, fuzzy
 msgid "Percentage Bars"
-msgstr "_Pourcentages"
+msgstr "Barres de pourcentages"
 
 #: schemas/plot-types.xml.in.h:56
-#, fuzzy
 msgid "Percentage Columns"
-msgstr "Supprimer colonnes"
+msgstr "Colonnes de pourcentages"
 
 #: schemas/plot-types.xml.in.h:57
-#, fuzzy
 msgid "Percentage lines"
-msgstr "_Pourcentages"
+msgstr "Lignes de pourcentages"
 
 #: schemas/plot-types.xml.in.h:58
 msgid "Percentage of each contributor in 3D pie."
-msgstr ""
+msgstr "Pourcentage de chaque contribution au camembert 3D."
 
 #: schemas/plot-types.xml.in.h:59
 msgid "Percentage of each contributor with 3D wedges split apart."
 msgstr ""
+"Pourcentage de chaque contribution, avec les tranches 3D partagées "
+"séparément."
 
 #: schemas/plot-types.xml.in.h:60
 msgid "Percentage of each contributor with wedges split apart."
 msgstr ""
+"Pourcentage de chaque contribution, avec les tranches partagées séparément."
 
 #: schemas/plot-types.xml.in.h:61
 msgid "Percentage of each contributor."
-msgstr ""
+msgstr "Pourcentage de chaque contribution."
 
 #: schemas/plot-types.xml.in.h:62
-#, fuzzy
 msgid "Pie"
-msgstr "Prix"
+msgstr "Camembert"
 
 #: schemas/plot-types.xml.in.h:63
 msgid "Plot X, Y and bubble size."
-msgstr ""
+msgstr "Tracer X, Y et la taille de la bulle."
 
 #: schemas/plot-types.xml.in.h:64
 msgid "Plot one series per axis."
-msgstr ""
+msgstr "Tracer une série sur chaque axe."
 
 #: schemas/plot-types.xml.in.h:65
-#, fuzzy
 msgid "Points"
-msgstr "Point"
+msgstr "Points"
 
 #: schemas/plot-types.xml.in.h:66
-#, fuzzy
 msgid "Scatter"
-msgstr "Motif"
+msgstr "Répartir"
 
 #: schemas/plot-types.xml.in.h:67
-#, fuzzy
 msgid "Split Pie"
-msgstr "Séparer"
+msgstr "Camembert partagé"
 
 #: schemas/plot-types.xml.in.h:68
 msgid "Stacked Bars"
-msgstr ""
+msgstr "Barres empilées"
 
 #: schemas/plot-types.xml.in.h:69
-#, fuzzy
 msgid "Stacked Columns"
-msgstr "Supprimer colonnes"
+msgstr "Colonnes empilées"
 
 #: schemas/plot-types.xml.in.h:70
 msgid "Stacked lines"
-msgstr ""
+msgstr "Lignes empilées"
 
 #: schemas/plot-types.xml.in.h:71
-#, fuzzy
 msgid "Stock"
-msgstr "Stop"
+msgstr "Action"
 
 #: schemas/plot-types.xml.in.h:72
 msgid "Volume, High, Low, Close."
-msgstr ""
+msgstr "Volume;Haut;Bas;Clôture"
 
 #: schemas/plot-types.xml.in.h:73
 msgid "Volume, Open, High, Low, Close."
-msgstr ""
+msgstr "Volume;Ouverture;Haut;Bas;Clôture"
 
 #: schemas/plot-types.xml.in.h:74
 msgid "open, High, Low, Close."
-msgstr ""
+msgstr "Ouverture;Haut;Bas;Clôture"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:1
-#, fuzzy
 msgid "Activate New Plugins"
-msgstr "A_ctiver le greffon"
+msgstr "Activer les nouveaux greffons"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:2
 msgid "Allow Unfocused Range Selections"
-msgstr ""
+msgstr "Autoriser des sélections d'intervalle sans focus."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:3
-#, fuzzy
 msgid "Apply print-setup to all sheets"
-msgstr "Copier vers une nouvelle _feuille"
+msgstr "Appliquer la mise en page à toutes les feuilles"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:4
-#, fuzzy
 msgid "Autocorrect First Letter"
-msgstr "_Première page"
+msgstr "Correction automatique de la première lettre"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:5
-#, fuzzy
 msgid "Autocorrect Initial Caps"
-msgstr "Exceptions de correction automatique"
+msgstr "Correction automatique des majuscules initiales"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:6
 msgid "Autocorrect Names od Days"
-msgstr ""
+msgstr "Correction automatique des noms des jours"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:7
-#, fuzzy
 msgid "Autocorrect Replace"
-msgstr "Correction automatique"
+msgstr "Correction automatique du remplacement"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:8
 msgid "Autocorrect first letter"
-msgstr ""
+msgstr "Correction automatique de la première lettre"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:9
-#, fuzzy
 msgid "Autocorrect initial caps"
-msgstr "Exceptions de correction automatique"
+msgstr "Correction automatique des majuscules initiales"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:10
-#, fuzzy
 msgid "Autocorrect names of days"
-msgstr "Met en majuscule les _noms de jours"
+msgstr "Correction automatique des noms des jours"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:11
-#, fuzzy
 msgid "Autocorrect replace"
-msgstr "Correction automatique"
+msgstr "Correction automatique du remplacement"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:12
-#, fuzzy
 msgid "List of Active Plugins."
-msgstr "Greffons actifs"
+msgstr "Liste des greffons actifs."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:13
 msgid "List of Extra Autoformat Directories."
-msgstr ""
+msgstr "Liste des répertoires supplémentaires de format automatique."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:14
 msgid "List of Extra Plugin Directories."
-msgstr ""
+msgstr "Liste des répertoires supplémentaires de greffons."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:15
-#, fuzzy
 msgid "List of First Letter Exceptions"
-msgstr "Exceptions de correction automatique"
+msgstr "Liste des exceptions de première lettre"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:16
 msgid "List of Init Caps Exceptions"
-msgstr ""
+msgstr "Liste des exceptions de majuscule initiale"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:17
 msgid "List of Known Plugins."
-msgstr ""
+msgstr "Liste des greffons connus."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:18
 msgid "List of Plugin File States."
-msgstr ""
+msgstr "Liste des états de fichiers de greffons."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:19
 msgid "List of recently used functions."
-msgstr ""
+msgstr "Liste des fonctions récemment utilisées"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:20
 msgid "Maximum Length of Recently Used Functions List"
-msgstr ""
+msgstr "Longueur maximum de la liste de fonctions récemment utilisées"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:21
 msgid "Print-to Filename"
-msgstr ""
+msgstr "Nom de fichier pour \"imprimer dans un fichier\""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:22
-#, fuzzy
 msgid "Printer"
-msgstr "Imprimer"
+msgstr "Imprimante"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:23
-#, fuzzy
 msgid "Printer Backend"
-msgstr "Échec de l'impression"
+msgstr "Pilote de l'imprimante"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:24
-#, fuzzy
 msgid "Printing Command"
-msgstr "Échec de l'impression"
+msgstr "Commande d'impression"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:25
 msgid ""
@@ -27270,126 +27274,143 @@ msgid ""
 "in the workbook. Setting this variable to TRUE directs selections to this "
 "entry even the entry does not have keyboard focus."
 msgstr ""
+"Certains dialogues contiennent un seul champ d'entrée autorisant une "
+"sélection d'intervalle dans le classeur. Si cette variable est à VRAI, les "
+"sélections seront envoyées vers ce champ même s'il n'a pas le focus."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:26
 msgid "System Directory for Autoformats"
-msgstr ""
+msgstr "Répertoire système pour le format automatique"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:27
 msgid ""
 "The autocorrect engine does not correct the first letter for words in this "
 "list."
 msgstr ""
+"Le moteur de correction automatique ne corrigera pas les premières lettres "
+"des mots de cette liste."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:28
 msgid ""
 "The autocorrect engine does not correct the inital caps for words in this "
 "list."
 msgstr ""
+"Le moteur de correction automatique ne corrigera pas les majuscules "
+"initiales des mots de cette liste."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:29
 msgid "The backend used in gnome-print. Do not edit this variable."
-msgstr ""
+msgstr "Le pilote utilisé par gnome-print. Ne modifiez pas cette variable."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:30
 msgid ""
 "The configuration name of the printer in gnome-print. Do not edit this "
 "variable."
 msgstr ""
+"Nom de la configuration de l'imprimante dans gnome-print. Ne modifiez pas "
+"cette variable."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:31
 msgid "The custom printing command (lpr, xpp, ...)"
-msgstr ""
+msgstr "Votre commande personnalisée d'impression (lpr, xpp ...)"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:32
 msgid ""
 "The file name when printing to a file in gnome-print. Do not edit this "
 "variable."
 msgstr ""
+"Nom du fichier quand on imprime dans un fichier par gnome-print. Ne modifiez "
+"pas cette variable."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:33
 msgid ""
 "The function selector keeps a list of recently used functions. This is that "
 "list."
 msgstr ""
+"Le sélecteur de fonctions conserve une liste des fonctions récemment "
+"utilisée. La voici."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:34
 msgid ""
 "The function selector keeps a list of recently used functions. This is the "
 "maximum length of that list."
 msgstr ""
+"Le sélecteur de fonctions conserve une liste des fonctions récemment "
+"utilisée. Ceci est sa logueur maximale."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:35
 msgid "The main directory for user specific autoformat templates."
 msgstr ""
+"Répertoire où les modèles de format automatique de l'utilisateur sont "
+"stockés."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:36
 msgid "The printer used with the lpr command"
-msgstr ""
+msgstr "Imprimante utilisée par la commande lpr"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:37
-#, fuzzy
 msgid "This directory contains the pre-installed autoformat templates."
-msgstr "Erreur lors du chargement du modèle de formatage automatique"
+msgstr "Ce répertoire contient les modèles préinstallés de format automatique."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:38
 msgid ""
 "This list contains all extra directories containing autoformat templates."
 msgstr ""
+"Cette liste indique tous les autres répertoires contenant des modèles de "
+"format automatique."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:39
 msgid "This list contains all extra directories containing plugins."
 msgstr ""
+"Cette liste indique tous les autres répertoires contenant des greffons."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:40
 msgid "This list contains all known plugins."
-msgstr ""
+msgstr "Cette liste indique tous les greffons connus."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:41
-#, fuzzy
 msgid "This list contains all plugin file states."
-msgstr "Le fichier ne contient pas le symbole 'plugin_file_struct'."
+msgstr "Cette liste indique l'état de tous les fichiers de greffons."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:42
 msgid ""
 "This list contains all plugins that are supposed to be automatically "
 "activated."
 msgstr ""
+"Cette liste indique tous les greffons devant être automatiquement activés."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:43
 msgid ""
 "This value determines whether by default the print set-up dialog applies to "
 "all sheets simultaneously."
 msgstr ""
+"Cette valeur détermine si la configuration de l'impression doit s'appliquer "
+"à toutes les feuilles simultanément."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:44
 msgid ""
 "This variable determines whether to activate every new encountered plugin."
-msgstr ""
+msgstr "Cette valeur indique si chaque nouveau greffon doit être activé."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:45
-#, fuzzy
 msgid "User Directory for Autoformats"
-msgstr "Gnumeric : Mise en forme automatique"
+msgstr "Répertoire utilisateur pour les formats automatiques"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:46
-#, fuzzy
 msgid "lpr Printer"
-msgstr "Sélectionnez une imprimante"
+msgstr "Imprimante pour lpr"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:47
-#, fuzzy
 msgid "output.ps"
-msgstr "Sortie"
+msgstr "output.ps"
 
 #: schemas/gnumeric-general.schemas.in.h:1
 msgid "Auto Expression Recalculation Lag"
-msgstr ""
+msgstr "Délai avant recalcul automatique des expressions"
 
 #: schemas/gnumeric-general.schemas.in.h:2
-#, fuzzy
 msgid "Autocomplete"
-msgstr "Formatage automatique"
+msgstr "Achèvement automatique"
 
 #: schemas/gnumeric-general.schemas.in.h:3
 msgid ""
@@ -27397,51 +27418,49 @@ msgid ""
 "warning dialog. Setting this option will make the overwrite button in that "
 "dialog the default button."
 msgstr ""
+"Avant qu'un fichier existant ne soit écrasé, Gnumeric vous demande "
+"confirmation. Si cette option est vraie, c'est le bouton \"remplacer\" de ce "
+"dialogue qui sera sélectionné par défaut."
 
 #: schemas/gnumeric-general.schemas.in.h:4
 msgid "Default Compression Level For Gnumeric Files"
-msgstr ""
+msgstr "Niveau de compression par défaut pour les fichiers Gnumeric"
 
 #: schemas/gnumeric-general.schemas.in.h:5
-#, fuzzy
 msgid "Default Font Size"
-msgstr "Sélectionner la taille de police"
+msgstr "Taille de police par défaut"
 
 #: schemas/gnumeric-general.schemas.in.h:6
-#, fuzzy
 msgid "Default Horizontal Window Size"
-msgstr "Définir l'alignement horizontal"
+msgstr "Taille de fenêtre horizontale par défaut"
 
 #: schemas/gnumeric-general.schemas.in.h:7
-#, fuzzy
 msgid "Default Number of Sheets"
-msgstr "Nombre d'échantillons :"
+msgstr "Nombre de feuilles par défaut :"
 
 #: schemas/gnumeric-general.schemas.in.h:8
 msgid "Default To Overwriting Files"
-msgstr ""
+msgstr "Remplacement de fichier par défaut"
 
 #: schemas/gnumeric-general.schemas.in.h:9
 msgid "Default Vertical Window Size"
-msgstr ""
+msgstr "Taille de fenêtre verticale par défaut"
 
 #: schemas/gnumeric-general.schemas.in.h:10
 msgid "Default Zoom Factor"
-msgstr ""
+msgstr "Facteur de zoom par défaut"
 
 #: schemas/gnumeric-general.schemas.in.h:11
-#, fuzzy
 msgid "Default font name"
-msgstr "Définir les noms"
+msgstr "Nom de la police par défaut"
 
 #: schemas/gnumeric-general.schemas.in.h:12
 msgid "Helvetica"
-msgstr ""
+msgstr "Helvetica"
 
 #: schemas/gnumeric-general.schemas.in.h:13
-#, fuzzy
 msgid "Horizontal DPI"
-msgstr "Horizontal"
+msgstr "ppp, horizontalement"
 
 #: schemas/gnumeric-general.schemas.in.h:14
 msgid ""
@@ -27453,42 +27472,39 @@ msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:15
 msgid "Length of File History"
-msgstr ""
+msgstr "Longueur du fichier d'historique"
 
 #: schemas/gnumeric-general.schemas.in.h:16
 msgid "Length of the Undo Descriptors"
-msgstr ""
+msgstr "Longueur des descripteurs d'action \"Annuler\""
 
 #: schemas/gnumeric-general.schemas.in.h:17
 msgid "List of recently used files"
-msgstr ""
+msgstr "Liste de fichiers récemment utilisés"
 
 #: schemas/gnumeric-general.schemas.in.h:18
 msgid "Live Scrolling"
-msgstr ""
+msgstr "Défilement immédiat"
 
 #: schemas/gnumeric-general.schemas.in.h:19
-#, fuzzy
 msgid "Maximal Undo Size"
-msgstr "Maximise"
+msgstr "Taille maximale du système \"Annuler/Rétablir\""
 
 #: schemas/gnumeric-general.schemas.in.h:20
-#, fuzzy
 msgid "Number of Automatic Clauses"
-msgstr "N_ombre d'échecs"
+msgstr "Nombre de clauses automatiques"
 
 #: schemas/gnumeric-general.schemas.in.h:21
-#, fuzzy
 msgid "Number of Undo Items"
-msgstr "Nombre de lignes à importer"
+msgstr "Nombre de manipulations annulables"
 
 #: schemas/gnumeric-general.schemas.in.h:22
 msgid "Screen resolution in the horizontal direction."
-msgstr ""
+msgstr "Résolution de l'écran dans le sens horizontal."
 
 #: schemas/gnumeric-general.schemas.in.h:23
 msgid "Screen resolution in the vertical direction."
-msgstr ""
+msgstr "Résolution de l'écran dans le sens vertical."
 
 #: schemas/gnumeric-general.schemas.in.h:24
 msgid ""
@@ -27496,6 +27512,9 @@ msgid ""
 "case-sensitive sort and determine the initial state of the case-sensitive "
 "checkbox in the sort dialog."
 msgstr ""
+"Si cette option est vraie, la recherche déclenchée par les boutons de la "
+"barre d'outils sera sensible à la casse, et l'état initial de la case à "
+"cocher correspondante du dialogue de tri sera ajusté."
 
 #: schemas/gnumeric-general.schemas.in.h:25
 msgid ""
@@ -27503,10 +27522,13 @@ msgid ""
 "the cell formats while sorting and determines the initial state of the "
 "preserve-formats checkbox in the sort dialog."
 msgstr ""
+"Si cette option est vraie, le tri déclenché par les boutons de la barre "
+"d'outils conservera les formats de cellule, et l'état initial de la case à "
+"cocher correspondante du dialogue de tri sera ajusté."
 
 #: schemas/gnumeric-general.schemas.in.h:26
 msgid "Show Sheet Name in Undo List"
-msgstr ""
+msgstr "Montrer le nom de la feuille dans la liste d'annulations"
 
 #: schemas/gnumeric-general.schemas.in.h:27
 msgid ""
@@ -27514,51 +27536,54 @@ msgid ""
 "whether the user will be warned if only a single sheet of a multi-sheet "
 "workbook is being saved."
 msgstr ""
+"Certains formats de fichier ne peuvent contenir qu'une seule feuille de "
+"calcul. Cette variable indique si un avertissement doit apparaître "
+"lorsqu'une seule feuille d'un document en comportant plusieurs est "
+"sauvegardée."
 
 #: schemas/gnumeric-general.schemas.in.h:29
-#, fuzzy
 msgid "Sort Preserve Formats"
-msgstr "_Préserver les formats"
+msgstr "Conserver les formats en triant"
 
 #: schemas/gnumeric-general.schemas.in.h:30
-#, fuzzy
 msgid "Sort is Case-Sensitive"
-msgstr "Sensible à la casse"
+msgstr "Tri sensible à la casse"
 
 #: schemas/gnumeric-general.schemas.in.h:31
-#, fuzzy
 msgid "The default font is bold."
-msgstr "La largeur par défaut de la colonne doit être > %d."
+msgstr "Police grasse par défaut."
 
 #: schemas/gnumeric-general.schemas.in.h:32
-#, fuzzy
 msgid "The default font is italic."
-msgstr "L'intervalle de liste est non valide."
+msgstr "Police italique par défaut."
 
 #: schemas/gnumeric-general.schemas.in.h:33
 msgid "The default font name for new workbooks."
-msgstr ""
+msgstr "Nom de la police par défaut pour les nouveaux classeurs."
 
 #: schemas/gnumeric-general.schemas.in.h:34
 msgid "The default font size for new workbooks."
-msgstr ""
+msgstr "Taille de la police par défaut pour les nouveaux classeurs."
 
 #: schemas/gnumeric-general.schemas.in.h:35
 msgid ""
 "The file menu shows a list of recently used functions. This is that list."
 msgstr ""
+"Le menu Fichier affiche une liste des fichiers récemment utilisés. La voici."
 
 #: schemas/gnumeric-general.schemas.in.h:36
 msgid "The initial zoom factor for new workbooks."
-msgstr ""
+msgstr "Facteur de zoom initial pour les nouveaux classeurs."
 
 #: schemas/gnumeric-general.schemas.in.h:37
 msgid "The number of files kept in the `recent' section of the file menu."
 msgstr ""
+"Nombre de fichiers devant apparaître dans la section 'récents' du menu "
+"Fichier."
 
 #: schemas/gnumeric-general.schemas.in.h:38
 msgid "The number of sheets initially created in a new workbook."
-msgstr ""
+msgstr "Nombre de feuilles créées initialement dans un nouveau classeur."
 
 #: schemas/gnumeric-general.schemas.in.h:39
 msgid ""
@@ -27566,24 +27591,33 @@ msgid ""
 "Gnumeric when saving files in the default file format. 0 is no compression "
 "while 9 is maximum compression."
 msgstr ""
+"Cet entier (entre 0 et 9) indique le taux de compression utilisé par "
+"gnumeric lors de l'enregistrement de fichiers dans le format par défaut. 0 "
+"indique aucune compression, 9 est la compression maximale."
 
 #: schemas/gnumeric-general.schemas.in.h:40
 msgid ""
 "This number (between 0.25 and 1.00) gives the horizontal fraction of the "
 "screen size covered by the default window."
 msgstr ""
+"Ce nombre (entre 0,25 et 1) indique la fraction horizontale de l'écran "
+"occupée par la fenêtre par défaut."
 
 #: schemas/gnumeric-general.schemas.in.h:41
 msgid ""
 "This number (between 0.25 and 1.00) gives the vertical fraction of the "
 "screen size covered by the default window."
 msgstr ""
+"Ce nombre (entre 0,25 et 1) indique la fraction verticale de l'écran occupée "
+"par la fenêtre par défaut."
 
 #: schemas/gnumeric-general.schemas.in.h:42
 msgid ""
 "This option determines the initial state of the sort-order button in the "
 "sort dialog."
 msgstr ""
+"Cette option détermine l'état initial du bouton 'ordre de tri' du dialogue "
+"de tri."
 
 #: schemas/gnumeric-general.schemas.in.h:43
 msgid ""
@@ -27592,52 +27626,66 @@ msgid ""
 "simple one-cell edit (size of 1). The undo list will be truncated when its "
 "total size exceeds this configurable value."
 msgstr ""
+"Cette valeur indique la longueur de la chaîne d'annulations. Chaque "
+"modification a une longueur associée, relativement à la modification simple "
+"d'une cellule, qui a une longueur de 1. La liste d'annulations sera tronquée "
+"lorsque sa longueur totale dépassera cette valeur paramétrable."
 
 #: schemas/gnumeric-general.schemas.in.h:44
 msgid ""
 "This value determines the maximum number of items in the undo/redo list."
 msgstr ""
+"Cette valeur est le nombre maximum d'éléments dans la liste 'annuler/"
+"rétablir'."
 
 #: schemas/gnumeric-general.schemas.in.h:45
 msgid ""
 "This value determines whether the default font for a new workbook bold is."
 msgstr ""
+"Cette valeur indique si la fonte par défaut pour un nouveau classeur est en "
+"gras."
 
 #: schemas/gnumeric-general.schemas.in.h:46
 msgid ""
 "This value determines whether the default font for a new workbook italic is."
 msgstr ""
+"Cette valeur indique si la fonte par défaut pour un nouveau classeur est en "
+"italique."
 
 #: schemas/gnumeric-general.schemas.in.h:47
 msgid ""
 "This value determines whether to show the sheet names in the undo and redo "
 "lists."
 msgstr ""
+"Cette valeur indique si les noms de feuilles doivent apparaître dans les "
+"listes d'annulation."
 
 #: schemas/gnumeric-general.schemas.in.h:48
 msgid ""
 "This value is indicative of the maximum length of the command descriptors in "
 "the undo and redo chains."
 msgstr ""
+"Cette valeur fixe la longueur maximale du descripteur de commande dans les "
+"listes d'annulation."
 
 #: schemas/gnumeric-general.schemas.in.h:49
 msgid "This variable determines whether autocompletion is set on."
-msgstr ""
+msgstr "Cette variable indique si l'achèvement automatique est actif."
 
 #: schemas/gnumeric-general.schemas.in.h:50
 msgid ""
 "This variable determines whether live (versus delayed) scrolling is "
 "performed."
 msgstr ""
+"Cette variable indique si le défilement immédiat (et non différé) est actif."
 
 #: schemas/gnumeric-general.schemas.in.h:51
-#, fuzzy
 msgid "Vertical DPI"
-msgstr "_Verticalement"
+msgstr "ppp (verticalement)"
 
 #: schemas/gnumeric-general.schemas.in.h:52
 msgid "Warn When Exporting Into Single Sheet Format"
-msgstr ""
+msgstr "Avertir lors de l'exportation vers un format à feuille unique"
 
 #: schemas/gnumeric-general.schemas.in.h:53
 msgid ""
@@ -27645,6 +27693,9 @@ msgid ""
 "automatically added. This number determines the maximum number of clauses to "
 "be added automatically."
 msgstr ""
+"Lorsqu'une région est sélectionnée dans le dialogue de tri, des clauses de "
+"recherche sont ajoutées automatiquement. Ce nombre est le nombre maximum de "
+"clauses pouvant être ajoutées ainsi."
 
 #~ msgid "Unsupported method"
 #~ msgstr "Méthode non supportée"
