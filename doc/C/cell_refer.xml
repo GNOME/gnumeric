@@ -213,8 +213,7 @@
 
     <para>Note that if NAME contains spaces, you need to quote the
     whole name to allow Gnumeric to group the separate words in NAME
-    as single name.  For example, you should use "Sheet 0" when
-    referencing the default created "Sheet 0".</para>
+    as single name.  For example, you should use 'Name With Spaces'.</para>
 
     <example id="simple-sheet-ref">
       <title>Referencing values in other sheets</title>

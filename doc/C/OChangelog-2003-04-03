@@ -1,3 +1,7 @@
+2002-07-11  Jody Goldberg <jody@gnome.org>
+
+	* cell_refer.xml : fix example to match the strings we generate.
+
 2002-07-03  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* solver.xml, figures/solver-0[2-4]: Major update.
