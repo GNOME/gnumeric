@@ -1,3 +1,11 @@
+2000-03-22  Jody Goldberg <jgoldberg@home.com>
+
+	* src/functions/fn-lookup.c (gnumeric_index) : The current
+	  implementation supports arrays and references. It does not support
+	  the special case of index 0,0 returning the entire range, nor does
+	  it support the second syntax (ref, row, col, area_num).
+	(gnumeric_match) : Document that only match_type == 0 works.
+
 2000-03-22  JP Rosevear  <jpr@arcavia.com>
 
 	* src/xml-io.c (xml_arg_set): Set an arg value based on type and

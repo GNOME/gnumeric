@@ -566,10 +566,18 @@ gnumeric_match (FunctionEvalInfo *ei, Value **args)
 	height  = value_area_get_height (ei->pos, args[1]);
 	width   = value_area_get_width  (ei->pos, args[1]);
 
+	if (height != 1 && width != 1)
+		return value_new_error (ei->pos, gnumeric_err_NA);
+
 	if (args[2])
 		type = value_get_as_int (args[2]);
 	else
 		type = 1;
+
+	if (type != 0) {
+		g_warning ("function : Match() : match_type %d is not supported, only 0 is supported.", type);
+		return value_new_error (ei->pos, gnumeric_err_NA);
+	}
 
 	if ((args[1]->type == VALUE_ARRAY)) {
 		if (args[2])
@@ -605,10 +613,15 @@ gnumeric_match (FunctionEvalInfo *ei, Value **args)
 			const Value *v = value_area_fetch_x_y (ei->pos, args[1], lpx, lpy);
 			compare = lookup_similar (v, args[0], next_largest, 1);
 			if (compare == 1) {
-				if (width > height)
-					return value_new_int (lpx + 1);
-				else
-					return value_new_int (lpy + 1);
+				/* type = 0 : Find the first value exactly equal to
+				 * the target value.  No order is assumed for the target_range.
+				 */
+				if (type == 0) {
+					if (width > height)
+						return value_new_int (lpx + 1);
+					else
+						return value_new_int (lpy + 1);
+				}
 			}
 			if (compare < 0) {
 				next_largest = v;
@@ -737,11 +750,6 @@ gnumeric_index (FunctionEvalInfo *ei, Value **args)
 
 	if (args[2])
 		col_off = value_get_as_int (args[2]) - 1;
-
-	if (args[0]->type != VALUE_ARRAY) {
-		g_warning ("Non array indexes unimplemented");
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
-	}
 
 	if (col_off < 0 ||
 	    col_off >= value_area_get_width (ei->pos, area))
