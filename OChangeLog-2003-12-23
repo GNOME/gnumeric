@@ -1,3 +1,7 @@
+2002-05-04  Jukka-Pekka Iivonen  <jiivonen@cs144028.pp.htv.fi>
+
+	* configure.in : Removed src/functions/Makefile.
+
 2002-05-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/func-builtin.c : mark argument names for translation and adjust 

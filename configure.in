@@ -638,7 +638,6 @@ icons/Makefile
 idl/Makefile
 src/Makefile
 src/dialogs/Makefile
-src/functions/Makefile
 src/pixmaps/Makefile
 src/widgets/Makefile
 src/tools/Makefile
