@@ -481,8 +481,9 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 		if (so == NULL)
 			so = g_object_new (GNM_SO_FILLED_TYPE, NULL);  /* placeholder */
 
-#warning "Why do we create these here only to get rid of them?"
-		g_object_unref (so);
+#warning Free the objects.  I have a patch for this once 1.4.0 is out
+		if (so != obj->gnum_obj)
+			g_object_unref (so);
 		break;
 	}
 
