@@ -30,6 +30,10 @@ get_serial_date (const Value *v)
 		} else
 			serial = 0;
 	}
+
+	/* Add half a second.  Yes, Excel rounds up the date too.  */
+	serial += 0.5 / DAY_SECONDS;
+
 	return floor (serial);
 }
 
@@ -59,6 +63,10 @@ get_serial_time (Value *v)
 			serial = 0;
 		g_free (str);
 	}
+
+	/* Add half a second.  Yes, Excel rounds up the date too.  */
+	serial += 0.5 / DAY_SECONDS;
+
 	return serial - floor (serial);
 }
 
@@ -328,7 +336,7 @@ gnumeric_hour (FunctionEvalInfo *ei, Value **argv)
 {
 	int secs;
 
-	secs = (int)(get_serial_time (argv[0]) * DAY_SECONDS + 0.5);
+	secs = (int)(get_serial_time (argv[0]) * DAY_SECONDS);
 	return value_new_int (secs / 3600);
 }
 
@@ -356,7 +364,7 @@ gnumeric_minute (FunctionEvalInfo *ei, Value **argv)
 {
 	int secs;
 
-	secs = (int)(get_serial_time (argv[0]) * DAY_SECONDS + 0.5);
+	secs = (int)(get_serial_time (argv[0]) * DAY_SECONDS);
 	return value_new_int ((secs / 60) % 60);
 }
 
@@ -384,7 +392,7 @@ gnumeric_second (FunctionEvalInfo *ei, Value **argv)
 {
 	int secs;
 
-	secs = (int)(get_serial_time (argv[0]) * DAY_SECONDS + 0.5);
+	secs = (int)(get_serial_time (argv[0]) * DAY_SECONDS);
 	return value_new_int (secs % 60);
 }
 

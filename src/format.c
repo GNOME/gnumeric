@@ -688,19 +688,24 @@ split_time (gdouble number)
 {
 	static struct tm tm;
 	guint secs;
+	GDate* date;
 
-	GDate* date = g_date_new_serial (number);
+	/* Excel compatible rounding, I think.  -- MW.  */
+	number += 0.5 / 86400;
 
+	date = g_date_new_serial (number);
 	g_date_to_struct_tm (date, &tm);
 
 	/*
-	 * WARNING : Be very careful about rounding here
-	 *   86400 is not a great number to multiply by and one can easily
-	 *   loose a second, and hence an entire minute.
-	 *   We first round the seconds, then do integer calculations
-	 *   for the rest.
+	 * This code used to be
+	 *   secs = ((number * 86400. + .5)) - (((int)number) * 86400);
+	 * but that does not work on Sparc's.  (I don't think it really works
+	 * anywhere else, but that is just a guess.  Think overflow.
+	 *
+	 * (And that was before the += 0.5 above).
 	 */
-	secs = ((number * 86400. + .5)) - (((int)number) * 86400);
+
+	secs = (int)((number - (int)number) * 86400);
 
 	tm.tm_hour = secs / 3600;
 	secs -= tm.tm_hour * 3600;
