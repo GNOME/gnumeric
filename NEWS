@@ -15,6 +15,8 @@ Andreas:
 	* Make the consolidate warning dialogs non-modal
 	* Allow cross-sheet consolidation
 	* Turn sheet-rename dialog into guru
+	* Port filter dialog to gnome2 using the expr-entry
+	  widget and improve filter mechanism
 
 Jody:
 	* Initial port to gnome2.

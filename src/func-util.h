@@ -55,5 +55,6 @@ void free_criterias                 (GSList *criterias);
 GSList *find_rows_that_match        (Sheet *sheet, int first_col,
 				     int first_row, int last_col, int last_row,
 				     GSList *criterias, gboolean unique_only);
+GSList *parse_database_criteria (const EvalPos *ep, Value *database, Value *criteria);
 
 #endif /* GNUMERIC_FUNC_UTIL_H */

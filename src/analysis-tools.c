@@ -731,7 +731,7 @@ autofit_column (data_analysis_output_t *dao, int col)
 	sheet_recompute_spans_for_col (dao->sheet, col);
 }
 
-static void
+void
 autofit_columns (data_analysis_output_t *dao, int from, int to)
 {
 	int i;

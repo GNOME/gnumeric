@@ -283,7 +283,7 @@ parse_criteria_range(Sheet *sheet, int b_col, int b_row, int e_col, int e_row,
 
 /* Parses the criteria cell range.
  */
-static GSList *
+GSList *
 parse_database_criteria (const EvalPos *ep, Value *database,
 			 Value *criteria)
 {

@@ -1,3 +1,10 @@
+2002-01-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/analysis-tools.h : include type definitions and function
+	  prototypes previously in src/dialogs/dialog-analysis-tools.c
+	* src/analysis-tools.c (autofit_columns) : make non-static
+	* src/func-util.h (parse_database_criteria) : new
+
 2002-01-30  Jody Goldberg <jody@gnome.org>
 
 	* src/application.c : merge in the new object icons from jimmac.

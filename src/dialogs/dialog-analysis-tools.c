@@ -11,6 +11,7 @@
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include "dialogs.h"
+#include "analysis-tools.h"
 
 #include <workbook.h>
 #include <workbook-control.h>
@@ -38,39 +39,6 @@
 /*  Generic guru items */
 /**********************************************/
 
-static const char *output_group[] = {
-	"newsheet-button",
-	"newworkbook-button",
-	"outputrange-button",
-	0
-};
-
-static const char *grouped_by_group[] = {
-	"grouped_by_row",
-	"grouped_by_col",
-	"grouped_by_area",
-	0
-};
-
-
-typedef enum {
-	TOOL_CORRELATION = 1,       /* use GenericToolState */
-	TOOL_COVARIANCE = 2,        /* use GenericToolState */
-	TOOL_RANK_PERCENTILE = 3,   /* use GenericToolState */
-	TOOL_HISTOGRAM = 5,   /* use GenericToolState */
-	TOOL_FOURIER = 6,   /* use GenericToolState */
-	TOOL_GENERIC = 10,          /* all smaller types are generic */
-	TOOL_DESC_STATS = 11,
-	TOOL_TTEST = 12,
-	TOOL_SAMPLING = 13,
-	TOOL_AVERAGE = 14,
-	TOOL_REGRESSION = 15,
-	TOOL_ANOVA_SINGLE = 16,
-	TOOL_ANOVA_TWO_FACTOR = 17,
-	TOOL_FTEST = 18,
-	TOOL_RANDOM = 19,
-	TOOL_EXP_SMOOTHING = 20
-} ToolType;
 
 
 #define CORRELATION_KEY       "analysistools-correlation-dialog"
@@ -89,32 +57,6 @@ typedef enum {
 #define ANOVA_SINGLE_KEY      "analysistools-anova-single-factor-dialog"
 #define RANDOM_KEY            "analysistools-random-dialog"
 
-#define GENERIC_TOOL_STATE    	ToolType  const type;\
-	GladeXML  *gui;\
-	GtkWidget *dialog;\
-	GnumericExprEntry *input_entry;\
-	GnumericExprEntry *input_entry_2;\
-	GnumericExprEntry *output_entry;\
-	GtkWidget *ok_button;\
-	GtkWidget *cancel_button;\
-	GtkWidget *apply_button;\
-	GtkWidget *help_button;\
-	char *help_link;\
-	char *input_var1_str;\
-	char *input_var2_str;\
-	GtkWidget *new_sheet;\
-	GtkWidget *new_workbook;\
-	GtkWidget *output_range;\
-	Sheet	  *sheet;\
-	Workbook  *wb;\
-	WorkbookControlGUI  *wbcg;\
-	GtkAccelGroup *accel;\
-	GtkWidget *warning_dialog;
-
-
-typedef struct {
-	GENERIC_TOOL_STATE
-} GenericToolState;
 
 typedef struct {
 	GENERIC_TOOL_STATE
@@ -259,7 +201,7 @@ typedef union {
  * Returns a (Value *) of type VALUE_CELLRANGE if the @range was
  * succesfully parsed or NULL on failure.
  */
-static Value *
+Value *
 gnumeric_expr_entry_parse_to_value (GnumericExprEntry *ee, Sheet *sheet)
 {
 	char const *str = gtk_entry_get_text (GTK_ENTRY (ee));;
@@ -292,7 +234,7 @@ gnumeric_expr_entry_parse_to_list (GnumericExprEntry *ee, Sheet *sheet)
  *
  * Show an error dialog and select corresponding entry 
  */
-static void
+void
 error_in_entry (GenericToolState *state, GtkWidget *entry, const char *err_str)
 {
         gnumeric_notice_nonmodal ((GtkWindow *) state->dialog,
@@ -313,7 +255,7 @@ error_in_entry (GenericToolState *state, GtkWidget *entry, const char *err_str)
  *
  * fill dao with information fromm dialog
  */
-static int
+int
 parse_output (GenericToolState *state, data_analysis_output_t *dao)
 {
         Value *output_range;
@@ -340,6 +282,23 @@ parse_output (GenericToolState *state, data_analysis_output_t *dao)
 		g_return_val_if_fail (output_range->type == VALUE_CELLRANGE, 1);
 
 	        dao->type = RangeOutput;
+		dao->start_col = output_range->v_range.cell.a.col;
+		dao->start_row = output_range->v_range.cell.a.row;
+		dao->cols = output_range->v_range.cell.b.col
+			- output_range->v_range.cell.a.col + 1;
+		dao->rows = output_range->v_range.cell.b.row
+			- output_range->v_range.cell.a.row + 1;
+		dao->sheet = output_range->v_range.cell.a.sheet;
+
+		value_release (output_range);
+		break;
+	case 3:
+		output_range = gnumeric_expr_entry_parse_to_value 
+			(GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
+		g_return_val_if_fail (output_range != NULL, 1);
+		g_return_val_if_fail (output_range->type == VALUE_CELLRANGE, 1);
+
+	        dao->type = InPlaceOutput;
 		dao->start_col = output_range->v_range.cell.a.col;
 		dao->start_row = output_range->v_range.cell.a.row;
 		dao->cols = output_range->v_range.cell.b.col
@@ -395,7 +354,7 @@ tool_help_cb (GtkWidget *button, GenericToolState *state)
  * Destroy the dialog and associated data structures.
  *
  **/
-static gboolean
+gboolean
 tool_destroy (GtkObject *w, GenericToolState  *state)
 {
 	g_return_val_if_fail (w != NULL, FALSE);
@@ -443,7 +402,7 @@ cb_tool_cancel_clicked (GtkWidget *button, GenericToolState *state)
  * @state:
  *
  **/
-static void
+void
 tool_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 			GenericToolState *state)
 {
@@ -478,7 +437,7 @@ tool_set_focus_output_range (GtkWidget *widget, GdkEventFocus *event,
  * Setup the output range.
  *
  **/
-static void
+void
 dialog_tool_init_outputs (GenericToolState *state, GtkSignalFunc sensitivity_cb)
 {
 	GtkTable *table;
@@ -523,7 +482,7 @@ dialog_tool_init_outputs (GenericToolState *state, GtkSignalFunc sensitivity_cb)
  * Setup the buttons
  *
  **/
-static void
+void
 dialog_tool_init_buttons (GenericToolState *state, GtkSignalFunc ok_function)
 {
 	state->ok_button = glade_xml_get_widget (state->gui, "okbutton");
@@ -656,7 +615,7 @@ dialog_tool_init (GenericToolState *state, char *gui_name, char *dialog_name,
  * show the dialog and focus the input_entry
  *
  **/
-static void
+void
 tool_load_selection (GenericToolState *state, gboolean allow_multiple)
 {
 	char *text;

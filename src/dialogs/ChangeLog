@@ -1,3 +1,30 @@
+2002-01-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* advanced-filter.glade : port to gnome2 and redesign
+	* dialog-advanced-filter.c (filter) : change in-place-output
+	  handling and duplicate values rather than copying strings
+	(advanced_filter) : use parse_database_criteria, prepare_output 
+	  after determining validity of input.
+	(in_place_toggled) : deleted
+	(copy_to_toggled) : deleted
+	(new_sheet_toggled) : deleted
+	(new_workbook_toggled) : deleted
+	(dialog_help_cb) : deleted
+	(advanced_filter_update_sensitivity_cb) : new callback
+	(advanced_filter_ok_clicked_cb) : new callback
+	(dialog_advanced_filter_init) : new procedure (create guru)
+	(dialog_advanced_filter) : rewrite as guru
+	* dialog-analysis-tools.c : move various definitions to 
+	  src/analysis-tools.h
+	(gnumeric_expr_entry_parse_to_value) : make non-static
+	(error_in_entry) : make non-static
+	(parse_output) : make non-static
+	(tool_destroy) : make non-static
+	(tool_set_focus) : make non-static
+	(dialog_tool_init_outputs) : make non-static
+	(dialog_tool_init_buttons) : make non-static
+	(tool_load_selection) : make non-static
+
 2002-01-29  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-simple-input.c (dialog_get_sheet_name) replaced by 
