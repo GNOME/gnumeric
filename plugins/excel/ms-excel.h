@@ -77,6 +77,7 @@ typedef struct _MS_EXCEL_WORKBOOK
 	GHashTable *XF_style_records ;
 	GHashTable *font_data ;
 	GHashTable *format_data ;
+	GHashTable *name_data ;
   	GList *excel_sheets ;
 	BIFF_EXTERNSHEET_DATA *extern_sheets ;
 	guint16 num_extern_sheets ;
@@ -93,4 +94,5 @@ typedef struct _MS_EXCEL_WORKBOOK
 extern char* biff_get_externsheet_name (MS_EXCEL_WORKBOOK *wb, guint16 idx, gboolean get_first) ;
 extern char* biff_get_text (BYTE *ptr, int length) ;
 extern char* biff_get_error_text (guint8 err) ;
+extern char* biff_name_data_get_name (MS_EXCEL_SHEET *sheet, guint16 idx) ;
 #endif

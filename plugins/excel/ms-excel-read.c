@@ -562,6 +562,54 @@ biff_format_data_destroy (gpointer key, BIFF_FORMAT_DATA *d, gpointer userdata)
 	return 1 ;
 }
 
+typedef struct {
+	guint16 idx ;
+	char *name ;
+	guint8 *formula ;
+	guint16 formula_len ;
+} BIFF_NAME_DATA ;
+
+/**
+ * A copy of name is kept but
+ * formula is g_malloc'd and copied
+ **/
+static void
+biff_name_data_new (MS_EXCEL_SHEET *sheet, char *name, guint8 *formula, guint16 len)
+{
+	BIFF_NAME_DATA *bnd = g_new (BIFF_NAME_DATA, 1) ;
+	bnd->idx = g_hash_table_size (sheet->wb->name_data) + 1 ;
+	bnd->name = name ;
+	if (formula) {
+		bnd->formula = g_new (guint8, len) ;
+		memcpy (bnd->formula, formula, len) ;
+		bnd->formula_len = len ;
+	} else {
+		bnd->formula = 0 ;
+		bnd->formula_len = 0 ;
+	}
+	g_hash_table_insert (sheet->wb->name_data, &bnd->idx, bnd) ;
+/*	printf ("Inserting '%s' into externname table at (%d)\n", bnd->name, bnd->idx) ; */
+}
+
+char *
+biff_name_data_get_name (MS_EXCEL_SHEET *sheet, guint16 idx)
+{
+	BIFF_NAME_DATA *ptr = g_hash_table_lookup (sheet->wb->name_data, &idx) ;
+	if (ptr)
+		return ptr->name ;
+	else
+		return 0 ;
+}
+
+static gboolean 
+biff_name_data_destroy (gpointer key, BIFF_NAME_DATA *bnd, gpointer userdata)
+{
+	g_free (bnd->name) ;
+	g_free (bnd->formula) ;
+	g_free (bnd) ;
+	return 1 ;
+}
+
 static MS_EXCEL_PALETTE *
 ms_excel_palette_new (BIFF_QUERY * q)
 {
@@ -1081,6 +1129,8 @@ ms_excel_workbook_new ()
 						 (GCompareFunc)biff_guint16_equal) ;
 	ans->format_data = g_hash_table_new ((GHashFunc)biff_guint16_hash,
 					     (GCompareFunc)biff_guint16_equal) ;
+	ans->name_data = g_hash_table_new ((GHashFunc)biff_guint16_hash,
+					   (GCompareFunc)biff_guint16_equal) ;
 	ans->palette = NULL;
 	ans->global_strings = NULL;
 	ans->global_string_max = 0;
@@ -1162,7 +1212,12 @@ ms_excel_workbook_destroy (MS_EXCEL_WORKBOOK * wb)
 	g_hash_table_foreach_remove (wb->format_data,
 				     (GHRFunc)biff_format_data_destroy,
 				     wb) ;
-	g_hash_table_destroy (wb->font_data) ;
+	g_hash_table_destroy (wb->format_data) ;
+
+	g_hash_table_foreach_remove (wb->name_data,
+				     (GHRFunc)biff_name_data_destroy,
+				     wb) ;
+	g_hash_table_destroy (wb->name_data) ;
 
 	if (wb->palette)
 		ms_excel_palette_destroy (wb->palette);
@@ -1268,9 +1323,11 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		char *str ;
 		if (q->length)
 		{
-			printf ("Header '%s'\n", (str=biff_get_text (q->data+1,
-								     BIFF_GETBYTE(q->data)))) ;
-			g_free(str) ;
+			if (EXCEL_DEBUG>0) {
+				printf ("Header '%s'\n", (str=biff_get_text (q->data+1,
+									     BIFF_GETBYTE(q->data)))) ;
+				g_free(str) ;
+			}
 		}
  		break;
 	}
@@ -1279,9 +1336,11 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		char *str ;
 		if (q->length)
 		{
-			printf ("Footer '%s'\n", (str=biff_get_text (q->data+1,
+			if (EXCEL_DEBUG>0) {
+				printf ("Footer '%s'\n", (str=biff_get_text (q->data+1,
 								     BIFF_GETBYTE(q->data)))) ;
-			g_free(str) ;
+				g_free(str) ;
+			}
 		}
  		break;
 	}
@@ -1384,7 +1443,7 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 /*		printf ("Row %d formatting 0x%x\n", BIFF_GETWORD(q->data), height);  */
 		if ((height&0x8000) == 0) /* Fudge Factor */
 		{
-			printf ("Row height : %f points\n", BIFF_GETWORD(q->data+6)/20.0) ;
+/*			printf ("Row height : %f points\n", BIFF_GETWORD(q->data+6)/20.0) ;*/
 			sheet_row_set_height (sheet->gnum_sheet, BIFF_GETWORD(q->data), BIFF_GETWORD(q->data+6)/15, TRUE) ;
 		}
 		break;
@@ -1403,12 +1462,24 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		printf ("Array Formula\n") ;
 		for (xlp=array_col_first;xlp<=array_col_last;xlp++)
 			for (ylp=array_row_first;ylp<=array_row_last;ylp++)
-				ms_excel_parse_formula (sheet, q, xlp, ylp);
+			{
+				char *txt = ms_excel_parse_formula (sheet, (q->data + 14),
+								    xlp, ylp, BIFF_GETWORD(q->data+12)) ;
+				/* FIXME: Magic XF number: 0 */
+				ms_excel_sheet_insert (sheet, 0, xlp, ylp, txt) ;
+				g_free(txt) ;
+			}
 		break ;
 	}
 	case BIFF_FORMULA: /* See: S59D8F.HTM */
-		ms_excel_parse_formula (sheet, q, EX_GETCOL (q), EX_GETROW (q));
+	{
+		char *txt = ms_excel_parse_formula (sheet, (q->data + 22),
+						    EX_GETCOL (q), EX_GETROW (q),
+						    BIFF_GETWORD(q->data+20));
+		ms_excel_sheet_insert (sheet, EX_GETXF(q), EX_GETCOL(q), EX_GETROW(q), txt) ;
+		g_free (txt) ;
 		break;
+	}
 	case BIFF_LABELSST:
 	{
 		char *str;
@@ -1422,6 +1493,38 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 			ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q), str);
 		}
                 break;
+	}
+
+	case BIFF_EXTERNNAME: /* FIXME: S59D7E.HTM */
+	{
+		char *externname ;
+		if ( sheet->ver >= eBiffV7) {
+			guint16 options  = BIFF_GETWORD(q->data) ;
+			guint8  namelen  = BIFF_GETBYTE(q->data+6) ;
+			guint16 defnlen  = BIFF_GETWORD(q->data + 7 + namelen) ;
+			char *definition = 0 ;
+			
+			externname = biff_get_text (q->data+7, namelen) ;
+			if ((options & 0xffe0) != 0) {
+				printf ("Duff externname\n") ; break ;
+			}
+			if ((options & 0x0001) != 0)
+				printf ("fBuiltin\n") ;
+			/* Copy the definition to storage to parse at run-time in the formula */
+			biff_name_data_new (sheet, externname, definition, defnlen) ;
+		} else { /* Ancient Papyrus spec. */
+			guint8 data[] = { 0x1c, 0x17 } ;
+			printf ("Externname Data:\n") ;
+			dump (q->data, q->length) ;
+			externname = biff_get_text (q->data+1, BIFF_GETBYTE(q->data)) ;
+			biff_name_data_new (sheet, externname, data, 2) ;
+		}
+		if (EXCEL_DEBUG>1)
+		{
+			printf ("Externname '%s'\n", externname) ;
+			dump (q->data, q->length) ;
+		}
+		break ;
 	}
 	default:
 		switch (q->opcode)

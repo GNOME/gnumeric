@@ -1,3 +1,21 @@
+1999-03-12  Michael Meeks  <michael@imaginator.com>
+
+	* ms-excel.c (biff_name_data_new, biff_name_data_get_name),
+	(biff_name_data_destroy, ms_excel_read_cell): Implemented
+	the BIFF_EXTERNNAME case.
+	(ms_excel_workbook_new, ms_excel_workbook_destroy):
+	Name table hashing functions.
+	(ms_excel_read_cell): Cleaned debug on BIFF_HEADER / FOOTER.
+	
+	* ms-formula.c (ms_excel_parse_formula): Large API change to
+	simplify several cases, and clean dirty code.
+	(make_function): Special 0xff case on functions. For use with 
+	external functions, the names of which come in via:
+	(_excel_parse_formula): FORMULA_PTG_NAME_X, hacked into
+	rough shape.
+
+	* ms-excel.c: All instances of ms_excel_parse_formula updated.
+	
 1999-03-11  Michael Meeks  <michael@imaginator.com>
 
 	* ms-ole.c (ms_ole_destroy, ms_ole_new): Killed debug

@@ -12,8 +12,8 @@
 #include "ms-excel.h"
 #include "ms-biff.h"
 
-void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
-			     int fn_col, int fn_row) ;
+char *ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
+			      int fn_col, int fn_row, guint16 length) ;
 
 void ms_excel_fixup_array_formulae (MS_EXCEL_SHEET *sheet) ;
 
@@ -39,6 +39,7 @@ void ms_excel_fixup_array_formulae (MS_EXCEL_SHEET *sheet) ;
 #define FORMULA_PTG_REF                0x24
 #define FORMULA_PTG_AREA               0x25
 #define FORMULA_PTG_MEM_AREA           0x26
+#define FORMULA_PTG_NAME_X             0x39
 #define FORMULA_PTG_REF_3D             0x3a
 #define FORMULA_PTG_AREA_3D            0x3b
 

@@ -76,6 +76,7 @@ extern void free_ms_biff_bof_data (BIFF_BOF_DATA *data) ;
 #define BIFF_EXTERNSHEET                0x17
 #define BIFF_FORMAT                     0x1e
 #define BIFF_ARRAY                      0x21
+#define BIFF_EXTERNNAME                 0x23
 #define BIFF_FONT                       0x31
 #define BIFF_XF_OLD                     0x43
 
@@ -99,3 +100,4 @@ extern void free_ms_biff_bof_data (BIFF_BOF_DATA *data) ;
 #define BIFF_STRING                    0x207
 #define BIFF_NAME                      0x218
 #endif
+
