@@ -1,3 +1,11 @@
+1999-07-19  Michael Meeks  <michael@edenproject.org>
+
+	* Makefile.am (libole2_a_SOURCES): Added -summary*
+
+	* README: Updated to include summary source info.
+
+	* ms-ole-summary.[ch]: Added.
+
 1999-07-13  Michael Meeks  <michael@edenproject.org>
 
 	* ms-ole.c (ms_ole_stream_open_name): Added.

@@ -7,5 +7,15 @@ Much useful information will be gleaned from the work on wine by.
 	Marcus Meissner, Francis Beaudet, Sylvain St-Germain
 and Thuy Nguyen
 
-	This code is now being re-written for the 3rd and hopefully
+	This code has now been re-written for the 3rd and hopefully
 final time.
+
+	Further thanks for the summary information code go to
+
+	Caolan McNamara - Heroic coding ledgend.
+
+	for his port of the Somar Software freeware DLL functions to get 
+summary info from OLE 2.0 document files, named CPPSUM available from
+the Somar Software WWW site at http://www.somar.com. until further notice
+ms-summary.h is under the LGPL.
+	
