@@ -1,3 +1,8 @@
+2004-02-17  Morten Welinder  <terra@gnome.org>
+
+	* src/print.c (compute_scale_fit_to): For 0 pages, just return
+	100%.
+
 2004-02-13  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-util.c (gnm_fixup_filechooser_size): New function.

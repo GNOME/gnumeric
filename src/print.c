@@ -688,42 +688,41 @@ compute_scale_fit_to (PrintJobInfo const *pj, Sheet const *sheet,
 		      ColRowInfo const *(get_info)(Sheet const *sheet, int const p),
 		      gint pages)
 {
-       double size_pts; /* The initial grid line on each page*/
-       int idx;
-       double scale;
-       double max_unit = 0;
+	double size_pts; /* The initial grid line on each page*/
+	int idx;
+	double scale;
+	double max_unit = 0;
 
-       if (pages <= 0) {
-	       g_warning ("Asked to scale to 0 pages -- assuming 1.");
-	       pages = 1;
-       }
+	/* This means to take whatever space is needed.  */
+	if (pages <= 0)
+		return 100;
 
-       size_pts =  1. * pages;
+	size_pts =  1. * pages;
 
-       /* Work how much space the sheet requires. */
-       for (idx = start; idx <= end; idx++) {
-               ColRowInfo const *info = (*get_info) (sheet, idx);
-               if (info->visible) {
-                       size_pts += info->size_pts;
-		       if (info->size_pts > max_unit)
-			       max_unit = (info->size_pts > usable) ?
-				       usable : info->size_pts;
-               }
-       }
+	/* Work how much space the sheet requires. */
+	for (idx = start; idx <= end; idx++) {
+		ColRowInfo const *info = (*get_info) (sheet, idx);
+		if (info->visible) {
+			size_pts += info->size_pts;
+			if (info->size_pts > max_unit)
+				max_unit = (info->size_pts > usable) ?
+					usable : info->size_pts;
+		}
+	}
 
-       usable *= pages; /* Our usable area is this big. */
+	usable *= pages; /* Our usable area is this big. */
 
-       /* What scale is required to fit the sheet onto this usable area? */
-       /* Note that on each page but the last we may loose space that can */
-       /* be nearly as large as the largest unit. */
-       scale = usable / (size_pts + (pages - 1) * max_unit) * 100.;
+	/* What scale is required to fit the sheet onto this usable area? */
+	/* Note that on each page but the last we may loose space that can */
+	/* be nearly as large as the largest unit. */
+	scale = usable / (size_pts + (pages - 1) * max_unit) * 100.;
 
-       /* If the sheet needs to be shrunk, we update the scale.
-        * If it already fits, we simply leave the scale at 100.
-        * Another feature might be to enlarge a sheet so that it fills
-        * the page. But this is not a requested feature yet.
-        */
-       return (scale < 100.) ? scale : 100.;
+	/* If the sheet needs to be shrunk, we update the scale.
+	 * If it already fits, we simply leave the scale at 100.
+	 * Another feature might be to enlarge a sheet so that it fills
+	 * the page. But this is not a requested feature yet.
+	 */
+	return (scale < 100.) ? scale : 100.;
 }
 
 #define COL_FIT(col) (col >= SHEET_MAX_COLS ? (SHEET_MAX_COLS-1) : col)
