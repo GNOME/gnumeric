@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.31\n"
 "POT-Creation-Date: 1999-09-06 18:02-0500\n"
-"PO-Revision-Date: 1999-08-22 15:00+0200\n"
+"PO-Revision-Date: 1999-09-08 20:00+0200\n"
 "Last-Translator: Richard Hult <rhult@hem2.passagen.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -948,7 +948,6 @@ msgid "Add "
 msgstr "Addera "
 
 #: src/dialogs/dialog-paste-special.c:30
-#, fuzzy
 msgid "Subtract"
 msgstr "Subtrahera"
 
@@ -1101,9 +1100,8 @@ msgstr "Zoomfaktorn bör inte vara över 900%"
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/hf-config.glade.h:7
-#, fuzzy
 msgid "Left section"
-msgstr "Vänster:"
+msgstr "Vänster"
 
 #: src/dialogs/hf-config.glade.h:8
 msgid "Center section:"
@@ -1185,118 +1183,100 @@ msgid "Orientation"
 msgstr "Orientering"
 
 #: src/dialogs/print.glade.h:9
-#, fuzzy
 msgid "Por_trait"
-msgstr "Skriv ut"
+msgstr "_Stående"
 
 #: src/dialogs/print.glade.h:10
-#, fuzzy
 msgid "_Landscape"
-msgstr "Klistra in"
+msgstr "_Liggande"
 
 #: src/dialogs/print.glade.h:11
 msgid "Scale"
 msgstr "Skala"
 
 #: src/dialogs/print.glade.h:12
-#, fuzzy
 msgid "_Adjust to:"
-msgstr "Justera till"
+msgstr "_Justera till:"
 
 #: src/dialogs/print.glade.h:13
 msgid "_Fit to:"
-msgstr ""
+msgstr "_Anpassa till:"
 
 #: src/dialogs/print.glade.h:14
-#, fuzzy, c-format
+#, c-format
 msgid "% of normal size"
 msgstr "% av normalstorlek"
 
 #: src/dialogs/print.glade.h:15
-#, fuzzy
 msgid "page(s) wide by"
 msgstr "s. på bredden och"
 
 #: src/dialogs/print.glade.h:16
-#, fuzzy
 msgid "tall"
-msgstr "Kursiv"
+msgstr "hög"
 
 #: src/dialogs/print.glade.h:17
-#, fuzzy
 msgid "Fi_rst page number:"
-msgstr "Börja sidnumrera från:"
+msgstr "_Börja sidnumrera från:"
 
 #: src/dialogs/print.glade.h:18 src/dialogs/print.glade.h:32
 #: src/dialogs/print.glade.h:42 src/dialogs/print.glade.h:58
-#, fuzzy
 msgid "_Print"
-msgstr "Skriv ut"
+msgstr "_Skriv ut"
 
 #: src/dialogs/print.glade.h:19 src/dialogs/print.glade.h:33
 #: src/dialogs/print.glade.h:43 src/dialogs/print.glade.h:59
-#, fuzzy
 msgid "Print previe_w"
-msgstr "Förhandsgranskning"
+msgstr "_Förhandsgranskning"
 
 #: src/dialogs/print.glade.h:20 src/dialogs/print.glade.h:34
 #: src/dialogs/print.glade.h:44 src/dialogs/print.glade.h:60
-#, fuzzy
 msgid "_Options"
-msgstr "Alternativ"
+msgstr "_Alternativ"
 
 #: src/dialogs/print.glade.h:21 src/dialogs/print.glade.h:61
 msgid "Page"
 msgstr "Sida"
 
 #: src/dialogs/print.glade.h:22
-#, fuzzy
 msgid "_Top:"
-msgstr "Överkant"
+msgstr "_Överkant"
 
 #: src/dialogs/print.glade.h:23
-#, fuzzy
 msgid "He_ader:"
-msgstr "Sidhuvud:"
+msgstr "Sid_huvud:"
 
 #: src/dialogs/print.glade.h:24
-#, fuzzy
 msgid "_Bottom:"
-msgstr "Underkant"
+msgstr "_Underkant:"
 
 #: src/dialogs/print.glade.h:25
-#, fuzzy
 msgid "_Footer"
-msgstr "Sidfot"
+msgstr "Sid_fot"
 
 #: src/dialogs/print.glade.h:26
 msgid "Center on page"
 msgstr "Centrera"
 
 #: src/dialogs/print.glade.h:27
-#, fuzzy
 msgid "_Horizontally"
-msgstr "Vågrätt"
+msgstr "_Vågrätt"
 
 #: src/dialogs/print.glade.h:28
-#, fuzzy
 msgid "_Vertically"
-msgstr "Lodrätt"
+msgstr "_Lodrätt"
 
 #: src/dialogs/print.glade.h:29
-#, fuzzy
 msgid "_Left:"
-msgstr "Vänster:"
+msgstr "_Vänster:"
 
 #: src/dialogs/print.glade.h:30
-#, fuzzy
 msgid "_Right"
-msgstr "Höger"
+msgstr "_Höger"
 
 #: src/dialogs/print.glade.h:31
-#, fuzzy
 msgid "Paper _size:"
-msgstr "Pappersstorlek:"
+msgstr "Papperss_torlek:"
 
 #: src/dialogs/print.glade.h:35
 msgid "Margins"
@@ -1304,21 +1284,19 @@ msgstr "Marginaler"
 
 #: src/dialogs/print.glade.h:36 src/dialogs/print.glade.h:41
 msgid "sample goes here"
-msgstr "test här"
+msgstr "exempel"
 
 #: src/dialogs/print.glade.h:37
 msgid "Header"
 msgstr "Sidhuvud"
 
 #: src/dialogs/print.glade.h:38
-#, fuzzy
 msgid "Customize _header"
-msgstr "Anpassa sidhuvud"
+msgstr "An_passa sidhuvud"
 
 #: src/dialogs/print.glade.h:39
-#, fuzzy
 msgid "Customize _footer"
-msgstr "Anpassa sidfot"
+msgstr "A_npassa sidfot"
 
 #: src/dialogs/print.glade.h:40
 msgid "Footer:"
@@ -1329,23 +1307,20 @@ msgid "Headers and footers"
 msgstr "Sidhuvud/sidfot"
 
 #: src/dialogs/print.glade.h:46
-#, fuzzy
 msgid "Print _area:"
-msgstr "Utskriftsområde:"
+msgstr "Utskrifts_område:"
 
 #: src/dialogs/print.glade.h:47
 msgid "Titles to print"
 msgstr "Utskriftsrubriker"
 
 #: src/dialogs/print.glade.h:48
-#, fuzzy
 msgid "_Columns to repeat on the left side:"
-msgstr "Rader till vänster:"
+msgstr "_Rader att upprepa till vänster:"
 
 #: src/dialogs/print.glade.h:49
-#, fuzzy
 msgid "_Rows to repeat on the upper region:"
-msgstr "Rader överst:"
+msgstr "Ra_der att upprepa överst:"
 
 #: src/dialogs/print.glade.h:50 src/workbook.c:1121
 msgid "Print"
@@ -1353,19 +1328,17 @@ msgstr "Skriv ut"
 
 #: src/dialogs/print.glade.h:51
 msgid "Row and co_lumn headings"
-msgstr ""
+msgstr "Rad- och kolumnrubriker"
 
 #: src/dialogs/print.glade.h:52
-#, fuzzy
 msgid "Co_mments"
-msgstr "Kommentarer"
+msgstr "Ko_mmentarer"
 
 #: src/dialogs/print.glade.h:53
 msgid "_Grid lines"
-msgstr ""
+msgstr "R_utnät"
 
 #: src/dialogs/print.glade.h:54
-#, fuzzy
 msgid "_Black and white"
 msgstr "Svartvitt"
 
@@ -1374,14 +1347,12 @@ msgid "Page order"
 msgstr "Utskriftsordning"
 
 #: src/dialogs/print.glade.h:56
-#, fuzzy
 msgid "_Down, then right"
-msgstr "Nedåt, sedan höger"
+msgstr "_Nedåt, sedan höger"
 
 #: src/dialogs/print.glade.h:57
-#, fuzzy
 msgid "R_ight, then down"
-msgstr "Höger, sedan nedåt"
+msgstr "_Höger, sedan nedåt"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -1389,18 +1360,16 @@ msgstr "Höger, sedan nedåt"
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/names.glade.h:7
-#, fuzzy
 msgid "Define Name"
-msgstr "_Definera cellnamn"
+msgstr "_Definera namn"
 
 #: src/dialogs/names.glade.h:8
-#, fuzzy
 msgid "Names in workbook:"
-msgstr "Sparar arbetsboken"
+msgstr "Namn i arbetsboken:"
 
 #: src/dialogs/names.glade.h:11
 msgid "Refers to:"
-msgstr ""
+msgstr "Refererar till:"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -1408,22 +1377,20 @@ msgstr ""
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/summary.glade.h:7
-#, fuzzy
 msgid "Title"
-msgstr "Tid"
+msgstr "Titel"
 
 #: src/dialogs/summary.glade.h:8
 msgid "Author"
-msgstr ""
+msgstr "Författare"
 
 #: src/dialogs/summary.glade.h:9
-#, fuzzy
 msgid "Category"
-msgstr "Kategorier"
+msgstr "Kategori"
 
 #: src/dialogs/summary.glade.h:10
 msgid "Keywords"
-msgstr ""
+msgstr "Nyckelord"
 
 #: src/dialogs/summary.glade.h:11
 #, fuzzy
@@ -1431,9 +1398,8 @@ msgid "Manager"
 msgstr "Område"
 
 #: src/dialogs/summary.glade.h:12
-#, fuzzy
 msgid "Document Summary Information\n"
-msgstr "Sammanfattningsinformation"
+msgstr "Sammanfattningsinformation\n"
 
 #: src/dialogs/summary.glade.h:14
 msgid "Comments"
@@ -2541,7 +2507,6 @@ msgstr ""
 "@SEEALSO=IMSUB"
 
 #: src/functions/fn-eng.c:1058
-#, fuzzy
 msgid ""
 "@FUNCTION=CONVERT\n"
 "@SYNTAX=CONVERT(number,from_unit,to_unit)\n"
@@ -2646,7 +2611,7 @@ msgstr ""
 "exempel kan du konvertera vikt i pund till en vikt i gram. @tal är värdet "
 "som skall omvandlas, @från_enhet anger enheten på @tal, och @till_enhet är "
 "resultatets enhet.\n"
-"@från_enhet och @till_enhet kan vara någon av följnade:\n"
+"@från_enhet och @till_enhet kan vara någon av följande:\n"
 "\n"
 "Vikt och massa:\n"
 "'g'    Gram\n"
@@ -2734,7 +2699,8 @@ msgstr ""
 "'a'  atto   1E-18\n"
 "\n"
 "Om @från_enhet och @till_enhet har olika typ, returnerar CONVERT felvärdet "
-"#NUM!. @SEEALSO="
+"#NUM!.\n"
+"@SEEALSO="
 
 #: src/functions/fn-eng.c:1445
 msgid ""
@@ -2989,7 +2955,6 @@ msgid "nominal - domain error"
 msgstr "nominal - domänfel"
 
 #: src/functions/fn-financial.c:633
-#, fuzzy
 msgid ""
 "@FUNCTION=ISPMT\n"
 "@SYNTAX=ISPMT(rate,per,nper,pv)\n"
@@ -2997,12 +2962,11 @@ msgid ""
 "If @per < 1 or @per > @nper, ISPMT returns #NUM! error. \n"
 "@SEEALSO=PV"
 msgstr ""
-"@FUNCTION=MINVERSE\n"
-"@SYNTAX=MINVERSE(matris)\n"
-"@DESCRIPTION=MINVERSE returnerar inversen av den givna matrisen @matris.\n"
-"Om matrisen inte kan inverteras, returneras felet #NUM!. Om matrisen inte "
-"har lika antal rader som kolumner, returneras felet #VALUE!.\n"
-"@SEEALSO=MMULT, MDETERM"
+"@FUNCTION=ISPMT\n"
+"@SYNTAX=ISPMT(räntesats,per,nper,pv)\n"
+"@DESCRIPTION=ISPMT returnerar räntan för en viss period.\n"
+"Om @per < 1 eller @per > @nper, returnerar ISPMT felvärdet #NUM!.\n"
+"@SEEALSO=PV"
 
 #: src/functions/fn-financial.c:663
 msgid ""
@@ -3016,6 +2980,15 @@ msgid ""
 "depreciation. If @month is omitted, it is assumed to be 12. \n"
 "@SEEALSO=DDB,SLN,SYD,VDB"
 msgstr ""
+"@FUNCTION=DB\n"
+"@SYNTAX=DB(kostnad,rest,livslängd,period[,månad])\n"
+"@DESCRIPTION=DB returnerar värdeminskningen för en tillgång över en given period "
+"enligt 'fixed-declining balance'-metoden. @kostnad är det ursprungliga värdet av "
+"tillgången. @rest är värdet efter värdeminskningen. @livslängd är det totala antalet "
+"perioder och @period är den period för vilken du vill beräkna värdeminskningen. "
+"@månad är antalet månader under det första året av värdeminskningen. Om @månad utelämnas, "
+"antas antalet vara 12 månader.\n" 
+"@SEEALSO=DDB,SLN,SYD,VDB"
 
 #: src/functions/fn-financial.c:713
 msgid ""
@@ -3030,6 +3003,15 @@ msgid ""
 "to be two (double-declining balance method). \n"
 "@SEEALSO=SLN,SYD,VDB"
 msgstr ""
+"@FUNCTION=DDB\n"
+"@SYNTAX=DDB(kostnad,rest,livslängd,period[,faktor])\n"
+"@DESCRIPTION=DDB returnerar värdeminskningen för en tillgång över en given period "
+"enligt 'double-declining balance'-metoden eller någon liknande metod som anges. "
+"@kostnad är det ursprungliga värdet av tillgången. @rest är värdet efter värdeminskningen. "
+"@livslängd är det totala antalet perioder och @period är den period för vilken du vill "
+"beräkna värdeminskningen. @faktor är den faktor med vilken balansräkningen minskar. "
+"Om @faktor utelämnas, antas värdet 2 (double-declining balance method).\n"
+"@SEEALSO=SLN,SYD,VDB"
 
 #: src/functions/fn-financial.c:757
 msgid ""
@@ -3044,6 +3026,16 @@ msgid ""
 "of an asset\n"
 "@SEEALSO=SYD"
 msgstr ""
+"@FUNCTION=SLN\n"
+"@SYNTAX=SLN(kostnad,rest_värde,livslängd)\n"
+"@DESCRIPTION=Beräknar den raka linje som bildas av värdeminskningen för en tillgång "
+"baserat på dess kostnad, restvärde och den förväntade livslängden.\n"
+"Formeln för detta är:\n"
+"Värdeminskning = ( kostnad - rest_värde ) / livsängd\n"
+"\t@kostnad = kostnad av en tillgång vid införskaffningstillfället (marknadsvärde)\trest_värde = "
+"summa som fås när tillgången säljs då dess livslängd gått ut.\t@livslängd = förväntad livslängd för\n "
+"tillgången\n"
+"@SEEALSO=SYD"
 
 #: src/functions/fn-financial.c:787
 msgid "sln - domain error"
@@ -3063,6 +3055,17 @@ msgid ""
 "of an asset\t@period = period for which we need the expense\n"
 "@SEEALSO=SLN"
 msgstr ""
+"@FUNCTION=SYD\n"
+"@SYNTAX=SYD(kostnad,rest_värde,livslängd,period)\n"
+"@DESCRIPTION=Beräknar 'sum-of-years digits'-värdeminskning för en tillgång, "
+"baserat på dess kostnad, restvärde, förväntade livslängd och en given period.\n"
+"Formeln för detta är:\n"
+"Värdeminskning = ( kostnad - restvärde ) * (livslängd - period + 1) * 2 / "
+"livslängd * (livslängd + 1).\n"
+"\t@kostnad = kostnad för en tillgång vid införskaffningstillfället (marknadsvärde)\t@rest_värde = "
+"summa som fås då tillgången säljs vid då dess livslängd gått ut\t@livslängd = förväntad livslängd "
+"för tillgången\t@period = period för vilken värdeminskningen skall beräknas\n"
+"@SEEALSO=SLN"
 
 #: src/functions/fn-financial.c:827
 msgid "syd - domain error"
@@ -3091,7 +3094,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-financial.c:909
-#, fuzzy
 msgid ""
 "@FUNCTION=MIRR\n"
 "@SYNTAX=MIRR(values,finance_rate,reinvest_rate)\n"
@@ -3099,11 +3101,6 @@ msgid ""
 "a given periodic cash flow. \n"
 "@SEEALSO=NPV"
 msgstr ""
-"@FUNCTION=COUNTIF\n"
-"@SYNTAX=COUNTIF(område,villkor)\n"
-"@DESCRIPTION=COUNTIF räknar antalet celler i det angivna området, som "
-"uppfyller det givna villkoret.\n"
-"@SEEALSO=COUNT,SUMIF"
 
 #: src/functions/fn-financial.c:957
 msgid ""
@@ -3154,17 +3151,16 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-financial.c:1167
-#, fuzzy
 msgid ""
 "@FUNCTION=PV\n"
 "@SYNTAX=PV(rate,nper,pmt,fv,type)\n"
 "@DESCRIPTION=Calculates the present value of an investment.\n"
 "@SEEALSO=FV"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=Omvandlar strängen @text till versaler.\n"
-"@SEEALSO=LOWER"
+"@FUNCTION=PV\n"
+"@SYNTAX=PV(ränta,nper,pmt,fv,typ)\n"
+"@DESCRIPTION=Beräknar nuvarande värdet av en investering.\n"
+"@SEEALSO=FV"
 
 #: src/functions/fn-financial.c:1188
 msgid "pv - domain error"
@@ -3195,30 +3191,20 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-financial.c:1301
-#, fuzzy
 msgid ""
 "@FUNCTION=FV\n"
 "@SYNTAX=FV(rate,nper,pmt,pv,type)\n"
 "@DESCRIPTION=Calculates the future value of an investment.\n"
 "@SEEALSO=PV,PMT,PPMT"
 msgstr ""
-"@FUNCTION=VALUE\n"
-"@SYNTAX=VALUE(text)\n"
-"@DESCRIPTION=Returnerar det numeriska värdet av @text.\n"
-"@SEEALSO=DOLLAR, FIXED, TEXT"
 
 #: src/functions/fn-financial.c:1329
-#, fuzzy
 msgid ""
 "@FUNCTION=PMT\n"
 "@SYNTAX=PMT(rate,nper,pv[,fv,type])\n"
 "@DESCRIPTION=Calculates the present value of an investment.\n"
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=Omvandlar strängen @text till versaler.\n"
-"@SEEALSO=LOWER"
 
 #: src/functions/fn-financial.c:1358
 msgid ""
@@ -3250,17 +3236,12 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-financial.c:1459
-#, fuzzy
 msgid ""
 "@FUNCTION=NPER\n"
 "@SYNTAX=NPER(rate,pmt,pv,fv,type)\n"
 "@DESCRIPTION=Calculates number of periods of an investment.\n"
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=Omvandlar strängen @text till versaler.\n"
-"@SEEALSO=LOWER"
 
 #: src/functions/fn-financial.c:1490
 msgid ""
@@ -3284,10 +3265,9 @@ msgstr ""
 
 #: src/functions/fn-financial.c:1559
 msgid "Financial"
-msgstr ""
+msgstr "Finansiella"
 
 #: src/functions/fn-information.c:67
-#, fuzzy
 msgid ""
 "@FUNCTION=CELL\n"
 "@SYNTAX=CELL()\n"
@@ -3295,28 +3275,27 @@ msgid ""
 "contents of a cell. \n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=LOWER\n"
-"@SYNTAX=LOWER(text)\n"
-"@DESCRIPTION=Omvandlar strängen @text till gemener.\n"
-"@SEEALSO=UPPER"
+"@FUNCTION=CELL\n"
+"@SYNTAX=CELL()\n"
+"@DESCRIPTION=CELL returnerar information om formattering, placering eller innehåll "
+"för en cell.\n"
+"@SEEALSO="
 
 #: src/functions/fn-information.c:206 src/functions/fn-information.c:314
 msgid "Unknown info_type"
 msgstr "Okänd info_typ"
 
 #: src/functions/fn-information.c:211
-#, fuzzy
 msgid ""
 "@FUNCTION=COUNTBLANK\n"
 "@SYNTAX=COUNTBLANK(range)\n"
 "@DESCRIPTION=COUNTBLANK returns the number of blank cells in a @range. \n"
 "@SEEALSO=COUNT"
 msgstr ""
-"@FUNCTION=COUNTIF\n"
-"@SYNTAX=COUNTIF(område,villkor)\n"
-"@DESCRIPTION=COUNTIF räknar antalet celler i det angivna området, som "
-"uppfyller det givna villkoret.\n"
-"@SEEALSO=COUNT,SUMIF"
+"@FUNCTION=COUNTBLANK\n"
+"@SYNTAX=COUNTBLANK(område)\n"
+"@DESCRIPTION=COUNTBLANK räknar antalet blanka celler i det angivna området. \n"
+"@SEEALSO=COUNT"
 
 #: src/functions/fn-information.c:246
 msgid ""
@@ -3446,7 +3425,6 @@ msgstr ""
 "@SEEALSO=ISNONTEXT"
 
 #: src/functions/fn-information.c:509
-#, fuzzy
 msgid ""
 "@FUNCTION=N\n"
 "@SYNTAX=N()\n"
@@ -3454,22 +3432,22 @@ msgid ""
 "text are converted to the zero value. \n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=ISNA\n"
-"@SYNTAX=ISNA()\n"
-"@DESCRIPTION=ISNA returnerar TRUE om värdet är felvärdet #N/A. \n"
+"@FUNCTION=N\n"
+"@SYNTAX=N()\n"
+"@DESCRIPTION=N returnerar ett värde omvandlat till ett tal. Strängar som innehåller "
+"text resulterar i värdet noll. \n"
 "@SEEALSO="
 
 #: src/functions/fn-information.c:544
-#, fuzzy
 msgid ""
 "@FUNCTION=TYPE\n"
 "@SYNTAX=TYPE()\n"
 "@DESCRIPTION=TYPE returns a number indicating the data type of a value. \n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=NA\n"
-"@SYNTAX=NA()\n"
-"@DESCRIPTION=NA returnerar felvärdet #N/A. \n"
+"@FUNCTION=TYPE\n"
+"@SYNTAX=TYPE()\n"
+"@DESCRIPTION=TYPE returnerar ett tal som anger datatypen för ett värde. \n"
 "@SEEALSO="
 
 #: src/functions/fn-information.c:565
@@ -3491,7 +3469,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-logical.c:66
-#, fuzzy
 msgid ""
 "@FUNCTION=NOT\n"
 "@SYNTAX=NOT(number)\n"
@@ -3500,11 +3477,12 @@ msgid ""
 "\n"
 "@SEEALSO=AND, OR"
 msgstr ""
-"@FUNCTION=SIGN\n"
-"@SYNTAX=SIGN(tal)\n"
-"@DESCRIPTION=Funktionen SIGN returnerar 1 om @tal är positivt, 0 om det är "
-"0, och -1 om @tal är negativt.\n"
-"@SEEALSO="
+"@FUNCTION=NOT\n"
+"@SYNTAX=NOT(tal)\n"
+"@DESCRIPTION=Implementerar logisk ICKE (NOT): resultatet är TRUE om "
+"@tal är noll;  annars TRUE.\n"
+"\n"
+"@SEEALSO=AND, OR"
 
 #: src/functions/fn-logical.c:81 src/functions/fn-lookup.c:439
 #: src/functions/fn-lookup.c:446 src/functions/fn-string.c:457
@@ -3539,7 +3517,7 @@ msgstr ""
 
 #: src/functions/fn-logical.c:192
 msgid "Logical"
-msgstr ""
+msgstr "Logik"
 
 #: src/functions/fn-lookup.c:16
 msgid ""
@@ -3573,7 +3551,7 @@ msgstr ""
 
 #: src/functions/fn-lookup.c:150
 msgid "#ARG!"
-msgstr ""
+msgstr "#ARG!"
 
 #: src/functions/fn-lookup.c:175
 msgid ""
@@ -3708,7 +3686,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-lookup.c:756
-#, fuzzy
 msgid ""
 "@FUNCTION=HYPERLINK\n"
 "@SYNTAX=HYPERLINK(reference)\n"
@@ -3717,10 +3694,11 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=PI\n"
-"@SYNTAX=PI()\n"
-"@DESCRIPTION=PI returnerar värdet av pi, definierat av M_PI.\n"
-"Funktionen har inga argument.\n"
+"@FUNCTION=HYPERLINK\n"
+"@SYNTAX=HYPERLINK(referens)\n"
+"@DESCRIPTION=HYPERLINK returnerar sitt andra argument, or "
+"om det är utelämnat, sitt första argument.\n"
+"\n"
 "@SEEALSO="
 
 #: src/functions/fn-lookup.c:780
@@ -4112,7 +4090,6 @@ msgstr ""
 "@SEEALSO=CEIL, ABS, INT"
 
 #: src/functions/fn-math.c:912
-#, fuzzy
 msgid ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(b1, b2, ...)\n"
@@ -4124,7 +4101,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(b1, b2, ...)\n"
-"@DESCRIPTION=INT avrundar @b1 nedåt till närmsta heltal.\n"
+"@DESCRIPTION=INT avrundar @b1 till närmsta heltal.\n"
 " 'Närmsta' betyder här 'närmare noll'. Funktionen är likvärdigt med "
 "FLOOR(@b1) för @b1 >= 0, och CEIL(@b1) för @b1 < 0.\n"
 "Om funktionen utförs på en sträng eller tom cell, händer ingenting.\n"
@@ -4613,27 +4590,18 @@ msgstr ""
 " @SEEALSO=ROUNDDOWN"
 
 #: src/functions/fn-math.c:1740
-#, fuzzy
 msgid ""
 "@FUNCTION=MROUND\n"
-"@SYNTAX=MROUND(number,multiple)\n"
-"@DESCRIPTION=MROUND function rounds a given number to the desired multiple. "
-"@number is the number you want rounded and @multiple is the the multiple to "
-"which you want to round the number. For example, MROUND(1.7, 0.2) equals "
+"@SYNTAX=MROUND(tal,multipel)\n"
+"@DESCRIPTION=MROUND avrundar det givna talet till en önskad multipel. "
+"@tal är det tal som skall avrundas och @multipel är den multipel som talet "
+"skall avrundas till. Till exempel, MROUND(1.7, 0.2) ger resultatet "
 "1.8. \n"
-"If @number and @multiple have different sign, MROUND returns #NUM! error. \n"
+"Om @tal and @multipel har olika tecken, returnerar MROUND felvärdet #NUM!. \n"
 "@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP"
 msgstr ""
-"@FUNCTION=ROUND\n"
-"@SYNTAX=ROUND(tal[,siffror])\n"
-"@DESCRIPTION=ROUND avrundar @tal till @siffror decimaler.\n"
-"Om @siffror är mindre än noll eller utelämnat, avrundas @tal till närmsta "
-"heltal. Om @siffror är mindre än noll, avrundas @tal till vänster om "
-"decimaltecknet.\n"
-"@SEEALSO=ROUNDDOWN,ROUNDUP"
 
 #: src/functions/fn-math.c:1784
-#, fuzzy
 msgid ""
 "@FUNCTION=ROMAN\n"
 "@SYNTAX=ROMAN(number[,type])\n"
@@ -4648,11 +4616,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=ROMAN\n"
 "@SYNTAX=ROMAN(tal[,typ])\n"
-"@DESCRIPTION=Funktionen ROMAN returnerar ett arabiskt @tal som ett romerskt "
-"tal, i textformat. @typ är den typ av romerskt tal du vill omvandla till. \n"
-"Om @typ är 0 eller ej angiven, returneras klassiska romerska tal. Typerna "
-"1,2,3, och 4 är ej implementerade än. Om @tal är negativt eller större än "
-"3999, returnerar ROMAN felvärdet #VALUE!.\n"
+"@DESCRIPTION=Funktionen ROMAN returnerar ett arabiskt tal som ett romerskt "
+"tal, i textformat. @tal är det tal som skall omvandlas och @typ är den typ "
+"av romerskt tal du vill omvandla till. \n"
+"Om @typ är 0 eller ej angiven, returneras klassiska romerska tal. Typ 1 är "
+"mer precis är den klassiska stilen, typ 2 är mer precis är typ 1 och typ 3 "
+"är mer precis än typ 2. Typ 4 är en förenklad stil. \n"
+"Om @tal är negativt eller större än 3999, returnerar ROMAN felvärdet #VALUE!.\n"
 "@SEEALSO="
 
 #: src/functions/fn-math.c:2043
@@ -4815,7 +4785,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-math.c:2788
-#, fuzzy
 msgid ""
 "@FUNCTION=MDETERM\n"
 "@SYNTAX=MDETERM(array)\n"
@@ -4824,12 +4793,6 @@ msgid ""
 "returns #VALUE! error.\n"
 "@SEEALSO=MMULT, MINVERSE"
 msgstr ""
-"@FUNCTION=MINVERSE\n"
-"@SYNTAX=MINVERSE(matris)\n"
-"@DESCRIPTION=MINVERSE returnerar inversen av den givna matrisen @matris.\n"
-"Om matrisen inte kan inverteras, returneras felet #NUM!. Om matrisen inte "
-"har lika antal rader som kolumner, returneras felet #VALUE!.\n"
-"@SEEALSO=MMULT, MDETERM"
 
 #: src/functions/fn-math.c:2905
 msgid ""
@@ -5188,7 +5151,6 @@ msgstr ""
 "@SEEALSO=RADIANS, PI"
 
 #: src/functions/fn-stat.c:702
-#, fuzzy
 msgid ""
 "@FUNCTION=COUNT\n"
 "@SYNTAX=COUNT(b1, b2, ...)\n"
@@ -5197,14 +5159,13 @@ msgid ""
 "Performing this function on a string or empty cell simply does nothing.\n"
 "@SEEALSO=AVERAGE"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(x)\n"
-"@DESCRIPTION=Omvandlar @x radianer till grader.\n"
-"Om funktionen utförs på en sträng eller tom cell, händer ingenting.\n"
-"@SEEALSO=PI,DEGREES"
+"@FUNCTION=COUNT\n"
+"@SYNTAX=COUNT(b1, b2, ...)\n"
+"@DESCRIPTION=Returnerar totala antalet heltal eller flyttal som anges som argument.\n "
+"Utförs funktionen på en sträng eller tom cell, händer ingenting.\n"
+"@SEEALSO=AVERAGE"
 
 #: src/functions/fn-stat.c:738
-#, fuzzy
 msgid ""
 "@FUNCTION=COUNTA\n"
 "@SYNTAX=COUNTA(b1, b2, ...)\n"
@@ -5212,14 +5173,12 @@ msgid ""
 "cells.\n"
 "@SEEALSO=AVERAGE,COUNT,DCOUNT,DCOUNTA,PRODUCT,SUM"
 msgstr ""
-"@FUNCTION=SUM\n"
-"@SYNTAX=SUM(värde1, värde2, ...)\n"
-"@DESCRIPTION=Beräknar summan av alla värden och celler som referaras till i "
-"argumentlistan. \n"
-"@SEEALSO=AVERAGE, COUNT"
+"@FUNCTION=COUNTA\n"
+"@SYNTAX=COUNTA(b1, b2, ...)\n"
+"@DESCRIPTION=Returnerar antalet argument som angetts exklusive tomma celler.\n"
+"@SEEALSO=AVERAGE,COUNT,DCOUNT,DCOUNTA,PRODUCT,SUM"
 
 #: src/functions/fn-stat.c:770
-#, fuzzy
 msgid ""
 "@FUNCTION=AVERAGE\n"
 "@SYNTAX=AVERAGE(value1, value2,...)\n"
@@ -5228,14 +5187,14 @@ msgid ""
 "by the count of the arguments.\n"
 "@SEEALSO=SUM, COUNT"
 msgstr ""
-"@FUNCTION=SUM\n"
-"@SYNTAX=SUM(värde1, värde2, ...)\n"
-"@DESCRIPTION=Beräknar summan av alla värden och celler som referaras till i "
-"argumentlistan. \n"
-"@SEEALSO=AVERAGE, COUNT"
+"@FUNCTION=AVERAGE\n"
+"@SYNTAX=AVERAGE(värde1, värde2,...)\n"
+"@DESCRIPTION=Beräknar medelvärdet av alla värden och celler refererade till i "
+"argumentlistan. Detta är likvärdigt med att summera alla argument och dela med "
+"antalet argument.\n"
+"@SEEALSO=SUM, COUNT"
 
 #: src/functions/fn-stat.c:793
-#, fuzzy
 msgid ""
 "@FUNCTION=MIN\n"
 "@SYNTAX=MIN(b1, b2, ...)\n"
@@ -5245,15 +5204,14 @@ msgid ""
 "Performing this function on a string or empty cell simply does nothing.\n"
 "@SEEALSO=MAX,ABS"
 msgstr ""
-"@FUNCTION=ABS\n"
-"@SYNTAX=ABS(b1)\n"
-"@DESCRIPTION=Ger absolutvärdet av argumentet, som kan vara heltal eller "
-"flyttal.\n"
-"Om argumentet är en sträng eller tom cell, händer ingenting.\n"
-"@SEEALSO=CEIL, FLOOR"
+"@FUNCTION=MIN\n"
+"@SYNTAX=MIN(b1, b2, ...)\n"
+"@DESCRIPTION=MIN returnerar det värde av argumenten som är det minsta. "
+"Negativa tal räknas som  mindre än positiva tal.\n"
+"Utförs funktionen på en sträng eller tom cell, händer ingenting.\n"
+"@SEEALSO=MAX,ABS"
 
 #: src/functions/fn-stat.c:819
-#, fuzzy
 msgid ""
 "@FUNCTION=MAX\n"
 "@SYNTAX=MAX(b1, b2, ...)\n"
@@ -5263,12 +5221,12 @@ msgid ""
 "Performing this function on a string or empty cell simply does nothing.\n"
 "@SEEALSO=MIN,ABS"
 msgstr ""
-"@FUNCTION=ABS\n"
-"@SYNTAX=ABS(b1)\n"
-"@DESCRIPTION=Ger absolutvärdet av argumentet, som kan vara heltal eller "
-"flyttal.\n"
-"Om argumentet är en sträng eller tom cell, händer ingenting.\n"
-"@SEEALSO=CEIL, FLOOR"
+"@FUNCTION=MAX\n"
+"@SYNTAX=MAX(b1, b2, ...)\n"
+"@DESCRIPTION=MAX returnerar det värde av argumenten som är det största. "
+"Negativa tal räknas som  mindre än positiva tal.\n"
+"Utförs funktionen på en sträng eller tom cell, händer ingenting.\n"
+"@SEEALSO=MIN,ABS"
 
 #: src/functions/fn-stat.c:845
 msgid ""
@@ -6973,116 +6931,101 @@ msgid "time"
 msgstr "tid"
 
 #: src/print-preview.c:289
-#, fuzzy
 msgid "Page: "
-msgstr "Sida"
+msgstr "Sida: "
 
 #: src/print-preview.c:412
-#, fuzzy
 msgid "_First page"
-msgstr "Börja sidnumrera från:"
+msgstr "_Första sidan"
 
 #: src/print-preview.c:412 src/print-preview.c:440
 msgid "Shows the first page"
-msgstr ""
+msgstr "Visar första sidan"
 
 #: src/print-preview.c:415
 msgid "_Previous page"
-msgstr ""
+msgstr "F_öregånde sida"
 
 #: src/print-preview.c:415 src/print-preview.c:443
 msgid "Shows the previous page"
-msgstr ""
+msgstr "Visar föregående sida"
 
 #: src/print-preview.c:418
 msgid "_Next page"
-msgstr ""
+msgstr "_Nästa sida"
 
 #: src/print-preview.c:418 src/print-preview.c:446
 msgid "Shows the next page"
-msgstr ""
+msgstr "Visar nästa sida"
 
 #: src/print-preview.c:421
-#, fuzzy
 msgid "_Last page"
-msgstr "Klistra in"
+msgstr "_Sista sidan"
 
 #: src/print-preview.c:421 src/print-preview.c:449
 msgid "Shows the last page"
-msgstr ""
+msgstr "Visar sista sidan"
 
 #: src/print-preview.c:426
-#, fuzzy
 msgid "Zoom _in"
-msgstr "Zooma in"
+msgstr "Zooma _in"
 
 #: src/print-preview.c:426
-#, fuzzy
 msgid "Zooms in"
-msgstr "Zooma in"
+msgstr "Zoomar in"
 
 #: src/print-preview.c:427
-#, fuzzy
 msgid "Zoom _out"
-msgstr "Zooma ut"
+msgstr "Zooma _ut"
 
 #: src/print-preview.c:427
-#, fuzzy
 msgid "Zooms out"
-msgstr "Zooma ut"
+msgstr "Zoomar ut"
 
 #: src/print-preview.c:434
-#, fuzzy
 msgid "_View"
-msgstr "_Nytt"
+msgstr "_Vy"
 
 #: src/print-preview.c:440
-#, fuzzy
 msgid "First"
-msgstr "Börja sidnumrera från:"
+msgstr "Första"
 
 #: src/print-preview.c:443
-#, fuzzy
 msgid "Back"
-msgstr "svart"
+msgstr "Bakåt"
 
 #: src/print-preview.c:446
-#, fuzzy
 msgid "Next"
-msgstr "Text"
+msgstr "Nästa"
 
 #: src/print-preview.c:449
-#, fuzzy
 msgid "Last"
-msgstr "Klistra in"
+msgstr "Sista"
 
 #: src/print-preview.c:453 src/workbook.c:2121
 msgid "Zoom in"
 msgstr "Zooma in"
 
 #: src/print-preview.c:453
-#, fuzzy
 msgid "Zooms the page in"
-msgstr "Zooma in"
+msgstr "Zoomar in sidan"
 
 #: src/print-preview.c:454 src/workbook.c:2114
 msgid "Zoom out"
 msgstr "Zooma ut"
 
 #: src/print-preview.c:454
-#, fuzzy
 msgid "Zooms the page out"
-msgstr "Zooma ut"
+msgstr "Zoomar ut sidan"
 
 #: src/print-preview.c:466
-#, fuzzy, c-format
+#, c-format
 msgid "Preview for %s"
-msgstr "Förhandsgranskning:"
+msgstr "Förhandsgranskning för %s"
 
 #: src/print-preview.c:469
-#, fuzzy
 msgid "the workbook"
-msgstr "Sparar arbetsboken"
+msgstr "arbetsboken"
 
 #: src/print-preview.c:546
 msgid ""
@@ -7247,9 +7190,8 @@ msgid "Gnumeric plugins"
 msgstr "Gnumeric-tillägg"
 
 #: src/workbook.c:935
-#, fuzzy
 msgid "Print pre_view"
-msgstr "Förhandsgranskning"
+msgstr "Förhands_granskning"
 
 #: src/workbook.c:935
 msgid "Print preview"
@@ -7348,7 +7290,6 @@ msgid "Current _date"
 msgstr "Dagens _datum"
 
 #: src/workbook.c:1013
-#, fuzzy
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Infoga dagens datum i markerade cell(er)"
 
@@ -7541,14 +7482,12 @@ msgid "Creates a graphic in the spreadsheet"
 msgstr "Skapar ett diagram på kalkylbladet"
 
 #: src/workbook.c:1164
-#, fuzzy
 msgid "Button"
-msgstr "Underkant"
+msgstr "Knapp"
 
 #: src/workbook.c:1164
-#, fuzzy
 msgid "Creates a button object"
-msgstr "Skapar ett linje-objekt"
+msgstr "Skapar ett knapp-objekt"
 
 #: src/workbook.c:1167
 msgid "Line"
@@ -7611,14 +7550,13 @@ msgid "Untitled.gnumeric"
 msgstr "Namnlös.gnumeric"
 
 #: src/workbook.c:2216
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to remove the sheet called `%s'?"
-msgstr "Är du säker på att du vill ta bort bladet med namn `%s' "
+msgstr "Är du säker på att du vill ta bort bladet med namn `%s'?"
 
 #: src/workbook.c:2235
-#, fuzzy
 msgid "Other sheets depend on the values on this sheet; I cannot remove it."
-msgstr "Andra blad refererar till värden på detta blad; kan inte ta bort det"
+msgstr "Andra blad refererar till värden på detta blad; kan inte ta bort det."
 
 #: src/workbook.c:2255
 msgid "Add another sheet"
@@ -7641,29 +7579,3 @@ msgstr "Gnumeric: "
 msgid "Old Gnumeric XML file format"
 msgstr "Gammalt Gnumeric XML filformat"
 
-#~ msgid "pages of height"
-#~ msgstr "på höjden"
-
-#~ msgid "Superior:"
-#~ msgstr "Överkant:"
-
-#~ msgid "Lower:"
-#~ msgstr "Underkant:"
-
-#~ msgid "Right:"
-#~ msgstr "Höger:"
-
-#~ msgid "Division lines"
-#~ msgstr "Diagonala linjer"
-
-#~ msgid "Titles of rows and columns."
-#~ msgstr "Titlar för rader och kolumner"
-
-#~ msgid "="
-#~ msgstr "="
-
-#~ msgid "int"
-#~ msgstr "heltal"
-
-#~ msgid "bool"
-#~ msgstr "bool"
