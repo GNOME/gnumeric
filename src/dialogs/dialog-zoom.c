@@ -93,6 +93,7 @@ dialog_zoom_impl (Workbook *wb, Sheet *cur_sheet, GladeXML  *gui)
 		radio  = GTK_RADIO_BUTTON (glade_xml_get_widget (gui, "radio_custom"));
 		g_return_if_fail (radio != NULL);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radio), TRUE);
+		gtk_spin_button_set_value (zoom, (int)(cur_sheet->last_zoom_factor_used * 100.));
 	}
 
 	gtk_clist_freeze (list);
