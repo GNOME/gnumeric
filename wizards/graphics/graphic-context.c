@@ -414,34 +414,34 @@ data_range_new_from_expr (Workbook *wb, const char *name_expr, const char *expre
 	if (tree == NULL)
 		return NULL;
 
-	g_assert (tree->oper != OPER_FUNCALL);
+	g_assert (tree->any.oper != OPER_FUNCALL);
 
 	/*
 	 * Verify that the entire tree contains cell references
 	 */
-	for (expressions = tree->u.function.arg_list; expressions; expressions = expressions->next){
+	for (expressions = tree->func.arg_list; expressions; expressions = expressions->next){
 		ExprTree *tree = expressions->data;
 
-		if (tree->oper == OPER_CONSTANT){
-			if (tree->u.constant->type != VALUE_CELLRANGE)
+		if (tree->any.oper == OPER_CONSTANT){
+			if (tree->constant.value->type != VALUE_CELLRANGE)
 				return NULL;
-		} else if (tree->oper != OPER_VAR)
+		} else if (tree->any.oper != OPER_VAR)
 			return NULL;
 	}
 
 	data_range = data_range_new (wb, name_expr);
 	data_range->vector = sheet_vector_new (wb->current_sheet);
 
-	for (expressions = tree->u.function.arg_list; expressions; expressions = expressions->next){
+	for (expressions = tree->func.arg_list; expressions; expressions = expressions->next){
 		ExprTree *tree = expressions->data;
 
-		if (tree->oper == OPER_CONSTANT){
-			Value *v = tree->u.constant;
+		if (tree->any.oper == OPER_CONSTANT){
+			Value *v = tree->constant.value;
 			CellRef *cell_a = &v->v_range.cell_a;
 			CellRef *cell_b = &v->v_range.cell_b;
 			Range r;
 			
-			g_assert (tree->u.constant->type == VALUE_CELLRANGE);
+			g_assert (tree->constant.value->type == VALUE_CELLRANGE);
 
 			r.start.col = MIN (cell_a->col, cell_b->col);
 			r.start.row = MIN (cell_a->row, cell_b->row);
@@ -449,8 +449,8 @@ data_range_new_from_expr (Workbook *wb, const char *name_expr, const char *expre
 			r.end.row   = MAX (cell_a->row, cell_b->row);
 			
 			sheet_vector_append_range (data_range->vector, &r);
-		} else if (tree->oper == OPER_VAR){
-			CellRef *cr = &tree->u.ref;
+		} else if (tree->any.oper == OPER_VAR){
+			CellRef *cr = &tree->var.ref;
 			Range r;
 
 			r.start.col = cr->col;
