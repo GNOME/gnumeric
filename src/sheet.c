@@ -293,7 +293,7 @@ sheet_set_zoom_factor (Sheet *sheet, double factor)
 
 	/* First, the default styles */
 	sheet_compute_col_row_new_size (sheet, &sheet->default_row_style, NULL);
- 	sheet_compute_col_row_new_size (sheet, &sheet->default_col_style, NULL);
+	sheet_compute_col_row_new_size (sheet, &sheet->default_col_style, NULL);
 
 	/* Then every column and row */
 	sheet_foreach_col (sheet, sheet_compute_col_row_new_size, NULL);
@@ -516,9 +516,9 @@ sheet_row_info_set_height (Sheet *sheet, ColRowInfo *ri, int height, gboolean he
 
 /**
  * sheet_row_set_height:
- * @sheet:         	The sheet
- * @row:           	The row
- * @height:        	The desired height
+ * @sheet:		The sheet
+ * @row:		The row
+ * @height:		The desired height
  * @height_set_by_user: TRUE if this was done by a user (ie, user manually
  *                      set the width)
  *
@@ -549,9 +549,9 @@ sheet_row_set_height (Sheet *sheet, int row, int height, gboolean height_set_by_
 
 /**
  * sheet_row_set_internal_height:
- * @sheet:         	The sheet
- * @row:           	The row
- * @height:        	The desired height
+ * @sheet:		The sheet
+ * @row:		The row
+ * @height:		The desired height
  *
  * Sets the height of a row in terms of the internal required space (the total
  * size of the row will include the margins.
@@ -1292,7 +1292,7 @@ sheet_select_all (Sheet *sheet)
 
 	sheet_selection_reset_only (sheet);
 	sheet_make_cell_visible (sheet, 0, 0);
-	sheet_cursor_move (sheet, 0, 0);
+	sheet_cursor_move (sheet, 0, 0, FALSE, FALSE);
 	sheet_selection_append_range (sheet, 0, 0, 0, 0,
 		SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
 
@@ -2319,10 +2319,10 @@ sheet_cell_foreach_range (Sheet *sheet, int only_existing,
 static Value *
 fail_if_not_selected (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 {
- 	if (!sheet_selection_is_cell_selected (sheet, col, row))
-  		return value_terminate();
- 	else
- 		return NULL;
+	if (!sheet_selection_is_cell_selected (sheet, col, row))
+		return value_terminate();
+	else
+		return NULL;
 }
 
 /**
@@ -3762,9 +3762,9 @@ sheet_style_attach (Sheet *sheet, int start_col, int start_row, int end_col, int
 
 /**
  * sheet_style_compute:
- * @sheet:   	 Which sheet we are looking up
- * @col:     	 column
- * @row:     	 row
+ * @sheet:	 Which sheet we are looking up
+ * @col:	 column
+ * @row:	 row
  * @non_default: A pointer where we store the attributes
  *               the cell has which are not part of the
  *               default style.
@@ -3820,16 +3820,34 @@ sheet_make_cell_visible (Sheet *sheet, int col, int row)
 	}
 }
 
+/**
+ * sheet_cursor_move:
+ * @sheet: Which sheet's cursor to move
+ * @col:   destination column
+ * @row:   destination row
+ * @clear_selection:       Clear the old selection if we move.
+ * @add_dest_to_selection: Add the new cursor location to the
+ *                         selection if we move.
+ *
+ * Adjusts the cursor location for the specified sheet, optionaly
+ * clearing the old selection and adding the new cursor to the selection.
+ * Be careful when manging the selection when the 'move' returns to the
+ * current location.
+ */
 void
-sheet_cursor_move (Sheet *sheet, int col, int row)
+sheet_cursor_move (Sheet *sheet, int col, int row,
+		   gboolean clear_selection, gboolean add_dest_to_selection)
 {
 	GList *l;
+	int old_row, old_col;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
 	sheet_accept_pending_input (sheet);
 
+	old_row = sheet->cursor_col;
+	old_col = sheet->cursor_row;
 	sheet->cursor_col = col;
 	sheet->cursor_row = row;
 
@@ -3840,6 +3858,13 @@ sheet_cursor_move (Sheet *sheet, int col, int row)
 		gnumeric_sheet_set_cursor_bounds (gsheet, col, row, col, row);
 	}
 	sheet_load_cell_val (sheet);
+
+	if (old_row != row || old_col != col) {
+		if (clear_selection)
+			sheet_selection_reset_only (sheet);
+		if (add_dest_to_selection)
+			sheet_selection_append (sheet, col, row);
+	}
 }
 
 void
@@ -3867,13 +3892,12 @@ sheet_cursor_set (Sheet *sheet, int base_col, int base_row, int start_col, int s
 			end_col, end_row);
 	}
 	sheet_load_cell_val (sheet);
-
 }
 
 /**
  * sheet_fill_selection_with:
- * @sheet:   	 Which sheet we are operating on.
- * @str:     	 The text to fill the selection with.
+ * @sheet:	 Which sheet we are operating on.
+ * @str:	 The text to fill the selection with.
  * @is_array:    A flag to differentiate between filling and array formulas.
  *
  * Checks to ensure that none of the ranges being filled contain a subset of

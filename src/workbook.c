@@ -1412,7 +1412,7 @@ workbook_parse_and_jump (Workbook *wb, const char *text)
 #endif
 
 		sheet_make_cell_visible (sheet, col, row);
-		sheet_cursor_move (sheet, col, row);
+		sheet_cursor_move (sheet, col, row, TRUE, TRUE);
 		return TRUE;
 	}
 }

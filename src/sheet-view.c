@@ -223,9 +223,11 @@ sheet_view_col_selection_changed (ItemBar *item_bar, int column, int modifiers, 
 					     end_col, SHEET_MAX_ROWS-1);
 			return;
 		}
-		sheet_cursor_move (sheet, column, 0);
+
+		sheet_cursor_move (sheet, column, sheet->cursor_row, FALSE, FALSE);
 		if (!(modifiers & GDK_CONTROL_MASK))
 			sheet_selection_reset_only (sheet);
+
 		sheet_selection_append_range (sheet,
 					      column, 0,
 					      column, 0,
@@ -276,7 +278,8 @@ sheet_view_row_selection_changed (ItemBar *item_bar, int row, int modifiers, She
 					     SHEET_MAX_COLS-1, end_row);
 			return;
 		}
-		sheet_cursor_move (sheet, 0, row);
+
+		sheet_cursor_move (sheet, sheet->cursor_col, row, FALSE, FALSE);
 		if (!(modifiers & GDK_CONTROL_MASK))
  			sheet_selection_reset_only (sheet);
 	
@@ -387,7 +390,6 @@ horizontal_scroll_event (GtkScrollbar *scroll, GdkEvent *event, SheetView *sheet
 	else if (event->type == GDK_BUTTON_RELEASE)
 	{
 		GnumericSheet  *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
-		SheetSelection *ss = sheet_view->sheet->selections->data;
 		int col;
 		
 		gtk_widget_destroy (gtk_widget_get_toplevel (sheet_view->tip));
@@ -396,12 +398,7 @@ horizontal_scroll_event (GtkScrollbar *scroll, GdkEvent *event, SheetView *sheet
 		col = GTK_ADJUSTMENT (sheet_view->ha)->value;
 
 		gnumeric_sheet_set_top_col (gsheet, col);
-
-		if (sheet_view->sheet->cursor_col != col ||
-		    sheet_view->sheet->cursor_row != ss->start_row) {
-			sheet_cursor_move (sheet_view->sheet, col, ss->start_row);
-			sheet_selection_append (sheet_view->sheet, col, ss->start_row);
-		}
+		/* NOTE : Excel does not move the cursor, just scrolls the sheet. */
 	}
 	
 	return FALSE;
@@ -419,7 +416,6 @@ vertical_scroll_event (GtkScrollbar *scroll, GdkEvent *event, SheetView *sheet_v
 	else if (event->type == GDK_BUTTON_RELEASE)
 	{
 		GnumericSheet  *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
-		SheetSelection *ss = sheet_view->sheet->selections->data;
 		int row;
 		
 		gtk_widget_destroy (gtk_widget_get_toplevel (sheet_view->tip));
@@ -428,11 +424,7 @@ vertical_scroll_event (GtkScrollbar *scroll, GdkEvent *event, SheetView *sheet_v
 		row = GTK_ADJUSTMENT (sheet_view->va)->value;
 		
 		gnumeric_sheet_set_top_row (gsheet, row);
-		if (sheet_view->sheet->cursor_col != ss->start_col ||
-		    sheet_view->sheet->cursor_row != row) {
-			sheet_cursor_move (sheet_view->sheet, ss->start_col, row);
-			sheet_selection_append (sheet_view->sheet, ss->start_col, row);
-		}
+		/* NOTE : Excel does not move the cursor, just scrolls the sheet. */
 	}
 
 	return FALSE;
@@ -521,8 +513,9 @@ sheet_view_construct (SheetView *sheet_view)
 			    GTK_SIGNAL_FUNC (button_select_all), sheet_view);
 	
 	/* Scroll bars and their adjustments */
-	sheet_view->va = gtk_adjustment_new (0.0, 0.0, sheet->max_row_used, 1.0, 0.0, 1.0);
-	sheet_view->ha = gtk_adjustment_new (0.0, 0.0, sheet->max_col_used, 1.0, 0.0, 1.0);
+	/* FIXME : The step_inc, page_inc, and page_size should be related to the page size, not 1 */
+	sheet_view->va = gtk_adjustment_new (0.0, 0.0, sheet->max_row_used, 1.0, 1.0, 1.0);
+	sheet_view->ha = gtk_adjustment_new (0.0, 0.0, sheet->max_col_used, 1.0, 1.0, 1.0);
 	sheet_view->hs = gtk_hscrollbar_new (GTK_ADJUSTMENT (sheet_view->ha));
 	sheet_view->vs = gtk_vscrollbar_new (GTK_ADJUSTMENT (sheet_view->va));
 
@@ -575,7 +568,7 @@ sheet_view_set_header_visibility (SheetView *sheet_view,
 	}
 }
 
-void
+static void
 sheet_view_scrollbar_display (SheetView *sheet_view,
 			      gboolean show_col_scrollbar,
 			      gboolean show_row_scrollbar)

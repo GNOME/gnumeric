@@ -163,7 +163,8 @@ void        sheet_cursor_set             (Sheet *sheet,
 					  int base_col,  int base_row,
 					  int start_col, int start_row,
 					  int end_col,   int end_row);
-void        sheet_cursor_move            (Sheet *sheet, int col, int row);
+void        sheet_cursor_move            (Sheet *sheet, int col, int row,
+					  gboolean clear_selection, gboolean add_dest_to_selection);
 void        sheet_make_cell_visible      (Sheet *sheet, int col, int row);
 
 /* Selection management */

@@ -736,7 +736,8 @@ item_grid_button_1 (Sheet *sheet, GdkEvent *event, ItemGrid *item_grid, int col,
 
 	if (!(event->button.state & GDK_SHIFT_MASK)) {
 		sheet_make_cell_visible (sheet, col, row);
-		sheet_cursor_move (sheet, col, row);
+		/* Handle the selection localy */
+		sheet_cursor_move (sheet, col, row, FALSE, FALSE);
 	}
 
 	if (!(event->button.state & (GDK_CONTROL_MASK|GDK_SHIFT_MASK)))
