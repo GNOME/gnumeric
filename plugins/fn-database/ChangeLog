@@ -14,7 +14,7 @@
 
 2002-10-14  Jody Goldberg <jody@gnome.org>
 
-	* functions.c : inline the example docs because gettext can not handle
+	* functions.c : inline the example docs because gettext cannot handle
 	  preprocessor magic.
 	  Add status to the functions.
 

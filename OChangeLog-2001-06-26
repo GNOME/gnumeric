@@ -4937,7 +4937,7 @@
 
  	* src/selection.c:
  	(sheet_selection_set_internal): Disable or enable insert cols/rows,
- 	update UI only when neccessary and rename label for clarity.
+ 	update UI only when necessary and rename label for clarity.
  	(sheet_selection_reset): Enable insert cols/rows flags.
 
 2001-01-31  Morten Welinder  <terra@diku.dk>

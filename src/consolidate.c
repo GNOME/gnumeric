@@ -580,7 +580,7 @@ simple_consolidate (GnmFunc *fd, GlobalRange const *dst, GSList const *src,
 				/*
 				 * We don't want to include this range
 				 * this time if the current traversal
-				 * offset falls out of it's bounds
+				 * offset falls out of its bounds
 				 */
 				if (gr->range.start.row + y > gr->range.end.row ||
 				    gr->range.start.col + x > gr->range.end.col)

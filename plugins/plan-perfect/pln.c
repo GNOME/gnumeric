@@ -527,7 +527,7 @@ pln_parse_sheet (GsfInput *input, PlanPerfectImport *state)
 
 		case 0x02:
 			/* char ascii char of decimal point		0
-			 * char ascii char of thousands seperator	1
+			 * char ascii char of thousands separator	1
 			 * WPCHAR 1-6 bytes for currency symbol		2
 			 * guint16 default worksheet attributs		8
 			 * guint16 default worksheet format		10

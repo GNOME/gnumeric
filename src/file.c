@@ -465,7 +465,7 @@ gnum_file_saver_get_format_level (GnumFileSaver const *fs)
  * @wbv         : Workbook View
  * @file_name   : File name
  *
- * Saves @wbv and workbook it's attached to into @file_name file.
+ * Saves @wbv and the workbook it is attached to into @file_name file.
  * Results are reported using @io_context object, use
  * gnumeric_io_error_occurred to find out if operation was successful.
  * It's possible that @file_name is created and contain some data if

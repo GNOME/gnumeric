@@ -711,9 +711,9 @@ array_row: array_exp {
         }
 
 	/* Some locales use {1\2\3;4\5\6} rather than {1,2,3;4,5,6}
-	 * but the lexer will call ',' or ';' SEPERATOR depending on locale
+	 * but the lexer will call ',' or ';' SEPARATOR depending on locale
 	 * which does not work here.  So we fake it and have _two_ productions
-	 * then test the seperator at parse time.
+	 * then test the separator at parse time.
 	 */
 	| array_exp SEPARATOR array_row {
 		if (state->array_col_separator == ',') {
@@ -1181,7 +1181,7 @@ yyerror (const char *s)
  *
  * Parse a string. if @error is non-null it will be assumed that the
  * caller has passed a pointer to a ParseError struct AND that it will
- * take responsibility for freeing that struct and it's contents.
+ * take responsibility for freeing that struct and its contents.
  * with parse_error_free.
  **/
 GnmExpr const *

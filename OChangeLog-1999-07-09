@@ -613,7 +613,7 @@
 	Remove auto_expr_tree from Workbook *.
 
 	* src/sheet.c (sheet_update_auto_expr): Moved auto_expr parsing
-	into sheet_update_auto_expr. Rational; neater, and not performace
+	into sheet_update_auto_expr. Rational; neater, and not performance
 	critical.
 
 1999-06-26  Miguel de Icaza  <miguel@nuclecu.unam.mx>
@@ -3496,7 +3496,7 @@ Tue Mar 23 14:00:37 CET 1999 Daniel Veillard <Daniel.Veillard@w3.org>
 1999-03-07  Michael Meeks  <michael@imaginator.com>
 
 	* src/cell.c (cell_set_format_from_style): Removed sluggish
-	re-drawing code: unneccessary.
+	re-drawing code: unnecessary.
 
 1999-03-05  Michael Meeks  <michael@imaginator.com>
 
@@ -4594,7 +4594,7 @@ Tue Mar 23 14:00:37 CET 1999 Daniel Veillard <Daniel.Veillard@w3.org>
 	* src/workbook.c(workbook_read): Updated to new structure names.
 
 	* plugins/excel/ms-excel.c: Added list of array formulae, as yet
-	unused, possibly unneccesary.
+	unused, possibly unnecessary.
 
 	* plugins/excel/ms-formula.c: Added support for slightly different
 	array formula BIFF layout.

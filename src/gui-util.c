@@ -905,7 +905,7 @@ gnumeric_create_popup_menu_list (GSList *elements,
 					image);
 			}
 		} else {
-			/* seperator */
+			/* separator */
 			item = gtk_menu_item_new ();
 			gtk_widget_set_sensitive (item, FALSE);
 		}

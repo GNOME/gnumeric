@@ -76,7 +76,7 @@ static const char *help_cell = {
 	   "  contents   \tReturns the contents of the cell in @ref.\n"
 	   "  format     \t\tReturns the code of the format of the cell.\n"
 	   "  parentheses\tReturns 1 if @ref contains a negative value\n"
-	   "             \t\tand it's format displays it with parentheses.\n"
+	   "             \t\tand its format displays it with parentheses.\n"
 	   "  row        \t\tReturns the number of the row in @ref.\n"
 	   "  width      \t\tReturns the column width.\n"
 	   "\n"
@@ -203,7 +203,7 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 	 * there's a color specified for EITHER positive OR negative values
 	 * in the number format, e.g., 1 for format "[Black]0;-0;0" but not
 	 * for format "0;-0;[Green]0"
-	 * Another place where Excel doesn't conform to it's documentation!
+	 * Another place where Excel doesn't conform to its documentation!
 	 */
 	} else if (!g_ascii_strcasecmp (info_type, "color")) {
 		FormatCharacteristics info =

@@ -347,7 +347,7 @@ Jukka:
 	  IMCOSH(), IMTANH(), IMSECH(), IMCSCH(), IMCOTH(), IMARCSINH(),
 	  IMARCCOSH(), IMARCTANH(), IMARCSECH(), IMARCCSCH(), and IMARCCOTH().
 	* Moved all random number generation functions from fn-math to a
-	  seperate plug-in (fn-random).
+	  separate plug-in (fn-random).
 	* New random distribution functions (mostly integrated from the 
 	  GNU Scientific Library with some minor modifications):
 	  RANDBETA(), RANDCAUCHY(), RANDCHISQ(), RANDEXPPOW(), RANDFDIST(),

@@ -359,7 +359,7 @@ application_dpi_to_pixels (void)
  * application_history_get_list:
  *
  *  This function returns a pointer to the history list,
- * creating it if neccessary.
+ * creating it if necessary.
  *
  * Return value: the list./
  **/

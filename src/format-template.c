@@ -43,7 +43,7 @@
  *
  * These are basically wrapper function around GHashTable ment for use by
  * the FormatTemplate.
- * The hashtable will manage it's own resources, it will copy values instead
+ * The hashtable will manage its own resources, it will copy values instead
  * of using the ones passed.
  */
 
@@ -819,7 +819,7 @@ format_template_compare_name (gconstpointer a, gconstpointer b)
  * based on what the user wants to apply.
  * Basically you should pass FALSE as @fill_defaults, unless you want to have
  * a completely filled style to be returned. If you set @fill_default to TRUE
- * the returned mstyle might have some of it's elements 'not set'
+ * the returned mstyle might have some of its elements 'not set'
  *
  * Return value: The same mstyle as @mstyle with most likely some modifications
  **/
@@ -1190,7 +1190,7 @@ cb_format_hash_style (FormatTemplate *ft, Range *r, MStyle *mstyle, GHashTable *
 	}
 
 	/*
-	 * Unref here, the hashtable will take care of it's own
+	 * Unref here, the hashtable will take care of its own
 	 * resources
 	 */
 	mstyle_unref (mstyle);

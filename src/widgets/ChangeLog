@@ -32,7 +32,7 @@
 
 	* gnumeric-expr-entry.c (gnm_expr_entry_rangesel_start) : rangerefs
 	  can only start at the transition between alphanumerics and symbols.
-	  Hence ABCDE3 can not have a valid ref of DE3
+	  Hence ABCDE3 cannot have a valid ref of DE3
 
 2002-10-18  Morten Welinder  <terra@diku.dk>
 

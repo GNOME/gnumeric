@@ -90,7 +90,7 @@
 2002-10-28  Jody Goldberg <jody@gnome.org>
 
 	* src/dependent.c (link_expr_dep) : DEPENDENT_USES_NAME flag.
-	(cb_name_invalidate) : no need to short cuircuit anything.  All the
+	(cb_name_invalidate) : no need to short circuit anything.  All the
 	  deps are already unlinked.
 	(do_deps_destroy) : make sure to unlink things that use names from
 	  other sheets so that they don't have stale deps in their
@@ -441,7 +441,7 @@
 	  H or V only freezing.
 
 	* src/gnumeric-pane.c (gnm_pane_init) : control configuration of col
-	  and row headers seperately.
+	  and row headers separately.
 	* src/sheet-control-gui.c (scg_resize) : support H or V only freezing.
 	(scg_set_panes) : ditto.
 	(sheet_control_gui_new) : adjust to the new gnm_pane_init interface.
@@ -850,7 +850,7 @@
 
 	* src/parser.y (gnm_expr_parse_str) : add
 	  GNM_EXPR_PARSE_USE_OPENCALC_CONVENTIONS.  To hard code the
-	  seperators rather than extracting them from the locale.  Its quick
+	  separators rather than extracting them from the locale.  Its quick
 	  and dirty, but will do the job for now.  Later it would be nice to
 	  abstract the parse state a bit more so that we don't need to
 	  re-initialize every time.
@@ -866,7 +866,7 @@
 2002-09-27  Jody Goldberg <jody@gnome.org>
 
 	* src/parser.y : remove bogus error message and fix the other message
-	  to be correct when faced with the wrong type of array seperator.
+	  to be correct when faced with the wrong type of array separator.
 
 2002-09-27  Jody Goldberg <jody@gnome.org>
 
@@ -889,7 +889,7 @@
 	  loading multisheet workbooks breaks if you load them directly.
 	  Fix that.
 
-	* src/parser.y (build_set) : remove unneccessary deallocation.
+	* src/parser.y (build_set) : remove unnecessary deallocation.
 
 2002-09-26  Jody Goldberg <jody@gnome.org>
 

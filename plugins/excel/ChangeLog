@@ -432,7 +432,7 @@
 	  More work to do to support external links.
 	(ms_excel_workbook_get_externsheet_v8) : improve the warnings on error.
 	(ms_excel_externsheet_v8) : those sheet indicies are BOUNDSHEET
-	  references if the supbook is a self reference.  We can not directly
+	  references if the supbook is a self reference.  We cannot directly
 	  access the Gnumeric sheets because XL has hidden elements that skew
 	  the index.
 	(ms_excel_workbook_get_externsheet_v7) : ditto.
@@ -1341,7 +1341,7 @@
 
 2001-09-09  Jody Goldberg <jgoldberg@home.com>
 
-	* ms-chart.c (BC_R(pieformat)) : store pie seperation.
+	* ms-chart.c (BC_R(pieformat)) : store pie separation.
 	(BC_R(get_chartgroup_type)) : new function.
 
 2001-09-08  Jody Goldberg <jgoldberg@home.com>
@@ -4678,7 +4678,7 @@
 	* formula-types.h: Added class defines.
 
 	* ms-excel-write.c (write_sheet_bools): Removed magic 0x44 from
-	last byte of BIFF_COLINFO. Commented out GCW: unneccessary and
+	last byte of BIFF_COLINFO. Commented out GCW: unnecessary and
 	wrong.
 	(write_window1): Fiddled with the magic numbers.
 	(write_sheet_bools): Add 0x200 to DEFAULTROWHEIGHT.
@@ -4942,7 +4942,7 @@
 	correct type.
 	Added streamPos to Workbook for INDEX calcs.
 	(write_index): Implemented.
-	(write_sheet): Added write_index, and neccesary bits.
+	(write_sheet): Added write_index, and necessary bits.
 
 	* ms-excel-read.c (biff_nasty_font_check_function):
 	removed, wonderful !

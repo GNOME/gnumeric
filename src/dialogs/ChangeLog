@@ -17,7 +17,7 @@
 
 	* dialog-define-names.c (name_guru_init) : add a help button.
 
-	* names.glade : remove seperator, add a help button
+	* names.glade : remove separator, add a help button
 
 2002-10-27  Jody Goldberg <jody@gnome.org>
 
@@ -3044,7 +3044,7 @@
 
 2001-10-08  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
-	* dialog-analysis-tools.c (tool_help_cb) : seperated help_ref
+	* dialog-analysis-tools.c (tool_help_cb) : separated help_ref
 	declaration and initialisation to fix "initializer element is not
 	computable at load time" error.
 
@@ -4318,7 +4318,7 @@
 2000-06-19  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-function-wizard.c (formula_guru_set_expr) : We need to
-	  manually trigger a changed event after setting the position becuase
+	  manually trigger a changed event after setting the position because
 	  pre-gtk-1.4 setting the text reset the cursor position to 0.
 	(cb_formula_guru_entry_event) : new function.
 	(cb_formula_guru_rolled_entry_event) : new function.
