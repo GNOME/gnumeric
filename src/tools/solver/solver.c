@@ -292,7 +292,7 @@ lp_solver_init (Sheet *sheet, const SolverParameters *param, SolverResults *res,
 		        goto target_cell_formula_ok;
 	}
 	*errmsg = _("Target cell should contain a formula.");
-	/* Do not free!: solver_results_free (res); */
+	solver_results_free (res);
 	return NULL;
  target_cell_formula_ok:
 
@@ -301,6 +301,15 @@ lp_solver_init (Sheet *sheet, const SolverParameters *param, SolverResults *res,
 	     i++) {
 	        SolverConstraint *c = get_solver_constraint (res, i);
 		target = sheet_cell_get (sheet, c->lhs.col, c->lhs.row);
+
+		/* Check that LHS is a number type. */
+		if (! (target->value == NULL || VALUE_IS_EMPTY (target->value)
+		              || VALUE_IS_NUMBER (target->value))) {
+		          *errmsg = _("The LHS cells should contain formulas "
+				      "only.  Specify valid LHS entries.");
+			  solver_results_free (res);
+			  return NULL;
+		}
 
 		if (c->type == SolverINT) {
 		        lp_algorithm[param->options.algorithm].
@@ -319,6 +328,16 @@ lp_solver_init (Sheet *sheet, const SolverParameters *param, SolverResults *res,
 			}
 		}
 		target = sheet_cell_get (sheet, c->rhs.col, c->rhs.row);
+
+		/* Check that RHS is a number type. */
+		if (! (target->value == NULL || VALUE_IS_EMPTY (target->value)
+		              || VALUE_IS_NUMBER (target->value))) {
+		          *errmsg = _("The RHS cells should contain numerical "
+				      "values only.  Specify valid RHS entries.");
+			  solver_results_free (res);
+			  return NULL;
+		}
+
 		x = value_get_as_float (target->value);
 		lp_algorithm[param->options.algorithm].
 		        set_constr_rhs_fn (program, i, x);

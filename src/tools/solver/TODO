@@ -4,8 +4,6 @@ Regarding LP & ILP:
 Critical bugs:
   * fix crash: INT constraints support
   * fix crash: MPS import when a model has already defined
-  * fix bug: check that constraint LHS contains a number value
-  * fix bug: check that constraint RHS is a number value
   * fix bug: solver parameters when the sheet is duplicated
   * check that the program is properly defined (e.g. no #DIV0, #NUM!, ...)
     - a badly formulated program may still crash the spreadsheet
