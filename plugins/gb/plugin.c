@@ -17,11 +17,13 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
+#include <ctype.h>
 
 #include <glib.h>
 #include <gnome.h>
 
 #include <gb/libgb.h>
+#include <gb/gb-mmap-lex.h>
 #include <gbrun/libgbrun.h>
 #include <libole2/ms-ole-vba.h>
 
@@ -165,28 +167,22 @@ parse_file (char const * filename)
 
 	return module;
 }
-
-typedef struct {
-	GBRunContext *rc;
-	GBRoutine     *r;
-} func_data_t;
 */
 
-#if 0
 static Value *
 generic_marshaller (FunctionEvalInfo *ei, GList *nodes)
 {
-	func_data_t *fd;
-	GSList      *args = NULL;
-	GList       *l;
-	GBValue     *gb_ans;
-	Value       *ans;
+	GSList  *args = NULL;
+	GList   *l;
+	GBValue *gb_ans;
+	Value   *ans;
+	GBWorkbookData *wd;
 
 	g_return_val_if_fail (ei != NULL, NULL);
 	g_return_val_if_fail (ei->func_def != NULL, NULL);
 
-	fd = function_def_get_user_data (ei->func_def);
-	g_return_val_if_fail (fd != NULL, NULL);
+	wd = function_def_get_user_data (ei->func_def);
+	g_return_val_if_fail (wd != NULL, NULL);
 
 	for (l = nodes; l; l = l->next) {
 		/*
@@ -203,11 +199,12 @@ generic_marshaller (FunctionEvalInfo *ei, GList *nodes)
 
 	args = g_slist_reverse (args);
 
-	gb_ans = gbrun_routine (fd->rc, fd->r->name, args);
+	gb_ans = gbrun_project_invoke (wd->ec, wd->proj, ei->func_def->name, args);
 	if (gb_ans)
 		ans = gb_to_value (ei, gb_ans);
+
 	else {
-		GBEvalContext *ec = GB_EVAL_CONTEXT (fd->rc->ec);
+		GBEvalContext *ec = GB_EVAL_CONTEXT (wd->ec);
 		char *str;
 
 		str = gb_eval_context_get_text (ec);
@@ -229,32 +226,78 @@ generic_marshaller (FunctionEvalInfo *ei, GList *nodes)
 
 	return ans;
 }
-#endif
-
-/*
-typedef struct {
-	FunctionCategory *cat;
-	GBRunContext    *rc;
-} register_closure_t;
 
 static void
-cb_register_functions (gpointer key, gpointer value, gpointer user_data)
+register_vb_function (Workbook         *opt_workbook,
+		      const char       *name,
+		      FunctionCategory *cat,
+		      GBWorkbookData   *wd)
 {
-	register_closure_t *c = user_data;
-	GBRoutine          *r = value;
 	FunctionDefinition *fndef;
-	func_data_t        *fd;
 
-	fndef = function_add_nodes (c->cat, r->name, "", NULL, NULL,
+	/* FIXME: we need per workbook names */
+	fndef = function_add_nodes (cat, name, "", NULL, NULL,
 				    generic_marshaller);
-	
-	fd     = g_new (func_data_t, 1);
-	fd->rc = c->rc;
-	fd->r  = r;
-
-	function_def_set_user_data (fndef, fd);
+	function_def_set_user_data (fndef, wd);
 }
-*/
+
+static gboolean
+read_gb (CommandContext      *context,
+	 Workbook            *wb,
+	 GBLexerStream       *proj_stream,
+	 GBRunStreamProvider *provider,
+	 gpointer             provider_data)
+{
+	GBWorkbookData   *wd;
+	GBProject        *gb_proj;
+
+	g_return_val_if_fail (context != NULL, FALSE);
+	g_return_val_if_fail (proj_stream != NULL, FALSE);
+
+	/* FIXME: leak for Morten */
+	wd = g_new0 (GBWorkbookData, 1);
+
+	wd->ec = gbrun_eval_context_new ("Gnumeric GB plugin", GBRUN_SEC_HARD);
+
+	gb_proj = gb_project_new (GB_EVAL_CONTEXT (wd->ec), proj_stream);
+	if (!gb_proj) {
+		g_warning ("Failed to parse project file '%s'",
+			   gbrun_eval_context_get_text (wd->ec));
+		return FALSE;
+  	}
+
+	gtk_object_destroy (GTK_OBJECT (proj_stream));
+
+	wd->proj = gbrun_project_new (wd->ec, gb_proj, provider, provider_data);
+
+	if (!wd->proj) {
+		g_warning ("Error creating project '%s'",
+			   gbrun_eval_context_get_text (wd->ec));
+		return FALSE;
+	} else {
+		GSList *fns, *f;
+		FunctionCategory *cat;
+
+		cat = function_get_category ("GnomeBasic");
+		
+		fns = gbrun_project_fn_names (wd->proj);
+
+		/* FIXME: Argh, this means we need per workbook functions; ha, ha ha. */
+		for (f = fns; f; f = f->next)
+			register_vb_function (wb, f->data, cat, wd);
+		
+		g_slist_free (fns);
+	}
+
+	/* Run the 'Main' function ( or whatever ) */
+	if (!gbrun_project_execute (wd->ec, wd->proj)) {
+		g_warning ("An exception occured\n%s",
+			   gb_eval_context_get_text (GB_EVAL_CONTEXT (wd->ec)));
+		return FALSE;
+
+	} else
+		return TRUE;
+}
 
 static GBLexerStream *
 stream_provider (GBRunEvalContext *ec,
@@ -283,7 +326,7 @@ stream_provider (GBRunEvalContext *ec,
 }
 
 /**
- * read_gb:
+ * read_ole2_gb:
  * @context: 
  * @wb: 
  * @f: 
@@ -293,11 +336,9 @@ stream_provider (GBRunEvalContext *ec,
  * Return value: TRUE on success.
  **/
 static gboolean
-read_gb (CommandContext *context, Workbook *wb, MsOle *f)
+read_ole2_gb (CommandContext *context, Workbook *wb, MsOle *f)
 {
-	GBLexerStream    *proj_stream;
-	GBWorkbookData   *wd;
-	GBProject        *gb_proj;
+	GBLexerStream *proj_stream;
 
 	g_return_val_if_fail (f != NULL, -1);
 	g_return_val_if_fail (wb != NULL, -1);
@@ -307,45 +348,84 @@ read_gb (CommandContext *context, Workbook *wb, MsOle *f)
 	if (!proj_stream)
 		return TRUE;
 
-	wd = g_new0 (GBWorkbookData, 1);
-	gtk_object_set_data (GTK_OBJECT (wb), GB_PROJECT_KEY, wd);
+	return read_gb (context, wb, proj_stream, stream_provider, f);
+}
 
-	wd->ec = gbrun_eval_context_new ("Gnumeric GB plugin",
-					 GBRUN_SEC_HARD);
+static GBLexerStream *
+file_to_stream (const char *filename)
+{
+	guint8            *data;
+	struct stat        sbuf;
+	int                fd, len;
+	GBLexerStream     *ans;
 
-	gb_proj = gb_project_new (GB_EVAL_CONTEXT (wd->ec), proj_stream);
-	if (!gb_proj) {
-		g_warning ("Failed to parse project file '%s'",
-			   gbrun_eval_context_get_text (wd->ec));
-		return FALSE;
-  	}
+	fd = open (filename, O_RDONLY);
+	if (fd < 0 || fstat (fd, &sbuf) < 0) {
+		fprintf (stderr, "gb: %s : %s\n", filename, strerror (errno));
 
-	wd->proj = gbrun_project_new (wd->ec, gb_proj, stream_provider, f);
-
-	if (!wd->proj) {
-		g_warning ("Error creating project '%s'",
-			   gbrun_eval_context_get_text (wd->ec));
-		return FALSE;
-	} else {
-		GSList *fns, *f;
-
-		fns = gbrun_project_fn_names (wd->proj);
-		
-		/*
-		 * FIXME: Argh, this means we need per workbook functions; ha, ha ha.
-		 */ 
-		for (f = fns; f; f = f->next) {
-			g_warning ("FIXME: register function '%s'", (char *)f->data);
-		}
+		if (fd >= 0)
+			close (fd);
+		return NULL;
 	}
 
-	return TRUE;
+	if ((len = sbuf.st_size) <= 0) {
+		fprintf (stderr, "%s : empty file\n", filename);
+		close (fd);
+		return NULL;
+	}
+
+	data = g_new (guint8, len);
+	if (read (fd, data, len) != len) {
+		fprintf (stderr, "Short read error on '%s'\n", filename);
+		g_free (data);
+		return NULL;
+	}
+
+	if (!isspace (data [len - 1])) {
+		fprintf (stderr, "File must end in whitespace");
+		g_free (data);
+		return NULL;
+	}
+
+	ans = gb_mmap_stream_new (data, len);
+
+	close (fd);
+
+	return ans;
+}
+
+static GBLexerStream *
+file_provider (GBRunEvalContext *ec,
+	       const char       *name,
+	       gpointer          user_data)
+{
+	GBLexerStream *ret = NULL;
+	
+	if (g_file_exists (name))
+		ret = file_to_stream (name);
+	
+	else {
+		char *fname;
+
+		fname = g_strdup_printf ("%s/%s", g_get_home_dir (), name);
+
+		if (g_file_exists (fname))
+			ret = file_to_stream (fname);
+		else
+			g_warning ("Error opening '%s'", fname);
+		
+		g_free (fname);
+	}
+
+	return ret;
 }
 
 PluginInitResult
 init_plugin (CommandContext *context, PluginData *pd)
 {
 	GBEvalContext *ec;
+	GBLexerStream *proj_stream;
+	char          *proj_name;
 
 	if (plugin_version_mismatch (context, pd, GNUMERIC_VERSION))
 		return PLUGIN_QUIET_ERROR;
@@ -362,7 +442,15 @@ init_plugin (CommandContext *context, PluginData *pd)
 
 /*	plugin_data_set_user_data (pd, gb_pd);*/
 
-	ms_excel_read_gb = read_gb;
+	ms_excel_read_gb = read_ole2_gb;
+
+	proj_name = g_strdup_printf ("%s/gnumeric.gbp", g_get_home_dir ());
+	if (g_file_exists (proj_name)) {
+		proj_stream = file_to_stream (proj_name);
+		if (!read_gb (context, NULL, proj_stream, file_provider, NULL))
+			g_warning ("Error in project '%s'", proj_name);
+	}
+	g_free (proj_name);
 
 	if (plugin_data_init (pd, dont_unload, cleanup,
 			      _("Gnome Basic"),

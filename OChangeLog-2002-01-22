@@ -1,3 +1,11 @@
+2000-10-21  Michael Meeks  <michael@helixcode.com>
+
+	* src/sheet-object-container.c: include bonobo-object-directory.h
+
+	* configure.in: depend on gb >= 0.0.13 and libole >= 0.1.7
+
+	* README: update to reflect this.
+
 2000-10-21  Jon K Hellan  <hellan@acm.org>
 
 	* src/gnumeric.xml: Add tips for toolbar undo and redo.  Correct

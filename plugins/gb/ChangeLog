@@ -1,3 +1,15 @@
+2000-10-21  Michael Meeks  <michael@helixcode.com>
+
+	* plugin.c (register_vb_function): implement.
+	prune loads of crud.
+	(read_gb): nail leak; register fns.
+	(generic_marshaller): re-enable.
+	(read_gb): split out
+	(read_ole2_gb): rename.
+	(file_to_stream): impl.
+	(file_provider): impl.
+	(init_plugin): load ~/.gbproject.gbp
+
 2000-10-10  Jody Goldberg <jgoldberg@home.com>
 
         * Release 0.57

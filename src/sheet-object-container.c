@@ -22,6 +22,7 @@
 #include <bonobo/bonobo-client-site.h>
 #include <bonobo/bonobo-embeddable.h>
 #include <bonobo/bonobo-object-client.h>
+#include <bonobo/bonobo-object-directory.h>
 
 static SheetObject *sheet_object_container_parent_class;
 

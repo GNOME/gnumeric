@@ -161,13 +161,13 @@ AM_CONDITIONAL(WITH_PYTHON, $python_val)
 
 
 dnl Check for libole2
-AC_MSG_CHECKING(for libole2 >= 0.1.4)
+AC_MSG_CHECKING(for libole2 >= 0.1.7)
 vers_ok="";
 vers=`gnome-config --modversion libole2 | grep "libole2-" | \
 	sed -e "s/libole2-//" | \
 	awk 'BEGIN { FS = "."; } { printf "%d", $1 * 10000 + $2 * 100 + $3 ;}'`
 if test 0"$vers"; then
-       if test "$vers" -ge 104; then
+       if test "$vers" -ge 107; then
                vers_ok="yes";
        fi
 fi
@@ -277,10 +277,10 @@ AC_ARG_WITH(gb,
 )
 
 if $try_gb; then
-	AC_MSG_CHECKING(for Gb >= 0.0.10)
+	AC_MSG_CHECKING(for Gb >= 0.0.13)
 	if gnome-config --libs gb > /dev/null 2>&1; then
 		vers=`gnome-config --modversion gb | awk 'BEGIN { FS = "."; } { print $1 * 10000 + $2 * 100 + $3; }'`
-		if test "$vers" -ge 000010; then
+		if test "$vers" -ge 000013; then
 			gb_ok=true
 		else
 		    	gb_ok=false
