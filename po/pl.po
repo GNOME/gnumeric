@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 1999-04-16 20:07-0500\n"
+"POT-Creation-Date: 1999-04-26 13:37-0500\n"
 "PO-Revision-Date: 1999-02-12 16:18+0100\n"
 "Last-Translator: Zbigniew Chyla <cyba@t19.ds.pwr.wroc.pl>\n"
 "MIME-Version: 1.0\n"
@@ -15,7 +15,7 @@ msgstr ""
 msgid "Argument must be a Guile expression"
 msgstr ""
 
-#: plugins/guile/plugin.c:241 src/expr.c:659 src/fn-math.c:1329
+#: plugins/guile/plugin.c:241 src/expr.c:659 src/fn-math.c:1496
 #: src/fn-sheet.c:40 src/fn-sheet.c:93 src/fn-string.c:302
 msgid "Invalid number of arguments"
 msgstr "Niew³a¶ciwa liczba argumentów"
@@ -358,7 +358,7 @@ msgid "Left"
 msgstr "Do lewej"
 
 #: src/dialog-cell-format.c:360 src/dialog-cell-format.c:369
-#: src/workbook.c:916
+#: src/workbook.c:940
 msgid "Center"
 msgstr "Wycentruj"
 
@@ -951,14 +951,14 @@ msgid ""
 "@SEEALSO=CEIL"
 msgstr ""
 
-#: src/fn-math.c:408
+#: src/fn-math.c:408 src/fn-math.c:1354
 #, fuzzy
 msgid "#VALUE!"
 msgstr "#WARTO¦Æ"
 
 #. -0
 #: src/fn-math.c:415 src/fn-math.c:946 src/fn-math.c:954 src/fn-math.c:1153
-#: src/fn-math.c:1445 src/fn-math.c:1497
+#: src/fn-math.c:1612 src/fn-math.c:1683 src/fn-math.c:1714
 msgid "#NUM!"
 msgstr ""
 
@@ -1235,6 +1235,45 @@ msgid ""
 msgstr ""
 
 #: src/fn-math.c:1250
+#, fuzzy
+msgid ""
+"@FUNCTION=SUMSQ\n"
+"@SYNTAX=SUMSQ(value1, value2, ...)\n"
+"@DESCRIPTION=SUMSQ returns the sum of the squares of all the values and "
+"cells referenced in the argument list. \n"
+"@SEEALSO=SUM, COUNT"
+msgstr ""
+"@FUNCTION=STDEV\n"
+"@SYNTAX = STDEV(warto¶æ1, warto¶æ2, ...)@DESCRIPTION=Oblicza standardowe "
+"odchylenie dla wszystkich warto¶ci z listy argumentów. Jest one równe "
+"pierwiastkowi kwadratowemu wariancji.\n"
+"@SEEALSO=VARIANCE"
+
+#: src/fn-math.c:1304
+msgid ""
+"@FUNCTION=MULTINOMIAL\n"
+"@SYNTAX=MULTINOMIAL(value1, value2, ...)\n"
+"@DESCRIPTION=MULTINOMIAL returns the ratio of the factorial of a sum of "
+"values to the product of factorials. \n"
+"@SEEALSO=SUM"
+msgstr ""
+
+#: src/fn-math.c:1362
+#, fuzzy
+msgid ""
+"@FUNCTION=PRODUCT\n"
+"@SYNTAX=PRODUCT(value1, value2, ...)\n"
+"@DESCRIPTION=PRODUCT returns the product of all the values and cells "
+"referenced in the argument list. \n"
+"@SEEALSO=SUM, COUNT"
+msgstr ""
+"@FUNCTION=STDEV\n"
+"@SYNTAX = STDEV(warto¶æ1, warto¶æ2, ...)@DESCRIPTION=Oblicza standardowe "
+"odchylenie dla wszystkich warto¶ci z listy argumentów. Jest one równe "
+"pierwiastkowi kwadratowemu wariancji.\n"
+"@SEEALSO=VARIANCE"
+
+#: src/fn-math.c:1417
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -1245,7 +1284,7 @@ msgid ""
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 msgstr ""
 
-#: src/fn-math.c:1270
+#: src/fn-math.c:1437
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -1256,7 +1295,7 @@ msgid ""
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 msgstr ""
 
-#: src/fn-math.c:1290
+#: src/fn-math.c:1457
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -1265,7 +1304,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-math.c:1309
+#: src/fn-math.c:1476
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -1276,7 +1315,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-math.c:1362
+#: src/fn-math.c:1529
 #, fuzzy
 msgid ""
 "@FUNCTION=EVEN\n"
@@ -1290,7 +1329,7 @@ msgstr ""
 "@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
 "@SEEALSO=CHAR"
 
-#: src/fn-math.c:1393
+#: src/fn-math.c:1560
 #, fuzzy
 msgid ""
 "@FUNCTION=ODD\n"
@@ -1304,7 +1343,7 @@ msgstr ""
 "@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
 "@SEEALSO=CHAR"
 
-#: src/fn-math.c:1424
+#: src/fn-math.c:1591
 msgid ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(number)\n"
@@ -1314,7 +1353,7 @@ msgid ""
 "@SEEALSO=FACT"
 msgstr ""
 
-#: src/fn-math.c:1454
+#: src/fn-math.c:1621
 msgid ""
 "@FUNCTION=QUOTIENT\n"
 "@SYNTAX=QUOTIENT(num,den)\n"
@@ -1323,7 +1362,35 @@ msgid ""
 "@SEEALSO=MOD"
 msgstr ""
 
-#: src/fn-math.c:1476
+#: src/fn-math.c:1642
+#, fuzzy
+msgid ""
+"@FUNCTION=SIGN\n"
+"@SYNTAX=SIGN(num)\n"
+"@DESCRIPTION=SIGN function returns 1 if the number is positive, zero if the "
+"number is 0, and -1 if the number is negative. \n"
+"@SEEALSO="
+msgstr ""
+"@FUNCTION=CODE\n"
+"@SYNTAX=CODE(znak)\n"
+"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
+"@SEEALSO=CHAR"
+
+#: src/fn-math.c:1667
+#, fuzzy
+msgid ""
+"@FUNCTION=SQRTPI\n"
+"@SYNTAX=SQRTPI(number)\n"
+"@DESCRIPTION=SQRTPI function returns the square root of a number multiplied "
+"by pi. \n"
+"@SEEALSO=PI"
+msgstr ""
+"@FUNCTION=CODE\n"
+"@SYNTAX=CODE(znak)\n"
+"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
+"@SEEALSO=CHAR"
+
+#: src/fn-math.c:1692
 msgid ""
 "@FUNCTION=RANDBETWEEN\n"
 "@SYNTAX=RANDBETWEEN(bottom,top)\n"
@@ -1334,7 +1401,7 @@ msgid ""
 "@SEEALSO=RAND"
 msgstr ""
 
-#: src/fn-math.c:1501
+#: src/fn-math.c:1718
 msgid "#N/A!"
 msgstr ""
 
@@ -1587,7 +1654,7 @@ msgstr ""
 #: src/fn-string.c:775
 msgid ""
 "@FUNCTION=SUBSTITUTE\n"
-"@SYNTAX=SUBSTITUTE(text, old, new [,num]\n"
+"@SYNTAX=SUBSTITUTE(text, old, new [,num])\n"
 "@DESCRIPTION=Replaces @old with @new in @text.  Substitutions are only "
 "applied to instance @num of @old in @text, otherwise every one is changed.\n"
 "@SEEALSO=REPLACE, TRIM"
@@ -1606,35 +1673,35 @@ msgstr ""
 "@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
 "@SEEALSO=CHAR"
 
-#: src/format.c:403
+#: src/format.c:388
 msgid "black"
 msgstr "czarny"
 
-#: src/format.c:404
+#: src/format.c:389
 msgid "blue"
 msgstr "niebieski"
 
-#: src/format.c:405
+#: src/format.c:390
 msgid "cyan"
 msgstr ""
 
-#: src/format.c:406
+#: src/format.c:391
 msgid "green"
 msgstr "zielony"
 
-#: src/format.c:407
+#: src/format.c:392
 msgid "magenta"
 msgstr ""
 
-#: src/format.c:408
+#: src/format.c:393
 msgid "red"
 msgstr "czerwony"
 
-#: src/format.c:409
+#: src/format.c:394
 msgid "white"
 msgstr "bia³y"
 
-#: src/format.c:410
+#: src/format.c:395
 msgid "yellow"
 msgstr "¿ó³ty"
 
@@ -1893,7 +1960,7 @@ msgid ""
 "the contents in this region?"
 msgstr ""
 
-#: src/item-cursor.c:579 src/item-grid.c:528 src/workbook.c:904
+#: src/item-cursor.c:579 src/item-grid.c:528 src/workbook.c:928
 msgid "Copy"
 msgstr "Kopiuj"
 
@@ -1925,11 +1992,11 @@ msgstr "Przesuñ komórki w dó³ i przenie¶"
 msgid "Shift cells right and move"
 msgstr "Przesuñ komórki w prawo i przenie¶"
 
-#: src/item-grid.c:527 src/workbook.c:901
+#: src/item-grid.c:527 src/workbook.c:925
 msgid "Cut"
 msgstr "Wytnij"
 
-#: src/item-grid.c:529 src/sheet.c:2576 src/workbook.c:907
+#: src/item-grid.c:529 src/sheet.c:2581 src/workbook.c:931
 msgid "Paste"
 msgstr "Wklej"
 
@@ -1941,19 +2008,19 @@ msgstr "Wyczy¶æ zawarto¶æ"
 msgid "Cell format"
 msgstr "Format komórki"
 
-#: src/main.c:36
+#: src/main.c:39
 msgid "Dumps the function definitions"
 msgstr ""
 
-#: src/main.c:36
+#: src/main.c:39
 msgid "FILE"
 msgstr "PLIK"
 
-#: src/main.c:38
+#: src/main.c:41
 msgid "Enables some debugging functions"
 msgstr ""
 
-#: src/main.c:38
+#: src/main.c:41
 msgid "LEVEL"
 msgstr "POZIOM"
 
@@ -2007,466 +2074,453 @@ msgstr "Kolumna: %s"
 msgid "ERROR"
 msgstr ""
 
-#: src/sheet.c:3439
+#: src/sheet.c:3444
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr ""
 
-#: src/sheet.c:3451
+#: src/sheet.c:3456
 msgid "I was unable to the bind object"
 msgstr ""
 
-#: src/workbook.c:293
+#: src/workbook.c:317
 msgid "Warning"
 msgstr "Ostrze¿enie"
 
-#: src/workbook.c:301
+#: src/workbook.c:325
 #, c-format
 msgid "Workbook %s has unsaved changes, save them?"
 msgstr "Zeszyt %s zawiera nie zapisane zmiany, zapisaæ?"
 
-#: src/workbook.c:304
+#: src/workbook.c:328
 msgid "Workbook has unsaved changes, save them?"
 msgstr "Zeszyt zawiera nie zapisane zmiany, zapisaæ?"
 
-#: src/workbook.c:492 src/workbook.c:508
+#: src/workbook.c:516 src/workbook.c:532
 msgid "Insert rows"
 msgstr "Wstaw wiersze"
 
-#: src/workbook.c:604
+#: src/workbook.c:628
 msgid ">mm/dd/yyyy"
 msgstr ""
 
-#: src/workbook.c:623
+#: src/workbook.c:647
 msgid ">hh:mm"
 msgstr ""
 
-#: src/workbook.c:707
+#: src/workbook.c:731
 msgid "_New"
 msgstr "_Nowy"
 
-#: src/workbook.c:707
+#: src/workbook.c:731
 msgid "Create a new spreadsheet"
 msgstr "Utwórz nowy arkusz"
 
-#: src/workbook.c:718
+#: src/workbook.c:742
 msgid "Plu_g-ins..."
 msgstr "_Pluginy"
 
-#: src/workbook.c:718
+#: src/workbook.c:742
 msgid "Gnumeric plugins"
 msgstr "Pluginy Gnumeric"
 
-#: src/workbook.c:732
+#: src/workbook.c:756
 msgid "_All"
 msgstr "_Wszystko"
 
-#: src/workbook.c:733
+#: src/workbook.c:757
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Wyczy¶æ formaty, komentarze i zawarto¶æ wybranych komórek"
 
-#: src/workbook.c:735
+#: src/workbook.c:759
 msgid "_Formats"
 msgstr "_Formaty"
 
-#: src/workbook.c:736
+#: src/workbook.c:760
 msgid "Clear the selected cells' formats"
 msgstr "Wyczy¶æ formaty wybranych komórek"
 
-#: src/workbook.c:737
+#: src/workbook.c:761
 msgid "_Comments"
 msgstr "_Komentarze"
 
-#: src/workbook.c:738
+#: src/workbook.c:762
 msgid "Clear the selected cells' comments"
 msgstr "Czy¶ci komentarze dla wybranych komórek"
 
-#: src/workbook.c:739
+#: src/workbook.c:763
 msgid "_Content"
 msgstr "_Zawarto¶æ"
 
-#: src/workbook.c:740
+#: src/workbook.c:764
 msgid "Clear the selected cells' contents"
 msgstr "Czy¶ci zawarto¶æ wybranych komórek"
 
-#: src/workbook.c:748
+#: src/workbook.c:772
 msgid "P_aste special..."
 msgstr "Wklej _specjalnie..."
 
-#: src/workbook.c:749
+#: src/workbook.c:773
 msgid "C_lear"
 msgstr "Wyczy¶æ"
 
-#: src/workbook.c:750
+#: src/workbook.c:774
 msgid "Clear the selected cell(s)"
 msgstr "Wyczy¶æ wybrane komórki"
 
-#: src/workbook.c:754
+#: src/workbook.c:778
 msgid "_Select All"
 msgstr "_Zaznacz wszystko"
 
-#: src/workbook.c:755
+#: src/workbook.c:779
 msgid "Select all cells in the spreadsheet"
 msgstr "Wybierz wszystkie komórki w arkuszu"
 
-#: src/workbook.c:757
+#: src/workbook.c:781
 msgid "_Goto cell.."
 msgstr "_Id¼ do komórki..."
 
-#: src/workbook.c:758
+#: src/workbook.c:782
 msgid "Jump to a specified cell"
 msgstr "Skocz do okre¶lonej komórki"
 
-#: src/workbook.c:764
+#: src/workbook.c:788
 msgid "Insert object..."
 msgstr ""
 
-#: src/workbook.c:765
+#: src/workbook.c:789
 #, fuzzy
 msgid "Inserts a Bonobo object"
 msgstr "Tworzy obiekt - liniê"
 
-#: src/workbook.c:772
+#: src/workbook.c:796
 msgid "_Define cell names"
 msgstr "_Definiuj nazwy komórek"
 
-#: src/workbook.c:776
+#: src/workbook.c:800
 msgid "_Recalculate"
 msgstr "_Przelicz"
 
-#: src/workbook.c:777
+#: src/workbook.c:801
 msgid "Recalculate the spreadsheet"
 msgstr "Przelicz arkusz"
 
-#: src/workbook.c:785
+#: src/workbook.c:809
 msgid "_Zoom..."
 msgstr "_Powiêkszenie..."
 
-#: src/workbook.c:786
+#: src/workbook.c:810
 msgid "Zoom the spreadsheet in or out"
 msgstr "Zmieñ powiêkszenie widoku arkusza"
 
-#: src/workbook.c:793
+#: src/workbook.c:817
 msgid "Current _date"
 msgstr "Bie¿±ca _data"
 
-#: src/workbook.c:794
+#: src/workbook.c:818
 msgid "Insert the current data into the selected cell(s)"
 msgstr "Wstaw bie¿±c± date do wybranych kommorek"
 
-#: src/workbook.c:797
+#: src/workbook.c:821
 msgid "Current _time"
 msgstr "Bie¿±cy _czas"
 
-#: src/workbook.c:798
+#: src/workbook.c:822
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Wstaw bie¿±cy czas do wybranych komórek"
 
-#: src/workbook.c:805 src/workbook.c:853
+#: src/workbook.c:829 src/workbook.c:877
 msgid "_Sheet"
 msgstr "_Arkusz"
 
-#: src/workbook.c:805
+#: src/workbook.c:829
 msgid "Insert a new spreadsheet"
 msgstr "Wstaw nowy arkusz"
 
-#: src/workbook.c:807 src/workbook.c:845
+#: src/workbook.c:831 src/workbook.c:869
 msgid "_Cells..."
 msgstr "_Komórki..."
 
-#: src/workbook.c:807
+#: src/workbook.c:831
 msgid "Insert new cells"
 msgstr "Wstaw komórkê"
 
-#: src/workbook.c:809
+#: src/workbook.c:833
 msgid "_Rows"
 msgstr "_Wiersze"
 
-#: src/workbook.c:809
+#: src/workbook.c:833
 msgid "Insert new rows"
 msgstr "Wstaw wiersze"
 
-#: src/workbook.c:811
+#: src/workbook.c:835
 msgid "C_olumns"
 msgstr "_Kolumny"
 
-#: src/workbook.c:811
+#: src/workbook.c:835
 msgid "Insert new columns"
 msgstr "Wstaw kolumny"
 
-#: src/workbook.c:816
+#: src/workbook.c:840
 #, fuzzy
 msgid "_Add/modify comment"
 msgstr "_Dodaj/modyfikuj komentarz"
 
-#: src/workbook.c:817
+#: src/workbook.c:841
 msgid "Edit the selected cell's comment"
 msgstr "Edytuj komentarz dla wybranych komórek"
 
-#: src/workbook.c:818
+#: src/workbook.c:842
 msgid "_Special"
 msgstr "_Specjalne"
 
-#: src/workbook.c:827 src/workbook.c:833
+#: src/workbook.c:851 src/workbook.c:857
 msgid "_Autoadjust"
 msgstr ""
 
-#: src/workbook.c:828
+#: src/workbook.c:852
 msgid "_Width"
 msgstr "_Szeroko¶æ"
 
-#: src/workbook.c:834
+#: src/workbook.c:858
 msgid "_Height"
 msgstr "_Wysoko¶æ"
 
-#: src/workbook.c:839
+#: src/workbook.c:863
 msgid "_Change name"
 msgstr "_Zmieñ nazwê"
 
-#: src/workbook.c:846
+#: src/workbook.c:870
 msgid "Modify the formatting of the selected cells"
 msgstr ""
 
-#: src/workbook.c:848
+#: src/workbook.c:872
 #, fuzzy
 msgid "_Sort"
 msgstr "_Format"
 
-#: src/workbook.c:849
+#: src/workbook.c:873
 #, fuzzy
 msgid "Sort the selected cells"
 msgstr "Wyczy¶æ wybrane komórki"
 
-#: src/workbook.c:851
+#: src/workbook.c:875
 msgid "C_olumn"
 msgstr "_Kolumna"
 
-#: src/workbook.c:852
+#: src/workbook.c:876
 msgid "_Row"
 msgstr "_Wiersz"
 
-#: src/workbook.c:860
+#: src/workbook.c:884
 msgid "_Goal Seek..."
 msgstr ""
 
-#: src/workbook.c:861
+#: src/workbook.c:886
 msgid "_Solver..."
 msgstr ""
 
-#: src/workbook.c:876
+#: src/workbook.c:902
 msgid "_Insert"
 msgstr "_Wklej"
 
-#: src/workbook.c:877
+#: src/workbook.c:903
 msgid "F_ormat"
 msgstr "_Format"
 
-#: src/workbook.c:879
+#: src/workbook.c:904
 msgid "T_ools"
 msgstr ""
 
-#: src/workbook.c:889
+#: src/workbook.c:913
 msgid "New"
 msgstr "Nowy"
 
-#: src/workbook.c:889
+#: src/workbook.c:913
 #, fuzzy
 msgid "Creates a new sheet"
 msgstr "Utwórz nowy arkusz"
 
-#: src/workbook.c:892
+#: src/workbook.c:916
 msgid "Open"
 msgstr "Otwórz"
 
-#: src/workbook.c:892
+#: src/workbook.c:916
 msgid "Opens an existing workbook"
 msgstr "Otwiera istniej±cy zeszyt"
 
-#: src/workbook.c:895
+#: src/workbook.c:919
 msgid "Save"
 msgstr "Zapisz"
 
-#: src/workbook.c:895
+#: src/workbook.c:919
 msgid "Saves the workbook"
 msgstr "Zapisuje zeszyt"
 
-#: src/workbook.c:901
+#: src/workbook.c:925
 msgid "Cuts the selection to the clipboard"
 msgstr "Wycina zaznaczenie do schowka"
 
-#: src/workbook.c:904
+#: src/workbook.c:928
 msgid "Copies the selection to the clipboard"
 msgstr "Kopiuje zaznaczenie do schowka"
 
-#: src/workbook.c:907
+#: src/workbook.c:931
 msgid "Pastes the clipboard"
 msgstr "Wkleja zawarto¶æ schowka"
 
-#: src/workbook.c:913
+#: src/workbook.c:937
 msgid "Left align"
 msgstr "Wyrównaj do lewej"
 
-#: src/workbook.c:913
+#: src/workbook.c:937
 #, fuzzy
 msgid "Left justifies the cell contents"
 msgstr "Wy¶rodkowuje zawarto¶æ komórki"
 
-#: src/workbook.c:916
+#: src/workbook.c:940
 msgid "Centers the cell contents"
 msgstr "Wy¶rodkowuje zawarto¶æ komórki"
 
-#: src/workbook.c:919
+#: src/workbook.c:943
 msgid "Right align"
 msgstr "Wyrównaj do prawej"
 
-#: src/workbook.c:919
+#: src/workbook.c:943
 #, fuzzy
 msgid "Right justifies the cell contents"
 msgstr "Wy¶rodkowuje zawarto¶æ komórki"
 
-#: src/workbook.c:924
+#: src/workbook.c:948
 msgid "Bold"
 msgstr "Pogrubiony"
 
-#: src/workbook.c:924
+#: src/workbook.c:948
 #, fuzzy
 msgid "Sets the bold font"
 msgstr "Ustawia atrybut pogrubienia dla komórki"
 
-#: src/workbook.c:927
+#: src/workbook.c:951
 msgid "Italic"
 msgstr "Italic"
 
-#: src/workbook.c:927
+#: src/workbook.c:951
 msgid "Makes the font italic"
 msgstr ""
 
-#: src/workbook.c:934
+#: src/workbook.c:958
 msgid "Graphic"
 msgstr ""
 
-#: src/workbook.c:934
+#: src/workbook.c:958
 #, fuzzy
 msgid "Creates a graphic in the spreadsheet"
 msgstr "Utwórz nowy arkusz"
 
-#: src/workbook.c:938
+#: src/workbook.c:962
 msgid "Line"
 msgstr "Linia"
 
-#: src/workbook.c:938
+#: src/workbook.c:962
 msgid "Creates a line object"
 msgstr "Tworzy obiekt - liniê"
 
-#: src/workbook.c:941
+#: src/workbook.c:965
 msgid "Arrow"
 msgstr "Strza³ka"
 
-#: src/workbook.c:941
+#: src/workbook.c:965
 msgid "Creates an arrow object"
 msgstr "Tworzy obiekt - strza³kê"
 
-#: src/workbook.c:944
+#: src/workbook.c:968
 msgid "Rectangle"
 msgstr "Prostok±t"
 
-#: src/workbook.c:944
+#: src/workbook.c:968
 msgid "Creates a rectangle object"
 msgstr "Tworzy obiekt - prostok±t"
 
-#: src/workbook.c:947
+#: src/workbook.c:971
 msgid "Ellipse"
 msgstr "Elipsa"
 
-#: src/workbook.c:947
+#: src/workbook.c:971
 msgid "Creates an ellipse object"
 msgstr "Tworzy obiekt - elipsê"
 
-#: src/workbook.c:1028
+#: src/workbook.c:1052
 msgid "You should introduce a valid cell name"
 msgstr ""
 
-#: src/workbook.c:1035
+#: src/workbook.c:1059
 msgid "Column out of range"
 msgstr "Kolumna poza zakresem"
 
-#: src/workbook.c:1041
+#: src/workbook.c:1065
 msgid "Row number out of range"
 msgstr "Wiersz poza zakresem"
 
-#: src/workbook.c:1189
+#: src/workbook.c:1213
 msgid "Sum"
 msgstr "Suma"
 
-#: src/workbook.c:1190
+#: src/workbook.c:1214
 msgid "Min"
 msgstr "Minimum"
 
-#: src/workbook.c:1191
+#: src/workbook.c:1215
 msgid "Max"
 msgstr "Maksimum"
 
-#: src/workbook.c:1192
+#: src/workbook.c:1216
 msgid "Average"
 msgstr "¦rednia"
 
-#: src/workbook.c:1193
+#: src/workbook.c:1217
 msgid "Count"
 msgstr "Liczba"
 
-#: src/workbook.c:1384
+#: src/workbook.c:1408
 msgid "Untitled.gnumeric"
 msgstr "BezNazwy.gnumeric"
 
-#: src/workbook.c:1478
+#: src/workbook.c:1502
 msgid "Zoom out"
 msgstr "Pomniejsz"
 
-#: src/workbook.c:1485
+#: src/workbook.c:1509
 msgid "Zoom in"
 msgstr "Powiêksz"
 
-#: src/workbook.c:1570
+#: src/workbook.c:1594
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s' "
 msgstr ""
 
-#: src/workbook.c:1589
+#: src/workbook.c:1613
 msgid "Other sheets depend on the values on this sheet, I can not remove it"
 msgstr ""
 
-#: src/workbook.c:1609
+#: src/workbook.c:1633
 msgid "Add another sheet"
 msgstr ""
 
-#: src/workbook.c:1610
+#: src/workbook.c:1634
 msgid "Remove this sheet"
 msgstr ""
 
-#: src/workbook.c:1871 src/workbook.c:1899
+#: src/workbook.c:1889 src/workbook.c:1925
 #, c-format
 msgid "Sheet %d"
 msgstr "Arkusz %d"
 
-#: src/xml-io.c:1643
+#: src/xml-io.c:1645
 msgid "Gnumeric XML file format"
 msgstr "Format pliku Gnumeric XML"
 
 #~ msgid "NoName"
 #~ msgstr "BezNazwy"
-
-#~ msgid ""
-#~ "@FUNCTION=STDEV\n"
-#~ "@SYNTAX = STDEV(value1, value2, ...)@DESCRIPTION=Computes the standard "
-#~ "deviation of all the values and cells referenced in the argument list. This "
-#~ "is equivalent to the square root of the variance.\n"
-#~ "@SEEALSO=VARIANCE"
-#~ msgstr ""
-#~ "@FUNCTION=STDEV\n"
-#~ "@SYNTAX = STDEV(warto¶æ1, warto¶æ2, ...)@DESCRIPTION=Oblicza standardowe "
-#~ "odchylenie dla wszystkich warto¶ci z listy argumentów. Jest one równe "
-#~ "pierwiastkowi kwadratowemu wariancji.\n"
-#~ "@SEEALSO=VARIANCE"
 
 #~ msgid ""
 #~ "@FUNCTION=VARIANCE\n"
