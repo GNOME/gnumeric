@@ -1349,12 +1349,12 @@ sheet_range_set_border (Sheet         *sheet,
 	/* 7. Diagonals */
 	mstyle = mstyle_new ();
 	if (borders [STYLE_BORDER_DIAG]) {
-		style_border_ref (borders [STYLE_BORDER_DIAG]);
+		style_border_ref (borders  [STYLE_BORDER_DIAG]);
 		mstyle_set_border (mstyle, MSTYLE_BORDER_DIAGONAL,
 				   borders [STYLE_BORDER_DIAG]);
 	}
 	if (borders [STYLE_BORDER_REV_DIAG]) {
-		style_border_ref (borders [STYLE_BORDER_REV_DIAG]);
+		style_border_ref (borders  [STYLE_BORDER_REV_DIAG]);
 		mstyle_set_border (mstyle, MSTYLE_BORDER_REV_DIAGONAL,
 				   borders [STYLE_BORDER_REV_DIAG]);
 	}

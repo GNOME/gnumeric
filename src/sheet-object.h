@@ -1,6 +1,8 @@
 #ifndef GNUMERIC_SHEET_OBJECT_H
 #define GNUMERIC_SHEET_OBJECT_H
 
+#include <libgnomeprint/gnome-print.h>
+
 #include "sheet.h"
 #include "sheet-view.h"
 
@@ -31,6 +33,16 @@ typedef struct {
 } SheetObject;
 
 typedef struct {
+	GnomePrintContext *pc;
+	PrintInformation  *pi;
+	/* Dimensions of the page in canvas co-ordinates */
+	double             x;
+	double             y;
+	double             width;
+	double             height;
+} SheetObjectPrintInfo;
+
+typedef struct {
 	GtkObjectClass parent_class;
 
 	/* Virtual methods */
@@ -41,6 +53,8 @@ typedef struct {
 				     GtkMenu     *menu);
 	void           (*end_popup) (SheetObject *sheet_object,
 				     GtkMenu     *menu);
+
+	void               (*print) (SheetObject *so, SheetObjectPrintInfo *pi);
 } SheetObjectClass;
 
 GtkType sheet_object_get_type      (void);
@@ -51,6 +65,7 @@ int     sheet_object_canvas_event  (GnomeCanvasItem *item, GdkEvent *event,
 				    SheetObject *so);
 void    sheet_object_widget_handle (SheetObject *so, GtkWidget *widget,
 				    GnomeCanvasItem *item);
+void    sheet_object_print         (SheetObject *so, SheetObjectPrintInfo *pi);
 
 /* b = bottom, t = top, l = left, r = right */
 void    sheet_object_get_bounds (SheetObject *sheet_object, double *tlx, double *tly,

@@ -102,6 +102,7 @@ sheet_object_class_init (GtkObjectClass *object_class)
 	sheet_object_class->update_bounds = sheet_object_update_bounds;
 	sheet_object_class->start_popup   = sheet_object_start_popup;
 	sheet_object_class->end_popup     = sheet_object_end_popup;
+	sheet_object_class->print         = NULL;
 }
 
 GtkType
@@ -202,14 +203,14 @@ sheet_object_get_bounds (SheetObject *so, double *tlx, double *tly,
 	g_return_if_fail (brx != NULL);
 	g_return_if_fail (bry != NULL);
 
-	*tlx = MIN (so->bbox_points->coords[0],
-		    so->bbox_points->coords[2]);
-	*brx = MAX (so->bbox_points->coords[0],
-		    so->bbox_points->coords[2]);
-	*tly = MIN (so->bbox_points->coords[1],
-		    so->bbox_points->coords[3]);
-	*bry = MAX (so->bbox_points->coords[1],
-		    so->bbox_points->coords[3]);
+	*tlx = MIN (so->bbox_points->coords [0],
+		    so->bbox_points->coords [2]);
+	*brx = MAX (so->bbox_points->coords [0],
+		    so->bbox_points->coords [2]);
+	*tly = MIN (so->bbox_points->coords [1],
+		    so->bbox_points->coords [3]);
+	*bry = MAX (so->bbox_points->coords [1],
+		    so->bbox_points->coords [3]);
 }
 
 /**
@@ -233,10 +234,10 @@ sheet_object_set_bounds (SheetObject *so, double tlx, double tly,
 
 	/* We do the MIN / MAX business on the get */
 
-	so->bbox_points->coords[0] = tlx;
-	so->bbox_points->coords[1] = tly;
-	so->bbox_points->coords[2] = brx;
-	so->bbox_points->coords[3] = bry;
+	so->bbox_points->coords [0] = tlx;
+	so->bbox_points->coords [1] = tly;
+	so->bbox_points->coords [2] = brx;
+	so->bbox_points->coords [3] = bry;
 }
 
 static void
@@ -1044,11 +1045,21 @@ create_popup_menu (SheetObject *so)
 {
 	GtkMenu *menu = GTK_MENU (gtk_menu_new ());
 
-	SO_CLASS(so)->start_popup (so, menu);
+	SO_CLASS (so)->start_popup (so, menu);
 	gtk_signal_connect (GTK_OBJECT (menu), "unrealize",
 			    GTK_SIGNAL_FUNC (menu_unrealize_cb), so);
 
 	return menu;
+}
+
+void
+sheet_object_print (SheetObject *so, SheetObjectPrintInfo *pi)
+		    
+{
+	if (SO_CLASS (so)->print)
+		SO_CLASS (so)->print (so, pi);
+	else
+		g_warning ("Un-printable sheet object");
 }
 
 /*

@@ -1,3 +1,8 @@
+2000-04-09  Michael Meeks  <michael@helixcode.com>
+
+	* graphic-context.c (data_range_new, data_range_new_from_expr): update
+	parse_pos usage.
+
 2000-04-08  Jon K Hellan  <hellan@acm.org>
 
 	* graphic-context.c (graphic_wizard_guess_series): Substitute

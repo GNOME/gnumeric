@@ -1,3 +1,18 @@
+2000-04-09  Michael Meeks  <michael@helixcode.com>
+
+	* src/print.c (print_page_object): implement.
+	(print_page): add hook.
+
+	* src/sheet-object.c (sheet_object_print): implement.
+	(sheet_object_class_init): setup default print behavior.
+
+	* src/sheet-object.h: Add virtual method 'print'
+
+	* src/dialogs/dialog-cell-format.c (fmt_dialog_init_format_page):
+	free list after creation. (fmt_dialog_impl, cb_notebook_destroy):
+	pass the signal id without using the FormatState that is free'd by
+	the time we destroy the notebook.
+
 2000-04-09  Jon K Hellan  <hellan@acm.org>
 
 	* src/workbook.[ch] (workbook_class_init): Put "cell_changed"

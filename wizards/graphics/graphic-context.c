@@ -364,7 +364,7 @@ data_range_new (Workbook *wb, const char *name_expr)
 	ExprTree *tree;
 	char *error;
 	
-	parse_pos_init (&pp, wb, 0, 0);
+	parse_pos_init (&pp, wb, NULL, 0, 0);
 	
 	data_range = g_new (DataRange, 1);
 	tree = expr_parse_string (name_expr, &pp, NULL, &error);
@@ -404,7 +404,7 @@ data_range_new_from_expr (Workbook *wb, const char *name_expr, const char *expre
 	 * Create a valid expression, parse as expression, and pull the
 	 * parsed arguments.
 	 */
-	parse_pos_init (&pp, wb, 0, 0);
+	parse_pos_init (&pp, wb, NULL, 0, 0);
 	expr = g_strconcat ("=SELECTION(", expression, ")", NULL);
 	tree = expr_parse_string (expr, &pp, NULL, &error);
 	g_free (expr);

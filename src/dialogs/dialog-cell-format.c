@@ -89,7 +89,6 @@ typedef struct _FormatState
 {
 	GladeXML	*gui;
 	GnomePropertyBox*dialog;
-	gint		 page_signal;
 
 	Sheet		*sheet;
 	MStyle		*style, *result;
@@ -175,9 +174,9 @@ cb_page_select (GtkNotebook *notebook, GtkNotebookPage *page,
 }
 
 static void
-cb_notebook_destroy (GtkObject *obj, FormatState *state)
+cb_notebook_destroy (GtkObject *obj, gpointer page_sig_ptr)
 {
-	gtk_signal_disconnect (obj, state->page_signal);
+	gtk_signal_disconnect (obj, GPOINTER_TO_UINT (page_sig_ptr));
 }
 
 /*
@@ -947,6 +946,7 @@ fmt_dialog_init_format_page (FormatState *state)
 		}
 
 		gtk_combo_set_popdown_strings (combo, l);
+		g_list_free (l);
 		gtk_entry_set_text (GTK_ENTRY (combo->entry), 
 				    _(currency_symbols [state->format.currency_index].description));
 
@@ -2026,6 +2026,7 @@ fmt_dialog_impl (FormatState *state, MStyleBorder **borders)
 	    NULL
 	};
 
+	int page_signal;
 	int i, selected;
 	char const *name;
 	gboolean has_back;
@@ -2052,14 +2053,14 @@ fmt_dialog_impl (FormatState *state, MStyleBorder **borders)
 	gtk_notebook_set_page (
 		GTK_NOTEBOOK (GNOME_PROPERTY_BOX (dialog)->notebook),
 		fmt_dialog_page);
-	state->page_signal = gtk_signal_connect (
+	page_signal = gtk_signal_connect (
 		GTK_OBJECT (GNOME_PROPERTY_BOX (dialog)->notebook),
 		"switch_page", GTK_SIGNAL_FUNC (cb_page_select),
 		NULL);
 	gtk_signal_connect (
 		GTK_OBJECT (GNOME_PROPERTY_BOX (dialog)->notebook),
 		"destroy", GTK_SIGNAL_FUNC (cb_notebook_destroy),
-		state);
+		GINT_TO_POINTER (page_signal));
 
 	fmt_dialog_init_format_page (state);
 	fmt_dialog_init_align_page (state);
