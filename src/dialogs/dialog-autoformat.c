@@ -44,7 +44,7 @@
 #include <selection.h>
 #include <ranges.h>
 
-#include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
+#include <libfoocanvas/foo-canvas-rect-ellipse.h>
 #include <glade/glade.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gal/util/e-util.h>
@@ -308,8 +308,8 @@ previews_load (AutoFormatState *state, int topindex)
 			 * the absolute bottom of the canvas's region. Look at src/dialogs/autoformat.glade for
 			 * the original canvas dimensions (look at the scrolledwindow that houses each canvas)
 			 */
-			state->rect[i] = gnome_canvas_item_new (gnome_canvas_root (state->canvas[i]),
-				GNOME_TYPE_CANVAS_RECT,
+			state->rect[i] = foo_canvas_item_new (foo_canvas_root (state->canvas[i]),
+				FOO_TYPE_CANVAS_RECT,
 				"x1", -4.5, "y1", -4.5,
 				"x2", 215.5, "y2", 85.5,
 				"width_pixels", (int) 0,
@@ -319,7 +319,7 @@ previews_load (AutoFormatState *state, int topindex)
 			/* Setup grid */
 			gtk_layout_freeze (GTK_LAYOUT (state->canvas[i]));
 			state->grid[i] = PREVIEW_GRID (
-				gnome_canvas_item_new (gnome_canvas_root (state->canvas[i]),
+				foo_canvas_item_new (foo_canvas_root (state->canvas[i]),
 						       preview_grid_get_type (),
 						       "RenderGridlines", state->gridlines->active,
 						       "DefaultRowHeight", DEFAULT_ROW_HEIGHT,
@@ -337,8 +337,8 @@ previews_load (AutoFormatState *state, int topindex)
 			if (topindex + i == state->preview_index) {
 				g_return_if_fail (state->selrect == NULL);
 
-				state->selrect = gnome_canvas_item_new (gnome_canvas_root (state->canvas[i]),
-					GNOME_TYPE_CANVAS_RECT,
+				state->selrect = foo_canvas_item_new (foo_canvas_root (state->canvas[i]),
+					FOO_TYPE_CANVAS_RECT,
 					"x1", -7.0, "y1", -2.5,
 					"x2", 219.0, "y2", 84.5,
 					"width_pixels", (int) 2,
@@ -349,7 +349,7 @@ previews_load (AutoFormatState *state, int topindex)
 			} else
 				gtk_frame_set_shadow_type (state->frame[i], GTK_SHADOW_OUT);
 
-			gnome_canvas_set_scroll_region (state->canvas[i], 0, 0,
+			foo_canvas_set_scroll_region (state->canvas[i], 0, 0,
 				PREVIEW_COLS * DEFAULT_COL_WIDTH,
 				PREVIEW_ROWS * DEFAULT_ROW_HEIGHT);
 
@@ -395,7 +395,6 @@ cb_autoformat_destroy (AutoFormatState *state)
 {
 	wbcg_edit_detach_guru (state->wbcg);
 
-	previews_free (state);
 	templates_free (state);
 	gtk_object_unref (GTK_OBJECT (state->tooltips));
 	category_group_list_free (state->category_groups);
@@ -475,7 +474,7 @@ cb_check_item_toggled (__attribute__((unused)) GtkCheckMenuItem *item,
 	}
 
 	for (i = 0; i < NUM_PREVIEWS; i++)
-		gnome_canvas_request_redraw (state->canvas [i],
+		foo_canvas_request_redraw (state->canvas [i],
 			-2, -2, INT_MAX/2, INT_MAX/2);
 }
 
@@ -620,13 +619,14 @@ dialog_autoformat (WorkbookControlGUI *wbcg)
 	for (i = 0; i < NUM_PREVIEWS; i++) {
 		char *name;
 
-		name = g_strdup_printf ("format_canvas%d", i+1);
-		state->canvas[i] = GNOME_CANVAS (glade_xml_get_widget (gui, name));
-		g_free (name);
-
 		name = g_strdup_printf ("format_frame%d", i+1);
 		state->frame[i] = GTK_FRAME (glade_xml_get_widget (gui, name));
 		g_free (name);
+
+		state->canvas[i] = foo_canvas_new ();
+		gtk_widget_set_size_request (state->canvas[i], 230, 90);
+		gtk_container_add (GTK_CONTAINER (state->frame[i]),
+				   state->canvas[i]);
 
 		g_signal_connect (G_OBJECT (state->canvas[i]),
 			"button-press-event",

@@ -2827,20 +2827,24 @@ excel_write_ROWINFO (BiffPut *bp, ExcelSheet *esheet, guint32 row, guint32 last_
 {
 	guint8 *data;
 	unsigned pos;
-	ColRowInfo const *ri = sheet_row_get_info (esheet->gnum_sheet, row);
-
-	/* We don't worry about standard height. I haven't seen it
-	 * indicated in any actual esheet. */
-	guint16 height = (guint16) (20. * ri->size_pts);
-	guint16 options = 0x100; /* undocumented magic */
+	ColRowInfo const *ri = sheet_row_get (esheet->gnum_sheet, row);
+	guint16 height;
 
 	/* FIXME: Find default style for row. Does it have to be common to
 	 * all cells, or can a cell override? Do all cells have to be
 	 * blank. */
-	guint16 row_xf     = 0x000f; /* Magic */
+	guint16 row_xf  = 0x000f; /* Magic */
+	guint16 options	= 0x100; /* undocumented magic */
+
 	/* FIXME: set bit 12 of row_xf if thick border on top, bit 13 if thick
 	 * border on bottom. */
 
+	if (ri == NULL)
+		return bp->streamPos;
+
+	/* We don't worry about standard height. I haven't seen it
+	 * indicated in any actual esheet. */
+	height = (guint16) (20. * ri->size_pts);
 	options |= (MIN (ri->outline_level, 0x7));
 	if (ri->is_collapsed)
 		options |= 0x10;
@@ -2963,6 +2967,7 @@ excel_sheet_write_block (ExcelSheet *esheet, guint32 begin, int nrows,
 	Sheet	   *sheet = esheet->gnum_sheet;
 	int	    xf;
 	TwoWayTable *twt = esheet->ewb->xf.two_way_table;
+	gboolean has_content = FALSE;
 
 	if (nrows > esheet->max_row - (int) begin) /* Incomplete final block? */
 		nrows = esheet->max_row - (int) begin;
@@ -2979,6 +2984,9 @@ excel_sheet_write_block (ExcelSheet *esheet, guint32 begin, int nrows,
 
 		/* Save start pos of 1st cell in row */
 		rc_start [row - begin] = ewb->bp->streamPos;
+		if (NULL == sheet_row_get (sheet, row))
+			continue;
+		has_content = TRUE;
 		for (col = 0; col < max_col; col++) {
 			cell = sheet_cell_get (sheet, col, row);
 			xf = two_way_table_key_to_idx (twt,
@@ -3006,7 +3014,8 @@ excel_sheet_write_block (ExcelSheet *esheet, guint32 begin, int nrows,
 					xf_list, run_size);
 	}
 
-	excel_sheet_write_DBCELL (esheet, ri_start, rc_start, nrows, dbcells);
+	excel_sheet_write_DBCELL (esheet, ri_start, rc_start,
+				  has_content ? nrows : 0, dbcells);
 
 	return row - 1;
 }

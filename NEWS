@@ -31,6 +31,9 @@ Jody
 	* Implement intersheet and 3d references for xls97 export
 	* Fix xls import of 3d external references
 
+Jon Kåre:
+        * Merged File/Open and File/Import
+
 Morten:
 	* Spelling fixes all over.
 	* Add the ability to search expression results.
@@ -55,9 +58,6 @@ Nick Lamb:
 Olaf Till:
 	* Two new logarithmic regression functions, one of them
 	  with nonlinear fitting of a horizontal curve shift.
-
-Jon Kåre:
-        * Merged File/Open and File/Import
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.11

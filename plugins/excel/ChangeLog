@@ -1,5 +1,12 @@
 2002-11-13  Jody Goldberg <jody@gnome.org>
 
+	* ms-excel-write.c (excel_sheet_write_block) : speedup empty rows.
+	  And use the undocumented optimized form for the DBCELL (#rows == 0)
+          when dealing with sparse regions.
+	(excel_write_ROWINFO) : ignore empty rows.
+
+2002-11-13  Jody Goldberg <jody@gnome.org>
+
 	* ms-formula-read.c (excel_parse_formula) : fix typo that broke 3d
 	  references.
 

@@ -319,7 +319,7 @@ write_area (PolishData *pd, CellRef const *a, CellRef const *b)
 }
 
 static void
-write_ref (PolishData *pd, CellRef const *ref)
+excel_formula_write_CELLREF (PolishData *pd, CellRef const *ref)
 {
 	guint8 data[24];
 
@@ -436,6 +436,28 @@ write_funcall (PolishData *pd, GnmExpr const *expr)
 		push_guint8  (pd, FORMULA_PTG_FUNC_VAR + 0x20);
 		push_guint8  (pd, (num_args + 1) | (prompt&0x80));
 		push_guint16 (pd, 0xff | (cmdequiv&0x8000));
+	}
+}
+
+static void
+excel_formula_write_NAME (PolishData *pd, GnmExpr const *expr)
+{
+	GnmNamedExpr const *n = expr->name.name;
+	guint8 data[14];
+	unsigned i;
+
+	memset (data, 0, sizeof (data));
+
+	for (i = 0; i < pd->ewb->names->len; i++)
+		if (n == g_ptr_array_index (pd->ewb->names, i))
+			break;
+
+	if (i < pd->ewb->names->len) {
+		GSF_LE_SET_GUINT8  (data + 0, FORMULA_PTG_NAME);
+		GSF_LE_SET_GUINT16 (data + 1, i + 1);
+		ms_biff_put_var_write (pd->ewb->bp, data, 15);
+	} else {
+		g_warning ("This entire mechanism is bogus.  It does not handle sheet local names");
 	}
 }
 
@@ -592,29 +614,12 @@ write_node (PolishData *pd, GnmExpr const *expr, int paren_level)
 	}
 
 	case GNM_EXPR_OP_CELLREF :
-		write_ref (pd, &expr->cellref.ref);
+		excel_formula_write_CELLREF (pd, &expr->cellref.ref);
 		break;
 
-	case GNM_EXPR_OP_NAME : {
-		GnmNamedExpr const *n = expr->name.name;
-		guint8 data[14];
-		unsigned i;
-
-		memset (data, 0, sizeof (data));
-
-		for (i = 0; i < pd->ewb->names->len; i++)
-			if (n == g_ptr_array_index (pd->ewb->names, i))
-				break;
-
-		if (i < pd->ewb->names->len) {
-			GSF_LE_SET_GUINT8  (data + 0, FORMULA_PTG_NAME);
-			GSF_LE_SET_GUINT16 (data + 1, i + 1);
-			ms_biff_put_var_write (pd->ewb->bp, data, 15);
-		} else {
-			g_warning ("This entire mechanism is bogus.  It does not handle sheet local names");
-		}
+	case GNM_EXPR_OP_NAME :
+		excel_formula_write_NAME (pd, expr);
 		break;
-	}
 
 	case GNM_EXPR_OP_ARRAY : {
 		GnmExprArray const *array = &expr->array;

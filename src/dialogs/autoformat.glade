@@ -1,1089 +1,913 @@
 <?xml version="1.0" standalone="no"?> <!--*- mode: xml -*-->
-<!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd" >
+<!DOCTYPE glade-interface SYSTEM "http://glade.gnome.org/glade-2.0.dtd">
 
 <glade-interface>
-  <requires lib="gnome" />
-  <requires lib="canvas" />
-
-  <widget class="GtkDialog" id="dialog">
-    <property name="visible">no</property>
-    <property name="title" translatable="yes">Autoformat</property>
-    <property name="type">GTK_WINDOW_DIALOG</property>
-    <property name="modal">yes</property>
-    <property name="allow_shrink">no</property>
-    <property name="allow_grow">no</property>
-    <property name="window-position">GTK_WIN_POS_MOUSE</property>
-
-    <child internal-child="vbox">
-      <widget class="GtkVBox" id="dialog-vbox1">
-        <property name="homogeneous">no</property>
-        <property name="spacing">8</property>
-        <property name="visible">yes</property>
-
-        <child internal-child="action_area">
-          <widget class="GtkHButtonBox" id="dialog-action_area1">
-            <property name="layout_style">GTK_BUTTONBOX_END</property>
-            <property name="spacing">8</property>
-            <property name="visible">yes</property>
-
-            <child>
-              <widget class="GtkButton" id="format_cancel">
-                <property name="can_default">yes</property>
-                <property name="can_focus">yes</property>
-                <property name="visible">yes</property>
-                <property name="label">gtk-cancel</property>
-                <property name="use_stock">yes</property>
-                <property name="use_underline">yes</property>
-              </widget>
-            </child>
-
-            <child>
-              <widget class="GtkButton" id="format_ok">
-                <property name="can_default">yes</property>
-                <property name="has_default">yes</property>
-                <property name="can_focus">yes</property>
-                <property name="visible">yes</property>
-                <property name="label">gtk-ok</property>
-                <property name="use_stock">yes</property>
-                <property name="use_underline">yes</property>
-              </widget>
-            </child>
-          </widget>
-          <packing>
-            <property name="padding">0</property>
-            <property name="expand">no</property>
-            <property name="fill">yes</property>
-            <property name="pack_type">GTK_PACK_END</property>
-          </packing>
-        </child>
-
-        <child>
-          <widget class="GtkNotebook" id="notebook1">
-            <property name="can_focus">yes</property>
-            <property name="show_tabs">yes</property>
-            <property name="show_border">yes</property>
-            <property name="tab_pos">GTK_POS_TOP</property>
-            <property name="scrollable">no</property>
-            <property name="tab_hborder">2</property>
-            <property name="tab_vborder">2</property>
-            <property name="enable-popup">no</property>
-            <property name="visible">yes</property>
-
-            <child>
-              <widget class="GtkVBox" id="vbox1">
-                <property name="border_width">4</property>
-                <property name="homogeneous">no</property>
-                <property name="spacing">4</property>
-                <property name="visible">yes</property>
-
-                <child>
-                  <widget class="GtkHBox" id="hbox3">
-                    <property name="homogeneous">no</property>
-                    <property name="spacing">5</property>
-                    <property name="visible">yes</property>
-
-                    <child>
-                      <widget class="GtkMenuBar" id="menubar1">
-                        <property name="visible">yes</property>
-
-                        <child>
-                          <widget class="GtkMenuItem" id="settings1">
-                            <property name="stock_item">GNOMEUIINFO_MENU_SETTINGS_TREE</property>
-                            <property name="visible">yes</property>
-
-                            <child>
-                              <widget class="GtkMenu" id="settings1_menu">
-                                <property name="visible">yes</property>
-
-                                <child>
-                                  <widget class="GtkCheckMenuItem" id="format_number">
-                                    <property name="active">yes</property>
-                                    <property name="always_show_toggle">yes</property>
-                                    <property name="visible">yes</property>
-
-                                    <child>
-                                      <widget class="GtkAccelLabel" id="convertwidget1">
-                                        <property name="label" translatable="yes">Apply _Number Formats</property>
-                                        <property name="xalign">0.0</property>
-                                        <property name="accel-widget">format_number</property>
-                                        <property name="use-underline">yes</property>
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
-                                  </widget>
-                                </child>
-
-                                <child>
-                                  <widget class="GtkCheckMenuItem" id="format_border">
-                                    <property name="active">yes</property>
-                                    <property name="always_show_toggle">yes</property>
-                                    <property name="visible">yes</property>
-
-                                    <child>
-                                      <widget class="GtkAccelLabel" id="convertwidget2">
-                                        <property name="label" translatable="yes">Apply _Borders</property>
-                                        <property name="xalign">0.0</property>
-                                        <property name="accel-widget">format_border</property>
-                                        <property name="use-underline">yes</property>
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
-                                  </widget>
-                                </child>
-
-                                <child>
-                                  <widget class="GtkCheckMenuItem" id="format_font">
-                                    <property name="active">yes</property>
-                                    <property name="always_show_toggle">yes</property>
-                                    <property name="visible">yes</property>
-
-                                    <child>
-                                      <widget class="GtkAccelLabel" id="convertwidget3">
-                                        <property name="label" translatable="yes">Apply _Fonts</property>
-                                        <property name="xalign">0.0</property>
-                                        <property name="accel-widget">format_font</property>
-                                        <property name="use-underline">yes</property>
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
-                                  </widget>
-                                </child>
-
-                                <child>
-                                  <widget class="GtkCheckMenuItem" id="format_patterns">
-                                    <property name="active">yes</property>
-                                    <property name="always_show_toggle">yes</property>
-                                    <property name="visible">yes</property>
-
-                                    <child>
-                                      <widget class="GtkAccelLabel" id="convertwidget4">
-                                        <property name="label" translatable="yes">Apply _Patterns</property>
-                                        <property name="xalign">0.0</property>
-                                        <property name="accel-widget">format_patterns</property>
-                                        <property name="use-underline">yes</property>
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
-                                  </widget>
-                                </child>
-
-                                <child>
-                                  <widget class="GtkCheckMenuItem" id="format_alignment">
-                                    <property name="active">yes</property>
-                                    <property name="always_show_toggle">yes</property>
-                                    <property name="visible">yes</property>
-
-                                    <child>
-                                      <widget class="GtkAccelLabel" id="convertwidget5">
-                                        <property name="label" translatable="yes">Apply _Alignment</property>
-                                        <property name="xalign">0.0</property>
-                                        <property name="accel-widget">format_alignment</property>
-                                        <property name="use-underline">yes</property>
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
-                                  </widget>
-                                </child>
-
-                                <child>
-                                  <widget class="GtkMenuItem" id="separator1">
-                                    <property name="visible">yes</property>
-                                  </widget>
-                                </child>
-
-                                <child>
-                                  <widget class="GtkMenuItem" id="format_edges">
-                                    <property name="label" translatable="yes">Edges</property>
-                                    <property name="visible">yes</property>
-
-                                    <child>
-                                      <widget class="GtkMenu" id="format_edges_menu">
-
-	                                <child>
-        	                          <widget class="GtkCheckMenuItem" id="format_edges_left">
-                	                    <property name="active">yes</property>
-                        	            <property name="always_show_toggle">yes</property>
-                                	    <property name="visible">yes</property>
-
-	                                    <child>
-        	                              <widget class="GtkAccelLabel" id="convertwidget5">
-	                                        <property name="label" translatable="yes">_Left</property>
-        	                                <property name="xalign">0.0</property>
-                	                        <property name="accel-widget">format_edges_left</property>
-                        	                <property name="use-underline">yes</property>
-                                	        <property name="visible">yes</property>
-	                                      </widget>
-        	                            </child>
-                	                  </widget>
-	                                </child>
-
-	                                <child>
-        	                          <widget class="GtkCheckMenuItem" id="format_edges_right">
-                	                    <property name="active">yes</property>
-                        	            <property name="always_show_toggle">yes</property>
-                                	    <property name="visible">yes</property>
-
-	                                    <child>
-        	                              <widget class="GtkAccelLabel" id="convertwidget5">
-	                                        <property name="label" translatable="yes">_Right</property>
-        	                                <property name="xalign">0.0</property>
-                	                        <property name="accel-widget">format_edges_right</property>
-                        	                <property name="use-underline">yes</property>
-                                	        <property name="visible">yes</property>
-	                                      </widget>
-        	                            </child>
-                	                  </widget>
-	                                </child>
-
-	                                <child>
-        	                          <widget class="GtkCheckMenuItem" id="format_edges_top">
-                	                    <property name="active">yes</property>
-                        	            <property name="always_show_toggle">yes</property>
-                                	    <property name="visible">yes</property>
-
-	                                    <child>
-        	                              <widget class="GtkAccelLabel" id="convertwidget5">
-	                                        <property name="label" translatable="yes">_Top</property>
-        	                                <property name="xalign">0.0</property>
-                	                        <property name="accel-widget">format_edges_top</property>
-                        	                <property name="use-underline">yes</property>
-                                	        <property name="visible">yes</property>
-	                                      </widget>
-        	                            </child>
-                	                  </widget>
-	                                </child>
-
-	                                <child>
-        	                          <widget class="GtkCheckMenuItem" id="format_edges_bottom">
-                	                    <property name="active">yes</property>
-                        	            <property name="always_show_toggle">yes</property>
-                                	    <property name="visible">yes</property>
-
-	                                    <child>
-        	                              <widget class="GtkAccelLabel" id="convertwidget5">
-	                                        <property name="label" translatable="yes">_Bottom</property>
-        	                                <property name="xalign">0.0</property>
-                	                        <property name="accel-widget">format_edges_bottom</property>
-                        	                <property name="use-underline">yes</property>
-                                	        <property name="visible">yes</property>
-	                                      </widget>
-        	                            </child>
-                	                  </widget>
-	                                </child>
-
-                                      </widget>
-                                    </child>
-                                  </widget>
-                                </child>
-
-                                <child>
-                                  <widget class="GtkMenuItem" id="separator1">
-                                    <property name="visible">yes</property>
-                                  </widget>
-                                </child>
-
-                                <child>
-                                  <widget class="GtkCheckMenuItem" id="format_gridlines">
-                                    <property name="active">no</property>
-                                    <property name="always_show_toggle">yes</property>
-                                    <property name="visible">yes</property>
-
-                                    <child>
-                                      <widget class="GtkAccelLabel" id="convertwidget6">
-                                        <property name="label" translatable="yes">_Show Gridlines</property>
-                                        <property name="xalign">0.0</property>
-                                        <property name="accel-widget">format_gridlines</property>
-                                        <property name="use-underline">yes</property>
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
-                                  </widget>
-                                </child>
-                              </widget>
-                            </child>
-                          </widget>
-                        </child>
-
-                        <child>
-                          <widget class="GtkMenuItem" id="edit2">
-                            <property name="stock_item">GNOMEUIINFO_MENU_EDIT_TREE</property>
-                            <property name="visible">yes</property>
-
-                            <child>
-                              <widget class="GtkMenu" id="edit2_menu">
-                                <property name="visible">yes</property>
-
-                                <child>
-                                  <widget class="GtkImageMenuItem" id="format_new">
-                                    <property name="visible">no</property>
-
-                                    <child internal-child="image">
-                                      <widget class="GtkImage" id="convertwidget7">
-                                        <property name="stock">gtk-new</property>
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
-
-                                    <child>
-                                      <widget class="GtkAccelLabel" id="convertwidget8">
-                                        <property name="label" translatable="yes">_New...</property>
-                                        <property name="xalign">0.0</property>
-                                        <property name="accel-widget">format_new</property>
-                                        <property name="use-underline">yes</property>
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
-                                  </widget>
-                                </child>
-
-                                <child>
-                                  <widget class="GtkMenuItem" id="format_edit">
-                                    <property name="visible">no</property>
-
-                                    <child>
-                                      <widget class="GtkAccelLabel" id="convertwidget9">
-                                        <property name="label" translatable="yes">_Edit...</property>
-                                        <property name="xalign">0.0</property>
-                                        <property name="accel-widget">format_edit</property>
-                                        <property name="use-underline">yes</property>
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
-                                  </widget>
-                                </child>
-
-                                <child>
-                                  <widget class="GtkMenuItem" id="format_remove_current">
-                                    <property name="visible">yes</property>
-
-                                    <child>
-                                      <widget class="GtkAccelLabel" id="convertwidget10">
-                                        <property name="label" translatable="yes">_Remove Current</property>
-                                        <property name="xalign">0.0</property>
-                                        <property name="accel-widget">format_remove_current</property>
-                                        <property name="use-underline">yes</property>
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
-                                  </widget>
-                                </child>
-                              </widget>
-                            </child>
-                          </widget>
-                        </child>
-                      </widget>
-                      <packing>
-                        <property name="padding">0</property>
-                        <property name="expand">no</property>
-                        <property name="fill">no</property>
-                      </packing>
-                    </child>
-
-                    <child>
-                      <widget class="GtkLabel" id="label13">
-                        <property name="label" translatable="yes">_Category</property>
-                        <property name="justify">GTK_JUSTIFY_RIGHT</property>
-                        <property name="wrap">no</property>
-                        <property name="xalign">0.99</property>
-                        <property name="yalign">0.5</property>
-                        <property name="xpad">5</property>
-                        <property name="ypad">0</property>
-                        <property name="mnemonic_widget">combo-entry1</property>
-                        <property name="visible">yes</property>
-                        <property name="use_underline">yes</property>
-                      </widget>
-                      <packing>
-                        <property name="padding">0</property>
-                        <property name="expand">yes</property>
-                        <property name="fill">yes</property>
-                      </packing>
-                    </child>
-
-                    <child>
-                      <widget class="GnomeEntry" id="format_category">
-                        <property name="visible">yes</property>
-
-                        <child internal-child="entry">
-                          <widget class="GtkEntry" id="combo-entry1">
-                            <property name="tooltip" translatable="yes">The current category</property>
-                            <property name="editable">no</property>
-                            <property name="text" translatable="yes"></property>
-                            <property name="max-length">0</property>
-                            <property name="visibility">yes</property>
-                            <property name="visible">yes</property>
-                          </widget>
-                        </child>
-                      </widget>
-                      <packing>
-                        <property name="padding">0</property>
-                        <property name="expand">no</property>
-                        <property name="fill">no</property>
-                      </packing>
-                    </child>
-                  </widget>
-                  <packing>
-                    <property name="padding">0</property>
-                    <property name="expand">no</property>
-                    <property name="fill">yes</property>
-                  </packing>
-                </child>
-
-                <child>
-                  <widget class="GtkHBox" id="hbox1">
-                    <property name="homogeneous">no</property>
-                    <property name="spacing">0</property>
-                    <property name="visible">yes</property>
-
-                    <child>
-                      <widget class="GtkHBox" id="hbox4">
-                        <property name="homogeneous">no</property>
-                        <property name="spacing">4</property>
-                        <property name="visible">yes</property>
-
-                        <child>
-                          <widget class="GtkTable" id="table5">
-                            <property name="homogeneous">no</property>
-                            <property name="row_spacing">4</property>
-                            <property name="column_spacing">4</property>
-                            <property name="n-rows">3</property>
-                            <property name="n-columns">2</property>
-                            <property name="visible">yes</property>
-
-                            <child>
-                              <widget class="GtkFrame" id="format_frame1">
-                                <property name="label_xalign">0</property>
-                                <property name="shadow">GTK_SHADOW_ETCHED_IN</property>
-                                <property name="visible">yes</property>
-
-                                <child>
-                                  <widget class="GtkScrolledWindow" id="scrolledwindow16">
-                                    <property name="hscrollbar_policy">GTK_POLICY_NEVER</property>
-                                    <property name="vscrollbar_policy">GTK_POLICY_NEVER</property>
-                                    <property name="width-request">230</property>
-                                    <property name="height-request">90</property>
-                                    <property name="visible">yes</property>
-
-                                    <child>
-                                      <widget class="GnomeCanvas" id="format_canvas1">
-                                        <property name="can_focus">yes</property>
-                                        <property name="anti_aliased">no</property>
-                                        <property name="scroll_x1">0</property>
-                                        <property name="scroll_y1">0</property>
-                                        <property name="scroll_x2">100</property>
-                                        <property name="scroll_y2">100</property>
-                                        <property name="pixels_per_unit">1</property>
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
-
-                                    <child internal-child="hscrollbar">
-                                      <widget class="GtkHScrollbar" id="convertwidget11">
-                                        <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
-
-                                    <child internal-child="vscrollbar">
-                                      <widget class="GtkVScrollbar" id="convertwidget12">
-                                        <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
-                                  </widget>
-                                </child>
-                              </widget>
-                              <packing>
-                                <property name="left_attach">0</property>
-                                <property name="right_attach">1</property>
-                                <property name="top_attach">0</property>
-                                <property name="bottom_attach">1</property>
-                                <property name="x_padding">0</property>
-                                <property name="y_padding">0</property>
-                                <property name="x_options">expand|fill</property>
-                                <property name="y_options">expand|fill</property>
-                              </packing>
-                            </child>
-
-                            <child>
-                              <widget class="GtkFrame" id="format_frame2">
-                                <property name="label_xalign">0</property>
-                                <property name="shadow">GTK_SHADOW_ETCHED_IN</property>
-                                <property name="visible">yes</property>
-
-                                <child>
-                                  <widget class="GtkScrolledWindow" id="scrolledwindow17">
-                                    <property name="hscrollbar_policy">GTK_POLICY_NEVER</property>
-                                    <property name="vscrollbar_policy">GTK_POLICY_NEVER</property>
-                                    <property name="width-request">230</property>
-                                    <property name="height-request">90</property>
-                                    <property name="visible">yes</property>
-
-                                    <child>
-                                      <widget class="GnomeCanvas" id="format_canvas2">
-                                        <property name="can_focus">yes</property>
-                                        <property name="anti_aliased">no</property>
-                                        <property name="scroll_x1">0</property>
-                                        <property name="scroll_y1">0</property>
-                                        <property name="scroll_x2">100</property>
-                                        <property name="scroll_y2">100</property>
-                                        <property name="pixels_per_unit">1</property>
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
-
-                                    <child internal-child="hscrollbar">
-                                      <widget class="GtkHScrollbar" id="convertwidget13">
-                                        <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
-
-                                    <child internal-child="vscrollbar">
-                                      <widget class="GtkVScrollbar" id="convertwidget14">
-                                        <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
-                                  </widget>
-                                </child>
-                              </widget>
-                              <packing>
-                                <property name="left_attach">1</property>
-                                <property name="right_attach">2</property>
-                                <property name="top_attach">0</property>
-                                <property name="bottom_attach">1</property>
-                                <property name="x_padding">0</property>
-                                <property name="y_padding">0</property>
-                                <property name="x_options">expand|fill</property>
-                                <property name="y_options">fill</property>
-                              </packing>
-                            </child>
-
-                            <child>
-                              <widget class="GtkFrame" id="format_frame3">
-                                <property name="label_xalign">0</property>
-                                <property name="shadow">GTK_SHADOW_ETCHED_IN</property>
-                                <property name="visible">yes</property>
-
-                                <child>
-                                  <widget class="GtkScrolledWindow" id="scrolledwindow18">
-                                    <property name="hscrollbar_policy">GTK_POLICY_NEVER</property>
-                                    <property name="vscrollbar_policy">GTK_POLICY_NEVER</property>
-                                    <property name="width-request">230</property>
-                                    <property name="height-request">90</property>
-                                    <property name="visible">yes</property>
-
-                                    <child>
-                                      <widget class="GnomeCanvas" id="format_canvas3">
-                                        <property name="can_focus">yes</property>
-                                        <property name="anti_aliased">no</property>
-                                        <property name="scroll_x1">0</property>
-                                        <property name="scroll_y1">0</property>
-                                        <property name="scroll_x2">100</property>
-                                        <property name="scroll_y2">100</property>
-                                        <property name="pixels_per_unit">1</property>
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
-
-                                    <child internal-child="hscrollbar">
-                                      <widget class="GtkHScrollbar" id="convertwidget15">
-                                        <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
-
-                                    <child internal-child="vscrollbar">
-                                      <widget class="GtkVScrollbar" id="convertwidget16">
-                                        <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
-                                  </widget>
-                                </child>
-                              </widget>
-                              <packing>
-                                <property name="left_attach">0</property>
-                                <property name="right_attach">1</property>
-                                <property name="top_attach">1</property>
-                                <property name="bottom_attach">2</property>
-                                <property name="x_padding">0</property>
-                                <property name="y_padding">0</property>
-                                <property name="x_options">fill</property>
-                                <property name="y_options">expand|fill</property>
-                              </packing>
-                            </child>
-
-                            <child>
-                              <widget class="GtkFrame" id="format_frame4">
-                                <property name="label_xalign">0</property>
-                                <property name="shadow">GTK_SHADOW_ETCHED_IN</property>
-                                <property name="visible">yes</property>
-
-                                <child>
-                                  <widget class="GtkScrolledWindow" id="scrolledwindow19">
-                                    <property name="hscrollbar_policy">GTK_POLICY_NEVER</property>
-                                    <property name="vscrollbar_policy">GTK_POLICY_NEVER</property>
-                                    <property name="width-request">230</property>
-                                    <property name="height-request">90</property>
-                                    <property name="visible">yes</property>
-
-                                    <child>
-                                      <widget class="GnomeCanvas" id="format_canvas4">
-                                        <property name="can_focus">yes</property>
-                                        <property name="anti_aliased">no</property>
-                                        <property name="scroll_x1">0</property>
-                                        <property name="scroll_y1">0</property>
-                                        <property name="scroll_x2">100</property>
-                                        <property name="scroll_y2">100</property>
-                                        <property name="pixels_per_unit">1</property>
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
-
-                                    <child internal-child="hscrollbar">
-                                      <widget class="GtkHScrollbar" id="convertwidget17">
-                                        <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
-
-                                    <child internal-child="vscrollbar">
-                                      <widget class="GtkVScrollbar" id="convertwidget18">
-                                        <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
-                                  </widget>
-                                </child>
-                              </widget>
-                              <packing>
-                                <property name="left_attach">1</property>
-                                <property name="right_attach">2</property>
-                                <property name="top_attach">1</property>
-                                <property name="bottom_attach">2</property>
-                                <property name="x_padding">0</property>
-                                <property name="y_padding">0</property>
-                                <property name="x_options">fill</property>
-                                <property name="y_options">fill</property>
-                              </packing>
-                            </child>
-
-                            <child>
-                              <widget class="GtkFrame" id="format_frame5">
-                                <property name="label_xalign">0</property>
-                                <property name="shadow">GTK_SHADOW_ETCHED_IN</property>
-                                <property name="visible">yes</property>
-
-                                <child>
-                                  <widget class="GtkScrolledWindow" id="scrolledwindow20">
-                                    <property name="hscrollbar_policy">GTK_POLICY_NEVER</property>
-                                    <property name="vscrollbar_policy">GTK_POLICY_NEVER</property>
-                                    <property name="width-request">230</property>
-                                    <property name="height-request">90</property>
-                                    <property name="visible">yes</property>
-
-                                    <child>
-                                      <widget class="GnomeCanvas" id="format_canvas5">
-                                        <property name="can_focus">yes</property>
-                                        <property name="anti_aliased">no</property>
-                                        <property name="scroll_x1">0</property>
-                                        <property name="scroll_y1">0</property>
-                                        <property name="scroll_x2">100</property>
-                                        <property name="scroll_y2">100</property>
-                                        <property name="pixels_per_unit">1</property>
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
-
-                                    <child internal-child="hscrollbar">
-                                      <widget class="GtkHScrollbar" id="convertwidget19">
-                                        <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
-
-                                    <child internal-child="vscrollbar">
-                                      <widget class="GtkVScrollbar" id="convertwidget20">
-                                        <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
-                                  </widget>
-                                </child>
-                              </widget>
-                              <packing>
-                                <property name="left_attach">0</property>
-                                <property name="right_attach">1</property>
-                                <property name="top_attach">2</property>
-                                <property name="bottom_attach">3</property>
-                                <property name="x_padding">0</property>
-                                <property name="y_padding">0</property>
-                                <property name="x_options">fill</property>
-                                <property name="y_options">expand|fill</property>
-                              </packing>
-                            </child>
-
-                            <child>
-                              <widget class="GtkFrame" id="format_frame6">
-                                <property name="label_xalign">0</property>
-                                <property name="shadow">GTK_SHADOW_ETCHED_IN</property>
-                                <property name="visible">yes</property>
-
-                                <child>
-                                  <widget class="GtkScrolledWindow" id="scrolledwindow21">
-                                    <property name="hscrollbar_policy">GTK_POLICY_NEVER</property>
-                                    <property name="vscrollbar_policy">GTK_POLICY_NEVER</property>
-                                    <property name="width-request">230</property>
-                                    <property name="height-request">90</property>
-                                    <property name="visible">yes</property>
-
-                                    <child>
-                                      <widget class="GnomeCanvas" id="format_canvas6">
-                                        <property name="can_focus">yes</property>
-                                        <property name="anti_aliased">no</property>
-                                        <property name="scroll_x1">0</property>
-                                        <property name="scroll_y1">0</property>
-                                        <property name="scroll_x2">100</property>
-                                        <property name="scroll_y2">100</property>
-                                        <property name="pixels_per_unit">1</property>
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
-
-                                    <child internal-child="hscrollbar">
-                                      <widget class="GtkHScrollbar" id="convertwidget21">
-                                        <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
-
-                                    <child internal-child="vscrollbar">
-                                      <widget class="GtkVScrollbar" id="convertwidget22">
-                                        <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
-                                  </widget>
-                                </child>
-                              </widget>
-                              <packing>
-                                <property name="left_attach">1</property>
-                                <property name="right_attach">2</property>
-                                <property name="top_attach">2</property>
-                                <property name="bottom_attach">3</property>
-                                <property name="x_padding">0</property>
-                                <property name="y_padding">0</property>
-                                <property name="x_options">fill</property>
-                                <property name="y_options">fill</property>
-                              </packing>
-                            </child>
-                          </widget>
-                          <packing>
-                            <property name="padding">0</property>
-                            <property name="expand">yes</property>
-                            <property name="fill">yes</property>
-                          </packing>
-                        </child>
-
-                        <child>
-                          <widget class="GtkVScrollbar" id="format_scroll">
-                            <property name="visible">no</property>
-                            <property name="adjustment">0 0 0 0 0 0</property>
-                          </widget>
-                          <packing>
-                            <property name="padding">0</property>
-                            <property name="expand">no</property>
-                            <property name="fill">yes</property>
-                          </packing>
-                        </child>
-                      </widget>
-                      <packing>
-                        <property name="padding">0</property>
-                        <property name="expand">yes</property>
-                        <property name="fill">yes</property>
-                      </packing>
-                    </child>
-                  </widget>
-                  <packing>
-                    <property name="padding">0</property>
-                    <property name="expand">yes</property>
-                    <property name="fill">yes</property>
-                  </packing>
-                </child>
-
-                <child>
-                  <widget class="GtkHButtonBox" id="hbuttonbox1">
-                    <property name="layout_style">GTK_BUTTONBOX_END</property>
-                    <property name="spacing">30</property>
-                    <property name="visible">yes</property>
-                  </widget>
-                  <packing>
-                    <property name="padding">0</property>
-                    <property name="expand">yes</property>
-                    <property name="fill">yes</property>
-                  </packing>
-                </child>
-              </widget>
-            </child>
-
-            <child>
-              <widget class="GtkLabel" id="label9">
-                <property name="label" translatable="yes">_Preview</property>
-                <property name="justify">GTK_JUSTIFY_CENTER</property>
-                <property name="wrap">no</property>
-                <property name="xalign">0.5</property>
-                <property name="yalign">0.5</property>
-                <property name="xpad">0</property>
-                <property name="ypad">0</property>
-                <property name="visible">yes</property>
-                <property name="use_underline">yes</property>
-              </widget>
-              <packing>
-                <property name="type">tab</property>
-              </packing>
-            </child>
-
-            <child>
-              <widget class="GtkTable" id="table4">
-                <property name="border_width">4</property>
-                <property name="homogeneous">no</property>
-                <property name="row_spacing">4</property>
-                <property name="column_spacing">4</property>
-                <property name="n-rows">4</property>
-                <property name="n-columns">2</property>
-                <property name="visible">yes</property>
-
-                <child>
-                  <widget class="GtkScrolledWindow" id="scrolledwindow14">
-                    <property name="hscrollbar_policy">GTK_POLICY_NEVER</property>
-                    <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                    <property name="shadow_type">GTK_SHADOW_IN</property>
-                    <property name="width-request">187</property>
-                    <property name="visible">yes</property>
-
-                    <child>
-                      <widget class="GtkTextView" id="format_info_descr">
-                        <property name="tooltip" translatable="yes">A short description of the template</property>
-                        <property name="editable">no</property>
-                        <property name="text" translatable="yes"></property>
-                        <property name="wrap_mode">GTK_WRAP_WORD</property>
-                        <property name="visible">yes</property>
-                      </widget>
-                    </child>
-
-                    <child internal-child="hscrollbar">
-                      <widget class="GtkHScrollbar" id="convertwidget23">
-                        <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
-                        <property name="visible">yes</property>
-                      </widget>
-                    </child>
-
-                    <child internal-child="vscrollbar">
-                      <widget class="GtkVScrollbar" id="convertwidget24">
-                        <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
-                        <property name="visible">yes</property>
-                      </widget>
-                    </child>
-                  </widget>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="right_attach">2</property>
-                    <property name="top_attach">3</property>
-                    <property name="bottom_attach">4</property>
-                    <property name="x_padding">0</property>
-                    <property name="y_padding">0</property>
-                    <property name="x_options">expand|shrink|fill</property>
-                    <property name="y_options">expand|shrink|fill</property>
-                  </packing>
-                </child>
-
-                <child>
-                  <widget class="GtkEntry" id="format_info_cat">
-                    <property name="tooltip" translatable="yes">The category this template belongs to</property>
-                    <property name="editable">no</property>
-                    <property name="text" translatable="yes"></property>
-                    <property name="max-length">0</property>
-                    <property name="visibility">yes</property>
-                    <property name="visible">yes</property>
-                  </widget>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="right_attach">2</property>
-                    <property name="top_attach">2</property>
-                    <property name="bottom_attach">3</property>
-                    <property name="x_padding">0</property>
-                    <property name="y_padding">0</property>
-                    <property name="x_options">expand|fill</property>
-                    <property name="y_options"></property>
-                  </packing>
-                </child>
-
-                <child>
-                  <widget class="GtkEntry" id="format_info_author">
-                    <property name="tooltip" translatable="yes">The group/individual that made the template</property>
-                    <property name="editable">no</property>
-                    <property name="text" translatable="yes"></property>
-                    <property name="max-length">0</property>
-                    <property name="visibility">yes</property>
-                    <property name="visible">yes</property>
-                  </widget>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="right_attach">2</property>
-                    <property name="top_attach">1</property>
-                    <property name="bottom_attach">2</property>
-                    <property name="x_padding">0</property>
-                    <property name="y_padding">0</property>
-                    <property name="x_options">expand|fill</property>
-                    <property name="y_options"></property>
-                  </packing>
-                </child>
-
-                <child>
-                  <widget class="GtkEntry" id="format_info_name">
-                    <property name="tooltip" translatable="yes">Name of template</property>
-                    <property name="editable">no</property>
-                    <property name="text" translatable="yes"></property>
-                    <property name="max-length">0</property>
-                    <property name="visibility">yes</property>
-                    <property name="visible">yes</property>
-                  </widget>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="right_attach">2</property>
-                    <property name="top_attach">0</property>
-                    <property name="bottom_attach">1</property>
-                    <property name="x_padding">0</property>
-                    <property name="y_padding">0</property>
-                    <property name="x_options">expand|shrink|fill</property>
-                    <property name="y_options"></property>
-                  </packing>
-                </child>
-
-                <child>
-                  <widget class="GtkLabel" id="label9">
-                    <property name="label" translatable="yes">Name:</property>
-                    <property name="justify">GTK_JUSTIFY_LEFT</property>
-                    <property name="wrap">no</property>
-                    <property name="xalign">0</property>
-                    <property name="yalign">0.5</property>
-                    <property name="xpad">0</property>
-                    <property name="ypad">0</property>
-                    <property name="visible">yes</property>
-                  </widget>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="right_attach">1</property>
-                    <property name="top_attach">0</property>
-                    <property name="bottom_attach">1</property>
-                    <property name="x_padding">0</property>
-                    <property name="y_padding">0</property>
-                    <property name="x_options">fill</property>
-                    <property name="y_options"></property>
-                  </packing>
-                </child>
-
-                <child>
-                  <widget class="GtkLabel" id="label10">
-                    <property name="label" translatable="yes">Author:</property>
-                    <property name="justify">GTK_JUSTIFY_LEFT</property>
-                    <property name="wrap">no</property>
-                    <property name="xalign">0</property>
-                    <property name="yalign">0.5</property>
-                    <property name="xpad">0</property>
-                    <property name="ypad">0</property>
-                    <property name="visible">yes</property>
-                  </widget>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="right_attach">1</property>
-                    <property name="top_attach">1</property>
-                    <property name="bottom_attach">2</property>
-                    <property name="x_padding">0</property>
-                    <property name="y_padding">0</property>
-                    <property name="x_options">fill</property>
-                    <property name="y_options"></property>
-                  </packing>
-                </child>
-
-                <child>
-                  <widget class="GtkLabel" id="label11">
-                    <property name="label" translatable="yes">Category:</property>
-                    <property name="justify">GTK_JUSTIFY_LEFT</property>
-                    <property name="wrap">no</property>
-                    <property name="xalign">0</property>
-                    <property name="yalign">0.5</property>
-                    <property name="xpad">0</property>
-                    <property name="ypad">0</property>
-                    <property name="visible">yes</property>
-                  </widget>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="right_attach">1</property>
-                    <property name="top_attach">2</property>
-                    <property name="bottom_attach">3</property>
-                    <property name="x_padding">0</property>
-                    <property name="y_padding">0</property>
-                    <property name="x_options">fill</property>
-                    <property name="y_options"></property>
-                  </packing>
-                </child>
-
-                <child>
-                  <widget class="GtkLabel" id="label12">
-                    <property name="label" translatable="yes">Description:</property>
-                    <property name="justify">GTK_JUSTIFY_LEFT</property>
-                    <property name="wrap">no</property>
-                    <property name="xalign">0</property>
-                    <property name="yalign">0.1</property>
-                    <property name="xpad">0</property>
-                    <property name="ypad">0</property>
-                    <property name="visible">yes</property>
-                  </widget>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="right_attach">1</property>
-                    <property name="top_attach">3</property>
-                    <property name="bottom_attach">4</property>
-                    <property name="x_padding">0</property>
-                    <property name="y_padding">0</property>
-                    <property name="x_options">fill</property>
-                    <property name="y_options">fill</property>
-                  </packing>
-                </child>
-              </widget>
-            </child>
-
-            <child>
-              <widget class="GtkLabel" id="label10">
-                <property name="label" translatable="yes">_Template Details</property>
-                <property name="justify">GTK_JUSTIFY_CENTER</property>
-                <property name="wrap">no</property>
-                <property name="xalign">0.5</property>
-                <property name="yalign">0.5</property>
-                <property name="xpad">0</property>
-                <property name="ypad">0</property>
-                <property name="visible">yes</property>
-                <property name="use_underline">yes</property>
-              </widget>
-              <packing>
-                <property name="type">tab</property>
-              </packing>
-            </child>
-          </widget>
-          <packing>
-            <property name="padding">0</property>
-            <property name="expand">yes</property>
-            <property name="fill">yes</property>
-          </packing>
-        </child>
-      </widget>
-      <packing>
-        <property name="padding">4</property>
-        <property name="expand">yes</property>
-        <property name="fill">yes</property>
-      </packing>
-    </child>
-  </widget>
+<requires lib="gnome"/>
+
+<widget class="GtkDialog" id="dialog">
+  <property name="title" translatable="yes">Autoformat</property>
+  <property name="type">GTK_WINDOW_TOPLEVEL</property>
+  <property name="window_position">GTK_WIN_POS_NONE</property>
+  <property name="modal">True</property>
+  <property name="resizable">True</property>
+  <property name="destroy_with_parent">False</property>
+  <property name="has_separator">True</property>
+
+  <child internal-child="vbox">
+    <widget class="GtkVBox" id="dialog-vbox1">
+      <property name="visible">True</property>
+      <property name="homogeneous">False</property>
+      <property name="spacing">8</property>
+
+      <child internal-child="action_area">
+	<widget class="GtkHButtonBox" id="dialog-action_area1">
+	  <property name="visible">True</property>
+	  <property name="layout_style">GTK_BUTTONBOX_END</property>
+
+	  <child>
+	    <widget class="GtkButton" id="format_cancel">
+	      <property name="visible">True</property>
+	      <property name="can_default">True</property>
+	      <property name="can_focus">True</property>
+	      <property name="label">gtk-cancel</property>
+	      <property name="use_stock">True</property>
+	      <property name="relief">GTK_RELIEF_NORMAL</property>
+	      <property name="response_id">0</property>
+	    </widget>
+	  </child>
+
+	  <child>
+	    <widget class="GtkButton" id="format_ok">
+	      <property name="visible">True</property>
+	      <property name="can_default">True</property>
+	      <property name="has_default">True</property>
+	      <property name="can_focus">True</property>
+	      <property name="label">gtk-ok</property>
+	      <property name="use_stock">True</property>
+	      <property name="relief">GTK_RELIEF_NORMAL</property>
+	      <property name="response_id">0</property>
+	    </widget>
+	  </child>
+	</widget>
+	<packing>
+	  <property name="padding">0</property>
+	  <property name="expand">False</property>
+	  <property name="fill">True</property>
+	  <property name="pack_type">GTK_PACK_END</property>
+	</packing>
+      </child>
+
+      <child>
+	<widget class="GtkNotebook" id="notebook1">
+	  <property name="visible">True</property>
+	  <property name="can_focus">True</property>
+	  <property name="show_tabs">True</property>
+	  <property name="show_border">True</property>
+	  <property name="tab_pos">GTK_POS_TOP</property>
+	  <property name="scrollable">False</property>
+	  <property name="enable_popup">False</property>
+
+	  <child>
+	    <widget class="GtkVBox" id="vbox1">
+	      <property name="border_width">4</property>
+	      <property name="visible">True</property>
+	      <property name="homogeneous">False</property>
+	      <property name="spacing">4</property>
+
+	      <child>
+		<widget class="GtkHBox" id="hbox3">
+		  <property name="visible">True</property>
+		  <property name="homogeneous">False</property>
+		  <property name="spacing">5</property>
+
+		  <child>
+		    <widget class="GtkMenuBar" id="menubar1">
+		      <property name="visible">True</property>
+
+		      <child>
+			<widget class="GtkMenuItem" id="settings1">
+			  <property name="visible">True</property>
+			  <property name="stock_item">GNOMEUIINFO_MENU_SETTINGS_TREE</property>
+
+			  <child>
+			    <widget class="GtkMenu" id="settings1_menu">
+			      <property name="visible">True</property>
+
+			      <child>
+				<widget class="GtkCheckMenuItem" id="format_number">
+				  <property name="visible">True</property>
+				  <property name="active">True</property>
+
+				  <child>
+				    <widget class="GtkAccelLabel" id="convertwidget1">
+				      <property name="visible">True</property>
+				      <property name="label" translatable="yes">Apply _Number Formats</property>
+				      <property name="use_underline">False</property>
+				      <property name="use_markup">False</property>
+				      <property name="justify">GTK_JUSTIFY_LEFT</property>
+				      <property name="wrap">False</property>
+				      <property name="selectable">False</property>
+				      <property name="xalign">0</property>
+				      <property name="yalign">0.5</property>
+				      <property name="xpad">0</property>
+				      <property name="ypad">0</property>
+				    </widget>
+				  </child>
+				</widget>
+			      </child>
+
+			      <child>
+				<widget class="GtkCheckMenuItem" id="format_border">
+				  <property name="visible">True</property>
+				  <property name="active">True</property>
+
+				  <child>
+				    <widget class="GtkAccelLabel" id="convertwidget2">
+				      <property name="visible">True</property>
+				      <property name="label" translatable="yes">Apply _Borders</property>
+				      <property name="use_underline">False</property>
+				      <property name="use_markup">False</property>
+				      <property name="justify">GTK_JUSTIFY_LEFT</property>
+				      <property name="wrap">False</property>
+				      <property name="selectable">False</property>
+				      <property name="xalign">0</property>
+				      <property name="yalign">0.5</property>
+				      <property name="xpad">0</property>
+				      <property name="ypad">0</property>
+				    </widget>
+				  </child>
+				</widget>
+			      </child>
+
+			      <child>
+				<widget class="GtkCheckMenuItem" id="format_font">
+				  <property name="visible">True</property>
+				  <property name="active">True</property>
+
+				  <child>
+				    <widget class="GtkAccelLabel" id="convertwidget3">
+				      <property name="visible">True</property>
+				      <property name="label" translatable="yes">Apply _Fonts</property>
+				      <property name="use_underline">False</property>
+				      <property name="use_markup">False</property>
+				      <property name="justify">GTK_JUSTIFY_LEFT</property>
+				      <property name="wrap">False</property>
+				      <property name="selectable">False</property>
+				      <property name="xalign">0</property>
+				      <property name="yalign">0.5</property>
+				      <property name="xpad">0</property>
+				      <property name="ypad">0</property>
+				    </widget>
+				  </child>
+				</widget>
+			      </child>
+
+			      <child>
+				<widget class="GtkCheckMenuItem" id="format_patterns">
+				  <property name="visible">True</property>
+				  <property name="active">True</property>
+
+				  <child>
+				    <widget class="GtkAccelLabel" id="convertwidget4">
+				      <property name="visible">True</property>
+				      <property name="label" translatable="yes">Apply _Patterns</property>
+				      <property name="use_underline">False</property>
+				      <property name="use_markup">False</property>
+				      <property name="justify">GTK_JUSTIFY_LEFT</property>
+				      <property name="wrap">False</property>
+				      <property name="selectable">False</property>
+				      <property name="xalign">0</property>
+				      <property name="yalign">0.5</property>
+				      <property name="xpad">0</property>
+				      <property name="ypad">0</property>
+				    </widget>
+				  </child>
+				</widget>
+			      </child>
+
+			      <child>
+				<widget class="GtkCheckMenuItem" id="format_alignment">
+				  <property name="visible">True</property>
+				  <property name="active">True</property>
+
+				  <child>
+				    <widget class="GtkAccelLabel" id="convertwidget5">
+				      <property name="visible">True</property>
+				      <property name="label" translatable="yes">Apply _Alignment</property>
+				      <property name="use_underline">False</property>
+				      <property name="use_markup">False</property>
+				      <property name="justify">GTK_JUSTIFY_LEFT</property>
+				      <property name="wrap">False</property>
+				      <property name="selectable">False</property>
+				      <property name="xalign">0</property>
+				      <property name="yalign">0.5</property>
+				      <property name="xpad">0</property>
+				      <property name="ypad">0</property>
+				    </widget>
+				  </child>
+				</widget>
+			      </child>
+
+			      <child>
+				<widget class="GtkMenuItem" id="separator1">
+				  <property name="visible">True</property>
+				</widget>
+			      </child>
+
+			      <child>
+				<widget class="GtkMenuItem" id="format_edges">
+				  <property name="visible">True</property>
+				  <property name="label" translatable="yes">Edges</property>
+				  <property name="use_underline">True</property>
+
+				  <child>
+				    <widget class="GtkMenu" id="format_edges_menu">
+
+				      <child>
+					<widget class="GtkCheckMenuItem" id="format_edges_left">
+					  <property name="visible">True</property>
+					  <property name="active">True</property>
+
+					  <child>
+					    <widget class="GtkAccelLabel" id="convertwidget5">
+					      <property name="visible">True</property>
+					      <property name="label" translatable="yes">_Left</property>
+					      <property name="use_underline">False</property>
+					      <property name="use_markup">False</property>
+					      <property name="justify">GTK_JUSTIFY_LEFT</property>
+					      <property name="wrap">False</property>
+					      <property name="selectable">False</property>
+					      <property name="xalign">0</property>
+					      <property name="yalign">0.5</property>
+					      <property name="xpad">0</property>
+					      <property name="ypad">0</property>
+					    </widget>
+					  </child>
+					</widget>
+				      </child>
+
+				      <child>
+					<widget class="GtkCheckMenuItem" id="format_edges_right">
+					  <property name="visible">True</property>
+					  <property name="active">True</property>
+
+					  <child>
+					    <widget class="GtkAccelLabel" id="convertwidget5">
+					      <property name="visible">True</property>
+					      <property name="label" translatable="yes">_Right</property>
+					      <property name="use_underline">False</property>
+					      <property name="use_markup">False</property>
+					      <property name="justify">GTK_JUSTIFY_LEFT</property>
+					      <property name="wrap">False</property>
+					      <property name="selectable">False</property>
+					      <property name="xalign">0</property>
+					      <property name="yalign">0.5</property>
+					      <property name="xpad">0</property>
+					      <property name="ypad">0</property>
+					    </widget>
+					  </child>
+					</widget>
+				      </child>
+
+				      <child>
+					<widget class="GtkCheckMenuItem" id="format_edges_top">
+					  <property name="visible">True</property>
+					  <property name="active">True</property>
+
+					  <child>
+					    <widget class="GtkAccelLabel" id="convertwidget5">
+					      <property name="visible">True</property>
+					      <property name="label" translatable="yes">_Top</property>
+					      <property name="use_underline">False</property>
+					      <property name="use_markup">False</property>
+					      <property name="justify">GTK_JUSTIFY_LEFT</property>
+					      <property name="wrap">False</property>
+					      <property name="selectable">False</property>
+					      <property name="xalign">0</property>
+					      <property name="yalign">0.5</property>
+					      <property name="xpad">0</property>
+					      <property name="ypad">0</property>
+					    </widget>
+					  </child>
+					</widget>
+				      </child>
+
+				      <child>
+					<widget class="GtkCheckMenuItem" id="format_edges_bottom">
+					  <property name="visible">True</property>
+					  <property name="active">True</property>
+
+					  <child>
+					    <widget class="GtkAccelLabel" id="convertwidget5">
+					      <property name="visible">True</property>
+					      <property name="label" translatable="yes">_Bottom</property>
+					      <property name="use_underline">False</property>
+					      <property name="use_markup">False</property>
+					      <property name="justify">GTK_JUSTIFY_LEFT</property>
+					      <property name="wrap">False</property>
+					      <property name="selectable">False</property>
+					      <property name="xalign">0</property>
+					      <property name="yalign">0.5</property>
+					      <property name="xpad">0</property>
+					      <property name="ypad">0</property>
+					    </widget>
+					  </child>
+					</widget>
+				      </child>
+				    </widget>
+				  </child>
+				</widget>
+			      </child>
+
+			      <child>
+				<widget class="GtkMenuItem" id="separator1">
+				  <property name="visible">True</property>
+				</widget>
+			      </child>
+
+			      <child>
+				<widget class="GtkCheckMenuItem" id="format_gridlines">
+				  <property name="visible">True</property>
+				  <property name="active">False</property>
+
+				  <child>
+				    <widget class="GtkAccelLabel" id="convertwidget6">
+				      <property name="visible">True</property>
+				      <property name="label" translatable="yes">_Show Gridlines</property>
+				      <property name="use_underline">False</property>
+				      <property name="use_markup">False</property>
+				      <property name="justify">GTK_JUSTIFY_LEFT</property>
+				      <property name="wrap">False</property>
+				      <property name="selectable">False</property>
+				      <property name="xalign">0</property>
+				      <property name="yalign">0.5</property>
+				      <property name="xpad">0</property>
+				      <property name="ypad">0</property>
+				    </widget>
+				  </child>
+				</widget>
+			      </child>
+			    </widget>
+			  </child>
+			</widget>
+		      </child>
+
+		      <child>
+			<widget class="GtkMenuItem" id="edit2">
+			  <property name="visible">True</property>
+			  <property name="stock_item">GNOMEUIINFO_MENU_EDIT_TREE</property>
+
+			  <child>
+			    <widget class="GtkMenu" id="edit2_menu">
+			      <property name="visible">True</property>
+
+			      <child>
+				<widget class="GtkImageMenuItem" id="format_new">
+
+				  <child internal-child="image">
+				    <widget class="GtkImage" id="convertwidget7">
+				      <property name="visible">True</property>
+				      <property name="stock">gtk-new</property>
+				      <property name="icon_size">4</property>
+				      <property name="xalign">0.5</property>
+				      <property name="yalign">0.5</property>
+				      <property name="xpad">0</property>
+				      <property name="ypad">0</property>
+				    </widget>
+				  </child>
+				</widget>
+			      </child>
+
+			      <child>
+				<widget class="GtkMenuItem" id="format_edit">
+				</widget>
+			      </child>
+
+			      <child>
+				<widget class="GtkMenuItem" id="format_remove_current">
+				  <property name="visible">True</property>
+				</widget>
+			      </child>
+			    </widget>
+			  </child>
+			</widget>
+		      </child>
+		    </widget>
+		    <packing>
+		      <property name="padding">0</property>
+		      <property name="expand">False</property>
+		      <property name="fill">False</property>
+		    </packing>
+		  </child>
+
+		  <child>
+		    <widget class="GtkLabel" id="label13">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes">_Category</property>
+		      <property name="use_underline">True</property>
+		      <property name="use_markup">False</property>
+		      <property name="justify">GTK_JUSTIFY_RIGHT</property>
+		      <property name="wrap">False</property>
+		      <property name="selectable">False</property>
+		      <property name="xalign">0.99</property>
+		      <property name="yalign">0.5</property>
+		      <property name="xpad">5</property>
+		      <property name="ypad">0</property>
+		      <property name="mnemonic_widget">combo-entry1</property>
+		    </widget>
+		    <packing>
+		      <property name="padding">0</property>
+		      <property name="expand">True</property>
+		      <property name="fill">True</property>
+		    </packing>
+		  </child>
+
+		  <child>
+		    <widget class="GnomeEntry" id="format_category">
+		      <property name="visible">True</property>
+		      <property name="max_saved">10</property>
+
+		      <child internal-child="entry">
+			<widget class="GtkEntry" id="combo-entry1">
+			  <property name="visible">True</property>
+			  <property name="tooltip" translatable="yes">The current category</property>
+			  <property name="editable">False</property>
+			  <property name="visibility">True</property>
+			  <property name="max_length">0</property>
+			  <property name="text" translatable="yes"></property>
+			  <property name="has_frame">True</property>
+			  <property name="invisible_char" translatable="yes">*</property>
+			  <property name="activates_default">False</property>
+			</widget>
+		      </child>
+		    </widget>
+		    <packing>
+		      <property name="padding">0</property>
+		      <property name="expand">False</property>
+		      <property name="fill">False</property>
+		    </packing>
+		  </child>
+		</widget>
+		<packing>
+		  <property name="padding">0</property>
+		  <property name="expand">False</property>
+		  <property name="fill">True</property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkHBox" id="hbox1">
+		  <property name="visible">True</property>
+		  <property name="homogeneous">False</property>
+		  <property name="spacing">0</property>
+
+		  <child>
+		    <widget class="GtkHBox" id="hbox4">
+		      <property name="visible">True</property>
+		      <property name="homogeneous">False</property>
+		      <property name="spacing">4</property>
+
+		      <child>
+			<widget class="GtkTable" id="table5">
+			  <property name="visible">True</property>
+			  <property name="n_rows">3</property>
+			  <property name="n_columns">2</property>
+			  <property name="homogeneous">False</property>
+			  <property name="row_spacing">4</property>
+			  <property name="column_spacing">4</property>
+
+			  <child>
+			    <widget class="GtkFrame" id="format_frame1">
+			      <property name="visible">True</property>
+			      <property name="label_xalign">0</property>
+			      <property name="label_yalign">0.5</property>
+			      <property name="shadow_type">GTK_SHADOW_ETCHED_IN</property>
+
+			      <child>
+				<placeholder/>
+			      </child>
+			    </widget>
+			    <packing>
+			      <property name="left_attach">0</property>
+			      <property name="right_attach">1</property>
+			      <property name="top_attach">0</property>
+			      <property name="bottom_attach">1</property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <widget class="GtkFrame" id="format_frame2">
+			      <property name="visible">True</property>
+			      <property name="label_xalign">0</property>
+			      <property name="label_yalign">0.5</property>
+			      <property name="shadow_type">GTK_SHADOW_ETCHED_IN</property>
+
+			      <child>
+				<placeholder/>
+			      </child>
+			    </widget>
+			    <packing>
+			      <property name="left_attach">1</property>
+			      <property name="right_attach">2</property>
+			      <property name="top_attach">0</property>
+			      <property name="bottom_attach">1</property>
+			      <property name="y_options">fill</property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <widget class="GtkFrame" id="format_frame3">
+			      <property name="visible">True</property>
+			      <property name="label_xalign">0</property>
+			      <property name="label_yalign">0.5</property>
+			      <property name="shadow_type">GTK_SHADOW_ETCHED_IN</property>
+
+			      <child>
+				<placeholder/>
+			      </child>
+			    </widget>
+			    <packing>
+			      <property name="left_attach">0</property>
+			      <property name="right_attach">1</property>
+			      <property name="top_attach">1</property>
+			      <property name="bottom_attach">2</property>
+			      <property name="x_options">fill</property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <widget class="GtkFrame" id="format_frame4">
+			      <property name="visible">True</property>
+			      <property name="label_xalign">0</property>
+			      <property name="label_yalign">0.5</property>
+			      <property name="shadow_type">GTK_SHADOW_ETCHED_IN</property>
+
+			      <child>
+				<placeholder/>
+			      </child>
+			    </widget>
+			    <packing>
+			      <property name="left_attach">1</property>
+			      <property name="right_attach">2</property>
+			      <property name="top_attach">1</property>
+			      <property name="bottom_attach">2</property>
+			      <property name="x_options">fill</property>
+			      <property name="y_options">fill</property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <widget class="GtkFrame" id="format_frame5">
+			      <property name="visible">True</property>
+			      <property name="label_xalign">0</property>
+			      <property name="label_yalign">0.5</property>
+			      <property name="shadow_type">GTK_SHADOW_ETCHED_IN</property>
+
+			      <child>
+				<placeholder/>
+			      </child>
+			    </widget>
+			    <packing>
+			      <property name="left_attach">0</property>
+			      <property name="right_attach">1</property>
+			      <property name="top_attach">2</property>
+			      <property name="bottom_attach">3</property>
+			      <property name="x_options">fill</property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <widget class="GtkFrame" id="format_frame6">
+			      <property name="visible">True</property>
+			      <property name="label_xalign">0</property>
+			      <property name="label_yalign">0.5</property>
+			      <property name="shadow_type">GTK_SHADOW_ETCHED_IN</property>
+
+			      <child>
+				<placeholder/>
+			      </child>
+			    </widget>
+			    <packing>
+			      <property name="left_attach">1</property>
+			      <property name="right_attach">2</property>
+			      <property name="top_attach">2</property>
+			      <property name="bottom_attach">3</property>
+			      <property name="x_options">fill</property>
+			      <property name="y_options">fill</property>
+			    </packing>
+			  </child>
+			</widget>
+			<packing>
+			  <property name="padding">0</property>
+			  <property name="expand">True</property>
+			  <property name="fill">True</property>
+			</packing>
+		      </child>
+
+		      <child>
+			<widget class="GtkVScrollbar" id="format_scroll">
+			  <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
+			  <property name="inverted">False</property>
+			  <property name="adjustment">0 0 0 0 0 0</property>
+			</widget>
+			<packing>
+			  <property name="padding">0</property>
+			  <property name="expand">False</property>
+			  <property name="fill">True</property>
+			</packing>
+		      </child>
+		    </widget>
+		    <packing>
+		      <property name="padding">0</property>
+		      <property name="expand">True</property>
+		      <property name="fill">True</property>
+		    </packing>
+		  </child>
+		</widget>
+		<packing>
+		  <property name="padding">0</property>
+		  <property name="expand">True</property>
+		  <property name="fill">True</property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkHButtonBox" id="hbuttonbox1">
+		  <property name="visible">True</property>
+		  <property name="layout_style">GTK_BUTTONBOX_END</property>
+		  <property name="spacing">30</property>
+		</widget>
+		<packing>
+		  <property name="padding">0</property>
+		  <property name="expand">True</property>
+		  <property name="fill">True</property>
+		</packing>
+	      </child>
+	    </widget>
+	    <packing>
+	      <property name="tab_expand">False</property>
+	      <property name="tab_fill">True</property>
+	    </packing>
+	  </child>
+
+	  <child>
+	    <widget class="GtkLabel" id="label9">
+	      <property name="visible">True</property>
+	      <property name="label" translatable="yes">_Preview</property>
+	      <property name="use_underline">True</property>
+	      <property name="use_markup">False</property>
+	      <property name="justify">GTK_JUSTIFY_CENTER</property>
+	      <property name="wrap">False</property>
+	      <property name="selectable">False</property>
+	      <property name="xalign">0.5</property>
+	      <property name="yalign">0.5</property>
+	      <property name="xpad">0</property>
+	      <property name="ypad">0</property>
+	    </widget>
+	    <packing>
+	      <property name="type">tab</property>
+	    </packing>
+	  </child>
+
+	  <child>
+	    <widget class="GtkTable" id="table4">
+	      <property name="border_width">4</property>
+	      <property name="visible">True</property>
+	      <property name="n_rows">4</property>
+	      <property name="n_columns">2</property>
+	      <property name="homogeneous">False</property>
+	      <property name="row_spacing">4</property>
+	      <property name="column_spacing">4</property>
+
+	      <child>
+		<widget class="GtkScrolledWindow" id="scrolledwindow14">
+		  <property name="visible">True</property>
+		  <property name="hscrollbar_policy">GTK_POLICY_NEVER</property>
+		  <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
+		  <property name="shadow_type">GTK_SHADOW_IN</property>
+		  <property name="window_placement">GTK_CORNER_TOP_LEFT</property>
+
+		  <child>
+		    <widget class="GtkTextView" id="format_info_descr">
+		      <property name="visible">True</property>
+		      <property name="tooltip" translatable="yes">A short description of the template</property>
+		      <property name="editable">False</property>
+		      <property name="justification">GTK_JUSTIFY_LEFT</property>
+		      <property name="wrap_mode">GTK_WRAP_WORD</property>
+		      <property name="cursor_visible">True</property>
+		      <property name="pixels_above_lines">0</property>
+		      <property name="pixels_below_lines">0</property>
+		      <property name="pixels_inside_wrap">0</property>
+		      <property name="left_margin">0</property>
+		      <property name="right_margin">0</property>
+		      <property name="indent">0</property>
+		      <property name="text" translatable="yes"></property>
+		    </widget>
+		  </child>
+		</widget>
+		<packing>
+		  <property name="left_attach">1</property>
+		  <property name="right_attach">2</property>
+		  <property name="top_attach">3</property>
+		  <property name="bottom_attach">4</property>
+		  <property name="x_options">expand|shrink|fill</property>
+		  <property name="y_options">expand|shrink|fill</property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkEntry" id="format_info_cat">
+		  <property name="visible">True</property>
+		  <property name="tooltip" translatable="yes">The category this template belongs to</property>
+		  <property name="editable">False</property>
+		  <property name="visibility">True</property>
+		  <property name="max_length">0</property>
+		  <property name="text" translatable="yes"></property>
+		  <property name="has_frame">True</property>
+		  <property name="invisible_char" translatable="yes">*</property>
+		  <property name="activates_default">False</property>
+		</widget>
+		<packing>
+		  <property name="left_attach">1</property>
+		  <property name="right_attach">2</property>
+		  <property name="top_attach">2</property>
+		  <property name="bottom_attach">3</property>
+		  <property name="y_options"></property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkEntry" id="format_info_author">
+		  <property name="visible">True</property>
+		  <property name="tooltip" translatable="yes">The group/individual that made the template</property>
+		  <property name="editable">False</property>
+		  <property name="visibility">True</property>
+		  <property name="max_length">0</property>
+		  <property name="text" translatable="yes"></property>
+		  <property name="has_frame">True</property>
+		  <property name="invisible_char" translatable="yes">*</property>
+		  <property name="activates_default">False</property>
+		</widget>
+		<packing>
+		  <property name="left_attach">1</property>
+		  <property name="right_attach">2</property>
+		  <property name="top_attach">1</property>
+		  <property name="bottom_attach">2</property>
+		  <property name="y_options"></property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkEntry" id="format_info_name">
+		  <property name="visible">True</property>
+		  <property name="tooltip" translatable="yes">Name of template</property>
+		  <property name="editable">False</property>
+		  <property name="visibility">True</property>
+		  <property name="max_length">0</property>
+		  <property name="text" translatable="yes"></property>
+		  <property name="has_frame">True</property>
+		  <property name="invisible_char" translatable="yes">*</property>
+		  <property name="activates_default">False</property>
+		</widget>
+		<packing>
+		  <property name="left_attach">1</property>
+		  <property name="right_attach">2</property>
+		  <property name="top_attach">0</property>
+		  <property name="bottom_attach">1</property>
+		  <property name="x_options">expand|shrink|fill</property>
+		  <property name="y_options"></property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkLabel" id="label9">
+		  <property name="visible">True</property>
+		  <property name="label" translatable="yes">Name:</property>
+		  <property name="use_underline">False</property>
+		  <property name="use_markup">False</property>
+		  <property name="justify">GTK_JUSTIFY_LEFT</property>
+		  <property name="wrap">False</property>
+		  <property name="selectable">False</property>
+		  <property name="xalign">0</property>
+		  <property name="yalign">0.5</property>
+		  <property name="xpad">0</property>
+		  <property name="ypad">0</property>
+		</widget>
+		<packing>
+		  <property name="left_attach">0</property>
+		  <property name="right_attach">1</property>
+		  <property name="top_attach">0</property>
+		  <property name="bottom_attach">1</property>
+		  <property name="x_options">fill</property>
+		  <property name="y_options"></property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkLabel" id="label10">
+		  <property name="visible">True</property>
+		  <property name="label" translatable="yes">Author:</property>
+		  <property name="use_underline">False</property>
+		  <property name="use_markup">False</property>
+		  <property name="justify">GTK_JUSTIFY_LEFT</property>
+		  <property name="wrap">False</property>
+		  <property name="selectable">False</property>
+		  <property name="xalign">0</property>
+		  <property name="yalign">0.5</property>
+		  <property name="xpad">0</property>
+		  <property name="ypad">0</property>
+		</widget>
+		<packing>
+		  <property name="left_attach">0</property>
+		  <property name="right_attach">1</property>
+		  <property name="top_attach">1</property>
+		  <property name="bottom_attach">2</property>
+		  <property name="x_options">fill</property>
+		  <property name="y_options"></property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkLabel" id="label11">
+		  <property name="visible">True</property>
+		  <property name="label" translatable="yes">Category:</property>
+		  <property name="use_underline">False</property>
+		  <property name="use_markup">False</property>
+		  <property name="justify">GTK_JUSTIFY_LEFT</property>
+		  <property name="wrap">False</property>
+		  <property name="selectable">False</property>
+		  <property name="xalign">0</property>
+		  <property name="yalign">0.5</property>
+		  <property name="xpad">0</property>
+		  <property name="ypad">0</property>
+		</widget>
+		<packing>
+		  <property name="left_attach">0</property>
+		  <property name="right_attach">1</property>
+		  <property name="top_attach">2</property>
+		  <property name="bottom_attach">3</property>
+		  <property name="x_options">fill</property>
+		  <property name="y_options"></property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkLabel" id="label12">
+		  <property name="visible">True</property>
+		  <property name="label" translatable="yes">Description:</property>
+		  <property name="use_underline">False</property>
+		  <property name="use_markup">False</property>
+		  <property name="justify">GTK_JUSTIFY_LEFT</property>
+		  <property name="wrap">False</property>
+		  <property name="selectable">False</property>
+		  <property name="xalign">0</property>
+		  <property name="yalign">0.1</property>
+		  <property name="xpad">0</property>
+		  <property name="ypad">0</property>
+		</widget>
+		<packing>
+		  <property name="left_attach">0</property>
+		  <property name="right_attach">1</property>
+		  <property name="top_attach">3</property>
+		  <property name="bottom_attach">4</property>
+		  <property name="x_options">fill</property>
+		  <property name="y_options">fill</property>
+		</packing>
+	      </child>
+	    </widget>
+	    <packing>
+	      <property name="tab_expand">False</property>
+	      <property name="tab_fill">True</property>
+	    </packing>
+	  </child>
+
+	  <child>
+	    <widget class="GtkLabel" id="label10">
+	      <property name="visible">True</property>
+	      <property name="label" translatable="yes">_Template Details</property>
+	      <property name="use_underline">True</property>
+	      <property name="use_markup">False</property>
+	      <property name="justify">GTK_JUSTIFY_CENTER</property>
+	      <property name="wrap">False</property>
+	      <property name="selectable">False</property>
+	      <property name="xalign">0.5</property>
+	      <property name="yalign">0.5</property>
+	      <property name="xpad">0</property>
+	      <property name="ypad">0</property>
+	    </widget>
+	    <packing>
+	      <property name="type">tab</property>
+	    </packing>
+	  </child>
+	</widget>
+	<packing>
+	  <property name="padding">0</property>
+	  <property name="expand">True</property>
+	  <property name="fill">True</property>
+	</packing>
+      </child>
+    </widget>
+  </child>
+</widget>
+
 </glade-interface>

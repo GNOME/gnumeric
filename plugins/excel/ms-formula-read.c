@@ -1356,9 +1356,9 @@ excel_parse_formula (MSContainer const *container,
 					ExcelSupBook const *sup = &g_array_index (
 						container->ewb->v8.supbook,
 						ExcelSupBook, es->supbook);
-					if (sup->type == EXCEL_SUP_BOOK_SELFREF) {
+					if (sup->type == EXCEL_SUP_BOOK_SELFREF)
 						a = container->ewb->container.names;
-					} else
+					else
 						a = sup->externname;
 
 					sheet = es->first;

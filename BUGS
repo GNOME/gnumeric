@@ -10,8 +10,6 @@ Release Critical
 - validate expression names to ensure that they are not simple values (eg TRUE)
 - height calculation in render value is hosed for embedded new lines
 - fix stf export warnings
-- autoformat borked due to foocanvas
-- font preview in cell format borked due to foocanvas
 - T seems broken -- see textfuns.xls
 
 Pending Patches

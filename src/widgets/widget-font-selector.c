@@ -303,6 +303,7 @@ fs_init (FontSelector *fs)
 	fs->font_preview_canvas = FOO_CANVAS (w);
 	foo_canvas_set_scroll_region (fs->font_preview_canvas, -1, -1, INT_MAX/2, INT_MAX/2);
 	foo_canvas_scroll_to (fs->font_preview_canvas, 0, 0);
+	gtk_widget_show_all (w);
 	w = glade_xml_get_widget (fs->gui, "font-preview-frame");
 	gtk_container_add (GTK_CONTAINER (w), GTK_WIDGET (fs->font_preview_canvas));
 	fs->font_preview_grid = PREVIEW_GRID (foo_canvas_item_new (

@@ -1,3 +1,9 @@
+2002-11-13  Jody Goldberg <jody@gnome.org>
+
+	* dialog-autoformat.c : Convert to foo canvas.
+	(cb_autoformat_destroy) : no need to free the canvas items.  The
+	  canvas already did that.
+
 2002-11-12  Jon K Hellan  <hellan@acm.org>
 
 	* dialog-about.c (dialog_about): Spell out my full name in UTF-8.

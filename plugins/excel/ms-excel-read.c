@@ -3232,15 +3232,15 @@ excel_read_DEF_ROW_HEIGHT (BiffQuery *q, ExcelSheet *esheet)
 		return;
 	}
 
-	d (1, {
-		fprintf (stderr,"Default row height 0x%x;\n", height);
+	height_units = get_row_height_units (height);
+	d (2, {
+		fprintf (stderr,"Default row height %3.3g;\n", height_units);
 		if (flags & 0x04)
 			fprintf (stderr," + extra space above;\n");
 		if (flags & 0x08)
 			fprintf (stderr," + extra space below;\n");
 	});
 
-	height_units = get_row_height_units (height);
 	sheet_row_set_default_size_pts (esheet->sheet, height_units);
 }
 

@@ -572,9 +572,9 @@ ms_biff_put_len_commit (BiffPut *bp)
 	g_return_if_fail (bp->len_fixed);
 	g_return_if_fail (bp->length == 0 || bp->data);
 	if (bp->version >= MS_BIFF_V8)
-		g_return_val_if_fail (bp->length < MAX_BIFF8_RECORD_SIZE, 0);
+		g_return_if_fail (bp->length < MAX_BIFF8_RECORD_SIZE);
 	else
-		g_return_val_if_fail (bp->length < MAX_BIFF7_RECORD_SIZE, 0);
+		g_return_if_fail (bp->length < MAX_BIFF7_RECORD_SIZE);
 
 /*	if (!bp->data_malloced) Unimplemented optimisation
 		bp->output->lseek (bp->output, bp->length, G_SEEK_CUR);
