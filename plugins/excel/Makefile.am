@@ -41,11 +41,10 @@ noinst_PROGRAMS =		\
 	ole
 
 ole_SOURCES =			\
+	ms-biff.c		\
 	ole.c
 
-
 ole_LDADD =			\
-	ms-biff.o		\
 	libole2/libole2.a	\
         $(GNOME_LIBDIR)		\
         $(GNOME_LIBS)		\

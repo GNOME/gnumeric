@@ -140,6 +140,8 @@ ms_parse_object_anchor (int anchor[4],
 		/* FIXME : we are slightly off.  Tweak the pixels/inch ratio
 		 * to make this come out on my screen for pic.xls.
 		 * 66 pixels/inch seems correct ???
+		 *
+		 * This constant should be made into a std routine somewhere.
 		 */
 		float margin = (MS_OLE_GET_GUINT16 (data + 4 * i + 2) / (1024. / 66.));
 
@@ -238,6 +240,7 @@ ms_read_TXO (BiffQuery *q, ExcelWorkbook * wb)
 	    /* TODO TODO finish */
 	}
 
+#ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug > 0) {
 		printf ("{ TextObject\n");
 		printf ("Text '%s'\n", text);
@@ -245,17 +248,20 @@ ms_read_TXO (BiffQuery *q, ExcelWorkbook * wb)
 			orientations[orient], haligns[halign], valigns[valign]);
 		printf ("}; /* TextObject */\n");
 	}
+#endif
 }
 
 static void
 ms_obj_dump (guint8 const * const data, int const len, char const * const name)
 {
+#ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug < 2)
 		return;
 
 	printf ("{ %s \n", name);
 	dump (data+4, len);
 	printf ("}; /* %s */\n", name);
+#endif
 }
 
 
@@ -380,9 +386,11 @@ ms_obj_read_biff8_obj (BiffQuery *q, ExcelWorkbook * wb, Sheet * sheet, MSObj * 
 		{
 			guint16 const row = MS_OLE_GET_GUINT16(data+11);
 			guint16 const col = MS_OLE_GET_GUINT16(data+13) &0x3fff;
+#ifndef NO_DEBUG_EXCEL
 			if (ms_excel_read_debug > 0)
 				printf ("Checkbox linked to : %s%d\n", col_name(col), row+1);
 			ms_obj_dump (data, len, "CheckBoxFmla");
+#endif
 			break;
 		}
 
@@ -400,6 +408,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, ExcelWorkbook * wb, Sheet * sheet, MSObj * 
 			if (ms_excel_read_debug == 0)
 				break;
 
+#ifndef NO_DEBUG_EXCEL
 			if (options&0x0001)
 				printf ("Locked;\n");
 			if (options&0x0010)
@@ -412,6 +421,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, ExcelWorkbook * wb, Sheet * sheet, MSObj * 
 			if ((options & 0x9fee) != 0)
 				printf ("WARNING : Why is option not 0 (%x)\n",
 					options & 0x9fee);
+#endif
 		}
 		break;
 
