@@ -1,6 +1,7 @@
 2003-06-13  Jody Goldberg <jody@gnome.org>
 
 	* color-palette.c : include string.h to suppress warning
+	(color_palette_change_custom_color) : be extra anal to calm gcc.
 
 2003-06-13  Jon K Hellan  <hellan@acm.org>
 

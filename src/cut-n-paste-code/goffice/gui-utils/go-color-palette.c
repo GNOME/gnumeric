@@ -147,14 +147,14 @@ emit_color_changed (ColorPalette *P, GdkColor *color,
  * Also take care of setting up the GnomeColorPicker 'display'
  */
 static void
-color_palette_change_custom_color (ColorPalette *P, GdkColor const * const new)
+color_palette_change_custom_color (ColorPalette *P, GdkColor const *new_color)
 {
 	int index;
 	GtkWidget *swatch;
-	GtkWidget *next_swatch;
+	GtkWidget *next_swatch = NULL;
 
 	g_return_if_fail (P != NULL);
-	g_return_if_fail (new != NULL);
+	g_return_if_fail (new_color != NULL);
 	g_return_if_fail (P->picker);
 
 	/* make sure there is room */
@@ -170,12 +170,11 @@ color_palette_change_custom_color (ColorPalette *P, GdkColor const * const new)
 		gtk_widget_set_style (swatch, style);
 		g_object_unref (style);
 	}
-	next_swatch->style->bg[GTK_STATE_NORMAL] = *new;
-	gnome_color_picker_set_i16 (P->picker,
-				    new->red,
-				    new->green,
-				    new->blue,
-				    0);
+	if (next_swatch != NULL) {
+		next_swatch->style->bg[GTK_STATE_NORMAL] = *new_color;
+		gnome_color_picker_set_i16 (P->picker,
+			new_color->red, new_color->green, new_color->blue, 0);
+	}
 }
 
 /*
