@@ -34,7 +34,6 @@
 #include "gutils.h"
 #include <gsf/gsf-impl-utils.h>
 
-#include <ctype.h>
 #include <string.h>
 
 static struct {
