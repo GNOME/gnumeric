@@ -1,5 +1,12 @@
 2003-08-24  Jody Goldberg <jody@gnome.org>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=120541
+	* src/sheet.c (sheet_delete_cols) : we were only flagging the residual
+	  that moved as having changed, not the source.
+	(sheet_delete_rows) : ditto.
+
+2003-08-24  Jody Goldberg <jody@gnome.org>
+
 	* src/commands.c (cmd_so_graph_config_redo) : no need to diddle with
 	  references.  set_gog adds and unrefs as necessary internally.
 	(cmd_so_graph_config_undo) : all we need to do is watch our

@@ -3172,6 +3172,10 @@ sheet_delete_cols (Sheet *sheet,
 		sheet_col_destroy (sheet, i, TRUE);
 	sheet_objects_clear (sheet, &reloc_info.origin, G_TYPE_NONE);
 
+	/* 1.5 sheet_colrow_delete_finish will flag the remains as changing, but we
+	 * need to mark the cleared area */
+	sheet_flag_status_update_range (sheet, &reloc_info.origin);
+
 	/* 2. Invalidate references to the cells in the delete columns */
 	reloc_storage->exprs = dependents_relocate (&reloc_info);
 
@@ -3285,6 +3289,10 @@ sheet_delete_rows (Sheet *sheet,
 	for (i = row + count ; --i >= row; )
 		sheet_row_destroy (sheet, i, TRUE);
 	sheet_objects_clear (sheet, &reloc_info.origin, G_TYPE_NONE);
+
+	/* 1.5 sheet_colrow_delete_finish will flag the remains as changing, but we
+	 * need to mark the cleared area */
+	sheet_flag_status_update_range (sheet, &reloc_info.origin);
 
 	/* 2. Invalidate references to the cells in the delete columns */
 	reloc_storage->exprs = dependents_relocate (&reloc_info);
@@ -3952,7 +3960,7 @@ sheet_dup (Sheet const *src)
 	g_free (name);
 
 	old_zoom_factor = src->last_zoom_factor_used;
-	sheet_set_zoom_factor (src, 1., TRUE, FALSE);
+	sheet_set_zoom_factor ((Sheet *)src, 1., TRUE, FALSE);
 
         /* Copy the print info */
 	print_info_free (dst->print_info);
@@ -3979,7 +3987,7 @@ sheet_dup (Sheet const *src)
 	dst->scenarios = scenario_copy_all (src->scenarios, dst);
 
 	/* Force a respan and rerender */
-	sheet_set_zoom_factor (src, old_zoom_factor, TRUE, TRUE);
+	sheet_set_zoom_factor ((Sheet *)src, old_zoom_factor, TRUE, TRUE);
 	sheet_set_zoom_factor (dst, src->last_zoom_factor_used, TRUE, TRUE);
 
 	sheet_set_dirty (dst, TRUE);
