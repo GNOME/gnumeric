@@ -502,7 +502,7 @@
 
 		<toolitem type="toggle" name="CenterAcrossSelection"
 		 pixtype="stock" pixname="Gnumeric_CenterAcrossSelection"
-		 _label="CenterAcrossSelection" _tip="Right justifies the contents of each cell"
+		 _label="CenterAcrossSelection" _tip="Centers across the selected cells"
 		 verb="CenterAcrossSelection"/>
 
 		<separator/>
