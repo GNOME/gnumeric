@@ -1,3 +1,7 @@
+2000-06-14  Morten Welinder  <terra@diku.dk>
+
+	* src/print.c (sheet_print): Complain when printing fails.
+
 2000-06-14  JP Rosevear  <jpr@arcavia.com>
 
 	* samples/excel/sort.xls: Add sort sample.  Now we see that Excel
