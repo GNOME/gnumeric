@@ -206,6 +206,8 @@ style_region_copy (const StyleRegion *sra)
 static inline void
 style_region_destroy (StyleRegion *sr)
 {
+	g_return_if_fail (sr != NULL);
+
 	mstyle_unref (sr->style);
 	sr->style = NULL;
 	g_free (sr);
@@ -896,6 +898,86 @@ sheet_style_relocate (const ExprRelocateInfo *rinfo)
 	sheet_style_cache_flush (rinfo->target_sheet);
 	if (rinfo->origin_sheet != rinfo->target_sheet)
 		sheet_style_cache_flush (rinfo->origin_sheet);
+}
+
+GList *
+sheet_get_styles_in_range (Sheet *sheet, Range r)
+{
+	GList *ans = NULL;
+	GList *l, *next;
+
+	g_return_val_if_fail (sheet != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+
+/* 1. Fragment each StyleRegion against the original range */
+	for (l = STYLE_LIST (sheet); l && l->next; l = next) {
+		StyleRegion *sr = (StyleRegion *)l->data;
+		GList       *fragments, *f;
+
+		next = l->next;
+
+		if (!range_overlap (&sr->range, &r))
+			continue;
+
+		fragments = range_split_ranges (&r, (Range *)sr,
+						(RangeCopyFn)style_region_copy);
+		
+/* 2. Iterate over each fragment */
+		for (f = fragments; f; f = f->next) {
+			StyleRegion *frag = (StyleRegion *)f->data;
+
+/* 2.1 If it is within our range of interest keep it */
+			if (range_overlap (&frag->range, &r)) {
+/* 2.1.1 Translate the range so it it's origin is the TLC of 'r' */
+				range_translate (&frag->range,
+						 - r.start.col,
+						 - r.start.row);
+				ans = g_list_prepend (ans, frag);
+			} else
+/* 2.2 Else send it packing */
+				style_region_destroy (frag);
+		}
+		if (fragments)
+			g_list_free (fragments);
+	}
+
+	return ans;
+}
+
+void
+sheet_style_list_destroy (GList *list)
+{
+	GList *l;
+
+	g_return_if_fail (list != NULL);
+
+	for (l = list; l; l = g_list_next (l))
+		style_region_destroy (l->data);
+
+	g_list_free (list);
+}
+
+void
+sheet_style_attach_list (Sheet *sheet, const GList *list,
+			 const Range *boundary, gboolean transpose)
+{
+	const GList *l;
+
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	/* Sluggish but simple implementation for now */
+	for (l = list; l; l = g_list_next (l)) {
+		const StyleRegion *sr = l->data;
+		Range              r  = sr->range;
+
+		range_translate (&r, +boundary->start.col, +boundary->start.row);
+		if (transpose)
+			range_transpose (&r, &boundary->start);
+
+		mstyle_ref (sr->style);
+		sheet_style_attach (sheet, r, sr->style);
+	}
 }
 
 static void

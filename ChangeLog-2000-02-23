@@ -1,3 +1,25 @@
+2000-01-23  Michael Meeks  <michael@edenproject.org>
+
+
+	* src/ranges.c (range_translate): fix glaring bugs + make
+	semantics saner.
+	(range_transpose): implement.
+
+	* src/clipboard.c (do_clipboard_paste_cell_region): s/cell.cell/cell.
+	(x_selection_to_cell_region): Null styles.
+	(clipboard_prepend_cell): kill mstyle inefficiency.
+	(clipboard_release): destroy styles.
+	(sheet_paste_selection): new style bits.
+
+	* src/render-ascii.c (cell_region_render_ascii): kill cell.cell
+
+	* src/cell.h (CellCopy): Kill MStyle member.
+
+	* src/ranges.c (range_init): implement helper.
+
+	* src/sheet-style.c (style_region_destroy): add precondition.
+	(sheet_get_styles_in_range, sheet_style_list_destroy): implement.
+
 2000-01-22  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet-view.c (sheet_view_redraw_headers) : New function that

@@ -22,6 +22,20 @@
 #include "gnumeric.h"
 #include "ranges.h"
 
+Range *
+range_init (Range *r, int start_col, int start_row,
+	    int end_col, int end_row)
+{
+	g_return_val_if_fail (r != NULL, r);
+
+	r->start.col = start_col;
+	r->start.row = start_row;
+	r->end.col   = end_col;
+	r->end.row   = end_row;
+
+	return r;
+}
+
 /**
  * range_parse:
  * @sheet: the sheet where the cell range is evaluated
@@ -856,32 +870,126 @@ ranges_set_style (Sheet *sheet, GSList *ranges, MStyle *mstyle)
  * @col_offset: 
  * @row_offset: 
  * 
- * Translate the range, returns TRUE if the range is
- * still valid ( on the sheet ), otherwise FALSE.
- * will clip the result range to the sheet dimensions hence
- * does not preserve area.
- * If we return FALSE the Range is undefined.
+ * Translate the range, returns TRUE if the range was clipped
+ * otherwise FALSE.
  * 
- * Return value: range still valid.
+ * Return value: range clipped.
  **/
 gboolean
 range_translate (Range *range, int col_offset,
 		 int row_offset)
 {
+	gboolean clipped = FALSE;
+
 	if (range->end.col   + col_offset < 0 ||
 	    range->start.col + col_offset >= SHEET_MAX_COLS)
-		return FALSE;
+		clipped = TRUE;
 
 	if (range->end.row   + row_offset < 0 ||
 	    range->start.row + row_offset >= SHEET_MAX_ROWS)
-		return FALSE;
+		clipped = TRUE;
 
-	range->start.col += MIN (col_offset, SHEET_MAX_COLS - 1);
-	range->end.col   += MIN (col_offset, SHEET_MAX_COLS - 1);
-	range->start.row += MIN (row_offset, SHEET_MAX_ROWS - 1);
-	range->end.row   += MIN (row_offset, SHEET_MAX_ROWS - 1);
+	range->start.col = MIN (range->start.col + col_offset,
+				SHEET_MAX_COLS - 1);
+	range->end.col   = MIN (range->end.col   + col_offset,
+				SHEET_MAX_COLS - 1);
+	range->start.row = MIN (range->start.row + row_offset,
+				SHEET_MAX_ROWS - 1);
+	range->end.row   = MIN (range->end.row   + row_offset,
+				SHEET_MAX_ROWS - 1);
 
-	return TRUE;
+	if (range->start.col < 0) {
+		range->start.col = 0;
+		clipped = TRUE;
+	}
+
+	if (range->start.row < 0) {
+		range->start.row = 0;
+		clipped = TRUE;
+	}
+
+	if (range->end.col < 0) {
+		range->end.col   = 0;
+		clipped = TRUE;
+	}
+
+	if (range->end.row < 0) {
+		range->end.row   = 0;
+		clipped = TRUE;
+	}
+
+	return clipped;
+}
+
+/**
+ * range_transpose:
+ * @range: The range.
+ * @boundary: The box to transpose inside
+ * 
+ *   Effectively mirrors the ranges in 'boundary' around a
+ * leading diagonal projected from offset.
+ * 
+ * Return value: whether we clipped the range.
+ **/
+gboolean
+range_transpose (Range *range, const CellPos *origin)
+{
+	gboolean clipped = FALSE;
+	Range    src;
+	int      t;
+
+	g_return_val_if_fail (range != NULL, TRUE);
+
+	src = *range;
+
+	/* Start col */
+	t = origin->col + (src.start.row - origin->row);
+	if (t > SHEET_MAX_COLS - 1) {
+		clipped = TRUE;
+		range->start.col = SHEET_MAX_COLS - 1;
+	} else if (t < 0) {
+		clipped = TRUE;
+		range->start.col = 0;
+	}
+		range->start.col = t;
+
+	/* Start row */
+	t = origin->row + (src.start.col - origin->col);
+	if (t > SHEET_MAX_COLS - 1) {
+		clipped = TRUE;
+		range->start.row = SHEET_MAX_ROWS - 1;
+	} else if (t < 0) {
+		clipped = TRUE;
+		range->start.row = 0;
+	}
+		range->start.row = t;
+
+
+	/* End col */
+	t = origin->col + (src.end.row - origin->row);
+	if (t > SHEET_MAX_COLS - 1) {
+		clipped = TRUE;
+		range->end.col = SHEET_MAX_COLS - 1;
+	} else if (t < 0) {
+		clipped = TRUE;
+		range->end.col = 0;
+	}
+		range->end.col = t;
+
+	/* End row */
+	t = origin->row + (src.end.col - origin->col);
+	if (t > SHEET_MAX_COLS - 1) {
+		clipped = TRUE;
+		range->end.row = SHEET_MAX_ROWS - 1;
+	} else if (t < 0) {
+		clipped = TRUE;
+		range->end.row = 0;
+	}
+		range->end.row = t;
+
+	g_assert (range_valid (&range));
+
+	return clipped;
 }
 
 /**

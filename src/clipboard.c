@@ -17,6 +17,7 @@
 #include "application.h"
 #include "render-ascii.h"
 #include "workbook-view.h"
+#include "ranges.h"
 
 /*
  * Callback information.
@@ -84,27 +85,18 @@ paste_cell_flags (Sheet *dest_sheet, int target_col, int target_row,
 		r.start.row = target_row;
 		r.end.col   = target_col;
 		r.end.row   = target_row;
-		if (c_copy->u.cell.mstyle) {
-			mstyle_ref (c_copy->u.cell.mstyle);
-			sheet_style_attach (dest_sheet, r, c_copy->u.cell.mstyle);
-		}
 	} else {
 		Cell *new_cell;
 
 		if (c_copy->type != CELL_COPY_TYPE_TEXT) {
 			Range r;
 
-			new_cell = cell_copy (c_copy->u.cell.cell);
+			new_cell = cell_copy (c_copy->u.cell);
 
 			r.start.col = target_col;
 			r.start.row = target_row;
 			r.end.col   = target_col;
 			r.end.row   = target_row;
-			if (c_copy->u.cell.mstyle) {
-				mstyle_ref (c_copy->u.cell.mstyle);
-				sheet_style_attach (dest_sheet, r,
-						    c_copy->u.cell.mstyle);
-			}
 
 			paste_cell (dest_sheet, new_cell,
 				    target_col, target_row, paste_flags);
@@ -277,9 +269,10 @@ x_selection_to_cell_region (char const * data, int len)
 
 	/* Return the CellRegion */
 	cr = g_new (CellRegion, 1);
-	cr->list = list;
-	cr->cols = cols ? cols : 1;
-	cr->rows = rows + 1;
+	cr->list   = list;
+	cr->cols   = cols ? cols : 1;
+	cr->rows   = rows + 1;
+	cr->styles = NULL;
 
 	return cr;
 }
@@ -312,7 +305,7 @@ sheet_paste_selection (CommandContext *context, Sheet *sheet,
 	if (pc->dest_row + paste_height > SHEET_MAX_ROWS)
 		paste_height = SHEET_MAX_ROWS - pc->dest_row;
 
-	if (pc->paste_flags & PASTE_TRANSPOSE){
+	if (pc->paste_flags & PASTE_TRANSPOSE) {
 		int t;
 
 		end_col = pc->dest_col + paste_height - 1;
@@ -327,21 +320,26 @@ sheet_paste_selection (CommandContext *context, Sheet *sheet,
 		end_row = pc->dest_row + paste_height - 1;
 	}
 
+	/* Move the styles on here so we get correct formats before recalc */
+	if (pc->paste_flags & PASTE_FORMATS) {
+		Range boundary;
+
+		boundary.start.col = pc->dest_col;
+		boundary.end.col   = pc->dest_col + paste_width;
+		boundary.start.row = pc->dest_row;
+		boundary.end.row   = pc->dest_row + paste_height;
+		sheet_style_attach_list (sheet, content->styles, &boundary,
+					 (pc->paste_flags & PASTE_TRANSPOSE));
+
+		sheet_style_optimize (sheet, boundary);
+	}
+
 	/* Do the actual paste operation */
 	do_clipboard_paste_cell_region (context,
 		content,      sheet,
 		pc->dest_col, pc->dest_row,
 		paste_width,  paste_height,
 		pc->paste_flags);
-
-	{
-		Range r;
-		r.start.col = pc->dest_col;
-		r.end.col   = pc->dest_col + paste_width;
-		r.start.row = pc->dest_row;
-		r.end.row   = pc->dest_row + paste_height;
-		sheet_style_optimize (sheet, r);
-	}
 
 	sheet_cursor_set (pc->dest_sheet,
 			  pc->dest_col, pc->dest_row,
@@ -496,13 +494,10 @@ clipboard_prepend_cell (Sheet *sheet, int col, int row, Cell *cell, void *user_d
 	CellCopy *copy;
 
 	copy = g_new (CellCopy, 1);
-
-	copy->type = CELL_COPY_TYPE_CELL;
-	copy->u.cell.cell = cell_copy (cell);
-	/* Horrific inefficiency */
-	copy->u.cell.mstyle = sheet_style_compute (sheet, col, row);
-	copy->col_offset    = col - c->base_col;
-	copy->row_offset    = row - c->base_row;
+	copy->type       = CELL_COPY_TYPE_CELL;
+	copy->u.cell     = cell_copy (cell);
+	copy->col_offset = col - c->base_col;
+	copy->row_offset = row - c->base_row;
 
 	c->r->list = g_list_prepend (c->r->list, copy);
 
@@ -520,6 +515,7 @@ clipboard_copy_cell_range (Sheet *sheet,
 			   int end_col, int end_row)
 {
 	append_cell_closure_t c;
+	Range                 r;
 
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
@@ -536,6 +532,9 @@ clipboard_copy_cell_range (Sheet *sheet,
 	sheet_cell_foreach_range (
 		sheet, TRUE, start_col, start_row, end_col, end_row,
 		clipboard_prepend_cell, &c);
+
+	range_init (&r, start_col, start_row, end_col, end_row);
+	c.r->styles = sheet_get_styles_in_range (sheet, r);
 
 	/* reverse the list so that upper left corner is first */
 	c.r->list = g_list_reverse (c.r->list);
@@ -617,18 +616,20 @@ clipboard_release (CellRegion *region)
 
 		if (this_cell->type != CELL_COPY_TYPE_TEXT) {
 			/* The cell is not really in the rows or columns */
-			this_cell->u.cell.cell->sheet = NULL;
-			this_cell->u.cell.cell->row = NULL;
-			this_cell->u.cell.cell->col = NULL;
-			mstyle_unref (this_cell->u.cell.mstyle);
-			this_cell->u.cell.mstyle = NULL;
-			cell_destroy (this_cell->u.cell.cell);
+			this_cell->u.cell->sheet = NULL;
+			this_cell->u.cell->row = NULL;
+			this_cell->u.cell->col = NULL;
+			cell_destroy (this_cell->u.cell);
 		} else
 			g_free (this_cell->u.text);
 		g_free (this_cell);
 	}
+	sheet_style_list_destroy (region->styles);
+	region->styles = NULL;
 
 	g_list_free (region->list);
+	region->list = NULL;
+
 	g_free (region);
 }
 

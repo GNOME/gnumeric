@@ -312,6 +312,11 @@ Range          sheet_get_full_range             (void);
 void           sheet_style_get_extent           (Range *r, Sheet const *sheet);
 Range          sheet_get_extent                 (Sheet const *sheet);
 
+GList         *sheet_get_styles_in_range        (Sheet *sheet, Range r);
+void           sheet_style_list_destroy         (GList *l);
+void           sheet_style_attach_list          (Sheet *sheet, const GList *l,
+						 const Range *boundary, gboolean transpose);
+
 gboolean       sheet_check_for_partial_array (Sheet *sheet,
 					      int const start_row, int const start_col,
 					      int end_row, int end_col);

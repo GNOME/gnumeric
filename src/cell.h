@@ -101,10 +101,7 @@ typedef struct {
 	int col_offset, row_offset; /* Position of the cell */
 	guint8 type;
 	union {
-		struct {
-			Cell   *cell;
-			MStyle *mstyle;
-		} cell;
+		Cell   *cell;
 		char *text;
 	} u;
 } CellCopy;
@@ -114,6 +111,7 @@ typedef GList CellCopyList;
 struct _CellRegion {
 	int          cols, rows;
 	CellCopyList *list;
+	GList        *styles;
 };
 
 char       *value_format                 (Value *value, StyleFormat *format, char **color);
