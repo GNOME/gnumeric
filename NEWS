@@ -20,6 +20,11 @@ Rodrigo :
 Nakai :
 	* Over-the-Spot style support for XIM.
 
+Lutz :
+	* Introduction of placeholders named "FileOperations" and
+	  "PrintOperations" that help components to put their own menus into
+	  the right place.
+
 --------------------------------------------------------------------------
 Gnumeric 0.67
 

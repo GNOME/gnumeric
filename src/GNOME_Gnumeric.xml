@@ -144,17 +144,26 @@
 
     <menu>
 	<submenu name="File" _label="_File">
-	    <menuitem name="FileNew" verb=""/>
-	    <menuitem name="FileOpen" verb=""/>
-	    <menuitem name="FileImport" verb=""/>
-	    <menuitem name="FileSave" verb=""/>
-	    <menuitem name="FileSaveAs" verb=""/>
+
+	    <!-- We provide placeholders hoping that components like EOG
+	         will use them when adding their own menu entries. -->
+	    <placeholder name="FileOperations">
+	        <menuitem name="FileNew" verb=""/>
+	        <menuitem name="FileOpen" verb=""/>
+	        <menuitem name="FileImport" verb=""/>
+	        <menuitem name="FileSave" verb=""/>
+	        <menuitem name="FileSaveAs" verb=""/>
+	    </placeholder>
 
 	    <separator/>
 
-	    <menuitem name="FilePrintSetup" verb=""/>
-	    <menuitem name="FilePrint" verb=""/>
-	    <menuitem name="FilePrintPreview" verb=""/>
+	    <!-- Same as FileOperations. If a component provides menu entries
+	         related to printing, it should use this placeholder. -->
+	    <placeholder name="PrintOperations">
+	        <menuitem name="FilePrintSetup" verb=""/>
+	        <menuitem name="FilePrint" verb=""/>
+	        <menuitem name="FilePrintPreview" verb=""/>
+	    </placeholder>
 
 	    <separator/>
 

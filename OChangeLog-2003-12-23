@@ -1,3 +1,10 @@
+2001-07-08  Lutz Müller <urc8@rz.uni-karlsruhe.de>
+
+	* src/GNOME_Gnumeric.xml: Wrap file related menus into a placeholder
+	named FileOperations. Wrap print related menus into a a placeholder
+	named PrintOperations. This will help components like EOG to put 
+	menu entries into the right place when activated.
+
 2001-07-06  Jody Goldberg <jgoldberg@home.com>
 
 	* src/item-cursor.c (item_cursor_update) : go one past the last
