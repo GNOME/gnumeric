@@ -38,6 +38,7 @@ void       wbcg_autosave_set      (WorkbookControlGUI *wbcg,
 				   int minutes, gboolean prompt);
 void	   wb_control_gui_set_status_text (WorkbookControlGUI *wbcg,
 					   char const *text);
+PangoFontDescription *wbcg_get_font_desc (WorkbookControlGUI *wbcg);
 
 CustomXmlUI *register_xml_ui   (const char *xml_ui, const char *textdomain,
                                 GSList *verb_list, BonoboUIVerbFn verb_fn,

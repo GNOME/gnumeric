@@ -119,6 +119,8 @@ struct _WorkbookControlGUI {
         gint       autosave_minutes;
         gint       autosave_timer;
 
+	PangoFontDescription *font_desc;
+
 	GnumFileSaver *current_saver;
 };
 

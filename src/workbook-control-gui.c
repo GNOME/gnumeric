@@ -3990,6 +3990,8 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("DataOutlineGroup", cb_data_group),
 	BONOBO_UI_UNSAFE_VERB ("DataOutlineUngroup", cb_data_ungroup),
 
+	BONOBO_UI_UNSAFE_VERB ("PivotTable", cb_data_pivottable),
+
 	BONOBO_UI_UNSAFE_VERB ("AutoSum", cb_autosum),
 	BONOBO_UI_UNSAFE_VERB ("FunctionGuru", cb_formula_guru),
 	BONOBO_UI_UNSAFE_VERB ("SortAscending", cb_sort_ascending),
@@ -4485,6 +4487,66 @@ void
 wb_control_gui_set_status_text (WorkbookControlGUI *wbcg, char const *text)
 {
 	gtk_label_set_text (GTK_LABEL (wbcg->status_text), text);
+}
+
+static PangoFontDescription *
+settings_get_font_desc (GtkSettings *settings)
+{
+	PangoFontDescription *font_desc;
+	char *font_str;
+
+	g_object_get (settings, "gtk-font-name", &font_str, NULL);
+	font_desc = pango_font_description_from_string (font_str
+							 ? font_str
+							 : "sans 10");
+	g_free (font_str);
+
+	return font_desc;
+}
+
+static void
+cb_update_item_bar_font (GtkWidget *w, gpointer unused)
+{
+	SheetControl *sc = g_object_get_data (G_OBJECT (w), SHEET_CONTROL_KEY);
+	sc_resize (sc, TRUE);
+}
+
+static void
+cb_desktop_font_changed (GtkSettings *settings, GParamSpec  *pspec,
+			 WorkbookControlGUI *wbcg)
+{
+	if (wbcg->font_desc)
+		pango_font_description_free (wbcg->font_desc);
+	wbcg->font_desc = settings_get_font_desc (settings);
+	gtk_container_foreach (GTK_CONTAINER (wbcg->notebook),
+			       cb_update_item_bar_font, NULL);
+}
+
+static GtkSettings *
+wbcg_get_gtk_settings (WorkbookControlGUI *wbcg)
+{
+#ifdef HAVE_GTK_SETTINGS_GET_FOR_SCREEN
+	g_return_val_if_fail(wbcg->toplevel != NULL, NULL);
+	g_return_val_if_fail(wbcg->toplevel->screen != NULL, NULL);
+
+	return gtk_settings_get_for_screen (wbcg->toplevel->screen);
+#else
+	return gtk_settings_get_default ();
+#endif
+}
+
+PangoFontDescription *
+wbcg_get_font_desc (WorkbookControlGUI *wbcg)
+{
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), NULL);
+	
+	if (!wbcg->font_desc) {
+		GtkSettings *settings = wbcg_get_gtk_settings (wbcg);
+		wbcg->font_desc = settings_get_font_desc (settings);
+		g_signal_connect (settings, "notify::gtk-font-name",
+				  G_CALLBACK (cb_desktop_font_changed), wbcg);
+	}
+	return wbcg->font_desc;
 }
 
 static void
@@ -5067,8 +5129,9 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 	wbcg->autosave_minutes = 0;
 	wbcg->autosave_prompt = FALSE;
 
-	wbcg->current_saver	= NULL;
-
+	wbcg->current_saver = NULL;
+	wbcg->font_desc     = NULL;
+	
 #ifdef WITH_BONOBO
 	wbcg->custom_ui_components =
 		g_hash_table_new_full (NULL, NULL, NULL, custom_uic_destroy);

@@ -1,3 +1,26 @@
+2002-12-03  Jon K Hellan  <hellan@acm.org>
+
+	* src/item-bar.c (item_bar_calc_size): Use default desktop font of
+	screen.
+
+	* src/workbook-control-gui.[ch] (wbcg_get_font_desc): New .Return
+	font_desc of default desktop font, looking it up if not
+	known. Wire up notification about font changes.
+
+	* src/workbook-control-gui.c: Add PivotTable verb.
+	(settings_get_font_desc): New. Get Pango font desc from string.
+	(cb_update_item_bar_font): New callback. Called from
+	gtk_container_foreach for each notebook tab to update the item bars.
+	(cb_desktop_font_changed): New callback. Called when desktop font
+	has changed.
+	(wbcg_get_gtk_settings): New. Gets GtkSettings - by screen if
+	possible.
+	
+	(workbook_control_gui_init): Init font_desc to NULL.
+
+	* src/workbook-control-gui-priv.h (struct _WorkbookControlGUI):
+	Add font_desc.
+
 2002-12-03  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-filter.c : add condition framework
