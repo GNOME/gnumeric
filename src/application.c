@@ -15,6 +15,7 @@
 #include "workbook.h"
 #include "sheet.h"
 
+#include "pixmaps/menu-print-preview.xpm"
 #include "pixmaps/print-preview.xpm"
 #include "pixmaps/sort-ascending.xpm"
 #include "pixmaps/sort-descending.xpm"
@@ -76,6 +77,7 @@ application_init (void)
 		char const * const name;
 		gchar **xpm_data;
 	} const entry_names [] = {
+		{ 16, 16, "Menu_Gnumeric_PrintPreview", menu_print_preview_xpm },
 		{ 24, 24, "Gnumeric_PrintPreview", print_preview_xpm },
 		{ 24, 24, "Gnumeric_SortAscending", sort_ascending_xpm },
 		{ 24, 24, "Gnumeric_SortDescending", sort_descending_xpm },

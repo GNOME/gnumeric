@@ -464,11 +464,11 @@ item_grid_popup_menu (SheetView *sheet_view, GdkEventButton *event,
 	};
 
 	static GnumericPopupMenuElement const popup_elements[] = {
-		{ N_("Cu_t"),           GNOME_STOCK_PIXMAP_CUT,
+		{ N_("Cu_t"),           GNOME_STOCK_MENU_CUT,
 		    0, 0, CONTEXT_CUT },
-		{ N_("_Copy"),          GNOME_STOCK_PIXMAP_COPY,
+		{ N_("_Copy"),          GNOME_STOCK_MENU_COPY,
 		    0, 0, CONTEXT_COPY },
-		{ N_("_Paste"),         GNOME_STOCK_PIXMAP_PASTE,
+		{ N_("_Paste"),         GNOME_STOCK_MENU_PASTE,
 		    0, 0, CONTEXT_PASTE },
 		{ N_("Paste _Special"),	NULL,
 		    0, CONTEXT_ENABLE_PASTE_SPECIAL, CONTEXT_PASTE_SPECIAL },
@@ -484,7 +484,7 @@ item_grid_popup_menu (SheetView *sheet_view, GdkEventButton *event,
 
 		{ "", NULL, 0, 0, 0 },
 
-		{ N_("_Format Cells..."),GNOME_STOCK_PIXMAP_PREFERENCES,
+		{ N_("_Format Cells..."),GNOME_STOCK_MENU_PREF,
 		    0, 0, CONTEXT_FORMAT_CELL },
 
 		/* Column specific (Note some labels duplicate row labels) */

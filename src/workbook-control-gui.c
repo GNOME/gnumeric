@@ -1596,7 +1596,7 @@ static GnomeUIInfo workbook_menu_file [] = {
 	GNOMEUIINFO_MENU_PRINT_ITEM (cb_file_print, NULL),
 	GNOMEUIINFO_ITEM_STOCK (N_("Print pre_view"), N_("Print preview"),
 				cb_file_print_preview,
-				"Gnumeric_PrintPreview"),
+				"Menu_Gnumeric_PrintPreview"),
 
 	GNOMEUIINFO_SEPARATOR,
 
@@ -2220,15 +2220,17 @@ workbook_create_toolbars (WorkbookControlGUI *wbcg)
 }
 
 static void
-cancel_input (GtkWidget *IGNORED, WorkbookControlGUI *wbcg)
+cb_cancel_input (GtkWidget *IGNORED, WorkbookControlGUI *wbcg)
 {
 	workbook_finish_editing (wbcg, FALSE);
+	wb_control_gui_focus_cur_sheet (wbcg);
 }
 
 static void
-accept_input (GtkWidget *IGNORED, WorkbookControlGUI *wbcg)
+cb_accept_input (GtkWidget *IGNORED, WorkbookControlGUI *wbcg)
 {
 	workbook_finish_editing (wbcg, TRUE);
+	wb_control_gui_focus_cur_sheet (wbcg);
 }
 
 static gboolean
@@ -2481,9 +2483,9 @@ workbook_setup_edit_area (WorkbookControlGUI *wbcg)
 	gtk_widget_set_usize (wbcg->selection_descriptor, 100, 0);
 
 	wbcg->cancel_button = edit_area_button (wbcg, FALSE,
-		GTK_SIGNAL_FUNC (cancel_input), GNOME_STOCK_BUTTON_CANCEL);
+		GTK_SIGNAL_FUNC (cb_cancel_input), GNOME_STOCK_BUTTON_CANCEL);
 	wbcg->ok_button = edit_area_button (wbcg, FALSE,
-		GTK_SIGNAL_FUNC (accept_input), GNOME_STOCK_BUTTON_OK);
+		GTK_SIGNAL_FUNC (cb_accept_input), GNOME_STOCK_BUTTON_OK);
 
 	/* Auto function */
 	wbcg->func_button	= gtk_button_new ();
@@ -2519,7 +2521,7 @@ workbook_setup_edit_area (WorkbookControlGUI *wbcg)
 			    GTK_SIGNAL_FUNC (cb_editline_focus_in),
 			    wbcg);
 	gtk_signal_connect (GTK_OBJECT (entry), "activate",
-			    GTK_SIGNAL_FUNC (accept_input),
+			    GTK_SIGNAL_FUNC (cb_accept_input),
 			    wbcg);
 	gtk_signal_connect (GTK_OBJECT (entry), "key_press_event",
 			    GTK_SIGNAL_FUNC (wb_edit_key_pressed),

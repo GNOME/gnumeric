@@ -1,3 +1,23 @@
+2000-10-31  Jody Goldberg <jgoldberg@home.com>
+
+	* src/application.c (application_init) : Register a shrunken version
+	  of the print preview.
+
+	* src/workbook-control-gui.c (workbook_menu_file) : Use the new
+	  shrunken print preview icon.
+
+2000-10-31  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-control-gui.c (cb_cancel_input) : renamed from
+	  cancel_input, and return focus to the sheet.
+	(cb_accept_input) : renamed from accept_input, and return focus
+	  to the sheet.
+
+2000-10-31  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-grid.c (item_grid_popup_menu) : Use the MENU versions of
+	  the stock pixmaps.
+
 2000-10-31  Morten Welinder  <terra@diku.dk>
 
 	* src/analysis-tools.c (get_data_groupped_by_columns): Properly
