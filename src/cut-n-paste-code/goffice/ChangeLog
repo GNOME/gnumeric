@@ -1,5 +1,11 @@
 2003-05-31  Jody Goldberg <jody@gnome.org>
 
+	For Jean Br?fort <jean.brefort@ac-dijon.fr>
+	* graph/gog-style.c (gog_style_editor) : Start work on gradient
+	  selector.
+
+2003-05-31  Jody Goldberg <jody@gnome.org>
+
 	* graph/gog-renderer-pixbuf.c (gog_renderer_pixbuf_update) : fix
 	  canvas warnings about tryingto queue an update from an update
 	  handler.

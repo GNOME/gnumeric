@@ -65,6 +65,7 @@ libgoffice_graph_a_SOURCES = \
 
 
 gnumeric_glade_DATA = \
-	gog-guru.glade
+	gog-guru.glade			\
+	gog-style-prefs.glade
 
 EXTRA_DIST = $(gnumeric_glade_DATA)

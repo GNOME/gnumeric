@@ -9,6 +9,9 @@ Andreas:
 Ben Liblit:
 	* Move the various compile time paths into a generated header.
 
+Jean Br?fort:
+	* Initial version of gradient editor for chart style page.
+
 Jody:
 	* More work on graphs.
 	* Set alwaysCalc flag when xls exporting dynamic dependencies.
