@@ -101,7 +101,7 @@ wbc_gtk_create_status_area (WorkbookControlGUI *wbcg, GtkWidget *progress,
 			    GtkWidget *status, GtkWidget *autoexpr)
 {
 	WBCgtk *gtk = (WBCgtk *)wbcg;
-	gtk->status_area = gtk_hbox_new (FALSE, 2);
+	wbcg->statusbar = gtk->status_area = gtk_hbox_new (FALSE, 2);
 	gtk_box_pack_end (GTK_BOX (gtk->status_area), status, FALSE, TRUE, 0);
 	gtk_box_pack_end (GTK_BOX (gtk->status_area), autoexpr, FALSE, TRUE, 0);
 	gtk_box_pack_end (GTK_BOX (gtk->status_area), progress, TRUE, TRUE, 0);

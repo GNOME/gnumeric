@@ -38,6 +38,8 @@ int	   wbcg_set_format_toolbar_visible (WorkbookControlGUI *wbcg,
 					    int visible);
 int	   wbcg_set_object_toolbar_visible (WorkbookControlGUI *wbcg,
 					    int visible);
+int	   wbcg_set_statusbar_visible (WorkbookControlGUI *wbcg,
+				       int visible);
 void       wbcg_toggle_end_mode   (WorkbookControlGUI *wbcg);
 void       wbcg_set_end_mode      (WorkbookControlGUI *wbcg, gboolean flag);
 

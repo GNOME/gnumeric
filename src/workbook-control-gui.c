@@ -1704,6 +1704,13 @@ wbcg_set_object_toolbar_visible (WorkbookControlGUI *wbcg, int visible)
 	return wbcg_set_toolbar_visible (wbcg->object_toolbar, visible);
 }
 
+int
+wbcg_set_statusbar_visible (WorkbookControlGUI *wbcg, int visible)
+{
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), -1);
+	return wbcg_set_toolbar_visible (wbcg->statusbar, visible);
+}
+
 
 void
 wbcg_toggle_end_mode (WorkbookControlGUI *wbcg)

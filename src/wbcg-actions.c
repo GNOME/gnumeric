@@ -1312,6 +1312,10 @@ static GNM_ACTION_DEF (cb_view_object_toolbar)
 {
 	wbcg_set_object_toolbar_visible (wbcg, -1);
 }
+static GNM_ACTION_DEF (cb_view_statusbar)
+{
+	wbcg_set_statusbar_visible (wbcg, -1);
+}
 
 static GNM_ACTION_DEF (cb_merge_cells)
 {
@@ -2125,13 +2129,17 @@ static GtkToggleActionEntry toggle_actions[] = {
 	        N_("Toggle visibility of standard toolbar"),
 	        G_CALLBACK (cb_view_standard_toolbar), TRUE },
 	{ "ViewFormatToolbar", NULL,
-	        N_("View _Format Toolbar"), NULL,
+	        N_("View F_ormat Toolbar"), NULL,
 	        N_("Toggle visibility of format toolbar"),
 	        G_CALLBACK (cb_view_format_toolbar), TRUE },
 	{ "ViewObjectToolbar", NULL,
 	        N_("View _Object Toolbar"), NULL,
 	        N_("Toggle visibility of object toolbar"),
-	        G_CALLBACK (cb_view_object_toolbar), TRUE }
+	        G_CALLBACK (cb_view_object_toolbar), TRUE },
+	{ "ViewStatusbar", NULL,
+	        N_("View S_tatusbar"), NULL,
+	        N_("Toggle visibility of statusbar"),
+	        G_CALLBACK (cb_view_statusbar), TRUE }
 };
 
 static GtkToggleActionEntry font_toggle_actions[] = {

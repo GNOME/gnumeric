@@ -52,6 +52,7 @@ struct _WorkbookControlGUI {
 	GtkWidget  *auto_expr_label;
 	GtkWidget  *status_text;
 	GtkWidget  *standard_toolbar, *format_toolbar, *object_toolbar;
+	GtkWidget  *statusbar;
 
 	/* Edit area */
 	GtkWidget *selection_descriptor;	/* A GtkEntry */
