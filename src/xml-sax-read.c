@@ -798,10 +798,10 @@ xml_cell_set_array_expr (Cell *cell, char const *text,
 
 	g_return_if_fail (expr != NULL);
 	cell_set_array_formula (cell->sheet,
-				cell->row_info->pos,
-				cell->col_info->pos,
-				cell->row_info->pos + rows-1,
-				cell->col_info->pos + cols-1,
+				cell->pos.row,
+				cell->pos.col,
+				cell->pos.row + rows-1,
+				cell->pos.col + cols-1,
 				expr, TRUE);
 }
 

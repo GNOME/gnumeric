@@ -1,3 +1,8 @@
+2000-08-09  Jody Goldberg <jgoldberg@home.com>
+
+	* xml2.c (xml_cell_set_array_expr) : Use builtin Cell::pos rather than
+	  the row/col infos.
+
 2000-07-24  Jody Goldberg <jgoldberg@home.com>
 
 	* xml2.c (xml2ParseSheetZoom) : Adjust to changes in sheet_set_zoom_factor.
