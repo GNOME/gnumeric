@@ -14,9 +14,6 @@ typedef guint32 SBPtr ;
 
 typedef struct _MS_OLE_HEADER
 {
-  /* Header Data */
-  BBPtr   *bbd_list ; /* [number_of_bbd_blocks] very often 1 */
-
   /* sbd = Small Block Depot ( made up of BB's BTW ) */
   BBPtr   sbd_startblock ;
   guint32 number_of_sbd_blocks ;
@@ -31,26 +28,10 @@ typedef struct _MS_OLE_HEADER
   BBPtr   *root_list ;
 } MS_OLE_HEADER ;
 
-typedef enum _PPS_TYPE { MS_OLE_PPS_STORAGE = 0,
-			 MS_OLE_PPS_STREAM  = 1,
-			 MS_OLE_PPS_ROOT    = 2} PPS_TYPE ;
-typedef guint32 PPSPtr ;
-/* MS_OLE Property Storage
-   Similar to a directory structure */
-typedef struct _MS_OLE_PPS
-{
-  char      *pps_name ;
-  PPS_TYPE  pps_type ;
-  PPSPtr    pps_me ;
-  PPSPtr    pps_prev ;
-  PPSPtr    pps_next ;
-  PPSPtr    pps_dir  ; // Points to sub-dir if there is one.
-  guint32   pps_size ;
-  guint32   pps_startblock ; // BBPtr or SBPtr depending on pps_size
-  guint32   end_block ;
-
-  struct    _MS_OLE_PPS *next ;
-} MS_OLE_PPS ;
+typedef guint32 PPS_IDX ;
+typedef enum _PPS_TYPE { MS_OLE_PPS_STORAGE = 1,
+			 MS_OLE_PPS_STREAM  = 2,
+			 MS_OLE_PPS_ROOT    = 5} PPS_TYPE ;
 
 /**
  * Structure describing an OLE file
@@ -65,10 +46,12 @@ typedef struct _MS_OLE
    **/
 
   MS_OLE_HEADER header ; /* For speed cut down dereferences */
-  MS_OLE_PPS    *root, *end ;
-
+  int file_descriptor ;
 } MS_OLE ;
 
+/* Create new OLE file */
+extern MS_OLE *ms_ole_create  (const char *name) ;
+/* Open existing OLE file */
 extern MS_OLE *ms_ole_new     (const char *name) ;
 extern void    ms_ole_destroy (MS_OLE *ptr) ;
 
@@ -77,20 +60,27 @@ typedef struct _MS_OLE_DIRECTORY
   char      *name ;
   PPS_TYPE  type ;
   guint32   length ;
+  PPS_IDX   pps ;
+  /* Brain damaged linked list workaround */
+  PPS_IDX   primary_entry ;
 
   /* Private */
   MS_OLE *file ;
-  MS_OLE_PPS *pps ;
 } MS_OLE_DIRECTORY ;
 
 extern MS_OLE_DIRECTORY *ms_ole_directory_new (MS_OLE *) ;
 extern int  ms_ole_directory_next (MS_OLE_DIRECTORY *) ;
+extern void ms_ole_directory_enter (MS_OLE_DIRECTORY *) ;
+/* Pointer to the directory in which to create a new stream / storage object */
+extern PPS_IDX ms_ole_directory_create (MS_OLE_DIRECTORY *d, char *name, PPS_TYPE type) ;
+extern void ms_ole_directory_unlink (MS_OLE_DIRECTORY *) ;
 extern void ms_ole_directory_destroy (MS_OLE_DIRECTORY *) ;
 
 typedef struct _MS_OLE_STREAM
 {
   guint32 block ;
   guint16 offset ;
+  guint32 end_block ;
 
   /* functions */
   gboolean (*read_copy )(struct _MS_OLE_STREAM *, guint8 *ptr, guint32 length) ;
@@ -102,19 +92,13 @@ typedef struct _MS_OLE_STREAM
 
   /* PRIVATE */
   MS_OLE *file ;
-  MS_OLE_PPS *pps ;  
+  PPS_IDX pps ;  
 } MS_OLE_STREAM ;
 
 /* Mode = 'r' or 'w' */
-extern MS_OLE_STREAM *ms_ole_stream_open (MS_OLE *f, char *name, char mode) ;
+extern MS_OLE_STREAM *ms_ole_stream_open (MS_OLE *f, PPS_IDX pps, char mode) ;
 extern void ms_ole_stream_close  (MS_OLE_STREAM *st) ;
-extern void ms_ole_stream_unlink (MS_OLE *f, char *name) ;
 
 extern void dump (guint8 *ptr, int len) ;
 
 #endif
-
-
-
-
-

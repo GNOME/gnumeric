@@ -1,3 +1,14 @@
+1998-12-05  Michael Meeks    <michael@imaginator.com>
+
+	* plugins/excel/ms-ole.c: Major work on creation of readable
+	macros for accessing obscure fields, removing magic numbers from
+	main code.
+	(ms_ole_create): Created to create new OLE files.
+
+	* plugins/excel/ms-excel-biff.h: Update comments, and re-arrange.
+	
+	* plugins/excel/ms-biff.h: Commenting fixes
+
 1998-12-04  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* configure.in (ALL_LINGUAS): Added Japanese translation courtesy

@@ -94,12 +94,5 @@ GNOME Spread Sheet task list
 
 * OLE
 
-   addblock_bb ()
-   next_free_bb () 
-   extend_bbd () 
-   extend_root () 
-   extend_sbd ()
-   Consolidate_PPS ...
-   next_free_sb () 
-   addblock_sb ()
+   Need blank OLE file creation.
 

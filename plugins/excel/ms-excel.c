@@ -987,9 +987,12 @@ find_workbook (MS_OLE * ptr)
 	MS_OLE_DIRECTORY *d = ms_ole_directory_new (ptr);
 
 	/*
-	 * The thing to seek; first the kingdom of God, then his: 
+	 * The thing to seek; first the kingdom of God, then this: 
 	 */
-	while (ms_ole_directory_next (d) && d->type == MS_OLE_PPS_STREAM) {
+	while (ms_ole_directory_next (d))
+	  {
+	    if (d->type == MS_OLE_PPS_STREAM)
+	      {
 		int hit = 0;
 
 		/*
@@ -998,10 +1001,11 @@ find_workbook (MS_OLE * ptr)
 		hit |= (strncasecmp (d->name, "book", 4) == 0);
 		hit |= (strncasecmp (d->name, "workbook", 8) == 0);
 		if (hit) {
-			printf ("Found Excel Stream : %s\n", d->name);
-			return ms_ole_stream_open (ptr, d->name, 'r');
+		  printf ("Found Excel Stream : %s\n", d->name);
+		  return ms_ole_stream_open (ptr, d->pps, 'r');
 		}
-	}
+	      }
+	  }
 	printf ("No Excel file found\n");
 	return 0;
 }
