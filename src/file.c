@@ -12,8 +12,7 @@
 #include <fcntl.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <sys/mman.h>
-#include <sys/file.h>
+#include <errno.h>
 #include <libgnome/libgnome.h>
 #include <gal/util/e-util.h>
 #ifdef ENABLE_BONOBO
@@ -271,7 +270,6 @@ gnum_file_saver_save_to_stream_real (GnumFileSaver const *fs,
 		                            error_info_new_from_errno ()));
 	} else {
 		struct stat sbuf;
-		gchar *buf;
 
 		io_progress_range_push (io_context, 0.0, 0.5);
 		gnum_file_saver_save (fs, io_context, wbv, tmp_name);
@@ -285,10 +283,6 @@ gnum_file_saver_save_to_stream_real (GnumFileSaver const *fs,
 			gnumeric_io_error_info_set (io_context, error_info_new_str_with_details (
 			                            _("Cannot get temporary file size."),
 			                            error_info_new_from_errno ()));
-		} else if ((buf = mmap (0, sbuf.st_size, PROT_READ, MAP_PRIVATE, fd, 0)) == (void *) -1) {
-			gnumeric_io_error_info_set (io_context, error_info_new_str_with_details (
-			                            _("Cannot mmap temporary file."),
-			                            error_info_new_from_errno ()));
 		} else {
 			Bonobo_Stream_iobuf *iobuf;
 			gint offset;
@@ -297,21 +291,36 @@ gnum_file_saver_save_to_stream_real (GnumFileSaver const *fs,
 			io_progress_range_push (io_context, 0.5, 1.0);
 			iobuf = Bonobo_Stream_iobuf__alloc ();
 			value_io_progress_set (io_context, sbuf.st_size, FILE_COPY_CHUNK_SIZE);
-			for (offset = 0; offset < sbuf.st_size; offset += FILE_COPY_CHUNK_SIZE) {
+			offset = 0;
+			while (1) {
+				gchar buf[FILE_COPY_CHUNK_SIZE];
+				gint read_bytes;
+
 				value_io_progress_update (io_context, offset);
-				iobuf->_buffer = buf + offset;
-				iobuf->_length = MIN (sbuf.st_size - offset, FILE_COPY_CHUNK_SIZE);
+				read_bytes = read (fd, buf, FILE_COPY_CHUNK_SIZE);
+				if (read_bytes == -1 && errno != EINTR) {
+					gnumeric_io_error_info_set (io_context, error_info_new_str_with_details (
+					                            _("Error reading temporary file."),
+					                            error_info_new_from_errno ()));
+					break;
+				} else if (read_bytes == -1) {
+					continue;
+				} else if (read_bytes == 0) {
+					break;
+				}
+				iobuf->_buffer = buf;
+				iobuf->_length = read_bytes;
 				Bonobo_Stream_write (BONOBO_OBJREF (stream), iobuf, ev);
 				if (BONOBO_EX (ev)) {
 					gnumeric_io_error_string (
 					io_context, _("Exception occured while saving to stream."));
 					break;
 				}
+				offset += read_bytes;
 			}
 			io_progress_unset (io_context);
 			CORBA_free (iobuf);
 			io_progress_range_pop (io_context);
-			munmap (buf, sbuf.st_size);
 		}
 		(void) close (fd);
 	}

@@ -1,3 +1,8 @@
+2001-07-16  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/file.c (gnum_file_saver_save_to_stream_real):
+	Don't mmap the file, use read() instead.
+
 2001-07-16  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/stf-parse.c (stf_parse_csv_line): Use g_list_append and
