@@ -1046,8 +1046,8 @@ excel_map_pattern_index_from_excel (int const i)
 	};
 
 	/* Default to Auto if out of range */
-	g_return_val_if_fail (i < 0 ||
-			      i >= (sizeof(map_from_excel)/sizeof(int)), 0);
+	g_return_val_if_fail (i >= 0 &&
+			      i < (sizeof(map_from_excel)/sizeof(int)), 0);
 
 	return map_from_excel[i];
 }
