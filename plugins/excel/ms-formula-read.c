@@ -399,7 +399,7 @@ const FormulaFuncData formula_func_data[FORMULA_FUNC_DATA_LEN] =
 /* 348 */	{ "SCENARIOGET", -2 },
 /* 349 */	{ "OPTIONSLISTSGET", -2 },
 /* 350 */	{ "ISPMT", 4 },
-/* 351 */	{ "DATEDIF", -2 },
+/* 351 */	{ "DATEDIF", 3 },
 /* 352 */	{ "DATESTRING", -2 },
 /* 353 */	{ "NUMBERSTRING", -2 },
 /* 354 */	{ "ROMAN", -1 },

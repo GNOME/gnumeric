@@ -576,6 +576,7 @@ pln_parse_sheet (GsfInput *input, PlanPerfectImport *state)
 
 		v = NULL;
 		expr = NULL;
+		cell = NULL;
 		if ((type & 0x7) != 0) {
 			style = pln_get_style (state, data, TRUE);
 			if (style != NULL)
@@ -583,7 +584,6 @@ pln_parse_sheet (GsfInput *input, PlanPerfectImport *state)
 			if ((type & 0x7) != 6)
 				cell = sheet_cell_fetch (state->sheet, pp.eval.col, pp.eval.row);
 		} else {
-			cell = NULL;
 			style = NULL;
 		}
 
