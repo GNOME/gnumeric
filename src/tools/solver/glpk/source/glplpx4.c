@@ -106,7 +106,7 @@ static void eq_scal(int m, int n, void *info,
                   if (!(1 <= j && j <= n))
                      fault("eq_scal: i = %d; j = %d; invalid column ind"
                         "ex", i, j);
-                  temp = R[i] * fabs(val[t]) * S[j];
+                  temp = R[i] * gnumabs(val[t]) * S[j];
                   if (big < temp) big = temp;
                }
                /* scale the i-th row */
@@ -128,7 +128,7 @@ static void eq_scal(int m, int n, void *info,
                   if (!(1 <= i && i <= m))
                      fault("eq_scal: i = %d; j = %d; invalid row index",
                         i, j);
-                  temp = R[i] * fabs(val[t]) * S[j];
+                  temp = R[i] * gnumabs(val[t]) * S[j];
                   if (big < temp) big = temp;
                }
                /* scale the j-th column */
@@ -181,7 +181,7 @@ static void eq_scal(int m, int n, void *info,
 -- for the same row and column numbers.
 --
 -- To perform geometric mean scaling the routine gm_scal divides all
--- elements of each row (column) by sqrtgnum (beta/alfa), where alfa and beta
+-- elements of each row (column) by sqrtgnum(beta/alfa), where alfa and beta
 -- are, respectively, smallest and largest absolute values of non-zero
 -- elements of the corresponding row (column). In order to improve the
 -- scaling quality the routine scales rows and columns several times.
@@ -237,7 +237,7 @@ static void gm_scal(int m, int n, void *info,
             for (t = 1; t <= len; t++)
             {  j = ndx[t];
                if (!(1 <= j && j <= n)) goto err2;
-               temp = R[i] * fabs(val[t]) * S[j];
+               temp = R[i] * gnumabs(val[t]) * S[j];
                if (temp == 0.0) continue;
                if (alfa > temp) alfa = temp;
                if (beta < temp) beta = temp;
@@ -272,13 +272,13 @@ err1:                fault("gm_scal: i = %d; len = %d; invalid row leng"
                      if (!(1 <= j && j <= n))
 err2:                   fault("gm_scal: i = %d; j = %d; invalid column "
                            "index", i, j);
-                     temp = R[i] * fabs(val[t]) * S[j];
+                     temp = R[i] * gnumabs(val[t]) * S[j];
                      if (temp == 0.0) continue;
                      if (alfa > temp) alfa = temp;
                      if (beta < temp) beta = temp;
                   }
                   /* scale the i-th row */
-                  if (beta != 0.0) R[i] /= sqrtgnum (alfa * beta);
+                  if (beta != 0.0) R[i] /= sqrtgnum(alfa * beta);
                }
             }
             else
@@ -297,13 +297,13 @@ err2:                   fault("gm_scal: i = %d; j = %d; invalid column "
                      if (!(1 <= i && i <= m))
                         fault("gm_scal: i = %d; j = %d; invalid row ind"
                            "ex", i, j);
-                     temp = R[i] * fabs(val[t]) * S[j];
+                     temp = R[i] * gnumabs(val[t]) * S[j];
                      if (temp == 0.0) continue;
                      if (alfa > temp) alfa = temp;
                      if (beta < temp) beta = temp;
                   }
                   /* scale the j-th column */
-                  if (beta != 0.0) S[j] /= sqrtgnum (alfa * beta);
+                  if (beta != 0.0) S[j] /= sqrtgnum(alfa * beta);
                }
             }
          }

@@ -299,7 +299,7 @@ void inv_ftran(INV *inv, gnum_float x[], int save)
       {  len = 0;
          for (i = 1; i <= m; i++)
          {  temp = x[i];
-            if (temp == 0.0 || fabs(temp) < eps_tol) continue;
+            if (temp == 0.0 || gnumabs(temp) < eps_tol) continue;
             len++;
             cc_ndx[len] = i;
             cc_val[len] = temp;
@@ -651,7 +651,7 @@ int inv_update(INV *inv, int j)
       /* store new pivot that corresponds to u[k2,k2] */
       vr_piv[i] = work[qq_col[k2]];
       /* check if u[k2,k2] is closer to zero */
-      if (fabs(vr_piv[i]) < upd_tol)
+      if (gnumabs(vr_piv[i]) < upd_tol)
       {  /* the factorization should be considered as inaccurate (this
             mainly happens due to excessive round-off errors) */
          inv->valid = luf->valid = 0;
@@ -668,7 +668,7 @@ int inv_update(INV *inv, int j)
          j = qq_col[k];
          temp = work[j];
          /* if v[i,j] is close to zero, skip it */
-         if (fabs(temp) < eps_tol) continue;
+         if (gnumabs(temp) < eps_tol) continue;
          /* at least one unused location is needed in the j-th column */
          if (vc_len[j] + 1 > vc_cap[j])
          {  if (luf_enlarge_col(luf, j, vc_len[j] + 10))

@@ -26,6 +26,7 @@
 #ifndef _GLPSPX_H
 #define _GLPSPX_H
 
+#include "gnumeric-config.h"
 #include "gnumeric.h"
 #include "numbers.h"
 

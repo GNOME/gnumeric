@@ -147,10 +147,10 @@ static void initialize(LP *mip, LPSOL *sol)
       for (j = 1; j <= n; j++)
       {  if (!mip->kind[j]) continue;
          k = m + j; /* x[k] = xS[j] */
-         if (mip->lb[k] != floor(mip->lb[k]))
+         if (mip->lb[k] != floorgnum(mip->lb[k]))
             fault("bbm1_driver: lower bound of some integer structural "
                "variable is not integer");
-         if (mip->ub[k] != floor(mip->ub[k]))
+         if (mip->ub[k] != floorgnum(mip->ub[k]))
             fault("bbm1_driver: upper bound of some integer structural "
                "variable is not integer");
       }
@@ -569,7 +569,7 @@ static void new_bound(int j, int type, gnum_float bound)
       /* x[k] = xS[j] should be integer structural variable */
       insist(1 <= j && j <= n && bb->mip->kind[j]);
       /* new bound should be integer */
-      insist(bound == floor(bound));
+      insist(bound == floorgnum(bound));
       /* set new lower or upper bound of the variable x[k] = xS[j] */
       switch (type)
       {  case 'L':
@@ -757,7 +757,7 @@ static void round_off(void)
          /* if xS[j] is close to the nearest integer, it may be assumed
             that actually it is exact integer, where a small difference
             appeared due to round-off errors */
-         ival = floor(bb->bbar[i] + 0.5); /* the nearest integer */
+         ival = floorgnum(bb->bbar[i] + 0.5); /* the nearest integer */
          if (ival - tol <= bb->bbar[i] && bb->bbar[i] <= ival + tol)
             bb->bbar[i] = ival;
       }
@@ -778,8 +778,8 @@ static gnum_float eval_infsum(void)
       {  if (bb->mip->kind[j])
          {  gnum_float val, t1, t2;
             val = get_value(m+j);
-            t1 = val - floor(val);
-            t2 = ceil(val) - val;
+            t1 = val - floorgnum(val);
+            t2 = ceilgnum(val) - val;
             insist(t1 >= 0.0 && t2 >= 0.0);
             sum += (t1 < t2 ? t1 : t2);
          }
@@ -997,7 +997,7 @@ static void store_sol(LPSOL *sol, int status)
       {  if (rsm->posx[k] > 0)
          {  i = +rsm->posx[k]; /* x[k] = xB[i] */
             sol->tagx[k] = 'B';
-            if (cp->round && fabs(bbar[i]) < cp->tol_bnd) bbar[i] = 0.0;
+            if (cp->round && gnumabs(bbar[i]) < cp->tol_bnd) bbar[i] = 0.0;
             sol->valx[k] = bbar[i];
             sol->dx[k] = 0.0;
          }
@@ -1005,7 +1005,7 @@ static void store_sol(LPSOL *sol, int status)
          {  j = -rsm->posx[k]; /* x[k] = xN[j] */
             sol->tagx[k] = rsm->tagn[j];
             sol->valx[k] = eval_xn(rsm, j);
-            if (cp->round && fabs(cbar[j]) < cp->tol_dj) cbar[j] = 0.0;
+            if (cp->round && gnumabs(cbar[j]) < cp->tol_dj) cbar[j] = 0.0;
             sol->dx[k] = cbar[j];
          }
       }
@@ -1117,8 +1117,8 @@ static void save_diff(BBNODE *node)
 -- sets the parameter what which tells to the solver what of two child
 -- subproblems derived from the current problem should be solved first:
 --
--- 'L' - that one where xS[j] >= new lower bound = ceil(beta)  > beta
--- 'U' - that one where xS[j] <= new upper bound = floor(beta) < beta
+-- 'L' - that one where xS[j] >= new lower bound = ceilgnum(beta)  > beta
+-- 'U' - that one where xS[j] <= new upper bound = floorgnum(beta) < beta
 --
 -- where beta is the (fractional) value of the variable xS[j] in basis
 -- solution of the current problem.
@@ -1157,7 +1157,7 @@ static int choose_branch(int *what)
       insist(1 <= i && i <= m);
       /* xS[j] should have fractional (integer infeasible) value in the
          optimal basis solution of the current problem */
-      insist(bb->bbar[i] != floor(bb->bbar[i]));
+      insist(bb->bbar[i] != floorgnum(bb->bbar[i]));
       /* check subproblem flag */
       insist(*what == 'L' || *what == 'U');
       /* return to the calling routine */
@@ -1170,11 +1170,11 @@ static int choose_branch(int *what)
 -- This routine divides the current problem in two child subproblems
 -- using the chosen branching variable xS[j], 1 <= j <= n. In the first
 -- child subproblem (which is fixed to the left of the current problem
--- node) the variable xS[j] has new lower bound ceil(beta), where beta
+-- node) the variable xS[j] has new lower bound ceilgnum(beta), where beta
 -- is the value of xS[j] in the optimal basis solution of its parent,
 -- and in the second child subproblem (which is fixed to the right of
 -- of the current problem node) the variable xS[j] has new upper bound
--- floor(beta). After creating subproblems the routine adds them to the
+-- floorgnum(beta). After creating subproblems the routine adds them to the
 -- end of the active list.
 --
 -- It is assumed that the current problem (specified by the parameter
@@ -1194,7 +1194,7 @@ static void split_node(BBNODE *node, int j)
       child->up = node;
       child->j = j;
       child->type = 'L';
-      child->bound = ceil(beta);
+      child->bound = ceilgnum(beta);
       child->solved = 0;
       child->diff = NULL;
       child->objval = child->infsum = 0.0;
@@ -1213,7 +1213,7 @@ static void split_node(BBNODE *node, int j)
       child->up = node;
       child->j = j;
       child->type = 'U';
-      child->bound = floor(beta);
+      child->bound = floorgnum(beta);
       child->solved = 0;
       child->diff = NULL;
       child->objval = child->infsum = 0.0;
@@ -1570,8 +1570,8 @@ done: /* reflect the spent resources in the parameter block */
 -- The routine also sets the parameter what which tells the solver what
 -- of two subproblems should be solved after the current problem:
 --
--- 'L' - that one where xS[j] >= new lower bound = ceil(beta)  > beta
--- 'U' - that one where xS[j] <= new upper bound = floor(beta) < beta
+-- 'L' - that one where xS[j] >= new lower bound = ceilgnum(beta)  > beta
+-- 'U' - that one where xS[j] <= new upper bound = floorgnum(beta) < beta
 --
 -- where beta is the (fractional) value of the variable xS[j] in basis
 -- solution of the current problem.
@@ -1602,7 +1602,7 @@ int branch_first(BBDATA *bb, int *what)
          /* beta = value of xS[j] in the current basis solution */
          beta = bb->bbar[i];
          /* skip basic variable which has an integer value */
-         if (beta == floor(beta)) continue;
+         if (beta == floorgnum(beta)) continue;
          /* choose xS[j] */
          this = j;
          break;
@@ -1610,7 +1610,7 @@ int branch_first(BBDATA *bb, int *what)
       insist(1 <= this && this <= n);
       /* tell the solver to get next that problem where xS[j] violates
          its new bound less than in the other */
-      if (ceil(beta) - beta < beta - floor(beta))
+      if (ceilgnum(beta) - beta < beta - floorgnum(beta))
          *what = 'L';
       else
          *what = 'U';
@@ -1633,8 +1633,8 @@ int branch_first(BBDATA *bb, int *what)
 -- The routine also sets the parameter what which tells the solver what
 -- of two subproblems should be solved after the current problem:
 --
--- 'L' - that one where xS[j] >= new lower bound = ceil(beta)  > beta
--- 'U' - that one where xS[j] <= new upper bound = floor(beta) < beta
+-- 'L' - that one where xS[j] >= new lower bound = ceilgnum(beta)  > beta
+-- 'U' - that one where xS[j] <= new upper bound = floorgnum(beta) < beta
 --
 -- where beta is the (fractional) value of the variable xS[j] in basis
 -- solution of the current problem.
@@ -1666,7 +1666,7 @@ int branch_last(BBDATA *bb, int *what)
          /* beta = value of xS[j] in the current basis solution */
          beta = bb->bbar[i];
          /* skip basic variable which has an integer value */
-         if (beta == floor(beta)) continue;
+         if (beta == floorgnum(beta)) continue;
          /* choose xS[j] */
          this = j;
          break;
@@ -1674,7 +1674,7 @@ int branch_last(BBDATA *bb, int *what)
       insist(1 <= this && this <= n);
       /* tell the solver to get next that problem where xS[j] violates
          its new bound less than in the other */
-      if (ceil(beta) - beta < beta - floor(beta))
+      if (ceilgnum(beta) - beta < beta - floorgnum(beta))
          *what = 'L';
       else
          *what = 'U';
@@ -1697,8 +1697,8 @@ int branch_last(BBDATA *bb, int *what)
 -- The routine also sets the parameter what which tells the solver what
 -- of two subproblems should be solved after the current problem:
 --
--- 'L' - that one where xS[j] >= new lower bound = ceil(beta)  > beta
--- 'U' - that one where xS[j] <= new upper bound = floor(beta) < beta
+-- 'L' - that one where xS[j] >= new lower bound = ceilgnum(beta)  > beta
+-- 'U' - that one where xS[j] <= new upper bound = floorgnum(beta) < beta
 --
 -- where beta is the (fractional) value of the variable xS[j] in basis
 -- solution of the current problem.
@@ -1729,12 +1729,12 @@ int branch_last(BBDATA *bb, int *what)
 --
 -- If tagp = 'L', this routine computes degradation (worsening) of the
 -- objective function when the basic variable xB[p] increasing goes to
--- its new lower bound ceil(beta), where beta is value of this variable
+-- its new lower bound ceilgnum(beta), where beta is value of this variable
 -- in the current basis solution.
 --
 -- If tagp = 'U', this routine computes degradation (worsening) of the
 -- objective function when the basic variable xB[p] decreasing goes to
--- its new upper bound floor(beta).
+-- its new upper bound floorgnum(beta).
 --
 -- The array ap is the p-th row of the current simplex table. The array
 -- cbar is the vector of reduced costs of non-basic variables.
@@ -1761,12 +1761,12 @@ static gnum_float degrad(BBDATA *bb, int p, int tagp, gnum_float ap[],
       switch (tagp)
       {  case 'L':
             /* xB[p] increases and goes to its new lower bound */
-            new_val = ceil(cur_val);
+            new_val = ceilgnum(cur_val);
             insist(new_val > cur_val);
             break;
          case 'U':
             /* xB[p] deacreses and goes to its new upper bound */
-            new_val = floor(cur_val);
+            new_val = floorgnum(cur_val);
             insist(new_val < cur_val);
             break;
          default:
@@ -1851,7 +1851,7 @@ int branch_drtom(BBDATA *bb, int *what)
          /* beta = value of xS[j] in the current basis solution */
          beta = bb->bbar[p];
          /* skip basic variable which has an integer value */
-         if (beta == floor(beta)) continue;
+         if (beta == floorgnum(beta)) continue;
          /* compute p-th row of inv(B) */
          eval_zeta(bb->rsm, p, zeta);
          /* compute p-th row of the simplex table */

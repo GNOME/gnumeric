@@ -26,6 +26,7 @@
 #ifndef _GLPMAT_H
 #define _GLPMAT_H
 
+#include "gnumeric-config.h"
 #include "gnumeric.h"
 #include "numbers.h"
 

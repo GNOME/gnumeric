@@ -26,6 +26,7 @@
 #ifndef _GLPBBM_H
 #define _GLPBBM_H
 
+#include "gnumeric-config.h"
 #include "gnumeric.h"
 #include "numbers.h"
 

@@ -636,7 +636,7 @@ int rsm_dual(RSM *rsm, int (*monit)(void), gnum_float c[],
                   }
                }
             }
-            if (fabs(bbar[p] - sum) / (1.0 + fabs(sum)) > 1e-6)
+            if (gnumabs(bbar[p] - sum) / (1.0 + gnumabs(sum)) > 1e-6)
                print("bbar = %g; sum = %g", bbar[p], sum);
          }
 #endif

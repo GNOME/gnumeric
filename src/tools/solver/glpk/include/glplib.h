@@ -26,6 +26,7 @@
 #ifndef _GLPLIB_H
 #define _GLPLIB_H
 
+#include "gnumeric-config.h"
 #include "gnumeric.h"
 #include "numbers.h"
 

@@ -26,6 +26,7 @@
 #ifndef _GLPLANG_H
 #define _GLPLANG_H
 
+#include "gnumeric-config.h"
 #include "gnumeric.h"
 #include "numbers.h"
 

@@ -877,7 +877,7 @@ static void scale_rows(MAT *A, gnum_float R[], gnum_float S[])
       for (i = 1; i <= A->m; i++)
       {  big = 0.0;
          for (e = A->row[i]; e != NULL; e = e->row)
-         {  temp = fabs(R[e->i] * e->val * S[e->j]);
+         {  temp = gnumabs(R[e->i] * e->val * S[e->j]);
             if (big < temp) big = temp;
          }
          if (big != 0.0) R[i] /= big;
@@ -893,7 +893,7 @@ static void scale_cols(MAT *A, gnum_float R[], gnum_float S[])
       for (j = 1; j <= A->n; j++)
       {  big = 0.0;
          for (e = A->col[j]; e != NULL; e = e->col)
-         {  temp = fabs(R[e->i] * e->val * S[e->j]);
+         {  temp = gnumabs(R[e->i] * e->val * S[e->j]);
             if (big < temp) big = temp;
          }
          if (big != 0.0) S[j] /= big;
@@ -925,7 +925,7 @@ static void scale_cols(MAT *A, gnum_float R[], gnum_float S[])
 -- in the same manner.
 --
 -- To perform geometric mean scaling the gm_scaling routine divides all
--- elements of each row (column) by sqrtgnum (beta/alfa), where alfa and beta
+-- elements of each row (column) by sqrtgnum(beta/alfa), where alfa and beta
 -- are, respectively, smallest and largest absolute values of non-zero
 -- elements of the corresponding row (column). In order to improve the
 -- scaling quality the routine performs row and columns scaling several
@@ -1000,7 +1000,7 @@ static gnum_float ratio(MAT *A, gnum_float R[], gnum_float S[])
       alfa = DBL_MAX; beta = 0.0;
       for (i = 1; i <= A->m; i++)
       {  for (e = A->row[i]; e != NULL; e = e->row)
-         {  temp = fabs(R[e->i] * e->val * S[e->j]);
+         {  temp = gnumabs(R[e->i] * e->val * S[e->j]);
             if (temp == 0.0) continue;
             if (alfa > temp) alfa = temp;
             if (beta < temp) beta = temp;
@@ -1018,12 +1018,12 @@ static void scale_rows(MAT *A, gnum_float R[], gnum_float S[])
       for (i = 1; i <= A->m; i++)
       {  alfa = DBL_MAX; beta = 0.0;
          for (e = A->row[i]; e != NULL; e = e->row)
-         {  temp = fabs(R[e->i] * e->val * S[e->j]);
+         {  temp = gnumabs(R[e->i] * e->val * S[e->j]);
             if (temp == 0.0) continue;
             if (alfa > temp) alfa = temp;
             if (beta < temp) beta = temp;
          }
-         if (beta != 0.0) R[i] /= sqrtgnum (alfa * beta);
+         if (beta != 0.0) R[i] /= sqrtgnum(alfa * beta);
       }
       return;
 }
@@ -1036,12 +1036,12 @@ static void scale_cols(MAT *A, gnum_float R[], gnum_float S[])
       for (j = 1; j <= A->n; j++)
       {  alfa = DBL_MAX; beta = 0.0;
          for (e = A->col[j]; e != NULL; e = e->col)
-         {  temp = fabs(R[e->i] * e->val * S[e->j]);
+         {  temp = gnumabs(R[e->i] * e->val * S[e->j]);
             if (temp == 0.0) continue;
             if (alfa > temp) alfa = temp;
             if (beta < temp) beta = temp;
          }
-         if (beta != 0.0) S[j] /= sqrtgnum (alfa * beta);
+         if (beta != 0.0) S[j] /= sqrtgnum(alfa * beta);
       }
       return;
 }
@@ -1595,7 +1595,7 @@ int scrape_mat(MAT *A, gnum_float eps)
       /* nullify all tiny elements */
       for (i = 1; i <= A->m; i++)
       {  for (e = A->row[i]; e != NULL; e = e->row)
-            if (fabs(e->val) < eps) e->val = 0.0;
+            if (gnumabs(e->val) < eps) e->val = 0.0;
       }
       /* remove zero elements from row linked lists */
       for (i = 1; i <= A->m; i++)

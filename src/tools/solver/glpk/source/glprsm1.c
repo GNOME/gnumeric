@@ -356,7 +356,7 @@ gnum_float check_dvec(RSM *rsm, gnum_float dvec[])
 {     int m = rsm->m, i;
       gnum_float d, dmax = 0.0;
       for (i = 1; i <= m; i++)
-      {  d = fabs(exact_dvec(rsm, i) - dvec[i]);
+      {  d = gnumabs(exact_dvec(rsm, i) - dvec[i]);
          if (dmax < d) dmax = d;
       }
       return dmax;
@@ -391,7 +391,7 @@ gnum_float check_gvec(RSM *rsm, gnum_float gvec[])
 {     int n = rsm->n, j;
       gnum_float d, dmax = 0.0;
       for (j = 1; j <= n; j++)
-      {  d = fabs(exact_gvec(rsm, j) - gvec[j]);
+      {  d = gnumabs(exact_gvec(rsm, j) - gvec[j]);
          if (dmax < d) dmax = d;
       }
       return dmax;
@@ -947,7 +947,7 @@ RSM *create_rsm(LPI *lp)
                rsm->tagn[j] = 'U'; break;
             case 'D':
                rsm->tagn[j] =
-                  (fabs(rsm->lb[k]) <= fabs(rsm->ub[k]) ? 'L' : 'U');
+                  (gnumabs(rsm->lb[k]) <= gnumabs(rsm->ub[k]) ? 'L' : 'U');
                break;
             case 'S':
                rsm->tagn[j] = 'S'; break;
@@ -1061,7 +1061,7 @@ int dual_col(RSM *rsm, int tagp, gnum_float ap[], gnum_float cbar[], gnum_float 
          tolerance tol */
       big = 0.0;
       for (j = 1; j <= n; j++)
-         if (big < fabs(ap[j])) big = fabs(ap[j]);
+         if (big < gnumabs(ap[j])) big = gnumabs(ap[j]);
       eps = tol * big;
       /* turn to the case of increasing xB[p] in order to simplify
          program logic */
@@ -1072,7 +1072,7 @@ int dual_col(RSM *rsm, int tagp, gnum_float ap[], gnum_float cbar[], gnum_float 
       for (j = 1; j <= n; j++)
       {  /* if the coefficient ap[j] is too small, it is assumed that
             xB[p] doesn't depend on xN[j] */
-         if (ap[j] == 0.0 || fabs(ap[j]) < eps) continue;
+         if (ap[j] == 0.0 || gnumabs(ap[j]) < eps) continue;
          /* analyze main cases */
          if (rsm->tagn[j] == 'F')
          {  /* xN[j] is free variable */
@@ -1100,10 +1100,10 @@ int dual_col(RSM *rsm, int tagp, gnum_float ap[], gnum_float cbar[], gnum_float 
             equal to zero), therefore temp is replaced by zero */
          if (temp < 0.0) temp = 0.0;
          /* apply minimal ratio test */
-         if (teta > temp || teta == temp && big < fabs(ap[j]))
+         if (teta > temp || teta == temp && big < gnumabs(ap[j]))
          {  q = j;
             teta = temp;
-            big = fabs(ap[j]);
+            big = gnumabs(ap[j]);
          }
       }
       /* restore original signs of the coefficients ap[j] */
@@ -1190,7 +1190,7 @@ int dual_row(RSM *rsm, gnum_float bbar[], gnum_float dvec[], int *_tagp,
             if (check_rr(bbar[i], rsm->lb[k], tol) < -1)
             {  temp = rsm->lb[k] - bbar[i];
 #if 0
-               if (dvec != NULL) temp /= sqrtgnum (dvec[i]);
+               if (dvec != NULL) temp /= sqrtgnum(dvec[i]);
 #else /* 3.0.4 */
                temp = (temp * temp) / (dvec == NULL ? 1.0 : dvec[i]);
 #endif
@@ -1203,7 +1203,7 @@ int dual_row(RSM *rsm, gnum_float bbar[], gnum_float dvec[], int *_tagp,
             if (check_rr(bbar[i], rsm->ub[k], tol) > +1)
             {  temp = bbar[i] - rsm->ub[k];
 #if 0
-               if (dvec != NULL) temp /= sqrtgnum (dvec[i]);
+               if (dvec != NULL) temp /= sqrtgnum(dvec[i]);
 #else /* 3.0.4 */
                temp = (temp * temp) / (dvec == NULL ? 1.0 : dvec[i]);
 #endif
@@ -1651,7 +1651,7 @@ int harris_col(RSM *rsm, int tagp, gnum_float ap[], gnum_float c[],
 {     int n = rsm->n, j, q;
       gnum_float big, eps, temp, teta;
 #if 0
-#     define gap (tol1 * (fabs(c[k]) > 1.0 ? fabs(c[k]) : 1.0))
+#     define gap (tol1 * (gnumabs(c[k]) > 1.0 ? gnumabs(c[k]) : 1.0))
 #else /* 3.0.3 */
 #     define gap tol1
       insist(c == c);
@@ -1660,7 +1660,7 @@ int harris_col(RSM *rsm, int tagp, gnum_float ap[], gnum_float c[],
          tolerance tol */
       big = 0.0;
       for (j = 1; j <= n; j++)
-         if (big < fabs(ap[j])) big = fabs(ap[j]);
+         if (big < gnumabs(ap[j])) big = gnumabs(ap[j]);
       eps = tol * big;
       /* turn to the case of increasing xB[p] in order to simplify
          program logic */
@@ -1671,7 +1671,7 @@ int harris_col(RSM *rsm, int tagp, gnum_float ap[], gnum_float c[],
       for (j = 1; j <= n; j++)
       {  /* if the coefficient ap[j] is too small, it is assumed that
             xB[p] doesn't depend on xN[j] */
-         if (ap[j] == 0.0 || fabs(ap[j]) < eps) continue;
+         if (ap[j] == 0.0 || gnumabs(ap[j]) < eps) continue;
          /* analyze main cases */
 #if 0
          k = rsm->indn[j]; /* x[k] = xN[j] */
@@ -1712,7 +1712,7 @@ up:         temp = (cbar[j] - gap) / ap[j];
       for (j = 1; j <= n; j++)
       {  /* if the coefficient ap[j] is too small, it is assumed that
             xB[p] doesn't depend on xN[j] */
-         if (ap[j] == 0.0 || fabs(ap[j]) < eps) continue;
+         if (ap[j] == 0.0 || gnumabs(ap[j]) < eps) continue;
          /* analyze main cases */
          if (rsm->tagn[j] == 'F')
          {  /* xN[j] is free variable */
@@ -1740,9 +1740,9 @@ up:         temp = (cbar[j] - gap) / ap[j];
             equal to zero), therefore temp is replaced by zero */
          if (temp < 0.0) temp = 0.0;
          /* apply the dual version of Harris' rule */
-         if (temp <= teta &&  big < fabs(ap[j]))
+         if (temp <= teta &&  big < gnumabs(ap[j]))
          {  q = j;
-            big = fabs(ap[j]);
+            big = gnumabs(ap[j]);
          }
       }
       /* restore original signs of the coefficients ap[j] */
@@ -1791,7 +1791,7 @@ int harris_row(RSM *rsm, int q, int dir, gnum_float aq[], gnum_float bbar[],
       gnum_float *lb = rsm->lb, *ub = rsm->ub;
       gnum_float big, eps, temp, teta;
 #if 0
-#     define gap(bnd) (tol1 * (fabs(bnd) > 1.0 ? fabs(bnd) : 1.0))
+#     define gap(bnd) (tol1 * (gnumabs(bnd) > 1.0 ? gnumabs(bnd) : 1.0))
 #else /* 3.0.3 */
 #     define gap(bnd) tol1
 #endif
@@ -1799,7 +1799,7 @@ int harris_row(RSM *rsm, int q, int dir, gnum_float aq[], gnum_float bbar[],
          tolerance tol */
       big = 0.0;
       for (i = 1; i <= m; i++)
-         if (big < fabs(aq[i])) big = fabs(aq[i]);
+         if (big < gnumabs(aq[i])) big = gnumabs(aq[i]);
       eps = tol * big;
       /* turn to the case of increasing xN[q] in order to simplify
          program logic */
@@ -1814,7 +1814,7 @@ int harris_row(RSM *rsm, int q, int dir, gnum_float aq[], gnum_float bbar[],
       for (i = 1; i <= m; i++)
       {  /* if the coefficient aq[i] is too small, it is assumed that
             xB[i] doesn't depend on xN[q] */
-         if (aq[i] == 0.0 || fabs(aq[i]) < eps) continue;
+         if (aq[i] == 0.0 || gnumabs(aq[i]) < eps) continue;
          /* analyze main cases */
          k = rsm->indb[i]; /* x[k] = xB[i] */
          if (rsm->type[k] == 'F')
@@ -1859,7 +1859,7 @@ up_1:       temp = ((ub[k] + gap(ub[k])) - bbar[i]) / aq[i];
       for (i = 1; i <= m; i++)
       {  /* if the coefficient aq[i] is too small, it is assumed that
             xB[i] doesn't depend on xN[q] */
-         if (aq[i] == 0.0 || fabs(aq[i]) < eps) continue;
+         if (aq[i] == 0.0 || gnumabs(aq[i]) < eps) continue;
          /* analyze main cases */
          k = rsm->indb[i]; /* x[k] = xB[i] */
          if (rsm->type[k] == 'F')
@@ -1894,8 +1894,8 @@ up_2:       temp = (ub[k] - bbar[i]) / aq[i];
             on its (original!) bound, so temp is replaced by zero */
          if (temp < 0.0) temp = 0.0;
          /* apply the Harris' rule */
-         if (temp <= teta && big < fabs(aq[i]))
-            p = i, tagp = tag, big = fabs(aq[i]);
+         if (temp <= teta && big < gnumabs(aq[i]))
+            p = i, tagp = tag, big = gnumabs(aq[i]);
       }
       /* restore original signs of the coefficient aq[i] */
       if (dir) for (i = 1; i <= m; i++) aq[i] = - aq[i];
@@ -2078,7 +2078,7 @@ int invert_b(RSM *rsm)
 -- The routine chooses the non-basic variable (xN)q which has the
 -- largest (in absolute value) scaled reduced cost
 --
---    d'q = dq / sqrtgnum (gamma_q)
+--    d'q = dq / sqrtgnum(gamma_q)
 --
 -- Thus, if the vector gamma is not used, the choice made by the routine
 -- corresponds to the textbook pricing. Otherwise the choice corresponds
@@ -2122,9 +2122,9 @@ int pivot_col(RSM *rsm, gnum_float c[], gnum_float cbar[], gnum_float gvec[],
          /* xN[j] can improve (decrease) the objective function */
 #if 0
          if (gvec == NULL)
-            temp = fabs(cbar[j]);
+            temp = gnumabs(cbar[j]);
          else
-            temp = fabs(cbar[j]) / sqrtgnum (gvec[j]);
+            temp = gnumabs(cbar[j]) / sqrtgnum(gvec[j]);
 #else /* 3.0.4 */
          temp = (cbar[j] * cbar[j]) / (gvec == NULL ? 1.0 : gvec[j]);
 #endif
@@ -2213,7 +2213,7 @@ int pivot_row(RSM *rsm, int q, int dir, gnum_float aq[], gnum_float bbar[],
          tolerance tol */
       big = 0.0;
       for (i = 1; i <= m; i++)
-         if (big < fabs(aq[i])) big = fabs(aq[i]);
+         if (big < gnumabs(aq[i])) big = gnumabs(aq[i]);
       eps = tol * big;
       /* turn to the case of increasing xN[q] in order to simplify
          program logic */
@@ -2236,7 +2236,7 @@ int pivot_row(RSM *rsm, int q, int dir, gnum_float aq[], gnum_float bbar[],
       for (i = 1; i <= m; i++)
       {  /* if the coefficient aq[i] is too small, it is assumed that
             xB[i] doesn't depend on xN[q] */
-         if (aq[i] == 0.0 || fabs(aq[i]) < eps) continue;
+         if (aq[i] == 0.0 || gnumabs(aq[i]) < eps) continue;
          /* analyze main cases */
          k = rsm->indb[i]; /* x[k] = xB[i] */
          if (rsm->type[k] == 'F')
@@ -2271,11 +2271,11 @@ up:         temp = (rsm->ub[k] - bbar[i]) / aq[i];
             bound, therefore temp is replaced by zero */
          if (temp < 0.0) temp = 0.0;
          /* apply minimal ratio test */
-         if (teta > temp || teta == temp && big < fabs(aq[i]))
+         if (teta > temp || teta == temp && big < gnumabs(aq[i]))
          {  p = i;
             tagp = tag;
             teta = temp;
-            big = fabs(aq[i]);
+            big = gnumabs(aq[i]);
          }
       }
       /* restore original signs of the coefficients aq[i] */

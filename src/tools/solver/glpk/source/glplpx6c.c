@@ -103,12 +103,12 @@ int lpx_integer(LPX *lp)
             lpx_get_row_bnds(lp, k, &typx, &lb, &ub);
          else
             lpx_get_col_bnds(lp, k-m, &typx, &lb, &ub);
-         temp = floor(lb + 0.5);
-         if (fabs(lb - temp) / (1.0 + fabs(lb)) <= trick) lb = temp;
-         temp = floor(ub + 0.5);
-         if (fabs(ub - temp) / (1.0 + fabs(ub)) <= trick) ub = temp;
+         temp = floorgnum(lb + 0.5);
+         if (gnumabs(lb - temp) / (1.0 + gnumabs(lb)) <= trick) lb = temp;
+         temp = floorgnum(ub + 0.5);
+         if (gnumabs(ub - temp) / (1.0 + gnumabs(ub)) <= trick) ub = temp;
          if (k > m && mip->kind[k-m])
-         {  if (!(lb == floor(lb) && ub == floor(ub)))
+         {  if (!(lb == floorgnum(lb) && ub == floorgnum(ub)))
             {  print(prefix "integer column %d has non-integer lower/up"
                   "per bound", k-m);
                ret = LPX_E_FAULT;
@@ -135,8 +135,8 @@ int lpx_integer(LPX *lp)
          gnum_float temp;
          len = lpx_get_mat_col(lp, j, ndx, val);
          for (t = 1; t <= len; t++)
-         {  temp = floor(val[t] + 0.5);
-            if (fabs(val[t] - temp) / (1.0 + fabs(val[t])) <= trick)
+         {  temp = floorgnum(val[t] + 0.5);
+            if (gnumabs(val[t] - temp) / (1.0 + gnumabs(val[t])) <= trick)
                val[t] = temp;
             new_elem(mip->A, ndx[t], j, val[t]);
          }
@@ -153,8 +153,8 @@ int lpx_integer(LPX *lp)
             c = lpx_get_row_coef(lp, k);
          else
             c = lpx_get_col_coef(lp, k-m);
-         temp = floor(c + 0.5);
-         if (fabs(c - temp) / (1.0 + fabs(c)) <= trick) c = temp;
+         temp = floorgnum(c + 0.5);
+         if (gnumabs(c - temp) / (1.0 + gnumabs(c)) <= trick) c = temp;
          if (k == 0)
             mip->c[0] = c;
          else if (k <= m)
@@ -248,7 +248,7 @@ int lpx_integer(LPX *lp)
       {  for (k = 1; k <= m+n; k++)
          {  gnum_float temp;
             temp = sol->valx[k];
-            if (k > m && mip->kind[k-m]) insist(temp == floor(temp));
+            if (k > m && mip->kind[k-m]) insist(temp == floorgnum(temp));
             lp->mipx[k] = temp;
          }
       }

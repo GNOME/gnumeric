@@ -160,7 +160,7 @@ void lpx_realloc_prob(LPX *lp, int m_max, int n_max)
 -- to the end of the row list, therefore the numbers of existing rows
 -- remain unchanged.
 --
--- Being added each a new row is free (unbounded) and has no constraint
+-- Being added each a new row isg_free (unbounded) and has no constraint
 -- coefficients. */
 
 void lpx_add_rows(LPX *lp, int nrs)
@@ -494,7 +494,7 @@ void lpx_set_row_bnds(LPX *lp, int i, int typx, gnum_float lb, gnum_float ub)
          case LPX_DB:
             lp->lb[i] = lb * lp->rs[i], lp->ub[i] = ub * lp->rs[i];
             if (lp->tagx[i] != LPX_BS)
-               lp->tagx[i] = (fabs(lb) <= fabs(ub) ? LPX_NL : LPX_NU);
+               lp->tagx[i] = (gnumabs(lb) <= gnumabs(ub) ? LPX_NL : LPX_NU);
             break;
          case LPX_FX:
             lp->lb[i] = lp->ub[i] = lb * lp->rs[i];
@@ -566,7 +566,7 @@ void lpx_set_col_bnds(LPX *lp, int j, int typx, gnum_float lb, gnum_float ub)
          case LPX_DB:
             lp->lb[j] = lb / lp->rs[j], lp->ub[j] = ub / lp->rs[j];
             if (lp->tagx[j] != LPX_BS)
-               lp->tagx[j] = (fabs(lb) <= fabs(ub) ? LPX_NL : LPX_NU);
+               lp->tagx[j] = (gnumabs(lb) <= gnumabs(ub) ? LPX_NL : LPX_NU);
             break;
          case LPX_FX:
             lp->lb[j] = lp->ub[j] = lb / lp->rs[j];

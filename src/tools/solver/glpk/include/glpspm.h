@@ -26,6 +26,7 @@
 #ifndef _GLPSPM_H
 #define _GLPSPM_H
 
+#include "gnumeric-config.h"
 #include "gnumeric.h"
 #include "numbers.h"
 

@@ -26,6 +26,7 @@
 #ifndef _GLPSTR_H
 #define _GLPSTR_H
 
+#include "gnumeric-config.h"
 #include "gnumeric.h"
 #include "numbers.h"
 

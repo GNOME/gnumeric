@@ -622,12 +622,12 @@ beg:  /* save the original objective function, because it is changed by
             case LPX_FX:
                /* xB[i] is gnum_float-bounded or fixed variable */
                if (lp->bbar[i] < lp->lb[k] - eps)
-               {  temp = 0.5 * fabs(lp->lb[k] - lp->ub[k]);
+               {  temp = 0.5 * gnumabs(lp->lb[k] - lp->ub[k]);
                   if (temp > delta) temp = delta;
                   av_i = (lp->lb[k] - lp->bbar[i]) + temp;
                }
                if (lp->bbar[i] > lp->ub[k] + eps)
-               {  temp = 0.5 * fabs(lp->lb[k] - lp->ub[k]);
+               {  temp = 0.5 * gnumabs(lp->lb[k] - lp->ub[k]);
                   if (temp > delta) temp = delta;
                   av_i = (lp->ub[k] - lp->bbar[i]) - temp;
                }
@@ -845,8 +845,8 @@ sing:       {  /* remove the artificial variable from the problem */
             value) influence coefficient */
          spx->q = 0, big = 0.0;
          for (j = 1; j <= n; j++)
-         {  if (big < fabs(spx->ap[j]))
-               spx->q = j, big = fabs(spx->ap[j]);
+         {  if (big < gnumabs(spx->ap[j]))
+               spx->q = j, big = gnumabs(spx->ap[j]);
          }
          insist(spx->q != 0);
          /* perform forward transformation of the column of xN[q] (to

@@ -36,6 +36,7 @@
 #ifndef _GLPQMD_H
 #define _GLPQMD_H
 
+#include "gnumeric-config.h"
 #include "gnumeric.h"
 #include "numbers.h"
 
