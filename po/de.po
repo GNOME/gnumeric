@@ -1,12 +1,14 @@
-# SOME DESCRIPTIVE TITLE.
+# Gnumeric.
 # Copyright (C) YEAR Free Software Foundation, Inc.
+# Karl Eichwalder <ke@suse.de>, 1999
+# Karsten Weiss <karsten@addx.au.s.shuttle.de>, 1999
 # Ralf Baechle <ralf@gnu.org>, 1999
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 0.4\n"
-"POT-Creation-Date: 1999-08-22 16:06-0500\n"
+"Project-Id-Version: gnumeric 0.32\n"
+"POT-Creation-Date: 1999-08-26 10:13+0200\n"
 "PO-Revision-Date: 1999-08-22 13:29+02:00\n"
-"Last-Translator: Karsten Weiss <karsten@addx.au.s.shuttle.de>\n"
+"Last-Translator: Karl Eichwalder <ke@suse.de>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
@@ -974,7 +976,7 @@ msgstr ""
 
 #: src/dialog-printer-setup.c:670
 msgid "Print setup"
-msgstr ""
+msgstr "Druckereinrichtung"
 
 #: src/dialog-solver.c:19
 msgid "<="
@@ -5391,7 +5393,7 @@ msgstr "Datum"
 
 #: src/item-grid.c:606
 msgid "Erase content"
-msgstr ""
+msgstr "Inhalt löschen"
 
 #: src/item-grid.c:608
 #, fuzzy
@@ -5435,33 +5437,28 @@ msgid "(([-+]?[0-9,]+)?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
 msgstr ""
 
 #: src/plugin-manager.c:95 src/plugin-manager.c:96
-#, fuzzy
 msgid "Name"
-msgstr "Unbenannt"
+msgstr "Name"
 
 #: src/plugin-manager.c:95 src/plugin-manager.c:96
-#, fuzzy
 msgid "File"
-msgstr "Füllen"
+msgstr "Datei"
 
 #: src/plugin-manager.c:126
-#, fuzzy
 msgid "Close"
-msgstr "Kode:"
+msgstr "Schließen"
 
 #: src/plugin-manager.c:129
-#, fuzzy
 msgid "Add..."
-msgstr "Hinzufügen"
+msgstr "Hinzufügen..."
 
 #: src/plugin-manager.c:132
 msgid "Remove"
 msgstr ""
 
 #: src/plugin.c:40
-#, fuzzy
 msgid "unable to open module file: "
-msgstr "Kann Guile-Funktion nicht finden."
+msgstr ""
 
 #: src/plugin.c:51
 msgid "Plugin must contain init_plugin function."
@@ -5536,29 +5533,25 @@ msgstr ""
 
 #: src/print-info.c:481
 msgid "Sheet 1"
-msgstr ""
+msgstr "Blatt 1"
 
 #: src/print-info.c:539
 msgid "tab"
 msgstr ""
 
 #: src/print-info.c:540
-#, fuzzy
 msgid "page"
-msgstr "Wertebereich"
+msgstr "Seite"
 
 #: src/print-info.c:541
-#, fuzzy
 msgid "pages"
-msgstr "Wertebereich"
+msgstr "Seiten"
 
 #: src/print-info.c:542
-#, fuzzy
 msgid "date"
 msgstr "Datum"
 
 #: src/print-info.c:543
-#, fuzzy
 msgid "time"
 msgstr "Zeit"
 
@@ -5573,17 +5566,16 @@ msgstr ""
 #: src/sheet-view.c:337 src/sheet-view.c:415
 #, c-format
 msgid "Row: %d"
-msgstr ""
+msgstr "Zeile: %d"
 
 #: src/sheet-view.c:344 src/sheet-view.c:383
-#, fuzzy, c-format
+#, c-format
 msgid "Column: %s"
-msgstr "Spalten"
+msgstr "Spalte: %s"
 
 #: src/sheet.c:828
-#, fuzzy
 msgid "Internal ERROR"
-msgstr "Interner Fehler"
+msgstr "Interner FEHLER"
 
 #: src/sheet.c:2968
 msgid "The command `"
@@ -5656,9 +5648,8 @@ msgid "Italic"
 msgstr ""
 
 #: src/workbook.c:457
-#, fuzzy
 msgid "Warning"
-msgstr "Zeichenkette"
+msgstr "Warnung"
 
 #: src/workbook.c:466
 #, c-format
@@ -5670,12 +5661,10 @@ msgid "Workbook has unsaved changes, save them?"
 msgstr ""
 
 #: src/workbook.c:668
-#, fuzzy
 msgid "Insert cols"
 msgstr "Zellen einfügen"
 
 #: src/workbook.c:687
-#, fuzzy
 msgid "Insert rows"
 msgstr "Zeile(n) einfügen"
 
@@ -5689,62 +5678,55 @@ msgstr ""
 
 #: src/workbook.c:910
 msgid "_New"
-msgstr ""
+msgstr "_Neu"
 
 #: src/workbook.c:910
 msgid "Create a new spreadsheet"
 msgstr ""
 
 #: src/workbook.c:914
-#, fuzzy
 msgid "_Import"
-msgstr "%s importiert"
+msgstr ""
 
 #: src/workbook.c:914
-#, fuzzy
 msgid "Imports a file"
-msgstr "Unmöglich"
+msgstr "Datei importieren"
 
 #: src/workbook.c:920
 msgid "Su_mmary..."
-msgstr ""
+msgstr "_Kurzinfo..."
 
 #: src/workbook.c:920
-#, fuzzy
 msgid "Summary information"
-msgstr "Informationen"
+msgstr "Kurzinformation"
 
 #: src/workbook.c:925
 msgid "Plu_g-ins..."
 msgstr ""
 
 #: src/workbook.c:925
-#, fuzzy
 msgid "Gnumeric plugins"
-msgstr "Gnumeric"
+msgstr "Gnumeric Plugins"
 
 #: src/workbook.c:946
-#, fuzzy
 msgid "_All"
-msgstr "Alles"
+msgstr "_Alles"
 
 #: src/workbook.c:947
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr ""
 
 #: src/workbook.c:949
-#, fuzzy
 msgid "_Formats"
-msgstr "Formate"
+msgstr "_Formate"
 
 #: src/workbook.c:950
 msgid "Clear the selected cells' formats"
 msgstr ""
 
 #: src/workbook.c:951
-#, fuzzy
 msgid "_Comments"
-msgstr "Zellenkommentar"
+msgstr "_Kommentare"
 
 #: src/workbook.c:952
 msgid "Clear the selected cells' comments"
@@ -5752,16 +5734,15 @@ msgstr ""
 
 #: src/workbook.c:953
 msgid "_Content"
-msgstr ""
+msgstr "Inhalt"
 
 #: src/workbook.c:954
 msgid "Clear the selected cells' contents"
 msgstr ""
 
 #: src/workbook.c:962
-#, fuzzy
 msgid "P_aste special..."
-msgstr "Einfügen spezial"
+msgstr "Einfügen spezial..."
 
 #: src/workbook.c:963
 msgid "C_lear"
@@ -5773,18 +5754,16 @@ msgid "Clear the selected cell(s)"
 msgstr "#Referenz auf gelöschte Zelle!"
 
 #: src/workbook.c:968
-#, fuzzy
 msgid "_Select All"
-msgstr "Zellen löschen"
+msgstr "Alles auswählen"
 
 #: src/workbook.c:969
 msgid "Select all cells in the spreadsheet"
 msgstr ""
 
 #: src/workbook.c:971
-#, fuzzy
 msgid "_Goto cell..."
-msgstr "Gehe zu..."
+msgstr "_Gehe zu Zelle..."
 
 #: src/workbook.c:972
 msgid "Jump to a specified cell"
@@ -5792,29 +5771,27 @@ msgstr ""
 
 #: src/workbook.c:978
 msgid "Insert object..."
-msgstr ""
+msgstr "Objekt einfügen..."
 
 #: src/workbook.c:979
 msgid "Inserts a Bonobo object"
 msgstr ""
 
 #: src/workbook.c:986
-#, fuzzy
 msgid "_Define cell names"
-msgstr "Zellen löschen"
+msgstr ""
 
 #: src/workbook.c:990
 msgid "_Recalculate"
-msgstr ""
+msgstr "Neu be_rechnen"
 
 #: src/workbook.c:991
 msgid "Recalculate the spreadsheet"
-msgstr ""
+msgstr "Arbeitsblatt neu berechnen"
 
 #: src/workbook.c:999
-#, fuzzy
 msgid "_Zoom..."
-msgstr "Vergrößern"
+msgstr ""
 
 #: src/workbook.c:1000
 msgid "Zoom the spreadsheet in or out"
@@ -5838,101 +5815,87 @@ msgstr ""
 
 #: src/workbook.c:1019 src/workbook.c:1065
 msgid "_Sheet"
-msgstr ""
+msgstr "Blatt"
 
 #: src/workbook.c:1019
 msgid "Insert a new spreadsheet"
 msgstr ""
 
 #: src/workbook.c:1021 src/workbook.c:1059
-#, fuzzy
 msgid "_Cells..."
-msgstr "Zelle"
+msgstr "Zellen..."
 
 #: src/workbook.c:1021
-#, fuzzy
 msgid "Insert new cells"
-msgstr "Zellen einfügen"
+msgstr "Neue Zellen einfügen"
 
 #: src/workbook.c:1023
-#, fuzzy
 msgid "_Rows"
-msgstr "Reihen"
+msgstr "_Reihen"
 
 #: src/workbook.c:1023
-#, fuzzy
 msgid "Insert new rows"
-msgstr "Zeile(n) einfügen"
+msgstr "Neue Zeile(n) einfügen"
 
 #: src/workbook.c:1025
-#, fuzzy
 msgid "C_olumns"
 msgstr "Spalten"
 
 #: src/workbook.c:1025
-#, fuzzy
 msgid "Insert new columns"
-msgstr "Spalte(n) einfügen"
+msgstr "Neue Spalte(n) einfügen"
 
 #: src/workbook.c:1030
 msgid "_Add/modify comment..."
-msgstr ""
+msgstr "Kommentar hinzufügen/ändern..."
 
 #: src/workbook.c:1031
 msgid "Edit the selected cell's comment"
 msgstr ""
 
 #: src/workbook.c:1032
-#, fuzzy
 msgid "_Special"
-msgstr "Spezial..."
+msgstr "_Spezial..."
 
 #: src/workbook.c:1041 src/workbook.c:1047
-#, fuzzy
 msgid "_Autoadjust"
-msgstr "Automatisch"
+msgstr "_Automatisch ausrichten"
 
 #: src/workbook.c:1042
 msgid "_Width"
-msgstr ""
+msgstr "_Breite"
 
 #: src/workbook.c:1048
-#, fuzzy
 msgid "_Height"
-msgstr "Rechts"
+msgstr "_Höhe"
 
 #: src/workbook.c:1053
 msgid "_Change name"
-msgstr ""
+msgstr "Namen ändern"
 
 #: src/workbook.c:1060
 msgid "Modify the formatting of the selected cells"
 msgstr ""
 
 #: src/workbook.c:1063
-#, fuzzy
 msgid "C_olumn"
-msgstr "Spalten"
+msgstr "S_palte"
 
 #: src/workbook.c:1064
-#, fuzzy
 msgid "_Row"
-msgstr "Reihen"
+msgstr "_Reihe"
 
 #: src/workbook.c:1072
-#, fuzzy
 msgid "_Sort..."
-msgstr "Gehe zu..."
+msgstr "_Sortiere..."
 
 #: src/workbook.c:1073
-#, fuzzy
 msgid "Sort the selected cells"
-msgstr "Zellen löschen"
+msgstr "Ausgewählte Zellen sortieren"
 
 #: src/workbook.c:1074
-#, fuzzy
 msgid "_Goal Seek..."
-msgstr "Zielsuche..."
+msgstr "_Zielsuche..."
 
 #: src/workbook.c:1076
 #, fuzzy
@@ -5940,19 +5903,16 @@ msgid "_Solver..."
 msgstr "Lösen"
 
 #: src/workbook.c:1078
-#, fuzzy
 msgid "_Data Analysis..."
-msgstr "Datenanalyse"
+msgstr "_Datenanalyse"
 
 #: src/workbook.c:1092
-#, fuzzy
 msgid "_Insert"
-msgstr "Einfügen"
+msgstr "_Einfügen"
 
 #: src/workbook.c:1093
-#, fuzzy
 msgid "F_ormat"
-msgstr "Formate"
+msgstr "F_ormate"
 
 #: src/workbook.c:1094
 msgid "_Tools"
@@ -5960,40 +5920,36 @@ msgstr ""
 
 #: src/workbook.c:1107
 msgid "New"
-msgstr ""
+msgstr "Neu"
 
 #: src/workbook.c:1107
 msgid "Creates a new sheet"
-msgstr ""
+msgstr "Neues Blatt anlegen"
 
 #: src/workbook.c:1110
-#, fuzzy
 msgid "Open"
-msgstr "Operation"
+msgstr "Öffnen"
 
 #: src/workbook.c:1110
 msgid "Opens an existing workbook"
-msgstr ""
+msgstr "Ein vorhandenes Arbeitsbuch öffnen"
 
 #: src/workbook.c:1113
-#, fuzzy
 msgid "Save"
-msgstr "Lösen"
+msgstr "Speichern"
 
 #: src/workbook.c:1113
-#, fuzzy
 msgid "Saves the workbook"
-msgstr "Arbeitsbuch speichern als"
+msgstr "Arbeitsbuch speichern"
 
 #: src/print.glade.h:19 src/print.glade.h:32 src/print.glade.h:40
 #: src/print.glade.h:48 src/print.glade.h:56 src/workbook.c:1116
-#, fuzzy
 msgid "Print"
-msgstr "Prozent"
+msgstr "Drucken"
 
 #: src/workbook.c:1116
 msgid "Prints the workbook"
-msgstr ""
+msgstr "Arbeitsbuch drucken"
 
 #: src/workbook.c:1122
 msgid "Cuts the selection to the clipboard"
@@ -6004,13 +5960,12 @@ msgid "Copies the selection to the clipboard"
 msgstr ""
 
 #: src/workbook.c:1128
-#, fuzzy
 msgid "Pastes the clipboard"
-msgstr "Einfügen spezial"
+msgstr "Clipboard einfügen"
 
 #: src/workbook.c:1134
 msgid "Left align"
-msgstr ""
+msgstr "Links ausrichten"
 
 #: src/workbook.c:1134
 msgid "Left justifies the cell contents"
@@ -6018,12 +5973,11 @@ msgstr ""
 
 #: src/workbook.c:1137
 msgid "Centers the cell contents"
-msgstr ""
+msgstr "Zelleninhalt zentrieren"
 
 #: src/workbook.c:1140
-#, fuzzy
 msgid "Right align"
-msgstr "Rechts"
+msgstr "Rechts ausrichten"
 
 #: src/workbook.c:1140
 msgid "Right justifies the cell contents"
@@ -6047,25 +6001,23 @@ msgstr ""
 
 #: src/workbook.c:1159
 msgid "Line"
-msgstr ""
+msgstr "Zeile"
 
 #: src/workbook.c:1159
 msgid "Creates a line object"
 msgstr ""
 
 #: src/workbook.c:1162
-#, fuzzy
 msgid "Arrow"
-msgstr "Feld"
+msgstr "Pfeil"
 
 #: src/workbook.c:1162
 msgid "Creates an arrow object"
 msgstr ""
 
 #: src/workbook.c:1165
-#, fuzzy
 msgid "Rectangle"
-msgstr "Wertebereich"
+msgstr "Rechteck"
 
 #: src/workbook.c:1165
 msgid "Creates a rectangle object"
@@ -6080,9 +6032,8 @@ msgid "Creates an ellipse object"
 msgstr ""
 
 #: src/workbook.c:1386
-#, fuzzy
 msgid "You should introduce a valid cell name"
-msgstr "Sie sollten einen gültigen Zellennamen in 'Setze Zelle' angeben"
+msgstr "Sie sollten einen gültigen Zellennamen angeben"
 
 #: src/workbook.c:1395
 #, fuzzy
@@ -6143,13 +6094,12 @@ msgid "Sheet%d"
 msgstr ""
 
 #: src/workbook.c:2636
-#, fuzzy
 msgid "Gnumeric: "
-msgstr "Gnumeric"
+msgstr ""
 
 #: src/xml-io.c:2033
 msgid "Old Gnumeric XML file format"
-msgstr ""
+msgstr "Altes Gnumeric XML-Dateiformat"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -6161,9 +6111,8 @@ msgid "window2"
 msgstr ""
 
 #: src/print.glade.h:8
-#, fuzzy
 msgid "Orientation"
-msgstr "Operation"
+msgstr "Orientierung"
 
 #: src/print.glade.h:11
 #, fuzzy
@@ -6189,7 +6138,7 @@ msgstr ""
 
 #: src/print.glade.h:17
 msgid "Paper size:"
-msgstr ""
+msgstr "Blattgröße:"
 
 #: src/print.glade.h:18
 msgid "First page number:"
@@ -6202,9 +6151,8 @@ msgstr ""
 
 #: src/print.glade.h:21 src/print.glade.h:34 src/print.glade.h:42
 #: src/print.glade.h:58
-#, fuzzy
 msgid "Options"
-msgstr "Optionen..."
+msgstr "Optionen"
 
 #: src/print.glade.h:22 src/print.glade.h:59
 #, fuzzy
@@ -6229,29 +6177,24 @@ msgid "Footer"
 msgstr "Schriftart"
 
 #: src/print.glade.h:27
-#, fuzzy
 msgid "Center on page"
-msgstr "Mitte"
+msgstr "Auf der Seite zentrieren"
 
 #: src/print.glade.h:28
-#, fuzzy
 msgid "Horizontally"
 msgstr "Horizontal"
 
 #: src/print.glade.h:29
-#, fuzzy
 msgid "Vertically"
 msgstr "Vertikal"
 
 #: src/print.glade.h:30
-#, fuzzy
 msgid "Left:"
-msgstr "Links"
+msgstr "Links:"
 
 #: src/print.glade.h:31
-#, fuzzy
 msgid "Right:"
-msgstr "Rechts"
+msgstr "Rechts:"
 
 #: src/print.glade.h:35
 #, fuzzy
@@ -6303,9 +6246,8 @@ msgid "Titles of rows and columns."
 msgstr ""
 
 #: src/print.glade.h:52
-#, fuzzy
 msgid "Comments"
-msgstr "Zellenkommentar"
+msgstr "Kommentare"
 
 #: src/print.glade.h:53
 msgid "Page order"
