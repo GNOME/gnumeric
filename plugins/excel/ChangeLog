@@ -1,3 +1,8 @@
+2000-06-20  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_externname) : Catch external names that
+	  are OLE or DDE links.
+
 2000-06-18  Jody Goldberg <jgoldberg@home.com>
 
         * Release 0.56

@@ -2566,11 +2566,29 @@ ms_excel_externname (BiffQuery *q, ExcelSheet *sheet)
 	guint8 *defn;
 	guint16 defnlen;
 	if (sheet->ver >= MS_BIFF_V7) {
-		guint32 namelen  = MS_OLE_GET_GUINT8(q->data+6);
+		guint16 flags = MS_OLE_GET_GUINT8(q->data);
+		guint32 namelen = MS_OLE_GET_GUINT8(q->data+6);
+
 		name = biff_get_text (q->data+7, namelen, &namelen);
-		defn     = q->data+7 + namelen;
-		defnlen  = MS_OLE_GET_GUINT16(defn);
+		defn    = q->data+7 + namelen;
+		defnlen = MS_OLE_GET_GUINT16(defn);
 		defn += 2;
+
+		switch (flags & 0x18) {
+		case 0x00 : /* external name */
+		    break;
+		case 0x01 : /* DDE */
+			printf ("FIXME : DDE links are no supported.\n"
+				"Name '%s' will be lost.\n", name);
+			return;
+		case 0x10 : /* OLE */
+			printf ("FIXME : OLE links are no supported.\n"
+				"Name '%s' will be lost.\n", name);
+			return;
+		default :
+			g_warning ("EXCEL : Invalid external name type. ('%s')", name);
+			return;
+		}
 	} else { /* Ancient Papyrus spec. */
 		static guint8 data[] = { 0x1c, 0x17 }; /* Error : REF */
 		defn = data;
