@@ -163,6 +163,19 @@ static void fetch_settings (PrinterSetupState *state);
 static void printer_setup_state_free (PrinterSetupState *state);
 static void do_hf_customize (gboolean header, PrinterSetupState *state);
 
+static UnitName
+unit_selector_gnome_print_unit_to_gnm (GnomePrintUnit const *unit)
+{
+	if (!strcmp (unit->abbr, "mm"))
+		return UNIT_MILLIMETER;
+	if (!strcmp (unit->abbr, "pt"))
+		return UNIT_POINTS;
+	if (!strcmp (unit->abbr, "in"))
+	        return UNIT_INCH;
+
+	return UNIT_CENTIMETER;
+}
+
 /**
  * spin_button_set_bound
  * @spin           spinbutton
@@ -508,11 +521,6 @@ notebook_flipped (GtkNotebook *notebook,
 		canvas_update (state);	
 }
 
-#warning Implement spin_button_adapt_to_unit in libgnomeprintui
-#if 0
-
-/* FIXME: We are keeping this code here as a reminder to implement it in libgnomeprintui */
-
 /**
  * spin_button_adapt_to_unit
  * @spin      spinbutton
@@ -561,8 +569,6 @@ spin_button_adapt_to_unit (GtkSpinButton *spin, UnitName new_unit)
 	gtk_adjustment_changed (adjustment);
 	gtk_spin_button_set_digits (spin, digits);
 }
-
-#endif
 
 static void
 unit_changed (GtkSpinButton *spin_button, UnitInfo_cbdata *data)
@@ -643,13 +649,18 @@ static void
 cb_unit_selector_changed (GnomePrintUnitSelector *sel, PrinterSetupState *state)
 {
 	const GnomePrintUnit *unit;
+	UnitName un;
 	
 	g_return_if_fail (state != NULL);
 
 	unit = gnome_print_unit_selector_get_unit (sel);
-	if (unit)
+	if (unit) {
 		gnome_print_config_set (state->pi->print_config, GNOME_PRINT_KEY_PREF_UNIT, 
 					unit->abbr);
+		un = unit_selector_gnome_print_unit_to_gnm (unit);
+		spin_button_adapt_to_unit (state->margins.header.spin, un);
+		spin_button_adapt_to_unit (state->margins.footer.spin, un);
+	}
 }
 
 
@@ -1642,18 +1653,7 @@ unit_info_to_print_unit (UnitInfo *ui, PrinterSetupState *state)
 
         u.points = ui->value;
 	gnome_print_convert_distance (&u.points, gp_unit, GNOME_PRINT_PS_UNIT);
-
-	if (!strcmp (gp_unit->abbr, "mm"))
-		u.desired_display = UNIT_MILLIMETER;
-	else if
-		(!strcmp (gp_unit->abbr, "pt"))
-		u.desired_display = UNIT_POINTS;
-	else if 
-		(!strcmp (gp_unit->abbr, "in"))
-		u.desired_display = UNIT_INCH;
-	else
-		/* FIXME: this makes meters become centimeters*/
-		u.desired_display = UNIT_CENTIMETER;
+	u.desired_display = unit_selector_gnome_print_unit_to_gnm (gp_unit);
 	return u;
 }
 

@@ -22,6 +22,8 @@ Andreas:
 	* Add discard all/save all buttons to exit dialog.
 	* Add a rescan directories button to the plugin manager
 	(Note: this has seen only minimal testing.)
+	* Fix bug:
+	  http://bugzilla.gnome.org/show_bug.cgi?id=82272
 
 Jody:
 	http://bugzilla.gnome.org/show_bug.cgi?id=79925

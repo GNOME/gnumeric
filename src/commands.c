@@ -5047,6 +5047,7 @@ cmd_print_set_up_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 		n = workbook_sheet_count (book);
 		for (i = 0 ; i < n ; i++) {
 			Sheet * sheet = workbook_sheet_by_index (book, i);
+			sheet_set_dirty (sheet, TRUE);
 			if (save_pis)
 				me->old_pi = g_slist_prepend (me->old_pi, sheet->print_info);
 			else

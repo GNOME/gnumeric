@@ -1,3 +1,8 @@
+2002-05-19  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/commands.c (cmd_print_setup_redo) : dirty all sheets if
+	  parent.sheet == NULL
+
 2002-05-16  Jon K Hellan  <hellan@acm.org>
 
 	* src/workbook-control-component.c (wbcc_set_sensitive): New
