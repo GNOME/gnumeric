@@ -1,3 +1,10 @@
+2000-10-28  Jon K Hellan  <hellan@acm.org>
+
+	* src/bonobo-io.c (gnumeric_bonobo_{read|write}_workbook): 
+	Forgot to tell: Also replaced vfs storage, which no longer exists
+	in Bonobo, with efs, which does. It doesn't seem to work, but
+	that's a different matter.
+
 2000-10-28  Almer S. Tigelaar  <almer1@dds.nl>
 
 	* src/clipboard.c:
