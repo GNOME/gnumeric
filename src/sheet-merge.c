@@ -121,6 +121,10 @@ sheet_merge_add (WorkbookControl *wbc,
 		cell_unregister_span (cell);
 	}
 
+	/* Ensure that edit pos is not in the center of a region. */
+	if (range_contains (r, sheet->edit_pos.col, sheet->edit_pos.row))
+		sheet_set_edit_pos (sheet, r->start.col, r->start.row);
+
 	sheet->priv->reposition_selection = TRUE;
 	return FALSE;
 }

@@ -1,8 +1,10 @@
+/* vim: set sw=8: */
 /*
  * The Cursor Canvas Item: Implements a rectangular cursor
  *
  * Author:
  *     Miguel de Icaza (miguel@kernel.org)
+ *     Jody Goldberg   (jgoldberg@home.com)
  */
 #include <config.h>
 
@@ -628,29 +630,25 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 		 * selection was offset by one.
 		 */
 		{
-			int d_col =
-			    gnumeric_sheet_find_col (gsheet, x, NULL) -
-			    ic->pos.start.col;
-			int d_row =
-			    gnumeric_sheet_find_row (gsheet, y, NULL) -
-			    ic->pos.start.row;
+			int d_col = gnumeric_sheet_find_col (gsheet, x, NULL) -
+				ic->pos.start.col;
+			int d_row = gnumeric_sheet_find_row (gsheet, y, NULL) -
+				ic->pos.start.row;
 
-			if (d_col < 0)
-				d_col = 0;
-			else {
+			if (d_col >= 0) {
 				int tmp = ic->pos.end.col - ic->pos.start.col;
 				if (d_col > tmp)
 					d_col = tmp;
-			}
+			} else
+				d_col = 0;
 			ITEM_CURSOR (new_item)->col_delta = d_col;
 
-			if (d_row < 0)
-				d_row = 0;
-			else {
+			if (d_row >= 0) {
 				int tmp = ic->pos.end.row - ic->pos.start.row;
 				if (d_row > tmp)
 					d_row = tmp;
-			}
+			} else
+				d_row = 0;
 			ITEM_CURSOR (new_item)->row_delta = d_row;
 		}
 
@@ -967,9 +965,9 @@ item_cursor_do_drop (ItemCursor *ic, GdkEventButton *event)
 
 static void
 item_cursor_set_bounds_visibly (ItemCursor *item_cursor,
-				int const visible_col,	int const visible_row,
-				int const start_col,	int const start_row,
-				int const end_col,	int const end_row)
+				int visible_col,int visible_row,
+				int start_col,	int start_row,
+				int end_col,	int end_row)
 {
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_cursor);
 	GnumericSheet   *gsheet = GNUMERIC_SHEET (item->canvas);

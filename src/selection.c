@@ -416,14 +416,13 @@ set_menu_flags:
 	 * insert row/cols and the flags accordingly.
 	 */
 	do_rows = do_cols = TRUE;
-	for (list = sheet->selections; list && (do_cols || do_rows); list = list->next){
-		Range *r = list->data;
+	for (list = sheet->selections; list && (do_cols || do_rows); list = list->next) {
+		Range const *r = list->data;
 
-		if (do_rows && r->start.row == 0 && r->end.row == SHEET_MAX_ROWS - 1)
-			do_rows = FALSE;
-
-		if (do_cols && r->start.col == 0 && r->end.col == SHEET_MAX_COLS - 1)
+		if (do_cols && range_is_full (r, TRUE))
 			do_cols = FALSE;
+		if (do_rows && range_is_full (r, FALSE))
+			do_rows = FALSE;
 	}
 	sheet_menu_state_enable_insert (sheet, do_cols, do_rows);
 }

@@ -734,12 +734,12 @@ sheet_update_only_grid (Sheet const *sheet)
 {
 	SheetPrivate *p;
 
-	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
 
 	p = sheet->priv;
 
 	if (p->reposition_selection) {
-		p->reposition_selection = TRUE;
+		p->reposition_selection = FALSE;
                 /* when moving we cleared the selection before
                  * arriving in here.
                  */
