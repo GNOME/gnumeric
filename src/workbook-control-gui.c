@@ -3555,8 +3555,10 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 	/* FIXME: Once input validation is enabled change the [3] */
 	wbcg->menu_item_consolidate =
 		workbook_menu_data [3].widget;
+#if 0
 	wbcg->menu_item_freeze_panes =
 		workbook_menu_view [1].widget;
+#endif
 	
 	wbcg->menu_item_sheet_display_formulas =
 		workbook_menu_format_sheet [2].widget;
