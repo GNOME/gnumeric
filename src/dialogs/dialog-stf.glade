@@ -1009,11 +1009,6 @@
                               </packing>
                             </child>
 
-                            <child>
-                              <widget class="Placeholder" id="None">
-                                <property name="visible">yes</property>
-                              </widget>
-                            </child>
                           </widget>
                           <packing>
                             <property name="padding">0</property>
@@ -1105,7 +1100,7 @@
                                 <child>
                                   <widget class="GtkCList" id="fixed_collist">
                                     <property name="can_focus">yes</property>
-                                    <property name="columns">2</property>
+                                    <property name="n-columns">2</property>
                                     <property name="column_widths">80,120</property>
                                     <property name="selection_mode">GTK_SELECTION_SINGLE</property>
                                     <property name="show_titles">yes</property>
@@ -1421,11 +1416,6 @@
                               </packing>
                             </child>
 
-                            <child>
-                              <widget class="Placeholder" id="None">
-                                <property name="visible">yes</property>
-                              </widget>
-                            </child>
                           </widget>
                           <packing>
                             <property name="padding">0</property>
@@ -1511,7 +1501,7 @@
                             <child>
                               <widget class="GtkCList" id="format_collist">
                                 <property name="can_focus">yes</property>
-                                <property name="columns">2</property>
+                                <property name="n-columns">2</property>
                                 <property name="column_widths">80,80</property>
                                 <property name="selection_mode">GTK_SELECTION_SINGLE</property>
                                 <property name="show_titles">yes</property>
@@ -1632,7 +1622,7 @@
                                 <child>
                                   <widget class="GtkCList" id="format_sublist">
                                     <property name="can_focus">yes</property>
-                                    <property name="columns">1</property>
+                                    <property name="n-columns">1</property>
                                     <property name="column_widths">80</property>
                                     <property name="selection_mode">GTK_SELECTION_BROWSE</property>
                                     <property name="show_titles">no</property>
@@ -1769,11 +1759,6 @@
                               </packing>
                             </child>
 
-                            <child>
-                              <widget class="Placeholder" id="None">
-                                <property name="visible">yes</property>
-                              </widget>
-                            </child>
                           </widget>
                           <packing>
                             <property name="padding">0</property>

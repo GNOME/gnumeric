@@ -1,5 +1,9 @@
 2002-03-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dialog-stf.glade : fix crash causing errors
+
+2002-03-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dialog-cell-sort.c: disable `by value'
 
 2002-03-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
