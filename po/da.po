@@ -14,44 +14,24 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.40\n"
 "POT-Creation-Date: 2000-06-19 22:02-0400\n"
-"PO-Revision-Date: 2000-08-05 02:30+02:00\n"
+"PO-Revision-Date: 2000-08-19 02:30+02:00\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: graph/main.c:48
-msgid "I could not initialize Bonobo"
-msgstr "Kunne ikke opstarte Bonobo"
+#: plugins/applix/boot.c:105
+msgid "Applix (*.as) file format"
+msgstr "Applix (*.as) filformat"
 
-#: graph/sample.c:206
-msgid "Chart type"
-msgstr "Grafiktype"
+#: plugins/applix/boot.c:109
+msgid "Applix"
+msgstr "Applix"
 
-#: graph/sample.c:207
-msgid "Plot mode"
-msgstr "Plottetilstand"
-
-#: graph/sample.c:208
-msgid "Col/bar mode"
-msgstr "Kol/bjælke-tilstand"
-
-#: graph/sample.c:209
-msgid "Direction mode"
-msgstr "Retningstilstand"
-
-#: graph/sample.c:210
-msgid "Line mode"
-msgstr "Linjetilstand"
-
-#: graph/sample.c:211
-msgid "Scatter mode"
-msgstr "Spredningstilstand"
-
-#: graph/sample.c:212
-msgid "Scatter connection"
-msgstr "Spredningsforbindelse"
+#: plugins/applix/boot.c:110
+msgid "Imports version 4.[234] spreadsheets"
+msgstr "Importerer version 4.[234] regneark"
 
 #.
 #. * Add Sheet
@@ -112,21 +92,21 @@ msgid "#UNKNOWN!"
 msgstr "#UKENDT!"
 
 #: plugins/excel/ms-excel-read.c:596 plugins/html/html.c:409
-#: plugins/lotus-123/lotus.c:224 plugins/oleo/oleo.c:44 src/workbook.c:3345
+#: plugins/lotus-123/lotus.c:224 plugins/oleo/oleo.c:44 src/workbook.c:3403
 #, c-format
 msgid "Sheet%d"
 msgstr "Ark%d"
 
-#: plugins/excel/ms-excel-read.c:3913
+#: plugins/excel/ms-excel-read.c:3945
 msgid "No book or workbook streams found."
 msgstr "Ingen bøger eller arbejdsbogsstrømme fundet."
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4215
+#: plugins/excel/ms-excel-read.c:4247
 msgid "Password protected workbooks are not supported yet."
 msgstr "Adgangskodebeskyttede arbejdsbøger er endnu ikke understøttet."
 
-#: plugins/excel/ms-excel-read.c:4376
+#: plugins/excel/ms-excel-read.c:4408
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Kunne ikke finde gyldig MS Excel-arbejdsbog"
 
@@ -170,7 +150,7 @@ msgstr "Aktiverer database tilgang"
 #: src/functions/fn-information.c:574 src/functions/fn-information.c:642
 #: src/functions/fn-information.c:669 src/functions/fn-information.c:695
 #: src/functions/fn-information.c:744 src/functions/fn-information.c:773
-#: src/functions/fn-information.c:836 src/functions/fn-logical.c:194
+#: src/functions/fn-information.c:836 src/functions/fn-logical.c:196
 #: src/functions/fn-string.c:343
 msgid "Invalid number of arguments"
 msgstr "Ugyldigt antal argumenter"
@@ -256,7 +236,7 @@ msgstr "Lotus 123"
 msgid "Imports Lotus 123 files"
 msgstr "Importerer en Lotus 123-fil"
 
-#: plugins/numtheory/numtheory.c:189
+#: plugins/numtheory/numtheory.c:193
 msgid ""
 "@FUNCTION=NT_PHI\n"
 "@SYNTAX=NT_PHI(n)\n"
@@ -274,7 +254,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_SIGMA"
 
-#: plugins/numtheory/numtheory.c:224
+#: plugins/numtheory/numtheory.c:228
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
@@ -300,7 +280,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_PHI"
 
-#: plugins/numtheory/numtheory.c:263
+#: plugins/numtheory/numtheory.c:267
 msgid ""
 "@FUNCTION=NT_D\n"
 "@SYNTAX=NT_D(n)\n"
@@ -316,7 +296,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=ITHPRIME, NT_PHI, NT_SIGMA"
 
-#: plugins/numtheory/numtheory.c:297
+#: plugins/numtheory/numtheory.c:301
 msgid ""
 "@FUNCTION=NT_SIGMA\n"
 "@SYNTAX=NT_SIGMA(n)\n"
@@ -333,7 +313,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_PHI"
 
-#: plugins/numtheory/numtheory.c:332
+#: plugins/numtheory/numtheory.c:336
 msgid ""
 "@FUNCTION=ITHPRIME\n"
 "@SYNTAX=ITHPRIME(i)\n"
@@ -349,7 +329,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, NT_SIGMA"
 
-#: plugins/numtheory/numtheory.c:360
+#: plugins/numtheory/numtheory.c:364
 msgid ""
 "@FUNCTION=ISPRIME\n"
 "@SYNTAX=ISPRIME(i)\n"
@@ -365,7 +345,7 @@ msgstr ""
 "Denne funktion tager kun ét argument.\n"
 "@SEEALSO=ITHPRIME, NT_D, NT_SIGMA"
 
-#: plugins/numtheory/numtheory.c:386
+#: plugins/numtheory/numtheory.c:390
 msgid ""
 "@FUNCTION=NT_PI\n"
 "@SYNTAX=NT_PI(n)\n"
@@ -381,15 +361,15 @@ msgstr ""
 "Denne funktion tager kun ét argument.\n"
 "@SEEALSO=ITHPRIME, NT_PHI, NT_D, NT_SIGMA"
 
-#: plugins/numtheory/numtheory.c:509 plugins/numtheory/numtheory.c:541
+#: plugins/numtheory/numtheory.c:513 plugins/numtheory/numtheory.c:545
 msgid "Number Theory"
 msgstr "Talteori"
 
-#: plugins/numtheory/numtheory.c:527
+#: plugins/numtheory/numtheory.c:531
 msgid "Bitwise Operations"
 msgstr "Bitvise operationer"
 
-#: plugins/numtheory/numtheory.c:542
+#: plugins/numtheory/numtheory.c:546
 msgid ""
 "Several basic utilities for prime numbers, pi, phi, sigma. It also hold some "
 "simple bitwise operations"
@@ -510,111 +490,111 @@ msgstr "XBase"
 msgid "Imports XBase files"
 msgstr "Importerer XBase-filer"
 
-#: src/about.c:37
+#: src/about.c:39
 msgid "Miguel de Icaza, main programmer."
 msgstr "Miguel de Icaza, hovedprogrammør."
 
-#: src/about.c:38
+#: src/about.c:40
 msgid "Sean Atkinson, Functions and X-Base importing."
 msgstr "Sean Atkinson, Funktioner og X-Base importering."
 
-#: src/about.c:39
+#: src/about.c:41
 msgid "Tom Dyas, Plugin support."
 msgstr "Tom Dyas, indstiksunderstøttelse."
 
-#: src/about.c:40
+#: src/about.c:42
 msgid "Gergõ Érdi, Gnumeric hacker."
 msgstr "Gergõ Érdi, Gnumeric-hacker."
 
-#: src/about.c:41
+#: src/about.c:43
 msgid "Jody Goldberg, Gnumeric hacker."
 msgstr "Jody Goldberg, Gnumeric-hacker."
 
-#: src/about.c:42
+#: src/about.c:44
 msgid "Ross Ihaka, special functions."
 msgstr "Ross Ihaka, specielle funktioner."
 
-#: src/about.c:43
+#: src/about.c:45
 msgid "Jukka-Pekka Iivonen, numerous functions and tools."
 msgstr "Jukka-Pekka Iivonen, mange funktioner og værktøjer."
 
-#: src/about.c:44
+#: src/about.c:46
 msgid "Jakub Jelinek, Gnumeric hacker."
 msgstr "Jakub Jelinek, Gnumeric-hacker."
 
-#: src/about.c:45
+#: src/about.c:47
 msgid "Jon K Hellan, Gnumeric hacker."
 msgstr "Jon K Hellan, Gnumeric-hacker."
 
-#: src/about.c:46
+#: src/about.c:48
 msgid "Chris Lahey, Number format engine."
 msgstr "Chris Lahey, nummerformatsmotor."
 
-#: src/about.c:47
+#: src/about.c:49
 msgid "Adrian Likins, Documentation, debugging."
 msgstr "Adrian Likins, dokumentation, fejlfinding."
 
-#: src/about.c:48
+#: src/about.c:50
 msgid "Takashi Matsuda, original text plugin."
 msgstr "Takashi Matsuda, oprindeligt tekstindstik."
 
-#: src/about.c:49
+#: src/about.c:51
 msgid "Federico Mena, Canvas support."
 msgstr "Federico Mena, kanvas-understøttelse."
 
-#: src/about.c:50
+#: src/about.c:52
 msgid "Michael Meeks, Excel and OLE2 importing."
 msgstr "Michael Meeks, Excel og OLE2 importering."
 
-#: src/about.c:51
+#: src/about.c:53
 msgid "Mark Probst, Guile support."
 msgstr "Mark Probst, Guile-understøttelse."
 
-#: src/about.c:52
+#: src/about.c:54
 msgid "Rasca, HTML, troff, LaTeX exporters."
 msgstr "Rasca, HTML, troff, LaTeX-eksportering."
 
-#: src/about.c:53
+#: src/about.c:55
 msgid "Vincent Renardias, original CSV support, French localisation."
 msgstr "Vincent Renardias, oprindelig CSV understøttelse, fransk lokalisering."
 
-#: src/about.c:54
+#: src/about.c:56
 msgid "Ariel Rios, Guile support."
 msgstr "Ariel Rios, Guile-understøttelse."
 
-#: src/about.c:55
+#: src/about.c:57
 msgid "Almer. S. Tigelaar, Text import."
 msgstr "Almer. S. Tigelaar, Tekst importering."
 
-#: src/about.c:56
+#: src/about.c:58
 msgid "Bruno Unna, Excel bits."
 msgstr "Bruno Unna, Excel arbejde."
 
-#: src/about.c:57
+#: src/about.c:59
 msgid "Daniel Veillard, XML support."
 msgstr "Daniel Veillard, XML-understøttelse."
 
-#: src/about.c:58
+#: src/about.c:60
 msgid "Vladimir Vuksan, financial functions."
 msgstr "Vladimir Vuksan, financielle funktioner."
 
-#: src/about.c:59
+#: src/about.c:61
 msgid "Morten Welinder, Gnumeric hacker."
 msgstr "Morten Welinder, dansk Gnumeric-hacker."
 
-#: src/about.c:79 src/functions/fn-sheet.c:138
+#: src/about.c:81 src/functions/fn-sheet.c:138
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
-#: src/about.c:80
+#: src/about.c:82
 msgid "(C) 1998-2000 Miguel de Icaza"
 msgstr "(C) 1998-2000 Miguel de Icaza"
 
-#: src/about.c:87
+#: src/about.c:89
 msgid "Gnumeric Home Page"
 msgstr "Gnumeric hjemmeside"
 
-#: src/about.c:89
+#: src/about.c:91
 msgid "Gnumeric Support page"
 msgstr "Gnumeric supportside"
 
@@ -680,7 +660,7 @@ msgstr "Kurtosis"
 msgid "Skewness"
 msgstr "Skævhed"
 
-#: src/analysis-tools.c:744 src/dialogs/dialog-function-wizard.c:406
+#: src/analysis-tools.c:744 src/dialogs/dialog-function-wizard.c:415
 msgid "Range"
 msgstr "Omfang"
 
@@ -693,13 +673,13 @@ msgid "Maximum"
 msgstr "Maksimum"
 
 #: src/analysis-tools.c:747 src/analysis-tools.c:2322
-#: src/analysis-tools.c:2488 src/analysis-tools.c:2735 src/workbook.c:1561
-#: src/workbook.c:2047
+#: src/analysis-tools.c:2488 src/analysis-tools.c:2735 src/workbook.c:1556
+#: src/workbook.c:2042
 msgid "Sum"
 msgstr "Sum"
 
 #: src/analysis-tools.c:748 src/analysis-tools.c:2321
-#: src/analysis-tools.c:2487 src/analysis-tools.c:2734 src/workbook.c:2051
+#: src/analysis-tools.c:2487 src/analysis-tools.c:2734 src/workbook.c:2046
 msgid "Count"
 msgstr "Optæl"
 
@@ -991,7 +971,7 @@ msgid "Groups"
 msgstr "Grupper"
 
 #: src/analysis-tools.c:2323 src/analysis-tools.c:2489
-#: src/analysis-tools.c:2736 src/workbook.c:2050
+#: src/analysis-tools.c:2736 src/workbook.c:2045
 msgid "Average"
 msgstr "Gennemsnit"
 
@@ -1063,7 +1043,7 @@ msgstr "Frekvens"
 msgid "Cumulative %"
 msgstr "Akkumuleret %"
 
-#: src/clipboard.c:303
+#: src/clipboard.c:297
 #, c-format
 msgid ""
 "destination does not have an even multiple of source columns (%d vs %d)\n"
@@ -1074,11 +1054,11 @@ msgstr ""
 " \n"
 "Prøv at vælge en enkelt celle eller et område med samme form og størrelse."
 
-#: src/clipboard.c:306 src/clipboard.c:317 src/clipboard.c:324
+#: src/clipboard.c:300 src/clipboard.c:311 src/clipboard.c:318
 msgid "Unable to paste"
 msgstr "Kan ikke indsætte"
 
-#: src/clipboard.c:314
+#: src/clipboard.c:308
 #, c-format
 msgid ""
 "destination does not have an even multiple of source rows (%d vs %d)\n"
@@ -1089,19 +1069,19 @@ msgstr ""
 " \n"
 "Prøv at vælge en enkelt celle eller et område med samme form og størrelse."
 
-#: src/clipboard.c:325
+#: src/clipboard.c:319
 msgid "result passes the sheet boundary"
 msgstr "resultatet går ud over arkets kant"
 
-#: src/clipboard.c:611
+#: src/clipboard.c:605
 msgid "Error while trying to pre-convert clipboard data"
 msgstr "Fejl under forsøg på at forkonvertere klippebords-fil"
 
-#: src/clipboard.c:617
+#: src/clipboard.c:611
 msgid "This data on the clipboard does not seem to be valid text"
 msgstr "Dette data på klippebordet synes ikke at være gyldig tekst"
 
-#: src/clipboard.c:631
+#: src/clipboard.c:625
 msgid "Parse error while trying to parse data into cellregion"
 msgstr "Fortolkningsfejl under førsøg på at fortolke data i en celleregion"
 
@@ -1120,7 +1100,7 @@ msgstr ""
 msgid "Unable to paste into selection"
 msgstr "Kan ikke indsætte i markering"
 
-#: src/cmd-edit.c:353 src/workbook.c:1541
+#: src/cmd-edit.c:353 src/workbook.c:1536
 msgid "Paste"
 msgstr "Indsæt"
 
@@ -1188,7 +1168,7 @@ msgid "Undo Clear"
 msgstr "Fortryd rydning"
 
 #. TODO : Something more descriptive ? maybe the range name
-#: src/commands.c:987 src/sheet.c:2386
+#: src/commands.c:987 src/sheet.c:2371
 msgid "Clear"
 msgstr "Ryd"
 
@@ -1274,11 +1254,11 @@ msgstr "Indsætter i %s"
 msgid "Autofill"
 msgstr "Autofyld"
 
-#: src/corba-args.c:33
+#: src/corba-args.c:25
 msgid "Oaf options"
 msgstr "Oaf indstillinger"
 
-#: src/corba-args.c:54
+#: src/corba-args.c:35
 msgid "Could not initialize the Gnumeric Workbook factory"
 msgstr "Kunne ikke opstarte Gnumeric arbejdsbogsfabrik"
 
@@ -1592,15 +1572,13 @@ msgstr " _Inddataomfang: "
 
 #: src/dialogs/analysis-tools.glade.h:55 src/dialogs/analysis-tools.glade.h:86
 #: src/dialogs/analysis-tools.glade.h:100
-#: src/dialogs/analysis-tools.glade.h:111 src/workbook.c:1321
-#: wizards/graphics/graphics.glade.h:23
+#: src/dialogs/analysis-tools.glade.h:111 src/workbook.c:1316
 msgid "_Columns"
 msgstr "_Kolonner"
 
 #: src/dialogs/analysis-tools.glade.h:56 src/dialogs/analysis-tools.glade.h:87
 #: src/dialogs/analysis-tools.glade.h:99
-#: src/dialogs/analysis-tools.glade.h:110 src/workbook.c:1318
-#: wizards/graphics/graphics.glade.h:22
+#: src/dialogs/analysis-tools.glade.h:110 src/workbook.c:1313
 msgid "_Rows"
 msgstr "_Rækker"
 
@@ -1705,13 +1683,12 @@ msgstr "_Ikke stort bogstav efter:"
 #: src/dialogs/autocorrect-exceptions.glade.h:9
 #: src/dialogs/autocorrect-exceptions.glade.h:13
 #: src/dialogs/dialog-stf.glade.h:54 src/dialogs/solver.glade.h:25
-#: wizards/graphics/graphics.glade.h:28
 msgid "_Add"
 msgstr "_Tilføj"
 
 #: src/dialogs/autocorrect-exceptions.glade.h:10
 #: src/dialogs/autocorrect-exceptions.glade.h:14
-#: src/dialogs/dialog-stf.glade.h:55 wizards/graphics/graphics.glade.h:29
+#: src/dialogs/dialog-stf.glade.h:55
 msgid "_Remove"
 msgstr "Fj_ern"
 
@@ -1890,7 +1867,7 @@ msgstr "_Type"
 msgid "Display the value exactly as it was entered"
 msgstr "Vis værdien præcis som den var indtastet"
 
-#: src/dialogs/cell-format.glade.h:31 src/dialogs/dialog-function-wizard.c:404
+#: src/dialogs/cell-format.glade.h:31 src/dialogs/dialog-function-wizard.c:413
 msgid "Number"
 msgstr "Tal"
 
@@ -1902,7 +1879,7 @@ msgstr "Vandret"
 msgid "_Justify"
 msgstr "_Justér"
 
-#: src/dialogs/cell-format.glade.h:34 wizards/graphics/graphics.glade.h:61
+#: src/dialogs/cell-format.glade.h:34
 msgid "_Right"
 msgstr "_Højre"
 
@@ -1914,7 +1891,7 @@ msgstr "_Udfyld"
 msgid "_Center"
 msgstr "_Centrér"
 
-#: src/dialogs/cell-format.glade.h:37 wizards/graphics/graphics.glade.h:62
+#: src/dialogs/cell-format.glade.h:37
 msgid "_Left"
 msgstr "_Venstre"
 
@@ -1979,7 +1956,7 @@ msgid "Color"
 msgstr "Farver"
 
 #: src/dialogs/cell-format.glade.h:54 src/dialogs/cell-format.glade.h:82
-#: src/dialogs/cell-format.glade.h:91 wizards/graphics/graphics.glade.h:43
+#: src/dialogs/cell-format.glade.h:91
 msgid "_Automatic"
 msgstr "_Automatisk"
 
@@ -2072,7 +2049,7 @@ msgstr "Indvendig"
 msgid "Inside Horizontal"
 msgstr "Indvendig vandret"
 
-#: src/dialogs/cell-format.glade.h:79 src/workbook.c:1596
+#: src/dialogs/cell-format.glade.h:79 src/workbook.c:1591
 msgid "Line"
 msgstr "Linje"
 
@@ -2254,7 +2231,7 @@ msgid "Add"
 msgstr "Tilføj"
 
 #: src/dialogs/cell-sort.glade.h:9 src/dialogs/plugin-manager.glade.h:9
-#: src/sheet-object.c:1070
+#: src/sheet-object.c:1061
 msgid "Remove"
 msgstr "Fjern"
 
@@ -2286,7 +2263,7 @@ msgstr "Avancerede sorteringsindstillinger"
 msgid "Sort by"
 msgstr "Sortér efter"
 
-#: src/dialogs/cell-sort.glade.h:17 src/solver-lp.c:1065 src/solver-lp.c:1115
+#: src/dialogs/cell-sort.glade.h:17 src/solver-lp.c:1065 src/solver-lp.c:1114
 msgid "Value"
 msgstr "Værdi"
 
@@ -2773,7 +2750,7 @@ msgstr "Kan ikke tilføje flere end den valgte længde"
 msgid "Maximum number of clauses has been reached."
 msgstr "Maksimal antallet af klausuler er nået."
 
-#: src/dialogs/dialog-cell-sort.c:533 src/workbook.c:1036
+#: src/dialogs/dialog-cell-sort.c:533 src/workbook.c:1035
 msgid "sort"
 msgstr "sortér"
 
@@ -2793,32 +2770,32 @@ msgstr "Man kan ikke omdefinere et indbygget navn."
 msgid "delete cells"
 msgstr "slet celler"
 
-#: src/dialogs/dialog-function-wizard.c:396
+#: src/dialogs/dialog-function-wizard.c:405
 #, c-format
 msgid "Value%d"
 msgstr "Værdi%d"
 
-#: src/dialogs/dialog-function-wizard.c:403 src/functions/fn-string.c:1335
+#: src/dialogs/dialog-function-wizard.c:412 src/functions/fn-string.c:1335
 msgid "String"
 msgstr "Streng"
 
-#: src/dialogs/dialog-function-wizard.c:405
+#: src/dialogs/dialog-function-wizard.c:414
 msgid "Boolean"
 msgstr "Boolsk"
 
-#: src/dialogs/dialog-function-wizard.c:407
+#: src/dialogs/dialog-function-wizard.c:416
 msgid "Array"
 msgstr "Matrix"
 
-#: src/dialogs/dialog-function-wizard.c:408
+#: src/dialogs/dialog-function-wizard.c:417
 msgid "Range/Array"
 msgstr "Omfang/Matrise"
 
-#: src/dialogs/dialog-function-wizard.c:409
+#: src/dialogs/dialog-function-wizard.c:418
 msgid "Scalar"
 msgstr "Skalar"
 
-#: src/dialogs/dialog-function-wizard.c:411
+#: src/dialogs/dialog-function-wizard.c:420
 msgid "Any"
 msgstr "Enhver"
 
@@ -2891,7 +2868,7 @@ msgid "Goal seek did not find a solution!"
 msgstr "Målsøgning fandt ikke nogen løsning!"
 
 #: src/dialogs/dialog-goto-cell.c:45 src/solver-lp.c:905 src/solver-lp.c:931
-#: src/solver-lp.c:966 src/solver-lp.c:1063 src/solver-lp.c:1113
+#: src/solver-lp.c:966 src/solver-lp.c:1063 src/solver-lp.c:1112
 msgid "Cell"
 msgstr "Celle"
 
@@ -2997,7 +2974,7 @@ msgstr "Konfiguration af personlig sidehoved"
 msgid "Custom footer configuration"
 msgstr "Konfiguration af personlig sidefod"
 
-#: src/dialogs/dialog-sheet-order.c:142 src/workbook.c:2976
+#: src/dialogs/dialog-sheet-order.c:142 src/workbook.c:2988
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Er du sikker på at du ønsker af fjerne følgende ark '%s'?"
@@ -3387,7 +3364,6 @@ msgstr ""
 "genkende kolonner i teksten automatisk."
 
 #: src/dialogs/dialog-stf.glade.h:51 src/dialogs/dialog-stf.glade.h:62
-#: wizards/graphics/graphic-type.c:289
 msgid "Column"
 msgstr "Kolonne"
 
@@ -3442,7 +3418,7 @@ msgstr "Attributter for arbejdsbog"
 #. * Add this file to your project's POTFILES.in.
 #. * DO NOT compile it as part of your application.
 #.
-#: src/dialogs/dialog-zoom.glade.h:7 src/workbook.c:2568 src/workbook.c:2586
+#: src/dialogs/dialog-zoom.glade.h:7 src/workbook.c:2563 src/workbook.c:2581
 msgid "Zoom"
 msgstr "Zoom"
 
@@ -3797,7 +3773,7 @@ msgid "_Rows to repeat on the upper region:"
 msgstr "_Rækker som skal gentages i øvre region:"
 
 #: src/dialogs/print.glade.h:48 src/dialogs/print.glade.h:57
-#: src/workbook.c:1526
+#: src/workbook.c:1521
 msgid "Print"
 msgstr "Udskriv"
 
@@ -3805,7 +3781,7 @@ msgstr "Udskriv"
 msgid "Row and co_lumn headings"
 msgstr "Række- og kolonnehoveder"
 
-#: src/dialogs/print.glade.h:50 src/workbook.c:1196
+#: src/dialogs/print.glade.h:50 src/workbook.c:1190
 msgid "Co_mments"
 msgstr "Ko_mmentarer"
 
@@ -3830,12 +3806,12 @@ msgid "R_ight, then down"
 msgstr "Hø_jre, og ned"
 
 #: src/dialogs/print.glade.h:56 src/functions/fn-sheet.c:137
-#: src/workbook.c:766
+#: src/workbook.c:765
 msgid "Sheet"
 msgstr "Ark"
 
-#: src/dialogs/print.glade.h:58 src/print.c:988 src/workbook.c:1174
-#: src/workbook.c:1529
+#: src/dialogs/print.glade.h:58 src/print.c:988 src/workbook.c:1168
+#: src/workbook.c:1524
 msgid "Print preview"
 msgstr "Vis udskrift"
 
@@ -4244,13 +4220,13 @@ msgid "0.0########"
 msgstr "0,0########"
 
 #. Is it a boolean
-#: src/format.c:1434 src/number-match.c:896 src/value-sheet.c:33
-#: src/value.c:413
+#: src/format.c:1434 src/number-match.c:919 src/value-sheet.c:33
+#: src/value.c:225 src/value.c:462
 msgid "TRUE"
 msgstr "TRUE"
 
-#: src/format.c:1434 src/number-match.c:898 src/value-sheet.c:33
-#: src/value.c:413
+#: src/format.c:1434 src/number-match.c:921 src/value-sheet.c:33
+#: src/value.c:227 src/value.c:462
 msgid "FALSE"
 msgstr "FALSE"
 
@@ -4259,7 +4235,7 @@ msgstr "FALSE"
 msgid "ARRAY"
 msgstr "ARRAY"
 
-#: src/formats.c:18 src/number-match.c:540 src/style.c:80
+#: src/formats.c:18 src/number-match.c:563 src/style.c:80
 msgid "General"
 msgstr "Generelt"
 
@@ -4300,228 +4276,236 @@ msgid "0.0"
 msgstr "0,0"
 
 #: src/formats.c:38
+msgid "$#,##0"
+msgstr "$#,##0"
+
+#: src/formats.c:39
 msgid "$#,##0_);($#,##0)"
 msgstr "kr #.##0_);(kr #.##0)"
 
-#: src/formats.c:39
+#: src/formats.c:40
 msgid "$#,##0_);[Red]($#,##0)"
 msgstr "kr #.##0_);[Red](kr #.##0)"
 
-#: src/formats.c:40
+#: src/formats.c:41
+msgid "$#,##0.00"
+msgstr "#.##0,00 kr"
+
+#: src/formats.c:42
 msgid "$#,##0.00_);($#,##0.00)"
 msgstr "kr #.##0,00_);(kr #.##0,00)"
 
-#: src/formats.c:41
+#: src/formats.c:43
 msgid "$#,##0.00_);[Red]($#,##0.00)"
 msgstr "kr #.##0,00_);[Red](kr #.##0,00)"
 
-#: src/formats.c:48
+#: src/formats.c:50
 msgid "_($* #,##0_);_($* (#,##0);_($* \"-\"_);_(@_)"
 msgstr "_(kr *#.##0_);_(kr *(#.##0);_(kr*\"-\"_);_(@_)"
 
-#: src/formats.c:49
+#: src/formats.c:51
 msgid "_(* #,##0_);_(* (#,##0);_(* \"-\"_);_(@_)"
 msgstr "_(* #.##0_);_(*(#.##0);_(*\"-\"_);_(@_)"
 
-#: src/formats.c:50
+#: src/formats.c:52
 msgid "_($* #,##0.00_);_($* (#,##0.00);_($* \"-\"??_);_(@_)"
 msgstr "_(kr *#.##0,00_);_(kr *(#.##0,00);_($*\"-\"??_);_(@_)"
 
-#: src/formats.c:51
+#: src/formats.c:53
 msgid "_(* #,##0.00_);_(* (#,##0.00);_(* \"-\"??_);_(@_)"
 msgstr "_(*#.##0,00_);_(*(#.##0,00);_(*\"-\"??_);_(@_)"
 
-#: src/formats.c:57
+#: src/formats.c:59
 msgid "m/d/yy"
 msgstr "m/d/yy"
 
-#: src/formats.c:58
+#: src/formats.c:60
 msgid "m/d/yyyy"
 msgstr "m/d/yyyy"
 
-#: src/formats.c:59
+#: src/formats.c:61
 msgid "d-mmm-yy"
 msgstr "d-mmm-yy"
 
-#: src/formats.c:60
+#: src/formats.c:62
 msgid "d-mmm-yyyy"
 msgstr "d-mmm-yyyy"
 
-#: src/formats.c:61
+#: src/formats.c:63
 msgid "d-mmm"
 msgstr "d-mmm"
 
-#: src/formats.c:62
+#: src/formats.c:64
 msgid "d-mm"
 msgstr "d-mm"
 
-#: src/formats.c:63
+#: src/formats.c:65
 msgid "mmm/d"
 msgstr "mmm/d"
 
-#: src/formats.c:64
+#: src/formats.c:66
 msgid "mm/d"
 msgstr "mm/d"
 
-#: src/formats.c:65
+#: src/formats.c:67
 msgid "mm/dd/yy"
 msgstr "mm/dd/yy"
 
-#: src/formats.c:66
+#: src/formats.c:68
 msgid "mm/dd/yyyy"
 msgstr "mm/dd/yyyy"
 
-#: src/formats.c:67
+#: src/formats.c:69
 msgid "mmm/dd/yy"
 msgstr "mmm/dd/yy"
 
-#: src/formats.c:68
+#: src/formats.c:70
 msgid "mmm/dd/yyyy"
 msgstr "mmm/dd/yyyy"
 
-#: src/formats.c:69
+#: src/formats.c:71
 msgid "mmm/ddd/yy"
 msgstr "mmm/ddd/yy"
 
-#: src/formats.c:70
+#: src/formats.c:72
 msgid "mmm/ddd/yyyy"
 msgstr "mmm/ddd/yyyy"
 
-#: src/formats.c:71
+#: src/formats.c:73
 msgid "mm/ddd/yy"
 msgstr "mm/ddd/yy"
 
-#: src/formats.c:72
+#: src/formats.c:74
 msgid "mm/ddd/yyyy"
 msgstr "mm/ddd/yyyy"
 
-#: src/formats.c:73
+#: src/formats.c:75
 msgid "mmm-yy"
 msgstr "mmm-yy"
 
-#: src/formats.c:74
+#: src/formats.c:76
 msgid "mmm-yyyy"
 msgstr "mmm-yyyy"
 
-#: src/formats.c:75
+#: src/formats.c:77
 msgid "mmmm-yy"
 msgstr "mmmm-yy"
 
-#: src/formats.c:76
+#: src/formats.c:78
 msgid "mmmm-yyyy"
 msgstr "mmmm-yyyy"
 
-#: src/formats.c:77 src/formats.c:98
+#: src/formats.c:79 src/formats.c:100
 msgid "m/d/yy h:mm"
 msgstr "m/d/yy h:mm"
 
-#: src/formats.c:78
+#: src/formats.c:80
 msgid "m/d/yyyy h:mm"
 msgstr "m/d/yyyy h:mm"
 
-#: src/formats.c:79
+#: src/formats.c:81
 msgid "yyyy/mm/d"
 msgstr "yyyy/mm/d"
 
-#: src/formats.c:80
+#: src/formats.c:82
 msgid "yyyy/mmm/d"
 msgstr "yyyy/mmm/d"
 
-#: src/formats.c:81
+#: src/formats.c:83
 msgid "yyyy/mm/dd"
 msgstr "yyyy/mm/dd"
 
-#: src/formats.c:82
+#: src/formats.c:84
 msgid "yyyy/mmm/dd"
 msgstr "yyyy/mmm/dd"
 
-#: src/formats.c:83
+#: src/formats.c:85
 msgid "yyyy-mm-d"
 msgstr "yyyy-mm-d"
 
-#: src/formats.c:84
+#: src/formats.c:86
 msgid "yyyy-mmm-d"
 msgstr "yyyy-mmm-d"
 
-#: src/formats.c:85
+#: src/formats.c:87
 msgid "yyyy-mm-dd"
 msgstr "yyyy-mm-dd"
 
-#: src/formats.c:86
+#: src/formats.c:88
 msgid "yyyy-mmm-dd"
 msgstr "yyyy-mmm-dd"
 
-#: src/formats.c:87
+#: src/formats.c:89
 msgid "yy"
 msgstr "yy"
 
-#: src/formats.c:88
+#: src/formats.c:90
 msgid "yyyy"
 msgstr "yyyy"
 
-#: src/formats.c:94
+#: src/formats.c:96
 msgid "h:mm AM/PM"
 msgstr "h:mm AM/PM"
 
-#: src/formats.c:95
+#: src/formats.c:97
 msgid "h:mm:ss AM/PM"
 msgstr "h:mm:ss AM/PM"
 
-#: src/formats.c:96
+#: src/formats.c:98
 msgid "h:mm"
 msgstr "h:mm"
 
-#: src/formats.c:97
+#: src/formats.c:99
 msgid "h:mm:ss"
 msgstr "h:mm:ss"
 
-#: src/formats.c:99
+#: src/formats.c:101
 msgid "mm:ss"
 msgstr "mm:ss"
 
-#: src/formats.c:100
+#: src/formats.c:102
 msgid "mm:ss.0"
 msgstr "mm:ss.0"
 
-#: src/formats.c:101
+#: src/formats.c:103
 msgid "[h]:mm:ss"
 msgstr "[h]:mm:ss"
 
-#: src/formats.c:102
+#: src/formats.c:104
 msgid "[h]:mm"
 msgstr "[h]:mm"
 
-#: src/formats.c:103
+#: src/formats.c:105
 msgid "[mm]:ss"
 msgstr "[mm]:ss"
 
-#: src/formats.c:104
+#: src/formats.c:106
 msgid "[ss]"
 msgstr "[ss]"
 
-#: src/formats.c:110
+#: src/formats.c:112
 #, c-format
 msgid "0%"
 msgstr "0%"
 
-#: src/formats.c:111 src/workbook-format-toolbar.c:52
+#: src/formats.c:113 src/workbook-format-toolbar.c:52
 #, c-format
 msgid "0.00%"
 msgstr "0,00%"
 
-#: src/formats.c:117
+#: src/formats.c:119
 msgid "# ?/?"
 msgstr "# ?/?"
 
-#: src/formats.c:118
+#: src/formats.c:120
 msgid "# ??/??"
 msgstr "# ??/??"
 
-#: src/formats.c:124
+#: src/formats.c:126
 msgid "0.00E+00"
 msgstr "0,00E+00"
 
-#: src/formats.c:125
+#: src/formats.c:127
 msgid "##0.0E+0"
 msgstr "##0,0E+0"
 
@@ -4538,1311 +4522,1311 @@ msgstr "##0,0E+0"
 #. * for each currency.  They MUST start with '[$'
 #. * The second column has the long names of the currencies.
 #.
-#: src/formats.c:167
+#: src/formats.c:169
 msgid "[$ADP]"
 msgstr "[$ADP]"
 
-#: src/formats.c:167
+#: src/formats.c:169
 msgid "Andorran peseta"
 msgstr "Andorransk peseta"
 
-#: src/formats.c:168
+#: src/formats.c:170
 msgid "[$AED]"
 msgstr "[$AED]"
 
-#: src/formats.c:168
+#: src/formats.c:170
 msgid "UAE dirham"
 msgstr "UAE dirham"
 
-#: src/formats.c:169
+#: src/formats.c:171
 msgid "[$AFA]"
 msgstr "[$AFA]"
 
-#: src/formats.c:169
+#: src/formats.c:171
 msgid "Afghanistan afghani"
 msgstr "Afghanske afghani"
 
-#: src/formats.c:170
+#: src/formats.c:172
 msgid "[$ALL]"
 msgstr "[$ALL]"
 
-#: src/formats.c:170
+#: src/formats.c:172
 msgid "Albanian lek"
 msgstr "Albanske lek"
 
-#: src/formats.c:171
+#: src/formats.c:173
 msgid "[$ANG]"
 msgstr "[$ANG]"
 
-#: src/formats.c:171
+#: src/formats.c:173
 msgid "Netherlands Antillian guilder"
 msgstr "Hollandsk Antilliske gylden"
 
-#: src/formats.c:172
+#: src/formats.c:174
 msgid "[$AON]"
 msgstr "[$AON]"
 
-#: src/formats.c:172
+#: src/formats.c:174
 msgid "Angolan new kwanza"
 msgstr "Angolske nye kwanza"
 
-#: src/formats.c:173
+#: src/formats.c:175
 msgid "[$ARA]"
 msgstr "[$ARA]"
 
-#: src/formats.c:173
+#: src/formats.c:175
 msgid "Argentine austral"
 msgstr "Argentinske austral"
 
-#: src/formats.c:174
+#: src/formats.c:176
 msgid "[$ATS]"
 msgstr "[$ATS]"
 
-#: src/formats.c:174
+#: src/formats.c:176
 msgid "Austrian schilling"
 msgstr "Østrigske schilling"
 
-#: src/formats.c:175
+#: src/formats.c:177
 msgid "[$AUD]"
 msgstr "[$AUD]"
 
-#: src/formats.c:175
+#: src/formats.c:177
 msgid "Australian dollar"
 msgstr "Australske dollar"
 
-#: src/formats.c:176
+#: src/formats.c:178
 msgid "[$AWG]"
 msgstr "[$AWG]"
 
-#: src/formats.c:176
+#: src/formats.c:178
 msgid "Aruban guilder"
 msgstr "Arubanske gylden"
 
-#: src/formats.c:177
+#: src/formats.c:179
 msgid "[$BBD]"
 msgstr "[$BBD]"
 
-#: src/formats.c:177
+#: src/formats.c:179
 msgid "Barbados dollar"
 msgstr "Barbados dollar"
 
-#: src/formats.c:178
+#: src/formats.c:180
 msgid "[$BDT]"
 msgstr "[$BDT]"
 
-#: src/formats.c:178
+#: src/formats.c:180
 msgid "Bangladeshi taka"
 msgstr "Bangladeshiske taka"
 
-#: src/formats.c:179
+#: src/formats.c:181
 msgid "[$BEF]"
 msgstr "[$BEF]"
 
-#: src/formats.c:179
+#: src/formats.c:181
 msgid "Belgian franc"
 msgstr "Belgiske franc"
 
-#: src/formats.c:180
+#: src/formats.c:182
 msgid "[$BGL]"
 msgstr "[$BGL]"
 
-#: src/formats.c:180
+#: src/formats.c:182
 msgid "Bulgarian lev"
 msgstr "Bulgarske lev"
 
-#: src/formats.c:181
+#: src/formats.c:183
 msgid "[$BHD]"
 msgstr "[$BHD]"
 
-#: src/formats.c:181
+#: src/formats.c:183
 msgid "Bahraini dinar"
 msgstr "Bahrainske dinar"
 
-#: src/formats.c:182
+#: src/formats.c:184
 msgid "[$BIF]"
 msgstr "[$BIF]"
 
-#: src/formats.c:182
+#: src/formats.c:184
 msgid "Burundi franc"
 msgstr "Burundi franc"
 
-#: src/formats.c:183
+#: src/formats.c:185
 msgid "[$BMD]"
 msgstr "[$BMD]"
 
-#: src/formats.c:183
+#: src/formats.c:185
 msgid "Bermudian dollar"
 msgstr "Bermuda dollar"
 
-#: src/formats.c:184
+#: src/formats.c:186
 msgid "[$BND]"
 msgstr "[$BND]"
 
-#: src/formats.c:184
+#: src/formats.c:186
 msgid "Brunei dollar"
 msgstr "Brunei dollar"
 
-#: src/formats.c:185
+#: src/formats.c:187
 msgid "[$BOB]"
 msgstr "[$BOB]"
 
-#: src/formats.c:185
+#: src/formats.c:187
 msgid "Bolivian boliviano"
 msgstr "Bolivianske boliviano"
 
-#: src/formats.c:186
+#: src/formats.c:188
 msgid "[$BRE]"
 msgstr "[$BRE]"
 
-#: src/formats.c:186
+#: src/formats.c:188
 msgid "Brazilian cruzeiro"
 msgstr "Brasilianske cruzeiro"
 
-#: src/formats.c:187
+#: src/formats.c:189
 msgid "[$BSD]"
 msgstr "[$BSD]"
 
-#: src/formats.c:187
+#: src/formats.c:189
 msgid "Bahamian dollar"
 msgstr "Bahamiske dollar"
 
-#: src/formats.c:188
+#: src/formats.c:190
 msgid "[$BTN]"
 msgstr "[$BTN]"
 
-#: src/formats.c:188
+#: src/formats.c:190
 msgid "Bhutan ngultrum"
 msgstr "Bhutan ngultrum"
 
-#: src/formats.c:189
+#: src/formats.c:191
 msgid "[$BWP]"
 msgstr "[$BWP]"
 
-#: src/formats.c:189
+#: src/formats.c:191
 msgid "Botswanian pula"
 msgstr "Botswananske pula"
 
-#: src/formats.c:190
+#: src/formats.c:192
 msgid "[$BYB]"
 msgstr "[$BYB]"
 
-#: src/formats.c:190
+#: src/formats.c:192
 msgid "Belarussian ruble"
 msgstr "Hviderussiske rubler"
 
-#: src/formats.c:191
+#: src/formats.c:193
 msgid "[$BZD]"
 msgstr "[$BZD]"
 
-#: src/formats.c:191
+#: src/formats.c:193
 msgid "Belize dollar"
 msgstr "Belize dollar"
 
-#: src/formats.c:192
+#: src/formats.c:194
 msgid "[$CAD]"
 msgstr "[$CAD]"
 
-#: src/formats.c:192
+#: src/formats.c:194
 msgid "Canadian dollar"
 msgstr "Canadiske dollar"
 
-#: src/formats.c:193
+#: src/formats.c:195
 msgid "[$CHF]"
 msgstr "[$CHF]"
 
-#: src/formats.c:193
+#: src/formats.c:195
 msgid "Swiss franc"
 msgstr "Schweizerfranc"
 
-#: src/formats.c:194
+#: src/formats.c:196
 msgid "[$CLP]"
 msgstr "[$CLP]"
 
-#: src/formats.c:194
+#: src/formats.c:196
 msgid "Chilean peso"
 msgstr "Chilenske peso"
 
-#: src/formats.c:195
+#: src/formats.c:197
 msgid "[$CNY]"
 msgstr "[$CNY]"
 
-#: src/formats.c:195
+#: src/formats.c:197
 msgid "Chinese yuan renminbi"
 msgstr "Kinesiske juan renminbi"
 
-#: src/formats.c:196
+#: src/formats.c:198
 msgid "[$COP]"
 msgstr "[$COP]"
 
-#: src/formats.c:196
+#: src/formats.c:198
 msgid "Colombian peso"
 msgstr "Colombianske peso"
 
-#: src/formats.c:197
+#: src/formats.c:199
 msgid "[$CRC]"
 msgstr "[$CRC]"
 
-#: src/formats.c:197
+#: src/formats.c:199
 msgid "Costa Rican colon"
 msgstr "Costa Ricanske colon"
 
-#: src/formats.c:198
+#: src/formats.c:200
 msgid "[$CSK]"
 msgstr "[$CSK]"
 
-#: src/formats.c:198
+#: src/formats.c:200
 msgid "Czech Koruna"
 msgstr "Tjekkiske koruna"
 
-#: src/formats.c:199
+#: src/formats.c:201
 msgid "[$CUP]"
 msgstr "[$CUP]"
 
-#: src/formats.c:199
+#: src/formats.c:201
 msgid "Cuban peso"
 msgstr "Cubanske peso"
 
-#: src/formats.c:200
+#: src/formats.c:202
 msgid "[$CVE]"
 msgstr "[$CVE]"
 
-#: src/formats.c:200
+#: src/formats.c:202
 msgid "Cape Verde escudo"
 msgstr "Cape Verde escudo"
 
-#: src/formats.c:201
+#: src/formats.c:203
 msgid "[$CYP]"
 msgstr "[$CYP]"
 
-#: src/formats.c:201
+#: src/formats.c:203
 msgid "Cyprus pound"
 msgstr "Cypriotiske pund"
 
-#: src/formats.c:202
+#: src/formats.c:204
 msgid "[$DEM]"
 msgstr "[$DEM]"
 
-#: src/formats.c:202
+#: src/formats.c:204
 msgid "Deutsche mark"
 msgstr "Tyske D-mark"
 
-#: src/formats.c:203
+#: src/formats.c:205
 msgid "[$DJF]"
 msgstr "[$DJF]"
 
-#: src/formats.c:203
+#: src/formats.c:205
 msgid "Djibouti franc"
 msgstr "Djibouti franc"
 
-#: src/formats.c:204
+#: src/formats.c:206
 msgid "[$DKK]"
 msgstr "[$DKK]"
 
-#: src/formats.c:204
+#: src/formats.c:206
 msgid "Danish krone"
 msgstr "Danske kroner"
 
-#: src/formats.c:205
+#: src/formats.c:207
 msgid "[$DOP]"
 msgstr "[$DOP]"
 
-#: src/formats.c:205
+#: src/formats.c:207
 msgid "Dominican peso"
 msgstr "Dominikanske peso"
 
-#: src/formats.c:206
+#: src/formats.c:208
 msgid "[$DZD]"
 msgstr "[$DZD]"
 
-#: src/formats.c:206
+#: src/formats.c:208
 msgid "Algerian dinar"
 msgstr "Algerianske dinar"
 
-#: src/formats.c:207
+#: src/formats.c:209
 msgid "[$ECS]"
 msgstr "[$ECS]"
 
-#: src/formats.c:207
+#: src/formats.c:209
 msgid "Ecuador sucre"
 msgstr "Ecuadorianske sucre"
 
-#: src/formats.c:208
+#: src/formats.c:210
 msgid "[$EGP]"
 msgstr "[$EGP]"
 
-#: src/formats.c:208
+#: src/formats.c:210
 msgid "Egyptian pound"
 msgstr "Egyptiske pund"
 
-#: src/formats.c:209
+#: src/formats.c:211
 msgid "[$ESP]"
 msgstr "[$ESP]"
 
-#: src/formats.c:209
+#: src/formats.c:211
 msgid "Spanish peseta"
 msgstr "Spanske peseta"
 
-#: src/formats.c:210
+#: src/formats.c:212
 msgid "[$ETB]"
 msgstr "[$ETB]"
 
-#: src/formats.c:210
+#: src/formats.c:212
 msgid "Ethiopian birr"
 msgstr "Etiopiske birr"
 
-#: src/formats.c:211
+#: src/formats.c:213
 msgid "[$EUR]"
 msgstr "[$EUR]"
 
-#: src/formats.c:211
+#: src/formats.c:213
 msgid "Euro"
 msgstr "Euro"
 
-#: src/formats.c:212
+#: src/formats.c:214
 msgid "[$FIM]"
 msgstr "[$FIM]"
 
-#: src/formats.c:212
+#: src/formats.c:214
 msgid "Finnish markka"
 msgstr "Finske mark"
 
-#: src/formats.c:213
+#: src/formats.c:215
 msgid "[$FJD]"
 msgstr "[$FJD]"
 
-#: src/formats.c:213
+#: src/formats.c:215
 msgid "Fiji dollar"
 msgstr "Fiji dollar"
 
-#: src/formats.c:214
+#: src/formats.c:216
 msgid "[$FKP]"
 msgstr "[$FKP]"
 
-#: src/formats.c:214
+#: src/formats.c:216
 msgid "Falkland Islands pound"
 msgstr "Falkland Island pund"
 
-#: src/formats.c:215
+#: src/formats.c:217
 msgid "[$FRF]"
 msgstr "[$FRF]"
 
-#: src/formats.c:215
+#: src/formats.c:217
 msgid "French franc"
 msgstr "Franske franc"
 
-#: src/formats.c:216
+#: src/formats.c:218
 msgid "[$GBP]"
 msgstr "[$GBP]"
 
-#: src/formats.c:216
+#: src/formats.c:218
 msgid "UK pound sterling"
 msgstr "Britiske pund sterling"
 
-#: src/formats.c:217
+#: src/formats.c:219
 msgid "[$GHC]"
 msgstr "[$GHC]"
 
-#: src/formats.c:217
+#: src/formats.c:219
 msgid "Ghanaian cedi"
 msgstr "Ghanaianske cedi"
 
-#: src/formats.c:218
+#: src/formats.c:220
 msgid "[$GIP]"
 msgstr "[$GIP]"
 
-#: src/formats.c:218
+#: src/formats.c:220
 msgid "Gibraltar pound"
 msgstr "Gibraltar pund"
 
-#: src/formats.c:219
+#: src/formats.c:221
 msgid "[$GMD]"
 msgstr "[$GMD]"
 
-#: src/formats.c:219
+#: src/formats.c:221
 msgid "Gambian dalasi"
 msgstr "Gambianske dalasi"
 
-#: src/formats.c:220
+#: src/formats.c:222
 msgid "[$GNF]"
 msgstr "[$GNF]"
 
-#: src/formats.c:220
+#: src/formats.c:222
 msgid "Guinea franc"
 msgstr "Guinea franc"
 
-#: src/formats.c:221
+#: src/formats.c:223
 msgid "[$GRD]"
 msgstr "[$GRD]"
 
-#: src/formats.c:221
+#: src/formats.c:223
 msgid "Greek drachma"
 msgstr "Græske drakmer"
 
-#: src/formats.c:222
+#: src/formats.c:224
 msgid "[$GTQ]"
 msgstr "[$GTQ]"
 
-#: src/formats.c:222
+#: src/formats.c:224
 msgid "Guatemalan quetzal"
 msgstr "Guatemalanske quetzal"
 
-#: src/formats.c:223
+#: src/formats.c:225
 msgid "[$GWP]"
 msgstr "[$GWP]"
 
-#: src/formats.c:223
+#: src/formats.c:225
 msgid "Guinea-Bissau peso"
 msgstr "Guinea-Bissau peso"
 
-#: src/formats.c:224
+#: src/formats.c:226
 msgid "[$GYD]"
 msgstr "[$GYD]"
 
-#: src/formats.c:224
+#: src/formats.c:226
 msgid "Guyanan dollar"
 msgstr "Guyananske dollar"
 
-#: src/formats.c:225
+#: src/formats.c:227
 msgid "[$HKD]"
 msgstr "[$HKD]"
 
-#: src/formats.c:225
+#: src/formats.c:227
 msgid "Hong Kong dollar"
 msgstr "Hong Kong dollar"
 
-#: src/formats.c:226
+#: src/formats.c:228
 msgid "[$HNL]"
 msgstr "[$HNL]"
 
-#: src/formats.c:226
+#: src/formats.c:228
 msgid "Honduran lempira"
 msgstr "Honduranske lempira"
 
-#: src/formats.c:227
+#: src/formats.c:229
 msgid "[$HRK]"
 msgstr "[$HRK]"
 
-#: src/formats.c:227
+#: src/formats.c:229
 msgid "Croatian kuna"
 msgstr "Kroatiske kuna"
 
-#: src/formats.c:228
+#: src/formats.c:230
 msgid "[$HTG]"
 msgstr "[$HTG]"
 
-#: src/formats.c:228
+#: src/formats.c:230
 msgid "Haitian gourde"
 msgstr "Haitianske gourde"
 
-#: src/formats.c:229
+#: src/formats.c:231
 msgid "[$HUF]"
 msgstr "[$HUF]"
 
-#: src/formats.c:229
+#: src/formats.c:231
 msgid "Hungarian forint"
 msgstr "Ungarske forint"
 
-#: src/formats.c:230
+#: src/formats.c:232
 msgid "[$IDR]"
 msgstr "[$IDR]"
 
-#: src/formats.c:230
+#: src/formats.c:232
 msgid "Indonesian rupiah"
 msgstr "Indonesiske rupiah"
 
-#: src/formats.c:231
+#: src/formats.c:233
 msgid "[$IEP]"
 msgstr "[$IEP]"
 
-#: src/formats.c:231
+#: src/formats.c:233
 msgid "Irish punt"
 msgstr "Irske punt"
 
-#: src/formats.c:232
+#: src/formats.c:234
 msgid "[$IEX]"
 msgstr "[$IEX]"
 
-#: src/formats.c:232
+#: src/formats.c:234
 msgid "Irish pence ***"
 msgstr "Irske pence ***"
 
-#: src/formats.c:233
+#: src/formats.c:235
 msgid "[$ILS]"
 msgstr "[$ILS]"
 
-#: src/formats.c:233
+#: src/formats.c:235
 msgid "Israeli shekel"
 msgstr "Israelske shekel"
 
-#: src/formats.c:234
+#: src/formats.c:236
 msgid "[$INR]"
 msgstr "[$INR]"
 
-#: src/formats.c:234
+#: src/formats.c:236
 msgid "Indian rupee"
 msgstr "Indiske rupee"
 
-#: src/formats.c:235
+#: src/formats.c:237
 msgid "[$IQD]"
 msgstr "[$IQD]"
 
-#: src/formats.c:235
+#: src/formats.c:237
 msgid "Iraqi dinar"
 msgstr "Irakiske dinar"
 
-#: src/formats.c:236
+#: src/formats.c:238
 msgid "[$IRR]"
 msgstr "[$IRR]"
 
-#: src/formats.c:236
+#: src/formats.c:238
 msgid "Iranian rial"
 msgstr "Iranske rial"
 
-#: src/formats.c:237
+#: src/formats.c:239
 msgid "[$ISK]"
 msgstr "[$ISK]"
 
-#: src/formats.c:237
+#: src/formats.c:239
 msgid "Iceland krona"
 msgstr "Islandske kroner"
 
-#: src/formats.c:238
+#: src/formats.c:240
 msgid "[$ITL]"
 msgstr "[$ITL]"
 
-#: src/formats.c:238
+#: src/formats.c:240
 msgid "Italian lira"
 msgstr "Italienske lire"
 
-#: src/formats.c:239
+#: src/formats.c:241
 msgid "[$JMD]"
 msgstr "[$JMD]"
 
-#: src/formats.c:239
+#: src/formats.c:241
 msgid "Jamaican dollar"
 msgstr "Jamaicanske dollar"
 
-#: src/formats.c:240
+#: src/formats.c:242
 msgid "[$JOD]"
 msgstr "[$JOD]"
 
-#: src/formats.c:240
+#: src/formats.c:242
 msgid "Jordanian dinar"
 msgstr "Jordanske dinarer"
 
-#: src/formats.c:241
+#: src/formats.c:243
 msgid "[$JPY]"
 msgstr "[$JPY]"
 
-#: src/formats.c:241
+#: src/formats.c:243
 msgid "Japanese yen"
 msgstr "Japanske yen"
 
-#: src/formats.c:242
+#: src/formats.c:244
 msgid "[$KES]"
 msgstr "[$KES]"
 
-#: src/formats.c:242
+#: src/formats.c:244
 msgid "Kenyan shilling"
 msgstr "Kenyanske shilling"
 
-#: src/formats.c:243
+#: src/formats.c:245
 msgid "[$KHR]"
 msgstr "[$KHR]"
 
-#: src/formats.c:243
+#: src/formats.c:245
 msgid "Kampuchean riel"
 msgstr "Kampucheanske riel"
 
-#: src/formats.c:244
+#: src/formats.c:246
 msgid "[$KMF]"
 msgstr "[$KMF]"
 
-#: src/formats.c:244
+#: src/formats.c:246
 msgid "Comoros franc"
 msgstr "Comoros franc"
 
-#: src/formats.c:245
+#: src/formats.c:247
 msgid "[$KPW]"
 msgstr "[$KPW]"
 
-#: src/formats.c:245
+#: src/formats.c:247
 msgid "North Korean won"
 msgstr "Nordkoreanske won"
 
-#: src/formats.c:246
+#: src/formats.c:248
 msgid "[$KRW]"
 msgstr "[$KRW]"
 
-#: src/formats.c:246
+#: src/formats.c:248
 msgid "Republic of Korea won"
 msgstr "Sydkoreanske won"
 
-#: src/formats.c:247
+#: src/formats.c:249
 msgid "[$KWD]"
 msgstr "[$KWD]"
 
-#: src/formats.c:247
+#: src/formats.c:249
 msgid "Kuwaiti dinar"
 msgstr "Kuwaitiske dinar"
 
-#: src/formats.c:248
+#: src/formats.c:250
 msgid "[$KYD]"
 msgstr "[$KYD]"
 
-#: src/formats.c:248
+#: src/formats.c:250
 msgid "Cayman Islands dollar"
 msgstr "Cayman Island dollar"
 
-#: src/formats.c:249
+#: src/formats.c:251
 msgid "[$LAK]"
 msgstr "[$LAK]"
 
-#: src/formats.c:249
+#: src/formats.c:251
 msgid "Lao kip"
 msgstr "Laotiske kip"
 
-#: src/formats.c:250
+#: src/formats.c:252
 msgid "[$LBP]"
 msgstr "[$LBP]"
 
-#: src/formats.c:250
+#: src/formats.c:252
 msgid "Lebanese pound"
 msgstr "Libanesiske pund"
 
-#: src/formats.c:251
+#: src/formats.c:253
 msgid "[$LKR]"
 msgstr "[$LKR]"
 
-#: src/formats.c:251
+#: src/formats.c:253
 msgid "Sri Lanka rupee"
 msgstr "Sri Lankanske rupee"
 
-#: src/formats.c:252
+#: src/formats.c:254
 msgid "[$LRD]"
 msgstr "[$LRD]"
 
-#: src/formats.c:252
+#: src/formats.c:254
 msgid "Liberian dollar"
 msgstr "Liberianske dollar"
 
-#: src/formats.c:253
+#: src/formats.c:255
 msgid "[$LSL]"
 msgstr "[$LSL]"
 
-#: src/formats.c:253
+#: src/formats.c:255
 msgid "Lesotho loti"
 msgstr "Lesotho loti"
 
-#: src/formats.c:254
+#: src/formats.c:256
 msgid "[$LUF]"
 msgstr "[$LUF]"
 
-#: src/formats.c:254
+#: src/formats.c:256
 msgid "Luxembourg franc"
 msgstr "Luxembourgske franc"
 
-#: src/formats.c:255
+#: src/formats.c:257
 msgid "[$LYD]"
 msgstr "[$LYD]"
 
-#: src/formats.c:255
+#: src/formats.c:257
 msgid "Libyan dinar"
 msgstr "Libyske dinarer"
 
-#: src/formats.c:256
+#: src/formats.c:258
 msgid "[$MAD]"
 msgstr "[$MAD]"
 
-#: src/formats.c:256
+#: src/formats.c:258
 msgid "Moroccan dirham"
 msgstr "Marokkanske dirham"
 
-#: src/formats.c:257
+#: src/formats.c:259
 msgid "[$MDL]"
 msgstr "[$MLD]"
 
-#: src/formats.c:257
+#: src/formats.c:259
 msgid "Moldovan leu"
 msgstr "Moldoviske Leu"
 
-#: src/formats.c:258
+#: src/formats.c:260
 msgid "[$MGF]"
 msgstr "[$MGF]"
 
-#: src/formats.c:258
+#: src/formats.c:260
 msgid "Malagasy franc"
 msgstr "Malagaskiske franc"
 
-#: src/formats.c:259
+#: src/formats.c:261
 msgid "[$MLF]"
 msgstr "[$MLF]"
 
-#: src/formats.c:259
+#: src/formats.c:261
 msgid "Mali franc"
 msgstr "Mali franc"
 
-#: src/formats.c:260
+#: src/formats.c:262
 msgid "[$MMK]"
 msgstr "[$MMK]"
 
-#: src/formats.c:260
+#: src/formats.c:262
 msgid "Myanmar kyat"
 msgstr "Myanmarske kyat"
 
-#: src/formats.c:261
+#: src/formats.c:263
 msgid "[$MNT]"
 msgstr "[$MNT]"
 
-#: src/formats.c:261
+#: src/formats.c:263
 msgid "Mongolian tugrik"
 msgstr "Mongolske tugrik"
 
-#: src/formats.c:262
+#: src/formats.c:264
 msgid "[$MOP]"
 msgstr "[$MOP]"
 
-#: src/formats.c:262
+#: src/formats.c:264
 msgid "Macau pataca"
 msgstr "Macau pacata"
 
-#: src/formats.c:263
+#: src/formats.c:265
 msgid "[$MRO]"
 msgstr "[$MRO]"
 
-#: src/formats.c:263
+#: src/formats.c:265
 msgid "Mauritanian ouguiya"
 msgstr "Mauritanske ouguiya"
 
-#: src/formats.c:264
+#: src/formats.c:266
 msgid "[$MTL]"
 msgstr "[$MTL]"
 
-#: src/formats.c:264
+#: src/formats.c:266
 msgid "Maltese lira"
 msgstr "Maltesiske lire"
 
-#: src/formats.c:265
+#: src/formats.c:267
 msgid "[$MUR]"
 msgstr "[$MUR]"
 
-#: src/formats.c:265
+#: src/formats.c:267
 msgid "Mauritius rupee"
 msgstr "Mauritiuske rupee"
 
-#: src/formats.c:266
+#: src/formats.c:268
 msgid "[$MVR]"
 msgstr "[$MVR]"
 
-#: src/formats.c:266
+#: src/formats.c:268
 msgid "Maldive rupee"
 msgstr "Maldivianske rupee"
 
-#: src/formats.c:267
+#: src/formats.c:269
 msgid "[$MWK]"
 msgstr "[$MWK]"
 
-#: src/formats.c:267
+#: src/formats.c:269
 msgid "Malawi kwacha"
 msgstr "Malawianske kwacha"
 
-#: src/formats.c:268
+#: src/formats.c:270
 msgid "[$MXP]"
 msgstr "[$MXP]"
 
-#: src/formats.c:268
+#: src/formats.c:270
 msgid "Mexican peso"
 msgstr "Mexikanske peso"
 
-#: src/formats.c:269
+#: src/formats.c:271
 msgid "[$MYR]"
 msgstr "[$MYR]"
 
-#: src/formats.c:269
+#: src/formats.c:271
 msgid "Malaysian ringgit"
 msgstr "Malajsiske ringgit"
 
-#: src/formats.c:270
+#: src/formats.c:272
 msgid "[$MZM]"
 msgstr "[$MZM]"
 
-#: src/formats.c:270
+#: src/formats.c:272
 msgid "Mozambique metical"
 msgstr "Mozambisiske metical"
 
-#: src/formats.c:271
+#: src/formats.c:273
 msgid "[$NGN]"
 msgstr "[$NGN]"
 
-#: src/formats.c:271
+#: src/formats.c:273
 msgid "Nigerian naira"
 msgstr "Nigerianske naira"
 
-#: src/formats.c:272
+#: src/formats.c:274
 msgid "[$NIO]"
 msgstr "[$NIO]"
 
-#: src/formats.c:272
+#: src/formats.c:274
 msgid "Nicaraguan cordoba oro"
 msgstr "Nicaraguanske cordoba oro"
 
-#: src/formats.c:273
+#: src/formats.c:275
 msgid "[$NLG]"
 msgstr "[$NLG]"
 
-#: src/formats.c:273
+#: src/formats.c:275
 msgid "Netherlands guilder"
 msgstr "Hollandske gylden"
 
-#: src/formats.c:274
+#: src/formats.c:276
 msgid "[$NOK]"
 msgstr "[$NOK]"
 
-#: src/formats.c:274
+#: src/formats.c:276
 msgid "Norwegian krone"
 msgstr "Norske kroner"
 
-#: src/formats.c:275
+#: src/formats.c:277
 msgid "[$NPR]"
 msgstr "[$NPR]"
 
-#: src/formats.c:275
+#: src/formats.c:277
 msgid "Nepalese rupee"
 msgstr "Nepaliske rupee"
 
-#: src/formats.c:276
+#: src/formats.c:278
 msgid "[$NZD]"
 msgstr "[$NZD]"
 
-#: src/formats.c:276
+#: src/formats.c:278
 msgid "New Zealand dollar"
 msgstr "New Zealandske dollar"
 
-#: src/formats.c:277
+#: src/formats.c:279
 msgid "[$OMR]"
 msgstr "[$OMR]"
 
-#: src/formats.c:277
+#: src/formats.c:279
 msgid "Rial Omani"
 msgstr "Omani Rial"
 
-#: src/formats.c:278
+#: src/formats.c:280
 msgid "[$PAB]"
 msgstr "[$PAB]"
 
-#: src/formats.c:278
+#: src/formats.c:280
 msgid "Panamanian balboa"
 msgstr "Panamaiske balboa"
 
-#: src/formats.c:279
+#: src/formats.c:281
 msgid "[$PEI]"
 msgstr "[$PEI]"
 
-#: src/formats.c:279
+#: src/formats.c:281
 msgid "Peruvian inti"
 msgstr "Peruiske inti"
 
-#: src/formats.c:280
+#: src/formats.c:282
 msgid "[$PGK]"
 msgstr "[$PGK]"
 
-#: src/formats.c:280
+#: src/formats.c:282
 msgid "Papua New Guinea kina"
 msgstr "Papua New Guinea kina"
 
-#: src/formats.c:281
+#: src/formats.c:283
 msgid "[$PHP]"
 msgstr "[$PHP]"
 
-#: src/formats.c:281
+#: src/formats.c:283
 msgid "Philippino peso"
 msgstr "Filippinske peso"
 
-#: src/formats.c:282
+#: src/formats.c:284
 msgid "[$PKR]"
 msgstr "[$PKR]"
 
-#: src/formats.c:282
+#: src/formats.c:284
 msgid "Pakistan rupee"
 msgstr "Pakistanske rupee"
 
-#: src/formats.c:283
+#: src/formats.c:285
 msgid "[$PLZ]"
 msgstr "[$PLZ]"
 
-#: src/formats.c:283
+#: src/formats.c:285
 msgid "Polish zloty"
 msgstr "Polske zloty"
 
-#: src/formats.c:284
+#: src/formats.c:286
 msgid "[$PTE]"
 msgstr "[$PTE]"
 
-#: src/formats.c:284
+#: src/formats.c:286
 msgid "Portuguese escudo"
 msgstr "Portugisiske escudo"
 
-#: src/formats.c:285
+#: src/formats.c:287
 msgid "[$PYG]"
 msgstr "[$PYG]"
 
-#: src/formats.c:285
+#: src/formats.c:287
 msgid "Paraguay guarani"
 msgstr "Paraguayske guarani"
 
-#: src/formats.c:286
+#: src/formats.c:288
 msgid "[$QAR]"
 msgstr "[$QAR]"
 
-#: src/formats.c:286
+#: src/formats.c:288
 msgid "Qatari rial"
 msgstr "Qatari rial"
 
-#: src/formats.c:287
+#: src/formats.c:289
 msgid "[$ROL]"
 msgstr "[$ROL]"
 
-#: src/formats.c:287
+#: src/formats.c:289
 msgid "Romanian leu"
 msgstr "Rumænske leu"
 
-#: src/formats.c:288
+#: src/formats.c:290
 msgid "[$RWF]"
 msgstr "[$RWF]"
 
-#: src/formats.c:288
+#: src/formats.c:290
 msgid "Rwanda franc"
 msgstr "Rwanda franc"
 
-#: src/formats.c:289
+#: src/formats.c:291
 msgid "[$SAR]"
 msgstr "[$SAR]"
 
-#: src/formats.c:289
+#: src/formats.c:291
 msgid "Saudi Arabian riyal"
 msgstr "Saudi Arabiske riyal"
 
-#: src/formats.c:290
+#: src/formats.c:292
 msgid "[$SBD]"
 msgstr "[$SBD]"
 
-#: src/formats.c:290
+#: src/formats.c:292
 msgid "Solomon Islands dollar"
 msgstr "Solomon øernes dollar"
 
-#: src/formats.c:291
+#: src/formats.c:293
 msgid "[$SCR]"
 msgstr "[$SCR]"
 
-#: src/formats.c:291
+#: src/formats.c:293
 msgid "Seychelles rupee"
 msgstr "Seycheller rupee"
 
-#: src/formats.c:292
+#: src/formats.c:294
 msgid "[$SDP]"
 msgstr "[$SDP]"
 
-#: src/formats.c:292
+#: src/formats.c:294
 msgid "Sudanese pound"
 msgstr "Sudanesiske pund"
 
-#: src/formats.c:293
+#: src/formats.c:295
 msgid "[$SEK]"
 msgstr "[$SEK]"
 
-#: src/formats.c:293
+#: src/formats.c:295
 msgid "Swedish krona"
 msgstr "Svenske kroner"
 
-#: src/formats.c:294
+#: src/formats.c:296
 msgid "[$SGD]"
 msgstr "[$SGD]"
 
-#: src/formats.c:294
+#: src/formats.c:296
 msgid "Singapore dollar"
 msgstr "Singapore dollar"
 
-#: src/formats.c:295
+#: src/formats.c:297
 msgid "[$SHP]"
 msgstr "[$SHP]"
 
-#: src/formats.c:295
+#: src/formats.c:297
 msgid "St.Helena pound"
 msgstr "St.Helena pund"
 
-#: src/formats.c:296
+#: src/formats.c:298
 msgid "[$SLL]"
 msgstr "[$SLL]"
 
-#: src/formats.c:296
+#: src/formats.c:298
 msgid "Sierra Leone leone"
 msgstr "Sierra Leone leone"
 
-#: src/formats.c:297
+#: src/formats.c:299
 msgid "[$SOS]"
 msgstr "[$SOS]"
 
-#: src/formats.c:297
+#: src/formats.c:299
 msgid "Somali shilling"
 msgstr "Somaliske shilling"
 
-#: src/formats.c:298
+#: src/formats.c:300
 msgid "[$SRG]"
 msgstr "[$SRG]"
 
-#: src/formats.c:298
+#: src/formats.c:300
 msgid "Suriname guilder"
 msgstr "Surinamesiske gylden"
 
-#: src/formats.c:299
+#: src/formats.c:301
 msgid "[$STD]"
 msgstr "[$STD]"
 
-#: src/formats.c:299
+#: src/formats.c:301
 msgid "Sao Tome and Principe dobra"
 msgstr "Sao Tome og Principe dobra"
 
-#: src/formats.c:300
+#: src/formats.c:302
 msgid "[$SUR]"
 msgstr "[$SUR]"
 
-#: src/formats.c:300
+#: src/formats.c:302
 msgid "USSR rouble"
 msgstr "USSR rubler"
 
-#: src/formats.c:301
+#: src/formats.c:303
 msgid "[$SVC]"
 msgstr "[$SVC]"
 
-#: src/formats.c:301
+#: src/formats.c:303
 msgid "El Salvador colon"
 msgstr "El Salvadoranske colon"
 
-#: src/formats.c:302
+#: src/formats.c:304
 msgid "[$SYP]"
 msgstr "[$SYP]"
 
-#: src/formats.c:302
+#: src/formats.c:304
 msgid "Syrian pound"
 msgstr "Syriske pund"
 
-#: src/formats.c:303
+#: src/formats.c:305
 msgid "[$SZL]"
 msgstr "[$SZL]"
 
-#: src/formats.c:303
+#: src/formats.c:305
 msgid "Swaziland lilangeni"
 msgstr "Swazilandske lilangeni"
 
-#: src/formats.c:304
+#: src/formats.c:306
 msgid "[$THB]"
 msgstr "[$THB]"
 
-#: src/formats.c:304
+#: src/formats.c:306
 msgid "Thai baht"
 msgstr "Thailandske baht"
 
-#: src/formats.c:305
+#: src/formats.c:307
 msgid "[$TND]"
 msgstr "[$TND]"
 
-#: src/formats.c:305
+#: src/formats.c:307
 msgid "Tunisian dinar"
 msgstr "Tunesiske dinarer"
 
-#: src/formats.c:306
+#: src/formats.c:308
 msgid "[$TOP]"
 msgstr "[$TOP]"
 
-#: src/formats.c:306
+#: src/formats.c:308
 msgid "Tongan pa'anga"
 msgstr "Tonganske pa'anga"
 
-#: src/formats.c:307
+#: src/formats.c:309
 msgid "[$TPE]"
 msgstr "[$TPE]"
 
-#: src/formats.c:307
+#: src/formats.c:309
 msgid "East Timor escudo"
 msgstr "Øst Timor escudo"
 
-#: src/formats.c:308
+#: src/formats.c:310
 msgid "[$TRL]"
 msgstr "[$TRL]"
 
-#: src/formats.c:308
+#: src/formats.c:310
 msgid "Turkish lira"
 msgstr "Tyrkiske lire"
 
-#: src/formats.c:309
+#: src/formats.c:311
 msgid "[$TTD]"
 msgstr "[$TTD]"
 
-#: src/formats.c:309
+#: src/formats.c:311
 msgid "Trinidad and Tobago dollar"
 msgstr "Trinidad og Tobago dollar"
 
-#: src/formats.c:310
+#: src/formats.c:312
 msgid "[$TWD]"
 msgstr "[$TWD]"
 
-#: src/formats.c:310
+#: src/formats.c:312
 msgid "New Taiwan dollar"
 msgstr "Nye Taiwan dollar"
 
-#: src/formats.c:311
+#: src/formats.c:313
 msgid "[$TZS]"
 msgstr "[$TZS]"
 
-#: src/formats.c:311
+#: src/formats.c:313
 msgid "Tanzanian shilling"
 msgstr "Tanzanianske shilling"
 
-#: src/formats.c:312
+#: src/formats.c:314
 msgid "[$UAH]"
 msgstr "[$UAH]"
 
-#: src/formats.c:312
+#: src/formats.c:314
 msgid "Ukrainian hryvnia"
 msgstr "Ukrainske hryvnia"
 
-#: src/formats.c:313
+#: src/formats.c:315
 msgid "[$UGX]"
 msgstr "[$UGX]"
 
-#: src/formats.c:313
+#: src/formats.c:315
 msgid "Ugandan shilling"
 msgstr "Ugandesiske shilling"
 
-#: src/formats.c:314
+#: src/formats.c:316
 msgid "[$USD]"
 msgstr "[$USD]"
 
-#: src/formats.c:314
+#: src/formats.c:316
 msgid "US dollar"
 msgstr "US dollar"
 
-#: src/formats.c:315
+#: src/formats.c:317
 msgid "[$UYP]"
 msgstr "[$UYP]"
 
-#: src/formats.c:315
+#: src/formats.c:317
 msgid "Uruguayan peso"
 msgstr "Uruguayanske peso"
 
-#: src/formats.c:316
+#: src/formats.c:318
 msgid "[$VEB]"
 msgstr "[$VEB]"
 
-#: src/formats.c:316
+#: src/formats.c:318
 msgid "Venezuelan bolivar"
 msgstr "Venezuelske bolivar"
 
-#: src/formats.c:317
+#: src/formats.c:319
 msgid "[$VND]"
 msgstr "[$VND]"
 
-#: src/formats.c:317
+#: src/formats.c:319
 msgid "Vietnamese dong"
 msgstr "Vietnamesiske dong"
 
-#: src/formats.c:318
+#: src/formats.c:320
 msgid "[$VUV]"
 msgstr "[$VUV]"
 
-#: src/formats.c:318
+#: src/formats.c:320
 msgid "Vanuatu vatu"
 msgstr "Vanuatu vatu"
 
-#: src/formats.c:319
+#: src/formats.c:321
 msgid "[$WST]"
 msgstr "[$WST]"
 
-#: src/formats.c:319
+#: src/formats.c:321
 msgid "Samoan tala"
 msgstr "Samoanske tala"
 
-#: src/formats.c:320
+#: src/formats.c:322
 msgid "[$XCD]"
 msgstr "[$XCD]"
 
-#: src/formats.c:320
+#: src/formats.c:322
 msgid "East Caribbean dollar"
 msgstr "Østkaribiske dollar"
 
-#: src/formats.c:321
+#: src/formats.c:323
 msgid "[$XEU]"
 msgstr "[$XEU]"
 
-#: src/formats.c:321
+#: src/formats.c:323
 msgid "European currency unit"
 msgstr "Europæisk regningsenhed"
 
-#: src/formats.c:322
+#: src/formats.c:324
 msgid "[$YDD]"
 msgstr "[$YDD]"
 
-#: src/formats.c:322
+#: src/formats.c:324
 msgid "Democratic Yemeni dinar"
 msgstr "Demokratisk Jemen dinar"
 
-#: src/formats.c:323
+#: src/formats.c:325
 msgid "[$YER]"
 msgstr "[$YER]"
 
-#: src/formats.c:323
+#: src/formats.c:325
 msgid "Yemeni rial"
 msgstr "Jemenske rial"
 
-#: src/formats.c:324
+#: src/formats.c:326
 msgid "[$YUN]"
 msgstr "[$YUN]"
 
-#: src/formats.c:324
+#: src/formats.c:326
 msgid "New Yugoslavia dinar"
 msgstr "Ny jugoslaviske dinar"
 
-#: src/formats.c:325
+#: src/formats.c:327
 msgid "[$ZAL]"
 msgstr "[$ZAL]"
 
-#: src/formats.c:325
+#: src/formats.c:327
 msgid "South African rand funds code"
 msgstr "Sydafrikanske rand fondkode"
 
-#: src/formats.c:326
+#: src/formats.c:328
 msgid "[$ZAR]"
 msgstr "[$ZAR]"
 
-#: src/formats.c:326
+#: src/formats.c:328
 msgid "South African rand"
 msgstr "Sydafrikanske rand"
 
-#: src/formats.c:327
+#: src/formats.c:329
 msgid "[$ZMK]"
 msgstr "[$ZMK]"
 
-#: src/formats.c:327
+#: src/formats.c:329
 msgid "Zambian kwacha"
 msgstr "Zambiske kwacha"
 
-#: src/formats.c:328
+#: src/formats.c:330
 msgid "[$ZRZ]"
 msgstr "[$ZRZ]"
 
-#: src/formats.c:328
+#: src/formats.c:330
 msgid "Zaire Zaire"
 msgstr "Zaire Zaire"
 
-#: src/formats.c:329
+#: src/formats.c:331
 msgid "[$ZWD]"
 msgstr "[$ZWD]"
 
-#: src/formats.c:329
+#: src/formats.c:331
 msgid "Zimbabwe dollar"
 msgstr "Zimbabwianske dollar"
 
-#: src/formats.c:461
+#: src/formats.c:463
 msgid "[Red]"
 msgstr "[Red]"
 
@@ -6082,7 +6066,7 @@ msgstr ""
 " \n"
 "@SEEALSO=DATE"
 
-#: src/functions/fn-date.c:99
+#: src/functions/fn-date.c:101
 msgid ""
 "@FUNCTION=EDATE\n"
 "@SYNTAX=EDATE(date,months)\n"
@@ -6106,7 +6090,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DATE"
 
-#: src/functions/fn-date.c:147
+#: src/functions/fn-date.c:149
 msgid ""
 "@FUNCTION=TODAY\n"
 "@SYNTAX=TODAY ()\n"
@@ -6124,7 +6108,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TODAY, NOW"
 
-#: src/functions/fn-date.c:168
+#: src/functions/fn-date.c:170
 msgid ""
 "@FUNCTION=NOW\n"
 "@SYNTAX=NOW ()\n"
@@ -6152,7 +6136,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TODAY, NOW"
 
-#: src/functions/fn-date.c:197
+#: src/functions/fn-date.c:199
 msgid ""
 "@FUNCTION=TIME\n"
 "@SYNTAX=TIME (hours,minutes,seconds)\n"
@@ -6168,7 +6152,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HOUR"
 
-#: src/functions/fn-date.c:224
+#: src/functions/fn-date.c:226
 msgid ""
 "@FUNCTION=TIMEVALUE\n"
 "@SYNTAX=TIMEVALUE (timetext)\n"
@@ -6186,7 +6170,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HOUR"
 
-#: src/functions/fn-date.c:247
+#: src/functions/fn-date.c:252
 msgid ""
 "@FUNCTION=HOUR\n"
 "@SYNTAX=HOUR (serial_number)\n"
@@ -6209,7 +6193,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MINUTE, NOW, TIME, SECOND"
 
-#: src/functions/fn-date.c:274
+#: src/functions/fn-date.c:279
 msgid ""
 "@FUNCTION=MINUTE\n"
 "@SYNTAX=MINUTE (serial_number)\n"
@@ -6231,7 +6215,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HOUR, NOW, TIME, SECOND"
 
-#: src/functions/fn-date.c:302
+#: src/functions/fn-date.c:307
 msgid ""
 "@FUNCTION=SECOND\n"
 "@SYNTAX=SECOND (serial_number)\n"
@@ -6253,7 +6237,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HOUR, MINUTE, NOW, TIME"
 
-#: src/functions/fn-date.c:330
+#: src/functions/fn-date.c:335
 msgid ""
 "@FUNCTION=YEAR\n"
 "@SYNTAX=YEAR (serial_number)\n"
@@ -6273,7 +6257,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DAY, MONTH, TIME, NOW"
 
-#: src/functions/fn-date.c:360
+#: src/functions/fn-date.c:370
 msgid ""
 "@FUNCTION=MONTH\n"
 "@SYNTAX=MONTH (serial_number)\n"
@@ -6293,7 +6277,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DAY, TIME, NOW, YEAR"
 
-#: src/functions/fn-date.c:390
+#: src/functions/fn-date.c:405
 msgid ""
 "@FUNCTION=DAY\n"
 "@SYNTAX=DAY (serial_number)\n"
@@ -6313,7 +6297,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 
-#: src/functions/fn-date.c:420
+#: src/functions/fn-date.c:440
 msgid ""
 "@FUNCTION=WEEKDAY\n"
 "@SYNTAX=WEEKDAY (serial_number)\n"
@@ -6333,7 +6317,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 
-#: src/functions/fn-date.c:450
+#: src/functions/fn-date.c:475
 msgid ""
 "@FUNCTION=DAYS360 \n"
 "@SYNTAX=DAYS360 (date1,date2,method)\n"
@@ -6363,11 +6347,11 @@ msgstr ""
 "\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 
-#: src/functions/fn-date.c:486
+#: src/functions/fn-date.c:511
 msgid "Unsupported method"
 msgstr "Ikke understøttet metode"
 
-#: src/functions/fn-date.c:547
+#: src/functions/fn-date.c:576
 msgid ""
 "@FUNCTION=EOMONTH\n"
 "@SYNTAX=EOMONTH (start_date,months)\n"
@@ -6387,7 +6371,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MONTH"
 
-#: src/functions/fn-date.c:590
+#: src/functions/fn-date.c:623
 msgid ""
 "@FUNCTION=WORKDAY\n"
 "@SYNTAX=WORKDAY (start_date,days,holidays)\n"
@@ -6411,7 +6395,7 @@ msgstr ""
 #. 1 if the cell is formatted in color for negative values;
 #. * otherwise returns 0 (zero).
 #.
-#: src/functions/fn-date.c:620 src/functions/fn-eng.c:122
+#: src/functions/fn-date.c:657 src/functions/fn-eng.c:122
 #: src/functions/fn-information.c:159 src/functions/fn-information.c:171
 #: src/functions/fn-information.c:186 src/functions/fn-information.c:189
 #: src/functions/fn-information.c:208 src/functions/fn-information.c:275
@@ -6419,7 +6403,7 @@ msgstr ""
 msgid "Unimplemented"
 msgstr "Uimplementeret"
 
-#: src/functions/fn-date.c:655
+#: src/functions/fn-date.c:692
 msgid ""
 "@FUNCTION=NETWORKDAYS\n"
 "@SYNTAX=NETWORKDAYS (start_date,end_date,holidays)\n"
@@ -6439,7 +6423,7 @@ msgstr ""
 "\n"
 "@SEEALSO=WORKDAY"
 
-#: src/functions/fn-date.c:768
+#: src/functions/fn-date.c:816
 msgid "Date / Time"
 msgstr "Dato / Klokkeslet"
 
@@ -8211,7 +8195,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NPV"
 
-#: src/functions/fn-financial.c:1405
+#: src/functions/fn-financial.c:1406
 msgid ""
 "@FUNCTION=TBILLEQ\n"
 "@SYNTAX=TBILLEQ(settlement,maturity,discount)\n"
@@ -8237,7 +8221,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TBILLPRICE,TBILLYIELD"
 
-#: src/functions/fn-financial.c:1450
+#: src/functions/fn-financial.c:1451
 msgid ""
 "@FUNCTION=TBILLPRICE\n"
 "@SYNTAX=TBILLPRICE(settlement,maturity,discount)\n"
@@ -8264,7 +8248,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TBILLEQ,TBILLYIELD"
 
-#: src/functions/fn-financial.c:1491
+#: src/functions/fn-financial.c:1492
 msgid ""
 "@FUNCTION=TBILLYIELD\n"
 "@SYNTAX=TBILLYIELD(settlement,maturity,pr)\n"
@@ -8289,7 +8273,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TBILLEQ,TBILLPRICE"
 
-#: src/functions/fn-financial.c:1532
+#: src/functions/fn-financial.c:1533
 msgid ""
 "@FUNCTION=RATE\n"
 "@SYNTAX=RATE(nper,pmt,pv[,fv,type,guess])\n"
@@ -8305,7 +8289,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV,FV"
 
-#: src/functions/fn-financial.c:1627
+#: src/functions/fn-financial.c:1628
 msgid ""
 "@FUNCTION=IRR\n"
 "@SYNTAX=IRR(values[,guess])\n"
@@ -8340,7 +8324,7 @@ msgstr ""
 "IRR(A1:A8) returnerer 0.04375. \n"
 "@SEEALSO=FV,NPV,PV"
 
-#: src/functions/fn-financial.c:1732
+#: src/functions/fn-financial.c:1734
 msgid ""
 "@FUNCTION=PV\n"
 "@SYNTAX=PV(rate,nper,pmt,fv,type)\n"
@@ -8363,11 +8347,11 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=FV"
 
-#: src/functions/fn-financial.c:1761
+#: src/functions/fn-financial.c:1763
 msgid "pv - domain error"
 msgstr "pv - domænefejl"
 
-#: src/functions/fn-financial.c:1777
+#: src/functions/fn-financial.c:1779
 msgid ""
 "@FUNCTION=NPV\n"
 "@SYNTAX=NPV(rate,v1,v2,...)\n"
@@ -8391,7 +8375,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV,XNPV"
 
-#: src/functions/fn-financial.c:1831
+#: src/functions/fn-financial.c:1833
 msgid ""
 "@FUNCTION=XNPV\n"
 "@SYNTAX=XNPV(rate,values,dates)\n"
@@ -8417,7 +8401,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NPV,PV"
 
-#: src/functions/fn-financial.c:1890
+#: src/functions/fn-financial.c:1892
 msgid ""
 "@FUNCTION=XIRR\n"
 "@SYNTAX=XIRR(values,dates[,guess])\n"
@@ -8459,7 +8443,7 @@ msgstr ""
 "at XIRR(A1:A5,B1:B5) returnerer 0.224838. \n"
 "@SEEALSO=IRR,XNPV"
 
-#: src/functions/fn-financial.c:1994
+#: src/functions/fn-financial.c:1996
 msgid ""
 "@FUNCTION=FV\n"
 "@SYNTAX=FV(rate,term,pmt,pv,type)\n"
@@ -8484,7 +8468,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=PV,PMT,PPMT"
 
-#: src/functions/fn-financial.c:2033
+#: src/functions/fn-financial.c:2035
 msgid ""
 "@FUNCTION=PMT\n"
 "@SYNTAX=PMT(rate,nper,pv[,fv,type])\n"
@@ -8501,7 +8485,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: src/functions/fn-financial.c:2062
+#: src/functions/fn-financial.c:2064
 msgid ""
 "@FUNCTION=IPMT\n"
 "@SYNTAX=IPMT(rate,per,nper,pv,fv,type)\n"
@@ -8530,7 +8514,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: src/functions/fn-financial.c:2109
+#: src/functions/fn-financial.c:2111
 msgid ""
 "@FUNCTION=PPMT\n"
 "@SYNTAX=PPMT(rate,per,nper,pv[,fv,type])\n"
@@ -8559,7 +8543,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IPMT,PV,FV"
 
-#: src/functions/fn-financial.c:2158
+#: src/functions/fn-financial.c:2160
 msgid ""
 "@FUNCTION=NPER\n"
 "@SYNTAX=NPER(rate,pmt,pv,fv,type)\n"
@@ -8593,7 +8577,7 @@ msgstr ""
 "du kan fordoble dine penge lige før slutningen på det 12. år.\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: src/functions/fn-financial.c:2207
+#: src/functions/fn-financial.c:2209
 msgid ""
 "@FUNCTION=DURATION\n"
 "@SYNTAX=DURATION(rate,pv,fv)\n"
@@ -8615,7 +8599,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: src/functions/fn-financial.c:2244
+#: src/functions/fn-financial.c:2246
 msgid ""
 "@FUNCTION=FVSCHEDULE\n"
 "@SYNTAX=FVSCHEDULE(principal,schedule)\n"
@@ -8641,7 +8625,7 @@ msgstr ""
 "FVSCHEDULE(3000,A1:A5) er lig 4942.7911611.\n"
 "@SEEALSO=PV,FV"
 
-#: src/functions/fn-financial.c:2288
+#: src/functions/fn-financial.c:2290
 msgid ""
 "@FUNCTION=EURO\n"
 "@SYNTAX=EURO(currency)\n"
@@ -8687,7 +8671,7 @@ msgstr ""
 "EURO(\"DEM\") returnerer 1.95583.\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2370
+#: src/functions/fn-financial.c:2372
 msgid ""
 "@FUNCTION=PRICE\n"
 "@SYNTAX=PRICE(settle,mat,rate,yield,redemption_price,frequency,basis)\n"
@@ -8703,7 +8687,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2394
+#: src/functions/fn-financial.c:2396
 msgid ""
 "@FUNCTION=YIELD\n"
 "@SYNTAX=YIELD(settle,mat,rate,price,redemption_price,frequency,basis)\n"
@@ -8719,7 +8703,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2412
+#: src/functions/fn-financial.c:2414
 msgid ""
 "@FUNCTION=YIELDDISC\n"
 "@SYNTAX=YIELDDISC(settlement,maturity,pr,redemption,basis)\n"
@@ -8735,7 +8719,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2430
+#: src/functions/fn-financial.c:2432
 msgid ""
 "@FUNCTION=YIELDMAT\n"
 "@SYNTAX=YIELDMAT(settlement,maturity,issue,rate,pr,basis)\n"
@@ -8751,7 +8735,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2448
+#: src/functions/fn-financial.c:2450
 msgid ""
 "@FUNCTION=ODDFPRICE\n"
 "@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,yld,redemption,"
@@ -8769,7 +8753,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2466
+#: src/functions/fn-financial.c:2468
 msgid ""
 "@FUNCTION=ODDFYIELD\n"
 "@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,redemption,f"
@@ -8787,7 +8771,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2484
+#: src/functions/fn-financial.c:2486
 msgid ""
 "@FUNCTION=ODDLPRICE\n"
 "@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,frequ"
@@ -8805,7 +8789,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2502
+#: src/functions/fn-financial.c:2504
 msgid ""
 "@FUNCTION=ODDLYIELD\n"
 "@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,freque"
@@ -8823,7 +8807,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2520
+#: src/functions/fn-financial.c:2522
 msgid ""
 "@FUNCTION=AMORDEGRC\n"
 "@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate,basis)"
@@ -8841,7 +8825,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2539
+#: src/functions/fn-financial.c:2541
 msgid ""
 "@FUNCTION=AMORLINC\n"
 "@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate,basis)\n"
@@ -8858,7 +8842,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2558
+#: src/functions/fn-financial.c:2560
 msgid ""
 "@FUNCTION=COUPDAYBS\n"
 "@SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis])\n"
@@ -8876,7 +8860,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2603
+#: src/functions/fn-financial.c:2610
 msgid ""
 "@FUNCTION=COUPDAYS\n"
 "@SYNTAX=COUPDAYS(settlement,maturity,frequency[,basis])\n"
@@ -8893,7 +8877,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2648
+#: src/functions/fn-financial.c:2660
 msgid ""
 "@FUNCTION=COUPDAYSNC\n"
 "@SYNTAX=COUPDAYSNC(settlement,maturity,frequency[,basis])\n"
@@ -8911,7 +8895,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2668
+#: src/functions/fn-financial.c:2680
 msgid ""
 "@FUNCTION=COUPNCD\n"
 "@SYNTAX=COUPNCD(settlement,maturity,frequency[,basis])\n"
@@ -8927,7 +8911,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2712
+#: src/functions/fn-financial.c:2729
 msgid ""
 "@FUNCTION=COUPPCD\n"
 "@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis])\n"
@@ -8943,7 +8927,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2731
+#: src/functions/fn-financial.c:2748
 msgid ""
 "@FUNCTION=COUPNUM\n"
 "@SYNTAX=COUPNUM(settlement,maturity,frequency[,basis])\n"
@@ -8961,7 +8945,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2772
+#: src/functions/fn-financial.c:2794
 msgid ""
 "@FUNCTION=CUMIPMT\n"
 "@SYNTAX=CUMIPMT(rate,nper,pv,start_period,end_period,type)\n"
@@ -8979,7 +8963,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2792
+#: src/functions/fn-financial.c:2814
 msgid ""
 "@FUNCTION=CUMPRINC\n"
 "@SYNTAX=CUMPRINC(rate,nper,pv,start_period,end_period,type)\n"
@@ -8997,7 +8981,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2812
+#: src/functions/fn-financial.c:2834
 msgid ""
 "@FUNCTION=MDURATION\n"
 "@SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency[,basis])\n"
@@ -9015,7 +8999,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2831
+#: src/functions/fn-financial.c:2853
 msgid ""
 "@FUNCTION=VDB\n"
 "@SYNTAX=VDB(cost,salvage,life,start_period,end_period[,factor,switch])\n"
@@ -9034,7 +9018,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DB"
 
-#: src/functions/fn-financial.c:2854
+#: src/functions/fn-financial.c:2876
 msgid "Financial"
 msgstr "Finans"
 
@@ -9475,7 +9459,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OR, NOT"
 
-#: src/functions/fn-logical.c:82
+#: src/functions/fn-logical.c:83
 msgid ""
 "@FUNCTION=NOT\n"
 "@SYNTAX=NOT(number)\n"
@@ -9499,11 +9483,11 @@ msgstr ""
 "\n"
 "@SEEALSO=AND, OR"
 
-#: src/functions/fn-logical.c:102 src/functions/fn-string.c:525
+#: src/functions/fn-logical.c:103 src/functions/fn-string.c:525
 msgid "Type Mismatch"
 msgstr "Fejl type"
 
-#: src/functions/fn-logical.c:109
+#: src/functions/fn-logical.c:110
 msgid ""
 "@FUNCTION=OR\n"
 "@SYNTAX=OR(b1, b2, ...)\n"
@@ -9537,7 +9521,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AND, NOT"
 
-#: src/functions/fn-logical.c:165
+#: src/functions/fn-logical.c:167
 msgid ""
 "@FUNCTION=IF\n"
 "@SYNTAX=IF(condition[,if-true,if-false])\n"
@@ -9563,7 +9547,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-logical.c:228
+#: src/functions/fn-logical.c:230
 msgid ""
 "@FUNCTION=TRUE\n"
 "@SYNTAX=TRUE()\n"
@@ -9583,7 +9567,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-logical.c:250
+#: src/functions/fn-logical.c:252
 msgid ""
 "@FUNCTION=FALSE\n"
 "@SYNTAX=FALSE()\n"
@@ -9603,7 +9587,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TRUE"
 
-#: src/functions/fn-logical.c:275
+#: src/functions/fn-logical.c:277
 msgid "Logical"
 msgstr "Logisk"
 
@@ -10016,7 +10000,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LCM"
 
-#: src/functions/fn-math.c:170
+#: src/functions/fn-math.c:171
 msgid ""
 "@FUNCTION=LCM\n"
 "@SYNTAX=LCM(number1,number2,...)\n"
@@ -10044,7 +10028,7 @@ msgstr ""
 "\n"
 "@SEEALSO=GCD"
 
-#: src/functions/fn-math.c:224
+#: src/functions/fn-math.c:226
 msgid ""
 "@FUNCTION=ABS\n"
 "@SYNTAX=ABS(b1)\n"
@@ -10068,7 +10052,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CEIL, FLOOR"
 
-#: src/functions/fn-math.c:249
+#: src/functions/fn-math.c:251
 msgid ""
 "@FUNCTION=ACOS\n"
 "@SYNTAX=ACOS(x)\n"
@@ -10094,7 +10078,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COS, SIN, DEGREES, RADIANS"
 
-#: src/functions/fn-math.c:281
+#: src/functions/fn-math.c:283
 msgid ""
 "@FUNCTION=ACOSH\n"
 "@SYNTAX=ACOSH(x)\n"
@@ -10119,7 +10103,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ACOS, DEGREES, RADIANS "
 
-#: src/functions/fn-math.c:312
+#: src/functions/fn-math.c:314
 msgid ""
 "@FUNCTION=ASIN\n"
 "@SYNTAX=ASIN(x)\n"
@@ -10143,7 +10127,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS"
 
-#: src/functions/fn-math.c:343
+#: src/functions/fn-math.c:345
 msgid ""
 "@FUNCTION=ASINH\n"
 "@SYNTAX=ASINH(x)\n"
@@ -10167,7 +10151,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ASIN, ACOSH, SIN, COS, DEGREES, RADIANS"
 
-#: src/functions/fn-math.c:367
+#: src/functions/fn-math.c:369
 msgid ""
 "@FUNCTION=ATAN\n"
 "@SYNTAX=ATAN(x)\n"
@@ -10191,7 +10175,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
 
-#: src/functions/fn-math.c:392
+#: src/functions/fn-math.c:394
 msgid ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
@@ -10217,7 +10201,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 
-#: src/functions/fn-math.c:424
+#: src/functions/fn-math.c:426
 msgid ""
 "@FUNCTION=ATAN2\n"
 "@SYNTAX=ATAN2(b1,b2)\n"
@@ -10245,7 +10229,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS"
 
-#: src/functions/fn-math.c:452
+#: src/functions/fn-math.c:454
 msgid ""
 "@FUNCTION=CEIL\n"
 "@SYNTAX=CEIL(x)\n"
@@ -10269,7 +10253,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ABS, FLOOR, INT"
 
-#: src/functions/fn-math.c:476
+#: src/functions/fn-math.c:478
 msgid ""
 "@FUNCTION=COUNTIF\n"
 "@SYNTAX=COUNTIF(range,criteria)\n"
@@ -10299,7 +10283,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNT,SUMIF"
 
-#: src/functions/fn-math.c:554
+#: src/functions/fn-math.c:556
 msgid ""
 "@FUNCTION=SUMIF\n"
 "@SYNTAX=SUMIF(range,criteria[,actual_range])\n"
@@ -10335,7 +10319,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNTIF, SUM"
 
-#: src/functions/fn-math.c:707
+#: src/functions/fn-math.c:709
 msgid ""
 "@FUNCTION=CEILING\n"
 "@SYNTAX=CEILING(x,significance)\n"
@@ -10363,7 +10347,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CEIL"
 
-#: src/functions/fn-math.c:748
+#: src/functions/fn-math.c:750
 msgid ""
 "@FUNCTION=COS\n"
 "@SYNTAX=COS(x)\n"
@@ -10385,7 +10369,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: src/functions/fn-math.c:772
+#: src/functions/fn-math.c:774
 msgid ""
 "@FUNCTION=COSH\n"
 "@SYNTAX=COSH(x)\n"
@@ -10409,7 +10393,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
 
-#: src/functions/fn-math.c:797
+#: src/functions/fn-math.c:799
 msgid ""
 "@FUNCTION=DEGREES\n"
 "@SYNTAX=DEGREES(x)\n"
@@ -10429,7 +10413,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RADIANS, PI"
 
-#: src/functions/fn-math.c:819
+#: src/functions/fn-math.c:821
 msgid ""
 "@FUNCTION=EXP\n"
 "@SYNTAX=EXP(x)\n"
@@ -10449,7 +10433,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOG, LOG2, LOG10"
 
-#: src/functions/fn-math.c:842
+#: src/functions/fn-math.c:844
 msgid ""
 "@FUNCTION=FACT\n"
 "@SYNTAX=FACT(x)\n"
@@ -10471,7 +10455,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-math.c:883
+#: src/functions/fn-math.c:885
 msgid ""
 "@FUNCTION=COMBIN\n"
 "@SYNTAX=COMBIN(n,k)\n"
@@ -10497,7 +10481,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-math.c:917
+#: src/functions/fn-math.c:919
 msgid ""
 "@FUNCTION=FLOOR\n"
 "@SYNTAX=FLOOR(x,significance)\n"
@@ -10525,7 +10509,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CEIL, ABS, INT"
 
-#: src/functions/fn-math.c:954
+#: src/functions/fn-math.c:956
 msgid ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(a)\n"
@@ -10549,7 +10533,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FLOOR, CEIL, ABS"
 
-#: src/functions/fn-math.c:980
+#: src/functions/fn-math.c:982
 msgid ""
 "@FUNCTION=LOG\n"
 "@SYNTAX=LOG(x[,base])\n"
@@ -10573,7 +10557,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LN, LOG2, LOG10"
 
-#: src/functions/fn-math.c:1019
+#: src/functions/fn-math.c:1021
 msgid ""
 "@FUNCTION=LN\n"
 "@SYNTAX=LN(x)\n"
@@ -10593,7 +10577,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP, LOG2, LOG10"
 
-#: src/functions/fn-math.c:1049
+#: src/functions/fn-math.c:1051
 msgid ""
 "@FUNCTION=POWER\n"
 "@SYNTAX=POWER(x,y)\n"
@@ -10615,7 +10599,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP"
 
-#: src/functions/fn-math.c:1083
+#: src/functions/fn-math.c:1085
 msgid ""
 "@FUNCTION=LOG2\n"
 "@SYNTAX=LOG2(x)\n"
@@ -10635,7 +10619,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP, LOG10, LOG"
 
-#: src/functions/fn-math.c:1111
+#: src/functions/fn-math.c:1113
 msgid ""
 "@FUNCTION=LOG10\n"
 "@SYNTAX=LOG10(x)\n"
@@ -10655,7 +10639,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP, LOG2, LOG"
 
-#: src/functions/fn-math.c:1140
+#: src/functions/fn-math.c:1142
 msgid ""
 "@FUNCTION=MOD\n"
 "@SYNTAX=MOD(number,divisor)\n"
@@ -10678,7 +10662,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INT,FLOOR,CEIL"
 
-#: src/functions/fn-math.c:1188
+#: src/functions/fn-math.c:1190
 msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
@@ -10698,7 +10682,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PI,DEGREES"
 
-#: src/functions/fn-math.c:1210
+#: src/functions/fn-math.c:1212
 msgid ""
 "@FUNCTION=RAND\n"
 "@SYNTAX=RAND()\n"
@@ -10718,7 +10702,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDBETWEEN"
 
-#: src/functions/fn-math.c:1233
+#: src/functions/fn-math.c:1235
 msgid ""
 "@FUNCTION=RandExp\n"
 "@SYNTAX=RandExp(b)\n"
@@ -10736,7 +10720,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
-#: src/functions/fn-math.c:1256
+#: src/functions/fn-math.c:1258
 msgid ""
 "@FUNCTION=RandPoisson\n"
 "@SYNTAX=RandPoisson(lambda)\n"
@@ -10754,7 +10738,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
-#: src/functions/fn-math.c:1282
+#: src/functions/fn-math.c:1284
 msgid ""
 "@FUNCTION=RandBinom\n"
 "@SYNTAX=RandBinom(p,trials)\n"
@@ -10776,7 +10760,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
-#: src/functions/fn-math.c:1312
+#: src/functions/fn-math.c:1314
 msgid ""
 "@FUNCTION=RANDNEGBINOM\n"
 "@SYNTAX=RANDNEGBINOM(p,failures)\n"
@@ -10800,7 +10784,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
-#: src/functions/fn-math.c:1343
+#: src/functions/fn-math.c:1345
 msgid ""
 "@FUNCTION=RandBernoulli\n"
 "@SYNTAX=RandBernoulli(p)\n"
@@ -10820,7 +10804,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
-#: src/functions/fn-math.c:1371
+#: src/functions/fn-math.c:1373
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -10840,7 +10824,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: src/functions/fn-math.c:1394
+#: src/functions/fn-math.c:1396
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -10862,7 +10846,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 
-#: src/functions/fn-math.c:1417
+#: src/functions/fn-math.c:1419
 msgid ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
@@ -10884,7 +10868,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POW"
 
-#: src/functions/fn-math.c:1445
+#: src/functions/fn-math.c:1447
 msgid ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(value1, value2, ...)\n"
@@ -10908,7 +10892,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE, COUNT"
 
-#: src/functions/fn-math.c:1474
+#: src/functions/fn-math.c:1477
 msgid ""
 "@FUNCTION=SUMA\n"
 "@SYNTAX=SUMA(value1, value2, ...)\n"
@@ -10938,7 +10922,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE, SUM, COUNT"
 
-#: src/functions/fn-math.c:1505
+#: src/functions/fn-math.c:1509
 msgid ""
 "@FUNCTION=SUMSQ\n"
 "@SYNTAX=SUMSQ(value1, value2, ...)\n"
@@ -10962,7 +10946,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM, COUNT"
 
-#: src/functions/fn-math.c:1535
+#: src/functions/fn-math.c:1540
 msgid ""
 "@FUNCTION=MULTINOMIAL\n"
 "@SYNTAX=MULTINOMIAL(value1, value2, ...)\n"
@@ -10983,7 +10967,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM"
 
-#: src/functions/fn-math.c:1595
+#: src/functions/fn-math.c:1600
 msgid ""
 "@FUNCTION=PRODUCT\n"
 "@SYNTAX=PRODUCT(value1, value2, ...)\n"
@@ -11005,7 +10989,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM, COUNT, G_PRODUCT"
 
-#: src/functions/fn-math.c:1632
+#: src/functions/fn-math.c:1638
 msgid ""
 "@FUNCTION=G_PRODUCT\n"
 "@SYNTAX=G_PRODUCT(value1, value2, ...)\n"
@@ -11027,7 +11011,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM, COUNT"
 
-#: src/functions/fn-math.c:1659
+#: src/functions/fn-math.c:1666
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -11047,7 +11031,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 
-#: src/functions/fn-math.c:1682
+#: src/functions/fn-math.c:1689
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -11069,7 +11053,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 
-#: src/functions/fn-math.c:1705
+#: src/functions/fn-math.c:1712
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -11091,7 +11075,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SQRTPI"
 
-#: src/functions/fn-math.c:1729
+#: src/functions/fn-math.c:1736
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -11115,7 +11099,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INT"
 
-#: src/functions/fn-math.c:1768
+#: src/functions/fn-math.c:1775
 msgid ""
 "@FUNCTION=EVEN\n"
 "@SYNTAX=EVEN(number)\n"
@@ -11135,7 +11119,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ODD"
 
-#: src/functions/fn-math.c:1806
+#: src/functions/fn-math.c:1813
 msgid ""
 "@FUNCTION=ODD\n"
 "@SYNTAX=ODD(number)\n"
@@ -11155,7 +11139,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EVEN"
 
-#: src/functions/fn-math.c:1844
+#: src/functions/fn-math.c:1851
 msgid ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(number)\n"
@@ -11179,7 +11163,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FACT"
 
-#: src/functions/fn-math.c:1882
+#: src/functions/fn-math.c:1889
 msgid ""
 "@FUNCTION=QUOTIENT\n"
 "@SYNTAX=QUOTIENT(num,den)\n"
@@ -11200,7 +11184,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MOD"
 
-#: src/functions/fn-math.c:1913
+#: src/functions/fn-math.c:1920
 msgid ""
 "@FUNCTION=SIGN\n"
 "@SYNTAX=SIGN(number)\n"
@@ -11226,7 +11210,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-math.c:1947
+#: src/functions/fn-math.c:1954
 msgid ""
 "@FUNCTION=SQRTPI\n"
 "@SYNTAX=SQRTPI(number)\n"
@@ -11246,7 +11230,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PI"
 
-#: src/functions/fn-math.c:1976
+#: src/functions/fn-math.c:1983
 msgid ""
 "@FUNCTION=RANDBETWEEN\n"
 "@SYNTAX=RANDBETWEEN(bottom,top)\n"
@@ -11272,7 +11256,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND"
 
-#: src/functions/fn-math.c:2010
+#: src/functions/fn-math.c:2017
 msgid ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(number[,digits])\n"
@@ -11308,7 +11292,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUND,ROUNDUP"
 
-#: src/functions/fn-math.c:2057
+#: src/functions/fn-math.c:2064
 msgid ""
 "@FUNCTION=ROUND\n"
 "@SYNTAX=ROUND(number[,digits])\n"
@@ -11343,7 +11327,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUNDDOWN,ROUNDUP"
 
-#: src/functions/fn-math.c:2098
+#: src/functions/fn-math.c:2105
 msgid ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(number[,digits])\n"
@@ -11379,7 +11363,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUND,ROUNDDOWN"
 
-#: src/functions/fn-math.c:2145
+#: src/functions/fn-math.c:2152
 msgid ""
 "@FUNCTION=MROUND\n"
 "@SYNTAX=MROUND(number,multiple)\n"
@@ -11406,7 +11390,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP"
 
-#: src/functions/fn-math.c:2195
+#: src/functions/fn-math.c:2202
 msgid ""
 "@FUNCTION=ROMAN\n"
 "@SYNTAX=ROMAN(number[,type])\n"
@@ -11446,7 +11430,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-math.c:2464
+#: src/functions/fn-math.c:2471
 msgid ""
 "@FUNCTION=SUMX2MY2\n"
 "@SYNTAX=SUMX2MY2(array1,array2)\n"
@@ -11482,14 +11466,14 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ"
 
-#: src/functions/fn-math.c:2518 src/functions/fn-math.c:2533
-#: src/functions/fn-math.c:2616 src/functions/fn-math.c:2632
-#: src/functions/fn-math.c:2713 src/functions/fn-math.c:2729
-#: src/functions/fn-stat.c:2690 src/functions/fn-stat.c:2720
+#: src/functions/fn-math.c:2525 src/functions/fn-math.c:2540
+#: src/functions/fn-math.c:2623 src/functions/fn-math.c:2639
+#: src/functions/fn-math.c:2720 src/functions/fn-math.c:2736
+#: src/functions/fn-stat.c:2711 src/functions/fn-stat.c:2741
 msgid "Array version not implemented!"
 msgstr "Matrice-version ikke implementeret!"
 
-#: src/functions/fn-math.c:2562
+#: src/functions/fn-math.c:2569
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
 "@SYNTAX=SUMX2PY2(array1,array2)\n"
@@ -11524,7 +11508,7 @@ msgstr ""
 "SUMX2PY2(A1:A5,B1:B5) er lig 7149.\n"
 "@SEEALSO=SUMSQ"
 
-#: src/functions/fn-math.c:2659
+#: src/functions/fn-math.c:2666
 msgid ""
 "@FUNCTION=SUMXMY2\n"
 "@SYNTAX=SUMXMY2(array1,array2)\n"
@@ -11560,7 +11544,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2MY2,SUMX2PY2"
 
-#: src/functions/fn-math.c:2758
+#: src/functions/fn-math.c:2765
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
 "@SYNTAX=SUMIF(function_nbr,ref1,ref2,...)\n"
@@ -11619,7 +11603,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNT,SUM"
 
-#: src/functions/fn-math.c:2851
+#: src/functions/fn-math.c:2858
 msgid ""
 "@FUNCTION=SERIESSUM\n"
 "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
@@ -11648,7 +11632,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNT,SUM"
 
-#: src/functions/fn-math.c:2974
+#: src/functions/fn-math.c:2981
 msgid ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(matrix)\n"
@@ -11672,11 +11656,11 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT, MDETERM"
 
-#: src/functions/fn-math.c:3022
+#: src/functions/fn-math.c:3029
 msgid "#3D MULT?"
 msgstr "#3D MULT?"
 
-#: src/functions/fn-math.c:3101
+#: src/functions/fn-math.c:3108
 msgid ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(array1,array2)\n"
@@ -11696,7 +11680,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TRANSPOSE,MINVERSE"
 
-#: src/functions/fn-math.c:3177
+#: src/functions/fn-math.c:3184
 msgid ""
 "@FUNCTION=MDETERM\n"
 "@SYNTAX=MDETERM(matrix)\n"
@@ -11725,7 +11709,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT, MINVERSE"
 
-#: src/functions/fn-math.c:3235
+#: src/functions/fn-math.c:3242
 msgid ""
 "@FUNCTION=SUMPRODUCT\n"
 "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
@@ -11757,7 +11741,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM,PRODUCT"
 
-#: src/functions/fn-math.c:3348
+#: src/functions/fn-math.c:3355
 msgid "Maths / Trig."
 msgstr "Matematik / Trigonometri"
 
@@ -11829,7 +11813,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,DVAR,DVARP,STDEV,VAR"
 
-#: src/functions/fn-stat.c:152
+#: src/functions/fn-stat.c:153
 msgid ""
 "@FUNCTION=VAR\n"
 "@SYNTAX=VAR(b1, b2, ...)\n"
@@ -11860,7 +11844,7 @@ msgstr ""
 "\n"
 "@SEEALSO=VARP,STDEV"
 
-#: src/functions/fn-stat.c:185
+#: src/functions/fn-stat.c:187
 msgid ""
 "@FUNCTION=STDEV\n"
 "@SYNTAX=STDEV(b1, b2, ...)\n"
@@ -11886,7 +11870,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,DSTDEV,DSTDEVP,STDEVA,STDEVPA,VAR"
 
-#: src/functions/fn-stat.c:214
+#: src/functions/fn-stat.c:217
 msgid ""
 "@FUNCTION=STDEVP\n"
 "@SYNTAX=STDEVP(b1, b2, ...)\n"
@@ -11912,7 +11896,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV,STDEVA,STDEVPA"
 
-#: src/functions/fn-stat.c:243
+#: src/functions/fn-stat.c:247
 msgid ""
 "@FUNCTION=RANK\n"
 "@SYNTAX=RANK(x,ref[,order])\n"
@@ -11936,7 +11920,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PERCENTRANK"
 
-#: src/functions/fn-stat.c:332
+#: src/functions/fn-stat.c:336
 msgid ""
 "@FUNCTION=TRIMMEAN\n"
 "@SYNTAX=TRIMMEAN(ref,fraction)\n"
@@ -11962,7 +11946,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,GEOMEAN,HARMEAN,MEDIAN,MODE"
 
-#: src/functions/fn-stat.c:390
+#: src/functions/fn-stat.c:395
 msgid ""
 "@FUNCTION=COVAR\n"
 "@SYNTAX=COVAR(array1,array2)\n"
@@ -11989,7 +11973,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CORREL,FISHER,FISHERINV"
 
-#: src/functions/fn-stat.c:422
+#: src/functions/fn-stat.c:427
 msgid ""
 "@FUNCTION=CORREL\n"
 "@SYNTAX=CORREL(array1,array2)\n"
@@ -12016,7 +12000,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COVAR,FISHER,FISHERINV"
 
-#: src/functions/fn-stat.c:454
+#: src/functions/fn-stat.c:459
 msgid ""
 "@FUNCTION=NEGBINOMDIST\n"
 "@SYNTAX=NEGBINOMDIST(f,t,p)\n"
@@ -12045,7 +12029,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BINOMDIST,COMBIN,FACT,HYPGEOMDIST,PERMUT"
 
-#: src/functions/fn-stat.c:493
+#: src/functions/fn-stat.c:498
 msgid ""
 "@FUNCTION=NORMSDIST\n"
 "@SYNTAX=NORMSDIST(x)\n"
@@ -12067,7 +12051,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NORMDIST"
 
-#: src/functions/fn-stat.c:520
+#: src/functions/fn-stat.c:525
 msgid ""
 "@FUNCTION=NORMSINV\n"
 "@SYNTAX=NORMSINV(p)\n"
@@ -12091,7 +12075,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NORMDIST,NORMINV,NORMSDIST,STANDARDIZE,ZTEST"
 
-#: src/functions/fn-stat.c:553
+#: src/functions/fn-stat.c:558
 msgid ""
 "@FUNCTION=LOGNORMDIST\n"
 "@SYNTAX=LOGNORMDIST(x,mean,stdev)\n"
@@ -12119,7 +12103,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NORMDIST"
 
-#: src/functions/fn-stat.c:594
+#: src/functions/fn-stat.c:599
 msgid ""
 "@FUNCTION=LOGINV\n"
 "@SYNTAX=LOGINV(p,mean,stdev)\n"
@@ -12147,7 +12131,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP,LN,LOG,LOG10,LOGNORMDIST"
 
-#: src/functions/fn-stat.c:631
+#: src/functions/fn-stat.c:636
 msgid ""
 "@FUNCTION=FISHERINV\n"
 "@SYNTAX=FISHERINV(x)\n"
@@ -12170,7 +12154,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FISHER"
 
-#: src/functions/fn-stat.c:659
+#: src/functions/fn-stat.c:664
 msgid ""
 "@FUNCTION=MODE\n"
 "@SYNTAX=MODE(n1, n2, ...)\n"
@@ -12194,7 +12178,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,MEDIAN"
 
-#: src/functions/fn-stat.c:750
+#: src/functions/fn-stat.c:755
 msgid ""
 "@FUNCTION=HARMEAN\n"
 "@SYNTAX=HARMEAN(b1, b2, ...)\n"
@@ -12220,7 +12204,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,GEOMEAN,MEDIAN,MODE,TRIMMEAN"
 
-#: src/functions/fn-stat.c:781
+#: src/functions/fn-stat.c:787
 msgid ""
 "@FUNCTION=GEOMEAN\n"
 "@SYNTAX=GEOMEAN(b1, b2, ...)\n"
@@ -12246,7 +12230,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,HARMEAN,MEDIAN,MODE,TRIMMEAN"
 
-#: src/functions/fn-stat.c:811
+#: src/functions/fn-stat.c:818
 msgid ""
 "@FUNCTION=COUNT\n"
 "@SYNTAX=COUNT(b1, b2, ...)\n"
@@ -12270,7 +12254,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE"
 
-#: src/functions/fn-stat.c:852
+#: src/functions/fn-stat.c:860
 msgid ""
 "@FUNCTION=COUNTA\n"
 "@SYNTAX=COUNTA(b1, b2, ...)\n"
@@ -12294,7 +12278,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,COUNT,DCOUNT,DCOUNTA,PRODUCT,SUM"
 
-#: src/functions/fn-stat.c:894
+#: src/functions/fn-stat.c:903
 msgid ""
 "@FUNCTION=AVERAGE\n"
 "@SYNTAX=AVERAGE(value1, value2,...)\n"
@@ -12321,7 +12305,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM, COUNT"
 
-#: src/functions/fn-stat.c:925
+#: src/functions/fn-stat.c:935
 msgid ""
 "@FUNCTION=MIN\n"
 "@SYNTAX=MIN(b1, b2, ...)\n"
@@ -12347,7 +12331,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MAX,ABS"
 
-#: src/functions/fn-stat.c:966
+#: src/functions/fn-stat.c:977
 msgid ""
 "@FUNCTION=MAX\n"
 "@SYNTAX=MAX(b1, b2, ...)\n"
@@ -12373,7 +12357,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MIN,ABS"
 
-#: src/functions/fn-stat.c:1007
+#: src/functions/fn-stat.c:1019
 msgid ""
 "@FUNCTION=SKEW\n"
 "@SYNTAX=SKEW(n1, n2, ...)\n"
@@ -12408,7 +12392,7 @@ msgstr ""
 "SKEW(A1:A5) er lig 0.976798268.\n"
 "@SEEALSO=AVERAGE,VAR,SKEWP,KURT"
 
-#: src/functions/fn-stat.c:1044
+#: src/functions/fn-stat.c:1057
 msgid ""
 "@FUNCTION=SKEWP\n"
 "@SYNTAX=SKEWP(n1, n2, ...)\n"
@@ -12433,7 +12417,7 @@ msgstr ""
 "SKEWP(A1:A5) er lig 0.655256198.\n"
 "@SEEALSO=AVERAGE,VARP,SKEW,KURTP"
 
-#: src/functions/fn-stat.c:1076
+#: src/functions/fn-stat.c:1090
 msgid ""
 "@FUNCTION=EXPONDIST\n"
 "@SYNTAX=EXPONDIST(x,y,cumulative)\n"
@@ -12459,7 +12443,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POISSON"
 
-#: src/functions/fn-stat.c:1119
+#: src/functions/fn-stat.c:1133
 msgid ""
 "@FUNCTION=GAMMALN\n"
 "@SYNTAX=GAMMALN(x)\n"
@@ -12483,7 +12467,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POISSON"
 
-#: src/functions/fn-stat.c:1156
+#: src/functions/fn-stat.c:1170
 msgid ""
 "@FUNCTION=GAMMADIST\n"
 "@SYNTAX=GAMMADIST(x,alpha,beta,cum)\n"
@@ -12509,7 +12493,7 @@ msgstr ""
 "\n"
 "@SEEALSO=GAMMAINV"
 
-#: src/functions/fn-stat.c:1197
+#: src/functions/fn-stat.c:1211
 msgid ""
 "@FUNCTION=GAMMAINV\n"
 "@SYNTAX=GAMMAINV(p,alpha,beta)\n"
@@ -12534,7 +12518,7 @@ msgstr ""
 "\n"
 "@SEEALSO=GAMMADIST"
 
-#: src/functions/fn-stat.c:1233
+#: src/functions/fn-stat.c:1247
 msgid ""
 "@FUNCTION=CHIDIST\n"
 "@SYNTAX=CHIDIST(x,dof)\n"
@@ -12558,7 +12542,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CHIINV,CHITEST"
 
-#: src/functions/fn-stat.c:1269
+#: src/functions/fn-stat.c:1283
 msgid ""
 "@FUNCTION=CHIINV\n"
 "@SYNTAX=CHIINV(p,dof)\n"
@@ -12582,7 +12566,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CHIDIST,CHITEST"
 
-#: src/functions/fn-stat.c:1303
+#: src/functions/fn-stat.c:1317
 msgid ""
 "@FUNCTION=CHITEST\n"
 "@SYNTAX=CHITEST(actual_range,theoretical_range)\n"
@@ -12606,7 +12590,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CHIDIST,CHIINV"
 
-#: src/functions/fn-stat.c:1446
+#: src/functions/fn-stat.c:1460
 msgid ""
 "@FUNCTION=BETADIST\n"
 "@SYNTAX=BETADIST(x,alpha,beta[,a,b])\n"
@@ -12636,7 +12620,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BETAINV"
 
-#: src/functions/fn-stat.c:1495
+#: src/functions/fn-stat.c:1509
 msgid ""
 "@FUNCTION=BETAINV\n"
 "@SYNTAX=BETAINV(p,alpha,beta[,a,b])\n"
@@ -12666,7 +12650,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BETADIST"
 
-#: src/functions/fn-stat.c:1541
+#: src/functions/fn-stat.c:1555
 msgid ""
 "@FUNCTION=TDIST\n"
 "@SYNTAX=TDIST(x,dof,tails)\n"
@@ -12693,7 +12677,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TINV,TTEST"
 
-#: src/functions/fn-stat.c:1581
+#: src/functions/fn-stat.c:1595
 msgid ""
 "@FUNCTION=TINV\n"
 "@SYNTAX=TINV(p,dof)\n"
@@ -12717,7 +12701,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TDIST,TTEST"
 
-#: src/functions/fn-stat.c:1615
+#: src/functions/fn-stat.c:1629
 msgid ""
 "@FUNCTION=FDIST\n"
 "@SYNTAX=FDIST(x,dof1,dof2)\n"
@@ -12742,7 +12726,7 @@ msgstr ""
 "\n"
 "SEEALSO=FINV"
 
-#: src/functions/fn-stat.c:1652
+#: src/functions/fn-stat.c:1666
 msgid ""
 "@FUNCTION=FINV\n"
 "@SYNTAX=FINV(p,dof1,dof2)\n"
@@ -12766,7 +12750,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FDIST"
 
-#: src/functions/fn-stat.c:1688
+#: src/functions/fn-stat.c:1702
 msgid ""
 "@FUNCTION=BINOMDIST\n"
 "@SYNTAX=BINOMDIST(n,trials,p,cumulative)\n"
@@ -12798,7 +12782,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POISSON"
 
-#: src/functions/fn-stat.c:1734
+#: src/functions/fn-stat.c:1748
 msgid ""
 "@FUNCTION=CRITBINOM\n"
 "@SYNTAX=CRITBINOM(trials,p,alpha)\n"
@@ -12830,7 +12814,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BINOMDIST"
 
-#: src/functions/fn-stat.c:1774
+#: src/functions/fn-stat.c:1788
 msgid ""
 "@FUNCTION=PERMUT\n"
 "@SYNTAX=PERMUT(n,k)\n"
@@ -12854,7 +12838,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COMBIN"
 
-#: src/functions/fn-stat.c:1809
+#: src/functions/fn-stat.c:1823
 msgid ""
 "@FUNCTION=HYPGEOMDIST\n"
 "@SYNTAX=HYPGEOMDIST(x,n,M,N)\n"
@@ -12882,7 +12866,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BINOMDIST,POISSON"
 
-#: src/functions/fn-stat.c:1849
+#: src/functions/fn-stat.c:1863
 msgid ""
 "@FUNCTION=CONFIDENCE\n"
 "@SYNTAX=CONFIDENCE(x,stddev,size)\n"
@@ -12910,7 +12894,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE"
 
-#: src/functions/fn-stat.c:1890
+#: src/functions/fn-stat.c:1904
 msgid ""
 "@FUNCTION=STANDARDIZE\n"
 "@SYNTAX=STANDARDIZE(x,mean,stdev)\n"
@@ -12936,7 +12920,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE"
 
-#: src/functions/fn-stat.c:1928
+#: src/functions/fn-stat.c:1942
 msgid ""
 "@FUNCTION=WEIBULL\n"
 "@SYNTAX=WEIBULL(x,alpha,beta,cumulative)\n"
@@ -12964,7 +12948,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POISSON"
 
-#: src/functions/fn-stat.c:1974
+#: src/functions/fn-stat.c:1988
 msgid ""
 "@FUNCTION=NORMDIST\n"
 "@SYNTAX=NORMDIST(x,mean,stdev,cumulative)\n"
@@ -12991,7 +12975,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POISSON"
 
-#: src/functions/fn-stat.c:2019
+#: src/functions/fn-stat.c:2033
 msgid ""
 "@FUNCTION=NORMINV\n"
 "@SYNTAX=NORMINV(p,mean,stdev)\n"
@@ -13020,7 +13004,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NORMDIST,NORMSDIST,NORMSINV,STANDARDIZE,ZTEST"
 
-#: src/functions/fn-stat.c:2057
+#: src/functions/fn-stat.c:2071
 msgid ""
 "@FUNCTION=KURT\n"
 "@SYNTAX=KURT(n1, n2, ...)\n"
@@ -13056,7 +13040,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,VAR,SKEW,KURTP"
 
-#: src/functions/fn-stat.c:2096
+#: src/functions/fn-stat.c:2111
 msgid ""
 "@FUNCTION=KURTP\n"
 "@SYNTAX=KURTP(n1, n2, ...)\n"
@@ -13084,7 +13068,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,VARP,SKEWP,KURT"
 
-#: src/functions/fn-stat.c:2129
+#: src/functions/fn-stat.c:2145
 msgid ""
 "@FUNCTION=AVEDEV\n"
 "@SYNTAX=AVEDEV(n1, n2, ...)\n"
@@ -13109,7 +13093,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV"
 
-#: src/functions/fn-stat.c:2159
+#: src/functions/fn-stat.c:2176
 msgid ""
 "@FUNCTION=DEVSQ\n"
 "@SYNTAX=DEVSQ(n1, n2, ...)\n"
@@ -13136,7 +13120,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV"
 
-#: src/functions/fn-stat.c:2191
+#: src/functions/fn-stat.c:2209
 msgid ""
 "@FUNCTION=FISHER\n"
 "@SYNTAX=FISHER(x)\n"
@@ -13159,7 +13143,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SKEW"
 
-#: src/functions/fn-stat.c:2226
+#: src/functions/fn-stat.c:2244
 msgid ""
 "@FUNCTION=POISSON\n"
 "@SYNTAX=POISSON(x,mean,cumulative)\n"
@@ -13187,7 +13171,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NORMDIST, WEIBULL"
 
-#: src/functions/fn-stat.c:2269
+#: src/functions/fn-stat.c:2287
 msgid ""
 "@FUNCTION=PEARSON\n"
 "@SYNTAX=PEARSON(array1,array2)\n"
@@ -13208,7 +13192,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INTERCEPT,LINEST,RSQ,SLOPE,STEYX"
 
-#: src/functions/fn-stat.c:2294
+#: src/functions/fn-stat.c:2312
 msgid ""
 "@FUNCTION=RSQ\n"
 "@SYNTAX=RSQ(array1,array2)\n"
@@ -13229,7 +13213,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CORREL,COVAR,INTERCEPT,LINEST,LOGEST,PEARSON,SLOPE,STEYX,TREND"
 
-#: src/functions/fn-stat.c:2324
+#: src/functions/fn-stat.c:2342
 msgid ""
 "@FUNCTION=MEDIAN\n"
 "@SYNTAX=MEDIAN(n1, n2, ...)\n"
@@ -13257,7 +13241,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SUM"
 
-#: src/functions/fn-stat.c:2374
+#: src/functions/fn-stat.c:2393
 msgid ""
 "@FUNCTION=LARGE\n"
 "@SYNTAX=LARGE(n1, n2, ..., k)\n"
@@ -13288,7 +13272,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,SMALL"
 
-#: src/functions/fn-stat.c:2426
+#: src/functions/fn-stat.c:2446
 msgid ""
 "@FUNCTION=SMALL\n"
 "@SYNTAX=SMALL(n1, n2, ..., k)\n"
@@ -13319,7 +13303,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,LARGE"
 
-#: src/functions/fn-stat.c:2502
+#: src/functions/fn-stat.c:2523
 msgid ""
 "@FUNCTION=PROB\n"
 "@SYNTAX=PROB(range_x,prob_range,lower_limit[,upper_limit])\n"
@@ -13349,7 +13333,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BINOMDIST,CRITBINOM"
 
-#: src/functions/fn-stat.c:2626
+#: src/functions/fn-stat.c:2647
 msgid ""
 "@FUNCTION=STEYX\n"
 "@SYNTAX=STEYX(known_y's,known_x's)\n"
@@ -13381,7 +13365,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PEARSON,RSQ,SLOPE"
 
-#: src/functions/fn-stat.c:2781
+#: src/functions/fn-stat.c:2802
 msgid ""
 "@FUNCTION=ZTEST\n"
 "@SYNTAX=ZTEST(ref,x)\n"
@@ -13410,7 +13394,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,STANDARDIZE"
 
-#: src/functions/fn-stat.c:2862
+#: src/functions/fn-stat.c:2883
 msgid ""
 "@FUNCTION=AVERAGEA\n"
 "@SYNTAX=AVERAGEA(number1,number2,...)\n"
@@ -13441,7 +13425,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE"
 
-#: src/functions/fn-stat.c:2896
+#: src/functions/fn-stat.c:2918
 msgid ""
 "@FUNCTION=MAXA\n"
 "@SYNTAX=MAXA(number1,number2,...)\n"
@@ -13472,16 +13456,16 @@ msgstr ""
 "\n"
 "@SEEALSO=MAX,MINA"
 
-#: src/functions/fn-stat.c:2930
+#: src/functions/fn-stat.c:2953
 msgid ""
 "@FUNCTION=MINA\n"
 "@SYNTAX=MINA(number1,number2,...)\n"
 "@DESCRIPTION=MINA returns the smallest value of the given arguments.  "
-"Numbers, text and logical values are included in the calculation too. If the "
-"cell contains text or the argument evaluates to FALSE, it is counted as "
-"value zero (0).  If the argument evaluates to TRUE, it is counted as one "
-"(1).  Note that empty cells are not counted. This function is Excel "
-"compatible. \n"
+"Numbers, text and logical values are included in the calculation, blank "
+"cells are not.  If the cell contains text or the argument evaluates to "
+"FALSE, it is counted as value zero (0).  If the argument evaluates to TRUE, "
+"it is counted as one (1).  Note that empty cells are not counted. This "
+"function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
 "11.4, 17.3, \"missing\", 25.9, and 40.1.  Then\n"
@@ -13491,8 +13475,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=MINA\n"
 "@SYNTAX=MINA(værdi1, værdi2, ...)\n"
-"@DESCRIPTION=MINA returnerer den mindste værdi af de givne argumenter.  Tal, "
-"tekst og logiske værdier inkluderes også i beregningen. Hvis cellen "
+"@DESCRIPTION=MINA returnerer den mindste værdi af de givne argumenter. Tal, "
+"tekst og logiske værdier inkluderes i beregningen, men ikke blanke celler. "
+"Hvis cellen "
 "indeholder tekst eller argumentet evalueres til FALSK, tælles værdien som "
 "nul (0). Hvis argumentet evalueres til SAND, tælles det som e1 (1). Bemærk "
 "at tomme celler ikke tages med. Denne funktion er Excel kompatibel. \n"
@@ -13503,7 +13488,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MIN,MAXA"
 
-#: src/functions/fn-stat.c:2964
+#: src/functions/fn-stat.c:2988
 msgid ""
 "@FUNCTION=VARA\n"
 "@SYNTAX=VARA(number1,number2,...)\n"
@@ -13533,7 +13518,7 @@ msgstr ""
 "\n"
 "@SEEALSO=VAR,VARPA"
 
-#: src/functions/fn-stat.c:2998
+#: src/functions/fn-stat.c:3023
 msgid ""
 "@FUNCTION=VARPA\n"
 "@SYNTAX=VARPA(number1,number2,...)\n"
@@ -13564,7 +13549,7 @@ msgstr ""
 "\n"
 "@SEEALSO=VARP,VARP"
 
-#: src/functions/fn-stat.c:3032
+#: src/functions/fn-stat.c:3058
 msgid ""
 "@FUNCTION=STDEVA\n"
 "@SYNTAX=STDEVA(number1,number2,...)\n"
@@ -13595,7 +13580,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV,STDEVPA"
 
-#: src/functions/fn-stat.c:3066
+#: src/functions/fn-stat.c:3093
 msgid ""
 "@FUNCTION=STDEVPA\n"
 "@SYNTAX=STDEVPA(number1,number2,...)\n"
@@ -13626,7 +13611,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEVA,STDEVP"
 
-#: src/functions/fn-stat.c:3100
+#: src/functions/fn-stat.c:3128
 msgid ""
 "@FUNCTION=PERCENTRANK\n"
 "@SYNTAX=PERCENTRANK(array,x[,significance])\n"
@@ -13658,7 +13643,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL"
 
-#: src/functions/fn-stat.c:3215
+#: src/functions/fn-stat.c:3243
 msgid ""
 "@FUNCTION=PERCENTILE\n"
 "@SYNTAX=PERCENTILE(array,k)\n"
@@ -13689,7 +13674,7 @@ msgstr ""
 "\n"
 "@SEEALSO=QUARTILE"
 
-#: src/functions/fn-stat.c:3281
+#: src/functions/fn-stat.c:3310
 msgid ""
 "@FUNCTION=QUARTILE\n"
 "@SYNTAX=QUARTILE(array,quart)\n"
@@ -13733,7 +13718,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL"
 
-#: src/functions/fn-stat.c:3348
+#: src/functions/fn-stat.c:3378
 msgid ""
 "@FUNCTION=FTEST\n"
 "@SYNTAX=FTEST(array1,array2)\n"
@@ -13761,7 +13746,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FDIST,FINV"
 
-#: src/functions/fn-stat.c:3432
+#: src/functions/fn-stat.c:3462
 msgid ""
 "@FUNCTION=TTEST\n"
 "@SYNTAX=TTEST(array1,array2,tails,type)\n"
@@ -13816,7 +13801,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FDIST,FINV"
 
-#: src/functions/fn-stat.c:3656
+#: src/functions/fn-stat.c:3686
 msgid ""
 "@FUNCTION=FREQUENCY\n"
 "@SYNTAX=FREQUENCY(data_array,bins_array)\n"
@@ -13843,7 +13828,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-stat.c:3759
+#: src/functions/fn-stat.c:3789
 msgid ""
 "@FUNCTION=LINEST\n"
 "@SYNTAX=LINEST(known_y's[,known_x's[,const[,stat]]])\n"
@@ -13896,7 +13881,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGEST,TREND"
 
-#: src/functions/fn-stat.c:4030
+#: src/functions/fn-stat.c:4060
 msgid ""
 "@FUNCTION=TREND\n"
 "@SYNTAX=TREND(known_y's[,known_x's],new_x's])\n"
@@ -13935,7 +13920,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LINEST"
 
-#: src/functions/fn-stat.c:4142
+#: src/functions/fn-stat.c:4172
 msgid ""
 "@FUNCTION=LOGEST\n"
 "@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])\n"
@@ -13985,7 +13970,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGEST,GROWTH,TREND"
 
-#: src/functions/fn-stat.c:4397
+#: src/functions/fn-stat.c:4427
 msgid ""
 "@FUNCTION=GROWTH\n"
 "@SYNTAX=GROWTH(known_y's[,known_x's,new_x's,const])\n"
@@ -14022,7 +14007,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGEST,GROWTH,TREND"
 
-#: src/functions/fn-stat.c:4511
+#: src/functions/fn-stat.c:4541
 msgid ""
 "@FUNCTION=FORECAST\n"
 "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
@@ -14057,7 +14042,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INTERCEPT,TREND"
 
-#: src/functions/fn-stat.c:4582
+#: src/functions/fn-stat.c:4612
 msgid ""
 "@FUNCTION=INTERCEPT\n"
 "@SYNTAX=INTERCEPT(known_y's,known_x's)\n"
@@ -14090,7 +14075,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FORECAST,TREND"
 
-#: src/functions/fn-stat.c:4631
+#: src/functions/fn-stat.c:4661
 msgid ""
 "@FUNCTION=SLOPE\n"
 "@SYNTAX=SLOPE(known_y's,known_x's)\n"
@@ -14116,7 +14101,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV,STDEVPA"
 
-#: src/functions/fn-stat.c:4677
+#: src/functions/fn-stat.c:4707
 msgid "Statistics"
 msgstr "Statistik"
 
@@ -14664,7 +14649,7 @@ msgstr ""
 "eksisterende celler i området. Vil du have mig til at erstatte\n"
 "indholdet i denne region?"
 
-#: src/item-cursor.c:763 src/workbook.c:1538
+#: src/item-cursor.c:763 src/workbook.c:1533
 msgid "Copy"
 msgstr "Kopiér"
 
@@ -14716,7 +14701,7 @@ msgstr "Indsæt s_peciel"
 msgid "_Insert..."
 msgstr "_Indsæt..."
 
-#: src/item-grid.c:504 src/workbook.c:1253
+#: src/item-grid.c:504 src/workbook.c:1247
 msgid "_Delete..."
 msgstr "_Slet..."
 
@@ -14733,13 +14718,13 @@ msgstr "_Formatér celler..."
 msgid "Column _Width..."
 msgstr "_Kolonnebredde..."
 
-#: src/item-grid.c:517 src/item-grid.c:525 src/workbook.c:1355
-#: src/workbook.c:1374
+#: src/item-grid.c:517 src/item-grid.c:525 src/workbook.c:1350
+#: src/workbook.c:1369
 msgid "_Hide"
 msgstr "_Skjul"
 
-#: src/item-grid.c:519 src/item-grid.c:527 src/workbook.c:1358
-#: src/workbook.c:1377
+#: src/item-grid.c:519 src/item-grid.c:527 src/workbook.c:1353
+#: src/workbook.c:1372
 msgid "_Unhide"
 msgstr "_Vis igen"
 
@@ -14825,39 +14810,39 @@ msgstr ""
 "datadir := %s\n"
 "libdir := %s\n"
 
-#: src/number-match.c:547
+#: src/number-match.c:570
 msgid "#NULL!"
 msgstr "#NUL!"
 
-#: src/number-match.c:548
+#: src/number-match.c:571
 msgid "#DIV/0!"
 msgstr "#DIV/0!"
 
-#: src/number-match.c:549
+#: src/number-match.c:572
 msgid "#VALUE!"
 msgstr "#VÆRDI!"
 
-#: src/number-match.c:550
+#: src/number-match.c:573
 msgid "#REF!"
 msgstr "#REF!"
 
-#: src/number-match.c:551
+#: src/number-match.c:574
 msgid "#NAME?"
 msgstr "#NAVN?"
 
-#: src/number-match.c:552
+#: src/number-match.c:575
 msgid "#NUM!"
 msgstr "#NUM!"
 
-#: src/number-match.c:553
+#: src/number-match.c:576
 msgid "#N/A"
 msgstr "#I/T"
 
-#: src/number-match.c:554
+#: src/number-match.c:577
 msgid "#RECALC!"
 msgstr "#RECALC!"
 
-#: src/parse-util.c:520
+#: src/parse-util.c:518
 msgid "ERROR"
 msgstr "FEJL"
 
@@ -14995,7 +14980,7 @@ msgstr "tid"
 msgid "&[PAGE]"
 msgstr "&[PAGE]"
 
-#: src/print.c:794 src/workbook.c:1929
+#: src/print.c:794 src/workbook.c:1924
 msgid "Selection must be a single range"
 msgstr "Markering skal være et enkelt omfang"
 
@@ -15028,21 +15013,20 @@ msgstr "kopiér"
 msgid "cut"
 msgstr "klip"
 
-#: src/sheet-object.c:361 src/workbook.c:1589
+#: src/sheet-object.c:361 src/workbook.c:1584
 msgid "Button"
 msgstr "Knap"
 
-#: src/sheet-object.c:814 src/sheet-object.c:817 src/workbook.c:1142
-#: src/workbook.c:1145
+#: src/sheet-object.c:809 src/workbook.c:1140
 msgid "Select an object to add"
 msgstr "Vælg et objektderskal tilføjes"
 
-#: src/sheet-object.c:1408
+#: src/sheet-object.c:1399
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr "Jeg kunne ikke aktivere objekt %s"
 
-#: src/sheet-object.c:1420
+#: src/sheet-object.c:1411
 msgid "I was unable to the bind object"
 msgstr "Jeg kunne ikke binde objekt"
 
@@ -15056,23 +15040,23 @@ msgstr "Række: %d"
 msgid "Column: %s"
 msgstr "Kolonne: %s"
 
-#: src/sheet.c:1086
+#: src/sheet.c:1078
 msgid "Internal ERROR"
 msgstr "Intern FEJL"
 
-#: src/sheet.c:2867 src/sheet.c:2876
+#: src/sheet.c:2852 src/sheet.c:2861
 msgid "Insert Columns"
 msgstr "Indsæt kolonner"
 
-#: src/sheet.c:2946
+#: src/sheet.c:2931
 msgid "Delete Columns"
 msgstr "Slet kolonner"
 
-#: src/sheet.c:3015 src/sheet.c:3024
+#: src/sheet.c:3000 src/sheet.c:3009
 msgid "Insert Rows"
 msgstr "Indsæt rækker"
 
-#: src/sheet.c:3094
+#: src/sheet.c:3079
 msgid "Delete Rows"
 msgstr "Slet rækker"
 
@@ -15093,7 +15077,7 @@ msgid "Target Cell (Minimize)"
 msgstr "Målcelle (Minimér)"
 
 #: src/solver-lp.c:906 src/solver-lp.c:932 src/solver-lp.c:967
-#: src/solver-lp.c:1064 src/solver-lp.c:1114
+#: src/solver-lp.c:1064 src/solver-lp.c:1113
 msgid "Name"
 msgstr "Navn"
 
@@ -15109,7 +15093,7 @@ msgstr "Endelig værdi"
 msgid "Adjustable Cells"
 msgstr "Justérbareceller"
 
-#: src/solver-lp.c:965 src/solver-lp.c:1105
+#: src/solver-lp.c:965 src/solver-lp.c:1104
 msgid "Constraints"
 msgstr "Begrænsninger"
 
@@ -15145,7 +15129,7 @@ msgstr "Følsomhedsrapport"
 msgid "Gnumeric Solver Sensitivity Report"
 msgstr "Gnumeric problemløser følsomhedsrapport"
 
-#: src/solver-lp.c:1058 src/solver-lp.c:1107
+#: src/solver-lp.c:1058 src/solver-lp.c:1106
 msgid "Final"
 msgstr "Endelig"
 
@@ -15157,8 +15141,8 @@ msgstr "Reduceret"
 msgid "Objective"
 msgstr "Objektiv"
 
-#: src/solver-lp.c:1061 src/solver-lp.c:1062 src/solver-lp.c:1110
-#: src/solver-lp.c:1111
+#: src/solver-lp.c:1061 src/solver-lp.c:1062 src/solver-lp.c:1109
+#: src/solver-lp.c:1110
 msgid "Allowable"
 msgstr "Tilladte"
 
@@ -15170,27 +15154,27 @@ msgstr "Omkostning"
 msgid "Coefficient"
 msgstr "Koefficient"
 
-#: src/solver-lp.c:1068 src/solver-lp.c:1118
+#: src/solver-lp.c:1068 src/solver-lp.c:1117
 msgid "Increase"
 msgstr "Forøg"
 
-#: src/solver-lp.c:1069 src/solver-lp.c:1119
+#: src/solver-lp.c:1069 src/solver-lp.c:1118
 msgid "Decrease"
 msgstr "Formindsk"
 
-#: src/solver-lp.c:1108
+#: src/solver-lp.c:1107
 msgid "Shadow"
 msgstr "Skygge"
 
-#: src/solver-lp.c:1109
+#: src/solver-lp.c:1108
 msgid "Constraint"
 msgstr "Begrænsning"
 
-#: src/solver-lp.c:1116
+#: src/solver-lp.c:1115
 msgid "Price"
 msgstr "Pris"
 
-#: src/solver-lp.c:1117
+#: src/solver-lp.c:1116
 msgid "R.H. Side"
 msgstr "Højreside"
 
@@ -15273,7 +15257,7 @@ msgstr "har ikke en gyldig indgang for Helvetica"
 msgid "could not be found in the expected location"
 msgstr "kunne ikke findes på det forventede sted"
 
-#: src/value.c:560
+#: src/value.c:609
 msgid "Terminate"
 msgstr "Terminér"
 
@@ -15612,496 +15596,496 @@ msgid "Nothing"
 msgstr "Ingenting"
 
 #. FIXME : How to avoid hard coding the menu name here.
-#: src/workbook-view.c:80 src/workbook-view.c:84 src/workbook.c:1548
-#: src/workbook.c:2590 src/workbook.c:2608
+#: src/workbook-view.c:80 src/workbook-view.c:84 src/workbook.c:1543
+#: src/workbook.c:2585 src/workbook.c:2603
 msgid "Undo"
 msgstr "Fortryd"
 
-#: src/workbook-view.c:81 src/workbook-view.c:85 src/workbook.c:1551
-#: src/workbook.c:2599 src/workbook.c:2610
+#: src/workbook-view.c:81 src/workbook-view.c:85 src/workbook.c:1546
+#: src/workbook.c:2594 src/workbook.c:2605
 msgid "Redo"
 msgstr "Gentag"
 
-#: src/workbook-view.c:157
+#: src/workbook-view.c:159
 msgid " : Gnumeric"
 msgstr " : Gnumeric"
 
-#: src/workbook.c:520
+#: src/workbook.c:519
 msgid "Warning"
 msgstr "Advarsel"
 
-#: src/workbook.c:531
+#: src/workbook.c:530
 #, c-format
 msgid "Workbook %s has unsaved changes, save them?"
 msgstr "Arbejdsbog %s har ugemte ændringer, gem dem?"
 
-#: src/workbook.c:534
+#: src/workbook.c:533
 msgid "Workbook has unsaved changes, save them?"
 msgstr "Arbejdsbogen har ugemte ændringer, gem dem?"
 
 #. TODO : No need to check simplicty.  XL applies for each
 #. * non-discrete selected region, (use selection_apply)
-#: src/workbook.c:790
+#: src/workbook.c:789
 msgid "Insert cols"
 msgstr "Indsæt kolonner"
 
 #. TODO : No need to check simplicty.  XL applies for each
 #. * non-discrete selected region, (use selection_apply)
-#: src/workbook.c:814
+#: src/workbook.c:813
 msgid "Insert rows"
 msgstr "Indsæt rækker"
 
-#: src/workbook.c:1156
+#: src/workbook.c:1150
 msgid "_New"
 msgstr "_Ny"
 
-#: src/workbook.c:1156
+#: src/workbook.c:1150
 msgid "Create a new spreadsheet"
 msgstr "Opretter et nyt regneark"
 
-#: src/workbook.c:1160
+#: src/workbook.c:1154
 msgid "_Import..."
 msgstr "_Importér..."
 
-#: src/workbook.c:1160
+#: src/workbook.c:1154
 msgid "Imports a file"
 msgstr "Importerer en fil"
 
-#: src/workbook.c:1166
+#: src/workbook.c:1160
 msgid "Su_mmary..."
 msgstr "Sa_mmendrag..."
 
-#: src/workbook.c:1167
+#: src/workbook.c:1161
 msgid "Summary information"
 msgstr "Informationsresumé"
 
-#: src/workbook.c:1174 src/workbook.c:1529
+#: src/workbook.c:1168 src/workbook.c:1524
 msgid "Print pre_view"
 msgstr "_Vis udskrift"
 
-#: src/workbook.c:1190
+#: src/workbook.c:1184
 msgid "_All"
 msgstr "_Alt"
 
-#: src/workbook.c:1191
+#: src/workbook.c:1185
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Ryd den valgte celles formater, kommentarer og indhold"
 
-#: src/workbook.c:1193
+#: src/workbook.c:1187
 msgid "_Formats"
 msgstr "_Formatér"
 
-#: src/workbook.c:1194
+#: src/workbook.c:1188
 msgid "Clear the selected cells' formats"
 msgstr "Ryd den valgte celles formater"
 
-#: src/workbook.c:1197
+#: src/workbook.c:1191
 msgid "Clear the selected cells' comments"
 msgstr "Ryd den valgte celles kommentarer"
 
-#: src/workbook.c:1199
+#: src/workbook.c:1193
 msgid "_Content"
 msgstr "_Indhold"
 
-#: src/workbook.c:1200
+#: src/workbook.c:1194
 msgid "Clear the selected cells' contents"
 msgstr "Fjern den markerede celles indhold"
 
-#: src/workbook.c:1208
+#: src/workbook.c:1202
 msgid "Select _All"
 msgstr "Vælg _alt"
 
-#: src/workbook.c:1209
+#: src/workbook.c:1203
 msgid "Select all cells in the spreadsheet"
 msgstr "Vælg alle celler i regnearket"
 
-#: src/workbook.c:1213
+#: src/workbook.c:1207
 msgid "Select _Row"
 msgstr "Vælg _række"
 
-#: src/workbook.c:1214
+#: src/workbook.c:1208
 msgid "Select an entire row"
 msgstr "Vælg en hel række"
 
-#: src/workbook.c:1218
+#: src/workbook.c:1212
 msgid "Select _Column"
 msgstr "Vælg _kolonne"
 
-#: src/workbook.c:1219 src/workbook.c:1224
+#: src/workbook.c:1213 src/workbook.c:1218
 msgid "Select an entire column"
 msgstr "Vælg en hel kolonne"
 
-#: src/workbook.c:1223
+#: src/workbook.c:1217
 msgid "Select Arra_y"
 msgstr "Vælg matrice"
 
-#: src/workbook.c:1228
+#: src/workbook.c:1222
 msgid "Select _Depends"
 msgstr "Vælg afhængighed"
 
-#: src/workbook.c:1229
+#: src/workbook.c:1223
 msgid "Select all the cells that depend on the current edit cell."
 msgstr "Vælg alle celler som afhænger af den aktive celle."
 
-#: src/workbook.c:1247
+#: src/workbook.c:1241
 msgid "P_aste special..."
 msgstr "Indsæt speciel..."
 
-#: src/workbook.c:1248
+#: src/workbook.c:1242
 msgid "Paste with optional filters and transformations"
 msgstr "Indsæt med valgbare filtre og transformationer"
 
-#: src/workbook.c:1251
+#: src/workbook.c:1245
 msgid "C_lear"
 msgstr "_Ryd"
 
-#: src/workbook.c:1254
+#: src/workbook.c:1248
 msgid "Remove selected cells, shifting other into their place"
 msgstr "Fjern valgte celler, med skift af andre i deres sted"
 
-#: src/workbook.c:1256
+#: src/workbook.c:1250
 msgid "De_lete Sheet"
 msgstr "_Slet ark"
 
-#: src/workbook.c:1257
+#: src/workbook.c:1251
 msgid "Irrevocably remove an entire sheet"
 msgstr "Fjern uigenkaldeligt et helt ark"
 
-#: src/workbook.c:1262
+#: src/workbook.c:1256
 msgid "_Select..."
 msgstr "_Vælg..."
 
-#. Default <Ctrl-I> to be goto
-#: src/workbook.c:1265
+#. Default <Ctrl-G> to be goto
+#: src/workbook.c:1259
 msgid "_Goto cell..."
 msgstr "_Gå til celle..."
 
-#: src/workbook.c:1266
+#: src/workbook.c:1260
 msgid "Jump to a specified cell"
 msgstr "Spring til en angivet celle"
 
 #. Default <F9> to recalculate
-#: src/workbook.c:1270
+#: src/workbook.c:1264
 msgid "_Recalculate"
 msgstr "_Omregn"
 
-#: src/workbook.c:1271
+#: src/workbook.c:1265
 msgid "Recalculate the spreadsheet"
 msgstr "Omkalkulerer regnearket"
 
-#: src/workbook.c:1279
+#: src/workbook.c:1274
 msgid "_Zoom..."
 msgstr "_Zoom..."
 
-#: src/workbook.c:1280
+#: src/workbook.c:1275
 msgid "Zoom the spreadsheet in or out"
 msgstr "Zoom ind og ud på regnearket"
 
 #. Default <Ctrl-;> (control semi-colon) to insert the current date
-#: src/workbook.c:1289
+#: src/workbook.c:1284
 msgid "Current _date"
 msgstr "Dags _dato"
 
-#: src/workbook.c:1290
+#: src/workbook.c:1285
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Indsæt dags dato i de(n) markerede celle(r)"
 
 #. Default <Ctrl-:> (control colon) to insert the current time
-#: src/workbook.c:1295
+#: src/workbook.c:1290
 msgid "Current _time"
 msgstr "_Tidspunkt"
 
-#: src/workbook.c:1296
+#: src/workbook.c:1291
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Indsæt nuværende tidspunkt i de(n) markerede celle(r)"
 
-#: src/workbook.c:1303
+#: src/workbook.c:1298
 msgid "_Names..."
 msgstr "_Navne..."
 
-#: src/workbook.c:1304
+#: src/workbook.c:1299
 msgid "Edit sheet and workbook names"
 msgstr "Redigér navne i ark og arbejdsbog"
 
-#: src/workbook.c:1307
+#: src/workbook.c:1302
 msgid "_Auto generate names..."
 msgstr "_Autogenerér navne..."
 
-#: src/workbook.c:1308
+#: src/workbook.c:1303
 msgid "Use the current selection to create names"
 msgstr "Brug det nuværende valg til at generere navne"
 
-#: src/workbook.c:1315 src/workbook.c:1435
+#: src/workbook.c:1310 src/workbook.c:1430
 msgid "_Sheet"
 msgstr "_Ark"
 
-#: src/workbook.c:1316
+#: src/workbook.c:1311
 msgid "Insert a new spreadsheet"
 msgstr "Indsæt et nyt regneark"
 
-#: src/workbook.c:1319
+#: src/workbook.c:1314
 msgid "Insert new rows"
 msgstr "Indsæt nye rækker"
 
-#: src/workbook.c:1322
+#: src/workbook.c:1317
 msgid "Insert new columns"
 msgstr "indsæt nye kolonner"
 
-#: src/workbook.c:1324
+#: src/workbook.c:1319
 msgid "C_ells..."
 msgstr "C_eller..."
 
-#: src/workbook.c:1325
+#: src/workbook.c:1320
 msgid "Insert new cells"
 msgstr "indsæt nye celler"
 
-#: src/workbook.c:1329
+#: src/workbook.c:1324
 msgid "_Object..."
 msgstr "_Objekt..."
 
-#: src/workbook.c:1330
+#: src/workbook.c:1325
 msgid "Inserts a Bonobo object"
 msgstr "Indsætter et bonobo-objekt"
 
-#: src/workbook.c:1336
+#: src/workbook.c:1331
 msgid "N_ames"
 msgstr "_Navne"
 
-#: src/workbook.c:1338
+#: src/workbook.c:1333
 msgid "_Add/modify comment..."
 msgstr "_Tilføj/ændr kommentar..."
 
-#: src/workbook.c:1339
+#: src/workbook.c:1334
 msgid "Edit the selected cell's comment"
 msgstr "Redigér den valgte celles kommentar"
 
-#: src/workbook.c:1342
+#: src/workbook.c:1337
 msgid "S_pecial"
 msgstr "S_peciel"
 
-#: src/workbook.c:1349 src/workbook.c:1368
+#: src/workbook.c:1344 src/workbook.c:1363
 msgid "_Auto fit selection"
 msgstr "_Autotilpas markering"
 
-#: src/workbook.c:1352
+#: src/workbook.c:1347
 msgid "_Width"
 msgstr "_Bredde"
 
-#: src/workbook.c:1361
+#: src/workbook.c:1356
 msgid "_Standard Width"
 msgstr "_Standardbredde"
 
-#: src/workbook.c:1371
+#: src/workbook.c:1366
 msgid "_Height"
 msgstr "_Højde"
 
-#: src/workbook.c:1380
+#: src/workbook.c:1375
 msgid "_Standard Height"
 msgstr "Standardhøjde"
 
-#: src/workbook.c:1387
+#: src/workbook.c:1382
 msgid "_Change name"
 msgstr "_Ændr navn"
 
-#: src/workbook.c:1390
+#: src/workbook.c:1385
 msgid "Re-_Order Sheets"
 msgstr "Omrokér ark"
 
-#: src/workbook.c:1395
+#: src/workbook.c:1390
 msgid "Display _Formulas"
 msgstr "Vis _formler"
 
-#: src/workbook.c:1401
+#: src/workbook.c:1396
 msgid "Hide _Zeros"
 msgstr "Skjul _nuller"
 
-#: src/workbook.c:1407
+#: src/workbook.c:1402
 msgid "Hide _Gridlines"
 msgstr "Skjul _gitterlinjer"
 
-#: src/workbook.c:1413
+#: src/workbook.c:1408
 msgid "Hide _Column Header"
 msgstr "Skjul _kolonnehoved"
 
-#: src/workbook.c:1419
+#: src/workbook.c:1414
 msgid "Hide _Row Header"
 msgstr "Skjul _rækkehoved"
 
 #. Default <Ctrl-1> invoke the format dialog
-#: src/workbook.c:1429
+#: src/workbook.c:1424
 msgid "_Cells..."
 msgstr "_Celler..."
 
-#: src/workbook.c:1430
+#: src/workbook.c:1425
 msgid "Modify the formatting of the selected cells"
 msgstr "Ændr formatet på de markerede celler"
 
-#: src/workbook.c:1433
+#: src/workbook.c:1428
 msgid "C_olumn"
 msgstr "K_olonne"
 
-#: src/workbook.c:1434
+#: src/workbook.c:1429
 msgid "_Row"
 msgstr "_Række"
 
-#: src/workbook.c:1437
+#: src/workbook.c:1432
 msgid "_Workbook..."
 msgstr "_Arbejdsbog..."
 
-#: src/workbook.c:1438
+#: src/workbook.c:1433
 msgid "Modify the workbook attributes"
 msgstr "Ændr arbejdsbogens tilhørender"
 
-#: src/workbook.c:1445
+#: src/workbook.c:1440
 msgid "_Plug-ins..."
 msgstr "Indstik..."
 
-#: src/workbook.c:1446
+#: src/workbook.c:1441
 msgid "Manage available plugin modules."
 msgstr "Håndtér tilgængelige indstiksmoduler."
 
-#: src/workbook.c:1451
+#: src/workbook.c:1446
 msgid "Auto _Correct..."
 msgstr "Auto_korrektion..."
 
-#: src/workbook.c:1452
+#: src/workbook.c:1447
 msgid "Automaticly perform simple spell checking"
 msgstr "Udfør automatisk simpel stavekontrol"
 
-#: src/workbook.c:1454
+#: src/workbook.c:1449
 msgid "_Auto Save..."
 msgstr "_Autogem..."
 
-#: src/workbook.c:1455
+#: src/workbook.c:1450
 msgid "Automaticly save the current document at regular intervals"
 msgstr "Gem automatisk det aktuelle dokument ved regelmæssige intervaller"
 
-#: src/workbook.c:1460
+#: src/workbook.c:1455
 msgid "_Goal Seek..."
 msgstr "_Mål søgning..."
 
-#: src/workbook.c:1461
+#: src/workbook.c:1456
 msgid "Iteratively recalculate to find a target value"
 msgstr "Genberegner iterativt for at finde en målvariabel"
 
-#: src/workbook.c:1463
+#: src/workbook.c:1458
 msgid "_Solver..."
 msgstr "_Løser..."
 
-#: src/workbook.c:1464
+#: src/workbook.c:1459
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr ""
 "Genberegner iterativt med begrænsninger for at tilnærme sig en målvariabel"
 
-#: src/workbook.c:1469
+#: src/workbook.c:1464
 msgid "_Data Analysis..."
 msgstr "_Dataanalyse..."
 
-#: src/workbook.c:1470
+#: src/workbook.c:1465
 msgid "Statistical methods."
 msgstr "Statistiske metoder."
 
-#: src/workbook.c:1478
+#: src/workbook.c:1473
 msgid "_Sort..."
 msgstr "_Sortér..."
 
-#: src/workbook.c:1479
+#: src/workbook.c:1474
 msgid "Sort the selected cells"
 msgstr "Sorterer de valgte celler"
 
-#: src/workbook.c:1481
+#: src/workbook.c:1476
 msgid "_Filter..."
 msgstr "_Filter..."
 
-#: src/workbook.c:1482
+#: src/workbook.c:1477
 msgid "Filter date with given criterias"
 msgstr "Filtrér dato med givne kriterier"
 
-#: src/workbook.c:1500
+#: src/workbook.c:1495
 msgid "_Insert"
 msgstr "_Indsæt"
 
-#: src/workbook.c:1501
+#: src/workbook.c:1496
 msgid "F_ormat"
 msgstr "F_ormatér"
 
-#: src/workbook.c:1502
+#: src/workbook.c:1497
 msgid "_Tools"
 msgstr "_Værktøj"
 
-#: src/workbook.c:1503
+#: src/workbook.c:1498
 msgid "_Data"
 msgstr "_Data"
 
-#: src/workbook.c:1514
+#: src/workbook.c:1509
 msgid "New"
 msgstr "Ny"
 
-#: src/workbook.c:1514
+#: src/workbook.c:1509
 msgid "Creates a new workbook"
 msgstr "Opret ny arbejdsbog"
 
-#: src/workbook.c:1517
+#: src/workbook.c:1512
 msgid "Open"
 msgstr "Åbn"
 
-#: src/workbook.c:1517
+#: src/workbook.c:1512
 msgid "Opens an existing workbook"
 msgstr "Åbner en eksisterende arbejdsbog:"
 
-#: src/workbook.c:1520
+#: src/workbook.c:1515
 msgid "Save"
 msgstr "Gem"
 
-#: src/workbook.c:1520
+#: src/workbook.c:1515
 msgid "Saves the workbook"
 msgstr "Gemmer arbejdsbogen"
 
-#: src/workbook.c:1526
+#: src/workbook.c:1521
 msgid "Prints the workbook"
 msgstr "Udskriver arbejdsbogen"
 
-#: src/workbook.c:1535
+#: src/workbook.c:1530
 msgid "Cut"
 msgstr "Klip"
 
-#: src/workbook.c:1535
+#: src/workbook.c:1530
 msgid "Cuts the selection to the clipboard"
 msgstr "Klipper det markerede til klippebordet"
 
-#: src/workbook.c:1538
+#: src/workbook.c:1533
 msgid "Copies the selection to the clipboard"
 msgstr "Kopierer det markerede til klippebordet"
 
-#: src/workbook.c:1541
+#: src/workbook.c:1536
 msgid "Pastes the clipboard"
 msgstr "Indsætter klippebordet"
 
-#: src/workbook.c:1548
+#: src/workbook.c:1543
 msgid "Undo the operation"
 msgstr "Fortryd handling"
 
-#: src/workbook.c:1551
+#: src/workbook.c:1546
 msgid "Redo the operation"
 msgstr "Gentag handling"
 
-#: src/workbook.c:1561
+#: src/workbook.c:1556
 msgid "Sum into the current cell."
 msgstr "Summér til den aktuelle celle."
 
-#: src/workbook.c:1564
+#: src/workbook.c:1559
 msgid "Function"
 msgstr "Funktion"
 
-#: src/workbook.c:1564
+#: src/workbook.c:1559
 msgid "Edit a function in the current cell."
 msgstr "Redigér en funktion i den aktuelle celle."
 
-#: src/workbook.c:1568
+#: src/workbook.c:1563
 msgid "Sort Ascending"
 msgstr "Sortér opadstigende"
 
-#: src/workbook.c:1568
+#: src/workbook.c:1563
 msgid ""
 "Sorts the selected region in ascending order based on the first column "
 "selected."
@@ -16109,11 +16093,11 @@ msgstr ""
 "Sorterer det valgte område i stigende orden baseret på den først valgte "
 "kolonne."
 
-#: src/workbook.c:1571
+#: src/workbook.c:1566
 msgid "Sort Descending"
 msgstr "Sortér nedadstigende"
 
-#: src/workbook.c:1571
+#: src/workbook.c:1566
 msgid ""
 "Sorts the selected region in descending order based on the first column "
 "selected."
@@ -16121,452 +16105,131 @@ msgstr ""
 "Sorterer det valgte område i faldende orden baseret på den først valgte "
 "kolonne."
 
-#: src/workbook.c:1578
+#: src/workbook.c:1573
 msgid "Create a Graph"
 msgstr "Opretter en graf"
 
-#: src/workbook.c:1578
+#: src/workbook.c:1573
 msgid "Invokes the graph guru to help create a graph"
 msgstr "Starter grafik-troldmanden for at lave en graf"
 
-#: src/workbook.c:1581
+#: src/workbook.c:1576
 msgid "Insert Object"
 msgstr "Indsæt objekt"
 
-#: src/workbook.c:1581
+#: src/workbook.c:1576
 msgid "Inserts an object into the spreadsheet"
 msgstr "Indsætter et objekt i regnearket"
 
-#: src/workbook.c:1584
+#: src/workbook.c:1579
 msgid "Insert shaped object"
 msgstr "Indsæt formet objekt"
 
-#: src/workbook.c:1584
+#: src/workbook.c:1579
 msgid "Inserts a shaped object into the spreadsheet"
 msgstr "Indsætter et formet objekt i regnearket"
 
-#: src/workbook.c:1589
+#: src/workbook.c:1584
 msgid "Creates a button"
 msgstr "Opretter en knap"
 
-#: src/workbook.c:1592
+#: src/workbook.c:1587
 msgid "Checkbox"
 msgstr "Afkrydsningsboks"
 
-#: src/workbook.c:1592
+#: src/workbook.c:1587
 msgid "Creates a checkbox"
 msgstr "Opretter en afkrydsningsboks"
 
-#: src/workbook.c:1596
+#: src/workbook.c:1591
 msgid "Creates a line object"
 msgstr "Opretter et linjeobjekt"
 
-#: src/workbook.c:1599
+#: src/workbook.c:1594
 msgid "Arrow"
 msgstr "Pil"
 
-#: src/workbook.c:1599
+#: src/workbook.c:1594
 msgid "Creates an arrow object"
 msgstr "Opretter et pileobjekt"
 
-#: src/workbook.c:1602
+#: src/workbook.c:1597
 msgid "Rectangle"
 msgstr "Firkant"
 
-#: src/workbook.c:1602
+#: src/workbook.c:1597
 msgid "Creates a rectangle object"
 msgstr "Opretter et firkantet objekt"
 
-#: src/workbook.c:1605
+#: src/workbook.c:1600
 msgid "Ellipse"
 msgstr "Ellipse"
 
-#: src/workbook.c:1605
+#: src/workbook.c:1600
 msgid "Creates an ellipse object"
 msgstr "Opretter et ellipseobjekt"
 
-#: src/workbook.c:1895
+#: src/workbook.c:1890
 msgid "You should introduce a valid cell name"
 msgstr "Du skal introducere et gyldigt cellenavn"
 
-#: src/workbook.c:2048
+#: src/workbook.c:2043
 msgid "Min"
 msgstr "Min"
 
-#: src/workbook.c:2049
+#: src/workbook.c:2044
 msgid "Max"
 msgstr "Maks"
 
-#: src/workbook.c:2680
+#: src/workbook.c:2668
 #, c-format
 msgid "Book%d.gnumeric"
 msgstr "Bog%d.gnumeric"
 
-#: src/workbook.c:2877
+#: src/workbook.c:2874
 msgid "Sheet name"
 msgstr "Arknavn"
 
-#: src/workbook.c:2878
+#: src/workbook.c:2875
 msgid "must have at least 1 letter"
 msgstr "skal have mindst 1 bogstav"
 
-#: src/workbook.c:2885
+#: src/workbook.c:2882
 msgid "Duplicate Sheet name"
 msgstr "Duplikeret arknavn"
 
-#: src/workbook.c:3036
+#: src/workbook.c:3048
 msgid "Add another sheet"
 msgstr "Tilføj et andet ark"
 
-#: src/workbook.c:3037
+#: src/workbook.c:3049
 msgid "Remove this sheet"
 msgstr "Fjern dette ark"
 
-#: src/workbook.c:3038
+#: src/workbook.c:3050
 msgid "Rename this sheet"
 msgstr "Omdøb dette ark"
 
-#: src/workbook.c:3039
+#: src/workbook.c:3051
+msgid "Duplicate this sheet"
+msgstr "Lav en kopi af dette ark"
+
+#: src/workbook.c:3052
 msgid "Re-order sheets"
 msgstr "Omordn ark"
 
-#: src/xml-io.c:3197
+#: src/xml-io.c:3280
 msgid "Invalid xml clipboard data. Tree is empty ?"
 msgstr "Ugyldigt xml klipbordsdata. Er træet tomt?"
 
-#: src/xml-io.c:3238
+#: src/xml-io.c:3322
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Ugyldig xml fil. Er træet tomt?"
 
-#: src/xml-io.c:3252
-msgid "Is not an Workbook file"
-msgstr "Er ikke en arbejdsbogsfil"
+#: src/xml-io.c:3330
+msgid "Is not an Gnumeric Workbook file"
+msgstr "Er ikke en Gnumeric arbejdsbogsfil"
 
-#: src/xml-io.c:3311
+#: src/xml-io.c:3389
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML-filformat"
-
-#: wizards/graphics/graphic-context.c:150
-#, c-format
-msgid "\"Series %d\""
-msgstr "\"Serie %d\""
-
-#: wizards/graphics/graphic-type.c:25
-msgid "Clustered columns.  Compares values between categories"
-msgstr "Kolonneklynger. Sammenligner værdier mellem kategorier"
-
-#: wizards/graphics/graphic-type.c:37
-msgid "Stacked columns.  Compares the values brought by each category"
-msgstr "Stakkede kolonner. Sammenligner værdierne beregnet for hver kategori"
-
-#: wizards/graphics/graphic-type.c:50
-msgid ""
-"Stacked columns, 100%.  Compares between the categories the values broght to "
-"a total"
-msgstr ""
-"Stakkede kolonner, 100%. Sammenligner værdierne sammenlagt mellem "
-"kategorierne"
-
-#: wizards/graphics/graphic-type.c:66
-msgid "Clustered bars.  Compares values between categories"
-msgstr "Bjælkeklynger. Sammenligner værdier mellem kategorier"
-
-#: wizards/graphics/graphic-type.c:78
-msgid "Stacked bars.  Compares the values brought by each category"
-msgstr "Stakkede bjælker. Sammenligner værdierne beregnet for hver kategori"
-
-#: wizards/graphics/graphic-type.c:91
-msgid ""
-"Stacked bars, 100%.  Compares between the categories the values broght to a "
-"total"
-msgstr ""
-"Stakkede bjælker, 100%. Sammenligner værdierne sammenlagt mellem kategorierne"
-
-#: wizards/graphics/graphic-type.c:107
-msgid "Lines.  FIXME: Add nice explanation"
-msgstr "Linjer. FIKSMIG: Tilføj pæn forklaring"
-
-#: wizards/graphics/graphic-type.c:120
-msgid "Stacked Lines.  FIXME: Add nice explanation"
-msgstr "Stakkede linjer. FIKSMIG: Tilføj pæn forklaring"
-
-#: wizards/graphics/graphic-type.c:134
-msgid "Stacked lines, 100%.  FIXME: Add nice explanation"
-msgstr "Stakkede linjer, 100%. FIKSMIG: Tilføj pæn forklaring"
-
-#: wizards/graphics/graphic-type.c:147
-msgid "Lines with markers.  FIXME: Add nice explanation"
-msgstr "Linjer med markeringer. FIKSMIG: Tilføj pæn forklaring"
-
-#: wizards/graphics/graphic-type.c:160
-msgid "Stacked lines with markers.  FIXME: Add nice explanation"
-msgstr "Stakkede linjer med markeringer. FIKSMIG: Tilføj pæn forklaring"
-
-#: wizards/graphics/graphic-type.c:173
-msgid "Stacked lines with markers, 100%.  FIXME: Add nice explanation"
-msgstr "Stakkede linjer med markeringer, 100%. FIKSMIG: Tilføj pæn forklaring"
-
-#: wizards/graphics/graphic-type.c:190
-msgid "Scatter points"
-msgstr "Spredte punkter"
-
-#: wizards/graphics/graphic-type.c:207
-msgid "Scatter points connected with lines"
-msgstr "Spredte punkter forbundet med linjer"
-
-#: wizards/graphics/graphic-type.c:224
-msgid "Scatter data connected with lines"
-msgstr "Spredte data forbundet med linjer"
-
-#: wizards/graphics/graphic-type.c:245
-msgid "Area 1: FIXME add nice description"
-msgstr "Areal 1: FIKSMIG: Tilføj pæn forklaring"
-
-#: wizards/graphics/graphic-type.c:257
-msgid "Stacked area.  FIXME: add nic description"
-msgstr "Stakket areal. FIKSMIG: Tilføj pæn forklaring"
-
-#: wizards/graphics/graphic-type.c:270
-msgid "Stacked Area, 100%.  FIXME: add nice description"
-msgstr "Stakket areal, 100%. FIKSMIG: Tilføj pæn forklaring"
-
-#: wizards/graphics/graphic-type.c:290
-msgid "Bar"
-msgstr "Bjælke"
-
-#: wizards/graphics/graphic-type.c:291
-msgid "Lines"
-msgstr "Linjer"
-
-#: wizards/graphics/graphic-type.c:292
-msgid "Scatter"
-msgstr "Spredte"
-
-#: wizards/graphics/graphic-type.c:293
-msgid "Areas"
-msgstr "Arealer"
-
-#.
-#. * Translatable strings file generated by Glade.
-#. * Add this file to your project's POTFILES.in.
-#. * DO NOT compile it as part of your application.
-#.
-#: wizards/graphics/graphics.glade.h:7
-msgid "dialog3"
-msgstr "dialog3"
-
-#: wizards/graphics/graphics.glade.h:8
-msgid "Cancel"
-msgstr "Afbryd"
-
-#: wizards/graphics/graphics.glade.h:9
-msgid "<< _Previous"
-msgstr "<< _Foregående"
-
-#: wizards/graphics/graphics.glade.h:10
-msgid "_Next step >>"
-msgstr "_Næste trin >>"
-
-#: wizards/graphics/graphics.glade.h:11
-msgid "_Finish"
-msgstr "_Afslut"
-
-#: wizards/graphics/graphics.glade.h:12
-msgid "_Graphic type:"
-msgstr "_Grafiktype:"
-
-#: wizards/graphics/graphics.glade.h:13
-msgid "Graphic subtype:"
-msgstr "Grafik undertype"
-
-#: wizards/graphics/graphics.glade.h:14
-msgid "label15"
-msgstr "mærkat15"
-
-#: wizards/graphics/graphics.glade.h:15
-msgid "label16"
-msgstr "mærkat16"
-
-#: wizards/graphics/graphics.glade.h:16
-msgid "Plot description"
-msgstr "Plotte-beskrivelse:"
-
-#: wizards/graphics/graphics.glade.h:17
-msgid "_Show sample"
-msgstr "_Vis stikprøve"
-
-#: wizards/graphics/graphics.glade.h:18
-msgid "Standard Types"
-msgstr "Standardtype"
-
-#: wizards/graphics/graphics.glade.h:19
-msgid "Custom types"
-msgstr "Tilpassede typer"
-
-#: wizards/graphics/graphics.glade.h:20
-msgid "Step1"
-msgstr "Trin1"
-
-#: wizards/graphics/graphics.glade.h:21
-msgid "_Data Range:"
-msgstr "_Dataomfang:"
-
-#: wizards/graphics/graphics.glade.h:24
-msgid "Series in:"
-msgstr "Serier i:"
-
-#: wizards/graphics/graphics.glade.h:25
-msgid "Data ranges"
-msgstr "Dataområde"
-
-#: wizards/graphics/graphics.glade.h:26
-msgid "Serie:"
-msgstr "Serie:"
-
-#: wizards/graphics/graphics.glade.h:27
-msgid "label27"
-msgstr "mærkat27"
-
-#: wizards/graphics/graphics.glade.h:30
-msgid "_Name:"
-msgstr "_Navn:"
-
-#: wizards/graphics/graphics.glade.h:31
-msgid "_Value:"
-msgstr "_Værdi:"
-
-#: wizards/graphics/graphics.glade.h:32
-msgid "Labels for the _X axis:"
-msgstr "Mærkater for _X aksen:"
-
-#: wizards/graphics/graphics.glade.h:33
-msgid "Series"
-msgstr "Serier"
-
-#: wizards/graphics/graphics.glade.h:34
-msgid "Step2"
-msgstr "Trin2"
-
-#: wizards/graphics/graphics.glade.h:35
-msgid "_Plot title:"
-msgstr "_Plot titel:"
-
-#: wizards/graphics/graphics.glade.h:36
-msgid "_X axis label:"
-msgstr "Mærkat for _X akse:"
-
-#: wizards/graphics/graphics.glade.h:37
-msgid "_Y axis label:"
-msgstr "Mærkat for _Y akse:"
-
-#: wizards/graphics/graphics.glade.h:38
-msgid "_Second X axis values:"
-msgstr "_Mærkat nr 2 for _X akse:"
-
-#: wizards/graphics/graphics.glade.h:39
-msgid "S_econd Y axis values:"
-msgstr "Mærkat nr 2 for _Y akse:"
-
-#: wizards/graphics/graphics.glade.h:40
-msgid "Titles"
-msgstr "Titler"
-
-#: wizards/graphics/graphics.glade.h:41
-msgid "Principal Axis"
-msgstr "Hoved-akse"
-
-#: wizards/graphics/graphics.glade.h:42
-msgid "_X axis"
-msgstr "_X akse"
-
-#: wizards/graphics/graphics.glade.h:44
-msgid "_Category"
-msgstr "_Kategori"
-
-#: wizards/graphics/graphics.glade.h:45
-msgid "_Scale"
-msgstr "_Skalér"
-
-#: wizards/graphics/graphics.glade.h:46
-msgid "_Y axis"
-msgstr "_Y akse"
-
-#: wizards/graphics/graphics.glade.h:47
-msgid "_Z axis"
-msgstr "_Z akse"
-
-#: wizards/graphics/graphics.glade.h:48
-msgid "Axis"
-msgstr "Akse"
-
-#: wizards/graphics/graphics.glade.h:49
-msgid " X axis "
-msgstr "X akse"
-
-#: wizards/graphics/graphics.glade.h:50
-msgid "_Main line divisions"
-msgstr "_Hoved linjedelinger"
-
-#: wizards/graphics/graphics.glade.h:51
-msgid "_Secondary line divisions"
-msgstr "_Underordnet linjedelinger"
-
-#: wizards/graphics/graphics.glade.h:52
-msgid " Y axis "
-msgstr "Y akse"
-
-#: wizards/graphics/graphics.glade.h:53
-msgid "M_ain line divisions"
-msgstr "H_oved linjedelinger"
-
-#: wizards/graphics/graphics.glade.h:54
-msgid "S_econdary line divisions"
-msgstr "U_nderordnet linjedelinger"
-
-#: wizards/graphics/graphics.glade.h:55
-msgid "Division lines"
-msgstr "Delingslinjer"
-
-#: wizards/graphics/graphics.glade.h:56
-msgid "_Show legend"
-msgstr "_Vis betydning"
-
-#: wizards/graphics/graphics.glade.h:57
-msgid " Location "
-msgstr " Sted "
-
-#: wizards/graphics/graphics.glade.h:58
-msgid "_Down"
-msgstr "_Ned"
-
-#: wizards/graphics/graphics.glade.h:59
-msgid "_Corner"
-msgstr "_Hjørne"
-
-#: wizards/graphics/graphics.glade.h:60
-msgid "_Up"
-msgstr "_Op"
-
-#: wizards/graphics/graphics.glade.h:63
-msgid "Legends"
-msgstr "Betydninger"
-
-#: wizards/graphics/graphics.glade.h:64
-msgid "Step3"
-msgstr "Trin3"
-
-#: wizards/graphics/main.c:86
-msgid "Step 1 of 3: Select graphic type"
-msgstr "Trin 1 af 3: Vælg grafiktype"
-
-#: wizards/graphics/main.c:89
-msgid "Step 2 of 3: Select data ranges"
-msgstr "Trin 2 af 3: Vælg dataområder"
-
-#: wizards/graphics/main.c:92
-msgid "Step 3 of 3: Customize graphic"
-msgstr "Trin 3 af 3: Tilpas grafik"
-
-#: wizards/graphics/main.c:175
-msgid "Unable to launch the graphics service"
-msgstr "Kan ikke opstarte grafiktjenesten"
