@@ -212,22 +212,6 @@ AC_SUBST(GB_LIBS)
 
 dnl ****************************
 
-dnl src/functions/fn-math.c uses M_PI
-dnl src/plugin-util.c uses caddr_t
-AC_MSG_CHECKING([whether -D_BSD_SOURCE is needed for M_PI])
-AC_TRY_COMPILE([#include <math.h>], [double f = M_PI], need_bsd=no, need_bsd=yes)
-AC_MSG_RESULT($need_bsd)
-if test $need_bsd = yes ; then
-	CFLAGS="$CFLAGS -D_BSD_SOURCE"
-else
-	AC_MSG_CHECKING([whether -D_BSD_SOURCE is needed for caddr_t])
-	AC_TRY_COMPILE([#include <sys/types.h>], [caddr_t ca], need_bsd=no, need_bsd=yes)
-	if test $need_bsd = yes ; then
-		CFLAGS="$CFLAGS -D_BSD_SOURCE"
-	fi
-	AC_MSG_RESULT($need_bsd)
-fi
-
 AC_MSG_CHECKING([whether -D_POSIX_SOURCE is needed for fdopen])
 saved_CFLAGS="$CFLAGS"
 CFLAGS="$CFLAGS -Werror"
@@ -244,6 +228,22 @@ if test $need_posix = yes ; then
 	if test $need_posix = yes ; then
 		CFLAGS="$CFLAGS -D__EXTENSIONS__"
 	fi
+fi
+
+dnl src/functions/fn-math.c uses M_PI
+dnl src/plugin-util.c uses caddr_t
+AC_MSG_CHECKING([whether -D_BSD_SOURCE is needed for M_PI])
+AC_TRY_COMPILE([#include <math.h>], [double f = M_PI], need_bsd=no, need_bsd=yes)
+AC_MSG_RESULT($need_bsd)
+if test $need_bsd = yes ; then
+	CFLAGS="$CFLAGS -D_BSD_SOURCE"
+else
+	AC_MSG_CHECKING([whether -D_BSD_SOURCE is needed for caddr_t])
+	AC_TRY_COMPILE([#include <sys/types.h>], [caddr_t ca], need_bsd=no, need_bsd=yes)
+	if test $need_bsd = yes ; then
+		CFLAGS="$CFLAGS -D_BSD_SOURCE"
+	fi
+	AC_MSG_RESULT($need_bsd)
 fi
 
 AC_SUBST(GUILE_LIBS)
