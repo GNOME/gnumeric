@@ -10,4 +10,9 @@ gchar *format_value   (StyleFormat *format, const Value *value, StyleColor **col
 
 void   format_color_init     (void);
 void   format_color_shutdown (void);
+
+char  *format_add_thousand   (const char *format);
+char  *format_add_decimal    (const char *format);
+char  *format_remove_decimal (const char *format);
+
 #endif /* GNUMERIC_FORMAT_H */

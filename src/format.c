@@ -686,6 +686,177 @@ split_time (gdouble number)
 	return &tm;
 }
 
+/*
+ * Returns a new format string with the thousand separator
+ * or NULL if the format string already contains the thousand
+ * separator
+ */
+char *
+format_add_thousand (const char *format_string)
+{
+	char *b;
+	
+	if (!lc)
+		lc = localeconv ();
+
+	if (strcmp (format_string, "General") == 0){
+		char *s = g_strdup ("#!##0");
+
+		s [1] = THOUSAND_CHAR_OF_LC(lc);
+		return s;
+	}
+
+	if (strchr (format_string, THOUSAND_CHAR_OF_LC(lc)) != NULL)
+		return NULL;
+	
+	b = g_malloc (strlen (format_string) + 7);
+	if (!b)
+		return NULL;
+
+	strcpy (b, "#!##0");
+	b [1] = THOUSAND_CHAR_OF_LC(lc);
+
+	strcpy (&b[5], format_string);
+
+	return b;
+}
+
+/*
+ * Finds the decimal char in @str doing the proper parsing of a
+ * format string
+ */
+static const char *
+find_decimal_char (const char *str)
+{
+	char dc = DECIMAL_CHAR_OF_LC (lc);
+
+	for (;*str; str++){
+		if (*str == dc)
+			return str;
+
+		if (*str == THOUSAND_CHAR_OF_LC (lc))
+			continue;
+
+		switch (*str){
+			/* These ones do not have any argument */
+		case '#': case '?': case '0': case '%':
+		case '-': case '+': case ')': case '£': 
+		case ':': case '$': 
+		case 'M': case 'm': case 'D': case 'd':
+		case 'Y': case 'y': case 'S': case 's':
+		case '*': case 'h': case 'H': case 'A':
+		case 'a': case 'P': case 'p':
+			break;
+
+			/* Quoted string */
+		case '"': 
+			for (str++; *str && *str != '"'; str++)
+				;
+			break;
+
+			/* Escaped char and spacing format */
+		case '\\': case '_':
+			if (*(str+1))
+				str++;
+			break;
+
+			/* Scientific number */
+		case 'E': case 'e':
+			for (str++; *str;){
+				if (*str == '+')
+					str++;
+				else if (*str == '-')
+					str++;
+				else if (*str == '0')
+					str++;
+				else
+					break;
+			}
+		}
+	}
+	return NULL;
+}
+
+/*
+ * This routine scans the format_string for a decimal dot,
+ * and if it finds it, it removes the first zero after it to
+ * reduce the display precision for the number.
+ *
+ * Returns NULL if the new format would not change things
+ */
+char *
+format_remove_decimal (const char *format_string)
+{
+	char *ret, *t, *p;
+
+	if (!lc)
+		lc = localeconv ();
+
+	/*
+	 * Consider General format as 0.0
+	 */
+	if (strcmp (format_string, "General") == 0)
+		format_string = "0.0#######";
+	
+	ret = g_strdup (format_string);
+	p = (char *) find_decimal_char (ret);
+	if (!p){
+		g_free (ret);
+		return NULL;
+	}
+
+	if ((*(p+1) == '0') || (*(p+1) == '#'))
+		p++;
+
+	for (t = p; *t; t++)
+		*t = *(t+1);
+
+	return ret;
+}
+
+/*
+ * This routine scans format_string for the decimal
+ * character and when it finds it, it adds a zero after
+ * it to force the rendering of the number with one more digit
+ * of decimal precision.
+ *
+ * Returns NULL if the new format would not change things
+ */
+char *
+format_add_decimal (const char *format_string)
+{
+	const char *p;
+	char *n;
+
+	if (!lc)
+		lc = localeconv ();
+
+	if (strcmp (format_string, "General") == 0)
+		format_string = "0";
+		
+	p = find_decimal_char (format_string);
+	if (!p){
+		char ret_val [3];
+
+		ret_val [0] = DECIMAL_CHAR_OF_LC(lc);
+		ret_val [1] = '0';
+		ret_val [2] = 0;
+		return g_strdup (ret_val);
+	}
+	p++;
+	n = g_malloc ((p - format_string) +
+		      1 +
+		      strlen (p) +
+		      1);
+	if (!n)
+		return NULL;
+	strncpy (n, format_string, p - format_string);
+	n [p-format_string] = '0';
+	strcpy (&n [p-format_string+1], p);
+
+	return n;
+}
+
 static gchar *
 format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 {
@@ -765,7 +936,6 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 		case 'E': case 'e':
 			can_render_number = 1;
 			info.scientific = TRUE;
-			format++;
 			for (format++; *format;){
 				if (*format == '+'){
 					info.scientific_shows_plus = TRUE;

@@ -1081,12 +1081,8 @@ static GnomeUIInfo workbook_menu_edit [] = {
 			      insert_object_cmd),
 #endif
 
-	GNOMEUIINFO_SEPARATOR,
-
-#if 1
 	{ GNOME_APP_UI_ITEM, N_("_Define cell names"), NULL, define_cell_cmd },
 	GNOMEUIINFO_SEPARATOR,
-#endif
 
 	{ GNOME_APP_UI_ITEM, N_("_Recalculate"),
 	  N_("Recalculate the spreadsheet"), recalc_cmd, NULL, NULL,
@@ -2385,6 +2381,7 @@ workbook_rename_sheet (Workbook *wb, const char *old_name, const char *new_name)
 	sheet_rename (sheet, new_name);
 	g_hash_table_insert (wb->sheets, sheet->name, sheet);
 
+	sheet_set_dirty (sheet, TRUE);
 	return TRUE;
 }
 

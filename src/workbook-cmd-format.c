@@ -15,7 +15,7 @@
 #include "workbook.h"
 #include "workbook-cmd-format.h"
 #include "dialogs.h"
-
+#include "format.h"
 static const char *money_format   = "Default Money Format:$#,##0_);($#,##0)";
 static const char *percent_format = "Default Percent Format:0.00%";
 
@@ -23,7 +23,7 @@ static Value *
 set_cell_format_style (Sheet *sheet, int col, int row, Cell *cell, void *_style)
 {
 	Style *style = _style;
-	
+
 	cell_set_format_from_style (cell, style->format);
 	return NULL;
 }
@@ -42,7 +42,6 @@ apply_format (Sheet *sheet,
 		sheet, TRUE,
 		start_col, start_row, end_col, end_row,
 		set_cell_format_style, closure);
-		
 }
 
 static void
@@ -61,6 +60,7 @@ do_apply_style_to_selection (Sheet *sheet, const char *format)
 	style->format = style_format_new (real_format);
 	
 	selection_apply (sheet, apply_format, TRUE, style);
+	sheet_set_dirty (sheet, TRUE);
 	style_destroy (style);
 }
 
@@ -80,22 +80,73 @@ workbook_cmd_format_as_percent (GtkWidget *widget, Workbook *wb)
 	do_apply_style_to_selection (sheet, _(percent_format));
 }
 
+/*
+ * The routines that modify the format of a cell using the
+ * helper routines in format.c.
+ */
+typedef char *(*format_modify_fn) (const char *format);
+	
+static Value *
+modify_cell_format (Sheet *sheet, int col, int row, Cell *cell, void *closure)
+{
+	StyleFormat *sf = cell->style->format;
+	format_modify_fn modify_format = closure;
+	char *new_fmt;
+		
+	new_fmt = (*modify_format) (sf->format);
+	if (new_fmt == NULL)
+		return NULL;
+
+	cell_set_format (cell, new_fmt);
+	g_free (new_fmt);
+	return NULL;
+}
+
+static void
+modify_cell_region (Sheet *sheet,
+		    int start_col, int start_row,
+		    int end_col,   int end_row,
+		    void *closure)
+{
+	sheet_cell_foreach_range (
+		sheet, TRUE,
+		start_col, start_row, end_col, end_row,
+		modify_cell_format, closure);
+}
+
+/*
+ * This is sort of broken, it just operates on the
+ * existing cells, rather than the empty spots.
+ * To do: think if it is worth doing.
+ *
+ * Ie, the user could set and set styles, and work on them
+ * with no visible cell.  Does it matter?
+ */
+static void
+do_modify_format (Workbook *wb, format_modify_fn modify_fn)
+{
+	Sheet *sheet = workbook_get_current_sheet (wb);
+
+	selection_apply (sheet, modify_cell_region, FALSE, modify_fn);
+	sheet_set_dirty (sheet, TRUE);
+}
+
 void
 workbook_cmd_format_add_thousands (GtkWidget *widget, Workbook *wb)
 {
-	/* FIXME */
+	do_modify_format (wb, format_add_thousand);
 }
 
 void
 workbook_cmd_format_add_decimals (GtkWidget *widget, Workbook *wb)
 {
-	/* FIXME */
+	do_modify_format (wb, format_add_decimal);
 }
 
 void
 workbook_cmd_format_remove_decimals (GtkWidget *widget, Workbook *wb)
 {
-	/* FIXME */
+	do_modify_format (wb, format_remove_decimal);
 }
 
 void
@@ -121,6 +172,7 @@ workbook_cmd_format_column_auto_fit (GtkWidget *widget, Workbook *wb)
 			sheet_col_set_width (sheet, col, ideal_size);
 		}
 	}
+	sheet_set_dirty (sheet, TRUE);
 }
 
 void
@@ -174,6 +226,7 @@ workbook_cmd_format_column_width (GtkWidget *widget, Workbook *wb)
 		for (col = ss->user.start.col; col < ss->user.end.col; col++)
 			sheet_col_set_width_units (sheet, col, value);
 	}
+	sheet_set_dirty (sheet, TRUE);
 }
 
 void
@@ -199,6 +252,7 @@ workbook_cmd_format_row_auto_fit (GtkWidget *widget, Workbook *wb)
 			sheet_row_set_height (sheet, row, ideal_size, FALSE);
 		}
 	}
+	sheet_set_dirty (sheet, TRUE);
 }
 
 void
@@ -251,6 +305,7 @@ workbook_cmd_format_row_height (GtkWidget *widget, Workbook *wb)
 		for (row = ss->user.start.row; row < ss->user.end.row; row++)
 			sheet_row_set_height_units (sheet, row, value, TRUE);
 	}
+	sheet_set_dirty (sheet, TRUE);
 }
 
 void

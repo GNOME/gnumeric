@@ -1,3 +1,29 @@
+1999-09-18  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/dialogs/dialog-simple-input.c (dialog_get_sheet_name): use
+	dialog_run_and_close here.
+	(dialog_get_number): ditto.
+
+	* src/format.c (format_add_thousand, format_remove_decimal,
+	format_add_decimal): New routines.
+	(format_number): Fixed bug in 'E', 'e' handler (format was
+	incremented twice).
+
+	* src/workbook-cmd-format.c: Hook up the add/remove decimal and
+	add thousand actions.
+
+	* src/sheet.c (range_is_homogeneous): Do not value_release a value
+	terminate.
+
+	* src/workbook-cmd-format.c (do_apply_style_to_selection): set
+	shett dirty.
+	(workbook_cmd_format_column_auto_fit): ditto.
+	(workbook_cmd_format_column_width): ditto.
+	(workbook_cmd_format_row_auto_fit): ditto.
+	(workbook_cmd_format_row_height): ditto.
+
+	* src/workbook.c (workbook_rename_sheet): dirty sheet.
+
 1999-09-19  Michael Meeks  <michael@nuclecu.unam.mx>
 
 	* src/workbook.c (about_cmd): make static.

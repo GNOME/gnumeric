@@ -44,7 +44,7 @@ dialog_get_number (Workbook *wb, const char *glade_file, double *init_and_return
 	}
 	
 	gnome_dialog_set_parent (dialog, GTK_WINDOW (wb->toplevel));
-	switch (gnome_dialog_run (dialog)){
+	switch (gnome_dialog_run_and_close (dialog)){
 	case 1:			/* cancel */
 	case -1:		/* window manager close */
 		return FALSE;
@@ -80,7 +80,7 @@ dialog_get_sheet_name (Workbook *wb, const char *current)
 	gtk_entry_set_text (GTK_ENTRY (entry), current);
 	
 	gnome_dialog_set_parent (dialog, GTK_WINDOW (wb->toplevel));
-	switch (gnome_dialog_run (dialog)){
+	switch (gnome_dialog_run_and_close (dialog)){
 	case 1:			/* cancel */
 	case -1:		/* window manager close */
 		return NULL;
