@@ -1,3 +1,7 @@
+2004-01-05  Morten Welinder  <terra@gnome.org>
+
+	* dialog-view.c (cb_view_ok_clicked): Turn on multi-head support.
+
 2003-12-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-analysis-tools.c 
