@@ -43,7 +43,7 @@ typedef struct _MsOle           MsOle;
 typedef struct _MsOleStream    MsOleStream;
 typedef struct _MsOleDirectory MsOleDirectory;
 
-typedef enum { MsOleSeekSet, MsOleSeekCur } MsOleSeek;
+typedef enum { MsOleSeekSet, MsOleSeekCur, MsOleSeekEnd } MsOleSeek;
 #ifdef G_HAVE_GINT64
         typedef guint32 MsOlePos;
         typedef gint32  MsOleSPos;

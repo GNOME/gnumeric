@@ -77,20 +77,18 @@ real_read (GnomeStream *stream, CORBA_long count,
 }
 
 static CORBA_long
-real_seek (GnomeStream *stream, CORBA_long offset, CORBA_long whence,
+real_seek (GnomeStream *stream, CORBA_long offset, GNOME_Stream_SeekType whence,
 	   CORBA_Environment *ev)
 {
 	GnomeStreamOLE *stream_ole = GNOME_STREAM_OLE (stream);
 	MsOleSeek type;
 
-	if (whence == SEEK_SET)
+	if (whence == GNOME_Stream_SEEK_SET)
 		type = MsOleSeekSet;
-	else if (whence == SEEK_CUR)
+	else if (whence == GNOME_Stream_SEEK_CUR)
 		type = MsOleSeekCur;
-	else {
-		g_warning ("FIXME: Seek type unimplemented");
-		return -1;
-	}
+	else
+		type = MsOleSeekEnd;
 
 	return stream_ole->file->lseek (stream_ole->file, offset, whence);
 }

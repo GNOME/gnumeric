@@ -1,3 +1,12 @@
+1999-08-16  Michael Meeks  <michael@imaginator.com>
+
+	* gnome-stream-ole.c (real_seek): Expanded, and fixed for
+	new Bonobo seek type.
+
+	* ms-ole.c (ms_ole_lseek): Implemented MsOleSeekEnd
+
+	* ms-ole.h: Expanded seek enum.
+
 1999-08-15  Michael Meeks  <michael@imaginator.com>
 
 	* ms-ole.c (ms_ole_path_decode): Stop it trying to 'enter' streams :-)
