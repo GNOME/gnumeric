@@ -20,15 +20,14 @@
  */
 
 #include <config.h>
-
 #include "format-template.h"
-
+#include "mstyle.h"
 #include "xml-io-autoft.h"
 #include "sheet.h"
 #include "style-border.h"
-
 #include "command-context.h"
 #include "ranges.h"
+#include <gnome.h>
 
 /******************************************************************************
  * Hash table related callbacks and functions

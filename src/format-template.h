@@ -1,11 +1,7 @@
 #ifndef GNUMERIC_FORMAT_TEMPLATE_H
 #define GNUMERIC_FORMAT_TEMPLATE_H
 
-#include <config.h>
-#include <gnome.h>
-
 #include "gnumeric.h"
-#include "mstyle.h"
 
 /*
  * FORMAT TEMPLATE RULES

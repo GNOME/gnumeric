@@ -26,6 +26,7 @@
 #include <dirent.h>
 #include <string.h>
 #include <errno.h>
+#include <gnome.h>
 
 #include <gal/util/e-util.h>
 

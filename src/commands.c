@@ -47,6 +47,7 @@
 #include "rendered-value.h"
 #include "dialogs/dialog-autocorrect.h"
 #include "sheet-autofill.h"
+#include "mstyle.h"
 
 #define MAX_DESCRIPTOR_WIDTH 15
 

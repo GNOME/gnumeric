@@ -29,6 +29,7 @@
 #include "xml-io-autoft.h"
 #include "format-template.h"
 #include "gutils.h"
+#include "mstyle.h"
 
 #include <gnome-xml/parser.h>
 #include <gnome-xml/parserInternals.h>

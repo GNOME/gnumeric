@@ -1,5 +1,12 @@
 2000-12-30  Jody Goldberg <jgoldberg@home.com>
 
+	* src/commands.c : fix includes.
+	* src/file-autoft.c : ditto.
+	* src/format-template.c : ditto.
+	* src/workbook-format-toolbar.c : ditto.
+	* src/xml-io-autoft.c : ditto.
+	* src/format-template.h : do not in include <config.h> publicly
+
 	* src/mstyle.c (mstyle_new_default) : use style_color_{black,white}
 
 2000-12-30  Jody Goldberg <jgoldberg@home.com>

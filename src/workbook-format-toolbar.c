@@ -26,6 +26,7 @@
 #include "style-color.h"
 #include "style-border.h"
 #include "ranges.h"
+#include "mstyle.h"
 #include "widgets/gnumeric-toolbar.h"
 
 #include <gal/widgets/gtk-combo-text.h>
