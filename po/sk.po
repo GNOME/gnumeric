@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.62\n"
-"POT-Creation-Date: 2001-02-14 13:39+0100\n"
+"POT-Creation-Date: 2001-02-15 22:24-0500\n"
 "PO-Revision-Date: 2001-02-14 13:45CET\n"
 "Last-Translator: Stanislav Visnovsky <visnovsky@nenya.ms.mff.cuni.cz>\n"
 "Language-Team: Slovak <sk-i18n@rak.isternet.sk>\n"
@@ -67,16 +67,16 @@ msgstr "#UNKNOWN!"
 msgid "Sheet%d"
 msgstr "List %d"
 
-#: plugins/excel/ms-excel-read.c:3918
+#: plugins/excel/ms-excel-read.c:3920
 msgid "No book or workbook streams found."
 msgstr "Neboli nájdené ¾iadne zo¹itové kanále."
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4212
+#: plugins/excel/ms-excel-read.c:4214
 msgid "Password protected workbooks are not supported yet."
 msgstr "Zo¹ity chránené heslom zatiaµ nie sú podporované."
 
-#: plugins/excel/ms-excel-read.c:4333
+#: plugins/excel/ms-excel-read.c:4335
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Nepodarilo sa nájs» platný zo¹it MS Excel"
 
@@ -696,7 +696,7 @@ msgid "Smallest (%d)"
 msgstr "Najmen¹í (%d)"
 
 #: src/analysis-tools.c:1037 src/analysis-tools.c:2825
-#: src/dialogs/cell-format.glade.h:61
+#: src/dialogs/cell-format.glade.h:60
 msgid "Sample"
 msgstr "Výber"
 
@@ -810,7 +810,8 @@ msgstr "/df/SS/MS/F/Významnos» F"
 
 #: src/analysis-tools.c:1992
 msgid "/Coefficients/Standard Error/t Stat/P-value/Lower 95%/Upper 95%"
-msgstr "/Koeficienty/Smerodajná chyba/t ¹tatistika/P-hodnota/Dolných 95%/Horných 95%"
+msgstr ""
+"/Koeficienty/Smerodajná chyba/t ¹tatistika/P-hodnota/Dolných 95%/Horných 95%"
 
 #: src/analysis-tools.c:2185
 msgid "Moving Averages"
@@ -969,7 +970,7 @@ msgstr "Kumulatívne %"
 msgid "Error '%s' opening workbook stream"
 msgstr "Chyba '%s' pri otváraní kanálu zo¹itu"
 
-#: src/bonobo-io.c:471 src/xml-io-autoft.c:427 src/xml-io.c:3215
+#: src/bonobo-io.c:471 src/xml-io-autoft.c:427 src/xml-io.c:3222
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Neplatný XML súbor. Strom je prázdny?"
 
@@ -1906,218 +1907,219 @@ msgstr "Veµké kruhy"
 msgid "Left"
 msgstr "Vµavo"
 
-#: src/dialogs/cell-format.glade.h:43
-msgid "Left _Indent"
-msgstr "Pravé _odsadenie:"
-
-#: src/dialogs/cell-format.glade.h:44 src/gnumeric.xml.h:111
+#: src/dialogs/cell-format.glade.h:43 src/gnumeric.xml.h:111
 #: src/workbook-object-toolbar.c:150
 msgid "Line"
 msgstr "Èiara"
 
-#: src/dialogs/cell-format.glade.h:45
+#: src/dialogs/cell-format.glade.h:44
 msgid "Locking cells or hiding formulas only affects protected worksheets."
 msgstr "Zamykanie buniek a skrývanie vzorcov ovplyvòuje iba chránené zo¹ity."
 
-#: src/dialogs/cell-format.glade.h:46
+#: src/dialogs/cell-format.glade.h:45
 msgid "Negat_ive number:"
 msgstr "_Záporné èíslo:"
 
-#: src/dialogs/cell-format.glade.h:47 src/dialogs/dialog-cell-format.c:1217
+#: src/dialogs/cell-format.glade.h:46 src/dialogs/dialog-cell-format.c:1217
 #: src/dialogs/dialog-cell-format.c:1279 src/dialogs/dialog-paste-special.c:32
 msgid "None"
 msgstr "®iadne"
 
-#: src/dialogs/cell-format.glade.h:48 src/dialogs/dialog-function-wizard.c:406
+#: src/dialogs/cell-format.glade.h:47 src/dialogs/dialog-function-wizard.c:406
 msgid "Number"
 msgstr "Èísla"
 
-#: src/dialogs/cell-format.glade.h:49 src/dialogs/print.glade.h:15
+#: src/dialogs/cell-format.glade.h:48 src/dialogs/print.glade.h:15
 msgid "Orientation"
 msgstr "Orientácia"
 
-#: src/dialogs/cell-format.glade.h:50
+#: src/dialogs/cell-format.glade.h:49
 msgid "Outline"
 msgstr "Vonkaj¹ie"
 
-#: src/dialogs/cell-format.glade.h:51
+#: src/dialogs/cell-format.glade.h:50
 msgid "Pattern"
 msgstr "Vzorka"
 
-#: src/dialogs/cell-format.glade.h:52
+#: src/dialogs/cell-format.glade.h:51
 msgid "Pick a Background color"
 msgstr "Vyberte farbu pozadia"
 
-#: src/dialogs/cell-format.glade.h:53
+#: src/dialogs/cell-format.glade.h:52
 msgid "Pick a Pattern color"
 msgstr "Vyberte farbu vzorky"
 
-#: src/dialogs/cell-format.glade.h:54
+#: src/dialogs/cell-format.glade.h:53
 msgid "Pick a border color"
 msgstr "Vyberte farbu okrajov"
 
-#: src/dialogs/cell-format.glade.h:55
+#: src/dialogs/cell-format.glade.h:54
 msgid "Pick a font color"
 msgstr "Vyberte farbu písma"
 
-#: src/dialogs/cell-format.glade.h:56
+#: src/dialogs/cell-format.glade.h:55
 msgid "Protection"
 msgstr "Ochrana"
 
-#: src/dialogs/cell-format.glade.h:57
+#: src/dialogs/cell-format.glade.h:56
 msgid "Reverse Diagonal"
 msgstr "Opaèné diagonály"
 
-#: src/dialogs/cell-format.glade.h:58
+#: src/dialogs/cell-format.glade.h:57
 msgid "Reverse Diagonal Stripe"
 msgstr "Opaèné diagonálne pruhy"
 
-#: src/dialogs/cell-format.glade.h:59 src/gnumeric.xml.h:155
+#: src/dialogs/cell-format.glade.h:58 src/gnumeric.xml.h:155
 #: src/workbook-format-toolbar.c:568
 msgid "Right"
 msgstr "Vpravo"
 
-#: src/dialogs/cell-format.glade.h:60
+#: src/dialogs/cell-format.glade.h:59
 msgid "S_ymbol:"
 msgstr "S_ymbol:"
 
-#: src/dialogs/cell-format.glade.h:62
+#: src/dialogs/cell-format.glade.h:61
 msgid "Semi Circles"
 msgstr "Polkruhy"
 
-#: src/dialogs/cell-format.glade.h:63
+#: src/dialogs/cell-format.glade.h:62
 msgid "Shrin_k to fit"
 msgstr "Pri_spôsobi» bunke"
 
 #. There must be a better way than this
-#: src/dialogs/cell-format.glade.h:64 src/dialogs/dialog-cell-format.c:1213
+#: src/dialogs/cell-format.glade.h:63 src/dialogs/dialog-cell-format.c:1213
 #: src/dialogs/dialog-cell-format.c:1280
 msgid "Single"
 msgstr "Jednoduché"
 
-#: src/dialogs/cell-format.glade.h:65
+#: src/dialogs/cell-format.glade.h:64
 msgid "Small Circles"
 msgstr "Malé kruhy"
 
-#: src/dialogs/cell-format.glade.h:66
+#: src/dialogs/cell-format.glade.h:65
 msgid "Solid"
 msgstr "Plné"
 
-#: src/dialogs/cell-format.glade.h:67
+#: src/dialogs/cell-format.glade.h:66
 msgid "Sp_ecial"
 msgstr "_Iné"
 
-#: src/dialogs/cell-format.glade.h:68
+#: src/dialogs/cell-format.glade.h:67
 msgid "Stri_kethrough"
 msgstr "P_re¹krtnuté"
 
-#: src/dialogs/cell-format.glade.h:69
+#: src/dialogs/cell-format.glade.h:68
 msgid "Su_bscript"
 msgstr "_Dolný index"
 
-#: src/dialogs/cell-format.glade.h:70
+#: src/dialogs/cell-format.glade.h:69
 msgid "Sup_erscript"
 msgstr "_Horný index"
 
-#: src/dialogs/cell-format.glade.h:71
+#: src/dialogs/cell-format.glade.h:70
 msgid "Te_xt"
 msgstr "Te_xt"
 
-#: src/dialogs/cell-format.glade.h:72
+#: src/dialogs/cell-format.glade.h:71
 msgid "Thatch"
 msgstr "©kridle"
 
-#: src/dialogs/cell-format.glade.h:73
+#: src/dialogs/cell-format.glade.h:72
 msgid "Thick Diagonal Crosshatch"
 msgstr "Tuèné diagonálne mre¾e"
 
-#: src/dialogs/cell-format.glade.h:74
+#: src/dialogs/cell-format.glade.h:73
 msgid "Thin Diagonal Crosshatch"
 msgstr "Tenké diagonálne mre¾e"
 
-#: src/dialogs/cell-format.glade.h:75
+#: src/dialogs/cell-format.glade.h:74
 msgid "Thin Diagonal Stripe"
 msgstr "Tenké diagonálne pruhy"
 
-#: src/dialogs/cell-format.glade.h:76
+#: src/dialogs/cell-format.glade.h:75
 msgid "Thin Horizontal Crosshatch"
 msgstr "Tenké horizontálne mre¾e"
 
-#: src/dialogs/cell-format.glade.h:77
+#: src/dialogs/cell-format.glade.h:76
 msgid "Thin Horizontal Stripe"
 msgstr "Tenké horizontálne pruhy"
 
-#: src/dialogs/cell-format.glade.h:78
+#: src/dialogs/cell-format.glade.h:77
 msgid "Thin Reverse Diagonal Stripe"
 msgstr "Tenké opaèné diagonálne pruhy"
 
-#: src/dialogs/cell-format.glade.h:79
+#: src/dialogs/cell-format.glade.h:78
 msgid "Thin Vertical Stripe"
 msgstr "Tenké vertikálne pruhy"
 
-#: src/dialogs/cell-format.glade.h:80
+#: src/dialogs/cell-format.glade.h:79
 msgid "Top"
 msgstr "Hore"
 
-#: src/dialogs/cell-format.glade.h:81
+#: src/dialogs/cell-format.glade.h:80
 msgid "Unfinished"
 msgstr "Nedokonèené"
 
-#: src/dialogs/cell-format.glade.h:82
+#: src/dialogs/cell-format.glade.h:81
 msgid "Vertical Alignment"
 msgstr "Zvislo"
 
-#: src/dialogs/cell-format.glade.h:83
+#: src/dialogs/cell-format.glade.h:82
 msgid "Vertical Stripe"
 msgstr "Vertikálne pruhy"
 
-#: src/dialogs/cell-format.glade.h:84
+#: src/dialogs/cell-format.glade.h:83
 msgid "Worksheet _protected"
 msgstr "_Chránené zo¹itom"
 
-#: src/dialogs/cell-format.glade.h:85
+#: src/dialogs/cell-format.glade.h:84
 msgid "_Accounting"
 msgstr "Úèt_ovnícke"
 
-#: src/dialogs/cell-format.glade.h:86
+#: src/dialogs/cell-format.glade.h:85
 msgid "_Automatic"
 msgstr "_Automatická"
 
-#: src/dialogs/cell-format.glade.h:87
+#: src/dialogs/cell-format.glade.h:86
 msgid "_Bottom"
 msgstr "_Dolu"
 
-#: src/dialogs/cell-format.glade.h:88
+#: src/dialogs/cell-format.glade.h:87
 msgid "_Center"
 msgstr "Na _stred"
 
-#: src/dialogs/cell-format.glade.h:89
+#: src/dialogs/cell-format.glade.h:88
 msgid "_Currency"
 msgstr "_Mena"
 
-#: src/dialogs/cell-format.glade.h:90 src/dialogs/dialog-zoom.glade.h:16
+#: src/dialogs/cell-format.glade.h:89 src/dialogs/dialog-zoom.glade.h:16
 msgid "_Custom"
 msgstr "_Vlastná"
 
-#: src/dialogs/cell-format.glade.h:91
+#: src/dialogs/cell-format.glade.h:90
 msgid "_Date"
 msgstr "_Dátum"
 
-#: src/dialogs/cell-format.glade.h:92
+#: src/dialogs/cell-format.glade.h:91
 msgid "_Fill"
 msgstr "Vy_plni»"
 
-#: src/dialogs/cell-format.glade.h:93
+#: src/dialogs/cell-format.glade.h:92
 msgid "_Fraction"
 msgstr "_Zlomok"
 
-#: src/dialogs/cell-format.glade.h:94
+#: src/dialogs/cell-format.glade.h:93
 msgid "_General"
 msgstr "_V¹eobecné"
 
-#: src/dialogs/cell-format.glade.h:95
+#: src/dialogs/cell-format.glade.h:94
 msgid "_Hidden"
 msgstr "_Skryté"
+
+#: src/dialogs/cell-format.glade.h:95
+#, fuzzy
+msgid "_Indent"
+msgstr "Pravé _odsadenie:"
 
 #: src/dialogs/cell-format.glade.h:96
 msgid "_Justify"
@@ -2592,7 +2594,8 @@ msgstr ""
 "premenných a skúste to znovu."
 
 #: src/dialogs/dialog-analysis-tools.c:2096
-msgid "There must be an equal number of entries for each variable in the regression."
+msgid ""
+"There must be an equal number of entries for each variable in the regression."
 msgstr "Pre ka¾dú premennú regresie musí by» rovnaký poèet polo¾iek."
 
 #: src/dialogs/dialog-analysis-tools.c:2324
@@ -2614,7 +2617,8 @@ msgstr "Zadaný rozsah tried obsahuje neèíselné dáta."
 
 #: src/dialogs/dialog-analysis-tools.c:2906
 msgid "Each sample should contain the same number of rows (`Rows per sample:')"
-msgstr "Ka¾dý výber by mal obsahova» rovnaký poèet riadkov ('Riadkov na výber:')"
+msgstr ""
+"Ka¾dý výber by mal obsahova» rovnaký poèet riadkov ('Riadkov na výber:')"
 
 #: src/dialogs/dialog-analysis-tools.c:2916
 msgid ""
@@ -3258,7 +3262,8 @@ msgstr "Dáta (z %s)"
 msgid ""
 "Actual processing will start at this line, any previous lines will be "
 "ignored."
-msgstr "Spracovanie zaène na tomto riadku, v¹etky predchádzajúce budú ignorované."
+msgstr ""
+"Spracovanie zaène na tomto riadku, v¹etky predchádzajúce budú ignorované."
 
 #: src/dialogs/dialog-stf.glade.h:4
 msgid "Add a new column"
@@ -3340,7 +3345,8 @@ msgstr "Definova» ¹írku ka¾dého ståpca ruène."
 msgid ""
 "Each column in the text is separated by a 'separation' character, e.g. a "
 "semicolon."
-msgstr "Ka¾dý ståpec v texte je oddelený oddeµovacím znakom, napr. bodkoèiarkou."
+msgstr ""
+"Ka¾dý ståpec v texte je oddelený oddeµovacím znakom, napr. bodkoèiarkou."
 
 #: src/dialogs/dialog-stf.glade.h:23
 msgid "End"
@@ -3445,8 +3451,10 @@ msgid "See two successive separators as one."
 msgstr "Dva za sebou idúce oddeµovaèe chápa» ako jeden."
 
 #: src/dialogs/dialog-stf.glade.h:48
-msgid "See two successive text indicators as one that does not terminate the cell."
-msgstr "Dva za sebou idúce oznaèovaèe textu chápa» ako jeden, ktorý nekonèí bunku."
+msgid ""
+"See two successive text indicators as one that does not terminate the cell."
+msgstr ""
+"Dva za sebou idúce oznaèovaèe textu chápa» ako jeden, ktorý nekonèí bunku."
 
 #: src/dialogs/dialog-stf.glade.h:49
 msgid ""
@@ -3794,7 +3802,7 @@ msgstr "Hlavièka"
 msgid "Headers and footers"
 msgstr "Hlavièky a pätièky"
 
-#: src/dialogs/print.glade.h:12 src/print-info.c:443
+#: src/dialogs/print.glade.h:12 src/print-info.c:445
 msgid "In"
 msgstr "In"
 
@@ -3831,7 +3839,7 @@ msgstr "Tlaèi»"
 msgid "Print _area:"
 msgstr "Tlaèená _oblas»:"
 
-#: src/dialogs/print.glade.h:22 src/gnumeric.xml.h:142 src/print.c:1240
+#: src/dialogs/print.glade.h:22 src/gnumeric.xml.h:142 src/print.c:1246
 msgid "Print preview"
 msgstr "Uká¾ka pred tlaèou"
 
@@ -3852,7 +3860,7 @@ msgid "Scale"
 msgstr "Veµkos»"
 
 #: src/dialogs/print.glade.h:27 src/functions/fn-sheet.c:135
-#: src/workbook.c:1019 src/xml-io.c:2904
+#: src/workbook.c:1019 src/xml-io.c:2911
 msgid "Sheet"
 msgstr "List"
 
@@ -3929,11 +3937,11 @@ msgid "_Vertically"
 msgstr "V_ertikálne"
 
 #. 1in = 25.4mm, exact
-#: src/dialogs/print.glade.h:46 src/print-info.c:442
+#: src/dialogs/print.glade.h:46 src/print-info.c:444
 msgid "cm"
 msgstr "cm"
 
-#: src/dialogs/print.glade.h:47 src/print-info.c:441
+#: src/dialogs/print.glade.h:47 src/print-info.c:443
 msgid "mm"
 msgstr "mm"
 
@@ -3941,7 +3949,7 @@ msgstr "mm"
 msgid "page(s) wide by"
 msgstr "strán na ¹írku a "
 
-#: src/dialogs/print.glade.h:49 src/print-info.c:440
+#: src/dialogs/print.glade.h:49 src/print-info.c:442
 msgid "pts"
 msgstr "pts"
 
@@ -5952,6 +5960,17 @@ msgstr ""
 "@DESCRIPTION=Funkcia DAVERAGE vracia priemer hodnôt v zozname alebo v "
 "databáze, pre ktoré platia uvedené kritériá. \n"
 
+#: src/functions/fn-database.c:499
+msgid ""
+"\n"
+"DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333.\n"
+"DAVERAGE(A1:C7, \"Age\", A9:A11) equals 39.\n"
+"DAVERAGE(A1:C7, \"Salary\", A9:B11) equals 40782.5.\n"
+"DAVERAGE(A1:C7, \"Age\", A9:B11) equals 36.\n"
+"\n"
+"@SEEALSO=DCOUNT"
+msgstr ""
+
 #: src/functions/fn-database.c:560
 msgid ""
 "@FUNCTION=DCOUNT\n"
@@ -5963,6 +5982,16 @@ msgstr ""
 "@SYNTAX=DCOUNT(databáza,pole,kritériá)\n"
 "@DESCRIPTION=Funkcia DCOUNT spoèíta bunky, obsahujú èísla v databáze "
 "spåòajúce uvedené kritériá. \n"
+
+#: src/functions/fn-database.c:568
+msgid ""
+"\n"
+"DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3.\n"
+"DCOUNT(A1:C7, \"Salary\", A9:B11) equals 2.\n"
+"DCOUNT(A1:C7, \"Name\", A9:B11) equals 0.\n"
+"\n"
+"@SEEALSO=DAVERAGE"
+msgstr ""
 
 #: src/functions/fn-database.c:621
 msgid ""
@@ -5976,6 +6005,16 @@ msgstr ""
 "@DESCRIPTION=Funkcia DCOUNTA spoèíta bunky, ktoré obsahujú dáta v databáze "
 "spåòajúce uvedené kritériá. \n"
 
+#: src/functions/fn-database.c:629
+msgid ""
+"\n"
+"DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3.\n"
+"DCOUNTA(A1:C7, \"Salary\", A9:B11) equals 2.\n"
+"DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2.\n"
+"\n"
+"@SEEALSO=DCOUNT"
+msgstr ""
+
 #: src/functions/fn-database.c:679
 msgid ""
 "@FUNCTION=DGET\n"
@@ -5987,6 +6026,17 @@ msgstr ""
 "@SYNTAX=DGET(databáza,pole,kritériá)\n"
 "@DESCRIPTION=Funkcia DGET vracia jednu hodnotu zo ståpca, ktorá spåòa "
 "uvedené kritériá. \n"
+
+#: src/functions/fn-database.c:687
+msgid ""
+"\n"
+"DGET(A1:C7, \"Salary\", A9:A10) equals 34323.\n"
+"DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\".\n"
+"\n"
+"If none of the items match the conditions, DGET returns #VALUE! error. If "
+"more than one items match the conditions, DGET returns #NUM! error. \n"
+"@SEEALSO=DCOUNT"
+msgstr ""
 
 #: src/functions/fn-database.c:747
 msgid ""
@@ -6000,6 +6050,16 @@ msgstr ""
 "@DESCRIPTION=Funkcia DMAX vracia najväè¹ie èíslo v ståpci, ktoré spåòa "
 "uvedené kritériá. \n"
 
+#: src/functions/fn-database.c:755
+msgid ""
+"\n"
+"DMAX(A1:C7, \"Salary\", A9:A11) equals 47242.\n"
+"DMAX(A1:C7, \"Age\", A9:A11) equals 45.\n"
+"DMAX(A1:C7, \"Age\", A9:B11) equals 43.\n"
+"\n"
+"@SEEALSO=DMIN"
+msgstr ""
+
 #: src/functions/fn-database.c:818
 msgid ""
 "@FUNCTION=DMIN\n"
@@ -6012,6 +6072,15 @@ msgstr ""
 "@DESCRIPTION=Funkcia DMIN vracia najmen¹ie èíslo v ståpci, ktoré spåòa "
 "uvedené kritériá. \n"
 
+#: src/functions/fn-database.c:826
+msgid ""
+"\n"
+"DMIN(A1:C7, \"Salary\", A9:B11) equals 34323.\n"
+"DMIN(A1:C7, \"Age\", A9:B11) equals 29.\n"
+"\n"
+"@SEEALSO=DMAX"
+msgstr ""
+
 #: src/functions/fn-database.c:888
 msgid ""
 "@FUNCTION=DPRODUCT\n"
@@ -6023,6 +6092,14 @@ msgstr ""
 "@SYNTAX=DPRODUCT(databáza,pole,kritériá)\n"
 "@DESCRIPTION=Funkcia DPRODUCT vracia násobok èísel v ståpci, ktoré spåòajú "
 "uvedené kritériá. \n"
+
+#: src/functions/fn-database.c:896
+msgid ""
+"\n"
+"DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247.\n"
+"\n"
+"@SEEALSO=DSUM"
+msgstr ""
 
 #: src/functions/fn-database.c:955
 msgid ""
@@ -6038,6 +6115,15 @@ msgstr ""
 "zalo¾ený na výbere. Populácia obsahuje èísla, ktoré spåòajú uvedené "
 "kritériá.\n"
 
+#: src/functions/fn-database.c:964
+msgid ""
+"\n"
+"DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949.\n"
+"DSTDEV(A1:C7, \"Salary\", A9:B11) equals 9135.112506.\n"
+"\n"
+"@SEEALSO=DSTDEVP"
+msgstr ""
+
 #: src/functions/fn-database.c:1021
 msgid ""
 "@FUNCTION=DSTDEVP\n"
@@ -6051,6 +6137,15 @@ msgstr ""
 "@DESCRIPTION=Funkcia DSTDEVP vracia odhad smerodajnej odchýlky z celej "
 "populácie. Populácia obsahuje èísla, ktoré spåòajú uvedené kritériá.\n"
 
+#: src/functions/fn-database.c:1030
+msgid ""
+"\n"
+"DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7.\n"
+"DSTDEVP(A1:C7, \"Salary\", A9:B11) equals 6459.5.\n"
+"\n"
+"@SEEALSO=DSTDEV"
+msgstr ""
+
 #: src/functions/fn-database.c:1089
 msgid ""
 "@FUNCTION=DSUM\n"
@@ -6062,6 +6157,15 @@ msgstr ""
 "@SYNTAX=DSUM(databáza,pole,kritériá)\n"
 "@DESCRIPTION=Funkcia DSUM vracia súèet èísel v ståpci, ktoré spåòajú uvedené "
 "kritériá. \n"
+
+#: src/functions/fn-database.c:1097
+msgid ""
+"\n"
+"DSUM(A1:C7, \"Age\", A9:B11) equals 72.\n"
+"DSUM(A1:C7, \"Salary\", A9:B11) equals 81565.\n"
+"\n"
+"@SEEALSO=DPRODUCT"
+msgstr ""
 
 #: src/functions/fn-database.c:1156
 msgid ""
@@ -6076,6 +6180,15 @@ msgstr ""
 "@DESCRIPTION=Funkcia DVAR vracia odhad rozptylu populácie zalo¾ený na "
 "výbere. Populácia obsahuje èísla, ktoré spåòajú uvedené kritériá.\n"
 
+#: src/functions/fn-database.c:1165
+msgid ""
+"\n"
+"DVAR(A1:C7, \"Age\", A9:B11) equals 98.\n"
+"DVAR(A1:C7, \"Salary\", A9:B11) equals 83450280.5.\n"
+"\n"
+"@SEEALSO=DVARP"
+msgstr ""
+
 #: src/functions/fn-database.c:1224
 msgid ""
 "@FUNCTION=DVARP\n"
@@ -6088,6 +6201,15 @@ msgstr ""
 "@SYNTAX=DVARP(databáza,pole,kritériá)\n"
 "@DESCRIPTION=Funkcia DVARP vracia odhad rozptylu celej populácie. Populácia "
 "obsahuje èísla, ktoré spåòajú uvedené kritériá.\n"
+
+#: src/functions/fn-database.c:1233
+msgid ""
+"\n"
+"DVARP(A1:C7, \"Age\", A9:B11) equals 49.\n"
+"DVARP(A1:C7, \"Salary\", A9:B11) equals 41725140.25.\n"
+"\n"
+"@SEEALSO=DVAR"
+msgstr ""
 
 #: src/functions/fn-database.c:1293
 msgid ""
@@ -14858,7 +14980,8 @@ msgstr "Povoli» niektoré odlaïovacie správy poèas naèítavania funkcií Excelu"
 
 #: src/main.c:117
 msgid "Enables debugging mesgs while reading excel colors & patterns"
-msgstr "Povoli» niektoré odlaïovacie správy poèas naèítavania farieb a vzoriek Excelu"
+msgstr ""
+"Povoli» niektoré odlaïovacie správy poèas naèítavania farieb a vzoriek Excelu"
 
 #: src/main.c:121
 msgid "Enables debugging mesgs while reading excel objects"
@@ -14964,109 +15087,110 @@ msgstr "Neznáme meno modulu."
 msgid "Unknown activation type."
 msgstr "Neznámy typ aktivácie."
 
-#: src/plugin.c:397
+#: src/plugin.c:399
 #, c-format
 msgid "Can't read plugin #%d info."
 msgstr "Nie je mo¾né preèíta» informácie o module è.%d."
 
-#: src/plugin.c:407
+#: src/plugin.c:409
 #, c-format
 msgid "Errors occured while reading plugin informations from file \"%s\"."
 msgstr "Nastali chyby pri naèítavaní informácií o module zo súboru \"%s\"."
 
-#: src/plugin.c:416
+#: src/plugin.c:418
 #, c-format
 msgid "Can't read plugin group info file (\"%s\")."
 msgstr "Nie je mo¾né preèíta» súbor s informáciu o skupine modulov (\"%s\")."
 
-#: src/plugin.c:420
+#: src/plugin.c:422
 #, c-format
 msgid "File \"%s\" is not valid plugin group info file."
 msgstr "Súbor \"%s\" nie je platný súbor s informáciou o skupine modulov."
 
-#: src/plugin.c:606
+#: src/plugin.c:608
 #, c-format
 msgid "Couldn't activate plugin \"%s\" (ID: %s)."
 msgstr "Nie je mo¾né aktivova» modul \"%s\" (ID: %s)."
 
-#: src/plugin.c:650
+#: src/plugin.c:652
 #, c-format
 msgid "Couldn't deactivate plugin \"%s\" (ID: %s)."
 msgstr "Nie je mo¾né deaktivova» modul \"%s\" (ID: %s)."
 
-#: src/plugin.c:661
+#: src/plugin.c:663
 #, c-format
 msgid "Couldn't deactivate plugin \"%s\" (ID: %s): it's still in use."
 msgstr "Nie je mo¾né aktivova» modul \"%s\" (ID: %s): je pou¾ívaný."
 
-#: src/plugin.c:925
+#: src/plugin.c:927
 msgid "Errors while reading info about available plugins."
 msgstr "Chyby pri èítaní informácií o dostupných moduloch."
 
-#: src/plugin.c:931
+#: src/plugin.c:933
 msgid "Errors while activating plugins."
 msgstr "Chyba pri aktivácii modulov."
 
-#: src/plugin.c:937
+#: src/plugin.c:939
 msgid "Errors while initializing plugin system."
 msgstr "Chyby poèa inicializácie systému modulov."
 
-#: src/plugin.c:975
+#: src/plugin.c:977
 msgid "Module file name"
 msgstr "Meno súboru s modulom"
 
-#: src/plugin.c:1025
+#: src/plugin.c:1027
 #, c-format
 msgid "Module file \"%s\" doesn't exist."
 msgstr "Súbor s modulom \"%s\" neexistuje."
 
-#: src/plugin.c:1031
+#: src/plugin.c:1033
 msgid "Module file name not given."
 msgstr "Nezadané meno súboru s modulom."
 
-#: src/plugin.c:1084
+#: src/plugin.c:1086
 #, c-format
 msgid "Function init_plugin inside \"%s\" returned error."
 msgstr "Funkcia init_plugin v \"%s\" vrátila chybu."
 
-#: src/plugin.c:1091
+#: src/plugin.c:1093
 #, c-format
 msgid "Unable to open module file \"%s\": %s"
 msgstr "Súbor s modulom \"%s\" sa nedá otvori»: %s"
 
-#: src/plugin.c:1096
+#: src/plugin.c:1098
 #, c-format
 msgid "Plugin version \"%s\" is different from application \"%s\"."
 msgstr "Verzia modulu \"%s\" je iná ako verzia aplikácie \"%s\"."
 
-#: src/plugin.c:1100
+#: src/plugin.c:1102
 #, c-format
 msgid "Module file \"%s\" has invalid format."
 msgstr "Súbor s modulom \"%s\" má neplatný formát."
 
-#: src/plugin.c:1105
+#: src/plugin.c:1107
 msgid "File doesn't contain \"init_plugin\" function."
 msgstr "Súbor neobsahuje funkciu \"init_plugin\"."
 
-#: src/plugin.c:1110
+#: src/plugin.c:1112
 msgid "File doesn't contain \"cleanup_plugin\" function."
 msgstr "Súbor neobsahuje funkciu \"cleanup_plugin\"."
 
-#: src/plugin.c:1115
+#: src/plugin.c:1117
 msgid "File doesn't contain \"can_deactivate_plugin\" function."
 msgstr "Súbor neobsahuje funkciu \"can_deactivate_plugin\"."
 
-#: src/plugin.c:1120
+#: src/plugin.c:1122
 msgid ""
 "File doesn't contain version information (\"gnumeric_plugin_version\" "
 "symbol)."
-msgstr "Súbor neobsahuje informáciu o verzii (symbol \"gnumeric_plugin_version\")."
+msgstr ""
+"Súbor neobsahuje informáciu o verzii (symbol \"gnumeric_plugin_version\")."
 
-#: src/plugin.c:1127
+#: src/plugin.c:1129
 msgid "Dynamic module loading is not supported in this system."
 msgstr "Dynamické naèítavanie modulov nie je na tomto systéme podporované."
 
-#: src/plugin.c:1147
+#: src/plugin.c:1149
 #, c-format
 msgid "Unable to close module file \"%s\": %s"
 msgstr "Nepodarilo sa zatvori» súbor s modulom \"%s\": %s"
@@ -15089,43 +15213,43 @@ msgstr "&[TAB]"
 msgid "&[DATE]"
 msgstr "&[DATE]"
 
-#: src/print-info.c:440
+#: src/print-info.c:442
 msgid "points"
 msgstr "body"
 
-#: src/print-info.c:441
+#: src/print-info.c:443
 msgid "millimeter"
 msgstr "millimeter"
 
-#: src/print-info.c:442
+#: src/print-info.c:444
 msgid "centimeter"
 msgstr "centimeter"
 
-#: src/print-info.c:443
+#: src/print-info.c:445
 msgid "inch"
 msgstr "palec"
 
-#: src/print-info.c:533
+#: src/print-info.c:535
 msgid "Sheet 1"
 msgstr "List 1"
 
-#: src/print-info.c:596
+#: src/print-info.c:598
 msgid "tab"
 msgstr "tab"
 
-#: src/print-info.c:597
+#: src/print-info.c:599
 msgid "page"
 msgstr "strana"
 
-#: src/print-info.c:598
+#: src/print-info.c:600
 msgid "pages"
 msgstr "strán"
 
-#: src/print-info.c:599
+#: src/print-info.c:601
 msgid "date"
 msgstr "dátum"
 
-#: src/print-info.c:600
+#: src/print-info.c:602
 msgid "time"
 msgstr "èas"
 
@@ -15134,23 +15258,23 @@ msgstr "èas"
 msgid "&[PAGE]"
 msgstr "&[PAGE]"
 
-#: src/print.c:1036 src/workbook-control-gui.c:2612
+#: src/print.c:1042 src/workbook-control-gui.c:2612
 msgid "Selection must be a single range"
 msgstr "Výber musí by» jeden rozsah"
 
-#: src/print.c:1153
+#: src/print.c:1159
 msgid "Print Sheets"
 msgstr "Tlaèi» listy"
 
-#: src/print.c:1163
+#: src/print.c:1169
 msgid "Act_ive sheet"
 msgstr "A_ktuálny list"
 
-#: src/print.c:1163
+#: src/print.c:1169
 msgid "S_heets"
 msgstr "_Listy"
 
-#: src/print.c:1250
+#: src/print.c:1256
 msgid "Printing failed"
 msgstr "Tlaè zlyhala"
 
@@ -16302,7 +16426,8 @@ msgstr "_Rie¹iteµ..."
 
 #: src/gnumeric.xml.h:106 src/workbook-control-gui.c:2107
 msgid "Iteratively recalculate with constraints to approach a target value"
-msgstr "Opakovane prepoèítava s obmedzeniami, a¾ kým nedosiahne cieµovú hodnotu"
+msgstr ""
+"Opakovane prepoèítava s obmedzeniami, a¾ kým nedosiahne cieµovú hodnotu"
 
 #: src/gnumeric.xml.h:210 src/workbook-control-gui.c:2112
 msgid "_Data Analysis..."
@@ -16446,15 +16571,15 @@ msgstr "musí ma» aspoò jedno písmeno"
 msgid "There is already a sheet named '%s'"
 msgstr "U¾ existuje list s menom '%s'"
 
-#: src/xml-io.c:3171
+#: src/xml-io.c:3178
 msgid "Invalid xml clipboard data. Tree is empty ?"
 msgstr "Neplatné XML dáta v schránke. Strom je prázdny ?"
 
-#: src/xml-io.c:3224
+#: src/xml-io.c:3231
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Nie je súbor so zo¹itom Gnumeric"
 
-#: src/xml-io.c:3285
+#: src/xml-io.c:3292
 msgid "Gnumeric XML file format"
 msgstr "Súborový formát Gnumeric XML"
 
@@ -16901,4 +17026,3 @@ msgstr "_Ulo¾i»"
 #: src/gnumeric.xml.h:247
 msgid "_View"
 msgstr "_Zobrazi»"
-

@@ -528,8 +528,6 @@ src/functions/Makefile
 src/portability.h
 doc/Makefile
 doc/C/Makefile
-doc/es/Makefile
-corba-test/Makefile
 plugins/Makefile
 plugins/numtheory/Makefile
 plugins/sc/Makefile

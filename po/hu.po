@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
-"POT-Creation-Date: 2001-01-26 15:39+0100\n"
+"POT-Creation-Date: 2001-02-15 22:24-0500\n"
 "PO-Revision-Date: 2001-01-26 16:30+01:00\n"
 "Last-Translator: Andras TIMAR <timar@gnome.hu>\n"
 "Language-Team: Hungarian <hu@gnome.hu>\n"
@@ -17,19 +17,19 @@ msgstr ""
 msgid "Applix (*.as) file format"
 msgstr "Applix (*.as) fájlformátum"
 
-#: plugins/dif/dif.c:285
+#: plugins/dif/dif.c:284
 msgid "DIF : Failed to load sheet"
 msgstr "DIF: Lap betöltése sikertelen"
 
-#: plugins/dif/dif.c:293 plugins/plan-perfect/pln.c:930
+#: plugins/dif/dif.c:292 plugins/plan-perfect/pln.c:930
 msgid "Unable to mmap the file"
 msgstr "Nem sikerült mmap-olni a fájlt"
 
-#: plugins/dif/dif.c:415
+#: plugins/dif/dif.c:414
 msgid "Data Interchange Format (*.dif) file format"
 msgstr "Data Interchange Format (*.dif) fájlformátum"
 
-#: plugins/dif/dif.c:418
+#: plugins/dif/dif.c:417
 msgid "Data Interchange Format (*.dif)"
 msgstr "Data Interchange Format (*.dif)"
 
@@ -53,34 +53,34 @@ msgstr "Excel(R) 97 fájlformátum"
 msgid "Excel(R) 95 file format"
 msgstr "Excel (R) 95 fájlformátum"
 
-#: plugins/excel/ms-excel-read.c:432
+#: plugins/excel/ms-excel-read.c:433
 msgid "#UNKNOWN!"
 msgstr "#ISMERETLEN!"
 
-#: plugins/excel/ms-excel-read.c:603 plugins/lotus-123/lotus.c:194
-#: plugins/oleo/oleo.c:44 src/workbook.c:561
+#: plugins/excel/ms-excel-read.c:604 plugins/lotus-123/lotus.c:194
+#: plugins/oleo/oleo.c:44
 #, c-format
 msgid "Sheet%d"
 msgstr "Munka%d"
 
-#: plugins/excel/ms-excel-read.c:3906
+#: plugins/excel/ms-excel-read.c:3920
 msgid "No book or workbook streams found."
 msgstr "Nem találtam book vagy workbook stream-et."
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4200
+#: plugins/excel/ms-excel-read.c:4214
 msgid "Password protected workbooks are not supported yet."
 msgstr "A jelszóval védett munkafüzeteket a program jelenleg nem támogatja."
 
-#: plugins/excel/ms-excel-read.c:4321
+#: plugins/excel/ms-excel-read.c:4335
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Nem találok érvényes MS Excel munkafüzetet"
 
-#: plugins/excel/ms-excel-write.c:3501
+#: plugins/excel/ms-excel-write.c:3500
 msgid "Too many rows for this format"
 msgstr "Túl sok sor ehez a formátumhoz"
 
-#: plugins/excel/ms-excel-write.c:3585
+#: plugins/excel/ms-excel-write.c:3584
 msgid "Can't open stream for writing\n"
 msgstr "Nem sikerült írásra megnyitni a stream-et\n"
 
@@ -92,19 +92,21 @@ msgstr "Hibás függvény"
 msgid " Unknown formula"
 msgstr "Ismeretlen képlet"
 
-#: plugins/gb/plugin.c:134
+#: plugins/gb/plugin.c:136
 msgid "Unknown GB error"
 msgstr "Ismeretlen GB hiba"
 
+#: plugins/gb/plugin.c:372
+#, c-format
+msgid "Error initializing gb '%s'"
+msgstr ""
+
 #: plugins/gb/plugin.c:387
-msgid "Gnome Basic"
-msgstr "Gnome Basic"
+#, c-format
+msgid "Error in project '%s'"
+msgstr ""
 
-#: plugins/gb/plugin.c:388
-msgid "Enables Gnome Basic support"
-msgstr "Bekapcsolja a Gnome Basic támogatást"
-
-#: plugins/gda/plugin-gda.c:108
+#: plugins/gda/plugin-gda.c:107
 msgid ""
 "@FUNCTION=EXECSQL\n"
 "@SYNTAX=EXECSQL(i)\n"
@@ -116,21 +118,21 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/gda/plugin-gda.c:137
+#: plugins/gda/plugin-gda.c:136
 msgid "Format: execSQL(dsn,user,password,sql)"
 msgstr "Formátum: execSQL(dsn,felhasználó,jelszó,sql)"
 
-#: plugins/gda/plugin-gda.c:143
+#: plugins/gda/plugin-gda.c:142
 msgid "Error: could not initialize connection pool"
 msgstr ""
 
-#: plugins/gda/plugin-gda.c:148
+#: plugins/gda/plugin-gda.c:147
 #, c-format
 msgid "Error: could not open connection to %s"
 msgstr "Hiba: kapcsolat megnyitása sikertelen (%s)"
 
 #. register functions
-#: plugins/gda/plugin-gda.c:195 src/functions/fn-database.c:1337
+#: plugins/gda/plugin-gda.c:194 src/functions/fn-database.c:1336
 msgid "Database"
 msgstr "Adatbázis"
 
@@ -155,18 +157,9 @@ msgstr "Nem definiált scheme függvény"
 msgid "Could not evaluate argument"
 msgstr "Nem sikerült az argumentum kiértékelése"
 
-#: plugins/guile/plugin.c:208
+#: plugins/guile/plugin.c:207
 msgid "Gnumeric has not been compiled with support for guile."
 msgstr "Ezt a Gnumeric-et nem Guile támogatással fordították."
-
-#: plugins/guile/plugin.c:236
-msgid "Guile Plugin"
-msgstr "Guile bõvítmény"
-
-# plugins/guile/plugin.c:235
-#: plugins/guile/plugin.c:237
-msgid "This plugin enables Guile(scheme) support in Gnumeric"
-msgstr "Ez a bõvítmény bekapcsolja a Guile (scheme) támogatást a Gnumeric-ben"
 
 # plugins/html/boot.c:74
 #: plugins/html/boot.c:88
@@ -435,14 +428,6 @@ msgstr "Bitenkénti mûveletek"
 msgid "GNU Oleo (*.oleo) file format"
 msgstr "GNU Oleo (*.oleo) fájlformátum"
 
-#: plugins/perl/perl.c:54
-msgid "Perl"
-msgstr "Perl"
-
-#: plugins/perl/perl.c:55
-msgid "Enables the creation of functions in PERL"
-msgstr "Segítségével PERL függvényeket hozhatsz létre"
-
 #: plugins/plan-perfect/pln.c:721
 #, c-format
 msgid ""
@@ -654,7 +639,7 @@ msgstr "Oszlop %d"
 #: src/analysis-tools.c:508 src/analysis-tools.c:509 src/analysis-tools.c:659
 #: src/analysis-tools.c:660 src/analysis-tools.c:2296
 #: src/analysis-tools.c:2431 src/analysis-tools.c:2589
-#: src/dialogs/dialog-cell-sort.c:83 src/dialogs/dialog-cell-sort.c:88
+#: src/dialogs/dialog-cell-sort.c:82 src/dialogs/dialog-cell-sort.c:87
 #, c-format
 msgid "Row %d"
 msgstr "Sor %d"
@@ -678,7 +663,10 @@ msgstr "Összefoglaló statisztika"
 msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample "
 "Variance/Kurtosis/Skewness/Range/Minimum/Maximum/Sum/Count"
-msgstr "/Átlag/Standard hiba/Medián/Módusz/Szórás/Szórásnégyzet/Csúcsosság/Ferdeség/Terjedelem/Minimum/Maximum/Összeg/Számosság"
+msgstr ""
+"/Átlag/Standard "
+"hiba/Medián/Módusz/Szórás/Szórásnégyzet/Csúcsosság/Ferdeség/Terjedelem/Minimu"
+"m/Maximum/Összeg/Számosság"
 
 #: src/analysis-tools.c:899
 msgid "Confidence Level"
@@ -707,7 +695,7 @@ msgid "Smallest (%d)"
 msgstr "Legkisebb (%d)"
 
 #: src/analysis-tools.c:1037 src/analysis-tools.c:2825
-#: src/dialogs/cell-format.glade.h:61
+#: src/dialogs/cell-format.glade.h:60
 msgid "Sample"
 msgstr "Minta"
 
@@ -873,17 +861,17 @@ msgstr "Varianciaanalízis: kéttényezõs, ismétlésekkel"
 msgid "Total"
 msgstr "Összesen"
 
-#: src/analysis-tools.c:2809 src/workbook-control-gui.c:2927
+#: src/analysis-tools.c:2809 src/workbook-control-gui.c:2937
 msgid "Count"
 msgstr "Darabszám"
 
 #: src/analysis-tools.c:2810 src/gnumeric.xml.h:186
-#: src/workbook-control-gui.c:2191 src/workbook-control-gui.c:2923
-#: src/workbook-view.c:494
+#: src/workbook-control-gui.c:2198 src/workbook-control-gui.c:2933
+#: src/workbook-view.c:511
 msgid "Sum"
 msgstr "Összeg"
 
-#: src/analysis-tools.c:2811 src/workbook-control-gui.c:2926
+#: src/analysis-tools.c:2811 src/workbook-control-gui.c:2936
 msgid "Average"
 msgstr "Átlag"
 
@@ -959,7 +947,7 @@ msgstr "Halmozott %"
 msgid "Error '%s' opening workbook stream"
 msgstr "Hiba lépett fel a munkafüzet folyam megnyitásakor: \"%s\""
 
-#: src/bonobo-io.c:471 src/xml-io-autoft.c:426 src/xml-io.c:3306
+#: src/bonobo-io.c:471 src/xml-io-autoft.c:427 src/xml-io.c:3222
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Érvénytelen xml fájl. Üres a fastruktúra ?"
 
@@ -1021,7 +1009,7 @@ msgstr ""
 msgid "Unable to paste into selection"
 msgstr "Nem lehet a kijelölésbe beszúrni"
 
-#: src/cmd-edit.c:356 src/gnumeric.xml.h:133 src/workbook-control-gui.c:2171
+#: src/cmd-edit.c:356 src/gnumeric.xml.h:133 src/workbook-control-gui.c:2178
 msgid "Paste"
 msgstr "Beillesztés"
 
@@ -1086,15 +1074,15 @@ msgstr "Törlés visszavonása"
 
 #. FIXME?
 #. TODO : Something more descriptive ? maybe the range name
-#: src/commands.c:1133 src/sheet.c:2429
+#: src/commands.c:1133 src/sheet.c:2411
 msgid "Clear"
 msgstr "Törlés"
 
-#: src/commands.c:1322
+#: src/commands.c:1324
 msgid "Format cells"
 msgstr "Cellák formázása"
 
-#: src/commands.c:1395
+#: src/commands.c:1397
 #, c-format
 msgid "Rename sheet '%s' '%s'"
 msgstr "'%s' lap átnevezése '%s'-re/-ra"
@@ -1106,94 +1094,94 @@ msgstr "'%s' lap átnevezése '%s'-re/-ra"
 #. * translators should be aware that the leading character of the
 #. * result will be ignored.
 #.
-#: src/commands.c:1469
+#: src/commands.c:1471
 msgid ">mm/dd/yyyy"
 msgstr ">yyyy/mm/dd"
 
 #. FIXME : See comment above
-#: src/commands.c:1474
+#: src/commands.c:1476
 msgid ">hh:mm"
 msgstr ">hh:mm"
 
-#: src/commands.c:1515
+#: src/commands.c:1517
 msgid "Set Date/Time"
 msgstr "Dátum/Idõ beállítás"
 
-#: src/commands.c:1532
+#: src/commands.c:1534
 #, c-format
 msgid "Setting current date in %s"
 msgstr "Az aktuális dátum beállítása a %s cellában"
 
-#: src/commands.c:1533
+#: src/commands.c:1535
 #, c-format
 msgid "Setting current time in %s"
 msgstr "Az aktuális idõ beállítása a %s cellában"
 
-#: src/commands.c:1629
+#: src/commands.c:1631
 msgid "Setting width of columns"
 msgstr "Oszlopszélesség beállítása"
 
-#: src/commands.c:1630
+#: src/commands.c:1632
 msgid "Setting height of rows"
 msgstr "Sormagasság beállítása"
 
-#: src/commands.c:1719
+#: src/commands.c:1721
 #, c-format
 msgid "Sorting %s"
 msgstr "%s rendezése"
 
-#: src/commands.c:1796
+#: src/commands.c:1798
 msgid "Unhide columns"
 msgstr "Oszlopok mutatása"
 
-#: src/commands.c:1796
+#: src/commands.c:1798
 msgid "Hide columns"
 msgstr "Oszlopok rejtése"
 
-#: src/commands.c:1797
+#: src/commands.c:1799
 msgid "Unhide rows"
 msgstr "Sorok mutatása"
 
-#: src/commands.c:1797
+#: src/commands.c:1799
 msgid "Hide rows"
 msgstr "Sorok rejtése"
 
 #. FIXME: Do we want to show the destination range alwell?
-#: src/commands.c:1985
+#: src/commands.c:1987
 #, c-format
 msgid "Moving %s"
 msgstr "%s mozgatása"
 
 #. FIXME?
-#: src/commands.c:2129
+#: src/commands.c:2131
 #, c-format
 msgid "Pasting into %s"
 msgstr "Beillesztés %s-be/-ba"
 
 #. Changed in initial redo.
-#: src/commands.c:2192 src/commands.c:2198 src/commands.c:2284
+#: src/commands.c:2194 src/commands.c:2200 src/commands.c:2286
 msgid "Autofill"
 msgstr "Automatikus kitöltés"
 
-#: src/commands.c:2199
+#: src/commands.c:2201
 msgid "Target region contains merged cells"
 msgstr "A célterületben egybenyitott cellák vannak"
 
 #. FIXME?
-#: src/commands.c:2433
+#: src/commands.c:2435
 msgid "Autoformat"
 msgstr "Automatikus formázás"
 
-#: src/commands.c:2566
+#: src/commands.c:2568
 msgid "Unmerge Cells"
 msgstr "Egybenyitott cellák s_zétválasztása"
 
-#: src/commands.c:2678
+#: src/commands.c:2680
 msgid "Merge Cells"
 msgstr "Cellák _egybenyitása"
 
 #. Corrected below.
-#: src/commands.c:3117 src/dialogs/search-replace.glade.h:41
+#: src/commands.c:3133 src/dialogs/search-replace.glade.h:41
 msgid "Search and Replace"
 msgstr "Keresés és csere"
 
@@ -1503,7 +1491,7 @@ msgid "_Chart Output"
 msgstr "_Diagramrajzoló"
 
 #: src/dialogs/analysis-tools.glade.h:31 src/gnumeric.xml.h:206
-#: src/workbook-control-gui.c:1965
+#: src/workbook-control-gui.c:1972
 msgid "_Columns"
 msgstr "Os_zlopok"
 
@@ -1548,7 +1536,7 @@ msgid "_Pareto (Sorted)"
 msgstr "_Pareto (rendezett)"
 
 #: src/dialogs/analysis-tools.glade.h:42 src/gnumeric.xml.h:236
-#: src/workbook-control-gui.c:1962
+#: src/workbook-control-gui.c:1969
 msgid "_Rows"
 msgstr "_Sorok"
 
@@ -1592,7 +1580,7 @@ msgstr "_KÉt KEzdõ NAgybetû"
 
 #: src/dialogs/autocorrect-exceptions.glade.h:7
 #: src/dialogs/dialog-stf.glade.h:66 src/gnumeric.xml.h:234
-#: src/workbook-control-gui.c:1860
+#: src/workbook-control-gui.c:1867
 msgid "_Remove"
 msgstr "_Eltávolítás"
 
@@ -1842,8 +1830,8 @@ msgstr "Átlósan csíkos"
 msgid "Display the value exactly as it was entered"
 msgstr "Az érték pontosan úgy jelenik meg, ahogy beírtad"
 
-#: src/dialogs/cell-format.glade.h:30 src/dialogs/dialog-cell-format.c:1216
-#: src/dialogs/dialog-cell-format.c:1282
+#: src/dialogs/cell-format.glade.h:30 src/dialogs/dialog-cell-format.c:1215
+#: src/dialogs/dialog-cell-format.c:1281
 msgid "Double"
 msgstr "Kétszeres"
 
@@ -1901,220 +1889,221 @@ msgstr "Nagy körök"
 msgid "Left"
 msgstr "Balra"
 
-#: src/dialogs/cell-format.glade.h:43
-msgid "Left _Indent"
-msgstr "Bal _behúzás"
-
-#: src/dialogs/cell-format.glade.h:44 src/gnumeric.xml.h:111
+#: src/dialogs/cell-format.glade.h:43 src/gnumeric.xml.h:111
 #: src/workbook-object-toolbar.c:150
 msgid "Line"
 msgstr "Vonal"
 
-#: src/dialogs/cell-format.glade.h:45
+#: src/dialogs/cell-format.glade.h:44
 msgid "Locking cells or hiding formulas only affects protected worksheets."
 msgstr ""
 "A cellák zárolásának vagy a képletek elrejtésének csak akkor van hatása, ha "
 "védett a munkalap."
 
-#: src/dialogs/cell-format.glade.h:46
+#: src/dialogs/cell-format.glade.h:45
 msgid "Negat_ive number:"
 msgstr "Nega_tív szám:"
 
-#: src/dialogs/cell-format.glade.h:47 src/dialogs/dialog-cell-format.c:1218
-#: src/dialogs/dialog-cell-format.c:1280 src/dialogs/dialog-paste-special.c:32
+#: src/dialogs/cell-format.glade.h:46 src/dialogs/dialog-cell-format.c:1217
+#: src/dialogs/dialog-cell-format.c:1279 src/dialogs/dialog-paste-special.c:32
 msgid "None"
 msgstr "Nincs"
 
-#: src/dialogs/cell-format.glade.h:48 src/dialogs/dialog-function-wizard.c:406
+#: src/dialogs/cell-format.glade.h:47 src/dialogs/dialog-function-wizard.c:406
 msgid "Number"
 msgstr "Szám"
 
-#: src/dialogs/cell-format.glade.h:49 src/dialogs/print.glade.h:15
+#: src/dialogs/cell-format.glade.h:48 src/dialogs/print.glade.h:15
 msgid "Orientation"
 msgstr "Irány"
 
-#: src/dialogs/cell-format.glade.h:50
+#: src/dialogs/cell-format.glade.h:49
 msgid "Outline"
 msgstr "Körvonal"
 
-#: src/dialogs/cell-format.glade.h:51
+#: src/dialogs/cell-format.glade.h:50
 msgid "Pattern"
 msgstr "Minta"
 
-#: src/dialogs/cell-format.glade.h:52
+#: src/dialogs/cell-format.glade.h:51
 msgid "Pick a Background color"
 msgstr "Válassz egy háttér színt"
 
-#: src/dialogs/cell-format.glade.h:53
+#: src/dialogs/cell-format.glade.h:52
 msgid "Pick a Pattern color"
 msgstr "Válassz egy minta színt"
 
-#: src/dialogs/cell-format.glade.h:54
+#: src/dialogs/cell-format.glade.h:53
 msgid "Pick a border color"
 msgstr "Válaszd ki a szegély színét"
 
-#: src/dialogs/cell-format.glade.h:55
+#: src/dialogs/cell-format.glade.h:54
 msgid "Pick a font color"
 msgstr "Válassz egy betûszínt"
 
-#: src/dialogs/cell-format.glade.h:56
+#: src/dialogs/cell-format.glade.h:55
 msgid "Protection"
 msgstr "Védelem"
 
-#: src/dialogs/cell-format.glade.h:57
+#: src/dialogs/cell-format.glade.h:56
 msgid "Reverse Diagonal"
 msgstr "Fordított átlós"
 
-#: src/dialogs/cell-format.glade.h:58
+#: src/dialogs/cell-format.glade.h:57
 msgid "Reverse Diagonal Stripe"
 msgstr "Fordított átlósan csíkos"
 
-#: src/dialogs/cell-format.glade.h:59 src/gnumeric.xml.h:155
+#: src/dialogs/cell-format.glade.h:58 src/gnumeric.xml.h:155
 #: src/workbook-format-toolbar.c:568
 msgid "Right"
 msgstr "Jobbra"
 
-#: src/dialogs/cell-format.glade.h:60
+#: src/dialogs/cell-format.glade.h:59
 msgid "S_ymbol:"
 msgstr "Pénzne_m:"
 
-#: src/dialogs/cell-format.glade.h:62
+#: src/dialogs/cell-format.glade.h:61
 msgid "Semi Circles"
 msgstr "Félkörök"
 
-#: src/dialogs/cell-format.glade.h:63
+#: src/dialogs/cell-format.glade.h:62
 msgid "Shrin_k to fit"
 msgstr "Kicsinyít, hogy be_férjen"
 
 #. There must be a better way than this
-#: src/dialogs/cell-format.glade.h:64 src/dialogs/dialog-cell-format.c:1214
-#: src/dialogs/dialog-cell-format.c:1281
+#: src/dialogs/cell-format.glade.h:63 src/dialogs/dialog-cell-format.c:1213
+#: src/dialogs/dialog-cell-format.c:1280
 msgid "Single"
 msgstr "Egyszeres"
 
-#: src/dialogs/cell-format.glade.h:65
+#: src/dialogs/cell-format.glade.h:64
 msgid "Small Circles"
 msgstr "Kis körök"
 
-#: src/dialogs/cell-format.glade.h:66
+#: src/dialogs/cell-format.glade.h:65
 msgid "Solid"
 msgstr "Tömör"
 
-#: src/dialogs/cell-format.glade.h:67
+#: src/dialogs/cell-format.glade.h:66
 msgid "Sp_ecial"
 msgstr "Külö_nleges"
 
-#: src/dialogs/cell-format.glade.h:68
+#: src/dialogs/cell-format.glade.h:67
 msgid "Stri_kethrough"
 msgstr "_Kiemelt"
 
-#: src/dialogs/cell-format.glade.h:69
+#: src/dialogs/cell-format.glade.h:68
 msgid "Su_bscript"
 msgstr "Alsó inde_x"
 
-#: src/dialogs/cell-format.glade.h:70
+#: src/dialogs/cell-format.glade.h:69
 msgid "Sup_erscript"
 msgstr "F_elsõ index"
 
-#: src/dialogs/cell-format.glade.h:71
+#: src/dialogs/cell-format.glade.h:70
 msgid "Te_xt"
 msgstr "Szö_veg"
 
-#: src/dialogs/cell-format.glade.h:72
+#: src/dialogs/cell-format.glade.h:71
 msgid "Thatch"
 msgstr "Zsúp"
 
-#: src/dialogs/cell-format.glade.h:73
+#: src/dialogs/cell-format.glade.h:72
 msgid "Thick Diagonal Crosshatch"
 msgstr "Vastag átlós keresztmintás"
 
-#: src/dialogs/cell-format.glade.h:74
+#: src/dialogs/cell-format.glade.h:73
 msgid "Thin Diagonal Crosshatch"
 msgstr "Vékony átlós keresztmintás"
 
-#: src/dialogs/cell-format.glade.h:75
+#: src/dialogs/cell-format.glade.h:74
 msgid "Thin Diagonal Stripe"
 msgstr "Vékony átlósan csíkos"
 
-#: src/dialogs/cell-format.glade.h:76
+#: src/dialogs/cell-format.glade.h:75
 msgid "Thin Horizontal Crosshatch"
 msgstr "Vékony vízszintes keresztmintás"
 
-#: src/dialogs/cell-format.glade.h:77
+#: src/dialogs/cell-format.glade.h:76
 msgid "Thin Horizontal Stripe"
 msgstr "Vékony vízszintes csíkos"
 
-#: src/dialogs/cell-format.glade.h:78
+#: src/dialogs/cell-format.glade.h:77
 msgid "Thin Reverse Diagonal Stripe"
 msgstr "Vékony fordított átlósan csíkos"
 
-#: src/dialogs/cell-format.glade.h:79
+#: src/dialogs/cell-format.glade.h:78
 msgid "Thin Vertical Stripe"
 msgstr "Vékony függõleges csíkos"
 
-#: src/dialogs/cell-format.glade.h:80
+#: src/dialogs/cell-format.glade.h:79
 msgid "Top"
 msgstr "Fent"
 
-#: src/dialogs/cell-format.glade.h:81
+#: src/dialogs/cell-format.glade.h:80
 msgid "Unfinished"
 msgstr "Nincs befejezve"
 
-#: src/dialogs/cell-format.glade.h:82
+#: src/dialogs/cell-format.glade.h:81
 msgid "Vertical Alignment"
 msgstr "Függõleges igazítás"
 
-#: src/dialogs/cell-format.glade.h:83
+#: src/dialogs/cell-format.glade.h:82
 msgid "Vertical Stripe"
 msgstr "Függõleges csíkos"
 
-#: src/dialogs/cell-format.glade.h:84
+#: src/dialogs/cell-format.glade.h:83
 msgid "Worksheet _protected"
 msgstr "_Védett munkalap"
 
-#: src/dialogs/cell-format.glade.h:85
+#: src/dialogs/cell-format.glade.h:84
 msgid "_Accounting"
 msgstr "_Könyvelõi"
 
-#: src/dialogs/cell-format.glade.h:86
+#: src/dialogs/cell-format.glade.h:85
 msgid "_Automatic"
 msgstr "_Automatikus"
 
-#: src/dialogs/cell-format.glade.h:87
+#: src/dialogs/cell-format.glade.h:86
 msgid "_Bottom"
 msgstr "_Lent"
 
-#: src/dialogs/cell-format.glade.h:88
+#: src/dialogs/cell-format.glade.h:87
 msgid "_Center"
 msgstr "_Középre"
 
-#: src/dialogs/cell-format.glade.h:89
+#: src/dialogs/cell-format.glade.h:88
 msgid "_Currency"
 msgstr "_Pénznem"
 
-#: src/dialogs/cell-format.glade.h:90 src/dialogs/dialog-zoom.glade.h:16
+#: src/dialogs/cell-format.glade.h:89 src/dialogs/dialog-zoom.glade.h:16
 msgid "_Custom"
 msgstr "_Egyéni"
 
-#: src/dialogs/cell-format.glade.h:91
+#: src/dialogs/cell-format.glade.h:90
 msgid "_Date"
 msgstr "_Dátum"
 
-#: src/dialogs/cell-format.glade.h:92
+#: src/dialogs/cell-format.glade.h:91
 msgid "_Fill"
 msgstr "K_itöltve"
 
-#: src/dialogs/cell-format.glade.h:93
+#: src/dialogs/cell-format.glade.h:92
 msgid "_Fraction"
 msgstr "_Tört"
 
-#: src/dialogs/cell-format.glade.h:94
+#: src/dialogs/cell-format.glade.h:93
 msgid "_General"
 msgstr "Á_ltalános"
 
-#: src/dialogs/cell-format.glade.h:95
+#: src/dialogs/cell-format.glade.h:94
 msgid "_Hidden"
 msgstr "_Rejtett"
+
+#: src/dialogs/cell-format.glade.h:95
+#, fuzzy
+msgid "_Indent"
+msgstr "Bal _behúzás"
 
 #: src/dialogs/cell-format.glade.h:96
 msgid "_Justify"
@@ -2129,54 +2118,50 @@ msgid "_Locked"
 msgstr "_Zárolt"
 
 #: src/dialogs/cell-format.glade.h:99
-msgid "_Merge Cells"
-msgstr "Cellák _egybenyitása"
-
-#: src/dialogs/cell-format.glade.h:100
 msgid "_No Color"
 msgstr "_Színtelen"
 
-#: src/dialogs/cell-format.glade.h:101
+#: src/dialogs/cell-format.glade.h:100
 msgid "_Number"
 msgstr "_Szám"
 
-#: src/dialogs/cell-format.glade.h:102
+#: src/dialogs/cell-format.glade.h:101
 msgid "_Percentage"
 msgstr "S_zázalék"
 
-#: src/dialogs/cell-format.glade.h:103
+#: src/dialogs/cell-format.glade.h:102
 msgid "_Right"
 msgstr "_Jobbra"
 
-#: src/dialogs/cell-format.glade.h:104
+#: src/dialogs/cell-format.glade.h:103
 msgid "_Scientific"
 msgstr "T_udományos"
 
-#: src/dialogs/cell-format.glade.h:105
+#: src/dialogs/cell-format.glade.h:104
 msgid "_Style"
 msgstr "_Stílus"
 
-#: src/dialogs/cell-format.glade.h:106
+#: src/dialogs/cell-format.glade.h:105
 msgid "_Time"
 msgstr "_Idõ"
 
-#: src/dialogs/cell-format.glade.h:107
+#: src/dialogs/cell-format.glade.h:106
 msgid "_Top"
 msgstr "_Fent"
 
-#: src/dialogs/cell-format.glade.h:108
+#: src/dialogs/cell-format.glade.h:107
 msgid "_Type"
 msgstr "_Típus"
 
-#: src/dialogs/cell-format.glade.h:109
+#: src/dialogs/cell-format.glade.h:108
 msgid "_Underline:"
 msgstr "_Aláhúzás:"
 
-#: src/dialogs/cell-format.glade.h:110
+#: src/dialogs/cell-format.glade.h:109
 msgid "_Use Separator for 1000's"
 msgstr "_Ezres elválasztó használata"
 
-#: src/dialogs/cell-format.glade.h:111
+#: src/dialogs/cell-format.glade.h:110
 msgid "_Wrap text"
 msgstr "_Sortörés"
 
@@ -2213,12 +2198,12 @@ msgid "Selection has"
 msgstr "A kijelölésben van"
 
 #. We can't sort complex ranges
-#: src/dialogs/cell-sort.glade.h:9 src/dialogs/dialog-cell-sort.c:502
-#: src/workbook-control-gui.c:1667
+#: src/dialogs/cell-sort.glade.h:9 src/dialogs/dialog-cell-sort.c:501
+#: src/workbook-control-gui.c:1674
 msgid "Sort"
 msgstr "Rendez"
 
-#: src/dialogs/cell-sort.glade.h:10 src/dialogs/dialog-cell-sort.c:573
+#: src/dialogs/cell-sort.glade.h:10 src/dialogs/dialog-cell-sort.c:572
 msgid "Sort by"
 msgstr "Rendezés ez alapján"
 
@@ -2248,7 +2233,7 @@ msgid "_Column width (pts):"
 msgstr "_Oszlop szélessége (pont):"
 
 #: src/dialogs/delete-cells.glade.h:1 src/dialogs/sheet-order.glade.h:2
-#: src/sheet-object.c:72
+#: src/sheet-object.c:73
 msgid "Delete"
 msgstr "Törlés"
 
@@ -2272,19 +2257,19 @@ msgstr "Cellákat _balra tolja"
 msgid "Shift cells _up"
 msgstr "Cellákat _felfelé tolja"
 
-#: src/dialogs/dialog-advanced-filter.c:239
+#: src/dialogs/dialog-advanced-filter.c:238
 msgid "You should introduce a valid cell names in 'List Range:'"
 msgstr "Érvényes cellanevet kellene megani a 'Listatartomány:' mezõben"
 
-#: src/dialogs/dialog-advanced-filter.c:253
+#: src/dialogs/dialog-advanced-filter.c:252
 msgid "You should introduce a valid cell names in 'Criteria Range:'"
 msgstr "Érvényes cellanevet kellene megani a 'Feltételtartomány:' mezõben"
 
-#: src/dialogs/dialog-advanced-filter.c:272
+#: src/dialogs/dialog-advanced-filter.c:271
 msgid "You should introduce a valid cell range in 'Copy To:'"
 msgstr "Érvényes cellatartományt kellene megani a 'Másolás:' mezõben"
 
-#: src/dialogs/dialog-advanced-filter.c:318
+#: src/dialogs/dialog-advanced-filter.c:317
 msgid ""
 "You should introduce the same number of columns in the `List Range' and in "
 "`Criteria Range:'"
@@ -2739,8 +2724,8 @@ msgstr ""
 
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
-#: src/dialogs/dialog-autoformat.c:975 src/format.c:1728 src/format.c:1817
-#: src/format.c:1826 src/format.c:1895
+#: src/dialogs/dialog-autoformat.c:975 src/format.c:1729 src/format.c:1818
+#: src/format.c:1827 src/format.c:1896
 msgid "General"
 msgstr "Általános"
 
@@ -2752,64 +2737,64 @@ msgstr "írd be a percek számát!"
 msgid "Cell comment"
 msgstr "Megjegyzés a cellához"
 
-#: src/dialogs/dialog-cell-format.c:410
+#: src/dialogs/dialog-cell-format.c:409
 msgid ";[Red]"
 msgstr ";[Piros]"
 
-#: src/dialogs/dialog-cell-format.c:412
+#: src/dialogs/dialog-cell-format.c:411
 msgid "_);("
 msgstr "_);("
 
-#: src/dialogs/dialog-cell-format.c:414
+#: src/dialogs/dialog-cell-format.c:413
 msgid "_);[Red]("
 msgstr "_);[Piros]("
 
-#: src/dialogs/dialog-cell-format.c:2084
+#: src/dialogs/dialog-cell-format.c:2083
 msgid "Format Cells"
 msgstr "Cellák formázása"
 
-#: src/dialogs/dialog-cell-sort.c:212
+#: src/dialogs/dialog-cell-sort.c:211
 msgid "Ascending"
 msgstr "Növekvõ"
 
-#: src/dialogs/dialog-cell-sort.c:215
+#: src/dialogs/dialog-cell-sort.c:214
 msgid "Descending"
 msgstr "Csökkenõ"
 
-#: src/dialogs/dialog-cell-sort.c:229
+#: src/dialogs/dialog-cell-sort.c:228
 msgid "Advanced..."
 msgstr "Haladó..."
 
-#: src/dialogs/dialog-cell-sort.c:323
+#: src/dialogs/dialog-cell-sort.c:322
 msgid "Column must be within range"
 msgstr "Az oszlopnak a tartományon belül kell lennie"
 
-#: src/dialogs/dialog-cell-sort.c:324
+#: src/dialogs/dialog-cell-sort.c:323
 msgid "Row must be within range"
 msgstr "A sornak a tartományon belül kell lennie"
 
-#: src/dialogs/dialog-cell-sort.c:331
+#: src/dialogs/dialog-cell-sort.c:330
 msgid "First column must be valid"
 msgstr "Az elsõ oszlop érvényes kell legyen"
 
-#: src/dialogs/dialog-cell-sort.c:332
+#: src/dialogs/dialog-cell-sort.c:331
 msgid "First row must be valid"
 msgstr "Az elsõ sor érvényes kell legyen"
 
-#: src/dialogs/dialog-cell-sort.c:371
+#: src/dialogs/dialog-cell-sort.c:370
 msgid "At least one clause is required."
 msgstr "Legalább egy feltétel szükséges."
 
-#: src/dialogs/dialog-cell-sort.c:380
+#: src/dialogs/dialog-cell-sort.c:379
 msgid "Can't add more than the selection length."
 msgstr "Nem adhatsz többet hozzá, mint a kijelölt rész hossza."
 
-#: src/dialogs/dialog-cell-sort.c:383
+#: src/dialogs/dialog-cell-sort.c:382
 msgid "Maximum number of clauses has been reached."
 msgstr "Nem adható meg több feltétel."
 
-#: src/dialogs/dialog-cell-sort.c:386 src/dialogs/dialog-cell-sort.c:389
-#: src/dialogs/dialog-cell-sort.c:572
+#: src/dialogs/dialog-cell-sort.c:385 src/dialogs/dialog-cell-sort.c:388
+#: src/dialogs/dialog-cell-sort.c:571
 msgid "then by"
 msgstr "utána e szerint"
 
@@ -3028,11 +3013,11 @@ msgstr "Bõvítmények listája"
 msgid "Plugin details"
 msgstr "Részletek a bõvítményekrõl"
 
-#: src/dialogs/dialog-printer-setup.c:965
+#: src/dialogs/dialog-printer-setup.c:966
 msgid "Custom header configuration"
 msgstr "Testreszabott fejléc beállítása"
 
-#: src/dialogs/dialog-printer-setup.c:977
+#: src/dialogs/dialog-printer-setup.c:978
 msgid "Custom footer configuration"
 msgstr "Testreszabott lábléc beállítása"
 
@@ -3040,7 +3025,7 @@ msgstr "Testreszabott lábléc beállítása"
 msgid "You must select some cell types to search."
 msgstr ""
 
-#: src/dialogs/dialog-sheet-order.c:145 src/workbook-control-gui.c:345
+#: src/dialogs/dialog-sheet-order.c:145 src/workbook-control-gui.c:329
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Biztos törölni akarod a `%s' nevû lapot?"
@@ -3085,7 +3070,7 @@ msgstr ""
 msgid "Constraint `%s' is for a cell that is not an input cell."
 msgstr ""
 
-#: src/dialogs/dialog-stf-export-sheet-page.c:356
+#: src/dialogs/dialog-stf-export-sheet-page.c:357
 msgid "You need to select at least one sheet to export"
 msgstr "Legalább egy exportálandó lapot meg kell adni"
 
@@ -3182,10 +3167,12 @@ msgstr "Macintosh (kocsivissza)"
 msgid "Never"
 msgstr "Soha"
 
+# src/dialogs/dialog-stf-export.glade.h:22
 #: src/dialogs/dialog-stf-export.glade.h:22
 msgid "Pipe (|)"
 msgstr "Csõvezeték (|)"
 
+# src/dialogs/dialog-stf-export.glade.h:23
 #: src/dialogs/dialog-stf-export.glade.h:23
 msgid ""
 "Please select which sheets you want to export from the current workbook. "
@@ -3252,9 +3239,13 @@ msgid "Data (from %s)"
 msgstr "Adatok (%s-ból)"
 
 #: src/dialogs/dialog-stf.glade.h:3
+#, fuzzy
 msgid ""
-"Actual processing will start at this line, any previous lines will be ignored"
+"Actual processing will start at this line, any previous lines will be "
+"ignored."
 msgstr ""
+"A feldolgozás megáll ennél a sornál, az ezután következõ sorok nem lesznek "
+"figyelembe véve"
 
 #: src/dialogs/dialog-stf.glade.h:4
 msgid "Add a new column"
@@ -3265,7 +3256,8 @@ msgid "Always (Both sides)"
 msgstr "Mindig (mindkét oldal)"
 
 #: src/dialogs/dialog-stf.glade.h:6
-msgid "Attempt to recognize columns in the text automatically"
+#, fuzzy
+msgid "Attempt to recognize columns in the text automatically."
 msgstr "Kísérlet az oszlopok felismerésére a szövegben"
 
 #: src/dialogs/dialog-stf.glade.h:7
@@ -3283,7 +3275,7 @@ msgstr "E_gyéni"
 #: src/dialogs/dialog-stf.glade.h:10
 msgid ""
 "Character interpreted as quote character. If the separation character is "
-"encountered within quotes it will be ignored"
+"encountered within quotes it will be ignored."
 msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:11
@@ -3325,13 +3317,14 @@ msgid "Data type and number of lines"
 msgstr "Adattípus és a sorok száma"
 
 #: src/dialogs/dialog-stf.glade.h:21
-msgid "Define the width of each column manually"
+#, fuzzy
+msgid "Define the width of each column manually."
 msgstr "Oszlopszélesség megadása kézzel"
 
 #: src/dialogs/dialog-stf.glade.h:22
 msgid ""
 "Each column in the text is separated by a 'separation' character, e.g. a "
-"semicolon"
+"semicolon."
 msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:23
@@ -3378,7 +3371,7 @@ msgstr "Kö_tõjel (-)"
 msgid ""
 "Left click to create a new column, right click on a column border to delete "
 "an existing column or hold the left mouse button on a column border and drag "
-"to resize a column"
+"to resize a column."
 msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:34
@@ -3414,7 +3407,8 @@ msgid "Per column formatting"
 msgstr "Oszloponkénti formázás"
 
 #: src/dialogs/dialog-stf.glade.h:43
-msgid "Processing ends at this line, any subsequent lines will be ignored"
+#, fuzzy
+msgid "Processing ends at this line, any subsequent lines will be ignored."
 msgstr ""
 "A feldolgozás megáll ennél a sornál, az ezután következõ sorok nem lesznek "
 "figyelembe véve"
@@ -3432,12 +3426,12 @@ msgid "S_pace"
 msgstr "S_zóköz"
 
 #: src/dialogs/dialog-stf.glade.h:47
-msgid "See two successive separators as one"
+msgid "See two successive separators as one."
 msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:48
 msgid ""
-"See two successive text indicators as one that does not terminate the cell"
+"See two successive text indicators as one that does not terminate the cell."
 msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:49
@@ -3490,9 +3484,10 @@ msgid "Trim :"
 msgstr "Levágás :"
 
 #: src/dialogs/dialog-stf.glade.h:60
+#, fuzzy
 msgid ""
 "Trim leading and trailing spaces from each column, if you are unsure you "
-"should leave this at the default setting"
+"should leave this at the default setting."
 msgstr ""
 "Levágja minden oszlopról a kezbõ és befejezõ szóközöket. Ha nem vagy biztos "
 "a dolgodban, hagyd ezt az alapértelmezett beállításon"
@@ -3543,8 +3538,8 @@ msgstr "Nagyítás"
 msgid "Sheets"
 msgstr "Munkalapok"
 
-#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:2350
-#: src/workbook-control-gui.c:2407
+#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:2357
+#: src/workbook-control-gui.c:2414
 msgid "Zoom"
 msgstr "Nagyítás/kicsinyítés"
 
@@ -3749,7 +3744,7 @@ msgid "Center on page"
 msgstr "Igazítás az oldal közepére"
 
 #: src/dialogs/print.glade.h:4 src/gnumeric.xml.h:31
-#: src/workbook-control-gui.c:1804
+#: src/workbook-control-gui.c:1811
 msgid "Co_mments"
 msgstr "Meg_jegyzések"
 
@@ -3781,7 +3776,7 @@ msgstr "Fejléc"
 msgid "Headers and footers"
 msgstr "Fej- és láblécek"
 
-#: src/dialogs/print.glade.h:12 src/print-info.c:443
+#: src/dialogs/print.glade.h:12 src/print-info.c:445
 msgid "In"
 msgstr "In"
 
@@ -3810,7 +3805,7 @@ msgid "Por_trait"
 msgstr "Á_lló"
 
 #: src/dialogs/print.glade.h:20 src/gnumeric.xml.h:138
-#: src/workbook-control-gui.c:2156
+#: src/workbook-control-gui.c:2163
 msgid "Print"
 msgstr "Nyomtatás"
 
@@ -3818,8 +3813,7 @@ msgstr "Nyomtatás"
 msgid "Print _area:"
 msgstr "Nyomtatási _terület"
 
-#: src/dialogs/print.glade.h:22 src/gnumeric.xml.h:142 src/print.c:1194
-#: src/workbook-control-gui.c:1778 src/workbook-control-gui.c:2159
+#: src/dialogs/print.glade.h:22 src/gnumeric.xml.h:142 src/print.c:1246
 msgid "Print preview"
 msgstr "Nyomtatási kép"
 
@@ -3840,100 +3834,105 @@ msgid "Scale"
 msgstr "Méret"
 
 #: src/dialogs/print.glade.h:27 src/functions/fn-sheet.c:135
-#: src/workbook.c:1029
+#: src/workbook.c:1019 src/xml-io.c:2911
 msgid "Sheet"
 msgstr "Munkalap"
 
 #: src/dialogs/print.glade.h:28
+#, fuzzy
+msgid "Styles with no content"
+msgstr "Középre zárás"
+
+#: src/dialogs/print.glade.h:29
 msgid "Titles to print"
 msgstr "Címként nyomtatandók a"
 
-#: src/dialogs/print.glade.h:29
+#: src/dialogs/print.glade.h:30
 msgid "_Adjust to:"
 msgstr "Legyen _az eredeti méret:"
 
-#: src/dialogs/print.glade.h:30
+#: src/dialogs/print.glade.h:31
 msgid "_Black and white"
 msgstr "Fekete-fe_hérben"
 
-#: src/dialogs/print.glade.h:31
+#: src/dialogs/print.glade.h:32
 msgid "_Bottom:"
 msgstr "_Alsó:"
 
-#: src/dialogs/print.glade.h:32
+#: src/dialogs/print.glade.h:33
 msgid "_Columns to repeat on the left side:"
 msgstr "_Balra ismétlõdõ oszlopok"
 
-#: src/dialogs/print.glade.h:33
+#: src/dialogs/print.glade.h:34
 msgid "_Down, then right"
 msgstr "Le, maj_d jobbra folytatja"
 
-#: src/dialogs/print.glade.h:34
+#: src/dialogs/print.glade.h:35
 msgid "_Fit to:"
 msgstr "Legye_n:"
 
-#: src/dialogs/print.glade.h:35
+#: src/dialogs/print.glade.h:36
 msgid "_Footer:"
 msgstr "_Lábléc:"
 
-#: src/dialogs/print.glade.h:36
+#: src/dialogs/print.glade.h:37
 msgid "_Grid lines"
 msgstr "_Cellarácsokkal"
 
-#: src/dialogs/print.glade.h:37
+#: src/dialogs/print.glade.h:38
 msgid "_Horizontally"
 msgstr "_Vízszintesen"
 
-#: src/dialogs/print.glade.h:38
+#: src/dialogs/print.glade.h:39
 msgid "_Landscape"
 msgstr "_Fekvõ"
 
-#: src/dialogs/print.glade.h:39
+#: src/dialogs/print.glade.h:40
 msgid "_Left:"
 msgstr "_Bal:"
 
-#: src/dialogs/print.glade.h:40
+#: src/dialogs/print.glade.h:41
 msgid "_Right:"
 msgstr "_Jobb:"
 
-#: src/dialogs/print.glade.h:41
+#: src/dialogs/print.glade.h:42
 msgid "_Rows to repeat on the upper region:"
 msgstr "_Fent ismétlõdõ sorok"
 
-#: src/dialogs/print.glade.h:42
+#: src/dialogs/print.glade.h:43
 msgid "_Top:"
 msgstr "_Felsõ:"
 
-#: src/dialogs/print.glade.h:43
+#: src/dialogs/print.glade.h:44
 msgid "_Units:"
 msgstr "_Egység:"
 
-#: src/dialogs/print.glade.h:44
+#: src/dialogs/print.glade.h:45
 msgid "_Vertically"
 msgstr "Függõlegese_n"
 
 #. 1in = 25.4mm, exact
-#: src/dialogs/print.glade.h:45 src/print-info.c:442
+#: src/dialogs/print.glade.h:46 src/print-info.c:444
 msgid "cm"
 msgstr "cm"
 
-#: src/dialogs/print.glade.h:46 src/print-info.c:441
+#: src/dialogs/print.glade.h:47 src/print-info.c:443
 msgid "mm"
 msgstr "mm"
 
-#: src/dialogs/print.glade.h:47
+#: src/dialogs/print.glade.h:48
 msgid "page(s) wide by"
 msgstr "oldal széles és"
 
-#: src/dialogs/print.glade.h:48 src/print-info.c:440
+#: src/dialogs/print.glade.h:49 src/print-info.c:442
 msgid "pts"
 msgstr "pts"
 
-#: src/dialogs/print.glade.h:49
+#: src/dialogs/print.glade.h:50
 msgid "sample goes here"
 msgstr "ide jön a minta"
 
-#: src/dialogs/print.glade.h:50
+#: src/dialogs/print.glade.h:51
 msgid "tall"
 msgstr "oldal magas"
 
@@ -3955,7 +3954,8 @@ msgstr "Minden változtatás elõtt kérdez"
 
 #: src/dialogs/search-replace.glade.h:3
 msgid "Attempt to preserve case of text when replacing"
-msgstr "Kísérlet a kis- és nagybetûk közötti különbség megõrzésére csere közben"
+msgstr ""
+"Kísérlet a kis- és nagybetûk közötti különbség megõrzésére csere közben"
 
 #: src/dialogs/search-replace.glade.h:4
 msgid "By"
@@ -3996,7 +3996,8 @@ msgid "Entire workbook"
 msgstr "Az egész munkafüzet"
 
 #: src/dialogs/search-replace.glade.h:13
-msgid "Error behaviour"
+#, fuzzy
+msgid "Error behavior"
 msgstr "Viselkedés hiba esetén"
 
 #: src/dialogs/search-replace.glade.h:14
@@ -4492,51 +4493,43 @@ msgstr "_Fülek"
 msgid "_Vertical Scrollbar"
 msgstr "_Függõleges görgetõsáv"
 
-#: src/expr-name.c:164
+#: src/expr-name.c:165
 msgid "already defined in sheet"
 msgstr "már definiálva van a munkalapon"
 
-#: src/expr-name.c:168
+#: src/expr-name.c:169
 msgid "already defined in workbook"
 msgstr "már definiálva van a munkafüzetben"
 
-#: src/expr-name.c:172
+#: src/expr-name.c:173
 msgid "circular reference"
 msgstr "körkörös hivatkozás"
 
-#: src/expr-name.c:322
+#: src/expr-name.c:323
 msgid "Builtin"
 msgstr "Beépített"
 
-#: src/expr-name.c:432 src/expr-name.c:443
+#: src/expr-name.c:433 src/expr-name.c:445
 msgid "Error: no sheet"
 msgstr "Hiba: nincsen lap"
 
-#: src/expr.c:198
+#: src/expr.c:199
 msgid "Syntax error"
 msgstr "Szintaktikai hiba"
 
-#: src/expr.c:202
-msgid "Missing quote"
-msgstr "Hiányzó idézõjel"
-
-#: src/expr.c:206
-msgid "Impossible!"
-msgstr "Lehetetlen!"
-
-#: src/expr.c:552
+#: src/expr.c:546
 msgid "Internal type error"
 msgstr "Belsõ típushiba"
 
-#: src/expr.c:731
+#: src/expr.c:725
 msgid "Unknown operator"
 msgstr "Ismeretlen mûvelet"
 
-#: src/expr.c:949
+#: src/expr.c:943
 msgid "Unknown evaluation error"
 msgstr "Ismeretlen kiértékelési hiba"
 
-#: src/file.c:358
+#: src/file.c:365
 msgid ""
 "Could not read file %s\n"
 "%%s"
@@ -4544,7 +4537,7 @@ msgstr ""
 "Nem olvasható a %s fájl\n"
 "%%s"
 
-#: src/file.c:402 src/file.c:440
+#: src/file.c:409 src/file.c:447
 msgid ""
 "Could not save to file %s\n"
 "%%s"
@@ -4552,55 +4545,55 @@ msgstr ""
 "Nem lehet a %s fájlba menteni\n"
 "%%s"
 
-#: src/file.c:408
+#: src/file.c:415
 msgid "There are no file savers loaded"
 msgstr "Nincs fájlmentõ betöltve"
 
-#: src/format.c:568
+#: src/format.c:569
 msgid "black"
 msgstr "Fekete"
 
-#: src/format.c:569
+#: src/format.c:570
 msgid "blue"
 msgstr "Kék"
 
-#: src/format.c:570
+#: src/format.c:571
 msgid "cyan"
 msgstr "Cián"
 
-#: src/format.c:571
+#: src/format.c:572
 msgid "green"
 msgstr "Zöld"
 
-#: src/format.c:572
+#: src/format.c:573
 msgid "magenta"
 msgstr "Bíbor"
 
-#: src/format.c:573
+#: src/format.c:574
 msgid "red"
 msgstr "Piros"
 
-#: src/format.c:574
+#: src/format.c:575
 msgid "white"
 msgstr "Fehér"
 
-#: src/format.c:575
+#: src/format.c:576
 msgid "yellow"
 msgstr "Sárga"
 
 #. Is it a boolean?
-#: src/format.c:1649 src/number-match.c:970 src/value-sheet.c:33
+#: src/format.c:1650 src/number-match.c:971 src/value-sheet.c:33
 #: src/value.c:236 src/value.c:469
 msgid "TRUE"
 msgstr "IGAZ"
 
-#: src/format.c:1649 src/number-match.c:972 src/value-sheet.c:33
+#: src/format.c:1650 src/number-match.c:973 src/value-sheet.c:33
 #: src/value.c:238 src/value.c:469
 msgid "FALSE"
 msgstr "HAMIS"
 
 #. Array of arrays ??
-#: src/format.c:1662
+#: src/format.c:1663
 msgid "ARRAY"
 msgstr "TÖMB"
 
@@ -5946,7 +5939,7 @@ msgstr "Ismeretlen függvény"
 msgid "Function does not exist"
 msgstr "A függvény nem létezik"
 
-#: src/functions/fn-database.c:492
+#: src/functions/fn-database.c:491
 msgid ""
 "@FUNCTION=DAVERAGE\n"
 "@SYNTAX=DAVERAGE(database,field,criteria)\n"
@@ -5958,7 +5951,18 @@ msgstr ""
 "@DESCRIPTION=A DAVERAGE függvény átlagolja az adott listából vagy "
 "adatbázisból a megadott feltételnek megfelelõ értékeket.\n"
 
-#: src/functions/fn-database.c:561
+#: src/functions/fn-database.c:499
+msgid ""
+"\n"
+"DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333.\n"
+"DAVERAGE(A1:C7, \"Age\", A9:A11) equals 39.\n"
+"DAVERAGE(A1:C7, \"Salary\", A9:B11) equals 40782.5.\n"
+"DAVERAGE(A1:C7, \"Age\", A9:B11) equals 36.\n"
+"\n"
+"@SEEALSO=DCOUNT"
+msgstr ""
+
+#: src/functions/fn-database.c:560
 msgid ""
 "@FUNCTION=DCOUNT\n"
 "@SYNTAX=DCOUNT(database,field,criteria)\n"
@@ -5970,7 +5974,17 @@ msgstr ""
 "@DESCRIPTION=A DCOUNT függvény megszámolja, hogy hány számokat tartalmazó "
 "cella felel meg a paraméterben megadott feltételnek.\n"
 
-#: src/functions/fn-database.c:622
+#: src/functions/fn-database.c:568
+msgid ""
+"\n"
+"DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3.\n"
+"DCOUNT(A1:C7, \"Salary\", A9:B11) equals 2.\n"
+"DCOUNT(A1:C7, \"Name\", A9:B11) equals 0.\n"
+"\n"
+"@SEEALSO=DAVERAGE"
+msgstr ""
+
+#: src/functions/fn-database.c:621
 msgid ""
 "@FUNCTION=DCOUNTA\n"
 "@SYNTAX=DCOUNTA(database,field,criteria)\n"
@@ -5982,7 +5996,17 @@ msgstr ""
 "@DESCRIPTION=A DCOUNTA függvény megszámolja, hogy hány adatot tartalmazó "
 "cella felel meg a paraméterben megadott feltételnek.\n"
 
-#: src/functions/fn-database.c:680
+#: src/functions/fn-database.c:629
+msgid ""
+"\n"
+"DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3.\n"
+"DCOUNTA(A1:C7, \"Salary\", A9:B11) equals 2.\n"
+"DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2.\n"
+"\n"
+"@SEEALSO=DCOUNT"
+msgstr ""
+
+#: src/functions/fn-database.c:679
 msgid ""
 "@FUNCTION=DGET\n"
 "@SYNTAX=DGET(database,field,criteria)\n"
@@ -5994,7 +6018,18 @@ msgstr ""
 "@DESCRIPTION=A DGET függvény visszaad egy értéket abból az oszlopból, amely "
 "kielégíti a megadott feltételeket.\n"
 
-#: src/functions/fn-database.c:748
+#: src/functions/fn-database.c:687
+msgid ""
+"\n"
+"DGET(A1:C7, \"Salary\", A9:A10) equals 34323.\n"
+"DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\".\n"
+"\n"
+"If none of the items match the conditions, DGET returns #VALUE! error. If "
+"more than one items match the conditions, DGET returns #NUM! error. \n"
+"@SEEALSO=DCOUNT"
+msgstr ""
+
+#: src/functions/fn-database.c:747
 msgid ""
 "@FUNCTION=DMAX\n"
 "@SYNTAX=DMAX(database,field,criteria)\n"
@@ -6006,7 +6041,17 @@ msgstr ""
 "@DESCRIPTION=A DMAX függvény visszaadja azt a legnagyobb számot egy "
 "oszlopból, amelyre igaz a megadott feltétel.\n"
 
-#: src/functions/fn-database.c:819
+#: src/functions/fn-database.c:755
+msgid ""
+"\n"
+"DMAX(A1:C7, \"Salary\", A9:A11) equals 47242.\n"
+"DMAX(A1:C7, \"Age\", A9:A11) equals 45.\n"
+"DMAX(A1:C7, \"Age\", A9:B11) equals 43.\n"
+"\n"
+"@SEEALSO=DMIN"
+msgstr ""
+
+#: src/functions/fn-database.c:818
 msgid ""
 "@FUNCTION=DMIN\n"
 "@SYNTAX=DMIN(database,field,criteria)\n"
@@ -6018,7 +6063,16 @@ msgstr ""
 "@DESCRIPTION=A DMIN függvény visszaadja azt a legkisebb számot egy "
 "oszlopból, amelyre igaz a megadott feltétel.\n"
 
-#: src/functions/fn-database.c:889
+#: src/functions/fn-database.c:826
+msgid ""
+"\n"
+"DMIN(A1:C7, \"Salary\", A9:B11) equals 34323.\n"
+"DMIN(A1:C7, \"Age\", A9:B11) equals 29.\n"
+"\n"
+"@SEEALSO=DMAX"
+msgstr ""
+
+#: src/functions/fn-database.c:888
 msgid ""
 "@FUNCTION=DPRODUCT\n"
 "@SYNTAX=DPRODUCT(database,field,criteria)\n"
@@ -6030,7 +6084,15 @@ msgstr ""
 "@DESCRIPTION=A DPRODUCT függvény visszaadja azoknak a számoknak a szorzatát "
 "egy oszlopból,amelyekre igaz a megadott feltétel.\n"
 
-#: src/functions/fn-database.c:956
+#: src/functions/fn-database.c:896
+msgid ""
+"\n"
+"DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247.\n"
+"\n"
+"@SEEALSO=DSUM"
+msgstr ""
+
+#: src/functions/fn-database.c:955
 msgid ""
 "@FUNCTION=DSTDEV\n"
 "@SYNTAX=DSTDEV(database,field,criteria)\n"
@@ -6044,7 +6106,16 @@ msgstr ""
 "alapján. A sokaságok azokból a számokból állnak, amelyekre igaz a megadott "
 "feltétel.\n"
 
-#: src/functions/fn-database.c:1022
+#: src/functions/fn-database.c:964
+msgid ""
+"\n"
+"DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949.\n"
+"DSTDEV(A1:C7, \"Salary\", A9:B11) equals 9135.112506.\n"
+"\n"
+"@SEEALSO=DSTDEVP"
+msgstr ""
+
+#: src/functions/fn-database.c:1021
 msgid ""
 "@FUNCTION=DSTDEVP\n"
 "@SYNTAX=DSTDEVP(database,field,criteria)\n"
@@ -6058,7 +6129,16 @@ msgstr ""
 "sokaság alapján. A sokaságok azokból a számokból állnak, amelyekre igaz a "
 "megadott feltétel.\n"
 
-#: src/functions/fn-database.c:1090
+#: src/functions/fn-database.c:1030
+msgid ""
+"\n"
+"DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7.\n"
+"DSTDEVP(A1:C7, \"Salary\", A9:B11) equals 6459.5.\n"
+"\n"
+"@SEEALSO=DSTDEV"
+msgstr ""
+
+#: src/functions/fn-database.c:1089
 msgid ""
 "@FUNCTION=DSUM\n"
 "@SYNTAX=DSUM(database,field,criteria)\n"
@@ -6070,7 +6150,16 @@ msgstr ""
 "@DESCRIPTION=A DSUM függvény visszaadja azoknak a számoknak az összegét egy "
 "oszlopból,amelyekre igaz a megadott feltétel.\n"
 
-#: src/functions/fn-database.c:1157
+#: src/functions/fn-database.c:1097
+msgid ""
+"\n"
+"DSUM(A1:C7, \"Age\", A9:B11) equals 72.\n"
+"DSUM(A1:C7, \"Salary\", A9:B11) equals 81565.\n"
+"\n"
+"@SEEALSO=DPRODUCT"
+msgstr ""
+
+#: src/functions/fn-database.c:1156
 msgid ""
 "@FUNCTION=DVAR\n"
 "@SYNTAX=DVAR(database,field,criteria)\n"
@@ -6084,7 +6173,16 @@ msgstr ""
 "(varianciájára) egy minta alapján. A sokaság azokból a számokból áll, "
 "amelyekre igaz a megadott feltétel.\n"
 
-#: src/functions/fn-database.c:1225
+#: src/functions/fn-database.c:1165
+msgid ""
+"\n"
+"DVAR(A1:C7, \"Age\", A9:B11) equals 98.\n"
+"DVAR(A1:C7, \"Salary\", A9:B11) equals 83450280.5.\n"
+"\n"
+"@SEEALSO=DVARP"
+msgstr ""
+
+#: src/functions/fn-database.c:1224
 msgid ""
 "@FUNCTION=DVARP\n"
 "@SYNTAX=DVARP(database,field,criteria)\n"
@@ -6098,7 +6196,16 @@ msgstr ""
 "szórásnégyzetét (varianciáját). A sokaság azokból a számokból áll, amelyekre "
 "igaz a megadott feltétel.\n"
 
-#: src/functions/fn-database.c:1294
+#: src/functions/fn-database.c:1233
+msgid ""
+"\n"
+"DVARP(A1:C7, \"Age\", A9:B11) equals 49.\n"
+"DVARP(A1:C7, \"Salary\", A9:B11) equals 41725140.25.\n"
+"\n"
+"@SEEALSO=DVAR"
+msgstr ""
+
+#: src/functions/fn-database.c:1293
 msgid ""
 "@FUNCTION=GETPIVOTDATA\n"
 "@SYNTAX=GETPIVOTDATA(pivot_table,field_name)\n"
@@ -8272,9 +8379,10 @@ msgid "Financial"
 msgstr "Pénzügyi"
 
 #: src/functions/fn-information.c:73
+#, fuzzy
 msgid ""
 "@FUNCTION=CELL\n"
-"@SYNTAX=CELL()\n"
+"@SYNTAX=CELL(ref)\n"
 "@DESCRIPTION=CELL returns information about the formatting, location, or "
 "contents of a cell. \n"
 "@EXAMPLES=\n"
@@ -8341,46 +8449,70 @@ msgid "Unknown system"
 msgstr "Ismeretlem rendszer"
 
 #: src/functions/fn-information.c:344
+#, fuzzy
 msgid ""
 "@FUNCTION=ISERROR\n"
-"@SYNTAX=ISERROR(exp)\n"
+"@SYNTAX=ISERROR(value)\n"
 "@DESCRIPTION=ISERROR returns a TRUE value if the expression has an error\n"
 "This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=ERROR"
 msgstr ""
+"@FUNCTION=IMTAN\n"
+"@SYNTAX=IMTAN(komplex szám)\n"
+"@DESCRIPTION=Az IMTAN megadja egy komplex szám tangensét.A függvény Excel "
+"kompatíbilis.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=IMSIN,IMCOS"
 
 #: src/functions/fn-information.c:367
 msgid "Argument mismatch"
 msgstr "Nem megfelelõ argumentum"
 
 #: src/functions/fn-information.c:398
+#, fuzzy
 msgid ""
 "@FUNCTION=ISNA\n"
-"@SYNTAX=ISNA()\n"
+"@SYNTAX=ISNA(value)\n"
 "@DESCRIPTION=ISNA returns TRUE if the value is the #N/A error value. This "
 "function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=IMTAN\n"
+"@SYNTAX=IMTAN(komplex szám)\n"
+"@DESCRIPTION=Az IMTAN megadja egy komplex szám tangensét.A függvény Excel "
+"kompatíbilis.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=IMSIN,IMCOS"
 
 #: src/functions/fn-information.c:432
+#, fuzzy
 msgid ""
 "@FUNCTION=ISERR\n"
-"@SYNTAX=ISERR()\n"
+"@SYNTAX=ISERR(value)\n"
 "@DESCRIPTION=ISERR returns TRUE if the value is any error value except #N/A. "
 "This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=IMTAN\n"
+"@SYNTAX=IMTAN(komplex szám)\n"
+"@DESCRIPTION=Az IMTAN megadja egy komplex szám tangensét.A függvény Excel "
+"kompatíbilis.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=IMSIN,IMCOS"
 
 #: src/functions/fn-information.c:462
 msgid ""
 "@FUNCTION=ERROR.TYPE\n"
-"@SYNTAX=ERROR(exp)\n"
+"@SYNTAX=ERROR(value)\n"
 "@DESCRIPTION=ERROR.TYPE returns an error number corresponding to the given "
 "error value.  The error numbers for error values are\n"
 "#DIV/0!    2\n"
@@ -8429,114 +8561,194 @@ msgid "Type mismatch"
 msgstr "Nem megfelelõ típus"
 
 #: src/functions/fn-information.c:565
+#, fuzzy
 msgid ""
 "@FUNCTION=ISBLANK\n"
-"@SYNTAX=ISBLANK()\n"
+"@SYNTAX=ISBLANK(value)\n"
 "@DESCRIPTION=ISBLANK returns TRUE if the value is blank. This function is "
 "Excel compatible. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=COUNTBLANK\n"
+"@SYNTAX=COUNTBLANK(tartomány)\n"
+"@DESCRIPTION=A COUNTBLANK megadja az üres cellák számát a @tartomány-ban. A "
+"függvény Excel kompatíbilis. \n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=COUNT"
 
 #: src/functions/fn-information.c:612
+#, fuzzy
 msgid ""
 "@FUNCTION=ISEVEN\n"
-"@SYNTAX=ISEVEN()\n"
+"@SYNTAX=ISEVEN(value)\n"
 "@DESCRIPTION=ISEVEN returns TRUE if the number is even. This function is "
 "Excel compatible. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=ISODD"
 msgstr ""
+"@FUNCTION=IMTAN\n"
+"@SYNTAX=IMTAN(komplex szám)\n"
+"@DESCRIPTION=Az IMTAN megadja egy komplex szám tangensét.A függvény Excel "
+"kompatíbilis.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=IMSIN,IMCOS"
 
 #: src/functions/fn-information.c:633
+#, fuzzy
 msgid ""
 "@FUNCTION=ISLOGICAL\n"
-"@SYNTAX=ISLOGICAL()\n"
+"@SYNTAX=ISLOGICAL(value)\n"
 "@DESCRIPTION=ISLOGICAL returns TRUE if the value is a logical value. This "
 "function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=IMTAN\n"
+"@SYNTAX=IMTAN(komplex szám)\n"
+"@DESCRIPTION=Az IMTAN megadja egy komplex szám tangensét.A függvény Excel "
+"kompatíbilis.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=IMSIN,IMCOS"
 
 #: src/functions/fn-information.c:662
+#, fuzzy
 msgid ""
 "@FUNCTION=ISNONTEXT\n"
-"@SYNTAX=ISNONTEXT()\n"
+"@SYNTAX=ISNONTEXT(value)\n"
 "@DESCRIPTION=ISNONTEXT Returns TRUE if the value is not text. This function "
 "is Excel compatible. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=ISTEXT"
 msgstr ""
+"@FUNCTION=IMTAN\n"
+"@SYNTAX=IMTAN(komplex szám)\n"
+"@DESCRIPTION=Az IMTAN megadja egy komplex szám tangensét.A függvény Excel "
+"kompatíbilis.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=IMSIN,IMCOS"
 
 #: src/functions/fn-information.c:688
+#, fuzzy
 msgid ""
 "@FUNCTION=ISNUMBER\n"
-"@SYNTAX=ISNUMBER()\n"
+"@SYNTAX=ISNUMBER(value)\n"
 "@DESCRIPTION=ISNUMBER returns TRUE if the value is a number. This function "
 "is Excel compatible. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=IMTAN\n"
+"@SYNTAX=IMTAN(komplex szám)\n"
+"@DESCRIPTION=Az IMTAN megadja egy komplex szám tangensét.A függvény Excel "
+"kompatíbilis.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=IMSIN,IMCOS"
 
 #: src/functions/fn-information.c:714
+#, fuzzy
 msgid ""
 "@FUNCTION=ISODD\n"
-"@SYNTAX=ISODD()\n"
+"@SYNTAX=ISODD(value)\n"
 "@DESCRIPTION=ISODD returns TRUE if the number is odd. This function is Excel "
 "compatible. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=ISEVEN"
 msgstr ""
+"@FUNCTION=IMTAN\n"
+"@SYNTAX=IMTAN(komplex szám)\n"
+"@DESCRIPTION=Az IMTAN megadja egy komplex szám tangensét.A függvény Excel "
+"kompatíbilis.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=IMSIN,IMCOS"
 
 #: src/functions/fn-information.c:735
+#, fuzzy
 msgid ""
 "@FUNCTION=ISREF\n"
-"@SYNTAX=ISREF()\n"
+"@SYNTAX=ISREF(value)\n"
 "@DESCRIPTION=ISREF returns TRUE if the value is a reference. This function "
 "is Excel compatible. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=IMTAN\n"
+"@SYNTAX=IMTAN(komplex szám)\n"
+"@DESCRIPTION=Az IMTAN megadja egy komplex szám tangensét.A függvény Excel "
+"kompatíbilis.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=IMSIN,IMCOS"
 
 #: src/functions/fn-information.c:766
+#, fuzzy
 msgid ""
 "@FUNCTION=ISTEXT\n"
-"@SYNTAX=ISTEXT()\n"
+"@SYNTAX=ISTEXT(value)\n"
 "@DESCRIPTION=ISTEXT returns TRUE if the value is text. This function is "
 "Excel compatible. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=ISNONTEXT"
 msgstr ""
+"@FUNCTION=IMTAN\n"
+"@SYNTAX=IMTAN(komplex szám)\n"
+"@DESCRIPTION=Az IMTAN megadja egy komplex szám tangensét.A függvény Excel "
+"kompatíbilis.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=IMSIN,IMCOS"
 
 #: src/functions/fn-information.c:792
+#, fuzzy
 msgid ""
 "@FUNCTION=N\n"
-"@SYNTAX=N()\n"
+"@SYNTAX=N(value)\n"
 "@DESCRIPTION=N returns a value converted to a number.  Strings containing "
 "text are converted to the zero value. This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=IMTAN\n"
+"@SYNTAX=IMTAN(komplex szám)\n"
+"@DESCRIPTION=Az IMTAN megadja egy komplex szám tangensét.A függvény Excel "
+"kompatíbilis.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=IMSIN,IMCOS"
 
 #: src/functions/fn-information.c:829
+#, fuzzy
 msgid ""
 "@FUNCTION=TYPE\n"
-"@SYNTAX=TYPE()\n"
+"@SYNTAX=TYPE(value)\n"
 "@DESCRIPTION=TYPE returns a number indicating the data type of a value. This "
 "function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=IMTAN\n"
+"@SYNTAX=IMTAN(komplex szám)\n"
+"@DESCRIPTION=Az IMTAN megadja egy komplex szám tangensét.A függvény Excel "
+"kompatíbilis.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=IMSIN,IMCOS"
 
 #: src/functions/fn-logical.c:20
 msgid ""
@@ -12019,6 +12231,65 @@ msgstr "Részletek"
 msgid "Unable to open file '%s'"
 msgstr "Nem sikerült megnyitni a fájlt: %s"
 
+#: src/gui-file.c:95
+msgid ""
+"Could not import file %s\n"
+"%%s"
+msgstr ""
+"Nem sikerült a %s fájl importálása\n"
+"%%s"
+
+#: src/gui-file.c:105
+msgid "No sheets found"
+msgstr ""
+
+#: src/gui-file.c:237
+msgid "File format:"
+msgstr "Fájlformátum:"
+
+#: src/gui-file.c:298
+#, c-format
+msgid ""
+"Workbook %s already exists.\n"
+"Do you want to save over it?"
+msgstr ""
+"Már létezik %s nevû munkafüzet.\n"
+"Szeretnéd felülírni?"
+
+#: src/gui-file.c:341
+#, c-format
+msgid ""
+"%s\n"
+"is a directory name"
+msgstr ""
+"%s\n"
+"egy könyvtárnév"
+
+#: src/gui-file.c:350
+#, c-format
+msgid ""
+"You do not have permission to save to\n"
+"%s"
+msgstr ""
+"Nincsen jogosultságod a %s\n"
+"mentéséhez."
+
+#: src/gui-file.c:368
+msgid ""
+"Please enter a file name,\n"
+"not a directory"
+msgstr ""
+"Kérlek adj meg egy fájlnevet,\n"
+"ne könyvtárnevet"
+
+#: src/gui-file.c:407
+msgid "Save workbook as"
+msgstr "Munkafüzet mentése másként"
+
+#: src/gui-file.c:457
+msgid "Load file"
+msgstr "Fájl betöltése"
+
 #.
 #. * xgettext:
 #. * This string must translate to exactly the same strings as the
@@ -12026,7 +12297,8 @@ msgstr "Nem sikerült megnyitni a fájlt: %s"
 #. * 'File' menu
 #.
 #: src/history.c:125 src/history.c:138
-msgid "File/Print preview"
+#, fuzzy
+msgid "File/Print Preview"
 msgstr "Fájl/Nyomtatási kép"
 
 #: src/history.c:226
@@ -12086,89 +12358,92 @@ msgstr "J_obbra tolás és áthelyezés"
 msgid "C_ancel"
 msgstr "_Mégse"
 
-#: src/main.c:84
+#: src/main.c:85
 msgid "Display Gnumeric's version"
 msgstr "A Gnumeric verziójának megjelenítése"
 
-#: src/main.c:86
+#: src/main.c:87
 msgid "Set the root library directory"
 msgstr ""
 
-#: src/main.c:88
+#: src/main.c:89
 msgid "Adjust the root data directory"
 msgstr ""
 
-#: src/main.c:91
+#: src/main.c:92
 msgid "Dumps the function definitions"
 msgstr ""
 
-#: src/main.c:91
+#: src/main.c:92
 msgid "FILE"
 msgstr "FÁJL"
 
-#: src/main.c:94
+#: src/main.c:95
 msgid "Enables some debugging functions"
 msgstr "Bekapcsol néhány hibakeresõ funkciót"
 
-#: src/main.c:94 src/main.c:97 src/main.c:99 src/main.c:101 src/main.c:109
-#: src/main.c:113 src/main.c:117 src/main.c:121 src/main.c:125 src/main.c:129
+#: src/main.c:95 src/main.c:98 src/main.c:100 src/main.c:102 src/main.c:110
+#: src/main.c:114 src/main.c:118 src/main.c:122 src/main.c:126 src/main.c:130
 msgid "LEVEL"
 msgstr "SZINT"
 
-#: src/main.c:97
+#: src/main.c:98
 msgid "Enables some style related debugging functions"
 msgstr "Bekapcsol néhény stílussal kapcsolatos hibakeresõ függvényt"
 
-#: src/main.c:99
+#: src/main.c:100
 msgid "Enables some dependency related debugging functions"
 msgstr "Bekapcsol néhány függõségekkel kapcsolatos hibakeresõ függvényt"
 
-#: src/main.c:101
-msgid "Enables some print debugging behaviour"
+#: src/main.c:102
+#, fuzzy
+msgid "Enables some print debugging behavior"
 msgstr "Bekapcsol néhány nyomtatási hibakeresõ funkciót"
 
-#: src/main.c:104
+#: src/main.c:105
 msgid "Exit immediately after loading the selected books (useful for testing)."
 msgstr ""
 "A kiválasztott munkafüzet betöltése után azonnal kilép (hasznos a "
 "teszteléshez)."
 
-#: src/main.c:108 src/main.c:128
+#: src/main.c:109 src/main.c:129
 msgid "Enables debugging mesgs while reading excel workbooks"
 msgstr ""
 "Engedélyezi a hibakeresõ üzenetek megjelenítését Excel munkafüzetek olvasása "
 "közben"
 
-#: src/main.c:112
+#: src/main.c:113
 msgid "Enables debugging mesgs while reading excel functions"
 msgstr ""
 "Engedélyezi a hibakeresõ üzenetek megjelenítését Excel függvények olvasása "
 "közben"
 
-#: src/main.c:116
-msgid "Enables debugging mesgs while reading excel colours & patterns"
+#: src/main.c:117
+#, fuzzy
+msgid "Enables debugging mesgs while reading excel colors & patterns"
 msgstr ""
 "Engedélyezi a hibakeresõ üzenetek megjelenítését Excel színek és minták "
 "olvasása közben"
 
-#: src/main.c:120
+#: src/main.c:121
 msgid "Enables debugging mesgs while reading excel objects"
 msgstr ""
 "Engedélyezi a hibakeresõ üzenetek megjelenítését Excel objektumok olvasása "
 "közben"
 
-#: src/main.c:124
+#: src/main.c:125
 msgid "Enables debugging mesgs while reading excel charts"
 msgstr ""
 "Engedélyezi a hibakeresõ üzenetek megjelenítését Excel diagramok olvasása "
 "közben"
 
-#: src/main.c:132
-msgid "Enables extra consistancy checking while reading ole files"
+#: src/main.c:133
+#, fuzzy
+msgid "Enables extra consistency checking while reading ole files"
 msgstr ""
 "Engedélyezi a különleges konzisztencia-ellenõrzést OLE fájlok olvasása közben"
 
-#: src/main.c:160
+#: src/main.c:161
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -12179,43 +12454,43 @@ msgstr ""
 "datadir := %s\n"
 "libdir := %s\n"
 
-#: src/main.c:210
+#: src/main.c:211
 msgid "Could not initialize Workbook factory"
 msgstr "Nem sikerült a Workbook factory inicializálása"
 
-#: src/main.c:214
+#: src/main.c:215
 msgid "Could not initialize EmbeddableGrid factory"
 msgstr "Nem sikerült EmbeddableGrid factory inicializálása"
 
-#: src/number-match.c:613
+#: src/number-match.c:614
 msgid "#NULL!"
 msgstr "#NULLA!"
 
-#: src/number-match.c:614
+#: src/number-match.c:615
 msgid "#DIV/0!"
 msgstr "#ZÉROOSZTÓ!"
 
-#: src/number-match.c:615
+#: src/number-match.c:616
 msgid "#VALUE!"
 msgstr "#ÉRTÉK!"
 
-#: src/number-match.c:616
+#: src/number-match.c:617
 msgid "#REF!"
 msgstr "#HIVATK!"
 
-#: src/number-match.c:617
+#: src/number-match.c:618
 msgid "#NAME?"
 msgstr "#NÉV?"
 
-#: src/number-match.c:618
+#: src/number-match.c:619
 msgid "#NUM!"
 msgstr "#SZÁM!"
 
-#: src/number-match.c:619
+#: src/number-match.c:620
 msgid "#N/A"
 msgstr "#N/A"
 
-#: src/number-match.c:620
+#: src/number-match.c:621
 msgid "#RECALC!"
 msgstr "#ÚJRASZÁMOL!"
 
@@ -12238,132 +12513,134 @@ msgstr "Hiba történt a fájl bezárásánál, hiba : %s"
 msgid "Unable to mmap the file, error : %s"
 msgstr "Nem lehet mmap-olni a fájlt, hiba : %s"
 
-#: src/plugin.c:256
+#: src/plugin.c:257
 #, c-format
 msgid "Error while reading plugin information of type \"%s\"."
 msgstr ""
 
-#: src/plugin.c:265
+#: src/plugin.c:266
 msgid "Plugin has no id."
 msgstr ""
 
-#: src/plugin.c:268
+#: src/plugin.c:269
 #, c-format
 msgid "Required information for plugin with id=\"%s\" not found in file."
 msgstr ""
 
-#: src/plugin.c:272
+#: src/plugin.c:273
 msgid "Unknown plugin name."
 msgstr "Ismeretlen bõvítménynév"
 
-#: src/plugin.c:275
+#: src/plugin.c:276
 #, fuzzy
 msgid "Unknown activation type."
 msgstr "Ismeretlen Python típus"
 
-#: src/plugin.c:395
+#: src/plugin.c:399
 #, c-format
 msgid "Can't read plugin #%d info."
 msgstr ""
 
-#: src/plugin.c:405
+#: src/plugin.c:409
 #, c-format
 msgid "Errors occured while reading plugin informations from file \"%s\"."
 msgstr ""
 
-#: src/plugin.c:414
+#: src/plugin.c:418
 #, c-format
 msgid "Can't read plugin group info file (\"%s\")."
 msgstr ""
 
-#: src/plugin.c:418
+#: src/plugin.c:422
 #, c-format
 msgid "File \"%s\" is not valid plugin group info file."
 msgstr ""
 
-#: src/plugin.c:603
+#: src/plugin.c:608
 #, c-format
 msgid "Couldn't activate plugin \"%s\" (ID: %s)."
 msgstr ""
 
-#: src/plugin.c:647
+#: src/plugin.c:652
 #, c-format
 msgid "Couldn't deactivate plugin \"%s\" (ID: %s)."
 msgstr ""
 
-#: src/plugin.c:658
+#: src/plugin.c:663
 #, c-format
 msgid "Couldn't deactivate plugin \"%s\" (ID: %s): it's still in use."
 msgstr ""
 
-#: src/plugin.c:922
+#: src/plugin.c:927
 msgid "Errors while reading info about available plugins."
 msgstr ""
 
-#: src/plugin.c:928
+#: src/plugin.c:933
 msgid "Errors while activating plugins."
 msgstr ""
 
-#: src/plugin.c:934
+#: src/plugin.c:939
 msgid "Errors while initializing plugin system."
 msgstr ""
 
-#: src/plugin.c:972
+#: src/plugin.c:977
 msgid "Module file name"
 msgstr "Modul fájlnéve"
 
-#: src/plugin.c:1022
+#: src/plugin.c:1027
 #, c-format
 msgid "Module file \"%s\" doesn't exist."
 msgstr "Nem létezik ez a modulfájl: %s"
 
-#: src/plugin.c:1028
+#: src/plugin.c:1033
 msgid "Module file name not given."
 msgstr "Nincs megadva a modulfájl neve."
 
-#: src/plugin.c:1081
+#: src/plugin.c:1086
 #, c-format
 msgid "Function init_plugin inside \"%s\" returned error."
 msgstr "\"%s\" init_plugin függvénye hibát jelez."
 
-#: src/plugin.c:1088
+#: src/plugin.c:1093
 #, c-format
 msgid "Unable to open module file \"%s\": %s"
 msgstr "Nem sikerült megnyitni a \"%s\" modulfájlt: %s"
 
-#: src/plugin.c:1093
+#: src/plugin.c:1098
 #, c-format
 msgid "Plugin version \"%s\" is different from application \"%s\"."
 msgstr "A bõvítmény verziója (%s) különbözik az alkalmazás verziójától (%s)."
 
-#: src/plugin.c:1097
+#: src/plugin.c:1102
 #, c-format
 msgid "Module file \"%s\" has invalid format."
 msgstr "\"%s\" modulfájl formátuma érvénytelen."
 
-#: src/plugin.c:1102
+#: src/plugin.c:1107
 msgid "File doesn't contain \"init_plugin\" function."
 msgstr "A fájl nem tartalmaz \"init_plugin\" függvényt."
 
-#: src/plugin.c:1107
+#: src/plugin.c:1112
 msgid "File doesn't contain \"cleanup_plugin\" function."
 msgstr "A fájl nem tartalmaz \"cleanup_plugin\" függvényt."
 
-#: src/plugin.c:1112
+#: src/plugin.c:1117
 msgid "File doesn't contain \"can_deactivate_plugin\" function."
 msgstr "A fájl nem tartalmaz \"can_deactivate_plugin\" függvényt."
 
-#: src/plugin.c:1117
+#: src/plugin.c:1122
 msgid ""
 "File doesn't contain version information (\"gnumeric_plugin_version\" "
 "symbol)."
-msgstr "A fájl nem tartalmaz verzióinformációt (\"gnumeric_plugin_version\" szimbólumot)."
+msgstr ""
+"A fájl nem tartalmaz verzióinformációt (\"gnumeric_plugin_version\" "
+"szimbólumot)."
 
-#: src/plugin.c:1124
+#: src/plugin.c:1129
 msgid "Dynamic module loading is not supported in this system."
 msgstr "A dinamikus modulbetöltés nem támogatott ezen a rendszeren"
 
-#: src/plugin.c:1144
+#: src/plugin.c:1149
 #, c-format
 msgid "Unable to close module file \"%s\": %s"
 msgstr "nem sikerült bezárni \"%s\" modulfájlt: %s"
@@ -12386,119 +12663,127 @@ msgstr "&[TAB]"
 msgid "&[DATE]"
 msgstr "&[DATE]"
 
-#: src/print-info.c:440
+#: src/print-info.c:442
 msgid "points"
 msgstr "pont"
 
-#: src/print-info.c:441
+#: src/print-info.c:443
 msgid "millimeter"
 msgstr "miliméter"
 
-#: src/print-info.c:442
+#: src/print-info.c:444
 msgid "centimeter"
 msgstr "centiméter"
 
-#: src/print-info.c:443
+#: src/print-info.c:445
 msgid "inch"
 msgstr "hüvelyk"
 
-#: src/print-info.c:533
+#: src/print-info.c:535
 msgid "Sheet 1"
 msgstr "Munkalap 1"
 
-#: src/print-info.c:596
+#: src/print-info.c:598
 msgid "tab"
 msgstr ""
 
-#: src/print-info.c:597
+#: src/print-info.c:599
 msgid "page"
 msgstr "oldal"
 
-#: src/print-info.c:598
+#: src/print-info.c:600
 msgid "pages"
 msgstr "oldal"
 
-#: src/print-info.c:599
+#: src/print-info.c:601
 msgid "date"
 msgstr "dátum"
 
-#: src/print-info.c:600
+#: src/print-info.c:602
 msgid "time"
 msgstr "idõ"
 
 #. Note: we cannot have spaces in page numbers.
-#: src/print.c:507
+#: src/print.c:547
 msgid "&[PAGE]"
 msgstr "&[PAGE]"
 
-#: src/print.c:990 src/workbook-control-gui.c:2605
+#: src/print.c:1042 src/workbook-control-gui.c:2612
 msgid "Selection must be a single range"
 msgstr "Csak egybefüggõ tartományi jelölhetõ ki"
 
-#: src/print.c:1107
+#: src/print.c:1159
 msgid "Print Sheets"
 msgstr "Lapok nyomtatása"
 
-#: src/print.c:1117
+#: src/print.c:1169
 msgid "Act_ive sheet"
 msgstr "A_ktív lap"
 
-#: src/print.c:1117
+#: src/print.c:1169
 msgid "S_heets"
 msgstr "M_unkalapok"
 
-#: src/print.c:1204
+#: src/print.c:1256
 msgid "Printing failed"
 msgstr "A nyomtatás nem sikerült"
 
-#: src/search.c:116
+#: src/search.c:122
 msgid "Search string must not be empty."
 msgstr "A keresendõ karakterlánc nem lehet üres"
 
-#: src/search.c:119
+#: src/search.c:125
 msgid "Replacement string must be set."
 msgstr "Meg kell adni azt a karakterláncot, amire le kell cserélni."
 
-#: src/search.c:125
+#: src/search.c:131
 msgid "You must specify a range to search."
 msgstr "Meg kell adni a keresés helyét."
 
-#: src/search.c:131
+#: src/search.c:137
 #, fuzzy
 msgid "The search range is invalid."
 msgstr "A keresés szövege szó szerint értendõ"
 
-#: src/search.c:136
+#: src/search.c:142
 msgid "Invalid search pattern."
 msgstr "Érvénytelen keresõminta"
 
-#: src/selection.c:107
+#: src/search.c:157 src/search.c:161
+msgid "Invalid $-specification in replacement."
+msgstr ""
+
+#: src/search.c:166
+msgid "Invalid trailing backslash in replacement."
+msgstr ""
+
+#: src/selection.c:108
 msgid "cannot be performed with multiple selections"
 msgstr "parancsot nem lehet többszörös kijelöléssel végehajtani"
 
-#: src/selection.c:117
+#: src/selection.c:118
 msgid "can not operate on merged cells"
 msgstr "nem mûködik összefûzött cellákon"
 
-#: src/selection.c:129
+#: src/selection.c:130
 msgid "can not operate on array formulae"
 msgstr "nem mûködik tömbformulákon"
 
 #. FIXME FIXME : disable copying part of an array
-#: src/gnumeric.xml.h:33 src/selection.c:682 src/workbook-control-gui.c:2168
+#: src/gnumeric.xml.h:33 src/selection.c:688 src/workbook-control-gui.c:2175
 msgid "Copy"
 msgstr "Másolás"
 
-#: src/gnumeric.xml.h:52 src/selection.c:710 src/workbook-control-gui.c:2165
+#: src/gnumeric.xml.h:52 src/selection.c:716 src/workbook-control-gui.c:2172
 msgid "Cut"
 msgstr "Kivágás"
 
-#: src/sheet-control-gui.c:449
+#: src/sheet-control-gui.c:462
 #, c-format
 msgid "Row: %d"
 msgstr "Sor: %d"
 
-#: src/sheet-control-gui.c:460
+#: src/sheet-control-gui.c:473
 #, c-format
 msgid "Column: %s"
 msgstr "Oszlop: %s"
@@ -12527,7 +12812,7 @@ msgid "_Insert..."
 msgstr "_Beszúrás..."
 
 #: src/gnumeric.xml.h:212 src/sheet-control-gui.c:1094
-#: src/workbook-control-gui.c:1886
+#: src/workbook-control-gui.c:1893
 msgid "_Delete..."
 msgstr "_Törlés..."
 
@@ -12561,14 +12846,14 @@ msgid "Column _Width..."
 msgstr "Oszlop _szélessége..."
 
 #: src/gnumeric.xml.h:222 src/sheet-control-gui.c:1117
-#: src/sheet-control-gui.c:1125 src/workbook-control-gui.c:1992
-#: src/workbook-control-gui.c:2011
+#: src/sheet-control-gui.c:1125 src/workbook-control-gui.c:1999
+#: src/workbook-control-gui.c:2018
 msgid "_Hide"
 msgstr "_Elrejt"
 
 #: src/gnumeric.xml.h:246 src/sheet-control-gui.c:1119
-#: src/sheet-control-gui.c:1127 src/workbook-control-gui.c:1995
-#: src/workbook-control-gui.c:2014
+#: src/sheet-control-gui.c:1127 src/workbook-control-gui.c:2002
+#: src/workbook-control-gui.c:2021
 msgid "_Unhide"
 msgstr "_Megmutat"
 
@@ -12591,23 +12876,23 @@ msgstr "Gomb"
 msgid "Checkbox Configure"
 msgstr "Jelölõnégyzet beállítása"
 
-#: src/sheet-object.c:80
+#: src/sheet-object.c:81
 msgid "Configure"
 msgstr "Beállítás"
 
-#: src/sheet.c:2832 src/sheet.c:2842
+#: src/sheet.c:2814 src/sheet.c:2824
 msgid "Insert Columns"
 msgstr "Oszlopok beszúrása"
 
-#: src/sheet.c:2911
+#: src/sheet.c:2893
 msgid "Delete Columns"
 msgstr "Oszlopok törlése"
 
-#: src/sheet.c:2979 src/sheet.c:2989
+#: src/sheet.c:2961 src/sheet.c:2971
 msgid "Insert Rows"
 msgstr "Sorok beszúrása"
 
-#: src/sheet.c:3058
+#: src/sheet.c:3040
 msgid "Delete Rows"
 msgstr "Sorok törlése"
 
@@ -12762,11 +13047,11 @@ msgstr "Szövegfájl importálása"
 msgid "Text File Export (*.csv)"
 msgstr "Szövegfájl exportálása (*.csv)"
 
-#: src/style.c:244 src/style.c:246
+#: src/style.c:245 src/style.c:247
 msgid "<Has not been set>"
 msgstr "<Nincs beállítva>"
 
-#: src/style.c:249
+#: src/style.c:250
 #, c-format
 msgid ""
 "Gnumeric failed to find a suitable default font.\n"
@@ -12805,11 +13090,11 @@ msgstr ""
 "\n"
 "Köszönjük -- a Gnumeric Csapat\n"
 
-#: src/style.c:266
+#: src/style.c:267
 msgid "does not have a valid entry for Helvetica"
 msgstr "nincs érvényes Helvetica bejegyzés"
 
-#: src/style.c:267
+#: src/style.c:268
 msgid "could not be found in the expected location"
 msgstr "nem található az elvárt helyen"
 
@@ -13080,79 +13365,91 @@ msgstr "Ellipszis"
 msgid "Creates an ellipse object"
 msgstr "Ellipszisrajzolás"
 
-#: src/workbook-view.c:217
+#: src/workbook-view.c:234
 #, c-format
 msgid "%dLx%dC"
 msgstr ""
 
-#: src/workbook-view.c:361
+#: src/workbook-view.c:378
 msgid "Internal ERROR"
 msgstr "Belsõ HIBA"
 
-#: src/workbook-control-gui.c:206
+#: src/workbook-control-gui.c:207
 msgid " : Gnumeric"
 msgstr " : Gnumeric"
 
-#: src/workbook-control-gui.c:408
+#: src/workbook-control-gui.c:392
 msgid "Add another sheet"
 msgstr "Még egy lap hozzáadása"
 
-#: src/workbook-control-gui.c:409
+#: src/workbook-control-gui.c:393
 msgid "Remove this sheet"
 msgstr "Aktuális lap törlése"
 
-#: src/workbook-control-gui.c:410
+#: src/workbook-control-gui.c:394
 msgid "Rename this sheet"
 msgstr "Aktuális lap átnevezése"
 
-#: src/workbook-control-gui.c:411
+#: src/workbook-control-gui.c:395
 msgid "Duplicate this sheet"
 msgstr "Aktuális lap lemásolása"
 
-#: src/workbook-control-gui.c:412
+#: src/workbook-control-gui.c:396
 msgid "Re-order sheets"
 msgstr "Lapok átrendezése"
 
-#: src/workbook-control-gui.c:770
+#: src/workbook-control-gui.c:736
 msgid "Nothing"
 msgstr "Semmi"
 
-#: src/workbook-control-gui.c:797 src/workbook-control-gui.c:2178
-#: src/workbook-control-gui.c:2363 src/workbook-control-gui.c:2403
+#: src/workbook-control-gui.c:763 src/workbook-control-gui.c:2185
+#: src/workbook-control-gui.c:2370 src/workbook-control-gui.c:2410
 msgid "Undo"
 msgstr "Visszavonás"
 
-#: src/workbook-control-gui.c:798 src/workbook-control-gui.c:2181
-#: src/workbook-control-gui.c:2371 src/workbook-control-gui.c:2405
+#: src/workbook-control-gui.c:764 src/workbook-control-gui.c:2188
+#: src/workbook-control-gui.c:2378 src/workbook-control-gui.c:2412
 msgid "Redo"
 msgstr "Visszaállítás"
 
-#: src/gnumeric.xml.h:245 src/workbook-control-gui.c:801
+#: src/gnumeric.xml.h:245 src/workbook-control-gui.c:767
 msgid "_Undo"
 msgstr "_Visszavonás"
 
-#: src/gnumeric.xml.h:233 src/workbook-control-gui.c:803
+#: src/gnumeric.xml.h:233 src/workbook-control-gui.c:769
 msgid "_Redo"
 msgstr "_Visszaállítás"
 
-#: src/workbook-control-gui.c:878
+#: src/workbook-control-gui.c:842
 msgid "Would split an array."
 msgstr ""
 
-#: src/workbook-control-gui.c:921
+#: src/workbook-control-gui.c:885
 #, c-format
 msgid "Workbook %s has unsaved changes, save them?"
 msgstr "A %s munkafüzetben nem mentett változások vannak, mentsem ezeket?"
 
-#: src/workbook-control-gui.c:924
+#: src/workbook-control-gui.c:888
 msgid "Workbook has unsaved changes, save them?"
 msgstr "A Munkafüzetben nem mentett változások vannak, mentsem ezeket?"
+
+#: src/workbook-control-gui.c:1270
+#, c-format
+msgid ""
+"In cell %s, the current contents\n"
+"        %s\n"
+"would have been replaced by\n"
+"        %s\n"
+"which is invalid.\n"
+"\n"
+"The replace has been aborted and nothing has been changed."
+msgstr ""
 
 #. TODO : No need to check simplicty.  XL applies for each
 #. * non-discrete selected region, (use selection_apply)
 #. * we do need to check for arrays and merged cells
 #.
-#: src/workbook-control-gui.c:1381
+#: src/workbook-control-gui.c:1388
 msgid "Insert rows"
 msgstr "Sorok"
 
@@ -13160,520 +13457,526 @@ msgstr "Sorok"
 #. * non-discrete selected region, (use selection_apply)
 #. * we do need to check for arrays and merged cells
 #.
-#: src/workbook-control-gui.c:1407
+#: src/workbook-control-gui.c:1414
 msgid "Insert cols"
 msgstr "Oszlopok"
 
-#: src/workbook-control-gui.c:1436
+#: src/workbook-control-gui.c:1443
 msgid "Select an object to add"
 msgstr "Hozzáadandó objektum kiválasztása"
 
-#: src/workbook-control-gui.c:1446
-#, fuzzy
-msgid "Unable to create object of type '"
+#: src/workbook-control-gui.c:1453
+#, fuzzy, c-format
+msgid "Unable to create object of type '%s'"
 msgstr "nem sikerült objektumot létrehozni '%s' számára"
 
-#: src/gnumeric.xml.h:227 src/workbook-control-gui.c:1764
+#: src/gnumeric.xml.h:227 src/workbook-control-gui.c:1771
 msgid "_New"
 msgstr "Ú_j"
 
-#: src/gnumeric.xml.h:44 src/workbook-control-gui.c:1764
+#: src/gnumeric.xml.h:44 src/workbook-control-gui.c:1771
 msgid "Create a new spreadsheet"
 msgstr "Új munkalap"
 
-#: src/gnumeric.xml.h:223 src/workbook-control-gui.c:1768
+#: src/gnumeric.xml.h:223 src/workbook-control-gui.c:1775
 msgid "_Import..."
 msgstr "_Importálás..."
 
-#: src/gnumeric.xml.h:86 src/workbook-control-gui.c:1768
+#: src/gnumeric.xml.h:86 src/workbook-control-gui.c:1775
 msgid "Imports a file"
 msgstr "Fájl importálása"
 
-#: src/workbook-control-gui.c:1778 src/workbook-control-gui.c:2159
-msgid "Print pre_view"
+#: src/gnumeric.xml.h:139 src/workbook-control-gui.c:1785
+msgid "Print Pre_view"
 msgstr "Nyomtatási _kép"
 
-#: src/gnumeric.xml.h:185 src/workbook-control-gui.c:1784
+#: src/gnumeric.xml.h:140 src/workbook-control-gui.c:1785
+#: src/workbook-control-gui.c:2166
+msgid "Print Preview"
+msgstr "Nyomtatási kép"
+
+#: src/gnumeric.xml.h:185 src/workbook-control-gui.c:1791
 msgid "Su_mmary..."
 msgstr "A_datlap"
 
-#: src/gnumeric.xml.h:188 src/workbook-control-gui.c:1785
+#: src/gnumeric.xml.h:188 src/workbook-control-gui.c:1792
 msgid "Summary information"
 msgstr "Adatok a munkafüzetrõl"
 
-#: src/gnumeric.xml.h:199 src/workbook-control-gui.c:1798
+#: src/gnumeric.xml.h:199 src/workbook-control-gui.c:1805
 msgid "_All"
 msgstr "Min_dent"
 
-#: src/gnumeric.xml.h:29 src/workbook-control-gui.c:1799
+#: src/gnumeric.xml.h:29 src/workbook-control-gui.c:1806
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Törli a kiválasztott cellák formátumát, tartalmát és megjegyzéseit"
 
-#: src/gnumeric.xml.h:217 src/workbook-control-gui.c:1801
+#: src/gnumeric.xml.h:217 src/workbook-control-gui.c:1808
 msgid "_Formats"
 msgstr "_Formátumot"
 
-#: src/gnumeric.xml.h:28 src/workbook-control-gui.c:1802
+#: src/gnumeric.xml.h:28 src/workbook-control-gui.c:1809
 msgid "Clear the selected cells' formats"
 msgstr "Törli a kiválasztott cellák formátumát"
 
-#: src/gnumeric.xml.h:26 src/workbook-control-gui.c:1805
+#: src/gnumeric.xml.h:26 src/workbook-control-gui.c:1812
 msgid "Clear the selected cells' comments"
 msgstr "Törli a kiválasztott cellák megjegyzéseit"
 
-#: src/gnumeric.xml.h:207 src/workbook-control-gui.c:1807
+#: src/gnumeric.xml.h:207 src/workbook-control-gui.c:1814
 msgid "_Content"
 msgstr "_Képletet"
 
-#: src/gnumeric.xml.h:27 src/workbook-control-gui.c:1808
+#: src/gnumeric.xml.h:27 src/workbook-control-gui.c:1815
 msgid "Clear the selected cells' contents"
 msgstr "Törli a kiválasztott cellák tartalmát"
 
-#: src/gnumeric.xml.h:167 src/workbook-control-gui.c:1816
+#: src/gnumeric.xml.h:167 src/workbook-control-gui.c:1823
 msgid "Select _All"
 msgstr "_Mindent kijelöl"
 
-#: src/gnumeric.xml.h:171 src/workbook-control-gui.c:1817
+#: src/gnumeric.xml.h:171 src/workbook-control-gui.c:1824
 msgid "Select all cells in the spreadsheet"
 msgstr "Minden cellát kijelöl az aktuális munkalapon"
 
-#: src/gnumeric.xml.h:170 src/workbook-control-gui.c:1821
+#: src/gnumeric.xml.h:170 src/workbook-control-gui.c:1828
 msgid "Select _Row"
 msgstr "_Sor kijelölése"
 
-#: src/gnumeric.xml.h:175 src/workbook-control-gui.c:1822
+#: src/gnumeric.xml.h:175 src/workbook-control-gui.c:1829
 msgid "Select an entire row"
 msgstr "Egy teljes sor kijelölése"
 
-#: src/gnumeric.xml.h:168 src/workbook-control-gui.c:1826
+#: src/gnumeric.xml.h:168 src/workbook-control-gui.c:1833
 msgid "Select _Column"
 msgstr "_Oszlop kijelölése"
 
-#: src/gnumeric.xml.h:174 src/workbook-control-gui.c:1827
+#: src/gnumeric.xml.h:174 src/workbook-control-gui.c:1834
 msgid "Select an entire column"
 msgstr "Egy teljes oszlop kijelölése"
 
-#: src/gnumeric.xml.h:166 src/workbook-control-gui.c:1831
+#: src/gnumeric.xml.h:166 src/workbook-control-gui.c:1838
 msgid "Select Arra_y"
 msgstr "_Tömb kijelölése"
 
-#: src/gnumeric.xml.h:173 src/workbook-control-gui.c:1832
+#: src/gnumeric.xml.h:173 src/workbook-control-gui.c:1839
 msgid "Select an array of cells"
 msgstr "Cellák egy összefüggõ csoportjának kijelölése"
 
-#: src/gnumeric.xml.h:169 src/workbook-control-gui.c:1836
+#: src/gnumeric.xml.h:169 src/workbook-control-gui.c:1843
 msgid "Select _Depends"
 msgstr "_Függõ cellák kijelölése"
 
-#: src/workbook-control-gui.c:1837
+#: src/workbook-control-gui.c:1844
 msgid "Select all the cells that depend on the current edit cell."
 msgstr ""
 "Kijelöli az összes cellát, amelyek az éppen szerkesztett cellától függenek."
 
-#: src/gnumeric.xml.h:213 src/workbook-control-gui.c:1844
+#: src/gnumeric.xml.h:213 src/workbook-control-gui.c:1851
 msgid "_Duplicate"
 msgstr "_Megkettõzés"
 
-#: src/gnumeric.xml.h:113 src/workbook-control-gui.c:1845
+#: src/gnumeric.xml.h:113 src/workbook-control-gui.c:1852
 msgid "Make a copy of the current sheet"
 msgstr "Az aktuális lapról másolat készítése"
 
-#: src/gnumeric.xml.h:224 src/workbook-control-gui.c:1848
-#: src/workbook-control-gui.c:2134
+#: src/gnumeric.xml.h:224 src/workbook-control-gui.c:1855
+#: src/workbook-control-gui.c:2141
 msgid "_Insert"
 msgstr "_Beszúrás"
 
-#: src/gnumeric.xml.h:92 src/workbook-control-gui.c:1849
+#: src/gnumeric.xml.h:92 src/workbook-control-gui.c:1856
 msgid "Insert a new sheet"
 msgstr "Új munkalap beszúrása"
 
-#: src/gnumeric.xml.h:148 src/workbook-control-gui.c:1852
+#: src/gnumeric.xml.h:148 src/workbook-control-gui.c:1859
 msgid "Re_name..."
 msgstr ""
 
-#: src/gnumeric.xml.h:154 src/workbook-control-gui.c:1853
+#: src/gnumeric.xml.h:154 src/workbook-control-gui.c:1860
 msgid "Rename the current sheet"
 msgstr "Az aktuális lap átnevezése"
 
-#: src/gnumeric.xml.h:146 src/workbook-control-gui.c:1856
-#: src/workbook-control-gui.c:2027
+#: src/gnumeric.xml.h:146 src/workbook-control-gui.c:1863
+#: src/workbook-control-gui.c:2034
 msgid "Re-_Order Sheets..."
 msgstr "_Munkalapok átrendezése..."
 
-#: src/gnumeric.xml.h:103 src/workbook-control-gui.c:1861
+#: src/gnumeric.xml.h:103 src/workbook-control-gui.c:1868
 msgid "Irrevocably remove an entire sheet"
 msgstr "Visszavonhatatlanul törli az egész lapot"
 
-#: src/workbook-control-gui.c:1878
+#: src/workbook-control-gui.c:1885
 msgid "P_aste special..."
 msgstr "Irá_nyított beillesztés..."
 
-#: src/gnumeric.xml.h:136 src/workbook-control-gui.c:1879
+#: src/gnumeric.xml.h:136 src/workbook-control-gui.c:1886
 msgid "Paste with optional filters and transformations"
 msgstr "Beillesztés választható szûrõkön illetve transzformációkon keresztül"
 
-#: src/gnumeric.xml.h:14 src/workbook-control-gui.c:1884
+#: src/gnumeric.xml.h:14 src/workbook-control-gui.c:1891
 msgid "C_lear"
 msgstr "Tartalom tö_rlése"
 
-#: src/workbook-control-gui.c:1887
+#: src/workbook-control-gui.c:1894
 msgid "Remove selected cells, shifting other into their place"
 msgstr "Eltávolítja a kijelölt cellákat, a helyükre becsúsztatja a többit"
 
-#: src/gnumeric.xml.h:157 src/workbook-control-gui.c:1891
+#: src/gnumeric.xml.h:157 src/workbook-control-gui.c:1898
 msgid "S_heet"
 msgstr "M_unkalap"
 
-#: src/gnumeric.xml.h:238 src/workbook-control-gui.c:1893
+#: src/gnumeric.xml.h:238 src/workbook-control-gui.c:1900
 msgid "_Select"
 msgstr "_Kijelölés"
 
-#: src/gnumeric.xml.h:164 src/workbook-control-gui.c:1895
+#: src/gnumeric.xml.h:164 src/workbook-control-gui.c:1902
 msgid "Search and Replace..."
 msgstr "Keresés és csere..."
 
-#: src/gnumeric.xml.h:165 src/workbook-control-gui.c:1896
+#: src/gnumeric.xml.h:165 src/workbook-control-gui.c:1903
 msgid "Search for some text and replace it with something else"
 msgstr "Megkeres egy adott szöveget és lecseréli valami másra."
 
 #. Default <Ctrl-G> to be goto
-#: src/gnumeric.xml.h:219 src/workbook-control-gui.c:1900
+#: src/gnumeric.xml.h:219 src/workbook-control-gui.c:1907
 msgid "_Goto cell..."
 msgstr "_Ugrás..."
 
-#: src/gnumeric.xml.h:107 src/workbook-control-gui.c:1901
+#: src/gnumeric.xml.h:107 src/workbook-control-gui.c:1908
 msgid "Jump to a specified cell"
 msgstr "Megadott cellára ugrás"
 
 #. Default <F9> to recalculate
-#: src/gnumeric.xml.h:149 src/workbook-control-gui.c:1906
+#: src/gnumeric.xml.h:149 src/workbook-control-gui.c:1913
 msgid "Recalculate"
 msgstr "Újraszámolás"
 
-#: src/gnumeric.xml.h:150 src/workbook-control-gui.c:1907
+#: src/gnumeric.xml.h:150 src/workbook-control-gui.c:1914
 msgid "Recalculate the spreadsheet"
 msgstr "Újraszámolja a munkalapot"
 
-#: src/gnumeric.xml.h:250 src/workbook-control-gui.c:1917
+#: src/gnumeric.xml.h:250 src/workbook-control-gui.c:1924
 msgid "_Zoom..."
 msgstr "_Nagyítás..."
 
-#: src/gnumeric.xml.h:196 src/workbook-control-gui.c:1918
+#: src/gnumeric.xml.h:196 src/workbook-control-gui.c:1925
 msgid "Zoom the spreadsheet in or out"
 msgstr "Nagyítja vagy kicsinyíti a munkalapot"
 
-#: src/gnumeric.xml.h:126 src/workbook-control-gui.c:1920
+#: src/gnumeric.xml.h:126 src/workbook-control-gui.c:1927
 msgid "New _Shared"
 msgstr "Új meg_osztott"
 
-#: src/gnumeric.xml.h:43 src/workbook-control-gui.c:1921
+#: src/gnumeric.xml.h:43 src/workbook-control-gui.c:1928
 msgid "Create a new shared view of the workbook"
 msgstr "A münkafüzetrõl egy új megosztott nézezet hoz létre."
 
-#: src/gnumeric.xml.h:127 src/workbook-control-gui.c:1923
+#: src/gnumeric.xml.h:127 src/workbook-control-gui.c:1930
 msgid "New _Unshared"
 msgstr "Új _nem megosztott"
 
-#: src/gnumeric.xml.h:45 src/workbook-control-gui.c:1924
+#: src/gnumeric.xml.h:45 src/workbook-control-gui.c:1931
 msgid "Create a new unshared view of the workbook"
 msgstr "A munkafüzetrõl egy új nem megosztott nézetet hoz létre."
 
 #. Default <Ctrl-;> (control semi-colon) to insert the current date
-#: src/gnumeric.xml.h:50 src/workbook-control-gui.c:1933
+#: src/gnumeric.xml.h:50 src/workbook-control-gui.c:1940
 msgid "Current _date"
 msgstr "Jelenlegi _dátum"
 
-#: src/gnumeric.xml.h:99 src/workbook-control-gui.c:1934
+#: src/gnumeric.xml.h:99 src/workbook-control-gui.c:1941
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Beszúrja a jelenlegi dátumot a kiválasztott cellába"
 
 #. Default <Ctrl-:> (control colon) to insert the current time
-#: src/gnumeric.xml.h:51 src/workbook-control-gui.c:1939
+#: src/gnumeric.xml.h:51 src/workbook-control-gui.c:1946
 msgid "Current _time"
 msgstr "Jelenlegi _idõ"
 
-#: src/gnumeric.xml.h:100 src/workbook-control-gui.c:1940
+#: src/gnumeric.xml.h:100 src/workbook-control-gui.c:1947
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Beszúrja a jelenlegi idõt a kiválasztott cellába"
 
-#: src/workbook-control-gui.c:1947
+#: src/workbook-control-gui.c:1954
 msgid "_Define..."
 msgstr "_Definiálás..."
 
-#: src/gnumeric.xml.h:62 src/workbook-control-gui.c:1948
+#: src/gnumeric.xml.h:62 src/workbook-control-gui.c:1955
 msgid "Edit sheet and workbook names"
 msgstr "Munkalap- és munkafüzetnevek szerkesztése"
 
-#: src/workbook-control-gui.c:1951
+#: src/workbook-control-gui.c:1958
 msgid "_Auto generate names..."
 msgstr "_Automatikus névgenenerálás..."
 
-#: src/workbook-control-gui.c:1952
+#: src/workbook-control-gui.c:1959
 msgid "Use the current selection to create names"
 msgstr ""
 
-#: src/gnumeric.xml.h:239 src/workbook-control-gui.c:1959
-#: src/workbook-control-gui.c:2067
+#: src/gnumeric.xml.h:239 src/workbook-control-gui.c:1966
+#: src/workbook-control-gui.c:2074
 msgid "_Sheet"
 msgstr "M_unkalap"
 
-#: src/gnumeric.xml.h:93 src/workbook-control-gui.c:1960
+#: src/gnumeric.xml.h:93 src/workbook-control-gui.c:1967
 msgid "Insert a new spreadsheet"
 msgstr "Új munkalap beszúrása"
 
-#: src/gnumeric.xml.h:98 src/workbook-control-gui.c:1963
+#: src/gnumeric.xml.h:98 src/workbook-control-gui.c:1970
 msgid "Insert new rows"
 msgstr "Új sorok beszúrása"
 
-#: src/gnumeric.xml.h:97 src/workbook-control-gui.c:1966
+#: src/gnumeric.xml.h:97 src/workbook-control-gui.c:1973
 msgid "Insert new columns"
 msgstr "Új oszlopok beszúrása"
 
-#: src/gnumeric.xml.h:13 src/workbook-control-gui.c:1968
+#: src/gnumeric.xml.h:13 src/workbook-control-gui.c:1975
 msgid "C_ells..."
 msgstr "_Cellák..."
 
-#: src/gnumeric.xml.h:96 src/workbook-control-gui.c:1969
+#: src/gnumeric.xml.h:96 src/workbook-control-gui.c:1976
 msgid "Insert new cells"
 msgstr "Új cellák beszúrása"
 
-#: src/gnumeric.xml.h:226 src/workbook-control-gui.c:1974
+#: src/gnumeric.xml.h:226 src/workbook-control-gui.c:1981
 msgid "_Name"
 msgstr "_Név"
 
-#: src/workbook-control-gui.c:1976
-msgid "_Add\\modify comment..."
+#: src/gnumeric.xml.h:198 src/workbook-control-gui.c:1983
+#, fuzzy
+msgid "_Add / Modify comment..."
 msgstr "_Megjegyzés beszúrása/módosítása..."
 
-#: src/gnumeric.xml.h:64 src/workbook-control-gui.c:1977
+#: src/gnumeric.xml.h:64 src/workbook-control-gui.c:1984
 msgid "Edit the selected cell's comment"
 msgstr "A kiválasztott cella megjegyzését szerkeszti"
 
-#: src/gnumeric.xml.h:158 src/workbook-control-gui.c:1980
+#: src/gnumeric.xml.h:158 src/workbook-control-gui.c:1987
 msgid "S_pecial"
 msgstr "_Speciális"
 
-#: src/gnumeric.xml.h:201 src/workbook-control-gui.c:1986
-#: src/workbook-control-gui.c:2005
+#: src/gnumeric.xml.h:201 src/workbook-control-gui.c:1993
+#: src/workbook-control-gui.c:2012
 msgid "_Auto fit selection"
 msgstr "_Legszélesebb kijelölt"
 
-#: src/gnumeric.xml.h:248 src/workbook-control-gui.c:1989
+#: src/gnumeric.xml.h:248 src/workbook-control-gui.c:1996
 msgid "_Width..."
 msgstr "_Szélesség..."
 
-#: src/gnumeric.xml.h:243 src/workbook-control-gui.c:1998
+#: src/gnumeric.xml.h:243 src/workbook-control-gui.c:2005
 msgid "_Standard Width"
 msgstr "_Normál szélesség"
 
-#: src/gnumeric.xml.h:220 src/workbook-control-gui.c:2008
+#: src/gnumeric.xml.h:220 src/workbook-control-gui.c:2015
 msgid "_Height..."
 msgstr "_Magasság..."
 
-#: src/gnumeric.xml.h:242 src/workbook-control-gui.c:2017
+#: src/gnumeric.xml.h:242 src/workbook-control-gui.c:2024
 msgid "_Standard Height"
 msgstr "_Normál magasság"
 
-#: src/workbook-control-gui.c:2024
+#: src/workbook-control-gui.c:2031
 msgid "_Change name"
 msgstr "Átne_vezés"
 
-#: src/gnumeric.xml.h:56 src/workbook-control-gui.c:2031
+#: src/gnumeric.xml.h:56 src/workbook-control-gui.c:2038
 msgid "Display _Formulas"
 msgstr "_Képlet megjelenítése"
 
-#: src/gnumeric.xml.h:83 src/workbook-control-gui.c:2036
+#: src/gnumeric.xml.h:83 src/workbook-control-gui.c:2043
 msgid "Hide _Zeros"
 msgstr "_Nullák elrejtése"
 
-#: src/gnumeric.xml.h:81 src/workbook-control-gui.c:2041
+#: src/gnumeric.xml.h:81 src/workbook-control-gui.c:2048
 msgid "Hide _Gridlines"
 msgstr "_Cellarácsok elrejtése"
 
-#: src/workbook-control-gui.c:2046
+#: src/workbook-control-gui.c:2053
 msgid "Hide _Column Header"
 msgstr "_Oszlop fejlécének elrejtése"
 
-#: src/workbook-control-gui.c:2051
+#: src/workbook-control-gui.c:2058
 msgid "Hide _Row Header"
 msgstr "_Sor fejlécének elrejtése"
 
 #. Default <Ctrl-1> invoke the format dialog
-#: src/gnumeric.xml.h:203 src/workbook-control-gui.c:2061
+#: src/gnumeric.xml.h:203 src/workbook-control-gui.c:2068
 msgid "_Cells..."
 msgstr "_Cellák..."
 
-#: src/gnumeric.xml.h:122 src/workbook-control-gui.c:2062
+#: src/gnumeric.xml.h:122 src/workbook-control-gui.c:2069
 msgid "Modify the formatting of the selected cells"
 msgstr "Megváltoztatja a kiválasztott cellák formátumát"
 
-#: src/gnumeric.xml.h:15 src/workbook-control-gui.c:2065
+#: src/gnumeric.xml.h:15 src/workbook-control-gui.c:2072
 msgid "C_olumn"
 msgstr "_Oszlop"
 
-#: src/gnumeric.xml.h:235 src/workbook-control-gui.c:2066
+#: src/gnumeric.xml.h:235 src/workbook-control-gui.c:2073
 msgid "_Row"
 msgstr "So_r"
 
-#: src/gnumeric.xml.h:202 src/workbook-control-gui.c:2069
+#: src/gnumeric.xml.h:202 src/workbook-control-gui.c:2076
 msgid "_Autoformat..."
 msgstr "_Automatikus formázás..."
 
-#: src/gnumeric.xml.h:74 src/workbook-control-gui.c:2070
+#: src/gnumeric.xml.h:74 src/workbook-control-gui.c:2077
 msgid "Format a region of cells according to a pre-defined template"
 msgstr "Megadott cellatartomány formázása egy elõre definiált sablon alapján"
 
-#: src/gnumeric.xml.h:249 src/workbook-control-gui.c:2073
+#: src/gnumeric.xml.h:249 src/workbook-control-gui.c:2080
 msgid "_Workbook..."
 msgstr "_Munkafüzet..."
 
-#: src/gnumeric.xml.h:123 src/workbook-control-gui.c:2074
+#: src/gnumeric.xml.h:123 src/workbook-control-gui.c:2081
 msgid "Modify the workbook attributes"
 msgstr "Munkafüzet tulajdonságainak megváltoztatása"
 
-#: src/gnumeric.xml.h:231 src/workbook-control-gui.c:2081
+#: src/gnumeric.xml.h:231 src/workbook-control-gui.c:2088
 msgid "_Plug-ins..."
 msgstr "_Bõvítmények..."
 
-#: src/workbook-control-gui.c:2082
+#: src/workbook-control-gui.c:2089
 msgid "Manage available plugin modules."
 msgstr "A rendelkezésre álló bõvítmények kezelése"
 
-#: src/gnumeric.xml.h:6 src/workbook-control-gui.c:2087
+#: src/gnumeric.xml.h:6 src/workbook-control-gui.c:2094
 msgid "Auto _Correct..."
 msgstr "Automatikus _javítás"
 
-#: src/gnumeric.xml.h:7 src/workbook-control-gui.c:2088
+#: src/gnumeric.xml.h:7 src/workbook-control-gui.c:2095
 msgid "Automatically perform simple spell checking"
 msgstr "Automatikusan egyszerû helyesírás-ellenõrzést végez"
 
-#: src/gnumeric.xml.h:200 src/workbook-control-gui.c:2090
+#: src/gnumeric.xml.h:200 src/workbook-control-gui.c:2097
 msgid "_Auto Save..."
 msgstr "_Automatikus mentés"
 
-#: src/gnumeric.xml.h:8 src/workbook-control-gui.c:2091
+#: src/gnumeric.xml.h:8 src/workbook-control-gui.c:2098
 msgid "Automatically save the current document at regular intervals"
 msgstr "Automatikusan elmenti az aktuális dokumentumot bizonyos idõközönként"
 
-#: src/gnumeric.xml.h:218 src/workbook-control-gui.c:2096
+#: src/gnumeric.xml.h:218 src/workbook-control-gui.c:2103
 msgid "_Goal Seek..."
 msgstr "_Célérték-keresés"
 
-#: src/gnumeric.xml.h:105 src/workbook-control-gui.c:2097
+#: src/gnumeric.xml.h:105 src/workbook-control-gui.c:2104
 msgid "Iteratively recalculate to find a target value"
 msgstr "Iterációs módszerrel keresi meg a célértéket"
 
-#: src/gnumeric.xml.h:240 src/workbook-control-gui.c:2099
+#: src/gnumeric.xml.h:240 src/workbook-control-gui.c:2106
 msgid "_Solver..."
 msgstr "_Megoldó..."
 
-#: src/gnumeric.xml.h:106 src/workbook-control-gui.c:2100
+#: src/gnumeric.xml.h:106 src/workbook-control-gui.c:2107
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr ""
 "Iterációs módszerrel keresi meg a célértéket a kényszerfeltételek figyelembe "
 "vételével"
 
-#: src/gnumeric.xml.h:210 src/workbook-control-gui.c:2105
+#: src/gnumeric.xml.h:210 src/workbook-control-gui.c:2112
 msgid "_Data Analysis..."
 msgstr "_Adatelemzés..."
 
-#: src/workbook-control-gui.c:2106
+#: src/workbook-control-gui.c:2113
 msgid "Statistical methods."
 msgstr "Statisztikai módszerek"
 
-#: src/gnumeric.xml.h:241 src/workbook-control-gui.c:2114
+#: src/gnumeric.xml.h:241 src/workbook-control-gui.c:2121
 msgid "_Sort..."
 msgstr "Sorbaren_dezés..."
 
-#: src/gnumeric.xml.h:179 src/workbook-control-gui.c:2115
+#: src/gnumeric.xml.h:179 src/workbook-control-gui.c:2122
 msgid "Sort the selected cells"
 msgstr "A kiválasztott cellákat sorbarendezi"
 
-#: src/gnumeric.xml.h:216 src/workbook-control-gui.c:2117
+#: src/gnumeric.xml.h:216 src/workbook-control-gui.c:2124
 msgid "_Filter..."
 msgstr "_Szûrés..."
 
-#: src/gnumeric.xml.h:69 src/workbook-control-gui.c:2118
+#: src/gnumeric.xml.h:69 src/workbook-control-gui.c:2125
 msgid "Filter data with given criteria"
 msgstr "A megadott feltétel szerint szûri az adatokat"
 
-#: src/gnumeric.xml.h:68 src/workbook-control-gui.c:2135
+#: src/gnumeric.xml.h:68 src/workbook-control-gui.c:2142
 msgid "F_ormat"
 msgstr "Formá_tum"
 
-#: src/gnumeric.xml.h:244 src/workbook-control-gui.c:2136
+#: src/gnumeric.xml.h:244 src/workbook-control-gui.c:2143
 msgid "_Tools"
 msgstr "_Eszközök"
 
-#: src/gnumeric.xml.h:209 src/workbook-control-gui.c:2137
+#: src/gnumeric.xml.h:209 src/workbook-control-gui.c:2144
 msgid "_Data"
 msgstr "_Adat"
 
-#: src/gnumeric.xml.h:125 src/workbook-control-gui.c:2144
+#: src/gnumeric.xml.h:125 src/workbook-control-gui.c:2151
 msgid "New"
 msgstr "Új"
 
-#: src/workbook-control-gui.c:2144
+#: src/workbook-control-gui.c:2151
 msgid "Creates a new workbook"
 msgstr "Új munkafüzet létrehozása"
 
-#: src/gnumeric.xml.h:128 src/workbook-control-gui.c:2147
+#: src/gnumeric.xml.h:128 src/workbook-control-gui.c:2154
 msgid "Open"
 msgstr "Megnyitás"
 
-#: src/workbook-control-gui.c:2147
+#: src/workbook-control-gui.c:2154
 msgid "Opens an existing workbook"
 msgstr "Egy létezõ munkafüzet megnyitása"
 
-#: src/gnumeric.xml.h:159 src/workbook-control-gui.c:2150
+#: src/gnumeric.xml.h:159 src/workbook-control-gui.c:2157
 msgid "Save"
 msgstr "Mentés"
 
-#: src/workbook-control-gui.c:2150
+#: src/workbook-control-gui.c:2157
 msgid "Saves the workbook"
 msgstr "Munkafüzet mentése"
 
-#: src/workbook-control-gui.c:2156
+#: src/workbook-control-gui.c:2163
 msgid "Prints the workbook"
 msgstr "Munkafüzet nyomtatása"
 
-#: src/workbook-control-gui.c:2165
+#: src/workbook-control-gui.c:2172
 msgid "Cuts the selection to the clipboard"
 msgstr "Kivágja a kiválasztott részt a vágólapra"
 
-#: src/workbook-control-gui.c:2168
+#: src/workbook-control-gui.c:2175
 msgid "Copies the selection to the clipboard"
 msgstr "Kimásolja a kiválasztott részt a vágólapra"
 
-#: src/workbook-control-gui.c:2171
+#: src/workbook-control-gui.c:2178
 msgid "Pastes the clipboard"
 msgstr "Beilleszti a vágólap tartalmát"
 
-#: src/workbook-control-gui.c:2178
+#: src/workbook-control-gui.c:2185
 msgid "Undo the operation"
 msgstr "A mûvelet visszavonása"
 
-#: src/workbook-control-gui.c:2181
+#: src/workbook-control-gui.c:2188
 msgid "Redo the operation"
 msgstr "Mûvelet ismétlése"
 
-#: src/workbook-control-gui.c:2191
+#: src/workbook-control-gui.c:2198
 msgid "Sum into the current cell."
 msgstr "Összegzés az aktuális cellába"
 
-#: src/workbook-control-gui.c:2194
+#: src/workbook-control-gui.c:2201
 msgid "Function"
 msgstr "Függvény"
 
-#: src/workbook-control-gui.c:2194
+#: src/workbook-control-gui.c:2201
 msgid "Edit a function in the current cell."
 msgstr "Függvény szerkesztése az aktuális cellában"
 
-#: src/gnumeric.xml.h:177 src/workbook-control-gui.c:2198
+#: src/gnumeric.xml.h:177 src/workbook-control-gui.c:2205
 msgid "Sort Ascending"
 msgstr "Növekvõ sorrend"
 
-#: src/workbook-control-gui.c:2198
+#: src/workbook-control-gui.c:2205
 msgid ""
 "Sorts the selected region in ascending order based on the first column "
 "selected."
@@ -13681,11 +13984,11 @@ msgstr ""
 "Az elsõ kijelölt oszlop szerinti növekvõ sorrendbe rendezi a kijelölt "
 "területet."
 
-#: src/gnumeric.xml.h:178 src/workbook-control-gui.c:2201
+#: src/gnumeric.xml.h:178 src/workbook-control-gui.c:2208
 msgid "Sort Descending"
 msgstr "Csökkenõ sorrend"
 
-#: src/workbook-control-gui.c:2201
+#: src/workbook-control-gui.c:2208
 msgid ""
 "Sorts the selected region in descending order based on the first column "
 "selected."
@@ -13693,11 +13996,11 @@ msgstr ""
 "Az elsõ kijelölt oszlop szerinti csökkenõ sorrendbe rendezi a kijelölt "
 "területet."
 
-#: src/workbook-control-gui.c:2924
+#: src/workbook-control-gui.c:2934
 msgid "Min"
 msgstr "Minimum"
 
-#: src/workbook-control-gui.c:2925
+#: src/workbook-control-gui.c:2935
 msgid "Max"
 msgstr "Maximum"
 
@@ -13706,40 +14009,40 @@ msgstr "Maximum"
 msgid "Book%d.gnumeric"
 msgstr "Fuzet%d.gnumeric"
 
-#: src/workbook.c:1176
+#: src/workbook.c:1166
 msgid "Sheet name"
 msgstr "Lap neve"
 
-#: src/workbook.c:1177
+#: src/workbook.c:1167
 msgid "must have at least 1 letter"
 msgstr "legalább 1 betûs legyen"
 
-#: src/workbook.c:1190
+#: src/workbook.c:1180
 #, c-format
 msgid "There is already a sheet named '%s'"
 msgstr ""
 
-#: src/xml-io.c:3262
+#: src/xml-io.c:3178
 msgid "Invalid xml clipboard data. Tree is empty ?"
 msgstr "Érvénytelen xml vágólap adat. Üres a fastruktúra ?"
 
-#: src/xml-io.c:3315
+#: src/xml-io.c:3231
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Ez nem egy Gnumeric munkafüzetfájl"
 
-#: src/xml-io.c:3376
+#: src/xml-io.c:3292
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML fájlformátum"
 
-#: src/xml-io-autoft.c:420
+#: src/xml-io-autoft.c:421
 msgid "Error while trying to load autoformat template"
 msgstr ""
 
-#: src/xml-io-autoft.c:437
+#: src/xml-io-autoft.c:438
 msgid "Is not an autoformat template file"
 msgstr "Ez nem egy automatikus formázásokat tartalmazó sablonfájl"
 
-#: src/xml-io-autoft.c:447
+#: src/xml-io-autoft.c:448
 msgid "Error while trying to build tree from autoformat template file"
 msgstr ""
 
@@ -13984,7 +14287,8 @@ msgid "Make font bold"
 msgstr "Félkövérré teszi a betût"
 
 #: src/gnumeric.xml.h:117
-msgid "Makes font italic"
+#, fuzzy
+msgid "Make font italic"
 msgstr "Megdönti a betûket"
 
 #: src/gnumeric.xml.h:118
@@ -14022,14 +14326,6 @@ msgstr "Beilleszti a vágólap tartalmát"
 #: src/gnumeric.xml.h:135
 msgid "Paste the contents of the clipboard or cut buffer"
 msgstr "A vágólap vagy a kivágási buffer tartalmának beillesztése"
-
-#: src/gnumeric.xml.h:139
-msgid "Print Pre_view"
-msgstr "Nyomtatási _kép"
-
-#: src/gnumeric.xml.h:140
-msgid "Print Preview"
-msgstr "Nyomtatási kép"
 
 #: src/gnumeric.xml.h:141
 msgid "Print S_etup"
@@ -14140,10 +14436,6 @@ msgstr "Utolsó mûvelet visszavonása"
 msgid "_About..."
 msgstr "_Névjegy"
 
-#: src/gnumeric.xml.h:198
-msgid "_Add / modify comment..."
-msgstr "_Megjegyzés beszúrása/módosítása..."
-
 #: src/gnumeric.xml.h:204
 msgid "_Change Name..."
 msgstr "Átne_vezés..."
@@ -14191,6 +14483,41 @@ msgstr "_Mentés"
 #: src/gnumeric.xml.h:247
 msgid "_View"
 msgstr "_Nézet"
+
+#~ msgid "Gnome Basic"
+#~ msgstr "Gnome Basic"
+
+#~ msgid "Enables Gnome Basic support"
+#~ msgstr "Bekapcsolja a Gnome Basic támogatást"
+
+#~ msgid "Guile Plugin"
+#~ msgstr "Guile bõvítmény"
+
+# plugins/guile/plugin.c:235
+#~ msgid "This plugin enables Guile(scheme) support in Gnumeric"
+#~ msgstr ""
+#~ "Ez a bõvítmény bekapcsolja a Guile (scheme) támogatást a Gnumeric-ben"
+
+#~ msgid "Perl"
+#~ msgstr "Perl"
+
+#~ msgid "Enables the creation of functions in PERL"
+#~ msgstr "Segítségével PERL függvényeket hozhatsz létre"
+
+#~ msgid "_Merge Cells"
+#~ msgstr "Cellák _egybenyitása"
+
+#~ msgid "Missing quote"
+#~ msgstr "Hiányzó idézõjel"
+
+#~ msgid "Impossible!"
+#~ msgstr "Lehetetlen!"
+
+#~ msgid "Print pre_view"
+#~ msgstr "Nyomtatási _kép"
+
+#~ msgid "_Add\\modify comment..."
+#~ msgstr "_Megjegyzés beszúrása/módosítása..."
 
 #~ msgid "Applix"
 #~ msgstr "Applix"
@@ -14296,50 +14623,6 @@ msgstr "_Nézet"
 #~ "A bõvítmény (%s) megnyitása nem sikerült\n"
 #~ "A bõvítmény nem ellenõrizte a verziószámát.\n"
 #~ "Valószínûleg egy másik Gnumeric verzióhoz való, nem a '%s' verzióhoz."
-
-#~ msgid ""
-#~ "Could not import file %s\n"
-#~ "%%s"
-#~ msgstr ""
-#~ "Nem sikerült a %s fájl importálása\n"
-#~ "%%s"
-
-#~ msgid "File format:"
-#~ msgstr "Fájlformátum:"
-
-#~ msgid ""
-#~ "Workbook %s already exists.\n"
-#~ "Do you want to save over it?"
-#~ msgstr ""
-#~ "Már létezik %s nevû munkafüzet.\n"
-#~ "Szeretnéd felülírni?"
-
-#~ msgid ""
-#~ "%s\n"
-#~ "is a directory name"
-#~ msgstr ""
-#~ "%s\n"
-#~ "egy könyvtárnév"
-
-#~ msgid ""
-#~ "You do not have permission to save to\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Nincsen jogosultságod a %s\n"
-#~ "mentéséhez."
-
-#~ msgid ""
-#~ "Please enter a file name,\n"
-#~ "not a directory"
-#~ msgstr ""
-#~ "Kérlek adj meg egy fájlnevet,\n"
-#~ "ne könyvtárnevet"
-
-#~ msgid "Save workbook as"
-#~ msgstr "Munkafüzet mentése másként"
-
-#~ msgid "Load file"
-#~ msgstr "Fájl betöltése"
 
 #~ msgid "De_lete Sheet"
 #~ msgstr "_Lap törlése"

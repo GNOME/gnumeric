@@ -1,5 +1,10 @@
 2001-02-15  Jody Goldberg <jgoldberg@home.com>
 
+	* configure.in : remove dead dirs
+	* Makefile.am : Add the xml-i18n-*.in files
+
+2001-02-15  Jody Goldberg <jgoldberg@home.com>
+
 	* src/print.c (compute_sheet_pages) : Use even_if_only_styles.
 	(print_page) : Ditto.
 	(print_sheet) : Ditto.

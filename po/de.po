@@ -35,7 +35,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.62cvs\n"
-"POT-Creation-Date: 2001-02-14 19:38+0100\n"
+"POT-Creation-Date: 2001-02-15 22:24-0500\n"
 "PO-Revision-Date: 2001-02-14 20:25+01:00\n"
 "Last-Translator: Karl Eichwalder <ke@suse.de>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
@@ -65,7 +65,8 @@ msgstr "Data Interchange Format (*.dif)"
 
 #: plugins/excel/boot.c:131
 msgid "Saving over old files disabled for safety"
-msgstr "Das Speichern über alte Dateien ist aus Sicherheitsgründen abgeschaltet."
+msgstr ""
+"Das Speichern über alte Dateien ist aus Sicherheitsgründen abgeschaltet."
 
 #: plugins/excel/boot.c:142
 msgid "Can't open"
@@ -93,16 +94,16 @@ msgstr "#UNBEKANNT!"
 msgid "Sheet%d"
 msgstr "Blatt%d"
 
-#: plugins/excel/ms-excel-read.c:3918
+#: plugins/excel/ms-excel-read.c:3920
 msgid "No book or workbook streams found."
 msgstr "Keine book- oder workbook-Streams gefunden."
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4212
+#: plugins/excel/ms-excel-read.c:4214
 msgid "Password protected workbooks are not supported yet."
 msgstr "Passwortgeschützte Arbeitsbücher werden noch nicht unterstützt."
 
-#: plugins/excel/ms-excel-read.c:4333
+#: plugins/excel/ms-excel-read.c:4335
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Kann kein gültiges MS-Excel-Arbeitsbuch auffinden."
 
@@ -687,7 +688,7 @@ msgid "Smallest (%d)"
 msgstr "Kleinste (%d)"
 
 #: src/analysis-tools.c:1037 src/analysis-tools.c:2825
-#: src/dialogs/cell-format.glade.h:61
+#: src/dialogs/cell-format.glade.h:60
 msgid "Sample"
 msgstr "Beispiel"
 
@@ -945,7 +946,7 @@ msgstr "Kumulative %"
 msgid "Error '%s' opening workbook stream"
 msgstr "Fehler »%s« beim Öffnen des workbook-Streams"
 
-#: src/bonobo-io.c:471 src/xml-io-autoft.c:427 src/xml-io.c:3215
+#: src/bonobo-io.c:471 src/xml-io-autoft.c:427 src/xml-io.c:3222
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Ungültige XML-Datei. Ist der Baum leer?"
 
@@ -1895,223 +1896,224 @@ msgstr "Große Kreise"
 msgid "Left"
 msgstr "Links"
 
-#: src/dialogs/cell-format.glade.h:43
-msgid "Left _Indent"
-msgstr "L_inker Einzug"
-
-#: src/dialogs/cell-format.glade.h:44 src/gnumeric.xml.h:111
+#: src/dialogs/cell-format.glade.h:43 src/gnumeric.xml.h:111
 #: src/workbook-object-toolbar.c:150
 msgid "Line"
 msgstr "Zeile"
 
-#: src/dialogs/cell-format.glade.h:45
+#: src/dialogs/cell-format.glade.h:44
 msgid "Locking cells or hiding formulas only affects protected worksheets."
 msgstr ""
 "Das Sperren von Zellen oder das Verbergen von Formeln betrifft nur "
 "geschützte Arbeitsblätter."
 
-#: src/dialogs/cell-format.glade.h:46
+#: src/dialogs/cell-format.glade.h:45
 msgid "Negat_ive number:"
 msgstr "Negat_ive Zahl:"
 
-#: src/dialogs/cell-format.glade.h:47 src/dialogs/dialog-cell-format.c:1217
+#: src/dialogs/cell-format.glade.h:46 src/dialogs/dialog-cell-format.c:1217
 #: src/dialogs/dialog-cell-format.c:1279 src/dialogs/dialog-paste-special.c:32
 msgid "None"
 msgstr "Keine"
 
-#: src/dialogs/cell-format.glade.h:48 src/dialogs/dialog-function-wizard.c:406
+#: src/dialogs/cell-format.glade.h:47 src/dialogs/dialog-function-wizard.c:406
 msgid "Number"
 msgstr "Zahl"
 
-#: src/dialogs/cell-format.glade.h:49 src/dialogs/print.glade.h:15
+#: src/dialogs/cell-format.glade.h:48 src/dialogs/print.glade.h:15
 msgid "Orientation"
 msgstr "Ausrichtung"
 
-#: src/dialogs/cell-format.glade.h:50
+#: src/dialogs/cell-format.glade.h:49
 msgid "Outline"
 msgstr "Umriss"
 
-#: src/dialogs/cell-format.glade.h:51
+#: src/dialogs/cell-format.glade.h:50
 msgid "Pattern"
 msgstr "Muster"
 
-#: src/dialogs/cell-format.glade.h:52
+#: src/dialogs/cell-format.glade.h:51
 msgid "Pick a Background color"
 msgstr "Wählen Sie eine Hintergrundfarbe aus"
 
-#: src/dialogs/cell-format.glade.h:53
+#: src/dialogs/cell-format.glade.h:52
 msgid "Pick a Pattern color"
 msgstr "Eine Musterfarbe wählen"
 
-#: src/dialogs/cell-format.glade.h:54
+#: src/dialogs/cell-format.glade.h:53
 msgid "Pick a border color"
 msgstr "Eine Randfarbe wählen"
 
-#: src/dialogs/cell-format.glade.h:55
+#: src/dialogs/cell-format.glade.h:54
 msgid "Pick a font color"
 msgstr "Eine Schriftfarbe wählen"
 
-#: src/dialogs/cell-format.glade.h:56
+#: src/dialogs/cell-format.glade.h:55
 msgid "Protection"
 msgstr "Schutz"
 
-#: src/dialogs/cell-format.glade.h:57
+#: src/dialogs/cell-format.glade.h:56
 msgid "Reverse Diagonal"
 msgstr "Umgekehrt diagonal"
 
-#: src/dialogs/cell-format.glade.h:58
+#: src/dialogs/cell-format.glade.h:57
 msgid "Reverse Diagonal Stripe"
 msgstr "Diagonale Streifen rückwärts"
 
-#: src/dialogs/cell-format.glade.h:59 src/gnumeric.xml.h:155
+#: src/dialogs/cell-format.glade.h:58 src/gnumeric.xml.h:155
 #: src/workbook-format-toolbar.c:568
 msgid "Right"
 msgstr "Rechts"
 
-#: src/dialogs/cell-format.glade.h:60
+#: src/dialogs/cell-format.glade.h:59
 msgid "S_ymbol:"
 msgstr "S_ymbol:"
 
-#: src/dialogs/cell-format.glade.h:62
+#: src/dialogs/cell-format.glade.h:61
 msgid "Semi Circles"
 msgstr "Halbkreise"
 
-#: src/dialogs/cell-format.glade.h:63
+#: src/dialogs/cell-format.glade.h:62
 msgid "Shrin_k to fit"
 msgstr "Zum Ein_passen schrumpfen"
 
 #. There must be a better way than this
-#: src/dialogs/cell-format.glade.h:64 src/dialogs/dialog-cell-format.c:1213
+#: src/dialogs/cell-format.glade.h:63 src/dialogs/dialog-cell-format.c:1213
 #: src/dialogs/dialog-cell-format.c:1280
 msgid "Single"
 msgstr "Einfach"
 
-#: src/dialogs/cell-format.glade.h:65
+#: src/dialogs/cell-format.glade.h:64
 msgid "Small Circles"
 msgstr "Kleine Kreise"
 
-#: src/dialogs/cell-format.glade.h:66
+#: src/dialogs/cell-format.glade.h:65
 msgid "Solid"
 msgstr "Einfarbig"
 
-#: src/dialogs/cell-format.glade.h:67
+#: src/dialogs/cell-format.glade.h:66
 msgid "Sp_ecial"
 msgstr "Sp_ezial"
 
-#: src/dialogs/cell-format.glade.h:68
+#: src/dialogs/cell-format.glade.h:67
 msgid "Stri_kethrough"
 msgstr "_Durchstreichen"
 
-#: src/dialogs/cell-format.glade.h:69
+#: src/dialogs/cell-format.glade.h:68
 msgid "Su_bscript"
 msgstr "_Tiefstellen"
 
-#: src/dialogs/cell-format.glade.h:70
+#: src/dialogs/cell-format.glade.h:69
 msgid "Sup_erscript"
 msgstr "_Hochstellen"
 
-#: src/dialogs/cell-format.glade.h:71
+#: src/dialogs/cell-format.glade.h:70
 msgid "Te_xt"
 msgstr "Te_xt"
 
 # Stroh -- wird das so bezeichnet? -ke-
-#: src/dialogs/cell-format.glade.h:72
+#: src/dialogs/cell-format.glade.h:71
 msgid "Thatch"
 msgstr "Riet"
 
-#: src/dialogs/cell-format.glade.h:73
+#: src/dialogs/cell-format.glade.h:72
 msgid "Thick Diagonal Crosshatch"
 msgstr "Dicke diagonale Schraffen"
 
-#: src/dialogs/cell-format.glade.h:74
+#: src/dialogs/cell-format.glade.h:73
 msgid "Thin Diagonal Crosshatch"
 msgstr "Dünne diagonale Schraffen"
 
-#: src/dialogs/cell-format.glade.h:75
+#: src/dialogs/cell-format.glade.h:74
 msgid "Thin Diagonal Stripe"
 msgstr "Dünne diagonale Streifen"
 
-#: src/dialogs/cell-format.glade.h:76
+#: src/dialogs/cell-format.glade.h:75
 msgid "Thin Horizontal Crosshatch"
 msgstr "Dünne horizontale Schraffen"
 
-#: src/dialogs/cell-format.glade.h:77
+#: src/dialogs/cell-format.glade.h:76
 msgid "Thin Horizontal Stripe"
 msgstr "Dünne horizontale Streifen"
 
-#: src/dialogs/cell-format.glade.h:78
+#: src/dialogs/cell-format.glade.h:77
 msgid "Thin Reverse Diagonal Stripe"
 msgstr "Dünne diagonale Streifen rückwärts"
 
-#: src/dialogs/cell-format.glade.h:79
+#: src/dialogs/cell-format.glade.h:78
 msgid "Thin Vertical Stripe"
 msgstr "Dünne vertikale Streifen"
 
-#: src/dialogs/cell-format.glade.h:80
+#: src/dialogs/cell-format.glade.h:79
 msgid "Top"
 msgstr "Oben"
 
-#: src/dialogs/cell-format.glade.h:81
+#: src/dialogs/cell-format.glade.h:80
 msgid "Unfinished"
 msgstr "Unvollendet"
 
-#: src/dialogs/cell-format.glade.h:82
+#: src/dialogs/cell-format.glade.h:81
 msgid "Vertical Alignment"
 msgstr "Vertikale Ausrichtung"
 
-#: src/dialogs/cell-format.glade.h:83
+#: src/dialogs/cell-format.glade.h:82
 msgid "Vertical Stripe"
 msgstr "Vertikale Streifen"
 
-#: src/dialogs/cell-format.glade.h:84
+#: src/dialogs/cell-format.glade.h:83
 msgid "Worksheet _protected"
 msgstr "Arbeitsblatt ge_schützt"
 
 # Shortcuts _B and _u are already gone (_Benutzerdefiniert; Br_uch).
 # 2001-02-13 07:01:41 CET -ke-
-#: src/dialogs/cell-format.glade.h:85
+#: src/dialogs/cell-format.glade.h:84
 msgid "_Accounting"
 msgstr "Bu_chhaltung"
 
-#: src/dialogs/cell-format.glade.h:86
+#: src/dialogs/cell-format.glade.h:85
 msgid "_Automatic"
 msgstr "_Automatisch"
 
-#: src/dialogs/cell-format.glade.h:87
+#: src/dialogs/cell-format.glade.h:86
 msgid "_Bottom"
 msgstr "_Unten"
 
-#: src/dialogs/cell-format.glade.h:88
+#: src/dialogs/cell-format.glade.h:87
 msgid "_Center"
 msgstr "_Zentriert"
 
-#: src/dialogs/cell-format.glade.h:89
+#: src/dialogs/cell-format.glade.h:88
 msgid "_Currency"
 msgstr "_Währung"
 
-#: src/dialogs/cell-format.glade.h:90 src/dialogs/dialog-zoom.glade.h:16
+#: src/dialogs/cell-format.glade.h:89 src/dialogs/dialog-zoom.glade.h:16
 msgid "_Custom"
 msgstr "_Benutzerdefiniert"
 
-#: src/dialogs/cell-format.glade.h:91
+#: src/dialogs/cell-format.glade.h:90
 msgid "_Date"
 msgstr "_Datum"
 
-#: src/dialogs/cell-format.glade.h:92
+#: src/dialogs/cell-format.glade.h:91
 msgid "_Fill"
 msgstr "_Füllen"
 
-#: src/dialogs/cell-format.glade.h:93
+#: src/dialogs/cell-format.glade.h:92
 msgid "_Fraction"
 msgstr "Br_uch"
 
-#: src/dialogs/cell-format.glade.h:94
+#: src/dialogs/cell-format.glade.h:93
 msgid "_General"
 msgstr "_Allgemeines"
 
-#: src/dialogs/cell-format.glade.h:95
+#: src/dialogs/cell-format.glade.h:94
 msgid "_Hidden"
 msgstr "_Verborgen"
+
+#: src/dialogs/cell-format.glade.h:95
+#, fuzzy
+msgid "_Indent"
+msgstr "L_inker Einzug"
 
 #: src/dialogs/cell-format.glade.h:96
 msgid "_Justify"
@@ -2432,7 +2434,8 @@ msgstr "Periodisch"
 #: src/dialogs/dialog-analysis-tools.c:652
 #: src/dialogs/dialog-analysis-tools.c:2421
 msgid "You should introduce a valid cell range in 'Input Range:'"
-msgstr "Sie sollten einen gültigen Zellenbereich bei 'Eingabebereich:' eintragen."
+msgstr ""
+"Sie sollten einen gültigen Zellenbereich bei 'Eingabebereich:' eintragen."
 
 #: src/dialogs/dialog-analysis-tools.c:528
 msgid "Output options:"
@@ -2470,7 +2473,8 @@ msgstr "Gruppiert nach:"
 #: src/dialogs/dialog-analysis-tools.c:2777
 #: src/dialogs/dialog-analysis-tools.c:2884
 msgid "You should introduce a valid cell range in 'Output Range:'"
-msgstr "Sie sollten einen gültigen Zellenbereich bei 'Ausgabebereich:' eintragen."
+msgstr ""
+"Sie sollten einen gültigen Zellenbereich bei 'Ausgabebereich:' eintragen."
 
 #: src/dialogs/dialog-analysis-tools.c:753
 #: src/dialogs/dialog-analysis-tools.c:876
@@ -2482,7 +2486,8 @@ msgstr "Sie sollten einen gültigen Zellenbereich bei 'Ausgabebereich:' eintragen
 #: src/dialogs/dialog-analysis-tools.c:2766
 #: src/dialogs/dialog-analysis-tools.c:2875
 msgid "You should introduce a valid cell range in 'Range:'"
-msgstr "Sie sollten einen gültigen Zellenbereich bei 'Wertebereich:' eintragen."
+msgstr ""
+"Sie sollten einen gültigen Zellenbereich bei 'Wertebereich:' eintragen."
 
 #: src/dialogs/dialog-analysis-tools.c:811
 #: src/dialogs/dialog-analysis-tools.c:926
@@ -2601,7 +2606,9 @@ msgstr "Fourier-Analyse ist leider noch nicht implementiert."
 
 #: src/dialogs/dialog-analysis-tools.c:2432
 msgid "You should introduce a valid cell range in 'Bin Range:'"
-msgstr "Sie sollten einen gültigen Zellenbereich bei 'Numerischer Wertebereich (Bin Range):' eintragen."
+msgstr ""
+"Sie sollten einen gültigen Zellenbereich bei 'Numerischer Wertebereich (Bin "
+"Range):' eintragen."
 
 #: src/dialogs/dialog-analysis-tools.c:2461
 #: src/dialogs/dialog-analysis-tools.c:2911
@@ -2614,7 +2621,9 @@ msgstr "Der numerische Wertebereich enthält nicht-numerische Werte."
 
 #: src/dialogs/dialog-analysis-tools.c:2906
 msgid "Each sample should contain the same number of rows (`Rows per sample:')"
-msgstr "Jedes Beispiel sollte die gleiche Anzahl von Zeilen haben ('Zeilen pro Beispiel:')."
+msgstr ""
+"Jedes Beispiel sollte die gleiche Anzahl von Zeilen haben ('Zeilen pro "
+"Beispiel:')."
 
 #: src/dialogs/dialog-analysis-tools.c:2916
 msgid ""
@@ -2864,17 +2873,17 @@ msgid "Goal seeking with cell %s found a solution"
 msgstr "Zielsuche mit Zelle %s war erfolgreich."
 
 #: src/dialogs/dialog-goal-seek.c:208
-#, c-format, ycp-format
+#, c-format
 msgid "Target value:   %12.2f"
 msgstr "Zielwert:       %12.2f"
 
 #: src/dialogs/dialog-goal-seek.c:211
-#, c-format, ycp-format
+#, c-format
 msgid "Current value:  %12.2f"
 msgstr "Aktueller Wert: %12.2f"
 
 #: src/dialogs/dialog-goal-seek.c:214
-#, c-format, ycp-format
+#, c-format
 msgid "Solution:       %12.2f"
 msgstr "Lösung:         %12.2f"
 
@@ -3824,7 +3833,7 @@ msgstr "Kopf- und Fußzeilen"
 
 # Checkit it
 # Why is this string translated this way? -ke-
-#: src/dialogs/print.glade.h:12 src/print-info.c:443
+#: src/dialogs/print.glade.h:12 src/print-info.c:445
 msgid "In"
 msgstr "''"
 
@@ -3862,7 +3871,7 @@ msgstr "Druck"
 msgid "Print _area:"
 msgstr "_Bereich drucken:"
 
-#: src/dialogs/print.glade.h:22 src/gnumeric.xml.h:142 src/print.c:1240
+#: src/dialogs/print.glade.h:22 src/gnumeric.xml.h:142 src/print.c:1246
 msgid "Print preview"
 msgstr "Druckvorschau"
 
@@ -3883,7 +3892,7 @@ msgid "Scale"
 msgstr "Skalierung"
 
 #: src/dialogs/print.glade.h:27 src/functions/fn-sheet.c:135
-#: src/workbook.c:1019 src/xml-io.c:2904
+#: src/workbook.c:1019 src/xml-io.c:2911
 msgid "Sheet"
 msgstr "Blatt"
 
@@ -3961,11 +3970,11 @@ msgid "_Vertically"
 msgstr "_Vertikal"
 
 #. 1in = 25.4mm, exact
-#: src/dialogs/print.glade.h:46 src/print-info.c:442
+#: src/dialogs/print.glade.h:46 src/print-info.c:444
 msgid "cm"
 msgstr "cm"
 
-#: src/dialogs/print.glade.h:47 src/print-info.c:441
+#: src/dialogs/print.glade.h:47 src/print-info.c:443
 msgid "mm"
 msgstr "mm"
 
@@ -3973,7 +3982,7 @@ msgstr "mm"
 msgid "page(s) wide by"
 msgstr "Seite(n) mit einer Breite von"
 
-#: src/dialogs/print.glade.h:49 src/print-info.c:440
+#: src/dialogs/print.glade.h:49 src/print-info.c:442
 msgid "pts"
 msgstr "pt"
 
@@ -12116,7 +12125,8 @@ msgstr ""
 
 #: src/plugin.c:1129
 msgid "Dynamic module loading is not supported in this system."
-msgstr "Das dynamische Laden von Modulen wird von diesem System nicht unterstützt."
+msgstr ""
+"Das dynamische Laden von Modulen wird von diesem System nicht unterstützt."
 
 #: src/plugin.c:1149
 #, c-format
@@ -12141,43 +12151,43 @@ msgstr "&[TAB]"
 msgid "&[DATE]"
 msgstr "&[DATE]"
 
-#: src/print-info.c:440
+#: src/print-info.c:442
 msgid "points"
 msgstr "Punkte"
 
-#: src/print-info.c:441
+#: src/print-info.c:443
 msgid "millimeter"
 msgstr "Millimeter"
 
-#: src/print-info.c:442
+#: src/print-info.c:444
 msgid "centimeter"
 msgstr "Zentimeter"
 
-#: src/print-info.c:443
+#: src/print-info.c:445
 msgid "inch"
 msgstr "Inch"
 
-#: src/print-info.c:533
+#: src/print-info.c:535
 msgid "Sheet 1"
 msgstr "Blatt 1"
 
-#: src/print-info.c:596
+#: src/print-info.c:598
 msgid "tab"
 msgstr "Reiter"
 
-#: src/print-info.c:597
+#: src/print-info.c:599
 msgid "page"
 msgstr "Seite"
 
-#: src/print-info.c:598
+#: src/print-info.c:600
 msgid "pages"
 msgstr "Seiten"
 
-#: src/print-info.c:599
+#: src/print-info.c:601
 msgid "date"
 msgstr "Datum"
 
-#: src/print-info.c:600
+#: src/print-info.c:602
 msgid "time"
 msgstr "Zeit"
 
@@ -12186,23 +12196,23 @@ msgstr "Zeit"
 msgid "&[PAGE]"
 msgstr "&[PAGE]"
 
-#: src/print.c:1036 src/workbook-control-gui.c:2612
+#: src/print.c:1042 src/workbook-control-gui.c:2612
 msgid "Selection must be a single range"
 msgstr "Auswahl muss ein einzelner Bereich sein"
 
-#: src/print.c:1153
+#: src/print.c:1159
 msgid "Print Sheets"
 msgstr "Blätter drucken"
 
-#: src/print.c:1163
+#: src/print.c:1169
 msgid "Act_ive sheet"
 msgstr "Akt_ives Blatt"
 
-#: src/print.c:1163
+#: src/print.c:1169
 msgid "S_heets"
 msgstr "_Blätter"
 
-#: src/print.c:1250
+#: src/print.c:1256
 msgid "Printing failed"
 msgstr "Drucken ist fehlgeschlagen"
 
@@ -13522,15 +13532,15 @@ msgstr "muss wenigstens einen Buchstaben haben"
 msgid "There is already a sheet named '%s'"
 msgstr "Es gibt bereits ein Blatt mit dem Namen »%s«"
 
-#: src/xml-io.c:3171
+#: src/xml-io.c:3178
 msgid "Invalid xml clipboard data. Tree is empty ?"
 msgstr "Ungültige XML-Zwischenablagedatei. Ist der Baum leer?"
 
-#: src/xml-io.c:3224
+#: src/xml-io.c:3231
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Ist keine gnumeric-Arbeitsbuch-Datei"
 
-#: src/xml-io.c:3285
+#: src/xml-io.c:3292
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric-XML-Dateiformat"
 
