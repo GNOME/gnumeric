@@ -40,6 +40,7 @@ typedef struct {
 	GHashTable	*shared_formulae, *tables;
 
 	gboolean 	 freeze_panes;
+	unsigned	 active_pane;
 	GnmFilter	*filter;
 } ExcelReadSheet;
 

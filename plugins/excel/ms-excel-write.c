@@ -199,42 +199,26 @@ excel_write_string (BiffPut *bp, guint8 const *txt,
 static unsigned
 excel_write_BOF (BiffPut *bp, MsBiffFileType type)
 {
-	guint   len;
 	guint8 *data;
 	unsigned ans;
+	guint    len;
+	guint16  record = BIFF_BOF;
 
-	if (bp->version >= MS_BIFF_V8)
-		len = 16;
-	else
-		len = 8;
 
-	data = ms_biff_put_len_next (bp, 0, len);
-
-	ans = bp->streamPos;
-
-	bp->ls_op = BIFF_BOF;
 	switch (bp->version) {
-	case MS_BIFF_V2:
-		bp->ms_op = 0;
-		break;
-	case MS_BIFF_V3:
-		bp->ms_op = 2;
-		break;
-	case MS_BIFF_V4:
-		bp->ms_op = 4;
-		break;
+	case MS_BIFF_V2: record = 0x0000 | BIFF_BOF; break;
+	case MS_BIFF_V3: record = 0x0200 | BIFF_BOF; break;
+	case MS_BIFF_V4: record = 0x0400 | BIFF_BOF; break;
+
+	case MS_BIFF_V8: len = 16;
 	case MS_BIFF_V7:
-	case MS_BIFF_V8:
-		bp->ms_op = 8;
-		if (bp->version == MS_BIFF_V8)
-			GSF_LE_SET_GUINT16 (data, 0x0600);
-		else
-			GSF_LE_SET_GUINT16 (data, 0x0500);
-		break;
+			 record = 0x0800 | BIFF_BOF; break;
 	default:
-		g_warning ("Unknown version.");
-		break;
+		g_warning ("Unknown biff version '%d' requested.", bp->version);
+		return 0;
 	}
+	data = ms_biff_put_len_next (bp, record, len);
+	ans = bp->streamPos;
 
 	switch (type) {
 	case MS_BIFF_TYPE_Workbook:
@@ -260,16 +244,19 @@ excel_write_BOF (BiffPut *bp, MsBiffFileType type)
 		break;
 	}
 
-	/* Magic version numbers: build date etc. */
 	switch (bp->version) {
 	case MS_BIFF_V8:
-		GSF_LE_SET_GUINT16 (data+4, 0x239f);
+		GSF_LE_SET_GUINT16 (data+ 0, 0x0600);		/* worksheet */
+		GSF_LE_SET_GUINT16 (data+ 4, 0x24c7);
 		GSF_LE_SET_GUINT16 (data+6, 0x07cd);
-		GSF_LE_SET_GUINT32 (data+ 8, 0x000040c9);
-		GSF_LE_SET_GUINT16 (data+12, 0x00000106);
+		GSF_LE_SET_GUINT32 (data+ 8, 0x000080c1);	/* flags */
+		GSF_LE_SET_GUINT32 (data+12, 0x00000206);
 		break;
 
 	case MS_BIFF_V7:
+		GSF_LE_SET_GUINT16 (data, 0x0500);	/* worksheet */
+		/* fall through */
+
 	case MS_BIFF_V5:
 		GSF_LE_SET_GUINT16 (data+4, 0x096c);
 		GSF_LE_SET_GUINT16 (data+6, 0x07c9);
@@ -402,7 +389,7 @@ cb_write_sheet_pairs (ExcelSheetPair *sp, gconstpointer dummy, ExcelWriteState *
 {
 	guint8 data[6];
 
-	GSF_LE_SET_GUINT16 (data + 0, 1);
+	GSF_LE_SET_GUINT16 (data + 0, ewb->supbook_idx);
 	GSF_LE_SET_GUINT16 (data + 2, sp->a->index_in_wb);
 	GSF_LE_SET_GUINT16 (data + 4, sp->b->index_in_wb);
 	ms_biff_put_var_write (ewb->bp, data, 6);
@@ -421,6 +408,9 @@ excel_write_externsheets_v8 (ExcelWriteState *ewb)
 	guint8 data [6];
 	GnmFunc *func;
 
+	/* XL appears to get irrate if we export an addin SUPBOOK with
+	 * no names.  So be extra tidy and only export it if necessary */
+	if (ewb->externnames->len > 0) {
 	ms_biff_put_var_next (ewb->bp, BIFF_SUPBOOK);
 	ms_biff_put_var_write (ewb->bp, magic_addin, sizeof (magic_addin));
 	ms_biff_put_commit (ewb->bp);
@@ -435,22 +425,26 @@ excel_write_externsheets_v8 (ExcelWriteState *ewb)
 		ms_biff_put_var_write (ewb->bp, expr_ref, sizeof (expr_ref));
 		ms_biff_put_commit (ewb->bp);
 	}
+		ewb->supbook_idx = 1;
+	} else
+		ewb->supbook_idx = 0;
 
 	ms_biff_put_var_next (ewb->bp, BIFF_SUPBOOK);
 	ms_biff_put_var_write (ewb->bp, magic_self, sizeof (magic_self));
 	ms_biff_put_commit (ewb->bp);
 
-	i = g_hash_table_size (ewb->sheet_pairs) + 1 /* for the extennames */;
 	/* Now do the EXTERNSHEET */
+	i = g_hash_table_size (ewb->sheet_pairs) + 1; /* the magic self we're about to add */
 	ms_biff_put_var_next (ewb->bp, BIFF_EXTERNSHEET);
 	GSF_LE_SET_GUINT16 (data + 0, i);
+
 	ms_biff_put_var_write (ewb->bp, data, 2);
-	GSF_LE_SET_GUINT16 (data + 0, 0x0000);
+	GSF_LE_SET_GUINT16 (data + 0, ewb->supbook_idx);	/* magic self */
 	GSF_LE_SET_GUINT16 (data + 2, 0xfffe);
 	GSF_LE_SET_GUINT16 (data + 4, 0xfffe);
 	ms_biff_put_var_write (ewb->bp, data, 6);
 
-	ewb->tmp_counter = 1;
+	ewb->tmp_counter = 1; /* 0 == the 0xfffe we just put out */
 	g_hash_table_foreach (ewb->sheet_pairs,
 		(GHFunc) cb_write_sheet_pairs, ewb);
 	ms_biff_put_commit (ewb->bp);
@@ -492,12 +486,7 @@ excel_write_WINDOW1 (BiffPut *bp, WorkbookView const *wb_view)
 	ms_biff_put_commit (bp);
 }
 
-/**
- * excel_write_WINDOW2 :
- * returns TRUE if a PANE record is necessary.
- *
- * See: S59E18.HTM
- **/
+/* returns TRUE if a PANE record is necessary. */
 static gboolean
 excel_write_WINDOW2 (BiffPut *bp, ExcelWriteSheet *esheet)
 {
@@ -521,7 +510,7 @@ excel_write_WINDOW2 (BiffPut *bp, ExcelWriteSheet *esheet)
 	if (!sheet->hide_col_header || !sheet->hide_row_header)
 		options |= 0x0004;
 	if (sv_is_frozen (sv)) {
-		options |= 0x0008;
+		options |= 0x0108;
 		top_left = sv->frozen_top_left;
 	} else
 		top_left = sv->initial_top_left;
@@ -563,7 +552,6 @@ excel_write_WINDOW2 (BiffPut *bp, ExcelWriteSheet *esheet)
 	return (options & 0x0008);
 }
 
-/* See: S59DCA.HTM */
 static void
 excel_write_PANE (BiffPut *bp, ExcelWriteSheet *esheet)
 {
@@ -574,12 +562,18 @@ excel_write_PANE (BiffPut *bp, ExcelWriteSheet *esheet)
 		sv->frozen_top_left.row;
 	int const frozen_width = sv->unfrozen_top_left.col -
 		sv->frozen_top_left.col;
+	guint16 freeze_type; /* NOTE docs lie, this is not 'active pane' */
+
+	if (sv->unfrozen_top_left.col > 0)
+		freeze_type = (sv->unfrozen_top_left.row > 0) ? 0 : 1;
+	else
+		freeze_type = (sv->unfrozen_top_left.row > 0) ? 2 : 3;
 
 	GSF_LE_SET_GUINT16 (data + 0, frozen_width);
 	GSF_LE_SET_GUINT16 (data + 2, frozen_height);
 	GSF_LE_SET_GUINT16 (data + 4, sv->initial_top_left.row);
 	GSF_LE_SET_GUINT16 (data + 6, sv->initial_top_left.col);
-	GSF_LE_SET_GUINT16 (data + 8, 0);	/* active pane */
+	GSF_LE_SET_GUINT16 (data + 8, freeze_type);
 
 	ms_biff_put_commit (bp);
 }
@@ -3404,7 +3398,7 @@ write_sheet_head (BiffPut *bp, ExcelWriteSheet *esheet)
 static void
 excel_write_SCL (ExcelWriteSheet *esheet)
 {
-	guint8 *data = ms_biff_put_len_next (esheet->ewb->bp, BIFF_SCL, 4);
+	guint8 *data;
 	double whole, fractional = modf (esheet->gnum_sheet->last_zoom_factor_used, &whole);
 	int num, denom;
 
@@ -3412,6 +3406,11 @@ excel_write_SCL (ExcelWriteSheet *esheet)
 	num += whole * denom;
 	d (2, fprintf (stderr, "Zoom %g == %d/%d\n",
 		esheet->gnum_sheet->last_zoom_factor_used, num, denom););
+
+	if (num == denom)
+		return;
+
+	data = ms_biff_put_len_next (esheet->ewb->bp, BIFF_SCL, 4);
 	GSF_LE_SET_GUINT16 (data + 0, (guint16)num);
 	GSF_LE_SET_GUINT16 (data + 2, (guint16)denom);
 	ms_biff_put_commit (esheet->ewb->bp);
@@ -3426,7 +3425,7 @@ excel_write_SELECTION (BiffPut *bp, GList *selections,
 	guint8 *data;
 
 	data = ms_biff_put_len_next (bp, BIFF_SELECTION, 9 + 6*n);
-	GSF_LE_SET_GUINT8  (data +  0, pane); /* no split == pane 3 ? */
+	GSF_LE_SET_GUINT8  (data +  0, pane);
 	GSF_LE_SET_GUINT16 (data +  1, pos->row);
 	GSF_LE_SET_GUINT16 (data +  3, pos->col);
 	GSF_LE_SET_GUINT16 (data +  5, 0); /* our edit_pos is in 1st range */
@@ -3453,7 +3452,7 @@ excel_write_selections (BiffPut *bp, ExcelWriteSheet *esheet)
 
 	excel_write_SELECTION (bp, sv->selections, &sv->edit_pos, 3);
 
-	if (sv->unfrozen_top_left.col >= 0) {
+	if (sv->unfrozen_top_left.col > 0) {
 		pos = sv->edit_pos;
 		if (pos.col < sv->unfrozen_top_left.col)
 			pos.col = sv->unfrozen_top_left.col;
@@ -3462,7 +3461,7 @@ excel_write_selections (BiffPut *bp, ExcelWriteSheet *esheet)
 		excel_write_SELECTION (bp, tmp, &pos, 1);
 		g_list_free (tmp);
 	}
-	if (sv->unfrozen_top_left.row >= 0) {
+	if (sv->unfrozen_top_left.row > 0) {
 		pos = sv->edit_pos;
 		if (pos.row < sv->unfrozen_top_left.row)
 			pos.row = sv->unfrozen_top_left.row;
@@ -3471,7 +3470,7 @@ excel_write_selections (BiffPut *bp, ExcelWriteSheet *esheet)
 		excel_write_SELECTION (bp, tmp, &pos, 2);
 		g_list_free (tmp);
 	}
-	if (sv_is_frozen (sv)) {
+	if (sv->unfrozen_top_left.col > 0 && sv->unfrozen_top_left.row > 0) {
 		pos = sv->edit_pos;	/* apparently no bounds check needed */
 		tmp = g_list_prepend (NULL, 
 			      range_init_cellpos (&r, &pos, &pos));

@@ -702,6 +702,7 @@ excel_sheet_new (ExcelWorkbook *ewb, char const *sheet_name)
 	esheet->sheet	= sheet;
 	esheet->filter	= NULL;
 	esheet->freeze_panes	= FALSE;
+	esheet->active_pane  = 3; /* The default */
 	esheet->shared_formulae	= g_hash_table_new_full (
 		(GHashFunc)&cellpos_hash, (GCompareFunc)&cellpos_equal,
 		NULL, (GDestroyNotify) &excel_shared_formula_free);
@@ -3576,9 +3577,7 @@ excel_read_SELECTION (BiffQuery *q, ExcelReadSheet *esheet)
 	SheetView *sv = sheet_get_view (esheet->sheet, esheet->container.ewb->wbv);
 	GnmRange r;
 
-	/* pane 3 is the standard pane. I will need to look into the numbering
-	 * for split panes */
-	if (pane_number != 3)
+	if (pane_number != esheet->active_pane)
 		return;
 	edit_pos.row = GSF_LE_GET_GUINT16 (q->data + 1);
 	edit_pos.col = GSF_LE_GET_GUINT16 (q->data + 3);
@@ -3971,6 +3970,12 @@ excel_read_PANE (BiffQuery *q, ExcelReadSheet *esheet, WorkbookView *wb_view)
 		guint16 colLeft = GSF_LE_GET_GUINT16 (q->data + 6);
 		SheetView *sv = sheet_get_view (esheet->sheet, esheet->container.ewb->wbv);
 		GnmCellPos frozen, unfrozen;
+
+		esheet->active_pane = GSF_LE_GET_GUINT16 (q->data + 8);
+		if (esheet->active_pane > 3) {
+			g_warning ("Invalid pane '%u' selected", esheet->active_pane);
+			esheet->active_pane = 3;
+		}
 
 		frozen = unfrozen = sv->initial_top_left;
 		if (x > 0)

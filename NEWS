@@ -1,3 +1,11 @@
+Gnumeric 1.2.9
+
+Jody:
+	* Minor fix for xls import of cursor position with frozen panes
+	* Fix Excel warning about our exported h/v only frozen panes
+	* Fix Excel crash on our exported named expressions with no addins
+
+--------------------------------------------------------------------------
 Gnumeric 1.2.8
 
 Jody:
