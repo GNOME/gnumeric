@@ -54,8 +54,6 @@ Jody:
 	* Fix parse error reporting
 	* Fix xls name import for external and builtin names (95 & 2k)
 	* Fix undo for object movement
-	* Fix double replacement problem for search-and-replace with a
-          regular expression matching an empty string.
 
 Morten:
 	* Port search center from gal's e-table to gtk's treeview.
@@ -73,6 +71,8 @@ Morten:
 	* Sort names in name dialog.
 	* SC importer work.
 	* Various UTF-8 work.
+	* Fix double replacement problem for search-and-replace with a
+          regular expression matching an empty string.
 
 Nicolas Peninguy:
 	* Use regexps to classify currency and accounting formats
