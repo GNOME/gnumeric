@@ -1,7 +1,7 @@
 AC_INIT(src/gnumeric.h)
 
 AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE(gnumeric,0.48)
+AM_INIT_AUTOMAKE(gnumeric,0.49)
 AM_MAINTAINER_MODE
 AM_ACLOCAL_INCLUDE(macros)
 
@@ -166,12 +166,12 @@ AC_ARG_WITH(bonobo,
 gnumeric_executable=gnumeric
 AC_SUBST(gnumeric_executable)
 if $try_bonobo; then
-	AC_MSG_CHECKING(for Bonobo > 0.4)
+	AC_MSG_CHECKING(for Bonobo > 0.7)
 	if gnome-config --libs bonobo > /dev/null 2>&1; then
 		vers=`gnome-config --modversion bonobo`
 		case $vers
 		in
-		    bonobo-0.[[01234]]) bonobo_ok=false ;;
+		    bonobo-0.[[01234567]]) bonobo_ok=false ;;
 		    *) bonobo_ok=true ;;
 		esac
 	else
@@ -246,7 +246,7 @@ dnl GnomePrint checking
 dnl ******************************
 AC_MSG_CHECKING(for GnomePrint libraries >= 0.10)
 if gnome-config --libs print > /dev/null 2>&1; then 
-    vers=`(. \`gnome-config --libdir\`/printConf.sh && echo $MODULE_VERSION | sed -e "s/gnome-print-//" ) | \
+    vers=`gnome-config --modversion print | sed -e "s/gnome-print-//" | \
         awk 'BEGIN { FS = "."; } { print $1 * 1000 + $2;}'`
     if test "$vers" -ge 10; then
         AC_MSG_RESULT(found)
