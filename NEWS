@@ -4,7 +4,7 @@ Andreas:
 	* Some more utf-8 cleaning in the stf parsers.
 	* Improve the encoding selector by only showing
 	  supported encodings
- 
+
 Jody:
 	* Set alwaysCalc flag when xls exporting dynamic dependencies.
 	* Fix HIG-ification of validation page in fmt dialog
@@ -202,7 +202,7 @@ Jody:
 	* Fix print dialog's entry of repeated cols/rows
 
 Jon Kåre:
-        * Separate GUI for showing progress and messages before first 
+        * Separate GUI for showing progress and messages before first
 	  spreadsheet window is displayed.
 	* Fix 98661.
 	* Port the remaining plugins to gsf output.
@@ -361,7 +361,7 @@ Jody:
 	* Start clean up of error handling routines.
 	* Some UTF-8 cleanup.
 	* Support placeholders for unknown names (incl XL import)
-	* Restore core <-> split for analysis and random num tools 
+	* Restore core <-> split for analysis and random num tools
 	* Undo support for defining and updating named expressions
 	* Port Name guru from GtkList -> TreeView
 	* Fix applix expr parsing now that we consider spaces
@@ -508,7 +508,7 @@ Jukka:
 	* Solver improvements:
 	  - Imported the GLPK (GNU linear programming kit) version 3.2.
 	    It provides a revised simplex algorithm for solving large
-	    scale problems, written by Andrew Makhorin.  It performs 
+	    scale problems, written by Andrew Makhorin.  It performs
 	    much better than lp-solve if the model is large, see
 	    a benchmark in ftp://plato.la.asu.edu/pub/lpsimp.txt.
 	  - Added the algorithm selection into the dialog.
@@ -559,7 +559,7 @@ Jody:
 	* Fix colour leak with grid colour change, and small warning.
 
 Jukka:
-	* New random distribution functions (mostly integrated from the 
+	* New random distribution functions (mostly integrated from the
 	  GNU Scientific Library with some minor modifications):
 	  RANDDISCRETE(), RANDGAUSSIANTAIL() and RANDLANDAU().
 	* New random distributions for the random number generation tool:
@@ -600,7 +600,7 @@ Andreas:
 	* Fix and improve html import.
 	* Make the analysis tools honour the lock state of cells.
 	* Properly handle output range preparation for analysis tools
-	  even if the user did not want it cleared. 
+	  even if the user did not want it cleared.
 	* Create ui to set protection of indiviual sheets.
 	* Make various edit actions check for locks first.
 	* Fix 85383, 84396, 88164.
@@ -644,7 +644,7 @@ Jukka:
 	* Fixed YIELD().
 	* Moved all complex number functions from fn-eng plug-in to a
 	  separate plug-in for complex numbers.
-	* New complex number functions (integrated from the GNU Scientific 
+	* New complex number functions (integrated from the GNU Scientific
 	  Library with some minor modifications):
 	  IMINV(), IMNEG(), IMARCSIN(), IMARCCOS(), IMARCTAN(), IMARCSEC(),
 	  IMARCCSC(), IMARCCOT(), IMSEC(), IMCSC(), IMCOT(), IMSINH(),
@@ -652,7 +652,7 @@ Jukka:
 	  IMARCCOSH(), IMARCTANH(), IMARCSECH(), IMARCCSCH(), and IMARCCOTH().
 	* Moved all random number generation functions from fn-math to a
 	  separate plug-in (fn-random).
-	* New random distribution functions (mostly integrated from the 
+	* New random distribution functions (mostly integrated from the
 	  GNU Scientific Library with some minor modifications):
 	  RANDBETA(), RANDCAUCHY(), RANDCHISQ(), RANDEXPPOW(), RANDFDIST(),
 	  RANDGAMMA(), RANDGAUSSIAN(), RANDGEOM(), RANDGUMBEL(), RANDHYPERG(),
