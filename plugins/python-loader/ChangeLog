@@ -1,3 +1,8 @@
+2003-07-10  Jon K Hellan  <hellan@acm.org>
+
+	* py-console.c (show_python_console): Make console window
+	resizable.
+
 2003-07-09  Jody Goldberg <jody@gnome.org>
 
 	* py-gnumeric.c (py_Workbook_sheet_add_method) : new.
