@@ -142,6 +142,7 @@ wbcg_edit_validate (WorkbookControlGUI *wbcg, MStyle const *mstyle,
 	if (sc) {
 		Value *v;
 		gboolean result;
+		Cell *cell = sheet_cell_get (sheet, sheet->edit_pos.col, sheet->edit_pos.row);
 		
 		if (!val) {
 			EvalPos ep;
@@ -153,7 +154,7 @@ wbcg_edit_validate (WorkbookControlGUI *wbcg, MStyle const *mstyle,
 
 		g_return_val_if_fail (v != NULL, FALSE);
 
-		result = style_condition_eval (sc, v);
+		result = style_condition_eval (sc, v, cell ? cell->format : NULL);
 		if (!val)
 			value_release (v);
 			

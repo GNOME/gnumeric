@@ -114,7 +114,9 @@ style_condition_new (Sheet *sheet, StyleConditionOp op, ExprTree *expr)
 {
 	StyleCondition *sc;
 
-	g_return_val_if_fail (expr != NULL, NULL);
+	/* Be paranoid, expr is only needed for value restrictions */
+	if (op >= STYLE_CONDITION_EQUAL && op <= STYLE_CONDITION_LESS_EQUAL)
+		g_return_val_if_fail (expr != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	
 	sc = g_new0 (StyleCondition, 1);
@@ -176,48 +178,84 @@ style_condition_chain (StyleCondition *dst, StyleCondition *src)
 {
 	g_return_val_if_fail (dst != NULL, NULL);
 	g_return_val_if_fail (src != NULL, NULL);
-	g_return_val_if_fail (dst->next != NULL, NULL);
+	g_return_val_if_fail (dst->next == NULL, NULL);
 	
 	dst->next = src;
 	return dst;
 }
 
 gboolean
-style_condition_eval (StyleCondition *sc, Value *val)
+style_condition_eval (StyleCondition *sc, Value *val, StyleFormat *format)
 {
 	StyleCondition *scl;
 
+	g_return_val_if_fail (val != NULL, FALSE);
+	
 	for (scl = sc; scl != NULL; scl = scl->next) {
-		ValueCompare vc;
+		if (scl->op >= STYLE_CONDITION_EQUAL &&
+		    scl->op <= STYLE_CONDITION_LESS_EQUAL) {
+			/* Value restriction */
+			ValueCompare vc;
+			
+			/*
+			 * Apparantly no eval has been done yet, so
+			 * we'll have to force it.
+			 */
+			if (scl->val == NULL) {
+				g_return_val_if_fail (dependent_needs_recalc (&scl->dep), FALSE);
+				dependent_eval (&sc->dep);
+				g_return_val_if_fail (scl->val != NULL, FALSE);
+			}
 
-		/*
-		 * Apparantly no eval has been done yet, so
-		 * we'll have to force it.
-		 */
-		if (scl->val == NULL) {
-			g_return_val_if_fail (dependent_needs_recalc (&scl->dep), FALSE);
-			dependent_eval (&sc->dep);
-			g_return_val_if_fail (scl->val != NULL, FALSE);
-		}
+			vc = value_compare (val, scl->val, TRUE);
+			
+			switch (scl->op) {
+			case STYLE_CONDITION_EQUAL :
+				if (vc != IS_EQUAL) return FALSE; break;
+			case STYLE_CONDITION_NOT_EQUAL :
+				if (vc == IS_EQUAL) return FALSE; break;
+			case STYLE_CONDITION_LESS :
+				if (vc != IS_LESS) return FALSE; break;
+			case STYLE_CONDITION_GREATER :
+				if (vc != IS_GREATER) return FALSE; break;
+			case STYLE_CONDITION_LESS_EQUAL :
+				if (vc == IS_GREATER) return FALSE; break;
+			case STYLE_CONDITION_GREATER_EQUAL :
+				if (vc == IS_LESS) return FALSE; break;
+			default :
+				g_warning ("Style Condition: Unhandled operator"); return FALSE;
+			}
+		} else {
+			/* Type restriction */
 
-
-		vc = value_compare (val, scl->val, TRUE);
-		
-		switch (scl->op) {
-		case STYLE_CONDITION_EQUAL :
-			if (vc != IS_EQUAL) return FALSE; break;
-		case STYLE_CONDITION_NOT_EQUAL :
-			if (vc == IS_EQUAL) return FALSE; break;
-		case STYLE_CONDITION_LESS :
-			if (vc != IS_LESS) return FALSE; break;
-		case STYLE_CONDITION_GREATER :
-			if (vc != IS_GREATER) return FALSE; break;
-		case STYLE_CONDITION_LESS_EQUAL :
-			if (vc == IS_GREATER) return FALSE; break;
-		case STYLE_CONDITION_GREATER_EQUAL :
-			if (vc == IS_LESS) return FALSE; break;
-		default :
-			g_warning ("Unhandled operator"); return FALSE;
+			/*
+			 * FIXME: Note all type restrictions are implemented yet
+			 * some of them will need the StyleFormat passed to this
+			 * function
+			 */
+			
+			switch (scl->op) {
+			case STYLE_CONDITION_IS_INT :
+				if (val->type != VALUE_BOOLEAN
+				    && val->type != VALUE_INTEGER)
+					return FALSE; break;
+			case STYLE_CONDITION_IS_FLOAT :
+				if (val->type != VALUE_FLOAT) return FALSE; break;
+			case STYLE_CONDITION_IS_IN_LIST :
+				g_warning ("Style Condition: 'Is In List' not implemented");
+				break;
+			case STYLE_CONDITION_IS_DATE :
+				g_warning ("Style Condition: 'In Date' not implemented");
+				break;
+			case STYLE_CONDITION_IS_TIME :
+				g_warning ("Style Condition: 'Is Time' not implemented");
+				break;
+			case STYLE_CONDITION_IS_TEXTLEN :
+				g_warning ("Style Condition: 'Is Text Length' not implemented");
+				break;
+			default :
+				g_warning ("Style Condition: Unhandled operator"); return FALSE;
+			}
 		}
 	}
 	

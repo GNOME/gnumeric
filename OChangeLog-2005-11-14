@@ -1,3 +1,16 @@
+2001-10-08  Almer S. Tigelaar  <almer@gnome.org>
+
+	* src/style-condition.[ch] (style_condition_eval):
+	Add StyleFormat parameter and support for new non-value
+	conditions.
+	(style_condition_new): Don't demand expression for
+	non-value restrictions.
+	(style_condition_chain): Fix typo preventing chaining.
+
+	* src/workbook-edit.c (wbcg_edit_validate): Pass
+	StyleFormat parameter to style_condition_eval if
+	the cell has one.
+
 2001-10-08  Jody Goldberg <jgoldberg@home.com>
 
 	* configure.in : post release bump
