@@ -1,3 +1,10 @@
+2001-05-23  Jody Goldberg <jgoldberg@home.com>
+
+	* boot.c (xbase_field_as_value) : remove the attempt to null terminate
+	  a string that we already assume was null terminated when we strdup
+	  it.
+	(xbase_file_open) : force a full respan.
+
 2001-05-21  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* boot.c (xbase_file_open):

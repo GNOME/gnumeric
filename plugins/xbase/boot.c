@@ -85,7 +85,6 @@ xbase_field_as_value (XBrecord *record, guint num)
 	Value *val;
 	XBfield *field = record->file->format[num-1];
 
-	s[field->len] = '\0';
 	switch (field->type) {
 	case 'C':
 		val = value_new_string (g_strchomp (s));
@@ -193,4 +192,6 @@ xbase_file_open (GnumFileOpener const *fo, IOContext *io_context,
 
 	record_free (rec);
 	xbase_close (file);
+
+	sheet_flag_recompute_spans (sheet);
 }
