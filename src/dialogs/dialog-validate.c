@@ -20,9 +20,12 @@
 #include <config.h>
 #include <gnome.h>
 
+#include "dialogs.h"
+
 #include "gnumeric.h"
 #include "gnumeric-util.h"
-#include "dialogs.h"
+#include "widgets/gnumeric-expr-entry.h"
+#include "workbook-edit.h"
 
 #define GLADE_FILE "validate.glade"
 
@@ -30,30 +33,69 @@ typedef struct {
 	WorkbookControlGUI *wbcg;
 	Sheet              *sheet;
 	
-	GnomeDialog     *dialog;
+	GnomeDialog       *dialog;
+	GladeXML          *gui;
 
-	GtkOptionMenu   *set_constraint_type;
-	GtkLabel        *set_operator_label;
-	GtkOptionMenu   *set_operator;
-	GtkLabel        *set_bound1_name;
-	GtkLabel        *set_bound2_name;
-	GtkEntry        *set_bound1_entry;
-	GtkEntry        *set_bound2_entry;
-	GtkCheckButton  *set_apply_shared;
-	GtkCheckButton  *set_ignore_blank;
-	GtkCheckButton  *set_in_dropdown;
+	GtkOptionMenu     *set_constraint_type;
+	GtkLabel          *set_operator_label;
+	GtkOptionMenu     *set_operator;
+	GtkLabel          *set_bound1_name;
+	GtkLabel          *set_bound2_name;
+	GnumericExprEntry *set_bound1_entry;
+	GnumericExprEntry *set_bound2_entry;
+	GtkCheckButton    *set_apply_shared;
+	GtkCheckButton    *set_ignore_blank;
+	GtkCheckButton    *set_in_dropdown;
 
-	GtkToggleButton *input_flag;
-	GtkEntry        *input_title;
-	GtkText         *input_msg;
+	GtkToggleButton   *input_flag;
+	GtkEntry          *input_title;
+	GtkText           *input_msg;
 	
-	GtkToggleButton *error_flag;
-	GtkOptionMenu   *error_action;
-	GtkEntry        *error_title;
-	GtkText         *error_msg;
-	GnomePixmap     *error_image;
+	GtkToggleButton   *error_flag;
+	GtkOptionMenu     *error_action;
+	GtkEntry          *error_title;
+	GtkText           *error_msg;
+	GnomePixmap       *error_image;
+
+	GtkButton         *btn_ok;
+	GtkButton         *btn_clear;
+	GtkButton         *btn_cancel;
 } ValidateState;
 
+static gboolean
+cb_dialog_destroy (GtkObject *object, ValidateState *state)
+{
+	wbcg_edit_detach_guru (state->wbcg);
+	gtk_object_unref (GTK_OBJECT (state->gui));
+	g_free (state);
+
+	return FALSE;
+}
+
+static void
+cb_dialog_set_focus (GtkWidget *window, GtkWidget *focus_widget,
+		     ValidateState *state)
+{
+	if (GNUMERIC_IS_EXPR_ENTRY (focus_widget)) {
+		GnumericExprEntryFlags flags;
+		
+		wbcg_set_entry (state->wbcg,
+				GNUMERIC_EXPR_ENTRY (focus_widget));
+				    
+		flags = GNUM_EE_ABS_ROW | GNUM_EE_ABS_COL | GNUM_EE_SHEET_OPTIONAL;
+		gnumeric_expr_entry_set_flags (state->set_bound1_entry, flags, flags);
+		gnumeric_expr_entry_set_flags (state->set_bound2_entry, flags, flags);
+	} else
+		wbcg_set_entry (state->wbcg, NULL);
+}
+
+static void
+cb_dialog_clicked (GtkWidget *widget, ValidateState *state)
+{
+	/* Destroy dialog only if OK or CANCEL was clicked */
+	if (widget == GTK_WIDGET (state->btn_ok) || widget == GTK_WIDGET (state->btn_cancel))
+		gtk_widget_destroy (GTK_WIDGET (state->dialog));
+}
 
 static void
 cb_set_constraint_type_deactivate (GtkMenuShell *shell, ValidateState *state)
@@ -155,22 +197,31 @@ setup_widgets (ValidateState *state, GladeXML *gui)
 	g_return_if_fail (state != NULL);
 	g_return_if_fail (gui != NULL);
 
-	state->dialog              = GNOME_DIALOG     (glade_xml_get_widget (gui, "dialog"));
+	state->dialog              = GNOME_DIALOG        (glade_xml_get_widget (gui, "dialog"));
 
-	state->set_constraint_type = GTK_OPTION_MENU   (glade_xml_get_widget (gui, "set_constraint_type"));
-	state->set_operator_label  = GTK_LABEL         (glade_xml_get_widget (gui, "set_operator_label"));
-	state->set_operator        = GTK_OPTION_MENU   (glade_xml_get_widget (gui, "set_operator"));
-	state->set_bound1_name     = GTK_LABEL         (glade_xml_get_widget (gui, "set_bound1_name"));
-	state->set_bound2_name     = GTK_LABEL         (glade_xml_get_widget (gui, "set_bound2_name"));
-	state->set_bound1_entry    = GTK_ENTRY         (glade_xml_get_widget (gui, "set_bound1_entry"));
-	state->set_bound2_entry    = GTK_ENTRY         (glade_xml_get_widget (gui, "set_bound2_entry"));
-	state->set_apply_shared    = GTK_CHECK_BUTTON  (glade_xml_get_widget (gui, "set_apply_shared"));
-	state->set_ignore_blank    = GTK_CHECK_BUTTON  (glade_xml_get_widget (gui, "set_ignore_blank"));
-	state->set_in_dropdown     = GTK_CHECK_BUTTON  (glade_xml_get_widget (gui, "set_in_dropdown"));
+	state->set_constraint_type = GTK_OPTION_MENU     (glade_xml_get_widget (gui, "set_constraint_type"));
+	state->set_operator_label  = GTK_LABEL           (glade_xml_get_widget (gui, "set_operator_label"));
+	state->set_operator        = GTK_OPTION_MENU     (glade_xml_get_widget (gui, "set_operator"));
+	state->set_bound1_name     = GTK_LABEL           (glade_xml_get_widget (gui, "set_bound1_name"));
+	state->set_bound2_name     = GTK_LABEL           (glade_xml_get_widget (gui, "set_bound2_name"));
+	state->set_bound1_entry    = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new ());
+	state->set_bound2_entry    = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new ());
+	state->set_apply_shared    = GTK_CHECK_BUTTON    (glade_xml_get_widget (gui, "set_apply_shared"));
+	state->set_ignore_blank    = GTK_CHECK_BUTTON    (glade_xml_get_widget (gui, "set_ignore_blank"));
+	state->set_in_dropdown     = GTK_CHECK_BUTTON    (glade_xml_get_widget (gui, "set_in_dropdown"));
 
+	gtk_box_pack_end_defaults (GTK_BOX (glade_xml_get_widget (gui, "bound1_box")),
+				   GTK_WIDGET (state->set_bound1_entry));
+	gtk_widget_show (GTK_WIDGET (state->set_bound1_entry));
 	gnome_dialog_editable_enters (state->dialog, GTK_EDITABLE (state->set_bound1_entry));
+	gnumeric_expr_entry_set_scg (state->set_bound1_entry, wb_control_gui_cur_sheet (state->wbcg));
+	
+	gtk_box_pack_end_defaults (GTK_BOX (glade_xml_get_widget (gui, "bound2_box")),
+				   GTK_WIDGET (state->set_bound2_entry));
+	gtk_widget_show (GTK_WIDGET (state->set_bound2_entry));
 	gnome_dialog_editable_enters (state->dialog, GTK_EDITABLE (state->set_bound2_entry));
-
+	gnumeric_expr_entry_set_scg (state->set_bound2_entry, wb_control_gui_cur_sheet (state->wbcg));
+	
 	state->input_flag          = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "input_flag"));
 	state->input_title         = GTK_ENTRY         (glade_xml_get_widget (gui, "input_title"));
 	state->input_msg           = GTK_TEXT          (glade_xml_get_widget (gui, "input_msg"));
@@ -183,14 +234,23 @@ setup_widgets (ValidateState *state, GladeXML *gui)
 	state->error_title         = GTK_ENTRY         (glade_xml_get_widget (gui, "error_title"));
 	state->error_msg           = GTK_TEXT          (glade_xml_get_widget (gui, "error_msg"));
 	state->error_image         = GNOME_PIXMAP      (glade_xml_get_widget (gui, "error_image"));
-	
+
 	gnome_dialog_editable_enters (state->dialog, GTK_EDITABLE (state->error_title));
 	gnome_dialog_editable_enters (state->dialog, GTK_EDITABLE (state->error_msg));
+
+	state->btn_clear           = GTK_BUTTON        (glade_xml_get_widget (gui, "btn_clear"));
+	state->btn_ok              = GTK_BUTTON        (glade_xml_get_widget (gui, "btn_ok"));
+	state->btn_cancel          = GTK_BUTTON        (glade_xml_get_widget (gui, "btn_cancel"));
 }
 
 static void
 connect_signals (ValidateState *state)
 {
+	gtk_signal_connect (GTK_OBJECT (state->dialog), "set-focus",
+			    GTK_SIGNAL_FUNC (cb_dialog_set_focus), state);
+	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
+			    GTK_SIGNAL_FUNC (cb_dialog_destroy), state);
+
 	gtk_signal_connect (GTK_OBJECT (gtk_option_menu_get_menu (state->set_constraint_type)), "deactivate",
 			    GTK_SIGNAL_FUNC (cb_set_constraint_type_deactivate), state);
 	gtk_signal_connect (GTK_OBJECT (gtk_option_menu_get_menu (state->set_operator)), "deactivate",
@@ -202,6 +262,13 @@ connect_signals (ValidateState *state)
 			    GTK_SIGNAL_FUNC (cb_input_flag_toggled), state);
 	gtk_signal_connect (GTK_OBJECT (state->error_flag), "toggled",
 			    GTK_SIGNAL_FUNC (cb_error_flag_toggled), state);
+
+	gtk_signal_connect (GTK_OBJECT (state->btn_clear), "clicked",
+			    GTK_SIGNAL_FUNC (cb_dialog_clicked), state);
+	gtk_signal_connect (GTK_OBJECT (state->btn_ok), "clicked",
+			    GTK_SIGNAL_FUNC (cb_dialog_clicked), state);
+	gtk_signal_connect (GTK_OBJECT (state->btn_cancel), "clicked",
+			    GTK_SIGNAL_FUNC (cb_dialog_clicked), state);
 }
 
 void
@@ -220,6 +287,7 @@ dialog_validate (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state = g_new0 (ValidateState, 1);
 	state->wbcg  = wbcg;
 	state->sheet = sheet;
+	state->gui   = gui;
 	
 	setup_widgets (state, gui);
 	connect_signals (state);
@@ -232,10 +300,8 @@ dialog_validate (WorkbookControlGUI *wbcg, Sheet *sheet)
 	cb_error_flag_toggled (state->error_flag, state);
 	
 	/* Run the dialog */
-	gnumeric_dialog_run (wbcg, GNOME_DIALOG (state->dialog));
-		
-	gtk_widget_destroy (GTK_WIDGET (state->dialog));
-	gtk_object_unref (GTK_OBJECT (gui));
-	g_free (state);
+	gnumeric_non_modal_dialog (wbcg, GTK_WINDOW (state->dialog));
+	wbcg_edit_attach_guru (wbcg, GTK_WIDGET (state->dialog));
+	
+	gtk_widget_show (GTK_WIDGET (state->dialog));
 }
-

@@ -22,7 +22,7 @@
   <title>Input Validation</title>
   <type>GTK_WINDOW_DIALOG</type>
   <position>GTK_WIN_POS_NONE</position>
-  <modal>True</modal>
+  <modal>False</modal>
   <allow_shrink>False</allow_shrink>
   <allow_grow>False</allow_grow>
   <auto_shrink>False</auto_shrink>
@@ -60,7 +60,7 @@
 
       <widget>
 	<class>GtkButton</class>
-	<name>button_clear_all</name>
+	<name>btn_clear</name>
 	<can_default>True</can_default>
 	<can_focus>True</can_focus>
 	<label>Clear All</label>
@@ -68,7 +68,7 @@
 
       <widget>
 	<class>GtkButton</class>
-	<name>button4</name>
+	<name>btn_ok</name>
 	<can_default>True</can_default>
 	<can_focus>True</can_focus>
 	<stock_button>GNOME_STOCK_BUTTON_OK</stock_button>
@@ -76,7 +76,7 @@
 
       <widget>
 	<class>GtkButton</class>
-	<name>button5</name>
+	<name>btn_cancel</name>
 	<can_default>True</can_default>
 	<can_focus>True</can_focus>
 	<stock_button>GNOME_STOCK_BUTTON_CANCEL</stock_button>
@@ -198,12 +198,12 @@ Custom
 		<can_focus>True</can_focus>
 		<items>min &lt;= val &lt;= max         (between)
 val &lt;= min || max &lt;= val (not between)
-val == bound                (equal to)
-val != bound                 (not equal to)
-val &gt;  bound                 (greater than)
-val &lt;  bound                 (less than)
-val &gt;=bound                 (greater than or equal to)
-val &lt;=bound                 (less than or equal to)
+val == bound                 (equal to)
+val != bound                  (not equal to)
+val &gt;  bound                  (greater than)
+val &lt;  bound                  (less than)
+val &gt;=bound                  (greater than or equal to)
+val &lt;=bound                  (less than or equal to)
 </items>
 		<initial_choice>0</initial_choice>
 		<child>
@@ -214,67 +214,69 @@ val &lt;=bound                 (less than or equal to)
 	      </widget>
 
 	      <widget>
-		<class>GtkLabel</class>
-		<name>set_bound1_name</name>
-		<label>label11</label>
-		<justify>GTK_JUSTIFY_CENTER</justify>
-		<wrap>False</wrap>
-		<xalign>7.45058e-09</xalign>
-		<yalign>0.5</yalign>
-		<xpad>0</xpad>
-		<ypad>0</ypad>
+		<class>GtkVBox</class>
+		<name>bound1_box</name>
+		<homogeneous>False</homogeneous>
+		<spacing>5</spacing>
 		<child>
 		  <padding>0</padding>
-		  <expand>False</expand>
-		  <fill>False</fill>
+		  <expand>True</expand>
+		  <fill>True</fill>
 		</child>
+
+		<widget>
+		  <class>GtkLabel</class>
+		  <name>set_bound1_name</name>
+		  <label>label11</label>
+		  <justify>GTK_JUSTIFY_CENTER</justify>
+		  <wrap>False</wrap>
+		  <xalign>7.45058e-09</xalign>
+		  <yalign>0.5</yalign>
+		  <xpad>0</xpad>
+		  <ypad>0</ypad>
+		  <child>
+		    <padding>0</padding>
+		    <expand>False</expand>
+		    <fill>False</fill>
+		  </child>
+		</widget>
+
+		<widget>
+		  <class>Placeholder</class>
+		</widget>
 	      </widget>
 
 	      <widget>
-		<class>GtkEntry</class>
-		<name>set_bound1_entry</name>
-		<can_focus>True</can_focus>
-		<editable>True</editable>
-		<text_visible>True</text_visible>
-		<text_max_length>0</text_max_length>
-		<text></text>
+		<class>GtkVBox</class>
+		<name>bound2_box</name>
+		<homogeneous>False</homogeneous>
+		<spacing>0</spacing>
 		<child>
 		  <padding>0</padding>
-		  <expand>False</expand>
-		  <fill>False</fill>
+		  <expand>True</expand>
+		  <fill>True</fill>
 		</child>
-	      </widget>
 
-	      <widget>
-		<class>GtkLabel</class>
-		<name>set_bound2_name</name>
-		<label>label12</label>
-		<justify>GTK_JUSTIFY_CENTER</justify>
-		<wrap>False</wrap>
-		<xalign>7.45058e-09</xalign>
-		<yalign>0.5</yalign>
-		<xpad>0</xpad>
-		<ypad>0</ypad>
-		<child>
-		  <padding>0</padding>
-		  <expand>False</expand>
-		  <fill>False</fill>
-		</child>
-	      </widget>
+		<widget>
+		  <class>GtkLabel</class>
+		  <name>set_bound2_name</name>
+		  <label>label12</label>
+		  <justify>GTK_JUSTIFY_CENTER</justify>
+		  <wrap>False</wrap>
+		  <xalign>7.45058e-09</xalign>
+		  <yalign>0.5</yalign>
+		  <xpad>0</xpad>
+		  <ypad>0</ypad>
+		  <child>
+		    <padding>0</padding>
+		    <expand>False</expand>
+		    <fill>False</fill>
+		  </child>
+		</widget>
 
-	      <widget>
-		<class>GtkEntry</class>
-		<name>set_bound2_entry</name>
-		<can_focus>True</can_focus>
-		<editable>True</editable>
-		<text_visible>True</text_visible>
-		<text_max_length>0</text_max_length>
-		<text></text>
-		<child>
-		  <padding>0</padding>
-		  <expand>False</expand>
-		  <fill>False</fill>
-		</child>
+		<widget>
+		  <class>Placeholder</class>
+		</widget>
 	      </widget>
 	    </widget>
 

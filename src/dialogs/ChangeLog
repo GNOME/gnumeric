@@ -1,5 +1,18 @@
 2001-05-27  Almer S. Tigelaar  <almer@gnome.org>
 
+	* validate.glade: Make non-modal.
+	
+	* dialog-validate.c (setup_widgets): Use ExprEntry's instead
+	of normal entries.
+	(dialog_validate): Cope for non-modality of dialog.
+	(cb_dialog_destroy): New, clean up when user closes
+	the dialog.
+	(cb_dialog_set_focus): New, Handle ExprEntry's.
+	(cb_dialog_clicked): Handle the dialog buttons.
+	(connect_signals): Connect the new signals.
+
+2001-05-27  Almer S. Tigelaar  <almer@gnome.org>
+
 	* dialog-cell-format.c (setup_color_pickers) : Correctly
 	initialize color combo depending on the style element.
 
