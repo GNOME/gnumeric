@@ -1,5 +1,18 @@
 2002-02-28  Morten Welinder  <terra@diku.dk>
 
+	* src/regression.c (linear_solve): Move rescaling from here...
+	(LUPDecomp): ...to here so we save a copy.
+	(general_linear_regression): Allocate the permutation matrix with
+	the proper size.  (The old size was too big, so no-one really got
+	hurt.)
+
+	* src/rangefunc.c (range_minabs, range_maxabs): New functions.
+
+	* src/regression.c (rescale): Don't include "b" in determining the
+	scale.  Use range_maxabs.
+
+2002-02-28  Morten Welinder  <terra@diku.dk>
+
 	* src/regression.c (general_linear_regression): If the inverse has
 	negative elements in the diagonal, assume near singularity.
 	(linear_solve): Rescale matrix and target.  Rip out the error
