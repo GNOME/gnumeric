@@ -302,7 +302,7 @@
 	      <child_name>CList:title</child_name>
 	      <name>label2</name>
 	      <sensitive>False</sensitive>
-	      <label>Sheets</label>
+	      <label></label>
 	      <justify>GTK_JUSTIFY_CENTER</justify>
 	      <wrap>False</wrap>
 	      <xalign>0.5</xalign>

@@ -5,8 +5,8 @@
  */
 
 gchar *s = N_("Scrollbars");
-gchar *s = N_("Horizontal Scrollbar");
-gchar *s = N_("Vertical Scrollbar");
+gchar *s = N_("_Horizontal Scrollbar");
+gchar *s = N_("_Vertical Scrollbar");
 gchar *s = N_("Notebook");
-gchar *s = N_("Tabs");
+gchar *s = N_("_Tabs");
 gchar *s = N_("View");

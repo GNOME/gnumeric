@@ -316,7 +316,7 @@
 	    <class>GtkButton</class>
 	    <name>button6</name>
 	    <can_focus>True</can_focus>
-	    <label>Add</label>
+	    <label>_Add</label>
 	    <child>
 	      <padding>0</padding>
 	      <expand>False</expand>
@@ -328,7 +328,7 @@
 	    <class>GtkButton</class>
 	    <name>button7</name>
 	    <can_focus>True</can_focus>
-	    <label>Remove</label>
+	    <label>_Remove</label>
 	    <child>
 	      <padding>0</padding>
 	      <expand>False</expand>

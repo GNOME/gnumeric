@@ -66,7 +66,7 @@
 	    <name>Workbook::show_horizontal_scrollbar</name>
 	    <can_focus>True</can_focus>
 	    <has_focus>True</has_focus>
-	    <label>Horizontal Scrollbar</label>
+	    <label>_Horizontal Scrollbar</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <child>
@@ -80,7 +80,7 @@
 	    <class>GtkCheckButton</class>
 	    <name>Workbook::show_vertical_scrollbar</name>
 	    <can_focus>True</can_focus>
-	    <label>Vertical Scrollbar</label>
+	    <label>_Vertical Scrollbar</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <child>
@@ -108,7 +108,7 @@
 	  <class>GtkCheckButton</class>
 	  <name>Workbook::show_notebook_tabs</name>
 	  <can_focus>True</can_focus>
-	  <label>Tabs</label>
+	  <label>_Tabs</label>
 	  <active>False</active>
 	  <draw_indicator>True</draw_indicator>
 	</widget>

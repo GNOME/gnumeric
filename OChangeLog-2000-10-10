@@ -1,3 +1,16 @@
+2000-05-21  Jon K Hellan  <hellan@acm.org>
+
+	* src/dialogs/dialog-zoom.glade: Remove label from invisible
+	column title.
+
+	* src/dialogs/plugin-manager.glade(.h?): Add accelerators to
+	notebook tabs.
+	
+	* src/dialogs/autocorrect-exceptions.glade(.h?): Add accelerators to
+	buttons on notebook pages.
+
+	* src/dialogs/workbook-attr.glade(.h?): Ditto.
+
 2000-05-17  Jody Goldberg <jgoldberg@home.com>
 
 	* src/clipboard.c (clipboard_copy_cell_range) : Adjust signature to
