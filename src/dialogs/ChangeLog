@@ -1,3 +1,8 @@
+2004-09-06  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-analysis-tools.c (dialog_ttest_tool): Enable the `put' 
+	  menu in the dao widget.
+
 2004-09-02  Stepan Kasal  <kasal@ucw.cz>
 
 	* Makefile.am (base_files): Remove dialog-solver.c.

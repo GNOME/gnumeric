@@ -1,3 +1,8 @@
+2004-09-06  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.c (analysis_tool_ttest_neqvar_engine_run):
+	  rewritten
+
 2004-09-02  Stepan Kasal  <kasal@ucw.cz>
 
 	* Makefile.am: Set SUBDIRS = solver, only if ENABLE_SOLVER.
