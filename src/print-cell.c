@@ -334,6 +334,10 @@ print_cell (Cell *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo,
 			x1 += 1 + cell->col->margin_a + (width - text_width) / 2; 
 			break;
 
+		case HALIGN_CENTER_ACROSS_SELECTION:
+			x1 = clip_x + (clip_width - text_width) / 2; 
+			break;
+
 		default:
 			g_warning ("Single-line justitfication style not supported\n");
 			x1 += 1 + cell->col->margin_a;
@@ -425,6 +429,7 @@ print_cell (Cell *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo,
 				break;
 
 			case HALIGN_CENTER:
+			case HALIGN_CENTER_ACROSS_SELECTION:
 				len = gnome_font_get_width_string (print_font, str);
 				x_offset = (cell->col->size_pts - len) / 2;
 			}

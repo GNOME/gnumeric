@@ -716,6 +716,10 @@ Sheet_cell_set_alignment (PortableServer_Servant servant,
 		h = HALIGN_JUSTIFY;
 		break;
 		
+	case GNOME_Gnumeric_Sheet_HALIGN_CENTER_ACROSS_SELECTION:
+		h = HALIGN_CENTER_ACROSS_SELECTION;
+		break;
+		
 	default:
 		h = HALIGN_GENERAL;
 	}
@@ -782,6 +786,15 @@ Sheet_cell_get_alignment (PortableServer_Servant servant,
 	case HALIGN_FILL:
 		*halign = GNOME_Gnumeric_Sheet_HALIGN_FILL;
 		break;
+
+	case HALIGN_JUSTIFY:
+		*halign = GNOME_Gnumeric_Sheet_HALIGN_JUSTIFY:
+		break;
+		
+	case HALIGN_CENTER_ACROSS_SELECTION;
+		*halign = GNOME_Gnumeric_Sheet_HALIGN_CENTER_ACROSS_SELECTION;
+		break;
+
 	default:
 		g_assert_not_reached ();
 	}

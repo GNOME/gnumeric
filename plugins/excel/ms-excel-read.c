@@ -1468,22 +1468,13 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, eBiff_version ver)
 		xf->halign = HALIGN_JUSTIFY;
 		break;
 	case 6:
-		/* FIXME :
-		 * ACK!  this seems to create a somewhat dynamic span.
+		/*
 		 * All adjacent blank cells with this type of alignment
 		 * are merged into a single span.  cursor still behaves
 		 * normally and the span is adjusted if contents are changed.
 		 * Use center for now.
-		 * xf->halign = HALIGN_CENTRE_ACROSS_SELECTION;
 		 */
-		xf->halign = HALIGN_CENTER;
-		{
-			static gboolean need_warning = TRUE;
-			if (need_warning) {
-				g_warning ("EXCEL : 'Center across selection' is unsupported.  Using Center");
-				need_warning = FALSE;
-			}
-		}
+		xf->halign = HALIGN_CENTER_ACROSS_SELECTION;
 		break;
 
 	default:

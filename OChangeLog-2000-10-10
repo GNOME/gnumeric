@@ -1,3 +1,25 @@
+2000-03-23  Jody Goldberg <jgoldberg@home.com>
+
+	* src/cell.c (cell_calculate_span) : Add CENTER_ACROSS_SELECTION.
+	(cell_set_text_simple) : Begin transition to checking
+	  format of current cell for match.  No real change yet.
+
+	* idl/Gnumeric.idl : Add CENTER_ACROSS_SELECTION.
+	* src/cell-draw.c (cell_draw) : Ditto.
+	* src/print-cell.c (print_cell) : Ditto.
+	* src/corba-sheet.c (Sheet_cell_set_alignment) : Ditto.
+	(Sheet_cell_get_alignment) : Ditto.
+	* src/dialogs/dialog-cell-format.c (fmt_dialog_init_align_page) : Ditto.
+	* src/dialogs/cell-format.glade : Ditto, reorganize alignment page.
+
+	* src/format.c : Move definition of _StyleFormatEntry from mstyle.h.
+
+	* src/number-match.c (format_create_regexp) : Extend to support
+	  currency names.
+
+	* src/item-grid.c (item_grid_draw_border) : minor optimization for
+	  non-border case.
+
 2000-03-23  Miguel de Icaza  <miguel@helixcode.com>
 
 	* src/gnumeric-sheet.c (start_cell_selection_at): Disable feedback

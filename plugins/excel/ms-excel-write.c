@@ -1572,6 +1572,9 @@ halign_to_excel (StyleHAlignFlags halign)
 	case HALIGN_JUSTIFY:
 		ialign = eBiffHAJustify;
 		break;
+	case HALIGN_CENTER_ACROSS_SELECTION:
+		ialign = eBuffHACenterAcrossSelection;
+		break;
 	default:
 		ialign = eBiffHAGeneral;
 	}

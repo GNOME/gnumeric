@@ -1,3 +1,10 @@
+2000-03-23  Jody Goldberg <jgoldberg@home.com>
+
+	* epsf.c (epsf_write_cell) : Add HALIGN_CENTER_ACROSS_SELECTION.
+	* html.c (html_write_cell{32,40}) : Ditto.
+	* latex.c (html_write_wb_latex) : Ditto.
+	* roff.c (write_wb_roff) : Ditto.
+
 2000-03-23  Jon K Hellan  <hellan@acm.org>
 
 	* boot.c (html_init): Tag html savers as AUTO, the others as

@@ -494,31 +494,38 @@ cell_set_text_simple (Cell *cell, const char *text)
 		cell_set_formula (cell, text);
 	else {
 		char *end;
-		long l;
-		int  set=0;
-
-		l = strtol (text, &end, 10);
+		long l = strtol (text, &end, 10);
 		if (l != LONG_MAX && l != LONG_MIN &&
 		    text != end && (l == (int)l)) {
-			/* Allow and ignore spaces at the end of integers.  */
+			/* Allow and ignore spaces at the end of integers. */
+			/* JEG : 2000/3/23 Why for ints and not doubles ? */
 			while (*end == ' ')
 				end++;
-			if (*end == 0) {
+			if (*end == FALSE)
 				cell->value = value_new_int (l);
-				set = 1;
-			}
 		}
 
-		if (!set) {
+		if (cell->value == NULL) {
 			double d;
 			d = strtod (text, &end);
-			if (text != end && *end == 0) {
-				/* It is a floating point number.  */
+
+			/* It is a floating point number.  */
+			if (text != end && *end == 0)
 				cell->value = value_new_float ((float_t)d);
-			} else {
-				/* It is text. Ignore leading single quotes */
-				cell->value = value_new_string (text[0] == '\'' ? text+1 : text);
+		}
+
+		if (cell->value == NULL) {
+			/* Check to see if it matches via current format */
+#if 0
+			if (format_match (text, float_t *v, char **format))
+			{
 			}
+#endif
+		}
+
+		if (cell->value == NULL) {
+			/* It is text. Ignore leading single quotes */
+			cell->value = value_new_string (text[0] == '\'' ? text+1 : text);
 		}
 
 		cell_render_value (cell);
@@ -1053,8 +1060,7 @@ cell_calculate_span (Cell const * const cell,
 	 * column is used.
 	 */
 
-	if (cell_is_number (cell) ||
-	    cell_contents_fit_inside_column (cell)) {
+	if (cell_is_number (cell)) {
 		*col1 = *col2 = cell->col->pos;
 		return;
 	}
@@ -1066,7 +1072,9 @@ cell_calculate_span (Cell const * const cell,
 					   mstyle_get_align_h (mstyle));
 	row   = cell->row->pos;
 
-	if (align == HALIGN_JUSTIFY ||
+	if ((cell_contents_fit_inside_column (cell) &&
+	     align != HALIGN_CENTER_ACROSS_SELECTION) ||
+	    align == HALIGN_JUSTIFY ||
 	    align == HALIGN_FILL ||
 	    mstyle_get_fit_in_cell (mstyle) ||
 	    mstyle_get_align_v (mstyle) == VALIGN_JUSTIFY) {
@@ -1183,12 +1191,53 @@ cell_calculate_span (Cell const * const cell,
 
 		} /* for */
 		break;
+	} /* case HALIGN_CENTER */
+
+	case HALIGN_CENTER_ACROSS_SELECTION:
+	{
+		int tmp;
+		int const row = cell->row->pos;
+		int left = cell->col->pos, right = left;
+
+		left_loop :
+			tmp = left - 1;
+			if (tmp >= 0 &&
+			    cell_is_blank (sheet_cell_get (sheet, tmp, row))) {
+				MStyle * const mstyle =
+				    sheet_style_compute (cell->sheet, tmp, row);
+				gboolean const res =
+				    (mstyle_get_align_h (mstyle) == HALIGN_CENTER_ACROSS_SELECTION);
+				mstyle_unref (mstyle);
+
+				if (res) {
+					left = tmp;
+					goto left_loop;
+				}
+			}
+		right_loop :
+			tmp = right + 1;
+			if (tmp < SHEET_MAX_COLS &&
+			    cell_is_blank (sheet_cell_get (sheet, tmp, row))) {
+				MStyle * const mstyle =
+				    sheet_style_compute (cell->sheet, tmp, row);
+				gboolean const res =
+				    (mstyle_get_align_h (mstyle) == HALIGN_CENTER_ACROSS_SELECTION);
+				mstyle_unref (mstyle);
+
+				if (res) {
+					right = tmp;
+					goto right_loop;
+				}
+			}
+
+		*col1 = left;
+		*col2 = right;
+		break;
+	}
 
 	default:
 		g_warning ("Unknown horizontal alignment type %d\n", align);
 		*col1 = *col2 = cell->col->pos;
-	} /* case HALIGN_CENTER */
-
 	} /* switch */
 }
 

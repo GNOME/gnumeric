@@ -10,12 +10,13 @@
 
 /* Alignment definitions */
 enum _StyleHAlignFlags {
-	HALIGN_GENERAL =     1,
-	HALIGN_LEFT    =     2,
-	HALIGN_RIGHT   =     4,
-	HALIGN_CENTER  =     8,
+	HALIGN_GENERAL =  0x01,
+	HALIGN_LEFT    =  0x02,
+	HALIGN_RIGHT   =  0x04,
+	HALIGN_CENTER  =  0x08,
 	HALIGN_FILL    =  0x10,
-	HALIGN_JUSTIFY =  0x20
+	HALIGN_JUSTIFY =  0x20,
+	HALIGN_CENTER_ACROSS_SELECTION =  0x40
 };
 
 enum _StyleVAlignFlags {
@@ -36,13 +37,6 @@ enum _StyleOrientation {
 	ORIENT_VERT_HORIZ_TEXT = 2,
 	ORIENT_VERT_VERT_TEXT  = 4,
 	ORIENT_VERT_VERT_TEXT2 = 8
-};
-
-struct _StyleFormatEntry {
-        char     *format;
-	int      want_am_pm;
-        char     restriction_type;
-        int      restriction_value;
 };
 
 struct _StyleFormat {

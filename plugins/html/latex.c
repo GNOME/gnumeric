@@ -120,9 +120,11 @@ html_write_wb_latex (CommandContext *context, Workbook *wb,
 						fprintf (fp, "\t&");
 					else
 						fprintf (fp, "\t ");
-					if (mstyle_get_align_h (mstyle) & HALIGN_RIGHT)
+					if (mstyle_get_align_h (mstyle) == HALIGN_RIGHT)
 						fprintf (fp, "\\hfill ");
-					if (mstyle_get_align_h (mstyle) & HALIGN_CENTER)
+					else if (mstyle_get_align_h (mstyle) == HALIGN_CENTER ||
+						 /* FIXME : center across selection is wrong */
+						 mstyle_get_align_h (mstyle) == HALIGN_CENTER_ACROSS_SELECTION)
 						fprintf (fp, "{\\centering ");	/* doesn't work */
 					if (mstyle_get_align_v (mstyle) & VALIGN_TOP)
 						;

@@ -306,6 +306,10 @@ cell_draw (Cell *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo,
 			x1 += 1 + cell->col->margin_a + (width - cell->width_pixel) / 2; 
 			break;
 			
+		case HALIGN_CENTER_ACROSS_SELECTION:
+			x1 = rect.x + (rect.width - cell->width_pixel) / 2; 
+			break;
+
 		default:
 			g_warning ("Single-line justification style not supported\n");
 			x1 += 1 + cell->col->margin_a;
@@ -379,6 +383,7 @@ cell_draw (Cell *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo,
 				break;
 
 			case HALIGN_CENTER:
+			case HALIGN_CENTER_ACROSS_SELECTION:
 				len = gdk_string_width (font, str);
 				x_offset = (cell->col->size_pixels - len) / 2;
 			}

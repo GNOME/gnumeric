@@ -55,7 +55,6 @@ typedef enum _StyleBorderLocation StyleBorderLocation;
 typedef enum _StyleUnderlineType StyleUnderlineType;
 
 typedef struct _StyleFormat		StyleFormat;
-typedef struct _StyleFormatEntry	StyleFormatEntry;
 typedef struct _StyleFont		StyleFont;
 typedef struct _StyleColor		StyleColor;
 

@@ -107,7 +107,9 @@ epsf_write_cell (FILE *fp, Cell *cell, float x, float y)
 		if (mstyle_get_align_h (mstyle) & HALIGN_RIGHT)
 			ps_text_right (fp, cell->text->str,
 				       x + cell_width - 2, y+2 + (font_size/3));
-		else if (mstyle_get_align_h (mstyle) & HALIGN_CENTER)
+		else if (mstyle_get_align_h (mstyle) == HALIGN_CENTER ||
+			 /* FIXME : center across selection is wrong */
+			 mstyle_get_align_h (mstyle) == HALIGN_CENTER_ACROSS_SELECTION)
 			ps_text_center (fp, cell->text->str,
 					x + 2, x + cell_width - 2, y + 2 + (font_size / 3));
 		else

@@ -1054,6 +1054,7 @@ fmt_dialog_init_align_page (FormatState *state)
 	    { "halign_general",	HALIGN_GENERAL },
 	    { "halign_justify",	HALIGN_JUSTIFY },
 	    { "halign_fill",	HALIGN_FILL },
+	    { "halign_center_across_selection",	HALIGN_CENTER_ACROSS_SELECTION },
 	    { NULL }
 	};
 	static struct

@@ -145,6 +145,7 @@ module GNOME {
 			const short HALIGN_CENTER  = 8;
 			const short HALIGN_FILL    = 16;
 			const short HALIGN_JUSTIFY = 32;
+			const short HALIGN_CENTER_ACROSS_SELECTION  = 64;
 			
 			const short VALIGN_TOP     = 1;
 			const short VALIGN_BOTTOM  = 2;

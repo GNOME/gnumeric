@@ -103,7 +103,9 @@ write_wb_roff (CommandContext *context, Workbook *wb, FILE *fp)
 						break;
 					if (mstyle_get_align_h (mstyle) & HALIGN_RIGHT)
 						fprintf (fp, "r");
-					else if (mstyle_get_align_h (mstyle) & HALIGN_CENTER)
+					else if (mstyle_get_align_h (mstyle) == HALIGN_CENTER ||
+						 /* FIXME : center across selection is different */
+						 mstyle_get_align_h (mstyle) == HALIGN_CENTER_ACROSS_SELECTION)
 						fprintf (fp, "c");
 					else
 						fprintf (fp, "l");

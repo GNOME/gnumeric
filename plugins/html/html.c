@@ -114,6 +114,7 @@ html_write_cell32 (FILE *fp, Cell *cell, MStyle *style)
 			break;
 
 		case HALIGN_CENTER :
+		case HALIGN_CENTER_ACROSS_SELECTION :
 			fprintf (fp, " align=center");
 			break;
 		default :
@@ -159,6 +160,7 @@ html_write_cell40 (FILE *fp, Cell *cell, MStyle *style)
 			break;
 			
 		case HALIGN_CENTER :
+		case HALIGN_CENTER_ACROSS_SELECTION :
 			fprintf (fp, " halign=center");
 			break;
 		default :

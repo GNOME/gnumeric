@@ -119,8 +119,24 @@ format_create_regexp (const unsigned char *format, GByteArray **dest)
 			}
 			break;
 
+			g_string_append_c (regexp, *format);
+			break;
+
+		case '[' :
+			/* Currency symbol */
+			if (format[1] == '$') {
+				for (format += 2; *format && *format != ']' ; ++format)
+					g_string_append_c (regexp, *format);
+				if (*format == ']')
+					++format;
+				break;
+			}
+
+		case ']' :
+		case '£' :
 		case '$':
-			g_string_append (regexp, "\\$");
+			g_string_append_c (regexp, '\\');
+			g_string_append_c (regexp, *format);
 			break;
 
 		case '%':

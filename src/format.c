@@ -50,6 +50,13 @@ static struct lconv *lc = NULL;
 
 static void style_entry_free (gpointer data, gpointer user_data);
 
+typedef struct {
+        char     *format;
+	int      want_am_pm;
+        char     restriction_type;
+        int      restriction_value;
+} StyleFormatEntry;
+
 
 /*
  * The returned string is newly allocated.
