@@ -1,3 +1,14 @@
+2002-10-29  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-edit.c (workbook_edit_complete_notify) : force an
+	  update.  This is kinda ugly but the entire mechanism needs cleanup
+	  to make it less gtk specific.
+
+	* src/item-edit.c (item_edit_draw) : create our own layout to handle
+	  autocomplete text.
+
+	* src/cell.c (cell_cleanout) : don't crash on cell regions.
+
 2002-10-29  Morten Welinder  <terra@diku.dk>
 
 	* src/dependent.c (dep_collection_release): New macro.

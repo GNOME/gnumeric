@@ -21,7 +21,7 @@
 #include "commands.h"
 #include "gnumeric-gconf.h"
 #include "mstyle.h"
-#include "sheet-control-gui.h"
+#include "sheet-control-gui-priv.h"
 #include "sheet-style.h"
 #include "sheet-view.h"
 #include "sheet.h"
@@ -43,10 +43,8 @@
 void
 wbcg_auto_complete_destroy (WorkbookControlGUI *wbcg)
 {
-	if (wbcg->auto_complete_text){
-		g_free (wbcg->auto_complete_text);
-		wbcg->auto_complete_text = NULL;
-	}
+	g_free (wbcg->auto_complete_text);
+	wbcg->auto_complete_text = NULL;
 
 	if (wbcg->edit_line.signal_changed >= 0) {
 		g_signal_handler_disconnect (GTK_OBJECT (wbcg_get_entry (wbcg)),
@@ -238,11 +236,14 @@ static void
 workbook_edit_complete_notify (char const *text, void *closure)
 {
 	WorkbookControlGUI *wbcg = closure;
+	SheetControlGUI    *scg  = wbcg_cur_scg (wbcg);
 
-	if (wbcg->auto_complete_text)
-		g_free (wbcg->auto_complete_text);
-
+	g_free (wbcg->auto_complete_text);
 	wbcg->auto_complete_text = g_strdup (text);
+
+	SCG_FOREACH_PANE (scg, pane,
+		if (pane->editor != NULL)
+			gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (pane->editor)););
 }
 
 static void
@@ -561,7 +562,7 @@ auto_complete_matches (WorkbookControlGUI *wbcg)
 	if (!wbcg->auto_completing)
 		return FALSE;
 
-	if (!wbcg->auto_complete_text)
+	if (wbcg->auto_complete_text == NULL)
 		return FALSE;
 
 	equal = (strncmp (text, wbcg->auto_complete_text, strlen (text)) == 0);

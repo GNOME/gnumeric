@@ -117,7 +117,7 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	 */
 	int top_pos = ((int)item->y1) - y + 1; /* grid line */
 	int cursor_pos = gtk_editable_get_position (GTK_EDITABLE (item_edit->entry));
-	char const *text;
+	char const *text, *entered_text;
 	StyleFont	*style_font = item_edit->style_font;
 	PangoLayout	*layout;
 	PangoAttrList	*attrs;
@@ -133,8 +133,10 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		(int)(item->x2-item->x1),
 		(int)(item->y2-item->y1));
 
-	/* copy the layout from the entry so that we get the text */
-	layout = pango_layout_copy (gtk_entry_get_layout (item_edit->entry));
+	entered_text = gtk_entry_get_text (item_edit->entry);
+	text = wbcg_edit_get_display_text (item_edit->scg->wbcg);
+	layout = gtk_widget_create_pango_layout  (GTK_WIDGET (item->canvas), text);
+
 	pango_layout_set_font_description (layout,
 		pango_context_get_font_description (style_font->pango.context));
 	pango_layout_set_wrap (layout, PANGO_WRAP_CHAR);
@@ -144,15 +146,28 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
  	attrs = pango_attr_list_new ();
 	pango_layout_set_attributes (layout, attrs);
 
-	text = wbcg_edit_get_display_text (item_edit->scg->wbcg);
-	if (GNM_CANVAS (canvas)->preedit_length){
-		PangoAttrList *tmp_attrs = pango_attr_list_new();
-		pango_attr_list_splice (tmp_attrs,GNM_CANVAS (canvas)->preedit_attrs,
-			g_utf8_offset_to_pointer(text,cursor_pos)-text,
-			g_utf8_offset_to_pointer(text,cursor_pos+GNM_CANVAS (canvas)->preedit_length)-text);
-		pango_layout_set_attributes (layout,tmp_attrs);
+	if (entered_text != NULL && entered_text != text) {
+		int start = strlen (entered_text);
+		PangoAttribute *attr;
+
+		attr = pango_attr_background_new (0, 0, 0);
+		attr->start_index = start;
+		attr->end_index = G_MAXINT;
+		pango_attr_list_insert (attrs, attr);
+		attr = pango_attr_foreground_new (0xffff, 0xffff, 0xffff);
+		attr->start_index = start;
+		attr->end_index = G_MAXINT;
+		pango_attr_list_insert (attrs, attr);
+	}
+	if (GNM_CANVAS (canvas)->preedit_length) {
+		PangoAttrList *tmp_attrs = pango_attr_list_new ();
+		pango_attr_list_splice (tmp_attrs, GNM_CANVAS (canvas)->preedit_attrs,
+			g_utf8_offset_to_pointer (text, cursor_pos) - text,
+			g_utf8_offset_to_pointer (text, cursor_pos + GNM_CANVAS (canvas)->preedit_length) - text);
+		pango_layout_set_attributes (layout, tmp_attrs);
 		pango_attr_list_unref (tmp_attrs);
 	}
+
 	pango_layout_index_to_pos (layout,
 		g_utf8_offset_to_pointer (text, cursor_pos) - text, &pos);
 	gdk_draw_layout (drawable, canvas->style->black_gc,
@@ -194,42 +209,40 @@ item_edit_event (GnomeCanvasItem *item, GdkEvent *event)
 static void
 recalc_spans (GnomeCanvasItem *item)
 {
-	ItemEdit *item_edit = ITEM_EDIT (item);
-	GnmCanvas *gcanvas = GNM_CANVAS (item->canvas);
-	PangoLayout* layout;
-	int width,height;
-	int col_size;
+	ItemEdit  const *item_edit = ITEM_EDIT (item);
+	GnmCanvas const *gcanvas = GNM_CANVAS (item->canvas);
+	PangoLayout *layout;
 	ColRowInfo const *cri;
-	Sheet    *sheet  = sc_sheet (SHEET_CONTROL (item_edit->scg));
-	StyleFont *style_font = item_edit->style_font;
-	Range const *merged;
-	int col_span,row_span,tmp;
-	int cur_col;
+	Sheet	   const *sheet  = sc_sheet (SHEET_CONTROL (item_edit->scg));
+	StyleFont  const *style_font = item_edit->style_font;
+	Range	   const *merged;
+	int col_span, row_span, tmp, cur_col, width, height, col_size;
 	
 	cur_col = item_edit->pos.col;
 	cri = sheet_col_get_info (sheet, cur_col);
 
 	g_return_if_fail (cri != NULL);
 
-	layout=pango_layout_copy(gtk_entry_get_layout(item_edit->entry));
-	pango_layout_set_font_description(layout,pango_context_get_font_description(style_font->pango.context));
-	pango_layout_set_wrap(layout,PANGO_WRAP_CHAR);
-	pango_layout_set_width(layout,-1);
+	layout = pango_layout_copy (gtk_entry_get_layout (item_edit->entry));
+	pango_layout_set_font_description (layout,
+		pango_context_get_font_description (style_font->pango.context));
+	pango_layout_set_wrap (layout, PANGO_WRAP_CHAR);
+	pango_layout_set_width (layout, -1);
 	pango_layout_get_pixel_size(layout,&width,&height);
 
 	/* Start after the grid line and the left margin */
 	col_size = cri->size_pixels - cri->margin_a - 1;
 
-	while(col_size<width){
+	while (col_size < width) {
 		cur_col++;
 		if (cur_col > gcanvas->last_full.col || cur_col >= SHEET_MAX_COLS) {
 			cur_col--;
-			pango_layout_set_width(layout,col_size*PANGO_SCALE);
+			pango_layout_set_width (layout, col_size*PANGO_SCALE);
 			break;
 		}
 		cri = sheet_col_get_info (sheet, cur_col);
 		g_return_if_fail (cri != NULL);
-		if(cri->visible)
+		if (cri->visible)
 			col_size += cri->size_pixels;
 	}
 	pango_layout_get_pixel_size (layout,&width,&height);
@@ -245,8 +258,7 @@ recalc_spans (GnomeCanvasItem *item)
 		row_span = 1;
 
 	/* The lower right is based on the span size excluding the grid lines
-	 * Recall that the bound excludes the far point
-	 */
+	 * Recall that the bound excludes the far point */
 	item->x2 = 1 + item->x1 - 2 +
 		scg_colrow_distance_get (item_edit->scg, TRUE, item_edit->pos.col,
 					 item_edit->pos.col + col_span);
@@ -254,7 +266,6 @@ recalc_spans (GnomeCanvasItem *item)
 	tmp = scg_colrow_distance_get (item_edit->scg, FALSE, item_edit->pos.row,
 				       item_edit->pos.row + row_span) - 2;
 	item->y2 = 1 + item->y1 + MAX (height, tmp);
-
 }
 	
 
@@ -417,8 +428,7 @@ item_edit_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	item_edit->pos = sv->edit_pos;
 
 	entry = item_edit->entry;
-	item_edit->signal_changed = g_signal_connect (G_OBJECT (gtk_widget_get_parent (
-									GTK_WIDGET (entry))),
+	item_edit->signal_changed = g_signal_connect (G_OBJECT (gtk_widget_get_parent (GTK_WIDGET (entry))),
 		"changed",
 		G_CALLBACK (entry_changed), item_edit);
 	item_edit->signal_key_press = g_signal_connect_after (G_OBJECT (entry),

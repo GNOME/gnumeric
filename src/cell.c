@@ -72,15 +72,16 @@ cell_cleanout (Cell *cell)
 		cell->base.expression = NULL;
 	}
 
-	if (cell->value) {
+	if (cell->value != NULL) {
 		value_release (cell->value);
 		cell->value = NULL;
 	}
-	if (cell->rendered_value) {
+	if (cell->rendered_value != NULL) {
 		rendered_value_destroy (cell->rendered_value);
 		cell->rendered_value = NULL;
 	}
-	cell->row_info->needs_respan = TRUE;
+	if (cell->row_info != NULL)
+		cell->row_info->needs_respan = TRUE;
 }
 
 /* The pool from which all cells are allocated.  */
