@@ -791,7 +791,9 @@ cell_destroy (Cell *cell)
 		string_unref  (cell->text);
 
 	style_destroy (cell->style);
-	value_release (cell->value);
+
+	if (cell->value)
+		value_release (cell->value);
 
 	g_free (cell);
 }

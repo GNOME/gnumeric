@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
-"POT-Creation-Date: 1999-04-06 22:47-0500\n"
+"POT-Creation-Date: 1999-04-06 22:57-0500\n"
 "PO-Revision-Date: 1998-08-01 13:46+0202\n"
 "Last-Translator: Vincent Renardias <vincent@ldsol.com>\n"
 "Language-Team: Vincent Renardias <vincent@ldsol.com>\n"
@@ -2674,32 +2674,32 @@ msgstr "Compte"
 msgid "Untitled.gnumeric"
 msgstr "SansTitre.gnumeric"
 
-#: src/workbook.c:1414
+#: src/workbook.c:1417
 msgid "Zoom out"
 msgstr "Zoom avant"
 
-#: src/workbook.c:1421
+#: src/workbook.c:1424
 msgid "Zoom in"
 msgstr "Zoom arrière"
 
-#: src/workbook.c:1506
+#: src/workbook.c:1509
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s' "
 msgstr ""
 
-#: src/workbook.c:1525
+#: src/workbook.c:1528
 msgid "Other sheets depend on the values on this sheet, I can not remove it"
 msgstr ""
 
-#: src/workbook.c:1545
+#: src/workbook.c:1548
 msgid "Add another sheet"
 msgstr ""
 
-#: src/workbook.c:1546
+#: src/workbook.c:1549
 msgid "Remove this sheet"
 msgstr ""
 
-#: src/workbook.c:1807 src/workbook.c:1835
+#: src/workbook.c:1810 src/workbook.c:1838
 #, c-format
 msgid "Sheet %d"
 msgstr "Feuille %d"

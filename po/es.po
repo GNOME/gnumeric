@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.20\n"
-"POT-Creation-Date: 1999-04-06 22:47-0500\n"
+"POT-Creation-Date: 1999-04-06 22:57-0500\n"
 "PO-Revision-Date: 1998-11-25 18:01:18+0100\n"
 "Last-Translator: Pablo Saratxaga <srtxg@chanae.alphanet.ch>\n"
 "Language-Team: \n"
@@ -2700,32 +2700,32 @@ msgstr "Cuenta"
 msgid "Untitled.gnumeric"
 msgstr "SinTitulo.gnumeric"
 
-#: src/workbook.c:1414
+#: src/workbook.c:1417
 msgid "Zoom out"
 msgstr "Alejarse"
 
-#: src/workbook.c:1421
+#: src/workbook.c:1424
 msgid "Zoom in"
 msgstr "Acercarse"
 
-#: src/workbook.c:1506
+#: src/workbook.c:1509
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s' "
 msgstr "¿ Está seguro que quiere borrar la hoja llamada `%s' ?"
 
-#: src/workbook.c:1525
+#: src/workbook.c:1528
 msgid "Other sheets depend on the values on this sheet, I can not remove it"
 msgstr "Otras hojas dependen de valores de esta hoja, no puedo borrarla"
 
-#: src/workbook.c:1545
+#: src/workbook.c:1548
 msgid "Add another sheet"
 msgstr "Añadir otra hoja"
 
-#: src/workbook.c:1546
+#: src/workbook.c:1549
 msgid "Remove this sheet"
 msgstr "Borrar esta hoja"
 
-#: src/workbook.c:1807 src/workbook.c:1835
+#: src/workbook.c:1810 src/workbook.c:1838
 #, c-format
 msgid "Sheet %d"
 msgstr "Hoja %d"

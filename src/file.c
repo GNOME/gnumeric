@@ -321,7 +321,7 @@ char *
 dialog_query_load_file (Workbook *wb)
 {
 	GtkFileSelection *fsel;
-	gboolean accepted;
+	gboolean accepted = FALSE;
 	char *result;
 	
 	fsel = (GtkFileSelection *) gtk_file_selection_new (_("Load file"));
