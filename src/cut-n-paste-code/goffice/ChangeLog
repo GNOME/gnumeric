@@ -1,3 +1,9 @@
+2004-08-18  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* graph/gog-axis.c (map_linear_calc_ticks): fix tick number
+	calculation.
+	(overlap): use already defined MAX / MIN.
+
 2004-08-17  Morten Welinder  <terra@gnome.org>
 
 	* goffice.c (libgoffice_init): Call gsf_init.

@@ -416,7 +416,7 @@ map_linear_calc_ticks (GogAxis *axis,
 		return;
 	}
 
-	tick_nbr = rint ((maximum - minimum) / tick_step + 1);
+	tick_nbr = floor (go_add_epsilon ((maximum - minimum) / tick_step + 1.0));
 	if (tick_nbr < 1 || tick_nbr > GOG_AXIS_MAX_TICK_NBR) {
 		gog_axis_set_ticks (axis, 0, NULL);
 		return;
@@ -1934,15 +1934,12 @@ gog_axis_size_allocate (GogView *v, GogViewAllocation const *a)
 #endif
 }
 
-#define max(x,y) (x>y?x:y)
-#define min(x,y) (x<y?x:y)
-
 static gboolean
 overlap (GogViewAllocation const *bbox1, GogViewAllocation const *bbox2) {
-	return (!((max (bbox2->x, bbox2->x + bbox2->w) < min (bbox1->x, bbox1->x + bbox1->w)) ||
-		  (max (bbox2->y, bbox2->y + bbox2->h) < min (bbox1->y, bbox1->y + bbox1->h)) ||
-		  (min (bbox2->x, bbox2->x + bbox2->w) > max (bbox1->x, bbox1->x + bbox1->w)) ||
-		  (min (bbox2->y, bbox2->y + bbox2->h) > max (bbox1->y, bbox1->y + bbox1->h))));
+	return (!((MAX (bbox2->x, bbox2->x + bbox2->w) < MIN (bbox1->x, bbox1->x + bbox1->w)) ||
+		  (MAX (bbox2->y, bbox2->y + bbox2->h) < MIN (bbox1->y, bbox1->y + bbox1->h)) ||
+		  (MIN (bbox2->x, bbox2->x + bbox2->w) > MAX (bbox1->x, bbox1->x + bbox1->w)) ||
+		  (MIN (bbox2->y, bbox2->y + bbox2->h) > MAX (bbox1->y, bbox1->y + bbox1->h))));
 }
 
 static void
