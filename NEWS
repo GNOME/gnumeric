@@ -38,6 +38,16 @@ Jukka:
 	* Solver can now solve some simple LP problems (more interesting
 	  stuff is coming later).
 
+Ariel:
+	* Added guile plugin documentation.
+	* Removed redeclaration of functions.
+	* Removed security hazard on the definition of scm_eval.
+	* Improvements on VALUE management.
+	* Added Fibonacci formula
+	* Split the guile scheme files into gnumeric_startup.scm and
+	  functions.scm
+	* Bug fixing.
+
 --------------------------------------------------------------------------
 
 Gnumeric 0.45
