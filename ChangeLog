@@ -1,3 +1,14 @@
+2001-03-30  Jody Goldberg <jgoldberg@home.com>
+
+	* src/main.c : remove style_debug option tha was unused.
+	* src/mstyle.c (mstyle_elements_equal) : It was only mostly unused :-)
+
+	* src/workbook-control-gui.c (wbcg_menu_state_sheet_count) : fix.
+
+	* src/item-bar.c (is_pointer_on_division) : robustify in the face of
+	  clicking out of bounds.
+	(item_bar_event) : ditto, also simplfy a bit.
+
 2001-03-30  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* src/plugin.h: Commented out PLUGIN_DEBUG and PLUGIN_ALWAYS_LOAD

@@ -87,8 +87,6 @@ const struct poptOption gnumeric_popt_options [] = {
 	{ "debug", '\0', POPT_ARG_INT, &gnumeric_debugging, 0,
 	  N_("Enables some debugging functions"), N_("LEVEL") },
 
-	{ "debug_styles", '\0', POPT_ARG_INT, &style_debugging, 0,
-	  N_("Enables some style related debugging functions"), N_("LEVEL") },
 	{ "debug_deps", '\0', POPT_ARG_INT, &dependency_debugging, 0,
 	  N_("Enables some dependency related debugging functions"), N_("LEVEL") },
 	{ "debug_print", '\0', POPT_ARG_INT, &print_debugging, 0,

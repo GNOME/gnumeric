@@ -804,9 +804,8 @@ sheet_update (Sheet const *sheet)
 		});
 	}
 
-	if (p->selection_content_changed && p->auto_expr_idle_id == 0) {
+	if (p->selection_content_changed && p->auto_expr_idle_id == 0)
 		p->auto_expr_idle_id = g_idle_add (sheet_update_auto_expr_idle_func, (gpointer) sheet);
-	}
 }
 
 /**

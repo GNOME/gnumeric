@@ -514,6 +514,14 @@ item_bar_translate (GnomeCanvasItem *item, double dx, double dy)
 	printf ("item_bar_translate %g, %g\n", dx, dy);
 }
 
+/**
+ * is_pointer_on_division :
+ *
+ * NOTE : this could easily be optimized.  We need not start at 0 every time.
+ *        We could potentially use the routines in gnumeric-sheet.
+ *
+ * return -1 if the event is outside the item boundary
+ */
 static ColRowInfo *
 is_pointer_on_division (ItemBar const *item_bar, int pos, int *the_total, int *the_element)
 {
@@ -524,12 +532,18 @@ is_pointer_on_division (ItemBar const *item_bar, int pos, int *the_total, int *t
 
 	for (i = item_bar->first_element; total < pos; i++) {
 		if (item_bar->is_col_header) {
-			if (i >= SHEET_MAX_COLS)
+			if (i >= SHEET_MAX_COLS) {
+				if (the_element)
+					*the_element = -1;
 				return NULL;
+			}
 			cri = sheet_col_get_info (sheet, i);
 		} else {
-			if (i >= SHEET_MAX_ROWS)
+			if (i >= SHEET_MAX_ROWS) {
+				if (the_element)
+					*the_element = -1;
 				return NULL;
+			}
 			cri = sheet_row_get_info (sheet, i);
 		}
 
@@ -816,21 +830,12 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 		scg_mode_edit (item_bar->scg);
 
 		gnome_canvas_w2c (canvas, e->button.x, e->button.y, &x, &y);
-		if (is_cols) {
-			cri = is_pointer_on_division (item_bar, x,
-						      &start, &element);
-			if (y < item_bar->indent)
-				return outline_button_press (item_bar, element, y);
-			if (element > SHEET_MAX_COLS-1)
-				break;
-		} else {
-			cri = is_pointer_on_division (item_bar, y,
-						      &start, &element);
-			if (x < item_bar->indent)
-				return outline_button_press (item_bar, element, x);
-			if (element > SHEET_MAX_ROWS-1)
-				break;
-		}
+		pos = (is_cols) ? x : y;
+		cri = is_pointer_on_division (item_bar, pos, &start, &element);
+		if (element < 0)
+			return FALSE;
+		if (pos < item_bar->indent)
+			return outline_button_press (item_bar, element, pos);
 
 		if (e->button.button == 3) {
 			/* If the selection does not contain the current row/col

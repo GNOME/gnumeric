@@ -16,8 +16,6 @@
 #include "format.h"
 #include "main.h"
 
-#define STYLE_DEBUG (style_debugging > 2)
-
 typedef struct {
 	MStyleElementType type;
 	union {
@@ -384,8 +382,7 @@ mstyle_elements_equal (const MStyleElement *a,
 
 		if (!mstyle_element_equal (a[i], b[i])) {
 			g_assert (i < MSTYLE_ELEMENT_MAX);
-			if (STYLE_DEBUG)
-				printf ("%s mismatch\n", mstyle_names[i]);
+			g_warning ("%s mismatch\n", mstyle_names[i]);
 			return FALSE;
 		}
 	}

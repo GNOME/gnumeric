@@ -857,19 +857,20 @@ static void
 wbcg_menu_state_sheet_count (WorkbookControl *wbc)
 {
  	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
-	gboolean enable = (g_list_length (wbcg->notebook->children) > 1);
+	int const sheet_count = g_list_length (wbcg->notebook->children);
+	/* Should we anble commands requiring multiple sheets */
+	gboolean const multi_sheet = (sheet_count > 1);
 
-	/* Only be scrollable if there are more than 3 tabs */
-	if (g_list_length (wbcg->notebook->children) <= 3)
-		gtk_notebook_set_scrollable (wbcg->notebook, FALSE);
+	/* Scrollable if there are more than 3 tabs */
+	gtk_notebook_set_scrollable (wbcg->notebook, sheet_count > 3);
 	
 #ifndef ENABLE_BONOBO
-	change_menu_sensitivity (wbcg->menu_item_sheet_remove, enable);
-	change_menu_sensitivity (wbcg->menu_item_sheets_edit_reorder, enable);
-	change_menu_sensitivity (wbcg->menu_item_sheets_format_reorder, enable);
+	change_menu_sensitivity (wbcg->menu_item_sheet_remove, multi_sheet);
+	change_menu_sensitivity (wbcg->menu_item_sheets_edit_reorder, multi_sheet);
+	change_menu_sensitivity (wbcg->menu_item_sheets_format_reorder, multi_sheet);
 #else
-	change_menu_sensitivity (wbcg, "/commands/SheetRemove", enable);
-	change_menu_sensitivity (wbcg, "/commands/SheetReorder", enable);
+	change_menu_sensitivity (wbcg, "/commands/SheetRemove", multi_sheet);
+	change_menu_sensitivity (wbcg, "/commands/SheetReorder", multi_sheet);
 #endif
 }
 

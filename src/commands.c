@@ -3306,4 +3306,5 @@ cmd_colrow_std_size (WorkbookControl *wbc, Sheet *sheet,
 
 /* TODO :
  * - SheetObject creation & manipulation.
+ * - Zoom
  */

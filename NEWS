@@ -3,6 +3,8 @@ Gnumeric 0.65
 Jody:
 	* Import and draw col/row outlines from XL.
 	* Restore horizontal FILL alignment.
+	* Fix array intercept checking.
+	* Some XL import improvement when parsing objects.
 
 Morten:
 	* Make search-and-destroy work better on comments.
