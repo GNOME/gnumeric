@@ -28,43 +28,21 @@
 
 #include <gnumeric-config.h>
 #include <gnumeric.h>
-#include "io-context.h"
-#include "workbook-view.h"
-#include "workbook.h"
-#include "sheet-style.h"
-#include "style.h"
-#include "style-color.h"
 #include "html.h"
-#include "cell.h"
-#include "cellspan.h"
-#include "sheet.h"
-#include "sheet-merge.h"
-#include "ranges.h"
-#include "value.h"
-#include "font.h"
-#include "plugin-util.h"
-#include "error-info.h"
-#include "style-border.h"
-#include <rendered-value.h>
+
+#include <workbook-view.h>
+#include <workbook.h>
+#include <sheet.h>
+#include <sheet-merge.h>
+#include <sheet-style.h>
+#include <style.h>
+#include <cell.h>
+#include <ranges.h>
 
 #include <gsf/gsf-input.h>
 #include <libxml/HTMLparser.h>
 #include <libxml/HTMLtree.h>
-#include <ctype.h>
-#include <string.h>
 #include <libgnome/gnome-i18n.h>
-
-#define HTML_BOLD	1
-#define HTML_ITALIC	2
-#define HTML_RIGHT	4
-#define HTML_CENTER	8
-
-#if 0
-							sheet_style_set_pos (cell->base.sheet,
-									     cell->pos.col, cell->pos.row,
-									     mstyle);
-#endif
-
 
 static Sheet *
 html_get_sheet (char const *name, Workbook *wb) 

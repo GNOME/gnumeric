@@ -1,3 +1,7 @@
+2002-06-12  Jody Goldberg <jody@gnome.org>
+
+	* html_read.c : clean up the includes and remove some old cruft.
+
 2002-06-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* html_read.c (html_read_content) : new
