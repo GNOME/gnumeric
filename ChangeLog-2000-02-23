@@ -1,3 +1,14 @@
+1999-10-07  Jon K Hellan <Jon.K.Hellan@item.ntnu.no>
+
+	* src/dialogs/dialog-analysis-tools.c (hbox_pack_label_and_entry):
+	moved.
+
+	* src/dialogs/dialog-solver.c (add_strings_to_glist): moved.
+	
+	* src/dialogs/utils-dialog.[ch]: Added.
+
+	* src/dialogs/Makefile.am: ditto.
+
 1999-10-07  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/xml-io.c (xml_write_styles): create; untested.

@@ -10,6 +10,7 @@
 #include <string.h>
 #include "gnumeric.h"
 #include "gnumeric-util.h"
+#include "utils-dialog.h"
 #include "dialogs.h"
 #include "utils.h"
 #include "tools.h"
@@ -208,25 +209,6 @@ static char *sample_method_ops [] = {
         N_("Random"),
         NULL
 };
-
-
-GtkWidget *
-hbox_pack_label_and_entry(char *str, char *default_str,
-			  int entry_len, GtkWidget *vbox)
-{
-        GtkWidget *box, *label, *entry;
-
-        box = gtk_hbox_new (FALSE, 0);
-	entry = gtk_entry_new_with_max_length (entry_len);
-	label = gtk_label_new (str);
-	gtk_entry_set_text (GTK_ENTRY (entry), default_str);
-
-	gtk_box_pack_start_defaults (GTK_BOX (box), label);
-	gtk_box_pack_start_defaults (GTK_BOX (box), entry);
-	gtk_box_pack_start_defaults (GTK_BOX (vbox), box);
-
-	return entry;
-}
 
 static GtkWidget *
 new_dialog(char *name, GtkWidget *win)

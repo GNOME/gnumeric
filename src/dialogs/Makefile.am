@@ -35,8 +35,10 @@ libdialogs_a_SOURCES =				\
 	dialog-solver.c				\
 	dialog-summary.c			\
 	dialog-zoom.c				\
+	utils-dialog.c                          \
 	dialogs.h				\
-	tools.h
+	tools.h                                 \
+	utils-dialog.h
 
 gladedir   = $(datadir)/gnumeric/glade
 glade_DATA = 				\

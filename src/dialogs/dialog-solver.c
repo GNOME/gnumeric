@@ -11,6 +11,7 @@
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "dialogs.h"
+#include "utils-dialog.h"
 #include "func.h"
 #include "utils.h"
 
@@ -113,20 +114,6 @@ add_check_buttons (GtkWidget *box, const char *ops[])
 		gtk_box_pack_start (GTK_BOX (box), button, TRUE, TRUE, 0);
 	}
 }
-
-
-GList *
-add_strings_to_glist (const char *strs[])
-{
-        int   i;
-	GList *list = NULL;
-
-	for (i=0; strs[i] != NULL; i++) {
-	        list = g_list_append (list, (gpointer) strs[i]);
-	}
-	return list;
-}
-
 
 typedef struct {
         GSList   *constraints;

@@ -12,6 +12,7 @@
 #include "gnumeric-util.h"
 #include "gnumeric-sheet.h"
 #include "dialogs.h"
+#include "utils-dialog.h"
 #include "format.h"
 #include "formats.h"
 #include "selection.h"
@@ -119,6 +120,7 @@ format_find (const char *format)
 		for (row = 0; *p; p++, row++){
 			if (strcmp (format, *p) == 0){
 				format_list_fill (i);
+				gtk_clist_select_row (GTK_CLIST (number_cat_list), i, 0);
 				gtk_clist_select_row (GTK_CLIST (number_format_list), row, 0);
 				return 1;
 			}
@@ -137,7 +139,8 @@ format_number_select_row (GtkCList *clist, gint row, gint col, GdkEvent *event, 
 	format_list_fill (row);
 	gtk_clist_select_row (GTK_CLIST (number_format_list), 0, 0);
 
-	gnome_property_box_changed (GNOME_PROPERTY_BOX (prop_win));
+	if (cell_format_prop_win)
+		gnome_property_box_changed (GNOME_PROPERTY_BOX (prop_win));
 }
 
 static void
@@ -213,7 +216,8 @@ format_code_changed (GtkEntry *entry, GnomePropertyBox *prop_win)
  * Creates the widget that represents the number format configuration page
  */
 static GtkWidget *
-create_number_format_page (GtkWidget *prop_win, MStyleElement *styles)
+create_number_format_page (GtkWidget *prop_win, MStyleElement *styles,
+			   GtkWidget **focus_widget)
 {
 	StyleFormat *format;
 	GtkWidget *l, *scrolled_list;
@@ -269,7 +273,7 @@ create_number_format_page (GtkWidget *prop_win, MStyleElement *styles)
 	gtk_table_attach (tt, gtk_label_new (_("Code:")),
 			  0, 1, 0, 1, 0, 0, 2, 0);
 	
-	number_input = gtk_entry_new ();
+	number_input = ut_dia_entry_new (GNOME_DIALOG (prop_win));
 	gtk_signal_connect (GTK_OBJECT (number_input), "changed",
 			    GTK_SIGNAL_FUNC (format_code_changed), prop_win);
 
@@ -396,7 +400,8 @@ make_radio_selection (GtkWidget *prop_win, char *title, align_def_t *array, GSLi
 }
 
 static GtkWidget *
-create_align_page (GtkWidget *prop_win, MStyleElement *styles)
+create_align_page (GtkWidget *prop_win, MStyleElement *styles,
+		  GtkWidget **focus_widget)
 {
 	GtkTable  *t;
 	GtkWidget *w;
@@ -447,6 +452,7 @@ create_align_page (GtkWidget *prop_win, MStyleElement *styles)
 	make_radio_notify_change (hradio_list, prop_win);
 	make_radio_notify_change (vradio_list, prop_win);
 	gtk_widget_show_all (GTK_WIDGET (t));
+	*focus_widget = (GTK_WIDGET(g_slist_last(hradio_list)->data));
 
 	return GTK_WIDGET (t);
 }
@@ -493,7 +499,8 @@ font_changed (GtkWidget *widget, GtkStyle *previous_style, GnomePropertyBox *pro
 }
 
 static GtkWidget *
-create_font_page (GtkWidget *prop_win, MStyleElement *styles)
+create_font_page (GtkWidget *prop_win, MStyleElement *styles,
+		  GtkWidget **focus_widget)
 {
 	font_widget = font_selector_new ();
 	gtk_widget_show (font_widget);
@@ -501,6 +508,26 @@ create_font_page (GtkWidget *prop_win, MStyleElement *styles)
 	gtk_signal_connect (GTK_OBJECT (FONT_SELECTOR (font_widget)->font_preview),
 			    "style_set",
 			    GTK_SIGNAL_FUNC (font_changed), prop_win);
+
+	gnome_dialog_editable_enters
+	  (GNOME_DIALOG(prop_win), 
+	   GTK_EDITABLE(FONT_SELECTOR (font_widget)->font_name_entry));
+	gnome_dialog_editable_enters
+	  (GNOME_DIALOG(prop_win), 
+	   GTK_EDITABLE(FONT_SELECTOR (font_widget)->font_style_entry));
+	gnome_dialog_editable_enters
+	  (GNOME_DIALOG(prop_win), 
+	   GTK_EDITABLE(FONT_SELECTOR (font_widget)->font_size_entry));
+	gnome_dialog_editable_enters
+	  (GNOME_DIALOG(prop_win), 
+	   GTK_EDITABLE(FONT_SELECTOR (font_widget)->font_preview));
+
+	/* Focus alternatives: */
+	/*     Size entry  (font_widget->font_size_entry) */
+	/* or  Font listbox (font_widget->font_name_list). */
+	/* Font entry is not editable. */
+	*focus_widget = 
+		GTK_WIDGET (FONT_SELECTOR (font_widget)->font_size_entry);
 	return font_widget;
 }
 
@@ -697,7 +724,8 @@ set_color_picker_from_style (GnomeColorPicker *cp, MStyleElement e)
 
 static GtkWidget *
 create_coloring_page (GtkWidget *prop_win,
-		      MStyleElement *styles)
+		      MStyleElement *styles,
+		      GtkWidget **focus_widget)
 {
 	GtkTable *t;
 	GtkWidget *fore, *back;
@@ -739,6 +767,8 @@ create_coloring_page (GtkWidget *prop_win,
 	gtk_table_attach (t, back, 0, 1, 1, 2, e, 0, 4, 4);
 
 	gtk_widget_show_all (GTK_WIDGET (t));
+	*focus_widget = 
+	  (GTK_WIDGET(g_slist_last(foreground_radio_list)->data));
 
 	return GTK_WIDGET (t);
 }
@@ -850,7 +880,8 @@ apply_coloring_format (Style *style, Sheet *sheet, MStyleElement *styles)
 static struct {
 	char       *title;
 	GtkWidget *(*create_page) (GtkWidget *prop_win,
-				   MStyleElement *styles);
+				   MStyleElement *styles, 
+				   GtkWidget **focus_widget);
 	void       (*apply_page)  (Style *style, Sheet *sheet,
 				   MStyleElement *styles);
 } cell_format_pages [] = {
@@ -918,6 +949,8 @@ dialog_cell_format (Workbook *wb, Sheet *sheet)
 {
 	static GnomeHelpMenuEntry help_ref = { "gnumeric", "formatting.html" };
 	GtkWidget     *prop_win;
+	GtkWidget     *focus_widgets [sizeof cell_format_pages/
+				     sizeof cell_format_pages[0]];
 	MStyleElement *styles;
 	int            i;
 
@@ -936,7 +969,8 @@ dialog_cell_format (Workbook *wb, Sheet *sheet)
 	for (i = 0; cell_format_pages [i].title; i++){
 		GtkWidget *page;
 
-		page = (*cell_format_pages [i].create_page) (prop_win, styles);
+		page = (*cell_format_pages [i].create_page) 
+			(prop_win, styles, &focus_widgets[i]);
 		gnome_property_box_append_page (
 			GNOME_PROPERTY_BOX (prop_win), page,
 			gtk_label_new (_(cell_format_pages [i].title)));
@@ -958,6 +992,10 @@ dialog_cell_format (Workbook *wb, Sheet *sheet)
 		cell_format_last_page_used);
 	
 	gtk_widget_show (prop_win);
+	if (focus_widgets [cell_format_last_page_used])
+		gtk_widget_grab_focus 
+			(focus_widgets [cell_format_last_page_used]);
+
 	gtk_grab_add (prop_win);
 
 	cell_format_prop_win = prop_win;
