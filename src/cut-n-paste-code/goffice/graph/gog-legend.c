@@ -211,6 +211,7 @@ GSF_CLASS (GogLegend, gog_legend,
 typedef struct {
 	GogView		base;
 	double		line_height;
+	gboolean	uses_lines;
 } GogLegendView;
 typedef GogViewClass	GogLegendViewClass;
 
@@ -223,21 +224,24 @@ static GogViewClass *lview_parent_klass;
 typedef struct {
 	GogView const *view;
 	GogViewRequisition maximum;
+	gboolean	uses_lines;
 } size_closure;
 
 static void
 cb_size_elements (unsigned i, GogStyle const *style, char const *name,
-		  size_closure *data)
+		  size_closure *dat)
 {
 	GogViewRequisition req;
-	gog_renderer_push_style (data->view->renderer, style);
-	gog_renderer_measure_text (data->view->renderer, name, &req);
-	gog_renderer_pop_style (data->view->renderer);
+	gog_renderer_push_style (dat->view->renderer, style);
+	gog_renderer_measure_text (dat->view->renderer, name, &req);
+	gog_renderer_pop_style (dat->view->renderer);
 
-	if (data->maximum.w < req.w)
-		data->maximum.w = req.w;
-	if (data->maximum.h < req.h)
-		data->maximum.h = req.h;
+	if (dat->maximum.w < req.w)
+		dat->maximum.w = req.w;
+	if (dat->maximum.h < req.h)
+		dat->maximum.h = req.h;
+	if (!dat->uses_lines && (style->interesting_fields & GOG_STYLE_LINE))
+		dat->uses_lines = TRUE;
 }
 
 static void
@@ -251,18 +255,23 @@ gog_legend_view_size_request (GogView *v, GogViewRequisition *avail)
 		v->renderer, l->swatch_padding_pts);
 	double outline = gog_renderer_line_size (
 		v->renderer, l->base.style->outline.width);
-	unsigned n;
+	unsigned n, mult = 1;
 
 #warning TODO : make this smarter (multiple columns and shrinking text)
 	dat.view = v;
 	dat.maximum.w = 0.;
 	dat.maximum.h = gog_renderer_pt2r_y (v->renderer, l->swatch_size_pts);
+	dat.uses_lines = FALSE;
 	gog_chart_foreach_elem (chart, (GogEnumFunc) cb_size_elements, &dat);
 	((GogLegendView *)v)->line_height = dat.maximum.h;
+	((GogLegendView *)v)->uses_lines = dat.uses_lines;
+
+	if (dat.uses_lines)
+		mult = 3;
 
 	/* 1/2 between swatch and label */
 	res.w = dat.maximum.w + gog_renderer_pt2r_x (v->renderer,
-		l->swatch_size_pts + .5 * l->swatch_padding_pts);
+		mult * l->swatch_size_pts + .5 * l->swatch_padding_pts);
 	n = gog_chart_get_cardinality (chart);
 	res.h = n * dat.maximum.h;
 	if (n > 1)
@@ -303,35 +312,43 @@ typedef struct {
 	GogView const *view;
 	GogViewAllocation swatch;
 	double step;
-	double pad_x;
+	double label_offset;
 	double base_line;
 	double bottom;
+	ArtVpath line_path[3];
 } render_closure;
 
 static void
 cb_render_elements (unsigned i, GogStyle const *base_style, char const *name,
-		    render_closure *data)
+		    render_closure *dat)
 {
-	GogViewAllocation swatch = data->swatch;
-	GogView  const   *v = data->view;
+	GogViewAllocation swatch = dat->swatch;
+	GogView  const   *v = dat->view;
 	GogStyle *style = NULL;
 	GogViewAllocation pos;
-	double epsilon = 0.0001;
 	
-	swatch.y += i * data->step;
+	swatch.y += i * dat->step;
 	/* Allow for floating point inaccuracy */
-	if (swatch.y > data->bottom + epsilon)
+	if (swatch.y > dat->bottom + 0.0001)
 		return;
 
-#warning FIXME we need to delegate this to the plot to support colour gradients or area vs lines
-	style = gog_style_dup (base_style);
-	style->outline.width = 0; /* hairline */
-	style->outline.color = RGBA_BLACK;
+	if (base_style->interesting_fields & GOG_STYLE_LINE) { /* line and marker */
+		style = (GogStyle *)base_style;
+		gog_renderer_push_style (v->renderer, style);
+		dat->line_path[0].y = dat->line_path[1].y =  swatch.y + swatch.h / 2.;
+		gog_renderer_draw_path (v->renderer, dat->line_path);
+		gog_renderer_draw_marker (v->renderer,
+			(dat->line_path[0].x + dat->line_path[1].x) / 2.,
+			dat->line_path[0].y);
+	} else {					/* area swatch */
+		style = gog_style_dup (base_style);
+		style->outline.width = 0; /* hairline */
+		style->outline.color = RGBA_BLACK;
 
-	gog_renderer_push_style (v->renderer, style);
-	gog_renderer_draw_rectangle (v->renderer, &swatch);
-
-	pos.x = swatch.x + data->pad_x;
+		gog_renderer_push_style (v->renderer, style);
+		gog_renderer_draw_rectangle (v->renderer, &swatch);
+	}
+	pos.x = swatch.x + dat->label_offset;
 	pos.y = swatch.y;
 	pos.h = pos.w = -1;
 	gog_renderer_draw_text (v->renderer, name, &pos, GTK_ANCHOR_NW, NULL);
@@ -361,7 +378,16 @@ gog_legend_view_render (GogView *v, GogViewAllocation const *bbox)
 	dat.swatch.y  = v->residual.y;
 	dat.swatch.w  = gog_renderer_pt2r_x (v->renderer, l->swatch_size_pts);
 	dat.swatch.h  = gog_renderer_pt2r_y (v->renderer, l->swatch_size_pts);
-	dat.pad_x     = dat.swatch.w + pad_x / 2.;
+	dat.label_offset = dat.swatch.w + pad_x / 2.;
+	if (((GogLegendView *)v)->uses_lines) {
+		dat.line_path[0].code = ART_MOVETO;
+		dat.line_path[1].code = ART_LINETO;
+		dat.line_path[2].code = ART_END;
+		dat.line_path[0].x = dat.swatch.x;
+		dat.line_path[1].x = dat.swatch.x + 3. * dat.swatch.w;
+		dat.swatch.x += dat.swatch.w;
+		dat.label_offset += dat.swatch.w;
+	}
 	dat.step      = ((GogLegendView *)v)->line_height + pad_y;
 	dat.base_line = pad_y / 2.; /* bottom of the swatch */
 	dat.bottom    = v->residual.y + v->residual.h -

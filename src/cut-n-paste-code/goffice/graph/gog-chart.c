@@ -482,7 +482,7 @@ GogGrid  *
 gog_chart_get_grid (GogChart const *chart)
 {
 	g_return_val_if_fail (GOG_CHART (chart) != NULL, NULL);
-	return chart->grid;
+	return GOG_GRID (chart->grid);
 }
 
 /*********************************************************************/

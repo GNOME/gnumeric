@@ -972,6 +972,8 @@ gog_style_assign (GogStyle *dst, GogStyle const *src)
 
 	if (GOG_FILL_STYLE_IMAGE == dst->fill.type)
 		dst->fill.u.image.filename = g_strdup (dst->fill.u.image.filename);
+
+	dst->interesting_fields = src->interesting_fields;
 }
 
 /**
@@ -1474,11 +1476,14 @@ gog_style_is_different_size (GogStyle const *a, GogStyle const *b)
 	return a->outline.width != b->outline.width ||
 		!go_font_eq (a->font.font, b->font.font);
 }
+
 gboolean
 gog_style_is_marker_visible (GogStyle const *style)
 {
 #warning TODO : make this smarter
-	return style->marker != NULL;
+	return (style->interesting_fields & GOG_STYLE_MARKER) &&
+		style->marker != NULL &&
+		go_marker_get_shape (style->marker) != GO_MARKER_NONE;
 }
 
 gboolean

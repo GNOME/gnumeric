@@ -1,3 +1,15 @@
+2003-09-28  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-style.c (gog_style_is_marker_visible) : Use the
+	  interesting field too.
+	(gog_style_assign) : Assign the interesting flags too.
+
+	* graph/gog-legend.c (cb_size_elements) : see if anything has a marker
+	(gog_legend_view_size_request) : if any of the elements has a marker
+	  rather than a swatch we need 3x swatch width.
+	(cb_render_elements) : If entry has a marker draw the line and marker
+	(gog_legend_view_render) : Prep for drawing markers if any exist.
+
 2003-09-29  Morten Welinder  <terra@gnome.org>
 
 	* graph/plugins/plot_barcol/gog-line.c (gog_line_view_render):
