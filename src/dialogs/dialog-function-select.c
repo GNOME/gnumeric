@@ -151,6 +151,9 @@ dialog_function_select_impl (Workbook *wb, GladeXML *gui)
 	/* Bring up the dialog */
 	res = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
 
+	if (state.func_help != NULL)
+		tokenized_help_destroy (state.func_help);
+
 	/* If the user closed the dialog with prejudice, its already destroyed */
 	if (res >= 0)
 		gnome_dialog_close (GNOME_DIALOG (dialog));

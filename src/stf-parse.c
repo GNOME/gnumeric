@@ -178,7 +178,7 @@ stf_parse_options_set_trim_spaces (StfParseOptions_t *parseoptions, StfTrimType_
 	g_return_if_fail (parseoptions != NULL);
 
 	if (parseoptions->trim_spaces != trim_spaces)
-		parseoptions->trim_spaces = TRUE;
+		parseoptions->modified = TRUE;
 
 	parseoptions->trim_spaces = trim_spaces;
 }
