@@ -110,3 +110,42 @@ fibo)
 
 You are now able to use you newly designed formula with:
 =FIBO(number)
+
+5. Using gnumeric Value implementation.
+
+The Guile plugin has support for gnumeric value implementation; this implementation
+will be used in the future to get values from gnumeric and send them back
+from the Scheme world. This is used by creating a new smob that adds
+Value as new Guile data type. 
+
+-To create a new value the following set of functions is (or will be) available:
+
+(make-val scm)
+Receives an int, float, string, bool or array and returns a new value smob. 
+This function will be deprecated.
+
+(value-new-empty scm)
+(value-new-bool scm)
+(value-new-int  scm)
+(value-new-float scm)
+(value-new-string scm)
+(value-new-list scm)
+(value-new-array-list scm)
+
+This functions receive a scm object and returns a new value smob.
+* Not yet available
+
+-To get the value of the smob depending on its type:
+
+(value_get_as_bool scm)
+(value_get_as_checked_bool scm)
+(value_get_as_string scm)      
+(value_get_as_int scm)     
+(value_get_as_list scm)
+
+This functions receive a scm object and returns a the value
+allocated within the smob.
+
+
+
+

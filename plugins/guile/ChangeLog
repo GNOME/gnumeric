@@ -1,3 +1,7 @@
+2000-11-06 Ariel Rios <ariel@arcavia.com>
+
+	* doc/guile-gnumeric.txt: Update documentation.
+
 2000-11-06  Ariel Rios  <ariel@arcavia.com>
 
 	* plugin.c (init_plugin): Add call to init_value_type ()
