@@ -63,8 +63,8 @@ GnmFuncGroup *gnm_func_group_fetch_with_translation (char const *name,
  **/
 
 typedef enum {
-	GNM_FUNC_TYPE_ARGS,	/* Takes unevaulated expers directly */
-	GNM_FUNC_TYPE_NODES,	/* arguments get marshalled by type */
+	GNM_FUNC_TYPE_ARGS,	/* Arguments get marshalled by type */
+	GNM_FUNC_TYPE_NODES,	/* Takes unevaulated expers directly */
 
 	/* implementation has not been loaded yet, but we know where it is */
 	GNM_FUNC_TYPE_STUB

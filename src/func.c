@@ -626,13 +626,26 @@ function_def_get_arg_type (GnmFunc const *fn_def,
 	if (fn_def->fn_type == GNM_FUNC_TYPE_STUB)
 		gnm_func_load_stub ((GnmFunc *) fn_def);
 
-	for (ptr = fn_def->fn.args.arg_spec; ptr && *ptr; ptr++) {
-		if (*ptr == '|')
-			continue;
-		if (arg_idx-- == 0)
-			return *ptr;
+	switch (fn_def->fn_type) {
+	case GNM_FUNC_TYPE_ARGS:
+		for (ptr = fn_def->fn.args.arg_spec; ptr && *ptr; ptr++) {
+			if (*ptr == '|')
+				continue;
+			if (arg_idx-- == 0)
+				return *ptr;
+		}
+		return '?';
+
+	case GNM_FUNC_TYPE_NODES:
+		return '?'; /* Close enough for now.  */
+
+	case GNM_FUNC_TYPE_STUB:
+#ifndef DEBUG_SWITCH_ENUM
+	default:
+#endif
+		g_assert_not_reached ();
+		return '?';
 	}
-	return '?';
 }
 
 /**

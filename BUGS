@@ -8,7 +8,6 @@ Release Critical
 ----------------
 
 - validate expression names to ensure that they are not simple values (eg TRUE)
-- Function Guru does spew errors when faced with nodes style functions
 
 Pending Patches
 ---------------
