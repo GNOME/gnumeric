@@ -855,7 +855,6 @@ sheet_widget_scrollbar_user_config (SheetObject *so, SheetControl *sc)
 		G_CALLBACK (cb_scrollbar_set_focus), state);
 
 	gtk_widget_show (state->dialog);
-	gtk_widget_grab_focus (GTK_WIDGET (state->expression));
 }
 
 static gboolean
@@ -1309,7 +1308,6 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControl *sc)
 		G_CALLBACK (cb_checkbox_set_focus), state);
 
 	gtk_widget_show (state->dialog);
-	gtk_widget_grab_focus (GTK_WIDGET (state->expression));
 }
 
 static gboolean

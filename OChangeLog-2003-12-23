@@ -1,3 +1,10 @@
+2003-01-04  Jon K Hellan  <hellan@acm.org>
+
+	* src/sheet-object-widget.c (sheet_widget_scrollbar_user_config) 
+	(sheet_widget_checkbox_user_config): Remove grab_focus. Not needed
+	in GTK2, plus didn't work since expr_entry no longer is a subclass
+	of GtkEntry.
+
 2003-01-03  Jon K Hellan  <hellan@acm.org>
 
 	* src/item-grid.c (cb_cursor_come_to_rest): Don't display empty

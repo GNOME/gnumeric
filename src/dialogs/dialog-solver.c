@@ -1278,7 +1278,7 @@ dialog_init (SolverState *state)
 
 /* Done */
 
-	gtk_widget_grab_focus (GTK_WIDGET (state->target_entry));
+	gnm_expr_entry_grab_focus (state->target_entry, FALSE);
 
 	dialog_set_main_button_sensitivity (NULL, state);
 	dialog_set_sec_button_sensitivity (NULL, state);
