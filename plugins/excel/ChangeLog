@@ -1,3 +1,7 @@
+1999-10-18  Michael Meeks  <mmeeks@gnu.org>
+
+	* ms-excel-read.c (ms_excel_set_xf): Ref count colors correctly.
+
 1999-10-16  Michael Meeks  <mmeeks@gnu.org>
 
 	* ms-excel-read.c (ms_excel_set_cell_font): renamed + kill Cell.

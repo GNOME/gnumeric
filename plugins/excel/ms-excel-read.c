@@ -1112,9 +1112,11 @@ ms_excel_set_xf (ExcelSheet *sheet, int col, int row, guint16 xfidx)
 
 	elems[MSTYLE_COLOR_FORE].type = MSTYLE_COLOR_FORE;
 	elems[MSTYLE_COLOR_FORE].u.color.fore = fore;
+	style_color_ref (fore);
 
 	elems[MSTYLE_COLOR_BACK].type = MSTYLE_COLOR_BACK;
 	elems[MSTYLE_COLOR_BACK].u.color.back = back;
+	style_color_ref (back);
 
 	style = mstyle_new_elems (NULL, elems);
 

@@ -292,6 +292,7 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int
 
 	item_grid_draw_border (drawable, style, x1, y1, w, h);
 
+	style_unref (style);
 	return count;
 }
 

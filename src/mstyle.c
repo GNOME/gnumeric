@@ -525,6 +525,7 @@ mstyle_destroy (MStyle *st)
 		pst->name = NULL;
 
 		mstyle_elements_destroy (pst->elements);
+		g_free (pst->elements);
 		pst->elements = NULL;
 		
 		g_free (pst);
@@ -588,13 +589,6 @@ mstyle_do_merge (const GList *list, MStyleElementType max,
 		}
 		l = g_list_next (l);
 	}
-
-/*	printf ("do merge:\n");
-	for (i = 0; i < max; i++) {
-		char *txt = mstyle_element_dump (&mash[i]);
-		printf ("%s\n", txt);
-		g_free (txt);
-		}*/
 }
 
 gboolean

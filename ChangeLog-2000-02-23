@@ -1,3 +1,9 @@
+1999-10-19  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/mstyle.c (mstyle_destroy): Fix leak.
+
+	* src/item-grid.c (item_grid_draw_cell): ditto.
+
 1999-10-16  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/dialogs/dialog-cell-format.c (apply_coloring_format): Fixup.
