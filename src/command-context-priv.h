@@ -11,16 +11,17 @@ struct _CommandContext {
 typedef struct {
 	GObjectClass g_object_class;
 
-	void (*progress_set)         (CommandContext *context, gfloat val);
-	void (*progress_message_set) (CommandContext *context, gchar const *msg);
+	char *  (*get_password)		(CommandContext *cc, char const *msg);
+	void    (*progress_set)		(CommandContext *cc, gfloat val);
+	void    (*progress_message_set)	(CommandContext *cc, gchar const *msg);
 	struct {
-		void (*system)		(CommandContext *ctxt, char const *msg);
-		void (*plugin)		(CommandContext *ctxt, char const *msg);
-		void (*read)		(CommandContext *ctxt, char const *msg);
-		void (*save)		(CommandContext *ctxt, char const *msg);
-		void (*splits_array)	(CommandContext *ctxt,
+		void (*system)		(CommandContext *cc, char const *msg);
+		void (*plugin)		(CommandContext *cc, char const *msg);
+		void (*read)		(CommandContext *cc, char const *msg);
+		void (*save)		(CommandContext *cc, char const *msg);
+		void (*splits_array)	(CommandContext *cc,
 					 char const *cmd, Range const *array);
-		void (*invalid)		(CommandContext *ctxt,
+		void (*invalid)		(CommandContext *cc,
 					 char const *msg, char const *val);
 		void (*error_info)  (CommandContext *ctxt, ErrorInfo *error);
 	} error;

@@ -77,7 +77,7 @@ makekey (guint32 block, RC4_KEY *key, MD5_CTX *valContext)
 
 	memset (pwarray, 0, 64);
 
-	/* 40 bit of hashed password, set by verifypwd () */
+	/* 40 bit of hashed password, set by verify_password () */
 	memcpy (pwarray, valContext->digest, 5);
 
 	/* put block number in byte 6...9 */
@@ -197,12 +197,13 @@ skip_bytes (BiffQuery *q, int start, int count)
 
 #define sizeof_BIFF_FILEPASS	(6 + 3*16)
 gboolean
-ms_biff_query_set_decrypt (BiffQuery *q)
+ms_biff_query_set_decrypt (BiffQuery *q, char const *password)
 {
-	char const *password = "PASSWORD";
-
 	g_return_val_if_fail (q->opcode == BIFF_FILEPASS, FALSE);
 	g_return_val_if_fail (q->length == sizeof_BIFF_FILEPASS, FALSE);
+
+	if (password == NULL)
+		return FALSE;
 
 	if (!verify_password (password, q->data + 6,
 			      q->data + 22, q->data + 38, &q->md5_ctxt))
@@ -337,9 +338,9 @@ ms_biff_query_next (BiffQuery *q)
 	} else
 		q->non_decrypted_data = q->data;
 
+#if BIFF_DEBUG > 2
 	printf ("Biff read code 0x%x, length %d\n", q->opcode, q->length);
 	dump_biff (q);
-#if BIFF_DEBUG > 2
 #endif
 	if (!q->length) {
 		q->data = 0;

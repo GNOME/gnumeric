@@ -41,6 +41,7 @@ void       gnumeric_io_error_display      (IOContext *context);
 
 void       gnumeric_io_clear_error        (IOContext *context);
 gboolean   gnumeric_io_error_occurred     (IOContext *context);
+gboolean   gnumeric_io_error_occurred     (IOContext *context);
 
 void       io_progress_message      (IOContext *io_context, const gchar *msg);
 void       io_progress_update       (IOContext *io_context, gdouble f);
@@ -65,9 +66,10 @@ void       workbook_io_progress_update (IOContext *io_context, gint inc);
 
 void       io_progress_unset      (IOContext *io_context);
 
-void gnm_io_warning        		(IOContext *context, char const *msg);
-void gnm_io_warning_unknown_font	(IOContext *context, char const *font_name);
-void gnm_io_warning_unknown_function	(IOContext *context, char const *funct_name);
-void gnm_io_warning_unsupported_feature	(IOContext *context, char const *feature);
+char *gnm_io_get_password        	 (IOContext *context, char const *msg);
+void  gnm_io_warning        		 (IOContext *context, char const *msg);
+void  gnm_io_warning_unknown_font	 (IOContext *context, char const *font_name);
+void  gnm_io_warning_unknown_function	 (IOContext *context, char const *funct_name);
+void  gnm_io_warning_unsupported_feature (IOContext *context, char const *feature);
 
 #endif /* GNUMERIC_IO_CONTEXT_H */

@@ -436,7 +436,7 @@ gnm_canvas_key_release (GtkWidget *widget, GdkEventKey *event)
 		wb_view_selection_desc (wb_control_view (
 			sc->wbc), TRUE, NULL);
 
-	return (*GTK_WIDGET_CLASS (gcanvas_parent_class)->key_release_event)(widget, event);
+	return (*GTK_WIDGET_CLASS (gcanvas_parent_class)->key_release_event) (widget, event);
 }
 
 /* Focus in handler for the canvas */
@@ -449,7 +449,7 @@ gnm_canvas_focus_in (GtkWidget *widget, GdkEventFocus *event)
 	if (gcanvas->ic)
 		gdk_im_begin (gcanvas->ic, gcanvas->simple.canvas.layout.bin_window);
 #endif
-	return (*GTK_WIDGET_CLASS (gcanvas_parent_class)->focus_in_event)(widget, event);
+	return (*GTK_WIDGET_CLASS (gcanvas_parent_class)->focus_in_event) (widget, event);
 }
 
 /* Focus out handler for the canvas */
@@ -460,7 +460,7 @@ gnm_canvas_focus_out (GtkWidget *widget, GdkEventFocus *event)
 #if 0
 	gdk_im_end ();
 #endif
-	return (*GTK_WIDGET_CLASS (gcanvas_parent_class)->focus_out_event)(widget, event);
+	return (*GTK_WIDGET_CLASS (gcanvas_parent_class)->focus_out_event) (widget, event);
 }
 
 static void
@@ -657,7 +657,7 @@ gnm_canvas_class_init (GnumericCanvasClass *Class)
 	widget_class = (GtkWidgetClass *) Class;
 	canvas_class = (GnomeCanvasClass *) Class;
 
-	gcanvas_parent_class = gtk_type_class (gnome_canvas_get_type ());
+	gcanvas_parent_class = gtk_type_class (GNM_SIMPLE_CANVAS_TYPE);
 
 	widget_class->realize		   = gnm_canvas_realize;
 	widget_class->unrealize		   = gnm_canvas_unrealize;
@@ -717,6 +717,7 @@ gnumeric_canvas_new (SheetControlGUI *scg, GnumericPane *pane)
 	gcanvas->pane = pane;
 
 	/* FIXME: figure out some real size for the canvas scrolling region */
+	gnome_canvas_set_center_scroll_region (GNOME_CANVAS (gcanvas), FALSE);
 	gnome_canvas_set_scroll_region (GNOME_CANVAS (gcanvas), 0, 0,
 		GNUMERIC_CANVAS_FACTOR_X, GNUMERIC_CANVAS_FACTOR_Y);
 

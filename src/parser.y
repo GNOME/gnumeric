@@ -27,7 +27,6 @@
 #include "value.h"
 #include "str.h"
 
-#include <ctype.h>
 #include <string.h>
 #include <errno.h>
 #include <stdlib.h>
@@ -200,9 +199,9 @@ typedef struct {
 	ParsePos const *pos;
 
 	/* Locale info. */
-	char decimal_point;
-	char separator;
-	char array_col_separator;
+	gunichar decimal_point;
+	gunichar separator;
+	gunichar array_col_separator;
 
 	/* flags */
 	gboolean use_excel_reference_conventions;
@@ -383,17 +382,17 @@ int yyparse (void);
 %}
 
 %union {
-	GnmExpr *tree;
-	CellRef  *cell;
-	GnmExprList *list;
-	Sheet	 *sheet;
+	GnmExpr		*expr;
+	Value		*value;
+	CellRef		*cell;
+	GnmExprList	*list;
+	Sheet	 	*sheet;
 }
-%type  <list>     opt_exp arg_list array_row, array_cols
-%type  <tree>     exp array_exp string_opt_quote
-%token <tree>     STRING QUOTED_STRING CONSTANT CELLREF GTE LTE NE AND OR NOT
-%token            SEPARATOR INVALID_TOKEN
-%type  <tree>     cellref
-%type  <sheet>    sheetref opt_sheetref
+%type  <list>	opt_exp arg_list array_row, array_cols
+%type  <expr>	exp array_exp string_opt_quote cellref
+%token <expr>	STRING QUOTED_STRING CONSTANT CELLREF GTE LTE NE AND OR NOT
+%token		SEPARATOR INVALID_TOKEN
+%type  <sheet>	sheetref opt_sheetref
 
 %left '&'
 %left '<' '>' '=' GTE LTE NE
@@ -742,12 +741,12 @@ parse_ref_or_string (char const *string)
 			ref.row += state->pos->eval.row;
 			ref.row_relative = FALSE;
 		}
-		yylval.tree = register_expr_allocation (gnm_expr_new_cellref (&ref));
+		yylval.expr = register_expr_allocation (gnm_expr_new_cellref (&ref));
 		return CELLREF;
 	}
 
 	v = value_new_string (string);
-	yylval.tree = register_expr_allocation (gnm_expr_new_constant (v));
+	yylval.expr = register_expr_allocation (gnm_expr_new_constant (v));
 	return STRING;
 }
 
@@ -762,16 +761,16 @@ parse_ref_or_string (char const *string)
 static char const *
 find_char (char const *str, char c)
 {
-	for (; *str && *str != c; str++)
+	for (; *str && *str != c; str = g_utf8_next_char (str))
 		if (*str == '\\' && str[1])
-			str++;
+			str = g_utf8_next_char (str);
 	return str;
 }
 
 static char const *
 find_matching_close (char const *str, char const **res)
 {
-	for (; *str; str++) {
+	for (; *str; str = g_utf8_next_char (str)) {
 		if (*str == '(') {
 			char const *tmp = str;
 			str = find_matching_close (str + 1, res);
@@ -791,15 +790,16 @@ find_matching_close (char const *str, char const **res)
 int
 yylex (void)
 {
-	int c;
+	gunichar c;
 	char const *start;
 	gboolean is_number = FALSE;
 
-        while (isspace ((unsigned char)*state->expr_text))
-                state->expr_text++;
+        while (g_unichar_isspace (g_utf8_get_char (state->expr_text)))
+                state->expr_text = g_utf8_next_char (state->expr_text);
 
 	start = state->expr_text;
-	c = (unsigned char) (*state->expr_text++);
+	c = g_utf8_get_char (start);
+	state->expr_text = g_utf8_next_char (state->expr_text);
 
 	if (c == '(' || c == ')')
 		return c;
@@ -838,19 +838,21 @@ yylex (void)
 
 	if (c == state->decimal_point) {
 		/* Could be a number or a stand alone  */
-		if (!isdigit ((unsigned char)(*state->expr_text)))
+		if (!g_unichar_isdigit (g_utf8_get_char (state->expr_text)))
 			return c;
 		is_number = TRUE;
-	} else if (isdigit (c)) {
-		while (isdigit ((c = (unsigned char)(*state->expr_text++))))
-			;
+	} else if (g_unichar_isdigit (c)) {
+		do {
+			c = g_utf8_get_char (state->expr_text);
+			state->expr_text = g_utf8_next_char (state->expr_text);
+		} while (g_unichar_isdigit (c));
 		is_number = TRUE;
 	}
 
 	if (is_number) {
 		Value *v = NULL;
 
-		if (c == state->decimal_point || tolower (c) == 'e') {
+		if (c == state->decimal_point || c == 'e' || c == 'E') {
 			/* This is float */
 			char *end;
 			gnum_float d;
@@ -862,7 +864,7 @@ yylex (void)
 			}  else if (errno != ERANGE) {
 				v = value_new_float (d);
 				state->expr_text = end;
-			} else if (tolower (c) != 'e') {
+			} else if (c != 'e' && c != 'E') {
 				gnumeric_parse_error (
 					state, PERR_OUT_OF_RANGE,
 					g_strdup (_("The number is out of range")),
@@ -919,7 +921,7 @@ yylex (void)
 		if (v == NULL)
 			return c;
 
-		yylval.tree = register_expr_allocation (gnm_expr_new_constant (v));
+		yylval.expr = register_expr_allocation (gnm_expr_new_constant (v));
 		return CONSTANT;
 	}
 
@@ -942,8 +944,9 @@ yylex (void)
 		}
 
 		s = string = (char *) alloca (1 + state->expr_text - p);
-		while (p != state->expr_text){
-			if (*p== '\\'){
+		/* this is safe for utf8 */
+		while (p != state->expr_text) {
+			if (*p == '\\'){
 				p++;
 				*s++ = *p++;
 			} else
@@ -953,20 +956,21 @@ yylex (void)
 		state->expr_text++;
 
 		v = value_new_string (string);
-		yylval.tree = register_expr_allocation (gnm_expr_new_constant (v));
+		yylval.expr = register_expr_allocation (gnm_expr_new_constant (v));
 		return QUOTED_STRING;
 	}
 	}
 
-	if (isalpha ((unsigned char)c) || c == '_' || c == '$'){
+	if (g_unichar_isalpha (c) || c == '_' || c == '$'){
 		char const *start = state->expr_text - 1;
 		char *str;
 		int  len;
+		gunichar tmp;
 
-		while (isalnum ((unsigned char)*state->expr_text) || *state->expr_text == '_' ||
-		       *state->expr_text == '$' ||
-		       (state->use_excel_reference_conventions && *state->expr_text == '.'))
-			state->expr_text++;
+		while ((tmp = g_utf8_get_char (state->expr_text)) != 0 &&
+		       (g_unichar_isalnum (tmp) || tmp == '_' || tmp == '$' ||
+		       (state->use_excel_reference_conventions && tmp == '.')))
+			state->expr_text = g_utf8_next_char (state->expr_text);
 
 		len = state->expr_text - start;
 		str = alloca (len + 1);

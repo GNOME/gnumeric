@@ -42,7 +42,7 @@ typedef struct {
 
 /* Sets up a query on a stream */
 BiffQuery  *ms_biff_query_new         (MsOleStream *);
-gboolean    ms_biff_query_set_decrypt (BiffQuery *q);
+gboolean    ms_biff_query_set_decrypt (BiffQuery *q, char const *password);
 
 /* Updates the BiffQuery structure with the next BIFF record
  * returns: 1 for succes, and 0 for EOS(tream) */

@@ -1090,6 +1090,44 @@ wbcg_claim_selection (WorkbookControl *wbc)
 }
 
 static void
+cb_accept_password (GtkWidget *IGNORED, GtkDialog *d)
+{
+	gtk_dialog_response (d, GTK_RESPONSE_ACCEPT);
+}
+
+static char *
+wbcg_get_password (CommandContext *cc, char const* msg)
+{
+	char *res = NULL;
+	WorkbookControlGUI *wbcg = WORKBOOK_CONTROL_GUI (cc);
+	GtkWidget *d = gtk_message_dialog_new (wbcg_toplevel (wbcg),
+			GTK_DIALOG_DESTROY_WITH_PARENT,
+			GTK_MESSAGE_QUESTION,
+			GTK_BUTTONS_CANCEL,
+			msg); 
+	GtkWidget *box = gtk_hbox_new (FALSE, 5);
+	GtkWidget *entry = g_object_new (GTK_TYPE_ENTRY,
+		"visibility", FALSE,
+		NULL);
+	gtk_box_pack_start_defaults (GTK_BOX (box), gtk_label_new (_("Password :")));
+	gtk_box_pack_start_defaults (GTK_BOX (box), entry);
+	gtk_widget_show_all (entry);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (d)->vbox), box,
+			    FALSE, TRUE, 0);
+	gtk_widget_show_all (d);
+
+	g_signal_connect (G_OBJECT (entry),
+		"activate",
+		G_CALLBACK (cb_accept_password), d);
+	gtk_dialog_set_has_separator (GTK_DIALOG (d), TRUE);
+	gnumeric_set_transient (wbcg, GTK_WINDOW (d));
+	if (gtk_dialog_run (GTK_DIALOG (d)) == GTK_RESPONSE_ACCEPT)
+		res = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
+	gtk_widget_destroy (d);
+	return res;
+}
+
+static void
 wbcg_progress_set (CommandContext *cc, gfloat val)
 {
 	WorkbookControlGUI *wbcg = WORKBOOK_CONTROL_GUI (cc);
@@ -4417,6 +4455,7 @@ workbook_control_gui_ctor_class (GObjectClass *object_class)
 
 	object_class->finalize = wbcg_finalize;
 
+	wbc_class->context_class.get_password  = wbcg_get_password;
 	wbc_class->context_class.progress_set         = wbcg_progress_set;
 	wbc_class->context_class.progress_message_set = wbcg_progress_message_set;
 	wbc_class->context_class.error.system	= wbcg_error_system;

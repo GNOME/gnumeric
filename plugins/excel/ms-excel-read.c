@@ -4678,10 +4678,19 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 		case BIFF_PASSWORD:
 			break;
 
-		case BIFF_FILEPASS:
-			/* All records after this are encrypted */
-			if (!ms_biff_query_set_decrypt (q))
-				problem_loading = g_strdup (_("Invalid password"));
+		case BIFF_FILEPASS: /* All records after this are encrypted */
+			do {
+				char *passwd = gnm_io_get_password (context,
+					_("This file is encrypted"));
+				if (!ms_biff_query_set_decrypt (q, passwd))
+					problem_loading = _("Invalid password");
+				if (passwd == NULL)
+					break;
+				g_free (passwd);
+				if (problem_loading == NULL)
+					break;
+				problem_loading = NULL;
+			} while (TRUE);
 			break;
 
 		case BIFF_STYLE:
@@ -4792,9 +4801,8 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 		ms_excel_workbook_destroy (wb);
 
 		/* If we were forced to stop then the load failed */
-		if (problem_loading != NULL) {
+		if (problem_loading != NULL)
 			gnumeric_io_error_read (context, problem_loading);
-		}
 		return;
 	}
 

@@ -1,3 +1,8 @@
+2002-03-27  Jody Goldberg <jody@gnome.org>
+
+	* ms-biff.c (ms_biff_query_set_decrypt) : protect against NULL
+	  passwords.
+
 2002-03-25  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.2

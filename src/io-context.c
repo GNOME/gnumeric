@@ -455,25 +455,41 @@ io_progress_unset (IOContext *io_context)
 	io_context->helper.helper_type = GNUM_PROGRESS_HELPER_NONE;
 }
 
+/**
+ * gnm_io_get_password :
+ * @context :
+ * @msg : optionally NULL
+ *
+ */
+char *
+gnm_io_get_password (IOContext *context, char const *msg)
+{
+	g_return_val_if_fail (IS_IO_CONTEXT (context), NULL);
+	return cmd_context_get_password (context->impl, msg);
+}
+
 #warning Good Project implement these
 void
 gnm_io_warning (IOContext *context, char const *msg)
 {
-
+	g_return_if_fail (IS_IO_CONTEXT (context));
 }
 
 void
 gnm_io_warning_unknown_font (IOContext *context, char const *font_name)
 {
+	g_return_if_fail (IS_IO_CONTEXT (context));
 }
 
 void
 gnm_io_warning_unknown_function	(IOContext *context, char const *funct_name)
 {
+	g_return_if_fail (IS_IO_CONTEXT (context));
 }
 
 void
 gnm_io_warning_unsupported_feature (IOContext *context, char const *feature)
 {
+	g_return_if_fail (IS_IO_CONTEXT (context));
 	g_warning ("%s : are not supported yet", feature);
 }
