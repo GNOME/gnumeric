@@ -557,11 +557,41 @@ gnm_float
 lgamma_rgnum (gnm_float x, int *signp)
 {
 #ifdef HAVE_LGAMMA
-	gnm_float res = lgamma (x);
+	gnm_float res = lgammagnum (x);
 	*signp = (x >= 0 || fmodgnum (floorgnum (-x), 2.0) != 0.0) ? +1 : -1;
 	return res;
 #else
 #error "I need to have lgamma for this to work."
+#endif
+}
+#endif
+
+/* ------------------------------------------------------------------------- */
+/* Partially lifted from R, but they got the guts from me -- MW.  */
+
+#ifdef NEED_FAKE_EXPM1
+gnm_float
+expm1gnum (gnm_float x)
+{
+#ifdef HAVE_LOG1P
+	gnm_float y, a = gnumabs (x);
+
+	if (a > 1e-8) {
+		y = expgnum (x) - 1;
+		if (a > 0.697)
+			return y;  /* negligible cancellation */
+	} else {
+		if (a < GNUM_EPSILON)
+			return x;
+		/* Taylor expansion, more accurate in this range */
+		y = (x / 2 + 1) * x;
+	}
+
+	/* Newton step for solving   log(1 + y) = x   for y : */
+	y -= (1 + y) * (log1pgnum (y) - x);
+	return y;
+#else
+#error "I need to have log1pgnum for this to work."
 #endif
 }
 #endif

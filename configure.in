@@ -421,6 +421,7 @@ dnl iswprint/iswspace are sometimes in wctype.h
 AC_CHECK_HEADERS(wctype.h)
 
 dnl We supply our own lgamma_r (using lgamma) when missing.
+dnl We supply our own expm1 (using log1p) when missing.
 AC_CHECK_FUNCS(lgamma)
 if test $ac_cv_func_lgamma = no; then
   AC_CHECK_LIB(m, lgamma,
@@ -429,7 +430,7 @@ if test $ac_cv_func_lgamma = no; then
 	 )
          LIBS="$LIBS -lm"])
 fi
-AC_CHECK_FUNCS(lgamma_r)
+AC_CHECK_FUNCS(lgamma_r expm1)
 
 AC_C_LONG_DOUBLE
 float_msg=double

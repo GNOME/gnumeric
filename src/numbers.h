@@ -174,6 +174,12 @@ typedef double gnm_float;
 gnm_float lgamma_rgnum (gnm_float x, int *signp);
 #endif
 
+#ifndef HAVE_EXPM1
+#define NEED_FAKE_EXPM1
+/* Defined in gutils.c  */
+gnm_float expm1 (gnm_float x);
+#endif
+
 #define GNUM_FORMAT_e "e"
 #define GNUM_FORMAT_E "E"
 #define GNUM_FORMAT_f "f"

@@ -1,3 +1,7 @@
+2004-07-21  Morten Welinder  <terra@gnome.org>
+
+	* src/gutils.c (expm1gnum): Supply this when missing.
+
 2004-07-20  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : add test for sysconf as per Mark's request
