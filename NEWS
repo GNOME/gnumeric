@@ -1,3 +1,31 @@
+Gnumeric 0.48
+
+Miguel :
+	* Fix annoying flashing cursor bug.
+
+Jody :
+	* Parse errors in formulas.
+	* Improve xml export of borders to include cleared borders.
+
+--------------------------------------------------------------------------
+
+Gnumeric 0.47
+
+Michael :
+	* Fix nasty recalc bug that would hang the app.
+	* Improve bounding box calculation for printing.
+
+Miguel :
+	* Improve empty cell loading.
+	* Re-enable pasting from X.
+	* Adjust semantics of paste to work even when selection is not
+	  visible.
+
+Jody :
+	* Fix import plugins.
+
+--------------------------------------------------------------------------
+
 Gnumeric 0.46
 
 Michael:
