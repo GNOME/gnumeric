@@ -30,6 +30,7 @@
 #include "application.h"
 #include "commands.h"
 #include "cellspan.h"
+#include "cell.h"
 #include "dependent.h"
 #include "sheet-private.h"
 #include "expr-name.h"
@@ -378,6 +379,32 @@ sheet_cell_calc_span (Cell const *cell, SpanCalcFlags flags)
 
 	sheet_redraw_partial_row (cell->base.sheet, cell->pos.row,
 				  min_col, max_col);
+}
+
+/**
+ * sheet_style_apply_range :
+ * @sheet: the sheet in which can be found
+ * @range: the range to which should be applied
+ * @style: the style
+ *
+ *   This routine attaches @style to the range, it swallows
+ * the style reference.  Respans and redraws as necessary.
+ */
+void
+sheet_style_apply_range (Sheet       *sheet,
+			 const Range *range,
+			 MStyle      *style)
+{
+	SpanCalcFlags const spanflags = required_updates_for_style (style);
+
+	sheet_style_attach   (sheet, range, style);
+	sheet_style_optimize (sheet, *range);
+	sheet_range_calc_spans (sheet, *range, spanflags);
+
+	if (spanflags != SPANCALC_SIMPLE)
+		rows_height_update (sheet, range);
+
+	sheet_redraw_range (sheet, range);
 }
 
 /****************************************************************************/

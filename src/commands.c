@@ -34,6 +34,8 @@
 #include "ranges.h"
 #include "sort.h"
 #include "eval.h"
+#include "expr.h"
+#include "cell.h"
 #include "parse-util.h"
 #include "clipboard.h"
 #include "selection.h"
@@ -446,8 +448,7 @@ cmd_set_text_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 			       me->pos.eval.row);
 
 	/* Save the new value so we can redo */
-	new_text = (cell == NULL || cell->value == NULL || cell->value->type == VALUE_EMPTY)
-	    ? NULL : cell_get_entered_text (cell);
+	new_text = cell_is_blank (cell) ? NULL : cell_get_entered_text (cell);
 
 	/* Restore the old value if it was not empty */
 	if (me->text != NULL) {
@@ -1189,7 +1190,7 @@ cmd_format_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 						me->borders);
 		if (me->new_style) {
 			mstyle_ref (me->new_style);
-			sheet_range_apply_style (me->sheet, l->data,
+			sheet_style_apply_range (me->sheet, l->data,
 						 me->new_style);
 		}
 		sheet_flag_format_update_range (me->sheet, l->data);

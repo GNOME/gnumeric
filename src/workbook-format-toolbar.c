@@ -17,6 +17,8 @@
 #include "workbook-control-gui-priv.h"
 #include "workbook-view.h"
 #include "workbook.h"
+#include "sheet.h"
+#include "cell.h"
 #include "application.h"
 #include "commands.h"
 #include "format.h"

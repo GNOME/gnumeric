@@ -9,7 +9,7 @@
 #include <ctype.h>
 #include <gnome.h>
 #include <string.h>
-#include "gnumeric.h"
+#include "sheet.h"
 #include "parse-util.h"
 #include "gnumeric-util.h"
 #include "eval.h"
@@ -18,6 +18,7 @@
 #include "selection.h"
 #include "ranges.h"
 #include "mstyle.h"
+#include "expr.h"
 #include "main.h"
 #include "border.h"
 
@@ -773,32 +774,6 @@ required_updates_for_style (MStyle *style)
 	    ? SPANCALC_RE_RENDER|SPANCALC_RESIZE
 	    : size_change ? SPANCALC_RESIZE
 			  : SPANCALC_SIMPLE;
-}
-
-/**
- * sheet_selection_apply_style:
- * @sheet: the sheet in which can be found
- * @range: the range to which should be applied
- * @style: the style
- *
- *   This routine attaches @style to the range, it swallows
- * the style reference.  Respans and redraws as necessary.
- */
-void
-sheet_range_apply_style (Sheet       *sheet,
-			 const Range *range,
-			 MStyle      *style)
-{
-	SpanCalcFlags const spanflags = required_updates_for_style (style);
-
-	sheet_style_attach   (sheet, range, style);
-	sheet_style_optimize (sheet, *range);
-	sheet_range_calc_spans (sheet, *range, spanflags);
-
-	if (spanflags != SPANCALC_SIMPLE)
-		rows_height_update (sheet, range);
-
-	sheet_redraw_range (sheet, range);
 }
 
 void

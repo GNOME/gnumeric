@@ -21,6 +21,7 @@
 #include "workbook-control.h"
 #include "workbook.h"
 #include "ranges.h"
+#include "expr.h"
 #include "commands.h"
 
 #include "xml-io.h"

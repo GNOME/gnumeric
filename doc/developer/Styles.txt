@@ -172,7 +172,7 @@ adopted. This document breaks roughly into two parts. First the 'user'
 2.1.1   The 'global' style kludge
 
 	    Each sheet has a 'global' style; this covers the entire sheet range
-	sheet_get_full_range (sheet.h). Several routines in sheet-style do
+	range_init_full_sheet (sheet.h). Several routines in sheet-style do
 	intricate things to ranges such as splitting, shrinking etc. Invariably
 	these don't want to do this to the global style. Since this style is
 	invariably the last entry in the style list several style iterators

@@ -18,6 +18,7 @@
 #include "workbook-cmd-format.h"
 #include "dialogs.h"
 #include "format.h"
+#include "sheet.h"
 #include "commands.h"
 
 struct closure_colrow_resize {

@@ -14,6 +14,7 @@
 #include "eval.h"
 #include "format.h"
 #include "func.h"
+#include "cell.h"
 #include "parse-util.h"
 #include "ranges.h"
 #include "number-match.h"

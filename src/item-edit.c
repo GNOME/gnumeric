@@ -23,6 +23,7 @@
 #include "sheet-control-gui.h"
 #include "value.h"
 #include "ranges.h"
+#include "style.h"
 #include "parse-util.h"
 #include "workbook.h"
 #include "workbook-edit.h"

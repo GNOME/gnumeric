@@ -27,6 +27,8 @@
 #include "sheet.h"
 #include "value.h"
 #include "ranges.h"
+#include "cell.h"
+#include "expr.h"
 #include "number-match.h"
 
 #include <stdlib.h>

@@ -18,6 +18,7 @@
 #include "workbook.h"
 #include "commands.h"
 #include "value.h"
+#include "cell.h"
 #include "sheet-control-gui.h"
 #include "gnumeric-util.h"
 

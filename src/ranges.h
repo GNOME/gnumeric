@@ -1,10 +1,7 @@
 #ifndef GNUMERIC_RANGES_H
 #define GNUMERIC_RANGES_H
 
-#include "sheet.h"
-#include "expr.h"
-#include "cell.h"
-#include "style.h"
+#include "gnumeric.h"
 
 /**
  * range_equal:

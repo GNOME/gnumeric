@@ -17,6 +17,7 @@
 #include "workbook.h"
 #include "workbook-control.h"
 #include "func.h"
+#include "cell.h"
 #include "ranges.h"
 #include "analysis-tools.h"
 #include "rendered-value.h"

@@ -34,6 +34,7 @@
 #include "print-info.h"
 #include "global-gnome-font.h"
 #include "auto-format.h"
+#include "style.h"
 #include "color.h"
 
 #include "../plugins/excel/boot.h"

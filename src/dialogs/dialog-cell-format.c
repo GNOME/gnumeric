@@ -18,6 +18,7 @@
 #include "gnumeric-util.h"
 #include "selection.h"
 #include "ranges.h"
+#include "cell.h"
 #include "format.h"
 #include "formats.h"
 #include "pattern.h"

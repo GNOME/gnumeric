@@ -4,7 +4,6 @@
  * Author:
  *   Miguel de Icaza (miguel@gnu.org).
  *   Michael Meeks   (mmeeks@gnu.org).
- *
  */
 #include <config.h>
 #include <stdlib.h>
@@ -19,6 +18,8 @@
 #include "gnumeric.h"
 #include "ranges.h"
 #include "value.h"
+#include "cell.h"
+#include "style.h"
 
 #undef RANGE_DEBUG
 

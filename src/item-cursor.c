@@ -12,6 +12,7 @@
 #include "color.h"
 #include "clipboard.h"
 #include "selection.h"
+#include "sheet.h"
 #include "workbook.h"
 #include "workbook-edit.h"
 #include "gnumeric-util.h"

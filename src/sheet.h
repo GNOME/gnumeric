@@ -203,7 +203,7 @@ void           sheet_style_insert_colrow        (Sheet *sheet, int pos, int coun
 void           sheet_style_delete_colrow        (Sheet *sheet, int pos, int count,
 						 gboolean is_col);
 void           sheet_style_relocate             (const ExprRelocateInfo *rinfo);
-void           sheet_range_apply_style          (Sheet *sheet, const Range *r,
+void           sheet_style_apply_range          (Sheet *sheet, const Range *r,
 						 MStyle *style);
 void           sheet_range_set_border           (Sheet *sheet, const Range *r,
 						 MStyleBorder **borders);

@@ -4,8 +4,8 @@
  * Authors:
  *  JP Rosevear   <jpr@arcavia.com>
  *  Michael Meeks <michael@imaginator.com>
- *
  */
+
 #include <config.h>
 #include <gnome.h>
 #include <glade/glade.h>
@@ -23,6 +23,7 @@
 #include "workbook.h"
 #include "rendered-value.h"
 #include "sort.h"
+#include "sheet.h"
 
 #define GLADE_FILE "cell-sort.glade"
 

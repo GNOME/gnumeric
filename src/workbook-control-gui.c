@@ -47,6 +47,7 @@
 #include "ranges.h"
 #include "history.h"
 #include "str.h"
+#include "cell.h"
 
 #ifdef ENABLE_BONOBO
 #include "sheet-object-container.h"

@@ -17,6 +17,7 @@
 #include "selection.h"
 #include "parse-util.h"
 #include "ranges.h"
+#include "sheet.h"
 #include "application.h"
 #include "workbook-view.h"
 #include "workbook-edit.h"

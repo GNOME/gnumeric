@@ -1172,7 +1172,7 @@ cb_format_sheet_style (FormatTemplate *ft, Range *r, MStyle *mstyle, Sheet *shee
 	 * We need not unref the mstyle, sheet will
 	 * take care of the mstyle
 	 */
-	sheet_range_apply_style (sheet, r, mstyle);
+	sheet_style_apply_range (sheet, r, mstyle);
 }
 
 static void

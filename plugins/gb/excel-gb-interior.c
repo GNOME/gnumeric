@@ -98,7 +98,7 @@ palette_from_color (StyleColor *color)
 static void
 real_set_style (Sheet *sheet, Range *range, MStyle *style)
 {
-	sheet_range_apply_style (sheet, range, style);
+	sheet_style_apply_range (sheet, range, style);
 }
 
 static gboolean

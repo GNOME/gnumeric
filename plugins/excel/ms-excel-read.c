@@ -22,6 +22,7 @@
 #include "ranges.h"
 #include "expr-name.h"
 #include "style.h"
+#include "cell.h"
 #include "format.h"
 #include "eval.h"
 #include "gutils.h"
