@@ -1793,7 +1793,7 @@ BC_R(units)(XLChartHandler const *handle,
 
 static void
 xl_axis_get_elem (GogObject *axis, unsigned dim, gchar const *name,
-		  gboolean flag, guint8 const *data)
+		  gboolean flag, guint8 const *data, gboolean log_scale)
 {
 	GOData *dat;
 	if (flag) {
@@ -1801,9 +1801,10 @@ xl_axis_get_elem (GogObject *axis, unsigned dim, gchar const *name,
 		d (1, fprintf (stderr, "%s = Auto\n", name););
 	} else {
 		double const val = gsf_le_get_double (data);
+		double real_value = (log_scale)? gnm_pow10 (val): val;
 		gog_dataset_set_dim (GOG_DATASET (axis), dim,
-			go_data_scalar_val_new (val), NULL);
-		d (1, fprintf (stderr, "%s = %f\n", name, val););
+			go_data_scalar_val_new (real_value), NULL);
+		d (1, fprintf (stderr, "%s = %f\n", name, real_value););
 	}
 }
 
@@ -1812,17 +1813,19 @@ BC_R(valuerange)(XLChartHandler const *handle,
 		 XLChartReadState *s, BiffQuery *q)
 {
 	guint16 const flags = GSF_LE_GET_GUINT16 (q->data+40);
+	gboolean log_scale = flags & 0x20;
 
-	xl_axis_get_elem (s->axis, GOG_AXIS_ELEM_MIN,	  	"Min Value",		flags&0x01, q->data+ 0);
-	xl_axis_get_elem (s->axis, GOG_AXIS_ELEM_MAX,	  	"Max Value",		flags&0x02, q->data+ 8);
-	xl_axis_get_elem (s->axis, GOG_AXIS_ELEM_MAJOR_TICK,  	"Major Increment",	flags&0x04, q->data+16);
-	xl_axis_get_elem (s->axis, GOG_AXIS_ELEM_MINOR_TICK,  	"Minor Increment",	flags&0x08, q->data+24);
-	xl_axis_get_elem (s->axis, GOG_AXIS_ELEM_CROSS_POINT, 	"Cross over point",	flags&0x10, q->data+32);
-
-	if (flags & 0x20) {
+	if (log_scale) {
 		g_object_set (s->axis, "map-name", "Log", NULL);
 		d (1, fputs ("Log scaled;\n", stderr););
 	}
+
+	xl_axis_get_elem (s->axis, GOG_AXIS_ELEM_MIN,	  "Min Value",		flags&0x01, q->data+ 0, log_scale);
+	xl_axis_get_elem (s->axis, GOG_AXIS_ELEM_MAX,	  "Max Value",		flags&0x02, q->data+ 8, log_scale);
+	xl_axis_get_elem (s->axis, GOG_AXIS_ELEM_MAJOR_TICK,  "Major Increment",	flags&0x04, q->data+16, log_scale);
+	xl_axis_get_elem (s->axis, GOG_AXIS_ELEM_MINOR_TICK,  "Minor Increment",	flags&0x08, q->data+24, log_scale);
+	xl_axis_get_elem (s->axis, GOG_AXIS_ELEM_CROSS_POINT, "Cross over point",	flags&0x10, q->data+32, log_scale);
+
 	if (flags & 0x40) {
 		g_object_set (s->axis, "invert-axis", TRUE, NULL);
 		d (1, fputs ("Values in reverse order;\n", stderr););
@@ -2954,10 +2957,12 @@ chart_write_frame (XLChartWriteState *s, GogObject const *frame,
 
 static guint16
 xl_axis_set_elem (GogAxis const *axis,
-		  unsigned dim, guint16 flag, guint8 *data)
+		  unsigned dim, guint16 flag, guint8 *data, gboolean log_scale)
 {
 	gboolean user_defined = FALSE;
 	double val = gog_axis_get_entry (axis, dim, &user_defined);
+	if (log_scale)
+		val = log10 (val);
 	gsf_le_set_double (data, user_defined ? val : 0.);
 	return user_defined ? 0 : flag;
 }
@@ -3008,14 +3013,17 @@ chart_write_axis (XLChartWriteState *s, GogAxis const *axis,
 						     * 80 == default date settings */
 		ms_biff_put_commit (s->bp);
 	} else {
+		char *const scale;
 		gboolean log_scale = FALSE;
 
 		g_object_get (G_OBJECT (axis),
-#if 0
-			      "log-scale",		&log_scale,
-#endif
+			      "map-name",		&scale,
 			      "invert-axis",		&inverted,
 			      NULL);
+		if (scale != NULL) {
+			log_scale = !strcmp (scale, "Log");
+			g_free (scale);
+		}
 		data = ms_biff_put_len_next (s->bp, BIFF_CHART_valuerange, 42);
 		if (log_scale)
 			flags |= 0x20;
@@ -3027,11 +3035,11 @@ chart_write_axis (XLChartWriteState *s, GogAxis const *axis,
 #endif
 		flags |= 0x100; /* UNDOCUMENTED */
 
-		flags |= xl_axis_set_elem (axis, GOG_AXIS_ELEM_MIN,	        0x01, data+ 0);
-		flags |= xl_axis_set_elem (axis, GOG_AXIS_ELEM_MAX,	        0x02, data+ 8);
-		flags |= xl_axis_set_elem (axis, GOG_AXIS_ELEM_MAJOR_TICK,  	0x04, data+16);
-		flags |= xl_axis_set_elem (axis, GOG_AXIS_ELEM_MINOR_TICK,  	0x08, data+24);
-		flags |= xl_axis_set_elem (axis, GOG_AXIS_ELEM_CROSS_POINT, 	0x10, data+32);
+		flags |= xl_axis_set_elem (axis, GOG_AXIS_ELEM_MIN,	        0x01, data+ 0, log_scale);
+		flags |= xl_axis_set_elem (axis, GOG_AXIS_ELEM_MAX,	        0x02, data+ 8, log_scale);
+		flags |= xl_axis_set_elem (axis, GOG_AXIS_ELEM_MAJOR_TICK,  	0x04, data+16, log_scale);
+		flags |= xl_axis_set_elem (axis, GOG_AXIS_ELEM_MINOR_TICK,  	0x08, data+24, log_scale);
+		flags |= xl_axis_set_elem (axis, GOG_AXIS_ELEM_CROSS_POINT, 	0x10, data+32, log_scale);
 		GSF_LE_SET_GUINT16 (data+40, flags);
 		ms_biff_put_commit (s->bp);
 	}

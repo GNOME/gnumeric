@@ -1,3 +1,7 @@
+2005-03-14  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c: : import/export logarithmic axis.
+
 2005-03-13  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* ms-chart.c (BC_R): use gog_chart_get_axes.
