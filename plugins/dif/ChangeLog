@@ -1,3 +1,9 @@
+2001-05-31  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* dif.c
+	(dif_input_context_new): Allocate "empty" line by default.
+	(dif_get_line): Fixed typo.
+
 2001-05-29  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* dif.c

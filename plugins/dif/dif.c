@@ -68,9 +68,9 @@ dif_input_context_new (IOContext *io_context, Workbook *wb, char const *file_nam
 	ctxt->data           = data;
 	ctxt->cur            = data;
 	ctxt->line_no        = 1;
-	ctxt->line           = NULL;
+	ctxt->line           = g_malloc (1);
 	ctxt->line_len       = 0;
-	ctxt->alloc_line_len = -1;
+	ctxt->alloc_line_len = 0;
 	ctxt->sheet          = workbook_sheet_add (wb, NULL, FALSE);
 
 /*	gnumeric_io_progress_message (io_context, _("Reading file..."));
@@ -114,7 +114,7 @@ dif_get_line (DifInputContext *ctxt)
 	ctxt->line[ctxt->line_len] = '\0';
 
 	if (p == p_limit || (p == p_limit - 1 && (p[0] == '\n' || p[0] == '\r'))) {
-		ctxt->cur = p;
+		ctxt->cur = p_limit;
 	} else if ((p[0] == '\n' && p[1] == '\r') || (p[0] == '\r' && p[1] == '\n')) {
 		ctxt->cur = p + 2;
 	} else {
