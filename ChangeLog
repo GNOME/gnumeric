@@ -1,3 +1,25 @@
+2004-11-26  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=159365
+	* src/commands.c (gnm_reloc_undo_release) : new
+	(cmd_ins_del_colrow_finalize) : use it
+	(cmd_paste_cut_finalize) : use it.
+	(gnm_reloc_undo_apply) : new
+	(cmd_ins_del_colrow_undo) : use it.
+	(cmd_paste_cut_undo) : use it.
+
+	* src/sheet-object.c (sheet_objects_relocate) : store lost objects
+
+	* src/sheet.c (sheet_colrow_insdel_finish) : take an optional undo
+	  storage
+	(sheet_colrow_insert_finish) : ditto.
+	(sheet_colrow_delete_finish) : ditto.
+	(sheet_insert_cols) : pass the undo info
+	(sheet_delete_cols) : ditto.
+	(sheet_insert_rows) : ditto.
+	(sheet_delete_rows) : ditto.
+	(sheet_move_range) : pass undo info to sheet_objects_relocate
+
 2004-11-21  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-view.c (sv_panes_insdel_colrow) : be more careful

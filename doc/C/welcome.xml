@@ -55,9 +55,9 @@
 </para>
 
 <para>
-  <application>Gnumeric</application> intends to be the best
-  spreadsheet available anywhere. It has been developed over many
-  years to become fully mature and mathematically
+  <application>Gnumeric</application> aims to be the best
+  spreadsheet available. It has been developed over many
+  years to become a mature and mathematically
   correct. <application>Gnumeric</application> was created and is
   maintained by the <ulink type="http"
   url="http://www.gnome.org/">GNOME</ulink> project.  This manual
@@ -109,6 +109,7 @@
 	<emphasis role="bold">Accuracy :</emphasis>
       </para>
       <para>
+	<ulink type="http" url="http://www.csdassn.org/software_reports.cfm">report</ulink>
       </para>
     </listitem>
 

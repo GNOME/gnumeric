@@ -546,12 +546,14 @@ sheet_object_anchor_to_pts (SheetObjectAnchor const *anchor,
  * @rinfo : details on what should be moved.
  * @update : Should we do the bound_update now, or leave it for later.
  * 		if FALSE honour the move_with_cells flag.
+ * @undo : if non-NULL add dropped objects to ::objects
  *
  * Uses the relocation info and the anchors to decide whether or not, and how
  * to relocate objects when the grid moves (eg ins/del col/row).
  **/
 void
-sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean update)
+sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean update,
+			GnmRelocUndo *undo)
 {
 	GList   *ptr, *next;
 	GnmRange	 dest;
@@ -572,7 +574,8 @@ sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean update)
 			SheetObject *so = SHEET_OBJECT (ptr->data);
 			GnmRange const *r  = &so->anchor.cell_bound;
 			if (range_contains (&dest, r->start.col, r->start.row)) {
-				/* lost_objs = g_slist_prepend (lost_objs, g_object_ref (so)); */
+				if (NULL != undo)
+					undo->objs = g_slist_prepend (undo->objs, g_object_ref (so));
 				sheet_object_clear_sheet (so);
 			}
 		}
@@ -592,7 +595,8 @@ sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean update)
 			/* FIXME : just moving the range is insufficent for all anchor types */
 			/* Toss any objects that would be clipped. */
 			if (range_translate (r, rinfo->col_offset, rinfo->row_offset)) {
-				/* lost_objs = g_slist_prepend (lost_objs, g_object_ref (so)); */
+				if (NULL != undo)
+					undo->objs = g_slist_prepend (undo->objs, g_object_ref (so));
 				sheet_object_clear_sheet (so);
 				continue;
 			}
@@ -605,7 +609,8 @@ sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean update)
 				sheet_object_update_bounds (so, NULL);
 		} else if (!change_sheets &&
 			   range_contains (&dest, r->start.col, r->start.row)) {
-			/* lost_objs = g_slist_prepend (lost_objs, g_object_ref (so)); */
+			if (NULL != undo)
+				undo->objs = g_slist_prepend (undo->objs, g_object_ref (so));
 			sheet_object_clear_sheet (so);
 			continue;
 		}

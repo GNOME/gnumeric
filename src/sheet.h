@@ -263,9 +263,10 @@ void	     sheet_cell_calc_span   (GnmCell *cell, SpanCalcFlags flags);
 void	     sheet_adjust_outline_dir (Sheet *sheet, gboolean is_cols);
 
 /* Implementation for commands, no undo */
-typedef struct {
+struct _GnmRelocUndo {
 	GSList *exprs;
-} GnmRelocUndo;
+	GSList *objs;
+};
 
 gboolean  sheet_insert_cols (Sheet *sheet,
 			     int col, int count, ColRowStateList *states,

@@ -3070,11 +3070,12 @@ colrow_move (Sheet *sheet,
 
 static void
 sheet_colrow_insdel_finish (GnmExprRelocateInfo const *rinfo, gboolean is_cols,
-			    int pos, int state_start, ColRowStateList *states)
+			    int pos, int state_start, ColRowStateList *states,
+			    GnmRelocUndo *reloc_storage)
 {
 	Sheet *sheet = rinfo->origin_sheet;
 
-	sheet_objects_relocate (rinfo, FALSE);
+	sheet_objects_relocate (rinfo, FALSE, reloc_storage);
 	sheet_merge_relocate (rinfo);
 
 	/* Notify sheet of pending updates */
@@ -3118,10 +3119,11 @@ sheet_colrow_set_collapse (Sheet *sheet, gboolean is_cols, int pos)
 
 static void
 sheet_colrow_insert_finish (GnmExprRelocateInfo const *rinfo, gboolean is_cols,
-			    int pos, int count, ColRowStateList *states)
+			    int pos, int count, ColRowStateList *states,
+			    GnmRelocUndo *reloc_storage)
 {
 	sheet_style_insert_colrow (rinfo);
-	sheet_colrow_insdel_finish (rinfo, is_cols, pos, pos, states);
+	sheet_colrow_insdel_finish (rinfo, is_cols, pos, pos, states, reloc_storage);
 	sheet_colrow_set_collapse (rinfo->origin_sheet, is_cols, pos);
 	sheet_colrow_set_collapse (rinfo->origin_sheet, is_cols, pos+count);
 	sheet_colrow_set_collapse (rinfo->origin_sheet, is_cols,
@@ -3142,11 +3144,12 @@ sheet_colrow_insert_finish (GnmExprRelocateInfo const *rinfo, gboolean is_cols,
 
 static void
 sheet_colrow_delete_finish (GnmExprRelocateInfo const *rinfo, gboolean is_cols,
-			    int pos, int count, ColRowStateList *states)
+			    int pos, int count, ColRowStateList *states,
+			    GnmRelocUndo *reloc_storage)
 {
 	int end = colrow_max (is_cols) - count;
 	sheet_style_relocate (rinfo);
-	sheet_colrow_insdel_finish (rinfo, is_cols, pos, end, states);
+	sheet_colrow_insdel_finish (rinfo, is_cols, pos, end, states, reloc_storage);
 	sheet_colrow_set_collapse (rinfo->origin_sheet, is_cols, pos);
 	sheet_colrow_set_collapse (rinfo->origin_sheet, is_cols, end);
 	sheet_filter_insdel_colrow (rinfo->origin_sheet, is_cols, FALSE,
@@ -3164,10 +3167,13 @@ sheet_colrow_delete_finish (GnmExprRelocateInfo const *rinfo, gboolean is_cols,
 
 /**
  * sheet_insert_cols:
- * @sheet   The sheet
- * @col     At which position we want to insert
- * @count   The number of columns to be inserted
- */
+ * @sheet  : #Sheet
+ * @col    : At which position we want to insert
+ * @count  : The number of columns to be inserted
+ * @states :
+ * @reloc_storage   :
+ * @cc     :
+ **/
 gboolean
 sheet_insert_cols (Sheet *sheet,
 		   int col, int count, ColRowStateList *states,
@@ -3213,7 +3219,8 @@ sheet_insert_cols (Sheet *sheet,
 
 	solver_insert_cols (sheet, col, count);
 	scenario_insert_cols (sheet->scenarios, col, count);
-	sheet_colrow_insert_finish (&reloc_info, TRUE, col, count, states);
+	sheet_colrow_insert_finish (&reloc_info, TRUE, col, count,
+		states, reloc_storage);
 	return FALSE;
 }
 
@@ -3278,7 +3285,8 @@ sheet_delete_cols (Sheet *sheet,
 
 	solver_delete_cols (sheet, col, count);
 	scenario_delete_cols (sheet->scenarios, col, count);
-	sheet_colrow_delete_finish (&reloc_info, TRUE, col, count, states);
+	sheet_colrow_delete_finish (&reloc_info, TRUE, col, count,
+		states, reloc_storage);
 	return FALSE;
 }
 
@@ -3333,7 +3341,8 @@ sheet_insert_rows (Sheet *sheet,
 
 	solver_insert_rows (sheet, row, count);
 	scenario_insert_rows (sheet->scenarios, row, count);
-	sheet_colrow_insert_finish (&reloc_info, FALSE, row, count, states);
+	sheet_colrow_insert_finish (&reloc_info, FALSE, row, count,
+		states, reloc_storage);
 	return FALSE;
 }
 
@@ -3398,7 +3407,8 @@ sheet_delete_rows (Sheet *sheet,
 
 	solver_delete_rows (sheet, row, count);
 	scenario_delete_rows (sheet->scenarios, row, count);
-	sheet_colrow_delete_finish (&reloc_info, FALSE, row, count, states);
+	sheet_colrow_delete_finish (&reloc_info, FALSE, row, count,
+		states, reloc_storage);
 	return FALSE;
 }
 
@@ -3531,7 +3541,7 @@ sheet_move_range (GnmExprRelocateInfo const *rinfo,
 	}
 
 	/* 7. Move objects in the range */
-	sheet_objects_relocate (rinfo, TRUE);
+	sheet_objects_relocate (rinfo, TRUE, reloc_storage);
 	sheet_merge_relocate (rinfo);
 
 	/* 8. Notify sheet of pending update */

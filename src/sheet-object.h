@@ -69,7 +69,8 @@ SheetObjectAnchor const *sheet_object_get_anchor (SheetObject const *so);
 void sheet_object_position_pts_get (SheetObject const *so, double *coords);
 
 /* Object Management */
-void    sheet_objects_relocate   (GnmExprRelocateInfo const *rinfo, gboolean update);
+void	sheet_objects_relocate   (GnmExprRelocateInfo const *rinfo, gboolean update,
+				  GnmRelocUndo *undo);
 void    sheet_objects_clear      (Sheet const *sheet, GnmRange const *r, GType t);
 GSList *sheet_objects_get        (Sheet const *sheet, GnmRange const *r, GType t);
 void    sheet_object_clone_sheet (Sheet const *src, Sheet *dst, GnmRange *range);

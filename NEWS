@@ -13,6 +13,7 @@ Andreas:
 Jody:
 	* Pull the file open filters from the openers
 	* Enable ssindex
+	* Undo for objects deleted by pasting a cut region [#159365]
 
 Harald Ashburner:
 	* Update derivatives.gnumeric
