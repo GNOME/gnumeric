@@ -178,7 +178,7 @@ static StyleColor *
 ms_sheet_map_color (ExcelSheet const *esheet, MSObj const *obj, MSObjAttrID id)
 {
 	gushort r, g, b;
-	MSObjAttr *attr = ms_object_attr_bag_lookup (obj->attrs, id);
+	MSObjAttr *attr = ms_obj_attr_bag_lookup (obj->attrs, id);
 
 	if (attr == NULL)
 		return NULL;
@@ -198,13 +198,13 @@ static SheetObject *
 ms_sheet_create_image (MSObj *obj, MSEscherBlip *blip)
 {
 	SheetObject *so;
-	MSObjAttr *crop_left_attr = ms_object_attr_bag_lookup
+	MSObjAttr *crop_left_attr = ms_obj_attr_bag_lookup
 		(obj->attrs, MS_OBJ_ATTR_BLIP_CROP_LEFT);
-	MSObjAttr *crop_top_attr = ms_object_attr_bag_lookup
+	MSObjAttr *crop_top_attr = ms_obj_attr_bag_lookup
 		(obj->attrs, MS_OBJ_ATTR_BLIP_CROP_TOP);
-	MSObjAttr *crop_right_attr = ms_object_attr_bag_lookup
+	MSObjAttr *crop_right_attr = ms_obj_attr_bag_lookup
 		(obj->attrs, MS_OBJ_ATTR_BLIP_CROP_RIGHT);
-	MSObjAttr *crop_bottom_attr = ms_object_attr_bag_lookup
+	MSObjAttr *crop_bottom_attr = ms_obj_attr_bag_lookup
 		(obj->attrs, MS_OBJ_ATTR_BLIP_CROP_BOTTOM);
 	double crop_left_val = 0.0;
 	double crop_top_val = 0.0;
@@ -318,7 +318,7 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 	g_return_val_if_fail (container != NULL, TRUE);
 	esheet = (ExcelSheet *)container;
 
-	anchor = ms_object_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_ANCHOR);
+	anchor = ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_ANCHOR);
 	if (anchor == NULL) {
 		printf ("MISSING anchor for obj %p\n", (void *)obj);
 		return TRUE;
@@ -335,8 +335,8 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 			SO_ANCHOR_PERCENTAGE_FROM_COLROW_START,
 			SO_ANCHOR_PERCENTAGE_FROM_COLROW_START
 		};
-		MSObjAttr *flip_h = ms_object_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_FLIP_H);
-		MSObjAttr *flip_v = ms_object_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_FLIP_V);
+		MSObjAttr *flip_h = ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_FLIP_H);
+		MSObjAttr *flip_v = ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_FLIP_V);
 		SheetObjectDirection direction =
 			((flip_h == NULL) ? SO_DIR_RIGHT : 0) |
 			((flip_v == NULL) ? SO_DIR_DOWN : 0);
@@ -352,15 +352,15 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 		/* can not be done until we have set the sheet */
 		if (obj->excel_type == 0x0B) {
 			sheet_widget_checkbox_set_link (SHEET_OBJECT (obj->gnum_obj),
-				ms_object_attr_get_expr (obj, MS_OBJ_ATTR_CHECKBOX_LINK, NULL));
+				ms_obj_attr_get_expr (obj, MS_OBJ_ATTR_CHECKBOX_LINK, NULL));
 		} else if (obj->excel_type == 0x11) {
 			sheet_widget_scrollbar_set_details (SHEET_OBJECT (obj->gnum_obj),
-				ms_object_attr_get_expr (obj, MS_OBJ_ATTR_SCROLLBAR_LINK, NULL),
+				ms_obj_attr_get_expr (obj, MS_OBJ_ATTR_SCROLLBAR_LINK, NULL),
 				0,
-				ms_object_attr_get_int  (obj, MS_OBJ_ATTR_SCROLLBAR_MIN, 0),
-				ms_object_attr_get_int  (obj, MS_OBJ_ATTR_SCROLLBAR_MAX, 100),
-				ms_object_attr_get_int  (obj, MS_OBJ_ATTR_SCROLLBAR_INC, 1),
-				ms_object_attr_get_int  (obj, MS_OBJ_ATTR_SCROLLBAR_PAGE, 10));
+				ms_obj_attr_get_int  (obj, MS_OBJ_ATTR_SCROLLBAR_MIN, 0),
+				ms_obj_attr_get_int  (obj, MS_OBJ_ATTR_SCROLLBAR_MAX, 100),
+				ms_obj_attr_get_int  (obj, MS_OBJ_ATTR_SCROLLBAR_INC, 1),
+				ms_obj_attr_get_int  (obj, MS_OBJ_ATTR_SCROLLBAR_PAGE, 10));
 		}
 	}
 
@@ -385,7 +385,7 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 	switch (obj->excel_type) {
 	case 0x01: { /* Line */
 		StyleColor *color;
-		MSObjAttr *is_arrow = ms_object_attr_bag_lookup (obj->attrs,
+		MSObjAttr *is_arrow = ms_obj_attr_bag_lookup (obj->attrs,
 			MS_OBJ_ATTR_ARROW_END);
 		so = sheet_object_line_new (is_arrow != NULL); break;
 
@@ -401,7 +401,7 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 		StyleColor *outline_color;
 
 		so = sheet_object_box_new (obj->excel_type == 3);
-		if (ms_object_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_FILLED))
+		if (ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_FILLED))
 			fill_color = ms_sheet_map_color (esheet, obj,
 				MS_OBJ_ATTR_FILL_COLOR);
 		outline_color = ms_sheet_map_color (esheet, obj,
@@ -433,7 +433,7 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 	case 0x07: so = g_object_new (sheet_widget_button_get_type (), NULL);
 		   break;
 	case 0x08: { /* Picture */
-		MSObjAttr *blip_id = ms_object_attr_bag_lookup (obj->attrs,
+		MSObjAttr *blip_id = ms_obj_attr_bag_lookup (obj->attrs,
 			MS_OBJ_ATTR_BLIP_ID);
 
 		if (blip_id != NULL) {
@@ -452,7 +452,7 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 	}
 	case 0x09: so = g_object_new (sheet_object_polygon_get_type (), NULL);
 		   sheet_object_polygon_set_points (SHEET_OBJECT (so),
-			ms_object_attr_get_array (obj, MS_OBJ_ATTR_POLYGON_COORDS, NULL));
+			ms_obj_attr_get_array (obj, MS_OBJ_ATTR_POLYGON_COORDS, NULL));
 		   sheet_object_polygon_fill_color_set (so, 
 			ms_sheet_map_color (esheet, obj, MS_OBJ_ATTR_FILL_COLOR));
 		   sheet_object_polygon_outline_color_set (so, 

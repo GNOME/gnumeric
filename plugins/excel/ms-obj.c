@@ -59,7 +59,7 @@
 #define GR_COMMON_OBJ_DATA    0x15
 
 MSObjAttr *
-ms_object_attr_new_flag (MSObjAttrID id)
+ms_obj_attr_new_flag (MSObjAttrID id)
 {
 	MSObjAttr *res = g_new (MSObjAttr, 1);
 
@@ -70,7 +70,7 @@ ms_object_attr_new_flag (MSObjAttrID id)
 }
 
 MSObjAttr *
-ms_object_attr_new_uint (MSObjAttrID id, guint32 val)
+ms_obj_attr_new_uint (MSObjAttrID id, guint32 val)
 {
 	MSObjAttr *res = g_new (MSObjAttr, 1);
 
@@ -82,7 +82,7 @@ ms_object_attr_new_uint (MSObjAttrID id, guint32 val)
 	return res;
 }
 MSObjAttr *
-ms_object_attr_new_ptr (MSObjAttrID id, gpointer val)
+ms_obj_attr_new_ptr (MSObjAttrID id, gpointer val)
 {
 	MSObjAttr *res = g_new (MSObjAttr, 1);
 
@@ -95,7 +95,7 @@ ms_object_attr_new_ptr (MSObjAttrID id, gpointer val)
 }
 
 MSObjAttr *
-ms_object_attr_new_array (MSObjAttrID id, GArray *array)
+ms_obj_attr_new_array (MSObjAttrID id, GArray *array)
 {
 	MSObjAttr *res = g_new (MSObjAttr, 1);
 
@@ -108,7 +108,7 @@ ms_object_attr_new_array (MSObjAttrID id, GArray *array)
 }
 
 MSObjAttr *
-ms_object_attr_new_expr (MSObjAttrID id, GnmExpr const *expr)
+ms_obj_attr_new_expr (MSObjAttrID id, GnmExpr const *expr)
 {
 	MSObjAttr *res = g_new (MSObjAttr, 1);
 
@@ -121,77 +121,77 @@ ms_object_attr_new_expr (MSObjAttrID id, GnmExpr const *expr)
 }
 
 guint32
-ms_object_attr_get_uint (MSObj *obj, MSObjAttrID id, guint32 default_value)
+ms_obj_attr_get_uint (MSObj *obj, MSObjAttrID id, guint32 default_value)
 {
 	MSObjAttr *attr;
 
 	g_return_val_if_fail (obj != NULL, default_value);
 	g_return_val_if_fail (id & MS_OBJ_ATTR_IS_INT_MASK, default_value);
 
-	attr = ms_object_attr_bag_lookup (obj->attrs, id);
+	attr = ms_obj_attr_bag_lookup (obj->attrs, id);
 	if (attr == NULL)
 		return default_value;
 	return attr->v.v_uint;
 }
 
 gint32
-ms_object_attr_get_int  (MSObj *obj, MSObjAttrID id, gint32 default_value)
+ms_obj_attr_get_int  (MSObj *obj, MSObjAttrID id, gint32 default_value)
 {
 	MSObjAttr *attr;
 
 	g_return_val_if_fail (obj != NULL, default_value);
 	g_return_val_if_fail (id & MS_OBJ_ATTR_IS_INT_MASK, default_value);
 
-	attr = ms_object_attr_bag_lookup (obj->attrs, id);
+	attr = ms_obj_attr_bag_lookup (obj->attrs, id);
 	if (attr == NULL)
 		return default_value;
 	return attr->v.v_int;
 }
 
 gpointer
-ms_object_attr_get_ptr  (MSObj *obj, MSObjAttrID id, gpointer default_value)
+ms_obj_attr_get_ptr  (MSObj *obj, MSObjAttrID id, gpointer default_value)
 {
 	MSObjAttr *attr;
 
 	g_return_val_if_fail (obj != NULL, default_value);
 	g_return_val_if_fail (id & MS_OBJ_ATTR_IS_PTR_MASK, default_value);
 
-	attr = ms_object_attr_bag_lookup (obj->attrs, id);
+	attr = ms_obj_attr_bag_lookup (obj->attrs, id);
 	if (attr == NULL)
 		return default_value;
 	return attr->v.v_ptr;
 }
 
 GArray *
-ms_object_attr_get_array (MSObj *obj, MSObjAttrID id, GArray *default_value)
+ms_obj_attr_get_array (MSObj *obj, MSObjAttrID id, GArray *default_value)
 {
 	MSObjAttr *attr;
 
 	g_return_val_if_fail (obj != NULL, default_value);
 	g_return_val_if_fail (id & MS_OBJ_ATTR_IS_GARRAY_MASK, default_value);
 
-	attr = ms_object_attr_bag_lookup (obj->attrs, id);
+	attr = ms_obj_attr_bag_lookup (obj->attrs, id);
 	if (attr == NULL)
 		return default_value;
 	return attr->v.v_array;
 }
 
 GnmExpr const *
-ms_object_attr_get_expr (MSObj *obj, MSObjAttrID id, GnmExpr const *default_value)
+ms_obj_attr_get_expr (MSObj *obj, MSObjAttrID id, GnmExpr const *default_value)
 {
 	MSObjAttr *attr;
 
 	g_return_val_if_fail (obj != NULL, default_value);
 	g_return_val_if_fail (id & MS_OBJ_ATTR_IS_EXPR_MASK, default_value);
 
-	attr = ms_object_attr_bag_lookup (obj->attrs, id);
+	attr = ms_obj_attr_bag_lookup (obj->attrs, id);
 	if (attr == NULL)
 		return default_value;
 	return attr->v.v_expr;
 }
 
 static void
-ms_object_attr_destroy (MSObjAttr *attr)
+ms_obj_attr_destroy (MSObjAttr *attr)
 {
 	if (attr != NULL) {
 		if ((attr->id & MS_OBJ_ATTR_IS_PTR_MASK) &&
@@ -224,35 +224,35 @@ cb_ms_obj_attr_cmp (gconstpointer a, gconstpointer b)
 }
 
 MSObjAttrBag *
-ms_object_attr_bag_new (void)
+ms_obj_attr_bag_new (void)
 {
 	return g_hash_table_new (cb_ms_obj_attr_hash, cb_ms_obj_attr_cmp);
 }
 
 static void
-cb_ms_object_attr_destroy (gpointer key, gpointer value, gpointer ignored)
+cb_ms_obj_attr_destroy (gpointer key, gpointer value, gpointer ignored)
 {
-	ms_object_attr_destroy (value);
+	ms_obj_attr_destroy (value);
 }
 void
-ms_object_attr_bag_destroy (MSObjAttrBag *attrs)
+ms_obj_attr_bag_destroy (MSObjAttrBag *attrs)
 {
 	if (attrs != NULL) {
-		g_hash_table_foreach (attrs, cb_ms_object_attr_destroy, NULL);
+		g_hash_table_foreach (attrs, cb_ms_obj_attr_destroy, NULL);
 		g_hash_table_destroy (attrs);
 	}
 }
 
 
 void
-ms_object_attr_bag_insert (MSObjAttrBag *attrs, MSObjAttr *attr)
+ms_obj_attr_bag_insert (MSObjAttrBag *attrs, MSObjAttr *attr)
 {
 	g_return_if_fail (!g_hash_table_lookup (attrs, attr));
 	g_hash_table_insert (attrs, attr, attr);
 }
 
 MSObjAttr *
-ms_object_attr_bag_lookup (MSObjAttrBag *attrs, MSObjAttrID id)
+ms_obj_attr_bag_lookup (MSObjAttrBag *attrs, MSObjAttrID id)
 {
 	if (attrs != NULL) {
 		MSObjAttr attr;
@@ -264,6 +264,22 @@ ms_object_attr_bag_lookup (MSObjAttrBag *attrs, MSObjAttrID id)
 
 /********************************************************************************/
 
+MSObj *
+ms_obj_new (MSObjAttrBag *attrs)
+{
+	MSObj *obj = g_new0 (MSObj, 1);
+
+	obj->excel_type = (unsigned)-1; /* Set to undefined */
+	obj->excel_type_name = NULL;
+	obj->id = -1;
+	obj->gnum_obj = NULL;
+	obj->attrs = (attrs != NULL) ? attrs : ms_obj_attr_bag_new ();
+	obj->ignore_combo_in_filter	= FALSE;
+	obj->is_linked			= FALSE;
+
+	return obj;
+}
+
 void
 ms_obj_delete (MSObj *obj)
 {
@@ -273,7 +289,7 @@ ms_obj_delete (MSObj *obj)
 			obj->gnum_obj = NULL;
 		}
 		if (obj->attrs) {
-			ms_object_attr_bag_destroy (obj->attrs);
+			ms_obj_attr_bag_destroy (obj->attrs);
 			obj->attrs = NULL;
 		}
 		g_free (obj);
@@ -393,8 +409,8 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 #endif
 	guint8 *anchor = g_malloc (MS_ANCHOR_SIZE);
 	memcpy (anchor, q->data+8, MS_ANCHOR_SIZE);
-	ms_object_attr_bag_insert (obj->attrs,
-		ms_object_attr_new_ptr (MS_OBJ_ATTR_ANCHOR, anchor));
+	ms_obj_attr_bag_insert (obj->attrs,
+		ms_obj_attr_new_ptr (MS_OBJ_ATTR_ANCHOR, anchor));
 
 	obj->excel_type = GSF_LE_GET_GUINT16(q->data + 4);
 	obj->id         = GSF_LE_GET_GUINT32(q->data + 6);
@@ -402,11 +418,11 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 	switch (obj->excel_type) {
 	case 9:  /* polygon */
 
-		ms_object_attr_bag_insert (obj->attrs,
-			ms_object_attr_new_uint (MS_OBJ_ATTR_FILL_COLOR,
+		ms_obj_attr_bag_insert (obj->attrs,
+			ms_obj_attr_new_uint (MS_OBJ_ATTR_FILL_COLOR,
 				0x80000000 | GSF_LE_GET_GUINT8 (q->data+35)));
-		ms_object_attr_bag_insert (obj->attrs,
-			ms_object_attr_new_uint (MS_OBJ_ATTR_OUTLINE_COLOR,
+		ms_obj_attr_bag_insert (obj->attrs,
+			ms_obj_attr_new_uint (MS_OBJ_ATTR_OUTLINE_COLOR,
 				0x80000000 | GSF_LE_GET_GUINT8 (q->data+38)));
 
 	if (ms_biff_query_peek_next (q, &peek_op) &&
@@ -426,8 +442,8 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 		}
 		g_array_index (array, double, i)   = g_array_index (array, double, 0);
 		g_array_index (array, double, i+1) = g_array_index (array, double, 1);
-		ms_object_attr_bag_insert (obj->attrs,
-			ms_object_attr_new_array (MS_OBJ_ATTR_POLYGON_COORDS, array));
+		ms_obj_attr_bag_insert (obj->attrs,
+			ms_obj_attr_new_array (MS_OBJ_ATTR_POLYGON_COORDS, array));
 	}
 	break;
 
@@ -497,23 +513,24 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 			break;
 
 		case GR_PICTURE_OPTIONS :
-		{
-			guint16 pict_opt;
-			g_return_val_if_fail (len == 2, TRUE);
+			if (len == 2) {
+				guint16 opt = GSF_LE_GET_GUINT16 (data + 4);
 
-			pict_opt = GSF_LE_GET_GUINT16(data+4);
-
+				obj->is_linked = (opt & 0x2) ? TRUE : FALSE;
 #ifndef NO_DEBUG_EXCEL
-			if (ms_excel_object_debug >= 1) {
-				printf ("{ /* PictOpt */\n");
-				printf ("value = %d;\n", pict_opt);
-				printf ("}; /* PictOpt */\n");
-			}
+				if (ms_excel_object_debug >= 1) {
+					printf ("{ /* PictOpt */\n");
+					printf ("value = %x;\n", opt);
+					printf ("}; /* PictOpt */\n");
+				}
 #endif
+			} else {
+				/* no docs on this so be careful */
+				g_warning ("PictOpt record with size other than 2");
+			}
 
 			next_biff_record_maybe_imdata = TRUE;
 			break;
-		}
 
 		case GR_PICTURE_FORMULA :
 			ms_obj_dump (data, len, data_len_left, "PictFormula");
@@ -528,20 +545,20 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 			break;
 
 		case GR_SCROLLBAR : {
-			ms_object_attr_bag_insert (obj->attrs,
-				ms_object_attr_new_uint (MS_OBJ_ATTR_SCROLLBAR_VALUE,
+			ms_obj_attr_bag_insert (obj->attrs,
+				ms_obj_attr_new_uint (MS_OBJ_ATTR_SCROLLBAR_VALUE,
 					GSF_LE_GET_GUINT16 (data+8)));
-			ms_object_attr_bag_insert (obj->attrs,
-				ms_object_attr_new_uint (MS_OBJ_ATTR_SCROLLBAR_MIN,
+			ms_obj_attr_bag_insert (obj->attrs,
+				ms_obj_attr_new_uint (MS_OBJ_ATTR_SCROLLBAR_MIN,
 					GSF_LE_GET_GUINT16 (data+10)));
-			ms_object_attr_bag_insert (obj->attrs,
-				ms_object_attr_new_uint (MS_OBJ_ATTR_SCROLLBAR_MAX,
+			ms_obj_attr_bag_insert (obj->attrs,
+				ms_obj_attr_new_uint (MS_OBJ_ATTR_SCROLLBAR_MAX,
 					GSF_LE_GET_GUINT16 (data+12)));
-			ms_object_attr_bag_insert (obj->attrs,
-				ms_object_attr_new_uint (MS_OBJ_ATTR_SCROLLBAR_INC,
+			ms_obj_attr_bag_insert (obj->attrs,
+				ms_obj_attr_new_uint (MS_OBJ_ATTR_SCROLLBAR_INC,
 					GSF_LE_GET_GUINT16 (data+14)));
-			ms_object_attr_bag_insert (obj->attrs,
-				ms_object_attr_new_uint (MS_OBJ_ATTR_SCROLLBAR_PAGE,
+			ms_obj_attr_bag_insert (obj->attrs,
+				ms_obj_attr_new_uint (MS_OBJ_ATTR_SCROLLBAR_PAGE,
 					GSF_LE_GET_GUINT16 (data+16)));
 			ms_obj_dump (data, len, data_len_left, "ScrollBar");
 			break;
@@ -555,8 +572,8 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 			guint16 const expr_len = GSF_LE_GET_GUINT16 (data+4);
 			GnmExpr const *ref = ms_container_parse_expr (container, data+10, expr_len);
 			if (ref != NULL)
-				ms_object_attr_bag_insert (obj->attrs,
-					ms_object_attr_new_expr (MS_OBJ_ATTR_SCROLLBAR_LINK, ref));
+				ms_obj_attr_bag_insert (obj->attrs,
+					ms_obj_attr_new_expr (MS_OBJ_ATTR_SCROLLBAR_LINK, ref));
 			ms_obj_dump (data, len, data_len_left, "ScrollbarFmla");
 			break;
 		}
@@ -593,8 +610,8 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 			guint16 const expr_len = GSF_LE_GET_GUINT16 (data+4);
 			GnmExpr const *ref = ms_container_parse_expr (container, data+10, expr_len);
 			if (ref != NULL)
-				ms_object_attr_bag_insert (obj->attrs,
-					ms_object_attr_new_expr (MS_OBJ_ATTR_CHECKBOX_LINK, ref));
+				ms_obj_attr_bag_insert (obj->attrs,
+					ms_obj_attr_new_expr (MS_OBJ_ATTR_CHECKBOX_LINK, ref));
 			ms_obj_dump (data, len, data_len_left, "CheckBoxFmla");
 			break;
 		}
@@ -711,7 +728,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
  * @attrs : an OPTIONAL hash of object attributes.
  */
 void
-ms_read_OBJ (BiffQuery *q, MSContainer *container, GHashTable *attrs)
+ms_read_OBJ (BiffQuery *q, MSContainer *container, MSObjAttrBag *attrs)
 {
 	static char const * const object_type_names[] =
 	{
@@ -743,14 +760,7 @@ ms_read_OBJ (BiffQuery *q, MSContainer *container, GHashTable *attrs)
 	};
 
 	gboolean errors;
-	MSObj *obj = g_new0 (MSObj, 1);
-
-	obj->excel_type = (unsigned)-1; /* Set to undefined */
-	obj->excel_type_name = NULL;
-	obj->id = -1;
-	obj->gnum_obj = NULL;
-	obj->attrs = (attrs != NULL) ? attrs : ms_object_attr_bag_new ();
-	obj->ignore_combo_in_filter = FALSE;
+	MSObj *obj = ms_obj_new (attrs);
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_object_debug > 0)

@@ -4,9 +4,9 @@ AC_INIT(gnumeric, 1.1.8,
 	http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric)
 
 AC_CONFIG_SRCDIR(src/sheet.h)
-AM_CONFIG_HEADER(gnumeric-config.h)
 
 AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
+AM_CONFIG_HEADER(gnumeric-config.h)
 
 AM_MAINTAINER_MODE
 
@@ -652,14 +652,13 @@ dnl ====================================
 dnl = End tests for jw
 dnl ====================================
 
-AC_OUTPUT([
+AC_CONFIG_FILES([
 gnumeric.spec
 GNOME_Gnumeric.server.in
 Makefile
 src/Makefile
 icons/Makefile
 idl/Makefile
-src/Makefile
 src/dialogs/Makefile
 src/pixmaps/Makefile
 src/widgets/Makefile
@@ -681,6 +680,7 @@ doc/pt/Makefile
 doc/ru/Makefile
 doc/sk/Makefile
 doc/sv/Makefile
+doc/developer/Makefile
 omf-install/Makefile
 plugins/Makefile
 plugins/numtheory/Makefile
@@ -729,6 +729,7 @@ templates/english/Makefile
 templates/autoformat/Makefile
 stamp.h
 ])
+AC_OUTPUT
 
 
 echo "

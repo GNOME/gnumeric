@@ -70,29 +70,28 @@ typedef struct {
 	} v;
 } MSObjAttr;
 
-MSObjAttr    *ms_object_attr_new_flag    (MSObjAttrID id);
-MSObjAttr    *ms_object_attr_new_uint    (MSObjAttrID id, guint32 val);
-MSObjAttr    *ms_object_attr_new_int     (MSObjAttrID id, gint32 val);
-MSObjAttr    *ms_object_attr_new_ptr     (MSObjAttrID id, gpointer val);
-MSObjAttr    *ms_object_attr_new_array   (MSObjAttrID id, GArray *array);
-MSObjAttr    *ms_object_attr_new_expr    (MSObjAttrID id, GnmExpr const *expr);
+MSObjAttr    *ms_obj_attr_new_flag  (MSObjAttrID id);
+MSObjAttr    *ms_obj_attr_new_uint  (MSObjAttrID id, guint32 val);
+MSObjAttr    *ms_obj_attr_new_int   (MSObjAttrID id, gint32 val);
+MSObjAttr    *ms_obj_attr_new_ptr   (MSObjAttrID id, gpointer val);
+MSObjAttr    *ms_obj_attr_new_array (MSObjAttrID id, GArray *array);
+MSObjAttr    *ms_obj_attr_new_expr  (MSObjAttrID id, GnmExpr const *expr);
 
-guint32   ms_object_attr_get_uint	(MSObj *obj, MSObjAttrID id, guint32 default_value);
-gint32    ms_object_attr_get_int	(MSObj *obj, MSObjAttrID id, gint32 default_value);
-gpointer  ms_object_attr_get_ptr	(MSObj *obj, MSObjAttrID id, gpointer default_value);
-GArray   *ms_object_attr_get_array	(MSObj *obj, MSObjAttrID id, GArray *default_value);
-GnmExpr const *ms_object_attr_get_expr	(MSObj *obj, MSObjAttrID id, GnmExpr const *default_value);
+guint32   ms_obj_attr_get_uint	    (MSObj *obj, MSObjAttrID id, guint32 default_value);
+gint32    ms_obj_attr_get_int	    (MSObj *obj, MSObjAttrID id, gint32 default_value);
+gpointer  ms_obj_attr_get_ptr	    (MSObj *obj, MSObjAttrID id, gpointer default_value);
+GArray   *ms_obj_attr_get_array	    (MSObj *obj, MSObjAttrID id, GArray *default_value);
+GnmExpr const *ms_obj_attr_get_expr (MSObj *obj, MSObjAttrID id, GnmExpr const *default_value);
 
 typedef GHashTable MSObjAttrBag;
-MSObjAttrBag *ms_object_attr_bag_new     (void);
-void          ms_object_attr_bag_destroy (MSObjAttrBag *attrs);
-void	      ms_object_attr_bag_insert  (MSObjAttrBag *attrs,
-					  MSObjAttr *attr);
-MSObjAttr    *ms_object_attr_bag_lookup  (MSObjAttrBag *attrs,
-					  MSObjAttrID id);
+MSObjAttrBag *ms_obj_attr_bag_new     (void);
+void          ms_obj_attr_bag_destroy (MSObjAttrBag *attrs);
+void	      ms_obj_attr_bag_insert  (MSObjAttrBag *attrs,
+				       MSObjAttr *attr);
+MSObjAttr    *ms_obj_attr_bag_lookup  (MSObjAttrBag *attrs,
+				       MSObjAttrID id);
 
-struct _MSObj
-{
+struct _MSObj {
 	int id;
 
 	/* Type specific parameters */
@@ -100,12 +99,13 @@ struct _MSObj
 	int		 excel_type;
 	char const	*excel_type_name;
 
-	gboolean	 ignore_combo_in_filter;
+	gboolean	 ignore_combo_in_filter : 1;
+	gboolean	 is_linked : 1;
 	GHashTable	*attrs;
 };
 
 void  ms_read_OBJ   (BiffQuery *q, MSContainer *container,
-		     GHashTable *attrs);
+		     MSObjAttrBag *attrs);
 void  ms_obj_delete (MSObj *obj);
 char *ms_read_TXO   (BiffQuery *q);
 

@@ -89,7 +89,7 @@ static void
 ms_escher_header_release (MSEscherHeader *h)
 {
 	if (h->attrs != NULL) {
-		ms_object_attr_bag_destroy (h->attrs);
+		ms_obj_attr_bag_destroy (h->attrs);
 		h->attrs = NULL;
 	}
 }
@@ -98,8 +98,8 @@ static void
 ms_escher_header_add_attr (MSEscherHeader *h, MSObjAttr *attr)
 {
 	if (h->attrs == NULL)
-		h->attrs = ms_object_attr_bag_new ();
-	ms_object_attr_bag_insert (h->attrs, attr);
+		h->attrs = ms_obj_attr_bag_new ();
+	ms_obj_attr_bag_insert (h->attrs, attr);
 }
 
 static MSEscherBlip *
@@ -655,10 +655,10 @@ ms_escher_read_Sp (MSEscherState * state, MSEscherHeader * h)
 			       ););
 		if (flags & 0x40)
 			ms_escher_header_add_attr (h,
-				ms_object_attr_new_flag (MS_OBJ_ATTR_FLIP_H));
+				ms_obj_attr_new_flag (MS_OBJ_ATTR_FLIP_H));
 		if (flags & 0x80)
 			ms_escher_header_add_attr (h,
-				ms_object_attr_new_flag (MS_OBJ_ATTR_FLIP_V));
+				ms_obj_attr_new_flag (MS_OBJ_ATTR_FLIP_V));
 	} else
 		return TRUE;
 
@@ -706,7 +706,7 @@ ms_escher_read_ClientAnchor (MSEscherState *state, MSEscherHeader *h)
 		memcpy (anchor, data, MS_ANCHOR_SIZE);
 
 		ms_escher_header_add_attr (h,
-			ms_object_attr_new_ptr (MS_OBJ_ATTR_ANCHOR,
+			ms_obj_attr_new_ptr (MS_OBJ_ATTR_ANCHOR,
 						anchor));
 
 		if (needs_free)
@@ -1730,10 +1730,10 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 
 		if (id & MS_OBJ_ATTR_IS_INT_MASK)
 			ms_escher_header_add_attr (h,
-				ms_object_attr_new_uint (id, val));
+				ms_obj_attr_new_uint (id, val));
 		else if (id != MS_OBJ_ATTR_NONE)
 			ms_escher_header_add_attr (h,
-				ms_object_attr_new_flag (id));
+				ms_obj_attr_new_flag (id));
 	}
 	if (needs_free)
 		g_free ((guint8 *)data);

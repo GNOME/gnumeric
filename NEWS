@@ -12,6 +12,9 @@ Jody:
 	  Includes some format transfer and uses the wordperfect
 	  charset map from kword (thanks to Ariya Hidayat)
 	* Cull out a pile of special iconv code in favour of glib
+	* Fix documentation installtion to match libgnome's expectations
+	* locale -> utf8 conversion for lotus wk1 importer
+	* support for BITAND and BITOR in lotus wk1 importer
 
 Jukka:
 	* Solver improvements:
