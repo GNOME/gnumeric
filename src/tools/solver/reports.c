@@ -10,6 +10,7 @@
 #include "gnumeric.h"
 #include "numbers.h"
 
+#include "format.h"
 #include "parse-util.h"
 #include "solver.h"
 #include "func.h"
@@ -506,6 +507,7 @@ solver_program_report (WorkbookControl *wbc,
         data_analysis_output_t dao;
 	int                    i, mat_size, zeros;
 	struct                 utsname unamedata;
+	Value                  *v;
 
 	dao.type = NewSheetOutput;
         prepare_output (wbc, &dao, _("Program Report"));
@@ -562,8 +564,9 @@ solver_program_report (WorkbookControl *wbc,
 	set_cell_value (&dao, 2, 12, value_new_float (mat_size));
 
 	/* Set the `Ratio of Matrix Elements'. */
-	set_cell_value (&dao, 2, 13, value_new_float (1));
-
+	v = value_new_float (1);
+	value_set_fmt (v, style_format_default_percentage ());
+	set_cell_value (&dao, 2, 13, v);
 
 	/* Set the `Nbr of Non-zeros (constr.)'. */
 	set_cell_value (&dao, 3, 12, value_new_float (res->n_nonzeros_in_mat));
@@ -573,13 +576,14 @@ solver_program_report (WorkbookControl *wbc,
 	set_cell_value (&dao, 4, 12, value_new_float (zeros));
 
 	/* Set the `Ratio of Non-zeros (constr.)'. */
-	set_cell_value (&dao, 3, 13, 
-			value_new_float ((gnum_float) res->n_nonzeros_in_mat /
-					 mat_size));
+	v = value_new_float ((gnum_float) res->n_nonzeros_in_mat / mat_size);
+	value_set_fmt (v, style_format_default_percentage ());
+	set_cell_value (&dao, 3, 13, v);
 
 	/* Set the `Ratio of Zeros (constr.)'. */
-	set_cell_value (&dao, 4, 13, 
-			value_new_float ((gnum_float) zeros / mat_size));
+	v = value_new_float ((gnum_float) zeros / mat_size);
+	value_set_fmt (v, style_format_default_percentage ());
+	set_cell_value (&dao, 4, 13, v);
 
 
 	/* Set the `Nbr of Non-zeros (obj. fn)'. */
@@ -590,14 +594,15 @@ solver_program_report (WorkbookControl *wbc,
 	set_cell_value (&dao, 6, 12, value_new_float (zeros));
 
 	/* Set the `Ratio of Non-zeros (obj. fn)'. */
-	set_cell_value (&dao, 5, 13, 
-			value_new_float ((gnum_float) res->n_nonzeros_in_obj /
-					 res->param->n_variables));
-
+	v = value_new_float ((gnum_float) res->n_nonzeros_in_obj /
+			     res->param->n_variables);
+	value_set_fmt (v, style_format_default_percentage ());
+	set_cell_value (&dao, 5, 13, v);
+			
 	/* Set the `Ratio of Zeros (obj. fn)'. */
-	set_cell_value (&dao, 6, 13, 
-			value_new_float ((gnum_float) zeros / 
-					 res->param->n_variables));
+	v = value_new_float ((gnum_float) zeros / res->param->n_variables);
+	value_set_fmt (v, style_format_default_percentage ());
+	set_cell_value (&dao, 6, 13, v);
 
 
 	/*
@@ -680,9 +685,9 @@ solver_lp_reports (WorkbookControl *wbc, Sheet *sheet, SolverResults *res,
 {
         if (answer)
 	        solver_answer_report (wbc, sheet, res);
-	if (sensitivity)
+	if (sensitivity && ! res->ilp_flag)
 	        solver_sensitivity_report (wbc, sheet, res);
-	if (limits)
+	if (limits && ! res->ilp_flag)
 	        solver_limits_report (wbc, sheet, res);
 	if (program)
 	        solver_program_report (wbc, sheet, res);

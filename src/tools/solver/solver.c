@@ -99,6 +99,7 @@ solver_results_init (const SolverParameters *sp)
 	res->time_user         = 0;
 	res->time_system       = 0;
 	res->time_real         = 0;
+	res->ilp_flag          = FALSE;
 
 	return res;
 }
@@ -219,7 +220,8 @@ save_original_values (SolverResults          *res,
  */
 
 static void
-callback (int iter, gnum_float *x, gnum_float bv, gnum_float cx, int n, void *data)
+callback (int iter, gnum_float *x, gnum_float bv, gnum_float cx, int n,
+	  void *data)
 {
         int     i;
 
@@ -271,6 +273,7 @@ lp_solver_init (Sheet *sheet, const SolverParameters *param, SolverResults *res)
 		if (c->type == SolverINT) {
 		        lp_algorithm[param->options.algorithm].
 			        set_int_fn (program, i+1, TRUE);
+			res->ilp_flag = TRUE;
 		        continue;
 		}
 		for (n = 0; n < param->n_variables; n++) {
@@ -280,7 +283,6 @@ lp_solver_init (Sheet *sheet, const SolverParameters *param, SolverResults *res)
 			        res->n_nonzeros_in_mat += 1;
 				lp_algorithm[param->options.algorithm].
 				        set_constr_mat_fn (program, n, i, x);
-				//set_mat (program, i + 1, n + 1, x);
 			}
 		}
 		target = sheet_cell_get (sheet, c->rhs.col, c->rhs.row);
@@ -460,6 +462,7 @@ solver (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg)
 	SolverResults    *res;
 	Cell             *cell;
 	int               i;
+	GTimeVal         start, end;
 
 	if (check_program_definition_failures (sheet, param, errmsg))
 	        return NULL;
@@ -469,23 +472,31 @@ solver (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg)
 
 	program              = lp_solver_init (sheet, param, res);
 
+	g_get_current_time (&start);
         res->status          = lp_algorithm[param->options.algorithm]
 	        .solve_fn (program);
+	g_get_current_time (&end);
+	res->time_real = end.tv_sec - start.tv_sec
+	        + (end.tv_usec - start.tv_usec) / 1000000.0;
 
-	res->value_of_obj_fn = lp_algorithm[param->options.algorithm]
-	        .get_obj_fn_value_fn (program);
-	for (i = 0; i < param->n_variables; i++) {
-	        res->optimal_values[i] = lp_algorithm[param->options.algorithm]
-		        .get_obj_fn_var_fn (program, i + 1);
-		cell = param->input_cells_array[i];
-		sheet_cell_set_value (cell, 
-				      value_new_float(res->optimal_values[i]));
-	}
+	if (res->status == SOLVER_LP_OPTIMAL) {
+	        res->value_of_obj_fn = lp_algorithm[param->options.algorithm]
+		        .get_obj_fn_value_fn (program);
+		for (i = 0; i < param->n_variables; i++) {
+		        res->optimal_values[i] =
+			        lp_algorithm[param->options.algorithm]
+			                 .get_obj_fn_var_fn (program, i + 1);
+			cell = param->input_cells_array[i];
+			sheet_cell_set_value (cell, value_new_float
+					      (res->optimal_values[i]));
+		}
 
-	for (i = 0; i < param->n_constraints + param->n_int_bool_constraints;
-	     i++) {
-	        res->shadow_prizes[i] = lp_algorithm[param->options.algorithm]
-		        .get_shadow_prize_fn (program, i);
+		for (i = 0; i < param->n_constraints
+		       + param->n_int_bool_constraints; i++) {
+		        res->shadow_prizes[i] =
+			        lp_algorithm[param->options.algorithm]
+			                .get_shadow_prize_fn (program, i);
+		}
 	}
 
 	res->param = sheet->solver_parameters;

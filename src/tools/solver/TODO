@@ -1,0 +1,65 @@
+Here is a task list for making the solver really cool
+=====================================================
+
+Regarding LP & ILP:
+===================
+
+Critical bugs:
+  * if the program is infeasible report it as such
+  * if the program is unbounded report it as such
+  * answer report: status & slacks are sometimes wrong
+  * fix all memory leaks
+  * fix INT constraints order problem
+  * check that if all input vars are =0 that the result is 0 or add a constant
+
+Usability fixes:
+  * report generation checkbuttons should be persistent
+  * add keep original values dialog
+  * check that the program is properly defined (e.g. no #DIV0, #NUM!, ...)
+
+Feature enhancements:
+  * fix assume non-negative being off
+  * implement bool constraints
+  * sensitivity report: fix reduced gradient
+  * sensitivity report: fix lagrange multipliers
+  * limits report: fix the limit reporting
+  * program report: fix CPU info
+  * get_lp_coeff: test that it's really LP
+  * make the solver as a separate thread so that the user can continue working
+    while the solver is solving the program
+    - start a status dialog after a few hunderd msec if the solver is still
+      counting
+    - add a callback function into the solve fn for interacting with the
+      status dialog
+    - program report: fix user & system time reporting (need a separate thread)
+  * generate a report that gives the program in math form
+  * generate a report that gives the dual of the program in math form
+  * add option support for the solving algorithm
+    - max iterations
+    - max time
+    - scaling
+  * add more algorithms
+    - add a list selection dialog for algorithms into the main dialog
+    - try to integrate SLATEC SPLP to see how it performs
+    - find or implement more algorithms: e.g. some interior point method
+      algorithms would be cool
+  * fix all problems regarding MPS import plugin
+  * add MPS export
+
+Misc:
+  * add example programs into samples/solver
+    - infeasible
+    - unbounded
+    - ILP
+  * update the user documentation
+  * document the LP solving API
+  * lpkit: the column numbering should start from 0
+  * lpkit: remove/#if0 obsolete code
+  * lpkit: fix the name space bloat
+
+
+Regarding NLP:
+==============
+
+* implement support for QP (quadratic programming)
+* implement support for general NLP

@@ -1,3 +1,15 @@
+2002-03-08  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* reports.c (solver_lp_reports): Do not generate sensitivity and
+	limits reports if the problem is MILP or ILP.
+
+	* solver.c (solver): Fetch the results only if the solver found a
+	proper sollution.
+	(solver): Measure the real time elapsed by the solving stage.
+
+	* reports.c (solver_program_report): Made the format of the ratios
+	to be percentages.
+
 2002-03-07  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* solver.c (lp_solver_init): Made to use API calls instead of
