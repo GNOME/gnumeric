@@ -1,5 +1,8 @@
 Gnumeric 1.1.9
 
+Christian Neumair:
+	* Made most dialogs HIG compliant.
+
 Jody:
 	* start enabling the graph guru.
 	* Begin to re-enable xls document metadata
@@ -21,6 +24,7 @@ Jody:
 
 Morten:
 	* Leak plugging.
+	* Leak plugging in support libraries.
 	* Speeding up a few string value constructions.
 	* Really make autocorrect utf8 safe.
 
