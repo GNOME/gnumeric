@@ -663,17 +663,16 @@
 
 	<separator/>
 
-	<toolitem name="IncreaseIndent"
-	    pixtype="stock" pixname="Text Indent"
-	    _label="Increase Indent"
-	    _tip="Aligns the contents to the left and increases the indent"
-	    verb="FormatIncreaseIndent"/>
-
 	<toolitem name="DecreasePrecision"
 	    pixtype="stock" pixname="Text Unindent"
 	    _label="Decrease Indent"
 	    _tip="Aligns the contents to the left and decreases the indent"
 	    verb="FormatDecreaseIndent"/>
+	<toolitem name="IncreaseIndent"
+	    pixtype="stock" pixname="Text Indent"
+	    _label="Increase Indent"
+	    _tip="Aligns the contents to the left and increases the indent"
+	    verb="FormatIncreaseIndent"/>
 
 	<separator/>
 

@@ -386,11 +386,45 @@ cb_format_remove_decimals (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 static void
 cb_format_inc_indent (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 {
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	Sheet *sheet = wb_control_cur_sheet (wbc);
+	WorkbookView const *wbv;
+	int i;
+
+	wbv = wb_control_view (wbc);
+	g_return_if_fail (wbv != NULL);
+	g_return_if_fail (wbv->current_format != NULL);
+
+	i = mstyle_get_indent (wbv->current_format);
+	if (i < 20) {
+		MStyle *style = mstyle_new ();
+
+		if (HALIGN_LEFT != mstyle_get_align_h (wbv->current_format))
+			mstyle_set_align_h (style, HALIGN_LEFT);
+		mstyle_set_indent (style, i+1);
+		cmd_format (wbc, sheet, style, NULL);
+	}
 }
 
 static void
 cb_format_dec_indent (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 {
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	Sheet *sheet = wb_control_cur_sheet (wbc);
+	WorkbookView const *wbv;
+	int i;
+
+	wbv = wb_control_view (wbc);
+	g_return_if_fail (wbv != NULL);
+	g_return_if_fail (wbv->current_format != NULL);
+
+	i = mstyle_get_indent (wbv->current_format);
+	if (i > 0) {
+		MStyle *style = mstyle_new ();
+
+		mstyle_set_indent (style, i-1);
+		cmd_format (wbc, sheet, style, NULL);
+	}
 }
 
 #ifndef ENABLE_BONOBO
@@ -469,11 +503,11 @@ static GnomeUIInfo workbook_format_toolbar [] = {
 	GNOMEUIINFO_SEPARATOR,
 
 	GNOMEUIINFO_ITEM_STOCK (
-		N_("Increase Indent"), N_("Aligns the contents to the left and increases the indent"),
-		cb_format_inc_indent, GNOME_STOCK_PIXMAP_TEXT_INDENT),
-	GNOMEUIINFO_ITEM_STOCK (
 		N_("Decrease Indent"), N_("Aligns the contents to the left and decreases the indent"),
 		cb_format_dec_indent, GNOME_STOCK_PIXMAP_TEXT_UNINDENT),
+	GNOMEUIINFO_ITEM_STOCK (
+		N_("Increase Indent"), N_("Aligns the contents to the left and increases the indent"),
+		cb_format_inc_indent, GNOME_STOCK_PIXMAP_TEXT_INDENT),
 
 	GNOMEUIINFO_SEPARATOR,
 

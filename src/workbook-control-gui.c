@@ -3168,7 +3168,7 @@ show_gui (WorkbookControlGUI *wbcg)
 	gtk_widget_show_all (GTK_WIDGET (wbcg->toplevel));
 
 	/* rehide headers if necessary */
-	if (wb_control_cur_sheet (wbcg))
+	if (wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)))
 		scg_adjust_preferences (wb_control_gui_cur_sheet (wbcg));
 
 	return FALSE;

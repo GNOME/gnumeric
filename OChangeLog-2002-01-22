@@ -1,5 +1,10 @@
 2001-02-19  Jody Goldberg <jgoldberg@home.com>
 
+	* src/workbook-control-gui.c (show_gui) : kill warning.
+
+	* src/workbook-format-toolbar.c (cb_format_dec_indent) : implement.
+	(cb_format_inc_indent) : ditto.
+
 	* src/gnumeric.xml : Move the toggle specs into commands.
 
 	* src/workbook-control-gui.c (toggle_util) : new func.
