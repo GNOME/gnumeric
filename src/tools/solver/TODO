@@ -1,23 +1,32 @@
-Here is a task list for making the solver really cool
-=====================================================
-
 Regarding LP & ILP:
 ===================
 
 Critical bugs:
+  * fix crash: INT constraints support
+  * fix crash: MPS import when a model has already defined
+  * fix crash: if ("target cell" -> NULL) && ("input cells" -> NULL) then crach
+  * fix bug: check that target cell contains a formula
+  * fix bug: check that constraint LHS contains a number value
+  * fix bug: check that constraint RHS is a number value
+  * fix bug: solver parameters when the sheet is duplicated
   * check that the program is properly defined (e.g. no #DIV0, #NUM!, ...)
-    - a badly formulated program may crash the spreadsheet
-  * fix all memory leaks
+    - a badly formulated program may still crash the spreadsheet
 
 Usability fixes:
   * add `keep original values dialog'
    - fix the saving of these values twice
   * get_lp_coeff: test that it's really LP
+  * add a status dialog for reporting while Solver is computing
+   - add abort button into it
+  * computing performance improvements:
+    - make the getting of LP coefficents faster
+    - the limits reporting slows things
 
 Feature enhancements:
   * fix assume non-negative being off
   * implement bool constraints
-  * add algorithm options:
+  * add options:
+    - algorithm selection
     - max iterations
     - max time
     - scaling
@@ -28,6 +37,8 @@ Feature enhancements:
     - fix constraints: allowable increase
     - fix constraints: allowable decrease
   * performance report:
+    - fix the titles of the data sparsity (make two line titles)
+    - fix OS to be bold
     - add the name of the algorithm
     - add options used
     - fix user & system time reporting
@@ -39,19 +50,8 @@ Feature enhancements:
     - implement RANGES support
     - clean up
   * add more algorithms
-    - add a list selection dialog for algorithms into the main dialog
-    - try to integrate GLPK and SLATEC SPLP to see how they perform
-    - find or implement more algorithms: e.g. some interior point method
-      algorithms would be cool
-  * make the solver as a separate thread so that the user can continue working
-    while the solver is solving the program
-    - start a status dialog after a few hunderd msec if the solver is still
-      counting
-    - add a callback function into the solve fn for interacting with the
-      status dialog
-  * computing performance improvements:
-    - make the getting of LP coefficents faster
-    - the limits reporting slows things
+    - finish the GLPK support; add confugure checking for it
+    - add support for algorithm specific options
 
 Misc:
   * add example programs into samples/solver
@@ -59,12 +59,15 @@ Misc:
     - unbounded
     - ILP
   * update the user documentation
+    - update the figures
+    - write sensitivity report section
+    - improve ILP section
   * fix XL import and export of the solver parameters
   * lpkit: remove/#if0 obsolete code
 
 
-Regarding NLP:
-==============
+Regarding QP:
+=============
 
 * implement support for QP (quadratic programming)
   - support for fetching the QP obj. fn
@@ -72,4 +75,8 @@ Regarding NLP:
   - QP solver algorithms
   - QP results reporting
   - QP extensions for the MPS plugin
+
+Regarding NLP:
+==============
+
 * implement support for general NLP
