@@ -1075,7 +1075,10 @@ format_value (StyleFormat *format, Value *value, StyleColor **color)
 	case VALUE_FLOAT:
 		if (is_general)
 			entry.format = "0.##";
-		v = format_number (value->v.v_float, &entry);
+		if (finite (value->v.v_float))
+			v = format_number (value->v.v_float, &entry);
+		else
+			return g_strdup ("#VAL");
 		break;
 		
 	case VALUE_INTEGER:

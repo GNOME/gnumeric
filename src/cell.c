@@ -206,7 +206,7 @@ cell_render_value (Cell *cell)
 		style_color_unref (cell->render_color);
 		cell->render_color = NULL;
 	}
-	
+
 	str = format_value (cell->style->format, cell->value, &color);
 	cell->render_color = color;
 	

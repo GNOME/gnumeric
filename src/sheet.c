@@ -188,7 +188,6 @@ sheet_set_zoom_factor (Sheet *sheet, double factor)
 
 	sheet_foreach_col (sheet, sheet_compute_col_row_new_size, NULL);
 	sheet_foreach_row (sheet, sheet_compute_col_row_new_size, NULL);
-	g_warning ("Need to recompute string lenghts of cells\n");
 	
 	for (l = sheet->sheet_views; l; l = l->next){
 		SheetView *sheet_view = l->data;
