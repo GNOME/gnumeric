@@ -7,11 +7,6 @@ change_logs = ChangeLog \
 	OChangeLog-2000-02-23 OChangeLog-2000-10-10  \
 	OChangeLog-2001-06-26
 
-confexecdir=$(libdir)
-confexec_DATA = gnumericConf.sh
-
-CLEANFILES=gnumericConf.sh
-
 appicondir = $(datadir)/pixmaps
 appicon_DATA = gnome-gnumeric.png \
                gnome-application-x-gnumeric.png \
@@ -36,7 +31,7 @@ oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
 oaf_in_files = GNOME_Gnumeric.oaf.in
 
 EXTRA_DIST = \
-	gnumeric.desktop.in gnumeric.spec.in gnumericConf.sh.in		\
+	gnumeric.desktop.in gnumeric.spec.in 				\
 	gnumeric.keys.in gnumeric.mime $(appicon_DATA) 			\
 	gnumeric.xsd							\
 	README HACKING NEWS BEVERAGES BUGS MAINTAINERS AUTHORS $(change_logs)	\
@@ -50,26 +45,6 @@ gnumeric_version="$(VERSION)-bonobo"
 else
 gnumeric_version="$(VERSION)"
 endif
-
-## Cloned from gnome-print
-##
-## We create printConf.sh here and not from configure because we want
-## to get the paths expanded correctly.  Macros like srcdir are given
-## the value NONE in configure if the user doesn't specify them (this
-## is an autoconf feature, not a bug).
-
-gnumericConf.sh: gnumericConf.sh.in Makefile
-## Use sed and then mv to avoid problems if the user interrupts.
-	sed -e 's?\@gnumeric_prefix\@?$(prefix)?g' \
-	    -e 's?\@gnumeric_exec_prefix\@?$(exec_prefix)?g' \
-	    -e 's?\@gnumeric_version\@?$(gnumeric_version)?g' \
-	    -e 's?\@gnumeric_datadir\@?$(gnumeric_datadir)?g' \
-	    -e 's?\@gnumeric_libdir\@?$(gnumeric_libdir)?g' \
-	    -e 's?\@gnumeric_plugindir\@?$(gnumeric_plugindir)?g' \
-	    -e 's?\@gnumeric_gladedir\@?$(gnumeric_gladedir)?g' \
-	    -e 's?\@gnumeric_bonobo_enabled\@?$(gnumeric_bonobo_enabled)?g' \
-	      < $(srcdir)/gnumericConf.sh.in > gnumericConf.tmp \
-	  && mv gnumericConf.tmp gnumericConf.sh
 
 gnumeric.keys: gnumeric.keys.in Makefile
 	sed -e 's^\@icondir\@^$(appicondir)^g' < $(srcdir)/gnumeric.keys.in > gnumeric.keys.tmp \
