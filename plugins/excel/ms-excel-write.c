@@ -3418,23 +3418,22 @@ excel_write_SCL (ExcelWriteSheet *esheet)
 }
 
 static void
-excel_write_SELECTION (BiffPut *bp, ExcelWriteSheet *esheet)
+excel_write_SELECTION (BiffPut *bp, GList *selections,
+		       GnmCellPos const *pos, int pane)
 {
-	SheetView const *sv = sheet_get_view (esheet->gnum_sheet,
-		esheet->ewb->gnum_wb_view);
-	int n = g_list_length (sv->selections);
+	int n = g_list_length (selections);
 	GList *ptr;
 	guint8 *data;
 
 	data = ms_biff_put_len_next (bp, BIFF_SELECTION, 9 + 6*n);
-	GSF_LE_SET_GUINT8  (data +  0, 3); /* no split == pane 3 ? */
-	GSF_LE_SET_GUINT16 (data +  1, sv->edit_pos.row);
-	GSF_LE_SET_GUINT16 (data +  3, sv->edit_pos.col);
+	GSF_LE_SET_GUINT8  (data +  0, pane); /* no split == pane 3 ? */
+	GSF_LE_SET_GUINT16 (data +  1, pos->row);
+	GSF_LE_SET_GUINT16 (data +  3, pos->col);
 	GSF_LE_SET_GUINT16 (data +  5, 0); /* our edit_pos is in 1st range */
 	GSF_LE_SET_GUINT16 (data +  7, n);
 
 	data += 9;
-	for (ptr = sv->selections ; ptr != NULL ; ptr = ptr->next, data += 6) {
+	for (ptr = selections ; ptr != NULL ; ptr = ptr->next, data += 6) {
 		GnmRange const *r = ptr->data;
 		GSF_LE_SET_GUINT16 (data + 0, r->start.row);
 		GSF_LE_SET_GUINT16 (data + 2, r->end.row);
@@ -3442,6 +3441,43 @@ excel_write_SELECTION (BiffPut *bp, ExcelWriteSheet *esheet)
 		GSF_LE_SET_GUINT8  (data + 5, r->end.col);
 	}
 	ms_biff_put_commit (bp);
+}
+static void
+excel_write_selections (BiffPut *bp, ExcelWriteSheet *esheet)
+{
+	GnmRange  r;
+	GnmCellPos pos;
+	GList *tmp;
+	SheetView const *sv = sheet_get_view (esheet->gnum_sheet,
+		esheet->ewb->gnum_wb_view);
+
+	excel_write_SELECTION (bp, sv->selections, &sv->edit_pos, 3);
+
+	if (sv->unfrozen_top_left.col >= 0) {
+		pos = sv->edit_pos;
+		if (pos.col < sv->unfrozen_top_left.col)
+			pos.col = sv->unfrozen_top_left.col;
+		tmp = g_list_prepend (NULL, 
+			      range_init_cellpos (&r, &pos, &pos));
+		excel_write_SELECTION (bp, tmp, &pos, 1);
+		g_list_free (tmp);
+	}
+	if (sv->unfrozen_top_left.row >= 0) {
+		pos = sv->edit_pos;
+		if (pos.row < sv->unfrozen_top_left.row)
+			pos.row = sv->unfrozen_top_left.row;
+		tmp = g_list_prepend (NULL, 
+			      range_init_cellpos (&r, &pos, &pos));
+		excel_write_SELECTION (bp, tmp, &pos, 2);
+		g_list_free (tmp);
+	}
+	if (sv_is_frozen (sv)) {
+		pos = sv->edit_pos;	/* apparently no bounds check needed */
+		tmp = g_list_prepend (NULL, 
+			      range_init_cellpos (&r, &pos, &pos));
+		excel_write_SELECTION (bp, tmp, &pos, 0);
+		g_list_free (tmp);
+	}
 }
 
 /* See: S59DDB.HTM */
@@ -3711,7 +3747,7 @@ excel_write_sheet (ExcelWriteState *ewb, ExcelWriteSheet *esheet)
 		excel_write_PANE (ewb->bp, esheet);
 
 	excel_write_SCL (esheet);
-	excel_write_SELECTION (ewb->bp, esheet);
+	excel_write_selections (ewb->bp, esheet);
 
 	/* These are actually specific to >= biff8
 	 * but it can't hurt to have them here

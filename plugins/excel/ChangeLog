@@ -1,3 +1,13 @@
+2004-01-05  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=130577
+	* ms-excel-write.c (excel_write_SELECTION) : generalize a bit.
+	(excel_write_selections) : new wrapper to handle selectins for each pane
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=130579
+	* ms-excel-read.c (excel_read_SELECTION) : we only care about
+	  selections in the primary pane.
+
 2003-12-28  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.2.4

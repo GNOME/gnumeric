@@ -38,6 +38,7 @@
 #include <sheet-object-graphic.h>
 
 #include <gsf/gsf-utils.h>
+#include <stdio.h>
 
 #define GR_END                0x00
 #define GR_MACRO              0x04
