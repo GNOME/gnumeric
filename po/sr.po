@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.1.90\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-13 05:55+0200\n"
-"PO-Revision-Date: 2003-09-13 05:54+0200\n"
+"POT-Creation-Date: 2003-09-14 05:49+0200\n"
+"PO-Revision-Date: 2003-09-14 06:19+0200\n"
 "Last-Translator: Слободан Средојевић <ssl@uns.ns.ac.yu>\n"
 "Language-Team: Serbian (sr) <serbiangnome-lista@nongnu.org>\n"
 "MIME-Version: 1.0\n"
@@ -2831,7 +2831,7 @@ msgstr "датум1,датум2,интервал"
 #: plugins/fn-date/functions.c:1281 plugins/fn-date/functions.c:1285
 #: plugins/fn-date/functions.c:1293 plugins/fn-date/functions.c:1297
 #: plugins/fn-date/functions.c:1310 plugins/fn-date/functions.c:1314
-#: src/print-info.c:545
+#: src/print-info.c:568
 msgid "date"
 msgstr "датум"
 
@@ -2848,7 +2848,7 @@ msgid "start_date,months"
 msgstr "почетни_датум,месеци"
 
 #: plugins/fn-date/functions.c:1245 plugins/fn-date/functions.c:1249
-#: plugins/fn-date/functions.c:1265 src/print-info.c:546
+#: plugins/fn-date/functions.c:1265 src/print-info.c:569
 msgid "time"
 msgstr "време"
 
@@ -4896,7 +4896,7 @@ msgstr "%s верзија %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1308
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:393
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:462
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:109
 #: src/dialogs/dialog-cell-format.c:2265 src/dialogs/dialog-cell-format.c:2270
 #: src/dialogs/dialog-cell-format.c:2280 src/workbook-format-toolbar.c:836
@@ -10859,7 +10859,8 @@ msgstr "Грешка приликом отварања xbase датотеке."
 
 #: plugins/xbase/boot.c:175 src/commands.c:4547
 #: src/dialogs/dialog-goto-cell.c:284 src/dialogs/dialog-search.c:391
-#: src/dialogs/print.glade.h:21 src/workbook.c:1041 src/xml-io.c:3585
+#: src/dialogs/print.glade.h:21 src/print-info.c:477 src/workbook.c:1041
+#: src/xml-io.c:3585
 msgid "Sheet"
 msgstr "Табела"
 
@@ -11824,7 +11825,7 @@ msgid "Filter data with given criteria"
 msgstr "Филтрирај податке са задатим критеријумом"
 
 #: src/GNOME_Gnumeric.xml.h:97
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:843
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:858
 #: src/dialogs/cell-format.glade.h:43 src/dialogs/dialog-preferences.c:1395
 #: src/workbook-format-toolbar.c:411
 msgid "Font"
@@ -12019,7 +12020,7 @@ msgid "Jump to a specified cell"
 msgstr "Скочи до одређеног поља"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:437
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:506
 #: src/sheet-object-graphic.c:1440 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Ознака"
@@ -13550,28 +13551,28 @@ msgstr "Сп_оља"
 msgid "_Show Labels"
 msgstr "П_рикажи ознаке"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:366
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:408
 #: src/dialogs/solver.glade.h:14
 msgid "M_in"
 msgstr "_Минимално"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:366
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:409
 msgid "M_ax"
 msgstr "М_аксимално"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:367
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:410
 msgid "Ma_jor Ticks"
 msgstr "Гла_вне цртице"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:368
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:411
 msgid "Mi_nor Ticks"
 msgstr "Сп_оредне цртице"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:400
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:469
 msgid "Bounds"
 msgstr "Ограничења"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:404
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:473
 msgid "Details"
 msgstr "Детаљи"
 
@@ -13705,12 +13706,12 @@ msgstr "П_оредак"
 msgid "_Top"
 msgstr "_Врх"
 
-#: src/cut-n-paste-code/goffice/graph/gog-label.c:102
+#: src/cut-n-paste-code/goffice/graph/gog-label.c:105
 msgid "_Text:"
 msgstr "_Текст:"
 
 # Kako ovo moze biti jednina?????? — и није множина
-#: src/cut-n-paste-code/goffice/graph/gog-label.c:108
+#: src/cut-n-paste-code/goffice/graph/gog-label.c:111
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:131
 #: src/dialogs/dialog-stf.glade.h:15
 msgid "Data"
@@ -13729,7 +13730,7 @@ msgstr "Врста исцртавања"
 msgid "Chart Theme"
 msgstr "Мотив графика"
 
-#: src/cut-n-paste-code/goffice/graph/gog-plot.c:166
+#: src/cut-n-paste-code/goffice/graph/gog-plot.c:167
 msgid "Series"
 msgstr "Редови"
 
@@ -13877,12 +13878,12 @@ msgstr "позадинска слика"
 msgid "%d x %d"
 msgstr "%d x %d"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:535
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:548
 #: src/workbook-control-gui.c:3100
 msgid "Select an image"
 msgstr "Изаберите слику"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:895
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:910
 #: src/dialogs/pivottable.glade.h:4
 msgid "Style"
 msgstr "Стил"
@@ -13899,13 +13900,13 @@ msgstr "Подразумевано"
 msgid "Guppi"
 msgstr "Гупи"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:264
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:265
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:190
 #: src/dialogs/consolidate.glade.h:12
 msgid "Labels"
 msgstr "Ознаке"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:266
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:267
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
 #: src/dialogs/consolidate.glade.h:27
 msgid "Values"
@@ -14314,11 +14315,11 @@ msgstr "Систем за исцртавање прстена"
 msgid "PlotXY"
 msgstr "ЦртежXY"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:155
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:178
 msgid "X"
 msgstr "X"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:157
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:180
 msgid "Y"
 msgstr "Y"
 
@@ -14528,15 +14529,19 @@ msgid "Thin Reverse Diagonal Stripe"
 msgstr "Танка обрнута дијагонална пруга"
 
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:207
-#: src/cut-n-paste-code/goffice/utils/go-pattern.c:209
-#: src/dialogs/cell-format.glade.h:81
-msgid "Thin Diagonal Crosshatch"
-msgstr "Танки дијагонални нишан"
+#: src/dialogs/cell-format.glade.h:82
+msgid "Thin Diagonal Stripe"
+msgstr "Танка дијагонална пруга"
 
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:208
 #: src/dialogs/cell-format.glade.h:83
 msgid "Thin Horizontal Crosshatch"
 msgstr "Танки хоризонтални нишан"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:209
+#: src/dialogs/cell-format.glade.h:81
+msgid "Thin Diagonal Crosshatch"
+msgstr "Танки дијагонални нишан"
 
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:210
 #: src/dialogs/cell-format.glade.h:44
@@ -14908,7 +14913,7 @@ msgstr "_Унос"
 #: src/dialogs/correlation.glade.h:11 src/dialogs/covariance.glade.h:11
 #: src/dialogs/descriptive-stats.glade.h:21
 #: src/dialogs/dialog-analysis-tools.c:338
-#: src/dialogs/dialog-analysis-tools.c:2586 src/dialogs/dialog-shuffle.c:149
+#: src/dialogs/dialog-analysis-tools.c:2583 src/dialogs/dialog-shuffle.c:149
 #: src/dialogs/exp-smoothing.glade.h:14
 #: src/dialogs/fourier-analysis.glade.h:12
 #: src/dialogs/moving-averages.glade.h:16 src/dialogs/rank.glade.h:14
@@ -15411,10 +15416,6 @@ msgstr "_Врх"
 msgid "Text length"
 msgstr "_Дужина текста"
 
-#: src/dialogs/cell-format.glade.h:82
-msgid "Thin Diagonal Stripe"
-msgstr "Танка дијагонална пруга"
-
 #: src/dialogs/cell-format.glade.h:87 src/widgets/widget-format-selector.c:73
 msgid "Time"
 msgstr "Време"
@@ -15905,7 +15906,7 @@ msgstr "Одговарајући записи нису пронађени."
 #: src/dialogs/dialog-analysis-tools.c:585
 #: src/dialogs/dialog-analysis-tools.c:703
 #: src/dialogs/dialog-analysis-tools.c:1985
-#: src/dialogs/dialog-analysis-tools.c:2876
+#: src/dialogs/dialog-analysis-tools.c:2875
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "Неочекивана грешка: %d"
@@ -16023,19 +16024,19 @@ msgstr "Не могу да направим прозорче за алатку �
 msgid "Could not create the Moving Average Tool dialog."
 msgstr "Не могу да направим прозорче за алатку „Усредњавање“."
 
-#: src/dialogs/dialog-analysis-tools.c:2586 src/dialogs/histogram.glade.h:3
+#: src/dialogs/dialog-analysis-tools.c:2583 src/dialogs/histogram.glade.h:3
 msgid "Bin _Range:"
 msgstr "Бин _опсег:"
 
-#: src/dialogs/dialog-analysis-tools.c:2587
+#: src/dialogs/dialog-analysis-tools.c:2584
 msgid "Could not create the Histogram Tool dialog."
 msgstr "Не могу да направим прозорче за алатку „Хистограм“."
 
-#: src/dialogs/dialog-analysis-tools.c:2763
+#: src/dialogs/dialog-analysis-tools.c:2762
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr "Не могу да направим прозорче за алатку „АНОВА (један фактор)."
 
-#: src/dialogs/dialog-analysis-tools.c:2842
+#: src/dialogs/dialog-analysis-tools.c:2841
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data and the labels."
@@ -16043,40 +16044,40 @@ msgstr ""
 "Дати улазни опсег треба да садржи барем две колоне и две врсте са подацима и "
 "ознакама."
 
-#: src/dialogs/dialog-analysis-tools.c:2845
+#: src/dialogs/dialog-analysis-tools.c:2844
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data."
 msgstr ""
 "Дати улазни опсег треба да садржи барем две колоне и две врсте са подацима."
 
-#: src/dialogs/dialog-analysis-tools.c:2851
+#: src/dialogs/dialog-analysis-tools.c:2850
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
 msgstr ""
 "Дати улазни опсег треба да садржи барем две колоне са подацима и ознакама."
 
-#: src/dialogs/dialog-analysis-tools.c:2854
+#: src/dialogs/dialog-analysis-tools.c:2853
 msgid "The given input range should contain at least two columns of data."
 msgstr "Дати улазни опсег треба да садржи барем две колоне са подацима."
 
-#: src/dialogs/dialog-analysis-tools.c:2860
+#: src/dialogs/dialog-analysis-tools.c:2859
 msgid ""
 "The given input range should contain at least two rows of data and the "
 "labels."
 msgstr ""
 "Дати улазни опсег треба да садржи барем две врсте са подацима и ознакама."
 
-#: src/dialogs/dialog-analysis-tools.c:2863
+#: src/dialogs/dialog-analysis-tools.c:2862
 msgid "The given input range should contain at least two rows of data."
 msgstr "Дати улазни опсег треба да садржи барем две врсте са подацима."
 
-#: src/dialogs/dialog-analysis-tools.c:2870
+#: src/dialogs/dialog-analysis-tools.c:2869
 msgid "The number of data rows must be a multiple of the replication number."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2967
+#: src/dialogs/dialog-analysis-tools.c:2966
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "Не могу да образујем прозорче за алатку „АНОВА (два фактора)“."
 
@@ -19450,7 +19451,7 @@ msgstr "Нови приказ ће бити отворен на задатом �
 
 #: src/dialogs/view.glade.h:6
 msgid "Sharing"
-msgstr ""
+msgstr "Дељење"
 
 #: src/dialogs/view.glade.h:7
 msgid "Views will have separate cursor locations"
@@ -19494,7 +19495,7 @@ msgstr "Максимални број итер_ација:"
 
 #: src/dialogs/workbook-attr.glade.h:8
 msgid "Notebook _Tabs for Sheets"
-msgstr ""
+msgstr "_Листови за табеле"
 
 #: src/dialogs/workbook-attr.glade.h:9
 msgid "Pa_ssword:"
@@ -19627,7 +19628,7 @@ msgstr "Зелена"
 
 #: src/format.c:614
 msgid "Magenta"
-msgstr ""
+msgstr "Магента"
 
 #: src/format.c:615
 msgid "Red"
@@ -21164,25 +21165,33 @@ msgstr "&[ИМЕ_ТАБЕЛЕ]"
 msgid "&[DATE]"
 msgstr "&[ДАТУМ]"
 
-#: src/print-info.c:477
-msgid "Sheet 1"
-msgstr "Табела 1"
+#: src/print-info.c:536
+msgid "File Name"
+msgstr "Име датотеке"
 
-#: src/print-info.c:542
+#: src/print-info.c:557
+msgid "Path & File Name"
+msgstr "Путања и име датотеке"
+
+#: src/print-info.c:565
 msgid "tab"
 msgstr "табулатор"
 
-#: src/print-info.c:543
+#: src/print-info.c:566
 msgid "page"
 msgstr "страница"
 
-#: src/print-info.c:544
+#: src/print-info.c:567
 msgid "pages"
 msgstr "странице"
 
-#: src/print-info.c:547
+#: src/print-info.c:570
 msgid "file"
 msgstr "датотека"
+
+#: src/print-info.c:571
+msgid "path"
+msgstr "путања"
 
 #. Note: we cannot have spaces in page numbers.
 #: src/print.c:576
@@ -22704,7 +22713,7 @@ msgstr "тамнољубичаста"
 msgid "sky blue"
 msgstr "небоплава"
 
-#: src/widgets/gnumeric-expr-entry.c:1239
+#: src/widgets/gnumeric-expr-entry.c:1253
 msgid "Expecting a single range"
 msgstr "Очекујем један опсег"
 
@@ -24295,6 +24304,9 @@ msgstr "Грешка при снимању датотеке"
 #: src/xml-io.c:4040
 msgid "Gnumeric XML file format"
 msgstr "Гнумерик XML формат датотеке"
+
+#~ msgid "Sheet 1"
+#~ msgstr "Табела 1"
 
 #~ msgid "UNFINISHED Gnumeric XML (*.gnumeric)"
 #~ msgstr "НЕЗАВРШЕНИ Гнумерик XML (*.gnumeric)"
