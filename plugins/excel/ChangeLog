@@ -1,3 +1,7 @@
+2001-05-31  Karl Eichwalder  <ke@suse.de>
+
+	* boot.c (excel_save): Add dot.
+
 2001-05-29  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* boot.c (excel_file_probe): Added FileProbeLevel argument.
