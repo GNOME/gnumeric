@@ -33,6 +33,7 @@
 #include <value.h>
 #include <auto-format.h>
 #include <mathfunc.h>
+#include <format.h>
 
 #include <math.h>
 #include <string.h>
@@ -46,9 +47,16 @@ GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 #define DAY_SECONDS (3600*24)
 
+static Value *
+make_date (Value *res)
+{
+	value_set_fmt (res, style_format_default_date ());
+	return res;
+}
+
 /***************************************************************************/
 
-static const char *help_date = {
+static char const *help_date = {
 	N_("@FUNCTION=DATE\n"
 	   "@SYNTAX=DATE (year,month,day)\n"
 
@@ -108,7 +116,7 @@ gnumeric_date (FunctionEvalInfo *ei, Value **argv)
 	if (g_date_get_year (&date) < 1900 || g_date_get_year (&date) >= 11900)
 		goto error;
 
-	return value_new_int (datetime_g_to_serial (&date));
+	return make_date (value_new_int (datetime_g_to_serial (&date)));
 
  error:
 	return value_new_error (ei->pos, gnumeric_err_NUM);
@@ -116,7 +124,7 @@ gnumeric_date (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_unix2date = {
+static char const *help_unix2date = {
 	N_("@FUNCTION=UNIX2DATE\n"
 	   "@SYNTAX=UNIX2DATE(unixtime)\n"
 
@@ -141,13 +149,13 @@ gnumeric_unix2date (FunctionEvalInfo *ei, Value **argv)
 	if (gnumabs (futime - utime) >= 1.0)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
-	return value_new_float (datetime_timet_to_serial_raw (utime) +
-				(futime - utime));
+	return make_date (value_new_float (datetime_timet_to_serial_raw (utime) +
+					   (futime - utime)));
 }
 
 /***************************************************************************/
 
-static const char *help_date2unix = {
+static char const *help_date2unix = {
 	N_("@FUNCTION=DATE2UNIX\n"
 	   "@SYNTAX=DATE2UNIX(serial)\n"
 
@@ -180,7 +188,7 @@ gnumeric_date2unix (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_datevalue = {
+static char const *help_datevalue = {
 	N_("@FUNCTION=DATEVALUE\n"
 	   "@SYNTAX=DATEVALUE(date_str)\n"
 
@@ -198,14 +206,12 @@ static const char *help_datevalue = {
 static Value *
 gnumeric_datevalue (FunctionEvalInfo *ei, Value **argv)
 {
-	if (argv[0]->type == VALUE_ERROR)
-		return value_duplicate (argv[0]);
 	return value_new_int (datetime_value_to_serial (argv[0]));
 }
 
 /***************************************************************************/
 
-static const char *help_datedif = {
+static char const *help_datedif = {
 	N_("@FUNCTION=DATEDIF\n"
 	   "@SYNTAX=DATEDIF(date1,date2,interval)\n"
 
@@ -320,7 +326,7 @@ static Value *
 gnumeric_datedif (FunctionEvalInfo *ei, Value **argv)
 {
 	int date1, date2;
-	const char *opt;
+	char const *opt;
 
 	GDate *gdate1, *gdate2;
 	Value *result;
@@ -372,7 +378,7 @@ gnumeric_datedif (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_edate = {
+static char const *help_edate = {
 	N_("@FUNCTION=EDATE\n"
 	   "@SYNTAX=EDATE(date,months)\n"
 
@@ -420,13 +426,14 @@ gnumeric_edate (FunctionEvalInfo *ei, Value **argv)
 	}
 
 	res = value_new_int (datetime_g_to_serial (date));
+	value_set_fmt (res, style_format_default_date ());
 	datetime_g_free (date);
 	return res;
 }
 
 /***************************************************************************/
 
-static const char *help_today = {
+static char const *help_today = {
 	N_("@FUNCTION=TODAY\n"
 	   "@SYNTAX=TODAY()\n"
 
@@ -444,12 +451,12 @@ static const char *help_today = {
 static Value *
 gnumeric_today (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_int (datetime_timet_to_serial (time (NULL)));
+	return make_date (value_new_int (datetime_timet_to_serial (time (NULL))));
 }
 
 /***************************************************************************/
 
-static const char *help_now = {
+static char const *help_now = {
 	N_("@FUNCTION=NOW\n"
 	   "@SYNTAX=NOW ()\n"
 
@@ -480,7 +487,7 @@ gnumeric_now (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_time = {
+static char const *help_time = {
 	N_("@FUNCTION=TIME\n"
 	   "@SYNTAX=TIME (hours,minutes,seconds)\n"
 
@@ -503,13 +510,13 @@ gnumeric_time (FunctionEvalInfo *ei, Value **argv)
 	minutes = value_get_as_float (argv [1]);
 	seconds = value_get_as_float (argv [2]);
 
-	return value_new_float ((hours * 3600 + minutes * 60 + seconds) /
-				DAY_SECONDS);
+	return make_date (value_new_float ((hours * 3600 + minutes * 60 + seconds) /
+					   DAY_SECONDS));
 }
 
 /***************************************************************************/
 
-static const char *help_timevalue = {
+static char const *help_timevalue = {
 	N_("@FUNCTION=TIMEVALUE\n"
 	   "@SYNTAX=TIMEVALUE (timetext)\n"
 
@@ -528,17 +535,13 @@ static const char *help_timevalue = {
 static Value *
 gnumeric_timevalue (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float raw;
-	if (argv[0]->type == VALUE_ERROR)
-		return value_duplicate (argv[0]);
-
-	raw = datetime_value_to_serial_raw (argv[0]);
+	gnum_float raw = datetime_value_to_serial_raw (argv[0]);
 	return value_new_float (raw - (int)raw);
 }
 
 /***************************************************************************/
 
-static const char *help_hour = {
+static char const *help_hour = {
 	N_("@FUNCTION=HOUR\n"
 	   "@SYNTAX=HOUR (serial_number)\n"
 
@@ -567,7 +570,7 @@ gnumeric_hour (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_minute = {
+static char const *help_minute = {
 	N_("@FUNCTION=MINUTE\n"
 	   "@SYNTAX=MINUTE (serial_number)\n"
 
@@ -597,7 +600,7 @@ gnumeric_minute (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_second = {
+static char const *help_second = {
 	N_("@FUNCTION=SECOND\n"
 	   "@SYNTAX=SECOND (serial_number)\n"
 
@@ -627,7 +630,7 @@ gnumeric_second (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_year = {
+static char const *help_year = {
 	N_("@FUNCTION=YEAR\n"
 	   "@SYNTAX=YEAR (serial_number)\n"
 
@@ -651,9 +654,6 @@ gnumeric_year (FunctionEvalInfo *ei, Value **argv)
 	int res = 1900;
 	GDate *date;
 
-	if (argv[0]->type == VALUE_ERROR)
-		return value_duplicate (argv[0]);
-
 	date = datetime_value_to_g (argv[0]);
 	if (date != NULL) {
 		res = g_date_get_year (date);
@@ -664,7 +664,7 @@ gnumeric_year (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_month = {
+static char const *help_month = {
 	N_("@FUNCTION=MONTH\n"
 	   "@SYNTAX=MONTH (serial_number)\n"
 
@@ -688,9 +688,6 @@ gnumeric_month (FunctionEvalInfo *ei, Value **argv)
 	int res = 1;
 	GDate *date;
 
-	if (argv[0]->type == VALUE_ERROR)
-		return value_duplicate (argv[0]);
-
 	date = datetime_value_to_g (argv[0]);
 	if (date != NULL) {
 		res = g_date_get_month (date);
@@ -701,7 +698,7 @@ gnumeric_month (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_day = {
+static char const *help_day = {
 	N_("@FUNCTION=DAY\n"
 	   "@SYNTAX=DAY (serial_number)\n"
 
@@ -725,9 +722,6 @@ gnumeric_day (FunctionEvalInfo *ei, Value **argv)
 	int res = 1;
 	GDate *date;
 
-	if (argv[0]->type == VALUE_ERROR)
-		return value_duplicate (argv[0]);
-
 	date = datetime_value_to_g (argv[0]);
 	if (date != NULL) {
 		res = g_date_get_day (date);
@@ -738,7 +732,7 @@ gnumeric_day (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_weekday = {
+static char const *help_weekday = {
 	N_("@FUNCTION=WEEKDAY\n"
 	   "@SYNTAX=WEEKDAY (serial_number[, method])\n"
 
@@ -791,7 +785,7 @@ gnumeric_weekday (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_days360 = {
+static char const *help_days360 = {
 	N_("@FUNCTION=DAYS360 \n"
 	   "@SYNTAX=DAYS360 (date1,date2,method)\n"
 
@@ -834,10 +828,6 @@ gnumeric_days360 (FunctionEvalInfo *ei, Value **argv)
 	} else
 		method = METHOD_US;
 
-	if (argv[0]->type == VALUE_ERROR)
-		return value_duplicate (argv[0]);
-	if (argv[1]->type == VALUE_ERROR)
-		return value_duplicate (argv[1]);
 	serial1 = datetime_value_to_serial (argv[0]);
 	serial2 = datetime_value_to_serial (argv[1]);
 	if ((flipped = (serial1 > serial2))) {
@@ -894,7 +884,7 @@ gnumeric_days360 (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_eomonth = {
+static char const *help_eomonth = {
 	N_("@FUNCTION=EOMONTH\n"
 	   "@SYNTAX=EOMONTH (start_date,months)\n"
 
@@ -919,9 +909,6 @@ gnumeric_eomonth (FunctionEvalInfo *ei, Value **argv)
 	int months = 0;
 	GDate *date;
 
-	if (argv[0]->type == VALUE_ERROR)
-		return value_duplicate (argv[0]);
-
 	date = datetime_value_to_g (argv[0]);
 	if (date == NULL || !g_date_valid (date))
                   return value_new_error (ei->pos, gnumeric_err_VALUE);
@@ -938,13 +925,14 @@ gnumeric_eomonth (FunctionEvalInfo *ei, Value **argv)
 						      g_date_get_year(date)));
 
 	res = value_new_int (datetime_g_to_serial (date));
+	value_set_fmt (res, style_format_default_date ());
 	g_date_free (date);
 	return res;
 }
 
 /***************************************************************************/
 
-static const char *help_workday = {
+static char const *help_workday = {
 	N_("@FUNCTION=WORKDAY\n"
 	   "@SYNTAX=WORKDAY (start_date,days,holidays)\n"
 
@@ -970,9 +958,6 @@ gnumeric_workday (FunctionEvalInfo *ei, Value **argv)
 	int days;
 	GDateWeekday weekday;
 	GDate *date;
-
-	if (argv[0]->type == VALUE_ERROR)
-		return value_duplicate (argv[0]);
 
 	date = datetime_value_to_g (argv[0]);
 	if (date == NULL || !g_date_valid (date))
@@ -1017,7 +1002,7 @@ gnumeric_workday (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_networkdays = {
+static char const *help_networkdays = {
 	N_("@FUNCTION=NETWORKDAYS\n"
 	   "@SYNTAX=NETWORKDAYS (start_date,end_date,holidays)\n"
 
@@ -1104,13 +1089,6 @@ gnumeric_networkdays (FunctionEvalInfo *ei, Value **argv)
 	networkdays_holiday_closure close;
 	GDate * start_date;
 	
-
-
-	if (argv[0]->type == VALUE_ERROR)
-		return value_duplicate (argv[0]);
-	if (argv[1]->type == VALUE_ERROR)
-		return value_duplicate (argv[1]);
-
 	start_serial = datetime_value_to_serial (argv[0]);
 	end_serial = datetime_value_to_serial (argv[1]);
 
@@ -1151,7 +1129,7 @@ gnumeric_networkdays (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_isoweeknum = {
+static char const *help_isoweeknum = {
 	N_("@FUNCTION=ISOWEEKNUM\n"
 	   "@SYNTAX=ISOWEEKNUM (date)\n"
 
@@ -1180,9 +1158,6 @@ gnumeric_isoweeknum (FunctionEvalInfo *ei, Value **argv)
 	GDate *date;
 	int isoweeknum;
 
-	if (argv[0]->type == VALUE_ERROR)
-		return value_duplicate (argv[0]);
-
 	date = datetime_value_to_g (argv[0]);
 	if (date == NULL || !g_date_valid (date))
                   return value_new_error (ei->pos, gnumeric_err_VALUE);
@@ -1196,7 +1171,7 @@ gnumeric_isoweeknum (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_isoyear = {
+static char const *help_isoyear = {
 	N_("@FUNCTION=ISOYEAR\n"
 	   "@SYNTAX=ISOYEAR (date)\n"
 
@@ -1227,9 +1202,6 @@ gnumeric_isoyear (FunctionEvalInfo *ei, Value **argv)
 	int month;
 	int isoweeknum;
 
-	if (argv[0]->type == VALUE_ERROR)
-		return value_duplicate (argv[0]);
-
 	date = datetime_value_to_g (argv[0]);
 	if (date == NULL || !g_date_valid (date))
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
@@ -1250,7 +1222,7 @@ gnumeric_isoyear (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_weeknum = {
+static char const *help_weeknum = {
 	N_("@FUNCTION=WEEKNUM\n"
 	   "@SYNTAX=WEEKNUM (date, method)\n"
 
@@ -1288,9 +1260,6 @@ gnumeric_weeknum (FunctionEvalInfo *ei, Value **argv)
 	      method == WEEKNUM_METHOD_ISO))
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
-	if (argv[0]->type == VALUE_ERROR)
-		return value_duplicate (argv[0]);
-
 	date = datetime_value_to_g (argv[0]);
 	if (date == NULL || !g_date_valid (date))
                   return value_new_error (ei->pos, gnumeric_err_VALUE);
@@ -1304,84 +1273,116 @@ gnumeric_weeknum (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-const GnmFuncDescriptor datetime_functions[] = {
-	{ "date",        "fff",  "year,month,day", &help_date,
-	  gnumeric_date, NULL, NULL, NULL },
-	{ "unix2date",   "f",    "unixtime", &help_unix2date,
-	  gnumeric_unix2date, NULL, NULL, NULL },
-	{ "date2unix",   "f",    "serial", &help_date2unix,
-	  gnumeric_date2unix, NULL, NULL, NULL },
-	{ "datevalue",   "S",    "date_str", &help_datevalue,
-	  gnumeric_datevalue, NULL, NULL, NULL },
-	{ "datedif",     "SSs",  "date1,date2,Interval", &help_datedif,
-	  gnumeric_datedif, NULL, NULL, NULL },
-	{ "day",         "S",    "date", &help_day,
-	  gnumeric_day, NULL, NULL, NULL },
-	{ "days360",     "SS|f", "date1,date2,method", &help_days360,
-	  gnumeric_days360, NULL, NULL, NULL },
-	{ "edate",       "ff",   "serial_number,months", &help_edate,
-	  gnumeric_edate, NULL, NULL, NULL },
-	{ "eomonth",     "S|f",  "start_date,months", &help_eomonth,
-	  gnumeric_eomonth, NULL, NULL, NULL },
-	{ "hour",        "S",    "time", &help_hour,
-	  gnumeric_hour, NULL, NULL, NULL },
-	{ "minute",      "S",    "time", &help_minute,
-	  gnumeric_minute, NULL, NULL, NULL },
-	{ "month",       "S",    "date", &help_month,
-	  gnumeric_month, NULL, NULL, NULL },
-	{ "networkdays", "SS|?", "start_date,end_date,holidays",
-	  &help_networkdays, gnumeric_networkdays, NULL, NULL, NULL },
-	{ "now",         "",     "", &help_now,
-	  gnumeric_now, NULL, NULL, NULL },
-	{ "second",      "S",    "time", &help_second,
-	  gnumeric_second, NULL, NULL, NULL },
-	{ "time",        "fff",  "hours,minutes,seconds", &help_time,
-	  gnumeric_time, NULL, NULL, NULL },
-	{ "timevalue",   "S",    "", &help_timevalue,
-	  gnumeric_timevalue, NULL, NULL, NULL },
-	{ "today",       "",     "", &help_today,
-	  gnumeric_today, NULL, NULL, NULL },
-	{ "weekday",     "S|f",  "date", &help_weekday,
-	  gnumeric_weekday, NULL, NULL, NULL },
-	{ "workday",     "Sf|?", "date,days,holidays", &help_workday,
-	  gnumeric_workday, NULL, NULL, NULL },
-	{ "year",        "S",    "date", &help_year,
-	  gnumeric_year, NULL, NULL, NULL },
-	{ "isoweeknum",  "S",    "date", &help_isoweeknum,
-	  gnumeric_isoweeknum, NULL, NULL, NULL },
-	{ "isoyear",     "S",    "date", &help_isoyear,
-	  gnumeric_isoyear, NULL, NULL, NULL },
-	{ "weeknum",     "S|f",  "date", &help_weeknum,
-	  gnumeric_weeknum, NULL, NULL, NULL },
-        {NULL}
+static char const *help_yearfrac = {
+	N_("@FUNCTION=YEARFRAC\n"
+	   "@SYNTAX=WEEKNUM (start_date, end_date, basis)\n"
+
+	   "@DESCRIPTION="
+	   "YEARFRAC returns the number of full days between @start_date and "
+	   "@end_date according to the @basis.\n"
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=DATEDIF")
 };
 
-/* FIXME: Should be merged into the above.  */
-static const struct {
-	const char *func;
-	AutoFormatTypes typ;
-} af_info[] = {
-	{ "date", AF_DATE },
-	{ "unix2date", AF_DATE },
-	{ "edate", AF_DATE },
-	{ "eomonth", AF_DATE },
-	{ "time", AF_TIME },
-	{ "today", AF_DATE },
-	{ NULL, AF_UNKNOWN }
+static Value *
+gnumeric_yearfrac (FunctionEvalInfo *ei, Value **argv)
+{
+	return value_new_error (ei->pos, gnumeric_err_VALUE);
+}
+
+/***************************************************************************/
+
+GnmFuncDescriptor const datetime_functions[] = {
+	{ "date",        "fff",  "year,month,day", &help_date,
+	  gnumeric_date, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "datevalue",   "f",    "date_str", &help_datevalue,
+	  gnumeric_datevalue, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "datedif",     "ffs",  "date1,date2,Interval", &help_datedif,
+	  gnumeric_datedif, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "day",         "f",    "date", &help_day,
+	  gnumeric_day, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "days360",     "ff|f", "date1,date2,method", &help_days360,
+	  gnumeric_days360, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "edate",       "ff",   "serial_number,months", &help_edate,
+	  gnumeric_edate, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "eomonth",     "f|f",  "start_date,months", &help_eomonth,
+	  gnumeric_eomonth, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "hour",        "f",    "time", &help_hour,
+	  gnumeric_hour, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "minute",      "f",    "time", &help_minute,
+	  gnumeric_minute, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "month",       "f",    "date", &help_month,
+	  gnumeric_month, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "networkdays", "ff|?", "start_date,end_date,holidays",
+	  &help_networkdays, gnumeric_networkdays, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "now",         "",     "", &help_now,
+	  gnumeric_now, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_VOLATILE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "second",      "f",    "time", &help_second,
+	  gnumeric_second, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "time",        "fff",  "hours,minutes,seconds", &help_time,
+	  gnumeric_time, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "timevalue",   "f",    "", &help_timevalue,
+	  gnumeric_timevalue, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "today",       "",     "", &help_today,
+	  gnumeric_today, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_VOLATILE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "weekday",     "f|f",  "date", &help_weekday,
+	  gnumeric_weekday, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "weeknum",     "f|f",  "date", &help_weeknum,
+	  gnumeric_weeknum, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "workday",     "ff|?", "date,days,holidays", &help_workday,
+	  gnumeric_workday, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "year",        "f",    "date", &help_year,
+	  gnumeric_year, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+
+/* TODO UNIMPLEMENTED and UNTESTED seems new to XL 2k */
+	{ "yearfrac", 	"ff|f",    "date", &help_yearfrac,
+	  gnumeric_yearfrac, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIMPLEMENTED, GNM_FUNC_TEST_STATUS_UNTESTED },
+
+	{ "unix2date",   "f",    "unixtime", &help_unix2date,
+	  gnumeric_unix2date, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_NOT_IN_EXCEL, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "date2unix",   "f",    "serial", &help_date2unix,
+	  gnumeric_date2unix, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_NOT_IN_EXCEL, GNM_FUNC_TEST_STATUS_BASIC },
+
+	{ "isoweeknum",  "f",    "date", &help_isoweeknum,
+	  gnumeric_isoweeknum, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_NOT_IN_EXCEL, GNM_FUNC_TEST_STATUS_UNTESTED },
+	{ "isoyear",     "f",    "date", &help_isoyear,
+	  gnumeric_isoyear, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_NOT_IN_EXCEL, GNM_FUNC_TEST_STATUS_UNTESTED },
+        {NULL}
 };
 
 void
 plugin_init (void)
 {
-	int i;
-	for (i = 0; af_info[i].func; i++)
-		auto_format_function_result_by_name (af_info[i].func, af_info[i].typ);
 }
 
 void
 plugin_cleanup (void)
 {
-	int i;
-	for (i = 0; af_info[i].func; i++)
-		auto_format_function_result_remove (af_info[i].func);
 }

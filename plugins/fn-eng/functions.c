@@ -1057,6 +1057,28 @@ gnumeric_erfc (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
+static const char *help_factdouble = {
+	N_("@FUNCTION=FACTDOUBLE\n"
+	   "@SYNTAX=FACTDOUBLE(number)\n"
+
+	   "@DESCRIPTION="
+	   "FACTDOUBLE returns the double factorial of @number "
+	   "\n"
+	   "* If @x is not numeric a #VALUE! error is returned.  "
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=")
+};
+
+static Value *
+gnumeric_factdouble (FunctionEvalInfo *ei, Value **argv)
+{
+	return value_new_error (ei->pos, gnumeric_err_VALUE);
+}
+
+/***************************************************************************/
+
 static const char *help_delta = {
 	N_("@FUNCTION=DELTA\n"
 	   "@SYNTAX=DELTA(x[,y])\n"
@@ -1168,46 +1190,79 @@ gnumeric_gestep (FunctionEvalInfo *ei, Value **argv)
 
 const GnmFuncDescriptor engineering_functions[] = {
         { "besseli",     "ff",   "xnum,ynum", &help_besseli,
-	  gnumeric_besseli, NULL, NULL, NULL },
-        { "besselk",     "ff",   "xnum,ynum", &help_besselk,
-	  gnumeric_besselk, NULL, NULL, NULL },
+	  gnumeric_besseli, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
         { "besselj",     "ff",   "xnum,ynum", &help_besselj,
-	  gnumeric_besselj, NULL, NULL, NULL },
+	  gnumeric_besselj, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+        { "besselk",     "ff",   "xnum,ynum", &help_besselk,
+	  gnumeric_besselk, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
         { "bessely",     "ff",   "xnum,ynum", &help_bessely,
-	  gnumeric_bessely, NULL, NULL, NULL },
-        { "bin2dec",     "?",    "number", &help_bin2dec,
-	  gnumeric_bin2dec, NULL, NULL, NULL },
-        { "bin2hex",     "?|f",  "xnum,ynum", &help_bin2hex,
-	  gnumeric_bin2hex, NULL, NULL, NULL },
-        { "bin2oct",     "?|f",  "xnum,ynum", &help_bin2oct,
-	  gnumeric_bin2oct, NULL, NULL, NULL },
+	  gnumeric_bessely, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+
+        { "bin2dec",     "S",    "number", &help_bin2dec,
+	  gnumeric_bin2dec, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+        { "bin2hex",     "S|f",  "xnum,ynum", &help_bin2hex,
+	  gnumeric_bin2hex, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+        { "bin2oct",     "S|f",  "xnum,ynum", &help_bin2oct,
+	  gnumeric_bin2oct, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+
         { "convert",     "fss",  "number,from_unit,to_unit", &help_convert,
-	  gnumeric_convert, NULL, NULL, NULL },
-        { "dec2bin",     "?|f",  "xnum,ynum", &help_dec2bin,
-	  gnumeric_dec2bin, NULL, NULL, NULL },
-        { "dec2oct",     "?|f",  "xnum,ynum", &help_dec2oct,
-	  gnumeric_dec2oct, NULL, NULL, NULL },
-        { "dec2hex",     "?|f",  "xnum,ynum", &help_dec2hex,
-	  gnumeric_dec2hex, NULL, NULL, NULL },
+	  gnumeric_convert, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+        { "dec2bin",     "S|f",  "xnum,ynum", &help_dec2bin,
+	  gnumeric_dec2bin, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+        { "dec2oct",     "S|f",  "xnum,ynum", &help_dec2oct,
+	  gnumeric_dec2oct, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+        { "dec2hex",     "S|f",  "xnum,ynum", &help_dec2hex,
+	  gnumeric_dec2hex, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+
         { "delta",       "f|f",  "xnum,ynum", &help_delta,
-	  gnumeric_delta, NULL, NULL, NULL },
+	  gnumeric_delta, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
         { "erf",         "f|f",  "lower,upper", &help_erf,
-	  gnumeric_erf , NULL, NULL, NULL },
+	  gnumeric_erf , NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
         { "erfc",        "f",    "number", &help_erfc,
-	  gnumeric_erfc, NULL, NULL, NULL },
+	  gnumeric_erfc, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+
+/* TODO UNIMPLEMENTED and UNTESTED seems new to XL 2k */
+        { "factdouble",	"f",    "number", &help_factdouble,
+	  gnumeric_factdouble, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIMPLEMENTED, GNM_FUNC_TEST_STATUS_UNTESTED },
+
         { "gestep",      "f|f",  "xnum,ynum", &help_gestep,
-	  gnumeric_gestep, NULL, NULL, NULL },
-        { "hex2bin",     "?|f",  "xnum,ynum", &help_hex2bin,
-	  gnumeric_hex2bin, NULL, NULL, NULL },
-        { "hex2dec",     "?",    "number", &help_hex2dec,
-	  gnumeric_hex2dec, NULL, NULL, NULL },
-        { "hex2oct",     "?|f",  "xnum,ynum", &help_hex2oct,
-	  gnumeric_hex2oct, NULL, NULL, NULL },
-        { "oct2bin",     "?|f",  "xnum,ynum", &help_oct2bin,
-	  gnumeric_oct2bin, NULL, NULL, NULL },
-        { "oct2dec",     "?",    "number", &help_oct2dec,
-	  gnumeric_oct2dec, NULL, NULL, NULL },
-        { "oct2hex",     "?|f",  "xnum,ynum", &help_oct2hex,
-	  gnumeric_oct2hex, NULL, NULL, NULL },
+	  gnumeric_gestep, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+
+        { "hex2bin",     "S|f",  "xnum,ynum", &help_hex2bin,
+	  gnumeric_hex2bin, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+        { "hex2dec",     "S",    "number", &help_hex2dec,
+	  gnumeric_hex2dec, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+        { "hex2oct",     "S|f",  "xnum,ynum", &help_hex2oct,
+	  gnumeric_hex2oct, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+
+        { "oct2bin",     "S|f",  "xnum,ynum", &help_oct2bin,
+	  gnumeric_oct2bin, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+        { "oct2dec",     "S",    "number", &help_oct2dec,
+	  gnumeric_oct2dec, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+        { "oct2hex",     "S|f",  "xnum,ynum", &help_oct2hex,
+	  gnumeric_oct2hex, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+
         {NULL}
 };

@@ -305,7 +305,44 @@ static const char *help_daverage = {
            "DAVERAGE function returns the average of the values in a list "
 	   "or database that match conditions specified.\n"
 	   "\n"
-	   DB_ARGUMENT_HELP
+	   "@database is a range of cells in which rows of related " \
+	   "information are records and columns of data are fields. " \
+	   "The first row of a database contains labels for each column. " \
+	   "\n\n" \
+	   "@field specifies which column is used in the function.  If " \
+	   "@field is an integer, for example. 2, the second column is used. " \
+	   "Field can also be the label of a column.  For example, ``Age'' " \
+	   "refers to the column with the label ``Age'' in @database range. " \
+	   "\n\n" \
+	   "@criteria is the range of cells which contains the specified " \
+	   "conditions.  The first row of a @criteria should contain the " \
+	   "labels of the fields for which the criterias are for.  Cells " \
+	   "below the labels specify conditions, for example, ``>3'' or " \
+	   "``<9''.  Equality condition can be given simply by specifing a " \
+	   "value, e.g. ``3'' or ``John''.  Each row in @criteria specifies " \
+	   "a separate condition, i.e. if a row in @database matches with " \
+	   "one of the rows in @criteria then that row is counted in " \
+	   "(technically speaking boolean OR between the rows in " \
+	   "@criteria).  If @criteria specifies more than one columns then " \
+	   "each of the conditions in these columns should be true that " \
+	   "the row in @database matches (again technically speaking " \
+	   "boolean AND between the columns in each row in @criteria). " \
+           "\n" \
+	   "@EXAMPLES=\n" \
+	   "Let us assume that the range A1:C7 contain the following " \
+	   "values:\n" \
+	   "Name    Age     Salary\n" \
+	   "John    34      54342\n" \
+	   "Bill    35      22343\n" \
+	   "Clark   29      34323\n" \
+	   "Bob     43      47242\n" \
+	   "Susan   37      42932\n" \
+	   "Jill    45      45324\n" \
+	   "\n" \
+	   "In addition, the cells A9:B11 contain the following values:\n" \
+	   "Age     Salary\n" \
+	   "<30\n" \
+	   ">40     >46000\n"
 	   "\n"
 	   "@EXAMPLES=\n"
            "DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333.\n"
@@ -341,7 +378,44 @@ static const char *help_dcount = {
            "DCOUNT function counts the cells that contain numbers in a "
 	   "database that match conditions specified.\n"
 	   "\n"
-	   DB_ARGUMENT_HELP
+	   "@database is a range of cells in which rows of related " \
+	   "information are records and columns of data are fields. " \
+	   "The first row of a database contains labels for each column. " \
+	   "\n\n" \
+	   "@field specifies which column is used in the function.  If " \
+	   "@field is an integer, for example. 2, the second column is used. " \
+	   "Field can also be the label of a column.  For example, ``Age'' " \
+	   "refers to the column with the label ``Age'' in @database range. " \
+	   "\n\n" \
+	   "@criteria is the range of cells which contains the specified " \
+	   "conditions.  The first row of a @criteria should contain the " \
+	   "labels of the fields for which the criterias are for.  Cells " \
+	   "below the labels specify conditions, for example, ``>3'' or " \
+	   "``<9''.  Equality condition can be given simply by specifing a " \
+	   "value, e.g. ``3'' or ``John''.  Each row in @criteria specifies " \
+	   "a separate condition, i.e. if a row in @database matches with " \
+	   "one of the rows in @criteria then that row is counted in " \
+	   "(technically speaking boolean OR between the rows in " \
+	   "@criteria).  If @criteria specifies more than one columns then " \
+	   "each of the conditions in these columns should be true that " \
+	   "the row in @database matches (again technically speaking " \
+	   "boolean AND between the columns in each row in @criteria). " \
+           "\n" \
+	   "@EXAMPLES=\n" \
+	   "Let us assume that the range A1:C7 contain the following " \
+	   "values:\n" \
+	   "Name    Age     Salary\n" \
+	   "John    34      54342\n" \
+	   "Bill    35      22343\n" \
+	   "Clark   29      34323\n" \
+	   "Bob     43      47242\n" \
+	   "Susan   37      42932\n" \
+	   "Jill    45      45324\n" \
+	   "\n" \
+	   "In addition, the cells A9:B11 contain the following values:\n" \
+	   "Age     Salary\n" \
+	   "<30\n" \
+	   ">40     >46000\n"
 	   "\n"
 	   "@EXAMPLES=\n"
            "DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3.\n"
@@ -376,7 +450,44 @@ static const char *help_dcounta = {
            "DCOUNTA function counts the cells that contain data in a "
 	   "database that match conditions specified.\n"
 	   "\n"
-	   DB_ARGUMENT_HELP
+	   "@database is a range of cells in which rows of related " \
+	   "information are records and columns of data are fields. " \
+	   "The first row of a database contains labels for each column. " \
+	   "\n\n" \
+	   "@field specifies which column is used in the function.  If " \
+	   "@field is an integer, for example. 2, the second column is used. " \
+	   "Field can also be the label of a column.  For example, ``Age'' " \
+	   "refers to the column with the label ``Age'' in @database range. " \
+	   "\n\n" \
+	   "@criteria is the range of cells which contains the specified " \
+	   "conditions.  The first row of a @criteria should contain the " \
+	   "labels of the fields for which the criterias are for.  Cells " \
+	   "below the labels specify conditions, for example, ``>3'' or " \
+	   "``<9''.  Equality condition can be given simply by specifing a " \
+	   "value, e.g. ``3'' or ``John''.  Each row in @criteria specifies " \
+	   "a separate condition, i.e. if a row in @database matches with " \
+	   "one of the rows in @criteria then that row is counted in " \
+	   "(technically speaking boolean OR between the rows in " \
+	   "@criteria).  If @criteria specifies more than one columns then " \
+	   "each of the conditions in these columns should be true that " \
+	   "the row in @database matches (again technically speaking " \
+	   "boolean AND between the columns in each row in @criteria). " \
+           "\n" \
+	   "@EXAMPLES=\n" \
+	   "Let us assume that the range A1:C7 contain the following " \
+	   "values:\n" \
+	   "Name    Age     Salary\n" \
+	   "John    34      54342\n" \
+	   "Bill    35      22343\n" \
+	   "Clark   29      34323\n" \
+	   "Bob     43      47242\n" \
+	   "Susan   37      42932\n" \
+	   "Jill    45      45324\n" \
+	   "\n" \
+	   "In addition, the cells A9:B11 contain the following values:\n" \
+	   "Age     Salary\n" \
+	   "<30\n" \
+	   ">40     >46000\n"
 	   "\n"
 	   "@EXAMPLES=\n"
            "DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3.\n"
@@ -409,7 +520,44 @@ static const char *help_dget = {
            "DGET function returns a single value from a column that "
 	   "match conditions specified.\n"
 	   "\n"
-	   DB_ARGUMENT_HELP
+	   "@database is a range of cells in which rows of related " \
+	   "information are records and columns of data are fields. " \
+	   "The first row of a database contains labels for each column. " \
+	   "\n\n" \
+	   "@field specifies which column is used in the function.  If " \
+	   "@field is an integer, for example. 2, the second column is used. " \
+	   "Field can also be the label of a column.  For example, ``Age'' " \
+	   "refers to the column with the label ``Age'' in @database range. " \
+	   "\n\n" \
+	   "@criteria is the range of cells which contains the specified " \
+	   "conditions.  The first row of a @criteria should contain the " \
+	   "labels of the fields for which the criterias are for.  Cells " \
+	   "below the labels specify conditions, for example, ``>3'' or " \
+	   "``<9''.  Equality condition can be given simply by specifing a " \
+	   "value, e.g. ``3'' or ``John''.  Each row in @criteria specifies " \
+	   "a separate condition, i.e. if a row in @database matches with " \
+	   "one of the rows in @criteria then that row is counted in " \
+	   "(technically speaking boolean OR between the rows in " \
+	   "@criteria).  If @criteria specifies more than one columns then " \
+	   "each of the conditions in these columns should be true that " \
+	   "the row in @database matches (again technically speaking " \
+	   "boolean AND between the columns in each row in @criteria). " \
+           "\n" \
+	   "@EXAMPLES=\n" \
+	   "Let us assume that the range A1:C7 contain the following " \
+	   "values:\n" \
+	   "Name    Age     Salary\n" \
+	   "John    34      54342\n" \
+	   "Bill    35      22343\n" \
+	   "Clark   29      34323\n" \
+	   "Bob     43      47242\n" \
+	   "Susan   37      42932\n" \
+	   "Jill    45      45324\n" \
+	   "\n" \
+	   "In addition, the cells A9:B11 contain the following values:\n" \
+	   "Age     Salary\n" \
+	   "<30\n" \
+	   ">40     >46000\n"
 	   "\n"
 	   "* If none of the items match the conditions, DGET returns #VALUE! "
 	   "error.\n"
@@ -454,7 +602,44 @@ static const char *help_dmax = {
            "DMAX function returns the largest number in a column that "
 	   "match conditions specified.\n"
 	   "\n"
-	   DB_ARGUMENT_HELP
+	   "@database is a range of cells in which rows of related " \
+	   "information are records and columns of data are fields. " \
+	   "The first row of a database contains labels for each column. " \
+	   "\n\n" \
+	   "@field specifies which column is used in the function.  If " \
+	   "@field is an integer, for example. 2, the second column is used. " \
+	   "Field can also be the label of a column.  For example, ``Age'' " \
+	   "refers to the column with the label ``Age'' in @database range. " \
+	   "\n\n" \
+	   "@criteria is the range of cells which contains the specified " \
+	   "conditions.  The first row of a @criteria should contain the " \
+	   "labels of the fields for which the criterias are for.  Cells " \
+	   "below the labels specify conditions, for example, ``>3'' or " \
+	   "``<9''.  Equality condition can be given simply by specifing a " \
+	   "value, e.g. ``3'' or ``John''.  Each row in @criteria specifies " \
+	   "a separate condition, i.e. if a row in @database matches with " \
+	   "one of the rows in @criteria then that row is counted in " \
+	   "(technically speaking boolean OR between the rows in " \
+	   "@criteria).  If @criteria specifies more than one columns then " \
+	   "each of the conditions in these columns should be true that " \
+	   "the row in @database matches (again technically speaking " \
+	   "boolean AND between the columns in each row in @criteria). " \
+           "\n" \
+	   "@EXAMPLES=\n" \
+	   "Let us assume that the range A1:C7 contain the following " \
+	   "values:\n" \
+	   "Name    Age     Salary\n" \
+	   "John    34      54342\n" \
+	   "Bill    35      22343\n" \
+	   "Clark   29      34323\n" \
+	   "Bob     43      47242\n" \
+	   "Susan   37      42932\n" \
+	   "Jill    45      45324\n" \
+	   "\n" \
+	   "In addition, the cells A9:B11 contain the following values:\n" \
+	   "Age     Salary\n" \
+	   "<30\n" \
+	   ">40     >46000\n"
 	   "\n"
 	   "@EXAMPLES=\n"
            "DMAX(A1:C7, \"Salary\", A9:A11) equals 47242.\n"
@@ -491,7 +676,44 @@ static const char *help_dmin = {
            "DMIN function returns the smallest number in a column that "
 	   "match conditions specified.\n"
 	   "\n"
-	   DB_ARGUMENT_HELP
+	   "@database is a range of cells in which rows of related " \
+	   "information are records and columns of data are fields. " \
+	   "The first row of a database contains labels for each column. " \
+	   "\n\n" \
+	   "@field specifies which column is used in the function.  If " \
+	   "@field is an integer, for example. 2, the second column is used. " \
+	   "Field can also be the label of a column.  For example, ``Age'' " \
+	   "refers to the column with the label ``Age'' in @database range. " \
+	   "\n\n" \
+	   "@criteria is the range of cells which contains the specified " \
+	   "conditions.  The first row of a @criteria should contain the " \
+	   "labels of the fields for which the criterias are for.  Cells " \
+	   "below the labels specify conditions, for example, ``>3'' or " \
+	   "``<9''.  Equality condition can be given simply by specifing a " \
+	   "value, e.g. ``3'' or ``John''.  Each row in @criteria specifies " \
+	   "a separate condition, i.e. if a row in @database matches with " \
+	   "one of the rows in @criteria then that row is counted in " \
+	   "(technically speaking boolean OR between the rows in " \
+	   "@criteria).  If @criteria specifies more than one columns then " \
+	   "each of the conditions in these columns should be true that " \
+	   "the row in @database matches (again technically speaking " \
+	   "boolean AND between the columns in each row in @criteria). " \
+           "\n" \
+	   "@EXAMPLES=\n" \
+	   "Let us assume that the range A1:C7 contain the following " \
+	   "values:\n" \
+	   "Name    Age     Salary\n" \
+	   "John    34      54342\n" \
+	   "Bill    35      22343\n" \
+	   "Clark   29      34323\n" \
+	   "Bob     43      47242\n" \
+	   "Susan   37      42932\n" \
+	   "Jill    45      45324\n" \
+	   "\n" \
+	   "In addition, the cells A9:B11 contain the following values:\n" \
+	   "Age     Salary\n" \
+	   "<30\n" \
+	   ">40     >46000\n"
 	   "\n"
 	   "@EXAMPLES=\n"
            "DMIN(A1:C7, \"Salary\", A9:B11) equals 34323.\n"
@@ -525,7 +747,44 @@ static const char *help_dproduct = {
            "DPRODUCT function returns the product of numbers in a column "
 	   "that match conditions specified.\n"
 	   "\n"
-	   DB_ARGUMENT_HELP
+	   "@database is a range of cells in which rows of related " \
+	   "information are records and columns of data are fields. " \
+	   "The first row of a database contains labels for each column. " \
+	   "\n\n" \
+	   "@field specifies which column is used in the function.  If " \
+	   "@field is an integer, for example. 2, the second column is used. " \
+	   "Field can also be the label of a column.  For example, ``Age'' " \
+	   "refers to the column with the label ``Age'' in @database range. " \
+	   "\n\n" \
+	   "@criteria is the range of cells which contains the specified " \
+	   "conditions.  The first row of a @criteria should contain the " \
+	   "labels of the fields for which the criterias are for.  Cells " \
+	   "below the labels specify conditions, for example, ``>3'' or " \
+	   "``<9''.  Equality condition can be given simply by specifing a " \
+	   "value, e.g. ``3'' or ``John''.  Each row in @criteria specifies " \
+	   "a separate condition, i.e. if a row in @database matches with " \
+	   "one of the rows in @criteria then that row is counted in " \
+	   "(technically speaking boolean OR between the rows in " \
+	   "@criteria).  If @criteria specifies more than one columns then " \
+	   "each of the conditions in these columns should be true that " \
+	   "the row in @database matches (again technically speaking " \
+	   "boolean AND between the columns in each row in @criteria). " \
+           "\n" \
+	   "@EXAMPLES=\n" \
+	   "Let us assume that the range A1:C7 contain the following " \
+	   "values:\n" \
+	   "Name    Age     Salary\n" \
+	   "John    34      54342\n" \
+	   "Bill    35      22343\n" \
+	   "Clark   29      34323\n" \
+	   "Bob     43      47242\n" \
+	   "Susan   37      42932\n" \
+	   "Jill    45      45324\n" \
+	   "\n" \
+	   "In addition, the cells A9:B11 contain the following values:\n" \
+	   "Age     Salary\n" \
+	   "<30\n" \
+	   ">40     >46000\n"
 	   "\n"
 	   "@EXAMPLES=\n"
            "DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247.\n"
@@ -560,7 +819,44 @@ static const char *help_dstdev = {
 	   "of a population based on a sample. The populations consists of "
 	   "numbers that match conditions specified.\n"
 	   "\n"
-	   DB_ARGUMENT_HELP
+	   "@database is a range of cells in which rows of related " \
+	   "information are records and columns of data are fields. " \
+	   "The first row of a database contains labels for each column. " \
+	   "\n\n" \
+	   "@field specifies which column is used in the function.  If " \
+	   "@field is an integer, for example. 2, the second column is used. " \
+	   "Field can also be the label of a column.  For example, ``Age'' " \
+	   "refers to the column with the label ``Age'' in @database range. " \
+	   "\n\n" \
+	   "@criteria is the range of cells which contains the specified " \
+	   "conditions.  The first row of a @criteria should contain the " \
+	   "labels of the fields for which the criterias are for.  Cells " \
+	   "below the labels specify conditions, for example, ``>3'' or " \
+	   "``<9''.  Equality condition can be given simply by specifing a " \
+	   "value, e.g. ``3'' or ``John''.  Each row in @criteria specifies " \
+	   "a separate condition, i.e. if a row in @database matches with " \
+	   "one of the rows in @criteria then that row is counted in " \
+	   "(technically speaking boolean OR between the rows in " \
+	   "@criteria).  If @criteria specifies more than one columns then " \
+	   "each of the conditions in these columns should be true that " \
+	   "the row in @database matches (again technically speaking " \
+	   "boolean AND between the columns in each row in @criteria). " \
+           "\n" \
+	   "@EXAMPLES=\n" \
+	   "Let us assume that the range A1:C7 contain the following " \
+	   "values:\n" \
+	   "Name    Age     Salary\n" \
+	   "John    34      54342\n" \
+	   "Bill    35      22343\n" \
+	   "Clark   29      34323\n" \
+	   "Bob     43      47242\n" \
+	   "Susan   37      42932\n" \
+	   "Jill    45      45324\n" \
+	   "\n" \
+	   "In addition, the cells A9:B11 contain the following values:\n" \
+	   "Age     Salary\n" \
+	   "<30\n" \
+	   ">40     >46000\n"
 	   "\n"
 	   "@EXAMPLES=\n"
            "DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949.\n"
@@ -595,7 +891,44 @@ static const char *help_dstdevp = {
 	   "based on the entire populations. The populations consists of "
 	   "numbers that match conditions specified.\n"
 	   "\n"
-	   DB_ARGUMENT_HELP
+	   "@database is a range of cells in which rows of related " \
+	   "information are records and columns of data are fields. " \
+	   "The first row of a database contains labels for each column. " \
+	   "\n\n" \
+	   "@field specifies which column is used in the function.  If " \
+	   "@field is an integer, for example. 2, the second column is used. " \
+	   "Field can also be the label of a column.  For example, ``Age'' " \
+	   "refers to the column with the label ``Age'' in @database range. " \
+	   "\n\n" \
+	   "@criteria is the range of cells which contains the specified " \
+	   "conditions.  The first row of a @criteria should contain the " \
+	   "labels of the fields for which the criterias are for.  Cells " \
+	   "below the labels specify conditions, for example, ``>3'' or " \
+	   "``<9''.  Equality condition can be given simply by specifing a " \
+	   "value, e.g. ``3'' or ``John''.  Each row in @criteria specifies " \
+	   "a separate condition, i.e. if a row in @database matches with " \
+	   "one of the rows in @criteria then that row is counted in " \
+	   "(technically speaking boolean OR between the rows in " \
+	   "@criteria).  If @criteria specifies more than one columns then " \
+	   "each of the conditions in these columns should be true that " \
+	   "the row in @database matches (again technically speaking " \
+	   "boolean AND between the columns in each row in @criteria). " \
+           "\n" \
+	   "@EXAMPLES=\n" \
+	   "Let us assume that the range A1:C7 contain the following " \
+	   "values:\n" \
+	   "Name    Age     Salary\n" \
+	   "John    34      54342\n" \
+	   "Bill    35      22343\n" \
+	   "Clark   29      34323\n" \
+	   "Bob     43      47242\n" \
+	   "Susan   37      42932\n" \
+	   "Jill    45      45324\n" \
+	   "\n" \
+	   "In addition, the cells A9:B11 contain the following values:\n" \
+	   "Age     Salary\n" \
+	   "<30\n" \
+	   ">40     >46000\n"
 	   "\n"
 	   "@EXAMPLES=\n"
            "DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7.\n"
@@ -629,7 +962,44 @@ static const char *help_dsum = {
            "DSUM function returns the sum of numbers in a column "
 	   "that match conditions specified.\n"
 	   "\n"
-	   DB_ARGUMENT_HELP
+	   "@database is a range of cells in which rows of related " \
+	   "information are records and columns of data are fields. " \
+	   "The first row of a database contains labels for each column. " \
+	   "\n\n" \
+	   "@field specifies which column is used in the function.  If " \
+	   "@field is an integer, for example. 2, the second column is used. " \
+	   "Field can also be the label of a column.  For example, ``Age'' " \
+	   "refers to the column with the label ``Age'' in @database range. " \
+	   "\n\n" \
+	   "@criteria is the range of cells which contains the specified " \
+	   "conditions.  The first row of a @criteria should contain the " \
+	   "labels of the fields for which the criterias are for.  Cells " \
+	   "below the labels specify conditions, for example, ``>3'' or " \
+	   "``<9''.  Equality condition can be given simply by specifing a " \
+	   "value, e.g. ``3'' or ``John''.  Each row in @criteria specifies " \
+	   "a separate condition, i.e. if a row in @database matches with " \
+	   "one of the rows in @criteria then that row is counted in " \
+	   "(technically speaking boolean OR between the rows in " \
+	   "@criteria).  If @criteria specifies more than one columns then " \
+	   "each of the conditions in these columns should be true that " \
+	   "the row in @database matches (again technically speaking " \
+	   "boolean AND between the columns in each row in @criteria). " \
+           "\n" \
+	   "@EXAMPLES=\n" \
+	   "Let us assume that the range A1:C7 contain the following " \
+	   "values:\n" \
+	   "Name    Age     Salary\n" \
+	   "John    34      54342\n" \
+	   "Bill    35      22343\n" \
+	   "Clark   29      34323\n" \
+	   "Bob     43      47242\n" \
+	   "Susan   37      42932\n" \
+	   "Jill    45      45324\n" \
+	   "\n" \
+	   "In addition, the cells A9:B11 contain the following values:\n" \
+	   "Age     Salary\n" \
+	   "<30\n" \
+	   ">40     >46000\n"
 	   "\n"
 	   "@EXAMPLES=\n"
            "DSUM(A1:C7, \"Age\", A9:B11) equals 72.\n"
@@ -665,7 +1035,44 @@ static const char *help_dvar = {
 	   "based on a sample. The populations consists of numbers "
 	   "that match conditions specified.\n"
 	   "\n"
-	   DB_ARGUMENT_HELP
+	   "@database is a range of cells in which rows of related " \
+	   "information are records and columns of data are fields. " \
+	   "The first row of a database contains labels for each column. " \
+	   "\n\n" \
+	   "@field specifies which column is used in the function.  If " \
+	   "@field is an integer, for example. 2, the second column is used. " \
+	   "Field can also be the label of a column.  For example, ``Age'' " \
+	   "refers to the column with the label ``Age'' in @database range. " \
+	   "\n\n" \
+	   "@criteria is the range of cells which contains the specified " \
+	   "conditions.  The first row of a @criteria should contain the " \
+	   "labels of the fields for which the criterias are for.  Cells " \
+	   "below the labels specify conditions, for example, ``>3'' or " \
+	   "``<9''.  Equality condition can be given simply by specifing a " \
+	   "value, e.g. ``3'' or ``John''.  Each row in @criteria specifies " \
+	   "a separate condition, i.e. if a row in @database matches with " \
+	   "one of the rows in @criteria then that row is counted in " \
+	   "(technically speaking boolean OR between the rows in " \
+	   "@criteria).  If @criteria specifies more than one columns then " \
+	   "each of the conditions in these columns should be true that " \
+	   "the row in @database matches (again technically speaking " \
+	   "boolean AND between the columns in each row in @criteria). " \
+           "\n" \
+	   "@EXAMPLES=\n" \
+	   "Let us assume that the range A1:C7 contain the following " \
+	   "values:\n" \
+	   "Name    Age     Salary\n" \
+	   "John    34      54342\n" \
+	   "Bill    35      22343\n" \
+	   "Clark   29      34323\n" \
+	   "Bob     43      47242\n" \
+	   "Susan   37      42932\n" \
+	   "Jill    45      45324\n" \
+	   "\n" \
+	   "In addition, the cells A9:B11 contain the following values:\n" \
+	   "Age     Salary\n" \
+	   "<30\n" \
+	   ">40     >46000\n"
 	   "\n"
 	   "@EXAMPLES=\n"
            "DVAR(A1:C7, \"Age\", A9:B11) equals 98.\n"
@@ -700,7 +1107,44 @@ static const char *help_dvarp = {
 	   "on the entire populations. The populations consists of numbers "
 	   "that match conditions specified.\n"
 	   "\n"
-	   DB_ARGUMENT_HELP
+	   "@database is a range of cells in which rows of related " \
+	   "information are records and columns of data are fields. " \
+	   "The first row of a database contains labels for each column. " \
+	   "\n\n" \
+	   "@field specifies which column is used in the function.  If " \
+	   "@field is an integer, for example. 2, the second column is used. " \
+	   "Field can also be the label of a column.  For example, ``Age'' " \
+	   "refers to the column with the label ``Age'' in @database range. " \
+	   "\n\n" \
+	   "@criteria is the range of cells which contains the specified " \
+	   "conditions.  The first row of a @criteria should contain the " \
+	   "labels of the fields for which the criterias are for.  Cells " \
+	   "below the labels specify conditions, for example, ``>3'' or " \
+	   "``<9''.  Equality condition can be given simply by specifing a " \
+	   "value, e.g. ``3'' or ``John''.  Each row in @criteria specifies " \
+	   "a separate condition, i.e. if a row in @database matches with " \
+	   "one of the rows in @criteria then that row is counted in " \
+	   "(technically speaking boolean OR between the rows in " \
+	   "@criteria).  If @criteria specifies more than one columns then " \
+	   "each of the conditions in these columns should be true that " \
+	   "the row in @database matches (again technically speaking " \
+	   "boolean AND between the columns in each row in @criteria). " \
+           "\n" \
+	   "@EXAMPLES=\n" \
+	   "Let us assume that the range A1:C7 contain the following " \
+	   "values:\n" \
+	   "Name    Age     Salary\n" \
+	   "John    34      54342\n" \
+	   "Bill    35      22343\n" \
+	   "Clark   29      34323\n" \
+	   "Bob     43      47242\n" \
+	   "Susan   37      42932\n" \
+	   "Jill    45      45324\n" \
+	   "\n" \
+	   "In addition, the cells A9:B11 contain the following values:\n" \
+	   "Age     Salary\n" \
+	   "<30\n" \
+	   ">40     >46000\n"
 	   "\n"
 	   "@EXAMPLES=\n"
            "DVARP(A1:C7, \"Age\", A9:B11) equals 49.\n"
@@ -770,30 +1214,44 @@ gnumeric_getpivotdata (FunctionEvalInfo *ei, Value **argv)
 
 const GnmFuncDescriptor database_functions[] = {
 	{ "daverage", "r?r", "database,field,criteria",
-	  &help_daverage,   gnumeric_daverage, NULL, NULL, NULL },
+	  &help_daverage,   gnumeric_daverage, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "dcount",   "r?r", "database,field,criteria",
-	  &help_dcount,     gnumeric_dcount, NULL, NULL, NULL },
+	  &help_dcount,     gnumeric_dcount, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "dcounta",  "r?r", "database,field,criteria",
-	  &help_dcounta,    gnumeric_dcounta, NULL, NULL, NULL },
+	  &help_dcounta,    gnumeric_dcounta, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "dget",     "r?r", "database,field,criteria",
-	  &help_dget,       gnumeric_dget, NULL, NULL, NULL },
+	  &help_dget,       gnumeric_dget, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "dmax",     "r?r", "database,field,criteria",
-	  &help_dmax,       gnumeric_dmax, NULL, NULL, NULL },
+	  &help_dmax,       gnumeric_dmax, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "dmin",     "r?r", "database,field,criteria",
-	  &help_dmin,       gnumeric_dmin, NULL, NULL, NULL },
+	  &help_dmin,       gnumeric_dmin, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "dproduct", "r?r", "database,field,criteria",
-	  &help_dproduct,   gnumeric_dproduct, NULL, NULL, NULL },
+	  &help_dproduct,   gnumeric_dproduct, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "dstdev",   "r?r", "database,field,criteria",
-	  &help_dstdev,     gnumeric_dstdev, NULL, NULL, NULL },
+	  &help_dstdev,     gnumeric_dstdev, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "dstdevp",  "r?r", "database,field,criteria",
-	  &help_dstdevp,    gnumeric_dstdevp, NULL, NULL, NULL },
+	  &help_dstdevp,    gnumeric_dstdevp, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "dsum",     "r?r", "database,field,criteria",
-	  &help_dsum,       gnumeric_dsum, NULL, NULL, NULL },
+	  &help_dsum,       gnumeric_dsum, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "dvar",     "r?r", "database,field,criteria",
-	  &help_dvar,       gnumeric_dvar, NULL, NULL, NULL },
+	  &help_dvar,       gnumeric_dvar, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "dvarp",    "r?r", "database,field,criteria",
-	  &help_dvarp,      gnumeric_dvarp, NULL, NULL, NULL },
+	  &help_dvarp,      gnumeric_dvarp, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "getpivotdata", "rs", "pivot_table,field_name",
-	  &help_getpivotdata, gnumeric_getpivotdata, NULL, NULL, NULL },
+	  &help_getpivotdata, gnumeric_getpivotdata, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+
         {NULL}
 };

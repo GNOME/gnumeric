@@ -1,3 +1,8 @@
+2002-10-14  Jody Goldberg <jody@gnome.org>
+
+	* functions.c : add status to functions and put in a stub for
+	'factdouble'
+
 2002-10-14  Morten Welinder  <terra@diku.dk>
 
 	* functions.c (gnumeric_convert): Improve precision and derive
