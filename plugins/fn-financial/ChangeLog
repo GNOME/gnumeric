@@ -3,6 +3,7 @@
 	* functions.c (calc_oddfprice): New function, extracted from
 	gnumeric_oddfprice and fixed.
 	(gnumeric_oddfprice): Use calc_oddfprice.
+	(gnumeric_oddfyield): Implement.
 
 	* sc-fin.c (get_yielddisc): Beat some sense into this.
 

@@ -2894,10 +2894,80 @@ static char const *help_oddfyield = {
 	   "@SEEALSO=")
 };
 
+struct gnumeric_oddyield_f {
+        GDate settlement, maturity, issue, first_coupon;
+	gnm_float rate, price, redemption;
+	GnmCouponConvention conv;
+};
+
+static GoalSeekStatus
+gnumeric_oddyield_f (gnm_float yield, gnm_float *y, void *user_data)
+{
+	struct gnumeric_oddyield_f *data = user_data;
+
+	*y = calc_oddfprice (&data->settlement, &data->maturity,
+			     &data->issue, &data->first_coupon,
+			     data->rate, yield,
+			     data->redemption, &data->conv)
+		- data->price;
+	return GOAL_SEEK_OK;
+}
+
 static Value *
 gnumeric_oddfyield (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_error (ei->pos, "#UNIMPLEMENTED!");
+	struct gnumeric_oddyield_f udata;
+	GoalSeekData data;
+	GoalSeekStatus status;
+	gnm_float yield0 = 0.1;
+
+	udata.rate       = value_get_as_float (argv[4]);
+	udata.price      = value_get_as_float (argv[5]);
+	udata.redemption = value_get_as_float (argv[6]);
+
+        udata.conv.eom   = TRUE;
+        udata.conv.freq  = value_get_as_int (argv[7]);
+        udata.conv.basis = argv[8] ? value_get_as_int (argv[8]) : 0;
+	udata.conv.date_conv = workbook_date_conv (ei->pos->sheet->workbook);
+
+	if (!datetime_value_to_g (&udata.settlement, argv[0], udata.conv.date_conv) ||
+	    !datetime_value_to_g (&udata.maturity, argv[1], udata.conv.date_conv) ||
+	    !datetime_value_to_g (&udata.issue, argv[2], udata.conv.date_conv) ||
+	    !datetime_value_to_g (&udata.first_coupon, argv[3], udata.conv.date_conv))
+		return value_new_error_VALUE (ei->pos);
+
+        if (!is_valid_basis (udata.conv.basis)
+	    || !is_valid_freq (udata.conv.freq)
+            || g_date_compare (&udata.issue, &udata.settlement) > 0
+	    || g_date_compare (&udata.settlement, &udata.first_coupon) > 0
+	    || g_date_compare (&udata.first_coupon, &udata.maturity) > 0)
+		return value_new_error_NUM (ei->pos);
+
+        if (udata.rate < 0.0 || udata.price <= 0.0 || udata.redemption <= 0.0)
+                return value_new_error_NUM (ei->pos);
+
+	goal_seek_initialise (&data);
+	data.xmin = MAX (data.xmin, 0);
+	data.xmax = MIN (data.xmax, 1000);
+
+	/* Newton search from guess.  */
+	status = goal_seek_newton (&gnumeric_oddyield_f, NULL,
+				   &data, &udata, yield0);
+
+	if (status != GOAL_SEEK_OK) {
+		for (yield0 = 1e-10; yield0 < data.xmax; yield0 *= 2)
+			goal_seek_point (&gnumeric_oddyield_f, &data,
+					 &udata, yield0);
+
+		/* Pray we got both sides of the root.  */
+		status = goal_seek_bisection (&gnumeric_oddyield_f, &data,
+					      &udata);
+	}
+
+	if (status != GOAL_SEEK_OK)
+		return value_new_error_NUM (ei->pos);
+
+	return value_new_float (data.root);
 }
 
 /***************************************************************************/

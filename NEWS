@@ -61,6 +61,7 @@ Morten:
 	* Make pretty-printing clarify trees like "-2^2" into "(-2)^2".
 	* Fix cell entry display for strings with initial quote.
 	* Fix YIELDDISC and ODDFPRICE.
+	* Implement ODDFYIELD.
 
 --------------------------------------------------------------------------
 
