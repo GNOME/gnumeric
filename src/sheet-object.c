@@ -41,15 +41,24 @@ typedef struct {
 static void
 window_to_world (GnomeCanvas *canvas, gdouble *x, gdouble *y)
 {
+/*	double zoom = so->sheet->last_zoom_factor_used;*/
 #define DISPLAY_X1(canvas) (GNOME_CANVAS (canvas)->layout.xoffset)
 #define DISPLAY_Y1(canvas) (GNOME_CANVAS (canvas)->layout.yoffset)
 
+/*	printf ("w2w %f %f -> ", *x, *y); */
 	*x = canvas->scroll_x1 +
 		(*x + DISPLAY_X1 (canvas) - canvas->zoom_xofs) /
 		canvas->pixels_per_unit;
 	*y = canvas->scroll_y1 +
 		(*y + DISPLAY_Y1 (canvas) - canvas->zoom_yofs) /
 		canvas->pixels_per_unit;
+/*	printf ("%f %f, offsets %d %d, display %d %d ppu %f\n", *x, *y,
+	canvas->zoom_xofs, canvas->zoom_yofs, DISPLAY_X1 (canvas),
+		DISPLAY_Y1 (canvas), canvas->pixels_per_unit); */
+/*	*x = canvas->scroll_x1 +
+		(*x + DISPLAY_X1 (canvas) - canvas->zoom_xofs) * zoom;
+	*y = canvas->scroll_y1 +
+	(*y + DISPLAY_Y1 (canvas) - canvas->zoom_yofs) * zoom;*/
 }
 
 static void
@@ -906,7 +915,7 @@ object_event (GnomeCanvasItem *item, GdkEvent *event, SheetObject *so)
 	static int total_x, total_y;
 	int dx, dy;
 	
-	switch (event->type){
+	switch (event->type) {
 	case GDK_ENTER_NOTIFY:
 		cursor_set_widget (item->canvas, GNUMERIC_CURSOR_ARROW);
 		break;

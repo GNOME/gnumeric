@@ -50,6 +50,7 @@ static GList *workbook_list = NULL;
 static WORKBOOK_PARENT_CLASS *workbook_parent_class;
 
 static void workbook_set_focus (GtkWindow *window, GtkWidget *focus, Workbook *wb);
+static int  workbook_can_close (Workbook *wb);
 
 static void
 new_cmd (void)
@@ -1983,14 +1984,19 @@ workbook_new (void)
 {
 	GnomeDockItem *item;
 	GtkWidget *toolbar;
-	Workbook *wb;
+	Workbook  *wb;
+	int        sx, sy;
 
 	wb = gtk_type_new (workbook_get_type ());
 	wb->toplevel  = gnome_app_new ("Gnumeric", "Gnumeric");
 	wb->table     = gtk_table_new (0, 0, 0);
 
 	gtk_window_set_policy (GTK_WINDOW(wb->toplevel), 1, 1, 0);
-	gtk_window_set_default_size (GTK_WINDOW(wb->toplevel), 600, 400);
+	sx = MAX (gdk_screen_width  () - 64, 400);
+	sy = MAX (gdk_screen_height () - 64, 200);
+	sx = (sx * 3) / 4;
+	sy = (sx * 3) / 4;
+	gtk_window_set_default_size (GTK_WINDOW(wb->toplevel), sx, sy);
 
 	workbook_set_title (wb, _("Untitled.gnumeric"));
 
@@ -2160,12 +2166,17 @@ workbook_rename_sheet (Workbook *wb, const char *old_name, const char *new_name)
 static gboolean
 sheet_label_text_changed_signal (EditableLabel *el, const char *new_name, Workbook *wb)
 {
+	gboolean ans;
+
 	if (strchr (new_name, '"'))
 		return FALSE;
 	if (strchr (new_name, '\''))
 		return FALSE;
 
-	return workbook_rename_sheet (wb, el->text, new_name);
+	ans = workbook_rename_sheet (wb, el->text, new_name);
+	workbook_focus_current_sheet (wb);
+
+	return ans;
 }
 
 /**

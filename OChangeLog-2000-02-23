@@ -1,3 +1,25 @@
+1999-09-10  Michael Meeks  <michael@nuclecu.unam.mx>
+
+	* src/sheet-object.c (window_to_world): Added debug.
+
+	* src/widgets/widget-editable-label.c (el_start_editing): 
+
+	* src/workbook.c (sheet_label_text_changed_signal): Return focus
+	to the main sheet when finished.
+
+	* src/widgets/widget-editable-label.c (el_stop_editing): Convert
+	gtk_object_unrefs to gtk_object_destroy's kills wierd debug.
+	(el_destroy): NULL freed pointer.
+	(el_start_editing): Add vital widget_grab_focus.
+
+	* src/cursors.h (cursor_set_widget): Use G_STMT_* in macros.
+
+	* src/workbook.c (workbook_can_close): Add forward definition.
+	(workbook_new): Update sizing algo. to fit to the screen better.
+
+	* src/main.c (gnumeric_main): Process gtk draw events between loading
+	files, can't slow us down and looks lots better !
+
 1999-09-10  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/functions/fn-*: Added tons of examples to help strings.

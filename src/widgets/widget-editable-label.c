@@ -120,6 +120,8 @@ el_start_editing (El *el, const char *text)
 {
 	GtkWidget *toplevel;
 
+	gtk_widget_grab_focus (GTK_WIDGET (el));
+
 	/*
 	 * Create a GtkEntry to actually do the editing.
 	 */
@@ -144,20 +146,20 @@ el_start_editing (El *el, const char *text)
 static void
 el_stop_editing (El *el)
 {
-	if (el->entry){
+	if (el->entry) {
 		GtkWidget *toplevel = gtk_widget_get_toplevel (el->entry);
 		
-		gtk_object_unref (GTK_OBJECT (toplevel));
+		gtk_object_destroy (GTK_OBJECT (toplevel));
 		el->entry = NULL;
 	}
 
-	if (el->cursor){
-		gtk_object_unref (GTK_OBJECT (el->cursor));
+	if (el->cursor) {
+		gtk_object_destroy (GTK_OBJECT (el->cursor));
 		el->cursor = NULL;
 	}
 
-	if (el->background){
-		gtk_object_unref (GTK_OBJECT (el->background));
+	if (el->background) {
+		gtk_object_destroy (GTK_OBJECT (el->background));
 		el->background = NULL;
 	}
 
@@ -260,7 +262,7 @@ el_key_press_event (GtkWidget *widget, GdkEventKey *event)
 	if (!el->entry)
 		return FALSE;
 
-	if (event->keyval == GDK_Escape){
+	if (event->keyval == GDK_Escape) {
 		el_stop_editing (el);
 		el_change_text (el, el->text);
 		
@@ -304,7 +306,7 @@ el_class_init (ElClass *class)
 	widget_class->size_request = el_size_request;
 	widget_class->button_press_event = el_button_press_event;
 	widget_class->key_press_event = el_key_press_event;
-  widget_class->realize = el_realize;
+	widget_class->realize = el_realize;
 
 	/* The signals */
 	el_signals [TEXT_CHANGED] =
@@ -375,9 +377,8 @@ editable_label_set_text (EditableLabel *el, const char *text)
 			"x",        (double) 1,
 			"y",        (double) 1,
 			NULL);
-	} else {
+	} else
 		el_change_text (el, text);
-	}
 }
 
 GtkWidget *

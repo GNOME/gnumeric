@@ -10,6 +10,12 @@ Jukka:
 	  ISPMT, RECEIVED, PRICEDISC, PRICEMAT, TBILLEQ, TBILLPRICE,
 	  and TBILLYIELD functions
 
+Michael:
+	* Re-implemented sheet objects,
+	* Implemented drop filename -> Bonobo component conversion,
+	* More intelligent workbook sizing.
+	* Fixed sheet tab focus / editing.
+
 Miguel:
 	* Implemented Print Preview
 
