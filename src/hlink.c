@@ -54,11 +54,11 @@
  * Return TRUE if the link successfully activated.
  **/
 gboolean
-gnm_hlink_activate (GnmHLink *link, WorkbookControl *wbv)
+gnm_hlink_activate (GnmHLink *lnk, WorkbookControl *wbv)
 {
-	g_return_val_if_fail (GNM_IS_HLINK (link), FALSE);
+	g_return_val_if_fail (GNM_IS_HLINK (lnk), FALSE);
 
-	return GET_CLASS (link)->Activate (link, wbv);
+	return GET_CLASS (lnk)->Activate (lnk, wbv);
 }
 
 GnmHLink *
@@ -73,10 +73,10 @@ static void
 gnm_hlink_finalize (GObject *obj)
 {
 	GObjectClass *parent_class;
-	GnmHLink *link = (GnmHLink *)obj;
+	GnmHLink *lnk = (GnmHLink *)obj;
 
-	g_free (link->tip);
-	link->tip = NULL;
+	g_free (lnk->tip);
+	lnk->tip = NULL;
 
 	parent_class = g_type_class_peek (G_TYPE_OBJECT);
 	if (parent_class && parent_class->finalize)
@@ -91,8 +91,8 @@ gnm_hlink_class_init (GObjectClass *object_class)
 static void
 gnm_hlink_init (GObject *obj)
 {
-	GnmHLink *link = (GnmHLink * )obj;
-	link->tip = NULL;
+	GnmHLink *lnk = (GnmHLink * )obj;
+	lnk->tip = NULL;
 }
 GSF_CLASS_ABSTRACT (GnmHLink, gnm_hlink,
 		    gnm_hlink_class_init, gnm_hlink_init, G_TYPE_OBJECT)
@@ -127,9 +127,9 @@ typedef struct {
 #define GNM_HLINK_CUR_WB(o) (G_TYPE_CHECK_INSTANCE_CAST ((o), gnm_hlink_cur_wb_get_type (), GnmHLinkCurWB))
 
 static gboolean
-gnm_hlink_cur_wb_activate (GnmHLink *link, WorkbookControl *wbc)
+gnm_hlink_cur_wb_activate (GnmHLink *lnk, WorkbookControl *wbc)
 {
-	GnmHLinkCurWB *cur_wb = (GnmHLinkCurWB *)link;
+	GnmHLinkCurWB *cur_wb = (GnmHLinkCurWB *)lnk;
 	RangeRef const *r;
 	CellPos tmp;
 	Sheet	  *sheet = wb_control_cur_sheet      (wbc);
@@ -169,10 +169,10 @@ static void
 gnm_hlink_cur_wb_finalize (GObject *obj)
 {
 	GObjectClass *parent_class;
-	GnmHLinkCurWB *link = (GnmHLinkCurWB *)obj;
+	GnmHLinkCurWB *lnk = (GnmHLinkCurWB *)obj;
 
-	g_free (link->target);
-	link->target = NULL;
+	g_free (lnk->target);
+	lnk->target = NULL;
 
 	parent_class = g_type_class_peek (GNM_HLINK_TYPE);
 	if (parent_class && parent_class->finalize)
@@ -190,8 +190,8 @@ gnm_hlink_cur_wb_class_init (GObjectClass *object_class)
 static void
 gnm_hlink_cur_wb_init (GObject *obj)
 {
-	GnmHLinkCurWB *link = (GnmHLinkCurWB* )obj;
-	link->target = NULL;
+	GnmHLinkCurWB *lnk = (GnmHLinkCurWB* )obj;
+	lnk->target = NULL;
 }
 
 GSF_CLASS (GnmHLinkCurWB, gnm_hlink_cur_wb,
@@ -199,18 +199,18 @@ GSF_CLASS (GnmHLinkCurWB, gnm_hlink_cur_wb,
 	   GNM_HLINK_TYPE)
 
 guchar const *
-gnm_hlink_cur_wb_get_target (GnmHLink const *link)
+gnm_hlink_cur_wb_get_target (GnmHLink const *lnk)
 {
-	GnmHLinkCurWB const *cur_wb = GNM_HLINK_CUR_WB (link);
+	GnmHLinkCurWB const *cur_wb = GNM_HLINK_CUR_WB (lnk);
 
 	g_return_val_if_fail (cur_wb != NULL, NULL);
 	return cur_wb->target;
 }
 
 void
-gnm_hlink_cur_wb_set_target (GnmHLink *link, guchar const *target)
+gnm_hlink_cur_wb_set_target (GnmHLink *lnk, guchar const *target)
 {
-	GnmHLinkCurWB *cur_wb = GNM_HLINK_CUR_WB (link);
+	GnmHLinkCurWB *cur_wb = GNM_HLINK_CUR_WB (lnk);
 	guchar *tmp;
 
 	g_return_if_fail (cur_wb != NULL);
@@ -230,12 +230,12 @@ typedef struct {
 #define GNM_HLINK_URL(o) (G_TYPE_CHECK_INSTANCE_CAST ((o), gnm_hlink_url_get_type (), GnmHLinkURL))
 
 static gboolean
-gnm_hlink_url_activate (GnmHLink *link, WorkbookControl *wbc)
+gnm_hlink_url_activate (GnmHLink *lnk, WorkbookControl *wbc)
 {
-	GnmHLinkURL *url = (GnmHLinkURL *)link;
+	GnmHLinkURL *url = (GnmHLinkURL *)lnk;
 	GError *err = NULL;
 	gboolean res;
-	
+
 	if (url->url == NULL)
 		return FALSE;
 
@@ -254,10 +254,10 @@ static void
 gnm_hlink_url_finalize (GObject *obj)
 {
 	GObjectClass *parent_class;
-	GnmHLinkURL *link = (GnmHLinkURL *)obj;
+	GnmHLinkURL *lnk = (GnmHLinkURL *)obj;
 
-	g_free (link->url);
-	link->url = NULL;
+	g_free (lnk->url);
+	lnk->url = NULL;
 
 	parent_class = g_type_class_peek (GNM_HLINK_TYPE);
 	if (parent_class && parent_class->finalize)
@@ -274,8 +274,8 @@ gnm_hlink_url_class_init (GObjectClass *object_class)
 static void
 gnm_hlink_url_init (GObject *obj)
 {
-	GnmHLinkURL *link = (GnmHLinkURL* )obj;
-	link->url = NULL;
+	GnmHLinkURL *lnk = (GnmHLinkURL* )obj;
+	lnk->url = NULL;
 }
 
 GSF_CLASS (GnmHLinkURL, gnm_hlink_url,
@@ -283,18 +283,18 @@ GSF_CLASS (GnmHLinkURL, gnm_hlink_url,
 	   GNM_HLINK_TYPE)
 
 guchar const *
-gnm_hlink_url_get_url (GnmHLink const *link)
+gnm_hlink_url_get_url (GnmHLink const *lnk)
 {
-	GnmHLinkURL const *url = GNM_HLINK_URL (link);
+	GnmHLinkURL const *url = GNM_HLINK_URL (lnk);
 
 	g_return_val_if_fail (url != NULL, NULL);
 	return url->url;
 }
 
 void
-gnm_hlink_url_set_target (GnmHLink *link, guchar const *target)
+gnm_hlink_url_set_target (GnmHLink *lnk, guchar const *target)
 {
-	GnmHLinkURL *url = GNM_HLINK_URL (link);
+	GnmHLinkURL *url = GNM_HLINK_URL (lnk);
 	guchar *tmp;
 
 	g_return_if_fail (url != NULL);
@@ -303,4 +303,3 @@ gnm_hlink_url_set_target (GnmHLink *link, guchar const *target)
 	g_free (url->url);
 	url->url = tmp;
 }
-

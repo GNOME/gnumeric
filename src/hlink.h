@@ -16,11 +16,11 @@ guchar const	*gnm_hlink_get_tip  (GnmHLink const *l);
 void		 gnm_hlink_set_tip  (GnmHLink *l, guchar const *tip);
 
 GType gnm_hlink_cur_wb_get_type (void);
-guchar const *gnm_hlink_cur_wb_get_target (GnmHLink const *link);
-void	      gnm_hlink_cur_wb_set_target (GnmHLink *link, guchar const *target);
+guchar const *gnm_hlink_cur_wb_get_target (GnmHLink const *lnk);
+void	      gnm_hlink_cur_wb_set_target (GnmHLink *lnk, guchar const *target);
 
 GType gnm_hlink_url_get_type (void);
-guchar const *gnm_hlink_url_get_target (GnmHLink const *link);
-void	      gnm_hlink_url_set_target (GnmHLink *link, guchar const *url);
+guchar const *gnm_hlink_url_get_target (GnmHLink const *lnk);
+void	      gnm_hlink_url_set_target (GnmHLink *lnk, guchar const *url);
 
 #endif /* GNUMERIC_HLINK_H */
