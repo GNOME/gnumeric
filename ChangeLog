@@ -1,3 +1,16 @@
+2002-09-05  Jody Goldberg <jody@gnome.org>
+
+	* src/xml-io.c (xml_write_style) : fix writing styles now that links
+	  are always defined.
+
+2002-09-05  Jody Goldberg <jody@gnome.org>
+
+	* src/parser.y (yylex) : support 1/2 absolute row only refs.
+
+2002-09-04  Jody Goldberg <jody@gnome.org>
+
+	* src/item-edit.c (item_edit_draw) : fix leak.
+
 2002-09-04  Jody Goldberg <jody@gnome.org>
 
 	* schemas/Makefile.am : get the schemas translated

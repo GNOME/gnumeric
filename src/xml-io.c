@@ -534,7 +534,8 @@ xml_write_style (XmlParseContext *ctxt,
 		 MStyle *style)
 {
 	xmlNodePtr  cur, child;
-	xmlChar       *tstr;
+	xmlChar    *tstr;
+	GnmHLink   *link;
 
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, (xmlChar const *)"Style",
 			     NULL);
@@ -614,9 +615,7 @@ xml_write_style (XmlParseContext *ctxt,
 					   mstyle_get_font_strike (style));
 	}
 
-	if (mstyle_is_element_set (style, MSTYLE_HLINK)) {
-		GnmHLink *link = mstyle_get_hlink (style);
-
+	if ((link = mstyle_get_hlink (style)) != NULL) {
 		child = xmlNewChild (cur, ctxt->ns,
 			(xmlChar const *)"HyperLink", NULL);
 		xml_node_set_cstr (child, "type",
