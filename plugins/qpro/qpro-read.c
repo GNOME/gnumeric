@@ -37,6 +37,7 @@
 #include <style-color.h>
 #include <parse-util.h>
 #include <module-plugin-defs.h>
+#include <io-context.h>
 
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-input.h>
