@@ -1,0 +1,22 @@
+From miguel Mon Sep  6 18:33:25 -0500 1999
+From: Miguel de Icaza <miguel@gnu.org>
+To: gnome-announce-list@gnome.org, gnome-list@gnome.org, gnumeric-list@gnome.org
+Subject: Gnumeric 0.34 has been released
+
+
+Hello guys,
+
+   I just released a bug fix version of Gnumeric that will enable the
+international files to be build in your machine (the actual code did
+compile on my machine, I do not know why distcheck did not notice the
+missing files).
+
+   I also took a chance to update the documentation (I have to
+manually regenerate this on each release).
+
+Availability:
+
+	ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric
+
+Best wishes,
+Miguel.
