@@ -4443,6 +4443,47 @@ random_bernoulli (gnum_float p)
 }
 
 /*
+ * Generate a cauchy distributed number. From the GNU Scientific library 1.1.1.
+ * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
+ */
+gnum_float
+random_cauchy (gnum_float a)
+{
+        gnum_float u;
+
+	do {
+	        u = random_01 ();
+	} while (u == 0.5);
+
+	return a * tan (M_PI * u);
+}
+
+/*
+ * Generate a lognormal distributed number. From the GNU Scientific
+ * library 1.1.1.
+ * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
+ */
+gnum_float
+random_lognormal (gnum_float zeta, gnum_float sigma)
+{
+        gnum_float u, v, r2, normal;
+
+	do {
+	        /* choose x,y in uniform square (-1,-1) to (+1,+1) */
+
+	        u = -1 + 2 * random_01 ();
+		v = -1 + 2 * random_01 ();
+
+		/* see if it is in the unit circle */
+		r2 = u * u + v * v;
+	} while (r2 > 1.0 || r2 == 0);
+
+	normal = u * sqrt (-2.0 * log (r2) / r2);
+
+	return exp (sigma * normal + zeta);
+}
+
+/*
  * Generate 2^n being careful not to overflow
  */
 gnum_float

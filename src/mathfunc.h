@@ -112,6 +112,8 @@ gnum_float random_negbinom    (gnum_float p, int f);
 gnum_float random_exponential (gnum_float b);
 gnum_float random_bernoulli   (gnum_float p);
 gnum_float random_normal      (void);
+gnum_float random_cauchy      (gnum_float a);
+gnum_float random_lognormal   (gnum_float zeta, gnum_float sigma);
 
 /* ------------------------------------------------------------------------- */
 
