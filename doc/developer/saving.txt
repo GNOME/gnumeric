@@ -73,10 +73,8 @@ ColRowInfo
    int pixels
 
 Cell
-   ColRowInfo *col /* should save the pos value */
-   ColRowInfo *row /* should save the pos value */
-   char      *entered_text
-   int       flags /* should it be save ? Don't think so */
+   CellPos pos
+   StyleFormat *parse_format	// The format used to parse the input text
 
 ------------ Summary : long list of items and their values -----------
 

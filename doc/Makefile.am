@@ -11,6 +11,7 @@ EXTRA_DIST = 				\
 	README				\
 	saving.txt			\
 	writing-functions.sgml		\
+	excel-format-doc.txt		\
 	linux-expo-99-gnumeric.tex      \
 	linuxexpo.sty 			\
 	Dependencies.txt 		\
