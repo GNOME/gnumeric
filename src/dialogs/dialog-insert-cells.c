@@ -10,7 +10,7 @@
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 #include "gnumeric.h"
-#include "gnumeric-util.h"
+#include "gui-util.h"
 #include "selection.h"
 #include "dialogs.h"
 #include "workbook.h"

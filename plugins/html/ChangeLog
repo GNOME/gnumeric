@@ -1,3 +1,11 @@
+2001-08-24  Jody Goldberg <jgoldberg@home.com>
+
+	* font.h : don't include a gui headerfile.
+	* boot.h : ditto.
+	* html.h : ditto.
+	* latex.h : ditto.
+	* roff.h : ditto.
+
 2001-08-21  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* plugin.xml: Removed

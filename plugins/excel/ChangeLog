@@ -1,6 +1,8 @@
 2001-08-24  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c : fix and prune includes.
+	* ms-excel-write.c : ditto.
+	* boot.c : ditto.
 
 2001-08-23  Jody Goldberg <jgoldberg@home.com>
 

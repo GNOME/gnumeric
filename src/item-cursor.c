@@ -21,7 +21,7 @@
 #include "value.h"
 #include "workbook.h"
 #include "workbook-edit.h"
-#include "gnumeric-util.h"
+#include "gui-util.h"
 #include "cmd-edit.h"
 #include "commands.h"
 #include "ranges.h"

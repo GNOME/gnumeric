@@ -18,7 +18,7 @@
 #include "utils-dialog.h"
 #include "widgets/widget-font-selector.h"
 #include "widgets/gnumeric-dashed-canvas-line.h"
-#include "gnumeric-util.h"
+#include "gui-util.h"
 #include "selection.h"
 #include "ranges.h"
 #include "format.h"

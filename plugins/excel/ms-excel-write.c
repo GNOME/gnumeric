@@ -18,6 +18,37 @@
  * FIXME: Check for errors and propagate upward. We've only started.
  */
 #include <config.h>
+#include "ms-formula-write.h"
+#include "boot.h"
+#include "ms-biff.h"
+#include "excel.h"
+#include "ms-excel-write.h"
+#include "ms-excel-xf.h"
+
+#include <gnumeric.h>
+#include <format.h>
+#include <position.h>
+#include <style-color.h>
+#include <cell.h>
+#include <sheet-object.h>
+#include <sheet-object-cell-comment.h>
+#include <application.h>
+#include <style.h>
+#include <sheet-style.h>
+#include <format.h>
+#include <main.h>
+#include <value.h>
+#include <parse-util.h>
+#include <print-info.h>
+#include <workbook-view.h>
+#include <workbook.h>
+#include <io-context.h>
+#include <expr.h>
+#include <gutils.h>
+#include <str.h>
+
+
+#include <libole2/ms-ole.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/mman.h>
@@ -29,37 +60,6 @@
 #include <math.h>
 
 #include <gnome.h>
-
-#include "boot.h"
-#include "gnumeric.h"
-#include "gnumeric-util.h"
-#include "format.h"
-#include "position.h"
-#include "style-color.h"
-#include "cell.h"
-#include "sheet-object.h"
-#include "sheet-object-cell-comment.h"
-#include "application.h"
-#include "style.h"
-#include "sheet-style.h"
-#include "format.h"
-#include "main.h"
-#include "value.h"
-#include "parse-util.h"
-#include "print-info.h"
-#include "workbook-view.h"
-#include "workbook.h"
-#include "io-context.h"
-#include "expr.h"
-#include "gutils.h"
-#include "str.h"
-
-#include <libole2/ms-ole.h>
-#include "ms-biff.h"
-#include "excel.h"
-#include "ms-excel-write.h"
-#include "ms-excel-xf.h"
-#include "ms-formula-write.h"
 
 #define N_ELEMENTS_BETWEEN_PROGRESS_UPDATES   20
 

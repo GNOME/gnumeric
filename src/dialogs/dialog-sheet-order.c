@@ -12,7 +12,7 @@
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 #include "gnumeric.h"
-#include "gnumeric-util.h"
+#include "gui-util.h"
 #include "dialogs.h"
 #include "workbook-control-gui.h"
 #include "workbook-view.h"

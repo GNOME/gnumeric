@@ -4,31 +4,20 @@
  * Author:
  *    Sean Atkinson <sca20@cam.ac.uk>
  **/
-#include <stdio.h>
-#include <unistd.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <fcntl.h>
-#include <errno.h>
 #include <config.h>
-#include <stdio.h>
-#include <ctype.h>
-#include <gnome.h>
-#include "gnumeric.h"
-#include "io-context.h"
-#include "workbook-view.h"
-#include "workbook.h"
-#include "gnumeric-util.h"
-#include "main.h"
-#include "value.h"
-#include "cell.h"
-#include "file.h"
-#include "error-info.h"
-#include "plugin.h"
-#include "plugin-util.h"
-#include "module-plugin-defs.h"
 #include "xbase.h"
-#include "sheet.h"
+
+#include <workbook-view.h>
+#include <workbook.h>
+#include <cell.h>
+#include <plugin.h>
+#include <plugin-util.h>
+#include <module-plugin-defs.h>
+#include <sheet.h>
+
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnome/gnome-util.h>
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 

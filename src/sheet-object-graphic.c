@@ -17,7 +17,7 @@
 #include "sheet-control-gui.h"
 #include "gnumeric-canvas.h"
 #include "str.h"
-#include "gnumeric-util.h"
+#include "gui-util.h"
 #include "sheet-object-graphic.h"
 #include "sheet-object-impl.h"
 

@@ -3,7 +3,7 @@ Working in Gnumeric
 
    When writing Gnumeric our priorities are
 
-	1) Correct.
+	1) Correctness.
 	2) Maintainable & Documented
 	3) Modular and well designed
 	and a distant
@@ -88,8 +88,7 @@ modular chunks (as detailed by Linus).
 
 	- Follow the Gnumeric commenting style, which is not the Gtk
 	  style;
-		/*
-		 * ie. use this for
+		/* ie. use this for
 		 * multi-line comments
 		 */
 

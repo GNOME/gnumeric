@@ -6,34 +6,23 @@
  *
  * partially based on the Lotus-123 code,
  * partially based on actual Oleo code.
- *
  */
 #include <config.h>
-#include "gnumeric.h"
-
-#include <stdio.h>
-#include <errno.h>
-#include <unistd.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <fcntl.h>
-#include <assert.h>
-#include <stdio.h>
-#include <ctype.h>
-#include <gnome.h>
-#include "workbook.h"
-#include "io-context.h"
-#include "cell.h"
-#include "gnumeric-util.h"
-#include "main.h"
-#include "sheet.h"
-#include "value.h"
-#include "file.h"
-#include "parse-util.h"
-#include "plugin-util.h"
-#include "error-info.h"
-
 #include "oleo.h"
+
+#include <workbook.h>
+#include <sheet.h>
+#include <cell.h>
+#include <value.h>
+#include <parse-util.h>
+#include <plugin-util.h>
+
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+
+#include <ctype.h>
+#include <string.h>
+#include <stdlib.h>
 
 #define OLEO_DEBUG 0
 

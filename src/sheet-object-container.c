@@ -14,7 +14,7 @@
 #include "workbook-control-gui-priv.h"
 #include "workbook-private.h"
 #include "sheet.h"
-#include "gnumeric-util.h"
+#include "gui-util.h"
 #include "sheet-control-gui.h"
 #include "gnumeric-canvas.h"
 #include "sheet-object-container.h"

@@ -15,7 +15,7 @@
 #include "sheet.h"
 #include "workbook.h"
 #include "command-context.h"
-#include "gnumeric-util.h"
+#include "gui-util.h"
 
 #include <limits.h>
 #include <sys/time.h>
@@ -213,6 +213,7 @@ io_progress_update (IOContext *io_context, gdouble f)
 		}
 	}
 
+	/* FIXME : abstract this into the workbook control */
 	while (gtk_events_pending ())
 		gtk_main_iteration_do (FALSE);
 }

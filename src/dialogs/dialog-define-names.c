@@ -21,7 +21,7 @@
 #include "workbook.h"
 #include "workbook-control.h"
 #include "workbook-edit.h"
-#include "gnumeric-util.h"
+#include "gui-util.h"
 #include "parse-util.h"
 #include "widgets/gnumeric-expr-entry.h"
 

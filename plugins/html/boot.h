@@ -23,7 +23,6 @@
 #define GNUMERIC_HTML_BOOT_H
 
 #include "gnumeric.h"
-#include "gnumeric-util.h"
 #include "plugin.h"
 #include "plugin-util.h"
 

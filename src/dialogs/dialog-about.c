@@ -12,7 +12,7 @@
 #include "gnumeric.h"
 #include "dialogs.h"
 #include "workbook.h"
-#include "gnumeric-util.h"
+#include "gui-util.h"
 
 #define ABOUT_KEY          "about-dialog"
 

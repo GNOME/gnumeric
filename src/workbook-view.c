@@ -25,7 +25,6 @@
 #include "workbook.h"
 #include "history.h"
 #include "workbook-private.h"
-#include "gnumeric-util.h"
 #include "application.h"
 #include "sheet.h"
 #include "sheet-merge.h"

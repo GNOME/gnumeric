@@ -31,7 +31,7 @@
 #include <gal/util/e-util.h>
 #include <gal/util/e-xml-utils.h>
 #include "gnumeric.h"
-#include "gnumeric-util.h"
+#include "gui-util.h"
 #include "gutils.h"
 #include "command-context.h"
 #include "file.h"
@@ -1731,6 +1731,8 @@ plugins_init (CommandContext *context)
 		error = error_info_new_str_with_details_list (
 		        _("Errors while initializing plugin system."),
 		        error_list);
+
+		/* FIXME : abastract this in workbook control, or command context */
 		gnumeric_error_info_dialog_show (WORKBOOK_CONTROL_GUI (context), error);
 		error_info_free (error);
 	}

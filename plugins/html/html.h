@@ -25,7 +25,6 @@
 #include "gnumeric.h"
 #include "file.h"
 #include "error-info.h"
-#include "gnumeric-util.h"
 
 void html32_file_save (GnumFileSaver const *fs, IOContext *io_context, WorkbookView *wb_view, const char *filename);
 void html40_file_save (GnumFileSaver const *fs, IOContext *io_context, WorkbookView *wb_view, const char *filename);

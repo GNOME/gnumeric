@@ -9,7 +9,7 @@
 #include <ctype.h>
 #include <glade/glade.h>
 #include "gnumeric.h"
-#include "gnumeric-util.h"
+#include "gui-util.h"
 #include "func.h"
 #include "dialogs.h"
 #include "workbook.h"

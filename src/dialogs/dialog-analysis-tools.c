@@ -17,7 +17,7 @@
 #include "workbook.h"
 #include "workbook-control.h"
 #include "workbook-view.h"
-#include "gnumeric-util.h"
+#include "gui-util.h"
 #include "utils-dialog.h"
 #include "dialogs.h"
 #include "parse-util.h"

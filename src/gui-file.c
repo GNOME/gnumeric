@@ -7,7 +7,7 @@
  */
 #include <config.h>
 #include "gui-file.h"
-#include "gnumeric-util.h"
+#include "gui-util.h"
 #include "dialogs.h"
 #include "sheet.h"
 #include "application.h"

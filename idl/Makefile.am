@@ -46,11 +46,11 @@ stamp_gnumeric_graphs_idl : $(srcdir)/gnumeric-graphs.idl
 $(GNUMERIC_GRAPHS_GENERATED): stamp_gnumeric_graphs_idl
 
 if ENABLE_EVOLUTION
-stamp_evolution :
+stamp_evolution_idl :
 	$(ORBIT_IDL) $(IDL_FLAGS) `$(GNOME_CONFIG) --datadir`/idl/Evolution-Composer.idl
 	touch $@
 
-$(EVOLUTION_GENERATED) : stamp_evolution
+$(EVOLUTION_GENERATED) : stamp_evolution_idl
 
 endif
 
@@ -63,7 +63,7 @@ EXTRA_DIST = $(idl_DATA)
 CLEANFILES  += $(GNUMERIC_GENERATED)		\
 	       $(GNUMERIC_GRAPHS_GENERATED)	\
 	       $(EVOLUTION_GENERATED)		\
-		stamp_gnumeric stamp_gnumeric_graphs stamp_evolution
+		stamp_gnumeric_idl stamp_gnumeric_graphs_idl stamp_evolution_idl
 
 dist-hook :
 	cd $(distdir) && rm -f $(CLEANFILES)

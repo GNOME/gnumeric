@@ -28,7 +28,7 @@
 #include "consolidate.h"
 #include "func.h"
 #include "gnumeric.h"
-#include "gnumeric-util.h"
+#include "gui-util.h"
 #include "ranges.h"
 #include "selection.h"
 #include "widgets/gnumeric-expr-entry.h"

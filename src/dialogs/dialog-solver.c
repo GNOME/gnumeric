@@ -14,7 +14,7 @@
 #include <string.h>
 #include <glade/glade.h>
 #include "gnumeric.h"
-#include "gnumeric-util.h"
+#include "gui-util.h"
 #include "dialogs.h"
 #include "utils-dialog.h"
 #include "func.h"

@@ -11,8 +11,8 @@
 #include <libgnome/gnome-i18n.h>
 #include "gnumeric.h"
 #include "eval.h"
-#include "gnumeric-util.h"
 #include "ranges.h"
+#include "gui-util.h"
 #include "selection.h"
 #include "workbook-control.h"
 #include "workbook.h"

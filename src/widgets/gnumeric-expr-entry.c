@@ -13,7 +13,7 @@
 #include "sheet-control-gui.h"
 #include "sheet-merge.h"
 #include "parse-util.h"
-#include "gnumeric-util.h"
+#include "gui-util.h"
 #include "ranges.h"
 #include "value.h"
 #include "sheet.h"

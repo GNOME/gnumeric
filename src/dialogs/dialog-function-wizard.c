@@ -27,7 +27,7 @@
 #include <gdk/gdkkeysyms.h>
 #include "gnumeric.h"
 #include "parse-util.h"
-#include "gnumeric-util.h"
+#include "gui-util.h"
 #include "dialogs.h"
 #include "workbook.h"
 #include "sheet.h"

@@ -5,7 +5,7 @@
 #include <glib.h>
 #include <glade/glade.h>
 
-#include "gnumeric-util.h"
+#include "gui-util.h"
 #include "stf-export.h"
 
 /* for the sheet page */

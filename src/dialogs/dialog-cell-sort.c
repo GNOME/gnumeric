@@ -15,7 +15,7 @@
 #include <ctype.h>
 #include "gnumeric.h"
 #include "workbook-view.h"
-#include "gnumeric-util.h"
+#include "gui-util.h"
 #include "dialogs.h"
 #include "cell.h"
 #include "expr.h"

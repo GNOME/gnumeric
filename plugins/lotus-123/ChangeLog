@@ -1,6 +1,8 @@
 2001-08-24  Jody Goldberg <jgoldberg@home.com>
 
 	* lotus.[ch] : fix and prune includes.
+	* boot.c: fix and prune includes.
+	* lotus-formula.c: fix and prune includes.
 
 2001-08-21  Zbigniew Chyla  <cyba@gnome.pl>
 

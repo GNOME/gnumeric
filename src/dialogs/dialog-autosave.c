@@ -11,7 +11,7 @@
 #include "gnumeric.h"
 #include "workbook.h"
 #include "workbook-control-gui-priv.h"
-#include "gnumeric-util.h"
+#include "gui-util.h"
 #include "dialogs.h"
 
 #include <libgnome/gnome-defs.h>

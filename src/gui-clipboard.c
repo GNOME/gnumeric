@@ -6,7 +6,7 @@
  */
 #include <config.h>
 #include "gui-clipboard.h"
-#include "gnumeric-util.h"
+#include "gui-util.h"
 #include "clipboard.h"
 #include "selection.h"
 #include "application.h"

@@ -18,7 +18,6 @@
 #include "sheet.h"
 #include "cell.h"
 #include "expr.h"
-#include "gnumeric-util.h"
 #include "parse-util.h"
 #include "widgets/gnumeric-expr-entry.h"
 

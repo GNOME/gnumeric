@@ -11,7 +11,7 @@
 #include "formats.h"
 #include "style.h"
 #include "mstyle.h"
-#include "gnumeric-util.h"
+#include "gui-util.h"
 
 #include "stf-parse.h"
 

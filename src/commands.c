@@ -24,7 +24,6 @@
  */
 #include <config.h>
 #include "commands.h"
-#include "gnumeric-util.h"
 #include "application.h"
 #include "sheet.h"
 #include "sheet-style.h"
@@ -51,9 +50,10 @@
 #include "sheet-autofill.h"
 #include "mstyle.h"
 #include "search.h"
+#include "gutils.h"
 #include "sheet-object-cell-comment.h"
 #include "sheet-object.h"
-#include "sheet-control-gui.h"
+#include "sheet-control.h"
 
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
@@ -638,6 +638,7 @@ cmd_set_text (WorkbookControl *wbc,
 		return TRUE;
 	}
 
+	/* FIXME : abstract this */
 	/* From src/dialogs/dialog-autocorrect.c */
 	corrected_text = autocorrect_tool (new_text);
 

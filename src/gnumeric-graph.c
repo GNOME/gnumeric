@@ -29,14 +29,9 @@
 #include "cell.h"
 #include "sheet.h"
 #include "workbook-private.h"
-
-char const *const gnm_graph_vector_type_name [] =
-{
-    "Unknown", "scalars", "dates (unimplemented)", "strings",
-};
-
 #include "sheet-object-container.h"
 #include "idl/gnumeric-graphs.h"
+
 #include <bonobo.h>
 #include <liboaf/liboaf.h>
 #include <gal/util/e-util.h>
@@ -96,6 +91,11 @@ typedef struct {
 	(GnmGraphVector *)(((char *)ptr) - GTK_STRUCT_OFFSET(GnmGraphVector, servant))
 
 /***************************************************************************/
+
+char const *const gnm_graph_vector_type_name [] =
+{
+    "Unknown", "scalars", "dates (unimplemented)", "strings",
+};
 
 static void
 gnm_graph_clear_vectors_internal (GnmGraph *graph, gboolean unsubscribe)

@@ -1,23 +1,13 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <sys/mman.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <fcntl.h>
 #include <config.h>
-#include <stdio.h>
-#include <ctype.h>
-#include <errno.h>
-#include <gnome.h>
-#include "gnumeric.h"
-#include "gnumeric-util.h"
-#include "format.h"
-#include "gutils.h"
-#include "io-context.h"
 #include "xbase.h"
 
-#define XBASE_DEBUG 0
+#include <format.h>
+#include <gutils.h>
+#include <io-context.h>
 
+#include <string.h>
+
+#define XBASE_DEBUG 0
 
 static const char *field_types = "CNLDMF?BGPYTI";
 

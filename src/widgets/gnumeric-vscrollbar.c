@@ -20,7 +20,7 @@
 
 #include <config.h>
 #include "application.h"
-#include "gnumeric-util.h"
+#include "gui-util.h"
 #include "gnumeric-vscrollbar.h"
 
 #include <gal/util/e-util.h>

@@ -93,13 +93,13 @@ GNUMERIC_BASE_SOURCES =				\
 	gnumeric-canvas.h			\
 	gnumeric-pane.c				\
 	gnumeric-pane.h				\
-	gnumeric-util.c				\
-	gnumeric-util.h				\
 	gnumeric.h				\
 	gui-clipboard.c				\
 	gui-clipboard.h				\
 	gui-file.c				\
 	gui-file.h				\
+	gui-util.c				\
+	gui-util.h				\
 	gui-gnumeric.h				\
 	gutils.c				\
 	gutils.h				\

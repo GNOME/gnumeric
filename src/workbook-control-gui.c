@@ -54,7 +54,7 @@
 #include "search.h"
 #include "error-info.h"
 #include "pixmaps/equal-sign.xpm"
-#include "gnumeric-util.h"
+#include "gui-util.h"
 #include "widgets/gnumeric-toolbar.h"
 #include "widgets/widget-editable-label.h"
 

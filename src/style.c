@@ -10,10 +10,11 @@
 #include "format.h"
 #include "style-color.h"
 #include "application.h"
-#include "gnumeric-util.h"
 #include "sheet.h"
 #include "cell.h"
 #include "value.h"
+
+#include "gui-util.h"
 
 #include <glib.h>
 #include <string.h>
@@ -281,6 +282,8 @@ font_init (void)
 			? _("Your fontmap2 file does not have a valid entry for Helvetica.")
 			: _("Your fontmap2 file could not be found in the expected location."),
 			fontmap_fn, lc_all, lang);
+
+		/* Ick ! We should do this somewhere when we have a command context. */
 		gnumeric_notice (NULL, GNOME_MESSAGE_BOX_ERROR, msg);
 		exit (1);
 	}

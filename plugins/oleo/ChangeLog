@@ -1,3 +1,9 @@
+2001-08-24  Jody Goldberg <jgolberg@home.com>
+
+	* boot.c : prune includes.
+	* oleo.h : add gnumeric.h
+	* oleo.c : prune includes.
+
 2001-08-21  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* plugin.xml: Removed

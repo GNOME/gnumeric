@@ -18,7 +18,6 @@
 #include "rangefunc.h"
 #include "numbers.h"
 #include "gnumeric.h"
-#include "gnumeric-util.h"
 #include "dialogs.h"
 #include "parse-util.h"
 #include "tools.h"

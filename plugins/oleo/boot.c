@@ -6,30 +6,13 @@
  *
  * (this file adapted from lotus-123/boot.c)
  **/
-#include <stdio.h>
-#include <unistd.h>
-#include <sys/mman.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <fcntl.h>
-#include <assert.h>
 #include <config.h>
-#include <stdio.h>
-#include <ctype.h>
-#include <gnome.h>
-#include "gnumeric.h"
-#include "io-context.h"
-#include "workbook-view.h"
-#include "workbook.h"
-#include "gnumeric-util.h"
-#include "main.h"
-#include "sheet.h"
-#include "file.h"
-#include "error-info.h"
-#include "plugin.h"
-#include "plugin-util.h"
-#include "module-plugin-defs.h"
 #include "oleo.h"
+
+#include <workbook-view.h>
+#include <plugin.h>
+#include <plugin-util.h>
+#include <module-plugin-defs.h>
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 

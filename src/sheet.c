@@ -17,7 +17,6 @@
 #include "workbook-private.h"
 #include "workbook-edit.h"
 #include "parse-util.h"
-#include "gnumeric-util.h"
 #include "eval.h"
 #include "value.h"
 #include "number-match.h"

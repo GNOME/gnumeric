@@ -357,7 +357,6 @@ dnl ******************************
 try_bonobo=true
 bonobo=
 bonobo_msg=no
-using_oaf=no
 bonobo_suffix=
 have_bonobo=false
 AC_ARG_WITH(bonobo,
@@ -368,7 +367,7 @@ AC_ARG_WITH(bonobo,
 )
 
 if $try_bonobo; then
-	AC_MSG_CHECKING(for Bonobo >= 1.09						)
+	AC_MSG_CHECKING(for Bonobo >= 1.08						)
 	if gnome-config --libs bonobo > /dev/null 2>&1; then
 		verstxt=`gnome-config --modversion bonobo`
 		vers=`echo "$verstxt" | sed -e "s/^bonobo-//" | \
@@ -378,25 +377,13 @@ if $try_bonobo; then
 		vers=0
 	fi
 
-	if test "$vers" -ge 1000009; then
+	if test "$vers" -ge 1000008; then
 		AC_MSG_RESULT($marker_ok found $verstxt)
 		AC_DEFINE(ENABLE_BONOBO)
 		have_bonobo=true
 		bonobo=bonobox_print
 		bonobo_msg=yes
 		bonobo_suffix=-bonobo
-
-		dnl Check if Bonobo is OAFized
-
-		AC_MSG_CHECKING(if Bonobo uses OAF)
-		if ( gnome-config --libs bonobo | grep ' -loaf ' ) > /dev/null 2>&1 ; then
-			using_oaf=yes
-			AC_DEFINE(USING_OAF)
-		fi
-
-		AC_MSG_RESULT($using_oaf)
-
-		AM_CONDITIONAL(USING_OAF, test x"$using_oaf" = "xyes")
 	else
 		if test "$vers" -eq 0; then
 			AC_MSG_RESULT($marker_no not found)

@@ -5,9 +5,26 @@
  *    Miguel de Icaza (miguel@gnu.org)
  *
  * Handles printing of Sheets.
- *
  */
 #include <config.h>
+#include "gnumeric.h"
+#include "gui-util.h"
+#include "sheet-object.h"
+#include "sheet-object-impl.h"
+#include "selection.h"
+#include "workbook.h"
+#include "dialogs.h"
+#include "main.h"
+#include "sheet.h"
+#include "value.h"
+#include "cellspan.h"
+#include "print-info.h"
+#include "print.h"
+#include "print-cell.h"
+#include "application.h"
+#include "sheet-style.h"
+#include "ranges.h"
+
 #include <glib.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
@@ -24,24 +41,6 @@
 #ifdef ENABLE_BONOBO
 #	include <bonobo/bonobo-print-client.h>
 #endif
-
-#include "gnumeric.h"
-#include "gnumeric-util.h"
-#include "sheet-object.h"
-#include "sheet-object-impl.h"
-#include "selection.h"
-#include "workbook.h"
-#include "dialogs.h"
-#include "main.h"
-#include "sheet.h"
-#include "value.h"
-#include "cellspan.h"
-#include "print-info.h"
-#include "print.h"
-#include "print-cell.h"
-#include "application.h"
-#include "sheet-style.h"
-#include "ranges.h"
 
 extern int print_debugging;
 

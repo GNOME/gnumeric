@@ -1,7 +1,9 @@
 #ifndef GNUMERIC_PLUGIN_XBASE_XBASE_H
 #define GNUMERIC_PLUGIN_XBASE_XBASE_H
 
-#include "gnumeric.h"
+#include <gnumeric.h>
+#include <stdio.h>
+#include <error-info.h>
 
 typedef struct { /* field format */
 	guint8 name[11]; /* name, including terminating '\0' */

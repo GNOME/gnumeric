@@ -22,7 +22,7 @@
  */
 #include <config.h>
 #include "gnumeric-graph.h"
-#include "gnumeric-util.h"
+#include "gui-util.h"
 #include "ranges.h"
 #include "selection.h"
 #include "expr.h"

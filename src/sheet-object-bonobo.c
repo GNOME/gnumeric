@@ -22,7 +22,7 @@
 #include "workbook.h"
 #include "sheet.h"
 #include "workbook-private.h"
-#include "gnumeric-util.h"
+#include "gui-util.h"
 #include "sheet-object-bonobo.h"
 
 #include <math.h>

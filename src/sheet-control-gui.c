@@ -23,7 +23,7 @@
 #include "style.h"
 #include "sheet-object-impl.h"
 #include "sheet-object-cell-comment.h"
-#include "gnumeric-util.h"
+#include "gui-util.h"
 #include "parse-util.h"
 #include "selection.h"
 #include "application.h"

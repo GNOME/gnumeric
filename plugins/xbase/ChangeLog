@@ -1,3 +1,8 @@
+2001-08-24  Jody Goldberg <jgoldberg@home.com>
+
+	* boot.[ch] : fix the includes.
+	* xbase.[ch] : fix the includes.
+
 2001-08-21  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* plugin.xml: Removed

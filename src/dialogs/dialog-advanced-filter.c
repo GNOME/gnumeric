@@ -17,7 +17,7 @@
 #include "dialogs.h"
 #include "ranges.h"
 #include "func-util.h"
-#include "gnumeric-util.h"
+#include "gui-util.h"
 #include "analysis-tools.h"
 
 #define OK               0

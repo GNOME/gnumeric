@@ -26,7 +26,7 @@
 #include "dialogs.h"
 
 #include "gnumeric.h"
-#include "gnumeric-util.h"
+#include "gui-util.h"
 #include "widgets/gnumeric-expr-entry.h"
 #include "workbook-edit.h"
 

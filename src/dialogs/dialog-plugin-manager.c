@@ -20,7 +20,7 @@
 #include <gal/util/e-util.h>
 
 #include "gnumeric.h"
-#include "gnumeric-util.h"
+#include "gui-util.h"
 #include "command-context.h"
 #include "workbook-control.h"
 #include "workbook.h"

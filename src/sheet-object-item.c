@@ -9,7 +9,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <bonobo/bonobo-ui-component.h>
 #include "gnumeric.h"
-#include "gnumeric-util.h"
+#include "gui-util.h"
 #include "gnumeric-canvas.h"
 #include "sheet-control-gui-priv.h"
 #include "workbook-control-gui-priv.h"

@@ -27,7 +27,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <math.h>
 #include "gnumeric.h"
-#include "gnumeric-util.h"
+#include "gui-util.h"
 #include "eval.h"
 #include "gnumeric-canvas.h"
 #include "sheet-control-gui.h"

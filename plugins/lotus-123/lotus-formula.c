@@ -5,22 +5,16 @@
  *    See: README
  *    Michael Meeks <michael@imagiantor.com>
  **/
-#include <stdio.h>
-#include <unistd.h>
 #include <config.h>
-#include <ctype.h>
-#include "gnumeric.h"
-#include "gnumeric-util.h"
-#include "main.h"
-#include "sheet.h"
-#include "expr.h"
-#include "func.h"
-#include "value.h"
-#include "gutils.h"
-
 #include "lotus.h"
 #include "lotus-types.h"
 #include "lotus-formula.h"
+
+#include <gnumeric.h>
+#include <expr.h>
+#include <value.h>
+#include <gutils.h>
+#include <func.h>
 
 #define FORMULA_DEBUG 0
 

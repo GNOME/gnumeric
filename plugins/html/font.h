@@ -22,8 +22,7 @@
 #ifndef G_PLUGIN_FONT_H_
 #define G_PLUGIN_FONT_H_
 
-#include "../../src/gnumeric.h"
-#include "../../src/gnumeric-util.h"
+#include <gnumeric.h>
 
 int font_is_monospaced (MStyle *mstyle);
 int font_is_helvetica  (MStyle *mstyle);

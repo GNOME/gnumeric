@@ -19,7 +19,7 @@
 #include "gnumeric-canvas.h"
 #include "gnumeric-pane.h"
 #include "workbook-edit.h"
-#include "gnumeric-util.h"
+#include "gui-util.h"
 #include "parse-util.h"
 #include "commands.h"
 

@@ -5,31 +5,18 @@
  *    See: README
  *    Michael Meeks <mmeeks@gnu.org>
  **/
-#include <stdio.h>
-#include <unistd.h>
-#include <sys/mman.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <fcntl.h>
-#include <assert.h>
 #include <config.h>
-#include <stdio.h>
-#include <ctype.h>
-#include <gnome.h>
-#include "gnumeric.h"
-#include "io-context.h"
-#include "workbook-view.h"
-#include "workbook.h"
-#include "gnumeric-util.h"
-#include "main.h"
-#include "sheet.h"
-#include "file.h"
-
 #include "lotus.h"
 #include "lotus-types.h"
-#include "plugin.h"
-#include "plugin-util.h"
-#include "module-plugin-defs.h"
+
+#include <gnumeric.h>
+#include <workbook-view.h>
+#include <file.h>
+#include <plugin.h>
+#include <plugin-util.h>
+#include <module-plugin-defs.h>
+
+#include <stdio.h>
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 

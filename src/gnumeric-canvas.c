@@ -9,7 +9,7 @@
 
 #include "gnumeric-canvas.h"
 #include "sheet-control-gui-priv.h"
-#include "gnumeric-util.h"
+#include "gui-util.h"
 #include "mstyle.h"
 #include "style-color.h"
 #include "selection.h"

@@ -14,7 +14,7 @@
 #include <glade/glade.h>
 #include <ctype.h>
 #include "gnumeric.h"
-#include "gnumeric-util.h"
+#include "gui-util.h"
 #include "dialogs.h"
 #include "commands.h"
 #include "workbook.h"

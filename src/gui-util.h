@@ -1,5 +1,5 @@
-#ifndef GNUMERIC_GNUMERIC_UTIL_H
-#define GNUMERIC_GNUMERIC_UTIL_H
+#ifndef GNUMERIC_GUI_UTIL_H
+#define GNUMERIC_GUI_UTIL_H
 
 #include <libgnomeui/libgnomeui.h>
 #include <glade/glade-xml.h>
@@ -98,4 +98,4 @@ void gnumeric_create_popup_menu (GnumericPopupMenuElement const *elements,
 
 #define gnumeric_filter_modifiers(a) ((a) &(~(GDK_LOCK_MASK|GDK_MOD2_MASK|GDK_MOD5_MASK)))
 
-#endif /* GNUMERIC_GNUMERIC_UTIL_H */
+#endif /* GNUMERIC_GUI_UTIL_H */

@@ -3,11 +3,10 @@
  *
  * Author:
  *  Miguel de Icaza (miguel@gnu.org)
- *
  */
 #include <config.h>
 #include "workbook-control-gui-priv.h"
-#include "gnumeric-util.h"
+#include "gui-util.h"
 #include "gutils.h"
 #include "parse-util.h"
 #include "style.h"
