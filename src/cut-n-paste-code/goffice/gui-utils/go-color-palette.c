@@ -52,7 +52,7 @@
 #include <string.h>
 
 typedef struct _ColorNamePair ColorNamePair;
-struct _ColorPalette {
+struct _GOColorPalette {
 	GtkVBox	base;
 
 	GOColorGroup *group;
@@ -72,10 +72,10 @@ typedef struct {
 	GtkVBoxClass base;
 
 	/* Signals emited by this widget */
-	void (*color_changed) (ColorPalette *pal, GOColor color,
+	void (*color_changed) (GOColorPalette *pal, GOColor color,
 			       gboolean is_custom, gboolean by_user, gboolean is_default);
-	void (*display_custom_dialog) (ColorPalette *pal, GtkWidget *dialog);
-} ColorPaletteClass;
+	void (*display_custom_dialog) (GOColorPalette *pal, GtkWidget *dialog);
+} GOColorPaletteClass;
 
 #define COLOR_PREVIEW_WIDTH 12
 #define COLOR_PREVIEW_HEIGHT 12
@@ -161,9 +161,9 @@ static ColorNamePair const default_color_set [] = {
 	{ 0, NULL},
 };
 
-static guint color_palette_signals [LAST_SIGNAL] = { 0, };
+static guint go_color_palette_signals [LAST_SIGNAL] = { 0, };
 
-static GObjectClass *color_palette_parent_class;
+static GObjectClass *go_color_palette_parent_class;
 
 static GObject *
 create_color_sel (GObject *action_proxy, GOColor c, GCallback handler)
@@ -207,46 +207,46 @@ handle_color_sel (GtkColorSelectionDialog *dialog,
 static void
 go_color_palette_finalize (GObject *object)
 {
-	ColorPalette *pal = COLOR_PALETTE (object);
+	GOColorPalette *pal = GO_COLOR_PALETTE (object);
 
 	if (pal->tip) {
 		g_object_unref (pal->tip);
 		pal->tip = NULL;
 	}
 
-	color_palette_set_group (pal, NULL);
+	go_color_palette_set_group (pal, NULL);
 
-	(*color_palette_parent_class->finalize) (object);
+	(*go_color_palette_parent_class->finalize) (object);
 }
 
 static void
-color_palette_class_init (GObjectClass *gobject_class)
+go_color_palette_class_init (GObjectClass *gobject_class)
 {
 	gobject_class->finalize = go_color_palette_finalize;
 
-	color_palette_parent_class = g_type_class_peek_parent (gobject_class);
+	go_color_palette_parent_class = g_type_class_peek_parent (gobject_class);
 
-	color_palette_signals [COLOR_CHANGED] =
+	go_color_palette_signals [COLOR_CHANGED] =
 		g_signal_new ("color_changed",
 			      G_OBJECT_CLASS_TYPE (gobject_class),
 			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ColorPaletteClass, color_changed),
+			      G_STRUCT_OFFSET (GOColorPaletteClass, color_changed),
 			      NULL, NULL,
 			      go__VOID__INT_BOOLEAN_BOOLEAN_BOOLEAN,
 			      G_TYPE_NONE, 4, G_TYPE_INT,
 			      G_TYPE_BOOLEAN, G_TYPE_BOOLEAN, G_TYPE_BOOLEAN);
-	color_palette_signals [DISPLAY_CUSTOM_DIALOG] =
+	go_color_palette_signals [DISPLAY_CUSTOM_DIALOG] =
 		g_signal_new ("display-custom-dialog",
 			      G_OBJECT_CLASS_TYPE (gobject_class),
 			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ColorPaletteClass, display_custom_dialog),
+			      G_STRUCT_OFFSET (GOColorPaletteClass, display_custom_dialog),
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__OBJECT,
 			      G_TYPE_NONE, 1, G_TYPE_OBJECT);
 }
 
-GSF_CLASS (ColorPalette, color_palette,
-	   color_palette_class_init, NULL,
+GSF_CLASS (GOColorPalette, go_color_palette,
+	   go_color_palette_class_init, NULL,
 	   GTK_TYPE_VBOX)
 
 /*
@@ -266,7 +266,7 @@ color_in_palette (ColorNamePair const *set, GOColor color)
 }
 
 static void
-set_color (ColorPalette *pal, GOColor color, gboolean is_custom,
+set_color (GOColorPalette *pal, GOColor color, gboolean is_custom,
 	   gboolean by_user, gboolean is_default)
 {
 	if (is_default)
@@ -274,12 +274,12 @@ set_color (ColorPalette *pal, GOColor color, gboolean is_custom,
 	if (!color_in_palette (pal->default_set, color))
 		go_color_group_add_color (pal->group, color);
 	pal->selection = color;
-	g_signal_emit (pal, color_palette_signals [COLOR_CHANGED], 0,
+	g_signal_emit (pal, go_color_palette_signals [COLOR_CHANGED], 0,
 		       color, is_custom, by_user, is_default);
 }
 
 static void
-cb_history_changed (ColorPalette *pal)
+cb_history_changed (GOColorPalette *pal)
 {
 	int i;
 	GdkColor gdk;
@@ -298,14 +298,14 @@ cb_history_changed (ColorPalette *pal)
 }
 
 static gboolean
-cb_default_release_event (GtkWidget *button, GdkEventButton *event, ColorPalette *pal)
+cb_default_release_event (GtkWidget *button, GdkEventButton *event, GOColorPalette *pal)
 {
 	set_color (pal, pal->default_color, FALSE, TRUE, TRUE);
 	return TRUE;
 }
 
 static void
-swatch_activated (ColorPalette *pal, GtkBin *button)
+swatch_activated (GOColorPalette *pal, GtkBin *button)
 {
 	GList *tmp = gtk_container_get_children (GTK_CONTAINER (gtk_bin_get_child (button)));
 	GtkWidget *swatch = (tmp != NULL) ? tmp->data : NULL;
@@ -319,7 +319,7 @@ swatch_activated (ColorPalette *pal, GtkBin *button)
 }
 
 static gboolean
-cb_swatch_release_event (GtkBin *button, GdkEventButton *event, ColorPalette *pal)
+cb_swatch_release_event (GtkBin *button, GdkEventButton *event, GOColorPalette *pal)
 {
 #warning TODO do I want to check for which button ?
 	swatch_activated (pal, button);
@@ -327,7 +327,7 @@ cb_swatch_release_event (GtkBin *button, GdkEventButton *event, ColorPalette *pa
 }
 
 static gboolean
-cb_swatch_key_press (GtkBin *button, GdkEventKey *event, ColorPalette *pal)
+cb_swatch_key_press (GtkBin *button, GdkEventKey *event, GOColorPalette *pal)
 {
 	if (event->keyval == GDK_Return ||
 	    event->keyval == GDK_KP_Enter ||
@@ -344,7 +344,7 @@ cb_swatch_key_press (GtkBin *button, GdkEventKey *event, ColorPalette *pal)
  * Utility function
  */
 static GtkWidget *
-color_palette_button_new (ColorPalette *pal, GtkTable* table, GtkTooltips *tip,
+go_color_palette_button_new (GOColorPalette *pal, GtkTable* table, GtkTooltips *tip,
 			  ColorNamePair const * color_name, gint col, gint row)
 {
         GtkWidget *button, *swatch, *box;
@@ -380,32 +380,32 @@ cb_combo_custom_response (GtkColorSelectionDialog *dialog,
 			  gint response_id, GObject *src)
 {
 	handle_color_sel (dialog, response_id, src,
-		color_palette_signals [COLOR_CHANGED]);
+		go_color_palette_signals [COLOR_CHANGED]);
 }
 
 static void
-cb_combo_custom_clicked (GtkWidget *button, ColorPalette *pal)
+cb_combo_custom_clicked (GtkWidget *button, GOColorPalette *pal)
 {
-	g_signal_emit (pal, color_palette_signals [DISPLAY_CUSTOM_DIALOG], 0,
+	g_signal_emit (pal, go_color_palette_signals [DISPLAY_CUSTOM_DIALOG], 0,
 		create_color_sel (G_OBJECT (pal), pal->selection,
 				  G_CALLBACK (cb_combo_custom_response)));
 }
 
 void
-color_palette_set_title	(ColorPalette *pal, char const *title)
+go_color_palette_set_title	(GOColorPalette *pal, char const *title)
 {
 	g_object_set_data_full (G_OBJECT (pal), "title", 
 		g_strdup (title), g_free);
 }
 
 /**
- * color_palette_set_group :
+ * go_color_palette_set_group :
  * @cg : #GOColorGroup
  *
  * Absorb the reference to the group
  */
 void
-color_palette_set_group (ColorPalette *pal, GOColorGroup *cg)
+go_color_palette_set_group (GOColorPalette *pal, GOColorGroup *cg)
 {
 	if (pal->group == cg)
 		return;
@@ -425,7 +425,7 @@ color_palette_set_group (ColorPalette *pal, GOColorGroup *cg)
 	}
 }
 static GtkWidget *
-color_palette_setup (ColorPalette *pal,
+go_color_palette_setup (GOColorPalette *pal,
 		     char const *no_color_label,
 		     int cols, int rows,
 		     ColorNamePair const *color_names)
@@ -454,7 +454,7 @@ color_palette_setup (ColorPalette *pal,
 			pos = row * cols + col;
 			if (color_names [pos].name == NULL)
 				goto custom_colors;
-			color_palette_button_new ( pal,
+			go_color_palette_button_new ( pal,
 				GTK_TABLE (table), GTK_TOOLTIPS (tip),
 				&(color_names [pos]), col, row + 1);
 		}
@@ -465,7 +465,7 @@ custom_colors :
 	for (col = 0; col < cols && col < GO_COLOR_GROUP_HISTORY_SIZE; col++) {
 		ColorNamePair color_name = { 0, N_("custom") };
 		color_name.color = pal->group->history [col];
-		pal->swatches [col] = color_palette_button_new (pal,
+		pal->swatches [col] = go_color_palette_button_new (pal,
 			GTK_TABLE (table), GTK_TOOLTIPS (tip),
 			&color_name, col, row + 1);
 	}
@@ -483,13 +483,13 @@ custom_colors :
 }
 
 void
-color_palette_set_color_to_default (ColorPalette *pal)
+go_color_palette_set_color_to_default (GOColorPalette *pal)
 {
 	set_color (pal, pal->default_color, FALSE, TRUE, TRUE);
 }
 
 void
-color_palette_set_current_color (ColorPalette *pal, GOColor color)
+go_color_palette_set_current_color (GOColorPalette *pal, GOColor color)
 {
 	set_color (pal, color,
 		   color_in_palette (pal->default_set, color),
@@ -497,7 +497,7 @@ color_palette_set_current_color (ColorPalette *pal, GOColor color)
 }
 
 GOColor
-color_palette_get_current_color (ColorPalette *pal, gboolean *is_default)
+go_color_palette_get_current_color (GOColorPalette *pal, gboolean *is_default)
 {
 	if (is_default != NULL)
 		*is_default = pal->current_is_default;
@@ -506,31 +506,31 @@ color_palette_get_current_color (ColorPalette *pal, gboolean *is_default)
 }
 
 void
-color_palette_set_allow_alpha (ColorPalette *pal, gboolean allow_alpha)
+go_color_palette_set_allow_alpha (GOColorPalette *pal, gboolean allow_alpha)
 {
 	pal->allow_alpha = allow_alpha;
 }
 
 GtkWidget *
-color_palette_new (char const *no_color_label,
+go_color_palette_new (char const *no_color_label,
 		   GOColor default_color,
 		   GOColorGroup *cg)
 {
-	ColorPalette *pal;
+	GOColorPalette *pal;
 	int const cols = 8;
 	int const rows = 6;
 	ColorNamePair const *color_names = default_color_set;
 
-	pal = g_object_new (COLOR_PALETTE_TYPE, NULL);
+	pal = g_object_new (GO_COLOR_PALETTE_TYPE, NULL);
 
 	pal->default_set   = color_names;
 	pal->default_color = default_color;
 	pal->selection = default_color;
 	pal->current_is_default = TRUE;
-	color_palette_set_group (pal, cg);
+	go_color_palette_set_group (pal, cg);
 
 	gtk_container_add (GTK_CONTAINER (pal),
-		color_palette_setup (pal, no_color_label, cols, rows,
+		go_color_palette_setup (pal, no_color_label, cols, rows,
 				     pal->default_set));
 	return GTK_WIDGET (pal);
 }
@@ -547,7 +547,7 @@ typedef struct {
 	GtkMenuClass	base;
 	void (* color_changed) (GOMenuColor *menu, GOColor color,
 				gboolean custom, gboolean by_user, gboolean is_default);
-	void (*display_custom_dialog) (ColorPalette *pal, GtkWidget *dialog);
+	void (*display_custom_dialog) (GOColorPalette *pal, GtkWidget *dialog);
 } GOMenuColorClass;
 
 static guint go_menu_color_signals [LAST_SIGNAL] = { 0, };
@@ -568,7 +568,7 @@ go_menu_color_class_init (GObjectClass *gobject_class)
 		g_signal_new ("display-custom-dialog",
 			      G_OBJECT_CLASS_TYPE (gobject_class),
 			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ColorPaletteClass, display_custom_dialog),
+			      G_STRUCT_OFFSET (GOColorPaletteClass, display_custom_dialog),
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__OBJECT,
 			      G_TYPE_NONE, 1, G_TYPE_OBJECT);
@@ -627,12 +627,23 @@ cb_menu_custom_activate (GtkWidget *button, GOMenuColor *menu)
 				  G_CALLBACK (cb_menu_custom_response)));
 }
 
+/**
+ * go_color_palette_make_menu:
+ * @no_color_labe :
+ * default_color: #GOColor
+ * @cg : #GOColorGroup
+ * @custom_dialog_title :
+ * @current_color : #GOColor
+ *
+ * Create a submenu with a palette of colours.  Caller is responsible for
+ * creating an item to point to the submenu.
+ **/
 GtkWidget *
-color_palette_make_menu (char const *no_color_label,
-			 GOColor default_color,
-			 GOColorGroup *cg,
-			 char const *custom_dialog_title,
-			 GOColor current_color)
+go_color_palette_make_menu (char const *no_color_label,
+			    GOColor default_color,
+			    GOColorGroup *cg,
+			    char const *custom_dialog_title,
+			    GOColor current_color)
 {
 	int cols = 8;
 	int rows = 6;
@@ -693,4 +704,3 @@ custom_colors :
 
 	return submenu;
 }
-

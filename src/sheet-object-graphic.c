@@ -457,7 +457,7 @@ cb_fill_color_changed (GtkWidget *cc, GOColor color,
 		       DialogGraphicData *state)
 {
 	gnm_so_graphic_set_fill_color (SHEET_OBJECT (state->sog),
-		color_combo_get_style_color (cc));
+		go_combo_color_get_style_color (cc));
 	foo_canvas_item_set (state->arrow, "fill_color_gdk", color, NULL);
 }
 
@@ -492,13 +492,13 @@ sheet_object_graphic_user_config (SheetObject *so, SheetControl *sc)
 				   2, 3, 0, (sog->type != SHEET_OBJECT_ARROW) ? 2 : 5);
 	gtk_widget_show (GTK_WIDGET (state->canvas));
 
-	w = color_combo_new (NULL, NULL, 0,
+	w = go_combo_color_new (NULL, NULL, 0,
 		go_color_group_fetch ("color", so));
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (glade_xml_get_widget (state->gui, "label_color")), w);
 	gnm_setup_label_atk (
 		glade_xml_get_widget (state->gui, "label_color"), w);
-	color_combo_set_color (COLOR_COMBO (w),
+	go_combo_color_set_color (GO_COMBO_COLOR (w),
 		sog->fill_color ? &sog->fill_color->color : NULL);
 	state->fill_color = style_color_ref (sog->fill_color);
 	gtk_table_attach_defaults (GTK_TABLE (table), w, 1, 2, 0, 1);
@@ -879,7 +879,7 @@ cb_fillcolor_changed (GtkWidget *cc, GOColor color,
 		      SheetObject *so)
 {
 	gnm_so_graphic_set_fill_color (so,
-		color_combo_get_style_color (cc));
+		go_combo_color_get_style_color (cc));
 }
 
 static void
@@ -888,7 +888,7 @@ cb_outlinecolor_changed (GtkWidget *cc, GOColor color,
 			 SheetObject *so)
 {
 	gnm_so_filled_set_outline_color (so,
-		color_combo_get_style_color (cc));
+		go_combo_color_get_style_color (cc));
 }
 
 static void
@@ -940,13 +940,13 @@ sheet_object_filled_user_config (SheetObject *so, SheetControl *sc)
 
  	table = glade_xml_get_widget (state->gui, "table");
 
-	w = color_combo_new (NULL, _("Transparent"), 0,
+	w = go_combo_color_new (NULL, _("Transparent"), 0,
 		go_color_group_fetch ("outline_color", so));
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (glade_xml_get_widget (state->gui, "border_label")), w);
 	gnm_setup_label_atk (
 		glade_xml_get_widget (state->gui, "border_label"), w);
-	color_combo_set_color (COLOR_COMBO (w),
+	go_combo_color_set_color (GO_COMBO_COLOR (w),
 		sof->outline_color ? &sof->outline_color->color : NULL);
 	state->outline_color = style_color_ref (sof->outline_color);
 	gtk_table_attach_defaults (GTK_TABLE (table), w, 1, 2, 0, 1);
@@ -955,13 +955,13 @@ sheet_object_filled_user_config (SheetObject *so, SheetControl *sc)
 		"color_changed",
 		G_CALLBACK (cb_outlinecolor_changed), so);
 
-	w = color_combo_new (NULL, _("Transparent"), 0,
+	w = go_combo_color_new (NULL, _("Transparent"), 0,
 		go_color_group_fetch ("fill_color", so));
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (glade_xml_get_widget (state->gui, "fill_label")), w);
 	gnm_setup_label_atk (
 		glade_xml_get_widget (state->gui, "fill_label"), w);
-	color_combo_set_color (COLOR_COMBO (w),
+	go_combo_color_set_color (GO_COMBO_COLOR (w),
 		sog->fill_color ? &sog->fill_color->color : NULL);
 	state->fill_color = style_color_ref (sog->fill_color);
 	gtk_table_attach_defaults (GTK_TABLE (table), w, 1, 2, 1, 2);

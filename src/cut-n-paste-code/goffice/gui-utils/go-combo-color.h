@@ -35,25 +35,25 @@
 
 G_BEGIN_DECLS
 
-#define COLOR_COMBO_TYPE	(color_combo_get_type ())
-#define COLOR_COMBO(o)		(G_TYPE_CHECK_INSTANCE_CAST((o), COLOR_COMBO_TYPE, ColorCombo))
-#define IS_COLOR_COMBO(o)	(G_TYPE_CHECK_INSTANCE_TYPE((o), COLOR_COMBO_TYPE))
-#define COLOR_COMBO_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST(k), COLOR_COMBO_TYPE)
+#define GO_COMBO_COLOR_TYPE	(go_combo_color_get_type ())
+#define GO_COMBO_COLOR(o)		(G_TYPE_CHECK_INSTANCE_CAST((o), GO_COMBO_COLOR_TYPE, GOComboColor))
+#define IS_GO_COMBO_COLOR(o)	(G_TYPE_CHECK_INSTANCE_TYPE((o), GO_COMBO_COLOR_TYPE))
+#define GO_COMBO_COLOR_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST(k), GO_COMBO_COLOR_TYPE)
 
-typedef struct _ColorCombo ColorCombo;
+typedef struct _GOComboColor GOComboColor;
 
-GtkType    color_combo_get_type   (void);
-GtkWidget *color_combo_new        (GdkPixbuf   *icon,
-				   char const *no_color_label,
-				   GOColor default_color,
-				   GOColorGroup  *color_group);
-void      color_combo_set_color_to_default (ColorCombo *cc);
-void      color_combo_set_color   (ColorCombo  *cc, GdkColor *color);
-GOColor   color_combo_get_color   (ColorCombo  *cc, gboolean *is_default);
-void      color_combo_set_gocolor (ColorCombo  *cc, GOColor   color);
+GtkType    go_combo_color_get_type   (void);
+GtkWidget *go_combo_color_new        (GdkPixbuf   *icon,
+				      char const *no_color_label,
+				      GOColor default_color,
+				      GOColorGroup  *color_group);
+void     go_combo_color_set_color_to_default (GOComboColor *cc);
+void     go_combo_color_set_color    (GOComboColor  *cc, GdkColor *color);
+GOColor  go_combo_color_get_color    (GOComboColor  *cc, gboolean *is_default);
+void     go_combo_color_set_gocolor  (GOComboColor  *cc, GOColor   color);
 
-void color_combo_set_allow_alpha    (ColorCombo *cc, gboolean allow_alpha);
-void color_combo_set_instant_apply  (ColorCombo *cc, gboolean active);
+void go_combo_color_set_allow_alpha    (GOComboColor *cc, gboolean allow_alpha);
+void go_combo_color_set_instant_apply  (GOComboColor *cc, gboolean active);
 
 G_END_DECLS
 

@@ -388,7 +388,7 @@ setup_color_pickers (ColorPicker *picker,
 
 	def_gc = def_sc ? &def_sc->color : &GTK_WIDGET (state->dialog)->style->black;
 
-	combo = color_combo_new (NULL, default_caption, GDK_TO_UINT (*def_gc), cg);
+	combo = go_combo_color_new (NULL, default_caption, GDK_TO_UINT (*def_gc), cg);
 	go_combo_box_set_title (GO_COMBO_BOX (combo), caption);
 	g_signal_connect (G_OBJECT (combo),
 		"color_changed",
@@ -399,9 +399,9 @@ setup_color_pickers (ColorPicker *picker,
 	picker->preview_update = preview_update;
 
 	if (mcolor && !mcolor->is_auto)
-		color_combo_set_color (COLOR_COMBO (combo), &mcolor->color);
+		go_combo_color_set_color (GO_COMBO_COLOR (combo), &mcolor->color);
 	else
-		color_combo_set_color_to_default (COLOR_COMBO (combo));
+		go_combo_color_set_color_to_default (GO_COMBO_COLOR (combo));
 
 	frame = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_OUT);
@@ -912,7 +912,7 @@ cb_font_changed (G_GNUC_UNUSED GtkWidget *widget,
  * It is called whenever the color combo changes value.
  */
 static void
-cb_font_preview_color (G_GNUC_UNUSED ColorCombo *combo,
+cb_font_preview_color (G_GNUC_UNUSED GOComboColor *combo,
 		       GdkColor *c,
 		       G_GNUC_UNUSED gboolean is_custom,
 		       G_GNUC_UNUSED gboolean by_user,
@@ -1058,7 +1058,7 @@ back_style_changed (FormatState *state)
 }
 
 static void
-cb_back_preview_color (G_GNUC_UNUSED ColorCombo *combo,
+cb_back_preview_color (G_GNUC_UNUSED GOComboColor *combo,
 		       GdkColor *c,
 		       G_GNUC_UNUSED gboolean is_custom,
 		       G_GNUC_UNUSED gboolean by_user,
@@ -1082,7 +1082,7 @@ cb_back_preview_color (G_GNUC_UNUSED ColorCombo *combo,
 }
 
 static void
-cb_pattern_preview_color (G_GNUC_UNUSED ColorCombo *combo,
+cb_pattern_preview_color (G_GNUC_UNUSED GOComboColor *combo,
 			  GdkColor *c,
 			  G_GNUC_UNUSED gboolean is_custom,
 			  G_GNUC_UNUSED gboolean by_user,
@@ -1542,7 +1542,7 @@ cb_border_toggle (GtkToggleButton *button, BorderPicker *picker)
 }
 
 static void
-cb_border_color (G_GNUC_UNUSED ColorCombo *combo,
+cb_border_color (G_GNUC_UNUSED GOComboColor *combo,
 		 GdkColor *c,
 		 G_GNUC_UNUSED gboolean is_custom,
 		 G_GNUC_UNUSED gboolean by_user,
@@ -2335,7 +2335,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	 * Set background to No colour.  This will set states correctly.
 	 */
 	if (!has_back)
-		color_combo_set_color_to_default (COLOR_COMBO (state->back.back_color.combo));
+		go_combo_color_set_color_to_default (GO_COMBO_COLOR (state->back.back_color.combo));
 
 	/* Setup the images in the border presets */
 	for (i = 0; (name = border_preset_buttons[i]) != NULL; ++i) {

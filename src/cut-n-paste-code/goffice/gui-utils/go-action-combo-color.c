@@ -38,7 +38,7 @@
 
 typedef struct {
 	GtkToolItem	 base;
-	ColorCombo	*combo;	/* container has a ref, not us */
+	GOComboColor	*combo;	/* container has a ref, not us */
 } GOToolComboColor;
 typedef GtkToolItemClass GOToolComboColorClass;
 
@@ -138,11 +138,11 @@ go_action_combo_color_create_tool_item (GtkAction *a)
 	GOToolComboColor *tool = g_object_new (GO_TOOL_COMBO_COLOR_TYPE, NULL);
 	char *title;
 
-	tool->combo = (ColorCombo *)color_combo_new (caction->icon,
+	tool->combo = (GOComboColor *)go_combo_color_new (caction->icon,
 		caction->default_val_label, caction->default_val,
 		caction->color_group);
 
-	color_combo_set_instant_apply (COLOR_COMBO (tool->combo), TRUE);
+	go_combo_color_set_instant_apply (GO_COMBO_COLOR (tool->combo), TRUE);
 	go_combo_box_set_relief (GO_COMBO_BOX (tool->combo), GTK_RELIEF_NONE);
 	go_combo_box_set_tearable (GO_COMBO_BOX (tool->combo), TRUE);
 	title = get_title (a);
@@ -166,7 +166,7 @@ go_action_combo_color_create_menu_item (GtkAction *a)
 {
 	GOActionComboColor *caction = (GOActionComboColor *)a;
 	char * title = get_title (a);
-	GtkWidget *submenu = color_palette_make_menu (
+	GtkWidget *submenu = go_color_palette_make_menu (
 		caction->default_val_label,
 		caction->default_val,
 		caction->color_group, title, caction->current_color);

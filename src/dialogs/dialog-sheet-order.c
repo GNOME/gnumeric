@@ -132,7 +132,7 @@ location_of_iter (GtkTreeIter  *iter, GtkListStore *model)
 }
 
 static void
-cb_color_changed_fore (G_GNUC_UNUSED ColorCombo *color_combo,
+cb_color_changed_fore (G_GNUC_UNUSED GOComboColor *go_combo_color,
 		       GdkColor *color, G_GNUC_UNUSED gboolean custom,
 		       G_GNUC_UNUSED gboolean by_user,
 		       G_GNUC_UNUSED gboolean is_default,
@@ -149,7 +149,7 @@ cb_color_changed_fore (G_GNUC_UNUSED ColorCombo *color_combo,
 }
 
 static void
-cb_color_changed_back (G_GNUC_UNUSED ColorCombo *color_combo,
+cb_color_changed_back (G_GNUC_UNUSED GOComboColor *go_combo_color,
 		       GOColor color, G_GNUC_UNUSED gboolean custom,
 		       G_GNUC_UNUSED gboolean by_user,
 		       G_GNUC_UNUSED gboolean is_default,
@@ -200,8 +200,8 @@ cb_selection_changed (G_GNUC_UNUSED GtkTreeSelection *ignored,
 			    FOREGROUND_COLOUR_POINTER, &fore,
 			    -1);
 	if (!state->initial_colors_set) {
-		color_combo_set_color  (COLOR_COMBO (state->ccombo_back), back);
-		color_combo_set_color  (COLOR_COMBO (state->ccombo_fore), fore);
+		go_combo_color_set_color  (GO_COMBO_COLOR (state->ccombo_back), back);
+		go_combo_color_set_color  (GO_COMBO_COLOR (state->ccombo_fore), fore);
 		state->initial_colors_set = TRUE;
 	}
 	if (back)
@@ -955,14 +955,14 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 	vbox = GTK_BOX (glade_xml_get_widget (gui,"sheet_order_buttons_vbox"));
 	cg = go_color_group_fetch ("back_color_group",
 		wb_control_view (WORKBOOK_CONTROL (wbcg)));
-	state->ccombo_back = color_combo_new (gnm_app_get_pixbuf ("bucket"),
+	state->ccombo_back = go_combo_color_new (gnm_app_get_pixbuf ("bucket"),
 		_("Default"), 0, cg);
 	gtk_box_pack_start (vbox, state->ccombo_back, 0, 0, 0);
 	gtk_widget_set_sensitive (state->ccombo_back, FALSE);
 
 	cg = go_color_group_fetch ("fore_color_group",
 		wb_control_view (WORKBOOK_CONTROL (wbcg)));
-	state->ccombo_fore = color_combo_new (gnm_app_get_pixbuf ("font"),
+	state->ccombo_fore = go_combo_color_new (gnm_app_get_pixbuf ("font"),
 		_("Default"), 0, cg);
 	gtk_box_pack_start (vbox, state->ccombo_fore, 1, 1, 0);
 	gtk_widget_set_sensitive (state->ccombo_fore, FALSE);

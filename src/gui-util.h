@@ -82,7 +82,7 @@ void gnumeric_create_popup_menu (GnumericPopupMenuElement const *elements,
 
 #define gnumeric_filter_modifiers(a) ((a) &(~(GDK_LOCK_MASK|GDK_MOD2_MASK|GDK_MOD5_MASK)))
 
-GnmColor *color_combo_get_style_color (GtkWidget *color_combo);
+GnmColor *go_color_combo_get_style_color (GtkWidget *color_combo);
 
 void gnumeric_help_display	(char const *link);
 void gnumeric_init_help_button	(GtkWidget *w, char const *link);

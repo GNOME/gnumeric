@@ -1,7 +1,7 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * color-palette.h - A color selector palette
- * Copyright 2000, 2001, Ximian, Inc.
+ * go-color-palette.h - A color selector palette
+ * Copyright 2000-2004, Ximian, Inc.
  *
  * Authors:
  * This code was extracted from widget-color-combo.c
@@ -27,38 +27,38 @@
  * 02111-1307, USA.
  */
 
-#ifndef GNUMERIC_COLOR_PALETTE_H
-#define GNUMERIC_COLOR_PALETTE_H
+#ifndef GO_GO_COLOR_PALETTE_H
+#define GO_GO_COLOR_PALETTE_H
 
 #include <goffice/gui-utils/go-color-group.h>
 
 G_BEGIN_DECLS
 
-typedef struct _ColorPalette  ColorPalette;
+typedef struct _GOColorPalette  GOColorPalette;
 
-#define COLOR_PALETTE_TYPE     (color_palette_get_type ())
-#define COLOR_PALETTE(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), COLOR_PALETTE_TYPE, ColorPalette))
-#define COLOR_PALETTE_CLASS(k) (G_TYPE_CHECK_CLASS_CAST(k), COLOR_PALETTE_TYPE)
-#define IS_COLOR_PALETTE(obj)  (G_TYPE_CHECK_INSTANCE_TYPE((obj), COLOR_PALETTE_TYPE))
+#define GO_COLOR_PALETTE_TYPE     (go_color_palette_get_type ())
+#define GO_COLOR_PALETTE(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), GO_COLOR_PALETTE_TYPE, GOColorPalette))
+#define GO_COLOR_PALETTE_CLASS(k) (G_TYPE_CHECK_CLASS_CAST(k), GO_COLOR_PALETTE_TYPE)
+#define IS_GO_COLOR_PALETTE(obj)  (G_TYPE_CHECK_INSTANCE_TYPE((obj), GO_COLOR_PALETTE_TYPE))
 
-GtkType    color_palette_get_type (void);
+GtkType    go_color_palette_get_type (void);
 
-GtkWidget *color_palette_new	   (char const *no_color_label,
-				    GOColor default_color,
-				    GOColorGroup *color_group);
-GtkWidget *color_palette_make_menu (char const *no_color_label,
-				    GOColor default_color,
-				    GOColorGroup *color_group,
-				    char const *custom_dialog_title,
-				    GOColor current_color);
+GtkWidget *go_color_palette_new	      (char const *no_color_label,
+				       GOColor default_color,
+				       GOColorGroup *color_group);
+GtkWidget *go_color_palette_make_menu (char const *no_color_label,
+				       GOColor default_color,
+				       GOColorGroup *color_group,
+				       char const *custom_dialog_title,
+				       GOColor current_color);
 
-void	color_palette_set_title		   (ColorPalette *p, char const *title);
-void	color_palette_set_group		   (ColorPalette *p, GOColorGroup *cg);
-void    color_palette_set_current_color    (ColorPalette *p, GOColor color);
-void    color_palette_set_color_to_default (ColorPalette *p);
-GOColor color_palette_get_current_color    (ColorPalette *p, gboolean *is_default);
-void	color_palette_set_allow_alpha      (ColorPalette *p, gboolean allow_alpha);
+void	go_color_palette_set_title		(GOColorPalette *p, char const *title);
+void	go_color_palette_set_group		(GOColorPalette *p, GOColorGroup *cg);
+void    go_color_palette_set_current_color	(GOColorPalette *p, GOColor color);
+void    go_color_palette_set_color_to_default	(GOColorPalette *p);
+GOColor go_color_palette_get_current_color	(GOColorPalette *p, gboolean *is_default);
+void	go_color_palette_set_allow_alpha	(GOColorPalette *p, gboolean allow_alpha);
 
 G_END_DECLS
 
-#endif /* GNUMERIC_PALETTE_H */
+#endif /* GO_PALETTE_H */
