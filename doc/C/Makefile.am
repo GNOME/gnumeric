@@ -83,6 +83,9 @@ install-data-local: index.html
 	$(INSTALL_DATA) $$file $(DESTDIR)$(gnumeric_helpdir)/images;\
 	done
 
+uninstall-local:
+	rm -rf $(DESTDIR)$(gnumeric_helpdir)
+
 gnumeric.ps: gnumeric.sgml
 	-db2ps $<
 
