@@ -689,7 +689,7 @@ sheet_view_comment_relocate (SheetView *sheet_view, int col, int row, GnomeCanva
 
 #ifdef ENABLE_BONOBO
 void
-sheet_view_insert_object (SheetView *sheet_view, GnomeObject *object)
+sheet_view_insert_object (SheetView *sheet_view, GnomeObjectClient *object)
 {
 	GtkWidget *view;
 	

@@ -7,7 +7,6 @@
   <source_directory></source_directory>
   <pixmaps_directory>pixmaps</pixmaps_directory>
   <language>C</language>
-  <gnome_support>True</gnome_support>
   <gettext_support>True</gettext_support>
   <use_widget_names>False</use_widget_names>
   <main_source_file>gladesrc.c</main_source_file>
@@ -462,6 +461,31 @@
 	      </widget>
 	    </widget>
 	  </widget>
+
+	  <widget>
+	    <class>GtkHBox</class>
+	    <name>plot-view-1</name>
+	    <child>
+	      <left_attach>0</left_attach>
+	      <right_attach>1</right_attach>
+	      <top_attach>0</top_attach>
+	      <bottom_attach>1</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>True</xexpand>
+	      <yexpand>True</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>True</yfill>
+	    </child>
+	    <homogeneous>False</homogeneous>
+	    <spacing>0</spacing>
+
+	    <widget>
+	      <class>Placeholder</class>
+	    </widget>
+	  </widget>
 	</widget>
 
 	<widget>
@@ -770,6 +794,31 @@
 	      </widget>
 	    </widget>
 	  </widget>
+
+	  <widget>
+	    <class>GtkHBox</class>
+	    <name>plot-view-2</name>
+	    <child>
+	      <left_attach>0</left_attach>
+	      <right_attach>1</right_attach>
+	      <top_attach>0</top_attach>
+	      <bottom_attach>1</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>True</xexpand>
+	      <yexpand>True</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>True</yfill>
+	    </child>
+	    <homogeneous>False</homogeneous>
+	    <spacing>0</spacing>
+
+	    <widget>
+	      <class>Placeholder</class>
+	    </widget>
+	  </widget>
 	</widget>
 
 	<widget>
@@ -829,31 +878,6 @@
 	    <homogeneous>False</homogeneous>
 	    <row_spacing>0</row_spacing>
 	    <column_spacing>0</column_spacing>
-
-	    <widget>
-	      <class>GtkAccelLabel</class>
-	      <name>accellabel10</name>
-	      <child>
-		<left_attach>0</left_attach>
-		<right_attach>1</right_attach>
-		<top_attach>0</top_attach>
-		<bottom_attach>1</bottom_attach>
-		<xpad>0</xpad>
-		<ypad>0</ypad>
-		<xexpand>True</xexpand>
-		<yexpand>True</yexpand>
-		<xshrink>False</xshrink>
-		<yshrink>False</yshrink>
-		<xfill>True</xfill>
-		<yfill>True</yfill>
-	      </child>
-	      <label>Plot title:</label>
-	      <justify>GTK_JUSTIFY_CENTER</justify>
-	      <xalign>0</xalign>
-	      <yalign>0.5</yalign>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	    </widget>
 
 	    <widget>
 	      <class>GtkAccelLabel</class>
@@ -1074,10 +1098,47 @@
 	      <text_max_length>0</text_max_length>
 	      <text></text>
 	    </widget>
+
+	    <widget>
+	      <class>GtkAccelLabel</class>
+	      <name>accellabel10</name>
+	      <child>
+		<left_attach>0</left_attach>
+		<right_attach>1</right_attach>
+		<top_attach>0</top_attach>
+		<bottom_attach>1</bottom_attach>
+		<xpad>0</xpad>
+		<ypad>0</ypad>
+		<xexpand>True</xexpand>
+		<yexpand>True</yexpand>
+		<xshrink>False</xshrink>
+		<yshrink>False</yshrink>
+		<xfill>True</xfill>
+		<yfill>True</yfill>
+	      </child>
+	      <label>Plot title:</label>
+	      <justify>GTK_JUSTIFY_CENTER</justify>
+	      <xalign>0</xalign>
+	      <yalign>0.5</yalign>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	    </widget>
 	  </widget>
 
 	  <widget>
-	    <class>Placeholder</class>
+	    <class>GtkHBox</class>
+	    <name>plot-view-3</name>
+	    <child>
+	      <padding>0</padding>
+	      <expand>True</expand>
+	      <fill>True</fill>
+	    </child>
+	    <homogeneous>False</homogeneous>
+	    <spacing>0</spacing>
+
+	    <widget>
+	      <class>Placeholder</class>
+	    </widget>
 	  </widget>
 	</widget>
 
@@ -1250,7 +1311,19 @@
 	  </widget>
 
 	  <widget>
-	    <class>Placeholder</class>
+	    <class>GtkHBox</class>
+	    <name>plot-view-4</name>
+	    <child>
+	      <padding>0</padding>
+	      <expand>True</expand>
+	      <fill>True</fill>
+	    </child>
+	    <homogeneous>False</homogeneous>
+	    <spacing>0</spacing>
+
+	    <widget>
+	      <class>Placeholder</class>
+	    </widget>
 	  </widget>
 	</widget>
 
@@ -1414,7 +1487,19 @@
 	  </widget>
 
 	  <widget>
-	    <class>Placeholder</class>
+	    <class>GtkHBox</class>
+	    <name>plot-view-5</name>
+	    <child>
+	      <padding>0</padding>
+	      <expand>True</expand>
+	      <fill>True</fill>
+	    </child>
+	    <homogeneous>False</homogeneous>
+	    <spacing>0</spacing>
+
+	    <widget>
+	      <class>Placeholder</class>
+	    </widget>
 	  </widget>
 	</widget>
 
@@ -1548,7 +1633,19 @@
 	  </widget>
 
 	  <widget>
-	    <class>Placeholder</class>
+	    <class>GtkHBox</class>
+	    <name>plot-view-6</name>
+	    <child>
+	      <padding>0</padding>
+	      <expand>True</expand>
+	      <fill>True</fill>
+	    </child>
+	    <homogeneous>False</homogeneous>
+	    <spacing>0</spacing>
+
+	    <widget>
+	      <class>Placeholder</class>
+	    </widget>
 	  </widget>
 	</widget>
 

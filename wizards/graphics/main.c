@@ -27,16 +27,17 @@ customize (GladeXML *gui, GraphicContext *gc)
 
 	fill_graphic_types (gui, gc);
 
-	/* Stick the views all over the place */
-	gtk_table_attach (
-		GTK_TABLE (glade_xml_get_widget (gui, "data-ranges-table")),
-		gnome_component_new_view (gc->guppi),
-		0, 1, 0, 1, 0, 0, 0, 0);
+	for (i = 0; i < 6; i++){
+		GtkWidget *view, *container;
+		char *name;
 
-	gtk_table_attach (
-		GTK_TABLE (glade_xml_get_widget (gui, "data-series-table")),
-		gnome_component_new_view (gc->guppi),
-		0, 1, 0, 1, 0, 0, 0, 0);
+		name = g_strdup_printf ("plot-view-%d", i+1);
+		container = glade_xml_get_widget (gui, name);
+		g_free (name);
+		
+		view = gnome_component_new_view (gc->guppi);
+		gtk_container_add (GTK_CONTAINER (container), view);
+	}
 }
 
 static void
@@ -62,11 +63,9 @@ set_page (GraphicContext *gc, int page)
 	case 1:
 		name = _("Step 2 of 3: Select data ranges");
 		break;
-
 	case 2:
 		name = _("Step 3 of 3: Customize graphic");
 		break;
-		
 	default:
 		name = "not_reached";
 		g_assert_not_reached ();

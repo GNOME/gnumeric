@@ -12,6 +12,9 @@
 #include "gnumeric.h"
 #include "main.h"
 #include "main.h"
+#ifdef ENABLE_BONOBO
+#   include <bonobo/gnome-bonobo.h>
+#endif
 
 void
 gnumeric_arg_parse (int argc, char *argv [])

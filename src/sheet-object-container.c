@@ -73,7 +73,7 @@ void
 sheet_object_container_land (SheetObject *so)
 {
 	SheetObjectContainer *soc;
-	GnomeObject *component;
+	GnomeObjectClient *component;
 	GList *l;
 
 	g_return_if_fail (so != NULL);

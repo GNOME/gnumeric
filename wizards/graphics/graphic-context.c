@@ -13,7 +13,7 @@
 #include <bonobo/gnome-bonobo.h>
 #include "graphic-context.h"
 
-#define GUPPI_ID "Test_server_component"
+#define GUPPI_ID "Guppi_component"
 
 static GnomeObject *
 launch_guppi (void)

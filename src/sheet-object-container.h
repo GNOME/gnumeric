@@ -27,7 +27,7 @@ typedef struct {
 	/*
 	 * Points to the object server that implements this view
 	 */
-	GnomeObject     *object_server;
+	GnomeObjectClient *object_server;
 	char *repoid;
 } SheetObjectContainer;
 

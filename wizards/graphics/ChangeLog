@@ -1,3 +1,8 @@
+1999-04-28  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* graphic-context.c (GUPPI_ID): Use a GUPPI component.  Now that
+	GUPPI actually works.
+
 1999-04-26  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* graphic-context.[ch]: New files that keep track of the

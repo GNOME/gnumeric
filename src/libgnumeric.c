@@ -30,7 +30,7 @@ int gnumeric_debugging = 0;
 
 static char *dump_file_name = NULL;
 static char **startup_files = NULL;
-static char startup_glade_file = NULL;
+static char *startup_glade_file = NULL;
 
 poptContext ctx;
 
