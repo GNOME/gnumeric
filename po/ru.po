@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.54+\n"
-"POT-Creation-Date: 2000-08-18 13:03+0000\n"
-"PO-Revision-Date: 2000-08-18 13:41+00:00\n"
+"POT-Creation-Date: 2000-08-18 17:38+0000\n"
+"PO-Revision-Date: 2000-08-18 19:36+00:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -262,7 +262,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=Функция NT_MU (мю-функция Мебиуса) возвращает 0, если @n делится на квардрат простого числа.\n"
+"@DESCRIPTION=Функция NT_MU (мю-функция Мебиуса) возвращает 0, если @n "
+"делится на квардрат простого числа.\n"
 "В противном случае она возвращает:\n"
 "-1 , если @n имеет нечетное число различных простых делителей.\n"
 "1 , если @n имеет четное число различных простых делителей.\n"
@@ -1782,7 +1783,7 @@ msgstr "Денежный"
 
 #: src/dialogs/cell-format.glade.h:10
 msgid "_Accounting"
-msgstr "Возрастающий"
+msgstr "Бухгалтерский"
 
 #: src/dialogs/cell-format.glade.h:11
 msgid "_Date"
@@ -2470,7 +2471,7 @@ msgstr "Метки в первой строке"
 
 #: src/dialogs/dialog-analysis-tools.c:335
 msgid "Force Intercept to Be Zero"
-msgstr ""
+msgstr "Проходит через начало координат"
 
 #: src/dialogs/dialog-analysis-tools.c:406
 msgid "Periodic"
@@ -2704,11 +2705,11 @@ msgstr "Формат ячеек"
 
 #: src/dialogs/dialog-cell-sort.c:238
 msgid "Ascending"
-msgstr "Возрастающий"
+msgstr "Возрастанию"
 
 #: src/dialogs/dialog-cell-sort.c:241
 msgid "Descending"
-msgstr "Убывающий"
+msgstr "Убыванию"
 
 #: src/dialogs/dialog-cell-sort.c:255
 msgid "Advanced..."
@@ -2829,7 +2830,7 @@ msgstr "В значение:"
 
 #: src/dialogs/dialog-goal-seek.c:297
 msgid "By changing cell:"
-msgstr "Измененяя ячейки:"
+msgstr "Изменяя ячейки:"
 
 #: src/dialogs/dialog-goal-seek.c:298
 msgid "To a value of at least [optional]:"
@@ -3941,7 +3942,7 @@ msgstr "Мин"
 
 #: src/dialogs/solver.glade.h:22
 msgid "B_y Changing Cells: "
-msgstr "Измененяя ячейки:"
+msgstr "Изменяя ячейки:"
 
 #: src/dialogs/solver.glade.h:24
 msgid "Subject to the Constraints:"
@@ -4217,13 +4218,13 @@ msgid "0.0########"
 msgstr "0.0########"
 
 #. Is it a boolean
-#: src/format.c:1434 src/number-match.c:896 src/value-sheet.c:33
-#: src/value.c:413
+#: src/format.c:1434 src/number-match.c:919 src/value-sheet.c:33
+#: src/value.c:225 src/value.c:462
 msgid "TRUE"
 msgstr "ИСТИНА"
 
-#: src/format.c:1434 src/number-match.c:898 src/value-sheet.c:33
-#: src/value.c:413
+#: src/format.c:1434 src/number-match.c:921 src/value-sheet.c:33
+#: src/value.c:227 src/value.c:462
 msgid "FALSE"
 msgstr "ЛОЖЬ"
 
@@ -4232,7 +4233,7 @@ msgstr "ЛОЖЬ"
 msgid "ARRAY"
 msgstr "МАССИВ"
 
-#: src/formats.c:18 src/number-match.c:540 src/style.c:80
+#: src/formats.c:18 src/number-match.c:563 src/style.c:80
 msgid "General"
 msgstr "Общий"
 
@@ -4273,7 +4274,7 @@ msgid "0.0"
 msgstr "0.0"
 
 #: src/formats.c:38
-msgid "$#,##0;"
+msgid "$#,##0"
 msgstr "$#,##0"
 
 #: src/formats.c:39
@@ -6381,7 +6382,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=WORKDAY\n"
 "@SYNTAX=WORKDAY (start_date,days,holidays)\n"
-"@DESCRIPTION=Возвращает дату, которая является @days рабочим днем от @start_date.  Выходные и праздники можно дополнительно указать с помощью @holidays.\n"
+"@DESCRIPTION=Возвращает дату, которая является @days рабочим днем от "
+"@start_date.  Выходные и праздники можно дополнительно указать с помощью "
+"@holidays.\n"
 "Если @start_date ил @days неправильны, возвращается ошибка #NUM!.\n"
 "@EXAMPLES=\n"
 "\n"
@@ -6411,7 +6414,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=NETWORKDAYS\n"
 "@SYNTAX=NETWORKDAYS (start_date,end_date,holidays)\n"
-"@DESCRIPTION=Возвращает число не выходных и не праздничных дней между @start_date и @end_date.  Праздники дополнительно задаются в @holidays.\n"
+"@DESCRIPTION=Возвращает число не выходных и не праздничных дней между "
+"@start_date и @end_date.  Праздники дополнительно задаются в @holidays.\n"
 "Возвращает #NUM если @start_date или @end_date не правильные.\n"
 "@EXAMPLES=\n"
 "\n"
@@ -11448,6 +11452,12 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=SELECTION\n"
+"@SYNTAX=SELECTION(permit_intersection)\n"
+"@DESCRIPTION=Функция SELECTION возвращает список значений в текущем выделении. Это часто используется для реализации вычисления значений \"на лету\". Если @permit_intersection имеет значение ИСТИНА (TRUE) указанное пользователем выделения возвращаются ДАЖЕ ЕСЛИ ОНИ ПЕРЕКРЫВАЮТСЯ. Если @permit_intersection имеет значение ЛОЖЬ (FALSE) возвращается точный набор областей, однако они богут быть больше чем первоначально указанные пользоваетелем.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
 
 #: src/functions/fn-sheet.c:103
 msgid ""
@@ -11610,7 +11620,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=TRIMMEAN\n"
 "@SYNTAX=TRIMMEAN(ref,percent)\n"
-"@DESCRIPTION=Функция TRIMMEAN возвращает среднее внутренней части набора данных. @ref - список чисел, для которого проводятся вычисления, а @percent - процент отбрасываемых чисел. Например, если @percent=0.2 и набор данных содержит 40 чисел, из набора данных будут выброшены 8 чисел (40x0.2), по 4 с обоих концов набора. Эта функция Excel-совместима.\n"
+"@DESCRIPTION=Функция TRIMMEAN возвращает среднее внутренней части набора "
+"данных. @ref - список чисел, для которого проводятся вычисления, а @percent "
+"- процент отбрасываемых чисел. Например, если @percent=0.2 и набор данных "
+"содержит 40 чисел, из набора данных будут выброшены 8 чисел (40x0.2), по 4 с "
+"обоих концов набора. Эта функция Excel-совместима.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=AVERAGE,GEOMEAN,HARMEAN,MEDIAN,MODE"
@@ -11661,7 +11675,8 @@ msgstr ""
 "@DESCRIPTION=CORREL возвращает коэффициент корреляции двух наборов данных.\n"
 "Строки и пустые ячейки просто игнорируются. Эта функция Excel-совместима. \n"
 "@EXAMPLES=\n"
-"Допустим, что ячейки A1, A2, ..., A5 содержат числа 11.4, 17.3, 21.3, 25.9 и 40.1, а ячейки B1, B2, ... B5 - 23.2, 25.8, 29.9, 33.5 и 42.7. Тогда\n"
+"Допустим, что ячейки A1, A2, ..., A5 содержат числа 11.4, 17.3, 21.3, 25.9 и "
+"40.1, а ячейки B1, B2, ... B5 - 23.2, 25.8, 29.9, 33.5 и 42.7. Тогда\n"
 "CORREL(A1:A5,B1:B5) равняется 0.996124788.\n"
 "\n"
 "@SEEALSO=COVAR,FISHER,FISHERINV"
@@ -11860,9 +11875,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=HARMEAN\n"
 "@SYNTAX=HARMEAN(b1, b2, ...)\n"
-"@DESCRIPTION=HARMEAN возвращает гармоническое среднее N точек данных (то есть N разделенное на сумму обратных значений к данным). Эта функция Excel-совместима. \n"
+"@DESCRIPTION=HARMEAN возвращает гармоническое среднее N точек данных (то "
+"есть N разделенное на сумму обратных значений к данным). Эта функция "
+"Excel-совместима. \n"
 "@EXAMPLES=\n"
-"Допустим, что ячейки A1, A2, ..., A5 содержат числа 11.4, 17.3, 21.3, 25.9 и 40.1. Тогда\n"
+"Допустим, что ячейки A1, A2, ..., A5 содержат числа 11.4, 17.3, 21.3, 25.9 и "
+"40.1. Тогда\n"
 "HARMEAN(A1:A5) равняется 19.529814427.\n"
 "\n"
 "@SEEALSO=AVERAGE,GEOMEAN,MEDIAN,MODE,TRIMMEAN"
@@ -12840,7 +12858,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=PEARSON\n"
 "@SYNTAX=PEARSON(array1,array2)\n"
-"@DESCRIPTION=PEARSON возвращает коэффициент корреляции Пирсона двух наборов данных.\n"
+"@DESCRIPTION=PEARSON возвращает коэффициент корреляции Пирсона двух наборов "
+"данных.\n"
 "Строки и пустые ячейки просто игнорируются. Эта функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "\n"
@@ -12860,7 +12879,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=RSQ\n"
 "@SYNTAX=RSQ(array1,array2)\n"
-"@DESCRIPTION=RSQ возвращает квадрат коэффициента корреляции Пирсона для двух наборов данных.\n"
+"@DESCRIPTION=RSQ возвращает квадрат коэффициента корреляции Пирсона для двух "
+"наборов данных.\n"
 "Строки и пустые ячейки просто игнорируются. Эта функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "\n"
@@ -13121,9 +13141,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=MINA\n"
 "@SYNTAX=MINA(number1,number2,...)\n"
-"@DESCRIPTION=MINA возвращает наименьшее значение из переданных. В вычислении участвуют числа, строки и логические значения. Если ячейка содержит текст или аргумент вычисляется как ЛОЖЬ (FALSE), ее значение принимается равным нулю (0). Если аргумент вычисляется как ИСТИНА (TRUE), он принимается за единицу (1). Пустые ячейки не учитываются. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=MINA возвращает наименьшее значение из переданных. В вычислении "
+"участвуют числа, строки и логические значения. Если ячейка содержит текст "
+"или аргумент вычисляется как ЛОЖЬ (FALSE), ее значение принимается равным "
+"нулю (0). Если аргумент вычисляется как ИСТИНА (TRUE), он принимается за "
+"единицу (1). Пустые ячейки не учитываются. Эта функция Excel-совместима. \n"
 "@EXAMPLES=\n"
-"Допустим, что ячейки A1, A2, ..., A5 содержат числа и строки 11.4, 17.3, \"ошибка\", 25.9 и 40.1. Тогда\n"
+"Допустим, что ячейки A1, A2, ..., A5 содержат числа и строки 11.4, 17.3, "
+"\"ошибка\", 25.9 и 40.1. Тогда\n"
 "MINA(A1:A5) равняется 40.1.\n"
 "\n"
 "@SEEALSO=MIN,MAXA"
@@ -13305,10 +13330,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=PERCENTILE\n"
 "@SYNTAX=PERCENTILE(array,k)\n"
-"@DESCRIPTION=Функция PERCENTILE возвращает 100*@k-ый процентиль заданного набора данных (то есть число x такое, что фракция @k из данных меньше чем x).\n"
-"Если @array пуст или @k < 0 или @k > 1, PERCENTILE возвращает ошибку #NUM!. Эта функция Excel-совместима.\n"
+"@DESCRIPTION=Функция PERCENTILE возвращает 100*@k-ый процентиль заданного "
+"набора данных (то есть число x такое, что фракция @k из данных меньше чем "
+"x).\n"
+"Если @array пуст или @k < 0 или @k > 1, PERCENTILE возвращает ошибку #NUM!. "
+"Эта функция Excel-совместима.\n"
 "@EXAMPLES=\n"
-"Допустим, что ячейки A1, A2, ... A5 содержат числа 11.4, 17.3, 21.3, 25.9 и 40.1. Тогда\n"
+"Допустим, что ячейки A1, A2, ... A5 содержат числа 11.4, 17.3, 21.3, 25.9 и "
+"40.1. Тогда\n"
 "PERCENTILE(A1:A5,0.42) равняется 20.02.\n"
 "\n"
 "@SEEALSO=QUARTILE"
@@ -13581,6 +13610,17 @@ msgid ""
 "\n"
 "@SEEALSO=LOGEST,GROWTH,TREND"
 msgstr ""
+"@FUNCTION=LOGEST\n"
+"@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])\n"
+"@DESCRIPTION=Функция LOGEST применяет метод наименьших квадратов для вычисления экспоненциальной кривой вида y = b * m{1}^x{1} * m{2}^x{2}... по вашим данным.\n"
+"Если @known_x' не указано, используется массив {1, 2, 3, ...}. LOGEST возвращает массив { m{n},m{n-1}, ...,m{1},b }.\n"
+"Если @known_y и @known_x имеют неравное число точек данных, LOGEST возвращает ошибку #NUM!.\n"
+"Если @const имеет значение ЛОЖЬ (FALSE), кривая будет проходить через точку (0,1), то есть b = 1. По умолчанию ИСТИНА (TRUE).\n"
+"Если @stat имеет значение TRUE, будет возвращена дополнительная статистическая информация. Дополнительная статистическая информация представляет собой коэффициенты линии регрессии записанные ниже в виде массива, состоящего из четырех строк. В первой строке представлены значения стандартной ошибки для коэффициентов m1, (m2, ...), b. Вторая строка содержит квадрат коэффициента регрессии и стандартную ошибку ожидаемого значения y. Третья строка содержит наблюдаемое значение F и число степеней свободы. Последняя строка содержит сумму квадратов регресии и сумму квадратов остатков.\n"
+"По умолчанию @stat имеет значение ЛОЖЬ (FALSE).\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=LOGEST,GROWTH,TREND"
 
 #: src/functions/fn-stat.c:4427
 msgid ""
@@ -13601,6 +13641,16 @@ msgid ""
 "\n"
 "@SEEALSO=LOGEST,GROWTH,TREND"
 msgstr ""
+"@FUNCTION=GROWTH\n"
+"@SYNTAX=GROWTH(known_y's[,known_x's,new_x's,const])\n"
+"@DESCRIPTION=Функция GROWTH применяет метод наименьших квадратов для вычисления экспоненциальной кривой по вашим данным и предсказания экспоненциального роста с ее использованием.\n"
+"Если @known_x не указан, используется массив {1, 2, 3, ...}. Если @new_x не указан, то предполагается равным @known_x.\n"
+"GROWTH возвращает массив содержащий один столбец и одну строку для каждой точки данных в @new_x.\n"
+"Если @known_y и @known_x имеют неравное число точек данных, GROWTH возвращает ошибку #NUM!.\n"
+"Если @const имеет значение ЛОЖЬ (FALSE), кривая будет проводиться через начало координат, т.е. b будет 0. По умолчанию ИСТИНА (TRUE).\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=LOGEST,GROWTH,TREND"
 
 #: src/functions/fn-stat.c:4541
 msgid ""
@@ -13620,6 +13670,15 @@ msgid ""
 "\n"
 "@SEEALSO=INTERCEPT,TREND"
 msgstr ""
+"@FUNCTION=FORECAST\n"
+"@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
+"@DESCRIPTION=Функция FORECAST возвращает ожидаемое в будущем значение в соответствии с текущим значением используя простую линейную регрессию. Ожидаемое будущее значение это значение y для заданного значения x (@x).\n"
+"Если @known_x или @known_y не содержат элементов данных или имеют различное число элементов данных, FORECAST возвращает ошибку #N/A!. Если дисперсия @known_x равна 0, FORECAST возвращает ошибку #DIV/0!. Эта функция Excel-совместима.\n"
+"@EXAMPLES=\n"
+"Допустим, что ячейки A1, A2, ..., A5 содержат числа 11.4, 17.3, 21.3, 25.9 и 40.1, а ячейки B1, B2, ... B5 23.2, 25.8, 29.9, 33.5 и 42.7. Тогда\n"
+"FORECAST(7,A1:A5,B1:B5) равняется -10.859397661.\n"
+"\n"
+"@SEEALSO=INTERCEPT,TREND"
 
 #: src/functions/fn-stat.c:4612
 msgid ""
@@ -13640,10 +13699,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=INTERCEPT\n"
 "@SYNTAX=INTERCEPT(known_y's,known_x's)\n"
-"@DESCRIPTION=Функция INTERCEPT вычисляет точку, в которой линия линейной регрессии пересекает ось ординат.\n"
-"Если @known_x или @known_y не содержат данных или содержат различное число элементов данных, INTERCEPT возвращает ошибку #N/A!. Если дисперсия @known_x = 0, INTERCEPT возвращает ошибку #DIV/0!. Эта функция Excel-совместима.\n"
+"@DESCRIPTION=Функция INTERCEPT вычисляет точку, в которой линия линейной "
+"регрессии пересекает ось ординат.\n"
+"Если @known_x или @known_y не содержат данных или содержат различное число "
+"элементов данных, INTERCEPT возвращает ошибку #N/A!. Если дисперсия @known_x "
+"= 0, INTERCEPT возвращает ошибку #DIV/0!. Эта функция Excel-совместима.\n"
 "@EXAMPLES=\n"
-"Допустим, что ячейки A1, A2, ..., A5 содержат числа 11.4, 17.3, 21.3, 25.9 и 40.1, а ячейки B1, B2, ... B5 -- числа 23.2, 25.8, 29.9, 33.5 и 42.7. Тогда\n"
+"Допустим, что ячейки A1, A2, ..., A5 содержат числа 11.4, 17.3, 21.3, 25.9 и "
+"40.1, а ячейки B1, B2, ... B5 -- числа 23.2, 25.8, 29.9, 33.5 и 42.7. Тогда\n"
 "INTERCEPT(A1:A5,B1:B5) равняется -20.785117212.\n"
 "\n"
 "@SEEALSO=FORECAST,TREND"
@@ -14384,35 +14447,35 @@ msgstr ""
 "каталог данных := %s\n"
 "каталог библиотек := %s\n"
 
-#: src/number-match.c:547
+#: src/number-match.c:570
 msgid "#NULL!"
 msgstr "#NULL!"
 
-#: src/number-match.c:548
+#: src/number-match.c:571
 msgid "#DIV/0!"
 msgstr "#Деление на 0!"
 
-#: src/number-match.c:549
+#: src/number-match.c:572
 msgid "#VALUE!"
 msgstr "#VALUE!"
 
-#: src/number-match.c:550
+#: src/number-match.c:573
 msgid "#REF!"
 msgstr "#REF!"
 
-#: src/number-match.c:551
+#: src/number-match.c:574
 msgid "#NAME?"
 msgstr "#NAME?"
 
-#: src/number-match.c:552
+#: src/number-match.c:575
 msgid "#NUM!"
 msgstr "#NUM!"
 
-#: src/number-match.c:553
+#: src/number-match.c:576
 msgid "#N/A"
 msgstr "#N/A"
 
-#: src/number-match.c:554
+#: src/number-match.c:577
 msgid "#RECALC!"
 msgstr "#RECALC!"
 
@@ -14593,7 +14656,7 @@ msgstr "Кнопка"
 
 #: src/sheet-object.c:809 src/workbook.c:1140
 msgid "Select an object to add"
-msgstr "Выбрать объект для добавления"
+msgstr "Выбрать объект для вставки"
 
 #: src/sheet-object.c:1399
 #, c-format
@@ -14801,7 +14864,7 @@ msgstr "нет подходящей записи для шрифта Helvetica"
 msgid "could not be found in the expected location"
 msgstr "невозможно найти в ожидаемом месте"
 
-#: src/value.c:560
+#: src/value.c:609
 msgid "Terminate"
 msgstr "Закончить"
 
@@ -15546,7 +15609,7 @@ msgstr "Фильтрация данных по заданным критериям"
 
 #: src/workbook.c:1495
 msgid "_Insert"
-msgstr "Вставить"
+msgstr "Вставка"
 
 #: src/workbook.c:1496
 msgid "F_ormat"
@@ -15761,18 +15824,18 @@ msgstr "Сделать копию этого листа"
 msgid "Re-order sheets"
 msgstr "Переупорядочить листы"
 
-#: src/xml-io.c:3199
+#: src/xml-io.c:3280
 msgid "Invalid xml clipboard data. Tree is empty ?"
 msgstr "Неправильные XML данные в буфере обмена. Дерево пусто?"
 
-#: src/xml-io.c:3240
+#: src/xml-io.c:3322
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Испорченный XML-файл. Дерево пусто?"
 
-#: src/xml-io.c:3254
-msgid "Is not an Workbook file"
-msgstr "Это не файл книги"
+#: src/xml-io.c:3330
+msgid "Is not an Gnumeric Workbook file"
+msgstr "Это не файл рабочей книги Gnumeric"
 
-#: src/xml-io.c:3313
+#: src/xml-io.c:3389
 msgid "Gnumeric XML file format"
 msgstr "Формат файла Gnumeric XML"
