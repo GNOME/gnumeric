@@ -3,10 +3,17 @@
 	* dialog-stf-main-page.c (main_page_set_spin_button_adjustment):
 	Auto-size spinbutton entries.
 
+2003-06-29  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/dialogs/dialog-stf-format-page.c (format_page_update_preview):
+	  use col_header field
+	(stf_dialog_format_page_init): initalize col_header field
+	* src/dialogs/dialog-stf.h: add col_header field to FormatInfo_t
+
 2003-06-28  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* dialog-stf-format-page.c (cb_col_check_clicked): new
-	(format_page_update_preview): vreate checkboxes in column 
+	(format_page_update_preview): create checkboxes in column 
 	  headers
 	(stf_dialog_format_page_cleanup): clean up selected column list
 	(stf_dialog_format_page_init): initialize selected column list
