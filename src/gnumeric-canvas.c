@@ -12,6 +12,7 @@
 #include <string.h>
 #include "gnumeric.h"
 #include "gnumeric-sheet.h"
+#include "gnumeric-util.h"
 #include "sheet-object.h"
 #include "color.h"
 #include "cursors.h"
@@ -281,7 +282,7 @@ gnumeric_sheet_can_move_cursor (GnumericSheet *gsheet)
 	entry = GTK_ENTRY (gsheet->entry);
 	cursor_pos = GTK_EDITABLE (entry)->current_pos;
 
-	if (entry->text [0] != '=')
+	if (!gnumeric_char_start_expr_p (entry->text[0]))
 		return FALSE;
 	if (cursor_pos == 0)
 		return FALSE;

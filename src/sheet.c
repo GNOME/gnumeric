@@ -1271,7 +1271,7 @@ sheet_set_text (Sheet *sheet, char const *text, Range const * r)
 	 * a rendered version of the text, if they compare equally, then
 	 * use that.
 	 */
-	if (*text != '=') {
+	if (!gnumeric_char_start_expr_p (*text) || text[1] == '\0') {
 		closure_set_cell_value	closure;
 		char *end;
 
@@ -1310,7 +1310,7 @@ sheet_set_current_value (Sheet *sheet)
 	g_return_if_fail (str != NULL);
 
 	/* A hack to accept Lotus 123 style formula entries */
-	if (*str == '@') {
+	if (gnumeric_char_start_expr_p (*str) && *str != '=' && str[1] != '\0') {
 		char *new_text = g_strdup (str);
 
 		*new_text = *str = '=';

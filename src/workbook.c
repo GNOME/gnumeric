@@ -1376,7 +1376,8 @@ wb_edit_key_pressed (GtkEntry *entry, GdkEventKey *event, Workbook *wb)
 		event->keyval = GDK_VoidSymbol;
 
 		/* Only apply do this for formulas */
-		if (entry->text [0] != '=')
+		if (!gnumeric_char_start_expr_p (entry->text[0]) ||
+		    entry->text_length < 1)
 			return TRUE;
 
 		/*
@@ -1554,7 +1555,7 @@ wizard_input (GtkWidget *widget, Workbook *wb)
 	g_free (txt);
 	txt = gtk_entry_get_text (entry);
 
-	if (txt [0] != '=')
+	if (!gnumeric_char_start_expr_p (txt[0]))
 	        edittxt = g_strconcat ("=", txt, NULL);
 	else
 		edittxt = g_strdup (txt);

@@ -1,3 +1,17 @@
+2000-01-08  Jody Goldberg <jgoldberg@home.com>
+
+	* src/gnumeric-util.c (gnumeric_char_start_expr_p) : new function.
+
+	* src/workbook.c (wizard_input) : Use gnumeric_char_start_expr_p.
+
+	* src/cell.c (cell_set_formula) : Add a precondition to ensure that
+	  this is an expression.
+	(cell_set_text_simple) : Use gnumeric_char_start_expr_p.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_can_move_cursor) : Ditto.
+
+	* src/sheet.c (sheet_set_text) : Ditto.
+
 2000-01-07  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet.c (sheet_move_range) : Recalc here until there is a

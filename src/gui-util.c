@@ -284,3 +284,8 @@ gnumeric_position_tooltip (GtkWidget *tip, int horizontal)
 	gtk_widget_set_uposition (gtk_widget_get_toplevel (tip), x, y);
 }
 
+gboolean
+gnumeric_char_start_expr_p (char const c)
+{
+	return (c == '=') || (c == '@') || (c == '+');
+}

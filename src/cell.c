@@ -78,9 +78,10 @@ cell_set_formula (Cell *cell, const char *text)
 
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (text != NULL);
+	g_return_if_fail (gnumeric_char_start_expr_p (*text));
 
 	cell_modified (cell);
-	new_expr = expr_parse_string (&text [1],
+	new_expr = expr_parse_string (text+1, /* Ignore leading char (=,@,+) */
 				      parse_pos_cell (&pp, cell),
 				      &desired_format,
 				      &error_msg);
@@ -484,9 +485,9 @@ cell_set_text_simple (Cell *cell, const char *text)
 	cell_modified (cell);
 	cell_cleanout (cell);
 
- 	if (text [0] == '=' && text [1] != 0){
+	if (gnumeric_char_start_expr_p (*text) && text[1] != '\0')
 		cell_set_formula (cell, text);
-	} else {
+	else {
 		char *end;
 		long l;
 		int  set=0;
