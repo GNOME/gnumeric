@@ -328,9 +328,6 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		}
 		break;
 
-	case ITEM_CURSOR_EDITING:
-		draw_external = TRUE;
-
 	case ITEM_CURSOR_ANTED:
 		draw_center   = TRUE;
 		draw_thick    = 2;
