@@ -641,11 +641,13 @@ gnm_font_find_closest_from_weight_slant (const guchar *family,
 	guchar const *fam;
 	guchar   *name;
 
+	g_return_val_if_fail (family != NULL, NULL);
+
 	while (1) {
 		font = gnome_font_find_closest_from_weight_slant 
 			(family, weight, italic, size);
 		fam = gnome_font_get_family_name  (font);
-		if (g_ascii_strcasecmp (family, fam) == 0)
+		if (fam != NULL && g_ascii_strcasecmp (family, fam) == 0)
 			return font;
 
 		name = gnome_font_get_full_name (font);
