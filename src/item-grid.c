@@ -11,6 +11,7 @@
 #include <config.h>
 
 #include "item-grid.h"
+#include "item-debug.h"
 #include "gnumeric-sheet.h"
 #include "workbook-edit.h"
 #include "workbook-view.h"
@@ -44,22 +45,6 @@
 #endif
 
 static GnomeCanvasItemClass *item_grid_parent_class;
-
-#if 0
-#ifndef __GNUC__
-#define __FUNCTION__ __FILE__
-#endif
-#define gnome_canvas_item_grab(a,b,c,d) do {		\
-	fprintf (stderr, "%s %d: grab GRID %p\n",	\
-		 __FUNCTION__, __LINE__, a);		\
-	gnome_canvas_item_grab (a, b, c,d);		\
-} while (0)
-#define gnome_canvas_item_ungrab(a,b) do {		\
-	fprintf (stderr, "%s %d: ungrab GRID %p\n",	\
-		 __FUNCTION__, __LINE__, a);		\
-	gnome_canvas_item_ungrab (a, b);		\
-} while (0)
-#endif
 
 /* The arguments we take */
 enum {
@@ -274,10 +259,10 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	int x, y, col, row, n;
 	int const start_col = gnumeric_sheet_find_col (gsheet, draw_x-2, &x);
 	int end_col = gnumeric_sheet_find_col (gsheet, draw_x+width+2, NULL);
-	int const diff_x = draw_x - x;
+	int const diff_x = x - draw_x;
 	int start_row = gnumeric_sheet_find_row (gsheet, draw_y-2, &y);
 	int end_row = gnumeric_sheet_find_row (gsheet, draw_y+height+2, NULL);
-	int const diff_y = draw_y - y;
+	int const diff_y = y - draw_y;
 
 	StyleRow sr, next_sr;
 	MStyle const **styles;
@@ -335,7 +320,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		colwidths[col] = ci->visible ? ci->size_pixels : -1;
 	}
 	
-	for (y = -diff_y; row <= end_row; row = sr.row = next_sr.row, ri = next_ri) {
+	for (y = diff_y; row <= end_row; row = sr.row = next_sr.row, ri = next_ri) {
 		/* Restore the set of ranges seen, but still active.
 		 * Reinverting list to maintain the original order */
 		g_return_if_fail (merged_active == NULL);
@@ -382,7 +367,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				MERGE_DEBUG (r, " : unused -> active\n");
 
 				item_grid_draw_merged_range (drawable, item_grid,
-							     -diff_x, y, &view, r);
+							     diff_x, y, &view, r);
 			} else {
 				lag = &(ptr->next);
 				ptr = ptr->next;
@@ -390,7 +375,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		}
 		first_row = FALSE;
 
-		for (col = start_col, x = -diff_x; col <= end_col ; col++) {
+		for (col = start_col, x = diff_x; col <= end_col ; col++) {
 			MStyle const *style;
 			CellSpanInfo const *span;
 			ColRowInfo const *ci = sheet_col_get_info (sheet, col);
@@ -523,7 +508,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 			x += ci->size_pixels;
 		}
 		style_borders_row_draw (prev_vert, &sr,
-					drawable, -diff_x, y, y+ri->size_pixels,
+					drawable, diff_x, y, y+ri->size_pixels,
 					colwidths, TRUE);
 
 		/* roll the pointers */
@@ -537,7 +522,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	}
 	if (sr.row >= SHEET_MAX_ROWS-1)
 		style_borders_row_draw (prev_vert, &sr,
-					drawable, -diff_x, y, y, colwidths, FALSE);
+					drawable, diff_x, y, y, colwidths, FALSE);
 	
 	if (merged_used)	/* ranges whose bottoms are in the view */
 		g_slist_free (merged_used);
@@ -879,25 +864,6 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 			item_grid->selecting = ITEM_GRID_NO_SELECTION;
 			gnome_canvas_item_ungrab (item, event->button.time);
 			return 1;
-
-		case 4 : /* Roll Up or Left */
-		case 5 : /* Roll Down or Right */
-			if ((event->button.state & GDK_MOD1_MASK)) {
-				col = gsheet->col.last_full - gsheet->col.first;
-				if (event->button.button == 4)
-					col = MAX (gsheet->col.first - col, 0);
-				else
-					col = MIN (gsheet->col.last_full , SHEET_MAX_COLS-1);
-				gnumeric_sheet_set_left_col (gsheet, col);
-			} else {
-				row = gsheet->row.last_full - gsheet->row.first;
-				if (event->button.button == 4)
-					row = MAX (gsheet->row.first - row, 0);
-				else
-					row = MIN (gsheet->row.last_full , SHEET_MAX_ROWS-1);
-				gnumeric_sheet_set_top_row (gsheet, row);
-			}
-			return FALSE;
 
 		default:
 			return FALSE;

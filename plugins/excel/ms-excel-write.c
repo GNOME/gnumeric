@@ -42,6 +42,7 @@
 #include "sheet-style.h"
 #include "format.h"
 #include "main.h"
+#include "value.h"
 #include "parse-util.h"
 #include "print-info.h"
 #include "workbook-view.h"

@@ -7,13 +7,14 @@ release, and longer term bugs.
 
 Release Critical
 ----------------
-    - XL import should honour style requests for full columns.
-
-    * Format toolbar is too wide.  (The foreground colour combo has falled
-      off the edge for me.)
 
 Long term breakage
 ------------------
+
+- XL import should honour style requests for full columns.
+
+- Format toolbar is too wide.  (The foreground colour combo has fallen
+  off the edge for me.)
 
 - Tools->Solver leak:
                g_strdup       [gstrfuncs.c:56]
@@ -148,6 +149,7 @@ Printing
 
 Widget polishing
 ----------------
+- extensions to the notebook to enable dragging a tab to reorder and copy
 
 Plugins
 -------

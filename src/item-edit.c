@@ -19,6 +19,7 @@
 #include "item-edit.h"
 #include "item-cursor.h"
 #include "item-grid.h"
+#include "item-debug.h"
 #include "gnumeric-sheet.h"
 #include "sheet-control-gui.h"
 #include "sheet.h"

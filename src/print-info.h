@@ -2,9 +2,6 @@
 #define PRINT_INFO_H
 
 #include "gnumeric.h"
-#include "value.h"
-
-#define METERS_TO_POINTS(x) (x * 2834.6456692) / 100
 
 typedef enum {
 	PRINT_ORIENT_HORIZONTAL,
@@ -63,7 +60,7 @@ typedef struct {
 
 typedef struct {
 	gboolean use;
-	ValueRange range;
+	Range range;
 } PrintRepeatRange;
 
 struct _PrintInformation {

@@ -39,7 +39,6 @@ int ms_excel_object_debug;
 #define GR_CHECKBOX_FORMULA   0x14
 #define GR_COMMON_OBJ_DATA    0x15
 
-
 void
 ms_destroy_OBJ (MSObj *obj)
 {
@@ -76,7 +75,7 @@ ms_read_TXO (BiffQuery *q)
 	int const halign = (options >> 1) & 0x7;
 	int const valign = (options >> 4) & 0x7;
 	char         *text = g_new (char, text_len + 1);
-	const guint8  unicode_flag = MS_OLE_GET_GUINT8 (q->data + 18);
+	guint8  const unicode_flag = MS_OLE_GET_GUINT8 (q->data + 18);
 	guint16       peek_op;
 
 	g_return_val_if_fail (orient <= 3, NULL);

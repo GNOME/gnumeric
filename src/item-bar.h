@@ -10,13 +10,18 @@ struct _ItemBar {
 	GnomeCanvasItem  canvas_item;
 
 	SheetControlGUI *scg;
-	int              first_element;
-	GtkOrientation   orientation;	/* horizontal, vertical */
-	GdkGC           *gc;		/* Draw gc */
+	int              dragging : 1;
+	int              is_col_header : 1;
+	GdkGC           *gc, *lines;		/* Draw gc */
 	GdkCursor       *normal_cursor;
 	GdkCursor       *change_cursor;
 
 	StyleFont	*normal_font, *bold_font;
+	GtkWidget       *tip;			/* Tip for scrolling */
+
+	int                indent, cell_width, cell_height;
+	int                first_element;
+	int		   start_selection;	/* Where selection started */
 
 	int		   resize_pos;
 	int		   resize_width;
@@ -24,17 +29,9 @@ struct _ItemBar {
 	GtkObject         *resize_guide;
 	GtkObject         *resize_start;
 	GnomeCanvasPoints *resize_points;
-
-	int             dragging : 1;
-
-	/* Tip for scrolling */
-	GtkWidget        *tip; /* currently disabled */
-
-	/* Where the selection started */
-	int             start_selection;
 };
 
-GtkType item_bar_get_type (void);
-void    item_bar_fonts_init (ItemBar *item_bar);
+GtkType item_bar_get_type  (void);
+int     item_bar_calc_size (ItemBar *ib);
 
 #endif /* GNUMERIC_ITEM_BAR_H */

@@ -14,6 +14,7 @@
 #include "print-info.h"
 #include "print.h"
 #include "ranges.h"
+#include "sheet.h"
 #include "workbook.h"
 #include "utils-dialog.h"
 
@@ -1083,20 +1084,14 @@ do_setup_page_info (PrinterSetupState *state)
 							  "comments-combo"));
 	gnumeric_combo_enters (GTK_WINDOW (state->dialog), comments_combo);
 
-	if (state->pi->repeat_top.use){
-		char *s;
-
-		s = value_cellrange_get_as_string ((Value *)&state->pi->repeat_top.range, FALSE);
+	if (state->pi->repeat_top.use) {
+		char const *s = range_name (&state->pi->repeat_top.range);
 		gtk_entry_set_text (entry_top, s);
-		g_free (s);
 	}
 
-	if (state->pi->repeat_left.use){
-		char *s;
-
-		s = value_cellrange_get_as_string ((Value *)&state->pi->repeat_left.range, FALSE);
+	if (state->pi->repeat_left.use) {
+		char const *s = range_name (&state->pi->repeat_left.range);
 		gtk_entry_set_text (entry_left, s);
-		g_free (s);
 	}
 }
 
@@ -1417,8 +1412,8 @@ static void
 do_fetch_page_info (PrinterSetupState *state)
 {
 	GtkToggleButton *t;
-	Value *top_range, *left_range;
 	GtkEntry *entry_top, *entry_left;
+	PrintInformation *pi = state->pi;
 
 	t = GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "check-grid-lines"));
 	state->pi->print_grid_lines = t->active;
@@ -1437,22 +1432,19 @@ do_fetch_page_info (PrinterSetupState *state)
 
 	entry_top  = GTK_ENTRY (glade_xml_get_widget (state->gui,
 						      "repeat-rows-entry"));
+	pi->repeat_top.use = parse_range (gtk_entry_get_text (entry_top),
+					   &pi->repeat_top.range.start.col,
+					   &pi->repeat_top.range.start.row,
+					   &pi->repeat_top.range.end.col,
+					   &pi->repeat_top.range.end.row);
+
 	entry_left = GTK_ENTRY (glade_xml_get_widget (state->gui,
 						      "repeat-cols-entry"));
-
-	top_range = range_parse (NULL, gtk_entry_get_text (entry_top), TRUE);
-	state->pi->repeat_top.use = (top_range != NULL);
-	if (state->pi->repeat_top.use) {
-		state->pi->repeat_top.range.cell = top_range->v_range.cell;
-		value_release (top_range);
-	}
-
-	left_range = range_parse (NULL, gtk_entry_get_text (entry_left), TRUE);
-	state->pi->repeat_left.use = (left_range != NULL);
-	if (state->pi->repeat_left.use) {
-		state->pi->repeat_left.range.cell = left_range->v_range.cell;
-		value_release (left_range);
-	}
+	pi->repeat_left.use = parse_range (gtk_entry_get_text (entry_left),
+					   &pi->repeat_left.range.start.col,
+					   &pi->repeat_left.range.start.row,
+					   &pi->repeat_left.range.end.col,
+					   &pi->repeat_left.range.end.row);
 }
 
 static void

@@ -7,6 +7,7 @@
 #include <config.h>
 
 #include "item-cursor.h"
+#include "item-debug.h"
 #include "gnumeric-sheet.h"
 #include "sheet-control-gui.h"
 #include "style-color.h"
@@ -22,22 +23,6 @@
 #include <gal/widgets/e-cursors.h>
 
 static GnomeCanvasItem *item_cursor_parent_class;
-
-#if 0
-#ifndef __GNUC__
-#define __FUNCTION__ __FILE__
-#endif
-#define gnome_canvas_item_grab(a,b,c,d)	do {		\
-	fprintf (stderr, "%s %d: grab CURSOR %p\n",	\
-		 __FUNCTION__, __LINE__, a);	       	\
-	gnome_canvas_item_grab (a, b, c,d);		\
-} while (0)
-#define gnome_canvas_item_ungrab(a,b) do {		\
-	fprintf (stderr, "%s %d: ungrab CURSOR %p\n",	\
-		 __FUNCTION__, __LINE__, a);		\
-	gnome_canvas_item_ungrab (a, b);		\
-} while (0)
-#endif
 
 #define AUTO_HANDLE_SPACE	4
 #define CLIP_SAFETY_MARGIN      (AUTO_HANDLE_SPACE + 5)

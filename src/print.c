@@ -30,6 +30,8 @@
 #include "workbook.h"
 #include "dialogs.h"
 #include "main.h"
+#include "sheet.h"
+#include "value.h"
 #include "cellspan.h"
 #include "print-info.h"
 #include "print.h"
@@ -149,12 +151,10 @@ print_page_repeated_rows (Sheet const *sheet,
 			  double base_x, double base_y,
 			  PrintJobInfo *pj)
 {
-	ValueRange const *value = &pj->pi->repeat_top.range;
-	CellRef const *cell_a = &value->cell.a;
-	CellRef const *cell_b = &value->cell.b;
+	Range const *r = &pj->pi->repeat_top.range;
 	print_page_cells (sheet,
-		start_col, MIN (cell_a->row, cell_b->row),
-		end_col,   MAX (cell_a->row, cell_b->row),
+		start_col, MIN (r->start.row, r->end.row),
+		end_col,   MAX (r->start.row, r->end.row),
 		base_x, base_y, pj);
 }
 
@@ -170,12 +170,10 @@ print_page_repeated_cols (Sheet const *sheet,
 			  double base_x, double base_y,
 			  PrintJobInfo *pj)
 {
-	ValueRange const *value = &pj->pi->repeat_left.range;
-	CellRef const *cell_a = &value->cell.a;
-	CellRef const *cell_b = &value->cell.b;
+	Range const *r = &pj->pi->repeat_left.range;
 	print_page_cells (sheet,
-		MIN (cell_a->col, cell_b->col), start_row,
-		MAX (cell_a->col, cell_b->col), end_row,
+		MIN (r->start.col, r->end.col), start_row,
+		MAX (r->start.col, r->end.col), end_row,
 		base_x, base_y, pj);
 }
 
@@ -194,8 +192,8 @@ print_page_repeated_intersect (Sheet const *sheet,
 			       PrintJobInfo *pj)
 {
 	print_page_repeated_rows (sheet,
-				  pj->pi->repeat_left.range.cell.a.col,
-				  pj->pi->repeat_left.range.cell.b.col,
+				  pj->pi->repeat_left.range.start.col,
+				  pj->pi->repeat_left.range.end.col,
 				  base_x, base_y, pj);
 }
 
@@ -459,21 +457,21 @@ print_page (Sheet const *sheet, int start_col, int start_row, int end_col, int e
 
 	/* Space for repeated rows depends on whether we print them or not */
 	if (pj->pi->repeat_top.use &&
-	    start_row > pj->pi->repeat_top.range.cell.a.row) {
+	    start_row > pj->pi->repeat_top.range.start.row) {
 		repeat_rows_used_y = pj->repeat_rows_used_y;
 		/* Make sure start_row never is inside the repeated range */
 		start_row = MAX (start_row,
-				 pj->pi->repeat_top.range.cell.b.row + 1);
+				 pj->pi->repeat_top.range.end.row + 1);
 	} else
 		repeat_rows_used_y = 0;
 
 	/* Space for repeated cols depends on whether we print them or not */
 	if (pj->pi->repeat_left.use &&
-	    start_col > pj->pi->repeat_left.range.cell.a.col) {
+	    start_col > pj->pi->repeat_left.range.start.col) {
 		repeat_cols_used_x = pj->repeat_cols_used_x;
 		/* Make sure start_col never is inside the repeated range */
 		start_col = MAX (start_col,
-				 pj->pi->repeat_left.range.cell.b.col + 1);
+				 pj->pi->repeat_left.range.end.col + 1);
 	} else
 		repeat_cols_used_x = 0;
 
@@ -733,10 +731,10 @@ print_range_down_then_right (Sheet const *sheet, Range r, PrintJobInfo *pj,
 		int col_count;
 		int row = r.start.row;
 
-		if (col < pj->pi->repeat_left.range.cell.b.col) {
+		if (col < pj->pi->repeat_left.range.end.col) {
 			usable_x = usable_x_initial;
 			col = MIN (col,
-				   pj->pi->repeat_left.range.cell.b.col);
+				   pj->pi->repeat_left.range.end.col);
 		} else
 			usable_x = usable_x_repeating;
 
@@ -746,10 +744,10 @@ print_range_down_then_right (Sheet const *sheet, Range r, PrintJobInfo *pj,
 		while (row < r.end.row) {
 			int row_count;
 
-			if (row < pj->pi->repeat_top.range.cell.b.row) {
+			if (row < pj->pi->repeat_top.range.end.row) {
 				usable_y = usable_y_initial;
 				row = MIN (row,
-					   pj->pi->repeat_top.range.cell.b.row);
+					   pj->pi->repeat_top.range.end.row);
 			} else
 				usable_y = usable_y_repeating;
 
@@ -796,10 +794,10 @@ print_range_right_then_down (Sheet const *sheet, Range r, PrintJobInfo *pj,
 		int row_count;
 		int col = r.start.col;
 
-		if (row < pj->pi->repeat_top.range.cell.b.row) {
+		if (row < pj->pi->repeat_top.range.end.row) {
 			usable_y = usable_y_initial;
 			row = MIN (row,
-				   pj->pi->repeat_top.range.cell.b.row);
+				   pj->pi->repeat_top.range.end.row);
 		} else
 			usable_y = usable_y_repeating;
 
@@ -809,10 +807,10 @@ print_range_right_then_down (Sheet const *sheet, Range r, PrintJobInfo *pj,
 		while (col < r.end.col) {
 			int col_count;
 
-			if (col < pj->pi->repeat_left.range.cell.b.col) {
+			if (col < pj->pi->repeat_left.range.end.col) {
 				usable_x = usable_x_initial;
 				col = MIN (col,
-					   pj->pi->repeat_left.range.cell.b.col);
+					   pj->pi->repeat_left.range.end.col);
 			} else
 				usable_x = usable_x_repeating;
 
@@ -890,16 +888,13 @@ static double
 print_range_used_units (Sheet const *sheet, gboolean compute_rows,
 			PrintRepeatRange const *range)
 {
-	ValueRange const *cell_range = &range->range;
-	CellRef const *cell_a = &cell_range->cell.a;
-	CellRef const *cell_b = &cell_range->cell.b;
-
+	Range const *r = &range->range;
 	if (compute_rows)
 		return sheet_row_get_distance_pts
-			(sheet, cell_a->row, cell_b->row+1);
+			(sheet, r->start.row, r->end.row+1);
 	else
 		return sheet_col_get_distance_pts
-			(sheet, cell_a->col, cell_b->col+1);
+			(sheet, r->start.col, r->end.col+1);
 }
 
 static void

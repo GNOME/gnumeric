@@ -6,16 +6,18 @@
 struct _ColRowInfo {
 	int	pos;		/* the column or row number */
 
-	/* These are not scaled, and are the same in points and pixels */
-	int	margin_a;  	/* top/left margin */
-	int	margin_b; 	/* bottom/right margin */
-
 	/* Size including margins, and right grid line */
-	float	size_pts;	/* In points */
-	int	size_pixels;	/* In pixels */
+	float	 size_pts;
+	unsigned size_pixels;
 
-	int	 hard_size:1;	/* has the user explicitly set the dimensions? */
-	int	 visible:1;	/* Is the row/col visible */
+	/* These are not scaled, and are the same in points and pixels */
+	unsigned  margin_a	: 3;  	/* top/left margin */
+	unsigned  margin_b	: 3; 	/* bottom/right margin */
+
+	unsigned  outline_level : 4;
+	unsigned  is_collapsed  : 1;	/* Does this terminate an outline ? */
+	unsigned  hard_size     : 1;	/* are dimensions explicitly set ? */
+	unsigned  visible       : 1;	/* Is row/col visible */
 
 	/* TODO : Add per row/col min/max */
 
@@ -27,6 +29,9 @@ struct _ColRowCollection
 	int         max_used;
 	ColRowInfo  default_style;
 	GPtrArray * info;
+
+	float	    size_pts;
+	int	    size_pixels;
 };
 
 /* The size, mask, and shift must be kept in sync */
@@ -41,6 +46,8 @@ struct _ColRowCollection
 struct _ColRowSegment
 {
 	ColRowInfo *info [COLROW_SEGMENT_SIZE];
+	float	size_pts;
+	int	size_pixels;
 };
 
 #define COL_INTERNAL_WIDTH(col) ((col)->size_pixels - ((col)->margin_b + (col)->margin_a + 1))

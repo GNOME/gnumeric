@@ -1,3 +1,64 @@
+2001-03-16  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-bar.c (item_bar_calc_size) : rename from
+	  item_bar_fonts_init.
+
+	* src/sheet-control-gui.c (scg_set_zoom_factor) : prepare for panes by
+	  zooming the col/row header canvases.  We need this as we transition
+	  to using gnumeric-sheets instead of canvases to hold the item-bars.
+
+2001-03-15  Jody Goldberg <jgoldberg@home.com>
+
+	* src/colrow.c (colrow_equal) : handle outline&collapse.
+	(colrow_copy) : ditto.
+
+	* src/item-bar.c (outline_button_press) : new function.
+	(item_bar_event) : used here.
+
+2001-03-15  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-bar.c (compute_pixels_from_pts) : new function.
+	(item_bar_fonts_init) : resize the indent gutters based on the zoom.
+	(item_bar_realize) : add another gc for outline drawing.
+	(item_bar_unrealize) : ditto.
+	(item_bar_draw) : implement drawing for groupings.
+	(set_cursor) : handle cursor in the presence of groupings.
+
+2001-03-14  Jody Goldberg <jgoldberg@home.com>
+
+	* Makefile.am : update the handling of the oaf file.
+
+	* src/sheet.c (sheet_col_row_default_calc) : rename from
+	  sheet_col_row_default_init.
+
+2001-03-13  Jody Goldberg <jgoldberg@home.com>
+
+	* src/xml-io.c (xml_write_print_repeat_range) : PrintRepeatRange now
+	  uses a simple Range.
+	(xml_read_print_repeat_range) : ditto.
+	* src/print-info.c (print_info_new) : ditto.
+	(save_range) : Ditto.
+	* src/dialogs/dialog-printer-setup.c (do_fetch_page_info) : ditto.
+	* src/print.c (print_range_used_units) : ditto.
+	(print_range_right_then_down) : ditto.
+	(print_range_down_then_right) : ditto.
+	(print_page_repeated_intersect) : ditto.
+	(print_page_repeated_cols) : ditto.
+	(print_page_repeated_rows) : ditto.
+	(print_page) : ditto.
+
+	* src/sheet-control-gui.c (scg_set_zoom_factor) : The sizing has moved
+	  into the itembar.
+
+	* src/item-bar.c : s/orientation/is_col_header/
+	(item_bar_fonts_init) : Init the ideal cell size.
+	(item_bar_update) : Begin to support grouping.
+	(item_bar_draw) : ditto.
+	(item_bar_init) : init the new members.
+
+	* src/print-cell.c (print_cell) : re-enable halign FILL.
+	* src/cell-draw.c (cell_draw) : ditto.
+
 2001-03-17  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.64
@@ -13,6 +74,8 @@
 	  ifdefing out verbs for cb_data_validate and cb_view_freeze_panes.
 
 2001-03-14  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-grid.c (item_grid_event) : don't go past edges
 
 	* src/parser.y : Add portability.h to help on Tru64
 

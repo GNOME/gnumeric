@@ -666,8 +666,10 @@ xml2ParseColRow (XML2ParseState *state, CHAR const **attrs, gboolean is_col)
 
 			if (xml2ParseAttrDouble (attrs, "Unit", &size)) ;
 			else if (xml2ParseAttrInt (attrs, "Count", &count)) ;
-			else if (xml2ParseAttrInt (attrs, "MarginA", &cri->margin_a)) ;
-			else if (xml2ParseAttrInt (attrs, "MarginB", &cri->margin_b)) ;
+			else if (xml2ParseAttrInt (attrs, "MarginA", &dummy))
+				cri->margin_a = dummy;
+			else if (xml2ParseAttrInt (attrs, "MarginB", &dummy))
+				cri->margin_b = dummy;
 			else if (xml2ParseAttrInt (attrs, "HardSize", &dummy))
 				cri->hard_size = dummy;
 			else if (xml2ParseAttrInt (attrs, "Hidden", &dummy))

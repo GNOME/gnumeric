@@ -120,6 +120,7 @@ void scg_stop_editing		(SheetControlGUI *scg);
 void scg_stop_cell_selection	(SheetControlGUI *scg, gboolean clear_string);
 void scg_rangesel_cursor_extend (SheetControlGUI *scg, int col, int row);
 void scg_take_focus             (SheetControlGUI *scg);
+void scg_set_gutters            (SheetControlGUI *scg);
 
 /* FIXME : Move these around to a more reasonable location */
 SheetControlGUI *sheet_new_scg (Sheet *sheet);

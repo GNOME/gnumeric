@@ -23,6 +23,7 @@
 #include "parse-util.h"
 #include "gnumeric-util.h"
 #include "eval.h"
+#include "value.h"
 #include "number-match.h"
 #include "format.h"
 #include "clipboard.h"
@@ -142,8 +143,6 @@ sheet_new (Workbook *wb, char const *name)
 	sheet->max_object_extent.col = sheet->max_object_extent.row = 0;
 
 	sheet->last_zoom_factor_used = 1.0;
-	sheet->cols.max_used = -1;
-	sheet->rows.max_used = -1;
 	sheet->solver_parameters.options.assume_linear_model = TRUE;
 	sheet->solver_parameters.options.assume_non_negative = TRUE;
 	sheet->solver_parameters.input_entry_str = g_strdup ("");
@@ -151,10 +150,16 @@ sheet_new (Workbook *wb, char const *name)
 	sheet->solver_parameters.constraints = NULL;
 	sheet->solver_parameters.target_cell = NULL;
 
+	sheet->cols.max_used = -1;
 	g_ptr_array_set_size (sheet->cols.info = g_ptr_array_new (),
 			      COLROW_SEGMENT_INDEX (SHEET_MAX_COLS-1)+1);
+	sheet_col_set_default_size_pts (sheet, 48);
+
+	sheet->rows.max_used = -1;
 	g_ptr_array_set_size (sheet->rows.info = g_ptr_array_new (),
 			      COLROW_SEGMENT_INDEX (SHEET_MAX_ROWS-1)+1);
+	sheet_row_set_default_size_pts (sheet, 12.75);
+
 	sheet->print_info = print_info_new ();
 
 	sheet->list_merged = NULL;
@@ -164,9 +169,6 @@ sheet_new (Workbook *wb, char const *name)
 	sheet->deps	 = dependency_data_new ();
 	sheet->cell_hash = g_hash_table_new ((GHashFunc)&cellpos_hash,
 					     (GCompareFunc)&cellpos_cmp);
-
-	sheet_col_set_default_size_pts (sheet, 48);
-	sheet_row_set_default_size_pts (sheet, 12.75);
 
 	sheet_selection_add (sheet, 0, 0);
 
@@ -189,29 +191,30 @@ sheet_new (Workbook *wb, char const *name)
 	return sheet;
 }
 
-static void
-colrow_compute_pixels_from_pts (Sheet *sheet, ColRowInfo *info, gboolean const horizontal)
+static int
+compute_pixels_from_pts (Sheet const *sheet, float pts, gboolean const horizontal)
 {
 	double const scale =
-	    sheet->last_zoom_factor_used *
-	    application_display_dpi_get (horizontal) / 72.;
+		sheet->last_zoom_factor_used *
+		application_display_dpi_get (horizontal) / 72.;
 
-	/* 1) round to the nearest pixel
-	 * 2) XL appears to scale including the margins & grid lines
-	 *    but not the scale them.  So the size of the cell changes ???
-	 */
-	info->size_pixels = (int)(info->size_pts * scale + 0.5);
+	return (int)(pts * scale + 0.5);
 }
+
 static void
-colrow_compute_pts_from_pixels (Sheet *sheet, ColRowInfo *info, gboolean const horizontal)
+colrow_compute_pixels_from_pts (Sheet const *sheet, ColRowInfo *info, gboolean const horizontal)
+{
+	info->size_pixels = compute_pixels_from_pts (sheet, info->size_pts,
+						     horizontal);
+}
+
+static void
+colrow_compute_pts_from_pixels (Sheet const *sheet, ColRowInfo *info, gboolean const horizontal)
 {
 	double const scale =
 	    sheet->last_zoom_factor_used *
 	    application_display_dpi_get (horizontal) / 72.;
 
-	/* XL appears to scale including the margins & grid lines
-	 * but not the scale them.  So the size of the cell changes ???
-	 */
 	info->size_pts = info->size_pixels / scale;
 }
 
@@ -835,6 +838,38 @@ sheet_cell_fetch (Sheet *sheet, int col, int row)
 		cell = sheet_cell_new (sheet, col, row);
 
 	return cell;
+}
+
+/**
+ * sheet_col_row_set_indent :
+ */
+void
+sheet_col_row_set_outline_level (Sheet *sheet, int index, gboolean is_cols,
+				 int outline_level, gboolean is_collapsed)
+{
+	ColRowInfo *cri = is_cols
+		? sheet_col_fetch (sheet, index)
+		: sheet_row_fetch (sheet, index);
+	cri->outline_level = outline_level;
+	cri->is_collapsed = (is_collapsed != 0);
+}
+
+/**
+ * sheet_col_row_gutter_pts :
+ */
+void
+sheet_col_row_gutter_pts (Sheet *sheet,
+			  float col_gutter, int col_max_indent,
+			  float row_gutter, int row_max_indent)
+{
+	g_return_if_fail (IS_SHEET (sheet));
+
+	sheet->col_gutter.pts	     = col_gutter;
+	sheet->col_gutter.max_indent = col_max_indent;
+	sheet->row_gutter.pts	     = row_gutter;
+	sheet->row_gutter.max_indent = row_max_indent;
+
+	SHEET_FOREACH_CONTROL (sheet, control, scg_set_gutters (control););
 }
 
 /**
@@ -3226,7 +3261,7 @@ sheet_move_range (WorkbookControl *wbc,
 }
 
 static void
-sheet_col_row_default_init (Sheet *sheet, double units, int margin_a, int margin_b,
+sheet_col_row_default_calc (Sheet *sheet, double units, int margin_a, int margin_b,
 			    gboolean is_horizontal, gboolean is_pts)
 {
 	ColRowInfo *cri = is_horizontal
@@ -3377,7 +3412,7 @@ sheet_col_set_default_size_pts (Sheet *sheet, double width_pts)
 {
 	g_return_if_fail (IS_SHEET (sheet));
 
-	sheet_col_row_default_init (sheet, width_pts, 2, 2, TRUE, TRUE);
+	sheet_col_row_default_calc (sheet, width_pts, 2, 2, TRUE, TRUE);
 	sheet->priv->recompute_visibility = TRUE;
 	sheet->priv->recompute_spans = TRUE;
 	sheet->priv->reposition_objects.col = 0;
@@ -3387,7 +3422,7 @@ sheet_col_set_default_size_pixels (Sheet *sheet, int width_pixels)
 {
 	g_return_if_fail (IS_SHEET (sheet));
 
-	sheet_col_row_default_init (sheet, width_pixels, 2, 2, TRUE, FALSE);
+	sheet_col_row_default_calc (sheet, width_pixels, 2, 2, TRUE, FALSE);
 	sheet->priv->recompute_visibility = TRUE;
 	sheet->priv->recompute_spans = TRUE;
 	sheet->priv->reposition_objects.col = 0;
@@ -3546,14 +3581,14 @@ sheet_row_get_default_size_pixels (Sheet const *sheet)
 void
 sheet_row_set_default_size_pts (Sheet *sheet, double height_pts)
 {
-	sheet_col_row_default_init (sheet, height_pts, 1, 0, FALSE, TRUE);
+	sheet_col_row_default_calc (sheet, height_pts, 1, 0, FALSE, TRUE);
 	sheet->priv->recompute_visibility = TRUE;
 	sheet->priv->reposition_objects.row = 0;
 }
 void
 sheet_row_set_default_size_pixels (Sheet *sheet, int height_pixels)
 {
-	sheet_col_row_default_init (sheet, height_pixels, 1, 0, FALSE, FALSE);
+	sheet_col_row_default_calc (sheet, height_pixels, 1, 0, FALSE, FALSE);
 	sheet->priv->recompute_visibility = TRUE;
 	sheet->priv->reposition_objects.row = 0;
 }

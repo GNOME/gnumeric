@@ -27,6 +27,7 @@
 #include "sheet-merge.h"
 #include "format.h"
 #include "eval.h"
+#include "value.h"
 #include "gutils.h"
 #include "sheet-object-cell-comment.h"
 #include "application.h"
@@ -2880,9 +2881,7 @@ ms_excel_read_row (BiffQuery *q, ExcelSheet *sheet)
 		sheet_row_set_size_pts (sheet->gnum_sheet, row, hu, TRUE);
 	}
 
-	/* FIXME : I am not clear on the difference between collapsed, and dyn 0
-	 * Use both for now */
-	if (flags & 0x30)
+	if (flags & 0x20)
 		colrow_set_visibility (sheet->gnum_sheet, FALSE, FALSE, row, row);
 
 	if (flags & 0x80) {
@@ -2894,6 +2893,9 @@ ms_excel_read_row (BiffQuery *q, ExcelSheet *sheet)
 		}
 #endif
 	}
+	sheet_col_row_set_outline_level (sheet->gnum_sheet, row, FALSE,
+					 (unsigned)(flags&0x7),
+					 flags & 0x10);
 }
 
 /**
@@ -2914,10 +2916,8 @@ ms_excel_read_colinfo (BiffQuery *q, ExcelSheet *sheet)
 	guint16 const xf       = MS_OLE_GET_GUINT16 (q->data+6);
 	guint16 const options  = MS_OLE_GET_GUINT16 (q->data+8);
 	gboolean hidden = (options & 0x0001) ? TRUE : FALSE;
-#if 0
 	gboolean const collapsed = (options & 0x1000) ? TRUE : FALSE;
-	int const outline_level = (options >> 8) & 0x7;
-#endif
+	unsigned const outline_level = (unsigned)((options >> 8) & 0x7);
 
 	g_return_if_fail (firstcol < SHEET_MAX_COLS);
 
@@ -2949,8 +2949,11 @@ ms_excel_read_colinfo (BiffQuery *q, ExcelSheet *sheet)
 	/* NOTE : seems like this is inclusive firstcol, inclusive lastcol */
 	if (lastcol >= SHEET_MAX_COLS)
 		lastcol = SHEET_MAX_COLS-1;
-	for (lp = firstcol; lp <= lastcol; ++lp)
+	for (lp = firstcol; lp <= lastcol; ++lp) {
 		sheet_col_set_size_pts (sheet->gnum_sheet, lp, col_width, TRUE);
+		sheet_col_row_set_outline_level (sheet->gnum_sheet, lp, TRUE,
+						 outline_level, collapsed);
+	}
 
 	/* TODO : We should associate a style region with the columns */
 	if (hidden)
@@ -3354,23 +3357,12 @@ static void
 ms_excel_read_guts (BiffQuery *q, ExcelSheet *sheet)
 {
 	g_return_if_fail (q->length == 8);
-	{
-		const guint16 row_gutter = MS_OLE_GET_GUINT16 (q->data);
-		const guint16 col_gutter = MS_OLE_GET_GUINT16 (q->data+2);
-		const guint16 max_row_outline = MS_OLE_GET_GUINT16 (q->data+4);
-		const guint16 max_col_outline = MS_OLE_GET_GUINT16 (q->data+6);
 
-		/* TODO : Use this information when gnumeric supports gutters,
-		 *        and outlines */
-#ifndef NO_DEBUG_EXCEL
-		if (ms_excel_read_debug > 1) {
-			printf ("Gutters : row = %hu col = %hu\n"
-				"Max outline : row %hu col %hu\n",
-				row_gutter, col_gutter,
-				max_row_outline, max_col_outline);
-		}
-#endif
-	}
+	sheet_col_row_gutter_pts (sheet->gnum_sheet,
+				  MS_OLE_GET_GUINT16 (q->data+2),
+				  MS_OLE_GET_GUINT16 (q->data+6),
+				  MS_OLE_GET_GUINT16 (q->data),
+				  MS_OLE_GET_GUINT16 (q->data+4));
 }
 
 /*

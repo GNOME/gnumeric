@@ -30,7 +30,7 @@
 #endif
 #include <gal/widgets/e-cursors.h>
 
-static GnomeCanvasClass *sheet_parent_class;
+static GnomeCanvasClass *gsheet_parent_class;
 
 static void
 gnumeric_sheet_destroy (GtkObject *object)
@@ -40,8 +40,8 @@ gnumeric_sheet_destroy (GtkObject *object)
 	/* Add shutdown code here */
 	gsheet = GNUMERIC_SHEET (object);
 
-	if (GTK_OBJECT_CLASS (sheet_parent_class)->destroy)
-		(*GTK_OBJECT_CLASS (sheet_parent_class)->destroy)(object);
+	if (GTK_OBJECT_CLASS (gsheet_parent_class)->destroy)
+		(*GTK_OBJECT_CLASS (gsheet_parent_class)->destroy)(object);
 }
 
 /*
@@ -657,11 +657,11 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 	default:
 		if (!wbcg->editing) {
 			if ((event->state & (GDK_MOD1_MASK|GDK_CONTROL_MASK)) != 0)
-				return 0;
+				return FALSE;
 
 			/* If the character is not printable do not start editing */
 			if (event->length == 0)
-				return 0;
+				return FALSE;
 
 			workbook_start_editing_at_cursor (wbcg, TRUE, TRUE);
 		}
@@ -732,7 +732,39 @@ gnumeric_sheet_key_release (GtkWidget *widget, GdkEventKey *event)
 		wb_view_selection_desc (wb_control_view (
 			WORKBOOK_CONTROL (gsheet->scg->wbcg)), TRUE, NULL);
 
-	return FALSE;
+	return (*GTK_WIDGET_CLASS (gsheet_parent_class)->key_release_event)(widget, event);
+}
+
+static gint
+gnumeric_sheet_button_release (GtkWidget *widget, GdkEventButton *button)
+{
+	GnumericSheet *gsheet = GNUMERIC_SHEET (widget);
+
+	if (button->button != 4 && button->button != 5)
+		return (*GTK_WIDGET_CLASS (gsheet_parent_class)->button_release_event)(widget, button);
+
+	/* Roll Up or Left */
+	/* Roll Down or Right */
+	if ((button->state & GDK_MOD1_MASK)) {
+		int col = gsheet->col.last_full - gsheet->col.first;
+		if (button->button == 4)
+			col = MAX (gsheet->col.first - col, 0);
+		else if (gsheet->col.last_full < SHEET_MAX_COLS-1)
+			col = gsheet->col.last_full;
+		else
+			return FALSE;
+		gnumeric_sheet_set_left_col (gsheet, col);
+	} else {
+		int row = gsheet->row.last_full - gsheet->row.first;
+		if (button->button == 4)
+			row = MAX (gsheet->row.first - row, 0);
+		else if (gsheet->row.last_full < SHEET_MAX_ROWS-1)
+			row = gsheet->row.last_full;
+		else
+			return FALSE;
+		gnumeric_sheet_set_top_row (gsheet, row);
+	}
+	return TRUE;
 }
 
 /* Focus in handler for the canvas */
@@ -742,7 +774,7 @@ gnumeric_sheet_focus_in (GtkWidget *widget, GdkEventFocus *event)
 	GnumericSheet *gsheet = GNUMERIC_SHEET (widget);
 	if (gsheet->ic)
 		gdk_im_begin (gsheet->ic, gsheet->canvas.layout.bin_window);
-	return FALSE;
+	return (*GTK_WIDGET_CLASS (gsheet_parent_class)->focus_in_event)(widget, event);
 }
 
 /* Focus out handler for the canvas */
@@ -750,7 +782,7 @@ static gint
 gnumeric_sheet_focus_out (GtkWidget *widget, GdkEventFocus *event)
 {
 	gdk_im_end ();
-	return FALSE;
+	return (*GTK_WIDGET_CLASS (gsheet_parent_class)->focus_out_event)(widget, event);
 }
 
 static void
@@ -896,8 +928,8 @@ gnumeric_sheet_realize (GtkWidget *widget)
 	GdkWindow *window;
 	GnumericSheet *gsheet;
 
-	if (GTK_WIDGET_CLASS (sheet_parent_class)->realize)
-		(*GTK_WIDGET_CLASS (sheet_parent_class)->realize)(widget);
+	if (GTK_WIDGET_CLASS (gsheet_parent_class)->realize)
+		(*GTK_WIDGET_CLASS (gsheet_parent_class)->realize)(widget);
 
 	window = widget->window;
 	gdk_window_set_back_pixmap (GTK_LAYOUT (widget)->bin_window, NULL, FALSE);
@@ -948,7 +980,7 @@ gnumeric_sheet_unrealize (GtkWidget *widget)
 		gsheet->ic_attr = NULL;
 	}
 
-	(*GTK_WIDGET_CLASS (sheet_parent_class)->unrealize)(widget);
+	(*GTK_WIDGET_CLASS (gsheet_parent_class)->unrealize)(widget);
 }
 
 /*
@@ -1247,7 +1279,7 @@ gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet, int col, int row,
 static void
 gnumeric_sheet_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 {
-	(*GTK_WIDGET_CLASS (sheet_parent_class)->size_allocate)(widget, allocation);
+	(*GTK_WIDGET_CLASS (gsheet_parent_class)->size_allocate)(widget, allocation);
 
 	gsheet_compute_visible_region (GNUMERIC_SHEET (widget), FALSE);
 }
@@ -1263,18 +1295,19 @@ gnumeric_sheet_class_init (GnumericSheetClass *Class)
 	widget_class = (GtkWidgetClass *) Class;
 	canvas_class = (GnomeCanvasClass *) Class;
 
-	sheet_parent_class = gtk_type_class (gnome_canvas_get_type ());
+	gsheet_parent_class = gtk_type_class (gnome_canvas_get_type ());
 
 	/* Method override */
 	object_class->destroy = gnumeric_sheet_destroy;
 
-	widget_class->realize           = gnumeric_sheet_realize;
-	widget_class->unrealize		= gnumeric_sheet_unrealize;
- 	widget_class->size_allocate     = gnumeric_sheet_size_allocate;
-	widget_class->key_press_event   = gnumeric_sheet_key_press;
-	widget_class->key_release_event = gnumeric_sheet_key_release;
-	widget_class->focus_in_event	= gnumeric_sheet_focus_in;
-	widget_class->focus_out_event	= gnumeric_sheet_focus_out;
+	widget_class->realize		   = gnumeric_sheet_realize;
+	widget_class->unrealize		   = gnumeric_sheet_unrealize;
+ 	widget_class->size_allocate	   = gnumeric_sheet_size_allocate;
+	widget_class->key_press_event	   = gnumeric_sheet_key_press;
+	widget_class->key_release_event	   = gnumeric_sheet_key_release;
+	widget_class->button_release_event = gnumeric_sheet_button_release;
+	widget_class->focus_in_event	   = gnumeric_sheet_focus_in;
+	widget_class->focus_out_event	   = gnumeric_sheet_focus_out;
 }
 
 static void

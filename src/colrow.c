@@ -1,11 +1,24 @@
+/* vim: set sw=8: */
+
 /*
  * colrow.c: Utilities for Rows and Columns
  *
- * Author:
- *    Miguel de Icaza (miguel@gnu.org).
- *    Jody Goldberg (jgoldberg@home.org)
+ * Copyright (C) 1999, 2000, 2001 Jody Goldberg (jgoldberg@home.com)
  *
- * (C) 1998, 1999, 2000 Miguel de Icaza, Jody Goldberg
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+ * USA
  */
 #include <config.h>
 #include "colrow.h"
@@ -26,23 +39,26 @@ colrow_equal (ColRowInfo const *a, ColRowInfo const *b)
 	if (a == NULL || b == NULL)
 		return FALSE;
 
-	return
-	    a->size_pts  == b->size_pts &&
-	    a->margin_a  == b->margin_a &&
-	    a->margin_b  == b->margin_b &&
-	    a->hard_size == b->hard_size &&
-	    a->visible   == b->visible;
+	return  a->size_pts	 == b->size_pts &&
+		a->margin_a	 == b->margin_a &&
+		a->margin_b	 == b->margin_b &&
+		a->outline_level == b->outline_level &&
+		a->is_collapsed	 == b->is_collapsed &&
+		a->hard_size	 == b->hard_size &&
+		a->visible	 == b->visible;
 }
 
 void
 colrow_copy (ColRowInfo *dst, ColRowInfo const *src)
 {
-	dst->margin_a    = src->margin_a;
-	dst->margin_b    = src->margin_b;
-	dst->size_pts    = src->size_pts;
-	dst->size_pixels = src->size_pixels;
-	dst->hard_size   = src->hard_size;
-	dst->visible     = src->visible;
+	dst->size_pts      = src->size_pts;
+	dst->size_pixels   = src->size_pixels;
+	dst->margin_a	   = src->margin_a;
+	dst->margin_b 	   = src->margin_b;
+	dst->outline_level = src->outline_level;
+	dst->is_collapsed  = src->is_collapsed;
+	dst->hard_size     = src->hard_size;
+	dst->visible       = src->visible;
 }
 
 /**
@@ -560,18 +576,31 @@ void
 colrow_set_visibility (Sheet *sheet, gboolean const is_cols, gboolean const visible,
 		       int first, int last)
 {
-	int i;
+	int i, prev_outline = 0;
+	gboolean prev_changed = FALSE;
 	g_return_if_fail (sheet != NULL);
 
 	for (i = first; i <= last ; ++i) {
 		ColRowInfo * const cri = is_cols
-		    ? sheet_col_fetch (sheet, i)
-		    : sheet_row_fetch (sheet, i);
+			? sheet_col_fetch (sheet, i)
+			: sheet_row_fetch (sheet, i);
 
-		if ((visible == 0) != (cri->visible == 0)) {
+		prev_changed = (visible == 0) != (cri->visible == 0);
+		if (prev_changed) {
 			cri->visible = visible;
+			prev_outline = cri->outline_level;
 			sheet->priv->recompute_visibility = TRUE;
 		}
 	}
-}
 
+	if (prev_changed &&
+	    ((is_cols && i < SHEET_MAX_COLS) ||
+	     (!is_cols && i < SHEET_MAX_ROWS))) {
+		ColRowInfo * const cri = is_cols
+			? sheet_col_fetch (sheet, i)
+			: sheet_row_fetch (sheet, i);
+
+		if (prev_outline > cri->outline_level)
+			cri->is_collapsed = !visible;
+	}
+}

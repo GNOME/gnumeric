@@ -273,13 +273,10 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 
 	if (halign != HALIGN_JUSTIFY && valign != VALIGN_JUSTIFY &&
 	    !mstyle_get_wrap_text (mstyle)) {
-		int x, len = cell_width_pixel;
+		int x, total, len = cell_width_pixel;
 
 		switch (halign) {
-		case HALIGN_FILL:
-			g_warning ("FILL!");
-			/* fall through */
-
+		case HALIGN_FILL: /* fall through */
 		case HALIGN_LEFT:
 			x = rect.x + indent;
 			break;
@@ -298,8 +295,13 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 			x = rect.x;
 		}
 
-		draw_text (drawable, font, gc, x, text_base,
-			   text, strlen (text), len, line_offset, num_lines);
+		total = len; /* don't include partial copies after the first */
+		do {
+			draw_text (drawable, font, gc, x, text_base,
+				   text, strlen (text), len, line_offset, num_lines);
+			x += len;
+			total += len;
+		} while (halign == HALIGN_FILL && total < rect.width && len > 0);
 	} else {
 		GList *lines, *l;
 		int line_count;

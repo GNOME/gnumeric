@@ -169,19 +169,19 @@ load_hf (const char *type, const char *a, const char *b, const char *c)
 	return format;
 }
 
-static Value *
-load_range (const char *name)
+static gboolean
+load_range (char const *name, Range *r)
 {
-	static Value *v;
-	char *str;
-
-	str = gnome_config_get_string (name);
+	gboolean success = FALSE;
+	char *str = gnome_config_get_string (name);
 	if (!str)
-		return NULL;
+		return FALSE;
 
-	v = range_parse (NULL, str, TRUE);
+	success = parse_range (str, 
+			       &r->start.col, &r->start.row,
+			       &r->end.col, &r->end.row);
 	g_free (str);
-	return v;
+	return success;
 }
 
 static void
@@ -240,7 +240,6 @@ PrintInformation *
 print_info_new (void)
 {
 	PrintInformation *pi;
-	Value *cellrange;
 	char *s;
 
 	pi = g_new0 (PrintInformation, 1);
@@ -297,22 +296,11 @@ print_info_new (void)
 	else
 		pi->print_order = PRINT_ORDER_DOWN_THEN_RIGHT;
 
-	/*
-	 * Load the columns/rows to repeat
-	 */
-	if ((cellrange = load_range ("repeat_top_range=")) != NULL){
-		pi->repeat_top.range = cellrange->v_range;
-		pi->repeat_top.use = TRUE;
-		value_release (cellrange);
-	} else
-		pi->repeat_top.use = FALSE;
-
-	if ((cellrange = load_range ("repeat_left_range=")) != NULL){
-		pi->repeat_left.range = cellrange->v_range;
-		pi->repeat_left.use = TRUE;
-		value_release (cellrange);
-	} else
-		pi->repeat_left.use = FALSE;
+	/* Load the columns/rows to repeat */
+	pi->repeat_top.use  = load_range ("repeat_top_range=",
+					  &pi->repeat_top.range);
+	pi->repeat_left.use = load_range ("repeat_left_range=",
+					  &pi->repeat_left.range);
 
 	gnome_config_pop_prefix ();
 	gnome_config_sync ();
@@ -333,14 +321,8 @@ save_margin (const char *prefix, PrintUnit *p)
 static void
 save_range (const char *section, PrintRepeatRange *repeat)
 {
-	if (repeat->use){
-		char *s;
-
-		s = value_cellrange_get_as_string ((Value *)&repeat->range, FALSE);
-		gnome_config_set_string (section, s);
-		g_free (s);
-	} else
-		gnome_config_set_string (section, "");
+	char const *s = (repeat->use) ? range_name (&repeat->range) : "";
+	gnome_config_set_string (section, s);
 }
 
 static void

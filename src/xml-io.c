@@ -29,6 +29,7 @@
 #include "expr.h"
 #include "expr-name.h"
 #include "cell.h"
+#include "value.h"
 #include "sheet-merge.h"
 #include "io-context.h"
 #include "command-context.h"
@@ -1167,23 +1168,14 @@ static xmlNodePtr
 xml_write_print_repeat_range (XmlParseContext *ctxt, char *name, PrintRepeatRange *range)
 {
 	xmlNodePtr cur;
-	String *str;
-	char *s;
+	char const *s;
 
 	g_return_val_if_fail (name != NULL, NULL);
 	g_return_val_if_fail (range != NULL, NULL);
 
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, name, NULL);
-	if (range->use) {
-		s = value_cellrange_get_as_string ((Value *)&range->range, FALSE);
-	} else {
-		s = g_strdup ("");
-	}
-	str = string_get (s);
-	xml_set_value_string  (cur, "value", str);
-
-	string_unref (str);
-	g_free (s);
+	s = (range->use) ? range_name (&range->range) : "";
+	xml_set_value_cstr  (cur, "value", s);
 
 	return cur;
 }
@@ -1311,25 +1303,19 @@ xml_read_print_repeat_range (XmlParseContext *ctxt, xmlNodePtr tree, char *name,
 	g_return_if_fail (name != NULL);
 	g_return_if_fail (range != NULL);
 
-	if (ctxt->version > GNUM_XML_V4) {
-		if ((child = e_xml_get_child_by_name (tree, name))) {
-			String *s = xml_get_value_string  (child, "value");
+	range->use = FALSE;
+	if (ctxt->version > GNUM_XML_V4 &&
+	    (child = e_xml_get_child_by_name (tree, name))) {
+		String *s = xml_get_value_string (child, "value");
+		Range r;
 
-			if (strcmp (s->str, "") != 0) {
-				Value *cellrange = range_parse (NULL, s->str, TRUE);
-
-				if (cellrange) {
-					range->range = cellrange->v_range;
-					range->use   = TRUE;
-					value_release (cellrange);
-				}
-			} else {
-				range->use = FALSE;
-			}
-			string_unref (s);
+		if (s->str && parse_range (s->str,
+					   &r.start.col, &r.start.row,
+					   &r.end.col, &r.end.row)) {
+			range->range = r;
+			range->use   = TRUE;
 		}
-	} else {
-		range->use = FALSE;
+		string_unref (s);
 	}
 }
 
@@ -2570,8 +2556,10 @@ xml_read_colrow_info (XmlParseContext *ctxt, xmlNodePtr tree,
 	info->size_pts = -1;
 	xml_get_value_int (tree, "No", &info->pos);
 	xml_get_value_double (tree, "Unit", size_pts);
-	xml_get_value_int (tree, "MarginA", &info->margin_a);
-	xml_get_value_int (tree, "MarginB", &info->margin_b);
+	if (xml_get_value_int (tree, "MarginA", &val))
+		info->margin_a = val;
+	if (xml_get_value_int (tree, "MarginB", &val))
+		info->margin_a = val;
 	if (xml_get_value_int (tree, "HardSize", &val))
 		info->hard_size = val;
 	if (xml_get_value_int (tree, "Hidden", &val) && val)

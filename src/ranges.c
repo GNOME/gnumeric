@@ -96,7 +96,7 @@ range_parse (Sheet *sheet, const char *range, gboolean strict)
  * Should be merged with range_parse
  */
 gboolean
-parse_range (const char *text, int *start_col, int *start_row,
+parse_range (char const *text, int *start_col, int *start_row,
 	     int *end_col, int *end_row)
 {
 	int len;
