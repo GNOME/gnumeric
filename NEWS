@@ -28,6 +28,8 @@ Andreas:
 	* Use new widget for output page of analysis tools.
 	* Add display indicating why the okay button is disabled
 	  to selected analysis tools.
+	http://bugzilla.gnome.org/show_bug.cgi?id=131343
+	* Use the paper selected in the print dialog [backported]
 
 John Gill:
 	* Tool tips for the sort dialog.

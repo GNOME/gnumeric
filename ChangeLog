@@ -1,3 +1,12 @@
+2004-01-15  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=131343
+	* src/print.c (print_job_info_update_from_config): new
+	(print_job_info_get): move some code into 
+	  print_job_info_update_from_config
+	(sheet_print): call print_job_info_update_from_config after the
+	  user may have changed the paper info in the print dialog.
+
 2004-01-14  Jon K Hellan  <hellan@acm.org>
 
 	* README: Spellcheck
