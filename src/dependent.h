@@ -99,14 +99,6 @@ void	 cell_queue_recalc	    (GnmCell const *cell);
 void	 cell_foreach_dep	    (GnmCell const *cell, DepFunc func, gpointer user);
 gboolean cell_eval_content	    (GnmCell *cell);
 
-#define cell_eval(cell)							\
-{									\
-	if (cell_needs_recalc (cell)) {					\
-		cell_eval_content (cell);				\
-		cell->base.flags &= ~DEPENDENT_NEEDS_RECALC;		\
-	}								\
-}
-
 void sheet_region_queue_recalc	 (Sheet const *sheet, GnmRange const *range);
 void sheet_deps_destroy		 (Sheet *sheet);
 void workbook_deps_destroy	 (Workbook *wb);

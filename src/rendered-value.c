@@ -195,6 +195,13 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 	g_return_val_if_fail (cell->value != NULL, NULL);
 	g_return_val_if_fail (context != NULL, NULL);
 
+	/* Special handling for manual recalc.
+	 * If a cell has a new expression and something tries to display it we
+	 * need to recalc the value */
+	if (cell->base.flags & CELL_HAS_NEW_EXPR) {
+		cell_eval (cell);
+	}
+
 	sheet = cell->base.sheet;
 
 	if (str)

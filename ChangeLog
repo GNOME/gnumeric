@@ -1,5 +1,12 @@
 2004-01-05  Jody Goldberg <jody@gnome.org>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=130424
+	* src/commands.c (cmd_set_text_redo) : remove manual kludge.
+	* src/dependent.h (cell_eval) : move from here
+	* src/cell.h (cell_eval) : to here.  Add a new flag CELL_HAS_NEW_EXPR
+	* src/cell.c (cell_set_expr_internal) : set the flag here.
+	* src/rendered-value.c (rendered_value_new) : test it here.
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=130582
 	* src/sheet-control-gui.c (scg_cursor_move) : don't scroll the other
 	  panes unless we absolutely have to.  Apparently we only fuxed normal
