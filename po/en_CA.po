@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2003-09-10 00:27-0400\n"
-"PO-Revision-Date: 2003-08-11 12:27-0600\n"
+"PO-Revision-Date: 2003-09-14 23:49-0600\n"
 "Last-Translator: Andreas J. Guelzow <aguelzow@taliesin.ca>\n"
 "Language-Team: gnome-i18n@gnome.org\n"
 "MIME-Version: 1.0\n"
@@ -15,19 +15,16 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: GNOME_Gnumeric.server.in.in.h:1
-#, fuzzy
 msgid "Gnumeric Workbook"
-msgstr "Could not initialise the Gnumeric Workbook factory"
+msgstr ""
 
 #: GNOME_Gnumeric.server.in.in.h:2
-#, fuzzy
 msgid "Gnumeric Workbook Viewer"
-msgstr "Could not initialise the Gnumeric Workbook factory"
+msgstr ""
 
 #: GNOME_Gnumeric.server.in.in.h:3
-#, fuzzy
 msgid "Gnumeric Workbook viewer factory"
-msgstr "Could not initialise the Gnumeric Workbook factory"
+msgstr ""
 
 #: gnumeric.desktop.in.h:1
 msgid "Gnumeric Spreadsheet"
@@ -928,7 +925,6 @@ msgid "MS Excel (tm) XML"
 msgstr ""
 
 #: plugins/fn-complex/functions.c:80
-#, fuzzy
 msgid ""
 "@FUNCTION=COMPLEX\n"
 "@SYNTAX=COMPLEX(real,im[,suffix])\n"
@@ -946,16 +942,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-complex/functions.c:119
-#, fuzzy
 msgid ""
 "@FUNCTION=IMAGINARY\n"
 "@SYNTAX=IMAGINARY(inumber)\n"
@@ -970,16 +958,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMREAL"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-complex/functions.c:152
-#, fuzzy
 msgid ""
 "@FUNCTION=IMABS\n"
 "@SYNTAX=IMABS(inumber)\n"
@@ -993,16 +973,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMAGINARY,IMREAL"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-complex/functions.c:185
-#, fuzzy
 msgid ""
 "@FUNCTION=IMREAL\n"
 "@SYNTAX=IMREAL(inumber)\n"
@@ -1016,16 +988,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMAGINARY"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-complex/functions.c:218
-#, fuzzy
 msgid ""
 "@FUNCTION=IMCONJUGATE\n"
 "@SYNTAX=IMCONJUGATE(inumber)\n"
@@ -1040,16 +1004,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMAGINARY,IMREAL"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-complex/functions.c:252
-#, fuzzy
 msgid ""
 "@FUNCTION=IMINV\n"
 "@SYNTAX=IMINV(inumber)\n"
@@ -1065,16 +1021,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-complex/functions.c:283
-#, fuzzy
 msgid ""
 "@FUNCTION=IMNEG\n"
 "@SYNTAX=IMNEG(inumber)\n"
@@ -1090,16 +1038,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-complex/functions.c:314
-#, fuzzy
 msgid ""
 "@FUNCTION=IMCOS\n"
 "@SYNTAX=IMCOS(inumber)\n"
@@ -1113,16 +1053,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMSIN,IMTAN"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-complex/functions.c:345
-#, fuzzy
 msgid ""
 "@FUNCTION=IMTAN\n"
 "@SYNTAX=IMTAN(inumber)\n"
@@ -1136,16 +1068,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMSIN,IMCOS"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-complex/functions.c:376
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSEC\n"
 "@SYNTAX=IMSEC(inumber)\n"
@@ -1161,16 +1085,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMCSC,IMCOT"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-complex/functions.c:409
-#, fuzzy
 msgid ""
 "@FUNCTION=IMCSC\n"
 "@SYNTAX=IMCSC(inumber)\n"
@@ -1186,16 +1102,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMSEC,IMCOT"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-complex/functions.c:442
-#, fuzzy
 msgid ""
 "@FUNCTION=IMCOT\n"
 "@SYNTAX=IMCOT(inumber)\n"
@@ -1211,16 +1119,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMSEC,IMCSC"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-complex/functions.c:475
-#, fuzzy
 msgid ""
 "@FUNCTION=IMEXP\n"
 "@SYNTAX=IMEXP(inumber)\n"
@@ -1234,16 +1134,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMLN"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-complex/functions.c:506
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARGUMENT\n"
 "@SYNTAX=IMARGUMENT(inumber)\n"
@@ -1260,16 +1152,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-complex/functions.c:538
-#, fuzzy
 msgid ""
 "@FUNCTION=IMLN\n"
 "@SYNTAX=IMLN(inumber)\n"
@@ -1287,16 +1171,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMEXP,IMLOG2,IMLOG10"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-complex/functions.c:574
-#, fuzzy
 msgid ""
 "@FUNCTION=IMLOG2\n"
 "@SYNTAX=IMLOG2(inumber)\n"
@@ -1310,16 +1186,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMLN,IMLOG10"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-complex/functions.c:606
-#, fuzzy
 msgid ""
 "@FUNCTION=IMLOG10\n"
 "@SYNTAX=IMLOG10(inumber)\n"
@@ -1333,16 +1201,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMLN,IMLOG2"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-complex/functions.c:638
-#, fuzzy
 msgid ""
 "@FUNCTION=IMPOWER\n"
 "@SYNTAX=IMPOWER(inumber1,inumber2)\n"
@@ -1359,16 +1219,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMSQRT"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-complex/functions.c:677
-#, fuzzy
 msgid ""
 "@FUNCTION=IMDIV\n"
 "@SYNTAX=IMDIV(inumber1,inumber2)\n"
@@ -1383,16 +1235,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMPRODUCT"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-complex/functions.c:714
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSIN\n"
 "@SYNTAX=IMSIN(inumber)\n"
@@ -1406,16 +1250,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMCOS,IMTAN"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-complex/functions.c:744
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSINH\n"
 "@SYNTAX=IMSINH(inumber)\n"
@@ -1431,16 +1267,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMCOSH,IMTANH"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-complex/functions.c:776
-#, fuzzy
 msgid ""
 "@FUNCTION=IMCOSH\n"
 "@SYNTAX=IMCOSH(inumber)\n"
@@ -1456,16 +1284,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMSINH,IMTANH"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-complex/functions.c:807
-#, fuzzy
 msgid ""
 "@FUNCTION=IMTANH\n"
 "@SYNTAX=IMTANH(inumber)\n"
@@ -1481,16 +1301,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMSINH,IMCOSH"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-complex/functions.c:838
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSECH\n"
 "@SYNTAX=IMSECH(inumber)\n"
@@ -1506,16 +1318,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMCSCH,IMCOTH"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-complex/functions.c:869
-#, fuzzy
 msgid ""
 "@FUNCTION=IMCSCH\n"
 "@SYNTAX=IMCSCH(inumber)\n"
@@ -1531,16 +1335,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMSECH,IMCOTH"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-complex/functions.c:900
-#, fuzzy
 msgid ""
 "@FUNCTION=IMCOTH\n"
 "@SYNTAX=IMCOTH(inumber)\n"
@@ -1556,16 +1352,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMSECH,IMCSCH"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-complex/functions.c:931
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCSIN\n"
 "@SYNTAX=IMARCSIN(inumber)\n"
@@ -1581,16 +1369,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCCOS,IMARCTAN"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-complex/functions.c:963
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCCOS\n"
 "@SYNTAX=IMARCCOS(inumber)\n"
@@ -1606,16 +1386,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCSIN,IMARCTAN"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-complex/functions.c:995
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCTAN\n"
 "@SYNTAX=IMARCTAN(inumber)\n"
@@ -1630,16 +1402,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCSIN,IMARCCOS"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-complex/functions.c:1027
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCSEC\n"
 "@SYNTAX=IMARCSEC(inumber)\n"
@@ -1656,16 +1420,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCCSC,IMARCCOT"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-complex/functions.c:1058
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCCSC\n"
 "@SYNTAX=IMARCCSC(inumber)\n"
@@ -1682,16 +1438,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCSEC,IMARCCOT"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-complex/functions.c:1089
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCCOT\n"
 "@SYNTAX=IMARCCOT(inumber)\n"
@@ -1708,16 +1456,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCSEC,IMARCCSC"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-complex/functions.c:1120
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCSINH\n"
 "@SYNTAX=IMARCSINH(inumber)\n"
@@ -1733,16 +1473,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCCOSH,IMARCTANH"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-complex/functions.c:1152
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCCOSH\n"
 "@SYNTAX=IMARCCOSH(inumber)\n"
@@ -1757,16 +1489,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCSINH,IMARCTANH"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-complex/functions.c:1184
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCTANH\n"
 "@SYNTAX=IMARCTANH(inumber)\n"
@@ -1782,16 +1506,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCSINH,IMARCCOSH"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-complex/functions.c:1216
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCSECH\n"
 "@SYNTAX=IMARCSECH(inumber)\n"
@@ -1808,16 +1524,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCCSCH,IMARCCOTH"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-complex/functions.c:1248
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCCSCH\n"
 "@SYNTAX=IMARCCSCH(inumber)\n"
@@ -1834,16 +1542,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCSECH,IMARCCOTH"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-complex/functions.c:1279
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCCOTH\n"
 "@SYNTAX=IMARCCOTH(inumber)\n"
@@ -1860,16 +1560,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCSECH,IMARCCSCH"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-complex/functions.c:1311
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSQRT\n"
 "@SYNTAX=IMSQRT(inumber)\n"
@@ -1883,16 +1575,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMPOWER"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-complex/functions.c:1342
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSUB\n"
 "@SYNTAX=IMSUB(inumber1,inumber2)\n"
@@ -1907,16 +1591,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMSUM"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-complex/functions.c:1376
-#, fuzzy
 msgid ""
 "@FUNCTION=IMPRODUCT\n"
 "@SYNTAX=IMPRODUCT(inumber1[,inumber2,...])\n"
@@ -1931,16 +1607,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMDIV"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-complex/functions.c:1448
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSUM\n"
 "@SYNTAX=IMSUM(inumber1,inumber2)\n"
@@ -1955,13 +1623,6 @@ msgid ""
 "\n"
 "@SEEALSO=IMSUB"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-complex/functions.c:1484
 msgid "real,im,suffix"
@@ -1985,9 +1646,8 @@ msgstr ""
 #: plugins/fn-complex/functions.c:1593 plugins/fn-complex/functions.c:1596
 #: plugins/fn-complex/functions.c:1599 plugins/fn-complex/functions.c:1602
 #: plugins/fn-complex/functions.c:1605 plugins/fn-complex/functions.c:1608
-#, fuzzy
 msgid "inumber"
-msgstr "Could not initialise the Gnumeric Workbook factory"
+msgstr ""
 
 #: plugins/fn-complex/functions.c:1502 plugins/fn-complex/functions.c:1517
 #: plugins/fn-complex/functions.c:1529 plugins/fn-complex/functions.c:1532
@@ -2000,9 +1660,8 @@ msgid "Complex"
 msgstr ""
 
 #: plugins/fn-complex/plugin.xml.in.h:2
-#, fuzzy
 msgid "Complex Functions"
-msgstr "Centre section:"
+msgstr ""
 
 #: plugins/fn-complex/plugin.xml.in.h:3
 msgid "Functions for complex numbers"
@@ -2653,9 +2312,8 @@ msgid "Database"
 msgstr ""
 
 #: plugins/fn-database/plugin.xml.in.h:2
-#, fuzzy
 msgid "Database Functions"
-msgstr "Centre section:"
+msgstr ""
 
 #: plugins/fn-database/plugin.xml.in.h:3
 msgid "Functions looking up values in databases"
@@ -2711,7 +2369,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-date/functions.c:197
-#, fuzzy
 msgid ""
 "@FUNCTION=DATEVALUE\n"
 "@SYNTAX=DATEVALUE(date_str)\n"
@@ -2726,13 +2383,6 @@ msgid ""
 "DATEVALUE(\"1/1/1999\") equals 36161 (in the 1900 convention).\n"
 "@SEEALSO=DATE"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-date/functions.c:222
 msgid ""
@@ -2780,7 +2430,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-date/functions.c:421
-#, fuzzy
 msgid ""
 "@FUNCTION=TODAY\n"
 "@SYNTAX=TODAY()\n"
@@ -2794,13 +2443,6 @@ msgid ""
 " \n"
 "@SEEALSO=NOW"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-date/functions.c:444
 msgid ""
@@ -2826,7 +2468,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-date/functions.c:475
-#, fuzzy
 msgid ""
 "@FUNCTION=TIME\n"
 "@SYNTAX=TIME (hours,minutes,seconds)\n"
@@ -2839,16 +2480,8 @@ msgid ""
 "\n"
 "@SEEALSO=HOUR"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-date/functions.c:504
-#, fuzzy
 msgid ""
 "@FUNCTION=TIMEVALUE\n"
 "@SYNTAX=TIMEVALUE (timetext)\n"
@@ -2863,16 +2496,8 @@ msgid ""
 "\n"
 "@SEEALSO=HOUR,MINUTE"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-date/functions.c:529
-#, fuzzy
 msgid ""
 "@FUNCTION=HOUR\n"
 "@SYNTAX=HOUR (date)\n"
@@ -2897,7 +2522,6 @@ msgstr ""
 "@SEEALSO=LOWER"
 
 #: plugins/fn-date/functions.c:558
-#, fuzzy
 msgid ""
 "@FUNCTION=MINUTE\n"
 "@SYNTAX=MINUTE (date)\n"
@@ -2913,16 +2537,8 @@ msgid ""
 "\n"
 "@SEEALSO=HOUR, NOW, TIME, SECOND"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-date/functions.c:588
-#, fuzzy
 msgid ""
 "@FUNCTION=SECOND\n"
 "@SYNTAX=SECOND (date)\n"
@@ -2938,16 +2554,8 @@ msgid ""
 "\n"
 "@SEEALSO=HOUR, MINUTE, NOW, TIME"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-date/functions.c:618
-#, fuzzy
 msgid ""
 "@FUNCTION=YEAR\n"
 "@SYNTAX=YEAR (date)\n"
@@ -2962,16 +2570,8 @@ msgid ""
 "\n"
 "@SEEALSO=DAY, MONTH, TIME, NOW"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-date/functions.c:649
-#, fuzzy
 msgid ""
 "@FUNCTION=MONTH\n"
 "@SYNTAX=MONTH (date)\n"
@@ -2986,16 +2586,8 @@ msgid ""
 "\n"
 "@SEEALSO=DAY, TIME, NOW, YEAR"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-date/functions.c:680
-#, fuzzy
 msgid ""
 "@FUNCTION=DAY\n"
 "@SYNTAX=DAY (date)\n"
@@ -3010,16 +2602,8 @@ msgid ""
 "\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-date/functions.c:711
-#, fuzzy
 msgid ""
 "@FUNCTION=WEEKDAY\n"
 "@SYNTAX=WEEKDAY (date[, method])\n"
@@ -3041,13 +2625,6 @@ msgid ""
 "\n"
 "@SEEALSO=DAY, MONTH, TIME, NOW, YEAR"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-date/functions.c:762
 msgid ""
@@ -3251,9 +2828,8 @@ msgid "hours,minutes,seconds"
 msgstr ""
 
 #: plugins/fn-date/functions.c:1273
-#, fuzzy
 msgid "timetext"
-msgstr "centimetre"
+msgstr ""
 
 #: plugins/fn-date/functions.c:1289
 msgid "date,days,holidays"
@@ -3280,7 +2856,6 @@ msgid "Functions manipulating dates and time"
 msgstr ""
 
 #: plugins/fn-eng/functions.c:115
-#, fuzzy
 msgid ""
 "@FUNCTION=BIN2DEC\n"
 "@SYNTAX=BIN2DEC(x)\n"
@@ -3303,7 +2878,6 @@ msgstr ""
 "@SEEALSO=LOWER"
 
 #: plugins/fn-eng/functions.c:138
-#, fuzzy
 msgid ""
 "@FUNCTION=BIN2OCT\n"
 "@SYNTAX=BIN2OCT(number[,places])\n"
@@ -3319,13 +2893,6 @@ msgid ""
 "\n"
 "@SEEALSO=OCT2BIN, BIN2DEC, BIN2HEX"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-eng/functions.c:164
 #, fuzzy
@@ -3344,16 +2911,8 @@ msgid ""
 "\n"
 "@SEEALSO=HEX2BIN, BIN2OCT, BIN2DEC"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-eng/functions.c:190
-#, fuzzy
 msgid ""
 "@FUNCTION=DEC2BIN\n"
 "@SYNTAX=DEC2BIN(number[,places])\n"
@@ -3369,16 +2928,8 @@ msgid ""
 "\n"
 "@SEEALSO=BIN2DEC, DEC2OCT, DEC2HEX"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-eng/functions.c:216
-#, fuzzy
 msgid ""
 "@FUNCTION=DEC2OCT\n"
 "@SYNTAX=DEC2OCT(number[,places])\n"
@@ -3394,16 +2945,8 @@ msgid ""
 "\n"
 "@SEEALSO=OCT2DEC, DEC2BIN, DEC2HEX"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-eng/functions.c:242
-#, fuzzy
 msgid ""
 "@FUNCTION=DEC2HEX\n"
 "@SYNTAX=DEC2HEX(number[,places])\n"
@@ -3419,16 +2962,8 @@ msgid ""
 "\n"
 "@SEEALSO=HEX2DEC, DEC2BIN, DEC2OCT"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-eng/functions.c:268
-#, fuzzy
 msgid ""
 "@FUNCTION=OCT2DEC\n"
 "@SYNTAX=OCT2DEC(x)\n"
@@ -3442,16 +2977,8 @@ msgid ""
 "\n"
 "@SEEALSO=DEC2OCT, OCT2BIN, OCT2HEX"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-eng/functions.c:291
-#, fuzzy
 msgid ""
 "@FUNCTION=OCT2BIN\n"
 "@SYNTAX=OCT2BIN(number[,places])\n"
@@ -3467,16 +2994,8 @@ msgid ""
 "\n"
 "@SEEALSO=BIN2OCT, OCT2DEC, OCT2HEX"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-eng/functions.c:317
-#, fuzzy
 msgid ""
 "@FUNCTION=OCT2HEX\n"
 "@SYNTAX=OCT2HEX(number[,places])\n"
@@ -3492,16 +3011,8 @@ msgid ""
 "\n"
 "@SEEALSO=HEX2OCT, OCT2BIN, OCT2DEC"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-eng/functions.c:343
-#, fuzzy
 msgid ""
 "@FUNCTION=HEX2BIN\n"
 "@SYNTAX=HEX2BIN(number[,places])\n"
@@ -3517,16 +3028,8 @@ msgid ""
 "\n"
 "@SEEALSO=BIN2HEX, HEX2OCT, HEX2DEC"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-eng/functions.c:369
-#, fuzzy
 msgid ""
 "@FUNCTION=HEX2OCT\n"
 "@SYNTAX=HEX2OCT(number[,places])\n"
@@ -3542,16 +3045,8 @@ msgid ""
 "\n"
 "@SEEALSO=OCT2HEX, HEX2BIN, HEX2DEC"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-eng/functions.c:395
-#, fuzzy
 msgid ""
 "@FUNCTION=HEX2DEC\n"
 "@SYNTAX=HEX2DEC(x)\n"
@@ -3565,16 +3060,8 @@ msgid ""
 "\n"
 "@SEEALSO=DEC2HEX, HEX2BIN, HEX2OCT"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-eng/functions.c:418
-#, fuzzy
 msgid ""
 "@FUNCTION=BESSELI\n"
 "@SYNTAX=BESSELI(x,y)\n"
@@ -3593,16 +3080,8 @@ msgid ""
 "\n"
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-eng/functions.c:456
-#, fuzzy
 msgid ""
 "@FUNCTION=BESSELK\n"
 "@SYNTAX=BESSELK(x,y)\n"
@@ -3619,16 +3098,8 @@ msgid ""
 "\n"
 "@SEEALSO=BESSELI,BESSELJ,BESSELY"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-eng/functions.c:493
-#, fuzzy
 msgid ""
 "@FUNCTION=BESSELJ\n"
 "@SYNTAX=BESSELJ(x,y)\n"
@@ -3645,16 +3116,8 @@ msgid ""
 "\n"
 "@SEEALSO=BESSELI,BESSELK,BESSELY"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-eng/functions.c:529
-#, fuzzy
 msgid ""
 "@FUNCTION=BESSELY\n"
 "@SYNTAX=BESSELY(x,y)\n"
@@ -3673,13 +3136,6 @@ msgid ""
 "\n"
 "@SEEALSO=BESSELI,BESSELJ,BESSELK"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-eng/functions.c:568
 msgid ""
@@ -3841,7 +3297,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-eng/functions.c:1060
-#, fuzzy
 msgid ""
 "@FUNCTION=DELTA\n"
 "@SYNTAX=DELTA(x[,y])\n"
@@ -3857,20 +3312,12 @@ msgid ""
 "\n"
 "@SEEALSO=EXACT,GESTEP"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-eng/functions.c:1104 plugins/fn-eng/functions.c:1158
 msgid "Impossible"
 msgstr ""
 
 #: plugins/fn-eng/functions.c:1115
-#, fuzzy
 msgid ""
 "@FUNCTION=GESTEP\n"
 "@SYNTAX=GESTEP(x[,y])\n"
@@ -3884,13 +3331,6 @@ msgid ""
 "\n"
 "@SEEALSO=DELTA"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-eng/plugin.xml.in.h:1
 msgid "Engineering"
@@ -4190,7 +3630,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-financial/functions.c:814
-#, fuzzy
 msgid ""
 "@FUNCTION=ISPMT\n"
 "@SYNTAX=ISPMT(rate,per,nper,pv)\n"
@@ -4201,13 +3640,6 @@ msgid ""
 "\n"
 "@SEEALSO=PV"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-financial/functions.c:851
 msgid ""
@@ -5386,7 +4818,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-info/functions.c:1200
-#, fuzzy
 msgid ""
 "@FUNCTION=COUNTBLANK\n"
 "@SYNTAX=COUNTBLANK(range)\n"
@@ -5399,13 +4830,6 @@ msgid ""
 "\n"
 "@SEEALSO=COUNT"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-info/functions.c:1244
 msgid ""
@@ -5461,7 +4885,6 @@ msgid "Unknown info_type"
 msgstr ""
 
 #: plugins/fn-info/functions.c:1333
-#, fuzzy
 msgid ""
 "@FUNCTION=ISERROR\n"
 "@SYNTAX=ISERROR(value)\n"
@@ -5474,16 +4897,8 @@ msgid ""
 "\n"
 "@SEEALSO=ERROR"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-info/functions.c:1355
-#, fuzzy
 msgid ""
 "@FUNCTION=ISNA\n"
 "@SYNTAX=ISNA(value)\n"
@@ -5496,16 +4911,8 @@ msgid ""
 "\n"
 "@SEEALSO=NA"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-info/functions.c:1381
-#, fuzzy
 msgid ""
 "@FUNCTION=ISERR\n"
 "@SYNTAX=ISERR(value)\n"
@@ -5518,16 +4925,8 @@ msgid ""
 "\n"
 "@SEEALSO=ISERROR"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-info/functions.c:1404
-#, fuzzy
 msgid ""
 "@FUNCTION=ERROR.TYPE\n"
 "@SYNTAX=ERROR.TYPE(value)\n"
@@ -5548,16 +4947,8 @@ msgid ""
 "\n"
 "@SEEALSO=ISERROR"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-info/functions.c:1443
-#, fuzzy
 msgid ""
 "@FUNCTION=NA\n"
 "@SYNTAX=NA()\n"
@@ -5570,16 +4961,8 @@ msgid ""
 "\n"
 "@SEEALSO=ISNA"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-info/functions.c:1465
-#, fuzzy
 msgid ""
 "@FUNCTION=ERROR\n"
 "@SYNTAX=ERROR(text)\n"
@@ -5590,16 +4973,8 @@ msgid ""
 "\n"
 "@SEEALSO=ISERROR"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-info/functions.c:1486
-#, fuzzy
 msgid ""
 "@FUNCTION=ISBLANK\n"
 "@SYNTAX=ISBLANK(value)\n"
@@ -5612,13 +4987,6 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-info/functions.c:1506 plugins/fn-info/functions.c:1667
 #: src/func.c:795
@@ -5626,7 +4994,6 @@ msgid "Invalid number of arguments"
 msgstr ""
 
 #: plugins/fn-info/functions.c:1536
-#, fuzzy
 msgid ""
 "@FUNCTION=ISEVEN\n"
 "@SYNTAX=ISEVEN(value)\n"
@@ -5639,16 +5006,8 @@ msgid ""
 "\n"
 "@SEEALSO=ISODD"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-info/functions.c:1558
-#, fuzzy
 msgid ""
 "@FUNCTION=ISLOGICAL\n"
 "@SYNTAX=ISLOGICAL(value)\n"
@@ -5661,16 +5020,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-info/functions.c:1580
-#, fuzzy
 msgid ""
 "@FUNCTION=ISNONTEXT\n"
 "@SYNTAX=ISNONTEXT(value)\n"
@@ -5683,16 +5034,8 @@ msgid ""
 "\n"
 "@SEEALSO=ISTEXT"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-info/functions.c:1602
-#, fuzzy
 msgid ""
 "@FUNCTION=ISNUMBER\n"
 "@SYNTAX=ISNUMBER(value)\n"
@@ -5705,16 +5048,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-info/functions.c:1625
-#, fuzzy
 msgid ""
 "@FUNCTION=ISODD\n"
 "@SYNTAX=ISODD(value)\n"
@@ -5727,16 +5062,8 @@ msgid ""
 "\n"
 "@SEEALSO=ISEVEN"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-info/functions.c:1647
-#, fuzzy
 msgid ""
 "@FUNCTION=ISREF\n"
 "@SYNTAX=ISREF(value)\n"
@@ -5749,16 +5076,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-info/functions.c:1679
-#, fuzzy
 msgid ""
 "@FUNCTION=ISTEXT\n"
 "@SYNTAX=ISTEXT(value)\n"
@@ -5771,16 +5090,8 @@ msgid ""
 "\n"
 "@SEEALSO=ISNONTEXT"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-info/functions.c:1701
-#, fuzzy
 msgid ""
 "@FUNCTION=N\n"
 "@SYNTAX=N(value)\n"
@@ -5794,16 +5105,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-info/functions.c:1741
-#, fuzzy
 msgid ""
 "@FUNCTION=TYPE\n"
 "@SYNTAX=TYPE(value)\n"
@@ -5822,13 +5125,6 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-info/functions.c:1790
 msgid ""
@@ -5880,9 +5176,8 @@ msgid "cell"
 msgstr ""
 
 #: plugins/fn-info/functions.c:1881
-#, fuzzy
 msgid "string"
-msgstr "Centre"
+msgstr ""
 
 #: plugins/fn-info/plugin.xml.in.h:1
 msgid "Functions for inspecting values, cells, and more"
@@ -5922,7 +5217,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-logical/functions.c:106
-#, fuzzy
 msgid ""
 "@FUNCTION=NOT\n"
 "@SYNTAX=NOT(number)\n"
@@ -5937,13 +5231,6 @@ msgid ""
 "\n"
 "@SEEALSO=AND, OR"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-logical/functions.c:127
 msgid "Type Mismatch"
@@ -6010,7 +5297,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-logical/functions.c:280
-#, fuzzy
 msgid ""
 "@FUNCTION=TRUE\n"
 "@SYNTAX=TRUE()\n"
@@ -6023,16 +5309,8 @@ msgid ""
 "\n"
 "@SEEALSO=FALSE"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-logical/functions.c:302
-#, fuzzy
 msgid ""
 "@FUNCTION=FALSE\n"
 "@SYNTAX=FALSE()\n"
@@ -6045,13 +5323,6 @@ msgid ""
 "\n"
 "@SEEALSO=TRUE"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-logical/functions.c:324 plugins/fn-logical/functions.c:328
 #: plugins/fn-logical/functions.c:348 plugins/fn-math/functions.c:3245
@@ -6109,9 +5380,8 @@ msgid "Logic"
 msgstr ""
 
 #: plugins/fn-logical/plugin.xml.in.h:3
-#, fuzzy
 msgid "Logic Functions"
-msgstr "Centre section:"
+msgstr ""
 
 #: plugins/fn-lookup/functions.c:327
 msgid ""
@@ -6143,7 +5413,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-lookup/functions.c:431
-#, fuzzy
 msgid ""
 "@FUNCTION=AREAS\n"
 "@SYNTAX=AREAS(reference)\n"
@@ -6154,13 +5423,6 @@ msgid ""
 "\n"
 "@SEEALSO=ADDRESS,INDEX,INDIRECT,OFFSET"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-lookup/functions.c:505
 msgid ""
@@ -6277,7 +5539,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-lookup/functions.c:840
-#, fuzzy
 msgid ""
 "@FUNCTION=INDEX\n"
 "@SYNTAX=INDEX(array[,row, col, area])\n"
@@ -6294,16 +5555,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-lookup/functions.c:907
-#, fuzzy
 msgid ""
 "@FUNCTION=COLUMN\n"
 "@SYNTAX=COLUMN([reference])\n"
@@ -6318,16 +5571,8 @@ msgid ""
 "\n"
 "@SEEALSO=COLUMNS,ROW,ROWS"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-lookup/functions.c:962
-#, fuzzy
 msgid ""
 "@FUNCTION=COLUMNNUMBER\n"
 "@SYNTAX=COLUMNNUMBER(name)\n"
@@ -6341,13 +5586,6 @@ msgid ""
 "\n"
 "@SEEALSO=ADDRESS"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-lookup/functions.c:994
 msgid ""
@@ -6398,7 +5636,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-lookup/functions.c:1130
-#, fuzzy
 msgid ""
 "@FUNCTION=ROWS\n"
 "@SYNTAX=ROWS(reference)\n"
@@ -6413,13 +5650,6 @@ msgid ""
 "\n"
 "@SEEALSO=COLUMN,COLUMNS,ROW"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-lookup/functions.c:1155
 msgid ""
@@ -6435,7 +5665,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-lookup/functions.c:1180
-#, fuzzy
 msgid ""
 "@FUNCTION=TRANSPOSE\n"
 "@SYNTAX=TRANSPOSE(matrix)\n"
@@ -6445,13 +5674,6 @@ msgid ""
 "\n"
 "@SEEALSO=MMULT"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-lookup/functions.c:1224
 msgid "row_num,col_num,abs_num,a1,text"
@@ -6503,9 +5725,8 @@ msgid "ref,row,col,height,width"
 msgstr ""
 
 #: plugins/fn-lookup/functions.c:1269 plugins/fn-math/functions.c:3283
-#, fuzzy
 msgid "array"
-msgstr "grey"
+msgstr ""
 
 #: plugins/fn-lookup/plugin.xml.in.h:1
 msgid "Functions for looking up values in ranges"
@@ -6520,7 +5741,6 @@ msgid "Lookup Functions"
 msgstr ""
 
 #: plugins/fn-math/functions.c:141
-#, fuzzy
 msgid ""
 "@FUNCTION=GCD\n"
 "@SYNTAX=GCD(number1,number2,...)\n"
@@ -6536,16 +5756,8 @@ msgid ""
 "\n"
 "@SEEALSO=LCM"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-math/functions.c:193
-#, fuzzy
 msgid ""
 "@FUNCTION=LCM\n"
 "@SYNTAX=LCM(number1,number2,...)\n"
@@ -6563,16 +5775,8 @@ msgid ""
 "\n"
 "@SEEALSO=GCD"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-math/functions.c:250
-#, fuzzy
 msgid ""
 "@FUNCTION=ABS\n"
 "@SYNTAX=ABS(b1)\n"
@@ -6588,16 +5792,8 @@ msgid ""
 "\n"
 "@SEEALSO=CEIL, FLOOR"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-math/functions.c:275
-#, fuzzy
 msgid ""
 "@FUNCTION=ACOS\n"
 "@SYNTAX=ACOS(x)\n"
@@ -6614,16 +5810,8 @@ msgid ""
 "\n"
 "@SEEALSO=COS, SIN, DEGREES, RADIANS"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-math/functions.c:309
-#, fuzzy
 msgid ""
 "@FUNCTION=ACOSH\n"
 "@SYNTAX=ACOSH(x)\n"
@@ -6639,16 +5827,8 @@ msgid ""
 "\n"
 "@SEEALSO=ACOS, ASINH, DEGREES, RADIANS "
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-math/functions.c:342
-#, fuzzy
 msgid ""
 "@FUNCTION=ASIN\n"
 "@SYNTAX=ASIN(x)\n"
@@ -6664,16 +5844,8 @@ msgid ""
 "\n"
 "@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-math/functions.c:375
-#, fuzzy
 msgid ""
 "@FUNCTION=ASINH\n"
 "@SYNTAX=ASINH(x)\n"
@@ -6688,16 +5860,8 @@ msgid ""
 "\n"
 "@SEEALSO=ASIN, ACOSH, SIN, COS, DEGREES, RADIANS"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-math/functions.c:399
-#, fuzzy
 msgid ""
 "@FUNCTION=ATAN\n"
 "@SYNTAX=ATAN(x)\n"
@@ -6713,13 +5877,6 @@ msgid ""
 "\n"
 "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
-"@EXAMPLES=\n"
-"UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-"\n"
-"@SEEALSO=LOWER"
 
 #: plugins/fn-math/functions.c:424
 #, fuzzy
@@ -15624,9 +14781,8 @@ msgid "Series"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:1
-#, fuzzy
 msgid "2 Color"
-msgstr "Colour"
+msgstr "2 Colour"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:2
 #, fuzzy
@@ -15653,17 +14809,16 @@ msgid "Brightness"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:7
-#, fuzzy
 msgid "C_olor:"
-msgstr "Colour:"
+msgstr "C_olour:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:8
 msgid "Fill from start color to end color"
-msgstr ""
+msgstr "Fill from start colour to end colour"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:9
 msgid "Fill from start colour to a darker/lighter version of that color"
-msgstr ""
+msgstr "Fill from start colour to a darker/lighter version of that colour"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:10
 msgid "Gradient"
@@ -15710,9 +14865,8 @@ msgid "_End:"
 msgstr "_End Colour:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:19
-#, fuzzy
 msgid "_Fill color:"
-msgstr "F_ill Colour:"
+msgstr "_Fill colour:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:20
 #, fuzzy
@@ -15725,9 +14879,8 @@ msgid "_Foreground:"
 msgstr "Background Colour"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:22
-#, fuzzy
 msgid "_Outline color:"
-msgstr "O_utline Colour:"
+msgstr "_Outline colour:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:23
 #, fuzzy

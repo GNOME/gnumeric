@@ -1,5 +1,9 @@
 2003-09-14  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
+	* gog-style-prefs.glade: `colour' should be `color'
+
+2003-09-14  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
 	* graph/gog-renderer-gnome-print.c: replace calls of
 	  gnome_font_find_closest_from_weight_slant with
 	  gnm_font_find_closest_from_weight_slant
