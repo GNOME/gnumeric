@@ -30,8 +30,8 @@ static GHashTable *style_font_hash;
 static GHashTable *style_font_negative_hash;
 
 StyleFont *gnumeric_default_font;
-StyleFont *gnumeric_default_bold_font;
-StyleFont *gnumeric_default_italic_font;
+static char *gnumeric_default_font_name;
+static double gnumeric_default_font_size;
 
 /**
  * get_substitute_font
@@ -232,20 +232,33 @@ style_font_new (char const *font_name, double size_pts, double scale,
 	StyleFont *font;
 
 	g_return_val_if_fail (font_name != NULL, NULL);
-	g_return_val_if_fail (size_pts != 0, NULL);
+	g_return_val_if_fail (size_pts > 0, NULL);
 
 	font = style_font_new_simple (font_name, size_pts, scale, bold, italic);
-	if (!font){
-		if (bold)
-			font = gnumeric_default_bold_font;
-		else if (italic)
-			font = gnumeric_default_italic_font;
-		else
-			font = gnumeric_default_font;
-		style_font_ref (font);
-	}
+	if (font) return font;
 
-	return font;
+	font_name = gnumeric_default_font_name;
+	font = style_font_new_simple (font_name, size_pts, scale, bold, italic);
+	if (font) return font;
+
+	size_pts = gnumeric_default_font_size;
+	font = style_font_new_simple (font_name, size_pts, scale, bold, italic);
+	if (font) return font;
+
+	bold = FALSE;
+	font = style_font_new_simple (font_name, size_pts, scale, bold, italic);
+	if (font) return font;
+
+	italic = FALSE;
+	font = style_font_new_simple (font_name, size_pts, scale, bold, italic);
+	if (font) return font;
+
+	/*
+	 * This should not be possible to reach as we have reverted all the way
+	 * back to the default font.
+	 */
+	g_assert_not_reached ();
+	abort ();
 }
 
 int
@@ -352,38 +365,34 @@ static void
 font_init (void)
 {
 	GConfClient *client = application_get_gconf_client ();
-	char *font_name =  gconf_client_get_string (client,
-					  GCONF_DEFAULT_FONT, NULL);
-	double font_size = gconf_client_get_float (client,
-						   GCONF_DEFAULT_SIZE, NULL);
+
+	gnumeric_default_font_name =
+		gconf_client_get_string (client,
+					 GCONF_DEFAULT_FONT,
+					 NULL);
+	gnumeric_default_font_size =
+		gconf_client_get_float (client,
+					GCONF_DEFAULT_SIZE,
+					NULL);
 	gnumeric_default_font = NULL;
 
-	if (font_name && font_size >= 1)
-		gnumeric_default_font = style_font_new_simple (font_name, font_size,
-							       1., FALSE, FALSE);
+	if (gnumeric_default_font_name && gnumeric_default_font_size >= 1)
+		gnumeric_default_font =
+			style_font_new_simple (gnumeric_default_font_name,
+					       gnumeric_default_font_size,
+					       1., FALSE, FALSE);
 	if (!gnumeric_default_font) {
 		g_warning ("Configured default font not available, trying fallback...");
-		gnumeric_default_font = style_font_new_simple (DEFAULT_FONT, DEFAULT_SIZE,
-							       1., FALSE, FALSE);
+		gnumeric_default_font =
+			style_font_new_simple (DEFAULT_FONT, DEFAULT_SIZE,
+					       1., FALSE, FALSE);
+		g_free (gnumeric_default_font_name);
+		gnumeric_default_font_name = g_strdup (DEFAULT_FONT);
+		gnumeric_default_font_size = DEFAULT_SIZE;
 	}
 
 	if (!gnumeric_default_font)
 		exit (1);
-
-	gnumeric_default_bold_font = style_font_new_simple (
-		font_name, font_size, 1., TRUE, FALSE);
-	if (gnumeric_default_bold_font == NULL){
-	    gnumeric_default_bold_font = gnumeric_default_font;
-	    style_font_ref (gnumeric_default_bold_font);
-	}
-
-	gnumeric_default_italic_font = style_font_new_simple (
-		font_name, font_size, 1., FALSE, TRUE);
-	if (gnumeric_default_italic_font == NULL){
-		gnumeric_default_italic_font = gnumeric_default_font;
-		style_font_ref (gnumeric_default_italic_font);
-	}
-	g_free (font_name);
 }
 
 void
@@ -422,24 +431,6 @@ list_cached_fonts (gpointer key, gpointer value, gpointer user_data)
 void
 style_shutdown (void)
 {
-	if (gnumeric_default_font != gnumeric_default_bold_font &&
-	    gnumeric_default_bold_font->ref_count != 2) {
-		g_warning ("Default bold font has %d references.  It should have two.",
-			   gnumeric_default_bold_font->ref_count);
-	}
-	style_font_unref (gnumeric_default_bold_font);
-	gnumeric_default_bold_font = NULL;
-
-	if (gnumeric_default_font != gnumeric_default_italic_font &&
-	    gnumeric_default_italic_font->ref_count != 2) {
-		g_warning ("Default italic font has %d references.  It should have two.",
-			   gnumeric_default_italic_font->ref_count);
-	}
-	style_font_unref (gnumeric_default_italic_font);
-	gnumeric_default_italic_font = NULL;
-
-	/* At this point, even if we had bold == normal (etc), we should
-	   have exactly two references to default.  */
 	if (gnumeric_default_font->ref_count != 2) {
 		g_warning ("Default font has %d references.  It should have two.",
 			   gnumeric_default_font->ref_count);

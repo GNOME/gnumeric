@@ -1257,7 +1257,7 @@ cb_rotate_canvas_realize (GnomeCanvas *canvas, FormatState *state)
 		application_display_dpi_get (FALSE));
 	layout = pango_layout_new (context);
 	pango_layout_set_font_description (layout,
-		pango_context_get_font_description (gnumeric_default_font->pango.context));
+		pango_context_get_font_description (gtk_widget_get_pango_context (GTK_WIDGET (canvas))));
 	pango_layout_set_text (layout, _("Text"), -1);
  	attrs = pango_attr_list_new ();
 	pango_layout_set_attributes (layout, attrs);
@@ -1479,8 +1479,7 @@ cb_font_changed (G_GNUC_UNUSED GtkWidget *widget,
 		MSTYLE_COLOR_FORE
 	};
 	int i;
-	static int const num_font_types = sizeof (font_types) /
-		sizeof (MStyleElementType);
+	static int const num_font_types = G_N_ELEMENTS (font_types);
 
 	gboolean changed = FALSE;
 	g_return_if_fail (state != NULL);

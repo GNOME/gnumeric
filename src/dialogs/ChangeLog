@@ -1,5 +1,12 @@
 2003-05-30  Morten Welinder  <terra@gnome.org>
 
+	* dialog-cell-format.c (cb_rotate_canvas_realize): Get the pango
+	context from the canvas widget, not from a random sheet-level
+	font.
+
+	* dialog-view.c (cb_view_ok_clicked): Disable multi-display
+	pending bug fixes.  Multi-screen should be ok.
+
 	* dialog-cell-format.c (cb_pattern_preview_get_cell_style): Do not
 	ref the style.  None of the other callbacks do.
 	(fmt_dialog_init_font_page): Poor some sanity into handling of

@@ -1,5 +1,13 @@
 2003-05-30  Morten Welinder  <terra@gnome.org>
 
+	* src/style.c: Eliminate gnumeric_default_bold_font and
+	gnumeric_default_italic_font.
+	(style_font_new): Apply a simpler fall-back scheme that will work
+	for bold & italic also.
+	(style_shutdown): Greatly simplify now that
+	gnumeric_default_bold_font and gnumeric_default_italic_font are
+	gone.
+
 	* src/mstyle.c (mstyle_link_sheet): Avoid referring to
 	possibly-freed pointer.
 
