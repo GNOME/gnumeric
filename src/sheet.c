@@ -117,7 +117,6 @@ sheet_new_sheet_view (Sheet *sheet)
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
 	sheet_view = sheet_view_new (sheet);
-	gtk_object_ref (GTK_OBJECT (sheet_view));
 
 	base_col = sheet->cursor.base_corner.col;
 	base_row = sheet->cursor.base_corner.row;
