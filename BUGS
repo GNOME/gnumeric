@@ -7,8 +7,12 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    http://bugzilla.gnome.org/show_bug.cgi?id=79126
-    Keelyn's thousands sep toolbar
+    - http://bugzilla.gnome.org/show_bug.cgi?id=81104
+    - Keelyn's thousands sep toolbar
+    - JHM's omf updates
+    - possibly backport a fix for jon kare's sorting issue
+    - solver crash
+    - how to add constraints to the solver (gui problem?)
 
 Pending Patches
 ---------------
