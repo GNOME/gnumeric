@@ -314,7 +314,7 @@ format_number( gdouble number, gchar *format, char **color_name )
 
   time_split = localtime( &timec );
 
-  info.decimal = length;
+  info.decimal = -1;
   info.timeformat = 0;
   info.hasnumbers = FALSE;
   
@@ -465,7 +465,8 @@ format_number( gdouble number, gchar *format, char **color_name )
       if( negative )
 	g_string_prepend_c( number_string, '-' );
 
-      g_string_append_c( number_string, '.' );
+      if( info.decimal >= 0 )
+	g_string_append_c( number_string, '.' );
 
       temp = number - floor( number );
 

@@ -1,3 +1,9 @@
+1998-08-18  Chris Lahey  <clahey@jennifer.reshall.umich.edu>
+
+	* src/format.c (format_number): Fixed the small '.' error.
+	(decimal point shown even if not requested in numeric
+	conversions.)
+
 1998-08-17  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/eval.c (cell_eval): Use the formating routine now. 
