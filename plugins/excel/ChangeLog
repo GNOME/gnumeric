@@ -1,3 +1,7 @@
+1999-07-09  Jody Goldberg  <jgoldberg@home.com>
+
+	* ms-obj.c : Conditionalize the debug info for text objects.
+
 1999-07-09  Miguel de Icaza  <miguel@gnu.org>
 
 	* ms-excel-write.c (biff_put_text): Intiialize variable.

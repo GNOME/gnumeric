@@ -119,18 +119,20 @@ ms_obj_read_text_impl (BiffQuery *q, ExcelWorkbook * wb)
 		text[i] = ptr[i*increment];
 	text[text_len] = '\0';
 
-	printf ("{ TextObject\n");
-	printf ("Text '%s'\n", text);
-	printf ("is %s, %s & %s;\n",
-		orientations[orient], haligns[halign], valigns[valign]);
-
 	/* FIXME : Should I worry about padding between the records ? */
 	for (i = 0; i < num_formats ; ++i)
 	{
 	    /* TODO TODO finish */
 	}
 
-	printf ("}; /* TextObject */\n");
+	if (ms_excel_read_debug > 0)
+	{
+		printf ("{ TextObject\n");
+		printf ("Text '%s'\n", text);
+		printf ("is %s, %s & %s;\n",
+			orientations[orient], haligns[halign], valigns[valign]);
+		printf ("}; /* TextObject */\n");
+	}
 }
 static void
 ms_obj_read_text (BiffQuery *q, ExcelWorkbook * wb, int const id)
@@ -139,7 +141,8 @@ ms_obj_read_text (BiffQuery *q, ExcelWorkbook * wb, int const id)
 	g_return_if_fail (ms_biff_query_next (q));
 	g_return_if_fail (q->opcode == BIFF_MS_O_DRAWING);
 
-	dump (q->data, q->length);
+	if (ms_excel_read_debug > 0)
+		dump (q->data, q->length);
 
 	/* and finally a TXO */
 	g_return_if_fail (ms_biff_query_next (q));
