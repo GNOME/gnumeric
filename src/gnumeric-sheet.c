@@ -1238,13 +1238,13 @@ gnumeric_sheet_set_left_col (GnumericSheet *gsheet, int new_first_col)
 		GnomeCanvas * const canvas =
 		    GNOME_CANVAS(gsheet);
 		int const distance =
-		    gnumeric_sheet_bar_set_top_row (gsheet, new_first_col);
+		    gnumeric_sheet_bar_set_left_col (gsheet, new_first_col);
 
 		gnumeric_sheet_compute_visible_ranges (gsheet, FALSE);
 
 		/* Scroll the cell canvas */
-		gnome_canvas_get_scroll_offsets (canvas, &tmp, NULL);
-		gnome_canvas_scroll_to (canvas, tmp, distance);
+		gnome_canvas_get_scroll_offsets (canvas, NULL, &tmp);
+		gnome_canvas_scroll_to (canvas, distance, tmp);
 	}
 }
 
