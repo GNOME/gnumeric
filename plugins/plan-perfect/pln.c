@@ -955,7 +955,7 @@ init_plugin (CommandContext *context, PluginData * pd)
 				   NULL, pln_read_workbook);
 
 	if (plugin_data_init (pd, pln_can_unload, pln_cleanup_plugin,
-			      _("Plan Perfect")
+			      _("Plan Perfect"),
 			      _("Imports Plan Perfect Formatted Documents")))
 	        return PLUGIN_OK;
 	else
