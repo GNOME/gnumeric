@@ -3745,9 +3745,6 @@ sheet_clone_styles (Sheet const *src, Sheet *dst)
 {
 	GList *style_regions, *ptr;
 
-	/* Init the style tables */
-	sheet_create_styles (dst);
-
 	style_regions = sheet_get_style_list (src);
 	style_regions = g_list_reverse (style_regions);
 
