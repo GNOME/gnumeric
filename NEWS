@@ -5,7 +5,7 @@ Andreas:
 	* Handle specified encoding for csv/tsv files
 	* Handle specified encoding for configurable text import
 	* Fix csv parsing (#80806), finally
-	* Fix #100529, #78355
+	* Fix #100529, #78355, #99649
 
 Emmanuel Pacaud:
 	* Add encoding selector to stf export

@@ -1,3 +1,4 @@
+
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /*
@@ -1700,7 +1701,8 @@ cb_file_new (GtkWidget *widget, WorkbookControlGUI *wbcg)
 }
 
 static void
-cb_file_open (GtkWidget *widget, WorkbookControlGUI *wbcg)
+cb_file_open
+ (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	gui_file_open (wbcg);
 	wbcg_focus_cur_scg (wbcg); /* force focus back to sheet */
@@ -3227,6 +3229,7 @@ static GnomeUIInfo workbook_menu_file [] = {
 				  cb_file_new, NULL),
 
 	GNOMEUIINFO_MENU_OPEN_ITEM (cb_file_open, NULL),
+	GNOMEUIINFO_SEPARATOR,
 	GNOMEUIINFO_MENU_SAVE_ITEM (cb_file_save, NULL),
 	GNOMEUIINFO_MENU_SAVE_AS_ITEM (cb_file_save_as, NULL),
 

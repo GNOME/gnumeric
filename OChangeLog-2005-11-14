@@ -1,5 +1,13 @@
 2003-05-10  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=99649
+	* src/GNOME_Gnumeric.xml: insert separator between Open and 
+	  Save of the File menu. 
+	* src/workbook-control-gui.c (workbook_menu_file): ditto
+
+
+2003-05-10  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* stf-export.c (stf_export_cell): transliterate if
 	  requested
 	(stf_export_options_set_transliterate_mode): new

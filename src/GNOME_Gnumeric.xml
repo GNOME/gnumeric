@@ -1,3 +1,4 @@
+
 <Root>
     <commands>
 	<cmd name="FileNew"
@@ -155,6 +156,7 @@
 	    <placeholder name="FileOperations">
 	        <menuitem name="FileNew" verb=""/>
 	        <menuitem name="FileOpen" verb=""/>
+                <separator/>
 	        <menuitem name="FileSave" verb=""/>
 	        <menuitem name="FileSaveAs" verb=""/>
 	    </placeholder>
