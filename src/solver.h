@@ -85,6 +85,12 @@ struct _SolverOptions {
         gboolean              assume_non_negative;
         gboolean              automatic_scaling;
         gboolean              show_iteration_results;
+        gboolean              answer_report;
+        gboolean              sensitivity_report;
+        gboolean              limits_report;
+        gboolean              performance_report;
+        gboolean              program_report;
+        gboolean              dual_program_report;
         SolverLPAlgorithmType algorithm;
 };
 

@@ -704,17 +704,31 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (
 			glade_xml_get_widget (state->gui, "non_neg_button")));
 	answer = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (
-		glade_xml_get_widget (state->gui, "answer")));
+	        glade_xml_get_widget (state->gui, "answer")));
+	state->sheet->solver_parameters->options.answer_report = answer;
+
 	sensitivity = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (
 		glade_xml_get_widget (state->gui, "sensitivity")));
+	state->sheet->solver_parameters->options.sensitivity_report =
+		sensitivity;
+
 	limits = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (
 		glade_xml_get_widget (state->gui, "limits")));
+	state->sheet->solver_parameters->options.limits_report = limits;
+
 	performance = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (
 		glade_xml_get_widget (state->gui, "performance")));
+	state->sheet->solver_parameters->options.performance_report =
+		performance;
+
 	program = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (
 		glade_xml_get_widget (state->gui, "program")));
+	state->sheet->solver_parameters->options.program_report = program;
+
 	dual_program = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (
 		glade_xml_get_widget (state->gui, "dual_program")));
+	state->sheet->solver_parameters->options.dual_program_report =
+		dual_program;
 
 	i = check_int_constraints (input_range, state->constraint_list);
 
@@ -993,6 +1007,26 @@ dialog_init (SolverState *state)
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
 		glade_xml_get_widget(state->gui, "non_neg_button")),
 			state->sheet->solver_parameters->options.assume_non_negative);
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
+	        glade_xml_get_widget(state->gui, "answer")),
+		        state->sheet->solver_parameters->options.answer_report);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
+	        glade_xml_get_widget(state->gui, "sensitivity")),
+		        state->sheet->solver_parameters->options.sensitivity_report);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
+	        glade_xml_get_widget(state->gui, "limits")),
+		        state->sheet->solver_parameters->options.limits_report);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
+		glade_xml_get_widget(state->gui, "performance")),
+		        state->sheet->solver_parameters->options.performance_report);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
+		glade_xml_get_widget(state->gui, "program")),
+		        state->sheet->solver_parameters->options.program_report);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
+		glade_xml_get_widget(state->gui, "dual_program")),
+		        state->sheet->solver_parameters->options.dual_program_report);
+
 	if (state->sheet->solver_parameters->input_entry_str != NULL)
 		gnm_expr_entry_load_from_text (state->change_cell_entry,
 					       state->sheet->solver_parameters->input_entry_str);

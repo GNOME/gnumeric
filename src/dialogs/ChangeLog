@@ -1,3 +1,9 @@
+2002-03-10  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* dialog-solver.c (cb_dialog_solve_clicked): Made the status of
+	reporting checkbuttons persistent.
+	(dialog_init): Related changes.
+
 2002-03-09  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* cell-sort.glade : shrink dialog
