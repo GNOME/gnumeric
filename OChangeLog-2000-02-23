@@ -1,3 +1,8 @@
+2000-01-05  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/mstyle.c (mstyle_get_font_size): fix a brainless precondition
+	typo causing people grief; thanks to Jon.
+
 2000-01-05  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook-view.c (workbook_view_set_undo_redo_state) : Disable

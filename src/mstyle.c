@@ -955,7 +955,7 @@ double
 mstyle_get_font_size (const MStyle *style)
 {
 	g_return_val_if_fail (style != NULL, 12.0);
-	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_ITALIC), 12.0);
+	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_SIZE), 12.0);
 
 	return style->elements [MSTYLE_FONT_SIZE].u.font.size;
 }
