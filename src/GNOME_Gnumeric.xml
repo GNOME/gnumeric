@@ -318,15 +318,15 @@
 		_label="_Sheet"
 		_tip="Insert a new spreadsheet"/>
 
-	    <menuitem name="InsertColumns" verb=""
-		pixtype="stock" pixname="Gnumeric_AddColumn"
-		_label="_Columns"
-		_tip="Insert new columns"/>
-
 	    <menuitem name="InsertRows" verb=""
-		pixtype="stock" pixname="Gnumeric_AddRow"
+		pixtype="stock" pixname="Gnumeric_RowAdd"
 		_label="_Rows"
 		_tip="Insert new rows"/>
+
+	    <menuitem name="InsertColumns" verb=""
+		pixtype="stock" pixname="Gnumeric_ColumnAdd"
+		_label="_Columns"
+		_tip="Insert new columns"/>
 
 	    <menuitem name="InsertCells" verb=""
 		_label="C_ells..."
@@ -386,7 +386,7 @@
 
 	    <submenu _label="C_olumn">
 		<menuitem name="Size" verb="ColumnSize"
-		    pixtype="stock" pixname="Gnumeric_CellWidth"
+		    pixtype="stock" pixname="Gnumeric_ColumnSize"
 		    _label="_Width..."
 		    _tip="Change width of the selected columns" />
 
@@ -395,12 +395,12 @@
 		    _tip="Ensure columns are just wide enough to display content" />
 
 		<menuitem name="Hide" verb="ColumnHide"
-		    pixtype="stock" pixname="Gnumeric_HideColumn"
+		    pixtype="stock" pixname="Gnumeric_ColumnHide"
 		    _label="_Hide"
 		    _tip="Hide the selected columns" />
 
 		<menuitem name="Unhide" verb="ColumnUnhide"
-		    pixtype="stock" pixname="Gnumeric_UnhideColumn"
+		    pixtype="stock" pixname="Gnumeric_ColumnUnhide"
 		    _label="_Unhide"
 		    _tip="Make any hidden columns in the selection visible" />
 
@@ -420,12 +420,12 @@
 		    _tip="Ensure rows are just tall enough to display content" />
 
 		<menuitem name="Hide" verb="RowHide"
-		    pixtype="stock" pixname="Gnumeric_HideRow"
+		    pixtype="stock" pixname="Gnumeric_RowHide"
 		    _label="_Hide"
 		    _tip="Hide the selected rows" />
 
 		<menuitem name="Unhide" verb="RowUnhide"
-		    pixtype="stock" pixname="Gnumeric_UnhideRow"
+		    pixtype="stock" pixname="Gnumeric_RowUnhide"
 		    _label="_Unhide"
 		    _tip="Make any hidden rows in the selection visible" />
 
