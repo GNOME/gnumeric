@@ -1,5 +1,8 @@
 1999-11-11  Jody Goldberg <jgoldberg@home.com>
 
+	* src/mstyle.c (mstyle_new_default) : Disable caching of default
+	  style to prevent problems when overridden later.
+
 	* src/dialogs/dialog-cell-format.c (draw_format_preview) :
 	  Generate accounting format strings.
 
