@@ -43,6 +43,34 @@ string_get (const char *s)
 	return string;
 }
 
+/*
+ * string_get_nocopy :
+ *
+ * Take control of the supplied string.
+ * delete it if it is already availabl.e
+ */
+String *
+string_get_nocopy (char *s)
+{
+	String *string;
+
+	string = string_lookup (s);
+	if (string){
+		string_ref (string);
+		g_free (s);
+		return string;
+	}
+
+	/* If non-existant, create */
+	string = g_new (String, 1);
+	string->ref_count = 1;
+	string->str = s;
+
+	g_hash_table_insert (string_hash_table, string->str, string);
+
+	return string;
+}
+
 String *
 string_ref (String *string)
 {

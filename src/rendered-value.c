@@ -102,12 +102,18 @@ rendered_value_new_ext (Cell *cell, MStyle *mstyle)
 
 				/* FIXME : how does one get the width of the
 				 * widest character used to display numbers.
-				 * Use 4 as the max width for now.
+				 * Use 4 as the max width for now.  Count the
+				 * inter character spacing by measuring a
+				 * string with 10 digits
+				 *
+				 * This does not belong here at all.  There
+				 * should be a global scaled StyleFont cache
+				 * indexed by stylefont and scale (res*zoom)
+				 * which pre-calculates this stuff.
 				 */
-				double const font_width = gdk_string_measure
-					(gdk_font, "4");
+				double const font_width = gdk_string_measure (gdk_font, "4444444444") / 10.;
 				if (font_width > 0)
-					col_width = COL_INTERNAL_WIDTH (cell->col_info) / font_width;
+					col_width = (COL_INTERNAL_WIDTH (cell->col_info)) / font_width;
 
 				style_font_unref (style_font);
 			} else

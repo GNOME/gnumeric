@@ -1452,7 +1452,7 @@ fmt_general_float (float_t val, float col_width)
 	log_val = log10 (abs_val);
 
 	if (col_width >= 0.) {
-		prec = (int) floor (col_width - .2); /* '.' is small */
+		prec = (int) floor (col_width - .5); /* '.' is small */
 
 		/* Display 0 for cols that are too narrow for scientific
 		 * notation with 1 > abs (value) >= 0 */
@@ -1461,15 +1461,19 @@ fmt_general_float (float_t val, float col_width)
 			if (tmp >= prec)
 				return g_strdup ("0");
 		}
+		if (prec > DBL_DIG)
+			prec = DBL_DIG;
 	} else
 		prec = DBL_DIG;
 
+	/* Decrease the precision if we are going to use scientific notation
+	 * the E+00 take up space */
 	if (log_val > prec || log_val < -3.)
 		prec -= 4;
 	else if (log_val < 0.)
 		prec += (int)floor (log_val);
 
-	/* FIXME : glib bug.  it does not handle G, use g */
+	/* FIXME : glib bug.  it does not handle G, use g (fixed in 1.2.9) */
 	return g_strdup_printf ("%.*g", prec, val);
 }
 

@@ -12,6 +12,7 @@ void    string_init           (void);
 
 String *string_lookup         (const char *s);
 String *string_get            (const char *s);
+String *string_get_nocopy     (char *s);
 String *string_ref            (String *);
 void    string_unref          (String *);
 

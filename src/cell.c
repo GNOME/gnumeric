@@ -438,7 +438,8 @@ cell_set_value (Cell *cell, Value *v, StyleFormat *opt_fmt)
 		g_free (tmp);
 	} else if (opt_fmt) {
 		/* If available use the supplied format */
-		cell->entered_text = string_get (format_value (opt_fmt, v, NULL, NULL, -1));
+		cell->entered_text = string_get_nocopy (
+			format_value (opt_fmt, v, NULL, NULL, -1));
 	} else {
 		/* Fall back on using the format applied to the cell.
 		 * re-render using the assigned format to handle width
@@ -446,7 +447,8 @@ cell_set_value (Cell *cell, Value *v, StyleFormat *opt_fmt)
 		 */
 		MStyle *mstyle = cell_get_mstyle (cell);
 		StyleFormat *format = mstyle_get_format (mstyle);
-		cell->entered_text = string_get (format_value (format, v, NULL, NULL, -1));
+		cell->entered_text = string_get_nocopy (
+			format_value (format, v, NULL, NULL, -1));
 		mstyle_unref (mstyle);
 	}
 }
