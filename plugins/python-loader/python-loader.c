@@ -5,7 +5,7 @@
  */
 
 #include <config.h>
-#include <python/Python.h>
+#include "Python.h"
 #include <glib.h>
 #include <libgnome/libgnome.h>
 #include <gal/util/e-xml-utils.h>

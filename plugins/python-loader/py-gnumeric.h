@@ -1,7 +1,7 @@
 #ifndef PLUGIN_PY_GNUMERIC_H
 #define PLUGIN_PY_GNUMERIC_H
 
-#include <python/Python.h>
+#include "Python.h"
 
 typedef struct {
 	PyThreadState *py_thread_state;
