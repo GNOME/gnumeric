@@ -437,7 +437,6 @@ Misc stuff that should be fixed
       sheets within most commands by sheet address, that will change on 
       remove/undo
     - Tabulate.
-    - Goal Seek
     - `Add Scenario' Portion of Solver
     - Sheet object configuration changes.
     - Sheet object creation                (Isn't this already done ?)

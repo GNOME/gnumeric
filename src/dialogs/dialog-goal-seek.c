@@ -30,6 +30,7 @@
 #include <cell.h>
 #include <sheet.h>
 #include <expr.h>
+#include <commands.h>
 #include <dependent.h>
 #include <format.h>
 #include <value.h>
@@ -77,6 +78,7 @@ typedef struct {
 	Cell *old_cell;
 	Value *old_value;
 	GtkWidget *warning_dialog;
+	gboolean cancelled;
 } GoalSeekState;
 
 
@@ -259,6 +261,14 @@ dialog_destroy (GtkObject *w, GoalSeekState  *state)
 	g_return_val_if_fail (w != NULL, FALSE);
 	g_return_val_if_fail (state != NULL, FALSE);
 
+	if (!state->cancelled 
+	    && state->old_value != NULL 
+	    && state->old_cell != NULL) {
+		cmd_goal_seek (WORKBOOK_CONTROL(state->wbcg),
+			       state->old_cell, state->old_value, NULL);
+		state->old_value = NULL;
+	}
+
 	wbcg_edit_detach_guru (state->wbcg);
 
 	if (state->old_value != NULL) {
@@ -291,6 +301,8 @@ static void
 cb_dialog_cancel_clicked (G_GNUC_UNUSED GtkWidget *button,
 			  GoalSeekState *state)
 {
+	state->cancelled = TRUE;
+
 	if ((state->old_cell != NULL) && (state->old_value != NULL)) {
 		sheet_cell_set_value (state->old_cell, state->old_value);
 		workbook_recalc (state->old_cell->base.sheet->workbook);
@@ -469,6 +481,8 @@ cb_dialog_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 		gtk_label_set_text (GTK_LABEL (state->target_value_label), "");
 		break;
 	}
+	state->cancelled = FALSE;
+	
 	gtk_widget_show (state->result_table);
 	return;
 }
@@ -486,6 +500,26 @@ dialog_realized (G_GNUC_UNUSED GtkWidget *dialog,
 		 GoalSeekState *state)
 {
 	gtk_widget_hide (state->result_table);
+}
+
+/**
+ * dialog_preload_selection:
+ * @state:
+ * @entry
+ *
+ *
+ **/
+static void
+dialog_preload_selection (GoalSeekState *state, GnmExprEntry *entry)
+{
+	Range const *sel;
+
+	sel = selection_first_range 
+		(wb_control_cur_sheet_view 
+		 (WORKBOOK_CONTROL (state->wbcg)), NULL, NULL);
+	if (sel)
+		gnm_expr_entry_load_from_range (entry,
+						state->sheet, sel);
 }
 
 /**
@@ -547,6 +581,7 @@ dialog_init (GoalSeekState *state)
 			  0, 0);
  	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->set_cell_entry));
+	dialog_preload_selection (state, state->set_cell_entry);
 	gtk_widget_show (GTK_WIDGET (state->set_cell_entry));
 
 	state->change_cell_entry = gnm_expr_entry_new (state->wbcg, TRUE);
@@ -560,6 +595,7 @@ dialog_init (GoalSeekState *state)
 			  0, 0);
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->change_cell_entry));
+	dialog_preload_selection (state, state->change_cell_entry);
 	gtk_widget_show (GTK_WIDGET (state->change_cell_entry));
 
 
@@ -609,6 +645,7 @@ dialog_goal_seek (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->sheet = sheet;
 	state->gui   = gui;
 	state->warning_dialog = NULL;
+	state->cancelled = TRUE;
 
 	if (dialog_init (state)) {
 		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,

@@ -138,4 +138,7 @@ gboolean cmd_text_to_columns (WorkbookControl *wbc,
 gboolean cmd_solver (WorkbookControl *wbc, 
 		     GSList *cells, GSList *ov, GSList *nv);
 
+gboolean cmd_goal_seek (WorkbookControl *wbc,
+			Cell *cell, Value *ov, Value *nv);
+
 #endif /* GNUMERIC_COMMANDS_H */

@@ -5873,7 +5873,6 @@ cmd_text_to_columns (WorkbookControl *wbc,
 }
 
 /******************************************************************/
-/******************************************************************/
 
 #define CMD_SOLVER_TYPE        (cmd_solver_get_type ())
 #define CMD_SOLVER(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_SOLVER_TYPE, CmdSolver))
@@ -6010,6 +6009,94 @@ cmd_solver (WorkbookControl *wbc, GSList *cells, GSList *ov, GSList *nv)
 		me->ov = cmd_solver_get_cell_values (cells);
 	if (me->nv == NULL)
 		me->nv = cmd_solver_get_cell_values (cells);
+
+	/* Register the command object */
+	return command_push_undo (wbc, obj);
+}
+
+/******************************************************************/
+
+#define CMD_GOAL_SEEK_TYPE        (cmd_goal_seek_get_type ())
+#define CMD_GOAL_SEEK(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_GOAL_SEEK_TYPE, CmdGoalSeek))
+
+typedef struct
+{
+	GnumericCommand cmd;
+
+	Cell	  *cell;
+	Value	  *ov;
+	Value	  *nv;
+} CmdGoalSeek;
+
+GNUMERIC_MAKE_COMMAND (CmdGoalSeek, cmd_goal_seek);
+
+static gboolean
+cmd_goal_seek_impl (Cell *cell, Value *value)
+{
+	sheet_cell_set_value (cell, value_duplicate(value));
+	workbook_recalc (cell->base.sheet->workbook);
+	return FALSE;
+}
+
+
+static gboolean
+cmd_goal_seek_undo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdGoalSeek *me = CMD_GOAL_SEEK (cmd);
+
+	return cmd_goal_seek_impl (me->cell, me->ov);
+}
+
+static gboolean
+cmd_goal_seek_redo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdGoalSeek *me = CMD_GOAL_SEEK (cmd);
+
+	return cmd_goal_seek_impl (me->cell, me->nv);
+}
+
+static void
+cmd_goal_seek_finalize (GObject *cmd)
+{
+	CmdGoalSeek *me = CMD_GOAL_SEEK (cmd);
+
+	value_release (me->ov);
+	me->ov = NULL;
+	value_release (me->nv);
+	me->nv = NULL;
+
+	gnumeric_command_finalize (cmd);
+}
+
+gboolean
+cmd_goal_seek (WorkbookControl *wbc, Cell *cell, Value *ov, Value *nv)
+{
+	GObject *obj;
+	CmdGoalSeek *me;
+	Range range;
+
+	g_return_val_if_fail (cell != NULL, TRUE);
+	g_return_val_if_fail (ov != NULL || nv != NULL, TRUE);
+
+	obj = g_object_new (CMD_GOAL_SEEK_TYPE, NULL);
+	me = CMD_GOAL_SEEK (obj);
+
+	/* Store the specs for the object */
+
+	me->cmd.sheet = cell->base.sheet;
+	me->cmd.size = 1;
+	range_init_cellpos (&range, &cell->pos, &cell->pos);
+	me->cmd.cmd_descriptor = g_strdup_printf 
+		(_("Goal Seek (%s)"), undo_global_range_name (cell->base.sheet, &range));
+
+	me->cell = cell;
+	me->ov = ov;
+	me->nv = nv;
+
+	if (me->ov == NULL)
+		me->ov = value_duplicate (cell->value);
+	if (me->nv == NULL)
+		me->nv = value_duplicate (cell->value);
 
 	/* Register the command object */
 	return command_push_undo (wbc, obj);

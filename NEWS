@@ -27,6 +27,7 @@ Andreas:
 	* Make Data->Text_to_Columns undoable
 	* Add help button to autoformat and plugin manager
 	* Make Tools->Solver undoable
+	* Make Tools->GoalSeek undoable
 
 Ben Liblit:
 	* Another attempt at configure time path generation.

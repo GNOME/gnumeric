@@ -1,12 +1,22 @@
 2003-07-24  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
+	* dialog-goal-seek.c (dialog_destroy): call cmd_goal_seek
+	  if appropriate
+	(cb_dialog_cancel_clicked): set cancelled to true
+	(cb_dialog_apply_clicked): set cancelled to false
+	(dialog_preload_selection): new
+	(dialog_init): call dialog_preload_selection
+	(dialog_goal_seek): initialize cancelled to true
+
+2003-07-24  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
 	* dialog-solver.c (dialog_destroy): call cmd_solver if 
 	  appropriate
-	(cb_dialog_cancel_clicked) set cancelled to true
-	(cb_dialog_close_clicked) set cancelled to false and defer
+	(cb_dialog_cancel_clicked): set cancelled to true
+	(cb_dialog_close_clicked): set cancelled to false and defer
 	  call of cmd_solver to dialog_destroy
-	(cb_dialog_solve_clicked) set cancelled to false
-	(dialog_solver) initialize cancelled to true
+	(cb_dialog_solve_clicked): set cancelled to false
+	(dialog_solver): initialize cancelled to true
 
 2003-07-23  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 

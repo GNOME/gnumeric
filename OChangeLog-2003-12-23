@@ -1,5 +1,10 @@
 2003-07-23  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
+	* src/commands.c (cmd_goal_seek*): new
+	* src/commands.h (cmd_goal_seek): new
+
+2003-07-23  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
 	* src/commands.c (cmd_solver*): new
 	* src/commands.h (cmd_solver): new
 
