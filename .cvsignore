@@ -18,3 +18,4 @@ stamp-h.in
 xlibtool
 xltmain.sh
 gnumeric.keys
+gnumeric.spec
