@@ -11,17 +11,6 @@
 		<service type="function_group" id="random">
 			<_category>Random</_category>
 			<functions>
-				<function name="pdfbinom"/>
-				<function name="pdfexppow"/>
-				<function name="pdffdist"/>
-				<function name="pdflaplace"/>
-				<function name="pdflognorm"/>
-				<function name="pdfnegbinom"/>
-				<function name="pdfpoisson"/>
-				<function name="pdfrayleigh"/>
-				<function name="pdfrayleightail"/>
-				<function name="pdftdist"/>
-				<function name="pdfweibull"/>
 				<function name="rand"/>
 				<function name="randbernoulli"/>
 				<function name="randbeta"/>

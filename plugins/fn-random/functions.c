@@ -36,7 +36,6 @@
 #include "plugin.h"
 #include "plugin-util.h"
 #include "module-plugin-defs.h"
-#include "gsl-pdf.h"
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
@@ -149,37 +148,6 @@ gnumeric_randpoisson (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_pdfpoisson = {
-        N_("@FUNCTION=PDFPOISSON\n"
-           "@SYNTAX=PDFPOISSON(k,lambda)\n"
-
-           "@DESCRIPTION="
-           "PDFPOISSON returns the probability p(k) of obtaining @k from "
-	   "a Poisson distribution with mean @mu."
-           "\n"
-           "If @k < 0 PDFPOISSON returns #NUM! error. "
-           "If @lambda < 0 PDFPOISSON returns #NUM! error. "
-           "\n"
-           "@EXAMPLES=\n"
-           "RANDPOISSON(1,3).\n"
-           "\n"
-           "@SEEALSO=RANDPOISSON")
-};
-
-static Value *
-gnumeric_pdfpoisson (FunctionEvalInfo *ei, Value **argv)
-{
-	int        k = value_get_as_int (argv[0]);
-	gnum_float x = value_get_as_float (argv[1]);
-
-	if (x < 0 || k < 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-        return value_new_float (random_poisson_pdf (k, x));
-}
-
-/***************************************************************************/
-
 static const char *help_randbinom = {
         N_("@FUNCTION=RANDBINOM\n"
            "@SYNTAX=RANDBINOM(p,trials)\n"
@@ -206,39 +174,6 @@ gnumeric_randbinom (FunctionEvalInfo *ei, Value **argv)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
         return value_new_float (random_binomial (p, trials));
-}
-
-/***************************************************************************/
-
-static const char *help_pdfbinom = {
-        N_("@FUNCTION=PDFBINOM\n"
-           "@SYNTAX=PDFBINOM(k,p,trials)\n"
-
-           "@DESCRIPTION="
-           "PDFBINOM returns the probability p(k) of obtaining @k from a "
-	   "binomial distribution with parameters @p and @n. "
-           "\n"
-           "If @k < 0 PDFBINOM returns #NUM! error. "
-           "If @p < 0 or @p > 1 PDFBINOM returns #NUM! error. "
-           "If @trials < 0 PDFBINOM returns #NUM! error. "
-	   "\n"
-           "@EXAMPLES=\n"
-           "PDFBINOM(2,0.5,4).\n"
-           "\n"
-           "@SEEALSO=RANDBINOM")
-};
-
-static Value *
-gnumeric_pdfbinom (FunctionEvalInfo *ei, Value **argv)
-{
-	int        k      = value_get_as_int (argv[0]);
-	gnum_float p      = value_get_as_float (argv[1]);
-	int        trials = value_get_as_int (argv[2]);
-
-	if (p < 0 || p > 1 || trials < 0 || k < 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-        return value_new_float (random_binomial_pdf (k, p, trials));
 }
 
 /***************************************************************************/
@@ -305,39 +240,6 @@ gnumeric_randnegbinom (FunctionEvalInfo *ei, Value **argv)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
         return value_new_float (random_negbinom (p, failures));
-}
-
-/***************************************************************************/
-
-static const char *help_pdfnegbinom = {
-        N_("@FUNCTION=PDFNEGBINOM\n"
-           "@SYNTAX=PDFNEGBINOM(k,p,failures)\n"
-
-           "@DESCRIPTION="
-           "PDFNEGBINOM returns the probability p(k) of obtaining @k from "
-	   "a negative binomial distribution with parameters @p and @n."
-           "\n"
-           "If @k < 0 PDFNEGBINOM returns #NUM! error. "
-           "If @p < 0 or @p > 1, PDFNEGBINOM returns #NUM! error. "
-           "If @failures PDFNEGBINOM returns #NUM! error. "
-	   "\n"
-           "@EXAMPLES=\n"
-           "PDFNEGBINOM(1,0.5,2).\n"
-           "\n"
-           "@SEEALSO=RANDNEGBINOM")
-};
-
-static Value *
-gnumeric_pdfnegbinom (FunctionEvalInfo *ei, Value **argv)
-{
-	int        k        = value_get_as_int (argv[0]);
-	gnum_float p        = value_get_as_float (argv[1]);
-	int        failures = value_get_as_int (argv[2]);
-
-	if (p < 0 || p > 1 || failures < 0 || k < 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-        return value_new_float (random_negative_binomial_pdf (k, p, failures));
 }
 
 /***************************************************************************/
@@ -453,32 +355,6 @@ gnumeric_randlognorm (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_pdflognorm = {
-        N_("@FUNCTION=PDFLOGNORM\n"
-           "@SYNTAX=PDFLOGNORM(x,zeta,sigma)\n"
-
-           "@DESCRIPTION="
-           "PDFLOGNORM returns the probability density p(x) at @x for a "
-	   "lognormal distribution with parameters @zeta and @sigma. "
-           "\n"
-           "@EXAMPLES=\n"
-           "PDFLOGNORM(0.32,1,2).\n"
-           "\n"
-           "@SEEALSO=RANDLOGNORM")
-};
-
-static Value *
-gnumeric_pdflognorm (FunctionEvalInfo *ei, Value **argv)
-{
-	gnum_float x     = value_get_as_float (argv[0]);
-	gnum_float zeta  = value_get_as_float (argv[1]);
-	gnum_float sigma = value_get_as_float (argv[2]);
-
-        return value_new_float (random_lognormal_pdf (x, zeta, sigma));
-}
-
-/***************************************************************************/
-
 static const char *help_randweibull = {
         N_("@FUNCTION=RANDWEIBULL\n"
            "@SYNTAX=RANDWEIBULL(a,b)\n"
@@ -499,32 +375,6 @@ gnumeric_randweibull (FunctionEvalInfo *ei, Value **argv)
 	gnum_float b = value_get_as_float (argv[1]);
 
         return value_new_float (random_weibull (a, b));
-}
-
-/***************************************************************************/
-
-static const char *help_pdfweibull = {
-        N_("@FUNCTION=PDFWEIBULL\n"
-           "@SYNTAX=PDFWEIBULL(x,a,b)\n"
-
-           "@DESCRIPTION="
-           "PDFWEIBULL returns the probability density p(x) at @x for a "
-	   "Weibull distribution with scale @a and exponent @b. "
-           "\n"
-           "@EXAMPLES=\n"
-           "PDFWEIBULL(0.7,1,2).\n"
-           "\n"
-           "@SEEALSO=RANDWEIBULL")
-};
-
-static Value *
-gnumeric_pdfweibull (FunctionEvalInfo *ei, Value **argv)
-{
-	gnum_float x = value_get_as_float (argv[0]);
-	gnum_float a = value_get_as_float (argv[1]);
-	gnum_float b = value_get_as_float (argv[2]);
-
-        return value_new_float (random_weibull_pdf (x, a, b));
 }
 
 /***************************************************************************/
@@ -554,31 +404,6 @@ gnumeric_randlaplace (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_pdflaplace = {
-        N_("@FUNCTION=PDFLAPLACE\n"
-           "@SYNTAX=PDFLAPLACE(x,a)\n"
-
-           "@DESCRIPTION="
-           "PDFLAPLACE returns the probability density p(x) at @x for "
-	   "Laplace distribution with mean @a. "
-           "\n"
-           "@EXAMPLES=\n"
-           "PDFLAPLACE(0.4,1).\n"
-           "\n"
-           "@SEEALSO=RANDLAPLACE")
-};
-
-static Value *
-gnumeric_pdflaplace (FunctionEvalInfo *ei, Value **argv)
-{
-	gnum_float x = value_get_as_float (argv[0]);
-	gnum_float a = value_get_as_float (argv[1]);
-
-        return value_new_float (random_laplace_pdf (x, a));
-}
-
-/***************************************************************************/
-
 static const char *help_randrayleigh = {
         N_("@FUNCTION=RANDRAYLEIGH\n"
            "@SYNTAX=RANDRAYLEIGH(sigma)\n"
@@ -598,31 +423,6 @@ gnumeric_randrayleigh (FunctionEvalInfo *ei, Value **argv)
 	gnum_float sigma = value_get_as_float (argv[0]);
 
         return value_new_float (random_rayleigh (sigma));
-}
-
-/***************************************************************************/
-
-static const char *help_pdfrayleigh = {
-        N_("@FUNCTION=PDFRAYLEIGH\n"
-           "@SYNTAX=PDFRAYLEIGH(x,sigma)\n"
-
-           "@DESCRIPTION="
-           "PDFRAYLEIGH returns the probability density p(x) at @x for a "
-	   "Rayleigh distribution with scale parameter @sigma."
-           "\n"
-           "@EXAMPLES=\n"
-           "PDFRAYLEIGH(0.4,1).\n"
-           "\n"
-           "@SEEALSO=RANDRAYLEIGH")
-};
-
-static Value *
-gnumeric_pdfrayleigh (FunctionEvalInfo *ei, Value **argv)
-{
-	gnum_float x     = value_get_as_float (argv[0]);
-	gnum_float sigma = value_get_as_float (argv[1]);
-
-        return value_new_float (random_rayleigh_pdf (x, sigma));
 }
 
 /***************************************************************************/
@@ -650,33 +450,6 @@ gnumeric_randrayleightail (FunctionEvalInfo *ei, Value **argv)
 	gnum_float sigma = value_get_as_float (argv[1]);
 
         return value_new_float (random_rayleigh_tail (a, sigma));
-}
-
-/***************************************************************************/
-
-static const char *help_pdfrayleightail = {
-        N_("@FUNCTION=PDFRAYLEIGHTAIL\n"
-           "@SYNTAX=PDFRAYLEIGHTAIL(x,a,sigma)\n"
-
-           "@DESCRIPTION="
-           "PDFRAYLEIGHTAIL returns the probability density p(x) at @x for "
-	   "a Rayleigh tail distribution with scale parameter @sigma and "
-	   "lower limit @a."
-           "\n"
-           "@EXAMPLES=\n"
-           "PDFRAYLEIGHTAIL(0.6,0.3,1).\n"
-           "\n"
-           "@SEEALSO=RANDRAYLEIGHTAIL")
-};
-
-static Value *
-gnumeric_pdfrayleightail (FunctionEvalInfo *ei, Value **argv)
-{
-	gnum_float x     = value_get_as_float (argv[0]);
-	gnum_float a     = value_get_as_float (argv[1]);
-	gnum_float sigma = value_get_as_float (argv[2]);
-
-        return value_new_float (random_rayleigh_tail_pdf (x, a, sigma));
 }
 
 /***************************************************************************/
@@ -754,31 +527,6 @@ gnumeric_randfdist (FunctionEvalInfo *ei, Value **argv)
 	gnum_float nu2 = value_get_as_float (argv[1]);
 
         return value_new_float (random_fdist (nu1, nu2));
-}
-
-/***************************************************************************/
-
-static const char *help_pdffdist = {
-        N_("@FUNCTION=PDFFDIST\n"
-           "@SYNTAX=PDFFDIST(x,nu1,nu2)\n"
-
-           "@DESCRIPTION="
-           "PDFFDIST returns a F-distributed random number. "
-           "\n"
-           "@EXAMPLES=\n"
-           "PDFFDIST(1,2).\n"
-           "\n"
-           "@SEEALSO=RANDFDIST")
-};
-
-static Value *
-gnumeric_pdffdist (FunctionEvalInfo *ei, Value **argv)
-{
-	gnum_float x   = value_get_as_float (argv[0]);
-	gnum_float nu1 = value_get_as_float (argv[1]);
-	gnum_float nu2 = value_get_as_float (argv[2]);
-
-        return value_new_float (random_fdist_pdf (x, nu1, nu2));
 }
 
 /***************************************************************************/
@@ -965,31 +713,6 @@ gnumeric_randtdist (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_pdftdist = {
-        N_("@FUNCTION=PDFTDIST\n"
-           "@SYNTAX=PDFTDIST(x,nu)\n"
-
-           "@DESCRIPTION="
-           "PDFTDIST returns the probability density p(x) at @x for a "
-	   "t-distribution with @nu degrees of freedom."
-           "\n"
-           "@EXAMPLES=\n"
-           "PDFTDIST(0.7,0.5).\n"
-           "\n"
-           "@SEEALSO=RAND")
-};
-
-static Value *
-gnumeric_pdftdist (FunctionEvalInfo *ei, Value **argv)
-{
-	gnum_float x  = value_get_as_float (argv[0]);
-	gnum_float nu = value_get_as_float (argv[1]);
-
-        return value_new_float (random_tdist_pdf (x, nu));
-}
-
-/***************************************************************************/
-
 static const char *help_randgumbel = {
         N_("@FUNCTION=RANDGUMBEL\n"
            "@SYNTAX=RANDGUMBEL(a,b[,type])\n"
@@ -1089,33 +812,6 @@ gnumeric_randexppow (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_pdfexppow = {
-        N_("@FUNCTION=PDFEXPPOW\n"
-           "@SYNTAX=PDFEXPPOW(x,a,b)\n"
-
-           "@DESCRIPTION="
-           "PDFEXPPOW returns the probability density p(x) at @x for "
-	   "Exponential Power distribution with scale parameter @a and "
-	   "exponent @b. "
-           "\n"
-           "@EXAMPLES=\n"
-           "PDFEXPPOW(0.4,1,2).\n"
-           "\n"
-           "@SEEALSO=RANDEXPPOW")
-};
-
-static Value *
-gnumeric_pdfexppow (FunctionEvalInfo *ei, Value **argv)
-{
-	gnum_float x = value_get_as_float (argv[0]);
-	gnum_float a = value_get_as_float (argv[1]);
-	gnum_float b = value_get_as_float (argv[2]);
-
-        return value_new_float (random_exppow_pdf (x, a, b));
-}
-
-/***************************************************************************/
-
 static const char *help_randlandau = {
         N_("@FUNCTION=RANDLANDAU\n"
            "@SYNTAX=RANDLANDAU()\n"
@@ -1179,28 +875,6 @@ gnumeric_randgaussiantail (FunctionEvalInfo *ei, Value **argv)
 /***************************************************************************/
 
 const ModulePluginFunctionInfo random_functions[] = {
-        { "pdfbinom", "fff", N_("k,p,trials"), &help_pdfbinom,
-	  gnumeric_pdfbinom, NULL, NULL, NULL },
-        { "pdfexppow", "fff", N_("x,a,b"),         &help_pdfexppow,
-	  gnumeric_pdfexppow, NULL, NULL, NULL },
-        { "pdffdist", "fff", N_("x,nu1,nu2"),      &help_pdffdist,
-	  gnumeric_pdffdist, NULL, NULL, NULL },
-        { "pdflaplace", "ff", N_("x,a"), &help_pdflaplace,
-	  gnumeric_pdflaplace, NULL, NULL, NULL },
-        { "pdflognorm", "fff", N_("x,zeta,sigma"), &help_pdflognorm,
-	  gnumeric_pdflognorm, NULL, NULL, NULL },
-        { "pdfnegbinom", "fff", N_("k,p,failures"), &help_pdfnegbinom,
-	  gnumeric_pdfnegbinom, NULL, NULL, NULL },
-        { "pdfpoisson", "ff", N_("k,lambda"), &help_pdfpoisson,
-	  gnumeric_pdfpoisson, NULL, NULL, NULL },
-        { "pdfrayleigh", "ff", N_("x,sigma"), &help_pdfrayleigh,
-	  gnumeric_pdfrayleigh, NULL, NULL, NULL },
-        { "pdfrayleightail", "fff", N_("x,a,sigma"), &help_pdfrayleightail,
-	  gnumeric_pdfrayleightail, NULL, NULL, NULL },
-        { "pdftdist", "ff", N_("x,nu"), &help_pdftdist,
-	  gnumeric_pdftdist, NULL, NULL, NULL },
-        { "pdfweibull", "fff", N_("x,a,b"), &help_pdfweibull,
-	  gnumeric_pdfweibull, NULL, NULL, NULL },
 	{ "rand",    "", "",           &help_rand,
 	  gnumeric_rand, NULL, NULL, NULL },
         { "randbernoulli", "f", N_("p"),   &help_randbernoulli,

@@ -30,6 +30,7 @@
 				<function name="correl"/>
 				<function name="covar"/>
 				<function name="devsq"/>
+				<function name="exppowdist"/>
 				<function name="permut"/>
 				<function name="poisson"/>
 				<function name="expondist"/>
@@ -52,6 +53,7 @@
 				<function name="kurt"/>
 				<function name="kurtp"/>
 				<function name="landau"/>
+				<function name="laplace"/>
 				<function name="large"/>
 				<function name="linest"/>
 				<function name="logest"/>
@@ -76,6 +78,8 @@
 				<function name="prob"/>
 				<function name="quartile"/>
 				<function name="rank"/>
+				<function name="rayleigh"/>
+				<function name="rayleightail"/>
 				<function name="rsq"/>
 				<function name="skew"/>
 				<function name="skewp"/>

@@ -5016,6 +5016,134 @@ gnumeric_pareto (FunctionEvalInfo *ei, Value **argv)
         return value_new_float (random_pareto_pdf (x, a, b));
 }
 
+/***************************************************************************/
+
+static const char *help_rayleigh = {
+        N_("@FUNCTION=RAYLEIGH\n"
+           "@SYNTAX=RAYLEIGH(x,sigma)\n"
+
+           "@DESCRIPTION="
+           "RAYLEIGH returns the probability density p(x) at @x for a "
+	   "Rayleigh distribution with scale parameter @sigma."
+           "\n"
+           "@EXAMPLES=\n"
+           "RAYLEIGH(0.4,1).\n"
+           "\n"
+           "@SEEALSO=RANDRAYLEIGH")
+};
+
+static gnum_float
+random_rayleigh_pdf (gnum_float x, gnum_float sigma)
+{
+        if (x < 0)
+	        return 0;
+	else {
+	        gnum_float u = x / sigma;
+
+		return (u / sigma) * expgnum (-u * u / 2.0);
+	}
+}
+
+static Value *
+gnumeric_rayleigh (FunctionEvalInfo *ei, Value **argv)
+{
+	gnum_float x     = value_get_as_float (argv[0]);
+	gnum_float sigma = value_get_as_float (argv[1]);
+
+        return value_new_float (random_rayleigh_pdf (x, sigma));
+}
+
+/***************************************************************************/
+
+static const char *help_rayleightail = {
+        N_("@FUNCTION=RAYLEIGHTAIL\n"
+           "@SYNTAX=RAYLEIGHTAIL(x,a,sigma)\n"
+
+           "@DESCRIPTION="
+           "RAYLEIGHTAIL returns the probability density p(x) at @x for "
+	   "a Rayleigh tail distribution with scale parameter @sigma and "
+	   "lower limit @a."
+           "\n"
+           "@EXAMPLES=\n"
+           "RAYLEIGHTAIL(0.6,0.3,1).\n"
+           "\n"
+           "@SEEALSO=RANDRAYLEIGHTAIL")
+};
+
+static gnum_float
+random_rayleigh_tail_pdf (gnum_float x, gnum_float a, gnum_float sigma)
+{
+        if (x < a)
+	        return 0;
+	else {
+	        gnum_float u = x / sigma ;
+		gnum_float v = a / sigma ;
+
+		return (u / sigma) * expgnum ((v + u) * (v - u) / 2.0) ;
+	}
+}
+
+static Value *
+gnumeric_rayleightail (FunctionEvalInfo *ei, Value **argv)
+{
+	gnum_float x     = value_get_as_float (argv[0]);
+	gnum_float a     = value_get_as_float (argv[1]);
+	gnum_float sigma = value_get_as_float (argv[2]);
+
+        return value_new_float (random_rayleigh_tail_pdf (x, a, sigma));
+}
+
+/***************************************************************************/
+
+static const char *help_exppowdist = {
+        N_("@FUNCTION=EXPPOWDIST\n"
+           "@SYNTAX=EXPPOWDIST(x,a,b)\n"
+
+           "@DESCRIPTION="
+           "EXPPOWDIST returns the probability density p(x) at @x for "
+	   "Exponential Power distribution with scale parameter @a and "
+	   "exponent @b. "
+           "\n"
+           "@EXAMPLES=\n"
+           "EXPPOWDIST(0.4,1,2).\n"
+           "\n"
+           "@SEEALSO=RANDEXPPOW")
+};
+
+static Value *
+gnumeric_exppowdist (FunctionEvalInfo *ei, Value **argv)
+{
+	gnum_float x = value_get_as_float (argv[0]);
+	gnum_float a = value_get_as_float (argv[1]);
+	gnum_float b = value_get_as_float (argv[2]);
+
+        return value_new_float (random_exppow_pdf (x, a, b));
+}
+
+/***************************************************************************/
+
+static const char *help_laplace = {
+        N_("@FUNCTION=LAPLACE\n"
+           "@SYNTAX=LAPLACE(x,a)\n"
+
+           "@DESCRIPTION="
+           "LAPLACE returns the probability density p(x) at @x for "
+	   "Laplace distribution with mean @a. "
+           "\n"
+           "@EXAMPLES=\n"
+           "LAPLACE(0.4,1).\n"
+           "\n"
+           "@SEEALSO=RANDLAPLACE")
+};
+
+static Value *
+gnumeric_laplace (FunctionEvalInfo *ei, Value **argv)
+{
+	gnum_float x = value_get_as_float (argv[0]);
+	gnum_float a = value_get_as_float (argv[1]);
+
+        return value_new_float (random_laplace_pdf (x, a));
+}
 
 /***************************************************************************/
 
@@ -5058,6 +5186,8 @@ const ModulePluginFunctionInfo stat_functions[] = {
 	  &help_covar, gnumeric_covar, NULL, NULL, NULL },
         { "devsq",        0,      N_("number,number,"),
 	  &help_devsq, NULL, gnumeric_devsq, NULL, NULL },
+        { "exppowdist", "fff", N_("x,a,b"),         &help_exppowdist,
+	  gnumeric_exppowdist, NULL, NULL, NULL },
 	{ "permut",       "ff",  N_("n,k"),
 	  &help_permut, gnumeric_permut, NULL, NULL, NULL },
 	{ "poisson",      "ffb",  N_("x,mean,cumulative"),
@@ -5102,6 +5232,8 @@ const ModulePluginFunctionInfo stat_functions[] = {
 	  &help_kurtp, NULL, gnumeric_kurtp, NULL, NULL },
         { "landau", "f", N_("x"), &help_landau,
 	  gnumeric_landau, NULL, NULL, NULL },
+        { "laplace", "ff", N_("x,a"), &help_laplace,
+	  gnumeric_laplace, NULL, NULL, NULL },
 	{ "large",        0,      N_("number,number,"),
 	  &help_large, NULL, gnumeric_large, NULL, NULL },
 	{ "linest",       "A|Abb",  N_("known_y's,known_x's,const,stat"),
@@ -5150,6 +5282,10 @@ const ModulePluginFunctionInfo stat_functions[] = {
 	  &help_quartile, gnumeric_quartile, NULL, NULL, NULL },
 	{ "rank",         "fr|f",      "",
 	  &help_rank, gnumeric_rank, NULL, NULL, NULL },
+        { "rayleigh", "ff", N_("x,sigma"), &help_rayleigh,
+	  gnumeric_rayleigh, NULL, NULL, NULL },
+        { "rayleightail", "fff", N_("x,a,sigma"), &help_rayleightail,
+	  gnumeric_rayleightail, NULL, NULL, NULL },
         { "rsq",          "AA",   N_("array1,array2"),
 	  &help_rsq, gnumeric_rsq, NULL, NULL, NULL },
 	{ "skew",         0,      "",
