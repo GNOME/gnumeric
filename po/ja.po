@@ -9,14 +9,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.1.20\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-07-31 14:11-0400\n"
+"POT-Creation-Date: 2003-08-05 18:07+0900\n"
 "PO-Revision-Date: 2003-07-25 18:30+0900\n"
 "Last-Translator: Yukihiro Nakai <nakai@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Report-Msgid-Bugs-To: \n"
 
 #: GNOME_Gnumeric.server.in.in.h:1
 msgid "Gnumeric Workbook"
@@ -6824,7 +6824,7 @@ msgid ""
 "error.\n"
 "* If @frequency is other than 1, 2, or 4, MDURATION returns #NUM! error.\n"
 "* If @basis is omitted, MSRB 30/360 is applied.\n"
-"* If @basis is invalid, #NUM! error is returned.\n"
+"* If @basis is not in between 0 and 4, #NUM! error is returned.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -15382,7 +15382,7 @@ msgstr ""
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=NT_MU function (Möbius mu function) returns \n"
+"@DESCRIPTION=NT_MU function (Mbius mu function) returns \n"
 "0  if @n is divisible by the square of a prime .\n"
 "Otherwise it returns: \n"
 "\n"
@@ -15407,7 +15407,6 @@ msgstr ""
 "@SEEALSO=NT_D, ITHPRIME, NT_PHI"
 
 #: plugins/numtheory/numtheory.c:286
-#, fuzzy
 msgid ""
 "@FUNCTION=NT_D\n"
 "@SYNTAX=NT_D(n)\n"
@@ -15419,12 +15418,11 @@ msgstr ""
 "@FUNCTION=NT_D\n"
 "@SYNTAX=NT_D(n)\n"
 "@DESCRIPTION=NT_D 関数は @n の約数の数を返します。\n"
-"この関数の引数は1つだけです。\n"
+"\n"
 "@EXAMPLES=\n"
 "SEEALSO=ITHPRIME, NT_PHI, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:319
-#, fuzzy
 msgid ""
 "@FUNCTION=NT_SIGMA\n"
 "@SYNTAX=NT_SIGMA(n)\n"
@@ -15436,12 +15434,11 @@ msgstr ""
 "@FUNCTION=NT_SIGMA\n"
 "@SYNTAX=NT_SIGMA(n)\n"
 "@DESCRIPTION=NT_SIGMA 関数は@nの約数の和を返します。\n"
-"この関数の引数は1つだけです。\n"
+"\n"
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_PHI"
 
 #: plugins/numtheory/numtheory.c:353
-#, fuzzy
 msgid ""
 "@FUNCTION=ITHPRIME\n"
 "@SYNTAX=ITHPRIME(i)\n"
@@ -15453,12 +15450,11 @@ msgstr ""
 "@FUNCTION=ITHPRIME\n"
 "@SYNTAX=ITHPRIME(i)\n"
 "@DESCRIPTION=ITHPRIME 関数は @i 番目の素数を返します。\n"
-"この関数の引数は1つだけです。\n"
+"\n"
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:380
-#, fuzzy
 msgid ""
 "@FUNCTION=ISPRIME\n"
 "@SYNTAX=ISPRIME(i)\n"
@@ -15471,11 +15467,10 @@ msgstr ""
 "@SYNTAX=ISPRIME(i)\n"
 "@DESCRIPTION=ISPRIME 関数は @i が素数の場合に TRUE を返し、そうでない場合に"
 "FALSE を返します。\n"
-"この関数の引数は1つだけです。\n"
+"\n"
 "@SEEALSO=ITHPRIME, NT_D, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:404
-#, fuzzy
 msgid ""
 "@FUNCTION=NT_PI\n"
 "@SYNTAX=NT_PI(n)\n"
@@ -15487,11 +15482,10 @@ msgstr ""
 "@FUNCTION=NT_PI\n"
 "@SYNTAX=NT_PI(n)\n"
 "@DESCRIPTION=NT_PI 関数は @n 以下の素数の数を返します。\n"
-"この関数の引数は1つだけです。\n"
+"\n"
 "@SEEALSO=ITHPRIME, NT_PHI, NT_D, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:430
-#, fuzzy
 msgid ""
 "@FUNCTION=BITOR\n"
 "@SYNTAX=BITOR(a,b)\n"
@@ -15502,13 +15496,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=BITOR\n"
 "@SYNTAX=BITOR(a,b)\n"
-"@DESCRIPTION=BITOR 関数は @a と @b のビット毎の論理和の値を返します。\n"
+"@DESCRIPTION=BITOR 関数は引数のビット毎の論理和の値を返します。\n"
 "\n"
 "@EXAMPLES=\n"
 "@SEEALSO=BITXOR,BITAND"
 
 #: plugins/numtheory/numtheory.c:449
-#, fuzzy
 msgid ""
 "@FUNCTION=BITXOR\n"
 "@SYNTAX=BITXOR(a,b)\n"
@@ -15520,14 +15513,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=BITXOR\n"
 "@SYNTAX=BITXOR(a,b)\n"
-"@DESCRIPTION=BITXOR 関数は @a と @b のビット毎の排他的論理和の値を返しま"
-"す。\n"
+"@DESCRIPTION=BITXOR 関数は引数のビット毎の排他的論理和の値を返します。\n"
 "\n"
 "@EXAMPLES=\n"
 "@SEEALSO=BITOR,BITAND"
 
 #: plugins/numtheory/numtheory.c:469
-#, fuzzy
 msgid ""
 "@FUNCTION=BITAND\n"
 "@SYNTAX=BITAND(a,b)\n"
@@ -15538,13 +15529,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=BITAND\n"
 "@SYNTAX=BITAND(a,b)\n"
-"@DESCRIPTION=BITAND 関数は @a と @b のビット毎の論理積の値を返します。\n"
+"@DESCRIPTION=BITAND 関数は引数のビット毎の論理積の値を返します。\n"
 "\n"
 "@EXAMPLES=\n"
 "@SEEALSO=BITOR,BITXOR"
 
 #: plugins/numtheory/numtheory.c:489
-#, fuzzy
 msgid ""
 "@FUNCTION=BITLSHIFT\n"
 "@SYNTAX=BITLSHIFT(x,n)\n"
@@ -15558,13 +15548,13 @@ msgstr ""
 "@FUNCTION=BITLSHIFT\n"
 "@SYNTAX=BITLSHIFT(x,n)\n"
 "@DESCRIPTION=BITLSHIFT 関数は @x を左に @n ビットシフトした値を返します。\n"
-"@n が負の値の場合、右シフトを実行します。\n"
+"\n"
+"* @n が負の値の場合、実際には右シフトが実行されます。\n"
 "\n"
 "@EXAMPLES=\n"
 "@SEEALSO=BITRSHIFT"
 
 #: plugins/numtheory/numtheory.c:516
-#, fuzzy
 msgid ""
 "@FUNCTION=BITRSHIFT\n"
 "@SYNTAX=BITRSHIFT(x,n)\n"
@@ -15578,7 +15568,8 @@ msgstr ""
 "@FUNCTION=BITRSHIFT\n"
 "@SYNTAX=BITRSHIFT(x,n)\n"
 "@DESCRIPTION=BITRSHIFT 関数は @x を右に @n ビットシフトした値を返します。\n"
-"@n が負の値の場合、可能であれば左シフトを実行します。\n"
+"\n"
+"* @n が負の値の場合、実際には左シフトが実行されます。\n"
 "\n"
 "@EXAMPLES=\n"
 "@SEEALSO=BITLSHIFT"
@@ -15592,12 +15583,11 @@ msgid "Number Theory"
 msgstr "数論"
 
 #: plugins/numtheory/plugin.xml.in.h:3
-#, fuzzy
 msgid ""
 "Several basic utilities for prime numbers, pi, phi, sigma. It also holds "
 "some simple bitwise operations."
 msgstr ""
-"素数、π、phi、Σ用の基本ユーティリティです。簡易ビット演算子も含まれています。"
+"素数、π、φ、Σの基本ユーティリティです。簡易ビット演算機能も含まれています。"
 
 #: plugins/oleo/plugin.xml.in.h:1
 msgid "GNU Oleo"
@@ -15612,19 +15602,18 @@ msgid "Imports GNU Oleo documents"
 msgstr "GNU Oleo 文書をインポートします"
 
 #: plugins/openoffice/openoffice-read.c:421
-#, fuzzy
 msgid "Missing expression"
-msgstr "不正な正規表現です"
+msgstr "式がありません"
 
 #: plugins/openoffice/openoffice-read.c:426
 #, c-format
 msgid "Expression '%s' does not start with a recognized character"
-msgstr ""
+msgstr "式'%s'が識別可能な文字で始まっていません"
 
 #: plugins/openoffice/openoffice-read.c:439
 #, fuzzy, c-format
 msgid "Unable to parse '%s' because '%s'"
-msgstr "ファイル'%s'を開けません"
+msgstr "'%s'をパースできません。理由は'%s'"
 
 #: plugins/openoffice/openoffice-read.c:496
 msgid "Invalid array expression does not specify number of columns."
@@ -15647,20 +15636,19 @@ msgstr "ファイル'%s'を開けません"
 
 #: plugins/openoffice/openoffice-read.c:935
 msgid "No stream named content.xml found."
-msgstr ""
+msgstr "content.xmlという名前のストリームが見つかりませんでした。"
 
 #: plugins/openoffice/plugin.xml.in.h:1
 msgid "Open/Star Calc (*.sxc)"
-msgstr ""
+msgstr "Open/Star Calc (*.sxc)"
 
 #: plugins/openoffice/plugin.xml.in.h:2
-#, fuzzy
 msgid "Open/Star Office spreadsheet"
-msgstr "スプレッドシートを開きます"
+msgstr "Open/Star Officeスプレッドシート"
 
 #: plugins/openoffice/plugin.xml.in.h:3
 msgid "OpenCalc/StarCalc"
-msgstr ""
+msgstr "OpenCalc/StarCalc"
 
 #: plugins/perl/plugin.xml.in.h:1
 msgid "Enables the creation of functions in Perl"
@@ -15730,7 +15718,7 @@ msgstr "便利な機能を提供する Python プラグインのサンプルで�
 
 #: plugins/python-loader/gnm-py-interpreter.c:258
 msgid "Default interpreter"
-msgstr ""
+msgstr "デフォルトインタプリタ"
 
 #: plugins/python-loader/plugin.xml.in.h:1
 msgid "Python plugin loader"
@@ -15743,22 +15731,19 @@ msgstr "このプラグインは Python プラグインのサポートを提供�
 #: plugins/python-loader/py-console.c:90
 #, c-format
 msgid "*** Interpreter: %s\n"
-msgstr ""
+msgstr "*** インタプリタ: %s\n"
 
 #: plugins/python-loader/py-console.c:152
-#, fuzzy
 msgid "Gnumeric Python console"
-msgstr "Gnumeric ソルバ"
+msgstr "Gnumeric Pythonコンソール"
 
 #: plugins/python-loader/py-console.c:162
-#, fuzzy
 msgid "E_xecute in:"
-msgstr "動作(_C):"
+msgstr "実行(_X):"
 
 #: plugins/python-loader/py-console.c:207
-#, fuzzy
 msgid "C_ommand:"
-msgstr "注記(_O):"
+msgstr "コマンド(_O):"
 
 #: plugins/python-loader/py-gnumeric.c:226
 msgid "Python list is not an array"
@@ -15827,25 +15812,23 @@ msgstr "オブジェクト \"%s\" はディレクトリではありません。"
 
 #: plugins/python-loader/ui-console-menu.xml.h:1
 msgid "Open the Python console"
-msgstr ""
+msgstr "Pythonコンソールを開く"
 
 #: plugins/python-loader/ui-console-menu.xml.h:2
-#, fuzzy
 msgid "Python console"
-msgstr "Python 関数"
+msgstr "Pythonコンソール"
 
 #: plugins/qpro/plugin.xml.in.h:1
-#, fuzzy
 msgid "Imports Quatro Pro (tm) files"
-msgstr "MultiPlan (SYLK) ファイルをインポートします"
+msgstr "クアトロ・プロ(tm)ファイルをインポートします"
 
 #: plugins/qpro/plugin.xml.in.h:2
 msgid "Quatro Pro"
-msgstr ""
+msgstr "クアトロ・プロ"
 
 #: plugins/qpro/plugin.xml.in.h:3
 msgid "Quatro Pro(tm)"
-msgstr ""
+msgstr "クアトロ・プロ(tm)"
 
 #: plugins/qpro/qpro-read.c:151
 #, c-format
@@ -15855,7 +15838,7 @@ msgstr ""
 #: plugins/qpro/qpro-read.c:775
 #, c-format
 msgid "Invalid zoom %hd %%"
-msgstr ""
+msgstr "不正な拡大率 %hd %%"
 
 #: plugins/qpro/qpro-read.c:817
 #, c-format
@@ -16424,24 +16407,23 @@ msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:53
 msgid "Toolbar Style"
-msgstr ""
+msgstr "ツールバーのスタイル"
 
 #: schemas/gnumeric-general.schemas.in.h:54
 msgid "Toolbar Style. Valid values are both, both_horiz, icon, and text"
-msgstr ""
+msgstr "ツールバースタイルです。有効な値はboth, both_horiz, icon, textです"
 
 #: schemas/gnumeric-general.schemas.in.h:55
 msgid "Transition Keys"
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:56
-#, fuzzy
 msgid "Vertical DPI"
-msgstr "垂直(_V)"
+msgstr "垂直方向DPI"
 
 #: schemas/gnumeric-general.schemas.in.h:57
 msgid "Warn When Exporting Into Single Sheet Format"
-msgstr ""
+msgstr "シングルシートフォーマットにエクスポートするときは警告する"
 
 #: schemas/gnumeric-general.schemas.in.h:58
 msgid ""
@@ -16463,10 +16445,13 @@ msgid ""
 "ISO-8859-1 (Latin1). To use the UTF-8 files, you must have the ucs LaTeX "
 "package installed."
 msgstr ""
+"この設定では、作成するLaTeXファイルでUTF-8(unicode)を使うか"
+"ISO-8859-1(Latin1)を使うかを決定します。UTF-8ファイルを使うにはucs LaTeX"
+"パッケージをインストールしておく必要があります。"
 
 #: schemas/gnumeric-plugins.schemas.in.h:2
 msgid "Use UTF-8 in LaTeX Export"
-msgstr ""
+msgstr "LaTeXのエクスポートでUTF-8を使う"
 
 #: src/GNOME_Gnumeric.xml.h:1
 msgid "About this application"
@@ -16474,14 +16459,12 @@ msgstr "このアプリケーションについて"
 
 #: src/GNOME_Gnumeric.xml.h:2 src/workbook-control-gui.c:1532
 #: src/workbook-control-gui.c:3872
-#, fuzzy
 msgid "Add _Auto Filter"
-msgstr "高度なフィルタ"
+msgstr "オートフィルタの追加(_A)"
 
 #: src/GNOME_Gnumeric.xml.h:3
-#, fuzzy
 msgid "Add a scenario"
-msgstr "高度なフィルタ"
+msgstr "シナリオの追加"
 
 #: src/GNOME_Gnumeric.xml.h:4 src/workbook-control-gui.c:3833
 msgid "Add an outline group"
@@ -16489,26 +16472,23 @@ msgstr "アウトライン・グループを追加します"
 
 #: src/GNOME_Gnumeric.xml.h:5 src/workbook-control-gui.c:3873
 msgid "Add or remove a filter"
-msgstr ""
+msgstr "フィルタの追加/削除"
 
 #: src/GNOME_Gnumeric.xml.h:6 src/workbook-control-gui.c:3878
 msgid "Advanced _Filter..."
 msgstr "高度なフィルタ(_F)..."
 
 #: src/GNOME_Gnumeric.xml.h:7 src/workbook-format-toolbar.c:480
-#, fuzzy
 msgid "Align the contents to the left and decrease the indent"
-msgstr "左側の内容を調整してインデントを減らします"
+msgstr "コンテンツを左に寄せてインデントを減らします"
 
 #: src/GNOME_Gnumeric.xml.h:8 src/workbook-format-toolbar.c:483
-#, fuzzy
 msgid "Align the contents to the left and increase the indent"
-msgstr "左側の内容を調整してインデントを増やします"
+msgstr "コンテンツを左に寄せてインデントを増やします"
 
 #: src/GNOME_Gnumeric.xml.h:9 src/workbook-control-gui.c:3408
-#, fuzzy
 msgid "Append a new sheet"
-msgstr "新しいシートを挿入します"
+msgstr "新規シートを追加します"
 
 #: src/GNOME_Gnumeric.xml.h:10 src/workbook-object-toolbar.c:177
 msgid "Arrow"
@@ -16606,9 +16586,8 @@ msgid "Change width of the selected columns"
 msgstr "選択した列の幅を変更します"
 
 #: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:4008
-#, fuzzy
 msgid "Chart Guru"
-msgstr "グラフの出力"
+msgstr "チャート・グル"
 
 #: src/GNOME_Gnumeric.xml.h:33 src/workbook-object-toolbar.c:159
 msgid "Checkbox"
@@ -16644,9 +16623,8 @@ msgid "Co_mments"
 msgstr "注釈(_M)"
 
 #: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:3748
-#, fuzzy
 msgid "Co_variance..."
-msgstr "共分散(_V)"
+msgstr "共分散(_O)..."
 
 #: src/GNOME_Gnumeric.xml.h:42 src/workbook-control-gui.c:3827
 msgid "Collapse an outline group"
@@ -16657,41 +16635,34 @@ msgid "Combo Box"
 msgstr "コンボボックス"
 
 #: src/GNOME_Gnumeric.xml.h:44
-#, fuzzy
 msgid "Comparing two population means for two paired samples: t-test"
 msgstr ""
-"二つの母集団の比較は二組の対のサンプルを比較することを意味します: t-検定"
+"2つの対応する標本で2つの母平均を比較します: t検定"
 
 #: src/GNOME_Gnumeric.xml.h:45
-#, fuzzy
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with equal variances: t-test"
 msgstr ""
-"二つの母集団の比較は二組の対でないサンプルを等しい変化量で比較することを意味"
-"します: t-検定"
+"等分散と仮定した2つの母平均を2つの対応していない標本で比較します: t-検定"
 
 #: src/GNOME_Gnumeric.xml.h:46
-#, fuzzy
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with unequal variances: t-test"
 msgstr ""
-"二つの母集団の比較は二組の対でないサンプルを等しくない変化量で比較することを"
-"意味します: t-検定"
+"等分散ではない2つの母平均を2つの対応していない標本で比較します: t-検定"
 
 #: src/GNOME_Gnumeric.xml.h:47
-#, fuzzy
 msgid ""
 "Comparing two population means from populations with known variances or "
 "using a large sample: z-test"
 msgstr ""
-"二つの母集団の比較は既知の変化量または大きいサンプルを使って比較することを意"
-"味します: z-検定"
+"分散が既知または大きな標本を持つ2つの母平均を比較します: z-検定"
 
 #: src/GNOME_Gnumeric.xml.h:48 src/workbook-control-gui.c:3776
 msgid "Comparing two population variances"
-msgstr "二つの母集団変化量の比較"
+msgstr "二つの母分散の比較"
 
 #: src/GNOME_Gnumeric.xml.h:49
 msgid "Configure toolbars"
@@ -16708,12 +16679,11 @@ msgstr "コピー"
 
 #: src/GNOME_Gnumeric.xml.h:52
 msgid "Copy the selection"
-msgstr "選択範囲をコピーします"
+msgstr "選択範囲のコピー"
 
 #: src/GNOME_Gnumeric.xml.h:53 src/workbook-control-gui.c:3965
-#, fuzzy
 msgid "Copy the selection to the clipboard"
-msgstr "選択部分をクリップボードにコピー"
+msgstr "選択範囲をクリップボードにコピー"
 
 #: src/GNOME_Gnumeric.xml.h:54 src/dialogs/covariance.glade.h:3
 #: src/tools/analysis-tools.c:894 src/tools/analysis-tools.c:897
@@ -16723,26 +16693,25 @@ msgstr "共分散"
 
 #: src/GNOME_Gnumeric.xml.h:55 src/workbook-object-toolbar.c:155
 msgid "Create a button"
-msgstr "ボタンの作成"
+msgstr "ボタンを作成します"
 
 #: src/GNOME_Gnumeric.xml.h:56 src/workbook-object-toolbar.c:159
 msgid "Create a checkbox"
-msgstr "チェックボックスの作成"
+msgstr "チェックボックスを作成します"
 
 #: src/GNOME_Gnumeric.xml.h:57 src/workbook-object-toolbar.c:171
 msgid "Create a combo box"
-msgstr "コンボボックスの作成"
+msgstr "コンボボックスを作成します"
 
 #: src/GNOME_Gnumeric.xml.h:58 src/workbook-object-toolbar.c:150
 msgid "Create a frame"
-msgstr "フレームの作成"
+msgstr "フレームを作成します"
 
 #: src/GNOME_Gnumeric.xml.h:59 src/workbook-object-toolbar.c:147
 msgid "Create a label"
-msgstr "ラベルの作成"
+msgstr "ラベルを作成します"
 
 #: src/GNOME_Gnumeric.xml.h:60 src/workbook-object-toolbar.c:174
-#, fuzzy
 msgid "Create a line object"
 msgstr "直線オブジェクトを作成します"
 
@@ -16760,40 +16729,34 @@ msgid "Create a new workbook"
 msgstr "新規にワークブックを作成します"
 
 #: src/GNOME_Gnumeric.xml.h:64 src/workbook-control-gui.c:3910
-#, fuzzy
 msgid "Create a pivot table"
-msgstr "ラベルの作成"
+msgstr "ピボットテーブルを作成します"
 
 #: src/GNOME_Gnumeric.xml.h:65 src/workbook-object-toolbar.c:164
 msgid "Create a radio button"
-msgstr "ラジオボタンの作成"
+msgstr "ラジオボタンを作成します"
 
 #: src/GNOME_Gnumeric.xml.h:66 src/workbook-object-toolbar.c:180
-#, fuzzy
 msgid "Create a rectangle object"
 msgstr "矩形オブジェクトを作成します"
 
 #: src/GNOME_Gnumeric.xml.h:67 src/workbook-object-toolbar.c:187
 msgid "Create a scrollbar"
-msgstr "スクロールバーの作成"
+msgstr "スクロールバーを作成します"
 
 #: src/GNOME_Gnumeric.xml.h:68 src/workbook-object-toolbar.c:193
-#, fuzzy
 msgid "Create a slider"
-msgstr "リストの作成"
+msgstr "スライダを作成します"
 
 #: src/GNOME_Gnumeric.xml.h:69 src/workbook-object-toolbar.c:190
-#, fuzzy
 msgid "Create a spin button"
-msgstr "ボタンの作成"
+msgstr "スピンボタンを作成します"
 
 #: src/GNOME_Gnumeric.xml.h:70 src/workbook-object-toolbar.c:177
-#, fuzzy
 msgid "Create an arrow object"
 msgstr "矢印オブジェクトを作成します"
 
 #: src/GNOME_Gnumeric.xml.h:71 src/workbook-object-toolbar.c:183
-#, fuzzy
 msgid "Create an ellipse object"
 msgstr "楕円オブジェクトを作成します"
 
@@ -17115,9 +17078,8 @@ msgstr "左寄せ"
 msgid "Left align"
 msgstr "左寄せ"
 
-#: src/GNOME_Gnumeric.xml.h:146
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:18
-#: src/dialogs/dialog-stf-main-page.c:362 src/workbook-object-toolbar.c:174
+#: src/GNOME_Gnumeric.xml.h:146 src/dialogs/dialog-stf-main-page.c:362
+#: src/workbook-object-toolbar.c:174
 msgid "Line"
 msgstr "直線"
 
@@ -17616,7 +17578,7 @@ msgstr "表の拡大/縮小を行います"
 
 #: src/GNOME_Gnumeric.xml.h:263 src/workbook-control-gui.c:3743
 msgid "_ANOVA"
-msgstr "ANOVA(_A)"
+msgstr "分散分析法(_A)"
 
 #: src/GNOME_Gnumeric.xml.h:264
 msgid "_About"
@@ -17841,9 +17803,8 @@ msgid "_Open..."
 msgstr "開く(_O)..."
 
 #: src/GNOME_Gnumeric.xml.h:313 src/workbook-control-gui.c:3718
-#, fuzzy
 msgid "_Paired Samples: T-Test..."
-msgstr "対のサンプル: T-検定(_P)"
+msgstr "対のサンプル: T-検定(_P)..."
 
 #: src/GNOME_Gnumeric.xml.h:314 src/sheet-control-gui.c:1480
 msgid "_Paste"
@@ -18589,7 +18550,7 @@ msgid "Text (%s) to Columns (%s)"
 msgstr "列を削除"
 
 #. Fill in the header titles.
-#: src/commands.c:6002 src/dialogs/solver.glade.h:24
+#: src/commands.c:6002 src/dialogs/solver.glade.h:25
 #: src/tools/solver/reports-write.c:195 src/tools/solver/reports-write.c:356
 #: src/tools/solver/reports-write.c:486 src/tools/solver/reports-write.c:747
 #: src/tools/solver/reports-write.c:910 src/tools/solver/reports-write.c:961
@@ -18611,7 +18572,7 @@ msgstr "凡例"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:141
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:172
-#: src/cut-n-paste-code/goffice/graph/gog-legend.c:159
+#: src/cut-n-paste-code/goffice/graph/gog-legend.c:132
 msgid "Title"
 msgstr "題名"
 
@@ -18696,7 +18657,7 @@ msgstr "TODO: 未完成"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:3
 #: src/dialogs/autocorrect.glade.h:12 src/dialogs/names.glade.h:6
-#: src/dialogs/solver.glade.h:26
+#: src/dialogs/solver.glade.h:27
 msgid "_Add"
 msgstr "追加(_A)"
 
@@ -18710,7 +18671,7 @@ msgid "_Decrease"
 msgstr "減少(_D)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:6
-#: src/dialogs/names.glade.h:7 src/dialogs/solver.glade.h:30
+#: src/dialogs/names.glade.h:7 src/dialogs/solver.glade.h:31
 msgid "_Delete"
 msgstr "削除(_D)"
 
@@ -18737,12 +18698,12 @@ msgstr "テキスト(_X)"
 msgid "Plot Engine"
 msgstr "プロット名"
 
-#: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:230
+#: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:237
 #, fuzzy
 msgid "Plot Type"
 msgstr "プロット名"
 
-#: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:312
+#: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:319
 msgid "Chart Theme"
 msgstr ""
 
@@ -18930,13 +18891,21 @@ msgstr "グラフ(_G)..."
 msgid "_Overlap:"
 msgstr ""
 
-#. xgettext : the base for how to name bar/col plot objects
-#. * eg The 2nd bar/col plot in a chart will be called
-#. * 	PlotBarCol2
-#.
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:97
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:129
 msgid "PlotBarCol"
 msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:287
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
+#: src/dialogs/consolidate.glade.h:10
+msgid "Labels"
+msgstr "ラベル"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:289
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:194
+#: src/dialogs/consolidate.glade.h:22
+msgid "Values"
+msgstr "値"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:1
 #, fuzzy
@@ -18995,166 +18964,90 @@ msgid "Adjacent vertical columns grouped by major and minor categories."
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:13
-#: src/func.c:687
-msgid "Area"
-msgstr "範囲"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:14
-msgid "Area plot."
-msgstr ""
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:15
-#, fuzzy
-msgid "Areas"
-msgstr "範囲(_A)"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:16
 msgid "Bar"
 msgstr "棒グラフ"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:17
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:14
 msgid "Column"
 msgstr "列"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:19
-#, fuzzy
-msgid "Line plot."
-msgstr "インポートする行"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:20
-#, fuzzy
-msgid "Lines"
-msgstr "直線"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:21
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:15
 msgid ""
 "Minor categories stacked as percentages of the minor total, in 3D horizontal "
 "bars, grouped by major category."
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:22
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:16
 msgid ""
 "Minor categories stacked as percentages of the minor total, in 3D vertical "
 "bars, grouped by major category."
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:23
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:17
 msgid ""
 "Minor categories stacked as percentages of the minor total, in horizontal "
 "bars, grouped by major category."
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:24
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:18
 msgid ""
 "Minor categories stacked as percentages of the minor total, in vertical "
 "columns, grouped by major category."
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:25
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:19
 msgid ""
 "Minor categories stacked in horizontal 3D bars, grouped by major category."
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:26
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:20
 msgid "Minor categories stacked in horizontal bars grouped by major category."
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:27
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:21
 msgid ""
 "Minor categories stacked in vertical 3D columns, grouped by major category."
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:28
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:22
 msgid "Minor categories stacked in vertical columns grouped by major category."
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:29
-#, fuzzy
-msgid "Percentage Areas"
-msgstr "パーセンテージバー"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:30
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:23
 msgid "Percentage Bars"
 msgstr "パーセンテージバー"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:31
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:24
 #, fuzzy
 msgid "Percentage Columns"
 msgstr "列を削除"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:32
-#, fuzzy
-msgid "Percentage Lines"
-msgstr "パーセント(_C)"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:33
-#, fuzzy
-msgid "Percentage area plot."
-msgstr "パーセンテージバー"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:34
-#, fuzzy
-msgid "Percentage line plot."
-msgstr "パーセント(_C)"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:35
-#, fuzzy
-msgid "Stacked Areas"
-msgstr "列を削除"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:36
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:25
 #, fuzzy
 msgid "Stacked Bars"
 msgstr "列を削除"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:37
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:26
 #, fuzzy
 msgid "Stacked Columns"
 msgstr "列を削除"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:38
-#, fuzzy
-msgid "Stacked Lines"
-msgstr "枠線(_G)"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:39
-#, fuzzy
-msgid "Stacked area plot."
-msgstr "列を削除"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:40
-#, fuzzy
-msgid "Stacked line plot."
-msgstr "列を削除"
-
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:1
 #, fuzzy
-msgid "1.5d Charts"
-msgstr "円グラフ"
+msgid "Bar and Column charts"
+msgstr "行列番号(_L)"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:2
-#, fuzzy
-msgid "Area plotting engine"
-msgstr "円グラフプロットエンジン"
+msgid "Bar/Col Charts"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:3
 msgid "Bar/Col plotting engine"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:4
-#, fuzzy
-msgid "Default 1.5d plot types"
-msgstr "デフォルト円グラフタイプ"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:5
-#, fuzzy
-msgid "Line plotting engine"
-msgstr "円グラフプロットエンジン"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:6
-#, fuzzy
-msgid "Line, Area, Bar and Column charts"
-msgstr "行列番号(_L)"
+msgid "Default Bar/Col plot types"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:3
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:4
@@ -19194,16 +19087,6 @@ msgstr "度"
 #, fuzzy
 msgid "PlotPie"
 msgstr "プロット(_P)"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
-#: src/dialogs/consolidate.glade.h:10
-msgid "Labels"
-msgstr "ラベル"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:194
-#: src/dialogs/consolidate.glade.h:22
-msgid "Values"
-msgstr "値"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:3
 msgid "Cen_ter size:"
@@ -19491,7 +19374,7 @@ msgstr "リスト範囲(_R):"
 msgid "N_ew Workbook"
 msgstr "新規ワークブック(_E)"
 
-#: src/dialogs/advanced-filter.glade.h:7
+#: src/dialogs/advanced-filter.glade.h:7 src/dialogs/solver.glade.h:19
 msgid "Output"
 msgstr "出力"
 
@@ -20590,13 +20473,15 @@ msgstr "John Gott, RPM パッケージ作成担当。"
 #. xgettext:
 #. * The funny character between "G" and "l" here is a \"u.
 #: src/dialogs/dialog-about.c:64
-msgid "Andreas J. Gülzow, Gnumeric hacker."
+#, fuzzy
+msgid "Andreas J. Glzow, Gnumeric hacker."
 msgstr "Andreas J. Güelzow, Gnumeric ハッカー。"
 
 #. xgettext:
 #. * The funny character between "K" and "r" here is 'aring'.
 #: src/dialogs/dialog-about.c:67
-msgid "Jon Kåre Hellan, Gnumeric hacker."
+#, fuzzy
+msgid "Jon Kre Hellan, Gnumeric hacker."
 msgstr "Jon Kåre Hellan, Gnumeric ハッカー。"
 
 #: src/dialogs/dialog-about.c:68
@@ -23228,7 +23113,7 @@ msgstr "ワークブック"
 msgid "_Expression: "
 msgstr "数式(_E): "
 
-#: src/dialogs/names.glade.h:9 src/dialogs/solver.glade.h:36
+#: src/dialogs/names.glade.h:9 src/dialogs/solver.glade.h:37
 msgid "_Name: "
 msgstr "名前(_N): "
 
@@ -23359,8 +23244,7 @@ msgstr "ヘッダ(_A):"
 msgid "Headers and footers"
 msgstr "ヘッダとフッタ"
 
-#: src/dialogs/print.glade.h:11 src/dialogs/solver.glade.h:18
-#: src/tools/solver/reports-write.c:755
+#: src/dialogs/print.glade.h:11 src/tools/solver/reports-write.c:755
 msgid "Options"
 msgstr "オプション"
 
@@ -23583,7 +23467,7 @@ msgstr "プログラムの報告"
 msgid "Scenario Manager"
 msgstr "プラグイン・マネージャ"
 
-#: src/dialogs/scenario-manager.glade.h:8
+#: src/dialogs/scenario-manager.glade.h:8 src/dialogs/solver.glade.h:23
 #, fuzzy
 msgid "Scenarios:"
 msgstr "セパレータ"
@@ -24169,91 +24053,91 @@ msgstr "最大繰り返し数(_I)"
 msgid "Max Time (sec.):"
 msgstr "最大時間(秒)(_T)"
 
-#: src/dialogs/solver.glade.h:17
-#, fuzzy
-msgid "Model"
-msgstr "モード"
+#: src/dialogs/solver.glade.h:17 src/tools/solver/reports-write.c:703
+#: src/tools/solver/reports-write.c:711
+msgid "Model Assumptions:"
+msgstr ""
 
-#: src/dialogs/solver.glade.h:19
+#: src/dialogs/solver.glade.h:18
+#, fuzzy
+msgid "Options:"
+msgstr "オプション"
+
+#: src/dialogs/solver.glade.h:20
 msgid "P_rogram"
 msgstr "プログラム(_R)"
 
-#: src/dialogs/solver.glade.h:20
+#: src/dialogs/solver.glade.h:21
 msgid "Parameters"
 msgstr "パラメータ"
 
-#: src/dialogs/solver.glade.h:21
-#, fuzzy
-msgid "Reports"
-msgstr "報告"
-
 #: src/dialogs/solver.glade.h:22
 #, fuzzy
-msgid "Scenarios"
-msgstr "セパレータ"
+msgid "Reports:"
+msgstr "報告"
 
-#: src/dialogs/solver.glade.h:23
+#: src/dialogs/solver.glade.h:24
 msgid "Solve"
 msgstr "解く"
 
-#: src/dialogs/solver.glade.h:25
+#: src/dialogs/solver.glade.h:26
 msgid "Subject to the Constraints:"
 msgstr "制約条件"
 
-#: src/dialogs/solver.glade.h:27
+#: src/dialogs/solver.glade.h:28
 msgid "_Answer"
 msgstr "解答(_A)"
 
-#: src/dialogs/solver.glade.h:28
+#: src/dialogs/solver.glade.h:29
 msgid "_Change"
 msgstr "変更(_C)"
 
-#: src/dialogs/solver.glade.h:29
+#: src/dialogs/solver.glade.h:30
 msgid "_Create a scenario if the optimal solution is found"
 msgstr ""
 
-#: src/dialogs/solver.glade.h:31
+#: src/dialogs/solver.glade.h:32
 #, fuzzy
 msgid "_Do not create scenarios"
 msgstr "次に続く単語の先頭を大文字にしない:"
 
-#: src/dialogs/solver.glade.h:32
+#: src/dialogs/solver.glade.h:33
 msgid "_Left Hand Side:"
 msgstr "条件式の左側(セル参照):"
 
-#: src/dialogs/solver.glade.h:33
+#: src/dialogs/solver.glade.h:34
 msgid "_Limits"
 msgstr "限度(_L)"
 
-#: src/dialogs/solver.glade.h:34
+#: src/dialogs/solver.glade.h:35
 msgid "_Linear Model (LP/MILP)"
 msgstr "線形モデル (LP/MILP)"
 
-#: src/dialogs/solver.glade.h:35
+#: src/dialogs/solver.glade.h:36
 msgid "_Max"
 msgstr "最大(_M)"
 
-#: src/dialogs/solver.glade.h:37
+#: src/dialogs/solver.glade.h:38
 msgid "_Performance"
 msgstr "パフォーマンス(_P)"
 
-#: src/dialogs/solver.glade.h:38
+#: src/dialogs/solver.glade.h:39
 msgid "_Quadratic Model (QP/MIQP)"
 msgstr "二次モデル(QP/MIQP)(_Q)"
 
-#: src/dialogs/solver.glade.h:39
+#: src/dialogs/solver.glade.h:40
 msgid "_Right Hand Side:"
 msgstr "条件式の右側(条件):"
 
-#: src/dialogs/solver.glade.h:40
+#: src/dialogs/solver.glade.h:41
 msgid "_Sensitivity"
 msgstr "感度(_S)"
 
-#: src/dialogs/solver.glade.h:41
+#: src/dialogs/solver.glade.h:42
 msgid "_Set Target Cell:       "
 msgstr "目的のセルを設定(_S):"
 
-#: src/dialogs/solver.glade.h:42
+#: src/dialogs/solver.glade.h:43
 msgid "_Type:"
 msgstr "型(_T):"
 
@@ -25378,6 +25262,10 @@ msgstr "論理値"
 #: src/func.c:685
 msgid "Cell Range"
 msgstr "セルの範囲"
+
+#: src/func.c:687
+msgid "Area"
+msgstr "範囲"
 
 #: src/func.c:689
 #, fuzzy
@@ -27284,10 +27172,6 @@ msgstr "不明"
 msgid "%s (%s)"
 msgstr "%s (%s)"
 
-#: src/tools/solver/reports-write.c:703 src/tools/solver/reports-write.c:711
-msgid "Model Assumptions:"
-msgstr ""
-
 #: src/tools/solver/reports-write.c:704
 #, fuzzy
 msgid "Autoscaling:"
@@ -28124,11 +28008,11 @@ msgstr "科学技術"
 msgid "Special"
 msgstr "特別"
 
-#: src/widgets/widget-format-selector.c:929
+#: src/widgets/widget-format-selector.c:926
 msgid "Negative Number Format"
 msgstr "負の数のフォーマット"
 
-#: src/widgets/widget-format-selector.c:960
+#: src/widgets/widget-format-selector.c:957
 msgid "Number Formats"
 msgstr "数字フォーマット"
 
@@ -28993,36 +28877,31 @@ msgstr ""
 "二つの母集団の比較は二組の対のサンプルを比較することを意味します: t-検定"
 
 #: src/workbook-control-gui.c:3723
-#, fuzzy
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with equal variances: t-test..."
 msgstr ""
-"二つの母集団の比較は二組の対でないサンプルを等しい変化量で比較することを意味"
-"します: t-検定"
+"等分散を仮定した2つの母平均を2つの対応しないサンプルで比較します: "
+"t検定..."
 
 #: src/workbook-control-gui.c:3728
-#, fuzzy
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with unequal variances: t-test..."
 msgstr ""
-"二つの母集団の比較は二組の対でないサンプルを等しくない変化量で比較することを"
-"意味します: t-検定"
+"等分散ではない2つの母平均を2つの対応しない標本で比較します: "
+"t検定..."
 
 #: src/workbook-control-gui.c:3733
-#, fuzzy
 msgid ""
 "Comparing two population means from populations with known variances or "
 "using a large sample: z-test..."
 msgstr ""
-"二つの母集団の比較は既知の変化量または大きいサンプルを使って比較することを意"
-"味します: z-検定"
+"分散が既知または大きな標本をもつ2つの母平均の比較: z検定..."
 
 #: src/workbook-control-gui.c:3763
-#, fuzzy
 msgid "Ranks And _Percentiles..."
-msgstr "階数と百分位数(_P)"
+msgstr "階数と百分位数(_P)..."
 
 #: src/workbook-control-gui.c:3890
 msgid "Sh_uffle..."
@@ -29168,9 +29047,8 @@ msgid "Set Borders"
 msgstr "罫線のセット"
 
 #: src/workbook-object-toolbar.c:190
-#, fuzzy
 msgid "SpinButton"
-msgstr "ボタン"
+msgstr "スピンボタン"
 
 #: src/workbook-view.c:269
 #, c-format
@@ -29196,9 +29074,8 @@ msgstr "%sの保存で説明できないエラーが発生しました"
 #. * gnumeric `echo -e '\377\376'`
 #.
 #: src/workbook-view.c:599 src/workbook-view.c:958
-#, fuzzy
 msgid "The filename given is not valid in the current encoding."
-msgstr "'対象の値:'の中で指定した値は正しくありません。"
+msgstr "指定されたファイルは現在のエンコーディングでは不正です。"
 
 #: src/workbook-view.c:684 src/workbook-view.c:800
 msgid "Default file saver is not available."
@@ -29285,10 +29162,6 @@ msgstr "Gnumeric XML ファイル形式"
 
 #~ msgid "dialog1"
 #~ msgstr "ダイアログ1"
-
-#, fuzzy
-#~ msgid "Options:"
-#~ msgstr "オプション"
 
 #~ msgid "Parse error while trying to parse data into cellregion"
 #~ msgstr "セル範囲の中のデータの解析中に構文解析エラーが発生しました"
@@ -29735,6 +29608,14 @@ msgstr "Gnumeric XML ファイル形式"
 
 #, fuzzy
 #~ msgid "3D Percentage Lines"
+#~ msgstr "パーセント(_C)"
+
+#, fuzzy
+#~ msgid "Marked lines"
+#~ msgstr "枠線(_G)"
+
+#, fuzzy
+#~ msgid "Percentage lines"
 #~ msgstr "パーセント(_C)"
 
 #~ msgid "Create a new unshared view of the workbook"
