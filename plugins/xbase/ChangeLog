@@ -1,3 +1,8 @@
+2001-05-21  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* boot.c (xbase_file_open):
+	s/FileOpener/GnumFileOpener/
+
 2001-05-20  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.65

@@ -32,7 +32,7 @@
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
-void xbase_file_open (FileOpener const *fo, IOContext *io_context,
+void xbase_file_open (GnumFileOpener const *fo, IOContext *io_context,
                       WorkbookView *wb_view, const char *filename);
 
 #if G_BYTE_ORDER == G_LITTLE_ENDIAN
@@ -144,7 +144,7 @@ xbase_field_as_value (XBrecord *record, guint num)
 }
 
 void
-xbase_file_open (FileOpener const *fo, IOContext *io_context,
+xbase_file_open (GnumFileOpener const *fo, IOContext *io_context,
                  WorkbookView *wb_view, const char *filename)
 {
 	Workbook *wb = wb_view_workbook (wb_view);
