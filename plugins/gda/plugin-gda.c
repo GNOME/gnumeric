@@ -1,6 +1,6 @@
 /* Interface Gnumeric to Databases
  * Copyright (C) 1998,1999 Michael Lausch
- * Copyright (C) 2000 Rodrigo Moya
+ * Copyright (C) 2000-2002 Rodrigo Moya
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -20,7 +20,7 @@
 
 #include <gnumeric-config.h>
 #include <gnumeric.h>
-#include <gda-client.h>
+#include <libgda/libgda.h>
 
 #include "func.h"
 #include "plugin.h"
@@ -31,73 +31,44 @@
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
-static GdaConnectionPool* connection_pool = NULL;
+static GdaClient* connection_pool = NULL;
 
 static Value *
 display_recordset (GdaRecordset *recset)
 {
-	gint       position;
-	Value*     array = NULL;
-	gint       col;
-	gint       cnt;
-	gint       fieldcount = 0;
-	GPtrArray* data_loaded = NULL; // array for rows
+	Value* array = NULL;
+	gint   col;
+	gint   row;
+	gint   fieldcount = 0;
+	gint   rowcount = 0;
 
-	g_return_val_if_fail(GDA_IS_RECORDSET(recset), NULL);
+	g_return_val_if_fail (GDA_IS_RECORDSET (recset), NULL);
 
-	data_loaded = g_ptr_array_new();
-	
-	/* traverse recordset */
-	position = gda_recordset_move(recset, 1, 0);
-	while (position != GDA_RECORDSET_INVALID_POSITION && !gda_recordset_eof(recset)) {
-		GPtrArray* row = NULL;
+	fieldcount = gda_data_model_get_n_columns (GDA_DATA_MODEL (recset));
+	rowcount = gda_data_model_get_n_rows (GDA_DATA_MODEL (recset));
 
-		fieldcount = gda_recordset_rowsize(recset);
-		for (col = 0; col < fieldcount; col++) {
-			GdaField* field = gda_recordset_field_idx(recset, col);
-			if (field) {
-				gchar* value;
-				
-				value = gda_stringify_value(0, 0, field);
-				g_warning("adding %s", value);
-				if (!row) row = g_ptr_array_new();
-				g_ptr_array_add(row, (gpointer) value);
-			}
-		}
-		if (row) g_ptr_array_add(data_loaded, (gpointer) row);
-		position = gda_recordset_move(recset, 1, 0);
-	}
-	
-	/* if there's data, convert to an Array */
-	if (data_loaded->len > 0) {
-		array = value_new_array_empty(fieldcount, data_loaded->len);
-		for (cnt = 0; cnt < data_loaded->len; cnt++) {
-			GPtrArray* row = (GPtrArray *) g_ptr_array_index(data_loaded, cnt);
-			if (row) {
-				for (col = 0; col < fieldcount; col++) {
-					value_array_set(array,
-					                col,
-					                cnt,
-					                value_new_string(g_ptr_array_index(row, col)));
-				}
+	/* convert the GdaRecordset in an array */
+	if (rowcount > 0) {
+		array = value_new_array_empty (fieldcount, rowcount);
+		for (row = 0; row < rowcount; row++) {
+			for (col = 0; col < fieldcount; col++) {
+				gchar *str;
+				const GdaValue *value;
+
+				value = gda_data_model_get_value_at (GDA_DATA_MODEL (recset),
+								     col, row);
+				str = gda_value_stringify ((GdaValue *) value);
+				value_array_set (array,
+						 col,
+						 row,
+						 value_new_string(str));
+
+				g_free (str);
 			}
 		}
 	}
-	else array = value_new_array_empty(1, 1);
-
-	/* free all data */
-	for (cnt = 0; cnt < data_loaded->len; cnt++) {
-		GPtrArray* tmp = (GPtrArray *) g_ptr_array_index(data_loaded, cnt);
-		if (tmp) {
-			/* free each row */
-			//for (col = 0; col < tmp->len; col++) {
-			//	gchar* str = (gchar *) g_ptr_array_index(data_loaded, col);
-			//	if (str) g_free((gpointer) str);
-			//}
-			g_ptr_array_free(tmp, FALSE);
-		}
-	}
-	g_ptr_array_free(data_loaded, FALSE);
+	else
+		array = value_new_array_empty (1, 1);
 
 	return array;
 }
@@ -111,7 +82,8 @@ static char *help_execSQL = {
 	   "@DESCRIPTION="
 	   "The EXECSQL function lets you execute a command in a\n"
 	   " database server, and show the results returned in\n"
-	   " current sheet\n"
+	   " current sheet. It uses libgda as the means for\n"
+	   " accessing the databases.\n"
 	   ""
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -121,41 +93,51 @@ static char *help_execSQL = {
 static Value *
 gnumeric_execSQL (FunctionEvalInfo *ei, Value **args)
 {
-	Value*          ret;
-	gchar*          dsn_name;
-	gchar*          user_name;
-	gchar*          password;
-	gchar*          sql;
+	Value*         ret;
+	gchar*         dsn_name;
+	gchar*         user_name;
+	gchar*         password;
+	gchar*         sql;
 	GdaConnection* cnc;
 	GdaRecordset*  recset;
-	glong           reccount;
+	GList*         recset_list;
+	GdaCommand*    cmd;
 	
-	dsn_name = value_get_as_string(args[0]);
-	user_name = value_get_as_string(args[1]);
-	password = value_get_as_string(args[2]);
-	sql = value_get_as_string(args[3]);
+	dsn_name = value_get_as_string (args[0]);
+	user_name = value_get_as_string (args[1]);
+	password = value_get_as_string (args[2]);
+	sql = value_get_as_string (args[3]);
 	if (!dsn_name || !sql)
-		return value_new_error(ei->pos, _("Format: execSQL(dsn,user,password,sql)"));
+		return value_new_error (ei->pos, _("Format: execSQL(dsn,user,password,sql)"));
 
 	/* initialize connection pool if first time */
-	if (!GDA_IS_CONNECTION_POOL(connection_pool)) {
-		connection_pool = gda_connection_pool_new();
+	if (!GDA_IS_CLIENT (connection_pool)) {
+		connection_pool = gda_client_new ();
 		if (!connection_pool) {
-			return value_new_error(ei->pos, _("Error: could not initialize connection pool"));
+			return value_new_error (ei->pos, _("Error: could not initialize connection pool"));
 		}
 	}
-	cnc = gda_connection_pool_open_connection(connection_pool, dsn_name, user_name, password);
-	if (!GDA_IS_CONNECTION(cnc)) {
+	cnc = gda_client_open_connection (connection_pool, dsn_name, user_name, password);
+	if (!GDA_IS_CONNECTION (cnc)) {
 		return value_new_error(ei->pos, _("Error: could not open connection to %s"));
 	}
 	
 	/* execute command */
-	recset = gda_connection_execute(cnc, sql, &reccount, 0);
-	if (GDA_IS_RECORDSET(recset)) {
-		ret = display_recordset(recset);
-		gda_recordset_free(recset);
+	cmd = gda_command_new (sql, GDA_COMMAND_TYPE_SQL, 0);
+	recset_list = gda_connection_execute_command (cnc, cmd, NULL);
+	gda_command_free (cmd);
+	if (recset_list) {
+		recset = (GdaRecordset *) recset_list->data;
+		if (!GDA_IS_RECORDSET (recset))
+			ret = value_new_error (ei->pos, _("Error: no recordsets were returned"));
+		else
+			ret = display_recordset (recset);
+
+		g_list_foreach (recset_list, (GFunc) g_object_unref, NULL);
+		g_list_free (recset_list);
 	}
-	else ret = value_new_empty();
+	else
+		ret = value_new_empty ();
 
 	return ret;
 }
@@ -164,9 +146,8 @@ void
 plugin_cleanup (void)
 {
 	/* close the connection pool */
-	if (GDA_IS_CONNECTION_POOL(connection_pool)) {
-		gda_connection_pool_close_all(connection_pool);
-		gda_connection_pool_free(connection_pool);
+	if (GDA_IS_CLIENT (connection_pool)) {
+		g_object_unref (G_OBJECT (connection_pool));
 		connection_pool = NULL;
 	}
 }
