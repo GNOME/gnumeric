@@ -77,7 +77,6 @@ struct _GraphGuruState {
 	GraphGuruTypeSelector *type_selector;
 
 	/* internal state */
-	int current_plot, current_series;
 	int current_page, initial_page;
 	gboolean valid;
 	gboolean updating;
@@ -1234,8 +1233,6 @@ gog_guru (GogGraph *graph, GogDataAllocator *dalloc,
 	state->register_graph	   = handler;
 	state->register_graph_data = handler_data;
 	state->current_page	= -1;
-	state->current_plot	= -1;
-	state->current_series	= -1;
 
 	if (graph != NULL) {
 		g_return_val_if_fail (IS_GOG_GRAPH (graph), NULL);

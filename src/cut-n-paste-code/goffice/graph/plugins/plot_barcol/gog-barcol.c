@@ -310,18 +310,22 @@ barcol_draw_rect (GogRenderer *rend, gboolean flip,
 	h = rect->h;
 	if (h < 1.)
 		h = 1.;
+
+	/* tweak to make libart happier.  for the common case of hairline
+	 * libart wants to draw 1/2 a pixel above and 1/2 below producing a
+	 * fuzzy outline when antialiased. */
 	if (flip) {
 		base_x = base->y + base->h;
 		base_y = base->x + base->w;
-		path[4].x = path[1].x = path[0].x = floor (base_x - rect->y);
-		path[4].y = path[3].y = path[0].y = floor (base_y - rect->x); 
-		path[2].y = path[1].y = floor (base_y - (rect->x + w)); 
-		path[3].x = path[2].x = floor (base_x - (rect->y + h));
+		path[4].x = path[1].x = path[0].x = ceil (base_x - rect->y) - .5;
+		path[4].y = path[3].y = path[0].y = ceil (base_y - rect->x) - .5; 
+		path[2].y = path[1].y = ceil (base_y - (rect->x + w)) - .5; 
+		path[3].x = path[2].x = ceil (base_x - (rect->y + h)) - .5;
 	} else {
-		path[4].x = path[1].x = path[0].x = floor (base->x + rect->x);
-		path[4].y = path[3].y = path[0].y = floor (base->y + rect->y); 
-		path[2].y = path[1].y = floor (base->y + rect->y + h); 
-		path[3].x = path[2].x = floor (base->x + rect->x + w);
+		path[4].x = path[1].x = path[0].x = ceil (base->x + rect->x) - .5;
+		path[4].y = path[3].y = path[0].y = ceil (base->y + rect->y) - .5; 
+		path[2].y = path[1].y = ceil (base->y + rect->y + h) - .5; 
+		path[3].x = path[2].x = ceil (base->x + rect->x + w) - .5;
 	}
 	path[0].code = ART_MOVETO;
 	path[1].code = ART_LINETO;

@@ -1,5 +1,13 @@
 2003-05-30  Jody Goldberg <jody@gnome.org>
 
+	* graph/plugins/plot_barcol/gog-barcol.c (barcol_draw_rect) : smooth
+	  the anti-aliasing fuzziness in the libart backend for hairline
+	  outlines.
+
+	* graph/gog-chart.c (gog_chart_view_size_allocate) : support
+	  positions of NE, NW, SE, SW so that we can handle XL's 'corner'
+	  legends.
+
 	* graph/gog-control-foocanvas.c (gog_control_foocanvas_draw) : big
 	  speed win.  Only draw the piece of the chart that was exposed.
 

@@ -274,30 +274,35 @@ gog_chart_view_size_allocate (GogView *view, GogViewAllocation const *allocation
 			if (req.w > res.w)
 				req.w = res.w;
 			tmp = res;
-			switch (pos & GOG_POSITION_COMPASS) {
-			case GOG_POSITION_N:
+
+			if (pos & GOG_POSITION_N) {
 				res.y += req.h;
 				res.h -= req.h;
 				tmp.h  = req.h;
 				vertical = FALSE;
-				break;
-			case GOG_POSITION_S:
+			} else if (pos & GOG_POSITION_S) {
 				res.h -= req.h;
 				tmp.y  = res.y + res.h;
 				tmp.h  = req.h;
 				vertical = FALSE;
-				break;
-			case GOG_POSITION_E:
+			} 
+
+			if (pos & GOG_POSITION_E) {
 				res.w -= req.w;
 				tmp.x  = res.x + res.w;
 				tmp.w  = req.w;
-				break;
-			case GOG_POSITION_W:
+				/* For NE & NW only alignment fill makes sense */
+				if (pos & (GOG_POSITION_N|GOG_POSITION_S))
+					pos = GOG_POSITION_ALIGN_FILL;
+			} else if (pos & GOG_POSITION_W) {
 				res.x += req.w;
 				res.w -= req.w;
 				tmp.w  = req.w;
-				break;
-			};
+				/* For NE & NW only alignment fill makes sense */
+				if (pos & (GOG_POSITION_N|GOG_POSITION_S))
+					pos = GOG_POSITION_ALIGN_FILL;
+			}
+
 			pos &= GOG_POSITION_ALIGNMENT;
 			if (GOG_POSITION_ALIGN_FILL != pos) {
 				if (vertical) {

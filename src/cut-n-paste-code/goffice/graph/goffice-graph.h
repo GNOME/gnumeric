@@ -102,8 +102,8 @@ typedef enum {
 
 typedef enum {
 	GOG_POSITION_AUTO	= 0,
-	GOG_POSITION_N		= 1 << 0,
-	GOG_POSITION_S		= 1 << 1,
+	GOG_POSITION_N		= 1 << 0,	/* can be used with E or W */
+	GOG_POSITION_S		= 1 << 1,	/* can be used with E or W */
 	GOG_POSITION_E		= 1 << 2,
 	GOG_POSITION_W		= 1 << 3,
 	GOG_POSITION_COMPASS	= 0x0f,
