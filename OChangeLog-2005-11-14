@@ -1,6 +1,6 @@
 2004-10-11  Jody Goldberg <jody@gnome.org>
 
-	* src/sheet.c (sheet_rename) : tell each view to update it's edit line
+	* src/sheet.c (sheet_rename) : tell each view to update its edit line
 	  in case the editline is displaying an expression that references the
 	  name of a sheet.
 
