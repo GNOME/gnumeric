@@ -1,5 +1,9 @@
 1999-09-18  Morten Welinder  <terra@diku.dk>
 
+	* src/sheet.c (zoom_cell_style): Plug leak.
+
+	* src/functions/fn-date.c (get_serial_time): Be defensive.
+
 	* src/expr.c (eval_expr_real): For integer 0^0, return #NUM!.
 	(eval_expr_real): Adjust float power error check to match the
  	integer one.

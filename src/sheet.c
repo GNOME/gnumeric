@@ -275,10 +275,11 @@ zoom_cell_style (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 	 */
 	if (cell->style->font->scale == sheet->last_zoom_factor_used)
 		return NULL;
-	
+
 	sf = style_font_new_from (cell->style->font, sheet->last_zoom_factor_used);
 	cell_set_font_from_style (cell, sf);
-	
+	style_font_unref (sf);
+
 	return NULL;
 }
 

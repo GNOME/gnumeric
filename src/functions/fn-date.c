@@ -49,13 +49,15 @@ get_serial_time (Value *v)
 	if (VALUE_IS_NUMBER (v))
 		serial = value_get_as_float (v);
 	else {
-		char *format;
+		char *str, *format;
 		double dserial;
 
-		if (format_match (v->v.str->str, &dserial, &format)) {
+		str = value_get_as_string (v);
+		if (format_match (str, &dserial, &format)) {
 			serial = dserial;
 		} else
 			serial = 0;
+		g_free (str);
 	}
 	return serial - floor (serial);
 }
