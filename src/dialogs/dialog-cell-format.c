@@ -299,9 +299,9 @@ setup_pattern_button (GladeXML  *gui,
 	if (tmp != NULL) {
 		GtkButton *button = GTK_BUTTON (tmp);
 		if (flag) {
-			GtkWidget *image = gnumeric_load_image (name);
-			if (image != NULL)
-				gtk_container_add (GTK_CONTAINER (tmp), image);
+			GtkWidget *image = gtk_image_new_from_pixbuf (application_get_pixbuf (name));
+			gtk_widget_show (image);
+			gtk_container_add (GTK_CONTAINER (tmp), image);
 		}
 
 		if (picker->current_pattern == NULL) {

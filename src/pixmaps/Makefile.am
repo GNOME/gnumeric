@@ -56,6 +56,45 @@ IMAGES = @STRIP_BEGIN@ 						\
 	object_scrollbar_24.png 	\
 	object_spinbutton_24.png 	\
 	\
+	gp_125grey.xpm			\
+	gp_25grey.xpm			\
+	gp_50grey.xpm			\
+	gp_625grey.xpm			\
+	gp_75grey.xpm			\
+	gp_bricks.xpm			\
+	gp_diag.xpm			\
+	gp_diag_cross.xpm		\
+	gp_foreground_solid.xpm		\
+	gp_horiz.xpm			\
+	gp_large_circles.xpm		\
+	gp_rev_diag.xpm			\
+	gp_semi_circle.xpm		\
+	gp_small_circle.xpm		\
+	gp_solid.xpm			\
+	gp_thatch.xpm			\
+	gp_thick_diag_cross.xpm		\
+	gp_thin_diag.xpm		\
+	gp_thin_diag_cross.xpm		\
+	gp_thin_horiz.xpm		\
+	gp_thin_horiz_cross.xpm		\
+	gp_thin_rev_diag.xpm		\
+	gp_thin_vert.xpm		\
+	gp_vert.xpm			\
+	\
+	line_pattern_dash_dot.xpm		\
+	line_pattern_dash_dot_dot.xpm		\
+	line_pattern_dashed.xpm			\
+	line_pattern_dotted.xpm			\
+	line_pattern_double.xpm			\
+	line_pattern_hair.xpm			\
+	line_pattern_medium.xpm			\
+	line_pattern_medium_dash.xpm		\
+	line_pattern_medium_dash_dot.xpm	\
+	line_pattern_medium_dash_dot_dot.xpm	\
+	line_pattern_slant.xpm			\
+	line_pattern_thick.xpm			\
+	line_pattern_thin.xpm			\
+	\
 	border_all.xpm			\
 	border_bottom.xpm		\
 	border_double_bottom.xpm	\
@@ -165,6 +204,45 @@ VARIABLES = @STRIP_BEGIN@ 									\
 	gnm_object_radiobutton_24		$(srcdir)/object_radiobutton_24.png		\
 	gnm_object_scrollbar_24			$(srcdir)/object_scrollbar_24.png		\
 	gnm_object_spinbutton_24		$(srcdir)/object_spinbutton_24.png		\
+	\
+	gp_125grey				$(srcdir)/gp_125grey.xpm			\
+	gp_25grey				$(srcdir)/gp_25grey.xpm				\
+	gp_50grey				$(srcdir)/gp_50grey.xpm				\
+	gp_625grey				$(srcdir)/gp_625grey.xpm			\
+	gp_75grey				$(srcdir)/gp_75grey.xpm				\
+	gp_bricks				$(srcdir)/gp_bricks.xpm				\
+	gp_diag					$(srcdir)/gp_diag.xpm				\
+	gp_diag_cross				$(srcdir)/gp_diag_cross.xpm			\
+	gp_foreground_solid			$(srcdir)/gp_foreground_solid.xpm		\
+	gp_horiz				$(srcdir)/gp_horiz.xpm				\
+	gp_large_circles			$(srcdir)/gp_large_circles.xpm			\
+	gp_rev_diag				$(srcdir)/gp_rev_diag.xpm			\
+	gp_semi_circle				$(srcdir)/gp_semi_circle.xpm			\
+	gp_small_circle				$(srcdir)/gp_small_circle.xpm			\
+	gp_solid				$(srcdir)/gp_solid.xpm				\
+	gp_thatch				$(srcdir)/gp_thatch.xpm				\
+	gp_thick_diag_cross			$(srcdir)/gp_thick_diag_cross.xpm		\
+	gp_thin_diag				$(srcdir)/gp_thin_diag.xpm			\
+	gp_thin_diag_cross			$(srcdir)/gp_thin_diag_cross.xpm		\
+	gp_thin_horiz				$(srcdir)/gp_thin_horiz.xpm			\
+	gp_thin_horiz_cross			$(srcdir)/gp_thin_horiz_cross.xpm		\
+	gp_thin_rev_diag			$(srcdir)/gp_thin_rev_diag.xpm			\
+	gp_thin_vert				$(srcdir)/gp_thin_vert.xpm			\
+	gp_vert					$(srcdir)/gp_vert.xpm				\
+	\
+	line_pattern_dash_dot			$(srcdir)/line_pattern_dash_dot.xpm		\
+	line_pattern_dash_dot_dot		$(srcdir)/line_pattern_dash_dot_dot.xpm		\
+	line_pattern_dashed			$(srcdir)/line_pattern_dashed.xpm		\
+	line_pattern_dotted			$(srcdir)/line_pattern_dotted.xpm		\
+	line_pattern_double			$(srcdir)/line_pattern_double.xpm		\
+	line_pattern_hair			$(srcdir)/line_pattern_hair.xpm			\
+	line_pattern_medium			$(srcdir)/line_pattern_medium.xpm		\
+	line_pattern_medium_dash		$(srcdir)/line_pattern_medium_dash.xpm		\
+	line_pattern_medium_dash_dot		$(srcdir)/line_pattern_medium_dash_dot.xpm	\
+	line_pattern_medium_dash_dot_dot	$(srcdir)/line_pattern_medium_dash_dot_dot.xpm	\
+	line_pattern_slant			$(srcdir)/line_pattern_slant.xpm		\
+	line_pattern_thick			$(srcdir)/line_pattern_thick.xpm		\
+	line_pattern_thin			$(srcdir)/line_pattern_thin.xpm			\
 	\
 	gnm_border_left				$(srcdir)/border_left.xpm			\
 	gnm_border_none				$(srcdir)/border_none.xpm			\

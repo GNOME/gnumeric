@@ -1,3 +1,8 @@
+2003-07-16  Morten Welinder  <terra@gnome.org>
+
+	* dialog-cell-format.c (setup_pattern_button): Get images from
+	application pixbufs.
+
 2003-07-15  Jody Goldberg <jody@gnome.org>
 
 	From John Gill :

@@ -1,5 +1,8 @@
 2003-07-16  Morten Welinder  <terra@gnome.org>
 
+	* src/application.c (gnumeric_application_setup_pixbufs): Add line
+	and background patterns.
+
 	* src/format.c (style_format_equal): Just compare pointers.
 
 2003-07-15  Jody Goldberg <jody@gnome.org>
