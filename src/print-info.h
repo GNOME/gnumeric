@@ -108,6 +108,7 @@ typedef struct {
 PrintInformation *print_info_new         (void);
 void              print_info_save        (PrintInformation *pi);
 void              print_info_free        (PrintInformation *pi);
+PrintInformation *print_info_copy        (PrintInformation *src_pi);
 
 PrintHF          *print_hf_new           (const char *left_side_format,
 					  const char *middle_format,

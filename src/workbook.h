@@ -118,8 +118,9 @@ gboolean    workbook_detach_sheet        (Workbook *, Sheet *, gboolean);
 Sheet      *workbook_focus_current_sheet (Workbook *wb);
 void        workbook_focus_sheet         (Sheet *sheet);
 char       *workbook_sheet_get_free_name (Workbook *wb,
-					  const char * const base,
-					  gboolean always_suffix);
+					  const char *base,
+					  gboolean always_suffix,
+					  gboolean handle_counter);
 void        workbook_auto_expr_label_set (Workbook *wb, const char *text);
 void        workbook_set_region_status   (Workbook *wb, const char *str);
 int         workbook_parse_and_jump      (Workbook *wb, const char *text);

@@ -92,12 +92,8 @@ parse_pos_init_cell (ParsePos *pp, Cell const *cell)
 	g_return_val_if_fail (IS_SHEET (cell->sheet), NULL);
 	g_return_val_if_fail (cell->sheet->workbook != NULL, NULL);
 
-	return parse_pos_init (
-		pp,
-		NULL,
-		cell->sheet,
-		cell->col_info->pos,
-		cell->row_info->pos);
+	return parse_pos_init (pp, NULL, cell->sheet,
+			       cell->pos.col, cell->pos.row);
 }
 
 ParsePos *

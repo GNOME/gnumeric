@@ -286,7 +286,7 @@ prepare_output (Workbook *wb, data_analysis_output_t *dao, const char *name)
 	char *unique_name;
 
 	if (dao->type == NewSheetOutput) {
-		unique_name = workbook_sheet_get_free_name (wb, name, FALSE);
+		unique_name = workbook_sheet_get_free_name (wb, name, FALSE, FALSE);
 	        dao->sheet = sheet_new (wb, unique_name);
 		g_free (unique_name);
 		dao->start_col = dao->start_row = 0;

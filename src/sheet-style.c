@@ -58,7 +58,7 @@ int style_cache_range_hits = 0;
  * For xml-io only.
  */
 GList *
-sheet_get_style_list (Sheet *sheet)
+sheet_get_style_list (Sheet const *sheet)
 {
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (sheet->style_data != NULL, NULL);

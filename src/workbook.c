@@ -762,7 +762,7 @@ insert_sheet_cmd (GtkWidget *unused, Workbook *wb)
 	Sheet *sheet;
 	char *name;
 
-	name = workbook_sheet_get_free_name (wb, _("Sheet"), TRUE);
+	name = workbook_sheet_get_free_name (wb, _("Sheet"), TRUE, FALSE);
 	sheet = sheet_new (wb, name);
 	g_free (name);
 
@@ -2951,6 +2951,21 @@ sheet_action_add_sheet (GtkWidget *widget, Sheet *current_sheet)
 	insert_sheet_cmd (NULL, current_sheet->workbook);
 }
 
+/*
+ * sheet_action_clone_sheet:
+ * Invoked when the user selects the option to copy a sheet
+ */
+static void
+sheet_action_clone_sheet (GtkWidget *widget, Sheet *current_sheet)
+{
+     	Sheet *sheet;
+	Workbook *wb = current_sheet->workbook;
+
+	sheet = sheet_duplicate (current_sheet);
+	workbook_attach_sheet (wb, sheet);
+	sheet_set_dirty (sheet, TRUE);
+}
+
 /**
  * sheet_action_delete_sheet:
  * Invoked when the user selects the option to remove a sheet
@@ -3030,10 +3045,11 @@ struct {
 	void (*function) (GtkWidget *widget, Sheet *sheet);
 	int  flags;
 } sheet_label_context_actions [] = {
-	{ N_("Add another sheet"), sheet_action_add_sheet, 0 },
-	{ N_("Remove this sheet"), sheet_action_delete_sheet, SHEET_CONTEXT_TEST_SIZE },
-	{ N_("Rename this sheet"), sheet_action_rename_sheet, 0 },
-	{ N_("Re-order sheets"), sheet_action_reorder_sheet, SHEET_CONTEXT_TEST_SIZE },
+	{ N_("Add another sheet"), &sheet_action_add_sheet, 0 },
+	{ N_("Remove this sheet"), &sheet_action_delete_sheet, SHEET_CONTEXT_TEST_SIZE },
+	{ N_("Rename this sheet"), &sheet_action_rename_sheet, 0 },
+	{ N_("Duplicate this sheet"), &sheet_action_clone_sheet, 0 },
+	{ N_("Re-order sheets"), &sheet_action_reorder_sheet, SHEET_CONTEXT_TEST_SIZE },
 	{ NULL, NULL }
 };
 
@@ -3290,9 +3306,41 @@ workbook_sheet_lookup (Workbook *wb, const char *sheet_name)
 }
 
 /**
+ * workbook_sheet_name_strip_number:
+ * @name: name to strip number from 
+ * @number: returns the number stripped off in *number
+ * 
+ * Gets a name in the form of "Sheet (10)", "Stuff" or "Dummy ((((,"
+ * and returns the real name of the sheet "Sheet","Stuff","Dymmy ((((,"
+ * without the copy number.
+ **/
+static void
+workbook_sheet_name_strip_number (char *name, int* number)
+{
+	char *end;
+	
+	*number = 1;
+
+	end = strrchr (name, ')');
+	if (end == NULL || end[1] != '\0')
+		return;
+
+	while (--end >= name) {
+		if (*end == '(') {
+			*number = atoi (end+1);
+			*end = '\0';
+			return;
+		}
+		if (!isdigit(*end))
+			return;
+	}
+}
+
+/**
  * workbook_sheet_get_free_name:
  * @wb:   workbook to look for
  * @base: base for the name, e. g. "Sheet"
+ * @name_format : optionally null format for handling dupilicates.
  * @always_suffix: if true, add suffix even if the name "base" is not in use.
  *
  * Gets a new unquoted name for a sheets such that it does not exist on the
@@ -3300,25 +3348,38 @@ workbook_sheet_lookup (Workbook *wb, const char *sheet_name)
  *
  * Returns the name assigned to the sheet.  */
 char *
-workbook_sheet_get_free_name (Workbook *wb, const char *base, gboolean always_suffix)
+workbook_sheet_get_free_name (Workbook *wb,
+			      const char *base,
+			      gboolean always_suffix,
+			      gboolean handle_counter)
 {
-	const char *name_format = "%s%d";
-	char *name;
-	int  i;
+	const char *name_format;
+	char *name, *base_name;
+	int  i = 0;
 
 	g_return_val_if_fail (wb != NULL, NULL);
 
 	if (!always_suffix && (workbook_sheet_lookup (wb, base) == NULL))
 		return g_strdup (base); /* Name not in use */
 
-	name = g_malloc (strlen (base) + 4 * sizeof (int) + 2);
-	for (i = 1; ; i++){
-		sprintf (name, name_format, base, i);
-		if (workbook_sheet_lookup (wb, name) == NULL)
+	base_name = g_strdup (base);
+	if (handle_counter) {
+		workbook_sheet_name_strip_number (base_name, &i);
+		name_format = "%s(%d)";
+	} else
+		name_format = "%s%d";
+
+	name = g_malloc (strlen (base_name) + strlen (name_format) + 10);
+	for ( ; ++i < 1000 ; ){
+		sprintf (name, name_format, base_name, i);
+		if (workbook_sheet_lookup (wb, name) == NULL) {
+			g_free (base_name);
 			return name;
+		}
 	}
 	g_assert_not_reached ();
 	g_free (name);
+	g_free (base_name);
 	return NULL;
 }
 

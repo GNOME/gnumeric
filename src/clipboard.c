@@ -180,7 +180,7 @@ paste_cell_with_operation (Sheet *dest_sheet,
 		cell_render_value (new_cell);
 	}
 
-	sheet_cell_insert (dest_sheet, new_cell, target_col, target_row);
+	sheet_cell_insert (dest_sheet, new_cell, target_col, target_row, TRUE);
 }
 
 static void
@@ -245,7 +245,7 @@ paste_cell (Sheet *dest_sheet,
 				cell_render_value (new_cell);
 			}
 
-			sheet_cell_insert (dest_sheet, new_cell, target_col, target_row);
+			sheet_cell_insert (dest_sheet, new_cell, target_col, target_row, TRUE);
 		} else {
 			Cell *new_cell = sheet_cell_new (dest_sheet,
 							 target_col, target_row);

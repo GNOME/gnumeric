@@ -63,10 +63,12 @@ gboolean solver_lp (Workbook *wb, Sheet *sheet, float_t **opt_x,
 void solver_lp_reports (Workbook *wb, Sheet *sheet, GSList *ov,
 			float_t ov_target, float_t *init_tbl,
 			float_t *final_tbl,
-			gboolean answer, gboolean sensitivity, 
+			gboolean answer, gboolean sensitivity,
 			gboolean limits);
 
 char *write_constraint_str (int lhs_col, int lhs_row, int rhs_col, int rhs_row,
 			    const char *type_str, int cols, int rows);
+
+void solver_lp_copy (SolverParameters const *src_param, Sheet *new_sheet);
 
 #endif

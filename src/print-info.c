@@ -678,3 +678,62 @@ print_shutdown (void)
 	save_formats ();
 	destroy_formats ();
 }
+
+
+static void
+print_info_margin_copy (PrintUnit *src_print_unit, PrintUnit *dst_print_unit)
+{
+	dst_print_unit->points = src_print_unit->points;
+	dst_print_unit->desired_display = dst_print_unit->desired_display;
+}
+
+PrintInformation *
+print_info_copy (PrintInformation *src_pi)
+{
+	PrintInformation *dst_pi;
+
+	dst_pi = print_info_new();
+	
+	dst_pi->orientation        = src_pi->orientation;
+
+	/* Print Scaling */
+	dst_pi->scaling.type       = src_pi->scaling.type;
+	dst_pi->scaling.percentage = src_pi->scaling.percentage;
+	dst_pi->scaling.dim.cols   = src_pi->scaling.dim.cols;
+	dst_pi->scaling.dim.rows   = src_pi->scaling.dim.rows;
+
+	/* Margins */
+	print_info_margin_copy (&src_pi->margins.top,    &dst_pi->margins.top);
+	print_info_margin_copy (&src_pi->margins.bottom, &dst_pi->margins.bottom);
+	print_info_margin_copy (&src_pi->margins.left,   &dst_pi->margins.left);
+	print_info_margin_copy (&src_pi->margins.right,  &dst_pi->margins.right);
+	print_info_margin_copy (&src_pi->margins.header, &dst_pi->margins.header);
+	print_info_margin_copy (&src_pi->margins.footer, &dst_pi->margins.footer);
+
+	/* Booleans */
+	dst_pi->center_vertically     = src_pi->center_vertically;
+	dst_pi->center_horizontally   = src_pi->center_horizontally;
+	dst_pi->print_line_divisions  = src_pi->print_line_divisions;
+	dst_pi->print_black_and_white = src_pi->print_black_and_white;
+	dst_pi->print_as_draft        = src_pi->print_as_draft;
+	dst_pi->print_titles          = src_pi->print_titles;
+	dst_pi->print_order           = src_pi->print_order;
+
+	/* Headers & Footers */
+	dst_pi->header->left_format   = g_strdup (src_pi->header->left_format);
+	dst_pi->header->middle_format = g_strdup (src_pi->header->middle_format);
+	dst_pi->header->right_format  = g_strdup (src_pi->header->right_format);
+
+	dst_pi->footer->left_format   = g_strdup (src_pi->footer->left_format);
+	dst_pi->footer->middle_format = g_strdup (src_pi->footer->middle_format);
+	dst_pi->footer->right_format  = g_strdup (src_pi->footer->right_format);
+
+	/* Paper */
+	dst_pi->paper = gnome_paper_with_name (gnome_paper_name (src_pi->paper));
+
+	/* Repeat Range */
+	dst_pi->repeat_top  = src_pi->repeat_top;
+	dst_pi->repeat_left = src_pi->repeat_left;
+
+	return dst_pi;
+}

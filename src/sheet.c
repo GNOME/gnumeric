@@ -114,7 +114,7 @@ SheetView *
 sheet_new_sheet_view (Sheet *sheet)
 {
 	GtkWidget *sheet_view;
-	
+
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
@@ -133,7 +133,7 @@ sheet_destroy_sheet_view (Sheet *sheet, SheetView *sheet_view)
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (sheet_view != NULL);
 	g_return_if_fail (IS_SHEET_VIEW (sheet_view));
-	
+
 	sheet->sheet_views = g_list_remove (sheet->sheet_views, sheet_view);
 	gtk_object_unref (GTK_OBJECT (sheet_view));
 }
@@ -192,9 +192,9 @@ sheet_new (Workbook *wb, const char *name)
 	sheet->solver_parameters.constraints = NULL;
 	sheet->solver_parameters.target_cell = NULL;
 
-	g_ptr_array_set_size (sheet->cols.info = g_ptr_array_new (), 
+	g_ptr_array_set_size (sheet->cols.info = g_ptr_array_new (),
 			      COLROW_SEGMENT_INDEX (SHEET_MAX_COLS-1)+1);
-	g_ptr_array_set_size (sheet->rows.info = g_ptr_array_new (), 
+	g_ptr_array_set_size (sheet->rows.info = g_ptr_array_new (),
 			      COLROW_SEGMENT_INDEX (SHEET_MAX_ROWS-1)+1);
 	sheet->print_info = print_info_new ();
 
@@ -296,7 +296,7 @@ cb_recalc_span1 (Sheet *sheet, int col, int row, Cell *cell, gpointer flags)
  * @sheet: The sheet,
  * @r:     the region to update.
  * @render_text: whether to re-render the text in cells
- * 
+ *
  * This is used to re-calculate cell dimensions and re-render
  * a cell's text. eg. if a format has changed we need to re-render
  * the cached version of the rendered text in the cell.
@@ -414,7 +414,7 @@ sheet_set_zoom_factor (Sheet *sheet, double f, gboolean force)
 	double factor;
 
 	g_return_if_fail (sheet != NULL);
-	
+
 	/* Bound zoom between 10% and 500% */
 	factor = (f < .1) ? .1 : ((f > 5.) ? 5. : f);
 	if (!force) {
@@ -676,7 +676,7 @@ sheet_update_controls (Sheet const *sheet)
 
 	workbook_feedback_set (sheet->workbook, mstyle);
 	mstyle_unref (mstyle);
-}		
+}
 
 /*
  * sheet_update : Should be called after a logical command has finished processing
@@ -818,14 +818,14 @@ sheet_cell_fetch (Sheet *sheet, int col, int row)
 
 /**
  * sheet_get_extent_cb:
- * 
+ *
  * checks the cell to see if should be used to calculate sheet extent
  **/
 static void
 sheet_get_extent_cb (gpointer key, gpointer value, gpointer data)
 {
 	Cell *cell = (Cell *) value;
-	
+
 	if (!cell_is_blank (cell)) {
 		Range *range = (Range *)data;
 		CellSpanInfo const *span = NULL;
@@ -851,9 +851,9 @@ sheet_get_extent_cb (gpointer key, gpointer value, gpointer data)
 /**
  * sheet_get_extent:
  * @sheet: the sheet
- * 
+ *
  * calculates the area occupied by cell data.
- * 
+ *
  * Return value: the range.
  **/
 Range
@@ -1232,7 +1232,7 @@ sheet_update_zoom_controls (Sheet *sheet)
 	if (sheet == sheet->workbook->current_sheet)
 		workbook_zoom_feedback_set (sheet->workbook,
 					    sheet->last_zoom_factor_used);
-}		
+}
 
 int
 sheet_col_selection_type (Sheet const *sheet, int col)
@@ -1552,7 +1552,7 @@ sheet_find_boundary_vertical (Sheet *sheet, int col, int start_row,
 				/*
 				 * Handle special case where we are on the last
 				 * non-null cell
-				 */ 
+				 */
 				if (iterations == 1)
 					keep_looking = find_nonblank = TRUE;
 				else
@@ -1653,7 +1653,7 @@ sheet_range_splits_array (Sheet const *sheet, Range const *r)
 					      &cb_check_array_horizontal,
 					      &closure))
 		return TRUE;
-	
+
 	closure.start = r->start.col;
 	closure.end = r->end.col;
 	if (closure.start <= 0) {
@@ -1905,7 +1905,7 @@ sheet_cell_add_to_hash (Sheet *sheet, Cell *cell)
 }
 
 void
-sheet_cell_insert (Sheet *sheet, Cell *cell, int col, int row)
+sheet_cell_insert (Sheet *sheet, Cell *cell, int col, int row, gboolean recalc_span)
 {
 	cell->sheet = sheet;
 	cell->pos.col = col;
@@ -1915,7 +1915,7 @@ sheet_cell_insert (Sheet *sheet, Cell *cell, int col, int row)
 	cell_add_dependencies (cell);
 	cell_realize (cell);
 
-	if (!cell_needs_recalc(cell))
+	if (recalc_span && !cell_needs_recalc(cell))
 		sheet_cell_calc_span (cell, SPANCALC_RESIZE);
 }
 
@@ -2226,7 +2226,7 @@ sheet_destroy_contents (Sheet *sheet)
 
 	for (i = 0; i <= max_row; ++i)
 		sheet_row_destroy (sheet, i, FALSE);
-	
+
 	/* Free segments too */
 	for (i = COLROW_SEGMENT_INDEX (max_col); i >= 0 ; --i)
 		if ((tmp = g_ptr_array_index (sheet->cols.info, i)) != NULL) {
@@ -2260,7 +2260,7 @@ sheet_destroy (Sheet *sheet)
 	if (sheet->print_info) {
 		print_info_free (sheet->print_info);
 		sheet->print_info = NULL;
-	}	
+	}
 
 	if (sheet->objects) {
 		g_warning ("Reminder: need to destroy SheetObjects");
@@ -2279,7 +2279,7 @@ sheet_destroy (Sheet *sheet)
 	}
 	g_list_free (sheet->sheet_views);
 	sheet->sheet_views = NULL;
-	
+
 	g_list_free (sheet->comment_list);
 	sheet->comment_list = NULL;
 
@@ -2606,9 +2606,9 @@ sheet_show_cursor (Sheet *sheet)
 /**
  * sheet_name_quote:
  * @name_unquoted: Unquoted name
- * 
+ *
  * Quotes the sheet name for use with sheet_new, sheet_rename
- * 
+ *
  * Return value: a safe sheet name.
  *
  **/
@@ -2624,7 +2624,7 @@ sheet_name_quote (const char *name_unquoted)
 	needs_quotes = isdigit ((unsigned char)*name_unquoted);
 	if (!needs_quotes)
 		for (i = 0, quotes_embedded = 0; name_unquoted [i]; i++) {
-			for (j = 0; quote_chr [j]; j++) 
+			for (j = 0; quote_chr [j]; j++)
 				if (name_unquoted [i] == quote_chr [j])
 					needs_quotes = TRUE;
 			if (name_unquoted [i] == '"')
@@ -2645,7 +2645,7 @@ sheet_name_quote (const char *name_unquoted)
 		}
 		*dst++ = '"';
 		*dst = '\0';
-		
+
 		return ret;
 	} else
 		return g_strdup (name_unquoted);
@@ -2677,10 +2677,10 @@ sheet_set_dirty (Sheet *sheet, gboolean is_dirty)
 
 /**
  * sheet_is_pristine:
- * @sheet: 
- * 
+ * @sheet:
+ *
  * Sees if the sheet has ever been touched.
- * 
+ *
  * Return value: TRUE if it is perfectly clean.
  **/
 gboolean
@@ -2911,7 +2911,7 @@ sheet_delete_cols (CommandContext *context, Sheet *sheet,
 	int i;
 
 	g_return_val_if_fail (reloc_storage != NULL, TRUE);
-	
+
 	*reloc_storage = NULL;
 
 	g_return_val_if_fail (sheet != NULL, TRUE);
@@ -2983,7 +2983,7 @@ sheet_insert_rows (CommandContext *context, Sheet *sheet,
 	int   i;
 
 	g_return_val_if_fail (reloc_storage != NULL, TRUE);
-	
+
 	*reloc_storage = NULL;
 
 	g_return_val_if_fail (sheet != NULL, TRUE);
@@ -3059,7 +3059,7 @@ sheet_delete_rows (CommandContext *context, Sheet *sheet,
 	int i;
 
 	g_return_val_if_fail (reloc_storage != NULL, TRUE);
-	
+
 	*reloc_storage = NULL;
 
 	g_return_val_if_fail (sheet != NULL, TRUE);
@@ -3211,7 +3211,7 @@ sheet_move_range (CommandContext *context,
 		 * region without worrying if it overlaps with the source,
 		 * because we have already extracted the content.
 		 */
-		sheet_clear_region (context, rinfo->target_sheet, 
+		sheet_clear_region (context, rinfo->target_sheet,
 				    dst.start.col, dst.start.row,
 				    dst.end.col, dst.end.row,
 				    CLEAR_VALUES|CLEAR_COMMENTS); /* Do not to clear styles */
@@ -3242,7 +3242,7 @@ sheet_move_range (CommandContext *context,
 		/* Update the location */
 		sheet_cell_insert (rinfo->target_sheet, cell,
 				   cell->pos.col + rinfo->col_offset,
-				   cell->pos.row + rinfo->row_offset);
+				   cell->pos.row + rinfo->row_offset, TRUE);
 
 		if (inter_sheet_expr)
 			sheet_cell_expr_link (cell);
@@ -3346,7 +3346,7 @@ sheet_col_get_distance_pts (Sheet const *sheet, int from, int to)
 		if (ci->visible)
 			units += ci->size_pts;
 	}
-	
+
 	return units*sign;
 }
 
@@ -3367,7 +3367,7 @@ sheet_col_set_size_pts (Sheet *sheet, int col, double width_pts,
 			 gboolean set_by_user)
 {
 	ColRowInfo *ci;
-	
+
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (width_pts > 0.0);
@@ -3422,7 +3422,7 @@ sheet_col_get_default_size_pts (Sheet const *sheet)
 	ColRowInfo const *ci;
 
 	g_assert (sheet != NULL);
- 
+
 	ci = &sheet->cols.default_style;
 	return  ci->size_pts;
 }
@@ -3561,7 +3561,7 @@ sheet_row_set_size_pts (Sheet *sheet, int row, double height_pts,
 			gboolean set_by_user)
 {
 	ColRowInfo *ri;
-	
+
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (height_pts > 0.0);
@@ -3629,7 +3629,7 @@ sheet_row_get_default_size_pts (Sheet const *sheet)
 	ColRowInfo const *ci;
 
 	g_assert (sheet != NULL);
- 
+
 	ci = &sheet->rows.default_style;
 	return  ci->size_pts;
 }
@@ -3685,4 +3685,225 @@ sheet_destroy_cell_select_cursor (Sheet *sheet, gboolean clear_string)
 
 		gnumeric_sheet_stop_cell_selection (gsheet, clear_string);
 	}
+}
+
+typedef struct
+{
+	gboolean is_column;
+	Sheet *sheet;
+} closure_clone_colrow;
+
+static gboolean
+sheet_clone_colrow_info_item (ColRowInfo *info, void *user_data)
+{
+	ColRowInfo *new_colrow;
+	closure_clone_colrow * closure = user_data;
+
+	if (closure->is_column)
+		new_colrow = sheet_col_new (closure->sheet);
+	else
+		new_colrow = sheet_row_new (closure->sheet);
+
+	new_colrow->pos         = info->pos;
+	new_colrow->margin_a    = info->margin_a;
+	new_colrow->margin_b    = info->margin_b;
+	new_colrow->hard_size   = info->hard_size;
+	new_colrow->visible     = info->visible;
+
+	if (closure->is_column) {
+		sheet_col_add (closure->sheet, new_colrow);
+		sheet_col_set_size_pts (closure->sheet, new_colrow->pos, info->size_pts, new_colrow->hard_size);
+	} else {
+		sheet_row_add (closure->sheet, new_colrow);
+		sheet_row_set_size_pts (closure->sheet, new_colrow->pos, info->size_pts, new_colrow->hard_size);
+	}
+
+	return FALSE;
+}
+
+static void
+sheet_clone_colrow_info (Sheet const *source_sheet, Sheet *new_sheet)
+{
+	closure_clone_colrow closure;
+
+	closure.sheet = new_sheet;
+	closure.is_column = TRUE;
+	col_row_foreach (&source_sheet->cols, 0, SHEET_MAX_COLS-1,
+			 &sheet_clone_colrow_info_item, &closure);
+	closure.is_column = FALSE;
+	col_row_foreach (&source_sheet->rows, 0, SHEET_MAX_ROWS-1,
+			 &sheet_clone_colrow_info_item, &closure);
+}
+
+
+static void
+sheet_clone_style_region (Sheet *sheet, StyleRegion *region)
+{
+	g_return_if_fail (region->style != NULL);
+
+	sheet_style_attach (sheet, region->range, mstyle_copy(region->style));
+}
+
+static void
+sheet_clone_styles (Sheet const *source_sheet, Sheet *new_sheet)
+{
+	GList     *style_regions;
+
+	style_regions = sheet_get_style_list (source_sheet);
+	style_regions = g_list_reverse (style_regions);
+
+	if (!style_regions)
+		return;
+
+	for (; style_regions; style_regions = style_regions->next) {
+		StyleRegion *region = style_regions->data;
+		sheet_clone_style_region (new_sheet, region);
+	}
+
+	g_free (style_regions);
+}
+
+static void
+sheet_clone_selection (Sheet const *source_sheet, Sheet *new_sheet)
+{
+	GList *selection = g_list_copy (source_sheet->selections);
+
+	if (selection == NULL)
+		return;
+
+	/* A new sheet has A1 selected by default */
+	sheet_selection_reset_only (new_sheet);
+
+	selection = g_list_reverse (selection);
+	for (; selection; selection = selection->next) {
+		Range *range = selection->data;
+		g_return_if_fail (range != NULL);
+		sheet_selection_add_range (new_sheet,
+					   range->start.col, range->start.row,
+					   range->start.col, range->start.row,
+					   range->end.col,   range->end.row);
+	}
+	g_free (selection);
+
+	/* Set the cursor position */
+	sheet_cursor_set (new_sheet,
+			  source_sheet->cursor.edit_pos.col,
+			  source_sheet->cursor.edit_pos.row,
+			  source_sheet->cursor.base_corner.col,
+			  source_sheet->cursor.base_corner.row,
+			  source_sheet->cursor.move_corner.col,
+			  source_sheet->cursor.move_corner.row);
+}
+
+static void
+sheet_clone_names (Sheet const *source_sheet, Sheet *new_sheet)
+{
+	GList *names = g_list_copy (source_sheet->names);;
+
+	if (source_sheet->names == NULL)
+		return;
+
+#if 0	/* Feature not implemented, not cloning it yet. */
+	for (; names; names = names->next) {
+		NamedExpression *expresion = names->data;
+		gchar *text;
+		gchar *error;
+		g_return_if_fail (expresion != NULL);
+		text = expr_name_value (expresion);
+		if (!expr_name_create (new_sheet->workbook, new_sheet, expresion->name->str, text, &error))
+			g_warning ("Could not create expression. Sheet.c :%i, Error %s",
+				   __LINE__, error);
+	}
+#endif
+	g_free (names);
+}
+
+static void
+sheet_clone_objects (Sheet const *source_sheet, Sheet *new_sheet)
+{
+	/* TODO: Clone objects */
+}
+
+static void
+cb_sheet_cell_copy (gpointer unused, gpointer cell_param, gpointer new_sheet_param)
+{
+	Cell const *cell = (Cell const *) cell_param;
+	Sheet *new_sheet = (Sheet *) new_sheet_param;
+	Cell  *new_cell;
+	gboolean is_expr;
+
+	g_return_if_fail (new_sheet != NULL);
+	g_return_if_fail (cell != NULL);
+
+	is_expr = cell_has_expr (cell);
+	if (is_expr) {
+		ExprArray const* array = cell_is_array (cell);
+		if (array != NULL) {
+			if (array->x == 0 && array->y == 0) {
+				ExprTree *expr = array->corner.func.expr;
+				expr_tree_ref (expr);
+				cell_set_array_formula (new_sheet,
+							cell->pos.row, cell->pos.col,
+							cell->pos.row + array->rows-1,
+							cell->pos.col + array->cols-1,
+							expr,
+
+							/* FIXME : We should copy the values */
+							TRUE);
+			}
+			return;
+		}
+	}
+
+	new_cell = cell_copy (cell);
+	sheet_cell_insert (new_sheet, new_cell,
+			   cell->pos.col, cell->pos.row, FALSE);
+	if (is_expr)
+		sheet_cell_expr_link (new_cell);
+}
+
+static void
+sheet_clone_cells (Sheet const *source_sheet, Sheet *new_sheet)
+{
+	g_hash_table_foreach (source_sheet->cell_hash,
+			      &cb_sheet_cell_copy, new_sheet);
+}
+
+Sheet *
+sheet_duplicate	(Sheet const *src)
+{
+	Workbook *wb;
+	Sheet *new_sheet;
+	char *name;
+
+	g_return_val_if_fail (src != NULL, NULL);
+	g_return_val_if_fail (src->workbook !=NULL, NULL);
+
+	wb = src->workbook;
+	name = workbook_sheet_get_free_name (wb, src->name_unquoted,
+					     TRUE, TRUE);
+	new_sheet = sheet_new (wb, name);
+	g_free (name);
+
+        /* Copy the print info */
+	print_info_free (new_sheet->print_info);
+	new_sheet->print_info = print_info_copy (src->print_info);
+
+	sheet_clone_styles         (src, new_sheet);
+	sheet_clone_colrow_info    (src, new_sheet);
+	sheet_clone_selection      (src, new_sheet);
+	sheet_clone_names          (src, new_sheet);
+	sheet_clone_objects        (src, new_sheet);
+	sheet_clone_cells          (src, new_sheet);
+
+	/* Copy the solver */
+	solver_lp_copy (&src->solver_parameters, new_sheet);
+
+	/* Force a respan and rerender */
+	sheet_set_zoom_factor (new_sheet, src->last_zoom_factor_used, TRUE);
+
+	sheet_set_dirty (new_sheet, TRUE);
+	sheet_redraw_all (new_sheet);
+
+	return new_sheet;
 }

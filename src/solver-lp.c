@@ -1178,3 +1178,65 @@ solver_lp_reports (Workbook *wb, Sheet *sheet, GSList *ov, float_t ov_target,
 	        solver_limits_report (wb);
 }
 
+
+void
+solver_lp_copy (SolverParameters const *src_param, Sheet *new_sheet)
+{
+	SolverParameters *dst_param;
+	GSList   *constraints;
+	CellList *inputs;
+
+	dst_param = &new_sheet->solver_parameters;
+
+	if (src_param->target_cell != NULL)
+	{
+		gint row, col;
+		row = src_param->target_cell->col_info->pos;
+		col = src_param->target_cell->row_info->pos;
+	        dst_param->target_cell = sheet_cell_fetch (new_sheet, col, row);
+	}
+
+	dst_param->problem_type = src_param->problem_type;
+	g_free (dst_param->input_entry_str);
+	dst_param->input_entry_str = g_strdup (src_param->input_entry_str);
+
+	/* Copy the options */
+	dst_param->options.max_time_sec           = src_param->options.max_time_sec;
+	dst_param->options.iterations             = src_param->options.iterations;
+	dst_param->options.precision              = src_param->options.precision;
+	dst_param->options.tolerance              = src_param->options.tolerance;
+	dst_param->options.convergence            = src_param->options.convergence;
+	dst_param->options.equal_to_value         = src_param->options.equal_to_value;
+	dst_param->options.assume_linear_model    = src_param->options.assume_linear_model;
+	dst_param->options.assume_non_negative    = src_param->options.assume_non_negative;
+	dst_param->options.automatic_scaling      = src_param->options.automatic_scaling;
+	dst_param->options.show_iteration_results = src_param->options.show_iteration_results;
+
+	/* Copy the constraints */
+	for (constraints = src_param->constraints; constraints; constraints = constraints->next) {
+		SolverConstraint *old = (SolverConstraint *) constraints->data;
+		SolverConstraint *new;
+
+		new = g_new (SolverConstraint, 1);
+		new->lhs.col = old->lhs.col;
+		new->lhs.row = old->lhs.row;
+		new->rhs.col = old->rhs.col;
+		new->rhs.row = old->rhs.row;
+		new->cols    = old->cols;
+		new->rows    = old->rows;
+		new->type    = g_strdup (old->type);
+		new->str     = g_strdup (old->str);
+		dst_param->constraints = g_slist_append (dst_param->constraints, new);
+	}
+
+	/* Copy the input cell list */
+	for (inputs = src_param->input_cells; inputs ; inputs = inputs->next) {
+		Cell *cell = (Cell *) inputs->data;
+		Cell *new_cell;
+		new_cell = cell_copy (cell);
+		new_cell->sheet = new_sheet;
+		dst_param->input_cells = (CellList *)
+			g_slist_append ((GSList *)dst_param->input_cells,
+					(gpointer) new_cell);
+	}
+}

@@ -1,3 +1,41 @@
+2000-08-16  Chema Celorio  <chema@celorio.com>
+
+	* src/sheet.c (sheet_duplicate
+		       sheet_clone_cells,
+		       cb_sheet_cell_copy,
+		       sheet_clone_objects,
+		       sheet_clone_names,
+		       sheet_clone_selection,
+		       sheet_clone_styles,
+		       sheet_clone_style_region,
+		       sheet_clone_colrow_info,
+		       sheet_clone_colrow_info_item) : New.
+
+	* src/solver-lp.c (solver_lp_copy) : New func.
+
+	* src/print-info.c (print_info_copy) : New func.
+	(print_info_margin_copy) : Ditto.
+	* src/workbook.c (sheet_action_clone_sheet) : New.
+
+2000-08-16  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_cell_insert) : Add a flag to disable span
+	  recalculation.
+
+	* src/sheet-style.c (sheet_get_style_list) : const.
+
+	* src/position.c (parse_pos_init_cell) : Use Cell::pos.
+
+	* src/clipboard.c (paste_cell_with_operation) : Changes to
+	  sheet_cell_insert.
+	(paste_cell) : Ditto.
+
+	* src/analysis-tools.c (prepare_output) : Changes to
+	  workbook_sheet_get_free_name.
+	* src/workbook.c (insert_sheet_cmd) : ditto.
+	(workbook_sheet_name_strip_number) : New.
+	(workbook_sheet_get_free_name) : Handle names of the form 'bobo (2)'.
+
 2000-08-16  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook-view.c (workbook_view_set_size) : Back out switch to
