@@ -1,5 +1,15 @@
 2004-01-06  Jody Goldberg <jody@gnome.org>
 
+	* src/wbc-gtk.c (cb_add_menus_toolbars) : Enable/Disable the arrow
+	  contraction on the toolbars if the handlbox is docked/undocked.
+	  This avoids having floating toolbars with nothing but the collapse
+	  arrow.
+
+	* configure.in : re-enable the *DEPRECATED*
+	and add a pile of #undef/#warning to make sure things still work
+
+2004-01-06  Jody Goldberg <jody@gnome.org>
+
 	The initial pass at GtkAction custom combos are mucho broken
 	* src/sheet.c (sheet_toggle_hide_zeros) : move this out of the macro
 	  in wbcg.

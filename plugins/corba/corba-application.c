@@ -125,9 +125,9 @@ plugin_init_general (ErrorInfo **ret_error)
 
 	capp = g_object_new (capp_get_type(), NULL);
 
-	bonobo_activation_active_server_register (
+	bonobo_activation_register_active_server (
 		"OAFIID:GNOME_Gnumeric_Application",
-		BONOBO_OBJREF (capp));
+		BONOBO_OBJREF (capp), NULL);
 	/* FIXME: this badly needs to check return values */
 }
 
@@ -135,7 +135,7 @@ void
 plugin_cleanup_general (ErrorInfo **ret_error)
 {
 	if (capp) {
-		bonobo_activation_active_server_unregister (
+		bonobo_activation_unregister_active_server (
 			"OAFIID:GNOME_Gnumeric_Application",
 			BONOBO_OBJREF (capp));
 		bonobo_object_unref (capp);
