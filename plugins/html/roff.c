@@ -205,35 +205,6 @@ roff_dvi_file_save (GnumFileSaver const *fs, IOContext *io_context,
 }
 
 /*
- * write sheets to a PDF file using groff and gs as filter
- */
-void
-roff_pdf_file_save (GnumFileSaver const *fs, IOContext *io_context,
-                    WorkbookView *wb_view, const gchar *file_name)
-{
-	FILE *fp;
-	char *cmd;
-
-	g_return_if_fail (wb_view != NULL);
-	g_return_if_fail (file_name != NULL);
-
-	cmd = g_strdup_printf (
-		"groff -me -t -Tps - |"
-		"gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile=%s"
-		" -c save pop -f -", file_name);
-	fp = popen (cmd, "w");
-	g_free (cmd);
-	if (fp == NULL) {
-		gnumeric_io_error_info_set (io_context, error_info_new_str_with_details (
-		                            _("Error executing groff+gs."),
-		                            error_info_new_from_errno ()));
-		return;
-	}
-	write_wb_roff (io_context, wb_view, fp);
-	pclose (fp);
-}
-
-/*
  * write sheets to a roff file
  */
 void
