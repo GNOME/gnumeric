@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.62+\n"
-"POT-Creation-Date: 2001-02-15 22:24-0500\n"
-"PO-Revision-Date: 2001-02-12 14:21+03:00\n"
+"POT-Creation-Date: 2001-02-16 14:56+0300\n"
+"PO-Revision-Date: 2001-02-16 15:00+03:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -698,7 +698,7 @@ msgid "Smallest (%d)"
 msgstr "Наименьшее (%d)"
 
 #: src/analysis-tools.c:1037 src/analysis-tools.c:2825
-#: src/dialogs/cell-format.glade.h:60
+#: src/dialogs/cell-format.glade.h:61
 msgid "Sample"
 msgstr "Выборка"
 
@@ -970,7 +970,7 @@ msgstr "Кумулятивный %"
 msgid "Error '%s' opening workbook stream"
 msgstr "Ошибка \"%s\" при открытии потока рабочей книги"
 
-#: src/bonobo-io.c:471 src/xml-io-autoft.c:427 src/xml-io.c:3222
+#: src/bonobo-io.c:471 src/xml-io-autoft.c:427 src/xml-io.c:3215
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Испорченный XML-файл. Дерево пусто?"
 
@@ -1907,220 +1907,219 @@ msgstr "Большие круги"
 msgid "Left"
 msgstr "Влево"
 
-#: src/dialogs/cell-format.glade.h:43 src/gnumeric.xml.h:111
+#: src/dialogs/cell-format.glade.h:43
+msgid "Left _Indent"
+msgstr "Левый отступ"
+
+#: src/dialogs/cell-format.glade.h:44 src/gnumeric.xml.h:111
 #: src/workbook-object-toolbar.c:150
 msgid "Line"
 msgstr "Линия"
 
-#: src/dialogs/cell-format.glade.h:44
+#: src/dialogs/cell-format.glade.h:45
 msgid "Locking cells or hiding formulas only affects protected worksheets."
 msgstr ""
 "Защита ячеек или скрытие формул действуют только в защищенных таблицах."
 
-#: src/dialogs/cell-format.glade.h:45
+#: src/dialogs/cell-format.glade.h:46
 msgid "Negat_ive number:"
 msgstr "Отрицательное число:"
 
-#: src/dialogs/cell-format.glade.h:46 src/dialogs/dialog-cell-format.c:1217
+#: src/dialogs/cell-format.glade.h:47 src/dialogs/dialog-cell-format.c:1217
 #: src/dialogs/dialog-cell-format.c:1279 src/dialogs/dialog-paste-special.c:32
 msgid "None"
 msgstr "Нет"
 
-#: src/dialogs/cell-format.glade.h:47 src/dialogs/dialog-function-wizard.c:406
+#: src/dialogs/cell-format.glade.h:48 src/dialogs/dialog-function-wizard.c:406
 msgid "Number"
 msgstr "Числовой"
 
-#: src/dialogs/cell-format.glade.h:48 src/dialogs/print.glade.h:15
+#: src/dialogs/cell-format.glade.h:49 src/dialogs/print.glade.h:15
 msgid "Orientation"
 msgstr "Ориентация"
 
-#: src/dialogs/cell-format.glade.h:49
+#: src/dialogs/cell-format.glade.h:50
 msgid "Outline"
 msgstr "Контур"
 
-#: src/dialogs/cell-format.glade.h:50
+#: src/dialogs/cell-format.glade.h:51
 msgid "Pattern"
 msgstr "Шаблон"
 
-#: src/dialogs/cell-format.glade.h:51
+#: src/dialogs/cell-format.glade.h:52
 msgid "Pick a Background color"
 msgstr "Указать цвет фона"
 
-#: src/dialogs/cell-format.glade.h:52
+#: src/dialogs/cell-format.glade.h:53
 msgid "Pick a Pattern color"
 msgstr "Указать цвет шаблона"
 
-#: src/dialogs/cell-format.glade.h:53
+#: src/dialogs/cell-format.glade.h:54
 msgid "Pick a border color"
 msgstr "Указать цвет рамки"
 
-#: src/dialogs/cell-format.glade.h:54
+#: src/dialogs/cell-format.glade.h:55
 msgid "Pick a font color"
 msgstr "Указать цвет шрифта"
 
-#: src/dialogs/cell-format.glade.h:55
+#: src/dialogs/cell-format.glade.h:56
 msgid "Protection"
 msgstr "Защита"
 
-#: src/dialogs/cell-format.glade.h:56
+#: src/dialogs/cell-format.glade.h:57
 msgid "Reverse Diagonal"
 msgstr "Обратные диагональные штрихи"
 
-#: src/dialogs/cell-format.glade.h:57
+#: src/dialogs/cell-format.glade.h:58
 msgid "Reverse Diagonal Stripe"
 msgstr "Обратные диагональные штрихи"
 
-#: src/dialogs/cell-format.glade.h:58 src/gnumeric.xml.h:155
+#: src/dialogs/cell-format.glade.h:59 src/gnumeric.xml.h:155
 #: src/workbook-format-toolbar.c:568
 msgid "Right"
 msgstr "Вправо"
 
-#: src/dialogs/cell-format.glade.h:59
+#: src/dialogs/cell-format.glade.h:60
 msgid "S_ymbol:"
 msgstr "Символ:"
 
-#: src/dialogs/cell-format.glade.h:61
+#: src/dialogs/cell-format.glade.h:62
 msgid "Semi Circles"
 msgstr "Полуокружности"
 
-#: src/dialogs/cell-format.glade.h:62
+#: src/dialogs/cell-format.glade.h:63
 msgid "Shrin_k to fit"
 msgstr "Растягивать по размеру"
 
 #. There must be a better way than this
-#: src/dialogs/cell-format.glade.h:63 src/dialogs/dialog-cell-format.c:1213
+#: src/dialogs/cell-format.glade.h:64 src/dialogs/dialog-cell-format.c:1213
 #: src/dialogs/dialog-cell-format.c:1280
 msgid "Single"
 msgstr "Одиночный"
 
-#: src/dialogs/cell-format.glade.h:64
+#: src/dialogs/cell-format.glade.h:65
 msgid "Small Circles"
 msgstr "Маленькие круги"
 
-#: src/dialogs/cell-format.glade.h:65
+#: src/dialogs/cell-format.glade.h:66
 msgid "Solid"
 msgstr "Сплошной"
 
-#: src/dialogs/cell-format.glade.h:66
+#: src/dialogs/cell-format.glade.h:67
 msgid "Sp_ecial"
 msgstr "Специальный"
 
-#: src/dialogs/cell-format.glade.h:67
+#: src/dialogs/cell-format.glade.h:68
 msgid "Stri_kethrough"
 msgstr "Перечеркнутое"
 
-#: src/dialogs/cell-format.glade.h:68
+#: src/dialogs/cell-format.glade.h:69
 msgid "Su_bscript"
 msgstr "Нижний индекс"
 
-#: src/dialogs/cell-format.glade.h:69
+#: src/dialogs/cell-format.glade.h:70
 msgid "Sup_erscript"
 msgstr "Верхний индекс"
 
-#: src/dialogs/cell-format.glade.h:70
+#: src/dialogs/cell-format.glade.h:71
 msgid "Te_xt"
 msgstr "Текстовый"
 
-#: src/dialogs/cell-format.glade.h:71
+#: src/dialogs/cell-format.glade.h:72
 msgid "Thatch"
 msgstr "Солома"
 
-#: src/dialogs/cell-format.glade.h:72
+#: src/dialogs/cell-format.glade.h:73
 msgid "Thick Diagonal Crosshatch"
 msgstr "Толстые диагональные крестики"
 
-#: src/dialogs/cell-format.glade.h:73
+#: src/dialogs/cell-format.glade.h:74
 msgid "Thin Diagonal Crosshatch"
 msgstr "Тонкие диагональные крестики"
 
-#: src/dialogs/cell-format.glade.h:74
+#: src/dialogs/cell-format.glade.h:75
 msgid "Thin Diagonal Stripe"
 msgstr "Тонкие диагональные штрихи"
 
-#: src/dialogs/cell-format.glade.h:75
+#: src/dialogs/cell-format.glade.h:76
 msgid "Thin Horizontal Crosshatch"
 msgstr "Тонкие горизонтальные крестики"
 
-#: src/dialogs/cell-format.glade.h:76
+#: src/dialogs/cell-format.glade.h:77
 msgid "Thin Horizontal Stripe"
 msgstr "Тонкие горизонтальные штрихи"
 
-#: src/dialogs/cell-format.glade.h:77
+#: src/dialogs/cell-format.glade.h:78
 msgid "Thin Reverse Diagonal Stripe"
 msgstr "Тонкие обратные диагональные штрихи"
 
-#: src/dialogs/cell-format.glade.h:78
+#: src/dialogs/cell-format.glade.h:79
 msgid "Thin Vertical Stripe"
 msgstr "Тонкие вертикальные штрихи"
 
-#: src/dialogs/cell-format.glade.h:79
+#: src/dialogs/cell-format.glade.h:80
 msgid "Top"
 msgstr "Вверх"
 
-#: src/dialogs/cell-format.glade.h:80
+#: src/dialogs/cell-format.glade.h:81
 msgid "Unfinished"
 msgstr "Незаконченные"
 
-#: src/dialogs/cell-format.glade.h:81
+#: src/dialogs/cell-format.glade.h:82
 msgid "Vertical Alignment"
 msgstr "Вертикальное выравнивание"
 
-#: src/dialogs/cell-format.glade.h:82
+#: src/dialogs/cell-format.glade.h:83
 msgid "Vertical Stripe"
 msgstr "Вертикальные штрихи"
 
-#: src/dialogs/cell-format.glade.h:83
+#: src/dialogs/cell-format.glade.h:84
 msgid "Worksheet _protected"
 msgstr "Таблица защищена"
 
-#: src/dialogs/cell-format.glade.h:84
+#: src/dialogs/cell-format.glade.h:85
 msgid "_Accounting"
 msgstr "Бухгалтерский"
 
-#: src/dialogs/cell-format.glade.h:85
+#: src/dialogs/cell-format.glade.h:86
 msgid "_Automatic"
 msgstr "Автоматическое"
 
-#: src/dialogs/cell-format.glade.h:86
+#: src/dialogs/cell-format.glade.h:87
 msgid "_Bottom"
 msgstr "Вниз"
 
-#: src/dialogs/cell-format.glade.h:87
+#: src/dialogs/cell-format.glade.h:88
 msgid "_Center"
 msgstr "По центру"
 
-#: src/dialogs/cell-format.glade.h:88
+#: src/dialogs/cell-format.glade.h:89
 msgid "_Currency"
 msgstr "Денежный"
 
-#: src/dialogs/cell-format.glade.h:89 src/dialogs/dialog-zoom.glade.h:16
+#: src/dialogs/cell-format.glade.h:90 src/dialogs/dialog-zoom.glade.h:16
 msgid "_Custom"
 msgstr "Пользовательский"
 
-#: src/dialogs/cell-format.glade.h:90
+#: src/dialogs/cell-format.glade.h:91
 msgid "_Date"
 msgstr "Дата"
 
-#: src/dialogs/cell-format.glade.h:91
+#: src/dialogs/cell-format.glade.h:92
 msgid "_Fill"
 msgstr "Заполнение"
 
-#: src/dialogs/cell-format.glade.h:92
+#: src/dialogs/cell-format.glade.h:93
 msgid "_Fraction"
 msgstr "Дробный"
 
-#: src/dialogs/cell-format.glade.h:93
+#: src/dialogs/cell-format.glade.h:94
 msgid "_General"
 msgstr "Общий"
 
-#: src/dialogs/cell-format.glade.h:94
+#: src/dialogs/cell-format.glade.h:95
 msgid "_Hidden"
 msgstr "Скрытый"
-
-#: src/dialogs/cell-format.glade.h:95
-#, fuzzy
-msgid "_Indent"
-msgstr "Левый отступ"
 
 #: src/dialogs/cell-format.glade.h:96
 msgid "_Justify"
@@ -3809,7 +3808,7 @@ msgstr "Заголовок"
 msgid "Headers and footers"
 msgstr "Заголовки и сноски:"
 
-#: src/dialogs/print.glade.h:12 src/print-info.c:445
+#: src/dialogs/print.glade.h:12 src/print-info.c:443
 msgid "In"
 msgstr "Дю"
 
@@ -3846,7 +3845,7 @@ msgstr "Печать"
 msgid "Print _area:"
 msgstr "Область печати:"
 
-#: src/dialogs/print.glade.h:22 src/gnumeric.xml.h:142 src/print.c:1246
+#: src/dialogs/print.glade.h:22 src/gnumeric.xml.h:142 src/print.c:1240
 msgid "Print preview"
 msgstr "Просмотр печати"
 
@@ -3867,14 +3866,13 @@ msgid "Scale"
 msgstr "Масштаб"
 
 #: src/dialogs/print.glade.h:27 src/functions/fn-sheet.c:135
-#: src/workbook.c:1019 src/xml-io.c:2911
+#: src/workbook.c:1019 src/xml-io.c:2904
 msgid "Sheet"
 msgstr "Табличные"
 
 #: src/dialogs/print.glade.h:28
-#, fuzzy
 msgid "Styles with no content"
-msgstr "Центрировать содержимое ячеек"
+msgstr "Стили без содержимого"
 
 #: src/dialogs/print.glade.h:29
 msgid "Titles to print"
@@ -3945,11 +3943,11 @@ msgid "_Vertically"
 msgstr "По вертикали"
 
 #. 1in = 25.4mm, exact
-#: src/dialogs/print.glade.h:46 src/print-info.c:444
+#: src/dialogs/print.glade.h:46 src/print-info.c:442
 msgid "cm"
 msgstr "см"
 
-#: src/dialogs/print.glade.h:47 src/print-info.c:443
+#: src/dialogs/print.glade.h:47 src/print-info.c:441
 msgid "mm"
 msgstr "мм"
 
@@ -3957,7 +3955,7 @@ msgstr "мм"
 msgid "page(s) wide by"
 msgstr "страницы заполняются по"
 
-#: src/dialogs/print.glade.h:49 src/print-info.c:442
+#: src/dialogs/print.glade.h:49 src/print-info.c:440
 msgid "pts"
 msgstr "пнкт"
 
@@ -5971,17 +5969,6 @@ msgstr ""
 "@DESCRIPTION=Функция DAVERAGE возвращает среднее значений из списка или базы "
 "данных удовлетворяющих указанным условиям. \n"
 
-#: src/functions/fn-database.c:499
-msgid ""
-"\n"
-"DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333.\n"
-"DAVERAGE(A1:C7, \"Age\", A9:A11) equals 39.\n"
-"DAVERAGE(A1:C7, \"Salary\", A9:B11) equals 40782.5.\n"
-"DAVERAGE(A1:C7, \"Age\", A9:B11) equals 36.\n"
-"\n"
-"@SEEALSO=DCOUNT"
-msgstr ""
-
 #: src/functions/fn-database.c:560
 msgid ""
 "@FUNCTION=DCOUNT\n"
@@ -5993,16 +5980,6 @@ msgstr ""
 "@SYNTAX=DCOUNT(database,field,criteria)\n"
 "@DESCRIPTION=Функция DCOUNT подсчитывает ячейки содержащие числа в базе "
 "данных удовлетворяющей указанному условию. \n"
-
-#: src/functions/fn-database.c:568
-msgid ""
-"\n"
-"DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3.\n"
-"DCOUNT(A1:C7, \"Salary\", A9:B11) equals 2.\n"
-"DCOUNT(A1:C7, \"Name\", A9:B11) equals 0.\n"
-"\n"
-"@SEEALSO=DAVERAGE"
-msgstr ""
 
 #: src/functions/fn-database.c:621
 msgid ""
@@ -6016,16 +5993,6 @@ msgstr ""
 "@DESCRIPTION=Функция DCOUNTA подсчитывает ячейки  содержащие данные в базе "
 "данных удовлетворяющей указанному условию. \n"
 
-#: src/functions/fn-database.c:629
-msgid ""
-"\n"
-"DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3.\n"
-"DCOUNTA(A1:C7, \"Salary\", A9:B11) equals 2.\n"
-"DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2.\n"
-"\n"
-"@SEEALSO=DCOUNT"
-msgstr ""
-
 #: src/functions/fn-database.c:679
 msgid ""
 "@FUNCTION=DGET\n"
@@ -6037,17 +6004,6 @@ msgstr ""
 "@SYNTAX=DGET(database,field,criteria)\n"
 "@DESCRIPTION=Функция DGET возвращает одно значение из столбца "
 "удовлетворяющего указанному условию. \n"
-
-#: src/functions/fn-database.c:687
-msgid ""
-"\n"
-"DGET(A1:C7, \"Salary\", A9:A10) equals 34323.\n"
-"DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\".\n"
-"\n"
-"If none of the items match the conditions, DGET returns #VALUE! error. If "
-"more than one items match the conditions, DGET returns #NUM! error. \n"
-"@SEEALSO=DCOUNT"
-msgstr ""
 
 #: src/functions/fn-database.c:747
 msgid ""
@@ -6061,16 +6017,6 @@ msgstr ""
 "@DESCRIPTION=Функция DMAX возвращает наибольшее значение в столбце "
 "удовлетворяющем указанному условию. \n"
 
-#: src/functions/fn-database.c:755
-msgid ""
-"\n"
-"DMAX(A1:C7, \"Salary\", A9:A11) equals 47242.\n"
-"DMAX(A1:C7, \"Age\", A9:A11) equals 45.\n"
-"DMAX(A1:C7, \"Age\", A9:B11) equals 43.\n"
-"\n"
-"@SEEALSO=DMIN"
-msgstr ""
-
 #: src/functions/fn-database.c:818
 msgid ""
 "@FUNCTION=DMIN\n"
@@ -6083,15 +6029,6 @@ msgstr ""
 "@DESCRIPTION=Функция DMIN возвращает наименьшее значение в столбце "
 "удовлетворяющем указанному условию. \n"
 
-#: src/functions/fn-database.c:826
-msgid ""
-"\n"
-"DMIN(A1:C7, \"Salary\", A9:B11) equals 34323.\n"
-"DMIN(A1:C7, \"Age\", A9:B11) equals 29.\n"
-"\n"
-"@SEEALSO=DMAX"
-msgstr ""
-
 #: src/functions/fn-database.c:888
 msgid ""
 "@FUNCTION=DPRODUCT\n"
@@ -6103,14 +6040,6 @@ msgstr ""
 "@SYNTAX=DPRODUCT(database,field,criteria)\n"
 "@DESCRIPTION=Функция DPRODUCT возвращает произведение чисел в столбце "
 "удовлетворяющем указанному условию. \n"
-
-#: src/functions/fn-database.c:896
-msgid ""
-"\n"
-"DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247.\n"
-"\n"
-"@SEEALSO=DSUM"
-msgstr ""
 
 #: src/functions/fn-database.c:955
 msgid ""
@@ -6126,15 +6055,6 @@ msgstr ""
 "генеральной совокупности основанное на выборке. Генеральная совокупность "
 "состоит из чисел удовлетворяющих указанному условию. \n"
 
-#: src/functions/fn-database.c:964
-msgid ""
-"\n"
-"DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949.\n"
-"DSTDEV(A1:C7, \"Salary\", A9:B11) equals 9135.112506.\n"
-"\n"
-"@SEEALSO=DSTDEVP"
-msgstr ""
-
 #: src/functions/fn-database.c:1021
 msgid ""
 "@FUNCTION=DSTDEVP\n"
@@ -6149,15 +6069,6 @@ msgstr ""
 "совокупности на основе полной совокупности. Генеральная совокупность состоит "
 "из чисел удовлетворяющих указанным условиям. \n"
 
-#: src/functions/fn-database.c:1030
-msgid ""
-"\n"
-"DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7.\n"
-"DSTDEVP(A1:C7, \"Salary\", A9:B11) equals 6459.5.\n"
-"\n"
-"@SEEALSO=DSTDEV"
-msgstr ""
-
 #: src/functions/fn-database.c:1089
 msgid ""
 "@FUNCTION=DSUM\n"
@@ -6169,15 +6080,6 @@ msgstr ""
 "@SYNTAX=DSUM(database,field,criteria)\n"
 "@DESCRIPTION=Функция DSUM возвращает сумму чисел в столбце удовлетворяющем "
 "указанному условию. \n"
-
-#: src/functions/fn-database.c:1097
-msgid ""
-"\n"
-"DSUM(A1:C7, \"Age\", A9:B11) equals 72.\n"
-"DSUM(A1:C7, \"Salary\", A9:B11) equals 81565.\n"
-"\n"
-"@SEEALSO=DPRODUCT"
-msgstr ""
 
 #: src/functions/fn-database.c:1156
 msgid ""
@@ -6193,15 +6095,6 @@ msgstr ""
 "совокупности на основе выборки. Генеральная совокупность содержит числа "
 "удовлетворяющие указанному условию. \n"
 
-#: src/functions/fn-database.c:1165
-msgid ""
-"\n"
-"DVAR(A1:C7, \"Age\", A9:B11) equals 98.\n"
-"DVAR(A1:C7, \"Salary\", A9:B11) equals 83450280.5.\n"
-"\n"
-"@SEEALSO=DVARP"
-msgstr ""
-
 #: src/functions/fn-database.c:1224
 msgid ""
 "@FUNCTION=DVARP\n"
@@ -6215,15 +6108,6 @@ msgstr ""
 "@DESCRIPTION=Функция DVARP возвращает дисперсию генеральной совокупности на "
 "основе полной совокупности. Генеральная совокупность состоит из чисел "
 "удовлетворяющих указанным условиям. \n"
-
-#: src/functions/fn-database.c:1233
-msgid ""
-"\n"
-"DVARP(A1:C7, \"Age\", A9:B11) equals 49.\n"
-"DVARP(A1:C7, \"Salary\", A9:B11) equals 41725140.25.\n"
-"\n"
-"@SEEALSO=DVAR"
-msgstr ""
 
 #: src/functions/fn-database.c:1293
 msgid ""
@@ -14583,22 +14467,20 @@ msgid "Unable to open file '%s'"
 msgstr "Не удалось открыть файл '%s'"
 
 #: src/gui-file.c:95
-#, fuzzy
 msgid ""
 "Could not import file %s\n"
 "%%s"
 msgstr ""
-"Невозможно прочесть файл %s\n"
+"Невозможно импортировать файл %s\n"
 "%%s"
 
 #: src/gui-file.c:105
 msgid "No sheets found"
-msgstr ""
+msgstr "Таблицы не найдены"
 
 #: src/gui-file.c:237
-#, fuzzy
 msgid "File format:"
-msgstr "Удалить формат"
+msgstr "Формат файла:"
 
 #: src/gui-file.c:298
 #, c-format
@@ -14606,6 +14488,8 @@ msgid ""
 "Workbook %s already exists.\n"
 "Do you want to save over it?"
 msgstr ""
+"Книга %s уже существует.\n"
+"Хотите сохранить в нее?"
 
 #: src/gui-file.c:341
 #, c-format
@@ -14613,6 +14497,8 @@ msgid ""
 "%s\n"
 "is a directory name"
 msgstr ""
+"%s\n"
+"это название каталога"
 
 #: src/gui-file.c:350
 #, c-format
@@ -14620,22 +14506,24 @@ msgid ""
 "You do not have permission to save to\n"
 "%s"
 msgstr ""
+"У вас нет прав для сохранения в\n"
+"%s"
 
 #: src/gui-file.c:368
 msgid ""
 "Please enter a file name,\n"
 "not a directory"
 msgstr ""
+"Пожалуйста, введите имя файла,\n"
+"а не каталога"
 
 #: src/gui-file.c:407
-#, fuzzy
 msgid "Save workbook as"
-msgstr "Сохранить книгу"
+msgstr "Сохранить книгу как"
 
 #: src/gui-file.c:457
-#, fuzzy
 msgid "Load file"
-msgstr "Импортировать файл"
+msgstr "Загрузить файл"
 
 #.
 #. * xgettext:
@@ -15000,43 +14888,43 @@ msgstr "&[TAB]"
 msgid "&[DATE]"
 msgstr "&[DATE]"
 
-#: src/print-info.c:442
+#: src/print-info.c:440
 msgid "points"
 msgstr "пункты"
 
-#: src/print-info.c:443
+#: src/print-info.c:441
 msgid "millimeter"
 msgstr "миллиметр"
 
-#: src/print-info.c:444
+#: src/print-info.c:442
 msgid "centimeter"
 msgstr "сантиметр"
 
-#: src/print-info.c:445
+#: src/print-info.c:443
 msgid "inch"
 msgstr "дюйм"
 
-#: src/print-info.c:535
+#: src/print-info.c:533
 msgid "Sheet 1"
 msgstr "Лист 1"
 
-#: src/print-info.c:598
+#: src/print-info.c:596
 msgid "tab"
 msgstr "таб"
 
-#: src/print-info.c:599
+#: src/print-info.c:597
 msgid "page"
 msgstr "страница"
 
-#: src/print-info.c:600
+#: src/print-info.c:598
 msgid "pages"
 msgstr "страницы"
 
-#: src/print-info.c:601
+#: src/print-info.c:599
 msgid "date"
 msgstr "дата"
 
-#: src/print-info.c:602
+#: src/print-info.c:600
 msgid "time"
 msgstr "время"
 
@@ -15045,23 +14933,23 @@ msgstr "время"
 msgid "&[PAGE]"
 msgstr "&[PAGE]"
 
-#: src/print.c:1042 src/workbook-control-gui.c:2612
+#: src/print.c:1036 src/workbook-control-gui.c:2612
 msgid "Selection must be a single range"
 msgstr "Выделение должно быть единственным диапазоном"
 
-#: src/print.c:1159
+#: src/print.c:1153
 msgid "Print Sheets"
 msgstr "Печать листов"
 
-#: src/print.c:1169
+#: src/print.c:1163
 msgid "Act_ive sheet"
 msgstr "Активный лист"
 
-#: src/print.c:1169
+#: src/print.c:1163
 msgid "S_heets"
 msgstr "Листы"
 
-#: src/print.c:1256
+#: src/print.c:1250
 msgid "Printing failed"
 msgstr "Сбой печати"
 
@@ -15773,7 +15661,7 @@ msgid "Workbook has unsaved changes, save them?"
 msgstr "В книге есть несохраненные изменения, сохранить их?"
 
 #: src/workbook-control-gui.c:1270
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "In cell %s, the current contents\n"
 "        %s\n"
@@ -16366,15 +16254,15 @@ msgstr "должна быть хотя бы 1 буква"
 msgid "There is already a sheet named '%s'"
 msgstr "Уже есть таблица названная \"%s\""
 
-#: src/xml-io.c:3178
+#: src/xml-io.c:3171
 msgid "Invalid xml clipboard data. Tree is empty ?"
 msgstr "Неправильные XML данные в буфере обмена. Дерево пусто?"
 
-#: src/xml-io.c:3231
+#: src/xml-io.c:3224
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Это не файл рабочей книги Gnumeric"
 
-#: src/xml-io.c:3292
+#: src/xml-io.c:3285
 msgid "Gnumeric XML file format"
 msgstr "Формат файла Gnumeric XML"
 
