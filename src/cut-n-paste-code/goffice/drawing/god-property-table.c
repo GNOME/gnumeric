@@ -621,7 +621,7 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *container, GODrawingProper
 			ref = ms_container_parse_expr (container, ptr + 8, len);
 			if (ref != NULL)
 				ms_obj_attr_bag_insert (obj->attrs,
-					ms_obj_attr_new_expr (MS_OBJ_ATTR_SCROLLBAR_LINK, ref));
+					ms_obj_attr_new_expr (MS_OBJ_ATTR_LINKED_TO_CELL, ref));
 		}
 		break;
 	case 0x12 : /* list box */
@@ -757,7 +757,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, GODrawingPropertyTa
 			GnmExpr const *ref = ms_container_parse_expr (container, data+10, expr_len);
 			if (ref != NULL)
 				ms_obj_attr_bag_insert (obj->attrs,
-					ms_obj_attr_new_expr (MS_OBJ_ATTR_SCROLLBAR_LINK, ref));
+					ms_obj_attr_new_expr (MS_OBJ_ATTR_LINKED_TO_CELL, ref));
 			ms_obj_dump (data, len, data_len_left, "ScrollbarFmla");
 			break;
 		}
@@ -795,7 +795,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, GODrawingPropertyTa
 			GnmExpr const *ref = ms_container_parse_expr (container, data+10, expr_len);
 			if (ref != NULL)
 				ms_obj_attr_bag_insert (obj->attrs,
-					ms_obj_attr_new_expr (MS_OBJ_ATTR_CHECKBOX_LINK, ref));
+					ms_obj_attr_new_expr (MS_OBJ_ATTR_LINKED_TO_CELL, ref));
 			ms_obj_dump (data, len, data_len_left, "CheckBoxFmla");
 			break;
 		}

@@ -1138,7 +1138,6 @@ typedef struct {
 	char		*label;
 	gboolean 	 value;
 	gboolean	 being_updated;
-	gboolean	 is_toggle;
 } SheetWidgetCheckbox;
 typedef SheetObjectWidgetClass SheetWidgetCheckboxClass;
 
@@ -1181,8 +1180,7 @@ checkbox_eval (GnmDependent *dep)
 static void
 checkbox_debug_name (GnmDependent const *dep, FILE *out)
 {
-	SheetWidgetCheckbox *swc = DEP_TO_CHECKBOX(dep);
-	fprintf (out, (swc->is_toggle ? "ToggleButton%p" : "Checkbox%p"), dep);
+	fprintf (out, "Checkbox%p", dep);
 }
 
 static DEPENDENT_MAKE_TYPE (checkbox, NULL)
@@ -1243,9 +1241,6 @@ sheet_widget_checkbox_get_ref (SheetWidgetCheckbox const *swc,
 	*res = target->v_range.cell.a;
 	value_release (target);
 
-	g_return_val_if_fail (!res->col_relative, NULL);
-	g_return_val_if_fail (!res->row_relative, NULL);
-
 	if (force_sheet && res->sheet == NULL)
 		res->sheet = sheet_object_get_sheet (SHEET_OBJECT (swc));
 	return res;
@@ -1280,9 +1275,7 @@ sheet_widget_checkbox_create_widget (SheetObjectWidget *sow,
 
 	g_return_val_if_fail (swc != NULL, NULL);
 
-	button = swc->is_toggle
-		? gtk_toggle_button_new_with_label (swc->label)
-		: gtk_check_button_new_with_label (swc->label);
+	button = gtk_check_button_new_with_label (swc->label);
 	GTK_WIDGET_UNSET_FLAGS (button, GTK_CAN_FOCUS);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), swc->value);
 	g_signal_connect (G_OBJECT (button),
@@ -1567,6 +1560,32 @@ SOW_MAKE_TYPE (checkbox, Checkbox,
 	       &sheet_widget_checkbox_write_xml_sax)
 
 /****************************************************************************/
+typedef SheetWidgetCheckbox		SheetWidgetToggleButton;
+typedef SheetWidgetCheckboxClass	SheetWidgetToggleButtonClass;
+static GtkWidget *
+sheet_widget_toggle_button_create_widget (SheetObjectWidget *sow,
+				      G_GNUC_UNUSED SheetObjectViewContainer *container)
+{
+	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (sow);
+	GtkWidget *button = gtk_toggle_button_new_with_label (swc->label);
+	GTK_WIDGET_UNSET_FLAGS (button, GTK_CAN_FOCUS);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), swc->value);
+	g_signal_connect (G_OBJECT (button),
+		"toggled",
+		G_CALLBACK (cb_checkbox_toggled), swc);
+	return button;
+}
+static void
+sheet_widget_toggle_button_class_init (SheetObjectWidgetClass *sow_class)
+{
+        sow_class->create_widget = &sheet_widget_toggle_button_create_widget;
+}
+
+GSF_CLASS (SheetWidgetToggleButton, sheet_widget_toggle_button,
+	   &sheet_widget_toggle_button_class_init, NULL,
+	   SHEET_WIDGET_CHECKBOX_TYPE);
+/****************************************************************************/
+
 #define SHEET_WIDGET_RADIO_BUTTON_TYPE	(sheet_widget_radio_button_get_type ())
 #define SHEET_WIDGET_RADIO_BUTTON(obj)	(G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_WIDGET_RADIO_BUTTON_TYPE, SheetWidgetRadioButton))
 #define DEP_TO_RADIO_BUTTON(d_ptr)	(SheetWidgetRadioButton *)(((char *)d_ptr) - G_STRUCT_OFFSET(SheetWidgetRadioButton, dep))

@@ -474,12 +474,12 @@ read_pre_biff8_read_expr (BiffQuery *q, MSContainer *container, MSObj *obj,
 
 	len = GSF_LE_GET_GUINT16 (ptr);
 
-		g_return_val_if_fail (ptr + 6 + len <= last, TRUE);
+	g_return_val_if_fail (ptr + 6 + len <= last, TRUE);
 
-		ref = ms_container_parse_expr (container, ptr + 6, len);
-		if (ref != NULL)
-			ms_obj_attr_bag_insert (obj->attrs,
-				ms_obj_attr_new_expr (MS_OBJ_ATTR_SCROLLBAR_LINK, ref));
+	ref = ms_container_parse_expr (container, ptr + 6, len);
+	if (ref != NULL)
+		ms_obj_attr_bag_insert (obj->attrs,
+			ms_obj_attr_new_expr (MS_OBJ_ATTR_LINKED_TO_CELL, ref));
 
 	*first = ptr + total_len;
 	if (((*first - q->data) & 1))
@@ -705,7 +705,7 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 			ref = ms_container_parse_expr (c, ptr + 8, len);
 			if (ref != NULL)
 				ms_obj_attr_bag_insert (obj->attrs,
-					ms_obj_attr_new_expr (MS_OBJ_ATTR_SCROLLBAR_LINK, ref));
+					ms_obj_attr_new_expr (MS_OBJ_ATTR_LINKED_TO_CELL, ref));
 		}
 		break;
 	case 0x12 : /* list box */
@@ -734,22 +734,60 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 	return FALSE;
 }
 
-static struct {
-	char const *name;
-	unsigned excel_type;
-} const map_forms [] = {
-	{ "ScrollBar",		0x11 },
-	{ "CheckBox",		0x0B },
-	{ "TextBox",		0x06 },
-	{ "CommandButton",	0x07 },
-	{ "OptionButton",	0x0C },
-	{ "ListBox",		0x12 },
-	{ "ComboBox",		0x14 },
-	{ "ToggleButton",	0x0 },	/* TODO */
-	{ "SpinButton",		0x10 },
-	{ "Label",		0x0E },
-	{ "Image",		0x08 }
-};
+
+static void
+ms_obj_map_forms_obj (MSObj *obj, MSContainer *container, guint8 const *data, gint32 len)
+{
+	static struct {
+		char const	*key;
+		unsigned	 excel_type;
+		unsigned	 offset_to_link;
+	} const map_forms [] = {
+		{ "ScrollBar",		0x11, 16 },
+		{ "CheckBox",		0x0B, 17 },
+		{ "TextBox",		0x06 },
+		{ "CommandButton",	0x07 },
+		{ "OptionButton",	0x0C, 17 },
+		{ "ListBox",		0x12, 16 },
+		{ "ComboBox",		0x14, 17 },
+		{ "ToggleButton",	0x70, 17 },
+		{ "SpinButton",		0x10, 17 },
+		{ "Label",		0x0E },
+		{ "Image",		0x08 }
+	};
+	int i = G_N_ELEMENTS (map_forms);
+	char const *key;
+	int key_len;
+
+	if (obj->excel_type != 8 || len <= 27 ||
+	    strncmp (data+21, "Forms.", 6))
+		return;
+
+	while (i-- > 0) {
+		key	= map_forms[i].key;
+		key_len = strlen (key);
+		if (map_forms [i].excel_type > 0 &&
+		    len >= (27+key_len) &&
+		    0 == strncmp (data+27, map_forms [i].key, key_len))
+			break;
+	}
+
+	if (i >= 0) {
+		obj->excel_type = map_forms [i].excel_type;
+		if (map_forms [i].offset_to_link != 0) {
+			guint8 const *ptr = data + 27 + key_len + map_forms [i].offset_to_link;
+			guint16 expr_len;
+			GnmExpr const *ref;
+			g_return_if_fail (ptr + 2 <= (data + len));
+			expr_len = GSF_LE_GET_GUINT16 (ptr);
+			g_return_if_fail (ptr + 2 + expr_len <= (data + len));
+			ref = ms_container_parse_expr (container, ptr + 6, expr_len);
+			if (ref != NULL)
+				ms_obj_attr_bag_insert (obj->attrs,
+					ms_obj_attr_new_expr (MS_OBJ_ATTR_LINKED_TO_CELL, ref));
+		}
+	}
+}
 
 static gboolean
 ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
@@ -829,22 +867,8 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 			break;
 
 		case GR_PICTURE_FORMULA :
-			ms_obj_dump (data, len, data_len_left, "PictFormula");
-			/* Forms are stored as pictures */
-			if (obj->excel_type == 8 &&
-			    len > 26 && 0 == strncmp (data+21, "Forms.", 6)) {
-				unsigned i = G_N_ELEMENTS (map_forms);
-				while (i-- > 0) {
-					char const *key = map_forms[i].name;
-					unsigned key_len = strlen (key);
-					if (0 == strncmp (data+27, key, key_len)) {
-						gsf_mem_dump (data, len+4);
-						if (map_forms [i].excel_type > 0)
-							obj->excel_type = map_forms [i].excel_type;
-						break;
-					}
-				} 
-			}
+			/* Check for form objects stored here for no apparent reason */
+			ms_obj_map_forms_obj (obj, container, data, len);
 			break;
 
 		case GR_CHECKBOX_LINK :
@@ -883,7 +907,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 			GnmExpr const *ref = ms_container_parse_expr (container, data+10, expr_len);
 			if (ref != NULL)
 				ms_obj_attr_bag_insert (obj->attrs,
-					ms_obj_attr_new_expr (MS_OBJ_ATTR_SCROLLBAR_LINK, ref));
+					ms_obj_attr_new_expr (MS_OBJ_ATTR_LINKED_TO_CELL, ref));
 			ms_obj_dump (data, len, data_len_left, "ScrollbarFmla");
 			break;
 		}
@@ -921,7 +945,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 			GnmExpr const *ref = ms_container_parse_expr (container, data+10, expr_len);
 			if (ref != NULL)
 				ms_obj_attr_bag_insert (obj->attrs,
-					ms_obj_attr_new_expr (MS_OBJ_ATTR_CHECKBOX_LINK, ref));
+					ms_obj_attr_new_expr (MS_OBJ_ATTR_LINKED_TO_CELL, ref));
 			ms_obj_dump (data, len, data_len_left, "CheckBoxFmla");
 			break;
 		}

@@ -484,8 +484,9 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 	}
 
 	case 0x0B: 
+	case 0x70: 
 		sheet_widget_checkbox_set_link (obj->gnum_obj,
-			ms_obj_attr_get_expr (obj->attrs, MS_OBJ_ATTR_CHECKBOX_LINK, NULL));
+			ms_obj_attr_get_expr (obj->attrs, MS_OBJ_ATTR_LINKED_TO_CELL, NULL));
 		break;
 
 	case 0x0C:
@@ -494,7 +495,7 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 	case 0x10:
 	case 0x11:
 		sheet_widget_adjustment_set_details (obj->gnum_obj,
-			ms_obj_attr_get_expr (obj->attrs, MS_OBJ_ATTR_SCROLLBAR_LINK, NULL),
+			ms_obj_attr_get_expr (obj->attrs, MS_OBJ_ATTR_LINKED_TO_CELL, NULL),
 			ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_SCROLLBAR_VALUE, 0),
 			ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_SCROLLBAR_MIN, 0),
 			ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_SCROLLBAR_MAX, 100) - 1,
@@ -608,6 +609,10 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 	break;
 
 	case 0x19: so = g_object_new (cell_comment_get_type (), NULL);
+		break;
+
+	/* Gnumeric specific addition to handle toggle button controls */
+	case 0x70: so = g_object_new (sheet_widget_toggle_button_get_type (), NULL);
 		break;
 
 	default:

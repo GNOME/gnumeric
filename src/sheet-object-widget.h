@@ -8,6 +8,7 @@ void sheet_object_widget_register (void);
 GType sheet_widget_frame_get_type	 (void); /* convert to non-widget item */
 GType sheet_widget_button_get_type	 (void);
 GType sheet_widget_checkbox_get_type	 (void);
+GType sheet_widget_toggle_button_get_type(void);
 GType sheet_widget_radio_button_get_type (void);
 
 /*Descendents of the list_base sheet widget object*/

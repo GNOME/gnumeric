@@ -1,5 +1,11 @@
 2004-10-10  Jody Goldberg <jody@gnome.org>
 
+	* src/sheet-object-widget.c : Add a ToggleButton type.
+	(sheet_widget_checkbox_get_ref) : weaken to allow relative references
+	  and assume they are relative to A1.
+
+2004-10-10  Jody Goldberg <jody@gnome.org>
+
 	* gnumeric.spec.in : Lets stick with fedora core package names as the
 	  defacto standard until something better presents itself.  There are
 	  still no guarantees that this works.
