@@ -623,6 +623,7 @@ expr_name_shutdown (void)
 		GnmNamedExpr *nexpr =
 			expr_name_lookup (NULL, builtins[lp].name);
 		if (nexpr) {
+			nexpr->active = FALSE;
 			expr_name_unref (nexpr);
 			global_names = g_list_remove (global_names, nexpr);
 		}

@@ -1721,11 +1721,14 @@ sheet_deps_destroy (Sheet *sheet)
 
 	/* The GnmDepContainer contains the names that reference this, not the
 	 * names it contains.  Remove them here. NOTE : they may continue to exist
-	 * inactively for a bit.
+	 * inactively for a bit.  Be careful to remove them _before_ destroying
+	 * the deps.  This is a bit wasteful in that we unlink and relink a few
+	 * things that are going to be deleted.  However, it is necessary to
+	 * catch all the different life cycles
 	 */
-	do_deps_destroy (sheet, &rwinfo);
 	expr_name_list_destroy (sheet->names);
 	sheet->names = NULL;
+	do_deps_destroy (sheet, &rwinfo);
 }
 
 void
@@ -1744,9 +1747,14 @@ workbook_deps_destroy (Workbook *wb)
 		wb->sheet_order_dependents = NULL;
 	}
 
-	WORKBOOK_FOREACH_SHEET (wb, sheet, do_deps_destroy (sheet, &rwinfo););
+	/* See above for explantion */
 	expr_name_list_destroy (wb->names);
 	wb->names = NULL;
+	WORKBOOK_FOREACH_SHEET (wb, sheet, {
+		expr_name_list_destroy (sheet->names);
+		sheet->names = NULL;
+		do_deps_destroy (sheet, &rwinfo);
+	});
 }
 
 void

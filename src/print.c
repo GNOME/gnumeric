@@ -36,8 +36,6 @@
 #include <libgnomeprintui/gnome-print-dialog.h>
 #include <libgnomeprintui/gnome-printer-dialog.h>
 
-extern int print_debugging;
-
 /*
  * Margins
  *

@@ -65,7 +65,8 @@ static void
 cb_add_clicked (GtkWidget *widget, AutoCorrectExceptionState *s)
 {
 	gchar const *txt;
-        gchar    *dumy[2], *str;
+        gchar const *dumy[2];
+        gchar const *str;
 	GSList    *ptr;
 	gboolean new_flag = TRUE;
 

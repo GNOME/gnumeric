@@ -1,13 +1,19 @@
-gnumeric (1.1.2-1) experimental; urgency=low
+gnumeric (1.1.5-1) experimental; urgency=low
 
   * UNRELEASED
+    * Waiting for libgsf to replace libole so we can support .xls without
+      needing to package libole CVS HEAD.
 
-  * Development version based on upstream CVS HEAD.
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun,  2 Jun 2002 12:00:17 +0200
 
-  * TODO
-    * Port gda plugin fixes ?
+gnumeric (1.0.6-2) unstable; urgency=high
 
- -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 21 Apr 2002 15:13:22 +0200
+  * Fixed doc/{es,ja,no,ru}/topic.dat to refer to 'index.html' rather than
+    'gnumeric.html'. (Closes: #144141)
+  * No longer prevent the psiconv plugin Makefile from being generated, as
+    it no longer causes the build to fail.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Tue, 23 Apr 2002 18:02:30 +0200
 
 gnumeric (1.0.6-1) unstable; urgency=high
 

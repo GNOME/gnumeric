@@ -52,6 +52,6 @@ gboolean     plugin_db_is_plugin_marked_for_deactivation (GnmPlugin *pinfo);
 void         plugin_db_activate_plugin_list (GSList *plugins, ErrorInfo **ret_error);
 void         plugin_db_deactivate_plugin_list (GSList *plugins, ErrorInfo **ret_error);
 
-void plugin_message (gint level, const gchar *format, ...);
+void plugin_message (gint level, const gchar *format, ...) G_GNUC_PRINTF (2, 3);
 
 #endif /* GNUMERIC_PLUGIN_H */

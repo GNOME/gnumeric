@@ -3,6 +3,19 @@
 #include "lpglob.h"
 #include <stdarg.h>
 
+void
+lp_solve_debug_print_solution (lprec *lp);
+
+void
+lp_solve_debug_print_bounds (lprec *lp, gnum_float *upbo, gnum_float *lowbo);
+
+void
+lp_solve_debug_print (lprec *lp, const char *format, ...)
+#ifdef __GNUC__
+__attribute__ ((format (printf, 2, 3)))
+#endif
+;
+
 
 static void
 print_indent (void)
@@ -83,7 +96,6 @@ lp_solve_debug_print_bounds (lprec *lp, gnum_float *upbo, gnum_float *lowbo)
 			}
 		}
 }
-
 
 void
 lp_solve_debug_print (lprec *lp, const char *format, ...)

@@ -33,7 +33,7 @@ struct _Cell {
 /**
  * Manage cells
  */
-Cell     *cell_new          ();
+Cell     *cell_new          (void);
 Cell	 *cell_copy	    (Cell const *cell);
 void	  cell_destroy      (Cell *cell);
 void	  cell_relocate     (Cell *cell, GnmExprRewriteInfo const *rwinfo);
