@@ -976,8 +976,8 @@ plugin_service_function_group_initialize (PluginService *service,
 			(gchar *) l->data,
 			&plugin_service_function_group_get_full_info_callback);
 		function_def_set_user_data (fn_def, (gpointer) service);
-		if (force_load)
-			function_def_get_full_info_if_needed (fn_def);
+		if (fn_def->fn_type == FUNCTION_NAMEONLY && force_load)
+			func_def_load (fn_def);
 	}
 }
 

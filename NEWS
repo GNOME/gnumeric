@@ -70,6 +70,7 @@ Jody:
 	* Prep for importing external references from XL.
 	* Better support for 3d references.
 	* Add a sample external data source.
+	* fix paste-special.
 
 Jon Kåre:
 	* More correct import of "automatic" colors from Excel.

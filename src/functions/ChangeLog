@@ -1,3 +1,8 @@
+2002-03-09  Jody Goldberg <jody@gnome.org>
+
+	* fn-lookup.c (gnumeric_indirect) : remove boneheaded stub for using
+	  link/unlink to solve INDIRECT.
+
 2002-03-05  Morten Welinder  <terra@diku.dk>
 
 	* fn-financial.c (gnumeric_euro): Improve precision.

@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /*
  * fn-lookup.c:  Built in lookup functions and functions registration
@@ -737,12 +738,6 @@ static const char *help_indirect = {
 	   "@SEEALSO=")
 };
 
-static void
-gnumeric_indirect_unlink (FunctionEvalInfo *ei)
-{
-	puts ("UNLINK indirect");
-}
-
 static Value *
 gnumeric_indirect (FunctionEvalInfo *ei, Value **args)
 {
@@ -750,15 +745,14 @@ gnumeric_indirect (FunctionEvalInfo *ei, Value **args)
 	/* What good is this ? the parser handles both forms */
 	gboolean a1_style = args[1] ? value_get_as_bool (args[1], &error) : TRUE;
 #endif
-
 	ParsePos  pp;
-	ExprTree *expr;
-	char	 *text = value_get_as_string (args[0]);
-
-	expr = expr_parse_str_simple (text,
+	char const *text = value_peek_string (args[0]);
+	ExprTree   *expr = expr_parse_str_simple (text,
 		parse_pos_init_evalpos (&pp, ei->pos));
-	g_free (text);
 
+	/* We need to parse from the current cell then normalize just in case
+	 * the expression is in R[-1]C[-1] format.
+	 */
 	if (expr != NULL) {
 		if (expr->any.oper == OPER_NAME &&
 		    !expr->name.name->builtin) {
@@ -780,6 +774,8 @@ gnumeric_indirect (FunctionEvalInfo *ei, Value **args)
 	}
 	return value_new_error (ei->pos, gnumeric_err_REF);
 }
+
+/*****************************************************************************/
 
 /*
  * FIXME: The concept of multiple range references needs core support.
@@ -1146,10 +1142,8 @@ lookup_functions_init (void)
 	function_add_args  (cat, "hyperlink",
 			    "s|s","link_location, optional_label",
 			    &help_hyperlink, gnumeric_hyperlink);
-	function_set_link_handlers (
-		function_add_args  (cat, "indirect",  "s|b","ref_string,format",
-				    &help_indirect, gnumeric_indirect),
-		NULL, gnumeric_indirect_unlink);
+	function_add_args  (cat, "indirect",  "s|b","ref_string,format",
+			    &help_indirect, gnumeric_indirect),
 
 	function_add_args  (cat, "index",     "A|fff","reference,row,col,area",
 			    &help_index,    gnumeric_index);
