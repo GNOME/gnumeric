@@ -13,73 +13,145 @@
 #include <sheet.h>
 #include <cell.h>
 #include <sheet-object-cell-comment.h>
+#include <workbook-edit.h>
+#include <ranges.h>
+#include <gtk/gtk.h>
 
 #include <libgnome/gnome-i18n.h>
+
+#define GLADE_FILE "cell-comment.glade"
+#define COMMENT_DIALOG_KEY "zoom-dialog"
+
+typedef struct {
+	WorkbookControlGUI *wbcg;
+	Sheet              *sheet;
+	CellPos const      *pos;
+	GtkWidget          *dialog;
+	GtkWidget          *ok_button;
+	GtkWidget          *cancel_button;
+	GtkTextBuffer      *text;
+	GladeXML           *gui;
+	CellComment        *comment;
+} CommentState;
+
+
+static gboolean
+dialog_cell_comment_destroy (GtkObject *w, CommentState *state)
+{
+	g_return_val_if_fail (w != NULL, FALSE);
+	g_return_val_if_fail (state != NULL, FALSE);
+
+	wbcg_edit_detach_guru (state->wbcg);
+
+	if (state->gui != NULL) {
+		g_object_unref (G_OBJECT (state->gui));
+		state->gui = NULL;
+	}
+
+	state->dialog = NULL;
+	g_free (state);
+
+	return FALSE;
+}
+
+static void
+cb_cell_comment_cancel_clicked (GtkWidget *button, CommentState *state)
+{
+	gtk_widget_destroy (state->dialog);
+	return;
+}
+
+static void
+cb_cell_comment_ok_clicked (GtkWidget *button, CommentState *state)
+{
+	GtkTextIter start;
+	GtkTextIter end;
+	char *text;
+
+	gtk_text_buffer_get_bounds  (state->text, &start, &end);
+	text = gtk_text_buffer_get_text (state->text, &start, &end, TRUE);
+
+	if (state->comment)
+		cell_comment_text_set (state->comment, text);
+	else
+		cell_set_comment (state->sheet, state->pos, NULL, text);
+	g_free (text);
+	sheet_set_dirty (state->sheet, TRUE);
+
+	gtk_widget_destroy (state->dialog);
+	return;
+}
 
 void
 dialog_cell_comment (WorkbookControlGUI *wbcg, Sheet *sheet, CellPos const *pos)
 {
-	GtkWidget   *dialog;
-	GtkWidget   *textbox;
-	GSList	    *comments;
-	CellComment *comment = NULL;
-	Range	     r;
-	int v;
+	CommentState *state;
+	Range r;
+	GtkWidget *textview;
+	GSList *comments = NULL;
 
 	g_return_if_fail (wbcg != NULL);
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (pos != NULL);
 
-	dialog = gnome_dialog_new (
-		_("Cell comment"),
-		GNOME_STOCK_BUTTON_OK,
-		GNOME_STOCK_BUTTON_CANCEL,
-		NULL);
+	if (gnumeric_dialog_raise_if_exists (wbcg, COMMENT_DIALOG_KEY))
+		return;
 
-	gnome_dialog_set_default (GNOME_DIALOG(dialog), GNOME_OK);
-	gtk_window_set_policy (GTK_WINDOW(dialog), FALSE, TRUE, FALSE);
+	state = g_new (CommentState, 1);
+	state->wbcg  = wbcg;
+	state->sheet  = sheet;
+	state->pos  = pos;
+	state->comment = NULL;
 
-	textbox = gtk_text_view_new ();
-	gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (textbox), GTK_WRAP_WORD);
-	gtk_text_view_set_editable (GTK_TEXT_VIEW (textbox), TRUE);
+	state->gui = gnumeric_glade_xml_new (wbcg, GLADE_FILE);
+	g_return_if_fail (state->gui != NULL);
+
+	state->dialog = glade_xml_get_widget (state->gui, "comment_dialog");
+	g_return_if_fail (state->dialog != NULL);
+
+	textview = glade_xml_get_widget (state->gui, "textview");
+	g_return_if_fail (textview != NULL);
+	state->text = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
 
 	r.start = r.end = *pos;
 	comments = sheet_objects_get (sheet, &r, CELL_COMMENT_TYPE);
 	if (comments) {
-		gint pos = 0;
 		char const *text;
 
-		comment = CELL_COMMENT (comments->data);
-		if (comment == NULL)
+		state->comment = CELL_COMMENT (comments->data);
+		if (state->comment == NULL)
 			g_warning ("Invalid comment");
 		if (comments->next != NULL)
 			g_warning ("More than one comment associated with a cell ?");
 
 		text = cell_comment_text_get (comments->data);
-		gtk_editable_insert_text (
-			GTK_EDITABLE (textbox), text, strlen (text), &pos);
+		gtk_text_buffer_set_text (state->text, text, -1);
 
 		g_slist_free (comments);
 	}
 
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), textbox, TRUE, TRUE, 0);
-	gtk_widget_show (textbox);
-	gtk_widget_grab_focus (textbox);
 
-	v = gnumeric_dialog_run (wbcg, GTK_DIALOG (dialog));
-	if (v == -1)
-		return;
+	state->ok_button = glade_xml_get_widget (state->gui, "ok_button");
+	g_signal_connect (G_OBJECT (state->ok_button),
+		"clicked",
+		G_CALLBACK (cb_cell_comment_ok_clicked), state);
 
-	if (v == 0) {
-		char *text = gtk_editable_get_chars (GTK_EDITABLE (textbox), 0, -1);
+	state->cancel_button = glade_xml_get_widget (state->gui, "cancel_button");
+	g_signal_connect (G_OBJECT (state->cancel_button),
+		"clicked",
+		G_CALLBACK (cb_cell_comment_cancel_clicked), state);
 
-		if (comment)
-			cell_comment_text_set (comment, text);
-		else
-			cell_set_comment (sheet, pos, NULL, text);
-		g_free (text);
-		sheet_set_dirty (sheet, TRUE);
-	}
+	gnumeric_init_help_button (
+		glade_xml_get_widget (state->gui, "help_button"),
+		"cell-comment.html");
 
-	gtk_object_destroy (GTK_OBJECT (dialog));
+	g_signal_connect (G_OBJECT (state->dialog),
+		"destroy",
+		G_CALLBACK (dialog_cell_comment_destroy), state);
+
+	wbcg_edit_attach_guru (state->wbcg, state->dialog);
+	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+			       COMMENT_DIALOG_KEY);
+	gtk_widget_show_all (state->dialog);
+	gtk_widget_grab_focus (textview);
 }

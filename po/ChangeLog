@@ -1,3 +1,7 @@
+2002-03-01  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* POTFILES.in : add src/dialogs/cell-comment.glade
+	
 2002-02-28  Stanislav Visnovsky <visnovsky@nenya.ms.mff.cuni.cz>
 
 	* sk.po: Updated Slovak translation.

@@ -1,3 +1,12 @@
+2002-03-01  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* Makefile.am : add cell-comment.glade
+	* dialog-cell-comment.c : port to gnome2 and make guru
+	NOTE: adding/modifying comments still does not work:
+	crash in cell_comment_destroy (apparent confusion between
+	GObject and GtkObject)
+	* cell-comment.glade : new file
+
 2002-03-01  Morten Welinder  <terra@diku.dk>
 
 	* dialog-solver.c (free_original_values): Simplify.

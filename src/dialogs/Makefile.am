@@ -76,6 +76,7 @@ glade_DATA = 				\
 	autocorrect.glade		\
 	autoformat.glade		\
 	autosave.glade			\
+	cell-comment.glade		\
 	cell-format.glade		\
 	cell-sort.glade			\
 	col-width.glade			\
