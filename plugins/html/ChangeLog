@@ -1,3 +1,13 @@
+2000-02-26  Almer. S. Tigelaar.  <almer1@dds.nl>
+
+	* html.c 
+	* (html_write_cell_str, html_write_cell32, html_write_cell40) :
+	* (html_write_wb_html32, html_write_wb_html40) :
+	Adjusted so it now uses sheet_style_computer and puts <BR> 
+	tags in empty cells, this way the cells will _always_ render
+	in a browser so the 'style' information is not lost for
+	empty cells.
+
 2000-01-31  Jon K Hellan  <hellan@acm.org>
 
 	* roff.c (write_wb_roff): Check missing style.

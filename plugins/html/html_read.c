@@ -4,6 +4,9 @@
  * Copyright (C) 1999 Rasca, Berlin
  * EMail: thron@gmx.de
  *
+ * Contributors :
+ *   Almer. S. Tigelaar <almer1@dds.nl>
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -70,7 +73,10 @@ html_write_cell_str (FILE *fp, Cell *cell, MStyle *mstyle)
 	if (mstyle_get_font_italic (mstyle))
 		fprintf (fp, "<I>");
 
-	html_fprintf (fp, cell->text->str);
+	if (cell) 
+		html_fprintf (fp, cell->text->str);
+	else
+		fprintf (fp, "<BR>");
 
 	if (mstyle_get_font_italic (mstyle))
 		fprintf (fp, "</I>");
@@ -92,21 +98,17 @@ html_get_color (MStyle *mstyle, MStyleElementType t, int *r, int *g, int *b)
  * write a TD
  */
 static void
-html_write_cell32 (FILE *fp, Cell *cell)
+html_write_cell32 (FILE *fp, Cell *cell, MStyle *style)
 {
-	MStyle *mstyle;
 	unsigned int r, g, b;
 
-	if (!cell) {	/* empty cell */
-		fprintf (fp, "\t<TD>");
-	} else {
-		mstyle = cell_get_mstyle (cell);
-		g_return_if_fail (mstyle != NULL);
+	g_return_if_fail (style != NULL);
 
-		fprintf (fp, "\t<TD");
+	fprintf (fp, "\t<TD");
 
+	if (cell) {
 		switch (cell_get_horizontal_align (cell,
-						   mstyle_get_align_h (mstyle))) {
+						   mstyle_get_align_h (style))) {
 		case HALIGN_RIGHT :
 			fprintf (fp, " align=right");
 			break;
@@ -117,22 +119,23 @@ html_write_cell32 (FILE *fp, Cell *cell)
 		default :
 			break;
 		}
-		if (mstyle_get_align_v (mstyle) & VALIGN_TOP)
+		if (mstyle_get_align_v (style) & VALIGN_TOP)
 			fprintf (fp, " valign=top");
-		html_get_color (mstyle, MSTYLE_COLOR_BACK, &r, &g, &b);
-		if (r < 255 || g < 255 || b < 255)
-			fprintf (fp, " bgcolor=\"#%02X%02X%02X\"", r, g, b);
-		fprintf (fp, ">");
-		html_get_color (mstyle, MSTYLE_COLOR_FORE, &r, &g, &b);
-		if (r != 0 || g != 0 || b != 0)
-			fprintf (fp, "<FONT color=\"#%02X%02X%02X\">",
-				 r, g, b);
-		html_write_cell_str (fp, cell, mstyle);
-
-		if (r != 0 || g != 0 || b != 0)
-			fprintf (fp, "</FONT>");
-		mstyle_unref (mstyle);
 	}
+	
+	html_get_color (style, MSTYLE_COLOR_BACK, &r, &g, &b);
+	if (r < 255 || g < 255 || b < 255)
+		fprintf (fp, " bgcolor=\"#%02X%02X%02X\"", r, g, b);
+	fprintf (fp, ">");
+	html_get_color (style, MSTYLE_COLOR_FORE, &r, &g, &b);
+	if (r != 0 || g != 0 || b != 0)
+		fprintf (fp, "<FONT color=\"#%02X%02X%02X\">",
+			 r, g, b);
+	html_write_cell_str (fp, cell, style);
+	
+	if (r != 0 || g != 0 || b != 0)
+		fprintf (fp, "</FONT>");
+
 	fprintf (fp, "</TD>\n");
 }
 
@@ -140,46 +143,46 @@ html_write_cell32 (FILE *fp, Cell *cell)
  * write a TD
  */
 static void
-html_write_cell40 (FILE *fp, Cell *cell)
+html_write_cell40 (FILE *fp, Cell *cell, MStyle *style)
 {
-	MStyle *mstyle;
 	unsigned int r, g, b;
 
-	if (!cell) {	/* empty cell */
-		fprintf (fp, "\t<TD>");
-	} else {
-		mstyle = cell_get_mstyle (cell);
-		g_return_if_fail (mstyle != NULL);
+	g_return_if_fail (style != NULL);
 
-		fprintf (fp, "\t<TD");
+	fprintf (fp, "\t<TD");
 
+	if (cell) {
 		switch (cell_get_horizontal_align (cell,
-						   mstyle_get_align_h (mstyle))) {
+						   mstyle_get_align_h (style))) {
 		case HALIGN_RIGHT :
 			fprintf (fp, " halign=right");
 			break;
-
+			
 		case HALIGN_CENTER :
 			fprintf (fp, " halign=center");
 			break;
 		default :
 			break;
 		}
-		if (mstyle_get_align_v (mstyle) & VALIGN_TOP)
+		
+		if (mstyle_get_align_v (style) & VALIGN_TOP)
 			fprintf (fp, " valign=top");
-		html_get_color (mstyle, MSTYLE_COLOR_BACK, &r, &g, &b);
-		if (r < 255 || g < 255 || b < 255)
-			fprintf (fp, " bgcolor=\"#%02X%02X%02X\"", r, g, b);
-		fprintf (fp, ">");
-		html_get_color (mstyle, MSTYLE_COLOR_FORE, &r, &g, &b);
-		if (r != 0 || g != 0 || b != 0)
-			fprintf (fp, "<FONT color=\"#%02X%02X%02X\">",
-				 r, g, b);
-		html_write_cell_str (fp, cell, mstyle);
-
-		if (r != 0 || g != 0 || b != 0)
-			fprintf (fp, "</FONT>");
 	}
+		
+	html_get_color (style, MSTYLE_COLOR_BACK, &r, &g, &b);
+	if (r < 255 || g < 255 || b < 255)
+		fprintf (fp, " bgcolor=\"#%02X%02X%02X\"", r, g, b);
+	fprintf (fp, ">");
+	html_get_color (style, MSTYLE_COLOR_FORE, &r, &g, &b);
+	if (r != 0 || g != 0 || b != 0)
+		fprintf (fp, "<FONT color=\"#%02X%02X%02X\">",
+			 r, g, b);
+
+	html_write_cell_str (fp, cell, style);
+	
+	if (r != 0 || g != 0 || b != 0)
+		fprintf (fp, "</FONT>");
+
 	fprintf (fp, "</TD>\n");
 }
 
@@ -194,6 +197,7 @@ html_write_wb_html32 (CommandContext *context, Workbook *wb,
 	GList *sheet_list;
 	Sheet *sheet;
 	Cell *cell;
+	MStyle *style;
 	int row, col;
 
 	g_return_val_if_fail (wb != NULL, -1);
@@ -232,7 +236,9 @@ html_write_wb_html32 (CommandContext *context, Workbook *wb,
 			fprintf (fp, "<TR>\n");
 			for (col = 0; col <= sheet->cols.max_used; col++) {
 				cell = sheet_cell_get (sheet, col, row);
-				html_write_cell32 (fp, cell);
+				style = sheet_style_compute (sheet, col, row);
+				
+				html_write_cell32 (fp, cell, style);
 			}
 			fprintf (fp, "</TR>\n");
 		}
@@ -255,6 +261,7 @@ html_write_wb_html40 (CommandContext *context, Workbook *wb,
 	GList *sheet_list;
 	Sheet *sheet;
 	Cell *cell;
+	MStyle *style;
 	int row, col;
 
 	g_return_val_if_fail (wb != NULL, -1);
@@ -293,8 +300,10 @@ html_write_wb_html40 (CommandContext *context, Workbook *wb,
 		for (row = 0; row <= sheet->rows.max_used; row++) {
 			fprintf (fp, "<TR>\n");
 			for (col = 0; col <= sheet->cols.max_used; col++) {
-				cell = sheet_cell_get (sheet, col, row);
-				html_write_cell40 (fp, cell);
+				cell  = sheet_cell_get (sheet, col, row);
+				style = sheet_style_compute (sheet, col, row);
+				
+				html_write_cell40 (fp, cell, style);
 			}
 			fprintf (fp, "</TR>\n");
 		}
