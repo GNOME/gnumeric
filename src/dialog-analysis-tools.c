@@ -26,6 +26,7 @@ static void dialog_ztest_tool(Workbook *wb, Sheet *sheet);
 static void dialog_ttest_paired_tool(Workbook *wb, Sheet *sheet);
 static void dialog_ttest_eq_tool(Workbook *wb, Sheet *sheet);
 static void dialog_ttest_neq_tool(Workbook *wb, Sheet *sheet);
+static void dialog_ftest_tool(Workbook *wb, Sheet *sheet);
 
 
 typedef void (*tool_fun_ptr_t)(Workbook *wb, Sheet *sheet);
@@ -52,6 +53,8 @@ tool_list_t tools[] = {
         { { "Correlation", NULL }, dummy_fun },
         { { "Covariance", NULL }, dummy_fun },
         { { "Descriptive Statistics", NULL }, dummy_fun },
+        { { "F-Test: Two-Sample for Variances", NULL }, 
+	  dialog_ftest_tool },
         { { "Sampling", NULL }, dummy_fun },
         { { "t-Test: Paired Two Sample for Means", NULL }, 
 	  dialog_ttest_paired_tool },
@@ -207,7 +210,7 @@ tool_dialog_range(Workbook *wb, Sheet *sheet, int ti)
 					     input_range);
 
 		group_ops = NULL;
-		if (ti == 3)
+		if (ti == 4)
 		        goto skip_groupped;
 		groupped_label = gtk_label_new ("Groupped By:");
 		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
@@ -233,7 +236,7 @@ tool_dialog_range(Workbook *wb, Sheet *sheet, int ti)
 			gtk_box_pack_start (GTK_BOX (GNOME_DIALOG
 						     (dialog[ti])->vbox), 
 					    check_buttons, TRUE, TRUE, 0);
-		} else if (ti == 3) {
+		} else if (ti == 4) {
 		        GtkWidget *sampling_label =
 			  gtk_label_new ("Sampling Method:");
 			GtkWidget *sampling_box;
@@ -290,7 +293,7 @@ tool_dialog_loop:
 		return;
 	}
 
-	if (ti != 3)
+	if (ti != 4)
 	        i = gtk_radio_group_get_selected (group_ops);
 
 	text = gtk_entry_get_text (GTK_ENTRY (input_range));
@@ -328,7 +331,7 @@ tool_dialog_loop:
 
 	        descriptive_stat_tool(wb, sheet, &range_input, !i, &ds, &dao);
 		break;
-	case 3:
+	case 4:
 	        i = gtk_radio_group_get_selected(sampling_ops);
 		text = gtk_entry_get_text (GTK_ENTRY (sampling_entry[i]));
 		size = atoi(text);
@@ -769,6 +772,95 @@ ttest_dialog_loop:
  	gnome_dialog_close (GNOME_DIALOG (dialog));
 }
 
+static void
+dialog_ftest_tool(Workbook *wb, Sheet *sheet)
+{
+        static GtkWidget *dialog, *box;
+	static GtkWidget *range1_entry, *range2_entry;
+	static GtkWidget *alpha_entry;
+
+	data_analysis_output_t  dao;
+	float_t alpha;
+
+	char  *text;
+	int   selection;
+	static Range range_input1, range_input2;
+	int   i=0, size;
+
+	if (!dialog) {
+	        dialog = new_dialog("F-Test: Two-Sample for Variances",
+				    wb->toplevel);
+
+		box = gtk_vbox_new (FALSE, 0);
+
+		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
+						      (dialog)->vbox), box);
+
+		range1_entry = hbox_pack_label_and_entry
+		  ("Variable 1 Range:", "", 20, box);
+
+		range2_entry = hbox_pack_label_and_entry
+		  ("Variable 2 Range:", "", 20, box);
+
+		alpha_entry = hbox_pack_label_and_entry("Alpha:", "0.95",
+							20, box);
+
+		gtk_widget_show_all (dialog);
+	} else
+		gtk_widget_show_all (dialog);
+
+        gtk_widget_grab_focus (range1_entry);
+
+ttest_dialog_loop:
+
+	selection = gnome_dialog_run (GNOME_DIALOG (dialog));
+	if (selection == 1) {
+	        gnome_dialog_close (GNOME_DIALOG (dialog));
+		return;
+	}
+
+	text = gtk_entry_get_text (GTK_ENTRY (range1_entry));
+	if (!parse_range (text, &range_input1.start_col,
+			  &range_input1.start_row,
+			  &range_input1.end_col,
+			  &range_input1.end_row)) {
+	        gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
+				 _("You should introduce a valid cell range "
+				   "in 'Variable 1:'"));
+		gtk_widget_grab_focus (range1_entry);
+		gtk_entry_set_position(GTK_ENTRY (range1_entry), 0);
+		gtk_entry_select_region(GTK_ENTRY (range1_entry), 0, 
+				GTK_ENTRY(range1_entry)->text_length);
+		goto ttest_dialog_loop;
+	}
+
+	text = gtk_entry_get_text (GTK_ENTRY (range2_entry));
+	if (!parse_range (text, &range_input2.start_col,
+			  &range_input2.start_row,
+			  &range_input2.end_col,
+			  &range_input2.end_row)) {
+	        gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
+				 _("You should introduce a valid cell range "
+				   "in 'Variable 2:'"));
+		gtk_widget_grab_focus (range2_entry);
+		gtk_entry_set_position(GTK_ENTRY (range2_entry), 0);
+		gtk_entry_select_region(GTK_ENTRY (range2_entry), 0, 
+				GTK_ENTRY(range2_entry)->text_length);
+		goto ttest_dialog_loop;
+	}
+
+	text = gtk_entry_get_text (GTK_ENTRY (alpha_entry));
+	alpha = atof(text);
+
+	/* TODO: radio buttos for outputs */
+	dao.type = NewSheetOutput;
+
+	ftest_tool (wb, sheet, &range_input1, &range_input2, alpha, &dao);
+
+	workbook_focus_sheet(sheet);
+ 	gnome_dialog_close (GNOME_DIALOG (dialog));
+}
+
 
 static void
 selection_made(GtkWidget *clist, gint row, gint column,
@@ -826,7 +918,7 @@ dialog_data_analysis (Workbook *wb, Sheet *sheet)
 
 	if (selection == 0) {
 	        g_return_if_fail (tools[selected_row].fun != NULL);
-		if (selected_row >= 4)
+		if (selected_row >= 5 || selected_row == 3)
 		  tools[selected_row].fun(wb, sheet);
 		else
 		  tool_dialog_range(wb, sheet, selected_row);

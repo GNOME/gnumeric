@@ -60,6 +60,10 @@ int sampling_tool (Workbook *wb, Sheet *sheet, Range *input_range,
 		   gboolean periodic_flag, int size,
 		   data_analysis_output_t *dao);
 
+int ftest_tool (Workbook *wb, Sheet *sheet, Range *input_range1, 
+		Range *input_range2, float_t alpha,
+		data_analysis_output_t *dao);
+
 int ttest_paired_tool (Workbook *wb, Sheet *sheet, Range *input_range1, 
 		       Range *input_range2, float_t mean_diff, float_t alpha,
 		       data_analysis_output_t *dao);

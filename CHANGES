@@ -11,9 +11,10 @@ Jukka:
 	- Implemented Correlation and Covariance tools
 	- Implemented Descriptive Statistics Tool
 	- Implemented Sampling Tool
-	- Implemented t-Test Tools (paired, assuming equal variance and
+	- Implemented t-Test Tools (paired, assuming equal variance, and
           assuming unequal variance)
 	- Implemented z-Test Tool
+	- Implemented F-Test Tool
 	* Added the following functions:
 	- FORECAST() and INTERCEPT().
         * And fixed these functions:

@@ -1151,7 +1151,7 @@ ttest_paired_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	sprintf(buf, "%f", p);
 	set_cell(dao, 1, 8, buf);
 
-	/* t Critical two-tail */
+	/* t Critical one-tail */
 	sprintf(buf, "%f", 0.0);     /* TODO */
 	set_cell(dao, 1, 9, buf);
 
@@ -1259,7 +1259,7 @@ ttest_eq_var_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	sprintf(buf, "%f", p);
 	set_cell(dao, 1, 8, buf);
 
-	/* t Critical two-tail */
+	/* t Critical one-tail */
 	sprintf(buf, "%f", 0.0);     /* TODO */
 	set_cell(dao, 1, 9, buf);
 
@@ -1360,7 +1360,7 @@ ttest_neq_var_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	sprintf(buf, "%f", p);
 	set_cell(dao, 1, 7, buf);
 
-	/* t Critical two-tail */
+	/* t Critical one-tail */
 	sprintf(buf, "%f", 0.0);     /* TODO */
 	set_cell(dao, 1, 8, buf);
 
@@ -1378,3 +1378,100 @@ ttest_neq_var_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	return 0;
 }
 
+
+/************* F-Test Tool *********************************************
+ *
+ * The results are given in a table which can be printed out in a new
+ * sheet, in a new workbook, or simply into an existing sheet.
+ *
+ * TODO: a new workbook output and output to an existing sheet
+ *
+ **/
+
+
+/* F-Test: Two-Sample for Variances
+ */
+int
+ftest_tool (Workbook *wb, Sheet *sheet, Range *input_range1, 
+	    Range *input_range2, float_t alpha,
+	    data_analysis_output_t *dao)
+{
+        data_set_t set_one, set_two;
+	float_t    mean1, mean2, var1, var2, f, p, df1, df2, c;
+	char       buf[256];
+
+	if (dao->type == NewSheetOutput) {
+	        dao->sheet = sheet_new(wb, "F-Test");
+		dao->start_col = dao->start_row = 0;
+		workbook_attach_sheet(wb, dao->sheet);
+	}
+
+	get_data(sheet, input_range1, &set_one);
+	get_data(sheet, input_range2, &set_two);
+
+        set_cell (dao, 0, 0, "");
+        set_cell (dao, 1, 0, "Variable 1");
+        set_cell (dao, 2, 0, "Variable 2");
+
+        set_cell (dao, 0, 1, "Mean");
+        set_cell (dao, 0, 2, "Variance");
+        set_cell (dao, 0, 3, "Observations");
+        set_cell (dao, 0, 4, "df");
+        set_cell (dao, 0, 5, "F");
+        set_cell (dao, 0, 6, "P(F<=f) one-tail");
+        set_cell (dao, 0, 7, "F Critical one-tail");
+
+	mean1 = set_one.sum / set_one.n;
+	mean2 = set_two.sum / set_two.n;
+
+	var1 = (set_one.sqrsum - set_one.sum2/set_one.n) / (set_one.n - 1);
+	var2 = (set_two.sqrsum - set_two.sum2/set_two.n) / (set_two.n - 1);
+
+	c = (var1/set_one.n) / (var1/set_one.n+var2/set_two.n);
+	df1 = set_one.n-1;
+	df2 = set_two.n-1;
+
+	f = var1 / var2;
+	p = 1.0 - pf(f, df1, df2);
+
+	/* Mean */
+	sprintf(buf, "%f", mean1);
+	set_cell(dao, 1, 1, buf);
+	sprintf(buf, "%f", mean2);
+	set_cell(dao, 2, 1, buf);
+
+	/* Variance */
+	sprintf(buf, "%f", var1);
+	set_cell(dao, 1, 2, buf);
+	sprintf(buf, "%f", var2);
+	set_cell(dao, 2, 2, buf);
+
+	/* Observations */
+	sprintf(buf, "%d", set_one.n);
+	set_cell(dao, 1, 3, buf);
+	sprintf(buf, "%d", set_two.n);
+	set_cell(dao, 2, 3, buf);
+
+	/* df */
+	sprintf(buf, "%f", df1);
+	set_cell(dao, 1, 4, buf);
+	sprintf(buf, "%f", df2);
+	set_cell(dao, 2, 4, buf);
+
+	/* F */
+	sprintf(buf, "%f", f);
+	set_cell(dao, 1, 5, buf);
+
+	/* P(F<=f) one-tail */
+	sprintf(buf, "%f", p);
+	set_cell(dao, 1, 6, buf);
+
+	/* t Critical one-tail */
+	sprintf(buf, "%f", 0.0);     /* TODO */
+	set_cell(dao, 1, 7, buf);
+
+        free_data_set(&set_one);
+        free_data_set(&set_two);
+
+	return 0;
+}
