@@ -149,6 +149,8 @@ Printing
 Widget polishing
 ----------------
 - extensions to the notebook to enable dragging a tab to reorder and copy
+- Add an optional flag to GnumericExprEntry which forces single-cell-only
+  selection.
 
 Plugins
 -------
