@@ -41,6 +41,7 @@
 #include "font.h"
 #include "plugin-util.h"
 #include "error-info.h"
+#include "style-border.h"
 #include <rendered-value.h>
 
 #include <gnome.h>
@@ -184,7 +185,125 @@ html_write_cell_content (FILE *fp, Cell *cell, MStyle *mstyle, html_version_t ve
 
 
 /*
- * write_row:
+ * html_get_border_style :
+ *
+ *
+ *
+ */
+
+static char *
+html_get_border_style (StyleBorder *border)
+{
+	GString *text = g_string_new ("");
+	char *result;
+
+	switch (border->line_type) {
+	case STYLE_BORDER_THIN:
+		g_string_append (text, "thin solid");
+		break;
+	case STYLE_BORDER_MEDIUM:
+		g_string_append (text, "medium solid");
+		break;
+	case STYLE_BORDER_DASHED:
+		g_string_append (text, "thin dashed");
+		break;
+	case STYLE_BORDER_DOTTED:
+		g_string_append (text, "thin dotted");
+		break;
+	case STYLE_BORDER_THICK:
+		g_string_append (text, "thick solid");
+		break;
+	case STYLE_BORDER_DOUBLE:
+		g_string_append (text, "thick double");
+		break;
+	case STYLE_BORDER_HAIR:
+		g_string_append (text, "0.5pt solid");
+		break;
+	case STYLE_BORDER_MEDIUM_DASH:
+		g_string_append (text, "medium dashed");
+		break;
+	case STYLE_BORDER_DASH_DOT:
+		g_string_append (text, "thin dashed");
+		break;
+	case STYLE_BORDER_MEDIUM_DASH_DOT:
+		g_string_append (text, "medium dashed");
+		break;
+	case STYLE_BORDER_DASH_DOT_DOT:
+		g_string_append (text, "thin dotted");
+		break;
+	case STYLE_BORDER_MEDIUM_DASH_DOT_DOT:
+		g_string_append (text, "medium dotted");
+		break;
+	case STYLE_BORDER_SLANTED_DASH_DOT:
+		g_string_append (text, "thin dashed");
+		break;
+	default:
+		break;
+	}
+
+	if (border->color) {
+		guint r, g, b;
+		r = border->color->color.red >> 8;
+		g = border->color->color.green >> 8;
+		b = border->color->color.blue >> 8;
+		g_string_sprintfa (text, " #%02X%02X%02X", r, g, b);
+	}
+
+	result = text->str;
+	g_string_free (text, FALSE);
+	return result;
+}
+
+/*
+ * html_write_border_style_40 :
+ *
+ * @fp: file
+ * @border: a non-blank border
+ * @border_name:
+ *
+ *
+ */
+
+static void
+html_write_one_border_style_40 (FILE *fp, StyleBorder *border, char const *border_name)
+{
+	char *text;
+	text = html_get_border_style (border);
+	if (text == NULL || strlen (text) == 0)
+		return;
+	fprintf (fp, " %s:%s;", border_name, text);
+	g_free (text);
+}
+/*
+ * html_write_border_style_40 :
+ *
+ * @fp: file
+ * @mstyle: style
+ *
+ *
+ */
+
+static void
+html_write_border_style_40 (FILE *fp, MStyle *mstyle)
+{
+	StyleBorder *border;
+
+	border = mstyle_get_border (mstyle, MSTYLE_BORDER_TOP);
+	if (!style_border_is_blank (border))
+		html_write_one_border_style_40 (fp, border, "border-top");
+	border = mstyle_get_border (mstyle, MSTYLE_BORDER_BOTTOM);
+	if (!style_border_is_blank (border))
+		html_write_one_border_style_40 (fp, border, "border-bottom");
+	border = mstyle_get_border (mstyle, MSTYLE_BORDER_LEFT);
+	if (!style_border_is_blank (border))
+		html_write_one_border_style_40 (fp, border, "border-left");
+	border = mstyle_get_border (mstyle, MSTYLE_BORDER_RIGHT);
+	if (!style_border_is_blank (border))
+		html_write_one_border_style_40 (fp, border, "border-right");
+}
+
+/*
+ * write_cell:
  *
  * @fp: file
  * @sheet: the gnumeric sheet
@@ -262,6 +381,7 @@ write_cell (FILE *fp, Sheet *sheet, gint row, gint col, html_version_t version)
 				if (r > 0 || g > 0 || b > 0)
 					fprintf (fp, " color:#%02X%02X%02X;", r, g, b);
 			}
+			html_write_border_style_40 (fp, mstyle);
 			fprintf (fp, "\"");
 		}
 	}
@@ -269,6 +389,7 @@ write_cell (FILE *fp, Sheet *sheet, gint row, gint col, html_version_t version)
 	html_write_cell_content (fp, cell, mstyle, version);
 	fputs ("</TD>\n", fp);
 }
+
 
 /*
  * write_row:
@@ -341,7 +462,10 @@ write_sheet (FILE *fp, Sheet *sheet, html_version_t version)
 	Range total_range;
 	gint row;
 
-	fputs ("<P><TABLE border=1>\n", fp);
+	if (version == HTML40)
+		fputs ("<P><TABLE cellspacing=\"0\" cellpadding=\"3\">\n", fp);
+	else
+		fputs ("<P><TABLE border=\"1\">\n", fp);
 
 	fputs ("<CAPTION>", fp);
 	html_print_encoded (fp, sheet->name_unquoted);

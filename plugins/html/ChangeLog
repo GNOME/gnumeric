@@ -1,5 +1,12 @@
 2002-04-09  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* html.c (html_write_border_style_40) : new
+	(html_get_border_style) : new
+	(write_sheet) : for html4 set replace cell spacing with cell padding
+	(write_cell) : call html_write_border_style_40
+	
+2002-04-09  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* html.c (write_cell) : include styles specs for HTML4.0
 
 2002-04-02  Jody Goldberg <jody@gnome.org>

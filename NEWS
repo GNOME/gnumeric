@@ -13,6 +13,7 @@ Andreas:
 	* Fix and improve row-height dialog.
 	* Fix hide/show detail and group/ungroup dialog.
 	* Include more info in HTML 4.0 files.
+	* Support borders in HTML4.0 exports
 
 Jody:
 	* Add password dialog to support encrypted input.
