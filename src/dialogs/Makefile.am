@@ -38,7 +38,7 @@ std_SOURCES =					\
 	dialog-cell-sort.c			\
 	dialog-consolidate.c			\
 	dialog-function-select.c		\
-	dialog-function-wizard.c		\
+	dialog-formula-guru.c			\
 	dialog-goal-seek.c			\
 	dialog-goto-cell.c			\
 	dialog-insert-cells.c			\
