@@ -577,7 +577,7 @@ sheet_selection_copy (WorkbookControl *wbc, Sheet *sheet)
 
 	ss = sheet->selections->data;
 
-	application_clipboard_copy (sheet, &ss->user);
+	application_clipboard_copy (wbc, sheet, &ss->user);
 
 	return TRUE;
 }
@@ -612,7 +612,7 @@ sheet_selection_cut (WorkbookControl *wbc, Sheet *sheet)
 		return FALSE;
 	}
 
-	application_clipboard_cut (sheet, &ss->user);
+	application_clipboard_cut (wbc, sheet, &ss->user);
 
 	return TRUE;
 }

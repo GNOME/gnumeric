@@ -8,7 +8,12 @@ struct _SheetPrivate {
 	GSList          *sheet_vectors;
 #endif
 	/* TODO Add span recomputation here too. */
-	gboolean	 edit_pos_changed; /* either location or content */
+	struct {
+		gboolean location_changed;
+		gboolean content_changed; /* entered content NOT value */
+		gboolean format_changed;
+	} edit_pos;
+
 	gboolean	 selection_content_changed;
 	gboolean	 recompute_visibility;
 	gboolean	 recompute_spans;

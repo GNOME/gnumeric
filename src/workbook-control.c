@@ -105,6 +105,19 @@ WBC_VIRTUAL_FULL (paste_from_selection, paste.from_selection,
 	(WorkbookControl *wbc, PasteTarget const *pt, guint32 time),
 	(wbc, pt, time))
 
+gboolean
+wb_control_claim_selection (WorkbookControl *wbc)
+{
+	WorkbookControlClass *wbc_class;
+
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), FALSE);
+
+	wbc_class = WBC_CLASS (wbc);
+	if (wbc_class != NULL && wbc_class->claim_selection != NULL)
+		return wbc_class->claim_selection (wbc);
+	return TRUE; /* no handler means we always get the selection */
+}
+
 WorkbookView *
 wb_control_view (WorkbookControl *wbc)
 {

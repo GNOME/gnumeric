@@ -108,7 +108,7 @@ g_unichar_to_utf8 (gint c, gchar *outbuf)
  *
  * NOTE: This function got introduced when gnome-print switched to UTF-8,
  * and will disappear again once Gnumeric makes the switch. Deprecated at
- * birth! 
+ * birth!
  */
 int
 print_show_iso8859_1 (GnomePrintContext *pc, char const *text)
@@ -357,12 +357,12 @@ print_cell (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninf
 		 */
 		text_base = y1 - font_ascent - ri->margin_a;
 		break;
-		
+
 	case VALIGN_CENTER:
 		text_base = y1 - font_ascent - ri->margin_a -
 		    (height - font_height) / 2;
 		break;
-		
+
 	case VALIGN_BOTTOM:
 		/*
 		 * y1 + row->size_pts == bottom grid line.
@@ -372,7 +372,7 @@ print_cell (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninf
 		text_base = y1 - ri->size_pts + font_descent + ri->margin_b;
 		break;
 	}
-	
+
 	halign = value_get_default_halign (cell->value, mstyle);
 
 	is_single_line = (halign != HALIGN_JUSTIFY &&
@@ -472,11 +472,11 @@ print_cell (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninf
 			break;
 
 		case HALIGN_CENTER:
-			x1 += 1 + ci->margin_a + (width - cell_width_pts) / 2; 
+			x1 += 1 + ci->margin_a + (width - cell_width_pts) / 2;
 			break;
 
 		case HALIGN_CENTER_ACROSS_SELECTION:
-			x1 = clip_x + (clip_width - cell_width_pts) / 2; 
+			x1 = clip_x + (clip_width - cell_width_pts) / 2;
 			break;
 
 		default:
@@ -700,7 +700,7 @@ print_cell_background (GnomePrintContext *context, Sheet *sheet,
  *
  * Return value: returns TRUE if at least one cell was printed
  */
-gboolean 
+gboolean
 print_cell_range (GnomePrintContext *context,
 		  Sheet *sheet,
 		  int start_col, int start_row,
@@ -711,7 +711,7 @@ print_cell_range (GnomePrintContext *context,
 	int row, col;
 	double x, y;
 	gboolean printed = FALSE;
-	
+
 	g_return_val_if_fail (context != NULL, FALSE);
 	g_return_val_if_fail (GNOME_IS_PRINT_CONTEXT (context), FALSE);
 	g_return_val_if_fail (sheet != NULL, FALSE);
@@ -745,25 +745,21 @@ print_cell_range (GnomePrintContext *context,
 			 *    there is a span descriptor.
 			 */
 			if (ri->pos == -1 || NULL == (span = row_span_get (ri, col))){
-				Cell *cell = sheet_cell_get (sheet, col, row);
-				MStyle *mstyle = NULL;
-
-				if (output) {
-					mstyle = print_cell_background (
+				Cell   *cell   = sheet_cell_get (sheet, col, row);
+				MStyle *mstyle = (output)
+					? print_cell_background (
 						context, sheet, ci, ri,
-						col, row, x, y, FALSE);
-				}
-				
-				if (!cell_is_blank (cell)){
-					if (output)
-						print_cell (cell, mstyle, NULL,
-							    context, x, y);
-				}
+						col, row, x, y, FALSE)
+					: sheet_style_compute (sheet, col, row);
 
-				printed = TRUE;
-				
-				if (mstyle)
-					mstyle_unref (mstyle);
+				if (cell_is_blank (cell)) {
+					if (!output)
+						printed |= mstyle_visible_in_blank (mstyle);
+				} else if (output)
+					print_cell (cell, mstyle, NULL,
+						    context, x, y);
+
+				mstyle_unref (mstyle);
 
 				/* Increment the column
 				 * DO NOT move this outside the if, spanning
@@ -793,7 +789,7 @@ print_cell_range (GnomePrintContext *context,
 								context, sheet, ci, ri,
 								col, row, x, y,
 								col != start_span_col && is_visible);
-						
+
 						if (col == real_col) {
 							real_style = mstyle;
 							real_x = x;

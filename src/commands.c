@@ -1052,7 +1052,7 @@ cmd_format_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 		GSList *l2 = me->selection;
 
 		for (; l1; l1 = l1->next, l2 = l2->next) {
-			Range *r;
+			Range const *r;
 			CmdFormatOldStyle *os = l1->data;
 			SpanCalcFlags flags =
 				sheet_style_attach_list (me->sheet, os->styles,
@@ -1064,6 +1064,7 @@ cmd_format_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 			sheet_range_calc_spans (me->sheet, *r, flags);
 			if (flags != SPANCALC_SIMPLE)
 				rows_height_update (me->sheet, r);
+			sheet_flag_format_update_range (me->sheet, r);
 		}
 	}
 
@@ -1091,6 +1092,7 @@ cmd_format_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 			sheet_range_apply_style (me->sheet, l->data,
 						 me->new_style);
 		}
+		sheet_flag_format_update_range (me->sheet, l->data);
 	}
 
 	sheet_set_dirty (me->sheet, TRUE);
@@ -1753,7 +1755,7 @@ cmd_paste_cut_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	me->reloc_storage = NULL;
 
 	/* Force update of the status area */
-	sheet_flag_status_update_range (me->info.target_sheet, NULL /* force update */);
+	sheet_flag_status_update_range (me->info.target_sheet, NULL);
 
 	/* Select the original region */
 	if (me->move_selection)

@@ -1,3 +1,43 @@
+2000-11-01  Jody Goldberg <jgoldberg@home.com>
+
+	* src/ranges.c (range_translate) : Split sanity check into new function.
+	(range_check_sanity) : here.
+
+	* src/xml-io.c (xml_read_range) : Use it.
+
+2000-11-01  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_new) : Be mroe fine grained about the changes to
+	  the edit position.
+	(sheet_flag_status_update_cell) : Only content and format have changed.
+	(sheet_flag_status_update_range) : handle the new flags.
+	(sheet_flag_format_update_range) : new function.
+	(sheet_update_editpos) : delete and split up.
+	(sheet_update) : Do each update seperately. NOTE : this is broken.
+	  All of these flags should be at the View level.
+
+2000-11-01  Jody Goldberg <jgoldberg@home.com>
+
+	* src/selection.c (sheet_selection_copy) : pass a workbookcontrol.
+	(sheet_selection_cut) : Ditto.
+
+	* src/commands.c (cmd_format_undo) : flag the format change.
+	(cmd_format_redo) : Ditto.
+
+	* src/workbook-control.h (wb_control_claim_selection) : new virtual.
+	* src/application.c (application_set_selected_sheet) : Used here.
+	(application_clipboard_copy) : Take a WorkbookControl.
+	(application_clipboard_cut) : Ditto.
+
+	* src/workbook-control-gui.c (wbcg_paste_from_selection) : new
+	  function.
+	(workbook_control_gui_ctor_class) : register it.
+
+2000-11-01  Jody Goldberg <jgoldberg@home.com>
+
+	* src/print-cell.c (print_cell_range) : We are only outputing
+	  something in the case of a blank cell if the format is visible.
+
 2000-11-01  Almer S. Tigelaar  <almer1@dds.nl>
 
 	* src/dialogs/dialog-stf.glade: 

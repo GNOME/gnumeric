@@ -61,19 +61,22 @@
 
 #include "pixmaps/equal-sign.xpm"
 
-/* The locations within the main table in the workbook */
-#define WB_EA_LINE   0
-#define WB_EA_SHEETS 1
-#define WB_EA_STATUS 2
-
-#define WB_COLS      1
-
 GtkWindow *
 wb_control_gui_toplevel (WorkbookControlGUI *wbcg)
 {
 	return wbcg->toplevel;
 }
 
+/**
+ * wb_control_gui_focus_cur_sheet :
+ * @wbcg : The workbook control to operate on.
+ *
+ * A utility routine to safely ensure that the keyboard focus
+ * is attached to the item-grid.  This is required when a user
+ * edits a combo-box or and entry-line which grab focus.
+ *
+ * It is called for zoom, font name/size, and accept/cancel for the editline.
+ */
 Sheet *
 wb_control_gui_focus_cur_sheet (WorkbookControlGUI *wbcg)
 {
@@ -706,6 +709,15 @@ static void
 wbcg_paste_from_selection (WorkbookControl *wbc, PasteTarget const *pt, guint32 time)
 {
 	x_request_clipboard ((WorkbookControlGUI *)wbc, pt, time);
+}
+
+static gboolean
+wbcg_claim_selection  (WorkbookControl *wbc)
+{
+	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
+	return gtk_selection_owner_set (GTK_WIDGET (wbcg->toplevel),
+					GDK_SELECTION_PRIMARY,
+					GDK_CURRENT_TIME);
 }
 
 static void
@@ -2618,7 +2630,8 @@ wbcg_destroy (GtkObject *obj)
 }
 
 static gboolean
-cb_scroll_wheel_support (GtkWidget *w, GdkEventButton *event, Workbook *wb)
+cb_scroll_wheel_support (GtkWidget *w, GdkEventButton *event,
+			 WorkbookControlGUI *wb)
 {
 	/* FIXME : now that we have made the split this is no longer true. */
 	/* This is a stub routine to handle scroll wheel events
@@ -2647,7 +2660,7 @@ workbook_setup_sheets (WorkbookControlGUI *wbcg)
 	gtk_notebook_set_tab_border (GTK_NOTEBOOK (wbcg->notebook), 0);
 
 	gtk_table_attach (GTK_TABLE (wbcg->table), GTK_WIDGET (wbcg->notebook),
-			  0, WB_COLS, WB_EA_SHEETS, WB_EA_SHEETS+1,
+			  0, 1, 1, 2,
 			  GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND,
 			  0, 0);
 	gtk_widget_show (w);
@@ -2989,6 +3002,7 @@ workbook_control_gui_ctor_class (GtkObjectClass *object_class)
 
 	wbc_class->paste.special_enable = wbcg_paste_special_enable;
 	wbc_class->paste.from_selection = wbcg_paste_from_selection;
+	wbc_class->claim_selection	= wbcg_claim_selection;
 
 	wbc_class->context_class.error.system	 = wbcg_error_system;
 	wbc_class->context_class.error.plugin	 = wbcg_error_plugin;

@@ -45,6 +45,7 @@ typedef struct {
 		void (*from_selection) (WorkbookControl *wbc,
 					PasteTarget const *pt, guint32 time);
 	} paste;
+	gboolean (*claim_selection) (WorkbookControl *wbc);
 } WorkbookControlClass;
 
 #define WORKBOOK_CONTROL_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), WORKBOOK_CONTROL_TYPE, WorkbookControlClass))

@@ -630,13 +630,20 @@ xml_search_child (xmlNodePtr node, const char *name)
 }
 
 static gboolean
-xml_read_range (xmlNodePtr tree, Range *res)
+xml_read_range (xmlNodePtr tree, Range *r)
 {
-	return
-	    xml_get_value_int (tree, "startCol", &res->start.col) &&
-	    xml_get_value_int (tree, "startRow", &res->start.row) &&
-	    xml_get_value_int (tree, "endCol",   &res->end.col) &&
-	    xml_get_value_int (tree, "endRow",   &res->end.row);
+	gboolean res =
+	    xml_get_value_int (tree, "startCol", &r->start.col) &&
+	    xml_get_value_int (tree, "startRow", &r->start.row) &&
+	    xml_get_value_int (tree, "endCol",   &r->end.col) &&
+	    xml_get_value_int (tree, "endRow",   &r->end.row);
+
+	/* Add some silent sanity checking to cleanup problems
+	 * with older versions of gnumeric that had some boundary problems
+	 */
+	range_check_sanity (r);
+
+	return res;
 }
 
 static void

@@ -200,23 +200,19 @@ application_clipboard_unant (void)
 }
 
 static gboolean
-application_set_selected_sheet (Sheet *sheet)
+application_set_selected_sheet (WorkbookControl *wbc, Sheet *sheet)
 {
 	g_return_val_if_fail (sheet != NULL, FALSE);
 
 	application_clipboard_clear (FALSE);
-#if 0
 
-	if (gtk_selection_owner_set (workbook_get_toplevel (sheet->workbook),
-				     GDK_SELECTION_PRIMARY,
-				     GDK_CURRENT_TIME)) {
+#warning how to do this on a per display basis ?
+	if (wb_control_claim_selection (wbc)) {
 		app.clipboard_sheet = sheet;
 		return TRUE;
 	}
 
 	g_warning ("Unable to set selection ?");
-#endif
-#warning how to do this on a per display basis ?
 
 	return FALSE;
 }
@@ -224,6 +220,7 @@ application_set_selected_sheet (Sheet *sheet)
 /**
  * application_clipboard_copy:
  *
+ * @wbc   : the workbook control that requested the operation.
  * @sheet : The source sheet for the copy.
  * @area  : A single rectangular range to be copied.
  *
@@ -231,12 +228,13 @@ application_set_selected_sheet (Sheet *sheet)
  * into the clipboard.
  */
 void
-application_clipboard_copy (Sheet *sheet, Range const *area)
+application_clipboard_copy (WorkbookControl *wbc,
+			    Sheet *sheet, Range const *area)
 {
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (area != NULL);
 
-	if (application_set_selected_sheet (sheet) ) {
+	if (application_set_selected_sheet (wbc, sheet) ) {
 		app.clipboard_cut_range = *area;
 		app.clipboard_copied_contents = 
 			clipboard_copy_range (sheet, area);
@@ -251,6 +249,7 @@ application_clipboard_copy (Sheet *sheet, Range const *area)
 /**
  * application_clipboard_cut:
  *
+ * @wbc   : the workbook control that requested the operation.
  * @sheet : The source sheet for the copy.
  * @area  : A single rectangular range to be cut.
  *
@@ -259,12 +258,13 @@ application_clipboard_copy (Sheet *sheet, Range const *area)
  * cut operation.
  */
 void
-application_clipboard_cut (Sheet *sheet, Range const *area)
+application_clipboard_cut (WorkbookControl *wbc,
+			   Sheet *sheet, Range const *area)
 {
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (area != NULL);
 
-	if (application_set_selected_sheet (sheet) ) {
+	if (application_set_selected_sheet (wbc, sheet) ) {
 		app.clipboard_cut_range = *area;
 
 		/* No paste special for copies */

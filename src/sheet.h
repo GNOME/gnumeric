@@ -265,6 +265,7 @@ void	    sheet_redraw_headers          (Sheet const *sheet,
 
 void	    sheet_flag_status_update_cell (Cell const *cell);
 void	    sheet_flag_status_update_range(Sheet const *sheet, Range const *range);
+void        sheet_flag_format_update_range(Sheet const *sheet, Range const *range);
 void        sheet_flag_selection_change   (Sheet const *sheet);
 void        sheet_update                  (Sheet const *sheet);
 void        sheet_compute_visible_ranges  (Sheet const *sheet);

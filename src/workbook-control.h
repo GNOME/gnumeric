@@ -44,6 +44,7 @@ void wb_control_undo_redo_labels     (WorkbookControl *wbc,
 void wb_control_paste_special_enable (WorkbookControl *wbc, gboolean enable);
 void wb_control_paste_from_selection (WorkbookControl *wbc,
 				      PasteTarget const *pt, guint32 time);
+gboolean wb_control_claim_selection  (WorkbookControl *wbc);
 
 WorkbookView *wb_control_view		(WorkbookControl *wbc);
 Workbook     *wb_control_workbook	(WorkbookControl *wbc);

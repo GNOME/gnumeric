@@ -17,8 +17,10 @@ gboolean     application_workbook_foreach  (WorkbookCallback cback,
 
 
 void         application_clipboard_clear	(gboolean drop_selection);
-void         application_clipboard_copy		(Sheet *sheet, Range const *area);
-void         application_clipboard_cut		(Sheet *sheet, Range const *area);
+void         application_clipboard_copy		(WorkbookControl *wbc,
+						 Sheet *sheet, Range const *area);
+void         application_clipboard_cut		(WorkbookControl *wbc,
+						 Sheet *sheet, Range const *area);
 void	     application_clipboard_unant        (void);
 gboolean     application_clipboard_is_empty	(void);
 Sheet *      application_clipboard_sheet_get	(void);

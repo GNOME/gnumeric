@@ -1068,6 +1068,21 @@ range_translate (Range *range, int col_offset, int row_offset)
 	    range->start.row >= SHEET_MAX_ROWS || range->end.row < 0)
 		return TRUE;
 
+	range_check_sanity (range);
+
+	return FALSE;
+}
+
+/**
+ * range_check_sanity :
+ * @range : the range to check
+ *
+ * Silently clip a range to ensure that it does not contain areas
+ * outside the valid bounds
+ */
+void
+range_check_sanity (Range *range)
+{
 	if (range->start.col < 0)
 		range->start.col = 0;
 	if (range->end.col >= SHEET_MAX_COLS)
@@ -1076,8 +1091,6 @@ range_translate (Range *range, int col_offset, int row_offset)
 		range->start.row = 0;
 	if (range->end.row >= SHEET_MAX_ROWS)
 		range->end.row = SHEET_MAX_ROWS-1;
-
-	return FALSE;
 }
 
 /**

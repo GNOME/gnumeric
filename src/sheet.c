@@ -165,7 +165,10 @@ sheet_new (Workbook *wb, const char *name)
 #endif
 
 	/* Init, focus, and load handle setting these if/when necessary */
-	sheet->priv->edit_pos_changed = FALSE;
+	sheet->priv->edit_pos.location_changed = FALSE;
+	sheet->priv->edit_pos.content_changed  = FALSE;
+	sheet->priv->edit_pos.format_changed   = FALSE;
+
 	sheet->priv->selection_content_changed = FALSE;
 	sheet->priv->recompute_visibility = FALSE;
 	sheet->priv->recompute_spans = FALSE;
@@ -628,8 +631,10 @@ sheet_flag_status_update_cell (Cell const *cell)
 	 * and the format toolbar
 	 */
 	if (pos->col == sheet->cursor.edit_pos.col &&
-	    pos->row == sheet->cursor.edit_pos.row)
-		sheet->priv->edit_pos_changed = TRUE;
+	    pos->row == sheet->cursor.edit_pos.row) {
+		sheet->priv->edit_pos.content_changed = 
+		sheet->priv->edit_pos.format_changed  = TRUE;
+	}
 }
 
 /**
@@ -645,13 +650,14 @@ sheet_flag_status_update_cell (Cell const *cell)
  * updated if appropriate.
  */
 void
-sheet_flag_status_update_range (Sheet const *sheet,
-				Range const *range)
+sheet_flag_status_update_range (Sheet const *sheet, Range const *range)
 {
 	/* Force an update */
 	if (range == NULL) {
 		sheet->priv->selection_content_changed = TRUE;
-		sheet->priv->edit_pos_changed = TRUE;
+		sheet->priv->edit_pos.location_changed =
+		sheet->priv->edit_pos.content_changed =
+		sheet->priv->edit_pos.format_changed = TRUE;
 		return;
 	}
 
@@ -664,8 +670,24 @@ sheet_flag_status_update_range (Sheet const *sheet,
 	/* If the edit cell changes value update the edit area
 	 * and the format toolbar
 	 */
+	if (range_contains(range, sheet->cursor.edit_pos.col, sheet->cursor.edit_pos.row)) {
+		sheet->priv->edit_pos.content_changed =
+		sheet->priv->edit_pos.format_changed = TRUE;
+	}
+}
+
+/**
+ * sheet_flag_format_update_range :
+ * @sheet : The sheet being changed
+ * @range : the range that is changing.
+ *
+ * Flag format changes that will require updating the format indicators.
+ */
+void
+sheet_flag_format_update_range (Sheet const *sheet, Range const *range)
+{
 	if (range_contains(range, sheet->cursor.edit_pos.col, sheet->cursor.edit_pos.row))
-		sheet->priv->edit_pos_changed = TRUE;
+		sheet->priv->edit_pos.format_changed = TRUE;
 }
 
 /**
@@ -680,26 +702,6 @@ void
 sheet_flag_selection_change (Sheet const *sheet)
 {
 	sheet->priv->selection_content_changed = TRUE;
-}
-
-/**
- * sheet_update_editpos:
- *
- * This routine is run every time the selection has changed.  It checks
- * what the status of various toolbar feedback controls should be
- */
-static void
-sheet_update_editpos (WorkbookControl *wbc, Sheet const *sheet, MStyle *mstyle)
-{
-#warning disable during editing
-#if 0
-	if (sheet->workbook->editing)
-		return;
-#endif
-	wb_control_format_feedback (wbc, mstyle);
-	wb_control_selection_descr_set (wbc,
-					cell_pos_name (&sheet->cursor.edit_pos));
-	workbook_edit_load_value (wbc, sheet);
 }
 
 /*
@@ -765,10 +767,22 @@ sheet_update (Sheet const *sheet)
 		p->resize_scrollbar = FALSE;
 	}
 
-	if (sheet->priv->edit_pos_changed) {
+	if (sheet->priv->edit_pos.content_changed) {
+		sheet->priv->edit_pos.content_changed = FALSE;
+		WORKBOOK_FOREACH_VIEW (sheet->workbook, view,
+		{
+			if (wb_view_cur_sheet (view) == sheet) {
+				WORKBOOK_VIEW_FOREACH_CONTROL(view, control,
+					workbook_edit_load_value (control, sheet););
+			}
+		});
+	}
+
+	if (sheet->priv->edit_pos.format_changed) {
 		MStyle *mstyle;
 
-		sheet->priv->edit_pos_changed = FALSE;
+		sheet->priv->edit_pos.format_changed = FALSE;
+
 		mstyle = sheet_style_compute (sheet,
 					      sheet->cursor.edit_pos.col,
 					      sheet->cursor.edit_pos.row);
@@ -777,11 +791,28 @@ sheet_update (Sheet const *sheet)
 		{
 			if (wb_view_cur_sheet (view) == sheet) {
 				WORKBOOK_VIEW_FOREACH_CONTROL(view, control,
-					sheet_update_editpos (control, sheet, mstyle););
+					wb_control_format_feedback (control, mstyle););
 			}
 		});
 
 		mstyle_unref (mstyle);
+	}
+
+	if (sheet->priv->edit_pos.location_changed) {
+		char const *new_pos = cell_pos_name (&sheet->cursor.edit_pos);
+
+		sheet->priv->edit_pos.location_changed = FALSE;
+#warning disable during editing
+#if 0
+		if (!sheet->workbook->editing) { }
+#endif
+		WORKBOOK_FOREACH_VIEW (sheet->workbook, view,
+		{
+			if (wb_view_cur_sheet (view) == sheet) {
+				WORKBOOK_VIEW_FOREACH_CONTROL(view, control,
+					wb_control_selection_descr_set (control, new_pos););
+			}
+		});
 	}
 
 	if (sheet->priv->selection_content_changed) {
@@ -2386,7 +2417,9 @@ sheet_set_edit_pos (Sheet *sheet, int col, int row)
 	old_row = sheet->cursor.edit_pos.row;
 
 	if (old_col != col || old_row != row) {
-		sheet->priv->edit_pos_changed = TRUE;
+		sheet->priv->edit_pos.location_changed =
+		sheet->priv->edit_pos.content_changed =
+		sheet->priv->edit_pos.format_changed = TRUE;
 
 		/* Redraw before change */
 		sheet_redraw_cell_region (sheet,
