@@ -54,6 +54,9 @@ struct _StyleFormat {
 char	      *style_format_delocalize  (char const *descriptor_string);
 StyleFormat   *style_format_new_XL	(char const *descriptor_string,
 					 gboolean delocalize);
+StyleFormat   *style_format_build       (FormatFamily family,
+					 const FormatCharacteristics *info);
+
 char   	      *style_format_as_XL	(StyleFormat const *fmt,
 					 gboolean localized);
 char   	      *style_format_str_as_XL	(char const *descriptor_string,
@@ -112,12 +115,6 @@ void number_format_shutdown (void);
 
 void currency_date_format_init     (void);
 void currency_date_format_shutdown (void);
-
-void style_format_fraction (GString *result, FormatCharacteristics const *fmt);
-void style_format_percent  (GString *result, FormatCharacteristics const *fmt);
-void style_format_science  (GString *result, FormatCharacteristics const *fmt);
-void style_format_account  (GString *result, FormatCharacteristics const *fmt);
-void style_format_number   (GString *result, FormatCharacteristics const *fmt);
 
 FormatFamily cell_format_classify (StyleFormat const *fmt, FormatCharacteristics *info);
 

@@ -1,5 +1,11 @@
 2003-07-15  Morten Welinder  <terra@gnome.org>
 
+	* src/format.c (style_format_build): New function.
+	(style_format_number, style_format_account, style_format_science,
+	style_format_percent, style_format_fraction): Move from format.c
+	and make static.  Change to returning StyleFormat* instead of
+	building a string.  All callers changed.
+
 	* src/auto-format.c (is_date): Use precomputed family.
 	* src/sheet-autofill.c (fill_item_new): Ditto.
 

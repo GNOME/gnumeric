@@ -100,6 +100,7 @@ Morten:
 	* Make the 1000-separator button do something more useful.
 	* Improve the support for fractional formats.
 	* Improve auto-format for date differences.
+	* Clean up style format code.
 
 --------------------------------------------------------------------------
 

@@ -842,6 +842,201 @@ split_time (struct tm *tm, gnm_float number, GnmDateConventions const *date_conv
 	return FALSE;
 }
 
+#define NUM_ZEROS 30
+static const char zeros[NUM_ZEROS + 1]  = "000000000000000000000000000000";
+static const char qmarks[NUM_ZEROS + 1] = "??????????????????????????????";
+
+/**
+ * style_format_number :
+ * @fmt : #FormatCharacteristics
+ *
+ * generate an unlocalized number format based on @fmt.
+ **/
+static StyleFormat *
+style_format_number (FormatCharacteristics const *fmt)
+{
+	int symbol = fmt->currency_symbol_index;
+	GString *str;
+	StyleFormat *sf;
+
+	g_return_val_if_fail (fmt->num_decimals >= 0, NULL);
+	g_return_val_if_fail (fmt->num_decimals <= NUM_ZEROS, NULL);
+
+	str = g_string_new (NULL);
+
+	/* Currency */
+	if (symbol != 0 && currency_symbols[symbol].precedes) {
+		g_string_append (str, currency_symbols[symbol].symbol);
+		if (currency_symbols[symbol].has_space)
+			g_string_append_c (str, ' ');
+	}
+
+	if (fmt->thousands_sep)
+		g_string_append (str, "#,##0");
+	else
+		g_string_append_c (str, '0');
+
+	if (fmt->num_decimals > 0) {
+		g_string_append_c (str, '.');
+		g_string_append_len (str, zeros, fmt->num_decimals);
+	}
+
+	/* Currency */
+	if (symbol != 0 && !currency_symbols[symbol].precedes) {
+		if (currency_symbols[symbol].has_space)
+			g_string_append_c (str, ' ');
+		g_string_append (str, currency_symbols[symbol].symbol);
+	}
+
+	/* There are negatives */
+	if (fmt->negative_fmt > 0) {
+		size_t prelen = str->len;
+
+		switch (fmt->negative_fmt) {
+		case 1 : g_string_append (str, ";[Red]");
+			break;
+		case 2 : g_string_append (str, "_);(");
+			break;
+		case 3 : g_string_append (str, "_);[Red](");
+			break;
+		default :
+			g_assert_not_reached ();
+		};
+
+		g_string_append_len (str, str->str, prelen);
+
+		if (fmt->negative_fmt >= 2)
+			g_string_append_c (str, ')');
+	}
+
+	g_print ("[%s]\n", str->str);
+
+	sf = style_format_new_XL (str->str, FALSE);
+	g_string_free (str, TRUE);
+	return sf;
+}
+
+static StyleFormat *
+style_format_fraction (FormatCharacteristics const *fmt)
+{
+	GString *str = g_string_new (NULL);
+	StyleFormat *sf;
+
+	if (fmt->fraction_denominator >= 2) {
+		g_string_printf (str, "# ?/%d", fmt->fraction_denominator);
+	} else {
+		g_return_val_if_fail (fmt->num_decimals > 0, NULL);
+		g_return_val_if_fail (fmt->num_decimals <= NUM_ZEROS, NULL);
+
+		g_string_append (str, "# ");
+		g_string_append_len (str, qmarks, fmt->num_decimals);
+		g_string_append_c (str, '/');
+		g_string_append_len (str, qmarks, fmt->num_decimals);
+	}
+
+	sf = style_format_new_XL (str->str, FALSE);
+	g_string_free (str, TRUE);
+	return sf;
+}
+
+static StyleFormat *
+style_format_percent (FormatCharacteristics const *fmt)
+{
+	GString *str;
+	StyleFormat *sf;
+
+	g_return_val_if_fail (fmt->num_decimals >= 0, NULL);
+	g_return_val_if_fail (fmt->num_decimals <= NUM_ZEROS, NULL);
+
+	str = g_string_new (NULL);
+	g_string_append_c (str, '0');
+	if (fmt->num_decimals > 0) {
+		g_string_append_c (str, '.');
+		g_string_append_len (str, zeros, fmt->num_decimals);
+	}
+	g_string_append_c (str, '%');
+
+	sf = style_format_new_XL (str->str, FALSE);
+	g_string_free (str, TRUE);
+	return sf;
+}
+
+static StyleFormat *
+style_format_science (FormatCharacteristics const *fmt)
+{
+	GString *str;
+	StyleFormat *sf;
+
+	g_return_val_if_fail (fmt->num_decimals >= 0, NULL);
+	g_return_val_if_fail (fmt->num_decimals <= NUM_ZEROS, NULL);
+
+	str = g_string_new (NULL);
+	g_string_append_c (str, '0');
+	if (fmt->num_decimals > 0) {
+		g_string_append_c (str, '.');
+		g_string_append_len (str, zeros, fmt->num_decimals);
+	}
+	g_string_append (str, "E+00");
+
+	sf = style_format_new_XL (str->str, FALSE);
+	g_string_free (str, TRUE);
+	return sf;
+}
+
+static StyleFormat *
+style_format_account (FormatCharacteristics const *fmt)
+{
+	GString *str, *sym, *num;
+	StyleFormat *sf;
+	int symbol = fmt->currency_symbol_index;
+
+	g_return_val_if_fail (fmt->num_decimals >= 0, NULL);
+	g_return_val_if_fail (fmt->num_decimals <= NUM_ZEROS, NULL);
+
+	str = g_string_new (NULL);
+	/* The number with decimals */
+	num = g_string_new ("#,##0");
+	if (fmt->num_decimals > 0) {
+		g_string_append_c (num, '.');
+		g_string_append_len (num, zeros, fmt->num_decimals);
+	}
+
+	/* The currency symbols with space after or before */
+	sym = g_string_new (NULL);
+	if (currency_symbols[symbol].precedes) {
+		g_string_append (sym, currency_symbols[symbol].symbol);
+		g_string_append (sym, "* ");
+		if (currency_symbols[symbol].has_space)
+			g_string_append_c (sym, ' ');
+	} else {
+		g_string_append (sym, "* ");
+		if (currency_symbols[symbol].has_space)
+			g_string_append_c (sym, ' ');
+		g_string_append (sym, currency_symbols[symbol].symbol);
+	}
+
+	/* Finally build the correct string */
+	if (currency_symbols[symbol].precedes) {
+		g_string_append_printf (str, "_(%s%s_);_(%s(%s);_(%s\"-\"%s_);_(@_)",
+					sym->str, num->str,
+					sym->str, num->str,
+					sym->str, qmarks + NUM_ZEROS-fmt->num_decimals);
+	} else {
+		g_string_append_printf (str, "_(%s%s_);_((%s)%s;_(\"-\"%s%s_);_(@_)",
+					num->str, sym->str,
+					num->str, sym->str,
+					qmarks + NUM_ZEROS-fmt->num_decimals, sym->str);
+	}
+
+	g_string_free (num, TRUE);
+	g_string_free (sym, TRUE);
+
+	sf = style_format_new_XL (str->str, FALSE);
+	g_string_free (str, TRUE);
+	return sf;
+}
+
+
 /*
  * Finds the decimal char in @str doing the proper parsing of a
  * format string
@@ -900,26 +1095,18 @@ find_decimal_char (char const *str)
  * and recreate the format string by calling the good function */
 static StyleFormat *
 reformat_decimals (const FormatCharacteristics *fc,
-		   void (*format_function) (GString *res, FormatCharacteristics const * fmt),
+		   StyleFormat * (*format_function) (FormatCharacteristics const * fmt),
 		   int step)
 {
-	GString *res;
-	StyleFormat *sf;
 	FormatCharacteristics fc_copy;
 
 	/* Be sure that the number of decimals displayed will remain correct */
-	if ((fc->num_decimals+step > 30) || (fc->num_decimals+step <0))
+	if ((fc->num_decimals+step > NUM_ZEROS) || (fc->num_decimals+step <0))
 		return NULL;
 	fc_copy = *fc;
 	fc_copy.num_decimals += step;
 
-	/* Regenerate the format with the good function */
-	res = g_string_new (NULL);
-	(*format_function) (res, &fc_copy);
-
-	sf = style_format_new_XL (res->str, FALSE);
-	g_string_free (res, TRUE);
-	return sf;
+	return (*format_function) (&fc_copy);
 }
 
 /*
@@ -962,13 +1149,12 @@ format_remove_decimal (StyleFormat const *fmt)
 				fc.fraction_denominator /= 10;
 			else
 				return NULL;
-
-			return reformat_decimals (&fc, &style_format_fraction, 0);
 		} else {
 			if (fc.num_decimals <= 1)
 				return NULL;
-			return reformat_decimals (&fc, &style_format_fraction, -1);
+			fc.num_decimals--;
 		}
+		return style_format_fraction (&fc);
 	}
 
 	case FMT_TIME:
@@ -1058,13 +1244,12 @@ format_add_decimal (StyleFormat const *fmt)
 				fc.fraction_denominator *= 10;
 			else
 				return NULL;
-
-			return reformat_decimals (&fc, &style_format_fraction, 0);
 		} else {
 			if (fc.num_decimals >= 5)
 				return NULL;
-			return reformat_decimals (&fc, &style_format_fraction, +1);
+			fc.num_decimals++;
 		}
+		return style_format_fraction (&fc);
 	}
 
 	case FMT_TIME:
@@ -1140,22 +1325,18 @@ format_toggle_thousands (StyleFormat const *fmt)
 	switch (fmt->family) {
 	case FMT_NUMBER:
 	case FMT_CURRENCY:
-		newformat = g_string_new (NULL);
-		style_format_number (newformat, &fc);
-		break;
+		return style_format_number (&fc);
+
 	case FMT_ACCOUNT:
 		/*
 		 * FIXME: this doesn't actually work as no 1000 seps
 		 * are used for accounting.
 		 */
-		newformat = g_string_new (NULL);
-		style_format_account (newformat, &fc);
-		break;
+		return style_format_account (&fc);
 	case FMT_GENERAL:
 		fc.currency_symbol_index = 0;
-		newformat = g_string_new (NULL);
-		style_format_number (newformat, &fc);
-		break;
+		return style_format_number (&fc);
+
 	default:
 		return NULL;
 	}
@@ -2010,6 +2191,42 @@ style_format_new_XL (char const *descriptor_string, gboolean delocalize)
 	g_free (desc_copy);
 	return format;
 }
+
+
+StyleFormat *
+style_format_build (FormatFamily family, const FormatCharacteristics *info)
+{
+	switch (family) {
+	case FMT_GENERAL:
+	case FMT_TEXT:
+		return style_format_new_XL (cell_formats[family][0], FALSE);
+
+	case FMT_NUMBER: {
+		/* Make sure no currency is selected */
+		FormatCharacteristics info_copy = *info;
+		info_copy.currency_symbol_index = 0;
+		return style_format_number (&info_copy);
+	}
+
+	case FMT_CURRENCY:
+		return style_format_number (info);
+
+	case FMT_ACCOUNT:
+		return style_format_account (info);
+
+	case FMT_PERCENT:
+		return style_format_percent (info);
+
+	case FMT_SCIENCE:
+		return style_format_science (info);
+
+	default:
+	case FMT_DATE:
+	case FMT_TIME:
+		return NULL;
+	};
+}
+
 
 /**
  * style_format_str_as_XL

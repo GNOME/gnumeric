@@ -61,6 +61,8 @@
 	}								\
   } while (0)
 
+#define FMT_CUSTOM ((FormatFamily)(FMT_SPECIAL + 1))
+
 /*Format Categories*/
 static char const *const format_category_names[] = {
 	N_("General"),
@@ -165,60 +167,27 @@ static void
 generate_format (NumberFormatSelector *nfs)
 {
 	FormatFamily const page = nfs->format.current_type;
-	GString		*new_format = g_string_new (NULL);
+	StyleFormat *new_format;
 
-	/* It is a strange idea not to reuse FormatCharacteristics
-	 in this file */
-	/* So build one to pass to the style_format_... function */
-	FormatCharacteristics format;
-
+	/* 
+	 * It is a strange idea not to reuse FormatCharacteristics
+	 * in this file, so build one.
+	 */
+	FormatCharacteristics format = nfs->format.spec->family_info;
 	format.thousands_sep = nfs->format.use_separator;
 	format.num_decimals = nfs->format.num_decimals;
 	format.negative_fmt = nfs->format.negative_format;
 	format.currency_symbol_index = nfs->format.currency_index;
-	format.list_element = 0; /* Don't need this one. */
-	format.date_has_days = FALSE;
-	format.date_has_months = FALSE;
 
-	/* Update the format based on the current selections and page */
-	switch (page) {
-	case FMT_GENERAL :
-	case FMT_TEXT :
-		g_string_append (new_format, cell_formats[page][0]);
-		break;
-
-	case FMT_NUMBER :
-		/* Make sure no currency is selected */
-		format.currency_symbol_index = 0;
-
-	case FMT_CURRENCY :
-		style_format_number (new_format, &format);
-		break;
-
-	case FMT_ACCOUNT :
-		style_format_account (new_format, &format);
-		break;
-
-	case FMT_PERCENT :
-		style_format_percent (new_format, &format);
-		break;
-
-	case FMT_SCIENCE :
-		style_format_science (new_format, &format);
-		break;
-
-	default :
-		break;
-	};
-
-	if (new_format->len > 0) {
-		char *tmp = style_format_str_as_XL (new_format->str, TRUE);
+	new_format = style_format_build (page, &format);
+	if (new_format) {
+		char *tmp = style_format_as_XL (new_format, TRUE);
 		gtk_entry_set_text (GTK_ENTRY (nfs->format.widget[F_ENTRY]),
 				    tmp);
 		g_free (tmp);
 	}
 
-	g_string_free (new_format, TRUE);
+	style_format_unref (new_format);
 }
 
 static void
@@ -275,7 +244,7 @@ fillin_negative_samples (NumberFormatSelector *nfs)
 	};
 	int const n = 30 - nfs->format.num_decimals;
 
-	int const page = nfs->format.current_type;
+	FormatFamily const page = nfs->format.current_type;
 	char const *space_b = "", *currency_b;
 	char const *space_a = "", *currency_a;
 	const char *decimal;
@@ -285,7 +254,7 @@ fillin_negative_samples (NumberFormatSelector *nfs)
 	GtkTreePath *path;
 	SETUP_LOCALE_SWITCH;
 
-	g_return_if_fail (page == 1 || page == 2);
+	g_return_if_fail (page == FMT_NUMBER || page == FMT_CURRENCY);
 	g_return_if_fail (nfs->format.num_decimals <= 30);
 
 	START_LOCALE_SWITCH;
@@ -299,7 +268,7 @@ fillin_negative_samples (NumberFormatSelector *nfs)
 	else
 		decimal = "";
 
-	if (page == 2) {
+	if (page == FMT_CURRENCY) {
 		currency_b = (const gchar *)currency_symbols[nfs->format.currency_index].symbol;
 		/*
 		 * FIXME : This should be better hidden.
@@ -359,12 +328,12 @@ fillin_negative_samples (NumberFormatSelector *nfs)
 static void
 cb_decimals_changed (GtkEditable *editable, NumberFormatSelector *nfs)
 {
-	int const page = nfs->format.current_type;
+	FormatFamily const page = nfs->format.current_type;
 
 	nfs->format.num_decimals =
 		gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (editable));
 
-	if (page == 1 || page == 2)
+	if (page == FMT_NUMBER || page == FMT_CURRENCY)
 		fillin_negative_samples (nfs);
 
 	draw_format_preview (nfs, TRUE);
@@ -511,7 +480,7 @@ fmt_dialog_enable_widgets (NumberFormatSelector *nfs, int page)
 		}
 	};
 
-	int const old_page = nfs->format.current_type;
+	FormatFamily const old_page = nfs->format.current_type;
 	int i;
 	FormatWidget tmp;
 
@@ -553,11 +522,13 @@ fmt_dialog_enable_widgets (NumberFormatSelector *nfs, int page)
 			GtkTreeIter select;
 
 			switch (page) {
-			case 4: case 5: case 7:
+			case FMT_DATE:
+			case FMT_TIME:
+			case FMT_FRACTION:
 				start = end = page;
 				break;
 
-			case 11:
+			case FMT_CUSTOM:
 				start = 0; end = 8;
 				break;
 
@@ -577,7 +548,7 @@ fmt_dialog_enable_widgets (NumberFormatSelector *nfs, int page)
 			 *      It should be easy.  All that is needed is a way to differentiate
 			 *      the std formats and the custom formats in the StyleFormat hash.
 			 */
-			if  (page == 11 && select.stamp == 0) {
+			if  (page == FMT_CUSTOM && select.stamp == 0) {
 				char *tmp = style_format_as_XL (nfs->format.spec, TRUE);
 				gtk_entry_set_text (GTK_ENTRY (nfs->format.widget[F_ENTRY]), tmp);
 				g_free (tmp);
@@ -763,13 +734,13 @@ set_format_category (NumberFormatSelector *nfs, int row)
 static void
 set_format_category_menu_from_style (NumberFormatSelector *nfs)
 {
-  	int page;
+  	FormatFamily page;
 
   	g_return_if_fail (IS_NUMBER_FORMAT_SELECTOR (nfs));
 
 	/* Attempt to extract general parameters from the current format */
 	if ((page = nfs->format.spec->family) < 0)
-		page = 11; /* Default to custom */
+		page = FMT_CUSTOM; /* Default to custom */
 
 	set_format_category (nfs, page);
 	fmt_dialog_enable_widgets (nfs, page);
@@ -859,7 +830,7 @@ nfs_init (NumberFormatSelector *nfs)
 	GnmComboText *combo;
 	char const *name;
 	int i;
-	int page;
+	FormatFamily page;
 
 	GtkWidget *toplevel;
 	GtkWidget *old_parent;
@@ -1023,7 +994,7 @@ nfs_init (NumberFormatSelector *nfs)
 	set_format_category_menu_from_style (nfs);
 
 	if ((page = nfs->format.spec->family) < 0)
-		page = 11; /* Default to custom */
+		page = FMT_CUSTOM; /* Default to custom */
 	fmt_dialog_enable_widgets (nfs, page);
 
 	nfs->enable_edit = TRUE;

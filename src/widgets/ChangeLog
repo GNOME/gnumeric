@@ -2,6 +2,7 @@
 
 	* widget-format-selector.c (set_format_category_menu_from_style):
 	Use precomputed family.
+	(generate_format): Use style_format_build.
 
 2003-07-02  Jody Goldberg <jody@gnome.org>
 
