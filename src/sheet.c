@@ -67,23 +67,23 @@ sheet_redraw_rows (Sheet *sheet)
 }
 
 static void
+col_row_info_init (ColRowInfo *cri, double points)
+{
+	cri->pos = -1;
+	cri->units = points;
+	cri->margin_a_pt = 1.0;
+	cri->margin_b_pt = 1.0;
+
+	cri->pixels = 0;
+	cri->margin_a = 0;
+	cri->margin_b = 0;
+	cri->data = NULL;
+}	       
+static void
 sheet_init_default_styles (Sheet *sheet)
 {
-	/* The default column style */
-	sheet->default_col_style.pos        = -1;
-	sheet->default_col_style.units      = 80;
-	sheet->default_col_style.pixels     = 0;
-	sheet->default_col_style.margin_a   = 1;
-	sheet->default_col_style.margin_b   = 1;
-	sheet->default_col_style.data       = NULL;
-
-	/* The default row style */
-	sheet->default_row_style.pos      = -1;
-	sheet->default_row_style.units    = 18;
-	sheet->default_row_style.pixels   = 0;
-	sheet->default_row_style.margin_a = 1;
-	sheet->default_row_style.margin_b = 1;
-	sheet->default_row_style.data     = NULL;
+	col_row_info_init (&sheet->default_col_style, 80.0);
+	col_row_info_init (&sheet->default_row_style, 18.0);
 }
 
 /* Initialize some of the columns and rows, to test the display engine */
@@ -229,8 +229,9 @@ sheet_compute_col_row_new_size (Sheet *sheet, ColRowInfo *ci, void *data)
 {
 	double pix_per_unit = sheet->last_zoom_factor_used;
 
-	ci->pixels = (ci->units * pix_per_unit) +
-		ci->margin_a + ci->margin_b + 1;
+	ci->pixels = (ci->units + ci->margin_a_pt + ci->margin_b_pt) * pix_per_unit;
+	ci->margin_a = ci->margin_a_pt * pix_per_unit;
+	ci->margin_b = ci->margin_b_pt * pix_per_unit;
 }
 
 static int
@@ -679,8 +680,8 @@ sheet_col_get_distance (Sheet *sheet, int from_col, int to_col)
 	return col_row_distance (sheet->cols_info, from_col, to_col, sheet->default_col_style.pixels);
 }
 
-static inline int
-col_row_unit_distance (GList *list, int from, int to, double default_units, int default_margin)
+static inline double
+col_row_unit_distance (GList *list, int from, int to, double default_units, double default_margins)
 {
 	ColRowInfo *cri;
 	double units = 0;
@@ -700,10 +701,10 @@ col_row_unit_distance (GList *list, int from, int to, double default_units, int 
 		
 		if (cri->pos >= from){
 			n--;
-			units += cri->units + cri->margin_a + cri->margin_b;
+			units += cri->units + cri->margin_a_pt + cri->margin_b_pt;
 		}
 	}
-	units += n * default_units + n * default_margin;
+	units += n * default_units + n * default_margins;
 	
 	return units;
 }
@@ -721,8 +722,8 @@ sheet_col_get_unit_distance (Sheet *sheet, int from_col, int to_col)
 
 	return col_row_unit_distance (sheet->cols_info, from_col, to_col,
 				      sheet->default_col_style.units,
-				      sheet->default_col_style.margin_a +
-				      sheet->default_col_style.margin_b);
+				      sheet->default_col_style.margin_a_pt +
+				      sheet->default_col_style.margin_b_pt);
 }
 
 /**

@@ -13,14 +13,13 @@ typedef struct _ColRowInfo ColRowInfo;
 #include "str.h"
 #include "expr.h"
 
-typedef unsigned char  ColType;
-typedef unsigned short RowType;
-
 struct _ColRowInfo {
 	int        pos;			/* the column or row number */
 
-	/* The height */
-	int        units;		/* In units */
+	double     units;		/* In points */
+	double     margin_a_pt;
+	double     margin_b_pt;
+	
 	int        margin_a;  		/* in pixels: top/left margin */
 	int        margin_b; 		/* in pixels: bottom/right margin */
 	int        pixels;		/* we compute this from the above parameters */

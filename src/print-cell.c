@@ -16,7 +16,7 @@
 #include <libgnomeprint/gnome-print.h>
 #include "print-cell.h"
 
-#define CELL_DIM(cell,p) (cell->p->units + cell->p->margin_a + cell->p->margin_b)
+#define CELL_DIM(cell,p) (cell->p->units + cell->p->margin_a_pt + cell->p->margin_b_pt)
 #define CELL_HEIGHT(cell) CELL_DIM(cell,row)
 #define CELL_WIDTH(cell)  CELL_DIM(cell,col)
 
@@ -266,11 +266,11 @@ print_cell_text (GnomePrintContext *context, Cell *cell, double base_x, double b
 			switch (halign){
 			case HALIGN_LEFT:
 			case HALIGN_JUSTIFY:
-				x_offset = cell->col->margin_a;
+				x_offset = cell->col->margin_a_pt;
 				break;
 				
 			case HALIGN_RIGHT:
-				x_offset = cell->col->units - cell->col->margin_b -
+				x_offset = cell->col->units - cell->col->margin_b_pt -
 					gnome_font_get_width_string (print_font, str);
 				break;
 
@@ -280,7 +280,7 @@ print_cell_text (GnomePrintContext *context, Cell *cell, double base_x, double b
 				break;
 			default:
 				g_warning ("Multi-line justification style not supported\n");
-				x_offset = cell->col->margin_a;
+				x_offset = cell->col->margin_a_pt;
 			}
 
 			gnome_print_moveto (context, base_x + x_offset, base_y + y_offset);
@@ -366,8 +366,8 @@ print_cell (GnomePrintContext *context, Cell *cell, double x, double y)
 	gnome_print_setrgbcolor (context, fore->red, fore->green, fore->blue);
 
 	print_cell_text (context, cell,
-			 x + cell->col->margin_a,
-			 y + cell->row->margin_b);
+			 x + cell->col->margin_a_pt,
+			 y + cell->row->margin_b_pt);
 }
 
 void
@@ -404,9 +404,9 @@ print_cell_range (GnomePrintContext *context,
 			} else
 				ci = sheet_col_get_info (sheet, col);
 			
-			x += ci->units + ci->margin_a + ci->margin_b;
+			x += ci->units + ci->margin_a_pt + ci->margin_b_pt;
 		}
-		y -= ri->units + ci->margin_a + ci->margin_b;
+		y -= ri->units + ci->margin_a_pt + ci->margin_b_pt;
 	}
 }
 
@@ -452,7 +452,7 @@ print_cell_grid (GnomePrintContext *context,
 		ColRowInfo *ci = sheet_col_get_info (sheet, col);
 
 		vline (context, x, base_y, base_y - height);
-		x += ci->units + ci->margin_a + ci->margin_b;
+		x += ci->units + ci->margin_a_pt + ci->margin_b_pt;
 	}
 
 	y = base_y;
@@ -460,7 +460,7 @@ print_cell_grid (GnomePrintContext *context,
 		ColRowInfo *ri = sheet_row_get_info (sheet, row);
 
 		hline (context, base_x, base_x + width, y);
-		y -= ri->units + ri->margin_a + ri->margin_b;
+		y -= ri->units + ri->margin_a_pt + ri->margin_b_pt;
 	}
 }
 

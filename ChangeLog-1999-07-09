@@ -1,3 +1,39 @@
+1999-06-14  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/cell.h: Killed ColType and RowType definitions.  They do not
+	save any noticeable amount of memory; we are not using them but
+	on the most useless places and finally they are the current limit
+	to our spreadsheet size.
+
+	* src/gnumeric-sheet.h: Use int instead of ColType, RowType
+	* src/item-cursor.h: Use int instead of ColType, RowType
+	* src/item-grid.h: Use int instead of ColType, RowType
+
+	* src/print-cell.c (CELL_DIM): Use _pt variants of the margins here.
+	(print_cell_text): and here.
+	(print_cell): and here.
+	(print_cell_range): and here.
+	(print_cell_grid): and here.
+
+1999-06-13  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/sheet.c (sheet_compute_col_row_new_size): Update margin_a
+	and margin_b from the points.
+	(col_row_info_init): New function to initialize a sample
+	ColRowInfo.  Inits the _pt fields.
+	(col_row_unit_distance): Use the new fields in computation.
+	(sheet_col_get_unit_distance): Use new fields in computation.
+
+	* src/dialog-printer-setup.c (do_setup_margin): Set scroll region.
+	(preview_page_create): Implement routine that draws the page for
+	the margin setup. 
+
+	* src/sheet.h (ColRowInfo): Units are now doubles; margin_a_pt and
+	margin_b_pt are doubles that represent the a and b margins in
+	points.
+	
+	* src/sheet.c (sheet_compute_col_row_new_size): Use the 
+
 1999-06-11  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/cell-draw.c (cell_draw): Move the foreground setting routine

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 1999-06-08 14:24-0500\n"
+"POT-Creation-Date: 1999-06-14 19:09-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2167,36 +2167,36 @@ msgstr ""
 msgid "Column: %s"
 msgstr ""
 
-#: src/sheet.c:786
+#: src/sheet.c:787
 msgid "ERROR"
 msgstr ""
 
-#: src/sheet.c:2684
+#: src/sheet.c:2685
 msgid "The command `"
 msgstr ""
 
-#: src/sheet.c:2686
+#: src/sheet.c:2687
 msgid "' cannot be performed with multiple selections"
 msgstr ""
 
-#: src/sheet.c:2701
+#: src/sheet.c:2702
 msgid "copy"
 msgstr ""
 
-#: src/sheet.c:2726
+#: src/sheet.c:2727
 msgid "cut"
 msgstr ""
 
-#: src/sheet.c:2775
+#: src/sheet.c:2776
 msgid "paste"
 msgstr ""
 
-#: src/sheet.c:3672
+#: src/sheet.c:3673
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr ""
 
-#: src/sheet.c:3684
+#: src/sheet.c:3685
 msgid "I was unable to the bind object"
 msgstr ""
 
