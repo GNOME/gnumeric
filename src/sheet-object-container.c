@@ -8,14 +8,14 @@
  */
 #include <config.h>
 #include <gnome.h>
-#include <libgnorba/gnorba.h>
 #include <gdk/gdkkeysyms.h>
 #include <math.h>
 #include "gnumeric.h"
 #include "workbook-control-gui-priv.h"
+#include "workbook-private.h"
 #include "sheet.h"
 #include "gnumeric-util.h"
-#include "sheet-control-gui-priv.h" /* REMOVE when we localize the frame */
+#include "sheet-control-gui.h"
 #include "gnumeric-canvas.h"
 #include "sheet-object-container.h"
 #include "sheet-object-widget.h"
@@ -27,8 +27,7 @@
 #include <bonobo/bonobo-embeddable.h>
 #include <bonobo/bonobo-object-client.h>
 #include <bonobo/bonobo-object-directory.h>
-
-static SheetObjectBonoboClass *sheet_object_container_parent_class;
+#include <bonobo/bonobo-exception.h>
 
 static gint
 cb_user_activation_request (BonoboViewFrame *view_frame, GtkObject *so_view)
@@ -41,17 +40,12 @@ cb_user_activation_request (BonoboViewFrame *view_frame, GtkObject *so_view)
 	return FALSE;
 }
 
-static void
-sheet_object_container_destroy (GtkObject *object)
-{
-	GTK_OBJECT_CLASS (sheet_object_container_parent_class)->destroy (object);
-}
-
 static GtkObject *
 sheet_object_container_new_view (SheetObject *so, SheetControlGUI *scg)
 {
 	/* FIXME : this is bogus */
 	GnumericCanvas *gcanvas = scg_pane (scg, 0);
+	WorkbookControlGUI *wbcg = scg_get_wbcg	(scg);
 	SheetObjectContainer *soc;
 	BonoboViewFrame *view_frame;
 	GtkWidget	*view_widget;
@@ -63,7 +57,7 @@ sheet_object_container_new_view (SheetObject *so, SheetControlGUI *scg)
 
 	view_frame = bonobo_client_site_new_view (
 		SHEET_OBJECT_BONOBO (so)->client_site,
-		bonobo_ui_component_get_container (scg->wbcg->uic));
+		bonobo_ui_component_get_container (wbcg->uic));
 	if (!view_frame) {
 		g_warning ("Component died");
 		return NULL;
@@ -138,11 +132,6 @@ sheet_object_container_class_init (GtkObjectClass *object_class)
 {
 	SheetObjectClass *so_class;
 
-	sheet_object_container_parent_class = gtk_type_class (SHEET_OBJECT_BONOBO_TYPE);
-
-	/* GtkObject class method overrides */
-	object_class->destroy = sheet_object_container_destroy;
-
 	/* SheetObject class method overrides */
 	so_class = SHEET_OBJECT_CLASS (object_class);
 	so_class->new_view 	= sheet_object_container_new_view;
@@ -151,17 +140,17 @@ sheet_object_container_class_init (GtkObjectClass *object_class)
 }
 
 SheetObject *
-sheet_object_container_new (Sheet *sheet)
+sheet_object_container_new (Workbook *wb)
 {
-	return sheet_object_container_new_object (sheet, NULL);
+	return sheet_object_container_new_object (wb, NULL);
 }
 
 SheetObject *
-sheet_object_container_new_object (Sheet *sheet, const char *object_id)
+sheet_object_container_new_object (Workbook *wb, char const *object_id)
 {
 	SheetObjectContainer *c = gtk_type_new (SHEET_OBJECT_CONTAINER_TYPE);
 	if (!sheet_object_bonobo_construct (
-		SHEET_OBJECT_BONOBO (c), sheet, object_id)) {
+		SHEET_OBJECT_BONOBO (c), wb->priv->bonobo_container, object_id)) {
 		gtk_object_destroy (GTK_OBJECT (c));
 		return NULL;
 	}
@@ -170,7 +159,7 @@ sheet_object_container_new_object (Sheet *sheet, const char *object_id)
 }
 
 SheetObject *
-sheet_object_container_new_file (Sheet *sheet, const char *fname)
+sheet_object_container_new_file (Workbook *wb, char const *fname)
 {
 	CORBA_Environment ev;
 	SheetObject *so = NULL;
@@ -181,11 +170,9 @@ sheet_object_container_new_file (Sheet *sheet, const char *fname)
 		NULL
 	};
 
-	g_return_val_if_fail (IS_SHEET (sheet), NULL);
-
 	iid = bonobo_directory_find_for_file (fname, required_ids, &msg);
 	if (iid != NULL) {
-		so = sheet_object_container_new_object (sheet, iid);
+		so = sheet_object_container_new_object (wb, iid);
 		if (so == NULL) {
 			msg = g_strdup_printf (_("can't create object for '%s'"), iid);
 			gnome_dialog_run_and_close (GNOME_DIALOG (gnome_error_dialog (msg)));

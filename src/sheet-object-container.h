@@ -2,7 +2,6 @@
 #define GNUMERIC_SHEET_OBJECT_CONTAINER_H
 
 #include "sheet-object-bonobo.h"
-#include <bonobo/bonobo-client-site.h>
 
 /*
  * SheetObjectContainer:
@@ -22,15 +21,12 @@ typedef struct {
 	SheetObjectBonoboClass parent_class;
 } SheetObjectContainerClass;
 
-/*
- * Bonobo::View Bonobo containers.
- */
-GtkType      sheet_object_container_get_type (void);
+GtkType sheet_object_container_get_type (void);
 
-SheetObject *sheet_object_container_new		(Sheet *sheet);
-SheetObject *sheet_object_container_new_file	(Sheet *sheet,
-						 const char *filename);
-SheetObject *sheet_object_container_new_object	(Sheet *sheet,
-						 const char *object_id);
+SheetObject *sheet_object_container_new		(Workbook *wb);
+SheetObject *sheet_object_container_new_file	(Workbook *wb,
+						 char const *filename);
+SheetObject *sheet_object_container_new_object	(Workbook *wb,
+						 char const *object_id);
 
 #endif /* GNUMERIC_SHEET_OBJECT_CONTAINER_H */

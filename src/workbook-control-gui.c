@@ -121,6 +121,8 @@ sheet_to_page_index (WorkbookControlGUI *wbcg, Sheet *sheet, SheetControlGUI **r
 GtkWindow *
 wb_control_gui_toplevel (WorkbookControlGUI *wbcg)
 {
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), NULL);
+
 	return wbcg->toplevel;
 }
 
@@ -772,7 +774,6 @@ change_menu_sensitivity (GtkWidget *menu_item, gboolean sensitive)
 	gtk_widget_set_sensitive (menu_item, sensitive);
 }
 
-/* FIXME : This is crap.  We need to handle the accelerators properly */
 static void
 change_menu_label (GtkWidget *menu_item, char const *prefix, char const *suffix)
 {
@@ -784,7 +785,7 @@ change_menu_label (GtkWidget *menu_item, char const *prefix, char const *suffix)
 	g_return_if_fail (label != NULL);
 
 	if (prefix == NULL) {
-		gtk_label_set_text (label, suffix);
+		gtk_label_parse_uline (label, suffix);
 		return;
 	}
 
@@ -795,7 +796,7 @@ change_menu_label (GtkWidget *menu_item, char const *prefix, char const *suffix)
 
 	text = g_strdup_printf ("%s : %s", prefix, suffix);
 
-	gtk_label_set_text (label, text);
+	gtk_label_parse_uline (label, text);
 	gtk_widget_set_sensitive (menu_item, sensitive);
 	g_free (text);
 }
@@ -937,8 +938,10 @@ wbcg_menu_state_update (WorkbookControl *wbc, Sheet const *sheet, int flags)
 
 	if (MS_FREEZE_VS_THAW & flags) {
 		Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+		/* Cheat and use the same accelerator for both states because
+		 * we don't reset it when the label changes */
 		char const* label = sheet_is_frozen (sheet)
-			? _("un_Freeze Panes") : _("_Freeze Panes");
+			? _("Un_freeze Panes") : _("_Freeze Panes");
 #ifndef ENABLE_BONOBO
 		change_menu_label (wbcg->menu_item_freeze_panes,
 				   NULL, label);
@@ -1825,7 +1828,8 @@ insert_bonobo_object (WorkbookControlGUI *wbcg, char const **interfaces)
 					    interfaces);
 
 	if (obj_id != NULL) {
-		so = sheet_object_container_new_object (sc->sheet, obj_id);
+		so = sheet_object_container_new_object (
+			sc->sheet->workbook, obj_id);
 
 		if (so != NULL) {
 			scg_mode_create_object (scg, so);
@@ -2390,24 +2394,29 @@ static GnomeUIInfo workbook_menu_edit_sheet [] = {
 
 
 static GnomeUIInfo workbook_menu_edit [] = {
-	GNOMEUIINFO_ITEM_STOCK (N_("_Undo"), N_("Undo"),
-				cb_edit_undo,
-				"Menu_Gnumeric_Undo"),
-	GNOMEUIINFO_ITEM_STOCK (N_("_Redo"), N_("Redo"),
-				cb_edit_redo,
-				"Menu_Gnumeric_Redo"),
+	{ GNOME_APP_UI_ITEM, N_("_Undo"),
+		N_("Undo the last action"), cb_edit_undo, NULL, NULL,
+		GNOME_APP_PIXMAP_STOCK, "Menu_Gnumeric_Undo",
+		'z', GDK_CONTROL_MASK },
+	{ GNOME_APP_UI_ITEM, N_("_Redo"),
+		N_("Redo the undone action"), cb_edit_redo, NULL, NULL,
+		GNOME_APP_PIXMAP_STOCK, "Menu_Gnumeric_Redo",
+		'r', GDK_CONTROL_MASK },
 
 	GNOMEUIINFO_SEPARATOR,
 
-	GNOMEUIINFO_ITEM_STOCK (N_("_Cut"), N_("Cut"),
-				cb_edit_cut,
-				"Menu_Gnumeric_Cut"),
-	GNOMEUIINFO_ITEM_STOCK (N_("_Copy"), N_("Copy"),
-				cb_edit_copy,
-				"Menu_Gnumeric_Copy"),
-	GNOMEUIINFO_ITEM_STOCK (N_("_Paste"), N_("Paste"),
-				cb_edit_paste,
-				"Menu_Gnumeric_Paste"),
+	{ GNOME_APP_UI_ITEM, N_("Cu_t"),
+		N_("Cut the selection"), cb_edit_cut, NULL, NULL,
+		GNOME_APP_PIXMAP_STOCK, "Menu_Gnumeric_Cut",
+		'x', GDK_CONTROL_MASK },
+	{ GNOME_APP_UI_ITEM, N_("_Copy"),
+		N_("Copy the selection"), cb_edit_copy, NULL, NULL,
+		GNOME_APP_PIXMAP_STOCK, "Menu_Gnumeric_Copy",
+		'c', GDK_CONTROL_MASK },
+	{ GNOME_APP_UI_ITEM, N_("_Paste"),
+		N_("Paste the clipboard"), cb_edit_paste, NULL, NULL,
+		GNOME_APP_PIXMAP_STOCK, "Menu_Gnumeric_Paste",
+		'v', GDK_CONTROL_MASK },
 
 	GNOMEUIINFO_ITEM_NONE (N_("P_aste special..."),
 		N_("Paste with optional filters and transformations"),
@@ -3635,10 +3644,12 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 #else
 	bonobo_window_set_contents (BONOBO_WINDOW (wbcg->toplevel), wbcg->table);
 
-	wbcg->uic = bonobo_ui_component_new_default ();
-
 	ui_container = bonobo_ui_container_new ();
 	bonobo_ui_container_set_win (ui_container, BONOBO_WINDOW (wbcg->toplevel));
+	bonobo_ui_engine_config_set_path (
+		bonobo_window_get_ui_engine (BONOBO_WINDOW (wbcg->toplevel)),
+		"/Gnumeric/UIConf/kvps");
+	wbcg->uic = bonobo_ui_component_new_default ();
 	bonobo_ui_component_set_container (wbcg->uic, BONOBO_OBJREF (ui_container));
 
 	bonobo_ui_component_add_verb_list_with_data (wbcg->uic, verbs, wbcg);
@@ -3737,7 +3748,7 @@ workbook_control_gui_ctor_class (GtkObjectClass *object_class)
 
 	parent_class = gtk_type_class (workbook_control_get_type ());
 
-	object_class->destroy		= wbcg_destroy;
+	object_class->destroy = wbcg_destroy;
 
 	wbc_class->context_class.progress_set         = wbcg_progress_set;
 	wbc_class->context_class.progress_message_set = wbcg_progress_message_set;

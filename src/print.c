@@ -160,10 +160,10 @@ print_sheet_objects (PrintJobInfo const *pj, Sheet const *sheet, Range *range,
 		double obj_base_x = 0.0, obj_base_y = 0.0;
 
 		/* First check if we need to print this object */
-		if (!range_overlap (range, &so->cell_bound))
+		if (!range_overlap (range, &so->anchor.cell_bound))
 			continue;
 
-		sheet_object_position_pts (so, coords);
+		sheet_object_position_pts_get (so, coords);
 		switch (pj->pi->scaling.type) {
 		case PERCENTAGE:
 			obj_base_x = base_x + coords [0] 
@@ -539,7 +539,7 @@ print_page (PrintJobInfo const *pj, Sheet const *sheet, Range *range,
 	if (!printed)
 		for (l = sheet->sheet_objects; l && !printed; l = l->next) {
 			SheetObject *so = SHEET_OBJECT (l->data);
-			printed = range_overlap (range, &so->cell_bound);
+			printed = range_overlap (range, &so->anchor.cell_bound);
 		}
 
 	if (!output)

@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * sheet-object-container.c:
  *   SheetObject abstract class for Bonobo-based embeddings
@@ -31,6 +32,8 @@
 #include <bonobo/bonobo-view-frame.h>
 #include <bonobo/bonobo-client-site.h>
 #include <bonobo/bonobo-embeddable.h>
+#include <bonobo/bonobo-stream-memory.h>
+
 #include <gal/util/e-util.h>
 
 static SheetObjectClass *sheet_object_bonobo_parent_class;
@@ -120,7 +123,6 @@ sheet_object_bonobo_load_persist_stream (SheetObjectBonobo *sob,
 	Bonobo_PersistStream ps;
 
 	bonobo_return_if_fail (IS_SHEET_OBJECT_BONOBO (sob), ev);
-	g_return_if_fail (sob->client_site != NULL);
 	g_return_if_fail (sob->has_persist_stream);
 
 	ps = Bonobo_Unknown_queryInterface (BONOBO_OBJREF (sob->object_server),
@@ -128,6 +130,26 @@ sheet_object_bonobo_load_persist_stream (SheetObjectBonobo *sob,
 					    ev);
 	if (!BONOBO_EX (ev)) {
 		Bonobo_PersistStream_load (ps,
+			(Bonobo_Stream) BONOBO_OBJREF (stream), "", ev);
+		bonobo_object_release_unref (ps, NULL);
+	}
+}
+
+void
+sheet_object_bonobo_save_persist_stream (SheetObjectBonobo const *sob,
+				         BonoboStream      *stream,
+					 CORBA_Environment *ev)
+{
+	Bonobo_PersistStream ps;
+
+	bonobo_return_if_fail (IS_SHEET_OBJECT_BONOBO (sob), ev);
+	g_return_if_fail (sob->has_persist_stream);
+
+	ps = Bonobo_Unknown_queryInterface (BONOBO_OBJREF (sob->object_server),
+					    "IDL:Bonobo/PersistStream:1.0",
+					    ev);
+	if (!BONOBO_EX (ev)) {
+		Bonobo_PersistStream_save (ps,
 			(Bonobo_Stream) BONOBO_OBJREF (stream), "", ev);
 		bonobo_object_release_unref (ps, NULL);
 	}
@@ -156,7 +178,7 @@ sheet_object_bonobo_print (SheetObject const *so, GnomePrintContext *ctx,
 		return;
 	}
 
-	sheet_object_position_pts (so, coords);
+	sheet_object_position_pts_get (so, coords);
 	bpd = bonobo_print_data_new ((coords [2] - coords [0]),
 				     (coords [3] - coords [1]));
 	bonobo_print_client_render (bpc, bpd);
@@ -230,25 +252,57 @@ static gboolean
 sheet_object_bonobo_read_xml (SheetObject *so,
 			      XmlParseContext const *ctxt, xmlNodePtr	tree)
 {
-	if (ctxt->read_fn == NULL) {
-		g_warning ("Internal error, no read fn");
-		return TRUE;
-	}
+	/* Leave crufty old bonobo-io override in place until we have something
+	 * better
+	 */
+	if (ctxt->read_fn != NULL)
+		return ctxt->read_fn (tree, so, ctxt->sheet, ctxt->user_data);
 
-	return ctxt->read_fn (tree, so, ctxt->sheet, ctxt->user_data);
+#if 0
+	BonoboStream *stream;
+	stream = bonobo_stream_mem_create (data, len, TRUE, FALSE);
+	sheet_object_bonobo_load_persist_stream (sob);
+	bonobo_object_unref (BONOBO_OBJECT (stream));
+#endif
+
+	return FALSE;
 }
 
 static gboolean
 sheet_object_bonobo_write_xml (SheetObject const *so,
 			       XmlParseContext const *ctxt, xmlNodePtr tree)
 {
-	if (ctxt->write_fn == NULL ||
-	    !ctxt->write_fn (tree, so, ctxt->user_data)) {
-		g_warning ("Error serializing bonobo sheet object");
-		return TRUE;
-	}
+	SheetObjectBonobo const *sob = SHEET_OBJECT_BONOBO (so);
+	BonoboStream *stream = NULL;
+	gboolean res = FALSE;
 
-	return FALSE;
+	if (ctxt->write_fn != NULL)
+		return ctxt->write_fn (tree, so, ctxt->user_data);
+
+	if (sob->has_persist_stream) {
+		CORBA_Environment ev;
+
+		stream = bonobo_stream_mem_create (NULL, 0, FALSE, TRUE);
+
+		CORBA_exception_init (&ev);
+		sheet_object_bonobo_save_persist_stream (sob, stream, &ev);
+		if (BONOBO_EX (&ev)) {
+			/* TODO : Generate a decent message when sheetobjects
+			 * get user visible ids */
+			gnumeric_io_error_save (ctxt->io_context,
+				   bonobo_exception_get_text (&ev));
+		} else
+			res = TRUE;
+
+		CORBA_exception_free (&ev);
+	} else if (sob->has_persist_file) {
+		/* Copy approach from gnum_file_saver_save_to_stream_real. */
+	}
+	if (res) {
+		/* store this somewhere, somehow */
+		bonobo_object_unref (BONOBO_OBJECT (stream));
+	}
+	return res;
 }
 
 static void
@@ -273,26 +327,26 @@ E_MAKE_TYPE (sheet_object_bonobo, "SheetObjectBonobo", SheetObjectBonobo,
 	     sheet_object_bonobo_class_init, NULL, SHEET_OBJECT_TYPE);
 
 SheetObjectBonobo *
-sheet_object_bonobo_construct (SheetObjectBonobo *sob,
-			       Sheet const *sheet,
+sheet_object_bonobo_construct (SheetObjectBonobo   *sob,
+			       BonoboItemContainer *container,
 			       char const *object_id)
 {
-	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (IS_SHEET_OBJECT_BONOBO (sob), NULL);
 
 	sob->object_id     = NULL;
 	sob->object_server = NULL;
-	sob->client_site = bonobo_client_site_new (sheet->workbook->priv->bonobo_container);
+	sob->client_site = bonobo_client_site_new (container);
 	if (object_id != NULL &&
 	    !sheet_object_bonobo_set_object_iid (sob, object_id)) {
 		bonobo_object_unref (BONOBO_OBJECT (sob->client_site));
+		sob->client_site = NULL;
 		return NULL;
 	}
 
 	return sob;
 }
 
-const char *
+char const *
 sheet_object_bonobo_get_object_iid (SheetObjectBonobo const *sob)
 {
 	g_return_val_if_fail (IS_SHEET_OBJECT_BONOBO (sob), NULL);

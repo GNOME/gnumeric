@@ -1,13 +1,12 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /**
  * ms-chart.c: MS Excel chart support for Gnumeric
  *
  * Author:
  *    Jody Goldberg (jgoldberg@home.com)
  *
- * (C) 1999, 2000 Jody Goldberg
+ * (C) 1999-2001 Jody Goldberg
  **/
-
-#include <stdio.h>
 
 #include <config.h>
 #include "boot.h"
@@ -16,36 +15,78 @@
 #include "ms-formula-read.h"
 #include "ms-excel-read.h"
 #include "ms-escher.h"
-#include "parse-util.h"
-#include "style-color.h"
-#include "format.h"
-#include "expr.h"
-#include "gutils.h"
-#include "gnumeric-chart.h"
+
+#include <parse-util.h>
+#include <style-color.h>
+#include <format.h>
+#include <expr.h>
+#include <gutils.h>
+#include <gnumeric-graph.h>
+
+#include <gnome-xml/tree.h>
+#include <stdio.h>
 
 /* #define NO_DEBUG_EXCEL */
+
+typedef enum {
+	MS_VECTOR_TYPE_DATES		= 0,
+	MS_VECTOR_TYPE_NUMBERS		= 1,
+	MS_VECTOR_TYPE_SEQUENCES	= 2,
+	MS_VECTOR_TYPE_STRINGS		= 3,
+	MS_VECTOR_TYPE_MAX		= 4
+} MS_VECTOR_TYPE;
+static char const *const gnm_graph_vector_type_name [] =
+{
+    "Dates (This is invalid)", "Numbers",
+    "Sequences (This is invalid)", "Strings",
+};
+
+typedef enum {
+	MS_VECTOR_PURPOSE_LABELS	= 0,
+	MS_VECTOR_PURPOSE_VALUES	= 1,
+	MS_VECTOR_PURPOSE_CATEGORIES	= 2,
+	/* This is undocumented, but makes sense */
+	MS_VECTOR_PURPOSE_BUBBLES	= 3,
+	MS_VECTOR_PURPOSE_MAX		= 4
+} MS_VECTOR_PURPOSE;
+
+typedef struct _ExcelChartSeries
+{
+	struct {
+		MS_VECTOR_TYPE  type;
+		int		 count;
+		GnmGraphVector	*gnum;
+	} vector [MS_VECTOR_PURPOSE_MAX];
+	gboolean has_bubbles;
+
+	xmlNodePtr  xml;
+} ExcelChartSeries;
 
 typedef struct
 {
 	MSContainer	 container;
 
 	MSContainer	*parent;
-	int		 depth;
+	GArray		*stack;
 	MsBiffVersion	 ver;
 	guint32		 prev_opcode;
 	ExcelWorkbook	*wb;
+	GnmGraph	*graph;
 
-	GnumericChart	*chart;
-} ExcelChart;
+	xmlDocPtr   	 chart;
+
+	ExcelChartSeries *currentSeries;
+	GPtrArray	 *series;
+} ExcelChartReadState;
 
 typedef struct
 {
-	GnumericChart	*chart;
+	int dummy;
 } GnumericChartState;
 
 typedef struct biff_chart_handler ExcelChartHandler;
 typedef gboolean (*ExcelChartReader)(ExcelChartHandler const *handle,
-				     ExcelChart *, BiffQuery *q);
+				     ExcelChartReadState *, BiffQuery *q);
 typedef gboolean (*ExcelChartWriter)(ExcelChartHandler const *handle,
 				     GnumericChartState *, BiffPut *os);
 struct biff_chart_handler
@@ -60,6 +101,13 @@ struct biff_chart_handler
 #define BC(n)	biff_chart_ ## n
 #define BC_R(n)	BC(read_ ## n)
 #define BC_W(n)	BC(write_ ## n)
+
+static int
+BC_R(top_state) (ExcelChartReadState *s)
+{
+	g_return_val_if_fail (s != NULL, 0);
+	return g_array_index (s->stack, int, s->stack->len-1);
+}
 
 static StyleColor *
 BC_R(color)(guint8 const *data, char *type)
@@ -78,7 +126,7 @@ BC_R(color)(guint8 const *data, char *type)
 
 static gboolean
 BC_R(3dbarshape)(ExcelChartHandler const *handle,
-		 ExcelChart *s, BiffQuery *q)
+		 ExcelChartReadState *s, BiffQuery *q)
 {
 	guint16 const type = MS_OLE_GET_GUINT16 (q->data);
 	switch (type) {
@@ -103,7 +151,7 @@ BC_W(3dbarshape)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(3d)(ExcelChartHandler const *handle,
-	 ExcelChart *s, BiffQuery *q)
+	 ExcelChartReadState *s, BiffQuery *q)
 {
 	guint16 const rotation = MS_OLE_GET_GUINT16 (q->data);	/* 0-360 */
 	guint16 const elevation = MS_OLE_GET_GUINT16 (q->data+2);	/* -90 - 90 */
@@ -148,19 +196,43 @@ BC_W(3d)(ExcelChartHandler const *handle,
 
 /****************************************************************************/
 
+static GnmGraphVectorType
+map_excel_vec_type_to_gnm (MS_VECTOR_TYPE t)
+{
+	switch (t) {
+	case MS_VECTOR_TYPE_DATES :	return GNM_VECTOR_DATE;
+	case MS_VECTOR_TYPE_NUMBERS :	return GNM_VECTOR_SCALAR;
+	case MS_VECTOR_TYPE_SEQUENCES :
+		g_warning ("Unsupported vector type 'sequences', converting to scalar");
+		return GNM_VECTOR_SCALAR;
+
+	case MS_VECTOR_TYPE_STRINGS : 	return GNM_VECTOR_STRING;
+	default :
+		;
+	};
+	g_warning ("Unsupported vector type '%d', converting to scalar", t);
+	return GNM_VECTOR_SCALAR;
+}
+
 static gboolean
 BC_R(ai)(ExcelChartHandler const *handle,
-	 ExcelChart *chart, BiffQuery *q)
+	 ExcelChartReadState *s, BiffQuery *q)
 {
 	guint8 const link_type = MS_OLE_GET_GUINT8 (q->data);
 	guint8 const ref_type = MS_OLE_GET_GUINT8 (q->data + 1);
 	guint16 const flags = MS_OLE_GET_GUINT16 (q->data + 2);
 	guint16 const length = MS_OLE_GET_GUINT16 (q->data + 6);
 
+	int popped_state = BC_R(top_state) (s);
+
+	/* ignore these for now */
+	if (popped_state == BIFF_CHART_text)
+		return FALSE;
+
 	/* Rest are 0 */
 	if (flags&0x01) {
 		guint16 const fmt_index = MS_OLE_GET_GUINT16 (q->data + 4);
-		StyleFormat * fmt = biff_format_data_lookup (chart->wb, fmt_index);
+		StyleFormat * fmt = biff_format_data_lookup (s->wb, fmt_index);
 		puts ("Has Custom number format");
 		if (fmt != NULL) {
 			char * desc = style_format_as_XL (fmt, FALSE);
@@ -170,15 +242,14 @@ BC_R(ai)(ExcelChartHandler const *handle,
 	} else
 		puts ("Uses number format from data source");
 
+	g_return_val_if_fail (link_type < MS_VECTOR_PURPOSE_MAX, TRUE);
 	switch (link_type) {
-	case 0 : puts ("Linking title or text"); break;
-	case 1 : puts ("Linking values"); break;
-	case 2 : puts ("Linking categories"); break;
-
-	/* This is undocumented, but makes sense */
-	case 3 : puts ("Linking bubbles"); break;
+	case MS_VECTOR_PURPOSE_LABELS :	    puts ("Linking title or text"); break;
+	case MS_VECTOR_PURPOSE_VALUES :	    puts ("Linking values"); break;
+	case MS_VECTOR_PURPOSE_CATEGORIES : puts ("Linking categories"); break;
+	case MS_VECTOR_PURPOSE_BUBBLES :    puts ("Linking bubbles"); break;
 	default :
-		 printf ("Unknown link type(%x)\n", link_type);
+		g_assert_not_reached ();
 	};
 	switch (ref_type) {
 	case 0 : puts ("Use default categories"); break;
@@ -191,12 +262,24 @@ BC_R(ai)(ExcelChartHandler const *handle,
 
 	/* (2) == linked to container */
 	if (ref_type == 2) {
-		ExprTree *expr = ms_container_parse_expr (chart->parent,
+		ExprTree *expr = ms_container_parse_expr (s->parent,
 							  q->data+8, length);
-		if (expr)
-			expr_tree_unref (expr);
-	} else
+		if (expr) {
+			g_return_val_if_fail (s->currentSeries != NULL, TRUE);
+
+#if 0
+			s->currentSeries->vector [link_type].gnm =
+				gnm_graph_vector_new (s->graph, expr,
+					s->currentSeries->vector [link_type].gnm =
+						      );
+#endif
+
+		}
+	} else {
 		g_return_val_if_fail (length == 0, TRUE);
+	}
+
+	g_return_val_if_fail (s->currentSeries != NULL, TRUE);
 
 	return FALSE;
 }
@@ -212,7 +295,7 @@ BC_W(ai)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(alruns)(ExcelChartHandler const *handle,
-	     ExcelChart *s, BiffQuery *q)
+	     ExcelChartReadState *s, BiffQuery *q)
 {
 	gint16 length = MS_OLE_GET_GUINT16 (q->data);
 	guint8 const *in = (q->data + 2);
@@ -247,7 +330,7 @@ BC_W(alruns)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(area)(ExcelChartHandler const *handle,
-	   ExcelChart *s, BiffQuery *q)
+	   ExcelChartReadState *s, BiffQuery *q)
 {
 	guint16 const flags = MS_OLE_GET_GUINT16 (q->data);
 	gboolean const stacked = (flags & 0x01) ? TRUE : FALSE;
@@ -281,7 +364,7 @@ BC_W(area)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(areaformat)(ExcelChartHandler const *handle,
-		 ExcelChart *s, BiffQuery *q)
+		 ExcelChartReadState *s, BiffQuery *q)
 {
 #if 0
 	StyleColor *fore = BC_R(color) (q->data, "Area Fore");
@@ -327,7 +410,7 @@ BC_W(areaformat)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(attachedlabel)(ExcelChartHandler const *handle,
-		    ExcelChart *s, BiffQuery *q)
+		    ExcelChartReadState *s, BiffQuery *q)
 {
 	guint16 const flags = MS_OLE_GET_GUINT16 (q->data);
 	gboolean const show_value = (flags&0x01) ? TRUE : FALSE;
@@ -367,7 +450,7 @@ BC_W(attachedlabel)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(axesused)(ExcelChartHandler const *handle,
-	       ExcelChart *s, BiffQuery *q)
+	       ExcelChartReadState *s, BiffQuery *q)
 {
 	guint16 const num_axis = MS_OLE_GET_GUINT16 (q->data);
 	g_return_val_if_fail(1 <= num_axis && num_axis <= 2, TRUE);
@@ -398,7 +481,7 @@ static char const *const ms_axis[] =
 
 static gboolean
 BC_R(axis)(ExcelChartHandler const *handle,
-	   ExcelChart *s, BiffQuery *q)
+	   ExcelChartReadState *s, BiffQuery *q)
 {
 	guint16 const axis_type = MS_OLE_GET_GUINT16 (q->data);
 	MS_AXIS atype;
@@ -419,7 +502,7 @@ BC_W(axis)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(axcext)(ExcelChartHandler const *handle,
-	     ExcelChart *s, BiffQuery *q)
+	     ExcelChartReadState *s, BiffQuery *q)
 {
 	return FALSE;
 }
@@ -434,7 +517,7 @@ BC_W(axcext)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(axislineformat)(ExcelChartHandler const *handle,
-		     ExcelChart *s, BiffQuery *q)
+		     ExcelChartReadState *s, BiffQuery *q)
 {
 	guint16 const type = MS_OLE_GET_GUINT16 (q->data);
 
@@ -463,7 +546,7 @@ BC_W(axislineformat)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(axisparent)(ExcelChartHandler const *handle,
-		 ExcelChart *s, BiffQuery *q)
+		 ExcelChartReadState *s, BiffQuery *q)
 {
 	guint16 const index = MS_OLE_GET_GUINT16 (q->data);	/* 1 or 2 */
 	/* Measured in 1/4000ths of the chart width */
@@ -488,7 +571,7 @@ BC_W(axisparent)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(bar)(ExcelChartHandler const *handle,
-	  ExcelChart *s, BiffQuery *q)
+	  ExcelChartReadState *s, BiffQuery *q)
 {
 	/* percent of bar width */
 	guint16 const space_between_bar = MS_OLE_GET_GUINT16(q->data);
@@ -533,10 +616,10 @@ BC_W(bar)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(begin)(ExcelChartHandler const *handle,
-	    ExcelChart *s, BiffQuery *q)
+	    ExcelChartReadState *s, BiffQuery *q)
 {
 	puts ("{");
-	++(s->depth);
+	s->stack = g_array_append_val (s->stack, s->prev_opcode);
 	return FALSE;
 }
 
@@ -551,7 +634,7 @@ BC_W(begin)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(boppop)(ExcelChartHandler const *handle,
-	     ExcelChart *s, BiffQuery *q)
+	     ExcelChartReadState *s, BiffQuery *q)
 {
 #if 0
 	guint8 const type = MS_OLE_GET_GUINT8 (q->data); /* 0-2 */
@@ -576,7 +659,7 @@ BC_W(boppop)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(boppopcustom)(ExcelChartHandler const *handle,
-		   ExcelChart *s, BiffQuery *q)
+		   ExcelChartReadState *s, BiffQuery *q)
 {
 #if 0
 	gint16 const count = MS_OLE_GET_GUINT16 (q->data);
@@ -596,7 +679,7 @@ BC_W(boppopcustom)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(catserrange)(ExcelChartHandler const *handle,
-		  ExcelChart *s, BiffQuery *q)
+		  ExcelChartReadState *s, BiffQuery *q)
 {
 	return FALSE;
 }
@@ -612,7 +695,7 @@ BC_W(catserrange)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(chart)(ExcelChartHandler const *handle,
-	    ExcelChart *s, BiffQuery *q)
+	    ExcelChartReadState *s, BiffQuery *q)
 {
 	/* TODO TODO TODO : Why are all charts listed as starting at 0,0 ?? */
 	/* Fixed point 2 bytes fraction 2 bytes integer */
@@ -642,7 +725,7 @@ BC_W(chart)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(chartformat)(ExcelChartHandler const *handle,
-		  ExcelChart *s, BiffQuery *q)
+		  ExcelChartReadState *s, BiffQuery *q)
 {
 	guint16 const flags = MS_OLE_GET_GUINT16 (q->data+16);
 	guint16 const z_order = MS_OLE_GET_GUINT16 (q->data+18);
@@ -665,7 +748,7 @@ BC_W(chartformat)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(chartformatlink)(ExcelChartHandler const *handle,
-		      ExcelChart *s, BiffQuery *q)
+		      ExcelChartReadState *s, BiffQuery *q)
 {
 	/* ignored */
 	return FALSE;
@@ -683,10 +766,12 @@ BC_W(chartformatlink)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(chartline)(ExcelChartHandler const *handle,
-		ExcelChart *s, BiffQuery *q)
+		ExcelChartReadState *s, BiffQuery *q)
 {
 	guint16 const type = MS_OLE_GET_GUINT16 (q->data);
+
 	g_return_val_if_fail (type <= 2, FALSE);
+
 	printf ("Use %s lines\n",
 		(type == 0) ? "drop" : ((type == 1) ? "hi-lo" : "series"));
 	return FALSE;
@@ -703,7 +788,7 @@ BC_W(chartline)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(clrtclient)(ExcelChartHandler const *handle,
-		 ExcelChart *s, BiffQuery *q)
+		 ExcelChartReadState *s, BiffQuery *q)
 {
 	puts ("Undocumented BIFF : clrtclient");
 	dump_biff(q);
@@ -720,7 +805,7 @@ BC_W(clrtclient)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(dat)(ExcelChartHandler const *handle,
-	  ExcelChart *s, BiffQuery *q)
+	  ExcelChartReadState *s, BiffQuery *q)
 {
 #if 0
 	gint16 const flags = MS_OLE_GET_GUINT16 (q->data);
@@ -742,7 +827,7 @@ BC_W(dat)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(dataformat)(ExcelChartHandler const *handle,
-		 ExcelChart *s, BiffQuery *q)
+		 ExcelChartReadState *s, BiffQuery *q)
 {
 	guint16 const pt_num = MS_OLE_GET_GUINT16 (q->data);
 	guint16 const series_index = MS_OLE_GET_GUINT16 (q->data+2);
@@ -771,7 +856,7 @@ BC_W(dataformat)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(defaulttext)(ExcelChartHandler const *handle,
-		  ExcelChart *s, BiffQuery *q)
+		  ExcelChartReadState *s, BiffQuery *q)
 {
 	guint16	const tmp = MS_OLE_GET_GUINT16 (q->data);
 	printf ("applicability = %hd\n", tmp);
@@ -797,7 +882,7 @@ BC_W(defaulttext)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(dropbar)(ExcelChartHandler const *handle,
-	      ExcelChart *s, BiffQuery *q)
+	      ExcelChartReadState *s, BiffQuery *q)
 {
 	guint16 const width = MS_OLE_GET_GUINT16 (q->data);	/* 0-100 */
 	g_return_val_if_fail (width <= 100, FALSE);
@@ -815,7 +900,7 @@ BC_W(dropbar)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(fbi)(ExcelChartHandler const *handle,
-	  ExcelChart *s, BiffQuery *q)
+	  ExcelChartReadState *s, BiffQuery *q)
 {
 	/*
 	 * TODO TODO TODO : Work on appropriate scales.
@@ -842,7 +927,7 @@ BC_W(fbi)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(fontx)(ExcelChartHandler const *handle,
-	    ExcelChart *s, BiffQuery *q)
+	    ExcelChartReadState *s, BiffQuery *q)
 {
 #if 0
 	/* Child of TEXT, index into FONT table */
@@ -862,7 +947,7 @@ BC_W(fontx)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(frame)(ExcelChartHandler const *handle,
-	    ExcelChart *s, BiffQuery *q)
+	    ExcelChartReadState *s, BiffQuery *q)
 {
 	guint16 const type = MS_OLE_GET_GUINT16 (q->data);
 	guint16 const flags = MS_OLE_GET_GUINT16 (q->data+2);
@@ -890,7 +975,7 @@ BC_W(frame)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(gelframe)(ExcelChartHandler const *handle,
-	       ExcelChart *s, BiffQuery *q)
+	       ExcelChartReadState *s, BiffQuery *q)
 {
 	ms_escher_parse (q, &s->container);
 	return FALSE;
@@ -906,7 +991,7 @@ BC_W(gelframe)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(ifmt)(ExcelChartHandler const *handle,
-	   ExcelChart *s, BiffQuery *q)
+	   ExcelChartReadState *s, BiffQuery *q)
 {
 	guint16 const fmt_index = MS_OLE_GET_GUINT16 (q->data);
 	StyleFormat * fmt = biff_format_data_lookup (s->wb, fmt_index);
@@ -949,7 +1034,7 @@ static char const *const ms_legend_location[] =
 
 static gboolean
 BC_R(legend)(ExcelChartHandler const *handle,
-	     ExcelChart *s, BiffQuery *q)
+	     ExcelChartReadState *s, BiffQuery *q)
 {
 	/* Measured in 1/4000ths of the chart width */
 	guint32 const x_pos = MS_OLE_GET_GUINT32  (q->data);
@@ -989,7 +1074,7 @@ BC_W(legend)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(legendxn)(ExcelChartHandler const *handle,
-	       ExcelChart *s, BiffQuery *q)
+	       ExcelChartReadState *s, BiffQuery *q)
 {
 	return FALSE;
 }
@@ -1005,7 +1090,7 @@ BC_W(legendxn)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(line)(ExcelChartHandler const *handle,
-	   ExcelChart *s, BiffQuery *q)
+	   ExcelChartReadState *s, BiffQuery *q)
 {
 	return FALSE;
 }
@@ -1054,7 +1139,7 @@ static char const *const ms_line_wgt[] =
 
 static gboolean
 BC_R(lineformat)(ExcelChartHandler const *handle,
-		 ExcelChart *s, BiffQuery *q)
+		 ExcelChartReadState *s, BiffQuery *q)
 {
 	guint16 const pattern = MS_OLE_GET_GUINT16 (q->data+4);
 	gint16 const weight = MS_OLE_GET_GUINT16 (q->data+6);
@@ -1125,7 +1210,7 @@ static char const *const ms_chart_marker[] =
 
 static gboolean
 BC_R(markerformat)(ExcelChartHandler const *handle,
-		   ExcelChart *s, BiffQuery *q)
+		   ExcelChartReadState *s, BiffQuery *q)
 {
 	guint16 const tmp = MS_OLE_GET_GUINT16 (q->data+8);
 	guint16 const flags = MS_OLE_GET_GUINT16 (q->data+10);
@@ -1181,7 +1266,7 @@ BC_W(markerformat)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(objectlink)(ExcelChartHandler const *handle,
-		 ExcelChart *s, BiffQuery *q)
+		 ExcelChartReadState *s, BiffQuery *q)
 {
 	guint16 const link_type = MS_OLE_GET_GUINT16 (q->data);
 	guint16 const series_num = MS_OLE_GET_GUINT16 (q->data+2);
@@ -1212,7 +1297,7 @@ BC_W(objectlink)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(picf)(ExcelChartHandler const *handle,
-	   ExcelChart *s, BiffQuery *q)
+	   ExcelChartReadState *s, BiffQuery *q)
 {
 	return FALSE;
 }
@@ -1228,7 +1313,7 @@ BC_W(picf)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(pie)(ExcelChartHandler const *handle,
-	  ExcelChart *s, BiffQuery *q)
+	  ExcelChartReadState *s, BiffQuery *q)
 {
 	return FALSE;
 }
@@ -1244,7 +1329,7 @@ BC_W(pie)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(pieformat)(ExcelChartHandler const *handle,
-		ExcelChart *s, BiffQuery *q)
+		ExcelChartReadState *s, BiffQuery *q)
 {
 	guint16 const percent_diam = MS_OLE_GET_GUINT16 (q->data); /* 0-100 */
 	g_return_val_if_fail (percent_diam <= 100, TRUE);
@@ -1263,7 +1348,7 @@ BC_W(pieformat)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(plotarea)(ExcelChartHandler const *handle,
-	       ExcelChart *s, BiffQuery *q)
+	       ExcelChartReadState *s, BiffQuery *q)
 {
 	/* Does nothing.  Should always have a 'FRAME' record following */
 	return FALSE;
@@ -1280,7 +1365,7 @@ BC_W(plotarea)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(plotgrowth)(ExcelChartHandler const *handle,
-		 ExcelChart *s, BiffQuery *q)
+		 ExcelChartReadState *s, BiffQuery *q)
 {
 	/* Docs say these are longs
 	 *But it appears that only 2 lsb are valid ??
@@ -1311,7 +1396,7 @@ BC_W(plotgrowth)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(pos)(ExcelChartHandler const *handle,
-	  ExcelChart *s, BiffQuery *q)
+	  ExcelChartReadState *s, BiffQuery *q)
 {
 	return FALSE;
 }
@@ -1327,7 +1412,7 @@ BC_W(pos)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(radar)(ExcelChartHandler const *handle,
-	    ExcelChart *s, BiffQuery *q)
+	    ExcelChartReadState *s, BiffQuery *q)
 {
 	return FALSE;
 }
@@ -1343,7 +1428,7 @@ BC_W(radar)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(radararea)(ExcelChartHandler const *handle,
-		ExcelChart *s, BiffQuery *q)
+		ExcelChartReadState *s, BiffQuery *q)
 {
 	return FALSE;
 }
@@ -1359,7 +1444,7 @@ BC_W(radararea)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(sbaseref)(ExcelChartHandler const *handle,
-	       ExcelChart *s, BiffQuery *q)
+	       ExcelChartReadState *s, BiffQuery *q)
 {
 	return FALSE;
 }
@@ -1375,7 +1460,7 @@ BC_W(sbaseref)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(scatter)(ExcelChartHandler const *handle,
-	      ExcelChart *s, BiffQuery *q)
+	      ExcelChartReadState *s, BiffQuery *q)
 {
 	return FALSE;
 }
@@ -1391,7 +1476,7 @@ BC_W(scatter)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(serauxerrbar)(ExcelChartHandler const *handle,
-		   ExcelChart *s, BiffQuery *q)
+		   ExcelChartReadState *s, BiffQuery *q)
 {
 	return FALSE;
 }
@@ -1407,7 +1492,7 @@ BC_W(serauxerrbar)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(serfmt)(ExcelChartHandler const *handle,
-	     ExcelChart *s, BiffQuery *q)
+	     ExcelChartReadState *s, BiffQuery *q)
 {
 	return FALSE;
 }
@@ -1421,75 +1506,37 @@ BC_W(serfmt)(ExcelChartHandler const *handle,
 
 /****************************************************************************/
 
-typedef enum
+static void
+BC_R(vector_details)(ExcelChartReadState *s, BiffQuery *q, ExcelChartSeries *ser,
+		     MS_VECTOR_PURPOSE purpose,
+		     int type_offset, int count_offset, char const *name)
 {
-	MS_CHART_SERIES_DATES		= 0,
-	MS_CHART_SERIES_NUMBERS		= 1,
-	MS_CHART_SERIES_SEQUENCES	= 2,
-	MS_CHART_SERIES_STRINGS		= 3,
-	MS_CHART_SERIES_MAX		= 4
-} MS_CHART_SERIES;
+	guint16 type = MS_OLE_GET_GUINT16 (q->data + type_offset);
 
-static char const *const ms_chart_series[] =
-{
-    "Dates (This is invalid)", "Numbers",
-    "Sequences (This is invalid)", "Strings",
-};
+	g_return_if_fail (type < MS_VECTOR_TYPE_MAX);
 
-typedef struct _ExcelChartSeries
-{
-	struct
-	{
-		MS_CHART_SERIES type;
-		int		count;
-	} category, value, bubble;
-	gboolean has_bubbles;
-} ExcelChartSeries;
+	ser->vector [purpose].type = map_excel_vec_type_to_gnm (type);
+	ser->vector [purpose].count = MS_OLE_GET_GUINT16 (q->data+count_offset);
+	printf ("%d %s are %s\n",
+		ser->vector [purpose].count, name,
+		gnm_graph_vector_type_name [ser->vector [purpose].count]);
+}
 
 static gboolean
-BC_R(series_impl)(ExcelChart *s, BiffQuery *q, ExcelChartSeries * ser)
+BC_R(series_impl)(ExcelChartReadState *s, BiffQuery *q, ExcelChartSeries *ser)
 {
-	guint16 tmp;
-
 	/*
 	 * WARNING : The offsets in the documentation are WRONG.
 	 *           Use the sizes instead.
 	 */
-
-	/* Categories */
-	tmp = MS_OLE_GET_GUINT16 (q->data+0);
-	g_return_val_if_fail (tmp < MS_CHART_SERIES_MAX, TRUE);
-	ser->category.type = tmp;
-	ser->category.count = MS_OLE_GET_GUINT16 (q->data+4);
-	printf ("%d Categories are %s\n",
-		ser->category.count,
-		ms_chart_series[ser->category.type]);
-
-	/* Values */
-	tmp = MS_OLE_GET_GUINT16 (q->data+2);
-	g_return_val_if_fail (tmp < MS_CHART_SERIES_MAX, TRUE);
-	ser->value.type = tmp;
-	ser->value.count = MS_OLE_GET_GUINT16 (q->data+6);
-	printf ("%d Values are %s\n",
-		ser->value.count,
-		ms_chart_series[ser->value.type]);
-
+	BC_R(vector_details) (s, q, ser, MS_VECTOR_PURPOSE_CATEGORIES,
+			      0, 4, "Categories");
+	BC_R(vector_details) (s, q, ser, MS_VECTOR_PURPOSE_VALUES,
+			      2, 6, "Values");
 	if ((ser->has_bubbles = (s->container.ver >= MS_BIFF_V8)))
-	{
-		tmp = MS_OLE_GET_GUINT16 (q->data+8);
-		g_return_val_if_fail (tmp < MS_CHART_SERIES_MAX, TRUE);
-		ser->bubble.type = tmp;
-		ser->bubble.count = MS_OLE_GET_GUINT16 (q->data+10);
-		printf ("%d Bubbles are %s\n",
-			ser->bubble.count,
-			ms_chart_series[ser->bubble.type]);
-	}
+		BC_R(vector_details) (s, q, ser, MS_VECTOR_PURPOSE_VALUES,
+				      8, 10, "Bubbles");
 
-	g_return_val_if_fail (s->chart != NULL, TRUE);
-	if (s->chart->series == NULL)
-		s->chart->series = g_ptr_array_new ();
-	g_ptr_array_add (s->chart->series, ser);
-	printf ("SERIES = %d\n", s->chart->series->len);
 	return FALSE;
 }
 
@@ -1498,15 +1545,22 @@ BC_R(series_impl)(ExcelChart *s, BiffQuery *q, ExcelChartSeries * ser)
  */
 static gboolean
 BC_R(series)(ExcelChartHandler const *handle,
-	     ExcelChart *s, BiffQuery *q)
+	     ExcelChartReadState *s, BiffQuery *q)
 {
-	ExcelChartSeries * ser = g_new (ExcelChartSeries, 1);
+	ExcelChartSeries *ser;
 
-	if (BC_R(series_impl)(s, q, ser))
-	{
+	g_return_val_if_fail (s->chart != NULL, TRUE);
+	g_return_val_if_fail (s->currentSeries == NULL, TRUE);
+
+	ser = g_new (ExcelChartSeries, 1);
+	if (BC_R(series_impl)(s, q, ser)) {
 		g_free (ser);
 		return TRUE;
 	}
+
+	g_ptr_array_add (s->series, ser);
+	printf ("SERIES = %d\n", s->series->len-1);
+	s->currentSeries = ser;
 	return FALSE;
 }
 
@@ -1521,7 +1575,7 @@ BC_W(series)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(serieslist)(ExcelChartHandler const *handle,
-		 ExcelChart *s, BiffQuery *q)
+		 ExcelChartReadState *s, BiffQuery *q)
 {
 	return FALSE;
 }
@@ -1537,7 +1591,7 @@ BC_W(serieslist)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(seriestext)(ExcelChartHandler const *handle,
-		 ExcelChart *s, BiffQuery *q)
+		 ExcelChartReadState *s, BiffQuery *q)
 {
 	guint16 const id = MS_OLE_GET_GUINT16 (q->data);	/* must be 0 */
 	int const slen = MS_OLE_GET_GUINT8 (q->data + 2);
@@ -1559,7 +1613,7 @@ BC_W(seriestext)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(serparent)(ExcelChartHandler const *handle,
-		ExcelChart *s, BiffQuery *q)
+		ExcelChartReadState *s, BiffQuery *q)
 {
 	return FALSE;
 }
@@ -1575,7 +1629,7 @@ BC_W(serparent)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(sertocrt)(ExcelChartHandler const *handle,
-	       ExcelChart *s, BiffQuery *q)
+	       ExcelChartReadState *s, BiffQuery *q)
 {
 	guint16 const index = MS_OLE_GET_GUINT16 (q->data);
 	printf ("Series chart group index is %hd\n", index);
@@ -1591,21 +1645,19 @@ BC_W(sertocrt)(ExcelChartHandler const *handle,
 
 /****************************************************************************/
 
-typedef enum
-{
+typedef enum {
 	MS_CHART_BLANK_SKIP		= 0,
 	MS_CHART_BLANK_ZERO		= 1,
 	MS_CHART_BLANK_INTERPOLATE	= 2,
 	MS_CHART_BLANK_MAX		= 3
 } MS_CHART_BLANK;
-static char const *const ms_chart_blank[] =
-{
+static char const *const ms_chart_blank[] = {
 	"Skip blanks", "Blanks are zero", "Interpolate blanks"
 };
 
 static gboolean
 BC_R(shtprops)(ExcelChartHandler const *handle,
-	       ExcelChart *s, BiffQuery *q)
+	       ExcelChartReadState *s, BiffQuery *q)
 {
 	guint16 const flags = MS_OLE_GET_GUINT16 (q->data);
 	guint8 const tmp = MS_OLE_GET_GUINT16 (q->data+2);
@@ -1620,8 +1672,7 @@ BC_R(shtprops)(ExcelChartHandler const *handle,
 	blanks = tmp;
 	puts (ms_chart_blank[blanks]);
 
-	if (s->container.ver >= MS_BIFF_V8)
-	{
+	if (s->container.ver >= MS_BIFF_V8) {
 		ignore_pos_record = (flags&0x10) ? TRUE : FALSE;
 	}
 	printf ("%sesize chart with window.\n",
@@ -1648,7 +1699,7 @@ BC_W(shtprops)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(siindex)(ExcelChartHandler const *handle,
-	      ExcelChart *s, BiffQuery *q)
+	      ExcelChartReadState *s, BiffQuery *q)
 {
 	static int count = 0;
 	/* UNDOCUMENTED : Docs says this is long
@@ -1668,7 +1719,7 @@ BC_W(siindex)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(surf)(ExcelChartHandler const *handle,
-	   ExcelChart *s, BiffQuery *q)
+	   ExcelChartReadState *s, BiffQuery *q)
 {
 	return FALSE;
 }
@@ -1684,13 +1735,11 @@ BC_W(surf)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(text)(ExcelChartHandler const *handle,
-	   ExcelChart *s, BiffQuery *q)
+	   ExcelChartReadState *s, BiffQuery *q)
 {
-	if (s->prev_opcode == BIFF_CHART_defaulttext)
-	{
+	if (s->prev_opcode == BIFF_CHART_defaulttext) {
 		puts ("Text follows defaulttext");
-	} else
-	{
+	} else {
 	}
 
 #if 0
@@ -1720,7 +1769,7 @@ BC_W(text)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(tick)(ExcelChartHandler const *handle,
-	   ExcelChart *s, BiffQuery *q)
+	   ExcelChartReadState *s, BiffQuery *q)
 {
 	guint16 const major_type = MS_OLE_GET_GUINT8 (q->data);
 	guint16 const minor_type = MS_OLE_GET_GUINT8 (q->data+1);
@@ -1775,8 +1824,7 @@ BC_R(tick)(ExcelChartHandler const *handle,
 	/* Ignore the colour indicies.  Use the colours themselves
 	 * to avoid problems with guessing the strange index values
 	 */
-	if (s->container.ver >= MS_BIFF_V8)
-	{
+	if (s->container.ver >= MS_BIFF_V8) {
 		guint16 const index = MS_OLE_GET_GUINT16 (q->data+26);
 		ms_excel_palette_get (s->wb->palette, index);
 	}
@@ -1795,7 +1843,7 @@ BC_W(tick)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(units)(ExcelChartHandler const *handle,
-	    ExcelChart *s, BiffQuery *q)
+	    ExcelChartReadState *s, BiffQuery *q)
 {
 	guint16 const type = MS_OLE_GET_GUINT16 (q->data);
 	g_return_val_if_fail(type == 0, TRUE);
@@ -1829,7 +1877,7 @@ conditional_get_double (gboolean flag, guint8 const *data,
 
 static gboolean
 BC_R(valuerange)(ExcelChartHandler const *handle,
-		 ExcelChart *s, BiffQuery *q)
+		 ExcelChartReadState *s, BiffQuery *q)
 {
 	guint16 const flags = gnumeric_get_le_double (q->data+40);
 
@@ -1860,10 +1908,28 @@ BC_W(valuerange)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(end)(ExcelChartHandler const *handle,
-	  ExcelChart *s, BiffQuery *q)
+	  ExcelChartReadState *s, BiffQuery *q)
 {
+	int popped_state;
 	puts ("}");
-	--(s->depth);
+
+	g_return_val_if_fail (s->stack != NULL, TRUE);
+	g_return_val_if_fail (s->stack->len > 0, TRUE);
+
+	popped_state = BC_R(top_state) (s);
+	s->stack = g_array_remove_index_fast (s->stack, s->stack->len-1);
+
+	switch (popped_state) {
+	case BIFF_CHART_series :
+		g_return_val_if_fail (s->currentSeries != NULL, FALSE);
+
+		g_free (s->currentSeries);
+		s->currentSeries = NULL;
+		break;
+
+	default :
+		break;
+	};
 	return FALSE;
 }
 
@@ -1878,7 +1944,7 @@ BC_W(end)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_R(serauxtrend)(ExcelChartHandler const *handle,
-		  ExcelChart *s, BiffQuery *q)
+		  ExcelChartReadState *s, BiffQuery *q)
 {
 	return FALSE;
 }
@@ -1897,8 +1963,8 @@ static ExcelChartHandler const *chart_biff_handler[128];
 static void
 BC(register_handler)(ExcelChartHandler const *const handle);
 #define BIFF_CHART(name, size) \
-{	static ExcelChartHandler const handle = \
-	{ BIFF_CHART_ ## name, size, #name, & BC_R(name), & BC_W(name) }; \
+{	static ExcelChartHandler const handle = { \
+	BIFF_CHART_ ## name, size, #name, & BC_R(name), & BC_W(name) }; \
 	BC(register_handler)(& handle); \
 }
 
@@ -2034,25 +2100,26 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver)
 		sizeof(ExcelChartHandler *);
 
 	gboolean done = FALSE;
-	ExcelChart state;
+	ExcelChartReadState state;
 
-	/* Register the handlers if this is the 1sttime through */
+	/* Register the handlers if this is the 1st time through */
 	BC(register_handlers)();
 
 	/* FIXME : create an anchor parser for charts */
 	ms_container_init (&state.container, &vtbl, container);
 
 	state.container.ver = ver;
-	state.depth = 0;
-	state.wb = NULL;	/* FIXME : should have a container_get_format */
-	state.prev_opcode = 0xdead; /* Invalid */
-	state.parent = container;
-	state.chart = gnumeric_chart_new ();
+	state.stack	    = g_array_new (FALSE, FALSE, sizeof(int));
+	state.wb	    = NULL;   	/* FIXME : should have a container_get_format */
+	state.prev_opcode   = 0xdeadbeef; /* Invalid */
+	state.parent	    = container;
+	state.chart         = xmlNewDoc ("1.0");
+	state.currentSeries = NULL;
+	state.series	    = g_ptr_array_new ();
 
 	if (ms_excel_chart_debug > 0)
 		puts ("{ CHART");
-	while (!done && ms_biff_query_next (q))
-	{
+	while (!done && ms_biff_query_next (q)) {
 		int const lsb = q->opcode & 0xff;
 
 		/* Use registered jump table for chart records */
@@ -2083,17 +2150,15 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver)
 				}
 			}
 		} else {
-			switch (lsb)
-			{
+			switch (lsb) {
 			case BIFF_EOF:
 				done = TRUE;
 				if (ms_excel_chart_debug > 0)
 					puts ("}; /* CHART */");
-				g_return_if_fail(state.depth == 0);
+				g_return_if_fail(state.stack->len == 0);
 				break;
 
-			case BIFF_PROTECT :
-			{
+			case BIFF_PROTECT : {
 				gboolean const protected =
 					(1 == MS_OLE_GET_GUINT16 (q->data));
 				if (ms_excel_chart_debug > 0)
@@ -2102,8 +2167,7 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver)
 			}
 			break;
 
-			case BIFF_NUMBER:	/* Should figure out what these are associated with */
-			{
+			case BIFF_NUMBER: {	/* Should figure out what these are associated with */
 				if (ms_excel_chart_debug > 0)
 					printf ("%f\n", gnumeric_get_le_double (q->data + 6));
 				break;
@@ -2140,8 +2204,7 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver)
 						q->opcode);
 				break;
 
-			case BIFF_PRINTSIZE:
-			{
+			case BIFF_PRINTSIZE: {
 #if 0
 				/* Undocumented, seems like an enum ??? */
 				gint16 const v = MS_OLE_GET_GUINT16 (q->data);
@@ -2155,8 +2218,8 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver)
 		}
 		state.prev_opcode = q->opcode;
 	}
-	gnumeric_chart_destroy (state.chart);
 
+	g_ptr_array_free (state.series, TRUE);
 	ms_container_finalize (&state.container);
 }
 

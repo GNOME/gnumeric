@@ -14,6 +14,7 @@
 GtkType sheet_control_gui_get_type (void);
 SheetControlGUI *sheet_control_gui_new      (Sheet *sheet);
 
+GtkWidget *scg_toplevel		(SheetControlGUI *scg);
 void scg_take_focus             (SheetControlGUI *scg);
 
 void scg_mode_edit_object	(SheetControlGUI *scg, SheetObject *so);

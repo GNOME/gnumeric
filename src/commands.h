@@ -83,12 +83,11 @@ gboolean cmd_consolidate        (WorkbookControl *wbc, Consolidate *cs);
 				 
 gboolean cmd_zoom               (WorkbookControl *wbc, GSList *sheets, double factor);
 
-gboolean cmd_insert_object	(WorkbookControl *wbc, Sheet *sheet,
-				 SheetObject *so);
-gboolean cmd_move_object	(WorkbookControl *wbc, Sheet *sheet, 
-				 SheetObject *so,
-				 double old_coords [4], double new_coords [4]);
-gboolean cmd_delete_object	(WorkbookControl *wbc, Sheet *sheet,
-				 SheetObject *so);
+gboolean cmd_object_insert	(WorkbookControl *wbc, SheetObject *so,
+				 Sheet *sheet);
+gboolean cmd_object_delete	(WorkbookControl *wbc, SheetObject *so);
+gboolean cmd_object_move	(WorkbookControl *wbc, SheetObject *so,
+				 SheetObjectAnchor const *old_anchor,
+				 gboolean resize);
 
 #endif /* GNUMERIC_COMMANDS_H */

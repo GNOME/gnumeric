@@ -1,5 +1,21 @@
 2001-08-20  Jody Goldberg <jgoldberg@home.com>
 
+	* Makefile.am : Remove unused stubs for gnumeric-chart.
+	* ms-chart.c : s/ExcelChart/ExcelChartReadState/g
+	(BC_R(top_state)) : new function.
+	(map_excel_vec_type_to_gnm) : new function.
+	(BC_R(vector_details)) : new function.
+	(BC_R(series_impl)) : Use vector_details.
+	(BC_R(ai)) : actually handle the vector.
+	(BC_R(begin)) : keep a stack of the states.
+	(BC_R(series)) : keep track of the series.
+
+	* ms-excel-read.c (ms_sheet_obj_realize) : use the correct anchor specs.
+	  and use the new SheetObjectAnchor mechanism.
+	(ms_sheet_obj_create) : signatue change for sheet_object_container_new.
+
+2001-08-20  Jody Goldberg <jgoldberg@home.com>
+
 	* ms-excel-read.c (ms_excel_read_formula) : improve the debug info.
 	(ms_excel_read_bof) : Doh!  We modify the sheet counter.
 	(ms_excel_read_workbook) : signature changes for ms_excel_read_bof.

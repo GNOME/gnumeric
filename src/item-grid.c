@@ -79,10 +79,10 @@ struct _ItemGrid {
 };
 
 static void
-item_grid_finalize (GtkObject *object)
+item_grid_destroy (GtkObject *object)
 {
-	if (GTK_OBJECT_CLASS (item_grid_parent_class)->finalize)
-		(*GTK_OBJECT_CLASS (item_grid_parent_class)->finalize)(object);
+	if (GTK_OBJECT_CLASS (item_grid_parent_class)->destroy)
+		(*GTK_OBJECT_CLASS (item_grid_parent_class)->destroy)(object);
 }
 
 static void
@@ -648,18 +648,16 @@ cb_obj_create_motion (GnumericCanvas *gcanvas, GdkEventMotion *event,
 
 		so = closure->scg->new_object;
 
-		if (so->direction != SO_DIR_UNKNOWN)
+		if (so->anchor.direction != SO_DIR_UNKNOWN)
 		{
-			so->direction = SO_DIR_NONE_MASK;
+			so->anchor.direction = SO_DIR_NONE_MASK;
 			if (event->x < closure->x)
-				so->direction |= SO_DIR_LEFT_MASK;
+				so->anchor.direction |= SO_DIR_LEFT_MASK;
 			if (event->y > closure->y)
-				so->direction |= SO_DIR_DOWN_MASK;
+				so->anchor.direction |= SO_DIR_DOWN_MASK;
 		}
 
-		scg_object_calc_position (closure->scg,
-					  so,
-					  points);
+		scg_object_calc_position (closure->scg, so, points);
 	}
 
 	return TRUE;
@@ -724,7 +722,7 @@ cb_obj_create_button_release (GnumericCanvas *gcanvas, GdkEventButton *event,
 	scg->new_object = NULL;
 	scg_mode_edit_object (scg, so);
 
-	cmd_insert_object (WORKBOOK_CONTROL (scg_get_wbcg (scg)), sheet, so);
+	cmd_object_insert (WORKBOOK_CONTROL (scg_get_wbcg (scg)), so, sheet);
 
 	return TRUE;
 }
@@ -1083,7 +1081,7 @@ item_grid_class_init (ItemGridClass *item_grid_class)
 				 GTK_ARG_WRITABLE, ARG_SHEET_BOUND);
 
 	object_class->set_arg   = item_grid_set_arg;
-	object_class->finalize  = item_grid_finalize;
+	object_class->destroy   = item_grid_destroy;
 	item_class->update      = item_grid_update;
 	item_class->realize     = item_grid_realize;
 	item_class->unrealize   = item_grid_unrealize;

@@ -18,7 +18,6 @@
 #include "ms-excel-read.h"
 #include "ms-obj.h"
 #include "ms-chart.h"
-#include "gnumeric-chart.h"
 #include "ms-escher.h"
 #include "print-info.h"
 #include "selection.h"
@@ -2188,16 +2187,20 @@ ms_sheet_obj_realize (MSContainer *container, MSObj *obj)
 		return TRUE;
 
 	if (obj->gnum_obj != NULL) {
-		SheetObjectAnchor anchor_types[4] = {
-			SO_ANCHOR_PTS_FROM_COLROW_START,
-			SO_ANCHOR_PTS_FROM_COLROW_START,
-			SO_ANCHOR_PTS_FROM_COLROW_START,
-			SO_ANCHOR_PTS_FROM_COLROW_START
+		static SheetObjectAnchorType const anchor_types[4] = {
+			SO_ANCHOR_PERCENTAGE_FROM_COLROW_START,
+			SO_ANCHOR_PERCENTAGE_FROM_COLROW_START,
+			SO_ANCHOR_PERCENTAGE_FROM_COLROW_START,
+			SO_ANCHOR_PERCENTAGE_FROM_COLROW_START
 		};
+		SheetObjectAnchor anchor;
+		sheet_object_anchor_init (&anchor, &range,
+					  offsets, anchor_types,
+					  SO_DIR_DOWN_RIGHT);
+		sheet_object_anchor_set (SHEET_OBJECT (obj->gnum_obj),
+					 &anchor);
 		sheet_object_set_sheet (SHEET_OBJECT (obj->gnum_obj),
 					esheet->gnum_sheet);
-		sheet_object_range_set (SHEET_OBJECT (obj->gnum_obj), &range,
-					offsets, anchor_types);
 	}
 
 	return FALSE;
@@ -2223,21 +2226,18 @@ ms_sheet_obj_create (MSContainer *container, MSObj *obj)
 	case 0x05: so = sheet_object_box_new (FALSE);  break; /* Chart */
 	case 0x06: so = sheet_widget_label_new (sheet);    break; /* TextBox */
 	case 0x07: so = sheet_widget_button_new (sheet);   break; /* Button */
-	case 0x08:
-		    /* Picture */
+	case 0x08: { /* Picture */
 #ifdef ENABLE_BONOBO
-		    so = sheet_object_container_new (sheet);
+		   so = sheet_object_container_new (sheet->workbook);
 #else
-		    so = NULL;
-		    {
-			    static gboolean needs_warn = TRUE;
-			    if (needs_warn) {
-				    needs_warn = FALSE;
-				    g_warning ("Images are not supported in non-bonobo version");
-			    }
-		    }
+		   static gboolean needs_warn = TRUE;
+		   if (needs_warn) {
+			   needs_warn = FALSE;
+			   g_warning ("Images are not supported in non-bonobo version");
+		   }
 #endif
-		    break;
+		   }
+		   break;
 	case 0x0B: so = sheet_widget_checkbox_new (sheet); break; /* CheckBox*/
 	case 0x0C: so = sheet_widget_radio_button_new (sheet); break; /* OptionButton */
 	case 0x0E: so = sheet_widget_label_new (sheet);    break; /* Label */
@@ -2494,7 +2494,6 @@ ms_excel_workbook_new (MsBiffVersion ver)
 	ans->excel_sheets     = g_ptr_array_new ();
 	ans->XF_cell_records  = g_ptr_array_new ();
 	ans->name_data        = g_ptr_array_new ();
-	ans->charts           = g_ptr_array_new ();
 	ans->format_data      = g_hash_table_new ((GHashFunc)biff_guint16_hash,
 						  (GCompareFunc)biff_guint16_equal);
 	ans->palette          = ms_excel_default_palette ();
@@ -2532,11 +2531,6 @@ ms_excel_workbook_destroy (ExcelWorkbook *wb)
 		for (lp = 0; lp < wb->name_data->len; lp++)
 			biff_name_data_destroy (g_ptr_array_index (wb->name_data, lp));
 	g_ptr_array_free (wb->name_data, TRUE);
-
-	for (lp = 0; lp < wb->charts->len; lp++)
-		gnumeric_chart_destroy (g_ptr_array_index (wb->charts, lp));
-	g_ptr_array_free (wb->charts, TRUE);
-	wb->charts = NULL;
 
 	g_hash_table_foreach_remove (wb->font_data,
 				     (GHRFunc)biff_font_data_destroy,

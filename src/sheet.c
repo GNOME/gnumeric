@@ -665,7 +665,7 @@ sheet_reposition_objects (Sheet const *sheet, CellPos const *pos)
 	g_return_if_fail (IS_SHEET (sheet));
 
 	for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next )
-		sheet_object_position (SHEET_OBJECT (ptr->data), pos);
+		sheet_object_update_bounds (SHEET_OBJECT (ptr->data), pos);
 }
 
 /**
@@ -1210,13 +1210,13 @@ sheet_get_extent (Sheet const *sheet, gboolean spans_and_merges_extend)
 	for (l = sheet->sheet_objects; l; l = l->next) {
 		SheetObject *so = SHEET_OBJECT (l->data);
 
-		closure.range.start.col = MIN (so->cell_bound.start.col,
+		closure.range.start.col = MIN (so->anchor.cell_bound.start.col,
 					       closure.range.start.col);
-		closure.range.start.row = MIN (so->cell_bound.start.row,
+		closure.range.start.row = MIN (so->anchor.cell_bound.start.row,
 					       closure.range.start.row);
-		closure.range.end.col = MAX (so->cell_bound.end.col,
+		closure.range.end.col = MAX (so->anchor.cell_bound.end.col,
 					     closure.range.end.col);
-		closure.range.end.row = MAX (so->cell_bound.end.row,
+		closure.range.end.row = MAX (so->anchor.cell_bound.end.row,
 					     closure.range.end.row);
 	}
 
@@ -2506,7 +2506,7 @@ sheet_cells (Sheet *sheet,
 	scomments = sheet_get_objects (sheet, &r, CELL_COMMENT_TYPE);
 	for (tmp = scomments; tmp; tmp = tmp->next) {
 		CellComment *c = tmp->data;
-		const Range *loc = sheet_object_range_get (SHEET_OBJECT (c));
+		Range const *loc = sheet_object_range_get (SHEET_OBJECT (c));
 		Cell *cell = sheet_cell_get (sheet, loc->start.col, loc->start.row);
 		if (!cell) {
 			/* If cells does not exist, we haven't seen it...  */

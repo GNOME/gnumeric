@@ -4,7 +4,7 @@
  * Author:
  *    Michael Meeks (michael@ximian.com)
  *
- * (C) 1998, 1999, 2000 Michael Meeks
+ * (C) 1998-2001 Michael Meeks
  **/
 #include <stdio.h>
 #include <sys/stat.h>

@@ -14,6 +14,7 @@ typedef struct
 	GtkObject * (*create_obj)  (MSContainer *container, MSObj *obj);
 	ExprTree  * (*parse_expr)  (MSContainer *container,
 				    guint8 const *data, int length);
+	Workbook  * (*workbook)	   (MSContainer *container);
 } MSContainerClass;
 
 struct _MSContainer

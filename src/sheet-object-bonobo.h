@@ -39,22 +39,26 @@ typedef struct {
 
 GtkType            sheet_object_bonobo_get_type  (void);
 SheetObjectBonobo *sheet_object_bonobo_construct (SheetObjectBonobo	 *sob,
-						  Sheet const		 *sheet,
+						  BonoboItemContainer	 *container,
 						  char const		 *object_id);
 char const *sheet_object_bonobo_get_object_iid	(SheetObjectBonobo const *sob);
 gboolean    sheet_object_bonobo_set_object_iid	(SheetObjectBonobo	 *sob,
 						 char const	   	 *object_id);
 gboolean    sheet_object_bonobo_set_server	(SheetObjectBonobo	 *sob,
 						 BonoboObjectClient	 *object_server);
-void        sheet_object_bonobo_load_file           (SheetObjectBonobo *sob,
-						     char const        *fname, 
-						     CORBA_Environment *ev);
-void        sheet_object_bonobo_load_persist_file   (SheetObjectBonobo *sob,
-						     char const        *fname,
-						     CORBA_Environment *ev);
-void        sheet_object_bonobo_load_persist_stream (SheetObjectBonobo *sob,
-						     BonoboStream      *stream,
-						     CORBA_Environment *ev);
-void        sheet_object_bonobo_query_size     (SheetObjectBonobo *sob);
+void        sheet_object_bonobo_query_size	(SheetObjectBonobo *sob);
+
+void sheet_object_bonobo_load_file           (SheetObjectBonobo *sob,
+					      char const        *fname, 
+					      CORBA_Environment *ev);
+void sheet_object_bonobo_load_persist_file   (SheetObjectBonobo *sob,
+					      char const        *fname,
+					      CORBA_Environment *ev);
+void sheet_object_bonobo_load_persist_stream (SheetObjectBonobo *sob,
+					      BonoboStream      *stream,
+					      CORBA_Environment *ev);
+void sheet_object_bonobo_save_persist_stream (SheetObjectBonobo const *sob,
+					      BonoboStream      *stream,
+					      CORBA_Environment *ev);
 
 #endif /* GNUMERIC_SHEET_OBJECT_ITEM_H */

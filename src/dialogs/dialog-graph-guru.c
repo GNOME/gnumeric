@@ -21,31 +21,20 @@
  * USA
  */
 #include <config.h>
-#include <gnome.h>
-#include "gnumeric.h"
-#include "dialogs.h"
+#include "gnumeric-graph.h"
 #include "gnumeric-util.h"
-#include "workbook-control-gui-priv.h"
-#include "workbook.h"
-#include "sheet.h"
-#include "workbook-edit.h"
-#include "sheet-object.h"
-#include "sheet-object-container.h"
-#include "sheet-object-bonobo.h"
-#include "sheet-control-gui.h"
-#include "selection.h"
 #include "ranges.h"
+#include "selection.h"
+#include "expr.h"
 #include "value.h"
-#include "cell.h"
-#include "graph-vector.h"
-#include "idl/gnumeric-graphs.h"
-#include <liboaf/liboaf.h>
+#include "workbook-edit.h"
+#include "sheet-control-gui.h"
+#include "sheet-object.h"
 
 typedef struct
 {
-	BonoboObjectClient		*manager_client;
-	GNOME_Gnumeric_Graph_Manager	 manager;
-	Bonobo_Control		 	 control;
+	GnmGraph	*graph;
+	Bonobo_Control	 control;
 
 	/* GUI accessors */
 	GladeXML    *gui;
@@ -76,7 +65,6 @@ typedef struct
 	gboolean valid;
 
 	gboolean is_columns;
-	GPtrArray *vectors;
 	GSList	  *ranges;
 
 	/* external state */
@@ -87,36 +75,21 @@ typedef struct
 } GraphGuruState;
 
 static void
-graph_guru_clear_vectors (GraphGuruState *state, gboolean explicit_remove)
-{
-	/* Release the vectors objects */
-	if (state->vectors != NULL) {
-		int i = state->vectors->len;
-		while (i-- > 0) {
-			GraphVector *vectors = g_ptr_array_index (state->vectors, i);
-
-			if (explicit_remove)
-				graph_vector_unsubscribe (vectors);
-			gtk_object_unref (GTK_OBJECT (vectors));
-		}
-		g_ptr_array_free (state->vectors, TRUE);
-		state->vectors = NULL;
-	}
-}
-
-static void
 graph_guru_state_destroy (GraphGuruState *state)
 {
 	g_return_if_fail (state != NULL);
 
 	wbcg_edit_detach_guru (state->wbcg);
 
+	if (state->graph != NULL) {
+		gtk_object_unref (GTK_OBJECT (state->graph));
+		state->graph = NULL;
+	}
+
 	if (state->gui != NULL) {
 		gtk_object_unref (GTK_OBJECT (state->gui));
 		state->gui = NULL;
 	}
-
-	graph_guru_clear_vectors (state, FALSE);
 
 	if (state->ranges != NULL) {
 		GSList *ptr = state->ranges;
@@ -125,23 +98,6 @@ graph_guru_state_destroy (GraphGuruState *state)
 			g_free (ptr->data);
 		g_slist_free (state->ranges);
 		state->ranges = NULL;
-	}
-
-	if (state->control != CORBA_OBJECT_NIL) {
-		CORBA_Environment ev;
-
-		CORBA_exception_init (&ev);
-		Bonobo_Control_unref (state->control, &ev);
-		if (ev._major != CORBA_NO_EXCEPTION)
-			g_warning ("Problems releasing the graph selector control");
-		CORBA_exception_free (&ev);
-
-		state->control = CORBA_OBJECT_NIL;
-	}
-	if (state->manager_client != NULL) {
-		bonobo_object_unref (BONOBO_OBJECT(state->manager_client));
-		state->manager_client = NULL;
-		state->manager = CORBA_OBJECT_NIL;
 	}
 
 	/* Handle window manger closing the dialog.
@@ -182,15 +138,12 @@ graph_guru_set_page (GraphGuruState *state, int page)
 		return;
 
 	switch (page) {
-	case 0:
-		name = _("Step 1 of 3: Select graphic type");
+	case 0: name = _("Step 1 of 3: Select graph type");
 		prev_ok = FALSE;
 		break;
-	case 1:
-		name = _("Step 2 of 3: Select data ranges");
+	case 1: name = _("Step 2 of 3: Select data ranges");
 		break;
-	case 2:
-		name = _("Step 3 of 3: Customize graphic");
+	case 2: name = _("Step 3 of 3: Customize graph");
 		next_ok = FALSE;
 		break;
 
@@ -204,13 +157,6 @@ graph_guru_set_page (GraphGuruState *state, int page)
 	gtk_window_set_title (GTK_WINDOW (state->dialog), name);
 	gtk_widget_set_sensitive (state->button_prev, prev_ok);
 	gtk_widget_set_sensitive (state->button_next, next_ok);
-}
-
-static gboolean
-cb_graph_vector_destroy (GtkObject *w, gpointer vector)
-{
-	printf ("vector destroy %p\n", vector);
-	return FALSE;
 }
 
 static void
@@ -232,31 +178,11 @@ cb_graph_guru_clicked (GtkWidget *button, GraphGuruState *state)
 	}
 
 	if (button == state->button_finish) {
-		SheetObject *so = sheet_object_container_new (state->sheet);
-
-		if (sheet_object_bonobo_set_server (SHEET_OBJECT_BONOBO (so),
-						    state->manager_client)) {
-
-			scg_mode_create_object (state->scg, so);
-
-			/* Add a reference to the vector so that they continue to exist
-			 * when the dialog goes away.  Then tie them to the destruction of
-			 * the sheet object.
-			 */
-			if (state->vectors != NULL) {
-				int i = state->vectors->len;
-				while (i-- > 0) {
-					gpointer *elem = g_ptr_array_index (state->vectors, i);
-					gtk_object_ref (GTK_OBJECT (elem));
-					gtk_signal_connect (GTK_OBJECT (so), "destroy",
-						GTK_SIGNAL_FUNC (cb_graph_vector_destroy),
-						elem);
-				}
-			}
-		}
+		gtk_object_ref (GTK_OBJECT (state->graph));
+		scg_mode_create_object (state->scg, SHEET_OBJECT (state->graph));
 	}
 
-	gtk_object_destroy (GTK_OBJECT(state->dialog));
+	gtk_object_destroy (GTK_OBJECT (state->dialog));
 }
 
 static GtkWidget *
@@ -268,25 +194,6 @@ graph_guru_init_button  (GraphGuruState *state, const char *widget_name)
 			    state);
 
 	return tmp;
-}
-
-static GtkWidget *
-get_selector_control (GraphGuruState *state)
-{
-	CORBA_Environment	 ev;
-	Bonobo_Unknown           corba_uih;
-	GtkWidget *res = NULL;
-
-	CORBA_exception_init (&ev);
-	state->control = GNOME_Gnumeric_Graph_Manager_getTypeSelectControl (state->manager, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION)
-		return NULL;
-	CORBA_exception_free (&ev);
-
-	corba_uih = bonobo_ui_component_get_container (state->wbcg->uic);
-	res =  bonobo_widget_new_control_from_objref (state->control, corba_uih);
-
-	return res;
 }
 
 static gboolean
@@ -316,7 +223,7 @@ graph_guru_init (GraphGuruState *state)
 			    GTK_SIGNAL_FUNC (cb_graph_guru_key_press),
 			    state);
 
-	control = get_selector_control (state);
+	control = gnm_graph_type_selector (state->graph);
 	gtk_notebook_prepend_page (state->steps, control, NULL);
 
 	gtk_widget_show (state->dialog);
@@ -330,46 +237,9 @@ graph_guru_init (GraphGuruState *state)
 }
 
 static void
-cb_graph_manager_destroy (BonoboObjectClient *manager_client, gpointer ignored)
-{
-	printf ("GNUMERIC : unref the manager\n");
-	bonobo_object_client_unref (manager_client, NULL);
-}
-
-static gboolean
-graph_guru_init_manager (GraphGuruState *state)
-{
-	CORBA_Environment	 ev;
-	Bonobo_Unknown		 o;
-
-	CORBA_exception_init (&ev);
-	o = (Bonobo_Unknown)oaf_activate ("repo_ids.has('IDL:Gnome/Gnumeric/Graph/Manager:1.0')",
-					  NULL, 0, NULL, &ev);
-
-	if (o != CORBA_OBJECT_NIL) {
-		state->manager_client = bonobo_object_client_from_corba (o);
-
-		if (state->manager_client != NULL) {
-			/* Catch destroy so that we can unref the remote object */
-			gtk_signal_connect (
-				GTK_OBJECT (state->manager_client), "destroy",
-				GTK_SIGNAL_FUNC (cb_graph_manager_destroy), NULL);
-
-			state->manager = bonobo_object_query_interface (
-				BONOBO_OBJECT (state->manager_client),
-				"IDL:GNOME/Gnumeric/Graph/Manager:1.0");
-		}
-	}
-
-	CORBA_exception_free (&ev);
-
-	return (state->manager == CORBA_OBJECT_NIL);
-}
-
-static void
 graph_guru_create_vectors_from_range (GraphGuruState *state, Range const *src)
 {
-	GraphVector *g_vector;
+	GnmGraphVector *g_vector;
 	int i, count;
 	gboolean const has_header = range_has_header (state->sheet, src,
 						      state->is_columns);
@@ -388,27 +258,10 @@ graph_guru_create_vectors_from_range (GraphGuruState *state, Range const *src)
 	}
 
 	for (i = 0 ; i <= count ; i++) {
-		char *name = NULL;
-		Cell const *cell = NULL;
-
-		if (has_header)
-			cell = (state->is_columns)
-				? sheet_cell_get (state->sheet,
-						  vector.start.col,
-						  vector.start.row-1)
-				: sheet_cell_get (state->sheet,
-						  vector.start.col-1,
-						  vector.start.row);
-
-		/* Create a default name if need be */
-		if (cell == NULL)
-			name = g_strdup_printf (_("series%d"), state->vectors->len+1);
-		else
-			name = value_get_as_string (cell->value);
-
-		g_vector = graph_vector_new (state->sheet, &vector, name);
-		graph_vector_set_subscriber (g_vector, state->manager);
-		g_ptr_array_add (state->vectors, g_vector);
+		g_vector = gnm_graph_vector_new (state->graph,
+			expr_tree_new_constant (
+				value_new_cellrange_r (state->sheet, &vector)),
+			has_header, GNM_VECTOR_UNKNOWN, state->sheet);
 
 		if (state->is_columns)
 			vector.end.col = ++vector.start.col;
@@ -428,13 +281,13 @@ static void
 cb_data_simple_col_row_toggle (GtkToggleButton *button, GraphGuruState *state)
 {
 	GSList	*ptr;
+
+	gnm_graph_freeze (state->graph, TRUE);
+	gnm_graph_clear_vectors (state->graph);
 	state->is_columns = gtk_toggle_button_get_active (button);
-
-	graph_guru_clear_vectors (state, TRUE);
-
-	state->vectors = g_ptr_array_new ();
 	for (ptr = state->ranges; ptr != NULL ; ptr = ptr->next)
 		graph_guru_create_vectors_from_range (state, ptr->data);
+	gnm_graph_freeze (state->graph, FALSE);
 }
 
 /**
@@ -457,8 +310,6 @@ graph_guru_init_vectors (GraphGuruState *state)
 	/* Excel docs claim that rows == cols uses rows */
 	state->is_columns = num_cols < num_rows;
 	state->ranges = selection_get_ranges (state->sheet, TRUE);
-
-	state->vectors = g_ptr_array_new ();
 	for (ptr = state->ranges; ptr != NULL ; ptr = ptr->next)
 		graph_guru_create_vectors_from_range (state, ptr->data);
 
@@ -512,14 +363,13 @@ dialog_graph_guru (WorkbookControlGUI *wbcg)
 	state->wb	= wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet	= wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
 	state->valid	= FALSE;
-	state->vectors  = NULL;
 	state->ranges   = NULL;
 	state->gui	= NULL;
-	state->control = CORBA_OBJECT_NIL;
-	state->manager = CORBA_OBJECT_NIL;
-	state->manager_client = NULL;
+	state->control  = CORBA_OBJECT_NIL;
+	state->graph    = gnm_graph_new (state->wb);
 
-	if (graph_guru_init_manager (state) || graph_guru_init (state) ||
+	if (state->graph == NULL ||
+	    graph_guru_init (state) ||
 	    graph_guru_init_vectors (state)) {
 		graph_guru_state_destroy (state);
 		return;

@@ -14,8 +14,6 @@ excel_la_SOURCES =		\
 	ms-biff.h		\
 	biff-types.h		\
 	escher-types.h		\
-	gnumeric-chart.c	\
-	gnumeric-chart.h	\
 	ms-container.c		\
 	ms-container.h		\
 	ms-escher.c		\

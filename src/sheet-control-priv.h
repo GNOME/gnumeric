@@ -36,6 +36,8 @@ typedef struct {
 					 gboolean force_scroll, gboolean couple_panes);
 	void (*cursor_bound)		(SheetControl *sc, Range const *r);
 	void (*set_panes)		(SheetControl *sc);
+	float (*colrow_distance_get)	(SheetControl const *sc, gboolean is_col,
+					 int start, int end);
 } SheetControlClass;
 
 #define SHEET_CONTROL_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), SHEET_CONTROL_TYPE, SheetControlClass))

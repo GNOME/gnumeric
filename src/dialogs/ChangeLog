@@ -1,3 +1,8 @@
+2001-08-18  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-graph-guru.c :  Move the life cycle issues up into
+	  gnumeric-graph.
+
 2001-08-15  Jody Goldberg <jgoldberg@home.com>
 
 	* plugin-manager.glade : desensitize the install new plugin button

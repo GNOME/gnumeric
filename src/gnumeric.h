@@ -6,50 +6,53 @@
 #define SHEET_MAX_ROWS		(64 * 1024)	/* 0 - 65535 inclusive */
 #define SHEET_MAX_COLS		256		/* 0 - 255 inclusive */
 
-typedef struct _CommandContext	CommandContext;
-typedef struct _IOContext	IOContext; /*for future use */
+typedef struct _CommandContext		CommandContext;
+typedef struct _IOContext		IOContext; /*for future use */
 
-typedef struct _Workbook	Workbook;
-typedef struct _WorkbookView	WorkbookView;
-typedef struct _WorkbookControl	WorkbookControl;
+typedef struct _Workbook		Workbook;
+typedef struct _WorkbookView		WorkbookView;
+typedef struct _WorkbookControl		WorkbookControl;
 
-typedef struct _Sheet		Sheet;
-typedef struct _SheetControl	SheetControl;
-typedef struct _SheetObject	SheetObject;
-typedef struct _Dependent	Dependent;
-typedef struct _Cell		Cell;
-typedef struct _CellComment	CellComment;
+typedef struct _Sheet			Sheet;
+typedef struct _SheetControl		SheetControl;
 
-typedef union _Value		Value;
-typedef struct _ValueBool	ValueBool;
-typedef struct _ValueInt	ValueInt;
-typedef struct _ValueFloat	ValueFloat;
-typedef struct _ValueErr	ValueErr;
-typedef struct _ValueStr	ValueStr;
-typedef struct _ValueRange	ValueRange;
-typedef struct _ValueArray	ValueArray;
+typedef struct _SheetObject		SheetObject;
+typedef struct _SheetObjectAnchor	SheetObjectAnchor;
 
-typedef struct _RenderedValue	RenderedValue;
+typedef struct _Dependent		Dependent;
+typedef struct _Cell			Cell;
+typedef struct _CellComment		CellComment;
 
-typedef union _ExprTree	 	ExprTree;
-typedef struct _ExprConstant	 ExprConstant;
-typedef struct _ExprFunction	 ExprFunction;
-typedef struct _ExprUnary	 ExprUnary;
-typedef struct _ExprBinary	 ExprBinary;
-typedef struct _ExprName	 ExprName;
-typedef struct _ExprVar		 ExprVar;
-typedef struct _ExprArray	 ExprArray;
-typedef struct _ExprRelocateInfo ExprRelocateInfo;
-typedef struct _ExprRewriteInfo  ExprRewriteInfo;
-typedef struct _NamedExpression	 NamedExpression;
+typedef union _Value			Value;
+typedef struct _ValueBool		ValueBool;
+typedef struct _ValueInt		ValueInt;
+typedef struct _ValueFloat		ValueFloat;
+typedef struct _ValueErr		ValueErr;
+typedef struct _ValueStr		ValueStr;
+typedef struct _ValueRange		ValueRange;
+typedef struct _ValueArray		ValueArray;
 
-typedef struct _PasteTarget	PasteTarget;
-typedef struct _CellRegion	CellRegion;
-typedef		GList		CellList;
+typedef struct _RenderedValue		RenderedValue;
 
-typedef struct _ColRowInfo	 ColRowInfo;
-typedef struct _ColRowCollection ColRowCollection;
-typedef struct _ColRowSegment	 ColRowSegment;
+typedef union _ExprTree 		ExprTree;
+typedef struct _ExprConstant		ExprConstant;
+typedef struct _ExprFunction		ExprFunction;
+typedef struct _ExprUnary		ExprUnary;
+typedef struct _ExprBinary		ExprBinary;
+typedef struct _ExprName		ExprName;
+typedef struct _ExprVar			ExprVar;
+typedef struct _ExprArray		ExprArray;
+typedef struct _ExprRelocateInfo	ExprRelocateInfo;
+typedef struct _ExprRewriteInfo 	ExprRewriteInfo;
+typedef struct _NamedExpression		NamedExpression;
+
+typedef struct _PasteTarget		PasteTarget;
+typedef struct _CellRegion		CellRegion;
+typedef		GList			CellList;
+
+typedef struct _ColRowInfo	 	ColRowInfo;
+typedef struct _ColRowCollection	ColRowCollection;
+typedef struct _ColRowSegment	 	ColRowSegment;
 typedef GSList  ColRowVisList;
 typedef GSList  ColRowSizeList;
 typedef GSList  ColRowRLESizeList;
@@ -84,7 +87,8 @@ typedef struct _StyleColor	  StyleColor;
 typedef struct _StyleBorder	  StyleBorder;
 typedef struct _StyleRow	  StyleRow;
 
-typedef struct _GraphVector GraphVector;
+typedef struct _GnmGraph		GnmGraph;
+typedef struct _GnmGraphVector		GnmGraphVector;
 
 /* Used to locate cells in a sheet */
 struct _CellPos {

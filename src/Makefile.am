@@ -247,8 +247,8 @@ GNUMERIC_BONOBO_SOURCES = 			\
 	bonobo-io.h				\
 	embeddable-grid.c			\
 	embeddable-grid.h			\
-	graph-vector.c				\
-	graph-vector.h				\
+	gnumeric-graph.c			\
+	gnumeric-graph.h			\
 	sheet-object-bonobo.c			\
 	sheet-object-bonobo.h			\
 	sheet-object-container.c		\

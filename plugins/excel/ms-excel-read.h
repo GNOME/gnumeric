@@ -98,9 +98,6 @@ typedef struct _ExcelWorkbook
 	char               **global_strings;
 	guint32              global_string_max;
 
-	/* Indexed in the order they are read */
-	GPtrArray           *charts;
-
 	/**
 	 * Gnumeric parallel workbook
    	 **/

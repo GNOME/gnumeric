@@ -1442,7 +1442,7 @@ scg_object_stop_editing (SheetControlGUI *scg, SheetObject *so)
 
 	if (so != NULL) {
 		if (so == scg->current_object) {
-			view = sheet_object_get_view (so, scg);
+			view = sheet_object_get_view (so, SHEET_CONTROL (scg));
 			scg_object_destroy_control_points (scg);
 			scg->current_object = NULL;
 			if (SO_CLASS (so)->set_active != NULL)
@@ -1503,7 +1503,7 @@ scg_mode_edit_object (SheetControlGUI *scg, SheetObject *so)
 	g_return_if_fail (IS_SHEET_OBJECT (so));
 
 	if (scg_mode_clear (scg)) {
-		view = sheet_object_get_view (so, scg);
+		view = sheet_object_get_view (so, SHEET_CONTROL (scg));
 		scg->current_object = so;
 		if (SO_CLASS (so)->set_active != NULL)
 			SO_CLASS (so)->set_active (so, view, TRUE);
@@ -1591,6 +1591,9 @@ scg_object_move (SheetControlGUI *scg, SheetObject *so,
 		g_warning ("Should not happen %d", idx);
 	}
 
+	/* moving any of the points other than the overlay resizes */
+	if (idx != 8)
+		scg->object_was_resized = TRUE;
 	sheet_object_direction_set (so, new_coords);
 	
 	/* Tell the object to update its co-ordinates */
@@ -1603,7 +1606,8 @@ cb_slide_handler (GnumericCanvas *gcanvas, int col, int row, gpointer user)
 	int x, y;
 	gdouble new_x, new_y;
 	SheetControlGUI *scg = gcanvas->scg;
-	GtkObject *view = sheet_object_get_view (scg->current_object, scg);
+	GtkObject *view = sheet_object_get_view (scg->current_object,
+						 SHEET_CONTROL (scg));
 
 	x = scg_colrow_distance_get (scg, TRUE, gcanvas->first.col, col);
 	x += gcanvas->first_offset.col;
@@ -1630,7 +1634,6 @@ cb_control_point_event (GnomeCanvasItem *ctrl_pt, GdkEvent *event,
 	GnumericCanvas *gcanvas = GNUMERIC_CANVAS (ctrl_pt->canvas);
 	SheetControlGUI *scg = gcanvas->scg;
 	WorkbookControl *wbc = WORKBOOK_CONTROL (scg_get_wbcg (scg));
-	gint i;
 
 	switch (event->type) {
 	case GDK_ENTER_NOTIFY: {
@@ -1644,13 +1647,12 @@ cb_control_point_event (GnomeCanvasItem *ctrl_pt, GdkEvent *event,
 		if (scg->drag_object != so)
 			return FALSE;
 
-		cmd_move_object (wbc, so->sheet, 
-				 sheet_object_view_obj (GTK_OBJECT (so_view)),
-				 scg->initial_coords, scg->object_coords);
+		cmd_object_move (wbc, so, &scg->old_anchor,
+				 scg->object_was_resized);
 		gnm_canvas_slide_stop (gcanvas);
 		scg->drag_object = NULL;
 		gnome_canvas_item_ungrab (ctrl_pt, event->button.time);
-		sheet_object_position (so, NULL);
+		sheet_object_update_bounds (so, NULL);
 		break;
 
 	case GDK_BUTTON_PRESS:
@@ -1663,8 +1665,8 @@ cb_control_point_event (GnomeCanvasItem *ctrl_pt, GdkEvent *event,
 				GDK_POINTER_MOTION_MASK |
 				GDK_BUTTON_RELEASE_MASK,
 				NULL, event->button.time);
-			for (i = 0; i < 4; i++)
-				scg->initial_coords [i] = scg->object_coords[i];
+			sheet_object_anchor_cpy (&scg->old_anchor, sheet_object_anchor_get (so));
+			scg->object_was_resized = FALSE;
 			scg->last_x = event->button.x;
 			scg->last_y = event->button.y;
 			gnm_canvas_slide_init (gcanvas);
@@ -1848,7 +1850,8 @@ scg_object_update_bbox (SheetControlGUI *scg, SheetObject *so,
 	g_return_if_fail (IS_SHEET_OBJECT (so));
 
 	so_view_obj = (so_view == NULL)
-		? sheet_object_get_view (so, scg) : GTK_OBJECT (so_view);
+		? sheet_object_get_view (so, SHEET_CONTROL (scg))
+		: GTK_OBJECT (so_view);
 
 	if (new_coords != NULL)
 		scg_object_calc_position (scg, so, new_coords);
@@ -1885,7 +1888,7 @@ scg_object_update_bbox (SheetControlGUI *scg, SheetObject *so,
 
 static int
 calc_obj_place (GnumericCanvas *gcanvas, int pixel, gboolean is_col,
-		SheetObjectAnchor anchor_type, float *offset)
+		SheetObjectAnchorType anchor_type, float *offset)
 {
 	int origin;
 	int colrow;
@@ -1911,14 +1914,15 @@ void
 scg_object_calc_position (SheetControlGUI *scg, SheetObject *so, double const *coords)
 {
 	GnumericCanvas *gcanvas;
-	int	i, pixels [4];
-	float	fraction [4];
-	double	tmp [4];
-	Range	range;
+	SheetObjectAnchor anchor;
+	int i, pixels [4];
+	double tmp [4];
 
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 	g_return_if_fail (IS_SHEET_OBJECT (so));
 	g_return_if_fail (coords != NULL);
+
+	sheet_object_anchor_cpy (&anchor, sheet_object_anchor_get (so));
 
 	if (coords [0] > coords [2]) {
 		tmp [0] = coords [2];
@@ -1941,34 +1945,34 @@ scg_object_calc_position (SheetControlGUI *scg, SheetObject *so, double const *c
 	/* FIXME : how to deal with objects and panes ? */
 	gcanvas = scg_pane (scg, 0);
 	gnome_canvas_w2c (GNOME_CANVAS (gcanvas),
-			  tmp [0], tmp [1],
-			  pixels +0, pixels + 1);
+		tmp [0], tmp [1],
+		pixels + 0, pixels + 1);
 	gnome_canvas_w2c (GNOME_CANVAS (gcanvas),
-			  tmp [2], tmp [3],
-			  pixels +2, pixels + 3);
-	range.start.col = calc_obj_place (gcanvas, pixels [0], TRUE,
-		so->anchor_type [0], fraction + 0);
-	range.start.row = calc_obj_place (gcanvas, pixels [1], FALSE,
-		so->anchor_type [1], fraction + 1);
-	range.end.col = calc_obj_place (gcanvas, pixels [2], TRUE,
-		so->anchor_type [2], fraction + 2);
-	range.end.row = calc_obj_place (gcanvas, pixels [3], FALSE,
-		so->anchor_type [3], fraction + 3);
+		tmp [2], tmp [3],
+		pixels + 2, pixels + 3);
+	anchor.cell_bound.start.col = calc_obj_place (gcanvas, pixels [0], TRUE,
+		so->anchor.type [0], anchor.offset + 0);
+	anchor.cell_bound.start.row = calc_obj_place (gcanvas, pixels [1], FALSE,
+		so->anchor.type [1], anchor.offset + 1);
+	anchor.cell_bound.end.col = calc_obj_place (gcanvas, pixels [2], TRUE,
+		so->anchor.type [2], anchor.offset + 2);
+	anchor.cell_bound.end.row = calc_obj_place (gcanvas, pixels [3], FALSE,
+		so->anchor.type [3], anchor.offset + 3);
 
-	sheet_object_range_set (so, &range, fraction, NULL);
+	sheet_object_anchor_set (so, &anchor);
 }
 
 void
 scg_object_view_position (SheetControlGUI *scg, SheetObject *so, double *coords)
 {
 	SheetObjectDirection direction;
-	int pixels [4];
+	double pixels [4];
 	/* FIXME : how to deal with objects and panes ? */
 	GnomeCanvas *canvas = GNOME_CANVAS (scg_pane (scg, 0));
 
-	sheet_object_position_pixels (so, scg, pixels);
+	sheet_object_position_pixels_get (so, SHEET_CONTROL (scg), pixels);
 
-	direction = so->direction;
+	direction = so->anchor.direction;
 	if (direction == SO_DIR_UNKNOWN)
 		direction = SO_DIR_DOWN_RIGHT;
 
@@ -2283,6 +2287,14 @@ scg_colrow_distance_get (SheetControlGUI const *scg, gboolean is_cols,
 	}
 
 	return pixels*sign;
+}
+
+static float
+scg_colrow_distance_get_virtual (SheetControl const *sc, gboolean is_cols,
+				 int from, int to)
+{
+	return scg_colrow_distance_get (SHEET_CONTROL_GUI (sc), is_cols,
+					from, to);
 }
 
 /*************************************************************************/
@@ -2624,6 +2636,14 @@ scg_cursor_extend (SheetControlGUI *scg, int n,
 	sheet_make_cell_visible (sheet, tmp.col, tmp.row);
 }
 
+GtkWidget *
+scg_toplevel (SheetControlGUI *scg)
+{
+	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (scg), NULL);
+
+	return GTK_WIDGET (scg->table);
+}
+
 void
 scg_take_focus (SheetControlGUI *scg)
 {
@@ -2728,6 +2748,7 @@ scg_class_init (GtkObjectClass *object_class)
 	sc_class->make_cell_visible      = scg_make_cell_visible_virt; /* wrapper */
 	sc_class->cursor_bound           = scg_cursor_bound;
 	sc_class->set_panes		 = scg_set_panes;
+	sc_class->colrow_distance_get	 = scg_colrow_distance_get_virtual;
 }
 
 E_MAKE_TYPE (sheet_control_gui, "SheetControlGUI", SheetControlGUI,

@@ -14,7 +14,6 @@ WorkbookControl *sc_wbc		(SheetControl const *sc);
 Sheet		*sc_sheet	(SheetControl const *sc);
 void		 sc_sheet_set	(SheetControl *sc, Sheet *sheet);
 
-
 /**
  * NOTE:
  * The GUI layer accesses the SheetControlGUI methods directly without
@@ -46,5 +45,7 @@ void sc_make_cell_visible      	(SheetControl *sc, int col, int row,
 
 void sc_cursor_bound		(SheetControl *sc, Range const *r);
 void sc_set_panes		(SheetControl *sc);
+float sc_colrow_distance_get	(SheetControl const *sc, gboolean is_col,
+				 int start, int end);
 
 #endif /* GNUMERIC_SHEET_CONTROL_H */

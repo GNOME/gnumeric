@@ -11,29 +11,12 @@ typedef enum {
 	SHEET_OBJECT_ACTION_CAN_PRESS
 } SheetObjectAction;
 
-typedef enum {
-	SO_DIR_UNKNOWN    = 0xFF,
-	SO_DIR_UP_RIGHT   = 0x00,
-	SO_DIR_UP_LEFT    = 0x01,
-	SO_DIR_DOWN_RIGHT = 0x10,
-	SO_DIR_DOWN_LEFT  = 0x11,
-
-	SO_DIR_NONE_MASK  = 0x00,
-	SO_DIR_LEFT_MASK  = 0x01,
-	SO_DIR_DOWN_MASK  = 0x10,
-} SheetObjectDirection;
-
 struct _SheetObject {
 	GtkObject          parent_object;
 	SheetObjectAction  type;
 	Sheet             *sheet;
 	GList             *realized_list;
-
-	/* Position */
-	Range	cell_bound; /* cellpos containg corners */
-	float	offset [4];
-	SheetObjectAnchor anchor_type [4];
-	SheetObjectDirection direction;
+	SheetObjectAnchor  anchor;
 };
 
 typedef struct {

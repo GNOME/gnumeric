@@ -345,7 +345,10 @@ gnm_canvas_key_mode_object (GnumericCanvas *gcanvas, GdkEventKey *event)
 	case GDK_BackSpace: /* Ick! */
 	case GDK_KP_Delete:
 	case GDK_Delete:
-		gtk_object_destroy (GTK_OBJECT (scg->current_object));
+		if (scg->new_object != NULL)
+			gtk_object_destroy (GTK_OBJECT (scg->new_object));
+		else if (scg->current_object != NULL)
+			gtk_object_destroy (GTK_OBJECT (scg->current_object));
 		break;
 
 	default:
@@ -482,13 +485,13 @@ gnm_canvas_drag_data_get (GtkWidget *widget,
  */
 static void
 gnm_canvas_filenames_dropped (GtkWidget        *widget,
-				  GdkDragContext   *context,
-				  gint              x,
-				  gint              y,
-				  GtkSelectionData *selection_data,
-				  guint             info,
-				  guint             time,
-				  GnumericCanvas    *gcanvas)
+			      GdkDragContext   *context,
+			      gint              x,
+			      gint              y,
+			      GtkSelectionData *selection_data,
+			      guint             info,
+			      guint             time,
+			      GnumericCanvas    *gcanvas)
 {
 	GList *names, *tmp_list;
 	SheetControl *sc = (SheetControl *) gcanvas->scg;
@@ -503,7 +506,7 @@ gnm_canvas_filenames_dropped (GtkWidget        *widget,
 #ifdef ENABLE_BONOBO
 			/* If it wasn't a workbook, see if we have a control for it */
 			SheetObject *so = sheet_object_container_new_file (
-				sc->sheet, file_name);
+				sc->sheet->workbook, file_name);
 			if (so != NULL)
 				scg_mode_create_object (gcanvas->scg, so);
 #else

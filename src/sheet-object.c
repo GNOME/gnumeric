@@ -45,14 +45,14 @@ sheet_object_remove_cb (GtkWidget *widget, GtkObject *so_view)
 	Sheet *sheet;
 	SheetObject *so;
 	SheetControlGUI *scg;
-	WorkbookControlGUI *wbcg;
+	WorkbookControl *wbc;
 
 	so = sheet_object_view_obj (so_view);
 	scg = sheet_object_view_control (so_view);
-	wbcg = scg_get_wbcg (scg);
+	wbc = sc_wbc (SHEET_CONTROL (scg));
 	sheet = sc_sheet (SHEET_CONTROL (scg));
 
-	cmd_delete_object (WORKBOOK_CONTROL (wbcg), sheet, so);
+	cmd_object_delete (wbc, so);
 	gtk_object_unref (GTK_OBJECT (so));
 }
 
@@ -128,10 +128,10 @@ sheet_objects_max_extent (Sheet *sheet)
 	for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next ) {
 		SheetObject *so = SHEET_OBJECT (ptr->data);
 
-		if (max_pos.col < so->cell_bound.end.col)
-			max_pos.col = so->cell_bound.end.col;
-		if (max_pos.row < so->cell_bound.end.row)
-			max_pos.row = so->cell_bound.end.row;
+		if (max_pos.col < so->anchor.cell_bound.end.col)
+			max_pos.col = so->anchor.cell_bound.end.col;
+		if (max_pos.row < so->anchor.cell_bound.end.row)
+			max_pos.row = so->anchor.cell_bound.end.row;
 	}
 
 	if (sheet->max_object_extent.col != max_pos.col ||
@@ -160,8 +160,8 @@ sheet_object_destroy (GtkObject *object)
 			so->sheet->modified = TRUE;
 		}
 
-		if (so->cell_bound.end.col == so->sheet->max_object_extent.col &&
-		    so->cell_bound.end.row == so->sheet->max_object_extent.row)
+		if (so->anchor.cell_bound.end.col == so->sheet->max_object_extent.col &&
+		    so->anchor.cell_bound.end.row == so->sheet->max_object_extent.row)
 			sheet_objects_max_extent (so->sheet);
 		so->sheet = NULL;
 	}
@@ -176,15 +176,15 @@ sheet_object_init (GtkObject *object)
 
 	so->type = SHEET_OBJECT_ACTION_STATIC;
 	so->sheet = NULL;
-	so->direction = SO_DIR_UNKNOWN;
 
 	/* Store the logical position as A1 */
-	so->cell_bound.start.col = so->cell_bound.start.row = 0;
-	so->cell_bound.end.col = so->cell_bound.end.row = 1;
+	so->anchor.cell_bound.start.col = so->anchor.cell_bound.start.row = 0;
+	so->anchor.cell_bound.end.col = so->anchor.cell_bound.end.row = 1;
+	so->anchor.direction = SO_DIR_UNKNOWN;
 
 	for (i = 4; i-- > 0 ;) {
-		so->offset [i] = 0.;
-		so->anchor_type [i] = SO_ANCHOR_UNKNOWN;
+		so->anchor.offset [i] = 0.;
+		so->anchor.type [i] = SO_ANCHOR_UNKNOWN;
 	}
 }
 
@@ -226,7 +226,7 @@ sheet_object_view_control (GtkObject *view)
 }
 
 GtkObject *
-sheet_object_get_view (SheetObject *so, SheetControlGUI *scg)
+sheet_object_get_view (SheetObject *so, SheetControl *sc)
 {
 	GList *l;
 
@@ -234,23 +234,34 @@ sheet_object_get_view (SheetObject *so, SheetControlGUI *scg)
 
 	for (l = so->realized_list; l; l = l->next) {
 		GtkObject *obj = GTK_OBJECT (l->data);
-		if (scg == sheet_object_view_control (obj))
+		if (sc == SHEET_CONTROL (sheet_object_view_control (obj)))
 			return obj;
 	}
 
 	return NULL;
 }
 
+/**
+ * sheet_object_update_bounds :
+ *
+ * @so  : The sheet object
+ * @pos : An optional position marking the top left of the region
+ *        needing relocation (default == A1)
+ *
+ * update the bounds of an object that intersects the region whose top left
+ * is @pos.  This is used when an objects position is anchored to cols/rows
+ * and they change position.
+ */
 void
-sheet_object_position (SheetObject *so, CellPos const *pos)
+sheet_object_update_bounds (SheetObject *so, CellPos const *pos)
 {
 	GList *l;
 
 	g_return_if_fail (IS_SHEET_OBJECT (so));
 
 	if (pos != NULL &&
-	    so->cell_bound.end.col < pos->col &&
-	    so->cell_bound.end.row < pos->row)
+	    so->anchor.cell_bound.end.col < pos->col &&
+	    so->anchor.cell_bound.end.row < pos->row)
 		return;
 
 	for (l = so->realized_list; l; l = l->next) {
@@ -285,9 +296,22 @@ sheet_object_set_sheet (SheetObject *so, Sheet *sheet)
 
 	sheet->sheet_objects = g_list_prepend (sheet->sheet_objects, so);
 	sheet_object_realize (so);
-	sheet_object_position (so, NULL);
+	sheet_object_update_bounds (so, NULL);
 
 	return FALSE;
+}
+
+/**
+ * sheet_object_get_sheet :
+ *
+ * A small utility to help keep the implementation of SheetObjects modular.
+ */
+Sheet *
+sheet_object_get_sheet (SheetObject const *so)
+{
+	g_return_val_if_fail (IS_SHEET_OBJECT (so), NULL);
+
+	return so->sheet;
 }
 
 /**
@@ -302,7 +326,7 @@ sheet_object_clear_sheet (SheetObject *so)
 	g_return_val_if_fail (IS_SHEET_OBJECT (so), TRUE);
 
 	if (!IS_SHEET (so->sheet))
-		return (FALSE);
+		return FALSE;
 
 	ptr = g_list_find (so->sheet->sheet_objects, so);
 	g_return_val_if_fail (ptr != NULL, TRUE);
@@ -422,15 +446,15 @@ sheet_object_read_xml (XmlParseContext const *ctxt, xmlNodePtr tree)
 		if (parse_range (tmp,
 				 &r.start.col, &r.start.row,
 				 &r.end.col, &r.end.row))
-			so->cell_bound = r;
+			so->anchor.cell_bound = r;
 		xmlFree (tmp);
 	}
 
 	tmp = xmlGetProp (tree, "ObjectOffset");
 	if (tmp != NULL) {
 		sscanf (tmp, "%g %g %g %g",
-			so->offset +0, so->offset +1,
-			so->offset +2, so->offset +3);
+			so->anchor.offset +0, so->anchor.offset +1,
+			so->anchor.offset +2, so->anchor.offset +3);
 		xmlFree (tmp);
 	}
 
@@ -440,14 +464,14 @@ sheet_object_read_xml (XmlParseContext const *ctxt, xmlNodePtr tree)
 		sscanf (tmp, "%d %d %d %d", i+0, i+1, i+2, i+3);
 
 		for (count = 4; count-- > 0 ; )
-			so->anchor_type[count] = i[count];
+			so->anchor.type[count] = i[count];
 		xmlFree (tmp);
 	}
 
 	if (xml_get_value_int (tree, "Direction", &tmp_int))
-		so->direction = tmp_int;
+		so->anchor.direction = tmp_int;
 	else
-		so->direction = SO_DIR_UNKNOWN;
+		so->anchor.direction = SO_DIR_UNKNOWN;
 
 	sheet_object_set_sheet (so, ctxt->sheet);
 	return so;
@@ -478,16 +502,16 @@ sheet_object_write_xml (SheetObject const *so, XmlParseContext const *ctxt)
 		return NULL;
 	}
 
-	xml_set_value_cstr (tree, "ObjectBound", range_name (&so->cell_bound));
+	xml_set_value_cstr (tree, "ObjectBound", range_name (&so->anchor.cell_bound));
 	snprintf (buffer, sizeof (buffer), "%.*g %.*g %.*g %.*g",
-		  DBL_DIG, so->offset [0], DBL_DIG, so->offset [1],
-		  DBL_DIG, so->offset [2], DBL_DIG, so->offset [3]);
+		  DBL_DIG, so->anchor.offset [0], DBL_DIG, so->anchor.offset [1],
+		  DBL_DIG, so->anchor.offset [2], DBL_DIG, so->anchor.offset [3]);
 	xml_set_value_cstr (tree, "ObjectOffset", buffer);
 	snprintf (buffer, sizeof (buffer), "%d %d %d %d",
-		  so->anchor_type [0], so->anchor_type [1],
-		  so->anchor_type [2], so->anchor_type [3]);
+		  so->anchor.type [0], so->anchor.type [1],
+		  so->anchor.type [2], so->anchor.type [3]);
 	xml_set_value_cstr (tree, "ObjectAnchorType", buffer);
-	xml_set_value_int (tree, "Direction", so->direction);
+	xml_set_value_int (tree, "Direction", so->anchor.direction);
 
 	return tree;
 }
@@ -497,38 +521,41 @@ sheet_object_range_get (SheetObject const *so)
 {
 	g_return_val_if_fail (IS_SHEET_OBJECT (so), NULL);
 
-	return &so->cell_bound;
+	return &so->anchor.cell_bound;
+}
+
+SheetObjectAnchor const *
+sheet_object_anchor_get (SheetObject const *so)
+{
+	g_return_val_if_fail (IS_SHEET_OBJECT (so), NULL);
+
+	return &so->anchor;
 }
 
 void
-sheet_object_range_set (SheetObject *so, Range const *r,
-			float const *offsets, SheetObjectAnchor const *types)
+sheet_object_anchor_set (SheetObject *so, SheetObjectAnchor const *anchor)
 {
-	int i;
-
 	g_return_if_fail (IS_SHEET_OBJECT (so));
 
-	if (r != NULL) {
-		so->cell_bound = *r;
-		if (so->sheet)
-			sheet_objects_max_extent (so->sheet);
-
+	sheet_object_anchor_cpy (&so->anchor, anchor);
+	if (so->sheet != NULL) {
+		sheet_objects_max_extent (so->sheet);
+		sheet_object_update_bounds (so, NULL);
 	}
+}
 
-	if (offsets != NULL)
-		for (i = 4; i-- > 0 ; )
-			so->offset [i] = offsets [i];
-	if (types != NULL)
-		for (i = 4; i-- > 0 ; )
-			so->anchor_type [i] = types [i];
+void
+sheet_object_anchor_cpy	(SheetObjectAnchor *dst, SheetObjectAnchor const *src)
+{
+	g_return_if_fail (src != NULL);
+	g_return_if_fail (dst != NULL);
 
-	if (so->sheet != NULL)
-		sheet_object_position (so, NULL);
+	memcpy (dst, src, sizeof (SheetObjectAnchor));
 }
 
 static int
 cell_offset_calc_pixel (Sheet const *sheet, int i, gboolean is_col,
-			SheetObjectAnchor anchor_type, float offset)
+			SheetObjectAnchorType anchor_type, float offset)
 {
 	ColRowInfo const *cri = sheet_colrow_get_info (sheet, i, is_col);
 	/* TODO : handle other anchor types */
@@ -538,7 +565,7 @@ cell_offset_calc_pixel (Sheet const *sheet, int i, gboolean is_col,
 }
 
 /**
- * sheet_object_position_pixels :
+ * sheet_object_position_pixels_get :
  *
  * @so : The sheet object
  * @coords : array of 4 ints where we return the coordinates in pixels
@@ -547,35 +574,36 @@ cell_offset_calc_pixel (Sheet const *sheet, int i, gboolean is_col,
  * in the object.
  */
 void
-sheet_object_position_pixels (SheetObject const *so,
-			      SheetControlGUI const *scg, int *coords)
+sheet_object_position_pixels_get (SheetObject const *so,
+				  SheetControl const *sc, double *coords)
 {
+	Range const *r;
+
 	g_return_if_fail (IS_SHEET_OBJECT (so));
 	g_return_if_fail (IS_SHEET (so->sheet));
 
-	coords [0] = scg_colrow_distance_get (scg, TRUE, 0,
-		so->cell_bound.start.col);
-	coords [1] = scg_colrow_distance_get (scg, FALSE, 0,
-		so->cell_bound.start.row);
+	r = &so->anchor.cell_bound;
 
-	coords [2] = coords [0] + scg_colrow_distance_get (scg, TRUE,
-		so->cell_bound.start.col, so->cell_bound.end.col);
-	coords [3] = coords [1] + scg_colrow_distance_get (scg, FALSE,
-		so->cell_bound.start.row, so->cell_bound.end.row);
+	coords [0] = sc_colrow_distance_get (sc, TRUE, 0,  r->start.col);
+	coords [2] = coords [0] + sc_colrow_distance_get (sc, TRUE,
+		r->start.col, r->end.col);
+	coords [1] = sc_colrow_distance_get (sc, FALSE, 0, r->start.row);
+	coords [3] = coords [1] + sc_colrow_distance_get (sc, FALSE,
+		r->start.row, r->end.row);
 
-	coords [0] += cell_offset_calc_pixel (so->sheet, so->cell_bound.start.col,
-		TRUE, so->anchor_type [0], so->offset [0]);
-	coords [1] += cell_offset_calc_pixel (so->sheet, so->cell_bound.start.row,
-		FALSE, so->anchor_type [1], so->offset [1]);
-	coords [2] += cell_offset_calc_pixel (so->sheet, so->cell_bound.end.col,
-		TRUE, so->anchor_type [2], so->offset [2]);
-	coords [3] += cell_offset_calc_pixel (so->sheet, so->cell_bound.end.row,
-		FALSE, so->anchor_type [3], so->offset [3]);
+	coords [0] += cell_offset_calc_pixel (so->sheet, r->start.col,
+		TRUE, so->anchor.type [0], so->anchor.offset [0]);
+	coords [1] += cell_offset_calc_pixel (so->sheet, r->start.row,
+		FALSE, so->anchor.type [1], so->anchor.offset [1]);
+	coords [2] += cell_offset_calc_pixel (so->sheet, r->end.col,
+		TRUE, so->anchor.type [2], so->anchor.offset [2]);
+	coords [3] += cell_offset_calc_pixel (so->sheet, r->end.row,
+		FALSE, so->anchor.type [3], so->anchor.offset [3]);
 }
 
 static double
 cell_offset_calc_pt (Sheet const *sheet, int i, gboolean is_col,
-		     SheetObjectAnchor anchor_type, float offset)
+		     SheetObjectAnchorType anchor_type, float offset)
 {
 	ColRowInfo const *cri = sheet_colrow_get_info (sheet, i, is_col);
 	/* TODO : handle other anchor types */
@@ -604,7 +632,7 @@ sheet_object_default_size (SheetObject *so, double *w, double *h)
 }
 
 /**
- * sheet_object_position_pts :
+ * sheet_object_position_pts_get :
  *
  * @so : The sheet object
  * @coords : array of 4 doubles
@@ -613,27 +641,32 @@ sheet_object_default_size (SheetObject *so, double *w, double *h)
  * the object.
  */
 void
-sheet_object_position_pts (SheetObject const *so, double *coords)
+sheet_object_position_pts_get (SheetObject const *so, double *coords)
 {
+	Range const *r;
+
 	g_return_if_fail (IS_SHEET_OBJECT (so));
+	g_return_if_fail (coords != NULL);
+
+	r = &so->anchor.cell_bound;
 
 	coords [0] = sheet_col_get_distance_pts (so->sheet, 0,
-		so->cell_bound.start.col);
+		r->start.col);
 	coords [2] = coords [0] + sheet_col_get_distance_pts (so->sheet,
-		so->cell_bound.start.col, so->cell_bound.end.col);
+		r->start.col, r->end.col);
 	coords [1] = sheet_row_get_distance_pts (so->sheet, 0,
-		so->cell_bound.start.row);
+		r->start.row);
 	coords [3] = coords [1] + sheet_row_get_distance_pts (so->sheet,
-		so->cell_bound.start.row, so->cell_bound.end.row);
+		r->start.row, r->end.row);
 
-	coords [0] += cell_offset_calc_pt (so->sheet, so->cell_bound.start.col,
-		TRUE, so->anchor_type [0], so->offset [0]);
-	coords [1] += cell_offset_calc_pt (so->sheet, so->cell_bound.start.row,
-		FALSE, so->anchor_type [1], so->offset [1]);
-	coords [2] += cell_offset_calc_pt (so->sheet, so->cell_bound.end.col,
-		TRUE, so->anchor_type [2], so->offset [2]);
-	coords [3] += cell_offset_calc_pt (so->sheet, so->cell_bound.end.row,
-		FALSE, so->anchor_type [3], so->offset [3]);
+	coords [0] += cell_offset_calc_pt (so->sheet, r->start.col,
+		TRUE, so->anchor.type [0], so->anchor.offset [0]);
+	coords [1] += cell_offset_calc_pt (so->sheet, r->start.row,
+		FALSE, so->anchor.type [1], so->anchor.offset [1]);
+	coords [2] += cell_offset_calc_pt (so->sheet, r->end.col,
+		TRUE, so->anchor.type [2], so->anchor.offset [2]);
+	coords [3] += cell_offset_calc_pt (so->sheet, r->end.row,
+		FALSE, so->anchor.type [3], so->anchor.offset [3]);
 }
 
 /**
@@ -662,9 +695,8 @@ sheet_relocate_objects (ExprRelocateInfo const *rinfo)
 		GList *copy = g_list_copy (rinfo->target_sheet->sheet_objects);
 		for (ptr = copy; ptr != NULL ; ptr = ptr->next ) {
 			SheetObject *so = SHEET_OBJECT (ptr->data);
-			if (range_contains (&dest,
-					    so->cell_bound.start.col,
-					    so->cell_bound.start.row))
+			Range       *r  = &so->anchor.cell_bound;
+			if (range_contains (&dest, r->start.col, r->start.row))
 				gtk_object_destroy (GTK_OBJECT (so));
 		}
 		g_list_free (copy);
@@ -673,26 +705,24 @@ sheet_relocate_objects (ExprRelocateInfo const *rinfo)
 	ptr = rinfo->origin_sheet->sheet_objects;
 	for (; ptr != NULL ; ptr = next ) {
 		SheetObject *so = SHEET_OBJECT (ptr->data);
+		Range       *r  = &so->anchor.cell_bound;
+
 		next = ptr->next;
 		if (range_contains (&rinfo->origin,
-				    so->cell_bound.start.col,
-				    so->cell_bound.start.row)) {
+				    r->start.col, r->start.row)) {
 			/* FIXME : just moving the range is insufficent for all anchor types */
 			/* Toss any objects that would be clipped. */
-			if (range_translate (&so->cell_bound, rinfo->col_offset, rinfo->row_offset)) {
+			if (range_translate (r, rinfo->col_offset, rinfo->row_offset)) {
 				gtk_object_destroy (GTK_OBJECT (so));
 				continue;
 			}
 			if (change_sheets) {
 				sheet_object_clear_sheet (so);
 				sheet_object_set_sheet (so, rinfo->target_sheet);
-			} else {
-				sheet_object_position (so, NULL);
-			}
+			} else
+				sheet_object_update_bounds (so, NULL);
 		} else if (!change_sheets &&
-			   range_contains (&dest,
-					   so->cell_bound.start.col,
-					   so->cell_bound.start.row)) {
+			   range_contains (&dest, r->start.col, r->start.row)) {
 			gtk_object_destroy (GTK_OBJECT (so));
 			continue;
 		}
@@ -726,7 +756,7 @@ sheet_get_objects (Sheet const *sheet, Range const *r, GtkType t)
 
 		if (GTK_OBJECT_TYPE (obj) == t) {
 			SheetObject *so = SHEET_OBJECT (obj);
-			if (r == NULL || range_overlap (r, &so->cell_bound))
+			if (r == NULL || range_overlap (r, &so->anchor.cell_bound))
 				res = g_list_prepend (res, so);
 		}
 	}
@@ -759,7 +789,6 @@ static SheetObject *
 sheet_object_clone (SheetObject const *so, Sheet *sheet)
 {
 	SheetObject *new_so = NULL;
-	gint i;
 
 	if (!SO_CLASS (so)->clone) {
 		static gboolean warned = FALSE;
@@ -774,15 +803,7 @@ sheet_object_clone (SheetObject const *so, Sheet *sheet)
 	new_so = SO_CLASS (so)->clone (so, sheet);
 
 	new_so->type = so->type;
-	new_so->cell_bound = so->cell_bound;
-	new_so->direction = so->direction;
-
-	for (i = 0; i < 4; i++)
-		new_so->offset [i]      = so->offset [i];
-
-	for (i = 0; i < 4; i++)
-		new_so->anchor_type [i] = so->anchor_type [i];
-	
+	sheet_object_anchor_cpy (&new_so->anchor, &so->anchor);
 	sheet_object_set_sheet (new_so, sheet);
 		
 	return new_so;
@@ -831,18 +852,17 @@ sheet_object_clone_sheet (const Sheet *src, Sheet *dst)
 void
 sheet_object_direction_set (SheetObject *so, gdouble *coords)
 {
-	if (so->direction == SO_DIR_UNKNOWN)
+	if (so->anchor.direction == SO_DIR_UNKNOWN)
 		return;
 
-	so->direction = SO_DIR_NONE_MASK;
+	so->anchor.direction = SO_DIR_NONE_MASK;
 	
 	if (coords [1] < coords [3])
-		so->direction |= SO_DIR_DOWN_MASK;
+		so->anchor.direction |= SO_DIR_DOWN_MASK;
 	if (coords [0] > coords [2])
-		so->direction |= SO_DIR_LEFT_MASK;
+		so->anchor.direction |= SO_DIR_LEFT_MASK;
 	
 }
-
 
 /**
  * sheet_object_rubber_band_directly:
@@ -854,7 +874,51 @@ sheet_object_direction_set (SheetObject *so, gdouble *coords)
  * Return Value: 
  **/
 gboolean
-sheet_object_rubber_band_directly (SheetObject *so)
+sheet_object_rubber_band_directly (SheetObject const *so)
 {
 	return SO_CLASS (so)->rubber_band_directly;
+}
+
+/*****************************************************************************/
+
+/**
+ * sheet_object_anchor_init :
+ *
+ * A utility routine to initialize an anchor.  Useful in case we add
+ * fields in the future and want to ensure that everything is initialized.
+ */
+void
+sheet_object_anchor_init (SheetObjectAnchor *anchor,
+			  Range const *r, float const *offsets,
+			  SheetObjectAnchorType const *types,
+			  SheetObjectDirection direction)
+{
+	int i;
+
+	if (r == NULL) {
+		static Range const defaultVal = { { 0, 0 }, { 1, 1 } };
+		r = &defaultVal;
+	}
+	anchor->cell_bound = *r;
+
+	if (offsets == NULL) {
+		static float const defaultVal [4] = { 0., 0., 0., 0. };
+		offsets = defaultVal;
+	}
+	for (i = 4; i-- > 0 ; )
+		anchor->offset [i] = offsets [i];
+
+	if (types == NULL) {
+		static SheetObjectAnchorType const defaultVal [4] = {
+			SO_ANCHOR_PTS_FROM_COLROW_START,
+			SO_ANCHOR_PTS_FROM_COLROW_START,
+			SO_ANCHOR_PTS_FROM_COLROW_START,
+			SO_ANCHOR_PTS_FROM_COLROW_START
+		};
+		types = defaultVal;
+	}
+	for (i = 4; i-- > 0 ; )
+		anchor->type [i] = types [i];
+
+	/* TODO : add sanity checking to handle offsets past edges of col/row */
 }

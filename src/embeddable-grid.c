@@ -82,26 +82,16 @@ embeddable_grid_class_init (EmbeddableGridClass *klass)
 {
 	POA_GNOME_Gnumeric_Grid__epv *epv = &klass->epv;
 
-	epv->get_sheet    = Grid_get_sheet;
+	epv->get_sheet = Grid_get_sheet;
 	epv->set_header_visibility = Grid_set_header_visibility;
 	epv->get_header_visibility = Grid_get_header_visibility;
-}
-
-static void
-embeddable_grid_init (GtkObject *object)
-{
 }
 
 static void
 embeddable_grid_init_anon (EmbeddableGrid *eg)
 {
 	eg->workbook = workbook_new_with_sheets (1);
-#if 0
-	/* What the hell is this trying to do ? */
-	GList *sheets;
-
-	sheets = workbook_sheets (eg->workbook);
-#endif
+	eg->sheet = workbook_sheet_by_index (eg->workbook, 0);
 }
 
 EmbeddableGrid *
@@ -171,7 +161,7 @@ embeddable_grid_get_type (void)
 			sizeof (EmbeddableGrid),
 			sizeof (EmbeddableGridClass),
 			(GtkClassInitFunc) embeddable_grid_class_init,
-			(GtkObjectInitFunc) embeddable_grid_init,
+			NULL,
 			NULL, /* reserved 1 */
 			NULL, /* reserved 2 */
 			(GtkClassInitFunc) NULL
@@ -242,12 +232,12 @@ grid_view_new (EmbeddableGrid *eg)
 
 	grid_view->embeddable = eg;
 	grid_view->scg = sheet_control_gui_new (eg->sheet);
-	gtk_widget_show (GTK_WIDGET (grid_view->scg));
-	gtk_widget_set_usize (GTK_WIDGET (grid_view->scg), 320, 200);
+	gtk_widget_show (scg_toplevel (grid_view->scg));
+	gtk_widget_set_usize (scg_toplevel (grid_view->scg), 320, 200);
 
 	grid_view = GRID_VIEW (
 		bonobo_view_construct (	BONOBO_VIEW (grid_view),
-		GTK_WIDGET (grid_view->scg)));
+		scg_toplevel (grid_view->scg)));
 	if (!grid_view)
 		return NULL;
 

@@ -247,12 +247,12 @@ sheet_object_graphic_print (SheetObject const *so, GnomePrintContext *ctx,
 	g_return_if_fail (GNOME_IS_PRINT_CONTEXT (ctx));
 	sog = SHEET_OBJECT_GRAPHIC (so);
 
-	sheet_object_position_pts (so, coords);
+	sheet_object_position_pts_get (so, coords);
 
 	gnome_print_gsave (ctx);
 
 	if (sog->fill_color) {
-		switch (so->direction) {
+		switch (so->anchor.direction) {
 		case SO_DIR_UP_RIGHT:
 		case SO_DIR_DOWN_RIGHT:
 			x1 = base_x;
@@ -269,7 +269,7 @@ sheet_object_graphic_print (SheetObject const *so, GnomePrintContext *ctx,
 			return;
 		}
 
-		switch (so->direction) {
+		switch (so->anchor.direction) {
 		case SO_DIR_UP_LEFT:
 		case SO_DIR_UP_RIGHT:
 			y1 = base_y;
@@ -587,7 +587,7 @@ sheet_object_graphic_init (GtkObject *obj)
 	sog->c = 3.0;
 
 	so = SHEET_OBJECT (obj);
-	so->direction = SO_DIR_NONE_MASK;
+	so->anchor.direction = SO_DIR_NONE_MASK;
 }
 
 E_MAKE_TYPE (sheet_object_graphic, "SheetObjectGraphic", SheetObjectGraphic,
@@ -968,7 +968,7 @@ sheet_object_filled_print (SheetObject const *so, GnomePrintContext *ctx,
 	sof = SHEET_OBJECT_FILLED (so);
 	sog = SHEET_OBJECT_GRAPHIC (so);
 
-	sheet_object_position_pts (so, coords);
+	sheet_object_position_pts_get (so, coords);
 
 	start_x = base_x;
 	start_y = base_y;

@@ -71,12 +71,12 @@ comment_get_points (SheetControlGUI *scg, SheetObject const *so)
 	int x, y, i, far_col;
 	Range const *r;
 
-	r = sheet_merge_is_corner (so->sheet, &so->cell_bound.start);
-	far_col = 1 + ((r != NULL) ? r->end.col : so->cell_bound.start.col);
+	r = sheet_merge_is_corner (so->sheet, &so->anchor.cell_bound.start);
+	far_col = 1 + ((r != NULL) ? r->end.col : so->anchor.cell_bound.start.col);
 
 	/* TODO : This could be optimized using the offsets associated with the visible region */
 	x = scg_colrow_distance_get (scg, TRUE, 0, far_col) - 1;
-	y = scg_colrow_distance_get (scg, FALSE, 0, so->cell_bound.start.row) + 1;
+	y = scg_colrow_distance_get (scg, FALSE, 0, so->anchor.cell_bound.start.row) + 1;
 
 	points = gnome_canvas_points_new (3);
 	points->coords [0] = x - TRIANGLE_WIDTH;
@@ -298,13 +298,13 @@ cell_set_comment (Sheet *sheet, CellPos const *pos,
 		  char const *author, char const *text)
 {
 	/* top right */
-	static float const offsets [4] = { 0., 0., 0., 0. };
-	static SheetObjectAnchor const start [4] = {
-		SO_ANCHOR_PTS_FROM_COLROW_END,
-		SO_ANCHOR_PTS_FROM_COLROW_START,
-		SO_ANCHOR_PTS_FROM_COLROW_END,
-		SO_ANCHOR_PTS_FROM_COLROW_START
+	static SheetObjectAnchorType const anchor_types [4] = {
+		SO_ANCHOR_PERCENTAGE_FROM_COLROW_END,
+		SO_ANCHOR_PERCENTAGE_FROM_COLROW_START,
+		SO_ANCHOR_PERCENTAGE_FROM_COLROW_END,
+		SO_ANCHOR_PERCENTAGE_FROM_COLROW_START
 	};
+	SheetObjectAnchor anchor;
 	CellComment *cc;
 	Range	     r;
 
@@ -316,7 +316,9 @@ cell_set_comment (Sheet *sheet, CellPos const *pos,
 	cc->text = text ? g_strdup (text) : NULL;
 
 	r.start = r.end = *pos;
-	sheet_object_range_set (SHEET_OBJECT (cc), &r, offsets, start);
+	sheet_object_anchor_init (&anchor, &r, NULL, anchor_types,
+				  SO_DIR_DOWN_RIGHT);
+	sheet_object_anchor_set (SHEET_OBJECT (cc), &anchor);
 	sheet_object_set_sheet (SHEET_OBJECT (cc), sheet);
 	return cc;
 }

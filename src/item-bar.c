@@ -894,7 +894,7 @@ item_bar_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 }
 
 static void
-item_bar_finalize (GtkObject *object)
+item_bar_destroy (GtkObject *object)
 {
 	ItemBar *bar = ITEM_BAR (object);
 
@@ -905,8 +905,8 @@ item_bar_finalize (GtkObject *object)
 		bar->tip = NULL;
 	}
 
-	if (GTK_OBJECT_CLASS (item_bar_parent_class)->finalize)
-		(*GTK_OBJECT_CLASS (item_bar_parent_class)->finalize)(object);
+	if (GTK_OBJECT_CLASS (item_bar_parent_class)->destroy)
+		(*GTK_OBJECT_CLASS (item_bar_parent_class)->destroy)(object);
 }
 
 static void
@@ -956,7 +956,7 @@ item_bar_class_init (ItemBarClass *item_bar_class)
 	item_class->point       = item_bar_point;
 	item_class->translate   = item_bar_translate;
 	item_class->event       = item_bar_event;
-	object_class->finalize  = item_bar_finalize;
+	object_class->destroy   = item_bar_destroy;
 	object_class->set_arg   = item_bar_set_arg;
 }
 
