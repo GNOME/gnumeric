@@ -313,92 +313,14 @@ static char *help_covar = {
 	   "@SEEALSO=CORREL,FISHER,FISHERINV")
 };
 
-typedef struct {
-	guint32 num;
-	int     count;
-        GSList  *array1;
-        GSList  *array2;
-        float_t sum1;
-        float_t sum2;
-} stat_covar_t;
-
 static Value *
-callback_function_covar (const EvalPosition *ep, Value *value, void *closure)
+gnumeric_covar (FunctionEvalInfo *ei, Value **argv)
 {
-	stat_covar_t *mm = closure;
-	float_t x, *p;
-
-	if (!VALUE_IS_NUMBER (value))
-		return NULL;
-
-        p = g_new (float_t, 1);
-	*p = x = value_get_as_float (value);
-
-	if (mm->num < mm->count){
-		mm->array1 = g_slist_append (mm->array1, p);
-		mm->sum1 += x;
-	} else {
-		mm->array2 = g_slist_append (mm->array2, p);
-		mm->sum2 += x;
-	}
-	mm->num++;
-	return NULL;
-}
-
-static Value *
-gnumeric_covar (FunctionEvalInfo *ei, GList *expr_node_list)
-{
-	stat_covar_t pr;
-	float_t sum, mean1, mean2;
-	int     count;
-	GSList  *list1, *list2;
-	Value *vtmp;
-
-	vtmp = gnumeric_count (ei, expr_node_list);
-			       
-	if (!vtmp)
-		return NULL;
-	count = value_get_as_int (vtmp);
-	value_release (vtmp);
-
-	/* FIXME: what about count == 0?  */
-	if (count % 2 > 0)
-		return value_new_error (&ei->pos, gnumeric_err_NUM);
-
-	pr.count  = count / 2;
-	pr.num    = 0;
-	pr.sum1   = 0.0;
-	pr.sum2   = 0.0;
-	pr.array1 = NULL;
-	pr.array2 = NULL;
-
-	/* FIXME what about blanks ? */
-	function_iterate_argument_values (&ei->pos, callback_function_covar,
-					  &pr, expr_node_list, TRUE);
-					  
-	list1 = pr.array1;
-	list2 = pr.array2;
-	sum = 0.0;
-	mean1 = pr.sum1 / pr.count;
-	mean2 = pr.sum2 / pr.count;
-	while (list1 != NULL && list2 != NULL){
-	        float_t *x, *y;
-
-		x = list1->data;
-		y = list2->data;
-	        sum += (*x - mean1) * (*y - mean2);
-
-		g_free (x);
-		g_free (y);
-
-		list1 = list1->next;
-		list2 = list2->next;
-	}
-
-	g_slist_free (pr.array1);
-	g_slist_free (pr.array2);
-
-	return value_new_float (sum / pr.count);
+	return float_range_function2 (argv[0], argv[1],
+				      ei,
+				      range_covar,
+				      COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				      gnumeric_err_VALUE);
 }
 
 static char *help_correl = {
@@ -450,68 +372,13 @@ callback_function_correl (const EvalPosition *ep, Value *value, void *closure)
 }
 
 static Value *
-gnumeric_correl (FunctionEvalInfo *ei, GList *expr_node_list)
+gnumeric_correl (FunctionEvalInfo *ei, Value **argv)
 {
-	stat_correl_t pr;
-	float_t sum, tmp;
-	int     count;
-	GSList  *list1, *list2;
-	Value *vtmp;
-
-	vtmp = gnumeric_count (ei, expr_node_list);
-			       
-	if (!vtmp)
-		return NULL;
-	count = value_get_as_int (vtmp);
-	value_release (vtmp);
-
-	if (count % 2 > 0)
-		return value_new_error (&ei->pos, gnumeric_err_NUM);
-
-	pr.count   = count / 2;
-	pr.num     = 0;
-	pr.sum1    = 0.0;
-	pr.sum2    = 0.0;
-	pr.sqrsum1 = 0.0;
-	pr.sqrsum2 = 0.0;
-	pr.array1  = NULL;
-	pr.array2  = NULL;
-
-	/* FIXME what about blanks ? */
-	function_iterate_argument_values (&ei->pos, callback_function_correl,
-					  &pr, expr_node_list, TRUE);
-					  
-	list1 = pr.array1;
-	list2 = pr.array2;
-	sum = 0.0;
-
-	while (list1 != NULL && list2 != NULL){
-	        float_t *x, *y;
-
-		x = list1->data;
-		y = list2->data;
-	        sum += *x * *y;
-		g_free (x);
-		g_free (y);
-		list1 = list1->next;
-		list2 = list2->next;
-	}
-
-	g_slist_free (pr.array1);
-	g_slist_free (pr.array2);
-
-#if 0
-	if (error_message_is_set (ei->error))
-		return NULL;
-#endif
-
-	tmp = (pr.sqrsum1-(pr.sum1*pr.sum1)/pr.count) *
-	        (pr.sqrsum2-(pr.sum2*pr.sum2)/pr.count);
-	if (tmp == 0)
-	        return value_new_float (0);
-	else
-	        return value_new_float ((sum - (pr.sum1*pr.sum2/pr.count)) /
-						  sqrt(tmp));
+	return float_range_function2 (argv[0], argv[1],
+				      ei,
+				      range_correl_pop,
+				      COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				      gnumeric_err_VALUE);
 }
 
 static char *help_negbinomdist = {
@@ -3669,9 +3536,9 @@ void stat_functions_init()
 			    gnumeric_counta);
 	function_add_args  (cat, "critbinom",  "fff",  "trials,p,alpha", &help_critbinom,
 			    gnumeric_critbinom);
-        function_add_nodes (cat, "correl",     0,      "",         &help_correl,
+        function_add_args  (cat, "correl",     "AA",   "array1,array2",  &help_correl,
 			    gnumeric_correl);
-        function_add_nodes (cat, "covar",      0,      "",         &help_covar,
+        function_add_args  (cat, "covar",      "AA",   "array1,array2", &help_covar,
 			    gnumeric_covar);
         function_add_nodes (cat, "devsq",      0,      "",         &help_devsq,
 			    gnumeric_devsq);

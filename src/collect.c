@@ -123,6 +123,29 @@ collect_floats (GList *exprlist, const EvalPosition *ep, CollectFlags flags,
 }
 
 /* ------------------------------------------------------------------------- */
+/* Like collect_floats, but takes a value instead of an expression list.
+   Presumably most useful when the value is an array.  */
+
+static float_t *
+collect_floats_value (Value *val, const EvalPosition *ep, CollectFlags flags,
+		      int *n, Value **error)
+{
+	GList *exprlist;
+	ExprTree *expr_val;
+	Value *res;
+
+	expr_val = expr_tree_new_constant (value_duplicate (val));
+	exprlist = g_list_prepend (NULL, expr_val);
+
+	res = collect_floats (exprlist, ep, flags, n, error);
+
+	expr_tree_unref (expr_val);
+	g_list_free (exprlist);
+
+	return res;
+}
+
+/* ------------------------------------------------------------------------- */
 
 Value *
 float_range_function (GList *exprlist, FunctionEvalInfo *ei,
@@ -145,6 +168,42 @@ float_range_function (GList *exprlist, FunctionEvalInfo *ei,
 		return value_new_error (&ei->pos, func_error);
 	else
 		return value_new_float (res);
+}
+
+/* ------------------------------------------------------------------------- */
+
+Value *
+float_range_function2 (Value *val0, Value *val1, FunctionEvalInfo *ei,
+		       float_range_function2_t func,
+		       CollectFlags flags,
+		       char const *func_error)
+{
+	float_t *vals0, *vals1;
+	int n0, n1;
+	Value *error = NULL;
+	Value *res;
+
+	vals0 = collect_floats_value (val0, &ei->pos,
+				      COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				      &n0, &error);
+	vals1 = collect_floats_value (val1, &ei->pos,
+				      COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				      &n1, &error);
+
+	if (n0 != n1 || n0 == 0)
+		res = value_new_error (&ei->pos, func_error);
+	else {
+		float_t fres;
+
+		if (range_correl_pop (vals0, vals1, n0, &fres))
+			res = value_new_error (&ei->pos, func_error);
+		else
+			res = value_new_float (fres);
+	}
+
+	g_free (vals0);
+	g_free (vals1);
+	return res;
 }
 
 /* ------------------------------------------------------------------------- */

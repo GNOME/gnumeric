@@ -385,6 +385,50 @@ range_geometric_mean (const float_t *xs, int n, float_t *res)
 }
 
 
+int
+range_covar (const float_t *xs, const float_t *ys, int n, float_t *res)
+{
+	float_t ux, uy, s = 0;
+	int i;
+
+	if (n <= 0 || range_average (xs, n, &ux) || range_average (ys, n, &uy))
+		return 1;
+
+	for (i = 0; i < n; i++)
+		s += (xs[i] - ux) * (ys[i] - uy);
+	*res = s / n;
+	return 0;
+}
+
+int
+range_correl_pop (const float_t *xs, const float_t *ys, int n, float_t *res)
+{
+	float_t sx, sy, vxy;
+
+	if (range_stddev_pop (xs, n, &sx) || sx == 0 ||
+	    range_stddev_pop (ys, n, &sy) || sy == 0 ||	    
+	    range_covar (xs, ys, n, &vxy))
+		return 1;
+
+	*res = vxy / (sx * sy);
+	return 0;
+}
+
+int
+range_correl_est (const float_t *xs, const float_t *ys, int n, float_t *res)
+{
+	float_t sx, sy, vxy;
+
+	if (range_stddev_est (xs, n, &sx) || sx == 0 ||
+	    range_stddev_est (ys, n, &sy) || sy == 0 ||	    
+	    range_covar (xs, ys, n, &vxy))
+		return 1;
+
+	*res = vxy / (sx * sy);
+	return 0;
+}
+
+
 
 double
 pweibull (double x, double shape, double scale)

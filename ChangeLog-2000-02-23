@@ -1,3 +1,16 @@
+1999-08-01  Morten Welinder  <terra@diku.dk>
+
+	* src/fn-stat.c (gnumeric_covar, gnumeric_correl): Simplify using
+ 	range functions.
+
+	* src/workbook.c (file_open_cmd): Plug leak.
+
+	* src/mathfunc.c (range_covar, range_correl_pop,
+ 	range_correl_est): New functions.
+
+	* src/collect.c (collect_floats_value, float_range_function2): New
+ 	functions.
+
 1999-08-01  Michael Meeks  <michael@edenproject.org>
 
 	* src/workbook.c (workbook_setup_sheets): Added comment about making

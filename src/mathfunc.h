@@ -37,6 +37,10 @@ int range_skew_est (const float_t *xs, int n, float_t *res);
 int range_kurtosis_m3_pop (const float_t *xs, int n, float_t *res);
 int range_kurtosis_m3_est (const float_t *xs, int n, float_t *res);
 
+int range_covar (const float_t *xs, const float_t *ys, int n, float_t *res);
+int range_correl_pop (const float_t *xs, const float_t *ys, int n, float_t *res);
+int range_correl_est (const float_t *xs, const float_t *ys, int n, float_t *res);
+
 /* ------------------------------------------------------------------------- */
 
 double bessel_i (double x, double alpha, double expo);

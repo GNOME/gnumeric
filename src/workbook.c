@@ -53,6 +53,7 @@ file_open_cmd (GtkWidget *widget, Workbook *wb)
 
 	if (fname && (new_wb = workbook_read (fname)))
 		gtk_widget_show (new_wb->toplevel);
+	g_free (fname);
 }
 
 static void
