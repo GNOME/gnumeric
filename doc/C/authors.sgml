@@ -7,7 +7,7 @@
       <row>
 	<entry>Miguel de Icaza</entry>
 	<entry>Creator</entry><entry>
-	<email>miguel@ximian.com</email></entry>
+	<email>miguel@gnome.com</email></entry>
       </row>
       <row>
 	<entry>Jody Goldberg</entry>
@@ -57,7 +57,7 @@
       </row>
       <row>
 	<entry>Andreas J. Guelzow</entry>
-	<entry>Statistics, HTML, Latex exports</entry>
+	<entry>Statistics Tools, HTML and LaTeX exporters</entry>
       </row>
       <row>
 	<entry>Ross Ihaka</entry>
@@ -125,6 +125,10 @@
       </row>
       <row>
 	<entry>Aaron Weber</entry>
+	<entry>Documentation</entry>
+      </row>
+      <row>
+	<entry>Alexander Kirillov</entry>
 	<entry>Documentation</entry>
       </row>
       <row>

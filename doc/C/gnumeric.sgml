@@ -30,16 +30,18 @@
 ]>
 
 <book id="index">
- <title>Gnumeric's user manual</title>
+ <title>The Gnumeric Manual</title>
   <bookinfo>
     <releaseinfo>
-     This is release 0.4 of the Gnumeric User's guide.
+     This is release 1.0 of the Gnumeric Manual.
     </releaseinfo>
 
     <copyright>
       <year>1998, 1999, 2000, 2001, 2002</year>
-      <holder>Miguel de Icaza, Thomas Canty, Jukka-Pekka Iivonen,
-      Andreas J. Guelzow, Adrian Custer, Kevin Breit</holder> 
+      <holder>Miguel de Icaza, Jody Goldberg, Thomas Canty, 
+	  Jukka-Pekka Iivonen, Andreas J. Guelzow, Wayne Schuller, 
+	  Adrian Custer, Kevin Breit, Aaron Weber, 
+	  Alexander Kirillov.</holder> 
     </copyright>
 
     <legalnotice id="legalnotice">   
@@ -56,8 +58,8 @@
     Many of the names used by companies to distinguish their products and
     services are claimed as trademarks. Where those names appear in any
     GNOME documentation, and those trademarks are made aware to the members
-    of the GNOME Documentation Project, the names have been printed in caps
-    or initial caps.
+    of the GNOME Documentation Project, the names have been printed in initial 
+	caps and a (tm) appended.
    </para>
     </legalnotice>
 
@@ -108,7 +110,6 @@
      <title>Cell Formatting</title>
       &numberformat;
    </chapter>
-
 
   <chapter id="files">
     <title>Working with files</title>

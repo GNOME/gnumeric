@@ -89,7 +89,7 @@
 	SUM example, the number of arguments effectively unlimited.</para>
   </sect2>
 
-  <sect2>
+  <sect2 id="formulas-names">
   <title>Names</title>
   <para>Names help to simplify complex formulae. A name is assinged to
   a formula which will be evaluated when it is referred to in another

@@ -1,5 +1,9 @@
 2001-12-30  Kevin Breit  <mrproper@ximian.com>
 
+	* authors.sgml, formulas.sgml, gnumeric.sgml, license.sgml, menus.sgml: Commited these changes for acuster.
+
+2001-12-30  Kevin Breit  <mrproper@ximian.com>
+
 	* graphs.sgml: Reworded stuff to be actually accurate.
 
 	* gnumeric.sgml: Added my name to the authors list

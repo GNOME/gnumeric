@@ -762,135 +762,120 @@
 
  <variablelist>
 
-      <varlistentry>
-	<term>
-	  <guiicon><inlinegraphic fileref="figures/label-one.png"></inlinegraphic>
-	    Alternative views of the current document.
-	  </guiicon>
-	</term>
-	<listitem>
-	  <para>These menu items allow the user to open multiple views of
-	  the same document.</para>
-	</listitem>
-      </varlistentry>
+		<varlistentry>
+			<term>
+				<guiicon><inlinegraphic fileref="figures/label-one.png"></inlinegraphic>
+				Alternative views of the current document.
+				</guiicon>
+			</term>
+			<listitem>
+				<para>These menu items allow the user to open multiple views of
+				the same document.</para>
 
-      <varlistentry>
-	<term>
-	  <guiicon><inlinegraphic fileref="figures/label-two.png"></inlinegraphic>
-	    Global changes to the current view.
-	  </guiicon>
-	</term>
-	<listitem>
-	  <para>The<guimenuitem>Zoom</guimenuitem> menu item allows a user
-	  to change the amount of the sheet visible in a window of a given
-	  size. The <guimenuitem>Freeze Panes</guimenuitem> menu item allows
-	  part of the worksheet to be frozen in place while the rest of the
-	  sheet scrolls next to it.</para>
-	</listitem>
-      </varlistentry>
+				<itemizedlist>
+					<listitem>
+						<para><guimenuitem>New Shared</guimenuitem> --- The
+							<guimenuitem>New Shared</guimenuitem> menuitem opens up a new
+						window with the current workbook visilble and where both windows 
+						are open to the same
+						section of the workbook. If the user starts editing a different
+						part of the sheet in one view, the other view moves automatically to that
+						portion of the worksheet. Similarly, if the user changes to a
+						different worksheet in one view, the other view changes also.
+						</para>
+					</listitem>
 
-
-      <varlistentry>
-	<term>
-	  <guiicon><inlinegraphic fileref="figures/label-three.png"></inlinegraphic>
-	    Toolbar configuration.
-	  </guiicon>
-	</term>
-	<listitem>
-	  <para>The <guimenuitem>Toolbars</guimenuitem> menu option launches
-	  a dialog to configure the presence and look of the three
-	  toolbars.</para>
-	</listitem>
-      </varlistentry>
-</variablelist>
+					<listitem>
+						<para>
+						<guimenuitem>New Unshared</guimenuitem> --- The
+							<guimenuitem>New Unshared</guimenuitem> menuitem opens up a new
+							window with the current workbook visible. Both view are then
+							independent. When a change is made in either view, the other will
+							move to show the area of the edit. 
+						</para>
+					</listitem>
+				</itemizedlist>
+			</listitem>
+		</varlistentry>
 
 
-<!-- THIS IS REALLY OLD! 
 
-     <para>This menu contains:
-         <itemizedlist>
-          <listitem>
-           <para>
-            <guimenuitem>Zoom</guimenuitem>
-            &mdash; Displays the zoom dialog, which allows the zoom level 
-            for the workbook to be changed.
-           </para>
-        </listitem>
-       </itemizedlist>
-      </para>
-     </listitem>
-    </varlistentry>
-    </variablelist>
+		<varlistentry>
+			<term>
+				<guiicon><inlinegraphic fileref="figures/label-two.png"></inlinegraphic>
+				Global changes to the current view.
+				</guiicon>
+			</term>
+			<listitem>
+				<para>The<guimenuitem>Zoom</guimenuitem> menu item allows a user
+				to change the amount of the sheet visible in a window of a given
+				size. The <guimenuitem>Freeze Panes</guimenuitem> menu item allows
+				part of the worksheet to be frozen in place while the rest of the
+				sheet scrolls next to it.</para>
+				<itemizedlist>
+					<listitem>
+						<para><guimenuitem>Zoom...</guimenuitem> --- The
+							<guimenuitem>Zoom</guimenuitem> menuitem opens a dialog which
+						allows the user to set the magnification of any of the worksheets
+						in the current workbook. 
+						</para>
+					</listitem>
 
-     <variablelist> 
-      <varlistentry>
-       <term><guimenu>Insert</guimenu></term>
-       <listitem>
-       <para>
-        This menu contains:
-         <itemizedlist>
-          <listitem>
-           <para>
-            <guimenuitem>Sheet</guimenuitem>
-            &mdash;Insert a Sheet in the current workbook.
-           </para>
-        </listitem>
-        <listitem>
-         <para>
-          <guimenuitem>Rows</guimenuitem>
-          &mdash;Insert a Row of cells.
-         </para>
-        </listitem>
-        <listitem>
-         <para>
-          <guimenuitem>Columns</guimenuitem>
-          &mdash;Insert a Column of cells.
-         </para>
-        </listitem>
-        <listitem>
-         <para>
-          <guimenuitem>Cells</guimenuitem>
-          &mdash;Insert new cells.
-         </para>
-        </listitem>
-        <listitem>
-         <para>
-          <guimenuitem>Define Name</guimenuitem>
-          &mdash;FIXME
-         </para>
-        </listitem>
-        <listitem>
-         <para>
-          <guimenuitem>Add / Modify comment</guimenuitem>
-          &mdash;FIXME
-         </para>
-        </listitem>
-        <listitem>
-         <para>
-          <guisubmenu>Special -&gt;</guisubmenu>
-          &mdash;This sub menu contains:
-	    <itemizedlist>
-	      <listitem>
-                <para>
-                <guimenuitem>Current Date</guimenuitem>
-                &mdash;Inserts the current date into the currently selected cell.
-	        </para>
-	      </listitem>
-              <listitem>
-                <para>
-                <guimenuitem>Current Time</guimenuitem>
-                &mdash;Inserts the current time into the currently selected cell.
-	        </para>
-	      </listitem>
-            </itemizedlist>
-         </para>
-        </listitem>
-       </itemizedlist>
-      </para>
-     </listitem>
-    </varlistentry>
-    </variablelist>
-end of REALLY OLD SECTION -->
+					<listitem>
+						<para>
+						<guimenuitem>Freeze Panes</guimenuitem> --- The
+						<guimenuitem>Freeze Panes</guimenuitem> menuitem is used to freeze
+						the top-most and leftmost visible portion of the worksheet. This is
+						useful to be able to line up portions of the worksheet which are
+						not usually together. For instance, if a user had a very large table
+						with the titles of each oolumn of data on row 12, the user could
+						select row 13 and select this menuitem.  If the user scrolled 
+						through each data row, the data would line up underneath each header.
+						</para>
+						<para>Gnumeric freezes the portion of the worksheet which is currently
+						visible and is above and left of the current selection. If the
+						selection is not visible, then the frozen section will be nine rows
+						tall and five columns wide unless the selection is in a currently
+						visible column or row in which case that postion is used.
+						</para>
+						<para>Gnumeric currently does not support freezing only columns or 
+						only rows. The user can simply move the selection far to the 
+						right or far below of the area they want to freeze. This will
+						achieve the same effect. Currently, inserted objects are not
+						tracked with frozen panes. Objects which are not in the lower right
+						hand pane are lost from view while the panes are frozen. These
+						objects reappear when the view is unfrozen.
+						</para>
+					</listitem>
+				</itemizedlist>
+			</listitem>
+		</varlistentry>
+
+
+
+		<varlistentry>
+			<term>
+				<guiicon><inlinegraphic fileref="figures/label-three.png"></inlinegraphic>
+				Toolbar configuration.
+				</guiicon>
+			</term>
+			<listitem>
+				<para>
+				The <guimenuitem>Toolbars</guimenuitem> menu option launches
+				a dialog to configure the presence and look of the three
+				toolbars. This dialog allows the user either to show or completely hide
+				each toolbar. The user can also set the toolbars to display as icons or
+				as icons and text. The third selection <guilabel>"Priority text
+				only"</guilabel> currently has no effect. This dialog allows 
+				users to view tooltips as
+				the mouse scrolls over the toolbars. Tooltips are small windows which
+				open up automatically when the mouse pointer is over a button. These
+				windows contain a text explanation of the button under the mouse
+				pointer.
+				</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
 
 </sect1>
 
@@ -912,99 +897,148 @@ end of REALLY OLD SECTION -->
 
 
 
- <variablelist>
+	<variablelist>
 
-      <varlistentry>
-	<term>
-	  <guiicon><inlinegraphic fileref="figures/label-one.png"></inlinegraphic>
-	    Insert into workbook.
-	  </guiicon>
-	</term>
-	<listitem>
-	  <para>These menu items allow the user to insert objects to the
-	  workbook.</para>
-	</listitem>
-      </varlistentry>
+		<varlistentry>
+			<term>
+				<guiicon><inlinegraphic fileref="figures/label-one.png"></inlinegraphic>
+				Insert into workbook.
+				</guiicon>
+			</term>
+			<listitem>
+				<para>These menu items allow the user to insert objects to the
+				workbook.
+				</para>
+				<itemizedlist>
+					<listitem>
+						<para><guimenuitem>Sheet</guimenuitem> --- The
+							<guimenuitem>Sheet</guimenuitem> menuitem allows the user to
+							inset a worksheet immediately following the current sheet.
+						</para>
+					</listitem>
 
-      <varlistentry>
-	<term>
-	  <guiicon><inlinegraphic fileref="figures/label-two.png"></inlinegraphic>
-	    Insert to current cell.
-	  </guiicon>
-	</term>
-	<listitem>
-	  <para>The menu items insert objects into the current cell.</para>
-	</listitem>
-      </varlistentry>
+					<listitem>
+						<para>
+						<guimenuitem>Rows</guimenuitem> --- The
+							<guimenuitem>Rows</guimenuitem> menuitem will insert rows 
+							above the current selection. The number of rows inserted will
+							be equal to the number of rows spanned by the current selection.
+						</para>
+					</listitem>
 
-</variablelist>
+					<listitem>
+						<para>
+						<guimenuitem>Columns</guimenuitem> --- The
+							<guimenuitem>Columns</guimenuitem> menuitem will insert columns
+							to the left of the current selection. The number of columns
+							inserted will equal the number of columns spanned by the current
+							selection.
+						</para>
+					</listitem>
 
+					<listitem>
+						<para>
+						<guimenuitem>Cells...</guimenuitem> --- The
+							<guimenuitem>Cells...</guimenuitem> menuitem opens a dialog
+							asking the user how the sheet should be altered when new cells are
+							inserted. The dialog lists four choices. The user can choose one
+							of these by clicking the mouse pointer on one of the four dots.
+							Only one choice is possible and the currently selected choice has 
+							a black dot in front.
+							</para>
+							<para>The <guilabel>Shift cells right</guilabel> will insert a region of new
+							cells of the size of the current selection. Cells which are on the same row as 
+							the selection and within or to the right of the selection will
+							shift over to the right to accomodate the new cells. The 
+							<guilabel>Shift cells down</guilabel> choice will also insert a
+							region of new cells the same size as the current selection. With
+							this choice, cells which are in the selection or below the
+							selection will move down to accomodate the new cells. The two
+							other choices will act as if the user had chosen to insert rows
+							or columns. These actions are explained above.
+						</para>
+					</listitem>
 
+					<listitem>
+						<para>
+						<guimenuitem>Graph...</guimenuitem> --- The
+							<guimenuitem>Graph...</guimenuitem> menuitem will allow a user to
+							insert a graphic plot of data. This menuitem will launch the
+							graph druid. Graphing in Gnumeric is explained in 
+							<xref linkend="graphs">.
+						</para>
+					</listitem>
 
+					<listitem>
+						<para>
+						<guimenuitem>Object...</guimenuitem> --- The
+							<guimenuitem>Object...</guimenuitem> menuitem launches a dialog
+							with the objects which Gnumeric is currently able to embed in a
+							worksheet. The user simply picks one of the objects in the list,
+							and then inserts the object into the worksheet. These objects are
+							not part of Gnumeric but are provided by other programs in the
+							GNOME project.
+						</para>
+					</listitem>
 
-	<!-- the list of insert menu items -->
-       <para>
-        This menu contains:
-         <itemizedlist>
+					<listitem>
+						<para>
+						<guimenuitem>Shaped Object...</guimenuitem> --- The
+							<guimenuitem>Shaped Object...</guimenuitem> menuitem allows user
+							to insert more complicated objects into a worksheet. This is
+							currently not used but will provide more extended functionality
+							for the future.
+						</para>
+					</listitem>
 
-	          <listitem>
-	           <para>
-	            <guimenuitem>Sheet</guimenuitem>
-	            &mdash;Insert a new Sheet in
-to the current workbook, immediately
-after the current worksheet.</para>
-	           </listitem>
+				</itemizedlist>
+			</listitem>
+		</varlistentry>
 
-      		   <listitem>
- 		        <para>
- 		         <guisubmenu>Rows</guisubmenu>
-                 </para>
- 		   	 </listitem>
- 
-      		   <listitem>
- 		        <para>
- 		         <guisubmenu>Columns</guisubmenu>
-                 </para>
- 		   	 </listitem>
- 
-      		   <listitem>
- 		        <para>
- 		         <guisubmenu>Cells...</guisubmenu>
-                 </para>
- 		   	 </listitem>
- 
-      		   <listitem>
- 		        <para>
- 		         <guisubmenu>Graph</guisubmenu>
-                 </para>
- 		   	 </listitem>
- 
-      		   <listitem>
- 		        <para>
- 		         <guisubmenu>Object</guisubmenu>
-                 </para>
- 		   	 </listitem>
- 
-      		   <listitem>
- 		        <para>
- 		         <guisubmenu>Name</guisubmenu>
-                 </para>
- 		   	 </listitem>
- 
-      		   <listitem>
- 		        <para>
- 		         <guisubmenu>Add / Modify comment...</guisubmenu>
-                 </para>
- 		   	 </listitem>
- 
-      		   <listitem>
- 		        <para>
- 		         <guisubmenu>Special</guisubmenu>
-                 </para>
- 		   	 </listitem>
- 
- 		  </itemizedlist>
-    		</para>
+		<varlistentry>
+			<term>
+				<guiicon><inlinegraphic fileref="figures/label-two.png"></inlinegraphic>
+				Insert to current cell.
+				</guiicon>
+			</term>
+			<listitem>
+				<para>The menu items insert objects into the current cell.</para>
+				<itemizedlist>
+					<listitem>
+						<para><guimenuitem>Name</guimenuitem> --- The
+							<guimenuitem>Name</guimenuitem> menuitem opens a sub-menu with
+							the single entry <guilabel>Define</guilabel>. This will open a 
+							dialog to allow the user
+							to define a named expression. The expersion can be as simple as
+							defining an expression called "Total" which refers to a particular
+							cell. However, the user can also build up a whole sheet with
+							named experssions. <xref linkend="formulas-names"> explains names
+							in greater detail.
+						</para>
+					</listitem>
+
+					<listitem>
+						<para><guimenuitem>Add/Modify comment...</guimenuitem> --- This
+						menuitem opens a dialog to allow the user to enter a comment to the
+						currently selected cell. A red triangle will appear in the top
+						right corner of the cell to show that the cell has a comment.
+						</para>
+					</listitem>
+
+					<listitem>
+						<para>
+						<guimenuitem>Special</guimenuitem> --- The
+							<guimenuitem>Special</guimenuitem> menuitem opens a sub-menu
+						which allows the user to
+						insert either the current date or the current time into the
+						selected cell.
+						</para>
+					</listitem>
+				</itemizedlist>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+
 
 </sect1>
 
@@ -1026,67 +1060,86 @@ after the current worksheet.</para>
 
 
 
-	<para>The <guimenu>Format</guimenu> menu is </para>
+	<para>The <guimenu>Format</guimenu> menu allows users to control the formats
+	of cells, columns, rows, worksheets and the workbook. This menu also gives users
+	access to templates of standard formats.
+</para>
 		<figure id="menu-format-torn-off.png">
 		    <title>The <guimenu>Format</guimenu> menu.</title>
 		    <screenshot>
 		      <graphic fileref="figures/menu-format-torn-off.png"></graphic>
 		    </screenshot>
 	    </figure>
-	<para>The menu choices are presented below:</para>
 
 	<!-- the list of format menu items -->
      <variablelist> 
       <varlistentry>
-       <term><guimenu>Format</guimenu></term>
+       <term><guimenu>The Format Menu</guimenu> offers these menuitems:</term>
        <listitem>
        <para>
-        This menu contains:
          <itemizedlist>
           <listitem>
            <para>
-            <guimenuitem>Cells...</guimenuitem> &mdash;Open the cell format
-            dialog. Used to change formatting, color, etc.
-           </para>
+            <guimenuitem>Cells...</guimenuitem> --- The 
+						  <guimenuitem>Cells...</guimenuitem> menuitem opens the cell format
+            dialog. This dialog is used to set cell data types and formats. It
+						is explained in <xref linkend="cell-formatting">.
+						</para>
         </listitem>
 
         <listitem>
          <para>
-          <guisubmenu>Column-&gt;</guisubmenu>
-            &mdash; This submenu contains:
-			    <itemizedlist>
+          <guimenuitem>Column</guimenuitem> --- The 
+					  <guimenuitem>Column</guimenuitem> menuitem opens a sub-menu with
+						choices to allows the user to modify the view of the selected
+						columns.
+						<itemizedlist>
  		             <listitem>
  		               <para>
- 		               <guimenuitem>Width</guimenuitem>
- 	               &mdash;Allows the user to adjust the size of the column.
+ 		               <guimenuitem>Width...</guimenuitem> --- The 
+									   <guimenuitem>Width...</guimenuitem> menuitem opens a dialog
+									 to enable the user to adjust the size of the columns which 
+									 hold the current selection. The
+									 dialog has a single entry box in which the user can change
+									 the current size of the column in points.
 						</para>
 				      </listitem>
  		             <listitem>
 					 <para>
-  		              <guimenuitem>Auto Fit Selection</guimenuitem>
-  		              &mdash;Automatically chooses the optimal size
-  		              for the column which shows all the text
-  		              entered.
-			        </para>
+  		              <guimenuitem>Auto Fit Selection</guimenuitem> --- This
+										menuitem makes Gnumeric automatically choose the optimal 
+										column size to display all of the text in the current
+										selection.
+										</para>
 			      </listitem>
     	          <listitem>
                        <para>
-      	          <guimenuitem>Hide</guimenuitem>
-     	           &mdash;Hides the selected columns so that they are not visible.
-	 		       </para>
+      	          <guimenuitem>Hide</guimenuitem> --- The 
+									  <guimenuitem>Hide</guimenuitem> menuitem will hide the
+										columns containing the current selection. Gnumeric still
+										holds these columns in memory and will save them to a file
+										but will not display those columns. The only
+										indication that a user has that columns have been hidden is
+										that the column header names are not sequential.
+										</para>
 	 		     </listitem>
     	          <listitem>
      	           <para>
-     	           <guimenuitem>Unhide</guimenuitem> &mdash;Makes any
-     	           columns selected that have being hidden visible again.
-	  		      </para>
+     	           <guimenuitem>Unhide</guimenuitem> --- This menuitem wiil
+								 show columns which are hidden if the selection spans the two
+								 columns on either side of the selection. If columns D, E, and
+								 F have been hidden, the selection must span at least across
+								 columns C and G for this menuitem to unhide columns D, E, and
+								 F. 
+								 </para>
 	  		   	 </listitem>
       	     	   <listitem>
              		  <para>
-              		  <guimenuitem>Standard Width</guimenuitem>
-              		  &mdash;Resizes the columns back to the default
-              		  width of 6.63.
-	   		  		   </para>
+              		  <guimenuitem>Standard Width</guimenuitem> --- This menuitem
+										allows the user to resize the columns which hold the
+										selection to the standard size. At 100 percent zoom this is
+										48 points or 64 pixels.
+										</para>
 	   	 	     </listitem>
          	  </itemizedlist>
          </para>
@@ -1095,38 +1148,43 @@ after the current worksheet.</para>
 
         <listitem>
          <para>
-           <guisubmenu>Row-&gt;</guisubmenu>
-	   &mdash; This sub menu contains:
-	    <itemizedlist>
+           <guimenuitem>Row</guimenuitem> --- The <guimenuitem>Row</guimenuitem>
+					 menuitem provides the same functions as the <guimenuitem>Column</guimenuitem>
+					 menuitem but operates on rows.
+					 <itemizedlist>
               <listitem>
                 <para>
-                <guimenuitem>Height</guimenuitem>
-                &mdash;Allows the user to adjust the size of the row.
+                <guimenuitem>Height...</guimenuitem> --- This menuitem opens a
+								dialog which allows the user to type in a row height in pixels.
+								</para>
+	      </listitem>
+              <listitem>
+                <para>
+                <guimenuitem>Auto Fit Selection</guimenuitem> --- This menuitem
+								changes the rows which hold the selection to the optimal height
+								to hold the text in the selection. 
+								</para>
+	      </listitem>
+              <listitem>
+                <para>
+                <guimenuitem>Hide</guimenuitem> --- The 
+								  <guimenuitem>Hide</guimenuitem> menuitem will hide the rows
+									in the selection. The workbook still contains the data in the
+									hidden rows but those rows are not shown. 
+									</para>
+	      </listitem>
+              <listitem>
+                <para>
+                <guimenuitem>Unhide</guimenuitem> --- This menuitem will make
+								hidden rows visible. The selection must span the rows which are
+								hidden for this menuitem to unhide the hidden rows.
 	        </para>
 	      </listitem>
               <listitem>
                 <para>
-                <guimenuitem>Auto Fit Selection</guimenuitem>
-                &mdash;Automatically chooses the optimal size for the row
-                which shows all the text entered.
-	        </para>
-	      </listitem>
-              <listitem>
-                <para>
-                <guimenuitem>Hide</guimenuitem>
-                &mdash;Hides the selected rows so that they are not visible.
-	        </para>
-	      </listitem>
-              <listitem>
-                <para>
-                <guimenuitem>Unhide</guimenuitem>
-                &mdash;Makes any rows selected that have being hidden visible again.
-	        </para>
-	      </listitem>
-              <listitem>
-                <para>
-                <guimenuitem>Standard Height</guimenuitem>
-                &mdash;Resizes the rows back to the default height of 11.61.
+                <guimenuitem>Standard Height</guimenuitem> --- This menuitem 
+                resizes the rows back to the default height of 12.75 points or
+								17 pixels (at 100 percent zoom).
 	        </para>
 	      </listitem>
            </itemizedlist>
@@ -1136,65 +1194,118 @@ after the current worksheet.</para>
 
         <listitem>
          <para>
-          <guimenuitem>Sheet-&gt;</guimenuitem>
-            &mdash; This sub menu contains:
-	    <itemizedlist>
+          <guimenuitem>Sheet</guimenuitem> --- The <guimenuitem>Sheet</guimenuitem>
+					menuitem opens a sub-menu with operations to change properties of the
+					worksheet.
+					<itemizedlist>
               <listitem>
                 <para>
-                <guimenuitem>Change Name...</guimenuitem>
-                &mdash;
+                <guimenuitem>Change Name...</guimenuitem> --- This opens a
+								dialog with the name of the worksheet. A user can use this to
+								change the name of the current sheet.
 	        </para>
 	      </listitem>
               <listitem>
                  <para>
-                <guimenuitem>Re-Order Sheets...</guimenuitem>
-                &mdash;
-	        </para>
+                <guimenuitem>Re-Order Sheets...</guimenuitem> ---- This opens a
+								dialog with the names of all the sheets. A user can click on
+								one of the names in the dialog and then click on the up and
+								down arrows, as appropriate, to move the selected sheet in
+								front or behind others. The tabs for the sheets will move at
+								the same time. This dialog also allows the user to delete
+								sheets.
+								</para>
 	      </listitem>
               <listitem>
                 <para>
-                <guimenuitem>Display Formulas</guimenuitem>
-                &mdash;
-	        </para>
+                <guimenuitem>Display Formulas</guimenuitem> --- This menuitem
+								acts as a toogle. By default it is unset and formulas results
+								are displayed. If this menuitem is clicked, it will display a
+								little check mark on the left. The worksheet will show the
+								actual fomuals for all cells with formulas instead of showing
+								the calculated result. This is useful for quickly assessing
+								which cells contain formulas and which contain data.
+	        			</para>
 	      </listitem>
               <listitem>
                 <para>
-                <guimenuitem>Hide Zeros</guimenuitem>
-                &mdash;
-	        </para>
+                <guimenuitem>Hide Zeros</guimenuitem> --- This menuitem acts as
+								a toggle. Click on this menuitem will cause a check mark to
+								appear on the left. The sheet will then display all the cells
+								which display zeros as empty cells. This is useful in sheets
+								with many zero results, to quickly find cells with data.
+	        			</para>
 	      </listitem>
               <listitem>
                 <para>
-                <guimenuitem>Hide Gridlines</guimenuitem>
-                &mdash;
-	        </para>
+                <guimenuitem>Hide Gridlines</guimenuitem> --- This menuitem
+								acts as a toggle. If this menuitem is clicked, Gnumeric will
+								display a check mark to the left of the menuitem. The lines
+								which separate all the cells will then be hidden and Gnumeric
+								will appear to be a blank background. This is useful to make
+								certain data look pretty on screen.
+	        			</para>
 	      </listitem>
               <listitem>
                 <para>
-                <guimenuitem>Hide Column Header</guimenuitem>
-                &mdash;
-	        </para>
+                <guimenuitem>Hide Column Headers</guimenuitem> --- This
+								menuitem acts as a toggle. If this menuitem is clicked,
+								Gnumeric display a check mark on the left of the menu item.
+								Gnumeric will also hide the boxes with the alphabetical names
+								of the columns.
+	        			</para>
 	      </listitem>
               <listitem>
                 <para>
-                <guimenuitem>Hide Row Header</guimenuitem>
-                &mdash;
-	        </para>
+                <guimenuitem>Hide Row Header</guimenuitem> --- This
+								menuitem acts as a toggle. If this menuitem is clicked,
+								Gnumeric display a check mark on the left of the menu item.
+								Gnumeric will also hide the boxes with the numeric names
+								of the rows.
+	        			</para>
 	      </listitem>
             </itemizedlist>
          </para>
         </listitem>
         <listitem>
          <para>
-          <guimenuitem>Autoformat...</guimenuitem>
-          &mdash;
-         </para>
+          <guimenuitem>Autoformat...</guimenuitem> This menuitem opens the
+					autoformat dialog to give user access to a list of format templates.
+					Format templates are useful for users who are often
+					filling out tables in a particular format. The user picks an area of
+					the worksheet into which they want to apply the template. Most
+					templates define headers and footers so the selection area must be
+					big enough to fit those template elements and the user's data. The
+					template will not affect data which has already been input into a
+					worksheet. 
+					</para>
+					<para> The dialog has two tabs: "Preview" and "Template Details." The
+					details are simply information about the template. The "Preview" tab
+					has three main options: a "Settings" menu, an "Edit" menu and a 
+					category chooser. The settings menu allows a user to pick what parts
+					of the template they want to copy into the worksheet. The edit menu
+					will be used to create new templates. Currently templates are written
+					as text into an extensible markup language (XML) format. The catory
+					chooser gives the user access to different groups of templates.
+					Templates in each category are displayed in the middle area of the
+					dialog. Users select the template they want to use by clicking on it.
+					The currently selected template is highlighted with a red boundary
+					which may be hard to see.
+					</para>
         </listitem>
          <listitem>
          <para>
-          <guimenuitem>Workbook...</guimenuitem> &mdash;Allows you to
-          configure whether tabs and row and column headers will be shown.
-         </para>
+          <guimenuitem>Workbook...</guimenuitem> This menuitem opens a dialog
+					which allows users to configure the current workbook. The dialog
+					currently has four choices. Text autocomplete can be unset which
+					means that Gnumeric will not compare text as it entered against text
+					in above it in the column. Text autocomplete is useful to users
+					entering data because if entries are repeated, Gnumeric can guess
+					what the user intends. The user can simply type the tab key and
+					Gnumeric will enter the rest of the text.
+					The use of notebook tabs can be turned off. as can the
+					horizontal and vertical scrollbars. 
+					</para>
         </listitem>
        </itemizedlist>
       </para>
@@ -1277,8 +1388,8 @@ after the current worksheet.</para>
 	</term>
 	<listitem>
 	  <para>Statistical analysis can easily be done with Gnumeric. All
-	  the statistical functions are explained in <xRef
-	  linkend="analysis-tools">.</para>
+	  the statistical tools are explained in <xRef linkend="analysis-tools">.
+		</para>
 	</listitem>
       </varlistentry>
 
@@ -1374,6 +1485,9 @@ after the current worksheet.</para>
 	</term>
 	<listitem>
 	  <para>These menu items allow the user to re-organize data fields.</para>
+
+
+
 	</listitem>
       </varlistentry>
 
@@ -1387,6 +1501,9 @@ after the current worksheet.</para>
 	  <para>The sub-menu options of the <guimenu>Group and
 	  Outline</guimenu> menu are useful for creating data hiearchies
 	  within a worksheet.</para>
+
+
+
 	</listitem>
       </varlistentry>
 
@@ -1433,7 +1550,7 @@ after the current worksheet.</para>
 	<title>The Help Menu</title>
 
 
-	<para>The <guimenu>Help</guimenu> menu is </para>
+	<para>The <guimenu>Help</guimenu> menu is quite simple.</para>
 		<figure id="menu-help-torn-off.png">
 		    <title>The <guimenu>Help</guimenu> menu.</title>
 		    <screenshot>
@@ -1443,12 +1560,6 @@ after the current worksheet.</para>
 	<para>The help menu connects users to this manual, to the list of functions
 	available for use in gnumeric and to the list of people who created this
 	wonderful application.</para>
-
-
-
-
-
-
 
 
 	<!-- the help menu list -->
@@ -1463,8 +1574,7 @@ after the current worksheet.</para>
            <para>
             <guimenuitem>Gnumeric Manual</guimenuitem> &mdash;Clicking on
             this menu entry should launch the local help system and display
-            this manual. On the GNOME platform this
-           </para>
+            this manual.            </para>
         </listitem>
         <listitem>
          <para>
