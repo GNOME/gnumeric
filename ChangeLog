@@ -1,5 +1,9 @@
 2005-02-03  Morten Welinder  <terra@gnome.org>
 
+	* src/dependent.c: eliminate code predating micro hashes.
+
+2005-02-03  Morten Welinder  <terra@gnome.org>
+
 	* src/dependent.c (micro_hash_resize): Correctly handle	#elems<=1.
 	(unlink_range_dep): Plug leak.  [#159581]
 

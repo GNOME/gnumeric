@@ -304,8 +304,7 @@ dependent_queue_recalc (GnmDependent *dep)
 }
 
 /**************************************************************************/
-#define ENABLE_MICRO_HASH
-#ifdef ENABLE_MICRO_HASH
+
 typedef struct {
 	gint     num_buckets;
 	gint     num_elements;
@@ -447,20 +446,15 @@ micro_hash_init (MicroHash *hash_table, gpointer key)
 	hash_table->u.singleton = g_slist_prepend (NULL, key);
 }
 
+static inline gboolean
+micro_hash_is_empty (const MicroHash *hash_table)
+{
+	return hash_table->num_elements == 0;
+}
+
 /*************************************************************************/
 
-typedef MicroHash	DepCollection;
-#define dep_collection_init(dc, dep)	\
-	micro_hash_init (&(dc), dep)
-#define dep_collection_insert(dc, dep)	\
-	micro_hash_insert (&(dc), dep)
-#define dep_collection_remove(dc, dep)	\
-	micro_hash_remove (&(dc), dep)
-#define dep_collection_release(dc)      \
-	micro_hash_release (&(dc))
-#define dep_collection_is_empty(dc)				\
-	(dc.num_elements == 0)
-#define dep_collection_foreach_dep(dc, dep, code) do {		\
+#define micro_hash_foreach_dep(dc, dep, code) do {		\
 	GSList *l;						\
 	int i = dc.num_buckets;					\
 	if (i <= 1) { 						\
@@ -475,7 +469,7 @@ typedef MicroHash	DepCollection;
 		}						\
 	}							\
 } while (0)
-#define dep_collection_foreach_list(dc, list, code) do {	\
+#define micro_hash_foreach_list(dc, list, code) do {		\
 	GSList *list;						\
 	int i = dc.num_buckets;					\
 	if (i <= 1) { 						\
@@ -486,30 +480,6 @@ typedef MicroHash	DepCollection;
 		code						\
 	}							\
 } while (0)
-#else
-typedef GSList *	DepCollection;
-#define dep_collection_init(dc, dep)	\
-	dc = g_slist_prepend (NULL, dep)
-#define dep_collection_insert(dc, dep) \
-	if (!g_slist_find (dc, dep)) dc = g_slist_prepend (dc, dep)
-#define dep_collection_remove(dc, dep)	\
-	dc = g_slist_remove (dc, dep);
-#define dep_collection_release(dc)      \
-	g_slist_free (dc)
-#define dep_collection_is_empty(dc)	\
-	(dc == NULL)
-#define dep_collection_foreach_dep(dc, dep, code) do {		\
-	GSList *l;						\
-	for (l = dc; l != NULL ; l = l->next) {			\
-		GnmDependent *dep = l->data;			\
-		code						\
-	}							\
-} while (0)
-#define dep_collection_foreach_list(dc, list, code) do {	\
-	GSList *list = dc;					\
-	code							\
-} while (0)
-#endif
 
 /**************************************************************************
  * Data structures for managing dependencies between objects.
@@ -526,7 +496,7 @@ typedef GSList *	DepCollection;
  * cells listed in deps.
  */
 typedef struct {
-	DepCollection	deps;	/* Must be first */
+	MicroHash	deps;	/* Must be first */
 	GnmRange  range;
 } DependencyRange;
 
@@ -538,13 +508,13 @@ typedef struct {
  * cells listed in deps.
  */
 typedef struct {
-	DepCollection	deps;	/* Must be first */
+	MicroHash	deps;	/* Must be first */
 	GnmCellPos pos;
 } DependencySingle;
 
 /* A utility type */
 typedef struct {
-	DepCollection	deps;	/* Must be first */
+	MicroHash	deps;	/* Must be first */
 } DependencyAny;
 
 static guint
@@ -592,10 +562,10 @@ link_single_dep (GnmDependent *dep, GnmCellPos const *pos, GnmCellRef const *ref
 	if (single == NULL) {
 		single = gnm_mem_chunk_alloc (deps->single_pool);
 		*single = lookup;
-		dep_collection_init (single->deps, dep);
+		micro_hash_init (&single->deps, dep);
 		g_hash_table_insert (deps->single_hash, single, single);
 	} else
-		dep_collection_insert (single->deps, dep);
+		micro_hash_insert (&single->deps, dep);
 
 	return flag;
 }
@@ -613,10 +583,10 @@ unlink_single_dep (GnmDependent *dep, GnmCellPos const *pos, GnmCellRef const *a
 	cellref_get_abs_pos (a, pos, &lookup.pos);
 	single = g_hash_table_lookup (deps->single_hash, &lookup);
 	if (single != NULL) {
-		dep_collection_remove (single->deps, dep);
-		if (dep_collection_is_empty (single->deps)) {
+		micro_hash_remove (&single->deps, dep);
+		if (micro_hash_is_empty (&single->deps)) {
 			g_hash_table_remove (deps->single_hash, single);
-			dep_collection_release (single->deps);
+			micro_hash_release (&single->deps);
 			gnm_mem_chunk_free (deps->single_pool, single);
 		}
 	}
@@ -642,7 +612,7 @@ link_range_dep (GnmDepContainer *deps, GnmDependent *dep,
 			result = g_hash_table_lookup (deps->range_hash[i], r);
 			if (result) {
 				/* Inserts if it is not already there */
-				dep_collection_insert (result->deps, dep);
+				micro_hash_insert (&result->deps, dep);
 				continue;
 			}
 		}
@@ -650,7 +620,7 @@ link_range_dep (GnmDepContainer *deps, GnmDependent *dep,
 		/* Create a new DependencyRange structure */
 		result = gnm_mem_chunk_alloc (deps->range_pool);
 		*result = *r;
-		dep_collection_init (result->deps, dep);
+		micro_hash_init (&result->deps, dep);
 		g_hash_table_insert (deps->range_hash[i], result, result);
 	}
 }
@@ -669,10 +639,10 @@ unlink_range_dep (GnmDepContainer *deps, GnmDependent *dep,
 	for ( ; i <= end; i++) {
 		result = g_hash_table_lookup (deps->range_hash[i], r);
 		if (result) {
-			dep_collection_remove (result->deps, dep);
-			if (dep_collection_is_empty (result->deps)) {
+			micro_hash_remove (&result->deps, dep);
+			if (micro_hash_is_empty (&result->deps)) {
 				g_hash_table_remove (deps->range_hash[i], result);
-				dep_collection_release (result->deps);
+				micro_hash_release (&result->deps);
 				gnm_mem_chunk_free (deps->range_pool, result);
 			}
 		}
@@ -1316,7 +1286,7 @@ cb_search_rangedeps (gpointer key, G_GNUC_UNUSED gpointer value,
 
 	if (range_contains (range, c->col, c->row)) {
 		DepFunc	 func = c->func;
-		dep_collection_foreach_dep (deprange->deps, dep,
+		micro_hash_foreach_dep (deprange->deps, dep,
 			(func) (dep, c->user););
 	}
 }
@@ -1350,7 +1320,7 @@ cell_foreach_single_dep (Sheet const *sheet, int col, int row,
 
 	single = g_hash_table_lookup (deps->single_hash, &lookup);
 	if (single != NULL)
-		dep_collection_foreach_dep (single->deps, dep,
+		micro_hash_foreach_dep (single->deps, dep,
 			(*func) (dep, user););
 }
 
@@ -1373,7 +1343,7 @@ cb_recalc_all_depends (gpointer key, G_GNUC_UNUSED gpointer value,
 		       G_GNUC_UNUSED gpointer ignore)
 {
 	DependencyAny const *depany = key;
-	dep_collection_foreach_list (depany->deps, list,
+	micro_hash_foreach_list (depany->deps, list,
 		dependent_queue_recalc_list (list););
 }
 
@@ -1386,7 +1356,7 @@ cb_range_contained_depend (gpointer key, G_GNUC_UNUSED gpointer value,
 	GnmRange const *target = user;
 
 	if (range_overlap (target, range))
-		dep_collection_foreach_list (deprange->deps, list,
+		micro_hash_foreach_list (deprange->deps, list,
 			dependent_queue_recalc_list (list););
 }
 
@@ -1399,7 +1369,7 @@ cb_single_contained_depend (gpointer key,
 	GnmRange const *target = user;
 
 	if (range_contains (target, depsingle->pos.col, depsingle->pos.row))
-		dep_collection_foreach_list (depsingle->deps, list,
+		micro_hash_foreach_list (depsingle->deps, list,
 			dependent_queue_recalc_list (list););
 }
 
@@ -1574,7 +1544,7 @@ cb_range_contained_collect (DependencyRange const *deprange,
 	GnmRange const *range = &deprange->range;
 
 	if (range_overlap (user->target, range))
-		dep_collection_foreach_dep (deprange->deps, dep, {
+		micro_hash_foreach_dep (deprange->deps, dep, {
 			if (!(dep->flags & (DEPENDENT_FLAGGED | DEPENDENT_CAN_RELOCATE))) {
 				dep->flags |= DEPENDENT_FLAGGED;
 				user->list = g_slist_prepend (user->list, dep);
@@ -1587,7 +1557,7 @@ cb_single_contained_collect (DependencySingle const *depsingle,
 			     CollectClosure *user)
 {
 	if (range_contains (user->target, depsingle->pos.col, depsingle->pos.row))
-		dep_collection_foreach_dep (depsingle->deps, dep, {
+		micro_hash_foreach_dep (depsingle->deps, dep, {
 			if (!(dep->flags & (DEPENDENT_FLAGGED | DEPENDENT_CAN_RELOCATE))) {
 				dep->flags |= DEPENDENT_FLAGGED;
 				user->list = g_slist_prepend (user->list, dep);
@@ -1789,41 +1759,14 @@ cb_dep_hash_invalidate (G_GNUC_UNUSED gpointer key,
 			DependencyAny *depany,
 			GnmExprRewriteInfo const *rwinfo)
 {
-#ifndef ENABLE_MICRO_HASH
-	GSList *deps = depany->deps;
-	GSList *ptr = deps;
-	GnmDependent *dependent;
-
-	depany->deps = NULL;	/* poison it */
 	if (rwinfo->type == GNM_EXPR_REWRITE_SHEET) {
 		Sheet const *target = rwinfo->u.sheet;
-		for (; ptr != NULL; ptr = ptr->next) {
-			dependent = ptr->data;
-			if (dependent->sheet != target)
-				invalidate_refs (dependent, rwinfo);
-		}
-	} else if (rwinfo->type == GNM_EXPR_REWRITE_WORKBOOK) {
-		Workbook const *target = rwinfo->u.workbook;
-		for (; ptr != NULL; ptr = ptr->next) {
-			dependent = ptr->data;
-			if (dependent->sheet->workbook != target)
-				invalidate_refs (dependent, rwinfo);
-		}
-	} else {
-		g_assert_not_reached ();
-	}
-
-	g_slist_free (deps);
-	g_free (depany);
-#else
-	if (rwinfo->type == GNM_EXPR_REWRITE_SHEET) {
-		Sheet const *target = rwinfo->u.sheet;
-		dep_collection_foreach_dep (depany->deps, dep,
+		micro_hash_foreach_dep (depany->deps, dep,
 			if (dep->sheet != target)
 				invalidate_refs (dep, rwinfo););
 	} else if (rwinfo->type == GNM_EXPR_REWRITE_WORKBOOK) {
 		Workbook const *target = rwinfo->u.workbook;
-		dep_collection_foreach_dep (depany->deps, dep,
+		micro_hash_foreach_dep (depany->deps, dep,
 			if (dep->sheet->workbook != target)
 				invalidate_refs (dep, rwinfo););
 	} else {
@@ -1835,7 +1778,6 @@ cb_dep_hash_invalidate (G_GNUC_UNUSED gpointer key,
 	 * Don't free -- we junk the pools later (and we don't know which one
 	 * to use right here).
 	 */
-#endif
 }
 
 static void
@@ -1843,7 +1785,7 @@ cb_find_dynamic_deps (G_GNUC_UNUSED gpointer key,
 		      DependencyAny *depany, GSList **res)
 {
 	GSList *accum = *res;
-	dep_collection_foreach_dep (depany->deps, dep,
+	micro_hash_foreach_dep (depany->deps, dep,
 		if (dependent_type (dep) == DEPENDENT_DYNAMIC_DEP)
 			accum = g_slist_prepend (accum, ((DynamicDep *)dep)->container););
 	*res = accum;
@@ -2224,7 +2166,7 @@ dump_range_dep (gpointer key, G_GNUC_UNUSED gpointer value,
 	printf ("\t%s:", cellpos_as_string (&range->start));
 	printf ("%s <- ", cellpos_as_string (&range->end));
 
-	dep_collection_foreach_list (deprange->deps, list,
+	micro_hash_foreach_list (deprange->deps, list,
 		dump_dependent_list (list););
 }
 
@@ -2236,7 +2178,7 @@ dump_single_dep (gpointer key, G_GNUC_UNUSED gpointer value,
 
 	printf ("\t%s <- ", cellpos_as_string (&depsingle->pos));
 
-	dep_collection_foreach_list (depsingle->deps, list,
+	micro_hash_foreach_list (depsingle->deps, list,
 		dump_dependent_list (list););
 }
 
