@@ -670,6 +670,15 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 	input_range = gnm_expr_entry_parse_as_value (state->change_cell_entry,
 						     state->sheet);
 
+	if (target_range == NULL || input_range == NULL) {
+		gnumeric_notice_nonmodal
+			((GtkWindow *) state->dialog,
+			  &(state->warning_dialog),
+			  GTK_MESSAGE_WARNING, _("You have not specified "
+						 "a problem to be solved"));
+		return;
+	}
+
 	if (state->sheet->solver_parameters->input_entry_str != NULL)
 		g_free (state->sheet->solver_parameters->input_entry_str);
 	state->sheet->solver_parameters->input_entry_str =
@@ -727,8 +736,6 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 
 	        if (state->sheet->solver_parameters->options.assume_linear_model) {
 			SolverResults *res;
-			gnum_float  *opt_x, *sh_pr;
-			gboolean ilp;
 
 		        res = solver (WORKBOOK_CONTROL (state->wbcg),
 				      state->sheet, &errmsg);
@@ -740,16 +747,31 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 					((GtkWindow *) state->dialog,
 					 &(state->warning_dialog),
 					 GTK_MESSAGE_WARNING, errmsg);
-			else if (1 /*res == SOLVER_LP_OPTIMAL*/) {
-				gnumeric_notice_nonmodal ((GtkWindow *) state->dialog,
-					       &(state->warning_dialog),
+			else if (res->status == SOLVER_LP_OPTIMAL) {
+				gnumeric_notice_nonmodal
+					((GtkWindow *) state->dialog,
+					 &(state->warning_dialog),
+					 GTK_MESSAGE_INFO,
+					 _("Solver found an optimal solution. "
+					   "All constraints and optimality "
+					   "conditions are satisfied.\n"));
+				if ((sensitivity || limits) && res->ilp_flag)
+					gnumeric_notice_nonmodal
+						((GtkWindow *) state->dialog,
+						 &(state->warning_dialog),
 						 GTK_MESSAGE_INFO,
-						 _("Solver found an optimal solution. All "
-						   "constraints and optimality conditions "
-						   "are satisfied.\n"));
+						 _("Sensitivity nor limits "
+						   "report is not meaningful "
+						   "if the program has integer "
+						   "constraints. These reports "
+						   "will thus not be created."));
+				solver_lp_reports (WORKBOOK_CONTROL(state->wbcg),
+						   state->sheet, res,
+						   answer, sensitivity, limits,
+						   program);
 			} else {
 				char *str;
-				if (0 /*res == SOLVER_LP_UNBOUNDED*/) {
+				if (res->status == SOLVER_LP_UNBOUNDED) {
 					str = g_strdup_printf
 						(_("The Target Cell value does "
 						   "not converge!"));
@@ -758,17 +780,17 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 						(_("Solver was not successful:"
 						   " %i"), res);
 				}
-			        gnumeric_notice_nonmodal ((GtkWindow *) state->dialog,
-							  &(state->warning_dialog),
-							  GTK_MESSAGE_WARNING, str);
+			        gnumeric_notice_nonmodal
+					((GtkWindow *) state->dialog,
+					 &(state->warning_dialog),
+					 GTK_MESSAGE_WARNING, str);
 				g_free (str);
+				solver_lp_reports (WORKBOOK_CONTROL(state->wbcg),
+						   state->sheet, res,
+						   FALSE, FALSE, FALSE, program);
+
 
 			}
-
-			solver_lp_reports (WORKBOOK_CONTROL (state->wbcg),
-					   state->sheet, res,
-					   answer, sensitivity, limits, program);
-
 		} else {
 		        printf ("NLP not implemented yet!\n");
 		}

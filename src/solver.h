@@ -122,8 +122,8 @@ typedef struct {
         gnum_float       *shadow_prizes;
         int              status;
         gboolean         ilp_flag;   /* This is set if the problem has INT
-				      * constraints.  The sensitivity report
-				      * cannot be created if there are any. */
+				      * constraints.  Some reports cannot
+				      * be created if there are any. */
         SolverParameters *param;
 } SolverResults;
 

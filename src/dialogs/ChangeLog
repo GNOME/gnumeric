@@ -1,3 +1,12 @@
+2002-03-08  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* dialog-solver.c (cb_dialog_solve_clicked): Make the reports only
+	if solver found a proper sollution.
+	(cb_dialog_solve_clicked): Added dialog to warn if the sensitivity
+	or limits report cannot be created.
+	(cb_dialog_solve_clicked): Added a check if target range or input
+	range is not set.
+
 2002-03-07  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-sheet-order.c (cb_selection_changed) : handle delete button
