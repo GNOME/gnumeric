@@ -1,3 +1,23 @@
+2000-07-03  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook.c : Begin the Name menu.
+
+	* src/workbook-edit.c (workbook_edit_set_sensitive) : New function.
+	(workbook_finish_editing) : Use here.
+	(workbook_start_editing_at_cursor) : And here.
+	(workbook_edit_attach_guru) : And here.
+	(workbook_edit_detach_guru) : And here.
+	(workbook_edit_entry_redirect_p) : New function.
+
+	* src/item-grid.c (item_grid_button_1) : If we have a guru up, but are
+	  not selecting a region ignore clicks.
+	(item_grid_event) : Ditto.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_can_select_expr_range) : It is
+	  possible to have a guru up without selecting regions.
+
+	* src/expr-name.c (expr_name_list) : Doh!
+
 2000-07-03  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/analysis-tools.c: Implemented `Histogram' tool (mostly).
@@ -26,6 +46,9 @@
 	* TODO: Added `Data analysis tools' section.
 
 2000-07-02  Jody Goldberg <jgoldberg@home.com>
+
+	* src/expr.c (expr_rewrite) : Names can contain relative references,
+	  we need to check them too.
 
 	* src/parser.y (exp) : Add production for sheet specific names.
 	  eg Sheet2!name

@@ -1184,8 +1184,7 @@ parse_search_string(gchar *find_str)
 		} else if (*find_str == '?' || *find_str == '*') {
 		        buf[i] = '\0';
 			search_cond = g_new(string_search_t, 1);
-			search_cond->str = g_new(gchar, strlen(buf)+1);
-			strcpy(search_cond->str, buf);
+			search_cond->str = g_strdup (buf);
 			search_cond->min_skip = qmarks;
 			search_cond->wildcard_prefix = wildcard;
 			conditions = g_slist_append(conditions, search_cond);
@@ -1198,8 +1197,7 @@ parse_search_string(gchar *find_str)
 	}
 	buf[i] = '\0';
 	search_cond = g_new(string_search_t, 1);
-	search_cond->str = g_new(gchar, strlen(buf)+1);
-	strcpy(search_cond->str, buf);
+	search_cond->str = g_strdup (buf);
 	search_cond->min_skip = qmarks;
 	search_cond->wildcard_prefix = wildcard;
 	conditions = g_slist_append(conditions, search_cond);

@@ -1493,6 +1493,15 @@ expr_rewrite (ExprTree        const *expr,
 	}
 
 	case OPER_NAME:
+		if (!expr->name.name->builtin) {
+			/* Do NOT rewrite the name.  Just invalidate the use of the name */
+			ExprTree *tmp = expr_rewrite (expr->name.name->t.expr_tree, rwinfo);
+			if (tmp != NULL) {
+				expr_tree_unref (tmp);
+				return expr_tree_new_constant (
+					value_new_error (NULL, gnumeric_err_REF));
+			}
+		}
 		return NULL;
 
 	case OPER_VAR:

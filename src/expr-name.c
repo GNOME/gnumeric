@@ -290,10 +290,10 @@ expr_name_list (Workbook *wb, Sheet *sheet, gboolean builtins_too)
 		l = g_list_copy (sheet->names);
 
 	if (wb != NULL && wb->names)
-		l = g_list_append (l, g_list_copy (wb->names));
+		l = g_list_concat (l, g_list_copy (wb->names));
 
 	if (builtins_too && global_names != NULL)
-		l = g_list_append (l, g_list_copy (global_names));
+		l = g_list_concat (l, g_list_copy (global_names));
 
 	return l;
 }

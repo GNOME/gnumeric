@@ -196,7 +196,7 @@ gnumeric_sheet_can_select_expr_range (GnumericSheet *gsheet)
 	g_return_val_if_fail (GNUMERIC_IS_SHEET (gsheet), FALSE);
 
 	wb = gsheet->sheet_view->sheet->workbook;
-	if (workbook_edit_has_guru (wb))
+	if (workbook_edit_entry_redirect_p (wb))
 		return TRUE;
 
 	if (!wb->editing)

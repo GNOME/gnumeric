@@ -674,6 +674,10 @@ item_grid_button_1 (Sheet *sheet, GdkEvent *event, ItemGrid *item_grid, int col,
 		return 1;
 	}
 
+	/* While a guru is up ignore clicks */
+	if (workbook_edit_has_guru (sheet->workbook))
+		return 1;
+
 	/*
 	 * This was a regular click on a cell on the spreadsheet.  Select it.
 	 */
@@ -865,6 +869,10 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 		col = gnumeric_sheet_find_col (gsheet, x, NULL);
 		row = gnumeric_sheet_find_row (gsheet, y, NULL);
 
+		/* While a guru is up ignore clicks */
+		if (workbook_edit_has_guru (sheet->workbook) && event->button.button != 1)
+			return TRUE;
+
 		switch (event->button.button){
 		case 1:
 			return item_grid_button_1 (sheet, event, item_grid, col, row, x, y);
@@ -872,7 +880,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 		case 2:
 			g_warning ("This is here just for demo purposes");
 			drag_start (GTK_WIDGET (item->canvas), event, sheet);
-			return 1;
+			return TRUE;
 
 		case 3:
 			item_grid_popup_menu (sheet,

@@ -744,10 +744,17 @@ goto_cell_cmd (GtkWidget *unused, Workbook *wb)
 }
 
 static void
-define_cell_cmd (GtkWidget *unused, Workbook *wb)
+cb_edit_named_expr (GtkWidget *unused, Workbook *wb)
 {
 	dialog_define_names (wb);
 }
+#if 0
+static void
+cb_auto_generate__named_expr (GtkWidget *unused, Workbook *wb)
+{
+	dialog_auto_generate_names (wb);
+}
+#endif
 
 static void
 insert_sheet_cmd (GtkWidget *unused, Workbook *wb)
@@ -1240,7 +1247,7 @@ static GnomeUIInfo workbook_menu_edit [] = {
 		N_("Paste with optional filters and transformations"),
 		&paste_special_cmd),
 
-	GNOMEUIINFO_SUBTREE(N_("C_lear"), &workbook_menu_edit_clear),
+	GNOMEUIINFO_SUBTREE(N_("C_lear"), workbook_menu_edit_clear),
 
 	GNOMEUIINFO_ITEM_NONE(N_("_Delete..."),
 		N_("Remove selected cells, shifting other into their place"),
@@ -1251,7 +1258,7 @@ static GnomeUIInfo workbook_menu_edit [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
-	GNOMEUIINFO_SUBTREE(N_("_Select..."), &workbook_menu_edit_select),
+	GNOMEUIINFO_SUBTREE(N_("_Select..."), workbook_menu_edit_select),
 
 	/* Default <Ctrl-I> to be goto */
 	{ GNOME_APP_UI_ITEM, N_("_Goto cell..."),
@@ -1291,6 +1298,18 @@ static GnomeUIInfo workbook_menu_insert_special [] = {
 	GNOMEUIINFO_END
 };
 
+static GnomeUIInfo workbook_menu_names [] = {
+	GNOMEUIINFO_ITEM_NONE(N_("_Names..."),
+		N_("Edit sheet and workbook names"),
+		&cb_edit_named_expr),
+#if 0
+	GNOMEUIINFO_ITEM_NONE(N_("_Auto generate names..."),
+		N_("Use the current selection to create names"),
+		&cb_auto_generate__named_expr),
+#endif
+	GNOMEUIINFO_END
+};
+
 static GnomeUIInfo workbook_menu_insert [] = {
 	GNOMEUIINFO_ITEM_NONE(N_("_Sheet"),
 		N_("Insert a new spreadsheet"),
@@ -1313,16 +1332,13 @@ static GnomeUIInfo workbook_menu_insert [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
-	GNOMEUIINFO_ITEM_NONE(N_("Define _Name"), NULL,
-		&define_cell_cmd),
+	GNOMEUIINFO_SUBTREE(N_("N_ames"), workbook_menu_names),
 
 	GNOMEUIINFO_ITEM_NONE(N_("_Add/modify comment..."),
 		N_("Edit the selected cell's comment"),
 		&workbook_edit_comment),
 
-	GNOMEUIINFO_SUBTREE(N_("S_pecial"),
-		workbook_menu_insert_special),
-
+	GNOMEUIINFO_SUBTREE(N_("S_pecial"), workbook_menu_insert_special),
 	GNOMEUIINFO_END
 };
 
@@ -1413,9 +1429,9 @@ static GnomeUIInfo workbook_menu_format [] = {
 	  N_("Modify the formatting of the selected cells"),
 	  format_cells_cmd, NULL, NULL, 0, 0, GDK_1, GDK_CONTROL_MASK },
 
-	{ GNOME_APP_UI_SUBTREE, N_("C_olumn"), NULL, workbook_menu_format_column },
-	{ GNOME_APP_UI_SUBTREE, N_("_Row"),    NULL, workbook_menu_format_row },
-	{ GNOME_APP_UI_SUBTREE, N_("_Sheet"),  NULL, workbook_menu_format_sheet },
+	GNOMEUIINFO_SUBTREE(N_("C_olumn"), workbook_menu_format_column),
+	GNOMEUIINFO_SUBTREE(N_("_Row"),    workbook_menu_format_row),
+	GNOMEUIINFO_SUBTREE(N_("_Sheet"),  workbook_menu_format_sheet),
 
 	GNOMEUIINFO_ITEM_NONE(N_("_Workbook..."),
 		N_("Modify the workbook attributes"),
@@ -1480,10 +1496,10 @@ static GnomeUIInfo workbook_menu [] = {
         GNOMEUIINFO_MENU_FILE_TREE (workbook_menu_file),
 	GNOMEUIINFO_MENU_EDIT_TREE (workbook_menu_edit),
 	GNOMEUIINFO_MENU_VIEW_TREE (workbook_menu_view),
-	{ GNOME_APP_UI_SUBTREE, N_("_Insert"), NULL, workbook_menu_insert },
-	{ GNOME_APP_UI_SUBTREE, N_("F_ormat"), NULL, workbook_menu_format },
-	{ GNOME_APP_UI_SUBTREE, N_("_Tools"), NULL, workbook_menu_tools },
-	{ GNOME_APP_UI_SUBTREE, N_("_Data"), NULL, workbook_menu_data },
+	GNOMEUIINFO_SUBTREE(N_("_Insert"), workbook_menu_insert),
+	GNOMEUIINFO_SUBTREE(N_("F_ormat"), workbook_menu_format),
+	GNOMEUIINFO_SUBTREE(N_("_Tools"),  workbook_menu_tools),
+	GNOMEUIINFO_SUBTREE(N_("_Data"),   workbook_menu_data),
 #ifdef ENABLE_BONOBO
 #warning Should enable this when Bonobo gets menu help support
 #else

@@ -51,6 +51,19 @@ workbook_auto_complete_destroy (Workbook *wb)
 
 }
 
+static void
+workbook_edit_set_sensitive (Workbook const *wb, gboolean flag1, gboolean flag2)
+{
+	/* These are only sensitive while editing */
+	gtk_widget_set_sensitive (wb->priv->ok_button, flag1);
+	gtk_widget_set_sensitive (wb->priv->cancel_button, flag1);
+
+	/* Toolbars are insensitive while editing */
+	gtk_widget_set_sensitive (wb->priv->func_button, flag2);
+	gtk_widget_set_sensitive (wb->priv->standard_toolbar, flag2);
+	gtk_widget_set_sensitive (wb->priv->format_toolbar, flag2);
+}
+
 void
 workbook_finish_editing (Workbook *wb, gboolean const accept)
 {
@@ -73,14 +86,7 @@ workbook_finish_editing (Workbook *wb, gboolean const accept)
 	wb->editing_sheet = NULL;
 	wb->editing_cell = NULL;
 
-	/* These are only sensitive while editing */
-	gtk_widget_set_sensitive (wb->priv->ok_button, FALSE);
-	gtk_widget_set_sensitive (wb->priv->cancel_button, FALSE);
-
-	/* Toolbars are insensitive while editing */
-	gtk_widget_set_sensitive (wb->priv->func_button, TRUE);
-	gtk_widget_set_sensitive (wb->priv->standard_toolbar, TRUE);
-	gtk_widget_set_sensitive (wb->priv->format_toolbar, TRUE);
+	workbook_edit_set_sensitive (wb, FALSE, TRUE);
 
 	/* Save the results before changing focus */
 	if (accept) {
@@ -202,6 +208,7 @@ workbook_start_editing_at_cursor (Workbook *wb, gboolean blankp,
 	g_return_if_fail (sheet != NULL);
 
 	application_clipboard_unant ();
+	workbook_edit_set_sensitive (wb, TRUE, FALSE);
 
 	cell = sheet_cell_get (sheet,
 			       sheet->cursor.edit_pos.col,
@@ -251,15 +258,6 @@ workbook_start_editing_at_cursor (Workbook *wb, gboolean blankp,
 	wb->editing = TRUE;
 	wb->editing_sheet = sheet;
 	wb->editing_cell = cell;
-
-	/* These are only sensitive while editing */
-	gtk_widget_set_sensitive (wb->priv->ok_button, TRUE);
-	gtk_widget_set_sensitive (wb->priv->cancel_button, TRUE);
-
-	/* Toolbars are insensitive while editing */
-	gtk_widget_set_sensitive (wb->priv->func_button, FALSE);
-	gtk_widget_set_sensitive (wb->priv->standard_toolbar, FALSE);
-	gtk_widget_set_sensitive (wb->priv->format_toolbar, FALSE);
 
 	/*
 	 * If this assert fails, it means editing was not shut down
@@ -319,6 +317,7 @@ workbook_edit_attach_guru (Workbook *wb, GtkWidget *guru)
 
 	wb->priv->edit_line.guru = guru;
 	gtk_entry_set_editable (wb->priv->edit_line.entry, FALSE);
+	workbook_edit_set_sensitive (wb, FALSE, FALSE);
 }
 
 void
@@ -331,12 +330,19 @@ workbook_edit_detach_guru (Workbook *wb)
 	workbook_set_entry (wb, NULL);
 	wb->priv->edit_line.guru = NULL;
 	gtk_entry_set_editable (wb->priv->edit_line.entry, TRUE);
+	workbook_edit_set_sensitive (wb, FALSE, TRUE);
 }
 
 gboolean
 workbook_edit_has_guru (Workbook const *wb)
 {
 	return (wb->priv->edit_line.guru != NULL);
+}
+
+gboolean
+workbook_edit_entry_redirect_p (Workbook const *wb)
+{
+	return (wb->priv->edit_line.temp_entry != NULL);
 }
 
 void

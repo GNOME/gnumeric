@@ -1,10 +1,12 @@
-/**
- * dialog-summary.c:  Implements the summary info stuff
+/* vim: set sw=8: */
+
+/*
+ * dialog-define-name.c: Edit named regions.
  *
  * Author:
- *        Michael Meeks <michael@imaginator.com>
- *
- **/
+ * 	Jody Goldberg <jgoldberg@home.com> 
+ *	Michael Meeks <michael@imaginator.com>
+ */
 #include <config.h>
 #include <gnome.h>
 #include <glade/glade.h>
@@ -35,55 +37,33 @@ typedef struct {
 } NameGuruState;
 
 static void
-update_edit (NameGuruState *state)
+cb_name_guru_select_name (GtkWidget *list, NameGuruState *state)
 {
-	gint          i = state->selected;
-	NamedExpression     *expr_name;
-	Sheet        *sheet;
-	char         *txt;
-
-	sheet = state->wb->current_sheet;
-	g_return_if_fail (sheet != NULL);
-
-	expr_name = g_list_nth (state->expr_names, i)->data;
-	if (expr_name->name && expr_name->name->str)
-		gtk_entry_set_text (state->name, expr_name->name->str);
-	else
-		gtk_entry_set_text (state->name, "");
-
-	txt = expr_name_value (expr_name);
-	gtk_entry_set_text (state->value, txt);
-	g_free (txt);
-}
-
-static void
-cb_name_guru_select_name (GtkWidget *w, NameGuruState *state)
-{
-	guint     i    = 0;
-	GList    *sel  = GTK_LIST(w)->selection;
-	GList    *p    = state->expr_names;
-	NamedExpression *name;
+	NamedExpression *expr_name;
+	GList *sel = GTK_LIST(list)->selection;
+	char *txt;
 
 	if (sel == NULL)
 		return;
 
 	g_return_if_fail (sel->data != NULL);
 
-	name = gtk_object_get_data (GTK_OBJECT (sel->data), LIST_KEY);
+	expr_name = gtk_object_get_data (GTK_OBJECT (sel->data), LIST_KEY);
 
-	while (p) {
-		if (p->data == name) {
-			state->selected = i;
-			update_edit (state);
-			return;
-		}
-		i++;
-		p = g_list_next (p);
-	}
+	g_return_if_fail (expr_name->name != NULL);
+	g_return_if_fail (expr_name->name->str != NULL);
+
+	/* Display the name */
+	gtk_entry_set_text (state->name, expr_name->name->str);
+
+	/* Display the value */
+	txt = expr_name_value (expr_name);
+	gtk_entry_set_text (state->value, txt);
+	g_free (txt);
 }
 
 static void
-cb_name_guru_populate_list (NameGuruState *state)
+name_guru_populate_list (NameGuruState *state)
 {
 	GList *names;
 	GtkContainer *list;
@@ -178,9 +158,19 @@ cb_name_guru_add (NameGuruState *state)
 	}
 
 	gtk_list_clear_items (state->list, 0, -1);
-	cb_name_guru_populate_list (state);
+	name_guru_populate_list (state);
 
 	return TRUE;
+}
+
+static void
+cb_name_guru_value_focus (GtkWidget *w, GdkEventFocus *ev, NameGuruState *state)
+{
+	if (w == state->value) {
+		workbook_set_entry (state->wb, state->value);
+		workbook_edit_select_absolute (state->wb);
+	} else
+		workbook_set_entry (state->wb, NULL);
 }
 
 static void
@@ -188,6 +178,8 @@ cb_name_guru_clicked (GtkWidget *button, NameGuruState *state)
 {
 	if (state->dialog == NULL)
 		return;
+
+	workbook_set_entry (state->wb, NULL);
 
 	if (button == state->delete_button) {
 		cb_name_guru_remove (NULL, state);
@@ -255,26 +247,23 @@ name_guru_init (NameGuruState *state)
 	state->add_button = name_guru_init_button (state, "add_button");
 	state->delete_button = name_guru_init_button (state, "delete_button");
 
+	gtk_signal_connect (GTK_OBJECT (state->list), "selection_changed",
+			    GTK_SIGNAL_FUNC (cb_name_guru_select_name), state);
+	gtk_signal_connect (GTK_OBJECT (state->name), "focus-in-event",
+			    GTK_SIGNAL_FUNC (cb_name_guru_value_focus), state);
+	gtk_signal_connect (GTK_OBJECT (state->value), "focus-in-event",
+			    GTK_SIGNAL_FUNC (cb_name_guru_value_focus), state);
+	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
+			    GTK_SIGNAL_FUNC (cb_name_guru_destroy), state);
+
+	gtk_window_set_transient_for (GTK_WINDOW (state->dialog),
+				      GTK_WINDOW (state->wb->toplevel));
  	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_EDITABLE(state->name));
  	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_EDITABLE (state->value));
 
-	cb_name_guru_populate_list (state);
-
-	gtk_signal_connect (GTK_OBJECT (state->list), "selection_changed",
-			    GTK_SIGNAL_FUNC (cb_name_guru_select_name), state);
-
-	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
-			    GTK_SIGNAL_FUNC (cb_name_guru_destroy),
-			    state);
-
-	gtk_window_set_transient_for (GTK_WINDOW (state->dialog),
-				      GTK_WINDOW (state->wb->toplevel));
-
-	workbook_set_entry (state->wb, state->value);
 	workbook_edit_attach_guru (state->wb, state->dialog);
-	workbook_edit_select_absolute (state->wb);
 
 	return FALSE;
 }
@@ -293,5 +282,6 @@ dialog_define_names (Workbook *wb)
 		return;
 	}
 
+	name_guru_populate_list (state);
 	gtk_widget_show (state->dialog);
 }

@@ -73,11 +73,18 @@ Dialogs
     : Editing nested functions.  How best to express this.
     : Switching between multiple function at the same level.
     : Better communication and handling of parse errors.
+- Name Guru
+    : Ick.  This is very ugly.
+
+Sorting
+-------
+    - Hidden rows/cols should not be sorted.
 
 Function Breakage
 -----------------
 - Index  : does not support 0,0 or reference syntax.
 - ftest : Needs auditing.  All calls to eval_pos_init_cellref are questionable.
+- address : This code is a duplicate.  Have the function use the standard routines.
 
 Printing
 --------
@@ -87,4 +94,4 @@ Printing
 
 Widget polishing
 ----------------
-- Add row (rows ?) for custom colours in the color combo dialog.
+- Selection for the undo/redo combo is ugly
