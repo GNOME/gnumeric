@@ -1,3 +1,10 @@
+2001-05-18  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-cell-format.c (draw_format_preview) : be sure to insert
+	  spaces after the repeat characters
+	(cb_format_currency_select) : Only draw negative samples for number &
+	  currency.  Not accounting.
+
 2001-05-15  Jon K Hellan  <hellan@acm.org>
  
  	* dialog-define-names.c (dialog_define_names): Ensure only one

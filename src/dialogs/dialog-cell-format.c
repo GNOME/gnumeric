@@ -390,7 +390,7 @@ draw_format_preview (FormatState *state)
 		g_string_append (new_format, "_(");
 		g_string_append (new_format,
 				 currency_symbols[state->format.currency_index].symbol);
-		g_string_append (new_format, "*#,##0");
+		g_string_append (new_format, "* #,##0");
 		if (state->format.num_decimals > 0) {
 			g_return_if_fail (state->format.num_decimals <= 30);
 
@@ -400,7 +400,7 @@ draw_format_preview (FormatState *state)
 		g_string_append (new_format, "_);_(");
 		g_string_append (new_format,
 				 currency_symbols[state->format.currency_index].symbol);
-		g_string_append (new_format, "*(#,##0");
+		g_string_append (new_format, "* (#,##0");
 		if (state->format.num_decimals > 0) {
 			g_return_if_fail (state->format.num_decimals <= 30);
 
@@ -410,7 +410,7 @@ draw_format_preview (FormatState *state)
 		g_string_append (new_format, ");_(");
 		g_string_append (new_format,
 				 currency_symbols[state->format.currency_index].symbol);
-		g_string_append (new_format, "*\"-\"");
+		g_string_append (new_format, "* \"-\"");
 		g_string_append (new_format, qmarks + 30-state->format.num_decimals);
 		g_string_append (new_format, "_);_(@_)");
 		break;
@@ -733,6 +733,7 @@ cb_format_list_select (GtkCList *clist, gint row, gint column,
 static void
 cb_format_currency_select (GtkEditable *w, FormatState *state)
 {
+	int const page = state->format.current_type;
 	gchar const *tmp = gtk_entry_get_text (GTK_ENTRY (w));
 
 	/* There must be a better way than this */
@@ -743,7 +744,8 @@ cb_format_currency_select (GtkEditable *w, FormatState *state)
 			break;
 		}
 
-	fillin_negative_samples (state, state->format.current_type);
+	if (page == 1 || page == 2)
+		fillin_negative_samples (state, state->format.current_type);
 	draw_format_preview (state);
 }
 
