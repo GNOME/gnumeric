@@ -199,12 +199,6 @@ scm_register_function (SCM scm_name, SCM scm_args, SCM scm_help, SCM scm_categor
 	return SCM_UNSPECIFIED;
 }
 
-gboolean
-plugin_can_deactivate_general (void)
-{
-	return FALSE;
-}
-
 void
 plugin_cleanup_general (ErrorInfo **ret_error)
 {
@@ -241,4 +235,6 @@ plugin_init_general (ErrorInfo **ret_error)
 		  SCM_EOL);
 	g_free (name);
 	g_free (dir);
+	/* Don't try to deactivate the plugin */
+	gnm_plugin_use_ref (plugins_get_plugin_by_id ("Gnumeric_guile"));
 }

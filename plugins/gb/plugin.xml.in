@@ -5,9 +5,9 @@
 		<_description>Enables Gnome Basic support</_description>
 	</information>
 	<dependencies>
-		<dep_plugin id="Gnumeric_Excel"/>
+		<dep_plugin id="Gnumeric_Excel" force_load="TRUE"/>
 	</dependencies>
-	<loader type="g_module">
+	<loader type="Gnumeric_Builtin:module">
 		<attribute name="module_file" value="gnum_gb.la"/>
 	</loader>
 	<services>
