@@ -993,7 +993,7 @@ msgstr "Lag ei pil"
 #: src/GNOME_Gnumeric.xml.h:54 src/sheet-control-gui.c:1299
 #: src/workbook-control-gui.c:2572
 msgid "Cu_t"
-msgstr "Klipp u_t"
+msgstr "K_lipp"
 
 #. Default <Ctrl-;> (control semi-colon) to insert the current date
 #: src/GNOME_Gnumeric.xml.h:55 src/workbook-control-gui.c:2654
@@ -1347,11 +1347,11 @@ msgstr "Opne"
 
 #: src/GNOME_Gnumeric.xml.h:139
 msgid "Open a spreadsheet"
-msgstr "Opna ei arbeidsbok"
+msgstr "Opne ei arbeidsbok"
 
 #: src/GNOME_Gnumeric.xml.h:140
 msgid "Open an existing workbook"
-msgstr "Opna ei eksisterande arbeidsbok"
+msgstr "Opne ei eksisterande arbeidsbok"
 
 #: src/GNOME_Gnumeric.xml.h:141 src/workbook-control-gui.c:2864
 msgid "Outlines _Below"
@@ -1656,7 +1656,7 @@ msgstr "Bryt opp ei disposisjonsgruppe"
 
 #: src/GNOME_Gnumeric.xml.h:212 src/workbook-format-toolbar.c:429
 msgid "Underline"
-msgstr "Understreka"
+msgstr "Understreking"
 
 #: src/GNOME_Gnumeric.xml.h:213
 msgid "Underlines the text"
@@ -1837,7 +1837,7 @@ msgstr "_Objekt"
 
 #: src/GNOME_Gnumeric.xml.h:254
 msgid "_Open"
-msgstr "_Opna"
+msgstr "_Opne"
 
 #: src/GNOME_Gnumeric.xml.h:255 src/sheet-control-gui.c:1303
 #: src/workbook-control-gui.c:2580
@@ -3893,7 +3893,7 @@ msgstr "Etikettar"
 
 #: src/dialogs/consolidate.glade.h:13 src/workbook-control-gui.c:3575
 msgid "Max"
-msgstr "Høgst"
+msgstr "Maks"
 
 #: src/dialogs/consolidate.glade.h:14 src/workbook-control-gui.c:3574
 msgid "Min"
@@ -14407,7 +14407,7 @@ msgstr "Det finnast allereide ein fletta region som krysser over."
 
 #: src/sheet-object-bonobo.c:240
 msgid "Open..."
-msgstr "Opna ..."
+msgstr "Opne ..."
 
 #: src/sheet-object-container.c:184
 #, c-format
