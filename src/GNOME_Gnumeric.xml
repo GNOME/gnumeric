@@ -120,11 +120,11 @@
 	    _tip="Toggle whether or not to display outline groups" />
 
 	<cmd name="SheetOutlineBelow"		type="toggle" state="0"
-	    _label="Oulines _Below"
+	    _label="Outlines _Below"
 	    _tip="Toggle whether to display row outlines on top or bottom" />
 
 	<cmd name="SheetOutlineRight"		type="toggle" state="0"
-	    _label="Oulines _Right"
+	    _label="Outlines _Right"
 	    _tip="Toggle whether to display column outlines on the left or right" />
 
 	<cmd name="HelpAbout"

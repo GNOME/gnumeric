@@ -1,5 +1,7 @@
 2001-05-31  Karl Eichwalder  <ke@suse.de>
 
+	* src/GNOME_Gnumeric.xml: Fix 2 typos.
+
 	* configure.in: Write gnome.desktop.in.
 	* .cvsignore: Add gnome.desktop.in.
 
