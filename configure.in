@@ -519,7 +519,7 @@ if test "x$bonobo_msg" = "xyes"; then
 	AC_DEFINE(WITH_BONOBO)
         gnumeric_bonobo_enabled=true
 else
-        gnumeric_bonobo_enabled=true
+        gnumeric_bonobo_enabled=false
 fi
 AM_CONDITIONAL(WITH_BONOBO, $gnumeric_bonobo_enabled)
 
