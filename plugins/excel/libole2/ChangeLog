@@ -1,5 +1,10 @@
 1999-09-26  Arturo Tena <arturo@directmail.org>
 
+	* ms-ole.c (characterise_block): Added recognized block type.
+	(read_bb): mark all bbd blocks as unused (incluiding additional ones).
+
+1999-09-26  Arturo Tena <arturo@directmail.org>
+
 	* ms-ole.c (ms_ole_open): Fixed bug: core dumped when called with an
 	inexistent file name.
 

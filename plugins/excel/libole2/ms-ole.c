@@ -28,7 +28,7 @@
 
 #define OLE_DEBUG 0
 
-/* FIXME tenix laola defines 0xfffffffc too */
+/* FIXME tenix laola defines 0xfffffffc too (add it to characterise_block too */
 #define SPECIAL_BLOCK  0xfffffffd
 #define END_OF_CHAIN   0xfffffffe
 #define UNUSED_BLOCK   0xffffffff
@@ -326,11 +326,11 @@ characterise_block (MsOle *f, BLP blk, char **ans)
 		*ans = "special";
 		return;
 	}
-/* FIXME tenix added block type
 	else if (nblk == END_OF_CHAIN) {
 		*ans = "end of chain";
+		return;
 	}
-*/
+
 	*ans = "unknown";
 	g_return_if_fail (f);
 	g_return_if_fail (f->bb);
@@ -420,17 +420,19 @@ get_next_block (MsOle *f, BLP blk)
 	/* blk is an index of the complete fat, and
 	   an index of the complete fat is the number of a BBD block */
 	BLP bbd     = GET_BBD_LIST (f, blk/(BB_BLOCK_SIZE/4));
-	return        MS_OLE_GET_GUINT32 (BB_R_PTR(f,bbd) + 4*(blk%(BB_BLOCK_SIZE/4)));
+	return        MS_OLE_GET_GUINT32 (BB_R_PTR(f,bbd)
+					  + 4*(blk%(BB_BLOCK_SIZE/4)));
 }
 
 static int
 read_bb (MsOle *f)
 {
-	guint32 numbbd;
-	BLP     lp;
-	guint32 num_add_bbd_lists;
-	BLP missing_lps;
-	guint32 visited_add_bbd_list;
+	/* FIXME tenix may be later we wish to split this function */
+	guint32  numbbd;
+	BLP      lp;
+	guint32  num_add_bbd_lists;
+	BLP      missing_lps;
+	guint32  visited_add_bbd_list;
 
 	g_return_val_if_fail (f, 0);
 	g_return_val_if_fail (f->mem, 0);
@@ -440,8 +442,9 @@ read_bb (MsOle *f)
 
         /* Sanity checks */
 	/* FIXME tenix reading big files
-	if (numbbd < ((f->length - BB_BLOCK_SIZE + ((BB_BLOCK_SIZE*BB_BLOCK_SIZE)/4) - 1) /
-		      ((BB_BLOCK_SIZE*BB_BLOCK_SIZE)/4))) {
+	if (numbbd < ((f->length - BB_BLOCK_SIZE
+		      + ((BB_BLOCK_SIZE*BB_BLOCK_SIZE)/4) - 1)
+			 / ((BB_BLOCK_SIZE*BB_BLOCK_SIZE)/4))) {
 		printf ("Duff block descriptors\n");
 		return 0;
 	}
@@ -449,7 +452,8 @@ read_bb (MsOle *f)
 	/* FIXME tenix check if size is small, there's no add bbd lists */
 	
 	/* Add BBD's that live in the BBD list */
-	for (lp=0;(lp<(f->length/BB_BLOCK_SIZE)-1)&&(lp<MAX_SIZE_BBD_LIST*BB_BLOCK_SIZE/4);lp++) {
+	for (lp = 0; (lp<(f->length/BB_BLOCK_SIZE)-1)
+		      &&(lp<MAX_SIZE_BBD_LIST*BB_BLOCK_SIZE/4); lp++) {
 		BLP tmp = get_next_block (f, lp);
 		g_array_append_val (f->bb, tmp);
 	}
@@ -459,23 +463,27 @@ read_bb (MsOle *f)
 	if (num_add_bbd_lists > 0) {
 		/* FIXME change g_assert and return a error to user */
 		g_assert (lp == MAX_SIZE_BBD_LIST*BB_BLOCK_SIZE/4);
-		missing_lps = (f->length/BB_BLOCK_SIZE) - 1 - MAX_SIZE_BBD_LIST*BB_BLOCK_SIZE/4;
+		missing_lps = (f->length/BB_BLOCK_SIZE) - 1 
+			       - MAX_SIZE_BBD_LIST*BB_BLOCK_SIZE/4;
 		visited_add_bbd_list = GET_FIRST_ADD_BBD_LIST (f);
-		for (lp=0; lp<missing_lps; lp++) {
+		for (lp = 0; lp < missing_lps; lp++) {
 			BLP tmp;
 			BLP bbd;
 
-			/* bbd here means the number of one block that belongs to the fat */
-			bbd = MS_OLE_GET_GUINT32 (BB_R_PTR(f,visited_add_bbd_list)
-						  + 4*(lp/(BB_BLOCK_SIZE/4)));
-			tmp = MS_OLE_GET_GUINT32 (BB_R_PTR(f,bbd) + 4*(lp%(BB_BLOCK_SIZE/4)));
+			/* bbd here means the number of one block that
+			   belongs to the fat */
+			bbd = MS_OLE_GET_GUINT32 (BB_R_PTR (f,
+			      visited_add_bbd_list) + 4*(lp/(BB_BLOCK_SIZE/4)));
+			tmp = MS_OLE_GET_GUINT32 (BB_R_PTR(f,bbd)
+						  + 4*(lp%(BB_BLOCK_SIZE/4)));
 			g_array_append_val (f->bb, tmp);
 
-			if ((lp!=0) && !(lp%(MAX_SIZE_ADD_BBD_LIST*(BB_BLOCK_SIZE/4)))) {
+			if ((lp!=0) && !(lp%(MAX_SIZE_ADD_BBD_LIST*
+					     (BB_BLOCK_SIZE/4)))) {
 				/* This lp lives in the next add bbd list */
 				visited_add_bbd_list = MS_OLE_GET_GUINT32(
-								BB_R_PTR(f,visited_add_bbd_list)
-								+4*MAX_SIZE_ADD_BBD_LIST);
+						BB_R_PTR(f,visited_add_bbd_list)
+						+4*MAX_SIZE_ADD_BBD_LIST);
 				if (visited_add_bbd_list == END_OF_CHAIN) {
 					if (lp + 1 != missing_lps) {
 						/* FIXME tenix error */
@@ -483,21 +491,47 @@ read_bb (MsOle *f)
 				}
 			}
 		}
-		/* FIXME tenix do we check if we have visited all lp's but there are more
-		   additional lists? */
+		/* FIXME tenix do we check if we have visited all lp's but
+		   there are more additional lists? */
 	}
 
-	/* Free up those blocks for a bit. */
-/* FIXME tenix reading big files
-	for (lp=0;lp<numbbd;lp++)
+	/* Mark as unused bbd blocks */
+	for (lp=0; lp < MIN (numbbd, MAX_SIZE_BBD_LIST); lp++)
 		g_array_index (f->bb, BLP, GET_BBD_LIST(f,lp)) = UNUSED_BLOCK;
-*/
+	if (num_add_bbd_lists > 0) {
+		visited_add_bbd_list = GET_FIRST_ADD_BBD_LIST (f);
+		g_array_index (f->bb, BLP, visited_add_bbd_list) = UNUSED_BLOCK;
+		for (lp = 0; lp < numbbd - MAX_SIZE_BBD_LIST; lp++) {
+			BLP tmp;
+			BLP bbd;
+
+			bbd = MS_OLE_GET_GUINT32 (BB_R_PTR(f,
+						visited_add_bbd_list) + 4*lp);
+			g_array_index (f->bb, BLP, bbd) = UNUSED_BLOCK;
+
+			if ((lp!=0) && !(lp%(MAX_SIZE_ADD_BBD_LIST
+					     *(BB_BLOCK_SIZE/4)))) {
+				/* This lp lives in the next add bbd list */
+				visited_add_bbd_list = MS_OLE_GET_GUINT32(
+						BB_R_PTR(f,visited_add_bbd_list)
+						+4*MAX_SIZE_ADD_BBD_LIST);
+				if (visited_add_bbd_list == END_OF_CHAIN) {
+					if (lp + 1 != missing_lps) {
+						/* FIXME tenix error */
+					}
+				}
+				g_array_index (f->bb, BLP, visited_add_bbd_list)
+					= UNUSED_BLOCK;
+			}
+		}
+	}
 
 	g_assert (f->bb->len < f->length/BB_BLOCK_SIZE);
-	/* FIXME tenix better check?: g_assert (f->bb->len == f->length/BB_BLOCK_SIZE - 1); */
+	/* FIXME tenix better check?:
+	   g_assert (f->bb->len == f->length/BB_BLOCK_SIZE - 1); */
 
 	/* More sanity checks */
-/*	for (lp=0;lp<numbbd;lp++) {
+/*	for (lp=0; lp<numbbd; lp++) {
 		BLP bbdblk = GET_BBD_LIST(f, lp);
 		if (g_array_index(f->bb, BLP, bbdblk) != SPECIAL_BLOCK) {
 			printf ("Error - BBD blocks not marked correctly\n");
