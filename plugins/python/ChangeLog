@@ -1,3 +1,7 @@
+2001-12-12  Jody Goldberg <jody@gnome.org>
+
+	* python.c (marshal_func_nodes) : Use ExprList.
+
 2001-11-05  Jody Goldberg <jgoldberg@home,com>
 
 	* Release 0.75

@@ -681,18 +681,18 @@ marshal_func_args (FunctionEvalInfo *ei, Value *argv [])
  * Marshal a variable number of arguments and hand them to call_function.
  */
 static Value *
-marshal_func_nodes (FunctionEvalInfo *ei, GList *nodes)
+marshal_func_nodes (FunctionEvalInfo *ei, ExprList *nodes)
 {
 	PyObject *args;
 	Value *v = NULL, *ev;
-	GList *l;
+	ExprList *l;
 	int i, argc;
 
 	g_return_val_if_fail (ei != NULL, NULL);
 	g_return_val_if_fail (ei->func_def != NULL, NULL);
 
 	/* Count actual arguments */
-	argc = g_list_length (nodes);
+	argc = expr_list_length (nodes);
 
 	/* Build the argument list which is a Python tuple. */
 	args = PyTuple_New (argc + 1);
